@@ -1,141 +1,175 @@
-Return-Path: <linux-input+bounces-12087-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12088-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CC26AA549A
-	for <lists+linux-input@lfdr.de>; Wed, 30 Apr 2025 21:18:04 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id BE03BAA5504
+	for <lists+linux-input@lfdr.de>; Wed, 30 Apr 2025 21:48:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 89FE71C21518
-	for <lists+linux-input@lfdr.de>; Wed, 30 Apr 2025 19:18:06 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 88FB39C0497
+	for <lists+linux-input@lfdr.de>; Wed, 30 Apr 2025 19:48:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 463802690CF;
-	Wed, 30 Apr 2025 19:17:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3A1FC20E32B;
+	Wed, 30 Apr 2025 19:48:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="lhWWqPXS"
+	dkim=pass (2048-bit key) header.d=hboeck.de header.i=@hboeck.de header.b="FuoljF3/"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-oi1-f174.google.com (mail-oi1-f174.google.com [209.85.167.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ACD73B2A0
-	for <linux-input@vger.kernel.org>; Wed, 30 Apr 2025 19:17:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.174
+Received: from zucker2.schokokeks.org (zucker2.schokokeks.org [178.63.68.90])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C8DB01E9B3A;
+	Wed, 30 Apr 2025 19:48:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.63.68.90
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746040667; cv=none; b=YZWqAninLAC2Nek9PRdbRU2io9CFvtc83QYHFC1uOIJECFTxVmZpY+hBg5phdDHIAbQuu8tO5+ZEbEOTNJ1iZpTlsXBfsYtDaAjWcH1vgwF8U9wufe2MfiSbrnTiMMF2vIyxxCz9IyKXBmatVa1GkdWC1HV9UGTGbL6dzSS60oo=
+	t=1746042512; cv=none; b=LMP6NzmmoNqnNbihitvcpfJedSVpsEyjqEM8XFbHB3Ji/C4d8v6AQs8k2QTRhl3Q1plVByy2EF2A9VfgQsbirKmQfIePWs0z+ZkXrdIpIFVTIdY1uY5oHZAZ7ciy9czt+ErbIRskBMI4cP9H/brXg1cIsH8WGlmqDoJoFKWivtU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746040667; c=relaxed/simple;
-	bh=DyHVpZe7sPP3pdh2AqiHnweC4kVwYKyUKswOh2cdzBI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=O6bdFrTQMNfDLc6qpvDaYEtnBq5E1fqYk7lfPxuTcCNMduRvYintoaZibchRJdxck7zAWOgGerRbtrFaeNmNZIbq5fAG37gmWiUjbWg94wyOkjLf7VT6mxlMTbxovnQEpLm0M6+hqF9HQunmVYdSz2jtpyukfAZSTqNB8RLC6vE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=lhWWqPXS; arc=none smtp.client-ip=209.85.167.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
-Received: by mail-oi1-f174.google.com with SMTP id 5614622812f47-3feb0db95e6so191840b6e.1
-        for <linux-input@vger.kernel.org>; Wed, 30 Apr 2025 12:17:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1746040662; x=1746645462; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=xXhOqh4ZLVwyszMvf+9Z/x0nU/kY8/7DOicY6xuWBc4=;
-        b=lhWWqPXSjbb8svBw2Nexbhm8/Qlr4vLGQqi6fANlIs29mZi/YM1ngIyGJBiSDgEkVq
-         hbzJW3eiP0e84s794SKaCJ0oaeDVOc/SfDliyOBiR00FaWopS193z8qb1eQTkbJyEcKq
-         uA4lD1MMmDOtsCaaeP+pc6PfaR0t7nQT7dafSBtizksRNoBWWY9AU4/rYWqffNMeixS5
-         Wq7Wme0xQQPZJQsJDZwi7aBlgR3zDGFZqEZs+KPjBOOYP6Hu/w8Ldaj7EOV9TZ6dYlcB
-         qnTi/23gZv/sCq8xofcALvfzrrk0Yi2KvXNp+vVBHPiApRJKFkSVBdAMEK5U4aJeOLj6
-         FOVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746040662; x=1746645462;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=xXhOqh4ZLVwyszMvf+9Z/x0nU/kY8/7DOicY6xuWBc4=;
-        b=ZA8rpScmsKbHA+IPC9hmPtJVJuQ6OrqxZ1kbxWCt2zB7ZwwQk6lM9Q8Cges94t0hqp
-         0iHd28RZKQag0BNY3b1VHik16I3HXmNp6AG/0lJth2OEndpIaEuqL2gnTirMYD0J9Xcs
-         uHJP9cCb0zthjzqt/AUp22XfF5DlRHp+0ygigQMrrwCoyoW0/zbuw5vHapanX2jDZzPw
-         Qbmycnm1ggZrWfJMHpKvM0A2meh+Bu9+C8vdFngUb5z1HW6LE8Ix3SvnOD0+l81wUgW0
-         x3IBaKOl17+so2gIoJFsEbhRRGZIzH+bjyfUDnvI8VYRHmaAHOTe6aAfuEhJ9SwQdvGZ
-         FfQQ==
-X-Gm-Message-State: AOJu0YxKPJvIwPLF0CppS16wmuccCd9MHq4WFEB/E8xwiwsWZ8s9WOIn
-	7E9pVofnix0hm1CQuupuHktwPcZlrL6SJE2QI4zGncuAN11V6c9A+3mtpJpBmh4=
-X-Gm-Gg: ASbGncuu6kBvej7xP+AS0fSfEOTyc1Y9yym9PhRy/fzvkKCmClQ23x0N1M6l8xLxOog
-	CfmBiNur/CY4JR27MXFumiP4pFtaPe15vyRkJ9+6prIf870bScDIuL8kajVMpbvDCrTZN8R6bQZ
-	egJbf6SW5sAPPloZpcmrbc6H/ZB/MjngCBOb5y7VYhgf+8lUrAFwCLt6ZZotZGZZrT/zTG+YbqJ
-	o7soRZsseQBxF/IXL+3UyAMcDVgL0uTBFZBBw6lml7rZXEXzv+VSj13sA92n0c7T5/N9JXUfrNh
-	ze86RlQW+nNAhHbCRU+6ACAYlaV8YC09HtPXOnMFJ5eyDnTU6AGOsNvtmgTmn0NoLo5DOlEVpL3
-	bpDvb+FMuwzl41oU=
-X-Google-Smtp-Source: AGHT+IGy4UEKIqEqUHbe0JTx+91yGHN8GtDOL5hK/oCVz9Muk88lGWpmRT+rWl7rMdtnMbKuWLummQ==
-X-Received: by 2002:a05:6808:2e4f:b0:3fe:aeaf:26a5 with SMTP id 5614622812f47-402439689d7mr2636968b6e.31.1746040662560;
-        Wed, 30 Apr 2025 12:17:42 -0700 (PDT)
-Received: from ?IPV6:2600:8803:e7e4:1d00:359a:f1e:f988:206a? ([2600:8803:e7e4:1d00:359a:f1e:f988:206a])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-4021291e53esm923240b6e.9.2025.04.30.12.17.40
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 30 Apr 2025 12:17:42 -0700 (PDT)
-Message-ID: <1f8de7bd-7049-4933-82e3-8ce71685998e@baylibre.com>
-Date: Wed, 30 Apr 2025 14:17:40 -0500
+	s=arc-20240116; t=1746042512; c=relaxed/simple;
+	bh=vIXBsceJywR8lxkQXHTvqCxXPpEsE5ob+i7eM7Lw1wE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=ZKc6VDzCwQIu7cYyQJnsr84tFtcKsVxGnTCYD4ye6/pltMVgz6F0vNpoDJqEadtiGNDih5yE59as3MqNDnR+5Tp45rdqJtX4VAmnXzctkaDTi00snjK8d9HUgPo+sKUhDvpH2FlKedkf/OruFsF2OcDi5TCyFAiSeCZCOIRQrOw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hboeck.de; spf=pass smtp.mailfrom=hboeck.de; dkim=pass (2048-bit key) header.d=hboeck.de header.i=@hboeck.de header.b=FuoljF3/; arc=none smtp.client-ip=178.63.68.90
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hboeck.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hboeck.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hboeck.de; s=key1;
+	t=1746041898; bh=eTaDm98D/en97YYrn4m0socY7fqhyB9xFUhKJAjwdrY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	b=FuoljF3/nr41SJmTdH9DXOPKNJuSIdOJyK9ph8FX2zWZA8f65y1fEZuqcPiXK2aUL
+	 wqdU0H+ZTStw8O6MyghFuCgzy1SUQlSiTJ3hrW9n7TH9brrmsQzZj+bbPG6tVD/e7B
+	 ooR1fN91LH/ocj6dpTgY5pGO8D/2yD9M8pbZrt9tlrcXcQIc2JRTC2W3pN1IId7+F9
+	 nT1uuT4243ELAdXHBVzsDMVGfu3yoUfkwvpiau7U2a34Hi8WVOUMUgGdnX7uvuIDvi
+	 CN/KczyOnp9cKkX/+bLUDdNS3ztnT6DTD/rs+37toRWqlxqaIXV+KwkhHMaIDagdt6
+	 dmuZJWgw/mEGw==
+Original-Subject: linux/rmi4 driver: "BUG: kernel NULL pointer dereference" when
+ accessing update_fw_status or bootloader_id
+Author: Hanno =?UTF-8?B?QsO2Y2s=?= <hanno@hboeck.de>
+Original-Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, david@ixit.cz
+Date: Wed, 30 Apr 2025 21:38:16 +0200
+From: Hanno =?UTF-8?B?QsO2Y2s=?= <hanno@hboeck.de>
+To: dmitry.torokhov@gmail.com
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+  david@ixit.cz
+Subject: linux/rmi4 driver: "BUG: kernel NULL pointer dereference" when
+ accessing update_fw_status or bootloader_id
+Message-ID: <20250430213816.7527e190@hboeck.de>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] HID: sensor-hub: Fix typo and improve documentation for
- sensor_hub_remove_callback()
-To: Chelsy Ratnawat <chelsyratnawat2001@gmail.com>, jikos@kernel.org,
- jic23@kernel.org, srinivas.pandruvada@linux.intel.com, bentiss@kernel.org
-Cc: linux-input@vger.kernel.org, linux-iio@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20250430182300.122896-1-chelsyratnawat2001@gmail.com>
-From: David Lechner <dlechner@baylibre.com>
-Content-Language: en-US
-In-Reply-To: <20250430182300.122896-1-chelsyratnawat2001@gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 
-On 4/30/25 1:23 PM, Chelsy Ratnawat wrote:
-> Fixed a typo in "registered" and improved grammar for better readability
-> and consistency with kernel-doc standards. No functional changes.
-> 
-> Signed-off-by: Chelsy Ratnawat <chelsyratnawat2001@gmail.com>
-> ---
->  include/linux/hid-sensor-hub.h | 7 ++++---
->  1 file changed, 4 insertions(+), 3 deletions(-)
-> 
-> diff --git a/include/linux/hid-sensor-hub.h b/include/linux/hid-sensor-hub.h
-> index c27329e2a5ad..5d2ac79429d4 100644
-> --- a/include/linux/hid-sensor-hub.h
-> +++ b/include/linux/hid-sensor-hub.h
-> @@ -130,10 +130,11 @@ int sensor_hub_register_callback(struct hid_sensor_hub_device *hsdev,
->  /**
->  * sensor_hub_remove_callback() - Remove client callbacks
+Hi,
 
-This says "callbacks", so is it possible to have more than one registered at a
-time?
+I noticed that trying to read some sysfs entries created by the rmi4
+driver cause a kernel oops (BUG: kernel NULL pointer dereference).
 
->  * @hsdev:	Hub device instance.
-> -* @usage_id:	Usage id of the client (E.g. 0x200076 for Gyro).
-> +* @usage_id:	Usage id of the client (e.g. 0x200076 for Gyro).
+This can be triggered simply by running cat on these files, also as a
+user. Tested on a current vanilla kernel (6.14.4).
+It happens when trying to read from one of these files (exact path
+likely will differ depending on system):
+/sys/devices/pci0000:00/0000:00:1f.4/i2c-6/6-002c/rmi4-00/update_fw_status
+/sys/devices/pci0000:00/0000:00:1f.4/i2c-6/6-002c/rmi4-00/bootloader_id
 
-should we also make gyro lower-case?
+This is on a Lenovo X1 Carbon 2018 edition, lsusb lists the touchpad as:
+Bus 001 Device 010: ID 06cb:009a Synaptics, Inc. Metallica MIS Touch
+Fingerprint Reader
 
->  *
-> -* If there is a callback registred, this call will remove that
-> -* callbacks, so that it will stop data and event notifications.
-> +* Removes a previously registered callback for the given usage ID.
-> +* Once removed, the client will no longer receive data or event
-> +* notifications.
+The dmesg output for an access to bootloader_id:
+[   68.184846] BUG: kernel NULL pointer dereference, address: 0000000000000=
+008
+[   68.184866] #PF: supervisor read access in kernel mode
+[   68.184875] #PF: error_code(0x0000) - not-present page
+[   68.184882] PGD 0 P4D 0=20
+[   68.184892] Oops: Oops: 0000 [#1] SMP
+[   68.184902] CPU: 6 UID: 1000 PID: 4704 Comm: cat Tainted: G     U       =
+      6.14.4 #2
+[   68.184915] Tainted: [U]=3DUSER
+[   68.184919] Hardware name: LENOVO 20KHCTO1WW/20KHCTO1WW, BIOS N23ET90W (=
+1.65 ) 11/07/2024
+[   68.184926] RIP: 0010:rmi_driver_bootloader_id_show+0x1d/0x60
+[   68.184964] Code: 98 c3 66 66 2e 0f 1f 84 00 00 00 00 00 48 89 f8 48 89 =
+d7 48 8b 40 78 48 8b 50 20 31 c0 48 85 d2 74 3f 55 48 8b 82 90 00 00 00 <80=
+> 78 08 05 0f b6 70 09 0f b6 50 0a 48 89 e5 74 12 89 f1 48 c7 c6
+[   68.184973] RSP: 0018:ffffac4e419ebc28 EFLAGS: 00010286
+[   68.184982] RAX: 0000000000000000 RBX: ffffffffb6d78700 RCX: 00000000000=
+00000
+[   68.184989] RDX: ffffa31782c28000 RSI: ffffffffb6d78700 RDI: ffffa317841=
+50000
+[   68.184995] RBP: ffffac4e419ebc48 R08: ffffa31782c22400 R09: ffffa317841=
+50000
+[   68.185000] R10: 0000000000001000 R11: ffffffffb56f8b0b R12: ffffffffb67=
+2c590
+[   68.185006] R13: ffffac4e419ebd30 R14: 0000000000000001 R15: ffffa317852=
+11348
+[   68.185013] FS:  00007f75e3a5a740(0000) GS:ffffa31ac2780000(0000) knlGS:=
+0000000000000000
+[   68.185021] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[   68.185028] CR2: 0000000000000008 CR3: 00000001a0448006 CR4: 00000000003=
+726f0
+[   68.185034] Call Trace:
+[   68.185039]  <TASK>
+[   68.185044]  ? dev_attr_show+0x15/0x40
+[   68.185054]  sysfs_kf_seq_show+0x9c/0xe0
+[   68.185065]  kernfs_seq_show+0x1c/0x20
+[   68.185073]  seq_read_iter+0xf8/0x410
+[   68.185082]  kernfs_fop_read_iter+0x12b/0x180
+[   68.185091]  vfs_read+0x236/0x300
+[   68.185102]  ksys_read+0x56/0xc0
+[   68.185112]  __x64_sys_read+0x14/0x20
+[   68.185122]  x64_sys_call+0x9f2/0xa00
+[   68.185129]  do_syscall_64+0x63/0xf0
+[   68.185141]  ? __count_memcg_events+0x49/0xe0
+[   68.185152]  ? handle_mm_fault+0x1b1/0x2d0
+[   68.185162]  ? irqentry_exit+0x19/0x30
+[   68.185169]  ? exc_page_fault+0x190/0x5b0
+[   68.185181]  entry_SYSCALL_64_after_hwframe+0x4b/0x53
+[   68.185189] RIP: 0033:0x7f75e3aeaad7
+[   68.185196] Code: 20 49 89 d0 48 89 fa 4c 89 df e8 24 b4 00 00 8b 93 08 =
+03 00 00 59 5e 48 83 f8 fc 74 16 5b c3 0f 1f 40 00 48 8b 44 24 10 0f 05 <5b=
+> c3 0f 1f 80 00 00 00 00 83 e2 39 83 fa 08 75 e2 e8 23 ff ff ff
+[   68.185204] RSP: 002b:00007ffe9e258720 EFLAGS: 00000202 ORIG_RAX: 000000=
+0000000000
+[   68.185213] RAX: ffffffffffffffda RBX: 00007f75e3a5a740 RCX: 00007f75e3a=
+eaad7
+[   68.185220] RDX: 0000000000040000 RSI: 00007f75e36d0000 RDI: 00000000000=
+00003
+[   68.185226] RBP: 0000000000040000 R08: 0000000000000000 R09: 00000000000=
+00000
+[   68.185231] R10: 0000000000000000 R11: 0000000000000202 R12: 00007f75e36=
+d0000
+[   68.185237] R13: 0000000000000003 R14: 00007f75e3cb1000 R15: 00000000000=
+00000
+[   68.185244]  </TASK>
+[   68.185248] Modules linked in: iwlmvm iwlwifi
+[   68.185261] CR2: 0000000000000008
+[   68.185267] ---[ end trace 0000000000000000 ]---
+[   68.199705] pstore: backend (efi_pstore) writing error (-28)
+[   68.199709] RIP: 0010:rmi_driver_bootloader_id_show+0x1d/0x60
+[   68.199715] Code: 98 c3 66 66 2e 0f 1f 84 00 00 00 00 00 48 89 f8 48 89 =
+d7 48 8b 40 78 48 8b 50 20 31 c0 48 85 d2 74 3f 55 48 8b 82 90 00 00 00 <80=
+> 78 08 05 0f b6 70 09 0f b6 50 0a 48 89 e5 74 12 89 f1 48 c7 c6
+[   68.199718] RSP: 0018:ffffac4e419ebc28 EFLAGS: 00010286
+[   68.199721] RAX: 0000000000000000 RBX: ffffffffb6d78700 RCX: 00000000000=
+00000
+[   68.199723] RDX: ffffa31782c28000 RSI: ffffffffb6d78700 RDI: ffffa317841=
+50000
+[   68.199724] RBP: ffffac4e419ebc48 R08: ffffa31782c22400 R09: ffffa317841=
+50000
+[   68.199726] R10: 0000000000001000 R11: ffffffffb56f8b0b R12: ffffffffb67=
+2c590
+[   68.199727] R13: ffffac4e419ebd30 R14: 0000000000000001 R15: ffffa317852=
+11348
+[   68.199729] FS:  00007f75e3a5a740(0000) GS:ffffa31ac2780000(0000) knlGS:=
+0000000000000000
+[   68.199731] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[   68.199733] CR2: 0000000000000008 CR3: 00000001a0448006 CR4: 00000000003=
+726f0
+[   68.199735] note: cat[4704] exited with irqs disabled
 
-I like the revised wording, but possibly looses some clarity that could be
-fixed with:
 
-Removes a previously registered callback(s), if any, for the given usage ID.
-
-As above, not sure if singular or plural callbacks is correct.
-
->  */
->  int sensor_hub_remove_callback(struct hid_sensor_hub_device *hsdev,
->  			u32 usage_id);
-
+--=20
+Hanno B=C3=B6ck
+https://hboeck.de/
 
