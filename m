@@ -1,94 +1,107 @@
-Return-Path: <linux-input+bounces-12079-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12080-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0B0DAA3962
-	for <lists+linux-input@lfdr.de>; Tue, 29 Apr 2025 23:32:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF102AA3FDB
+	for <lists+linux-input@lfdr.de>; Wed, 30 Apr 2025 02:53:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 815219A5AAE
-	for <lists+linux-input@lfdr.de>; Tue, 29 Apr 2025 21:32:35 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C66B83BF972
+	for <lists+linux-input@lfdr.de>; Wed, 30 Apr 2025 00:52:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3A12B218EB0;
-	Tue, 29 Apr 2025 21:32:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A7562DC770;
+	Wed, 30 Apr 2025 00:52:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h0ElhLYp"
+	dkim=pass (2048-bit key) header.d=who-t.net header.i=@who-t.net header.b="M/uncUNA";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="QXtUlf46"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fhigh-b8-smtp.messagingengine.com (fhigh-b8-smtp.messagingengine.com [202.12.124.159])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEA758F77;
-	Tue, 29 Apr 2025 21:32:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 578BC3FC7
+	for <linux-input@vger.kernel.org>; Wed, 30 Apr 2025 00:52:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.159
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745962369; cv=none; b=AGgl4UdWkgtCoB+vcMAM5ViGM0Y3br8tC9PrxMVgFo7OMLyCfabna88eTYFpkJteaI8LNnArlnqCUvDQhSOMbr7SEqKxIXcgA1bidYXOs5tg1nLWQZhz0NwP6Q3nuaQLRhJ2/sVwn9JZO2Mm0xbFV/Qhtq3se4yxT7S1+DKYAAs=
+	t=1745974362; cv=none; b=izsP1o4s/Y4XuXLKsXKiqtZWfYRNHLVvzAseH6IomZ0ixjoH4Iaq+tQ9N+8TaJD/WVvhFMY8sbBjCD5NhTNo//wYZ0L4e/8s0yp6IecxypyV2yE0R2PLJljeVkHWsr8YDqQUshjROY4/2ZU9SLFpl1H5B9JQWAgpzxuOobSTthk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745962369; c=relaxed/simple;
-	bh=lMZ2Tk+2q+F753sscfQWAix9rB8GC0qIlFtPs0Pf3qQ=;
+	s=arc-20240116; t=1745974362; c=relaxed/simple;
+	bh=DUySbIdTHofV9OtDMECvU0jVXBX4oaAJ3Zv+pcM0JIs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QxDuAQkMKY+fPRKAELIXlD7ucC78jQioCppCfjzv4FzqDachUz+u/R+sT15UdrO07NniJ2Bj/YWsKLTFDi1e276ZYUVhS7n2iFBb7OredTrh4phSYOpLPQv+NuOIDQTlvvWN2Hgax5Uz4I+MHgX/6rlKqqT5X7q+pgOIK0M16Sk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h0ElhLYp; arc=none smtp.client-ip=209.85.214.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-223f4c06e9fso3189895ad.1;
-        Tue, 29 Apr 2025 14:32:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745962367; x=1746567167; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=2tqAEYry6Jn2lNSI2wBXBIzsfGu6PX7wi9Y9zLju3A4=;
-        b=h0ElhLYp+AkJ5/J6AXDYMDmH8xz2DdwVgSdOgzwUqrsIFv/nQDadcmQmAT1Tgzwpjv
-         NPcW6YO7g3R9MehpWXUgbzxmE0oKgQlKqrwwr+XLgp5cTG1pM9ue7Dep4Y0/m3N8yt37
-         eAWn92Qhdm1gxzUOcPn5X0mM7Fc8QYu8DSToZFIE7FM6N4Hjcrid4DyPfwTPtfGeA/Kg
-         OvNSco/WD6fXZlGRA5mL0z22el+YSur2HTGxLvlULoaQQtBCTwVwCYFDEdyw1AGeHYDK
-         TQFoSvG/QqqT+DphL/biKzEGRkU9Xc3qymm7Wgm6eNYcUEBs4dCtkHTTiXacZw+CY3D1
-         ncdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745962367; x=1746567167;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2tqAEYry6Jn2lNSI2wBXBIzsfGu6PX7wi9Y9zLju3A4=;
-        b=GjhcXUAxr+N7jxrl+rBawTc9yCfLqA8GHUGRg/ZDCg1Hzu/6gmwaMgN113UxZ2+tAC
-         /j4dgbpIzaHDyKrda1IjaXGlBzCW8c7mWVsQknV8SfG1QdoMxGCJuYjt6QodO4DLkRew
-         t5GOsD2BMN4dPN0Xx0pjlmM6yw6b7vOAmCdFCOstXnfzH+QNoyxiFObyrkGcI+VHGyjs
-         mOHS0s67CVtTtRfDv40aTYrA/ZD33+tqjzPywKZNAcI2YWVQoYcLI9+9UmDr0BH//DxY
-         lXm0DQaJOTUPH5f4vC5A4/I8N2RtyK10/OGyqBI27MYIMgGqLVhCO1UcAIE6HqsSdofH
-         5omA==
-X-Forwarded-Encrypted: i=1; AJvYcCVGViqsMVLC3tMvTGwfvPZi1YU18KlQx/K57ul5rBbQief/MmzAdVLf80i9+DMuK3vskXO7rNTo5+vTwV4x@vger.kernel.org, AJvYcCW0t8PcgWg3pUGkbt0JeBOGoLo+SDck5+ODDJtGHf/nKzTtS1txFq+2LeihYKBK8rVSFFpzF24SMeNp@vger.kernel.org, AJvYcCW88hLhn1osSvYQtNtRNUKapY15ILLEF9pvMWWesrOGfjaUD6IcAiNjeZ48/NFUkIhZj/FnH37EdWkc4VM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzsILc43LU+w4uNUqqYAl8LD0VIgdZ23uiqIQSzqxYLyMmqIWOQ
-	/vPzqjWyhvOCQgxWyEuMEEYo7b0Nmh3HsKrxIv7xBEulyNk3nX30NFsF3w==
-X-Gm-Gg: ASbGncs7QGJPaPq7nuVxynsXaSHcoQDZijqz2pPoBaw2Ng5TvoHF6onV06FJqsQKN6J
-	qzLVftsS3uPSMzuC7snxsoAUv+zXCG0EBXxGdSgaB7+b7WtG7vU6URBf50Vwa3BWxZFjhylAdUV
-	tNWQ5iy46aAhFRZr3/d1QWYPmPpE+mpCmL1PO7Sz6j6MYNFeLf7kAVCl9BC/zhsIjydKo9cF2JX
-	fb6OIbejqxY9szRq1v0/bLRR9SkjiyVNZifUhahYce7cKlk4XAgiI4VJE0acpatzUhT1JRtbAU7
-	SYYQHYZHV0z+rlyPKWPPM/GK+IuFRXw20AZE2Gd/vA==
-X-Google-Smtp-Source: AGHT+IEsAVOUrCNRxWju86fwf1wlZ6snx2W6BAeSl2Thze4mgkosExWHB6QgnHCot4ZCWR3fV6Itgg==
-X-Received: by 2002:a17:902:f611:b0:22d:e57a:27b0 with SMTP id d9443c01a7336-22df4747b9cmr5160705ad.2.1745962366822;
-        Tue, 29 Apr 2025 14:32:46 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:adc2:8397:4f51:d5a0])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22db4d77e66sm108370195ad.20.2025.04.29.14.32.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Apr 2025 14:32:46 -0700 (PDT)
-Date: Tue, 29 Apr 2025 14:32:43 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Esben Haabendal <esben@geanix.com>
-Cc: Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Hans de Goede <hdegoede@redhat.com>, linux-input@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] dt-bindings: input: touchscreen: goodix: Add
- no-reset-pull-up property
-Message-ID: <w65v3filerdiuimbnrcmislknzeug2f6nont2r4atzq2p2w2nv@7iskwi7g2u2e>
-References: <20250429-goodix-no-reset-pull-up-v2-0-0687a4ad5a04@geanix.com>
- <20250429-goodix-no-reset-pull-up-v2-1-0687a4ad5a04@geanix.com>
- <qql72NifdMmJKSRJmT2927URaXnbRAbz9Yjzn9lBrOwjka7NxVvy5YKJUSLmBp435aYJiTkPqeuW1hMDcKKC4g==@protonmail.internalid>
- <20250429-effects-subscript-58eb41737816@spud>
- <87selrt1vl.fsf@geanix.com>
- <Pvo1P0DaSIUd2X7OfO-NXvz2UcLtNfnyMTRBLEBRS3Zokk9Ww0TB4_ce3jobYuWRsvIbUd_E3OF2kzPx0xZbGw==@protonmail.internalid>
- <2qwfe6yw3pil5tumibiagikqhgwct27vevi674fklfieabzozc@hzjwatn3vjss>
- <87o6weu6yx.fsf@geanix.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=ofyC6j2QJzVX8wTxBTV33jvj0HYGG5her7YE5PRlPbzdkPce2w2NDUfHNZ3wsEmztvu0vudMPomUoVtFs0mX0O47GMikZDEE1yLS7lQX5wR2P/OOjel42PMK137vtbmMU+JALavi/vTPUYiaR0Js+i3EiihWJiO3nr746KkZS+g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=who-t.net; spf=pass smtp.mailfrom=who-t.net; dkim=pass (2048-bit key) header.d=who-t.net header.i=@who-t.net header.b=M/uncUNA; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=QXtUlf46; arc=none smtp.client-ip=202.12.124.159
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=who-t.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=who-t.net
+Received: from phl-compute-08.internal (phl-compute-08.phl.internal [10.202.2.48])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 0B93F25401FC;
+	Tue, 29 Apr 2025 20:52:37 -0400 (EDT)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-08.internal (MEProxy); Tue, 29 Apr 2025 20:52:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=who-t.net; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm2; t=1745974356; x=1746060756; bh=vHvayq2oBB
+	J6m4wzLw0rm7Yo06Mg+uGj4Q9s172GcVA=; b=M/uncUNAalCQhdOGh6vOPt9WxE
+	z2L/drA4YreBPNxkNqzEZ5kd0hOW/4bL8ivXCo6czz53HKpoDX8118eQev5F8EAF
+	Mb1AaxnL1gJvKiJEs1vU3LcaBlQUyqtLliX0OELK72t1x4jifM25bqwIM8ODx7d/
+	JRNceXK9zWVg5SGMfN2kTnqT9N8vYEPOymMh7JyMLlEi3P4jEDeaIKx0fd4icpwx
+	tfab2xK5DesO7JedQiaoyKQt6ViQnFkYaWsi6If/8KCpefZIwtO6xHFxyj6hOjgI
+	FhGaQaBquYVvGHAmGU4Ghn1rEHFMSt9WpOICxcFjqdp5Sn8+n4GDAxn1265w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+	1745974356; x=1746060756; bh=vHvayq2oBBJ6m4wzLw0rm7Yo06Mg+uGj4Q9
+	s172GcVA=; b=QXtUlf46ouYPbfyESxAhGRSxr1GmekGj/KHOvGmL+K8+btLrCbS
+	qd8jLhbFOWTWAKPnAPgyFFJk8xSVSY6iIk6p0hZsETgBi7jFcA2S4/VOZzpA/3NO
+	xrw9swUQ7o/vke7ESDqkNHSlJDthTnTabz6QdgObpevENiBzcumgx/PK9Ht/Um4r
+	qqQbC+dHEMAIH5/nyYeQDyILLrjX0leIjaus5FX/xJpByU7KTDtroVGK1/fQ6TTG
+	EV7ABdNj3dgr/1CYwonlR+grptVOxghNe/FkKg6fPDx3yctOU76rxQ/d+ylbbltC
+	Hepm/yYY49f8eAiwoCqW/lNjDtUhWiBb+qg==
+X-ME-Sender: <xms:VHQRaEfjAM7xFrt9FFpGXBrjbU5f6GMyZR1sKKcfDlVZWYyUTB_vug>
+    <xme:VHQRaGOr_OGOKRyISk1ObyFK0-cy1-3mm8B662Oh-oq4-EQ6hFjGPByfiU8IpZGHP
+    WTnVD-EEr2ZSZHBqTw>
+X-ME-Received: <xmr:VHQRaFhDNAsfOpb6AuCcd10FFsiTFkx42XrkYYyMB2e4HC3t-W0sJc9HbuCnjpB8ZCvxKmmU8tfQt5imetMkyj10WmNJbdXJ4Q>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvieehfedtucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
+    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
+    gvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggujgesthdtredttddt
+    vdenucfhrhhomheprfgvthgvrhcujfhuthhtvghrvghruceophgvthgvrhdrhhhuthhtvg
+    hrvghrseifhhhoqdhtrdhnvghtqeenucggtffrrghtthgvrhhnpeejfeffvdffgfegieeh
+    teevgfethfdvgeeileffkeefueeivddtfeegfedtkeevteenucffohhmrghinhepghhith
+    hhuhgsrdgtohhmnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhf
+    rhhomhepphgvthgvrhdrhhhuthhtvghrvghrseifhhhoqdhtrdhnvghtpdhnsggprhgtph
+    htthhopeegpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopegumhhithhrhidrthho
+    rhhokhhhohhvsehgmhgrihhlrdgtohhmpdhrtghpthhtohepvghnohhprghttghhsehgmh
+    grihhlrdgtohhmpdhrtghpthhtohepghgrrhhgrgguihhthigrtdeksehlihhvvgdrtgho
+    mhdprhgtphhtthhopehlihhnuhigqdhinhhpuhhtsehvghgvrhdrkhgvrhhnvghlrdhorh
+    hg
+X-ME-Proxy: <xmx:VHQRaJ8oxWMutfR4LSA6vamvhcR7RKN7dTuxZlTC0KDWGyhsX5f7gw>
+    <xmx:VHQRaAvqSC6kpqrqlCR_yDW7PVbMj_CrOQq-OpmmEGC8Jet9lJc97Q>
+    <xmx:VHQRaAElXARNk8zeymZYeHypnkcXe3G_XwJEbHnmYf6m7qkQ2Hy95Q>
+    <xmx:VHQRaPM4BBJ1CZTp1SQOO955CcspdBOUD-NNr7kZrh0wl4oBFvElTg>
+    <xmx:VHQRaN4QyEp1v6nHbOGaYNXu8QbrG3NNfNmCadTs5uhmXmZ_1PZezdVk>
+Feedback-ID: i7ce144cd:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 29 Apr 2025 20:52:34 -0400 (EDT)
+Date: Wed, 30 Apr 2025 10:50:28 +1000
+From: Peter Hutterer <peter.hutterer@who-t.net>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: jt <enopatch@gmail.com>, Aditya Garg <gargaditya08@live.com>,
+	linux-input@vger.kernel.org
+Subject: Re: PROBLEM: Synaptics TouchStyk (trackpoint) on HP EliteBook 850 G1
+ detected as "PS/2 Generic Mouse".
+Message-ID: <20250430005028.GA1651740@quokka>
+References: <CAAbCkm+hdmJ4ozW4viBkwp+7QQPgymA+bfb5ddOUCB=kaBvF9w@mail.gmail.com>
+ <PN3PR01MB9597EA06B5B28C50A8CBBD3BB8B52@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+ <CAAbCkm+v4EV2TgkfMSGjYNvy_HgXSYAm2cFYjjrA4tv+WqBREQ@mail.gmail.com>
+ <sxipdsuhfffda56hwlvajai3pfxamcefbvyu6mcwr4nmgsri6a@hfblyrc3hxau>
+ <CAAbCkmJVWu9x4=68aKM+LNrU1BZ1bJm5TVoye3qGryw3yfF43A@mail.gmail.com>
+ <g7xqjium63zvujt55nng3imurlan5smkv56ad7em4kfnzmmseg@a3lcjlmzcowh>
+ <CAAbCkmLbj_w_UzTt8mMYnfA1P02x0cK46jWZyhiRzpRNHEBRwg@mail.gmail.com>
+ <CAAbCkm+cnYCoe0+40rvHT8yt06N06fjq6P_mZOZvO0kXn6v=rQ@mail.gmail.com>
+ <7dzdsnr555tdnmwwp4n2bbycq7dbk6l32r7cz7i4arnln5qy3m@rmzvahhxk4dv>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -97,65 +110,87 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <87o6weu6yx.fsf@geanix.com>
+In-Reply-To: <7dzdsnr555tdnmwwp4n2bbycq7dbk6l32r7cz7i4arnln5qy3m@rmzvahhxk4dv>
 
-On Tue, Apr 29, 2025 at 09:02:14PM +0200, Esben Haabendal wrote:
-> "Dmitry Torokhov" <dmitry.torokhov@gmail.com> writes:
+On Mon, Apr 28, 2025 at 06:19:07PM -0700, Dmitry Torokhov wrote:
+> On Thu, Apr 24, 2025 at 08:18:00PM +0100, jt wrote:
+> > On Thu, 10 Apr 2025 at 20:48, jt <enopatch@gmail.com> wrote:
+> > >
+> > > On Thu, 10 Apr 2025 at 10:02, Dmitry Torokhov <dmitry.torokhov@gmail.com> wrote:
+> > > > And please send me another dmesg of boot with the above config and
+> > > > i8042.debug=1.
+> > >
+> > > My first attempt was with "i8042.nomux=1
+> > > psmouse.synaptics_intertouch=1 i8042.debug=1". With this combination
+> > > of parameters, libinput only sees 1 pointing device which it describes
+> > > as "PS/2 Generic Mouse". However, both the touchpad and the trackpoint
+> > > are able to move the pointer under xorg.
+> > >
+> > > I then thought to try removing the "i8042.nomux=1", leaving only
+> > > "psmouse.synaptics_intertouch=1 i8042.debug=1". libinput now shows 2
+> > > pointing devices: a "Synaptics TM2769-001" and a "PS/2 Generic Mouse".
+> > >
+> > > I have attached both dmesg outputs for the above. I can attach as many
+> > > different dmesg outputs as would be helpful to you - just let me know
+> > > exactly which different parameter combinations you would like me to
+> > > try.
+> > 
+> > Hi Dmitry. It has been a couple of weeks since I sent this, and I just
+> > wanted to make sure that you had received it.
 > 
-> > On Tue, Apr 29, 2025 at 05:37:34PM +0200, Esben Haabendal wrote:
-> >> "Conor Dooley" <conor@kernel.org> writes:
-> >>
-> >> > On Tue, Apr 29, 2025 at 11:56:11AM +0200, Esben Haabendal wrote:
-> >> >> This should be added for boards where there is no pull-up on the reset pin,
-> >> >> as the driver will otherwise switch the reset signal to high-impedance to
-> >> >> save power, which obviously not safe without pull-up.
-> >> >>
-> >> >> Signed-off-by: Esben Haabendal <esben@geanix.com>
-> >> >> ---
-> >> >>  Documentation/devicetree/bindings/input/touchscreen/goodix.yaml | 4 ++++
-> >> >>  1 file changed, 4 insertions(+)
-> >> >>
-> >> >> diff --git a/Documentation/devicetree/bindings/input/touchscreen/goodix.yaml b/Documentation/devicetree/bindings/input/touchscreen/goodix.yaml
-> >> >> index eb4992f708b70fef93bd4b59b9565123f7c6ad5d..21ac13046b6e021eeb403d854aabc945801dd29f 100644
-> >> >> --- a/Documentation/devicetree/bindings/input/touchscreen/goodix.yaml
-> >> >> +++ b/Documentation/devicetree/bindings/input/touchscreen/goodix.yaml
-> >> >> @@ -45,6 +45,10 @@ properties:
-> >> >>    reset-gpios:
-> >> >>      maxItems: 1
-> >> >>
-> >> >> +  goodix,no-reset-pull-up:
-> >> >> +    type: boolean
-> >> >> +    description: There is no pull-up on reset pin
-> >> >
-> >> > I have to wonder, why are these system using the reset property if the
-> >> > reset is not usable? Shouldn't the property be omitted?
-> >>
-> >> The reset are fully functional. It just have to be controlled in
-> >> push-pull mode.
-> >>
-> >> Because of the lack of external pull-up, configuring the reset gpio as
-> >> input (to save power) puts the reset pin in an unknown state.
-> >
-> > How much power do we save by doing this? I don't recall other drivers
-> > trying to switch reset GPIO into input mode after performing reset...
+> Sorry about the delay. I looked at the device initialization and the
+> "TouchStyk" device does not respond to the Trackpoint protocol queries,
+> so from the kernel point of view there is nothing distinguishing it from
+> a barebones PS/2 mouse.
 > 
-> I don't know.  I also don't recall seeing this in other drivers.  But as
-> not knowing how much power it is, I did not feel comofortable proposing
-> to remove it.
+> Peter, is there a way to add a quick based on system info to libinput to
+> identify that PS/2 device as a trackpoint variant? Unfortunately HP used
+> the same PNP IDs for the main touchpad and the trackpoint...
 
-Hmm, setting RESET line to "input" was supposed to be removed in 2015:
+udev's 60-input-id.hwdb [1] is the file to edit here - if you set that
+to tag the device as ID_INPUT_POINTINGSTICK libinput (and in theory
+other userspace) should treat it as such and no other changes are
+needed. That property is set by default from the
+INPUT_PROP_POINTINGSTICK but, well...
 
-https://lore.kernel.org/all/1473530257-7495-5-git-send-email-irina.tirdea@intel.com/
+That hwdb doesn't currently support dmi- or name-based matches though,
+but that can be fixed easily by copying the rules from 60-evdev.rules
+into 60-input-id.rules and replacing the "evdev:" prefix with a
+"input-id:" prefix (sounds more complicated than it is, you'll be able
+to spot the pattern quickly, TLDR is those two rulesets should be
+near-identical).
 
-And I even said that I applied that patch, but I can't find it. And
-it's been 10 years so I have no idea... The wording about power savings
-seem to have come from Hans, maybe he knows/remembers more?
+Then you can do something like:
 
-But I really wonder if we are not better off keeping reset line in
-"inactive" output state, like every other driver does.
+input-id:PS/2 Generic Mouse:dmi:.....
+  ID_INPUT_POINTINGSTICK=1
 
-Thanks.
+And that should magically work. That's the best we can do here, I think.
 
--- 
-Dmitry
+Before you get to all this you can test this locally by (ab)using the
+evdev prefix:
+
+		$ cat /etc/udev/hwdb.d/99-mouse-id.hwdb
+		evdev:PS/2 Generic Mouse:dmi:.....
+			ID_INPUT_POINTINGSTICK=1
+		$ sudo systemd-hwdb update
+		$ sudo udevadm test /sys/class/input/eventXYZ
+
+with XYZ being your event node number. 
+And that should show ID_INPUT_POINTINGSTICK which means libinput will
+pick it up next time.
+
+As for the dmi bits: pick something useful from
+/sys/class/dmi/id/modalias, see the 60-evdev.hwdb for a rough guide on
+what to pick (usually a glob with svn and pn or pvr)
+
+If this works with the evdev prefix you can have a go  at extending the
+rules and then adding the proper input-id hwdb entry to the
+60-input-id.hwdb, getting it merged into systemd (cc me please)
+and everyone can pop the champagne. good luck :)
+
+Cheers,
+  Peter
+
+[1] https://github.com/systemd/systemd/blob/main/hwdb.d/60-input-id.hwdb
 
