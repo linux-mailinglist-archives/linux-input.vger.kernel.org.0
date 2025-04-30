@@ -1,130 +1,106 @@
-Return-Path: <linux-input+bounces-12081-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12082-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06206AA5062
-	for <lists+linux-input@lfdr.de>; Wed, 30 Apr 2025 17:36:01 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D008AA52BE
+	for <lists+linux-input@lfdr.de>; Wed, 30 Apr 2025 19:40:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D54179E3E41
-	for <lists+linux-input@lfdr.de>; Wed, 30 Apr 2025 15:35:42 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 347A9980560
+	for <lists+linux-input@lfdr.de>; Wed, 30 Apr 2025 17:40:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 79A4E253F32;
-	Wed, 30 Apr 2025 15:35:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AC9882620D2;
+	Wed, 30 Apr 2025 17:40:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="r5ceQHyN"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y4SRzNFE"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AEF238FB9;
-	Wed, 30 Apr 2025 15:35:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 013971DE2B4;
+	Wed, 30 Apr 2025 17:40:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746027355; cv=none; b=coEk4eshj4fz8304smMJrhRD1HP7dcAxreadSnx0pBvdc+FcFyTlK6jnwIL+Tj6kQQMJRAsuFvGBzWy19Hx3CgSFyQjS14VNbkijSl70hGra9PyYlkGgPbeSdpTrlcq7+HLDM8B+foiXAbwjq8I4rYicK8ybQgZ+4jbHrEE/8C4=
+	t=1746034852; cv=none; b=CcACg1xqv1rIXGhwyKeMkkRSarSLZ0Il8gdlchtsbdMOdwwxgXRI2Pqs4e7xAqWWpIOM7iOEsFrS+ZbAMCL1uTq6NGMJZyAjE/thamVikzmDfpue4eegmm9xrXmwUyVi0nzRx0uoI8W9epbtFQWBqK5WfZ6LNqvZexLlRaCFxPg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746027355; c=relaxed/simple;
-	bh=E4eLF0gqeg015/VFrXyRmmvlnTyL9TgzOFYBD1S1a8s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rIOrC2hRq2QlJYLddjW+FgqZMrUiqnGJNga+iF+ns810bt9MxZ7VDH4pb7h0h8gq/6oIHuYwc28oky1B7oPQgGo1kRFCMs3gQ3uYbyY6ffZX8M3xDREyIQBkYnD0AGpKghWWkdpFeRLsG5DuK8p9RWbxRj6y5aMD0fjEQCBrPbY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=r5ceQHyN; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DEF86C4CEE7;
-	Wed, 30 Apr 2025 15:35:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746027354;
-	bh=E4eLF0gqeg015/VFrXyRmmvlnTyL9TgzOFYBD1S1a8s=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=r5ceQHyNhDZU73yWhuv9QXj1yTBEhFDK2vBtumT8Ihbf7G9eGcmLr+ONRu98LTaug
-	 iPi1AxSIVR3X74sU54pBpaWHyqfkAf5UmlYvnA3Cx7fh861NViTqMv2lhWaBZYmtIl
-	 YpPNcpznvxbf+GtWqrWd0gY4glqTCLff2cnsIHpHhcqdfULuqCblpVZOhOy85njOTO
-	 UOo9eLdEVWrFA0csm1vLMqtsYuCQNtZ1Qwy/KzPn8zu027+a92E72ZVWwQHKBmsuw6
-	 btBFAldBlFk17Mu+Dq7XF5x7y04Ku7qgLAoxeI/ExKf83QZ2H9l55NINYZZHMRG6a7
-	 aIWBEPg9Abblw==
-Date: Wed, 30 Apr 2025 16:35:50 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: Esben Haabendal <esben@geanix.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, linux-input@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] dt-bindings: input: touchscreen: goodix: Add
- no-reset-pull-up property
-Message-ID: <20250430-gimmick-unreached-9910e383bb68@spud>
-References: <20250429-goodix-no-reset-pull-up-v2-0-0687a4ad5a04@geanix.com>
- <20250429-goodix-no-reset-pull-up-v2-1-0687a4ad5a04@geanix.com>
- <20250429-effects-subscript-58eb41737816@spud>
- <67e9e989-b3e2-4a2c-9332-760b79f4fb15@redhat.com>
+	s=arc-20240116; t=1746034852; c=relaxed/simple;
+	bh=U4P2tnNseozPuuy/skT7kmujiUB/sLQ43YhfGdq+IVA=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ssRpvXDxqJJViEKnayJeAYLXCcghEnEziR8FLY/aPHsQJJXoZqzMNizLFkfrraK8wIJXneLoHbSzMqPwyLBqq6kQK8q7MwbI/oz7VP2u4LCLOwm2sjgUdNjhk8evpYfLQ6PoFKL4B5nt1pY908KR0/KrPsIMLFZPnLxYU33nFx4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Y4SRzNFE; arc=none smtp.client-ip=209.85.221.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-3913d129c1aso121755f8f.0;
+        Wed, 30 Apr 2025 10:40:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1746034849; x=1746639649; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Md9dvw0OrzD5ybuFEtQ1C4p9sLs5X9fR5lPCIeJYTOA=;
+        b=Y4SRzNFEKeQxJb31ALqeNR4Xrl9UBb8ZGKMQ8Y4FS8AmrzYpAWgi+EwCYI6+7sfUmW
+         X0Xk+N3cfSiBaqvF3JPw20ILB2ge0EB64eIDqnLrnt3FUn/1XC+CIKfG3EWzXvXBq2Mp
+         XxRdNG6AhjXSvmkuKavdf7srPmizu6jSxN/+Bnvjhyx52uokhJRCg/+J4a9auTWyDYFV
+         JxDAAbdHOPu3h5DENukqUz8r2e3zDgj807Ff9LV0wJ+FJ3QpjG6GXV3hRtRtpLZyjhps
+         zB9WVUHNonJtNmIw5DkeIOnKIgkpY/8+uMXUnsODlFgn92fjZeeRo5CB0unCDurivmyw
+         JZMQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746034849; x=1746639649;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Md9dvw0OrzD5ybuFEtQ1C4p9sLs5X9fR5lPCIeJYTOA=;
+        b=ApwxD9ARAS8Cw9eiPRGyb63Q6zgeV5ChxO5xfUHJ065HYMA8xv29pmBMXJFjv9uzgG
+         wh4o0UvAojGmprB4aSiIRAc+GyQN/BRG0BKM37QTN4lfod5IpUrQZS8lbAPQkZ7qRKz2
+         6qIiIp9nrMhh75IzBM9TbFy3ntDExqrNnUtJkh9k9bpMZOhMv/FVWSD1HLHlQaEKQoYu
+         gAaB2uF5rXlK5l741NEMlI7UtCxZFARzw9H7tcBEyg4IZ5Gz57C0T1gao+CQ8XqIiy8Q
+         amH8ArsOOKBMH+qMivjflH0o19NiOoesjYT5bKOKl5i42TS8WbVTS4wlIXLVlX2wsz2k
+         aXHw==
+X-Forwarded-Encrypted: i=1; AJvYcCVpd/Xo+VtJQzs+OK1QhmExpnCBHpPjvjohk29owA2g2ch/Cg0aZY8VHGWK/BoF1ymdZivgX0/2Iuipmg==@vger.kernel.org, AJvYcCXXyJRKx7Q09gG844oyrRoYNA/NcbrUzMPo6xZYT10zFcMicvrDnySh8zv1Yp9Pbu1uykpoNTJe3SbfGC45@vger.kernel.org
+X-Gm-Message-State: AOJu0YzdwMMF4su8tNhhyxDSyahYmv8aPaZjssfHogXFbq3c9RgHwNSz
+	/tWrS3z2xZfzAiBkM4J7B3UBuY8bNTpWqzeHkK/PSARHjzLSh+VS
+X-Gm-Gg: ASbGncvCwklgUvaR5wNFCF2hR7CNbBXukDR4PFO6BI4ceBlG7U8AIuaHMigyhVtC1yW
+	a9e9Jg4N5ghNssU0n2zWqpMw2biQFcojrV6sTV1TBIJSDV77A+7MCM1RXGq0f/dHjvO0noq5LxB
+	nS6gM7UWtYWhxxpK2VgPe6yYCZ3RNaU8wgdI4Nrv9SDDx6ItruWV3OyfIFbhwd5RHWWJpwPV/pU
+	ofoaB9n0cbFClvMaF3c8Efbgw6r7ojOxzdB7CLGvNuDFG218igvME7zGTDvf/xopZ3xT0OxnS8c
+	wnlCn0p69ndmVp7n8kaMzhcuotq2bt/HxSUWBfRCV3Rgt4MyJYcx
+X-Google-Smtp-Source: AGHT+IE7gEG4YDZEOWv5TkTkU5a8rxHnVddvhSHuKMmtC2j/xML135LeYoLkfkfueJoMJWIoy5rUng==
+X-Received: by 2002:a5d:5a46:0:b0:39c:1efb:eec9 with SMTP id ffacd0b85a97d-3a092cf7d0cmr308793f8f.13.1746034849124;
+        Wed, 30 Apr 2025 10:40:49 -0700 (PDT)
+Received: from qasdev.Home ([2a02:c7c:6696:8300:7d1e:a9b9:e7a2:cc4c])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a073ca5473sm17765934f8f.31.2025.04.30.10.40.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 30 Apr 2025 10:40:48 -0700 (PDT)
+From: Qasim Ijaz <qasdev00@gmail.com>
+To: ping.cheng@wacom.com,
+	jason.gerecke@wacom.com,
+	jikos@kernel.org,
+	bentiss@kernel.org,
+	linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Qasim Ijaz <qasdev00@gmail.com>
+Subject: [PATCH 0/3] HID: wacom: fix resource cleanup issues
+Date: Wed, 30 Apr 2025 18:39:08 +0100
+Message-Id: <20250430173911.84705-1-qasdev00@gmail.com>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="pFVg0rIaerbpLnM8"
-Content-Disposition: inline
-In-Reply-To: <67e9e989-b3e2-4a2c-9332-760b79f4fb15@redhat.com>
+Content-Transfer-Encoding: 8bit
 
+Fix a few resource cleanup issues.
 
---pFVg0rIaerbpLnM8
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Qasim Ijaz (3):
+  fix memory leak on kobject creation failure
+  fix memory leak on sysfs attribute creation failure
+  fix kobject reference count leak
 
-On Tue, Apr 29, 2025 at 05:42:46PM +0200, Hans de Goede wrote:
-> Hi,
->=20
-> On 29-Apr-25 17:31, Conor Dooley wrote:
-> > On Tue, Apr 29, 2025 at 11:56:11AM +0200, Esben Haabendal wrote:
-> >> This should be added for boards where there is no pull-up on the reset=
- pin,
-> >> as the driver will otherwise switch the reset signal to high-impedance=
- to
-> >> save power, which obviously not safe without pull-up.
-> >>
-> >> Signed-off-by: Esben Haabendal <esben@geanix.com>
-> >> ---
-> >>  Documentation/devicetree/bindings/input/touchscreen/goodix.yaml | 4 +=
-+++
-> >>  1 file changed, 4 insertions(+)
-> >>
-> >> diff --git a/Documentation/devicetree/bindings/input/touchscreen/goodi=
-x.yaml b/Documentation/devicetree/bindings/input/touchscreen/goodix.yaml
-> >> index eb4992f708b70fef93bd4b59b9565123f7c6ad5d..21ac13046b6e021eeb403d=
-854aabc945801dd29f 100644
-> >> --- a/Documentation/devicetree/bindings/input/touchscreen/goodix.yaml
-> >> +++ b/Documentation/devicetree/bindings/input/touchscreen/goodix.yaml
-> >> @@ -45,6 +45,10 @@ properties:
-> >>    reset-gpios:
-> >>      maxItems: 1
-> >> =20
-> >> +  goodix,no-reset-pull-up:
-> >> +    type: boolean
-> >> +    description: There is no pull-up on reset pin
-> >=20
-> > I have to wonder, why are these system using the reset property if the
-> > reset is not usable? Shouldn't the property be omitted?
->=20
-> The reset is usable, but it lacks an external pull-up resistor, so
-> the driver cannot switch the gpio output on the CPU going to
-> the touchscreen controller to input to save power as it does by default.
+ drivers/hid/wacom_sys.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-Ah, okay. The patch seems okay then.
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
+-- 
+2.39.5
 
---pFVg0rIaerbpLnM8
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaBJDVgAKCRB4tDGHoIJi
-0i1HAQCcbDo4yETRhBL1Fw32PnKAwVdokORl5IDrgdrCPX6u7gEAwjmHnqwPs0ZS
-fm/+26w3UZEEsO/I5ujG7z+COHjuIg0=
-=qfB3
------END PGP SIGNATURE-----
-
---pFVg0rIaerbpLnM8--
 
