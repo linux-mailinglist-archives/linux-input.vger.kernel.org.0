@@ -1,129 +1,124 @@
-Return-Path: <linux-input+bounces-12085-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12086-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08DA3AA52C5
-	for <lists+linux-input@lfdr.de>; Wed, 30 Apr 2025 19:41:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABD36AA539B
+	for <lists+linux-input@lfdr.de>; Wed, 30 Apr 2025 20:23:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DB1027B2EE1
-	for <lists+linux-input@lfdr.de>; Wed, 30 Apr 2025 17:40:17 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7BB6B7A2A45
+	for <lists+linux-input@lfdr.de>; Wed, 30 Apr 2025 18:22:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3407126B96E;
-	Wed, 30 Apr 2025 17:40:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 031242609D0;
+	Wed, 30 Apr 2025 18:23:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HCUwJAxA"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OTzQSgTo"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CB9C2676FE;
-	Wed, 30 Apr 2025 17:40:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60DB3190676;
+	Wed, 30 Apr 2025 18:23:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746034858; cv=none; b=idUUolNU3UYfYRjibP8olr9c8g3sgkfsNOk0Pez7zRDg+mOVdjsxIC+j2RUuBayxAJVAxJOQvjAEVn4mft7M9zZDIxRBqLPA5FiqA0I7HOkVEfRNOjt0BBQM5qf2jcvX61nQ6FACEuS2yldBRUeNAklvkPZ5DBzHs1N2xLSauQs=
+	t=1746037417; cv=none; b=VzP8Cc9W3ih8KMiS0IKYjqD5QDC3j+m8rL2e8nqsf8gmmUQz6gH4DnFPwiGujEXsHD4HoymMXhvwbJYLN24SwLvDttxw0GukRNgphgXvwlfuuqYXvD1AbNrC+BuGUxRecdbmGbeaho+EymS03SH+a5GxTCcpwDyjYq/q9IZ7t+s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746034858; c=relaxed/simple;
-	bh=BaaX9y7sdqFsQ9vMxmaduWzH/LZeXD15OZLrYVs4NWk=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=WT9UEFwnmwGtRXR4KP922HjfhO8sKEDG7F+qNL5kpNpqoosl8CuO1VMjKAa33dOuDzEFgdliS6aYkQRylkAxEYfsuIq25pMAc8Sde8KSdBBiGXQCJEQ14J6cnLHOjtG/Ss53lNoWpzVabaBc+/ZOJ4SmFmeBD9h1stLHQQ1corM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HCUwJAxA; arc=none smtp.client-ip=209.85.221.47
+	s=arc-20240116; t=1746037417; c=relaxed/simple;
+	bh=BGE5P8pILZj++lhgPLZi13PAymNSTla+4LMFaC02wP8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fIjvbC0wXEgZIkNtk8DxyxR+ji4YpLA6ERWHfGXLv58QgVgiO4UQLvfm9t4nHGuXthR6og4wBx5a5t51/NWv9y2R7semuSA61CDMuN4O34xOBQbidgjoSJaF2zj8q/9Y9b1/sDlYE93FIHi+nKKuK3zusJG87Uif/rnocvQHurM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OTzQSgTo; arc=none smtp.client-ip=209.85.219.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-39c14016868so56762f8f.1;
-        Wed, 30 Apr 2025 10:40:56 -0700 (PDT)
+Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-6e8ffa00555so2192986d6.0;
+        Wed, 30 Apr 2025 11:23:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1746034855; x=1746639655; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pcVsuF9nUCGZE3Db+V2hjbiOibndGT495jwZm7Ki9MI=;
-        b=HCUwJAxAYNcMDsnROhcp+l0PjxE5X1ed+GRMR8WJVoFEyBm10e9zftpT7cgUtHAScu
-         yr+vL43fjP+aMiRhp5cb498qg22cWA3v4yKb3WssufjqVNVsRDFz1Cfv7Iayq76SvMbW
-         3ihwOsqvPbWFQ5JpfwJ2ScRi3NHzlIJIGg3B0D4kRinU17Ew27r/7OqAokFg09kRsabv
-         hXAlO5SGbvplVoeHiWNm9MmRiLsDoGevAcX5GGANh2hmAxHy0SUgTEIP1C3HKH94taL9
-         p+k2XtTieZIBe8aTgTIX/V0UXq00N00Dd1MwvEYy+D189uB+zk5lWR+dlymmI2jfcbnU
-         AibA==
+        d=gmail.com; s=20230601; t=1746037415; x=1746642215; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ni9fsiOSDdijzrkYLIlegIUtj7F8njM6gU+RRiJK3jo=;
+        b=OTzQSgTodHHI26L/6HNm/nLVClPezAT3Dmtz4/J1zYf8pfwgsqfGkQFKzvcss5O6hW
+         WVVPgsVcfJr10eOUdKQPquMtuf907TUsr0ukN49x33jDt1hKyTG9J8WlBXSPm5dUqeD7
+         zc+rCrOP/lElxkfMurn982Fy7zy9as6JsPVdWXsWTtyL/xq5qH0KhUQQvWkYynFIdJcn
+         mW4K9OAlTS2p6jmcVLi9me43eKHfnLZOrcjwOGa2CaH39UENo+H/PQ00mzdd9avyAj4d
+         NMdV1rxSYUOvV5jKTVfHi/DBY0RT/mOpeR8ZQWRkNCtrX5llf+KA4hXUoKHikNqKHXKd
+         Skvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746034855; x=1746639655;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=pcVsuF9nUCGZE3Db+V2hjbiOibndGT495jwZm7Ki9MI=;
-        b=GDAwJ0i4XljA4moIVZg7Pnn/0XaZ5szM1Xe01Inr7mtBEMALW1WAuLmjw65DZYEwxa
-         rpIiv2g1AP3mcSYhUVqwnxiaK5gEF33DiLDNSjGQF1RIqQ0u+6MHQX6X2Fv0um7G52pj
-         Gc/Gz5P38Z06TfEcH93CneNf8DJTk1p4Y578S46IU70WPyykdu/XJPmF0fvrKUA29H+m
-         NjB50il4ilr/m46ICSeHealnSlINN5d0QrF4vUhS9l06/VXmO/LuSarHybpI8sBv4ZXi
-         u/wXdwD648UybATWgm9vm/D5N2U66jTEwI2v9En678dD8NKrfQX3pkE0cTUzmIS+dg7u
-         zl4w==
-X-Forwarded-Encrypted: i=1; AJvYcCU17PHeaS2yBxDLCSr4kifO/I5LLzhHa5M5FM/iDpNO/wfb/AbIsBxxpjFCJD8/Csesg45L9EQRCnSUNQ==@vger.kernel.org, AJvYcCVOC9tU8tgbzY2iDLOtLD68u776/QcKCLPpQE+bBvbRVyehJXA14Ht5JobhMENOoUdku/8nGxDS3HbBZ9pm@vger.kernel.org, AJvYcCWC+BFJnUXvG/mzN5nEDZ2SZuMSZXRgHY05asZIvrISKyxImeRdiBs3T8rNkgf4UOAZjAuTFg5W@vger.kernel.org
-X-Gm-Message-State: AOJu0YxZ031MGp+QiebnS3xXePa/1JJyu/UuoiUfb/G/6fWezbWMT+ra
-	CbN22E9A6MBVy45Vwc1iqofIDyvZSPZ6KzNMAcU6PmSQ5+8v3vz4TYTc/A==
-X-Gm-Gg: ASbGncsJWcs80U33LXV8oOMeEE3GiD8FT117HiMhf7RD56AmrL8CztDAzOM7WzhMgeP
-	LsL2+xwUECJROZCRsOXRTaZfJ6ljaejl8vtjlGhYUwIcmgqLS9419Ak+Ajj0mpEK+78Z65OfRcP
-	JnQ1JNn+J3L5z7cL0HotvdQI+sbr98UL5UVFZrCP0HXXdpsnff5GczaDTBNiYhbwzJA4inYU1lN
-	CSOSHUIvBhSheFY6aI1QHWLQ3prl2AeGUDkhvDDuDQIGD732z9TF2rkx4MLtyLg/2wdeDr5NLUh
-	1ebq/9u7nl+yuTcjp+JhADuY3QKnw9Jd2ZWQ6NISPA==
-X-Google-Smtp-Source: AGHT+IFq+T3yz8EYz9XMQlrpz/kFt3fq6FKTA6e9UmlyCTEfE5zJKIA3Un1ZJz2xbG0DfcSdEETVHw==
-X-Received: by 2002:a5d:5f4e:0:b0:39f:91:43fd with SMTP id ffacd0b85a97d-3a08f764d88mr3277762f8f.22.1746034854713;
-        Wed, 30 Apr 2025 10:40:54 -0700 (PDT)
-Received: from qasdev.Home ([2a02:c7c:6696:8300:7d1e:a9b9:e7a2:cc4c])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a073ca5473sm17765934f8f.31.2025.04.30.10.40.54
+        d=1e100.net; s=20230601; t=1746037415; x=1746642215;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Ni9fsiOSDdijzrkYLIlegIUtj7F8njM6gU+RRiJK3jo=;
+        b=RbEYRnxcvRKpN9nt68pZM9NWEE0CjLEO6pHpF5CqTZxAqNVP9T+FRrnbfIgLjxga3b
+         Ei72vpC3zfRKdF39zrIbAs9HWmVUJQBNflC7ZSvmlD/sSOX2rqHlyTXgpDsPzaWvFs7E
+         fMxfIilNFJ5ebDcUB2s7EKvlo9yeZZjlkQoXRwGzCFPiAMcVxRt/ux9+5wZNqTnvJluB
+         UwHjc/vzJHFrIXX3BZQz7emAO1wLeOpOdb67QFoDkpDYhKqE312vN4rjGkLwxy5cC6gU
+         og90vNKJjlvpfu/hXABrAAlLWoJbBmhvH8wUYH+RtzUaVmweGnh0qW31aBJbQ+3Rwt0s
+         GpOg==
+X-Forwarded-Encrypted: i=1; AJvYcCU0I/Vj4fw1OKHsIa4vZiK/Hkp5jz0BHHVcX1LfWHopczAi24gX8RRl5SoDQ4O6dsFhxjUdC3pBwvA=@vger.kernel.org, AJvYcCWhxJEwri6llDDtPjPbCX9e7jp7/1VtryEE8EH7OSgz3S0nNhvUrY0Cqp4UhPYh06yX7coxGvnSvKAcSGO4@vger.kernel.org
+X-Gm-Message-State: AOJu0YxIF8uU0frn1i5M1j0Ai1RuT/mM8M95BSaOB7VctnscnmR0CZzu
+	HOaghW4BfpltfQ6J+k+B+e0xPcsIK915jHtVBUvqE7GjT4ZYGXis
+X-Gm-Gg: ASbGnctTpBjFklfpif7nNVnptcdY1IVCirHFwULhcYnS/sREe90X5pIY1peJYe//xLr
+	DTnJhlXqeta9e5iEnv6MkxFbZObVxsDOga9mb+dr5MuIIEIngqvh/azsxGZ4mvflbEQgdOvUMN0
+	Vu7hK781BcU4fa2jaFJOdg5Nwi42jOLlvO/Voqo0LjuKxsUQQGD+qvU+iWDFbRNCIWfSVhlUD5p
+	c0/M9QIz+78bkynnsHx1WzPpplEAQuHDhUG8t6KOZDxpD35POBWHCTbDOABxAyYJ0LbMM7UB+Sg
+	NWt5aZTYWeuHJOpDtK88i7RpASoAIJ1t8YV9MjXY+jrnKwN42DgLktpCbvogfc8uBxq/CcTb
+X-Google-Smtp-Source: AGHT+IG4uyiUy+B7giYkxeAY6IdTUsN4jxLf9aft69KrEkNVHODs+hWMZKgECu+DhpxrxYjvD4bDAA==
+X-Received: by 2002:a05:6214:2388:b0:6ea:d6e1:f3f8 with SMTP id 6a1803df08f44-6f4fe1333ecmr59467246d6.45.1746037415123;
+        Wed, 30 Apr 2025 11:23:35 -0700 (PDT)
+Received: from c65201v1.fyre.ibm.com ([129.41.87.7])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6f4fe88108esm11084396d6.122.2025.04.30.11.23.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Apr 2025 10:40:54 -0700 (PDT)
-From: Qasim Ijaz <qasdev00@gmail.com>
-To: ping.cheng@wacom.com,
-	jason.gerecke@wacom.com,
-	jikos@kernel.org,
-	bentiss@kernel.org,
-	linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Qasim Ijaz <qasdev00@gmail.com>,
-	stable@vger.kernel.org
-Subject: [PATCH 3/3] HID: wacom: fix kobject reference count leak
-Date: Wed, 30 Apr 2025 18:39:11 +0100
-Message-Id: <20250430173911.84705-4-qasdev00@gmail.com>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250430173911.84705-1-qasdev00@gmail.com>
-References: <20250430173911.84705-1-qasdev00@gmail.com>
+        Wed, 30 Apr 2025 11:23:34 -0700 (PDT)
+From: Chelsy Ratnawat <chelsyratnawat2001@gmail.com>
+To: jikos@kernel.org,
+	jic23@kernel.org,
+	srinivas.pandruvada@linux.intel.com,
+	bentiss@kernel.org
+Cc: linux-input@vger.kernel.org,
+	linux-iio@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Chelsy Ratnawat <chelsyratnawat2001@gmail.com>
+Subject: [PATCH] HID: sensor-hub: Fix typo and improve documentation for sensor_hub_remove_callback()
+Date: Wed, 30 Apr 2025 11:23:00 -0700
+Message-ID: <20250430182300.122896-1-chelsyratnawat2001@gmail.com>
+X-Mailer: git-send-email 2.43.5
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-When sysfs_create_files() fails in wacom_initialize_remotes() the error
-is returned and the cleanup action will not have been registered yet.
+Fixed a typo in "registered" and improved grammar for better readability
+and consistency with kernel-doc standards. No functional changes.
 
-As a result the kobject’s refcount is never dropped, so the
-kobject can never be freed leading to a reference leak.
-
-Fix this by calling kobject_put() before returning.
-
-Fixes: 83e6b40e2de6 ("HID: wacom: EKR: have the wacom resources dynamically allocated")
-Cc: stable@vger.kernel.org
-Signed-off-by: Qasim Ijaz <qasdev00@gmail.com>
+Signed-off-by: Chelsy Ratnawat <chelsyratnawat2001@gmail.com>
 ---
- drivers/hid/wacom_sys.c | 1 +
- 1 file changed, 1 insertion(+)
+ include/linux/hid-sensor-hub.h | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/hid/wacom_sys.c b/drivers/hid/wacom_sys.c
-index 58cbd43a37e9..1257131b1e34 100644
---- a/drivers/hid/wacom_sys.c
-+++ b/drivers/hid/wacom_sys.c
-@@ -2059,6 +2059,7 @@ static int wacom_initialize_remotes(struct wacom *wacom)
- 		hid_err(wacom->hdev,
- 			"cannot create sysfs group err: %d\n", error);
- 		kfifo_free(&remote->remote_fifo);
-+		kobject_put(remote->remote_dir);
- 		return error;
- 	}
- 
+diff --git a/include/linux/hid-sensor-hub.h b/include/linux/hid-sensor-hub.h
+index c27329e2a5ad..5d2ac79429d4 100644
+--- a/include/linux/hid-sensor-hub.h
++++ b/include/linux/hid-sensor-hub.h
+@@ -130,10 +130,11 @@ int sensor_hub_register_callback(struct hid_sensor_hub_device *hsdev,
+ /**
+ * sensor_hub_remove_callback() - Remove client callbacks
+ * @hsdev:	Hub device instance.
+-* @usage_id:	Usage id of the client (E.g. 0x200076 for Gyro).
++* @usage_id:	Usage id of the client (e.g. 0x200076 for Gyro).
+ *
+-* If there is a callback registred, this call will remove that
+-* callbacks, so that it will stop data and event notifications.
++* Removes a previously registered callback for the given usage ID.
++* Once removed, the client will no longer receive data or event
++* notifications.
+ */
+ int sensor_hub_remove_callback(struct hid_sensor_hub_device *hsdev,
+ 			u32 usage_id);
 -- 
-2.39.5
+2.43.5
 
 
