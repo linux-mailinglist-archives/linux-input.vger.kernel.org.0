@@ -1,126 +1,133 @@
-Return-Path: <linux-input+bounces-12097-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12098-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFC3EAA5E0E
-	for <lists+linux-input@lfdr.de>; Thu,  1 May 2025 14:00:11 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EAB5AA5E2F
+	for <lists+linux-input@lfdr.de>; Thu,  1 May 2025 14:16:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5E5BA1BA79BE
-	for <lists+linux-input@lfdr.de>; Thu,  1 May 2025 12:00:23 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 433513B5A59
+	for <lists+linux-input@lfdr.de>; Thu,  1 May 2025 12:16:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 64411221DB4;
-	Thu,  1 May 2025 12:00:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C980E19A297;
+	Thu,  1 May 2025 12:16:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CKWBCak/"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AhnFY0HT"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2ECF12222AB;
-	Thu,  1 May 2025 12:00:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4356F1A38E1;
+	Thu,  1 May 2025 12:16:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746100807; cv=none; b=d5eOM493hlD1btk3+FqdJyLtIfpOTT/FrvYDmj+MZte5yX+2p6wJgTT9mjQYNm7zR7k2KFgb/L4EwaRfE4b2V7y1/qMNMiISIrDka/4iN+kwfge0ztBymw1/0ABOKZpES2Wp64KH7ymvYp5OWKonm2B5DPlHa7woOizhTRe2YBE=
+	t=1746101795; cv=none; b=UQ5gpUoxCkXyVzUlJR0Foa8jE0dP9PcooYq7mLh0npYNqlJRphm/LTQz428PlG8+TBcTwYGsIFoWf8Jv1c9oK4b1+ZVjpyyKVcnojiOAHm7no6Edx8016R7Lzit8C/hEdFA5i+Zf1zovpmpzR9owFJ1wIfF5CQz/eS6RJlnWhh8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746100807; c=relaxed/simple;
-	bh=79heGCzPjTOknTOl0OiAyuEcNPG7UCEql42ZUQm/EXI=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=hICIhyLLQ4J9su4S8pg1Bp3SUvUnVTeoaHUhQSVAc59+0knmP/i7aAuXGqF1viuizi4rH4rI19+/MSeb9/kQhjpWi+DSIRXx+E5EpVsvyy2xGkiQMwc4tUuIdhugFFVGKSEXxw6HnML3IVTnqxBLP6zt7ZvZG9TL05jVku0hAhY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CKWBCak/; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2440C4CEE3;
-	Thu,  1 May 2025 12:00:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746100806;
-	bh=79heGCzPjTOknTOl0OiAyuEcNPG7UCEql42ZUQm/EXI=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=CKWBCak/SxECyZSRnVxOT8Mb7fgpDrnTvHy+XXo6SS69Vybi2P00MwNf1ODoy/chc
-	 kNzXqR33RWeJLmtiPwyqZtgXRNzY0/WH7FRdUAAMXTVtNI5utsBeoRS7WdGDR5/nrm
-	 PaH2MwvGuVY6P+kf6Q7MkgTeSNfxl1/d/BPvGeBdX5v6PwGaIsX8C5NL3azH71o/MR
-	 b3dL4gOEmzWauEFq/nN8MehkjYBP5zpkXsNpcJC3n7Jcan61yGmlmE5X+bSzegXW9O
-	 alF0SugPW6tASbIpvuJX0N1/mOtntgGH4LkLKv9xYSVDOVJvPuHRW/6oWx0bfmHqll
-	 FtXJkx1k/fYWQ==
-From: Lee Jones <lee@kernel.org>
-To: linux-gpio@vger.kernel.org, linux-pwm@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-input@vger.kernel.org, 
- =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>
-Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, 
- Linus Walleij <linus.walleij@linaro.org>, 
- Bartosz Golaszewski <brgl@bgdev.pl>, 
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Liu Ying <victor.liu@nxp.com>, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20250415-dev-adp5589-fw-v2-0-3a799c3ed812@analog.com>
-References: <20250415-dev-adp5589-fw-v2-0-3a799c3ed812@analog.com>
-Subject: Re: [PATCH v2 00/17] mfd: adp5585: support keymap events and drop
- legacy Input driver
-Message-Id: <174610080338.3792828.16902042195346769114.b4-ty@kernel.org>
-Date: Thu, 01 May 2025 13:00:03 +0100
+	s=arc-20240116; t=1746101795; c=relaxed/simple;
+	bh=nOeBrM8FmttskUBqLj5xGML9i1vcyPvUiiaVhZiRmRg=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=eqAdqVSi+8MLaLXoAMB8AvuS/54nBd0NN5wceGoGuMJDz3nacAKaLxu6u/Xveov7JntCO/ukA9WuN4Mc1mcRC6oIXWeQ/PC2oQpxuMUtZy/fF3CzRvghT70EPib3TiScsnBaqBjjgEL0Q4JwUIwufFhRf+is+XxwZ2lShh64Fsc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AhnFY0HT; arc=none smtp.client-ip=209.85.214.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-22e033a3a07so7967725ad.0;
+        Thu, 01 May 2025 05:16:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1746101793; x=1746706593; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=vXOGQ5mao4U1U8Oq+MKZTKTuI5WoBPPajlDwPtE7mdw=;
+        b=AhnFY0HTNHRZQwhUZ+PGX4acGR3uUvvtmPMH4Txj/sH3o9c2NUwsDvMjff2q6UYQN2
+         USfVQfGV5dspM1rF+Dk3xeS7CLvoUkisdNXbl1OByak75yVEyyq3viBsJIMnwd4ivuOo
+         xWjYrAQp/VxJM4EWzHFwGVmXwKibXMJGmpI1V7OJR8TBKbcZepOtjh0VkMvDNmY0gwLm
+         bIsTftVjEyyoOPbrYgcUNr6hrrHp7d+sVO/UPeWpVaWSblecy+qLay5zrQzUODP6on6W
+         4Cwl/YMAqzXUTKk517I550hZJxtp6odJKeYNyVNJo7hB3LAfIhGgmCQ7usUYLEVM4IWy
+         VpCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746101793; x=1746706593;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=vXOGQ5mao4U1U8Oq+MKZTKTuI5WoBPPajlDwPtE7mdw=;
+        b=ZApT6v+AP34T9k3dgF/PYK5IYWnase4LeHFznwBThK1DYZ92vv7Vwz4bIyVAwbsbXe
+         v435YWj1NtGFkT1zRlGn8H77mcB6eH6kW/5myJZS8Z3Fl7DE7yDBeuTOrxJ+Mtvj1rXZ
+         /6s5PhYrxxjmnsH8WKGGkKGjmmpi5EWt3ZwcN5ZCoxqDH+xxbyPff4Eh7uhBKAplX0un
+         xytKUvMQeQ671MGVBtg5MlxIs4Nu2nkF5MAkj+S7Y3d2dA/99m5fvLASrGIcfMimz/3v
+         JCPFv60e4fhiCFHlh3rKtYJU6U0mfKK9xIGb3MDMHpm5NAN0Zsf0x5JaWjOSgoiQsti9
+         oP/A==
+X-Forwarded-Encrypted: i=1; AJvYcCUS92eu0HxeEI82lPR2j1JpndBnJNcvrEXmdxVkYrlTWqz8hNpSecL54tRgRNSztRxkqnoaJV8s0k8=@vger.kernel.org, AJvYcCWT5uDxALJCp92i4YLX9g91qoat6dvqqt8A5mLW4LfRycBly/bLjJTHTTRYBHM0dntWAHaycbap42XWt+Q=@vger.kernel.org, AJvYcCWqrM7I7o1rPfB6u6YLs77fu43rTgZhUMumygsGIOxNcck0GXwSHxGjMI7+/6ZSAd7gHr5+4lSNumKNCtZa@vger.kernel.org
+X-Gm-Message-State: AOJu0YwJaF64cMwf2ESitKQvw9wpRt36HUJYRXFLHNHKdHnuJPKotMDc
+	DVEvRiXv4/yPpKjnodSu5VcugV2xEH2Slz9/O3wvv4ipi57BObAj8KFOjunGwKk=
+X-Gm-Gg: ASbGncsTVutkmJBa6SpZ0FQs1mOrDTNwFep3Nvmj/iYLDjIuXWPfqV59RxOeC/6OppC
+	UCaprz1Pz44LmZV3QK/aVqrVrkSxYxVnOI1kQOnwnQcWcMAC+/4Ighii40GAtJomc+Y6010DWi1
+	s9Cs+a7Vrjp6Gn7VjhNu2OhO6IkScmK8GYDMsfMHnMaf4N3b+ZUJHNgTn4KZf6xPljsMWsIcOU7
+	u6qYxngQCykPEtAYz1BdiVSFef4Zv4mpq2LYHG+X76MtncuF4u+vaH4R6b5z02rXVFrDKmIaIs7
+	oBNTxUpIQ7yDRNaEqOyNpP/yOQYAhpvAkn85QXlR9GZOxTJCnKZMs5NXXd4AD1UppRDJ6A==
+X-Google-Smtp-Source: AGHT+IHVFJcUukBU7XlZBWMyMG2pgWT90EdhHWZsX3L93Yi9JAbCmmkasjMLmCVV4UzjIa/Ixi2+Cw==
+X-Received: by 2002:a17:903:198d:b0:227:e980:919d with SMTP id d9443c01a7336-22df35bf45amr100956735ad.47.1746101793257;
+        Thu, 01 May 2025 05:16:33 -0700 (PDT)
+Received: from localhost.localdomain ([103.77.0.13])
+        by smtp.googlemail.com with ESMTPSA id d9443c01a7336-22e0bc6d44dsm5082965ad.153.2025.05.01.05.16.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 01 May 2025 05:16:32 -0700 (PDT)
+From: Ankit Chauhan <ankitchauhan2065@gmail.com>
+To: jikos@kernel.org,
+	bentiss@kernel.org
+Cc: corbet@lwn.net,
+	linux-input@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Ankit Chauhan <ankitchauhan2065@gmail.com>
+Subject: [PATCH v2] docs: fix spelling mistakes in HID documentation
+Date: Thu,  1 May 2025 17:46:25 +0530
+Message-Id: <20250501121625.224659-1-ankitchauhan2065@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.15-dev-39345
 
-On Tue, 15 Apr 2025 15:49:16 +0100, Nuno Sá wrote:
-> The adp5585 MFD driver was introduced in 6.11 adding support for gpio
-> and PWM. However, the gpio part of it was already supported as part of
-> the keyboard driver:
-> 
-> https://elixir.bootlin.com/linux/v6.14-rc6/source/drivers/input/keyboard/adp5589-keys.c#L532
-> 
-> On top of that it also overlapped with my refactoring of the above driver [1]
-> to drop usage of platform data and use FW properties instead.
-> 
-> [...]
+Fix spelling mistakes in the HID documentation:
 
-Applied, thanks!
+- 'triggerred' is corrected to 'triggered' in multiple places.
 
-[01/17] dt-bindings: mfd: adp5585: ease on the required properties
-        commit: 3a2ea3e9f369bdae939bcccff67a77a6281dca74
-[02/17] mfd: adp5585: enable oscilator during probe
-        commit: 7353f196fd73b79e30ff750d93caf096ed660e1b
-[03/17] pwm: adp5585: don't control OSC_EN in the pwm driver
-        commit: 7c7e9f08a1a9bf16b6c1942c2e0cb919da855970
-[04/17] mfd: adp5585: make use of MFD_CELL_NAME()
-        commit: e72e9148d017535b39500d0aad624d0a0fcd2ce7
-[05/17] dt-bindings: mfd: adp5585: document adp5589 I/O expander
-        commit: 6da01b9d833c5efbce7c2e30dde276e0d29105f8
-[06/17] mfd: adp5585: add support for adp5589
-        commit: 382dc0327b8a9ee03c901df9b85134c68917becc
-[07/17] gpio: adp5585: add support for the ad5589 expander
-        commit: cff3cef09595001140bd29aedf33fc84998bf77c
-[08/17] pwm: adp5585: add support for adp5589
-        commit: 333b66fd3edfe18db4dc16041328a89144b73067
-[09/17] dt-bindings: mfd: adp5585: add properties for input events
-        commit: 7bdb41d7a85e1c6244da57d4dcc491df962ff3fb
-[10/17] mfd: adp5585: add support for key events
-        commit: 8814ac45c75fcce55896bc376a97b56f392925c3
-[11/17] gpio: adp5585: support gpi events
-        commit: 8f3d9b44c5c5ada312d0ef71ec0181011854a95b
-[12/17] Input: adp5585: Add Analog Devices ADP5585/89 support
-        commit: a53fc67a1e21a8507821263946b1d65687b0284f
-[13/17] Input: adp5589: remove the driver
-        commit: 216c99cf1002a42f896b54fab09823e8ba46b218
-[14/17] mfd: adp5585: support getting vdd regulator
-        commit: 63a8717f744d51ea0c8228e09db4233d48f2f9ba
-[15/17] dt-bindings: mfd: adp5585: document reset gpio
-        commit: 49c887f0547bc14eb50ba20e1c8acb7255af3b86
-[16/17] mfd: adp5585: add support for a reset pin
-        commit: 01c328823459456fb99469cc37f270f70d41fd2a
-[17/17] pwm: adp5585: make sure to include mod_devicetable.h
-        (no commit info)
+Signed-off-by: Ankit Chauhan <ankitchauhan2065@gmail.com>
+---
+Changes in v2:
+ - Corrected change log to use imperative mood as per review feedback.
 
---
-Lee Jones [李琼斯]
+ Documentation/hid/intel-thc-hid.rst | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/Documentation/hid/intel-thc-hid.rst b/Documentation/hid/intel-thc-hid.rst
+index 6c417205ac6a..5e0dc51c8d20 100644
+--- a/Documentation/hid/intel-thc-hid.rst
++++ b/Documentation/hid/intel-thc-hid.rst
+@@ -182,7 +182,7 @@ value and use PIO write (by setting SubIP write opcode) to do a write operation.
+ 
+ THC also includes two GPIO pins, one for interrupt and the other for device reset control.
+ 
+-Interrupt line can be configured to either level triggerred or edge triggerred by setting MMIO
++Interrupt line can be configured to either level triggered or edge triggered by setting MMIO
+ Control register.
+ 
+ Reset line is controlled by BIOS (or EFI) through ACPI _RST method, driver needs to call this
+@@ -302,9 +302,9 @@ waiting for interrupt ready then read out the data from system memory.
+ 3.3.2 Software DMA channel
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 
+-THC supports a software triggerred RxDMA mode to read the touch data from touch IC. This SW RxDMA
++THC supports a software triggered RxDMA mode to read the touch data from touch IC. This SW RxDMA
+ is the 3rd THC RxDMA engine with the similar functionalities as the existing two RxDMAs, the only
+-difference is this SW RxDMA is triggerred by software, and RxDMA2 is triggerred by external Touch IC
++difference is this SW RxDMA is triggered by software, and RxDMA2 is triggered by external Touch IC
+ interrupt. It gives a flexiblity to software driver to use RxDMA read Touch IC data in any time.
+ 
+ Before software starts a SW RxDMA, it shall stop the 1st and 2nd RxDMA, clear PRD read/write pointer
+-- 
+2.34.1
 
 
