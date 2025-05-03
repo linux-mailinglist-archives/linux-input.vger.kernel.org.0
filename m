@@ -1,124 +1,111 @@
-Return-Path: <linux-input+bounces-12128-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12129-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F1E2AA7483
-	for <lists+linux-input@lfdr.de>; Fri,  2 May 2025 16:10:15 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D072AA7F92
+	for <lists+linux-input@lfdr.de>; Sat,  3 May 2025 11:08:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9E38017B850
-	for <lists+linux-input@lfdr.de>; Fri,  2 May 2025 14:10:15 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id DB6711B658D5
+	for <lists+linux-input@lfdr.de>; Sat,  3 May 2025 09:09:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7B206255F5B;
-	Fri,  2 May 2025 14:10:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C4DCD1CEAA3;
+	Sat,  3 May 2025 09:08:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DMPXCZKV"
+	dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b="cVcvYxtR"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 594B370830;
-	Fri,  2 May 2025 14:10:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25076374F1;
+	Sat,  3 May 2025 09:08:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.21.23.139
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746195009; cv=none; b=GDGx2lGt/gJ699sFNaY+MthEsPCMciLfdv1L4r236WZTx86+LS/153l0KwJsogocHB7PQkePUYHyuzrIb04IIO5f6SwoHSTwpkYXiLwco+Rgu+YgLy8NT5bcpKJ+c/ZebBrNrsZaytkq0JLZcU3lutb4wk3nGFkjXRswr9Xh+/4=
+	t=1746263333; cv=none; b=UrpZAGls3+ZaI1MgYsJ6QyNui3Xd6AVgGOzNdN3WVhb84OXJZG/sq8Euqby6Yyc/GaM+pTDeedli+lpUQ1lZhQbF4ynn2p2QOc4417IfK9VR/zvj5wEcfFjxG6sRv7lpJANEAOoRyb++LaF/3M8NKKpDkqVucaAAG/RKya6wAVQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746195009; c=relaxed/simple;
-	bh=UE+HTAX8L03rDUiOBDCz+RRsBQJY1YMYvIyhl6gQwdo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=g+U3Y+zVzXkcTWbLPTnsdJ0+m7sS6JfKlJoBsW4FEM4QUTBQxVSXEP0/7AASVWMpYST/zMtbxM2QXcnDTobHM4+VPuYbzMfGfzaLC2XyML3fhosYTCwswE52aLkjXMk4ON6BCt5yTpuqkcqsiMugU4qUecXtKSSHml+ObkYwtss=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DMPXCZKV; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746195007; x=1777731007;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=UE+HTAX8L03rDUiOBDCz+RRsBQJY1YMYvIyhl6gQwdo=;
-  b=DMPXCZKVeviF2TeBpBd+ymtNSWBWjyZmsiLA17hQ1YRolwTSCM42v7t1
-   cZQ0zTBz70u+gIgyJdu/F9RrDtjaUKGsy8j4hBaHtft3CtIiFLlJe2yrp
-   BAiSBu4uK5VBJJ9HxLXF1flLFtP3SnQUqIenrgFX41EFyub97I3qR35Yi
-   IMU7DC5zJC+ZAz7UHVmYtPXIhXjI+pnfdZyVbVsyEbtl3Sy3jneWKa4/B
-   8wIcS2e2v1wTejSQYb1I8T+/WVmEByEo0kdxEORhB33iNnplxmlIBxzOp
-   +Sc8z4m9kjTtwuZLhLAkIUpO8Sz/WfsXC25gKMZfGZVChNv/o64jvb2B2
-   w==;
-X-CSE-ConnectionGUID: +k7bcu7mR2KwE9WEbvTW2A==
-X-CSE-MsgGUID: eX9HYA7YQFGfrv/TrEOnrg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11421"; a="48015749"
-X-IronPort-AV: E=Sophos;i="6.15,256,1739865600"; 
-   d="scan'208";a="48015749"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2025 07:10:06 -0700
-X-CSE-ConnectionGUID: nfmX4pclRTa5g4djy3denA==
-X-CSE-MsgGUID: dUCN4HZxQXOLbMFp1P4M1g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,256,1739865600"; 
-   d="scan'208";a="134396166"
-Received: from smile.fi.intel.com ([10.237.72.55])
-  by orviesa009.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2025 07:10:01 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
-	(envelope-from <andriy.shevchenko@intel.com>)
-	id 1uAr5S-00000002Dgq-2DDQ;
-	Fri, 02 May 2025 17:09:58 +0300
-Date: Fri, 2 May 2025 17:09:58 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Kamel Bouhara <kamel.bouhara@bootlin.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
-	Michael Walle <mwalle@kernel.org>, Mark Brown <broonie@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
-	linux-input@vger.kernel.org, linux-pwm@vger.kernel.org,
-	=?iso-8859-1?Q?Gr=E9gory?= Clement <gregory.clement@bootlin.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v7 10/11] input: misc: Add support for MAX7360 rotary
-Message-ID: <aBTSNsCupbpAscwA@smile.fi.intel.com>
-References: <20250428-mdb-max7360-support-v7-0-4e0608d0a7ff@bootlin.com>
- <20250428-mdb-max7360-support-v7-10-4e0608d0a7ff@bootlin.com>
- <aBSkCsw3GJ6RHeJV@smile.fi.intel.com>
- <D9LQ7NV1LJM9.F2GF0YEEDFEY@bootlin.com>
+	s=arc-20240116; t=1746263333; c=relaxed/simple;
+	bh=wMxHVRVgFbTIQhrecFqp94HX3M4QeBu5lTzrxZwQSUM=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=cvUo1WaSQlGsQAKCGvqTRyKaRpxRqqqMu+8XaV2vgArUbHO3NOeseuMw2aiTZScds8KeQV5R1d3BOn/Tgo5CkS3ws0j+ZS4lWOeKSCt0oc9uUk1JIniPm/Ynm1vwP7ybQmvKC+sJPS0UgcgIfctcDTWYxWsCpgaW9j8rIIKiLnc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org; spf=pass smtp.mailfrom=disroot.org; dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b=cVcvYxtR; arc=none smtp.client-ip=178.21.23.139
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=disroot.org
+Received: from mail01.disroot.lan (localhost [127.0.0.1])
+	by disroot.org (Postfix) with ESMTP id 19A0F25D47;
+	Sat,  3 May 2025 11:08:48 +0200 (CEST)
+X-Virus-Scanned: SPAM Filter at disroot.org
+Received: from layka.disroot.org ([127.0.0.1])
+ by localhost (disroot.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id U5SZ0WT7lUvW; Sat,  3 May 2025 11:08:46 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
+	t=1746263326; bh=wMxHVRVgFbTIQhrecFqp94HX3M4QeBu5lTzrxZwQSUM=;
+	h=From:Subject:Date:To:Cc;
+	b=cVcvYxtRlSYaGRROHM9HE7uQBFF8Wfy8Um79hYpNBsHGSqa5HM/qagibRrAX+REmE
+	 mOZRFZX0CxLZJG8lQKuwXPq+JKyaO4v/joAeQYWnQXMnAqvJnaXdgthTp818s+LTIf
+	 0ZF6dUehV9cmwJQM1DY2TDF1dEj27s3DEBpghx1gejtXyCMauxis9rFElAfxq7NCUw
+	 IQN4XEsRzOUVUA/TFnrxWQ7l2dH5NZvZSM6uS3MkPfyyqfWZTv3DCichbq1EENQhSL
+	 as02Zy8hn1visrhqAmsk53waO/pE4ER51a+Bg9+E/2ZCG4N5tOdW/vwbmSEy8barIK
+	 ZeJv5DmNH45Qw==
+From: Kaustabh Chakraborty <kauschluss@disroot.org>
+Subject: [PATCH RFC 0/4] Support for MELFAS MIP4 touchkey devices
+Date: Sat, 03 May 2025 14:38:26 +0530
+Message-Id: <20250503-mip4-touchkey-v1-0-b483cda29a5b@disroot.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <D9LQ7NV1LJM9.F2GF0YEEDFEY@bootlin.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAArdFWgC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI1MDUwND3dzMAhPdkvzS5Izs1EpdM7NEQ0NjIyOzpORUJaCegqLUtMwKsHn
+ RSkFuzkqxtbUAvsQEB2QAAAA=
+X-Change-ID: 20250501-mip4-touchkey-66a113226bce
+To: Sangwon Jee <jeesw@melfas.com>, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Henrik Rydberg <rydberg@bitmath.org>
+Cc: linux-input@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Kaustabh Chakraborty <kauschluss@disroot.org>
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1746263323; l=1369;
+ i=kauschluss@disroot.org; s=20250202; h=from:subject:message-id;
+ bh=wMxHVRVgFbTIQhrecFqp94HX3M4QeBu5lTzrxZwQSUM=;
+ b=lEmBgsGDqJD7p2ok4ZO0G9blk2vNLqO9DbxTZvUD447FY2n+wo1B1Q+nbgH7aQSEpYbG4ywo4
+ 7sanHRYgzShC6cehOTwCwk3iio7f0Tu/UBMhi8sLnqJkwscxrUEHNKk
+X-Developer-Key: i=kauschluss@disroot.org; a=ed25519;
+ pk=h2xeR+V2I1+GrfDPAhZa3M+NWA0Cnbdkkq1bH3ct1hE=
 
-On Fri, May 02, 2025 at 03:58:04PM +0200, Mathieu Dubois-Briand wrote:
-> On Fri May 2, 2025 at 12:52 PM CEST, Andy Shevchenko wrote:
-> > On Mon, Apr 28, 2025 at 01:57:28PM +0200, Mathieu Dubois-Briand wrote:
+MIP4 is a protocol developed and used by MELFAS in its touchscreen and
+touchkey devices. The MIP4 touchscreen driver acknowledges the
+touchscreen capabilities, but touchkeys are left unimplemented.
 
-...
+Apart from touchscreen + touchkey devices, the protocol is also used by
+devices which are, functionally, touchkey devices. Thus, the driver
+should also be compatible with those devices. This series aims to
+introduce such required changes.
 
-> >> +				pos = max(0, (int)pos + steps);
-> >
-> > Please, no castings for min()/max()/clamp(). It diminishes the use of those
-> > macros.
-> 
-> Sorry, I'm not sure to get the point. Should I use MIN_T() instead?
+RFC: How should the compatible string be handled? The string defined in
+dtschema is 'melfas,mip4_ts', which implies that it's a MIP4 touchscreen
+by MELFAS.
 
-Are the second argument is compile-time constant? I don't think so. Hence no
-use for MIN*()/MAX*(). First of all, try to answer to the Q: Why is the explicit
-casting being used? The second Q: How can it be easily fixed without using _t()
-variants of the macros?
+Signed-off-by: Kaustabh Chakraborty <kauschluss@disroot.org>
+---
+Kaustabh Chakraborty (4):
+      dt-bindings: input: melfas-mip4: document linux,keycodes property
+      Input: melfas-mip4 - add support for touchkey input events
+      Input: melfas-mip4 - initialize touch events only if the device is a touchscreen
+      Input: melfas-mip4 - add support for event formats 4 and 9
 
+ .../bindings/input/touchscreen/melfas_mip4.txt     |  2 +
+ drivers/input/touchscreen/melfas_mip4.c            | 98 ++++++++++++++++------
+ 2 files changed, 74 insertions(+), 26 deletions(-)
+---
+base-commit: 3e039dcc9c1320c0d33ddd51c372dcc91d3ea3c7
+change-id: 20250501-mip4-touchkey-66a113226bce
+
+Best regards,
 -- 
-With Best Regards,
-Andy Shevchenko
-
+Kaustabh Chakraborty <kauschluss@disroot.org>
 
 
