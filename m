@@ -1,140 +1,119 @@
-Return-Path: <linux-input+bounces-12140-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12141-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D61CAA8562
-	for <lists+linux-input@lfdr.de>; Sun,  4 May 2025 11:20:24 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 18464AA8827
+	for <lists+linux-input@lfdr.de>; Sun,  4 May 2025 18:49:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A70B03A6740
-	for <lists+linux-input@lfdr.de>; Sun,  4 May 2025 09:20:05 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id ED89418960DB
+	for <lists+linux-input@lfdr.de>; Sun,  4 May 2025 16:50:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 374B91993B9;
-	Sun,  4 May 2025 09:20:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 146571A23B7;
+	Sun,  4 May 2025 16:49:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NRC6zdVS"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i4D1MN3e"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FFB919755B;
-	Sun,  4 May 2025 09:20:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D77FA8F7D;
+	Sun,  4 May 2025 16:49:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746350419; cv=none; b=NKodBsijMXOlm0/HoevvVBWpb3urtp0sNZI21g22jDYgQAMJyvTKCKhbPv06AdY6SgKvwFvbIWu3jb/L50X5/xO2eCQX1MGr1igHvWN0FGUKs1Qf1Cd6Xd/51VtohYTWxaaCxBVeYcXeW5gUQHVUYr5fPsEaCn1gw4Cgs9Ej0uI=
+	t=1746377388; cv=none; b=lZz0Sc8VNWUM9p4UwZPDXnToN/4z8xt7B/9xC5PSNbrIiy/TtXzWYduhcKbkBb5dG/nnag9R1BPm1uzG69wIrxOVAHBeIxg3x3YUfJ/Yg9SHeN+4+3zsj79rHb9ckOILvDlHbxymt4x48OTRGhDPgwbmd5mjxx2t6vNuzajEZZw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746350419; c=relaxed/simple;
-	bh=z0gGa+NmC7XPJY4PUSFXFROOY84Xqh/y2X250hFRGSY=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=W3fMePOxBi4TqKKdDZsTWPmMsBcqv6TWGK79uLSx4wq5D+R5NpJCjZuPbgSMBJiULMxH1Y7z/eNAkZOrSKTcz6eiGfJz1PywYVDFQZFnI4OyDlhoYYZ860SljV9gqt3hhtPz2tWxyMGxy/TzmUlnQyZk8ohr5J3HoX+mNM41dY0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NRC6zdVS; arc=none smtp.client-ip=209.85.221.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-39efc1365e4so1494178f8f.1;
-        Sun, 04 May 2025 02:20:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1746350416; x=1746955216; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=miVLsPyv3tGgvpJpIN6lHdQtrfQb64+k98bN+2tbbJY=;
-        b=NRC6zdVSZkmMwJMACqXS8aZPzYv/XlgFn9RLKQUX978nOq44LoT4swaE2uyZ8MOi0S
-         FmBuR/21n/V3p5b/WlQlHWJSQem2chUII4lvofHGBU6dmw3uOczJmiqeo7p46ZAOYUPB
-         kJ29OnM3xe2HuvZHHeI8BGiHeklIPH+0wdGaUJb3k6etJGxJWuLGrM2WiuXbZsW1EiYi
-         g7iGFwqn5r8Ev0sCQFTye5JZT+jv8m0l5kVYFeopei88VfW0Of+N3HhwI9Pp8+J44/D6
-         lwsFT2huc+X8F/i5KuDrbcgruh4/5qj6pOiqL6Z83LBdocC0sZoOvRr5kj7ni64NSDam
-         +LyA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746350416; x=1746955216;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=miVLsPyv3tGgvpJpIN6lHdQtrfQb64+k98bN+2tbbJY=;
-        b=tItQJsW3JIYcM6/VMNqA2NiIUj7KIZHwxcw2m8I0ZpUh5qLyWlCY0z8yAUghY3VkhC
-         Ec5PxbroF/wK8cJJwESHF/MetvTwTQfbgR2n3hDegRvh8QeC+WDVt7IYIUnkHvZ+BAS/
-         x8/L2heyyT4Tmw7FQ8J7ykAsmkwFZl9/FeiyRgeNErzrnc7eqjvc9UUipfQo8BEpjnPK
-         iGYCPJPvk5r1nEsnXi0d8hvN6qS+ZuWpyFh+438eot+TW3qPLzCfGj2GA50P/tUlTEYD
-         zJPIQUl0TTZR0yqOoQfPWkpc14zr3giSUDw9R6Gz84yNo23qZ8zPqCOM3YoRwzxRDtQ1
-         vFwA==
-X-Forwarded-Encrypted: i=1; AJvYcCU3S9hAEX49R7AR7aCeK1P+9VcoDkEVe+feBjrUJU3+W9zC9PUBAKSCL5iFLaOePc5DtCemt7zl9866@vger.kernel.org, AJvYcCU7AcIzC8u2wgPFbnP/Vy2si9ktO/zcclQ2a399Y+OXV+wzRrjZZKnLzJ7ICIkCEA1+BI8CCEfesbb7aPRE@vger.kernel.org, AJvYcCVq84Q1Y9FrLqgJjfLp0elfurk3PizJ2PXOh9iFk7GlQbgO/BBvudgKFwWsC5ILWN9fID8iVWmf8eei@vger.kernel.org, AJvYcCXsHLnqePpYvhvTctAXDAkhxaaRT1cJoqry8D9/xCr8dT6VULPZWmCLSeoFMY5E6gUOY07CzzPyr7oO1jU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyTYRHuImgi8875BIRdrMP8+nruo6jmDLnDni9ZSvlRbtEN6oqO
-	13Lvw5Q/xV8IZB+zU+bxyn67zcEq70oLRJodw+Lw3k82nefYa6EKJQI/2kFB
-X-Gm-Gg: ASbGnctPuLHYz46ABoYzIjEtQO1cHBq2URRbP3cFDmZQYQFO+u1+D4loTweNDdkOcid
-	SW3DBcuay1IODSVH6v4vKTrizshhATR2Tw3uQx/vQQpPT7sKiBL90RJLhPLFHsspOv2rjWqVNY3
-	aR22w8t2gJ8vvdiXLfzeHkKqoeu2xCxTFZ7wRbCIN1f+Ej29FONkZ0YtosUT2wZrpmJIe/cO3dW
-	3LRYdlNHSwMZ+h0iQsvC7bqBLVPjG3yGiN2E40T5cvgNeGkcA5Xdmx6D71+isKKCjAiRDVPTve4
-	+OA/rg05NLUZgRz+7GjlBYKspOB5cvNrHC71IvdbY+wja5Biy+GbpAp7Z0xTpFH+916E8htPDl0
-	pPcgDuGg6X4PsRDk=
-X-Google-Smtp-Source: AGHT+IEFinYmjn7z7MpKaUt4ZnpD4pRPE9D6E6BnLTvFrA9opflM1PbE8AjFJncdEBVVTQSsE8u1zw==
-X-Received: by 2002:a05:6000:40cd:b0:391:4873:7940 with SMTP id ffacd0b85a97d-3a099aef847mr6699348f8f.54.1746350415418;
-        Sun, 04 May 2025 02:20:15 -0700 (PDT)
-Received: from ?IPv6:2001:818:ea56:d000:56e0:ceba:7da4:6673? ([2001:818:ea56:d000:56e0:ceba:7da4:6673])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a099b0efbfsm7168302f8f.69.2025.05.04.02.20.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 04 May 2025 02:20:14 -0700 (PDT)
-Message-ID: <62b78d8c53429438fd7dfa83c07df3576f91eef5.camel@gmail.com>
-Subject: Re: [PATCH] MAINTAINERS: rectify file entry in ADP5585 driver
- section
-From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
-To: Lukas Bulwahn <lbulwahn@redhat.com>, Nuno =?ISO-8859-1?Q?S=E1?=
-	 <nuno.sa@analog.com>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, Laurent
- Pinchart <laurent.pinchart@ideasonboard.com>, Lee Jones <lee@kernel.org>, 
-	linux-gpio@vger.kernel.org, linux-pwm@vger.kernel.org, 
-	linux-input@vger.kernel.org
-Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org, Lukas
- Bulwahn <lukas.bulwahn@redhat.com>
-Date: Sun, 04 May 2025 09:20:38 +0100
-In-Reply-To: <20250504041040.40421-1-lukas.bulwahn@redhat.com>
-References: <20250504041040.40421-1-lukas.bulwahn@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.4 (3.52.4-2.fc40) 
+	s=arc-20240116; t=1746377388; c=relaxed/simple;
+	bh=OgTNb0q1nRT4hHwyCEaahOVLBx/Mv+pL3202dapPhGY=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=tyVMomsp1x3GwyCx3Asy1jMwTFQGyLymgpSY5hNU5Njtk+a0w8w+NshzWddX84MpNWNhEcKMbMOQikEf1AJv6QEYgYOvt4rDkQn6vLhqeokJxW33TmPIYsdw82VhhgMCh+kBMcHV8g/YD9bsS2T2v9ScAjYBzoRbecsLfKevMXY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i4D1MN3e; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F39CC4CEE7;
+	Sun,  4 May 2025 16:49:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1746377387;
+	bh=OgTNb0q1nRT4hHwyCEaahOVLBx/Mv+pL3202dapPhGY=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=i4D1MN3eEzrwTtmoiuTmxTs/P0PWII0+QUE5gUP/XSUXohMEb53agoo9IKb/pFr8G
+	 bokDkQoQWZkdA4ilulw0TZxSx4q7S9eistjQ+RYMUzZ8uZMgRSNIu43MqMUp3JqJnb
+	 uXRCJLoXvU/sdQ3I84BdyvA1/q/ahfFVH7esUwFmTlhOeepApzIHgqPHcrFJzW2XeN
+	 iZp2awpASOkVw53r/0GriYjDrJeTWEbfIKBQmD+ciBq7FXAl+o1OE81KWrgCTMVwUZ
+	 whOK3Io3NkYYot0xR7nE0XWy1FaVVIhzGmXTDCNXJEZGx1GRtqS73iWZD/zabz6OgJ
+	 u/wR/h3i30BhA==
+Date: Sun, 4 May 2025 17:49:41 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Chelsy Ratnawat <chelsyratnawat2001@gmail.com>
+Cc: jikos@kernel.org, bentiss@kernel.org,
+ srinivas.pandruvada@linux.intel.com, dlechner@baylibre.com,
+ linux-input@vger.kernel.org, linux-iio@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] HID: sensor-hub: Fix typo and improve documentation
+ for sensor_hub_remove_callback()
+Message-ID: <20250504174941.1390b21b@jic23-huawei>
+In-Reply-To: <20250502003655.1943000-1-chelsyratnawat2001@gmail.com>
+References: <20250430182300.122896-1-chelsyratnawat2001@gmail.com>
+	<20250502003655.1943000-1-chelsyratnawat2001@gmail.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Sun, 2025-05-04 at 06:10 +0200, Lukas Bulwahn wrote:
-> From: Lukas Bulwahn <lukas.bulwahn@redhat.com>
->=20
-> Commit a53fc67a1e21 ("Input: adp5585: Add Analog Devices ADP5585/89
-> support") adds the file drivers/input/keyboard/adp5585-keys.c, but then
-> refers with a file entry to the non-existing file
-> drivers/input/adp5585-keys.c in the MAINTAINERS section ADP5585 GPIO
-> EXPANDER, PWM AND KEYPAD CONTROLLER DRIVER.
->=20
-> Make this file entry refer to the intended file.
->=20
-> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@redhat.com>
+On Thu,  1 May 2025 17:36:55 -0700
+Chelsy Ratnawat <chelsyratnawat2001@gmail.com> wrote:
+
+> Fixed a typo in "registered" and improved grammar for better readability
+> and consistency with kernel-doc standards. No functional changes.
+> 
+> Signed-off-by: Chelsy Ratnawat <chelsyratnawat2001@gmail.com>
+> Reviewed-by: David Lechner <dlechner@baylibre.com>
 > ---
+Even though trivial reason for resend, this is v3.
 
-Hmm, look here [1]. That patch was wrongly applied, the series needs more w=
-ork. I'll
-see if I do not forget to fix this in the next iteration.
+Posting it as v2 confuses some tooling such as b4.
+I manually grabbed the right patch and applied.
 
-[1]:https://lore.kernel.org/linux-input/20250502083055.GG3865826@google.com=
-/T/#m1dc8ca24c89b3b111992f388b67e17842c89d7c1
+Thanks,
 
-- Nuno S=C3=A1
+Jonathan
 
-> =C2=A0MAINTAINERS | 2 +-
-> =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index b21363fdbf4d..1401209d06df 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -550,7 +550,7 @@ L:	linux-pwm@vger.kernel.org
-> =C2=A0S:	Maintained
-> =C2=A0F:	Documentation/devicetree/bindings/*/adi,adp5585*.yaml
-> =C2=A0F:	drivers/gpio/gpio-adp5585.c
-> -F:	drivers/input/adp5585-keys.c
-> +F:	drivers/input/keyboard/adp5585-keys.c
-> =C2=A0F:	drivers/mfd/adp5585.c
-> =C2=A0F:	drivers/pwm/pwm-adp5585.c
-> =C2=A0F:	include/linux/mfd/adp5585.h
+> Changes in v2:
+>  - Improved the kernel-doc comment for sensor_hub_remove_callback().
+>  - Changed "Gyro" to "gyro".
+>  - Changed "usage ID" to "usage_id" for consistency with kernel-doc
+>    style.
+>  - Updated the comment to state that only one callback can be removed
+>    per (usage_id, hsdev) pair.
+> 
+>  include/linux/hid-sensor-hub.h | 9 +++++----
+>  1 file changed, 5 insertions(+), 4 deletions(-)
+> 
+> diff --git a/include/linux/hid-sensor-hub.h b/include/linux/hid-sensor-hub.h
+> index c27329e2a5ad..0f9f7df865db 100644
+> --- a/include/linux/hid-sensor-hub.h
+> +++ b/include/linux/hid-sensor-hub.h
+> @@ -128,12 +128,13 @@ int sensor_hub_register_callback(struct hid_sensor_hub_device *hsdev,
+>  			struct hid_sensor_hub_callbacks *usage_callback);
+>  
+>  /**
+> -* sensor_hub_remove_callback() - Remove client callbacks
+> +* sensor_hub_remove_callback() - Remove client callback
+>  * @hsdev:	Hub device instance.
+> -* @usage_id:	Usage id of the client (E.g. 0x200076 for Gyro).
+> +* @usage_id:	Usage id of the client (e.g. 0x200076 for gyro).
+>  *
+> -* If there is a callback registred, this call will remove that
+> -* callbacks, so that it will stop data and event notifications.
+> +* Removes a previously registered callback for the given usage_id
+> +* and hsdev. Once removed, the client will no longer receive data or
+> +* event notifications.
+>  */
+>  int sensor_hub_remove_callback(struct hid_sensor_hub_device *hsdev,
+>  			u32 usage_id);
 
 
