@@ -1,74 +1,74 @@
-Return-Path: <linux-input+bounces-12147-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12148-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37A23AA94DE
-	for <lists+linux-input@lfdr.de>; Mon,  5 May 2025 15:52:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EFCBAA94E1
+	for <lists+linux-input@lfdr.de>; Mon,  5 May 2025 15:52:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CC6E83BC19E
-	for <lists+linux-input@lfdr.de>; Mon,  5 May 2025 13:52:14 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9023F3BC7E1
+	for <lists+linux-input@lfdr.de>; Mon,  5 May 2025 13:52:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C6583259C87;
-	Mon,  5 May 2025 13:52:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3C575259C92;
+	Mon,  5 May 2025 13:52:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JJRSlhDS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IIs8454j"
 X-Original-To: linux-input@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BC122512F3;
-	Mon,  5 May 2025 13:52:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93F062512F3;
+	Mon,  5 May 2025 13:52:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746453148; cv=none; b=fZoL9FBRnY22tWbCnuKU8SDnm4l2pPLEvvR/ddjGNsrxVv2KXAxfMbt0YGdeOc/vHEoQypTxPxNP2Sem6nfHdrR6yw8Ttk9XC6u4h62d/f9z6V7SscfmCmNgDEruHrRShTodpUJ3cmIF2eLUyjdGKeP6lOTdGCWKhEce094QeiU=
+	t=1746453157; cv=none; b=HubWTPNscMRQ0uaoSYfH6DBweWfdEP5+/9KNPrLJUPgA/qF4cPiwUoKaJCwq3NpB2CE6JcqtEwCDxRGY8DZktBwTktQZ43A6Wg3LaHO5O/+3cLeV/eKU5jkgjCGmocIsbRDnAmdDliKuspcQ26CJ5NBbXIJIBynvGgT2J1RYh1A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746453148; c=relaxed/simple;
-	bh=g8x+0u80yRs11NJgYFA7XL29+CPcvdp2ybha6SrbuZY=;
+	s=arc-20240116; t=1746453157; c=relaxed/simple;
+	bh=jN4v51iyAmUYxuKDoKi6umdrQGtpaXoL/1HLVvF5WH4=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=Gfjq9hXaE7QDeWfTnkrkKGrU8Wx8EBeSxIMAUHR3xRAUVtnXPzc8HdJ+qX51XOPF8TM9QySA5+CZHO8OXgufYCP0nCeBDjc3w05M0z6aDrLe4e7LUl2OxIlDig8mLHgocukNalfya2BtSq9zvuSAnUtUXyHQQh01O+MYAYsHMX8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JJRSlhDS; arc=none smtp.client-ip=192.198.163.12
+	 MIME-Version:Content-Type; b=O5YfI6QTakDQoBkH+juvAsHB0y1/g/dxq2Y1MFjhAmWDfAwARlqjkSN4Ar5FGoKb1zM0eyuFqU+XIi9SzCY3ixUDNQKV0gQMmH7L7R/ntHPrJKHWPYiUkNy0RR9iiwQ9czmZ2bborXDGtiBWjKMqgPL/KW7O1vFIxOcddcx++yU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IIs8454j; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746453147; x=1777989147;
+  t=1746453156; x=1777989156;
   h=from:to:cc:in-reply-to:references:subject:message-id:
    date:mime-version:content-transfer-encoding;
-  bh=g8x+0u80yRs11NJgYFA7XL29+CPcvdp2ybha6SrbuZY=;
-  b=JJRSlhDSFUWA1zd3yAWDnIBgLlhk7fpifBTN5gMHKtgFrqB8CCrA8mEF
-   47sU5ZAZzUu/0WGcvlGZGlbABJdPNSu7p12WEBz6+9JqmUlg7UuIDPTMd
-   eZ7Z7WelD1zS2sncV8QvZ+jfQKANVsa92+q82RsiJrhEXIgcaTjWWznbE
-   /LAZuHHGE58AMNl1QW2JrFGNKa6oby87EqflstJI45w8wDzdmsOJFAd88
-   chIFriDBzUEbk3QfL6a/ULmSR9f8a0avH3HVP+JlNqhKdrqUpdQJwbVa1
-   hLV8u7y0RShMKKaYz54wkACTAMoAqdt26TS4gbHh4qCeSnjxDMLbrsdOF
-   g==;
-X-CSE-ConnectionGUID: SwYY2080QNSSQ5+6+x83GQ==
-X-CSE-MsgGUID: gSyl2FlBS66zwXuH2Twsnw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11423"; a="51868501"
+  bh=jN4v51iyAmUYxuKDoKi6umdrQGtpaXoL/1HLVvF5WH4=;
+  b=IIs8454j7Vyn6OhDC2g1i7wYxH+mvaBAsBbZvyFBz1UGtq+R5oHL64+z
+   5bOXzVBOWD07bJzuB4oUvlaCKFRUZjx4yHo2qj9XoDlFohCIHv9K4pZ9C
+   qybYoTKsYQoOwjYMEPQOQe6568jrm1XI3KanuKks1TmNH2gJXMxnJQpLu
+   jXanMvKWOCOFG1S1y/o7adTbzZBZtrqitc/9N0WD/yWb3gEMCfcApY+64
+   b28zFIQgQlhj2XYesX+v+1GW4uV8WqEfvtBbwd8OXEQ+/HohiueW3U4H5
+   KIiMX0ZR8C1qfuXzRmOTG5aiqBXHbQTH5eAIZoLl3KgFSYPOC3Yo4lXKK
+   Q==;
+X-CSE-ConnectionGUID: H16R64UHTkyyZ6BxkupDRw==
+X-CSE-MsgGUID: o0X5tLd+SMGmbsuYpfbtag==
+X-IronPort-AV: E=McAfee;i="6700,10204,11423"; a="51868532"
 X-IronPort-AV: E=Sophos;i="6.15,262,1739865600"; 
-   d="scan'208";a="51868501"
+   d="scan'208";a="51868532"
 Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2025 06:52:27 -0700
-X-CSE-ConnectionGUID: tYPQN2fiTqG1+ugNgQKDmQ==
-X-CSE-MsgGUID: CK1lbgu1QPKNHAYRoB/whw==
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2025 06:52:35 -0700
+X-CSE-ConnectionGUID: HSwhe3XcTReJsOICXU2l0w==
+X-CSE-MsgGUID: 97QaK8YUTme0YoHXedbJiw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,262,1739865600"; 
-   d="scan'208";a="140046216"
+   d="scan'208";a="140046237"
 Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.68])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2025 06:52:23 -0700
+  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2025 06:52:32 -0700
 From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-To: linux-kernel@vger.kernel.org, Luke Jones <luke@ljones.dev>
-Cc: hdegoede@redhat.com, platform-driver-x86@vger.kernel.org, 
- linux-input@vger.kernel.org, bentiss@kernel.org, jikos@kernel.org, 
- mario.limonciello@amd.com, lkml@antheas.dev
-In-Reply-To: <20250323023421.78012-1-luke@ljones.dev>
-References: <20250323023421.78012-1-luke@ljones.dev>
-Subject: Re: [PATCH v4 0/2] hid-asus: asus-wmi: refactor Ally
- suspend/resume
-Message-Id: <174645313917.23202.9513224587280023124.b4-ty@linux.intel.com>
-Date: Mon, 05 May 2025 16:52:19 +0300
+To: hdegoede@redhat.com, bentiss@kernel.org, 
+ Werner Sembach <wse@tuxedocomputers.com>
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ platform-driver-x86@vger.kernel.org
+In-Reply-To: <20250425210043.342288-1-wse@tuxedocomputers.com>
+References: <20250425210043.342288-1-wse@tuxedocomputers.com>
+Subject: Re: [PATCH v9 0/1] platform/x86/tuxedo: Add virtual LampArray for
+ TUXEDO NB04 devices
+Message-Id: <174645314692.23202.56309255974182976.b4-ty@linux.intel.com>
+Date: Mon, 05 May 2025 16:52:26 +0300
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -79,15 +79,39 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.13.0
 
-On Sun, 23 Mar 2025 15:34:19 +1300, Luke Jones wrote:
+On Fri, 25 Apr 2025 22:53:28 +0200, Werner Sembach wrote:
 
-> This short series refactors the Ally suspend/resume functionality in the
-> asus-wmi driver along with adding support for ROG Ally MCU version checking.
+> Note that I'm away from my work PC for the next week so expect my next
+> response the monday after.
 > 
-> The version checking is then used to toggle the use of older CSEE call hacks
-> that were initially used to combat Ally suspend/wake issues arising from the MCU
-> not clearing a particular flag on resume. ASUS have since corrected this
-> especially for Linux in newer firmware versions.
+> v2: - Integrated Armins feedback and fixed kernel test robot warnings.
+> v3: - Fixed borked subject line of v2.
+> v4: - Remove unrequired WMI mutex.
+>     - Move device checking from probe to init.
+>     - Fix device checking working exactly reverse as it should.
+>     - Fix null pointer dereference because,
+>         hdev->driver_data != hdev->dev.driver_data.
+> v5: - Move everything to subfolder nb04 in preparation for the eventual
+>         upstreaming of other tuxedo-driver parts.
+>     - Integrated Ilpos coding style feedback.
+>     - Use dev_set/get_drvdata() based on Armins feedback.
+> v6: - Integrated more of Ilpo coding style feedback from a different LKML
+>         patch-thread (less files, local functions prefixed with a short
+>         string).
+> v7: - Integrated more of Ilpos feedback e.g.:
+>         - Use cleanup.h
+>         - replace some if cases with a pointer in driver_data
+>         - coding style oversights
+> v8: - Integrated more of Ilpos feedback
+>     - Typo fix spotted by Alok
+> v9: - Introduce lamp_rgbi_tuple_t to group some values
+>     - Introduce LAMP_MULTI_UPDATE_REPORT_LAMP_COUNT_MAX to not manually set
+>       a fixed number at multiple places
+>     - Move lamp_multi_update_report initialization in
+>       handle_lamp_range_update_report out of the loop again as a small
+>       performance optimization as the unused entries do not actually be
+>       zeroed (I mixed up the spec of this devices wmi interface and the HID
+>       spec)
 > 
 > [...]
 
@@ -98,10 +122,8 @@ platform-drivers-x86/review-ilpo-next branch only once I've pushed my
 local branch there, which might take a while.
 
 The list of commits applied:
-[1/2] hid-asus: check ROG Ally MCU version and warn
-      commit: 6b4585948d1ed226f194195180be09fa24b760ec
-[2/2] platform/x86: asus-wmi: Refactor Ally suspend/resume
-      commit: c26e7d5d2d89af198b43e4c57b1aff5289f65450
+[1/1] platform/x86/tuxedo: Add virtual LampArray for TUXEDO NB04 devices
+      commit: d430124bac586f9d4302ebf6a3146635539325d1
 
 --
  i.
