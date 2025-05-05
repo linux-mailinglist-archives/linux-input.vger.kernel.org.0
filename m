@@ -1,127 +1,109 @@
-Return-Path: <linux-input+bounces-12146-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12147-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23783AA9255
-	for <lists+linux-input@lfdr.de>; Mon,  5 May 2025 13:52:52 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 37A23AA94DE
+	for <lists+linux-input@lfdr.de>; Mon,  5 May 2025 15:52:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 24F003A9EC1
-	for <lists+linux-input@lfdr.de>; Mon,  5 May 2025 11:52:29 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CC6E83BC19E
+	for <lists+linux-input@lfdr.de>; Mon,  5 May 2025 13:52:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 467EB205AB2;
-	Mon,  5 May 2025 11:52:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C6583259C87;
+	Mon,  5 May 2025 13:52:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Jr7cWSqc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JJRSlhDS"
 X-Original-To: linux-input@vger.kernel.org
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A25C02040A8;
-	Mon,  5 May 2025 11:52:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BC122512F3;
+	Mon,  5 May 2025 13:52:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746445963; cv=none; b=eB0/0ESVCTLDa0g03abKNeDJB/O13QPngGHaUpjXy61WhmeH76trDuQ0e6IXRaMg7CjRuv4Z4dBtjq4JZT9eqaSA78jwJN5O0sK9rHQLoIv+0q+1qyohcxXchHx66TIMxlwv7b4hnz4gjQoJZzHKQpNB1HYl14ja3TavO44qGQg=
+	t=1746453148; cv=none; b=fZoL9FBRnY22tWbCnuKU8SDnm4l2pPLEvvR/ddjGNsrxVv2KXAxfMbt0YGdeOc/vHEoQypTxPxNP2Sem6nfHdrR6yw8Ttk9XC6u4h62d/f9z6V7SscfmCmNgDEruHrRShTodpUJ3cmIF2eLUyjdGKeP6lOTdGCWKhEce094QeiU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746445963; c=relaxed/simple;
-	bh=4kaZEUxGVTYwxOZIR6two8Odt1oN1JQHgkymxLgLVS8=;
-	h=Content-Type:Date:Message-Id:Subject:Cc:From:To:Mime-Version:
-	 References:In-Reply-To; b=uiJjuz/RRu/4bIptTn5ySSCCtfqPh/2NNNH8b/nRpfkQQ2FYjnMCyxpfoRY1IetAvZsXNhMpnZx/pY71dWu9/duCGJtuLbRKx3au5Q2CNdSMjQmUiKNSeowrUP4VZ/vAsKJUmgHhR14XUMAzhKE2ujyd4l6C6GRiGBGVvnTd0SE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=Jr7cWSqc; arc=none smtp.client-ip=217.70.183.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 0F111432A2;
-	Mon,  5 May 2025 11:52:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1746445952;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Vm8qmex3bAGRILrPZHXrirOvCQozzFYhA+oyW1nX2/A=;
-	b=Jr7cWSqcIA1lpycR6i5nolFqFjVEdLgYXoW24zAYltxtUHfKBqnhE0pHou0wG9DxIvkI8z
-	zFDQb6X1TEw32V5IEJX8uJCQG6mFBBZgkqkNbR9hmPQbK34Mw0vDp7L8Xa2Ppo03LRTv7/
-	musII7g5mPco3A3vzxZBs0XnvdogiQed15QcxXnB3DsA1YmjKarmdiZgavq1ietgMfKMvD
-	3Jd0n9feQ6jfJ/jPsCZwxt4ameL6rD6bVz9g0Rd6GWLnZKfbEXPHcnSVVP8BH4beHbIxPH
-	2H+smQfh5OoSA2XEwdE3j6Z2KTM5sgnHcmZZHzOxrRmaXZV7Zzefu0nwAg/TFw==
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 05 May 2025 13:52:30 +0200
-Message-Id: <D9O7F5Q6F1PS.2Q7R864GRUHZQ@bootlin.com>
-Subject: Re: [PATCH v7 10/11] input: misc: Add support for MAX7360 rotary
-Cc: "Lee Jones" <lee@kernel.org>, "Rob Herring" <robh@kernel.org>,
- "Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Conor Dooley"
- <conor+dt@kernel.org>, "Kamel Bouhara" <kamel.bouhara@bootlin.com>, "Linus
- Walleij" <linus.walleij@linaro.org>, "Bartosz Golaszewski" <brgl@bgdev.pl>,
- "Dmitry Torokhov" <dmitry.torokhov@gmail.com>,
- =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, "Michael Walle"
- <mwalle@kernel.org>, "Mark Brown" <broonie@kernel.org>, "Greg
- Kroah-Hartman" <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
- <rafael@kernel.org>, "Danilo Krummrich" <dakr@kernel.org>,
- <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-gpio@vger.kernel.org>, <linux-input@vger.kernel.org>,
- <linux-pwm@vger.kernel.org>, =?utf-8?q?Gr=C3=A9gory_Clement?=
- <gregory.clement@bootlin.com>, "Thomas Petazzoni"
- <thomas.petazzoni@bootlin.com>
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: "Andy Shevchenko" <andriy.shevchenko@intel.com>
+	s=arc-20240116; t=1746453148; c=relaxed/simple;
+	bh=g8x+0u80yRs11NJgYFA7XL29+CPcvdp2ybha6SrbuZY=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=Gfjq9hXaE7QDeWfTnkrkKGrU8Wx8EBeSxIMAUHR3xRAUVtnXPzc8HdJ+qX51XOPF8TM9QySA5+CZHO8OXgufYCP0nCeBDjc3w05M0z6aDrLe4e7LUl2OxIlDig8mLHgocukNalfya2BtSq9zvuSAnUtUXyHQQh01O+MYAYsHMX8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JJRSlhDS; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1746453147; x=1777989147;
+  h=from:to:cc:in-reply-to:references:subject:message-id:
+   date:mime-version:content-transfer-encoding;
+  bh=g8x+0u80yRs11NJgYFA7XL29+CPcvdp2ybha6SrbuZY=;
+  b=JJRSlhDSFUWA1zd3yAWDnIBgLlhk7fpifBTN5gMHKtgFrqB8CCrA8mEF
+   47sU5ZAZzUu/0WGcvlGZGlbABJdPNSu7p12WEBz6+9JqmUlg7UuIDPTMd
+   eZ7Z7WelD1zS2sncV8QvZ+jfQKANVsa92+q82RsiJrhEXIgcaTjWWznbE
+   /LAZuHHGE58AMNl1QW2JrFGNKa6oby87EqflstJI45w8wDzdmsOJFAd88
+   chIFriDBzUEbk3QfL6a/ULmSR9f8a0avH3HVP+JlNqhKdrqUpdQJwbVa1
+   hLV8u7y0RShMKKaYz54wkACTAMoAqdt26TS4gbHh4qCeSnjxDMLbrsdOF
+   g==;
+X-CSE-ConnectionGUID: SwYY2080QNSSQ5+6+x83GQ==
+X-CSE-MsgGUID: gSyl2FlBS66zwXuH2Twsnw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11423"; a="51868501"
+X-IronPort-AV: E=Sophos;i="6.15,262,1739865600"; 
+   d="scan'208";a="51868501"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2025 06:52:27 -0700
+X-CSE-ConnectionGUID: tYPQN2fiTqG1+ugNgQKDmQ==
+X-CSE-MsgGUID: CK1lbgu1QPKNHAYRoB/whw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,262,1739865600"; 
+   d="scan'208";a="140046216"
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.68])
+  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2025 06:52:23 -0700
+From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+To: linux-kernel@vger.kernel.org, Luke Jones <luke@ljones.dev>
+Cc: hdegoede@redhat.com, platform-driver-x86@vger.kernel.org, 
+ linux-input@vger.kernel.org, bentiss@kernel.org, jikos@kernel.org, 
+ mario.limonciello@amd.com, lkml@antheas.dev
+In-Reply-To: <20250323023421.78012-1-luke@ljones.dev>
+References: <20250323023421.78012-1-luke@ljones.dev>
+Subject: Re: [PATCH v4 0/2] hid-asus: asus-wmi: refactor Ally
+ suspend/resume
+Message-Id: <174645313917.23202.9513224587280023124.b4-ty@linux.intel.com>
+Date: Mon, 05 May 2025 16:52:19 +0300
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Mailer: aerc 0.19.0-0-gadd9e15e475d
-References: <20250428-mdb-max7360-support-v7-0-4e0608d0a7ff@bootlin.com>
- <20250428-mdb-max7360-support-v7-10-4e0608d0a7ff@bootlin.com>
- <aBSkCsw3GJ6RHeJV@smile.fi.intel.com>
- <D9LQ7NV1LJM9.F2GF0YEEDFEY@bootlin.com>
- <aBTSNsCupbpAscwA@smile.fi.intel.com>
-In-Reply-To: <aBTSNsCupbpAscwA@smile.fi.intel.com>
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvkedutddvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpegtfffkufevhffvggfgofhfjgesthhqredtredtjeenucfhrhhomhepfdforghthhhivghuucffuhgsohhishdquehrihgrnhgufdcuoehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpefhtdeuhfehtdekueeltdejffdtuefgueffhfeiueegleffueevvefgtedtkeegjeenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepvdgrtddumegtsgdugeemheehieemjegrtddtmeeffhgtfhemfhgstdgumeduvdeivdemvdgvjeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddumegtsgdugeemheehieemjegrtddtmeeffhgtfhemfhgstdgumeduvdeivdemvdgvjeeipdhhvghloheplhhotggrlhhhohhsthdpmhgrihhlfhhrohhmpehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedvvddprhgtphhtthhopegrnhgurhhihidrshhhvghvtghhvghnkhhosehinhhtvghlrdgtohhmpdhrtghpthhtoheplhgvvgeskhgvrhhnvghlr
- dhorhhgpdhrtghpthhtoheprhhosghhsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehkrhiikhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegtohhnohhrodgutheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepkhgrmhgvlhdrsghouhhhrghrrgessghoohhtlhhinhdrtghomhdprhgtphhtthhopehlihhnuhhsrdifrghllhgvihhjsehlihhnrghrohdrohhrghdprhgtphhtthhopegsrhhglhessghguggvvhdrphhl
-X-GND-Sasl: mathieu.dubois-briand@bootlin.com
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13.0
 
-On Fri May 2, 2025 at 4:09 PM CEST, Andy Shevchenko wrote:
-> On Fri, May 02, 2025 at 03:58:04PM +0200, Mathieu Dubois-Briand wrote:
->> On Fri May 2, 2025 at 12:52 PM CEST, Andy Shevchenko wrote:
->> > On Mon, Apr 28, 2025 at 01:57:28PM +0200, Mathieu Dubois-Briand wrote:
->
-> ...
->
->> >> +				pos =3D max(0, (int)pos + steps);
->> >
->> > Please, no castings for min()/max()/clamp(). It diminishes the use of =
-those
->> > macros.
->>=20
->> Sorry, I'm not sure to get the point. Should I use MIN_T() instead?
->
-> Are the second argument is compile-time constant? I don't think so. Hence=
- no
-> use for MIN*()/MAX*(). First of all, try to answer to the Q: Why is the e=
-xplicit
-> casting being used? The second Q: How can it be easily fixed without usin=
-g _t()
-> variants of the macros?
+On Sun, 23 Mar 2025 15:34:19 +1300, Luke Jones wrote:
 
-Err right, no MIN/MAX of course.
+> This short series refactors the Ally suspend/resume functionality in the
+> asus-wmi driver along with adding support for ROG Ally MCU version checking.
+> 
+> The version checking is then used to toggle the use of older CSEE call hacks
+> that were initially used to combat Ally suspend/wake issues arising from the MCU
+> not clearing a particular flag on resume. ASUS have since corrected this
+> especially for Linux in newer firmware versions.
+> 
+> [...]
 
-Explicit cast is here because the unsigned int + int sum would result in
-an unsigned int.
 
-I will use an intermediate signed value. Also the whole logic here can
-be simplified a bit, so I will rework the whole block.
+Thank you for your contribution, it has been applied to my local
+review-ilpo-next branch. Note it will show up in the public
+platform-drivers-x86/review-ilpo-next branch only once I've pushed my
+local branch there, which might take a while.
 
-Best regards,
-Mathieu
+The list of commits applied:
+[1/2] hid-asus: check ROG Ally MCU version and warn
+      commit: 6b4585948d1ed226f194195180be09fa24b760ec
+[2/2] platform/x86: asus-wmi: Refactor Ally suspend/resume
+      commit: c26e7d5d2d89af198b43e4c57b1aff5289f65450
 
---=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+--
+ i.
 
 
