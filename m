@@ -1,119 +1,117 @@
-Return-Path: <linux-input+bounces-12141-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12142-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18464AA8827
-	for <lists+linux-input@lfdr.de>; Sun,  4 May 2025 18:49:53 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C405DAA8C7D
+	for <lists+linux-input@lfdr.de>; Mon,  5 May 2025 08:53:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id ED89418960DB
-	for <lists+linux-input@lfdr.de>; Sun,  4 May 2025 16:50:04 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id AB6DD7A1CA4
+	for <lists+linux-input@lfdr.de>; Mon,  5 May 2025 06:52:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 146571A23B7;
-	Sun,  4 May 2025 16:49:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A6ADC1A4F0A;
+	Mon,  5 May 2025 06:53:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i4D1MN3e"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lsF+tJ7e"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D77FA8F7D;
-	Sun,  4 May 2025 16:49:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A968156236
+	for <linux-input@vger.kernel.org>; Mon,  5 May 2025 06:53:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746377388; cv=none; b=lZz0Sc8VNWUM9p4UwZPDXnToN/4z8xt7B/9xC5PSNbrIiy/TtXzWYduhcKbkBb5dG/nnag9R1BPm1uzG69wIrxOVAHBeIxg3x3YUfJ/Yg9SHeN+4+3zsj79rHb9ckOILvDlHbxymt4x48OTRGhDPgwbmd5mjxx2t6vNuzajEZZw=
+	t=1746428021; cv=none; b=mnBSGqDIbEx6wBQjudixqZ9o92fj5IXak6bi2SuWbsGAEr2RTeScCRFFBYB21P6QIEiVsZLlSbm5FIEd0BQoweSlr2dmVlCOSsF608i9czj5V2iKKXLfepNA+j+bUb/DCpfAsqP9XoUXWCiVDxWFHZOlSFc3SM3HfLhpkQABX8U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746377388; c=relaxed/simple;
-	bh=OgTNb0q1nRT4hHwyCEaahOVLBx/Mv+pL3202dapPhGY=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=tyVMomsp1x3GwyCx3Asy1jMwTFQGyLymgpSY5hNU5Njtk+a0w8w+NshzWddX84MpNWNhEcKMbMOQikEf1AJv6QEYgYOvt4rDkQn6vLhqeokJxW33TmPIYsdw82VhhgMCh+kBMcHV8g/YD9bsS2T2v9ScAjYBzoRbecsLfKevMXY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i4D1MN3e; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F39CC4CEE7;
-	Sun,  4 May 2025 16:49:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746377387;
-	bh=OgTNb0q1nRT4hHwyCEaahOVLBx/Mv+pL3202dapPhGY=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=i4D1MN3eEzrwTtmoiuTmxTs/P0PWII0+QUE5gUP/XSUXohMEb53agoo9IKb/pFr8G
-	 bokDkQoQWZkdA4ilulw0TZxSx4q7S9eistjQ+RYMUzZ8uZMgRSNIu43MqMUp3JqJnb
-	 uXRCJLoXvU/sdQ3I84BdyvA1/q/ahfFVH7esUwFmTlhOeepApzIHgqPHcrFJzW2XeN
-	 iZp2awpASOkVw53r/0GriYjDrJeTWEbfIKBQmD+ciBq7FXAl+o1OE81KWrgCTMVwUZ
-	 whOK3Io3NkYYot0xR7nE0XWy1FaVVIhzGmXTDCNXJEZGx1GRtqS73iWZD/zabz6OgJ
-	 u/wR/h3i30BhA==
-Date: Sun, 4 May 2025 17:49:41 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Chelsy Ratnawat <chelsyratnawat2001@gmail.com>
-Cc: jikos@kernel.org, bentiss@kernel.org,
- srinivas.pandruvada@linux.intel.com, dlechner@baylibre.com,
- linux-input@vger.kernel.org, linux-iio@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] HID: sensor-hub: Fix typo and improve documentation
- for sensor_hub_remove_callback()
-Message-ID: <20250504174941.1390b21b@jic23-huawei>
-In-Reply-To: <20250502003655.1943000-1-chelsyratnawat2001@gmail.com>
-References: <20250430182300.122896-1-chelsyratnawat2001@gmail.com>
-	<20250502003655.1943000-1-chelsyratnawat2001@gmail.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1746428021; c=relaxed/simple;
+	bh=DJDKcs4cDnWBb3rJpgNUeF8vDpWm0TkUnu/VB4vrr14=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=R2fGCW+AbI4iqv47yaX3CeTJ6HZXCit/p2LyEvOvRslnyERp92D5SzjhT17hlRJBFJJ8RiY/SBxoIGTUMzbC3WE75MdiH2ZqErsIMtmCvjiYRatwENR5ZZ8sQjrdP4iUw5jop4E/Nc3dqqT40M5Kg0ssiXXBTZs/vIn3JhgZyCQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lsF+tJ7e; arc=none smtp.client-ip=209.85.216.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-306bf444ba2so3376884a91.1
+        for <linux-input@vger.kernel.org>; Sun, 04 May 2025 23:53:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1746428019; x=1747032819; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=BmVLFk6YlopqYlnS5nj14fbzoIBpHQEXcksbfeSjY0A=;
+        b=lsF+tJ7eu60KuMMcyJtvl8ckd6AYAloawt29rHlHZ2Shmu0jFcro9aw6IIucjqpelW
+         JIW/vY4DAZL2fUtBGnTUpOXUVkALAtfhBAuGQXcb5uOIzK8AGF5lN1tOS6hfEBPnLx8t
+         0kQypwPban7lPgyndswxmuINQEZl7Z3K2skFwfDGx092ucq6AFLpIwz4/QSABNHyMzeX
+         mWKFHQX31PtAjX4nkh8zzIUNhNLAM5P6tW0i9xLK7kKzBxkohPVO+SPGdARrIm59euFT
+         76W+Zlee/0Is8i3FdAP8JJuWn2rupBJdahz6XXvPHXib1k903T/bUfQcL6Rn2Ze3FZwp
+         LuaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746428019; x=1747032819;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=BmVLFk6YlopqYlnS5nj14fbzoIBpHQEXcksbfeSjY0A=;
+        b=XqkJuSxr2n22c3NIQgxbgWtuSpD1RaCSc2Yuj1yMJl3AHyZbfn9UPkRbbSgTSOxQBr
+         54qO9IGyNAw1RblM2WEL/OfJfon2Rn/0JqoaQgtBChhZNnIxKTVWijj+F6JLu8MqvcZn
+         t3Pm55VaC/WGNjChD3D4kA8gLY2CyUy8U77vKkMuA8JCd8+72fdGEVAlk5ttsOhUFHmp
+         70s9WA5okeiFchYxSxJDBU3b32HeQp5sCq7kcKrTCLjsQKw1xt4Orz/8ywNC2j1w8lSv
+         WzlCoVfSpEk8f1ZVz6b721gWPXiRC6FyQgxfioHIPO3Sw9j0ltG/dpRdeZGIWqFeZ/xs
+         ZTWA==
+X-Gm-Message-State: AOJu0Yy50E8SarxMuwcc0NunwTCREXiajL+RMs6c4x2Do5GS1ZzKjYNk
+	ccYG642a/TmOWoQUGjsirr5hN3XLw7Khdozqc0UlF2RWDEvhB2Ham7fziMTp
+X-Gm-Gg: ASbGnctiSBfk/HreistUpn7PdcrEl7+mnPM93vJyJoOvb69eGPqRSoF69n7eCjwbu0t
+	tr5awQ1yXfmjX2yMfrjNSiGuz/aAUZqmW6KhE3uOYyvfE6YyKPSZ7GhKs6QSLHbjDkBblmu30Rr
+	gc9gzPJJGeD2ZzJwDhPajZXxCBl7oEjM2WCZwO5xigr6HKujtChL7/9UaQJqdFWikgdu1l37Sar
+	PuXot0xlfCA5RTRqV1mR0PJIfHRTFnSeV7v6zEgsknruhrLn1Mrwph2h5lN4jxQL0O6oHjoDdCX
+	kIYDxHUDoWyJgchyX36gNnYZjPRXxmPdlgHElPUSlJeDGdyKo9bRQg9AqzRBqdRH5w==
+X-Google-Smtp-Source: AGHT+IF3zLdTPy91rCgolJjVZVVKjs8ZsYkGVvVpWfOXDa9oJD2knFmpxt4PEPTeegl2fXQfUw+uxw==
+X-Received: by 2002:a17:90b:5190:b0:2fe:9783:afd3 with SMTP id 98e67ed59e1d1-30a61958113mr10474277a91.2.1746428018609;
+        Sun, 04 May 2025 23:53:38 -0700 (PDT)
+Received: from [127.0.0.1] ([185.220.238.153])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-30a3476f4c1sm10756825a91.23.2025.05.04.23.53.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 04 May 2025 23:53:38 -0700 (PDT)
+Message-ID: <32a3a855-fa1c-4258-9f2c-902fd29df9ce@gmail.com>
+Date: Mon, 5 May 2025 14:53:25 +0800
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: PROBLEM: Touchpad (PNP: TOS01f6 PNP0f13) not working under PS/2,
+ requires psmouse.synaptics_intertouch=1 to function via SMBus
+To: Aditya Garg <gargaditya08@live.com>
+Cc: "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>
+References: <c596f96b-035f-44df-952d-6b4c43bd69df@gmail.com>
+ <5AD8B559-C74D-4CA2-8145-7CEADA09AD36@live.com>
+Content-Language: en-US
+From: Xuntao Chi <chotaotao1qaz2wsx@gmail.com>
+In-Reply-To: <5AD8B559-C74D-4CA2-8145-7CEADA09AD36@live.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Thu,  1 May 2025 17:36:55 -0700
-Chelsy Ratnawat <chelsyratnawat2001@gmail.com> wrote:
+Hi Aditya,
 
-> Fixed a typo in "registered" and improved grammar for better readability
-> and consistency with kernel-doc standards. No functional changes.
-> 
-> Signed-off-by: Chelsy Ratnawat <chelsyratnawat2001@gmail.com>
-> Reviewed-by: David Lechner <dlechner@baylibre.com>
-> ---
-Even though trivial reason for resend, this is v3.
+Thanks for looking into this and for the patch. Sorry if I sent this 
+message twice due to incorrect mail format.
 
-Posting it as v2 confuses some tooling such as b4.
-I manually grabbed the right patch and applied.
+On 5/4/25 14:40, Aditya Garg wrote:
+ > For your device, can you please test this patch and see if it works?
 
-Thanks,
+Yes, I can confirm the patch fixes the problem!
 
-Jonathan
+ > Also, please share your laptop’s model (Eg: HP Envy 13-ad105ng)
 
-> Changes in v2:
->  - Improved the kernel-doc comment for sensor_hub_remove_callback().
->  - Changed "Gyro" to "gyro".
->  - Changed "usage ID" to "usage_id" for consistency with kernel-doc
->    style.
->  - Updated the comment to state that only one callback can be removed
->    per (usage_id, hsdev) pair.
-> 
->  include/linux/hid-sensor-hub.h | 9 +++++----
->  1 file changed, 5 insertions(+), 4 deletions(-)
-> 
-> diff --git a/include/linux/hid-sensor-hub.h b/include/linux/hid-sensor-hub.h
-> index c27329e2a5ad..0f9f7df865db 100644
-> --- a/include/linux/hid-sensor-hub.h
-> +++ b/include/linux/hid-sensor-hub.h
-> @@ -128,12 +128,13 @@ int sensor_hub_register_callback(struct hid_sensor_hub_device *hsdev,
->  			struct hid_sensor_hub_callbacks *usage_callback);
->  
->  /**
-> -* sensor_hub_remove_callback() - Remove client callbacks
-> +* sensor_hub_remove_callback() - Remove client callback
->  * @hsdev:	Hub device instance.
-> -* @usage_id:	Usage id of the client (E.g. 0x200076 for Gyro).
-> +* @usage_id:	Usage id of the client (e.g. 0x200076 for gyro).
->  *
-> -* If there is a callback registred, this call will remove that
-> -* callbacks, so that it will stop data and event notifications.
-> +* Removes a previously registered callback for the given usage_id
-> +* and hsdev. Once removed, the client will no longer receive data or
-> +* event notifications.
->  */
->  int sensor_hub_remove_callback(struct hid_sensor_hub_device *hsdev,
->  			u32 usage_id);
+It's a Dynabook Portege X30L-G.  (It might be marketed as Dynabook 
+G83/FR in some regions).
 
+ > If you want to be credited for your report when I submit a fix, 
+please share your full legal name and email as well.
+
+My name is Xuntao Chi, and my email address is chotaotao1qaz2wsx@gmail.com.
+
+Cheers
+Xuntao
 
