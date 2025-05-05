@@ -1,131 +1,114 @@
-Return-Path: <linux-input+bounces-12148-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12149-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EFCBAA94E1
-	for <lists+linux-input@lfdr.de>; Mon,  5 May 2025 15:52:55 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 75F0FAA9B75
+	for <lists+linux-input@lfdr.de>; Mon,  5 May 2025 20:23:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9023F3BC7E1
-	for <lists+linux-input@lfdr.de>; Mon,  5 May 2025 13:52:29 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 79001189F688
+	for <lists+linux-input@lfdr.de>; Mon,  5 May 2025 18:23:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3C575259C92;
-	Mon,  5 May 2025 13:52:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0FB942690DB;
+	Mon,  5 May 2025 18:22:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IIs8454j"
+	dkim=pass (2048-bit key) header.d=posteo.net header.i=@posteo.net header.b="q0geENug"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93F062512F3;
-	Mon,  5 May 2025 13:52:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85AFE25EF97
+	for <linux-input@vger.kernel.org>; Mon,  5 May 2025 18:22:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.67.36.65
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746453157; cv=none; b=HubWTPNscMRQ0uaoSYfH6DBweWfdEP5+/9KNPrLJUPgA/qF4cPiwUoKaJCwq3NpB2CE6JcqtEwCDxRGY8DZktBwTktQZ43A6Wg3LaHO5O/+3cLeV/eKU5jkgjCGmocIsbRDnAmdDliKuspcQ26CJ5NBbXIJIBynvGgT2J1RYh1A=
+	t=1746469377; cv=none; b=CFIO+NSfl/OVmtuClMNMiTm97Fc/d1wDJt21OgyBWzPzBB2eKbisY/eUEyGfSN/PM82i3rsMOEfBNyudZdyk5VFOOMC8SYmVWpSWd5/h9ppWei18sL9tVfd5KPctyFkxjY/09d0UOZH2tb9OqkF43jqjquekkoj+nC7qQm5Ng0c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746453157; c=relaxed/simple;
-	bh=jN4v51iyAmUYxuKDoKi6umdrQGtpaXoL/1HLVvF5WH4=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=O5YfI6QTakDQoBkH+juvAsHB0y1/g/dxq2Y1MFjhAmWDfAwARlqjkSN4Ar5FGoKb1zM0eyuFqU+XIi9SzCY3ixUDNQKV0gQMmH7L7R/ntHPrJKHWPYiUkNy0RR9iiwQ9czmZ2bborXDGtiBWjKMqgPL/KW7O1vFIxOcddcx++yU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IIs8454j; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746453156; x=1777989156;
-  h=from:to:cc:in-reply-to:references:subject:message-id:
-   date:mime-version:content-transfer-encoding;
-  bh=jN4v51iyAmUYxuKDoKi6umdrQGtpaXoL/1HLVvF5WH4=;
-  b=IIs8454j7Vyn6OhDC2g1i7wYxH+mvaBAsBbZvyFBz1UGtq+R5oHL64+z
-   5bOXzVBOWD07bJzuB4oUvlaCKFRUZjx4yHo2qj9XoDlFohCIHv9K4pZ9C
-   qybYoTKsYQoOwjYMEPQOQe6568jrm1XI3KanuKks1TmNH2gJXMxnJQpLu
-   jXanMvKWOCOFG1S1y/o7adTbzZBZtrqitc/9N0WD/yWb3gEMCfcApY+64
-   b28zFIQgQlhj2XYesX+v+1GW4uV8WqEfvtBbwd8OXEQ+/HohiueW3U4H5
-   KIiMX0ZR8C1qfuXzRmOTG5aiqBXHbQTH5eAIZoLl3KgFSYPOC3Yo4lXKK
-   Q==;
-X-CSE-ConnectionGUID: H16R64UHTkyyZ6BxkupDRw==
-X-CSE-MsgGUID: o0X5tLd+SMGmbsuYpfbtag==
-X-IronPort-AV: E=McAfee;i="6700,10204,11423"; a="51868532"
-X-IronPort-AV: E=Sophos;i="6.15,262,1739865600"; 
-   d="scan'208";a="51868532"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2025 06:52:35 -0700
-X-CSE-ConnectionGUID: HSwhe3XcTReJsOICXU2l0w==
-X-CSE-MsgGUID: 97QaK8YUTme0YoHXedbJiw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,262,1739865600"; 
-   d="scan'208";a="140046237"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.68])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2025 06:52:32 -0700
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-To: hdegoede@redhat.com, bentiss@kernel.org, 
- Werner Sembach <wse@tuxedocomputers.com>
-Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
- platform-driver-x86@vger.kernel.org
-In-Reply-To: <20250425210043.342288-1-wse@tuxedocomputers.com>
-References: <20250425210043.342288-1-wse@tuxedocomputers.com>
-Subject: Re: [PATCH v9 0/1] platform/x86/tuxedo: Add virtual LampArray for
- TUXEDO NB04 devices
-Message-Id: <174645314692.23202.56309255974182976.b4-ty@linux.intel.com>
-Date: Mon, 05 May 2025 16:52:26 +0300
+	s=arc-20240116; t=1746469377; c=relaxed/simple;
+	bh=DIvFcU9SIWRR97pU37OxzBO2ch3TcJq0LiuRC+SEweU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CkcZzEFYhfnAxkTv5HCfHEwT7/AKAYEYYDiHaOk1+PT3gVqMbn+hQD2BIvRMVFV11Z12ZwpDgkD/s5SkB4zeA9kXaJyNc85VGi38dgGbPHmV6SbMCztUgV1Ka7NKQ+uiKmhrLOrS2mp+4NgOM0LST2jpNLq7nEZJGHQbBGE7+hk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.net; spf=pass smtp.mailfrom=posteo.net; dkim=pass (2048-bit key) header.d=posteo.net header.i=@posteo.net header.b=q0geENug; arc=none smtp.client-ip=185.67.36.65
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.net
+Received: from submission (posteo.de [185.67.36.169]) 
+	by mout01.posteo.de (Postfix) with ESMTPS id 5E9C2240027
+	for <linux-input@vger.kernel.org>; Mon,  5 May 2025 20:22:47 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.net; s=2017;
+	t=1746469367; bh=DIvFcU9SIWRR97pU37OxzBO2ch3TcJq0LiuRC+SEweU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:
+	 Content-Transfer-Encoding:From;
+	b=q0geENugizVpkyDQ/bn/fAVsdMup4MQFPAY0k10QjgQ2E40y8pGAkzEzqV+UmF6zc
+	 OdNSkBGxxs1uZzTkAWwXS5eFG4xzEBcDA+cXFJm6j7UoHmTmU7b7kXGWpWd9i832d8
+	 zqkqcAbWCSqdtWfC1v0sqXMb8g3mHAlCF9LsBoU2nzXrFXlc6AXM0xmcH/GOjCj/gm
+	 kdlqGORQS+fc8kDEP8KAZrq89/u8iSFfu15pTIdultSV+crMlY3txf1TH5p0CYGf5p
+	 3aqZXWkWIgjFJKqx9zIJaDAmbbig4dgFuUPwbOYdRj9g5bTsCXlGmuIgTiAfTJZzFi
+	 aqyJwgAMt6N6w==
+Received: from customer (localhost [127.0.0.1])
+	by submission (posteo.de) with ESMTPSA id 4ZrqdL3RQGz6tw2;
+	Mon,  5 May 2025 20:22:46 +0200 (CEST)
+From: Andrei Amuraritei <andamu@posteo.net>
+To: linux-input@vger.kernel.org
+Cc: dmitry.torokhov@gmail.com,
+	roderick.colenbrander@sony.com,
+	jkosina@suse.cz,
+	Andrei Amuraritei <andamu@posteo.net>
+Subject: [PATCH] Input: joydev - blacklist motion sensors of PS5 Dualsense controllers
+Date: Mon,  5 May 2025 18:22:07 +0000
+Message-ID: <20250505182207.17846-1-andamu@posteo.net>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13.0
+Content-Transfer-Encoding: 8bit
 
-On Fri, 25 Apr 2025 22:53:28 +0200, Werner Sembach wrote:
+Add the motion sensors of PS5 Dualsense controllers to joydev blacklist, same as with PS4 controllers.
 
-> Note that I'm away from my work PC for the next week so expect my next
-> response the monday after.
-> 
-> v2: - Integrated Armins feedback and fixed kernel test robot warnings.
-> v3: - Fixed borked subject line of v2.
-> v4: - Remove unrequired WMI mutex.
->     - Move device checking from probe to init.
->     - Fix device checking working exactly reverse as it should.
->     - Fix null pointer dereference because,
->         hdev->driver_data != hdev->dev.driver_data.
-> v5: - Move everything to subfolder nb04 in preparation for the eventual
->         upstreaming of other tuxedo-driver parts.
->     - Integrated Ilpos coding style feedback.
->     - Use dev_set/get_drvdata() based on Armins feedback.
-> v6: - Integrated more of Ilpo coding style feedback from a different LKML
->         patch-thread (less files, local functions prefixed with a short
->         string).
-> v7: - Integrated more of Ilpos feedback e.g.:
->         - Use cleanup.h
->         - replace some if cases with a pointer in driver_data
->         - coding style oversights
-> v8: - Integrated more of Ilpos feedback
->     - Typo fix spotted by Alok
-> v9: - Introduce lamp_rgbi_tuple_t to group some values
->     - Introduce LAMP_MULTI_UPDATE_REPORT_LAMP_COUNT_MAX to not manually set
->       a fixed number at multiple places
->     - Move lamp_multi_update_report initialization in
->       handle_lamp_range_update_report out of the loop again as a small
->       performance optimization as the unused entries do not actually be
->       zeroed (I mixed up the spec of this devices wmi interface and the HID
->       spec)
-> 
-> [...]
+Requires the previous two commits, from hid.git#for-6.15/sony.
 
+e65990eb256a75a2ace95e80cf5028d81aad7c5d
 
-Thank you for your contribution, it has been applied to my local
-review-ilpo-next branch. Note it will show up in the public
-platform-drivers-x86/review-ilpo-next branch only once I've pushed my
-local branch there, which might take a while.
+HID: Enable playstation driver for PlayStation 5 controllersfor-6.15/sony
+Without entries in the hid_have_special_driver table, PS5 controllers
+default to the hidraw driver instead of the hid-playstation driver.
 
-The list of commits applied:
-[1/1] platform/x86/tuxedo: Add virtual LampArray for TUXEDO NB04 devices
-      commit: d430124bac586f9d4302ebf6a3146635539325d1
+c5cd1f0f0e742922262977fd72ae3c4ff49b7a1d
 
---
- i.
+HID: Enable playstation driver independently of sony driver
+PlayStation 4 controllers use the hid-playstation driver now, but they
+are still not included in the hid_have_special_driver table unless the
+hid-sony driver is enabled. Split up that section of the table so that
+hid-playstation works even in the absence of hid-sony.
+
+Signed-off-by: Andrei Amuraritei <andamu@posteo.net>
+---
+ drivers/input/joydev.c | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/drivers/input/joydev.c b/drivers/input/joydev.c
+index ba2b17288bcd..f2fdbc814a8f 100644
+--- a/drivers/input/joydev.c
++++ b/drivers/input/joydev.c
+@@ -753,6 +753,8 @@ static void joydev_cleanup(struct joydev *joydev)
+ #define USB_DEVICE_ID_SONY_PS4_CONTROLLER		0x05c4
+ #define USB_DEVICE_ID_SONY_PS4_CONTROLLER_2		0x09cc
+ #define USB_DEVICE_ID_SONY_PS4_CONTROLLER_DONGLE	0x0ba0
++#define USB_DEVICE_ID_SONY_PS5_CONTROLLER		0x0ce6
++#define USB_DEVICE_ID_SONY_PS5_CONTROLLER_2		0x0df2
+ 
+ #define USB_VENDOR_ID_THQ			0x20d6
+ #define USB_DEVICE_ID_THQ_PS3_UDRAW			0xcb17
+@@ -793,6 +795,8 @@ static const struct input_device_id joydev_blacklist[] = {
+ 	ACCEL_DEV(USB_VENDOR_ID_SONY, USB_DEVICE_ID_SONY_PS4_CONTROLLER),
+ 	ACCEL_DEV(USB_VENDOR_ID_SONY, USB_DEVICE_ID_SONY_PS4_CONTROLLER_2),
+ 	ACCEL_DEV(USB_VENDOR_ID_SONY, USB_DEVICE_ID_SONY_PS4_CONTROLLER_DONGLE),
++	ACCEL_DEV(USB_VENDOR_ID_SONY, USB_DEVICE_ID_SONY_PS5_CONTROLLER),
++	ACCEL_DEV(USB_VENDOR_ID_SONY, USB_DEVICE_ID_SONY_PS5_CONTROLLER_2),
+ 	ACCEL_DEV(USB_VENDOR_ID_THQ, USB_DEVICE_ID_THQ_PS3_UDRAW),
+ 	ACCEL_DEV(USB_VENDOR_ID_NINTENDO, USB_DEVICE_ID_NINTENDO_PROCON),
+ 	ACCEL_DEV(USB_VENDOR_ID_NINTENDO, USB_DEVICE_ID_NINTENDO_CHRGGRIP),
+-- 
+2.49.0
 
 
