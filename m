@@ -1,59 +1,60 @@
-Return-Path: <linux-input+bounces-12152-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12153-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F58EAAA762
-	for <lists+linux-input@lfdr.de>; Tue,  6 May 2025 02:32:18 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 16529AAA85F
+	for <lists+linux-input@lfdr.de>; Tue,  6 May 2025 02:52:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id ECBC37A487B
-	for <lists+linux-input@lfdr.de>; Tue,  6 May 2025 00:31:03 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DA3503BB54E
+	for <lists+linux-input@lfdr.de>; Tue,  6 May 2025 00:47:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4BAB6339744;
-	Mon,  5 May 2025 22:37:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A8A0C296176;
+	Mon,  5 May 2025 22:39:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N9JjW+bJ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FRw6O7ud"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A65233973F;
-	Mon,  5 May 2025 22:37:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B71729616F;
+	Mon,  5 May 2025 22:39:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746484627; cv=none; b=NVVOAj5dfQVrUx4ZUW0ziJqqLbfiY3XQ93TY8NIKUeRUqgSLoGSJofnOFajCswWagAsYW0SBWwTYIoz1ocAcffDdEkFDXxoWtt2vQDnA594/srM1UZ5XYmHxu747/M+6rhyo7vQl4iZsekolv7N++NbWMp7d2yQXlltzZwto02M=
+	t=1746484756; cv=none; b=tnJC6aRavBRsWK4FEiZIkXPtQQXHJnAGW7iQ0R6SBjCjqj2Jg5vzCPw4+sMg4n/i1i9a50Dh0z41ktbm3GfSDTa1HtVzfSAwMQFv6j//l0qzYUTrAq2ot28gzzDdDg26VgaXJdcFn4ybRy1ekiaGJe9b61IAe2Zf9AagEaLwRp0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746484627; c=relaxed/simple;
-	bh=REwDMsG0gYftbnPiYH3na179/GzS77pzCJ82Mrmea/o=;
+	s=arc-20240116; t=1746484756; c=relaxed/simple;
+	bh=myG3xDKndjEbLNO7Alrr8ZDBH5rNgMU5c3BwtYuwtZU=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=WuqXSPBCgEszuefkh/dlB26u+sezaogoxjIR/cVd0SlcOaCOIMsQkvLs8D8N8JFG/WFHIDDYeXsz2T88ZhiEat7XqMcAsmZgisQdSH+1IV52B0JgptshaMhj94xJg6blaQ8MOHnE+WP8Or7bn2W6uoVx5olqgDFjqlU/uuwTz3M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N9JjW+bJ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EEBB7C4CEEF;
-	Mon,  5 May 2025 22:37:05 +0000 (UTC)
+	 MIME-Version; b=siI5e6jxGSCIhuzuB2JwleXwBserrkNP+GZcbyNWn6AJMzInXjYNbyL8iV6TXaiTGAUWYxY7ReBSgDfYHLfC76W2zlWmOFnkDgoC3PTAEP7Pz1MYz5T832QgITsHVBuelr/81izO1RXvieHAqdErYhda3cErow5IHTYwSCnwBkM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FRw6O7ud; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D46B6C4CEED;
+	Mon,  5 May 2025 22:39:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746484627;
-	bh=REwDMsG0gYftbnPiYH3na179/GzS77pzCJ82Mrmea/o=;
+	s=k20201202; t=1746484756;
+	bh=myG3xDKndjEbLNO7Alrr8ZDBH5rNgMU5c3BwtYuwtZU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=N9JjW+bJKuOlEHxBDUqTO/jRBb+LSiv0gFnfkVaahUE+Dxn9VjgNSuzlxjJ73I55C
-	 Ht8WfHULb4Ofk6WlgW9v4ZIBRYEoabiX/wwo2lE5AI5iXNK7BnXwFjR4JJH//YTLOx
-	 Pq7b+Xg8SxuhosV4fmEcipioSBD/XY7EtDx6UJIF5ku2n2jYSNnUK4Lw4LGkwiKP9c
-	 XBWfSzptB/r/0q4FKPbsJ5bqHED2ueRe7Any9sXDWhy3C2InXw+vvdGuika5ukv6HB
-	 +9INQGz8ebXmvi85ReSViJOMSI8zxMYrr91rWBMjFbvtphV7BqifaMkdDVcb0ZYKwe
-	 ckAS6s80NeBdw==
+	b=FRw6O7udF3INqUdlaoIyMxZbwuxCmntrT9KnnipewPRJhoZQgptyOPWhFhk/okWpb
+	 8xQ2csOI0fP1+cS4ojCtzMHtRyzaw+kLtnUGvXXK7HPw1hT5kUUdba/8qJURpN/D07
+	 8uWk79KXus7Ac+FuJDN0WDyUdJgIK1EJRUJkF0Pn6denz0tRXwRelFbGSKIephohpm
+	 uwhMS7PcLUJac6ug2AuCj8gm26tp9d65njfdaD/p8X0kqi+wdzzKKP58U0I2CshO0W
+	 6FKOF1Z/1RxdUtxW7+6Qc2CvJ5ezWI61PWxpXYT2AkpTdfEoKqkmqct72M4EpNhtfN
+	 E2n8y3Pl4jJpw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: junan <junan76@163.com>,
+Cc: Kate Hsuan <hpa@redhat.com>,
+	kernel test robot <lkp@intel.com>,
 	Jiri Kosina <jkosina@suse.com>,
 	Sasha Levin <sashal@kernel.org>,
 	jikos@kernel.org,
 	bentiss@kernel.org,
-	linux-usb@vger.kernel.org,
+	hdegoede@redhat.com,
 	linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.14 570/642] HID: usbkbd: Fix the bit shift number for LED_KANA
-Date: Mon,  5 May 2025 18:13:06 -0400
-Message-Id: <20250505221419.2672473-570-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.14 641/642] HID: Kconfig: Add LEDS_CLASS_MULTICOLOR dependency to HID_LOGITECH
+Date: Mon,  5 May 2025 18:14:17 -0400
+Message-Id: <20250505221419.2672473-641-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250505221419.2672473-1-sashal@kernel.org>
 References: <20250505221419.2672473-1-sashal@kernel.org>
@@ -68,32 +69,45 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.14.5
 Content-Transfer-Encoding: 8bit
 
-From: junan <junan76@163.com>
+From: Kate Hsuan <hpa@redhat.com>
 
-[ Upstream commit d73a4bfa2881a6859b384b75a414c33d4898b055 ]
+[ Upstream commit 4465f4fa21e0e54c10896db3ed49dbd5a9aad3fd ]
 
-Since "LED_KANA" was defined as "0x04", the shift number should be "4".
+The test bot found an issue with building hid-lg-g15.
 
-Signed-off-by: junan <junan76@163.com>
+All errors (new ones prefixed by >>):
+
+   powerpc-linux-ld: drivers/hid/hid-lg-g15.o: in function `lg_g510_kbd_led_write':
+>> drivers/hid/hid-lg-g15.c:241:(.text+0x768): undefined reference to `led_mc_calc_color_components'
+   powerpc-linux-ld: drivers/hid/hid-lg-g15.o: in function `lg_g15_register_led':
+>> drivers/hid/hid-lg-g15.c:686:(.text+0xa9c): undefined reference to `devm_led_classdev_multicolor_register_ext'
+
+Since multicolor LED APIs manage the keyboard backlight settings of
+hid-lg-g15, the LEDS_CLASS_MULTICOLOR dependency was added to
+HID_LOGITECH.
+
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202502110032.VZ0J024X-lkp@intel.com/
+Fixes: a3a064146c50 ("HID: hid-lg-g15: Use standard multicolor LED API")
+Signed-off-by: Kate Hsuan <hpa@redhat.com>
 Signed-off-by: Jiri Kosina <jkosina@suse.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/hid/usbhid/usbkbd.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/hid/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/hid/usbhid/usbkbd.c b/drivers/hid/usbhid/usbkbd.c
-index c439ed2f16dbc..af6bc76dbf649 100644
---- a/drivers/hid/usbhid/usbkbd.c
-+++ b/drivers/hid/usbhid/usbkbd.c
-@@ -160,7 +160,7 @@ static int usb_kbd_event(struct input_dev *dev, unsigned int type,
- 		return -1;
- 
- 	spin_lock_irqsave(&kbd->leds_lock, flags);
--	kbd->newleds = (!!test_bit(LED_KANA,    dev->led) << 3) | (!!test_bit(LED_COMPOSE, dev->led) << 3) |
-+	kbd->newleds = (!!test_bit(LED_KANA,    dev->led) << 4) | (!!test_bit(LED_COMPOSE, dev->led) << 3) |
- 		       (!!test_bit(LED_SCROLLL, dev->led) << 2) | (!!test_bit(LED_CAPSL,   dev->led) << 1) |
- 		       (!!test_bit(LED_NUML,    dev->led));
- 
+diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
+index 4cfea399ebab2..76be97c5fc2ff 100644
+--- a/drivers/hid/Kconfig
++++ b/drivers/hid/Kconfig
+@@ -603,6 +603,7 @@ config HID_LOGITECH
+ 	tristate "Logitech devices"
+ 	depends on USB_HID
+ 	depends on LEDS_CLASS
++	depends on LEDS_CLASS_MULTICOLOR
+ 	default !EXPERT
+ 	help
+ 	Support for Logitech devices that are not fully compliant with HID standard.
 -- 
 2.39.5
 
