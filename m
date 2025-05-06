@@ -1,133 +1,119 @@
-Return-Path: <linux-input+bounces-12178-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12183-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AC9CAACD0B
-	for <lists+linux-input@lfdr.de>; Tue,  6 May 2025 20:19:01 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id D035EAACDFD
+	for <lists+linux-input@lfdr.de>; Tue,  6 May 2025 21:24:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 631BE1C40E12
-	for <lists+linux-input@lfdr.de>; Tue,  6 May 2025 18:19:13 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0E6F6461213
+	for <lists+linux-input@lfdr.de>; Tue,  6 May 2025 19:24:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7C3A028640F;
-	Tue,  6 May 2025 18:18:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4235319CC0A;
+	Tue,  6 May 2025 19:24:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VCc7FedY"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iNjsrup5"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AC64221FBC;
-	Tue,  6 May 2025 18:18:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCE60179A7;
+	Tue,  6 May 2025 19:24:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746555529; cv=none; b=LO6jkutm4sM+RVgv95QP4g/oEUiCW0+QvTOwzFxcvctunLJ1lWG+V6/i29z3+p0V3AEKRW09fjzdChycqUviQK1dbxeXDAhRsaQS05QacninQRtlhFhFGM/MFEFNYvqzPUou+nATMSIq4dWF1GHSEvq0ghUoV/8SuyTLaU+WIW8=
+	t=1746559454; cv=none; b=lptB64+M3+HwbxKX3+bDn8rPbaU9cV/rgjmCIP/K3AC31Zncc2lkqGhhZa6cQ2Nd44I004B6bPTb8tU76bpBpoDmQqOAMcDj5/qFC/451jK/F2OiNWB3TDrdUE27t/JMT6XgBQkX3FqTa1ZbyG0/Hab4Nf15IX3cl6KqDnYQu7Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746555529; c=relaxed/simple;
-	bh=2NIkEmSpkcdbfbmqdFE1qZRw8zNqmk2tmSI4/3+DvQc=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=E4JA+vWTSb5prIN/iNWbtcpR0S9BcXPr9m5+h3SJHTrAoSlb1np1Q/yFOaEhCuiooTu+C3W+maXE71RluD9Xd+2qMOWQJcczeGwzSSs8lMdoWVCH91i3eWpIBrrGCN+FEXCgBFB3+F6y8Fcglj9xcUTPIRy/m6kgz5EYD8hAV40=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VCc7FedY; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id ECE54C4CEF5;
-	Tue,  6 May 2025 18:18:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746555529;
-	bh=2NIkEmSpkcdbfbmqdFE1qZRw8zNqmk2tmSI4/3+DvQc=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=VCc7FedYN6dR9svAFQqXCfBYY6+wEFchQ0FB1mvnRH1pDDoB+0yovr7qVOjMTjWW5
-	 ZBuRf7ShjkcWAAsUD0b6wG/OqAQ8aZchOsLSOu8AS7u4ssWpkw5v3zFf4vSZpNKQYd
-	 z6KIzr8FF2EwRSy7A8aYEMKDm+31sn23V6BLIfx+IXj52OxVdlAJAYCHZzHJFKSF9Z
-	 Kb77Lv6xAmBzxJWRqe2xXPF4c8DNqEQs3ZTMJeBPh3gaRJUcbAL3PIC8wRaJQ7nvMs
-	 t6ny4bjlqWhu3036algEfKbqWBkpL+ZQ9nou8izhXSOtmLmlxKhw0Zb25RrO/yEjI5
-	 0rfsSj8sIfFRg==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E0933C3ABC5;
-	Tue,  6 May 2025 18:18:48 +0000 (UTC)
-From: Joel Selvaraj via B4 Relay <devnull+foss.joelselvaraj.com@kernel.org>
-Date: Tue, 06 May 2025 13:18:41 -0500
-Subject: [PATCH RESEND v4 4/4] arm64: dts: qcom:
- sdm845-xiaomi-beryllium-ebbg: introduce touchscreen support
+	s=arc-20240116; t=1746559454; c=relaxed/simple;
+	bh=AndJLm0BDD0IfptSbil7BFqhM2UjQDjqZwbHyRm8MvA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Oq6FqtptDnRTH1zNPkzOWB9WQpFT2p1LRpXaNaJ2/LoWgz8WNVPNztUf1OVanAFFTVZMdX6LrHoyAz6dEXToOrQ4Y06pnX6cXUfOCTmTecEPFpbUHC8uWWs9W+Z8Iob8Wh0O4DEg6kXtBppQFDChaPRbF6mTxRvYlEFhqTu6jQc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iNjsrup5; arc=none smtp.client-ip=209.85.210.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-736bfa487c3so5545801b3a.1;
+        Tue, 06 May 2025 12:24:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1746559452; x=1747164252; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=RXGS9ycUwMhqdmfGF9SYZQkCupKrx+ufRNtD+4zd0Ko=;
+        b=iNjsrup5/TE2JTJhjgJXWm/hub+9qoQrrJkreUr0dFZHyK9oPGklrTUwClXgpaMXSW
+         wYjGcEJrjMSpBHmhCcD62Uj7kJeN51nk2OtySy+6i8SkUkH5YuSxAEVo7oT3HsXMHOSl
+         eUz0dP1kHclhQPG9D/bXJbxn3lO4Ga3VVbpXZFamejb41fZbKyB2AutqYlniTV/Ok44D
+         UVGWkbRvOLy5725Q6/nhLHl6INlSBwx2gDyL+kadfzvK7cc8eYtC1JcZ32jhLLrmo9Pr
+         Q/FQ1s7jrgis9aSGtOwZFWtAT1+ZjPiZnrOwfsFPI4DgAj+39w+o+sGJerFMY9tm6s2I
+         n+9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746559452; x=1747164252;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=RXGS9ycUwMhqdmfGF9SYZQkCupKrx+ufRNtD+4zd0Ko=;
+        b=CHYWK9gDphO+J2UThuYFvUgHzF2uhwpPLnz92GquAjIWf0yIXLWaSSnN6excmdS25d
+         a+NZGymghwMTEtko59ksd45aJgSfB6Iq5QikUUYK9kEg1Fo/p6QDNI8034FBlmBf73ET
+         o5DOokRNdHlrhZdCl5udVGGazpdGHsyZu/ngZipBiaStPbUJWVlWA4+Cp8rNABSq2Es3
+         HDeMVdQ7qUMFD9b2MrQle4Vy3lW2KKD9uioDgXCSYyAJDwPEnGWMJGXxQyqDLopF11oP
+         bvnPYlem2qZJmPPs3Suq2TN/L0vUT9hGttud/bkPrCWN3e2MRk+s1nwySMnrXWe3xLug
+         ofbA==
+X-Forwarded-Encrypted: i=1; AJvYcCWT3uKXTxNYH7cYkdQOwsqW2aXxdq9s9BrUgg14flpE4P+jZg2uSFbKWhjvN5nMzYF2AuhDVm+iadRDUs382g==@vger.kernel.org, AJvYcCWliL7Uwq2TwEinnrVSatWFvQ+y0ptU1Zm1qHG0kHCZLelWIkHZMD9JxamxLBFS/+NUoPkxM11g8tVsz/A=@vger.kernel.org, AJvYcCWz3csC/wPWAfoUVQbb97dJQDFZbWT8cT3a2yaoU/Ap0XnNljGZ4gd3d/o7BAcSy+rIDzXuFlyG4OL+@vger.kernel.org, AJvYcCX65Qp3Ct3a3YGsl3Y5E8a1PkW8uXEpcnLIRjWCa3/e3OkJl1bhChO5cd8NAVpPjA3f2BX3iTC6MFqV/IAU@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz/t6tHZfLyac7RnIF5XObN+UwUYwSeE+V+ICKHimHV4Nv39X4q
+	OsYWckibiTTHO86Hz1BYYpGUwJunVmE3kOpvWAFC9L3WkYqLgqljESUbhA==
+X-Gm-Gg: ASbGncsux38b7RdlKO0YuCd1CTyroHS5F32jESNhjjHf7H8G04ORnc1dwc3VNL8U1/r
+	T1LBqhg6072HdVcRTBpbvFmDuZyp1WnplJkqhyqDIgQa915F/hEOCfxI3Zy+itcuINl7RPWLhwn
+	WLwsOrkTguC5/GHTIQbyzKMmOprDcbX6r6LRsM74ZAU0tr7tXkKOOtVsozgdFeOVM/HoD9qiczG
+	Dj1PHdc5L+SR7dDE6zEqee5YGKwxs+3o+Rwkh7pVnWB4bHnyViQqR8YysuRs6BvNBWSIpZUO8Lk
+	7OgoLgKdrBnk0YnJfppXpkFAC7tikZR0bwOigekuwQ==
+X-Google-Smtp-Source: AGHT+IFlq4UY7F1gkaWWhCakxJ0TpKlGbHimjUiWSulKddxJUkc41O+kznmibaQuAaEZy7JzBqlG/A==
+X-Received: by 2002:a62:ea0f:0:b0:736:b402:533a with SMTP id d2e1a72fcca58-7409cf1e85cmr294041b3a.1.1746559451825;
+        Tue, 06 May 2025 12:24:11 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:17ab:9e47:29ba:57e6])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74058d7a497sm9368253b3a.33.2025.05.06.12.24.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 06 May 2025 12:24:11 -0700 (PDT)
+Date: Tue, 6 May 2025 12:24:08 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: foss@joelselvaraj.com
+Cc: Bjorn Andersson <andersson@kernel.org>, 
+	Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-input@vger.kernel.org, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH RESEND v4 1/4] dt-bindings: input: touchscreen:
+ edt-ft5x06: use unevaluatedProperties
+Message-ID: <p7pyyb6orbqpdk46rs55simotv44i563j6urvrlj4sb7yzqei6@6ezdhwcwpklx>
+References: <20250506-pocof1-touchscreen-support-v4-0-bfb53da52945@joelselvaraj.com>
+ <20250506-pocof1-touchscreen-support-v4-1-bfb53da52945@joelselvaraj.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250506-pocof1-touchscreen-support-v4-4-bfb53da52945@joelselvaraj.com>
-References: <20250506-pocof1-touchscreen-support-v4-0-bfb53da52945@joelselvaraj.com>
-In-Reply-To: <20250506-pocof1-touchscreen-support-v4-0-bfb53da52945@joelselvaraj.com>
-To: Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-input@vger.kernel.org, 
- Joel Selvaraj <foss@joelselvaraj.com>, 
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1746555528; l=1409;
- i=foss@joelselvaraj.com; s=20250506; h=from:subject:message-id;
- bh=rIxiguVu8wilDxcWbkOT29epD34sIhLGKlxvCtrt6IM=;
- b=LSh1LUjOGEDbje401uAFs2/QvmSLuda5RL/YFYI/HOEuEpYpjwQ1fFN0WaJrn4fjz78jvq62z
- 6SZeih2j9m7BJvCrNtLEaRqSNPtoCneF1vdVMIRrfXdk62ZuRXHCYKu
-X-Developer-Key: i=foss@joelselvaraj.com; a=ed25519;
- pk=/jk63vyofgC3YCat+t/kcBv+rlSEVcI4PLN/LN0SQlQ=
-X-Endpoint-Received: by B4 Relay for foss@joelselvaraj.com/20250506 with
- auth_id=399
-X-Original-From: Joel Selvaraj <foss@joelselvaraj.com>
-Reply-To: foss@joelselvaraj.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250506-pocof1-touchscreen-support-v4-1-bfb53da52945@joelselvaraj.com>
 
-From: Joel Selvaraj <foss@joelselvaraj.com>
+On Tue, May 06, 2025 at 01:18:38PM -0500, Joel Selvaraj via B4 Relay wrote:
+> From: Joel Selvaraj <foss@joelselvaraj.com>
+> 
+> In Xiaomi Poco F1 (qcom/sdm845-xiaomi-beryllium-ebbg.dts), the FocalTech
+> FT8719 touchscreen is integrally connected to the display panel
+> (EBBG FT8719) and thus should be power sequenced together with display
+> panel using the panel property. Since the edt-ft5x06 touchscreen binding
+> uses almost all the properties present in touchscreen.yaml, let's remove
+> additionalProperties: false and use unevaluatedProperties to include all
+> the properties, including the needed panel property.
+> 
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> Signed-off-by: Joel Selvaraj <foss@joelselvaraj.com>
+> ---
 
-Enable the Focaltech FT8719 touchscreen controller used in the Poco F1
-(EBBG) panel variant.
+Applied to the input tree now, sorry about the delay.
 
-Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Signed-off-by: Joel Selvaraj <foss@joelselvaraj.com>
----
- .../boot/dts/qcom/sdm845-xiaomi-beryllium-ebbg.dts | 23 ++++++++++++++++++++++
- 1 file changed, 23 insertions(+)
-
-diff --git a/arch/arm64/boot/dts/qcom/sdm845-xiaomi-beryllium-ebbg.dts b/arch/arm64/boot/dts/qcom/sdm845-xiaomi-beryllium-ebbg.dts
-index 76931ebad065e0f82d122dd3fe846a64da686ace..2d6f0e382a6cbf18b325127cfaf4859d7d9fd4fc 100644
---- a/arch/arm64/boot/dts/qcom/sdm845-xiaomi-beryllium-ebbg.dts
-+++ b/arch/arm64/boot/dts/qcom/sdm845-xiaomi-beryllium-ebbg.dts
-@@ -13,3 +13,26 @@ &display_panel {
- 	compatible = "ebbg,ft8719";
- 	status = "okay";
- };
-+
-+&i2c14 {
-+	status = "okay";
-+
-+	touchscreen@38 {
-+		compatible = "focaltech,ft8719";
-+		reg = <0x38>;
-+
-+		interrupts-extended = <&tlmm 31 IRQ_TYPE_EDGE_RISING>;
-+		reset-gpios = <&tlmm 32 GPIO_ACTIVE_LOW>;
-+		panel = <&display_panel>;
-+
-+		iovcc-supply = <&vreg_l14a_1p8>;
-+		vcc-supply = <&lab>;
-+
-+		pinctrl-0 = <&ts_int_default &ts_reset_default>;
-+		pinctrl-1 = <&ts_int_sleep &ts_reset_sleep>;
-+		pinctrl-names = "default", "sleep";
-+
-+		touchscreen-size-x = <1080>;
-+		touchscreen-size-y = <2246>;
-+	};
-+};
+Thanks.
 
 -- 
-2.49.0
-
-
+Dmitry
 
