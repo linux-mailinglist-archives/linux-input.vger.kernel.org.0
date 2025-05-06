@@ -1,150 +1,145 @@
-Return-Path: <linux-input+bounces-12177-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12179-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52592AACC02
-	for <lists+linux-input@lfdr.de>; Tue,  6 May 2025 19:14:13 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 60390AACD03
+	for <lists+linux-input@lfdr.de>; Tue,  6 May 2025 20:18:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EBE2D3B19BF
-	for <lists+linux-input@lfdr.de>; Tue,  6 May 2025 17:12:43 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id AA4EF1C40DE1
+	for <lists+linux-input@lfdr.de>; Tue,  6 May 2025 18:19:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B61FE2857EB;
-	Tue,  6 May 2025 17:11:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8852B286424;
+	Tue,  6 May 2025 18:18:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="zn6SuYO2"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dHvdqk+R"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-oa1-f45.google.com (mail-oa1-f45.google.com [209.85.160.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A0502836AB
-	for <linux-input@vger.kernel.org>; Tue,  6 May 2025 17:11:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ACCE278778;
+	Tue,  6 May 2025 18:18:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746551515; cv=none; b=B//mr/lMwvM65hcdRM2EetKjPLBF9hoXu6OlmtwcE/UK/6FcRBgVi9iTpCnbABm/O/bPBbOAzDgiGmNj1fpV70rspl7Sj9Pe7OifvUqyiB4gQ176G6kmU6GGkubvf3MX5lG00tfhhOpf8hIum1sfXgzZEnSev3puMYp4ACs7p+Y=
+	t=1746555529; cv=none; b=Mqv55+IEo0ywp/uih69/gSnlX2C3dJuQLJ8CplZ/fqNA6AuwN7eWtRRN1QAPsMYN2IL+FuhACcrHXlYfEPVJxfUZjb1gxWCwa6PIDWHLUiCRPI0NpX4drISkIvoWyL4fRHaWLQY2TLIaKEvYw02AKcf1+wr0yL9yOzcs7faO220=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746551515; c=relaxed/simple;
-	bh=siIncqwNtWC6Cffe/UEzd4HGNlJ47tlCSk/EUKqczLE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=m2/xLdksRDVVmpPV3oztzPBn/GsRJis2oqyJxLH8FcNW18ljz7Q1TYNZ0t3BT0x8kG4rHoySVkWCsCxjDCqqDazsUp65288eBWJBgfWh6D6C83xCYnqA7BA7coHd73Y0E+Wa0JCULY8X0NV0gNguDkFrP4fYIZ2e+pOXSpg1NoM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=zn6SuYO2; arc=none smtp.client-ip=209.85.160.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
-Received: by mail-oa1-f45.google.com with SMTP id 586e51a60fabf-2da3c572a0bso3374547fac.3
-        for <linux-input@vger.kernel.org>; Tue, 06 May 2025 10:11:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1746551512; x=1747156312; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=2JbcRvp94rGDw5RQs6ZrHCsYm6m5bJbU/CjzQthhb4w=;
-        b=zn6SuYO25KPxYG7NvgFfHGAAy8u0YzIda67oylCmmgGmHc7VTYFjCsMchWMeA0ggMS
-         aUzPClkzoId63tqud7CwrvzZeGw5T09zQOWTTaOkI9UbCjfA3o6uT65GqZ/y1eZRLbSL
-         cUzovXjFtsuwWvtDo+M/bireKAoc/GMtvT02UwRowtxIoWiCVePDfvFYINvIFsXmWdq4
-         p1LwsrW6TPC1GJ5nzt2uWlJPZ4DNjoW6VZhLvH/3ITAazcgI2HIOzZxrqV51cuLtyB4r
-         YiptKMU9729MS2GpxMgXx+tCCINN2B9ik4CCQ7m7VskBCTkw17ZDqJr5dtmJiB2n5vPz
-         sRpQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746551512; x=1747156312;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=2JbcRvp94rGDw5RQs6ZrHCsYm6m5bJbU/CjzQthhb4w=;
-        b=CdvUUwttonnPnrJNBjuC7w0nThj/XtCREbBIi9BYVizxYqzls8AizrJubE4YRtMInn
-         jSreVc09/ssmOmGNv5PmQ81TU+cf9UB3vmt1MI0ufh0uE2ov7CQV+IMAlRlKaWo78hWb
-         a2NilD4HE8Q147pzD9O4HgL9wop7X//9Hgr/5UZK81uq31DDw6FPBy2odfgMbKduYycJ
-         frcLDWCZjVYp1Ri6r4joz6jGfmP7dYpcW50TL1e9togNd31pZNTOWPrabobAdLOfEzBn
-         +n87OgfVrtJnOblSOSzvqN/78d8WfJoVxg92wa9vwI5tKgAHMqRUFAbLBWYgMlsq7BiI
-         vkQg==
-X-Gm-Message-State: AOJu0YwtTiGrASBTlCyhLsRHlRYZQIibB3w3v5to6KbbFKwz+g4K3nJh
-	lOvCkvAsDfK5/J+xsam6dG92+vYZUY+48LajS8hcrlEgcKoxi4bVewUPFkn9uZ8=
-X-Gm-Gg: ASbGncvpPd4V9UOw3UtNN1vkVTB2FzsRhu+8XANv3bVdr1jC0iKoWm+l2B7qrZ5X62n
-	QpBaeRt0i4x6yFrVFmLnG7Ed6Xj+llOiqdbjBKI/cWUlOF9M4LO4GQyEfOkDnFGFjJyt5m0C3+X
-	60wQR1DpmVIZ9+6c8mEaukrnZgr8MXj8Z2jLT6IvBYRKyYQ4nPSOqchD6cG4Q3v7GmHjIojz4gG
-	JZSYAE9Yo5s5hKixnQUvEIkErVwTG4uysqmU959UwZVGHtTHTs+dkI2N5ylNsNRZpEBjSv5Z+Xr
-	bUPt/Hh+s2Xh0lhMrzIdaRMfDyA6ATtDVzo5t1e4r30+3hqc7U185USurrQCz4DrjfATOcdq0uM
-	/w8i3lIhNIFyvoM6epYoLi7jl1/+5
-X-Google-Smtp-Source: AGHT+IGgVYJkjCCePqTNI6WyvbdrY2fuOkGm/ofTVtIR4HS2aq9wiljx2SuAeNHIIKo4f+OLxkBFFw==
-X-Received: by 2002:a05:6870:4692:b0:2da:7e06:ed8e with SMTP id 586e51a60fabf-2db5bd83d78mr59453fac.4.1746551512329;
-        Tue, 06 May 2025 10:11:52 -0700 (PDT)
-Received: from ?IPV6:2600:8803:e7e4:1d00:5172:9f6c:997a:41ea? ([2600:8803:e7e4:1d00:5172:9f6c:997a:41ea])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-2daa126b848sm2816041fac.48.2025.05.06.10.11.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 06 May 2025 10:11:51 -0700 (PDT)
-Message-ID: <d0353f6c-8bab-4178-8bed-0ad6157fe351@baylibre.com>
-Date: Tue, 6 May 2025 12:11:51 -0500
+	s=arc-20240116; t=1746555529; c=relaxed/simple;
+	bh=AAwL5uoOTe6wCwpJpDywIRpKXFmiHBgm7TpEJavHXSQ=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=f2m8+FDVRSFkGj09QA8ffWvi/dqwGmm9wBlW/h8i8aIxSCLG8jDonZkaOp2ivNKxaIDL+het5xBqDBQ032IEAdtyM4THjUVzpTvfZ4zAWgyYoH+5MHkxNQwNIhZi8bAFblDKx0hTRZjJcY8uAJvXUsL20VpsMEVj2T9JdyAvQK0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dHvdqk+R; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id C15ABC4CEE4;
+	Tue,  6 May 2025 18:18:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1746555528;
+	bh=AAwL5uoOTe6wCwpJpDywIRpKXFmiHBgm7TpEJavHXSQ=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=dHvdqk+R7rdmoZ9kFh+KjtQ1zUblgOvfZCiBYbKbDX/JONpmEdwpFfISCL69w3YWK
+	 ++DIbe+3bUNJ+sdCqMe68Vf/Q9qZNKvo/OuN6dWNO8RdNTTRsUPc8iOp2mxEzO86Du
+	 G9aH735ezk6iHbnmKRR/OHGyWjcR5351ALAVqFTM1LJzzqOyAMu2nj8FJh5hz5zwDt
+	 FWV4qzrk78a8n0MUSrLgZ/ZOptScAFoFD9qaft0kSeg+Xuv26Wj5GQFvp7FHBenjWi
+	 BNlWPfIEpk87NqF6aNFVZ4eLSDuTI7/1mYocYuNVt8RRBx3els0zBCg9rKRvXPG9sT
+	 kHig0wjF/l31A==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AF040C3ABBC;
+	Tue,  6 May 2025 18:18:48 +0000 (UTC)
+From: Joel Selvaraj via B4 Relay <devnull+foss.joelselvaraj.com@kernel.org>
+Subject: [PATCH RESEND v4 0/4] Add Xiaomi Poco F1 touchscreen support
+Date: Tue, 06 May 2025 13:18:37 -0500
+Message-Id: <20250506-pocof1-touchscreen-support-v4-0-bfb53da52945@joelselvaraj.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] HID: sensor-hub: Fix typo and improve documentation
-To: Chelsy Ratnawat <chelsyratnawat2001@gmail.com>, jikos@kernel.org,
- bentiss@kernel.org, jic23@kernel.org, srinivas.pandruvada@linux.intel.com
-Cc: linux-input@vger.kernel.org, linux-iio@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20250506163523.3262037-1-chelsyratnawat2001@gmail.com>
-From: David Lechner <dlechner@baylibre.com>
-Content-Language: en-US
-In-Reply-To: <20250506163523.3262037-1-chelsyratnawat2001@gmail.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAH1SGmgC/43RPU/DMBAG4L9SecbIn3HciYGuDDAiBvtyIa7aO
+ NhJBKr63zEBBAON2O5Dek5670QypoCZbDcnknAOOcS+NOpqQ6Bz/TPS0JSeCCYUZ8zQIUJsOR3
+ jBF2GhNjTPA1DTCMFo4XjlYAGBCnAkLANrwv+SO53D7u7W/JU5l3IY0xvy82ZL9v/8DOnjDZec
+ i94zWvQN/uIh4yH2SW3v4Z4XPRZ/IiC1auiKKJ2FRojLbbqkii/Rc0k46uiLKJrGQfpJfP6kqh
+ +i3JVVEUsiUqPHqRV4g/x/Bl2wpepPHD8Sty7jLTsj2HcboChr7SyCrVtbC2Vaw1491FWwqJl3
+ HihHS/Y+R3Z4NAbFQIAAA==
+X-Change-ID: 20241007-pocof1-touchscreen-support-c752a162cdc2
+To: Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-input@vger.kernel.org, 
+ Joel Selvaraj <foss@joelselvaraj.com>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1746555528; l=2842;
+ i=foss@joelselvaraj.com; s=20250506; h=from:subject:message-id;
+ bh=AAwL5uoOTe6wCwpJpDywIRpKXFmiHBgm7TpEJavHXSQ=;
+ b=INuU4+qYGCE/v6P5oMl5xtD0ThiZimqH3pLqAa6TCOiX0ZoDbVdCM1e4NImNyO0ctlVed4g0M
+ hbERnbpVHQsD5B6sUs9tlg3rRW1vCour20TigfYe5jd2MBnHgYkIOKM
+X-Developer-Key: i=foss@joelselvaraj.com; a=ed25519;
+ pk=/jk63vyofgC3YCat+t/kcBv+rlSEVcI4PLN/LN0SQlQ=
+X-Endpoint-Received: by B4 Relay for foss@joelselvaraj.com/20250506 with
+ auth_id=399
+X-Original-From: Joel Selvaraj <foss@joelselvaraj.com>
+Reply-To: foss@joelselvaraj.com
 
-On 5/6/25 11:35 AM, Chelsy Ratnawat wrote:
-> Includes the following corrections -
->  - Changed Measurment -> Measurement
->  - Changed clode -> close
->  - Gyro -> gyro
-> 
-> Signed-off-by: Chelsy Ratnawat <chelsyratnawat2001@gmail.com>
-> ---
->  include/linux/hid-sensor-hub.h | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
-> 
-> diff --git a/include/linux/hid-sensor-hub.h b/include/linux/hid-sensor-hub.h
-> index 0f9f7df865db..3621d35a00d6 100644
-> --- a/include/linux/hid-sensor-hub.h
-> +++ b/include/linux/hid-sensor-hub.h
-> @@ -17,7 +17,7 @@
->   * @attrib_id:		Attribute id for this attribute.
->   * @report_id:		Report id in which this information resides.
->   * @index:		Field index in the report.
-> - * @units:		Measurment unit for this attribute.
-> + * @units:		Measurement unit for this attribute.
->   * @unit_expo:		Exponent used in the data.
->   * @size:		Size in bytes for data size.
->   * @logical_minimum:	Logical minimum value for this attribute.
-> @@ -39,8 +39,8 @@ struct hid_sensor_hub_attribute_info {
->   * struct sensor_hub_pending - Synchronous read pending information
->   * @status:		Pending status true/false.
->   * @ready:		Completion synchronization data.
-> - * @usage_id:		Usage id for physical device, E.g. Gyro usage id.
-> - * @attr_usage_id:	Usage Id of a field, E.g. X-AXIS for a gyro.
-> + * @usage_id:		Usage id for physical device, e.g. gyro usage id.
-> + * @attr_usage_id:	Usage Id of a field, e.g. X-AXIS for a gyro.
+In the first patch, I have updated the edt-ft5x06 touchscreen binding 
+documentation. In Xiaomi Poco F1(qcom/sdm845-xiaomi-beryllium-ebbg.dts),
+the FocalTech FT8719 touchscreen is integrally connected to the display 
+panel (EBBG FT8719) and thus should be power sequenced together with 
+display panel for proper functioning using the panel property. Since the
+edt-ft5x06 touchscreen binding uses almost all the properties present in 
+touchscreen.yaml, let's remove additionalProperties: false and use 
+unevaluatedProperties to include all the properties, including the needed
+panel property.
 
-I don't think "axis" needs to be all caps either. This is a numeric fields, so
-it's not like this is a string literal and there is a dash in the name so I
-don't think the intention was to reference a macro name.
+In the second patch, I have enabled the qupv3_id_1 and gpi_dma1 as they
+are required for configuring touchscreen. Also added the pinctrl
+configurations. These are common for both the Poco F1 Tianma and EBBG
+panel variant.
 
->   * @raw_size:		Response size for a read request.
->   * @raw_data:		Place holder for received response.
->   */
-> @@ -104,10 +104,10 @@ struct hid_sensor_hub_callbacks {
->  int sensor_hub_device_open(struct hid_sensor_hub_device *hsdev);
->  
->  /**
-> -* sensor_hub_device_clode() - Close hub device
-> +* sensor_hub_device_close() - Close hub device
->  * @hsdev:	Hub device instance.
->  *
-> -* Used to clode hid device for sensor hub.
-> +* Used to close hid device for sensor hub.
->  */
->  void sensor_hub_device_close(struct hid_sensor_hub_device *hsdev);
->  
+In the subsequent patches, I have enabled support for the Novatek NT36672a
+touchscreen and FocalTech FT8719 touchscreen that are used in the Poco F1
+Tianma and EBBG panel variant respectively.
+
+Signed-off-by: Joel Selvaraj <foss@joelselvaraj.com>
+---
+Changes in v4:
+- Update the dt-binding patch's commit message to be more accurate
+- Link to v3: https://lore.kernel.org/r/20250301-pocof1-touchscreen-support-v3-0-af01c3b30b55@joelselvaraj.com
+
+Changes in v3:
+- Fix SoB email id mismatch (suggested by Krzysztof Kozlowski)
+- Use unevaluatedProperties instead additionalProperties in dt-binding (suggested by Krzysztof Kozlowski)
+- Link to v2: https://lore.kernel.org/r/20241208-pocof1-touchscreen-support-v2-0-5a6e7739ef45@joelselvaraj.com
+
+Changes in v2:
+- Fixed the missing "panel" property dt-binding error reported by Rob Herring's bot.
+- Change the "input-enable" property to "output-disable" in qcom/sdm845-xiaomi-beryllium-common.dtsi
+  (Based on a patch suggested by Konrad Dybcio).
+- Link to v1: https://lore.kernel.org/r/20241007-pocof1-touchscreen-support-v1-0-db31b21818c5@joelselvaraj.com
+
+---
+Joel Selvaraj (4):
+      dt-bindings: input: touchscreen: edt-ft5x06: use unevaluatedProperties
+      arm64: dts: qcom: sdm845-xiaomi-beryllium-common: add touchscreen related nodes
+      arm64: dts: qcom: sdm845-xiaomi-beryllium-tianma: introduce touchscreen support
+      arm64: dts: qcom: sdm845-xiaomi-beryllium-ebbg: introduce touchscreen support
+
+ .../bindings/input/touchscreen/edt-ft5x06.yaml     |  9 +----
+ .../dts/qcom/sdm845-xiaomi-beryllium-common.dtsi   | 39 ++++++++++++++++++++++
+ .../boot/dts/qcom/sdm845-xiaomi-beryllium-ebbg.dts | 23 +++++++++++++
+ .../dts/qcom/sdm845-xiaomi-beryllium-tianma.dts    | 23 +++++++++++++
+ 4 files changed, 86 insertions(+), 8 deletions(-)
+---
+base-commit: c0eb65494e59d9834af7cbad983629e9017b25a1
+change-id: 20241007-pocof1-touchscreen-support-c752a162cdc2
+
+Best regards,
+-- 
+Joel Selvaraj <foss@joelselvaraj.com>
+
 
 
