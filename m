@@ -1,204 +1,148 @@
-Return-Path: <linux-input+bounces-12185-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12186-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3492AACEFF
-	for <lists+linux-input@lfdr.de>; Tue,  6 May 2025 22:51:26 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 64610AAD592
+	for <lists+linux-input@lfdr.de>; Wed,  7 May 2025 07:58:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 363A34C88E3
-	for <lists+linux-input@lfdr.de>; Tue,  6 May 2025 20:51:27 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 887961C01E74
+	for <lists+linux-input@lfdr.de>; Wed,  7 May 2025 05:58:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF3FC17CA1B;
-	Tue,  6 May 2025 20:49:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 323E71F4CAF;
+	Wed,  7 May 2025 05:58:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Alf+rWYA"
 X-Original-To: linux-input@vger.kernel.org
-Received: from p01.hosting.plutex.de (p01.hosting.plutex.de [31.24.148.97])
+Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEC9817AE11
-	for <linux-input@vger.kernel.org>; Tue,  6 May 2025 20:49:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=31.24.148.97
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ED781F4629;
+	Wed,  7 May 2025 05:58:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746564596; cv=none; b=YTC9W43S59HKeyC3gMZKg47t8Yn63jn3VmeOpHM2iLHO/v4Qe6URPRFeem/SNttulWH/t1fTG9/xDYQ3nf3R1gR3Ac4LmUoNx5phpNhdnjxhpYGQX0EbAU6A9fruhqfJeyOBySSMBtZt3Sb4t0cCQ9RE8rfs6YYkuXPHS6rHD/c=
+	t=1746597493; cv=none; b=jc1anOIIi055mu0GKTywCf1MOYfA6lWAXh09uBqf4G5FVvjXy72jhdlJnt41mziM9bpbnD0zDJ98/h5t5qr8IrtwISi59GX+8tdenNmSAiZlO4Nr6w2aWiyYmknOYepdQVk1rOYgXalmRM2NUyPJAA9s1T5VVlrUdWv/RxIywaY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746564596; c=relaxed/simple;
-	bh=LRW+6gwdPNETtxdVmzHnDE5St7G9ARH+n3F+coI0Uz0=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=pyv7VtMaT5eiMWaJGIugMOsJbbHnMKxd3EY1+5CcBf2DSw96VVAULbMhk0o4dENEAyB2/QxGDJtisz4Vg9LW9U0ALES2C8nn6iikfFxKuT/QGPkqFyUVdRkumcpybnGauywzNx2L0noAfNqJFAJRsQhVCj2o0grmwWgPiyQpFKY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=eilert.tech; spf=pass smtp.mailfrom=eilert.tech; arc=none smtp.client-ip=31.24.148.97
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=eilert.tech
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=eilert.tech
-Received: from [192.168.20.22] (dynamic-002-214-051-085.2.214.pool.telefonica.de [2.214.51.85])
-	by p01.hosting.plutex.de (Postfix) with ESMTPSA id 8A16C15D2C80;
-	Tue,  6 May 2025 22:49:51 +0200 (CEST)
-Message-ID: <aea15a49-4e1c-41dd-bb09-24d2169f1caa@eilert.tech>
-Date: Tue, 6 May 2025 22:49:51 +0200
+	s=arc-20240116; t=1746597493; c=relaxed/simple;
+	bh=noM0OddCe3nMPsrUfDxNQxDN+cqV178/y6VH8nlyRw8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rzhHzt0kVP1uahI9zVtABokHYIM4myGwYcShuxbmpDlrKb6MUHCIHz+MIV1OkpDBe/yf1MHaZx5+oVkZ+NWB4zJd5PTxbo0yjjVwlziDN2TwE70KRmF8JNmmaPsL775wwdjWPYZKUPFiSb35c29ejpkq3f/JhQZ/z+ITX2W2Zqs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Alf+rWYA; arc=none smtp.client-ip=209.85.222.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-7c54b651310so1013433185a.0;
+        Tue, 06 May 2025 22:58:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1746597490; x=1747202290; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=62xNdgK3PUfEz8Xz7n17PoKO70VX0ZqDvch6tNNuGFk=;
+        b=Alf+rWYA8F0MIy7/vQOt5N4UMZXvHS2PNOScTJ0aRyIpM2MqUNaxMlZ+q91jzwSi/L
+         0VmIs8L+2JTnL3k5gQaDZZBszqSX098BDOwzqMqr/NBcCHgoF5xsa75NwM0RhT9v63A9
+         oO9cvR5p/8Fm18y0IR4ViYbhLHRuvXTrD7LAW/mM03eizFwc7Ca5k3unYWexwpwn9k4D
+         3wKA/29a/qCqgEf1D/u0IN+ThtmAeyrX8UVDD4BJzRHum9sg7Ld2s2uAH2sLrzLyGMqv
+         SWNIW0rdXkvOLGmEoW5lqRrRBQ1lT646Goo9rfZahNPN/H4APhjlW3oKJEdQnqH4IhIJ
+         WH5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746597490; x=1747202290;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=62xNdgK3PUfEz8Xz7n17PoKO70VX0ZqDvch6tNNuGFk=;
+        b=QlktX2beIGjAwZJf+pydUuN3lJNh74v44ET0Z9K2rT3teyxVUwshGIyqxRVtXf9TZK
+         prcErEr46FCh84JzgHgYCZd1hc6WNu6EnZKkf0rdRQPji7GYXjVgIzICK5mlZl0omYCD
+         T9MlbmpWnHrhpMFT3attywEZJWgr0m3i+MHbsfUIz70ol/C3dNiI2VyWXngTbtftxqaP
+         6IA9mUAsPkehhP/Y4d+9uP/ncEtNZbTzoffnkEKmkCZiV5R4as7ndn1NimI1wy5Gvgkm
+         +5Dsc5qPtT0g848QaDhD4bdNcvlNU407PEn28tBjZwr6+8iGG6EIrcrWUHvLgKxIT0IQ
+         +KUg==
+X-Forwarded-Encrypted: i=1; AJvYcCXsvgW3g/Y+NzufTt+pnOck8SBB2bMf47NmvIQ1MD7v6e7eR/dntGAE4yJFsSGrooLoRNjXn9ZxuX3J1n6v@vger.kernel.org, AJvYcCXzLqB0pZqh6RlO1VLOSw1EvQbv2GIJH/nkVH2MRLv7U0SpoJCx3QNH9sUxd1imB/JZVINuVXdQab0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzJ1JHpuOuwHh+TRxK2JrGJn91F4rEpBCG6R5aYYdik/KF6pmfo
+	9oDHxdYrz0FfuAgPv2vVStDCVwVStDdjJfOK5ufWQfxiKjfbvI5OpJykzaucXR4=
+X-Gm-Gg: ASbGncsa+VuEwZa1Om+GbuiCtOmCl7NOu6wdjduv3zXhaZJICaUFJz7ng4nDIddH7iC
+	QYkKztOcW842MuMccuXIQ/pcpzmdDwDX4PC2h2SRal0B01/KCD662MRkROSnYwXEH2uc3D1bcjb
+	U1JmBBDJoHvZfUI0kpXW7CnyGRMVRmaXEHKkD1ZKYrlNFd4cAZbupK9Wg/RQsKmBrwHzqe1Rkd0
+	ym1vXnxmMHB8YqKFTsrL3MHNn72ShjSrSL9Id0aLXuLmBexPG/HkWEYyNTVXioMZyjM2g67nLa0
+	/bnNd2dXNn+xFFbQKDBhSffeNBD6cLy5r7FYbKuRV6/D7tadtAoJwyVmQMEJPg==
+X-Google-Smtp-Source: AGHT+IE+Zs0zPxJ7NZCpPs3fbxcykASWphbwWyDcObU10VQPB9Wk3EyEc/S3iCZ3HP+raP3xoSY8qw==
+X-Received: by 2002:a05:622a:1356:b0:48c:4c6c:bd8d with SMTP id d75a77b69052e-49225560462mr30989061cf.2.1746597479722;
+        Tue, 06 May 2025 22:57:59 -0700 (PDT)
+Received: from c65201v1.fyre.ibm.com ([129.41.87.7])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-49223457b48sm9365871cf.68.2025.05.06.22.57.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 06 May 2025 22:57:58 -0700 (PDT)
+From: Chelsy Ratnawat <chelsyratnawat2001@gmail.com>
+To: jikos@kernel.org,
+	bentiss@kernel.org,
+	jic23@kernel.org,
+	srinivas.pandruvada@linux.intel.com,
+	dlechner@baylibre.com
+Cc: linux-input@vger.kernel.org,
+	linux-iio@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Chelsy Ratnawat <chelsyratnawat2001@gmail.com>
+Subject: [PATCH v2] HID: sensor-hub: Fix typo and improve documentation
+Date: Tue,  6 May 2025 22:57:45 -0700
+Message-ID: <20250507055745.4069933-1-chelsyratnawat2001@gmail.com>
+X-Mailer: git-send-email 2.43.5
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Matthias <hias@eilert.tech>
-Subject: Re: Synaptics touchpad not working after suspend,
- psmouse.synaptics_intertouch
-To: Aditya Garg <gargaditya08@live.com>
-Cc: linux-input@vger.kernel.org
-References: <325001b5-12e3-42db-96ec-05bd3f23ab35@eilert.tech>
- <3530EFD3-68F2-4890-9ACB-EF963769D079@live.com>
-Content-Language: en-US
-In-Reply-To: <3530EFD3-68F2-4890-9ACB-EF963769D079@live.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-PPP-Message-ID: 
- <174656459174.44935.14279832853176530195@p01.hosting.plutex.de>
-X-PPP-Vhost: eilert.tech
 
+Includes the following corrections -
+ - Changed Measurment -> Measurement
+ - Changed clode -> close
+ - Gyro -> gyro
 
-Am 04.05.25 um 08:34 schrieb Aditya Garg:
-> Hi Hias
+Signed-off-by: Chelsy Ratnawat <chelsyratnawat2001@gmail.com>
+---
+Changes in v2 -
+ - Changed  X-AXIS -> X-axis
 
-Hi Aditya,
+ include/linux/hid-sensor-hub.h | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-thanks for your patch!
-
->> On 2 May 2025, at 1:34 AM,arch.hias@eilert.tech wrote:
->>
->> Hi,
->>
->> I'm experiencing an issue with the Synaptics touchpad on my laptop not working after resuming from suspend.
->>
->> This began after upgrading from linux-lts 6.12.19-1 -> 6.12.21-1 [2]
->>
->>
->> Hardware:
->> - Touchpad: SynPS/2 Synaptics TouchPad (PNP: SYN1221 PNP0f13)
->> - Distro: Arch Linux issue began after systemupgrade linux-lts (6.12.19-1 -> 6.12.21-1) (kernel 6.12.24-1-lts)
->>
->> Description:
->> After resuming from suspend, the touchpad is not detected. However, if I suspend and resume a second time, it works again. While checking the logs, I found the following kernel message:
->>
->> kernel: psmouse serio2: synaptics: Your touchpad (PNP: SYN1221 PNP0f13) says it can support a different bus. If i2c-hid and hid-rmi are not used, you might want to try setting psmouse.synaptics_intertouch to 1 and report this tolinux-input@vger.kernel.org.
->>
->> I had previously set `psmouse.synaptics_intertouch=0`, as recommended in the Arch Wiki[1].
->> After changing it to `1`, the touchpad now consistently works after suspend.
->>
->> This setting appears to resolve the issue for my device. I wanted to share this in case it’s helpful for others or worth considering for default handling of this hardware.
->>
->> # libinput list-devices | grep Synaptics -A4
->> Device:                  Synaptics TM3175-002
->> Kernel:                  /dev/input/event13
->> Id:                      <unknown>:06cb:0000
->> Group:                   6
->> Seat:                    seat0, default
->>
->> $ udevadm info /dev/input/event13
->> P: /devices/pci0000:00/0000:00:1f.4/i2c-6/6-002c/rmi4-00/input/input21/event13
->> M: event13
->> R: 13
->> J: c13:77
->> U: input
->> D: c 13:77
->> N: input/event13
->> L: 0
->> S: input/by-path/pci-0000:00:1f.4-event-mouse
->> E: DEVPATH=/devices/pci0000:00/0000:00:1f.4/i2c-6/6-002c/rmi4-00/input/input21/event13
->> E: DEVNAME=/dev/input/event13
->> E: MAJOR=13
->> E: MINOR=77
->> E: SUBSYSTEM=input
->> E: USEC_INITIALIZED=40782030
->> E: ID_INPUT=1
->> E: ID_INPUT_TOUCHPAD=1
->> E: ID_INPUT_WIDTH_MM=81
->> E: ID_INPUT_HEIGHT_MM=39
->> E: ID_BUS=rmi
->> E: ID_SERIAL=noserial
->> E: ID_PATH=pci-0000:00:1f.4
->> E: ID_PATH_TAG=pci-0000_00_1f_4
->> E: ID_INPUT_TOUCHPAD_INTEGRATION=internal
->> E: LIBINPUT_DEVICE_GROUP=1d/6cb/0:rmi4-00
->> E: DEVLINKS=/dev/input/by-path/pci-0000:00:1f.4-event-mouse
->>
->> Links:
->>
->> 1:https://wiki.archlinux.org/title/Touchpad_Synaptics#Touchpad_does_not_work_after_resuming_from_hibernate/suspend
->>
->> 2:http://0x0.st/84b8.txt
->>
->>
->> Let me know if I can provide further Information, logs or tests.
->>
->> Best regards,
->>
->> hias
->>
->>       The ASCII Ribbon Campaign
->> ()     No HTML/RTF in email
->> /\     No Word docs in email
->>      Respect for open standards
-> Please test this patch for your device:
-To test it, I first removed the kernel command line option 
-`psmouse.synaptics_intertouch=1`.
-
-The issue still occurs with the unpatched kernel `linux-lts-6.12.27-1` 
-from the Arch Linux repositories [1].
-
-After building and installing the package [1] with your patch applied, 
-the touchpad works reliably — even without the 
-`psmouse.synaptics_intertouch=1` option.
-> —>8—
->
->  From ace747d33f1b9d329309c277879fa8a632606c93 Mon Sep 17 00:00:00 2001
-> From: Aditya Garg<gargaditya08@live.com>
-> Date: Sun, 4 May 2025 11:46:44 +0530
-> Subject: [PATCH] Update synaptics.c
->
-> ---
->   drivers/input/mouse/synaptics.c | 1 +
->   1 file changed, 1 insertion(+)
->
-> diff --git a/drivers/input/mouse/synaptics.c b/drivers/input/mouse/synaptics.c
-> index 309c360aab5597..24db13ceae3ba2 100644
-> --- a/drivers/input/mouse/synaptics.c
-> +++ b/drivers/input/mouse/synaptics.c
-> @@ -195,6 +195,7 @@ static const char * const smbus_pnp_ids[] = {
->   	"SYN3221", /* HP 15-ay000 */
->   	"SYN323d", /* HP Spectre X360 13-w013dx */
->   	"SYN3257", /* HP Envy 13-ad105ng */
-> +	"SYN1221",
->   	NULL
->   };
->   #endif
->
-> --------
->
-> You can also download the patch from:https://github.com/AdityaGarg8/linux/commit/ace747d33f1b9d329309c277879fa8a632606c93.patch
->
->
-> Also, please share you laptops model (Eg: HP Envy 13-ad105ng)
-
-TUXEDO InfinityBook Pro 14 v5 / Barebone N14xCU
-
-
-This is my first time testing and reporting a kernel patch, so the 
-process is new and quite interesting to me. Let me know if I can help 
-with further testing or provide additional infos.
-
-> And if you want to be credited for your report, please share your full legal name and email.
-Feel free to credit the report as follows:
-Name: Matthias Eilert
-Email: kernel.hias@eilert.tech
-
-
-> Thanks
-> Aditya
-
-hias
-
-Links:
-1:https://gitlab.archlinux.org/archlinux/packaging/packages/linux-lts/-/commit/6b2e8530afda872a3460e7c29cebd302223c1fa8
+diff --git a/include/linux/hid-sensor-hub.h b/include/linux/hid-sensor-hub.h
+index 0f9f7df865db..e71056553108 100644
+--- a/include/linux/hid-sensor-hub.h
++++ b/include/linux/hid-sensor-hub.h
+@@ -17,7 +17,7 @@
+  * @attrib_id:		Attribute id for this attribute.
+  * @report_id:		Report id in which this information resides.
+  * @index:		Field index in the report.
+- * @units:		Measurment unit for this attribute.
++ * @units:		Measurement unit for this attribute.
+  * @unit_expo:		Exponent used in the data.
+  * @size:		Size in bytes for data size.
+  * @logical_minimum:	Logical minimum value for this attribute.
+@@ -39,8 +39,8 @@ struct hid_sensor_hub_attribute_info {
+  * struct sensor_hub_pending - Synchronous read pending information
+  * @status:		Pending status true/false.
+  * @ready:		Completion synchronization data.
+- * @usage_id:		Usage id for physical device, E.g. Gyro usage id.
+- * @attr_usage_id:	Usage Id of a field, E.g. X-AXIS for a gyro.
++ * @usage_id:		Usage id for physical device, e.g. gyro usage id.
++ * @attr_usage_id:	Usage Id of a field, e.g. X-axis for a gyro.
+  * @raw_size:		Response size for a read request.
+  * @raw_data:		Place holder for received response.
+  */
+@@ -104,10 +104,10 @@ struct hid_sensor_hub_callbacks {
+ int sensor_hub_device_open(struct hid_sensor_hub_device *hsdev);
+ 
+ /**
+-* sensor_hub_device_clode() - Close hub device
++* sensor_hub_device_close() - Close hub device
+ * @hsdev:	Hub device instance.
+ *
+-* Used to clode hid device for sensor hub.
++* Used to close hid device for sensor hub.
+ */
+ void sensor_hub_device_close(struct hid_sensor_hub_device *hsdev);
+ 
+-- 
+2.43.5
 
 
