@@ -1,34 +1,34 @@
-Return-Path: <linux-input+bounces-12190-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12191-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F623AADB65
-	for <lists+linux-input@lfdr.de>; Wed,  7 May 2025 11:24:19 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 15DA5AADC0A
+	for <lists+linux-input@lfdr.de>; Wed,  7 May 2025 12:00:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6815D1BC0D66
-	for <lists+linux-input@lfdr.de>; Wed,  7 May 2025 09:23:49 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id ED7191C21B3F
+	for <lists+linux-input@lfdr.de>; Wed,  7 May 2025 10:00:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AC2621B87EB;
-	Wed,  7 May 2025 09:23:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0E73720D506;
+	Wed,  7 May 2025 09:59:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="iZ/pVfEY"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="zz9OuMHw"
 X-Original-To: linux-input@vger.kernel.org
 Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC03017A2E3;
-	Wed,  7 May 2025 09:23:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66F4820CCED;
+	Wed,  7 May 2025 09:59:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746609812; cv=none; b=izMB87kxZXwJlQvIWBdkfFmjizzHNZdPyiudQHsELO7FzqczKRYISidcgynZZkh9D91CyQ76bU8XM4pavb/qYxTe424u2DnWhhaoBVaQ6k6Rx2802jdhTOHfiP6+SFonRebXxkxicZ2qZFKKdQPejg/p2pXH1qa5J8VxA3kznMY=
+	t=1746611980; cv=none; b=dgJRQtql+M85QdlfQvvp+1nS8sfLo1nlODZ17DiHp0oE/MaKTiRqz1d+MQEKwmmxGbWBzipQb59wVVOWYWaCFyM/n+9kd8LIRbsMdOQZOlmEJYJKkOHa2jeKLKuly/mi3oHG+yuyRFBN7GbRWbw2bXbIcJK7aQH58dNKMobPODA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746609812; c=relaxed/simple;
-	bh=s7tBVy/4yRPxvQTxRMP3pUOBkZ+UDB0qWnP2HwoNlng=;
+	s=arc-20240116; t=1746611980; c=relaxed/simple;
+	bh=gkxsxk4kIRbZS/RFb2DMdp2h9xVzKhVdu8Vr0OBvkvw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=e05OIThJnD4tHxCT30ASi8mohletis30Y9AgII+LvBv8Y3BeQP1wJ8p/YO65HmhiQ17o3618cDbWLQZ5INWM1l0Lp62jAWx341/upnE0jN9acHZBFxoK5ZGy0KLi8+upUE0YMD+O1PwzLRrxP/vzS+7rm5kELDaTccchNkOIBbo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=iZ/pVfEY; arc=none smtp.client-ip=78.32.30.218
+	 Content-Type:Content-Disposition:In-Reply-To; b=UqnzVI4PTNnzfN1WgLNL9x3Pn/ikC7K8fMz9mAy0PY/xqY/OXSeQKVUphqvRdltHQpsKXWDc6a0hNbCqPXuqTzUY6S7c2hKOXg25n/A6m92M4hZYomPKj/gsJWTBhGx3JgZsjTHg6fmJ6ypkkQmfdyBJ0i0lFu0DGX652lzHhS0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=zz9OuMHw; arc=none smtp.client-ip=78.32.30.218
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -37,23 +37,23 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
 	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=k8F60xDzoxPgiF6ANkypIdXoaa0fUeOYplHB5ihSYa4=; b=iZ/pVfEYtUo/ZYCC81cBYkeUE0
-	v5B+qBDLW+Kxc8jpMG7INT+oTVo1iksD9JRrMjh3CKwG7qrF0q2CIFJgnrDYbYo+5flu5Gd8pq2yK
-	i7NRz79F+VZPPJnV42vzK7e37+gGeYByrq0VHJykhFdgBQkGM02Oz9Zo+VmIxQnwiU+jWumxwfA9q
-	5sijO/b3oLTT6MOS0QRAZNQt9vQ09vFxTqSvLIOhc+OEV2S49QFYK6EmmlV86bVElw9w1xIY7hcv2
-	Z8GHnE7eJsP8/n5gagcCaH5UsYE0kId0pOiidN30MVtI+IwkLlZdbsKDnAAtkmiiImz2RKuI277Y6
-	/dUXJ6Aw==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:44182)
+	bh=cTmfRg21cWI2PwDlotQQ7qSHEOYsN+Bp4SVGVhQiy+4=; b=zz9OuMHwoF4QyEfMGd5qz+Z6nx
+	Z/Z+d+tpBKlO8x/IlA13dgdFw7m12H1R9SSccDLUtQ4C9/9R1Y13qQCASjgeCNFAYrsh0reTr49sl
+	/luEIrx4TDi/sbxVjhXmAq+aoJ2YUc68uy8uhwjUdvyURpDs2pXHlWotWqlLnflRbQnm666xAr8dE
+	wNGyV+befkKSy5DlTh2osaQ8Niwz/tx0XxX9ZIaGDRTY5Vud4qoDN32ej488rnqMnjipy5cNoElf1
+	st1FeCsbkEnMMoVus/t3Ht3cLCI82IIndlPIG+54mtSs2OGkXk92pqZwbWegQFz+QS1+hIs41fKfW
+	o2LpDKkA==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:37248)
 	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.96)
 	(envelope-from <linux@armlinux.org.uk>)
-	id 1uCazo-0007Hw-1K;
-	Wed, 07 May 2025 10:23:20 +0100
+	id 1uCbYj-0007LH-2Q;
+	Wed, 07 May 2025 10:59:25 +0100
 Received: from linux by shell.armlinux.org.uk with local (Exim 4.96)
 	(envelope-from <linux@shell.armlinux.org.uk>)
-	id 1uCazl-0005fV-2W;
-	Wed, 07 May 2025 10:23:17 +0100
-Date: Wed, 7 May 2025 10:23:17 +0100
+	id 1uCbYf-0005gZ-21;
+	Wed, 07 May 2025 10:59:21 +0100
+Date: Wed, 7 May 2025 10:59:21 +0100
 From: "Russell King (Oracle)" <linux@armlinux.org.uk>
 To: Maxime Chevallier <maxime.chevallier@bootlin.com>,
 	Linus Torvalds <torvalds@linux-foundation.org>
@@ -65,13 +65,14 @@ Cc: Andrew Lunn <andrew@lunn.ch>, Woojung Huh <woojung.huh@microchip.com>,
 	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
 	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
 	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [BUG] Stuck key syndrome (was: Re: [PATCH net-next v2] net: dsa:
+Subject: Re: [BUG] Stuck key syndrome (was: Re: [PATCH net-next v2] net: dsa:
  microchip: Add SGMII port support to KSZ9477 switch)
-Message-ID: <aBsmhfI45zMltjcy@shell.armlinux.org.uk>
+Message-ID: <aBsu-WBlPQy5g-Jn@shell.armlinux.org.uk>
 References: <20250507000911.14825-1-Tristram.Ha@microchip.com>
  <20250507094449.60885752@fedora.home>
  <aBsadO2IB_je91Jx@shell.armlinux.org.uk>
  <20250507105457.25a3b9cb@fedora.home>
+ <aBsmhfI45zMltjcy@shell.armlinux.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -80,57 +81,81 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250507105457.25a3b9cb@fedora.home>
+In-Reply-To: <aBsmhfI45zMltjcy@shell.armlinux.org.uk>
 Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 
-[Sorry for going off topic here - changed the Cc list, added Linus,
-changed the subject.]
-
-On Wed, May 07, 2025 at 10:54:57AM +0200, Maxime Chevallier wrote:
-> On Wed, 7 May 2025 09:31:48 +0100
-> "Russell King (Oracle)" <linux@armlinux.org.uk> wrote:
-> > [rest of the email got deleted because Linux / X11 / KDE got confused
-> > about the state the backspace key and decided it was going to be
-> > continuously pressed and doing nothing except shutting the laptop
-> > down would stop it.]
+On Wed, May 07, 2025 at 10:23:17AM +0100, Russell King (Oracle) wrote:
+> [Sorry for going off topic here - changed the Cc list, added Linus,
+> changed the subject.]
 > 
-> Funny how I have the same exact issue on my laptop as well... 
+> On Wed, May 07, 2025 at 10:54:57AM +0200, Maxime Chevallier wrote:
+> > On Wed, 7 May 2025 09:31:48 +0100
+> > "Russell King (Oracle)" <linux@armlinux.org.uk> wrote:
+> > > [rest of the email got deleted because Linux / X11 / KDE got confused
+> > > about the state the backspace key and decided it was going to be
+> > > continuously pressed and doing nothing except shutting the laptop
+> > > down would stop it.]
+> > 
+> > Funny how I have the same exact issue on my laptop as well... 
+> 
+> I've had the "stuck key" behaviour with the HP Pavilion 15-au185sa
+> laptop I had previously (normally with ctrl-F keys). However, hitting
+> ctrl/shift/alt would stop it.
+> 
+> This is the first time I've seen the behaviour with the Carbon X1
+> laptop, but this was way more severe. No key would stop it. Trying to
+> move the focus using the trackpad/nipple had any effect. Meanwhile
+> the email was being deleted one character at a time. So I shut the
+> laptop lid causing it to suspend, and wondered what to do... on
+> re-opening the laptop, it didn't restart and is back to normal.
+> 
+> This suggests that the entire input subsystem in the software stack
+> collapsed just after the backspace key was pressed, and Xorg never
+> saw the key-release event. So Xorg duitifully did its key-repeat
+> processing, causing the email to be deleted one character at a time.
+> 
+> The problem is, not only did this destroy the email reply, but it
+> also destroyed my train of thought for the reply as well through
+> the panic of trying to stop the entire email being deleted.
+> 
+> I don't think this is a hardware issue - I think there's a problem
+> in the input handling somewhere in the stack of kernel, Xorg,
+> whatever multiple input libraries make up modern systems, and KDE.
+> 
+> I did check the logs. Nothing in the kernel messages that suggests
+> a problem. Nothing in Xorg's logs (which are difficult to tie up
+> because it doesn't use real timestamps that one can relate to real
+> time.) There's no longer any ~/.xsession-errors logfile for logging
+> the stuff below Xorg.
+> 
+> I'm running Debian Stable here - kernel 6.1.0-34-amd64, X.Org X Server
+> 1.21.1.7, KDE Plasma (5.27.5, frameworks 5.103.0, QT 5.15.8).
 
-I've had the "stuck key" behaviour with the HP Pavilion 15-au185sa
-laptop I had previously (normally with ctrl-F keys). However, hitting
-ctrl/shift/alt would stop it.
+I'll also add that The Carbon X1, being a laptop, its built-in keyboard
+uses the i8042:
 
-This is the first time I've seen the behaviour with the Carbon X1
-laptop, but this was way more severe. No key would stop it. Trying to
-move the focus using the trackpad/nipple had any effect. Meanwhile
-the email was being deleted one character at a time. So I shut the
-laptop lid causing it to suspend, and wondered what to do... on
-re-opening the laptop, it didn't restart and is back to normal.
+[    1.698156] i8042: PNP: PS/2 Controller [PNP0303:KBD,PNP0f13:MOU] at 0x60,0x64 irq 1,12
+[    1.698543] i8042: Warning: Keylock active
+[    1.700170] serio: i8042 KBD port at 0x60,0x64 irq 1
+[    1.700174] serio: i8042 AUX port at 0x60,0x64 irq 12
+[    1.700271] mousedev: PS/2 mouse device common for all mice
+[    1.702951] input: AT Translated Set 2 keyboard as /devices/platform/i8042/serio0/input/input0
 
-This suggests that the entire input subsystem in the software stack
-collapsed just after the backspace key was pressed, and Xorg never
-saw the key-release event. So Xorg duitifully did its key-repeat
-processing, causing the email to be deleted one character at a time.
+I don't have the HP laptop with me to check what that was using.
 
-The problem is, not only did this destroy the email reply, but it
-also destroyed my train of thought for the reply as well through
-the panic of trying to stop the entire email being deleted.
+The mysterious thing is "Keylock active" - clearly it isn't because I
+can write this email typing on that very keyboard. However, I wonder
+if it needs i8042_unlock=1 to set I8042_CTR_IGNKEYLOCK.
 
-I don't think this is a hardware issue - I think there's a problem
-in the input handling somewhere in the stack of kernel, Xorg,
-whatever multiple input libraries make up modern systems, and KDE.
+Unfortunately, it's probably going to take a year on the Carbon X1
+to work out if this makes any difference.
 
-I did check the logs. Nothing in the kernel messages that suggests
-a problem. Nothing in Xorg's logs (which are difficult to tie up
-because it doesn't use real timestamps that one can relate to real
-time.) There's no longer any ~/.xsession-errors logfile for logging
-the stuff below Xorg.
-
-I'm running Debian Stable here - kernel 6.1.0-34-amd64, X.Org X Server
-1.21.1.7, KDE Plasma (5.27.5, frameworks 5.103.0, QT 5.15.8).
-
-Anyone else seeing this kind of behaviour - if so, what are you
-using?
+> Anyone else seeing this kind of behaviour - if so, what are you
+> using?
+> 
+> -- 
+> RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+> FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
 
 -- 
 RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
