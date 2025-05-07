@@ -1,148 +1,133 @@
-Return-Path: <linux-input+bounces-12186-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12187-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64610AAD592
-	for <lists+linux-input@lfdr.de>; Wed,  7 May 2025 07:58:18 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 460C6AAD6CE
+	for <lists+linux-input@lfdr.de>; Wed,  7 May 2025 09:07:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 887961C01E74
-	for <lists+linux-input@lfdr.de>; Wed,  7 May 2025 05:58:30 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B14D64E7742
+	for <lists+linux-input@lfdr.de>; Wed,  7 May 2025 07:07:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 323E71F4CAF;
-	Wed,  7 May 2025 05:58:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 61908214227;
+	Wed,  7 May 2025 07:07:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Alf+rWYA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nmlOy1s8"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ED781F4629;
-	Wed,  7 May 2025 05:58:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A86CF2101B3;
+	Wed,  7 May 2025 07:07:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746597493; cv=none; b=jc1anOIIi055mu0GKTywCf1MOYfA6lWAXh09uBqf4G5FVvjXy72jhdlJnt41mziM9bpbnD0zDJ98/h5t5qr8IrtwISi59GX+8tdenNmSAiZlO4Nr6w2aWiyYmknOYepdQVk1rOYgXalmRM2NUyPJAA9s1T5VVlrUdWv/RxIywaY=
+	t=1746601659; cv=none; b=rSRjsC0ZDwGQyUp7OwDOGAfGOSQHFQujoHoaZdyFefo37FlVvibf+0RvV3lYjqldmWNoNs+k144LASz2eZ21EAOEsmgY6D7H7yCtKtWTcOfkpwpvJ2S5oAl84JgLPT2H2XXFjrNi5N66Bfayhjqx8FnD+kf8fnLY+leKwQ2C7s8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746597493; c=relaxed/simple;
-	bh=noM0OddCe3nMPsrUfDxNQxDN+cqV178/y6VH8nlyRw8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rzhHzt0kVP1uahI9zVtABokHYIM4myGwYcShuxbmpDlrKb6MUHCIHz+MIV1OkpDBe/yf1MHaZx5+oVkZ+NWB4zJd5PTxbo0yjjVwlziDN2TwE70KRmF8JNmmaPsL775wwdjWPYZKUPFiSb35c29ejpkq3f/JhQZ/z+ITX2W2Zqs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Alf+rWYA; arc=none smtp.client-ip=209.85.222.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-7c54b651310so1013433185a.0;
-        Tue, 06 May 2025 22:58:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1746597490; x=1747202290; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=62xNdgK3PUfEz8Xz7n17PoKO70VX0ZqDvch6tNNuGFk=;
-        b=Alf+rWYA8F0MIy7/vQOt5N4UMZXvHS2PNOScTJ0aRyIpM2MqUNaxMlZ+q91jzwSi/L
-         0VmIs8L+2JTnL3k5gQaDZZBszqSX098BDOwzqMqr/NBcCHgoF5xsa75NwM0RhT9v63A9
-         oO9cvR5p/8Fm18y0IR4ViYbhLHRuvXTrD7LAW/mM03eizFwc7Ca5k3unYWexwpwn9k4D
-         3wKA/29a/qCqgEf1D/u0IN+ThtmAeyrX8UVDD4BJzRHum9sg7Ld2s2uAH2sLrzLyGMqv
-         SWNIW0rdXkvOLGmEoW5lqRrRBQ1lT646Goo9rfZahNPN/H4APhjlW3oKJEdQnqH4IhIJ
-         WH5Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746597490; x=1747202290;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=62xNdgK3PUfEz8Xz7n17PoKO70VX0ZqDvch6tNNuGFk=;
-        b=QlktX2beIGjAwZJf+pydUuN3lJNh74v44ET0Z9K2rT3teyxVUwshGIyqxRVtXf9TZK
-         prcErEr46FCh84JzgHgYCZd1hc6WNu6EnZKkf0rdRQPji7GYXjVgIzICK5mlZl0omYCD
-         T9MlbmpWnHrhpMFT3attywEZJWgr0m3i+MHbsfUIz70ol/C3dNiI2VyWXngTbtftxqaP
-         6IA9mUAsPkehhP/Y4d+9uP/ncEtNZbTzoffnkEKmkCZiV5R4as7ndn1NimI1wy5Gvgkm
-         +5Dsc5qPtT0g848QaDhD4bdNcvlNU407PEn28tBjZwr6+8iGG6EIrcrWUHvLgKxIT0IQ
-         +KUg==
-X-Forwarded-Encrypted: i=1; AJvYcCXsvgW3g/Y+NzufTt+pnOck8SBB2bMf47NmvIQ1MD7v6e7eR/dntGAE4yJFsSGrooLoRNjXn9ZxuX3J1n6v@vger.kernel.org, AJvYcCXzLqB0pZqh6RlO1VLOSw1EvQbv2GIJH/nkVH2MRLv7U0SpoJCx3QNH9sUxd1imB/JZVINuVXdQab0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzJ1JHpuOuwHh+TRxK2JrGJn91F4rEpBCG6R5aYYdik/KF6pmfo
-	9oDHxdYrz0FfuAgPv2vVStDCVwVStDdjJfOK5ufWQfxiKjfbvI5OpJykzaucXR4=
-X-Gm-Gg: ASbGncsa+VuEwZa1Om+GbuiCtOmCl7NOu6wdjduv3zXhaZJICaUFJz7ng4nDIddH7iC
-	QYkKztOcW842MuMccuXIQ/pcpzmdDwDX4PC2h2SRal0B01/KCD662MRkROSnYwXEH2uc3D1bcjb
-	U1JmBBDJoHvZfUI0kpXW7CnyGRMVRmaXEHKkD1ZKYrlNFd4cAZbupK9Wg/RQsKmBrwHzqe1Rkd0
-	ym1vXnxmMHB8YqKFTsrL3MHNn72ShjSrSL9Id0aLXuLmBexPG/HkWEYyNTVXioMZyjM2g67nLa0
-	/bnNd2dXNn+xFFbQKDBhSffeNBD6cLy5r7FYbKuRV6/D7tadtAoJwyVmQMEJPg==
-X-Google-Smtp-Source: AGHT+IE+Zs0zPxJ7NZCpPs3fbxcykASWphbwWyDcObU10VQPB9Wk3EyEc/S3iCZ3HP+raP3xoSY8qw==
-X-Received: by 2002:a05:622a:1356:b0:48c:4c6c:bd8d with SMTP id d75a77b69052e-49225560462mr30989061cf.2.1746597479722;
-        Tue, 06 May 2025 22:57:59 -0700 (PDT)
-Received: from c65201v1.fyre.ibm.com ([129.41.87.7])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-49223457b48sm9365871cf.68.2025.05.06.22.57.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 May 2025 22:57:58 -0700 (PDT)
-From: Chelsy Ratnawat <chelsyratnawat2001@gmail.com>
-To: jikos@kernel.org,
-	bentiss@kernel.org,
-	jic23@kernel.org,
-	srinivas.pandruvada@linux.intel.com,
-	dlechner@baylibre.com
-Cc: linux-input@vger.kernel.org,
-	linux-iio@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Chelsy Ratnawat <chelsyratnawat2001@gmail.com>
-Subject: [PATCH v2] HID: sensor-hub: Fix typo and improve documentation
-Date: Tue,  6 May 2025 22:57:45 -0700
-Message-ID: <20250507055745.4069933-1-chelsyratnawat2001@gmail.com>
-X-Mailer: git-send-email 2.43.5
+	s=arc-20240116; t=1746601659; c=relaxed/simple;
+	bh=4g1meUY7nXGsLmA3ICMv283OhsmrHmNHTC3hWxkVC9U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bwKgML+nzqYAorZAinQe6dfKOM5F05nanDkNvCxVXquRbgs+tGhMv89ewG8Rxuo1PQ9R2hXeHkdbTn2HEaAIB2p8xAJNJ3x1Nsg+3zpU1tkPJKgtCEoSUg9RyASQGRcD6srTN6e5WNGVQ1qj/DQz5q2RPg3+Teq99ylPBIWfvCQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nmlOy1s8; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1746601658; x=1778137658;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=4g1meUY7nXGsLmA3ICMv283OhsmrHmNHTC3hWxkVC9U=;
+  b=nmlOy1s87hyw4VmAmRUSCh+IdTw3/DuYbTBDmBxAULC+aVgA7rg4sMYD
+   +mN/r50Hpw+43b063UQATs6tc7gN7ltlPuE27SPVlVUIqCluCSX0Enpzf
+   G6HOax9Bbgxsicdyj+pjY5gDL2tggE9+GkTVbz5xDzqkgBZRz1q5lguzd
+   qlOepO19K1Ke9GHluMiYfrM9+2XUcUoSRfW71wyZIYUkarpcB4xGT98k9
+   xoe2r+2qTdOrDN5vZSdmem8mk+jtnKh3VcCQvkJyKm+dC9rDu5dR9VMVT
+   GJF1u/WNS4Mwez4bjZ3t3Ab2PdQpbxZ7WtpHSKuawFprlLsLFvitGkZ56
+   w==;
+X-CSE-ConnectionGUID: AIBkOdDnSJu6dicLZsgM9Q==
+X-CSE-MsgGUID: wQv1mhoiQICh4e5FGkj6yA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11425"; a="73702382"
+X-IronPort-AV: E=Sophos;i="6.15,268,1739865600"; 
+   d="scan'208";a="73702382"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2025 00:07:37 -0700
+X-CSE-ConnectionGUID: zCSCCDRrTdSJsRd7DdL1/Q==
+X-CSE-MsgGUID: fYVDb9S2SfyCD34yU9tWOA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,268,1739865600"; 
+   d="scan'208";a="135767280"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 07 May 2025 00:07:31 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uCYsK-0007GF-2A;
+	Wed, 07 May 2025 07:07:28 +0000
+Date: Wed, 7 May 2025 15:07:16 +0800
+From: kernel test robot <lkp@intel.com>
+To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
+	Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Kamel Bouhara <kamel.bouhara@bootlin.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
+	Michael Walle <mwalle@kernel.org>, Mark Brown <broonie@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
+	linux-input@vger.kernel.org, linux-pwm@vger.kernel.org,
+	andriy.shevchenko@intel.com,
+	=?iso-8859-1?Q?Gr=E9gory?= Clement <gregory.clement@bootlin.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Subject: Re: [PATCH v7 08/11] gpio: max7360: Add MAX7360 gpio support
+Message-ID: <202505071411.RPLesOGz-lkp@intel.com>
+References: <20250428-mdb-max7360-support-v7-8-4e0608d0a7ff@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250428-mdb-max7360-support-v7-8-4e0608d0a7ff@bootlin.com>
 
-Includes the following corrections -
- - Changed Measurment -> Measurement
- - Changed clode -> close
- - Gyro -> gyro
+Hi Mathieu,
 
-Signed-off-by: Chelsy Ratnawat <chelsyratnawat2001@gmail.com>
----
-Changes in v2 -
- - Changed  X-AXIS -> X-axis
+kernel test robot noticed the following build warnings:
 
- include/linux/hid-sensor-hub.h | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+[auto build test WARNING on b4432656b36e5cc1d50a1f2dc15357543add530e]
 
-diff --git a/include/linux/hid-sensor-hub.h b/include/linux/hid-sensor-hub.h
-index 0f9f7df865db..e71056553108 100644
---- a/include/linux/hid-sensor-hub.h
-+++ b/include/linux/hid-sensor-hub.h
-@@ -17,7 +17,7 @@
-  * @attrib_id:		Attribute id for this attribute.
-  * @report_id:		Report id in which this information resides.
-  * @index:		Field index in the report.
-- * @units:		Measurment unit for this attribute.
-+ * @units:		Measurement unit for this attribute.
-  * @unit_expo:		Exponent used in the data.
-  * @size:		Size in bytes for data size.
-  * @logical_minimum:	Logical minimum value for this attribute.
-@@ -39,8 +39,8 @@ struct hid_sensor_hub_attribute_info {
-  * struct sensor_hub_pending - Synchronous read pending information
-  * @status:		Pending status true/false.
-  * @ready:		Completion synchronization data.
-- * @usage_id:		Usage id for physical device, E.g. Gyro usage id.
-- * @attr_usage_id:	Usage Id of a field, E.g. X-AXIS for a gyro.
-+ * @usage_id:		Usage id for physical device, e.g. gyro usage id.
-+ * @attr_usage_id:	Usage Id of a field, e.g. X-axis for a gyro.
-  * @raw_size:		Response size for a read request.
-  * @raw_data:		Place holder for received response.
-  */
-@@ -104,10 +104,10 @@ struct hid_sensor_hub_callbacks {
- int sensor_hub_device_open(struct hid_sensor_hub_device *hsdev);
- 
- /**
--* sensor_hub_device_clode() - Close hub device
-+* sensor_hub_device_close() - Close hub device
- * @hsdev:	Hub device instance.
- *
--* Used to clode hid device for sensor hub.
-+* Used to close hid device for sensor hub.
- */
- void sensor_hub_device_close(struct hid_sensor_hub_device *hsdev);
- 
+url:    https://github.com/intel-lab-lkp/linux/commits/Mathieu-Dubois-Briand/dt-bindings-mfd-gpio-Add-MAX7360/20250428-221705
+base:   b4432656b36e5cc1d50a1f2dc15357543add530e
+patch link:    https://lore.kernel.org/r/20250428-mdb-max7360-support-v7-8-4e0608d0a7ff%40bootlin.com
+patch subject: [PATCH v7 08/11] gpio: max7360: Add MAX7360 gpio support
+config: alpha-randconfig-r111-20250429 (https://download.01.org/0day-ci/archive/20250507/202505071411.RPLesOGz-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 12.4.0
+reproduce: (https://download.01.org/0day-ci/archive/20250507/202505071411.RPLesOGz-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505071411.RPLesOGz-lkp@intel.com/
+
+sparse warnings: (new ones prefixed by >>)
+>> drivers/gpio/gpio-max7360.c:30:31: sparse: sparse: symbol 'max7360_gpio_port_plat' was not declared. Should it be static?
+>> drivers/gpio/gpio-max7360.c:31:31: sparse: sparse: symbol 'max7360_gpio_col_plat' was not declared. Should it be static?
+
+vim +/max7360_gpio_port_plat +30 drivers/gpio/gpio-max7360.c
+
+    29	
+  > 30	struct max7360_gpio_plat_data max7360_gpio_port_plat = { .function = MAX7360_GPIO_PORT };
+  > 31	struct max7360_gpio_plat_data max7360_gpio_col_plat = { .function = MAX7360_GPIO_COL };
+    32	
+
 -- 
-2.43.5
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
