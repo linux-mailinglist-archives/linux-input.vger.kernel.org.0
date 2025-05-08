@@ -1,140 +1,117 @@
-Return-Path: <linux-input+bounces-12224-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12225-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3399AAAF0EC
-	for <lists+linux-input@lfdr.de>; Thu,  8 May 2025 03:57:59 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id ECE41AAF119
+	for <lists+linux-input@lfdr.de>; Thu,  8 May 2025 04:20:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2A9539C0C5C
-	for <lists+linux-input@lfdr.de>; Thu,  8 May 2025 01:57:40 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DF1D69C5327
+	for <lists+linux-input@lfdr.de>; Thu,  8 May 2025 02:19:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6FC8E1E89C;
-	Thu,  8 May 2025 01:57:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E58501D432D;
+	Thu,  8 May 2025 02:20:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W8s81iNN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gDpgfJz/"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBD9A3C17
-	for <linux-input@vger.kernel.org>; Thu,  8 May 2025 01:57:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12609145FE8;
+	Thu,  8 May 2025 02:20:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746669475; cv=none; b=BYvwMxZYSJDs3eEB4HbIOqWFDFaRtxkfqQt76NQKrOjGE9d2qLYHOq3qA9eCvRnfc4pyt3T1QGzJCIRCCLi+OysScwDKLlPQpwkwlCZOYRTTWztHsoc6ZeEAj7Q7INRBBesNTmo6hhCOqjstqgaFlhqysh3vU/UxANP18jPhQ/c=
+	t=1746670804; cv=none; b=WBJgvcqOimAR3Y2Yj4W3zTLo7PocwoxzlvbpI6uPzrurmO3eHPK3Yel/9liTCn7z6QwpwcwVJGLdxEikZ0Dz/KtYFSXndX2O3Rx9Mdj1S1C8Mi+FfESc5OcOQeSeHOzIH/0MSwjCi00qkAUHne+9fMamVHI/w30opq77Iz9Y/8U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746669475; c=relaxed/simple;
-	bh=mRTtj0b9oSfKxiYg4yQsVqPSnulG7GkjynTL8ojoTMc=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=UArggOtqY6AM+1pMj+pnDJ6L3HXA4iTbbhjZCU9ow1G/WTWUAibisgvUa6p0ufZGH65V0wy9O9xFIlIkza/uwlkem61r/TlqmLOCQIq24nKDHmndZZ4F/zepOiVWgKEI6Ug0zrImb+aRtmHv48sOO3tFvpctXBcG7R70ziCJPYA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W8s81iNN; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1746670804; c=relaxed/simple;
+	bh=K9VvzZF7FrE8ISkenxe5c39/nohHVfBIj4VJaVLF+LU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=lV1tm+hMAMz0tedH1EY0OcRNQXN1EXxtSj3el3PMYaCVEddkcSUUU8gVpOsrZ94c9m5ncrHKSGurdl6KJZNm+Jf5wbsmOrdGiVp1A9ZEy05Su6QSI4QgJqHOhEuQBR5PejFC6MjFHrWiqhuAkLiezsGI44fR8SsaaR4gwA0ETGM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gDpgfJz/; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746669473; x=1778205473;
-  h=date:from:to:cc:subject:message-id;
-  bh=mRTtj0b9oSfKxiYg4yQsVqPSnulG7GkjynTL8ojoTMc=;
-  b=W8s81iNNGIB2DViNCF+gk/+fA1x9/8RBpHyYgPSyBphRSdBdrmKlwPPj
-   4jvH7D3EM2eVpWVmcldW5TLD9JdPrQo2mE3TFQFGD4CQ9aiv+lAy64Ex9
-   EMJjBuE2aTJm2seMzANfNLtIxRwNk4ypq0+N9VG7c9YO6qOphwCST98s7
-   N3ayeU6nHXRss7jjPlS5I2Y0POAMuz87jPwgtx9XgPn3++vdBhMlx3NZq
-   /T5d6NP5HKi0Y/C6PuixQ76Z8OQUaxu7FNyH+xKjAUG9W76cOimAKPc1/
-   HsG7xy3Ois6Xk91/3S8NVZP4VkFATvpJT8XaallwxJF+ZRQx7sVw3BKqb
-   A==;
-X-CSE-ConnectionGUID: qZeYRBXaR+Op6Mazkwj6YA==
-X-CSE-MsgGUID: eEiSC066QDmbQXBS29WE5w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11426"; a="73817240"
+  t=1746670803; x=1778206803;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=K9VvzZF7FrE8ISkenxe5c39/nohHVfBIj4VJaVLF+LU=;
+  b=gDpgfJz/NRxGT0Cfp861UuvhRUxkHbLY0hjSQGq2Fd6rseXFckQsGyNt
+   kW9/6PN/mkRWpHhp22fGSn6nIMfxKUAcAlGXxeAl4DCyn/U3Jt+QYF9QQ
+   z2Njh+8tpdfMrGZaVrnwOOE3xPmYOjVAEdXmQPqJvoiBNcTO0FIA1uIx1
+   8SHyCCMCGsRtCRx4KqZjKa0wIhCJD6XNKKFF2DL0tav9bo/ZpkY+quhFj
+   GkjJJB85fPBbTQBnJ4y5Nt0wTaRh2ZDse9eT6u78gU5dSQlvgEuvu5ttt
+   5ykNZeW2NBVmrTiwPJBv9zpJBDTrOdVdM9DXgXRbl8V4lDxZrvNNjptXE
+   w==;
+X-CSE-ConnectionGUID: BJC/qMlRSOueQ9BPWrGfvg==
+X-CSE-MsgGUID: LeJigqWlQg+EUsZcsOyZQw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11426"; a="48595813"
 X-IronPort-AV: E=Sophos;i="6.15,271,1739865600"; 
-   d="scan'208";a="73817240"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2025 18:57:52 -0700
-X-CSE-ConnectionGUID: SSaY/E4nQ7KWRB6+FXw8qQ==
-X-CSE-MsgGUID: AkGFEsZ2R1aubmNOnQWMHQ==
+   d="scan'208";a="48595813"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2025 19:20:02 -0700
+X-CSE-ConnectionGUID: uSsh+Kr3TOykkChxmyuWfg==
+X-CSE-MsgGUID: lD7yVttdQDu9Q5ECKqVsVA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,271,1739865600"; 
-   d="scan'208";a="136633570"
-Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 07 May 2025 18:57:52 -0700
-Received: from kbuild by 1992f890471c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uCqWD-0009Fd-1t;
-	Thu, 08 May 2025 01:57:49 +0000
-Date: Thu, 08 May 2025 09:56:58 +0800
-From: kernel test robot <lkp@intel.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: linux-input@vger.kernel.org
-Subject: [dtor-input:next] BUILD SUCCESS
- 5d511d93c0c3d9cf0ad28708d2d945d61ea27f01
-Message-ID: <202505080952.ouPxC4uh-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+   d="scan'208";a="159462536"
+Received: from allen-sbox.sh.intel.com (HELO [10.239.159.30]) ([10.239.159.30])
+  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2025 19:19:59 -0700
+Message-ID: <122a1f90-ddd9-4e74-96d1-57e21e580ae2@linux.intel.com>
+Date: Thu, 8 May 2025 10:15:31 +0800
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [REGRESSION] applespi from 6.12 onwards
+To: Aditya Garg <gargaditya08@live.com>, =?UTF-8?Q?Berkel_J=C3=B6rg?=
+ <joerg.berkel@bfh.ch>, linux-input@vger.kernel.org
+Cc: dmitry.torokhov@gmail.com, stable@vger.kernel.org,
+ regressions@lists.linux.dev, linux-spi@vger.kernel.org, lukas@wunner.de,
+ David Woodhouse <dwmw2@infradead.org>, iommu@lists.linux.dev,
+ Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>
+References: <4dada48a-c5dd-4c30-9c85-5b03b0aa01f0@bfh.ch>
+ <PN3PR01MB9597D8E327CC7910673849D3B888A@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+Content-Language: en-US
+From: Baolu Lu <baolu.lu@linux.intel.com>
+In-Reply-To: <PN3PR01MB9597D8E327CC7910673849D3B888A@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
-branch HEAD: 5d511d93c0c3d9cf0ad28708d2d945d61ea27f01  dt-bindings: input: touchscreen: edt-ft5x06: use unevaluatedProperties
+On 5/8/25 01:07, Aditya Garg wrote:
+> Keyboard and touchpad stopped working on several Apple Macbooks from the year 2017 using kernel 6.12.xx . Until now I could only find this discussion affirming the bug on Debian and Fedora:https://github.com/Dunedan/mbp-2016-linux/issues/202
+> 
+> On siduction I also tried the more recent kernels 6.14.5 and mainline 6.15-rc4 (from Ubuntu) and the issue persisted with my testdevice MacBookPro14,1 -- see the relevant output:
+> 
+> kernel: platform pxa2xx-spi.3: Adding to iommu group 20
+> kernel: input: Apple SPI Keyboard as /devices/pci0000:00/0000:00:1e.3/pxa2xx-spi.3/spi_master/spi2/spi-APP000D:00/ 
+> input/input0
+> kernel: DMAR: DRHD: handling fault status reg 3
+> kernel: DMAR: [DMA Read NO_PASID] Request device [00:1e.3] fault addr 0xffffa000 [fault reason 0x06] PTE Read access is not set
+> kernel: DMAR: DRHD: handling fault status reg 3
+> kernel: DMAR: [DMA Read NO_PASID] Request device [00:1e.3] fault addr 0xffffa000 [fault reason 0x06] PTE Read access is not set
+> kernel: applespispi-APP000D:00: Error writing to device: 01 0e 00 00
+> kernel: DMAR: DRHD: handling fault status reg 3
+> kernel: DMAR: [DMA Read NO_PASID] Request device [00:1e.3] fault addr 0xffffa000 [fault reason 0x06] PTE Read access is not set
+> kernel: DMAR: DRHD: handling fault status reg 3
+> kernel: applespispi-APP000D:00: Error writing to device: 01 0e 00 00
 
-elapsed time: 1783m
+It appears that all DMA faults are related to a fixed address,
+0xffffa000. Is this address something special?
 
-configs tested: 47
-configs skipped: 1
+Also what does below message mean from a SPI driver's perspective?
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+"applespispi-APP000D:00: Error writing to device: 01 0e 00 00"
 
-tested configs:
-alpha        allnoconfig    gcc-14.2.0
-alpha       allyesconfig    gcc-14.2.0
-arc         allmodconfig    gcc-14.2.0
-arc          allnoconfig    gcc-14.2.0
-arc         allyesconfig    gcc-14.2.0
-arm         allmodconfig    gcc-14.2.0
-arm          allnoconfig    clang-21
-arm         allyesconfig    gcc-14.2.0
-arm64       allmodconfig    clang-19
-arm64        allnoconfig    gcc-14.2.0
-csky         allnoconfig    gcc-14.2.0
-hexagon     allmodconfig    clang-17
-hexagon      allnoconfig    clang-21
-hexagon     allyesconfig    clang-21
-i386        allmodconfig    gcc-12
-i386         allnoconfig    gcc-12
-i386        allyesconfig    gcc-12
-i386           defconfig    clang-20
-loongarch   allmodconfig    gcc-14.2.0
-loongarch    allnoconfig    gcc-14.2.0
-m68k        allmodconfig    gcc-14.2.0
-m68k         allnoconfig    gcc-14.2.0
-m68k        allyesconfig    gcc-14.2.0
-microblaze  allmodconfig    gcc-14.2.0
-microblaze   allnoconfig    gcc-14.2.0
-microblaze  allyesconfig    gcc-14.2.0
-mips         allnoconfig    gcc-14.2.0
-nios2        allnoconfig    gcc-14.2.0
-openrisc     allnoconfig    gcc-14.2.0
-parisc       allnoconfig    gcc-14.2.0
-powerpc      allnoconfig    gcc-14.2.0
-riscv        allnoconfig    gcc-14.2.0
-s390        allmodconfig    clang-18
-s390         allnoconfig    clang-21
-s390        allyesconfig    gcc-14.2.0
-sh          allmodconfig    gcc-14.2.0
-sh           allnoconfig    gcc-14.2.0
-sh          allyesconfig    gcc-14.2.0
-sparc       allmodconfig    gcc-14.2.0
-sparc        allnoconfig    gcc-14.2.0
-um          allmodconfig    clang-19
-um           allnoconfig    clang-21
-um          allyesconfig    gcc-12
-x86_64       allnoconfig    clang-20
-x86_64      allyesconfig    clang-20
-x86_64         defconfig    gcc-11
-xtensa       allnoconfig    gcc-14.2.0
+I am asking this because the IOMMU fault messages are about DMA Reads
+(device raised memory read), while above message complains failing to
+write to device.
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks,
+baolu
 
