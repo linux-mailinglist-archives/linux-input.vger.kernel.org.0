@@ -1,358 +1,221 @@
-Return-Path: <linux-input+bounces-12230-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12231-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 953FCAAF9A7
-	for <lists+linux-input@lfdr.de>; Thu,  8 May 2025 14:19:21 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id EBF7BAAFA99
+	for <lists+linux-input@lfdr.de>; Thu,  8 May 2025 14:54:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 052684A6CE8
-	for <lists+linux-input@lfdr.de>; Thu,  8 May 2025 12:19:22 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 18E121899726
+	for <lists+linux-input@lfdr.de>; Thu,  8 May 2025 12:54:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1499820B813;
-	Thu,  8 May 2025 12:19:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 10564227E82;
+	Thu,  8 May 2025 12:54:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=rong.moe header.i=i@rong.moe header.b="WtsvlyOb"
+	dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b="s52fUnfJ"
 X-Original-To: linux-input@vger.kernel.org
-Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com [136.143.188.12])
+Received: from PNYPR01CU001.outbound.protection.outlook.com (mail-centralindiaazolkn19010002.outbound.protection.outlook.com [52.103.68.2])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A056C136A;
-	Thu,  8 May 2025 12:19:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1C1220C477;
+	Thu,  8 May 2025 12:54:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.68.2
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746706756; cv=pass; b=mi6HWwh/Q40wI55JqNuJopMXOt3ac5S0XHKo2GMTHrJHO6Wcfp9IRyf4i8FX85lRTXPt4WEkT2e1NqCianOR9ZEDIyfrYYFIvPc1wcEW4q/NwG8nRbYUYIoucKnerBkmaeegeKdSCK7ObqaJGFBThdV0Gk2HWHpqjn3+ILh97Fg=
+	t=1746708862; cv=fail; b=JF0dntGqIRo9iR2VuqyqNvuvR+BVZ4fjMZF4hkgM8EB5e5l9Muy9L7gDALRC40xo5QqIeAZTWzbLKQRxFDMm/f5L9gnGlwjolGzB/Cv733jwMcFWvas3/Lyx+C9+31zLTddw2kDACJPFRvt5InHQRBCLhB4wsvVIp0P5VIUGgC4=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746706756; c=relaxed/simple;
-	bh=kBtxAAVkgArtW382abMKQMtQLCuK2KcAn/5lbrFrdxY=;
-	h=Message-ID:Subject:From:To:Cc:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=RZMxvguo2vFNxRN9C39v6qigpuRqdUjpgv0h7k55n0yN57u/Wlprj10kpRVj6Eok1v+gyLELVzHF4LcPWMetgoTGP7nGjPwKfGO8uDoZeIxVu1bvaBIV2zltfksVT9LCwRC4POeCqu8i3NyCEZWklXB2FR2fltKlBLl8CNbs8n8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe; spf=pass smtp.mailfrom=rong.moe; dkim=pass (1024-bit key) header.d=rong.moe header.i=i@rong.moe header.b=WtsvlyOb; arc=pass smtp.client-ip=136.143.188.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rong.moe
-ARC-Seal: i=1; a=rsa-sha256; t=1746706740; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=D7CvMaDALnWkWOCw2JgTGipR2nONGt2u6qkWFckijX1B9Ik2tsIatfvY8JQgDL4a6LOIxdstfe1/iQAf27sxcBmAjCF5DlkKRuLY1Te9ngDAQ/4NxLwbqSKr8D2JSDnHziazUttPAOo5tjgmI0pvITeAGFBlTNKAaCKWp8PBucE=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1746706740; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=P8YaEZVdgNT/9Q9gwytDmcTVvyr/93974aoT78iProc=; 
-	b=MYd/F0oVmdt+N65u6iIAACVb2rJ61BRmTI5fJsCfVPLx1hC3YTk9ZFkfmdS3zTPUMXnsMD5DHNdrBgKlU4piEmEUCFSxjO1uiY72/f+6pQx8UrWMStZFeJzWQufdX12kmUFoOjMc8fJcSe0Gl3ixn2gg0tmuUL51aNGs84hLtZw=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=rong.moe;
-	spf=pass  smtp.mailfrom=i@rong.moe;
-	dmarc=pass header.from=<i@rong.moe>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1746706739;
-	s=zmail; d=rong.moe; i=i@rong.moe;
-	h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date:Date:MIME-Version:Message-Id:Reply-To;
-	bh=P8YaEZVdgNT/9Q9gwytDmcTVvyr/93974aoT78iProc=;
-	b=WtsvlyObQd+oZwOg1nShxF+PkJ//74sYO2dufsDeuCbSV5UuykJq0VWwK3G5vZuv
-	w5aRr2yQvCEkI00ZReBekW4eb1ZsJpiXsjwFaQLyp/+O4x3To1KwjjwTRX12bLsJTK/
-	fgERZ+VpxJzzLc7X3h7I1hHgS59B91js/XIuqTbY=
-Received: by mx.zohomail.com with SMTPS id 1746706737681190.62744814839448;
-	Thu, 8 May 2025 05:18:57 -0700 (PDT)
-Message-ID: <211da98f4fcb211cab3310ffd9e70cdb634664cf.camel@rong.moe>
-Subject: Re: [Bug 220083] New: [REGRESSION, BISECTED] x86 ASM changes make
- dispatch_hid_bpf_output_report access not-present page
-From: Rong Zhang <i@rong.moe>
-To: Brian Gerst <brgerst@gmail.com>, Benjamin Tissoires <bentiss@kernel.org>
-Cc: bugzilla-daemon@kernel.org, Jiri Kosina <jikos@kernel.org>, 
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, Borislav Petkov
-	 <bp@alien8.de>
-In-Reply-To: <CAMzpN2hb7DHX_CEddxdJDzDpNhrPRct3FcnVOBeeFtMqj=cuog@mail.gmail.com>
-References: <bug-220083-6385@https.bugzilla.kernel.org/>
-		 <20250506145548.GGaBoi9Jzp3aeJizTR@fat_crate.local>
-		 <umqaxyqrrvle34haa3n3iohs5akos652ytbs5sef32xmc7gaz7@edyihsd4yokq>
-		 <6b4fe1ae87c717c70708e7a3f5bd6d9c8c7bfcd5.camel@rong.moe>
-		 <CAMzpN2hb7DHX_CEddxdJDzDpNhrPRct3FcnVOBeeFtMqj=cuog@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 08 May 2025 20:17:48 +0800
+	s=arc-20240116; t=1746708862; c=relaxed/simple;
+	bh=MQILhRuwi1PnUVPJd62O5TxK1/qS6Q0qVLZ773w0D0k=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=RDUZLKsxai39PfK3vpNG86mCdk0825z8lJdXjTb+hqJyAKVqAyvqpm0Go3zxCJt5yC/Uu5yek0KCpINb0Wblb6gzMkL1WIq140shON8j76abEiPMccREYVi0AOxJoJPCWHSMlp70cl+uDSWwDfgC9eqoP4mXTDE6afTy5hf3epA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com; spf=pass smtp.mailfrom=live.com; dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b=s52fUnfJ; arc=fail smtp.client-ip=52.103.68.2
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=live.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=qnFuJIxaBcGqdcNnPbUivQqB5wo7a9Wrsk8hkx1tTiTmDUSIROvShicpujRFrKnI7aYJI+j7eI4lwm0wk+g73FAgM8nSgt/md/srL4Oh5Mh/G/Wmt375UF6efYThBEtJEWHFxx/wtpK00Kx8n0UQkDtos5rR4owAC5PMMCkmz6Uf70RfhmdF7PH1JN7fMxnNietml8iCzaf/58uf/yyPApRRhetJ3rXrNVWKE1e8nVtCfvNV7DKR/yfhPM4E8Pek4DE61qT+HQnz/Ao8szO6oDgIiG+Mz3tlX8S7NcLIlg6VQtL2GU4pEiWVUzsE+2+jxC4WD2mreSZ439RcPxtuGw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=MQILhRuwi1PnUVPJd62O5TxK1/qS6Q0qVLZ773w0D0k=;
+ b=tGQugkokrO3MG0CGG4dVZ8MNU83oqOvotQzeJ84zd0Z9XWUGSDKMQRgqcXWHAZKu0u7WdBjmae6xWbCx43f2SvAEzLefAgKRsDlw7wDBxPwcrEoKhnqJrDE/W0idhMVaKMamd2KUTMeBzjvdItgSB0T9EqHvl+/2ApN0lrwPN8gwiKIFVBB3PtYYwSy7OvitzrlzXATAQbLVDa8zYMXUAyYAZfWEeiXR+y6OP1ng3coS33lwThud7jK5ZiG9c8r4athzKnJvVD/iojuACvBWHCN7Ljn4RYrKRLQBNeDXAG4viKZGCWwYOOSfA3MiNII1EjCVQlOcZm1i2dAoPMvWLQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=live.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=MQILhRuwi1PnUVPJd62O5TxK1/qS6Q0qVLZ773w0D0k=;
+ b=s52fUnfJ14+QP0IUV7NBKClLS+YsVDqDRfG0GdTeq3aRLBNwsjRTsgQMOJKNdxZtNvmHQPsZ5qMeIHfLrNSfN00srpEw5MJh2Bl9R1LtEu6sy0R2u1r0Sy1iJ9xO0d/UYGD9QOUSf3/vKYaHt/fzAsyKcKmYrIn7y5gk3FnKr2GN51ReagHnqD+LGdJN/G5PrHbIpbNhvEA1ToLhNZpDEUAULxJqfwUjTulQRkc2zD8eUk2Ag/138SboHZDd6VhtR0kVZWk0OYo64AJ1URmqFinMg48/niTu8leYfZ4HHN0hFgcGahlCs8eo+HE4RCO+8mNreJnDgq4sjB5FETTPKw==
+Received: from PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:f7::14)
+ by MAZPR01MB7793.INDPRD01.PROD.OUTLOOK.COM (2603:1096:a01:21::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8722.20; Thu, 8 May
+ 2025 12:54:12 +0000
+Received: from PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::324:c085:10c8:4e77]) by PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::324:c085:10c8:4e77%5]) with mapi id 15.20.8699.030; Thu, 8 May 2025
+ 12:54:12 +0000
+From: Aditya Garg <gargaditya08@live.com>
+To: Robin Murphy <robin.murphy@arm.com>
+CC: Baolu Lu <baolu.lu@linux.intel.com>, =?utf-8?B?SsO2cmcgQmVya2Vs?=
+	<joerg.berkel@bfh.ch>, "linux-input@vger.kernel.org"
+	<linux-input@vger.kernel.org>, "dmitry.torokhov@gmail.com"
+	<dmitry.torokhov@gmail.com>, "stable@vger.kernel.org"
+	<stable@vger.kernel.org>, "regressions@lists.linux.dev"
+	<regressions@lists.linux.dev>, "linux-spi@vger.kernel.org"
+	<linux-spi@vger.kernel.org>, "lukas@wunner.de" <lukas@wunner.de>, David
+ Woodhouse <dwmw2@infradead.org>, "iommu@lists.linux.dev"
+	<iommu@lists.linux.dev>, Joerg Roedel <joro@8bytes.org>, Will Deacon
+	<will@kernel.org>
+Subject: Re: [REGRESSION] applespi from 6.12 onwards
+Thread-Topic: [REGRESSION] applespi from 6.12 onwards
+Thread-Index: AQHbv3J4Ewox49Qdu0O+OtlEA0OygbPH/0CAgACa2oCAABeX+g==
+Date: Thu, 8 May 2025 12:54:12 +0000
+Message-ID:
+ <PN3PR01MB959764E908600CD45169348CB88BA@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+References: <4dada48a-c5dd-4c30-9c85-5b03b0aa01f0@bfh.ch>
+ <PN3PR01MB9597D8E327CC7910673849D3B888A@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+ <122a1f90-ddd9-4e74-96d1-57e21e580ae2@linux.intel.com>
+ <f1b41874-1535-4457-9747-eee3d816091a@arm.com>
+In-Reply-To: <f1b41874-1535-4457-9747-eee3d816091a@arm.com>
+Accept-Language: en-IN, en-US
+Content-Language: en-IN
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PN3PR01MB9597:EE_|MAZPR01MB7793:EE_
+x-ms-office365-filtering-correlation-id: 12e8a74d-3919-4de0-b49e-08dd8e2f6e66
+x-ms-exchange-slblob-mailprops:
+ quCBMN2EvO+AFS2EpFL4Y7YHhB9dxsQ6SoyFSdBbjilgJv0Upmy0N4jH+ydfd5LXGhqYoEAT6P4pvgACMdnKpbmPz/fJL/bjDKSiZCilEFAgDcFwoq6mwueAU1eJ9KwmEX/x61UqfqZ9xbHhcs2zilUwwPS/GlId8VL07pnI6AhXQ6uFakp6ZgM+nJdrzcjDAkEKvwNoIOQk0epRU8ZmUMQjbYYPPTyeqMDNdqdj8HnazY+8TBQDv+cnvWjZB+/9I2ycMKBGkq9I34FAeRGZIo8JM+OMKzS/hcZbFr8Z8uP75hjdsSZTpszPmxlosnZP5d7eIwPc9X+wKE1YQU3NRPOm2qrKynG8yt8OHIRnw3hwG6O6UA8BPCtK6WbqO10CZWw0kZGKrw6T5yKxIIt6oP4ikXvg/dpNFiMb9HxN+0gLZSe+2ZlEsCbyugOuOKnxyHuU9aB7VQ4DAwZYkNUQi3Wprxd4me4/1q68cTAxhqmEIfiOZQQ4KcggiX5yTXZtOUso7sM3wm42Zr5V+DiSXrZFnD6kWyig6lDk8Hkjy4Xdr8TnSxnwwGT9JyqYGWYNEfCHu7I+Jd8vMxqnKJHvOUHeNUQ25mY30c5OQLMF+67AmRgJ5XxiYX5qbHFuX6cT8eAWJOrFi/e0qBYXfZicVHkQwH1GmwW8SHSIHjqSSCS00bN+wNtxoVL+mfF+B1tTbcYT+gEUZ3A0BdWhFLM7EQ==
+x-microsoft-antispam:
+ BCL:0;ARA:14566002|41001999006|6072599003|15080799009|8062599006|8060799009|7092599006|19110799006|461199028|3412199025|440099028|10035399007|102099032|34005399003;
+x-microsoft-antispam-message-info:
+ =?utf-8?B?dWpzYVFLcXJ1YWRsR2JFN0RPSEZrdW5oWG81NStLVFFGNkplZ0xTQjZyQkV6?=
+ =?utf-8?B?M05tNXhvZVJQcXZTNWczdksrQ3JjY0xrQnY4dlc5TyswVE0zZXE3UWs2NWJh?=
+ =?utf-8?B?NFQxSXYyaXk1Q1hzS0IvYThiYTFlTnh1Q1E2ZG9oakZ3eGhhVVdQY3V1dDdD?=
+ =?utf-8?B?bGY1ZnBObkJhTlNBWk5WanR0ZzZld2hOazhQRllBNThFVGRUaWVETGEvK3Zv?=
+ =?utf-8?B?QVNPSitBeThidHpXaDlGNndBK2FpN0FyT2xzVjZWM1MrUXhwTDNzR1pxcm1p?=
+ =?utf-8?B?QUFET3EvNnJmNmw1YW5pYjZnazhHTTliZlVDRENRNUNabWltdnQ3QWZXL2Uz?=
+ =?utf-8?B?MmxXTys5cTVxRlVUZGZXSW4xd0ZPSWtLWTQ3VkRnRndFTnlmcy9mTjYveXl2?=
+ =?utf-8?B?S1VrYWNkS0U3M3dIYVFnaFozUHNTckhWMlNzTFVLc1h0YjNiYVAvNFpCZ3V6?=
+ =?utf-8?B?ZjU3SzZkSTRsZEJTUHJmKzB3bnZieGtJV1JKYjJlenlKQWNOSWFBYWdVYk5Z?=
+ =?utf-8?B?c0J2T2NCL0dhMnBJV08ycFJUTUdCdkxuY1VwTDJMOFU1RVJQRVVCeE43Y0dp?=
+ =?utf-8?B?MDB5VGxMNFdsUHlzdXlWa0tSalNHVmo5bUNMVWhCelZuRFE5cHVuSTRMZ2JY?=
+ =?utf-8?B?amVzOGd2anF6QnhGa0VTV0MzaFM1b3h6RUNEWVNkU1NycFVFKy9IRVVmOU55?=
+ =?utf-8?B?TldSNHF4RG9pQTBDZVZkYTVzSWJaK0NqZDdzSEFKVHZuOWNKVTU1cVZ1UzAw?=
+ =?utf-8?B?STJ6TFlGQU0rMUh4ZEE4TThCdmJuT2tCR1NFZ0lJcVNHZysrSjltY21TRC8r?=
+ =?utf-8?B?QSsvSkpvdVBTdVFkcXE2eURlNlBYWk1BWHlWVWpCZE9Gc2p1KzdXWFlVanh2?=
+ =?utf-8?B?UmYzQVN2TEdSQ2V3b3RYaXdhZFBQNC9STXhxY3ZabmM5WHYwdTZsOTdwbXNG?=
+ =?utf-8?B?NW9FSHI4WlF4L0x3QWVjZTZrWGVFc2hKSVlvZ25pYm9yNVBaZUtpeGdVRGRV?=
+ =?utf-8?B?K0VyVkpkRU9JT1ZxV1V4WWRsUnc2c29QV0xBY0hSdUkyeXVZUjVJWmRIbUNG?=
+ =?utf-8?B?TEo5S0JWOFl4VVBrRzdWb2lCUlMvYzlNN0lqeGNYQ0JPbm5GT1IwNU9UekZy?=
+ =?utf-8?B?K3BmdVVOMzZmeUZMOUVUT2FNS1V3ZXd2OW0vbzVDVlFLeXF4K1lxVCtoYmp3?=
+ =?utf-8?B?QUNRTjh0dDBiYUM3Wm1hN09pcU0xM3RtSk5DZ01HemJ6eFR0TTZsNG5tTjBY?=
+ =?utf-8?B?cEl4ekhWOTJwMWUwdnc0Wm5NNXgyQi84by9sbkJZTXR4Q2NockJIZzNkNFZO?=
+ =?utf-8?B?aENtRUJGMnNSZW5XRHhLc1hpSGZNZzcyeEpvUE9CUFZESkVyNllEK1lSaHlx?=
+ =?utf-8?B?VVJJSTdUNVl3WUxCMVZPUTZKeWNuNHYvR1hvaWc2UFN0cDV5SXM4WUNubzZy?=
+ =?utf-8?B?enUyamlTT1I1MkZtZzVGZ3NERWxmL0F1SWJTWnhXVjNCcjl4VmdVR1NLeG45?=
+ =?utf-8?B?YTRRb2Y3THVDckZnSFNjeVJyQk8zWWJZSlRPYVY0T1h0QTZRN2R2RnJuZ05F?=
+ =?utf-8?B?ZlpzVlJrVk1pNmVlZnJVTHc2a1ZOUXBnaU9QRWd6VE15YkE1N1pMNmJQWnJ0?=
+ =?utf-8?B?UTdtRDE5SVVLeU0zSUVXbThPb1RGTE14ckhpSDlwZ1diOXpmamtKc2FYekN6?=
+ =?utf-8?Q?9lI9gY7mKPZnLGnW+K57?=
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?utf-8?B?Y3R3R25vb0t6dUtxK2pvZU9rSVJNOWVxTk5PVDc0MkIyLzNkajVZZytwd2dI?=
+ =?utf-8?B?dlFyOWZUelB6NzRPa0VoOEsrSTl5b05pOUd5ckpicDhMQUd6T2VoS3F1Tkp5?=
+ =?utf-8?B?aGVORXJjeXhPa2tlZHN3a3BJb09pVkNkd0djRWt3VVlHWSs3QjNMcmkzWloy?=
+ =?utf-8?B?ZjIwWnU4cHVQdFVPaEpOSExzbDZmTGUwZzhNdDdPbmhBUFB5bHYxNzdPMHNr?=
+ =?utf-8?B?RWtINzUrS1pEaWJEdWhsc20zcTJTMy80N1ZNVzVPS1RMTFdYcS9RTzFvMkNs?=
+ =?utf-8?B?QldRc1I3ZnJBZXp0d0pUVlc0MDlEbFJ6dFRCb2EzSGJjK3NYMUI4QzIydnNF?=
+ =?utf-8?B?NVl3ejFiazBYTFhEUDJuRzZ6L2N6Z2Y3RytzMURHb3FIWUJvWHFJYWcrOVNS?=
+ =?utf-8?B?cEU0bEtDaTdYVWJoRXVGT0UybDQyTlB0dGhWWG1RTm4zbEpHdEdLallZNjN4?=
+ =?utf-8?B?NUNVMWJDa1QrbmNQdDMybmNnNEk3Q1NiQ1hCWisrbmFkLzV2RjJhQUJLNDJN?=
+ =?utf-8?B?RUlCZ1J0NUJ6amc1NWdLeVROL3JLKzdpeDVmZ3JLTjdXM0RadGFodHcyeE0r?=
+ =?utf-8?B?bnEvaFBCVzRkazVHaXAzRmhBR3g2NjA3WVE5WTNxRGR6M3dzT3NOSnFOVVhP?=
+ =?utf-8?B?SGcrVUZMUGR5bjFna3ZNbTF0TmtkeEpYc2hCRWpMYy9DNjMzU1dBMFQxQVFJ?=
+ =?utf-8?B?UDdKTGlHMzhseGZxVjFLYWM5YUd1RmFzLytKbjNrUjVTMEFUTXVSUHVUWjZK?=
+ =?utf-8?B?cmJPMjRXbEU0c2R6bFNBZ05ScC9ubzR3Ky9LaUhveDQwQ0IrSjB5a05FTzkw?=
+ =?utf-8?B?aGpwVm02cnRFOHNMVXRPOGJJaDZEMkhrbVN5aTlDWnlBaUQxS0hEMUIzNkhT?=
+ =?utf-8?B?UjZhUHV1Wlc2Yk9GQUJnaGp6UXNyWWM1TVBnZUx2LzZFVGE0czI1eFNsWjdT?=
+ =?utf-8?B?YkRZRy9aOUlGY1dISU9IdnZTUU53UkVPWkFkM2d0SlJOczVQc3h5RW1UdjM4?=
+ =?utf-8?B?TzNoZGhlYzZWTzVGc2cwUWZyOTFQalE3dExCYm14S3A3WTdXeGt0aWgxbmhp?=
+ =?utf-8?B?VVlMeE9WVmJyaVVSVnFEV2Y1Y1lTMmlqNGtCQnh4d1dJVVpPRlVaNmUvNlpJ?=
+ =?utf-8?B?eVMxU0xTRU5jTlFyWWt6Z1YvcXNqMXlqTGVEc2szOWp3VjBZL2l5L2doL09B?=
+ =?utf-8?B?dWE3RVh0ZnVDL2dUcncvREdQZXlDUGk1R3puY1RuNnBCbmw4T3hIbFJkZS9B?=
+ =?utf-8?B?dHpoYnFyU0JYdWRCamd1WWYvRjl3QjgxR0lSOGtMYXZMZW1YWis3Mk84elNZ?=
+ =?utf-8?B?bTJCekYxL080MnZFLyswT2VvYU5DeURQMnFWdndBSjEvRGVpYTlPc2NtQ1Fj?=
+ =?utf-8?B?Y2w4THZ5RDZHT0JpZlBsWnZsdDJVTS9DNS9nWG5vMld3Umh1RlJEOENyakxo?=
+ =?utf-8?B?NkNoRmZTTEdNMzlDUDkrWWZ5NWVSZ0N2azRaL2hxNm4rUnNWaWhHcXdzU3lE?=
+ =?utf-8?B?dVlHRU1QNndlcHp4dVNGa2lHM3g3MStZQ2dDTGxkckNuaEtkQ2JiRkdrU21T?=
+ =?utf-8?B?OER4bzhNRHBQL3lhdlpneVVOK0d1MGhBd1VVcGNiTnlaY08wVGIwTXUyRFZs?=
+ =?utf-8?Q?sM1+eHSdzDHmvx0gy8WRtp2sVUPvQNkjQZ+RPbucG/Ro=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Evolution 3.56.1-1 
-X-ZohoMailClient: External
+X-OriginatorOrg: sct-15-20-7719-20-msonline-outlook-ae5c4.templateTenant
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: 12e8a74d-3919-4de0-b49e-08dd8e2f6e66
+X-MS-Exchange-CrossTenant-originalarrivaltime: 08 May 2025 12:54:12.3123
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MAZPR01MB7793
 
-Hi all,
-
-On Wed, 2025-05-07 at 18:14 -0400, Brian Gerst wrote:
-> On Wed, May 7, 2025 at 7:06=E2=80=AFAM Rong Zhang <i@rong.moe> wrote:
-> >=20
-> > Hi Benjamin,
-> >=20
-> > On Tue, 2025-05-06 at 17:35 +0200, Benjamin Tissoires wrote:
-> > > Hi Boris,
-> > >=20
-> > > On May 06 2025, Borislav Petkov wrote:
-> > > > Switching to mail.
-> > > >=20
-> > > > Hi Benjamin,
-> > > >=20
-> > > > take a look at the below pls.
-> > > >=20
-> > > > The RIP points to:
-> > > >=20
-> > > >   22:   48 c1 e6 04             shl    $0x4,%rsi
-> > > >   26:   48 03 77 08             add    0x8(%rdi),%rsi
-> > > >   2a:*  65 48 ff 46 08          incq   %gs:0x8(%rsi)            <--=
- trapping instruction
-> > > >   2f:   c3                      ret
-> > > >=20
-> > > > which really is a %gs-based access and the reporter has bisected th=
-is to
-> > > >=20
-> > > >   9d7de2aa8b41 ("x86/percpu/64: Use relative percpu offsets")
-> > > >=20
-> > > > which looks related.
-> > > >=20
-> > > > My silly guess would be some bpf program does per-cpu accesses but =
-it doesn't
-> > > > know about this change so it tramples over registers. I mean, my fi=
-x would be
-> > > > to disable BPF but you young kids love to play with that...
-> > >=20
-> > > Heh. Well, I would like to know if any HID-BPF program is loaded firs=
-t.
-> > > These can be seen by running `sudo tree /sys/fs/bpf/hid/`.
-> >=20
-> > Nothing is there.
->=20
-> [snip]
->=20
-> >=20
-> > In case you need it, I decoded a stacktrace (I've upgraded to 6.15-rc5
-> > BTW):
-> >=20
-> > [14591.438053] usb 7-1.4.4: USB disconnect, device number 7
-> > [14591.541666] BUG: unable to handle page fault for address: ffff8efd88=
-e65018
-> > [14591.541674] #PF: supervisor write access in kernel mode
-> > [14591.541676] #PF: error_code(0x0002) - not-present page
-> > [14591.541677] PGD 220801067 P4D 220801067 PUD 0
-> > [14591.541681] Oops: Oops: 0002 [#1] SMP NOPTI
-> > [14591.541684] CPU: 0 UID: 0 PID: 56816 Comm: kworker/0:2 Not tainted 6=
-.15.0-rc5 #1 PREEMPT(lazy)  0538d36f9cfa2dbc3c98efb2730490d8b2399dc4
-> > [14591.541687] Hardware name: LENOVO 21Q4/LNVNB161216, BIOS PXCN24WW 03=
-/11/2025
-> > [14591.541689] Workqueue: events hidinput_led_worker
-> > [14591.541693] RIP: 0010:__srcu_read_unlock (kernel/rcu/srcutree.c:768 =
-(discriminator 1))
-> > [14591.541697] Code: c3 cc cc cc cc 66 66 2e 0f 1f 84 00 00 00 00 00 f3=
- 0f 1e fa 0f 1f 44 00 00 f0 83 44 24 fc 00 48 63 f6 48 c1 e6 04 48 03 77 08=
- <65> 48 ff 46 08 c3 cc cc cc cc 66 66 2e 0f 1f 84 00 00 00 00 00 90
-> > All code
-> > =3D=3D=3D=3D=3D=3D=3D=3D
-> >    0:   c3                      ret
-> >    1:   cc                      int3
-> >    2:   cc                      int3
-> >    3:   cc                      int3
-> >    4:   cc                      int3
-> >    5:   66 66 2e 0f 1f 84 00    data16 cs nopw 0x0(%rax,%rax,1)
-> >    c:   00 00 00 00
-> >   10:   f3 0f 1e fa             endbr64
-> >   14:   0f 1f 44 00 00          nopl   0x0(%rax,%rax,1)
-> >   19:   f0 83 44 24 fc 00       lock addl $0x0,-0x4(%rsp)
-> >   1f:   48 63 f6                movslq %esi,%rsi
-> >   22:   48 c1 e6 04             shl    $0x4,%rsi
-> >   26:   48 03 77 08             add    0x8(%rdi),%rsi
-> >   2a:*  65 48 ff 46 08          incq   %gs:0x8(%rsi)            <-- tra=
-pping instruction
-> >   2f:   c3                      ret
-> >   30:   cc                      int3
-> >   31:   cc                      int3
-> >   32:   cc                      int3
-> >   33:   cc                      int3
-> >   34:   66 66 2e 0f 1f 84 00    data16 cs nopw 0x0(%rax,%rax,1)
-> >   3b:   00 00 00 00
-> >   3f:   90                      nop
-> >=20
-> > Code starting with the faulting instruction
-> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> >    0:   65 48 ff 46 08          incq   %gs:0x8(%rsi)
-> >    5:   c3                      ret
-> >    6:   cc                      int3
-> >    7:   cc                      int3
-> >    8:   cc                      int3
-> >    9:   cc                      int3
-> >    a:   66 66 2e 0f 1f 84 00    data16 cs nopw 0x0(%rax,%rax,1)
-> >   11:   00 00 00 00
-> >   15:   90                      nop
-> > [14591.541698] RSP: 0018:ffffd0c6094f7d88 EFLAGS: 00010202
-> > [14591.541700] RAX: 0000000000000000 RBX: ffff8ef67492be08 RCX: 0000000=
-000000000
-> > [14591.541701] RDX: 0000000000000002 RSI: 0000000000000010 RDI: ffff8ef=
-67492be38
-> > [14591.541702] RBP: ffffd0c6094f7df8 R08: 0000000000000000 R09: 0000000=
-0fffffffd
-> > [14591.541703] R10: 0000000000000001 R11: 00000000ffffffff R12: 0000000=
-000000000
-> > [14591.541703] R13: ffff8ef70d8143d0 R14: 0000000000000001 R15: 0000000=
-000000000
-> > [14591.541704] FS:  0000000000000000(0000) GS:ffff8efd88e65000(0000) kn=
-lGS:0000000000000000
-> > [14591.541705] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> > [14591.541706] CR2: ffff8efd88e65018 CR3: 00000001d0184000 CR4: 0000000=
-000f50ef0
-> > [14591.541707] PKRU: 55555554
-> > [14591.541708] Call Trace:
-> > [14591.541710]  <TASK>
-> > [14591.541711] dispatch_hid_bpf_output_report (drivers/hid/bpf/hid_bpf_=
-dispatch.c:148)
-> > [14591.541716] hid_hw_output_report (drivers/hid/hid-core.c:2500 driver=
-s/hid/hid-core.c:2520)
-> > [14591.541717] hidinput_led_worker (drivers/hid/hid-input.c:1838)
-> > [14591.541719] process_one_work (kernel/workqueue.c:3238)
-> > [14591.541721] worker_thread (kernel/workqueue.c:3313 (discriminator 2)=
- kernel/workqueue.c:3400 (discriminator 2))
-> > [14591.541723] ? rescuer_thread (kernel/workqueue.c:3346)
-> > [14591.541724] kthread (kernel/kthread.c:464)
-> > [14591.541727] ? kthreads_online_cpu (kernel/kthread.c:413)
-> > [14591.541729] ret_from_fork (arch/x86/kernel/process.c:153)
-> > [14591.541731] ? kthreads_online_cpu (kernel/kthread.c:413)
-> > [14591.541733] ret_from_fork_asm (arch/x86/entry/entry_64.S:255)
-> > [14591.541737]  </TASK>
-> > [14591.541738] Modules linked in: mmc_block rpmb_core udp_diag tcp_diag=
- inet_diag xt_mark ccm snd_hrtimer snd_seq_dummy snd_seq_midi snd_seq_oss s=
-nd_seq_midi_event snd_rawmidi snd_seq snd_seq_device xt_CHECKSUM xt_MASQUER=
-ADE xt_conntrack ipt_REJECT nf_reject_ipv4 xt_tcpudp nft_compat nft_chain_n=
-at nf_nat nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 tun bridge stp llc nf_=
-tables qrtr uhid rfcomm cmac algif_hash algif_skcipher af_alg overlay bnep =
-sunrpc vfat fat btusb uvcvideo btrtl videobuf2_vmalloc btintel uvc videobuf=
-2_memops btbcm videobuf2_v4l2 btmtk videobuf2_common bluetooth videodev mc =
-intel_rapl_msr amd_atl intel_rapl_common snd_acp_legacy_mach snd_acp_mach s=
-nd_soc_nau8821 snd_acp3x_rn snd_acp70 snd_acp_i2s snd_acp_pdm snd_soc_dmic =
-snd_acp_pcm snd_sof_amd_acp70 snd_sof_amd_acp63 snd_sof_amd_vangogh snd_sof=
-_amd_rembrandt snd_sof_amd_renoir snd_sof_amd_acp snd_sof_pci snd_sof_xtens=
-a_dsp snd_sof snd_sof_utils snd_pci_ps snd_soc_acpi_amd_match snd_hda_codec=
-_realtek snd_amd_sdw_acpi soundwire_amd snd_hda_codec_generic
-> > [14591.541775]  soundwire_generic_allocation snd_hda_scodec_component s=
-oundwire_bus snd_soc_sdca snd_hda_codec_hdmi snd_soc_core mt7925e snd_hda_i=
-ntel snd_compress mt7925_common ac97_bus snd_intel_dspcfg kvm_amd mt792x_li=
-b snd_pcm_dmaengine snd_intel_sdw_acpi snd_rpl_pci_acp6x mt76_connac_lib sn=
-d_hda_codec snd_acp_pci kvm mt76 snd_amd_acpi_mach snd_hda_core snd_acp_leg=
-acy_common irqbypass think_lmi snd_pci_acp6x snd_hwdep rapl snd_ctl_led pcs=
-pkr mac80211 snd_pcm_oss firmware_attributes_class lenovo_wmi_hotkey_utilit=
-ies snd_mixer_oss snd_pci_acp5x libarc4 snd_pcm wmi_bmof snd_rn_pci_acp3x s=
-pd5118 snd_timer snd_acp_config cfg80211 snd snd_soc_acpi hid_sensor_als so=
-undcore amdxdna amd_pmf hid_sensor_trigger snd_pci_acp3x k10temp rfkill ind=
-ustrialio_triggered_buffer amdtee kfifo_buf joydev hid_sensor_iio_common cc=
-p industrialio mousedev platform_profile amd_pmc mac_hid sch_fq_codel uinpu=
-t i2c_dev parport_pc ppdev lp parport nvme_fabrics nfnetlink ip_tables x_ta=
-bles hid_logitech_hidpp hid_logitech_dj usbhid dm_crypt
-> > [14591.541811]  encrypted_keys trusted asn1_encoder tee dm_mod raid10 r=
-aid456 async_raid6_recov async_memcpy async_pq async_xor async_tx raid1 rai=
-d0 linear md_mod igc ptp pps_core r8153_ecm r8152 cdc_ether usbnet mii amdg=
-pu i2c_algo_bit drm_ttm_helper ttm drm_panel_backlight_quirks polyval_clmul=
-ni polyval_generic drm_exec drm_suballoc_helper ghash_clmulni_intel amdxcp =
-sha512_ssse3 drm_buddy sdhci_pci sha256_ssse3 sp5100_tco r8169 nvme sdhci_u=
-hs2 gpu_sched sha1_ssse3 serio_raw hid_sensor_custom sdhci nvme_core realte=
-k aesni_intel ucsi_acpi atkbd drm_display_helper cqhci libps2 crypto_simd t=
-ypec_ucsi hid_multitouch i2c_piix4 nvme_keyring mdio_devres hid_sensor_hub =
-hid_generic thunderbolt vivaldi_fmap cryptd typec cec libphy mmc_core amd_s=
-fh video i8042 nvme_auth i2c_smbus roles i2c_hid_acpi serio wmi i2c_hid
-> > [14591.541846] CR2: ffff8efd88e65018
-> > [14591.541848] ---[ end trace 0000000000000000 ]---
->=20
-> So what we have here is a function that takes two parameters: what
-> looks like an index in RSI, and a pointer to a structure in RDI.
-> Looking at the register dump, RSI ends up with the value
-> 0000000000000010, which could very likely be an index of 1 shifted and
-> added to a NULL pointer from the structure.  On the old zero-based
-> percpu, that would be a valid address, but would corrupt whatever was
-> there.  So I don't think this is a problem with the bisected commit,
-> it just exposed an existing bug.
-
-Brian,
-
-Thanks for your explanation!
-
-With your information, I think there is a race when unplugging as
-Benjamin said. Thus, I double-checked the bpftrace output (in my
-previous reply) and found:
-
-   .bpf =3D {
-      .device_data =3D 0x0, .allocated_data =3D 0, .destroyed =3D 1,=20
-      [...]
-      .srcu =3D {
-         .srcu_ctrp =3D 0x61896b5b0290, .sda =3D 0x0, .dep_map =3D {  },
-         .srcu_sup =3D 0x0
-      }
-   }
-
-So yes, the device was destroyed with a dangling led work.
-
-Benjemin,
-
-I applied the patch below, and now my setup is usable without the need
-to reboot again and again to make USB recover. The patch doesn't fix
-the bug itself, but=C2=A0exposes race bugs in a gentle manner once they
-exist, preventing the case we are currently dealing with - another low
-level change exposed an existing bug in a destructive way.
-
-Is the patch worth submitting? If so, do you have any opinion on it?
-
-Will keep debugging to reveal more details and try to fix the root
-cause...
-
-> Brian Gerst
-
-Thanks,
-Rong
-
----
- drivers/hid/bpf/hid_bpf_dispatch.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
-
-diff --git a/drivers/hid/bpf/hid_bpf_dispatch.c b/drivers/hid/bpf/hid_bpf_d=
-ispatch.c
-index 2e96ec6a3073..b9d19416c243 100644
---- a/drivers/hid/bpf/hid_bpf_dispatch.c
-+++ b/drivers/hid/bpf/hid_bpf_dispatch.c
-@@ -10,6 +10,7 @@
- #include <linux/bitops.h>
- #include <linux/btf.h>
- #include <linux/btf_ids.h>
-+#include <linux/bug.h>
- #include <linux/filter.h>
- #include <linux/hid.h>
- #include <linux/hid_bpf.h>
-@@ -38,6 +39,9 @@ dispatch_hid_bpf_device_event(struct hid_device *hdev, en=
-um hid_report_type type
- 	struct hid_bpf_ops *e;
- 	int ret;
-=20
-+	if (WARN_ON(hdev->bpf.destroyed))
-+		return ERR_PTR(-ENODEV);
-+
- 	if (type >=3D HID_REPORT_TYPES)
- 		return ERR_PTR(-EINVAL);
-=20
-@@ -93,6 +97,9 @@ int dispatch_hid_bpf_raw_requests(struct hid_device *hdev=
-,
- 	struct hid_bpf_ops *e;
- 	int ret, idx;
-=20
-+	if (WARN_ON(hdev->bpf.destroyed))
-+		return -ENODEV;
-+
- 	if (rtype >=3D HID_REPORT_TYPES)
- 		return -EINVAL;
-=20
-@@ -130,6 +137,9 @@ int dispatch_hid_bpf_output_report(struct hid_device *h=
-dev,
- 	struct hid_bpf_ops *e;
- 	int ret, idx;
-=20
-+	if (WARN_ON(hdev->bpf.destroyed))
-+		return -ENODEV;
-+
- 	idx =3D srcu_read_lock(&hdev->bpf.srcu);
- 	list_for_each_entry_srcu(e, &hdev->bpf.prog_list, list,
- 				 srcu_read_lock_held(&hdev->bpf.srcu)) {
---=20
+DQoNCj4gT24gOCBNYXkgMjAyNSwgYXQgNTowMOKAr1BNLCBSb2JpbiBNdXJwaHkgPHJvYmluLm11
+cnBoeUBhcm0uY29tPiB3cm90ZToNCj4gDQo+IO+7v09uIDIwMjUtMDUtMDggMzoxNSBhbSwgQmFv
+bHUgTHUgd3JvdGU6DQo+Pj4gT24gNS84LzI1IDAxOjA3LCBBZGl0eWEgR2FyZyB3cm90ZToNCj4+
+PiBLZXlib2FyZCBhbmQgdG91Y2hwYWQgc3RvcHBlZCB3b3JraW5nIG9uIHNldmVyYWwgQXBwbGUg
+TWFjYm9va3MgZnJvbSB0aGUgeWVhciAyMDE3IHVzaW5nIGtlcm5lbCA2LjEyLnh4IC4gVW50aWwg
+bm93IEkgY291bGQgb25seSBmaW5kIHRoaXMgZGlzY3Vzc2lvbiBhZmZpcm1pbmcgdGhlIGJ1ZyBv
+biBEZWJpYW4gYW5kIEZlZG9yYTpodHRwczovL2dpdGh1Yi5jb20vIER1bmVkYW4vbWJwLTIwMTYt
+bGludXgvaXNzdWVzLzIwMg0KPj4+IA0KPj4+IE9uIHNpZHVjdGlvbiBJIGFsc28gdHJpZWQgdGhl
+IG1vcmUgcmVjZW50IGtlcm5lbHMgNi4xNC41IGFuZCBtYWlubGluZSA2LjE1LXJjNCAoZnJvbSBV
+YnVudHUpIGFuZCB0aGUgaXNzdWUgcGVyc2lzdGVkIHdpdGggbXkgdGVzdGRldmljZSBNYWNCb29r
+UHJvMTQsMSAtLSBzZWUgdGhlIHJlbGV2YW50IG91dHB1dDoNCj4+PiANCj4+PiBrZXJuZWw6IHBs
+YXRmb3JtIHB4YTJ4eC1zcGkuMzogQWRkaW5nIHRvIGlvbW11IGdyb3VwIDIwDQo+Pj4ga2VybmVs
+OiBpbnB1dDogQXBwbGUgU1BJIEtleWJvYXJkIGFzIC9kZXZpY2VzL3BjaTAwMDA6MDAvMDAwMDow
+MDoxZS4zLyBweGEyeHgtc3BpLjMvc3BpX21hc3Rlci9zcGkyL3NwaS1BUFAwMDBEOjAwLyBpbnB1
+dC9pbnB1dDANCj4+PiBrZXJuZWw6IERNQVI6IERSSEQ6IGhhbmRsaW5nIGZhdWx0IHN0YXR1cyBy
+ZWcgMw0KPj4+IGtlcm5lbDogRE1BUjogW0RNQSBSZWFkIE5PX1BBU0lEXSBSZXF1ZXN0IGRldmlj
+ZSBbMDA6MWUuM10gZmF1bHQgYWRkciAweGZmZmZhMDAwIFtmYXVsdCByZWFzb24gMHgwNl0gUFRF
+IFJlYWQgYWNjZXNzIGlzIG5vdCBzZXQNCj4+PiBrZXJuZWw6IERNQVI6IERSSEQ6IGhhbmRsaW5n
+IGZhdWx0IHN0YXR1cyByZWcgMw0KPj4+IGtlcm5lbDogRE1BUjogW0RNQSBSZWFkIE5PX1BBU0lE
+XSBSZXF1ZXN0IGRldmljZSBbMDA6MWUuM10gZmF1bHQgYWRkciAweGZmZmZhMDAwIFtmYXVsdCBy
+ZWFzb24gMHgwNl0gUFRFIFJlYWQgYWNjZXNzIGlzIG5vdCBzZXQNCj4+PiBrZXJuZWw6IGFwcGxl
+c3Bpc3BpLUFQUDAwMEQ6MDA6IEVycm9yIHdyaXRpbmcgdG8gZGV2aWNlOiAwMSAwZSAwMCAwMA0K
+Pj4+IGtlcm5lbDogRE1BUjogRFJIRDogaGFuZGxpbmcgZmF1bHQgc3RhdHVzIHJlZyAzDQo+Pj4g
+a2VybmVsOiBETUFSOiBbRE1BIFJlYWQgTk9fUEFTSURdIFJlcXVlc3QgZGV2aWNlIFswMDoxZS4z
+XSBmYXVsdCBhZGRyIDB4ZmZmZmEwMDAgW2ZhdWx0IHJlYXNvbiAweDA2XSBQVEUgUmVhZCBhY2Nl
+c3MgaXMgbm90IHNldA0KPj4+IGtlcm5lbDogRE1BUjogRFJIRDogaGFuZGxpbmcgZmF1bHQgc3Rh
+dHVzIHJlZyAzDQo+Pj4ga2VybmVsOiBhcHBsZXNwaXNwaS1BUFAwMDBEOjAwOiBFcnJvciB3cml0
+aW5nIHRvIGRldmljZTogMDEgMGUgMDAgMDANCj4+IEl0IGFwcGVhcnMgdGhhdCBhbGwgRE1BIGZh
+dWx0cyBhcmUgcmVsYXRlZCB0byBhIGZpeGVkIGFkZHJlc3MsDQo+PiAweGZmZmZhMDAwLiBJcyB0
+aGlzIGFkZHJlc3Mgc29tZXRoaW5nIHNwZWNpYWw/DQo+IA0KPiBNYXliZSBpdCdzIHJldHJ5aW5n
+IHRoZSBzYW1lIGJ1ZmZlciBhIGZldyB0aW1lcyBiZWZvcmUgZmluYWxseSBnaXZpbmcgdXA/IFRo
+ZSBhZGRyZXNzIGRvZXMgbG9vayBsaWtlIGEgcGxhdXNpYmxlIGlvbW11LWRtYSBJT1ZBLCBzbyBJ
+IGNhbiBpbWFnaW5lIGF0IGxlYXN0IHR3byBwb3NzaWJpbGl0aWVzIHdoZXJlIGEgY2hhbmdlIGlu
+IHRoZSBJT01NVSBkcml2ZXIgbWlnaHQgaGF2ZSBhbiBpbXBhY3Q6DQo+IA0KPiAtIEl0J3MgdGhl
+IHJpZ2h0IGFkZHJlc3MgaW4gdGhlIHJpZ2h0IGNvbnRleHQgYnV0IGluY29ycmVjdGx5IG1hcHBl
+ZCBhcyBETUFfRlJPTV9ERVZJQ0UsIHdoZXJlIHRoYXQgcHJldmlvdXNseSBoYWQgaW1wbGljaXQg
+cmVhZCBwZXJtaXNzaW9uIGFzIHdlbGwgYnV0IGlzIG5vdyB3cml0ZS1vbmx5IChjYW4gdGhlIElu
+dGVsIDJuZC1zdGFnZSBmb3JtYXQgZG8gdGhhdCBsaWtlIEFybSBkb2VzPyBJIGZvcmdldC4uLikN
+Cj4gDQo+IC0gSXQncyB0aGUgcmlnaHQgYWRkcmVzcyBpbiB0aGUgd3JvbmcgY29udGV4dCwgYmVj
+YXVzZSB0aGUgRE1BIG1hcHBpbmcgd2FzIGRvbmUgd2l0aCB0aGUgd3JvbmcgZGV2aWNlLCB3aGlj
+aCB3YXMgcHJldmlvdXNseSBpbiB0aGUgc2FtZSBJT01NVSBncm91cCBhcyAwMDoxZS4zLCBidXQg
+bm93IHdlIGFzc2lnbiBncm91cHMgZGlmZmVyZW50bHkuIEkgZG9uJ3Qga25vdyBpZiBscHNzX3Nw
+aV9zZXR1cCgpIGlzIHJlbGV2YW50IHRvIHRoaXMgcGFydGljdWxhciBoYXJkd2FyZSBzZXR1cCwg
+YnV0ICJkbWFfZGV2ID0gcGNpX2dldF9zbG90KGRldi0+YnVzLCBQQ0lfREVWRk4oUENJX1NMT1Qo
+ZGV2LT5kZXZmbiksIDApKTsiIHRoZXJlIGNlcnRhaW5seSBjYXRjaGVzIG15IGF0dGVudGlvbiwg
+YXQgbGVhc3QuDQo+IA0KPiBUaGUgRE1BIG1hcHBpbmcgdHJhY2Vwb2ludHMgc2hvdWxkIGJlIGFi
+bGUgdG8gc2hlZCBsaWdodCBvbiBob3cgdGhhdCBhZGRyZXNzIGlzIG1hcHBlZCBwcmlvciB0byB0
+aGUgZmF1bHQuDQoNCkEgZnVsbCBkbWVzZyB3aXRoIGRlYnVnIGxvZyBsZXZlbCBzaG91bGQgYmUg
+bmljZSB0byBoYXZlIGltby4NCg0KSsO2cmcgY2FuIHlvdSBkbyB0aGF0IGZvciBib3RoIDYuMTEg
+YW5kIDYuMTI/
 
