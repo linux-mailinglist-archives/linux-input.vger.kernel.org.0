@@ -1,81 +1,81 @@
-Return-Path: <linux-input+bounces-12254-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12255-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DA6EAB1D57
-	for <lists+linux-input@lfdr.de>; Fri,  9 May 2025 21:35:07 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id BD797AB1D60
+	for <lists+linux-input@lfdr.de>; Fri,  9 May 2025 21:37:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 01C88527392
-	for <lists+linux-input@lfdr.de>; Fri,  9 May 2025 19:35:08 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 72BD4A236D2
+	for <lists+linux-input@lfdr.de>; Fri,  9 May 2025 19:37:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3131425DB0B;
-	Fri,  9 May 2025 19:35:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2C20925D1E2;
+	Fri,  9 May 2025 19:37:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LWXj3npJ"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aLCa/q8D"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-vs1-f54.google.com (mail-vs1-f54.google.com [209.85.217.54])
+Received: from mail-ua1-f54.google.com (mail-ua1-f54.google.com [209.85.222.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F0B3153BD9
-	for <linux-input@vger.kernel.org>; Fri,  9 May 2025 19:35:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80552153BD9
+	for <linux-input@vger.kernel.org>; Fri,  9 May 2025 19:37:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746819304; cv=none; b=A9t+jo3+Qvua50dJvRwpBH5r4JDCl9aHc8kzumIovZjOn6uXB+K5+7fWXNvCzBaS5cVGaI1CxOntzbkA84+or9n5ejNtgD7bV3RdrlMaeffoSXpskXGVySjFy1QPvC5hGEeO6AuKgFCWMD7pVpIxzgski+BCh8odxh2rHeQsByU=
+	t=1746819438; cv=none; b=i9+JOVnEnvBhESf8GZDa2tlJBBwUMlTkAIR7ZMPyukwfe/S2aKH3fytO5Qil+AOPUL2aRIykPKHwILRYgxxh9CZe+3RKMyNoXgjmgIzVOY1b+Z4p7PY4e79VzaopJXmz7whkc+4hY1QiLe64yaSrxsfAIDmmuRKekjzcjMO9bK0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746819304; c=relaxed/simple;
-	bh=P5RaeOXbB21u0k5Ij7Pe4pHx7XFMVwmhUfCCKr28gcg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HRjOV/UQJwOnddUcfNKL3DAaiR5EXG/iK/p5Th6SCAV/L3OM3snLEyH/6QP1hIrgQuK5Z9zV1RUP8j7UdJt1nMeDWCjwXUT2KW/PBWqI54y1izJxcUvW8yCP232unA+h66EiaVnrmBWUL0GaTpVPoC3DorK8lckn8Rj74Qkl6sc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LWXj3npJ; arc=none smtp.client-ip=209.85.217.54
+	s=arc-20240116; t=1746819438; c=relaxed/simple;
+	bh=9Fsr5jdnGoeXrhIDlopQSpHoWGO+eZqnnoNB/p1AdFs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=MIbwEfbGDoSU6H48yjd8fmdp6dC88ZRaGf2GCPkUPwdtZ8uWUAj3F+HPE01VKWA78kHAClelyRy/SFxZDPtUeNOaR4dh1kTIedan46TJXyebsducZD1zAdY4qJlLsp2BVCd01nz80t/CJOipm7phMSBNUG3zls8TpV1HrmoZkKM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aLCa/q8D; arc=none smtp.client-ip=209.85.222.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vs1-f54.google.com with SMTP id ada2fe7eead31-4def2870995so530604137.1
-        for <linux-input@vger.kernel.org>; Fri, 09 May 2025 12:35:02 -0700 (PDT)
+Received: by mail-ua1-f54.google.com with SMTP id a1e0cc1a2514c-86dde90e7a3so786830241.1
+        for <linux-input@vger.kernel.org>; Fri, 09 May 2025 12:37:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1746819301; x=1747424101; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1746819435; x=1747424235; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=teGDBz+oL+VepNScxLbhS8T7GRfFq4gMy5DrppvryVg=;
-        b=LWXj3npJhF1biWoM+sDWhPlcY/wCSQN+AIRYs1Kj9w6v8j4MlAt3XIHX8i6NoYPr/6
-         3vBcnWeLy0nRiyZc2/HYQ+b09zn2fr3gAH+JOOWhpmOb2++TVWMrpQ73VsNTRTQkfKKv
-         XFkrftOXDWIup50aTlhtNDHc4xPykxVJkTyACUJMfnzY7Qs1pV6RcvLaSvs41SL1AnCF
-         a/FSYJCpOnM32WdCfqKdVScPjBoGRZmHSzIZBKW649shLxR+/dkAB5eLdvXi6lHpwDIS
-         1CwKcJH1C1in0FCMzG0QlYLVNpCaqn9KFgkXlUNvymIoTSR79/MENURjOUdEhM7c7kkJ
-         EEsQ==
+        bh=h0KtsL3zC+zilUq5YygCJM+1/KuP28fziPrOKAyFWD8=;
+        b=aLCa/q8D9wzb0kmpxMRjtQZZCGNedF0duJeP2yHAv/511RJIbu8xdtcfVkzWreWLHE
+         whoU6v6unFe1U4k8HOOPyQx5Np2eWY9PRYjMIjYC7khcq8yvyzc+71V5rF79TnGj4JZC
+         syIr3wrL8iDGN4ds1T1JfQZB9GYdzQjz3fF04fKy+dcTcf1irVvv2Tjo5VbWQhtyz7sO
+         0WPpt9vDrwPsnx2FPYcbQZGVfBSfo2MVfN/GnbANSfSZT/VpGtybCIXQ0PqAlkk/FXWs
+         SM2Z6rj1S6ekOxyGVwH5qfwQi6ZIlI8pSjqNXBeb3DIZUrkqxLwtAro5jfGnsowhIP9e
+         d92w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746819301; x=1747424101;
+        d=1e100.net; s=20230601; t=1746819435; x=1747424235;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=teGDBz+oL+VepNScxLbhS8T7GRfFq4gMy5DrppvryVg=;
-        b=M/pCR/DaQBJCAhIqBuYb1aMc+uJ/IhGxZMSiD5CWkvWWEPBsniuPBKP5x4aze1UwK3
-         nA5mQYT52e8iiKNmMq7jot/EKyM9E2whjhsc5AX6KBSFvLM/SOnRH80LYRBVdrcxVjQ7
-         oLxXPKKwbcrCK76TFnxomOAS7tAD0i2sQfst0r7tNWiQXVJZgUPkcIwg1WoLBSpqdH2H
-         mGZphMV0A4X3viR3R/LfPlCYz4hQU9z9z2C6YaJSTgGcf/ACn+YcNMtJ0gbX9G8AYXH0
-         Z13PEGhdBoJO+95nEdgvq5rhgrAoJjxt5YvPr0qa6Rl+UUU5neafNjPXL1UwfYWf07cx
-         cJuw==
-X-Gm-Message-State: AOJu0YyH1sCb/SFexIf7oEKLJfAPm8lxwjYC41kIWM6VySmOAkOn8XMc
-	QtjZp6dfa001eYgFyHxU3+LBjobWaPvvwX9EkYpMi4NN5AVsrgvE
-X-Gm-Gg: ASbGnctEerE/YDfdPjfoiQW3URKpKd20AccUEp0szbSvfPkWn2oClI4Kv8USJad5VJa
-	fatClHPC4ktaAB1vBn6608xg8H+z/nMKy90y0WBlJNEsXTI72pSInmR92hYOjLOsc/VBKkr17Wl
-	jbJy7109HITR7boNRz/rCta815y5uNpsKdlViSX73sqnIxm6GI955fCB6OG2A2w5rtQDpgPc1VA
-	77ECwj1c+BqhiF1hoofEq8hWhS5wuAdKQWeCgnP5sDPcgKxq07dwGoWFgg708Tljb8V8yZY5DHs
-	c2EkBfwn6Gkb79//zKrzxcOJ/irURECDYXzIkiWz2wbyGt070Oe7
-X-Google-Smtp-Source: AGHT+IENkuS9M00xilQ2MKQnar7gurA/s0BqxVRVtFMEc1WzhFkDngzea6d6TlQAmOh3dBtBx/e7Iw==
-X-Received: by 2002:a05:6102:800f:b0:4dd:ab6c:7654 with SMTP id ada2fe7eead31-4deed30a28emr4079844137.8.1746819301355;
-        Fri, 09 May 2025 12:35:01 -0700 (PDT)
+        bh=h0KtsL3zC+zilUq5YygCJM+1/KuP28fziPrOKAyFWD8=;
+        b=Cg5C6lQerhFjAk4M888JNXUVWIqIQqXCJbbj9UsKM8Zi3TUGmJO+TSF44z/8RVam1G
+         LMxvQAcsygP9fByWAwW6WFUIpppdl3UkrAjhpk63j25rK0YlMnIHrZPN8Fu8EDiNw+qb
+         w+D8vftV4WSdjR/E51qXXgZsLPplNVJBqDgvEBJZAvXs1970k467TEJZG+g9ijZ1GHOM
+         ZCgeidwXZER5jmtG1rfM7lLoAduH9DyZ/G/FJa9OsiNlOolhzhjzI+CLcexnxWbuKo2j
+         pn5RUnfmfPaXZHGvZWKNJgZUxECPPMPl8SCZ/EZL3cN7OqBYJSWXRmEa5jvN+/KarCl1
+         t9kA==
+X-Gm-Message-State: AOJu0YwS6znAU+ZHqaUtwbEtq9cJ9kMTWTeyspkneAs8h1FsmOunqMq4
+	/iBNd2rU00OHbjqIGhuwxjjxtBwuXweKByciOcfhvtkQ/BPvLJ0ZzdgH0g==
+X-Gm-Gg: ASbGncuC7niksxlQ0wLVizOsyvClf6TXmoMIgyz5pswG8eKYB2cFTHJY2EIxHY0YlW9
+	oPCao1vIC6HnZTnwZ7QfWzms8EIaKydE9xNufKplAcAARUDX1KPY7XG3UWQtuYXfY9rWFMN9lAe
+	hGJZDvWYe/fp5MCGvSWQCHA6zodopyW9sqat6nXL5JFboRDEJ7vdQpFd/Xr8uj+Y7tl+Hru8RGi
+	exEvhl0JZ5M2Y1ReFneZj6gHnUUtXnpznoQfX4X60UB9QYjWClJ2sKhD3o782MoSsrt+SBUu4+W
+	bMwRFVGmdIu3peAFAqxdrkVGFt3Ebqr4HDOj5slNgRx47ERfJr9Mjb7fsOlX4e0=
+X-Google-Smtp-Source: AGHT+IFzi+PopovZUWaLEtkA9zV7iLVm+rukgIld9TvuEkxsJXuicoURVoimmubV/vcZ2utFyEYcow==
+X-Received: by 2002:a05:6102:15a1:b0:4dd:ad88:b9bb with SMTP id ada2fe7eead31-4deed339ad0mr4420424137.10.1746819435157;
+        Fri, 09 May 2025 12:37:15 -0700 (PDT)
 Received: from glados.. ([2804:d51:49ad:6800:54d4:409c:93f2:48f])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-4deb20173d5sm1604594137.23.2025.05.09.12.34.59
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-879f62964c4sm1595447241.29.2025.05.09.12.37.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 May 2025 12:35:00 -0700 (PDT)
+        Fri, 09 May 2025 12:37:14 -0700 (PDT)
 From: Marcos Alano <marcoshalano@gmail.com>
 To: dmitry.torokhov@gmail.com
 Cc: linux-input@vger.kernel.org,
 	Marcos Alano <marcoshalano@gmail.com>
 Subject: [PATCH] Add keycode for performance mode keys
-Date: Fri,  9 May 2025 16:34:24 -0300
-Message-ID: <20250509193432.2189533-1-marcoshalano@gmail.com>
+Date: Fri,  9 May 2025 16:37:02 -0300
+Message-ID: <20250509193708.2190586-1-marcoshalano@gmail.com>
 X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
@@ -85,8 +85,11 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Alienware calls this key "Performance Boost", and
-Dell calls it "G-Mode".
+Alienware calls this key "Performance Boost". Dell calls it "G-Mode".
+
+The goal is to have a specific keycode to detect when this key is
+pressed, so userspace can act upon it and do what have to do, usually
+starting the power profile for performance.
 
 Signed-off-by: Marcos Alano <marcoshalano@gmail.com>
 ---
