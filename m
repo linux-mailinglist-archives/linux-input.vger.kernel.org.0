@@ -1,107 +1,126 @@
-Return-Path: <linux-input+bounces-12273-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12274-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id D740DAB323B
-	for <lists+linux-input@lfdr.de>; Mon, 12 May 2025 10:50:59 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E0EA9AB32E0
+	for <lists+linux-input@lfdr.de>; Mon, 12 May 2025 11:17:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 56E163BDCDC
-	for <lists+linux-input@lfdr.de>; Mon, 12 May 2025 08:50:06 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 729EA17B3FC
+	for <lists+linux-input@lfdr.de>; Mon, 12 May 2025 09:17:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1D2BD257AE4;
-	Mon, 12 May 2025 08:50:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DC25F25B1FD;
+	Mon, 12 May 2025 09:17:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KtmMfrV6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="niTPjWWk"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67B61259C94;
-	Mon, 12 May 2025 08:50:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F15825B1EB;
+	Mon, 12 May 2025 09:17:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747039823; cv=none; b=pjke1zeWa7+yEBdeCsf0/J8XPyx0WH4OWgrzK+0WH5AYxiS9EtEzgTIG059Q/6IHdLl0gxJke2HHkTpvsWPdM+pDbcl9GveQ7f6DQOE3JHL0JWA5W/NsKBVm5TtVm771U1Jb5KEvElmEN+ZkkeIWGcm5+lDEtteZuAMRYNVweb8=
+	t=1747041429; cv=none; b=AsahrPOlKgOezZACQkvt6Xhby+2YIBQeWiZwLZ4TRsx+F6LQsRL6PIag/zinJ1kYxwuYZHhUZlpCa4usa6EBGnyYS4c8THXnf6HdIhMYVzQdzNUtskIZRfDRGJEoTZXe2hrLkmuNuLQIqa0L5S/ML8nVaidZ5eUpuSu44Q7v8Vw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747039823; c=relaxed/simple;
-	bh=XCYjdngT1XLIf0TkErxHKjyCJ8hAiIo1AZDc5hJ8qT8=;
+	s=arc-20240116; t=1747041429; c=relaxed/simple;
+	bh=cgUSxdmTkxSWldGPZVwO4SD35vXXBfCC9O7HiCH+Pro=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=T4KRPa58mrXOuMgAO4pBHOjcptlAiPcQUG5L3bKz1bHdeAIY82PnBZpDk7E6Jzr7tsbZt0Ubqm/uvbb9IbfPQlYhbyMKoqB80AOb9BrXEiZ/N06guekzsS4UTBPI1+1yri9A+O6B6Y2nh4pZuby8oMZMMNe4l13Px4x2tuj5Koo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KtmMfrV6; arc=none smtp.client-ip=192.198.163.7
+	 Content-Type:Content-Disposition:In-Reply-To; b=EAOCaFUGvE3bMrf1/haj7cVdQtFeUaYYK9ykXESzLBJRLyfwUzwAuWXD9O5UMGGGpK3MrUw41h+IQJnn5fNHeJJ4rxxa/wO5kK3IEg5D0VhHZHhXd3o7tPy7b128UAZZQyumKftp8+Q54HvrGmCdXh0oeaHaC8SPlKiDJQZBK7Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=niTPjWWk; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747039821; x=1778575821;
+  t=1747041428; x=1778577428;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=XCYjdngT1XLIf0TkErxHKjyCJ8hAiIo1AZDc5hJ8qT8=;
-  b=KtmMfrV6coSmrdABPVoLJT9XBGetktaZPTyzCIoHwql3T5QBwjZFYN6U
-   zd3/1qr8YabSWiB5hE4Z6MAgtxoYVFB0sOWtDcOY5mDY7JKGw6XKIdOo7
-   6ZPu6JgyXVYZOHk0APcwlpeLom4NFTYtqHAUU1X3k4QmerYKcuKqosTYC
-   uum3dGyDbcNlgiTbX5R/daOre+K/A3Hl6KSf+GZ/t6lC3Eo1/AN9mLrjn
-   5AwvOG79IwyNIVjbD1XDcguoNKF39QGyZOWJUTC5nmVL9twMmuxETzlgO
-   3MuvJ2O+dmkPOTkCoF1XEA98fy7/cK775zSKSmR/Bd6CaQ/N6mnVlz9F/
+   mime-version:in-reply-to;
+  bh=cgUSxdmTkxSWldGPZVwO4SD35vXXBfCC9O7HiCH+Pro=;
+  b=niTPjWWkeSxaMbIoxVMIRiSNok9wnOlMBbeZHNBWPPUW5yU2kj4+DS9u
+   FJ0vvpqige0q0kc3gPfHwGRq37kUeksMly3g/hQBHMdH12Tzu28LeRBWS
+   xU6widoUrtb/ZB5meCfHsvd2ga3Mu6PhnGBVVKHFhNrq9R3N0x63bl5/L
+   HqxgndUcxbTcoJmjCPV5PldGVz3un0zpk4nwPfE9+tX/UlqRQC1ri8Nd+
+   nVxFxvktUGOphFHq7LRxg718tAAYU6d4xKF2EV9DrbIt1twtcn6SUkHhP
+   UPpPzREXaVguxRcC2gjJGko4PiBjfz+xjc+vpkASN+TcVK+vEcf8lJjIz
    g==;
-X-CSE-ConnectionGUID: WRYLeokeSQWO1KH2GH1OLA==
-X-CSE-MsgGUID: UtHSi1KsRZ2GXxTRQpWYFQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11430"; a="74219686"
+X-CSE-ConnectionGUID: YVDTJUd3ReGpMXtDKOlPOg==
+X-CSE-MsgGUID: wAWsuRVEQtWF0T1yGc8CxA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11430"; a="66234206"
 X-IronPort-AV: E=Sophos;i="6.15,281,1739865600"; 
-   d="scan'208";a="74219686"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2025 01:50:20 -0700
-X-CSE-ConnectionGUID: T0hDIVuvRgaczn9d+CKH2g==
-X-CSE-MsgGUID: e7qCMwMlRvm7w98P/Qmyrw==
+   d="scan'208";a="66234206"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2025 02:17:08 -0700
+X-CSE-ConnectionGUID: f7BfdpYJTnudnygZhtCYJw==
+X-CSE-MsgGUID: J6JM5ZZ0Tkuif9fYGYnj5w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,281,1739865600"; 
-   d="scan'208";a="142514433"
+   d="scan'208";a="137816683"
 Received: from smile.fi.intel.com ([10.237.72.52])
-  by fmviesa004.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2025 01:50:19 -0700
+  by orviesa007.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2025 02:17:02 -0700
 Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
 	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1uEOrX-00000000rnG-3TQW;
-	Mon, 12 May 2025 11:50:15 +0300
-Date: Mon, 12 May 2025 11:50:15 +0300
+	id 1uEPHP-00000000sAu-2meb;
+	Mon, 12 May 2025 12:16:59 +0300
+Date: Mon, 12 May 2025 12:16:59 +0300
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: lihua - <lihua@huaqin.corp-partner.google.com>
-Cc: dmitry.torokhov@gmail.com, hdegoede@redhat.com,
-	javier.carrasco.cruz@gmail.com, zack.rusin@broadcom.com,
-	namcao@linutronix.de, tglx@linutronix.de,
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Input: gpio-keys - Detect long press events in sleep mode
-Message-ID: <aCG2Rx_99mP6JFi-@smile.fi.intel.com>
-References: <20250506055847.15389-1-lihua@huaqin.corp-partner.google.com>
- <CAAkVrDM1TyM9VQ6rctF75EcLCRbimgJqbA2oH_RvJxC8ex6_vQ@mail.gmail.com>
+To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Kamel Bouhara <kamel.bouhara@bootlin.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
+	Michael Walle <mwalle@kernel.org>, Mark Brown <broonie@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
+	linux-input@vger.kernel.org, linux-pwm@vger.kernel.org,
+	=?iso-8859-1?Q?Gr=E9gory?= Clement <gregory.clement@bootlin.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH v8 03/11] pinctrl: Add MAX7360 pinctrl driver
+Message-ID: <aCG8i-wjZZk48vDH@smile.fi.intel.com>
+References: <20250509-mdb-max7360-support-v8-0-bbe486f6bcb7@bootlin.com>
+ <20250509-mdb-max7360-support-v8-3-bbe486f6bcb7@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAAkVrDM1TyM9VQ6rctF75EcLCRbimgJqbA2oH_RvJxC8ex6_vQ@mail.gmail.com>
+In-Reply-To: <20250509-mdb-max7360-support-v8-3-bbe486f6bcb7@bootlin.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Mon, May 12, 2025 at 03:57:17PM +0800, lihua - wrote:
+On Fri, May 09, 2025 at 11:14:37AM +0200, Mathieu Dubois-Briand wrote:
+> Add driver for Maxim Integrated MAX7360 pinctrl on the PORT pins. Pins
+> can be used either for GPIO, PWM or rotary encoder functionalities.
 
-First of all, do not top-post!
+...
 
-> Hello, All linux team members:
->       Could you please review this modification as soon as possible?
+> +#include <linux/array_size.h>
+> +#include <linux/dev_printk.h>
+> +#include <linux/device.h>
+> +#include <linux/device/devres.h>
+> +#include <linux/err.h>
+> +#include <linux/init.h>
+> +#include <linux/mfd/max7360.h>
+> +#include <linux/module.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/regmap.h>
 
-You even haven't waited for a full week...
++ stddef.h
 
-If it's an (important) fix, made it look so (Fixes: tag, Cc: stable@, etc).
+(you use NULL and true at least)
 
-> On Tue, May 6, 2025 at 1:58 PM Hua Li
-> <lihua@huaqin.corp-partner.google.com> wrote:
-> >
-> > Previously, long pressing the gpio key could only detect short press
-> > events and could not report long press events in sleep mode, we need
-> > to recognize long press events in sleep mode and fix this issue.
+...
+
+With the above being addressed
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
 -- 
 With Best Regards,
