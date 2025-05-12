@@ -1,154 +1,156 @@
-Return-Path: <linux-input+bounces-12275-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12276-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01F26AB3311
-	for <lists+linux-input@lfdr.de>; Mon, 12 May 2025 11:22:27 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id C1CF9AB36D4
+	for <lists+linux-input@lfdr.de>; Mon, 12 May 2025 14:17:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 06ACE3BE15D
-	for <lists+linux-input@lfdr.de>; Mon, 12 May 2025 09:21:53 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8CED67A2343
+	for <lists+linux-input@lfdr.de>; Mon, 12 May 2025 12:15:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4B41E25DAEF;
-	Mon, 12 May 2025 09:21:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D3BD1262D0B;
+	Mon, 12 May 2025 12:17:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DQiymcGQ"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JlPbOJwn"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0537A25C80B;
-	Mon, 12 May 2025 09:21:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FC9C1C6FF2;
+	Mon, 12 May 2025 12:17:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747041698; cv=none; b=mQxgbBUk6vdilLWiT9K5RdiyelNtzy6AMj0fXywXZqK7IYwhTBRXg5gREFQaVgDJrfkvNRQM0QmiuVYUtyOk/K8BOgkxj4aCnbB6eM5XJigLl8J8UDP8/VxBclMgDslpBCWKhK94MCMSJDGQCpTUHwJkRh3vd0HfS9lXP+P2nsc=
+	t=1747052222; cv=none; b=BtqwCjKAlY/V1SbcMvA12Xf/qo2yOl4bPPXqNqIXeaeRvDkmQ521qD3xjpAgQAldWS4zyYQXtDJeU1NvNEfOqC32n4MqXodgL1fFR16EHtjFT5aXkKCfFnum1oVTBI09cG4sbps/3QDg2g/HSXKpUMPyeHFzVN593H7WRS/UBds=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747041698; c=relaxed/simple;
-	bh=YmCAbwyOKKCOtWmhkRLBy829s5QkGxOr0MC+PNYO3U0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Tpp5hBHsT7OGtxjiOC8EBQ3545hOX1RclxL3JIuL+EtgdJBcD8UUOLBcJ8Aff1enzq9JuBD3IRQyARvSD51r+BxjJbhgPNOdKUtf+LOR4WM2eyt+v6Db1M9siSBtxc7HajpwwBAQjeJR6j6617wnKNPeJbWnM9bt9xGZfXG7jIc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DQiymcGQ; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747041696; x=1778577696;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=YmCAbwyOKKCOtWmhkRLBy829s5QkGxOr0MC+PNYO3U0=;
-  b=DQiymcGQWCa0IxCvHPvu1YVBjlbUVS6Bc/iNPq2bk+XjZvv+1bHdNTta
-   ACdTR+po0A4BwTUyHeriWWnjDCedPRdEjExvttpWWd024nQ17BcV6AQRn
-   zdcVRMJQmcBCZPjRm9/oFI4FRcGTqBMnpe2hdJMQbP/agsetyIPjm//sZ
-   V0UvUchwCNhm6eQ29t+yIGPmD1hvyBF8cfIPbvOMrZG++DiFAZ0gIVkGC
-   NHy2RbhwWt1hGudbMz35glFZxgQZKugSp1tPp67qp1lKwU6Jg3uk5DEj8
-   53K8YbSgc356v2uMuJdKA8OP8gdySMCYjrnDUzprPosXjvJiIkuTxZZjK
-   Q==;
-X-CSE-ConnectionGUID: mNm96ilSQQqwEyzPGSjWeA==
-X-CSE-MsgGUID: 8LvY2hPyTAeF9dPHAqONwA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11430"; a="48947672"
-X-IronPort-AV: E=Sophos;i="6.15,281,1739865600"; 
-   d="scan'208";a="48947672"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2025 02:21:35 -0700
-X-CSE-ConnectionGUID: /YbdnLXlRBeGXuDj1xlBgQ==
-X-CSE-MsgGUID: DwVgNY1YSkOB3zIE/HlX0g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,281,1739865600"; 
-   d="scan'208";a="142076489"
-Received: from smile.fi.intel.com ([10.237.72.52])
-  by orviesa003.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2025 02:21:30 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
-	(envelope-from <andriy.shevchenko@intel.com>)
-	id 1uEPLj-00000000sE1-1BwI;
-	Mon, 12 May 2025 12:21:27 +0300
-Date: Mon, 12 May 2025 12:21:27 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: mathieu.dubois-briand@bootlin.com
-Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Kamel Bouhara <kamel.bouhara@bootlin.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
-	Michael Walle <mwalle@kernel.org>, Mark Brown <broonie@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
-	linux-input@vger.kernel.org, linux-pwm@vger.kernel.org,
-	=?iso-8859-1?Q?Gr=E9gory?= Clement <gregory.clement@bootlin.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v8 02/11] mfd: Add max7360 support
-Message-ID: <aCG9lyaCGchBsqLE@smile.fi.intel.com>
-References: <20250509-mdb-max7360-support-v8-0-bbe486f6bcb7@bootlin.com>
- <20250509-mdb-max7360-support-v8-2-bbe486f6bcb7@bootlin.com>
+	s=arc-20240116; t=1747052222; c=relaxed/simple;
+	bh=mcT9W2XpGug/PF9XnYH8hrSTEA26BaaYyG5vLPJwSyk=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=AogndMfxWzSYlhpXnuWA+PtvtQio16UuEP1Z4HTkh/sZ9XFezH0ikbxKXXPp1n8xJuwjrIV/IgRI9P24GJtX/BGgm+A1S3i6neI+ZBgfzcpPT9y1LY0uMU8gwSGV9tFpgozlD6l/2sYa7gKcLR3qxCOYV/U4r/5c7A2HzhJQHTA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JlPbOJwn; arc=none smtp.client-ip=209.85.210.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-7390d21bb1cso4112573b3a.2;
+        Mon, 12 May 2025 05:17:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1747052220; x=1747657020; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:user-agent:references
+         :in-reply-to:subject:cc:to:from:message-id:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=UT8FxHYTuZLnDZ/LUAeiM7+DFqtM+z3h97KfeLVmQsw=;
+        b=JlPbOJwn9LkMLXLpYthT8yGD3yXr0x4CjGj8z1YjoyMVQycjsMUstrAhVNLuG45os5
+         eARQTw4SsxU/CuEyx29K4De9XqHg4vDUS+ipC14cIHntRixz5/jeF0U0eEP6zlTEk2rD
+         tsL5I6DuUwfbNoMTU6SZYOGUCY6dgaggKis94TbWfs6VLwf+DRp0l4QwF0uaI6Rbo+FM
+         Gn6Q0ZgdHKhSuf3glsIQAVipOSVuXYY+csTeKzVtcGVjNT0AkXvwuaSMIUR4nfeupXjK
+         3yS8VxzGrREPnNnsmHU7x5lTxtC4KD1rQ/yHTviB7WWl8hRO+RWmxXykd6/ygBjuP7kV
+         +VlA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747052220; x=1747657020;
+        h=content-transfer-encoding:mime-version:user-agent:references
+         :in-reply-to:subject:cc:to:from:message-id:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=UT8FxHYTuZLnDZ/LUAeiM7+DFqtM+z3h97KfeLVmQsw=;
+        b=YEdQUprYDmR4EtzDEkO1zBD5oN4RG8npZUUskhXuwxLMJBk+Iao+/9irq1jZisTQwk
+         ryKrVwStbfx35hFyTe+9JihmVb2SZ/CZxj7vsX0yxXrs5ySyVy616THCDQwvUNP3/fnO
+         ysw1VbCFc573CX2OCdrZZZ0nWkkjCnV5orTHcJlFP9dQtwYbZAhsR4MB/zukZN7fdRxl
+         jshNeCMZQwCnaDOfsoVFpgdVMrQEfRLjOLI3uwq2brV2iOU6X/x6dHZcMP0S3a5KSGje
+         QB20YUd3pKnybDrul3riG7HuWAwndHKY0taqvkdytat/T/6aF6fCRfmsnVWZbWt721PO
+         jmaw==
+X-Forwarded-Encrypted: i=1; AJvYcCV7pdDk6NHuBzuT8HqtBjwpMpBU0ZAI1gO9UBX3OJfNy2p4uhEgTtXpIh3fguDjeZvqyiLZ7Pq0RirF@vger.kernel.org, AJvYcCWNxGfXiaPVuEBC2nzuCe4sjVR9ijPpFnZNEU4BJ5xCCgPZ8E6an33nWVx1GXKjOCw85/f4thSp@vger.kernel.org, AJvYcCXmWqgvnv1UrMxBLy8D/FwiUU/3WxLNJ42HM55jtiT6ib8aC5bekOAoMPocVacExHcKLLW4laPsDmU52w==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxM0mfdX/CMuu/pre84mluHpIFYn04MyCn106jSrBVjPzCy8Cmh
+	il3R5G6jLIDRkPkaEBu/ga+Om7kVvemCrUs2GWETwIputROG7DA9
+X-Gm-Gg: ASbGncskSR0tzoOjIHIAGJCA494VcXVKq8HFyauKFVTerfHqe/EsyZVZHHocxATSsYM
+	9H+2cV/TwvdVvKAG+N5p4vB91S2ni6QJszNYLuk4UVXAzH17HFTK7szODW/3xFKWx6vrSxFfNfa
+	vYSKic82HjgO+YBBL9hS/VK17rGh4si/C++Wqgq+UzNYd76+k+FEs0/2/7PgUVOkHGeorkRQOM4
+	GXP4pEFOFBuquJCAEUokVB/VuvP5UU9PxJ7ffmdRXUWnGvgJ7q+ulC2HcBNPqhRxDG/3655MWXj
+	aewOC5/2vuMxnIicfKtZd8MOi1g1COpVYvf6COT1s0PjbwFq/Xh+puKnUac6joI/yot7n0AQfa9
+	2oWuw8A==
+X-Google-Smtp-Source: AGHT+IFlczZni4OBHuq4O/Qf3oTFzY2BdnjnEHkE4dmq/Vo7gt0d2DyGDIXpH0W7lsUp0iC1OeuuxQ==
+X-Received: by 2002:a05:6a00:17a7:b0:730:79bf:c893 with SMTP id d2e1a72fcca58-7423bc1d336mr19378195b3a.4.1747052220490;
+        Mon, 12 May 2025 05:17:00 -0700 (PDT)
+Received: from localhost (58x12x133x161.ap58.ftth.ucom.ne.jp. [58.12.133.161])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74237a3d3e9sm5865409b3a.125.2025.05.12.05.16.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 12 May 2025 05:17:00 -0700 (PDT)
+Date: Mon, 12 May 2025 21:16:53 +0900
+Message-ID: <eke7v7q6vxai.wl-kobarity@gmail.com>
+From: kobarity <kobarity@gmail.com>
+To: Baolu Lu <baolu.lu@linux.intel.com>
+Cc: Aditya Garg <gargaditya08@live.com>,	Berkel =?ISO-8859-1?Q?J=F6rg?=
+ <joerg.berkel@bfh.ch>,	Robin Murphy <robin.murphy@arm.com>,
+	"linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+	"dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>,
+	"stable@vger.kernel.org" <stable@vger.kernel.org>,
+	"regressions@lists.linux.dev" <regressions@lists.linux.dev>,
+	"linux-spi@vger.kernel.org" <linux-spi@vger.kernel.org>,	"lukas@wunner.de"
+ <lukas@wunner.de>,	David Woodhouse <dwmw2@infradead.org>,
+	"iommu@lists.linux.dev" <iommu@lists.linux.dev>,	Joerg Roedel
+ <joro@8bytes.org>,	Will Deacon <will@kernel.org>
+Subject: Re: [REGRESSION] applespi from 6.12 onwards
+In-Reply-To: <089b2370-23e4-4a22-bf57-886e46247a1f@linux.intel.com>
+References: <4dada48a-c5dd-4c30-9c85-5b03b0aa01f0@bfh.ch>
+	<PN3PR01MB9597D8E327CC7910673849D3B888A@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+	<122a1f90-ddd9-4e74-96d1-57e21e580ae2@linux.intel.com>
+	<f1b41874-1535-4457-9747-eee3d816091a@arm.com>
+	<PN3PR01MB959764E908600CD45169348CB88BA@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+	<c0bbfcc8-1275-43de-be40-acb8f2653359@bfh.ch>
+	<PN3PR01MB959708DEEA1567DD38447D5AB895A@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+	<eke7wmanw9xq.wl-kobarity@gmail.com>
+	<089b2370-23e4-4a22-bf57-886e46247a1f@linux.intel.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?ISO-8859-4?Q?Goj=F2?=) APEL-LB/10.8 EasyPG/1.0.0
+ Emacs/31.0.50 (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250509-mdb-max7360-support-v8-2-bbe486f6bcb7@bootlin.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, May 09, 2025 at 11:14:36AM +0200, mathieu.dubois-briand@bootlin.com wrote:
-> 
-> Add core driver to support MAX7360 i2c chip, multi function device
-> with keypad, GPIO, PWM, GPO and rotary encoder submodules.
+Baolu Lu wrote:
+> On 5/11/25 21:31, kobarity wrote:
+> >=20
+> > Hi
+> >=20
+> > I'm also experiencing this problem on my MacBookPro14,3.
+> >=20
+> > Aditya Garg wrote:
+> >>=20
+> >> Hi J=F6rg
+> >>=20
+> >> Can you test the kernel here to see if this fixes your issue:
+> >>=20
+> >> https://github.com/t2linux/T2-Debian-and-Ubuntu-Kernel/actions/runs/14=
+944200356
+> >>=20
+> >> Alternatively you can try compiling your own kernel with this patch:
+> >>=20
+> >> https://lore.kernel.org/all/0-v1-c26553717e90+65f-iommu_vtd_ss_wo_jgg@=
+nvidia.com/
+> >=20
+> > As far as I have tried, this patch did not solve the problem.
+> >=20
+> > By bisecting, I found that this problem was introduced by commit
+> > 2031c469f816 ("iommu/vt-d: Add support for static identity domain").
+> > In fact, since this commit, it will panic at startup.  This panic was
+> > fixed by commit 6e02a277f1db ("iommu/vt-d: Fix incorrect
+> > pci_for_each_dma_alias() for non-PCI devices").  So I applied commit
+> > 6e02a277f1db on commit 2031c469f816 and confirmed that the keyboard
+> > and touchpad is not working.
+>=20
+> Have you tried to apply commit 64f792981e35 ("iommu/vt-d: Remove device
+> comparison in context_setup_pass_through_cb")?
 
-...
+Yes, I tried it on yesterday's master branch, including commit
+64f792981e35.
 
-> + * Author: Kamel Bouhara <kamel.bouhara@bootlin.com>
-> + * Author: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-
- * Authors:
-	 Person A <...>
-	 Person B <...>
-
-?
-
-...
-
-> +	for (unsigned int i = 0; i < MAX7360_PORT_PWM_COUNT; i++) {
-> +		ret = regmap_write_bits(regmap, MAX7360_REG_PWMCFG(i),
-> +					MAX7360_PORT_CFG_INTERRUPT_MASK,
-> +					MAX7360_PORT_CFG_INTERRUPT_MASK);
-> +		if (ret)
-> +			return dev_err_probe(dev, ret,
-> +					     "Failed to write MAX7360 port configuration");
-
-I think I already pointed out the missing '\n'.
-
-> +	}
-
-...
-
-> +	/* Read GPIO in register, to ACK any pending IRQ. */
-> +	ret = regmap_read(regmap, MAX7360_REG_GPIOIN, &val);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "Failed to read GPIO values: %d\n", ret);
-
-Double ret in the message. Check all of the usages of dev_err_probe() in your code.
-
-> +	return 0;
-
-...
-
-> +#define MAX7360_REG_GPIO_LAST		0x5F
-
-> +#define MAX7360_FIFO_EMPTY		0x3f
-> +#define MAX7360_FIFO_OVERFLOW		0x7f
-
-Please, be consistent in style of the values.
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+- Keyboard/Touchpad NOT working:
+  - No patches
+  - With patch in https://lore.kernel.org/all/0-v1-c26553717e90+65f-iommu_v=
+td_ss_wo_jgg@nvidia.com/
+- Keyboard/Touchpad working:
+  - With my workaround patch
 
