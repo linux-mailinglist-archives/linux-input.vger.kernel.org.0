@@ -1,156 +1,215 @@
-Return-Path: <linux-input+bounces-12276-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12277-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1CF9AB36D4
-	for <lists+linux-input@lfdr.de>; Mon, 12 May 2025 14:17:10 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D8326AB3730
+	for <lists+linux-input@lfdr.de>; Mon, 12 May 2025 14:39:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8CED67A2343
-	for <lists+linux-input@lfdr.de>; Mon, 12 May 2025 12:15:54 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3C57E7A23CA
+	for <lists+linux-input@lfdr.de>; Mon, 12 May 2025 12:37:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D3BD1262D0B;
-	Mon, 12 May 2025 12:17:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 17B6A29344A;
+	Mon, 12 May 2025 12:38:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JlPbOJwn"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RRi0Mj/A"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FC9C1C6FF2;
-	Mon, 12 May 2025 12:17:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD07D610D;
+	Mon, 12 May 2025 12:38:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747052222; cv=none; b=BtqwCjKAlY/V1SbcMvA12Xf/qo2yOl4bPPXqNqIXeaeRvDkmQ521qD3xjpAgQAldWS4zyYQXtDJeU1NvNEfOqC32n4MqXodgL1fFR16EHtjFT5aXkKCfFnum1oVTBI09cG4sbps/3QDg2g/HSXKpUMPyeHFzVN593H7WRS/UBds=
+	t=1747053539; cv=none; b=J1PIBoYczzbs5ZUidjok8mLZt1c++YfOz1SPXNRc54H8R4Stke79D3JNhPAdjBIVgXvkHE3lOpn1BG98QyHkmSeEfRxqN3cJbo3Vkk9SNWFe7pIholPv7hD7qbuTUrJh21eaTRz29JBtW8VZA3ijE0Eq1O6CWWh9D3SIe0PP4vs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747052222; c=relaxed/simple;
-	bh=mcT9W2XpGug/PF9XnYH8hrSTEA26BaaYyG5vLPJwSyk=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=AogndMfxWzSYlhpXnuWA+PtvtQio16UuEP1Z4HTkh/sZ9XFezH0ikbxKXXPp1n8xJuwjrIV/IgRI9P24GJtX/BGgm+A1S3i6neI+ZBgfzcpPT9y1LY0uMU8gwSGV9tFpgozlD6l/2sYa7gKcLR3qxCOYV/U4r/5c7A2HzhJQHTA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JlPbOJwn; arc=none smtp.client-ip=209.85.210.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-7390d21bb1cso4112573b3a.2;
-        Mon, 12 May 2025 05:17:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747052220; x=1747657020; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:user-agent:references
-         :in-reply-to:subject:cc:to:from:message-id:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=UT8FxHYTuZLnDZ/LUAeiM7+DFqtM+z3h97KfeLVmQsw=;
-        b=JlPbOJwn9LkMLXLpYthT8yGD3yXr0x4CjGj8z1YjoyMVQycjsMUstrAhVNLuG45os5
-         eARQTw4SsxU/CuEyx29K4De9XqHg4vDUS+ipC14cIHntRixz5/jeF0U0eEP6zlTEk2rD
-         tsL5I6DuUwfbNoMTU6SZYOGUCY6dgaggKis94TbWfs6VLwf+DRp0l4QwF0uaI6Rbo+FM
-         Gn6Q0ZgdHKhSuf3glsIQAVipOSVuXYY+csTeKzVtcGVjNT0AkXvwuaSMIUR4nfeupXjK
-         3yS8VxzGrREPnNnsmHU7x5lTxtC4KD1rQ/yHTviB7WWl8hRO+RWmxXykd6/ygBjuP7kV
-         +VlA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747052220; x=1747657020;
-        h=content-transfer-encoding:mime-version:user-agent:references
-         :in-reply-to:subject:cc:to:from:message-id:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=UT8FxHYTuZLnDZ/LUAeiM7+DFqtM+z3h97KfeLVmQsw=;
-        b=YEdQUprYDmR4EtzDEkO1zBD5oN4RG8npZUUskhXuwxLMJBk+Iao+/9irq1jZisTQwk
-         ryKrVwStbfx35hFyTe+9JihmVb2SZ/CZxj7vsX0yxXrs5ySyVy616THCDQwvUNP3/fnO
-         ysw1VbCFc573CX2OCdrZZZ0nWkkjCnV5orTHcJlFP9dQtwYbZAhsR4MB/zukZN7fdRxl
-         jshNeCMZQwCnaDOfsoVFpgdVMrQEfRLjOLI3uwq2brV2iOU6X/x6dHZcMP0S3a5KSGje
-         QB20YUd3pKnybDrul3riG7HuWAwndHKY0taqvkdytat/T/6aF6fCRfmsnVWZbWt721PO
-         jmaw==
-X-Forwarded-Encrypted: i=1; AJvYcCV7pdDk6NHuBzuT8HqtBjwpMpBU0ZAI1gO9UBX3OJfNy2p4uhEgTtXpIh3fguDjeZvqyiLZ7Pq0RirF@vger.kernel.org, AJvYcCWNxGfXiaPVuEBC2nzuCe4sjVR9ijPpFnZNEU4BJ5xCCgPZ8E6an33nWVx1GXKjOCw85/f4thSp@vger.kernel.org, AJvYcCXmWqgvnv1UrMxBLy8D/FwiUU/3WxLNJ42HM55jtiT6ib8aC5bekOAoMPocVacExHcKLLW4laPsDmU52w==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxM0mfdX/CMuu/pre84mluHpIFYn04MyCn106jSrBVjPzCy8Cmh
-	il3R5G6jLIDRkPkaEBu/ga+Om7kVvemCrUs2GWETwIputROG7DA9
-X-Gm-Gg: ASbGncskSR0tzoOjIHIAGJCA494VcXVKq8HFyauKFVTerfHqe/EsyZVZHHocxATSsYM
-	9H+2cV/TwvdVvKAG+N5p4vB91S2ni6QJszNYLuk4UVXAzH17HFTK7szODW/3xFKWx6vrSxFfNfa
-	vYSKic82HjgO+YBBL9hS/VK17rGh4si/C++Wqgq+UzNYd76+k+FEs0/2/7PgUVOkHGeorkRQOM4
-	GXP4pEFOFBuquJCAEUokVB/VuvP5UU9PxJ7ffmdRXUWnGvgJ7q+ulC2HcBNPqhRxDG/3655MWXj
-	aewOC5/2vuMxnIicfKtZd8MOi1g1COpVYvf6COT1s0PjbwFq/Xh+puKnUac6joI/yot7n0AQfa9
-	2oWuw8A==
-X-Google-Smtp-Source: AGHT+IFlczZni4OBHuq4O/Qf3oTFzY2BdnjnEHkE4dmq/Vo7gt0d2DyGDIXpH0W7lsUp0iC1OeuuxQ==
-X-Received: by 2002:a05:6a00:17a7:b0:730:79bf:c893 with SMTP id d2e1a72fcca58-7423bc1d336mr19378195b3a.4.1747052220490;
-        Mon, 12 May 2025 05:17:00 -0700 (PDT)
-Received: from localhost (58x12x133x161.ap58.ftth.ucom.ne.jp. [58.12.133.161])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74237a3d3e9sm5865409b3a.125.2025.05.12.05.16.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 May 2025 05:17:00 -0700 (PDT)
-Date: Mon, 12 May 2025 21:16:53 +0900
-Message-ID: <eke7v7q6vxai.wl-kobarity@gmail.com>
-From: kobarity <kobarity@gmail.com>
-To: Baolu Lu <baolu.lu@linux.intel.com>
-Cc: Aditya Garg <gargaditya08@live.com>,	Berkel =?ISO-8859-1?Q?J=F6rg?=
- <joerg.berkel@bfh.ch>,	Robin Murphy <robin.murphy@arm.com>,
-	"linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-	"dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>,
-	"stable@vger.kernel.org" <stable@vger.kernel.org>,
-	"regressions@lists.linux.dev" <regressions@lists.linux.dev>,
-	"linux-spi@vger.kernel.org" <linux-spi@vger.kernel.org>,	"lukas@wunner.de"
- <lukas@wunner.de>,	David Woodhouse <dwmw2@infradead.org>,
-	"iommu@lists.linux.dev" <iommu@lists.linux.dev>,	Joerg Roedel
- <joro@8bytes.org>,	Will Deacon <will@kernel.org>
-Subject: Re: [REGRESSION] applespi from 6.12 onwards
-In-Reply-To: <089b2370-23e4-4a22-bf57-886e46247a1f@linux.intel.com>
-References: <4dada48a-c5dd-4c30-9c85-5b03b0aa01f0@bfh.ch>
-	<PN3PR01MB9597D8E327CC7910673849D3B888A@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
-	<122a1f90-ddd9-4e74-96d1-57e21e580ae2@linux.intel.com>
-	<f1b41874-1535-4457-9747-eee3d816091a@arm.com>
-	<PN3PR01MB959764E908600CD45169348CB88BA@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
-	<c0bbfcc8-1275-43de-be40-acb8f2653359@bfh.ch>
-	<PN3PR01MB959708DEEA1567DD38447D5AB895A@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
-	<eke7wmanw9xq.wl-kobarity@gmail.com>
-	<089b2370-23e4-4a22-bf57-886e46247a1f@linux.intel.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?ISO-8859-4?Q?Goj=F2?=) APEL-LB/10.8 EasyPG/1.0.0
- Emacs/31.0.50 (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+	s=arc-20240116; t=1747053539; c=relaxed/simple;
+	bh=NqT3bibK3Jvi4NAqycwo7bNrt+NCy+HAVXsUduhU2QE=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=hfckXFbLHk8Hm1Q+Wp+BsudIL1VrK3JL9C563LyU7ggBd9DuCJEAaO+nQvppMhAzt2A2mWIScg5RPjvbpzQnVPh4EZ8/39BhL0JrycK4hJXP3iiVQNl6VDGY8L3xGFENaiD8GAbJtGtkETIQ2XPj+Ap2aG//SHNY+m1KH3azXNg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RRi0Mj/A; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 5A3E0C4CEE7;
+	Mon, 12 May 2025 12:38:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1747053538;
+	bh=NqT3bibK3Jvi4NAqycwo7bNrt+NCy+HAVXsUduhU2QE=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=RRi0Mj/AIUzwoec+hbMvz57SPHm63KsWx0k1Bt4eFDn5KpUWj40qpVw+G4ycTKoJt
+	 dHn0FQKmFP3LmUczZO0kVX/emUHt02Dui9G0k9mMB9H5kRkUewOBuWie8uXWMUZ9cq
+	 zAjH04YoDZiYY7TPTDANDlgvgBuvpL6b8yx1IJ/VAl0d9qyuDN1Ot4UcVNNt0WWG/Y
+	 iaDBe5HcKA7jLSZBGPaJAvWVu5NxxTgRHYqTDLd5+qKfOpI+KC2wrdnqmXnFxC2u03
+	 frtv18JG1roXm86O97hfgufbe/wwyAz6/TizQ6SiFNIjWdzJ86eotrDq4ZoR456dDi
+	 jJ+DQ4+ReWlNA==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A82EC3ABC3;
+	Mon, 12 May 2025 12:38:58 +0000 (UTC)
+From: =?utf-8?q?Nuno_S=C3=A1_via_B4_Relay?= <devnull+nuno.sa.analog.com@kernel.org>
+Subject: [PATCH v3 00/22] mfd: adp5585: support keymap events and drop
+ legacy Input driver
+Date: Mon, 12 May 2025 13:38:52 +0100
+Message-Id: <20250512-dev-adp5589-fw-v3-0-092b14b79a88@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAN3rIWgC/2XMSwrCMBSF4a3IHRvJUxNH7kMcxOS2DWhTEolK6
+ d5NCyLq8Bz4vxEypoAZ9qsREpaQQ+zrEOsVuM72LZLg6wZOuaKCMeKxEOsHpbQhzZ0gla7xRiq
+ ut1CjIWETHgt4PNXdhXyL6bn4hc3vmxK/VGGEEk5RUy/PXqI92N5eYrtx8QqzVfinl0z99bz2w
+ u6McQK9Zvyrn6bpBZhdk7vtAAAA
+X-Change-ID: 20250311-dev-adp5589-fw-e04cfd945286
+To: linux-gpio@vger.kernel.org, linux-pwm@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-input@vger.kernel.org
+Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, 
+ Linus Walleij <linus.walleij@linaro.org>, 
+ Bartosz Golaszewski <brgl@bgdev.pl>, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Liu Ying <victor.liu@nxp.com>, 
+ Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1747053537; l=5336;
+ i=nuno.sa@analog.com; s=20231116; h=from:subject:message-id;
+ bh=NqT3bibK3Jvi4NAqycwo7bNrt+NCy+HAVXsUduhU2QE=;
+ b=EFLo6ZIgTAM5O8iofw+ajksRi/O1Lv5AWVLMBQWA4uFzJOSyo7ELbf+OH49Gh9U66zTj6jxfd
+ DAPGQTxQtFRAQifU5otPopYWjE9713nXZZE/NtubtDTu+TqXrKHz4No
+X-Developer-Key: i=nuno.sa@analog.com; a=ed25519;
+ pk=3NQwYA013OUYZsmDFBf8rmyyr5iQlxV/9H4/Df83o1E=
+X-Endpoint-Received: by B4 Relay for nuno.sa@analog.com/20231116 with
+ auth_id=100
+X-Original-From: =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>
+Reply-To: nuno.sa@analog.com
 
-Baolu Lu wrote:
-> On 5/11/25 21:31, kobarity wrote:
-> >=20
-> > Hi
-> >=20
-> > I'm also experiencing this problem on my MacBookPro14,3.
-> >=20
-> > Aditya Garg wrote:
-> >>=20
-> >> Hi J=F6rg
-> >>=20
-> >> Can you test the kernel here to see if this fixes your issue:
-> >>=20
-> >> https://github.com/t2linux/T2-Debian-and-Ubuntu-Kernel/actions/runs/14=
-944200356
-> >>=20
-> >> Alternatively you can try compiling your own kernel with this patch:
-> >>=20
-> >> https://lore.kernel.org/all/0-v1-c26553717e90+65f-iommu_vtd_ss_wo_jgg@=
-nvidia.com/
-> >=20
-> > As far as I have tried, this patch did not solve the problem.
-> >=20
-> > By bisecting, I found that this problem was introduced by commit
-> > 2031c469f816 ("iommu/vt-d: Add support for static identity domain").
-> > In fact, since this commit, it will panic at startup.  This panic was
-> > fixed by commit 6e02a277f1db ("iommu/vt-d: Fix incorrect
-> > pci_for_each_dma_alias() for non-PCI devices").  So I applied commit
-> > 6e02a277f1db on commit 2031c469f816 and confirmed that the keyboard
-> > and touchpad is not working.
->=20
-> Have you tried to apply commit 64f792981e35 ("iommu/vt-d: Remove device
-> comparison in context_setup_pass_through_cb")?
+Hi all,
 
-Yes, I tried it on yesterday's master branch, including commit
-64f792981e35.
+Here it goes v3. There was some major refactoring in this version due to
+Lee's and Laurent's feedback. There are some splits (and some explicit
+requests) resulting in new patches being added. The biggest change is the
+effort in trying to minimize the usage of specific child device bits in
+the top level device (mainly stuff related to the keymap). I think now
+it's fairly self contained and the only thing that we really need to
+handle in the top device are the unlock and reset events as those can be
+supported through both the input and gpio devices (via gpio_keys). This
+results in a bit of more runtime complexity but well, that's life...
 
-- Keyboard/Touchpad NOT working:
-  - No patches
-  - With patch in https://lore.kernel.org/all/0-v1-c26553717e90+65f-iommu_v=
-td_ss_wo_jgg@nvidia.com/
-- Keyboard/Touchpad working:
-  - With my workaround patch
+Another change is Lee's suggestion of making use of templates (for
+regmap and chip specific data) and fill things up at probe.
+
+I also refactored a bit the event handling so it's more generic now.
+There were lot's of changes so odds are that I might have forgotten some
+feedback and so, my apologies in advance :).
+
+I also dropped the tags in:
+
+patch 16/22 ("gpio: adp5585: support gpi events") as it has some
+significant changes (replacing .init_valid_masks() with .request() and
+.free())
+
+Thanks!
+- Nuno Sá
+
+---
+Changes in v3:
+- Patch 2:
+ * New patch (only add devices given in DT).
+- Patch 5:
+ * Don't include adp5585-keys (still not present at this point).
+- Patch 6:
+ * Alphabetical order for compatibles.
+- Patch 7:
+ * New patch. Refactor regmap_config and fill variant differences at probe.
+- Patch 8:
+ * Rework according to changes introduced in patch 7;
+ * Drop the regs struct in this patch. 
+- Patch 9:
+ * New patch. Add a per chip register structure. 
+- Patch 10:
+ * Moved the per variant gpio register into the gpio driver;
+ * Moved ADP558[59]_GPIO_{BANK_BIT} into the gpio driver;
+ * Moved ADP5589_GPIO_MAX and dropped the max_{col|row}.
+- Patch 11:
+ * Moved the per variant pwm register into the pwm driver (hence adding a chip_info struct.
+- Patch 12:
+ * Renamed the -keys suffix in the unlock/reset to events as that's the code we give in dt.
+- Patch 13:
+ * New patch (add event handling in a more generic way).
+- Patch 14:
+ * Support reset and unlock events in a separate patch;
+ * Reworked how these events are validated.
+- Patch 15:
+ * Add support for input devices in it's own patch;
+ * Add a bitmap for marking pins busy so there's no overlaps between
+   the input and gpio devices. 
+- Patch 16:
+ * Drop .init_valid_mask() and use .free() and .request() for checking
+   pin availability;
+ * Drop max_gpios variables as that info is now available from the top
+   device;
+ * Adapt events handling to the new code.
+- Patch 17:
+ * Moved DT pin parsing into the input driver;
+ * Validate reset/unlock events that are generated by the keymap;
+ * Use error instead of ret;
+ * Drop call to input_set_drvdata();
+ * Adapt events handling to the new code.
+- Patch 20:
+ * Add a comment on the reset sleep time.
+
+- Link to v2: https://lore.kernel.org/r/20250415-dev-adp5589-fw-v2-0-3a799c3ed812@analog.com
+- Link to v1: https://lore.kernel.org/r/20250313-dev-adp5589-fw-v1-0-20e80d4bd4ea@analog.com
+
+---
+Nuno Sá (22):
+      dt-bindings: mfd: adp5585: ease on the required properties
+      mfd: adp5585: only add devices given in FW
+      mfd: adp5585: enable oscilator during probe
+      pwm: adp5585: don't control OSC_EN in the pwm driver
+      mfd: adp5585: make use of MFD_CELL_NAME()
+      dt-bindings: mfd: adp5585: document adp5589 I/O expander
+      mfd: adp5585: refactor how regmap defaults are handled
+      mfd: adp5585: add support for adp5589
+      mfd: adp5585: add a per chip reg struture
+      gpio: adp5585: add support for the adp5589 expander
+      pwm: adp5585: add support for adp5589
+      dt-bindings: mfd: adp5585: add properties for input events
+      mfd: adp5585: add support for event handling
+      mfd: adp5585: support reset and unlock events
+      mfd: adp5585: add support for input devices
+      gpio: adp5585: support gpi events
+      Input: adp5585: Add Analog Devices ADP5585/89 support
+      Input: adp5589: remove the driver
+      mfd: adp5585: support getting vdd regulator
+      dt-bindings: mfd: adp5585: document reset gpio
+      mfd: adp5585: add support for a reset pin
+      pwm: adp5585: make sure to include mod_devicetable.h
+
+ .../devicetree/bindings/mfd/adi,adp5585.yaml       |  240 ++++-
+ .../devicetree/bindings/trivial-devices.yaml       |    2 -
+ MAINTAINERS                                        |    1 +
+ drivers/gpio/Kconfig                               |    1 +
+ drivers/gpio/gpio-adp5585.c                        |  348 ++++++-
+ drivers/input/keyboard/Kconfig                     |   21 +-
+ drivers/input/keyboard/Makefile                    |    2 +-
+ drivers/input/keyboard/adp5585-keys.c              |  356 +++++++
+ drivers/input/keyboard/adp5589-keys.c              | 1066 --------------------
+ drivers/mfd/adp5585.c                              |  794 ++++++++++++++-
+ drivers/pwm/pwm-adp5585.c                          |   79 +-
+ include/linux/mfd/adp5585.h                        |  148 ++-
+ 12 files changed, 1852 insertions(+), 1206 deletions(-)
+---
+base-commit: 407f60a151df3c44397e5afc0111eb9b026c38d3
+change-id: 20250311-dev-adp5589-fw-e04cfd945286
+--
+
+Thanks!
+- Nuno Sá
+
+
 
