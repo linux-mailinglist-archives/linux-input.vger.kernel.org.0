@@ -1,55 +1,55 @@
-Return-Path: <linux-input+bounces-12348-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12347-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC5BAAB5FC0
-	for <lists+linux-input@lfdr.de>; Wed, 14 May 2025 01:03:28 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EF73AB5FC1
+	for <lists+linux-input@lfdr.de>; Wed, 14 May 2025 01:03:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4EF27464F6B
-	for <lists+linux-input@lfdr.de>; Tue, 13 May 2025 23:03:29 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 858477A6143
+	for <lists+linux-input@lfdr.de>; Tue, 13 May 2025 23:02:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0C9D41F0E50;
-	Tue, 13 May 2025 23:03:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D84281E991D;
+	Tue, 13 May 2025 23:03:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=endrift.com header.i=@endrift.com header.b="PTjuqWsA"
+	dkim=pass (2048-bit key) header.d=endrift.com header.i=@endrift.com header.b="Yg0+ciBc"
 X-Original-To: linux-input@vger.kernel.org
 Received: from endrift.com (endrift.com [173.255.198.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C73913A3F2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C88E1E3DF2
 	for <linux-input@vger.kernel.org>; Tue, 13 May 2025 23:03:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=173.255.198.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747177401; cv=none; b=NBjUHsiV7GoPk72N6Wb16+maRC3zFOcNtAVxBVK8kVYbE7Wzj7fG2tt7SFjtWHnrC/tw/zCvKNVm31MZmhWk6leFeYYzBtg8eQIApMoS5flyrGyROVouE3H4OeMD6dG9yX+2Pz2YrrXlNT0/mYM02wi8eR5mnKT/NdoDgcuRi80=
+	t=1747177401; cv=none; b=d1jDU0TN9I8ElanB+QL4/kM94183Ei7uzWm+tgQ9NtIFmoJ5uP2N3Ut7jNso1SX9g5xFsdhbhxBM1Pb3Fq/pNzYyCzbeeVcgLWYqsxFF3UjjDG5qNQ3ZBi363vw9U8SY97KfKZ9bUGIO4kIFJgYQRKl/JFR+RmY9CkrElpjqaLs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1747177401; c=relaxed/simple;
-	bh=/xxmsaJiJzPk4fQoPgYEPDW8Bynofp2O1GINoesM4YA=;
+	bh=QMhd193Ty2SO3GdkxWB+HNMqi3ZyG8PQnqYpkNN9ZBc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=DYnZeSrjdYsHVGgRvPOHeFiCAob2bDxJiZoSs9zni6fG5D+s19YUs9Ijy4Hrs9gDtHPrR6e/abX/rUU9baLjHVR1RL6sbQjfZV7g7v+EGeVlybfyjQx4WyCPl3zGf6QRTCdfMVa/HIDbo4iGK4U0u7GXZX02SRqcNlqlLQYGLLA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=endrift.com; spf=pass smtp.mailfrom=endrift.com; dkim=pass (2048-bit key) header.d=endrift.com header.i=@endrift.com header.b=PTjuqWsA; arc=none smtp.client-ip=173.255.198.10
+	 MIME-Version; b=GPJ6x3hw9Owm380FIjnj4JXqFIFwpmdGnkP4I3x+ZJRVz5aSIV0byikmJlw0k4YogY5ye/ZrKmPoSwMUe1y6OXVo1gxCDn7UWIRvO4vFVrGbCjcKr/xh5b0gVohPWzjZdob6OHas0M6zTu0PFRpoNSBiseD1/rJ3NTwUUcOjEWo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=endrift.com; spf=pass smtp.mailfrom=endrift.com; dkim=pass (2048-bit key) header.d=endrift.com header.i=@endrift.com header.b=Yg0+ciBc; arc=none smtp.client-ip=173.255.198.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=endrift.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=endrift.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=endrift.com; s=2020;
-	t=1747176916; bh=/xxmsaJiJzPk4fQoPgYEPDW8Bynofp2O1GINoesM4YA=;
+	t=1747176916; bh=QMhd193Ty2SO3GdkxWB+HNMqi3ZyG8PQnqYpkNN9ZBc=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=PTjuqWsAH076biY6szUM0bF6DzO/YqzpBdM/8k8ygURZy1vWS41kLAk0cAW4eArDk
-	 CiVhu894k7NfJ5UQFcBe+Ea/9I8DdtGjZOsPd9cpcB412AspQw/2CqcWB7H6/rBuMa
-	 EXqm8Q8j5ZVlj2UO6VumoLFHzYTtiiVYnWXo9DB9C9NAW6pGeLnaMgcxxA++3u95rA
-	 83ytGcmbd6noqu71iqq3BdCdf10JGGCUBn3CXBMGSkqIHjRI2wCD1uq2xU8juV2zH8
-	 GONIb2Bm1NJHeIUdmLJ+ZznR4Gu3oroHnNszw6PwGWvZL0vF+V1mXjC09vwGLWvlA6
-	 ICzH3w+SYvBFQ==
+	b=Yg0+ciBcntHEY4NeM6Q48VeGMvO9LJvRaxFm4HPoZv52S7UGThNkDTp74GPdGXnNB
+	 OCh/LWtRkmQkJCe4aeUjXLyKgSdWRWj3WplhvdYnJ+B4723UjdYQAtQYP6h2JFyTN/
+	 PF0+32SsOOQvnf+BgYlq4i6S8fO7IdY/4ACy9zt4TH0S9BP4Cg3Z4XktZ49hNxZaYJ
+	 zrVj317A3r8dyC4YdhS91xwxWIrfDZcor9VGxP1xsYj2mVGGV+7gtfli6iuUhNSzu6
+	 e9MdWyt4axyPyahCdpMqIwzIFAIvt9+t70QxnMYEFop34Y2l5oVSWTDlHRmx7Zx77y
+	 DbJG/4i2vstXg==
 Received: from nebulosa.vulpes.eutheria.net (71-212-74-234.tukw.qwest.net [71.212.74.234])
-	by endrift.com (Postfix) with ESMTPSA id 3F696A168;
+	by endrift.com (Postfix) with ESMTPSA id 926D5A195;
 	Tue, 13 May 2025 15:55:16 -0700 (PDT)
 From: Vicki Pfau <vi@endrift.com>
 To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
 	linux-input@vger.kernel.org
 Cc: Vicki Pfau <vi@endrift.com>
-Subject: [PATCH 3/4] Input: xpad - Send LED and auth done packets to all Xbox One controllers
-Date: Tue, 13 May 2025 15:54:01 -0700
-Message-ID: <20250513225411.2718072-4-vi@endrift.com>
+Subject: [PATCH 4/4] Input: xpad - Add more controllers
+Date: Tue, 13 May 2025 15:54:02 -0700
+Message-ID: <20250513225411.2718072-5-vi@endrift.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250513225411.2718072-1-vi@endrift.com>
 References: <20250513225411.2718072-1-vi@endrift.com>
@@ -61,59 +61,36 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This mirrors what SDL does, and is closer to Windows's behavior as-is.
+Adds support for a revision of the Turtle Beach Recon Wired Controller, the
+Turtle Beach Stealth Ultra, and the PowerA Wired Controller.
 
 Signed-off-by: Vicki Pfau <vi@endrift.com>
 ---
- drivers/input/joystick/xpad.c | 21 ++++++++-------------
- 1 file changed, 8 insertions(+), 13 deletions(-)
+ drivers/input/joystick/xpad.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
 diff --git a/drivers/input/joystick/xpad.c b/drivers/input/joystick/xpad.c
-index e57157726089..7746530da030 100644
+index 7746530da030..03449571a19f 100644
 --- a/drivers/input/joystick/xpad.c
 +++ b/drivers/input/joystick/xpad.c
-@@ -676,20 +676,19 @@ static const u8 xboxone_hori_ack_id[] = {
- };
- 
- /*
-- * This packet is required for most (all?) of the PDP pads to start
-- * sending input reports. These pads include: (0x0e6f:0x02ab),
-- * (0x0e6f:0x02a4), (0x0e6f:0x02a6).
-+ * This packet is sent by default on Windows, and is required for some pads to
-+ * start sending input reports, including most (all?) of the PDP. These pads
-+ * include: (0x0e6f:0x02ab), (0x0e6f:0x02a4), (0x0e6f:0x02a6).
-  */
--static const u8 xboxone_pdp_led_on[] = {
--	GIP_CMD_LED, GIP_OPT_INTERNAL, GIP_SEQ0, GIP_PL_LEN(3), 0x00, GIP_LED_ON, 0x14
--};
-+static const u8 xboxone_led_on[] = { GIP_CMD_LED, GIP_OPT_INTERNAL, GIP_SEQ0,
-+GIP_PL_LEN(3), 0x00, GIP_LED_ON, 0x14 };
- 
- /*
-  * This packet is required for most (all?) of the PDP pads to start
-  * sending input reports. These pads include: (0x0e6f:0x02ab),
-  * (0x0e6f:0x02a4), (0x0e6f:0x02a6).
-  */
--static const u8 xboxone_pdp_auth[] = {
-+static const u8 xboxone_auth_done[] = {
- 	GIP_CMD_AUTHENTICATE, GIP_OPT_INTERNAL, GIP_SEQ0, GIP_PL_LEN(2), 0x01, 0x00
- };
- 
-@@ -726,12 +725,8 @@ static const struct xboxone_init_packet xboxone_init_packets[] = {
- 	XBOXONE_INIT_PKT(0x045e, 0x02ea, xboxone_s_init),
- 	XBOXONE_INIT_PKT(0x045e, 0x0b00, xboxone_s_init),
- 	XBOXONE_INIT_PKT(0x045e, 0x0b00, extra_input_packet_init),
--	XBOXONE_INIT_PKT(0x0e6f, 0x0000, xboxone_pdp_led_on),
--	XBOXONE_INIT_PKT(0x0f0d, 0x01b2, xboxone_pdp_led_on),
--	XBOXONE_INIT_PKT(0x20d6, 0xa01a, xboxone_pdp_led_on),
--	XBOXONE_INIT_PKT(0x0e6f, 0x0000, xboxone_pdp_auth),
--	XBOXONE_INIT_PKT(0x0f0d, 0x01b2, xboxone_pdp_auth),
--	XBOXONE_INIT_PKT(0x20d6, 0xa01a, xboxone_pdp_auth),
-+	XBOXONE_INIT_PKT(0x0000, 0x0000, xboxone_led_on),
-+	XBOXONE_INIT_PKT(0x0000, 0x0000, xboxone_auth_done),
- 	XBOXONE_INIT_PKT(0x24c6, 0x541a, xboxone_rumblebegin_init),
- 	XBOXONE_INIT_PKT(0x24c6, 0x542a, xboxone_rumblebegin_init),
- 	XBOXONE_INIT_PKT(0x24c6, 0x543a, xboxone_rumblebegin_init),
+@@ -293,6 +293,9 @@ static const struct xpad_device {
+ 	{ 0x1038, 0x1430, "SteelSeries Stratus Duo", 0, XTYPE_XBOX360 },
+ 	{ 0x1038, 0x1431, "SteelSeries Stratus Duo", 0, XTYPE_XBOX360 },
+ 	{ 0x10f5, 0x7005, "Turtle Beach Recon Controller", 0, XTYPE_XBOXONE },
++	{ 0x10f5, 0x7008, "Turtle Beach Recon Controller", MAP_SHARE_BUTTON, XTYPE_XBOXONE },
++	{ 0x10f5, 0x7072, "Turtle Beach Stealth Ultra Controller", MAP_SHARE_BUTTON, XTYPE_XBOXONE },		/* bluetooth */
++	{ 0x10f5, 0x7073, "Turtle Beach Stealth Ultra Controller", MAP_SHARE_BUTTON, XTYPE_XBOXONE },		/* wired */
+ 	{ 0x11c9, 0x55f0, "Nacon GC-100XF", 0, XTYPE_XBOX360 },
+ 	{ 0x11ff, 0x0511, "PXN V900", 0, XTYPE_XBOX360 },
+ 	{ 0x1209, 0x2882, "Ardwiino Controller", 0, XTYPE_XBOX360 },
+@@ -357,6 +360,7 @@ static const struct xpad_device {
+ 	{ 0x1ee9, 0x1590, "ZOTAC Gaming Zone", 0, XTYPE_XBOX360 },
+ 	{ 0x20d6, 0x2001, "BDA Xbox Series X Wired Controller", 0, XTYPE_XBOXONE },
+ 	{ 0x20d6, 0x2009, "PowerA Enhanced Wired Controller for Xbox Series X|S", 0, XTYPE_XBOXONE },
++	{ 0x20d6, 0x2064, "PowerA Wired Controller for Xbox", MAP_SHARE_BUTTON, XTYPE_XBOXONE },
+ 	{ 0x20d6, 0x281f, "PowerA Wired Controller For Xbox 360", 0, XTYPE_XBOX360 },
+ 	{ 0x20d6, 0x400b, "PowerA FUSION Pro 4 Wired Controller", MAP_SHARE_BUTTON, XTYPE_XBOXONE },
+ 	{ 0x20d6, 0x890b, "PowerA MOGA XP-Ultra Controller", MAP_SHARE_BUTTON, XTYPE_XBOXONE },
 -- 
 2.49.0
 
