@@ -1,196 +1,233 @@
-Return-Path: <linux-input+bounces-12307-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12308-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BA96AB46CC
-	for <lists+linux-input@lfdr.de>; Mon, 12 May 2025 23:55:30 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id D6B0EAB48E6
+	for <lists+linux-input@lfdr.de>; Tue, 13 May 2025 03:42:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 03B5219E7490
-	for <lists+linux-input@lfdr.de>; Mon, 12 May 2025 21:55:43 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4F67019E7D82
+	for <lists+linux-input@lfdr.de>; Tue, 13 May 2025 01:42:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 39A3D29992B;
-	Mon, 12 May 2025 21:55:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 00CCB194094;
+	Tue, 13 May 2025 01:42:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="M1ekquRc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Chy+YN34"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F300C24EF6D;
-	Mon, 12 May 2025 21:55:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00A5517583;
+	Tue, 13 May 2025 01:42:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747086926; cv=none; b=KqgVyanZbmPyK8xAkOYdoREN7742txfKbUgugixK40XORwRUa3SP4uZ91/TJDP+iQdmeObvtvVWd6gLno2HbRDN+eqEC5qASR59m/AshFFkSfpwZkC9k5/thCt2gKhuj5WwYp/7U/QM9eprmIBMUNUxI+HIwghpdqyKJQlXnXYM=
+	t=1747100534; cv=none; b=MdzSf3q/AH5N3SX/zRHvbDTZ5J/GvqX+EYNINU1zz5rDyBx728ywOmXjS3F10r242H5lYtGd7WuWQKGDcVngu0Y1ipRrn9FafeUTCKPxLHs3aH4lkg3VKHN/xHTk/GqvXknQEgA4DXnNozdO6w8uopZ+i9WUwRm/SQwHm8ONtnc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747086926; c=relaxed/simple;
-	bh=acx6la62AB9KY3KHMO9Po2HbenTonzSF0rqTG9tYEkI=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=kIVj6322nRkkOSk3au3Od+bchp8jKsrq4FUtfG8UbSapPtVM3zv/JGLTm4qOgqT6S3jbLpZeXL++hQvraJLWtvupge177wk57OU/SzMPk99OWU4fGKsowfMXeUSSQZhTEURcemXQtfDh9pLZ4jVInWeKuMuRgU7+9QhlFIz9Saw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=M1ekquRc; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 6B0ACC4CEE7;
-	Mon, 12 May 2025 21:55:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747086925;
-	bh=acx6la62AB9KY3KHMO9Po2HbenTonzSF0rqTG9tYEkI=;
-	h=From:Date:Subject:To:Cc:Reply-To:From;
-	b=M1ekquRcSvFIug0fTArU3tJ5QCVlb4wcAyvXVbZ4SzVxKBi+HcyXCR3hw9Rw4VLXF
-	 U+iXO7LsPe0WgpLHAbek6B4SOsSxP0kc3wrNsLxh89CIVMrWgKLFrVO5nHf9be5WUq
-	 faBip6ZlgbNh4QgoWRsJ2T2Bog//j2JQXJu+ajAzbvKPqQ6nCDXY78SlijFcYSflmy
-	 8BcUmYL71DyuqL4Av+MQFYGfZxbfff6BwLOxs67Z1Kj8MtQ0nlMEPdresfiHzMrU+M
-	 T+/bwWyY+2DyUH3bApmVmJzFeEZg8AkfHrTh5oZC+l4mHn2iBV+vB/TAntCKJ7ZlRc
-	 0/ViW9AfjIBXA==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A778C3ABC3;
-	Mon, 12 May 2025 21:55:25 +0000 (UTC)
-From: Janne Grunau via B4 Relay <devnull+j.jannau.net@kernel.org>
-Date: Mon, 12 May 2025 23:55:15 +0200
-Subject: [PATCH] HID: lenovo: Unbreak USB/BT keyboards on non-ACPI
- platforms
+	s=arc-20240116; t=1747100534; c=relaxed/simple;
+	bh=tqfQS6oxsFjhPs/Z50e9x6aN2DzbxyZhm92wCnbhKDU=;
+	h=Content-Type:Message-ID:Date:MIME-Version:Subject:To:Cc:
+	 References:From:In-Reply-To; b=WDZMH0TU8JnhYd/5KIISUp8SKg/2IDzpAq7MyySEJtsl/dybSewwLAK9AoXpsOaveH7BzMvd3UX4AhOA68qBasZHO9zxlXR8S2q0H+EmdGr69DwX3QsJp0lcMTQD+xeskqoqMkdvrVSrsGBNrGsPDtI+Y/SvGkpxfdE6j198dmA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Chy+YN34; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1747100533; x=1778636533;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to;
+  bh=tqfQS6oxsFjhPs/Z50e9x6aN2DzbxyZhm92wCnbhKDU=;
+  b=Chy+YN34mY22ZozBYtd+UuJLKPU0k1atSJLJxHgE8OJYrSbYWNknitm5
+   k0TfKjYt+u41Mz/zSwY9mLVkeRgULYZnKU1GNIFoHoD6qFXKRY1WvD3Dp
+   rj6NhzSn3eLvElDobR72/6AfD4ZVwIcVlaeBOLroLmPklJ29LTpWXe1wZ
+   wLY+SBpwtqvhpkyOfxgV6NqMLM1MTvPRjIlnnbNnMVhWcHbzfXT+2wPgn
+   wSI/W0voq/szmnEtNneRVoMhwzhS2vRzHcoRKTVh+END9bNNAaUm0BKHT
+   LvAlCtatqTCpJwW1GbM3aQdrvSB/KYPV6mXSZqQwYWCnoBQaYWzH6h+r+
+   g==;
+X-CSE-ConnectionGUID: HwHAbeAYRFCWAZp1ygjLoQ==
+X-CSE-MsgGUID: B2tVQlv9Qn6R8btHW58VWw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11431"; a="66332200"
+X-IronPort-AV: E=Sophos;i="6.15,283,1739865600"; 
+   d="scan'208";a="66332200"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2025 18:42:13 -0700
+X-CSE-ConnectionGUID: gs+bo9UCRS6oUiHvHgEzow==
+X-CSE-MsgGUID: 98vXkWv8RyW7ZTZtktSHOA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,283,1739865600"; 
+   d="scan'208";a="142497925"
+Received: from allen-sbox.sh.intel.com (HELO [10.239.159.30]) ([10.239.159.30])
+  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2025 18:42:10 -0700
+Content-Type: multipart/mixed; boundary="------------Pmc9TytVRXbvZn0nfSt18r6r"
+Message-ID: <5d760ba9-031f-469b-96e0-a171b7142f88@linux.intel.com>
+Date: Tue, 13 May 2025 09:37:33 +0800
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250512-hid_lenovo_unbreak_non_acpi-v1-1-e9e37ecbfbfe@jannau.net>
-X-B4-Tracking: v=1; b=H4sIAEJuImgC/x3MSwqAIBAA0KvErBPUPouuEiE2TTUUYyhFEN09a
- fk274FEkSlBVzwQ6eLEQTJMWQCuXhZSPGWD1bbRjbFq5cntJOEK7pQxkt+cBHEeD1aoazNXiKY
- aW8jDEWnm+9/74X0/64zrI20AAAA=
-X-Change-ID: 20250512-hid_lenovo_unbreak_non_acpi-c041f3cc13b6
-To: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, 
- Vishnu Sankar <vishnuocv@gmail.com>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, 
- linux-acpi@vger.kernel.org, linux-input@vger.kernel.org, 
- linux-kernel@vger.kernel.org, stable@vger.kernel.org, 
- Janne Grunau <j@jannau.net>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5604; i=j@jannau.net;
- s=yk2024; h=from:subject:message-id;
- bh=fDDp0h4tQHC+Zan4FRSlGu8S8lB9BEYY3hPbDJrYDf0=;
- b=owGbwMvMwCW2UNrmdq9+ahrjabUkhgylPB/5Q03Way/ElEVtcT1rJ/eVh3Hqo5xjq3/6nb0Qx
- J/9vE+xo5SFQYyLQVZMkSVJ+2UHw+oaxZjaB2Ewc1iZQIYwcHEKwERkDRn+J7B9DQuYyx3xgOd5
- rp7GU9FEizep0bx+Z+oY+Rbte3F9MyNDq5d2g/bWjY/mtxtc5G74snHam38v7pwX06tzuPa5ZXo
- rCwA=
-X-Developer-Key: i=j@jannau.net; a=openpgp;
- fpr=8B336A6BE4E5695E89B8532B81E806F586338419
-X-Endpoint-Received: by B4 Relay for j@jannau.net/yk2024 with auth_id=264
-X-Original-From: Janne Grunau <j@jannau.net>
-Reply-To: j@jannau.net
+User-Agent: Mozilla Thunderbird
+Subject: Re: [REGRESSION] applespi from 6.12 onwards
+To: kobarity <kobarity@gmail.com>
+Cc: Aditya Garg <gargaditya08@live.com>, =?UTF-8?Q?Berkel_J=C3=B6rg?=
+ <joerg.berkel@bfh.ch>, Robin Murphy <robin.murphy@arm.com>,
+ "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+ "dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>,
+ "stable@vger.kernel.org" <stable@vger.kernel.org>,
+ "regressions@lists.linux.dev" <regressions@lists.linux.dev>,
+ "linux-spi@vger.kernel.org" <linux-spi@vger.kernel.org>,
+ "lukas@wunner.de" <lukas@wunner.de>, David Woodhouse <dwmw2@infradead.org>,
+ "iommu@lists.linux.dev" <iommu@lists.linux.dev>,
+ Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>
+References: <4dada48a-c5dd-4c30-9c85-5b03b0aa01f0@bfh.ch>
+ <PN3PR01MB9597D8E327CC7910673849D3B888A@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+ <122a1f90-ddd9-4e74-96d1-57e21e580ae2@linux.intel.com>
+ <f1b41874-1535-4457-9747-eee3d816091a@arm.com>
+ <PN3PR01MB959764E908600CD45169348CB88BA@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+ <c0bbfcc8-1275-43de-be40-acb8f2653359@bfh.ch>
+ <PN3PR01MB959708DEEA1567DD38447D5AB895A@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+ <eke7wmanw9xq.wl-kobarity@gmail.com>
+ <089b2370-23e4-4a22-bf57-886e46247a1f@linux.intel.com>
+ <eke7v7q6vxai.wl-kobarity@gmail.com>
+Content-Language: en-US
+From: Baolu Lu <baolu.lu@linux.intel.com>
+In-Reply-To: <eke7v7q6vxai.wl-kobarity@gmail.com>
 
-From: Janne Grunau <j@jannau.net>
+This is a multi-part message in MIME format.
+--------------Pmc9TytVRXbvZn0nfSt18r6r
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Commit 84c9d2a968c8 ("HID: lenovo: Support for ThinkPad-X12-TAB-1/2 Kbd
-Fn keys") added a dependency on ACPI_PLATFORM_PROFILE to cycle through
-power profiles. This breaks USB and Bluetooth keyboards on non-ACPI
-platforms since platform_profile_init() fails. See the warning below for
-the visible symptom but cause is the dependency on the platform_profile
-module.
+On 5/12/25 20:16, kobarity wrote:
+> Baolu Lu wrote:
+>> On 5/11/25 21:31, kobarity wrote:
+>>>
+>>> Hi
+>>>
+>>> I'm also experiencing this problem on my MacBookPro14,3.
+>>>
+>>> Aditya Garg wrote:
+>>>>
+>>>> Hi Jörg
+>>>>
+>>>> Can you test the kernel here to see if this fixes your issue:
+>>>>
+>>>> https://github.com/t2linux/T2-Debian-and-Ubuntu-Kernel/actions/runs/14944200356
+>>>>
+>>>> Alternatively you can try compiling your own kernel with this patch:
+>>>>
+>>>> https://lore.kernel.org/all/0-v1-c26553717e90+65f-iommu_vtd_ss_wo_jgg@nvidia.com/
+>>>
+>>> As far as I have tried, this patch did not solve the problem.
+>>>
+>>> By bisecting, I found that this problem was introduced by commit
+>>> 2031c469f816 ("iommu/vt-d: Add support for static identity domain").
+>>> In fact, since this commit, it will panic at startup.  This panic was
+>>> fixed by commit 6e02a277f1db ("iommu/vt-d: Fix incorrect
+>>> pci_for_each_dma_alias() for non-PCI devices").  So I applied commit
+>>> 6e02a277f1db on commit 2031c469f816 and confirmed that the keyboard
+>>> and touchpad is not working.
+>>
+>> Have you tried to apply commit 64f792981e35 ("iommu/vt-d: Remove device
+>> comparison in context_setup_pass_through_cb")?
+> 
+> Yes, I tried it on yesterday's master branch, including commit
+> 64f792981e35.
+> 
+> - Keyboard/Touchpad NOT working:
+>    - No patches
+>    - With patch in https://lore.kernel.org/all/0-v1-c26553717e90+65f-iommu_vtd_ss_wo_jgg@nvidia.com/
+> - Keyboard/Touchpad working:
+>    - With my workaround patch
 
-[  266.225052] kernel: usb 1-1.3.2: new full-speed USB device number 9 using xhci_hcd
-[  266.316032] kernel: usb 1-1.3.2: New USB device found, idVendor=17ef, idProduct=6047, bcdDevice= 3.30
-[  266.327129] kernel: usb 1-1.3.2: New USB device strings: Mfr=1, Product=2, SerialNumber=0
-[  266.327623] kernel: usb 1-1.3.2: Product: ThinkPad Compact USB Keyboard with TrackPoint
-[  266.328096] kernel: usb 1-1.3.2: Manufacturer: Lenovo
-[  266.337488] kernel: ------------[ cut here ]------------
-[  266.337551] kernel: WARNING: CPU: 4 PID: 2619 at fs/sysfs/group.c:131 internal_create_group+0xc0/0x358
-[  266.337584] kernel: Modules linked in: platform_profile(+) nft_fib_inet nft_fib_ipv4 nft_fib_ipv6 nft_fib nft_reject_inet nf_reject_ipv4 nf_reject_ipv6 nft_reject nft_ct nft>
-[  266.337685] kernel:  apple_sio spi_apple apple_dart soundcore spmi_apple_controller pinctrl_apple_gpio i2c_pasemi_platform apple_admac i2c_pasemi_core clk_apple_nco xhci_pla>
-[  266.337717] kernel: CPU: 4 UID: 0 PID: 2619 Comm: (udev-worker) Tainted: G S      W          6.14.4-400.asahi.fc41.aarch64+16k #1
-[  266.337750] kernel: Tainted: [S]=CPU_OUT_OF_SPEC, [W]=WARN
-[  266.337776] kernel: Hardware name: Apple Mac mini (M1, 2020) (DT)
-[  266.337808] kernel: pstate: 61400009 (nZCv daif +PAN -UAO -TCO +DIT -SSBS BTYPE=--)
-[  266.337834] kernel: pc : internal_create_group+0xc0/0x358
-[  266.337860] kernel: lr : sysfs_create_group+0x20/0x40
-[  266.337886] kernel: sp : ffff800086f877a0
-[  266.337914] kernel: x29: ffff800086f877b0 x28: 0000000000000000 x27: ffffb66d0b338348
-[  266.337939] kernel: x26: ffffb66d0b338358 x25: ffffb66d528c7c50 x24: ffffb66d507e37b0
-[  266.337965] kernel: x23: 0000fffebf6708d8 x22: 0000000000000000 x21: ffffb66d0b370340
-[  266.337991] kernel: x20: ffffb66d0b370308 x19: 0000000000000000 x18: 0000000000000000
-[  266.338029] kernel: x17: 554e514553007373 x16: ffffb66d4f8c2268 x15: 595342555300656c
-[  266.338051] kernel: x14: 69666f72702d6d72 x13: 00353236353d4d55 x12: 4e51455300737361
-[  266.338075] kernel: x11: ffff6adf91b80100 x10: 0000000000000139 x9 : ffffb66d4f8c2288
-[  266.338097] kernel: x8 : ffff800086f87620 x7 : 0000000000000000 x6 : 0000000000000000
-[  266.338116] kernel: x5 : ffff6adfc896e100 x4 : 0000000000000000 x3 : ffff6adfc896e100
-[  266.338139] kernel: x2 : ffffb66d0b3703a0 x1 : 0000000000000000 x0 : 0000000000000000
-[  266.338155] kernel: Call trace:
-[  266.338173] kernel:  internal_create_group+0xc0/0x358 (P)
-[  266.338193] kernel:  sysfs_create_group+0x20/0x40
-[  266.338206] kernel:  platform_profile_init+0x48/0x3ff8 [platform_profile]
-[  266.338224] kernel:  do_one_initcall+0x60/0x358
-[  266.338239] kernel:  do_init_module+0x94/0x260
-[  266.338257] kernel:  load_module+0x5e0/0x708
-[  266.338271] kernel:  init_module_from_file+0x94/0x100
-[  266.338290] kernel:  __arm64_sys_finit_module+0x268/0x360
-[  266.338309] kernel:  invoke_syscall+0x6c/0x100
-[  266.338327] kernel:  el0_svc_common.constprop.0+0xc8/0xf0
-[  266.338346] kernel:  do_el0_svc+0x24/0x38
-[  266.338365] kernel:  el0_svc+0x3c/0x170
-[  266.338385] kernel:  el0t_64_sync_handler+0x10c/0x138
-[  266.338404] kernel:  el0t_64_sync+0x1b0/0x1b8
-[  266.338419] kernel: ---[ end trace 0000000000000000 ]---
+Okay, thanks! Can you please try below change? I also attached a diff
+file in the attachment for your convenience.
 
-Fixes: 84c9d2a968c8 ("HID: lenovo: Support for ThinkPad-X12-TAB-1/2 Kbd Fn keys")
-Cc: stable@vger.kernel.org
-Signed-off-by: Janne Grunau <j@jannau.net>
+diff --git a/drivers/iommu/intel/iommu.c b/drivers/iommu/intel/iommu.c
+index 49530d5d8c85..9a86ead8377d 100644
+--- a/drivers/iommu/intel/iommu.c
++++ b/drivers/iommu/intel/iommu.c
+@@ -1832,6 +1832,8 @@ static int dmar_domain_attach_device(struct 
+dmar_domain *domain,
+         if (ret)
+                 goto out_block_translation;
 
------->8---------
-I don't see an easy solution to keep the functionality in generic HID
-code which is used on non-ACPI platforms. Solution for this are not
-trivial so remove the functionality for now.
-Cc-ing the ACPI maintainers in the case they can think of a solution for
-this issue.
++       info->domain_attached = true;
++
+         return 0;
 
----
- drivers/hid/Kconfig      | 1 -
- drivers/hid/hid-lenovo.c | 5 +----
- 2 files changed, 1 insertion(+), 5 deletions(-)
+  out_block_translation:
+@@ -3206,6 +3208,10 @@ void device_block_translation(struct device *dev)
+         struct intel_iommu *iommu = info->iommu;
+         unsigned long flags;
 
-diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
-index a503252702b7b43c332a12b14bc8b23b83e9f028..6b4445f54b2f2818d451ff28b3f7bcc2b1c7e99f 100644
---- a/drivers/hid/Kconfig
-+++ b/drivers/hid/Kconfig
-@@ -596,7 +596,6 @@ config HID_LED
- config HID_LENOVO
- 	tristate "Lenovo / Thinkpad devices"
- 	depends on ACPI
--	select ACPI_PLATFORM_PROFILE
- 	select NEW_LEDS
- 	select LEDS_CLASS
- 	help
-diff --git a/drivers/hid/hid-lenovo.c b/drivers/hid/hid-lenovo.c
-index af29ba840522f99bc2f426d4753f70d442cef3af..cff4b5ddd9aa9bad0516f8c9beb58927c24477fc 100644
---- a/drivers/hid/hid-lenovo.c
-+++ b/drivers/hid/hid-lenovo.c
-@@ -32,8 +32,6 @@
- #include <linux/leds.h>
- #include <linux/workqueue.h>
- 
--#include <linux/platform_profile.h>
--
- #include "hid-ids.h"
- 
- /* Userspace expects F20 for mic-mute KEY_MICMUTE does not work */
-@@ -729,8 +727,7 @@ static int lenovo_raw_event_TP_X12_tab(struct hid_device *hdev, u32 raw_data)
- 				report_key_event(input, KEY_RFKILL);
- 				return 1;
- 			}
--			platform_profile_cycle();
--			return 1;
-+			return 0;
- 		case TP_X12_RAW_HOTKEY_FN_F10:
- 			/* TAB1 has PICKUP Phone and TAB2 use Snipping tool*/
- 			(hdev->product == USB_DEVICE_ID_LENOVO_X12_TAB) ?
++       /* Device in DMA blocking state. Noting to do. */
++       if (!info->domain_attached)
++               return;
++
+         if (info->domain)
+                 cache_tag_unassign_domain(info->domain, dev, 
+IOMMU_NO_PASID);
 
----
-base-commit: 0af2f6be1b4281385b618cb86ad946eded089ac8
-change-id: 20250512-hid_lenovo_unbreak_non_acpi-c041f3cc13b6
+@@ -4302,6 +4308,9 @@ static int identity_domain_attach_dev(struct 
+iommu_domain *domain, struct device
+         else
+                 ret = device_setup_pass_through(dev);
 
-Best regards,
--- 
-Janne Grunau <j@jannau.net>
++       if (!ret)
++               info->domain_attached = true;
++
+         return ret;
+  }
 
+diff --git a/drivers/iommu/intel/iommu.h b/drivers/iommu/intel/iommu.h
+index cbfb8bb4c94a..3ddbcc603de2 100644
+--- a/drivers/iommu/intel/iommu.h
++++ b/drivers/iommu/intel/iommu.h
+@@ -774,6 +774,7 @@ struct device_domain_info {
+         u8 ats_supported:1;
+         u8 ats_enabled:1;
+         u8 dtlb_extra_inval:1;  /* Quirk for devices need extra flush */
++       u8 domain_attached:1;   /* Device has domain attached */
+         u8 ats_qdep;
+         unsigned int iopf_refcount;
+         struct device *dev; /* it's NULL for PCIe-to-PCI bridge */
 
+Thanks,
+baolu
+--------------Pmc9TytVRXbvZn0nfSt18r6r
+Content-Type: text/x-patch; charset=UTF-8; name="diff.patch"
+Content-Disposition: attachment; filename="diff.patch"
+Content-Transfer-Encoding: base64
+
+ZGlmZiAtLWdpdCBhL2RyaXZlcnMvaW9tbXUvaW50ZWwvaW9tbXUuYyBiL2RyaXZlcnMvaW9t
+bXUvaW50ZWwvaW9tbXUuYwppbmRleCA0OTUzMGQ1ZDhjODUuLjlhODZlYWQ4Mzc3ZCAxMDA2
+NDQKLS0tIGEvZHJpdmVycy9pb21tdS9pbnRlbC9pb21tdS5jCisrKyBiL2RyaXZlcnMvaW9t
+bXUvaW50ZWwvaW9tbXUuYwpAQCAtMTgzMiw2ICsxODMyLDggQEAgc3RhdGljIGludCBkbWFy
+X2RvbWFpbl9hdHRhY2hfZGV2aWNlKHN0cnVjdCBkbWFyX2RvbWFpbiAqZG9tYWluLAogCWlm
+IChyZXQpCiAJCWdvdG8gb3V0X2Jsb2NrX3RyYW5zbGF0aW9uOwogCisJaW5mby0+ZG9tYWlu
+X2F0dGFjaGVkID0gdHJ1ZTsKKwogCXJldHVybiAwOwogCiBvdXRfYmxvY2tfdHJhbnNsYXRp
+b246CkBAIC0zMjA2LDYgKzMyMDgsMTAgQEAgdm9pZCBkZXZpY2VfYmxvY2tfdHJhbnNsYXRp
+b24oc3RydWN0IGRldmljZSAqZGV2KQogCXN0cnVjdCBpbnRlbF9pb21tdSAqaW9tbXUgPSBp
+bmZvLT5pb21tdTsKIAl1bnNpZ25lZCBsb25nIGZsYWdzOwogCisJLyogRGV2aWNlIGluIERN
+QSBibG9ja2luZyBzdGF0ZS4gTm90aW5nIHRvIGRvLiAqLworCWlmICghaW5mby0+ZG9tYWlu
+X2F0dGFjaGVkKQorCQlyZXR1cm47CisKIAlpZiAoaW5mby0+ZG9tYWluKQogCQljYWNoZV90
+YWdfdW5hc3NpZ25fZG9tYWluKGluZm8tPmRvbWFpbiwgZGV2LCBJT01NVV9OT19QQVNJRCk7
+CiAKQEAgLTQzMDIsNiArNDMwOCw5IEBAIHN0YXRpYyBpbnQgaWRlbnRpdHlfZG9tYWluX2F0
+dGFjaF9kZXYoc3RydWN0IGlvbW11X2RvbWFpbiAqZG9tYWluLCBzdHJ1Y3QgZGV2aWNlCiAJ
+ZWxzZQogCQlyZXQgPSBkZXZpY2Vfc2V0dXBfcGFzc190aHJvdWdoKGRldik7CiAKKwlpZiAo
+IXJldCkKKwkJaW5mby0+ZG9tYWluX2F0dGFjaGVkID0gdHJ1ZTsKKwogCXJldHVybiByZXQ7
+CiB9CiAKZGlmZiAtLWdpdCBhL2RyaXZlcnMvaW9tbXUvaW50ZWwvaW9tbXUuaCBiL2RyaXZl
+cnMvaW9tbXUvaW50ZWwvaW9tbXUuaAppbmRleCBjYmZiOGJiNGM5NGEuLjNkZGJjYzYwM2Rl
+MiAxMDA2NDQKLS0tIGEvZHJpdmVycy9pb21tdS9pbnRlbC9pb21tdS5oCisrKyBiL2RyaXZl
+cnMvaW9tbXUvaW50ZWwvaW9tbXUuaApAQCAtNzc0LDYgKzc3NCw3IEBAIHN0cnVjdCBkZXZp
+Y2VfZG9tYWluX2luZm8gewogCXU4IGF0c19zdXBwb3J0ZWQ6MTsKIAl1OCBhdHNfZW5hYmxl
+ZDoxOwogCXU4IGR0bGJfZXh0cmFfaW52YWw6MTsJLyogUXVpcmsgZm9yIGRldmljZXMgbmVl
+ZCBleHRyYSBmbHVzaCAqLworCXU4IGRvbWFpbl9hdHRhY2hlZDoxOwkvKiBEZXZpY2UgaGFz
+IGRvbWFpbiBhdHRhY2hlZCAqLwogCXU4IGF0c19xZGVwOwogCXVuc2lnbmVkIGludCBpb3Bm
+X3JlZmNvdW50OwogCXN0cnVjdCBkZXZpY2UgKmRldjsgLyogaXQncyBOVUxMIGZvciBQQ0ll
+LXRvLVBDSSBicmlkZ2UgKi8K
+
+--------------Pmc9TytVRXbvZn0nfSt18r6r--
 
