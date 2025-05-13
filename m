@@ -1,104 +1,84 @@
-Return-Path: <linux-input+bounces-12343-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12346-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB719AB5A60
-	for <lists+linux-input@lfdr.de>; Tue, 13 May 2025 18:42:55 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id C0234AB5FBE
+	for <lists+linux-input@lfdr.de>; Wed, 14 May 2025 01:03:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5C9B61767F1
-	for <lists+linux-input@lfdr.de>; Tue, 13 May 2025 16:41:23 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 079C73B8F94
+	for <lists+linux-input@lfdr.de>; Tue, 13 May 2025 23:03:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C1B152BFC72;
-	Tue, 13 May 2025 16:39:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CDDC81E8356;
+	Tue, 13 May 2025 23:03:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pGxiI6Qk"
+	dkim=pass (2048-bit key) header.d=endrift.com header.i=@endrift.com header.b="tDm9s8w5"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from endrift.com (endrift.com [173.255.198.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97A822BF3EA;
-	Tue, 13 May 2025 16:39:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C7E31DF74F
+	for <linux-input@vger.kernel.org>; Tue, 13 May 2025 23:03:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=173.255.198.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747154355; cv=none; b=dSz1nGrs+rc9mJpgQH2DfVlgJO5/crXZy1IYKqQu2Pg3O05T/9iO+ClZnuZP+NactQ6+CnGS2zXpyXAJW+GL1+1ZDQ8e/hHioA+XRa2knuTTShsIIMOiT/6PNScotc8qr12BHbcFH6h9VZLXvXFhM2EzhdL9x9NyeOW8YTEykYo=
+	t=1747177401; cv=none; b=fcunC0fvWPcCDsPYdAv1rj06kIzlDGBo2VyIqr9+8bp4OdwzVTUCAMZh0KOpknL9Ktpn1uMA/o8Di7zcrL45G/viBTEV/2aCXGsN80oXOJMZF8vr2uGcBoNmWpWnXQLx2lurmaKQ06iZY1gdHiNlZQGM3k5x98junqOMQSMKyy8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747154355; c=relaxed/simple;
-	bh=dxlqenimSNUo0laSheTrdDLOzROGW5tThbT22cuOvvc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=t7ae1YI99a0nLp3TuK2t4RtPab3Z8Wqa/J769YTSkTT0SNBrDMTPQiCNrSvwUpG28bRNcysyw+etdYaKaSLE/NDj0R2tTOM/H/7FQnBSav6+Dql5mDEH64Y0jSAw7AtzHQjxhQ/V1BNwtTefDKxDeiZ5JV/WYUDUltXeAqblLBo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pGxiI6Qk; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11CE8C4CEE4;
-	Tue, 13 May 2025 16:39:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747154354;
-	bh=dxlqenimSNUo0laSheTrdDLOzROGW5tThbT22cuOvvc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=pGxiI6QkrQBW4nzxb6vLUpKdfqDscqoY1mk1yXfBl6+pUfp+wInZISRSJdpu6MjtQ
-	 XF6JGgxBAeH2juhUQ5mUFhnkUkkM0sZO+2e5mKWsNdv6aPG5a0ZQlOJ9Ws8Cye/kbN
-	 t2p0jDWBkFNHex8ruFcg1r2E92DrsG9k8LGEjACuAhVGKiFqKTZsLg3zEbPCZjSZQr
-	 YrHLVuN1N0mLD3GniBocix3cXT+SssC54xP9RsAFT4Ns300SK8OmfE86y8rfAqcU9n
-	 ye70EaO6TDcrI+wYMYkdkJEja9neev6rZ6bxDJT9AW1x8vcHVNWA9mOyVALb3ROm0T
-	 9FlxDQ/Yd3VkA==
-Date: Tue, 13 May 2025 18:39:10 +0200
-From: Benjamin Tissoires <bentiss@kernel.org>
-To: Jiri Kosina <jikos@kernel.org>
-Cc: Werner Sembach <wse@tuxedocomputers.com>, linux-input@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] Disable touchpad on firmware level while not in use
-Message-ID: <4tjbyzn22sctrv7sdn7aetl7vse4epvqqctqgtx73kkh46njbv@lisa3ejipu62>
-References: <20250211133950.422232-1-wse@tuxedocomputers.com>
- <20250211133950.422232-2-wse@tuxedocomputers.com>
- <df09a3f9-6131-435a-ad68-4cea71237e42@tuxedocomputers.com>
- <9q411092-1170-qr2r-27or-96594p19qrqo@xreary.bet>
+	s=arc-20240116; t=1747177401; c=relaxed/simple;
+	bh=cdNXMZyNeBYD5NIRFlZ6W4oWoX9ramCfKZ1S84JfAR4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=o94leGQUhCM6e6rDiHeROkDMBv9XrQuoyteO17apLlS9h8/CC/pm+XWPW5GwrVcrZ/EfK6EmlEAJQz7lYCQvIV823F0rrzI+ejttVN0iV7NDIWpYL+/StaAd+0lMJxND/vdF6H4qu/ctcsu4tN5DfW0uLkKn4qIFw5sKMNgrxCE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=endrift.com; spf=pass smtp.mailfrom=endrift.com; dkim=pass (2048-bit key) header.d=endrift.com header.i=@endrift.com header.b=tDm9s8w5; arc=none smtp.client-ip=173.255.198.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=endrift.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=endrift.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=endrift.com; s=2020;
+	t=1747176915; bh=cdNXMZyNeBYD5NIRFlZ6W4oWoX9ramCfKZ1S84JfAR4=;
+	h=From:To:Cc:Subject:Date:From;
+	b=tDm9s8w5p0j36TXRsmlp+k+prEsc39e5DDRSoiO5DlcQQ7S3QXb9mBFcDCHbpr/l/
+	 L212nfW1nnOox+7g9ShLmoOwZxsUfVMvgn6zvMZveh7rVP2nmJQFfr1ZYoc2MsDt9E
+	 sHlZtXmLSK4t4B2ITd1fvsft4r9plc2qSVKxA6CSzAppI5qHFUYkMDL794Sfuf5gxk
+	 2mR4R+BTHmB0Toqzx27Pw2hU0LxqGaBZNI61omPbnLGAtYOGeYirjrnd+TCnxylj7r
+	 L/tw9hE77EQ3QraW4veDVTLLaIrjZUxZqS6q5KRsUZ/swSvtOE+ifRvNc1uanAkxLD
+	 RYjL8uyhvP/iA==
+Received: from nebulosa.vulpes.eutheria.net (71-212-74-234.tukw.qwest.net [71.212.74.234])
+	by endrift.com (Postfix) with ESMTPSA id 1C5B5A01D;
+	Tue, 13 May 2025 15:55:15 -0700 (PDT)
+From: Vicki Pfau <vi@endrift.com>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	linux-input@vger.kernel.org
+Cc: Vicki Pfau <vi@endrift.com>
+Subject: [PATCH 0/4] Input: xpad - More Xbox One improvements
+Date: Tue, 13 May 2025 15:53:58 -0700
+Message-ID: <20250513225411.2718072-1-vi@endrift.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9q411092-1170-qr2r-27or-96594p19qrqo@xreary.bet>
+Content-Transfer-Encoding: 8bit
 
-On Apr 24 2025, Jiri Kosina wrote:
-> On Tue, 4 Mar 2025, Werner Sembach wrote:
-> 
-> > > Using the new on_hid_hw_open and on_hid_hw_close functions to disable the
-> > > touchpad on firmware level while not being in use.
-> > >
-> > > This safes some battery and triggers touchpad-disabled-leds hardwired to
-> > > the touchpads firmware, that exist for example on some TongFang barebones.
-> > >
-> > > For a lengthy discussion with all the details see
-> > > https://gitlab.freedesktop.org/libinput/libinput/-/issues/558
-> > 
-> > Any comments if this is a good idea or not?
-> 
-> Sorry for the delay.
-> 
-> To me this looks like generally a good idea; Benjamin, any comments on the 
-> hid-mt part?
+This patchset adds support for several more controllers but also adds a bit
+more "correctness" to the initialization flow, and a quirk on waiting until
+the announce packet for some wireless controllers that delay the init flow.
 
-Looks good to me, though my CI is now taking way more time because it's
-not expecting to receive data from the device once the initial setup is
-done.
+I have a WIP new driver with a proper initialization flow based on the
+recently released documentation, so hopefully this will be the last needed
+patch that adds piecemeal per-controller fixes like this.
 
-> 
-> BTW you'd need to adjust the Subject line of the patches to conform to the 
-> subsystem style (i.e. HID: core: ....)
+Pierre-Loup A. Griffais (1):
+  Input: xpad - Add the ByoWave Proteus controller
 
-Amended locally and pushed (see the notification email).
+Vicki Pfau (3):
+  Input: xpad - Allow delaying init packets
+  Input: xpad - Send LED and auth done packets to all Xbox One
+    controllers
+  Input: xpad - Add more controllers
 
-Cheers,
-Benjamin
+ drivers/input/joystick/xpad.c | 57 +++++++++++++++++++++++++++--------
+ 1 file changed, 44 insertions(+), 13 deletions(-)
 
-> 
-> Thanks,
-> 
-> -- 
-> Jiri Kosina
-> SUSE Labs
-> 
+-- 
+2.49.0
+
 
