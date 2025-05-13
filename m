@@ -1,278 +1,118 @@
-Return-Path: <linux-input+bounces-12313-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12314-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD08EAB5270
-	for <lists+linux-input@lfdr.de>; Tue, 13 May 2025 12:29:06 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 86CEDAB539A
+	for <lists+linux-input@lfdr.de>; Tue, 13 May 2025 13:14:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5317B4C29E9
-	for <lists+linux-input@lfdr.de>; Tue, 13 May 2025 10:27:45 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BBCF6465A32
+	for <lists+linux-input@lfdr.de>; Tue, 13 May 2025 11:14:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3FAA723956A;
-	Tue, 13 May 2025 10:08:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 25C8D28CF43;
+	Tue, 13 May 2025 11:14:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mBc6dcyH"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="S1hyStrD"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08BA718DB20;
-	Tue, 13 May 2025 10:08:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECB1C1F1524;
+	Tue, 13 May 2025 11:14:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.198
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747130933; cv=none; b=PnDopRtqGzoevLdpKBKvJJxFFsqdCBDZjD801RcxM4ro2aipuypt8SwtuZIxokxKoNMmHaG7MWR8O0T3lv8z0YjBRs1x/cEUlYUj7/ijtkmyZwhRl1Z18TrtSh8um/oBifvC0VfwVIFq9PdFrmHhLn7kHoKC2qOZls0G/GgbYj8=
+	t=1747134867; cv=none; b=rLy8+waY/gE9sskRw6/fZ4CKKUG4xtQdKrDXsMz8AoZwHlPzf2kGPRffBjUYsrR8BkuQOq/0WUHypnv6En3Y/OfPDxESXtfBVTgxAzvQK1Mk1vsRfP3b+WiFcYSk4i9967tf6MOD4deVQJseeJSuC7G4gdUxrOOYU7c7ANFr1qc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747130933; c=relaxed/simple;
-	bh=zaeAUYaQaFHz8DDo3EJfThuIgsaCi3wiYrz7Dcx2zMg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dVq3ZDUJh8F3GjwniaCu/F3kK3nbW776p3UFM5ksNiVgC8LbazHmmC309YknJE5lgAAMkKGbYn/QOBUj9oXpKLqJPZ5oQNGHGPdu57o3/GgcZwK48qh95fa/V5NxrJdnM4ebOMDS3rEHQ2H4LsoQcYazzEqFx8M2A5Rp3qtAUT0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mBc6dcyH; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C08DCC4CEEF;
-	Tue, 13 May 2025 10:08:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747130932;
-	bh=zaeAUYaQaFHz8DDo3EJfThuIgsaCi3wiYrz7Dcx2zMg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=mBc6dcyHfRmLVPnEJ7WqN6jAAGEAy1SxD+69ZeQkyenu2zi1lBZ1UAoWBRdVUsG3e
-	 5REm+NHtSlykhwg38l+cCizPJlE7VbxCPTAzDti3CU+vt25zRRMMjvTEbB7grlw9/S
-	 Melmd91vg176MxOgnp2edXmzJuRrRt8rvB1lXNU5165SZF1Tny3uf34Ag83GKKQ4z3
-	 Q2De000VrTC/39GfW5XHj7N9zaqt4xtZQb+3r5bD0EO2oAOKjOPNwvv3gj0jKeQgTI
-	 rLpxk3KKYh8Bh1hHT1NsCl/UBXX3uBBDCVx2JUHnW8gzQbkWHgqfmLI130FigyC0Y+
-	 ncbjFVXqPyAig==
-Date: Tue, 13 May 2025 12:08:49 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
-To: mathieu.dubois-briand@bootlin.com
-Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Kamel Bouhara <kamel.bouhara@bootlin.com>, Linus Walleij <linus.walleij@linaro.org>, 
-	Bartosz Golaszewski <brgl@bgdev.pl>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
-	Michael Walle <mwalle@kernel.org>, Mark Brown <broonie@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, linux-input@vger.kernel.org, linux-pwm@vger.kernel.org, 
-	andriy.shevchenko@intel.com, =?utf-8?Q?Gr=C3=A9gory?= Clement <gregory.clement@bootlin.com>, 
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v8 04/11] pwm: max7360: Add MAX7360 PWM support
-Message-ID: <5eb7xqo7bfzath3xy7i6v5fep7qwfeg4z3rtzifmgnyvlc3o5b@yi6hzur52hl3>
-References: <20250509-mdb-max7360-support-v8-0-bbe486f6bcb7@bootlin.com>
- <20250509-mdb-max7360-support-v8-4-bbe486f6bcb7@bootlin.com>
+	s=arc-20240116; t=1747134867; c=relaxed/simple;
+	bh=PXJdoneHOMC99/uLU9ijBMdzBMKSPZ5UAMiFw3MgRyc=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:From:To:Subject:
+	 References:In-Reply-To; b=VuyuREuCDK7kIVj90ykKIYMTPX9Xiyxdxs9DBGBXFxIUelWD9EwDXsUT4GvsJ7I0lJH/Q+Y7NNetARqe4kP6rAyQThI0dUkGfTta+jj01xZ2jMrdVnnMyJ8e6Rdg9ve7kFPC1OqZPGB8YiNaFgk81cu1zsm/sxVLrVRftTbws5k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=S1hyStrD; arc=none smtp.client-ip=217.70.183.198
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 5E6AB4329D;
+	Tue, 13 May 2025 11:14:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1747134856;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=LKTxS/Fgg/f7k8WlIimNhYf5mVWwyERbEyvE9wVS1HY=;
+	b=S1hyStrD27CAh44pTlyze9cf2t9bOIXFc3lhaVrzuJZAsNEGxNhYEdwkHIFfXlQlb9R0Jr
+	c9d8sH56RSm4PX/E6Bmqu+Y8iLrFpiNMHilR1FxCZZPNJc6ztREVTzW1OfijJYWkUQ9M1H
+	O3zYF87Obs/QWFC6vsrSIV9rUW2TVi5ZnIWj2afOO+zlBWd8jn4YzAuWJpq3O5aS+9f1Cy
+	nw+opP05ili8zmQIXZEELg8f0KpQ505J9+RJGZv7fgsyooFtcIS8ONKfxaXVuj+jJbs7M6
+	PoxTPf7l8OKsR/0ix/WdvHsegu8OISv0un1rCKpHIn/+DVrJzORHHiM5ZyWG9g==
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="2yxh7t5v6ayknmhz"
-Content-Disposition: inline
-In-Reply-To: <20250509-mdb-max7360-support-v8-4-bbe486f6bcb7@bootlin.com>
-
-
---2yxh7t5v6ayknmhz
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v8 04/11] pwm: max7360: Add MAX7360 PWM support
-MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 13 May 2025 13:14:14 +0200
+Message-Id: <D9UZM817JKQM.2CPWNUC1H2AJW@bootlin.com>
+Cc: "Andy Shevchenko" <andriy.shevchenko@intel.com>, "Rob Herring"
+ <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Conor
+ Dooley" <conor+dt@kernel.org>, "Kamel Bouhara" <kamel.bouhara@bootlin.com>,
+ "Linus Walleij" <linus.walleij@linaro.org>, "Bartosz Golaszewski"
+ <brgl@bgdev.pl>, "Dmitry Torokhov" <dmitry.torokhov@gmail.com>,
+ =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, "Michael Walle"
+ <mwalle@kernel.org>, "Mark Brown" <broonie@kernel.org>, "Greg
+ Kroah-Hartman" <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
+ <rafael@kernel.org>, "Danilo Krummrich" <dakr@kernel.org>,
+ <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-gpio@vger.kernel.org>, <linux-input@vger.kernel.org>,
+ <linux-pwm@vger.kernel.org>, =?utf-8?q?Gr=C3=A9gory_Clement?=
+ <gregory.clement@bootlin.com>, "Thomas Petazzoni"
+ <thomas.petazzoni@bootlin.com>
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: "Lee Jones" <lee@kernel.org>
+Subject: Re: [PATCH v8 02/11] mfd: Add max7360 support
+X-Mailer: aerc 0.19.0-0-gadd9e15e475d
+References: <20250509-mdb-max7360-support-v8-0-bbe486f6bcb7@bootlin.com>
+ <20250509-mdb-max7360-support-v8-2-bbe486f6bcb7@bootlin.com>
+ <aCG9lyaCGchBsqLE@smile.fi.intel.com>
+ <D9UW14SJQ9HV.3BA1FYKMG9DE0@bootlin.com>
+ <20250513093107.GC2936510@google.com>
+In-Reply-To: <20250513093107.GC2936510@google.com>
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdeftdefleeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpegggfgtfffkvefhvffuofhfjgesthhqredtredtjeenucfhrhhomhepfdforghthhhivghuucffuhgsohhishdquehrihgrnhgufdcuoehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeftedvgfegteehjeejtdefgffhteevvddtvdejleeghfefuefgledtteduvdetkeenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepvdgrtddumegtsgdugeemheehieemjegrtddtmeeffhgtfhemfhgstdgumeduvdeivdemvdgvjeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddumegtsgdugeemheehieemjegrtddtmeeffhgtfhemfhgstdgumeduvdeivdemvdgvjeeipdhhvghloheplhhotggrlhhhohhsthdpmhgrihhlfhhrohhmpehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedvvddprhgtphhtthhopehlvggvsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegrnhgurhhihidrshhhvghvtghhvghnkhhosehinhhtvghlr
+ dgtohhmpdhrtghpthhtoheprhhosghhsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehkrhiikhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegtohhnohhrodgutheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepkhgrmhgvlhdrsghouhhhrghrrgessghoohhtlhhinhdrtghomhdprhgtphhtthhopehlihhnuhhsrdifrghllhgvihhjsehlihhnrghrohdrohhrghdprhgtphhtthhopegsrhhglhessghguggvvhdrphhl
+X-GND-Sasl: mathieu.dubois-briand@bootlin.com
 
-Hello,
+On Tue May 13, 2025 at 11:31 AM CEST, Lee Jones wrote:
+> On Tue, 13 May 2025, Mathieu Dubois-Briand wrote:
+>
+>> On Mon May 12, 2025 at 11:21 AM CEST, Andy Shevchenko wrote:
+>> > On Fri, May 09, 2025 at 11:14:36AM +0200, mathieu.dubois-briand@bootli=
+n.com wrote:
+>> >
+>> >> +#define MAX7360_REG_GPIO_LAST		0x5F
+>> >
+>> >> +#define MAX7360_FIFO_EMPTY		0x3f
+>> >> +#define MAX7360_FIFO_OVERFLOW		0x7f
+>> >
+>> > Please, be consistent in style of the values.
+>>=20
+>> Is your point about the alignment of the values? Most of these are
+>> aligned on column 41, including the ones above. I just have an exception
+>> with MAX7360_PORT_CFG_*, as they are a bit too long. But as we are using
+>> tabs here, indentation appears a bit broken in the patch.
+>
+> I believe the point was in reference to capitalisation.
 
-On Fri, May 09, 2025 at 11:14:38AM +0200, mathieu.dubois-briand@bootlin.com=
- wrote:
-> From: Kamel Bouhara <kamel.bouhara@bootlin.com>
->=20
-> Add driver for Maxim Integrated MAX7360 PWM controller, supporting up to
-> 8 independent PWM outputs.
->=20
-> Signed-off-by: Kamel Bouhara <kamel.bouhara@bootlin.com>
-> Co-developed-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-> Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-> ---
->  drivers/pwm/Kconfig       |  10 +++
->  drivers/pwm/Makefile      |   1 +
->  drivers/pwm/pwm-max7360.c | 186 ++++++++++++++++++++++++++++++++++++++++=
-++++++
->  3 files changed, 197 insertions(+)
->=20
-> diff --git a/drivers/pwm/Kconfig b/drivers/pwm/Kconfig
-> index 4731d5b90d7e..0b22141cbf85 100644
-> --- a/drivers/pwm/Kconfig
-> +++ b/drivers/pwm/Kconfig
-> @@ -755,4 +755,14 @@ config PWM_XILINX
->  	  To compile this driver as a module, choose M here: the module
->  	  will be called pwm-xilinx.
-> =20
-> +config PWM_MAX7360
-> +	tristate "MAX7360 PWMs"
-> +	depends on MFD_MAX7360
-> +	help
-> +	  PWM driver for Maxim Integrated MAX7360 multifunction device, with
-> +	  support for up to 8 PWM outputs.
-> +
-> +	  To compile this driver as a module, choose M here: the module
-> +	  will be called pwm-max7360.
-> +
->  endif
-> diff --git a/drivers/pwm/Makefile b/drivers/pwm/Makefile
-> index 539e0def3f82..9c7701d8070b 100644
-> --- a/drivers/pwm/Makefile
-> +++ b/drivers/pwm/Makefile
-> @@ -36,6 +36,7 @@ obj-$(CONFIG_PWM_LPC32XX)	+=3D pwm-lpc32xx.o
->  obj-$(CONFIG_PWM_LPSS)		+=3D pwm-lpss.o
->  obj-$(CONFIG_PWM_LPSS_PCI)	+=3D pwm-lpss-pci.o
->  obj-$(CONFIG_PWM_LPSS_PLATFORM)	+=3D pwm-lpss-platform.o
-> +obj-$(CONFIG_PWM_MAX7360)	+=3D pwm-max7360.o
->  obj-$(CONFIG_PWM_MESON)		+=3D pwm-meson.o
->  obj-$(CONFIG_PWM_MEDIATEK)	+=3D pwm-mediatek.o
->  obj-$(CONFIG_PWM_MICROCHIP_CORE)	+=3D pwm-microchip-core.o
-> diff --git a/drivers/pwm/pwm-max7360.c b/drivers/pwm/pwm-max7360.c
-> new file mode 100644
-> index 000000000000..af2006ec7a96
-> --- /dev/null
-> +++ b/drivers/pwm/pwm-max7360.c
-> @@ -0,0 +1,186 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Copyright 2025 Bootlin
-> + *
-> + * Author: Kamel BOUHARA <kamel.bouhara@bootlin.com>
-> + * Author: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-> + *
-> + * Limitations:
-> + * - Only supports normal polarity.
-> + * - The period is fixed to 2 ms.
-> + * - Only the duty cycle can be changed, new values are applied at the b=
-eginning
-> + *   of the next cycle.
-> + * - When disabled, the output is put in Hi-Z.
-> + */
-> +#include <linux/bits.h>
-> +#include <linux/dev_printk.h>
-> +#include <linux/err.h>
-> +#include <linux/math64.h>
-> +#include <linux/mfd/max7360.h>
-> +#include <linux/minmax.h>
-> +#include <linux/mod_devicetable.h>
-> +#include <linux/module.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/pwm.h>
-> +#include <linux/regmap.h>
-> +#include <linux/time.h>
-> +#include <linux/types.h>
-> +
-> +#define MAX7360_NUM_PWMS			8
-> +#define MAX7360_PWM_MAX_RES			255
-> +#define MAX7360_PWM_PERIOD_NS			(2 * NSEC_PER_MSEC)
-> +
-> +struct max7360_pwm_waveform {
-> +	u8 duty_steps;
-> +	bool enabled;
-> +};
-> +
-> +static int max7360_pwm_request(struct pwm_chip *chip, struct pwm_device =
-*pwm)
-> +{
-> +	struct regmap *regmap =3D pwmchip_get_drvdata(chip);
-> +	int ret;
-> +
-> +	ret =3D regmap_write_bits(regmap, MAX7360_REG_PWMCFG(pwm->hwpwm),
-> +				MAX7360_PORT_CFG_COMMON_PWM, 0);
-> +	if (ret)
-> +		return ret;
-> +
-> +	return regmap_write_bits(regmap, MAX7360_REG_PORTS, BIT(pwm->hwpwm), BI=
-T(pwm->hwpwm));
+Oh! Makes sense, I didn't saw that.
 
-What is the effect of these writes? It doesn't need to be undone in a
-matching .free()?
+Thanks!
 
-> +}
-> +
-> +static int max7360_pwm_round_waveform_tohw(struct pwm_chip *chip,
-> +					   struct pwm_device *pwm,
-> +					   const struct pwm_waveform *wf,
-> +					   void *_wfhw)
-> +{
-> +	struct max7360_pwm_waveform *wfhw =3D _wfhw;
-> +	u64 duty_steps;
-> +
-> +	/*
-> +	 * Ignore user provided values for period_length_ns and duty_offset_ns:
-> +	 * we only support fixed period of MAX7360_PWM_PERIOD_NS and offset of =
-0.
-> +	 */
-> +	duty_steps =3D mul_u64_u64_div_u64(wf->duty_length_ns, MAX7360_PWM_MAX_=
-RES,
-> +					 MAX7360_PWM_PERIOD_NS);
-> +
-> +	wfhw->duty_steps =3D min(MAX7360_PWM_MAX_RES, duty_steps);
-> +	wfhw->enabled =3D !!wf->duty_length_ns;
-> +
-> +	return 0;
-> +}
-> +
-> +static int max7360_pwm_round_waveform_fromhw(struct pwm_chip *chip, stru=
-ct pwm_device *pwm,
-> +					     const void *_wfhw, struct pwm_waveform *wf)
-> +{
-> +	const struct max7360_pwm_waveform *wfhw =3D _wfhw;
-> +
-> +	wf->period_length_ns =3D wfhw->enabled ? MAX7360_PWM_PERIOD_NS : 0;
-> +	wf->duty_offset_ns =3D 0;
-> +	wf->duty_length_ns =3D DIV_ROUND_UP(wfhw->duty_steps * MAX7360_PWM_PERI=
-OD_NS,
-> +					  MAX7360_PWM_MAX_RES);
-> +
-> +	return 0;
-> +}
-> +
-> +static int max7360_pwm_write_waveform(struct pwm_chip *chip,
-> +				      struct pwm_device *pwm,
-> +				      const void *_wfhw)
-> +{
-> +	struct regmap *regmap =3D pwmchip_get_drvdata(chip);
-> +	const struct max7360_pwm_waveform *wfhw =3D _wfhw;
-> +	unsigned int val;
-> +	int ret;
-> +
-> +	val =3D wfhw->enabled ? BIT(pwm->hwpwm) : 0;
-> +	ret =3D regmap_write_bits(regmap, MAX7360_REG_GPIOCTRL, BIT(pwm->hwpwm)=
-, val);
-> +	if (ret)
-> +		return ret;
-> +
-> +	if (wfhw->duty_steps)
-> +		return regmap_write(regmap, MAX7360_REG_PWM(pwm->hwpwm), wfhw->duty_st=
-eps);
+--=20
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
-Would it make sense to first write duty_steps and only then enable?
-Otherwise it might happen that you enable and still have a wrong duty
-configuration in the MAX7360_REG_PWM register and emit a wrong period?
-
-Do you need to write duty_steps =3D 0 if enabled is false?
-
-> +	return 0;
-> +}
-
-Best regards
-Uwe
-
---2yxh7t5v6ayknmhz
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmgjGi4ACgkQj4D7WH0S
-/k7HQgf+Odk90m1utgkmYbrz0FZcNC2Skz6UXgO3C4M5SobWtBPbpcaW/JcIB4Gk
-fVwmhMBKl2od85hqkXxZLOuVzA3oBPOCDzQAZTg9gb4bisIWrT3hHpDvL5UZEoKI
-ma06cuOTdO38aJByqPveRD54zUJugND1BcQcNT9+ZOxNmj1pg1QUe+4yxrFN8Zbp
-ZrIUqujG7ME+OV1MxFw5g3WVvGonjnVJFfi9BVdzNAUpjlqaOEQIj5en96e3titd
-JlpLFklRScDWH8stcquc87bhxm4NDdK0BP01NK5r/9NbJmVLDfCBgeM0ATUGGkLS
-G20Lg42CoxYWzsO+yiLcAyR7uCky3g==
-=gP0G
------END PGP SIGNATURE-----
-
---2yxh7t5v6ayknmhz--
 
