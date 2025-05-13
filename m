@@ -1,112 +1,130 @@
-Return-Path: <linux-input+bounces-12310-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12311-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BFA4AB4E08
-	for <lists+linux-input@lfdr.de>; Tue, 13 May 2025 10:25:57 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id EA0D1AB4E64
+	for <lists+linux-input@lfdr.de>; Tue, 13 May 2025 10:45:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B911F1740AE
-	for <lists+linux-input@lfdr.de>; Tue, 13 May 2025 08:25:57 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9C21A19E575E
+	for <lists+linux-input@lfdr.de>; Tue, 13 May 2025 08:45:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0991F202C4E;
-	Tue, 13 May 2025 08:25:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 54FBD20E336;
+	Tue, 13 May 2025 08:44:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="WxeALdY8"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Uv1+Srbz"
 X-Original-To: linux-input@vger.kernel.org
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D68E6202C5A;
-	Tue, 13 May 2025 08:25:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7284C1E9B0B;
+	Tue, 13 May 2025 08:44:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747124751; cv=none; b=IZKQWnvanWmpnY7sDPgSg6VAQNddm6iNFKa1VAr80Qg3y9A2FVal14Fj/+bfRw+9rbKHmpSSg1mbyVi+uNM3YNGto8sCPOIsdnegXj2jFA33YhbQvg1TSGn5pwlgQxxU7w025lsp8Il+kL5YaGuSziOLupV/lWL0dqeoNGS4n84=
+	t=1747125890; cv=none; b=LWFKHwPgSRTi8+euiO7zN6iUQx1SY5iiVlwvWWQJ3hqVUyczP10RJYvWFec9wX3Qpv+nBe4G75XkPdDjw0FCzDDvuX55O9NSrV+vy5fHWUuho+ht/JTvzRO5WJos9hmxPs+bJ0MfaAAAyFrh8XHVSZF3/BakyTd0AGxw5xaVS3M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747124751; c=relaxed/simple;
-	bh=KmyKHA+amWKsGoGT7dggZMj1WfmDBtdepYE+juYv7zg=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:From:To:Subject:
-	 References:In-Reply-To; b=jQ7Eupk5582TWqYWOEGsg8S2dJPrMS12Z4ujKhk3OurHSvMk2gCl3sADC8LUmp8h2R1YaiUkoMuWTlbCMqNGijsGJci2dtf4NkhrBX5rmr+wYo/pKuEnxupGJLvFU3+MdwWoaHOFEmqF6mAbaCH2FJRPRkkXRuyQI2nw0PP01is=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=WxeALdY8; arc=none smtp.client-ip=217.70.183.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 2DD114341A;
-	Tue, 13 May 2025 08:25:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1747124741;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=QaYT2F+5JVMz3q6yy4S7Oj1Azgj0lWFgsw5T0hxiTco=;
-	b=WxeALdY8M10GpHf+0grO4hv46XBXpsMNoi2LtGiJI3QA0QA3r1ZeF3TmbCBgOx6RV+O+D7
-	3OJUfy+gVkbjBnfVDpIcqhDov/JVGPEKs+O22kEj5/Ojk4/ePSeTyRscQU9qY3wLSw9hri
-	kFGsLHN+0Sgd6bJ6ovUnA8vcXtIrTIhPUP0psPV/gNR3n4gYZFe8R9OMPbXwJwwKOqdTcX
-	V8W4ZeImyBwdw5BZHxroSQz5qZche5A8tUEwmQcLuHzAPF6UGMW+y5WVA5+KMgbz4WfcU9
-	yc8RuzAFCLhfjcjlDDodQ2GqXLEVxFQb1K8/J9PkSAR5off3+Wl7oS91jCWEGA==
+	s=arc-20240116; t=1747125890; c=relaxed/simple;
+	bh=rsaKQs4K1djvMy11y6HRb1i4tTMkgggzE5YFXchGPsg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Nykm+VBU6Qwkcy+pUuNOlB3GYvF5ZEPWZ89I+P3WqGo2uFbEpckUf3wI4vc9Mn7JuI8i9nWkO9MKUS3vUzGI3uklPrv5bdnZ8iJejs71TfB4m7n2DMFwq+Ioboo7UM41Ls+lBhogh9Strv/qNsPjC5IsssCrwShwEr+cP0w60Wg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Uv1+Srbz; arc=none smtp.client-ip=209.85.167.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-54fcd7186dfso3582576e87.0;
+        Tue, 13 May 2025 01:44:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1747125886; x=1747730686; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=q/mMlyrcrj1DZJWRA7Si4O9nxfUJRo0CA7NsYn1buv8=;
+        b=Uv1+SrbzOmaXPyhzMrr9kUdn5wjsnCrkYrXPxY/5dVIuwx1Eln7cQYiKER8qXdKeU6
+         DSbC0ySuCQYmnzgCMKbBeRHkdYPS/2XprET9okFeozRYNv8i1PkWCTh9+wf52PUMaE69
+         dSJNGavXKK0NT2QMjK7feZPwryTOQ0KLzsMRO6WEBo0AQmjSdVnqw8bp4q+ytPBWJzNw
+         FSak4mZwfO5Ls8zwtpgfoYpkpKwqLFAeMJXwTia1wXytpS8/QnRrT8aQ67NpzoK+Y8Ui
+         Gpct4B8WEfip4sR0ONIAMCvFAc3ItJDOaaFQOzTKOYoxX8sGtxfvv1erBwzxmxojgZ0g
+         XTEA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747125886; x=1747730686;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=q/mMlyrcrj1DZJWRA7Si4O9nxfUJRo0CA7NsYn1buv8=;
+        b=mTd3Q7UVjsf/TnPKtjJztgXRnz5AucuAR4L7L+cMbEc0kkgZZgBHUFzmhrf7OsmrW2
+         pWiK++lwMsUEwcQTb8Pu+YT56GqyNdUVDKQDZPm5+I8eGmvw+WBWIXpnw/DT7cfo2+WJ
+         wBqILKeN6trwwv16jDBas4nxtA/Lnam2BlH63GCCEk72kSGViPDdUeRB/9omNK7iAYwj
+         NxLPr9bsu/wAB3WsV69PNJ17ipvVyDSyIkPqATQ+dwG3NhY9ZPwy/JE0C2AJuoa6VbXT
+         SzWu0iQiT+PmkkC25pqWIXBl/1bIkMU8v+LpPDGojTT3eyIgJovPZwQ6qb9ImmNVj3F4
+         2+5A==
+X-Forwarded-Encrypted: i=1; AJvYcCUWtOUydVFmHoVtcQ6LSh1Pt2cNyCavpxMA+ZQIl5YbkhVzcwiK7nx2b9WBjjZBMU9gH5xX1UkExzClCw==@vger.kernel.org, AJvYcCX3Y8IRd8h1azNgNKVYkKpjqGrgUKuTlXqc8Q/CRojx0xdpm50PQbVxQzX/CA/4SYbjKL5ZLh5f6ytKfasD@vger.kernel.org
+X-Gm-Message-State: AOJu0YzAXrXNdBICjYFdfYOruTUdkQLWyIxhVCECQNWoaF9bg50MISdv
+	Qj2IwKPQOCRiW4g5T70OiZxJQ/VOm3SgpMuFy5lq8BqmUnv+iCfn8SsZfqKAiiM=
+X-Gm-Gg: ASbGncvYRS4q8h2cJC4tZN8h2k8/P8E+l6nAE9IVgmSGwzDEZd2G7pIHSsv0pDnKHuI
+	72liTz+9W9sc8XdKfJK8salCxYftH1EkcyJwWzlwGTY0YaaKcDhST0j3VasfRT+wQKRi93QADJF
+	WFa0HcvgXzEVFvTIlLPPY/IsYn+TE+LB/74H/9t69bHFkG8UMoz23TzSKkjqWvjc8nzkU7w1u3w
+	YyuAVKP7AgZku60eaRKCJ17wi7QK6fRg3nlngNvFV5NpUe+cWlEvMrarRrtQi5zNED9sDrwwpxm
+	TxxZYr0R/znTY68BNtj3JB/ynkmY9Blx+8//q4It7OP1qxYtAn3NxJvB8DNZb7wR7O7mlUJM+xu
+	PmgG/I875m68=
+X-Google-Smtp-Source: AGHT+IE0INsiXd9JPWSY9AvmV431RVt59UdxkcetBzz2qpQTgfQ3fEnhDFP09c/AIuULnWGCV9BlUw==
+X-Received: by 2002:a05:6512:4201:b0:54e:81ec:2c83 with SMTP id 2adb3069b0e04-54fc67c2180mr4957570e87.18.1747125886120;
+        Tue, 13 May 2025 01:44:46 -0700 (PDT)
+Received: from [192.168.32.20] (public-gprs411161.centertel.pl. [37.47.237.90])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54fc64cbb12sm1758394e87.213.2025.05.13.01.44.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 13 May 2025 01:44:45 -0700 (PDT)
+Message-ID: <f5594328-11e4-4310-b961-41d8ca0c8116@gmail.com>
+Date: Tue, 13 May 2025 10:44:43 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 13 May 2025 10:25:38 +0200
-Message-Id: <D9UW14SJQ9HV.3BA1FYKMG9DE0@bootlin.com>
-Cc: "Lee Jones" <lee@kernel.org>, "Rob Herring" <robh@kernel.org>,
- "Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Conor Dooley"
- <conor+dt@kernel.org>, "Kamel Bouhara" <kamel.bouhara@bootlin.com>, "Linus
- Walleij" <linus.walleij@linaro.org>, "Bartosz Golaszewski" <brgl@bgdev.pl>,
- "Dmitry Torokhov" <dmitry.torokhov@gmail.com>,
- =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, "Michael Walle"
- <mwalle@kernel.org>, "Mark Brown" <broonie@kernel.org>, "Greg
- Kroah-Hartman" <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
- <rafael@kernel.org>, "Danilo Krummrich" <dakr@kernel.org>,
- <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-gpio@vger.kernel.org>, <linux-input@vger.kernel.org>,
- <linux-pwm@vger.kernel.org>, =?utf-8?q?Gr=C3=A9gory_Clement?=
- <gregory.clement@bootlin.com>, "Thomas Petazzoni"
- <thomas.petazzoni@bootlin.com>
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: "Andy Shevchenko" <andriy.shevchenko@intel.com>
-Subject: Re: [PATCH v8 02/11] mfd: Add max7360 support
-X-Mailer: aerc 0.19.0-0-gadd9e15e475d
-References: <20250509-mdb-max7360-support-v8-0-bbe486f6bcb7@bootlin.com>
- <20250509-mdb-max7360-support-v8-2-bbe486f6bcb7@bootlin.com>
- <aCG9lyaCGchBsqLE@smile.fi.intel.com>
-In-Reply-To: <aCG9lyaCGchBsqLE@smile.fi.intel.com>
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdeftdefieehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpegggfgtfffkvefhvffuofhfjgesthhqredtredtjeenucfhrhhomhepfdforghthhhivghuucffuhgsohhishdquehrihgrnhgufdcuoehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeftedvgfegteehjeejtdefgffhteevvddtvdejleeghfefuefgledtteduvdetkeenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepvdgrtddumegtsgdugeemheehieemjegrtddtmeeffhgtfhemfhgstdgumeduvdeivdemvdgvjeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddumegtsgdugeemheehieemjegrtddtmeeffhgtfhemfhgstdgumeduvdeivdemvdgvjeeipdhhvghloheplhhotggrlhhhohhsthdpmhgrihhlfhhrohhmpehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedvvddprhgtphhtthhopegrnhgurhhihidrshhhvghvtghhvghnkhhosehinhhtvghlrdgtohhmpdhrtghpthhtoheplhgvvgeskhgvrhhnvghlr
- dhorhhgpdhrtghpthhtoheprhhosghhsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehkrhiikhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegtohhnohhrodgutheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepkhgrmhgvlhdrsghouhhhrghrrgessghoohhtlhhinhdrtghomhdprhgtphhtthhopehlihhnuhhsrdifrghllhgvihhjsehlihhnrghrohdrohhrghdprhgtphhtthhopegsrhhglhessghguggvvhdrphhl
-X-GND-Sasl: mathieu.dubois-briand@bootlin.com
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] HID: playstation: DS4: Add BT poll interval adjustment
+To: kernel test robot <lkp@intel.com>,
+ Roderick Colenbrander <roderick.colenbrander@sony.com>,
+ Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>,
+ linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev
+References: <20250508214305.836406-1-titanv3585@gmail.com>
+ <202505100535.vKH3zHW6-lkp@intel.com>
+Content-Language: en-US
+From: Vadym Tytan <titanv3585@gmail.com>
+In-Reply-To: <202505100535.vKH3zHW6-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon May 12, 2025 at 11:21 AM CEST, Andy Shevchenko wrote:
-> On Fri, May 09, 2025 at 11:14:36AM +0200, mathieu.dubois-briand@bootlin.c=
-om wrote:
+> kernel test robot noticed the following build warnings:
 >
->> +#define MAX7360_REG_GPIO_LAST		0x5F
->
->> +#define MAX7360_FIFO_EMPTY		0x3f
->> +#define MAX7360_FIFO_OVERFLOW		0x7f
->
-> Please, be consistent in style of the values.
+> sparse warnings: (new ones prefixed by >>)
+>>> drivers/hid/hid-playstation.c:1773:25: sparse: sparse: symbol 'dev_attr_dualshock4_bt_poll_interval' was not declared. Should it be static?
+> 
+> vim +/dev_attr_dualshock4_bt_poll_interval +1773 drivers/hid/hid-playstation.c
+> 
+>    1772	
+>> 1773	struct device_attribute dev_attr_dualshock4_bt_poll_interval = {
+>    1774		.attr	= { .name = "bt_poll_interval", .mode = 0644 },
+>    1775		.show	= dualshock4_show_poll_interval,
+>    1776		.store	= dualshock4_store_poll_interval,
+>    1777	};
+>    1778	
 
-Is your point about the alignment of the values? Most of these are
-aligned on column 41, including the ones above. I just have an exception
-with MAX7360_PORT_CFG_*, as they are a bit too long. But as we are using
-tabs here, indentation appears a bit broken in the patch.
+This piece of code is expanded `DEVICE_ATTR` macro with changed variable 
+name.
+`DEVICE_ATTR` is defined as:
+```c
+// Reference: 
+https://github.com/intel-lab-lkp/linux/blob/Vadym-Tytan/HID-playstation-DS4-Add-BT-poll-interval-adjustment/20250509-054413/include/linux/device.h#L138-L158
+#define DEVICE_ATTR(_name, _mode, _show, _store) \
+	struct device_attribute dev_attr_##_name = __ATTR(_name, _mode, _show, 
+_store)
+```
+It doesn't use `static` so neither did I.
 
-OK with all other points.
-
-Thanks for your review.
-Mathieu
-
---=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+P.S. Macro was expanded and variable name was changed from 
+`dev_attr_bt_poll_interval` to `dev_attr_dualshock4_bt_poll_interval` 
+because this attribute only applies to DualShock4
 
 
