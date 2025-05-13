@@ -1,233 +1,196 @@
-Return-Path: <linux-input+bounces-12308-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12309-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6B0EAB48E6
-	for <lists+linux-input@lfdr.de>; Tue, 13 May 2025 03:42:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B298DAB4D42
+	for <lists+linux-input@lfdr.de>; Tue, 13 May 2025 09:47:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4F67019E7D82
-	for <lists+linux-input@lfdr.de>; Tue, 13 May 2025 01:42:40 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2C1CA19E309E
+	for <lists+linux-input@lfdr.de>; Tue, 13 May 2025 07:47:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 00CCB194094;
-	Tue, 13 May 2025 01:42:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C659D1F0E32;
+	Tue, 13 May 2025 07:47:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Chy+YN34"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DQdZhfOe"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00A5517583;
-	Tue, 13 May 2025 01:42:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19949195
+	for <linux-input@vger.kernel.org>; Tue, 13 May 2025 07:47:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747100534; cv=none; b=MdzSf3q/AH5N3SX/zRHvbDTZ5J/GvqX+EYNINU1zz5rDyBx728ywOmXjS3F10r242H5lYtGd7WuWQKGDcVngu0Y1ipRrn9FafeUTCKPxLHs3aH4lkg3VKHN/xHTk/GqvXknQEgA4DXnNozdO6w8uopZ+i9WUwRm/SQwHm8ONtnc=
+	t=1747122437; cv=none; b=FM5f+95yUgK3H/Uz7+oiuVoRiCuMnGPlAmlnWOiXACsCBHGl8w3YhxqPT3yKpcd0/q4L6ihu/1Bv2t08RdhMemOtz9zElwHe0IYXaaCuP8KCPydgQkLfBTwAXF07YVQSEfB+N7/N5dPiAnQa6pxhlLK1v25q+82QRtTQZcrmnU4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747100534; c=relaxed/simple;
-	bh=tqfQS6oxsFjhPs/Z50e9x6aN2DzbxyZhm92wCnbhKDU=;
-	h=Content-Type:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To; b=WDZMH0TU8JnhYd/5KIISUp8SKg/2IDzpAq7MyySEJtsl/dybSewwLAK9AoXpsOaveH7BzMvd3UX4AhOA68qBasZHO9zxlXR8S2q0H+EmdGr69DwX3QsJp0lcMTQD+xeskqoqMkdvrVSrsGBNrGsPDtI+Y/SvGkpxfdE6j198dmA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Chy+YN34; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747100533; x=1778636533;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to;
-  bh=tqfQS6oxsFjhPs/Z50e9x6aN2DzbxyZhm92wCnbhKDU=;
-  b=Chy+YN34mY22ZozBYtd+UuJLKPU0k1atSJLJxHgE8OJYrSbYWNknitm5
-   k0TfKjYt+u41Mz/zSwY9mLVkeRgULYZnKU1GNIFoHoD6qFXKRY1WvD3Dp
-   rj6NhzSn3eLvElDobR72/6AfD4ZVwIcVlaeBOLroLmPklJ29LTpWXe1wZ
-   wLY+SBpwtqvhpkyOfxgV6NqMLM1MTvPRjIlnnbNnMVhWcHbzfXT+2wPgn
-   wSI/W0voq/szmnEtNneRVoMhwzhS2vRzHcoRKTVh+END9bNNAaUm0BKHT
-   LvAlCtatqTCpJwW1GbM3aQdrvSB/KYPV6mXSZqQwYWCnoBQaYWzH6h+r+
-   g==;
-X-CSE-ConnectionGUID: HwHAbeAYRFCWAZp1ygjLoQ==
-X-CSE-MsgGUID: B2tVQlv9Qn6R8btHW58VWw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11431"; a="66332200"
-X-IronPort-AV: E=Sophos;i="6.15,283,1739865600"; 
-   d="scan'208";a="66332200"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2025 18:42:13 -0700
-X-CSE-ConnectionGUID: gs+bo9UCRS6oUiHvHgEzow==
-X-CSE-MsgGUID: 98vXkWv8RyW7ZTZtktSHOA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,283,1739865600"; 
-   d="scan'208";a="142497925"
-Received: from allen-sbox.sh.intel.com (HELO [10.239.159.30]) ([10.239.159.30])
-  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2025 18:42:10 -0700
-Content-Type: multipart/mixed; boundary="------------Pmc9TytVRXbvZn0nfSt18r6r"
-Message-ID: <5d760ba9-031f-469b-96e0-a171b7142f88@linux.intel.com>
-Date: Tue, 13 May 2025 09:37:33 +0800
+	s=arc-20240116; t=1747122437; c=relaxed/simple;
+	bh=gql6qI6W9/nKmX32R6X5F7/nlqiPtvm/lUXkfDCkmww=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Q3hmapWRC5n2cpEKzt8k9aRRXazEfc+2FzV6yLT3W1349ry/zDHgV7Lw3trlx0EUOIqcI2ONIvdCZhTtnAEPk0eAYiD27MASXZvR0BxKx+m0VZdaUCFgNzLhmqQQUVDoZrwLu1oaIfri0GJD1UamdJkUevS3uNFZ0s0dDSzvNOo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DQdZhfOe; arc=none smtp.client-ip=209.85.160.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-4769aef457bso67180451cf.2
+        for <linux-input@vger.kernel.org>; Tue, 13 May 2025 00:47:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1747122433; x=1747727233; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=VzdX9jV1XdBivevm++063IkIOHuIVGsHmSEUj/OC02g=;
+        b=DQdZhfOer1c+zuJ+Bd7kJDr6LVGrGK84MK6zQ2CDpIk2G/GURQIIpbh3xP4f4F8OnX
+         yoBEWUl84zHMzfcWcMOkkvqXwd9NmEA46VYJ4mbRRQCEbJcpNoGqUUgPWc+XXGJYybjC
+         Q0MlkQ1FpBwlNP87TSFppU8VHNd12IwdyyTSvgwiWvN7ADLVKdDdOFrgocuToNGmnadg
+         o0+IcVtZWiPGxVLhJIVsM6EwxVqlsAG9yXkH1AkTE8CnwNN5RVCVJmzFt+Wxy4CpcZ6u
+         s38+L2nKajKsK0YmHhJ3o7E41y9xLwJBibUr2CP4PiYN5QX2zkU5SymLdyHuyjiKLKCH
+         DLxg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747122433; x=1747727233;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=VzdX9jV1XdBivevm++063IkIOHuIVGsHmSEUj/OC02g=;
+        b=YKkmVn4T1/AOgX3WbarBtiMiT84ij6LcX/fFQV7yQE/NuaC09eosGjd6PCyFEdIfzw
+         2B6gXMrNfkRP+MFzFWLdM50gh/4EjpTERK09RNzh8fgWDxYGzRR8Yg9JUoeElv8WLmm3
+         m1dxbNeL6/Hw4iawdurBo1lfQC4dHRSvUWJ7PopbAqFfJe1RF2xvPyBpWuk+gOpGC4M1
+         AY2fuJmjCl9O18KQ+gUAwA5rf9XNhn8JzaQSWG2SayCzIFXjyGja5qEyvZ65NepNeXfV
+         dN9N3W2OkcXrYzE0xsQPpNpug1kJleuTdAdf1oP3IciYLuVDPtklruw47p2YEVVLxYmH
+         imAQ==
+X-Gm-Message-State: AOJu0YwDisqPZ9xmvCEi40W6QvKerKkjSgJT1H18IWPXVTx0p462Pzx7
+	ia/t97cvEFv3hH8xR1J77yPQlSU8XvpgSJKFDN2Unk1w3cD2kf2zos3pFdEt
+X-Gm-Gg: ASbGncueeCXMINDJXzx+2Bd+kF1EO0gcdL03mWokvcvxMs4QGsaXNfeEtekiGDuoIP7
+	RItI5Jsot9qLCPqnFO9vp0MIBobsjmH4xL6YIJRnaGLC8faSIcJ5QbN1jtjGgKeepU7jo8sVC+K
+	tjlTDbllUy4PxkHPncFpRWi72bM1TSL9SyfxI48F1h4z0sfaPr3GeZcmWynL4aekRSe6yxhuMJt
+	U586rM90KAYG3Rfg5JaHzC9URduM/xS5aiq9nUPQnxLAKohh/ZsMFVriK/cjAqFdSmho27SYyiK
+	kyeR+pXJ6Ypr5H2nF7hqGLqK81gIc1PCcfmsNss2RHcL/dackAC6kx7VkWTWQ0jGHBQCl3NFJWn
+	Gv98Afi8tcZ+NFyW2wBRB7al0I3ZDmZRqyizavaBbi5YO614YIH4=
+X-Google-Smtp-Source: AGHT+IF7gdiENmVGhZ7odOzUww5xYCRNeEoIj97nZLxUgLIkuyE5cdU2svHsV86PmzMpBCtXiTHulA==
+X-Received: by 2002:ac8:5787:0:b0:476:7806:be7e with SMTP id d75a77b69052e-49452714658mr259372261cf.11.1747122433570;
+        Tue, 13 May 2025 00:47:13 -0700 (PDT)
+Received: from Arrakis.djogorchock.com (pool-98-116-120-99.nycmny.fios.verizon.net. [98.116.120.99])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4945246c7ffsm62892501cf.5.2025.05.13.00.47.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 13 May 2025 00:47:12 -0700 (PDT)
+From: "Daniel J. Ogorchock" <djogorchock@gmail.com>
+To: linux-input@vger.kernel.org
+Cc: thunderbird2k@gmail.com,
+	blaws05@gmail.com,
+	benjamin.tissoires@redhat.com,
+	jikos@kernel.org,
+	Roderick.Colenbrander@sony.com,
+	svv@google.com,
+	s.jegen@gmail.com,
+	carmueller@gmail.com,
+	pgriffais@valvesoftware.com,
+	hadess@hadess.net,
+	pobrn@protonmail.com,
+	lee.jones@linaro.org,
+	junwan.cho@samsung.com,
+	tinozzo123@gmail.com,
+	sandeep.cs@samsung.com,
+	"Daniel J. Ogorchock" <djogorchock@gmail.com>
+Subject: [PATCH] HID: nintendo: avoid bluetooth suspend/resume stalls
+Date: Tue, 13 May 2025 03:47:00 -0400
+Message-ID: <20250513074705.13637-1-djogorchock@gmail.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [REGRESSION] applespi from 6.12 onwards
-To: kobarity <kobarity@gmail.com>
-Cc: Aditya Garg <gargaditya08@live.com>, =?UTF-8?Q?Berkel_J=C3=B6rg?=
- <joerg.berkel@bfh.ch>, Robin Murphy <robin.murphy@arm.com>,
- "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
- "dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>,
- "stable@vger.kernel.org" <stable@vger.kernel.org>,
- "regressions@lists.linux.dev" <regressions@lists.linux.dev>,
- "linux-spi@vger.kernel.org" <linux-spi@vger.kernel.org>,
- "lukas@wunner.de" <lukas@wunner.de>, David Woodhouse <dwmw2@infradead.org>,
- "iommu@lists.linux.dev" <iommu@lists.linux.dev>,
- Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>
-References: <4dada48a-c5dd-4c30-9c85-5b03b0aa01f0@bfh.ch>
- <PN3PR01MB9597D8E327CC7910673849D3B888A@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
- <122a1f90-ddd9-4e74-96d1-57e21e580ae2@linux.intel.com>
- <f1b41874-1535-4457-9747-eee3d816091a@arm.com>
- <PN3PR01MB959764E908600CD45169348CB88BA@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
- <c0bbfcc8-1275-43de-be40-acb8f2653359@bfh.ch>
- <PN3PR01MB959708DEEA1567DD38447D5AB895A@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
- <eke7wmanw9xq.wl-kobarity@gmail.com>
- <089b2370-23e4-4a22-bf57-886e46247a1f@linux.intel.com>
- <eke7v7q6vxai.wl-kobarity@gmail.com>
-Content-Language: en-US
-From: Baolu Lu <baolu.lu@linux.intel.com>
-In-Reply-To: <eke7v7q6vxai.wl-kobarity@gmail.com>
-
-This is a multi-part message in MIME format.
---------------Pmc9TytVRXbvZn0nfSt18r6r
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On 5/12/25 20:16, kobarity wrote:
-> Baolu Lu wrote:
->> On 5/11/25 21:31, kobarity wrote:
->>>
->>> Hi
->>>
->>> I'm also experiencing this problem on my MacBookPro14,3.
->>>
->>> Aditya Garg wrote:
->>>>
->>>> Hi Jörg
->>>>
->>>> Can you test the kernel here to see if this fixes your issue:
->>>>
->>>> https://github.com/t2linux/T2-Debian-and-Ubuntu-Kernel/actions/runs/14944200356
->>>>
->>>> Alternatively you can try compiling your own kernel with this patch:
->>>>
->>>> https://lore.kernel.org/all/0-v1-c26553717e90+65f-iommu_vtd_ss_wo_jgg@nvidia.com/
->>>
->>> As far as I have tried, this patch did not solve the problem.
->>>
->>> By bisecting, I found that this problem was introduced by commit
->>> 2031c469f816 ("iommu/vt-d: Add support for static identity domain").
->>> In fact, since this commit, it will panic at startup.  This panic was
->>> fixed by commit 6e02a277f1db ("iommu/vt-d: Fix incorrect
->>> pci_for_each_dma_alias() for non-PCI devices").  So I applied commit
->>> 6e02a277f1db on commit 2031c469f816 and confirmed that the keyboard
->>> and touchpad is not working.
->>
->> Have you tried to apply commit 64f792981e35 ("iommu/vt-d: Remove device
->> comparison in context_setup_pass_through_cb")?
-> 
-> Yes, I tried it on yesterday's master branch, including commit
-> 64f792981e35.
-> 
-> - Keyboard/Touchpad NOT working:
->    - No patches
->    - With patch in https://lore.kernel.org/all/0-v1-c26553717e90+65f-iommu_vtd_ss_wo_jgg@nvidia.com/
-> - Keyboard/Touchpad working:
->    - With my workaround patch
+Ensure we don't stall or panic the kernel when using bluetooth-connected
+controllers. This was reported as an issue on android devices using
+kernel 6.6 due to the resume hook which had been added for usb joycons.
 
-Okay, thanks! Can you please try below change? I also attached a diff
-file in the attachment for your convenience.
+First, set a new state value to JOYCON_CTLR_STATE_SUSPENDED in a
+newly-added nintendo_hid_suspend. This makes sure we will not stall out
+the kernel waiting for input reports during led classdev suspend. The
+stalls could happen if connectivity is unreliable or lost to the
+controller prior to suspend.
 
-diff --git a/drivers/iommu/intel/iommu.c b/drivers/iommu/intel/iommu.c
-index 49530d5d8c85..9a86ead8377d 100644
---- a/drivers/iommu/intel/iommu.c
-+++ b/drivers/iommu/intel/iommu.c
-@@ -1832,6 +1832,8 @@ static int dmar_domain_attach_device(struct 
-dmar_domain *domain,
-         if (ret)
-                 goto out_block_translation;
+Second, since we lose connectivity during suspend, do not try
+joycon_init() for bluetooth controllers in the nintendo_hid_resume path.
 
-+       info->domain_attached = true;
+Tested via multiple suspend/resume flows when using the controller both
+in USB and bluetooth modes.
+
+Signed-off-by: Daniel J. Ogorchock <djogorchock@gmail.com>
+---
+ drivers/hid/hid-nintendo.c | 38 ++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 36 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/hid/hid-nintendo.c b/drivers/hid/hid-nintendo.c
+index 839d5bcd72b1..fb4985988615 100644
+--- a/drivers/hid/hid-nintendo.c
++++ b/drivers/hid/hid-nintendo.c
+@@ -308,6 +308,7 @@ enum joycon_ctlr_state {
+ 	JOYCON_CTLR_STATE_INIT,
+ 	JOYCON_CTLR_STATE_READ,
+ 	JOYCON_CTLR_STATE_REMOVED,
++	JOYCON_CTLR_STATE_SUSPENDED,
+ };
+ 
+ /* Controller type received as part of device info */
+@@ -2750,14 +2751,46 @@ static void nintendo_hid_remove(struct hid_device *hdev)
+ 
+ static int nintendo_hid_resume(struct hid_device *hdev)
+ {
+-	int ret = joycon_init(hdev);
++	struct joycon_ctlr *ctlr = hid_get_drvdata(hdev);
++	int ret;
 +
-         return 0;
-
-  out_block_translation:
-@@ -3206,6 +3208,10 @@ void device_block_translation(struct device *dev)
-         struct intel_iommu *iommu = info->iommu;
-         unsigned long flags;
-
-+       /* Device in DMA blocking state. Noting to do. */
-+       if (!info->domain_attached)
-+               return;
++	hid_dbg(hdev, "resume\n");
++	if (!joycon_using_usb(ctlr)) {
++		hid_dbg(hdev, "no-op resume for bt ctlr\n");
++		ctlr->ctlr_state = JOYCON_CTLR_STATE_READ;
++		return 0;
++	}
+ 
++	ret = joycon_init(hdev);
+ 	if (ret)
+-		hid_err(hdev, "Failed to restore controller after resume");
++		hid_err(hdev,
++			"Failed to restore controller after resume: %d\n",
++			ret);
++	else
++		ctlr->ctlr_state = JOYCON_CTLR_STATE_READ;
+ 
+ 	return ret;
+ }
+ 
++static int nintendo_hid_suspend(struct hid_device *hdev, pm_message_t message)
++{
++	struct joycon_ctlr *ctlr = hid_get_drvdata(hdev);
 +
-         if (info->domain)
-                 cache_tag_unassign_domain(info->domain, dev, 
-IOMMU_NO_PASID);
-
-@@ -4302,6 +4308,9 @@ static int identity_domain_attach_dev(struct 
-iommu_domain *domain, struct device
-         else
-                 ret = device_setup_pass_through(dev);
-
-+       if (!ret)
-+               info->domain_attached = true;
++	hid_dbg(hdev, "suspend: %d\n", message.event);
++	/*
++	 * Avoid any blocking loops in suspend/resume transitions.
++	 *
++	 * joycon_enforce_subcmd_rate() can result in repeated retries if for
++	 * whatever reason the controller stops providing input reports.
++	 *
++	 * This has been observed with bluetooth controllers which lose
++	 * connectivity prior to suspend (but not long enough to result in
++	 * complete disconnection).
++	 */
++	ctlr->ctlr_state = JOYCON_CTLR_STATE_SUSPENDED;
++	return 0;
++}
 +
-         return ret;
-  }
+ #endif
+ 
+ static const struct hid_device_id nintendo_hid_devices[] = {
+@@ -2796,6 +2829,7 @@ static struct hid_driver nintendo_hid_driver = {
+ 
+ #ifdef CONFIG_PM
+ 	.resume		= nintendo_hid_resume,
++	.suspend	= nintendo_hid_suspend,
+ #endif
+ };
+ static int __init nintendo_init(void)
+-- 
+2.49.0
 
-diff --git a/drivers/iommu/intel/iommu.h b/drivers/iommu/intel/iommu.h
-index cbfb8bb4c94a..3ddbcc603de2 100644
---- a/drivers/iommu/intel/iommu.h
-+++ b/drivers/iommu/intel/iommu.h
-@@ -774,6 +774,7 @@ struct device_domain_info {
-         u8 ats_supported:1;
-         u8 ats_enabled:1;
-         u8 dtlb_extra_inval:1;  /* Quirk for devices need extra flush */
-+       u8 domain_attached:1;   /* Device has domain attached */
-         u8 ats_qdep;
-         unsigned int iopf_refcount;
-         struct device *dev; /* it's NULL for PCIe-to-PCI bridge */
-
-Thanks,
-baolu
---------------Pmc9TytVRXbvZn0nfSt18r6r
-Content-Type: text/x-patch; charset=UTF-8; name="diff.patch"
-Content-Disposition: attachment; filename="diff.patch"
-Content-Transfer-Encoding: base64
-
-ZGlmZiAtLWdpdCBhL2RyaXZlcnMvaW9tbXUvaW50ZWwvaW9tbXUuYyBiL2RyaXZlcnMvaW9t
-bXUvaW50ZWwvaW9tbXUuYwppbmRleCA0OTUzMGQ1ZDhjODUuLjlhODZlYWQ4Mzc3ZCAxMDA2
-NDQKLS0tIGEvZHJpdmVycy9pb21tdS9pbnRlbC9pb21tdS5jCisrKyBiL2RyaXZlcnMvaW9t
-bXUvaW50ZWwvaW9tbXUuYwpAQCAtMTgzMiw2ICsxODMyLDggQEAgc3RhdGljIGludCBkbWFy
-X2RvbWFpbl9hdHRhY2hfZGV2aWNlKHN0cnVjdCBkbWFyX2RvbWFpbiAqZG9tYWluLAogCWlm
-IChyZXQpCiAJCWdvdG8gb3V0X2Jsb2NrX3RyYW5zbGF0aW9uOwogCisJaW5mby0+ZG9tYWlu
-X2F0dGFjaGVkID0gdHJ1ZTsKKwogCXJldHVybiAwOwogCiBvdXRfYmxvY2tfdHJhbnNsYXRp
-b246CkBAIC0zMjA2LDYgKzMyMDgsMTAgQEAgdm9pZCBkZXZpY2VfYmxvY2tfdHJhbnNsYXRp
-b24oc3RydWN0IGRldmljZSAqZGV2KQogCXN0cnVjdCBpbnRlbF9pb21tdSAqaW9tbXUgPSBp
-bmZvLT5pb21tdTsKIAl1bnNpZ25lZCBsb25nIGZsYWdzOwogCisJLyogRGV2aWNlIGluIERN
-QSBibG9ja2luZyBzdGF0ZS4gTm90aW5nIHRvIGRvLiAqLworCWlmICghaW5mby0+ZG9tYWlu
-X2F0dGFjaGVkKQorCQlyZXR1cm47CisKIAlpZiAoaW5mby0+ZG9tYWluKQogCQljYWNoZV90
-YWdfdW5hc3NpZ25fZG9tYWluKGluZm8tPmRvbWFpbiwgZGV2LCBJT01NVV9OT19QQVNJRCk7
-CiAKQEAgLTQzMDIsNiArNDMwOCw5IEBAIHN0YXRpYyBpbnQgaWRlbnRpdHlfZG9tYWluX2F0
-dGFjaF9kZXYoc3RydWN0IGlvbW11X2RvbWFpbiAqZG9tYWluLCBzdHJ1Y3QgZGV2aWNlCiAJ
-ZWxzZQogCQlyZXQgPSBkZXZpY2Vfc2V0dXBfcGFzc190aHJvdWdoKGRldik7CiAKKwlpZiAo
-IXJldCkKKwkJaW5mby0+ZG9tYWluX2F0dGFjaGVkID0gdHJ1ZTsKKwogCXJldHVybiByZXQ7
-CiB9CiAKZGlmZiAtLWdpdCBhL2RyaXZlcnMvaW9tbXUvaW50ZWwvaW9tbXUuaCBiL2RyaXZl
-cnMvaW9tbXUvaW50ZWwvaW9tbXUuaAppbmRleCBjYmZiOGJiNGM5NGEuLjNkZGJjYzYwM2Rl
-MiAxMDA2NDQKLS0tIGEvZHJpdmVycy9pb21tdS9pbnRlbC9pb21tdS5oCisrKyBiL2RyaXZl
-cnMvaW9tbXUvaW50ZWwvaW9tbXUuaApAQCAtNzc0LDYgKzc3NCw3IEBAIHN0cnVjdCBkZXZp
-Y2VfZG9tYWluX2luZm8gewogCXU4IGF0c19zdXBwb3J0ZWQ6MTsKIAl1OCBhdHNfZW5hYmxl
-ZDoxOwogCXU4IGR0bGJfZXh0cmFfaW52YWw6MTsJLyogUXVpcmsgZm9yIGRldmljZXMgbmVl
-ZCBleHRyYSBmbHVzaCAqLworCXU4IGRvbWFpbl9hdHRhY2hlZDoxOwkvKiBEZXZpY2UgaGFz
-IGRvbWFpbiBhdHRhY2hlZCAqLwogCXU4IGF0c19xZGVwOwogCXVuc2lnbmVkIGludCBpb3Bm
-X3JlZmNvdW50OwogCXN0cnVjdCBkZXZpY2UgKmRldjsgLyogaXQncyBOVUxMIGZvciBQQ0ll
-LXRvLVBDSSBicmlkZ2UgKi8K
-
---------------Pmc9TytVRXbvZn0nfSt18r6r--
 
