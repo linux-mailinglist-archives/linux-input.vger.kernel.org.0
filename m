@@ -1,196 +1,112 @@
-Return-Path: <linux-input+bounces-12309-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12310-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id B298DAB4D42
-	for <lists+linux-input@lfdr.de>; Tue, 13 May 2025 09:47:19 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BFA4AB4E08
+	for <lists+linux-input@lfdr.de>; Tue, 13 May 2025 10:25:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2C1CA19E309E
-	for <lists+linux-input@lfdr.de>; Tue, 13 May 2025 07:47:32 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B911F1740AE
+	for <lists+linux-input@lfdr.de>; Tue, 13 May 2025 08:25:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C659D1F0E32;
-	Tue, 13 May 2025 07:47:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0991F202C4E;
+	Tue, 13 May 2025 08:25:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DQdZhfOe"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="WxeALdY8"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19949195
-	for <linux-input@vger.kernel.org>; Tue, 13 May 2025 07:47:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D68E6202C5A;
+	Tue, 13 May 2025 08:25:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747122437; cv=none; b=FM5f+95yUgK3H/Uz7+oiuVoRiCuMnGPlAmlnWOiXACsCBHGl8w3YhxqPT3yKpcd0/q4L6ihu/1Bv2t08RdhMemOtz9zElwHe0IYXaaCuP8KCPydgQkLfBTwAXF07YVQSEfB+N7/N5dPiAnQa6pxhlLK1v25q+82QRtTQZcrmnU4=
+	t=1747124751; cv=none; b=IZKQWnvanWmpnY7sDPgSg6VAQNddm6iNFKa1VAr80Qg3y9A2FVal14Fj/+bfRw+9rbKHmpSSg1mbyVi+uNM3YNGto8sCPOIsdnegXj2jFA33YhbQvg1TSGn5pwlgQxxU7w025lsp8Il+kL5YaGuSziOLupV/lWL0dqeoNGS4n84=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747122437; c=relaxed/simple;
-	bh=gql6qI6W9/nKmX32R6X5F7/nlqiPtvm/lUXkfDCkmww=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Q3hmapWRC5n2cpEKzt8k9aRRXazEfc+2FzV6yLT3W1349ry/zDHgV7Lw3trlx0EUOIqcI2ONIvdCZhTtnAEPk0eAYiD27MASXZvR0BxKx+m0VZdaUCFgNzLhmqQQUVDoZrwLu1oaIfri0GJD1UamdJkUevS3uNFZ0s0dDSzvNOo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DQdZhfOe; arc=none smtp.client-ip=209.85.160.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-4769aef457bso67180451cf.2
-        for <linux-input@vger.kernel.org>; Tue, 13 May 2025 00:47:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747122433; x=1747727233; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=VzdX9jV1XdBivevm++063IkIOHuIVGsHmSEUj/OC02g=;
-        b=DQdZhfOer1c+zuJ+Bd7kJDr6LVGrGK84MK6zQ2CDpIk2G/GURQIIpbh3xP4f4F8OnX
-         yoBEWUl84zHMzfcWcMOkkvqXwd9NmEA46VYJ4mbRRQCEbJcpNoGqUUgPWc+XXGJYybjC
-         Q0MlkQ1FpBwlNP87TSFppU8VHNd12IwdyyTSvgwiWvN7ADLVKdDdOFrgocuToNGmnadg
-         o0+IcVtZWiPGxVLhJIVsM6EwxVqlsAG9yXkH1AkTE8CnwNN5RVCVJmzFt+Wxy4CpcZ6u
-         s38+L2nKajKsK0YmHhJ3o7E41y9xLwJBibUr2CP4PiYN5QX2zkU5SymLdyHuyjiKLKCH
-         DLxg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747122433; x=1747727233;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=VzdX9jV1XdBivevm++063IkIOHuIVGsHmSEUj/OC02g=;
-        b=YKkmVn4T1/AOgX3WbarBtiMiT84ij6LcX/fFQV7yQE/NuaC09eosGjd6PCyFEdIfzw
-         2B6gXMrNfkRP+MFzFWLdM50gh/4EjpTERK09RNzh8fgWDxYGzRR8Yg9JUoeElv8WLmm3
-         m1dxbNeL6/Hw4iawdurBo1lfQC4dHRSvUWJ7PopbAqFfJe1RF2xvPyBpWuk+gOpGC4M1
-         AY2fuJmjCl9O18KQ+gUAwA5rf9XNhn8JzaQSWG2SayCzIFXjyGja5qEyvZ65NepNeXfV
-         dN9N3W2OkcXrYzE0xsQPpNpug1kJleuTdAdf1oP3IciYLuVDPtklruw47p2YEVVLxYmH
-         imAQ==
-X-Gm-Message-State: AOJu0YwDisqPZ9xmvCEi40W6QvKerKkjSgJT1H18IWPXVTx0p462Pzx7
-	ia/t97cvEFv3hH8xR1J77yPQlSU8XvpgSJKFDN2Unk1w3cD2kf2zos3pFdEt
-X-Gm-Gg: ASbGncueeCXMINDJXzx+2Bd+kF1EO0gcdL03mWokvcvxMs4QGsaXNfeEtekiGDuoIP7
-	RItI5Jsot9qLCPqnFO9vp0MIBobsjmH4xL6YIJRnaGLC8faSIcJ5QbN1jtjGgKeepU7jo8sVC+K
-	tjlTDbllUy4PxkHPncFpRWi72bM1TSL9SyfxI48F1h4z0sfaPr3GeZcmWynL4aekRSe6yxhuMJt
-	U586rM90KAYG3Rfg5JaHzC9URduM/xS5aiq9nUPQnxLAKohh/ZsMFVriK/cjAqFdSmho27SYyiK
-	kyeR+pXJ6Ypr5H2nF7hqGLqK81gIc1PCcfmsNss2RHcL/dackAC6kx7VkWTWQ0jGHBQCl3NFJWn
-	Gv98Afi8tcZ+NFyW2wBRB7al0I3ZDmZRqyizavaBbi5YO614YIH4=
-X-Google-Smtp-Source: AGHT+IF7gdiENmVGhZ7odOzUww5xYCRNeEoIj97nZLxUgLIkuyE5cdU2svHsV86PmzMpBCtXiTHulA==
-X-Received: by 2002:ac8:5787:0:b0:476:7806:be7e with SMTP id d75a77b69052e-49452714658mr259372261cf.11.1747122433570;
-        Tue, 13 May 2025 00:47:13 -0700 (PDT)
-Received: from Arrakis.djogorchock.com (pool-98-116-120-99.nycmny.fios.verizon.net. [98.116.120.99])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4945246c7ffsm62892501cf.5.2025.05.13.00.47.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 May 2025 00:47:12 -0700 (PDT)
-From: "Daniel J. Ogorchock" <djogorchock@gmail.com>
-To: linux-input@vger.kernel.org
-Cc: thunderbird2k@gmail.com,
-	blaws05@gmail.com,
-	benjamin.tissoires@redhat.com,
-	jikos@kernel.org,
-	Roderick.Colenbrander@sony.com,
-	svv@google.com,
-	s.jegen@gmail.com,
-	carmueller@gmail.com,
-	pgriffais@valvesoftware.com,
-	hadess@hadess.net,
-	pobrn@protonmail.com,
-	lee.jones@linaro.org,
-	junwan.cho@samsung.com,
-	tinozzo123@gmail.com,
-	sandeep.cs@samsung.com,
-	"Daniel J. Ogorchock" <djogorchock@gmail.com>
-Subject: [PATCH] HID: nintendo: avoid bluetooth suspend/resume stalls
-Date: Tue, 13 May 2025 03:47:00 -0400
-Message-ID: <20250513074705.13637-1-djogorchock@gmail.com>
-X-Mailer: git-send-email 2.49.0
+	s=arc-20240116; t=1747124751; c=relaxed/simple;
+	bh=KmyKHA+amWKsGoGT7dggZMj1WfmDBtdepYE+juYv7zg=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:From:To:Subject:
+	 References:In-Reply-To; b=jQ7Eupk5582TWqYWOEGsg8S2dJPrMS12Z4ujKhk3OurHSvMk2gCl3sADC8LUmp8h2R1YaiUkoMuWTlbCMqNGijsGJci2dtf4NkhrBX5rmr+wYo/pKuEnxupGJLvFU3+MdwWoaHOFEmqF6mAbaCH2FJRPRkkXRuyQI2nw0PP01is=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=WxeALdY8; arc=none smtp.client-ip=217.70.183.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 2DD114341A;
+	Tue, 13 May 2025 08:25:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1747124741;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=QaYT2F+5JVMz3q6yy4S7Oj1Azgj0lWFgsw5T0hxiTco=;
+	b=WxeALdY8M10GpHf+0grO4hv46XBXpsMNoi2LtGiJI3QA0QA3r1ZeF3TmbCBgOx6RV+O+D7
+	3OJUfy+gVkbjBnfVDpIcqhDov/JVGPEKs+O22kEj5/Ojk4/ePSeTyRscQU9qY3wLSw9hri
+	kFGsLHN+0Sgd6bJ6ovUnA8vcXtIrTIhPUP0psPV/gNR3n4gYZFe8R9OMPbXwJwwKOqdTcX
+	V8W4ZeImyBwdw5BZHxroSQz5qZche5A8tUEwmQcLuHzAPF6UGMW+y5WVA5+KMgbz4WfcU9
+	yc8RuzAFCLhfjcjlDDodQ2GqXLEVxFQb1K8/J9PkSAR5off3+Wl7oS91jCWEGA==
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 13 May 2025 10:25:38 +0200
+Message-Id: <D9UW14SJQ9HV.3BA1FYKMG9DE0@bootlin.com>
+Cc: "Lee Jones" <lee@kernel.org>, "Rob Herring" <robh@kernel.org>,
+ "Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Conor Dooley"
+ <conor+dt@kernel.org>, "Kamel Bouhara" <kamel.bouhara@bootlin.com>, "Linus
+ Walleij" <linus.walleij@linaro.org>, "Bartosz Golaszewski" <brgl@bgdev.pl>,
+ "Dmitry Torokhov" <dmitry.torokhov@gmail.com>,
+ =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, "Michael Walle"
+ <mwalle@kernel.org>, "Mark Brown" <broonie@kernel.org>, "Greg
+ Kroah-Hartman" <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
+ <rafael@kernel.org>, "Danilo Krummrich" <dakr@kernel.org>,
+ <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-gpio@vger.kernel.org>, <linux-input@vger.kernel.org>,
+ <linux-pwm@vger.kernel.org>, =?utf-8?q?Gr=C3=A9gory_Clement?=
+ <gregory.clement@bootlin.com>, "Thomas Petazzoni"
+ <thomas.petazzoni@bootlin.com>
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: "Andy Shevchenko" <andriy.shevchenko@intel.com>
+Subject: Re: [PATCH v8 02/11] mfd: Add max7360 support
+X-Mailer: aerc 0.19.0-0-gadd9e15e475d
+References: <20250509-mdb-max7360-support-v8-0-bbe486f6bcb7@bootlin.com>
+ <20250509-mdb-max7360-support-v8-2-bbe486f6bcb7@bootlin.com>
+ <aCG9lyaCGchBsqLE@smile.fi.intel.com>
+In-Reply-To: <aCG9lyaCGchBsqLE@smile.fi.intel.com>
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdeftdefieehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpegggfgtfffkvefhvffuofhfjgesthhqredtredtjeenucfhrhhomhepfdforghthhhivghuucffuhgsohhishdquehrihgrnhgufdcuoehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeftedvgfegteehjeejtdefgffhteevvddtvdejleeghfefuefgledtteduvdetkeenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepvdgrtddumegtsgdugeemheehieemjegrtddtmeeffhgtfhemfhgstdgumeduvdeivdemvdgvjeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddumegtsgdugeemheehieemjegrtddtmeeffhgtfhemfhgstdgumeduvdeivdemvdgvjeeipdhhvghloheplhhotggrlhhhohhsthdpmhgrihhlfhhrohhmpehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedvvddprhgtphhtthhopegrnhgurhhihidrshhhvghvtghhvghnkhhosehinhhtvghlrdgtohhmpdhrtghpthhtoheplhgvvgeskhgvrhhnvghlr
+ dhorhhgpdhrtghpthhtoheprhhosghhsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehkrhiikhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegtohhnohhrodgutheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepkhgrmhgvlhdrsghouhhhrghrrgessghoohhtlhhinhdrtghomhdprhgtphhtthhopehlihhnuhhsrdifrghllhgvihhjsehlihhnrghrohdrohhrghdprhgtphhtthhopegsrhhglhessghguggvvhdrphhl
+X-GND-Sasl: mathieu.dubois-briand@bootlin.com
 
-Ensure we don't stall or panic the kernel when using bluetooth-connected
-controllers. This was reported as an issue on android devices using
-kernel 6.6 due to the resume hook which had been added for usb joycons.
+On Mon May 12, 2025 at 11:21 AM CEST, Andy Shevchenko wrote:
+> On Fri, May 09, 2025 at 11:14:36AM +0200, mathieu.dubois-briand@bootlin.c=
+om wrote:
+>
+>> +#define MAX7360_REG_GPIO_LAST		0x5F
+>
+>> +#define MAX7360_FIFO_EMPTY		0x3f
+>> +#define MAX7360_FIFO_OVERFLOW		0x7f
+>
+> Please, be consistent in style of the values.
 
-First, set a new state value to JOYCON_CTLR_STATE_SUSPENDED in a
-newly-added nintendo_hid_suspend. This makes sure we will not stall out
-the kernel waiting for input reports during led classdev suspend. The
-stalls could happen if connectivity is unreliable or lost to the
-controller prior to suspend.
+Is your point about the alignment of the values? Most of these are
+aligned on column 41, including the ones above. I just have an exception
+with MAX7360_PORT_CFG_*, as they are a bit too long. But as we are using
+tabs here, indentation appears a bit broken in the patch.
 
-Second, since we lose connectivity during suspend, do not try
-joycon_init() for bluetooth controllers in the nintendo_hid_resume path.
+OK with all other points.
 
-Tested via multiple suspend/resume flows when using the controller both
-in USB and bluetooth modes.
+Thanks for your review.
+Mathieu
 
-Signed-off-by: Daniel J. Ogorchock <djogorchock@gmail.com>
----
- drivers/hid/hid-nintendo.c | 38 ++++++++++++++++++++++++++++++++++++--
- 1 file changed, 36 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/hid/hid-nintendo.c b/drivers/hid/hid-nintendo.c
-index 839d5bcd72b1..fb4985988615 100644
---- a/drivers/hid/hid-nintendo.c
-+++ b/drivers/hid/hid-nintendo.c
-@@ -308,6 +308,7 @@ enum joycon_ctlr_state {
- 	JOYCON_CTLR_STATE_INIT,
- 	JOYCON_CTLR_STATE_READ,
- 	JOYCON_CTLR_STATE_REMOVED,
-+	JOYCON_CTLR_STATE_SUSPENDED,
- };
- 
- /* Controller type received as part of device info */
-@@ -2750,14 +2751,46 @@ static void nintendo_hid_remove(struct hid_device *hdev)
- 
- static int nintendo_hid_resume(struct hid_device *hdev)
- {
--	int ret = joycon_init(hdev);
-+	struct joycon_ctlr *ctlr = hid_get_drvdata(hdev);
-+	int ret;
-+
-+	hid_dbg(hdev, "resume\n");
-+	if (!joycon_using_usb(ctlr)) {
-+		hid_dbg(hdev, "no-op resume for bt ctlr\n");
-+		ctlr->ctlr_state = JOYCON_CTLR_STATE_READ;
-+		return 0;
-+	}
- 
-+	ret = joycon_init(hdev);
- 	if (ret)
--		hid_err(hdev, "Failed to restore controller after resume");
-+		hid_err(hdev,
-+			"Failed to restore controller after resume: %d\n",
-+			ret);
-+	else
-+		ctlr->ctlr_state = JOYCON_CTLR_STATE_READ;
- 
- 	return ret;
- }
- 
-+static int nintendo_hid_suspend(struct hid_device *hdev, pm_message_t message)
-+{
-+	struct joycon_ctlr *ctlr = hid_get_drvdata(hdev);
-+
-+	hid_dbg(hdev, "suspend: %d\n", message.event);
-+	/*
-+	 * Avoid any blocking loops in suspend/resume transitions.
-+	 *
-+	 * joycon_enforce_subcmd_rate() can result in repeated retries if for
-+	 * whatever reason the controller stops providing input reports.
-+	 *
-+	 * This has been observed with bluetooth controllers which lose
-+	 * connectivity prior to suspend (but not long enough to result in
-+	 * complete disconnection).
-+	 */
-+	ctlr->ctlr_state = JOYCON_CTLR_STATE_SUSPENDED;
-+	return 0;
-+}
-+
- #endif
- 
- static const struct hid_device_id nintendo_hid_devices[] = {
-@@ -2796,6 +2829,7 @@ static struct hid_driver nintendo_hid_driver = {
- 
- #ifdef CONFIG_PM
- 	.resume		= nintendo_hid_resume,
-+	.suspend	= nintendo_hid_suspend,
- #endif
- };
- static int __init nintendo_init(void)
--- 
-2.49.0
+--=20
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
 
