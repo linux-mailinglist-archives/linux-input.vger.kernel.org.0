@@ -1,143 +1,108 @@
-Return-Path: <linux-input+bounces-12365-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12366-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A1ADAB6349
-	for <lists+linux-input@lfdr.de>; Wed, 14 May 2025 08:38:51 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 29FE4AB65EB
+	for <lists+linux-input@lfdr.de>; Wed, 14 May 2025 10:28:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 948AF4A37F7
-	for <lists+linux-input@lfdr.de>; Wed, 14 May 2025 06:38:51 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DA6CD3BA5A4
+	for <lists+linux-input@lfdr.de>; Wed, 14 May 2025 08:27:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D12AF206F2A;
-	Wed, 14 May 2025 06:38:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 69854221572;
+	Wed, 14 May 2025 08:26:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mmdMUL8y"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BnS+CFTX"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BA3E204592;
-	Wed, 14 May 2025 06:38:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 356F521E0BD;
+	Wed, 14 May 2025 08:26:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747204698; cv=none; b=hS9OxhgIml4+OCz1k1Um40eO9bX/Xe1zwV0+In9oeCDOwpGOfDhVSVxLRzMSEZH6mZjLqChSfMP9jyhK+ZxeMtWR4DPK++fgLx+TMmLwP72tZgsDpyZn9UswOVsYs+C30L3cJlHHFHnbmZ7plC631iKxCruqW8aymX4uuCn8nYA=
+	t=1747211161; cv=none; b=XWBHTXunR1UKcr/5qjSvaC/0YcW6slb2g7UHsijB8ftnroPSyYhEVqyUR6ASBAO54zcI+sYgX/gYtYvWqlyYj91eqHdorouK7pKX26+qk2WrSx3j2sgMnBa7AMPtcnd+1PIjx8x6eQWG60pITSnet9S29ydCi3M3Iqy4rgZsvDg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747204698; c=relaxed/simple;
-	bh=O5XoA45OVZeec67U6NzneQ/tSvQ4WPrXJXEkDN3BaKw=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=V1WE186z0nFHW+yDJ1YzJikQpyXWjk0VbVIN5pf5zdCcpa6QXxvNMJYeeM/jebMVjKQJKzkkK00ugvUXp15DwCrIU/+ZoAc06L85tcJi1PDpfqCFTyliRkbO78XZV1sBQL6kHcTzgjXaj8sMpD8w4C8Xpk+t2cryU4IxmR8q17A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mmdMUL8y; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747204697; x=1778740697;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=O5XoA45OVZeec67U6NzneQ/tSvQ4WPrXJXEkDN3BaKw=;
-  b=mmdMUL8ypZvJhchuOhc/g+Bgfb+ZAvbf1Gri61gzz6PHTBbtKQYgR1lY
-   Szn2s6T6bSxeSQblO8HZ2vWC9wdTZr25B9A/Gg7i5CMXLQUiI7+zAjztT
-   6MquPAr/I7F3MV/g00Uj3HkxeTsvJhiwavjy1rZOxDc01X9n7H27HDZAM
-   rzW3cxcmDvya/VXKUC5KvRBuUh66o+sNsV0VPYQaA30Xb9ez5JNlCX4RZ
-   GMPO/WLC2tNgSypIq4wYzYErEMeyiIuCtLyaQaZXQ2AP+SiNvCoO0heuW
-   u9Ufwav7r1zE9AP9eIUdaChuBBKGxLJyuaOGPd3gGtBrGzEvr0a7c195P
-   g==;
-X-CSE-ConnectionGUID: drpuVKXATWGCsMIpFMEPbQ==
-X-CSE-MsgGUID: Gp+Wf9iITPa2Cv3wuks6zg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11432"; a="49247427"
-X-IronPort-AV: E=Sophos;i="6.15,287,1739865600"; 
-   d="scan'208";a="49247427"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2025 23:38:17 -0700
-X-CSE-ConnectionGUID: 7KRsks/CQ3e38/Id89Eakg==
-X-CSE-MsgGUID: hzxwkZHYRJGw1MUjBHdYbw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,287,1739865600"; 
-   d="scan'208";a="138933969"
-Received: from shsensorbuild.sh.intel.com ([10.239.133.18])
-  by fmviesa009.fm.intel.com with ESMTP; 13 May 2025 23:38:14 -0700
-From: Even Xu <even.xu@intel.com>
-To: jikos@kernel.org,
-	bentiss@kernel.org
-Cc: srinivas.pandruvada@linux.intel.com,
-	linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Even Xu <even.xu@intel.com>,
-	Chong Han <chong.han@intel.com>
-Subject: [PATCH v1 3/3] HID: Intel-thc-hid: Intel-quicki2c: Enable Wake-on-Touch feature
-Date: Wed, 14 May 2025 14:37:35 +0800
-Message-Id: <20250514063735.141950-4-even.xu@intel.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20250514063735.141950-1-even.xu@intel.com>
-References: <20250514063735.141950-1-even.xu@intel.com>
+	s=arc-20240116; t=1747211161; c=relaxed/simple;
+	bh=EQlzhgK8hYT+vlKLW5TJxTbodWSCb22tA9s2LNb3ffQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QErHPNooPCO5ckC0c6AgJxbChyKz4ngrwb3zMnGStTNNjPm6LAQpG6VkSjRzs088pCntjSxFBJoAC+/XbnVn1NPykxjTeRYuWMGZO1bQFb0MvSuq2aybsdKgJHZki9JQKJgbe4UM8Xyih9VlZ21Mh7gY75kxCzhKshDu50yo1a4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BnS+CFTX; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84094C4CEE9;
+	Wed, 14 May 2025 08:25:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1747211160;
+	bh=EQlzhgK8hYT+vlKLW5TJxTbodWSCb22tA9s2LNb3ffQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=BnS+CFTXcJXpm4tPPGgnhaaB6YgFzpNZ/mS6Bp9Lr9Qk9lVQuxAakxWZCMYQApL2J
+	 pnBUHS69xG3KTj+caAZXFGU7PkFSwCRx+jX/oAhrEdlAK0Cs2uJMTWxEZeBGlR35o+
+	 ty36NBSL68aFHLnhP1Yjdcx4wmBzEr39mR4icO1+f/rtzXsIdUp90ztyFiz0EE/bZL
+	 Bn3R5ZEzmv6thYasOGsYdSK2mLkZpyqBVtg0EY706q9gK4ZUzuZUhGJ2p51Zs1+kGW
+	 Y6cIPuZVmtklvUbVi8OyGGeGrE73TNjMenbmDlU8RPh37IJcsUTctiN9UpkSoFp8wB
+	 6+F8GG1aQk6lQ==
+Date: Wed, 14 May 2025 09:25:54 +0100
+From: Lee Jones <lee@kernel.org>
+To: nuno.sa@analog.com
+Cc: linux-gpio@vger.kernel.org, linux-pwm@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-input@vger.kernel.org,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Liu Ying <victor.liu@nxp.com>,
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH v3 00/22] mfd: adp5585: support keymap events and drop
+ legacy Input driver
+Message-ID: <20250514082554.GY2936510@google.com>
+References: <20250512-dev-adp5589-fw-v3-0-092b14b79a88@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250512-dev-adp5589-fw-v3-0-092b14b79a88@analog.com>
 
-This patch call THC helper functions to enable Wake-on-Touch (WoT)
-during driver initialization and disable it when driver is removed.
+On Mon, 12 May 2025, Nuno Sá via B4 Relay wrote:
 
-Signed-off-by: Even Xu <even.xu@intel.com>
-Tested-by: Chong Han <chong.han@intel.com>
----
- .../intel-thc-hid/intel-quicki2c/pci-quicki2c.c    | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+> Hi all,
+> 
+> Here it goes v3. There was some major refactoring in this version due to
+> Lee's and Laurent's feedback. There are some splits (and some explicit
+> requests) resulting in new patches being added. The biggest change is the
+> effort in trying to minimize the usage of specific child device bits in
+> the top level device (mainly stuff related to the keymap). I think now
+> it's fairly self contained and the only thing that we really need to
+> handle in the top device are the unlock and reset events as those can be
+> supported through both the input and gpio devices (via gpio_keys). This
+> results in a bit of more runtime complexity but well, that's life...
+> 
+> Another change is Lee's suggestion of making use of templates (for
+> regmap and chip specific data) and fill things up at probe.
+> 
+> I also refactored a bit the event handling so it's more generic now.
+> There were lot's of changes so odds are that I might have forgotten some
+> feedback and so, my apologies in advance :).
+> 
+> I also dropped the tags in:
+> 
+> patch 16/22 ("gpio: adp5585: support gpi events") as it has some
+> significant changes (replacing .init_valid_masks() with .request() and
+> .free())
 
-diff --git a/drivers/hid/intel-thc-hid/intel-quicki2c/pci-quicki2c.c b/drivers/hid/intel-thc-hid/intel-quicki2c/pci-quicki2c.c
-index 40faba5bd81d..3335775dcf4d 100644
---- a/drivers/hid/intel-thc-hid/intel-quicki2c/pci-quicki2c.c
-+++ b/drivers/hid/intel-thc-hid/intel-quicki2c/pci-quicki2c.c
-@@ -11,8 +11,11 @@
- #include <linux/sizes.h>
- #include <linux/pm_runtime.h>
- 
-+#include <linux/gpio/consumer.h>
-+
- #include "intel-thc-dev.h"
- #include "intel-thc-hw.h"
-+#include "intel-thc-wot.h"
- 
- #include "quicki2c-dev.h"
- #include "quicki2c-hid.h"
-@@ -31,6 +34,14 @@ static guid_t i2c_hid_guid =
- static guid_t thc_platform_guid =
- 	GUID_INIT(0x84005682, 0x5b71, 0x41a4, 0x8d, 0x66, 0x81, 0x30, 0xf7, 0x87, 0xa1, 0x38);
- 
-+/* QuickI2C Wake-on-Touch GPIO resource */
-+static const struct acpi_gpio_params wake_gpio = { 0, 0, true };
-+
-+static const struct acpi_gpio_mapping quicki2c_gpios[] = {
-+	{ "wake-on-touch", &wake_gpio, 1 },
-+	{ }
-+};
-+
- /**
-  * quicki2c_acpi_get_dsm_property - Query device ACPI DSM parameter
-  * @adev: Point to ACPI device
-@@ -398,6 +409,8 @@ static struct quicki2c_device *quicki2c_dev_init(struct pci_dev *pdev, void __io
- 
- 	thc_interrupt_enable(qcdev->thc_hw, true);
- 
-+	thc_wot_config(qcdev->thc_hw, &quicki2c_gpios[0]);
-+
- 	qcdev->state = QUICKI2C_INITED;
- 
- 	return qcdev;
-@@ -413,6 +426,7 @@ static void quicki2c_dev_deinit(struct quicki2c_device *qcdev)
- {
- 	thc_interrupt_enable(qcdev->thc_hw, false);
- 	thc_ltr_unconfig(qcdev->thc_hw);
-+	thc_wot_unconfig(qcdev->thc_hw);
- 
- 	qcdev->state = QUICKI2C_DISABLED;
- }
+Please run this set through checkpatch.pl before submitting again.
+
+Not sure if we've discussed this, but W=1 wouldn't hurt either.
+
 -- 
-2.40.1
-
+Lee Jones [李琼斯]
 
