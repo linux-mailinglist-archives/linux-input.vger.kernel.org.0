@@ -1,195 +1,149 @@
-Return-Path: <linux-input+bounces-12368-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12369-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C379AB6662
-	for <lists+linux-input@lfdr.de>; Wed, 14 May 2025 10:47:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08EE9AB6846
+	for <lists+linux-input@lfdr.de>; Wed, 14 May 2025 11:59:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 59AA57ADB6F
-	for <lists+linux-input@lfdr.de>; Wed, 14 May 2025 08:45:27 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id BA8AB7A3C68
+	for <lists+linux-input@lfdr.de>; Wed, 14 May 2025 09:58:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B75E205AA8;
-	Wed, 14 May 2025 08:46:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1355225DCF9;
+	Wed, 14 May 2025 09:59:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hQ0E9RTM"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O1ZgMsxn"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 092F9111BF;
-	Wed, 14 May 2025 08:46:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD77C13E41A;
+	Wed, 14 May 2025 09:59:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747212395; cv=none; b=Yj6mDkyVVfgy3bqVf1Fu/0KOmPkBezobJ9+FELViyz5wQp67I/SeBSVddVOrGCZVB0M/KP98TNx7UwOkfAITo7uMnKAvDIEXoKxqqs6yQnxZ0iHwPbu+TYCbhfqnHyOCt0rvXci20AUSyXI4JSOwFc/3nIedeAMa6+/0s1olE84=
+	t=1747216780; cv=none; b=uiSaW/jsdMB+x4EugaQ3K2sI7JRqlItfGihAqH9CKpog0THDV7IrONlnlylaQX4jyhuj/dq/I9qFwnYvwH3ov6ZTtfykWffpkvWBYWtM+Y35tKuONDAzNLgjG6G7/hMsP47feFxa4DZRY3ZDmOFhEMThDx32hlWWBDy2ZEU/ZH4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747212395; c=relaxed/simple;
-	bh=+FziuHAd3n+I7YzGXttveC9sX9cxjUEO7hqQ2K7xh6s=;
+	s=arc-20240116; t=1747216780; c=relaxed/simple;
+	bh=BIvliVdYqXYrImtlDwKxLO6W8rVjN3lVoNpwHJ7DmqE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HFKyuPMr9WDnbS6V54q1d+6i8xd+VY6FFwwjrvGP0opxFO1PuYxF01DrKhVQOQoNYLPt3sjsMA1qGcV6TnGzz6tXxjcIteEF4L7JnCcbMW4JPZmYei3MLP+eZWm2ZgbCJ/BAtFxFgNQP8+pbIaKY2PaXfMMFJSIXmmLomeGao6U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hQ0E9RTM; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA81FC4CEEB;
-	Wed, 14 May 2025 08:46:31 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=jfWj/fCEkIASJKGAugykXMsvkx9y56beOmBuMobx7KbRrk3+yKWo49/dUq4J72InmZNVmxwAYcbmWXXFOAaE/AUcap+UN4+AUGRPFhl4dnB4iG9fbej3EyY7c5qHyIEVEsvxVrja0D/mYiNBWi3QTAWBsb0hOA/2AjfRWEw1iaw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O1ZgMsxn; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C0E4C4CEE9;
+	Wed, 14 May 2025 09:59:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747212394;
-	bh=+FziuHAd3n+I7YzGXttveC9sX9cxjUEO7hqQ2K7xh6s=;
+	s=k20201202; t=1747216779;
+	bh=BIvliVdYqXYrImtlDwKxLO6W8rVjN3lVoNpwHJ7DmqE=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=hQ0E9RTMWUqk5d5e/4qiiue+BJfRjNpcInfzsR8YzeX7h+vGqameVZTtOHTvc8piR
-	 t+IFQG2n/+RT2UBlPfLsOyUVLIlGsKW2F8D3NeQ8fXeGv/fhZQoMYdipDv8sTR1Kda
-	 /4XQQGN5V44SOaQL8EYepNEaKN2Q2KBB/3jaw8F45XTJY/TiKEcrFTZt3zo9cF8IRZ
-	 ObU65ZgbDxe2LQjdkhf2C//jG4CClaTnzgBjWT0kQjvtOB6hLgrBQ+EWieBEZBiMFS
-	 vfonrKfHk4PUTzF3hjBAks85kJAvgFActy0W/ELO5Qn4AYy69j4glK8KpTOnhTzPWF
-	 9DiiahBh25iTw==
-Date: Wed, 14 May 2025 09:46:28 +0100
-From: Lee Jones <lee@kernel.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Nuno =?iso-8859-1?Q?S=E1?= via B4 Relay <devnull+nuno.sa.analog.com@kernel.org>,
-	linux-gpio@vger.kernel.org, linux-pwm@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-input@vger.kernel.org,
-	Rob Herring <robh@kernel.org>,
+	b=O1ZgMsxntfuQjd/h0unBrYQzcBKcUtoZTyNYAlmMYABq7mggbRuFNxpn9cAuJ6eDk
+	 0Z8XvWh06F7bYvpiZwiclrBuU8j/kYGkd6FpebniW4vlRWP7vflhc0jS+0li+X1D55
+	 N1L/QACKMuDc2pwJXUq8VNiM3M2ugqKzbWPVq1IIwCvakFQTbLHcJctn/pfLuR3ZW+
+	 JOkyjtI/bRtsKS0x0AdnKXUQrtSUeFaeKQ5Qn+eJez4y8yC4grPLdUyTwK8KAtoSsF
+	 A+r2Dl0BkVNvO/eI5Tc0yoN9/SB0KVF+6VRjlHN+akhG8PVIsjIekmlRQWWQNHh+Uj
+	 U/O/LV2oEVORw==
+Date: Wed, 14 May 2025 11:59:35 +0200
+From: Mark Brown <broonie@kernel.org>
+To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
+	Kamel Bouhara <kamel.bouhara@bootlin.com>,
 	Linus Walleij <linus.walleij@linaro.org>,
 	Bartosz Golaszewski <brgl@bgdev.pl>,
 	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Liu Ying <victor.liu@nxp.com>
-Subject: Re: [PATCH v3 14/22] mfd: adp5585: support reset and unlock events
-Message-ID: <20250514084628.GZ2936510@google.com>
-References: <20250512-dev-adp5589-fw-v3-0-092b14b79a88@analog.com>
- <20250512-dev-adp5589-fw-v3-14-092b14b79a88@analog.com>
- <20250513162246.GV2936510@google.com>
- <20250514083541.GG23592@pendragon.ideasonboard.com>
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
+	Michael Walle <mwalle@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
+	linux-input@vger.kernel.org, linux-pwm@vger.kernel.org,
+	andriy.shevchenko@intel.com,
+	=?iso-8859-1?Q?Gr=E9gory?= Clement <gregory.clement@bootlin.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: Re: [PATCH v8 05/11] regmap: irq: Add support for chips without
+ separate IRQ status
+Message-ID: <aCRph9Qo7BbtTjIR@finisterre.sirena.org.uk>
+References: <20250509-mdb-max7360-support-v8-0-bbe486f6bcb7@bootlin.com>
+ <20250509-mdb-max7360-support-v8-5-bbe486f6bcb7@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="Z3tfCnzQ5p+24U/H"
+Content-Disposition: inline
+In-Reply-To: <20250509-mdb-max7360-support-v8-5-bbe486f6bcb7@bootlin.com>
+X-Cookie: Well begun is half done.
+
+
+--Z3tfCnzQ5p+24U/H
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250514083541.GG23592@pendragon.ideasonboard.com>
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 14 May 2025, Laurent Pinchart wrote:
+On Fri, May 09, 2025 at 11:14:39AM +0200, Mathieu Dubois-Briand wrote:
+> Some GPIO chips allow to rise an IRQ on GPIO level changes but do not
+> provide an IRQ status for each separate line: only the current gpio
+> level can be retrieved.
 
-> On Tue, May 13, 2025 at 05:22:46PM +0100, Lee Jones wrote:
-> > On Mon, 12 May 2025, Nuno Sá via B4 Relay wrote:
-> > 
-> > > From: Nuno Sá <nuno.sa@analog.com>
-> > > 
-> > > The ADP558x family of devices can be programmed to respond to some
-> > > especial events, In case of the unlock events, one can lock the keypad
-> > > and use KEYS or GPIs events to unlock it. For the reset events, one can
-> > > again use a combinations of GPIs/KEYs in order to generate an event that
-> > > will trigger the device to generate an output reset pulse.
-> > > 
-> > > Signed-off-by: Nuno Sá <nuno.sa@analog.com>
-> > > ---
-> > >  drivers/mfd/adp5585.c       | 279 ++++++++++++++++++++++++++++++++++++++++++++
-> > >  include/linux/mfd/adp5585.h |  41 +++++++
-> > >  2 files changed, 320 insertions(+)
-> > > 
-> > > diff --git a/drivers/mfd/adp5585.c b/drivers/mfd/adp5585.c
-> > > index 5851ad30e7323bbb891878167d0786bc60ef5d90..b1227a390fe2f932ba8060b0d722f53f45ec3b4b 100644
-> > > --- a/drivers/mfd/adp5585.c
-> > > +++ b/drivers/mfd/adp5585.c
-> > > @@ -157,6 +157,9 @@ static const struct adp5585_regs adp5585_regs = {
-> > >  	.int_en = ADP5585_INT_EN,
-> > >  	.gen_cfg = ADP5585_GENERAL_CFG,
-> > >  	.poll_ptime_cfg = ADP5585_POLL_PTIME_CFG,
-> > > +	.reset_cfg = ADP5585_RESET_CFG,
-> > > +	.reset1_event_a = ADP5585_RESET1_EVENT_A,
-> > > +	.reset2_event_a = ADP5585_RESET2_EVENT_A,
-> > >  };
-> > >  
-> > >  static const struct adp5585_regs adp5589_regs = {
-> > > @@ -164,8 +167,52 @@ static const struct adp5585_regs adp5589_regs = {
-> > >  	.int_en = ADP5589_INT_EN,
-> > >  	.gen_cfg = ADP5589_GENERAL_CFG,
-> > >  	.poll_ptime_cfg = ADP5589_POLL_PTIME_CFG,
-> > > +	.reset_cfg = ADP5589_RESET_CFG,
-> > > +	.reset1_event_a = ADP5589_RESET1_EVENT_A,
-> > > +	.reset2_event_a = ADP5589_RESET2_EVENT_A,
-> > >  };
-> > >  
-> > > +static int adp5585_validate_event(const struct adp5585_dev *adp5585,
-> > > +				  unsigned int ev, bool has_pin5)
-> > 
-> > has_pin5 (which doesn't actually mean much to me) is passed around a lot
-> > and is only used in one place, as far as I can see.  You also have 'dev'
-> > available here, so why not drop it everywhere and call
-> > 
-> >    if (!device_property_present(dev, "gpio-reserved-ranges"))
-> > 
-> > ... here instead?
-> 
-> The information can be stored in struct adp5585_dev. I wouldn't call
-> device_property_present() here, as that's costly.
+This doesn't build in a wide range of configurations (none at all
+AFAICT):
 
-Does this function get called a lot?
+/build/stage/linux/drivers/base/regmap/regmap-irq.c: In function =E2=80=98r=
+egmap_add_irq
+_chip_fwnode=E2=80=99:
+/build/stage/linux/drivers/base/regmap/regmap-irq.c:914:88: error: macro "a=
+rray_
+size" requires 2 arguments, but only 1 given
+  914 |                 memcpy(d->prev_status_buf, d->status_buf, array_siz=
+e(d->
+prev_status_buf));
+      |                                                                    =
+    =20
+               ^
+In file included from /build/stage/linux/include/linux/string.h:13,
+                 from /build/stage/linux/include/linux/bitmap.h:13,
+                 from /build/stage/linux/include/linux/cpumask.h:12,
+                 from /build/stage/linux/include/linux/smp.h:13,
+                 from /build/stage/linux/include/linux/lockdep.h:14,
+                 from /build/stage/linux/include/linux/spinlock.h:63,
+                 from /build/stage/linux/include/linux/sched.h:2213,
+                 from /build/stage/linux/include/linux/ratelimit.h:6,
+                 from /build/stage/linux/include/linux/dev_printk.h:16,
+                 from /build/stage/linux/include/linux/device.h:15,
+                 from /build/stage/linux/drivers/base/regmap/regmap-irq.c:1=
+0:
+/build/stage/linux/include/linux/overflow.h:327:9: note: macro "array_size"=
+ defined here
+  327 | #define array_size(a, b)        size_mul(a, b)
+      |         ^~~~~~~~~~
+/build/stage/linux/drivers/base/regmap/regmap-irq.c:914:59: error: =E2=80=
+=98array_size=E2=80=99 undeclared (first use in this function)
+  914 |                 memcpy(d->prev_status_buf, d->status_buf, array_siz=
+e(d->prev_status_buf));
+      |                                                           ^~~~~~~~~~
+/build/stage/linux/drivers/base/regmap/regmap-irq.c:914:59: note: each unde=
+clared identifier is reported only once for each function it appears in
 
-Storing in the device data is also good.
 
-> > > +{
-> > > +	if (has_pin5) {
-> > > +		if (ev >= ADP5585_ROW5_KEY_EVENT_START && ev <= ADP5585_ROW5_KEY_EVENT_END)
-> > > +			return 0;
-> > > +		if (ev >= ADP5585_GPI_EVENT_START && ev <= ADP5585_GPI_EVENT_END)
-> > > +			return 0;
-> > > +
-> > > +		return dev_err_probe(adp5585->dev, -EINVAL,
-> > > +				     "Invalid unlock/reset event(%u) for this device\n", ev);
-> > > +	}
-> > > +
-> > > +	if (ev >= ADP5585_KEY_EVENT_START && ev <= ADP5585_KEY_EVENT_END)
-> > > +		return 0;
-> > > +	if (ev >= ADP5585_GPI_EVENT_START && ev <= ADP5585_GPI_EVENT_END) {
-> > > +		/* if it's GPI5 */
-> > > +		if (ev == (ADP5585_GPI_EVENT_START + 5))
-> > > +			return dev_err_probe(adp5585->dev, -EINVAL,
-> > > +					     "Invalid unlock/reset event(%u). R5 not available\n",
-> > > +					     ev);
-> > > +		return 0;
-> > > +	}
-> > > +
-> > > +	return dev_err_probe(adp5585->dev, -EINVAL,
-> > > +			     "Invalid unlock/reset event(%u) for this device\n", ev);
-> > > +}
-> > > +
-> > > +static int adp5589_validate_event(const struct adp5585_dev *adp5585,
-> > > +				  unsigned int ev, bool has_pin5)
-> > > +{
-> > > +	if (ev >= ADP5589_KEY_EVENT_START && ev <= ADP5589_KEY_EVENT_END)
-> > > +		return 0;
-> > > +	if (ev >= ADP5589_GPI_EVENT_START && ev <= ADP5589_GPI_EVENT_END)
-> > > +		return 0;
-> > > +
-> > > +	return dev_err_probe(adp5585->dev, -EINVAL,
-> > > +			     "Invalid unlock/reset event(%u) for this device\n",
-> > > +			     ev);
-> > > +}
-> > > +
-> > >  static int adp5585_fill_chip_configs(struct adp5585_dev *adp5585,
-> > >  				     struct i2c_client *i2c,
-> > >  				     struct regmap_config *regmap_config)
-> > > @@ -180,10 +227,13 @@ static int adp5585_fill_chip_configs(struct adp5585_dev *adp5585,
-> > >  	case ADP5585_MAN_ID_VALUE:
-> > >  		*regmap_config = adp5585_regmap_config_template;
-> > >  		info->regs = &adp5585_regs;
-> > > +		info->validate_event = adp5585_validate_event;
-> > 
-> > I'd take an extra if() / switch() over a driver-level pointer to a function.
-> 
-> Funny how we have different tastes for this kind of things, I find the
-> function pointer more readable :-)
+--Z3tfCnzQ5p+24U/H
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Contributors have tried to do "interesting" things with function
-pointers in MFD in the past.  To the point were I now have a general
-aversion to them.  I think they're great for things like subsystem-level
-Ops, but beyond that, things _can_ get messy, fast.
+-----BEGIN PGP SIGNATURE-----
 
--- 
-Lee Jones [李琼斯]
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmgkaYYACgkQJNaLcl1U
+h9D5cAf+JhYoPK5A9iw0gYMdc9xLOUPvzCDacN5d5KvUrO4WUo6ZpEumlPwyI5kX
+700vdHFINWEJgKwy1UTRj70pXgkPkVUDDDZ4Y2hZZloQEgl10N+mm/hUZLxNlNRS
+N6idzTanOzTogg/bVYiNuMylxLNewGi93QqK7oplFA5eaRVbgFd5y1VJsECAEyfo
+TNqEmn+isUKmP0uC3NWbADZek2IOZ5wqt7WBVPPvF3zdNaLelFCiMw+N7Zm8xI1r
+S9UOfg4eKan6E2SVhwyr5Aemj+gpEhFgpJEVRUpOXZOGIymWcf2oFqbvDFs1YuLg
+n02uX8JFzuLgwFezUggjRZsJVJxw1A==
+=Mu44
+-----END PGP SIGNATURE-----
+
+--Z3tfCnzQ5p+24U/H--
 
