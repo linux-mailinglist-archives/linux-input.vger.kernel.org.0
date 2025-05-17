@@ -1,48 +1,48 @@
-Return-Path: <linux-input+bounces-12410-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12411-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44211ABA9A1
-	for <lists+linux-input@lfdr.de>; Sat, 17 May 2025 13:14:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECF73ABA9A8
+	for <lists+linux-input@lfdr.de>; Sat, 17 May 2025 13:18:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 39A55189B398
-	for <lists+linux-input@lfdr.de>; Sat, 17 May 2025 11:14:25 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id BA2A31B65F4D
+	for <lists+linux-input@lfdr.de>; Sat, 17 May 2025 11:19:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B37BF1F0E58;
-	Sat, 17 May 2025 11:14:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 510501DE2DC;
+	Sat, 17 May 2025 11:18:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mr2efONw"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WFl8Myr9"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85CB2193077;
-	Sat, 17 May 2025 11:14:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 214A71B6CE9;
+	Sat, 17 May 2025 11:18:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747480447; cv=none; b=f9TiN81jywBrka5MQikIiikP1kD6qBpHtxVL6BgNy3L0CutRQEOWVlHmNlNggF4zV3z5ueEeT71jKRUtAsEZ5oz4PUsQ85BnCe/uTkpzlNrMDx+v3LcY4OPNk7AY1LJlw0IBmCKpBgvU0N69xsupL8LWIDBaGqBPv0WnNNxeP+I=
+	t=1747480733; cv=none; b=PJvXki1A0xfLWFcfKn8K4cTLNvskKC9CLdF8tVO2rJxQmzpPNmya3aQAZXlqFBKYJlIxDWJ1S4AIXQdNbyzAJO+gRZmJ1hlVH8HEkyAOWc/SgB/UPUbU7fDEw/aw8q2Ho1d7rUfiREDjKKgdQyozsBbqTxZsVdatSkMpoqhZ1iQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747480447; c=relaxed/simple;
-	bh=WaaokQx6aXURJ2TbAfU78m5xgMtmQAOjFi7bqUctwgY=;
+	s=arc-20240116; t=1747480733; c=relaxed/simple;
+	bh=MPdzYIq7/J3CmyoD/GlHukOWsSzehm0XQFEIdnZvlCY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rHCsTpNvMbJGqMoxPlgwVqNg7p5B2vPWXEbmoHYYunyA58maLodQysryEvIoXTc1Pqdp+9dVPQPReMGZlP2XM0/qRjLIeop/3ehcy4iowEDz3DwbqFqio/Ru5Mek1yejgN8bnVFFQ4ltDEBcitSF4wy+nzBnsw6N39IxrrF51ns=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mr2efONw; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6903AC4CEE3;
-	Sat, 17 May 2025 11:14:03 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=RiZieNcCnWhBqpBXgkEn4t6DLksruEuANvX+IA3KA1y/z4efY8UwBDmNABohw7ZzI9UVcnBj3wvvNnTP45YJew9s8BTtbX9lTgYv6ibCwgA9Mr4SSJ7SmC8YZV1EWB6tQfRFF0NBsl1oBRMjlCj8t6kT279SYCG7wOEfo3VM/GY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WFl8Myr9; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2653CC4CEE3;
+	Sat, 17 May 2025 11:18:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747480447;
-	bh=WaaokQx6aXURJ2TbAfU78m5xgMtmQAOjFi7bqUctwgY=;
+	s=k20201202; t=1747480732;
+	bh=MPdzYIq7/J3CmyoD/GlHukOWsSzehm0XQFEIdnZvlCY=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=mr2efONw/1W0g0SzCfzw8afaTIQhkZCi0oUZFDl//6CEHKJfS36xbShOE2uRKlGMk
-	 ualKJ+Wnu948wy0J9TA+wYZmf97JllhTwjC9+zz2lJ63RIMmWzAxT63xm6udsi5fZm
-	 HWggtpPZ/i9m7ueqYMzdGmaERgDR0tsMT/uNqQloa1HJ+HhAJDlgaahxRLS1NSaafH
-	 7C7OxsLFsOYcBdKe+0ooqWKgUbddDhxl18PW/5549AQX6L+2GlO0jl2NeoiQyo7oRo
-	 W9UAIZoFIYa6QOfYjNevQx9TNuutEX84j59oTHniKOOnbx1pW+mV8dpR0yDIUYg7Wq
-	 B0K9c2jHODqbQ==
-Message-ID: <84a29c78-6717-4c70-9429-72d4784b9a0c@kernel.org>
-Date: Sat, 17 May 2025 13:14:01 +0200
+	b=WFl8Myr9Is9JMCocSMXcQVMQv2khtHkTcCwImEBO8HGet90csh+b3k+OUGl39o0Ex
+	 6O6RzIoP00/ZJrSYD96NxEXliYtTQp7BLljRaQ4ye57AoKCEiRLRpmpUnu64GDRpHZ
+	 PGR1YNE3Db1lzec9HZH45keMNY+4zAUq1AVtL2GwcjfUlY6G1yq2SHJVhLMJKpiTAx
+	 ThVuikUlFhi+KdKofYwJCM/kF34trg+aBNv3dNEIFpjD8B9DQjCmZaAPQgH7rKxuOk
+	 +4Y2PaIfPQbMVNcruC+7toUPj2h/JWr6dH58855T52tkbWmElAP2bg6g7qMoxwLd16
+	 nOns3kwO68JUA==
+Message-ID: <0c84a24a-2dbe-4c8f-80b1-2e1531fd4ec1@kernel.org>
+Date: Sat, 17 May 2025 13:18:47 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -50,7 +50,7 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/9] dt-bindings: input: add pf1550
+Subject: Re: [PATCH v2 5/9] mfd: pf1550: add core mfd driver
 To: Samuel Kayode <samuel.kayode@savoirfairelinux.com>,
  Lee Jones <lee@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
  Mark Brown <broonie@kernel.org>, Dmitry Torokhov
@@ -61,7 +61,7 @@ Cc: linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
  Abel Vesa <abelvesa@linux.com>, Abel Vesa <abel.vesa@nxp.com>,
  Robin Gong <b38343@freescale.com>, Enric Balletbo Serra <eballetbo@gmail.com>
 References: <cover.1747409892.git.samuel.kayode@savoirfairelinux.com>
- <ceed690bd200eb03bc47c0d462292a5230aa2fbf.1747409892.git.samuel.kayode@savoirfairelinux.com>
+ <85004e02a5177aef6334fc30494bb3924a58f1de.1747409892.git.samuel.kayode@savoirfairelinux.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -107,19 +107,167 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <ceed690bd200eb03bc47c0d462292a5230aa2fbf.1747409892.git.samuel.kayode@savoirfairelinux.com>
+In-Reply-To: <85004e02a5177aef6334fc30494bb3924a58f1de.1747409892.git.samuel.kayode@savoirfairelinux.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 16/05/2025 20:52, Samuel Kayode wrote:
-> Add the DT binding document for the onkey module of pf1550.
-> 
-> Signed-off-by: Samuel Kayode <samuel.kayode@savoirfairelinux.com>
-> ---
->  .../bindings/input/pf1550_onkey.yaml          | 31 +++++++++++++++++++
+On 16/05/2025 20:54, Samuel Kayode wrote:
+> +
+> +static int pf1550_i2c_probe(struct i2c_client *i2c)
+> +{
+> +	struct pf1550_dev *pf1550;
+> +	unsigned int reg_data = 0;
+> +	int ret = 0;
+> +
+> +	pf1550 = devm_kzalloc(&i2c->dev,
+> +			      sizeof(struct pf1550_dev), GFP_KERNEL);
 
-Same comments as for other patch.
+sizeof(*)
 
+> +	if (!pf1550)
+> +		return -ENOMEM;
+> +
+> +	i2c_set_clientdata(i2c, pf1550);
+> +	pf1550->dev = &i2c->dev;
+> +	pf1550->i2c = i2c;
+> +	pf1550->irq = i2c->irq;
+> +
+> +	pf1550->regmap = devm_regmap_init_i2c(i2c, &pf1550_regmap_config);
+> +	if (IS_ERR(pf1550->regmap)) {
+> +		ret = PTR_ERR(pf1550->regmap);
+> +		dev_err(pf1550->dev, "failed to allocate register map: %d\n",
+> +			ret);
+
+
+Syntax is always: return dev_err_probe
+
+> +		return ret;
+> +	}
+> +
+> +	ret = regmap_read(pf1550->regmap, PF1550_PMIC_REG_DEVICE_ID, &reg_data);
+> +	if (ret < 0 || reg_data != PF1550_DEVICE_ID) {
+> +		dev_err(pf1550->dev, "device not found!\n");
+> +		return ret;
+
+Syntax is always: return dev_err_probe
+
+> +	}
+> +
+> +	pf1550->type = PF1550;
+> +	dev_info(pf1550->dev, "pf1550 found.\n");
+
+Drop. Drivers should be silent. This is really useless and just pollutes
+log. See also coding style.
+
+> +
+> +	ret = devm_regmap_add_irq_chip(pf1550->dev, pf1550->regmap,
+> +				       pf1550->irq,
+> +				IRQF_ONESHOT | IRQF_SHARED |
+> +				IRQF_TRIGGER_FALLING, 0,
+> +				&pf1550_regulator_irq_chip,
+> +				&pf1550->irq_data_regulator);
+> +	if (ret) {
+> +		dev_err(pf1550->dev, "failed to add irq1 chip: %d\n", ret);
+> +		return ret;
+
+Syntax is always: return dev_err_probe
+
+> +	}
+> +
+> +	ret = devm_regmap_add_irq_chip(pf1550->dev, pf1550->regmap,
+> +				       pf1550->irq,
+> +				IRQF_ONESHOT | IRQF_SHARED |
+> +				IRQF_TRIGGER_FALLING, 0,
+> +				&pf1550_onkey_irq_chip,
+> +				&pf1550->irq_data_onkey);
+> +	if (ret) {
+> +		dev_err(pf1550->dev, "failed to add irq3 chip: %d\n", ret);
+> +		return ret;
+
+Syntax is always: return dev_err_probe
+
+> +	}
+> +
+> +	ret = devm_regmap_add_irq_chip(pf1550->dev, pf1550->regmap,
+> +				       pf1550->irq,
+> +				IRQF_ONESHOT | IRQF_SHARED |
+> +				IRQF_TRIGGER_FALLING, 0,
+> +				&pf1550_charger_irq_chip,
+> +				&pf1550->irq_data_charger);
+> +	if (ret) {
+> +		dev_err(pf1550->dev, "failed to add irq4 chip: %d\n", ret);
+> +		return ret;
+
+Syntax is always: return dev_err_probe
+
+> +	}
+> +
+> +	return devm_mfd_add_devices(pf1550->dev, -1, pf1550_devs,
+> +			      ARRAY_SIZE(pf1550_devs), NULL, 0, NULL);
+> +}
+> +
+> +static const struct i2c_device_id pf1550_i2c_id[] = {
+> +	{ "pf1550", PF1550 },
+> +	{ /* sentinel */ }
+> +};
+> +MODULE_DEVICE_TABLE(i2c, pf1550_i2c_id);
+
+Table IDs are next to each other.
+
+> +
+> +static int pf1550_suspend(struct device *dev)
+> +{
+> +	struct i2c_client *i2c = container_of(dev, struct i2c_client, dev);
+> +	struct pf1550_dev *pf1550 = i2c_get_clientdata(i2c);
+> +
+> +	if (device_may_wakeup(dev)) {
+> +		enable_irq_wake(pf1550->irq);
+> +		disable_irq(pf1550->irq);
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int pf1550_resume(struct device *dev)
+> +{
+> +	struct i2c_client *i2c = container_of(dev, struct i2c_client, dev);
+> +	struct pf1550_dev *pf1550 = i2c_get_clientdata(i2c);
+> +
+> +	if (device_may_wakeup(dev)) {
+> +		disable_irq_wake(pf1550->irq);
+> +		enable_irq(pf1550->irq);
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static DEFINE_SIMPLE_DEV_PM_OPS(pf1550_pm, pf1550_suspend, pf1550_resume);
+> +
+> +static const struct of_device_id pf1550_dt_match[] = {
+> +	{ .compatible = "fsl,pf1550" },
+> +	{ /* sentinel */ }
+> +};
+> +MODULE_DEVICE_TABLE(of, pf1550_dt_match);
+> +
+> +static struct i2c_driver pf1550_i2c_driver = {
+> +	.driver = {
+> +		   .name = "pf1550",
+> +		   .pm = pm_sleep_ptr(&pf1550_pm),
+> +		   .of_match_table = of_match_ptr(pf1550_dt_match),
+
+
+Drop of_match_ptr, you have warnings here.
+
+> +	},
+> +	.probe = pf1550_i2c_probe,
+> +	.id_table = pf1550_i2c_id,
+> +};
+> +
+> +module_i2c_driver(pf1550_i2c_driver);
+> +
+> +MODULE_DESCRIPTION("Freescale PF1550 multi-function core driver");
+> +MODULE_AUTHOR("Robin Gong <yibin.gong@freescale.com>");
+> +MODULE_LICENSE("GPL v2");
 Best regards,
 Krzysztof
 
