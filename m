@@ -1,137 +1,167 @@
-Return-Path: <linux-input+bounces-12407-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12408-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D3DAABA992
-	for <lists+linux-input@lfdr.de>; Sat, 17 May 2025 12:51:51 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 03BF1ABA99B
+	for <lists+linux-input@lfdr.de>; Sat, 17 May 2025 13:13:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1D85D7AFD19
-	for <lists+linux-input@lfdr.de>; Sat, 17 May 2025 10:50:35 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id CEB23189AFBF
+	for <lists+linux-input@lfdr.de>; Sat, 17 May 2025 11:13:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 959421F5842;
-	Sat, 17 May 2025 10:51:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3A1EB1F0E58;
+	Sat, 17 May 2025 11:12:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JW26RYkb"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Z4Np/YRA"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AC9D1F473C;
-	Sat, 17 May 2025 10:51:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B14D1DF738;
+	Sat, 17 May 2025 11:12:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747479090; cv=none; b=sXvdjKhgmisAX7amwzyYWYBzyXFEKv4uPmCINvEeLOll3d+B4VKtlJqJBDQpqB3qudHzIBwQiNvc7jVVROSbmEXOsn4MCGulo9ZhHOMNI5bo4/dYUSkz+1IX+DzxG+kIn/KnRHbZUPEfucvGjqK5CtXxwICv247QvB+Gsxbg3K0=
+	t=1747480378; cv=none; b=sVqRSkqLEtyLIwNUbkMiLYqQXsFvoMcmQ4H0k16LIQjrd04bKmMiUvoTWdrKTku1XX41rvgL1cFfRus7H39IUgpySiMP5UDGyvMOYtI9NgT/S/oKZT9+OU2girNwGyp3Qpar5U+rkuqKjRn7DT7HxnuQ6k2Qjkv+ZfR8z+D5Boo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747479090; c=relaxed/simple;
-	bh=1XvKBOSD3xgOL+z79wApuYno6FZ6rSI1CbkP/aP9Vno=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=bD3/uqt5sI2CrDhwax9ZRQXm+1TNUEzqWDynxNCc5SPr0ujpnr8PB4R8z7PgPcCSudAzoLUKxkcooCU8wLw7yMWTkL+BI1Hb3PFAPa4ItslhA2RDcEtpuUMB1qWlkTPuxl80rgZ3LaagK9GpuxMJnb3F+g4jGD711jy71hTjSL8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JW26RYkb; arc=none smtp.client-ip=209.85.210.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-742c2ed0fe1so29691b3a.1;
-        Sat, 17 May 2025 03:51:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747479088; x=1748083888; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=bHVW8TGLuAFezbf0hRwngFWGRXQ+PK/CEwivyg7jtt0=;
-        b=JW26RYkbGI/qJphOjLesEJRPEL8bs+ZrB2GZRRYk/SCH6fPbCjNohptXBxJn7IfF0I
-         5ghbVILgXhYksDjGyIMDALQ/Mtb/VrdMPl2ndu02UcpwuIjtCBd+MXCRhXZU21tmBGW9
-         eqIvsDq3vpcQyETpTkr6yIMU5uqm5WYo6IBdmCaRZDorf4fflYIgyu44ju9PgjXlsIQl
-         1qRJGVxY1ygTo7WHR9khKCNP9//SNhiwH2ucGco8P4INg1QtUiN1dVBYF43pY5veq794
-         MfKBaapApBqWRgAUefNWU5SVYv9n6NELT4gMs6GZateIr9mggVQeEXenaN6vxR1eYOfl
-         y9eA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747479088; x=1748083888;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=bHVW8TGLuAFezbf0hRwngFWGRXQ+PK/CEwivyg7jtt0=;
-        b=AbjQ0Ti2dTsrKEoVr6yODe6QlEbZ0+G9akr1dIyfTxYNG11oMO31zFI8UBIwb4+7q2
-         I9OQewJs3uhLTi0K8e5T80GBWCAvJo9LyN0/9pbtVUzEuxcwEmzhpZEERY21ebCTX7We
-         nJSUoSr67+aQqcqoSeAWi9QyglgtImQuLnB0OKROn4pFAR9TRXUWUVlBTWdeffV9fcsR
-         TB9XeXLs6hRS2XK560Tqf3OBCiuaWHW2b3J5hDQLJ0/m91+OL4+WnG6hsMqilHuf+GS0
-         BlodIgs/ykPcDQ29hJCXaFHl0jQ7CdmY+79GKMweFMVfI/v6lk86CRW+IzMaIdnCu6tQ
-         uZew==
-X-Forwarded-Encrypted: i=1; AJvYcCXlIEoxAy88f8DAXnudgVjFmDpBKBKstsGYkTToflfndYTK3tDwETk+5aTqX5sWuSuYPkg9SVZhvabETv4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwIG7IeBH0QM7LJvCK0LW5b57/bFIqJy3s0h6cstWXd6WrkKXBQ
-	LOHCBe+vzBj5ByhZREfi/usA2hYGomCXvk6ahIjcKnRiOR2kTitHyiFt3zvlmA==
-X-Gm-Gg: ASbGncs5ekJvZ0brIFxySwgQhoDZrh5fJ7o2L4ltmakLmA4D9blLJ7GEO/MlwyNGFYX
-	UP6er646exjPbjf+MfbtSuEQcN9PzWQjtIM0oYpri/vpQzWj2EzIESBvyAIszMg6nL3A6tX/zMc
-	g+2DN/1rxgzW+Mltdd9bZbGqMlhdPkRvx4XRu0UCcJoLZbgkuTTe0y1vpwBm8WVUkcU2plGeKjB
-	b7XjgIfom7otjsrycnVkAy3c1svjEBn9sWJzzAJRiLc5zLO8EgQxzZ2cZEvyu5DPEFqiqiTXWku
-	kXczP+WTT1wX1aOBBtmUsPoZO82ZIk6xo/yooOoN0DILs9PnCcQcAQNqioCJEFY3SMZ6nCeu6vG
-	ShmoNiJ1qK2OYfr5h+9w3aLmnMIla
-X-Google-Smtp-Source: AGHT+IGhVgMy+85trh+zjMU0spCs0rLmqC6BXFFPL6uKKI+wi3M2mFF5WKFiWmsEhmDlLRoyrxHa2w==
-X-Received: by 2002:a05:6a21:9988:b0:1f5:80a3:b008 with SMTP id adf61e73a8af0-216219b25c7mr10810097637.32.1747479088236;
-        Sat, 17 May 2025 03:51:28 -0700 (PDT)
-Received: from aparle-thinkpad.lan (c-107-3-154-49.hsd1.ca.comcast.net. [107.3.154.49])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-742a970d5f0sm3051480b3a.56.2025.05.17.03.51.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 17 May 2025 03:51:27 -0700 (PDT)
-From: Apoorv Parle <apparle@gmail.com>
-To: dmitry.torokhov@gmail.com
-Cc: linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Apoorv Parle <apparle@gmail.com>
-Subject: [PATCH 1/1] Input: xpad - add disable_xboxone module parameter
-Date: Sat, 17 May 2025 03:50:45 -0700
-Message-ID: <20250517105045.70998-2-apparle@gmail.com>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250517105045.70998-1-apparle@gmail.com>
-References: <20250517105045.70998-1-apparle@gmail.com>
+	s=arc-20240116; t=1747480378; c=relaxed/simple;
+	bh=aYW3fFkmOnb8K/gUSpY4Y1kojM/BTi+yHyUWY1VTC9E=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Em+P8GZKu23zv7Clq91LfHhk5AvTltv1xsTbd3QHqDItoywe4W2UtM8/ru2/7Bl+OqPjURfNkXhyUC7cTWui6R11znxqQ7qMaJJpoeyOLavnBM5SAOV5TmLec8rK7GmSBsmmepd43R/4TDTyS/YsdXhbRVlCaRVC5YUgG4WiOTc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Z4Np/YRA; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1AA1FC4CEE3;
+	Sat, 17 May 2025 11:12:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1747480377;
+	bh=aYW3fFkmOnb8K/gUSpY4Y1kojM/BTi+yHyUWY1VTC9E=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=Z4Np/YRAlOiTu4zIp/UdlHke+BaQ3UJ1O4ghE0OB/2I2rSFmqI/pQk8v3yM4U8p8F
+	 ZsA9lFj7rjdjPk8lRrxqdyd6XlvyiOA2KaqqDFaOEHUec1h8EOZuIVl7yBDn2Dbu6O
+	 f9mMEETfpQc4r6OSevvMLRXHTIdRRQ8a8BiYPc2cIaA5mRvUgYaaoR9jF5IqL48ON/
+	 MvSfHrrjAx0jo5/xLf4FxpLATceGeJEVoqaqxQsjJlVn5kzVcvTH6g5ya760r1CkQq
+	 hl2eyl64Tw0I1jDcwG5ENkGX25RmBiedwzCdqybaVfMXYRHM3bFwSxy2AzhBg+8sgU
+	 ilZg6I7Z73T6A==
+Message-ID: <83f60014-b32b-4a2b-9cd6-b0a03aa928d3@kernel.org>
+Date: Sat, 17 May 2025 13:12:51 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/9] dt-bindings: power: supply: add pf1550
+To: Samuel Kayode <samuel.kayode@savoirfairelinux.com>,
+ Lee Jones <lee@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Dmitry Torokhov
+ <dmitry.torokhov@gmail.com>, Sebastian Reichel <sre@kernel.org>,
+ Robin Gong <yibin.gong@nxp.com>
+Cc: linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+ linux-imx@nxp.com, linux-input@vger.kernel.org,
+ Abel Vesa <abelvesa@linux.com>, Abel Vesa <abel.vesa@nxp.com>,
+ Robin Gong <b38343@freescale.com>, Enric Balletbo Serra <eballetbo@gmail.com>
+References: <cover.1747409892.git.samuel.kayode@savoirfairelinux.com>
+ <21b1bc2ba4d266b0d69e447e60927d5985c8ae74.1747409892.git.samuel.kayode@savoirfairelinux.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <21b1bc2ba4d266b0d69e447e60927d5985c8ae74.1747409892.git.samuel.kayode@savoirfairelinux.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-This parameter skips probing for XTYPE_XBOXONE devices, allowing
-out-of-tree drivers like xone to handle newer Xbox controllers
-without conflicts.
+On 16/05/2025 20:47, Samuel Kayode wrote:
+> Add the DT binding document for the battery charger module of pf1550.
+> 
+> Signed-off-by: Samuel Kayode <samuel.kayode@savoirfairelinux.com>
+> ---
+>  .../bindings/power/supply/pf1550_charger.yaml | 44 +++++++++++++++++++
+>  1 file changed, 44 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/power/supply/pf1550_charger.yaml
 
-Signed-off-by: Apoorv Parle <apparle@gmail.com>
----
- drivers/input/joystick/xpad.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+Filename matching compatible.
 
-diff --git a/drivers/input/joystick/xpad.c b/drivers/input/joystick/xpad.c
-index 57a5ff3d1992..5bab5c2250d2 100644
---- a/drivers/input/joystick/xpad.c
-+++ b/drivers/input/joystick/xpad.c
-@@ -121,6 +121,10 @@ static bool auto_poweroff = true;
- module_param(auto_poweroff, bool, S_IWUSR | S_IRUGO);
- MODULE_PARM_DESC(auto_poweroff, "Power off wireless controllers on suspend");
- 
-+static bool disable_xboxone;
-+module_param(disable_xboxone, bool, 0644);
-+MODULE_PARM_DESC(disable_xboxone, "Disable all Xbox One devices (XTYPE_XBOXONE)");
-+
- static const struct xpad_device {
- 	u16 idVendor;
- 	u16 idProduct;
-@@ -2089,6 +2093,14 @@ static int xpad_probe(struct usb_interface *intf, const struct usb_device_id *id
- 			xpad->mapping |= MAP_STICKS_TO_NULL;
- 	}
- 
-+	if (xpad->xtype == XTYPE_XBOXONE && disable_xboxone) {
-+		/*
-+		 * Disable XTYPE_XBOXONE based on module parameter.
-+		 */
-+		error = -ENODEV;
-+		goto err_free_in_urb;
-+	}
-+
- 	if (xpad->xtype == XTYPE_XBOXONE &&
- 	    intf->cur_altsetting->desc.bInterfaceNumber != GIP_WIRED_INTF_DATA) {
- 		/*
--- 
-2.48.1
+> 
+> diff --git a/Documentation/devicetree/bindings/power/supply/pf1550_charger.yaml b/Documentation/devicetree/bindings/power/supply/pf1550_charger.yaml
+> new file mode 100644
+> index 000000000000..10fc0b35917c
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/power/supply/pf1550_charger.yaml
+> @@ -0,0 +1,44 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/power/supply/pf1550_charger.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Battery charger driver for PF1550 PMIC from NXP.
+Describe hardware, not driver.
 
+Also drop full stop.
+
+
+<form letter>
+Please use scripts/get_maintainers.pl to get a list of necessary people
+and lists to CC. It might happen, that command when run on an older
+kernel, gives you outdated entries. Therefore please be sure you base
+your patches on recent Linux kernel.
+
+Tools like b4 or scripts/get_maintainer.pl provide you proper list of
+people, so fix your workflow. Tools might also fail if you work on some
+ancient tree (don't, instead use mainline) or work on fork of kernel
+(don't, instead use mainline). Just use b4 and everything should be
+fine, although remember about `b4 prep --auto-to-cc` if you added new
+patches to the patchset.
+
+You missed at least devicetree list (maybe more), so this won't be
+tested by automated tooling. Performing review on untested code might be
+a waste of time.
+
+Please kindly resend and include all necessary To/Cc entries.
+</form letter>
+
+
+Best regards,
+Krzysztof
 
