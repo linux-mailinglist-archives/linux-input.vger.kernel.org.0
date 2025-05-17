@@ -1,82 +1,78 @@
-Return-Path: <linux-input+bounces-12403-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12404-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 642ADABA783
-	for <lists+linux-input@lfdr.de>; Sat, 17 May 2025 03:18:01 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id EED26ABA8C5
+	for <lists+linux-input@lfdr.de>; Sat, 17 May 2025 09:53:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 07B4A4C158D
-	for <lists+linux-input@lfdr.de>; Sat, 17 May 2025 01:18:02 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C54559E8247
+	for <lists+linux-input@lfdr.de>; Sat, 17 May 2025 07:53:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A0EC5680;
-	Sat, 17 May 2025 01:17:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5F9251D5AC0;
+	Sat, 17 May 2025 07:53:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PBi5CcCj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f85PPfWr"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 859F6256D
-	for <linux-input@vger.kernel.org>; Sat, 17 May 2025 01:17:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C250F19047F;
+	Sat, 17 May 2025 07:53:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747444677; cv=none; b=jxD1GRieeomPnqucVOuVlmBU3QLxJv9fjZ39C7IbXpl7Wh35LSEhU26WPzR8dnksVxhpl+nWEIP8023RVFUOHnvKIfhQP11RJ2ZqLYn7+NHIT3GVw8SbnTAuOkSXzcVEX9HKKAQs5kOkdBVUoWSZxZHe9ilBbhDmvE1c8qpYhII=
+	t=1747468401; cv=none; b=MLAU+Jp7Jx6aTZqzSH7rhAPMoEya35EWCWtSJFZd1aqkoa6xUisScdD0e/WMJ8dxuUYQ09Z0e25+TZdHT1XazlTPO/ECyaJUMLFejhyw41eg1cYLUqJr3Y4O7NfWs+4QVhCOo+vJJPSXJyDECK8LySLnbztfYHAY7JCiqiD0wgY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747444677; c=relaxed/simple;
-	bh=yLov2UBI9U8XuhImpmyEsauyF41FxpsCAfkNsjKBr2U=;
+	s=arc-20240116; t=1747468401; c=relaxed/simple;
+	bh=bkyAutU5aluPJG5m0qPDsBW2dnn+e6enuHRk5zy1yFY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OMo4jcwLJjhzpKRp5L7qwuA3/yDYvPvFGahq/zqIJKGL7TpFP0Jm5qhFD/7GMsfKOiaCaqniErHR5k08lIOriaOkDc+whHBm0TWxKQx/wYPj48HIUL9Pw5U84Ayc59/0i9MvzfHhBRpFynt2EbjGGLVvhT27dObMEcldeKm0LwI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PBi5CcCj; arc=none smtp.client-ip=209.85.210.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-7424c24f88bso3583634b3a.1
-        for <linux-input@vger.kernel.org>; Fri, 16 May 2025 18:17:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747444676; x=1748049476; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=MHkiFbAB8oyJBEasLF3VzPwRlVLyfOvZ7qojp1prEws=;
-        b=PBi5CcCjs/lU7dNk4rtCyhqRj2t1V0oT2uMqhjQGyotaaSpIPfbmW/h/s5j3YFPof3
-         UoRn1Ajomnoyr2St9uBaitjwK7qZsXqai2PD+D0RyunVG+V7xIdMM2c0peJOGyiO5js5
-         oUAjbbwmzDjubDVR6iD4ILQjTsHRm1l564qaLLzyCGcwadyEGG/DFaVyywdEvfUMQzIj
-         nlaw487CxX33HMmC9tMvREgJg6JShj7HqUUcnCMWnNc0CwfIQSRg2z60xu76cMAJHjJR
-         YFeAMQeoMEZQTQ3spFbFmHprqg5boWgfLE+BBhjKxhz+5mDOafSCQ2UOgJFpch0ZK/b6
-         TfaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747444676; x=1748049476;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=MHkiFbAB8oyJBEasLF3VzPwRlVLyfOvZ7qojp1prEws=;
-        b=J917ZGlycXWGJw8gZcRU/UHTjIPLL8wk1uxAD3tSCzGHBya9bYp+thxJ+FIe5czY1q
-         aInRfr77BJT5rQgYMfKhYjwhuUlv9PS4G7WIAi3fnAsPrsWGIUioiNZTBJwADpt4hlBF
-         j0OoU1tOMFCQf4xXeANl74dPrd2DdQYgVnLRVl8NLVdPvW8Kvr2qnoY73n+FTofn55Bv
-         s1FxGIaMNaoSQENRAWpmZv4+QAC2uf/vcj73C9jJ6MaW+yW9QBFH5P5VwzWy62xI+C/F
-         Xq8KQPAcgIRJGwuHBcqI1YNDIEwosiaichFdYYOIbzuUveJC4sHFTaFm9sgYz/6Ozeq7
-         LXlg==
-X-Gm-Message-State: AOJu0YzmN6mDxV/hxvJk5D8XFEyLrT883o95CTrv+jvq/No4qr9iPJw8
-	tWNgsJNTBJW8Lw5N6RzYKexavW2oxlUlS/ek2sSMlk4mjaiDhKtro+sQ
-X-Gm-Gg: ASbGncuUyxlHMiCzI2HmHDzsY0+7RsxrBpEtWtNPlvpk7ht5cq37qblRDLSD3a+1hUZ
-	vnK/t5r4+Aq5Kg/WOAWWqeZDUpV00ZekfJ+DhHilRDQaWIhnFp2JoMH1l+EvtF7iP0WEJIWPSlM
-	EjlFrDnlbIUVRLiGB4lvcO7/8llWlVZCLmIUqfz4qGvxy/eOcoH2QOQL0WBrugupdnygW5JWSMq
-	DQ0XPtlm5t/mnG/9r4L3luVVcq90AnshC6YaJLHiblCzg2NyU3ReKiBzQP4+zPimMw4tWeT0GZ4
-	V+6iUWnW32snHJKd6L6iR9nx7uCnHyJvSV4enxbqbFJcFXn+f/qZ61wccYF7o3o=
-X-Google-Smtp-Source: AGHT+IGXDD1WJjXZ/7D60fcO6/IixYBd+m1Qrra/8digITFlMDTlFIZKAhoek0tIaGd/FNMGMy0cjw==
-X-Received: by 2002:a05:6a00:391a:b0:740:a879:4f7b with SMTP id d2e1a72fcca58-742acd5115amr6197082b3a.18.1747444675653;
-        Fri, 16 May 2025 18:17:55 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:61a4:bc81:5a8e:3929])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-742a9738f13sm2165103b3a.74.2025.05.16.18.17.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 May 2025 18:17:55 -0700 (PDT)
-Date: Fri, 16 May 2025 18:17:52 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Vicki Pfau <vi@endrift.com>
-Cc: linux-input@vger.kernel.org
-Subject: Re: [PATCH 0/4] Input: xpad - More Xbox One improvements
-Message-ID: <rhdifuc7rt7pvx22h3yuxdm7rcr3avmul7pinpnbswgjkkg37g@wulwegeddp7g>
-References: <20250513225411.2718072-1-vi@endrift.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=CfbrnKlOxHwOseZ/hicAMArvLGEG60/FfFT40A4AnBspEqkuCGest7rAgd7iOw2wiFIat83VALDZ37oXw09k2nRA9FMYDXxgnfJMcMjvl2iDkMnA251n0ZFEku0kEURm8xOMRohsrT46BFMuG1Q4tPv9dcSHMpnlVzKd1dWqCvo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f85PPfWr; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1747468399; x=1779004399;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=bkyAutU5aluPJG5m0qPDsBW2dnn+e6enuHRk5zy1yFY=;
+  b=f85PPfWrqO+DPERBW2hF9Q+6CttejKBV49+cBmPC3n534kAyjfAjqHvp
+   O2A0v1UoBPTMwIADL9AcXXsC624ILAVs/IySbikgSrHuPm0eoOjWn4OCi
+   wZvbns2nYXfrdm3yd+J5zss60gb7AOyF7wxCb+3sBZx8nIJr4P7yxVycg
+   qWIh9koLwl7wA2oAN77SOU66XDmyyg0SSUPMKEQumn3AeILK0o7mp3WnJ
+   2Zw872/ZsSpjT8RG4AbQUwDP2KB8HrwRgUUreJaLYinQP/6PIsQ5wiJgF
+   VnFUcTqnV4AUcPdgu3cZ9rXWFAOyOpob7ww+JfmnAdJYZKdj/JM+6mzh6
+   Q==;
+X-CSE-ConnectionGUID: jRxeT8UnRKqm/2FxYXyRDQ==
+X-CSE-MsgGUID: h5bIKQVSTjyHAqH+rNDIYw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11435"; a="60779423"
+X-IronPort-AV: E=Sophos;i="6.15,296,1739865600"; 
+   d="scan'208";a="60779423"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2025 00:53:18 -0700
+X-CSE-ConnectionGUID: OaTLfoUeSamInBJ4Ny9vxQ==
+X-CSE-MsgGUID: FTIsr3dGQ0uFyh6EnhFRew==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,296,1739865600"; 
+   d="scan'208";a="138808544"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 17 May 2025 00:53:16 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uGCM5-000K0V-29;
+	Sat, 17 May 2025 07:53:13 +0000
+Date: Sat, 17 May 2025 15:53:05 +0800
+From: kernel test robot <lkp@intel.com>
+To: Even Xu <even.xu@intel.com>, jikos@kernel.org, bentiss@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, srinivas.pandruvada@linux.intel.com,
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, Even Xu <even.xu@intel.com>,
+	Chong Han <chong.han@intel.com>
+Subject: Re: [PATCH v1 7/7] HID: Intel-thc-hid: Intel-quicki2c: Add two new
+ features to PTL
+Message-ID: <202505171535.Yrj5T8jh-lkp@intel.com>
+References: <20250514061944.125857-8-even.xu@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -85,34 +81,43 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250513225411.2718072-1-vi@endrift.com>
+In-Reply-To: <20250514061944.125857-8-even.xu@intel.com>
 
-On Tue, May 13, 2025 at 03:53:58PM -0700, Vicki Pfau wrote:
-> This patchset adds support for several more controllers but also adds a bit
-> more "correctness" to the initialization flow, and a quirk on waiting until
-> the announce packet for some wireless controllers that delay the init flow.
-> 
-> I have a WIP new driver with a proper initialization flow based on the
-> recently released documentation, so hopefully this will be the last needed
-> patch that adds piecemeal per-controller fixes like this.
-> 
-> Pierre-Loup A. Griffais (1):
->   Input: xpad - Add the ByoWave Proteus controller
-> 
-> Vicki Pfau (3):
->   Input: xpad - Allow delaying init packets
->   Input: xpad - Send LED and auth done packets to all Xbox One
->     controllers
->   Input: xpad - Add more controllers
-> 
->  drivers/input/joystick/xpad.c | 57 +++++++++++++++++++++++++++--------
->  1 file changed, 44 insertions(+), 13 deletions(-)
-> 
+Hi Even,
 
-Applied patches 1-3 for next, patch #4 for current.
+kernel test robot noticed the following build warnings:
 
-Thanks.
+[auto build test WARNING on hid/for-next]
+[also build test WARNING on linus/master v6.15-rc6 next-20250516]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Even-Xu/HID-Intel-thc-hid-Intel-thc-Add-thc_dma_content-into-kernel-doc/20250514-142347
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
+patch link:    https://lore.kernel.org/r/20250514061944.125857-8-even.xu%40intel.com
+patch subject: [PATCH v1 7/7] HID: Intel-thc-hid: Intel-quicki2c: Add two new features to PTL
+config: x86_64-randconfig-121-20250517 (https://download.01.org/0day-ci/archive/20250517/202505171535.Yrj5T8jh-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250517/202505171535.Yrj5T8jh-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505171535.Yrj5T8jh-lkp@intel.com/
+
+sparse warnings: (new ones prefixed by >>)
+>> drivers/hid/intel-thc-hid/intel-quicki2c/pci-quicki2c.c:21:23: sparse: sparse: symbol 'ptl_ddata' was not declared. Should it be static?
+
+vim +/ptl_ddata +21 drivers/hid/intel-thc-hid/intel-quicki2c/pci-quicki2c.c
+
+    20	
+  > 21	struct quicki2c_ddata ptl_ddata = {
+    22		.max_detect_size = MAX_RX_DETECT_SIZE_PTL,
+    23	};
+    24	
 
 -- 
-Dmitry
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
