@@ -1,143 +1,141 @@
-Return-Path: <linux-input+bounces-12425-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12426-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6B8BABB095
-	for <lists+linux-input@lfdr.de>; Sun, 18 May 2025 16:46:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D07B8ABB0BE
+	for <lists+linux-input@lfdr.de>; Sun, 18 May 2025 18:03:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8B7263B5C27
-	for <lists+linux-input@lfdr.de>; Sun, 18 May 2025 14:45:41 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 50E9F3B59B2
+	for <lists+linux-input@lfdr.de>; Sun, 18 May 2025 16:03:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7FC4D2746C;
-	Sun, 18 May 2025 14:45:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8DE146BB5B;
+	Sun, 18 May 2025 16:03:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="W+FVNV4m";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Tml9LWxA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CGRC2IXP"
 X-Original-To: linux-input@vger.kernel.org
-Received: from fhigh-b8-smtp.messagingengine.com (fhigh-b8-smtp.messagingengine.com [202.12.124.159])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25F681854;
-	Sun, 18 May 2025 14:45:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.159
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D6454B1E5E;
+	Sun, 18 May 2025 16:03:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747579556; cv=none; b=RwDEj+oLkZBtEfM3n0rixU5vzwkjHuDAnle7vlP/lphdnD39H+u8fNNcz+3Jp+3JBSeg8KpGi5TFIQ9QLaK2j+fsb8e/B+IQ67nZplCSECsQmrGl1ZWAQqqh7Z9SrjdZgm9z0hAsW+q+AaFa0+Ck21WZ8a6QWK7+s/m8G74txBE=
+	t=1747584227; cv=none; b=lPW4TRNqfFiYS9QdLZJa7oFLRSb5vcMeqdwnKagIFYtc/ilB8Y01+jwioS/wde3olQcNcgdwcQna0Ip03EuJN/dFuqeXcrEtxGSiEmKW27d3ZdDn6vqfA+O7hmnfDTgt3RWcROwvNTWEuBblfvnVJU+L7wQ7mzumTKQEX6gFiUE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747579556; c=relaxed/simple;
-	bh=BQETk6Ggkdsgb2g4ES16VK86IgSB5STx7Ub7+zQmQUk=;
+	s=arc-20240116; t=1747584227; c=relaxed/simple;
+	bh=NEn4CVT3vMiLLPE655kPeSKolXUSHA2Tv96ka1G5+B4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Tiia/dAQixIMedE4xH06wYSjVAh88YaRn/opOphHWnUeOfJCNF4KmFHNLIbZJq7plm72zR8yWQYMvVCP3Xqr02PMKqTUhG+kvgju08t/51WGMFknyWFRIx51OiYAYYC6HGLSbjErF0aMZF19+bMtTL4eVCQZ+IcHAqijAX/K4Ds=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=W+FVNV4m; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Tml9LWxA; arc=none smtp.client-ip=202.12.124.159
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
-Received: from phl-compute-01.internal (phl-compute-01.phl.internal [10.202.2.41])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id DF14525400EF;
-	Sun, 18 May 2025 10:45:51 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-01.internal (MEProxy); Sun, 18 May 2025 10:45:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm2; t=1747579551; x=1747665951; bh=Py4G3MDxeu
-	igMengKWoY19c5Uvu7Jo6Z75bc0ItCy8k=; b=W+FVNV4mBj5mWKJAWfnutg3T8b
-	YTRCKiRWZxdt7tx46lBC5+H4WLPcJaBkFWsnRWvKrDte1sJfKBCV8JA7/rNTsPG/
-	C+WuaK8Z1lvN9qu788Jjf1B28H7M1G0xYl4XlpkK0dI5v81pU5styi4c+TZ1DLHr
-	8yMA5Z+/8uc0rCKLarO8fqO2A3Qf+q2v3+B/sdiSMAbm++S82IKBMWaQbYVd9n5l
-	kfJ/vBxD+JnWkQTSTXIIhfVUbislJq6pm/BAx18Af88ZN+nNaRh8V/PXpXP4V2aW
-	wWKfZxIUBd0NklrG9RdS8PCTbd3/iyiK366HcUePMHmGN0X0AOTwWgFaPkSA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
-	1747579551; x=1747665951; bh=Py4G3MDxeuigMengKWoY19c5Uvu7Jo6Z75b
-	c0ItCy8k=; b=Tml9LWxAymB9N+SPBcrPXWDr+ofhGNpeH/sOkvpfXlhJuMtjcvZ
-	AFnh9Jjww9QScLGsp+ZPv/co04NPoUfvX+CzDCuOFmBcaHM063ghNLjjW3cuP7eP
-	Y57I98v0zubVS9NoPx1NM2XJMGtqHGOMBRXzNbIWpsFuSHlZ0M20JWDvmXvrjPDP
-	fTKmlQgDmEIajS/4Rpr5WwneJiSTpD8jlv8xY5S29w6sabUabXvQy9rS7pAhhX0e
-	aNXeZFK3lxlss82MpuruXiIdnN2e1OK1HDggxt1OabDgQXOcjfjHTqlEpl+QH2By
-	59LP10uIjuFVFHKmsZ925ksIA/OGhGOBQAw==
-X-ME-Sender: <xms:n_IpaM8o3eJuDXoauJDc-9EVatbbI2sA8XQxxJrCMm4Cgem9QCr2GA>
-    <xme:n_IpaEt2nrPWJBHZ373TpqkYLOjpn3qN2ieu_FVQXtjU_-Qoo9WF74uz0P3mn9JaV
-    HhT5X0TZwMA7zzhVEQ>
-X-ME-Received: <xmr:n_IpaCAYROeYtE6XyuE4hLfkKrOAKuRklaqwPbGkvCEEiCEXx5JNH1n4jvVo4ZrCPlVluUwHGuMS2AeyK0KMqrgg1Typ7JHNwxs>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdefudekjeekucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
-    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
-    gvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggujgesthdtredttddt
-    jeenucfhrhhomheplfgrnhhnvgcuifhruhhnrghuuceojhesjhgrnhhnrghurdhnvghtqe
-    enucggtffrrghtthgvrhhnpefgvdffveelgedujeeffeehheekheelheefgfejffeftedu
-    geethfeuudefheefteenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrih
-    hlfhhrohhmpehjsehjrghnnhgruhdrnhgvthdpnhgspghrtghpthhtohepkedpmhhouggv
-    pehsmhhtphhouhhtpdhrtghpthhtoheprghrnhgusegrrhhnuggsrdguvgdprhgtphhtth
-    hopehjihhkohhssehkvghrnhgvlhdrohhrghdprhgtphhtthhopegsvghnthhishhssehk
-    vghrnhgvlhdrohhrghdprhgtphhtthhopehrrghfrggvlheskhgvrhhnvghlrdhorhhgpd
-    hrtghpthhtoheplhgvnhgssehkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhig
-    qdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuh
-    igqdhinhhpuhhtsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhu
-    gidqrggtphhisehvghgvrhdrkhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:n_IpaMdxDui99Fg3uwvgRjM5iEB2YV4-sN_iV9eHoarzJ_GiXq8bSA>
-    <xmx:n_IpaBMAF3rvsPtqPX0QoCCMAvHvoWz8Rix7cAYZ9XzQhtJhg0BLJA>
-    <xmx:n_IpaGm2RrIu7t6LUckfV1g5GYEoq7FJthXw694ym_y5LT6gNtccqA>
-    <xmx:n_IpaDuSZxkPM65kVfz-rBJWfbj0Y1xHZhJeAuFNsSWb8kskbs4X_Q>
-    <xmx:n_IpaEcLgTLz9zA9TerOaxy1YObYRaSoleOzGMWdn3HkIPj4IXBsL-Hs>
-Feedback-ID: i47b949f6:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 18 May 2025 10:45:51 -0400 (EDT)
-Date: Sun, 18 May 2025 16:45:48 +0200
-From: Janne Grunau <j@jannau.net>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Len Brown <lenb@kernel.org>, linux-kernel@vger.kernel.org,
-	linux-input@vger.kernel.org, linux-acpi@vger.kernel.org
-Subject: Re: [PATCH 1/2] ACPI: platform_profile: Stub platform_profile_cycle
-Message-ID: <20250518144548.GA2575813@robin.jannau.net>
-References: <20250518-hid_lenovo_acpi_dependency-v1-0-afdb93b5d1a6@jannau.net>
- <20250518-hid_lenovo_acpi_dependency-v1-1-afdb93b5d1a6@jannau.net>
- <b939dc57-74cd-42e8-b1f3-54ea32829212@app.fastmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=h0/1MybWDJabmpnk51TZwukh/iCz45Bmo1PIiyuAy40AwJhwzK2Rk2VHeaJUupHbxCFP/37HrbW8jGREnJsWKpd58JTA0C5iZsraP+J+tAOr0XdOW+iVcGq8ZwPP8G3vwTXVY0lol9pQFfeZLuY+8aUBv1rNcehcjwfNQV3W/2M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CGRC2IXP; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1747584225; x=1779120225;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=NEn4CVT3vMiLLPE655kPeSKolXUSHA2Tv96ka1G5+B4=;
+  b=CGRC2IXP2BFqbEZi8EgapsTI7Nye5AoND1jqNKBHiZeDtLKP+eTaHZHW
+   g95vj1jwE6K6Pee4X0FhNUuip44v3YUOwSguQaOCt1HzZQQF1d1C+fO0W
+   modGC+f1WSF/dmNHwokYcTFkJHLmRIz2rzSrf6zVtvR38h4Gj1MdJEzEr
+   umoSvNWjNdNfPUdq5i1GK4EPPb1Od98pMPHI6HvRL2jHG4ua8qMKaGx3p
+   PT+Aw8slWsECJtzDfutmS6uig0v8k4aJ8M/dn4zXOXvShm7dteeXXI/7I
+   KetjPxtiu4N/m4NbNeqT/sG8u09VGknNMfPMCFbyxP4RMi/pX1QK+ApIy
+   w==;
+X-CSE-ConnectionGUID: yvJYNEeIQhO+QEzVLb/KOg==
+X-CSE-MsgGUID: 2cFyyHjVQH6ixMuDpqGacA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11437"; a="74887795"
+X-IronPort-AV: E=Sophos;i="6.15,299,1739865600"; 
+   d="scan'208";a="74887795"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2025 09:03:45 -0700
+X-CSE-ConnectionGUID: yM6flAhGTmq8jKPvsW8hfw==
+X-CSE-MsgGUID: Vj6WNdPERD2wU5GMCOlTXQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,299,1739865600"; 
+   d="scan'208";a="139558967"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+  by fmviesa008.fm.intel.com with ESMTP; 18 May 2025 09:03:42 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uGgUF-000Krj-2t;
+	Sun, 18 May 2025 16:03:39 +0000
+Date: Mon, 19 May 2025 00:03:30 +0800
+From: kernel test robot <lkp@intel.com>
+To: Samuel Kayode <samuel.kayode@savoirfairelinux.com>,
+	Lee Jones <lee@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Sebastian Reichel <sre@kernel.org>, Robin Gong <yibin.gong@nxp.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-pm@vger.kernel.org, linux-imx@nxp.com,
+	linux-input@vger.kernel.org, Abel Vesa <abelvesa@linux.com>,
+	Enric Balletbo Serra <eballetbo@gmail.com>
+Subject: Re: [PATCH v2 7/9] input: pf1550: add onkey support
+Message-ID: <202505182355.Of8g2bwa-lkp@intel.com>
+References: <7d80afedf1ad9e98c9739163751bcb2785009e74.1747409892.git.samuel.kayode@savoirfairelinux.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <b939dc57-74cd-42e8-b1f3-54ea32829212@app.fastmail.com>
+In-Reply-To: <7d80afedf1ad9e98c9739163751bcb2785009e74.1747409892.git.samuel.kayode@savoirfairelinux.com>
 
-On Sun, May 18, 2025 at 12:42:36PM +0200, Arnd Bergmann wrote:
-> On Sun, May 18, 2025, at 12:18, Janne Grunau via B4 Relay wrote:
-> *ops);
-> > +#ifdef CONFIG_ACPI_PLATFORM_PROFILE
-> >  int platform_profile_cycle(void);
-> > +#else
-> 
-> CONFIG_ACPI_PLATFORM_PROFILE is a 'tristate' symbol, so the #ifdef
-> check is wrong here when both the caller and the platform profile
-> are in a loadable module.
-> 
-> I think what you want here is
-> 
-> #if IS_ENABLED(CONFIG_ACPI_PLATFORM_PROFILE)
+Hi Samuel,
 
-ack, kernel test robot already complained
+kernel test robot noticed the following build warnings:
 
-> Alternatively, you could move that check into the caller
-> and do
-> 
->       if (IS_ENABLED(CONFIG_ACPI_PLATFORM_PROFILE))
->               ret = platform_profile_cycle();
-> 
-> which makes it a little easier to catch build failures in
-> drivers that are missing the 'select ACPI_PLATFORM_PROFILE'.
+[auto build test WARNING on b1d8766052eb0534b27edda8af1865d53621bd6a]
 
-I think I'll go with this for v2 and remove the "ACPI || !ACPI" from
-Patch 2.
+url:    https://github.com/intel-lab-lkp/linux/commits/Samuel-Kayode/dt-bindings-power-supply-add-pf1550/20250517-030259
+base:   b1d8766052eb0534b27edda8af1865d53621bd6a
+patch link:    https://lore.kernel.org/r/7d80afedf1ad9e98c9739163751bcb2785009e74.1747409892.git.samuel.kayode%40savoirfairelinux.com
+patch subject: [PATCH v2 7/9] input: pf1550: add onkey support
+config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20250518/202505182355.Of8g2bwa-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250518/202505182355.Of8g2bwa-lkp@intel.com/reproduce)
 
-thanks,
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505182355.Of8g2bwa-lkp@intel.com/
 
-Janne
+All warnings (new ones prefixed by >>):
+
+   drivers/input/keyboard/pf1550_onkey.c: In function 'pf1550_onkey_resume':
+>> drivers/input/keyboard/pf1550_onkey.c:171:30: warning: conversion from 'long unsigned int' to 'unsigned int' changes value from '18446744073709551552' to '4294967232' [-Woverflow]
+     171 |                              ~(ONKEY_IRQ_PUSHI | ONKEY_IRQ_1SI | ONKEY_IRQ_2SI |
+         |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     172 |                              ONKEY_IRQ_3SI | ONKEY_IRQ_4SI | ONKEY_IRQ_8SI));
+         |                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +171 drivers/input/keyboard/pf1550_onkey.c
+
+   162	
+   163	static int pf1550_onkey_resume(struct device *dev)
+   164	{
+   165		struct platform_device *pdev = to_platform_device(dev);
+   166		struct onkey_drv_data *onkey = platform_get_drvdata(pdev);
+   167	
+   168		if (!device_may_wakeup(&pdev->dev))
+   169			regmap_write(onkey->pf1550->regmap,
+   170				     PF1550_PMIC_REG_ONKEY_INT_MASK0,
+ > 171				     ~(ONKEY_IRQ_PUSHI | ONKEY_IRQ_1SI | ONKEY_IRQ_2SI |
+   172				     ONKEY_IRQ_3SI | ONKEY_IRQ_4SI | ONKEY_IRQ_8SI));
+   173		else
+   174			disable_irq_wake(onkey->pf1550->irq);
+   175	
+   176		return 0;
+   177	}
+   178	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
