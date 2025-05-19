@@ -1,45 +1,45 @@
-Return-Path: <linux-input+bounces-12461-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12462-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3A22ABC99D
-	for <lists+linux-input@lfdr.de>; Mon, 19 May 2025 23:33:14 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AE94ABC9B0
+	for <lists+linux-input@lfdr.de>; Mon, 19 May 2025 23:34:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id DB4F71B6436D
-	for <lists+linux-input@lfdr.de>; Mon, 19 May 2025 21:33:00 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3F13F1B62F73
+	for <lists+linux-input@lfdr.de>; Mon, 19 May 2025 21:34:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 349622367D4;
-	Mon, 19 May 2025 21:22:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DFB6423C8A0;
+	Mon, 19 May 2025 21:23:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BFtfWVyK"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pckjfH67"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00F3B21FF58;
-	Mon, 19 May 2025 21:22:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B449F23C397;
+	Mon, 19 May 2025 21:23:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747689778; cv=none; b=pm14p15VuCFH+YcTMFf8Gh/5EcEvU8VroNFGaJDoslYBVlnMn1RZcfgjWnZZuBMlaTHqMlB+apknc45GtJYV+BL1bIiTiyeMt2r6+a7RA7X5cTT5KFCBvbN7Iu2dSnH3wr/fR/8yhZ1Fge5lM6yLW7wR250Zq8rSCvK1pVSRNT4=
+	t=1747689791; cv=none; b=XHby0D+NAnvP4lu1/QiYAebu5rP/Jc2YDKIBErcfK8YPzMS+6s5PUuTm0b3ttqZlsbWO58I9Gke4eXX2InRZoe+1kyJEA18Ib20i4uy3UYACkgk2SytYD+cA7ZueP4P6xFIIZnG2WDIC73R1Yt4M7KVDSK9/BtXg90wmHMGdx7A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747689778; c=relaxed/simple;
-	bh=rfIa65vyum64jopcZ+d1JrwUkCLf/hipxO+zAZcHBqg=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=BZ0e8YdAMQCKzBT1/oylGMjBQPK6y0jcjmCJktZgMEgdlDcLoR75lSLO8/ClwpOcK19ubwUgLN3uadyYJfwt/ak+l83O6rF341gukUsjXG0YU7lDTfB9n8yYBmhWvUnK7KFj7XqLYjwAoC9/DNVZjEgYSIeVII/382XPqBVbELs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BFtfWVyK; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D134BC4CEE9;
-	Mon, 19 May 2025 21:22:56 +0000 (UTC)
+	s=arc-20240116; t=1747689791; c=relaxed/simple;
+	bh=/crDIFDbmnwb7OcWsl0rgbi+Lsyur9GWgoCG0laFSKg=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=oIKOsP1scAa05Bjj6+rJKuYLA60XAIOTdpFH6KvyqtPUW7xVDR+ZmYbvahkgyz8LIzKAKb5cqOfBUb8ATcj4SLh5LWZvFGi6r5oWr+fvAjWxfAm6vYeLzuMWYXxy2Ab/gTgC3BS5cx2//J5KdMfeqS0av0MAMJgSL679D0lLTig=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pckjfH67; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34018C4CEE4;
+	Mon, 19 May 2025 21:23:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747689777;
-	bh=rfIa65vyum64jopcZ+d1JrwUkCLf/hipxO+zAZcHBqg=;
+	s=k20201202; t=1747689791;
+	bh=/crDIFDbmnwb7OcWsl0rgbi+Lsyur9GWgoCG0laFSKg=;
 	h=From:To:Cc:Subject:Date:From;
-	b=BFtfWVyKAUR+MW0qqCmlvzpNHq5r5sSfrl4Yqky+oJWP3GPQ8cow26PI9yulhxksn
-	 RQOSqY1l6NAJA3h4Ofm/N6VBBDYwT1UDYNNimb5yxT2h3haDFjSd9l7GluXbP4tPfc
-	 nsFFTn0ToN0a8DtTWDOfy8nCvR4qlmP44OE0sdg0H2vsMHcgecFpLIWUqsVXjbJCBL
-	 SoSovIGeCe+9Zp2L1BnTfK0o9SHjul8I7dEkZn7W3e0lz9bSHmPVJYuoP6M3UAbUEb
-	 MIELFqiOHGJ8K4E0trtrNJ4pJ938anhwLr8u14gGChlR7SooGZFEwwGgHzQZ9ivw4R
-	 c7cTpq08f1nBQ==
+	b=pckjfH67nOf/bJGiUTGY0ItyIqHNDFBzl+YuiPnl4WCpkxppX+hjkDCYxpEkULbt1
+	 /Ch6M6354Y2MwNPpJIn1VGztPLQTYHI7CBt3AKl/JSHV8B6yXXxJCgtp+KPAfarHpB
+	 EI+KUB0/xBuKoQMWepH3WASuB8pGN8KIjiswmQgwpjTcEy89X0ULoVM5iqMgmLxtjD
+	 sHciUcZpPRgG0rOn06ZjRCFKtc1+XOv+122ldqOyqCGfts+Y3JcPHBhYNdzh6i/TSk
+	 J+MiOSgUZ/fbZY0fL6Bl3DMXqAUYYs9aQ4auCK051Eo5od64Xbbfzuw+4Zk4fZM1be
+	 yQxPL8jN10UxA==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
@@ -50,9 +50,9 @@ Cc: Milton Barrera <miltonjosue2001@gmail.com>,
 	benjamin.tissoires@redhat.com,
 	linux-input@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.1 1/8] HID: quirks: Add ADATA XPG alpha wireless mouse support
-Date: Mon, 19 May 2025 17:22:48 -0400
-Message-Id: <20250519212255.1986527-1-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 1/7] HID: quirks: Add ADATA XPG alpha wireless mouse support
+Date: Mon, 19 May 2025 17:23:02 -0400
+Message-Id: <20250519212308.1986645-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
@@ -62,7 +62,7 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.1.139
+X-stable-base: Linux 5.15.183
 Content-Transfer-Encoding: 8bit
 
 From: Milton Barrera <miltonjosue2001@gmail.com>
@@ -80,7 +80,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  2 files changed, 6 insertions(+)
 
 diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index 4187d890bcc1a..e078d2ac92c87 100644
+index 44825a916eeb2..08494eb652091 100644
 --- a/drivers/hid/hid-ids.h
 +++ b/drivers/hid/hid-ids.h
 @@ -41,6 +41,10 @@
@@ -95,7 +95,7 @@ index 4187d890bcc1a..e078d2ac92c87 100644
  #define USB_DEVICE_ID_ADS_TECH_RADIO_SI470X	0xa155
  
 diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
-index 875c44e5cf6c2..d8c5c7d451efd 100644
+index b5ad4c87daacf..126cadb117fef 100644
 --- a/drivers/hid/hid-quirks.c
 +++ b/drivers/hid/hid-quirks.c
 @@ -27,6 +27,8 @@
