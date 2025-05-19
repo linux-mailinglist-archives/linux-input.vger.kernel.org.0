@@ -1,226 +1,107 @@
-Return-Path: <linux-input+bounces-12429-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12430-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96703ABB846
-	for <lists+linux-input@lfdr.de>; Mon, 19 May 2025 11:08:31 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 85ACCABBAAD
+	for <lists+linux-input@lfdr.de>; Mon, 19 May 2025 12:09:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B47D87A3AE9
-	for <lists+linux-input@lfdr.de>; Mon, 19 May 2025 09:07:14 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B5B191891F0A
+	for <lists+linux-input@lfdr.de>; Mon, 19 May 2025 10:10:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6F11F26C3B9;
-	Mon, 19 May 2025 09:07:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2FA4D1373;
+	Mon, 19 May 2025 10:09:45 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from inva020.nxp.com (inva020.nxp.com [92.121.34.13])
+Received: from mail-01-1.mymagenta.at (mail-01-1.mymagenta.at [80.109.253.246])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ED9126E16A;
-	Mon, 19 May 2025 09:07:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=92.121.34.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AE39D515
+	for <linux-input@vger.kernel.org>; Mon, 19 May 2025 10:09:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.109.253.246
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747645662; cv=none; b=Vbx0hbdmnd364nYspQq2/VzTDeuUqi513oAWN01dym5TKQkuLrXEePfFPjaD9igxz2jKQFupsO3tb6ZA68HLSWWUEjDaUW0nE01chr3bJSEorjjIatwNScZBJfXVe2Lr/uoswBgxwlYCvOiRV4OjX56EckloVMDj9EgGl5eic30=
+	t=1747649385; cv=none; b=BylxQKtK3zYf/PkTMwH3rNd2mJKT+8BkqMAkSv5qn+u1YqaKaUJI5nS6nCOBiMokZY37xwW4SPgQM2q4kQnoLe0ByfTFzVRCBmmPrv6hx4luSdfeX6TpokqULjsMyeugW1fyglGliBGBpAlBmrnbvGSNz2xLuBrZZPm7qphMTb0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747645662; c=relaxed/simple;
-	bh=11/1wu26fy3F+Wu9zvLz9z6WBxzZn2rsxyOQYMgPKkw=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=fpILk7QHx+cNDC8wbJPrrSJ8PRghsxypShOfqUAxTUL/So5Nyf5BLQb/HRnsHS5hROD9C0IKaB8hGIPfERzG8y/WqoB+Lu6e5/c4I8bguHFe7DAFjB//MQZbgznLKNHhAlx2Z+RNf1U6SmvBjMzz4LQOta4IKuqVy7d6X4gXV/s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; arc=none smtp.client-ip=92.121.34.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
-Received: from inva020.nxp.com (localhost [127.0.0.1])
-	by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id 7D0B11A0692;
-	Mon, 19 May 2025 10:57:59 +0200 (CEST)
-Received: from aprdc01srsp001v.ap-rdc01.nxp.com (aprdc01srsp001v.ap-rdc01.nxp.com [165.114.16.16])
-	by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id 4492C1A069A;
-	Mon, 19 May 2025 10:57:59 +0200 (CEST)
-Received: from lsvm11u0000395.swis.ap-northeast-2.aws.nxp.com (lsvm11u0000395.swis.ap-northeast-2.aws.nxp.com [10.52.9.99])
-	by aprdc01srsp001v.ap-rdc01.nxp.com (Postfix) with ESMTP id 43F121800097;
-	Mon, 19 May 2025 16:57:58 +0800 (+08)
-From: Joseph Guo <qijian.guo@nxp.com>
-To: Bastien Nocera <hadess@hadess.net>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	linux-input@vger.kernel.org (open list:GOODIX TOUCHSCREEN),
-	linux-kernel@vger.kernel.org (open list)
-Cc: qijian.guo@nxp.com
-Subject: [PATCH] input: goodix: add poll mode for goodix touchscreen
-Date: Mon, 19 May 2025 17:57:43 +0900
-Message-Id: <20250519085744.3116042-1-qijian.guo@nxp.com>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1747649385; c=relaxed/simple;
+	bh=tT6agNi7xxg5K2wITU0NU7gd+7WeQNHkcL2VsgqlysI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=OjlxZfROF0jRDS1y12K0f4qsT5s9WTNooXTFcvA0RbQf/tvUYb7ho6kFW05WTdYmWBJkAIktmRQNKjpLxKZT7+dtT0q5iWcK1AowcRD/YFzRP8m72SQKIV/RTZwHwVDFuviarTrOQFudTQiwiYfdvlWBmuZg9DbUwBQXu/nPgW8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ze-it.at; spf=none smtp.mailfrom=ze-it.at; arc=none smtp.client-ip=80.109.253.246
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ze-it.at
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ze-it.at
+Received: from [192.168.232.75] (helo=ren-mail-psmtp-mg11.mx.mymagenta.at)
+	by mail-01.mymagenta.at with esmtp (Exim 4.98.1)
+	(envelope-from <thomas.zeitlhofer+lkml@ze-it.at>)
+	id 1uGwGm-0000000E2cj-2xt3
+	for linux-input@vger.kernel.org;
+	Mon, 19 May 2025 10:54:48 +0200
+Received: from mr1 ([80.108.110.13])
+	by ren-mail-psmtp-mg11.mx.mymagenta.at with ESMTPS
+	id GwGmu6ErbjYL1GwGmuL30c; Mon, 19 May 2025 10:54:48 +0200
+X-Env-Mailfrom: thomas.zeitlhofer+lkml@ze-it.at
+X-Env-Rcptto: linux-input@vger.kernel.org
+X-SourceIP: 80.108.110.13
+X-CNFS-Analysis: v=2.4 cv=RIOzH5i+ c=1 sm=1 tr=0 ts=682af1d8
+ a=M3c6w4RM9ieumcaO06RGLA==:117 a=M3c6w4RM9ieumcaO06RGLA==:17
+ a=kj9zAlcOel0A:10 a=FwmdilmEVaCSPuVMSy4A:9 a=CjuIK1q_8ugA:10
+Date: Mon, 19 May 2025 10:54:46 +0200
+From: Thomas Zeitlhofer <thomas.zeitlhofer+lkml@ze-it.at>
+To: Ping Cheng <ping.cheng@wacom.com>,
+	Jason Gerecke <jason.gerecke@wacom.com>,
+	Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	Josh Dickens <joshua.dickens@wacom.com>,
+	Tatsunosuke Tobita <tatsunosuke.wacom@gmail.com>,
+	Aaron Skomra <aaron.skomra@wacom.com>
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] HID: wacom: fix crash in wacom_aes_battery_handler()
+Message-ID: <aCrx1iRQ-9tXiyJp@x1.ze-it.at>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Virus-Scanned: ClamAV using ClamSMTP
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-CMAE-Envelope: MS4xfLWz0mEbM2txYtcRX/bze9DB3ero9MIH93S699XN6Dk5CFcQx6PhLlLgV+ZQcsq0K+hX0U/zEhV3L4F3wP3G9Jqj+gKPhHyy/A3sX6VNTmF3f8UCSo7o
+ iALZ3GDNRPJJoCd7snwz+mwGXVjg00mb7FIEb8gL82fbZrj0REpjNzXKO6SfpDlUUOh5ApjahS95u0db5cKap+LByIQLUZ2U6+WFMGBN0uwkWJdixxkXxmny
+ st8LIrX97+PdGQjjwqyC5JoB4hyDzCyToDgajcBkcxNiwXG2YoS7favwF6PnSfiFLMs3uGDGKF3Uoznz4jA3z3o7Yyqn0FNpHnwMuqZ9QOTKksO72mpV7pYs
+ /0fl/WaUhCR0AyREKq1r6aIeUvB26gyRYJtIMIkBUWyxArsorTS6yC9kyx0wwYL/r9zy36k2/LYBltz0SszL4Ck9+d1vXTjxl6E92U30FdZHLWKOEeEmm0hK
+ 5/jV45L+9aYk2yL1
 
-goodix touchscreen only support interrupt mode by default.
-Some panels like waveshare panel which is widely used on raspeberry pi
-don't have interrupt pins and only work on i2c poll mode.
-The waveshare panel 7inch panel use goodix gt911 touchscreen chip.
+Commit fd2a9b29dc9c ("HID: wacom: Remove AES power_supply after extended
+inactivity") introduced wacom_aes_battery_handler() which is scheduled
+as a delayed work (aes_battery_work).
 
-Update goodix touchscreen to support both interrupt and poll mode.
+In wacom_remove(), aes_battery_work is not canceled. Consequently, if
+the device is removed while aes_battery_work is still pending, then hard
+crashes or "Oops: general protection fault..." are experienced when
+wacom_aes_battery_handler() is finally called. E.g., this happens with
+built-in USB devices after resume from hibernate when aes_battery_work
+was still pending at the time of hibernation.
 
-Signed-off-by: Joseph Guo <qijian.guo@nxp.com>
+So, take care to cancel aes_battery_work in wacom_remove().
+
+Fixes: fd2a9b29dc9c ("HID: wacom: Remove AES power_supply after extended inactivity")
+Signed-off-by: Thomas Zeitlhofer <thomas.zeitlhofer+lkml@ze-it.at>
 ---
- drivers/input/touchscreen/goodix.c | 69 +++++++++++++++++++++++++++---
- drivers/input/touchscreen/goodix.h |  4 ++
- 2 files changed, 67 insertions(+), 6 deletions(-)
+ drivers/hid/wacom_sys.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/input/touchscreen/goodix.c b/drivers/input/touchscreen/goodix.c
-index aaf79ac50004..87991b56494d 100644
---- a/drivers/input/touchscreen/goodix.c
-+++ b/drivers/input/touchscreen/goodix.c
-@@ -47,6 +47,7 @@
- #define RESOLUTION_LOC		1
- #define MAX_CONTACTS_LOC	5
- #define TRIGGER_LOC		6
-+#define POLL_INTERVAL_MS		17	/* 17ms = 60fps */
-
- /* Our special handling for GPIO accesses through ACPI is x86 specific */
- #if defined CONFIG_X86 && defined CONFIG_ACPI
-@@ -497,6 +498,23 @@ static void goodix_process_events(struct goodix_ts_data *ts)
- 	input_sync(ts->input_dev);
- }
-
-+static void goodix_ts_irq_poll_timer(struct timer_list *t)
-+{
-+	struct goodix_ts_data *ts = from_timer(ts, t, timer);
-+
-+	schedule_work(&ts->work_i2c_poll);
-+	mod_timer(&ts->timer, jiffies + msecs_to_jiffies(POLL_INTERVAL_MS));
-+}
-+
-+static void goodix_ts_work_i2c_poll(struct work_struct *work)
-+{
-+	struct goodix_ts_data *ts = container_of(work,
-+			struct goodix_ts_data, work_i2c_poll);
-+
-+	goodix_process_events(ts);
-+	goodix_i2c_write_u8(ts->client, GOODIX_READ_COOR_ADDR, 0);
-+}
-+
- /**
-  * goodix_ts_irq_handler - The IRQ handler
-  *
-@@ -523,16 +541,50 @@ static irqreturn_t goodix_ts_irq_handler(int irq, void *dev_id)
- 	return IRQ_HANDLED;
- }
-
-+static void goodix_enable_irq(struct goodix_ts_data *ts)
-+{
-+	if (ts->client->irq) {
-+		enable_irq(ts->client->irq);
-+	} else {
-+		ts->timer.expires = jiffies + msecs_to_jiffies(POLL_INTERVAL_MS);
-+		add_timer(&ts->timer);
-+	}
-+}
-+
-+static void goodix_disable_irq(struct goodix_ts_data *ts)
-+{
-+	if (ts->client->irq) {
-+		disable_irq(ts->client->irq);
-+	} else {
-+		del_timer(&ts->timer);
-+		cancel_work_sync(&ts->work_i2c_poll);
-+	}
-+}
-+
- static void goodix_free_irq(struct goodix_ts_data *ts)
- {
--	devm_free_irq(&ts->client->dev, ts->client->irq, ts);
-+	if (ts->client->irq) {
-+		devm_free_irq(&ts->client->dev, ts->client->irq, ts);
-+	} else {
-+		del_timer(&ts->timer);
-+		cancel_work_sync(&ts->work_i2c_poll);
-+	}
- }
-
- static int goodix_request_irq(struct goodix_ts_data *ts)
- {
--	return devm_request_threaded_irq(&ts->client->dev, ts->client->irq,
--					 NULL, goodix_ts_irq_handler,
--					 ts->irq_flags, ts->client->name, ts);
-+	if (ts->client->irq) {
-+		return devm_request_threaded_irq(&ts->client->dev, ts->client->irq,
-+						 NULL, goodix_ts_irq_handler,
-+						 ts->irq_flags, ts->client->name, ts);
-+	} else {
-+		INIT_WORK(&ts->work_i2c_poll,
-+			  goodix_ts_work_i2c_poll);
-+		timer_setup(&ts->timer, goodix_ts_irq_poll_timer, 0);
-+		if (ts->irq_pin_access_method == IRQ_PIN_ACCESS_NONE)
-+			goodix_enable_irq(ts);
-+		return 0;
-+	}
- }
-
- static int goodix_check_cfg_8(struct goodix_ts_data *ts, const u8 *cfg, int len)
-@@ -1420,6 +1472,11 @@ static void goodix_ts_remove(struct i2c_client *client)
- {
- 	struct goodix_ts_data *ts = i2c_get_clientdata(client);
-
-+	if (!client->irq) {
-+		del_timer(&ts->timer);
-+		cancel_work_sync(&ts->work_i2c_poll);
-+	}
-+
- 	if (ts->load_cfg_from_disk)
- 		wait_for_completion(&ts->firmware_loading_complete);
- }
-@@ -1435,7 +1492,7 @@ static int goodix_suspend(struct device *dev)
-
- 	/* We need gpio pins to suspend/resume */
- 	if (ts->irq_pin_access_method == IRQ_PIN_ACCESS_NONE) {
--		disable_irq(client->irq);
-+		goodix_disable_irq(ts);
- 		return 0;
- 	}
-
-@@ -1479,7 +1536,7 @@ static int goodix_resume(struct device *dev)
- 	int error;
-
- 	if (ts->irq_pin_access_method == IRQ_PIN_ACCESS_NONE) {
--		enable_irq(client->irq);
-+		goodix_enable_irq(ts);
- 		return 0;
- 	}
-
-diff --git a/drivers/input/touchscreen/goodix.h b/drivers/input/touchscreen/goodix.h
-index 87797cc88b32..132e49d66324 100644
---- a/drivers/input/touchscreen/goodix.h
-+++ b/drivers/input/touchscreen/goodix.h
-@@ -56,6 +56,7 @@
- #define GOODIX_ID_MAX_LEN			4
- #define GOODIX_CONFIG_MAX_LENGTH		240
- #define GOODIX_MAX_KEYS				7
-+#define GOODIX_NAME_MAX_LEN			38
-
- enum goodix_irq_pin_access_method {
- 	IRQ_PIN_ACCESS_NONE,
-@@ -91,6 +92,7 @@ struct goodix_ts_data {
- 	enum gpiod_flags gpiod_rst_flags;
- 	char id[GOODIX_ID_MAX_LEN + 1];
- 	char cfg_name[64];
-+	char name[GOODIX_NAME_MAX_LEN];
- 	u16 version;
- 	bool reset_controller_at_probe;
- 	bool load_cfg_from_disk;
-@@ -104,6 +106,8 @@ struct goodix_ts_data {
- 	u8 main_clk[GOODIX_MAIN_CLK_LEN];
- 	int bak_ref_len;
- 	u8 *bak_ref;
-+	struct timer_list timer;
-+	struct work_struct work_i2c_poll;
- };
-
- int goodix_i2c_read(struct i2c_client *client, u16 reg, u8 *buf, int len);
---
-2.34.1
+diff --git a/drivers/hid/wacom_sys.c b/drivers/hid/wacom_sys.c
+index eaf099b2efdb..e74c1a4c5b61 100644
+--- a/drivers/hid/wacom_sys.c
++++ b/drivers/hid/wacom_sys.c
+@@ -2901,6 +2901,7 @@ static void wacom_remove(struct hid_device *hdev)
+ 	hid_hw_stop(hdev);
+ 
+ 	cancel_delayed_work_sync(&wacom->init_work);
++	cancel_delayed_work_sync(&wacom->aes_battery_work);
+ 	cancel_work_sync(&wacom->wireless_work);
+ 	cancel_work_sync(&wacom->battery_work);
+ 	cancel_work_sync(&wacom->remote_work);
+-- 
+2.39.5
 
 
