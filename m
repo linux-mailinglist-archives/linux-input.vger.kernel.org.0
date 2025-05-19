@@ -1,167 +1,141 @@
-Return-Path: <linux-input+bounces-12454-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12455-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43B52ABC89C
-	for <lists+linux-input@lfdr.de>; Mon, 19 May 2025 22:49:28 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id BF526ABC8A2
+	for <lists+linux-input@lfdr.de>; Mon, 19 May 2025 22:52:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D9D6E16E264
-	for <lists+linux-input@lfdr.de>; Mon, 19 May 2025 20:49:28 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D2FF91B619A4
+	for <lists+linux-input@lfdr.de>; Mon, 19 May 2025 20:52:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AC1EB218AAB;
-	Mon, 19 May 2025 20:49:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 716A421858D;
+	Mon, 19 May 2025 20:52:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UGqUbUTE"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RC1yFotM"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AA3B217705;
-	Mon, 19 May 2025 20:49:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC12321170D;
+	Mon, 19 May 2025 20:52:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747687764; cv=none; b=Tt7DQVyG1Qj8KhAWy+2TCqV1fIFMM1KktIDCggp8nh1oixbwE6g9sMUZ/lpSJAv/+Ku8P1zUZEQ51zlkfjZWZqmp9UQxL9qDViEMTnDDkZw1HOST0r450dQZJrbPQh7iLmvXPyESFaQT+s1l4jTxZSgMk3fKac7rA5z3QJ53Xeg=
+	t=1747687927; cv=none; b=GanLsN4KBQsn2XOsH/cbgXvHzD2i/NEGh7P9CaYvYec4bLvPv/nDHr+fn4F7jmHgzOgaW7BcOSBZIR35O4RRxv0eIiola1x3Zx1iunobRRalYb6k2c9z4BN1eo9CplsHzFs/xVigo54zH/G9jxhHH4YDynV1k25dMPFhc2iWyw4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747687764; c=relaxed/simple;
-	bh=d21QzBGxlqzPe54ryu3bKLL6cd4E+LxiktzQR+uBz+I=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=uG9Bf88Eczy+Fb3NK0vqyvlGAN8AXVc5d5iB+8LYxgrzWW2xbBpolhglOWEZ32xhuZ4f3tY47LJJ4kxNxJfSw5gaBnTtzqJ4X2fK9Y6zjZ1iBBpYtaBmrDGTMCHLzwIs3C+iLaHrpKYda3SLWVNWjHluhBTCT9ntKRB0cXi+R4w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UGqUbUTE; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id C0300C4CEE4;
-	Mon, 19 May 2025 20:49:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747687763;
-	bh=d21QzBGxlqzPe54ryu3bKLL6cd4E+LxiktzQR+uBz+I=;
-	h=From:Date:Subject:To:Cc:Reply-To:From;
-	b=UGqUbUTEhn5JUTT3Jledo344426qln9TJftK4zexmqnKobkpyGzqJNlguwP1nljiV
-	 TT09oerJ7TBK7z+Q+rqE/HsrXIQCPX+t4gtzG1FKOX8Iq5CiDDIdaSFKMM0Ci4csyj
-	 oHnSUKwEHE/8n5xO/nyl54+oF3SjONSyXD6/jdGDhMXSlWsM2w/gjEcLJwGf/X7VA3
-	 /Q0HRIYlcMpEimhAzdaAHP8yDpD3JmhJ2AVViZU93C3ptlbumaUBG4I+/Zu75WJEWb
-	 6BYkWDK6SL9DFa8l4yBl8A4Jhi2oNOFftYbwLh81GHXiz4npSVB58W5/KXH2Djwh+6
-	 T9r7/YtkyhTYg==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AC0D2C3ABDD;
-	Mon, 19 May 2025 20:49:23 +0000 (UTC)
-From: Janne Grunau via B4 Relay <devnull+j.jannau.net@kernel.org>
-Date: Mon, 19 May 2025 22:49:20 +0200
-Subject: [PATCH v2] HID: lenovo: Remove CONFIG_ACPI dependency
+	s=arc-20240116; t=1747687927; c=relaxed/simple;
+	bh=yeXQv+7gwkoDQHnYBen8Z0DUDkFqP6apoaoLd8IDDi4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=AKRoBDeQBwHB80tMJ8NH30U2GKzgkGNTH9eASbxY38I1vxdnAU3PDwA9KUeP+M2fW+qUyNUzIVp1fECJ4R1++Vi2z3hTQK6Nyl/kS//QZOmlFGGkAVk8W03aNPex2cI/IulQcNgRbIHs81yZCDm2/M7s62ia3gGexfbPpYilYFM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RC1yFotM; arc=none smtp.client-ip=209.85.160.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-4766631a6a4so51964601cf.2;
+        Mon, 19 May 2025 13:52:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1747687924; x=1748292724; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qIjWVDrb+AeHPrnU5wepYHaZFaqsE7VtLlqzlYhHa4Q=;
+        b=RC1yFotMKvQ+2snDBXe6K0fXUzqdbivm1Q6Yc7XQ9JUvHI1HE6f5MVPdjU8O8bUT76
+         U7wccBoncuy2QVIHo5g178pot9NHHyW6LzMfexbLlHA/b0Hh8nT6TT7X86m3HMCkJsXf
+         hpQezOZN2HRhGCyzu5kU52tJcpDfpkV8IApdgFbNDLv4h2930soXa+Tzcwc9aEjZGXTD
+         bnMRmTVuNEDaw9XWkgJFCDI/jy3diakKCrsZLgLyu/21NAmZRJv3wzca241IKMYTxf6h
+         WCzo8/4lBLp8hsIBwtyhkHYCQ9+RuvldBm4j+TwKLNNRQYHABxhsOZ0TjURC6wkLcXXb
+         1gPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747687924; x=1748292724;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=qIjWVDrb+AeHPrnU5wepYHaZFaqsE7VtLlqzlYhHa4Q=;
+        b=RyQf0o2Cq5/x7gmonBk0JDiu8Jhg81bOzdVu1ItknUUjByeOud6qC/9ovm9uLMJn7V
+         VsivuTuW4U31z1rwh8+XIHJh43ejAdO4y6d8tJDaihbT7NeS3ao6YLEYSndi7zdAv9Cc
+         XD8eSCRini8kIHdycM/6QpSxoDgfldshGmfjVdTkevFbzCaiVyWpv7u02piUZXQOCxms
+         l49R0dCMu6o8aZvx2tWalJ6aWHD2Q2SgPYvW5pMOiKyu782gBSbsFm7WiztvOiBwfwZl
+         tYiPD3hQKRumrHcKcp9KjSvg2HGSZNLQWG5XTsFrs2Gih+aiGqeusyBlstZSodHfCMYN
+         7/KA==
+X-Forwarded-Encrypted: i=1; AJvYcCUyC7hbeDRRicgtIuUg0+B3LA3BQprCTKd9bqcmAXgLGQAqqR1AHKEduyYgfbk/CRntajcTzt6VMfQeghk=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzxnqiw8RcW+qNWEKRrC9wIH00Wpi/hmukVVbzP53U8YcqHe0X4
+	m1uDvmHWVSK0O0FRR+cQwgKEy2WfCCPCt3rKmADhQXDWLv4RrcSr5IEDatWTeedlkjxg/oKllZo
+	Yq6PpwpZBR3VxgUGuxBECP8ubARxfY4mlKKfc
+X-Gm-Gg: ASbGnct7rJvYsXCCPw1eA7aAZFoDi9ypvTwatQf9aBxeeW+IJARL6VnlVsWnb4VIInM
+	xvSddAq6KhC6RD2EINhAiHVUQ9eE65mM+Yrjd18rLFP+gpt735jbhPE2Ey2aVlM1E2ucVmnFmt1
+	fUbOYSOGGbajeRBg4bWI3yRodYgijSJNLYaQ==
+X-Google-Smtp-Source: AGHT+IHtnzz5+3gvpn1QVH+OgYv1fIzGODhG3XmW5jjH/DA5MVKq5zRwylHhuirlITRWIBgQNv6iH82/OHFHzYH7Vtc=
+X-Received: by 2002:a05:622a:4008:b0:494:a2e6:2a6 with SMTP id
+ d75a77b69052e-494ae400d5dmr271326361cf.35.1747687924484; Mon, 19 May 2025
+ 13:52:04 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250519-hid_lenovo_acpi_dependency-v2-1-124760ddd6f7@jannau.net>
-X-B4-Tracking: v=1; b=H4sIAE+ZK2gC/43NTQ6CMBCG4auQWVvTovzoynsYQgY6yBgzJS02E
- sLdrZzA5fMt3m+FQJ4pwDVbwVPkwE4S8kMG/YjyIMU2GXKdF7owtRrZti8SF12L/cStpYnEkvS
- L0oRVjWVnq7OGFJg8DfzZ4/cmeeQwO7/sX9H81r+y0SitcLDd5dQV1mB5e6IIvo9CMzTbtn0Be
- /HAJ8UAAAA=
-X-Change-ID: 20250518-hid_lenovo_acpi_dependency-0ea78a6bd740
-To: Arnd Bergmann <arnd@arndb.de>, Jiri Kosina <jikos@kernel.org>, 
- Benjamin Tissoires <bentiss@kernel.org>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, 
- Armin Wolf <W_Armin@gmx.de>
-Cc: linux-kernel@vger.kernel.org, linux-input@vger.kernel.org, 
- linux-acpi@vger.kernel.org, Janne Grunau <j@jannau.net>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3410; i=j@jannau.net;
- s=yk2024; h=from:subject:message-id;
- bh=Bitucw1yaCIqyRa0nTR6FoFtUSPlCwvKN7PBGDQsgTI=;
- b=owGbwMvMwCW2UNrmdq9+ahrjabUkhgztmUExzVNNrU5d+bm3lbGH47zQsumf/q/xWLvAVuj7v
- O/RDNryHaUsDGJcDLJiiixJ2i87GFbXKMbUPgiDmcPKBDKEgYtTACbSWMTwz2zLpDfhYuc+nd8z
- 8ey8xtLHm34VlUcLuHLIe/iJJPx0i2Nk+LihpPzlXO/eZ41OytO+76pWv3ki6GuymkXI1KNPTl9
- dyAYA
-X-Developer-Key: i=j@jannau.net; a=openpgp;
- fpr=8B336A6BE4E5695E89B8532B81E806F586338419
-X-Endpoint-Received: by B4 Relay for j@jannau.net/yk2024 with auth_id=264
-X-Original-From: Janne Grunau <j@jannau.net>
-Reply-To: j@jannau.net
+References: <20250517105045.70998-1-apparle@gmail.com> <naxnt42hmvorqkif3pu4x36tpo44ugo2oiblrbtlrauucm5di2@tr2yobgoywmm>
+In-Reply-To: <naxnt42hmvorqkif3pu4x36tpo44ugo2oiblrbtlrauucm5di2@tr2yobgoywmm>
+From: Apoorv Parle <apparle@gmail.com>
+Date: Mon, 19 May 2025 13:51:27 -0700
+X-Gm-Features: AX0GCFs_OYz5BVZrvn1RUPpUDGNKA2gAjvRYOj1MbujXpyNSsKs6ki4eHJCbaeA
+Message-ID: <CAB7A79zio-_vqCtQnnNUxYTJtTDmzdW9DbW1PoO8oa+vVPu_iA@mail.gmail.com>
+Subject: Re: [PATCH 0/1] Input: xpad - add disable_xboxone module parameter
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Janne Grunau <j@jannau.net>
+The goal is to not blacklist the xpad driver completely, because I
+still need that driver for other controllers (older Xbox 360
+controller or 3rd party controllers) when using multiple controllers
+(couch multiplayer) on the same machine.
 
-The hid-lenovo driver supports external Bluetooth and USB devices which
-can be used with non-ACPI systems/kernels. Call platform_profile_cycle()
-only if CONFIG_ACPI_PLATFORM_PROFILE is enabled and select
-CONFIG_ACPI_PLATFORM_PROFILE only if ACPI is enabled.
-This should not affect functionality since only the detachable keyboard
-of a x86 tablet with a custom connector has an hotkey for cycling
-through power profiles.
+Today I'm forced to blacklist xpad altogether to get xone up because
+they conflict on the device IDs, and then I can only use 1 controller,
+not both.
+Or I have to create a copy of xpad with Xbox-One device IDs stripped
+out (i.e. xpad-noone) to keep both drivers active side-by-side, so my
+new XboxOne can use xone and my old Xbox 360 can use the xpad driver.
+This patch is trying to make that seamless. And it'll have the added
+benefit of making distro packaging easier as xpad can just stay
+upstream with no separate builds needed, and xone driver can be a
+non-free opt-in installation with this module param enabled.
 
-Fixes: 52572cde8b4a4 ("HID: lenovo: select CONFIG_ACPI_PLATFORM_PROFILE")
-Signed-off-by: Janne Grunau <j@jannau.net>
----
-hid-lenovo supports external generic USB and Bluetooth devices and
-should be buildable and usable on non-ACPI kernels and systems. Commit
-84c9d2a968c82 ("HID: lenovo: Support for ThinkPad-X12-TAB-1/2 Kbd Fn
-keys") added a hot key to cycle through power profiles using ACPI's
-platform_profile. This resulted in adding a dependency on ACPI and
-selecting CONFIG_ACPI_PLATFORM_PROFILE to fix build an link errors in
-commit 52572cde8b4a ("HID: lenovo: select
-CONFIG_ACPI_PLATFORM_PROFILE"). This is undesirable for HID drivers
-supporting generic USB and Bluetooth devices. So instead call
-platform_profile_cycle() only CONFIG_ACPI_PLATFORM_PROFILE is enabled
-and select the latter only if ACPI is enabled.
-
-Supercedes with Armin Wolf's "ACPI: platform_profile: Add support for
-non-ACPI platforms" [1] the earlier removel in "HID: lenovo: Unbreak
-USB/BT keyboards on non-ACPI platforms" [2].
-
-[1]: https://lore.kernel.org/linux-acpi/20250518185111.3560-1-W_Armin@gmx.de/
-[2]: https://lore.kernel.org/linux-input/20250512-hid_lenovo_unbreak_non_acpi-v1-1-e9e37ecbfbfe@jannau.net/
----
-Changes in v2:
-- drop stub platform_profile_cycle()
-- call platform_profile_cycle() conditioanlly
-- drop 'depends on ACPI || !ACPI'
-- Link to v1: https://lore.kernel.org/r/20250518-hid_lenovo_acpi_dependency-v1-0-afdb93b5d1a6@jannau.net
----
- drivers/hid/Kconfig      | 3 +--
- drivers/hid/hid-lenovo.c | 6 ++++--
- 2 files changed, 5 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
-index a503252702b7b43c332a12b14bc8b23b83e9f028..1656bb1504f750d73011d3f008e27b4436a58678 100644
---- a/drivers/hid/Kconfig
-+++ b/drivers/hid/Kconfig
-@@ -595,8 +595,7 @@ config HID_LED
- 
- config HID_LENOVO
- 	tristate "Lenovo / Thinkpad devices"
--	depends on ACPI
--	select ACPI_PLATFORM_PROFILE
-+	select ACPI_PLATFORM_PROFILE if ACPI
- 	select NEW_LEDS
- 	select LEDS_CLASS
- 	help
-diff --git a/drivers/hid/hid-lenovo.c b/drivers/hid/hid-lenovo.c
-index af29ba840522f99bc2f426d4753f70d442cef3af..73c6a26638a22ad1c8368112e8ab185232a9df12 100644
---- a/drivers/hid/hid-lenovo.c
-+++ b/drivers/hid/hid-lenovo.c
-@@ -728,9 +728,11 @@ static int lenovo_raw_event_TP_X12_tab(struct hid_device *hdev, u32 raw_data)
- 			if (hdev->product == USB_DEVICE_ID_LENOVO_X12_TAB) {
- 				report_key_event(input, KEY_RFKILL);
- 				return 1;
-+			} else if (IS_ENABLED(CONFIG_ACPI_PLATFORM_PROFILE)) {
-+				platform_profile_cycle();
-+				return 1;
- 			}
--			platform_profile_cycle();
--			return 1;
-+			return 0;
- 		case TP_X12_RAW_HOTKEY_FN_F10:
- 			/* TAB1 has PICKUP Phone and TAB2 use Snipping tool*/
- 			(hdev->product == USB_DEVICE_ID_LENOVO_X12_TAB) ?
-
----
-base-commit: 0af2f6be1b4281385b618cb86ad946eded089ac8
-change-id: 20250518-hid_lenovo_acpi_dependency-0ea78a6bd740
-
-Best regards,
--- 
-Janne Grunau <j@jannau.net>
-
-
+On Mon, May 19, 2025 at 9:32=E2=80=AFAM Dmitry Torokhov
+<dmitry.torokhov@gmail.com> wrote:
+>
+> Hi Apoorv,
+>
+> On Sat, May 17, 2025 at 03:50:44AM -0700, Apoorv Parle wrote:
+> > Hi,
+> >
+> > This patch adds a `disable_xboxone` module parameter to the xpad driver=
+,
+> > allowing users to prevent xpad from binding to Xbox One and Series X|S
+> > devices (XTYPE_XBOXONE). This is especially useful for users who wish t=
+o
+> > use the out-of-tree `xone` driver (https://github.com/dlundqvist/xone) =
+.
+> >
+> > Currently, there is no in-tree driver that supports Xbox wireless dongl=
+es;
+> > the only option is the out-of-tree `xone` project which implements the =
+GIP
+> > protocol. The `xone` project itself, or similar functionality  cannot b=
+e
+> > easily upstreamed due to the unclear legality of redistributing the
+> > required Microsoft firmware. This patch lets users avoid device conflic=
+ts
+> > and run both drivers side by side, without having to patch or fork xpad
+> > (eg: https://github.com/medusalix/xpad-noone) for each kernel update.
+>
+> I believe this can be achieved from userspace by unbinding the original
+> xbox driver and binding the alternative driver via sysfs, no kernel
+> changes needed.
+>
+> Thanks.
+>
+> --
+> Dmitry
 
