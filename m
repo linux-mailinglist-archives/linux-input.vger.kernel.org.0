@@ -1,85 +1,83 @@
-Return-Path: <linux-input+bounces-12446-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12447-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 751FDABC46E
-	for <lists+linux-input@lfdr.de>; Mon, 19 May 2025 18:24:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71A75ABC491
+	for <lists+linux-input@lfdr.de>; Mon, 19 May 2025 18:33:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E2E2D3A034A
-	for <lists+linux-input@lfdr.de>; Mon, 19 May 2025 16:22:51 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B9F457A1241
+	for <lists+linux-input@lfdr.de>; Mon, 19 May 2025 16:32:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 90A702749F5;
-	Mon, 19 May 2025 16:23:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A946B287512;
+	Mon, 19 May 2025 16:32:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UZxVfgp2"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X3I30S4Q"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1C75286410;
-	Mon, 19 May 2025 16:23:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25AE1287501;
+	Mon, 19 May 2025 16:32:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747671788; cv=none; b=eN1QGWEAJjNovCeEJvM67ie0xHEXfPwCSS3967GAsk40EmD7oZeOUGQzp2l83M7Koi7jNp/hjWSJd8UWt79C0fKFgqsxyAdvXrgBJT8cKUsqIveh7meF2+TZsWop4WLXl7CGtA9B85Pc/8r6ieBHyHGp7PTHMSnlbPim/oqFW+c=
+	t=1747672342; cv=none; b=sQI/C66/aZ6jpzMAR7hBUTWhfTwJty+thFUn/cyyzSsxYHf4EHapQF6P+fxtxzjrtEZ+Vur3FVy7Gt+R1szhmGR8QNODv/tgadsZydAPozLkOd52VPuSSxgvkAO/7wc2lPo3GWRkBFInDUTFPA81R6byX0mhPZj8SubtOjiWDwQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747671788; c=relaxed/simple;
-	bh=yoLcLLMfUq+oIbdeG+lgM/suMocyB+BzY0AGIpG2I6E=;
+	s=arc-20240116; t=1747672342; c=relaxed/simple;
+	bh=RpJR+P7r38vulz/L3fQvvYF1xiqu9aH5y9M/TZHJasY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=axCEfKcIxM7tD0H5Na44lMAzw/6dj3FV+whSjtN4SVQ3Ei0DtBh6bthFvPx8PBHte1Pk+g1n3f/2aWF2/moEv/U9xn6zJcGwSU7S+bgLUHYmgVtHbbUyW/flrwxV+9fgPXAg6g3hrfF74bhorkOeVSv7DWceARx8XvKCviBq1IQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UZxVfgp2; arc=none smtp.client-ip=209.85.216.41
+	 Content-Type:Content-Disposition:In-Reply-To; b=h98Teun0PDoUA2PWZThmsIlBy6geFb1IGtmcOzqN2fLXvxp4I6DwV0LHQVX5NJf1IfNEOC/CdCOnRlQY35sxqOgbDrApg7ImcOlXcNJ2nTnNB9pyjc1w8Y7+aWPJ4Znfj1XXQLNNl6M8mveN525fliOvdtbOExmlRI6RboZDiRM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=X3I30S4Q; arc=none smtp.client-ip=209.85.215.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-30ea7770bd2so3074683a91.0;
-        Mon, 19 May 2025 09:23:06 -0700 (PDT)
+Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-b1fd59851baso2830425a12.0;
+        Mon, 19 May 2025 09:32:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747671786; x=1748276586; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1747672340; x=1748277140; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=NbXUILecFZqM1QNrDc/94P68oIZz2J/rCibArTJ2XQ8=;
-        b=UZxVfgp2o4u4/dlwGAGelXQHys7a5jEcZ15t0oFTHfxvfk+MvTsqLWMn5rQVOX+spA
-         FGEHDDnKKLfVodGWoPTFYo9rii9CHfR/okEygQU3JpQShdbzUq3D2t/tFHRSmwcm2hrx
-         hLwWZV9iPUGWWHQMg1UNrvMFO/5i0a3ntA6HHnHNYPGkCdGlX6uX1mpR+CVAfoEALVkz
-         XLnbySRcwYl857W29lC+l3sj59qbdlbQXyWwYLEgDiTaYfdzKlmlQFd4c2e65B1uriUI
-         9m6sZi1ceD/+NsP3uIeZ7uanbrj8FF4/69foJ52Wku26bnT8Aj8kVfFaAS/iN3xpVctC
-         koqQ==
+        bh=ghCBvCmhF7SDcyaA7/n+ORvRGKdagU76gRhYlNhP+8A=;
+        b=X3I30S4QJpIunyaqo+/qjEfwjzTtcWafwfPtB425pds6QDRoOnn0amHFeiMiXLMnEM
+         seIwT99awXUKhNJZ/xdB0EvC7UrpWHkxByE9BcwOv6hiztgj7Ts2HzJDbxFyPKAxRN0f
+         aehiitqmI3Um0uuP6r3X++BzQ98dXbwR8TQakygEGXmVUOhx8dcjG4SsOnJa8LKWa72Y
+         UUheBWnCBAkCBvXJieuusvUH4irxgUL4c3bux7+4eDVci4cXr0SMk14t19pKVG7PLi4w
+         LWqmYIasHc/cKPYQr4+JeMW7GHUfl39hxSUSCdIZJm3IktjxjP1FgsxlAmdwQHOPaO4o
+         mxYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747671786; x=1748276586;
+        d=1e100.net; s=20230601; t=1747672340; x=1748277140;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=NbXUILecFZqM1QNrDc/94P68oIZz2J/rCibArTJ2XQ8=;
-        b=oV4IDT4gqPrc5kX0GX0MynTVBKwDDXyNcxTbI3uYMkrzcFBlCeziQIHutedQeMY8Ic
-         VnotwxXAGkvfdRlMVVqAczdoqz8qQMnv74EUX+tk1zaepVhz1kEiLaXTs547LuqI4XSb
-         PzKf4wBcLO1zUHQLJ76I1q+ZNa+MItlm/5IKAkJtzYJ1qiy5gVT+OTCzHbX1oLoGEqGx
-         RyWRsOFcAKqi6VaVTBdUW6hgM/GZ0LhHN6D5wViolboQLwYh8W7ojI8X2Fh0O6zE7bwh
-         +Wew0puWHG0lEgtM6BNHzPt58smQsNvj30i4k4r8XZ5pciBh8xBGgsVw3KKupm92T20M
-         1qBQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWfyYStVMN3d8rdxk1cxzG405uSSI7zkC0aPz9m1K2xwi5DOTM4+H/pAqHvMpwBUXBCuSC0McKS/w1WKQ==@vger.kernel.org, AJvYcCXIKb+kk5RdJ2zt90uikQPnxYJfLzgwPT4Y1rVvZaugYFUDJno+XOaLOzzv3Xq2oTaHp2+e8bsfaOJKIMGf@vger.kernel.org
-X-Gm-Message-State: AOJu0YwMCNEEyl5jSwstrYwVOpJn/WFZK6JsZ6IL2BRIqeNrq7I9GGHv
-	Q+kwFQc/SHNJQ63W+/Z9GAdl90R4kfhgVWhpFWvnl8puYKEfXvpuP0I4
-X-Gm-Gg: ASbGncvixe2L3UCePigy95fjAsrq25jCcnymeSJaJif60qeM/Mbe9LnOwiMSL+RFS+E
-	E7duEeBSxPHcdCdXljUA0w4jInNSyuUMkPBvb0LCKvAxr13wJUtwQyBviOUhL20WK7KUNMH6ZP+
-	RRJWvX867fwK2LhdOl7DXLIoga30EcSzYhAqQc8E5XcHUDDHVvoNwpyv+K63EwV478rNs7v1hb6
-	zGFaQDXCaoKYNJzvYTWk+21dHilEz29/rxCUb+2U6WkCSGTWD0XlDwzsBfSKulyfYm1LBZNKBoA
-	RqrnDj0T7kueKYF+tBM5sLupbdUgbwm3HJY5xeCG25abVDBiOQ==
-X-Google-Smtp-Source: AGHT+IHprM+8PN4JrIjf6mE6Iwiw0Z+YfhCyzCdw3//7JM4PwiCVoQ7+1bWhkBTrFoiKg2+S6zo7jg==
-X-Received: by 2002:a17:90b:4a50:b0:301:98fc:9b5a with SMTP id 98e67ed59e1d1-30e7d500953mr20100588a91.6.1747671785910;
-        Mon, 19 May 2025 09:23:05 -0700 (PDT)
+        bh=ghCBvCmhF7SDcyaA7/n+ORvRGKdagU76gRhYlNhP+8A=;
+        b=hUy4Y3qBvsgwsemAmem8zHg+6AetX0Tw2BB3Tq95WlDTcHHYqsB6rPInINdKQLZZsD
+         kqo6a79yoFfeYD4NWCwdQWAFCRJ92mZp+w+kDLBnkvTKl6xj58GRAhAJIPLU2X+1D1ye
+         yJVXrmS1LZMDvLIup2LBzPDj5twiJ1HP5KRC/DLFBHU40IYR7Nz2Fpwz7Zvj2XGRK0oc
+         VZpd3rvMXAlauirLeSl+I/mu+KxWYM94JFxExE/4TfcFfIt6neBj8SO1JIO4XczzQJ7P
+         8dYllfu1d9M672VZpBajWebiJC4a8/8hkse01iP1qwoiVQvtit+5SmmRxNjKufM9ErM1
+         XkXA==
+X-Forwarded-Encrypted: i=1; AJvYcCXiDGIHkaeXFwcS+ALu9d66I+0cWZpKpibL9pVBatgdx4gQ1PIplhIoPVf1Toexf5P1gVNCLMK+mDNDE6I=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwpyMXW6SXxiqSNYCZhavXpP0/acF0XWUsqUhPzGPg2HBJztwm3
+	VLHLuMREDrukPrn9OAXb2Iqt4+bK1flx4rOrdHmBzZnPohWZxk6rudhsK7PUYQ==
+X-Gm-Gg: ASbGncvKpQITGDvS29Yib3V38x/XMnpjnGxPi7HSZfNALCYKjPi3cFiOg+B3Ypju/OQ
+	f3UWFD5FS7yBBtIHIa5c/ocItim/5V6SfdeBONg2OLIrPC0TMhYzC69LKUFoLO3xNmXg3RfqxmG
+	IF5F26XWNLCl5rUp0NkRLpGNdo+APUEzpeI3ocRwkSL49dG5rkTI74gi1pYx+ESC+jb3ByDPeGz
+	/bF2TtDHHQlSzxqhwtCAKcXedjJjS+IOPwh8RLmPU6hmn8B4/VAQ0zbYtWxqM7OvavLnCZSUurR
+	d8d7V8gJRbu1H+Og0T0j/g64I3HPZzExOKnLrKwOprxHIxeW6g==
+X-Google-Smtp-Source: AGHT+IG9m/8bbFFKLMMDpyFdsBIzfzWV0oI/072VL++MQWffZmIUXG9slCuAxKlwrm9ebA5DzJWJvg==
+X-Received: by 2002:a17:903:230b:b0:224:10a2:cae7 with SMTP id d9443c01a7336-231de370f6bmr202892875ad.40.1747672339921;
+        Mon, 19 May 2025 09:32:19 -0700 (PDT)
 Received: from google.com ([2620:15c:9d:2:e134:a6aa:27:6156])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-30ef3c50c31sm2549387a91.45.2025.05.19.09.23.05
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-231d4ac9fbdsm62168085ad.50.2025.05.19.09.32.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 May 2025 09:23:05 -0700 (PDT)
-Date: Mon, 19 May 2025 09:23:03 -0700
+        Mon, 19 May 2025 09:32:19 -0700 (PDT)
+Date: Mon, 19 May 2025 09:32:17 -0700
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Joseph Guo <qijian.guo@nxp.com>
-Cc: Bastien Nocera <hadess@hadess.net>, 
-	Hans de Goede <hdegoede@redhat.com>, "open list:GOODIX TOUCHSCREEN" <linux-input@vger.kernel.org>, 
-	open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] input: goodix: add poll mode for goodix touchscreen
-Message-ID: <t6umftlzqhpiwtq3oi2xgtmmvxc7o4ab2bjxqywvwrp25jpi5a@vlryb74pcvxi>
-References: <20250519085744.3116042-1-qijian.guo@nxp.com>
+To: Apoorv Parle <apparle@gmail.com>
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/1] Input: xpad - add disable_xboxone module parameter
+Message-ID: <naxnt42hmvorqkif3pu4x36tpo44ugo2oiblrbtlrauucm5di2@tr2yobgoywmm>
+References: <20250517105045.70998-1-apparle@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -88,50 +86,29 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250519085744.3116042-1-qijian.guo@nxp.com>
+In-Reply-To: <20250517105045.70998-1-apparle@gmail.com>
 
-Hi Joseph,
+Hi Apoorv,
 
-On Mon, May 19, 2025 at 05:57:43PM +0900, Joseph Guo wrote:
-> goodix touchscreen only support interrupt mode by default.
-> Some panels like waveshare panel which is widely used on raspeberry pi
-> don't have interrupt pins and only work on i2c poll mode.
-> The waveshare panel 7inch panel use goodix gt911 touchscreen chip.
+On Sat, May 17, 2025 at 03:50:44AM -0700, Apoorv Parle wrote:
+> Hi,
 > 
-> Update goodix touchscreen to support both interrupt and poll mode.
+> This patch adds a `disable_xboxone` module parameter to the xpad driver,
+> allowing users to prevent xpad from binding to Xbox One and Series X|S
+> devices (XTYPE_XBOXONE). This is especially useful for users who wish to
+> use the out-of-tree `xone` driver (https://github.com/dlundqvist/xone) .
 > 
-> Signed-off-by: Joseph Guo <qijian.guo@nxp.com>
-> ---
->  drivers/input/touchscreen/goodix.c | 69 +++++++++++++++++++++++++++---
->  drivers/input/touchscreen/goodix.h |  4 ++
->  2 files changed, 67 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/input/touchscreen/goodix.c b/drivers/input/touchscreen/goodix.c
-> index aaf79ac50004..87991b56494d 100644
-> --- a/drivers/input/touchscreen/goodix.c
-> +++ b/drivers/input/touchscreen/goodix.c
-> @@ -47,6 +47,7 @@
->  #define RESOLUTION_LOC		1
->  #define MAX_CONTACTS_LOC	5
->  #define TRIGGER_LOC		6
-> +#define POLL_INTERVAL_MS		17	/* 17ms = 60fps */
-> 
->  /* Our special handling for GPIO accesses through ACPI is x86 specific */
->  #if defined CONFIG_X86 && defined CONFIG_ACPI
-> @@ -497,6 +498,23 @@ static void goodix_process_events(struct goodix_ts_data *ts)
->  	input_sync(ts->input_dev);
->  }
-> 
-> +static void goodix_ts_irq_poll_timer(struct timer_list *t)
-> +{
-> +	struct goodix_ts_data *ts = from_timer(ts, t, timer);
-> +
-> +	schedule_work(&ts->work_i2c_poll);
-> +	mod_timer(&ts->timer, jiffies + msecs_to_jiffies(POLL_INTERVAL_MS));
-> +}
+> Currently, there is no in-tree driver that supports Xbox wireless dongles;
+> the only option is the out-of-tree `xone` project which implements the GIP
+> protocol. The `xone` project itself, or similar functionality  cannot be
+> easily upstreamed due to the unclear legality of redistributing the
+> required Microsoft firmware. This patch lets users avoid device conflicts
+> and run both drivers side by side, without having to patch or fork xpad
+> (eg: https://github.com/medusalix/xpad-noone) for each kernel update.
 
-Why are you not suing the existing polling infrastructure
-(input_setup_polling())?
+I believe this can be achieved from userspace by unbinding the original
+xbox driver and binding the alternative driver via sysfs, no kernel
+changes needed.
 
 Thanks.
 
