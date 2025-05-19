@@ -1,58 +1,58 @@
-Return-Path: <linux-input+bounces-12433-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12434-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 935AAABBDB6
-	for <lists+linux-input@lfdr.de>; Mon, 19 May 2025 14:28:31 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 683DBABBDB8
+	for <lists+linux-input@lfdr.de>; Mon, 19 May 2025 14:28:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 975953AF173
-	for <lists+linux-input@lfdr.de>; Mon, 19 May 2025 12:28:02 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 121923BE123
+	for <lists+linux-input@lfdr.de>; Mon, 19 May 2025 12:28:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 93879278752;
-	Mon, 19 May 2025 12:28:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B3A2427876D;
+	Mon, 19 May 2025 12:28:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b="SjmAoXBA"
+	dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b="ixEQ44nl"
 X-Original-To: linux-input@vger.kernel.org
 Received: from PNYPR01CU001.outbound.protection.outlook.com (mail-centralindiaazolkn19010010.outbound.protection.outlook.com [52.103.68.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69DF6278743;
-	Mon, 19 May 2025 12:28:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D39BE278757;
+	Mon, 19 May 2025 12:28:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.68.10
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747657685; cv=fail; b=Y+TTnz8YBSDK0f/btQBt8KW0Zj7VTpt+VPBs9R5eEHC0ybJHoLsY3fx6+3JhFqnuUhzYNVxmXKsC7YImiFTosN98fQyVI6UftaNofE40GJmT6ZaaADEOTyh5QZ5Tn0FsDtZk4ZL9QS3trKiWCCBwKxHvDK341snDWox+V+LRjUg=
+	t=1747657687; cv=fail; b=DcMtXGQ7ytSGFVFeBliwxn99WOHdd3M3pWImurEfVBU58s0LZivhX4FLoXKde2xUlKp7gufY0VOValy64kP0DdwD8pPBCa0WMBaE1+T36gtF1U69/x4+1e/swhsiWg8WCgvhiRLlcnezygj7SYWrfdGhsBKvQ/LVsttUmS0YuDI=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747657685; c=relaxed/simple;
-	bh=TkeXFRtl7bMbMNj2niwgIGeBT8TAWsrWfLf0vi7uopI=;
+	s=arc-20240116; t=1747657687; c=relaxed/simple;
+	bh=SI3kxE2sPeCpASOtvRaFl/tUZ1PHixhGedqocC+3YQU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=bWPigusKPzE6qV2WJLJTe+5uCm2kFg15qbsPUAkoSPeGIZNNU5uCWW4Bbif8iDQpO7T8pkItiap1TTURLxOtaA3I412LhhdUTpaBLxTUGkJpUto3LwsZWc/2P888KtKEWZZRC6ntonOvTJoOwe1+HPTdpdrI2d/T4DjX9gSfq+w=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com; spf=pass smtp.mailfrom=live.com; dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b=SjmAoXBA; arc=fail smtp.client-ip=52.103.68.10
+	 Content-Type:MIME-Version; b=s0EhIu2qMcE6T6Pz3CVLAsvE8ONNczBE6lcE3nUk6rU33wx0ito17zIWT2QW4unyDPkJTRtBgxEzYSV8WGp2LLFl/Z5WBOQNWHalRzLTbLUAD4fKZrEVkswpqiAXPaD87NsAvf2XeA0V/SnRQ3efDfVuGbEivSxKJPMIPvtuo4Y=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com; spf=pass smtp.mailfrom=live.com; dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b=ixEQ44nl; arc=fail smtp.client-ip=52.103.68.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=live.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=RRJJH4q16vfnsUCH7Q/c69yzQfM37VrYEzk9G39fBTVzDWqYOzKh536JaQNyWdAK3YaBsjjX+E6j5fhuBOBaSocXLkFOWhU3+9MgJuU7APSQFdN6dIcWhPAG8Rbnhba3P6+5C3Y/O32G0EvzRIKIFPD5UpMja0GnT9KqXNamxXscl8C75WdNEoyfY5CX3z9nKU/HY/rynhUqcHWDw8pcgdczdaaGHZaHuQnPFTEPozxKHbfMxwUt8cmbkebgVhCnkiu+5SmeaoBHXX7/6k3xpXG6nOSxWyU352dult5FY2SWZHwe6STKSyUnNnx9aS1ZE4LSzMD6xquJHXwmlqSpww==
+ b=e3dm04BLyVk4bTYMPE7u0WhhyOiiwk9ptlv9r1eXqBi6Rtlp0TzJLt8FMdkyEnUO4euS6xeviq92GUQR4bBY0K8avBghWuuo2CTqju1tY7cd2Ks6tJ84ZijRhsaorHOpnAXRTZsAs49kvSCte51lAIWx0I5C6lrYx4/HVK3uzREK1fnwfW4zpcnIIs8bPhs4Sn2ztHL/fOXxSQG+fT3MbFNphH9yZFfNdXovg22ID3JDZUUcoJXjtqipFei9SKR61XvUTY9duiJmq8TrsPHSYGFGO3j4lRme4DWOjMkNnu7v12J2uO6HVKPSgLfVB+lt2bmeEya+pKFdI+4bISUpvA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=00krwKKW0/VcbJ9EvH79x9DU1zqCpeuZZPEFI9+3fek=;
- b=SIKdaeq5HuY4gr4ZiTNUSyLOGxe5IC6TCS1/pSMuelYQeZCb+B1DTumu3pXRmRCiHv7qCaCwEUatcW9cPJkhedru1Rhi2emOsmX4EIJRDV1b8Ua5sRoJXr5X0E7ZV5U3U7p0ky1/991181RczlY5acsrqMcTfQtSClc/Z8MzfF/lpn06FhYulDS9g2YgkN1cjZQGFkL+dCrcI4hec6rxg1FWgtjRyxB/rum73z+TDNB/4sx7cCI/bIf7wL456MeoTIbNiYwpgAmnh4FMQRDMlnlkRu3Zmk9IYi/80cro13crE930efKRdvvzpV7dgXmJN4EeYoQca6HnB1QfYWpYpA==
+ bh=JoWY8zXwhBczKVsnFzJ4+pT8c3fKb6ZjLvy8+IblYVg=;
+ b=tt/ZAYCPaKGd+a4KNSxu4TX2Ys1Qtt8Bn+kEkDSIb/uOgKVLboWDQscVAT29+DEttqTaS0vIvDHArLGq9BmbqItrbwGa1uMV+1OgdH7+TiL8RbWLjFmsDJ8w7G43fj8vh0OSim92znHDvwKcsipBKoNiAALpy6ptYV2QyclnCm7KOnDIeq60w0RqGO5LI1CwAUKme8ThfR5xa/0Dz6vKmx/ZJ3fc3/d9jmMuwhP+wl2SxzEatFetV3IaHsrslZ5SQRGC2wqpYCi0w2Vcx3ZK1tbLejOBL1pKj4EmyhuG++Z35Rk/U39h3rvZzjq47Cjl3pLrv4O8sRdI6ZzdFz+Rpw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
  dkim=none; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=live.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=00krwKKW0/VcbJ9EvH79x9DU1zqCpeuZZPEFI9+3fek=;
- b=SjmAoXBANQzHjTTFy2ez1WsJeeuOyhO/qZH9wcqH46t9Y7Tux1KrsIfzzNXtOWSpE4n9Wqks4oVibo94Rc+rjmKdnZZV+AtDNBBxQ2c7TY/mF2NNopriQJi7rA9krYcxAhFNCWmO8c8W4tT6vy1M8Tdc6hL3u9Cq43uGFavHn8x/Iqp9+4Nq9FXRbxDKFtHUqwwJGg520qzodbtypaqGpJnNlpT4gkuNwWGLFtl1JpGegkPX2hbeRXJdShIMxx6RmNzAYRETrVbVLNJS2/f59lA0JSe1JHr901vRvyqus8mQgsUMYLFWDEK0CY9txnnkZEA1XrU5n5F6pxRQrZWNQA==
+ bh=JoWY8zXwhBczKVsnFzJ4+pT8c3fKb6ZjLvy8+IblYVg=;
+ b=ixEQ44nlLQsiUJL3UUwNI/YKX7XxRMbicoNeRmiuknj7ywKivW56Xh+ikdIln71p2mbLGIK/xzlUSJgJCnemlr0FbJDCfg7U9hpXHRKXLB3XPW+aS4QnKRvRLNBmYuedfmZDNs5jK/YF3Efa7qHh+8vGwIaPK75BN/VZe7q00MttIOse5HZvervVUzFb8ak9wdaTsOE/QYiotL/Ydm0wiWjjeg1YpIHEqTTOyq9P+g7VavlnHYOlVI+7RoncJP2cfbJ2yyRV5V/I6rhoJwmzXLaC67IREekLpGUT6RxieA2itdVqB8TqLGbeeUUrbc+xyaPJz1BOrgKco7ByijmdGA==
 Received: from PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:f7::14)
  by MAZPR01MB5917.INDPRD01.PROD.OUTLOOK.COM (2603:1096:a01:64::10) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8746.31; Mon, 19 May
- 2025 12:27:57 +0000
+ 2025 12:27:58 +0000
 Received: from PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
  ([fe80::324:c085:10c8:4e77]) by PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
  ([fe80::324:c085:10c8:4e77%5]) with mapi id 15.20.8746.030; Mon, 19 May 2025
- 12:27:57 +0000
+ 12:27:58 +0000
 From: Aditya Garg <gargaditya08@live.com>
 To: Jiri Kosina <jikos@kernel.org>,
 	Jiri Kosina <jkosina@suse.com>,
@@ -61,10 +61,10 @@ To: Jiri Kosina <jikos@kernel.org>,
 Cc: Grigorii Sokolik <g.sokol99@g-sokol.info>,
 	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
 	Linux Input Mailing List <linux-input@vger.kernel.org>
-Subject: [PATCH v6 2/8] HID: apple: use switch case to set fn translation table
-Date: Mon, 19 May 2025 17:46:17 +0530
+Subject: [PATCH v6 3/8] HID: apple: remove unused APPLE_IGNORE_MOUSE quirk
+Date: Mon, 19 May 2025 17:46:18 +0530
 Message-ID:
- <PN3PR01MB95972D7D4DEEB499F09A361DB89CA@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+ <PN3PR01MB9597520BF0501C351DE1F7AAB89CA@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
 X-Mailer: git-send-email @GIT_VERSION@
 In-Reply-To: <PN3PR01MB9597843FE87D50116665ADC4B89CA@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
 References: <PN3PR01MB9597843FE87D50116665ADC4B89CA@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
@@ -74,7 +74,7 @@ X-ClientProxiedBy: PN3PR01CA0097.INDPRD01.PROD.OUTLOOK.COM
  (2603:1096:c01:9b::16) To PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
  (2603:1096:c01:f7::14)
 X-Microsoft-Original-Message-ID:
- <20250519122736.38469-3-gargaditya08@live.com>
+ <20250519122736.38469-4-gargaditya08@live.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -84,61 +84,61 @@ MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: PN3PR01MB9597:EE_|MAZPR01MB5917:EE_
-X-MS-Office365-Filtering-Correlation-Id: ec4dd896-c71e-4d8b-659d-08dd96d095e4
+X-MS-Office365-Filtering-Correlation-Id: 082ea6ed-b0e4-445c-3fa3-08dd96d09665
 X-MS-Exchange-SLBlob-MailProps:
-	Cq7lScuPrnoSu68Y5FdRDlCPOBk43FEt4Vazij0oKYtJwH1GSI7wy7nxdx/+gh8esza0LcLNb6Y9PAUA8n07hzSATaJxz5gnA1qcMOA8Zswd8FcYMLwfDulviZpFfrtjqx3GlVmXpsvXNvMF3v7LUM5BAEVqLbr7UXyaE7RyNZLbeHO//88J8AWAJBT4XJEtB2CebY7HpT7mBsdRtCAwmgsox+ah618PwB7YsNshS1JBeOqI21/bW14IzRg3mQi14B1Drlk8kEUf96KEfQ5vTnfQc3a4eI4ZvmDOo9OjTNpxR9V0w7GwabwSrU6kZA9ipdSee/4gYL/+oX/asY5WEUldy1/rL68BtCITGnfKapPkXgNcFjhjTBVCvJbnZ5ehaXzBqgRGUTNQrnZyIBEDGEmXI4goAJMAwnqSQzdpN5tQQ0ilqhHAyc698Ih1XeBUO+Po8cpfR8vnaoZMkU0/AVh8DzvHXVqHQCkqFq68OnDEDtMxf3c+GawTfOWK6rQFmcKq3YVqA6IWWPZaLIxJT74ouu23LmsCW/jrwVTYdhHdtF+FIDY4q6bPuwgb7VUhRulultx/O7hIs19yk0OJxEGvsK1YB9paAhZWEgM5g1p9obMomJoCje35+eSIt6yGTijH1xJq3QCDvFW3lAURZqoZipHJQy3xrz64vig+5ctIbvmrVRe2paiQvmhnI0beUaqbZxveG7Q5HWvm/WJpCo441SB42cS084LENEUvkAzmpLLCnFnSV5ERmvwl2zZ88ey+/Py7DgI=
+	YfhX3sd/0TV79KLUZXH6jYsApOyagGvS6O9lHRqgyvVpKNJHy9XbNXBenq1fCcCrKyErSXX76LxYVrYyS1pwW8Z9pmPVHbFylaME2PG43YYAy5HLX7RNSM7iODz83411y4jo0aKGWxEfzCNA/4yyoWT6BCYzWjh8TRGK0je6ZIoaE7PXqwaBoZ8g/kLIlLM59lJqImtpEanSojU8WBvimJBcgryASb/spJ6IXGbBJTdywPfec2CsQLJ43AfjpoDIyrlNLJsF+ze1crOrjClot4d6OFJt8rMtQE7Cqejz7JwPnaDPBT3kNB036T5R1JA9HikQ0aeNiTDdHs1ZryNOwGUHaayfrK/ofWRwP2OXTpWIKCpoLSVCJ8OuCq3c9dw/tYr0yeZdDbGQ7yyGY9Kq8ixTjdE3xnBAHlQbE+i3ocsl0MIjEeEBL2pTZERONYZ+7ALZNCNTOUX1TqtirkXPILLeBiphyxvOpX6UKyP8rz97lqD2zadIkZ8PweOja0MBcIqiVsIPqyg+Kcpmg5lvIEoq+HpS+58oEmMJKmeeKIIngopSzRyhtDl/n77EKoRptvlDOBPIWTJSjvesM4W2hjmjy8VE1rDs9J7u/EyqK0ncL6pEbW528yxxkaK0/9bbLTh58LRMqNb/kAzK+k+akNWvA83ZQKQ15bhwHZjja6prC9i1EidcfVtaftCAUouVRfHEWw+pmk0OQgl5RdI+cmAZBWxj83o6DDiSV9b78n1fKE406jEm0geYLQMie4i8v3jkblVO+GGf3i2zZnZVdLDM045SIAsaUcSMkIrQcHk=
 X-Microsoft-Antispam:
 	BCL:0;ARA:14566002|5072599009|8060799009|19110799006|15080799009|7092599006|461199028|3412199025|440099028;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?LGqjmrZMa+oqMegtH8plKhaqyGgnblPXIhF7ea1lkIj9yqX3gV3GgBPY5uIz?=
- =?us-ascii?Q?Fn8vUvuZ2+txqhKCglG6bPrSw6vAEN9e5Yp67RE/vnN7XkzrixBqvjqlWlO4?=
- =?us-ascii?Q?zPLHPV86XZSnZPfOi11mExNrwnwZLjlrgbYV/CKOiiagMh5ebn/XZOaceBDv?=
- =?us-ascii?Q?GpA3hSD5QxuSUURcV0vthWrEIdvzy6mBJBiR38cqLGwPTNxFoOnxVjX4TW0v?=
- =?us-ascii?Q?VndHtFVqAaZCeoORpIj/i3ToQ3ENFIg7TE4puYL9BfAj3RLDuSsV7MOjkLH/?=
- =?us-ascii?Q?yh0AJhrm0L6dMZOszFzV18CM0JoryYrwfrYN/rf2HAdSnbxo2TpK5HaPWVQa?=
- =?us-ascii?Q?ZSGaOTzf+7a4YaLK6Zhpz5r+/amzH3P3TeaX+2blqEO0JGHCwvL3vJevxzI5?=
- =?us-ascii?Q?FJZLGWu67kqXf/X4YZ8CQOXFczK0UhWzFCHQO2Pvg8bjBF/YyCnwrBRGr6Sp?=
- =?us-ascii?Q?yoaL3uFnZByEwIQyHzfNxKE8nccIgfddjRgRS96YOixr3oGnV8YYNNBa/ymv?=
- =?us-ascii?Q?s5U+ApFGLjUbZQHS0n362FfOrm//d0PY+L5J/3tuJ3GKLwY2o2FqWltX4PVb?=
- =?us-ascii?Q?gRbqc9kM9MasS1/CTxyd4z7dWBvjqSqdUzssqjoSz4cOH+fzvlXlj8GsA4g7?=
- =?us-ascii?Q?uEm7QdXSTvZgGIuG6q7rL7yATR2hLtLkyOi7HZBA5f/84IXf7w1eHbTNBiIm?=
- =?us-ascii?Q?VlzXgOd/tWCeQax8c9HV2MrQvSBsSGE7wdWO/RZ25C623c6sE9YVee/8Bvs3?=
- =?us-ascii?Q?HyPVDwGKB6LbsQHjAQ2qd6SbtcDtMxei1LQIu55ZJo5SmSPz2LTgySqP6Sg+?=
- =?us-ascii?Q?EVYBbXDUwW8tHcAlf+1z08eOCefjgpdM/GToPLlzDrdgEoEeXHNMGFjhe3CJ?=
- =?us-ascii?Q?dWZEIwcbEdF3vAbOb5RzELfyg5CTsZkcLHNcGQT82zIQPJEU+Txt2KKZ3zLV?=
- =?us-ascii?Q?QPEU/qFj+Itv3SddrAeHJAFqnLOvDdTc6h5jmaJr+7qRZV/tKr4OTLQ2NXra?=
- =?us-ascii?Q?J8WUny/9CUkXKmP73whx+Yw3evKQ8NOazm3T1aJ6NsWDj/nW1NXgmhHgwD2x?=
- =?us-ascii?Q?Szpa7/s4V9ARY1C7kNqOEr7G5482bFsH0YjC9mrskALsGvooxoA=3D?=
+	=?us-ascii?Q?TS50AlMYOFOyZsPf3iUnVIhPuSLm3XgsnywqSuG7UPnV4fwSMK6vT3xd7+Tn?=
+ =?us-ascii?Q?CkUcRXxA1eNO9falg4Xx7OcHSu5JtkR3qIavt+C29pcvB/Rv92Dx0DMRWD5Z?=
+ =?us-ascii?Q?T/v425mpOZtK2NUrZSYS3CohEa8qmJMya+s8RkBjaf7RybRjxJ41RrJJzxwv?=
+ =?us-ascii?Q?d9MbTERdrsNWAz4nvjcxe3o+73Isl6QnylvxG5GYGSGMDU5GkZ1mYw1kEjbr?=
+ =?us-ascii?Q?zOrkbVp0kWP/Zo/oO8K6X0b6OWQxFgXT+eyGGiWK7Rm+o6Sp565bWg8RDKFE?=
+ =?us-ascii?Q?0jTtDEEcP85er0L3G34YrjsLKJhvZBZVDr4W9/MjhH4T83QdJ+Iexo8u8lfd?=
+ =?us-ascii?Q?hf1FPEth+bobRXi3hk4mVFypClAyzF73945rgxNWtn9yTa4bWv8UCM4nnzh6?=
+ =?us-ascii?Q?EEiuC6KCw0vUYWLr6GUrh2Rq/D6CkCzhxGnCkgCINJ5ajrLmc1MESZVmNxuu?=
+ =?us-ascii?Q?PDFiyKLEq5cbcjVi2PpPHW/B2Ckz++31xl4YawSrRiFa6j8iDddqwqgBubEf?=
+ =?us-ascii?Q?vxJC9sFcEB3P3WYmrtLsDbmZgRWPrBt83QCvqQinDi1ETiga7ptYdBm7kuDY?=
+ =?us-ascii?Q?Yhw0HVMNTFOQnys2mRPIHPA2PfyTrOOPF1MnKm9RSP9JXlXQVfihvGULCqfi?=
+ =?us-ascii?Q?oVckXIwXM2ksCmJ/J1h4+CNWJ4+XZFYUVWeYmcqsCt/ZrfBDCMI9qz3CRi6a?=
+ =?us-ascii?Q?8/EHVOxBrEyIVC9EuvG1YvNrzhB7c49rZqqgWLc+0aCCTp5/K6XTY/JIowsz?=
+ =?us-ascii?Q?IkZlJ1dEGonoBpoEjyc2xFyeaoPkjdXZR1Brt1taPWSp9ZWYvV/gUrPWbkcI?=
+ =?us-ascii?Q?+VhhbkEj76stnG5KLKgmiyB3RQ2Mer+5zRP0ES6hvjpNZrriz/j3eaEhbkzh?=
+ =?us-ascii?Q?Bcie/mjxwwrdEYiSJ3r+bG7VidMXaewv3tO/7Jm4zTK98sVroSBPFZTa+PYb?=
+ =?us-ascii?Q?UuFZA3pwuuraObZrhUEKu/qwph9AQvdnIBDKZCKW6dJ6PVVmNCWeqNvvNl2N?=
+ =?us-ascii?Q?RmMhmV/Mt5XTmLG50qFbgRfJ9xp9iPHQsCpJpddyNlU03rj/Mgh7lCZq5adE?=
+ =?us-ascii?Q?Qt3cWdzzj2cgPfhcaMV5q0jF9evQ9TIXlr5xWyJ4mMHORVabqCI=3D?=
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?deEyJILRKkPl7yChrxukP3gSprONofHQU2P5g4Kf46LLHV00Ne6EMHP5+HRc?=
- =?us-ascii?Q?ZQ6lUB4/zJEGPJUqLK/qVoymQkGTXFGbparkIsYFR0myp5h5suZ1IBD+VBJ3?=
- =?us-ascii?Q?ixHUrHWx99Ik6szSaxtdoTVPIaIvQbDs3OdNM+OydyNfh4Iua6yocj04EF6e?=
- =?us-ascii?Q?BEhtk+lWgMg6/fjWgAF6aaVa9okKV19yT1f1c4YadpqDxQ7+MHtLPpLVX440?=
- =?us-ascii?Q?uUJw4YOzRArm8VCQgQXJdzCHChwYt8O436uvJUDg+43pJ9GalooLtW3ZQTuT?=
- =?us-ascii?Q?3oEKE+ABW2f/eqYQgZYE+9OdkqXCztDzgzXpcB6un3x13qoGnWlmq9ZWuod3?=
- =?us-ascii?Q?i88Bfkz1Coo1OPLfCAwcb405p6xHraEv5pn4UbJcHB/NwMoiiIXA0FEU+R7M?=
- =?us-ascii?Q?5jLYucdRxEs0Cjm/mhXMbXN3/Qp6gfcwtb5RGEcwZlqZyGXjGs2Ay9+K3Mjm?=
- =?us-ascii?Q?UGsAjvl34nfr4nd4BU3sZYq9aReNGgce9WDDpatLOtZuvSEqaTtxAqCKMH5+?=
- =?us-ascii?Q?yRSTPE1aWcGR0UdGf26ZOc9bu0lGrztoVE/zIWPb7Jvsn+6knz0DGk02uD2X?=
- =?us-ascii?Q?okNM8aSwCPpNwZiR40qwT5t2izCZdAabW9sAMf5OkENzZtH+f20Cfhkz6z7F?=
- =?us-ascii?Q?dcUPu6PsT47Omk+s9LO/z12h5oBhJcgzchJozgrMGk23aLxADoaNDaLCZKEB?=
- =?us-ascii?Q?xrekCGi0/0fjsaJYbMnv4Sl2oPnzamUU550nLmoOdsD8EQNdBt5zcCgWwxX3?=
- =?us-ascii?Q?BZRiyqLbo2tZAUJzkr9J+DSBNM3pSe4nN8xmpPu3JktNX6ZtFgP8D9y94T1N?=
- =?us-ascii?Q?JLanvhFd531WHR0vEUTkk0/fuUpH7qKlTRVe0NiL6ICv/2dKFx2NHHl8bWcW?=
- =?us-ascii?Q?q7ebieb5dDsvz8Rpqf9GueHp+zwku70ChBzVfkSozDipUsR0wJZECRqSRDp6?=
- =?us-ascii?Q?wcufscdcblLgRwBR5cNmgiQkM+ND5HoSSI++1hXuxE6gOuq3fix7sG62yjrQ?=
- =?us-ascii?Q?D4ElQSDe+wJh3nBirHD0XBEw+7kcKKLjwZXM2bMOX3B3Wb81Ww/mIDsbhpal?=
- =?us-ascii?Q?6NSNmAC/06Xi8k2Kwa3lhPAdypToDMinikwAmwczsajmTSf8DZbCWG8dKNIh?=
- =?us-ascii?Q?u4FMXoZo5wMZRjyY+VCjCfsxGJ2bEZVBgmDRIoffkZybIPkEBN7af1W7SWaq?=
- =?us-ascii?Q?XCTYPf3FTbU14EJ+Tx26CFuXnBOfAD9SuHbIVq9RYA/W3EmdmFH0ofgVGXn6?=
- =?us-ascii?Q?MUzybc6k/AS5ZktAdLEJg44CVR/asJE5uLRKbWo63g1ilbVOYJqRUC01Gjj1?=
- =?us-ascii?Q?ykk=3D?=
+	=?us-ascii?Q?P+OGDZjYEuXvknaRvmjvfC5gC7odkS8yALuJ8RgRyAHJvKgrRaPWHoTuhnEy?=
+ =?us-ascii?Q?fyybEundjLQjnwx5xmmGjR4G4GQOfOPeTntfa9RrGmbKNrVGuoJbLY467d3O?=
+ =?us-ascii?Q?tmfbJNxKz1x93AL2tV/sYrSyEHmR5EVpazdzA3g1GeaMFfLRSx+PQ+MkS7vC?=
+ =?us-ascii?Q?AOyR8kOO2wocnU9sh2XTndiOnhXhQrLAkCdTUvF6/0HaVPW0ddPO4AlGP6aG?=
+ =?us-ascii?Q?1L8IdD3N8cTwYsuFm1HN34qZATukJAvNckFzz8SmTh9T11iNFr/3i+PbRQb+?=
+ =?us-ascii?Q?xXJmXAaAxi/oTuMYERAgqHuwU6Cm9EiBcC3Gyf3aW6wK7ERfNLS6Pi6NUvkJ?=
+ =?us-ascii?Q?TKkWJECxLl4GB8iztjIhsti+Wo26Kk25BCgRRPBEpr1M+h5mnC2q3fAox6Ao?=
+ =?us-ascii?Q?AqJWSP9gByK+3n562gRkZl24wJK5zFI2IIYmaSDAxeXu1BXDn5s0mShYMkJw?=
+ =?us-ascii?Q?jFoR4mFety9SPVOvc3XyjtPdj+B5hvVAFGCaPjRRlp9X3sGYOywmyLA8gVRS?=
+ =?us-ascii?Q?HCkBlHpmBFMObxaPiIwbTOm2+9mECSasaVzrCoz3SVZe1xM15KylPhkZgrTt?=
+ =?us-ascii?Q?wS2DXPnYTMUf66ilIuZsr4+rm1MqN78koKPQl7+32EA5icCJf3mkeglCFcmP?=
+ =?us-ascii?Q?ok3/hsftBLS6tfcejUR6bkex6wHpAwZV8YAgY5BnStYk8V+8u/bNZCCGwPsL?=
+ =?us-ascii?Q?+4OvB4nolmQC13KLX3rfkUS3Qm1gSWmi3BlNlIeh2ipCrpX8X1gBIAs3p9dl?=
+ =?us-ascii?Q?qwksEKmJlD5PzgTn8FbpC02RGBWOMaOTKkHpEWr29aZSdLHL9X0tdNLO2FSH?=
+ =?us-ascii?Q?7SgDv1ABET0SNE2SYpRHMEpeal3lzbA4XeNCOebXVdPEL6VVdlJ9gpbBq+Mf?=
+ =?us-ascii?Q?avRllhpk0SmzQO4ohS+AjwIYxTNNzrSh1vtU3+dlCkJG9wnd9T4F4O1wCsx7?=
+ =?us-ascii?Q?LWzUNKfi3EHChEL5ReUIMHg6W4ffKNEMWCsKT2/8DYRAycVP61O4IlZ9WwES?=
+ =?us-ascii?Q?LvI21ijBgDtkmvoqIk9tVCqlO3bqJdO1C7WIJRqTRDChGrf67jTT/x1t4Vpp?=
+ =?us-ascii?Q?qbW8woSZJeQhmgi1PrJRsepeO4UZ0ylS95u1HsmgbF9KV91E8No0h1qqpu2h?=
+ =?us-ascii?Q?2o4ZYeJPxXTB0JjFQGeKPnXqfVsnGSc+9W/kqB2QuX7uoInbAQFzyvk2lxcL?=
+ =?us-ascii?Q?GvRTM6ZoeAkxX/bfUYMbCEZu5p1jA1dj3U/BBqKL5eu4C6MgRh6xlgVQtESL?=
+ =?us-ascii?Q?pCO3UU0liPCJoq+zF0tI9DyuC81U+BnnbW7HL6g8FaabNU4LvNup38YzsmOW?=
+ =?us-ascii?Q?y7U=3D?=
 X-OriginatorOrg: sct-15-20-7719-20-msonline-outlook-ae5c4.templateTenant
-X-MS-Exchange-CrossTenant-Network-Message-Id: ec4dd896-c71e-4d8b-659d-08dd96d095e4
+X-MS-Exchange-CrossTenant-Network-Message-Id: 082ea6ed-b0e4-445c-3fa3-08dd96d09665
 X-MS-Exchange-CrossTenant-AuthSource: PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 May 2025 12:27:57.1688
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 May 2025 12:27:58.0280
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
@@ -146,106 +146,27 @@ X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
 	00000000-0000-0000-0000-000000000000
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: MAZPR01MB5917
 
-There has been a continuous increase in the number of devices requiring
-hid-apple driver during the last few years. Moreover, unlike previous
-releases, the PIDs of the newer devices released cannot be combined in a
-specific range, thus filling up the if else if statements with individual
-device IDs. For such large table, its now more suitable to use switch case
-instead of if else if for improved readability.
+The APPLE_IGNORE_MOUSE quirk was not used anywhere in this driver, so can
+be removed.
 
 Signed-off-by: Aditya Garg <gargaditya08@live.com>
 ---
- drivers/hid/hid-apple.c | 73 +++++++++++++++++++++++------------------
- 1 file changed, 41 insertions(+), 32 deletions(-)
+ drivers/hid/hid-apple.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/hid/hid-apple.c b/drivers/hid/hid-apple.c
-index 93b990603..3d7befe0a 100644
+index 3d7befe0a..fde438bee 100644
 --- a/drivers/hid/hid-apple.c
 +++ b/drivers/hid/hid-apple.c
-@@ -465,42 +465,51 @@ static int hidinput_apple_event(struct hid_device *hid, struct input_dev *input,
- 		asc->fn_on = !!value;
+@@ -30,7 +30,7 @@
+ #include "hid-ids.h"
  
- 	if (real_fnmode) {
--		if (hid->product == USB_DEVICE_ID_APPLE_ALU_WIRELESS_ANSI ||
--		    hid->product == USB_DEVICE_ID_APPLE_ALU_WIRELESS_ISO ||
--		    hid->product == USB_DEVICE_ID_APPLE_ALU_WIRELESS_JIS ||
--		    hid->product == USB_DEVICE_ID_APPLE_ALU_WIRELESS_2009_ANSI ||
--		    hid->product == USB_DEVICE_ID_APPLE_ALU_WIRELESS_2009_ISO ||
--		    hid->product == USB_DEVICE_ID_APPLE_ALU_WIRELESS_2009_JIS ||
--		    hid->product == USB_DEVICE_ID_APPLE_ALU_WIRELESS_2011_ANSI ||
--		    hid->product == USB_DEVICE_ID_APPLE_ALU_WIRELESS_2011_ISO ||
--		    hid->product == USB_DEVICE_ID_APPLE_ALU_WIRELESS_2011_JIS)
-+		switch (hid->product) {
-+		case USB_DEVICE_ID_APPLE_ALU_WIRELESS_ANSI:
-+		case USB_DEVICE_ID_APPLE_ALU_WIRELESS_ISO:
-+		case USB_DEVICE_ID_APPLE_ALU_WIRELESS_JIS:
-+		case USB_DEVICE_ID_APPLE_ALU_WIRELESS_2009_ANSI:
-+		case USB_DEVICE_ID_APPLE_ALU_WIRELESS_2009_ISO:
-+		case USB_DEVICE_ID_APPLE_ALU_WIRELESS_2009_JIS:
-+		case USB_DEVICE_ID_APPLE_ALU_WIRELESS_2011_ANSI:
-+		case USB_DEVICE_ID_APPLE_ALU_WIRELESS_2011_ISO:
-+		case USB_DEVICE_ID_APPLE_ALU_WIRELESS_2011_JIS:
- 			table = magic_keyboard_alu_fn_keys;
--		else if (hid->product == USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_2015 ||
--			 hid->product == USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_NUMPAD_2015)
-+			break;
-+		case USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_2015:
-+		case USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_NUMPAD_2015:
- 			table = magic_keyboard_2015_fn_keys;
--		else if (hid->product == USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_2021 ||
--			 hid->product == USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_2024 ||
--			 hid->product == USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_FINGERPRINT_2021 ||
--			 hid->product == USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_NUMPAD_2021)
-+			break;
-+		case USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_2021:
-+		case USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_2024:
-+		case USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_FINGERPRINT_2021:
-+		case USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_NUMPAD_2021:
- 			table = apple2021_fn_keys;
--		else if (hid->product == USB_DEVICE_ID_APPLE_WELLSPRINGT2_J132 ||
--			 hid->product == USB_DEVICE_ID_APPLE_WELLSPRINGT2_J680 ||
--			 hid->product == USB_DEVICE_ID_APPLE_WELLSPRINGT2_J213)
--				table = macbookpro_no_esc_fn_keys;
--		else if (hid->product == USB_DEVICE_ID_APPLE_WELLSPRINGT2_J214K ||
--			 hid->product == USB_DEVICE_ID_APPLE_WELLSPRINGT2_J223 ||
--			 hid->product == USB_DEVICE_ID_APPLE_WELLSPRINGT2_J152F)
--				table = macbookpro_dedicated_esc_fn_keys;
--		else if (hid->product == USB_DEVICE_ID_APPLE_WELLSPRINGT2_J140K ||
--			 hid->product == USB_DEVICE_ID_APPLE_WELLSPRINGT2_J230K)
--				table = apple_fn_keys;
--		else if (hid->product >= USB_DEVICE_ID_APPLE_WELLSPRING4_ANSI &&
--				hid->product <= USB_DEVICE_ID_APPLE_WELLSPRING4A_JIS)
--			table = macbookair_fn_keys;
--		else if (hid->product < 0x21d || hid->product >= 0x300)
--			table = powerbook_fn_keys;
--		else
-+			break;
-+		case USB_DEVICE_ID_APPLE_WELLSPRINGT2_J132:
-+		case USB_DEVICE_ID_APPLE_WELLSPRINGT2_J213:
-+		case USB_DEVICE_ID_APPLE_WELLSPRINGT2_J680:
-+			table = macbookpro_no_esc_fn_keys;
-+			break;
-+		case USB_DEVICE_ID_APPLE_WELLSPRINGT2_J152F:
-+		case USB_DEVICE_ID_APPLE_WELLSPRINGT2_J214K:
-+		case USB_DEVICE_ID_APPLE_WELLSPRINGT2_J223:
-+			table = macbookpro_dedicated_esc_fn_keys;
-+			break;
-+		case USB_DEVICE_ID_APPLE_WELLSPRINGT2_J140K:
-+		case USB_DEVICE_ID_APPLE_WELLSPRINGT2_J230K:
- 			table = apple_fn_keys;
-+			break;
-+		default:
-+			if (hid->product >= USB_DEVICE_ID_APPLE_WELLSPRING4_ANSI &&
-+			    hid->product <= USB_DEVICE_ID_APPLE_WELLSPRING4A_JIS)
-+				table = macbookair_fn_keys;
-+			else if (hid->product < 0x21d || hid->product >= 0x300)
-+				table = powerbook_fn_keys;
-+			else
-+				table = apple_fn_keys;
-+		}
- 
- 		trans = apple_find_translation(table, code);
- 
+ #define APPLE_RDESC_JIS		BIT(0)
+-#define APPLE_IGNORE_MOUSE	BIT(1)
++/* BIT(1) reserved, was: APPLE_IGNORE_MOUSE */
+ #define APPLE_HAS_FN		BIT(2)
+ /* BIT(3) reserved, was: APPLE_HIDDEV */
+ #define APPLE_ISO_TILDE_QUIRK	BIT(4)
 -- 
 2.43.0
 
