@@ -1,154 +1,140 @@
-Return-Path: <linux-input+bounces-12445-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12446-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE178ABC45D
-	for <lists+linux-input@lfdr.de>; Mon, 19 May 2025 18:23:06 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 751FDABC46E
+	for <lists+linux-input@lfdr.de>; Mon, 19 May 2025 18:24:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 70A003A5E98
-	for <lists+linux-input@lfdr.de>; Mon, 19 May 2025 16:21:15 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E2E2D3A034A
+	for <lists+linux-input@lfdr.de>; Mon, 19 May 2025 16:22:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DAEF72874F2;
-	Mon, 19 May 2025 16:19:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 90A702749F5;
+	Mon, 19 May 2025 16:23:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OuW2D6j2"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UZxVfgp2"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17F5927A911;
-	Mon, 19 May 2025 16:19:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1C75286410;
+	Mon, 19 May 2025 16:23:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747671552; cv=none; b=k3WNF8lBEjke1Y+b30X40OMIF9WmkFW8Bq5wXDPH9CSYjun3kg1fy5VrFTh1CmIj/IXxW17S2CB7EtkNTgr6FUTggeFWl7IvgeoGJkiQAyIwC9oUgjXd0weAH8k2CAlr/fMhcngwxGBdRR9I8PBQwlpc7gmmldmwoR6qTEaxNJo=
+	t=1747671788; cv=none; b=eN1QGWEAJjNovCeEJvM67ie0xHEXfPwCSS3967GAsk40EmD7oZeOUGQzp2l83M7Koi7jNp/hjWSJd8UWt79C0fKFgqsxyAdvXrgBJT8cKUsqIveh7meF2+TZsWop4WLXl7CGtA9B85Pc/8r6ieBHyHGp7PTHMSnlbPim/oqFW+c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747671552; c=relaxed/simple;
-	bh=dmYdD+igyaG110JUikTrc3t6WrlibNxxN48pbj5kQog=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=VA4wXJ1QziSVkSNDST1D8eCgPBjSD7aL2AZBkN4iO2B5qZZic+OkyBNPfEt5K5pFd1vTQ3gDbVwMGmn1pJ1MJon2SQlK49wASZZRbGc6Kic4KaJuCQdRZS2xVBoW2BOx96CqcRCIpFZ6dCFS4bLMPu+sum7jZ2cldTI3//iVl9U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OuW2D6j2; arc=none smtp.client-ip=209.85.221.45
+	s=arc-20240116; t=1747671788; c=relaxed/simple;
+	bh=yoLcLLMfUq+oIbdeG+lgM/suMocyB+BzY0AGIpG2I6E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=axCEfKcIxM7tD0H5Na44lMAzw/6dj3FV+whSjtN4SVQ3Ei0DtBh6bthFvPx8PBHte1Pk+g1n3f/2aWF2/moEv/U9xn6zJcGwSU7S+bgLUHYmgVtHbbUyW/flrwxV+9fgPXAg6g3hrfF74bhorkOeVSv7DWceARx8XvKCviBq1IQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UZxVfgp2; arc=none smtp.client-ip=209.85.216.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-3a36abf5df9so1150034f8f.0;
-        Mon, 19 May 2025 09:19:10 -0700 (PDT)
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-30ea7770bd2so3074683a91.0;
+        Mon, 19 May 2025 09:23:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747671549; x=1748276349; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=dmYdD+igyaG110JUikTrc3t6WrlibNxxN48pbj5kQog=;
-        b=OuW2D6j2iyiNhQeU1Y1mI/Pte+DeUDz9mcKwo650Fvjr56pP7mmatbAFCvqqOgeWah
-         bZueLYh7dzcj7tpWJBXlumvo5ii7ocwWGI9F4lvilJs9KgcqUGfrIfZXf9O4Gy1dE1Et
-         Xd2ogGpDzdJB0vgAD1wtsnyik8Ro+a8Wz9zJidMFRtPCtQoHQgHZok/KyeF4upYvnRSy
-         fTnHi6YLQhkBtAa1vkjJ8/6XUlGFpBz3pMXlZihDPvd4iJBgoSLpzO1sl6SjXrkZri73
-         KeQH25s5NSmTBZO3bnbF2/vDtd4imaGLvIu3uDkgnPC/HNJl97qyW2ZbjUHeerdMjeMN
-         WOXA==
+        d=gmail.com; s=20230601; t=1747671786; x=1748276586; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=NbXUILecFZqM1QNrDc/94P68oIZz2J/rCibArTJ2XQ8=;
+        b=UZxVfgp2o4u4/dlwGAGelXQHys7a5jEcZ15t0oFTHfxvfk+MvTsqLWMn5rQVOX+spA
+         FGEHDDnKKLfVodGWoPTFYo9rii9CHfR/okEygQU3JpQShdbzUq3D2t/tFHRSmwcm2hrx
+         hLwWZV9iPUGWWHQMg1UNrvMFO/5i0a3ntA6HHnHNYPGkCdGlX6uX1mpR+CVAfoEALVkz
+         XLnbySRcwYl857W29lC+l3sj59qbdlbQXyWwYLEgDiTaYfdzKlmlQFd4c2e65B1uriUI
+         9m6sZi1ceD/+NsP3uIeZ7uanbrj8FF4/69foJ52Wku26bnT8Aj8kVfFaAS/iN3xpVctC
+         koqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747671549; x=1748276349;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=dmYdD+igyaG110JUikTrc3t6WrlibNxxN48pbj5kQog=;
-        b=cyNYzTfFCB2C748Su5QSmNarICweXLRWGgEa81fzxVGVh4EQlugxCtvK4mBL2zf8q4
-         q+w/9z7VzgnRgZl0kyOdEANSADz3j0NIWWvWfUJ8FCx3Vbna3ETqFR/8kYyrf4VM4iFz
-         bwzTF+BhQrQSAQx7bDnene9pmapdSzSfSwpzdINYWL1d1azKBJU05y99C+ox0IzeOFOf
-         ox07WFCC4fmqlJCW9tBw7nhVe3HiDsJTH/H+CFFDdQPrry/vltsyp+L6KKX60O5fDlQo
-         7wa+7qU2f96IluvTMmhtPiygW/GmEoiV1cqsuOrWZ0rWI0WS2tiMpF5IfGrQeuvRxY4p
-         n6yQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUB4UOQ9MA/HsQu8mtRLFzapjbsgdVnwSyvtgIGaSyGlJKSE87TwFG2Mz3qf/uWyd9fkL6aaR4zF5hNYD4=@vger.kernel.org, AJvYcCUXHrBUXFyRQPTBZV/qlKiMPLuLDKaufOk5D7aHBESCrE4E/NC5DOvf9a8ltUOi2E3cbKGfve9yfffe@vger.kernel.org, AJvYcCW//ZHZpLrJYKahtyUnUF8dQFNaQq5Sk6t0/gF0ML06h1Wp9wd7cKVerWPAf+LQPaPNsimJgSqI2iZc@vger.kernel.org
-X-Gm-Message-State: AOJu0YyomvON+eROfEU4vU34t2kaRyAnHstJU++9M4ikGJfufhw8cIQd
-	sOg6hw5GWAlrT4t07iVXt/JKec/geyN7aU/jIYxQClyzv9dM1H14hEix
-X-Gm-Gg: ASbGnctrW6b8GZ8pl/wmyG3JtsEa5tXkZ+mHRwIsNvFI540aB5nI2tjMDJZZTyKqt8I
-	VNSwOFSiR6ubQOiJIZJA2np0D9rM0zGP4gmIn6ap8LjVCpgfhn/+DgTC815oyCr8qsVR5NVXmrR
-	01BKdKfi4u5Dk26YqVTPjG7VlOyWhMT9pDro7oxKR21dcAP1xMZE60qxDdj/dN6xLJTjm7QDxLs
-	PY2LhTxWhlQ3+dw+Bnx2kqvwDl0ioH/EGY09wse8Eox7Faq9nV+dbFgcu6YEmpgt47HW6J3VmkG
-	brG+dwQatxp4MIzHws2oRUmsWzuWFxciLH3v71bTGro7eoA8vMg=
-X-Google-Smtp-Source: AGHT+IFAa6RLopD4JWjuSn0eyxw2ixMGoxeDNXv/nXX1EyGGQLL+LcRYbj+X2Kipp1i/mTeY9yfMcg==
-X-Received: by 2002:a05:6000:1acd:b0:3a3:7675:902 with SMTP id ffacd0b85a97d-3a376750abemr2304299f8f.21.1747671549109;
-        Mon, 19 May 2025 09:19:09 -0700 (PDT)
-Received: from [10.5.0.2] ([45.94.208.136])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a35ca4d0fasm13471852f8f.8.2025.05.19.09.19.07
+        d=1e100.net; s=20230601; t=1747671786; x=1748276586;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NbXUILecFZqM1QNrDc/94P68oIZz2J/rCibArTJ2XQ8=;
+        b=oV4IDT4gqPrc5kX0GX0MynTVBKwDDXyNcxTbI3uYMkrzcFBlCeziQIHutedQeMY8Ic
+         VnotwxXAGkvfdRlMVVqAczdoqz8qQMnv74EUX+tk1zaepVhz1kEiLaXTs547LuqI4XSb
+         PzKf4wBcLO1zUHQLJ76I1q+ZNa+MItlm/5IKAkJtzYJ1qiy5gVT+OTCzHbX1oLoGEqGx
+         RyWRsOFcAKqi6VaVTBdUW6hgM/GZ0LhHN6D5wViolboQLwYh8W7ojI8X2Fh0O6zE7bwh
+         +Wew0puWHG0lEgtM6BNHzPt58smQsNvj30i4k4r8XZ5pciBh8xBGgsVw3KKupm92T20M
+         1qBQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWfyYStVMN3d8rdxk1cxzG405uSSI7zkC0aPz9m1K2xwi5DOTM4+H/pAqHvMpwBUXBCuSC0McKS/w1WKQ==@vger.kernel.org, AJvYcCXIKb+kk5RdJ2zt90uikQPnxYJfLzgwPT4Y1rVvZaugYFUDJno+XOaLOzzv3Xq2oTaHp2+e8bsfaOJKIMGf@vger.kernel.org
+X-Gm-Message-State: AOJu0YwMCNEEyl5jSwstrYwVOpJn/WFZK6JsZ6IL2BRIqeNrq7I9GGHv
+	Q+kwFQc/SHNJQ63W+/Z9GAdl90R4kfhgVWhpFWvnl8puYKEfXvpuP0I4
+X-Gm-Gg: ASbGncvixe2L3UCePigy95fjAsrq25jCcnymeSJaJif60qeM/Mbe9LnOwiMSL+RFS+E
+	E7duEeBSxPHcdCdXljUA0w4jInNSyuUMkPBvb0LCKvAxr13wJUtwQyBviOUhL20WK7KUNMH6ZP+
+	RRJWvX867fwK2LhdOl7DXLIoga30EcSzYhAqQc8E5XcHUDDHVvoNwpyv+K63EwV478rNs7v1hb6
+	zGFaQDXCaoKYNJzvYTWk+21dHilEz29/rxCUb+2U6WkCSGTWD0XlDwzsBfSKulyfYm1LBZNKBoA
+	RqrnDj0T7kueKYF+tBM5sLupbdUgbwm3HJY5xeCG25abVDBiOQ==
+X-Google-Smtp-Source: AGHT+IHprM+8PN4JrIjf6mE6Iwiw0Z+YfhCyzCdw3//7JM4PwiCVoQ7+1bWhkBTrFoiKg2+S6zo7jg==
+X-Received: by 2002:a17:90b:4a50:b0:301:98fc:9b5a with SMTP id 98e67ed59e1d1-30e7d500953mr20100588a91.6.1747671785910;
+        Mon, 19 May 2025 09:23:05 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:e134:a6aa:27:6156])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-30ef3c50c31sm2549387a91.45.2025.05.19.09.23.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 May 2025 09:19:08 -0700 (PDT)
-Message-ID: <44dba598e27905dd6f129307fb534c04ac072897.camel@gmail.com>
-Subject: Re: [PATCH v3 22/22] pwm: adp5585: make sure to include
- mod_devicetable.h
-From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
-To: Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>, 
-	nuno.sa@analog.com
-Cc: linux-gpio@vger.kernel.org, linux-pwm@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-input@vger.kernel.org, Lee Jones
- <lee@kernel.org>,  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
- <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,  Linus Walleij
- <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, Dmitry
- Torokhov	 <dmitry.torokhov@gmail.com>, Laurent Pinchart	
- <laurent.pinchart@ideasonboard.com>, Liu Ying <victor.liu@nxp.com>
-Date: Mon, 19 May 2025 17:19:10 +0100
-In-Reply-To: <gfrckmiyfo3rnvhnryptcwtwlu37aaga22onpra2yteelwl3zq@b6zaszmd4axp>
-References: <20250512-dev-adp5589-fw-v3-0-092b14b79a88@analog.com>
-	 <20250512-dev-adp5589-fw-v3-22-092b14b79a88@analog.com>
-	 <gfrckmiyfo3rnvhnryptcwtwlu37aaga22onpra2yteelwl3zq@b6zaszmd4axp>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.1 
+        Mon, 19 May 2025 09:23:05 -0700 (PDT)
+Date: Mon, 19 May 2025 09:23:03 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Joseph Guo <qijian.guo@nxp.com>
+Cc: Bastien Nocera <hadess@hadess.net>, 
+	Hans de Goede <hdegoede@redhat.com>, "open list:GOODIX TOUCHSCREEN" <linux-input@vger.kernel.org>, 
+	open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] input: goodix: add poll mode for goodix touchscreen
+Message-ID: <t6umftlzqhpiwtq3oi2xgtmmvxc7o4ab2bjxqywvwrp25jpi5a@vlryb74pcvxi>
+References: <20250519085744.3116042-1-qijian.guo@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250519085744.3116042-1-qijian.guo@nxp.com>
 
-On Mon, 2025-05-19 at 18:11 +0200, Uwe Kleine-K=C3=B6nig wrote:
-> Hello Nuno,
->=20
-> On Mon, May 12, 2025 at 01:39:14PM +0100, Nuno S=C3=A1 via B4 Relay wrote=
-:
-> > From: Nuno S=C3=A1 <nuno.sa@analog.com>
-> >=20
-> > Explicitly include mod_devicetable.h for struct platform_device_id.
-> >=20
-> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > Signed-off-by: Nuno S=C3=A1 <nuno.sa@analog.com>
-> > ---
-> > =C2=A0drivers/pwm/pwm-adp5585.c | 1 +
-> > =C2=A01 file changed, 1 insertion(+)
-> >=20
-> > diff --git a/drivers/pwm/pwm-adp5585.c b/drivers/pwm/pwm-adp5585.c
-> > index
-> > f26054c19c2e154d05780af09aee1b2431eba2eb..93d0294d048abfe1a009161025e65=
-8b58b
-> > 669cd9 100644
-> > --- a/drivers/pwm/pwm-adp5585.c
-> > +++ b/drivers/pwm/pwm-adp5585.c
-> > @@ -20,6 +20,7 @@
-> > =C2=A0#include <linux/mfd/adp5585.h>
-> > =C2=A0#include <linux/minmax.h>
-> > =C2=A0#include <linux/module.h>
-> > +#include <linux/mod_devicetable.h>
-> > =C2=A0#include <linux/platform_device.h>
-> > =C2=A0#include <linux/pwm.h>
-> > =C2=A0#include <linux/regmap.h>
->=20
-> This looks relevant for the current state of the driver in mainline and
-> doesn't depend on other patches in the series.
->=20
-> I applied it to
->=20
-> =09
-> https://git.kernel.org/pub/scm/linux/kernel/git/ukleinek/linux.git=C2=A0p=
-wm/for-
-> next
->=20
-> and so it should be included in the next next.
+Hi Joseph,
 
-Alright,
+On Mon, May 19, 2025 at 05:57:43PM +0900, Joseph Guo wrote:
+> goodix touchscreen only support interrupt mode by default.
+> Some panels like waveshare panel which is widely used on raspeberry pi
+> don't have interrupt pins and only work on i2c poll mode.
+> The waveshare panel 7inch panel use goodix gt911 touchscreen chip.
+> 
+> Update goodix touchscreen to support both interrupt and poll mode.
+> 
+> Signed-off-by: Joseph Guo <qijian.guo@nxp.com>
+> ---
+>  drivers/input/touchscreen/goodix.c | 69 +++++++++++++++++++++++++++---
+>  drivers/input/touchscreen/goodix.h |  4 ++
+>  2 files changed, 67 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/input/touchscreen/goodix.c b/drivers/input/touchscreen/goodix.c
+> index aaf79ac50004..87991b56494d 100644
+> --- a/drivers/input/touchscreen/goodix.c
+> +++ b/drivers/input/touchscreen/goodix.c
+> @@ -47,6 +47,7 @@
+>  #define RESOLUTION_LOC		1
+>  #define MAX_CONTACTS_LOC	5
+>  #define TRIGGER_LOC		6
+> +#define POLL_INTERVAL_MS		17	/* 17ms = 60fps */
+> 
+>  /* Our special handling for GPIO accesses through ACPI is x86 specific */
+>  #if defined CONFIG_X86 && defined CONFIG_ACPI
+> @@ -497,6 +498,23 @@ static void goodix_process_events(struct goodix_ts_data *ts)
+>  	input_sync(ts->input_dev);
+>  }
+> 
+> +static void goodix_ts_irq_poll_timer(struct timer_list *t)
+> +{
+> +	struct goodix_ts_data *ts = from_timer(ts, t, timer);
+> +
+> +	schedule_work(&ts->work_i2c_poll);
+> +	mod_timer(&ts->timer, jiffies + msecs_to_jiffies(POLL_INTERVAL_MS));
+> +}
 
-Good then that I first pushed the new version for the bots to test build it
-(before sending it). Will drop this patch from the new version.
+Why are you not suing the existing polling infrastructure
+(input_setup_polling())?
 
-- Nuno S=C3=A1
+Thanks.
 
->=20
+-- 
+Dmitry
 
