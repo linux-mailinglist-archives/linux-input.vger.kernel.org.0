@@ -1,131 +1,114 @@
-Return-Path: <linux-input+bounces-12456-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12457-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54539ABC8E6
-	for <lists+linux-input@lfdr.de>; Mon, 19 May 2025 23:12:53 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A5ABABC906
+	for <lists+linux-input@lfdr.de>; Mon, 19 May 2025 23:21:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D86A53BB2A0
-	for <lists+linux-input@lfdr.de>; Mon, 19 May 2025 21:12:32 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1537D1886753
+	for <lists+linux-input@lfdr.de>; Mon, 19 May 2025 21:22:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5E30521ABA5;
-	Mon, 19 May 2025 21:12:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CE08421B1AB;
+	Mon, 19 May 2025 21:21:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="vWO/bTXT";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="R3R9zT+M"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tU4NTW0j"
 X-Original-To: linux-input@vger.kernel.org
-Received: from fout-b4-smtp.messagingengine.com (fout-b4-smtp.messagingengine.com [202.12.124.147])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43B95288AD;
-	Mon, 19 May 2025 21:12:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.147
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A16B421B191;
+	Mon, 19 May 2025 21:21:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747689168; cv=none; b=sganxfJ6Iq9ac5V0vZ5U1MH78YAL+HpMW4W6a9EyEcIrb4lys86Sa+MH3pHEQKh4OYIOcT2SwfX+e2db4vgjVDdr51A7s9hHYrnWYlUsVsVXBmDfY53xHXWyEpDCTwYBEcNpOKbJFjGIuKqSvdq6fhvdiBYomgvWDjokOmOMYzE=
+	t=1747689696; cv=none; b=CMyxyeluVZfhYS8PybuJqDr/dfAqKV5JHclhWHJ8bRpEIYvYCdSMexfEax2MHZEmkt2bq7eDJ2uq09rHNqxqyYP/uIxuecM1huzIDWNVdpGvTGLCK9OpD02xIazQQtNUT87UgsjNTTNBFterHLAZWNcD+iASa1w7clES7K4RCMI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747689168; c=relaxed/simple;
-	bh=SPcSBAE7lMi2Sr/cqYhUftX4nKOZ9dAXel+rQnZ8ecQ=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=h6Hhkx3G2dgw+EOWIQJi1npSfdxAXZMnw8KFwvWOumDRAJU+xwv/RSyfvGalrv5xVUNtn+vWoHwhe6SQvH891KfS+6122C/SJP0Y8nNgexTxhsuznFn//k69GvX92rirawHdWxqHrdw4R4FcUtW3hLgsiq2qt7144t87UW6zpYE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=vWO/bTXT; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=R3R9zT+M; arc=none smtp.client-ip=202.12.124.147
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
-Received: from phl-compute-05.internal (phl-compute-05.phl.internal [10.202.2.45])
-	by mailfout.stl.internal (Postfix) with ESMTP id D7BEC11400A6;
-	Mon, 19 May 2025 17:12:42 -0400 (EDT)
-Received: from phl-imap-12 ([10.202.2.86])
-  by phl-compute-05.internal (MEProxy); Mon, 19 May 2025 17:12:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1747689162;
-	 x=1747775562; bh=SPcSBAE7lMi2Sr/cqYhUftX4nKOZ9dAXel+rQnZ8ecQ=; b=
-	vWO/bTXTt/1Rz4vTS14ENYnY/81Hqx30n+Quj6hdVFttb60/1GpnJJcLLI4HAYi8
-	g5HUlJNYHxawTSy68K4JTwt0llTx12p3sHqPNi4BxSRtH6gvurjWepgSu1ncPqF2
-	X36po0P7esj8KGCs2cRMS+eimoqvUwKkARSJpytmgf8BzpBkLfpyfJyT+tFh1ERs
-	PulmVpU4K+ZLd8vmeFC3a42HqX0+6trmm93dH4B8saVzIQxQfIsHSgln2WyEN/1R
-	NQm3DqyFDqqO/fsSTno8ytv+ps5dz/NSPVph5kcfAYn8Zb601ISyvhDsz++VAd75
-	XIpbOKl14D+htdxTSdvdTg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1747689162; x=
-	1747775562; bh=SPcSBAE7lMi2Sr/cqYhUftX4nKOZ9dAXel+rQnZ8ecQ=; b=R
-	3R9zT+MpTvNgNHhMe28/Ip3dJt6oJkgQtNuE/ro60nxzLbcx/jt1qFMxgEt0eEDV
-	ACoS1jDQj18ewT7vDoVTp4+xbGE5omCvQWgxB5M8qzz5fxwlq2Eu6HAh0/e6FNYr
-	MfMteyMLMWp25ZYhCU+dNx3BErYGaj8Q4GkdDWsgMAf+TivyivQ4AZopKrSgSfhQ
-	IMPWRIHw8/KExH04hvWW9sTOuv6GM56j2FwGpfzfv9E/RjQoqXqzaOasLVriaH7S
-	HyFi93sySkUPa8C0XeaBamazfLKKOVtVYCO1k9KVAC7oL0SPY06tfRXzv3u4LE9V
-	8Q+hXCam27mmwHqL2q07g==
-X-ME-Sender: <xms:yp4raL_HvUbyOmxtihz1MO4pbys4KKH347A2m5kpZwSFWRyq_RmlDw>
-    <xme:yp4raHvCTa45ZX4vY7PNpdErbHp7zhMQl52rW7ELnc3VT6TSoq9wKcMDyRn-CQ6sJ
-    5BIZOb3pSvXV15gni8>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdefvddvgeefucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
-    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
-    gvnhhtshculddquddttddmnecujfgurhepofggfffhvfevkfgjfhfutgfgsehtjeertder
-    tddtnecuhfhrohhmpedftehrnhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnug
-    gsrdguvgeqnecuggftrfgrthhtvghrnhephfdthfdvtdefhedukeetgefggffhjeeggeet
-    fefggfevudegudevledvkefhvdeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrg
-    hmpehmrghilhhfrhhomheprghrnhgusegrrhhnuggsrdguvgdpnhgspghrtghpthhtohep
-    ledpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepfigprghrmhhinhesghhmgidrug
-    gvpdhrtghpthhtohepjhesjhgrnhhnrghurdhnvghtpdhrtghpthhtohepsggvnhhtihhs
-    sheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepjhhikhhosheskhgvrhhnvghlrdhorh
-    hgpdhrtghpthhtoheplhgvnhgssehkvghrnhgvlhdrohhrghdprhgtphhtthhopehrrghf
-    rggvlheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqrggtphhisehvgh
-    gvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqihhnphhuthesvhhg
-    vghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvh
-    hgvghrrdhkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:yp4raJComv4gHL125ZM09cOu5dwMOZILZ1aV1RpCu2DH1hEiwzP1Eg>
-    <xmx:yp4raHeR7uRi9ud-oFuSEfw9PbZW9SK2M3_Ne2xDyR2HuAwBn4IqMQ>
-    <xmx:yp4raAOePFg-1YTIFY563BOf9LkNVihmv6wKBCtcdcet-h4OOz1Njw>
-    <xmx:yp4raJmVcM17-rcnc0zD7UKGiVtx_2N5jYr9n28pdyboAYdRsTTGmA>
-    <xmx:yp4raHUyl81EyRnfAlv_2wmVYJpUP32U6MAvLFHeDsHT5ly41sz1PCUB>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 3DCC91060060; Mon, 19 May 2025 17:12:42 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	s=arc-20240116; t=1747689696; c=relaxed/simple;
+	bh=lH9zdZaEdr9+33s1ibwmkHyGg80s3IuWQrjin8eGuNc=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=ht0KX2WIRyP7ZGQx3LQW3kvWellsrlM/OUyt62ZAtH9mt/ct7t6emg1n82eWp5+9DY9we8AxBdsDjptqgAft+uCH0BMrsHrRflK3yoF+yrAMxN10OVcZ1+4fkTlThgCNnNWmwEDyEtMqBcC7YdDJd/nWhku7jv+vZy2c+Khzju0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tU4NTW0j; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1EAD2C4CEE4;
+	Mon, 19 May 2025 21:21:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1747689695;
+	bh=lH9zdZaEdr9+33s1ibwmkHyGg80s3IuWQrjin8eGuNc=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=tU4NTW0jCjF5KtS2DuLafxGP1600IFe4wEsl5oYad51aOvZ/XOtJhVyhirKu9IKxW
+	 P3w6P5RJpMG7DDoKVRRa4wRxuW0vCSEZeAqLRMxYGqCFe059rKrdhc5oGMoA65zBUq
+	 hXjuwwVJAhXE21QG0+iN9uC8qcC70KwzDbltjqy+ZAZxUbnvl9SAumB9th9TFHFYQl
+	 rE9NADQ7oofttL1tRDfuQI89Axn/eFxrzDIPrHgSTKtelr4jpmpaynWn2UcuanhTra
+	 0TwF58M9fv+hVVqam2Y/ki31So1lbghI9rYrJABVpXFF9/4C+BADbVB1zpkRVGlOBe
+	 sVgzf2VcZNSpw==
+From: Sasha Levin <sashal@kernel.org>
+To: patches@lists.linux.dev,
+	stable@vger.kernel.org
+Cc: Mario Limonciello <mario.limonciello@amd.com>,
+	Basavaraj Natikar <Basavaraj.Natikar@amd.com>,
+	Jiri Kosina <jkosina@suse.com>,
+	Sasha Levin <sashal@kernel.org>,
+	jikos@kernel.org,
+	benjamin.tissoires@redhat.com,
+	linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.14 02/23] HID: amd_sfh: Avoid clearing reports for SRA sensor
+Date: Mon, 19 May 2025 17:21:09 -0400
+Message-Id: <20250519212131.1985647-2-sashal@kernel.org>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250519212131.1985647-1-sashal@kernel.org>
+References: <20250519212131.1985647-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ThreadId: T7dcf237e00daab9e
-Date: Mon, 19 May 2025 23:12:10 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Janne Grunau" <j@jannau.net>, "Jiri Kosina" <jikos@kernel.org>,
- "Benjamin Tissoires" <bentiss@kernel.org>,
- "Rafael J . Wysocki" <rafael@kernel.org>, "Len Brown" <lenb@kernel.org>,
- "Armin Wolf" <W_Armin@gmx.de>
-Cc: linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
- linux-acpi@vger.kernel.org
-Message-Id: <68e63303-eef3-41f1-9c1d-ac68990b3243@app.fastmail.com>
-In-Reply-To: 
- <20250519-hid_lenovo_acpi_dependency-v2-1-124760ddd6f7@jannau.net>
-References: 
- <20250519-hid_lenovo_acpi_dependency-v2-1-124760ddd6f7@jannau.net>
-Subject: Re: [PATCH v2] HID: lenovo: Remove CONFIG_ACPI dependency
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.14.7
+Content-Transfer-Encoding: 8bit
 
-On Mon, May 19, 2025, at 22:49, Janne Grunau via B4 Relay wrote:
-> From: Janne Grunau <j@jannau.net>
->
-> The hid-lenovo driver supports external Bluetooth and USB devices which
-> can be used with non-ACPI systems/kernels. Call platform_profile_cycle()
-> only if CONFIG_ACPI_PLATFORM_PROFILE is enabled and select
-> CONFIG_ACPI_PLATFORM_PROFILE only if ACPI is enabled.
-> This should not affect functionality since only the detachable keyboard
-> of a x86 tablet with a custom connector has an hotkey for cycling
-> through power profiles.
->
-> Fixes: 52572cde8b4a4 ("HID: lenovo: select CONFIG_ACPI_PLATFORM_PROFILE")
-> Signed-off-by: Janne Grunau <j@jannau.net>
+From: Mario Limonciello <mario.limonciello@amd.com>
 
-Acked-by: Arnd Bergmann <arnd@arndb.de>
+[ Upstream commit f32e8c8095490152b5bc5f467d5034387a4bbd1b ]
+
+SRA sensor doesn't allocate any memory for reports.  Skip
+trying to clear memory for that sensor in cleanup path.
+
+Suggested-by: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
+Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+Acked-by: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
+Signed-off-by: Jiri Kosina <jkosina@suse.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_init.c | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_init.c b/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_init.c
+index e9929c4aa72eb..fc48b256fc0de 100644
+--- a/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_init.c
++++ b/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_init.c
+@@ -83,6 +83,9 @@ static int amd_sfh_hid_client_deinit(struct amd_mp2_dev *privdata)
+ 		case ALS_IDX:
+ 			privdata->dev_en.is_als_present = false;
+ 			break;
++		case SRA_IDX:
++			privdata->dev_en.is_sra_present = false;
++			break;
+ 		}
+ 
+ 		if (cl_data->sensor_sts[i] == SENSOR_ENABLED) {
+@@ -236,6 +239,8 @@ static int amd_sfh1_1_hid_client_init(struct amd_mp2_dev *privdata)
+ cleanup:
+ 	amd_sfh_hid_client_deinit(privdata);
+ 	for (i = 0; i < cl_data->num_hid_devices; i++) {
++		if (cl_data->sensor_idx[i] == SRA_IDX)
++			continue;
+ 		devm_kfree(dev, cl_data->feature_report[i]);
+ 		devm_kfree(dev, in_data->input_report[i]);
+ 		devm_kfree(dev, cl_data->report_descr[i]);
+-- 
+2.39.5
+
 
