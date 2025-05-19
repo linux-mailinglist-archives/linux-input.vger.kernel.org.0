@@ -1,150 +1,226 @@
-Return-Path: <linux-input+bounces-12428-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12429-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCF20ABB1EA
-	for <lists+linux-input@lfdr.de>; Mon, 19 May 2025 00:03:19 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 96703ABB846
+	for <lists+linux-input@lfdr.de>; Mon, 19 May 2025 11:08:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4E79F1895C67
-	for <lists+linux-input@lfdr.de>; Sun, 18 May 2025 22:03:30 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B47D87A3AE9
+	for <lists+linux-input@lfdr.de>; Mon, 19 May 2025 09:07:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AEC741F419B;
-	Sun, 18 May 2025 22:03:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="yIZ+wuJr";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="gNtipnHv"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6F11F26C3B9;
+	Mon, 19 May 2025 09:07:42 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from fout-a6-smtp.messagingengine.com (fout-a6-smtp.messagingengine.com [103.168.172.149])
+Received: from inva020.nxp.com (inva020.nxp.com [92.121.34.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6A8E188715;
-	Sun, 18 May 2025 22:03:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.149
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ED9126E16A;
+	Mon, 19 May 2025 09:07:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=92.121.34.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747605791; cv=none; b=UklshocIXmttEqM3+ziXuyIHumO4Wjzs0j0RLJKUewNOVOasKCzymumizVOgXkSO1c85nvCdsrijhm7eArt0P2dQKudQXHJ9lSVVFbi5Rt8ieBKtOLY84m5pjSfjOKLT5OvBlxVdF2yq2qANAOoEhtu5SptufxHPp4586GUFYH4=
+	t=1747645662; cv=none; b=Vbx0hbdmnd364nYspQq2/VzTDeuUqi513oAWN01dym5TKQkuLrXEePfFPjaD9igxz2jKQFupsO3tb6ZA68HLSWWUEjDaUW0nE01chr3bJSEorjjIatwNScZBJfXVe2Lr/uoswBgxwlYCvOiRV4OjX56EckloVMDj9EgGl5eic30=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747605791; c=relaxed/simple;
-	bh=UBCf64IpuYd9aU8GijeqvZEEJzOIENjWdqsdBgx5RuY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nbqxEH75lsU11ii1FeO3EicKhsMCAWklrxKDMWQPOioU52ZtDh8CJ4ggZ3dZIja2Q30+VL1qdyEAx0hJ2JWBj8DSmP2TjCL7QZfzLyqnrXP0TsgWFVjozEaMfrDjTMpmZaWSIpNbtW1Hy+OK9/zh7NtaKceRZVdWNg0b9D3fYxs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=yIZ+wuJr; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=gNtipnHv; arc=none smtp.client-ip=103.168.172.149
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
-Received: from phl-compute-12.internal (phl-compute-12.phl.internal [10.202.2.52])
-	by mailfout.phl.internal (Postfix) with ESMTP id AE6D31380224;
-	Sun, 18 May 2025 18:03:07 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-12.internal (MEProxy); Sun, 18 May 2025 18:03:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm2; t=1747605787; x=1747692187; bh=GmMWzloHA0
-	zc/lE1krpWtzRstHZoWgSml9UBorZTh8c=; b=yIZ+wuJr6gEkLp/NWc2QJkd2vu
-	WCqInJnPcESPCLR7mX2T4VEdLIhKiAPwFD2RQDVm+PmjBaynCbAHLNf0WvpFSKAz
-	pBT8k3FPpISVDktXvumD0KoxV9WwM1zbHIwkZufY6QhdNeuldTZ8/Jt7CVZqRzOT
-	Xo3f/2o4eCP7v1F/PVI9PUe2SKLsEL1Bfnf+GnPkJ+biZ/f+rwR0eg4XIz1QEuav
-	jkhvZw5r9Di7W+F4RKPVAgdWV6/46VaeXxM7TO94irz/QnYMj3hXowCnszpL7ZNk
-	g0O916tcYOXDE4I7g/AGugcyXnbahMKeektAuyX4ZWodAEyGEVXHzWrD2QKQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
-	1747605787; x=1747692187; bh=GmMWzloHA0zc/lE1krpWtzRstHZoWgSml9U
-	BorZTh8c=; b=gNtipnHvbAIUUdRVPaJUKPUqnmeN7J4c+JPcgfs1UMNKuILT/YR
-	3p3BSnpKxuzu3r51k8P9shS+fuKY3I/PJ0q6HOZeyEfv0UUMAwMf1SmspUsorEwK
-	8DYKmQrfqYopHcmAJUQwh0F8PXcNMuQbUh90tY+2xRjC+VSyXQ2YARMJqoFjDryD
-	zZ3t8WS16Si4FFrp8RGcTm3mbymvpIllNb3tvZm49UngWCqVYUNbEGZMX1Odb5bl
-	WzyQAC/KqQjbqMrLnlKKmaYDJQrqvuxsFEbiYjWEAw0xaydnWAKOnpjasjaM0kvb
-	+fd3jbHJZe974i/OcqT2h2mFVYn6J1Tn+YA==
-X-ME-Sender: <xms:G1kqaO4wn8jt6HF936II-4wYvh3bP3stfoa6uHY-9WROoT9lAHr7jA>
-    <xme:G1kqaH7FGzls-7wAHBIfjF9Hl6p6U6uqokiBhI5ZupDmG_33ceapY3X60-GZ2_WFt
-    TEDttAYkufp5npehPU>
-X-ME-Received: <xmr:G1kqaNeiyo_qV8rI66cUqyhfEVm1kdX7VUhn2oyey8BHNHstqu-dmB-TK4RHqY15ezqr3SvDv7jVzXQBnZtS5X-pecHa_M9-MCo>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdefudelieehucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
-    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
-    gvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggujgesthdtredttddt
-    jeenucfhrhhomheplfgrnhhnvgcuifhruhhnrghuuceojhesjhgrnhhnrghurdhnvghtqe
-    enucggtffrrghtthgvrhhnpefgvdffveelgedujeeffeehheekheelheefgfejffeftedu
-    geethfeuudefheefteenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrih
-    hlfhhrohhmpehjsehjrghnnhgruhdrnhgvthdpnhgspghrtghpthhtohepuddtpdhmohgu
-    vgepshhmthhpohhuthdprhgtphhtthhopeifpggrrhhmihhnsehgmhigrdguvgdprhgtph
-    htthhopehjihhkohhssehkvghrnhgvlhdrohhrghdprhgtphhtthhopegsvghnthhishhs
-    sehkvghrnhgvlhdrohhrghdprhgtphhtthhopehvihhshhhnuhhotghvsehgmhgrihhlrd
-    gtohhmpdhrtghpthhtoheprhgrfhgrvghlsehkvghrnhgvlhdrohhrghdprhgtphhtthho
-    pehlvghnsgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqrggtphhise
-    hvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqihhnphhuthes
-    vhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlh
-    esvhhgvghrrdhkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:G1kqaLLrqxyPL2EkRNpEuW-esuH63iFEn7-ualufTBuENn-merWQmQ>
-    <xmx:G1kqaCILUYsALkXa7UYrAmn7KCj-3olbDWUFC38rtJ3CMRMzGC7gtw>
-    <xmx:G1kqaMzlwGFtd4CKHfBcyNDToZBg6yl1Wo0WFUUBkmrZ1RijNVPuNg>
-    <xmx:G1kqaGKxRCBadk0cG6QbcYVBRDW1ujQ4jaQw8zmSk_KWuipPpND8Ew>
-    <xmx:G1kqaI6tfuIH9I-eQFLIDgBr061EbypE81sa5D8ZL-PhLqxn_UKm6mqM>
-Feedback-ID: i47b949f6:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 18 May 2025 18:03:06 -0400 (EDT)
-Date: Mon, 19 May 2025 00:03:05 +0200
-From: Janne Grunau <j@jannau.net>
-To: Armin Wolf <W_Armin@gmx.de>
-Cc: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>,
-	Vishnu Sankar <vishnuocv@gmail.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Len Brown <lenb@kernel.org>, linux-acpi@vger.kernel.org,
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] HID: lenovo: Unbreak USB/BT keyboards on non-ACPI
- platforms
-Message-ID: <20250518220305.GB2575813@robin.jannau.net>
-References: <20250512-hid_lenovo_unbreak_non_acpi-v1-1-e9e37ecbfbfe@jannau.net>
- <b77edae0-50bd-4039-9487-15bb69389c6c@gmx.de>
- <20250515230537.GA1556976@robin.jannau.net>
- <b3536162-44aa-40af-861e-07371497ef30@gmx.de>
- <20250518094353.GB1556976@robin.jannau.net>
- <79124489-0a2f-42ca-85ae-6f442e42e2d3@gmx.de>
+	s=arc-20240116; t=1747645662; c=relaxed/simple;
+	bh=11/1wu26fy3F+Wu9zvLz9z6WBxzZn2rsxyOQYMgPKkw=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=fpILk7QHx+cNDC8wbJPrrSJ8PRghsxypShOfqUAxTUL/So5Nyf5BLQb/HRnsHS5hROD9C0IKaB8hGIPfERzG8y/WqoB+Lu6e5/c4I8bguHFe7DAFjB//MQZbgznLKNHhAlx2Z+RNf1U6SmvBjMzz4LQOta4IKuqVy7d6X4gXV/s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; arc=none smtp.client-ip=92.121.34.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+Received: from inva020.nxp.com (localhost [127.0.0.1])
+	by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id 7D0B11A0692;
+	Mon, 19 May 2025 10:57:59 +0200 (CEST)
+Received: from aprdc01srsp001v.ap-rdc01.nxp.com (aprdc01srsp001v.ap-rdc01.nxp.com [165.114.16.16])
+	by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id 4492C1A069A;
+	Mon, 19 May 2025 10:57:59 +0200 (CEST)
+Received: from lsvm11u0000395.swis.ap-northeast-2.aws.nxp.com (lsvm11u0000395.swis.ap-northeast-2.aws.nxp.com [10.52.9.99])
+	by aprdc01srsp001v.ap-rdc01.nxp.com (Postfix) with ESMTP id 43F121800097;
+	Mon, 19 May 2025 16:57:58 +0800 (+08)
+From: Joseph Guo <qijian.guo@nxp.com>
+To: Bastien Nocera <hadess@hadess.net>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	linux-input@vger.kernel.org (open list:GOODIX TOUCHSCREEN),
+	linux-kernel@vger.kernel.org (open list)
+Cc: qijian.guo@nxp.com
+Subject: [PATCH] input: goodix: add poll mode for goodix touchscreen
+Date: Mon, 19 May 2025 17:57:43 +0900
+Message-Id: <20250519085744.3116042-1-qijian.guo@nxp.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <79124489-0a2f-42ca-85ae-6f442e42e2d3@gmx.de>
+Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: ClamAV using ClamSMTP
 
-Hej,
+goodix touchscreen only support interrupt mode by default.
+Some panels like waveshare panel which is widely used on raspeberry pi
+don't have interrupt pins and only work on i2c poll mode.
+The waveshare panel 7inch panel use goodix gt911 touchscreen chip.
 
-On Sun, May 18, 2025 at 07:46:12PM +0200, Armin Wolf wrote:
-> Am 18.05.25 um 11:43 schrieb Janne Grunau:
-> 
-> >>   
-> >>   static void __exit platform_profile_exit(void)
-> >>   {
-> >> -	sysfs_remove_group(acpi_kobj, &platform_profile_group);
-> >> +	if (acpi_kobj)
-> >> +		sysfs_remove_group(acpi_kobj, &platform_profile_group);
-> >> +
-> >>   	class_unregister(&platform_profile_class);
-> >>   }
-> >>   module_init(platform_profile_init);
-> > thanks, patch works on the affected system and the HID device for the
-> > Lenovo keyboard probes successfully. We still need to stub
-> > platform_profile_cycle() to get rid of the ACPI Kconfig dependency. I'll
-> > send that out separately.
-> >
-> > Reviewed-by: Janne Grunau <j@jannau.net>
-> > Tested-by: Janne Grunau <j@jannau.net>
-> >
-> Alright, i will send this patch to the ACPI mailing list ASAP. Please keep in mind
-> that merely stubbing out the affected functions is not enough, as the platform profile code
-> needs to be moved out of drivers/acpi/ as well.
+Update goodix touchscreen to support both interrupt and poll mode.
 
-Thanks. I will go with patch which #ifdefs the platform_profile_cycle()
-call out. It is only used for a special detachable tablet keyboard which
-is ACPI enabled device anyway. So it will be hid-lenovo local change.
+Signed-off-by: Joseph Guo <qijian.guo@nxp.com>
+---
+ drivers/input/touchscreen/goodix.c | 69 +++++++++++++++++++++++++++---
+ drivers/input/touchscreen/goodix.h |  4 ++
+ 2 files changed, 67 insertions(+), 6 deletions(-)
 
-Janne
+diff --git a/drivers/input/touchscreen/goodix.c b/drivers/input/touchscreen/goodix.c
+index aaf79ac50004..87991b56494d 100644
+--- a/drivers/input/touchscreen/goodix.c
++++ b/drivers/input/touchscreen/goodix.c
+@@ -47,6 +47,7 @@
+ #define RESOLUTION_LOC		1
+ #define MAX_CONTACTS_LOC	5
+ #define TRIGGER_LOC		6
++#define POLL_INTERVAL_MS		17	/* 17ms = 60fps */
+
+ /* Our special handling for GPIO accesses through ACPI is x86 specific */
+ #if defined CONFIG_X86 && defined CONFIG_ACPI
+@@ -497,6 +498,23 @@ static void goodix_process_events(struct goodix_ts_data *ts)
+ 	input_sync(ts->input_dev);
+ }
+
++static void goodix_ts_irq_poll_timer(struct timer_list *t)
++{
++	struct goodix_ts_data *ts = from_timer(ts, t, timer);
++
++	schedule_work(&ts->work_i2c_poll);
++	mod_timer(&ts->timer, jiffies + msecs_to_jiffies(POLL_INTERVAL_MS));
++}
++
++static void goodix_ts_work_i2c_poll(struct work_struct *work)
++{
++	struct goodix_ts_data *ts = container_of(work,
++			struct goodix_ts_data, work_i2c_poll);
++
++	goodix_process_events(ts);
++	goodix_i2c_write_u8(ts->client, GOODIX_READ_COOR_ADDR, 0);
++}
++
+ /**
+  * goodix_ts_irq_handler - The IRQ handler
+  *
+@@ -523,16 +541,50 @@ static irqreturn_t goodix_ts_irq_handler(int irq, void *dev_id)
+ 	return IRQ_HANDLED;
+ }
+
++static void goodix_enable_irq(struct goodix_ts_data *ts)
++{
++	if (ts->client->irq) {
++		enable_irq(ts->client->irq);
++	} else {
++		ts->timer.expires = jiffies + msecs_to_jiffies(POLL_INTERVAL_MS);
++		add_timer(&ts->timer);
++	}
++}
++
++static void goodix_disable_irq(struct goodix_ts_data *ts)
++{
++	if (ts->client->irq) {
++		disable_irq(ts->client->irq);
++	} else {
++		del_timer(&ts->timer);
++		cancel_work_sync(&ts->work_i2c_poll);
++	}
++}
++
+ static void goodix_free_irq(struct goodix_ts_data *ts)
+ {
+-	devm_free_irq(&ts->client->dev, ts->client->irq, ts);
++	if (ts->client->irq) {
++		devm_free_irq(&ts->client->dev, ts->client->irq, ts);
++	} else {
++		del_timer(&ts->timer);
++		cancel_work_sync(&ts->work_i2c_poll);
++	}
+ }
+
+ static int goodix_request_irq(struct goodix_ts_data *ts)
+ {
+-	return devm_request_threaded_irq(&ts->client->dev, ts->client->irq,
+-					 NULL, goodix_ts_irq_handler,
+-					 ts->irq_flags, ts->client->name, ts);
++	if (ts->client->irq) {
++		return devm_request_threaded_irq(&ts->client->dev, ts->client->irq,
++						 NULL, goodix_ts_irq_handler,
++						 ts->irq_flags, ts->client->name, ts);
++	} else {
++		INIT_WORK(&ts->work_i2c_poll,
++			  goodix_ts_work_i2c_poll);
++		timer_setup(&ts->timer, goodix_ts_irq_poll_timer, 0);
++		if (ts->irq_pin_access_method == IRQ_PIN_ACCESS_NONE)
++			goodix_enable_irq(ts);
++		return 0;
++	}
+ }
+
+ static int goodix_check_cfg_8(struct goodix_ts_data *ts, const u8 *cfg, int len)
+@@ -1420,6 +1472,11 @@ static void goodix_ts_remove(struct i2c_client *client)
+ {
+ 	struct goodix_ts_data *ts = i2c_get_clientdata(client);
+
++	if (!client->irq) {
++		del_timer(&ts->timer);
++		cancel_work_sync(&ts->work_i2c_poll);
++	}
++
+ 	if (ts->load_cfg_from_disk)
+ 		wait_for_completion(&ts->firmware_loading_complete);
+ }
+@@ -1435,7 +1492,7 @@ static int goodix_suspend(struct device *dev)
+
+ 	/* We need gpio pins to suspend/resume */
+ 	if (ts->irq_pin_access_method == IRQ_PIN_ACCESS_NONE) {
+-		disable_irq(client->irq);
++		goodix_disable_irq(ts);
+ 		return 0;
+ 	}
+
+@@ -1479,7 +1536,7 @@ static int goodix_resume(struct device *dev)
+ 	int error;
+
+ 	if (ts->irq_pin_access_method == IRQ_PIN_ACCESS_NONE) {
+-		enable_irq(client->irq);
++		goodix_enable_irq(ts);
+ 		return 0;
+ 	}
+
+diff --git a/drivers/input/touchscreen/goodix.h b/drivers/input/touchscreen/goodix.h
+index 87797cc88b32..132e49d66324 100644
+--- a/drivers/input/touchscreen/goodix.h
++++ b/drivers/input/touchscreen/goodix.h
+@@ -56,6 +56,7 @@
+ #define GOODIX_ID_MAX_LEN			4
+ #define GOODIX_CONFIG_MAX_LENGTH		240
+ #define GOODIX_MAX_KEYS				7
++#define GOODIX_NAME_MAX_LEN			38
+
+ enum goodix_irq_pin_access_method {
+ 	IRQ_PIN_ACCESS_NONE,
+@@ -91,6 +92,7 @@ struct goodix_ts_data {
+ 	enum gpiod_flags gpiod_rst_flags;
+ 	char id[GOODIX_ID_MAX_LEN + 1];
+ 	char cfg_name[64];
++	char name[GOODIX_NAME_MAX_LEN];
+ 	u16 version;
+ 	bool reset_controller_at_probe;
+ 	bool load_cfg_from_disk;
+@@ -104,6 +106,8 @@ struct goodix_ts_data {
+ 	u8 main_clk[GOODIX_MAIN_CLK_LEN];
+ 	int bak_ref_len;
+ 	u8 *bak_ref;
++	struct timer_list timer;
++	struct work_struct work_i2c_poll;
+ };
+
+ int goodix_i2c_read(struct i2c_client *client, u16 reg, u8 *buf, int len);
+--
+2.34.1
+
 
