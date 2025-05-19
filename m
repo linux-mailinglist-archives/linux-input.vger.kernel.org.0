@@ -1,139 +1,134 @@
-Return-Path: <linux-input+bounces-12442-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12443-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEA53ABBEF3
-	for <lists+linux-input@lfdr.de>; Mon, 19 May 2025 15:19:41 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id DAA14ABC416
+	for <lists+linux-input@lfdr.de>; Mon, 19 May 2025 18:15:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3F5D63A2ABB
-	for <lists+linux-input@lfdr.de>; Mon, 19 May 2025 13:19:21 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id EA3291B6517E
+	for <lists+linux-input@lfdr.de>; Mon, 19 May 2025 16:15:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D19FA279324;
-	Mon, 19 May 2025 13:19:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B53ED289344;
+	Mon, 19 May 2025 16:11:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YCAkhZj1"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dKRf2Wwl"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 041511A83E5;
-	Mon, 19 May 2025 13:19:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82F7528850B;
+	Mon, 19 May 2025 16:11:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747660775; cv=none; b=LLuzJmnxSOBVfW+hIe41KGRuFOrJ1VkvY3DCyQdgbRCNx6d4h++nv+JKsakpHBJyq5aF/k6WGc9CgXeERE+ZZRVdDTIk3/thrbsIsUVUZXUVCw7w5yrYvILSAP0EdNrcgUDthjnFcA04frDkMOp9lYRXZZtuae5V2Rqn2vEcgKU=
+	t=1747671079; cv=none; b=qcvpZUoclrDtwuxrxnP4Q/YNPEszs5c5m3dpBQgNnFnXCDJcWmi2PUhv3lNbNimjN+VaZTYHGVPkPmfITvD06r0mLA4U1Q29TfLIBK1tc5woyEksnhv+3GJz/PAnldnuXG2JcivgmwJiZupY2E36W2oyfiF/h3swh9S5AI8kFyo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747660775; c=relaxed/simple;
-	bh=lMgcrPUdSRcfHOD+aZWOG+tFela1rati+BKxiKrpcEI=;
+	s=arc-20240116; t=1747671079; c=relaxed/simple;
+	bh=/6hDOx38+FGxkUeFC3f5N5ACgq2V3ezpi96vcKcJdX4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Dt5ooNdrzISkz75CLdaY7+rcbPJq8C9ttY19caZc2nHYENacn6UbB2ZIy6ldVuEyHaTYv0Ov56aoTe+4bll0nbbJYo3Y+Bw/rbCkvOh/RhSwYLqx6hpL0JyIojPEMSFmBz08R3zNiWjmaEJ0jOZxpBe3uG9zGpUW8Jc7fSGkdmk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YCAkhZj1; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747660774; x=1779196774;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=lMgcrPUdSRcfHOD+aZWOG+tFela1rati+BKxiKrpcEI=;
-  b=YCAkhZj1CJFWs2jSENE/hzZnW2H3Ef59MYQzRZRTCiji4vMU8AQnAMoS
-   0oyRBdUkJMzMG57HtjHqvIHpPBpiOmDTIdVR6MDis2xeqTd8q8cPU4JDm
-   T72umeXodv9Xm5i0VtXrHv/RLByF+zOfRKUmtp1uklK+yU+RABiSsIZw/
-   B1q/5P4AsRBrtNlLiOg5N2Bblv2acQ3HuXXPYZ+G6MmTlGyUhLFS3KbWC
-   TzVn2qXYvmcx4OzaBJS0uiw/nsIyIQKz/SEdzQnkJZXHG4KiZwJd0YNr8
-   HWIXKiFj643yUpJCfpePUOFwWaicUuA2RxXXe4hEo9cPNZSwq1JWHl4ri
-   w==;
-X-CSE-ConnectionGUID: dLlMuemyRD+smsrY6kjznA==
-X-CSE-MsgGUID: vfxiiHzvTCSESJ9enfsoJw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11438"; a="60589711"
-X-IronPort-AV: E=Sophos;i="6.15,300,1739865600"; 
-   d="scan'208";a="60589711"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2025 06:19:33 -0700
-X-CSE-ConnectionGUID: kCEb/0Q5SOuF/fe049fuKQ==
-X-CSE-MsgGUID: oI6uzQMCSvKzD70cbw+yRw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,300,1739865600"; 
-   d="scan'208";a="139885490"
-Received: from smile.fi.intel.com ([10.237.72.52])
-  by orviesa007.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2025 06:19:29 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
-	(envelope-from <andriy.shevchenko@intel.com>)
-	id 1uH0Or-0000000331J-0uhR;
-	Mon, 19 May 2025 16:19:25 +0300
-Date: Mon, 19 May 2025 16:19:24 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Kamel Bouhara <kamel.bouhara@bootlin.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
-	Michael Walle <mwalle@kernel.org>, Mark Brown <broonie@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
-	linux-input@vger.kernel.org, linux-pwm@vger.kernel.org,
-	=?iso-8859-1?Q?Gr=E9gory?= Clement <gregory.clement@bootlin.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Subject: Re: [PATCH v8 08/11] gpio: max7360: Add MAX7360 gpio support
-Message-ID: <aCsv3Me2J8cotW6s@smile.fi.intel.com>
-References: <20250509-mdb-max7360-support-v8-0-bbe486f6bcb7@bootlin.com>
- <20250509-mdb-max7360-support-v8-8-bbe486f6bcb7@bootlin.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=PAaoRo4OzZWEjmKmu1rWZa+vi3iyVT7fpopox6LxYzvvwh8gdFl+30iSAueo+Ca1k/6IuNg0N4vG4oCYZaotXaNTLYtWnb0o9EFHh/hCf/rKFQV6eYzWcFPQ63W9LOHmLYVaOCERUroj9C9863yng1sU+odTbLmhubyu+kmJTsk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dKRf2Wwl; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68156C4CEE4;
+	Mon, 19 May 2025 16:11:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1747671079;
+	bh=/6hDOx38+FGxkUeFC3f5N5ACgq2V3ezpi96vcKcJdX4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=dKRf2Wwl7bpcp9pVcyY5ZheNAeNSzdDIRtptozowjy+s8+zFLqb5u2tFlKZTEQHeR
+	 WOF73Bb8GqMhrYCSdXNNzVeSHfRyAriWlUyrypJpvk+u7UhuUlfJIUHvCINmBW0ODC
+	 ZbhpnOTEdCbiLT6srgMlyCOhzVkjpiP7WWAH/8OlyKlA4Df59LOvKtofSBvpf5Fq70
+	 4MxvSsUb6zaxyCzFa+xEL9BlJrcM9ZDaENTIaQPhxnqVyBSeMVYS46DZfUsnwR2A4Z
+	 oECy0nh9e19/kcb8eaMrGnU63Ns2kEghWv52qGAJggpoxdxpf99kj72BzR6p5tDZ0D
+	 KTKSN+b9qHUeQ==
+Date: Mon, 19 May 2025 18:11:16 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
+To: nuno.sa@analog.com
+Cc: linux-gpio@vger.kernel.org, linux-pwm@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-input@vger.kernel.org, Lee Jones <lee@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Linus Walleij <linus.walleij@linaro.org>, 
+	Bartosz Golaszewski <brgl@bgdev.pl>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Liu Ying <victor.liu@nxp.com>
+Subject: Re: [PATCH v3 22/22] pwm: adp5585: make sure to include
+ mod_devicetable.h
+Message-ID: <gfrckmiyfo3rnvhnryptcwtwlu37aaga22onpra2yteelwl3zq@b6zaszmd4axp>
+References: <20250512-dev-adp5589-fw-v3-0-092b14b79a88@analog.com>
+ <20250512-dev-adp5589-fw-v3-22-092b14b79a88@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="m6hy34zawwyv3ya4"
 Content-Disposition: inline
-In-Reply-To: <20250509-mdb-max7360-support-v8-8-bbe486f6bcb7@bootlin.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-
-On Fri, May 09, 2025 at 11:14:42AM +0200, Mathieu Dubois-Briand wrote:
-> Add driver for Maxim Integrated MAX7360 GPIO/GPO controller.
-> 
-> Two sets of GPIOs are provided by the device:
-> - Up to 8 GPIOs, shared with the PWM and rotary encoder functionalities.
->   These GPIOs also provide interrupts on input changes.
-> - Up to 6 GPOs, on unused keypad columns pins.
-
-...
-
-> +	for (unsigned int i = 0; i < MAX7360_MAX_GPIO; ++i) {
-
-Is there any special reaso to use pre-increment?
-
-> +		ret = regmap_assign_bits(regmap, MAX7360_REG_PWMCFG(i),
-> +					 MAX7360_PORT_CFG_INTERRUPT_MASK, mask_buf & BIT(i));
-> +		if (ret)
-> +			return ret;
-> +	}
-
-...
-
-> +			for (unsigned int i = 0; i < MAX7360_MAX_GPIO; i++) {
-
-Here, for instance, post-increment works good.
-
-> +				ret = regmap_write_bits(regmap, MAX7360_REG_PWMCFG(i),
-> +							MAX7360_PORT_CFG_INTERRUPT_EDGES,
-> +							MAX7360_PORT_CFG_INTERRUPT_EDGES);
-> +				if (ret)
-> +					return dev_err_probe(dev, ret,
-> +							     "Failed to enable interrupts\n");
-> +			}
-
--- 
-With Best Regards,
-Andy Shevchenko
+In-Reply-To: <20250512-dev-adp5589-fw-v3-22-092b14b79a88@analog.com>
 
 
+--m6hy34zawwyv3ya4
+Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v3 22/22] pwm: adp5585: make sure to include
+ mod_devicetable.h
+MIME-Version: 1.0
+
+Hello Nuno,
+
+On Mon, May 12, 2025 at 01:39:14PM +0100, Nuno S=E1 via B4 Relay wrote:
+> From: Nuno S=E1 <nuno.sa@analog.com>
+>=20
+> Explicitly include mod_devicetable.h for struct platform_device_id.
+>=20
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Signed-off-by: Nuno S=E1 <nuno.sa@analog.com>
+> ---
+>  drivers/pwm/pwm-adp5585.c | 1 +
+>  1 file changed, 1 insertion(+)
+>=20
+> diff --git a/drivers/pwm/pwm-adp5585.c b/drivers/pwm/pwm-adp5585.c
+> index f26054c19c2e154d05780af09aee1b2431eba2eb..93d0294d048abfe1a00916102=
+5e658b58b669cd9 100644
+> --- a/drivers/pwm/pwm-adp5585.c
+> +++ b/drivers/pwm/pwm-adp5585.c
+> @@ -20,6 +20,7 @@
+>  #include <linux/mfd/adp5585.h>
+>  #include <linux/minmax.h>
+>  #include <linux/module.h>
+> +#include <linux/mod_devicetable.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/pwm.h>
+>  #include <linux/regmap.h>
+
+This looks relevant for the current state of the driver in mainline and
+doesn't depend on other patches in the series.
+
+I applied it to
+
+	https://git.kernel.org/pub/scm/linux/kernel/git/ukleinek/linux.git pwm/for=
+-next
+
+and so it should be included in the next next.
+
+Thanks
+Uwe
+
+--m6hy34zawwyv3ya4
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmgrWB4ACgkQj4D7WH0S
+/k5yNwf8C6QiKMsJxp9zTuniJkcjoLSZ5Jytz5aCeTjzcZH29Rh1ua/z561fshlh
+b6whXP/++JBcqFvNSlUF0zW0DqOWMV1wDeHg3O97Queo/Wa4wIx9bT4/Uf1p6mxV
+1Zp58mtsY92M+HDlpbLNYum8FPo5KPQpqOqod9xpWXjnElKWNr4oHNQPNKFkQ04p
+5hL+KhsiQ+nPvdu6FMSoyNkNzAnaINVzgMbNmLGuI/cG0WEYakqDTt7TUEH6ROgG
+BIyvs2vP1NbVEE55zhHO09SxJOYBwL/wwUnMsQCpKwsM2BNooCoei5DEz+9ihhuY
+TNOdbbO0I7TWYM9WIoplCswocI5ltA==
+=Qp+H
+-----END PGP SIGNATURE-----
+
+--m6hy34zawwyv3ya4--
 
