@@ -1,79 +1,80 @@
-Return-Path: <linux-input+bounces-12477-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12478-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26E13ABDAA9
-	for <lists+linux-input@lfdr.de>; Tue, 20 May 2025 16:00:11 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D7B2ABDB4A
+	for <lists+linux-input@lfdr.de>; Tue, 20 May 2025 16:08:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0940F8A56E4
-	for <lists+linux-input@lfdr.de>; Tue, 20 May 2025 13:58:27 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A50EF4C62E2
+	for <lists+linux-input@lfdr.de>; Tue, 20 May 2025 14:03:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EC52122D7A8;
-	Tue, 20 May 2025 13:58:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7730DEEDE;
+	Tue, 20 May 2025 14:03:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="jN9w1AZ3"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="XzLZvvLZ"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9132B2441A7
-	for <linux-input@vger.kernel.org>; Tue, 20 May 2025 13:58:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 669DE24418D
+	for <linux-input@vger.kernel.org>; Tue, 20 May 2025 14:03:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747749518; cv=none; b=j+Y4UNAXBRfI2yjPkvY6xeNy5yo+7WOuNgrvfAooI/JbQlu5kf5Yz1DMp2eZ8EFM13fnOSmyF/Cn5xV5sFaNeT8osHq89OXMnGC+I++PfJJHLd9NCiz7uYwgTQe7PyzQM+rVItZoQ0AtQ7/1s9GMirAG9t6KuOgpoy3ceOj2b/Y=
+	t=1747749818; cv=none; b=Yal9RZi+Rb9SdsufYRHTWCSze88S0iUHhmTLpliXL6iXqGcyGsWZ2Ii5NLcUWJ98R1w/wkGRYUQmWIoDs596fy2zrSl05Nuuoarg8q6UuPq5gh5WvIYhHybW+b+iquqGd6+O12iH1CBi1M8Xvt5vHAul7YJiXaOVVxfHIQlkqkU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747749518; c=relaxed/simple;
-	bh=NnukccuNbS5X1xDhafgKruy1+YshAwmzmyIH9vTRM7Y=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CGw4sCZXU0VoXBzpD31uD2Iy/gs8wBxKUAVsEtge0N8MjL7UEVaXPTvYasytB/8GsahYP7PAtdv5DlfRPMjm5x7//1tc8QgN+5q4XfOm9VKamlwa69/pfCUnRuLDnjJvL1REOlPxkusaxI1GQEPlvyL8MkvMUndbOmMMKKfmXDc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=jN9w1AZ3; arc=none smtp.client-ip=209.85.128.54
+	s=arc-20240116; t=1747749818; c=relaxed/simple;
+	bh=nRb+Vr/wcgiZfk/iXOgvkRVbsGELVSSoF9d0PzdRYMQ=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=p6x64q39Jc2tYXU9HeCtWHzqYvUZyG4SAAQBLLrFVCC6XTgYWqpeAr3Al8ZPLNE8XJO7qbsqWfDftQHIgKhiAOO3h+HcBcKJ5LQ6kPyRtylqhRbk2OKJISeoLj5DbiNrGW+OpoXoOR+nLzmdfzcB85rQgyBRW6ge/ayr4AuOFig=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=XzLZvvLZ; arc=none smtp.client-ip=209.85.128.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-43f106a3591so5258835e9.3
-        for <linux-input@vger.kernel.org>; Tue, 20 May 2025 06:58:36 -0700 (PDT)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-44069f5f3aaso2875585e9.2
+        for <linux-input@vger.kernel.org>; Tue, 20 May 2025 07:03:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1747749515; x=1748354315; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1747749815; x=1748354615; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
+         :references:cc:to:from:subject:user-agent:mime-version:date
          :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=+K86XwHvg9VZZ+Fs5HirVH8AO4GySUx8ZDk1UaTJf7Y=;
-        b=jN9w1AZ3OimFOeYkY/Dk03adJVLhuT9T6ldKfUWCfacHnvtdmPf51ofsJ2AGjn2nzO
-         4nrH5i/LQQFUpalr+iujJjwbsjWKm/k/JnsA4H2UR7ynM7OZ2yaJDQV/kbe9Mbj122C5
-         Fu2DLgi7ZBnzBnDH+etMPYMTwP9xuRtVlIgBiWdyIgwbexPXdd4ekpvdFXB1bbRyz6y2
-         Ts/NYyam4WwIlrtCDpswsW1FHHNEm72rLhLTq327hokd7cbmMIAUZfJxkWpm4C/fGLk2
-         p+qDt3UR/I+gvtlWGwJYzts7Mbooqpd0dtPlAj07y0en71Xsahj4iDsiUNBgqN+LXjGs
-         gGtQ==
+        bh=jDNQp/7VheuD5deGaPQPPQYiQLemybXe7my0qiNnMa0=;
+        b=XzLZvvLZ844n8Pg8Xj2GVQf5va4fvUQjk1zKOSIZzxyyph2RLCvdxmQHVk0ro3NrpZ
+         a81cfSEZI4hDDKc0x15VWAl9HM7ElKcGTa3DtkXHmgZ23VBAA2ZpWQJ8kissS2HjC+gV
+         fyQfV8s8bARa6JE68+RWmfAEjAe819SedsHQItRKuhhHaJ4MdWAKBKMw8vWmSyEH1uEx
+         S5L93hoBm14ZidS9TqbMleFrayf5nvf6x0iY7wMocgNIbZJiFKJFqwGohr5fbKs7DYmc
+         T8jlcjhWKu7pK01vRyxQ8JJOUcCok5tNeE8xiI7bte2ISgG+Ws6QHmlC0FXmSfIrX2l9
+         yOyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747749515; x=1748354315;
+        d=1e100.net; s=20230601; t=1747749815; x=1748354615;
         h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
+         :references:cc:to:from:subject:user-agent:mime-version:date
          :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=+K86XwHvg9VZZ+Fs5HirVH8AO4GySUx8ZDk1UaTJf7Y=;
-        b=ZIy01mbrz8a3kF1Eq229zRt0McR3F3UCdOB9aOQSTveCf3z+BUSajSumycz6q00RVf
-         T5lVeL+2PE1eRD2Nr2tzYXPN/VLh+QlBgExf6jeRE8HxLO7z85qcbzuqxCO5BA51fuFH
-         pATBEz07w/8G1DOuLV8R+8Dzds7WC2FUuGREwmKV1aSret/xjfFxL9+bqU733VYnYI/B
-         WFkoBzSTnHjaM9gMSPgrpm9hj3ZrjR/XfiVkZYfk8TKsko2tiLm15nsx1ScqS1kdkIbF
-         uNjkKoQT++OgPJdIpt3yX39gEnsH+Zieb9LMcpCSMAfDRq2ZI9bkH5nglXQtkCsWY81c
-         apZg==
-X-Gm-Message-State: AOJu0YxljftTyuiir88/F3GXOtpIUrVR4vmOM60qQqjux7LUd9CBqHkV
-	Xen/A3/uTPyZD7aHesM4b+FQjsvlQ5wF2HBzHE7qVBefT3NPwGTWAgaYqKKwucY1uOg=
-X-Gm-Gg: ASbGncuwO8ANEksNmv6Fb35hh16l9GJ+hPexsHugFrK8jq8K4mstkM25Z7rEtlVqQTr
-	bgm67vLohNPXkGABREaKtYr1ZVl8Lb/w1kvLuKwKc+bbsOZqRwettaWv1AalMojMiNx2fXBOsHq
-	oK1aTaRbTQWZvs+wyldsdoGC4IY3mFe/BhNLOP2ZguU/PPJ2BxJesQHX3QvvBa+oEqVQ3G+sH57
-	fqY3TG0433pbUhvFC18X1cLkcwEnQ60y3rUgZ+IwRZvkPlKzSfHCkIemDLLbe93Nzw9WS3RFwxT
-	X/NpoKOl0iz3woADUlEuRRXae31F9aomd1MxT4gEOA2JFFuxMFf0rIP9C5mLspBxNIDw3xg=
-X-Google-Smtp-Source: AGHT+IFJ5J6hWR953m5KN8wKjr3JacUGt9KK2cKvLbB49FapBrquzSCMTjTLATE+eQ43Msju681x6Q==
-X-Received: by 2002:a05:600c:1c12:b0:439:9c0e:36e6 with SMTP id 5b1f17b1804b1-442fd62fa44mr53569025e9.3.1747749514660;
-        Tue, 20 May 2025 06:58:34 -0700 (PDT)
+        bh=jDNQp/7VheuD5deGaPQPPQYiQLemybXe7my0qiNnMa0=;
+        b=KjbSRfC8e2lYRFC3r+L4AKwVkI+cf1If90lgHwhsvjX6AHwgrkeCOOCkIJTGm80rz+
+         5ysIhKh/En98FeyGWX22q+C57taVLlLoYKx6NmZJwVOAEcWGpw7fn0kDVQvJ4c2NdFCt
+         fOTZuvmZhf2Prslgb83WYlYJCybv6V6pp+sEG/EMk1pcuu0eXnPQdhIdKLX3KjNzi2vx
+         QXDTT/6EFqiVL6LMvCnqiYUslL5XOnWLAaXhOCpDqYlQRKl0Q4HTGhk2yJAoXWyHZDrN
+         ik6jP0qi6aTAuoEFg08rkuMFOk3Mnhg1xrBuW66bobBawn84MhDTQLnGc4BULv69lPyQ
+         FxCw==
+X-Gm-Message-State: AOJu0YwZgr1B5+OZxrkDAINdJqe6n1UxmBmci7YWvKEtfxrO0LS8HhqQ
+	zsSY6bfLl7xaBUXPnmvqy7XHoUrynML5b38y5y9O7t1lbmjEBchaVry4ZdRUlbMHZXFbUtK9dDP
+	IvIKG
+X-Gm-Gg: ASbGnctvSNnxc+xV/p4tjMsOfYzAxDADnDtqxMg+Pw6mwWfqgJxzS5V7gGMffCRVOjd
+	DBTGP2gon+9ASssIwgyahd6MzIjljtkOla2es8FP+txwWHiX6MAP9PurS4MCSK33/SGs9aFQ/mi
+	NO/gnkZH9obUSD3E6crqXyPGkzoeYG2v+BIYt0c6UwthIJr0d1rGPlRozCygFHh+VXWvBtCDIEy
+	NjjvnDpvgl75a7Uv5p9DIOfb4Z2GkCYz7Otw1mF2ZzjX0g3X28UE4RPhKFqjtAQGmSwo2s4i2Qr
+	+AU3NVcyq7OMRXCymmhcPVf21RD/A3a/t2QNwwy9cLAFIGdwafqLxGzD0p+mZc3XChF46Fc=
+X-Google-Smtp-Source: AGHT+IG6QVFq9uUri2Chmp7X28lUxaYdZejNMUQnnVVFc1D8+adPy5vsEt9XkBfaASB6y/+OBvcq+w==
+X-Received: by 2002:a05:600c:5305:b0:43b:c0fa:f9c4 with SMTP id 5b1f17b1804b1-442fda14a10mr57191185e9.4.1747749814279;
+        Tue, 20 May 2025 07:03:34 -0700 (PDT)
 Received: from [192.168.1.29] ([178.197.223.125])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-447f73d3edcsm32950815e9.20.2025.05.20.06.58.33
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-447f1ef0ac6sm33303155e9.15.2025.05.20.07.03.32
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 20 May 2025 06:58:34 -0700 (PDT)
-Message-ID: <b6d066ea-e47d-4495-bd0b-17ba184275a1@linaro.org>
-Date: Tue, 20 May 2025 15:58:32 +0200
+        Tue, 20 May 2025 07:03:33 -0700 (PDT)
+Message-ID: <02ec76f4-5072-4247-b64b-289c9da7ec5f@linaro.org>
+Date: Tue, 20 May 2025 16:03:32 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -82,6 +83,7 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 1/2] dt-bindings: input: add Semtech SX951x binding
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To: David Bauer <mail@david-bauer.net>,
  Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring
  <robh+dt@kernel.org>, Krzysztof Kozlowski
@@ -91,7 +93,7 @@ Cc: linux-input@vger.kernel.org, devicetree@vger.kernel.org,
 References: <20250505203847.86714-1-mail@david-bauer.net>
  <cbf42385-9803-4bea-bf99-a6f31f1454f6@linaro.org>
  <8c9e5e74-966b-4969-9776-7655863fd197@david-bauer.net>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+ <b6d066ea-e47d-4495-bd0b-17ba184275a1@linaro.org>
 Content-Language: en-US
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -137,207 +139,66 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  h0At/TN/618e/QVlZPbMeNSp3S3ieMP9Q6y4gw5CfgiDRJ2K9g99m6Rvlx1qwom6QbU06ltb
  vJE2K9oKd9nPp1NrBfBdEhX8oOwdCLJXEq83vdtOEqE42RxfYta4P3by0BHpcwzYbmi/Et7T
  2+47PN9NZAOyb771QoVr8A==
-In-Reply-To: <8c9e5e74-966b-4969-9776-7655863fd197@david-bauer.net>
+In-Reply-To: <b6d066ea-e47d-4495-bd0b-17ba184275a1@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 06/05/2025 12:05, David Bauer wrote:
-> Hi Krzysztof,
-> 
-> thanks for the review.
-> 
-> On 5/6/25 08:21, Krzysztof Kozlowski wrote:
->> On 05/05/2025 22:38, David Bauer wrote:
->>> Add device-tree binding for the Semtech SX9512/SX9513 family of touch
->>> controllers with integrated LED driver.
+On 20/05/2025 15:58, Krzysztof Kozlowski wrote:
+> On 06/05/2025 12:05, David Bauer wrote:
+>> Hi Krzysztof,
+>>
+>> thanks for the review.
+>>
+>> On 5/6/25 08:21, Krzysztof Kozlowski wrote:
+>>> On 05/05/2025 22:38, David Bauer wrote:
+>>>> Add device-tree binding for the Semtech SX9512/SX9513 family of touch
+>>>> controllers with integrated LED driver.
+>>>>
+>>>> Signed-off-by: David Bauer <mail@david-bauer.net>
 >>>
->>> Signed-off-by: David Bauer <mail@david-bauer.net>
+>>> You CC-ed an address, which suggests you do not work on mainline kernel
+>>> or you do not use get_maintainers.pl/b4/patman. Please rebase and always
+>>> work on mainline or start using mentioned tools, so correct addresses
+>>> will be used.
+>> I'm a bit unsure what you are referring to - maybe I've set the options
+>> for get_maintainer.pl wrong, but i use
 >>
->> You CC-ed an address, which suggests you do not work on mainline kernel
->> or you do not use get_maintainers.pl/b4/patman. Please rebase and always
->> work on mainline or start using mentioned tools, so correct addresses
->> will be used.
-> I'm a bit unsure what you are referring to - maybe I've set the options
-> for get_maintainer.pl wrong, but i use
+>> get_maintainer.pl --nogit --nogit-fallback --norolestats --nol
+>>
+>> to determine TO recipients and
+>>
+>> get_maintainer.pl --nogit --nogit-fallback --norolestats --nom
+>>
+>> for CC destinations.
+>>
+>> Granted, my tree was a bit out of date but it was from mainline
 > 
-> get_maintainer.pl --nogit --nogit-fallback --norolestats --nol
+> Mainline means latest RC or maintainer tree or linux next. v5.0 is not
+> mainline anymoer.
 > 
-> to determine TO recipients and
+>> and after rebase both commands returned consistent results.
+>>
+>> Hope you can provide me with some guidance there.
 > 
-> get_maintainer.pl --nogit --nogit-fallback --norolestats --nom
+> Well, read full reply. It is impossible to get such email address from
+> above commands. Such email address does not exist since long time and it
+> easy to prove - just git grep for it. No results, so how could it be
+> printed by get_maintainers.pl?
 > 
-> for CC destinations.
+> If you disagree then please paste full output of:
 > 
-> Granted, my tree was a bit out of date but it was from mainline
+> $ git describe
+> $ git status
+> $ scripts/get_maintainer.pl 0*
+> 
+> I provided you extensive guideline exactly to avoid further trivial
+> discussions about that triviality, so I would really appreciate if you
+> followed it.
 
-Mainline means latest RC or maintainer tree or linux next. v5.0 is not
-mainline anymoer.
-
-> and after rebase both commands returned consistent results.
-> 
-> Hope you can provide me with some guidance there.
-
-Well, read full reply. It is impossible to get such email address from
-above commands. Such email address does not exist since long time and it
-easy to prove - just git grep for it. No results, so how could it be
-printed by get_maintainers.pl?
-
-If you disagree then please paste full output of:
-
-$ git describe
-$ git status
-$ scripts/get_maintainer.pl 0*
-
-I provided you extensive guideline exactly to avoid further trivial
-discussions about that triviality, so I would really appreciate if you
-followed it.
-
-> 
->>
->> Please use scripts/get_maintainers.pl to get a list of necessary people
->> and lists to CC (and consider --no-git-fallback argument, so you will
->> not CC people just because they made one commit years ago). It might
->> happen, that command when run on an older kernel, gives you outdated
->> entries. Therefore please be sure you base your patches on recent Linux
->> kernel.
->>
->> Tools like b4 or scripts/get_maintainer.pl provide you proper list of
->> people, so fix your workflow. Tools might also fail if you work on some
->> ancient tree (don't, instead use mainline) or work on fork of kernel
->> (don't, instead use mainline). Just use b4 and everything should be
->> fine, although remember about `b4 prep --auto-to-cc` if you added new
->> patches to the patchset.
->>
->>
->>> ---
->>>   .../bindings/input/semtech,sx951x.yaml        | 180 ++++++++++++++++++
->>>   1 file changed, 180 insertions(+)
->>>   create mode 100644 Documentation/devicetree/bindings/input/semtech,sx951x.yaml
->>>
->>> diff --git a/Documentation/devicetree/bindings/input/semtech,sx951x.yaml b/Documentation/devicetree/bindings/input/semtech,sx951x.yaml
->>> new file mode 100644
->>> index 000000000000..e4f938decd86
->>> --- /dev/null
->>> +++ b/Documentation/devicetree/bindings/input/semtech,sx951x.yaml
->>> @@ -0,0 +1,180 @@
->>> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
->>> +%YAML 1.2
->>> +---
->>> +$id: http://devicetree.org/schemas/input/semtech,sx951x.yaml#
->>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->>> +
->>> +title: Semtech SX9512/SX9513 based capacitive touch sensors
->>> +
->>> +description: |
->>
->> Do not need '|' unless you need to preserve formatting.
->>
->>> +  The Semtech SX9512/SX9513 Family of capacitive touch controllers
->>> +  with integrated LED drivers. The device communication is using I2C only.
->>> +
->>> +maintainers:
->>> +  - David Bauer <mail@david-bauer.net>
->>> +
->>> +properties:
->>> +  compatible:
->>> +    enum:
->>> +      - semtech,sx9512
->>> +      - semtech,sx9513
->>
->> Devices are not compatible? What are the differences?
-> 
-> The SX9513 is a cost-reduced version which does not
-> support proximity sensing. With the current support
-> of the driver they work identical. Should i add this
-> information as a comment?
-
-So they are compatible and this should be expressed via fallback.
-
-
-> 
->>
->>> +
->>> +  reg:
->>> +    maxItems: 1
->>> +
->>> +  '#address-cells':
->>> +    const: 1
->>> +
->>> +  '#size-cells':
->>> +    const: 0
->>> +
->>> +  poll-interval:
->>> +    default: 100
->>> +    description: |
->>
->> Do not need '|' unless you need to preserve formatting. Same comment
->> everywhere.
->>
->>> +      The polling interval for touch events in milliseconds.
->>
->> Missing -ms property unit suffix... unless you are using existing
->> property from common schema, but I do not see any reference (and thus
->> unevaluatedProperties at the end).
->>
->>> +
->>> +patternProperties:
->>> +  "^channel@[0-7]$":
->>> +    $ref: input.yaml#
->>> +    type: object
->>> +    description: |
->>> +      Each node represents a channel of the touch controller.
->>> +      Each channel provides a capacitive touch sensor input and
->>> +      an LED driver output.
->>> +
->>> +    properties:
->>> +      reg:
->>> +        enum: [0, 1, 2, 3, 4, 5, 6, 7]
->>> +
->>> +      linux,keycodes:
->>> +        maxItems: 1
->>> +        description: |
->>> +          Specifies an array of numeric keycode values to
->>> +          be used for the channels. If this property is
->>> +          omitted, the channel is not used as a key.
->>> +
->>> +      semtech,cin-delta:
->>
->> Use proper unit suffix and express it in pF.
-> 
-> To represent 2.3 and 3.8 pF, would it be better to represent in
-> femtofarad?
-> 
->>
->>> +        $ref: /schemas/types.yaml#/definitions/uint32
->>> +        minimum: 0
->>> +        maximum: 3
->>> +        default: 3
->>> +        description: |
->>> +          The capacitance delta which is used to detect a touch
->>> +          or release event. The property value is mapped to a
->>> +          farad range between 7pF and 2.3pF internally. The delta
->>> +          becomes smaller the higher the value is.
->>> +
->>> +      semtech,sense-threshold:
->>> +        $ref: /schemas/types.yaml#/definitions/uint32
->>> +        minimum: 0
->>> +        maximum: 255
->>> +        default: 4
->>> +        description: |
->>> +          The threshold value after which the channel detects a touch.
->>> +          Refer to the datasheet for the internal calculation of the
->>> +          resulting touch sensitivity.
->>> +
->>> +      led:
->>
->> I think subnode is here not needed. This should be part of the channel,
->> probably.
-> 
-> Just to be sure - you mean to have a property "led" upon which instructs
-> the channel to be used to drive an LED and include the LED specific
-> properties in the node of the channel?
-No, I do not mean a property led. I mean that child node should be
-folded into parent.
+Huh, I noticed I responded after two weeks so pretty late... Huh,
+exactly because of the reason why I asked to use up2date addresses - the
+mailbox used in this patchset is not being used/checked/accessed since
+long time and kernel since long time has correct address.
 
 Best regards,
 Krzysztof
