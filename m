@@ -1,141 +1,117 @@
-Return-Path: <linux-input+bounces-12512-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12513-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1D19ABF54A
-	for <lists+linux-input@lfdr.de>; Wed, 21 May 2025 15:04:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DA1CABFB00
+	for <lists+linux-input@lfdr.de>; Wed, 21 May 2025 18:17:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E7B491BC3505
-	for <lists+linux-input@lfdr.de>; Wed, 21 May 2025 13:04:23 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1A6271882EE5
+	for <lists+linux-input@lfdr.de>; Wed, 21 May 2025 16:17:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EE2F827C17F;
-	Wed, 21 May 2025 13:03:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D051F22B5B6;
+	Wed, 21 May 2025 16:16:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fHj4L4Xr"
+	dkim=pass (2048-bit key) header.d=savoirfairelinux.com header.i=@savoirfairelinux.com header.b="oDFVypqv"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.savoirfairelinux.com (mail.savoirfairelinux.com [208.88.110.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 735A0274FC4;
-	Wed, 21 May 2025 13:03:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAF7019D06B;
+	Wed, 21 May 2025 16:16:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=208.88.110.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747832589; cv=none; b=FGa3zn7SfuxgRbEuy2jREUQZJtHYXQTliRCgCTJAcIZVj1QblMRtXt/UA0Ra3Q0cvZOH76CWz3fOMLpmgBweTkn3dyNQpfIY7yvoRmWGOA+cL5G/eO+pN2PKswDA+UfxfbyiO+K+C6leQE5RHnlVGJ1Ickj8EzzG6FC2SMxT5TU=
+	t=1747844212; cv=none; b=CUVAeEYDwN85KNIpGStBjzoadPjWrGtp63m0FaN7I1k4MZSNfpbg7PDY2e1mfS6X8KcIM05yA/2ZuIMe1Ro/c3AYLAIqvWQqoT4mhXUeanJRPbNys7RmllE15qdLwnfOmgDOeDhrvQtb8X7uyfDLbX76kANjELhFYm1mHpUXRmE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747832589; c=relaxed/simple;
-	bh=WyPLnEXhfwySw2iAcKwtYQ66R/7RyIN9OzOf04gSfBI=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=eUAHX6wk+RCUGfK6RcvBny6joH65vrkZrL3+5ITyq5KU4clGdQO2tUqoTufwWCR9dqe4vh5wSoJ11m364yyeHCdbKI2fwfghT/pKmSK/kPgah/saJ7d0dWNLg/6We1fncR++FDxriOUFgsd+7m3J5T3U5otapt3WBigdHgY+A7g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fHj4L4Xr; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 53FACC4AF09;
-	Wed, 21 May 2025 13:03:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747832589;
-	bh=WyPLnEXhfwySw2iAcKwtYQ66R/7RyIN9OzOf04gSfBI=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=fHj4L4XruTxkntKZF88lbdx4NNePuNPcFEyezGzJTqUZxB04TV3xHVWt7qnVLytaw
-	 t8bepzDo68ZWcBlbiqJVfxOKUV8vftJ9rEGSpd9FoATp6ccIFAr0jGnnK6lh1GNh+a
-	 RDXliaHijHZtrL2mDX0x+YQaQk86tTq1Z59ms3GAjNNmuQ1sadBuu8Td0xQ1BYSdmI
-	 LAx0Qpcc9L/e3/kiWVxAFURIe0sEUj1KUCgj2/ni7xFMf+tFoC+tAmyTJr9M9K4KsQ
-	 yfkPvXZfy9tPBQi9OuyvtXHMbSKhcrHa8BBBodT/gdB9uUfn6zIBeNLNlZXja3tHkE
-	 k219ng8mPa9jA==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E5B2C54ED1;
-	Wed, 21 May 2025 13:03:09 +0000 (UTC)
-From: =?utf-8?q?Nuno_S=C3=A1_via_B4_Relay?= <devnull+nuno.sa.analog.com@kernel.org>
-Date: Wed, 21 May 2025 14:03:10 +0100
-Subject: [PATCH v4 20/20] mfd: adp5585: add support for a reset pin
+	s=arc-20240116; t=1747844212; c=relaxed/simple;
+	bh=1Hb/fV8vynL/WHoPFJUB7JwW6gI+j7HC1dneNvZqHD4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RvpduXRTZE6Ty/u/A4anFveCv2U+7yzCuoV3WLTJcsCyx1pmbptj4okTCgHzgKVGyC25K+hPAtZLAncde2N8HhmmuJGoEgSPV8JWiblUhWi2Mgm3tXd7+bGS0hrMGTF8PURB2rR4oqb3YhDbYrfZZCliSMQm4grz9xZbrULGXCk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=savoirfairelinux.com; spf=pass smtp.mailfrom=savoirfairelinux.com; dkim=pass (2048-bit key) header.d=savoirfairelinux.com header.i=@savoirfairelinux.com header.b=oDFVypqv; arc=none smtp.client-ip=208.88.110.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=savoirfairelinux.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=savoirfairelinux.com
+Received: from localhost (localhost [127.0.0.1])
+	by mail.savoirfairelinux.com (Postfix) with ESMTP id 3363F9C84F4;
+	Wed, 21 May 2025 12:16:46 -0400 (EDT)
+Received: from mail.savoirfairelinux.com ([127.0.0.1])
+ by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavis, port 10032)
+ with ESMTP id 1XEZUwglflx3; Wed, 21 May 2025 12:16:45 -0400 (EDT)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.savoirfairelinux.com (Postfix) with ESMTP id 7D7AD9C349D;
+	Wed, 21 May 2025 12:16:45 -0400 (EDT)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.savoirfairelinux.com 7D7AD9C349D
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=savoirfairelinux.com; s=DFC430D2-D198-11EC-948E-34200CB392D2;
+	t=1747844205; bh=CNJLqa+6SVTv26hUSJn7PR+xYiguC9onV8d3jIXIGeQ=;
+	h=Date:From:To:Message-ID:MIME-Version;
+	b=oDFVypqvHIQ0SK+3G0UEBnx+4IfmmoXmcyHgScMJPoIk9/DInIK4fsjxFAhKwh+2y
+	 3mVLMdU+H7JWzpgmqpi34iu7Sfh55cf5NJjTeeBxTykMj9UNNJqvYUDP1AGoMXrXp4
+	 btWAE56KhHfpc98Le1+KhYSPL/IoyG4WB564nRIFdHLOTwUyteL+mOIF29OHOAcaal
+	 weT6sRIFQwr2CssbtPFtYf+7LqiNeqixGBh7H2DMOtDN8mEodJtDNRvcyT1EuD9Jmf
+	 KfIQbFLBs9InI+3Al6ImGE2bK0mQCYyYAG4SFjZMkZtW5+2cYdnccBZNGwAoa1NL68
+	 imPui4ptq954A==
+X-Virus-Scanned: amavis at mail.savoirfairelinux.com
+Received: from mail.savoirfairelinux.com ([127.0.0.1])
+ by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavis, port 10026)
+ with ESMTP id x0Yn-fXdqO84; Wed, 21 May 2025 12:16:45 -0400 (EDT)
+Received: from fedora (unknown [192.168.51.254])
+	by mail.savoirfairelinux.com (Postfix) with ESMTPSA id 2D8AC9C1464;
+	Wed, 21 May 2025 12:16:45 -0400 (EDT)
+Date: Wed, 21 May 2025 12:16:43 -0400
+From: Samuel Kayode <samuel.kayode@savoirfairelinux.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Lee Jones <lee@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Sebastian Reichel <sre@kernel.org>, Robin Gong <yibin.gong@nxp.com>,
+	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+	linux-imx@nxp.com, linux-input@vger.kernel.org,
+	Abel Vesa <abelvesa@linux.com>, Abel Vesa <abel.vesa@nxp.com>,
+	Robin Gong <b38343@freescale.com>,
+	Enric Balletbo Serra <eballetbo@gmail.com>,
+	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
+	Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH v2 4/9] dt-bindings: mfd: add pf1550
+Message-ID: <aC38a4hbxPqsUpXS@fedora>
+References: <cover.1747409892.git.samuel.kayode@savoirfairelinux.com>
+ <8be1626f970c9fab8b50ae9ad45e0ddd88fa36bf.1747409892.git.samuel.kayode@savoirfairelinux.com>
+ <31542315-5ea1-4849-b2f9-686cabce914a@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20250521-dev-adp5589-fw-v4-20-f2c988d7a7a0@analog.com>
-References: <20250521-dev-adp5589-fw-v4-0-f2c988d7a7a0@analog.com>
-In-Reply-To: <20250521-dev-adp5589-fw-v4-0-f2c988d7a7a0@analog.com>
-To: linux-gpio@vger.kernel.org, linux-pwm@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-input@vger.kernel.org
-Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, 
- Linus Walleij <linus.walleij@linaro.org>, 
- Bartosz Golaszewski <brgl@bgdev.pl>, 
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Liu Ying <victor.liu@nxp.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1747832589; l=1494;
- i=nuno.sa@analog.com; s=20231116; h=from:subject:message-id;
- bh=I4VY/9poNwSdsVpeDT0XePKG84hzWFHXfJYt/VQ2EfE=;
- b=iDmMo7mYgRVbEt/4lrsZft+aWe1qmLukm9dxMxpSmBAJKDxwURfT6WY2KJGBCpqgAwuDXSIUB
- B9j1Nl1EBbZDbNVjYg5XQ9lRQYuxF3kSUriUFm/hlJ1Ua2WugZM1VFq
-X-Developer-Key: i=nuno.sa@analog.com; a=ed25519;
- pk=3NQwYA013OUYZsmDFBf8rmyyr5iQlxV/9H4/Df83o1E=
-X-Endpoint-Received: by B4 Relay for nuno.sa@analog.com/20231116 with
- auth_id=100
-X-Original-From: =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>
-Reply-To: nuno.sa@analog.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <31542315-5ea1-4849-b2f9-686cabce914a@kernel.org>
 
-From: Nuno Sá <nuno.sa@analog.com>
+On Sat, May 17, 2025 at 01:16:38PM +0200, Krzysztof Kozlowski wrote:
+> > +    maxItems: 1
+> > +
+> > +  interrupts:
+> > +    maxItems: 1
+> > +
+> > +  regulators:
+> > +    $ref: /schemas/regulator/pf1550.yaml
+> > +
+> > +  charger:
+> > +    $ref: /schemas/power/supply/pf1550_charger.yaml
+> > +
+> > +  onkey:
+> > +    $ref: /schemas/input/pf1550_onkey.yaml
+> 
+> This makes merging via separate trees not possible...
+> 
+> Just fold everything here, drop compatibles and then put binding in the
+> regulator. Unless children are re-usable which would justify
+> compatibles, but then please provide arguments for that.
 
-Make sure to perform an Hardware reset during probe  if the pin is given
-in FW.
+Yes, compatibles are not needed for the children. For adding binding to the
+regulator, did you mean for all children: charger and onkey included? So,
+replacing the separate yaml for all children with bindings in the mfd yaml?
 
-Signed-off-by: Nuno Sá <nuno.sa@analog.com>
----
- drivers/mfd/adp5585.c | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
-
-diff --git a/drivers/mfd/adp5585.c b/drivers/mfd/adp5585.c
-index e8b9a0ef4ee654ac1abc4042152fe0933f1d9f0d..164da0b804c4fce4e3af1ac0c2813020a77f4938 100644
---- a/drivers/mfd/adp5585.c
-+++ b/drivers/mfd/adp5585.c
-@@ -12,6 +12,7 @@
- #include <linux/device.h>
- #include <linux/err.h>
- #include <linux/i2c.h>
-+#include <linux/gpio/consumer.h>
- #include <linux/mfd/adp5585.h>
- #include <linux/mfd/core.h>
- #include <linux/mod_devicetable.h>
-@@ -697,6 +698,7 @@ static int adp5585_i2c_probe(struct i2c_client *i2c)
- {
- 	struct regmap_config regmap_config;
- 	struct adp5585_dev *adp5585;
-+	struct gpio_desc *gpio;
- 	unsigned int id;
- 	int ret;
- 
-@@ -718,6 +720,20 @@ static int adp5585_i2c_probe(struct i2c_client *i2c)
- 	if (ret)
- 		return ret;
- 
-+	gpio = devm_gpiod_get_optional(&i2c->dev, "reset", GPIOD_OUT_HIGH);
-+	if (IS_ERR(gpio))
-+		return PTR_ERR(gpio);
-+
-+	/*
-+	 * Note the timings are not documented anywhere in the DS. They are just
-+	 * reasonable values that work.
-+	 */
-+	if (gpio) {
-+		fsleep(30);
-+		gpiod_set_value_cansleep(gpio, 0);
-+		fsleep(60);
-+	}
-+
- 	adp5585->regmap = devm_regmap_init_i2c(i2c, &regmap_config);
- 	if (IS_ERR(adp5585->regmap))
- 		return dev_err_probe(&i2c->dev, PTR_ERR(adp5585->regmap),
-
--- 
-2.49.0
-
-
+Thanks,
+Sam
 
