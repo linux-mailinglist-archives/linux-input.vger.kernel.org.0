@@ -1,323 +1,182 @@
-Return-Path: <linux-input+bounces-12485-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12488-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A305ABE40C
-	for <lists+linux-input@lfdr.de>; Tue, 20 May 2025 21:50:38 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 17F6CABEA1D
+	for <lists+linux-input@lfdr.de>; Wed, 21 May 2025 04:59:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id ADF3F4C2F20
-	for <lists+linux-input@lfdr.de>; Tue, 20 May 2025 19:50:38 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id CDCAF7A2A8D
+	for <lists+linux-input@lfdr.de>; Wed, 21 May 2025 02:57:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 33E0D27FD4D;
-	Tue, 20 May 2025 19:50:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=david-bauer.net header.i=@david-bauer.net header.b="gKppwhXq"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E2DDC220681;
+	Wed, 21 May 2025 02:59:07 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from mailgate02.uberspace.is (mailgate02.uberspace.is [185.26.156.114])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from inva021.nxp.com (inva021.nxp.com [92.121.34.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AEC1283680
-	for <linux-input@vger.kernel.org>; Tue, 20 May 2025 19:50:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.26.156.114
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4F0B12E5D;
+	Wed, 21 May 2025 02:59:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=92.121.34.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747770620; cv=none; b=c4ojhoNSxgdkZMzKk18uB4PtueiolCX5QGk5QWg86xLOOcDw3oeaoHeZIW8xn4cw0kSIHN37yOldhQAG9O15EdHIsFd1C6808iNj9K1ej4tDhl6G6efwJuvqIDrTzBA2FQlEuRA/9XAhA+7up/fWf364qcndd2KMyBki1nL3IdI=
+	t=1747796347; cv=none; b=XFEMKB9F1t1EICsxcQAa8jy9stzpE85wuiJR7lWWbowkKbLKiqCY+iOCWWDos4FPRSUXVjGFtZuoOPXfNPNyVmBTXEFQyoyySv0YN4NfrRlOzR+caSPcRYqsrRmbsiIqp1j9RS/WtYEg8ccrfH3GhWCxjaavmizhBGsLtgIoHxA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747770620; c=relaxed/simple;
-	bh=kMiX/BWWUBpZXgzAi68O/8mLwTgRWc6IeaKIGYwCbsY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=UjFMHflUycm3Ecf2XvFCEbFxikMKamrU95jUshZPsYVRifVHsVhSeD3V3gZ7txNYGH/8RuhomqOiMLEHf2GBZvl5y7i1bwcQXH84w7NSPwvHJjm2m83yShelVpmLtuhBEAoJRo6VT2ffzYYRgWZnNHSlWsbycWPnGA3HiCqnR/s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=david-bauer.net; spf=pass smtp.mailfrom=david-bauer.net; dkim=pass (4096-bit key) header.d=david-bauer.net header.i=@david-bauer.net header.b=gKppwhXq; arc=none smtp.client-ip=185.26.156.114
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=david-bauer.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=david-bauer.net
-Received: from perseus.uberspace.de (perseus.uberspace.de [95.143.172.134])
-	by mailgate02.uberspace.is (Postfix) with ESMTPS id 5350017F8A4
-	for <linux-input@vger.kernel.org>; Tue, 20 May 2025 21:40:06 +0200 (CEST)
-Received: (qmail 31776 invoked by uid 988); 20 May 2025 19:40:06 -0000
-Authentication-Results: perseus.uberspace.de;
-	auth=pass (plain)
-Received: from unknown (HELO unkown) (::1)
-	by perseus.uberspace.de (Haraka/3.0.1) with ESMTPSA; Tue, 20 May 2025 21:40:05 +0200
-Message-ID: <16f39da9-d182-4dc6-8739-1d33fecd0e8f@david-bauer.net>
-Date: Tue, 20 May 2025 21:40:03 +0200
+	s=arc-20240116; t=1747796347; c=relaxed/simple;
+	bh=f/Xp+DkIPojq0Dv4wAjMCrLOyVDzuADRaucbFUhvr+w=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=B5q4AkLNYEt8lTSvZWwOV3mSBUkzy63WYpz9vU62tvBjdk0i/sF3X9vxXoKwA82czCupYVsijyzN8kzrukmA9kRkTHCDtV8MZWfXorXZMiJLT+nhsUXV0A4UxDKMYY/O9cRXEa7ubMX+RGksj74RlDoQfaMXZGdMHKd+ai7rTGE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; arc=none smtp.client-ip=92.121.34.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+Received: from inva021.nxp.com (localhost [127.0.0.1])
+	by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id 642812005C1;
+	Wed, 21 May 2025 04:50:34 +0200 (CEST)
+Received: from aprdc01srsp001v.ap-rdc01.nxp.com (aprdc01srsp001v.ap-rdc01.nxp.com [165.114.16.16])
+	by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id 2B64F2005BF;
+	Wed, 21 May 2025 04:50:34 +0200 (CEST)
+Received: from lsvm11u0000395.swis.ap-northeast-2.aws.nxp.com (lsvm11u0000395.swis.ap-northeast-2.aws.nxp.com [10.52.9.99])
+	by aprdc01srsp001v.ap-rdc01.nxp.com (Postfix) with ESMTP id 9BC881800087;
+	Wed, 21 May 2025 10:50:32 +0800 (+08)
+From: Joseph Guo <qijian.guo@nxp.com>
+To: Bastien Nocera <hadess@hadess.net>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	linux-input@vger.kernel.org (open list:GOODIX TOUCHSCREEN),
+	linux-kernel@vger.kernel.org (open list)
+Cc: qijian.guo@nxp.com,
+	haibo.chen@nxp.com,
+	justin.jiang@nxp.com
+Subject: [PATCH] input: goodix: add poll mode for goodix touchscreen
+Date: Wed, 21 May 2025 11:50:11 +0900
+Message-Id: <20250521025011.887562-1-qijian.guo@nxp.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] dt-bindings: input: add Semtech SX951x binding
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Conor Dooley <conor+dt@kernel.org>, Krzysztof Kozlowski
- <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>
-Cc: linux-input@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20250505203847.86714-1-mail@david-bauer.net>
- <cbf42385-9803-4bea-bf99-a6f31f1454f6@linaro.org>
- <8c9e5e74-966b-4969-9776-7655863fd197@david-bauer.net>
- <b6d066ea-e47d-4495-bd0b-17ba184275a1@linaro.org>
-Content-Language: en-US
-From: David Bauer <mail@david-bauer.net>
-Autocrypt: addr=mail@david-bauer.net; keydata=
- xjMEZgynMBYJKwYBBAHaRw8BAQdA+32xE63/l6uaRAU+fPDToCtlZtYJhzI/dt3I6VxixXnN
- IkRhdmlkIEJhdWVyIDxtYWlsQGRhdmlkLWJhdWVyLm5ldD7CjwQTFggANxYhBLPGu7DmE/84
- Uyu0uW0x5c9UngunBQJmDKcwBQkFo5qAAhsDBAsJCAcFFQgJCgsFFgIDAQAACgkQbTHlz1Se
- C6eKAwEA8B6TGkUMw8X7Kv3JdBIoDqJG9+fZuuwlmFsRrdyDyHkBAPtLydDdancCVWNucImJ
- GSk+M80qzgemqIBjFXW0CZYPzjgEZgynMBIKKwYBBAGXVQEFAQEHQPIm0qo7519c7VUOTAUD
- 4OR6mZJXFJDJBprBfnXZUlY4AwEIB8J+BBgWCAAmFiEEs8a7sOYT/zhTK7S5bTHlz1SeC6cF
- AmYMpzAFCQWjmoACGwwACgkQbTHlz1SeC6fP2AD8CduoErEo6JePUdZXwZ1e58+lAeXOLLvC
- 2kj1OiLjqK4BANoZuHf/ku8ARYjUdIEgfgOzMX/OdYvn0HiaoEfMg7oB
-In-Reply-To: <b6d066ea-e47d-4495-bd0b-17ba184275a1@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Bar: ---
-X-Rspamd-Report: BAYES_HAM(-3) XM_UA_NO_VERSION(0.01) MIME_GOOD(-0.1)
-X-Rspamd-Score: -3.09
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=david-bauer.net; s=uberspace;
-	h=from:to:cc:subject:date;
-	bh=kMiX/BWWUBpZXgzAi68O/8mLwTgRWc6IeaKIGYwCbsY=;
-	b=gKppwhXqCzdpmt8JuQ8Yrn4xFo3jWWuQxZQ5mG5WsNzNGOtfyn/os6ZgRxQ3hPUq+rWp1k7+NF
-	SoFijgSyIHhkprLr+Z6SCK3YTDI76DEMjQnus/5mCa6HNqYok0esKQisdRVWGY/N8m3BVbyzoRrX
-	U0diABp/pelOHL7ALQXXGcWs+4nXLuMK4g8F+cK/E/0LkhakUhMHAAT2g1kV1vWsRDSRw+mC9b8y
-	8hfKn/8zKdA9JJhyWYGtgvSuLpeE1GnfuK9BYnWzb4PvgCOw0AYTcN/WkFYTAtEwd/+KU7hrqtEq
-	icPXzw9yWBy35cgZmQXnv8EAIzFAlOXS2fR3WoCi48psgdtwwjsQYQ2rnqRJw8y7ALoZ8/yLfdW2
-	Yw4P8d8qHBV1WNsjpU1PRH/rwYSOoc3RgjuBoof+64rdD1eRpbss7kE5ZcRL059rjpwXspYPTS3t
-	EoBuCYJZO/5QslE2vBw49EgSmK9/pASyiNJ54XvcIH3MqWtGT8KST8e9ZaZ1SyZH0RkMPCORDKK+
-	+6NeN6wl9D7dtFLRATF99M0dAtEeEfNU5lutCshZSvt3qoVkMrMhaERfhAOsOUVva7dIeI74a7ux
-	wS3TLe5Zv7yhC0DUu4z0+OV8GQ8ZBdiwt0yN0lM62iRBK1zrDMOkvNGSkc6+VnIISKPmvp/Dl4dT
-	M=
+Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: ClamAV using ClamSMTP
 
-Hi Krzysztof,
+goodix touchscreen only support interrupt mode by default.
+Some panels like waveshare panel which is widely used on raspeberry pi
+don't have interrupt pins and only work on i2c poll mode.
+The waveshare panel 7inch panel use goodix gt911 touchscreen chip.
 
-On 5/20/25 15:58, Krzysztof Kozlowski wrote:
-> On 06/05/2025 12:05, David Bauer wrote:
->> Hi Krzysztof,
->>
->> thanks for the review.
->>
->> On 5/6/25 08:21, Krzysztof Kozlowski wrote:
->>> On 05/05/2025 22:38, David Bauer wrote:
->>>> Add device-tree binding for the Semtech SX9512/SX9513 family of touch
->>>> controllers with integrated LED driver.
->>>>
->>>> Signed-off-by: David Bauer <mail@david-bauer.net>
->>>
->>> You CC-ed an address, which suggests you do not work on mainline kernel
->>> or you do not use get_maintainers.pl/b4/patman. Please rebase and always
->>> work on mainline or start using mentioned tools, so correct addresses
->>> will be used.
->> I'm a bit unsure what you are referring to - maybe I've set the options
->> for get_maintainer.pl wrong, but i use
->>
->> get_maintainer.pl --nogit --nogit-fallback --norolestats --nol
->>
->> to determine TO recipients and
->>
->> get_maintainer.pl --nogit --nogit-fallback --norolestats --nom
->>
->> for CC destinations.
->>
->> Granted, my tree was a bit out of date but it was from mainline
-> 
-> Mainline means latest RC or maintainer tree or linux next. v5.0 is not
-> mainline anymoer.
-> 
->> and after rebase both commands returned consistent results.
->>
->> Hope you can provide me with some guidance there.
-> 
-> Well, read full reply. It is impossible to get such email address from
-> above commands. Such email address does not exist since long time and it
-> easy to prove - just git grep for it. No results, so how could it be
-> printed by get_maintainers.pl?
-> 
-> If you disagree then please paste full output of:
-> 
-> $ git describe
-> $ git status
-> $ scripts/get_maintainer.pl 0*
-> 
-> I provided you extensive guideline exactly to avoid further trivial
-> discussions about that triviality, so I would really appreciate if you
-> followed it.
+Signed-off-by: Joseph Guo <qijian.guo@nxp.com>
+Reviewed-by: Haibo Chen <haibo.chen@nxp.com>
+---
+Change from v1 to v2
+- Remove unused variable in goodix_ts_data struct
+- Use polling infrastructure
+---
+ drivers/input/touchscreen/goodix.c | 50 ++++++++++++++++++++++++++----
+ 1 file changed, 44 insertions(+), 6 deletions(-)
 
-I did a complete new clone of my repository without changing the base-branch
-and now the script outputs the correct set of addresses. Be assured v2
-will reach the correct inbox(es).
+diff --git a/drivers/input/touchscreen/goodix.c b/drivers/input/touchscreen/goodix.c
+index aaf79ac50004..58e49e5cf148 100644
+--- a/drivers/input/touchscreen/goodix.c
++++ b/drivers/input/touchscreen/goodix.c
+@@ -47,6 +47,7 @@
+ #define RESOLUTION_LOC		1
+ #define MAX_CONTACTS_LOC	5
+ #define TRIGGER_LOC		6
++#define GOODIX_POLL_INTERVAL_MS		17	/* 17ms = 60fps */
 
-Sorry for the confusion here. Still appreciate you did point this
-out to me.
+ /* Our special handling for GPIO accesses through ACPI is x86 specific */
+ #if defined CONFIG_X86 && defined CONFIG_ACPI
+@@ -497,6 +498,14 @@ static void goodix_process_events(struct goodix_ts_data *ts)
+ 	input_sync(ts->input_dev);
+ }
 
-> 
->>
->>>
->>> Please use scripts/get_maintainers.pl to get a list of necessary people
->>> and lists to CC (and consider --no-git-fallback argument, so you will
->>> not CC people just because they made one commit years ago). It might
->>> happen, that command when run on an older kernel, gives you outdated
->>> entries. Therefore please be sure you base your patches on recent Linux
->>> kernel.
->>>
->>> Tools like b4 or scripts/get_maintainer.pl provide you proper list of
->>> people, so fix your workflow. Tools might also fail if you work on some
->>> ancient tree (don't, instead use mainline) or work on fork of kernel
->>> (don't, instead use mainline). Just use b4 and everything should be
->>> fine, although remember about `b4 prep --auto-to-cc` if you added new
->>> patches to the patchset.
->>>
->>>
->>>> ---
->>>>    .../bindings/input/semtech,sx951x.yaml        | 180 ++++++++++++++++++
->>>>    1 file changed, 180 insertions(+)
->>>>    create mode 100644 Documentation/devicetree/bindings/input/semtech,sx951x.yaml
->>>>
->>>> diff --git a/Documentation/devicetree/bindings/input/semtech,sx951x.yaml b/Documentation/devicetree/bindings/input/semtech,sx951x.yaml
->>>> new file mode 100644
->>>> index 000000000000..e4f938decd86
->>>> --- /dev/null
->>>> +++ b/Documentation/devicetree/bindings/input/semtech,sx951x.yaml
->>>> @@ -0,0 +1,180 @@
->>>> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
->>>> +%YAML 1.2
->>>> +---
->>>> +$id: http://devicetree.org/schemas/input/semtech,sx951x.yaml#
->>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->>>> +
->>>> +title: Semtech SX9512/SX9513 based capacitive touch sensors
->>>> +
->>>> +description: |
->>>
->>> Do not need '|' unless you need to preserve formatting.
->>>
->>>> +  The Semtech SX9512/SX9513 Family of capacitive touch controllers
->>>> +  with integrated LED drivers. The device communication is using I2C only.
->>>> +
->>>> +maintainers:
->>>> +  - David Bauer <mail@david-bauer.net>
->>>> +
->>>> +properties:
->>>> +  compatible:
->>>> +    enum:
->>>> +      - semtech,sx9512
->>>> +      - semtech,sx9513
->>>
->>> Devices are not compatible? What are the differences?
->>
->> The SX9513 is a cost-reduced version which does not
->> support proximity sensing. With the current support
->> of the driver they work identical. Should i add this
->> information as a comment?
-> 
-> So they are compatible and this should be expressed via fallback.
-> 
-> 
->>
->>>
->>>> +
->>>> +  reg:
->>>> +    maxItems: 1
->>>> +
->>>> +  '#address-cells':
->>>> +    const: 1
->>>> +
->>>> +  '#size-cells':
->>>> +    const: 0
->>>> +
->>>> +  poll-interval:
->>>> +    default: 100
->>>> +    description: |
->>>
->>> Do not need '|' unless you need to preserve formatting. Same comment
->>> everywhere.
->>>
->>>> +      The polling interval for touch events in milliseconds.
->>>
->>> Missing -ms property unit suffix... unless you are using existing
->>> property from common schema, but I do not see any reference (and thus
->>> unevaluatedProperties at the end).
->>>
->>>> +
->>>> +patternProperties:
->>>> +  "^channel@[0-7]$":
->>>> +    $ref: input.yaml#
->>>> +    type: object
->>>> +    description: |
->>>> +      Each node represents a channel of the touch controller.
->>>> +      Each channel provides a capacitive touch sensor input and
->>>> +      an LED driver output.
->>>> +
->>>> +    properties:
->>>> +      reg:
->>>> +        enum: [0, 1, 2, 3, 4, 5, 6, 7]
->>>> +
->>>> +      linux,keycodes:
->>>> +        maxItems: 1
->>>> +        description: |
->>>> +          Specifies an array of numeric keycode values to
->>>> +          be used for the channels. If this property is
->>>> +          omitted, the channel is not used as a key.
->>>> +
->>>> +      semtech,cin-delta:
->>>
->>> Use proper unit suffix and express it in pF.
->>
->> To represent 2.3 and 3.8 pF, would it be better to represent in
->> femtofarad?
->>
->>>
->>>> +        $ref: /schemas/types.yaml#/definitions/uint32
->>>> +        minimum: 0
->>>> +        maximum: 3
->>>> +        default: 3
->>>> +        description: |
->>>> +          The capacitance delta which is used to detect a touch
->>>> +          or release event. The property value is mapped to a
->>>> +          farad range between 7pF and 2.3pF internally. The delta
->>>> +          becomes smaller the higher the value is.
->>>> +
->>>> +      semtech,sense-threshold:
->>>> +        $ref: /schemas/types.yaml#/definitions/uint32
->>>> +        minimum: 0
->>>> +        maximum: 255
->>>> +        default: 4
->>>> +        description: |
->>>> +          The threshold value after which the channel detects a touch.
->>>> +          Refer to the datasheet for the internal calculation of the
->>>> +          resulting touch sensitivity.
->>>> +
->>>> +      led:
->>>
->>> I think subnode is here not needed. This should be part of the channel,
->>> probably.
->>
->> Just to be sure - you mean to have a property "led" upon which instructs
->> the channel to be used to drive an LED and include the LED specific
->> properties in the node of the channel?
-> No, I do not mean a property led. I mean that child node should be
-> folded into parent.
++static void goodix_ts_work_i2c_poll(struct input_dev *input)
++{
++	struct goodix_ts_data *ts = input_get_drvdata(input);
++
++	goodix_process_events(ts);
++	goodix_i2c_write_u8(ts->client, GOODIX_READ_COOR_ADDR, 0);
++}
++
+ /**
+  * goodix_ts_irq_handler - The IRQ handler
+  *
+@@ -523,16 +532,33 @@ static irqreturn_t goodix_ts_irq_handler(int irq, void *dev_id)
+ 	return IRQ_HANDLED;
+ }
 
-Okay, now i get it. The hardware supports the exclusive as well as combined
-use of channels as LED-driver and touch input.
++static void goodix_enable_irq(struct goodix_ts_data *ts)
++{
++	if (ts->client->irq)
++		enable_irq(ts->client->irq);
++}
++
++static void goodix_disable_irq(struct goodix_ts_data *ts)
++{
++	if (ts->client->irq)
++		disable_irq(ts->client->irq);
++}
++
+ static void goodix_free_irq(struct goodix_ts_data *ts)
+ {
+-	devm_free_irq(&ts->client->dev, ts->client->irq, ts);
++	if (ts->client->irq)
++		devm_free_irq(&ts->client->dev, ts->client->irq, ts);
+ }
 
-In case the channel is not wired up to work as an input, the linux,keycodes
-property can be omitted, not creating the input channel.
+ static int goodix_request_irq(struct goodix_ts_data *ts)
+ {
+-	return devm_request_threaded_irq(&ts->client->dev, ts->client->irq,
+-					 NULL, goodix_ts_irq_handler,
+-					 ts->irq_flags, ts->client->name, ts);
++	if (ts->client->irq) {
++		return devm_request_threaded_irq(&ts->client->dev, ts->client->irq,
++						 NULL, goodix_ts_irq_handler,
++						 ts->irq_flags, ts->client->name, ts);
++		}
++	else
++		return 0;
+ }
 
-In turn if the channel is not wired up to an LED, omitting the led subnode
-prevents an led device from being created for this channel.
+ static int goodix_check_cfg_8(struct goodix_ts_data *ts, const u8 *cfg, int len)
+@@ -1229,6 +1255,18 @@ static int goodix_configure_dev(struct goodix_ts_data *ts)
+ 		return error;
+ 	}
 
-If I were to fold the led subnode into the channel node I would still need
-a way to indicate if an LED is actually present in hardware, correct? This
-was what i was aiming for with the "led" property. However if I've had to
-choose between these two approaches, I prefer the subnode.
++	input_set_drvdata(ts->input_dev, ts);
++
++	if (!ts->client->irq) {
++		error = input_setup_polling(ts->input_dev, goodix_ts_work_i2c_poll);
++		if (error) {
++			dev_err(&ts->client->dev,
++				 "could not set up polling mode, %d\n", error);
++			return error;
++		}
++		input_set_poll_interval(ts->input_dev, GOODIX_POLL_INTERVAL_MS);
++	}
++
+ 	error = input_register_device(ts->input_dev);
+ 	if (error) {
+ 		dev_err(&ts->client->dev,
+@@ -1435,7 +1473,7 @@ static int goodix_suspend(struct device *dev)
 
-If you have a different idea how to handle this apart from Rob's suggestion,
-It could also be the case I'm creating more problems than I solve with this
-approach :)
+ 	/* We need gpio pins to suspend/resume */
+ 	if (ts->irq_pin_access_method == IRQ_PIN_ACCESS_NONE) {
+-		disable_irq(client->irq);
++		goodix_disable_irq(ts);
+ 		return 0;
+ 	}
 
-Best
-David
+@@ -1479,7 +1517,7 @@ static int goodix_resume(struct device *dev)
+ 	int error;
+
+ 	if (ts->irq_pin_access_method == IRQ_PIN_ACCESS_NONE) {
+-		enable_irq(client->irq);
++		goodix_enable_irq(ts);
+ 		return 0;
+ 	}
+
+--
+2.34.1
 
 
