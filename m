@@ -1,234 +1,228 @@
-Return-Path: <linux-input+bounces-12519-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12520-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2FC3AC08CC
-	for <lists+linux-input@lfdr.de>; Thu, 22 May 2025 11:34:08 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id B5382AC0B19
+	for <lists+linux-input@lfdr.de>; Thu, 22 May 2025 14:06:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3671818904AD
-	for <lists+linux-input@lfdr.de>; Thu, 22 May 2025 09:34:22 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E96033AFC57
+	for <lists+linux-input@lfdr.de>; Thu, 22 May 2025 12:06:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E545E21ADA0;
-	Thu, 22 May 2025 09:34:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EF52D28A40F;
+	Thu, 22 May 2025 12:06:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="RdjhgICS"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="RulxBa0V"
 X-Original-To: linux-input@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED60FCA52
-	for <linux-input@vger.kernel.org>; Thu, 22 May 2025 09:34:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F00433DB;
+	Thu, 22 May 2025 12:06:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747906444; cv=none; b=Kku+QFEma5TwUhdnA7pS+1O/7aj/PQPzS8j9E3zKqkXOn/lcV7SFkYoyA4Qpm8lOqaAuhsNJH+TSIayzhw83UabPO/M4L4M/tkCypO+ano92CsJuv2H1g+QhOXeVIyQaS5bHpd19oynV7zVlzgNYW9HhTUesocknBB05QR/6jXQ=
+	t=1747915608; cv=none; b=DPIkNYJGsyN43Eh/XLp0zYjj76nhFgWgFdztTX/DpVbrer9pVEzNSEzNr2VHDjsO2cfGypHHSCuFbdFnGUmSgJ6WUW6dZ3UWjy5qXq0K6qtGMj6jZKKGqlNxOf5tsX54mU+IzsJqnGH0EcvQAwWjzg+mgZLwOs+o115m0Mnxqkk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747906444; c=relaxed/simple;
-	bh=IeWvAPVEMFtpImN+Yt1ANjjn9pzp+9u7+czvGa0vC8M=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=d+8zE7LJ2iebHrYMn26PIrckB/QBRVvHm8dln/nbLlF7CWvx1oLG7WHPI5XC4Q27L3QQX11GhViQi9SqrWBG45HY6TaiDjiWQgUN/XxQTnx8neR252Vs9cIKbzuV/EGV5A5tIUEctSDlsj9eten4Q0I0ueya/sfrp91HgvqjDE4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=RdjhgICS; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1747906441;
+	s=arc-20240116; t=1747915608; c=relaxed/simple;
+	bh=sarlfpjmwco1wBVRTTBDateodZuUqAOn115Z368wacc=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=Vk+N3klDSzCUR4eA8brmEmE72mm6WEBTOnRho8dJzUmsFHyf5D1c/UIuA7J4k9U2m4S6VfyksfC8shQnn66mJDyoslVNdQ/kDVnP8vW3ySNOYX1/aMfHX6uH8FTEIS8UX9OZeuW0I+q007hhL0nVS56/YZ1vWOwKGCYxy3jtIxg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=RulxBa0V; arc=none smtp.client-ip=217.70.183.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: by mail.gandi.net (Postfix) with ESMTPSA id F37851FD48;
+	Thu, 22 May 2025 12:06:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1747915603;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2qw5htR4aFouNXqUNydnWVXW/XvwaR6GrPFxdac2GYo=;
-	b=RdjhgICSwar4/nhNUwlZQNZ7bgRLMprVSSqFmNI3GRjAb0VFSB+Ert6n/hVrRBlQw5c9+F
-	udh83w+Y3gAjO6EKI5OzbEfx0KL0USl0lHDRLe6IgP/gVZa9R/hWweHP9/IT6rkm8WVJXK
-	gTvbHM1j9tDabiMkqgUK/PlYoYofbhM=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-532-kjXd9GQZNrWxpjKQtmumKA-1; Thu, 22 May 2025 05:33:59 -0400
-X-MC-Unique: kjXd9GQZNrWxpjKQtmumKA-1
-X-Mimecast-MFC-AGG-ID: kjXd9GQZNrWxpjKQtmumKA_1747906439
-Received: by mail-ej1-f69.google.com with SMTP id a640c23a62f3a-ad5921edf06so312457466b.3
-        for <linux-input@vger.kernel.org>; Thu, 22 May 2025 02:33:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747906438; x=1748511238;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=2qw5htR4aFouNXqUNydnWVXW/XvwaR6GrPFxdac2GYo=;
-        b=XJZdcdM1Et4jibtgo6eeKTYLDCH0tziA3Sb1gIX/uMQt5ncWyu6S83yB0rxz9s1Tt9
-         M2MIg/Nk0lZdTeoNBcXxpRpwA/hDzal+Jv7xpyyjGTZrsFZvLJzR0zuz8Zx+Bvre2Fqx
-         2vdFjmDfpGRy7Eq0CmiIEZT+B9v1dRDZnXtYK52cYbRKHXQQVZA1ftOpXeS9eZkWAjzb
-         iAXZbO6edYso3pfwLhRSn7R6dPSBSEuhMm1jTYt+UCNWFQoUNOs9wMtDARfvs3Fd8ecT
-         ELPXTKyG1eZfjz68s41HALovO/fAQnaFnhVYROZs3p8hdF2HHogXtCgkNJpYsuwDdYFg
-         O1Mw==
-X-Forwarded-Encrypted: i=1; AJvYcCWxf4wg5JJXlz6uqhcF30dvaX99iiLZ8BpS6s4q6p/u5jxFkrMaOVQp9OOATnDyhAiicuFxN6KN6FJ6jA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyODvAnb/GhmJGZVpb2dVrTie0MoSGUiNrvtDfKDU6qsrYPRquQ
-	FBGSKqd7TfY6eT9Xm0ySFaXMJfEEew/gWb/EL4QZ+MQ6xL+nePB9QWDSdcqYtjHLn0YJeLynY6q
-	/eKyBuy9pyOVZ2qxJskKCQ7zQDjAz0PHsD9uK6zpmU358z/wxtSH16Xd38BpnW4gu
-X-Gm-Gg: ASbGncsSYLixnd+eMK8dy5Wf57YOyZYz/Np6VvndUC/ZIK5ohYnH25+hHwIaItssygf
-	eZErR6UVxWJ/Y9naYiFlclfkZYJdsLhEByTDdRH06AB+cSS1iriudmS+N7dazwrcnihRSmIM8eq
-	HHGqWcG/ExpQaBW8yYHDqupNXtgLPvH7EQcAYlfs/0n17Vurc9AoKEv3Go3t8s3oXTzFRwe4n46
-	M5vx8OskGRWVgm9TlEnMvfhGvNLW6go6a82MXoygV4edOndl3FmnAWLmyDqLNZHGdnjE0X7tUwF
-	JwP5xqe2xoiGzqWqDm6A/x7RBDqIye2dQkk92ii3W5qPWv5HfBWVSb86CQcQvJVeK6Yc8HsnHUO
-	srxb+QVbPF9bK3JJr/s4pok2Wy5WOeFNMmxhfwuR55tSUQU2pwEmgZXhigrW8KQ==
-X-Received: by 2002:a17:907:7b9a:b0:ad2:4fa0:88cf with SMTP id a640c23a62f3a-ad52d4396c0mr2068020366b.6.1747906438489;
-        Thu, 22 May 2025 02:33:58 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHu2Ay25uSAQ6hLo4W2TLsFIMynNeIwiRl7bKkjJAgZCl44ZiZ8js3VMO+FT3OyfPCfONvxOQ==
-X-Received: by 2002:a17:907:7b9a:b0:ad2:4fa0:88cf with SMTP id a640c23a62f3a-ad52d4396c0mr2068010366b.6.1747906436059;
-        Thu, 22 May 2025 02:33:56 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ad52d2779b9sm1040295666b.81.2025.05.22.02.33.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 22 May 2025 02:33:55 -0700 (PDT)
-Message-ID: <6c34ee2e-f2f5-43f9-8e41-03e64c62f830@redhat.com>
-Date: Thu, 22 May 2025 11:33:54 +0200
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=xa4FngajQSj/KFbgvgvpRtuRSkbY6yfLKj4dHrHeIRM=;
+	b=RulxBa0Vyjqc+owdBmdIBHviKcMau7F2yIpvEe6hhlPszwIbm9rs2atFMOyI/Z1w6knrTT
+	QnLHZ8NvzZhkPqmFHAJof6vnsbyrTnMTsqdSW0mDhf8X9Ol9oG2Mh97j2i+/nOrwexPyfa
+	9fiLgK4mbkutselTmId4z6TE9F9X2CHh5a0Qo7GRS/ddTgc2AULQyCKY+CzNHk46MueVPy
+	VkVcAPLTdyTS+EyMoABElqhUgVq5x/iT8uhXKWsvpF4SaUeLLMm1d/iEpIX02D9EWfbefi
+	qrd6TfagA74EXjlUsFTNSHgshVBPncGkUkzlstP42PqxkDLF95k1PvKiZoEGCA==
+From: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Subject: [PATCH v9 00/11] Add support for MAX7360
+Date: Thu, 22 May 2025 14:06:15 +0200
+Message-Id: <20250522-mdb-max7360-support-v9-0-74fc03517e41@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] LF-15225 input: goodix: add poll mode for goodix
- touchscreen
-To: Joseph Guo <qijian.guo@nxp.com>, Bastien Nocera <hadess@hadess.net>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- "open list:GOODIX TOUCHSCREEN" <linux-input@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>
-Cc: haibo.chen@nxp.com, justin.jiang@nxp.com
-References: <20250522020418.1963422-1-qijian.guo@nxp.com>
-Content-Language: en-US, nl
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20250522020418.1963422-1-qijian.guo@nxp.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIADcTL2gC/33QTW7DIBAF4KtErEsFM/x21XtUXTCAG6Q6juzUS
+ hX57sWRKqey3eVD8M0bbmzIfckDezncWJ/HMpTuVIN/OrB4DKePzEuqmYEAJUF63ibibbhaNII
+ PX+dz1184AAYXs9IUkNWX5z435XpX395rPpbh0vXf9yGjnE//90bJBXfZobTazddeqesun+X0H
+ LuWzeIIDwrgtgJVQRtcAohoclor+KtoIeWOglXxWnpSIZKgjS5qUUCqbUXNGwXU0SQib8xa0Yu
+ C0m0ruioNgaDQeJuCWCtmUZTY+V1TFRtAo3bWZPRrxT4osNPFVkVlYYRLItimWStuUfReF1cVo
+ qycaQxFsn+VaZp+AGU3+qeiAgAA
+To: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Kamel Bouhara <kamel.bouhara@bootlin.com>, 
+ Linus Walleij <linus.walleij@linaro.org>, 
+ Bartosz Golaszewski <brgl@bgdev.pl>, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+ =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, 
+ Michael Walle <mwalle@kernel.org>, Mark Brown <broonie@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-gpio@vger.kernel.org, linux-input@vger.kernel.org, 
+ linux-pwm@vger.kernel.org, andriy.shevchenko@intel.com, 
+ =?utf-8?q?Gr=C3=A9gory_Clement?= <gregory.clement@bootlin.com>, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>, 
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+ Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+X-Mailer: b4 0.14.1
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1747915601; l=6039;
+ i=mathieu.dubois-briand@bootlin.com; s=20241219; h=from:subject:message-id;
+ bh=sarlfpjmwco1wBVRTTBDateodZuUqAOn115Z368wacc=;
+ b=qHEGL0EaoRkPoiIasJEM9p1K3SVTVHGOE6/CuwcQq2BqVIDWYmzjyY/UlcZXEy9RiY/uc6jb3
+ a4i5t1gZsHLDZQcq9bV0Hb5Yb6ViNKvkepfeAdKcqsRNxPJeJzVPrIV
+X-Developer-Key: i=mathieu.dubois-briand@bootlin.com; a=ed25519;
+ pk=1PVTmzPXfKvDwcPUzG0aqdGoKZJA3b9s+3DqRlm0Lww=
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddtgdehleduucdltddurdegfedvrddttddmucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhufffkfggtgfgvfevofesthejredtredtjeenucfhrhhomhepofgrthhhihgvuhcuffhusghoihhsqdeurhhirghnugcuoehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpefhkeffueegvdekiefhfeejueeukeekgeegjeeghefgvdekveevvdekieetkeelveenucffohhmrghinhepkhgvrhhnvghlrdhorhhgpddugedqrhgtvddrqdhlihhnkhenucfkphepvdgrtddumegtsgdugeemheehieemjegrtddtmeeffhgtfhemfhgstdgumeduvdeivdemvdgvjeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddumegtsgdugeemheehieemjegrtddtmeeffhgtfhemfhgstdgumeduvdeivdemvdgvjeeipdhhvghloheplgduvdejrddtrddurddungdpmhgrihhlfhhrohhmpehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedvhedprhgtphhtthhopegurghkrheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhin
+ hhushdrfigrlhhlvghijheslhhinhgrrhhordhorhhgpdhrtghpthhtohepsghrohhonhhivgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprghnughrihihrdhshhgvvhgthhgvnhhkoheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmpdhrtghpthhtohepthhhohhmrghsrdhpvghtrgiiiihonhhisegsohhothhlihhnrdgtohhmpdhrtghpthhtohepsghrghhlsegsghguvghvrdhplhdprhgtphhtthhopegumhhithhrhidrthhorhhokhhhohhvsehgmhgrihhlrdgtohhm
+X-GND-Sasl: mathieu.dubois-briand@bootlin.com
 
-Hi,
+This series implements a set of drivers allowing to support the Maxim
+Integrated MAX7360 device.
 
-On 22-May-25 4:04 AM, Joseph Guo wrote:
-> goodix touchscreen only support interrupt mode by default.
-> Some panels like waveshare panel which is widely used on raspeberry pi
-> don't have interrupt pins and only work on i2c poll mode.
-> The waveshare panel 7inch panel use goodix gt911 touchscreen chip.
-> 
-> Signed-off-by: Joseph Guo <qijian.guo@nxp.com>
-> Reviewed-by: Haibo Chen <haibo.chen@nxp.com>
-> ---
-> Change from v1 to v2
-> - Remove unused variable in goodix_ts_data struct
-> - Use polling infrastructure
-> ---
-> Change from v2 to v3
-> - Modify goodix_request_irq to make less diff
+The MAX7360 is an I2C key-switch and led controller, with following
+functionalities:
+- Keypad controller for a key matrix of up to 8 rows and 8 columns.
+- Rotary encoder support, for a single rotary encoder.
+- Up to 8 PWM outputs.
+- Up to 8 GPIOs with support for interrupts and 6 GPOs.
 
-Thanks, patch looks good to me:
+Chipset pins are shared between all functionalities, so all cannot be
+used at the same time.
 
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+---
+Changes in v9:
+- Fix build issue with bad usage of array_size() on intermediate commit.
+- MFD: Fix error strings. Also fix #define style in the header file.
+- Pinctrl: Fix missing include.
+- PWM: Fix register writes in max7360_pwm_waveform() and
+  max7360_pwm_round_waveform_tohw().
+- GPIO: Fix GPIO valid mask initialization.
+- Link to v8: https://lore.kernel.org/r/20250509-mdb-max7360-support-v8-0-bbe486f6bcb7@bootlin.com
 
-Regards,
+Changes in v8:
+- Small changes in drivers.
+- Rebased on v6.15-rc5
+- Link to v7: https://lore.kernel.org/r/20250428-mdb-max7360-support-v7-0-4e0608d0a7ff@bootlin.com
 
-Hans
+Changes in v7:
+- Add rotary encoder absolute axis support in device tree bindings and
+  driver.
+- Lot of small changes in keypad, rotary encoder and GPIO drivers.
+- Rebased on v6.15-rc4
+- Link to v6: https://lore.kernel.org/r/20250409-mdb-max7360-support-v6-0-7a2535876e39@bootlin.com
 
+Changes in v6:
+- Rebased on v6.15-rc1.
+- Use device_set_of_node_from_dev() instead of creating PWM and Pinctrl
+  on parent device.
+- Various small fixes in all drivers.
+- Fix pins property pattern in pinctrl dt bindings.
+- Link to v5: https://lore.kernel.org/r/20250318-mdb-max7360-support-v5-0-fb20baf97da0@bootlin.com
 
+Changes in v5:
+- Add pinctrl driver to replace the previous use of request()/free()
+  callbacks for PORT pins.
+- Remove ngpios property from GPIO device tree bindings.
+- Use GPIO valid_mask to mark unusable keypad columns GPOs, instead of
+  changing ngpios.
+- Drop patches adding support for request()/free() callbacks in GPIO
+  regmap and gpio_regmap_get_ngpio().
+- Allow gpio_regmap_register() to create the associated regmap IRQ.
+- Various fixes in MFD, PWM, GPIO and KEYPAD drivers.
+- Link to v4: https://lore.kernel.org/r/20250214-mdb-max7360-support-v4-0-8a35c6dbb966@bootlin.com
 
-> ---
->  drivers/input/touchscreen/goodix.c | 43 +++++++++++++++++++++++++++---
->  1 file changed, 40 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/input/touchscreen/goodix.c b/drivers/input/touchscreen/goodix.c
-> index aaf79ac50004..8e72174f486d 100644
-> --- a/drivers/input/touchscreen/goodix.c
-> +++ b/drivers/input/touchscreen/goodix.c
-> @@ -47,6 +47,7 @@
->  #define RESOLUTION_LOC		1
->  #define MAX_CONTACTS_LOC	5
->  #define TRIGGER_LOC		6
-> +#define GOODIX_POLL_INTERVAL_MS		17	/* 17ms = 60fps */
->  
->  /* Our special handling for GPIO accesses through ACPI is x86 specific */
->  #if defined CONFIG_X86 && defined CONFIG_ACPI
-> @@ -497,6 +498,14 @@ static void goodix_process_events(struct goodix_ts_data *ts)
->  	input_sync(ts->input_dev);
->  }
->  
-> +static void goodix_ts_work_i2c_poll(struct input_dev *input)
-> +{
-> +	struct goodix_ts_data *ts = input_get_drvdata(input);
-> +
-> +	goodix_process_events(ts);
-> +	goodix_i2c_write_u8(ts->client, GOODIX_READ_COOR_ADDR, 0);
-> +}
-> +
->  /**
->   * goodix_ts_irq_handler - The IRQ handler
->   *
-> @@ -523,13 +532,29 @@ static irqreturn_t goodix_ts_irq_handler(int irq, void *dev_id)
->  	return IRQ_HANDLED;
->  }
->  
-> +static void goodix_enable_irq(struct goodix_ts_data *ts)
-> +{
-> +	if (ts->client->irq)
-> +		enable_irq(ts->client->irq);
-> +}
-> +
-> +static void goodix_disable_irq(struct goodix_ts_data *ts)
-> +{
-> +	if (ts->client->irq)
-> +		disable_irq(ts->client->irq);
-> +}
-> +
->  static void goodix_free_irq(struct goodix_ts_data *ts)
->  {
-> -	devm_free_irq(&ts->client->dev, ts->client->irq, ts);
-> +	if (ts->client->irq)
-> +		devm_free_irq(&ts->client->dev, ts->client->irq, ts);
->  }
->  
->  static int goodix_request_irq(struct goodix_ts_data *ts)
->  {
-> +	if (!ts->client->irq)
-> +		return 0;
-> +
->  	return devm_request_threaded_irq(&ts->client->dev, ts->client->irq,
->  					 NULL, goodix_ts_irq_handler,
->  					 ts->irq_flags, ts->client->name, ts);
-> @@ -1229,6 +1254,18 @@ static int goodix_configure_dev(struct goodix_ts_data *ts)
->  		return error;
->  	}
->  
-> +	input_set_drvdata(ts->input_dev, ts);
-> +
-> +	if (!ts->client->irq) {
-> +		error = input_setup_polling(ts->input_dev, goodix_ts_work_i2c_poll);
-> +		if (error) {
-> +			dev_err(&ts->client->dev,
-> +				 "could not set up polling mode, %d\n", error);
-> +			return error;
-> +		}
-> +		input_set_poll_interval(ts->input_dev, GOODIX_POLL_INTERVAL_MS);
-> +	}
-> +
->  	error = input_register_device(ts->input_dev);
->  	if (error) {
->  		dev_err(&ts->client->dev,
-> @@ -1435,7 +1472,7 @@ static int goodix_suspend(struct device *dev)
->  
->  	/* We need gpio pins to suspend/resume */
->  	if (ts->irq_pin_access_method == IRQ_PIN_ACCESS_NONE) {
-> -		disable_irq(client->irq);
-> +		goodix_disable_irq(ts);
->  		return 0;
->  	}
->  
-> @@ -1479,7 +1516,7 @@ static int goodix_resume(struct device *dev)
->  	int error;
->  
->  	if (ts->irq_pin_access_method == IRQ_PIN_ACCESS_NONE) {
-> -		enable_irq(client->irq);
-> +		goodix_enable_irq(ts);
->  		return 0;
->  	}
->  
+Changes in v4:
+- Modified the GPIO driver to use gpio-regmap and regmap-irq.
+- Add support for request()/free() callbacks in gpio-regmap.
+- Add support for status_is_level in regmap-irq.
+- Switched the PWM driver to waveform callbacks.
+- Various small fixes in MFD, PWM, GPIO drivers and dt bindings.
+- Rebased on v6.14-rc2.
+- Link to v3: https://lore.kernel.org/r/20250113-mdb-max7360-support-v3-0-9519b4acb0b1@bootlin.com
+
+Changes in v3:
+- Fix MFD device tree binding to add gpio child nodes.
+- Fix various small issues in device tree bindings.
+- Add missing line returns in error messages.
+- Use dev_err_probe() when possible.
+- Link to v2: https://lore.kernel.org/r/20241223-mdb-max7360-support-v2-0-37a8d22c36ed@bootlin.com
+
+Changes in v2:
+- Removing device tree subnodes for keypad, rotary encoder and pwm
+  functionalities.
+- Fixed dt-bindings syntax and naming.
+- Fixed missing handling of requested period in PWM driver.
+- Cleanup of the code
+- Link to v1: https://lore.kernel.org/r/20241219-mdb-max7360-support-v1-0-8e8317584121@bootlin.com
+
+---
+Kamel Bouhara (2):
+      mfd: Add max7360 support
+      pwm: max7360: Add MAX7360 PWM support
+
+Mathieu Dubois-Briand (9):
+      dt-bindings: mfd: gpio: Add MAX7360
+      pinctrl: Add MAX7360 pinctrl driver
+      regmap: irq: Add support for chips without separate IRQ status
+      gpio: regmap: Allow to allocate regmap-irq device
+      gpio: regmap: Allow to provide init_valid_mask callback
+      gpio: max7360: Add MAX7360 gpio support
+      input: keyboard: Add support for MAX7360 keypad
+      input: misc: Add support for MAX7360 rotary
+      MAINTAINERS: Add entry on MAX7360 driver
+
+ .../bindings/gpio/maxim,max7360-gpio.yaml          |  83 ++++++
+ .../devicetree/bindings/mfd/maxim,max7360.yaml     | 191 +++++++++++++
+ MAINTAINERS                                        |  13 +
+ drivers/base/regmap/regmap-irq.c                   |  99 ++++---
+ drivers/gpio/Kconfig                               |  12 +
+ drivers/gpio/Makefile                              |   1 +
+ drivers/gpio/gpio-max7360.c                        | 257 +++++++++++++++++
+ drivers/gpio/gpio-regmap.c                         |  22 +-
+ drivers/input/keyboard/Kconfig                     |  12 +
+ drivers/input/keyboard/Makefile                    |   1 +
+ drivers/input/keyboard/max7360-keypad.c            | 308 +++++++++++++++++++++
+ drivers/input/misc/Kconfig                         |  10 +
+ drivers/input/misc/Makefile                        |   1 +
+ drivers/input/misc/max7360-rotary.c                | 192 +++++++++++++
+ drivers/mfd/Kconfig                                |  14 +
+ drivers/mfd/Makefile                               |   1 +
+ drivers/mfd/max7360.c                              | 171 ++++++++++++
+ drivers/pinctrl/Kconfig                            |  11 +
+ drivers/pinctrl/Makefile                           |   1 +
+ drivers/pinctrl/pinctrl-max7360.c                  | 215 ++++++++++++++
+ drivers/pwm/Kconfig                                |  10 +
+ drivers/pwm/Makefile                               |   1 +
+ drivers/pwm/pwm-max7360.c                          | 180 ++++++++++++
+ include/linux/gpio/regmap.h                        |  18 ++
+ include/linux/mfd/max7360.h                        | 109 ++++++++
+ include/linux/regmap.h                             |   3 +
+ 26 files changed, 1903 insertions(+), 33 deletions(-)
+---
+base-commit: 92a09c47464d040866cf2b4cd052bc60555185fb
+change-id: 20241219-mdb-max7360-support-223a8ce45ba3
+
+Best regards,
+-- 
+Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
 
 
