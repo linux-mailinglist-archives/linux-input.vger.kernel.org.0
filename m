@@ -1,144 +1,178 @@
-Return-Path: <linux-input+bounces-12516-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12517-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CE1BABFF16
-	for <lists+linux-input@lfdr.de>; Wed, 21 May 2025 23:46:07 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C966FAC020C
+	for <lists+linux-input@lfdr.de>; Thu, 22 May 2025 04:04:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 799071BA5BE9
-	for <lists+linux-input@lfdr.de>; Wed, 21 May 2025 21:46:20 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 896074A7448
+	for <lists+linux-input@lfdr.de>; Thu, 22 May 2025 02:04:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D24A8633F;
-	Wed, 21 May 2025 21:46:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LdXe1x3C"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1E22935953;
+	Thu, 22 May 2025 02:04:37 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from inva020.nxp.com (inva020.nxp.com [92.121.34.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F897184;
-	Wed, 21 May 2025 21:45:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECEE63F9FB;
+	Thu, 22 May 2025 02:04:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=92.121.34.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747863961; cv=none; b=L/ZNc0YhGdebDszC0faTTjFqXXVjuXjvShs9HeuHwHM0z9s0Rze0xaqjimK934SFBIphGdNFCCkMave3CJuXQ0UrwKqnUT1Pgmqh4ofAVKq2R3WoEr5WnKwHRl/bPuMNMb4CDhhUfHHML1GxP724kaFB+eMWHEBiP1GDBTf8vd4=
+	t=1747879477; cv=none; b=qKmiikhGRSKcPHHT2EkVvyjoEAAJ0y752fyKlu6L6kdJNBOA/pGe8T++9Twk/lPNdmcL1crk0+RZuhc3mOxrrtLFYUu/onyx/GLuVlT8+WxQ86TdRQBhThEwH7vOu9xB7cC2Az6Tq/Q9tG8mP+QRXoPlLqLGWs6R+irX11sB/HY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747863961; c=relaxed/simple;
-	bh=dSot4tq/1fn2N5PS2olD24aSA77F0AHNMa2LLzKmI+0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fwD4UVSJftcFjlXfkowSaRrTWjSHiphUYV736HxkxJt8OBDQG800p0rEaDW2k7EWcjcon0B3c5zxVplbKY0YlBAZ3090Wk00DZ9Vx6LeaN6NtFV4t11+tlKJ61oycwu4NpFoigYOdayOxB6JSlYPqdAXSveU7pMwyXAfyUKrdRs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LdXe1x3C; arc=none smtp.client-ip=209.85.222.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-7c5f720c717so978261385a.0;
-        Wed, 21 May 2025 14:45:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747863959; x=1748468759; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8RbQ0bw97LqXPRFQbGkmic8OcupiLMtaUApD5+Mskf4=;
-        b=LdXe1x3Ck0SuDrHgRyNJZ9kLG60w0t0J/yqG52PUoDmra11lEPR7rz/AgZgh0Iw809
-         VMGMHqI+r2sPciSjswlzOZ+eQyXIXLqgiEqJbu+eUwgrpb16iaiWgFf+3cHfgEOyA3LF
-         1PvrbgxgBwVPdZb+R2aMeWpKdGA+IVwxq0VngqKx1SSO39lwY41kBXEHe8EHPpfJh3i3
-         fgpSdAz80n2Du/gpjJUYHdsdTuAwJTLmANiRckpd7AdhlReVkSvPy4ThS//YXWTa5out
-         EC/inRxP1yFoDc9J0pe0IHQ/SUIc1Bu7rBHjqycMfqQpw5M8RdW5dnPecLksfEvoXAtq
-         3OuQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747863959; x=1748468759;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=8RbQ0bw97LqXPRFQbGkmic8OcupiLMtaUApD5+Mskf4=;
-        b=E7z3T1N2woMU+w57+/0g6s9xG+buxKixphRXMfQAOygZIizaWKtrlF9/8GBwxhzDQX
-         CIQjh1UvAyWvm4VW4bSwY42KKfAc6NpVi3TojG18aGZmTtGJ9kJ0zo0O3R3LnyB5id4j
-         2nquFRV7ioJ1C0QK5Ph6Q7GGgdDALhpCzMxV7+4PsxuQxNZt3KTEIGkD0XQ5/YBapBUm
-         j/uVpJDEvvPuYvd/G436XGvg3Pq7bKNLWg2qM0aPnYCsGa/2yayhDwR2ZIgYO/iev9pR
-         7wvJNQYziU0PKV7gexHV6U+sDiTh+6PnC6FqRdl2Hie+JaRqrc/mZxk+Le9nWCcLFS5P
-         jzhw==
-X-Forwarded-Encrypted: i=1; AJvYcCUW53b9S4MBpgb5zndAaX93kQharYwN9xuBw/wU8RPMyfC9S9hZ/0vrklOvB5ZFScluhGxZ44NQHC+TWg==@vger.kernel.org, AJvYcCVPzvGVU6HL+FTYOZ58QoHPeEupK9Jo7WnL4n4Af+8ESrWfWr9NKe6Jra/3REGZilwG91tJrwg6RoD9wiTd@vger.kernel.org
-X-Gm-Message-State: AOJu0YyL0HIyZRN1lJGLq9o8C5RRx5OY5fJAYGyq97WJdGB1Fi23tm9b
-	rhpddyH3k4TT2dI9ciEnS42ifJnFvFWOKTItMQUbPtCcfuBWAirSUzSEjeKFc8yoCqJybwZnf08
-	ZHMTsIwLHNovrbr9aNpeG7v2rxC42HWE=
-X-Gm-Gg: ASbGncvmrAe3inCJ0vFAtkqhsLpUw7XpAJ8sQtE/I6C/BmKIztVw3VsvPN/qqoe2ES8
-	uMMu1ioGr0exuKnRFyEmKugMI4sqRMt16blKNFl4goNaIHzbGvXzWc9kdChcG4o3HaFgM4KkZD+
-	c2+/UekChuUDZvPLHo95115yvRC/syRsHAIg==
-X-Google-Smtp-Source: AGHT+IHKrqvGTp5B3iILNzwWeRXbZ+qaaV2MFonH6ti3dxckN/8BqA70IxxjmFitrdq8qNS0DCGJSV/xOIz4q8nSWhw=
-X-Received: by 2002:a05:620a:2725:b0:7c2:f39d:d0e0 with SMTP id
- af79cd13be357-7cd39db8db5mr4548423085a.3.1747863958952; Wed, 21 May 2025
- 14:45:58 -0700 (PDT)
+	s=arc-20240116; t=1747879477; c=relaxed/simple;
+	bh=Tw63bFmFn0FFWrm5mLvFp6MI3iHzKF8pEwyLlMb4ETk=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=NBKF+ERrYX9p++O9ULubMiDn23Y2uKTO7ZMkrS9tDy2lCquLXmAMR5w0XloMDVdOHQOe70AWQGLlo+Y+5aGwofkHGg85jXHRUMDU2AmJT0i5vnR6Ur826f58FzoCl+xn6ryS2eJAswif2FigdapIHRsmLct/PaYsP4eRPbe97cY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; arc=none smtp.client-ip=92.121.34.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+Received: from inva020.nxp.com (localhost [127.0.0.1])
+	by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id 17B451A0A8A;
+	Thu, 22 May 2025 04:04:27 +0200 (CEST)
+Received: from aprdc01srsp001v.ap-rdc01.nxp.com (aprdc01srsp001v.ap-rdc01.nxp.com [165.114.16.16])
+	by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id D1DC11A0A67;
+	Thu, 22 May 2025 04:04:26 +0200 (CEST)
+Received: from lsvm11u0000395.swis.ap-northeast-2.aws.nxp.com (lsvm11u0000395.swis.ap-northeast-2.aws.nxp.com [10.52.9.99])
+	by aprdc01srsp001v.ap-rdc01.nxp.com (Postfix) with ESMTP id 50CD01800089;
+	Thu, 22 May 2025 10:04:25 +0800 (+08)
+From: Joseph Guo <qijian.guo@nxp.com>
+To: Bastien Nocera <hadess@hadess.net>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	linux-input@vger.kernel.org (open list:GOODIX TOUCHSCREEN),
+	linux-kernel@vger.kernel.org (open list)
+Cc: qijian.guo@nxp.com,
+	haibo.chen@nxp.com,
+	justin.jiang@nxp.com
+Subject: [PATCH v3] LF-15225 input: goodix: add poll mode for goodix touchscreen
+Date: Thu, 22 May 2025 11:04:18 +0900
+Message-Id: <20250522020418.1963422-1-qijian.guo@nxp.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250517105045.70998-1-apparle@gmail.com> <naxnt42hmvorqkif3pu4x36tpo44ugo2oiblrbtlrauucm5di2@tr2yobgoywmm>
- <CAB7A79ysZ2-kxKPyiM1+5keSrsbVwNZti4FzXGUbjx4OONzrDw@mail.gmail.com>
- <ogmv67n3rdia67ttj6whj4wnr2humhl2fjpo56phghqf67bpjx@bbdmdsmbp4kk>
- <CAB7A79x5zviCqjO_LY34v53YpDgpc3Lck5n725bn_sYTkL8EEg@mail.gmail.com> <65636077-FB55-4E20-80CA-419EF9A071B8@progandy.de>
-In-Reply-To: <65636077-FB55-4E20-80CA-419EF9A071B8@progandy.de>
-From: Apoorv Parle <apparle@gmail.com>
-Date: Wed, 21 May 2025 14:45:22 -0700
-X-Gm-Features: AX0GCFt9vm5vlsJqjgLhvGreL8zCghUzvhzkPcMdfWJf8GMv1_SL9yH6e4HzIII
-Message-ID: <CAB7A79yzSq0n9cdbQFZfzzZ+J=iub+vo6j3FkRRty-e0vTsvLw@mail.gmail.com>
-Subject: Re: [PATCH 0/1] Input: xpad - add disable_xboxone module parameter
-To: "A. Bosch" <progandy@progandy.de>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-input@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: ClamAV using ClamSMTP
 
-From what I've read on udev rules so far, I'm not sure if there's a
-clean deterministic way of unbinding one driver and binding it to
-another.
-As I understand, I'll have to write a script to run for either the
-"add" action or the "bind" action. The "add" script runs asynchronous
-to kernel's binding, so it could happen before or after xpad binding
-is done; and even if I unbind it, kernel can re-bind it again while
-scanning the USB bus, which again creates a race with the script. If I
-use the "bind" action instead of "add" action, the script can recurse
-depending on timing of kernel's attempt to rebind. I tried to look for
-similar examples but couldn't find any -- just a few very high cpu
-usage bugs due to similar recursion.
-Other similar scenarios (like graphics drivers) that I tried to find,
-just blacklist whole kernel modules or used some module param.
+goodix touchscreen only support interrupt mode by default.
+Some panels like waveshare panel which is widely used on raspeberry pi
+don't have interrupt pins and only work on i2c poll mode.
+The waveshare panel 7inch panel use goodix gt911 touchscreen chip.
 
-Though I'll admit, my knowledge of udev rules is somewhat limited.
+Signed-off-by: Joseph Guo <qijian.guo@nxp.com>
+Reviewed-by: Haibo Chen <haibo.chen@nxp.com>
+---
+Change from v1 to v2
+- Remove unused variable in goodix_ts_data struct
+- Use polling infrastructure
+---
+Change from v2 to v3
+- Modify goodix_request_irq to make less diff
+---
+ drivers/input/touchscreen/goodix.c | 43 +++++++++++++++++++++++++++---
+ 1 file changed, 40 insertions(+), 3 deletions(-)
 
+diff --git a/drivers/input/touchscreen/goodix.c b/drivers/input/touchscreen/goodix.c
+index aaf79ac50004..8e72174f486d 100644
+--- a/drivers/input/touchscreen/goodix.c
++++ b/drivers/input/touchscreen/goodix.c
+@@ -47,6 +47,7 @@
+ #define RESOLUTION_LOC		1
+ #define MAX_CONTACTS_LOC	5
+ #define TRIGGER_LOC		6
++#define GOODIX_POLL_INTERVAL_MS		17	/* 17ms = 60fps */
+ 
+ /* Our special handling for GPIO accesses through ACPI is x86 specific */
+ #if defined CONFIG_X86 && defined CONFIG_ACPI
+@@ -497,6 +498,14 @@ static void goodix_process_events(struct goodix_ts_data *ts)
+ 	input_sync(ts->input_dev);
+ }
+ 
++static void goodix_ts_work_i2c_poll(struct input_dev *input)
++{
++	struct goodix_ts_data *ts = input_get_drvdata(input);
++
++	goodix_process_events(ts);
++	goodix_i2c_write_u8(ts->client, GOODIX_READ_COOR_ADDR, 0);
++}
++
+ /**
+  * goodix_ts_irq_handler - The IRQ handler
+  *
+@@ -523,13 +532,29 @@ static irqreturn_t goodix_ts_irq_handler(int irq, void *dev_id)
+ 	return IRQ_HANDLED;
+ }
+ 
++static void goodix_enable_irq(struct goodix_ts_data *ts)
++{
++	if (ts->client->irq)
++		enable_irq(ts->client->irq);
++}
++
++static void goodix_disable_irq(struct goodix_ts_data *ts)
++{
++	if (ts->client->irq)
++		disable_irq(ts->client->irq);
++}
++
+ static void goodix_free_irq(struct goodix_ts_data *ts)
+ {
+-	devm_free_irq(&ts->client->dev, ts->client->irq, ts);
++	if (ts->client->irq)
++		devm_free_irq(&ts->client->dev, ts->client->irq, ts);
+ }
+ 
+ static int goodix_request_irq(struct goodix_ts_data *ts)
+ {
++	if (!ts->client->irq)
++		return 0;
++
+ 	return devm_request_threaded_irq(&ts->client->dev, ts->client->irq,
+ 					 NULL, goodix_ts_irq_handler,
+ 					 ts->irq_flags, ts->client->name, ts);
+@@ -1229,6 +1254,18 @@ static int goodix_configure_dev(struct goodix_ts_data *ts)
+ 		return error;
+ 	}
+ 
++	input_set_drvdata(ts->input_dev, ts);
++
++	if (!ts->client->irq) {
++		error = input_setup_polling(ts->input_dev, goodix_ts_work_i2c_poll);
++		if (error) {
++			dev_err(&ts->client->dev,
++				 "could not set up polling mode, %d\n", error);
++			return error;
++		}
++		input_set_poll_interval(ts->input_dev, GOODIX_POLL_INTERVAL_MS);
++	}
++
+ 	error = input_register_device(ts->input_dev);
+ 	if (error) {
+ 		dev_err(&ts->client->dev,
+@@ -1435,7 +1472,7 @@ static int goodix_suspend(struct device *dev)
+ 
+ 	/* We need gpio pins to suspend/resume */
+ 	if (ts->irq_pin_access_method == IRQ_PIN_ACCESS_NONE) {
+-		disable_irq(client->irq);
++		goodix_disable_irq(ts);
+ 		return 0;
+ 	}
+ 
+@@ -1479,7 +1516,7 @@ static int goodix_resume(struct device *dev)
+ 	int error;
+ 
+ 	if (ts->irq_pin_access_method == IRQ_PIN_ACCESS_NONE) {
+-		enable_irq(client->irq);
++		goodix_enable_irq(ts);
+ 		return 0;
+ 	}
+ 
+-- 
+2.34.1
 
-On Mon, May 19, 2025 at 11:23=E2=80=AFPM A. Bosch <progandy@progandy.de> wr=
-ote:
->
-> Hi,
->
-> could you not create udev rules to perform these actions?
->
-> - Andreas
->
->
-> Am 20. Mai 2025 06:04:36 MESZ schrieb Apoorv Parle <apparle@gmail.com>:
->>
->> Ah, yes, that's possible. But it's too hard to generally use -
->> requires manual command line intervention each time the xbox dongle is
->> plugged-in and/or computer reboots.There's no easy way to robustly
->> automate this especially for layperson linux gamers.
->> A stripped-down and hand-compiled version of xpad is at least fully
->> automated, but only until the linux kernel is updated by the distro.
->>
->> On Mon, May 19, 2025 at 2:36=E2=80=AFPM Dmitry Torokhov
->> <dmitry.torokhov@gmail.com> wrote:
->>>
->>>
->>>  I understand. However you can unbind and bind individual devices to
->>>  individual drivers via sysfs by writing into
->>>  /sys/bus/usb/drivers/{xpad|xone}/{un}bind.
->>>
->>>  Thanks.
->>>
->>>  --
->>>  Dmitry
->>
->>
 
