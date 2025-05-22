@@ -1,128 +1,113 @@
-Return-Path: <linux-input+bounces-12531-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12532-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CCB5AC0B53
-	for <lists+linux-input@lfdr.de>; Thu, 22 May 2025 14:09:23 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC327AC0BF1
+	for <lists+linux-input@lfdr.de>; Thu, 22 May 2025 14:49:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8E482189CE42
-	for <lists+linux-input@lfdr.de>; Thu, 22 May 2025 12:09:15 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D76C6500C50
+	for <lists+linux-input@lfdr.de>; Thu, 22 May 2025 12:49:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BB5DA28C5AA;
-	Thu, 22 May 2025 12:06:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D0C9228BA81;
+	Thu, 22 May 2025 12:49:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="lJ2zTeNo"
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="o9a92RWa"
 X-Original-To: linux-input@vger.kernel.org
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59D6F28C017;
-	Thu, 22 May 2025 12:06:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B2C628B7CC
+	for <linux-input@vger.kernel.org>; Thu, 22 May 2025 12:49:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747915618; cv=none; b=mU3vL5twYdAX6abOPaUfUv/SqdiNgszKWLgaTg8OYZbRx5h2vP/gCgbw+fhrfCLqkGjWvbk2CNBf3NnKTbNZl8UXirBDR2RCw1XaYYJJ0lvAV2wqlRmvvo19IIYtrtp8+HMjIhVHVcl9im9xgqhUnFNdrwodP9iJ2k2HWRY+CjE=
+	t=1747918149; cv=none; b=Yzd3c6jxFXR/4Lkq4vbyMKv10HNzCo6Lmbbvz18JgfRRRpBk1nbTnyiEwO3Jb+WMu+UJgthNM3VDDI3XRkYoxUKVywfoQIpIsfReEiC8b1KHGhDfESfS/8Bwn32l+ebLPhStn0JHPsVLVg3ue47plLi9Rf3ZiN/vu6GrUNNHU74=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747915618; c=relaxed/simple;
-	bh=TKtExURtBBoXKlQbeQ8pWXApgKHf6ZVWdlros+uARmM=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=AXHAaK7EUeaLhrUz0pq+1XWDPS8Zbdejz9WIvoDrSD3tnaaeCHPRG/MLBlYFsiGfMHXWt27qQxCSSg4E1sUGDnUibHNpWh+YmV/YEnwN/cRnkGy9dbCs/Fz7upEI5+8tBIhLvlY/IbxylmmZv6oBXCS7v4ZdtD9lySMTivqPLu8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=lJ2zTeNo; arc=none smtp.client-ip=217.70.183.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id CB7B41FD4B;
-	Thu, 22 May 2025 12:06:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1747915614;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Gde4hNbGxjPKI0oyqAoqLRnO/q5Opqk9gHiDD4/OSps=;
-	b=lJ2zTeNo4ArOSvr2nz5jt5K/liUKh+YWwZxejIVPsK0sTpKdU8Kr2AVMgQbuGTDw6hYaU7
-	O7iZh2cLJVdKLQjJHMOub9APF+XAukk9H5qkjka63dvozuVRm9dj7ZTGIxGz+zzVbFLfC2
-	iE5vfieG9Y7eGXZ/WBhtjL6wVvikjk4jDwDChY4sZW/ObZQcXGuqq6AoXEMm17ZW+dSSyq
-	nCUO++zG+DIiN/WGV+BJRuQ8N+Y1drfk4DE7/HowlSHXEBapif61+0c/qs5MwfeKU2N87t
-	GXJtxW/3mVxXnL8gXGDA5KwBMtmQY1A/0CtO+8jIB4NXlexO5qhZOFGMJoPdFw==
-From: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Date: Thu, 22 May 2025 14:06:26 +0200
-Subject: [PATCH v9 11/11] MAINTAINERS: Add entry on MAX7360 driver
+	s=arc-20240116; t=1747918149; c=relaxed/simple;
+	bh=Z0gHB0HaajNHKCYvI4wM/4KBuF4dU3pH/6e4JlH8Fug=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=jqbU+kBfE4Z3QEtmv53KhjlkXtoGOVMDoVxFZwkxb6K0cxHu9PQDutGXvHcHGiikjOlp6DZSbCjWeZ78zgsaIQQoxpiIAphLcv9gxCA95o93+hxiIxkSfUc6+LCp+1CtUQz+o5pg7VvQUNDIJW04PzKlW1ccbswSRQZKXdnCoKI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=o9a92RWa; arc=none smtp.client-ip=209.85.208.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-32805a565e6so80784061fa.1
+        for <linux-input@vger.kernel.org>; Thu, 22 May 2025 05:49:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1747918146; x=1748522946; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Z0gHB0HaajNHKCYvI4wM/4KBuF4dU3pH/6e4JlH8Fug=;
+        b=o9a92RWaZbEQYf355kFx4er209zmHK9J6PloQmPpe9wSN6GxUYpJvgIOfxUdBeqkMz
+         lqbgHsvs5xGzCM3BjywJMcEzMQG9NmIumS4sdbI2wWZW5/5Z9LURGhCeXkv5Jk0579an
+         ojugdZyQ1noe/dv/3k/7VPlPYMyXZHxGVNjmQYJNY6Ry2IxHzHr8gMj69rj8f5hBAknI
+         mTMpnlGlqiYzQF9GmvjN7CUPvbVlA+99c94pwGeDMrQViIkZvUq9hBusLRjYNj2v6Tg7
+         Tdh2ZEIkritbVRbOU3gDuVt1jCmzt+erqGWmVgRePPLh/m3WQOvfd7KCdcxrOvUMUgzj
+         LnGw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747918146; x=1748522946;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Z0gHB0HaajNHKCYvI4wM/4KBuF4dU3pH/6e4JlH8Fug=;
+        b=beE34ZkhJoH2c2Sm6E0NaJGGosGsvgRvhFnzFEpr9vZZML5c5MITNoaCqRTwIOY8pa
+         CvV+bmtngoEebwE+GeQYYBe65h9b/q0fhBBinSg+IMm1V6mx3gVIfESQxKcmuNlhfeS/
+         Z8T/ywhXe+0gzfxodiJGzpggBh2WIjrsyNQws2GX5gy6ij4UqNUbowKc3cBDVmwQAucq
+         U94mcMCxE1nqD9k9pYgR7DVrghhSeYxgMBqgquMMNcULzWNi1WmjHH7INM6xCRFKFs9n
+         eiLINCBck2V5l/YRcrJPVWMqrruPeoat/ZjK1ifp1zg4IbMOb5e4GZqmv1bTHWo2TGCR
+         S8Zw==
+X-Forwarded-Encrypted: i=1; AJvYcCXHLplBWUTTPaiAKZxTHc3L5RKSRbkKdUvF0POplJ8jeYPVvYu3zq8H9PQZXsrRxjrJT1y+lrRnNEIgRQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx4eA0hq0if3S/0bC4b2/7op3VdrXVLWyPdDrVENsmzYLeDkWk0
+	9DslwmHhEuylARqWRoZnO8AbFX5MLbBv+vZ44/yoXXb+wgSbfdEz5AkhgRXDNWB6T06W1qzTk77
+	zaPj1+2Hmy5l/j1ZZjYAnTFZ4gnEzXCvfRAPb4lwf4Q==
+X-Gm-Gg: ASbGnctQ4qAfmas08UD2cPOtvbUSas0cqgGDR8YuQIhUD/pnYvb073lYYAVKP/UrgO0
+	kfnHZff3hOXal9Z07SYnwjmYrnWrGLcKy5ndu+Fif3jc8aRruNrevw7kV/WyyKuMhqL+d+L3bFH
+	jn0fhdOxiF/3doYv0Y9RFmU4DDQdNM8eNyscFVpd8a3YdNpEPbYNtvOym6w+2sdIdJ
+X-Google-Smtp-Source: AGHT+IEFpkVZ1pANxMRMncXMFAgbz8vtOXm9cMnMDXn+P/zwa3GMV6fwieHhRebAmrvNsxI2CFwNRESS/Z3OsyMMYI8=
+X-Received: by 2002:a2e:ad0a:0:b0:328:c9c4:8ca5 with SMTP id
+ 38308e7fff4ca-328c9c48e0bmr79614541fa.9.1747918145922; Thu, 22 May 2025
+ 05:49:05 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250522-mdb-max7360-support-v9-11-74fc03517e41@bootlin.com>
-References: <20250522-mdb-max7360-support-v9-0-74fc03517e41@bootlin.com>
-In-Reply-To: <20250522-mdb-max7360-support-v9-0-74fc03517e41@bootlin.com>
-To: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Kamel Bouhara <kamel.bouhara@bootlin.com>, 
- Linus Walleij <linus.walleij@linaro.org>, 
- Bartosz Golaszewski <brgl@bgdev.pl>, 
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
- =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, 
- Michael Walle <mwalle@kernel.org>, Mark Brown <broonie@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-gpio@vger.kernel.org, linux-input@vger.kernel.org, 
- linux-pwm@vger.kernel.org, andriy.shevchenko@intel.com, 
- =?utf-8?q?Gr=C3=A9gory_Clement?= <gregory.clement@bootlin.com>, 
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-X-Mailer: b4 0.14.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1747915601; l=1082;
- i=mathieu.dubois-briand@bootlin.com; s=20241219; h=from:subject:message-id;
- bh=TKtExURtBBoXKlQbeQ8pWXApgKHf6ZVWdlros+uARmM=;
- b=bI5cST6pMne/Waha6dchjwdoLVKlx86LbpIG78Lj/OuTn1+i4RkUegP2u9FTefys413Vz3LdK
- e12hHUDjPqkBuybg1ZG54jffj0yjC3kMFzaLvK54gy0oh6MBnYAtO/X
-X-Developer-Key: i=mathieu.dubois-briand@bootlin.com; a=ed25519;
- pk=1PVTmzPXfKvDwcPUzG0aqdGoKZJA3b9s+3DqRlm0Lww=
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddtgdehleduucdltddurdegfedvrddttddmucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhfffugggtgffkfhgjvfevofesthejredtredtjeenucfhrhhomhepofgrthhhihgvuhcuffhusghoihhsqdeurhhirghnugcuoehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpedthfegtedvvdehjeeiheehheeuteejleektdefheehgfefgeelhfetgedttdfhteenucfkphepvdgrtddumegtsgdugeemheehieemjegrtddtmeeffhgtfhemfhgstdgumeduvdeivdemvdgvjeeinecuvehluhhsthgvrhfuihiivgepieenucfrrghrrghmpehinhgvthepvdgrtddumegtsgdugeemheehieemjegrtddtmeeffhgtfhemfhgstdgumeduvdeivdemvdgvjeeipdhhvghloheplgduvdejrddtrddurddungdpmhgrihhlfhhrohhmpehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedvfedprhgtphhtthhopegurghkrheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhushdrfigrlhhlvghijheslhhinhgrrhhordhorhhgpdhrtghpthhtoheps
- ghrohhonhhivgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepmhgrthhhihgvuhdrughusghoihhsqdgsrhhirghnugessghoohhtlhhinhdrtghomhdprhgtphhtthhopehthhhomhgrshdrphgvthgriiiiohhnihessghoohhtlhhinhdrtghomhdprhgtphhtthhopegsrhhglhessghguggvvhdrphhlpdhrtghpthhtohepughmihhtrhihrdhtohhrohhkhhhovhesghhmrghilhdrtghomhdprhgtphhtthhopeguvghvihgtvghtrhgvvgesvhhgvghrrdhkvghrnhgvlhdrohhrgh
-X-GND-Sasl: mathieu.dubois-briand@bootlin.com
+References: <20250522-mdb-max7360-support-v9-0-74fc03517e41@bootlin.com> <20250522-mdb-max7360-support-v9-7-74fc03517e41@bootlin.com>
+In-Reply-To: <20250522-mdb-max7360-support-v9-7-74fc03517e41@bootlin.com>
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+Date: Thu, 22 May 2025 14:48:55 +0200
+X-Gm-Features: AX0GCFv8lXaIP98_tb3AUEaw6F5hqrO5BzvfYNqwXrM92x6w85A4_uKntjzv-9Q
+Message-ID: <CAMRc=Md4Pf-fazcioaE0vjojWzBXu=MiypE2e=hYHBi8zQO06g@mail.gmail.com>
+Subject: Re: [PATCH v9 07/11] gpio: regmap: Allow to provide init_valid_mask callback
+To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Kamel Bouhara <kamel.bouhara@bootlin.com>, Linus Walleij <linus.walleij@linaro.org>, 
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>, =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <ukleinek@kernel.org>, 
+	Michael Walle <mwalle@kernel.org>, Mark Brown <broonie@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, linux-input@vger.kernel.org, 
+	linux-pwm@vger.kernel.org, andriy.shevchenko@intel.com, 
+	=?UTF-8?Q?Gr=C3=A9gory_Clement?= <gregory.clement@bootlin.com>, 
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Add myself as maintainer of Maxim MAX7360 driver and device-tree bindings.
+On Thu, May 22, 2025 at 2:06=E2=80=AFPM Mathieu Dubois-Briand
+<mathieu.dubois-briand@bootlin.com> wrote:
+>
+> Allows to populate the gpio_regmap_config structure with
+> init_valid_mask() callback to set on the final gpio_chip structure.
+>
+> Reviewed-by: Michael Walle <mwalle@kernel.org>
+> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+> Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+> ---
 
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
----
- MAINTAINERS | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 69511c3b2b76..7e6d95ee103c 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -14576,6 +14576,19 @@ L:	linux-iio@vger.kernel.org
- S:	Maintained
- F:	drivers/iio/temperature/max30208.c
- 
-+MAXIM MAX7360 KEYPAD LED MFD DRIVER
-+M:	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-+S:	Maintained
-+F:	Documentation/devicetree/bindings/gpio/maxim,max7360-gpio.yaml
-+F:	Documentation/devicetree/bindings/mfd/maxim,max7360.yaml
-+F:	drivers/gpio/gpio-max7360.c
-+F:	drivers/input/keyboard/max7360-keypad.c
-+F:	drivers/input/misc/max7360-rotary.c
-+F:	drivers/mfd/max7360.c
-+F:	drivers/pinctrl/pinctrl-max7360.c
-+F:	drivers/pwm/pwm-max7360.c
-+F:	include/linux/mfd/max7360.h
-+
- MAXIM MAX77650 PMIC MFD DRIVER
- M:	Bartosz Golaszewski <brgl@bgdev.pl>
- L:	linux-kernel@vger.kernel.org
-
--- 
-2.39.5
-
+Reviewed-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 
