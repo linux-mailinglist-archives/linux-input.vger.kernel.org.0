@@ -1,120 +1,92 @@
-Return-Path: <linux-input+bounces-12543-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12544-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C5E4AC26E6
-	for <lists+linux-input@lfdr.de>; Fri, 23 May 2025 17:55:54 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 18D63AC273E
+	for <lists+linux-input@lfdr.de>; Fri, 23 May 2025 18:10:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7A3377A7924
-	for <lists+linux-input@lfdr.de>; Fri, 23 May 2025 15:54:33 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 305BD3B57F5
+	for <lists+linux-input@lfdr.de>; Fri, 23 May 2025 16:10:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 556D9295536;
-	Fri, 23 May 2025 15:55:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 776EF28382;
+	Fri, 23 May 2025 16:10:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jh5zVPui"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k2ME0qD0"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10472294A1D;
-	Fri, 23 May 2025 15:55:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5226E248F4F
+	for <linux-input@vger.kernel.org>; Fri, 23 May 2025 16:10:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748015743; cv=none; b=Gn72iqVH0JekAGa5g9tcT9XoSrLh1tL0ge8S9TcnK1XYRghRG2J8NTw8Byk2c0qIkyjlkxBhHmradRmv7+tYYnckI+6Gt/xFXdOUQwkmbXueUvDxAKWNaoVDoHV3cN9Lkrt5OOgVi0vbVTVsLNQ2PT132aR8L6YY8MS9tb9psVg=
+	t=1748016632; cv=none; b=eCbQVCejbEuTas/IkSmeCWGaIAIFHfv0QF6P1RZholInbm1TfSSVvXYbASSb13NJbSkMSCP3FepbCcNz4xYLBpeoXwheFs9/cpqs3PML/Xj2Z05zzdizVJzHMKBMuQzXwLpvyFoxXGpkGmgVAC0rnykTh4tjJ8T/3Rk52o2mMkA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748015743; c=relaxed/simple;
-	bh=02S++/GnMLzXCwbjOabyD4L7obDi6EOlhMd/z4qvnZg=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=IEh0nacU5VFA2PfcRvKQWknqw2AEX5B4rzrLApBZukpVXkDW017GbrY7XVmc0rKWg9AkmHjAJNzzwOCLub82ndGJz7pvw//5tR83YJ8uUpaL8SlVnf35yVq3OMtt+a5ti2CK+Z+VYgt06AAp0sCLDvgggho8OFbY3ZPhKkZoCuo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jh5zVPui; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 551FFC4CEEF;
-	Fri, 23 May 2025 15:55:37 +0000 (UTC)
+	s=arc-20240116; t=1748016632; c=relaxed/simple;
+	bh=/f+SrkJgs57MAk6FH/VBgvAEDFYwL/tJtJ1OJdZ0BtQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=eE1APifJ/EhIP/qwIHLygwUPC1vwJuGix+pE/DjHHRWRwGYVwuMCq/3/nxp+stRBWdGQHg2PKR+30Y6omiYyi7tkeXh+TV/PxijY+milsLdd0xLTWNzUR2YImDHqyyvuXCWxgsqotFTIvY/tow1e25/d4p1QhmH4r5f0irhWUk4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k2ME0qD0; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 442DAC4CEE9;
+	Fri, 23 May 2025 16:10:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1748015742;
-	bh=02S++/GnMLzXCwbjOabyD4L7obDi6EOlhMd/z4qvnZg=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=jh5zVPuiOna6z5tzNx9kqq7oe9bzgSsF1g6n/TK3adC8oGF7KBsuLoiiPt7otzI9R
-	 pkODmT8kDsaWRQT9hkIdTab9+5tmzRAmVN+G97qz+ylrDWEx5MhhM4OwZuTdOgo+Rl
-	 Vmrnyp/BXukO10ycqVZwYszs6dTuVxYSUr/3u2mxekfxdkhOEbo7YP/FNVsIiyL+/u
-	 wsn6JKM1RtdK/4RCwRsFgSDOmfUJirKnJv1HuRPZMHg7tAlxqV3GDcw8DRi5VCh3Me
-	 zoF1JoWEYv37tcJhYz2iS4bU3r9rYwwXApbXUrBQT+nZMicZ2OaOP2PE/Ucv6qwqCZ
-	 QgfoV7LW4iD2Q==
-From: Mark Brown <broonie@kernel.org>
-To: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Kamel Bouhara <kamel.bouhara@bootlin.com>, 
- Linus Walleij <linus.walleij@linaro.org>, 
- Bartosz Golaszewski <brgl@bgdev.pl>, 
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
- =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, 
- Michael Walle <mwalle@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
- Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-gpio@vger.kernel.org, linux-input@vger.kernel.org, 
- linux-pwm@vger.kernel.org, andriy.shevchenko@intel.com, 
- =?utf-8?q?Gr=C3=A9gory_Clement?= <gregory.clement@bootlin.com>, 
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
- Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-In-Reply-To: <20250509-mdb-max7360-support-v8-0-bbe486f6bcb7@bootlin.com>
-References: <20250509-mdb-max7360-support-v8-0-bbe486f6bcb7@bootlin.com>
-Subject: Re: (subset) [PATCH v8 00/11] Add support for MAX7360
-Message-Id: <174801573711.565639.2548650361543550224.b4-ty@kernel.org>
-Date: Fri, 23 May 2025 16:55:37 +0100
+	s=k20201202; t=1748016631;
+	bh=/f+SrkJgs57MAk6FH/VBgvAEDFYwL/tJtJ1OJdZ0BtQ=;
+	h=From:To:Cc:Subject:Date:From;
+	b=k2ME0qD07qMD61LXaLcpcsLqagz2OaBNO4IroTGTmaQmegZjuyD9zC1HBlFNG+M9Y
+	 cqJ4wMoK43X3mw7h/4feCZ1ZocoQGmDvJ3cZhc7Jke4zttvROsU60uLkSAvkuS+LWX
+	 uydvi8jOWdhbfUX4LlBuckPwgppBO4bigrVCk83de/jJIVJtE/ba/Ey4wbOPHv1IeQ
+	 xM9vO4FjQ3j5in5PMzc6ZY2j6Ie4JaCKQjPF23c3oqjdYn6H1fXT02h+RAnHgonzge
+	 B9Qerd+DZhmKCcYirATwqbUYdJ6SNltbcEqOCnN2Y0rQC1/quVpy0yzw9s9E3u7i15
+	 p5CqOX1WmpJxQ==
+From: Mario Limonciello <superm1@kernel.org>
+To: mario.limonciello@amd.com,
+	jikos@kernel.org,
+	bentiss@kernel.org
+Cc: linux-input@vger.kernel.org
+Subject: [PATCH] HID: Lower message 'No inputs registered, leaving' to debug
+Date: Fri, 23 May 2025 11:10:07 -0500
+Message-ID: <20250523161015.3881816-1-superm1@kernel.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-c25d1
+Content-Transfer-Encoding: 8bit
 
-On Fri, 09 May 2025 11:14:34 +0200, Mathieu Dubois-Briand wrote:
-> This series implements a set of drivers allowing to support the Maxim
-> Integrated MAX7360 device.
-> 
-> The MAX7360 is an I2C key-switch and led controller, with following
-> functionalities:
-> - Keypad controller for a key matrix of up to 8 rows and 8 columns.
-> - Rotary encoder support, for a single rotary encoder.
-> - Up to 8 PWM outputs.
-> - Up to 8 GPIOs with support for interrupts and 6 GPOs.
-> 
-> [...]
+From: Mario Limonciello <mario.limonciello@amd.com>
 
-Applied to
+Plugging in a "Blue snowball" microphone always shows the
+error 'No inputs registered, leaving', but the device functions as
+intended.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regmap.git for-next
+When a HID device is started using the function hid_hw_start() and
+the argument HID_CONNECT_DEFAULT it will try all various hid connect
+requests. Not all devices will create an input device and so the
+message is needlessly noisy.  Decrease it to debug instead.
 
-Thanks!
+Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+---
+ drivers/hid/hid-input.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-[05/11] regmap: irq: Add support for chips without separate IRQ status
-        commit: 1c12fbdf40e17df2efc24bf2009a0c3bfa75bfa7
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
+index 9d80635a91ebd..ff1784b5c2a47 100644
+--- a/drivers/hid/hid-input.c
++++ b/drivers/hid/hid-input.c
+@@ -2343,7 +2343,7 @@ int hidinput_connect(struct hid_device *hid, unsigned int force)
+ 	}
+ 
+ 	if (list_empty(&hid->inputs)) {
+-		hid_err(hid, "No inputs registered, leaving\n");
++		hid_dbg(hid, "No inputs registered, leaving\n");
+ 		goto out_unwind;
+ 	}
+ 
+-- 
+2.43.0
 
 
