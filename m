@@ -1,145 +1,157 @@
-Return-Path: <linux-input+bounces-12568-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12569-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 843A6AC3815
-	for <lists+linux-input@lfdr.de>; Mon, 26 May 2025 04:43:15 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DB609AC3F04
+	for <lists+linux-input@lfdr.de>; Mon, 26 May 2025 14:03:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 532311701E1
-	for <lists+linux-input@lfdr.de>; Mon, 26 May 2025 02:43:16 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9F93616DF32
+	for <lists+linux-input@lfdr.de>; Mon, 26 May 2025 12:03:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7584917B425;
-	Mon, 26 May 2025 02:43:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 042C11FBEB3;
+	Mon, 26 May 2025 12:03:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Dh19+23q"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="bM8bhV4z"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03BC85661;
-	Mon, 26 May 2025 02:43:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E5ED1BC5C;
+	Mon, 26 May 2025 12:03:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.196
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748227391; cv=none; b=a2EhKUA4HXzzG9KUv2VKpz6tg2K0q9KDaTZW+zJNh5AyncROjJ+/q5l+Ae2rNemx1Ju5GM4sQossCcS+DxrC4Ti/p0fx4gcecqKcuQTrQ4QjWc2diDFyWCKLoIPa8KEn4uVD4LWO7LkDiHrkrHIrH3YW5YgZOx/RoBNxe9ySdNE=
+	t=1748260998; cv=none; b=ntZ5A7+Z5DuZ+x2xmyofKhmogVoPfKN1FC0pt3yzQDHYXvtTe08cjWYBvQNNlKGgeYZ+XdwHeEdKcXlijcKp6n0ytBWBV14FOLqaJ95M1hSe1Q6r2JZLPoQSVb3KE5B+yqmef9HYPdU0RAR0eiAvbXt9AmHzTQikawxGgh/YeQY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748227391; c=relaxed/simple;
-	bh=IC9uFzW1GraEckz1npeV7R+FHBO0O1DM7iSkV0imFfc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QN4PfK2jV9c+ZvQ8PKPvPvHUCqJkkzWcRz44VE0NL9LW2ZE80ZMOXi8kS4C2wPtuD3EfQP9FVxO11BnsK4nOqp+nZlhTVZBCPdHtgI+pPBILGavhgP0yPBWstPXYtnlG90cVn6uzE1IiXXMTBzJ/WwduAag9JiloV5Sl0IdNI6I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Dh19+23q; arc=none smtp.client-ip=209.85.214.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-234477e3765so5149585ad.2;
-        Sun, 25 May 2025 19:43:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1748227389; x=1748832189; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=IC9uFzW1GraEckz1npeV7R+FHBO0O1DM7iSkV0imFfc=;
-        b=Dh19+23qNUoMSBaD1mpB/nbOpaj1bqSApAw9/h+OCQ+Sns9IMhXpo46U+aU0hc9Adc
-         ZCZ+CynrPdBQ1OdQgMbNDz2HuOYeetlgB+1dltKaaOrLMuncSdaXj6Tl9iL0N9XQz15t
-         m+X6giph7dVHB0hk63FYCGwEnwxmJjVBORMOmWASBdqqKXAYd2EazSpftZkNNIz2PtIq
-         Yp6kLcyOyQCaCOusXIIZV18pge7if2brsQ5REMgdwnSUWt9KE9VlRzxS1mt8sJ9+g2hJ
-         8pZkVyqgOjyGV7btgK/XVX2yLZhUfIE7OEcGbdDPEvVmE/4ctF67rnVdpy3StapycA1V
-         2PdQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748227389; x=1748832189;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IC9uFzW1GraEckz1npeV7R+FHBO0O1DM7iSkV0imFfc=;
-        b=HBKKzSpdZe8X8MdR6TxNhlQ9+GkD9/whKIltycm6cuM6mtLgyXI/FIoR7OtRB6IHOI
-         AVx7LNemF9Ws0QPOeTvR5zOlJN3KvZP0LWtfn5YY0qiMi6Be+IlOAkHD95PHvAt8Sam6
-         qvOtNm/KhKX4VLmHf8qo8JmoQccfXW3QWqXzUktHmgxfHY2qv7iufbsYEbihWBEfMebO
-         jxkpfNCneAwsGFAzEqe7hx5PunZ2ipBTmHNIvw/zqQ4qF4LQbOiD1Cejd/HsaDNHHZ5P
-         HGUw1CfNWStrf0F6CzEM6Y9EcW8v6K0Vwlfe5R/UbPb/BUJ711ep7C2qYnCrYViw9Rs6
-         5rrA==
-X-Forwarded-Encrypted: i=1; AJvYcCV7Nm7A9IhwN78ba+IlaZCdo2hgib0o1PIbZY54Z12LXJdCnemH41tFybSZ2mxHfAXQ018nFxVxxiI=@vger.kernel.org, AJvYcCXfUnx+d2YUhQnkGHIGaGrh4DVgPZN+WWhvZFe5+3RbnDAE/dCz0gCKmgSkvVbMO9zhOk1ubTjHWzCJw6gR@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz+sKz3TnSIttnFNo1ZpBJsThbQVGOpj6kdYWFCdF36T7ToAwyC
-	H/trN0Mim1dZKWawkrEUJhSCCnVSNQGlac3n22wXX5hc/GbiMeqUbSA0kSavUA==
-X-Gm-Gg: ASbGnctuiI4PMmoOLb9wVICKbctk3ns0Nh+QW0luJT/a57LX4yweKI7NIdJhICkxcs+
-	YxT+pbpSdf0XUv8NfrEGyo3jXipbj0VHw2JZHSTuE0Gw8giXWC2JfYqjtRUvhBF7K+RqkBHBTAl
-	yJ4kjtZA+kE51xiaRczixGF60/oRAzaCc7uxUz5HL8WeJLmCWT8idbOArRKHncN5LO4CPFft+al
-	L4ivJzRDeHqTWlK+PnSqjoqFojYD3UQrVEk7dGWeWp2lbG9+cc6N2Xxa2stg+9gJKtR+aeOBlqJ
-	fEZ+X5y/iq/x6AfI9JgyO2KgrnQKRUGnQwtcl0SsG2RzbfeO1S4=
-X-Google-Smtp-Source: AGHT+IE6IcDKP2eGy0o5YUOcd7vy0oot3F0p/IA9NKNpgNt6Jgt8tKvcQqxG3tD4qVmt2iBDGkOm/g==
-X-Received: by 2002:a17:902:cf42:b0:234:1163:ff99 with SMTP id d9443c01a7336-23414fd5dafmr132980195ad.43.1748227389024;
-        Sun, 25 May 2025 19:43:09 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23430aefd6csm21797535ad.82.2025.05.25.19.43.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 25 May 2025 19:43:08 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id 7C89B4209E8A; Mon, 26 May 2025 09:43:06 +0700 (WIB)
-Date: Mon, 26 May 2025 09:43:06 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: George Anthony Vernon <contact@gvernon.com>, dmitry.torokhov@gmail.com,
-	corbet@lwn.net, skhan@kernel.org
-Cc: linux-input@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev
-Subject: Re: [PATCH 3/3] input: docs: Fix Amiga joysticks grammar & formatting
-Message-ID: <aDPVOlBIpnqc7Tez@archie.me>
-References: <20250526011443.136804-1-contact@gvernon.com>
- <20250526011443.136804-4-contact@gvernon.com>
+	s=arc-20240116; t=1748260998; c=relaxed/simple;
+	bh=7RcKKcyw/mz1JEdzFQBQPEG8HmMMGUkhsGa4P9iWHbk=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:From:To:
+	 References:In-Reply-To; b=EHFAw3GkzTX83M3qO368Qp2iNHVHRB9NbDmVGzcKjcRLfra3F7gAc1SzolBBPmmeC7//sfhCsjXdBNcRa+V8HwWdUEN35NiS3F3HQIPmPKue/c7BvQHkuYWYwmNhqeufO4ulnFoSMhy08e4EQrCsF/uMwReirT8wmIaIEjPYDlA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=bM8bhV4z; arc=none smtp.client-ip=217.70.183.196
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 1942F43B29;
+	Mon, 26 May 2025 12:03:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1748260994;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=zxMH5k+dYKIilp2PKuzRPktv59J5PhIs3BBDtjszt0o=;
+	b=bM8bhV4zj/W2OP6qfF9wkW4EcChAuml0Pbcmn56RpgKhJrhogQK20f443bC4+ZMVr8yigP
+	WoilBnTSYNUQIk5pWtir7Jpd5TIOqEfk2j5dutyxhoppi4XzXiCnsKGaNwzaYxzFKsY+jP
+	qseUip5kW54H/5G10A3mVWaNgr7tsRgDcvumQjKbQfN2+BQ9aHnKdVXydK+coAvYLNyYf4
+	Q9pjo/qe5pIzBsniojLrnxkGpoR3MC8y89GI/K4elRnN5kLWlsW1m8Vanvdh4YyoBmNvfw
+	oOA72ORaBD89bYWOZryRc54hcWTsAhNiijZlrn1Drx2ZjuaKgwZVvgGfqLiTtA==
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="KntiioOK2g5D1YkR"
-Content-Disposition: inline
-In-Reply-To: <20250526011443.136804-4-contact@gvernon.com>
-
-
---KntiioOK2g5D1YkR
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 26 May 2025 14:03:12 +0200
+Message-Id: <DA62SSMI7C52.V2QD509S95QW@bootlin.com>
+Subject: Re: [PATCH v9 06/11] gpio: regmap: Allow to allocate regmap-irq
+ device
+Cc: "Lee Jones" <lee@kernel.org>, "Rob Herring" <robh@kernel.org>,
+ "Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Conor Dooley"
+ <conor+dt@kernel.org>, "Kamel Bouhara" <kamel.bouhara@bootlin.com>, "Linus
+ Walleij" <linus.walleij@linaro.org>, "Dmitry Torokhov"
+ <dmitry.torokhov@gmail.com>, =?utf-8?q?Uwe_Kleine-K=C3=B6nig?=
+ <ukleinek@kernel.org>, "Michael Walle" <mwalle@kernel.org>, "Mark Brown"
+ <broonie@kernel.org>, "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, "Danilo Krummrich"
+ <dakr@kernel.org>, <devicetree@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-gpio@vger.kernel.org>,
+ <linux-input@vger.kernel.org>, <linux-pwm@vger.kernel.org>,
+ <andriy.shevchenko@intel.com>, =?utf-8?q?Gr=C3=A9gory_Clement?=
+ <gregory.clement@bootlin.com>, "Thomas Petazzoni"
+ <thomas.petazzoni@bootlin.com>
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: "Bartosz Golaszewski" <brgl@bgdev.pl>
+X-Mailer: aerc 0.19.0-0-gadd9e15e475d
+References: <20250522-mdb-max7360-support-v9-0-74fc03517e41@bootlin.com>
+ <20250522-mdb-max7360-support-v9-6-74fc03517e41@bootlin.com>
+ <CAMRc=MeT+b5dBOWyf6-BpTjk70nwVhLOpCY-JHNizBo5H1-AnQ@mail.gmail.com>
+In-Reply-To: <CAMRc=MeT+b5dBOWyf6-BpTjk70nwVhLOpCY-JHNizBo5H1-AnQ@mail.gmail.com>
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddtgddujeegjeculddtuddrgeefvddrtddtmdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepggfgtgffkffuvefhvffofhgjsehtqhertdertdejnecuhfhrohhmpedfofgrthhhihgvuhcuffhusghoihhsqdeurhhirghnugdfuceomhgrthhhihgvuhdrughusghoihhsqdgsrhhirghnugessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepkefhkeeifeethfejteevfeduheduvddvuedvvddugfffhfevkefftefhuefftddunecuffhomhgrihhnpegsohhothhlihhnrdgtohhmnecukfhppedvrgdtudemvgdtrgemrgeiieemfedukedtmegttdgsvgemsgelrgekmegvheelvdemiegrfehfnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddumegvtdgrmegrieeimeefudektdemtgdtsggvmegslegrkeemvgehledvmeeirgeffhdphhgvlhhopehlohgtrghlhhhoshhtpdhmrghilhhfrhhomhepmhgrthhhihgvuhdrughusghoihhsqdgsrhhirghnugessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepvddvpdhrtghpthhtohepsghrghhlsegsghguvghvrdhplhdprhgtphhtthhopehlvggvsehkvghrnhgvlhdrohhrghdpr
+ hgtphhtthhopehrohgshheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepkhhriihkodgutheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheptghonhhorhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehkrghmvghlrdgsohhuhhgrrhgrsegsohhothhlihhnrdgtohhmpdhrtghpthhtoheplhhinhhushdrfigrlhhlvghijheslhhinhgrrhhordhorhhgpdhrtghpthhtohepughmihhtrhihrdhtohhrohhkhhhovhesghhmrghilhdrtghomh
+X-GND-Sasl: mathieu.dubois-briand@bootlin.com
 
-On Mon, May 26, 2025 at 02:14:43AM +0100, George Anthony Vernon wrote:
-> Make small grammar fixes to Amiga joystick documentation.
->=20
-> Also make heading adornments compliant with the guidelines to improve
-> organisation of the page.
+On Thu May 22, 2025 at 3:01 PM CEST, Bartosz Golaszewski wrote:
+> On Thu, May 22, 2025 at 2:06=E2=80=AFPM Mathieu Dubois-Briand
+> <mathieu.dubois-briand@bootlin.com> wrote:
+>>
+>> GPIO controller often have support for IRQ: allow to easily allocate
+>> both gpio-regmap and regmap-irq in one operation.
+>>
+>> Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+>> ---
+>>  drivers/gpio/gpio-regmap.c  | 21 +++++++++++++++++++--
+>>  include/linux/gpio/regmap.h | 11 +++++++++++
+>>  2 files changed, 30 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/gpio/gpio-regmap.c b/drivers/gpio/gpio-regmap.c
+>> index 87c4225784cf..9cbbbaf82609 100644
+>> --- a/drivers/gpio/gpio-regmap.c
+>> +++ b/drivers/gpio/gpio-regmap.c
+>> @@ -215,6 +215,7 @@ EXPORT_SYMBOL_GPL(gpio_regmap_get_drvdata);
+>>   */
+>>  struct gpio_regmap *gpio_regmap_register(const struct gpio_regmap_confi=
+g *config)
+>>  {
+>> +       struct irq_domain *irq_domain;
+>>         struct gpio_regmap *gpio;
+>>         struct gpio_chip *chip;
+>>         int ret;
+>> @@ -295,8 +296,24 @@ struct gpio_regmap *gpio_regmap_register(const stru=
+ct gpio_regmap_config *config
+>>         if (ret < 0)
+>>                 goto err_free_gpio;
+>>
+>> -       if (config->irq_domain) {
+>> -               ret =3D gpiochip_irqchip_add_domain(chip, config->irq_do=
+main);
+>> +#ifdef CONFIG_REGMAP_IRQ
+>> +       if (config->regmap_irq_chip) {
+>> +               struct regmap_irq_chip_data *irq_chip_data;
+>> +
+>> +               ret =3D devm_regmap_add_irq_chip_fwnode(config->parent, =
+dev_fwnode(config->parent),
+>> +                                                     config->regmap, co=
+nfig->regmap_irq_line,
+>> +                                                     config->regmap_irq=
+_flags, 0,
+>> +                                                     config->regmap_irq=
+_chip, &irq_chip_data);
+>
+> I don't think using devres here is a good idea. There's no guarantee
+> that gpio_regmap_register() will be called on device attach so you
+> must not make the release of the resource depend on an associated
+> detach which may never happen. Please use the non-managed variant
+> here.
 
-Split up these two changes into separate patches.
+Right, I will make sure to use
+regmap_add_irq_chip_fwnode()/regmap_del_irq_chip() here.
 
-> -~~~~~~~~~~~~~~~~~~~~~~~~~
-> -Amiga joystick extensions
-> -~~~~~~~~~~~~~~~~~~~~~~~~~
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +Amiga joysticks
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+I should be able to send a new version in the coming days.
 
-I would prefer to keep section adornments in this doc as-is, though.
+>
+> Bart
+>
 
-> +Register addresses
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +JOY0DAT/JOY1DAT
-> +---------------
-
-But adding sections for register addresses looks OK.
-
-Thanks.
+Thanks for your review.
+Mathieu
 
 --=20
-An old man doll... just what I always wanted! - Clara
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
---KntiioOK2g5D1YkR
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaDPVOgAKCRD2uYlJVVFO
-o4yOAQCqnQ8RdNDxbTGXB7K4fMlodV6JHiDTp29uYq1k1Vg9PQD/U6L1ZPND0gt/
-ysOPMZ9UazUaRvV6Ybqo2lFne86ZBQo=
-=CFhb
------END PGP SIGNATURE-----
-
---KntiioOK2g5D1YkR--
 
