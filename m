@@ -1,57 +1,56 @@
-Return-Path: <linux-input+bounces-12571-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12572-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 898C4AC3F8E
-	for <lists+linux-input@lfdr.de>; Mon, 26 May 2025 14:52:40 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CD9BAC3F8F
+	for <lists+linux-input@lfdr.de>; Mon, 26 May 2025 14:52:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B360E18991B2
-	for <lists+linux-input@lfdr.de>; Mon, 26 May 2025 12:52:40 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id ADED31899242
+	for <lists+linux-input@lfdr.de>; Mon, 26 May 2025 12:52:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 676A1207A16;
-	Mon, 26 May 2025 12:51:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 204AA207A0B;
+	Mon, 26 May 2025 12:51:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="jLsFpv9W"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="JmaoAcdU"
 X-Original-To: linux-input@vger.kernel.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33184205AA1;
-	Mon, 26 May 2025 12:51:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAB0B202C30;
+	Mon, 26 May 2025 12:51:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748263916; cv=none; b=hS8LQ02q+WvY3cpw+inV9BeWH4e5TOHDWhQIq3DThAC2oVrpsH8NMg6PtgR6esUCdIM4/ghsiTe8sXeDIp/qFRiiBLvtt09ayqsdDqK4bRMHn8FQWrvTPcdMbvC3J5sNYjUsfGdMG4couv/qOfVxxDeaXkxe6kv3soyH0tVECfY=
+	t=1748263917; cv=none; b=Gqr18q4/NaJGb4eGfVpiqb/nUph5beoUMmY8zh4vZvM/RrIUZc+ecqxbx8XYhPv7x/dk5RVUszCeDAWTwitnZnzxF419DTiFoa9EE/S62JYV8/eQ1dOzfHSzxXYPk4wfGXt0ykpzm0xzzabiKXDWab45wEc028wGxYSsJjiko6o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748263916; c=relaxed/simple;
-	bh=OH5QZrG1//Rt5FE9pTjHrkbMC3obpY+CaHTjj3/IIIY=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=WAMhHvhIImZKh2evV/LITeifvi5gKI4gVOFfzkLvUepVUomUc0y4VjUp1LVgN/zAZzVzQbOvLNVdsGE8Y0U25o3olDU4cHUk+1+HdKdqM/nRdkGTfgfO52MLnE9E/AKYceuwJ6ewokA2/7mrABE2MrO9h1XmsfiUkvsZew80Zv8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=jLsFpv9W; arc=none smtp.client-ip=148.251.105.195
+	s=arc-20240116; t=1748263917; c=relaxed/simple;
+	bh=mcZVPEoHxVrNSWLlV4uyqHyCNE9injyhGEmhDU9x+AY=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=fUdwWjJdz+bK3ZxmZIVTdPuoXfZza11d1caZfTLQ6Ki/6a4YYRdfexK1hIO6gmzlZzwB1Qix66mi/pKy5B/xKB+SdAh6oQDAbI8+L98dmuGq7FYgqu7Pxl+0asax4wgzDWb2RYT+4D8VoZyDCTqA4gkYo0xcfPKY+wtKgXAMtJY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=JmaoAcdU; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1748263912;
-	bh=OH5QZrG1//Rt5FE9pTjHrkbMC3obpY+CaHTjj3/IIIY=;
-	h=From:Subject:Date:To:Cc:From;
-	b=jLsFpv9WhqWAUal5OJ98YY8lQBKD2Y13sQQvPuV2pNK2AHs4IolFbETu2qczbgboT
-	 9rh+8VrsHu16WHcC5q51HuV319PVMg75edtyNugaBu9yrW3kqOyYx02JLrz91+CG8J
-	 kQpvq2VRlH6sbmA4fTc0bTlIE3zf5UU+BAsdx9L0dxAhCerAxVR1nqQOFDx4ExnqkK
-	 DqlrG6ewhG17H9m2ZekPI2fgWDUTeRpP6+l1N8wiNhxxqzZogTQ8l1xV8XFvP8w8im
-	 Jlvw/bvRR8NsOwlRlz4g+Hw0Ya7GaL6SW57EwUOhnbiU0mx40yFYvQ/l992qvcyhLL
-	 DjspK3jTOwuZA==
+	s=mail; t=1748263913;
+	bh=mcZVPEoHxVrNSWLlV4uyqHyCNE9injyhGEmhDU9x+AY=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=JmaoAcdUZqIIPI330gtuSmReyIGEPd6uQlSLvOM9Qz+Eyu+9P4gbUfpSFH1yG+Am4
+	 rpxb3lsS421n8YtdivO22KhsCXHTT3J+LZ7BOukpre3RYB95jYWRYOeLWOSHFNqKHg
+	 TNCAw4SNuuKnRvaPmJpes0v9cwTEthWyGnGcBy+rOUHIOZgOyUStgqBLh6NvvpRAd1
+	 g52fW2AhAHKVvgAyLVb+DYXm3Z+a0VeTfHCbO5KxefBihTclVxhBpmTfqTrNCLadDt
+	 gtsMFekHh3AW0NDE2QYVTejk5g13PelqWRfxmiI6cM88E/FjLy+yGJtjTlLvJwDPIm
+	 DnU6UQ1MagKgA==
 Received: from localhost (unknown [82.76.59.134])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: cristicc)
-	by bali.collaboradmins.com (Postfix) with UTF8SMTPSA id E0C9617E0FD3;
-	Mon, 26 May 2025 14:51:51 +0200 (CEST)
+	by bali.collaboradmins.com (Postfix) with UTF8SMTPSA id D915B17E1576;
+	Mon, 26 May 2025 14:51:52 +0200 (CEST)
 From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Subject: [PATCH 00/11] HID: playstation: Add support for audio jack
- handling on DualSense
-Date: Mon, 26 May 2025 15:51:23 +0300
-Message-Id: <20250526-dualsense-hid-jack-v1-0-a65fee4a60cc@collabora.com>
+Date: Mon, 26 May 2025 15:51:24 +0300
+Subject: [PATCH 01/11] HID: playstation: Make use of bitfield macros
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -60,10 +59,9 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAMxjNGgC/x3MwQpAQBCA4VfRnE2xWsqryGHtDAYt7URK3t3m+
- B3+/wHlKKzQZg9EvkRlDwllnoGfXZgYhZLBFMYW1hik023KQRlnIVycX5EqP9R2aCy5ElJ4RB7
- l/qdd/74f6CbKDGQAAAA=
-X-Change-ID: 20250522-dualsense-hid-jack-d3cb65b75da1
+Message-Id: <20250526-dualsense-hid-jack-v1-1-a65fee4a60cc@collabora.com>
+References: <20250526-dualsense-hid-jack-v1-0-a65fee4a60cc@collabora.com>
+In-Reply-To: <20250526-dualsense-hid-jack-v1-0-a65fee4a60cc@collabora.com>
 To: Roderick Colenbrander <roderick.colenbrander@sony.com>, 
  Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, 
  Henrik Rydberg <rydberg@bitmath.org>
@@ -71,54 +69,140 @@ Cc: kernel@collabora.com, linux-input@vger.kernel.org,
  linux-kernel@vger.kernel.org
 X-Mailer: b4 0.14.2
 
-The Sony DualSense wireless controller (PS5) provides an internal mono
-speaker, in addition to the 3.5mm jack socket for headphone output and
-headset microphone input.  However, the default audio output path is set
-to headphones, regardless of whether they are actually inserted or not.
+Improve code readability by replacing open coded bit operations with the
+equivalent bitfield macros.
 
-This patch series aims to improve the audio support by implementing the
-following changes:
-
-* Detect when the plugged state of the audio jack changes and toggle
-  audio output between headphones and internal speaker, as required.
-  The latter is achieved by essentially routing the right channel of the
-  audio source to the mono speaker.
-
-* Adjust the speaker volume since its default level is too low and,
-  therefore, cannot generate any audible sound.
-
-* Register a dedicated input device for the audio jack and use it to
-  report all headphone and headset mic insert events.
-
-It's worth noting the latter is necessary since the controller complies
-with v1.0 of the USB Audio Class spec (UAC1) and, therefore, cannot
-advertise any jack detection capability.  However, this feature can be
-implemented in the generic USB audio driver via quirks, i.e. by
-configuring an input handler to receive hotplug events from the HID
-driver.
-
-Unrelated to the above, also provide a few driver cleanup patches, e.g.
-make use of bitfields macros, simplify locking, fix coding style.
+While at it, vertically align all DS_OUTPUT_* bit constants.
 
 Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 ---
-Cristian Ciocaltea (11):
-      HID: playstation: Make use of bitfield macros
-      HID: playstation: Add spaces around arithmetic operators
-      HID: playstation: Simplify locking with guard() and scoped_guard()
-      HID: playstation: Replace uint{32,16,8}_t with u{32,16,8}
-      HID: playstation: Correct spelling in comment sections
-      HID: playstation: Fix all alignment and line length issues
-      HID: playstation: Document spinlock_t usage
-      HID: playstation: Prefer kzalloc(sizeof(*buf)...)
-      HID: playstation: Rename DualSense input report status field
-      HID: playstation: Support DualSense audio jack hotplug detection
-      HID: playstation: Support DualSense audio jack event reporting
+ drivers/hid/hid-playstation.c | 68 ++++++++++++++++++++++++++-----------------
+ 1 file changed, 41 insertions(+), 27 deletions(-)
 
- drivers/hid/hid-playstation.c | 885 ++++++++++++++++++++++++------------------
- 1 file changed, 500 insertions(+), 385 deletions(-)
----
-base-commit: 7bac2c97af4078d7a627500c9bcdd5b033f97718
-change-id: 20250522-dualsense-hid-jack-d3cb65b75da1
+diff --git a/drivers/hid/hid-playstation.c b/drivers/hid/hid-playstation.c
+index 1468fb11e39dffc883181663a4ad44252e0a7ebb..538194ce8902fe1383b57ac59743f32838dcb0df 100644
+--- a/drivers/hid/hid-playstation.c
++++ b/drivers/hid/hid-playstation.c
+@@ -5,6 +5,7 @@
+  *  Copyright (c) 2020-2022 Sony Interactive Entertainment
+  */
+ 
++#include <linux/bitfield.h>
+ #include <linux/bits.h>
+ #include <linux/crc32.h>
+ #include <linux/device.h>
+@@ -116,29 +117,41 @@ struct ps_led_info {
+ #define DS_STATUS_CHARGING_SHIFT	4
+ 
+ /* Feature version from DualSense Firmware Info report. */
+-#define DS_FEATURE_VERSION(major, minor) ((major & 0xff) << 8 | (minor & 0xff))
+-
++#define DS_FEATURE_VERSION_MINOR		GENMASK(7, 0)
++#define DS_FEATURE_VERSION_MAJOR		GENMASK(15, 8)
++#define DS_FEATURE_VERSION(major, minor)	(FIELD_PREP(DS_FEATURE_VERSION_MAJOR, major) | \
++						 FIELD_PREP(DS_FEATURE_VERSION_MINOR, minor))
+ /*
+  * Status of a DualSense touch point contact.
+  * Contact IDs, with highest bit set are 'inactive'
+  * and any associated data is then invalid.
+  */
+-#define DS_TOUCH_POINT_INACTIVE BIT(7)
++#define DS_TOUCH_POINT_INACTIVE			BIT(7)
++#define DS_TOUCH_POINT_X_LO			GENMASK(7, 0)
++#define DS_TOUCH_POINT_X_HI			GENMASK(11, 8)
++#define DS_TOUCH_POINT_X(hi, lo)		(FIELD_PREP(DS_TOUCH_POINT_X_HI, hi) | \
++						 FIELD_PREP(DS_TOUCH_POINT_X_LO, lo))
++#define DS_TOUCH_POINT_Y_LO			GENMASK(3, 0)
++#define DS_TOUCH_POINT_Y_HI			GENMASK(11, 4)
++#define DS_TOUCH_POINT_Y(hi, lo)		(FIELD_PREP(DS_TOUCH_POINT_Y_HI, hi) | \
++						 FIELD_PREP(DS_TOUCH_POINT_Y_LO, lo))
+ 
+  /* Magic value required in tag field of Bluetooth output report. */
+-#define DS_OUTPUT_TAG 0x10
++#define DS_OUTPUT_TAG				0x10
++#define DS_OUTPUT_SEQ_TAG			GENMASK(3, 0)
++#define DS_OUTPUT_SEQ_NO			GENMASK(7, 4)
+ /* Flags for DualSense output report. */
+-#define DS_OUTPUT_VALID_FLAG0_COMPATIBLE_VIBRATION BIT(0)
+-#define DS_OUTPUT_VALID_FLAG0_HAPTICS_SELECT BIT(1)
+-#define DS_OUTPUT_VALID_FLAG1_MIC_MUTE_LED_CONTROL_ENABLE BIT(0)
+-#define DS_OUTPUT_VALID_FLAG1_POWER_SAVE_CONTROL_ENABLE BIT(1)
+-#define DS_OUTPUT_VALID_FLAG1_LIGHTBAR_CONTROL_ENABLE BIT(2)
+-#define DS_OUTPUT_VALID_FLAG1_RELEASE_LEDS BIT(3)
+-#define DS_OUTPUT_VALID_FLAG1_PLAYER_INDICATOR_CONTROL_ENABLE BIT(4)
+-#define DS_OUTPUT_VALID_FLAG2_LIGHTBAR_SETUP_CONTROL_ENABLE BIT(1)
+-#define DS_OUTPUT_VALID_FLAG2_COMPATIBLE_VIBRATION2 BIT(2)
+-#define DS_OUTPUT_POWER_SAVE_CONTROL_MIC_MUTE BIT(4)
+-#define DS_OUTPUT_LIGHTBAR_SETUP_LIGHT_OUT BIT(1)
++#define DS_OUTPUT_VALID_FLAG0_COMPATIBLE_VIBRATION		BIT(0)
++#define DS_OUTPUT_VALID_FLAG0_HAPTICS_SELECT			BIT(1)
++#define DS_OUTPUT_VALID_FLAG1_MIC_MUTE_LED_CONTROL_ENABLE	BIT(0)
++#define DS_OUTPUT_VALID_FLAG1_POWER_SAVE_CONTROL_ENABLE		BIT(1)
++#define DS_OUTPUT_VALID_FLAG1_LIGHTBAR_CONTROL_ENABLE		BIT(2)
++#define DS_OUTPUT_VALID_FLAG1_RELEASE_LEDS			BIT(3)
++#define DS_OUTPUT_VALID_FLAG1_PLAYER_INDICATOR_CONTROL_ENABLE	BIT(4)
++#define DS_OUTPUT_VALID_FLAG2_LIGHTBAR_SETUP_CONTROL_ENABLE	BIT(1)
++#define DS_OUTPUT_VALID_FLAG2_COMPATIBLE_VIBRATION2		BIT(2)
++#define DS_OUTPUT_POWER_SAVE_CONTROL_MIC_MUTE			BIT(4)
++#define DS_OUTPUT_LIGHTBAR_SETUP_LIGHT_OUT			BIT(1)
+ 
+ /* DualSense hardware limits */
+ #define DS_ACC_RES_PER_G	8192
+@@ -315,7 +328,9 @@ struct dualsense_output_report {
+  * Contact IDs, with highest bit set are 'inactive'
+  * and any associated data is then invalid.
+  */
+-#define DS4_TOUCH_POINT_INACTIVE BIT(7)
++#define DS4_TOUCH_POINT_INACTIVE	BIT(7)
++#define DS4_TOUCH_POINT_X(hi, lo)	DS_TOUCH_POINT_X(hi, lo)
++#define DS4_TOUCH_POINT_Y(hi, lo)	DS_TOUCH_POINT_Y(hi, lo)
+ 
+ /* Status field of DualShock4 input report. */
+ #define DS4_STATUS0_BATTERY_CAPACITY	GENMASK(3, 0)
+@@ -1194,7 +1209,8 @@ static void dualsense_init_output_report(struct dualsense *ds, struct dualsense_
+ 		 * Highest 4-bit is a sequence number, which needs to be increased
+ 		 * every report. Lowest 4-bit is tag and can be zero for now.
+ 		 */
+-		bt->seq_tag = (ds->output_seq << 4) | 0x0;
++		bt->seq_tag = FIELD_PREP(DS_OUTPUT_SEQ_NO, ds->output_seq) |
++			      FIELD_PREP(DS_OUTPUT_SEQ_TAG, 0x0);
+ 		if (++ds->output_seq == 16)
+ 			ds->output_seq = 0;
+ 
+@@ -1439,11 +1455,10 @@ static int dualsense_parse_report(struct ps_device *ps_dev, struct hid_report *r
+ 		input_mt_report_slot_state(ds->touchpad, MT_TOOL_FINGER, active);
+ 
+ 		if (active) {
+-			int x = (point->x_hi << 8) | point->x_lo;
+-			int y = (point->y_hi << 4) | point->y_lo;
+-
+-			input_report_abs(ds->touchpad, ABS_MT_POSITION_X, x);
+-			input_report_abs(ds->touchpad, ABS_MT_POSITION_Y, y);
++			input_report_abs(ds->touchpad, ABS_MT_POSITION_X,
++					 DS_TOUCH_POINT_X(point->x_hi, point->x_lo));
++			input_report_abs(ds->touchpad, ABS_MT_POSITION_Y,
++					 DS_TOUCH_POINT_Y(point->y_hi, point->y_lo));
+ 		}
+ 	}
+ 	input_mt_sync_frame(ds->touchpad);
+@@ -2351,11 +2366,10 @@ static int dualshock4_parse_report(struct ps_device *ps_dev, struct hid_report *
+ 			input_mt_report_slot_state(ds4->touchpad, MT_TOOL_FINGER, active);
+ 
+ 			if (active) {
+-				int x = (point->x_hi << 8) | point->x_lo;
+-				int y = (point->y_hi << 4) | point->y_lo;
+-
+-				input_report_abs(ds4->touchpad, ABS_MT_POSITION_X, x);
+-				input_report_abs(ds4->touchpad, ABS_MT_POSITION_Y, y);
++				input_report_abs(ds4->touchpad, ABS_MT_POSITION_X,
++						 DS4_TOUCH_POINT_X(point->x_hi, point->x_lo));
++				input_report_abs(ds4->touchpad, ABS_MT_POSITION_Y,
++						 DS4_TOUCH_POINT_Y(point->y_hi, point->y_lo));
+ 			}
+ 		}
+ 		input_mt_sync_frame(ds4->touchpad);
+
+-- 
+2.49.0
 
 
