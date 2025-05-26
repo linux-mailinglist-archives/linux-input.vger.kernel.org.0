@@ -1,193 +1,139 @@
-Return-Path: <linux-input+bounces-12584-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12583-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 046A6AC40CD
-	for <lists+linux-input@lfdr.de>; Mon, 26 May 2025 15:59:11 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F33BAC40C3
+	for <lists+linux-input@lfdr.de>; Mon, 26 May 2025 15:56:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C23EB168B69
-	for <lists+linux-input@lfdr.de>; Mon, 26 May 2025 13:59:11 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A2D573A7E47
+	for <lists+linux-input@lfdr.de>; Mon, 26 May 2025 13:56:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 424F420CCC9;
-	Mon, 26 May 2025 13:59:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B41C120B813;
+	Mon, 26 May 2025 13:56:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="N59tftQH"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RC8s3gIZ"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6794A83CC7;
-	Mon, 26 May 2025 13:59:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.132.182.106
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37C7B1FE470;
+	Mon, 26 May 2025 13:56:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748267947; cv=none; b=lD63Ohs2zpPzmd8Jqh/pqh5vdJcsjqRe13nRsRNCJeB4QXkdnE3MhbPx3ZHzLGswL4K9kLw0dYVxeLxxfJPlP04DzKADIbOeMkzqbvl/NLf/DFtcqFQDld/g1PoE8COsPyY0N60BDSKIwayhJx4Q8mRzYiOYb1wbPjvo+usJf0g=
+	t=1748267799; cv=none; b=CDSH/tbXDi49MU6JHvHDWt4qNRW30GAc5wNp3F6ykossaDNAAAQXCwQjvDNZnrBDpx3DtW+1FXgA4+A5WFEQOXC0SMq+IwWejv2qiSVKG+erxbQwkfenbLYeud/JPHZA3fAi+OJzt2MJF1/d0Y4wAJuhpX2foPXwdVrHGz+sbaY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748267947; c=relaxed/simple;
-	bh=dKulxEiY15lZectwjfcMxxTI9E66Z9Afnh4p1oVGxWY=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:To:CC; b=SiIEpWzfw5bMZYnBdB4vSKxB6pbmDOkQ8eHm966STlMPRC0VTZ4HLhWjy9r1zKTCs4tnTzSbm27e0ZG4jSrAzc6YfS4qPtrOhNshWAuCePSg3pl6Lkr6MyhmwB+aZhhz21zq46J1HZ4VZa/4GSWhu982fwKW48rXfXsZSoBjTts=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=N59tftQH; arc=none smtp.client-ip=185.132.182.106
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
-Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
-	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54QB4ouB008311;
-	Mon, 26 May 2025 15:58:22 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
-	cc:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=selector1; bh=iME9KjGK67m/xnxG1WewEK
-	y8P1UELljqtP5FxofjwTI=; b=N59tftQHIzhDI2/lM6Kd+IfC4HPphcauLRknuR
-	d7F+3gpdoBHpdj/G1RvVsznikUV0MTyon2nNnh4eQeqRPv8ChEtJeEru1y6Ex9zD
-	wChqXqcT8SSjY9kjDMgh+kXe73wHdjAjl4LrSXDtqsKlx+d138sajasF3bZWWvBC
-	vUkJgV5GkfGqT9iEq8uN2XfTjDGn67g9JK1RGjn0wdQ0110zRQBDKvrPUemsxg1Z
-	3KuuH+locyPobhB0/o9NotnCXz1cCDgY3FS5G/rNOkmwEnhXrbVb75PmPbvw40yU
-	/IdAjo8WYLE71TJzB6sdrkdLgdSJgXbQUwDjjUQ9ZvQc3Qmg==
-Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
-	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 46u5f1ych7-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 26 May 2025 15:58:21 +0200 (MEST)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 7A06440044;
-	Mon, 26 May 2025 15:57:14 +0200 (CEST)
-Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id DBD5EA605A1;
-	Mon, 26 May 2025 15:56:39 +0200 (CEST)
-Received: from localhost (10.48.87.141) by SHFDAG1NODE1.st.com (10.75.129.69)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Mon, 26 May
- 2025 15:56:39 +0200
-From: Gatien Chevallier <gatien.chevallier@foss.st.com>
-Date: Mon, 26 May 2025 15:56:29 +0200
-Subject: [PATCH] Input: gpio-keys - fix a sleep while atomic with
- PREEMPT_RT
+	s=arc-20240116; t=1748267799; c=relaxed/simple;
+	bh=hAq26EsJwp1YiANWFZYO6JlZ573De3v+gpFr0luZpQg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=tHl0WfNf+xg8efY31zdDPD89IaB91eJtOklhF/FUH7vw30HXXD7aL+vlWKXMcD3XXchgo0pl0wNPphC8xtTSHx6TSJmyAvR1HrNa++lkIvJAzsmF9eqCrEQEnZyUDMyxtLHmqwHt4/3ELR8+1WqJAKzznWg9JhZpYe4IMzHatKw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RC8s3gIZ; arc=none smtp.client-ip=209.85.210.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-742c2ed0fe1so1978801b3a.1;
+        Mon, 26 May 2025 06:56:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1748267797; x=1748872597; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=859cJo9TYvq1IzsoVeN/+jTfHc2/ejVYnyyvhCL0W0c=;
+        b=RC8s3gIZppzp4AUDr3t59F2FWOfKFWT2uulf/a1CJNVs4ruvlFhj1F9l23Wft12aIA
+         0+108iFAQZMuSQ1FpRyNO0CaWxaHYBLrhPnWV5s5LR7w43Gm7bJ/bKWR3AesvqhzysCG
+         urRBWRkVOSfg3085pZznfgIfM9hNaNWIsWckDHA4LP2Ifighj6Oc1yuLaGKaDLHAdCDQ
+         7i9KJxRR+6YUCJikzDaKzfdE7M7n+lHHm2oJ/u4yU9NE0Mx57OLZPc8QW1s6A9tlvtET
+         Y+MApIn1/ZnGuqi+xPh/Wm4hJACgmC6HG/nxMaU5TC9fPqNSEfnx3ebQhrZ2+O64/DaX
+         M3yQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1748267797; x=1748872597;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=859cJo9TYvq1IzsoVeN/+jTfHc2/ejVYnyyvhCL0W0c=;
+        b=fmzVjAuhTIOyIpIKTkdj/ghaRYbx6xVbf6FIJKMaHP6fQebQt8vbbN/ox6t+P+I14F
+         TwSl3t/Z6Jazp9tcirEu7vA/DunEtsKOZovXW+w4Cit54GN8KPVzxX8I//IbTKnpFhRK
+         LLVFUc34hO0yEyt04n91yoZa+TsDYWa1p2YBYvs1DK3eU6as6J1u1jz2pB8Nkoey4ykG
+         WMRP//7fWzWYNQDHq2kLi/lSgw5d7V5O+shu2Sl9HMTwbDZ16syFtS7d8q651KOUMCoS
+         PHW+3/XSZVnuqRFmalnOkJeqKoKsBUL32xnSGQbcPdABxC33dJFyx9RwziN9+JGmkM9C
+         mkzA==
+X-Forwarded-Encrypted: i=1; AJvYcCWy0FjUwf6c199JwAlFdHFRatk2ZmK0qBxKRpvRYzt28s8WUqO64HY2bttnRS3cvFOHoytrRD+Dn69ZYfb9@vger.kernel.org, AJvYcCXqVIAGrFh8zW1sr+I950YtKZXv+B/2tjnSvxqA1KpbSfjnqt6dzFaso9gRuDoZfnY2CQEk0uEdj+g=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwPFQPW7yNCJblFGyob10CDXAByxxYw+pqr6jNDm9rbu5pZzHRb
+	BvdG1D/9m9wooO+sTke87xtzyPKIUfh30uDxRRYFkpluLb2DNGs90Enr
+X-Gm-Gg: ASbGncs3viBd5Ayofr8QVwwHlHb/rolR+P4zD+bNYprKHkAwNXHonLuziGyK4x4nQbM
+	1hVepXfUFGlXw/NtHCPbBuA3bu5JwTC3AyAAGV+kcbDicQseaqHR4wEy9xleAsFWLvopNPKo9P3
+	omewGjLjsYuprXVwaLNyWCV9U+HQ1EyiFsxD7aMdHqiYFwpfn90fdSAfByxdHS1BdVMtpTVLa8M
+	K21G8hqtxGJxCD4dbK9/KkSEZWD0BC7C2kxYgXZYsEXWf1U1TDbX46nY84pfE5xh7F1otM3j9G8
+	YE6Lmw0LRVDOpifHNC39mbnjYpkyFUlnBD3TOg98cnOLr+LK0mKEXO7joNF6o4huu8ac0w==
+X-Google-Smtp-Source: AGHT+IGBWkRiRhCMFT1Pq44qUq2nocKyMI0en1mClBadLXgI7beC+Fngu6Pzn97BlO70EBYQ1uO4Dw==
+X-Received: by 2002:a05:6a21:6d87:b0:1f5:6e71:e55 with SMTP id adf61e73a8af0-2188c1e8722mr15780731637.6.1748267797278;
+        Mon, 26 May 2025 06:56:37 -0700 (PDT)
+Received: from [192.168.0.150] ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-742a96e5f74sm17019095b3a.26.2025.05.26.06.56.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 26 May 2025 06:56:36 -0700 (PDT)
+Message-ID: <cb2d5cbd-d1e5-4a71-a24d-d02604c4016a@gmail.com>
+Date: Mon, 26 May 2025 20:56:32 +0700
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/3] input: docs: Fix Amiga joysticks grammar & formatting
+To: Jonathan Corbet <corbet@lwn.net>,
+ George Anthony Vernon <contact@gvernon.com>, dmitry.torokhov@gmail.com,
+ skhan@kernel.org
+Cc: linux-input@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev
+References: <20250526011443.136804-1-contact@gvernon.com>
+ <20250526011443.136804-4-contact@gvernon.com> <aDPVOlBIpnqc7Tez@archie.me>
+ <87a56za67l.fsf@trenco.lwn.net>
+Content-Language: en-US
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <87a56za67l.fsf@trenco.lwn.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-ID: <20250526-gpio_keys_preempt_rt-v1-1-09ddadf8e19d@foss.st.com>
-X-B4-Tracking: v=1; b=H4sIAAxzNGgC/x2MQQqAIBAAvxJ7TlAhyb4SIVGrLZGKShTR35OOw
- zDzQMZEmGFoHkh4UqbgK4i2gWWbvUNGa2WQXHa8k4q5SMHseGcTE+IRi0mFCa6EXno7a6GgplV
- Zuv7tOL3vB+IbmDRmAAAA
-X-Change-ID: 20250526-gpio_keys_preempt_rt-10619c8fa916
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Sebastian Andrzej Siewior
-	<bigeasy@linutronix.de>,
-        Clark Williams <clrkwllms@kernel.org>,
-        Steven
- Rostedt <rostedt@goodmis.org>,
-        Paul Cercueil <paul@crapouillou.net>
-CC: <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-rt-devel@lists.linux.dev>,
-        Fabrice Gasnier
-	<fabrice.gasnier@foss.st.com>,
-        Gatien Chevallier
-	<gatien.chevallier@foss.st.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3169;
- i=gatien.chevallier@foss.st.com; h=from:subject:message-id;
- bh=DHxEGb/AHMv5Ys0f78ixiNKy6Fq8z4olwXnij6qd/UY=;
- b=owEB7QES/pANAwAKAar3Rq6G8cMoAcsmYgBoNHMWhHk7FXvpM83LciQUxRozhzBRNolr/gI+0
- xfOyz+JYH2JAbMEAAEKAB0WIQRuDsu+jpEBc9gaoV2q90auhvHDKAUCaDRzFgAKCRCq90auhvHD
- KJHvDAC91aT4V0KtljJ3XRSPIZfu3e6zZwtx2RD9L/5XKxZAJO2SawRHPAtuTumMEkKtToShzak
- jRRFS4dbz9JtcxAXYWtYdnPK26Ahorao+XbnK+g9OeNdDdnaZX5pUPi9eqeBXduhLlYklwxP9rz
- P8JTMLNlcW0uoZdLD5nqLEeQT5ujokfpmnVUZX0AQJVrRuS5Ia3Ok4q1ycmLRIHglVj70jecPX3
- 6pz1MSG6PIg9lJHExHjKwQHhvSxukHSVDVEoX8azZXD6WAw5KVonqVmkty73zhmTN6UxDbUkVEk
- Da4/O6o0CJvnEG1WmVOCK50+eEcxsMa6aZf2AQ44zXEHYwylSJRYgYt9z+BqO+wjPzjVQl/8+G6
- vFP7Uvt1E7CEMEPEdx9iClH8toYits3np4jIXGIdxctanL3LGcN4ZHxEXmEXnM+BloT0WrER6G7
- gMinoYt2JLKSHUm1g5lDTAzFuThEt7ufzvb3gc5TNz073dmqMv4VkVGKMY3FUrvvcYj4A=
-X-Developer-Key: i=gatien.chevallier@foss.st.com; a=openpgp;
- fpr=6E0ECBBE8E910173D81AA15DAAF746AE86F1C328
-X-ClientProxiedBy: SHFCAS1NODE1.st.com (10.75.129.72) To SHFDAG1NODE1.st.com
- (10.75.129.69)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-26_07,2025-05-26_02,2025-03-28_01
 
-From: Fabrice Gasnier <fabrice.gasnier@foss.st.com>
+On 5/26/25 19:48, Jonathan Corbet wrote:
+> Bagas Sanjaya <bagasdotme@gmail.com> writes:
+> 
+>> On Mon, May 26, 2025 at 02:14:43AM +0100, George Anthony Vernon wrote:
+>>> Make small grammar fixes to Amiga joystick documentation.
+>>>
+>>> Also make heading adornments compliant with the guidelines to improve
+>>> organisation of the page.
+>>
+>> Split up these two changes into separate patches.
+> 
+> The word "also" in a changelog is indeed a hint that a patch is doing
+> too many things.
+> 
+> For a simple patch like this, though, I would not force a resend just
+> for that.
+> 
 
-When enabling PREEMPT_RT, the gpio_keys_irq_timer() callback runs in
-hard irq context, but the input_event() takes a spin_lock, which isn't
-allowed there as it is converted to a rt_spin_lock().
+Do you mean keeping the patch as-is?
 
-[ 4054.289999] BUG: sleeping function called from invalid context at kernel/locking/spinlock_rt.c:48
-[ 4054.290028] in_atomic(): 1, irqs_disabled(): 1, non_block: 0, pid: 0, name: swapper/0
-...
-[ 4054.290195]  __might_resched+0x13c/0x1f4
-[ 4054.290209]  rt_spin_lock+0x54/0x11c
-[ 4054.290219]  input_event+0x48/0x80
-[ 4054.290230]  gpio_keys_irq_timer+0x4c/0x78
-[ 4054.290243]  __hrtimer_run_queues+0x1a4/0x438
-[ 4054.290257]  hrtimer_interrupt+0xe4/0x240
-[ 4054.290269]  arch_timer_handler_phys+0x2c/0x44
-[ 4054.290283]  handle_percpu_devid_irq+0x8c/0x14c
-[ 4054.290297]  handle_irq_desc+0x40/0x58
-[ 4054.290307]  generic_handle_domain_irq+0x1c/0x28
-[ 4054.290316]  gic_handle_irq+0x44/0xcc
+>>> -~~~~~~~~~~~~~~~~~~~~~~~~~
+>>> -Amiga joystick extensions
+>>> -~~~~~~~~~~~~~~~~~~~~~~~~~
+>>> +===============
+>>> +Amiga joysticks
+>>> +===============
+>>
+>> I would prefer to keep section adornments in this doc as-is, though.
+> 
+> ...and why...?  We have a standard progression, why not use it?
+> 
 
-Considering the gpio_keys_irq_isr() can run in any context, e.g. it can
-be threaded, it seems there's no point in requesting the timer isr to
-run in hard irq context.
+I'm leaning towards following doc-specific convention (i.e. on this
+doc). I could adapt to it, but some time later when I re-read the
+source I might be semantically confused.
 
-So relax the hrtimer not to use the hard context. This requires the
-spin_lock to be added back in gpio_keys_irq_timer().
+Thanks.
 
-Fixes: 019002f20cb5 ("Input: gpio-keys - use hrtimer for release timer")
-Suggested-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Signed-off-by: Fabrice Gasnier <fabrice.gasnier@foss.st.com>
-Signed-off-by: Gatien Chevallier <gatien.chevallier@foss.st.com>
----
- drivers/input/keyboard/gpio_keys.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/input/keyboard/gpio_keys.c b/drivers/input/keyboard/gpio_keys.c
-index 5c39a217b94c8ad03a8542380eed741fccdca5da..99fc7d3c29ea5809604915782525fecacb151612 100644
---- a/drivers/input/keyboard/gpio_keys.c
-+++ b/drivers/input/keyboard/gpio_keys.c
-@@ -448,12 +448,15 @@ static enum hrtimer_restart gpio_keys_irq_timer(struct hrtimer *t)
- 						      struct gpio_button_data,
- 						      release_timer);
- 	struct input_dev *input = bdata->input;
-+	unsigned long flags;
- 
-+	spin_lock_irqsave(&bdata->lock, flags);
- 	if (bdata->key_pressed) {
- 		input_report_key(input, *bdata->code, 0);
- 		input_sync(input);
- 		bdata->key_pressed = false;
- 	}
-+	spin_unlock_irqrestore(&bdata->lock, flags);
- 
- 	return HRTIMER_NORESTART;
- }
-@@ -486,7 +489,7 @@ static irqreturn_t gpio_keys_irq_isr(int irq, void *dev_id)
- 	if (bdata->release_delay)
- 		hrtimer_start(&bdata->release_timer,
- 			      ms_to_ktime(bdata->release_delay),
--			      HRTIMER_MODE_REL_HARD);
-+			      HRTIMER_MODE_REL);
- out:
- 	return IRQ_HANDLED;
- }
-@@ -628,7 +631,7 @@ static int gpio_keys_setup_key(struct platform_device *pdev,
- 
- 		bdata->release_delay = button->debounce_interval;
- 		hrtimer_setup(&bdata->release_timer, gpio_keys_irq_timer,
--			      CLOCK_REALTIME, HRTIMER_MODE_REL_HARD);
-+			      CLOCK_REALTIME, HRTIMER_MODE_REL);
- 
- 		isr = gpio_keys_irq_isr;
- 		irqflags = 0;
-
----
-base-commit: 0ff41df1cb268fc69e703a08a57ee14ae967d0ca
-change-id: 20250526-gpio_keys_preempt_rt-10619c8fa916
-
-Best regards,
 -- 
-Gatien Chevallier <gatien.chevallier@foss.st.com>
-
+An old man doll... just what I always wanted! - Clara
 
