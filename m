@@ -1,245 +1,155 @@
-Return-Path: <linux-input+bounces-12604-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12605-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FC44AC5C0D
-	for <lists+linux-input@lfdr.de>; Tue, 27 May 2025 23:12:36 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 54E80AC5D19
+	for <lists+linux-input@lfdr.de>; Wed, 28 May 2025 00:27:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E1B821BA6B98
-	for <lists+linux-input@lfdr.de>; Tue, 27 May 2025 21:12:49 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B47703A8304
+	for <lists+linux-input@lfdr.de>; Tue, 27 May 2025 22:26:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4489C21171B;
-	Tue, 27 May 2025 21:12:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B17821858A;
+	Tue, 27 May 2025 22:26:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k1Ru/yxT"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Vh0Y52fT"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D8C520C47F
-	for <linux-input@vger.kernel.org>; Tue, 27 May 2025 21:12:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38EF820FABC;
+	Tue, 27 May 2025 22:26:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748380351; cv=none; b=NEHV4t6/j7+alHAlecRzK555zoCbuvGemXxZtJQg5EKhe0+5fE/vkslI93zdKc0ssB7DQFmLqklPiVw6LUme0ySLMEL9dFjEwd+fWDzYn26j5T6tFsiiPMtASMgWPJCGvJct64iEAMtSrA+Q1lj+9qCnltQt8NnQiZMLOMlWXbA=
+	t=1748384785; cv=none; b=BRpsQTfp24gAccG/EBatiykUN6LPB5z+S6dKPtp1X1n9WP/acCKTcrg5X3go7EvEjQiss/nuMbrD0y5AS13kuvfVliKhDniODu4P9BOjXhyelNstGkdTRhLp0JONJKq8iPm73wJVXrL1HQwTuYJ5M1e66KMvJICP0yDqmOc6P8o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748380351; c=relaxed/simple;
-	bh=ac4BIBqCYFpF6upgY5BjmFnrKc/WAgrzN3U1i+9qmIo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=E8clR6oZT5OsTAoxVfg9vOdZdvWDozY2YDY5Lpy9AOR/8vThdHyqajhu3902mAMObd+x5UZZtbbB/cGXtjiSvGrAZLjHoUC4Rw/Wc46grBE6XfB6NW8bohd1rYZ5QOlBLAmY2/x7eZ2R3OEVsK5Gegw09WZy8slW0110SOriciM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k1Ru/yxT; arc=none smtp.client-ip=209.85.210.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-742c9907967so3819804b3a.1
-        for <linux-input@vger.kernel.org>; Tue, 27 May 2025 14:12:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1748380349; x=1748985149; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=IV3vLTMGUK42g9JDBlfV6eQED2s/wFDtOQYHVp+l9DY=;
-        b=k1Ru/yxTfBsnvokAWonvAgiMUiF+qUtV17YntnESdpKQIQc0dDqSzjVU+qpak7uMRo
-         Sfwe2iefSqR9t1n0tKfyv6zdgCk/4V0rBbGDh6zecp7FC1yfwV5TQUHTJNeChPdTs/Al
-         aAlrSW2NVtb8EMDTZNuaL83eI4ZrYqe7cR9QtfHS3OMdRjzUMDYfV1g9V1bGNIxuTH2f
-         CZVWWDjjmvu3dYr2QZ1p7Q0w1XdyohpvKJUPQXXbEuSxdNiaKcbc4+qO6i7sVo94jScq
-         TeEM1XaNS93uaYsAjD47TpSH7oXXa22TlJGxXmbYyPkValX5ndWvYGfZjb4ZUNdTntGK
-         LXng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748380349; x=1748985149;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=IV3vLTMGUK42g9JDBlfV6eQED2s/wFDtOQYHVp+l9DY=;
-        b=Q668O0s9hfG4qF1hsA807lyKGfqu4bZA2KNRbcoRunT9KmeV/UTlxc1smVGcC4znt2
-         7O/e1Hd1AMC/w6/KwgmKndLPgd48HA28XRMDkcKDWUlcfYIkbVnd2N9vpzvMc2O3bIjs
-         vaIZHVNZG9mIyxkP7gH5Ch0IkA2GDbhnyhUK7kQFnC5YOmVlaEotfdN1lMLVS77SZEy7
-         rtXOFdaw3C4XesX889vmUCECUMWmVtHDgwcQzjtcAa/fzGG70fn3+yzFmr9rEAYsobIv
-         Uz2cudpK2lG6JEKJGQcV81T/Ajy4LFBKWrlEmIbkM48R4moWFUOHqt/8bJ1WlEOn9eE0
-         TvpA==
-X-Gm-Message-State: AOJu0Yyk3sYeOKpxNGb/5jWO9BAfxzqgQ/KJWukTCAcBP4ZEmLiP9Tb8
-	oYntzCNdQuvUgEPQIlRHruC+QSWtTq2taX7xlKrSIGZ32Xt/apftJf0s
-X-Gm-Gg: ASbGncvPZ0XN/jIcQ6P4LjQZ81mjTBpes5EaXWtVKLCVKZhOlTMRnR9Q7Usvun6WDEk
-	ON13S2G6CNsdVLJHdyy2NvzD6uc3hOgFTcfjl/RBv8fb62v3Wx9qQ5+s3FN65D4koEat1Wmkkk6
-	aif1yLYJ6t6Vvn9R6/my7REl/3079YoynF6z0nNdESQ+LUJ0TcPuXkbLWmeITtX6wX5jR34s1//
-	6zS2cAEsrmey6C9Dkz5pddSIQstZnvRN3E/2VnOcVXHafWRAN6GUxtAwc8dHrc27YRQ4igr/jyI
-	I17BlNE8zeqAPiDkbWcE4bgkdFxmrpfWAmijsv5tIXD0QMkXGYVZ
-X-Google-Smtp-Source: AGHT+IEreTrsDZ/S+3Y/UN6JyYVwz3N5kfoq4FhThL8hlksvRBd5TII/23zxniKpgT1L3ReAVcDF1g==
-X-Received: by 2002:a05:6a00:1381:b0:740:9d7c:8f5c with SMTP id d2e1a72fcca58-745fe036213mr23760197b3a.18.1748380348865;
-        Tue, 27 May 2025 14:12:28 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:234b:b801:3ed0:528a])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-746683003f0sm23798b3a.158.2025.05.27.14.12.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 May 2025 14:12:28 -0700 (PDT)
-Date: Tue, 27 May 2025 14:12:26 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: lihua - <lihua@huaqin.corp-partner.google.com>
-Cc: Linux Input <linux-input@vger.kernel.org>
-Subject: Re: [PATCH] Input: gpio-keys - Detect long press events in sleep mode
-Message-ID: <yhef57wb23no3u2wnvad7xcf4oatfy4t7h46jamr5mviv4kipa@gvcz45gvrtb7>
-References: <20250506055847.15389-1-lihua@huaqin.corp-partner.google.com>
- <CAAkVrDM1TyM9VQ6rctF75EcLCRbimgJqbA2oH_RvJxC8ex6_vQ@mail.gmail.com>
- <aCG2Rx_99mP6JFi-@smile.fi.intel.com>
- <44fclxle3b7hfo44ec3vlwlth3uamceaqght3ecu3lmz4eltfz@e57uk7jw3hky>
- <CAAkVrDM8CSxUffBsYA8Xab8B8Bu75fKMGgfVmpO=sfE764fN0Q@mail.gmail.com>
- <pekirpthune5m732km6pkpr5bgixha23tuecfuw6ziw44yb5pv@b3ru6gitqscx>
- <CAAkVrDNdHWocwsUQH+-1sPZ98YvEWC_=3D0NzLZ7DT7=xKVRxQ@mail.gmail.com>
- <CAAkVrDM5bdnjHrSWZ4DatfBK3v-tyVBu1psVGbRjd+KXKwuFCg@mail.gmail.com>
+	s=arc-20240116; t=1748384785; c=relaxed/simple;
+	bh=URe9IVrGZGJyILeVZBhhwONAzc69qPxN2OjxE6CJZ4E=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=VP5XP2cEja3pWsj43tKWjRoe49JZi9BWGVprD6QZX/IRHzru6KjSwgeBXOAxr4srFnWNUPGywkTieb/Ws+l0YEzNrPXirzoAgrUMH89aRUeic9bqT7cn8W8cL5et41jTk0EvtqAD2HaFozwIOLR7Cz6bz7z63NgnWYO4j9egtns=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Vh0Y52fT; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id A62B2C4CEE9;
+	Tue, 27 May 2025 22:26:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1748384784;
+	bh=URe9IVrGZGJyILeVZBhhwONAzc69qPxN2OjxE6CJZ4E=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=Vh0Y52fTGSrxzjgq7j+zPTTt+1OtkJbWDFOXySGd8jYS0+i8zT2c/RX1/Z8oC7DhT
+	 VP+8ms/NuMYKxX8G+Kj0VfajbHbeLKm3jhbJ0vNHc2PzV9tuM+tdnSGtbsAhKID/Ro
+	 xwEaBI6U+J/QQ92e0jO58r0uX8fwAeoZmybs7gOicE0savGhB1Vvnd4CkS1QSXYaJ2
+	 4BbAxxJbgHmePb5HPriK/ga3iAzoroRsPDrxUNREE3CpXL4aKYi4W+uT8Sl5rW65gT
+	 69GGDU8Dd2x/EB5dGAlavzKV0RO1/bJ1ytPxMQf95L+tImkKjT4P+BFY6ijVK6SK3A
+	 SAvau0JsuVw3Q==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C42DC5B543;
+	Tue, 27 May 2025 22:26:24 +0000 (UTC)
+From: Samuel Kayode via B4 Relay <devnull+samuel.kayode.savoirfairelinux.com@kernel.org>
+Subject: [PATCH v3 0/6] add support for pf1550 PMIC MFD-based drivers
+Date: Tue, 27 May 2025 18:25:32 -0400
+Message-Id: <20250527-pf1550-v3-0-45f69453cd51@savoirfairelinux.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAAkVrDM5bdnjHrSWZ4DatfBK3v-tyVBu1psVGbRjd+KXKwuFCg@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIANw7NmgC/yXMywqDMBCF4VcJs27KJHZq8VUkCzWTdhZemqgI4
+ rsbdPkdDv8OiaNwgkrtEHmVJOOQUTwUdL9m+LIWnw0WLSHZUk/BEKH2LzQBPZbtByGfp8hBtit
+ Uu9uR/0vuzfcIbZNYd2Pfy1yp9f00BO44Tjto7KWBAAAA
+X-Change-ID: 20250527-pf1550-d401f0d07b80
+To: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Mark Brown <broonie@kernel.org>, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+ Sebastian Reichel <sre@kernel.org>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-input@vger.kernel.org, linux-pm@vger.kernel.org, 
+ Samuel Kayode <samuel.kayode@savoirfairelinux.com>, eballetbo@gmail.com, 
+ abelvesa@linux.com, b38343@freescale.com, yibin.gong@nxp.com, 
+ Abel Vesa <abelvesa@kernel.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1748384783; l=3259;
+ i=samuel.kayode@savoirfairelinux.com; s=20250527;
+ h=from:subject:message-id;
+ bh=URe9IVrGZGJyILeVZBhhwONAzc69qPxN2OjxE6CJZ4E=;
+ b=UJ4AcJwLfK4DFqRBhE//y7QyL/NeE6MGisDxCq6MHlHpahCh8CYZPc0hk8Qp9pNPhav7nSXPv
+ w1jN1WnfbY6ARElc+dw0DpA8Pp7zaBt/T5Xn4VERhp5hVe3NC4klhf2
+X-Developer-Key: i=samuel.kayode@savoirfairelinux.com; a=ed25519;
+ pk=TPSQGQ5kywnnPyGs0EQqLajLFbdDu17ahXz8/gxMfio=
+X-Endpoint-Received: by B4 Relay for
+ samuel.kayode@savoirfairelinux.com/20250527 with auth_id=412
+X-Original-From: Samuel Kayode <samuel.kayode@savoirfairelinux.com>
+Reply-To: samuel.kayode@savoirfairelinux.com
 
-[ adding back linux-input list... ]
+This series adds support for pf1550 PMIC. It provides the core mfd driver and a
+set of three sub-drivers for the regulator, power supply and input subsystems.
 
-On Mon, May 26, 2025 at 09:54:05AM +0800, lihua - wrote:
-> Hi, i thought about it, i don't think the scenario you mentioned would
-> exist.
+Patch 1 adds the DT binding document for the PMIC. Patches 2-5 adds the
+pertinent drivers. Last patch adds a MAINTAINERS entry for the drivers.
 
-And yet it does...
+Changes since v1:
+   - DT bindings for all devices included
+   - Add onkey driver
+   - Add driver for the regulators
+   - Ensure charger is activated as some variants have it off by default
+   - Update mfd and charger driver per feedback from eballetbo@gmail.com
+   - Add myself as maintainer for these drivers
+   - Link to v1: https://lore.kernel.org/1523974819-8711-1-git-send-email-abel.vesa@nxp.com/
 
-> If it is convenient, please give a specific scenario so that i can verify
-> it.
-> 
-> In addition, as mentioned before, this linux code logic cannot detect long
-> press events in suspend state, which is also a problem in itself.
-> Does the community have a repair plan?
-> 
-> Looking forward to your reply。
-> 
-> On Mon, May 19, 2025 at 3:55 PM lihua - <
-> lihua@huaqin.corp-partner.google.com> wrote:
-> 
-> > In suspend mode, if the gpio key is not released, two down events will be
-> > reported, log as follow:
-> >
-> > *gpio key keep pressing：*
-> > /dev/input/event0: EV_KEY       00fa                 DOWN
-> > /dev/input/event0: EV_SYN       SYN_REPORT           00000000
-> > /dev/input/event0: EV_KEY       00fa                 UP
-> > /dev/input/event0: EV_SYN       SYN_REPORT           00000001
+Changes since v2:
+   - Rebase on recent mainline kernel v6.15
+   - Single yaml file containing dt bindings for all pf1550 devices
+   - irq mapping done in MFD driver as suggested by Dmitry Torokhov
+   - Drop unnecessary includes in drivers
+   - Replace dev_err with dev_err_probe in probe method of drivers
+   - Drop compatible string from drivers of the sub-devices
+   - Remove dependency on OF from drivers of the sub-devices
+   - onkey: move driver from input/keyboard into input/misc
+   - onkey: remove dependency on OF
+   - onkey: use onkey virqs instead of central irq
+   - onkey: fix integer overflow for regmap_write when unmasking
+     interrupts during pf1550_onkey_resume
+   - charger: add support for monitored-battery which is used in setting
+     a constant voltage for the charger.
+   - Address other feedback from Dmitry Torokhov and Krzysztof Kozlowski
+   - Link to v2: https://lore.kernel.org/cover.1747409892.git.samuel.kayode@savoirfairelinux.com/
 
-These are not 2 down events. I see one down and one up event here.
+Signed-off-by: Samuel Kayode <samuel.kayode@savoirfairelinux.com>
+---
+Samuel Kayode (6):
+      dt-bindings: mfd: add pf1550
+      mfd: pf1550: add core mfd driver
+      regulator: pf1550: add support for regulator
+      input: pf1550: add onkey support
+      power: supply: pf1550: add battery charger support
+      MAINTAINERS: add an entry for pf1550 mfd driver
 
-> >
-> > When the gpio key is pressed, the down and up events are reported
-> > immediately.
-> > The upper layer monitors the time interval between the down and up events.
-> > If the time is greater than 500ms, it is considered a long press and
-> > responds to the corresponding function.
+ Documentation/devicetree/bindings/mfd/pf1550.yaml | 139 +++++
+ MAINTAINERS                                       |  10 +
+ drivers/input/misc/Kconfig                        |  11 +
+ drivers/input/misc/Makefile                       |   1 +
+ drivers/input/misc/pf1550-onkey.c                 | 202 +++++++
+ drivers/mfd/Kconfig                               |  14 +
+ drivers/mfd/Makefile                              |   2 +
+ drivers/mfd/pf1550.c                              | 277 ++++++++++
+ drivers/power/supply/Kconfig                      |  11 +
+ drivers/power/supply/Makefile                     |   1 +
+ drivers/power/supply/pf1550-charger.c             | 639 ++++++++++++++++++++++
+ drivers/regulator/Kconfig                         |   9 +
+ drivers/regulator/Makefile                        |   1 +
+ drivers/regulator/pf1550-regulator.c              | 353 ++++++++++++
+ include/linux/mfd/pf1550.h                        | 241 ++++++++
+ 15 files changed, 1911 insertions(+)
+---
+base-commit: 0a4b866d08c6adaea2f4592d31edac6deeb4dcbd
+change-id: 20250527-pf1550-d401f0d07b80
 
-OK, so the issue you are having is with timestamp on both EV_KEY events
-having the same value? Yes, input_sync() after the synthetic key press
-will indeed fix this and you will see distinct timestamps on the press
-and release events.
-
-> >
-> > But, we found that this phenomenon would not occur in the non-sleeping
-> > state.
-> >
-> > Looking at the code, we think it may be related to follow code:
-> >
-> > if (bdata->suspended  &&
-> >    (button->type == 0 || button->type == EV_KEY)) {
-> > /*
-> > * Simulate wakeup key press in case the key has
-> > * already released by the time we got interrupt
-> > * handler to run.
-> > */
-> > input_report_key(bdata->input, button->code, 1);
-> > ++ input_sync(bdata->input);
-> > ++ return IRQ_HANDLED;
-
-This return is wrong though, you do want to schedule debounced read to
-make sure you do not end with key "stuck" if button is released really
-quickly.
-
-> > }
-> >
-> > So ,we try to add this two line and fix it.(maybe it's not correct)
-> >
-> >
-> > In addition, why does gpio key keep pressing report two events in suspend
-> > state?
-
-Yo may end up trying to report the press twice (but input core will
-"eat" one of them and not report to userspace) in the following
-scenario:
-
-- the driver generates synthetic key press when resume() method is
-  running
-- ISR for the GPIO runs, the button is still pressed, and so the driver
-  will report another EV_KEY input event. Because input core knows that
-  the key is already pressed it will not deliver this "extra" event to
-  userspace
-- Key is released, input event is generated.
-
-And please, do not top-post on Linux kernel mailing lists.
-
-> >
-> >
-> >
-> > On Sat, May 17, 2025 at 12:08 AM Dmitry Torokhov <
-> > dmitry.torokhov@gmail.com> wrote:
-> >
-> >> Hi,
-> >>
-> >> On Fri, May 16, 2025 at 09:39:58AM +0800, lihua - wrote:
-> >> > The requirement is to long press the Google key in sleep mode to turn
-> >> > on the flashlight, so it is necessary to be able to recognize the long
-> >> > press event in sleep mode.
-> >> >
-> >> > But from the current code design, this requirement cannot be met.
-> >>
-> >> You have not completed your sentence: "... this requirement cannot be
-> >> met" because ...
-> >>
-> >> You need to explain what exactly is wrong in the current implementation
-> >> so that we can evaluate the patch properly. So far I do not really
-> >> understand how not calling input_sync() in the GPIO interrupt handler
-> >> one more time allegedly allows you to recognize short press but not long
-> >> press? There is something missing here.
-> >>
-> >> As I mentioned before, returning early without scheduling another GPIO
-> >> read may result in the key or button being "stuck". Maybe for your
-> >> particular userspace it is acceptable, but the driver is used in various
-> >> products and we need to be careful not to break them.
-> >>
-> >> And please do not top-post in your replies.
-> >>
-> >> >
-> >> > On Fri, May 16, 2025 at 2:58 AM Dmitry Torokhov
-> >> > <dmitry.torokhov@gmail.com> wrote:
-> >> > >
-> >> > > On Mon, May 12, 2025 at 11:50:15AM +0300, Andy Shevchenko wrote:
-> >> > > > On Mon, May 12, 2025 at 03:57:17PM +0800, lihua - wrote:
-> >> > > >
-> >> > > > First of all, do not top-post!
-> >> > > >
-> >> > > > > Hello, All linux team members:
-> >> > > > >       Could you please review this modification as soon as
-> >> possible?
-> >> > > >
-> >> > > > You even haven't waited for a full week...
-> >> > > >
-> >> > > > If it's an (important) fix, made it look so (Fixes: tag, Cc: stable@,
-> >> etc).
-> >> > >
-> >> > > I can see that missing input_sync() might hurt, but the patch
-> >> > > description makes no sense. The driver does not really differentiate
-> >> > > between long and sort press.
-> >> > >
-> >> > > Please provide a better explanation how missing sync interferes with
-> >> > > your use case.
-
-Thanks.
-
+Best regards,
 -- 
-Dmitry
+Samuel Kayode <samuel.kayode@savoirfairelinux.com>
+
+
 
