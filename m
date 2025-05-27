@@ -1,238 +1,154 @@
-Return-Path: <linux-input+bounces-12594-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12595-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF12BAC4CC5
-	for <lists+linux-input@lfdr.de>; Tue, 27 May 2025 13:11:23 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 54E2EAC500B
+	for <lists+linux-input@lfdr.de>; Tue, 27 May 2025 15:39:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5DD213BF22E
-	for <lists+linux-input@lfdr.de>; Tue, 27 May 2025 11:11:02 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id AEA581885980
+	for <lists+linux-input@lfdr.de>; Tue, 27 May 2025 13:39:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 62BD4254AF3;
-	Tue, 27 May 2025 11:11:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 78F732749D9;
+	Tue, 27 May 2025 13:38:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="JrWPQu++"
+	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="WNpIQmMi"
 X-Original-To: linux-input@vger.kernel.org
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com (mail-mw2nam04on2061.outbound.protection.outlook.com [40.107.101.61])
+Received: from mx08-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F23216D9C2
-	for <linux-input@vger.kernel.org>; Tue, 27 May 2025 11:11:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.101.61
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748344278; cv=fail; b=j84o3Mokh5hugTIVJLdd+j+LM5xvOkpKBCXiKOC9RKLWlOxSlodza2F8P17L3wVh/dflGmJyzFGK82maqniUg45d606eEAPnlmKgOxadjraD0BAt8I6YHLXsf3Acci04gUrrH7+v1f4vqhN4+7uCFOAOV+T0I/I4AOfWRVTSKK0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748344278; c=relaxed/simple;
-	bh=O5Cva5XDBg3B3mjm8RJtUjR8IfaIZP87YWtkOtzUZns=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=VC9WBScZEFGHRol5murTgG3oX89DGUE4SHUbwnzOydLjijVCbFnGU5paW8QUYy4IRtiShZKQN9XJn5jii+1Nj/FgtnaG1+JRta1RWjr54wpRPhyrj2Xtz+PCVgLluXgNwO37UTZPZe5aIvOaabxlSqxHE0OzXARTtNrpPIDW0dk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=JrWPQu++; arc=fail smtp.client-ip=40.107.101.61
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=FD8CmEd+EslY1T/jZE1O7RroKdydhsKjrsRfPMI+M3bsbSYd0CfLG8eCjmJB6uZyJk4j1KDddkGZpiorydz4wwS1IPFrYZIzWuw+w3aBGsXepEHLYH6omFcVvDJ1ESud/kUNzNsXt4Ktxfn5fZrx12gJKb5Biw3Tky4X6FmMDVCNeG/GTLi5FmTRAD9tzgJFTTseR0kRBjSepLIQ/6T3zYQE1dYi9bhHfL35lc/azhIBrttKUNXwrxP6IYLFg8Y456eWwwE2maQlrNm9MyOobAYFbUp3u5X+rVADkXgcrCO/IqoJ3JOCJnErW0OHtBQYa4LVt9niUc8QQLWqTLg1iA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Ae4x1qPyH7wWjEwDvfnDN9Ky1SXKrTU+VcEtrM0tfH8=;
- b=WyrFr3T9X3A7k+0bO1T1y39iG0RqPz/sE65oOmA2ZM9EFsKh4n5D2SiS8ZKLF/0XkPbTbJOTiwyJxcljMpJHwRunU8guRjgmJ6b1hb4L5tVEU4eyUR0pnPGAi0eeW0329F5HleBKUuGe1IqfvPxL4edTZ2BxRB0JuaN4Uo4kvSR23dVvUx2WdR5UaCt06KZYLkS3/7LmjMW6dckf6+miSVCfssAPJHmzEVVHkHYtBs3EcMtyMNsjp4EYy4nh2A+8SYu1FiRO9hc60LF4J5cR/UTr2nXv9JYRq04gNbHGVUU8fWVKbjzw1FHoMfJiv/7PpyYp3XOu8eO1wCKzvH2GFw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Ae4x1qPyH7wWjEwDvfnDN9Ky1SXKrTU+VcEtrM0tfH8=;
- b=JrWPQu++Gz7+Srkbx3AZGODUY2vdXdil/yWpDN7+05HXwom/MLcxP/gW37G3U/ZU+DAXb34TBXDbMHwyDhtg6K4j+QAgPOOi3mRUtVosepxpQK7B9td46PsAKWruM8tVuN9/TV7/lmyWtW1dsdbSIYd96W8FLorBQ62hQ3CZh3U=
-Received: from BYAPR21CA0015.namprd21.prod.outlook.com (2603:10b6:a03:114::25)
- by DS0PR12MB6582.namprd12.prod.outlook.com (2603:10b6:8:d2::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8769.27; Tue, 27 May
- 2025 11:11:12 +0000
-Received: from CY4PEPF0000E9D1.namprd03.prod.outlook.com
- (2603:10b6:a03:114:cafe::de) by BYAPR21CA0015.outlook.office365.com
- (2603:10b6:a03:114::25) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8769.12 via Frontend Transport; Tue,
- 27 May 2025 11:11:12 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CY4PEPF0000E9D1.mail.protection.outlook.com (10.167.241.136) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8769.18 via Frontend Transport; Tue, 27 May 2025 11:11:11 +0000
-Received: from airavat.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1F10267AED;
+	Tue, 27 May 2025 13:38:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.207.212.93
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1748353127; cv=none; b=Bom30fpitAgUCfRfh1av67BoJNXzatcRW8rTOR0y6jAQMK4aC12jVNIz3Q7YcDeR6D6cN9c+0XvI7n7Yki+LrdclnUr/nIooMltJLcx2LcukhZtp6lX7GfpCrNZa/p6C1/k7A1/i26cQCzt0i3Ii6cQTP9TnMH1ypw2es56DvP0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1748353127; c=relaxed/simple;
+	bh=YAK22hh9bF0xUHaZ37cM77JZCPU+tfEdr966jOJvfXM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=vFPkcTPmUqAWQ98j+E5JlK5ZuF0E8v5+ufk+L+gWXwNqEYVlIFFW5qdHjznkGkKhkaQpgb+avyH158XqLIR+PcSldacPzY9gZmmh0aXRdP0+M71xEY7dbelU95Qsdd2lsd8ZeRaZ1tX9RtTuNJBXfYqWMKjaUx1UQp0Wiea46/Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=WNpIQmMi; arc=none smtp.client-ip=91.207.212.93
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
+Received: from pps.filterd (m0369457.ppops.net [127.0.0.1])
+	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54RBw2xZ002122;
+	Tue, 27 May 2025 15:38:20 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=selector1; bh=
+	G8Ua6pTVZVcQk45Vtse+7jeBJIEk6dgYvFzDSEU8xck=; b=WNpIQmMicdz4CkGh
+	l4ItB+PvWAGucajYF5iwdkXyXW5x0sCd/uwj6HQvwEdKDFALbMSaop27sGgjcqqX
+	Sq2LU4oJt1HFFK1jivnqP3el78O4HKDDCk7QF+VHf3MeImw+qv3cf0qQJiz1i0DA
+	7kdqsm37saO1vqXi3UNdJ1yJ737PKsdQCzEfkXvuglxfq+POJkDua5gHZNgHrPkw
+	vlmOpEySaJ/eUFsOukTJgJvb4nA4Hs/8cPggy5qTyM2YX8i+VKXos65gX2Mbq+0D
+	LUHKWJd/IxGSJQ7Fkfkg2387Q84UB1O8uu3bueGYA3BTmOHbTivK/K8xsrdbtENU
+	95iHzw==
+Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
+	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 46w54hjs1w-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 27 May 2025 15:38:20 +0200 (MEST)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 1A4D840053;
+	Tue, 27 May 2025 15:37:16 +0200 (CEST)
+Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
+	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 9ED31AEF6B9;
+	Tue, 27 May 2025 15:36:42 +0200 (CEST)
+Received: from [10.48.87.141] (10.48.87.141) by SHFDAG1NODE1.st.com
+ (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Tue, 27 May
- 2025 06:11:09 -0500
-From: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
-To: <jikos@kernel.org>, <bentiss@kernel.org>
-CC: <linux-input@vger.kernel.org>, Basavaraj Natikar
-	<Basavaraj.Natikar@amd.com>, Akshata MukundShetty
-	<akshata.mukundshetty@amd.com>
-Subject: [PATCH] HID: amd_sfh: Enable operating mode
-Date: Tue, 27 May 2025 16:40:47 +0530
-Message-ID: <20250527111047.920622-1-Basavaraj.Natikar@amd.com>
-X-Mailer: git-send-email 2.34.1
+ 2025 15:36:42 +0200
+Message-ID: <661af124-3072-4dcf-b613-ec3e48549626@foss.st.com>
+Date: Tue, 27 May 2025 15:36:37 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY4PEPF0000E9D1:EE_|DS0PR12MB6582:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7f1f11c3-ca78-4314-8ebb-08dd9d0f3080
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700013|1800799024|82310400026|376014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?OumgVv6vIcsN5u2RvuC4LceLuzUVFRigfAM2xrMN0ZchYpnQfsKf3b9UKWgV?=
- =?us-ascii?Q?DWWcujx8ruF3SCeUOcxbF6aVUGop6vEEG/SeWk7bmGMdt6/YN2YKZWPLasxm?=
- =?us-ascii?Q?ZmDvxvfMV4DNNqWt6uutIxlqHLyJIObIMIIGxj9nD46pvJfdzcLwFeeB3JEF?=
- =?us-ascii?Q?aDPIVyKYRhBynRG7AkV8AZ5CCzj9PDzCFj4YcYc/+1GvZWABj5M1yEG9A1vk?=
- =?us-ascii?Q?/5Wzz10HcQmTgXP6mQuJAAAZewAgbc2qd5/qM+kxuNFnFsx5C1mouRgLLqQh?=
- =?us-ascii?Q?Ub8cpobI4g2K3w0TaTDm/V1oBTjA3TB56NsH1LJwzD1r+e4xIzZKVFc8vyJq?=
- =?us-ascii?Q?kIl5IVu3WlULXqbSlXRI+9Bqax5bNVgt03HE1Vm0ep+zDg1uWntrGc91tmsv?=
- =?us-ascii?Q?+zQVGZl0bCc+AUhrituLIfudUvi2N+UfrbVjGgx+kPzNVzu+Ko5CovUkMsLk?=
- =?us-ascii?Q?zEK6e1uo9MQZZEim6Q2r75MeAuanPkgxQ3MAMGaGutYT7rDK0CqaBLhVz1Wz?=
- =?us-ascii?Q?ceCxHR4lbzrTXWm2I4s36yOtXJpCCKu/q+dEgYl4pxilEHdIk2lnts3COGhv?=
- =?us-ascii?Q?zxB67w2nP42Dz+P7Brw7Pjmbxnt4GH0fruSCxzns3RPAG9mVJFKnUAwIm8Ql?=
- =?us-ascii?Q?9wAwI2F+6dgbAl+XMZJ+vkv+1lAx8LcpHmny+aNQ1utlMtSQZBLjCmrEtej7?=
- =?us-ascii?Q?3K8Yz5baUZPGaQnDsgvMzrQl0OFalTeBzFjcoZQCKI6/q5StrCAQPaI8Rg4G?=
- =?us-ascii?Q?rw4ZkhC4JTcR+psOuhvZeycBYRYw7ppKctS6Wy4OG1Csn9APO9HIMWBO5mvT?=
- =?us-ascii?Q?QQvEFWnZe7UQBCvNNBvckgOdG9YjDeThiwwmHgRSPLzb7DUCsgzSZsqxYZf+?=
- =?us-ascii?Q?gkr8A5B/9GeVZk7tWRCb0Eaw/BT2JuPq/a1BYrDl4n1D58HAhbshJldUBZUu?=
- =?us-ascii?Q?+BAolOoOWqqvyFDBt+9nagkPk8tm5S0Lf0stAnXIHYPHL0K1xq0CyBskmXav?=
- =?us-ascii?Q?mk3Ykyg2zNK3SpRA+yJQMcseXtwvepOYQmTW3k/rr6HXOKT0qHkVxMyqgA1G?=
- =?us-ascii?Q?hhhacTORU03vB1AlFwm2/T+DjpUJKUggHi19wLPq5/62WrSvhgRJxzU22CkZ?=
- =?us-ascii?Q?GhZi2C6F3Q4SDv7ANzpp5e7K5Lw3hvBn8fqzE5m14aVN5y0q0t56YK44I8TV?=
- =?us-ascii?Q?vEyLF/KQWTnDBHwuzkOE/ob//i0vHanXgMO/V9Au3DJaC6oTBo3eT2LOaSov?=
- =?us-ascii?Q?qRbhraTQZDD+AMFirLGV0ckmMEg/duC6JPOp2sqmzPc9YeTXzBxrRsH9G20D?=
- =?us-ascii?Q?2cuvKd4bdB35oRAbWz2guLU1GwhjAESLLdo0hx4k/n8En8qEocZn9muDVa27?=
- =?us-ascii?Q?GiLwdgWkH8q6mheli2tDhWxoQqIdR05DymfTY0zZAsRgysJF7YTsrOssHM7N?=
- =?us-ascii?Q?FuLtfnBZnjQAp5nHOtw/cwCGwnQTn3w4y3UkQZDHnzlKUUK8cr9HOukWuTO6?=
- =?us-ascii?Q?jB9zVmN7Kg6R9/k2m3kB7AwA/l/ykSbUqMhd?=
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(1800799024)(82310400026)(376014);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 May 2025 11:11:11.9288
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7f1f11c3-ca78-4314-8ebb-08dd9d0f3080
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	CY4PEPF0000E9D1.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB6582
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Input: gpio-keys - fix a sleep while atomic with
+ PREEMPT_RT
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+CC: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Clark Williams
+	<clrkwllms@kernel.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Paul Cercueil
+	<paul@crapouillou.net>, <linux-input@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-rt-devel@lists.linux.dev>,
+        Fabrice
+ Gasnier <fabrice.gasnier@foss.st.com>
+References: <20250526-gpio_keys_preempt_rt-v1-1-09ddadf8e19d@foss.st.com>
+ <20250526141321.FcXEgnV4@linutronix.de>
+Content-Language: en-US
+From: Gatien CHEVALLIER <gatien.chevallier@foss.st.com>
+In-Reply-To: <20250526141321.FcXEgnV4@linutronix.de>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SHFCAS1NODE1.st.com (10.75.129.72) To SHFDAG1NODE1.st.com
+ (10.75.129.69)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-27_06,2025-05-27_01,2025-03-28_01
 
-Add changes to enable operating modes in the driver to allow the FW to
-activate and retrieve data from relevant sensors. This enables the FW to
-take necessary actions based on the operating modes.
+Hello Sebastian,
 
-Co-developed-by: Akshata MukundShetty <akshata.mukundshetty@amd.com>
-Signed-off-by: Akshata MukundShetty <akshata.mukundshetty@amd.com>
-Signed-off-by: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
----
- drivers/hid/amd-sfh-hid/amd_sfh_client.c | 23 +++++++++++++++++++++++
- drivers/hid/amd-sfh-hid/amd_sfh_pcie.c   |  4 ++++
- drivers/hid/amd-sfh-hid/amd_sfh_pcie.h   |  1 +
- 3 files changed, 28 insertions(+)
+On 5/26/25 16:13, Sebastian Andrzej Siewior wrote:
+> On 2025-05-26 15:56:29 [+0200], Gatien Chevallier wrote:
+>> From: Fabrice Gasnier <fabrice.gasnier@foss.st.com>
+>>
+>> When enabling PREEMPT_RT, the gpio_keys_irq_timer() callback runs in
+>> hard irq context, but the input_event() takes a spin_lock, which isn't
+>> allowed there as it is converted to a rt_spin_lock().
+>>
+>> [ 4054.289999] BUG: sleeping function called from invalid context at kernel/locking/spinlock_rt.c:48
+>> [ 4054.290028] in_atomic(): 1, irqs_disabled(): 1, non_block: 0, pid: 0, name: swapper/0
+>> ...
+>> [ 4054.290195]  __might_resched+0x13c/0x1f4
+>> [ 4054.290209]  rt_spin_lock+0x54/0x11c
+>> [ 4054.290219]  input_event+0x48/0x80
+>> [ 4054.290230]  gpio_keys_irq_timer+0x4c/0x78
+>> [ 4054.290243]  __hrtimer_run_queues+0x1a4/0x438
+>> [ 4054.290257]  hrtimer_interrupt+0xe4/0x240
+>> [ 4054.290269]  arch_timer_handler_phys+0x2c/0x44
+>> [ 4054.290283]  handle_percpu_devid_irq+0x8c/0x14c
+>> [ 4054.290297]  handle_irq_desc+0x40/0x58
+>> [ 4054.290307]  generic_handle_domain_irq+0x1c/0x28
+>> [ 4054.290316]  gic_handle_irq+0x44/0xcc
+>>
+>> Considering the gpio_keys_irq_isr() can run in any context, e.g. it can
+>> be threaded, it seems there's no point in requesting the timer isr to
+>> run in hard irq context.
+>>
+>> So relax the hrtimer not to use the hard context. This requires the
+>> spin_lock to be added back in gpio_keys_irq_timer().
+> 
+> Why does it? This needs to be explained or it deserves an independent
+> patch/ fix. This flag change makes not difference on !PREEMPT_RT and so
+> should be the requirements for locking here.
+> 
 
-diff --git a/drivers/hid/amd-sfh-hid/amd_sfh_client.c b/drivers/hid/amd-sfh-hid/amd_sfh_client.c
-index 3438d392920f..0f2cbae39b2b 100644
---- a/drivers/hid/amd-sfh-hid/amd_sfh_client.c
-+++ b/drivers/hid/amd-sfh-hid/amd_sfh_client.c
-@@ -146,6 +146,8 @@ static const char *get_sensor_name(int idx)
- 		return "gyroscope";
- 	case mag_idx:
- 		return "magnetometer";
-+	case op_idx:
-+		return "operating-mode";
- 	case als_idx:
- 	case ACS_IDX: /* ambient color sensor */
- 		return "ALS";
-@@ -243,6 +245,20 @@ int amd_sfh_hid_client_init(struct amd_mp2_dev *privdata)
- 			rc = -ENOMEM;
- 			goto cleanup;
- 		}
-+
-+		if (cl_data->sensor_idx[i] == op_idx) {
-+			info.period = AMD_SFH_IDLE_LOOP;
-+			info.sensor_idx = cl_data->sensor_idx[i];
-+			info.dma_address = cl_data->sensor_dma_addr[i];
-+			mp2_ops->start(privdata, info);
-+			cl_data->sensor_sts[i] = amd_sfh_wait_for_response(privdata,
-+									   cl_data->sensor_idx[i],
-+									   SENSOR_ENABLED);
-+			if (cl_data->sensor_sts[i] == SENSOR_ENABLED)
-+				cl_data->is_any_sensor_enabled = true;
-+			continue;
-+		}
-+
- 		cl_data->sensor_sts[i] = SENSOR_DISABLED;
- 		cl_data->sensor_requested_cnt[i] = 0;
- 		cl_data->cur_hid_dev = i;
-@@ -303,6 +319,13 @@ int amd_sfh_hid_client_init(struct amd_mp2_dev *privdata)
- 
- 	for (i = 0; i < cl_data->num_hid_devices; i++) {
- 		cl_data->cur_hid_dev = i;
-+		if (cl_data->sensor_idx[i] == op_idx) {
-+			dev_dbg(dev, "sid 0x%x (%s) status 0x%x\n",
-+				cl_data->sensor_idx[i], get_sensor_name(cl_data->sensor_idx[i]),
-+				cl_data->sensor_sts[i]);
-+			continue;
-+		}
-+
- 		if (cl_data->sensor_sts[i] == SENSOR_ENABLED) {
- 			rc = amdtp_hid_probe(i, cl_data);
- 			if (rc)
-diff --git a/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c b/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c
-index 1c1fd63330c9..2983af969579 100644
---- a/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c
-+++ b/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c
-@@ -29,6 +29,7 @@
- #define ACEL_EN		BIT(0)
- #define GYRO_EN		BIT(1)
- #define MAGNO_EN	BIT(2)
-+#define OP_EN		BIT(15)
- #define HPD_EN		BIT(16)
- #define ALS_EN		BIT(19)
- #define ACS_EN		BIT(22)
-@@ -232,6 +233,9 @@ int amd_mp2_get_sensor_num(struct amd_mp2_dev *privdata, u8 *sensor_id)
- 	if (MAGNO_EN & activestatus)
- 		sensor_id[num_of_sensors++] = mag_idx;
- 
-+	if (OP_EN & activestatus)
-+		sensor_id[num_of_sensors++] = op_idx;
-+
- 	if (ALS_EN & activestatus)
- 		sensor_id[num_of_sensors++] = als_idx;
- 
-diff --git a/drivers/hid/amd-sfh-hid/amd_sfh_pcie.h b/drivers/hid/amd-sfh-hid/amd_sfh_pcie.h
-index 05e400a4a83e..2eb61f4e8434 100644
---- a/drivers/hid/amd-sfh-hid/amd_sfh_pcie.h
-+++ b/drivers/hid/amd-sfh-hid/amd_sfh_pcie.h
-@@ -79,6 +79,7 @@ enum sensor_idx {
- 	accel_idx = 0,
- 	gyro_idx = 1,
- 	mag_idx = 2,
-+	op_idx = 15,
- 	als_idx = 19
- };
- 
--- 
-2.34.1
+Can you elaborate on "This flag change makes not difference on
+!PREEMPT_RT" please? IIUC,this makes the callback not run in hard IRQ
+context, even in !PREEMPT_RT, no?
 
+Regarding the need of the spin_lock: gpio_keys_irq_timer() and
+gpio_keys_irq_isr() appear to access the same resources. Can't we
+have a concurrent access on it from:
+HR timer interrupt // GPIO interrupt?
+
+But looking back at the patch, this situation does not depend on
+the HRTIMER_MODE_REL_HARD flag. So maybe it should be addressed
+separately.
+
+On the other hand, I should use the new
+guard(spinlock_irqsave)(&bdata->lock);
+
+>> Fixes: 019002f20cb5 ("Input: gpio-keys - use hrtimer for release timer")
+>> Suggested-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+>> Signed-off-by: Fabrice Gasnier <fabrice.gasnier@foss.st.com>
+>> Signed-off-by: Gatien Chevallier <gatien.chevallier@foss.st.com>
+> 
+> Sebastian
 
