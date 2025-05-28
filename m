@@ -1,408 +1,232 @@
-Return-Path: <linux-input+bounces-12612-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12613-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00E08AC5E23
-	for <lists+linux-input@lfdr.de>; Wed, 28 May 2025 02:21:00 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E4DDAC619C
+	for <lists+linux-input@lfdr.de>; Wed, 28 May 2025 08:08:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BF4614A2403
-	for <lists+linux-input@lfdr.de>; Wed, 28 May 2025 00:21:00 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 26C1D1BC2B2D
+	for <lists+linux-input@lfdr.de>; Wed, 28 May 2025 06:08:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 618851E4AB;
-	Wed, 28 May 2025 00:20:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B523521147A;
+	Wed, 28 May 2025 06:08:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RqBb9OrP"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZE0Ma/H0"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 861DC1367;
-	Wed, 28 May 2025 00:20:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E0E120F085;
+	Wed, 28 May 2025 06:08:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748391655; cv=none; b=EVNAscTVr9Q5d4anvCWbJMIcNmSWhyectNpYkfZ0cjV9oxQLnuF6isHY3zqL7LaGmoaxln302N6vL+E+UN/7NC1Il+hU7GOY1LZdnDzm+v9huYKByCoQV6QSW5f4ZKjXm1wY4IPErgxWSw0HkNIl9hjTKnXCzH4Wp/TLQM+EtuE=
+	t=1748412503; cv=none; b=KpYciTHjIu/O8t/O7ipIib2jTMvB8SIYLFbcOxyOv0OHSuq+hRS9dmUitnzSJPeA/NpGL8AgPyE6R9XPqm/VpcyZhRqWKljYzsP+zQxJBnXVqQwKLvQeUmbZNaE0b0CAQ3eQ7nQmDepSGvyjBUTOGGYpdaxMYoZpP7Yryt4gNGE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748391655; c=relaxed/simple;
-	bh=07I8pZ0zqVggpS9U6quNsxu0qx6lmPVOZfAeN22ERBk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TWM+3iTdZN/CfPaj60Zri1sIl3RzVOTFEMiMs6/dD5VECXuBWggMIqUSModnJGoKpU1y1maUYwK/utgkt6eSqrUDILXdXk/d5njczrgqFalo4Z96kqNWe5K7AuQWHlnA/lT2TqKPgzkXsRy55HzuFdmJvQww1AvLF0AMZD80BNQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RqBb9OrP; arc=none smtp.client-ip=209.85.215.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-b271f3ae786so2376533a12.3;
-        Tue, 27 May 2025 17:20:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1748391653; x=1748996453; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=kWZ6iUW307N5iuj7sMs8339NMMA8wqPm/BKB3SNxcD8=;
-        b=RqBb9OrPATwr+8Pzd8JHEvUDELF2yz6JxsQ0uMfPO2fz1gquIkLbd/BNWA2nPZy/OO
-         Alr9pWfxd+xLVF0UDSweAO9p/+ZQToPkajRHTTr4aGMs+wYhBfDuA/bi1wKkWvWEwZIm
-         vfN49PsHMhJO7j/CbNWpIim/VOOFTx2Lp3xhGinFj5ILFrZgXGkyiYVrudgc440GSkXB
-         rsOuKP27kaK2kuXnPSMCWIdaMapBN/Rf/KXdImjWY4WhzSnmELzpQjEyGUwcWrm/XYcE
-         btprwbOM/a8k4AaVlOo3VRXV7E4LAFY14VomadTOX77lPsib/4j7dW6ycJvI9knoBI81
-         lA4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748391653; x=1748996453;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kWZ6iUW307N5iuj7sMs8339NMMA8wqPm/BKB3SNxcD8=;
-        b=OaysN4vL2KUrRTCK/aH619cXj6sSosZ56Qk95PV0HcRpGvvujBQ2uDIH4smamGF9K6
-         Zuwcs3HWjqMwyRuZbSYzrPzZtTnGETci3FVnRktSmcL86qqv32adH04HOd6nLQU4EbQy
-         Kbmarvw3DZATOzUnmMrV7UkmGt9nloLN+sM5AJqayQbeO98dDxJL3zIGGseFUR+BPxkI
-         qn8AlBc8daFlV+LpYVoxhw2ek4j/rORqLZFkEHvXH70+L+6nLvxN0076l6rTRS4S21oU
-         kUUPaS+BvglhMKZ5AHMatfLlvePFpdmx52fl2JEmxbKv2rpd9B9HAf1cqfTK/0BkeDQc
-         61ww==
-X-Forwarded-Encrypted: i=1; AJvYcCVBxRr1DOY6SoOonvYEWMwbjniHmogbJr7wZtiXAa4qha7yV3yo8ZJTAKZb1cXI4Ugmj46qA+PGlw0=@vger.kernel.org, AJvYcCW1X0NoT0YwcBa4BUGveMtUOKeKOTGMkNoCHhfaWphR/jr/Q7c+HycT06S9Mb6IuhCFKY6XWW57rZYa@vger.kernel.org, AJvYcCWcGvY39oB7lqIXYIJ+JxxYCAj+hZ4+A5FDS8AEyaU3gonJ+kZCAyThSAB1GNZQRxaHjA4DYCk0AnG2cbI=@vger.kernel.org, AJvYcCXWa0rV5cOOCEH3m/8jmtitF+PplZ+MVQIebmeoLcpTKQIaEAVF8ygSs89Hq5urZoptS60bN4D2Iv/xRk2k@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw1+Y4jyp/pnI2Do9CXhA7loxIXenbSJopmF89tWYQrpRnU7IJh
-	8N2oWBdOHzGd7zif2hfN9uj+jwiw4uENuKcP3k8tN7/J1ihkUz2aagtt
-X-Gm-Gg: ASbGnct1xQ+6BA2893EbsXC1lzkKgyNStl4qMZzEjuR4hLlXYHG7TMfWoFx2dUl/RMa
-	29T0kZL5uHdWxRclP5lEJPCZ/Si8nFZcsdyDxj+mXRr4g/VYck90x1AzIBv4scLSi1k2mAEamDC
-	JYCNlvbgMdBaaA8yPJt4KdSIF5YDW0QqPgJullFyfKtufvxpdC+Q3WjBtZKe0FxG54kYHw4iAwT
-	1JSxKPpPxdLcv7QIHZubjwRO+l3aE/TNsixJsaVSPvOCO2+REDTL9dkgGK21BTJQhzNddJp4xVk
-	Meb08bD6LPGT3wZ97zGKo4Vx+r+yrsBxgdBysrlklmGJGIVd303/mN8pjgYWGsk=
-X-Google-Smtp-Source: AGHT+IHkMqHNdBvwN7BnGeJysfykY0aSAvyCsDf4+q5TK7fnOhHB5Dl68f/952BrcbnMXhQ2+5boOw==
-X-Received: by 2002:a17:90b:44:b0:30e:712e:5739 with SMTP id 98e67ed59e1d1-311e740329emr591342a91.14.1748391652552;
-        Tue, 27 May 2025 17:20:52 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:a04a:d85e:c794:147c])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-311e3da5c22sm169847a91.21.2025.05.27.17.20.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 May 2025 17:20:52 -0700 (PDT)
-Date: Tue, 27 May 2025 17:20:48 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: samuel.kayode@savoirfairelinux.com
-Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Sebastian Reichel <sre@kernel.org>, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-input@vger.kernel.org, linux-pm@vger.kernel.org, eballetbo@gmail.com, 
-	abelvesa@linux.com, b38343@freescale.com, yibin.gong@nxp.com, 
-	Abel Vesa <abelvesa@kernel.org>
-Subject: Re: [PATCH v3 4/6] input: pf1550: add onkey support
-Message-ID: <xuuvptsz6ryeanj4wu6hzzskcdspwdis4p54hhsbhny5mmcodw@2ihxnzlva5ff>
-References: <20250527-pf1550-v3-0-45f69453cd51@savoirfairelinux.com>
- <20250527-pf1550-v3-4-45f69453cd51@savoirfairelinux.com>
+	s=arc-20240116; t=1748412503; c=relaxed/simple;
+	bh=/JC3gGZ8Q9DdKYDyYaEVzxxLkm2Yi35dZsaPUf3NQDM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=iO//SNwMUEyle9aYu66XZUXiHF3iQt7dQSWeO88Cjxm7cFO/DViCXYnTXfBJBuLWbUvyKbtTOdl6OzxWBlNf47dWCbLLgd+AMdyoB1y1o0q3YpGj9wPIXaGK/KEuKDt6R8RwFfVdMw949/B2CoNvL9ycXelo3kl61TYgCgUPVI4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZE0Ma/H0; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34826C4CEE7;
+	Wed, 28 May 2025 06:08:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1748412503;
+	bh=/JC3gGZ8Q9DdKYDyYaEVzxxLkm2Yi35dZsaPUf3NQDM=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=ZE0Ma/H0JblFA4ium+PGZRkGBmojq76R93O6Hm+rB6e3Q8iliL8+IL7lJSRpp9g+p
+	 yEVamsORm4l/eYQV8VxTFbeNHrKHbQ1dn+LhgvnMG7niB5Wu4IoklUsv2HFYXqIN5N
+	 CaMd9uFANvjfT4Z+W3k6OXiyxysdIcppfI6NTw/2Ki7u3hoV4oXcgft+MTFcpZNnXI
+	 pxPLG0x2Bpt04kKspcj8PQ+LSL3z6shBsy09EBnpWfN9BuIAIptp9Ww3nE+0CmSr/9
+	 IY7kYV5iTQsbfw5kcWGTWNUDH+nBUjyhJn9OijHs6Y/cktniJQEEpTkJ/P2JwEszpG
+	 L15qfl5UDEIRg==
+Message-ID: <250c9bf7-c958-4383-9b3f-45b4174585c5@kernel.org>
+Date: Wed, 28 May 2025 08:08:17 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250527-pf1550-v3-4-45f69453cd51@savoirfairelinux.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/6] dt-bindings: mfd: add pf1550
+To: samuel.kayode@savoirfairelinux.com, Lee Jones <lee@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Dmitry Torokhov
+ <dmitry.torokhov@gmail.com>, Sebastian Reichel <sre@kernel.org>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-input@vger.kernel.org, linux-pm@vger.kernel.org, eballetbo@gmail.com,
+ abelvesa@linux.com, b38343@freescale.com, yibin.gong@nxp.com,
+ Abel Vesa <abelvesa@kernel.org>
+References: <20250527-pf1550-v3-0-45f69453cd51@savoirfairelinux.com>
+ <20250527-pf1550-v3-1-45f69453cd51@savoirfairelinux.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
+ cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
+ JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
+ gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
+ J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
+ NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
+ BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
+ vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
+ Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
+ TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
+ S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGVBBMBCgA/AhsDBgsJCAcDAgYVCAIJCgsE
+ FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJoF1BKBQkWlnSaAAoJEBuTQ307
+ QWKbHukP/3t4tRp/bvDnxJfmNdNVn0gv9ep3L39IntPalBFwRKytqeQkzAju0whYWg+R/rwp
+ +r2I1Fzwt7+PTjsnMFlh1AZxGDmP5MFkzVsMnfX1lGiXhYSOMP97XL6R1QSXxaWOpGNCDaUl
+ ajorB0lJDcC0q3xAdwzRConxYVhlgmTrRiD8oLlSCD5baEAt5Zw17UTNDnDGmZQKR0fqLpWy
+ 786Lm5OScb7DjEgcA2PRm17st4UQ1kF0rQHokVaotxRM74PPDB8bCsunlghJl1DRK9s1aSuN
+ hL1Pv9VD8b4dFNvCo7b4hfAANPU67W40AaaGZ3UAfmw+1MYyo4QuAZGKzaP2ukbdCD/DYnqi
+ tJy88XqWtyb4UQWKNoQqGKzlYXdKsldYqrLHGoMvj1UN9XcRtXHST/IaLn72o7j7/h/Ac5EL
+ 8lSUVIG4TYn59NyxxAXa07Wi6zjVL1U11fTnFmE29ALYQEXKBI3KUO1A3p4sQWzU7uRmbuxn
+ naUmm8RbpMcOfa9JjlXCLmQ5IP7Rr5tYZUCkZz08LIfF8UMXwH7OOEX87Y++EkAB+pzKZNNd
+ hwoXulTAgjSy+OiaLtuCys9VdXLZ3Zy314azaCU3BoWgaMV0eAW/+gprWMXQM1lrlzvwlD/k
+ whyy9wGf0AEPpLssLVt9VVxNjo6BIkt6d1pMg6mHsUEVzsFNBFVDXDQBEADNkrQYSREUL4D3
+ Gws46JEoZ9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLue
+ MNsWLJBvBaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6ei
+ OMheesVS5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wA
+ GldWsRxbf3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA
+ 6z6lBZn0WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9
+ YegxWKvXXHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt
+ 91pFzBSOIpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gU
+ BLHFTg2hYnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/
+ JoFzZ4B0p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu
+ 4vXVFBYIGmpyNPYzRm0QPwARAQABwsF8BBgBCgAmAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtB
+ YpsFAmgXUF8FCRaWWyoACgkQG5NDfTtBYptO0w//dlXJs5/42hAXKsk+PDg3wyEFb4NpyA1v
+ qmx7SfAzk9Hf6lWwU1O6AbqNMbh6PjEwadKUk1m04S7EjdQLsj/MBSgoQtCT3MDmWUUtHZd5
+ RYIPnPq3WVB47GtuO6/u375tsxhtf7vt95QSYJwCB+ZUgo4T+FV4hquZ4AsRkbgavtIzQisg
+ Dgv76tnEv3YHV8Jn9mi/Bu0FURF+5kpdMfgo1sq6RXNQ//TVf8yFgRtTUdXxW/qHjlYURrm2
+ H4kutobVEIxiyu6m05q3e9eZB/TaMMNVORx+1kM3j7f0rwtEYUFzY1ygQfpcMDPl7pRYoJjB
+ dSsm0ZuzDaCwaxg2t8hqQJBzJCezTOIkjHUsWAK+tEbU4Z4SnNpCyM3fBqsgYdJxjyC/tWVT
+ AQ18NRLtPw7tK1rdcwCl0GFQHwSwk5pDpz1NH40e6lU+NcXSeiqkDDRkHlftKPV/dV+lQXiu
+ jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
+ zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
+ XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
+In-Reply-To: <20250527-pf1550-v3-1-45f69453cd51@savoirfairelinux.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Samuel,
-
-On Tue, May 27, 2025 at 06:25:36PM -0400, Samuel Kayode via B4 Relay wrote:
+On 28/05/2025 00:25, Samuel Kayode via B4 Relay wrote:
 > From: Samuel Kayode <samuel.kayode@savoirfairelinux.com>
 > 
-> Add support for the onkey of the pf1550 PMIC.
+> Add a DT binding document for pf1550 PMIC. This describes the core mfd
+> device along with its children: regulators, charger and onkey.
 > 
 > Signed-off-by: Samuel Kayode <samuel.kayode@savoirfairelinux.com>
 > ---
 > v3:
-> - Address Dmitry's feedback
->   - Drop compatible string
->   - Remove dependency on OF
->   - Use generic device properties
->   - Drop unnecessary includes
->   - Drop unnecessary initializations in probe
->   - Always use the KEY_POWER property for onkey->keycode
->   - Do mapping of irqs in MFD driver
->   - Define onkey->input before interrupts are active
->   - Drop unnecessary input_free_device since devm
->   - Manage onkey irqs instead of the main interrupt line.
-> - Fix integer overflow when unmasking onkey irqs in onkey_resume.
-
-Thank you for making changes, some more comments below.
-
+>  - Address Krzysztof's feedback:
+>    - Fold charger and onkey objects
+>    - Drop compatible for sub-devices: onkey, charger and regulator.
+>    - Drop constant voltage property already included in
+>      monitored-battery
+>    - Fix whitespace warnings
+>    - Fix license
 > v2:
-> - Add driver for onkey
+>  - Add yamls for the PMIC and the sub-devices
 > ---
->  drivers/input/misc/Kconfig        |  11 +++
->  drivers/input/misc/Makefile       |   1 +
->  drivers/input/misc/pf1550-onkey.c | 202 ++++++++++++++++++++++++++++++++++++++
->  3 files changed, 214 insertions(+)
+>  Documentation/devicetree/bindings/mfd/pf1550.yaml | 139 ++++++++++++++++++++++
+
+Filename: nothing improved.
+
+
+>  1 file changed, 139 insertions(+)
 > 
-> diff --git a/drivers/input/misc/Kconfig b/drivers/input/misc/Kconfig
-> index f5496ca0c0d2bfcb7968503ccd1844ff43bbc1c0..50ae50628f4d03f54b5678dbd28e3b58f8d02f86 100644
-> --- a/drivers/input/misc/Kconfig
-> +++ b/drivers/input/misc/Kconfig
-> @@ -179,6 +179,17 @@ config INPUT_PCSPKR
->  	  To compile this driver as a module, choose M here: the
->  	  module will be called pcspkr.
->  
-> +config INPUT_PF1550_ONKEY
-> +	tristate "PF1550 Onkey support"
-> +	depends on MFD_PF1550
-> +	help
-> +	  Say Y here if you want support for PF1550 PMIC. Onkey can trigger
-> +	  release and 1s(push hold), 2s, 3s, 4s, 8s interrupt for long press
-> +	  detect.
-> +
-> +	  To compile this driver as a module, choose M here. The module will be
-> +	  called pf1550-onkey.
-> +
->  config INPUT_PM8941_PWRKEY
->  	tristate "Qualcomm PM8941 power key support"
->  	depends on MFD_SPMI_PMIC
-> diff --git a/drivers/input/misc/Makefile b/drivers/input/misc/Makefile
-> index 6d91804d0a6f761a094e6c380f878f74c3054d63..c652337de464c1eeaf1515d0bc84d10de0cb3a74 100644
-> --- a/drivers/input/misc/Makefile
-> +++ b/drivers/input/misc/Makefile
-> @@ -62,6 +62,7 @@ obj-$(CONFIG_INPUT_PCAP)		+= pcap_keys.o
->  obj-$(CONFIG_INPUT_PCF50633_PMU)	+= pcf50633-input.o
->  obj-$(CONFIG_INPUT_PCF8574)		+= pcf8574_keypad.o
->  obj-$(CONFIG_INPUT_PCSPKR)		+= pcspkr.o
-> +obj-$(CONFIG_INPUT_PF1550_ONKEY)	+= pf1550-onkey.o
->  obj-$(CONFIG_INPUT_PM8941_PWRKEY)	+= pm8941-pwrkey.o
->  obj-$(CONFIG_INPUT_PM8XXX_VIBRATOR)	+= pm8xxx-vibrator.o
->  obj-$(CONFIG_INPUT_PMIC8XXX_PWRKEY)	+= pmic8xxx-pwrkey.o
-> diff --git a/drivers/input/misc/pf1550-onkey.c b/drivers/input/misc/pf1550-onkey.c
+> diff --git a/Documentation/devicetree/bindings/mfd/pf1550.yaml b/Documentation/devicetree/bindings/mfd/pf1550.yaml
 > new file mode 100644
-> index 0000000000000000000000000000000000000000..7c10bc75708891a22d8b67b44e55f18c42f09749
+> index 0000000000000000000000000000000000000000..7f22cb91eb5542c8aa616525ed1e78efa2a863d3
 > --- /dev/null
-> +++ b/drivers/input/misc/pf1550-onkey.c
-> @@ -0,0 +1,202 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Driver for the PF1550 ON_KEY
-> + * Copyright (C) 2016 Freescale Semiconductor, Inc. All Rights Reserved.
-> + */
-> +
-> +#include <linux/err.h>
-> +#include <linux/input.h>
-> +#include <linux/interrupt.h>
-> +#include <linux/kernel.h>
-> +#include <linux/module.h>
-> +#include <linux/mfd/pf1550.h>
-> +#include <linux/platform_device.h>
-> +
-> +#define PF1550_ONKEY_IRQ_NR	6
-> +
-> +struct onkey_drv_data {
-> +	struct device *dev;
-> +	struct pf1550_dev *pf1550;
-> +	unsigned int irq;
+> +++ b/Documentation/devicetree/bindings/mfd/pf1550.yaml
 
-I do not think you need to store this (with the current code).
 
-> +	int keycode;
-
-If you always send KEY_POWER you do not need to store keycode here.
-
-> +	int wakeup;
-
-bool?
-
-> +	struct input_dev *input;
-> +};
-> +
-> +static irqreturn_t pf1550_onkey_irq_handler(int irq, void *data)
-> +{
-> +	struct onkey_drv_data *onkey = data;
-> +	struct irq_domain *domain;
-> +	int i, state, irq_type = -1;
-> +	unsigned int virq;
-> +
-> +	domain = regmap_irq_get_domain(onkey->pf1550->irq_data_onkey);
-> +	onkey->irq = irq;
-> +
-> +	for (i = 0; i < PF1550_ONKEY_IRQ_NR; i++) {
-> +		virq = irq_find_mapping(domain, i);
-> +		if (onkey->irq == virq)
-> +			irq_type = i;
-> +	}
-
-I wonder why the driver still needs to poke into the IRQ domain? Is it
-possible to have the mapped IRQs described as resources in onkey MFD
-cell so here we can use platform_get_irq() or platform_get_irq_byname()
-and use them? You can specify that "pushi" should be the first platform
-IRQ, or go by names...
+...
 
 > +
-> +	switch (irq_type) {
-> +	case PF1550_ONKEY_IRQ_PUSHI:
-> +		state = 0;
-> +		break;
-> +	case PF1550_ONKEY_IRQ_1SI:
-> +	case PF1550_ONKEY_IRQ_2SI:
-> +	case PF1550_ONKEY_IRQ_3SI:
-> +	case PF1550_ONKEY_IRQ_4SI:
-> +	case PF1550_ONKEY_IRQ_8SI:
-> +		state = 1;
-> +		break;
-> +	default:
-> +		dev_err(onkey->dev, "onkey interrupt: irq %d occurred\n",
-> +			irq_type);
-> +		return IRQ_HANDLED;
-> +	}
+> +    patternProperties:
+> +      "^(ldo[1-3]|sw[1-3]|vrefddr)$":
+> +        type: object
+> +        $ref: /schemas/regulator/regulator.yaml
+> +        description:
+> +          regulator configuration for ldo1-3, buck converters(sw1-3)
+> +          and DDR termination reference voltage (vrefddr)
+> +        unevaluatedProperties: false
 > +
-> +	input_event(onkey->input, EV_KEY, onkey->keycode, state);
-> +	input_sync(onkey->input);
+> +    additionalProperties: false
 > +
-> +	return IRQ_HANDLED;
-> +}
+> +  monitored-battery:
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+> +    description: |
+> +      A phandle to a monitored battery node that contains a valid value
+> +      for:
+> +      constant-charge-voltage-max-microvolt.
 > +
-> +static int pf1550_onkey_probe(struct platform_device *pdev)
-> +{
-> +	struct onkey_drv_data *onkey;
-> +	struct input_dev *input;
-> +	struct pf1550_dev *pf1550 = dev_get_drvdata(pdev->dev.parent);
+> +  fsl,thermal-regulation:
 
-Can this be const?
+-celsius or whatever is in standard suffixes:
+https://github.com/devicetree-org/dt-schema/blob/main/dtschema/schemas/property-units.yaml
 
-> +	struct irq_domain *domain;
-> +	int i, error;
-> +
-> +	onkey = devm_kzalloc(&pdev->dev, sizeof(*onkey), GFP_KERNEL);
-> +	if (!onkey)
-> +		return -ENOMEM;
-> +
-> +	if (!pf1550->regmap)
-> +		return dev_err_probe(&pdev->dev, -ENODEV,
-> +				     "failed to get regmap\n");
-> +
-> +	onkey->wakeup = device_property_read_bool(pdev->dev.parent,
-> +						  "wakeup-source");
-> +
-> +	input = devm_input_allocate_device(&pdev->dev);
-> +	if (!input)
-> +		return dev_err_probe(&pdev->dev, -ENOMEM,
-> +				     "failed to allocate the input device\n");
-> +
-> +	onkey->input = input;
-> +	onkey->keycode = KEY_POWER;
-> +
-> +	input->name = pdev->name;
-> +	input->phys = "pf1550-onkey/input0";
-> +	input->id.bustype = BUS_HOST;
-> +
-> +	input_set_capability(input, EV_KEY, onkey->keycode);
-> +
-> +	domain = regmap_irq_get_domain(pf1550->irq_data_onkey);
-> +
-> +	for (i = 0; i < PF1550_ONKEY_IRQ_NR; i++) {
-> +		unsigned int virq = irq_find_mapping(domain, i);
+> +    $ref: /schemas/types.yaml#/definitions/uint32
 
-As I mentioned, I wonder if we can change the core so we use:
+Drop
 
-		irq = platform_get_irq(pdev, i);
+> +    description:
+> +      Temperature threshold for thermal regulation of charger in celsius.
 
-> +
-> +		error = devm_request_threaded_irq(&pdev->dev, virq, NULL,
-> +						  pf1550_onkey_irq_handler,
-> +						  IRQF_NO_SUSPEND,
-> +						  "pf1550-onkey", onkey);
-> +		if (error)
-> +			return dev_err_probe(&pdev->dev, error,
-> +					     "failed: irq request (IRQ: %d)\n",
-> +					     i);
-> +	}
-> +
-> +	error = input_register_device(input);
-> +	if (error < 0)
+But this now makes me wonder whether this should be just part of thermal
+zone and get the threshold from there. I assume this is temperature of
+CHARGER, not the battery. If battery, you have such properties in
+battery.yaml (monitored-batter).
 
-Just "if (error)"
+@Sebastian,
+Are there existing bindings or devices which regulate temperature based
+on thermal-zones in DT?
 
-> +		return dev_err_probe(&pdev->dev, error,
-> +				     "failed to register input device\n");
-> +
-> +	onkey->pf1550 = pf1550;
-> +	platform_set_drvdata(pdev, onkey);
-> +
-> +	device_init_wakeup(&pdev->dev, onkey->wakeup);
-> +
-> +	return 0;
-> +}
-> +
-> +static int pf1550_onkey_suspend(struct device *dev)
-> +{
-> +	struct platform_device *pdev = to_platform_device(dev);
-> +	struct onkey_drv_data *onkey = platform_get_drvdata(pdev);
-> +	struct irq_domain *domain;
-> +	unsigned int virq;
-> +	int i;
-> +
-> +	domain = regmap_irq_get_domain(onkey->pf1550->irq_data_onkey);
-> +
-> +	if (!device_may_wakeup(&pdev->dev)) {
-> +		regmap_write(onkey->pf1550->regmap,
-> +			     PF1550_PMIC_REG_ONKEY_INT_MASK0,
-> +			     ONKEY_IRQ_PUSHI | ONKEY_IRQ_1SI | ONKEY_IRQ_2SI |
-> +			     ONKEY_IRQ_3SI | ONKEY_IRQ_4SI | ONKEY_IRQ_8SI);
-> +	} else {
-> +		for (i = 0; i < PF1550_ONKEY_IRQ_NR; i++) {
-> +			virq = irq_find_mapping(domain, i);
-> +
-> +			if (virq)
-> +				enable_irq_wake(virq);
-> +		}
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int pf1550_onkey_resume(struct device *dev)
-> +{
-> +	struct platform_device *pdev = to_platform_device(dev);
-> +	struct onkey_drv_data *onkey = platform_get_drvdata(pdev);
-> +	struct irq_domain *domain;
-> +	unsigned int virq;
-> +	int i;
-> +
-> +	domain = regmap_irq_get_domain(onkey->pf1550->irq_data_onkey);
-> +
-> +	if (!device_may_wakeup(&pdev->dev)) {
-> +		regmap_write(onkey->pf1550->regmap,
-> +			     PF1550_PMIC_REG_ONKEY_INT_MASK0,
-> +			     ~((u8)(ONKEY_IRQ_PUSHI | ONKEY_IRQ_1SI |
-> +			     ONKEY_IRQ_2SI | ONKEY_IRQ_3SI | ONKEY_IRQ_4SI |
-> +			     ONKEY_IRQ_8SI)));
-> +	} else {
-> +		for (i = 0; i < PF1550_ONKEY_IRQ_NR; i++) {
-> +			virq = irq_find_mapping(domain, i);
-> +
-> +			if (virq)
-> +				disable_irq_wake(virq);
-> +		}
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static SIMPLE_DEV_PM_OPS(pf1550_onkey_pm_ops, pf1550_onkey_suspend,
-> +			 pf1550_onkey_resume);
-> +
-> +static const struct platform_device_id pf1550_onkey_id[] = {
-> +	{ "pf1550-onkey", PF1550 },
 
-Why do we need to set driver_data here? 
 
-> +	{ /* sentinel */ }
-> +};
-> +MODULE_DEVICE_TABLE(platform, pf1550_onkey_id);
+> +    enum: [ 60, 75, 90, 105 ]
 > +
-> +static struct platform_driver pf1550_onkey_driver = {
-> +	.driver = {
-> +		.name = "pf1550-onkey",
-> +		.pm   = &pf1550_onkey_pm_ops,
-> +	},
-> +	.probe = pf1550_onkey_probe,
-> +	.id_table = pf1550_onkey_id,
-> +};
-> +module_platform_driver(pf1550_onkey_driver);
+> +  fsl,min-system-microvolt:
+> +    description:
+> +      System specific lower limit voltage.
+> +    enum: [ 3500000, 3700000, 4300000 ]
 > +
-> +MODULE_AUTHOR("Freescale Semiconductor");
-> +MODULE_DESCRIPTION("PF1550 onkey Driver");
-> +MODULE_LICENSE("GPL");
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    battery: battery-cell {
+> +        compatible = "simple-battery";
+> +        constant-charge-voltage-max-microvolt = <4400000>;
+> +        operating-range-celsius = <0 75>;
 
-Thanks.
+So this looks like duplicating thermal-regulation property.
 
--- 
-Dmitry
+> +    };
+
+Blank line
+
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +    #include <dt-bindings/input/linux-event-codes.h>
+
+Includes go before battery-cell.
+
+> +    i2c {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+
+
+
+Best regards,
+Krzysztof
 
