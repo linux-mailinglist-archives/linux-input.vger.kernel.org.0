@@ -1,3190 +1,525 @@
-Return-Path: <linux-input+bounces-12634-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12636-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3FC1AC73B9
-	for <lists+linux-input@lfdr.de>; Thu, 29 May 2025 00:11:09 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id EF14AAC748D
+	for <lists+linux-input@lfdr.de>; Thu, 29 May 2025 01:43:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 70D527B44A7
-	for <lists+linux-input@lfdr.de>; Wed, 28 May 2025 22:08:43 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AB918167C18
+	for <lists+linux-input@lfdr.de>; Wed, 28 May 2025 23:43:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9BB061FA178;
-	Wed, 28 May 2025 22:08:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D31E6218585;
+	Wed, 28 May 2025 23:43:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=yahoo.co.uk header.i=@yahoo.co.uk header.b="GjLtkLuT"
 X-Original-To: linux-input@vger.kernel.org
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from sonic310-12.consmr.mail.ir2.yahoo.com (sonic310-12.consmr.mail.ir2.yahoo.com [77.238.177.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8657210F5B
-	for <linux-input@vger.kernel.org>; Wed, 28 May 2025 22:08:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8C164685
+	for <linux-input@vger.kernel.org>; Wed, 28 May 2025 23:43:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.238.177.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748470132; cv=none; b=a4yVW4jWtbRfhisDueGsPj1hq0bxuoAc9ZBDHJeh4t4UvZxLQvD9nid0xXx9Y8FTWYgZmCidPQxg5YCoEi2AfGjalUU/M9WEYvdvK3p1TQoD6aILaWYHiQmOqWTUAUMfgSMs4ucCOSlcH3OCQbalmjLYsmTAEYKe6N2L6AJtOuA=
+	t=1748475814; cv=none; b=Zpgn/YZI8DOiXF9DQcJucm1n521GqMtQoTqaplnyVTGA1ZadqEJZe7gyUSg+ygu026/xj0csYcLc+b5j/B8jBO8NAeWUGGKzDf97FU8NiLHXC1GPYJR8IwIdqLmtovJYAXn/Kr9meRnKN66qveZ5UeID2m1g1Eb1mq6jL7YUv9U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748470132; c=relaxed/simple;
-	bh=Aq6uK7yx1gUHQnPjCw/xqWBg8+PzHdP6ijUBTfppdjY=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=k5s1y8GOwvCmqEfHK3yMbX+01Jq2mIewI6hOOzvMNVlcEyIZxJ7aSCoW/2JiFgnMBt/JvTdFAVsSkuvZtEDy7/k3KoidmatZBPjD7ycR6FdY1yMb2nzz8ITzWd0NHK0Ffk+9SBZvQ/aRhHpRLXmo7SDhhN0R7d1Kte3nU7lbEJ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from dude02.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::28])
-	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
-	(envelope-from <m.felsch@pengutronix.de>)
-	id 1uKOx2-0003CA-Vv; Thu, 29 May 2025 00:08:45 +0200
-From: Marco Felsch <m.felsch@pengutronix.de>
-Date: Thu, 29 May 2025 00:08:45 +0200
-Subject: [PATCH v2 4/4] Input: Add TouchNetix aXiom I2C Touchscreen support
+	s=arc-20240116; t=1748475814; c=relaxed/simple;
+	bh=oMEWFdAHfCgR7ytX7vNQumyXF5FDTrejGxky3WmIoFo=;
+	h=Date:From:To:Cc:Message-ID:Subject:MIME-Version:Content-Type:
+	 References; b=rRKpWAMHNRKycSQqZJ6rpwQFd1idL4N32Z2i5KGOzJXFK+R1zFCinhJ96qpoJRR8hdHWKTyja80RQAVExw2jv71JkIlt9AsRFrD1hbZd7IGT52U2pQBLKtGJ6M8MNvhOE67XU6VnrbpnRn8R8MlWvKj5IJAwRiTIBSTeI9AIidw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.co.uk; spf=pass smtp.mailfrom=yahoo.co.uk; dkim=pass (2048-bit key) header.d=yahoo.co.uk header.i=@yahoo.co.uk header.b=GjLtkLuT; arc=none smtp.client-ip=77.238.177.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.co.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.co.uk
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.co.uk; s=s2048; t=1748475810; bh=oMEWFdAHfCgR7ytX7vNQumyXF5FDTrejGxky3WmIoFo=; h=Date:From:To:Cc:Subject:References:From:Subject:Reply-To; b=GjLtkLuTgrd5POcqFQJ6b3TTB40kQG8mwSQFPW+IPsH4GKnNMyIhonmU2UQ6l39swmh2RcA1leZhgcWlDxtQTe12EnmMIlfYGUHhry52yVWp2hc5PngPPblw1a/B03OC2S9D+IeLKZ+uWFMjaDRM/jY+4/P5SE0ePlZXatdNGTSnDLsWzIRtr2AUZqhDyogRftRTLYfS+VcLFnB8/kV2yYn2D/04V+7fh8m8oLozP+NQljC3v0MxS3xNk6nu+jwv5ZR+nzHCRVKOBDfPiW2L6n4dVNgKFPJTxV0lKtL1cQh5q6zCegqN00ko1kBMHZ8Ypl0ZtkP+g63QioS5ADHmmQ==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1748475810; bh=I0Eadt/WB+T7tPjl3kZZPcHoV/u2x9HdlIjnFRsGDq+=; h=X-Sonic-MF:Date:From:To:Subject:From:Subject; b=MJE/VaJkwo7YtiN1HHOWc4poxLdRa4mxRsmEIARcRQkIef431glHM/ZYk4/XqUXSB2Vj1DgqyWdoS/h7V7XdaTD0fw9t8+fp/31GHtE+205NYHMyAeHxw+iE805rP24YPKQkmLCDwFmbJy3o0OBUxYFj6Me/Iys6ud6B8HXBmbAGU4piC34fsOGIT7k2rXRv5KlF41mLnuu+6ZoWmGWsbpJQy2AL6W5CnjUDb+c0dcWi5usJZ58/PXpqRpWsXh9ZFC6tmj/fu3H+gqFMbLtDQc3ldCe6PW0BhZcCcrmKfTcKgHOuvN6gzMtMmOWg8dHhOTxrIezkV4wZ9dDYIBeZIA==
+X-YMail-OSG: ZtUkSVkVM1lE.FpUqwTe_CsDh0K8dbtTSrFaYsAMSiOoUj235UuRKQVxpe1ncJc
+ lHAbc2kUsbrmMHDNgtMy_46llmkDtBgNxQFFXPZUP3mQ02CA..fBpVjqzTZdfRfkPj_UA28HbLha
+ rHnVRL2Ondfhx1C8TbVGR9T3LUPo5lKjIllTnCumSMfc.FKFeGBJGrfPi3in8UK2j8eCUybfMfGx
+ jIGfeBXLqu44hnWlx89SmwA3ygqgUW5wciZuqbIJlskbkJxGuN8Wt7Xg92M_huIjFJx5kw1X1CEZ
+ mXEbJ00AxlJuBP6MA7gdTuVtvsY5qtcde1enw0WkVKlh7JPPCMJ5YQgnFMWsCJjmWwyoGJBM9NME
+ pHxCBRCjRerIvbcvSBmxiyzbUcSO648Lzs3zDYcL4vXrQviPrzagRFpMDLkcP6tcWVGi8_zqq019
+ DpoaqSMlEggMluNhci3dvdwuBCt0vygVBlu4wObBG7d5e.TVJNg62ovrXmsIi2xkbp2blgH_zt_W
+ 9lcK0ctso.m48bn2aGgotcVuNtcybIeLK3GSTmUmCX.Hl8lcJ2oD0R.Hic4FTUTTfyWh1ck3NsQL
+ 4eTKoBnnuJbLeY9LtNlX4KQPqn7WdmAtKeXyvNw8VEH8sWY5q9mbl06qust.1T__fkLCp2FHYV67
+ 45S9spbNeEn4ZMFqUzPvscisZNwDixi65qKSfs3C_Eik3TXMqFfxewjYd1cz2k3sLVzxMeYMd0Vu
+ rIS26ymgGjrVFo_Nig_PIPIGtPGshkkdrdmDS6QsCXEVYRo981HxB3XMCnCNdCrHMu84hKIg0ehb
+ BRR.05PO3makokzA1zf6LAXoIG6sLSm5k_HnfWTvDlAISsqbxbbE_J08NcXgubfBCGr3rKmVOEhl
+ .5ZG7ApSP25g7Q6iY8nD1LkFMamrkrrxXwGJD8g.5U1tqKhf7CBVtSGsjw4g82JyYRvV.fQqqA12
+ zTw2Y80xqvc.nPA6lRSbrg4fce_yA8WN8q15cCsqe36F6G.BUtfbq8TaPzMLhylfbI3L3MD5enuL
+ EDwxnIAV_j3TO4Cb3pxCocDoFXtvpQc81RSVsVcLWNJSk3MXbWyy33eE1zZjzItTEVqwvO_c9TWy
+ dEq4t39GUh1C5aFISsl1mZea4x1yd6w6AEoj1t0xGHnuJhht3NXqUxRrrIwpPkQMXpn1EXIcotv1
+ j47Oa6uZM6lFyBmD9pB300riCt117LSBKEHaHUQ8iLlsmLuih_7l6QQZueG9dyXWqH4nVu2AmN9o
+ OoNM4wcJJK8Z0llU8sWeGtKgeXGXbIgsiS53nqrXkgmudiYhTHKtSEmDfOaXdXumPWJLRTgSiu1V
+ Ilw4oFvTd1vKz27_nzmoHuyiAYXhD6J6XS_A8Mnf3Gsov2y9nENS0quM3YlAnnmDF5gjt8YfN0RG
+ 8TqX0a.wytqBdVd7wTC7LDUEPs.Iu6O4m2VSrRawKoHKjwAAIHBAJBsA7BUlxSaGjwFWLgAPsZ4v
+ DUmnTcQJ.AKqyKxhfwZ4j1g4Qgwwr4Gq7o2x1MHNurGlyoYODVDkOzELewL7yGNQ2TYQDKY8GE.H
+ aMeSCvoQYb.u3WJeXwQyAdwCXBcGymFXh9YY9dJ6Qp4bPqzXTAZDf3oWlIjLOwe1UD0ub.5zNAWj
+ onU3F8W_1Yds.7aYG8SikEchnykpCpH04JL9BtCNuBEVwjEhNpLZ0AhiWP9pxYX82VPNdbXPeAB0
+ iymtjNyn0xpc4HQYelPUpCm7uNlR3Wnsna9xRruNdZupTjkuBlpAjI5e.ziFcLlvB.EKE6hGVgrf
+ xpjWfm1X9REG3QVrrWDxd0DVtWh1Zy3q0IZLJHEI5irSOyTL_AcarbeLeL3NwwZAdD2_qGgWavBT
+ 5DiaavJNMvmCRHUzEYxQPpAyoiX.8pRcCLihYTxfhUZVpjfpyboDnitJpU4EXkNWLomk7F6SOGTy
+ GKCmY.86APVukIz6F54BpauBuImcfAD9Pso.R1SyMOJ0K4V5o18wu.zsg11zt4xEUarWOkmvQmZp
+ KDSMCI.P5eMwlQhMCY.06FQovPaKh2ZGI4OP9FBHj3KdzHJ5EEWwv6qWie5CjvZgUh2KiagNpvjt
+ EDwHygbvAJ3V8KwOKq1s4Hqv8s_ylNVGCbQ3jmU9C_bfLKulGy8GG3awYu_uaDgdcwqlWXQjEXcV
+ o1JZut67E7d.Bd1B4LyzvtMuW9sWMNTtRV_krLU5vlYciee3KYWligq.zrM2852gjNMxfpewKLkf
+ cwRnYgV0eVh00vjW4fmhqX1V9QN1I
+X-Sonic-MF: <sophie.dexter74@yahoo.co.uk>
+X-Sonic-ID: 1f34fab7-9b25-4a25-ad3c-ca07f40f48de
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic310.consmr.mail.ir2.yahoo.com with HTTP; Wed, 28 May 2025 23:43:30 +0000
+Date: Wed, 28 May 2025 22:52:47 +0000 (UTC)
+From: Sophie Dexter <sophie.dexter74@yahoo.co.uk>
+To: "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>
+Cc: "david@readahead.eu" <david@readahead.eu>
+Message-ID: <170711555.4359978.1748472767597@mail.yahoo.com>
+Subject: [PATCH RFC] drivers/hid/hid-wiimote: Improve Wiimote Balance Board
+ input reporting
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250529-v6-10-topic-touchscreen-axiom-v2-4-a5edb105a600@pengutronix.de>
-References: <20250529-v6-10-topic-touchscreen-axiom-v2-0-a5edb105a600@pengutronix.de>
-In-Reply-To: <20250529-v6-10-topic-touchscreen-axiom-v2-0-a5edb105a600@pengutronix.de>
-To: Luis Chamberlain <mcgrof@kernel.org>, 
- Russ Weight <russ.weight@linux.dev>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, 
- Andrew Morton <akpm@linux-foundation.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
- Kamel Bouhara <kamel.bouhara@bootlin.com>, 
- Marco Felsch <kernel@pengutronix.de>, Henrik Rydberg <rydberg@bitmath.org>, 
- Danilo Krummrich <dakr@redhat.com>
-Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-input@vger.kernel.org, Marco Felsch <m.felsch@pengutronix.de>
-X-Mailer: b4 0.14.2
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:1101:1d::28
-X-SA-Exim-Mail-From: m.felsch@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-input@vger.kernel.org
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+References: <170711555.4359978.1748472767597.ref@mail.yahoo.com>
+X-Mailer: WebService/1.1.23884 YMailNovation
 
-This adds the initial support for the TouchNetix AX54A touchcontroller
-which is part of TouchNetix's aXiom touchscreen controller family.
+Hi all,
 
-The TouchNetix aXiom family provides two physical interfaces: SPI and
-I2C. This patch covers only the I2C interface.
+Although the balance board is reportedly fairly accurate and not significan=
+tly affected by heavy use, https://www.sciencedirect.com/science/article/ab=
+s/pii/S0966636213003184, a few projects aiming to use Wii Balance Board as =
+weighing scales question its accuracy for weights below 10 or 20 kilograms =
+e.g: https://github.com/jmahmood/bbev and https://github.com/SilverLuke/PC-=
+Fit.
 
-Apart the input event handling the driver supports firmware updates too.
-One firmware interface handles the touchcontroller firmware (AXFW and
-ALC) update the other handles the touchcontroller configuration
-(TH2CFGBIN) update.
+The kernels' hid-wiimote module's current implementation provides 'cooked' =
+weight sensor values in decigrams (units of 10 grams) derived by interpolat=
+ing 'raw' sensor values between 0, 17 and 34kg calibration values. For sens=
+or values higher than 34kg extrapolation continues to use the higher, 17 an=
+d 34 kg, calibration points. However, for sensor values below the 0kg calib=
+ration points the driver simply returns a fixed bottom limit of 0, and ther=
+ein lies the problem.
 
-Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
+Based on a sample of 2 balance boards, absolute sensor values from old and =
+battered balance boards can have positive or, and crucially, negative offse=
+ts in excess of 1kg relative to their original calibrations. E.g. if a sens=
+or has a -1.5kg offset the kernel module will report 0 for that sensor unti=
+l the balance board is loaded by about 6 kg since each sensor 'sees' roughl=
+y a quarter of the total weight on the board.
+
+A more subtle consideration is that the current implementation uses simple =
+integer division in its interpolation calculations which on average will ro=
+und
+down the summed total of the four sensor values by 20 grams.=20
+
+Even more subtly, the Wii Balance Board's stiffness varies by around 1% for=
+ every 14=C2=B0C temperature change, https://wiibrew.org/wiki/Wii_Balance_B=
+oard. However, the current wiimote hid driver doesn't use the balance board=
+'s temperature sensor or reference temperature calibration point.
+
+Lastly, there is a small adjustment that Wii Fit is said to make that may b=
+e to normalise to Standard Gravity. This scales the whole result by a facto=
+r of ~0.99908.
+
+While none of this is a problem for applications that are only concerned wi=
+th relative values, e.g. games and COP (centre of pressure) applications, i=
+t is for
+for me because I want reliable, absolute measurements of relatively small w=
+eights to monitor my small breed pet dogs at home.
+
+My proposed patches addresses each of these issues
+1) Report 'negative' weights
+=C2=A0=C2=A0=C2=A0 Benefit: The balance board can be used by applications t=
+o weigh objects down to 0 kg no matter how battered they are.
+=C2=A0=C2=A0=C2=A0 Consideration: Any weighing scales application will need=
+ a 'zeroing' facility to accommodate for any offsets from balance board cal=
+ibration points.
+=C2=A0=C2=A0=C2=A0 Risk: May break existing applications that cannot handle=
+ negative sensor values.
+2) Use the Kernel's DIV_ROUND_CLOSEST macro
+=C2=A0=C2=A0=C2=A0 Benefit: Improved accuracy.
+=C2=A0=C2=A0=C2=A0 Consideration: Uses more CPU time, code bloat.
+=C2=A0=C2=A0=C2=A0 Risk: none?
+3a) Perform compensation for temperature and gravitational acceleration
+=C2=A0=C2=A0=C2=A0 Benefit: Improved accuracy
+=C2=A0=C2=A0=C2=A0 Consideration: Uses more CPU time, code bloat.
+=C2=A0=C2=A0=C2=A0 Risk: none?
+3b) Report calibration reference temperature for use by user-space applicat=
+ions to
+=C2=A0=C2=A0=C2=A0 /sys/bus/hid/drivers/wiimote/<dev>/bboard_ref_temp
+=C2=A0=C2=A0=C2=A0 Benefit: Improved accuracy (user-space applications)
+=C2=A0=C2=A0=C2=A0 Consideration: Uses more CPU time, code bloat.
+=C2=A0=C2=A0=C2=A0 Risk: none?
+
+Testing: Having made these proposed changes to the kernel's hid-wiimote mod=
+ule, and dealing with the 'zeroing' issue in user-land, I can use my balanc=
+e board to weigh both of my dogs, measurements are within 10-20 grams of th=
+ose made by my veterinary practitioner's scales, and to weigh myself with m=
+easurements within 100 grams of my bathroom scales. As an independent verif=
+ication I weighed 8 bottles of wine individually using kitchen scales put t=
+hem on each of the 2=C2=A0 Wii Balance Boards available to me and got the e=
+xpected result :-)
+
+Thank you for your consideration,
+Sophie.
+
+Here follows a patch that can be applied against v6.15, commit 0ff41df (I h=
+ope I've done things correctly):
+
 ---
- .../testing/sysfs-driver-input-touchnetix-axiom    |   74 +
- drivers/input/touchscreen/Kconfig                  |   15 +
- drivers/input/touchscreen/Makefile                 |    1 +
- drivers/input/touchscreen/touchnetix_axiom.c       | 2974 ++++++++++++++++++++
- 4 files changed, 3064 insertions(+)
+=C2=A0drivers/hid/hid-wiimote-modules.c | 144 +++++++++++++++++++++++++++++=
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++=
+++++++++++++++++--------------
+=C2=A0drivers/hid/hid-wiimote.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 |=C2=A0=C2=A0 1 +
+=C2=A02 files changed, 130 insertions(+), 15 deletions(-)
 
-diff --git a/Documentation/ABI/testing/sysfs-driver-input-touchnetix-axiom b/Documentation/ABI/testing/sysfs-driver-input-touchnetix-axiom
-new file mode 100644
-index 0000000000000000000000000000000000000000..d8d9305bb483b5c53aa009a0c6e306cb6d6b0aab
---- /dev/null
-+++ b/Documentation/ABI/testing/sysfs-driver-input-touchnetix-axiom
-@@ -0,0 +1,74 @@
-+What:		/sys/bus/i2c/devices/xxx/fw_major
-+Date:		May 2025
-+Contact:	linux-input@vger.kernel.org
-+Description:    Reports the firmware major version provided by the touchscreen.
-+
-+		Access: Read
-+
-+		Valid values: Represented as string
-+
-+What:		/sys/bus/i2c/devices/xxx/fw_minor
-+Date:		May 2025
-+Contact:	linux-input@vger.kernel.org
-+Description:    Reports the firmware minor version provided by the touchscreen.
-+
-+		Access: Read
-+
-+		Valid values: Represented as string
-+
-+What:		/sys/bus/i2c/devices/xxx/fw_rc
-+Date:		May 2025
-+Contact:	linux-input@vger.kernel.org
-+Description:    Reports the firmware release canidate version provided by the touchscreen.
-+
-+		Access: Read
-+
-+		Valid values: Represented as string
-+
-+What:		/sys/bus/i2c/devices/xxx/fw_status
-+Date:		May 2025
-+Contact:	linux-input@vger.kernel.org
-+Description:    Reports the firmware status provided by the touchscreen. It may
-+		be either "release" or "engineering".
-+
-+		Access: Read
-+
-+		Valid values: Represented as string
-+
-+What:		/sys/bus/i2c/devices/xxx/fw_variant
-+Date:		May 2025
-+Contact:	linux-input@vger.kernel.org
-+Description:    Reports the firmware variant provided by the touchscreen. It may
-+		be either: "3d", "2d", "force" or "unknown".
-+
-+		Access: Read
-+
-+		Valid values: Represented as string
-+
-+What:		/sys/bus/i2c/devices/xxx/device_id
-+Date:		May 2025
-+Contact:	linux-input@vger.kernel.org
-+Description:    Reports the touchscreen device id, for example: "54" for the AX54A.
-+
-+		Access: Read
-+
-+		Valid values: Represented as string
-+
-+What:		/sys/bus/i2c/devices/xxx/device_state
-+Date:		May 2025
-+Contact:	linux-input@vger.kernel.org
-+Description:    Reports the touchscreen device current runtime state. The
-+		following values are reported:
-+
-+		discovery: Device is in discovery mode.
-+		tcp:  Device is in touch-control-protocol (tcp) mode. This is
-+		      the normal working mode.
-+		th2cfg-update: Device is in configuration update mode.
-+		bootloader-pre: Device bootloader mode enter was triggered
-+		bootloader: Device is in bootloader mode, used for firmware
-+			    updates.
-+		unknown: Device mode is unknown.
-+
-+		Access: Read
-+
-+		Valid values: Represented as string
-diff --git a/drivers/input/touchscreen/Kconfig b/drivers/input/touchscreen/Kconfig
-index 1a03de7fcfa66c0f60768be17d776a79e36e570e..74686cf69e4f888842510fbe894bf64b3e02016e 100644
---- a/drivers/input/touchscreen/Kconfig
-+++ b/drivers/input/touchscreen/Kconfig
-@@ -794,6 +794,21 @@ config TOUCHSCREEN_MIGOR
- 	  To compile this driver as a module, choose M here: the
- 	  module will be called migor_ts.
- 
-+config TOUCHSCREEN_TOUCHNETIX_AXIOM
-+	tristate "TouchNetix aXiom based touchscreen controllers"
-+	depends on I2C
-+	select CRC16
-+	select CRC32
-+	select REGMAP_I2C
-+	help
-+	  Say Y here if you have a axiom touchscreen connected to
-+	  your system.
-+
-+	  If unsure, say N.
-+
-+	  To compile this driver as a module, choose M here: the
-+	  module will be called touchnetix_axiom.
-+
- config TOUCHSCREEN_TOUCHRIGHT
- 	tristate "Touchright serial touchscreen"
- 	select SERIO
-diff --git a/drivers/input/touchscreen/Makefile b/drivers/input/touchscreen/Makefile
-index 82bc837ca01e2ee18c5e9c578765d55ef9fab6d4..e6b8297201689c751c402ce77902ca7876e15243 100644
---- a/drivers/input/touchscreen/Makefile
-+++ b/drivers/input/touchscreen/Makefile
-@@ -87,6 +87,7 @@ obj-$(CONFIG_TOUCHSCREEN_SUR40)		+= sur40.o
- obj-$(CONFIG_TOUCHSCREEN_SURFACE3_SPI)	+= surface3_spi.o
- obj-$(CONFIG_TOUCHSCREEN_TI_AM335X_TSC)	+= ti_am335x_tsc.o
- obj-$(CONFIG_TOUCHSCREEN_TOUCHIT213)	+= touchit213.o
-+obj-$(CONFIG_TOUCHSCREEN_TOUCHNETIX_AXIOM)	+= touchnetix_axiom.o
- obj-$(CONFIG_TOUCHSCREEN_TOUCHRIGHT)	+= touchright.o
- obj-$(CONFIG_TOUCHSCREEN_TOUCHWIN)	+= touchwin.o
- obj-$(CONFIG_TOUCHSCREEN_TS4800)	+= ts4800-ts.o
-diff --git a/drivers/input/touchscreen/touchnetix_axiom.c b/drivers/input/touchscreen/touchnetix_axiom.c
-new file mode 100644
-index 0000000000000000000000000000000000000000..9f2948c462a583e50fed31b50848b2a88bae4017
---- /dev/null
-+++ b/drivers/input/touchscreen/touchnetix_axiom.c
-@@ -0,0 +1,2974 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * TouchNetix aXiom Touchscreen Driver
+diff --git a/drivers/hid/hid-wiimote-modules.c b/drivers/hid/hid-wiimote-mo=
+dules.c
+index dbccdfa63916..67bf0fed062a 100644
+--- a/drivers/hid/hid-wiimote-modules.c
++++ b/drivers/hid/hid-wiimote-modules.c
+@@ -1302,8 +1302,30 @@ static const struct wiimod_ops wiimod_classic =3D {
+=C2=A0 * Some 3rd party devices react allergic if we try to access normal W=
+ii Remote
+=C2=A0 * hardware, so this extension module should be the only module that =
+is loaded
+=C2=A0 * on balance boards.
+- * The balance board needs 8 bytes extension data instead of basic 6 bytes=
+ so
+- * it needs the WIIMOD_FLAG_EXT8 flag.
++ * The balance board has 11 bytes extension data instead of basic 6 bytes =
+so
++ * it needs the WIIMOD_FLAG_EXT16 flag.
 + *
-+ * Copyright (C) 2024 Pengutronix
++ * The stiffness of the Wii Fit's sensors decreases with temperature which
++ * causes them to indicate higher than actual weight at high temperature a=
+nd
++ * and lower than actual weight at low temperature. The net effect is abou=
+t
++ * a 1% error for a difference of 14 in the balance board's temperature se=
+nsor
++ * reading compared to a reference temperature. Wii Fit compensates for th=
+e
++ * temperature value with the calculation:=20
++ * (.999 * total_weight * -(.007 * ((board_temp - ref_temp) / 10.0) - 1.0)=
+)
++ * where 0.999 is actually 0.9990813732147217 (0x3feff87980000000) and .00=
+7 is
++ * actually 0.007000000216066837 (0x3f7cac0840000000, (double).007f).
 + *
-+ * Marco Felsch <kernel@pengutronix.de>
-+ */
-+
-+#include <drm/drm_panel.h>
-+#include <linux/bitfield.h>
-+#include <linux/bits.h>
-+#include <linux/completion.h>
-+#include <linux/crc16.h>
-+#include <linux/crc32.h>
-+#include <linux/delay.h>
-+#include <linux/device.h>
-+#include <linux/firmware.h>
-+#include <linux/gpio/consumer.h>
-+#include <linux/i2c.h>
-+#include <linux/input.h>
-+#include <linux/input/mt.h>
-+#include <linux/input/touchscreen.h>
-+#include <linux/interrupt.h>
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+#include <linux/mod_devicetable.h>
-+#include <linux/pm_runtime.h>
-+#include <linux/property.h>
-+#include <linux/regmap.h>
-+#include <linux/regulator/consumer.h>
-+#include <linux/time.h>
-+#include <linux/unaligned.h>
-+
-+/*
-+ * Short introduction for developers:
-+ *  The programming manual is written based on u(sages):
-+ *   - Max. 0xff usages possible
-+ *   - A usage is a group of registers (0x00 ... 0xff)
-+ *   - The usage base address must be discovered (FW dependent)
-+ *   - Partial RW usage access is allowed
-+ *   - Each usage has a revision (FW dependent)
-+ *   - Only u31 is always at address 0x0 (used for discovery)
++ * To do the same using integer maths we must refactor to subtract fractio=
+ns.
++ * For the temperature compensation part we subtract a 1429th of the senso=
+r
++ * value multiplied by the temperature difference (1/(0.007/10)), then
++ * subtract a 1089th of that value for the overall adjustment (1/(1-0.9990=
+8)).
 + *
-+ *  E.x. Reading register 0x01 for usage u03 with baseaddr 0x20 results in the
-+ *  following physical 16bit I2C address: 0x2001.
-+ *
-+ * Note the datasheet specifies the usage numbers in hex and the internal
-+ * offsets in decimal. Keep it that way to make it more developer friendly.
-+ */
-+#define AXIOM_U01				0x01
-+#define AXIOM_U01_REV1_REPORTTYPE_REG		0
-+#define   AXIOM_U01_REV1_REPORTTYPE_HELLO	0
-+#define   AXIOM_U01_REV1_REPORTTYPE_HEARTBEAT	1
-+#define   AXIOM_U01_REV1_REPORTTYPE_OPCOMPLETE	3
-+
-+#define AXIOM_U02					0x02
-+#define AXIOM_U02_REV1_COMMAND_REG			0
-+#define   AXIOM_U02_REV1_CMD_HARDRESET			0x0001
-+#define   AXIOM_U02_REV1_CMD_SOFTRESET			0x0002
-+#define   AXIOM_U02_REV1_CMD_STOP			0x0005
-+#define   AXIOM_U02_REV1_CMD_SAVEVLTLCFG2NVM		0x0007
-+#define   AXIOM_U02_REV1_PARAM1_SAVEVLTLCFG2NVM		0xb10c
-+#define   AXIOM_U02_REV1_PARAM2_SAVEVLTLCFG2NVM		0xc0de
-+#define   AXIOM_U02_REV1_CMD_HANDSHAKENVM		0x0008
-+#define   AXIOM_U02_REV1_CMD_COMPUTECRCS		0x0009
-+#define   AXIOM_U02_REV1_CMD_FILLCONFIG			0x000a
-+#define   AXIOM_U02_REV1_PARAM0_FILLCONFIG		0x5555
-+#define   AXIOM_U02_REV1_PARAM1_FILLCONFIG		0xaaaa
-+#define   AXIOM_U02_REV1_PARAM2_FILLCONFIG_ZERO		0xa55a
-+#define   AXIOM_U02_REV1_CMD_ENTERBOOTLOADER		0x000b
-+#define   AXIOM_U02_REV1_PARAM0_ENTERBOOLOADER_KEY1	0x5555
-+#define   AXIOM_U02_REV1_PARAM0_ENTERBOOLOADER_KEY2	0xaaaa
-+#define   AXIOM_U02_REV1_PARAM0_ENTERBOOLOADER_KEY3	0xa55a
-+#define   AXIOM_U02_REV1_RESP_SUCCESS			0x0000
-+
-+struct axiom_u02_rev1_system_manager_msg {
-+	union {
-+		__le16 command;
-+		__le16 response;
-+	};
-+	__le16 parameters[3];
-+};
-+
-+#define AXIOM_U04				0x04
-+#define   AXIOM_U04_REV1_SIZE_BYTES		128
-+
-+#define AXIOM_U05				0x05	/* CDU */
-+
-+#define AXIOM_U22				0x22	/* CDU */
-+
-+#define AXIOM_U31				0x31
-+#define AXIOM_U31_REV1_PAGE0			0x0000
-+#define AXIOM_U31_REV1_DEVICE_ID_LOW_REG	(AXIOM_U31_REV1_PAGE0 + 0)
-+#define AXIOM_U31_REV1_DEVICE_ID_HIGH_REG	(AXIOM_U31_REV1_PAGE0 + 1)
-+#define   AXIOM_U31_REV1_MODE_MASK		BIT(7)
-+#define   AXIOM_U31_REV1_MODE_BLP		1
-+#define   AXIOM_U31_REV1_DEVICE_ID_HIGH_MASK	GENMASK(6, 0)
-+#define AXIOM_U31_REV1_RUNTIME_FW_MIN_REG	(AXIOM_U31_REV1_PAGE0 + 2)
-+#define AXIOM_U31_REV1_RUNTIME_FW_MAJ_REG	(AXIOM_U31_REV1_PAGE0 + 3)
-+#define AXIOM_U31_REV1_RUNTIME_FW_STATUS_REG	(AXIOM_U31_REV1_PAGE0 + 4)
-+#define   AXIOM_U31_REV1_RUNTIME_FW_STATUS	BIT(7)
-+#define   AXIOM_U31_REV1_RUNTIME_FW_VARIANT	GENMASK(6, 0)
-+#define AXIOM_U31_REV1_JEDEC_ID_LOW_REG		(AXIOM_U31_REV1_PAGE0 + 8)
-+#define AXIOM_U31_REV1_JEDEC_ID_HIGH_REG	(AXIOM_U31_REV1_PAGE0 + 9)
-+#define AXIOM_U31_REV1_NUM_USAGES_REG		(AXIOM_U31_REV1_PAGE0 + 10)
-+#define AXIOM_U31_REV1_RUNTIME_FW_RC_REG	(AXIOM_U31_REV1_PAGE0 + 11)
-+#define   AXIOM_U31_REV1_RUNTIME_FW_RC_MASK	GENMASK(7, 4)
-+#define   AXIOM_U31_REV1_SILICON_REV_MASK	GENMASK(3, 0)
-+
-+#define AXIOM_U31_REV1_PAGE1			0x0100
-+#define   AXIOM_U31_REV1_OFFSET_TYPE_MASK	BIT(7)
-+#define   AXIOM_U31_REV1_MAX_OFFSET_MASK	GENMASK(6, 0)
-+
-+#define AXIOM_U32				0x32
-+
-+struct axiom_u31_usage_table_entry {
-+	u8 usage_num;
-+	u8 start_page;
-+	u8 num_pages;
-+	u8 max_offset;
-+	u8 uifrevision;
-+	u8 reserved;
-+} __packed;
-+
-+#define AXIOM_U33				0x33
-+
-+struct axiom_u33_rev2 {
-+	__le32 runtime_crc;
-+	__le32 runtime_nvm_crc;
-+	__le32 bootloader_crc;
-+	__le32 nvltlusageconfig_crc;
-+	__le32 vltusageconfig_crc;
-+	__le32 u22_sequencedata_crc;
-+	__le32 u43_hotspots_crc;
-+	__le32 u93_profiles_crc;
-+	__le32 u94_deltascalemap_crc;
-+	__le32 runtimehash_crc;
-+};
-+
-+struct axiom_u33_rev3 {
-+	__le32 runtime_crc;
-+	__le32 runtime_nvm_crc;
-+	__le32 bootloader_crc;
-+	__le32 nvltlusageconfig_crc;
-+	__le32 vltusageconfig_crc;
-+	__le32 u22_sequencedata_crc;
-+	__le32 u43_hotspots_crc;
-+	__le32 u77_dod_data_crc;
-+	__le32 u93_profiles_crc;
-+	__le32 u94_deltascalemap_crc;
-+	__le32 runtimehash_crc;
-+};
-+
-+#define AXIOM_U34				0x34
-+#define   AXIOM_U34_REV1_OVERFLOW_MASK		BIT(7)
-+#define   AXIOM_U34_REV1_REPORTLENGTH_MASK	GENMASK(6, 0)
-+#define   AXIOM_U34_REV1_PREAMBLE_BYTES		2
-+#define   AXIOM_U34_REV1_POSTAMBLE_BYTES	4
-+
-+#define AXIOM_U36				0x36
-+
-+#define AXIOM_U41				0x41
-+#define AXIOM_U41_REV2_TARGETSTATUS_REG		0
-+#define AXIOM_U41_REV2_X_REG(id)		((4 * (id)) + 2)
-+#define AXIOM_U41_REV2_Y_REG(id)		((4 * (id)) + 4)
-+#define AXIOM_U41_REV2_Z_REG(id)		((id) + 42)
-+
-+#define AXIOM_U42				0x42
-+#define AXIOM_U42_REV1_REPORT_ID_CONTAINS(id)	((id) + 2)
-+#define   AXIOM_U42_REV1_REPORT_ID_TOUCH	1	/* Touch, Proximity, Hover */
-+
-+#define AXIOM_U42_REV4_REPORT_ID_CONTAINS(id)   ((id) + 8)
-+#define   AXIOM_U42_REV4_REPORT_ID_TOUCH	1	/* Touch, Proximity, Hover */
-+
-+#define AXIOM_U43				0x43	/* CDU */
-+
-+#define AXIOM_U64					0x64
-+#define   AXIOM_U64_REV2_ENABLECDSPROCESSING_REG	0
-+#define   AXIOM_U64_REV2_ENABLECDSPROCESSING_MASK	BIT(0)
-+
-+#define AXIOM_U77				0x77	/* CDU */
-+#define AXIOM_U82				0x82
-+#define AXIOM_U93				0x93	/* CDU */
-+#define AXIOM_U94				0x94	/* CDU */
-+
-+/*
-+ * Axiom CDU usage structure copied from downstream CDU_Common.py. Downstream
-+ * doesn't mention any revision. According downstream all CDU register windows
-+ * are 56 byte wide (8 byte header + 48 byte data).
-+ */
-+#define AXIOM_CDU_CMD_STORE			0x0002
-+#define AXIOM_CDU_CMD_COMMIT			0x0003
-+#define AXIOM_CDU_PARAM0_COMMIT			0xb10c
-+#define AXIOM_CDU_PARAM1_COMMIT			0xc0de
-+
-+#define AXIOM_CDU_RESP_SUCCESS			0x0000
-+#define AXIOM_CDU_MAX_DATA_BYTES		48
-+
-+struct axiom_cdu_usage {
-+	union {
-+		__le16 command;
-+		__le16 response;
-+	};
-+	__le16 parameters[3];
-+	u8 data[AXIOM_CDU_MAX_DATA_BYTES];
-+};
-+
-+/*
-+ * u01 for the bootloader protocol (BLP)
-+ *
-+ * Values taken from Bootloader.py [1] which had a comment that documentation
-+ * values are out dated. The BLP does not have different versions according the
-+ * documentation python helper.
-+ *
-+ * [1] https://github.com/TouchNetix/axiom_pylib
-+ */
-+#define AXIOM_U01_BLP_COMMAND_REG		0x0100
-+#define   AXIOM_U01_BLP_COMMAND_RESET		BIT(1)
-+#define AXIOM_U01_BLP_SATUS_REG			0x0100
-+#define   AXIOM_U01_BLP_STATUS_BUSY		BIT(0)
-+#define AXIOM_U01_BLP_FIFO_REG			0x0102
-+#define   AXIOM_U01_BLP_FIFO_CHK_SIZE_BYTES	255
-+
-+#define AXIOM_PROX_LEVEL			-128
-+#define AXIOM_STARTUP_TIME_MS			110
-+
-+#define AXIOM_USAGE_BASEADDR_MASK		GENMASK(15, 8)
-+#define AXIOM_MAX_USAGES			256	/* u00 - uFF */
-+/*
-+ * The devices have a 16bit ADC but Touchnetix used the lower two bits for other
-+ * information.
-+ */
-+#define AXIOM_MAX_XY				(65535 - 3)
-+#define AXIOM_DEFAULT_POLL_INTERVAL_MS		10
-+#define AXIOM_PAGE_BYTE_LEN			256
-+#define AXIOM_MAX_XFERLEN			0x7fff
-+#define AXIOM_MAX_TOUCHSLOTS			10
-+#define AXIOM_MAX_TOUCHSLOTS_MASK		GENMASK(9, 0)
-+
-+/* aXiom firmware (.axfw) */
-+#define AXIOM_FW_AXFW_SIGNATURE			"AXFW"
-+#define AXIOM_FW_AXFW_FILE_FMT_VER		0x0200
-+
-+struct axiom_fw_axfw_hdr {
-+	u8 signature[4];
-+	__le32 file_crc32;
-+	__le16 file_format_ver;
-+	__le16 device_id;
-+	u8 variant;
-+	u8 minor_ver;
-+	u8 major_ver;
-+	u8 rc_ver;
-+	u8 status;
-+	__le16 silicon_ver;
-+	u8 silicon_rev;
-+	__le32 fw_crc32;
-+} __packed;
-+
-+struct axiom_fw_axfw_chunk_hdr {
-+	u8 internal[6]; /* no description */
-+	__be16 payload_length;
-+};
-+
-+/* aXiom config (.th2cfgbin) */
-+#define AXIOM_FW_CFG_SIGNATURE			0x20071969
-+
-+struct axiom_fw_cfg_hdr {
-+	__be32 signature;
-+	__le16 file_format_ver;
-+	__le16 tcp_file_rev_major;
-+	__le16 tcp_file_rev_minor;
-+	__le16 tcp_file_rev_patch;
-+	u8 tcp_version;
-+} __packed;
-+
-+struct axiom_fw_cfg_chunk_hdr {
-+	u8 usage_num;
-+	u8 usage_rev;
-+	u8 reserved;
-+	__le16 usage_length;
-+} __packed;
-+
-+struct axiom_fw_cfg_chunk {
-+	u8 usage_num;
-+	u8 usage_rev;
-+	u16 usage_length;
-+	const u8 *usage_content;
-+};
-+
-+enum axiom_fw_type {
-+	AXIOM_FW_AXFW,
-+	AXIOM_FW_CFG,
-+	AXIOM_FW_NUM
-+};
-+
-+enum axiom_crc_type {
-+	AXIOM_CRC_CUR,
-+	AXIOM_CRC_NEW,
-+	AXIOM_CRC_NUM
-+};
-+
-+struct axiom_data;
-+
-+struct axiom_usage_info {
-+	unsigned char usage_num;	/* uXX number (XX in hex) */
-+	unsigned int rev_num;		/* rev.X (X in dec) */
-+	bool is_cdu;
-+	bool is_ro;
-+
-+	/* Optional hooks */
-+	int (*process_report)(struct axiom_data *ts, const u8 *buf, size_t bufsize);
-+};
-+
-+enum axiom_runmode {
-+	AXIOM_DISCOVERY_MODE,
-+	AXIOM_TCP_MODE,
-+	AXIOM_TCP_CFG_UPDATE_MODE,
-+	AXIOM_BLP_PRE_MODE,
-+	AXIOM_BLP_MODE,
-+};
-+
-+struct axiom_data {
-+	struct input_dev *input;
-+	struct device *dev;
-+
-+	struct gpio_desc *reset_gpio;
-+	struct regulator_bulk_data supplies[2];
-+	unsigned int num_supplies;
-+
-+	struct regmap *regmap;
-+	struct touchscreen_properties prop;
-+	bool irq_setup_done;
-+	u32 poll_interval;
-+
-+	struct drm_panel_follower panel_follower;
-+	bool is_panel_follower;
-+
-+	enum axiom_runmode mode;
-+	/*
-+	 * Two completion types to support firmware updates
-+	 * in irq and poll mode.
-+	 */
-+	struct axiom_completion {
-+		struct completion completion;
-+		bool poll_done;
-+	} nvm_write, boot_complete;
-+
-+	/* Lock to protect both firmware interfaces */
-+	struct mutex fwupdate_lock;
-+	struct axiom_firmware {
-+		/* Lock to protect cancel */
-+		struct mutex lock;
-+		bool cancel;
-+		struct fw_upload *fwl;
-+	} fw[AXIOM_FW_NUM];
-+
-+	unsigned int fw_major;
-+	unsigned int fw_minor;
-+	unsigned int fw_rc;
-+	unsigned int fw_status;
-+	unsigned int fw_variant;
-+	u16 device_id;
-+	u16 jedec_id;
-+	u8 silicon_rev;
-+
-+	/* CRCs we need to check during a config update */
-+	struct axiom_crc {
-+		u32 runtime;
-+		u32 vltusageconfig;
-+		u32 nvltlusageconfig;
-+		u32 u22_sequencedata;
-+		u32 u43_hotspots;
-+		u32 u77_dod_data;
-+		u32 u93_profiles;
-+		u32 u94_deltascalemap;
-+	} crc[AXIOM_CRC_NUM];
-+
-+	bool cds_enabled;
-+	unsigned long enabled_slots;
-+	unsigned int num_slots;
-+
-+	unsigned int max_report_byte_len;
-+	struct axiom_usage_table_entry {
-+		bool populated;
-+		unsigned int baseaddr;
-+		unsigned int size_bytes;
-+		const struct axiom_usage_info *info;
-+	} usage_table[AXIOM_MAX_USAGES];
-+};
-+
-+static int axiom_u01_rev1_process_report(struct axiom_data *ts, const u8 *buf,
-+					 size_t bufsize);
-+static int axiom_u34_rev1_process_report(struct axiom_data *ts, const u8 *_buf,
-+					 size_t bufsize);
-+static int axiom_u41_rev2_process_report(struct axiom_data *ts, const u8 *buf,
-+					 size_t bufsize);
-+
-+#define AXIOM_USAGE(num, rev)		\
-+	{				\
-+		.usage_num = num,	\
-+		.rev_num = rev,		\
-+	}
-+
-+#define AXIOM_RO_USAGE(num, rev)	\
-+	{				\
-+		.usage_num = num,	\
-+		.rev_num = rev,		\
-+		.is_ro = true,		\
-+	}
-+
-+#define AXIOM_CDU_USAGE(num, rev)	\
-+	{				\
-+		.usage_num = num,	\
-+		.rev_num = rev,		\
-+		.is_cdu = true,		\
-+	}
-+
-+#define AXIOM_REPORT_USAGE(num, rev, func)	\
-+	{					\
-+		.usage_num = num,		\
-+		.rev_num = rev,			\
-+		.process_report = func,		\
-+	}
-+
-+#define AXIOM_USAGE_REV_UNUSED	(-1)
-+
-+/*
-+ * All usages used by driver must be added to this list to ensure the correct
-+ * communictation with the devices. The list can contain multiple entries of the
-+ * same usage to handle different usage revisions.
-+ *
-+ * Note:
-+ * During a th2cfgbin update the driver may use usages not listed here.
-+ * Therefore the th2cfgbin update compares the current running FW again the
-+ * th2cfgbin targets FW.
-+ */
-+static const struct axiom_usage_info driver_required_usages[] = {
-+	AXIOM_REPORT_USAGE(AXIOM_U01, 1, axiom_u01_rev1_process_report),
-+	AXIOM_REPORT_USAGE(AXIOM_U01, 3, axiom_u01_rev1_process_report),
-+	AXIOM_USAGE(AXIOM_U02, 1),
-+	AXIOM_USAGE(AXIOM_U02, 2),
-+	AXIOM_USAGE(AXIOM_U04, 1),
-+	AXIOM_RO_USAGE(AXIOM_U33, 2),
-+	AXIOM_RO_USAGE(AXIOM_U33, 3),
-+	AXIOM_REPORT_USAGE(AXIOM_U34, 1, axiom_u34_rev1_process_report),
-+	AXIOM_REPORT_USAGE(AXIOM_U41, 2, axiom_u41_rev2_process_report),
-+	AXIOM_REPORT_USAGE(AXIOM_U41, 4, axiom_u41_rev2_process_report),
-+	AXIOM_USAGE(AXIOM_U42, 1),
-+	AXIOM_USAGE(AXIOM_U42, 4),
-+	AXIOM_USAGE(AXIOM_U64, 2),
-+	AXIOM_USAGE(AXIOM_U64, 4),
-+	{ /* sentinel */ }
-+};
-+
-+/*
-+ * All usages below are unused but the driver needs to know the type (ro, cdu)
-+ * to handle them correctly. Unfortunately the type is not discoverable. Once
-+ * a usage is actually used, it must be shifted to driver_required_usages and
-+ * the revision must be set accordingly.
-+ */
-+static const struct axiom_usage_info driver_additional_usages[] = {
-+	AXIOM_CDU_USAGE(AXIOM_U05, AXIOM_USAGE_REV_UNUSED),
-+	AXIOM_CDU_USAGE(AXIOM_U22, AXIOM_USAGE_REV_UNUSED),
-+	AXIOM_RO_USAGE(AXIOM_U31, AXIOM_USAGE_REV_UNUSED),
-+	AXIOM_RO_USAGE(AXIOM_U32, AXIOM_USAGE_REV_UNUSED),
-+	AXIOM_RO_USAGE(AXIOM_U36, AXIOM_USAGE_REV_UNUSED),
-+	AXIOM_CDU_USAGE(AXIOM_U43, AXIOM_USAGE_REV_UNUSED),
-+	AXIOM_CDU_USAGE(AXIOM_U77, AXIOM_USAGE_REV_UNUSED),
-+	AXIOM_RO_USAGE(AXIOM_U82, AXIOM_USAGE_REV_UNUSED),
-+	AXIOM_CDU_USAGE(AXIOM_U93, AXIOM_USAGE_REV_UNUSED),
-+	AXIOM_CDU_USAGE(AXIOM_U94, AXIOM_USAGE_REV_UNUSED),
-+	{ /* sentinel */ }
-+};
-+
-+/************************ Common helpers **************************************/
-+
-+static void axiom_set_runmode(struct axiom_data *ts, enum axiom_runmode mode)
-+{
-+	ts->mode = mode;
-+}
-+
-+static enum axiom_runmode axiom_get_runmode(struct axiom_data *ts)
-+{
-+	return ts->mode;
-+}
-+
-+static const char *axiom_runmode_to_string(struct axiom_data *ts)
-+{
-+	switch (ts->mode) {
-+	case AXIOM_DISCOVERY_MODE:	return "discovery";
-+	case AXIOM_TCP_MODE:		return "tcp";
-+	case AXIOM_TCP_CFG_UPDATE_MODE:	return "th2cfg-update";
-+	case AXIOM_BLP_PRE_MODE:	return "bootloader-pre";
-+	case AXIOM_BLP_MODE:		return "bootlaoder";
-+	default:			return "unknown";
-+	}
-+}
-+
-+static bool axiom_skip_usage_check(struct axiom_data *ts)
-+{
-+	switch (ts->mode) {
-+	case AXIOM_TCP_CFG_UPDATE_MODE:
-+	case AXIOM_DISCOVERY_MODE:
-+	case AXIOM_BLP_MODE:
-+		return true;
-+	case AXIOM_BLP_PRE_MODE:
-+	case AXIOM_TCP_MODE:
-+	default:
-+		return false;
-+	}
-+}
-+
-+static unsigned int
-+axiom_usage_baseaddr(struct axiom_data *ts, unsigned char usage_num)
-+{
-+	return ts->usage_table[usage_num].baseaddr;
-+}
-+
-+static unsigned int
-+axiom_usage_size(struct axiom_data *ts, unsigned char usage_num)
-+{
-+	return ts->usage_table[usage_num].size_bytes;
-+}
-+
-+static int
-+axiom_usage_rev(struct axiom_data *ts, unsigned char usage_num)
-+{
-+	struct axiom_usage_table_entry *entry = &ts->usage_table[usage_num];
-+
-+	if (!entry->info)
-+		return -EINVAL;
-+
-+	return entry->info->rev_num;
-+}
-+
-+static bool
-+axiom_driver_supports_usage(struct axiom_data *ts, unsigned char usage_num)
-+{
-+	const struct axiom_usage_info *iter = driver_required_usages;
-+	struct device *dev = ts->dev;
-+	int rev;
-+
-+	/*
-+	 * Some features depend on the current running firmware. Don't print an
-+	 * error if the usage for an optional feature is missing.
-+	 */
-+	if (!ts->usage_table[usage_num].populated) {
-+		dev_dbg(dev, "u%02X is not supported by the current firmware\n",
-+			usage_num);
-+		return false;
-+	}
-+
-+	rev = axiom_usage_rev(ts, usage_num);
-+	if (rev < 0) {
-+		dev_warn(dev, "Driver doesn't support u%02X yet\n", usage_num);
-+		return false;
-+	}
-+
-+	for (; iter; iter++) {
-+		if (iter->usage_num != usage_num)
-+			continue;
-+
-+		if (iter->rev_num == rev)
-+			return true;
-+	}
-+
-+	dev_warn(dev, "Driver doesn't support u%02X rev.%d yet\n",
-+		 usage_num, rev);
-+
-+	return false;
-+}
-+
-+static bool
-+axiom_usage_entry_is_report(struct axiom_u31_usage_table_entry *entry)
-+{
-+	return entry->num_pages == 0;
-+}
-+
-+static unsigned int
-+axiom_get_usage_size_bytes(struct axiom_u31_usage_table_entry *entry)
-+{
-+	unsigned char max_offset;
-+
-+	max_offset = FIELD_GET(AXIOM_U31_REV1_MAX_OFFSET_MASK,
-+			       entry->max_offset) + 1;
-+	max_offset *= 2;
-+
-+	if (axiom_usage_entry_is_report(entry))
-+		return max_offset;
-+
-+	if (FIELD_GET(AXIOM_U31_REV1_OFFSET_TYPE_MASK, entry->max_offset))
-+		return (entry->num_pages - 1) * AXIOM_PAGE_BYTE_LEN + max_offset;
-+
-+	return max_offset;
-+}
-+
-+static void axiom_dump_usage_entry(struct device *dev,
-+				   struct axiom_u31_usage_table_entry *entry)
-+{
-+	unsigned int page_len, total_len;
-+
-+	total_len = axiom_get_usage_size_bytes(entry);
-+
-+	if (total_len > AXIOM_PAGE_BYTE_LEN)
-+		page_len = AXIOM_PAGE_BYTE_LEN;
-+	else
-+		page_len = total_len;
-+
-+	if (axiom_usage_entry_is_report(entry))
-+		dev_dbg(dev,
-+			"u%02X rev.%d total-len:%u [REPORT]\n",
-+			entry->usage_num, entry->uifrevision, total_len);
-+	else
-+		dev_dbg(dev,
-+			"u%02X rev.%d first-page:%#02x page-len:%u num-pages:%u total-len:%u\n",
-+			entry->usage_num, entry->uifrevision, entry->start_page, page_len,
-+			entry->num_pages, total_len);
-+}
-+
-+static const struct axiom_usage_info *
-+axiom_get_usage_info(struct axiom_u31_usage_table_entry *query)
-+{
-+	const struct axiom_usage_info *info = driver_required_usages;
-+	bool required = false;
-+	bool found = false;
-+
-+	for (; info->usage_num; info++) {
-+		/* Skip all usages not used by the driver */
-+		if (query->usage_num != info->usage_num)
-+			continue;
-+
-+		/* The usage is used so we need to mark it as required */
-+		required = true;
-+
-+		/* Continue with the next usage if the revision doesn't match */
-+		if (query->uifrevision != info->rev_num)
-+			continue;
-+
-+		found = true;
-+		break;
-+	}
-+
-+	if (found)
-+		return info;
-+
-+	/* Return an error if not found but required */
-+	if (required)
-+		return ERR_PTR(-EINVAL);
-+
-+	info = driver_additional_usages;
-+	for (; info->usage_num; info++) {
-+		if (query->usage_num != info->usage_num)
-+			continue;
-+
-+		/*
-+		 * No need to check the revision since these usages are not
-+		 * used actually but the driver needs the type information.
-+		 */
-+		return info;
-+	}
-+
-+	/* No info found */
-+	return NULL;
-+}
-+
-+static bool axiom_usage_supported(struct axiom_data *ts, unsigned int baseaddr)
-+{
-+	struct axiom_usage_table_entry *entry;
-+	unsigned int i;
-+
-+	if (axiom_skip_usage_check(ts))
-+		return true;
-+
-+	dev_dbg(ts->dev, "Checking support for baseaddr: %#x\n", baseaddr);
-+
-+	for (i = 0; i < ARRAY_SIZE(ts->usage_table); i++) {
-+		entry = &ts->usage_table[i];
-+
-+		if (!entry->populated)
-+			continue;
-+
-+		if (entry->baseaddr != baseaddr)
-+			continue;
-+
-+		break;
-+	}
-+
-+	if (i == ARRAY_SIZE(ts->usage_table)) {
-+		dev_warn(ts->dev, "Usage not found\n");
-+		return false;
-+	}
-+
-+	if (!entry->info)
-+		WARN(1, "Unsupported usage u%x used, driver bug!", i);
-+
-+	return !!entry->info;
-+}
-+
-+static void axiom_poll(struct input_dev *input);
-+
-+static unsigned long
-+axiom_wait_for_completion_timeout(struct axiom_data *ts, struct axiom_completion *x,
-+				  long timeout)
-+{
-+	struct i2c_client *client = to_i2c_client(ts->dev);
-+	unsigned long poll_timeout;
-+
-+	if (client->irq)
-+		return wait_for_completion_timeout(&x->completion, timeout);
-+
-+	/*
-+	 * Only firmware update cases do wait for completion. Since they require
-+	 * the input device to be closed, the poller is not running. So we need
-+	 * to do the polling manually.
-+	 */
-+	poll_timeout = timeout / 10;
-+
-+	/*
-+	 * Very basic and not very accurate but it does the job because there
-+	 * are no known timeout constraints.
-+	 */
-+	do {
-+		axiom_poll(ts->input);
-+		fsleep(jiffies_to_usecs(poll_timeout));
-+		if (x->poll_done)
-+			break;
-+		timeout -= poll_timeout;
-+	} while (timeout > 0);
-+
-+	x->poll_done = false;
-+
-+	return timeout > 0 ? timeout : 0;
-+}
-+
-+static void axiom_complete(struct axiom_data *ts, struct axiom_completion *x)
-+{
-+	struct i2c_client *client = to_i2c_client(ts->dev);
-+
-+	if (client->irq)
-+		complete(&x->completion);
-+	else
-+		x->poll_done = true;
-+}
-+
-+/*************************** Usage handling ***********************************/
-+/*
-+ * Wrapper functions to handle the usage access. Wrappers are used to add
-+ * different revision handling later on more easily.
-+ */
-+static int axiom_u02_wait_idle(struct axiom_data *ts)
-+{
-+	unsigned int reg;
-+	int ret, _ret;
-+	u16 cmd;
-+
-+	if (!axiom_driver_supports_usage(ts, AXIOM_U02))
-+		return -EINVAL;
-+
-+	reg = axiom_usage_baseaddr(ts, AXIOM_U02);
-+	reg += AXIOM_U02_REV1_COMMAND_REG;
-+
-+	/*
-+	 * Missing regmap_raw_read_poll_timeout for now. RESP_SUCCESS means that
-+	 * the last command successfully completed and the device is idle.
-+	 */
-+	ret = read_poll_timeout(regmap_raw_read, _ret,
-+				_ret || cmd == AXIOM_U02_REV1_RESP_SUCCESS,
-+				10 * USEC_PER_MSEC, 1 * USEC_PER_SEC, false,
-+				ts->regmap, reg, &cmd, 2);
-+	if (ret)
-+		dev_err(ts->dev, "Poll u02 timedout with: %#x\n", cmd);
-+
-+	return ret;
-+}
-+
-+static int
-+axiom_u02_send_msg(struct axiom_data *ts,
-+		   const struct axiom_u02_rev1_system_manager_msg *msg,
-+		   bool validate_response)
-+{
-+	unsigned int reg;
-+	int ret;
-+
-+	if (!axiom_driver_supports_usage(ts, AXIOM_U02))
-+		return -EINVAL;
-+
-+	reg = axiom_usage_baseaddr(ts, AXIOM_U02);
-+	reg += AXIOM_U02_REV1_COMMAND_REG;
-+
-+	ret = regmap_raw_write(ts->regmap, reg, msg, sizeof(*msg));
-+	if (ret)
-+		return ret;
-+
-+	if (!validate_response)
-+		return 0;
-+
-+	return axiom_u02_wait_idle(ts);
-+}
-+
-+static int
-+axiom_u02_rev1_send_single_cmd(struct axiom_data *ts, u16 cmd)
-+{
-+	struct axiom_u02_rev1_system_manager_msg msg = {
-+		.command = cpu_to_le16(cmd)
-+	};
-+
-+	return axiom_u02_send_msg(ts, &msg, true);
-+}
-+
-+static int axiom_u02_handshakenvm(struct axiom_data *ts)
-+{
-+	return axiom_u02_rev1_send_single_cmd(ts, AXIOM_U02_REV1_CMD_HANDSHAKENVM);
-+}
-+
-+static int axiom_u02_computecrc(struct axiom_data *ts)
-+{
-+	return axiom_u02_rev1_send_single_cmd(ts, AXIOM_U02_REV1_CMD_COMPUTECRCS);
-+}
-+
-+static int axiom_u02_stop(struct axiom_data *ts)
-+{
-+	return axiom_u02_rev1_send_single_cmd(ts, AXIOM_U02_REV1_CMD_STOP);
-+}
-+
-+static int axiom_u02_save_config(struct axiom_data *ts)
-+{
-+	struct axiom_u02_rev1_system_manager_msg msg;
-+	int ret;
-+
-+	if (!axiom_driver_supports_usage(ts, AXIOM_U02))
-+		return -EINVAL;
-+
-+	msg.command = cpu_to_le16(AXIOM_U02_REV1_CMD_SAVEVLTLCFG2NVM);
-+	msg.parameters[0] = 0; /* Don't care */
-+	msg.parameters[1] = cpu_to_le16(AXIOM_U02_REV1_PARAM1_SAVEVLTLCFG2NVM);
-+	msg.parameters[2] = cpu_to_le16(AXIOM_U02_REV1_PARAM2_SAVEVLTLCFG2NVM);
-+
-+	ret = axiom_u02_send_msg(ts, &msg, false);
-+	if (ret)
-+		return ret;
-+
-+	/* Downstream axcfg.py waits for 2sec without checking U01 response */
-+	ret = axiom_wait_for_completion_timeout(ts, &ts->nvm_write,
-+					msecs_to_jiffies(2 * MSEC_PER_SEC));
-+	if (!ret)
-+		dev_err(ts->dev, "Error save volatile config timedout\n");
-+
-+	return ret ? 0 : -ETIMEDOUT;
-+}
-+
-+static int axiom_u02_swreset(struct axiom_data *ts)
-+{
-+	struct axiom_u02_rev1_system_manager_msg msg = { };
-+	int ret;
-+
-+	if (!axiom_driver_supports_usage(ts, AXIOM_U02))
-+		return -EINVAL;
-+
-+	msg.command = cpu_to_le16(AXIOM_U02_REV1_CMD_SOFTRESET);
-+	ret = axiom_u02_send_msg(ts, &msg, false);
-+	if (ret)
-+		return ret;
-+
-+	/*
-+	 * Downstream axcfg.py waits for 1sec without checking U01 hello. Tests
-+	 * showed that waiting for the hello message isn't enough therefore we
-+	 * need both to make it robuster.
-+	 */
-+	ret = axiom_wait_for_completion_timeout(ts, &ts->boot_complete,
-+					msecs_to_jiffies(1 * MSEC_PER_SEC));
-+	if (!ret)
-+		dev_err(ts->dev, "Error swreset timedout\n");
-+
-+	fsleep(USEC_PER_SEC);
-+
-+	return ret ? 0 : -ETIMEDOUT;
-+}
-+
-+static int axiom_u02_fillconfig(struct axiom_data *ts)
-+{
-+	struct axiom_u02_rev1_system_manager_msg msg;
-+
-+	if (!axiom_driver_supports_usage(ts, AXIOM_U02))
-+		return -EINVAL;
-+
-+	msg.command = cpu_to_le16(AXIOM_U02_REV1_CMD_FILLCONFIG);
-+	msg.parameters[0] = cpu_to_le16(AXIOM_U02_REV1_PARAM0_FILLCONFIG);
-+	msg.parameters[1] = cpu_to_le16(AXIOM_U02_REV1_PARAM1_FILLCONFIG);
-+	msg.parameters[2] = cpu_to_le16(AXIOM_U02_REV1_PARAM2_FILLCONFIG_ZERO);
-+
-+	return axiom_u02_send_msg(ts, &msg, true);
-+}
-+
-+static int axiom_u02_enter_bootloader(struct axiom_data *ts)
-+{
-+	struct axiom_u02_rev1_system_manager_msg msg = { };
-+	struct device *dev = ts->dev;
-+	unsigned int val;
-+	int ret;
-+
-+	if (!axiom_driver_supports_usage(ts, AXIOM_U02))
-+		return -EINVAL;
-+
-+	/*
-+	 * Enter the bootloader mode requires 3 consecutive messages so we can't
-+	 * check for the response.
-+	 */
-+	msg.command = cpu_to_le16(AXIOM_U02_REV1_CMD_ENTERBOOTLOADER);
-+	msg.parameters[0] = cpu_to_le16(AXIOM_U02_REV1_PARAM0_ENTERBOOLOADER_KEY1);
-+	ret = axiom_u02_send_msg(ts, &msg, false);
-+	if (ret) {
-+		dev_err(dev, "Failed to send bootloader-key1: %d\n", ret);
-+		return ret;
-+	}
-+
-+	msg.parameters[0] = cpu_to_le16(AXIOM_U02_REV1_PARAM0_ENTERBOOLOADER_KEY2);
-+	ret = axiom_u02_send_msg(ts, &msg, false);
-+	if (ret) {
-+		dev_err(dev, "Failed to send bootloader-key2: %d\n", ret);
-+		return ret;
-+	}
-+
-+	msg.parameters[0] = cpu_to_le16(AXIOM_U02_REV1_PARAM0_ENTERBOOLOADER_KEY3);
-+	ret = axiom_u02_send_msg(ts, &msg, false);
-+	if (ret) {
-+		dev_err(dev, "Failed to send bootloader-key3: %d\n", ret);
-+		return ret;
-+	}
-+
-+	/* Sleep before the first read to give the device time */
-+	fsleep(250 * USEC_PER_MSEC);
-+
-+	/* Wait till the device reports it is in bootloader mode */
-+	return regmap_read_poll_timeout(ts->regmap,
-+			AXIOM_U31_REV1_DEVICE_ID_HIGH_REG, val,
-+			FIELD_GET(AXIOM_U31_REV1_MODE_MASK, val) ==
-+			AXIOM_U31_REV1_MODE_BLP, 250 * USEC_PER_MSEC,
-+			USEC_PER_SEC);
-+}
-+
-+static int axiom_u04_get(struct axiom_data *ts, u8 **_buf)
-+{
-+	u8 buf[AXIOM_U04_REV1_SIZE_BYTES];
-+	unsigned int reg;
-+	int ret;
-+
-+	if (!axiom_driver_supports_usage(ts, AXIOM_U04))
-+		return -EINVAL;
-+
-+	reg = axiom_usage_baseaddr(ts, AXIOM_U04);
-+	ret = regmap_raw_read(ts->regmap, reg, buf, sizeof(buf));
-+	if (ret)
-+		return ret;
-+
-+	*_buf = kmemdup(buf, sizeof(buf), GFP_KERNEL);
-+
-+	return sizeof(buf);
-+}
-+
-+static int axiom_u04_set(struct axiom_data *ts, u8 *buf, unsigned int bufsize)
-+{
-+	unsigned int reg;
-+
-+	if (!axiom_driver_supports_usage(ts, AXIOM_U04))
-+		return -EINVAL;
-+
-+	reg = axiom_usage_baseaddr(ts, AXIOM_U04);
-+	return regmap_raw_write(ts->regmap, reg, buf, bufsize);
-+}
-+
-+/*
-+ * U31 revision must be always rev.1 else the whole self discovery mechanism
-+ * fall apart.
-+ */
-+static int axiom_u31_parse_device_info(struct axiom_data *ts)
-+{
-+	struct regmap *regmap = ts->regmap;
-+	unsigned int id_low, id_high, val;
-+	int ret;
-+
-+	ret = regmap_read(regmap, AXIOM_U31_REV1_DEVICE_ID_HIGH_REG, &id_high);
-+	if (ret)
-+		return ret;
-+	id_high = FIELD_GET(AXIOM_U31_REV1_DEVICE_ID_HIGH_MASK, id_high);
-+
-+	ret = regmap_read(regmap, AXIOM_U31_REV1_DEVICE_ID_LOW_REG, &id_low);
-+	if (ret)
-+		return ret;
-+	ts->device_id = id_high << 8 | id_low;
-+
-+	ret = regmap_read(regmap, AXIOM_U31_REV1_RUNTIME_FW_MAJ_REG, &val);
-+	if (ret)
-+		return ret;
-+	ts->fw_major = val;
-+
-+	ret = regmap_read(regmap, AXIOM_U31_REV1_RUNTIME_FW_MIN_REG, &val);
-+	if (ret)
-+		return ret;
-+	ts->fw_minor = val;
-+
-+	/* All other fields are not allowed to be read in BLP mode */
-+	if (axiom_get_runmode(ts) == AXIOM_BLP_MODE)
-+		return 0;
-+
-+	ret = regmap_read(regmap, AXIOM_U31_REV1_RUNTIME_FW_RC_REG, &val);
-+	if (ret)
-+		return ret;
-+	ts->fw_rc = FIELD_GET(AXIOM_U31_REV1_RUNTIME_FW_RC_MASK, val);
-+	ts->silicon_rev = FIELD_GET(AXIOM_U31_REV1_SILICON_REV_MASK, val);
-+
-+	ret = regmap_read(regmap, AXIOM_U31_REV1_RUNTIME_FW_STATUS_REG, &val);
-+	if (ret)
-+		return ret;
-+	ts->fw_status = FIELD_GET(AXIOM_U31_REV1_RUNTIME_FW_STATUS, val);
-+	ts->fw_variant = FIELD_GET(AXIOM_U31_REV1_RUNTIME_FW_VARIANT, val);
-+
-+	ret = regmap_read(regmap, AXIOM_U31_REV1_JEDEC_ID_HIGH_REG, &val);
-+	if (ret)
-+		return ret;
-+	ts->jedec_id = val << 8;
-+
-+	ret = regmap_read(regmap, AXIOM_U31_REV1_JEDEC_ID_LOW_REG, &val);
-+	if (ret)
-+		return ret;
-+	ts->jedec_id |= val;
-+
-+	return 0;
-+}
-+
-+static int axiom_u33_read(struct axiom_data *ts, struct axiom_crc *crc);
-+
-+static int axiom_u31_device_discover(struct axiom_data *ts)
-+{
-+	struct axiom_u31_usage_table_entry *u31_usage_table __free(kfree) = NULL;
-+	struct axiom_u31_usage_table_entry *entry;
-+	struct regmap *regmap = ts->regmap;
-+	unsigned int mode, num_usages;
-+	struct device *dev = ts->dev;
-+	unsigned int i;
-+	int ret;
-+
-+	axiom_set_runmode(ts, AXIOM_DISCOVERY_MODE);
-+
-+	ret = regmap_read(regmap, AXIOM_U31_REV1_DEVICE_ID_HIGH_REG, &mode);
-+	if (ret) {
-+		dev_err(dev, "Failed to read MODE\n");
-+		return ret;
-+	}
-+
-+	/* Abort if the device is in bootloader protocol mode */
-+	mode = FIELD_GET(AXIOM_U31_REV1_MODE_MASK, mode);
-+	if (mode == AXIOM_U31_REV1_MODE_BLP)
-+		axiom_set_runmode(ts, AXIOM_BLP_MODE);
-+
-+	/* Since we are not in bootloader mode we can parse the device info */
-+	ret = axiom_u31_parse_device_info(ts);
-+	if (ret) {
-+		dev_err(dev, "Failed to parse device info\n");
-+		return ret;
-+	}
-+
-+	/* All other fields are not allowed to be read in BLP mode */
-+	if (axiom_get_runmode(ts) == AXIOM_BLP_MODE) {
-+		dev_info(dev, "Device in Bootloader mode, firmware upload required\n");
-+		return -EACCES;
-+	}
-+
-+	ret = regmap_read(regmap, AXIOM_U31_REV1_NUM_USAGES_REG, &num_usages);
-+	if (ret) {
-+		dev_err(dev, "Failed to read NUM_USAGES\n");
-+		return ret;
-+	}
-+
-+	u31_usage_table = kcalloc(num_usages, sizeof(*u31_usage_table),
-+				  GFP_KERNEL);
-+	if (!u31_usage_table)
-+		return -ENOMEM;
-+
-+	ret = regmap_raw_read(regmap, AXIOM_U31_REV1_PAGE1, u31_usage_table,
-+			      array_size(num_usages, sizeof(*u31_usage_table)));
-+	if (ret) {
-+		dev_err(dev, "Failed to read NUM_USAGES\n");
-+		return ret;
-+	}
-+
-+	/*
-+	 * axiom_u31_device_discover() is call after fw update too, so ensure
-+	 * that the usage_table is cleared.
-+	 */
-+	memset(ts->usage_table, 0, sizeof(ts->usage_table));
-+
-+	for (i = 0, entry = u31_usage_table; i < num_usages; i++, entry++) {
-+		unsigned char idx = entry->usage_num;
-+		const struct axiom_usage_info *info;
-+		unsigned int size_bytes;
-+
-+		axiom_dump_usage_entry(dev, entry);
-+
-+		/*
-+		 * Verify that the driver used usages are supported. Don't abort
-+		 * yet if a usage isn't supported to allow the user to dump the
-+		 * actual usage table.
-+		 */
-+		info = axiom_get_usage_info(entry);
-+		if (IS_ERR(info)) {
-+			dev_info(dev, "Required usage u%02x isn't supported for rev.%u\n",
-+				 entry->usage_num, entry->uifrevision);
-+			ret = -EACCES;
-+		}
-+
-+		size_bytes = axiom_get_usage_size_bytes(entry);
-+
-+		ts->usage_table[idx].baseaddr = entry->start_page << 8;
-+		ts->usage_table[idx].size_bytes = size_bytes;
-+		ts->usage_table[idx].populated = true;
-+		ts->usage_table[idx].info = info;
-+
-+		if (axiom_usage_entry_is_report(entry) &&
-+		    ts->max_report_byte_len < size_bytes)
-+			ts->max_report_byte_len = size_bytes;
-+	}
-+
-+	if (ret)
-+		return ret;
-+
-+	/* From now on we are in TCP mode to include usage revision checks */
-+	axiom_set_runmode(ts, AXIOM_TCP_MODE);
-+
-+	return axiom_u33_read(ts, &ts->crc[AXIOM_CRC_CUR]);
-+}
-+
-+static int axiom_u33_read(struct axiom_data *ts, struct axiom_crc *crc)
-+{
-+	struct device *dev = ts->dev;
-+	unsigned int reg;
-+	int ret;
-+
-+	if (!axiom_driver_supports_usage(ts, AXIOM_U33))
-+		return -EINVAL;
-+
-+	if (axiom_usage_rev(ts, AXIOM_U33) == 2) {
-+		struct axiom_u33_rev2 val;
-+
-+		reg = axiom_usage_baseaddr(ts, AXIOM_U33);
-+		ret = regmap_raw_read(ts->regmap, reg, &val, sizeof(val));
-+		if (ret) {
-+			dev_err(dev, "Failed to read u33\n");
-+			return ret;
-+		}
-+
-+		crc->runtime = le32_to_cpu(val.runtime_crc);
-+		crc->vltusageconfig = le32_to_cpu(val.vltusageconfig_crc);
-+		crc->nvltlusageconfig = le32_to_cpu(val.nvltlusageconfig_crc);
-+		crc->u22_sequencedata = le32_to_cpu(val.u22_sequencedata_crc);
-+		crc->u43_hotspots = le32_to_cpu(val.u43_hotspots_crc);
-+		crc->u93_profiles = le32_to_cpu(val.u93_profiles_crc);
-+		crc->u94_deltascalemap = le32_to_cpu(val.u94_deltascalemap_crc);
-+	} else if (axiom_usage_rev(ts, AXIOM_U33) == 3) {
-+		struct axiom_u33_rev3 val;
-+
-+		reg = axiom_usage_baseaddr(ts, AXIOM_U33);
-+		ret = regmap_raw_read(ts->regmap, reg, &val, sizeof(val));
-+		if (ret) {
-+			dev_err(dev, "Failed to read u33\n");
-+			return ret;
-+		}
-+
-+		crc->runtime = le32_to_cpu(val.runtime_crc);
-+		crc->vltusageconfig = le32_to_cpu(val.vltusageconfig_crc);
-+		crc->nvltlusageconfig = le32_to_cpu(val.nvltlusageconfig_crc);
-+		crc->u22_sequencedata = le32_to_cpu(val.u22_sequencedata_crc);
-+		crc->u43_hotspots = le32_to_cpu(val.u43_hotspots_crc);
-+		crc->u77_dod_data = le32_to_cpu(val.u77_dod_data_crc);
-+		crc->u93_profiles = le32_to_cpu(val.u93_profiles_crc);
-+		crc->u94_deltascalemap = le32_to_cpu(val.u94_deltascalemap_crc);
-+	}
-+
-+	return 0;
-+}
-+
-+static bool axiom_u42_touch_enabled(struct axiom_data *ts, const u8 *buf,
-+				    unsigned int touch_num)
-+{
-+	switch (axiom_usage_rev(ts, AXIOM_U42)) {
-+	case 1:
-+		return buf[AXIOM_U42_REV1_REPORT_ID_CONTAINS(touch_num)] ==
-+		       AXIOM_U42_REV1_REPORT_ID_TOUCH;
-+	case 4:
-+		return buf[AXIOM_U42_REV4_REPORT_ID_CONTAINS(touch_num)] ==
-+		       AXIOM_U42_REV4_REPORT_ID_TOUCH;
-+	default:
-+		/* Should never happen */
-+		return false;
-+	}
-+}
-+
-+static void axiom_u42_get_touchslots(struct axiom_data *ts)
-+{
-+	u8 *buf __free(kfree) = NULL;
-+	struct device *dev = ts->dev;
-+	unsigned int bufsize;
-+	unsigned int reg;
-+	int ret, i;
-+
-+	if (!axiom_driver_supports_usage(ts, AXIOM_U42)) {
-+		dev_warn(dev, "Use default touchslots num\n");
-+		goto fallback;
-+	}
-+
-+	bufsize = axiom_usage_size(ts, AXIOM_U42);
-+	buf = kzalloc(bufsize, GFP_KERNEL);
-+	if (!buf) {
-+		dev_warn(dev, "Failed to alloc u42 read buffer, use default value\n");
-+		goto fallback;
-+	}
-+
-+	reg = axiom_usage_baseaddr(ts, AXIOM_U42);
-+	ret = regmap_raw_read(ts->regmap, reg, buf, bufsize);
-+	if (ret) {
-+		dev_warn(dev, "Failed to read u42, use default value\n");
-+		goto fallback;
-+	}
-+
-+	ts->enabled_slots = 0;
-+	ts->num_slots = 0;
-+
-+	for (i = 0; i < AXIOM_MAX_TOUCHSLOTS; i++) {
-+		if (axiom_u42_touch_enabled(ts, buf, i)) {
-+			ts->enabled_slots |= BIT(i);
-+			ts->num_slots++;
-+		}
-+	}
-+
-+	return;
-+
-+fallback:
-+	ts->enabled_slots = AXIOM_MAX_TOUCHSLOTS_MASK;
-+	ts->num_slots = AXIOM_MAX_TOUCHSLOTS;
-+}
-+
-+static void axiom_u64_cds_enabled(struct axiom_data *ts)
-+{
-+	unsigned int reg, val;
-+	int ret;
-+
-+	if (!axiom_driver_supports_usage(ts, AXIOM_U64))
-+		goto fallback_out;
-+
-+	reg = axiom_usage_baseaddr(ts, AXIOM_U64);
-+	reg += AXIOM_U64_REV2_ENABLECDSPROCESSING_REG;
-+
-+	ret = regmap_read(ts->regmap, reg, &val);
-+	if (ret)
-+		goto fallback_out;
-+
-+	val = FIELD_GET(AXIOM_U64_REV2_ENABLECDSPROCESSING_MASK, val);
-+	ts->cds_enabled = val ? true : false;
-+
-+	return;
-+
-+fallback_out:
-+	ts->cds_enabled = false;
-+}
-+
-+static int axiom_cdu_wait_idle(struct axiom_data *ts, u8 cdu_usage_num)
-+{
-+	unsigned int reg;
-+	int ret, _ret;
-+	u16 cmd;
-+
-+	reg = axiom_usage_baseaddr(ts, cdu_usage_num);
-+
-+	/*
-+	 * Missing regmap_raw_read_poll_timeout for now. RESP_SUCCESS means that
-+	 * the last command successfully completed and the device is idle.
-+	 */
-+	ret = read_poll_timeout(regmap_raw_read, _ret,
-+				_ret || cmd == AXIOM_CDU_RESP_SUCCESS,
-+				10 * USEC_PER_MSEC, 1 * USEC_PER_SEC, false,
-+				ts->regmap, reg, &cmd, 2);
-+	if (ret)
-+		dev_err(ts->dev, "Poll CDU u%x timedout with: %#x\n",
-+			cdu_usage_num, cmd);
-+
-+	return ret;
-+}
-+
-+/*********************** Report usage handling ********************************/
-+
-+static int axiom_process_report(struct axiom_data *ts, unsigned char usage_num,
-+				const u8 *buf, size_t buflen)
-+{
-+	struct axiom_usage_table_entry *entry = &ts->usage_table[usage_num];
-+
-+	/* Skip processing if not in TCP mode */
-+	if ((axiom_get_runmode(ts) != AXIOM_TCP_MODE) &&
-+	    (axiom_get_runmode(ts) != AXIOM_TCP_CFG_UPDATE_MODE))
-+		return 0;
-+
-+	/* May happen if an unsupported usage was requested */
-+	if (!entry) {
-+		dev_info(ts->dev, "Unsupported usage U%x request\n", usage_num);
-+		return 0;
-+	}
-+
-+	/* Supported report usages need to have a process_report hook */
-+	if (!entry->info || !entry->info->process_report)
-+		return -EINVAL;
-+
-+	return entry->info->process_report(ts, buf, buflen);
-+}
-+
-+/* Make use of datasheet method 1 - single transfer read */
-+static int
-+axiom_u34_rev1_process_report(struct axiom_data *ts, const u8 *_buf, size_t bufsize)
-+{
-+	unsigned int reg = axiom_usage_baseaddr(ts, AXIOM_U34);
-+	struct regmap *regmap = ts->regmap;
-+	u8 buf[AXIOM_PAGE_BYTE_LEN] = { };
-+	struct device *dev = ts->dev;
-+	unsigned char report_usage;
-+	u16 crc_report, crc_calc;
-+	unsigned int len;
-+	u8 *payload;
-+	int ret;
-+
-+	ret = regmap_raw_read(regmap, reg, buf, ts->max_report_byte_len);
-+	if (ret)
-+		return ret;
-+
-+	/* TODO: Add overflow statistics */
-+
-+	/* REPORTLENGTH is in uint16 */
-+	len = FIELD_GET(AXIOM_U34_REV1_REPORTLENGTH_MASK, buf[0]);
-+	len *= 2;
-+
-+	/*
-+	 * Downstream ignores zero length reports, extend the check to validate
-+	 * the upper bound too.
-+	 */
-+	if (len == 0 || len > AXIOM_PAGE_BYTE_LEN) {
-+		dev_dbg_ratelimited(dev, "Invalid report length: %u\n", len);
-+		return -EINVAL;
-+	}
-+
-+	/*
-+	 * The CRC16 value can be queried at the last two bytes of the report.
-+	 * The value itself is covering the complete report excluding the CRC16
-+	 * value at the end.
-+	 */
-+	crc_report = get_unaligned_le16(&buf[len - 2]);
-+	crc_calc = crc16(0, buf, (len - 2));
-+
-+	if (crc_calc != crc_report) {
-+		dev_err_ratelimited(dev, "CRC16 mismatch!\n");
-+		return -EINVAL;
-+	}
-+
-+	report_usage = buf[1];
-+	payload = &buf[AXIOM_U34_REV1_PREAMBLE_BYTES];
-+	len -= AXIOM_U34_REV1_PREAMBLE_BYTES - AXIOM_U34_REV1_POSTAMBLE_BYTES;
-+
-+	switch (report_usage) {
-+	case AXIOM_U01:
-+	case AXIOM_U41:
-+		return axiom_process_report(ts, report_usage, payload, len);
-+	default:
-+		dev_dbg(dev, "Unsupported report u%02X received\n",
-+			report_usage);
-+	}
-+
-+	return 0;
-+}
-+
-+static void
-+axiom_u41_rev2_decode_target(const u8 *buf, u8 id, u16 *x, u16 *y, s8 *z)
-+{
-+	u16 val;
-+
-+	val = get_unaligned_le16(&buf[AXIOM_U41_REV2_X_REG(id)]);
-+	val &= AXIOM_MAX_XY;
-+	*x = val;
-+
-+	val = get_unaligned_le16(&buf[AXIOM_U41_REV2_Y_REG(id)]);
-+	val &= AXIOM_MAX_XY;
-+	*y = val;
-+
-+	*z = buf[AXIOM_U41_REV2_Z_REG(id)];
-+}
-+
-+static int
-+axiom_u41_rev2_process_report(struct axiom_data *ts, const u8 *buf, size_t bufsize)
-+{
-+	struct input_dev *input = ts->input;
-+	unsigned char id;
-+	u16 targets;
-+
-+	/*
-+	 * The input registration can be postponed but the touchscreen FW is
-+	 * sending u41 reports regardless.
-+	 */
-+	if (!input)
-+		return 0;
-+
-+	targets = get_unaligned_le16(&buf[AXIOM_U41_REV2_TARGETSTATUS_REG]);
-+
-+	for_each_set_bit(id, &ts->enabled_slots, AXIOM_MAX_TOUCHSLOTS) {
-+		bool present;
-+		u16 x, y;
-+		s8 z;
-+
-+		axiom_u41_rev2_decode_target(buf, id, &x, &y, &z);
-+
-+		present = targets & BIT(id);
-+		/* Ignore possible jitters */
-+		if (z == AXIOM_PROX_LEVEL)
-+			present = false;
-+
-+		dev_dbg(ts->dev, "id:%u x:%u y:%u z:%d present:%u",
-+			id, x, y, z, present);
-+
-+		input_mt_slot(input, id);
-+		if (input_mt_report_slot_state(input, MT_TOOL_FINGER, present))
-+			touchscreen_report_pos(input, &ts->prop, x, y, true);
-+
-+		if (!present)
-+			continue;
-+
-+		input_report_abs(input, ABS_MT_DISTANCE, z < 0 ? -z : 0);
-+		if (ts->cds_enabled)
-+			input_report_abs(input, ABS_MT_PRESSURE, z >= 0 ? z : 0);
-+	}
-+
-+	input_sync(input);
-+
-+	return 0;
-+}
-+
-+static int
-+axiom_u01_rev1_process_report(struct axiom_data *ts, const u8 *buf, size_t bufsize)
-+{
-+	switch (buf[AXIOM_U01_REV1_REPORTTYPE_REG]) {
-+	case AXIOM_U01_REV1_REPORTTYPE_HELLO:
-+		dev_dbg(ts->dev, "u01 HELLO received\n");
-+		axiom_complete(ts, &ts->boot_complete);
-+		return 0;
-+	case AXIOM_U01_REV1_REPORTTYPE_HEARTBEAT:
-+		dev_dbg_ratelimited(ts->dev, "u01 HEARTBEAT received\n");
-+		return 0;
-+	case AXIOM_U01_REV1_REPORTTYPE_OPCOMPLETE:
-+		dev_dbg(ts->dev, "u01 OPCOMPLETE received\n");
-+		axiom_u02_handshakenvm(ts);
-+		axiom_complete(ts, &ts->nvm_write);
-+		return 0;
-+	default:
-+		return -EINVAL;
-+	}
-+}
-+
-+/**************************** Regmap handling *********************************/
-+
-+#define AXIOM_CMD_HDR_DIR_MASK	BIT(15)
-+#define   AXIOM_CMD_HDR_READ	1
-+#define	  AXIOM_CMD_HDR_WRITE	0
-+#define AXIOM_CMD_HDR_LEN_MASK	GENMASK(14, 0)
-+
-+struct axiom_cmd_header {
-+	__le16 target_address;
-+	__le16 xferlen;
-+};
-+
-+/* Custom regmap read/write handling is required due to the aXiom protocol */
-+static int axiom_regmap_read(void *context, const void *reg_buf, size_t reg_size,
-+			     void *val_buf, size_t val_size)
-+{
-+	struct device *dev = context;
-+	struct i2c_client *i2c = to_i2c_client(dev);
-+	struct axiom_data *ts = i2c_get_clientdata(i2c);
-+	struct axiom_cmd_header hdr;
-+	u16 xferlen, addr, baseaddr;
-+	struct i2c_msg xfer[2];
-+	int ret;
-+
-+	if (val_size > AXIOM_MAX_XFERLEN) {
-+		dev_err(ts->dev, "Exceed max xferlen: %zu > %u\n",
-+			val_size, AXIOM_MAX_XFERLEN);
-+		return -EINVAL;
-+	}
-+
-+	addr = *((u16 *)reg_buf);
-+	hdr.target_address = cpu_to_le16(addr);
-+	xferlen = FIELD_PREP(AXIOM_CMD_HDR_DIR_MASK, AXIOM_CMD_HDR_READ) |
-+		  FIELD_PREP(AXIOM_CMD_HDR_LEN_MASK, val_size);
-+	hdr.xferlen = cpu_to_le16(xferlen);
-+
-+	/* Verify that usage including the usage rev is supported */
-+	baseaddr = addr & AXIOM_USAGE_BASEADDR_MASK;
-+	if (!axiom_usage_supported(ts, baseaddr))
-+		return -EINVAL;
-+
-+	xfer[0].addr = i2c->addr;
-+	xfer[0].flags = 0;
-+	xfer[0].len = sizeof(hdr);
-+	xfer[0].buf = (u8 *)&hdr;
-+
-+	xfer[1].addr = i2c->addr;
-+	xfer[1].flags = I2C_M_RD;
-+	xfer[1].len = val_size;
-+	xfer[1].buf = val_buf;
-+
-+	ret = i2c_transfer(i2c->adapter, xfer, 2);
-+	if (ret == 2)
-+		return 0;
-+	else if (ret < 0)
-+		return ret;
-+	else
-+		return -EIO;
-+}
-+
-+static int axiom_regmap_write(void *context, const void *data, size_t count)
-+{
-+	struct device *dev = context;
-+	struct i2c_client *i2c = to_i2c_client(dev);
-+	struct axiom_data *ts = i2c_get_clientdata(i2c);
-+	char *buf __free(kfree) = NULL;
-+	struct axiom_cmd_header hdr;
-+	u16 xferlen, addr, baseaddr;
-+	size_t val_size, msg_size;
-+	int ret;
-+
-+	val_size = count - sizeof(addr);
-+	if (val_size > AXIOM_MAX_XFERLEN) {
-+		dev_err(ts->dev, "Exceed max xferlen: %zu > %u\n",
-+			val_size, AXIOM_MAX_XFERLEN);
-+		return -EINVAL;
-+	}
-+
-+	addr = *((u16 *)data);
-+	hdr.target_address = cpu_to_le16(addr);
-+	xferlen = FIELD_PREP(AXIOM_CMD_HDR_DIR_MASK, AXIOM_CMD_HDR_WRITE) |
-+		  FIELD_PREP(AXIOM_CMD_HDR_LEN_MASK, val_size);
-+	hdr.xferlen = cpu_to_le16(xferlen);
-+
-+	/* Verify that usage including the usage rev is supported */
-+	baseaddr = addr & AXIOM_USAGE_BASEADDR_MASK;
-+	if (!axiom_usage_supported(ts, baseaddr))
-+		return -EINVAL;
-+
-+	msg_size = sizeof(hdr) + val_size;
-+	buf = kzalloc(msg_size, GFP_KERNEL);
-+	if (!buf)
-+		return -ENOMEM;
-+
-+	memcpy(buf, &hdr, sizeof(hdr));
-+	memcpy(&buf[sizeof(hdr)], &((char *)data)[2], val_size);
-+
-+	ret = i2c_master_send(i2c, buf, msg_size);
-+
-+	return ret == msg_size ? 0 : ret;
-+}
-+
-+static const struct regmap_config axiom_i2c_regmap_config = {
-+	.reg_bits = 16,
-+	.val_bits = 8,
-+	.read = axiom_regmap_read,
-+	.write = axiom_regmap_write,
-+};
-+
-+/************************ FW update handling **********************************/
-+
-+static int axiom_update_input_dev(struct axiom_data *ts);
-+
-+static enum fw_upload_err
-+axiom_axfw_fw_prepare(struct fw_upload *fw_upload, const u8 *data, u32 size)
-+{
-+	struct axiom_data *ts = fw_upload->dd_handle;
-+	struct axiom_firmware *afw = &ts->fw[AXIOM_FW_AXFW];
-+	u8 major_ver, minor_ver, rc_ver, status, variant;
-+	u32 fw_file_crc32, crc32_calc;
-+	struct device *dev = ts->dev;
-+	unsigned int signature_len;
-+	enum fw_upload_err ret;
-+	u16 fw_file_format_ver;
-+	u16 fw_file_device_id;
-+
-+	mutex_lock(&afw->lock);
-+	afw->cancel = false;
-+	mutex_unlock(&afw->lock);
-+
-+	mutex_lock(&ts->fwupdate_lock);
-+
-+	if (size < sizeof(struct axiom_fw_axfw_hdr)) {
-+		dev_err(dev, "Invalid AXFW file size\n");
-+		ret = FW_UPLOAD_ERR_INVALID_SIZE;
-+		goto out;
-+	}
-+
-+	signature_len = strlen(AXIOM_FW_AXFW_SIGNATURE);
-+	if (strncmp(data, AXIOM_FW_AXFW_SIGNATURE, signature_len)) {
-+		/*
-+		 * AXFW has a header which can be used to perform validations,
-+		 * ALC don't. Therefore the AXFW format is preferred.
-+		 */
-+		dev_warn(dev, "No AXFW signature, assume ALC firmware\n");
-+		ret = FW_UPLOAD_ERR_NONE;
-+		goto out;
-+	}
-+
-+	fw_file_crc32 = get_unaligned_le32(&data[signature_len]);
-+	crc32_calc = crc32(~0, &data[8], size - 8) ^ 0xffffffff;
-+	if (fw_file_crc32 != crc32_calc) {
-+		dev_err(dev, "AXFW CRC32 doesn't match (fw:%#x calc:%#x)\n",
-+			fw_file_crc32, crc32_calc);
-+		ret = FW_UPLOAD_ERR_FW_INVALID;
-+		goto out;
-+	}
-+
-+	data += signature_len + sizeof(fw_file_crc32);
-+	fw_file_format_ver = get_unaligned_le16(data);
-+	if (fw_file_format_ver != AXIOM_FW_AXFW_FILE_FMT_VER) {
-+		dev_err(dev, "Invalid AXFW file format version: %04x",
-+			fw_file_format_ver);
-+		ret = FW_UPLOAD_ERR_FW_INVALID;
-+		goto out;
-+	}
-+
-+	data += sizeof(fw_file_format_ver);
-+	fw_file_device_id = get_unaligned_le16(data);
-+	if (fw_file_device_id != ts->device_id) {
-+		dev_err(dev, "Invalid AXFW target device (fw:%#04x dev:%#04x)\n",
-+			fw_file_device_id, ts->device_id);
-+		ret = FW_UPLOAD_ERR_FW_INVALID;
-+		goto out;
-+	}
-+
-+	/*
-+	 * This can happen if:
-+	 *  * the device came up in bootloader mode, or
-+	 *  * downloading the firmware failed in between, or
-+	 *  * the following usage discovery failed.
-+	 *
-+	 *  All cases are crcitical and we need to use any firmware to
-+	 *  bring the device back into a working state which is supported by the
-+	 *  host.
-+	 */
-+	if (axiom_get_runmode(ts) != AXIOM_TCP_MODE)
-+		return FW_UPLOAD_ERR_NONE;
-+
-+	data += sizeof(fw_file_device_id);
-+	variant = *data++;
-+	minor_ver = *data++;
-+	major_ver = *data++;
-+	rc_ver = *data++;
-+	status = *data++;
-+
-+	if (major_ver == ts->fw_major && minor_ver == ts->fw_minor &&
-+	    rc_ver == ts->fw_rc && status == ts->fw_status &&
-+	    variant == ts->fw_variant) {
-+		ret = FW_UPLOAD_ERR_DUPLICATE;
-+		goto out;
-+	}
-+
-+	dev_info(dev, "Detected AXFW %02u.%02u.%02u (%s)\n",
-+		 major_ver, minor_ver, rc_ver,
-+		 status ? "production" : "engineering");
-+
-+	mutex_lock(&afw->lock);
-+	ret = afw->cancel ? FW_UPLOAD_ERR_CANCELED : FW_UPLOAD_ERR_NONE;
-+	mutex_unlock(&afw->lock);
-+
-+out:
-+	/*
-+	 * In FW_UPLOAD_ERR_NONE case the complete handler will release the
-+	 * lock.
-+	 */
-+	if (ret != FW_UPLOAD_ERR_NONE)
-+		mutex_unlock(&ts->fwupdate_lock);
-+
-+	return ret;
-+}
-+
-+static int axiom_enter_bootloader_mode(struct axiom_data *ts)
-+{
-+	struct device *dev = ts->dev;
-+	int ret;
-+
-+	axiom_set_runmode(ts, AXIOM_BLP_PRE_MODE);
-+
-+	ret = axiom_u02_wait_idle(ts);
-+	if (ret)
-+		goto err_out;
-+
-+	ret = axiom_u02_enter_bootloader(ts);
-+	if (ret) {
-+		dev_err(dev, "Failed to enter bootloader mode\n");
-+		goto err_out;
-+	}
-+
-+	axiom_set_runmode(ts, AXIOM_BLP_MODE);
-+
-+	return 0;
-+
-+err_out:
-+	axiom_set_runmode(ts, AXIOM_TCP_MODE);
-+
-+	return ret;
-+}
-+
-+static int axoim_blp_wait_ready(struct axiom_data *ts)
-+{
-+	struct device *dev = ts->dev;
-+	unsigned int reg;
-+	int tmp, ret;
-+	u8 buf[4];
-+
-+	reg = AXIOM_U01_BLP_SATUS_REG;
-+
-+	/* BLP busy poll requires to read 4 bytes! */
-+	ret = read_poll_timeout(regmap_raw_read, tmp,
-+				tmp || !(buf[2] & AXIOM_U01_BLP_STATUS_BUSY),
-+				10 * USEC_PER_MSEC, 5 * USEC_PER_SEC, false,
-+				ts->regmap, reg, &buf, 4);
-+	if (ret)
-+		dev_err(dev, "Bootloader wait processing packets failed %d\n", ret);
-+
-+	return ret;
-+}
-+
-+static int
-+axiom_blp_write_chunk(struct axiom_data *ts, const u8 *data, u16 length)
-+{
-+	unsigned int chunk_size = AXIOM_U01_BLP_FIFO_CHK_SIZE_BYTES;
-+	unsigned int reg = AXIOM_U01_BLP_FIFO_REG;
-+	struct device *dev = ts->dev;
-+	unsigned int pos = 0;
-+	int ret;
-+
-+	ret = axoim_blp_wait_ready(ts);
-+	if (ret)
-+		return ret;
-+
-+	/*
-+	 * TODO: Downstream does this chunk transfers. Verify if this is
-+	 * required if one fw-chunk <= AXIOM_MAX_XFERLEN
-+	 */
-+	while (pos < length) {
-+		u16 len;
-+
-+		len = chunk_size;
-+		if ((pos + chunk_size) > length)
-+			len = length - pos;
-+
-+		ret = regmap_raw_write(ts->regmap, reg, &data[pos], len);
-+		if (ret) {
-+			dev_err(dev, "Bootloader download AXFW chunk failed %d\n", ret);
-+			return ret;
-+		}
-+
-+		pos += len;
-+		ret = axoim_blp_wait_ready(ts);
-+		if (ret)
-+			return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+static int axiom_blp_reset(struct axiom_data *ts)
-+{
-+	__le16 reset_cmd = cpu_to_le16(AXIOM_U01_BLP_COMMAND_RESET);
-+	unsigned int reg = AXIOM_U01_BLP_COMMAND_REG;
-+	struct device *dev = ts->dev;
-+	unsigned int attempts = 20;
-+	unsigned int mode;
-+	int ret;
-+
-+	ret = axoim_blp_wait_ready(ts);
-+	if (ret)
-+		return ret;
-+
-+	/*
-+	 * For some reason this write fail with -ENXIO. Skip checking the return
-+	 * code (which is also done by the downstream axfw.py tool and poll u31
-+	 * instead.
-+	 */
-+	regmap_raw_write(ts->regmap, reg, &reset_cmd, sizeof(reset_cmd));
-+
-+	do {
-+		ret = regmap_read(ts->regmap, AXIOM_U31_REV1_DEVICE_ID_HIGH_REG,
-+				  &mode);
-+		if (!ret)
-+			break;
-+
-+		fsleep(250 * USEC_PER_MSEC);
-+	} while (attempts--);
-+
-+	if (ret) {
-+		dev_err(dev, "Failed to read MODE after BLP reset: %d\n", ret);
-+		return ret;
-+	}
-+
-+	mode = FIELD_GET(AXIOM_U31_REV1_MODE_MASK, mode);
-+	if (mode == AXIOM_U31_REV1_MODE_BLP) {
-+		dev_err(dev, "Device still in BLP mode, abort\n");
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
-+static void axiom_lock_input_device(struct axiom_data *ts)
-+{
-+	if (!ts->input)
-+		return;
-+
-+	mutex_lock(&ts->input->mutex);
-+}
-+
-+static void axiom_unlock_input_device(struct axiom_data *ts)
-+{
-+	if (!ts->input)
-+		return;
-+
-+	mutex_unlock(&ts->input->mutex);
-+}
-+
-+static void axiom_unregister_input_dev(struct axiom_data *ts)
-+{
-+	if (ts->input)
-+		input_unregister_device(ts->input);
-+
-+	ts->input = NULL;
-+}
-+
-+static enum fw_upload_err
-+axiom_axfw_fw_write(struct fw_upload *fw_upload, const u8 *data, u32 offset,
-+		    u32 size, u32 *written)
-+{
-+	struct axiom_data *ts = fw_upload->dd_handle;
-+	struct axiom_firmware *afw = &ts->fw[AXIOM_FW_AXFW];
-+	struct device *dev = ts->dev;
-+	bool cancel;
-+	int ret;
-+
-+	/* Done before cancel check due to cleanup based put */
-+	ret = pm_runtime_resume_and_get(ts->dev);
-+	if (ret)
-+		return FW_UPLOAD_ERR_HW_ERROR;
-+
-+	mutex_lock(&afw->lock);
-+	cancel = afw->cancel;
-+	mutex_unlock(&afw->lock);
-+
-+	if (cancel)
-+		return FW_UPLOAD_ERR_CANCELED;
-+
-+	axiom_lock_input_device(ts);
-+
-+	if (ts->input && input_device_enabled(ts->input)) {
-+		dev_err(dev, "Input device not idle, abort AXFW/ALC update\n");
-+		goto err;
-+	}
-+
-+	if (!strncmp(data, AXIOM_FW_AXFW_SIGNATURE,
-+		     strlen(AXIOM_FW_AXFW_SIGNATURE))) {
-+		/* Set the pointer to the first fw chunk */
-+		data += sizeof(struct axiom_fw_axfw_hdr);
-+		size -= sizeof(struct axiom_fw_axfw_hdr);
-+		*written += sizeof(struct axiom_fw_axfw_hdr);
-+	}
-+
-+	if (axiom_enter_bootloader_mode(ts))
-+		goto err;
-+
-+	while (size) {
-+		u16 chunk_len, len;
-+
-+		chunk_len = get_unaligned_be16(&data[6]);
-+		len = chunk_len + sizeof(struct axiom_fw_axfw_chunk_hdr);
-+
-+		/*
-+		 * The bootlaoder FW can handle the complete chunk incl. the
-+		 * header.
-+		 */
-+		ret = axiom_blp_write_chunk(ts, data, len);
-+		if (ret)
-+			goto err;
-+
-+		size -= len;
-+		*written += len;
-+		data += len;
-+	}
-+
-+	ret = axiom_blp_reset(ts);
-+	if (ret)
-+		dev_warn(dev, "BLP reset failed\n");
-+
-+	ret = axiom_u31_device_discover(ts);
-+	if (ret) {
-+		/*
-+		 * This is critical and we need to avoid that the user-space can
-+		 * still use the input-dev.
-+		 */
-+		axiom_unlock_input_device(ts);
-+		axiom_unregister_input_dev(ts);
-+		dev_err(dev, "Device discovery failed after AXFW/ALC firmware update\n");
-+		goto err;
-+	}
-+
-+	/* Unlock before the input device gets unregistered */
-+	axiom_unlock_input_device(ts);
-+
-+	ret = axiom_update_input_dev(ts);
-+	if (ret) {
-+		dev_err(dev, "Input device update failed after AXFW/ALC firmware update\n");
-+		return FW_UPLOAD_ERR_HW_ERROR;
-+	}
-+
-+	dev_info(dev, "AXFW update successful\n");
-+
-+	return FW_UPLOAD_ERR_NONE;
-+
-+err:
-+	axiom_unlock_input_device(ts);
-+	return FW_UPLOAD_ERR_HW_ERROR;
-+}
-+
-+static enum fw_upload_err axiom_fw_poll_complete(struct fw_upload *fw_upload)
-+{
-+	return FW_UPLOAD_ERR_NONE;
-+}
-+
-+static void axiom_axfw_fw_cancel(struct fw_upload *fw_upload)
-+{
-+	struct axiom_data *ts = fw_upload->dd_handle;
-+	struct axiom_firmware *afw = &ts->fw[AXIOM_FW_AXFW];
-+
-+	mutex_lock(&afw->lock);
-+	afw->cancel = true;
-+	mutex_unlock(&afw->lock);
-+}
-+
-+static void axiom_axfw_fw_cleanup(struct fw_upload *fw_upload)
-+{
-+	struct axiom_data *ts = fw_upload->dd_handle;
-+
-+	mutex_unlock(&ts->fwupdate_lock);
-+	pm_runtime_mark_last_busy(ts->dev);
-+	pm_runtime_put_sync_autosuspend(ts->dev);
-+}
-+
-+static const struct fw_upload_ops axiom_axfw_fw_upload_ops = {
-+	.prepare = axiom_axfw_fw_prepare,
-+	.write = axiom_axfw_fw_write,
-+	.poll_complete = axiom_fw_poll_complete,
-+	.cancel = axiom_axfw_fw_cancel,
-+	.cleanup = axiom_axfw_fw_cleanup,
-+};
-+
-+static int
-+axiom_set_new_crcs(struct axiom_data *ts, const struct axiom_fw_cfg_chunk *cfg)
-+{
-+	struct axiom_crc *crc = &ts->crc[AXIOM_CRC_NEW];
-+	const u32 *u33_data = (const u32 *)cfg->usage_content;
-+
-+	if (cfg->usage_rev != 2 && cfg->usage_rev != 3) {
-+		dev_err(ts->dev, "The driver doesn't support u33 revision %u\n",
-+			cfg->usage_rev);
-+		return -EINVAL;
-+	}
-+
-+	crc->runtime = get_unaligned_le32(u33_data);
-+	crc->nvltlusageconfig = get_unaligned_le32(&u33_data[3]);
-+	crc->vltusageconfig = get_unaligned_le32(&u33_data[4]);
-+	crc->u22_sequencedata = get_unaligned_le32(&u33_data[5]);
-+	crc->u43_hotspots = get_unaligned_le32(&u33_data[6]);
-+	if (cfg->usage_rev == 2) {
-+		crc->u93_profiles = get_unaligned_le32(&u33_data[7]);
-+		crc->u94_deltascalemap = get_unaligned_le32(&u33_data[8]);
-+	} else if (cfg->usage_rev == 3) {
-+		crc->u77_dod_data = get_unaligned_le32(&u33_data[7]);
-+		crc->u93_profiles = get_unaligned_le32(&u33_data[8]);
-+		crc->u94_deltascalemap = get_unaligned_le32(&u33_data[9]);
-+	}
-+
-+	return 0;
-+}
-+
-+static unsigned int
-+axiom_cfg_fw_prepare_chunk(struct axiom_fw_cfg_chunk *chunk, const u8 *data)
-+{
-+	chunk->usage_num = data[0];
-+	chunk->usage_rev = data[1];
-+	chunk->usage_length = get_unaligned_le16(&data[3]);
-+	chunk->usage_content = &data[5];
-+
-+	return chunk->usage_length + sizeof(struct axiom_fw_cfg_chunk_hdr);
-+}
-+
-+/*
-+ * To overcome buggy firmware we need to check if a given usage is used by the
-+ * current running firmware. Return true if the usage is unused/not populated
-+ * by the firmware since we can't perform the actual check.
-+ */
-+#define axiom_usage_crc_match(_ts, _usage_num, _cur, _new, _field) \
-+	(!_ts->usage_table[_usage_num].populated || (_cur->_field == _new->_field))
-+
-+static bool axiom_cfg_fw_update_required(struct axiom_data *ts)
-+{
-+	struct axiom_crc *cur, *new;
-+
-+	cur = &ts->crc[AXIOM_CRC_CUR];
-+	new = &ts->crc[AXIOM_CRC_NEW];
-+
-+	if (cur->nvltlusageconfig != new->nvltlusageconfig ||
-+	    !axiom_usage_crc_match(ts, AXIOM_U22, cur, new, u22_sequencedata) ||
-+	    !axiom_usage_crc_match(ts, AXIOM_U43, cur, new, u43_hotspots) ||
-+	    !axiom_usage_crc_match(ts, AXIOM_U93, cur, new, u93_profiles) ||
-+	    !axiom_usage_crc_match(ts, AXIOM_U94, cur, new, u94_deltascalemap))
-+		return true;
-+
-+	return false;
-+}
-+
-+static enum fw_upload_err
-+axiom_cfg_fw_prepare(struct fw_upload *fw_upload, const u8 *data, u32 size)
-+{
-+	struct axiom_data *ts = fw_upload->dd_handle;
-+	struct axiom_firmware *afw = &ts->fw[AXIOM_FW_CFG];
-+	u32 cur_runtime_crc, fw_runtime_crc;
-+	struct axiom_fw_cfg_chunk chunk;
-+	struct device *dev = ts->dev;
-+	enum fw_upload_err ret;
-+	u32 signature;
-+
-+	mutex_lock(&afw->lock);
-+	afw->cancel = false;
-+	mutex_unlock(&afw->lock);
-+
-+	mutex_lock(&ts->fwupdate_lock);
-+
-+	if (axiom_get_runmode(ts) != AXIOM_TCP_MODE) {
-+		dev_err(dev, "Device not in TCP mode, abort TH2CFG update\n");
-+		ret = FW_UPLOAD_ERR_HW_ERROR;
-+		goto out;
-+	}
-+
-+	if (size < sizeof(struct axiom_fw_cfg_hdr)) {
-+		dev_err(dev, "Invalid TH2CFG file size\n");
-+		ret = FW_UPLOAD_ERR_INVALID_SIZE;
-+		goto out;
-+	}
-+
-+	signature = get_unaligned_be32(data);
-+	if (signature != AXIOM_FW_CFG_SIGNATURE) {
-+		dev_err(dev, "Invalid TH2CFG signature\n");
-+		ret = FW_UPLOAD_ERR_FW_INVALID;
-+		goto out;
-+	}
-+
-+	/* Skip to the first fw chunk */
-+	data += sizeof(struct axiom_fw_cfg_hdr);
-+	size -= sizeof(struct axiom_fw_cfg_hdr);
-+
-+	/*
-+	 * Search for u33 which contains the CRC information and perform only
-+	 * the runtime-crc check.
-+	 */
-+	while (size) {
-+		unsigned int chunk_len;
-+
-+		chunk_len = axiom_cfg_fw_prepare_chunk(&chunk, data);
-+		if (chunk.usage_num == AXIOM_U33)
-+			break;
-+
-+		data += chunk_len;
-+		size -= chunk_len;
-+	}
-+
-+	if (size == 0) {
-+		dev_err(dev, "Failed to find the u33 entry in TH2CFG\n");
-+		ret = FW_UPLOAD_ERR_FW_INVALID;
-+		goto out;
-+	}
-+
-+	ret = axiom_set_new_crcs(ts, &chunk);
-+	if (ret) {
-+		ret = FW_UPLOAD_ERR_FW_INVALID;
-+		goto out;
-+	}
-+
-+	/*
-+	 * Nothing to do if the CRCs are the same. TODO: Must be extended once
-+	 * the CDU update is added.
-+	 */
-+	if (!axiom_cfg_fw_update_required(ts)) {
-+		ret = FW_UPLOAD_ERR_DUPLICATE;
-+		goto out;
-+	}
-+
-+	cur_runtime_crc = ts->crc[AXIOM_CRC_CUR].runtime;
-+	fw_runtime_crc = ts->crc[AXIOM_CRC_NEW].runtime;
-+	if (cur_runtime_crc != fw_runtime_crc) {
-+		dev_err(dev, "TH2CFG and device runtime CRC doesn't match: %#x != %#x\n",
-+			fw_runtime_crc, cur_runtime_crc);
-+		ret = FW_UPLOAD_ERR_FW_INVALID;
-+		goto out;
-+	}
-+
-+	mutex_lock(&afw->lock);
-+	ret = afw->cancel ? FW_UPLOAD_ERR_CANCELED : FW_UPLOAD_ERR_NONE;
-+	mutex_unlock(&afw->lock);
-+
-+out:
-+	/*
-+	 * In FW_UPLOAD_ERR_NONE case the complete handler will release the
-+	 * lock.
-+	 */
-+	if (ret != FW_UPLOAD_ERR_NONE)
-+		mutex_unlock(&ts->fwupdate_lock);
-+
-+	return ret;
-+}
-+
-+static int axiom_zero_volatile_mem(struct axiom_data *ts)
-+{
-+	int ret, size;
-+	u8 *buf;
-+
-+	/* Zero out the volatile memory except for the user content in u04 */
-+	ret = axiom_u04_get(ts, &buf);
-+	if (ret < 0)
-+		return ret;
-+	size = ret;
-+
-+	ret = axiom_u02_fillconfig(ts);
-+	if (ret)
-+		goto out;
-+
-+	ret = axiom_u04_set(ts, buf, size);
-+out:
-+	kfree(buf);
-+	return ret;
-+}
-+
-+static bool
-+axiom_skip_cfg_chunk(struct axiom_data *ts, const struct axiom_fw_cfg_chunk *chunk)
-+{
-+	u8 usage_num = chunk->usage_num;
-+
-+	if (!ts->usage_table[usage_num].populated) {
-+		dev_warn(ts->dev, "Unknown usage chunk for u%#x\n", usage_num);
-+		return true;
-+	}
-+
-+	/* Skip read-only usages */
-+	if (ts->usage_table[usage_num].info &&
-+	    ts->usage_table[usage_num].info->is_ro)
-+		return true;
-+
-+	return false;
-+}
-+
-+static int
-+axiom_write_cdu_usage(struct axiom_data *ts, const struct axiom_fw_cfg_chunk *chunk)
-+{
-+	struct axiom_cdu_usage cdu = { };
-+	struct device *dev = ts->dev;
-+	unsigned int remaining;
-+	unsigned int reg;
-+	unsigned int pos;
-+	int ret;
-+
-+	pos = 0;
-+	remaining = chunk->usage_length;
-+	cdu.command = cpu_to_le16(AXIOM_CDU_CMD_STORE);
-+	reg = axiom_usage_baseaddr(ts, chunk->usage_num);
-+
-+	while (remaining) {
-+		unsigned int size;
-+
-+		cdu.parameters[1] = cpu_to_le16(pos);
-+
-+		size = remaining;
-+		if (size > AXIOM_CDU_MAX_DATA_BYTES)
-+			size = AXIOM_CDU_MAX_DATA_BYTES;
-+
-+		memset(cdu.data, 0, sizeof(cdu.data));
-+		memcpy(cdu.data, &chunk->usage_content[pos], size);
-+
-+		ret = regmap_raw_write(ts->regmap, reg, &cdu, sizeof(cdu));
-+		if (ret) {
-+			dev_err(dev, "Failed to write CDU u%x\n",
-+				chunk->usage_num);
-+			return ret;
-+		}
-+
-+		ret = axiom_cdu_wait_idle(ts, chunk->usage_num);
-+		if (ret) {
-+			dev_err(dev, "CDU write wait-idle failed\n");
-+			return ret;
-+		}
-+
-+		remaining -= size;
-+		pos += size;
-+	}
-+
-+	/*
-+	 * TODO: Check if we really need to send 48 zero bytes of data like
-+	 * downstream does.
-+	 */
-+	memset(&cdu, 0, sizeof(cdu));
-+	cdu.command = cpu_to_le16(AXIOM_CDU_CMD_COMMIT);
-+	cdu.parameters[0] = cpu_to_le16(AXIOM_CDU_PARAM0_COMMIT);
-+	cdu.parameters[1] = cpu_to_le16(AXIOM_CDU_PARAM1_COMMIT);
-+
-+	ret = regmap_raw_write(ts->regmap, reg, &cdu, sizeof(cdu));
-+	if (ret) {
-+		dev_err(dev, "Failed to commit CDU u%x to NVM\n",
-+			chunk->usage_num);
-+		return ret;
-+	}
-+
-+	ret = axiom_wait_for_completion_timeout(ts, &ts->nvm_write,
-+					msecs_to_jiffies(5 * MSEC_PER_SEC));
-+	if (!ret) {
-+		dev_err(ts->dev, "Error CDU u%x commit timedout\n",
-+			chunk->usage_num);
-+		return -ETIMEDOUT;
-+	}
-+
-+	return axiom_cdu_wait_idle(ts, chunk->usage_num);
-+}
-+
-+static int
-+axiom_write_cfg_chunk(struct axiom_data *ts, const struct axiom_fw_cfg_chunk *chunk)
-+{
-+	unsigned int reg;
-+	int ret;
-+
-+	if (ts->usage_table[chunk->usage_num].info &&
-+	    ts->usage_table[chunk->usage_num].info->is_cdu) {
-+		ret = axiom_write_cdu_usage(ts, chunk);
-+		if (ret)
-+			return ret;
-+		goto out;
-+	}
-+
-+	reg = axiom_usage_baseaddr(ts, chunk->usage_num);
-+	ret = regmap_raw_write(ts->regmap, reg, chunk->usage_content, chunk->usage_length);
-+	if (ret)
-+		return ret;
-+
-+out:
-+	return axiom_u02_wait_idle(ts);
-+}
-+
-+static int axiom_verify_volatile_mem(struct axiom_data *ts)
-+{
-+	int ret;
-+
-+	ret = axiom_u02_computecrc(ts);
-+	if (ret)
-+		return ret;
-+
-+	/* Query the new CRCs after they are re-computed */
-+	ret = axiom_u33_read(ts, &ts->crc[AXIOM_CRC_CUR]);
-+	if (ret)
-+		return ret;
-+
-+	return ts->crc[AXIOM_CRC_CUR].vltusageconfig ==
-+	       ts->crc[AXIOM_CRC_NEW].vltusageconfig ? 0 : -EINVAL;
-+}
-+
-+static int axiom_verify_crcs(struct axiom_data *ts)
-+{
-+	struct device *dev = ts->dev;
-+	struct axiom_crc *cur, *new;
-+
-+	cur = &ts->crc[AXIOM_CRC_CUR];
-+	new = &ts->crc[AXIOM_CRC_NEW];
-+
-+	if (new->vltusageconfig != cur->vltusageconfig) {
-+		dev_err(dev, "VLTUSAGECONFIG CRC32 mismatch (dev:%#x != fw:%#x)\n",
-+			cur->vltusageconfig, new->vltusageconfig);
-+		return -EINVAL;
-+	} else if (new->nvltlusageconfig != cur->nvltlusageconfig) {
-+		dev_err(dev, "NVLTUSAGECONFIG CRC32 mismatch (dev:%#x != fw:%#x)\n",
-+			cur->nvltlusageconfig, new->nvltlusageconfig);
-+		return -EINVAL;
-+	} else if (!axiom_usage_crc_match(ts, AXIOM_U22, cur, new, u22_sequencedata)) {
-+		dev_err(dev, "U22_SEQUENCEDATA CRC32 mismatch (dev:%#x != fw:%#x)\n",
-+			cur->u22_sequencedata, new->u22_sequencedata);
-+		return -EINVAL;
-+	} else if (!axiom_usage_crc_match(ts, AXIOM_U43, cur, new, u43_hotspots)) {
-+		dev_err(dev, "U43_HOTSPOTS CRC32 mismatch (dev:%#x != fw:%#x)\n",
-+			cur->u43_hotspots, new->u43_hotspots);
-+		return -EINVAL;
-+	} else if (!axiom_usage_crc_match(ts, AXIOM_U93, cur, new, u93_profiles)) {
-+		dev_err(dev, "U93_PROFILES CRC32 mismatch (dev:%#x != fw:%#x)\n",
-+			cur->u93_profiles, new->u93_profiles);
-+		return -EINVAL;
-+	} else if (!axiom_usage_crc_match(ts, AXIOM_U94, cur, new, u94_deltascalemap)) {
-+		dev_err(dev, "U94_DELTASCALEMAP CRC32 mismatch (dev:%#x != fw:%#x)\n",
-+			cur->u94_deltascalemap, new->u94_deltascalemap);
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
-+static enum fw_upload_err
-+axiom_cfg_fw_write(struct fw_upload *fw_upload, const u8 *data, u32 offset,
-+		   u32 size, u32 *written)
-+{
-+	struct axiom_data *ts = fw_upload->dd_handle;
-+	struct axiom_firmware *afw = &ts->fw[AXIOM_FW_CFG];
-+	struct device *dev = ts->dev;
-+	bool cancel;
-+	int ret;
-+
-+	/* Done before cancel check due to cleanup based put */
-+	ret = pm_runtime_resume_and_get(ts->dev);
-+	if (ret)
-+		return FW_UPLOAD_ERR_HW_ERROR;
-+
-+	mutex_lock(&afw->lock);
-+	cancel = afw->cancel;
-+	mutex_unlock(&afw->lock);
-+
-+	if (cancel)
-+		return FW_UPLOAD_ERR_CANCELED;
-+
-+	axiom_lock_input_device(ts);
-+
-+	if (ts->input && input_device_enabled(ts->input)) {
-+		dev_err(dev, "Input device not idle, abort TH2CFG update\n");
-+		axiom_unlock_input_device(ts);
-+		return FW_UPLOAD_ERR_HW_ERROR;
-+	}
-+
-+	ret = axiom_u02_stop(ts);
-+	if (ret)
-+		goto err_swreset;
-+
-+	ret = axiom_zero_volatile_mem(ts);
-+	if (ret)
-+		goto err_swreset;
-+
-+	/* Skip to the first fw chunk */
-+	data += sizeof(struct axiom_fw_cfg_hdr);
-+	size -= sizeof(struct axiom_fw_cfg_hdr);
-+	*written += sizeof(struct axiom_fw_cfg_hdr);
-+
-+	axiom_set_runmode(ts, AXIOM_TCP_CFG_UPDATE_MODE);
-+
-+	while (size) {
-+		struct axiom_fw_cfg_chunk chunk;
-+		unsigned int chunk_len;
-+
-+		chunk_len = axiom_cfg_fw_prepare_chunk(&chunk, data);
-+		if (axiom_skip_cfg_chunk(ts, &chunk)) {
-+			dev_dbg(dev, "Skip TH2CFG usage u%x\n", chunk.usage_num);
-+			goto next_chunk;
-+		}
-+
-+		ret = axiom_write_cfg_chunk(ts, &chunk);
-+		if (ret) {
-+			axiom_set_runmode(ts, AXIOM_TCP_MODE);
-+			goto err_swreset;
-+		}
-+
-+next_chunk:
-+		data += chunk_len;
-+		size -= chunk_len;
-+		*written += chunk_len;
-+	}
-+
-+	axiom_set_runmode(ts, AXIOM_TCP_MODE);
-+
-+	/* Ensure that the chunks are written correctly */
-+	ret = axiom_verify_volatile_mem(ts);
-+	if (ret) {
-+		dev_err(dev, "Failed to verify written config, abort\n");
-+		goto err_swreset;
-+	}
-+
-+	ret = axiom_u02_save_config(ts);
-+	if (ret)
-+		goto err_swreset;
-+
-+	/*
-+	 * TODO: Check if u02 start would be sufficient to load the new config
-+	 * values
-+	 */
-+	ret = axiom_u02_swreset(ts);
-+	if (ret) {
-+		dev_err(dev, "Soft reset failed\n");
-+		goto err_unlock;
-+	}
-+
-+	ret = axiom_u33_read(ts, &ts->crc[AXIOM_CRC_CUR]);
-+	if (ret)
-+		goto err_unlock;
-+
-+	if (axiom_verify_crcs(ts))
-+		goto err_unlock;
-+
-+	/* Unlock before the input device gets unregistered */
-+	axiom_unlock_input_device(ts);
-+
-+	ret = axiom_update_input_dev(ts);
-+	if (ret) {
-+		dev_err(dev, "Input device update failed after TH2CFG firmware update\n");
-+		goto err_out;
-+	}
-+
-+	dev_info(dev, "TH2CFG update successful\n");
-+
-+	return FW_UPLOAD_ERR_NONE;
-+
-+err_swreset:
-+	axiom_u02_swreset(ts);
-+err_unlock:
-+	axiom_unlock_input_device(ts);
-+err_out:
-+	return ret == -ETIMEDOUT ? FW_UPLOAD_ERR_TIMEOUT : FW_UPLOAD_ERR_HW_ERROR;
-+}
-+
-+static void axiom_cfg_fw_cancel(struct fw_upload *fw_upload)
-+{
-+	struct axiom_data *ts = fw_upload->dd_handle;
-+	struct axiom_firmware *afw = &ts->fw[AXIOM_FW_CFG];
-+
-+	mutex_lock(&afw->lock);
-+	afw->cancel = true;
-+	mutex_unlock(&afw->lock);
-+}
-+
-+static void axiom_cfg_fw_cleanup(struct fw_upload *fw_upload)
-+{
-+	struct axiom_data *ts = fw_upload->dd_handle;
-+
-+	mutex_unlock(&ts->fwupdate_lock);
-+	pm_runtime_mark_last_busy(ts->dev);
-+	pm_runtime_put_sync_autosuspend(ts->dev);
-+}
-+
-+static const struct fw_upload_ops axiom_cfg_fw_upload_ops = {
-+	.prepare = axiom_cfg_fw_prepare,
-+	.write = axiom_cfg_fw_write,
-+	.poll_complete = axiom_fw_poll_complete,
-+	.cancel = axiom_cfg_fw_cancel,
-+	.cleanup = axiom_cfg_fw_cleanup,
-+};
-+
-+static void axiom_remove_axfw_fwl_action(void *data)
-+{
-+	struct axiom_data *ts = data;
-+
-+	firmware_upload_unregister(ts->fw[AXIOM_FW_AXFW].fwl);
-+}
-+
-+static void axiom_remove_cfg_fwl_action(void *data)
-+{
-+	struct axiom_data *ts = data;
-+
-+	firmware_upload_unregister(ts->fw[AXIOM_FW_CFG].fwl);
-+}
-+
-+static int axiom_register_fwl(struct axiom_data *ts)
-+{
-+	struct device *dev = ts->dev;
-+	struct fw_upload *fwl;
-+	char *fw_name;
-+	int ret;
-+
-+	if (!IS_ENABLED(CONFIG_FW_UPLOAD)) {
-+		dev_dbg(dev, "axfw and th2cfgbin update disabled\n");
-+		return 0;
-+	}
-+
-+	mutex_init(&ts->fw[AXIOM_FW_AXFW].lock);
-+	fw_name = kasprintf(GFP_KERNEL, "i2c:%s.axfw", dev_name(dev));
-+	fwl = firmware_upload_register(THIS_MODULE, ts->dev, fw_name,
-+				       &axiom_axfw_fw_upload_ops, ts);
-+	kfree(fw_name);
-+	if (IS_ERR(fwl))
-+		return dev_err_probe(dev, PTR_ERR(fwl),
-+				     "Failed to register firmware upload\n");
-+
-+	ret = devm_add_action_or_reset(dev, axiom_remove_axfw_fwl_action, ts);
-+	if (ret)
-+		return ret;
-+
-+	ts->fw[AXIOM_FW_AXFW].fwl = fwl;
-+
-+	mutex_init(&ts->fw[AXIOM_FW_CFG].lock);
-+	fw_name = kasprintf(GFP_KERNEL, "i2c:%s.th2cfgbin", dev_name(dev));
-+	fwl = firmware_upload_register(THIS_MODULE, ts->dev, fw_name,
-+				       &axiom_cfg_fw_upload_ops, ts);
-+	kfree(fw_name);
-+	if (IS_ERR(fwl))
-+		return dev_err_probe(dev, PTR_ERR(fwl),
-+				     "Failed to register cfg firmware upload\n");
-+
-+	ret = devm_add_action_or_reset(dev, axiom_remove_cfg_fwl_action, ts);
-+	if (ret)
-+		return ret;
-+
-+	ts->fw[AXIOM_FW_CFG].fwl = fwl;
-+
-+	return 0;
-+}
-+
-+/************************* Device handlig *************************************/
-+
-+#define AXIOM_SIMPLE_FW_DEVICE_ATTR(attr)					\
-+	static ssize_t								\
-+	fw_ ## attr ## _show(struct device *dev,				\
-+			     struct device_attribute *_attr, char *buf)		\
-+	{									\
-+		struct i2c_client *i2c = to_i2c_client(dev);			\
-+		struct axiom_data *ts = i2c_get_clientdata(i2c);		\
-+										\
-+		return sprintf(buf, "%u\n", ts->fw_##attr);			\
-+	}									\
-+	static DEVICE_ATTR_RO(fw_##attr)
-+
-+AXIOM_SIMPLE_FW_DEVICE_ATTR(major);
-+AXIOM_SIMPLE_FW_DEVICE_ATTR(minor);
-+AXIOM_SIMPLE_FW_DEVICE_ATTR(rc);
-+
-+static ssize_t fw_status_show(struct device *dev,
-+			      struct device_attribute *attr, char *buf)
-+{
-+	struct i2c_client *i2c = to_i2c_client(dev);
-+	struct axiom_data *ts = i2c_get_clientdata(i2c);
-+	const char *val;
-+
-+	if (ts->fw_status)
-+		val = "production";
-+	else
-+		val = "engineering";
-+
-+	return sprintf(buf, "%s\n", val);
-+}
-+static DEVICE_ATTR_RO(fw_status);
-+
-+static ssize_t fw_variant_show(struct device *dev,
-+			       struct device_attribute *attr, char *buf)
-+{
-+	struct i2c_client *i2c = to_i2c_client(dev);
-+	struct axiom_data *ts = i2c_get_clientdata(i2c);
-+	const char *val;
-+
-+	switch (ts->fw_variant) {
-+	case 0:
-+		val = "3d";
-+		break;
-+	case 1:
-+		val = "2d";
-+		break;
-+	case 3:
-+		val = "force";
-+		break;
-+	default:
-+		val = "unknown";
-+		break;
-+	}
-+
-+	return sprintf(buf, "%s\n", val);
-+}
-+static DEVICE_ATTR_RO(fw_variant);
-+
-+static ssize_t device_id_show(struct device *dev,
-+			      struct device_attribute *attr, char *buf)
-+{
-+	struct i2c_client *i2c = to_i2c_client(dev);
-+	struct axiom_data *ts = i2c_get_clientdata(i2c);
-+
-+	return sprintf(buf, "%u\n", ts->device_id);
-+}
-+static DEVICE_ATTR_RO(device_id);
-+
-+static ssize_t device_state_show(struct device *dev,
-+				 struct device_attribute *attr, char *buf)
-+{
-+	struct i2c_client *i2c = to_i2c_client(dev);
-+	struct axiom_data *ts = i2c_get_clientdata(i2c);
-+
-+	return sprintf(buf, "%s\n", axiom_runmode_to_string(ts));
-+}
-+static DEVICE_ATTR_RO(device_state);
-+
-+static struct attribute *axiom_attrs[] = {
-+	&dev_attr_fw_major.attr,
-+	&dev_attr_fw_minor.attr,
-+	&dev_attr_fw_rc.attr,
-+	&dev_attr_fw_status.attr,
-+	&dev_attr_fw_variant.attr,
-+	&dev_attr_device_id.attr,
-+	&dev_attr_device_state.attr,
-+	NULL
-+};
-+ATTRIBUTE_GROUPS(axiom);
-+
-+static void axiom_poll(struct input_dev *input)
-+{
-+	struct axiom_data *ts = input_get_drvdata(input);
-+
-+	axiom_process_report(ts, AXIOM_U34, NULL, 0);
-+}
-+
-+static irqreturn_t axiom_irq(int irq, void *dev_id)
-+{
-+	struct axiom_data *ts = dev_id;
-+
-+	axiom_process_report(ts, AXIOM_U34, NULL, 0);
-+
-+	return IRQ_HANDLED;
-+}
-+
-+static int axiom_input_open(struct input_dev *dev)
-+{
-+	struct axiom_data *ts = input_get_drvdata(dev);
-+
-+	return pm_runtime_resume_and_get(ts->dev);
-+}
-+
-+static void axiom_input_close(struct input_dev *dev)
-+{
-+	struct axiom_data *ts = input_get_drvdata(dev);
-+
-+	pm_runtime_mark_last_busy(ts->dev);
-+	pm_runtime_put_sync_autosuspend(ts->dev);
-+}
-+
-+static int axiom_register_input_dev(struct axiom_data *ts,
-+				    bool update_in_process)
-+{
-+	struct device *dev = ts->dev;
-+	struct i2c_client *client = to_i2c_client(dev);
-+	struct input_dev *input;
-+	int ret;
-+
-+	input = input_allocate_device();
-+	if (!input) {
-+		dev_err(dev, "Failed to allocate input driver data\n");
-+		return -ENOMEM;
-+	}
-+
-+	input->dev.parent = dev;
-+	input->name = "TouchNetix aXiom Touchscreen";
-+	input->id.bustype = BUS_I2C;
-+	input->id.vendor = ts->jedec_id;
-+	input->id.product = ts->device_id;
-+	input->id.version = ts->silicon_rev;
-+
-+	/* Either follow the panel or the open user count, not both */
-+	if (!ts->is_panel_follower) {
-+		input->open = axiom_input_open;
-+		input->close = axiom_input_close;
-+	}
-+
-+	axiom_u64_cds_enabled(ts);
-+	input_set_abs_params(input, ABS_MT_POSITION_X, 0, AXIOM_MAX_XY - 1, 0, 0);
-+	input_set_abs_params(input, ABS_MT_POSITION_Y, 0, AXIOM_MAX_XY - 1, 0, 0);
-+	input_set_abs_params(input, ABS_MT_DISTANCE, 0, 127, 0, 0);
-+	if (ts->cds_enabled)
-+		input_set_abs_params(input, ABS_MT_PRESSURE, 0, 127, 0, 0);
-+
-+	touchscreen_parse_properties(input, true, &ts->prop);
-+
-+	axiom_u42_get_touchslots(ts);
-+	if (!ts->num_slots && update_in_process) {
-+		input_free_device(input);
-+		/*
-+		 * Skip input device registration but don't throw an error to
-+		 * not abort the update since some FW updates require a
-+		 * following CFG update to re-initialize the touchslot handling.
-+		 */
-+		if (update_in_process) {
-+			dev_info(dev, "No touchslots found after FW or CFG update, skip registering input device\n");
-+			return 0;
-+		}
-+
-+		dev_err(dev, "Error firmware has no touchslots enabled\n");
-+		return -EINVAL;
-+	}
-+
-+	ret = input_mt_init_slots(input, ts->num_slots, INPUT_MT_DIRECT);
-+	if (ret) {
-+		input_free_device(input);
-+		dev_err(dev, "Failed to init mt slots\n");
-+		return ret;
-+	}
-+
-+	/*
-+	 * Ensure that the IRQ setup is done only once since the handler belong
-+	 * to the i2c-dev whereas the input-poller belong to the input-dev. The
-+	 * input-dev can get unregistered during a firmware update to reflect
-+	 * the new firmware state. Therefore the input-poller setup must be done
-+	 * always.
-+	 */
-+	if (!ts->irq_setup_done && client->irq) {
-+		ret = devm_request_threaded_irq(dev, client->irq, NULL, axiom_irq,
-+						IRQF_ONESHOT, dev_name(dev), ts);
-+		if (ret) {
-+			dev_err(dev, "Failed to request IRQ\n");
-+			return ret;
-+		}
-+		ts->irq_setup_done = true;
-+	} else {
-+		ret = input_setup_polling(input, axiom_poll);
-+		if (ret) {
-+			input_free_device(input);
-+			dev_err(dev, "Setup polling mode failed\n");
-+			return ret;
-+		}
-+
-+		input_set_poll_interval(input, ts->poll_interval);
-+	}
-+
-+	input_set_drvdata(input, ts);
-+	ts->input = input;
-+
-+	ret = input_register_device(input);
-+	if (ret) {
-+		input_free_device(input);
-+		ts->input = NULL;
-+		dev_err(dev, "Failed to register input device\n");
-+	};
-+
-+	return ret;
-+}
-+
-+static int axiom_update_input_dev(struct axiom_data *ts)
-+{
-+	axiom_unregister_input_dev(ts);
-+
-+	return axiom_register_input_dev(ts, true);
-+}
-+
-+static int axiom_parse_firmware(struct axiom_data *ts)
-+{
-+	struct device *dev = ts->dev;
-+	struct gpio_desc *gpio;
-+	int ret;
-+
-+	ts->supplies[0].supply = "vddi";
-+	ts->supplies[1].supply = "vdda";
-+	ts->num_supplies = ARRAY_SIZE(ts->supplies);
-+
-+	ret = devm_regulator_bulk_get(dev, ts->num_supplies, ts->supplies);
-+	if (ret)
-+		return dev_err_probe(dev, ret,
-+				     "Failed to get power supplies\n");
-+
-+	gpio = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_HIGH);
-+	if (IS_ERR(gpio))
-+		return dev_err_probe(dev, PTR_ERR(gpio),
-+				     "Failed to get reset GPIO\n");
-+	ts->reset_gpio = gpio;
-+
-+	ts->poll_interval = AXIOM_DEFAULT_POLL_INTERVAL_MS;
-+	device_property_read_u32(dev, "poll-interval", &ts->poll_interval);
-+
-+	return 0;
-+}
-+
-+static int axiom_power_device(struct axiom_data *ts, unsigned int enable)
-+{
-+	struct device *dev = ts->dev;
-+	int ret;
-+
-+	if (!enable) {
-+		regulator_bulk_disable(ts->num_supplies, ts->supplies);
-+		return 0;
-+	}
-+
-+	ret = regulator_bulk_enable(ts->num_supplies, ts->supplies);
-+	if (ret) {
-+		dev_err(dev, "Failed to enable power supplies\n");
-+		return ret;
-+	}
-+
-+	gpiod_set_value_cansleep(ts->reset_gpio, 1);
-+	fsleep(2000);
-+	gpiod_set_value_cansleep(ts->reset_gpio, 0);
-+
-+	fsleep(AXIOM_STARTUP_TIME_MS);
-+
-+	return 0;
-+}
-+
-+static int axiom_panel_prepared(struct drm_panel_follower *follower)
-+{
-+	struct axiom_data *ts = container_of(follower, struct axiom_data,
-+					     panel_follower);
-+
-+	return pm_runtime_resume_and_get(ts->dev);
-+}
-+
-+static int axiom_panel_unpreparing(struct drm_panel_follower *follower)
-+{
-+	struct axiom_data *ts = container_of(follower, struct axiom_data,
-+					     panel_follower);
-+
-+	return pm_runtime_put_sync_suspend(ts->dev);
-+}
-+
-+static const struct drm_panel_follower_funcs axiom_panel_follower_funcs = {
-+	.panel_prepared = axiom_panel_prepared,
-+	.panel_unpreparing = axiom_panel_unpreparing,
-+};
-+
-+static int axiom_register_panel_follower(struct axiom_data *ts)
-+{
-+	struct device *dev = ts->dev;
-+
-+	if (!drm_is_panel_follower(dev))
-+		return 0;
-+
-+	if (device_can_wakeup(dev)) {
-+		dev_warn(dev, "Can't follow panel if marked as wakup device\n");
-+		return 0;
-+	}
-+
-+	ts->panel_follower.funcs = &axiom_panel_follower_funcs;
-+	ts->is_panel_follower = true;
-+
-+	return devm_drm_panel_add_follower(dev, &ts->panel_follower);
-+}
-+
-+static int axiom_i2c_probe(struct i2c_client *client)
-+{
-+	struct device *dev = &client->dev;
-+	struct axiom_data *ts;
-+	int ret;
-+
-+	ts = devm_kzalloc(dev, sizeof(*ts), GFP_KERNEL);
-+	if (!ts)
-+		return dev_err_probe(dev, -ENOMEM,
-+				     "Failed to allocate driver data\n");
-+
-+	ts->regmap = devm_regmap_init_i2c(client, &axiom_i2c_regmap_config);
-+	if (IS_ERR(ts->regmap))
-+		return dev_err_probe(dev, PTR_ERR(ts->regmap),
-+				     "Failed to initialize regmap\n");
-+
-+	i2c_set_clientdata(client, ts);
-+	ts->dev = dev;
-+
-+	init_completion(&ts->boot_complete.completion);
-+	init_completion(&ts->nvm_write.completion);
-+	mutex_init(&ts->fwupdate_lock);
-+
-+	ret = axiom_register_fwl(ts);
-+	if (ret)
-+		return ret;
-+
-+	ret = axiom_parse_firmware(ts);
-+	if (ret)
-+		return ret;
-+
-+	ret = axiom_power_device(ts, 1);
-+	if (ret)
-+		return dev_err_probe(dev, ret, "Failed to power-on device\n");
-+
-+	pm_runtime_set_autosuspend_delay(dev, 10 * MSEC_PER_SEC);
-+	pm_runtime_use_autosuspend(dev);
-+	pm_runtime_set_active(dev);
-+	pm_runtime_get_noresume(dev);
-+	ret = devm_pm_runtime_enable(dev);
-+	if (ret)
-+		return dev_err_probe(dev, ret, "Failed to enable pm-runtime\n");
-+
-+	ret = axiom_register_panel_follower(ts);
-+	if (ret)
-+		return dev_err_probe(dev, ret, "Failed to register panel follower\n");
-+
-+	ret = axiom_u31_device_discover(ts);
-+	/*
-+	 * Register the device to allow FW updates in case that the current FW
-+	 * doesn't support the required driver usages or if the device is in
-+	 * bootloader mode.
-+	 */
-+	if (ret && ret == -EACCES && IS_ENABLED(CONFIG_FW_UPLOAD)) {
-+		dev_warn(dev, "Device discovery failed, wait for user fw update\n");
-+		pm_runtime_mark_last_busy(dev);
-+		pm_runtime_put_sync_autosuspend(dev);
-+		return 0;
-+	} else if (ret) {
-+		pm_runtime_put_sync(dev);
-+		return dev_err_probe(dev, ret, "Device discovery failed\n");
-+	}
-+
-+	ret = axiom_register_input_dev(ts, false);
-+	pm_runtime_mark_last_busy(dev);
-+	pm_runtime_put_sync_autosuspend(dev);
-+	if (ret && IS_ENABLED(CONFIG_FW_UPLOAD))
-+		dev_warn(dev, "Failed to register the input device, wait for user fw update\n");
-+	else if (ret)
-+		return dev_err_probe(dev, ret, "Failed to register input device\n");
-+
-+	return 0;
-+}
-+
-+static void axiom_i2c_remove(struct i2c_client *client)
-+{
-+	struct axiom_data *ts = i2c_get_clientdata(client);
-+
-+	axiom_unregister_input_dev(ts);
-+}
-+
-+static int axiom_runtime_suspend(struct device *dev)
-+{
-+	struct axiom_data *ts = dev_get_drvdata(dev);
-+	struct i2c_client *client = to_i2c_client(dev);
-+
-+	if (client->irq && ts->irq_setup_done)
-+		disable_irq(client->irq);
-+
-+	return axiom_power_device(ts, 0);
-+}
-+
-+static int axiom_runtime_resume(struct device *dev)
-+{
-+	struct axiom_data *ts = dev_get_drvdata(dev);
-+	struct i2c_client *client = to_i2c_client(dev);
-+	int ret;
-+
-+	ret = axiom_power_device(ts, 1);
-+	if (ret)
-+		return ret;
-+
-+	if (client->irq && ts->irq_setup_done)
-+		enable_irq(client->irq);
-+
-+	return 0;
-+}
-+
-+static DEFINE_RUNTIME_DEV_PM_OPS(axiom_pm_ops, axiom_runtime_suspend,
-+				 axiom_runtime_resume, NULL);
-+
-+static const struct i2c_device_id axiom_i2c_id_table[] = {
-+	{ "ax54a" },
-+	{ },
-+};
-+MODULE_DEVICE_TABLE(i2c, axiom_i2c_id_table);
-+
-+static const struct of_device_id axiom_of_match[] = {
-+	{ .compatible = "touchnetix,ax54a", },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(of, axiom_of_match);
-+
-+static struct i2c_driver axiom_i2c_driver = {
-+	.driver = {
-+		   .name = KBUILD_MODNAME,
-+		   .dev_groups = axiom_groups,
-+		   .pm = pm_ptr(&axiom_pm_ops),
-+		   .of_match_table = axiom_of_match,
-+	},
-+	.id_table = axiom_i2c_id_table,
-+	.probe = axiom_i2c_probe,
-+	.remove = axiom_i2c_remove,
-+};
-+module_i2c_driver(axiom_i2c_driver);
-+
-+MODULE_DESCRIPTION("TouchNetix aXiom touchscreen I2C bus driver");
-+MODULE_LICENSE("GPL");
-
--- 
-2.39.5
-
++ * The refactored equation for each sensor is:
++ * final_weight =3D compensated_weight - (compensated_weight / 1089)
++ * where
++ * compensated_weight =3D sensor_weight - ( temp_diff * sensor_weight / 14=
+29)
++ * and
++ * temp_diff =3D board_temp - ref_temp
+=C2=A0 */
+=C2=A0
+=C2=A0static void wiimod_bboard_in_keys(struct wiimote_data *wdata, const _=
+_u8 *keys)
+@@ -1316,7 +1338,7 @@ static void wiimod_bboard_in_keys(struct wiimote_data=
+ *wdata, const __u8 *keys)
+=C2=A0static void wiimod_bboard_in_ext(struct wiimote_data *wdata,
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 const __u8 *ext)
+=C2=A0{
+-=C2=A0=C2=A0=C2=A0 __s32 val[4], tmp, div;
++=C2=A0=C2=A0=C2=A0 __s32 val[4], tmp, div, temp_diff, temp_corr, scale_cor=
+r;
+=C2=A0=C2=A0=C2=A0=C2=A0 unsigned int i;
+=C2=A0=C2=A0=C2=A0=C2=A0 struct wiimote_state *s =3D &wdata->state;
+=C2=A0
+@@ -1337,10 +1359,24 @@ static void wiimod_bboard_in_ext(struct wiimote_dat=
+a *wdata,
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 *=C2=A0=C2=A0=C2=A0 7=C2=A0=C2=A0 |=C2=A0 Bo=
+ttom Left <15:8>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 *=C2=A0=C2=A0=C2=A0 8=C2=A0=C2=A0 |=C2=A0 Bo=
+ttom Left=C2=A0 <7:0>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 *=C2=A0=C2=A0 -----+------------------------=
+--+
++=C2=A0=C2=A0=C2=A0=C2=A0 *=C2=A0=C2=A0=C2=A0 9=C2=A0=C2=A0 |=C2=A0 Tempera=
+ture=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 |
++=C2=A0=C2=A0=C2=A0=C2=A0 *=C2=A0=C2=A0 -----+--------------------------+
++=C2=A0=C2=A0=C2=A0=C2=A0 *=C2=A0=C2=A0 10=C2=A0=C2=A0 |=C2=A0 NOT USED=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 |
++=C2=A0=C2=A0=C2=A0=C2=A0 *=C2=A0=C2=A0 -----+--------------------------+
++=C2=A0=C2=A0=C2=A0=C2=A0 *=C2=A0=C2=A0 11=C2=A0=C2=A0 |=C2=A0 Battery=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 |
++=C2=A0=C2=A0=C2=A0=C2=A0 *=C2=A0=C2=A0 -----+--------------------------+
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 *
+-=C2=A0=C2=A0=C2=A0=C2=A0 * These values represent the weight-measurements =
+of the Wii-balance
++=C2=A0=C2=A0=C2=A0=C2=A0 * The first 8 bytes represent the weight-measurem=
+ents of the Wii-balance
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * board with 16bit precision.
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 *
++=C2=A0=C2=A0=C2=A0=C2=A0 * Temperature values less than the calibration re=
+ference temperature
++=C2=A0=C2=A0=C2=A0=C2=A0 * indicate that that sensors are stiffer and cons=
+equently produce lower
++=C2=A0=C2=A0=C2=A0=C2=A0 * readings.
++=C2=A0=C2=A0=C2=A0=C2=A0 *
++=C2=A0=C2=A0=C2=A0=C2=A0 * A battery level =E2=89=A5 0x82 is 4 bars, less =
+than 0x82 and =E2=89=A5 0x7D is 3 bars,
++=C2=A0=C2=A0=C2=A0=C2=A0 * less than 0x7D and =E2=89=A5 0x78 is 2 bars, le=
+ss than 0x78 and =E2=89=A5 0x6A is 1
++=C2=A0=C2=A0=C2=A0=C2=A0 * bar, and otherwise is considered empty.
++=C2=A0=C2=A0=C2=A0=C2=A0 *=20
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * The balance-board is never reported interl=
+eaved with motionp.
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
+=C2=A0
+@@ -1360,23 +1396,52 @@ static void wiimod_bboard_in_ext(struct wiimote_dat=
+a *wdata,
+=C2=A0=C2=A0=C2=A0=C2=A0 val[3] <<=3D 8;
+=C2=A0=C2=A0=C2=A0=C2=A0 val[3] |=3D ext[7];
+=C2=A0
++=C2=A0=C2=A0=C2=A0 temp_diff =3D ext[8] - s->calib_bboard_temp;
++
+=C2=A0=C2=A0=C2=A0=C2=A0 /* apply calibration data */
+=C2=A0=C2=A0=C2=A0=C2=A0 for (i =3D 0; i < 4; i++) {
+-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (val[i] <=3D s->calib_bboard=
+[i][0]) {
+-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 tmp =3D=
+ 0;
+-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 } else if (val[i] < s->calib_bb=
+oard[i][1]) {
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /*
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * Interpolate using 0 and=
+ 17kg datum points when sensor values are
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * less than their 17kg ca=
+libration points.
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (val[i] < s->calib_bboard[i]=
+[1]) {
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 tm=
+p =3D val[i] - s->calib_bboard[i][0];
+-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 tmp *=
+=3D 1700;
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* Divi=
+sor used for interpolation */
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 di=
+v =3D s->calib_bboard[i][1] - s->calib_bboard[i][0];
+-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 tmp /=
+=3D div ? div : 1;
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /*
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * Interpolate using 17 an=
+d 34kg datum points when sensor values are
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * equal to or greater tha=
+n their 17kg calibration points.
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 } else {
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 tm=
+p =3D val[i] - s->calib_bboard[i][1];
+-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 tmp *=
+=3D 1700;
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 di=
+v =3D s->calib_bboard[i][2] - s->calib_bboard[i][1];
+-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 tmp /=
+=3D div ? div : 1;
+-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 tmp +=
+=3D 1700;
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* Add =
+17kg, the delta between 0 and 17kg datum points. */
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 tmp +=
+=3D s->calib_bboard[i][1] - s->calib_bboard[i][0];
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 val[i] =3D tmp;
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /*
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * 1,700 is the factor for=
+ interpolating between calibration points,
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * which are 17kg apart, t=
+o achieve 0.01kg steps. This multiplication
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * also helps to mitigate =
+the effect of rounding errors introduced in
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * subsequent division cal=
+culations.
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 tmp *=3D 1700;
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /*
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * Apply temperature compe=
+nsation of approximately -0.98% for every
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * 14 units of temperature=
+, likely degrees C, above that at which
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * board calibration was d=
+one.
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 temp_corr =3D tmp * temp_diff;
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 temp_corr =3D DIV_ROUND_CLOSEST=
+(temp_corr, 1429);
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 tmp -=3D temp_corr;
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /*
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * Nintendo's Wii Fit is s=
+aid to make this correction. Maybe it is an
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * adjustment for the spec=
+ific gravitational acceleration at their
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * calibration facility to=
+ normalise results to Standard Gravity.
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * Subtract approximately =
+0.092%.
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 scale_corr =3D DIV_ROUND_CLOSEST(tmp, 1089);
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 tmp -=3D scale_corr;
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* finally divide by the delta =
+between applicable calibration points*/
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 val [i] =3D DIV_ROUND_CLOSEST(t=
+mp, div ? div : 1);
+=C2=A0=C2=A0=C2=A0=C2=A0 }
+=C2=A0
+=C2=A0=C2=A0=C2=A0=C2=A0 input_report_abs(wdata->extension.input, ABS_HAT0X=
+, val[0]);
+@@ -1464,11 +1529,43 @@ static ssize_t wiimod_bboard_calib_show(struct devi=
+ce *dev,
+=C2=A0
+=C2=A0static DEVICE_ATTR(bboard_calib, S_IRUGO, wiimod_bboard_calib_show, N=
+ULL);
+=C2=A0
++static ssize_t wiimod_bboard_ref_temp_show(struct device *dev,
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct device_attribute *attr,
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 char *out)
++{
++=C2=A0=C2=A0=C2=A0 struct wiimote_data *wdata =3D dev_to_wii(dev);
++=C2=A0=C2=A0=C2=A0 int ret;
++=C2=A0=C2=A0=C2=A0 __u8 ref_temp;
++
++=C2=A0=C2=A0=C2=A0 ret =3D wiimote_cmd_acquire(wdata);
++=C2=A0=C2=A0=C2=A0 if (ret)
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return ret;
++
++=C2=A0=C2=A0=C2=A0 ret =3D wiimote_cmd_read(wdata, 0xa40060, &ref_temp, 1)=
+;
++=C2=A0=C2=A0=C2=A0 if (ret !=3D 1) {
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 wiimote_cmd_release(wdata);
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return ret < 0 ? ret : -EIO;
++=C2=A0=C2=A0=C2=A0 }
++
++=C2=A0=C2=A0=C2=A0 wiimote_cmd_release(wdata);
++
++=C2=A0=C2=A0=C2=A0 spin_lock_irq(&wdata->state.lock);
++=C2=A0=C2=A0=C2=A0 wdata->state.calib_bboard_temp =3D ref_temp;
++=C2=A0=C2=A0=C2=A0 spin_unlock_irq(&wdata->state.lock);
++
++=C2=A0=C2=A0=C2=A0 ret =3D 0;
++=C2=A0=C2=A0=C2=A0 ret +=3D sprintf(&out[ret], "%02x\n", ref_temp);
++
++=C2=A0=C2=A0=C2=A0 return ret;
++}
++
++static DEVICE_ATTR(bboard_ref_temp, S_IRUGO, wiimod_bboard_ref_temp_show, =
+NULL);
++
+=C2=A0static int wiimod_bboard_probe(const struct wiimod_ops *ops,
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct wiimote_data *wdata)
+=C2=A0{
+=C2=A0=C2=A0=C2=A0=C2=A0 int ret, i, j;
+-=C2=A0=C2=A0=C2=A0 __u8 buf[24], offs;
++=C2=A0=C2=A0=C2=A0 __u8 buf[24], offs, ref_temp;
+=C2=A0
+=C2=A0=C2=A0=C2=A0=C2=A0 wiimote_cmd_acquire_noint(wdata);
+=C2=A0
+@@ -1482,6 +1579,11 @@ static int wiimod_bboard_probe(const struct wiimod_o=
+ps *ops,
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 wiimote_cmd_release(wdata)=
+;
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return ret < 0 ? ret : -EI=
+O;
+=C2=A0=C2=A0=C2=A0=C2=A0 }
++=C2=A0=C2=A0=C2=A0 ret =3D wiimote_cmd_read(wdata, 0xa40060, &ref_temp, 1)=
+;
++=C2=A0=C2=A0=C2=A0 if (ret !=3D 1) {
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 wiimote_cmd_release(wdata);
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return ret < 0 ? ret : -EIO;
++=C2=A0=C2=A0=C2=A0 }
+=C2=A0
+=C2=A0=C2=A0=C2=A0=C2=A0 wiimote_cmd_release(wdata);
+=C2=A0
+@@ -1494,6 +1596,7 @@ static int wiimod_bboard_probe(const struct wiimod_op=
+s *ops,
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 of=
+fs +=3D 2;
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+=C2=A0=C2=A0=C2=A0=C2=A0 }
++=C2=A0=C2=A0=C2=A0 wdata->state.calib_bboard_temp =3D ref_temp;
+=C2=A0
+=C2=A0=C2=A0=C2=A0=C2=A0 wdata->extension.input =3D input_allocate_device()=
+;
+=C2=A0=C2=A0=C2=A0=C2=A0 if (!wdata->extension.input)
+@@ -1506,6 +1609,13 @@ static int wiimod_bboard_probe(const struct wiimod_o=
+ps *ops,
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 goto err_free;
+=C2=A0=C2=A0=C2=A0=C2=A0 }
+=C2=A0
++=C2=A0=C2=A0=C2=A0 ret =3D device_create_file(&wdata->hdev->dev,
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 &dev_attr_bboard_ref_temp);
++=C2=A0=C2=A0=C2=A0 if (ret) {
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 hid_err(wdata->hdev, "cannot cr=
+eate sysfs attribute\n");
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 goto err_free;
++=C2=A0=C2=A0=C2=A0 }
++
+=C2=A0=C2=A0=C2=A0=C2=A0 input_set_drvdata(wdata->extension.input, wdata);
+=C2=A0=C2=A0=C2=A0=C2=A0 wdata->extension.input->open =3D wiimod_bboard_ope=
+n;
+=C2=A0=C2=A0=C2=A0=C2=A0 wdata->extension.input->close =3D wiimod_bboard_cl=
+ose;
+@@ -1542,6 +1652,8 @@ static int wiimod_bboard_probe(const struct wiimod_op=
+s *ops,
+=C2=A0err_file:
+=C2=A0=C2=A0=C2=A0=C2=A0 device_remove_file(&wdata->hdev->dev,
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 &dev_attr_bboard_calib);
++=C2=A0=C2=A0=C2=A0 device_remove_file(&wdata->hdev->dev,
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 &dev_attr_bboard_ref_temp);
+=C2=A0err_free:
+=C2=A0=C2=A0=C2=A0=C2=A0 input_free_device(wdata->extension.input);
+=C2=A0=C2=A0=C2=A0=C2=A0 wdata->extension.input =3D NULL;
+@@ -1558,10 +1670,12 @@ static void wiimod_bboard_remove(const struct wiimo=
+d_ops *ops,
+=C2=A0=C2=A0=C2=A0=C2=A0 wdata->extension.input =3D NULL;
+=C2=A0=C2=A0=C2=A0=C2=A0 device_remove_file(&wdata->hdev->dev,
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 &dev_attr_bboard_calib);
++=C2=A0=C2=A0=C2=A0 device_remove_file(&wdata->hdev->dev,
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 &dev_attr_bboard_ref_temp);
+=C2=A0}
+=C2=A0
+=C2=A0static const struct wiimod_ops wiimod_bboard =3D {
+-=C2=A0=C2=A0=C2=A0 .flags =3D WIIMOD_FLAG_EXT8,
++=C2=A0=C2=A0=C2=A0 .flags =3D WIIMOD_FLAG_EXT16,
+=C2=A0=C2=A0=C2=A0=C2=A0 .arg =3D 0,
+=C2=A0=C2=A0=C2=A0=C2=A0 .probe =3D wiimod_bboard_probe,
+=C2=A0=C2=A0=C2=A0=C2=A0 .remove =3D wiimod_bboard_remove,
+diff --git a/drivers/hid/hid-wiimote.h b/drivers/hid/hid-wiimote.h
+index 9c12f63f6dd2..fd31797b4b06 100644
+--- a/drivers/hid/hid-wiimote.h
++++ b/drivers/hid/hid-wiimote.h
+@@ -136,6 +136,7 @@ struct wiimote_state {
+=C2=A0
+=C2=A0=C2=A0=C2=A0=C2=A0 /* calibration/cache data */
+=C2=A0=C2=A0=C2=A0=C2=A0 __u16 calib_bboard[4][3];
++=C2=A0=C2=A0=C2=A0 __u8 calib_bboard_temp;
+=C2=A0=C2=A0=C2=A0=C2=A0 __s16 calib_pro_sticks[4];
+=C2=A0=C2=A0=C2=A0=C2=A0 __u8 pressure_drums[7];
+=C2=A0=C2=A0=C2=A0=C2=A0 __u8 cache_rumble;
 
