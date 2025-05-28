@@ -1,41 +1,42 @@
-Return-Path: <linux-input+bounces-12632-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12633-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A28EAC73AB
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id DED4DAC73AC
 	for <lists+linux-input@lfdr.de>; Thu, 29 May 2025 00:10:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 062EB9E6650
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 699E83AE9E2
 	for <lists+linux-input@lfdr.de>; Wed, 28 May 2025 22:09:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 31B2F1E98E3;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4121E21D5B4;
 	Wed, 28 May 2025 22:08:50 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
 Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E85FF1DE89B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E87292135AD
 	for <linux-input@vger.kernel.org>; Wed, 28 May 2025 22:08:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748470130; cv=none; b=g9hWf9HQgUJSkq7kDIWNJtrRzuiZrXIC5jAy8II6LqI3VuVp4eyzJO+HUC1+UNiGCjctjq1XYZ3Ga1NMGllE9jUypbJr7LABdXOSiP6sNX2OI3MNJ/2m4GtMcd6ia+T0vQpeCUUiydqlMLsHAyJPCaLXnnXP6y5y/MIVna69Pu4=
+	t=1748470130; cv=none; b=qNgiYVUFX6FXmJR5cWpsox7Ny1DSfNqaxfK7r8ujEF6y/tTBkL+o/xR4ckWUV9yVIP12wEjZPzRQJUW3own1XlJLDPBd3pXC5IZsGqFoYvNnZeNt95UcxVw5BUZpHPM5PpE7ulXgHu1X4OYpEui9gIpGkwFX3VkN0VDkQAUZuCI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1748470130; c=relaxed/simple;
-	bh=FTrdQ3hMx7DZNBFQbA81Ry3nFSdnYhAy4VPAaZM23gI=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=iGZ62Ep7f6IzYDNZ704qhKSkfm2FvqiY/7ZeWCx90KURNuf3b7KmCgRt1NnnaDTBk/ckbYJMFaFGqQVNQkA+iC5DJIR+QbYMW/ozhIRvLMKic5zELuGm+5OPDG8w3gIW1YraenMuOr+VyEs5LYBbeaxfMjtobgyc0aUM1ivk4E8=
+	bh=LIMOGkVYqdW3z+lX1Yvnz2undmvCIMwYs/KxwSs3uRM=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=um6oA8evR7cX+nEukROnlNiCdu8QYt7ycUNT5LSTZDYg7bOUxoAEB6uUGtJyvLe0VwFeJqbDIPpy0Q5+NhHiXRENJB2Uvk3kTH7HToeXCq/9b5QvCbCfADDy77xONlV2TYoE39vDVofk7nUZB9MguYkAQIX2h/gC8YtAPzC4tJ8=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
 Received: from dude02.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::28])
 	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
 	(envelope-from <m.felsch@pengutronix.de>)
-	id 1uKOx2-0003CA-ND; Thu, 29 May 2025 00:08:44 +0200
+	id 1uKOx2-0003CA-PP; Thu, 29 May 2025 00:08:44 +0200
 From: Marco Felsch <m.felsch@pengutronix.de>
-Subject: [PATCH v2 0/4] Input: Add support for TouchNetix aXiom touchscreen
-Date: Thu, 29 May 2025 00:08:41 +0200
-Message-Id: <20250529-v6-10-topic-touchscreen-axiom-v2-0-a5edb105a600@pengutronix.de>
+Date: Thu, 29 May 2025 00:08:42 +0200
+Subject: [PATCH v2 1/4] firmware_loader: expand firmware error codes with
+ skip error
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -44,11 +45,9 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAGmJN2gC/4WNSw6DMAxEr4K8rqs44ttV71GxoMEFL5qgJERUi
- Ls35QLdjPRmpDc7BPbCAW7FDp6TBHE2g74UYObBTowyZgatdKkaVWKqkRRGt4jJuZo5GM9scdj
- EvfNUNTVxS4oIsmPx/JLt9D/6zLOE6PznvEv0a08zEXV/zIlQYU267HT17Bpq7wvbaY3eWdmuI
- 0N/HMcXEpcHmc8AAAA=
-X-Change-ID: 20240704-v6-10-topic-touchscreen-axiom-105761e81011
+Message-Id: <20250529-v6-10-topic-touchscreen-axiom-v2-1-a5edb105a600@pengutronix.de>
+References: <20250529-v6-10-topic-touchscreen-axiom-v2-0-a5edb105a600@pengutronix.de>
+In-Reply-To: <20250529-v6-10-topic-touchscreen-axiom-v2-0-a5edb105a600@pengutronix.de>
 To: Luis Chamberlain <mcgrof@kernel.org>, 
  Russ Weight <russ.weight@linux.dev>, 
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
@@ -68,73 +67,65 @@ X-SA-Exim-Mail-From: m.felsch@pengutronix.de
 X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
 X-PTX-Original-Recipient: linux-input@vger.kernel.org
 
-Hi,
+Add FW_UPLOAD_ERR_SKIP to allow drivers to inform the firmware_loader
+framework that the update is not required. This can be the case if the
+user provided firmware matches the current running firmware.
 
-this adds the support for the TouchNetix aXiom touchcontroller family.
+Sync lib/test_firmware.c file accordingly.
 
-The following features are added:
- - I2C communication
- - Input event handling
- - Touchcontroller firmware (AXFW or ALC) updates
- - Touchcontroller config (TH2CFGBIN) updates
-
-Regards,
-  Marco
-
+Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
 ---
-Changes in v2:
-- Link to v1: https://lore.kernel.org/r/20241119-v6-10-topic-touchscreen-axiom-v1-0-6124925b9718@pengutronix.de
-- Rework the firmware-duplicate handling -> expose the error to the
-  userspace
-- Drop Krzysztof Kozlowski ACK and RB
-- Add panel-follower support
-- Add sysfs-driver-input-touchnetix-axiom documentation
-- Add support for new firmware 4.8.9
-- Add support to handle 2D and 3D firmware
+ drivers/base/firmware_loader/sysfs_upload.c | 1 +
+ include/linux/firmware.h                    | 2 ++
+ lib/test_firmware.c                         | 1 +
+ 3 files changed, 4 insertions(+)
 
-To: Luis Chamberlain <mcgrof@kernel.org>
-To: Russ Weight <russ.weight@linux.dev>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Rafael J. Wysocki <rafael@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>
-To: Rob Herring <robh@kernel.org>
-To: Krzysztof Kozlowski <krzk+dt@kernel.org>
-To: Conor Dooley <conor+dt@kernel.org>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Kamel Bouhara <kamel.bouhara@bootlin.com>
-To: Marco Felsch <kernel@pengutronix.de>
-To: Henrik Rydberg <rydberg@bitmath.org>
-To: Danilo Krummrich <dakr@redhat.com>
-Cc: linux-kernel@vger.kernel.org
-Cc: devicetree@vger.kernel.org
-Cc: linux-input@vger.kernel.org
-Cc: kernel@pengutronix.de
+diff --git a/drivers/base/firmware_loader/sysfs_upload.c b/drivers/base/firmware_loader/sysfs_upload.c
+index 829270067d1632f92656859fb9143e3fa9635670..0a583a1b3f4fde563257566426d523fbf839b13f 100644
+--- a/drivers/base/firmware_loader/sysfs_upload.c
++++ b/drivers/base/firmware_loader/sysfs_upload.c
+@@ -28,6 +28,7 @@ static const char * const fw_upload_err_str[] = {
+ 	[FW_UPLOAD_ERR_RW_ERROR]     = "read-write-error",
+ 	[FW_UPLOAD_ERR_WEAROUT]	     = "flash-wearout",
+ 	[FW_UPLOAD_ERR_FW_INVALID]   = "firmware-invalid",
++	[FW_UPLOAD_ERR_DUPLICATE]    = "firmware-duplicate",
+ };
+ 
+ static const char *fw_upload_progress(struct device *dev,
+diff --git a/include/linux/firmware.h b/include/linux/firmware.h
+index aae1b85ffc10e20e9c3c9b6009d26b83efd8cb24..fe7797be4c08cd62cdad9617b8f70095d5e0af2f 100644
+--- a/include/linux/firmware.h
++++ b/include/linux/firmware.h
+@@ -29,6 +29,7 @@ struct firmware {
+  * @FW_UPLOAD_ERR_RW_ERROR: read or write to HW failed, see kernel log
+  * @FW_UPLOAD_ERR_WEAROUT: FLASH device is approaching wear-out, wait & retry
+  * @FW_UPLOAD_ERR_FW_INVALID: invalid firmware file
++ * @FW_UPLOAD_ERR_DUPLICATE: firmware is already up to date (duplicate)
+  * @FW_UPLOAD_ERR_MAX: Maximum error code marker
+  */
+ enum fw_upload_err {
+@@ -41,6 +42,7 @@ enum fw_upload_err {
+ 	FW_UPLOAD_ERR_RW_ERROR,
+ 	FW_UPLOAD_ERR_WEAROUT,
+ 	FW_UPLOAD_ERR_FW_INVALID,
++	FW_UPLOAD_ERR_DUPLICATE,
+ 	FW_UPLOAD_ERR_MAX
+ };
+ 
+diff --git a/lib/test_firmware.c b/lib/test_firmware.c
+index 211222e63328f970228920f5662ee80cc7f51215..603c3a4b385c849944a695849a1894693234b5eb 100644
+--- a/lib/test_firmware.c
++++ b/lib/test_firmware.c
+@@ -1133,6 +1133,7 @@ static const char * const fw_upload_err_str[] = {
+ 	[FW_UPLOAD_ERR_RW_ERROR]     = "read-write-error",
+ 	[FW_UPLOAD_ERR_WEAROUT]	     = "flash-wearout",
+ 	[FW_UPLOAD_ERR_FW_INVALID]   = "firmware-invalid",
++	[FW_UPLOAD_ERR_DUPLICATE]    = "firmware-duplicate",
+ };
+ 
+ static void upload_err_inject_error(struct test_firmware_upload *tst,
 
----
-Kamel Bouhara (2):
-      dt-bindings: vendor-prefixes: Add TouchNetix AS
-      dt-bindings: input: Add TouchNetix axiom touchscreen
-
-Marco Felsch (2):
-      firmware_loader: expand firmware error codes with skip error
-      Input: Add TouchNetix aXiom I2C Touchscreen support
-
- .../testing/sysfs-driver-input-touchnetix-axiom    |   74 +
- .../input/touchscreen/touchnetix,ax54a.yaml        |   64 +
- .../devicetree/bindings/vendor-prefixes.yaml       |    2 +
- drivers/base/firmware_loader/sysfs_upload.c        |    1 +
- drivers/input/touchscreen/Kconfig                  |   15 +
- drivers/input/touchscreen/Makefile                 |    1 +
- drivers/input/touchscreen/touchnetix_axiom.c       | 2974 ++++++++++++++++++++
- include/linux/firmware.h                           |    2 +
- lib/test_firmware.c                                |    1 +
- 9 files changed, 3134 insertions(+)
----
-base-commit: 38fec10eb60d687e30c8c6b5420d86e8149f7557
-change-id: 20240704-v6-10-topic-touchscreen-axiom-105761e81011
-
-Best regards,
 -- 
-Marco Felsch <m.felsch@pengutronix.de>
+2.39.5
 
 
