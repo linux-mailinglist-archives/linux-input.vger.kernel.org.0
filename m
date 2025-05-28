@@ -1,48 +1,65 @@
-Return-Path: <linux-input+bounces-12614-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12615-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id A505EAC61A8
-	for <lists+linux-input@lfdr.de>; Wed, 28 May 2025 08:10:22 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 98DA5AC6381
+	for <lists+linux-input@lfdr.de>; Wed, 28 May 2025 09:58:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2B9E57B0FBC
-	for <lists+linux-input@lfdr.de>; Wed, 28 May 2025 06:09:04 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 740164E05AF
+	for <lists+linux-input@lfdr.de>; Wed, 28 May 2025 07:58:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9DD8D20FAAB;
-	Wed, 28 May 2025 06:10:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4401424635E;
+	Wed, 28 May 2025 07:58:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tHvZ74tM"
+	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="MZY20TUS"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C1D9A31;
-	Wed, 28 May 2025 06:10:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63D5A1DE4F1;
+	Wed, 28 May 2025 07:58:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.132.182.106
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748412614; cv=none; b=qlAHIzzOYZRwnpbTIeGoJ6at989dcsbmhGZ8cAUZ9jM0MSZt1bYZcp6FW6kuzljsNAUscg4t8cChrg9KyDZviHgYceMikM3rJ+sRSJSqQ8e6T1g88SFReALutCVWG0QqPaW2sHhmnn13OIGDur0C722TfLdecjtTa/jLyJByrAg=
+	t=1748419124; cv=none; b=eAGNdVBBJ99ZfY//uBd7bklEHNmhRxq0pvkpua1MHRmSwXHGix/ukOdQ5FiLhtykyiCqMzg81syxwHddyFVcwTPAMuHyr65TQjzJzFOxKj2u16j3vffH3OerBr1ok6w+RgmvHM6RB1KSWUTTtLsugykkOwE6H6m/x7288eG8x9g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748412614; c=relaxed/simple;
-	bh=vQLNG7Sx3hoBCGbAUukPObHvWe8q5ijzd5Fnn//0Q2U=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=t/QMnLIS/DxDMc4xzWUyDipcUJ5SUsu1bN9NqPUu98BL71ateoOe16nmcePd3+3GLW1MNczU1UxJ3aOZludQNnNQa7Ewz3H2uZUT3xk6GBRjEf+9M1NzyEhvp/Fw1aiZ25leMTeV+0b6P4su81ll79ucLn9J3ARQj9VtM4J6siQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tHvZ74tM; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1DBF7C4CEE7;
-	Wed, 28 May 2025 06:10:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1748412613;
-	bh=vQLNG7Sx3hoBCGbAUukPObHvWe8q5ijzd5Fnn//0Q2U=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=tHvZ74tMMAz1OE7L2QijmSeJn3FhwaKQLAHiz0zDu2/kz3eLbdoGOeUbx0VeT9UvT
-	 BmXp5FdCVLZsXwf0MGAbjMy7oID4ofibFezvIYoD95hAoBDLZ++miJSX8u0FU4Ovfp
-	 cTr2IHKzdMeZbZdtyqrLFfE/Y73r/gAEvgLnY09WHIVcaz82eOS3hILyz5IbQBbOLA
-	 qh4KrEqjLdhbeyrv3qXN8C1cJQfL1PcUoYGBreJSkFR+nhn7Tr1z9co8T34CEfmkAw
-	 EVZrTBDJKRFYjs5TakbBMFDG/cWl/A0z8D64c/kIQ2QEO4GoR7o6ybjjoaiCQwp5es
-	 iErf0PW7fDrew==
-Message-ID: <174517ff-f7a5-4dd1-b358-94af15245e37@kernel.org>
-Date: Wed, 28 May 2025 08:10:08 +0200
+	s=arc-20240116; t=1748419124; c=relaxed/simple;
+	bh=GwAIH0J4QxodC4TBbWXZN0g8BBoWbus+4IO1ifLIQZ4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=XEuXVlqt30kJX25hTbl4CGrKlgJfOeG3l9KTiILgvwf7/vOBwh0yoh2wtEvQpBR91g3TnXgSIgu5TuK/MjBEsoxvA3C3Q/68h71kjFxLRPKkfm+7GrXuidy2LDX9oTCU9dhlV1spjvSBiz5XKd9uo+vsNIc1kPyeD7xe6idfDX4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=MZY20TUS; arc=none smtp.client-ip=185.132.182.106
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
+Received: from pps.filterd (m0288072.ppops.net [127.0.0.1])
+	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54S5K2Zc023650;
+	Wed, 28 May 2025 09:58:20 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=selector1; bh=
+	zs/m0sTwjcc/cPY4fbpGq8K8yrAOAzwWnhRtkFcb4oA=; b=MZY20TUSWorsKXkH
+	iZj2sXs6x5m2C5ADe4PIn1Ww24WqZxmm5Y0Nq3c+oiIck/cUZFB0vYxUbNYoWoPJ
+	yA0aQQ9f/469vaJMc2ScDZV4sNyfRF9faM8D9bqX5d6dVQLeVroAq3nNfLdIl3yz
+	QdFNDPs99aNgY95rsUYhltqttb88A147ZFAEoGPMCW0vz9XHg0G9bvZu+GZDxyLQ
+	xHugAG5+4JAtbTW3JrfktXlgc3LbzcscjNU+ZGj2wxwoAixkC3CyhYy2RtFApu3V
+	EbtGzyxVyKVqvD1LdjJmI0OLhiw4ul+xFt9cMWl6GZ4ocrrVToGUoGG7236MNtbT
+	3X3rTQ==
+Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
+	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 46u3hk84u6-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 28 May 2025 09:58:20 +0200 (MEST)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 1A40240046;
+	Wed, 28 May 2025 09:57:03 +0200 (CEST)
+Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
+	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 9B9E5B27A38;
+	Wed, 28 May 2025 09:55:46 +0200 (CEST)
+Received: from [10.48.87.141] (10.48.87.141) by SHFDAG1NODE1.st.com
+ (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 28 May
+ 2025 09:55:46 +0200
+Message-ID: <bd6c5a45-f6ee-4cdc-99fe-6af22e30015b@foss.st.com>
+Date: Wed, 28 May 2025 09:55:38 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -50,95 +67,91 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 6/6] MAINTAINERS: add an entry for pf1550 mfd driver
-To: samuel.kayode@savoirfairelinux.com, Lee Jones <lee@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Dmitry Torokhov
- <dmitry.torokhov@gmail.com>, Sebastian Reichel <sre@kernel.org>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-input@vger.kernel.org, linux-pm@vger.kernel.org, eballetbo@gmail.com,
- abelvesa@linux.com, b38343@freescale.com, yibin.gong@nxp.com,
- Abel Vesa <abelvesa@kernel.org>
-References: <20250527-pf1550-v3-0-45f69453cd51@savoirfairelinux.com>
- <20250527-pf1550-v3-6-45f69453cd51@savoirfairelinux.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+Subject: Re: [PATCH] Input: gpio-keys - fix a sleep while atomic with
+ PREEMPT_RT
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+CC: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Clark Williams
+	<clrkwllms@kernel.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Paul Cercueil
+	<paul@crapouillou.net>, <linux-input@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-rt-devel@lists.linux.dev>,
+        Fabrice
+ Gasnier <fabrice.gasnier@foss.st.com>
+References: <20250526-gpio_keys_preempt_rt-v1-1-09ddadf8e19d@foss.st.com>
+ <20250526141321.FcXEgnV4@linutronix.de>
+ <661af124-3072-4dcf-b613-ec3e48549626@foss.st.com>
+ <20250527144159.Dcstk83c@linutronix.de>
 Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20250527-pf1550-v3-6-45f69453cd51@savoirfairelinux.com>
-Content-Type: text/plain; charset=UTF-8
+From: Gatien CHEVALLIER <gatien.chevallier@foss.st.com>
+In-Reply-To: <20250527144159.Dcstk83c@linutronix.de>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SHFCAS1NODE1.st.com (10.75.129.72) To SHFDAG1NODE1.st.com
+ (10.75.129.69)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-28_04,2025-05-27_01,2025-03-28_01
 
-On 28/05/2025 00:25, Samuel Kayode via B4 Relay wrote:
-> From: Samuel Kayode <samuel.kayode@savoirfairelinux.com>
+Hello Sebastian,
+
+On 5/27/25 16:41, Sebastian Andrzej Siewior wrote:
+> On 2025-05-27 15:36:37 [+0200], Gatien CHEVALLIER wrote:
+>> Hello Sebastian,
+> Hello Gatien,
 > 
-> Add MAINTAINERS entry for pf1550 PMIC.
+>> Can you elaborate on "This flag change makes not difference on
+>> !PREEMPT_RT" please? IIUC,this makes the callback not run in hard IRQ
+>> context, even in !PREEMPT_RT, no?
 > 
-> Signed-off-by: Samuel Kayode <samuel.kayode@savoirfairelinux.com>
-> ---
->  MAINTAINERS | 10 ++++++++++
->  1 file changed, 10 insertions(+)
+> If you set
+> - HRTIMER_MODE_REL_HARD
+>    then the callback runs in
+>    - hardirq context on !PREEMPT_RT
+>    - hardirq context on PREEMPT_RT.
 > 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 830ef5f9d86487a599236a2392e422f0e424a313..2be65383c3c7b1c1487577d23bff483aa437c4c8 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -17688,6 +17688,16 @@ F:	Documentation/devicetree/bindings/clock/imx*
->  F:	drivers/clk/imx/
->  F:	include/dt-bindings/clock/imx*
->  
-> +NXP PF1550 PMIC MFD DRIVER
+> - HRTIMER_MODE_REL
+>    then the callback runs in
+>    - hardirq context on !PREEMPT_RT
+>    - preemptible softirq on PREEMPT_RT.
+> 
+> - HRTIMER_MODE_REL_SOFT
+>    then the callback runs in
+>    - softirq context on !PREEMPT_RT
+>    - preemptible softirq on PREEMPT_RT.
+> 
+> Therefore if you switch HRTIMER_MODE_REL_HARD -> HRTIMER_MODE_REL then
+> it is a nop on !PREEMPT_RT.
+> 
 
-You call the entry here NXP, so maybe you "nxp" prefixes in the binding
-for compatible, properties and filename?
+Thank you for the details.
 
-This itself is fine.
+>> Regarding the need of the spin_lock: gpio_keys_irq_timer() and
+>> gpio_keys_irq_isr() appear to access the same resources. Can't we
+>> have a concurrent access on it from:
+>> HR timer interrupt // GPIO interrupt?
+> 
+> Yes, it could.
+> 
+>> But looking back at the patch, this situation does not depend on
+>> the HRTIMER_MODE_REL_HARD flag. So maybe it should be addressed
+>> separately.
+> 
+> Yes, please.
+> 
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Ok, I will do that in V2
 
+>> On the other hand, I should use the new
+>> guard(spinlock_irqsave)(&bdata->lock);
+> 
+> Yes, please. The other instance already does so.
+> 
+> Sebastian
+
+Ok
 
 Best regards,
-Krzysztof
+Gatien
 
