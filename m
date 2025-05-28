@@ -1,42 +1,41 @@
-Return-Path: <linux-input+bounces-12633-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12631-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id DED4DAC73AC
-	for <lists+linux-input@lfdr.de>; Thu, 29 May 2025 00:10:03 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4391CAC73AA
+	for <lists+linux-input@lfdr.de>; Thu, 29 May 2025 00:09:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 699E83AE9E2
-	for <lists+linux-input@lfdr.de>; Wed, 28 May 2025 22:09:36 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0E3691671F9
+	for <lists+linux-input@lfdr.de>; Wed, 28 May 2025 22:09:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4121E21D5B4;
-	Wed, 28 May 2025 22:08:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 99E0C211276;
+	Wed, 28 May 2025 22:08:49 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
 Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E87292135AD
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E858A19B3CB
 	for <linux-input@vger.kernel.org>; Wed, 28 May 2025 22:08:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748470130; cv=none; b=qNgiYVUFX6FXmJR5cWpsox7Ny1DSfNqaxfK7r8ujEF6y/tTBkL+o/xR4ckWUV9yVIP12wEjZPzRQJUW3own1XlJLDPBd3pXC5IZsGqFoYvNnZeNt95UcxVw5BUZpHPM5PpE7ulXgHu1X4OYpEui9gIpGkwFX3VkN0VDkQAUZuCI=
+	t=1748470129; cv=none; b=GNobwxe1ShMHrNJrGAS2bEbP6xn3hzQ0gy9OforAzzykrbnvprL6pAsW9sGW+sZ7rWD2U2+C0VF3K2Y0bQNj1ajdyf77UI31miGICe8+6TpJc3PXXikwLh+989bpynqr8TrrNiaIAmk0II+cJwjdCDsvlZxjbKF4OV5yAm6nKdc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748470130; c=relaxed/simple;
-	bh=LIMOGkVYqdW3z+lX1Yvnz2undmvCIMwYs/KxwSs3uRM=;
+	s=arc-20240116; t=1748470129; c=relaxed/simple;
+	bh=98KQ7SIJE9kytA0TzwTcq43i2vpeJXhL2Tmt5P0rpvg=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=um6oA8evR7cX+nEukROnlNiCdu8QYt7ycUNT5LSTZDYg7bOUxoAEB6uUGtJyvLe0VwFeJqbDIPpy0Q5+NhHiXRENJB2Uvk3kTH7HToeXCq/9b5QvCbCfADDy77xONlV2TYoE39vDVofk7nUZB9MguYkAQIX2h/gC8YtAPzC4tJ8=
+	 In-Reply-To:To:Cc; b=F5hXf/AJGHBKvWFkGIq9dEjYGRWyK9AWjAfiK62fp5rp1l5y9zNv9UfRQki48sNhDKjIQb9hWfddbNiywSyfyAtTIqA5mvD+advdVGjoVeHV5ClmFgJEUkAU8Z4Lm6YQyS8if8i6lm2+UzhpwLKbEGNw6u/n09brU63E8gd54Cs=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
 Received: from dude02.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::28])
 	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
 	(envelope-from <m.felsch@pengutronix.de>)
-	id 1uKOx2-0003CA-PP; Thu, 29 May 2025 00:08:44 +0200
+	id 1uKOx2-0003CA-RO; Thu, 29 May 2025 00:08:44 +0200
 From: Marco Felsch <m.felsch@pengutronix.de>
-Date: Thu, 29 May 2025 00:08:42 +0200
-Subject: [PATCH v2 1/4] firmware_loader: expand firmware error codes with
- skip error
+Date: Thu, 29 May 2025 00:08:43 +0200
+Subject: [PATCH v2 2/4] dt-bindings: vendor-prefixes: Add TouchNetix AS
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -45,7 +44,7 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250529-v6-10-topic-touchscreen-axiom-v2-1-a5edb105a600@pengutronix.de>
+Message-Id: <20250529-v6-10-topic-touchscreen-axiom-v2-2-a5edb105a600@pengutronix.de>
 References: <20250529-v6-10-topic-touchscreen-axiom-v2-0-a5edb105a600@pengutronix.de>
 In-Reply-To: <20250529-v6-10-topic-touchscreen-axiom-v2-0-a5edb105a600@pengutronix.de>
 To: Luis Chamberlain <mcgrof@kernel.org>, 
@@ -67,63 +66,29 @@ X-SA-Exim-Mail-From: m.felsch@pengutronix.de
 X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
 X-PTX-Original-Recipient: linux-input@vger.kernel.org
 
-Add FW_UPLOAD_ERR_SKIP to allow drivers to inform the firmware_loader
-framework that the update is not required. This can be the case if the
-user provided firmware matches the current running firmware.
+From: Kamel Bouhara <kamel.bouhara@bootlin.com>
 
-Sync lib/test_firmware.c file accordingly.
+Add vendor prefix for TouchNetix AS (https://www.touchnetix.com/products/).
 
+Signed-off-by: Kamel Bouhara <kamel.bouhara@bootlin.com>
 Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
 ---
- drivers/base/firmware_loader/sysfs_upload.c | 1 +
- include/linux/firmware.h                    | 2 ++
- lib/test_firmware.c                         | 1 +
- 3 files changed, 4 insertions(+)
+ Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/base/firmware_loader/sysfs_upload.c b/drivers/base/firmware_loader/sysfs_upload.c
-index 829270067d1632f92656859fb9143e3fa9635670..0a583a1b3f4fde563257566426d523fbf839b13f 100644
---- a/drivers/base/firmware_loader/sysfs_upload.c
-+++ b/drivers/base/firmware_loader/sysfs_upload.c
-@@ -28,6 +28,7 @@ static const char * const fw_upload_err_str[] = {
- 	[FW_UPLOAD_ERR_RW_ERROR]     = "read-write-error",
- 	[FW_UPLOAD_ERR_WEAROUT]	     = "flash-wearout",
- 	[FW_UPLOAD_ERR_FW_INVALID]   = "firmware-invalid",
-+	[FW_UPLOAD_ERR_DUPLICATE]    = "firmware-duplicate",
- };
- 
- static const char *fw_upload_progress(struct device *dev,
-diff --git a/include/linux/firmware.h b/include/linux/firmware.h
-index aae1b85ffc10e20e9c3c9b6009d26b83efd8cb24..fe7797be4c08cd62cdad9617b8f70095d5e0af2f 100644
---- a/include/linux/firmware.h
-+++ b/include/linux/firmware.h
-@@ -29,6 +29,7 @@ struct firmware {
-  * @FW_UPLOAD_ERR_RW_ERROR: read or write to HW failed, see kernel log
-  * @FW_UPLOAD_ERR_WEAROUT: FLASH device is approaching wear-out, wait & retry
-  * @FW_UPLOAD_ERR_FW_INVALID: invalid firmware file
-+ * @FW_UPLOAD_ERR_DUPLICATE: firmware is already up to date (duplicate)
-  * @FW_UPLOAD_ERR_MAX: Maximum error code marker
-  */
- enum fw_upload_err {
-@@ -41,6 +42,7 @@ enum fw_upload_err {
- 	FW_UPLOAD_ERR_RW_ERROR,
- 	FW_UPLOAD_ERR_WEAROUT,
- 	FW_UPLOAD_ERR_FW_INVALID,
-+	FW_UPLOAD_ERR_DUPLICATE,
- 	FW_UPLOAD_ERR_MAX
- };
- 
-diff --git a/lib/test_firmware.c b/lib/test_firmware.c
-index 211222e63328f970228920f5662ee80cc7f51215..603c3a4b385c849944a695849a1894693234b5eb 100644
---- a/lib/test_firmware.c
-+++ b/lib/test_firmware.c
-@@ -1133,6 +1133,7 @@ static const char * const fw_upload_err_str[] = {
- 	[FW_UPLOAD_ERR_RW_ERROR]     = "read-write-error",
- 	[FW_UPLOAD_ERR_WEAROUT]	     = "flash-wearout",
- 	[FW_UPLOAD_ERR_FW_INVALID]   = "firmware-invalid",
-+	[FW_UPLOAD_ERR_DUPLICATE]    = "firmware-duplicate",
- };
- 
- static void upload_err_inject_error(struct test_firmware_upload *tst,
+diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+index 5079ca6ce1d1e9e2b52312439e4b1d48b262200c..4ce9d6ec85381e5305c56dfbca875ef5499e000c 100644
+--- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
++++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+@@ -1543,6 +1543,8 @@ patternProperties:
+     description: Toradex AG
+   "^toshiba,.*":
+     description: Toshiba Corporation
++  "^touchnetix,.*":
++    description: TouchNetix AS
+   "^toumaz,.*":
+     description: Toumaz
+   "^tpk,.*":
 
 -- 
 2.39.5
