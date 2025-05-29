@@ -1,48 +1,48 @@
-Return-Path: <linux-input+bounces-12644-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12645-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A446AC79D7
-	for <lists+linux-input@lfdr.de>; Thu, 29 May 2025 09:33:27 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 45204AC79DC
+	for <lists+linux-input@lfdr.de>; Thu, 29 May 2025 09:36:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 175D64A3454
-	for <lists+linux-input@lfdr.de>; Thu, 29 May 2025 07:33:28 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1DECC4A35F4
+	for <lists+linux-input@lfdr.de>; Thu, 29 May 2025 07:36:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E857321171D;
-	Thu, 29 May 2025 07:33:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 99435215F4B;
+	Thu, 29 May 2025 07:36:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="t4HJisqU"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="scyunoqq"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B88F6E55B;
-	Thu, 29 May 2025 07:33:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6619C1F473C;
+	Thu, 29 May 2025 07:36:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748504001; cv=none; b=mjoFkr4rLbkBElWVWG3bq1Nj39oU59t+TVoHdApOucgcEp6FG8biWoDRe88QgLkbvHypAJV5gKOAfR3dn8UMQu4Zy7cJtfWD3DAqT+VodosEOd2bcLM67qQlXE928dh8XWIac658JpZXssSTt31Sg/1ByM4LmFppDEHbM5y10dk=
+	t=1748504211; cv=none; b=HYCGNSZhLDyLvK+MS8f3niuWaIsejOb1zCPRzgKymOOky9JepZFMi81S7bHlOXA8NoM3PbrUxyfo2yeiAXY0sWn1tBjtiFRuzJ9nnVxPSImY+cC0n3wkWMjm6rZdaT0J//5mIr8o0kXzLo9pQuKMNopWSkN+Xxc5w8WLomPLH68=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748504001; c=relaxed/simple;
-	bh=7IP5ekTSLSlMe7UZeEBqVxWHnB94sfAN/0wo9YrsFfQ=;
+	s=arc-20240116; t=1748504211; c=relaxed/simple;
+	bh=RaXwXoM/5nPNhp3N37Y2BSh5m+ESrnrv294uVJnG9OQ=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=dVGNsH6iMVP15dmGKQ7M9v0Uo6RP7QJH53/U4UcujxcgcDNxgGWbHvUfCmAQh5iO7r5EBFxKXZYXWnhIeMrYMnVKDrtTblDPoYBjJgoXlr0OW07TfDbW5NY9yA3YnYvSiahgLTmaGYTrJvO8uBxVwZn8QbN0FCU+14JKBTm+sbQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=t4HJisqU; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB5BFC4CEE7;
-	Thu, 29 May 2025 07:33:14 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=CwOPfmxtmX4qUoGd63wma93t81YvvXh1hzVQVJYa0D9Vs5f1eEC5U3/ut7m/0ZaZzlAsi3cPMdyCHblpLF9X64KXAZLIiMSys8QvZUtHjqYKyei0sX1s7FCpCj1ZjA5aQxKyhedj3qb0gnd7Dk1mz5v2qZjGFc/f6kUQD8+Z07A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=scyunoqq; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41181C4CEE7;
+	Thu, 29 May 2025 07:36:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1748503999;
-	bh=7IP5ekTSLSlMe7UZeEBqVxWHnB94sfAN/0wo9YrsFfQ=;
+	s=k20201202; t=1748504210;
+	bh=RaXwXoM/5nPNhp3N37Y2BSh5m+ESrnrv294uVJnG9OQ=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=t4HJisqUERWQWV9h+Amw32OF0pTsmDE96XmcPBxbvVOg/py1QWV9TtR+9BViDHEYp
-	 ByAZ+j5R/Y4E4yUeAbpA/8HdTM6p0mdaOt8G5JZwsgWUM+6kHzl1wBXrQGgcyZuUkh
-	 fPLLVrSLWq7MMuTYsCCmjFGvrRpAKOkA7CoHttSPW4b1vjrcpFLw2N2YWuhLZQrSlq
-	 SHpPNgdJNeCSh3MJRTgSLSn21AMW4lbqroK5HABvrJg9p1s4sbF6kPsVOC75QRIXuw
-	 Wukb7OBXgcBYdwJ2OEhFKPlZE/eaB4rcaaLM7PSK2OAHRjZ8ub4psKcyGqGg6XKgrc
-	 26sm05j0dYaBA==
-Message-ID: <119eba0a-2c81-4232-8b20-acc0a0eea969@kernel.org>
-Date: Thu, 29 May 2025 09:33:13 +0200
+	b=scyunoqqwIWtQPB3ZY+1BRUQyGlxbCrJ2VwNJyqyqT+Wm4xZYm6HQCjX7TVTcE+hz
+	 kGLYi4xmsB6j0OZuh2b0D97gjIRthRBKFoG+nBYkFU+wL9ZkxsvZ9qsMaw97b2a20v
+	 JMtSuxxolBLIksB2aMXR7XpVt1BDuE6RsNFAa1SU/6QR8S7SwAPTqv+hnv88L8zvRX
+	 WKI92oDhT3JP9EA1hsYvZueZmTK6nICeuHZoj+BO9pF65rg9ZkqnBCd7Elw6z3z5Zu
+	 BG4f4SmzLdwuZi/d8ciMf5vvVnQOsVJqF9WNk2WBITMOwbrO7ysRMfluPB4lmNqGL3
+	 gGnhpPVrf/YiA==
+Message-ID: <c4514a7e-d5d5-416e-bc4d-d91476bebb35@kernel.org>
+Date: Thu, 29 May 2025 09:36:45 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -116,43 +116,23 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 29/05/2025 00:08, Marco Felsch wrote:
-> +maintainers:
-> +  - Marco Felsch <kernel@pengutronix.de>
+> +examples:
+> +  - |
+> +    #include <dt-bindings/gpio/gpio.h>
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    i2c {
+> +      #address-cells = <1>;
+> +      #size-cells = <0>;
 > +
-> +allOf:
-> +  - $ref: /schemas/input/touchscreen/touchscreen.yaml#
-> +  - $ref: /schemas/input/input.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    const: touchnetix,ax54a
-> +
-> +  reg:
-> +    enum: [ 0x66, 0x67 ]
+> +      touchscreen@66 {
+> +        compatible = "touchnetix,ax54a";
+> +        reg = <0x66>;
+> +        interrupt-parent = <&gpio2>;
+> +        interrupts = <2 IRQ_TYPE_EDGE_FALLING>;
+> +        reset-gpios = <&gpio1 1 GPIO_ACTIVE_HIGH>;
+I have doubts that it works. It is perfectly possible that you inverted
+the signal, but rather rare, and datasheet clearly says active low.
 
-Isn't this the same address? You just added the write bit.
-
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  reset-gpios:
-> +    maxItems: 1
-> +
-> +  panel: true
-
-So that was the reason of dropping tag?
-https://lore.kernel.org/lkml/821ce1d4-bc15-4764-bbe0-315c57e8536e@linaro.org/
-
-Anyway, drop the property. Redundant.
-
-> +
-> +  vdda-supply:
-> +    description: Analog power supply regulator on VDDA pin
-> +
-> +  vddi-supply:
-> +    description: I/O power supply regulator on VDDI pin
-> +
 Best regards,
 Krzysztof
 
