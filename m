@@ -1,48 +1,48 @@
-Return-Path: <linux-input+bounces-12642-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12643-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA835AC79CA
-	for <lists+linux-input@lfdr.de>; Thu, 29 May 2025 09:29:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 390E5AC79CE
+	for <lists+linux-input@lfdr.de>; Thu, 29 May 2025 09:30:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0E37B7A1E97
-	for <lists+linux-input@lfdr.de>; Thu, 29 May 2025 07:27:57 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7E9577A437B
+	for <lists+linux-input@lfdr.de>; Thu, 29 May 2025 07:29:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 23AE42566E7;
-	Thu, 29 May 2025 07:29:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4685E1C6BE;
+	Thu, 29 May 2025 07:30:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EZdeeY/T"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aGAKPTU8"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFD0AC8EB;
-	Thu, 29 May 2025 07:29:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 168842DCBE6;
+	Thu, 29 May 2025 07:30:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748503748; cv=none; b=Jz8vampKrRYAZlUj3dbfMI6/DDtYy/nrOyEV96nLJ18vsiq+NXwLPx66vWMzWYPMcRFWRSJk7+zbRzl2X9Bm0/gbYjsl+fRpTR/weROn09fHM2SpKNvGalAaEii6YhdBeYYJpRvENR2/KjZsyCpKUovsb8s+TK7Ja+P0ICzBRYk=
+	t=1748503829; cv=none; b=jyIZ+3cQ/HqorYJ88R0Q/9oKQw9LzB2b7sDiVFMBlqxVKjYMJbzzNBif0QY4jo1QWc30mCFddnVOZVK1cWF/iDlebULPSYtke+G1Y63QmKmDVOk1RP3hLcWnwaiOcPYhyIFLZe53hVZLmjp4xD7a8dV9/vV8X/4LlEzHCcO+MWc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748503748; c=relaxed/simple;
-	bh=zY7AevNOFS9TEshuDuOylukI2serkJwHWCarA28tqpA=;
+	s=arc-20240116; t=1748503829; c=relaxed/simple;
+	bh=p7whjSnsR7GT9nqcuJ/0cYJxkycnPEKQ/udbHW9M7OE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qQawkfhY8F/hXy6haxdpcDe5X7GpkjPiF3nv3vQPVjn/GaBTKi4aulpL8zfRCqBlKa/+ATgnHia1bXXb5/ACQIJy8QGDss4aAkPLcWzwwYvDueNMyM/rD+s7fQXVm0JIwQS3q51eqNKC3u1qQ7MROx5xotcdVss4pRznZNNIR8I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EZdeeY/T; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8CB9EC4CEE7;
-	Thu, 29 May 2025 07:29:03 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=pstAfMdPw7zs+1TJDPR40JnFdtRJb6N2ahcRsG+N97Girk7ovCmnmLdSORAa3OF5BwU5IV97I5IB2Z4hnxQlPK7MLHlY8L0K6ArYmjBFT/NhXz6Ea9hEkykn4cYB2eedr0to3ksx4+whs9yoPXqI/Ri2Bhf0A/TyePnenQwl2r8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aGAKPTU8; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D962CC4CEE7;
+	Thu, 29 May 2025 07:30:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1748503747;
-	bh=zY7AevNOFS9TEshuDuOylukI2serkJwHWCarA28tqpA=;
+	s=k20201202; t=1748503828;
+	bh=p7whjSnsR7GT9nqcuJ/0cYJxkycnPEKQ/udbHW9M7OE=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=EZdeeY/T7ziWk0BhI8pAJCexMHBbFo0GAUfPk8v07a1qYG0vh6CWeaB9qPVdsNh6W
-	 2rRd+HruvSNbydcbwxvoy1/+kRvBoIJ7Z6+Qis7vVKisrOjmoS7i9wWKXNOkYSNKAn
-	 /UmLiLCYCWAUBvkHA04kgdG5cbEA2KBKvL962lZzaG0PuCrD9owZVxoCsKszbZyEvY
-	 3WNyPuXg5z40Wlb4lgKC5iNI6AE8vTa9GVPd53QD4ZYRX9aAQMyyS/wI6OzrFi0WRH
-	 gBB0WxRIuyXWu3oQM2UyQa3ay5CvbXQ/XYdbBzkyiByyQnZ/DpNfGYh16gSeNWEzQ4
-	 Qum1PhAcTi+Yw==
-Message-ID: <dc01c5cd-7c6b-424c-902d-9ce6ebd212cb@kernel.org>
-Date: Thu, 29 May 2025 09:29:01 +0200
+	b=aGAKPTU8d7kOVbVDHNECSj7Y26ec9wiUQo+XGKp9qNwtOc97gEvIZMq+vq4drOQO2
+	 ibQpFD/EHyjOwq2xUpjmVPCKnSPEPlaCEBIK8hEF4Z+ovXbgTkmy2yfyD8ppDu4RDh
+	 3WrZmkxt/Rzsgj8uSSXSLqJnfgjICM4FhmlIrvhuroGYyz9KV4oevDKywdHH6oDZeX
+	 IfKkuQZ6qQwlnQ2bdDJdl7c+rpQgA+rpEfMpHY3gxDRkQxW7STDA9zEn9BxqNXVEKJ
+	 pk3JugM6sXibRKWkKVmQkpWNngN5m40qI7YiMZW0pKZhKeK5WibiJhm/89gq6nDC5A
+	 gXkzwCAshqP5Q==
+Message-ID: <1e5bd735-3eb5-40da-9e4d-12aa364e1cb3@kernel.org>
+Date: Thu, 29 May 2025 09:30:23 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -122,9 +122,11 @@ On 29/05/2025 00:08, Marco Felsch wrote:
 > Signed-off-by: Kamel Bouhara <kamel.bouhara@bootlin.com>
 > Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
 > ---
-Last message was: Keep only ack.
+>  Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+>  1 file changed, 2 insertions(+)
+How v16 became v2 is still confusing:
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+https://lore.kernel.org/all/20240703142520.207066-2-kamel.bouhara@bootlin.com/
 
 Best regards,
 Krzysztof
