@@ -1,91 +1,83 @@
-Return-Path: <linux-input+bounces-12669-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12670-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2E2CAC9570
-	for <lists+linux-input@lfdr.de>; Fri, 30 May 2025 20:03:53 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id B0A75AC975A
+	for <lists+linux-input@lfdr.de>; Fri, 30 May 2025 23:53:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A9F4717EA84
-	for <lists+linux-input@lfdr.de>; Fri, 30 May 2025 18:03:54 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A66791C06575
+	for <lists+linux-input@lfdr.de>; Fri, 30 May 2025 21:53:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 14A8F25DD0B;
-	Fri, 30 May 2025 18:03:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3979921CFE0;
+	Fri, 30 May 2025 21:53:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m4tcP8Rm"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BL4HS0Kv"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 334BC194A65;
-	Fri, 30 May 2025 18:03:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA07C8F40
+	for <linux-input@vger.kernel.org>; Fri, 30 May 2025 21:53:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748628228; cv=none; b=iUM0wifWl5mazNjX04jJeIbTI5gMgRELiO4N0bJu517F6kjLwGlla9MDD14HfZQe3QSRYkNFzJTibwEOtYv9TkrMbTExsRVAk0dWKkPkAbsB6PuTBwDDDLqcWNdh7v1RixUL9q4v1TNoMnyYP5u6WZcNDLfUTZzU3Jm1Wva9BXk=
+	t=1748642001; cv=none; b=VMrj0KORDei7WmcCQKOFzoIcUPqAhhbiJ4bI0KxfH+M8aMmtYVaFOLkBTsC86UIQSAinUuIe6AI93qS1ArG6WsBZR1+4Kvo54ILHkQF9Tip7oj9TkLTwQfbw1Ap9XLk+e5wEF2mb1YcGUaFjN+180AfYiX6s0vHY+t1R4vumIXc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748628228; c=relaxed/simple;
-	bh=GsM+4Qr9aj4qagDnoyITSBIuLxhzdohf0nnOponVHEo=;
+	s=arc-20240116; t=1748642001; c=relaxed/simple;
+	bh=UAt8OuvHwkoZeE5JIGsOTX5FtS1+X25KlMx5JXD/DTs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UvRsXG+IZ1bMVOMiNn7S4N2xAjQha0FTYTvQA6qlfkfdAN92KXwu8Nu8LRP5BeOgzfsAzJuiCZrdVTCQyaZ1eSFVIRKwCWrIH8yb3dm5VH0MLOMUGrfizkxFnab02IMryvs7eEPwOV+q2ev/VHh8fSBCBB2xE7clurQJFbJ7Y1E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m4tcP8Rm; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1748628227; x=1780164227;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=GsM+4Qr9aj4qagDnoyITSBIuLxhzdohf0nnOponVHEo=;
-  b=m4tcP8RmUAfrLzzW+O3jkGhOQTLiilpL2yBf08obkFN3O8yclOFc7Yae
-   mOlqrkqIgcUlqVCdKJNBKU8hAwY8uEzvynEY7Ts2EkFCa1lazY0brZINs
-   GQlk5Exo0rskTWRl3v/rTw1MZ+EQXsMi6azptaYUKL15seT5fw/jgmeNk
-   /ziYcm6Wkhrwx5pSEhlJthO4UhL02pFCw7cNMt7NMjNLsxzr08UhzKMW8
-   4wTSJEPGTyQC1CSQPhQWdwmEpq0mtspALwLCtkfs+Obht6GRW2lwsBf1M
-   7aYQXVNZU3rabsXH70iWrGDwwfboB3OBDi/L6+egir/TyXXvHCtQdUjvC
-   Q==;
-X-CSE-ConnectionGUID: yaSt2uR1R0KHshN7Jy0N6Q==
-X-CSE-MsgGUID: LzTh8hKAScqJGvA3p/b+Gg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11449"; a="68278438"
-X-IronPort-AV: E=Sophos;i="6.16,196,1744095600"; 
-   d="scan'208";a="68278438"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2025 11:03:46 -0700
-X-CSE-ConnectionGUID: CFxSeM/fTvK/Gb3vTQnePg==
-X-CSE-MsgGUID: OJkQmo4dQGC92H0g53ilvQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,196,1744095600"; 
-   d="scan'208";a="143922953"
-Received: from smile.fi.intel.com ([10.237.72.52])
-  by fmviesa007.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2025 11:03:41 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1uL44w-000000024lP-4BsB;
-	Fri, 30 May 2025 21:03:39 +0300
-Date: Fri, 30 May 2025 21:03:38 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Kamel Bouhara <kamel.bouhara@bootlin.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
-	Michael Walle <mwalle@kernel.org>, Mark Brown <broonie@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
-	linux-input@vger.kernel.org, linux-pwm@vger.kernel.org,
-	=?iso-8859-1?Q?Gr=E9gory?= Clement <gregory.clement@bootlin.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Subject: Re: [PATCH v10 08/11] gpio: max7360: Add MAX7360 gpio support
-Message-ID: <aDny-kJqiPq-Yyx9@smile.fi.intel.com>
-References: <20250530-mdb-max7360-support-v10-0-ce3b9e60a588@bootlin.com>
- <20250530-mdb-max7360-support-v10-8-ce3b9e60a588@bootlin.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=h0m3+S5Or0ypcTgN6zqOByjClrCCoqsuuRNPV+Zuc1/NEu+dDLtKmqjVQU7s7ZBLOP2wU9T9120F+KwFc6tQq6vS55TFaggO7S9Cr3JoKEawXKrwYSY9gvMfmEPj1m4eEoYbQj9S9J4F8uWkrGM1dgZeWKG5HYY3YgpkNG3DW6o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BL4HS0Kv; arc=none smtp.client-ip=209.85.214.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2349282084bso31777645ad.1
+        for <linux-input@vger.kernel.org>; Fri, 30 May 2025 14:53:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1748641999; x=1749246799; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=bMRXk/yyH6ZosLfzRtYe2ae3sRmHTWgg8bwbC1QYX4E=;
+        b=BL4HS0KvTDqBQq2gJaxvwSdKMKPznsZ0lQQpXltf7/isfUD5qb6j2C+DNrWYVYfPaw
+         1UmtmRXmm9MCHTntZkXO+snozxbGOh9/ilu5XGu4eEKFoVcZJ2kT2Y6z+JmGc+Llsums
+         BiTY3DgxOagwnQ26kH/TIOHrK4tpQLvpYEBoh5XJct9yuKvrxxUQz5MO0Ac6BvdzZ9Dk
+         XVW1/3IqGLGW5CjvLWyKgpXQ+K2YhBIfl5CfY94ZCqJd3EFd9EKGLefmTQ39vxGU22F4
+         xId8f4IctaZsG2aChB8jwJCfGeD7TzVYdTUKQwUvWkImJVqpQPEzDOrmQNVDYBT5K0Lv
+         lf5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1748641999; x=1749246799;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=bMRXk/yyH6ZosLfzRtYe2ae3sRmHTWgg8bwbC1QYX4E=;
+        b=l3Bi2HbGtvLH2ZhMGF2ZCKll9WYUPTugalOGc/nGDdf59TuYlsWksXO4eVxRh16tVn
+         uPuR5N2d+oRAai3VX3AcZhrWS47wj7ZeQJsVuh2O/Dpf8PHHA0EUJ4TqOWit7yHMS86X
+         0RINhxUOZTHEVc9dwI+2SmJMqwKJlYH3crz6ORFVobuFES3TjqCfcC0uRclKO+w+QpFf
+         V+dkhUrS5Lmb4SY4L2Ie48ThD6GEdwz6054Na6NZfVXN2q2OYsTAqz7InfuyjrS24iT5
+         mGG+90TamyIiiF2yOQYLocCizeWFUzTMsmQ2wgjbkngP9OPfMHhUGB8VACAV1pNN0CM7
+         i2Kw==
+X-Gm-Message-State: AOJu0Yyf6cqMgRr8cXOklwZ4L26amWpbA5QxR1keLuj98acveQslUPnP
+	IfhbTayriMDCq8ObLnW+fhGiJxs1G7VVTFzmkfPuVKX/dG1jeId8zgau
+X-Gm-Gg: ASbGncvZTKxNZocF0i1on7yJXUqxJkJMDNIfDoYAvG0wE2BEuPns4Ep/p3p6qFUPMKu
+	5KkEdNBklcMXUHXpLGzuq5SlqChcKkRJDZw2/4B8zVpsc84+l98VKJvlprEXt1eVxjZiXJKDBwy
+	r3IQ5OXicIpG688P7t7xi2fJWBFjLcmFY2s4bAI9Aie2msu0LvZwrWX3DZ+7Vqig/u1z4XnX5kz
+	hQ5Rsh2PglrtCJWV4w+5xaUSANtcQr+UCzaCPCa8JiFFCvlp735vA7qfhZd5sRtIlHnMNcY1tDb
+	rZtbAr0IT0NmI0T1ujMmVl/N7V2bSYSu/TFH3Ww+OvcW543pMwAWl2FiwThdSJM=
+X-Google-Smtp-Source: AGHT+IHMyHBKxdvloteUoL9V8ug7RrNPN0nBBkVpD7xxKZkaS4l7StyowYwcL7mHO67vAiHvT0rMUQ==
+X-Received: by 2002:a17:902:db06:b0:220:c164:6ee1 with SMTP id d9443c01a7336-23529911409mr78265335ad.32.1748641998784;
+        Fri, 30 May 2025 14:53:18 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:24e0:5639:ebc6:8c16])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23506d21802sm32799785ad.215.2025.05.30.14.53.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 30 May 2025 14:53:18 -0700 (PDT)
+Date: Fri, 30 May 2025 14:53:15 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Markus Koch <markus@notsyncing.net>
+Cc: linux-input@vger.kernel.org, kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH] Input: fsia6b: Increase size of phys to hold full name
+Message-ID: <wei2gdgywkub42bfbm7b7koh5ln2d2akz72vxo6vcqbfd53bse@4edazsdbkrha>
+References: <20250329172237.61874-1-markus@notsyncing.net>
+ <1b73dde9-7c26-4b80-a355-64782355b97b@notsyncing.net>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -94,40 +86,36 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250530-mdb-max7360-support-v10-8-ce3b9e60a588@bootlin.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <1b73dde9-7c26-4b80-a355-64782355b97b@notsyncing.net>
 
-On Fri, May 30, 2025 at 12:00:16PM +0200, Mathieu Dubois-Briand wrote:
-> Add driver for Maxim Integrated MAX7360 GPIO/GPO controller.
+Hi Markus,
+
+On Fri, Apr 11, 2025 at 07:38:12PM +0200, Markus Koch wrote:
+> Hi,
 > 
-> Two sets of GPIOs are provided by the device:
-> - Up to 8 GPIOs, shared with the PWM and rotary encoder functionalities.
->   These GPIOs also provide interrupts on input changes.
-> - Up to 6 GPOs, on unused keypad columns pins.
+> I sent a patch 2 weeks ago [1] and haven't heard back yet. The same
+> happened for another patch I submitted at the end of last year [2],
+> where in the meantime the patch of someone else (doing exactly the
+> same) got merged. Therefore I have to ask:
+> 
+> Am I doing something wrong? Is there a preferred way to submit patches
+> for this subsystem that I'm missing (like Gitlab PRs or something)?
+> I'm happy to change my workflow if it helps you.
+> 
 
-LGTM,
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+No, you are not doing anything wrong, the issue is on my side. I have
+quite a bit of backlog and so often go through my mailbox in LIFO
+order. This means that I might sometimes merge a "newer" patch instead
+of picking up the first one.
 
-...
+As far as extending "phys" I indeed do not want to do that because it is
+perfectly fine to have truncated phys (or we can extend it when we
+encounter a device that actually needs it vs doing it just to appease
+the check). I think switching from snprintf() to scnprintf() will shut
+off the warning. Could you please let me know if it does it from you?
 
-> +#include <linux/gpio/driver.h>
-
-Do we still need this header? I mean do we have anything used from it here?
-
-> +#include <linux/gpio/regmap.h>
-> +#include <linux/init.h>
-> +#include <linux/interrupt.h>
-> +#include <linux/mfd/max7360.h>
-> +#include <linux/minmax.h>
-> +#include <linux/mod_devicetable.h>
-> +#include <linux/module.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/property.h>
-> +#include <linux/regmap.h>
+Thanks.
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+Dmitry
 
