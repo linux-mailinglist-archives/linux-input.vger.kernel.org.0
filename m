@@ -1,83 +1,85 @@
-Return-Path: <linux-input+bounces-12670-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12671-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0A75AC975A
-	for <lists+linux-input@lfdr.de>; Fri, 30 May 2025 23:53:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52173AC97C2
+	for <lists+linux-input@lfdr.de>; Sat, 31 May 2025 00:36:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A66791C06575
-	for <lists+linux-input@lfdr.de>; Fri, 30 May 2025 21:53:43 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1A8931C06695
+	for <lists+linux-input@lfdr.de>; Fri, 30 May 2025 22:36:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3979921CFE0;
-	Fri, 30 May 2025 21:53:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 21A9927FB29;
+	Fri, 30 May 2025 22:36:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BL4HS0Kv"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TxnwlAOz"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA07C8F40
-	for <linux-input@vger.kernel.org>; Fri, 30 May 2025 21:53:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1B7713A244;
+	Fri, 30 May 2025 22:36:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748642001; cv=none; b=VMrj0KORDei7WmcCQKOFzoIcUPqAhhbiJ4bI0KxfH+M8aMmtYVaFOLkBTsC86UIQSAinUuIe6AI93qS1ArG6WsBZR1+4Kvo54ILHkQF9Tip7oj9TkLTwQfbw1Ap9XLk+e5wEF2mb1YcGUaFjN+180AfYiX6s0vHY+t1R4vumIXc=
+	t=1748644565; cv=none; b=CGSeOgvcgfj2u6AHMQbez/ixrSvGef7K2X1JtvdrCSebb87/5LpBMnIkb9w2XdpjKmycPPPsUZXDcUyQJMVpR471BrowMPFqv9llASK+uKiOU46KnYjghvLbEQ7gRrwDR6K2zYVaHKWG+duE8LlTbPjfK62mvi4kZ2mzI3p/hdI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748642001; c=relaxed/simple;
-	bh=UAt8OuvHwkoZeE5JIGsOTX5FtS1+X25KlMx5JXD/DTs=;
+	s=arc-20240116; t=1748644565; c=relaxed/simple;
+	bh=9iRrBbKhBcH104PdZNqqsZXGDeAsEnfcOvJpHS8KBng=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=h0m3+S5Or0ypcTgN6zqOByjClrCCoqsuuRNPV+Zuc1/NEu+dDLtKmqjVQU7s7ZBLOP2wU9T9120F+KwFc6tQq6vS55TFaggO7S9Cr3JoKEawXKrwYSY9gvMfmEPj1m4eEoYbQj9S9J4F8uWkrGM1dgZeWKG5HYY3YgpkNG3DW6o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BL4HS0Kv; arc=none smtp.client-ip=209.85.214.177
+	 Content-Type:Content-Disposition:In-Reply-To; b=AFkkrIUiSfwITEc1w2CRR+wjTkhn1CUOG6P+6pTEkyJsjLAZJlZ3xLHh03o7idd9I0KlwxR3DsrMUuodY7mOTshDMuc1sXyP7O6Qb3pEyTJlzGThT1Fw7iHyVbDsshlkiWob4wePfXsa7GYxJX611s78gZ0v/9KkNQWcJb9ZAzc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TxnwlAOz; arc=none smtp.client-ip=209.85.215.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2349282084bso31777645ad.1
-        for <linux-input@vger.kernel.org>; Fri, 30 May 2025 14:53:19 -0700 (PDT)
+Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-b1ff9b276c2so1528100a12.1;
+        Fri, 30 May 2025 15:36:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1748641999; x=1749246799; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1748644563; x=1749249363; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=bMRXk/yyH6ZosLfzRtYe2ae3sRmHTWgg8bwbC1QYX4E=;
-        b=BL4HS0KvTDqBQq2gJaxvwSdKMKPznsZ0lQQpXltf7/isfUD5qb6j2C+DNrWYVYfPaw
-         1UmtmRXmm9MCHTntZkXO+snozxbGOh9/ilu5XGu4eEKFoVcZJ2kT2Y6z+JmGc+Llsums
-         BiTY3DgxOagwnQ26kH/TIOHrK4tpQLvpYEBoh5XJct9yuKvrxxUQz5MO0Ac6BvdzZ9Dk
-         XVW1/3IqGLGW5CjvLWyKgpXQ+K2YhBIfl5CfY94ZCqJd3EFd9EKGLefmTQ39vxGU22F4
-         xId8f4IctaZsG2aChB8jwJCfGeD7TzVYdTUKQwUvWkImJVqpQPEzDOrmQNVDYBT5K0Lv
-         lf5g==
+        bh=Au/WNJA8WqsNFHZ7XLmxt17fic0juTEPdSvf0qBYcM4=;
+        b=TxnwlAOzolHeVHHTMwfflAO7lQwXuLffyZc9AfCFUi+TLYgF8BtGXv7IhT0JvKlzae
+         olwSk1ejT4FDuS3qlAHeZMlJRq9vCwNrYcqOLSWnE9kdZmuTagL0N+6kfoPJrd3/77aV
+         2Jx3zjEsgrPrUgYyjsZR6yanvDvkjeoazI5zgr3CZIJlbjrRnAQZed/xARHXYNnCjx3q
+         Ee2Vmugbf5WWSoHnKAnoENQoByjD/WC+q+di+ybPR+w6uvY/MrWzKm5TCepgQYmK1zpg
+         new7DrBDKC6JVNZMSNwVY4/RH3QaZY2XZMzZIUncvKcnsf3D4lqD0nREIzkp8chlVAvB
+         wm3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748641999; x=1749246799;
+        d=1e100.net; s=20230601; t=1748644563; x=1749249363;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=bMRXk/yyH6ZosLfzRtYe2ae3sRmHTWgg8bwbC1QYX4E=;
-        b=l3Bi2HbGtvLH2ZhMGF2ZCKll9WYUPTugalOGc/nGDdf59TuYlsWksXO4eVxRh16tVn
-         uPuR5N2d+oRAai3VX3AcZhrWS47wj7ZeQJsVuh2O/Dpf8PHHA0EUJ4TqOWit7yHMS86X
-         0RINhxUOZTHEVc9dwI+2SmJMqwKJlYH3crz6ORFVobuFES3TjqCfcC0uRclKO+w+QpFf
-         V+dkhUrS5Lmb4SY4L2Ie48ThD6GEdwz6054Na6NZfVXN2q2OYsTAqz7InfuyjrS24iT5
-         mGG+90TamyIiiF2yOQYLocCizeWFUzTMsmQ2wgjbkngP9OPfMHhUGB8VACAV1pNN0CM7
-         i2Kw==
-X-Gm-Message-State: AOJu0Yyf6cqMgRr8cXOklwZ4L26amWpbA5QxR1keLuj98acveQslUPnP
-	IfhbTayriMDCq8ObLnW+fhGiJxs1G7VVTFzmkfPuVKX/dG1jeId8zgau
-X-Gm-Gg: ASbGncvZTKxNZocF0i1on7yJXUqxJkJMDNIfDoYAvG0wE2BEuPns4Ep/p3p6qFUPMKu
-	5KkEdNBklcMXUHXpLGzuq5SlqChcKkRJDZw2/4B8zVpsc84+l98VKJvlprEXt1eVxjZiXJKDBwy
-	r3IQ5OXicIpG688P7t7xi2fJWBFjLcmFY2s4bAI9Aie2msu0LvZwrWX3DZ+7Vqig/u1z4XnX5kz
-	hQ5Rsh2PglrtCJWV4w+5xaUSANtcQr+UCzaCPCa8JiFFCvlp735vA7qfhZd5sRtIlHnMNcY1tDb
-	rZtbAr0IT0NmI0T1ujMmVl/N7V2bSYSu/TFH3Ww+OvcW543pMwAWl2FiwThdSJM=
-X-Google-Smtp-Source: AGHT+IHMyHBKxdvloteUoL9V8ug7RrNPN0nBBkVpD7xxKZkaS4l7StyowYwcL7mHO67vAiHvT0rMUQ==
-X-Received: by 2002:a17:902:db06:b0:220:c164:6ee1 with SMTP id d9443c01a7336-23529911409mr78265335ad.32.1748641998784;
-        Fri, 30 May 2025 14:53:18 -0700 (PDT)
+        bh=Au/WNJA8WqsNFHZ7XLmxt17fic0juTEPdSvf0qBYcM4=;
+        b=SCu/KtYKUt/b3R098TZVBr/apR4cEuk6lcpmrXevpZSUBO8SKmCU1CNyAyu02EIgJU
+         V2HWKREt8QTFbmLAiOoD8A9G0D8KhuzIphsGcvQuXULYcYXFd02r3YXeFlnS3Na/Ql1s
+         2CGtaqf5XoAiiB/s9GSyLbXvk1n/vNEpXSOGUlo8dne/PTI4eF7HvsGr0faXHVnUNC5p
+         lz5DM1kVgij+5wqD4K/9yLVPzhVDaHiCg5ynKQKXbKWOLxZjujtHn0qLHDw9+Os3Pwwo
+         rbOCxZlElqhJO3fXrGRYC4iI+obihl8p7CrFieWoa76b7ydZqEiZhIpgW++IL/CCvKis
+         KzOA==
+X-Forwarded-Encrypted: i=1; AJvYcCV2+nDTzGXS8zSCgbRG1z5z2AT9HnWKYt3+meVOkA0nhpuovW8NRs2dg8nSrNBpTGJcw5FVrIbJLY+yy8CC@vger.kernel.org, AJvYcCVUzKxcQCJijMv0QSELtWsV/LR5r4ddffIGPxJLqzJASZeirodsR9nFfg2Qa9V9IPdC6dlSJsJGDzo7UQA=@vger.kernel.org, AJvYcCX0HImfws4Lw2OU0HljNMVeQGmmkmtau/d6kevdv6UsmpPqWBzXq5ibedqzUegYHuxaBdZ27GwGrEY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxM+h9XdaXvFDSj2hx+DpU7vVXj8nttv77z+Q0647DJu6L+5T1y
+	21ax+reMbIKnmMRMw+WX8N8oolhhD/YMATPv9kUn5NiT0UGdIg+ix3em
+X-Gm-Gg: ASbGncs9V2eC1Cc8lkWYOR79sCHpY4plYcWR+jNQ55EiuuRSlbd/gVuUaggYqQvNJc1
+	MR6QsCqs1cpoahs8aT67xmGELIkX/AInJGoQyJgWNbS/OMMgN5GPv0hEn2qQvceG6Y3GkZ3z6ZY
+	xSYFLpNzO6QSuPPQSsKJpuCoGfngMJXN/8+EHmgTQjiNBBpnjN8Jq05RJ4m4pE8GaxdCLe9gA58
+	TrOdSSBCAdEnJ6ScXSITYAXexAW2pIXQXfG76gBCgSsrLM9AULOU264mj0u7O3alfPZ99K5EMzH
+	wGFNSNgbbaOW1Jxys9UBouywYurmY1NaWIN0745sKRGxfEjiN945
+X-Google-Smtp-Source: AGHT+IEidlXG4wBqg4jen6ReNQ7Ewx8jMVQ+HaFeguKmpH1BzLDw3dNtYT4QqPsDuy+S7/U1sC1Ong==
+X-Received: by 2002:a17:90b:2e4b:b0:312:1c83:58e9 with SMTP id 98e67ed59e1d1-3127c6a02bemr161026a91.5.1748644562759;
+        Fri, 30 May 2025 15:36:02 -0700 (PDT)
 Received: from google.com ([2620:15c:9d:2:24e0:5639:ebc6:8c16])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23506d21802sm32799785ad.215.2025.05.30.14.53.18
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3124e2f9820sm1699452a91.22.2025.05.30.15.36.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 May 2025 14:53:18 -0700 (PDT)
-Date: Fri, 30 May 2025 14:53:15 -0700
+        Fri, 30 May 2025 15:36:02 -0700 (PDT)
+Date: Fri, 30 May 2025 15:35:59 -0700
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Markus Koch <markus@notsyncing.net>
-Cc: linux-input@vger.kernel.org, kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH] Input: fsia6b: Increase size of phys to hold full name
-Message-ID: <wei2gdgywkub42bfbm7b7koh5ln2d2akz72vxo6vcqbfd53bse@4edazsdbkrha>
-References: <20250329172237.61874-1-markus@notsyncing.net>
- <1b73dde9-7c26-4b80-a355-64782355b97b@notsyncing.net>
+To: George Anthony Vernon <contact@gvernon.com>
+Cc: corbet@lwn.net, skhan@linuxfoundation.org, bagasdotme@gmail.com, 
+	linux-input@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-kernel-mentees@lists.linux.dev
+Subject: Re: [PATCH v2 0/4] Multiple fixes to Amiga joystick documentation
+Message-ID: <w3tcbri2zs5hbctlzrm6oulbjgubitzbv4obr7np3rwmxgrqe5@jriz35clhnre>
+References: <20250526135957.180254-1-contact@gvernon.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -86,35 +88,16 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1b73dde9-7c26-4b80-a355-64782355b97b@notsyncing.net>
+In-Reply-To: <20250526135957.180254-1-contact@gvernon.com>
 
-Hi Markus,
-
-On Fri, Apr 11, 2025 at 07:38:12PM +0200, Markus Koch wrote:
-> Hi,
+On Mon, May 26, 2025 at 02:59:48PM +0100, George Anthony Vernon wrote:
+> Hi, this patch series covers a few fixes & heading imps to the Amiga
+> joystick documentation.
 > 
-> I sent a patch 2 weeks ago [1] and haven't heard back yet. The same
-> happened for another patch I submitted at the end of last year [2],
-> where in the meantime the patch of someone else (doing exactly the
-> same) got merged. Therefore I have to ask:
-> 
-> Am I doing something wrong? Is there a preferred way to submit patches
-> for this subsystem that I'm missing (like Gitlab PRs or something)?
-> I'm happy to change my workflow if it helps you.
-> 
+> I've kept the section adornments changes amid ongoing discussion about
+> it.
 
-No, you are not doing anything wrong, the issue is on my side. I have
-quite a bit of backlog and so often go through my mailbox in LIFO
-order. This means that I might sometimes merge a "newer" patch instead
-of picking up the first one.
-
-As far as extending "phys" I indeed do not want to do that because it is
-perfectly fine to have truncated phys (or we can extend it when we
-encounter a device that actually needs it vs doing it just to appease
-the check). I think switching from snprintf() to scnprintf() will shut
-off the warning. Could you please let me know if it does it from you?
-
-Thanks.
+Applied the lot, thank you.
 
 -- 
 Dmitry
