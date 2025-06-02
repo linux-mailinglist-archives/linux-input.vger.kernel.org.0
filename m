@@ -1,111 +1,180 @@
-Return-Path: <linux-input+bounces-12680-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12681-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id E74A5ACAC5B
-	for <lists+linux-input@lfdr.de>; Mon,  2 Jun 2025 12:20:10 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DF2BACACEA
+	for <lists+linux-input@lfdr.de>; Mon,  2 Jun 2025 13:01:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2B25C189DB7D
-	for <lists+linux-input@lfdr.de>; Mon,  2 Jun 2025 10:20:25 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C7D8A7ACC83
+	for <lists+linux-input@lfdr.de>; Mon,  2 Jun 2025 11:00:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B92891E3DEF;
-	Mon,  2 Jun 2025 10:20:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4944220F066;
+	Mon,  2 Jun 2025 11:01:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="glJd32y7"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="n7bFXCtv"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 053321C32FF
-	for <linux-input@vger.kernel.org>; Mon,  2 Jun 2025 10:20:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74A441A0B08
+	for <linux-input@vger.kernel.org>; Mon,  2 Jun 2025 11:01:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748859605; cv=none; b=Wklzktv/xzVonm62FP4qSLmEvf3pou9hfXn7g9ENbPlegDk1l14TNnD2bdjlYbj8q8u4O8itUm+rHvLRfG+9ubfj6jo8An6Wd8RfqtQQjIF+3OrFxE0Kam8gRaRlWi8HdLxyhOWnD7CwF7sT4gUg+CT+w13Gb50Ro+ntJdgpJW0=
+	t=1748862065; cv=none; b=ORJ846cG9+E7klyx3zNVuCwwwVgUabzN3SdKk37Abp/VYsJVPALpmzEaiCanBX2IKgoIvB2NQKRVxqrEVtKLLnsklKsf7twQreZ5AZHW5e7sq0GyHhPCN4NfZtAQZf0/Ik4OO4nFeAEtJv2DdD286VDmV4Z0Au/3OEmurOhJ+Hk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748859605; c=relaxed/simple;
-	bh=NIlPs+ESOqsvDgZLDklVbzL9Y+PUvN6JpIx6y7pwPq4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=sAeOoOiLnYnkkoL8uHDMH66/hUfvNJyF1SPGjjKbUwY32f2lC/x4ppMxHob1OSasoQ9dFfI6dWSvF5E7Pt0XAWarrfxoeZz0Ya/mSd55gxrY1lkxI+D9NbHipz3oDxZhlruRj3J1rK9pyoc1Mcr3mx36Udd7KKPnY+kdz3MG2ek=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=glJd32y7; arc=none smtp.client-ip=209.85.167.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-5532a30ac45so4269737e87.0
-        for <linux-input@vger.kernel.org>; Mon, 02 Jun 2025 03:20:03 -0700 (PDT)
+	s=arc-20240116; t=1748862065; c=relaxed/simple;
+	bh=hl/euo6Sdu63YjYGLOEeGJpt1NRGT7Z7ek+NVDBVv2I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ulpZm6kD1DWCKk/wJT1HNcQLXN5MKN0EHXFDJ+kV3K8O3RFjLCQxet1tLiYcEWK6Em3pvRD/w+pA3Seuct7mxDGAhLF2PFkXLLg/5WselG7nmUek6tSqG1QF40HbNXTnIhaTDyxxRXH2Re6v3ySgFIogfDnuMZXJKXMq0GqH0+8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=n7bFXCtv; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-43edecbfb46so30392845e9.0
+        for <linux-input@vger.kernel.org>; Mon, 02 Jun 2025 04:01:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1748859602; x=1749464402; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NIlPs+ESOqsvDgZLDklVbzL9Y+PUvN6JpIx6y7pwPq4=;
-        b=glJd32y7JS6LNeMiz8W2iiR+4lp8rqB4HaSkUA9fbw3QA+94EYGJpBuwrGF0CdS8HK
-         C/MXBHUP8tLJVidF521G6My2nYMPEOjOhwXv7JbBAO/JCYBEM/7+0DGdCxLqDYHCAdEt
-         znyJWOGrKkyNnlBk4yksb2+cgm9MeTXuOQtaw8jckEUqTchTb8G7QIPfjVGYXsACyuxu
-         s2bbpXAgLNnkDiObjQu+71KYhRwTybu4qtO4aJ2Qiv3X1371JOjBrrBG+NocR+0aiTy/
-         zm6YQLKx/MTcj9DgXgY4my+rHnUVCiklwHyZuO92sjW2FijdR+IC3nNutUMCrZN1Nerh
-         J3dg==
+        d=linaro.org; s=google; t=1748862059; x=1749466859; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=APwGN0/eqz9/45Et2ppeGaMN2T+hRqNScPGgnQKWid0=;
+        b=n7bFXCtvmn1CN4dqe79OjmIvlzKvZ3QLTQVC8jAtiP2bzHSE1L1mwXIMNhbxQglMGo
+         YPp9WJc3+H7M+kpGPvqv6qcH4+l0whhebiHH6B8COWqfkqbpLcb/3a9+j7sjEePc4sqq
+         oUfL7IkvFv5ua2vgFqHXomBgP1VQ5KWWJPocJhVxVlX/KEVDaEAD0iTKuaokakmkM1S+
+         KFsC/Jebpu9aPPvvrd/OIbtX6HqxdA8fJRzKYt/2Qa9V6OZqITpoH1fRWy+hD1eEiCYu
+         Ps8VA+bK2LsjnLMP43qr1mFSUJs6PwB3mcovprJ8fVA9Os63qoE2xxjqNaXx47+V87DG
+         f9Fg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748859602; x=1749464402;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=NIlPs+ESOqsvDgZLDklVbzL9Y+PUvN6JpIx6y7pwPq4=;
-        b=QhPOKa3ep7GrlrhOdOfYq+2xz+9z0DQlxBpFcWWpDg2EJWXBmlCixpz3jIP2Wjc0+S
-         snm36+BYKi+hcZSHh/PbcBBmAXzimOX2iStanHEPTT3vJwIsxL8jXVFhm6pzRsbHCdjT
-         hf/x+HThWMSgD7+grp/UaWd0eWE3BQ3XwuMXRm8srR3Ibc/hKVJBKn/qv8o2m1fR3MvM
-         mQwdiFWJwswXOcX0jp2/QEw+s3mFjQSDEBAYi8gdaMOWELwi3YDsf82ZzUkgfA18jeiW
-         ulfAHTsjYgHqBdzSJ5HehO4KY32XJiAQh/usr8/g/FusSqqz4Oc7gFWBh1itg/+DmMeC
-         T+SA==
-X-Forwarded-Encrypted: i=1; AJvYcCUQSAjCT9cyYO0LxK/NSj0rDWY1RdWNnbhSzK9ERAkl/p9OzmDRf4hOv1orakZ4ZcpI6sfIVzzi9qTzng==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx4CDg7hjP8E0rDhfdgAD0Uc2Q0abNE7fId9DVtdgItSrIIfM56
-	WIknkt29eA4TjBwniq6IP516TfGsyCZGEWSHZQBh55HeBUbAjtkhC77tDfgTXuxRmcoxtg1VP7J
-	VGsLDVSx4JB7wCW62nRXl22UB78WC2BHpfzox86JGsA==
-X-Gm-Gg: ASbGncvLDMhliC+aq0C14j/4l7Gy2y/WABz7wuejfgwdcvt92/PvKc0T4xdmmpkTfBA
-	CA9bhkQZM8enG0/RW6HoR48NDKjio5K7jo39MG2Q0u2VdPKeIQzmlQQieqszTjq2ASkiBKcvVMu
-	z5/O3sFQrnXUzM1sSlEo+1INfwbb/1pqVHZazWqeXBLHM0txntNOvcn/zkHpDvQFbz
-X-Google-Smtp-Source: AGHT+IGAtxy6GkCqOPbxv+uZc6VGUawOyddEURdLOtYulQAX/H29kqSWQGJzmIVuwy/b0vz39hl6HX77etZ58j+aC2U=
-X-Received: by 2002:a05:6512:15a7:b0:553:278e:e64b with SMTP id
- 2adb3069b0e04-55335b0aa20mr4535065e87.6.1748859602083; Mon, 02 Jun 2025
- 03:20:02 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1748862059; x=1749466859;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=APwGN0/eqz9/45Et2ppeGaMN2T+hRqNScPGgnQKWid0=;
+        b=gxS7b6SslsffnO+1F5+Yi2O9VloI1lgcXTdPPashlPfIamztjiD0SxMaspMqNUkP18
+         uluShU8Kay7r45B6cM2rqB2zSjXcKmjok8OyWadnrAcQidqqfMbqNxqXQZoptaB6gyEx
+         jlXunCvQbqbI4ZLQ5nNPLEkKdG6LsjnhzvFmB96CF4eWPYy4rNDfFBsN+0oKXkTF+pEL
+         94gkvJyZZhRV7idXPhPhgv2wDyqm6yUWM2z6xIbaeaZBJDrwYObF6XWzMV9YJtAOtfxz
+         fEjIxD4kAiXRqlf1GNfdIrYbRBI2B+GKpsXOXxa1Tas4AD2hFHCv4dn+ENd46oM1g/eb
+         cDEw==
+X-Forwarded-Encrypted: i=1; AJvYcCVAoq6ZyN3nqhGJ1M007sL0eQYkUcxPf+JOU4L5cody9ZPX/0jJWHhn3oHIeSBZEubcIalfKrRnnpzPtQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw2BRRJRBwGELCzkldXpntbD7iiTYv/eZ8S/VHk3xtEC5+6nQvv
+	EFkZv84pgMx7pxXgEWb0n7ABcK10rJzw3DsSUPGoTxoB+FTROaSqgKvMCnwnAEBrV20=
+X-Gm-Gg: ASbGncvX8wgCPzG6kAlw5iSoxHb9spGXpD7BafmWB0/XUFtfUkYqvkofFn6d41hnR27
+	Ys3J5P6kYHKXwYKg0ni/GacQugyORrXE72hyU0x83IyrGyLNYMF+UVergiGMPB5w1DdRuMl8+hD
+	46yeJdLiLNMHX3ZrWgd830MLvJUY2KdidayKGMH/dWIV1Kj7UHNRZarJ8JybpdG+mfbQKqjjX/r
+	CYYEvcDPf6PmG3lXFu/JPIjqWxnUUmRJ1zy+7VALPDwIIaaFsGKacoh8vFRRbfdBz6dxfJW9s8v
+	m/t+TMQl7A8FwWGio9GG31n0TZgja8aOgVqJViIbNb7DlIp+TuyHPa0=
+X-Google-Smtp-Source: AGHT+IFvqSbq/mxIH2p1mh4XibQErn6t9isHaT2vMWAsPAcME6qqAGy+0iLzr3WNRcfVG5XZiGtRHw==
+X-Received: by 2002:a05:600c:4e44:b0:441:b3eb:570a with SMTP id 5b1f17b1804b1-450d882b3c3mr109348255e9.2.1748862058518;
+        Mon, 02 Jun 2025 04:00:58 -0700 (PDT)
+Received: from localhost ([41.210.143.146])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-450d7facf9dsm115376275e9.17.2025.06.02.04.00.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Jun 2025 04:00:58 -0700 (PDT)
+Date: Mon, 2 Jun 2025 14:00:53 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Kees Cook <kees@kernel.org>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Javier Carrasco <javier.carrasco.cruz@gmail.com>,
+	David Lechner <dlechner@baylibre.com>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Al Viro <viro@zeniv.linux.org.uk>,
+	Erick Archer <erick.archer@outlook.com>,
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/3] Input: ims-pcu - Check record size in
+ ims_pcu_flash_firmware()
+Message-ID: <aD2EZRX8CVuvqjsN@stanley.mountain>
+References: <cover.1748463049.git.dan.carpenter@linaro.org>
+ <131fd1ae92c828ee9f4fa2de03d8c210ae1f3524.1748463049.git.dan.carpenter@linaro.org>
+ <202505281611.A024D45E@keescook>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250530-mdb-max7360-support-v10-0-ce3b9e60a588@bootlin.com> <20250530-mdb-max7360-support-v10-6-ce3b9e60a588@bootlin.com>
-In-Reply-To: <20250530-mdb-max7360-support-v10-6-ce3b9e60a588@bootlin.com>
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Mon, 2 Jun 2025 12:19:51 +0200
-X-Gm-Features: AX0GCFugojk72c7cm4zkMsB7ZrEhUkwTFOc5dkzcwC-isnDlIuPSAwn4kkDrnwU
-Message-ID: <CAMRc=MfRZQE3dn38oS5Yteb19HbEhmfwyc+oDvDeP_fMg+ZpTQ@mail.gmail.com>
-Subject: Re: [PATCH v10 06/11] gpio: regmap: Allow to allocate regmap-irq device
-To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Kamel Bouhara <kamel.bouhara@bootlin.com>, Linus Walleij <linus.walleij@linaro.org>, 
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>, =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <ukleinek@kernel.org>, 
-	Michael Walle <mwalle@kernel.org>, Mark Brown <broonie@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, linux-input@vger.kernel.org, 
-	linux-pwm@vger.kernel.org, andriy.shevchenko@intel.com, 
-	=?UTF-8?Q?Gr=C3=A9gory_Clement?= <gregory.clement@bootlin.com>, 
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202505281611.A024D45E@keescook>
 
-On Fri, May 30, 2025 at 12:00=E2=80=AFPM Mathieu Dubois-Briand
-<mathieu.dubois-briand@bootlin.com> wrote:
->
-> GPIO controller often have support for IRQ: allow to easily allocate
-> both gpio-regmap and regmap-irq in one operation.
->
-> Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-> ---
+On Wed, May 28, 2025 at 04:26:18PM -0700, Kees Cook wrote:
+> On Wed, May 28, 2025 at 11:22:24PM +0300, Dan Carpenter wrote:
+> > The "len" variable comes from the firmware and we generally do
+> > trust firmware, but it's always better to double check.  If the "len"
+> > is too large it could result in memory corruption when we do
+> > "memcpy(fragment->data, rec->data, len);"
+> > 
+> > Fixes: 628329d52474 ("Input: add IMS Passenger Control Unit driver")
+> > Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+> > ---
+> > Kees, this is a __counted_by() thing.  Would the checkers catch this?
+> > We know the maximum valid length for "fragment" is and so it's maybe
+> > possible to know that "fragment->len = len;" is too long?
+> 
+> I see:
+> 
+> pcu->cmd_buf as:
+> 
+>         u8 cmd_buf[IMS_PCU_BUF_SIZE];
+> 
+> and fragment is:
+> 
+> struct ims_pcu_flash_fmt {
+>         __le32 addr;
+>         u8 len;
+>         u8 data[] __counted_by(len);
+> };
+> 
+> I assume you're asking about this line:
+> 
+> 		fragment->len = len;
+> 
+> I'm not aware of any compiler instrumentation that would bounds check
+> this -- it was designed to trust these sort of explicit assignments.
+> 
+> This is hardly the only place in the kernel doing this kind of
+> deserialization into a flexible array structure, so maybe there should
+> be some kind of helper to do the bounds checking and set the
+> "counted_by" counter?
+> 
+> #define gimme(from, into, counter, len)				\
+> 	({							\
+> 		int __gimme_rc = -EINVAL			\
+> 		size_t __gimme_size = __member_size(from);	\
+> 		if (__gimme_size >= sizeof(*into) &&		\
+> 		    __gimme_size - sizeof(*into) >= len) {	\
+> 			into = (void *)from;			\
+> 			into->counter = len;			\
+> 			__gimme_rc = 0;				\
+> 		}						\
+> 		__gimme_rc;					\
+> 	})
+> 
+> 	rc = gimme(&pcu->cmd_buf[1], fragment, len, len);
+> 	if (rc) {
+> 		dev_err(pcu->dev,
+> 			"Invalid record length in firmware: %d\n", len);
+> 		return rc;
+> 	}
 
-Looks good now, thanks for addressing the devres issue.
+I don't think that really scales...  I don't know how KASAN works
+internally.  I was thinking it might track the buffer size when we
+assign "fragment = (void *)&pcu->cmd_buf[1];" so it could calculate
+the valid values of ->len.  But that's actually quite complicated.
 
-Acked-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Smatch does track this:
+
+drivers/input/misc/ims-pcu.c:856 ims_pcu_flash_firmware() buf size: 'fragment->data' 119 elements, 119 bytes
+
+But:
+
+1) Smatch doesn't know about __counted_by().  This is just a matter of
+   writing the code in Sparse.
+2) It's not treating fw->data[] as user controlled data because this
+   driver loads the firmware asynchronously and Smatch gets confused by
+   threads.
+
+regards,
+dan carpenter
+
 
