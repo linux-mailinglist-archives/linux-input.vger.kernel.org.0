@@ -1,81 +1,95 @@
-Return-Path: <linux-input+bounces-12677-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12678-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB9DCACA8AF
-	for <lists+linux-input@lfdr.de>; Mon,  2 Jun 2025 06:57:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33A17ACA941
+	for <lists+linux-input@lfdr.de>; Mon,  2 Jun 2025 08:09:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C605F3AC5A6
-	for <lists+linux-input@lfdr.de>; Mon,  2 Jun 2025 04:56:51 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1937D3BC879
+	for <lists+linux-input@lfdr.de>; Mon,  2 Jun 2025 06:08:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A7E622AD2F;
-	Mon,  2 Jun 2025 04:57:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E84B81A0BC9;
+	Mon,  2 Jun 2025 06:08:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bOLebKPf"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="RKV3AwYA"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25F7D28FD;
-	Mon,  2 Jun 2025 04:57:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A4671A3029
+	for <linux-input@vger.kernel.org>; Mon,  2 Jun 2025 06:08:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748840229; cv=none; b=GJIStuDTtCHNcex616jia9uoi8i5B+WX3itdn9DMcQqTP311ardB+eVxngSSawkSBjzihKmdsIj0f3ZKRtPr7M06SbJPX3w0e6nEN2zP+pMOumyWTgzp/nEhwHeXB4ssPSZ4HhLYWKQjbVhIqdGLhkLzCzySMe03fq+RmIG+1u8=
+	t=1748844515; cv=none; b=UXFQfU940i/Xt/X67qQPdFMzACYzu742j6ut5Fz315jkPvTDft5+Yh4vZdaE6YdaMgybwGF7LtNl2B0do3KF8xBRXmkUNHKizsjYM0mxLDPlwXQFRrfh0FoOrKj4zxG6wyrAaM1zp+8QkzitW0UHHaevOoaVg01LWDeYK4tOJMU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748840229; c=relaxed/simple;
-	bh=8tf4NHoPkxojwqp/bqU49+0BgL/usYY4ksdhsekfjsc=;
+	s=arc-20240116; t=1748844515; c=relaxed/simple;
+	bh=Xh9WnzSfgu+m0GMDti5P07SLsI9o4jWrD0yuJ3eYVjM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=m16MhzRnA/tDlKSB4Anp7FvFUiQrWFFPs72whmRm0n9K19TJwEjiP8HGKWzbmTKyPf0sG8MmD6fpmh3Mcs2h6qBcLro/NO/pyqQujeXieuZjUy+tMFiP4VDiRb3XNZLbu+gN4KS63DF3ZAaPEURKuPp6VzjpvfqC2kevMjlPJRs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bOLebKPf; arc=none smtp.client-ip=209.85.216.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-312cbedfad1so151128a91.1;
-        Sun, 01 Jun 2025 21:57:07 -0700 (PDT)
+	 Content-Disposition:In-Reply-To; b=at3XAcv7j2JouYfbTn4eDr4Kcl5PabsXH6bjKGKUTOZ4+K5zLk4qJwf0ExdEgdZVaqQ0gafyORfWQ+WeeDn5IHmzXjHUr7m/dSr4/G5TeAh31dp81s5r6kqf/07Vpjr7XpwWBrzX/CiNGj3WH8Z5IXhYF2JbhYIGNo6XG1hUD1s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=RKV3AwYA; arc=none smtp.client-ip=209.85.221.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-3a507e88b0aso741686f8f.1
+        for <linux-input@vger.kernel.org>; Sun, 01 Jun 2025 23:08:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1748840227; x=1749445027; darn=vger.kernel.org;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=uzdRILFfcu+nKbj9w2LI8MdQrrGUJNbw5VXz7kRBX4g=;
-        b=bOLebKPfjnpo6qGOwuI49C3MlijiIwl4TS8t64rZ1GZK1bkKfQOi5EcRnGG2nYefCz
-         IVW48xBrEI9MgrgMbpzooHcBS4RKohgcTl4dXH8l4umZE5JuC0PkY8iaUfAYz8jFcl0s
-         RcgYmdYU6vscXNIt/C2HVaYfmekioZz57CGk90jVWF5mAuGSJU4jj+wN8HksKRTev9Wy
-         ZXqCZuFBsCWNH0405fp7k11exA7qN1z1wQ7ay8n/+s5+xRPLAjWW/Uq/qE79Fn1qJ4ze
-         +1lp2KhEu4Wvu4e7QXEyxDP2kEaqAlxMSO8e+gaXqhAnCsQL1IZM0dtyt1yLhrvxIpVv
-         xv/g==
+        d=linaro.org; s=google; t=1748844512; x=1749449312; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=nUg394UUqvjb/oidDzwm9pG7XoUFy0Z+jw1O2ucewGg=;
+        b=RKV3AwYAZeCz/xvq2cZnTzl50mMef7bBFfYRV/t8f6xYgW6eKR14YPoNmVFYPB7zdz
+         TqGviriu+hTAg5DNPrNbqZvLtQzDFR35MYyBAA8gxdN2sk+a20uc+c91Racg/F345b9v
+         ilY7d1xuJnxv115mInIwtaOV99txDV9ppiPDQGKWAVlJp6yNL/xQVKKAm/oN1dmyjGCr
+         qtfgUnnrlriorPAQCKS+quQGUywdMx0mjic57QcedyCz5mG8l1TBVzBzvWSJTmDypHIZ
+         SxhrMxLrNbVmqGOLKCfjO/m6yRvFLW18d7x6RiE1j0/b/mSDOct4g4iQ6h+9JdJxGjt1
+         x6DA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748840227; x=1749445027;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=uzdRILFfcu+nKbj9w2LI8MdQrrGUJNbw5VXz7kRBX4g=;
-        b=wSpmsu+6crGDJtPvTPQ0ina5eHHGh4Tun7/j7msQBfYdT7CJoWqEqwcKTLfynf6hmV
-         JVHbuxntWWJ8yvndg85hUQHMsGQJCjWaWD/Is/kq4fyKu+HYjwJN+CCqMOK8PuoyVRtH
-         miCQvegUbGvpLWg9gucT+1FOEMInuYuXn2Y7SEQfFh1htS2Ptfw2m1HJMu/xuyytRP5m
-         608bLR8qKkWO7Ktfp+vqVtSBVTdQwhFSdwik2Q6NjK1NP9yZ0b61vCljIDQmpGHGf9aK
-         iLkr2xA12X+kjnNmQLHxM1DltJXPvV8y/u9je8tMLsRj0c3MAzs/6EZSF0t/xk/5P+A7
-         qp8A==
-X-Forwarded-Encrypted: i=1; AJvYcCUaRFnAe2mlHEMrDHWB9SWbitshyN5HZ1nfNxw1T2h5Szqbd4UE8GIYvuVjalXiuVFX68ioL0Tne+SuhQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzB/JC3dTOlxIp1NBmkP+63jIaNv5KfaWQ69D6PxhpvR61JiwCX
-	f8cYGWbjCRQ3H5taSVjaHts6Z7+h7HwH9TGslr4S5L3Jn/bBT7exGnT3
-X-Gm-Gg: ASbGncv0c2LvC94d6TMvEPgTw//qJCmFP8Qjx3HD3eloUG4Fo+NSxENCQHVeKZ4QVPH
-	wMysuuQFlTFghIBGUo9ujON7Lz9Qsp2lZJeTeF6KanFrGwh0kjH8VoLIENHMCeBNsvMXgtqsHvy
-	/xqvm/SrichxCxY1d1n85RJb955As/IeHF2fj5/Plz4bBcMDr1Gu/kGfVj72Q38vggWxdhATwu9
-	n7uqCZAhJAUYldVhxIOgVHjwM2nlSO8MEL3hZCanCBksJQZtnG+XGs+LqyDjKSEstyGVr2wmMrD
-	ekMW3aWeuuvsiGM15QulLqFrIpg25TIdeqNXiifzdALPMb7XEsr1bm41WpR8JA==
-X-Google-Smtp-Source: AGHT+IGxWbm3SMba0OSEf8KgqgUVVOlpBdin6u7lHmN2kR2fqhdqDzqp9Bd3k8kEwtiJbdQiImy3fA==
-X-Received: by 2002:a17:90b:264c:b0:311:1617:5bc4 with SMTP id 98e67ed59e1d1-31214ecdacamr22762635a91.12.1748840227126;
-        Sun, 01 Jun 2025 21:57:07 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:1713:e88:7435:d43d])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3124e2c29b8sm4793860a91.13.2025.06.01.21.57.06
+        d=1e100.net; s=20230601; t=1748844512; x=1749449312;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=nUg394UUqvjb/oidDzwm9pG7XoUFy0Z+jw1O2ucewGg=;
+        b=s6oMxIBua5TFJkvNfwYcbjQMTWLvKREPqK83dyz6Q2qW4GYv6kPqAXnHEPpmYqavxq
+         HGmly1jPv60/v3WG9MUcxD13gsFKfIKriYkXT4PltuG9Rf7fFyrNbilK5UtOcIUUt784
+         5z+2Fz7V4/gl1v/WpTr8+RwfFMQPy3JsWRb6HnG8ruXNPPZyAeolaEqQNIJmNO/MRAQe
+         nj64uQilTeYFks3BRtvJI1T/i0oFvlI86iqQX1f5kj7zsC4u+hUwlUnxmiXnwhcKnrI/
+         A6qoZaCQ5U4jJ3Y+mCLTupQogA7C7z7rCRUJfELzTOeB4FRYrzggXn+3uUcp6dnGpiRp
+         +59Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWXrfqOMmT8HYBYo3UBdXHkIoo4EzHaZJD83jb3BtyUhHGeqbElzSXSh8EVqDU+vg3hHEI3gM16js0IgA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyVkOZdzdIXyNQDCRncWqirhKOqwDgwTEvQZ2Tq4Gofd+m3lk9e
+	wRakYtDJgpm8A0QMbpETL39xl7v5eVraB9SBxTH0a92j0TpjsvF6MsQ0+HGCrLRR5zw=
+X-Gm-Gg: ASbGncuVtyuPTdkco4GAmICDL449iL8osyl3jSrb79Q/Aw/voM+j+3Ek0DbgoCzCd0B
+	Ag1F9nOG36/UyzP0yd/GGDX1W4RpcEngiZN7SEK1a/xTdhsUYrOVpttITa4GYNg/5wIv1Mi+40K
+	U854szvULR0hbO2jInm4wXzmnLrRrO+Z88Pe5VFPArm8Qd9nAxW3XvDQjzr4eOCb/qJ9diKTU2l
+	ygu0HdLM38CIWdZpA5dwzTl7x0NWZkQgUMVfLIITKRyL/Rw9iqRAFMfq01KIP/B5g0c45s60v6+
+	FL/8NGTI7+Dfno361j2U/4oIBS4DWUEdFBpvbCMCmnEWYv84Jb+YCQsqbz7uJa11UQ==
+X-Google-Smtp-Source: AGHT+IECaagk3g9nLoafLTcr2Co0rEQWyMHI31p8lTu8Ivf/YK9+vSssiruussNYu28rBIZV/D4I1w==
+X-Received: by 2002:a5d:5f54:0:b0:39c:30cd:352c with SMTP id ffacd0b85a97d-3a4f89a482fmr8521278f8f.8.1748844511667;
+        Sun, 01 Jun 2025 23:08:31 -0700 (PDT)
+Received: from localhost ([41.210.143.146])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3a4f00a02cdsm13745291f8f.94.2025.06.01.23.08.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 01 Jun 2025 21:57:06 -0700 (PDT)
-Date: Sun, 1 Jun 2025 21:57:04 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
-Subject: [git pull] Input updates for v6.16-rc0
-Message-ID: <66fexopj4i5izpsalnoiqxy4ufbexlcax5yqs7iqvzdpdfjwww@6wiq5a6ubmak>
+        Sun, 01 Jun 2025 23:08:31 -0700 (PDT)
+Date: Mon, 2 Jun 2025 09:08:27 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev,
+	Samuel Kayode via B4 Relay <devnull+samuel.kayode.savoirfairelinux.com@kernel.org>,
+	Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Sebastian Reichel <sre@kernel.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-input@vger.kernel.org, linux-pm@vger.kernel.org,
+	Samuel Kayode <samuel.kayode@savoirfairelinux.com>,
+	eballetbo@gmail.com, abelvesa@linux.com, b38343@freescale.com,
+	yibin.gong@nxp.com, Abel Vesa <abelvesa@kernel.org>
+Subject: Re: [PATCH v3 2/6] mfd: pf1550: add core mfd driver
+Message-ID: <202505290859.CKZrTkZu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -84,92 +98,69 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250527-pf1550-v3-2-45f69453cd51@savoirfairelinux.com>
 
-Hi Linus,
+Hi Samuel,
 
-Please pull from:
+kernel test robot noticed the following build warnings:
 
-	git://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git tags/input-for-v6.16-rc0
+url:    https://github.com/intel-lab-lkp/linux/commits/Samuel-Kayode-via-B4-Relay/dt-bindings-mfd-add-pf1550/20250528-062840
+base:   0a4b866d08c6adaea2f4592d31edac6deeb4dcbd
+patch link:    https://lore.kernel.org/r/20250527-pf1550-v3-2-45f69453cd51%40savoirfairelinux.com
+patch subject: [PATCH v3 2/6] mfd: pf1550: add core mfd driver
+config: nios2-randconfig-r072-20250529 (https://download.01.org/0day-ci/archive/20250529/202505290859.CKZrTkZu-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 10.5.0
 
-to receive updates for the input subsystem. You will get:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202505290859.CKZrTkZu-lkp@intel.com/
 
-- support for game controllers requiring delayed initialization
-  packets, such as ByoWave Proteus, in xpad driver
+smatch warnings:
+drivers/mfd/pf1550.c:162 pf1550_i2c_probe() warn: passing zero to 'dev_err_probe'
 
-- a change to atkbd driver to not reset the keyboard on Loongson devices
+vim +/dev_err_probe +162 drivers/mfd/pf1550.c
 
-- tweaks to gpio-keys and matrix_keypad drivers
+fc62e32ad9eb64 Samuel Kayode 2025-05-27  140  static int pf1550_i2c_probe(struct i2c_client *i2c)
+fc62e32ad9eb64 Samuel Kayode 2025-05-27  141  {
+fc62e32ad9eb64 Samuel Kayode 2025-05-27  142  	struct pf1550_dev *pf1550;
+fc62e32ad9eb64 Samuel Kayode 2025-05-27  143  	unsigned int reg_data = 0;
+fc62e32ad9eb64 Samuel Kayode 2025-05-27  144  	int ret = 0;
+fc62e32ad9eb64 Samuel Kayode 2025-05-27  145  
+fc62e32ad9eb64 Samuel Kayode 2025-05-27  146  	pf1550 = devm_kzalloc(&i2c->dev, sizeof(*pf1550), GFP_KERNEL);
+fc62e32ad9eb64 Samuel Kayode 2025-05-27  147  	if (!pf1550)
+fc62e32ad9eb64 Samuel Kayode 2025-05-27  148  		return -ENOMEM;
+fc62e32ad9eb64 Samuel Kayode 2025-05-27  149  
+fc62e32ad9eb64 Samuel Kayode 2025-05-27  150  	i2c_set_clientdata(i2c, pf1550);
+fc62e32ad9eb64 Samuel Kayode 2025-05-27  151  	pf1550->dev = &i2c->dev;
+fc62e32ad9eb64 Samuel Kayode 2025-05-27  152  	pf1550->i2c = i2c;
+fc62e32ad9eb64 Samuel Kayode 2025-05-27  153  	pf1550->irq = i2c->irq;
+fc62e32ad9eb64 Samuel Kayode 2025-05-27  154  
+fc62e32ad9eb64 Samuel Kayode 2025-05-27  155  	pf1550->regmap = devm_regmap_init_i2c(i2c, &pf1550_regmap_config);
+fc62e32ad9eb64 Samuel Kayode 2025-05-27  156  	if (IS_ERR(pf1550->regmap))
+fc62e32ad9eb64 Samuel Kayode 2025-05-27  157  		return dev_err_probe(pf1550->dev, PTR_ERR(pf1550->regmap),
+fc62e32ad9eb64 Samuel Kayode 2025-05-27  158  				     "failed to allocate register map\n");
+fc62e32ad9eb64 Samuel Kayode 2025-05-27  159  
+fc62e32ad9eb64 Samuel Kayode 2025-05-27  160  	ret = regmap_read(pf1550->regmap, PF1550_PMIC_REG_DEVICE_ID, &reg_data);
+fc62e32ad9eb64 Samuel Kayode 2025-05-27  161  	if (ret < 0 || reg_data != PF1550_DEVICE_ID)
+fc62e32ad9eb64 Samuel Kayode 2025-05-27 @162  		return dev_err_probe(pf1550->dev, ret, "device not found!\n");
 
-- fixes to documentation for Amiga joysticks
+return dev_err_probe(pf1550->dev, ret ?: -EINVAL, "device not found!\n");
 
-- a fix to ims-pcu driver to better handle malformed firmware.
-
-
-Changelog:
----------
-
-Dan Carpenter (1):
-      Input: ims-pcu - check record size in ims_pcu_flash_firmware()
-
-Fabrice Gasnier (1):
-      Input: gpio-keys - fix a sleep while atomic with PREEMPT_RT
-
-Gatien Chevallier (1):
-      Input: gpio-keys - fix possible concurrent access in gpio_keys_irq_timer()
-
-George Anthony Vernon (4):
-      Input: amijoy - fix broken table formatting in documentation
-      Input: amijoy - fix Amiga 4-joystick adapter pinout in documentation
-      Input: amijoy - fix grammar in documentation
-      Input: amijoy - make headings compliant w/ guidelines in documentation
-
-Ian Ray (2):
-      dt-bindings: crypto: fsl,sec-v4.0-mon: Add "power-off-time-sec"
-      Input: snvs_pwrkey - support power-off-time-sec
-
-Joel Selvaraj (1):
-      dt-bindings: input: touchscreen: edt-ft5x06: use unevaluatedProperties
-
-Markus Burri (2):
-      Input: matrix_keypad - add function for reading row state
-      Input: matrix_keypad - detect change during scan
-
-Neil Armstrong (2):
-      dt-bindings: input: convert dlg,da7280.txt to dt-schema
-      MAINTAINERS: update dlg,da72??.txt to yaml
-
-Pierre-Loup A. Griffais (1):
-      Input: xpad - add the ByoWave Proteus controller
-
-Qunqin Zhao (1):
-      Input: atkbd - do not reset keyboard by default on Loongson
-
-Vicki Pfau (2):
-      Input: xpad - allow delaying init packets
-      Input: xpad - send LED and auth done packets to all Xbox One controllers
-
-Diffstat:
---------
-
- .../bindings/crypto/fsl,sec-v4.0-mon.yaml          |   5 +
- .../devicetree/bindings/input/dlg,da7280.txt       | 108 ---------
- .../devicetree/bindings/input/dlg,da7280.yaml      | 248 +++++++++++++++++++++
- .../bindings/input/touchscreen/edt-ft5x06.yaml     |   9 +-
- Documentation/input/devices/amijoy.rst             | 125 ++++++-----
- MAINTAINERS                                        |   2 +-
- drivers/input/joystick/xpad.c                      |  53 +++--
- drivers/input/keyboard/atkbd.c                     |   2 +-
- drivers/input/keyboard/gpio_keys.c                 |   6 +-
- drivers/input/keyboard/matrix_keypad.c             |  30 ++-
- drivers/input/keyboard/snvs_pwrkey.c               |  25 +++
- drivers/input/misc/ims-pcu.c                       |   6 +
- 12 files changed, 425 insertions(+), 194 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/input/dlg,da7280.txt
- create mode 100644 Documentation/devicetree/bindings/input/dlg,da7280.yaml
-
-Thanks.
-
+fc62e32ad9eb64 Samuel Kayode 2025-05-27  163  
+fc62e32ad9eb64 Samuel Kayode 2025-05-27  164  	pf1550->type = PF1550;
+fc62e32ad9eb64 Samuel Kayode 2025-05-27  165  
+fc62e32ad9eb64 Samuel Kayode 2025-05-27  166  	ret = devm_regmap_add_irq_chip(pf1550->dev, pf1550->regmap,
+fc62e32ad9eb64 Samuel Kayode 2025-05-27  167  				       pf1550->irq,
+fc62e32ad9eb64 Samuel Kayode 2025-05-27  168  				       IRQF_ONESHOT | IRQF_SHARED |
+fc62e32ad9eb64 Samuel Kayode 2025-05-27  169  				       IRQF_TRIGGER_FALLING, 0,
+fc62e32ad9eb64 Samuel Kayode 2025-05-27  170  				       &pf1550_regulator_irq_chip,
+fc62e32ad9eb64 Samuel Kayode 2025-05-27  171  				       &pf1550->irq_data_regulator);
+fc62e32ad9eb64 Samuel Kayode 2025-05-27  172  	if (ret)
 
 -- 
-Dmitry
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
+
 
