@@ -1,180 +1,155 @@
-Return-Path: <linux-input+bounces-12681-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12682-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DF2BACACEA
-	for <lists+linux-input@lfdr.de>; Mon,  2 Jun 2025 13:01:51 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 433BCACAD25
+	for <lists+linux-input@lfdr.de>; Mon,  2 Jun 2025 13:21:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C7D8A7ACC83
-	for <lists+linux-input@lfdr.de>; Mon,  2 Jun 2025 11:00:31 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F2E3F17C70A
+	for <lists+linux-input@lfdr.de>; Mon,  2 Jun 2025 11:21:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4944220F066;
-	Mon,  2 Jun 2025 11:01:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E0A2A20F066;
+	Mon,  2 Jun 2025 11:21:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="n7bFXCtv"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ojWf3drn"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74A441A0B08
-	for <linux-input@vger.kernel.org>; Mon,  2 Jun 2025 11:01:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A879C209F46;
+	Mon,  2 Jun 2025 11:21:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748862065; cv=none; b=ORJ846cG9+E7klyx3zNVuCwwwVgUabzN3SdKk37Abp/VYsJVPALpmzEaiCanBX2IKgoIvB2NQKRVxqrEVtKLLnsklKsf7twQreZ5AZHW5e7sq0GyHhPCN4NfZtAQZf0/Ik4OO4nFeAEtJv2DdD286VDmV4Z0Au/3OEmurOhJ+Hk=
+	t=1748863291; cv=none; b=e3QuUgp3622rDA0y87D8aVV2ub3qbh2++Ev5u4rl3LRLMyiaA33LaaGIS6xDJCWgZjodDdgFRW+6j8DPnBFVlW6U7dSi8pHii8Ew//pTafr2MVgAFL5/7bKCNWHfyFmW+6pDKd4ySBZ/8wfWEpo3YZfJekMoh6UHyAQXxfqElAE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748862065; c=relaxed/simple;
-	bh=hl/euo6Sdu63YjYGLOEeGJpt1NRGT7Z7ek+NVDBVv2I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ulpZm6kD1DWCKk/wJT1HNcQLXN5MKN0EHXFDJ+kV3K8O3RFjLCQxet1tLiYcEWK6Em3pvRD/w+pA3Seuct7mxDGAhLF2PFkXLLg/5WselG7nmUek6tSqG1QF40HbNXTnIhaTDyxxRXH2Re6v3ySgFIogfDnuMZXJKXMq0GqH0+8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=n7bFXCtv; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-43edecbfb46so30392845e9.0
-        for <linux-input@vger.kernel.org>; Mon, 02 Jun 2025 04:01:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1748862059; x=1749466859; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=APwGN0/eqz9/45Et2ppeGaMN2T+hRqNScPGgnQKWid0=;
-        b=n7bFXCtvmn1CN4dqe79OjmIvlzKvZ3QLTQVC8jAtiP2bzHSE1L1mwXIMNhbxQglMGo
-         YPp9WJc3+H7M+kpGPvqv6qcH4+l0whhebiHH6B8COWqfkqbpLcb/3a9+j7sjEePc4sqq
-         oUfL7IkvFv5ua2vgFqHXomBgP1VQ5KWWJPocJhVxVlX/KEVDaEAD0iTKuaokakmkM1S+
-         KFsC/Jebpu9aPPvvrd/OIbtX6HqxdA8fJRzKYt/2Qa9V6OZqITpoH1fRWy+hD1eEiCYu
-         Ps8VA+bK2LsjnLMP43qr1mFSUJs6PwB3mcovprJ8fVA9Os63qoE2xxjqNaXx47+V87DG
-         f9Fg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748862059; x=1749466859;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=APwGN0/eqz9/45Et2ppeGaMN2T+hRqNScPGgnQKWid0=;
-        b=gxS7b6SslsffnO+1F5+Yi2O9VloI1lgcXTdPPashlPfIamztjiD0SxMaspMqNUkP18
-         uluShU8Kay7r45B6cM2rqB2zSjXcKmjok8OyWadnrAcQidqqfMbqNxqXQZoptaB6gyEx
-         jlXunCvQbqbI4ZLQ5nNPLEkKdG6LsjnhzvFmB96CF4eWPYy4rNDfFBsN+0oKXkTF+pEL
-         94gkvJyZZhRV7idXPhPhgv2wDyqm6yUWM2z6xIbaeaZBJDrwYObF6XWzMV9YJtAOtfxz
-         fEjIxD4kAiXRqlf1GNfdIrYbRBI2B+GKpsXOXxa1Tas4AD2hFHCv4dn+ENd46oM1g/eb
-         cDEw==
-X-Forwarded-Encrypted: i=1; AJvYcCVAoq6ZyN3nqhGJ1M007sL0eQYkUcxPf+JOU4L5cody9ZPX/0jJWHhn3oHIeSBZEubcIalfKrRnnpzPtQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw2BRRJRBwGELCzkldXpntbD7iiTYv/eZ8S/VHk3xtEC5+6nQvv
-	EFkZv84pgMx7pxXgEWb0n7ABcK10rJzw3DsSUPGoTxoB+FTROaSqgKvMCnwnAEBrV20=
-X-Gm-Gg: ASbGncvX8wgCPzG6kAlw5iSoxHb9spGXpD7BafmWB0/XUFtfUkYqvkofFn6d41hnR27
-	Ys3J5P6kYHKXwYKg0ni/GacQugyORrXE72hyU0x83IyrGyLNYMF+UVergiGMPB5w1DdRuMl8+hD
-	46yeJdLiLNMHX3ZrWgd830MLvJUY2KdidayKGMH/dWIV1Kj7UHNRZarJ8JybpdG+mfbQKqjjX/r
-	CYYEvcDPf6PmG3lXFu/JPIjqWxnUUmRJ1zy+7VALPDwIIaaFsGKacoh8vFRRbfdBz6dxfJW9s8v
-	m/t+TMQl7A8FwWGio9GG31n0TZgja8aOgVqJViIbNb7DlIp+TuyHPa0=
-X-Google-Smtp-Source: AGHT+IFvqSbq/mxIH2p1mh4XibQErn6t9isHaT2vMWAsPAcME6qqAGy+0iLzr3WNRcfVG5XZiGtRHw==
-X-Received: by 2002:a05:600c:4e44:b0:441:b3eb:570a with SMTP id 5b1f17b1804b1-450d882b3c3mr109348255e9.2.1748862058518;
-        Mon, 02 Jun 2025 04:00:58 -0700 (PDT)
-Received: from localhost ([41.210.143.146])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-450d7facf9dsm115376275e9.17.2025.06.02.04.00.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Jun 2025 04:00:58 -0700 (PDT)
-Date: Mon, 2 Jun 2025 14:00:53 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Kees Cook <kees@kernel.org>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Javier Carrasco <javier.carrasco.cruz@gmail.com>,
-	David Lechner <dlechner@baylibre.com>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Al Viro <viro@zeniv.linux.org.uk>,
-	Erick Archer <erick.archer@outlook.com>,
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/3] Input: ims-pcu - Check record size in
- ims_pcu_flash_firmware()
-Message-ID: <aD2EZRX8CVuvqjsN@stanley.mountain>
-References: <cover.1748463049.git.dan.carpenter@linaro.org>
- <131fd1ae92c828ee9f4fa2de03d8c210ae1f3524.1748463049.git.dan.carpenter@linaro.org>
- <202505281611.A024D45E@keescook>
+	s=arc-20240116; t=1748863291; c=relaxed/simple;
+	bh=lKi902bcxT2lqZLVwKP6vjR1amXpmu5X4IIjdKN4FS8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=UbFc7X4dZkeI3GbE1NC8pZzceuj+cE/N2SiApYsymJDDW31W8a2bhshKyD0qheAI4MPYSsTC+eVP8pQifE0iOxB9zoCc8PyT9Y/Kbsp/2Hq8MN2ey5vKrQNwlX6Mk40ZV9FF4Q/vnI6hV42HXab/vqnaZGr43RyVDLfvH1AGIog=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ojWf3drn; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37604C4CEEB;
+	Mon,  2 Jun 2025 11:21:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1748863291;
+	bh=lKi902bcxT2lqZLVwKP6vjR1amXpmu5X4IIjdKN4FS8=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=ojWf3drnXIudn+t1HWmZ+8X3/HkHSHDz/fTXnXoynUdwYyGUA8WMK12wgWbY+3qW/
+	 nNRkQ29Bs1ONA2Xu8UVvdtLtqPlwIvQ/RYkK2F4AuOUHsiW8eByBsa76vYzKWRY7Vs
+	 omBB6m4NhfAgJu6MAd0D8ymQ5u0Q4y8UHbBngcPCdH1z0GjHwhvke9m4xnnNVYEToy
+	 fK53j6sF508idnn495YD5xhZZO0wxlyWv0jVW3hwRfXkwMZwoCxbb1WE1WnUoipcH/
+	 /J/u328H7tkBkgUoHjNNJFmSjz3atOT/4ybJLF26pKthgjaLWuqjdCr9Md56Skt5CA
+	 yN4JGcCREFRqg==
+Message-ID: <082b50fb-813f-4b9f-968d-ed20acaeda53@kernel.org>
+Date: Mon, 2 Jun 2025 13:21:24 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202505281611.A024D45E@keescook>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v10 01/11] dt-bindings: mfd: gpio: Add MAX7360
+To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
+ Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Kamel Bouhara <kamel.bouhara@bootlin.com>,
+ Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski
+ <brgl@bgdev.pl>, Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
+ Michael Walle <mwalle@kernel.org>, Mark Brown <broonie@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-gpio@vger.kernel.org, linux-input@vger.kernel.org,
+ linux-pwm@vger.kernel.org, andriy.shevchenko@intel.com,
+ =?UTF-8?Q?Gr=C3=A9gory_Clement?= <gregory.clement@bootlin.com>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+References: <20250530-mdb-max7360-support-v10-0-ce3b9e60a588@bootlin.com>
+ <20250530-mdb-max7360-support-v10-1-ce3b9e60a588@bootlin.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <20250530-mdb-max7360-support-v10-1-ce3b9e60a588@bootlin.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, May 28, 2025 at 04:26:18PM -0700, Kees Cook wrote:
-> On Wed, May 28, 2025 at 11:22:24PM +0300, Dan Carpenter wrote:
-> > The "len" variable comes from the firmware and we generally do
-> > trust firmware, but it's always better to double check.  If the "len"
-> > is too large it could result in memory corruption when we do
-> > "memcpy(fragment->data, rec->data, len);"
-> > 
-> > Fixes: 628329d52474 ("Input: add IMS Passenger Control Unit driver")
-> > Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
-> > ---
-> > Kees, this is a __counted_by() thing.  Would the checkers catch this?
-> > We know the maximum valid length for "fragment" is and so it's maybe
-> > possible to know that "fragment->len = len;" is too long?
+On 30/05/2025 12:00, Mathieu Dubois-Briand wrote:
+> Add device tree bindings for Maxim Integrated MAX7360 device with
+> support for keypad, rotary, gpios and pwm functionalities.
 > 
-> I see:
+> Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+> Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+> ---
+>  .../bindings/gpio/maxim,max7360-gpio.yaml          |  83 +++++++++
+>  .../devicetree/bindings/mfd/maxim,max7360.yaml     | 191 +++++++++++++++++++++
+>  2 files changed, 274 insertions(+)
 > 
-> pcu->cmd_buf as:
-> 
->         u8 cmd_buf[IMS_PCU_BUF_SIZE];
-> 
-> and fragment is:
-> 
-> struct ims_pcu_flash_fmt {
->         __le32 addr;
->         u8 len;
->         u8 data[] __counted_by(len);
-> };
-> 
-> I assume you're asking about this line:
-> 
-> 		fragment->len = len;
-> 
-> I'm not aware of any compiler instrumentation that would bounds check
-> this -- it was designed to trust these sort of explicit assignments.
-> 
-> This is hardly the only place in the kernel doing this kind of
-> deserialization into a flexible array structure, so maybe there should
-> be some kind of helper to do the bounds checking and set the
-> "counted_by" counter?
-> 
-> #define gimme(from, into, counter, len)				\
-> 	({							\
-> 		int __gimme_rc = -EINVAL			\
-> 		size_t __gimme_size = __member_size(from);	\
-> 		if (__gimme_size >= sizeof(*into) &&		\
-> 		    __gimme_size - sizeof(*into) >= len) {	\
-> 			into = (void *)from;			\
-> 			into->counter = len;			\
-> 			__gimme_rc = 0;				\
-> 		}						\
-> 		__gimme_rc;					\
-> 	})
-> 
-> 	rc = gimme(&pcu->cmd_buf[1], fragment, len, len);
-> 	if (rc) {
-> 		dev_err(pcu->dev,
-> 			"Invalid record length in firmware: %d\n", len);
-> 		return rc;
-> 	}
 
-I don't think that really scales...  I don't know how KASAN works
-internally.  I was thinking it might track the buffer size when we
-assign "fragment = (void *)&pcu->cmd_buf[1];" so it could calculate
-the valid values of ->len.  But that's actually quite complicated.
+<form letter>
+This is a friendly reminder during the review process.
 
-Smatch does track this:
+It looks like you received a tag and forgot to add it.
 
-drivers/input/misc/ims-pcu.c:856 ims_pcu_flash_firmware() buf size: 'fragment->data' 119 elements, 119 bytes
+If you do not know the process, here is a short explanation:
+Please add Acked-by/Reviewed-by/Tested-by tags when posting new versions
+of patchset, under or above your Signed-off-by tag, unless patch changed
+significantly (e.g. new properties added to the DT bindings). Tag is
+"received", when provided in a message replied to you on the mailing
+list. Tools like b4 can help here. However, there's no need to repost
+patches *only* to add the tags. The upstream maintainer will do that for
+tags received on the version they apply.
 
-But:
+Please read:
+https://elixir.bootlin.com/linux/v6.12-rc3/source/Documentation/process/submitting-patches.rst#L577
 
-1) Smatch doesn't know about __counted_by().  This is just a matter of
-   writing the code in Sparse.
-2) It's not treating fw->data[] as user controlled data because this
-   driver loads the firmware asynchronously and Smatch gets confused by
-   threads.
+If a tag was not added on purpose, please state why and what changed.
+</form letter>
 
-regards,
-dan carpenter
 
+Best regards,
+Krzysztof
 
