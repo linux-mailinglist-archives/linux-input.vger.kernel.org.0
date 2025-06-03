@@ -1,147 +1,170 @@
-Return-Path: <linux-input+bounces-12693-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12694-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA5BBACC241
-	for <lists+linux-input@lfdr.de>; Tue,  3 Jun 2025 10:34:33 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 23E0DACC2F9
+	for <lists+linux-input@lfdr.de>; Tue,  3 Jun 2025 11:27:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2603E188D29A
-	for <lists+linux-input@lfdr.de>; Tue,  3 Jun 2025 08:34:27 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D3FA6162352
+	for <lists+linux-input@lfdr.de>; Tue,  3 Jun 2025 09:27:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8E5B6281375;
-	Tue,  3 Jun 2025 08:34:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D618828150A;
+	Tue,  3 Jun 2025 09:27:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m5vEW+eC"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MkBSSpog"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B607228137D;
-	Tue,  3 Jun 2025 08:33:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9ED472288C6;
+	Tue,  3 Jun 2025 09:27:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748939641; cv=none; b=BsenGov7+peL0Vh8ucASPk3ZVug7PJIYYWyn1BDz58cB9bWzO5DgNGAfHMuNphOFXz/jIQ41nRGncf0L0TNwRX7EsJ3mzelwH+YoH+RecAfUErtmMlnRjqMUJq0A8eBpPCzY8VqxMWSlcEfGyqeNQXVOZzXjhRXClB5nsaKKqws=
+	t=1748942840; cv=none; b=SdLRFP0ISV3/gGqJnkfuwi1yNva4yTm1zhQfCNz+spxWAJ+m47e6Cq1wDuGI8xt5tgmjUY8H1FD0t6sPn3tJdaSacDIyGJ3T+bOAEnIfKDwnN5JZPKnRmI7pYbgoubm9OqM55GDvfMPlznL6gHNkePw5L/FSQ1XcpCdNv250lXo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748939641; c=relaxed/simple;
-	bh=6I08uDTKcAQGN/a1ejgxT2X3Yj5mTmjSPZuG++wTGII=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=D2xPatR5QFYtkHLeBMt7Md0PKT0QSjzjkC4vO2bXIUbQrGJmke31/4lp18V6gl4tJAyNCCl9SkKTHeAh5wzPC7BfGs7b7ygVt/980/1yIZ/ahR8cInNoj9uifHiA6hJYkyVozOeA5n+DGdFO64Q1yySRCA9tdp5xktlLlzX7gw4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m5vEW+eC; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1748939640; x=1780475640;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=6I08uDTKcAQGN/a1ejgxT2X3Yj5mTmjSPZuG++wTGII=;
-  b=m5vEW+eCEyFJPT4RpKYBMFC8RSnJmHTHQsthDrWC749C3djQVx780s0K
-   02/D4I6j6Si/2XzeVo8yePvCGirHIjcVcu2rw7KBqxhqJBPFp/abZQiSr
-   kuUpNLwkvMT1a33JSDV8S9QoehPRbQuUheeiChd19mU3c6FcaqWWAl6ET
-   rD3qG9W9ur/Qoaxj2AvvWooAiUIa+hSuzwZIJ8CQDNpoFF0zAVf8wGlif
-   HgnuTg0B8G9aTg6HBTGHqk5oLY4lQUopNx9IE7lrrh9FolQ9z+dVbJeAd
-   ixp+n5seficgFSWpKbnbiPN4VitlfKUmc0LhKbxzU6+svH4XRdCpUKd8c
-   A==;
-X-CSE-ConnectionGUID: rZxcwEPETxaghYYC4lh9Ow==
-X-CSE-MsgGUID: Z9+Q1QQVQI+tZqEbpMu2cg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11451"; a="73501160"
-X-IronPort-AV: E=Sophos;i="6.16,205,1744095600"; 
-   d="scan'208";a="73501160"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2025 01:33:59 -0700
-X-CSE-ConnectionGUID: q/EF/En/TSSgP7GHtoFsaA==
-X-CSE-MsgGUID: zq5IgQeSQGGApg3ljPIyOQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,205,1744095600"; 
-   d="scan'208";a="145285714"
-Received: from smile.fi.intel.com ([10.237.72.52])
-  by fmviesa010.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2025 01:33:56 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1uMN5l-000000035SG-43gV;
-	Tue, 03 Jun 2025 11:33:53 +0300
-Date: Tue, 3 Jun 2025 11:33:53 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Aditya Garg <gargaditya08@live.com>
-Cc: agski33 <agski33@proton.me>,
-	"linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
-	dmaengine@vger.kernel.org,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Vinod Koul <vkoul@kernel.org>,
-	Benjamin Tissoires <bentiss@kernel.org>
-Subject: Re: [REGRESSION] Re: ELAN1206 Touchpad Bugzilla 219799
-Message-ID: <aD6zcaMAK_r0Bei6@smile.fi.intel.com>
-References: <z9A_-FfhGGSZqAHPl-DnF-qPhbI563CsiUUiC8nhdhcZUZYkgpkruvHQ6Vdt8Jt0s0ogm9tCNXFAfn06utR9Zwh_UNTUy4whJ2Z9oVcfPEA=@proton.me>
- <PN3PR01MB9597C74E424033DC90B6F3B2B862A@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
- <PN3PR01MB9597F96188E061EB0B7ACBD6B862A@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+	s=arc-20240116; t=1748942840; c=relaxed/simple;
+	bh=dEZwb4MvnT5CZfP+wXGA6wqCjVgtdGWgasL4UjDyjIs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=s2D5QIG9u79Y3966zE7Hy9aP17qZUiHbQfjxfLhuG2ChNiAF/RDPrf5xA273KDBSB0foBNHfLsT+JNk9Ti+xn6toyiK+XmAMEG3f+pH6EwRyOmIJkMZSehxba8waUcR+3wBdTeSbWEk5fD6BLYemLP+rCEv9wvXGVJsP+6PuLUQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MkBSSpog; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77C2BC4CEED;
+	Tue,  3 Jun 2025 09:27:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1748942840;
+	bh=dEZwb4MvnT5CZfP+wXGA6wqCjVgtdGWgasL4UjDyjIs=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=MkBSSpogJsvVb32Z+w2OEYP68ilEUnVBC+dyv4Z5msUsoL9h6L263tF85Cq8GgoFJ
+	 bvN0BlvLpDnqyKjw7gEIZ3xgTLokEXrrLeNwn1L4yhMreGqQ1Tx1kU8IXcsWONFtX/
+	 tgtRj/52Vv953fgUmSWzMTVI48DgGVuC56pMjcb4YI2M6PGho5PJNJcdb7zt1KAzZR
+	 NkmVAUMtbW8NsiSmAYH/j/04Hd9fhjOdYC135TwIXh9q5RrGNrgWL7jVad57m8MS6q
+	 08iLsWOJXYh77TeXlIKCZ01WJdrRQDh7skZHcee6CRQY/wh0LhesNglsg60fp4xHps
+	 lyxHSASihjTHA==
+Message-ID: <6bce7f87-7599-404c-abd4-894078c20665@kernel.org>
+Date: Tue, 3 Jun 2025 11:27:12 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <PN3PR01MB9597F96188E061EB0B7ACBD6B862A@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v10 01/11] dt-bindings: mfd: gpio: Add MAX7360
+To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
+ Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Kamel Bouhara <kamel.bouhara@bootlin.com>,
+ Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski
+ <brgl@bgdev.pl>, Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
+ Michael Walle <mwalle@kernel.org>, Mark Brown <broonie@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-gpio@vger.kernel.org, linux-input@vger.kernel.org,
+ linux-pwm@vger.kernel.org, andriy.shevchenko@intel.com,
+ =?UTF-8?Q?Gr=C3=A9gory_Clement?= <gregory.clement@bootlin.com>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+References: <20250530-mdb-max7360-support-v10-0-ce3b9e60a588@bootlin.com>
+ <20250530-mdb-max7360-support-v10-1-ce3b9e60a588@bootlin.com>
+ <082b50fb-813f-4b9f-968d-ed20acaeda53@kernel.org>
+ <DACQXYZZTRNB.2VJ47OLM9VP54@bootlin.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <DACQXYZZTRNB.2VJ47OLM9VP54@bootlin.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, Jun 02, 2025 at 11:37:21PM +0530, Aditya Garg wrote:
-> On 02-06-2025 11:35 pm, Aditya Garg wrote:
-> > On 28-05-2025 07:44 pm, agski33 wrote:
-
-...
-
-> >> I am currently experiencing the issue that was previously reported in the
-> >> following BugZilla
-> >> entry: https://bugzilla.kernel.org/show_bug.cgi?id=219799.  I noticed that
-> >> the bug was marked as NEEDINFO so I attempted to fill in the relevant
-> >> information.
-> >>
-> >>  From my testing, it seems like IDMA transfers relating to the touchpad
-> >> input are taking too long and causing timeouts within hid-multitouch.  
-
-Is touchpad interface is I²C?
-
-> >> I contacted ASUS in an attempt to obtain information relating to the
-> >> workings of the touchpad that may assist with this issue, however I
-> >> believe it is unlikely that I will be able to obtain anything useful from
-> >> them.
-> >>
-> >> I am wondering if anyone has any additional suggestions for next debugging
-> >> steps or things that I may try - would be happy to provide any additional
-> >> information or do additional debugging etc.
-> >>
-> >> System Details:
-> >> Device: ASUS Q528EH with ELAN1206 Touchpad
-> >> Kernel versions: 6.9-rc6 is where the issue starts, persists through all
-> >> kernel versions after including latest.
-> >> Symptoms: Touchpad cursor will not move.  
-> >>  Additional Observations: Something of potential interest that I noticed
-> >> was that it appeared the touchpad is sending data byte by byte when doing
-> >> an IDMA transfer, not sure if that is normal or not.
-> >>
-> >> Any suggestions for next steps are appreciated!  Thank you in advance for your time and input.
-> > 
-> > Looking at https://bugzilla.kernel.org/show_bug.cgi?id=219799#c2, dd4478d63b6a2b6891fcc1800eb26ce3f1ead1d4
-> > seems to be the patch causing regression.
+On 03/06/2025 10:14, Mathieu Dubois-Briand wrote:
+> On Mon Jun 2, 2025 at 1:21 PM CEST, Krzysztof Kozlowski wrote:
+>> On 30/05/2025 12:00, Mathieu Dubois-Briand wrote:
+>>> Add device tree bindings for Maxim Integrated MAX7360 device with
+>>> support for keypad, rotary, gpios and pwm functionalities.
+>>>
+>>> Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+>>> Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+>>> ---
+>>>  .../bindings/gpio/maxim,max7360-gpio.yaml          |  83 +++++++++
+>>>  .../devicetree/bindings/mfd/maxim,max7360.yaml     | 191 +++++++++++++++++++++
+>>>  2 files changed, 274 insertions(+)
+>>>
+>>
+>> <form letter>
+>> This is a friendly reminder during the review process.
+>>
+>> It looks like you received a tag and forgot to add it.
+>>
+>> If you do not know the process, here is a short explanation:
+>> Please add Acked-by/Reviewed-by/Tested-by tags when posting new versions
+>> of patchset, under or above your Signed-off-by tag, unless patch changed
+>> significantly (e.g. new properties added to the DT bindings). Tag is
+>> "received", when provided in a message replied to you on the mailing
+>> list. Tools like b4 can help here. However, there's no need to repost
+>> patches *only* to add the tags. The upstream maintainer will do that for
+>> tags received on the version they apply.
+>>
+>> Please read:
+>> https://elixir.bootlin.com/linux/v6.12-rc3/source/Documentation/process/submitting-patches.rst#L577
+>>
+>> If a tag was not added on purpose, please state why and what changed.
+>> </form letter>
+>>
 > 
-> My bad, its 9140ce47872bfd89fca888c2f992faa51d20c2bc, the mailing list link is correct though.
+> I previously decided to drop your Reviewed-by tag as I made some
 
-It doesn't matter, the patch is technically correct — we do not serve the
-spurious (not ours) interrupts.
+And this should be explained in cover letter. Read above form letter
+again. Read also link to submitting patches.
 
-> > https://lore.kernel.org/lkml/20240321120453.1360138-1-andriy.shevchenko@linux.intel.com/
-> > 
-> > Ccing relevant folks here.
+> substantial changes since you gave it. Main difference since v4 of this
+> series is add of the pinctrl bindings and some additional
+> "rotary-encoder,*" properties.
 
--- 
-With Best Regards,
-Andy Shevchenko
+Sure, that's fine. Lack of explanation is what I question here.
 
-
+Best regards,
+Krzysztof
 
