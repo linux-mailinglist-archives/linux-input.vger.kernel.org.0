@@ -1,200 +1,114 @@
-Return-Path: <linux-input+bounces-12690-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12691-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64C6EACC081
-	for <lists+linux-input@lfdr.de>; Tue,  3 Jun 2025 08:52:18 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 08A33ACC19B
+	for <lists+linux-input@lfdr.de>; Tue,  3 Jun 2025 10:02:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D49DD168248
-	for <lists+linux-input@lfdr.de>; Tue,  3 Jun 2025 06:52:18 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C61DE16FB42
+	for <lists+linux-input@lfdr.de>; Tue,  3 Jun 2025 08:02:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F421268C6B;
-	Tue,  3 Jun 2025 06:52:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC86A28000C;
+	Tue,  3 Jun 2025 08:02:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pQsEk4KY"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="WDZSywUO"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D601F268C62;
-	Tue,  3 Jun 2025 06:52:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 745401B0F17;
+	Tue,  3 Jun 2025 08:02:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748933525; cv=none; b=bYwDGfH1ZBnctXPzWrHPE0sqDuuqasCWEADqOgTOG+ABtzEoE84ZkGTNb/Z4N05BnZYxMocz0Iy8Db+Maor2HOAU8wNI9L9gdXbqaqBwWeenmXhErPzXqhUdRVVheCFqhvZSFgdNL/ll+hGjzJKV+SyffTQF/wE+ro8/kyQry3U=
+	t=1748937728; cv=none; b=X5F5orVCGPLLnNYwxnWay9cVtF7jUxMmWxsC1656QvZEdhiDgFs+9X0WUoPgAwAEPARmfnRIWEeNwwXurJNEfdMqjmJvTLYC5ACwQzYJXrRknemYgoMhIJrbRvsB4x4FnOjreXeAg7JLZE6h5R/FlLQ/VQjMdLyUELCpNjVcCbQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748933525; c=relaxed/simple;
-	bh=lzFWTJcfuXOBClAas9MZhq4SE623nomGZJJDIWUBeao=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qdB42TvL/hsHjf1WoCtcSGJ3Rp/s9Creq1im+BdmIoJn3mw+pmr64Ag3C6KtAnkSPROuD5eD5uLvivyPZNZRfeMOOvX19raT0sBl1jQTj2DbAoBfGbKjLBWBTY+VlIIQCz6AvipIUe8HPw/MFq4LZOF+3lRcktL24uA2zaRG270=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pQsEk4KY; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DDBFBC4CEF1;
-	Tue,  3 Jun 2025 06:52:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1748933524;
-	bh=lzFWTJcfuXOBClAas9MZhq4SE623nomGZJJDIWUBeao=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=pQsEk4KYKFv043uT2ksf1vsov/djJPEWvFanpxuaJ8nYi7AJbOloqeL3kboeYQnbM
-	 BfVX0BmuEPU3p9IG2/yHSI49SXq9uYDrHEVz2i6pI5RdzPe9iiCORY7wBRpkS7/oO6
-	 YZURw3M2DMthp07VDM1SRGbA0/HRUAJrt7yGPuNpGRI90gefrStaDM6FTugZ2XBPzG
-	 /eFvprl1WnQvMvu4r9YcgbK/0IDYY/IlOAu7d5vJYVXwwG2JLKVb2EEzyke+hvAy+H
-	 cawXnY0fB15gvaHKHcfpSxhFTW9vRe0XH2CwJyo/wDGdGXkVbuzjf5x/Npsw4b0VVc
-	 iG2ZekZ407B6A==
-Message-ID: <0fb4b411-1b27-43fc-8d48-e5220fc85478@kernel.org>
-Date: Tue, 3 Jun 2025 08:51:59 +0200
+	s=arc-20240116; t=1748937728; c=relaxed/simple;
+	bh=9kyAbRkks5+ZeEszHWClhbQsDXdyjmyLLfnOBp9lYlo=;
+	h=Mime-Version:Content-Type:Date:Message-Id:From:To:Subject:Cc:
+	 References:In-Reply-To; b=Yn+yYnFWdVuv+e4eKGEI6eTGUwNnjKngiNDhGIQjWXDxXzx3Sf11JKeQs+RUC84Vu7KGCEF1OVE6YzrQHpzExvbwIDESzrPQMUJAunDrIRwbQDJdTgvYt6zblrsU3MHCgSZy7Mbm8kywRJdpNtC4/S2TyIODYXx2nl0uREWmunM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=WDZSywUO; arc=none smtp.client-ip=217.70.183.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 86E2A41B50;
+	Tue,  3 Jun 2025 08:01:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1748937718;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=c7G1lvf/kPOiqMqyPQvfVR/3H4FSASJvUrGFFqPpIpw=;
+	b=WDZSywUOCm9s0b7b7shrPqvPi/saxIBy0AB+0oGbYY/0GihVHZ/C7YgvSIQJt3kkYvn2X1
+	fJrUwi9wl+yFSnxps8kWvi5L3JDf5HYNuMICVUaIo9zbfbCRBBIfTcd1nwCioq2SAcHDlU
+	ehIMlfXWkuygXwEe1tHLfrcJ+V7yz7Ph11ix2zr95pxcxG1pHD17Cs4ytyx75upwCYWcrY
+	6rxJAb8WKDlmzFO+effCCopvMD/Ts9B5Ai8tA2a+YmtQPS+uQTFn0udeFNUTCqXhp6xsxV
+	BEe4+A3z7TYV9FLu1cMrk9pVUZcwPQk4ASzrZHld2X/VPj5YPkMZy50ZNFDuzQ==
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] dt-bindings: mfd: Add power-button option for TI
- TPS6594 PMIC
-To: Job Sava <jsava@criticallink.com>
-Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Julien Panis <jpanis@baylibre.com>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
- jcormier@criticallink.com
-References: <20250520-linux-stable-tps6594-pwrbutton-v1-0-0cc5c6e0415c@criticallink.com>
- <20250520-linux-stable-tps6594-pwrbutton-v1-1-0cc5c6e0415c@criticallink.com>
- <20250521-wandering-tested-porpoise-acbef7@kuoka>
- <CAKMwjwTP=xSsX3UuK02sKbXWaU7y-ErytNYCL_P0UveDytQW2A@mail.gmail.com>
- <20250529-wise-tremendous-stork-a7d091@kuoka>
- <CAKMwjwQOBE651A-5VVjwcv5TspO2eNZfgwWzMpTTWxhR3nGKUw@mail.gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <CAKMwjwQOBE651A-5VVjwcv5TspO2eNZfgwWzMpTTWxhR3nGKUw@mail.gmail.com>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Date: Tue, 03 Jun 2025 10:01:55 +0200
+Message-Id: <DACQOEWJPTU2.34E6UEWBOQ2X8@bootlin.com>
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: "Mark Brown" <broonie@kernel.org>
+Subject: Re: [PATCH v10 05/11] regmap: irq: Add support for chips without
+ separate IRQ status
+Cc: "Lee Jones" <lee@kernel.org>, "Rob Herring" <robh@kernel.org>,
+ "Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Conor Dooley"
+ <conor+dt@kernel.org>, "Kamel Bouhara" <kamel.bouhara@bootlin.com>, "Linus
+ Walleij" <linus.walleij@linaro.org>, "Bartosz Golaszewski" <brgl@bgdev.pl>,
+ "Dmitry Torokhov" <dmitry.torokhov@gmail.com>,
+ =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, "Michael Walle"
+ <mwalle@kernel.org>, "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, "Danilo Krummrich"
+ <dakr@kernel.org>, <devicetree@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-gpio@vger.kernel.org>,
+ <linux-input@vger.kernel.org>, <linux-pwm@vger.kernel.org>,
+ <andriy.shevchenko@intel.com>, =?utf-8?q?Gr=C3=A9gory_Clement?=
+ <gregory.clement@bootlin.com>, "Thomas Petazzoni"
+ <thomas.petazzoni@bootlin.com>, "Andy Shevchenko"
+ <andriy.shevchenko@linux.intel.com>
+X-Mailer: aerc 0.19.0-0-gadd9e15e475d
+References: <20250530-mdb-max7360-support-v10-0-ce3b9e60a588@bootlin.com>
+ <20250530-mdb-max7360-support-v10-5-ce3b9e60a588@bootlin.com>
+ <aDmKcNez0Bj41Tcv@finisterre.sirena.org.uk>
+In-Reply-To: <aDmKcNez0Bj41Tcv@finisterre.sirena.org.uk>
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddtgdegtddtudculddtuddrgeefvddrtddtmdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepggfgtgffkffhvffuvefofhgjsehtqhertdertdejnecuhfhrohhmpedfofgrthhhihgvuhcuffhusghoihhsqdeurhhirghnugdfuceomhgrthhhihgvuhdrughusghoihhsqdgsrhhirghnugessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepheevtdekffeuleehkedtvdejhfeihfegtdduveeghedvveelgfevteekveelleetnecuffhomhgrihhnpegsohhothhlihhnrdgtohhmnecukfhppedvuddvrddutdehrdduhedtrddvhedvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdduvddruddthedrudehtddrvdehvddphhgvlhhopehlohgtrghlhhhoshhtpdhmrghilhhfrhhomhepmhgrthhhihgvuhdrughusghoihhsqdgsrhhirghnugessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepvdefpdhrtghpthhtohepsghrohhonhhivgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhgvvgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprhhosghhsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehkrhiikhdoughtsehkv
+ ghrnhgvlhdrohhrghdprhgtphhtthhopegtohhnohhrodgutheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepkhgrmhgvlhdrsghouhhhrghrrgessghoohhtlhhinhdrtghomhdprhgtphhtthhopehlihhnuhhsrdifrghllhgvihhjsehlihhnrghrohdrohhrghdprhgtphhtthhopegsrhhglhessghguggvvhdrphhl
+X-GND-Sasl: mathieu.dubois-briand@bootlin.com
 
-On 02/06/2025 15:07, Job Sava wrote:
-> On Thu, May 29, 2025 at 5:26 AM Krzysztof Kozlowski <krzk@kernel.org> wrote:
->>
->> On Fri, May 23, 2025 at 09:46:49AM GMT, Job Sava wrote:
->>> On Wed, May 21, 2025 at 6:01 AM Krzysztof Kozlowski <krzk@kernel.org> wrote:
->>>>
->>>> On Tue, May 20, 2025 at 01:43:36PM GMT, Job Sava wrote:
->>>>> The TPS6594 power-button option permits users to enter STANDBY or
->>>>> ACTIVE state by a push, release, or short push button request.
->>>>>
->>>>> Signed-off-by: Job Sava <jsava@criticallink.com>
->>>>> ---
->>>>>  Documentation/devicetree/bindings/mfd/ti,tps6594.yaml | 15 +++++++++++++++
->>>>>  1 file changed, 15 insertions(+)
->>>>>
->>>>> diff --git a/Documentation/devicetree/bindings/mfd/ti,tps6594.yaml b/Documentation/devicetree/bindings/mfd/ti,tps6594.yaml
->>>>> index 6341b6070366..a40808fd2747 100644
->>>>> --- a/Documentation/devicetree/bindings/mfd/ti,tps6594.yaml
->>>>> +++ b/Documentation/devicetree/bindings/mfd/ti,tps6594.yaml
->>>>> @@ -37,6 +37,21 @@ properties:
->>>>>        device on the SPMI bus, and the secondary PMICs are the target devices
->>>>>        on the SPMI bus.
->>>>>
->>>>> +  ti,power-button:
->>>>> +    type: boolean
->>>>> +    description: |
->>>>> +      Optional property that sets the EN/PB/VSENSE pin to be a
->>>>> +      power-button.
->>>>> +      TPS6594 has a multipurpose pin called EN/PB/VSENSE that can be either
->>>>> +      1. EN in which case it functions as an enable pin.
->>>>> +      2. VSENSE which compares the voltages and triggers an automatic
->>>>> +      on/off request.
->>>>> +      3. PB in which case it can be configured to trigger an interrupt
->>>>> +      to the SoC.
->>>>> +      ti,power-button reflects the last one of those options
->>>>> +      where the board has a button wired to the pin and triggers
->>>>> +      an interrupt on pressing it.
->>>>
->>>> Don't you need to handle two other cases as well? I assume you copied
->>>> this from the other binding, but all three options are valid?
->>>>
->>>> Best regards,
->>>> Krzysztof
->>>>
->>> Hello Krzysztof,
->>>
->>> Thank you for your response!
->>>
->>> I agree that the other two cases are valid options. However, for this
->>> particular patch series, they may be out of scope. The primary goal of
->>> this patch is to enable push-button functionality, rather than
->>> addressing the VSENSE or EN modes.
->>
->> Binding should be complete, because if you design this as bool, it
->> cannot be later changed to three-state (enum).
->>
->> I don't know if the EN and VSENSE modes are anyhow useful, maybe people
->> interested in this hardware should say.
->>
->> Best regards,
->> Krzysztof
->>
-> 
-> Hi Krzysztof,
-> 
-> Thanks again for the feedback.
-> 
-> I modeled this binding after the TPS65219 PMIC, which uses a boolean
+On Fri May 30, 2025 at 12:37 PM CEST, Mark Brown wrote:
+> On Fri, May 30, 2025 at 12:00:13PM +0200, Mathieu Dubois-Briand wrote:
+>> Some GPIO chips allow to rise an IRQ on GPIO level changes but do not
+>> provide an IRQ status for each separate line: only the current gpio
+>> level can be retrieved.
+>>=20
+>> Add support for these chips, emulating IRQ status by comparing GPIO
+>> levels with the levels during the previous interrupt.
+>
+> Please do not submit new versions of already applied patches, please
+> submit incremental updates to the existing code.  Modifying existing
+> commits creates problems for other users building on top of those
+> commits so it's best practice to only change pubished git commits if
+> absolutely essential.
 
-Yeah, that's what I meant in my first reply.
+Sorry, the patch is still present in the series as I only rebased on
+6.15, but it is unchanged from the previous series.
 
-> for ti,power-button, despite the same EN/PB/VSENSE options. Since this
-> patch only enables PB mode, I felt a boolean was appropriate and
-> consistent.
+So my understanding is I should have rebased on linux-next master branch
+instead, right?
 
-Properties should have only one type, so that would be a different
-property. Someone knowing the device should come with arguments whether
-other states for this are useful at all. Or not useful and then argument
-that in commit msg for example.
+--=20
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
-
-Best regards,
-Krzysztof
 
