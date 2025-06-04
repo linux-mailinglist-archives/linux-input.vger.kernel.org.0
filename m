@@ -1,289 +1,127 @@
-Return-Path: <linux-input+bounces-12705-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12706-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EDBDACD329
-	for <lists+linux-input@lfdr.de>; Wed,  4 Jun 2025 03:15:21 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 14C76ACD68E
+	for <lists+linux-input@lfdr.de>; Wed,  4 Jun 2025 05:28:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 143A9179733
-	for <lists+linux-input@lfdr.de>; Wed,  4 Jun 2025 01:14:51 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D837516C250
+	for <lists+linux-input@lfdr.de>; Wed,  4 Jun 2025 03:28:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EAFD41F4631;
-	Wed,  4 Jun 2025 01:00:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A74C29A2;
+	Wed,  4 Jun 2025 03:28:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rJOwGby1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CM+axMvK"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C12241F4634;
-	Wed,  4 Jun 2025 01:00:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89819230D14
+	for <linux-input@vger.kernel.org>; Wed,  4 Jun 2025 03:28:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748998853; cv=none; b=nxrA+l3DBz3kt6V89ZWePbpjBy4WaQMCAvwssI/ica+KLp+WugHOQGQzABTkt+/vNZ0dT/Y4IGHjQChRx8RXnNI5wp2/z67PXYmfLIlqdwBAV0LsICo6gLu3mBreeiiET8NmAgmADB3JfViGp7aBr6zFNGJrUOM0CcFj0KM/rjc=
+	t=1749007689; cv=none; b=fAcFNU2yplfYsM8a6Es93KvtzPkzoiQp3u5sA+p5sYuz9tf0l5Sg0zvuMq5PQ00zFINQyYI5cHAU1NAg2TNM+RYUn4imwV64u+rNS3V9oZ9J0XOMh7ZcMraqjHcCZW4EACa5pzSHrFmS8bT9dAiEOsCy26wYorQY4MR2q5xPOho=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748998853; c=relaxed/simple;
-	bh=a1LrlqUJFEut+kAmigXoz4i166CYI4ZZrAKiNJAUwaE=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=CFYL5u46zx6Pr3cseieEuHeKbIoBBWGVbhYcD/iYldyRqVkqGFfYUznwUlo5EX5xfPcsEVpQ6LTJhIGH77We3sNdsizXc1wMNMQUgs5MncFzAqITf67lxeGerjOVPnYTpm7iTEFG13lopqr0URH2LnTBZfiub00SUOrzb7jEXHo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rJOwGby1; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9BA87C4CEED;
-	Wed,  4 Jun 2025 01:00:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1748998853;
-	bh=a1LrlqUJFEut+kAmigXoz4i166CYI4ZZrAKiNJAUwaE=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=rJOwGby1kcKEPTw4Px5u5czA8OllXBpa/wshjZpgHHZ+RjKHK3AIphiQomZvN/GUj
-	 e3+0X2I3p+OjG/Wt2GEmY1OeRSVrfIb3igIUWTWJeTwcpYk8IPHT1W5+VGbt+3J3nX
-	 lPpeAVbXeGRfznoq8Y4lC+zCbIg2+odlI4QdmTDeADFoMms++vEBbMso1dytEhrJmy
-	 ngcTKVUPaZq1jgYkEwrNWVYQrp5p0ZIfqUHdfiSOJnd9P4NqjQh9ZyBEC6oUbU0UPz
-	 vcLoj5PSVaM0BGyYjLrj9KVa2CBlr1ncRWOcXNNwRLvHwB/ncVSh7Rx/PB6OERaSUS
-	 DvHjAHueAX9Bw==
-From: Sasha Levin <sashal@kernel.org>
-To: patches@lists.linux.dev,
-	stable@vger.kernel.org
-Cc: "Luke D. Jones" <luke@ljones.dev>,
-	Mario Limonciello <mario.limonciello@amd.com>,
-	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Sasha Levin <sashal@kernel.org>,
-	jikos@kernel.org,
-	bentiss@kernel.org,
-	linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.12 51/93] hid-asus: check ROG Ally MCU version and warn
-Date: Tue,  3 Jun 2025 20:58:37 -0400
-Message-Id: <20250604005919.4191884-51-sashal@kernel.org>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250604005919.4191884-1-sashal@kernel.org>
-References: <20250604005919.4191884-1-sashal@kernel.org>
+	s=arc-20240116; t=1749007689; c=relaxed/simple;
+	bh=cO2jTZ5zglVcPVoTO9vhiU2UhDWNLTz0miWvv+6LB5o=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=gDgpWemEZy9CPpgpPyXHAVGhLh4wEOezMI6smisuk4E8kUooYj1ec6nC90wMHOtd4iybucYn2uRyZQ5Au4AownbZYdXV9oW1UdO5fRdg7eLLLYsl+LghFpuWyYqtUqI9KGNWdT7cgmbywYvlApaF3WxPG8vrgLSlbji1dW2b1q8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CM+axMvK; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1749007689; x=1780543689;
+  h=date:from:to:cc:subject:message-id;
+  bh=cO2jTZ5zglVcPVoTO9vhiU2UhDWNLTz0miWvv+6LB5o=;
+  b=CM+axMvKjSzmx/5GMBqjWqUAb+WLE6FEtOAMFENa6XYsA6y+rtALyzFz
+   Zw7OJKj2p5AtnaJTzvsdhUg1H1bT0QIMQXfp/3qu6xFGdAHEM+ylU6Wl8
+   xOghi2Ln1AujYwvOqdW5LvvwS8a2LP48yR6Hb0Wr9kw1nbikOUWPrpWmP
+   hCmlGntFwfBwHof0MOSyI4dbJEEh27RyceHFss1RR2sjVsMgNGerqfu4P
+   t6MMDIVdBOVTmJkuQxoJNE1QxLL6n6BOxnRH1RKNpcSalKYbEX2NmU7xw
+   EYkgPhQSFU1HCex3ZtvE676qN/rgn0fLCdTINNhr9g27Z9/68Nv8V873y
+   Q==;
+X-CSE-ConnectionGUID: iBdCQrr1QDuBUs+WhcDieg==
+X-CSE-MsgGUID: huDYSWrjSMCf5HsNxG+a+w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11453"; a="51214762"
+X-IronPort-AV: E=Sophos;i="6.16,208,1744095600"; 
+   d="scan'208";a="51214762"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2025 20:28:08 -0700
+X-CSE-ConnectionGUID: /eH1cQ0JRKiNwY9zkKNe8g==
+X-CSE-MsgGUID: ahB95p4CSjefNTN5E8qbiA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,208,1744095600"; 
+   d="scan'208";a="145070426"
+Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
+  by orviesa009.jf.intel.com with ESMTP; 03 Jun 2025 20:28:07 -0700
+Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uMenM-0002rV-2z;
+	Wed, 04 Jun 2025 03:28:04 +0000
+Date: Wed, 04 Jun 2025 11:27:55 +0800
+From: kernel test robot <lkp@intel.com>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: linux-input@vger.kernel.org
+Subject: [dtor-input:for-linus] BUILD SUCCESS
+ 4f9786035f9e519db41375818e1d0b5f20da2f10
+Message-ID: <202506041145.e1yytv4n-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.12.31
-Content-Transfer-Encoding: 8bit
 
-From: "Luke D. Jones" <luke@ljones.dev>
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git for-linus
+branch HEAD: 4f9786035f9e519db41375818e1d0b5f20da2f10  Merge branch 'next' into for-linus
 
-[ Upstream commit 00e005c952f74f50a3f86af96f56877be4685e14 ]
+elapsed time: 1455m
 
-ASUS have fixed suspend issues arising from a flag not being cleared in
-the MCU FW in both the ROG Ally 1 and the ROG Ally X.
+configs tested: 34
+configs skipped: 1
 
-Implement a check and a warning to encourage users to update the FW to
-a minimum supported version.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-Signed-off-by: Luke D. Jones <luke@ljones.dev>
-Reviewed-by: Mario Limonciello <mario.limonciello@amd.com>
-Link: https://lore.kernel.org/r/20250323023421.78012-2-luke@ljones.dev
-Reviewed-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
-Signed-off-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
+tested configs:
+alpha        allyesconfig    gcc-15.1.0
+arc          allmodconfig    gcc-15.1.0
+arc          allyesconfig    gcc-15.1.0
+arm          allmodconfig    gcc-15.1.0
+arm          allyesconfig    gcc-15.1.0
+arm64        allmodconfig    clang-19
+hexagon      allmodconfig    clang-17
+hexagon      allyesconfig    clang-21
+i386         allmodconfig    gcc-12
+i386          allnoconfig    gcc-12
+i386         allyesconfig    gcc-12
+i386            defconfig    clang-20
+loongarch    allmodconfig    gcc-15.1.0
+m68k         allmodconfig    gcc-15.1.0
+m68k         allyesconfig    gcc-15.1.0
+microblaze   allyesconfig    gcc-15.1.0
+openrisc     allyesconfig    gcc-15.1.0
+parisc       allmodconfig    gcc-15.1.0
+parisc       allyesconfig    gcc-15.1.0
+powerpc      allmodconfig    gcc-15.1.0
+powerpc      allyesconfig    clang-21
+riscv        allmodconfig    clang-21
+riscv        allyesconfig    clang-16
+s390         allmodconfig    clang-18
+s390         allyesconfig    gcc-15.1.0
+sh           allmodconfig    gcc-15.1.0
+sh           allyesconfig    gcc-15.1.0
+sparc        allmodconfig    gcc-15.1.0
+um           allmodconfig    clang-19
+um           allyesconfig    gcc-12
+x86_64        allnoconfig    clang-20
+x86_64       allyesconfig    clang-20
+x86_64          defconfig    gcc-11
+x86_64      rhel-9.4-rust    clang-18
 
-**YES** This commit should be backported to stable kernel trees for the
-following reasons: ## Analysis of Code Changes: ### 1. **Clear Bug Fix
-for User-Affecting Issue** The commit addresses a real user-impacting
-problem: suspend issues on ROG Ally devices due to firmware bugs in the
-MCU (Microcontroller Unit). The commit message explicitly states "ASUS
-have fixed suspend issues arising from a flag not being cleared in the
-MCU FW" - this is a clear hardware/firmware-related bug that affects
-system stability. ### 2. **Minimal and Contained Changes** The code
-changes are small and well-contained: - **New constants**:
-`ROG_ALLY_REPORT_SIZE`, `ROG_ALLY_X_MIN_MCU`, `ROG_ALLY_MIN_MCU` - **New
-quirk bit**: `QUIRK_ROG_ALLY_XPAD BIT(13)` - **Two new functions**:
-`mcu_parse_version_string()` and `validate_mcu_fw_version()` - **Updated
-device table entries**: Adding the new quirk to existing ROG Ally
-devices ### 3. **Conservative Approach - Warning Only** The fix is very
-conservative - it only adds **warning messages** to inform users about
-firmware issues, without changing any critical kernel behavior. From the
-code: ```c if (version < min_version) { hid_warn(hdev, "The MCU firmware
-version must be %d or greater to avoid issues with suspend.\n",
-min_version); } ``` This approach minimizes regression risk while
-providing valuable user feedback. ### 4. **Follows Established
-Patterns** The commit follows the same patterns established by similar
-commits that were marked for backporting: - **Similar to Commit #1**:
-Adds device-specific quirks for ROG Ally devices - **Similar to Commit
-#2**: Updates device tables with new quirk flags - **Similar to Commit
-#3**: Extends ROG Ally support without architectural changes ### 5.
-**Addresses Known Hardware Issue** The version checking specifically
-targets known problematic firmware versions: - ROG Ally: requires MCU
-version ≥ 319 - ROG Ally X: requires MCU version ≥ 313 This suggests
-ASUS has identified and fixed specific firmware bugs in these versions.
-### 6. **Low Risk of Regression** The changes are additive and
-defensive: - Only triggers on specific hardware (ROG Ally devices with
-the new quirk) - Fails gracefully if MCU communication fails (`if
-(version < 0) return;`) - No changes to existing code paths for other
-devices - All error conditions are properly handled ### 7. **Follows
-Stable Tree Criteria** - ✅ Fixes an important bug (suspend issues) - ✅
-Small and contained changes - ✅ No new features - just hardware support
-improvement - ✅ Minimal regression risk - ✅ Confined to specific
-subsystem (HID driver for specific devices) The commit directly improves
-user experience for ROG Ally owners who may be experiencing suspend
-issues due to outdated MCU firmware, aligning perfectly with stable
-kernel tree goals of providing important bug fixes to users.
-
- drivers/hid/hid-asus.c | 107 ++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 105 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/hid/hid-asus.c b/drivers/hid/hid-asus.c
-index bcdd168cdc6d7..c5bdf0f1b32f7 100644
---- a/drivers/hid/hid-asus.c
-+++ b/drivers/hid/hid-asus.c
-@@ -52,6 +52,10 @@ MODULE_DESCRIPTION("Asus HID Keyboard and TouchPad");
- #define FEATURE_KBD_LED_REPORT_ID1 0x5d
- #define FEATURE_KBD_LED_REPORT_ID2 0x5e
- 
-+#define ROG_ALLY_REPORT_SIZE 64
-+#define ROG_ALLY_X_MIN_MCU 313
-+#define ROG_ALLY_MIN_MCU 319
-+
- #define SUPPORT_KBD_BACKLIGHT BIT(0)
- 
- #define MAX_TOUCH_MAJOR 8
-@@ -84,6 +88,7 @@ MODULE_DESCRIPTION("Asus HID Keyboard and TouchPad");
- #define QUIRK_MEDION_E1239T		BIT(10)
- #define QUIRK_ROG_NKEY_KEYBOARD		BIT(11)
- #define QUIRK_ROG_CLAYMORE_II_KEYBOARD BIT(12)
-+#define QUIRK_ROG_ALLY_XPAD		BIT(13)
- 
- #define I2C_KEYBOARD_QUIRKS			(QUIRK_FIX_NOTEBOOK_REPORT | \
- 						 QUIRK_NO_INIT_REPORTS | \
-@@ -534,9 +539,99 @@ static bool asus_kbd_wmi_led_control_present(struct hid_device *hdev)
- 	return !!(value & ASUS_WMI_DSTS_PRESENCE_BIT);
- }
- 
-+/*
-+ * We don't care about any other part of the string except the version section.
-+ * Example strings: FGA80100.RC72LA.312_T01, FGA80100.RC71LS.318_T01
-+ * The bytes "5a 05 03 31 00 1a 13" and possibly more come before the version
-+ * string, and there may be additional bytes after the version string such as
-+ * "75 00 74 00 65 00" or a postfix such as "_T01"
-+ */
-+static int mcu_parse_version_string(const u8 *response, size_t response_size)
-+{
-+	const u8 *end = response + response_size;
-+	const u8 *p = response;
-+	int dots, err, version;
-+	char buf[4];
-+
-+	dots = 0;
-+	while (p < end && dots < 2) {
-+		if (*p++ == '.')
-+			dots++;
-+	}
-+
-+	if (dots != 2 || p >= end || (p + 3) >= end)
-+		return -EINVAL;
-+
-+	memcpy(buf, p, 3);
-+	buf[3] = '\0';
-+
-+	err = kstrtoint(buf, 10, &version);
-+	if (err || version < 0)
-+		return -EINVAL;
-+
-+	return version;
-+}
-+
-+static int mcu_request_version(struct hid_device *hdev)
-+{
-+	u8 *response __free(kfree) = kzalloc(ROG_ALLY_REPORT_SIZE, GFP_KERNEL);
-+	const u8 request[] = { 0x5a, 0x05, 0x03, 0x31, 0x00, 0x20 };
-+	int ret;
-+
-+	if (!response)
-+		return -ENOMEM;
-+
-+	ret = asus_kbd_set_report(hdev, request, sizeof(request));
-+	if (ret < 0)
-+		return ret;
-+
-+	ret = hid_hw_raw_request(hdev, FEATURE_REPORT_ID, response,
-+				ROG_ALLY_REPORT_SIZE, HID_FEATURE_REPORT,
-+				HID_REQ_GET_REPORT);
-+	if (ret < 0)
-+		return ret;
-+
-+	ret = mcu_parse_version_string(response, ROG_ALLY_REPORT_SIZE);
-+	if (ret < 0) {
-+		pr_err("Failed to parse MCU version: %d\n", ret);
-+		print_hex_dump(KERN_ERR, "MCU: ", DUMP_PREFIX_NONE,
-+			      16, 1, response, ROG_ALLY_REPORT_SIZE, false);
-+	}
-+
-+	return ret;
-+}
-+
-+static void validate_mcu_fw_version(struct hid_device *hdev, int idProduct)
-+{
-+	int min_version, version;
-+
-+	version = mcu_request_version(hdev);
-+	if (version < 0)
-+		return;
-+
-+	switch (idProduct) {
-+	case USB_DEVICE_ID_ASUSTEK_ROG_NKEY_ALLY:
-+		min_version = ROG_ALLY_MIN_MCU;
-+		break;
-+	case USB_DEVICE_ID_ASUSTEK_ROG_NKEY_ALLY_X:
-+		min_version = ROG_ALLY_X_MIN_MCU;
-+		break;
-+	default:
-+		min_version = 0;
-+	}
-+
-+	if (version < min_version) {
-+		hid_warn(hdev,
-+			"The MCU firmware version must be %d or greater to avoid issues with suspend.\n",
-+			min_version);
-+	}
-+}
-+
- static int asus_kbd_register_leds(struct hid_device *hdev)
- {
- 	struct asus_drvdata *drvdata = hid_get_drvdata(hdev);
-+	struct usb_interface *intf;
-+	struct usb_device *udev;
- 	unsigned char kbd_func;
- 	int ret;
- 
-@@ -560,6 +655,14 @@ static int asus_kbd_register_leds(struct hid_device *hdev)
- 			if (ret < 0)
- 				return ret;
- 		}
-+
-+		if (drvdata->quirks & QUIRK_ROG_ALLY_XPAD) {
-+			intf = to_usb_interface(hdev->dev.parent);
-+			udev = interface_to_usbdev(intf);
-+			validate_mcu_fw_version(hdev,
-+				le16_to_cpu(udev->descriptor.idProduct));
-+		}
-+
- 	} else {
- 		/* Initialize keyboard */
- 		ret = asus_kbd_init(hdev, FEATURE_KBD_REPORT_ID);
-@@ -1280,10 +1383,10 @@ static const struct hid_device_id asus_devices[] = {
- 	  QUIRK_USE_KBD_BACKLIGHT | QUIRK_ROG_NKEY_KEYBOARD },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_ASUSTEK,
- 	    USB_DEVICE_ID_ASUSTEK_ROG_NKEY_ALLY),
--	  QUIRK_USE_KBD_BACKLIGHT | QUIRK_ROG_NKEY_KEYBOARD },
-+	  QUIRK_USE_KBD_BACKLIGHT | QUIRK_ROG_NKEY_KEYBOARD | QUIRK_ROG_ALLY_XPAD},
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_ASUSTEK,
- 	    USB_DEVICE_ID_ASUSTEK_ROG_NKEY_ALLY_X),
--	  QUIRK_USE_KBD_BACKLIGHT | QUIRK_ROG_NKEY_KEYBOARD },
-+	  QUIRK_USE_KBD_BACKLIGHT | QUIRK_ROG_NKEY_KEYBOARD | QUIRK_ROG_ALLY_XPAD },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_ASUSTEK,
- 	    USB_DEVICE_ID_ASUSTEK_ROG_CLAYMORE_II_KEYBOARD),
- 	  QUIRK_ROG_CLAYMORE_II_KEYBOARD },
--- 
-2.39.5
-
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
