@@ -1,110 +1,239 @@
-Return-Path: <linux-input+bounces-12708-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12709-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C317CACD741
-	for <lists+linux-input@lfdr.de>; Wed,  4 Jun 2025 06:40:17 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B75BACD803
+	for <lists+linux-input@lfdr.de>; Wed,  4 Jun 2025 08:47:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 691993A6E9F
-	for <lists+linux-input@lfdr.de>; Wed,  4 Jun 2025 04:39:55 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BBB691788E1
+	for <lists+linux-input@lfdr.de>; Wed,  4 Jun 2025 06:47:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 064F11DE4CA;
-	Wed,  4 Jun 2025 04:40:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3667D1FE470;
+	Wed,  4 Jun 2025 06:47:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I3l2sFZR"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="o+UQCwsq"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com [209.85.210.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7797E17548
-	for <linux-input@vger.kernel.org>; Wed,  4 Jun 2025 04:40:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED7A71F4606;
+	Wed,  4 Jun 2025 06:47:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749012013; cv=none; b=ZfKufxDxYtGBbETvcvuHsfLZdR8fBaTFsZUdRWIV2qgT/UQ0Lxc2axkAiFJv8kXmjzYC/72mq/7KxyKa8Gzr2YGame2bUNXzvVh+s9C8A4gOwqUm9xF0YmXH+vuIYLBL41oWCLsk34iT4T6X4+ePY1EvuZ5gp0qNBDFI86aq4Kw=
+	t=1749019643; cv=none; b=C4b0Q+tRHdPcqq+UCnWWpnhWtxgAAH54pVzgk0fVUmtJh69lcVOdNYVPt4frVzoTMLJcq8AU0WyXLgUE73souE4jXamOEPygjp1OxkZWxnTB+drFqFcQYVnMVhIxvC+EsvJFYa8vOqQYWa8UWSiM1qLAHFzi3SEcKFzEdN/YVoU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749012013; c=relaxed/simple;
-	bh=QJjFpjk+DmMUtusAwptrM7Ib4N7bR8c9GjPDuTX4E9M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Gk3CCxYIy8miql0QkvmIY18vRYiVq4aIlefQkioJRsGJaSMvkEvGCA9WINUDU4YcNc4p5fDxrwWAj5VqldMFM4AY8dXVe80xgOZT3dem6w8dfCc9q7xO+PJuu4wWjPXgHlC3NDppgVsF3l7deu/kYbE1zj3yEccnuwZQSrXBkVE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I3l2sFZR; arc=none smtp.client-ip=209.85.210.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ot1-f53.google.com with SMTP id 46e09a7af769-7300069c447so4324998a34.2
-        for <linux-input@vger.kernel.org>; Tue, 03 Jun 2025 21:40:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1749012011; x=1749616811; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=g3So0fdjeo2x17Jylaxp9zuihp49qTN0SOHlt5DEXT8=;
-        b=I3l2sFZRm2PoymYTgKW3QdZmy7drFgQn+vb0kPG9IgS7/4IwG8l/1nx4ReyDORjTza
-         G+IxDWTJmyAMfGwQjrBL6qSFNU0ZWbF+N6CGDArm5Xyngr7Hb43pj30oF8wyQE69Z5en
-         DYBNQH9S6sDUXBYDwA7sYFP9Cv4u/rputd3X/A4GdfVO9b/dMwFJkAzCY8eiXTU5zZbi
-         J1Zk2ZHB8+roEE1cput1QH4NOxyp/hCCFdsMY7VTCurKw+o42YcoPtdp3jTNljiaziJ2
-         Br8qvbrYmy20s3jV2otgfv1Oe7zApVn9KmG8ibnnhg6b0HNgUAOTAlCsaCCGK8AyC4Eb
-         NwOw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749012011; x=1749616811;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=g3So0fdjeo2x17Jylaxp9zuihp49qTN0SOHlt5DEXT8=;
-        b=HcyuBflga/OMvqcVpa2IY+whJLbynqS7WTB66SYQrjwlIJbiTKGVnqSgNdj+vE3yVh
-         c4Jel/p5/zRSQuS6lhmYp5BqToX4ridRly1NEfFbQXlVmSWVYuEA5Aj0EPJ3Y/owO8jT
-         UucxIh0wWTDlG5bAqqckJQffP8NWMBeoaRuKwEPH3srsutB8xMeBiTSWF4ZvzuCNYbPU
-         0GXf/l/Adl/17ueFMBaZ3/4/txnkCgtnSTYJG0tW9kOlO0SXlioUzFKaoGc3AIU4snx5
-         zdgPjy/MbJhCdng8jHKm2Nt7I9FJu6DQapD927/Nkb6/lMM0mMpLu2T/1hdl5M6Jjjx5
-         OEgQ==
-X-Gm-Message-State: AOJu0YxAON5kRZtr1/z8CzfSEv8P+pCJVjB4xwxUBj04TLv23BNRIOZ+
-	jNhXURrLdimYPXZc+ed6qVPiIV2LTpFP6l8hdorHpMOXR9pPsRpSH5BWgsVDJQ==
-X-Gm-Gg: ASbGncv7gJqM3zvttLQHf8XiIkqUeoIH8U+i+hoMGpVrUL5Ho8JuwUmoLlXht4Dep3i
-	scrSXvKBbTJeoG33j+Rb97RAXaH/tJqz0yc67+Kfa6JYjs16xIDnI5bw3xTLaRtv2NqFjkT06eF
-	E9J1vsJCFvRLUfvmnuL7TK5my1QUmBnGi4h1I3P65SXyxCPga6ozdJVJ8BvsBlZjs7cc8sWauuE
-	XssxVOrmpiE0ewTWq2S9LHN1Pi6IkC1KeOJAoHFbaUVlu5oF2va64uD889xczlYdQyA5o8nZZJQ
-	POeuRQJUi4iSza9/O5aiVvgYpyMDtm44wV5ZHROTr43+2k5m8w3l
-X-Google-Smtp-Source: AGHT+IEUv33f+Z9wpIqPSKa+BxIe9aU+B424wCgE3+0PCqiwJkeAPo5CTkZm+9yuKWQtDBjeLUKtbw==
-X-Received: by 2002:a17:903:1107:b0:234:ed31:fca8 with SMTP id d9443c01a7336-235e11cc1edmr19028585ad.27.1749012000550;
-        Tue, 03 Jun 2025 21:40:00 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:1679:3775:f8eb:4ab5])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3124e30c697sm8082622a91.36.2025.06.03.21.39.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Jun 2025 21:39:59 -0700 (PDT)
-Date: Tue, 3 Jun 2025 21:39:57 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Jeff LaBundy <jeff@labundy.com>
-Cc: linux-input@vger.kernel.org
-Subject: Re: [PATCH v2] Input: iqs626a - replace snprintf() with scnprintf()
-Message-ID: <lu3bafhklyvzrkgpjtr52nkegk6kv7bpkykaaesj67qyn4bckl@ger6hfvujef5>
-References: <Z3rV8GTHxLyjBQ5I@nixie71>
+	s=arc-20240116; t=1749019643; c=relaxed/simple;
+	bh=SVuq2csc8B+tntGJ/PFd3caemy9vyyP3hUodtswqWwA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=VLLm04oVt6fikgOhtf/GspXEnTHe7jovXLWUkmQ9keoHvkao64xH85lwwDdyCRH5UVzgdaGDhoY7t0FhwkCgi2dHtHaFynOuFxAi+7+VXpZy7/bKgoVLPtclgp4eF1exGrJCZWScEUOipCiFkGhqA7RfQOtDJLN8bFTWanmzDxg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=o+UQCwsq; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5CD56C4CEE7;
+	Wed,  4 Jun 2025 06:47:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1749019642;
+	bh=SVuq2csc8B+tntGJ/PFd3caemy9vyyP3hUodtswqWwA=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=o+UQCwsqi2NvZG7jB2mPLYKlfETFtz7e/3kAD/cMMGuNU44cRY75oy2YgXqk1lyFV
+	 4hxJIOyrEBYGkX4x9gfE0WoZMhbqrJTDVFWUr1Gibz/QwRqY1IUqhnpZqF9lttalT9
+	 1eT1z7/OKBQRHd8xniK5iv41Lk54Lw87gpYyVy5/S3SDsxDrj9hQ6Mo68TJ76Jdynz
+	 UDILQx5cQrQG+OAD1DiBNkkmjnClYds1VIAb7oJEqriLg4r5tsPJZurHGMP6pwlWWl
+	 rfJXsicBelvHWXc6dTm0ZNjGE/vK3TiFRJGNtHWD+xH72vzIrvs1LEVKYCAcWI/2El
+	 YDvcxBvmGfpeA==
+Message-ID: <5fb1bcc0-db25-466a-b315-685d8b362245@kernel.org>
+Date: Wed, 4 Jun 2025 08:47:15 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Z3rV8GTHxLyjBQ5I@nixie71>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 1/6] dt-bindings: mfd: add pf1550
+To: samuel.kayode@savoirfairelinux.com, Lee Jones <lee@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Dmitry Torokhov
+ <dmitry.torokhov@gmail.com>, Sebastian Reichel <sre@kernel.org>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-input@vger.kernel.org, linux-pm@vger.kernel.org,
+ Abel Vesa <abelvesa@kernel.org>, Abel Vesa <abelvesa@linux.com>,
+ Robin Gong <b38343@freescale.com>,
+ Enric Balletbo i Serra <eballetbo@gmail.com>
+References: <20250603-pf1550-v4-0-bfdf51ee59cc@savoirfairelinux.com>
+ <20250603-pf1550-v4-1-bfdf51ee59cc@savoirfairelinux.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <20250603-pf1550-v4-1-bfdf51ee59cc@savoirfairelinux.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Sun, Jan 05, 2025 at 12:56:48PM -0600, Jeff LaBundy wrote:
-> W=1 builds warn that the data written to 'tc_name' is truncated for
-> theoretical strings such as "channel-2147483646".
+On 03/06/2025 20:27, Samuel Kayode via B4 Relay wrote:
+> From: Samuel Kayode <samuel.kayode@savoirfairelinux.com>
 > 
-> Solve this problem by replacing snprintf() with scnprintf() so that
-> the return value corresponds to what was actually written.
+> Add a DT binding document for pf1550 PMIC. This describes the core mfd
+> device along with its children: regulators, charger and onkey.
 > 
-> In practice, the largest string that will be written is "channel-8",
-> and the return value is not actually evaluated. Instead, this patch
-> ultimately removes the warning without unnecessarily increasing the
-> size of 'tc_name' from 10 bytes.
+> Signed-off-by: Samuel Kayode <samuel.kayode@savoirfairelinux.com>
+> ---
+> v4:
+>  - Address Krzystof's feedback:
+>    - Filename changed to nxp,pf1550.yaml
+>    - Replace Freescale with NXP
+>    - Define include before battery-cell
+>    - Drop operating-range-celsius in example since
+>      nxp,thermal-regulation-celsisus already exists
+>  - Not sure if there is similar binding to thermal-regulation...
+>    for regulating temperature on thermal-zones? @Sebastian and @Krzysztof
+> v3:
+>  - Address Krzysztof's feedback:
+>    - Fold charger and onkey objects
+>    - Drop compatible for sub-devices: onkey, charger and regulator.
+>    - Drop constant voltage property already included in
+>      monitored-battery
+>    - Fix whitespace warnings
+>    - Fix license
+> v2:
+>  - Add yamls for the PMIC and the sub-devices
+> ---
+>  .../devicetree/bindings/mfd/nxp,pf1550.yaml        | 139 +++++++++++++++++++++
+>  1 file changed, 139 insertions(+)
 > 
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202412221136.0S4kRoCC-lkp@intel.com/
-> Signed-off-by: Jeff LaBundy <jeff@labundy.com>
+> diff --git a/Documentation/devicetree/bindings/mfd/nxp,pf1550.yaml b/Documentation/devicetree/bindings/mfd/nxp,pf1550.yaml
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..add895311b892a6731f54e47fcaaba8dfdac14b3
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/mfd/nxp,pf1550.yaml
+> @@ -0,0 +1,139 @@
+> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/mfd/nxp,pf1550.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: NXP PF1550 Power Management IC
+> +
+> +maintainers:
+> +  - Samuel Kayode <samuel.kayode@savoirfairelinux.com>
+> +
+> +description: |
 
-Applied, thank you.
+Drop |, Do not need '|' unless you need to preserve formatting.
 
--- 
-Dmitry
+> +  PF1550 PMIC provides battery charging and power supply for low power IoT and
+> +  wearable applications. This device consists of an i2c controlled MFD that
+> +  includes regulators, battery charging and an onkey/power button.
+> +
+> +$ref: /schemas/power/supply/power-supply.yaml
+> +
+> +properties:
+> +  compatible:
+> +    const: nxp,pf1550
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  wakeup-source: true
+> +
+> +  regulators:
+> +    type: object
+> +
+> +    patternProperties:
+> +      "^(ldo[1-3]|sw[1-3]|vrefddr)$":
+> +        type: object
+> +        $ref: /schemas/regulator/regulator.yaml
+> +        description:
+> +          regulator configuration for ldo1-3, buck converters(sw1-3)
+> +          and DDR termination reference voltage (vrefddr)
+> +        unevaluatedProperties: false
+> +
+> +    additionalProperties: false
+
+Please put it after type:object
+
+> +
+> +  monitored-battery:
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+
+Drop, comes from power supply schema
+
+> +    description: |
+> +      A phandle to a monitored battery node that contains a valid value
+> +      for:
+> +      constant-charge-voltage-max-microvolt.
+> +
+> +  nxp,thermal-regulation-celsius:
+> +    description:
+> +      Temperature threshold for thermal regulation of charger in celsius.
+> +    enum: [ 60, 75, 90, 105 ]
+> +
+> +  nxp,min-system-microvolt:
+> +    description:
+> +      System specific lower limit voltage.
+> +    enum: [ 3500000, 3700000, 4300000 ]
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +
+> +additionalProperties: false
+
+And this becomes unevaluatedProperties: false.
+
+With these changes (and after testing with dt_bindings_check):
+
+
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+
+
+Best regards,
+Krzysztof
 
