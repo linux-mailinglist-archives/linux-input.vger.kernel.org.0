@@ -1,46 +1,46 @@
-Return-Path: <linux-input+bounces-12704-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12705-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51920ACD2AB
-	for <lists+linux-input@lfdr.de>; Wed,  4 Jun 2025 03:09:46 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EDBDACD329
+	for <lists+linux-input@lfdr.de>; Wed,  4 Jun 2025 03:15:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9893A7AB900
-	for <lists+linux-input@lfdr.de>; Wed,  4 Jun 2025 01:05:18 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 143A9179733
+	for <lists+linux-input@lfdr.de>; Wed,  4 Jun 2025 01:14:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8D7B61A3A8A;
-	Wed,  4 Jun 2025 00:57:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EAFD41F4631;
+	Wed,  4 Jun 2025 01:00:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L1a37Ysp"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rJOwGby1"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62F691A315D;
-	Wed,  4 Jun 2025 00:57:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C12241F4634;
+	Wed,  4 Jun 2025 01:00:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748998650; cv=none; b=nFFu85eF/reo+SjsMPIgBsp5WnfPn4u5ve9j3EqarCc7U2mHtTxmMhuAcGNfodxnR77REVaHzAk3XSgJPGTSpFYkTdRj8U/xCDOr7xBe2nwV1JugIyGWECKz2A40SQqyfR2om3gqfwTq3NGsk0lnfOXsim78nwoqUobVkjpOJl0=
+	t=1748998853; cv=none; b=nxrA+l3DBz3kt6V89ZWePbpjBy4WaQMCAvwssI/ica+KLp+WugHOQGQzABTkt+/vNZ0dT/Y4IGHjQChRx8RXnNI5wp2/z67PXYmfLIlqdwBAV0LsICo6gLu3mBreeiiET8NmAgmADB3JfViGp7aBr6zFNGJrUOM0CcFj0KM/rjc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748998650; c=relaxed/simple;
-	bh=OUIKxpvxvbHJeswWtuIxaJc1T6DQhUwdQWQZCP2qinc=;
+	s=arc-20240116; t=1748998853; c=relaxed/simple;
+	bh=a1LrlqUJFEut+kAmigXoz4i166CYI4ZZrAKiNJAUwaE=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=USaV1wvN5nrklX10OdNjEKGk0t8QRPQjLMT7JadqwYk5yzE+P6wmrez1P5mn1A02Gfbg6FIxX4WCPCX3ACrRIMRdr1VXsyu0XACCCvZDZ0LykVXf9ncrQX+Wt/Ta+aJZvZ6kMi6QHs1F9h7gkyN66p9a1Vs7m9eenUbmt4hUj1M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=L1a37Ysp; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D46FAC4CEED;
-	Wed,  4 Jun 2025 00:57:28 +0000 (UTC)
+	 MIME-Version:Content-Type; b=CFYL5u46zx6Pr3cseieEuHeKbIoBBWGVbhYcD/iYldyRqVkqGFfYUznwUlo5EX5xfPcsEVpQ6LTJhIGH77We3sNdsizXc1wMNMQUgs5MncFzAqITf67lxeGerjOVPnYTpm7iTEFG13lopqr0URH2LnTBZfiub00SUOrzb7jEXHo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rJOwGby1; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9BA87C4CEED;
+	Wed,  4 Jun 2025 01:00:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1748998649;
-	bh=OUIKxpvxvbHJeswWtuIxaJc1T6DQhUwdQWQZCP2qinc=;
+	s=k20201202; t=1748998853;
+	bh=a1LrlqUJFEut+kAmigXoz4i166CYI4ZZrAKiNJAUwaE=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=L1a37Ysp1zxP6KizCxw3uSPkQhQ6ZjRtXHuQ+dzyt3NbOTi0uKuVUxnrt4a6tKHBW
-	 fSK8WZZQXKv8PZjssVV07uZDBLosao2Xbi2VdM+oPsbV8nKZqKEcdDmX7V1hXBUWn8
-	 FatDO5U6bOzuPSy3A8xgyA2GgrEbaMnDL42U16SvRznYVGL3V5TrY6Dpruva9ywBeE
-	 GN8NUywqv0FCWTGF+f6m8bfyv2mQ18PFZpyvIfTYMo8M2sSNM1VbqC1IvMGap4eXNE
-	 RGvJ39UkHV95aIideTokZKxY4y8MkjJgTV7cmD8KExLCFKvBnMMpKdNtb934743aJS
-	 06zOvlo6s7TmQ==
+	b=rJOwGby1kcKEPTw4Px5u5czA8OllXBpa/wshjZpgHHZ+RjKHK3AIphiQomZvN/GUj
+	 e3+0X2I3p+OjG/Wt2GEmY1OeRSVrfIb3igIUWTWJeTwcpYk8IPHT1W5+VGbt+3J3nX
+	 lPpeAVbXeGRfznoq8Y4lC+zCbIg2+odlI4QdmTDeADFoMms++vEBbMso1dytEhrJmy
+	 ngcTKVUPaZq1jgYkEwrNWVYQrp5p0ZIfqUHdfiSOJnd9P4NqjQh9ZyBEC6oUbU0UPz
+	 vcLoj5PSVaM0BGyYjLrj9KVa2CBlr1ncRWOcXNNwRLvHwB/ncVSh7Rx/PB6OERaSUS
+	 DvHjAHueAX9Bw==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
@@ -51,12 +51,12 @@ Cc: "Luke D. Jones" <luke@ljones.dev>,
 	jikos@kernel.org,
 	bentiss@kernel.org,
 	linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.14 057/108] hid-asus: check ROG Ally MCU version and warn
-Date: Tue,  3 Jun 2025 20:54:40 -0400
-Message-Id: <20250604005531.4178547-57-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.12 51/93] hid-asus: check ROG Ally MCU version and warn
+Date: Tue,  3 Jun 2025 20:58:37 -0400
+Message-Id: <20250604005919.4191884-51-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250604005531.4178547-1-sashal@kernel.org>
-References: <20250604005531.4178547-1-sashal@kernel.org>
+In-Reply-To: <20250604005919.4191884-1-sashal@kernel.org>
+References: <20250604005919.4191884-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -66,7 +66,7 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.14.9
+X-stable-base: Linux 6.12.31
 Content-Transfer-Encoding: 8bit
 
 From: "Luke D. Jones" <luke@ljones.dev>
@@ -133,7 +133,7 @@ kernel tree goals of providing important bug fixes to users.
  1 file changed, 105 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/hid/hid-asus.c b/drivers/hid/hid-asus.c
-index 46e3e42f9eb5f..599c836507ff8 100644
+index bcdd168cdc6d7..c5bdf0f1b32f7 100644
 --- a/drivers/hid/hid-asus.c
 +++ b/drivers/hid/hid-asus.c
 @@ -52,6 +52,10 @@ MODULE_DESCRIPTION("Asus HID Keyboard and TouchPad");
