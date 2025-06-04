@@ -1,46 +1,46 @@
-Return-Path: <linux-input+bounces-12703-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12704-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35C4BACD1A5
-	for <lists+linux-input@lfdr.de>; Wed,  4 Jun 2025 02:59:03 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 51920ACD2AB
+	for <lists+linux-input@lfdr.de>; Wed,  4 Jun 2025 03:09:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 82F9A3A7347
-	for <lists+linux-input@lfdr.de>; Wed,  4 Jun 2025 00:56:09 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9893A7AB900
+	for <lists+linux-input@lfdr.de>; Wed,  4 Jun 2025 01:05:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E602972607;
-	Wed,  4 Jun 2025 00:53:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8D7B61A3A8A;
+	Wed,  4 Jun 2025 00:57:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hAciE+KW"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L1a37Ysp"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB37B7082D;
-	Wed,  4 Jun 2025 00:53:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62F691A315D;
+	Wed,  4 Jun 2025 00:57:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748998399; cv=none; b=F+dJ60igGDfzFMXlwyzfCP0bm6yIjxXrZH84ZtNTtN0fNnN31+GpId7IqE5g36PSZdJQShsIsUSU8vN7uwUtrzNhaO49BkE/WzUgadR5cbxpbwS6ZSlUR0ChUxFv2i91RscbPVVIMRz9rL++gFMn8aWVGvTmWv2ShJy/VcuP/n0=
+	t=1748998650; cv=none; b=nFFu85eF/reo+SjsMPIgBsp5WnfPn4u5ve9j3EqarCc7U2mHtTxmMhuAcGNfodxnR77REVaHzAk3XSgJPGTSpFYkTdRj8U/xCDOr7xBe2nwV1JugIyGWECKz2A40SQqyfR2om3gqfwTq3NGsk0lnfOXsim78nwoqUobVkjpOJl0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748998399; c=relaxed/simple;
+	s=arc-20240116; t=1748998650; c=relaxed/simple;
 	bh=OUIKxpvxvbHJeswWtuIxaJc1T6DQhUwdQWQZCP2qinc=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=bO0C8bpZPovxVx9Ein/uEVHfA7y5LUemA0nch/ePy2ZkPI5hfpKI5DzVTX9OAATKOGtOo+yn6C0BSbfpDO5sdhYo4fX/an8TRrIiyifRuDfipBapkUHD60gwuLT9Ls8/rqdEB2G3mzdocAhol5Gx4RW3rdqwAvrIbFFN0pa0OKk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hAciE+KW; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B8BDC4CEED;
-	Wed,  4 Jun 2025 00:53:15 +0000 (UTC)
+	 MIME-Version:Content-Type; b=USaV1wvN5nrklX10OdNjEKGk0t8QRPQjLMT7JadqwYk5yzE+P6wmrez1P5mn1A02Gfbg6FIxX4WCPCX3ACrRIMRdr1VXsyu0XACCCvZDZ0LykVXf9ncrQX+Wt/Ta+aJZvZ6kMi6QHs1F9h7gkyN66p9a1Vs7m9eenUbmt4hUj1M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=L1a37Ysp; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D46FAC4CEED;
+	Wed,  4 Jun 2025 00:57:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1748998396;
+	s=k20201202; t=1748998649;
 	bh=OUIKxpvxvbHJeswWtuIxaJc1T6DQhUwdQWQZCP2qinc=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=hAciE+KWms+swzMXkI/9yjbtFVb8vB7bVThRyXonx7GFxzypCo1GpTU8kltC9SAXL
-	 fpfztjxTZ9zqM4XOX/VP7uSpAn1HD5aj2l0mJ7xGBDZMZKLsdJeC+gfDVsBPKp85B5
-	 N7LxQYZbRdX5AvgbvnG1c+i61CPMb82LYDN/Ox6Jl5xJrMAsdE68nNqgoBgujsRic2
-	 75H7LldFidTLP9+KHUsP4V4GFYYhQdHz7nsIQQpHBUZYFvD1Z3epRmjZ6okdKn/2mP
-	 /O7ctntBCDJcqCq33EhEq1UQ9Wn9QukUdW2Aks0gLt5DjDGn9fQEAln8GyKPVtwQBV
-	 Cxolfm7ZC6bZA==
+	b=L1a37Ysp1zxP6KizCxw3uSPkQhQ6ZjRtXHuQ+dzyt3NbOTi0uKuVUxnrt4a6tKHBW
+	 fSK8WZZQXKv8PZjssVV07uZDBLosao2Xbi2VdM+oPsbV8nKZqKEcdDmX7V1hXBUWn8
+	 FatDO5U6bOzuPSy3A8xgyA2GgrEbaMnDL42U16SvRznYVGL3V5TrY6Dpruva9ywBeE
+	 GN8NUywqv0FCWTGF+f6m8bfyv2mQ18PFZpyvIfTYMo8M2sSNM1VbqC1IvMGap4eXNE
+	 RGvJ39UkHV95aIideTokZKxY4y8MkjJgTV7cmD8KExLCFKvBnMMpKdNtb934743aJS
+	 06zOvlo6s7TmQ==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
@@ -51,12 +51,12 @@ Cc: "Luke D. Jones" <luke@ljones.dev>,
 	jikos@kernel.org,
 	bentiss@kernel.org,
 	linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.15 062/118] hid-asus: check ROG Ally MCU version and warn
-Date: Tue,  3 Jun 2025 20:49:53 -0400
-Message-Id: <20250604005049.4147522-62-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.14 057/108] hid-asus: check ROG Ally MCU version and warn
+Date: Tue,  3 Jun 2025 20:54:40 -0400
+Message-Id: <20250604005531.4178547-57-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250604005049.4147522-1-sashal@kernel.org>
-References: <20250604005049.4147522-1-sashal@kernel.org>
+In-Reply-To: <20250604005531.4178547-1-sashal@kernel.org>
+References: <20250604005531.4178547-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -66,7 +66,7 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.15
+X-stable-base: Linux 6.14.9
 Content-Transfer-Encoding: 8bit
 
 From: "Luke D. Jones" <luke@ljones.dev>
