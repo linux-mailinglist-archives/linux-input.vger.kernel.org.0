@@ -1,174 +1,142 @@
-Return-Path: <linux-input+bounces-12720-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12721-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0120FACE97B
-	for <lists+linux-input@lfdr.de>; Thu,  5 Jun 2025 07:54:18 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id E86A0ACEAEE
+	for <lists+linux-input@lfdr.de>; Thu,  5 Jun 2025 09:35:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 71D1E3A5823
-	for <lists+linux-input@lfdr.de>; Thu,  5 Jun 2025 05:53:56 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6E64B189B401
+	for <lists+linux-input@lfdr.de>; Thu,  5 Jun 2025 07:36:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 97DA51DE88A;
-	Thu,  5 Jun 2025 05:54:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KaAca/Cy"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 62A0D1FECCD;
+	Thu,  5 Jun 2025 07:35:33 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69BCF1DB34B;
-	Thu,  5 Jun 2025 05:54:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6E461ACEDC;
+	Thu,  5 Jun 2025 07:35:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749102854; cv=none; b=NmJT+xQV2BPPIgXcuuDJojlzHnwgGX3AQj3v2UhqV8qud9une/qw5DWQkFwt+5yV4hPDYVb+fi7PhKxwzzjpIyQTJUkeoM6Kgaa8vNld+ZV4BTY/aXlwwuiHtzxrY62njZGFDWJmfNlda5VjjBMxFuj1jLqRTz7r+O0v7MoTS6M=
+	t=1749108933; cv=none; b=aBPJWv/N72SvS4PGx3DQYvA865KVmMRiBsxIc+pQxq2sVuq3PmP/rgzX3rYRoav+lYhC15yaIENt/QNBm0Q9BNJSbldcOnDpzW47TZQKjRW53DUAFAgHFQHH00G/yhF19WcuZBfK1olznCxET7n4aFkc/3RNXbC5PR3gTQYs0os=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749102854; c=relaxed/simple;
-	bh=T2Vo4BftPct0a6tijnrOurIzk7beQuRJvZ4WHfuhvsQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=YF2XDx6ck8kKpFfzlLKyKyAqD9gkDYKGD/MMk7AQj2TiwYJMXOiY1365AGg8ueAAwF3OrebQvFZtpiqtgvzJZ0VB11nvlsG9yHfKjP/AL/nW70TVrZLa/x8RLwf1VTBnW7TcA9Y4w1EdHqeaSnHP+WsdnQSuLKWs4nsebRQdc/Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KaAca/Cy; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6ACDFC4CEE7;
-	Thu,  5 Jun 2025 05:54:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749102853;
-	bh=T2Vo4BftPct0a6tijnrOurIzk7beQuRJvZ4WHfuhvsQ=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=KaAca/CyXjndXSYXA8seSpmLKZAxGnniRmGiKLeLI4t0Q7wmKDwfex1+v+/r5Fkie
-	 PGixN6s0hbvVkpqu7dgtRKjV03vDZKz95GYDsPEwP3Un3y405cr9fwRzowLHxGo0uY
-	 unjPSobgfjwymSbm6/L8OvgTwOX8DmuEwMkrubics4ZleQIVAoJkGNnjiuh4pc45d/
-	 o0NDr8pqc07LJi51wKZgX7vheBHMvq4/EukLnCXlriVinSTfLtWOLqyv1qxR0GR9ro
-	 MsdvO4SbDMBCFfkMZlbRD952JBClIl8fcYy7iasv6RQ8As/krCIcW1L1Qr80nArGnX
-	 AqITY1vtY3P3g==
-Message-ID: <0365ffe2-82c6-41d1-ab39-17fe4642bebc@kernel.org>
-Date: Thu, 5 Jun 2025 07:54:07 +0200
+	s=arc-20240116; t=1749108933; c=relaxed/simple;
+	bh=JiPjZpPszKvce3bAitOvkf5ocNgd1DZGGqYRlad1oWQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=LMzj3aF5l0B1FW8dkCPQJz2M+pIyOB4c+fhdXsPs62CN+46Fqf+JL9st+znWboM3AXiu4MXf1B/oFFNUge7nXSbMHiSpmu83GDg56QwAAaCY3xY65vUA79OASMRHhiiX2Dcw+ugd9I0vhRvvePYom6UgU9QgYWgqfe9YqA3bADg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: eac0473241de11f0b29709d653e92f7d-20250605
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.45,REQID:5f0b65d3-5033-4296-8fe1-3298b09a26ea,IP:0,U
+	RL:0,TC:0,Content:0,EDM:-30,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
+	N:release,TS:-30
+X-CID-META: VersionHash:6493067,CLOUDID:bbfc68758d43e42d124c0b08258bac5d,BulkI
+	D:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0|50,EDM:2,IP:nil,URL
+	:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SP
+	R:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-UUID: eac0473241de11f0b29709d653e92f7d-20250605
+Received: from mail.kylinos.cn [(10.44.16.175)] by mailgw.kylinos.cn
+	(envelope-from <zhangheng@kylinos.cn>)
+	(Generic MTA)
+	with ESMTP id 1051063951; Thu, 05 Jun 2025 15:30:12 +0800
+Received: from mail.kylinos.cn (localhost [127.0.0.1])
+	by mail.kylinos.cn (NSMail) with SMTP id 5A0B1E00891C;
+	Thu,  5 Jun 2025 15:30:12 +0800 (CST)
+X-ns-mid: postfix-68414784-21522215
+Received: from localhost.localdomain (unknown [172.25.120.77])
+	by mail.kylinos.cn (NSMail) with ESMTPA id BF327E00891B;
+	Thu,  5 Jun 2025 15:30:11 +0800 (CST)
+From: Zhang Heng <zhangheng@kylinos.cn>
+To: jikos@kernel.org,
+	bentiss@kernel.org
+Cc: linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Zhang Heng <zhangheng@kylinos.cn>
+Subject: [PATCH] HID: Add IGNORE quirk for SMARTLINKTECHNOLOGY
+Date: Thu,  5 Jun 2025 15:29:59 +0800
+Message-Id: <20250605072959.91625-1-zhangheng@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] dt-bindings: input: goodix,gt9916: Document stylus
- support
-To: Pengyu Luo <mitltlatltl@gmail.com>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Hans de Goede <hdegoede@redhat.com>,
- Kees Cook <kees@kernel.org>, Dan Williams <dan.j.williams@intel.com>,
- =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>,
- Dionna Amalie Glaze <dionnaglaze@google.com>,
- Yury Norov <yury.norov@gmail.com>, Filipe Manana <fdmanana@suse.com>,
- Len Brown <len.brown@intel.com>, Eric Biggers <ebiggers@google.com>,
- pengdonglin <pengdonglin@xiaomi.com>, Luo Jie <quic_luoj@quicinc.com>,
- Neil Armstrong <neil.armstrong@linaro.org>
-Cc: Charles Wang <charles.goodix@gmail.com>, linux-input@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20250605054855.403487-1-mitltlatltl@gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20250605054855.403487-1-mitltlatltl@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 
-On 05/06/2025 07:48, Pengyu Luo wrote:
-> Document stylus support. Optional support for DT properties:
->   - `goodix,stylus-enable`
->   - `goodix,stylus-pressure-level`
->   - `goodix,physical-x`
->   - `goodix,physical-y`
-> 
-> Signed-off-by: Pengyu Luo <mitltlatltl@gmail.com>
-> ---
->  .../input/touchscreen/goodix,gt9916.yaml      | 23 +++++++++++++++++++
->  1 file changed, 23 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/input/touchscreen/goodix,gt9916.yaml b/Documentation/devicetree/bindings/input/touchscreen/goodix,gt9916.yaml
-> index c40d92b7f..e5476ea36 100644
-> --- a/Documentation/devicetree/bindings/input/touchscreen/goodix,gt9916.yaml
-> +++ b/Documentation/devicetree/bindings/input/touchscreen/goodix,gt9916.yaml
-> @@ -44,6 +44,27 @@ properties:
->    touchscreen-size-y: true
->    touchscreen-swapped-x-y: true
->  
-> +  goodix,stylus-enable:
-> +    type: boolean
-> +    description:
-> +      Indicates that stylus (pen) functionality is enabled. If present,
+MARTLINKTECHNOLOGY is a microphone device, when the HID interface in an
+audio device is requested to get specific report id, the following error
+may occur.
 
-Looks like deducible from the compatible.
+[  562.939373] usb 1-1.4.1.2: new full-speed USB device number 21 using x=
+hci_hcd
+[  563.104908] usb 1-1.4.1.2: New USB device found, idVendor=3D4c4a, idPr=
+oduct=3D4155, bcdDevice=3D 1.00
+[  563.104910] usb 1-1.4.1.2: New USB device strings: Mfr=3D1, Product=3D=
+2, SerialNumber=3D3
+[  563.104911] usb 1-1.4.1.2: Product: USB Composite Device
+[  563.104912] usb 1-1.4.1.2: Manufacturer: SmartlinkTechnology
+[  563.104913] usb 1-1.4.1.2: SerialNumber: 20201111000001
+[  563.229499] input: SmartlinkTechnology USB Composite Device as /device=
+s/pci0000:00/0000:00:07.1/0000:04:00.3/usb1/1-1/1-1.4/1-1.4.1/1-1.4.1.2/1=
+-1.4.1.2:1.2/0003:4C4A:4155.000F/input/input35
+[  563.291505] hid-generic 0003:4C4A:4155.000F: input,hidraw2: USB HID v2=
+.01 Keyboard [SmartlinkTechnology USB Composite Device] on usb-0000:04:00=
+.3-1.4.1.2/input2
+[  563.291557] usbhid 1-1.4.1.2:1.3: couldn't find an input interrupt end=
+point
+[  568.506654] usb 1-1.4.1.2: 1:1: usb_set_interface failed (-110)
+[  573.626656] usb 1-1.4.1.2: 1:1: usb_set_interface failed (-110)
+[  578.746657] usb 1-1.4.1.2: 1:1: usb_set_interface failed (-110)
+[  583.866655] usb 1-1.4.1.2: 1:1: usb_set_interface failed (-110)
+[  588.986657] usb 1-1.4.1.2: 1:1: usb_set_interface failed (-110)
 
-> +      the driver will initialize stylus-specific input reporting.
+Ignore HID interface. The device is working properly.
 
-What if my driver does something else? Shall we change the binding? No.
+Signed-off-by: Zhang Heng <zhangheng@kylinos.cn>
+---
 
-> +
-> +  goodix,physical-x:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    description: Physical width of the touchscreen in millimeters.
+I also tried adding HID_QUIRK_NOGET, but it didn't work.
 
-No, use existing input properties.
+ drivers/hid/hid-ids.h    | 3 +++
+ drivers/hid/hid-quirks.c | 1 +
+ 2 files changed, 4 insertions(+)
 
-> +
-> +  goodix,physical-y:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    description: Physical height of the touchscreen in millimeters.
-> +
-> +  goodix,stylus-pressure-level:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    description:
-> +      Number of discrete pressure levels supported by the stylus.
-> +      The reported ABS_PRESSURE range will be 0 to
-> +      (goodix,stylus-pressure-level - 1).
+diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+index e3fb4e2fe911..83d731c9fcd2 100644
+--- a/drivers/hid/hid-ids.h
++++ b/drivers/hid/hid-ids.h
+@@ -1525,4 +1525,7 @@
+ #define USB_VENDOR_ID_SIGNOTEC			0x2133
+ #define USB_DEVICE_ID_SIGNOTEC_VIEWSONIC_PD1011	0x0018
+=20
++#define USB_VENDOR_ID_SMARTLINKTECHNOLOGY              0x4c4a
++#define USB_DEVICE_ID_SMARTLINKTECHNOLOGY_4155         0x4155
++
+ #endif
+diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
+index 7fefeb413ec3..78db734c3f6f 100644
+--- a/drivers/hid/hid-quirks.c
++++ b/drivers/hid/hid-quirks.c
+@@ -904,6 +904,7 @@ static const struct hid_device_id hid_ignore_list[] =3D=
+ {
+ #endif
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_YEALINK, USB_DEVICE_ID_YEALINK_P1K_P4K_B=
+2K) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_QUANTA, USB_DEVICE_ID_QUANTA_HP_5MP_CAME=
+RA_5473) },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_SMARTLINKTECHNOLOGY, USB_DEVICE_ID_SMART=
+LINKTECHNOLOGY_4155) },
+ 	{ }
+ };
+=20
+--=20
+2.25.1
 
-Use existing input properties.
-
-
-
-Best regards,
-Krzysztof
 
