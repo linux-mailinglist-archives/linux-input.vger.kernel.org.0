@@ -1,140 +1,128 @@
-Return-Path: <linux-input+bounces-12716-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12717-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D76BACE816
-	for <lists+linux-input@lfdr.de>; Thu,  5 Jun 2025 03:58:54 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FE1CACE923
+	for <lists+linux-input@lfdr.de>; Thu,  5 Jun 2025 07:04:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C6F71188C082
-	for <lists+linux-input@lfdr.de>; Thu,  5 Jun 2025 01:59:08 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 19DBA173876
+	for <lists+linux-input@lfdr.de>; Thu,  5 Jun 2025 05:04:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1FA7A1BD9D0;
-	Thu,  5 Jun 2025 01:58:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B04E24B26;
+	Thu,  5 Jun 2025 05:04:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="wwquhIMJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GbvDhjNu"
 X-Original-To: linux-input@vger.kernel.org
-Received: from out-186.mta0.migadu.com (out-186.mta0.migadu.com [91.218.175.186])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B71E1BC07A
-	for <linux-input@vger.kernel.org>; Thu,  5 Jun 2025 01:58:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.186
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C9D41AF4D5
+	for <linux-input@vger.kernel.org>; Thu,  5 Jun 2025 05:04:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749088728; cv=none; b=CujdFWpbFNuku7FJ+nyd0dFQULRzT0xAn6FuK6lFreRMwXRUYjGxL+Yjhjn8Cr6/QJUHEhrKoyNrzT8oZgpT4n3qR4rw400ZfWAPgGafBAM9JB5k7Q9Bpntr0GFsJuVfjcwcQDyI0tsykkGwgK1zdAiBXdN6yWa9sydr6Ssogpk=
+	t=1749099859; cv=none; b=AxLdyAT4p+83eGhfUO+KmkltjOdAbFlQ3meWMJLJgz12GP26mYp4ZXPc7+vZzGI9bBYG109rnB7rJj3g63UPkJqxVkOhisSR7swmzMv80vcq7Wa+sZ1OmyM0nYjYOs7kkJK6pqEwKry+9yBu+B861239g4CkWFXB169HmagtJYU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749088728; c=relaxed/simple;
-	bh=HiMqOMogaPO00WEmzbxR2t2alShtYY94hveqXZdKB7U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qAqTsUkok4jENxMdvH9Cjzqy64iy+FiYbCJw/75MYysKpwKUFICDiuaXVWb6bKg+m9PVwAHcGFtrxpZfEdt4aMs8G4Zc5+rCk8sGddevYnyitUjv19XN7c9rg2ClvECI/CZmm9Dq81Yxu6HVJdquzMIDsDJuZvh4dc5OvmH10Ps=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=wwquhIMJ; arc=none smtp.client-ip=91.218.175.186
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Date: Wed, 4 Jun 2025 19:58:19 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1749088711;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2pGp4RUhvoSSPmBY1Hz2PrPlipkQlVMkrKAc4XT96CM=;
-	b=wwquhIMJ7FM57vTLu/RXHpLjlxsxYpGlyC3XNARi+m8ScB9uB1FsFNUxXyNiA1vFVajdv7
-	ejoMFixztDMCnVky0yjU0c9/CFesDsirz8N5DSgIKwDPnUQQXRi/WTgf4+HGhEddwEbyNL
-	Fm+dxrCbcibtjsCt7MzICQ+EIa32jWM=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Russ Weight <russ.weight@linux.dev>
-To: Marco Felsch <m.felsch@pengutronix.de>
-Cc: Luis Chamberlain <mcgrof@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Kamel Bouhara <kamel.bouhara@bootlin.com>, 
-	Marco Felsch <kernel@pengutronix.de>, Henrik Rydberg <rydberg@bitmath.org>, 
-	Danilo Krummrich <dakr@redhat.com>, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-input@vger.kernel.org
-Subject: Re: [PATCH v2 1/4] firmware_loader: expand firmware error codes with
- skip error
-Message-ID: <b5jlh7ngl64aqrm7b2hkpafvfk6rmuyhwshzogxqozpal3owmj@u26s6bpwbax7>
-References: <20250529-v6-10-topic-touchscreen-axiom-v2-0-a5edb105a600@pengutronix.de>
- <20250529-v6-10-topic-touchscreen-axiom-v2-1-a5edb105a600@pengutronix.de>
+	s=arc-20240116; t=1749099859; c=relaxed/simple;
+	bh=7hActEdiBgbxMqIrPf0vpSO9dMSV0YHd34tTwwoRm5I=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=fX3cvueNmOcZkqhduWa2avPIc/fZInmiXUISLeQc8JtyPG/cLWL8gx7brAV5ePPHaKUBM5EUUHED15rtTCj4kMpnwgjyIBWWM0Ag+d6OKRBJwsWyhwrAqz8kKd3yD82Yc7JXOuAZUcKDA/sBpRxT6fSfUF+C9MS3IgKojUnrWe8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GbvDhjNu; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1749099858; x=1780635858;
+  h=date:from:to:cc:subject:message-id;
+  bh=7hActEdiBgbxMqIrPf0vpSO9dMSV0YHd34tTwwoRm5I=;
+  b=GbvDhjNuozc9kAy8PuZH4ZbCq2ZyXQTFUSdqvbnBYhXELi3mKyloqnS9
+   Dq35+lZiSzfmoTXaNwavx+f4kqaERN+aZ1g0WGSRLj4//gB80fiJdPFY3
+   0X7l/ZV7oSywpNZKXkfWjxhka2rygj4VUqbV12HyjSdRna/V3CTPwLYjC
+   SODmBtQrPRDLW78xIaNXTLO913J1RO2Q1vI5RTFfxHACCIUfNx4h4MsOn
+   TxHbuJXgtGh6FAYAnrP7506KEQFomH3iu4wdoufXJ9wtY0fPvHP98V88H
+   cZFeN0rj/QkA+97BsvAeX+bBqCHHJzt6NyOgpI2whLEgIQ3srY3+iEdbP
+   w==;
+X-CSE-ConnectionGUID: 70VtpVLpSiuZ6tfmuA6Csg==
+X-CSE-MsgGUID: X5fEOGBrScKAR+dsTMjT9w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11454"; a="61871654"
+X-IronPort-AV: E=Sophos;i="6.16,211,1744095600"; 
+   d="scan'208";a="61871654"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jun 2025 22:04:17 -0700
+X-CSE-ConnectionGUID: AWlQJra3RzSkjdFOlRUNxA==
+X-CSE-MsgGUID: Du6WPHVpTZekRhPNejRW1A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,211,1744095600"; 
+   d="scan'208";a="145352991"
+Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
+  by fmviesa007.fm.intel.com with ESMTP; 04 Jun 2025 22:04:15 -0700
+Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uN2lw-0003jw-2v;
+	Thu, 05 Jun 2025 05:04:12 +0000
+Date: Thu, 05 Jun 2025 13:03:38 +0800
+From: kernel test robot <lkp@intel.com>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: linux-input@vger.kernel.org
+Subject: [dtor-input:for-linus] BUILD SUCCESS
+ 805f5bbaa507a7e15333ad7bb34d517251de4eb9
+Message-ID: <202506051328.BtN1oD6R-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250529-v6-10-topic-touchscreen-axiom-v2-1-a5edb105a600@pengutronix.de>
-X-Migadu-Flow: FLOW_OUT
 
-On Thu, May 29, 2025 at 12:08:42AM +0200, Marco Felsch wrote:
-> Add FW_UPLOAD_ERR_SKIP to allow drivers to inform the firmware_loader
-> framework that the update is not required. This can be the case if the
-> user provided firmware matches the current running firmware.
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git for-linus
+branch HEAD: 805f5bbaa507a7e15333ad7bb34d517251de4eb9  Input: psmouse - switch to use scnprintf() to suppress truncation warning
 
-The changes below look fine, but the commit message is inconsistent
-with the actual changes. The commit message should reference
-FW_UPLOAD_ERR_DUPLICATE instead of FW_UPLOAD_ERR_SKIP.
+elapsed time: 1433m
 
-- Russ
+configs tested: 35
+configs skipped: 1
 
-> 
-> Sync lib/test_firmware.c file accordingly.
-> 
-> Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
-> ---
->  drivers/base/firmware_loader/sysfs_upload.c | 1 +
->  include/linux/firmware.h                    | 2 ++
->  lib/test_firmware.c                         | 1 +
->  3 files changed, 4 insertions(+)
-> 
-> diff --git a/drivers/base/firmware_loader/sysfs_upload.c b/drivers/base/firmware_loader/sysfs_upload.c
-> index 829270067d1632f92656859fb9143e3fa9635670..0a583a1b3f4fde563257566426d523fbf839b13f 100644
-> --- a/drivers/base/firmware_loader/sysfs_upload.c
-> +++ b/drivers/base/firmware_loader/sysfs_upload.c
-> @@ -28,6 +28,7 @@ static const char * const fw_upload_err_str[] = {
->  	[FW_UPLOAD_ERR_RW_ERROR]     = "read-write-error",
->  	[FW_UPLOAD_ERR_WEAROUT]	     = "flash-wearout",
->  	[FW_UPLOAD_ERR_FW_INVALID]   = "firmware-invalid",
-> +	[FW_UPLOAD_ERR_DUPLICATE]    = "firmware-duplicate",
->  };
->  
->  static const char *fw_upload_progress(struct device *dev,
-> diff --git a/include/linux/firmware.h b/include/linux/firmware.h
-> index aae1b85ffc10e20e9c3c9b6009d26b83efd8cb24..fe7797be4c08cd62cdad9617b8f70095d5e0af2f 100644
-> --- a/include/linux/firmware.h
-> +++ b/include/linux/firmware.h
-> @@ -29,6 +29,7 @@ struct firmware {
->   * @FW_UPLOAD_ERR_RW_ERROR: read or write to HW failed, see kernel log
->   * @FW_UPLOAD_ERR_WEAROUT: FLASH device is approaching wear-out, wait & retry
->   * @FW_UPLOAD_ERR_FW_INVALID: invalid firmware file
-> + * @FW_UPLOAD_ERR_DUPLICATE: firmware is already up to date (duplicate)
->   * @FW_UPLOAD_ERR_MAX: Maximum error code marker
->   */
->  enum fw_upload_err {
-> @@ -41,6 +42,7 @@ enum fw_upload_err {
->  	FW_UPLOAD_ERR_RW_ERROR,
->  	FW_UPLOAD_ERR_WEAROUT,
->  	FW_UPLOAD_ERR_FW_INVALID,
-> +	FW_UPLOAD_ERR_DUPLICATE,
->  	FW_UPLOAD_ERR_MAX
->  };
->  
-> diff --git a/lib/test_firmware.c b/lib/test_firmware.c
-> index 211222e63328f970228920f5662ee80cc7f51215..603c3a4b385c849944a695849a1894693234b5eb 100644
-> --- a/lib/test_firmware.c
-> +++ b/lib/test_firmware.c
-> @@ -1133,6 +1133,7 @@ static const char * const fw_upload_err_str[] = {
->  	[FW_UPLOAD_ERR_RW_ERROR]     = "read-write-error",
->  	[FW_UPLOAD_ERR_WEAROUT]	     = "flash-wearout",
->  	[FW_UPLOAD_ERR_FW_INVALID]   = "firmware-invalid",
-> +	[FW_UPLOAD_ERR_DUPLICATE]    = "firmware-duplicate",
->  };
->  
->  static void upload_err_inject_error(struct test_firmware_upload *tst,
-> 
-> -- 
-> 2.39.5
-> 
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+tested configs:
+alpha        allyesconfig    gcc-15.1.0
+arc          allmodconfig    gcc-15.1.0
+arc          allyesconfig    gcc-15.1.0
+arm          allmodconfig    gcc-15.1.0
+arm          allyesconfig    gcc-15.1.0
+arm64        allmodconfig    clang-19
+hexagon      allmodconfig    clang-17
+hexagon      allyesconfig    clang-21
+i386         allmodconfig    gcc-12
+i386          allnoconfig    gcc-12
+i386         allyesconfig    gcc-12
+i386            defconfig    clang-20
+loongarch    allmodconfig    gcc-15.1.0
+m68k         allmodconfig    gcc-15.1.0
+m68k         allyesconfig    gcc-15.1.0
+microblaze   allmodconfig    gcc-15.1.0
+microblaze   allyesconfig    gcc-15.1.0
+openrisc     allyesconfig    gcc-15.1.0
+parisc       allmodconfig    gcc-15.1.0
+parisc       allyesconfig    gcc-15.1.0
+powerpc      allmodconfig    gcc-15.1.0
+powerpc      allyesconfig    clang-21
+riscv        allmodconfig    clang-21
+riscv        allyesconfig    clang-16
+s390         allmodconfig    clang-18
+s390         allyesconfig    gcc-15.1.0
+sh           allmodconfig    gcc-15.1.0
+sh           allyesconfig    gcc-15.1.0
+sparc        allmodconfig    gcc-15.1.0
+um           allmodconfig    clang-19
+um           allyesconfig    gcc-12
+x86_64        allnoconfig    clang-20
+x86_64       allyesconfig    clang-20
+x86_64          defconfig    gcc-11
+x86_64      rhel-9.4-rust    clang-18
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
