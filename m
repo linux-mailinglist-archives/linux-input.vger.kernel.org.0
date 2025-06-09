@@ -1,46 +1,46 @@
-Return-Path: <linux-input+bounces-12740-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12741-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05586AD1F45
-	for <lists+linux-input@lfdr.de>; Mon,  9 Jun 2025 15:45:01 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 48F08AD1F67
+	for <lists+linux-input@lfdr.de>; Mon,  9 Jun 2025 15:46:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C3AF616C4FC
-	for <lists+linux-input@lfdr.de>; Mon,  9 Jun 2025 13:45:01 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A8AB816C41D
+	for <lists+linux-input@lfdr.de>; Mon,  9 Jun 2025 13:46:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DCE2E25A324;
-	Mon,  9 Jun 2025 13:44:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C85FC259CBF;
+	Mon,  9 Jun 2025 13:45:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GvBeYeS+"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HaRo85jg"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0CB4259C93;
-	Mon,  9 Jun 2025 13:44:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E0F820322;
+	Mon,  9 Jun 2025 13:45:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749476687; cv=none; b=ZfzLXIIyp1QR0/1mXtezliP9E1Gyr2QhaH3FOXjpZ8IkQ6tkr8wszSYDNxI/TANAORSkHILYLHCQPfAy28jHibl8NZnjg8HyraBlcwnjv/cyJF2wsrlwnXVOOPjXIQZnGsMCbdfmEimZUJwm7hZIigCukPn2quMDB1bbbT+OFnk=
+	t=1749476746; cv=none; b=ZwfCsFl6fq+ebgg/GxVN9RZAOmrmiOhR5f9hVSqzlDGrYs7XouJA3zXy0XCU+jYWkIr8nbCTgiJduvrCDrnO7xYRkBhTcdEe4CiPn9W7HZSFaaQf8mtYxb3Bb/4YHxuq/El3m8/CPzHVte5KtL3BdDzo1mDizTdT9rc5U6gS+8c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749476687; c=relaxed/simple;
+	s=arc-20240116; t=1749476746; c=relaxed/simple;
 	bh=pJCzUmR773gYxvZ5iMaladAJs5P8lpHkrLmEWci9EF8=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=BNxgG++fkfV6Zr8Xk4sqrFy6SaNoYU7Du/XWRvmjQ0MI/Wws3Zc0AeIhv4fL75Oo2qSuu9iXSXsbd1i+2jkJFG4Uswqp6y5eEu0bEzmx+8B9F0qVn5S2CUc7UIMtGe8ecyK4K1sL+GzPea89AGGOHXbEL/Yw4c3fqcV1tibMX4A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GvBeYeS+; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F660C4CEEB;
-	Mon,  9 Jun 2025 13:44:46 +0000 (UTC)
+	 MIME-Version; b=tnUTWS9E47ViUvZnM2vMQqQgzVyLaby7UJso1KjvlZLw2K8hsW4fIm2G49XbbhaRTUZSc1AoQczWrZ1p+sOsb3sPcOAdfa1vOiuosBBetyiJArZUa+odIALykgBCSRQk6cfGP4HsxAIQGjGr3BTD7zNFmZ7TYwR4Hp9XWy+BOWM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HaRo85jg; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5C7D1C4CEF8;
+	Mon,  9 Jun 2025 13:45:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749476687;
+	s=k20201202; t=1749476746;
 	bh=pJCzUmR773gYxvZ5iMaladAJs5P8lpHkrLmEWci9EF8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=GvBeYeS+yHpODDWkk/uwd7wTBWPi5mqISZ0nI4dc2+oleM/Gak0EYbLBeHAXLOW2X
-	 K+OBwqZG8fvgssWVUYpVI2AbbKVI1Y0O+8uMIGSGrCuUC62xzKC+PtOUe6qjDUP+6q
-	 ZKzzhcgGzb54sV7zhtDNtnpfj+5kIsRREDteasPTTvBVBAIAMyiMhdVozVZgMvZNeL
-	 EOyZhqf2+LELcgg2/A6GATfC3HBO6L+WnuzoeNdsZ14Y/1AQlBcj6LSI6XXp6Jarbi
-	 ib7DvZ2nvwRamEnXpUJMikDRTLf9/I3YbWuJLirvng5GiIqQ07J3Y1UULgjBk6PnXd
-	 XvfoCeLpBztaA==
+	b=HaRo85jgm60Md3AhlppGV4gi+9PoCIIoxQIZtm8D+MuNwgswVnZEktl0DBqVMcx7n
+	 PWbuz7lRBBgeisLjMqwK8wiA56QbWLgPeHFhZtcF63/YbKr9avZu90R29evPOP8iSq
+	 pIqXIccnS/78NCM2OKduv9R5FQm6MuyzwAQHq6uWA8xjp8+VDm0zpkhJA98dDsM1p4
+	 UhR8ohqsSPc4WiSt02DvSEFKWigZp0dNjBHMhsdzrfuz0g8j+VWBtxT2M7R2XOgrkI
+	 ++sbN0rsvgbP3OFRh6GTEu5zAazgfmAxDS5p0er6fFpgeo/VslUg67mMLqgHEU9rXJ
+	 fZOtLfuaL69ww==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
@@ -52,12 +52,12 @@ Cc: Zhang Lixu <lixu.zhang@intel.com>,
 	jic23@kernel.org,
 	linux-input@vger.kernel.org,
 	linux-iio@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.15 24/35] iio: hid-sensor-prox: Add support for 16-bit report size
-Date: Mon,  9 Jun 2025 09:43:40 -0400
-Message-Id: <20250609134355.1341953-24-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.14 18/29] iio: hid-sensor-prox: Add support for 16-bit report size
+Date: Mon,  9 Jun 2025 09:44:59 -0400
+Message-Id: <20250609134511.1342999-18-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250609134355.1341953-1-sashal@kernel.org>
-References: <20250609134355.1341953-1-sashal@kernel.org>
+In-Reply-To: <20250609134511.1342999-1-sashal@kernel.org>
+References: <20250609134511.1342999-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -66,7 +66,7 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.15.1
+X-stable-base: Linux 6.14.10
 Content-Transfer-Encoding: 8bit
 
 From: Zhang Lixu <lixu.zhang@intel.com>
