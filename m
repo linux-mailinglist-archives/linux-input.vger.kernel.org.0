@@ -1,125 +1,193 @@
-Return-Path: <linux-input+bounces-12739-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12740-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31A17AD1DDA
-	for <lists+linux-input@lfdr.de>; Mon,  9 Jun 2025 14:34:29 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 05586AD1F45
+	for <lists+linux-input@lfdr.de>; Mon,  9 Jun 2025 15:45:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DF8D73AF623
-	for <lists+linux-input@lfdr.de>; Mon,  9 Jun 2025 12:32:26 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C3AF616C4FC
+	for <lists+linux-input@lfdr.de>; Mon,  9 Jun 2025 13:45:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CA50D257455;
-	Mon,  9 Jun 2025 12:25:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DCE2E25A324;
+	Mon,  9 Jun 2025 13:44:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="g14+ZF8l"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GvBeYeS+"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC17F25A35E;
-	Mon,  9 Jun 2025 12:25:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0CB4259C93;
+	Mon,  9 Jun 2025 13:44:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749471940; cv=none; b=gx9WUxjcuiwGn2vJRoz/TRNA4ckXvfpEzQ1OSpYHK27Q4LijDANpfov2+RBGJJ3bjWVPOsaP6ZPf0gWWxkFpojmLMb7wLgEzZkMqzjfbl4sRprlIvETFcQfYbFRg2LQKzwXniWpnQp5l91D4nlfJ8JRzfkhnvcnesvZf5z0PsSg=
+	t=1749476687; cv=none; b=ZfzLXIIyp1QR0/1mXtezliP9E1Gyr2QhaH3FOXjpZ8IkQ6tkr8wszSYDNxI/TANAORSkHILYLHCQPfAy28jHibl8NZnjg8HyraBlcwnjv/cyJF2wsrlwnXVOOPjXIQZnGsMCbdfmEimZUJwm7hZIigCukPn2quMDB1bbbT+OFnk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749471940; c=relaxed/simple;
-	bh=l0eq9z+bwI2/6pPSlEWgKnX9533DmDLPCwHP+/s/+eA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=REzXLS85K23NKHgE3q8dhHNknnc7Ucw3vIUeVFgqiFPbgw6ICJboyj55PtTwRpJKekUysvDcs926r03m0ZISTRQklCmqWYlDOH+2//I7bDj5SNa6MCjKuuACSgaxq7IiwNbIor9qg6ZCD/HsIM2OW04uGncwo6sFrnCRQtAbomc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=g14+ZF8l; arc=none smtp.client-ip=209.85.208.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-607b59b447bso3293357a12.1;
-        Mon, 09 Jun 2025 05:25:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1749471937; x=1750076737; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Lm8+J8LO9pTzE/AcmxF5BhTmx/0SQO6Kz6Y+OF2wnic=;
-        b=g14+ZF8lnpQiTJ/o/BNDAtjyYyZal468gXyaLyRppI+mObyIX2S+g1TaDiJrMR5xTa
-         wFqpAE0UWq1MSou9vuGJywCSz0m1S4HDhSjlHIfhshWWCnDmRsegacv6Ifx4/1TALpLN
-         FUMVTsgrSSRNz7kajqxow4GIbToAjAF4gHL6LHfwcpbb0gQDhjTy0r/+Aor1n1iLTjAI
-         SvMeu0/wiZSe1UTBYr3oheyiVVUviCe58wRUkSA01cOXXdOHLlAu71yZLFfN5SAEMj0i
-         gRFk++wkEQpUo3EPm4pJrCq0IrnsFug6P4USL4/VOdL7kvACoRNM3Uswy80Coo+NwhrY
-         V7vg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749471937; x=1750076737;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Lm8+J8LO9pTzE/AcmxF5BhTmx/0SQO6Kz6Y+OF2wnic=;
-        b=m0ZEjGtSFZa4ntQDyudQjSGmLDyHaLz++1zZ3bluNVgHkbljqFxeTnBPW1sbuyerDG
-         C1Y72F+8zVAd6LJNVPlBHIrISGHbB+xnxAhwtb9aWiw6tprFTNARiprJLgJy/+mYzBl4
-         yOPT7FpGLL6MIEJqvbJzoD2AyLWT6R7D3XAJqLIhHI9Wgz7ay3RTP9fDZ+m5MhoYK0Ab
-         jKqJJsxS8OB4VnpLZDd9TS8VscqTOhragVPWVfqzzxx5yOPRep1ExyqEr19+MiaTJ75s
-         umo342wGmQPLJuApUyvyE+wxbdR1xsPxYZr5K1hoVwBRzMp1JlFy1lDrb0SFLCxvZTC4
-         BS9Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXOCFWIerusLodEXyEMAqmaDpPFdViulXwm+1THyNEG0cdeowvs0/lC4EBw8yx8WiKOhRwjaV4Kprptp8GI@vger.kernel.org, AJvYcCXuTXUFHPGdCmquylitkAKqfncUAji4cPMYMYJwNuQAzm/zHhsp9Dit8ZHwKpd3cRABXjv7wot116BQDg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywry+8g0Rql5GmcednJzqPgUf7pPteKeX7vQsxlF0SCFvt1xmR8
-	skfIW229w0FvEwXcxaQ22riYXIDnDvrgQMm8BN6KFbOMkukLChn0YirX
-X-Gm-Gg: ASbGncuRMiBKx/7KLvt2smx2UKF21dTkQtPM2TzMDx8YCNkVeEOal4zDuCBk5MCbneR
-	tBuxz2cf9WFpJZ8P+8WKs3wT1VTnKY54faGX9zjd27dWHy8nbEUtmV59Cpj9VK/Td4kF2KwcZ45
-	5jp9p6KIYhazDMCM4I2/LlHXaBx203r1wXQ/3iPUcXqQVaGv909c09Z8LwBRx1uBU2dflMZ/vUz
-	TSj6lln3RNYFfyvS1YjcfDekhgz3VMQS8R2zourPjzfs8KZSHE35Y1O2EBFVD9/ezNPAJupmDpS
-	Ap6pWG/QKGgzhKrYj1eo3Vttx9y+3ao/gSM2TfKuX2oUzn/rsPpiFmpO7Vc0iKKqgJ+7uJAASEC
-	s3Ij4yQ2XUpV0
-X-Google-Smtp-Source: AGHT+IFYv4rUYkaPQ9Vg+6CHFrzjuBMHZ3ntWNeCEBbU9TrLLDM5BfrvME31JEIqv1Zdo0LxsEGSlQ==
-X-Received: by 2002:a05:6402:5256:b0:602:1b8b:2902 with SMTP id 4fb4d7f45d1cf-607743a5bc0mr11884785a12.15.1749471937031;
-        Mon, 09 Jun 2025 05:25:37 -0700 (PDT)
-Received: from [192.168.32.20] (public-gprs400974.centertel.pl. [37.47.197.143])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-60804dfb96fsm675481a12.65.2025.06.09.05.25.35
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 09 Jun 2025 05:25:36 -0700 (PDT)
-Message-ID: <7a6083df-9060-4d07-8293-304a3f5f6cdd@gmail.com>
-Date: Mon, 9 Jun 2025 14:25:34 +0200
+	s=arc-20240116; t=1749476687; c=relaxed/simple;
+	bh=pJCzUmR773gYxvZ5iMaladAJs5P8lpHkrLmEWci9EF8=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=BNxgG++fkfV6Zr8Xk4sqrFy6SaNoYU7Du/XWRvmjQ0MI/Wws3Zc0AeIhv4fL75Oo2qSuu9iXSXsbd1i+2jkJFG4Uswqp6y5eEu0bEzmx+8B9F0qVn5S2CUc7UIMtGe8ecyK4K1sL+GzPea89AGGOHXbEL/Yw4c3fqcV1tibMX4A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GvBeYeS+; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F660C4CEEB;
+	Mon,  9 Jun 2025 13:44:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1749476687;
+	bh=pJCzUmR773gYxvZ5iMaladAJs5P8lpHkrLmEWci9EF8=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=GvBeYeS+yHpODDWkk/uwd7wTBWPi5mqISZ0nI4dc2+oleM/Gak0EYbLBeHAXLOW2X
+	 K+OBwqZG8fvgssWVUYpVI2AbbKVI1Y0O+8uMIGSGrCuUC62xzKC+PtOUe6qjDUP+6q
+	 ZKzzhcgGzb54sV7zhtDNtnpfj+5kIsRREDteasPTTvBVBAIAMyiMhdVozVZgMvZNeL
+	 EOyZhqf2+LELcgg2/A6GATfC3HBO6L+WnuzoeNdsZ14Y/1AQlBcj6LSI6XXp6Jarbi
+	 ib7DvZ2nvwRamEnXpUJMikDRTLf9/I3YbWuJLirvng5GiIqQ07J3Y1UULgjBk6PnXd
+	 XvfoCeLpBztaA==
+From: Sasha Levin <sashal@kernel.org>
+To: patches@lists.linux.dev,
+	stable@vger.kernel.org
+Cc: Zhang Lixu <lixu.zhang@intel.com>,
+	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	Sasha Levin <sashal@kernel.org>,
+	jikos@kernel.org,
+	jic23@kernel.org,
+	linux-input@vger.kernel.org,
+	linux-iio@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.15 24/35] iio: hid-sensor-prox: Add support for 16-bit report size
+Date: Mon,  9 Jun 2025 09:43:40 -0400
+Message-Id: <20250609134355.1341953-24-sashal@kernel.org>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250609134355.1341953-1-sashal@kernel.org>
+References: <20250609134355.1341953-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] HID: playstation: DS4: Add BT poll interval adjustment
-To: Roderick Colenbrander <thunderbird2k@gmail.com>
-Cc: Roderick Colenbrander <roderick.colenbrander@sony.com>,
- Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>,
- linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
-References: <20250508210148.799578-1-titanv3585@gmail.com>
- <20250508214305.836406-1-titanv3585@gmail.com>
- <CAEc3jaCEENSMbWFcQyjWLP+4UPv3_2inARZLJsmXYF7zVbhkug@mail.gmail.com>
-Content-Language: en-US
-From: Vadym Tytan <titanv3585@gmail.com>
-In-Reply-To: <CAEc3jaCEENSMbWFcQyjWLP+4UPv3_2inARZLJsmXYF7zVbhkug@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.15.1
+Content-Transfer-Encoding: 8bit
 
-> Do you have a strong use case or reason to add it back?
+From: Zhang Lixu <lixu.zhang@intel.com>
 
-I wouldn't say *strong* per se, but if something:
-- Can be adjustable
-   - I think if hardware is capable of such thing it's better to have 
-adjustment of it available to user.
-   - It's better to have an option then no option at all, let the user 
-decide.
-- Doesn't break the hardware nor software
-   - When decreasing polling interval
-     - Battery impact is just faster discharging, it doesn't "breaks" it
-     - Bluetooth stack won't break, it could be just "overwhelmed"
-   - When increasing polling interval
-     - No negative impact at all (if we wouldn't count the user who can 
-set polling interval to like 63, and have choppy controls, that's why 
-defaults exists)
-- Have benefits
-   - PI can be decreased for smoother controls in cost of battery life
-   - PI can be also increased to save battery in cost of smooth controls
-- Doesn't impact anything nor anybody on defaults.
+[ Upstream commit ad02ca57e44e9936fca5095840fad9d4b47c5559 ]
 
-> The not adjustable referred to USB, which is not adjustable. So keep
-> that one the way it is.
+On Intel platforms, the HID_USAGE_SENSOR_HUMAN_PROXIMITY report size is 16
+bits. This patch adds support for handling 16-bit report sizes for the
+HID_USAGE_SENSOR_HUMAN_PROXIMITY usage in the HID sensor proximity driver.
 
-Oh, OK, I understood this in another way, but that make sense too.
+Previously, the driver only supported 8-bit and 32-bit report sizes. With
+this change, the driver can now correctly process 16-bit proximity data,
+ensuring accurate human presence detection on platforms where this report
+size is used.
+
+Signed-off-by: Zhang Lixu <lixu.zhang@intel.com>
+Acked-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Link: https://patch.msgid.link/20250317013634.4117399-1-lixu.zhang@intel.com
+Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+
+Based on my analysis of the commit and the context provided, I'll now
+provide my recommendation:
+
+**YES**
+
+## Extensive Analysis
+
+### Code Change Analysis
+
+The commit adds support for 16-bit report sizes in the HID sensor
+proximity driver by adding a simple `case 2:` clause to the existing
+switch statement in the `prox_capture_sample()` function:
+
+```c
+switch (raw_len) {
+case 1:
+    prox_state->human_presence[chan] = *(u8 *)raw_data * multiplier;
+    return 0;
++case 2:
++    prox_state->human_presence[chan] = *(u16 *)raw_data * multiplier;
++    return 0;
+case 4:
+    prox_state->human_presence[chan] = *(u32 *)raw_data * multiplier;
+    return 0;
+}
+```
+
+### Why This Should Be Backported
+
+1. **Important Bug Fix**: The commit message clearly states this is
+   needed for Intel platforms where `HID_USAGE_SENSOR_HUMAN_PROXIMITY`
+   uses 16-bit reports. Without this change, these platforms cannot
+   correctly process proximity data, making the sensor completely non-
+   functional for 16-bit report sizes.
+
+2. **Minimal Risk and Scope**: The change is extremely small (3 lines
+   added) and follows the exact same pattern as existing 8-bit and
+   32-bit cases. It's confined to a single function and only affects the
+   data parsing path for proximity sensors.
+
+3. **Pattern Consistency**: Looking at the grep results from other IIO
+   drivers, handling multiple data sizes (including 16-bit) in switch
+   statements is a common pattern throughout the IIO subsystem. This
+   change follows established conventions.
+
+4. **Hardware Compatibility**: The commit enables proper functionality
+   on Intel platforms that use 16-bit proximity reports. This is a
+   hardware compatibility fix rather than a new feature.
+
+5. **No Architectural Changes**: The change doesn't modify any APIs,
+   data structures, or architectural components - it simply extends the
+   existing data size handling logic.
+
+6. **Similar Successful Backports**: Looking at the reference commits,
+   we see that Similar Commit #3 and #4 were both backported (Status:
+   YES), and both were fixes for scale/data handling issues in HID
+   sensor drivers. This commit follows the same pattern of fixing data
+   handling bugs.
+
+7. **Clear Failure Mode**: Without this fix, Intel platforms with 16-bit
+   proximity reports would fail to capture proximity data, returning
+   `-EINVAL` and making the proximity sensor completely unusable.
+
+8. **Industry-Standard Fix**: The commit comes from Intel (Zhang Lixu)
+   with acknowledgment from the HID sensor maintainer (Srinivas
+   Pandruvada), indicating this addresses a real hardware compatibility
+   issue.
+
+### Risk Assessment
+
+The risk is extremely low because:
+- The change only affects the specific case where `raw_len == 2`
+- Existing 8-bit and 32-bit handling remains unchanged
+- The code follows the exact same pattern as existing cases
+- No memory management or complex logic is involved
+- Failure would be immediate and obvious (wrong data values)
+
+This commit clearly meets the stable tree criteria: it fixes an
+important hardware compatibility bug with minimal risk and no
+architectural changes.
+
+ drivers/iio/light/hid-sensor-prox.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/drivers/iio/light/hid-sensor-prox.c b/drivers/iio/light/hid-sensor-prox.c
+index 4c65b32d34ce4..46f788b0bc3e2 100644
+--- a/drivers/iio/light/hid-sensor-prox.c
++++ b/drivers/iio/light/hid-sensor-prox.c
+@@ -215,6 +215,9 @@ static int prox_capture_sample(struct hid_sensor_hub_device *hsdev,
+ 	case 1:
+ 		prox_state->human_presence[chan] = *(u8 *)raw_data * multiplier;
+ 		return 0;
++	case 2:
++		prox_state->human_presence[chan] = *(u16 *)raw_data * multiplier;
++		return 0;
+ 	case 4:
+ 		prox_state->human_presence[chan] = *(u32 *)raw_data * multiplier;
+ 		return 0;
+-- 
+2.39.5
 
 
