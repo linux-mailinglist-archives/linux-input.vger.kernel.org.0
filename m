@@ -1,438 +1,283 @@
-Return-Path: <linux-input+bounces-12743-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12744-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AC39AD2108
-	for <lists+linux-input@lfdr.de>; Mon,  9 Jun 2025 16:36:35 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 955E9AD2957
+	for <lists+linux-input@lfdr.de>; Tue, 10 Jun 2025 00:21:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 467FA16B0CE
-	for <lists+linux-input@lfdr.de>; Mon,  9 Jun 2025 14:36:34 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 72FEE3AEAD4
+	for <lists+linux-input@lfdr.de>; Mon,  9 Jun 2025 22:21:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F49625D200;
-	Mon,  9 Jun 2025 14:36:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 59A8921D3F4;
+	Mon,  9 Jun 2025 22:21:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IIB0bmtg"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="IJgP/AuS"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2044.outbound.protection.outlook.com [40.107.93.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E21A760DCF;
-	Mon,  9 Jun 2025 14:36:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749479782; cv=none; b=L2qO9OvSG88VUcyWg0taMBfPApgj6TrjcnL0mWj7YUxWNT+YNBoHDDJl9B2J2TORjiOoyMESBYaFnP656FPkerMDw0Ore0gG9NNY1XfdkkesycmO5OOQTiLC2l1aBdZsY3pD8wPhq19jjwkqLbAU/PiOt5llLlPx70aqboYg9IY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749479782; c=relaxed/simple;
-	bh=dtDoz4lFxHUrcNFFc2ksHg5b9nQk/UBSA45CCM1lT3M=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Fd4N2H/BoWaFNhS/a1+0ryJ0a7R7V1/YOFgU2lKs9Zbrp/CGJxl0ka/EDI1ZGiljvzTQvXCTQRyimLei11x5Ya9QaXwvVbjcrx0Rdr1zCJo1dAiMWsbLPKEbulP/LFpCDDzuh5RFH2P9aBDcnA09DJ3ztAZcCLYnyQ8oo5IJUfU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IIB0bmtg; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2D8FC4CEF0;
-	Mon,  9 Jun 2025 14:36:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749479780;
-	bh=dtDoz4lFxHUrcNFFc2ksHg5b9nQk/UBSA45CCM1lT3M=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=IIB0bmtgUJBIR6dCR1po5pvdKRHtFE7AWpA+ome6M7jicyY/jzw9KPr6R3dFOzszN
-	 KgTjtQoDJ+Up/RvX95bNTyMOp+rNqGzT44TBBXdaOX0SOgNt7bimDW4esCJO0pbTgt
-	 f68icJ2iX3ohNucKrXxthOCFqbUxPthojzuSjM/0its+2Ty2Gd8gocLCurtk5LjtBh
-	 WH4bNgMK5frossZ/5EZXFAXR7/qMafJ/rcenzo4KRAZeFm6UKtvACpOYd3Wn/pYJy9
-	 6iuTltXaVu33mYMlfymtYYPxYGC+oek+puV0fhsMlwKX87lUpF2k6Yr/IJwCXCBeUL
-	 SuFC9iBCED0ug==
-From: Hans de Goede <hansg@kernel.org>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Sebastian Reichel <sre@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <bentiss@kernel.org>,
-	Damien Le Moal <dlemoal@kernel.org>,
-	Niklas Cassel <cassel@kernel.org>,
-	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Andi Shyti <andi.shyti@kernel.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>
-Cc: Hans de Goede <hansg@kernel.org>,
-	dri-devel@lists.freedesktop.org,
-	linux-media@vger.kernel.org,
-	linux-pm@vger.kernel.org,
-	linux-acpi@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-input@vger.kernel.org,
-	linux-ide@vger.kernel.org,
-	platform-driver-x86@vger.kernel.org,
-	linux-i2c@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	linux-hwmon@vger.kernel.org
-Subject: [PATCH v2 1/1] MAINTAINERS: .mailmap: Update Hans de Goede's email address
-Date: Mon,  9 Jun 2025 16:35:57 +0200
-Message-ID: <20250609143558.42941-2-hansg@kernel.org>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250609143558.42941-1-hansg@kernel.org>
-References: <20250609143558.42941-1-hansg@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DABA1E521B
+	for <linux-input@vger.kernel.org>; Mon,  9 Jun 2025 22:21:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.93.44
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1749507681; cv=fail; b=oTaFT5bw1zXsy8aXofHjTIm8zb+GZG33BkwX2f0hXW8S1dmUJwdzXkixTeLPSrMaIWFaNs4ReWFiu9ssLmc2dW+HuDAiW57PSKncx/ZdPjIt2qVnexzMCFv0ru6GNtCpDF1kF2+o8zeRWjppcLhUtaX9KNOuBWW4HiuUjrxTum4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1749507681; c=relaxed/simple;
+	bh=DpFy7Hz6Frg/bJAS3IWMmbEF5NEQChfYje5P9IWTdG0=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=ud0ieINQlfXJ4wK0+hzXBXhG3aafSQjjTZ/7G60s6HmJFtnJuIsbpOoXer/Cl74K3bJMtl/I8sInWdaIYyCi9Rl5UJGhVMN5L7bXT7Tzz74ehCLo2aCU7HOP9aIiutWFgWc7Wiu0tPcWnzVF/TnHKBdQy4wXtdHux2stIueZt3o=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=IJgP/AuS; arc=fail smtp.client-ip=40.107.93.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ZP6JdyUNd3VJifMNy898iROarFPM9BPEBBdSNyUZPWXi1+0xc6bJPUJDPug7Yf+FJtb3ZBCpFvCKZd8WOtgp5s52O9h5WSpCLfxBH5JxaVVd5+yzCeiUoVvrykUENAUZkJqI2w4EHFzvGXmefvodNOheHsYpf/Xt0ORYSHVKudHfleBbaj6w4ZF9cswPCrj0wUrO11WFW3V1B0dOla87eyUrlVqt5hQheuCt1L5ULolNBySwGZrQiiIxsb4Dw7Lj1kHHxxz2RhCWsU4/bz0nJBbFYJ7BK4kbVsdi2QzXj0hBJnnCD3dafAeqMtHOd/dsLxqswmsfZK86LV+ryomgng==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=kfUuDnweKI28kFYd1s7yEAStiofFTLF4h0AFxs2C5DM=;
+ b=m4+nJJqHVIAWcn4Is+v8FFmkTXgbuRwm6nhuyRaoro3UrAdbS0Py2yLrXuVepZxIzZ+Io6FX9X2hjJWxK794T68C9ajsmGJmXHSsLE2LlZTqNBVcvhYRuvwS+CH1GUOPV45ysRDmWfvvgeDct2WnQqcbjsy9bTVoWWK0MRONKiLIMVQTS1pgWlpYVcCSu2G8wt/w9SGu8ooN8sRoq5dCzySqY1XRFrZQURgZhXM9k45111VQsEwa9OjHYsfKGqP+3flHBPvrysWshq5v9VjpWEGMra5+sL6nq9o4U9R5FcuK3qFJjo0eESBYimkvP22S1yoWhIl7oRZSWS7o7geH2w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=kfUuDnweKI28kFYd1s7yEAStiofFTLF4h0AFxs2C5DM=;
+ b=IJgP/AuSD/eZfVMsM9DuL3vsbZrKwW1fV6zjBomHMo7mcI0pz3/Pcs1iRyDg6EUfpEyJvMEVqG18gQMnfKnmU+CGPq9Mj2fyquYFQ6CZXZWc1qS1R5LfXgZ5cUkgxuj/iCsvUYqSxJVB3Fh1XL95a0Xz4E1gIZDTwPjv+l5FxVE=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MN0PR12MB6101.namprd12.prod.outlook.com (2603:10b6:208:3cb::10)
+ by PH8PR12MB7302.namprd12.prod.outlook.com (2603:10b6:510:221::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8792.38; Mon, 9 Jun
+ 2025 22:21:17 +0000
+Received: from MN0PR12MB6101.namprd12.prod.outlook.com
+ ([fe80::37ee:a763:6d04:81ca]) by MN0PR12MB6101.namprd12.prod.outlook.com
+ ([fe80::37ee:a763:6d04:81ca%7]) with mapi id 15.20.8792.034; Mon, 9 Jun 2025
+ 22:21:17 +0000
+Message-ID: <d63d94db-e257-4419-afeb-a661e833aa81@amd.com>
+Date: Mon, 9 Jun 2025 15:21:11 -0700
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] HID: amd_sfh: Enable operating mode
+To: Basavaraj Natikar <Basavaraj.Natikar@amd.com>, jikos@kernel.org,
+ bentiss@kernel.org, Denis Benato <benato.denis96@gmail.com>
+Cc: linux-input@vger.kernel.org,
+ Akshata MukundShetty <akshata.mukundshetty@amd.com>
+References: <20250527111047.920622-1-Basavaraj.Natikar@amd.com>
+Content-Language: en-US
+From: Mario Limonciello <mario.limonciello@amd.com>
+In-Reply-To: <20250527111047.920622-1-Basavaraj.Natikar@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MW4PR03CA0052.namprd03.prod.outlook.com
+ (2603:10b6:303:8e::27) To MN0PR12MB6101.namprd12.prod.outlook.com
+ (2603:10b6:208:3cb::10)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN0PR12MB6101:EE_|PH8PR12MB7302:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4de3ae34-738b-48e8-f1b8-08dda7a3f3be
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?QUVaS2pBcDgxVWgwNlkyRzRjSmFBeExNMTltc1JoeCtQdXZxR3lPaWVNS3NN?=
+ =?utf-8?B?ckFiczBTTUZZZUt6WnlDL01tRjI5czdqdW1kOEF2czdYS0M4VlhTbjJVQ3Bi?=
+ =?utf-8?B?SWNZNGxTUmVrNHk4RDI2SHVpZ1Jic2NzRTdXbm5ybkVLNm1mbDMyNE1HOC9Z?=
+ =?utf-8?B?YWVLMmoxbzlXemRsUDB1eXBoSGJWYTFOUWdKaW5jcWY3UkZNUHZyTkh4NFE2?=
+ =?utf-8?B?bGJpdEpFZmFhSnRUYmhRc25SRDhzVS9ERVVyYnp4NXVsWGpFZzlGZmdDQWhM?=
+ =?utf-8?B?MFZYcFpyZDUzM1U2TlVYU3hIVFJ2R2k3eGxXRFpiT2ZwTHBVUU9wTGdMUHJr?=
+ =?utf-8?B?c2FaNFo5b21RSUhpVkVRVHI4YzAvY2FRNEVWVC9SNU9CT0ZweTdqR0kvdGFY?=
+ =?utf-8?B?cDc2Y2UxZmdrbVlkYWdYQWduMEVpUXR3K1hTSVd5bUtJYnVIR3FISTkzSkNl?=
+ =?utf-8?B?Vi9seTgrdkJWWDUyK2pYVk9DajV0blhobjd1STZzbDRhcVREem5GTmsxelMv?=
+ =?utf-8?B?eVdEd3hnUVd4eEFNZWQwQnhDci9McitWaitQMjYxcGlPM3JxZ1ZabnhscG9R?=
+ =?utf-8?B?V1FuVlhXeWV0NXlVVldVT0tXQ0dIbGpUQUdLM1IxMW5CQzVNbENDbDc5bmI1?=
+ =?utf-8?B?cUt5RXpGaXFKS3dhekRwbVJuN3ZSZHRibnpxT1dSYmFNRnRYN2plb01obmRL?=
+ =?utf-8?B?azNJRnRCREtGVTh1VVNQRzd4cmZtMWUyVFRJYVdkRUdGY1UyeW83dFk3dTZz?=
+ =?utf-8?B?bFMzNHo3K1owSG1IVStHK0J2c3RXTHhYVnFUemVsMUs1UnJGN0ZxR2RoOHRt?=
+ =?utf-8?B?UlRpVWtLdFZUVkp1TkJtVGQrQWc5TllLWk4yenp3RURpTUtFcDhmVFBxYTRy?=
+ =?utf-8?B?bTEyTlE5VWVwa01JTHRHSlM3b21SaXNTaGpYbnNFc0tuZDc2bVFDcUJRY2dw?=
+ =?utf-8?B?LzlWOGM2WnpYOWt5ZXhnR2Q1Mko2QTlVb0RycG9WWlZ3ZkhkQTJkanV4MGdH?=
+ =?utf-8?B?cjg4Q3JiU0phb0xTRUZFWGhoWkQ5ajJIWWVnSUUxTDZORVN3NEtla3Ivb1pY?=
+ =?utf-8?B?QnNxZ2k2aXhEYXRJbjBjTWJyeG9FWlVsRHU3Z3Q0UEg1ZWVlRFdZYmttYjNL?=
+ =?utf-8?B?SGxmNzRtaUZwSXoxeTRUQ2hRczN1OU1zY21aczFxWFd6SzJOZVkyd1diZ1Rj?=
+ =?utf-8?B?Ylo0QXFaQnVBZ05nYTJGcXE5NnVPR2hhblBwWlljUS9NU3FWY1ExbUo4NldZ?=
+ =?utf-8?B?N1Mwd1pZSzE1b3F4UGZCTnhVNnVxK2ltMS9mTzRDQUFVc3hpOURUUzhWSFBZ?=
+ =?utf-8?B?K01qVHdPdmRGNG5SM1V2TUFVNW4yaWxxYklGNU5LdmVXUDhDUWhKMHBNbzRz?=
+ =?utf-8?B?dmZNOTVBcTNYbWo3SEJ4ZWZianJjbFZFM28wV0FsNG5EOWw2MzJ4TVNzcWxM?=
+ =?utf-8?B?UG92RW5aaFhOY1RZY3l4SGVJQXJHZmRmU2ZNQUx1anREeW9TK2YxcGtyQ2hT?=
+ =?utf-8?B?OWN3dTZUUnk1YjB4RFdhRXVnTHZHNi9LV3pIYnhmeTlHUW1LeVRRdjNJU09I?=
+ =?utf-8?B?RUgxK2FJNU1rK1JVZGRlNVdEYS9rSTI2a2hNNFV6M1ZyeHM2UjVkOGlKN2Rt?=
+ =?utf-8?B?ald1RjIzZ2t3Wk9oS2JFcXdNYlZnbktrZlJtOWVDbjdZNFVNWVVrY0xBZisv?=
+ =?utf-8?B?NkpmVElIZCt0aVRGaHhuK2FHRHMrc0F5b2Y3TDY1N1VWR3d0OXB4Q1pZbWgr?=
+ =?utf-8?B?ZngrdzBkb0ozeVFNSmo0SS9Zc3NwTnB1NUd3RkNsM0tkSjc4TzdFQ0F1U1ZP?=
+ =?utf-8?B?U1pRY2V3YS80bDBHeWVNTSsrSkFWVVpUeFg3bitHUUt4THc0dTBtV3ZhbSty?=
+ =?utf-8?B?R2QwYUdZK1dTN0I0WkdUazNJVTdiVG0zbStGb3VabTkzV1NDRGJSWmsvYWNh?=
+ =?utf-8?Q?SG+TBe6RecM=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN0PR12MB6101.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?L21zbGxrd2lIS0FwdTdDc3QzcHdwclZ2MFI3ci9qM3VYcEpjMVdUSFF5V3hE?=
+ =?utf-8?B?bGpJbFBMOEpERzhaVVViOFJKWndJUVQvUnhhZmNPTloxcVZxRXNNWm5wRmhH?=
+ =?utf-8?B?S1ExWGdDK0hGODFMQXY4Z1hvV2ozbXgyV0ZRWFZDN2pBamxnNTd5amVkL21j?=
+ =?utf-8?B?eE9DWHZkQ2Y5dGVSUzNHQkZNVm9RKzJpb09PaVZLVkRpcElxeVRWcGJOVFh2?=
+ =?utf-8?B?OVJKZk1SZWdvRkc1ZHovOFRUV2h3VGE5WjJjSnNnK29Td1F3Umg4blVIY1Az?=
+ =?utf-8?B?MTkyK2NCVnRVTVhaQ0diU2ZBQWdrRmsxbDV6RGN4TUxRbXBiU00yTFY2UWpo?=
+ =?utf-8?B?MlU0U0syNnhQdyt1Qi9WcUYwZk04UnNKTVdyQy9Ha2lUNXBBSDh0NzRQMG9Z?=
+ =?utf-8?B?a01qMDRDVzRZYzVxbHFBdHJuZFMrVnFaNUdHdG5DVENLaTg3VDNtdTRwc0pP?=
+ =?utf-8?B?MkZhTHF5NW40Nkh0QnRxWVgwbEVvWnlHZ3NxdVlscEVDQjExMlQ2Ri85aVh5?=
+ =?utf-8?B?ZmJ5R3ZYM2hWaWRqYVkvY1BJTGt1OWxWanJuTVVDckNXVVNyb05ld3Fwaysv?=
+ =?utf-8?B?ZHc1NEpDWVZaVDFpSkk5d0R6a3JrRW1FN2VoREhKTFVFbU55b0IzRVV6N0th?=
+ =?utf-8?B?MHRqR1hGZWdlalJxMEdDUSs0aGgrV1JnMlo5bTlxZExsVE5qaHNmRGxtNGJO?=
+ =?utf-8?B?b3ZxYmtZNGFpdk50Y3NQVzB6QWFqNENRQm5pdXkrVzJMUFhxYnAvWjlTdXlP?=
+ =?utf-8?B?S3JVWHpVU2d3U3ZValU3My84c0xUMzd1MzRKWmJvS0o3Q3lhQjJWUk4xUWgr?=
+ =?utf-8?B?Q0pwMWVnTVIwV0lsSFFLbThhRVk2dXF1SS9WTm5BcGw4KzRpNmFuVnVZRW4y?=
+ =?utf-8?B?NEcxenNCZXZ5M2M3UngydnpYemhxc2VoeXovSWdiMUdablhidm5KYVZPU0pi?=
+ =?utf-8?B?eFdOTUlMRVhCb2k4YnZ4SXlSUERuZ1doTitPZUFESnFnUDRTMGJwM1Z3Wm9Y?=
+ =?utf-8?B?K2FseDhqNVRQRGVGdzFoL3IyTDRXM2NWTEJLYzZ0d2NLTXB1Q1VHTUJ4NU1T?=
+ =?utf-8?B?TE9rODlrM21UazNHRFRZc0ZiOGhxVWJyNmtobEtPcjliblRqcUU1K1BoTDlp?=
+ =?utf-8?B?aytvUW1sOXNMQXFsUk4zc2NHamFmMmZVOGQ3THRYWGVNdE9sSTVDYVlhNEcx?=
+ =?utf-8?B?QndsT3dFcjhnWHpwRWt5dndrSVhJV0pLbTZZMXZNSW93UmI3MzJzS3J1d2I2?=
+ =?utf-8?B?Z0RKWlBqVVhJTytMb2l5aVNFb1VTZ0pVRnNsTmFPK2JTY3FjOXV4QzlEVVBO?=
+ =?utf-8?B?c1R1L0FOOGgyYnVlS1k4WFAvMlAzRmFhVGhMcnVyek9IVE8vNGtpaWZSdGdq?=
+ =?utf-8?B?Q3VHNTNBWWJYelZ5RVQ5MlRLRTJONUJIT29PbzZ1NW9uaVB3clZ2OTBVN2ZL?=
+ =?utf-8?B?YUZrUS8vRW1uUUY5bVU1S1dnRzBCRm1TRUlBUUVzS0J3VzJmSTR5QW1QZXQw?=
+ =?utf-8?B?TWg2TjE0RG0rS3ZPTHlEc3NqZ05iL2dnZVJ2Z0RCK21nL2R5OU91QktKMnc1?=
+ =?utf-8?B?V0NEcy9aSlNCYmorY1NRTkV4SXc0OEFiWFd5Vy9waU9ucVFVTEVucWJEaVJI?=
+ =?utf-8?B?VVFINWNVMzdRZS83dksyMUoreGlERldMcEs5dzRsemRSV1NQekJOcFB4Y29m?=
+ =?utf-8?B?UmREOEhhUkYxelluUm5ydnQvVzQyT3ZEaG5YWTJoRkFwMW9ESXZ1TzNXOVpw?=
+ =?utf-8?B?NThINTVTbHFmVDhTOUdSbUJYdXYrT2ZiL1JEbUJ2bjdFQXkyenZLUk4zNVN1?=
+ =?utf-8?B?NHRYRzZLRjlST25JakRkZUk0bldKNmQzY3BJcXY5NERTTlo0T2ZBWDYxMHdX?=
+ =?utf-8?B?VStUSHYyTm93eTdSbFhoWHVNbTlyVUNja0tQV2drZDgrS010QVNvQVdaUWxs?=
+ =?utf-8?B?WnVrTXMvL1BoWldNMkIyWXo0K2o0M0J6d2V4V2pmUmxBVjBmWDdDQU1DaDNB?=
+ =?utf-8?B?ZTJZZmxDMEU3QlJBeUZFeGhHVE15U1ZHY21jc0JLeFVFODlnak9yemtKcVJ2?=
+ =?utf-8?B?amgxbmVyZjFmeTNwWDdrYUZ2NlZPUHh0SVgzOEU3aTE1cUVQUDBkdmlOMmNz?=
+ =?utf-8?Q?LV0D98m31TWq2BU/0cXAcXmSZ?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4de3ae34-738b-48e8-f1b8-08dda7a3f3be
+X-MS-Exchange-CrossTenant-AuthSource: MN0PR12MB6101.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jun 2025 22:21:17.0028
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: KK9Dt9Rwr0wMJyePefAfqvZA1BqQSEcSK3GJ6T9iBgG8hgJBfm6CiB/D7xt/AvWvlFPqAtyZWAeUIaKvBJs93A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB7302
 
-I'm moving all my kernel work over to using my kernel.org email address.
-Update .mailmap and MAINTAINER entries still using hdegoede@redhat.com.
++Denis
 
-Signed-off-by: Hans de Goede <hansg@kernel.org>
----
- .mailmap    |  1 +
- MAINTAINERS | 72 ++++++++++++++++++++++++++---------------------------
- 2 files changed, 37 insertions(+), 36 deletions(-)
+On 5/27/2025 4:10 AM, Basavaraj Natikar wrote:
+> Add changes to enable operating modes in the driver to allow the FW to
+> activate and retrieve data from relevant sensors. This enables the FW to
+> take necessary actions based on the operating modes.
+> 
+> Co-developed-by: Akshata MukundShetty <akshata.mukundshetty@amd.com>
+> Signed-off-by: Akshata MukundShetty <akshata.mukundshetty@amd.com>
+> Signed-off-by: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
 
-diff --git a/.mailmap b/.mailmap
-index 9b0dc7c30e6d..6ea2677ae494 100644
---- a/.mailmap
-+++ b/.mailmap
-@@ -276,6 +276,7 @@ Gustavo Padovan <gustavo@las.ic.unicamp.br>
- Gustavo Padovan <padovan@profusion.mobi>
- Hamza Mahfooz <hamzamahfooz@linux.microsoft.com> <hamza.mahfooz@amd.com>
- Hanjun Guo <guohanjun@huawei.com> <hanjun.guo@linaro.org>
-+Hans de Goede <hansg@kernel.org> <hdegoede@redhat.com>
- Hans Verkuil <hverkuil@xs4all.nl> <hansverk@cisco.com>
- Hans Verkuil <hverkuil@xs4all.nl> <hverkuil-cisco@xs4all.nl>
- Harry Yoo <harry.yoo@oracle.com> <42.hyeyoo@gmail.com>
-diff --git a/MAINTAINERS b/MAINTAINERS
-index b8a8d8a5a2e1..020ee13d64c2 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -207,7 +207,7 @@ X:	arch/*/include/uapi/
- X:	include/uapi/
- 
- ABIT UGURU 1,2 HARDWARE MONITOR DRIVER
--M:	Hans de Goede <hdegoede@redhat.com>
-+M:	Hans de Goede <hansg@kernel.org>
- L:	linux-hwmon@vger.kernel.org
- S:	Maintained
- F:	drivers/hwmon/abituguru.c
-@@ -371,7 +371,7 @@ S:	Maintained
- F:	drivers/platform/x86/quickstart.c
- 
- ACPI SERIAL MULTI INSTANTIATE DRIVER
--M:	Hans de Goede <hdegoede@redhat.com>
-+M:	Hans de Goede <hansg@kernel.org>
- L:	platform-driver-x86@vger.kernel.org
- S:	Maintained
- F:	drivers/platform/x86/serial-multi-instantiate.c
-@@ -3506,7 +3506,7 @@ F:	arch/arm64/boot/Makefile
- F:	scripts/make_fit.py
- 
- ARM64 PLATFORM DRIVERS
--M:	Hans de Goede <hdegoede@redhat.com>
-+M:	Hans de Goede <hansg@kernel.org>
- M:	Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
- R:	Bryan O'Donoghue <bryan.odonoghue@linaro.org>
- L:	platform-driver-x86@vger.kernel.org
-@@ -3667,7 +3667,7 @@ F:	drivers/platform/x86/asus*.c
- F:	drivers/platform/x86/eeepc*.c
- 
- ASUS TF103C DOCK DRIVER
--M:	Hans de Goede <hdegoede@redhat.com>
-+M:	Hans de Goede <hansg@kernel.org>
- L:	platform-driver-x86@vger.kernel.org
- S:	Maintained
- T:	git git://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git
-@@ -5553,14 +5553,14 @@ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/peter.chen/usb.git
- F:	drivers/usb/chipidea/
- 
- CHIPONE ICN8318 I2C TOUCHSCREEN DRIVER
--M:	Hans de Goede <hdegoede@redhat.com>
-+M:	Hans de Goede <hansg@kernel.org>
- L:	linux-input@vger.kernel.org
- S:	Maintained
- F:	Documentation/devicetree/bindings/input/touchscreen/chipone,icn8318.yaml
- F:	drivers/input/touchscreen/chipone_icn8318.c
- 
- CHIPONE ICN8505 I2C TOUCHSCREEN DRIVER
--M:	Hans de Goede <hdegoede@redhat.com>
-+M:	Hans de Goede <hansg@kernel.org>
- L:	linux-input@vger.kernel.org
- S:	Maintained
- F:	drivers/input/touchscreen/chipone_icn8505.c
-@@ -6844,7 +6844,7 @@ F:	include/dt-bindings/pmu/exynos_ppmu.h
- F:	include/linux/devfreq-event.h
- 
- DEVICE RESOURCE MANAGEMENT HELPERS
--M:	Hans de Goede <hdegoede@redhat.com>
-+M:	Hans de Goede <hansg@kernel.org>
- R:	Matti Vaittinen <mazziesaccount@gmail.com>
- S:	Maintained
- F:	include/linux/devm-helpers.h
-@@ -7435,7 +7435,7 @@ F:	drivers/gpu/drm/gud/
- F:	include/drm/gud.h
- 
- DRM DRIVER FOR GRAIN MEDIA GM12U320 PROJECTORS
--M:	Hans de Goede <hdegoede@redhat.com>
-+M:	Hans de Goede <hansg@kernel.org>
- S:	Maintained
- T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
- F:	drivers/gpu/drm/tiny/gm12u320.c
-@@ -7809,7 +7809,7 @@ F:	drivers/gpu/drm/ci/xfails/vkms*
- F:	drivers/gpu/drm/vkms/
- 
- DRM DRIVER FOR VIRTUALBOX VIRTUAL GPU
--M:	Hans de Goede <hdegoede@redhat.com>
-+M:	Hans de Goede <hansg@kernel.org>
- L:	dri-devel@lists.freedesktop.org
- S:	Maintained
- T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
-@@ -8208,7 +8208,7 @@ F:	drivers/gpu/drm/panel/
- F:	include/drm/drm_panel.h
- 
- DRM PRIVACY-SCREEN CLASS
--M:	Hans de Goede <hdegoede@redhat.com>
-+M:	Hans de Goede <hansg@kernel.org>
- L:	dri-devel@lists.freedesktop.org
- S:	Maintained
- T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
-@@ -10101,7 +10101,7 @@ S:	Maintained
- F:	Documentation/devicetree/bindings/connector/gocontroll,moduline-module-slot.yaml
- 
- GOODIX TOUCHSCREEN
--M:	Hans de Goede <hdegoede@redhat.com>
-+M:	Hans de Goede <hansg@kernel.org>
- L:	linux-input@vger.kernel.org
- S:	Maintained
- F:	drivers/input/touchscreen/goodix*
-@@ -10139,7 +10139,7 @@ F:	include/dt-bindings/clock/google,gs101.h
- K:	[gG]oogle.?[tT]ensor
- 
- GPD POCKET FAN DRIVER
--M:	Hans de Goede <hdegoede@redhat.com>
-+M:	Hans de Goede <hansg@kernel.org>
- L:	platform-driver-x86@vger.kernel.org
- S:	Maintained
- F:	drivers/platform/x86/gpd-pocket-fan.c
-@@ -11287,7 +11287,7 @@ F:	drivers/i2c/busses/i2c-via.c
- F:	drivers/i2c/busses/i2c-viapro.c
- 
- I2C/SMBUS INTEL CHT WHISKEY COVE PMIC DRIVER
--M:	Hans de Goede <hdegoede@redhat.com>
-+M:	Hans de Goede <hansg@kernel.org>
- L:	linux-i2c@vger.kernel.org
- S:	Maintained
- F:	drivers/i2c/busses/i2c-cht-wc.c
-@@ -11868,13 +11868,13 @@ S:	Supported
- F:	sound/soc/intel/
- 
- INTEL ATOMISP2 DUMMY / POWER-MANAGEMENT DRIVER
--M:	Hans de Goede <hdegoede@redhat.com>
-+M:	Hans de Goede <hansg@kernel.org>
- L:	platform-driver-x86@vger.kernel.org
- S:	Maintained
- F:	drivers/platform/x86/intel/atomisp2/pm.c
- 
- INTEL ATOMISP2 LED DRIVER
--M:	Hans de Goede <hdegoede@redhat.com>
-+M:	Hans de Goede <hansg@kernel.org>
- L:	platform-driver-x86@vger.kernel.org
- S:	Maintained
- F:	drivers/platform/x86/intel/atomisp2/led.c
-@@ -13535,7 +13535,7 @@ S:	Maintained
- F:	drivers/platform/x86/lenovo-wmi-hotkey-utilities.c
- 
- LETSKETCH HID TABLET DRIVER
--M:	Hans de Goede <hdegoede@redhat.com>
-+M:	Hans de Goede <hansg@kernel.org>
- L:	linux-input@vger.kernel.org
- S:	Maintained
- T:	git git://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git
-@@ -13585,7 +13585,7 @@ F:	drivers/ata/sata_gemini.c
- F:	drivers/ata/sata_gemini.h
- 
- LIBATA SATA AHCI PLATFORM devices support
--M:	Hans de Goede <hdegoede@redhat.com>
-+M:	Hans de Goede <hansg@kernel.org>
- L:	linux-ide@vger.kernel.org
- S:	Maintained
- F:	drivers/ata/ahci_platform.c
-@@ -13956,7 +13956,7 @@ F:	Documentation/admin-guide/ldm.rst
- F:	block/partitions/ldm.*
- 
- LOGITECH HID GAMING KEYBOARDS
--M:	Hans de Goede <hdegoede@redhat.com>
-+M:	Hans de Goede <hansg@kernel.org>
- L:	linux-input@vger.kernel.org
- S:	Maintained
- T:	git git://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git
-@@ -14623,7 +14623,7 @@ F:	Documentation/devicetree/bindings/power/supply/maxim,max17040.yaml
- F:	drivers/power/supply/max17040_battery.c
- 
- MAXIM MAX17042 FAMILY FUEL GAUGE DRIVERS
--R:	Hans de Goede <hdegoede@redhat.com>
-+R:	Hans de Goede <hansg@kernel.org>
- R:	Krzysztof Kozlowski <krzk@kernel.org>
- R:	Marek Szyprowski <m.szyprowski@samsung.com>
- R:	Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm>
-@@ -15414,7 +15414,7 @@ Q:	https://patchwork.kernel.org/project/netdevbpf/list/
- F:	drivers/net/ethernet/mellanox/mlxfw/
- 
- MELLANOX HARDWARE PLATFORM SUPPORT
--M:	Hans de Goede <hdegoede@redhat.com>
-+M:	Hans de Goede <hansg@kernel.org>
- M:	Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
- M:	Vadim Pasternak <vadimp@nvidia.com>
- L:	platform-driver-x86@vger.kernel.org
-@@ -16332,7 +16332,7 @@ S:	Maintained
- F:	drivers/platform/surface/surface_gpe.c
- 
- MICROSOFT SURFACE HARDWARE PLATFORM SUPPORT
--M:	Hans de Goede <hdegoede@redhat.com>
-+M:	Hans de Goede <hansg@kernel.org>
- M:	Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
- M:	Maximilian Luz <luzmaximilian@gmail.com>
- L:	platform-driver-x86@vger.kernel.org
-@@ -17496,7 +17496,7 @@ F:	tools/include/nolibc/
- F:	tools/testing/selftests/nolibc/
- 
- NOVATEK NVT-TS I2C TOUCHSCREEN DRIVER
--M:	Hans de Goede <hdegoede@redhat.com>
-+M:	Hans de Goede <hansg@kernel.org>
- L:	linux-input@vger.kernel.org
- S:	Maintained
- F:	Documentation/devicetree/bindings/input/touchscreen/novatek,nvt-ts.yaml
-@@ -22430,7 +22430,7 @@ K:	fu[57]40
- K:	[^@]sifive
- 
- SILEAD TOUCHSCREEN DRIVER
--M:	Hans de Goede <hdegoede@redhat.com>
-+M:	Hans de Goede <hansg@kernel.org>
- L:	linux-input@vger.kernel.org
- L:	platform-driver-x86@vger.kernel.org
- S:	Maintained
-@@ -22463,7 +22463,7 @@ F:	Documentation/devicetree/bindings/i3c/silvaco,i3c-master.yaml
- F:	drivers/i3c/master/svc-i3c-master.c
- 
- SIMPLEFB FB DRIVER
--M:	Hans de Goede <hdegoede@redhat.com>
-+M:	Hans de Goede <hansg@kernel.org>
- L:	linux-fbdev@vger.kernel.org
- S:	Maintained
- F:	Documentation/devicetree/bindings/display/simple-framebuffer.yaml
-@@ -22592,7 +22592,7 @@ F:	Documentation/hwmon/emc2103.rst
- F:	drivers/hwmon/emc2103.c
- 
- SMSC SCH5627 HARDWARE MONITOR DRIVER
--M:	Hans de Goede <hdegoede@redhat.com>
-+M:	Hans de Goede <hansg@kernel.org>
- L:	linux-hwmon@vger.kernel.org
- S:	Supported
- F:	Documentation/hwmon/sch5627.rst
-@@ -23241,7 +23241,7 @@ S:	Supported
- F:	Documentation/process/stable-kernel-rules.rst
- 
- STAGING - ATOMISP DRIVER
--M:	Hans de Goede <hdegoede@redhat.com>
-+M:	Hans de Goede <hansg@kernel.org>
- M:	Mauro Carvalho Chehab <mchehab@kernel.org>
- R:	Sakari Ailus <sakari.ailus@linux.intel.com>
- L:	linux-media@vger.kernel.org
-@@ -23538,7 +23538,7 @@ F:	arch/m68k/sun3*/
- F:	drivers/net/ethernet/i825xx/sun3*
- 
- SUN4I LOW RES ADC ATTACHED TABLET KEYS DRIVER
--M:	Hans de Goede <hdegoede@redhat.com>
-+M:	Hans de Goede <hansg@kernel.org>
- L:	linux-input@vger.kernel.org
- S:	Maintained
- F:	Documentation/devicetree/bindings/input/allwinner,sun4i-a10-lradc-keys.yaml
-@@ -25258,7 +25258,7 @@ F:	Documentation/hid/hiddev.rst
- F:	drivers/hid/usbhid/
- 
- USB INTEL XHCI ROLE MUX DRIVER
--M:	Hans de Goede <hdegoede@redhat.com>
-+M:	Hans de Goede <hansg@kernel.org>
- L:	linux-usb@vger.kernel.org
- S:	Maintained
- F:	drivers/usb/roles/intel-xhci-usb-role-switch.c
-@@ -25449,7 +25449,7 @@ F:	Documentation/firmware-guide/acpi/intel-pmc-mux.rst
- F:	drivers/usb/typec/mux/intel_pmc_mux.c
- 
- USB TYPEC PI3USB30532 MUX DRIVER
--M:	Hans de Goede <hdegoede@redhat.com>
-+M:	Hans de Goede <hansg@kernel.org>
- L:	linux-usb@vger.kernel.org
- S:	Maintained
- F:	drivers/usb/typec/mux/pi3usb30532.c
-@@ -25478,7 +25478,7 @@ F:	drivers/usb/host/uhci*
- 
- USB VIDEO CLASS
- M:	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
--M:	Hans de Goede <hdegoede@redhat.com>
-+M:	Hans de Goede <hansg@kernel.org>
- L:	linux-media@vger.kernel.org
- S:	Maintained
- W:	http://www.ideasonboard.org/uvc/
-@@ -26001,7 +26001,7 @@ F:	include/uapi/linux/virtio_snd.h
- F:	sound/virtio/*
- 
- VIRTUAL BOX GUEST DEVICE DRIVER
--M:	Hans de Goede <hdegoede@redhat.com>
-+M:	Hans de Goede <hansg@kernel.org>
- M:	Arnd Bergmann <arnd@arndb.de>
- M:	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
- S:	Maintained
-@@ -26010,7 +26010,7 @@ F:	include/linux/vbox_utils.h
- F:	include/uapi/linux/vbox*.h
- 
- VIRTUAL BOX SHARED FOLDER VFS DRIVER
--M:	Hans de Goede <hdegoede@redhat.com>
-+M:	Hans de Goede <hansg@kernel.org>
- L:	linux-fsdevel@vger.kernel.org
- S:	Maintained
- F:	fs/vboxsf/*
-@@ -26263,7 +26263,7 @@ F:	drivers/mmc/host/wbsd.*
- 
- WACOM PROTOCOL 4 SERIAL TABLETS
- M:	Julian Squires <julian@cipht.net>
--M:	Hans de Goede <hdegoede@redhat.com>
-+M:	Hans de Goede <hansg@kernel.org>
- L:	linux-input@vger.kernel.org
- S:	Maintained
- F:	drivers/input/tablet/wacom_serial4.c
-@@ -26424,7 +26424,7 @@ F:	include/linux/wwan.h
- F:	include/uapi/linux/wwan.h
- 
- X-POWERS AXP288 PMIC DRIVERS
--M:	Hans de Goede <hdegoede@redhat.com>
-+M:	Hans de Goede <hansg@kernel.org>
- S:	Maintained
- F:	drivers/acpi/pmic/intel_pmic_xpower.c
- N:	axp288
-@@ -26516,14 +26516,14 @@ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git x86/mm
- F:	arch/x86/mm/
- 
- X86 PLATFORM ANDROID TABLETS DSDT FIXUP DRIVER
--M:	Hans de Goede <hdegoede@redhat.com>
-+M:	Hans de Goede <hansg@kernel.org>
- L:	platform-driver-x86@vger.kernel.org
- S:	Maintained
- T:	git git://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git
- F:	drivers/platform/x86/x86-android-tablets/
- 
- X86 PLATFORM DRIVERS
--M:	Hans de Goede <hdegoede@redhat.com>
-+M:	Hans de Goede <hansg@kernel.org>
- M:	Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
- L:	platform-driver-x86@vger.kernel.org
- S:	Maintained
--- 
-2.49.0
+Comparing this to the series that was submitted by Denis [1] I notice 
+that the main tangible difference is that this isn't exported into the 
+HID descriptor.  So how does userspace know the current operating mode 
+with this patch?
+
+Link: 
+https://lore.kernel.org/linux-input/20250309194934.1759953-2-benato.denis96@gmail.com/ 
+[1]
+
+> ---
+>   drivers/hid/amd-sfh-hid/amd_sfh_client.c | 23 +++++++++++++++++++++++
+>   drivers/hid/amd-sfh-hid/amd_sfh_pcie.c   |  4 ++++
+>   drivers/hid/amd-sfh-hid/amd_sfh_pcie.h   |  1 +
+>   3 files changed, 28 insertions(+)
+> 
+> diff --git a/drivers/hid/amd-sfh-hid/amd_sfh_client.c b/drivers/hid/amd-sfh-hid/amd_sfh_client.c
+> index 3438d392920f..0f2cbae39b2b 100644
+> --- a/drivers/hid/amd-sfh-hid/amd_sfh_client.c
+> +++ b/drivers/hid/amd-sfh-hid/amd_sfh_client.c
+> @@ -146,6 +146,8 @@ static const char *get_sensor_name(int idx)
+>   		return "gyroscope";
+>   	case mag_idx:
+>   		return "magnetometer";
+> +	case op_idx:
+> +		return "operating-mode";
+>   	case als_idx:
+>   	case ACS_IDX: /* ambient color sensor */
+>   		return "ALS";
+> @@ -243,6 +245,20 @@ int amd_sfh_hid_client_init(struct amd_mp2_dev *privdata)
+>   			rc = -ENOMEM;
+>   			goto cleanup;
+>   		}
+> +
+> +		if (cl_data->sensor_idx[i] == op_idx) {
+> +			info.period = AMD_SFH_IDLE_LOOP;
+> +			info.sensor_idx = cl_data->sensor_idx[i];
+> +			info.dma_address = cl_data->sensor_dma_addr[i];
+> +			mp2_ops->start(privdata, info);
+> +			cl_data->sensor_sts[i] = amd_sfh_wait_for_response(privdata,
+> +									   cl_data->sensor_idx[i],
+> +									   SENSOR_ENABLED);
+> +			if (cl_data->sensor_sts[i] == SENSOR_ENABLED)
+> +				cl_data->is_any_sensor_enabled = true;
+> +			continue;
+> +		}
+> +
+>   		cl_data->sensor_sts[i] = SENSOR_DISABLED;
+>   		cl_data->sensor_requested_cnt[i] = 0;
+>   		cl_data->cur_hid_dev = i;
+> @@ -303,6 +319,13 @@ int amd_sfh_hid_client_init(struct amd_mp2_dev *privdata)
+>   
+>   	for (i = 0; i < cl_data->num_hid_devices; i++) {
+>   		cl_data->cur_hid_dev = i;
+> +		if (cl_data->sensor_idx[i] == op_idx) {
+> +			dev_dbg(dev, "sid 0x%x (%s) status 0x%x\n",
+> +				cl_data->sensor_idx[i], get_sensor_name(cl_data->sensor_idx[i]),
+> +				cl_data->sensor_sts[i]);
+> +			continue;
+> +		}
+> +
+>   		if (cl_data->sensor_sts[i] == SENSOR_ENABLED) {
+>   			rc = amdtp_hid_probe(i, cl_data);
+>   			if (rc)
+> diff --git a/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c b/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c
+> index 1c1fd63330c9..2983af969579 100644
+> --- a/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c
+> +++ b/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c
+> @@ -29,6 +29,7 @@
+>   #define ACEL_EN		BIT(0)
+>   #define GYRO_EN		BIT(1)
+>   #define MAGNO_EN	BIT(2)
+> +#define OP_EN		BIT(15)
+>   #define HPD_EN		BIT(16)
+>   #define ALS_EN		BIT(19)
+>   #define ACS_EN		BIT(22)
+> @@ -232,6 +233,9 @@ int amd_mp2_get_sensor_num(struct amd_mp2_dev *privdata, u8 *sensor_id)
+>   	if (MAGNO_EN & activestatus)
+>   		sensor_id[num_of_sensors++] = mag_idx;
+>   
+> +	if (OP_EN & activestatus)
+> +		sensor_id[num_of_sensors++] = op_idx;
+> +
+>   	if (ALS_EN & activestatus)
+>   		sensor_id[num_of_sensors++] = als_idx;
+>   
+> diff --git a/drivers/hid/amd-sfh-hid/amd_sfh_pcie.h b/drivers/hid/amd-sfh-hid/amd_sfh_pcie.h
+> index 05e400a4a83e..2eb61f4e8434 100644
+> --- a/drivers/hid/amd-sfh-hid/amd_sfh_pcie.h
+> +++ b/drivers/hid/amd-sfh-hid/amd_sfh_pcie.h
+> @@ -79,6 +79,7 @@ enum sensor_idx {
+>   	accel_idx = 0,
+>   	gyro_idx = 1,
+>   	mag_idx = 2,
+> +	op_idx = 15,
+>   	als_idx = 19
+>   };
+>   
 
 
