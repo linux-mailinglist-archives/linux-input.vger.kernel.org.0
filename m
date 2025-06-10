@@ -1,56 +1,57 @@
-Return-Path: <linux-input+bounces-12790-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12791-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD118AD4344
-	for <lists+linux-input@lfdr.de>; Tue, 10 Jun 2025 21:52:06 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 84C58AD435B
+	for <lists+linux-input@lfdr.de>; Tue, 10 Jun 2025 21:55:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 698BC17C919
-	for <lists+linux-input@lfdr.de>; Tue, 10 Jun 2025 19:52:05 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 074F93A51CD
+	for <lists+linux-input@lfdr.de>; Tue, 10 Jun 2025 19:55:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0DFF9231825;
-	Tue, 10 Jun 2025 19:52:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F166826563C;
+	Tue, 10 Jun 2025 19:55:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RY9wsftq"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SjKWZaYK"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D35951EE7D5;
-	Tue, 10 Jun 2025 19:52:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD3BF264FBB
+	for <linux-input@vger.kernel.org>; Tue, 10 Jun 2025 19:55:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749585120; cv=none; b=m+u8tCStnvNhs8DeM1DXmrhBU48d7PNnk3J2+78/MXD2UoiEENn1Axg29cn1RGlqoMMGNV1m3jthiZt3Q7uOxQHXdrlI8SLhHNbLWoTkQo9f/l2BmJfgJlQUuPfvL6iI9U9A0qVBdyc8RnIYUtG3DohcfSvs999iiRpWSTms/Hk=
+	t=1749585307; cv=none; b=iwHn3H4DtoaDzF6hFxjI9RvFpxQRv4tJVXVifdzUNgWOGg+Mzjz7n8VWnjlEop5898M233mCQQ5Jh0eJeiXhuYlSQKcEJJRXHBV5gLoJND+UMjIE0FtQD1tphL2x4C1BE7Hc2FMXr0xJoMpbSr6nZrge45L2AMJShrCvGI87gh4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749585120; c=relaxed/simple;
-	bh=BKbIS+rwj8I4WhYx9GtGwFnaZgygi8UgwF8UhCFtPBQ=;
+	s=arc-20240116; t=1749585307; c=relaxed/simple;
+	bh=T6ddU/mpgRVUKOMzLroKvuNqDs45h0mOMxhk1msOkEs=;
 	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=rbOu5SsTxxl7Gfyc67ws3gGnLufOa+MJ7XVeZMaXSIKAX1+9Mwr13dujDZEbPYug9ZXyaBlqwjn6ww1u9R4jgxwHqZ2stK+JfK3FShP76M9uH91WO7uG440vTP5rIcfd2TGBW1W/wfYlNIknu3iyUNhPs2mtRdsr4tL5fddCEFQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RY9wsftq; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07087C4CEF6;
-	Tue, 10 Jun 2025 19:51:59 +0000 (UTC)
+	 MIME-Version:Content-Type; b=s6PhlVdy0tsl5c4gF1wBpaq1po0oDUoaccx+VR5Uhz2CCSVFYXN+dnV1eh218FSejDuIFNoeuYtmRUeN/FAeOQ8xWswbG6lu81aLqkLNI3KZFsNwth9qCXYbwd9zs35nKrPRm/N28qI+uQiCvwkrw7xWouj12gH035MxjZ4lKFg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SjKWZaYK; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EB4B8C4CEED;
+	Tue, 10 Jun 2025 19:55:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749585120;
-	bh=BKbIS+rwj8I4WhYx9GtGwFnaZgygi8UgwF8UhCFtPBQ=;
+	s=k20201202; t=1749585306;
+	bh=T6ddU/mpgRVUKOMzLroKvuNqDs45h0mOMxhk1msOkEs=;
 	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=RY9wsftqyhtp+mDLAG2kSwho1gXQFSFvAedtwbmajJo7BfH0SyBS89m/saO9+M9Ir
-	 F2yTuDMO4e3ncAMLeVlNjDajMBzQ5zLYsn+sHlKR3yrgCW2T5HNYb5M39PrSBZz9/T
-	 OuJrLk6Q2PTBFWGVO2xVYE25wdwz/QOiIRGkRemkaVJ5cu4te2/jQDMAUIu7ZiV0s+
-	 3gKmAtfPF8l8mqiS2p/XRzJSY8DdQnjeofVH8yHTgdxd8bDwhMeIWmvRaN0rGGUGue
-	 BBPLOrOReNr1byb3bcmMpRNexLhQtHNtL+jMQplnQX41EognLnbIzdlGDCRrx48+gU
-	 Vdp5Y57dHXDYQ==
-Date: Tue, 10 Jun 2025 21:51:57 +0200 (CEST)
+	b=SjKWZaYKTxeWQVL6y6enm0x9MhCDcRfIl7fxy+xfTpSM0Pd0HLBo4zWN/RNzmmMjd
+	 5+YM01TkxquDoeRt3WM0ctWp4nU1xFlx81agV2eUSyz+AG0BQgF1t20PAYIhm54obQ
+	 sWgkbte78pOO/vvzpsDY69CUcs5YHxNb+4wi8xedsjBef+us3Yd+R4keNczY98hzXw
+	 EyFRzmFhHRFMCLf8AhQlmFAF193kHtKJTJqYdJT4BwXu4C24wnquaxxkzw2iS6/mFz
+	 P0UQvVzUUwZsPCzb0SGIBKLLW1sVVRpfDX72blxcWmCgRAi9OO5Xpv7OfToejNKUZL
+	 u9IFzLXh8cw2A==
+Date: Tue, 10 Jun 2025 21:55:03 +0200 (CEST)
 From: Jiri Kosina <jikos@kernel.org>
-To: Iusico Maxim <iusico.maxim@libero.it>
-cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
-    bentiss@kernel.org, stable@vger.kernel.org, Jamie Lentin <jm@lentin.co.uk>
-Subject: Re: [PATCH] HID: lenovo: Restrict F7/9/11 mode to compact keyboards
- only
-In-Reply-To: <20250605175550.641392-1-iusico.maxim@libero.it>
-Message-ID: <s75n1nrp-n149-p177-1211-730r21s01r88@xreary.bet>
-References: <20250605175550.641392-1-iusico.maxim@libero.it>
+To: Zhang Lixu <lixu.zhang@intel.com>
+cc: linux-input@vger.kernel.org, srinivas.pandruvada@linux.intel.com, 
+    benjamin.tissoires@redhat.com, even.xu@intel.com, zhifeng.wang@intel.com, 
+    selina.wang@intel.com
+Subject: Re: [PATCH 0/2] Enhance ISH Device Table and Add Wildcat Lake
+ Support
+In-Reply-To: <20250610020132.1544110-1-lixu.zhang@intel.com>
+Message-ID: <0o860ro4-rs5s-o872-9q5q-3s9q791qnq08@xreary.bet>
+References: <20250610020132.1544110-1-lixu.zhang@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -59,25 +60,27 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 
-On Thu, 5 Jun 2025, Iusico Maxim wrote:
+On Tue, 10 Jun 2025, Zhang Lixu wrote:
 
-> Commit 2f2bd7cbd1d1 ("hid: lenovo: Resend all settings on reset_resume
-> for compact keyboards") introduced a regression for ThinkPad TrackPoint
-> Keyboard II by removing the conditional check for enabling F7/9/11 mode
-> needed for compact keyboards only. As a result, the non-compact
-> keyboards can no longer toggle Fn-lock via Fn+Esc, although it can be
-> controlled via sysfs knob that directly sends raw commands.
+> This patch series aims to improve the Intel ISH (Integrated Sensor Hub) driver
+> by enhancing code readability and expanding device support. The first patch
+> replaces the usage of PCI_VDEVICE() with the PCI_DEVICE_DATA() macro in the
+> ISH PCI device table, which simplifies the code and improves maintainability.
+> The second patch adds support for the Wildcat Lake platform by including its
+> PCI device ID in the ISH driver.
 > 
-> This patch restores the previous conditional check without any
-> additions.
+> Zhang Lixu (2):
+>   hid: intel-ish-hid: Use PCI_DEVICE_DATA() macro for ISH device table
+>   HID: intel-ish-hid: ipc: Add Wildcat Lake PCI device ID
 > 
-> Cc: stable@vger.kernel.org
-> Fixes: 2f2bd7cbd1d1 ("hid: lenovo: Resend all settings on reset_resume for compact keyboards")
-> Signed-off-by: Iusico Maxim <iusico.maxim@libero.it>
+>  drivers/hid/intel-ish-hid/ipc/hw-ish.h  |  1 +
+>  drivers/hid/intel-ish-hid/ipc/pci-ish.c | 12 +++++++++---
+>  2 files changed, 10 insertions(+), 3 deletions(-)
 
-CCing Jamie Lentin, the author of the original commit, for awareness.
+As this is pretty much a device ID(s) addition, I've now queued this in 
+hid.git#for-6.16/upstream-fixes.
 
-I've now applied your patch to hid.git#for-6.16/upstream-fixes, thanks.
+Thanks,
 
 -- 
 Jiri Kosina
