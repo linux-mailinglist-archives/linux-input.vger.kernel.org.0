@@ -1,55 +1,59 @@
-Return-Path: <linux-input+bounces-12774-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12775-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DB99AD42C7
-	for <lists+linux-input@lfdr.de>; Tue, 10 Jun 2025 21:20:14 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E4CA0AD42CA
+	for <lists+linux-input@lfdr.de>; Tue, 10 Jun 2025 21:21:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 406353A5207
-	for <lists+linux-input@lfdr.de>; Tue, 10 Jun 2025 19:19:51 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6E7FA7A2418
+	for <lists+linux-input@lfdr.de>; Tue, 10 Jun 2025 19:20:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A19A42620F1;
-	Tue, 10 Jun 2025 19:20:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 770CF2620F1;
+	Tue, 10 Jun 2025 19:21:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O+39/T0G"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Mx/jK9N6"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75B0529D19;
-	Tue, 10 Jun 2025 19:20:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F14829D19;
+	Tue, 10 Jun 2025 19:21:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749583211; cv=none; b=hkWTQlkNM5gHKlocC2+3/H51PG+FMWVkx+kL52QsVyG6UkSwZ1w4z7xgCDbRPGPPg2Y8w4OTx3P9znq2Evr05yCG1YlTRPxjI/QnUcKQt3t3rGTM/Zw50eVUqpmREwaLEtzViZWX/sHFo0iAgQDFL7VDS03iyMvcsc82PpOAEd8=
+	t=1749583295; cv=none; b=MtBSixx/MIPk2B1w0PKXOwnUhuhQswUE+WLfbeInHBSy5uRK+QUrF6X6aleDEgbKmHkhLFWC0N6QvCJTTeRGwsMkHlm80AeUJl499DLSitC7bpU7UUPksvuhOvQiGcPGsk+wm5ArD+pV0XMkXd1ochaws+iCMkQsy665CIpczZo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749583211; c=relaxed/simple;
-	bh=uWEHCjP/KRrZErAuh9LLpnCXLlXk3ORVfs06Q77vSD8=;
+	s=arc-20240116; t=1749583295; c=relaxed/simple;
+	bh=NDRljzAmxnkAkk86sHYardm9OxEC3qtmaQ6rc23r1OQ=;
 	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=HrWWQ29pK/yLdXqDl4z3vJIAeuKYBP82YlOyL8bONe5NDc8ZE9C6snwIJ2l/4RiD0aW0TEu6F1MwV+cAoQD2z8t2I3Uz2tC/t1jNxq1aqiqKFjEZVAoPjB1n/ay3cZg8khpU/sIl+hysJwmJl4k2ykfZYCpxyKkZ3RT6lhppfyI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O+39/T0G; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91553C4CEED;
-	Tue, 10 Jun 2025 19:20:09 +0000 (UTC)
+	 MIME-Version:Content-Type; b=smGLVSjIrxdPQOPMJYFxdHr2XJ89i8Cwjxox7MPXwLAy+eTaDuhNwSrnukCuCdDgrfM4Hi2NS9G3MRr8bXZTQ/up6uWr0VFtZkKMW3q7BAcp7iQWHDtEbw4GTErYU92OW2iMPt+AixNStUY/Zlyr8QabZuVJ14oDjWbkwv8FVTo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Mx/jK9N6; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C13F4C4CEED;
+	Tue, 10 Jun 2025 19:21:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749583210;
-	bh=uWEHCjP/KRrZErAuh9LLpnCXLlXk3ORVfs06Q77vSD8=;
+	s=k20201202; t=1749583295;
+	bh=NDRljzAmxnkAkk86sHYardm9OxEC3qtmaQ6rc23r1OQ=;
 	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=O+39/T0GrBuDCPJNkybXBIF6SIJEoXRU/xU2NN1v63kXJtvlppCmxdbYt7CqITYQY
-	 COhaYCjXpYAHRM2gBWpT5+TaGgtMD1dIr5LA1P2ouqMx0r2ZpCN3B2SXF2XZ+qVZRh
-	 Vs+wD/r5KXFFh5vxuw8qMpVidiOT07ZPSG1js20cxqPtDGq44cY6IRiy9D5k3ARLuD
-	 FhTpuSGQm/89RgvoC+TDcyMZJzwP5CxO+j0FqCfYnG8vwEJcI7S3I3zs3Bqf6cvNw9
-	 jvlunUnv2ahayWZaNxcsrYZdgcvuu377ikfngEjnbudRq7jajVvQ183irdGlhpNHFD
-	 8ydi8EUAUqZkA==
-Date: Tue, 10 Jun 2025 21:20:07 +0200 (CEST)
+	b=Mx/jK9N6GUbc6xkLkcou4FW9UTxiEBFhz3KFGrCcrvHERYpoTh/QbWPjvygZqGOCT
+	 wkiRsMLlL6BRKpDE+btUCmgJalccmznvrBUlt6S8AeOKa0pD87VdlB4LP2DJ4S1Hfg
+	 WLU3Gc8OPTcJsToWWgmp7O/ws8fBUIRt9BB3WqlIy+ypU79FKwLVN6o97Hk4aJAL4s
+	 rWCZAUczC+9ORteOMMnLogMPWgb73S6qsZtcOvnVyHKL37cg3c9sF6rw1+OJ+9tsdl
+	 nFRKY2jEp2pq/V5OohXH3Aja0bZZ+dqzcX9OT0V7XbL3ycRZkx0Ic7tPSlP28GZYIk
+	 Wxb+iGdAPUSmg==
+Date: Tue, 10 Jun 2025 21:21:32 +0200 (CEST)
 From: Jiri Kosina <jikos@kernel.org>
-To: Even Xu <even.xu@intel.com>
-cc: bentiss@kernel.org, srinivas.pandruvada@linux.intel.com, 
-    linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 0/3] Add wake-on-touch feature support for THC
-In-Reply-To: <20250514063735.141950-1-even.xu@intel.com>
-Message-ID: <6qpr5041-1831-sspr-3395-428r0205s8n7@xreary.bet>
-References: <20250514063735.141950-1-even.xu@intel.com>
+To: Thomas Zeitlhofer <thomas.zeitlhofer+lkml@ze-it.at>
+cc: Ping Cheng <ping.cheng@wacom.com>, Jason Gerecke <jason.gerecke@wacom.com>, 
+    Benjamin Tissoires <bentiss@kernel.org>, 
+    Josh Dickens <joshua.dickens@wacom.com>, 
+    Tatsunosuke Tobita <tatsunosuke.wacom@gmail.com>, 
+    Aaron Skomra <aaron.skomra@wacom.com>, linux-input@vger.kernel.org, 
+    linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] HID: wacom: fix crash in wacom_aes_battery_handler()
+In-Reply-To: <aCrx1iRQ-9tXiyJp@x1.ze-it.at>
+Message-ID: <p4917005-n9n1-0577-q49n-o9639pos5o44@xreary.bet>
+References: <aCrx1iRQ-9tXiyJp@x1.ze-it.at>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -58,23 +62,51 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 
-On Wed, 14 May 2025, Even Xu wrote:
+On Mon, 19 May 2025, Thomas Zeitlhofer wrote:
 
-> Wake-on-Touch (WoT) feature gives system the capability to wake from sleep
-> state by user touch event, it depends on platform providing Wake GPIO
-> through ACPI resource.
+> Commit fd2a9b29dc9c ("HID: wacom: Remove AES power_supply after extended
+> inactivity") introduced wacom_aes_battery_handler() which is scheduled
+> as a delayed work (aes_battery_work).
 > 
-> This patch set adds wake-on-touch feature support for QuickSPI driver
-> and QuickI2C driver.
+> In wacom_remove(), aes_battery_work is not canceled. Consequently, if
+> the device is removed while aes_battery_work is still pending, then hard
+> crashes or "Oops: general protection fault..." are experienced when
+> wacom_aes_battery_handler() is finally called. E.g., this happens with
+> built-in USB devices after resume from hibernate when aes_battery_work
+> was still pending at the time of hibernation.
 > 
-> Even Xu (3):
->   HID: Intel-thc-hid: Intel-thc: Add Wake-on-Touch support
->   HID: Intel-thc-hid: Intel-quickspi: Enable Wake-on-Touch feature
->   HID: Intel-thc-hid: Intel-quicki2c: Enable Wake-on-Touch feature
+> So, take care to cancel aes_battery_work in wacom_remove().
+> 
+> Fixes: fd2a9b29dc9c ("HID: wacom: Remove AES power_supply after extended inactivity")
+> Signed-off-by: Thomas Zeitlhofer <thomas.zeitlhofer+lkml@ze-it.at>
 
-Now queued in hid.git#for-6.17/intel-thc.
+This looks good to me, and I am planning to push it to Linus through 
+for-6.16/upstream-fixes.
 
-Thanks,
+Jason, Ping, any chance you could give your Ack to this one before I do 
+so, please?
+
+Thanks.
+
+> ---
+>  drivers/hid/wacom_sys.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/hid/wacom_sys.c b/drivers/hid/wacom_sys.c
+> index eaf099b2efdb..e74c1a4c5b61 100644
+> --- a/drivers/hid/wacom_sys.c
+> +++ b/drivers/hid/wacom_sys.c
+> @@ -2901,6 +2901,7 @@ static void wacom_remove(struct hid_device *hdev)
+>  	hid_hw_stop(hdev);
+>  
+>  	cancel_delayed_work_sync(&wacom->init_work);
+> +	cancel_delayed_work_sync(&wacom->aes_battery_work);
+>  	cancel_work_sync(&wacom->wireless_work);
+>  	cancel_work_sync(&wacom->battery_work);
+>  	cancel_work_sync(&wacom->remote_work);
+> -- 
+> 2.39.5
+> 
 
 -- 
 Jiri Kosina
