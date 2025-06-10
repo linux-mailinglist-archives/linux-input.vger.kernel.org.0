@@ -1,283 +1,327 @@
-Return-Path: <linux-input+bounces-12744-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12745-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 955E9AD2957
-	for <lists+linux-input@lfdr.de>; Tue, 10 Jun 2025 00:21:25 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 492D9AD2AE8
+	for <lists+linux-input@lfdr.de>; Tue, 10 Jun 2025 02:30:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 72FEE3AEAD4
-	for <lists+linux-input@lfdr.de>; Mon,  9 Jun 2025 22:21:02 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E6E5618916F9
+	for <lists+linux-input@lfdr.de>; Tue, 10 Jun 2025 00:31:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 59A8921D3F4;
-	Mon,  9 Jun 2025 22:21:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 28260382;
+	Tue, 10 Jun 2025 00:30:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="IJgP/AuS"
+	dkim=pass (2048-bit key) header.d=ljones.dev header.i=@ljones.dev header.b="g5UsHtnC";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="LmxloUtJ"
 X-Original-To: linux-input@vger.kernel.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2044.outbound.protection.outlook.com [40.107.93.44])
+Received: from fhigh-a6-smtp.messagingengine.com (fhigh-a6-smtp.messagingengine.com [103.168.172.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DABA1E521B
-	for <linux-input@vger.kernel.org>; Mon,  9 Jun 2025 22:21:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.93.44
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749507681; cv=fail; b=oTaFT5bw1zXsy8aXofHjTIm8zb+GZG33BkwX2f0hXW8S1dmUJwdzXkixTeLPSrMaIWFaNs4ReWFiu9ssLmc2dW+HuDAiW57PSKncx/ZdPjIt2qVnexzMCFv0ru6GNtCpDF1kF2+o8zeRWjppcLhUtaX9KNOuBWW4HiuUjrxTum4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749507681; c=relaxed/simple;
-	bh=DpFy7Hz6Frg/bJAS3IWMmbEF5NEQChfYje5P9IWTdG0=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=ud0ieINQlfXJ4wK0+hzXBXhG3aafSQjjTZ/7G60s6HmJFtnJuIsbpOoXer/Cl74K3bJMtl/I8sInWdaIYyCi9Rl5UJGhVMN5L7bXT7Tzz74ehCLo2aCU7HOP9aIiutWFgWc7Wiu0tPcWnzVF/TnHKBdQy4wXtdHux2stIueZt3o=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=IJgP/AuS; arc=fail smtp.client-ip=40.107.93.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ZP6JdyUNd3VJifMNy898iROarFPM9BPEBBdSNyUZPWXi1+0xc6bJPUJDPug7Yf+FJtb3ZBCpFvCKZd8WOtgp5s52O9h5WSpCLfxBH5JxaVVd5+yzCeiUoVvrykUENAUZkJqI2w4EHFzvGXmefvodNOheHsYpf/Xt0ORYSHVKudHfleBbaj6w4ZF9cswPCrj0wUrO11WFW3V1B0dOla87eyUrlVqt5hQheuCt1L5ULolNBySwGZrQiiIxsb4Dw7Lj1kHHxxz2RhCWsU4/bz0nJBbFYJ7BK4kbVsdi2QzXj0hBJnnCD3dafAeqMtHOd/dsLxqswmsfZK86LV+ryomgng==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kfUuDnweKI28kFYd1s7yEAStiofFTLF4h0AFxs2C5DM=;
- b=m4+nJJqHVIAWcn4Is+v8FFmkTXgbuRwm6nhuyRaoro3UrAdbS0Py2yLrXuVepZxIzZ+Io6FX9X2hjJWxK794T68C9ajsmGJmXHSsLE2LlZTqNBVcvhYRuvwS+CH1GUOPV45ysRDmWfvvgeDct2WnQqcbjsy9bTVoWWK0MRONKiLIMVQTS1pgWlpYVcCSu2G8wt/w9SGu8ooN8sRoq5dCzySqY1XRFrZQURgZhXM9k45111VQsEwa9OjHYsfKGqP+3flHBPvrysWshq5v9VjpWEGMra5+sL6nq9o4U9R5FcuK3qFJjo0eESBYimkvP22S1yoWhIl7oRZSWS7o7geH2w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kfUuDnweKI28kFYd1s7yEAStiofFTLF4h0AFxs2C5DM=;
- b=IJgP/AuSD/eZfVMsM9DuL3vsbZrKwW1fV6zjBomHMo7mcI0pz3/Pcs1iRyDg6EUfpEyJvMEVqG18gQMnfKnmU+CGPq9Mj2fyquYFQ6CZXZWc1qS1R5LfXgZ5cUkgxuj/iCsvUYqSxJVB3Fh1XL95a0Xz4E1gIZDTwPjv+l5FxVE=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MN0PR12MB6101.namprd12.prod.outlook.com (2603:10b6:208:3cb::10)
- by PH8PR12MB7302.namprd12.prod.outlook.com (2603:10b6:510:221::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8792.38; Mon, 9 Jun
- 2025 22:21:17 +0000
-Received: from MN0PR12MB6101.namprd12.prod.outlook.com
- ([fe80::37ee:a763:6d04:81ca]) by MN0PR12MB6101.namprd12.prod.outlook.com
- ([fe80::37ee:a763:6d04:81ca%7]) with mapi id 15.20.8792.034; Mon, 9 Jun 2025
- 22:21:17 +0000
-Message-ID: <d63d94db-e257-4419-afeb-a661e833aa81@amd.com>
-Date: Mon, 9 Jun 2025 15:21:11 -0700
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] HID: amd_sfh: Enable operating mode
-To: Basavaraj Natikar <Basavaraj.Natikar@amd.com>, jikos@kernel.org,
- bentiss@kernel.org, Denis Benato <benato.denis96@gmail.com>
-Cc: linux-input@vger.kernel.org,
- Akshata MukundShetty <akshata.mukundshetty@amd.com>
-References: <20250527111047.920622-1-Basavaraj.Natikar@amd.com>
-Content-Language: en-US
-From: Mario Limonciello <mario.limonciello@amd.com>
-In-Reply-To: <20250527111047.920622-1-Basavaraj.Natikar@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MW4PR03CA0052.namprd03.prod.outlook.com
- (2603:10b6:303:8e::27) To MN0PR12MB6101.namprd12.prod.outlook.com
- (2603:10b6:208:3cb::10)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1768928F3;
+	Tue, 10 Jun 2025 00:30:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.157
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1749515444; cv=none; b=VoArFaPq/LjysYjr17BnvnXNRw+GtJMdcJr9p5gqd4g7SP25hyDm6etQKW0KZ3n+zb3Uc8d7VVG7UPChN+HMBweYtkJsGQD6r6D6CRgda/1j7VMUn9a7aRAKaWmjTrj1iprLkV0zv6B2iRomMeny5di2Lr88pPB9hMWB6OTgQqk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1749515444; c=relaxed/simple;
+	bh=QAABkK/hUO00ev7kPuwpyfQzF2qyqrw4Augc8CAylWw=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=VNuXWMi3KsDwHGC03MkRdoZrR/PpGNuwaiiBddvQR0chlhFxN65owzzvWsjXqE33njmcyrPsTbe/oIzQio2Pgdtz+QWIgnS0lMsoB/wWfWTaXFZbPXdxfR+FBYhh0E8BeaoD9rnjhqvbwcr9DEfwEntIfEMiP1YvBLtjBI/i8wk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ljones.dev; spf=none smtp.mailfrom=ljones.dev; dkim=pass (2048-bit key) header.d=ljones.dev header.i=@ljones.dev header.b=g5UsHtnC; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=LmxloUtJ; arc=none smtp.client-ip=103.168.172.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ljones.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ljones.dev
+Received: from phl-compute-06.internal (phl-compute-06.phl.internal [10.202.2.46])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 1DE6511402E4;
+	Mon,  9 Jun 2025 20:30:40 -0400 (EDT)
+Received: from phl-imap-15 ([10.202.2.104])
+  by phl-compute-06.internal (MEProxy); Mon, 09 Jun 2025 20:30:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ljones.dev; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1749515440;
+	 x=1749601840; bh=u3Lnolb/bkfH724TgvdoxKe0DiPi9kBQBwvy0d2oehw=; b=
+	g5UsHtnCnCg/cgT+JsNUZScyOKzP+upfC5oNdhNBVOBYwggedDExwNNBorLj19GZ
+	H6NmtVj81v1PZnzCZCd9hZ/4h2JG5NEUaBpghiepTJyoOsa/AB7Rmhh5J/3WHg2u
+	X7+PkV6XH3agErMtbLPcbbGgpO7EAJChT82djq9tvxt6RvmlpJK7kEFQDnPtLlc3
+	qbp1C+XPyKJ2E7cdal9lEqcQ9Pc/mc1yiFB2XjDQ6GV6OqB9TlS97eHik0bp21En
+	8AfyTS7vRMiMFJx/fGmIyii92LwKlPoCe4HuaEO+E41nG/WopgCmWgnkZYHNIWhN
+	5I5OtsnKkqVsPHvOBg9Hbg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1749515440; x=
+	1749601840; bh=u3Lnolb/bkfH724TgvdoxKe0DiPi9kBQBwvy0d2oehw=; b=L
+	mxloUtJ2rAHVeJJmbtxwD/nDSscbm/TccSotyBfABIt8ibqUuV8wFcMaAGeEzpos
+	hhX/AO4OH20IZhR9IfzRTfx3E2WgPpWRsRRelrp0l3niaC+ClXdacsMWTglMnvf9
+	eiUKOC0zs+PVGEwERc+GNg/u0gpQjugUjQSOr7cCQZBk8xhJwWot3R9ADB5QhqsW
+	x2Mhe6O6BthFgIb4LwvcjVpJBf7PZfzk6JOFbpSupNpULg6nqwLdNjjio2wyWaIb
+	W2PBU5DFwK3lpaRgGYwVsX8haTrpcwq+vw9uG/2t3j3+J2yb3Q6NQSrMOXFvcIva
+	9CituQfyGpmd2/XKuTNDg==
+X-ME-Sender: <xms:r3xHaJ7XNybG2OGFZCzFXhGkKeYkCoQZq_Sr6jUfWM8uuV7WPrPE7Q>
+    <xme:r3xHaG7eHIPIg5kWoiuqSeHoMwGd2K1wVympZuz0CitcoNvD-xmDaOwnSoe0budtd
+    bzwj_ClVI3ygblPBX4>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddugddutddtudcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
+    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
+    hnthhsucdlqddutddtmdenucfjughrpefoggffhffvvefkjghfufgtgfesthhqredtredt
+    jeenucfhrhhomhepfdfnuhhkvgculfhonhgvshdfuceolhhukhgvsehljhhonhgvshdrug
+    gvvheqnecuggftrfgrthhtvghrnhepvdehudevieelvdejvdejkefhfeekfeeijedujeff
+    tddtveekhefgudefgefgvddunecuffhomhgrihhnpehlkhhmlhdrohhrghdpkhgvrhhnvg
+    hlrdhorhhgpddtuddrohhrghenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhep
+    mhgrihhlfhhrohhmpehluhhkvgeslhhjohhnvghsrdguvghvpdhnsggprhgtphhtthhope
+    dutddpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepkhhuuhhrthgssehgmhgrihhl
+    rdgtohhmpdhrtghpthhtoheptghhrghithgrnhihrgdrkhhumhgrrhdrsghorhgrhhesih
+    hnthgvlhdrtghomhdprhgtphhtthhopehjrghnihdrnhhikhhulhgrsehinhhtvghlrdgt
+    ohhmpdhrtghpthhtohepjhgrnhhirdhsrggrrhhinhgvnhesihhnthgvlhdrtghomhdprh
+    gtphhtthhopehluhgtrghsrdguvghmrghrtghhihesihhnthgvlhdrtghomhdprhgtphht
+    thhopehsuhhrvghshhdrkhhumhgrrhdrkhhurhhmihesihhnthgvlhdrtghomhdprhgtph
+    htthhopehinhhtvghlqdhgfhigsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhg
+    pdhrtghpthhtohepihhnthgvlhdqgigvsehlihhsthhsrdhfrhgvvgguvghskhhtohhprd
+    horhhgpdhrtghpthhtoheplhhinhhugidqihhnphhuthesvhhgvghrrdhkvghrnhgvlhdr
+    ohhrgh
+X-ME-Proxy: <xmx:r3xHaAfh6Su4wFHDKGfkJ9V-BC_UWgOn4ZqWtxWaJSivNhWOz-46xQ>
+    <xmx:r3xHaCKGGJwMhy-aeLr80VEjrm7YcF_ZVF50XOdQgPUUvwLcL2QFvg>
+    <xmx:r3xHaNJsj94Pgxy07Z6PTCp9zkhwHzvejotJnUdsa_2cK-Sf0zK30w>
+    <xmx:r3xHaLydVI3uSp8y6mnFIyof4OvYk79GU6mXa1HclBd-D_cAoCdQnw>
+    <xmx:sHxHaOcpL7ytAftgUQe7g5nKZock0iv81eQeBLFFASTLA4-I6gbHoQX8>
+Feedback-ID: i5ec1447f:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id BFA25780075; Mon,  9 Jun 2025 20:30:39 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN0PR12MB6101:EE_|PH8PR12MB7302:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4de3ae34-738b-48e8-f1b8-08dda7a3f3be
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?QUVaS2pBcDgxVWgwNlkyRzRjSmFBeExNMTltc1JoeCtQdXZxR3lPaWVNS3NN?=
- =?utf-8?B?ckFiczBTTUZZZUt6WnlDL01tRjI5czdqdW1kOEF2czdYS0M4VlhTbjJVQ3Bi?=
- =?utf-8?B?SWNZNGxTUmVrNHk4RDI2SHVpZ1Jic2NzRTdXbm5ybkVLNm1mbDMyNE1HOC9Z?=
- =?utf-8?B?YWVLMmoxbzlXemRsUDB1eXBoSGJWYTFOUWdKaW5jcWY3UkZNUHZyTkh4NFE2?=
- =?utf-8?B?bGJpdEpFZmFhSnRUYmhRc25SRDhzVS9ERVVyYnp4NXVsWGpFZzlGZmdDQWhM?=
- =?utf-8?B?MFZYcFpyZDUzM1U2TlVYU3hIVFJ2R2k3eGxXRFpiT2ZwTHBVUU9wTGdMUHJr?=
- =?utf-8?B?c2FaNFo5b21RSUhpVkVRVHI4YzAvY2FRNEVWVC9SNU9CT0ZweTdqR0kvdGFY?=
- =?utf-8?B?cDc2Y2UxZmdrbVlkYWdYQWduMEVpUXR3K1hTSVd5bUtJYnVIR3FISTkzSkNl?=
- =?utf-8?B?Vi9seTgrdkJWWDUyK2pYVk9DajV0blhobjd1STZzbDRhcVREem5GTmsxelMv?=
- =?utf-8?B?eVdEd3hnUVd4eEFNZWQwQnhDci9McitWaitQMjYxcGlPM3JxZ1ZabnhscG9R?=
- =?utf-8?B?V1FuVlhXeWV0NXlVVldVT0tXQ0dIbGpUQUdLM1IxMW5CQzVNbENDbDc5bmI1?=
- =?utf-8?B?cUt5RXpGaXFKS3dhekRwbVJuN3ZSZHRibnpxT1dSYmFNRnRYN2plb01obmRL?=
- =?utf-8?B?azNJRnRCREtGVTh1VVNQRzd4cmZtMWUyVFRJYVdkRUdGY1UyeW83dFk3dTZz?=
- =?utf-8?B?bFMzNHo3K1owSG1IVStHK0J2c3RXTHhYVnFUemVsMUs1UnJGN0ZxR2RoOHRt?=
- =?utf-8?B?UlRpVWtLdFZUVkp1TkJtVGQrQWc5TllLWk4yenp3RURpTUtFcDhmVFBxYTRy?=
- =?utf-8?B?bTEyTlE5VWVwa01JTHRHSlM3b21SaXNTaGpYbnNFc0tuZDc2bVFDcUJRY2dw?=
- =?utf-8?B?LzlWOGM2WnpYOWt5ZXhnR2Q1Mko2QTlVb0RycG9WWlZ3ZkhkQTJkanV4MGdH?=
- =?utf-8?B?cjg4Q3JiU0phb0xTRUZFWGhoWkQ5ajJIWWVnSUUxTDZORVN3NEtla3Ivb1pY?=
- =?utf-8?B?QnNxZ2k2aXhEYXRJbjBjTWJyeG9FWlVsRHU3Z3Q0UEg1ZWVlRFdZYmttYjNL?=
- =?utf-8?B?SGxmNzRtaUZwSXoxeTRUQ2hRczN1OU1zY21aczFxWFd6SzJOZVkyd1diZ1Rj?=
- =?utf-8?B?Ylo0QXFaQnVBZ05nYTJGcXE5NnVPR2hhblBwWlljUS9NU3FWY1ExbUo4NldZ?=
- =?utf-8?B?N1Mwd1pZSzE1b3F4UGZCTnhVNnVxK2ltMS9mTzRDQUFVc3hpOURUUzhWSFBZ?=
- =?utf-8?B?K01qVHdPdmRGNG5SM1V2TUFVNW4yaWxxYklGNU5LdmVXUDhDUWhKMHBNbzRz?=
- =?utf-8?B?dmZNOTVBcTNYbWo3SEJ4ZWZianJjbFZFM28wV0FsNG5EOWw2MzJ4TVNzcWxM?=
- =?utf-8?B?UG92RW5aaFhOY1RZY3l4SGVJQXJHZmRmU2ZNQUx1anREeW9TK2YxcGtyQ2hT?=
- =?utf-8?B?OWN3dTZUUnk1YjB4RFdhRXVnTHZHNi9LV3pIYnhmeTlHUW1LeVRRdjNJU09I?=
- =?utf-8?B?RUgxK2FJNU1rK1JVZGRlNVdEYS9rSTI2a2hNNFV6M1ZyeHM2UjVkOGlKN2Rt?=
- =?utf-8?B?ald1RjIzZ2t3Wk9oS2JFcXdNYlZnbktrZlJtOWVDbjdZNFVNWVVrY0xBZisv?=
- =?utf-8?B?NkpmVElIZCt0aVRGaHhuK2FHRHMrc0F5b2Y3TDY1N1VWR3d0OXB4Q1pZbWgr?=
- =?utf-8?B?ZngrdzBkb0ozeVFNSmo0SS9Zc3NwTnB1NUd3RkNsM0tkSjc4TzdFQ0F1U1ZP?=
- =?utf-8?B?U1pRY2V3YS80bDBHeWVNTSsrSkFWVVpUeFg3bitHUUt4THc0dTBtV3ZhbSty?=
- =?utf-8?B?R2QwYUdZK1dTN0I0WkdUazNJVTdiVG0zbStGb3VabTkzV1NDRGJSWmsvYWNh?=
- =?utf-8?Q?SG+TBe6RecM=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN0PR12MB6101.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?L21zbGxrd2lIS0FwdTdDc3QzcHdwclZ2MFI3ci9qM3VYcEpjMVdUSFF5V3hE?=
- =?utf-8?B?bGpJbFBMOEpERzhaVVViOFJKWndJUVQvUnhhZmNPTloxcVZxRXNNWm5wRmhH?=
- =?utf-8?B?S1ExWGdDK0hGODFMQXY4Z1hvV2ozbXgyV0ZRWFZDN2pBamxnNTd5amVkL21j?=
- =?utf-8?B?eE9DWHZkQ2Y5dGVSUzNHQkZNVm9RKzJpb09PaVZLVkRpcElxeVRWcGJOVFh2?=
- =?utf-8?B?OVJKZk1SZWdvRkc1ZHovOFRUV2h3VGE5WjJjSnNnK29Td1F3Umg4blVIY1Az?=
- =?utf-8?B?MTkyK2NCVnRVTVhaQ0diU2ZBQWdrRmsxbDV6RGN4TUxRbXBiU00yTFY2UWpo?=
- =?utf-8?B?MlU0U0syNnhQdyt1Qi9WcUYwZk04UnNKTVdyQy9Ha2lUNXBBSDh0NzRQMG9Z?=
- =?utf-8?B?a01qMDRDVzRZYzVxbHFBdHJuZFMrVnFaNUdHdG5DVENLaTg3VDNtdTRwc0pP?=
- =?utf-8?B?MkZhTHF5NW40Nkh0QnRxWVgwbEVvWnlHZ3NxdVlscEVDQjExMlQ2Ri85aVh5?=
- =?utf-8?B?ZmJ5R3ZYM2hWaWRqYVkvY1BJTGt1OWxWanJuTVVDckNXVVNyb05ld3Fwaysv?=
- =?utf-8?B?ZHc1NEpDWVZaVDFpSkk5d0R6a3JrRW1FN2VoREhKTFVFbU55b0IzRVV6N0th?=
- =?utf-8?B?MHRqR1hGZWdlalJxMEdDUSs0aGgrV1JnMlo5bTlxZExsVE5qaHNmRGxtNGJO?=
- =?utf-8?B?b3ZxYmtZNGFpdk50Y3NQVzB6QWFqNENRQm5pdXkrVzJMUFhxYnAvWjlTdXlP?=
- =?utf-8?B?S3JVWHpVU2d3U3ZValU3My84c0xUMzd1MzRKWmJvS0o3Q3lhQjJWUk4xUWgr?=
- =?utf-8?B?Q0pwMWVnTVIwV0lsSFFLbThhRVk2dXF1SS9WTm5BcGw4KzRpNmFuVnVZRW4y?=
- =?utf-8?B?NEcxenNCZXZ5M2M3UngydnpYemhxc2VoeXovSWdiMUdablhidm5KYVZPU0pi?=
- =?utf-8?B?eFdOTUlMRVhCb2k4YnZ4SXlSUERuZ1doTitPZUFESnFnUDRTMGJwM1Z3Wm9Y?=
- =?utf-8?B?K2FseDhqNVRQRGVGdzFoL3IyTDRXM2NWTEJLYzZ0d2NLTXB1Q1VHTUJ4NU1T?=
- =?utf-8?B?TE9rODlrM21UazNHRFRZc0ZiOGhxVWJyNmtobEtPcjliblRqcUU1K1BoTDlp?=
- =?utf-8?B?aytvUW1sOXNMQXFsUk4zc2NHamFmMmZVOGQ3THRYWGVNdE9sSTVDYVlhNEcx?=
- =?utf-8?B?QndsT3dFcjhnWHpwRWt5dndrSVhJV0pLbTZZMXZNSW93UmI3MzJzS3J1d2I2?=
- =?utf-8?B?Z0RKWlBqVVhJTytMb2l5aVNFb1VTZ0pVRnNsTmFPK2JTY3FjOXV4QzlEVVBO?=
- =?utf-8?B?c1R1L0FOOGgyYnVlS1k4WFAvMlAzRmFhVGhMcnVyek9IVE8vNGtpaWZSdGdq?=
- =?utf-8?B?Q3VHNTNBWWJYelZ5RVQ5MlRLRTJONUJIT29PbzZ1NW9uaVB3clZ2OTBVN2ZL?=
- =?utf-8?B?YUZrUS8vRW1uUUY5bVU1S1dnRzBCRm1TRUlBUUVzS0J3VzJmSTR5QW1QZXQw?=
- =?utf-8?B?TWg2TjE0RG0rS3ZPTHlEc3NqZ05iL2dnZVJ2Z0RCK21nL2R5OU91QktKMnc1?=
- =?utf-8?B?V0NEcy9aSlNCYmorY1NRTkV4SXc0OEFiWFd5Vy9waU9ucVFVTEVucWJEaVJI?=
- =?utf-8?B?VVFINWNVMzdRZS83dksyMUoreGlERldMcEs5dzRsemRSV1NQekJOcFB4Y29m?=
- =?utf-8?B?UmREOEhhUkYxelluUm5ydnQvVzQyT3ZEaG5YWTJoRkFwMW9ESXZ1TzNXOVpw?=
- =?utf-8?B?NThINTVTbHFmVDhTOUdSbUJYdXYrT2ZiL1JEbUJ2bjdFQXkyenZLUk4zNVN1?=
- =?utf-8?B?NHRYRzZLRjlST25JakRkZUk0bldKNmQzY3BJcXY5NERTTlo0T2ZBWDYxMHdX?=
- =?utf-8?B?VStUSHYyTm93eTdSbFhoWHVNbTlyVUNja0tQV2drZDgrS010QVNvQVdaUWxs?=
- =?utf-8?B?WnVrTXMvL1BoWldNMkIyWXo0K2o0M0J6d2V4V2pmUmxBVjBmWDdDQU1DaDNB?=
- =?utf-8?B?ZTJZZmxDMEU3QlJBeUZFeGhHVE15U1ZHY21jc0JLeFVFODlnak9yemtKcVJ2?=
- =?utf-8?B?amgxbmVyZjFmeTNwWDdrYUZ2NlZPUHh0SVgzOEU3aTE1cUVQUDBkdmlOMmNz?=
- =?utf-8?Q?LV0D98m31TWq2BU/0cXAcXmSZ?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4de3ae34-738b-48e8-f1b8-08dda7a3f3be
-X-MS-Exchange-CrossTenant-AuthSource: MN0PR12MB6101.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jun 2025 22:21:17.0028
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: KK9Dt9Rwr0wMJyePefAfqvZA1BqQSEcSK3GJ6T9iBgG8hgJBfm6CiB/D7xt/AvWvlFPqAtyZWAeUIaKvBJs93A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB7302
+X-ThreadId: T4bdae7bed362e7f1
+Date: Tue, 10 Jun 2025 12:30:18 +1200
+From: "Luke Jones" <luke@ljones.dev>
+To: "Chaitanya Kumar Borah" <chaitanya.kumar.borah@intel.com>,
+ "Kurt Borja" <kuurtb@gmail.com>
+Cc: "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "Jani Saarinen" <jani.saarinen@intel.com>,
+ "Suresh Kumar Kurmi" <suresh.kumar.kurmi@intel.com>,
+ "De Marchi, Lucas" <lucas.demarchi@intel.com>,
+ "Jani Nikula" <jani.nikula@intel.com>,
+ "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+ "platform-driver-x86@vger.kernel.org" <platform-driver-x86@vger.kernel.org>
+Message-Id: <b2feef03-ffaf-4172-9d00-09e3e37310ed@app.fastmail.com>
+In-Reply-To: 
+ <SJ1PR11MB612904F9F3109473838EE36BB96BA@SJ1PR11MB6129.namprd11.prod.outlook.com>
+References: 
+ <SJ1PR11MB6129F730EEDCD051DAD8A5DCB967A@SJ1PR11MB6129.namprd11.prod.outlook.com>
+ <0325a50d-8499-4602-aa8c-67445b626587@app.fastmail.com>
+ <DA7WOJH0HZDH.36EH3U8BQJ0JF@gmail.com>
+ <SJ1PR11MB612904F9F3109473838EE36BB96BA@SJ1PR11MB6129.namprd11.prod.outlook.com>
+Subject: Re: [REGRESSION] on linux-next (next-20250509)
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-+Denis
+On Mon, 9 Jun 2025, at 11:06 PM, Borah, Chaitanya Kumar wrote:
+> Hi Luke,
+>
+>
+>> -----Original Message-----
+>> From: Kurt Borja <kuurtb@gmail.com>
+>> Sent: Wednesday, May 28, 2025 9:11 PM
+>> To: Luke Jones <luke@ljones.dev>; Borah, Chaitanya Kumar
+>> <chaitanya.kumar.borah@intel.com>
+>> Cc: intel-xe@lists.freedesktop.org; intel-gfx@lists.freedesktop.org; =
+Saarinen,
+>> Jani <jani.saarinen@intel.com>; Kurmi, Suresh Kumar
+>> <suresh.kumar.kurmi@intel.com>; De Marchi, Lucas
+>> <lucas.demarchi@intel.com>; Nikula, Jani <jani.nikula@intel.com>; lin=
+ux-
+>> input@vger.kernel.org; platform-driver-x86@vger.kernel.org
+>> Subject: Re: [REGRESSSION] on linux-next (next-20250509)
+>>=20
+>> Hi Luke,
+>>=20
+>> On Wed May 28, 2025 at 10:07 AM -03, Luke Jones wrote:
+>> > On Wed, 28 May 2025, at 12:08 PM, Borah, Chaitanya Kumar wrote:
+>> >> Hello Luke,
+>> >>
+>> >> Hope you are doing well. I am Chaitanya from the linux graphics te=
+am in
+>> Intel.
+>> >>
+>> >> This mail is regarding a regression we are seeing in our CI runs[1]
+>> >> on linux-next repository.
+>> >
+>> > Can you tell me if the fix here was included?
+>> > https://lkml.org/lkml/2025/5/24/152
+>> >
+>> > I could change to:
+>> > static void asus_s2idle_check_register(void) {
+>> >     // Only register for Ally devices
+>> >     if (dmi_check_system(asus_rog_ally_device)) {
+>> >         if (acpi_register_lps0_dev(&asus_ally_s2idle_dev_ops))
+>> >             pr_warn("failed to register LPS0 sleep handler in asus-=
+wmi\n");
+>> >     }
+>> > }
+>> >
+>> > but I don't really understand what is happening here. The inner lps0
+>> functions won't run unless use_ally_mcu_hack is set.
+>>=20
+>> The RIP is caused by a "list_add double add" warning.
+>>=20
+>> After reading the log, I believe this is happening because
+>> asus_wmi_register_driver() is called a second time by eeepc_wmi after
+>> asus_nb_wmi, which implies
+>>=20
+>> 	asus_wmi_probe()
+>> 	  -> acpi_register_lps0_dev(&asus_ally_s2idle_dev_ops)
+>>=20
+>> is called twice and the warning is triggered.
+>>=20
+>> Line [1] makes me think this could be a race condition, as
+>> asus_wmi_register_driver() may be called concurrently.
+>>=20
+>> [1] https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-dr=
+ivers-
+>> x86.git/tree/drivers/platform/x86/asus-wmi.c?h=3Dfor-next#n5101
+>>=20
+>
+> Any update on this? It has now hit  6.16-rc1
+>
+> https://intel-gfx-ci.01.org/tree/drm-tip/igt@runner@aborted.html
 
-On 5/27/2025 4:10 AM, Basavaraj Natikar wrote:
-> Add changes to enable operating modes in the driver to allow the FW to
-> activate and retrieve data from relevant sensors. This enables the FW to
-> take necessary actions based on the operating modes.
-> 
-> Co-developed-by: Akshata MukundShetty <akshata.mukundshetty@amd.com>
-> Signed-off-by: Akshata MukundShetty <akshata.mukundshetty@amd.com>
-> Signed-off-by: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
+I will send a patch asap. Haven't been able to do so with work and 3 day=
+s of flights.
 
-Comparing this to the series that was submitted by Denis [1] I notice 
-that the main tangible difference is that this isn't exported into the 
-HID descriptor.  So how does userspace know the current operating mode 
-with this patch?
-
-Link: 
-https://lore.kernel.org/linux-input/20250309194934.1759953-2-benato.denis96@gmail.com/ 
-[1]
-
-> ---
->   drivers/hid/amd-sfh-hid/amd_sfh_client.c | 23 +++++++++++++++++++++++
->   drivers/hid/amd-sfh-hid/amd_sfh_pcie.c   |  4 ++++
->   drivers/hid/amd-sfh-hid/amd_sfh_pcie.h   |  1 +
->   3 files changed, 28 insertions(+)
-> 
-> diff --git a/drivers/hid/amd-sfh-hid/amd_sfh_client.c b/drivers/hid/amd-sfh-hid/amd_sfh_client.c
-> index 3438d392920f..0f2cbae39b2b 100644
-> --- a/drivers/hid/amd-sfh-hid/amd_sfh_client.c
-> +++ b/drivers/hid/amd-sfh-hid/amd_sfh_client.c
-> @@ -146,6 +146,8 @@ static const char *get_sensor_name(int idx)
->   		return "gyroscope";
->   	case mag_idx:
->   		return "magnetometer";
-> +	case op_idx:
-> +		return "operating-mode";
->   	case als_idx:
->   	case ACS_IDX: /* ambient color sensor */
->   		return "ALS";
-> @@ -243,6 +245,20 @@ int amd_sfh_hid_client_init(struct amd_mp2_dev *privdata)
->   			rc = -ENOMEM;
->   			goto cleanup;
->   		}
-> +
-> +		if (cl_data->sensor_idx[i] == op_idx) {
-> +			info.period = AMD_SFH_IDLE_LOOP;
-> +			info.sensor_idx = cl_data->sensor_idx[i];
-> +			info.dma_address = cl_data->sensor_dma_addr[i];
-> +			mp2_ops->start(privdata, info);
-> +			cl_data->sensor_sts[i] = amd_sfh_wait_for_response(privdata,
-> +									   cl_data->sensor_idx[i],
-> +									   SENSOR_ENABLED);
-> +			if (cl_data->sensor_sts[i] == SENSOR_ENABLED)
-> +				cl_data->is_any_sensor_enabled = true;
-> +			continue;
-> +		}
-> +
->   		cl_data->sensor_sts[i] = SENSOR_DISABLED;
->   		cl_data->sensor_requested_cnt[i] = 0;
->   		cl_data->cur_hid_dev = i;
-> @@ -303,6 +319,13 @@ int amd_sfh_hid_client_init(struct amd_mp2_dev *privdata)
->   
->   	for (i = 0; i < cl_data->num_hid_devices; i++) {
->   		cl_data->cur_hid_dev = i;
-> +		if (cl_data->sensor_idx[i] == op_idx) {
-> +			dev_dbg(dev, "sid 0x%x (%s) status 0x%x\n",
-> +				cl_data->sensor_idx[i], get_sensor_name(cl_data->sensor_idx[i]),
-> +				cl_data->sensor_sts[i]);
-> +			continue;
-> +		}
-> +
->   		if (cl_data->sensor_sts[i] == SENSOR_ENABLED) {
->   			rc = amdtp_hid_probe(i, cl_data);
->   			if (rc)
-> diff --git a/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c b/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c
-> index 1c1fd63330c9..2983af969579 100644
-> --- a/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c
-> +++ b/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c
-> @@ -29,6 +29,7 @@
->   #define ACEL_EN		BIT(0)
->   #define GYRO_EN		BIT(1)
->   #define MAGNO_EN	BIT(2)
-> +#define OP_EN		BIT(15)
->   #define HPD_EN		BIT(16)
->   #define ALS_EN		BIT(19)
->   #define ACS_EN		BIT(22)
-> @@ -232,6 +233,9 @@ int amd_mp2_get_sensor_num(struct amd_mp2_dev *privdata, u8 *sensor_id)
->   	if (MAGNO_EN & activestatus)
->   		sensor_id[num_of_sensors++] = mag_idx;
->   
-> +	if (OP_EN & activestatus)
-> +		sensor_id[num_of_sensors++] = op_idx;
-> +
->   	if (ALS_EN & activestatus)
->   		sensor_id[num_of_sensors++] = als_idx;
->   
-> diff --git a/drivers/hid/amd-sfh-hid/amd_sfh_pcie.h b/drivers/hid/amd-sfh-hid/amd_sfh_pcie.h
-> index 05e400a4a83e..2eb61f4e8434 100644
-> --- a/drivers/hid/amd-sfh-hid/amd_sfh_pcie.h
-> +++ b/drivers/hid/amd-sfh-hid/amd_sfh_pcie.h
-> @@ -79,6 +79,7 @@ enum sensor_idx {
->   	accel_idx = 0,
->   	gyro_idx = 1,
->   	mag_idx = 2,
-> +	op_idx = 15,
->   	als_idx = 19
->   };
->   
-
+> Regards
+>
+> Chaitanya
+>
+>> >
+>> > I will do my best to fix but I need to understand what happened a b=
+it better.
+>> >
+>> > regards,
+>> > Luke.
+>> >
+>> >> Since the version next-20250509 [2], we are seeing the following
+>> >> regression
+>> >>
+>> >> ``````````````````````````````````````````````````````````````````=
+```````````````
+>> >> <4>[    5.400826] ------------[ cut here ]------------
+>> >> <4>[    5.400832] list_add double add: new=3Dffffffffa07c0ca0,
+>> >> prev=3Dffffffff837e9a60, next=3Dffffffffa07c0ca0.
+>> >> <4>[    5.400845] WARNING: CPU: 0 PID: 379 at lib/list_debug.c:35
+>> >> __list_add_valid_or_report+0xdc/0xf0
+>> >> <4>[    5.400850] Modules linked in: cmdlinepart(+) eeepc_wmi(+)
+>> >> asus_nb_wmi(+) asus_wmi spi_nor(+) sparse_keymap mei_pxp mtd
+>> >> platform_profile kvm_intel(+) mei_hdcp wmi_bmof kvm irqbypass
+>> >> polyval_clmulni usbhid ghash_clmulni_intel snd_hda_intel hid
+>> >> sha1_ssse3
+>> >> r8152(+) binfmt_misc aesni_intel snd_intel_dspcfg mii r8169
+>> >> snd_hda_codec rapl video snd_hda_core intel_cstate snd_hwdep realt=
+ek
+>> >> snd_pcm snd_timer mei_me snd i2c_i801 i2c_mux spi_intel_pci idma64
+>> >> soundcore spi_intel i2c_smbus mei intel_pmc_core nls_iso8859_1
+>> >> pmt_telemetry pmt_class intel_pmc_ssram_telemetry pinctrl_alderlake
+>> >> intel_vsec acpi_tad wmi acpi_pad dm_multipath msr nvme_fabrics fuse
+>> >> efi_pstore nfnetlink ip_tables x_tables autofs4
+>> >> <4>[    5.400904] CPU: 0 UID: 0 PID: 379 Comm: (udev-worker) Taint=
+ed: G
+>> >> S
+>> >> 6.15.0-rc7-next-20250526-next-20250526-g3be1a7a31fbd+ #1
+>> >> PREEMPT(voluntary)
+>> >> <4>[    5.400907] Tainted: [S]=3DCPU_OUT_OF_SPEC
+>> >> <4>[    5.400908] Hardware name: ASUS System Product Name/PRIME
+>> Z790-P
+>> >> WIFI, BIOS 0812 02/24/2023
+>> >> <4>[    5.400909] RIP: 0010:__list_add_valid_or_report+0xdc/0xf0
+>> >> <4>[    5.400912] Code: 16 48 89 f1 4c 89 e6 e8 a2 c5 5f ff 0f 0b =
+31 c0
+>> >> e9 72 ff ff ff 48 89 f2 4c 89 e1 48 89 fe 48 c7 c7 68 ba 0f 83 e8 =
+84
+>> >> c5 5f ff <0f> 0b 31 c0 e9 54 ff ff ff 66 66 2e 0f 1f 84 00 00 00 00
+>> >> 00 90
+>> >> 90
+>> >> <4>[    5.400914] RSP: 0018:ffffc90002763588 EFLAGS: 00010246
+>> >> <4>[    5.400916] RAX: 0000000000000000 RBX: ffffffffa07c0ca0 RCX:
+>> >> 0000000000000000
+>> >> <4>[    5.400918] RDX: 0000000000000000 RSI: 0000000000000000 RDI:
+>> >> 0000000000000000
+>> >> <4>[    5.400919] RBP: ffffc90002763598 R08: 0000000000000000 R09:
+>> >> 0000000000000000
+>> >> <4>[    5.400920] R10: 0000000000000000 R11: 0000000000000000 R12:
+>> >> ffffffffa07c0ca0
+>> >> <4>[    5.400921] R13: ffffffffa07c0ca0 R14: 0000000000000000 R15:
+>> >> ffff8881212d6da0
+>> >> <4>[    5.400923] FS:  0000778637b418c0(0000) GS:ffff8888dad0c000(=
+0000)
+>> >> knlGS:0000000000000000
+>> >> <4>[    5.400926] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+>> >> <4>[    5.400928] CR2: 00007786373b80b2 CR3: 0000000116faa000 CR4:
+>> >> 0000000000f50ef0
+>> >> <4>[    5.400931] PKRU: 55555554
+>> >> <4>[    5.400933] Call Trace:
+>> >> <4>[    5.400935]  <TASK>
+>> >> <4>[    5.400937]  ? lock_system_sleep+0x2b/0x40
+>> >> <4>[    5.400942]  acpi_register_lps0_dev+0x58/0xb0
+>> >> <4>[    5.400949]  asus_wmi_probe+0x7f/0x1930 [asus_wmi]
+>> >> <4>[    5.400956]  ? kernfs_create_link+0x69/0xe0
+>> >> ``````````````````````````````````````````````````````````````````=
+```
+>> >> ````````````
+>> >> Detailed log can be found in [3].
+>> >>
+>> >> After bisecting the tree, the following patch [4] seems to be the =
+first "bad"
+>> >> commit
+>> >>
+>> >> ``````````````````````````````````````````````````````````````````=
+```
+>> >> ````````````````````````````````````
+>> >> commit feea7bd6b02d43a794e3f065650d89cf8d8e8e59
+>> >> Author: Luke D. Jones mailto:luke@ljones.dev
+>> >> Date:=C2=A0=C2=A0 Sun Mar 23 15:34:21 2025 +1300
+>> >>
+>> >> =C2=A0=C2=A0=C2=A0 platform/x86: asus-wmi: Refactor Ally suspend/r=
+esume
+>> >> ``````````````````````````````````````````````````````````````````=
+```
+>> >> ````````````````````````````````````
+>> >>
+>> >> We could not revert the patch because of merge conflict but resett=
+ing
+>> >> to the parent of the commit seems to fix the issue
+>> >>
+>> >> Could you please check why the patch causes this regression and
+>> >> provide a fix if necessary?
+>> >>
+>> >> Thank you.
+>> >>
+>> >> Regards
+>> >>
+>> >> Chaitanya
+>> >>
+>> >> [1] https://intel-gfx-ci.01.org/tree/linux-next/combined-alt.html?
+>> >> [2]
+>> >> https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.gi=
+t/c
+>> >> ommit/?h=3Dnext-20250509
+>> >> [3]
+>> >> https://intel-gfx-ci.01.org/tree/linux-next/next-20250526/bat-rpls=
+-4/
+>> >> boot0.txt
+>> >> [4]
+>> >> https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.gi=
+t/c
+>> >> ommit/?h=3Dnext-
+>> 20250509&id=3Dfeea7bd6b02d43a794e3f065650d89cf8d8e8e59
+>>=20
+>>=20
+>> --
+>>  ~ Kurt
 
