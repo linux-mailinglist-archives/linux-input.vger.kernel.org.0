@@ -1,143 +1,164 @@
-Return-Path: <linux-input+bounces-12749-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12750-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF905AD2BA8
-	for <lists+linux-input@lfdr.de>; Tue, 10 Jun 2025 03:59:46 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 64000AD2C5E
+	for <lists+linux-input@lfdr.de>; Tue, 10 Jun 2025 06:02:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 448643AFD02
-	for <lists+linux-input@lfdr.de>; Tue, 10 Jun 2025 01:59:23 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1418816E035
+	for <lists+linux-input@lfdr.de>; Tue, 10 Jun 2025 04:02:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 950181ACED3;
-	Tue, 10 Jun 2025 01:59:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5747923C39A;
+	Tue, 10 Jun 2025 04:02:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NUgpaEkC"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fBEwjnz0"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0090319C578
-	for <linux-input@vger.kernel.org>; Tue, 10 Jun 2025 01:59:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7613184F;
+	Tue, 10 Jun 2025 04:02:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749520780; cv=none; b=Bw607yT6XT0D21+rPA9ir3nWqcLK2hAWiOBWzoAE3VdTp9w4qpVgxvY64RGqErh8E+13DQE68p9P1w0ylkXnjLKROVJn8H7yorSVEyXC0dT9bFc/YfSobvjU/d5N4DinX5hm4efMdXvKIHnr/1eXXtrKhotjhwTqkamSzRogyws=
+	t=1749528125; cv=none; b=hTE7HxVP5ve5FPESRq2qXbOV1SolLwuMl+lGluWsi/mlj1IlvUdYEfizadHgj4h3BwGYk4X6ohf1Hq85n6MssVXLlxwkmrwte+wH8oEotQSGm+FcGrI8juFTLqx1i5qUVPvWGaIU7YOz6WlkevDboWqWImzrLp9ijNZNO6K06s0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749520780; c=relaxed/simple;
-	bh=7uc5w4CKuPQq8/vgMUWTPfsXGSiarEgGvZ9VSfMBGtg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=DZkvAPUTyysAHwNAGSHzb/CyfoqCWxyN+mJ+7XttpmAKEu545EOgWXdPRq4VedfwJBruQFk6ch/iundPDxZF66FNo7Uiq0zNHXjeONW3GiCf7Ev5EO+S/5Jquzi9GMRxRsyP5HTIiHsKnR5OW9U82bsUdTd3filp9GvtiJji9wI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NUgpaEkC; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749520779; x=1781056779;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=7uc5w4CKuPQq8/vgMUWTPfsXGSiarEgGvZ9VSfMBGtg=;
-  b=NUgpaEkCVg5BGw1seOivFZPWr+srlaCdjbUCxskpEEpeq9oTXbM+fQoV
-   MhvZQTIlkodbphkKHex1scG2adKtO1OAyzgswmGt8M3UJc+9frN2vHlQh
-   0iFApkBgHB8t5WT+yjvkRUnnIxmqHKPoQrATMFrKJXV9BU+PeTGfkSwPq
-   kwr89h3VJiB0MBN2zCRlOUwyQFf259MmAMj9wc8EtmZ2fqfpRTz32n+AC
-   0wi3XJ0lZMSHba//4JYMnx7b97OicD9/oB2clNs89X+8a6KgFdfX/JiCo
-   fX++3YZhhlL1TLdejomX43EV7AlNpJSYUny27BeRXCvASDFhMi0XvHWqN
-   w==;
-X-CSE-ConnectionGUID: LtNn8wxZTNeTvyxujLIMfw==
-X-CSE-MsgGUID: fN1JL0SDRgGQs5bsrExXDg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11459"; a="51757962"
-X-IronPort-AV: E=Sophos;i="6.16,223,1744095600"; 
-   d="scan'208";a="51757962"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2025 18:59:39 -0700
-X-CSE-ConnectionGUID: bSM7ko0BSbWJcBWXenZS0Q==
-X-CSE-MsgGUID: BnpL+dCTSa6cpCadtRT0Xw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,223,1744095600"; 
-   d="scan'208";a="146568475"
-Received: from iscp-l-lixuzha.sh.intel.com ([10.239.153.157])
-  by fmviesa006.fm.intel.com with ESMTP; 09 Jun 2025 18:59:37 -0700
-From: Zhang Lixu <lixu.zhang@intel.com>
-To: linux-input@vger.kernel.org,
-	srinivas.pandruvada@linux.intel.com,
-	jikos@kernel.org,
-	benjamin.tissoires@redhat.com
-Cc: lixu.zhang@intel.com,
-	even.xu@intel.com,
-	zhifeng.wang@intel.com,
-	selina.wang@intel.com
-Subject: [PATCH 2/2] HID: intel-ish-hid: ipc: Add Wildcat Lake PCI device ID
-Date: Tue, 10 Jun 2025 10:01:32 +0800
-Message-ID: <20250610020132.1544110-3-lixu.zhang@intel.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250610020132.1544110-1-lixu.zhang@intel.com>
-References: <20250610020132.1544110-1-lixu.zhang@intel.com>
+	s=arc-20240116; t=1749528125; c=relaxed/simple;
+	bh=RSDBnhgSDB3LEzKcIyjb9Xjl1Cja0E622WzxOwPUV3A=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Yog2MtKJeS41+Pgy71w7NSV0WqQoAPx6kLaMtnikRoB9oai4E5+/r09IFULBVhgs58cXQivv0OU2HSK3OQoBt5xDRe2Z3lJQ/ctmS+/MqoAYjh5mr7PfLUNmzAJIBnun6iFWvvtl37yDpfBPuIrt8XTBvErfIsn1bIplLCBNUBQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fBEwjnz0; arc=none smtp.client-ip=209.85.219.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-qv1-f53.google.com with SMTP id 6a1803df08f44-6fb01566184so40977796d6.1;
+        Mon, 09 Jun 2025 21:02:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1749528122; x=1750132922; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XMrwRXbr8WIzpkfgacXKxR5z6ZnKHPCXT4UGv3T6iIM=;
+        b=fBEwjnz0+h1vTMCIc7DoFM3MhgLMxGYUuUyTjXVuHkwBqUt0C+EW7e7f0qBny4VTDT
+         Txgnjx+uCk8ttxhuVq18z30mo/yy5w1wb33Gm17CSsJIUVcI05TQrPs1XB2chQlGHQ+H
+         cua32XG+QMEJGjSfgipWMVB2ThiuPE0XyL7MLxYZgwOUgaWkVoQdRu886JYw6JnTryNV
+         R4G9hoRHUWPv9mO9mllcFE9N472s854rtUGNkh40FeYtnyaOmbB6fpsL9eRobqsyT8iz
+         Y0EfxO3vn/JXCGDz/O3GCka52Hw/lR5D/DizhpBxeX8jaBRy1RpisXA26iX0EiJffqgx
+         /XYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1749528122; x=1750132922;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=XMrwRXbr8WIzpkfgacXKxR5z6ZnKHPCXT4UGv3T6iIM=;
+        b=rTn4gQvnjmVpKJSsjp3ZsgUaCGFdg7fT0xQQBfaBucZwJvHtsTZRJLsTolwb6VGEHk
+         3zFUvRX6LTJJlj8s+IZvFAFe9DJtjgLhFt9LOpHgdhtK9RAdoozQD7S1yDHPwWyzkUp+
+         GhO/2fPdHC9rzsOPyDs8ftzGW39/Dq/+QhgAnHeu9GxYY3evZJyHtkewjV/Roy7+c41E
+         SYS1x9vn7Acsfu8lzdL+0Cg7nU9SQ0xwgvjnhLJQqIdEl4P6VvN+iMQtAjuxh4RVT5IA
+         F809+j0zI8ds18aB7rFNqVvfBnVW08Qpas8lC7vy6l4Jrb4/t19sjBEhXzbJGc2keZ8Z
+         jvoA==
+X-Forwarded-Encrypted: i=1; AJvYcCX6CHh/qwoPWJGE1bct2P0mYkpolx/hBjx1YTzHHoRTTl6G2Xi/gbJsQEDLaNAYXPrMtcau3bwFzBTDtw==@vger.kernel.org, AJvYcCXF3GEn9zVVrJjimHz4wERGuyJG43KZFT/UAAuCZa2j1YWwDaBtLYKT+0wzjafTScr2DXgc5GjFW9GAGxIS@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx0mHrm3gQRNujNu1iUetMhnbZprB+FX/oG8qSEBTDNfwcrWtU6
+	KUsYwdg6oGSjfMeQjUvj6z+5sLveaEJKrmW3+06SjEea63J2WCGY/yEhPlR/LIgDtPNbFT7zH7B
+	U9HhBnrwqw6fIbhdhDeXGIs6rTeG7yUo=
+X-Gm-Gg: ASbGncupXkwXodXuMYmgbMKPmjITWKbPhhODN8LY1zsugudSDq8IddQA0Oqko6bHAr4
+	mgLlmtdu4L7+BLjGV7rEKQ58MXX2ve3VpdnAIW/gfYHORcqFzpxiVqyaB/qTZIrjTkfNExQzf63
+	poObCtS0VKUXVvwGSawap1Vj/MaDRTT4O25hjnxv5CVBk0
+X-Google-Smtp-Source: AGHT+IFkKUcxq9K3TvsZ0FSQ6z9aFHs7y3N1fYKBL8L9OYe5J71fBhdpiu/K3rvtcGkhcagNiThED5dyJXBGR1/IwYc=
+X-Received: by 2002:a05:6214:4107:b0:6fa:9e00:d458 with SMTP id
+ 6a1803df08f44-6fb08fe1a53mr252519166d6.45.1749528122425; Mon, 09 Jun 2025
+ 21:02:02 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250526-dualsense-hid-jack-v1-0-a65fee4a60cc@collabora.com>
+In-Reply-To: <20250526-dualsense-hid-jack-v1-0-a65fee4a60cc@collabora.com>
+From: Roderick Colenbrander <thunderbird2k@gmail.com>
+Date: Mon, 9 Jun 2025 21:01:51 -0700
+X-Gm-Features: AX0GCFspEeIQPAzdoMKf0rD0zb01CbCBMtp5pWRm7hsy4HbFty56yWyoLKvtEco
+Message-ID: <CAEc3jaCoVgP=0v73ZTeAhd0wb2LpGqguEedY6haNLi_HNA_Mng@mail.gmail.com>
+Subject: Re: [PATCH 00/11] HID: playstation: Add support for audio jack
+ handling on DualSense
+To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Cc: Roderick Colenbrander <roderick.colenbrander@sony.com>, Jiri Kosina <jikos@kernel.org>, 
+	Benjamin Tissoires <bentiss@kernel.org>, Henrik Rydberg <rydberg@bitmath.org>, kernel@collabora.com, 
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Add device ID of Wildcat Lake into ishtp support list.
+Hi Cristian,
 
-Signed-off-by: Zhang Lixu <lixu.zhang@intel.com>
-Acked-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
----
- drivers/hid/intel-ish-hid/ipc/hw-ish.h  | 1 +
- drivers/hid/intel-ish-hid/ipc/pci-ish.c | 6 ++++++
- 2 files changed, 7 insertions(+)
+Thanks for sharing your patches around audio. I need to have a closer
+look at some of those and how the console also behaves (we try to keep
+things in-sync'ish when possible). I need to double check the
+datasheets as well.
 
-diff --git a/drivers/hid/intel-ish-hid/ipc/hw-ish.h b/drivers/hid/intel-ish-hid/ipc/hw-ish.h
-index 07e90d51f073..fa5d68c36313 100644
---- a/drivers/hid/intel-ish-hid/ipc/hw-ish.h
-+++ b/drivers/hid/intel-ish-hid/ipc/hw-ish.h
-@@ -38,6 +38,7 @@
- #define PCI_DEVICE_ID_INTEL_ISH_LNL_M		0xA845
- #define PCI_DEVICE_ID_INTEL_ISH_PTL_H		0xE345
- #define PCI_DEVICE_ID_INTEL_ISH_PTL_P		0xE445
-+#define PCI_DEVICE_ID_INTEL_ISH_WCL		0x4D45
- 
- #define	REVISION_ID_CHT_A0	0x6
- #define	REVISION_ID_CHT_Ax_SI	0x0
-diff --git a/drivers/hid/intel-ish-hid/ipc/pci-ish.c b/drivers/hid/intel-ish-hid/ipc/pci-ish.c
-index 0db41ed74a14..c57483224db6 100644
---- a/drivers/hid/intel-ish-hid/ipc/pci-ish.c
-+++ b/drivers/hid/intel-ish-hid/ipc/pci-ish.c
-@@ -27,10 +27,12 @@ enum ishtp_driver_data_index {
- 	ISHTP_DRIVER_DATA_NONE,
- 	ISHTP_DRIVER_DATA_LNL_M,
- 	ISHTP_DRIVER_DATA_PTL,
-+	ISHTP_DRIVER_DATA_WCL,
- };
- 
- #define ISH_FW_GEN_LNL_M "lnlm"
- #define ISH_FW_GEN_PTL "ptl"
-+#define ISH_FW_GEN_WCL "wcl"
- 
- #define ISH_FIRMWARE_PATH(gen) "intel/ish/ish_" gen ".bin"
- #define ISH_FIRMWARE_PATH_ALL "intel/ish/ish_*.bin"
-@@ -42,6 +44,9 @@ static struct ishtp_driver_data ishtp_driver_data[] = {
- 	[ISHTP_DRIVER_DATA_PTL] = {
- 		.fw_generation = ISH_FW_GEN_PTL,
- 	},
-+	[ISHTP_DRIVER_DATA_WCL] = {
-+		.fw_generation = ISH_FW_GEN_WCL,
-+	},
- };
- 
- static const struct pci_device_id ish_pci_tbl[] = {
-@@ -70,6 +75,7 @@ static const struct pci_device_id ish_pci_tbl[] = {
- 	{PCI_DEVICE_DATA(INTEL, ISH_LNL_M, ISHTP_DRIVER_DATA_LNL_M)},
- 	{PCI_DEVICE_DATA(INTEL, ISH_PTL_H, ISHTP_DRIVER_DATA_PTL)},
- 	{PCI_DEVICE_DATA(INTEL, ISH_PTL_P, ISHTP_DRIVER_DATA_PTL)},
-+	{PCI_DEVICE_DATA(INTEL, ISH_WCL, ISHTP_DRIVER_DATA_WCL)},
- 	{}
- };
- MODULE_DEVICE_TABLE(pci, ish_pci_tbl);
--- 
-2.43.0
+The series does contain some other patches around style and stuff.
+Some of them for me are entering that slippery slope of what to
+change. There are some different styles in use around the kernel (e.g.
+uint32_t etcetera is fine). But then if you use super strict mode on
+checkpatch half the kernel almost needs to be touched. I'm a bit
+skeptical on those kind of patches.
 
+Thanks,
+Roderick
+
+On Mon, May 26, 2025 at 5:52=E2=80=AFAM Cristian Ciocaltea
+<cristian.ciocaltea@collabora.com> wrote:
+>
+> The Sony DualSense wireless controller (PS5) provides an internal mono
+> speaker, in addition to the 3.5mm jack socket for headphone output and
+> headset microphone input.  However, the default audio output path is set
+> to headphones, regardless of whether they are actually inserted or not.
+>
+> This patch series aims to improve the audio support by implementing the
+> following changes:
+>
+> * Detect when the plugged state of the audio jack changes and toggle
+>   audio output between headphones and internal speaker, as required.
+>   The latter is achieved by essentially routing the right channel of the
+>   audio source to the mono speaker.
+>
+> * Adjust the speaker volume since its default level is too low and,
+>   therefore, cannot generate any audible sound.
+>
+> * Register a dedicated input device for the audio jack and use it to
+>   report all headphone and headset mic insert events.
+>
+> It's worth noting the latter is necessary since the controller complies
+> with v1.0 of the USB Audio Class spec (UAC1) and, therefore, cannot
+> advertise any jack detection capability.  However, this feature can be
+> implemented in the generic USB audio driver via quirks, i.e. by
+> configuring an input handler to receive hotplug events from the HID
+> driver.
+>
+> Unrelated to the above, also provide a few driver cleanup patches, e.g.
+> make use of bitfields macros, simplify locking, fix coding style.
+>
+> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+> ---
+> Cristian Ciocaltea (11):
+>       HID: playstation: Make use of bitfield macros
+>       HID: playstation: Add spaces around arithmetic operators
+>       HID: playstation: Simplify locking with guard() and scoped_guard()
+>       HID: playstation: Replace uint{32,16,8}_t with u{32,16,8}
+>       HID: playstation: Correct spelling in comment sections
+>       HID: playstation: Fix all alignment and line length issues
+>       HID: playstation: Document spinlock_t usage
+>       HID: playstation: Prefer kzalloc(sizeof(*buf)...)
+>       HID: playstation: Rename DualSense input report status field
+>       HID: playstation: Support DualSense audio jack hotplug detection
+>       HID: playstation: Support DualSense audio jack event reporting
+>
+>  drivers/hid/hid-playstation.c | 885 ++++++++++++++++++++++++------------=
+------
+>  1 file changed, 500 insertions(+), 385 deletions(-)
+> ---
+> base-commit: 7bac2c97af4078d7a627500c9bcdd5b033f97718
+> change-id: 20250522-dualsense-hid-jack-d3cb65b75da1
+>
+>
 
