@@ -1,59 +1,57 @@
-Return-Path: <linux-input+bounces-12776-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12777-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F99BAD42CE
-	for <lists+linux-input@lfdr.de>; Tue, 10 Jun 2025 21:22:59 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5ABECAD42DC
+	for <lists+linux-input@lfdr.de>; Tue, 10 Jun 2025 21:27:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 328BC16BB07
-	for <lists+linux-input@lfdr.de>; Tue, 10 Jun 2025 19:23:00 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 978937A35DD
+	for <lists+linux-input@lfdr.de>; Tue, 10 Jun 2025 19:25:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E33A025FA05;
-	Tue, 10 Jun 2025 19:22:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD359263F38;
+	Tue, 10 Jun 2025 19:26:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vGlE+ypE"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ffsNmdUA"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B954B29D19;
-	Tue, 10 Jun 2025 19:22:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9592F23AE83;
+	Tue, 10 Jun 2025 19:26:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749583374; cv=none; b=qjOIzBuCipifF6aV5K8uKOshb/J6i+X3AgZ697LcfW16n7hUGX+qL+2vpm/91vxRd2a34Oa4d5b9sCiroUKrWcWDCwseTuGWJ2dt/j3F4Wy4mUKlk7mAzDLGLvaf7pfl5lHt7bQLu4uhdMpcU8MFNQC+9E/cwPgKhop8A8u68g4=
+	t=1749583611; cv=none; b=DnRtdQi6fG37qjdpDbB1aXGMf2yDdjlpYite+mJ65AWFM/PKQj06hC2DiN3Xibx7SAZa8oeYz/wwi9jB4hbbUryVSfp4UsDLDkZYj0zbvbtwq/h5Wqc8w4P3YCVE24CmVrUEi7Rjf9Lb3lBLmT9Sa1hrXAfjF5FxvYmW2NFnIkE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749583374; c=relaxed/simple;
-	bh=pxZbAU/eeRZsCLiLadVwF9MqDzKUyBxFq+kpGNxy1Gs=;
+	s=arc-20240116; t=1749583611; c=relaxed/simple;
+	bh=B1731WGlq5ZYQEHLJSCoY+viCqv8V/qH6BFMdj/tGyM=;
 	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=QH9McClLHkZGrt7mNviqunkGqOZ4EWCrbNfl8VmFhYfhNsCh9FzsbOIVnox4FiUS1o+bKsYacuWV5RbSSiIVYQLXxBpQK9fYVrbcI+MhrT22CF3gLxNwHS0vQXPtV2AXDhNjRk89sgf5S9JOnyqhfzmRj+RFgXAXoBpU0+zDqAw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vGlE+ypE; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EBC70C4CEED;
-	Tue, 10 Jun 2025 19:22:53 +0000 (UTC)
+	 MIME-Version:Content-Type; b=s9SOhb9ExeDBbP/dCvhMN6lwSF8ON4InAAqE2PADcZRxY5/KE3e+xRBRbXlaQ4t3KG/4cIXhzyvGoVtfROVH4EvNbAcWpQhcE9fpKOCr0pvd9+/xRvmqBoSYmE2tPgqtJre/+6xlwFBb1VsX9EsM6T6i6vJkgT+t7uguMZHWJy8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ffsNmdUA; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BBBD6C4CEED;
+	Tue, 10 Jun 2025 19:26:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749583374;
-	bh=pxZbAU/eeRZsCLiLadVwF9MqDzKUyBxFq+kpGNxy1Gs=;
+	s=k20201202; t=1749583611;
+	bh=B1731WGlq5ZYQEHLJSCoY+viCqv8V/qH6BFMdj/tGyM=;
 	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=vGlE+ypEyarg4rV3Y+uNBi0p+utH0ZHUVayFZzOb7jaJRC9T2PRSJn5mWey79EH+G
-	 OzxxGi3s2POIuB8p980SfpEtTUTiklZbWFU24OIYqdEGEE5nSrA8wepEDHc4ObizDF
-	 sLD4uPRjMV/oz30ITp2ChwIg3yQ39bciAvv7o09Z1VyRrxNL0OOME3rPcJLY1MN60m
-	 +cWIEmw4NOB3k7qu3E/Opi8K+/AP1QMthXz1njq1Y3XHldAFqTg5M9fExdwofsXr6u
-	 ua+db9oJTy8/b2Ka73U+WwXi5R77e95wbKqj5/xEO/b7HE8zOQV/PA9NY059xus0OL
-	 9y3vr5WSMGtbw==
-Date: Tue, 10 Jun 2025 21:22:51 +0200 (CEST)
+	b=ffsNmdUAFmDLNU/j9JbHyeu9SCLw9KDih+rj6b6ylCdCiH019CQr22Xjxb2uRTobz
+	 YpbJijch0YiONR4okgobPpwh97ytzEN4/NgkXB2efVWCD9DTM1M+Bq5AQk1qG+Gq0p
+	 /LCDzx4I/HxEbVIQFt6wPQUcyhdyYbfADOVgEgxEPn1BymUhbdbAXOszeB8MCTsFYe
+	 rFvb76V5ZATtulcCf1VpBqNCgJC+Lx5tWdyPfcs6tK7MGt8zOraKYwxFR/cP5e0F2q
+	 bXyzEiryREVLFEXgCljwSN246yMw4/eTLFYItKuvuacHp5OKGIKVk38OeGZbEEzjB5
+	 rmTgIEQNDAY+Q==
+Date: Tue, 10 Jun 2025 21:26:48 +0200 (CEST)
 From: Jiri Kosina <jikos@kernel.org>
-To: Aditya Garg <gargaditya08@live.com>
-cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>, 
-    Benjamin Tissoires <bentiss@kernel.org>, 
-    Grigorii Sokolik <g.sokol99@g-sokol.info>, 
-    Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
-    Linux Input Mailing List <linux-input@vger.kernel.org>
-Subject: Re: [PATCH v6 0/8] HID: apple: combine patch series for all patches
- recently sent upstream
-In-Reply-To: <PN3PR01MB9597843FE87D50116665ADC4B89CA@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
-Message-ID: <n8pq9503-111o-95p5-6n99-20081r407np4@xreary.bet>
-References: <PN3PR01MB9597843FE87D50116665ADC4B89CA@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+To: kernel test robot <lkp@intel.com>
+cc: Even Xu <even.xu@intel.com>, bentiss@kernel.org, 
+    oe-kbuild-all@lists.linux.dev, srinivas.pandruvada@linux.intel.com, 
+    linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
+    linux-doc@vger.kernel.org, Chong Han <chong.han@intel.com>
+Subject: [PATCH] HID: intel-thc: make ptl_ddata static
+In-Reply-To: <202505171535.Yrj5T8jh-lkp@intel.com>
+Message-ID: <r55n2p5s-1rno-n14q-8n6s-7737pr4655p4@xreary.bet>
+References: <20250514061944.125857-8-even.xu@intel.com> <202505171535.Yrj5T8jh-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -62,45 +60,33 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 
-On Mon, 19 May 2025, Aditya Garg wrote:
+From: Jiri Kosina <jkosina@suse.com>
 
-> Hi
-> 
-> This patch series contains various pending patches for hid-apple in a
-> single series.
-> 
-> The first patch moves the backlight report structs, that were incorrectly
-> placed between the translation tables, to other related backlight structs.
-> 
-> The second patch makes use of switch case statements for the ever
-> increasing lengthy device table for fn translation.
-> 
-> The third patch removes the unused APPLE_IGNORE_MOUSE quirk.
-> 
-> The fourth and fifth patch adds Apple Magic Keyboard A3118 and A3119
-> USB-C support respectively
-> 
-> The sixth patch adds a new fnmode=4 to hid-apple that enabled disabling
-> translation only for F keys, which is useful in case of Macs with a Touch
-> Bar, where F keys are shown on the Touch Bar itself.
-> 
-> The seventh patch removes T2 Macs from the hid_mouse_ignore_list since
-> no driver exists outside the HID subsystem for their trackpads.
-> 
-> The last patch adds support for third party replacement trackpad for
-> MacBookPro15,1 which has different PID from original one.
-> 
-> v2: Add A3118 Keyboard
-> v3: Add A3119 Keyboard
-> v4: The "from" email in patches authored by me was different from the one
->     I signed off using (thanks to outlook's weird oauth2 requirements).
->     Anyways, I've managed to get a workaround to get outlook working
->     finally, so sending them again properly.
-> v5: The cover letter itself failed to send in v4. Sending again.
-> v6: Add 3 new patches to improve support on T2 Macs.
+ptl_ddata is local to pci-quicki2c.c, so it'd better be static.
 
-Now queued in hid.git#for-6.17/apple. Thanks,
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202505171535.Yrj5T8jh-lkp@intel.com/
+Signed-off-by: Jiri Kosina <jkosina@suse.com>
+---
 
+This is now in hid.git#for-6.17/intel-thc
+
+ drivers/hid/intel-thc-hid/intel-quicki2c/pci-quicki2c.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/hid/intel-thc-hid/intel-quicki2c/pci-quicki2c.c b/drivers/hid/intel-thc-hid/intel-quicki2c/pci-quicki2c.c
+index 208e933e23d8..e944a6ccb776 100644
+--- a/drivers/hid/intel-thc-hid/intel-quicki2c/pci-quicki2c.c
++++ b/drivers/hid/intel-thc-hid/intel-quicki2c/pci-quicki2c.c
+@@ -21,7 +21,7 @@
+ #include "quicki2c-hid.h"
+ #include "quicki2c-protocol.h"
+ 
+-struct quicki2c_ddata ptl_ddata = {
++static struct quicki2c_ddata ptl_ddata = {
+ 	.max_detect_size = MAX_RX_DETECT_SIZE_PTL,
+ };
+ 
 -- 
 Jiri Kosina
 SUSE Labs
