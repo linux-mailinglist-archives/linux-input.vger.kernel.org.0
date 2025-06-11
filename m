@@ -1,149 +1,176 @@
-Return-Path: <linux-input+bounces-12810-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12811-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B458EAD5349
-	for <lists+linux-input@lfdr.de>; Wed, 11 Jun 2025 13:11:41 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id EB12CAD589D
+	for <lists+linux-input@lfdr.de>; Wed, 11 Jun 2025 16:25:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7503D163772
-	for <lists+linux-input@lfdr.de>; Wed, 11 Jun 2025 11:11:42 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 77D441892B43
+	for <lists+linux-input@lfdr.de>; Wed, 11 Jun 2025 14:23:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3C2B62E6106;
-	Wed, 11 Jun 2025 11:11:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C8FF92BD01E;
+	Wed, 11 Jun 2025 14:23:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="oTH4pTqF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SNLZx3x7"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C8EB2E6115
-	for <linux-input@vger.kernel.org>; Wed, 11 Jun 2025 11:11:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2982126E708;
+	Wed, 11 Jun 2025 14:22:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749640298; cv=none; b=seRWNO8l/Ws9IHxSWZhqQ5Hk5TSJzmMhS3jjiN+s5y9iekIiXJEEdBtWqQ7vbgMiJoh641S1v1jZ6cXCJg7Ru6G5GzLDpD5t4zghM4ROPJBzQ1Mb83jBdLkMv5noTQcjMEzhQ85nkPQJhz9JT/arU0zgvlKCAYYxwdAfK6u2v14=
+	t=1749651781; cv=none; b=EX9HKaEQP/wIXqz2Yt/HI5IrPFCI442v/xpITL4lVyq9ntKRHO1jndZLEd+r4Xe+DVZ10gscFvWBQD12XomPTAucTbSx2vmSdvT5JvZSPzl/lHxWEu8DE5eQ1PJ+7M1DWvBkgZ3vN3I+73mtM1vD985/OCxqNoe3olHZ/gkyHp4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749640298; c=relaxed/simple;
-	bh=MUe+/ATKf/kEnLb5U7LfslO+vIEY4chB2ROF2rC7r84=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WqqG6EBwGqoP6Rdql7gsAHuN+NZdFbDNMbW3T3UsxvMMmE1PBAIJGhJ78P72568B658lm0GtSBw48Hl91ybwH3D53A8dQpaKqZh9bxjSQc/d/e/ToreBvjJsl2VXrcLp2YwLkFXxqGLoh2rwXEl1wx/MXvfRGUGwLiZYMWVM7J4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=oTH4pTqF; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-43ea40a6e98so81201675e9.1
-        for <linux-input@vger.kernel.org>; Wed, 11 Jun 2025 04:11:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1749640294; x=1750245094; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=0V3NbDSLa3XQAzoO06/Uqe3bpI8rUYw53fVUptdD+0s=;
-        b=oTH4pTqFTtpdicoxOPE4PJISo5mUMpjT4wYK5ipVjn4VuyOTERR9cCdC0R8VQkjALA
-         vhnXdgqQdM3iJ01wLwbi2WnUSe43lj8BLyJA1jqA0b46QfyEWrVTlUA8vf8qadAdY1DQ
-         dOdfIXLH+XS9MX8xThh/SAscqqzhwovMu+HXWirYXQnKCk28T5ezBLiEEKmukYmnw37h
-         6SnBYjEvXQwcqkYu6V1CzukYrf+Xo8EobEMuQBC84clF5od01Zu18VWpQj6jMCMPueKD
-         XmtUeJyByEzMnH4bwWi2k1l/fssB3UXcvjP6k7rFwL5oq/FxvR99iB/yYBpC6as2+7fG
-         Xo5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749640294; x=1750245094;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=0V3NbDSLa3XQAzoO06/Uqe3bpI8rUYw53fVUptdD+0s=;
-        b=QpVRn74ayT/N+xlot7ppDaXA0feoKNo8ZGJ6NnR1xT1tHwNzX3IQsN9WUmQ0U3Beg/
-         IbEpPsMl2EEaqldUYUOTSW0PXuHUsSYTg5cRMbvKqS40LCRD7CP64kcWxDAEPTiOf0rB
-         CCFphR6GS0355CqNkNiN4ZwlJEerO07JZMNSOuMsC1BHcxqo/3iQyF8R5/SpC8mEp+PW
-         syWOX24o2nEgvMabEdOT3+ojYr6infhvoApQm7FwxSJIb+5s9V7ed71KSTRz5O0UYFxB
-         4iBKebE1toPNHtjO7KHS0ZfYpfadjf+ZvjyQoRIh98YaX6rFZI36B6n8N+/Vl1/VhAiB
-         8llA==
-X-Gm-Message-State: AOJu0YzVOGB8hQr4Px2kSqVtwgVjUB7dB6j2Bj7pTaSis9lQj5llXm3g
-	7C1QQNuJOujOWJIHUS2sfSjvP427YiQbyLFjbGqFc92HXG7NeUSuMf2cAfTVfeJ6H3E=
-X-Gm-Gg: ASbGncuMX076HDjUGKZoSZHTZQ9Ff5KeQ+qdCbJUMFlzqAJS9YhpQlawdQpIPVJopdo
-	u9lEE5X1JrFIV0nZsbfRzBlIYFb2t7MHqpLj+WRQs3DPoqwNLJQ97Tibluoac5WW/elDEO9E1Dn
-	q6agoMBphIsgoNq40mVdf4Q0St4AAcFO3pY/B51oIahmy66wILi9XHOl3x7xcPdvfLbY8tulSJL
-	TZcQ3e9M4gc0/J4Loi7We3gQwn5NQsSQMk07YaeJp896VyuhPE/yvisHo0L5UPSkdZah5yTdeM2
-	Pi2hHdyw5H8oHHJJncR/EAVP0FPuUAeea4H4Q8cOeKGHTug0iG/Nz2eCggJ7uIBoZaf9O+T1
-X-Google-Smtp-Source: AGHT+IHhx/dxetkj6r6wrKRU0rbLoNqvCtKGlxRTYls+jmNCkDknGnrm9z3NA9HEadonCRujjQxj8A==
-X-Received: by 2002:a05:600c:3d13:b0:450:ddb7:ee4d with SMTP id 5b1f17b1804b1-453248cb4c2mr24029765e9.24.1749640294473;
-        Wed, 11 Jun 2025 04:11:34 -0700 (PDT)
-Received: from [192.168.0.251] ([79.115.63.158])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a5322aa3c0sm14779701f8f.22.2025.06.11.04.11.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 11 Jun 2025 04:11:33 -0700 (PDT)
-Message-ID: <c8928e44-894d-4b67-aaf0-0bd460d37678@linaro.org>
-Date: Wed, 11 Jun 2025 12:11:32 +0100
+	s=arc-20240116; t=1749651781; c=relaxed/simple;
+	bh=23ZiHQ1YGdQ2GxpBT4mjPpRAra6Bfr4xKOjZt5xAzC0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VmJ2Pr1ZG/KtvJn3/V9FjMbJ2kBSFFu4ICFO25MLkTuR0+y1vS/ITRK2Sk9eS6iMigxKP7kePXJyFEH5ZNzvL+FUk1+6VIo6N4vGEhM1JD8cnUY93GRoDhPAJeCKpPYCLgkmL0659LhPHn1XmOC7DqNe3Qi8usksD76mhZTetvA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SNLZx3x7; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1749651779; x=1781187779;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=23ZiHQ1YGdQ2GxpBT4mjPpRAra6Bfr4xKOjZt5xAzC0=;
+  b=SNLZx3x7aw8T2J5RuNc7tGitQ1zJU8dECplepvcAh7yL2K7sLdvMabYL
+   gEaH7XMyVUX9PSNx9lV/54omd6C7xY19fPhEi7d8xoeORU3cY1hErEBeC
+   VfScckft79A7jVuUPEzoSth3ry86qwsEneKonbpkyEvER38YdqfcL+usD
+   M+mIp8Tit25D4wCl99CyVvtDM1ED/zjrZ+YxLQ39NWBJ5TNQ88LQDlwR3
+   6Z+Vgw9WhonWAwCyMqJki6hjm0E6bADUMDmKbY3VlprmXquBuywNbJa8o
+   mbipAbm0xhswY7GSM2GAf8wtex2OOBsz3t38jlMaCGTRvwByYyY6X2Dd1
+   Q==;
+X-CSE-ConnectionGUID: XsmZbysuQNKG4f5eHScJ1A==
+X-CSE-MsgGUID: wa0R2/fvS8utKtXJ2M5sHA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11461"; a="63144495"
+X-IronPort-AV: E=Sophos;i="6.16,228,1744095600"; 
+   d="scan'208";a="63144495"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2025 07:22:58 -0700
+X-CSE-ConnectionGUID: Y6hkqo0IQem+GRa+je0Ncg==
+X-CSE-MsgGUID: 9k1LO/yWTva4JNmXQX/Lbg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,228,1744095600"; 
+   d="scan'208";a="147117140"
+Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
+  by orviesa010.jf.intel.com with ESMTP; 11 Jun 2025 07:22:56 -0700
+Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uPMLt-000AYk-0L;
+	Wed, 11 Jun 2025 14:22:53 +0000
+Date: Wed, 11 Jun 2025 22:22:39 +0800
+From: kernel test robot <lkp@intel.com>
+To: =?utf-8?B?VG9tw6HFoSBKdcWZZW5h?= <jurenatomas@gmail.com>,
+	dmitry.torokhov@gmail.com
+Cc: oe-kbuild-all@lists.linux.dev, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Tomas Jurena <jurenatomas@gmail.com>
+Subject: Re: [PATCH] Input: tca6416-keypad - Add OF support for driver
+ instantiation
+Message-ID: <202506112236.gn3kTosZ-lkp@intel.com>
+References: <20250610154609.1382818-1-jurenatomas@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [bug report] firmware: add Exynos ACPM protocol driver
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: linux-input@vger.kernel.org
-References: <aElHlTApXj-W_o1r@stanley.mountain>
-Content-Language: en-US
-From: Tudor Ambarus <tudor.ambarus@linaro.org>
-In-Reply-To: <aElHlTApXj-W_o1r@stanley.mountain>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250610154609.1382818-1-jurenatomas@gmail.com>
+
+Hi Tomáš,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on dtor-input/next]
+[also build test WARNING on dtor-input/for-linus linus/master v6.16-rc1 next-20250611]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Tom-Ju-ena/Input-tca6416-keypad-Add-OF-support-for-driver-instantiation/20250611-094643
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
+patch link:    https://lore.kernel.org/r/20250610154609.1382818-1-jurenatomas%40gmail.com
+patch subject: [PATCH] Input: tca6416-keypad - Add OF support for driver instantiation
+config: arm-randconfig-001-20250611 (https://download.01.org/0day-ci/archive/20250611/202506112236.gn3kTosZ-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250611/202506112236.gn3kTosZ-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506112236.gn3kTosZ-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   drivers/input/keyboard/tca6416-keypad.c: In function 'tca6416_parse_properties':
+>> drivers/input/keyboard/tca6416-keypad.c:194:12: warning: unused variable 'pin' [-Wunused-variable]
+     194 |         u8 pin;
+         |            ^~~
 
 
+vim +/pin +194 drivers/input/keyboard/tca6416-keypad.c
 
-On 6/11/25 10:08 AM, Dan Carpenter wrote:
-> Hello Tudor Ambarus,
-> 
-> Commit a88927b534ba ("firmware: add Exynos ACPM protocol driver")
-> from Feb 13, 2025 (linux-next), leads to the following Smatch static
-> checker warning:
-> 
-> 	drivers/input/misc/tps65219-pwrbutton.c:129 tps65219_pb_remove()
-> 	warn: passing positive error code '1-255' to 'ERR_PTR'
-> 
-> drivers/input/misc/tps65219-pwrbutton.c
->     120 static void tps65219_pb_remove(struct platform_device *pdev)
->     121 {
->     122         struct tps65219 *tps = dev_get_drvdata(pdev->dev.parent);
->     123         int ret;
->     124 
->     125         /* Disable interrupt for the pushbutton */
->     126         ret = regmap_set_bits(tps->regmap, TPS65219_REG_MASK_CONFIG,
->     127                               TPS65219_REG_MASK_INT_FOR_PB_MASK);
->     128         if (ret)
-> --> 129                 dev_warn(&pdev->dev, "Failed to disable irq (%pe)\n", ERR_PTR(ret));
->     130 }
-> 
-> The problem is:
-> 
-> drivers/firmware/samsung/exynos-acpm-pmic.c
->    208  int acpm_pmic_update_reg(const struct acpm_handle *handle,
->    209                           unsigned int acpm_chan_id, u8 type, u8 reg, u8 chan,
->    210                           u8 value, u8 mask)
->    211  {
->    212          struct acpm_xfer xfer;
->    213          u32 cmd[4] = {0};
->    214          int ret;
->    215  
->    216          acpm_pmic_init_update_cmd(cmd, type, reg, chan, value, mask);
->    217          acpm_pmic_set_xfer(&xfer, cmd, sizeof(cmd), acpm_chan_id);
->    218  
->    219          ret = acpm_do_xfer(handle, &xfer);
->    220          if (ret)
->    221                  return ret;
->    222  
->    223          return FIELD_GET(ACPM_PMIC_RETURN, xfer.rxd[1]);
->                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> This acpm_pmic_update_reg() is called by sec_pmic_acpm_bus_reg_update_bits()
-> via the (struct acpm_pmic_ops)->update_reg pointer.  This field get is
-> returning a u8 value but I'm pretty sure we should be returning either
-> zero or negative error codes.
-> 
+   185	
+   186	static struct tca6416_keys_platform_data *
+   187	tca6416_parse_properties(struct device *dev, uint8_t io_size)
+   188	{
+   189		static const char keymap_property[] = "linux,gpio-keymap";
+   190		struct tca6416_keys_platform_data *pdata;
+   191		u32 keymap[TCA6416_MAX_IO_SIZE];
+   192		struct tca6416_button *buttons;
+   193		int ret, i;
+ > 194		u8 pin;
+   195	
+   196		pdata = devm_kzalloc(dev, sizeof(*pdata), GFP_KERNEL);
+   197		if (!pdata)
+   198			return NULL;
+   199	
+   200		ret = device_property_count_u32(dev, keymap_property);
+   201		if (ret <= 0)
+   202			return NULL;
+   203	
+   204		pdata->nbuttons = ret;
+   205		if (pdata->nbuttons > io_size)
+   206			pdata->nbuttons = io_size;
+   207	
+   208		ret = device_property_read_u32_array(dev, keymap_property, keymap,
+   209						     pdata->nbuttons);
+   210		if (ret)
+   211			return NULL;
+   212	
+   213		buttons = devm_kcalloc(dev, pdata->nbuttons, sizeof(*buttons),
+   214				       GFP_KERNEL);
+   215		if (!buttons)
+   216			return NULL;
+   217	
+   218		for (i = 0; i < pdata->nbuttons; i++) {
+   219			buttons[i].code = FIELD_GET(CFG_CODE, keymap[i]);
+   220			buttons[i].type = FIELD_GET(CFG_TYPE, keymap[i]);
+   221			buttons[i].active_low = FIELD_GET(CFG_ACTIVE_LOW, keymap[i]);
+   222			/* enable all inputs by default */
+   223			pdata->pinmask |= BIT(i);
+   224		}
+   225	
+   226		pdata->buttons = buttons;
+   227	
+   228		pdata->rep = device_property_read_bool(dev, "autorepeat");
+   229		/* we can ignore the result as by default all inputs are enabled */
+   230		device_property_read_u16(dev, "pinmask", &pdata->pinmask);
+   231		pdata->use_polling = device_property_read_bool(dev, "polling");
+   232	
+   233		return pdata;
+   234	}
+   235	
 
-oh, yes, thanks for the report. The concern is valid, I'm adding it to
-my todo list.
-
-Cheers,
-ta
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
