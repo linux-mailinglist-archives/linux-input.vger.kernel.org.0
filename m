@@ -1,139 +1,125 @@
-Return-Path: <linux-input+bounces-12804-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12805-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CA68AD4F63
-	for <lists+linux-input@lfdr.de>; Wed, 11 Jun 2025 11:08:54 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id F3409AD4FB4
+	for <lists+linux-input@lfdr.de>; Wed, 11 Jun 2025 11:26:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DD9293A4088
-	for <lists+linux-input@lfdr.de>; Wed, 11 Jun 2025 09:08:26 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D42F23A4C02
+	for <lists+linux-input@lfdr.de>; Wed, 11 Jun 2025 09:26:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7EA751624E5;
-	Wed, 11 Jun 2025 09:08:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 882C025F965;
+	Wed, 11 Jun 2025 09:26:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="oOu2kQhU"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lSCElZ9c"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD33622DFA2
-	for <linux-input@vger.kernel.org>; Wed, 11 Jun 2025 09:08:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EDF913A3F2;
+	Wed, 11 Jun 2025 09:26:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749632926; cv=none; b=aWgLL4cJZ3+DRx/SGh/ySX08xiWRjVM79CPbh7XaA4bY1PvAGRVAh/MzYmfbDvg41xXR8jcwb1lGIhyBDlx+T+UASEBSDwWcubfXLStbja1PsEV6JWta6k5Gp9WhIOWpCup0WS7//P0y2OUI+AXjqYuWrzjWDD98BskbD7oDT/A=
+	t=1749633995; cv=none; b=mk8FxAsacCeE8cImGEES25uIlYZ3Toj+o9t5OlAN0JBo479hlImPzAsHozHhb5U090wlAk8nGBI1Osn3rdTY6OIOHnVKJ2pC+gCAWln3BOrlwOBRDvSWLJz/8NxfgYuP4PtOJzn6Y34X6TvGkqROiYPBA5tv1X1TLr6RU5jtTfE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749632926; c=relaxed/simple;
-	bh=IcLtpFsJ3LBlktPzcI6MTuTHghI0o9S/0Cm3PN+I3ow=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=qIanwo6MLTni3u80Rh5fmW3xgOvTljeMCrhcq5g6DM5HEze65B91C1+De47TMGIDVwypk/Ok7myeQwy7Gj/4CMZSm9rKTtQj3O3Tt9jMoU4bSxhJeDtU5rn4ryQ0fKXMT8La18dGzFHLQbJM5OyM2zNZd3wv59G0yVPxuqvnzjY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=oOu2kQhU; arc=none smtp.client-ip=209.85.221.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-3a5096158dcso5398559f8f.1
-        for <linux-input@vger.kernel.org>; Wed, 11 Jun 2025 02:08:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1749632923; x=1750237723; darn=vger.kernel.org;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=LmC5Lk7k0ZlXNERqyhShprsRgei8nLYuhUtGlffMqLo=;
-        b=oOu2kQhU4kkIsnk4keFN+cMvq1ESAoV59fTzrR/Nni8w9faissHm4KKni/H5Skq/mN
-         /gsg46SrgZSKDXn6KvFNUn/BiMSObVIxg1jDqJTI865PudDvIC84VkXBwoVUNCsQmHxk
-         tPWLGVcVYD4X0x+4OLw7HxydKvBKhPLjKRL1vIuhxCqnVaO/pol3ch+6aO3dF+WLqtuB
-         OI36Cz4rde+NtMxRhpFHfFn9nPlj8B0ZU2gDQujCw1A44FFngHiB6Io7tdO2ZiT/OgWc
-         5qtumHi+mDRE4TgJY3tZdPVqFdfM6Ll6BV3zinxNZY0ovf0EoydlFdCgdDXUwVa3Y92u
-         kqNQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749632923; x=1750237723;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=LmC5Lk7k0ZlXNERqyhShprsRgei8nLYuhUtGlffMqLo=;
-        b=iqioCkcAvczdveIgB05SZA69PycLG0ERq1a8MU20MWr7rerwA44IYN5DCwzrnUeIFJ
-         JzTpFRFa5pEJvdZuv0J4B5y3gP/sA3EscS26ThAtoGZepZ2NXm1Ybq/HkeWxVU8cYzCY
-         QL6gCp6KDZcDlNkFWXtyQelSA7LpVm5Pzb0iZty1ABU+tnn3FiiHfC/BFrtUEtYtopFu
-         yUdkQOP9/58q1ic7vAXIsHGKdSBj9KM5tyu+pCLLJPW9hUCEqi6HpzMvRKBXdoZPBc6c
-         midJf2JZ1uNBkmf2qfTniLBIygl6bD1wrQUERYE5PBewQ344nHx5Mx5NGUpQ/I0QqY9Y
-         nYBA==
-X-Gm-Message-State: AOJu0YyzyCNejtsMCHaRDb1XmJVWbyJIwB7YEYeDtGaxKLlK7QYMzbrD
-	KRfv6FRmqO3bEWQo+pOPI7fpjGHffS2WUnU7WDTUTUGaGcYtwxfbYk0HSfQgvF8oJtvcSHrSho/
-	W6y2k
-X-Gm-Gg: ASbGncvvOS9NM0skseQGQMYDFrEcC2hIgqLzQZEJMf3WH4asvndAcJAALSlvcFowtjj
-	v4qq0tlHhWe6nrB1WOXGAvHQyMq5mTBGwpUPtpcUnRjCLZbc/+wqm9ONe50zX2KqUMMhh/DYJb4
-	NXAz7F9S+Ks9hRU7W7ThHKZ28wgrVXQemca1YUhYqWD1LeqieH7/gg0ZMXWCmovxnZKxWPBGPKX
-	+xAIHHcUsj2wTzBBt/SfhVHv5RQWEXCAONBvGqyxPNVui8G/h23+xEP4yXWkjw9+27wN516plLj
-	uNuJX+azk3WCMlSEyVPrDMXPOFb20/MAryT36uajK86G7IPlFecVS+8/+5MyQ+5okNs=
-X-Google-Smtp-Source: AGHT+IGVKf+XOMe9PXe50+Ixul8J8t2LBX81aBv7LinHhqzstHyuJ/Q2x9WpW+22dDF2ReF2D+y0Nw==
-X-Received: by 2002:a05:6000:288c:b0:3a4:eb92:39b6 with SMTP id ffacd0b85a97d-3a558a4277cmr1808640f8f.54.1749632923082;
-        Wed, 11 Jun 2025 02:08:43 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-45324fc3b52sm15423775e9.0.2025.06.11.02.08.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Jun 2025 02:08:42 -0700 (PDT)
-Date: Wed, 11 Jun 2025 12:08:37 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Tudor Ambarus <tudor.ambarus@linaro.org>
-Cc: linux-input@vger.kernel.org
-Subject: [bug report] firmware: add Exynos ACPM protocol driver
-Message-ID: <aElHlTApXj-W_o1r@stanley.mountain>
+	s=arc-20240116; t=1749633995; c=relaxed/simple;
+	bh=JcH4q7bvmR/iiEjQtCDbBYoJ+a4mZWMpSZ4WzoNbXwI=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=EaY0wuv78s+zdXE3JWHiMUqDwLAs/kzeLBKE2oEEAuVohQc8HoWC7102xUN3rlbvqpN/BuYXjuhIrD40UQ8zJHb0hiRoDlED9WNf/fBrB5sOZohTVs3nOAPslnwx4k1HHG9cVUKjGKhAnpk82CjknlECJ3pIM/+fOk7f0/Bkdno=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lSCElZ9c; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96868C4CEEE;
+	Wed, 11 Jun 2025 09:26:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1749633995;
+	bh=JcH4q7bvmR/iiEjQtCDbBYoJ+a4mZWMpSZ4WzoNbXwI=;
+	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+	b=lSCElZ9cPGdTjtxfyETX3X3+2aCyQnssewuchC9Tw0wBs07iCgOk/m1a59hP4yd+I
+	 BNbo6hiVmsFt1KQYk6BoR4gBBwPWxCzXUwmxJqf28I3FtOVDLKT29KcQLi3WnNUy5m
+	 SftVFf2A2uXvam8iXeyyw6tqQ6ZcuuPqkCU/umA5i1o49Gor9+1Cnoeo7VLxUU9o0x
+	 AJgDtHjfG4kN906ScF7p9a9O8oWDCRJyEK6PNtoEPnMCuBcFmAnncD8J26GFc9jumA
+	 AjespapGqtfnPzGUPdZk/gCIvqKFShiS/N/fmLPRugQUDMvMrWwPoiuf14NbAh8XTg
+	 idp6AatIuiD9w==
+Date: Wed, 11 Jun 2025 11:26:32 +0200 (CEST)
+From: Jiri Kosina <jikos@kernel.org>
+To: Aditya Garg <gargaditya08@live.com>
+cc: Benjamin Tissoires <bentiss@kernel.org>, Kerem Karabay <kekrby@gmail.com>, 
+    Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
+    Linux Input Mailing List <linux-input@vger.kernel.org>
+Subject: Re: [PATCH v3 0/5] HID: multitouch: Add support for Touch Bars on
+ x86 MacBook Pros
+In-Reply-To: <PN3PR01MB959768813D548FD4A91CDD11B864A@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+Message-ID: <8r1757q9-7qqq-n6p8-0no1-040rssnsn260@xreary.bet>
+References: <PN3PR01MB959768813D548FD4A91CDD11B864A@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=US-ASCII
 
-Hello Tudor Ambarus,
+On Tue, 27 May 2025, Aditya Garg wrote:
 
-Commit a88927b534ba ("firmware: add Exynos ACPM protocol driver")
-from Feb 13, 2025 (linux-next), leads to the following Smatch static
-checker warning:
+> This patch series aims to improve the Touch Bar support for x86 Macs.
+> 
+> The `hid-appletb-kbd` and `hid-appletb-bl` drivers were upstreamed into
+> the Linux kernel and are available since version 6.15. They enable the
+> Touch Bar to display a predefined set of media and function keys, exactly
+> the same it does on Windows Bootcamp.
+> 
+> Alongwith that, support for the DRM mode of the driver has also been
+> upstreamed in kernel 6.15.
+> 
+> The DRM mode enables the Touch Bar to act as a second display, just like
+> macOS. So now you can add a widget, put a clock or anything else on the
+> Touch Bar as long as you can develop a daemon.
+> 
+> For this mode, we needed two patchsets. One went to the DRM tree as the
+> `appletbdrm` driver, and other is this.
+> 
+> The DRM driver is responsible for displaying whatever the OS wants on
+> the Touch Bar.
+> 
+> Now via these patches, in the DRM mode, we can use the Touch Bar as a
+> touch screen. The Touch Bar seems to be not compliant with the HID spec,
+> thus via these patches several tweaks have been done under the cover of
+> a single quirk, MT_QUIRK_APPLE_TOUCHBAR. Originally expected to be
+> upstreamed alongwith the DRM driver on 6.15, these patches seem to have
+> remained in a backlog.
+> 
+> For the case of T2 Macs, apple-bce [1], the driver for the T2 Security
+> Chip is also needed for all the peripherals, including the Touch Bar
+> to work. It is still WIP, and will be subsequently sent later to the
+> appropriate tree. Till then, I'll suggest testers to get the driver
+> from [1], or more preferably, get Linux support from https://t2linux.org/.
+> 
+> Cheers
+> Aditya
+> 
+> [1]: https://github.com/t2linux/apple-bce-drv
+> 
+> Changelog:
+> 
+> v2: keep parse at original location in patch 5 as suggested by Benjamin
+> v3: Reword the cover letter to update the maintainers with the latest
+>     situation, and re-prepare the patches on 6.15.
+> 
+> Kerem Karabay (5):
+>   HID: multitouch: Get the contact ID from HID_DG_TRANSDUCER_INDEX
+>     fields in case of Apple Touch Bar
+>   HID: multitouch: support getting the tip state from HID_DG_TOUCH
+>     fields in Apple Touch Bar
+>   HID: multitouch: take cls->maxcontacts into account for Apple Touch
+>     Bar even without a HID_DG_CONTACTMAX field
+>   HID: multitouch: specify that Apple Touch Bar is direct
+>   HID: multitouch: add device ID for Apple Touch Bar
 
-	drivers/input/misc/tps65219-pwrbutton.c:129 tps65219_pb_remove()
-	warn: passing positive error code '1-255' to 'ERR_PTR'
+Now queued in hid.git#for-6.17/multitouch, thanks.
 
-drivers/input/misc/tps65219-pwrbutton.c
-    120 static void tps65219_pb_remove(struct platform_device *pdev)
-    121 {
-    122         struct tps65219 *tps = dev_get_drvdata(pdev->dev.parent);
-    123         int ret;
-    124 
-    125         /* Disable interrupt for the pushbutton */
-    126         ret = regmap_set_bits(tps->regmap, TPS65219_REG_MASK_CONFIG,
-    127                               TPS65219_REG_MASK_INT_FOR_PB_MASK);
-    128         if (ret)
---> 129                 dev_warn(&pdev->dev, "Failed to disable irq (%pe)\n", ERR_PTR(ret));
-    130 }
+-- 
+Jiri Kosina
+SUSE Labs
 
-The problem is:
-
-drivers/firmware/samsung/exynos-acpm-pmic.c
-   208  int acpm_pmic_update_reg(const struct acpm_handle *handle,
-   209                           unsigned int acpm_chan_id, u8 type, u8 reg, u8 chan,
-   210                           u8 value, u8 mask)
-   211  {
-   212          struct acpm_xfer xfer;
-   213          u32 cmd[4] = {0};
-   214          int ret;
-   215  
-   216          acpm_pmic_init_update_cmd(cmd, type, reg, chan, value, mask);
-   217          acpm_pmic_set_xfer(&xfer, cmd, sizeof(cmd), acpm_chan_id);
-   218  
-   219          ret = acpm_do_xfer(handle, &xfer);
-   220          if (ret)
-   221                  return ret;
-   222  
-   223          return FIELD_GET(ACPM_PMIC_RETURN, xfer.rxd[1]);
-                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-This acpm_pmic_update_reg() is called by sec_pmic_acpm_bus_reg_update_bits()
-via the (struct acpm_pmic_ops)->update_reg pointer.  This field get is
-returning a u8 value but I'm pretty sure we should be returning either
-zero or negative error codes.
-
-   224  }
-
-regards,
-dan carpenter
 
