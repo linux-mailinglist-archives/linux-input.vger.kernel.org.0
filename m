@@ -1,89 +1,88 @@
-Return-Path: <linux-input+bounces-12813-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12814-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53C8DAD5B7C
-	for <lists+linux-input@lfdr.de>; Wed, 11 Jun 2025 18:10:51 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id A6888AD5D63
+	for <lists+linux-input@lfdr.de>; Wed, 11 Jun 2025 19:44:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3CFB51888177
-	for <lists+linux-input@lfdr.de>; Wed, 11 Jun 2025 16:08:32 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 244773A8474
+	for <lists+linux-input@lfdr.de>; Wed, 11 Jun 2025 17:44:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1EC961DE8B5;
-	Wed, 11 Jun 2025 16:08:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 400E2223DE1;
+	Wed, 11 Jun 2025 17:44:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="V3RJUwbp"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="S2WjWVwW"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CC121A5B99;
-	Wed, 11 Jun 2025 16:08:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8CCE17A2F3;
+	Wed, 11 Jun 2025 17:44:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749658094; cv=none; b=OnOTQARQL+yao1A+R4y3iqcztoSrsqZfOj+kFzThqwZekaSsBLuthq4Ip4d3KDMd+EP3SGtBdHZXt/OMVc/I1q8ZiVWKVqbPoel/fFTEz/9r6+jQV4YmsSzOjldziQ1s/3cchYfHl3Pw+zWwXtU+1ZfbRAjRPU4acPH/8HZr0nY=
+	t=1749663867; cv=none; b=h6MC5ZRFbFpAX7JTlN4V1mAQc8O0ZvrQIOzLDWQlpubR6Ecl+OAxy52PrVOt1DHR/sG1TEg8hCm1hzVtThH5jLDJlXSo9esX90IbNwMfNHj9P9RAB4Ccxf6jQxjRwDcGNJKMzIZbPLTb391fCDfXHvPF330RWmfjUTz4HU0Tyi4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749658094; c=relaxed/simple;
-	bh=14QE0YHwFNH3Qn7F61SBsHx80PF7+y/VLlnXyH3UAMc=;
+	s=arc-20240116; t=1749663867; c=relaxed/simple;
+	bh=wxRnIznPD14SyjaHIq6492HvK18W59ktwYnXxxaPDu4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pH5lAFDRb4YNT5FwYON7J60dN51kyToxGVzf0BwF8iB8RNhTnVWDLo4qe5iTCtpMcAdXvew6zpdTo1d5bszb8W6LXcZgnIDTp45apPtFEnDhRdrSAnXqDjIhZLFSZMTj/PQAdp02dCHO6CSHRewFIjldIFRSQx5RXAJSlC3SAhA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=V3RJUwbp; arc=none smtp.client-ip=209.85.218.51
+	 Content-Type:Content-Disposition:In-Reply-To; b=SIvVHvjZu1pxZZ+4XkU67YW38DsG9IGK/cuYQYmIRCj57ql1wj6qk/QG1dVs8fmGY41wAg/PXJBvyXviqdDXxjnMiw0dW1OfQXkY/QJHj6AxUBOEL97YChuKGBep6/rM8eezfbcoEMwSn+BYApT+uycd4MCWGXnbYrsEwiusIGo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=S2WjWVwW; arc=none smtp.client-ip=209.85.214.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-ad8a8da2376so1118763466b.3;
-        Wed, 11 Jun 2025 09:08:11 -0700 (PDT)
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-234d3261631so968265ad.1;
+        Wed, 11 Jun 2025 10:44:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1749658090; x=1750262890; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1749663865; x=1750268665; darn=vger.kernel.org;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=uaT1m8ZywVYFG/p0OzTe/+0O3rZFOWFv1uLVFO6HGf8=;
-        b=V3RJUwbp8oqJ+RZ5QyyROb8kd8sHis59NPp+nGNc61Wdr1fi02rv/gVYTSJbBC2wr5
-         ueezn/FEq48TqU+ojHRIUNWqbpxSiAWSVm4rHJ4jRAF2Gf+mzJxx8uF4gzGJOBUBfFpN
-         AELurQd0RrvmddZMnweDOybJW5u8zs2BfB8fT46jH2qeaonAoRsxL2ZxDkv0pHaPzJGF
-         Q9j6armIRXXmhJ+pSAJaGlBNqB3YhtBZuzBRgFVgIM5wF00pehyxHfXYrMHjqsCIy3Mn
-         9JhVbxW8MMqmU3xM9f/YgmcYs6hBpWOmeMgMIEHsAUzTz5D4EttwyHRMCa9Ja8fIio7R
-         ASYw==
+        bh=fATdB3ysd5Gc7mFVZxyvlUfXC/v/xKLNDS5jIKGi8YM=;
+        b=S2WjWVwWbI4LmKkQ0tZyNOh62C1usWXW3hdW9kw6DmRrhWEOhQ1Ir/umqiGuSLw+h9
+         +zXyP0IQ944HkGCvXlQT/7yM+fxEn3xSoFWuQOGemm/oucGc+EOeW8a+XjXpGN2hHOlu
+         GmYhkc7pQ9PbP0g3vK2ZlRxZFml1qsm9tkD0PK2EUfHHBElyJZF96C5PUK9YDW0hgGup
+         pMOkTdqJ/mqt74vGhJG/UJfDNqRq/gnczzpa/L0nHdVZlxn3Z+AR7rISUnZF6IJroORh
+         TukMvpS5l4FPKatcS+Ke6OsoQvK1FxXA0KHky9O9eME2L1o2EzZF3bz20N6QztNe16zk
+         7Mng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749658090; x=1750262890;
+        d=1e100.net; s=20230601; t=1749663865; x=1750268665;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=uaT1m8ZywVYFG/p0OzTe/+0O3rZFOWFv1uLVFO6HGf8=;
-        b=DOg2I/m2SP9vAO00ZZxKc09GI4Tycg1tNTUnkzwxc5bFJcwnKDnW/BJN8hQmVGVh/2
-         nfbLbxOqoK07zlZvm/tg0AWp3QEdMxVypU1R26qvza5F/o1DzmrKZlPk3FmkwPfgsIS5
-         Y0+Cph+2aiJiB4YhCm1IQthHSt2oiwdOYsoKXZoVHRzKbxM7ZXK71+cmsMHSA7zXfHm3
-         vZRwhvPoEMejcFSkPPGIQ9wHlXrn/i//0d4cDTl0CSuZ6kU/MmdqLbABKJGw3AVK7/gE
-         4f1PI34Zh8CDHGs7PGNODKcmvtx3H3hN6lcSTzqbqjrRmGRuoNSrsLEIntL9jrHQDub+
-         TDtA==
-X-Forwarded-Encrypted: i=1; AJvYcCUyEdJKHRoA9Ek2/XMZnUfDPILrIZi2S8ZhWzMFQ9ZtSjlrXeWYkUKn5URWG2FS3tWSUV0d+NWsA0eCAJpK@vger.kernel.org, AJvYcCWWU5r8hy/Q2P9YnUFJkYiPimCWEZuH4aOKRpk3sDxheRv94Z7HjS8SO0ChnHPbxrr+VNZePXoT3nivuRw=@vger.kernel.org, AJvYcCXNG+SEeLsD0X4BXpRhMxwLi8S0Ek9ugZf9GmpEgBWhFQbENxXLnCRJZL8H9QMlj7APKIzZMvX1TiNs@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz28iYHfOw5VoavZuU1zzZe40itymg7ptqLVZjK+E3vAmzXViMk
-	CL1MZOpjETy8QlCqMLedS5SRHN+1wZaIAHMf2fW0RrpTxSOuoLip6zdzOCVJM490
-X-Gm-Gg: ASbGnctBr5ResRNC2v2u0AVD/g8ncP3+Z1k+frrfxS7PaAoM7OUwR4Vc06Pw01JI32U
-	MS4UopriO/SWo0EEt13poCEg7/BdHstxO/5FcqI5uEsAeKRBzdIoi+o7aIv+BlD7C1Mtl9aIiR/
-	NjGu3f9g1WjE9r1WGStA5CwRO4VtzbZx15QwT4AH95PEO8fSvbk26oVxi28TLaB53sqObDNZN8x
-	7LksIb14mxJxxomEPeXjZszhseuZOcWFPUOe/E+yYVBLFLsB9Nv+5/YTEsWCL6HKi27/1mt9eGx
-	eJc1ETwvCJyxJ8zgWD10o+W2ZkpJH38z75bx6Ns5EZkhE9vPrdcQmtXOOM+IK7EyOUWmj1Ga4Hl
-	8GQ==
-X-Google-Smtp-Source: AGHT+IGkwhe+CnUPPbtlYeCi2K1RsCJFsZMBMkH60hdrROt946z3oFlrAZmIy+D7HoDvQBFv7IMQXQ==
-X-Received: by 2002:a17:906:ef0a:b0:adb:4775:93c7 with SMTP id a640c23a62f3a-ade897f33d4mr391370266b.56.1749658090116;
-        Wed, 11 Jun 2025 09:08:10 -0700 (PDT)
-Received: from jurenat-workstationFai ([195.178.92.53])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ade1e3625bbsm906761566b.185.2025.06.11.09.08.09
+        bh=fATdB3ysd5Gc7mFVZxyvlUfXC/v/xKLNDS5jIKGi8YM=;
+        b=g/j+x5Ik4hFZ/EdSYv7mC0PTflNLxCwv+sOpMuLV7ICiFd2d/Ua84cCJ1tHbP3lWAZ
+         C5v9Uaq30l3O34FxQd9fgEkgLalinxdg8dn5GjKCDsj0fcdJxo8ztpCDleQAa5SbAR3K
+         6ySH5N3j3Cau6/F7JKaDwLsIqQGxKt0tBUIhk65zgtBQlWMkLjkzMukolKCoXZShPK3r
+         eP6WekdFFkY23nSjsu00PqA7U8NRe3h7w7jwQlgT2XduxPLCY+2PVLCIS5Se88W6rUuB
+         Pw7q29SdsB8qeiVblwDcTd/FRULA6sZW3tCf+fDDbVkhTlvh4iRILlVUk92npZw9MBrs
+         g7Rg==
+X-Forwarded-Encrypted: i=1; AJvYcCUQpOuXmCvNH9Tu/dWex+MqeiVpn8qizy04LrxoxVBF0ysrmRJjiHOkdanHKzkFLSV1B3iz1xQt/Dq/9JQ=@vger.kernel.org, AJvYcCWdEJxmuAsUMd5mPjn6vCqdiGP2P9Iwte480NRyq9FFkOZ46W0Ii5aFWna/u+oksUutRS1Hx7/iQbh5Zfg6@vger.kernel.org, AJvYcCXePcWJV+G5y60dqJj/YJ5YhO3oLYOpY3J+yJ6KWbzCYd1qPUprTdO4x3VNbrVAZOpAu3LP43M3WzCs@vger.kernel.org
+X-Gm-Message-State: AOJu0YxhpadtHpy2Lc2C0GUHpBhlL00hppidfVrywLZkC29ahFCXSgGC
+	2xaDau9aVRcO/0FBeZ3wMrmETW++rIvePJbByWf7iZPvgqIw2AJF1aMUkYpcEQ==
+X-Gm-Gg: ASbGncvWzetROTB3TM/oOpCuIAJVVb3ETL7EkbNvymWtPoQf551Dqfrib5+JS+BD9Pv
+	tzc0OFUc6xGIFoHIY3Rm6tgG6xC74OCdQ4lf3NsqLyPGXmt5Qff3AQDcbEBvIOsvWuSw8TSwJch
+	6gxDYCZeKiKBpT3tjka+CErwtbG62soOVmuJe/Nsoruy/dBqszv7K4bBfKLyF6AD8v8bzEdbXav
+	rjgsb43MfcOi2d4zbD4OvZJgk2mVMPPd95LeKzDeopgaOJNwNXaG4m3lyyzTVASI5KfgJvdSx8v
+	pG3BBB924fQsIjoqaNkB1SZnB0a/yvneTyd6QeSdVzzPwMRHGDvmc/J1mtPvfg==
+X-Google-Smtp-Source: AGHT+IHcTwwqbtfEoVMcnp+UYCcnkDILrvdfSoCYSoSBBvznRic2SHesMrX/Q+9ylgxTys0m4BPjxw==
+X-Received: by 2002:a17:902:f54b:b0:235:225d:3087 with SMTP id d9443c01a7336-2364ca853d1mr4988905ad.30.1749663864866;
+        Wed, 11 Jun 2025 10:44:24 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:cc6e:a0f4:a9c8:328])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2360341097fsm91030495ad.214.2025.06.11.10.44.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Jun 2025 09:08:09 -0700 (PDT)
-Date: Wed, 11 Jun 2025 18:08:07 +0200
-From: Tomas Jurena <jurenatomas@gmail.com>
-To: Rob Herring <robh@kernel.org>
-Cc: dmitry.torokhov@gmail.com, krzk+dt@kernel.org, conor+dt@kernel.org,
-	linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
+        Wed, 11 Jun 2025 10:44:24 -0700 (PDT)
+Date: Wed, 11 Jun 2025 10:44:21 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Tomas Jurena <jurenatomas@gmail.com>
+Cc: Rob Herring <robh@kernel.org>, krzk+dt@kernel.org, conor+dt@kernel.org, 
+	linux-input@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] Input: tca6416-keypad - Add OF support for driver
  instantiation
-Message-ID: <aEmp57H3Tk6DnJty@jurenat-workstationFai>
+Message-ID: <meakn5o4tjnl55ykk5fvrpc3f7g4ov2gqfdsxzzy44p7zvrrit@53y6xkkhwcmx>
 References: <20250610154609.1382818-1-jurenatomas@gmail.com>
  <20250610181542.GA2396962-robh@kernel.org>
+ <aEmp57H3Tk6DnJty@jurenat-workstationFai>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -93,27 +92,36 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250610181542.GA2396962-robh@kernel.org>
+In-Reply-To: <aEmp57H3Tk6DnJty@jurenat-workstationFai>
 
-On Tue, Jun 10, 2025 at 01:15:42PM -0500, Rob Herring wrote:
-> On Tue, Jun 10, 2025 at 05:46:10PM +0200, Tomáš Juřena wrote:
-> > From: Tomas Jurena <jurenatomas@gmail.com>
+On Wed, Jun 11, 2025 at 06:08:07PM +0200, Tomas Jurena wrote:
+> On Tue, Jun 10, 2025 at 01:15:42PM -0500, Rob Herring wrote:
+> > On Tue, Jun 10, 2025 at 05:46:10PM +0200, Tomáš Juřena wrote:
+> > > From: Tomas Jurena <jurenatomas@gmail.com>
+> > > 
+> > > Adds support for instantiating the tca6416-keypad driver via
+> > > Device Tree. If no platform data is present, the driver can now be
+> > > probed based on OF bindings.
+> > > 
+> > > A corresponding Device Tree binding document is added at:
+> > >   Documentation/devicetree/bindings/input/tca6416-keypad.yaml
+> > > 
+> > > This allows the driver to be used in systems that rely solely on the
+> > > Device Tree for hardware description, such as embedded ARM platforms.
+> > > 
+> > > Tested on Toradex Ixora 1.3A board and Apalis imx8 SOM.
 > > 
-> > Adds support for instantiating the tca6416-keypad driver via
-> > Device Tree. If no platform data is present, the driver can now be
-> > probed based on OF bindings.
-> > 
-> > A corresponding Device Tree binding document is added at:
-> >   Documentation/devicetree/bindings/input/tca6416-keypad.yaml
-> > 
-> > This allows the driver to be used in systems that rely solely on the
-> > Device Tree for hardware description, such as embedded ARM platforms.
-> > 
-> > Tested on Toradex Ixora 1.3A board and Apalis imx8 SOM.
-> 
-> We already have a GPIO driver for this chip. Would the 
-> gpio-keys driver work here instead? Seems to work for 
-> arch/arm/boot/dts/ti/omap/am3517-evm-ui.dtsi.
->
-I was not aware of this. Anyway, I tested this today, and it seems to work just fine with my hardware. There is no need for this change from my side.
+> > We already have a GPIO driver for this chip. Would the 
+> > gpio-keys driver work here instead? Seems to work for 
+> > arch/arm/boot/dts/ti/omap/am3517-evm-ui.dtsi.
+> >
+> I was not aware of this. Anyway, I tested this today, and it seems to work just fine with my hardware. There is no need for this change from my side.
+
+I wonder if we should simply remove tca6416-keypad driver. I guess it
+was created before we has a gpio driver for this block.
+
+Thanks.
+
+-- 
+Dmitry
 
