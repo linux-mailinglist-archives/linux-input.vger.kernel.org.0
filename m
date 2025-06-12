@@ -1,218 +1,218 @@
-Return-Path: <linux-input+bounces-12838-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12840-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id A427FAD744A
-	for <lists+linux-input@lfdr.de>; Thu, 12 Jun 2025 16:44:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5A2CAD74E8
+	for <lists+linux-input@lfdr.de>; Thu, 12 Jun 2025 16:59:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 42C7417AA74
-	for <lists+linux-input@lfdr.de>; Thu, 12 Jun 2025 14:43:20 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A604B2C3286
+	for <lists+linux-input@lfdr.de>; Thu, 12 Jun 2025 14:59:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C739024BC1A;
-	Thu, 12 Jun 2025 14:40:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 414132701AB;
+	Thu, 12 Jun 2025 14:59:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CkdTmTKW"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fnPhl1wc"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD7812AD0F;
-	Thu, 12 Jun 2025 14:40:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D36526D4F8;
+	Thu, 12 Jun 2025 14:59:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749739209; cv=none; b=SLlV1doeaVHknI/34edVl0uoEvX9ekNlKQD8wEb1Odu6zaf7PGNGzaKo9njJ2MVGyDN9im2Vy6uMu/fIGjXS8vpjkpF6boEC5u2A77NfC1pWLz6qxb2S7nTlgc9lO7/a+QXUj6AYSxcHn7o4j4ean4IJh+qzI/Rw9PFkFLZ9x6k=
+	t=1749740361; cv=none; b=QV0nDa3NlbtHS6PYUKX4Zsz/plSAgIPLq658wn+IuXEx7VYrkTS8e7dP2g39j2X2+FibKbK3toa0/t9pvXCsOytdG8QGPG/Uq69CA8kAUeW69XmdzXTI27aWpXk/Rvy8dF7C6XuAuOKJuwToWgfvIi2xGshh/bZTucObhtr/G5k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749739209; c=relaxed/simple;
-	bh=Y5WcRbSXxyMxHfUoci3SJStu8xIXVE3qYzIP9J0er6c=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=JMuEVqJSTkBM+3RVN1Q0DmjUPp3lY/JgoUPIoWxbJ4IVIsCqIjGEGbXZViLCSivMbtljcWehGeYSZ/tLN6PrOUsKECs6cdZvLzquUO7937Br3BtuimLzN60pwwNO/IVSRlxeB+/IDXUTIoNpRqsmzK5+9tRcKtNZM1aXLtBQYiM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CkdTmTKW; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4530921461aso9358525e9.0;
-        Thu, 12 Jun 2025 07:40:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1749739206; x=1750344006; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=XO5xW6STrJbOovaRRRVEdzdrcsGsRAbrSNjEp7XD5iI=;
-        b=CkdTmTKWXasNutNLpLg7Codhwd+ZbImW/iJajL0gIA0X55aQLCFq3bKoCCfKl/VAAD
-         iiACFKt89EGyDTNWnCYaa5ogGMTslOML6QqQO8dQTdJACdLnZOAtaIGVUWJv1SIr2heq
-         aqJL9zQDbVP3uZPldOZg1xVBVlTvhBEUnThgNVOJKX48mBxrylhTmDFVsVrffmj2HV3d
-         +doI9baDGCSzAYua0ne+dgtc3d+6XcDNmZylzIRmXwsUUyXX0miocXNHZew1Nq3ByBXm
-         D/RQ/W2uuk0MENnboiFu+p5MpNXZQq4734pXnoiuYWpT9hMVeocEXwzcp1dagUQ6w1UO
-         Sc/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749739206; x=1750344006;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=XO5xW6STrJbOovaRRRVEdzdrcsGsRAbrSNjEp7XD5iI=;
-        b=kDHWUcEs2PfmbxwOSwiiZAROguYf2hjO40cI4dxI/3X8uZyqKp3lPJdg1KKMeTRSAV
-         jpzOlRFfGisksVcqmKdaNSHrE4fOHrcdGnatGYjg1z2jnjWUYpHjtHo+PFSzYtOAB2lP
-         3oyNx9B/m+XNueOzU4d86P6PVi/daYbtRYmt0hyA4RtfMdv/YnpnZ78dXiueMjZ24tFH
-         vikpET7DJ7thHNxAf9VM4PrQpGaxPZe8oj5xpWDpkd0qv/hFsC1V0laqefyQri1xvrNh
-         DPigEEoGCjW2XWWPM5XuD+mIdpx+/+KzJdDtK+sDcmw+WRotkDYK/2Q2yGfs0ixAbEeW
-         W0LA==
-X-Forwarded-Encrypted: i=1; AJvYcCVF026NlRXFowMqNTokFqerpUz4vZP2ZgbHQOkWkK7SwaVdtpVJAOgXNJXidFguPTdkGDwjmrJqGmASh6E=@vger.kernel.org, AJvYcCWPofUKq5mJIsOq7LFI6jf+wSBnjx4m2/2EJFL34JSLUgy7tAUyu//2P0KpBji0O+8Y+sKC6Oxa0BB9@vger.kernel.org, AJvYcCWUnrUmpKGw6QG8wsQYVeWoyWIHwSwHpJ6EiO725zTp35t6GHv/rkkT1Ie1CYWWUEh59mQnoRs549jJ@vger.kernel.org
-X-Gm-Message-State: AOJu0YwL63mJFJAdgp4cRM4bDW2eD+//GJwOswFvdVKhURIHujViogRP
-	juvHTxtG4omLIBQ8LiwQabB8ADOEva+nQxIko3WdfjvXE8aZvsfpXmb9
-X-Gm-Gg: ASbGnct7DEPKLEcHxiGBxw846hOrt3EBcoU4Z3IMYteTqBOZrbCBEv48FCNJHY/Pp5Z
-	cvTCewe72lsSi6mkON1v7d1Dc0TpKgUotgXsCs7ro7tvdPNmbP8dSGQ8CQnwRnWDWioNf7YGlt6
-	mXtbIOV2UHH7WmQMQPSGQcGCFmDZ+GLOz+27Rsf55yRvDMRXCnM2a8LmvyGL6kKYk2M76S5/Wvf
-	HX6h3eqA+NMri03G0aSq4pPlQra+rpNqj0xOjgmiNv2HRGSsKCOSuKTMq9qjFkf/DsaU/56cGLa
-	3v8BZTJ7La7VbC/CbROpnterpFtkxZfw2nNpCIA/gTqnNP56TjirFI4/hxKtBwyYtXf3FQ==
-X-Google-Smtp-Source: AGHT+IEgJVa7T9a/v6a+QdCQd7PLGm4gVqm4zt6VpmQF3J4pe3zCCTagGbfhHOAbgCS0XpfwKgiFSw==
-X-Received: by 2002:a05:600c:198a:b0:450:d00d:cc with SMTP id 5b1f17b1804b1-45326e9018amr64987205e9.2.1749739205818;
-        Thu, 12 Jun 2025 07:40:05 -0700 (PDT)
-Received: from [192.168.1.187] ([161.230.67.253])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4532e25302dsm21987815e9.26.2025.06.12.07.40.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Jun 2025 07:40:05 -0700 (PDT)
-Message-ID: <4736b759609a9939b3a99a5c87df0fd5518a6af0.camel@gmail.com>
-Subject: Re: [PATCH v4 03/20] mfd: adp5585: enable oscilator during probe
-From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
-To: Lee Jones <lee@kernel.org>, nuno.sa@analog.com
-Cc: linux-gpio@vger.kernel.org, linux-pwm@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-input@vger.kernel.org, Rob Herring	
- <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley	
- <conor+dt@kernel.org>, Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?=
- <ukleinek@kernel.org>,  Linus Walleij <linus.walleij@linaro.org>, Bartosz
- Golaszewski <brgl@bgdev.pl>, Dmitry Torokhov	 <dmitry.torokhov@gmail.com>,
- Laurent Pinchart	 <laurent.pinchart@ideasonboard.com>, Liu Ying
- <victor.liu@nxp.com>
-Date: Thu, 12 Jun 2025 15:40:12 +0100
-In-Reply-To: <20250612142001.GH381401@google.com>
-References: <20250521-dev-adp5589-fw-v4-0-f2c988d7a7a0@analog.com>
-	 <20250521-dev-adp5589-fw-v4-3-f2c988d7a7a0@analog.com>
-	 <20250612142001.GH381401@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2 
+	s=arc-20240116; t=1749740361; c=relaxed/simple;
+	bh=WgLzrP/HBmAzSTOgYFRrJG+fDleiBjNr3X0mdLMrFkU=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=lal/XrptywDcPCnnIlpO2UONxmNIMd2lHZy3S64CHA6yMoNfC56xm3tLeALy5HlH07HbFgpcTJ9OBFnVOGFciZ7n7YRL49EE9pTtl/di/QCv/Mf5f3wddK+epOaupomBZohio56hiIYeJ/COlEgBmQVgfG5oKkQC7avGo+yK/Qk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fnPhl1wc; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 8FDDAC4CEEA;
+	Thu, 12 Jun 2025 14:59:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1749740360;
+	bh=WgLzrP/HBmAzSTOgYFRrJG+fDleiBjNr3X0mdLMrFkU=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=fnPhl1wcVmtG4VUDVtxgMeAP0nQ3Ut0iaLA+4krpgjeLvknik17F5hyLU99PtPchj
+	 uC7+2MuTGM1gvcDcQs6p4Doq/xRQlwJ1y3Mn1lr3EbT3TShWxp7fbz0IITB6ZvDRz6
+	 zC+mc2n3NNrWofBcXigLz6ZRwtV2OG5Z6QaZkF3QJo39uAOSnHDA0JeFUDlCdtUMpj
+	 QOiiqL6EC9bfmwDREHt9jt971yq70SoMoWqHbi1SojDT6/YmdQIIw2MgeYCde0AI8T
+	 YbhXbnKuxVsfKhJ0BT4jkH8Jvb4I9WhXaguagyZ2HL51yx1sGgZwaZucvy+lfoVXcy
+	 P34q2HqQ/3xeQ==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7CD0CC7113E;
+	Thu, 12 Jun 2025 14:59:20 +0000 (UTC)
+From: Samuel Kayode via B4 Relay <devnull+samuel.kayode.savoirfairelinux.com@kernel.org>
+Subject: [PATCH v7 0/6] add support for pf1550 PMIC MFD-based drivers
+Date: Thu, 12 Jun 2025 10:55:42 -0400
+Message-Id: <20250612-pf1550-v7-0-0e393b0f45d7@savoirfairelinux.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAG7qSmgC/33OQWrDMBAF0KsYraswsjRynVXvUbqQpVEz0Nip5
+ IiU4LtXdcANhWb5h8/7cxWZElMW++YqEhXOPI01dE+N8Ac3vpPkULNooUXAtpOnqBBBBgMqQoB
+ ueAZRy6dEkS8r9Pp2y4k+z9Wbb0cxuEzST8cjz/um2J1C8VM8cJ6n9LU+UPTa/LtVtARpMNreo
+ PYB1Ut2ZeIUHSf64PF82VV31Yr5FSzoTTBVGGKIqIiw9/6BgHeCgk3AKlCA0JN2zvnugWDvBbU
+ JtgraxDaESGCQ/hGWZfkGx7dU65YBAAA=
+X-Change-ID: 20250527-pf1550-d401f0d07b80
+To: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Mark Brown <broonie@kernel.org>, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+ Sebastian Reichel <sre@kernel.org>, Frank Li <Frank.li@nxp.com>
+Cc: imx@lists.linux.dev, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-input@vger.kernel.org, 
+ linux-pm@vger.kernel.org, Abel Vesa <abelvesa@kernel.org>, 
+ Abel Vesa <abelvesa@linux.com>, Robin Gong <b38343@freescale.com>, 
+ Robin Gong <yibin.gong@nxp.com>, 
+ Enric Balletbo i Serra <eballetbo@gmail.com>, 
+ Samuel Kayode <samuel.kayode@savoirfairelinux.com>, 
+ Abel Vesa <abelvesa@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+ Frank Li <Frank.Li@nxp.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1749740359; l=6030;
+ i=samuel.kayode@savoirfairelinux.com; s=20250527;
+ h=from:subject:message-id;
+ bh=WgLzrP/HBmAzSTOgYFRrJG+fDleiBjNr3X0mdLMrFkU=;
+ b=EcTg2V21GNOWe6urm2jw0J1zEol/rtMZdXRDsBgYrpAPd9tS5duSgH7+t7Db9VAQlRZgWnEPl
+ TZXBk2NUAwoCewXVV5+HftEQpbeI5BUtjK3NpOVLbHpUpQMPdSCnl1o
+X-Developer-Key: i=samuel.kayode@savoirfairelinux.com; a=ed25519;
+ pk=TPSQGQ5kywnnPyGs0EQqLajLFbdDu17ahXz8/gxMfio=
+X-Endpoint-Received: by B4 Relay for
+ samuel.kayode@savoirfairelinux.com/20250527 with auth_id=412
+X-Original-From: Samuel Kayode <samuel.kayode@savoirfairelinux.com>
+Reply-To: samuel.kayode@savoirfairelinux.com
 
-On Thu, 2025-06-12 at 15:20 +0100, Lee Jones wrote:
-> On Wed, 21 May 2025, Nuno S=C3=A1 via B4 Relay wrote:
->=20
-> > From: Nuno S=C3=A1 <nuno.sa@analog.com>
-> >=20
-> > Make sure to enable the oscillator in the top device. This will allow t=
-o
-> > not control this in the child PWM device as that would not work with
-> > future support for keyboard matrix where the oscillator needs to be
-> > always enabled (and so cannot be disabled by disabling PWM).
-> >=20
-> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > Signed-off-by: Nuno S=C3=A1 <nuno.sa@analog.com>
-> > ---
-> > =C2=A0drivers/mfd/adp5585.c=C2=A0=C2=A0=C2=A0=C2=A0 | 23 ++++++++++++++=
-+++++++++
-> > =C2=A0drivers/pwm/pwm-adp5585.c |=C2=A0 5 -----
-> > =C2=A02 files changed, 23 insertions(+), 5 deletions(-)
-> >=20
-> > diff --git a/drivers/mfd/adp5585.c b/drivers/mfd/adp5585.c
-> > index
-> > 806867c56d6fb4ef1f461af26a424a3a05f46575..f3b74f7d6040413d066eb6dbaecfa=
-3d5e6
-> > ee06bd 100644
-> > --- a/drivers/mfd/adp5585.c
-> > +++ b/drivers/mfd/adp5585.c
-> > @@ -147,6 +147,13 @@ static int adp5585_add_devices(struct device *dev)
-> > =C2=A0	return ret;
-> > =C2=A0}
-> > =C2=A0
-> > +static void adp5585_osc_disable(void *data)
-> > +{
-> > +	const struct adp5585_dev *adp5585 =3D data;
-> > +
-> > +	regmap_write(adp5585->regmap, ADP5585_GENERAL_CFG, 0);
-> > +}
-> > +
-> > =C2=A0static int adp5585_i2c_probe(struct i2c_client *i2c)
-> > =C2=A0{
-> > =C2=A0	const struct regmap_config *regmap_config;
-> > @@ -175,6 +182,22 @@ static int adp5585_i2c_probe(struct i2c_client *i2=
-c)
-> > =C2=A0		return dev_err_probe(&i2c->dev, -ENODEV,
-> > =C2=A0				=C2=A0=C2=A0=C2=A0=C2=A0 "Invalid device ID 0x%02x\n", id);
-> > =C2=A0
-> > +	/*
-> > +	 * Enable the internal oscillator, as it's shared between multiple
-> > +	 * functions.
-> > +	 *
-> > +	 * As a future improvement, power consumption could possibly be
-> > +	 * decreased in some use cases by enabling and disabling the
-> > oscillator
-> > +	 * dynamically based on the needs of the child drivers.
->=20
-> This is normal.=C2=A0 What's stopping us from doing this from the offset?
+This series adds support for pf1550 PMIC. It provides the core mfd driver and a
+set of three sub-drivers for the regulator, power supply and input subsystems.
 
-This is always needed when we have the input device registered. From my tes=
-ting,
-we also need it for GPIOs configured as input. So basically the only reason=
- this
-is not being done now is that it would not be trivial or really straightfor=
-ward
-and honestly the series is already big enough :)
+Patch 1 adds the DT binding document for the PMIC. Patches 2-5 adds the
+pertinent drivers. Last patch adds a MAINTAINERS entry for the drivers.
 
-Laurent also agreed with this not being mandatory now so hopefully it's als=
-o
-fine with you.
+The patches 3-5 depend on the mfd driver provided in patch 2.
 
-- Nuno S=C3=A1
->=20
-> > +	 */
-> > +	ret =3D regmap_set_bits(adp5585->regmap, ADP5585_GENERAL_CFG,
-> > ADP5585_OSC_EN);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	ret =3D devm_add_action_or_reset(&i2c->dev, adp5585_osc_disable,
-> > adp5585);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > =C2=A0	return adp5585_add_devices(&i2c->dev);
-> > =C2=A0}
-> > =C2=A0
-> > diff --git a/drivers/pwm/pwm-adp5585.c b/drivers/pwm/pwm-adp5585.c
-> > index
-> > 40472ac5db6410a33e4f790fe8e6c23b517502be..c8821035b7c1412a55a642e6e8a46=
-b66e6
-> > 93a5af 100644
-> > --- a/drivers/pwm/pwm-adp5585.c
-> > +++ b/drivers/pwm/pwm-adp5585.c
-> > @@ -62,7 +62,6 @@ static int pwm_adp5585_apply(struct pwm_chip *chip,
-> > =C2=A0	int ret;
-> > =C2=A0
-> > =C2=A0	if (!state->enabled) {
-> > -		regmap_clear_bits(regmap, ADP5585_GENERAL_CFG,
-> > ADP5585_OSC_EN);
-> > =C2=A0		regmap_clear_bits(regmap, ADP5585_PWM_CFG, ADP5585_PWM_EN);
-> > =C2=A0		return 0;
-> > =C2=A0	}
-> > @@ -100,10 +99,6 @@ static int pwm_adp5585_apply(struct pwm_chip *chip,
-> > =C2=A0	if (ret)
-> > =C2=A0		return ret;
-> > =C2=A0
-> > -	ret =3D regmap_set_bits(regmap, ADP5585_GENERAL_CFG, ADP5585_OSC_EN);
-> > -	if (ret)
-> > -		return ret;
-> > -
-> > =C2=A0	return regmap_set_bits(regmap, ADP5585_PWM_CFG, ADP5585_PWM_EN);
-> > =C2=A0}
-> > =C2=A0
-> >=20
-> > --=20
-> > 2.49.0
-> >=20
-> >=20
+Changes since v1:
+   - DT bindings for all devices included
+   - Add onkey driver
+   - Add driver for the regulators
+   - Ensure charger is activated as some variants have it off by default
+   - Update mfd and charger driver per feedback from eballetbo@gmail.com
+   - Add myself as maintainer for these drivers
+   - Link to v1: https://lore.kernel.org/1523974819-8711-1-git-send-email-abel.vesa@nxp.com/
+
+Changes since v2:
+   - Rebase on recent mainline kernel v6.15
+   - Single yaml file containing dt bindings for all pf1550 devices
+   - irq mapping done in MFD driver as suggested by Dmitry Torokhov
+   - Drop unnecessary includes in drivers
+   - Replace dev_err with dev_err_probe in probe method of drivers
+   - Drop compatible string from drivers of the sub-devices
+   - Remove dependency on OF from drivers of the sub-devices
+   - onkey: move driver from input/keyboard into input/misc
+   - onkey: remove dependency on OF
+   - onkey: use onkey virqs instead of central irq
+   - onkey: fix integer overflow for regmap_write when unmasking
+     interrupts during pf1550_onkey_resume
+   - charger: add support for monitored-battery which is used in setting
+     a constant voltage for the charger.
+   - Address other feedback from Dmitry Torokhov and Krzysztof Kozlowski
+   - Link to v2: https://lore.kernel.org/cover.1747409892.git.samuel.kayode@savoirfairelinux.com/
+
+Changes since v3:
+   - Update manufacturer from Freescale to NXP in compatible,
+     dt-binding and Kconfigs
+   - Use C++ style comments for SPDX license in .c code
+   - Add portions copyright to source code
+   - irqs are defined as struct resource in mfd cell such that
+     platform_get_irq is used in the sub-devices
+   - Make struct pf1550_dev of type const in sub-device driver
+   - irq variable dropped from sub-device driver struct
+   - EXPORT_SYMBOL of global pf1550_read_otp function for use in
+     regulator driver
+   - Drop unneeded info in driver_data when defining device table id
+   - regulator: validate ramp_delay
+   - regulator: report overcurrent and over temperature events
+   - onkey: drop unnecessary keycode variable
+   - onkey: change wakeup variable to type bool
+   - onkey: replace (error < 0) with error in if statement when possible
+   - onkey: use pm_sleep_ptr when defining driver.pm
+   - charger: finish handling of some interrupts in threaded irq handler
+   - Link to v3: https://lore.kernel.org/20250527-pf1550-v3-0-45f69453cd51@savoirfairelinux.com/
+
+Changes since v4:
+   - Use top level interrupt to minimize number of registers checked on
+     each interrupt
+   - Fix bad offset for temperature interrupts of regulator irq chip
+   - Address Krzysztof's comments for dt-binding
+   - regulator: add comments to clarify difference in its interrupts
+   - regulator: issue warn event for _LS interrupt and error event for
+     _HS interrupt
+   - regulator: validate maximum and minimum ramp_delay
+   - charger: drop lock in battery and charger delayed_work
+   - charger: more conservative locking for vbus delayed_work
+   - charger: apply lock when setting power_supply type during register
+     intialization
+   - Link to v4: https://lore.kernel.org/r/20250603-pf1550-v4-0-bfdf51ee59cc@savoirfairelinux.com
+
+Changes since v5:
+   - Ensure lowercase when assigning hex values
+   - Add imx@lists.linux.dev to relevant mailing list in MAINTAINERS file
+   - Use GENMASK macro
+   - Drop unused chips variable
+   - Read the OTP in the mfd driver probe for new dvs_enb variable
+   - Hardcode IRQ flags in pf1550_add_child function
+   - charger: drop the mutex entirely
+   - charger: reverse christmas tree style local variable definition in
+     probe
+   - Link to v5: https://lore.kernel.org/r/20250610-pf1550-v5-0-ed0d9e3aaac7@savoirfairelinux.com
+
+Changes since v6:
+   - Use reverse christmas tree order
+   - Drop 0 in table id's driver data
+   - charger: store virq to avoid reinvoking platform_get_irq in ISR
+   - Link to v6: https://lore.kernel.org/r/20250611-pf1550-v6-0-34f2ddfe045e@savoirfairelinux.com
+
+Signed-off-by: Samuel Kayode <samuel.kayode@savoirfairelinux.com>
+---
+Samuel Kayode (6):
+      dt-bindings: mfd: add pf1550
+      mfd: pf1550: add core mfd driver
+      regulator: pf1550: add support for regulator
+      input: pf1550: add onkey support
+      power: supply: pf1550: add battery charger support
+      MAINTAINERS: add an entry for pf1550 mfd driver
+
+ .../devicetree/bindings/mfd/nxp,pf1550.yaml        | 137 +++++
+ MAINTAINERS                                        |  11 +
+ drivers/input/misc/Kconfig                         |  11 +
+ drivers/input/misc/Makefile                        |   1 +
+ drivers/input/misc/pf1550-onkey.c                  | 183 ++++++
+ drivers/mfd/Kconfig                                |  14 +
+ drivers/mfd/Makefile                               |   2 +
+ drivers/mfd/pf1550.c                               | 339 +++++++++++
+ drivers/power/supply/Kconfig                       |  11 +
+ drivers/power/supply/Makefile                      |   1 +
+ drivers/power/supply/pf1550-charger.c              | 632 +++++++++++++++++++++
+ drivers/regulator/Kconfig                          |   9 +
+ drivers/regulator/Makefile                         |   1 +
+ drivers/regulator/pf1550-regulator.c               | 362 ++++++++++++
+ include/linux/mfd/pf1550.h                         | 254 +++++++++
+ 15 files changed, 1968 insertions(+)
+---
+base-commit: 0a4b866d08c6adaea2f4592d31edac6deeb4dcbd
+change-id: 20250527-pf1550-d401f0d07b80
+
+Best regards,
+-- 
+Samuel Kayode <samuel.kayode@savoirfairelinux.com>
+
+
 
