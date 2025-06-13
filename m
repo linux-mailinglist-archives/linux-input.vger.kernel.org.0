@@ -1,59 +1,69 @@
-Return-Path: <linux-input+bounces-12886-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12887-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1C46AD8EEC
-	for <lists+linux-input@lfdr.de>; Fri, 13 Jun 2025 16:13:17 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 533A5AD8F4D
+	for <lists+linux-input@lfdr.de>; Fri, 13 Jun 2025 16:20:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 85C2C7A2A69
-	for <lists+linux-input@lfdr.de>; Fri, 13 Jun 2025 14:11:56 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5640B3A7D0F
+	for <lists+linux-input@lfdr.de>; Fri, 13 Jun 2025 14:15:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C1C15272818;
-	Fri, 13 Jun 2025 14:11:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC5BA17A2FA;
+	Fri, 13 Jun 2025 14:15:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fg80NS1r"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sYE4QuqY"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9599924EF76;
-	Fri, 13 Jun 2025 14:11:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94C582E11D8;
+	Fri, 13 Jun 2025 14:15:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749823870; cv=none; b=Z1otUhXx0YefQqO7ZQUui2p0+jnB4++JtKvWlPSW/zdH4Hiz0KWsgSsjQmaxBUKvIOyVBL8jDsIe62gzR9sWugjeXxJNRTSnlwTystTkt5Dld1gk2ajpbytzOpWZ9/yXQSFLMuqdDF6JU/ID77ZERGY9/voh/fih2UQ3o7Ljnug=
+	t=1749824124; cv=none; b=D4434tC1zrYj+xnLfPpnFIfaNsvu7aD2um9S5mc9qNOjHubaTbGFj6/+GCNSyCis/eh6zD6roRAsA6j5WIpsmw9ICTavlGGpPl/g4dxsU5HbjrIg1w2g/jQil2wteMNhdZhi2mVUlKeFFfId0xI7hHqVVEsdZjb0VFF6m0XYqRM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749823870; c=relaxed/simple;
-	bh=CXdDV5RZX9NAHKpJrTG0aap19fFfXLe8jGSP+6lFlZU=;
+	s=arc-20240116; t=1749824124; c=relaxed/simple;
+	bh=cuekvKuodAn/cGpNTMhG5VZfX56fxI4VzRxlFbLFFYY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hLQb+HQdLkNKE5ywgdbHe5j8qVV+idZRq4kEatf17O/rPP1ouZywS88BNpsijzBNGxPsL8o1EO0bgKldXQh5Cazddq4a1+bVcWqUS4KDfoVraVuQ0W3YU2DuiD2HQBmLazQTOfqqIwv/BHDgAjY/R/jcS3YafUXPPUwa+QND7LA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fg80NS1r; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00A93C4CEF2;
-	Fri, 13 Jun 2025 14:11:07 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=t6UvGxbbPLjoiqhkYV6nKdzOTsiLggsr7Otg+IC6vytgHZshR9hVwzLtSHADfepDGwTNkUz8psn7j1O9pmp/G6lTtmNsyFpmKCNpHkicgjW3ZhDbaxrL5AUpjkVktYnhMLSNOrMtMpXokAbTxeW15sqWIfTsagZD4au/Qk6z6q4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sYE4QuqY; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26FA0C4CEE3;
+	Fri, 13 Jun 2025 14:15:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749823870;
-	bh=CXdDV5RZX9NAHKpJrTG0aap19fFfXLe8jGSP+6lFlZU=;
+	s=k20201202; t=1749824124;
+	bh=cuekvKuodAn/cGpNTMhG5VZfX56fxI4VzRxlFbLFFYY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fg80NS1reIecjAK+K5IzG4qz1egVVu4m9WDgoJ0qQ+N2d4hSwaApaROhWJ6UQECfD
-	 iV1sN1zHzYERYGrV+OxEIUwXKZhCokn2fDJyT8425YzIB8M+kfPLU6awbBcDsLEKci
-	 SL4HMIH1OjLULlx3je8rf29NZZyMQHaNG+AknM8RikRgA5UyCks36VATmWgOS+7Cjo
-	 nB9tPU5cMxOp6wqXBRq0NIx2FTGeaSDFsuKMQKddV+RS9fpWls8eEla0X1HUljzVgk
-	 +4nzQVF17iiJl278BN8C99611fTtSGf1R627TYH9SNY1OOKH/hcDdwHsrtxd4+M99y
-	 23GNW0pvEB3CQ==
-Date: Fri, 13 Jun 2025 15:11:05 +0100
+	b=sYE4QuqYAV4TW8H9u/uEh1p7jeIk0/4P1yqSwbR0PurZj5B5HurOZmlfAWKoYJq2q
+	 linnNymYEo2hZOrlU2zb77t3/YWIR2eMVohcSYJy93Iw8lHFTlOILiP3CzRi/fQbt7
+	 WPodGY9fYWMsfNFOgxdyme9qmB5/9EEaLZuGHBrBFbhwSiSvDHGCvPoWDLxr6yCMR8
+	 8lTg5ecFDVeZxJN8r5iBtRt5/QWWnsdsMLR/PtBMJ9kmJprRBNw4uhHgbmdzejIeX/
+	 UXFjWkf+IfnRaMD574HvOcwn4pm5m4oSLAHl8xRkKWVZuexr7U2oLQPQ84pZiMyny0
+	 EqovJndksA21Q==
+Date: Fri, 13 Jun 2025 15:15:17 +0100
 From: Lee Jones <lee@kernel.org>
-To: Job Sava <jsava@criticallink.com>
+To: mathieu.dubois-briand@bootlin.com
 Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
-	Julien Panis <jpanis@baylibre.com>,
+	Kamel Bouhara <kamel.bouhara@bootlin.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
 	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-input@vger.kernel.org, jcormier@criticallink.com
-Subject: Re: [PATCH 3/3] mfd: tps6594: Adds support for powering off the PMIC
-Message-ID: <20250613141105.GG897353@google.com>
-References: <20250520-linux-stable-tps6594-pwrbutton-v1-0-0cc5c6e0415c@criticallink.com>
- <20250520-linux-stable-tps6594-pwrbutton-v1-3-0cc5c6e0415c@criticallink.com>
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
+	Michael Walle <mwalle@kernel.org>, Mark Brown <broonie@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
+	linux-input@vger.kernel.org, linux-pwm@vger.kernel.org,
+	andriy.shevchenko@intel.com,
+	=?iso-8859-1?Q?Gr=E9gory?= Clement <gregory.clement@bootlin.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH v10 02/11] mfd: Add max7360 support
+Message-ID: <20250613141517.GH897353@google.com>
+References: <20250530-mdb-max7360-support-v10-0-ce3b9e60a588@bootlin.com>
+ <20250530-mdb-max7360-support-v10-2-ce3b9e60a588@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -63,88 +73,30 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250520-linux-stable-tps6594-pwrbutton-v1-3-0cc5c6e0415c@criticallink.com>
+In-Reply-To: <20250530-mdb-max7360-support-v10-2-ce3b9e60a588@bootlin.com>
 
-On Tue, 20 May 2025, Job Sava wrote:
+On Fri, 30 May 2025, mathieu.dubois-briand@bootlin.com wrote:
 
-> When the FSM_I2C_TRIGGER register's bit 0 is set it triggers TRIGGER_I2C_0
-> and the PMIC is transitioned to the STANDBY state
-> (table 6-18: SLVSGG7 – DECEMBER 2023).
+> From: Kamel Bouhara <kamel.bouhara@bootlin.com>
 > 
-> An ON request is required to transition from STANDBY to ACTIVE.
+> Add core driver to support MAX7360 i2c chip, multi function device
+> with keypad, GPIO, PWM, GPO and rotary encoder submodules.
 > 
-> Signed-off-by: Job Sava <jsava@criticallink.com>
+> Signed-off-by: Kamel Bouhara <kamel.bouhara@bootlin.com>
+> Co-developed-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+> Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
 > ---
->  drivers/mfd/tps6594-core.c | 24 ++++++++++++++++++++++++
->  1 file changed, 24 insertions(+)
-> 
-> diff --git a/drivers/mfd/tps6594-core.c b/drivers/mfd/tps6594-core.c
-> index 1b0b3d1bf6c4..f4c434c0d87a 100644
-> --- a/drivers/mfd/tps6594-core.c
-> +++ b/drivers/mfd/tps6594-core.c
-> @@ -10,6 +10,7 @@
->  #include <linux/interrupt.h>
->  #include <linux/module.h>
->  #include <linux/of.h>
-> +#include <linux/reboot.h>
->  
->  #include <linux/mfd/core.h>
->  #include <linux/mfd/tps6594.h>
-> @@ -615,6 +616,19 @@ static int tps6594_enable_crc(struct tps6594 *tps)
->  	return ret;
->  }
->  
-> +static int tps6594_soft_shutdown(struct tps6594 *tps)
+>  drivers/mfd/Kconfig         |  14 ++++
+>  drivers/mfd/Makefile        |   1 +
+>  drivers/mfd/max7360.c       | 171 ++++++++++++++++++++++++++++++++++++++++++++
+>  include/linux/mfd/max7360.h | 109 ++++++++++++++++++++++++++++
+>  4 files changed, 295 insertions(+)
 
-Why do you have a whole separate function that itself is only called
-once and only conducts a single one call to one other function?
+Looks good to me now.
 
-> +{
-> +	return regmap_update_bits(tps->regmap, TPS6594_REG_FSM_I2C_TRIGGERS,
-> +				TPS6594_BIT_TRIGGER_I2C(0),
-> +				TPS6594_BIT_TRIGGER_I2C(0));
-> +}
-> +
-> +static int tps6594_power_off_handler(struct sys_off_data *data)
-> +{
-> +	tps6594_soft_shutdown(data->cb_data);
-> +	return NOTIFY_DONE;
-> +}
-> +
->  int tps6594_device_init(struct tps6594 *tps, bool enable_crc)
->  {
->  	struct device *dev = tps->dev;
-> @@ -623,6 +637,7 @@ int tps6594_device_init(struct tps6594 *tps, bool enable_crc)
->  	const struct mfd_cell *cells;
->  	int n_cells;
->  	bool pwr_button;
-> +	bool system_power_controller;
->  
->  	if (enable_crc) {
->  		ret = tps6594_enable_crc(tps);
-> @@ -681,6 +696,15 @@ int tps6594_device_init(struct tps6594 *tps, bool enable_crc)
->  			return dev_err_probe(dev, ret, "Failed to add RTC child device\n");
->  	}
->  
-> +	system_power_controller = of_property_read_bool(dev->of_node, "system-power-controller");
-> +	if (system_power_controller) {
-> +		ret = devm_register_power_off_handler(tps->dev,
-> +								tps6594_power_off_handler,
-> +								tps);
+I suggest this series goes through MFD.
 
-This alignment is odd.
-
-> +		if (ret)
-> +			return dev_err_probe(dev, ret, "Failed to register power-off handler\n");
-> +	}
-> +
->  	return 0;
->  }
->  EXPORT_SYMBOL_GPL(tps6594_device_init);
-> 
-> -- 
-> 2.43.0
-> 
+Ping me when you have all of the other Acks.
 
 -- 
 Lee Jones [李琼斯]
