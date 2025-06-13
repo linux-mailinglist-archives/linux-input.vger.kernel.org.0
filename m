@@ -1,145 +1,183 @@
-Return-Path: <linux-input+bounces-12875-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12876-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2AB1AD83F0
-	for <lists+linux-input@lfdr.de>; Fri, 13 Jun 2025 09:17:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C021EAD8448
+	for <lists+linux-input@lfdr.de>; Fri, 13 Jun 2025 09:37:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id ACFCE189A165
-	for <lists+linux-input@lfdr.de>; Fri, 13 Jun 2025 07:17:21 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 67D95189BD22
+	for <lists+linux-input@lfdr.de>; Fri, 13 Jun 2025 07:37:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7A89A290BA5;
-	Fri, 13 Jun 2025 07:17:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 50EE12DCBE2;
+	Fri, 13 Jun 2025 07:35:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="dhCA2aE/"
+	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="B67nTcCn";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="obGdjANf"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fhigh-b8-smtp.messagingengine.com (fhigh-b8-smtp.messagingengine.com [202.12.124.159])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C74E2900B2
-	for <linux-input@vger.kernel.org>; Fri, 13 Jun 2025 07:16:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A2C02D6636;
+	Fri, 13 Jun 2025 07:35:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.159
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749799021; cv=none; b=tITr1AporuwdohqCBL9YR98rDQOnG3b2O9YPqNcD9BiEz9iuP/LJSnZf62IzUE7sfYtxZtOgGZdVGr4SLD2j9+twL9Mfyl6D2GmSDL/yrf02r0K2Lc0uzLFAZ2Yv5Pk4LEM3u7uhlSQKnJj2ZOYWBnriXxiSt+h7e880tza3i88=
+	t=1749800103; cv=none; b=gM8r+dj81dzDwcOCpkJIUYJWl78JDcaxuqhCURjdTGbN9W5ro9tBe9zV9WmVVjy1SjlHagOcBIVDzejxxKvJHuLChRZwC5ThT4IG1tSIwBM7SX+Nv96l7fmhYQMsy5CkMXLUdhW60BxmjBJxl24vw3mC9wOLU2e+VyG1W+KkHC4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749799021; c=relaxed/simple;
-	bh=s7H8hAOu8r6PsF0xyvqZ3QYYYUvxVZaHwOSbxv1Gj8Y=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qHw+66j2s1ccMr/Uenk2q/MFz/cA0SwrkxTlpH5xDlBOOWXk8tBhc5mbPO9L0G3RX5bhIwPeKgOH8ZgYX/ThCjurP19faWg7p1sjVDK5ZO2uuwan4r7hB2SjyEq/Rth4sRJLSR7FuNi7uEYqVx2VEu+/XbqjWKiD8CJCEy+7uvo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=dhCA2aE/; arc=none smtp.client-ip=209.85.221.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-3a528e301b0so153862f8f.1
-        for <linux-input@vger.kernel.org>; Fri, 13 Jun 2025 00:16:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1749799018; x=1750403818; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=WmM3uzbZnyWX7ZTyVsPhybFQT3KPyRdO9ddniD4WDrg=;
-        b=dhCA2aE/1Bns4NAqje1kAy9UQcDDMl3NqX4q/WKh6Q4VjPTb497ofSdgRdrho5EKnU
-         gTtSskcNUHbt62U8kUwrHh0c9wk0z9cMIoUqWi9mrmo7YNjLdNyjWBaeq+VgMaKNSQ75
-         98mqFeLnDjXWtNoszaJq29yrOj9yQ86H9krklTjJT0gf/RBXzKSFSphBan+uWOYGdtBz
-         SLN43AfC9jsYQ5pOw0Mlgd3Ewko4uZ3b8/FCsRjW6sPb5kD6BFX1sk8F4OY153v6eOUa
-         tRwIR9AUaPJ8lyaT6xC3Mo32QYNsLIQetTnlPp6OQLVqYidU1s8wgdfvK7AVd85ggyNR
-         szeg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749799018; x=1750403818;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=WmM3uzbZnyWX7ZTyVsPhybFQT3KPyRdO9ddniD4WDrg=;
-        b=e19p+mZTxgLKTbuHEV8cLMeRk89qgqpvERpuh+NEay/QGYnpXrP7EFNPWIqKLOabZl
-         wZxsI+JohIO7RSCo8TyG0Ikl+a5UHZcGlfDFqCBAAUodOjiiQQg1Zu9ZsAUviFjTsw3y
-         u7/z/Z252MYsp/hIm3AWbySpEE+2umjlAfvtkdLBcPzbcg55m00Ktf3CGoE39Y+LHUFt
-         OTefIChlFcLcpUOJpTgmf2SJHhVk/E0zoKw6CMPLoO7Uk1whJ7RTwVcKWc+20iMNjiN5
-         LvabATEoo9xUXVDWeSMFErdqsEesnscI/NCewwb0Z1qYSgsETt47slwRF8c+RX4VWeFo
-         NbQw==
-X-Forwarded-Encrypted: i=1; AJvYcCUEdq9m9HUaZbf0efZJrZv66GD4voRBTjggxtzel57rzZa9tPgS8u0qkf4wMVga+I0L44gGDCBbyXNdKw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YysKUmeN6bzCV/c1uJF5tX3yyrnDMe7ISExw+aXxeHYdH+otkDm
-	HxPms6wHNpAVGZvdeHSB7lJddcurwk0jm9gwJ/s/W3GRuwa6ZNiMWkjuJHRP3zBy8T8=
-X-Gm-Gg: ASbGncvH+MlUazNJ7+19RxsfmK/rdARm9pR2PQMQxxsWtLvjGzP9OFY+4jN2uj6wVEd
-	ZcQ34UmOr5aIjExGkAp1dbjdqXlHXDUuVSFoX9R4u/8dTD7dB0aTRy2kF2jS78+eXyqD/a6Ki9Y
-	QgA25nVrHwLp6xGTgCFYc+xOVOH4xotvJ3Kffrgee4+teBXEc5ceXbzXEJpym3a5kxLJwurW/Pb
-	H2P4SpthQV1k720YuBoT17ch+GSIaQExx/U5SiX27NsqNt6AuytbPHmDCzkmYNBjajwoFxDgZCr
-	yGBue8W/3SlhV2lSVjvBHZXKdHt436oZFtqigvdbxJlXZPmGfzpT85Cn3kg1mP1kO3QyVFHl+A=
-	=
-X-Google-Smtp-Source: AGHT+IEolEb7tfFX0Bt2Sg7VF+35gzR6nKVWcO4jX4ONIvd6pX3z/jY8SqI9dzduB6tESwjhI8nX3w==
-X-Received: by 2002:a05:6000:401f:b0:3a3:7be3:d0f3 with SMTP id ffacd0b85a97d-3a56874a312mr648054f8f.14.1749799017861;
-        Fri, 13 Jun 2025 00:16:57 -0700 (PDT)
-Received: from kuoka.. ([178.197.223.125])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a568a72cd3sm1479822f8f.32.2025.06.13.00.16.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Jun 2025 00:16:57 -0700 (PDT)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Sangwon Jee <jeesw@melfas.com>,
-	linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH] Input: Fully open-code compatible for grepping
-Date: Fri, 13 Jun 2025 09:16:54 +0200
-Message-ID: <20250613071653.46809-2-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.45.2
+	s=arc-20240116; t=1749800103; c=relaxed/simple;
+	bh=fQ+Zm3/XGK+10ZRvK+XFYpZHWx6PqU9jm94xEvpjMQc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MSiQ08osfeOh+qYDxXcAZAtiSQBc+BeUBSmSYbl+MripyxteYMu4tGRFs0UuKgM/Q4bLBC/0PHMqFly9zoo+2hJU+GmMt2n7CbQNG0+ZMnFdtf0RO+RgoxQjm9N27zYLIYUOv+ECdWgQ8xGijOIR9b2eD8KEjxK5tPI8Ob7dcJc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=B67nTcCn; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=obGdjANf; arc=none smtp.client-ip=202.12.124.159
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
+Received: from phl-compute-07.internal (phl-compute-07.phl.internal [10.202.2.47])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 78C582540150;
+	Fri, 13 Jun 2025 03:34:59 -0400 (EDT)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-07.internal (MEProxy); Fri, 13 Jun 2025 03:35:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm3; t=1749800099; x=1749886499; bh=heYYdoDlXF
+	OciX8bAT8IXpBAQStR+kpfE0iWQ6XRFa8=; b=B67nTcCnNzwgqqw5e9km6I+xvo
+	aP4x12BY0eqNXQd/5WAzuvx3iqVg+FZbcVKP5FKPEGSxxMuGAH3L/rfj418xIg70
+	/PvX1cbyeDwUVpAcivjtmOGjtx3ml0nmwCKa17nScrb2s5Q527q2h1/y4XBROHia
+	8nvdqwn17kBjrn8qoIQKRvcai0qtqKY6UiU2s0gziN05KRSAFQ4f9o6h6pNVDNwf
+	xVf1VeIBpzeymw1P0k9OGmTImtr8zQJULdyC5yrqJcK6g4oaNCLeMYXfXeMRE0RW
+	RFEC3RnE8yyU3OKG/xjyzlzvwyXSaM02E/VbYozacysEWXVmlLCujDx88tdQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+	1749800099; x=1749886499; bh=heYYdoDlXFOciX8bAT8IXpBAQStR+kpfE0i
+	WQ6XRFa8=; b=obGdjANf3TY83z9E4pcTsihvUy/NhNuL3IyPMSupSohNWxVy02l
+	DIhu0O7mPdBhG6LALj7QpvkuBLRqxCqUTe/FY4Lgl4LKVkszfBgYA8yw0VMo+P2L
+	IwQnsy9s2JORNu4cgB5/Ez7MBDt83hyhqL/wYquBx1at4LCZ2I+NQNwPDOr9FMkE
+	AyQ0zW/vRNT1xbbp1Z9aPEaYPnF9b5y3tP9zv1nlBYffAsC0pAWd1uHkLY0OEjuz
+	9fsO6TrlrTHGWtQ2xMgouIieOSKT87OUFxo4gbsF49Z8qiAQCflR1cgxccfM+ex0
+	aWWyY/hUGVsazvF765v54qnsr8ZcE2eWA8w==
+X-ME-Sender: <xms:odRLaLh6zoBCwTVNx3mvfgXtLKR5nE8PQpNCvoZQTZ4Yl_CbLvnwdw>
+    <xme:odRLaICswVPjz4ogeEyOqVrKMv3h2K0ju_EfqS7zm4Gl6Uf-UjFh8gN6posrOHBmL
+    iOC5OcwHsAR-lM2c_8>
+X-ME-Received: <xmr:odRLaLHK0aeEIyi6snr3y6ADuhS7i5ZXVIhpnmTkXcZQGxVBcNZK22osXdbJ_qmFKeLZKXiAXT60ogZi27I6ELmpNqrr_diVC9k>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddugddujeefiecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
+    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
+    hnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtuggjsehttdertddttdej
+    necuhfhrohhmpeflrghnnhgvucfirhhunhgruhcuoehjsehjrghnnhgruhdrnhgvtheqne
+    cuggftrfgrthhtvghrnhepgfdvffevleegudejfeefheehkeehleehfefgjefffeetudeg
+    tefhuedufeehfeetnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilh
+    hfrhhomhepjhesjhgrnhhnrghurdhnvghtpdhnsggprhgtphhtthhopeefuddpmhhouggv
+    pehsmhhtphhouhhtpdhrtghpthhtohepshhvvghnsehkvghrnhgvlhdrohhrghdprhgtph
+    htthhopegrlhihshhsrgesrhhoshgvnhiifigvihhgrdhiohdprhgtphhtthhopehnvggr
+    lhesghhomhhprgdruggvvhdprhgtphhtthhopehulhhfrdhhrghnshhsohhnsehlihhnrg
+    hrohdrohhrghdprhgtphhtthhopehmthhurhhquhgvthhtvgessggrhihlihgsrhgvrdgt
+    ohhmpdhrtghpthhtohepshgsohihugeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepsh
+    hrihhniheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprghnughirdhshhihthhisehk
+    vghrnhgvlhdrohhrghdprhgtphhtthhopehrrghfrggvlheskhgvrhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:odRLaIS_fY6doz4TXul-16ldYhjIlpniGV2a8g4n6ltibGDTV-_mOQ>
+    <xmx:odRLaIznjucvvyZgRzf35RgUzJyDfO3OetS3EdETiVvnX76AZ8CLtw>
+    <xmx:odRLaO761ll-OM5SIk4RJpRBEoWwgMAB-KKWrDFl6U7GyN_JjqAY0g>
+    <xmx:odRLaNw8AJBTxtqIaToqpW5WlxojAdlTnU6UprMcyicXZwTH4PyLwQ>
+    <xmx:o9RLaB0Xg6U_mH9QzF5X9ggXCjEz7dkLBSNqyZGrq3Q-npIGYGL9kSgl>
+Feedback-ID: i47b949f6:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 13 Jun 2025 03:34:57 -0400 (EDT)
+Date: Fri, 13 Jun 2025 09:34:55 +0200
+From: Janne Grunau <j@jannau.net>
+To: Sven Peter <sven@kernel.org>
+Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>, Neal Gompa <neal@gompa.dev>,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,	Srinivas Kandagatla <srini@kernel.org>,
+	Andi Shyti <andi.shyti@kernel.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Viresh Kumar <viresh.kumar@linaro.org>,	Joerg Roedel <joro@8bytes.org>,
+ Will Deacon <will@kernel.org>,	Robin Murphy <robin.murphy@arm.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Vinod Koul <vkoul@kernel.org>,
+	Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,	Mark Brown <broonie@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>,	Takashi Iwai <tiwai@suse.com>,
+ Arnd Bergmann <arnd@arndb.de>,	asahi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org,	linux-pm@vger.kernel.org,
+ linux-kernel@vger.kernel.org,	linux-clk@vger.kernel.org,
+ linux-i2c@vger.kernel.org,	iommu@lists.linux.dev,
+ linux-input@vger.kernel.org,	dmaengine@vger.kernel.org,
+ linux-sound@vger.kernel.org
+Subject: Re: [PATCH 00/11] Drop default ARCH_APPLE from Kconfig and use
+ defconfig instead
+Message-ID: <20250613073455.GF3141695@robin.jannau.net>
+References: <20250612-apple-kconfig-defconfig-v1-0-0e6f9cb512c1@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1486; i=krzysztof.kozlowski@linaro.org;
- h=from:subject; bh=s7H8hAOu8r6PsF0xyvqZ3QYYYUvxVZaHwOSbxv1Gj8Y=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBoS9BldlK1h6nRICmW5g3qvf7r8ym+wnDpkfXeU
- DxMLIRUhMuJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCaEvQZQAKCRDBN2bmhouD
- 17BFEACbck70vrGqWZcrG0AXxn9j9xycYF2Hd/YtQ0ckdRj/G65KoOMz9eEuVojxIuZpJg9rkun
- F5lVaneeh34cJ0EEMPHk4w4t7pJ3i82l9rRByG6NOHPk6zYa8zMzo5b5UL7RwM+UREIIrTMU9s5
- 7HJMdLfJlVVvGCIVDewunl9XNq6rYTiSun6u07eeyiatuHi6pCPDDkrGa5Q+JkVdakewfss8Itl
- VY7I+pEp9bF9Fysx5i14nTZqeM2rSRAyCIUC0MF9BeHxoZTd+42Gq9xCTLVleugvD8GpyK1ckSV
- jiu3a2yS7nq0/cHly18Pu5ii1jw2WuMyfqGMg1vLnFFVdSZ49zNnUkW2Zj7678gg9WohARn43C8
- VqS2bchHSzvYFDZSkUyzsEi/rUzgEe8C/FRfYtOUn2Xjg/QuPiQrWgU7MqaLB6SV+I+tTbGkxaE
- Qx38u3c05SJXQiLEUcvCOMnyx3NdOnwwZF9+2XOaA2RGhHPThoq7PsFJ8LpZ8P41yN7j7YvUYed
- tJP8mCZSD74SOV+1bMzzFhLPS5/+ajC+Va8igThqg8orZAn7Cf/55XxzoI13B9/JnWz9tZF1/To
- iwdm5wcDGVceIL44FeRitBUulnggd+JenE0/qpniIX2nH3ePMJ/FQXMeQJwtbhrHrmh9ToQPcWo 1W/0EE9IvQs50jw==
-X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp; fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250612-apple-kconfig-defconfig-v1-0-0e6f9cb512c1@kernel.org>
 
-It is very useful to find driver implementing compatibles with `git grep
-compatible`, so driver should not use defines for that string, even if
-this means string will be effectively duplicated.
+Hej,
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
----
- drivers/input/misc/gpio-beeper.c        | 2 +-
- drivers/input/touchscreen/melfas_mip4.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+On Thu, Jun 12, 2025 at 09:11:24PM +0000, Sven Peter wrote:
+> 
+> When support for Apple Silicon was originally upstreamed we somehow
+> started using `default ARCH_APPLE` for most drivers. arm64 defconfig
+> also contains ARCH_APPLE=y such that this will turn into `default y`
+> there by default which is neither what we want nor how this is usually
+> done.
 
-diff --git a/drivers/input/misc/gpio-beeper.c b/drivers/input/misc/gpio-beeper.c
-index d2d2954e2f79..3d65cb4f4ef3 100644
---- a/drivers/input/misc/gpio-beeper.c
-+++ b/drivers/input/misc/gpio-beeper.c
-@@ -94,7 +94,7 @@ static int gpio_beeper_probe(struct platform_device *pdev)
- 
- #ifdef CONFIG_OF
- static const struct of_device_id gpio_beeper_of_match[] = {
--	{ .compatible = BEEPER_MODNAME, },
-+	{ .compatible = "gpio-beeper", },
- 	{ }
- };
- MODULE_DEVICE_TABLE(of, gpio_beeper_of_match);
-diff --git a/drivers/input/touchscreen/melfas_mip4.c b/drivers/input/touchscreen/melfas_mip4.c
-index a6946e3d8376..869884219908 100644
---- a/drivers/input/touchscreen/melfas_mip4.c
-+++ b/drivers/input/touchscreen/melfas_mip4.c
-@@ -1554,7 +1554,7 @@ static DEFINE_SIMPLE_DEV_PM_OPS(mip4_pm_ops, mip4_suspend, mip4_resume);
- 
- #ifdef CONFIG_OF
- static const struct of_device_id mip4_of_match[] = {
--	{ .compatible = "melfas,"MIP4_DEVICE_NAME, },
-+	{ .compatible = "melfas,mip4_ts", },
- 	{ },
- };
- MODULE_DEVICE_TABLE(of, mip4_of_match);
--- 
-2.45.2
+It's not such an uncommon pattern. `git grep 'default ARCH_' --
+'*Kconfig'` has over 250 matches (not counting ARCH_APPLE) and from a
+cursory look not all CONFIG_* look essential for booting.
+I agree that the drivers covered here should not be built-in by default.
+An alternative would be using `default m if ARCH_APPLE` instead but that
+pattern is not common in the kernel. So just moving this to defconfig is
+fine by me.
 
+> Let's fix all that by dropping the default everywhere and adding the
+> drivers to defconfig as modules instead of built-ins.
+> None of these patches depend on each other so we can just take them all
+> independently through the respective subsystem trees.
+> 
+> Best,
+> 
+> Sven
+> 
+> Signed-off-by: Sven Peter <sven@kernel.org>
+> ---
+> Sven Peter (11):
+>       pmdomain: apple: Drop default ARCH_APPLE in Kconfig
+>       soc: apple: Drop default ARCH_APPLE in Kconfig
+>       clk: apple-nco: Drop default ARCH_APPLE in Kconfig
+>       nvmem: apple: drop default ARCH_APPLE in Kconfig
+>       i2c: apple: Drop default ARCH_APPLE in Kconfig
+>       cpufreq: apple: drop default ARCH_APPLE in Kconfig
+>       iommu/apple-dart: Drop default ARCH_APPLE in Kconfig
+>       Input: apple_z2: Drop default ARCH_APPLE in Kconfig
+>       dmaengine: apple-admac: Drop default ARCH_APPLE in Kconfig
+>       ASoC: apple: mca: Drop default ARCH_APPLE in Kconfig
+>       arm64: defconfig: Enable Apple Silicon drivers
+> 
+>  arch/arm64/configs/defconfig      | 19 +++++++++++++++++++
+>  drivers/clk/Kconfig               |  1 -
+>  drivers/cpufreq/Kconfig.arm       |  1 -
+>  drivers/dma/Kconfig               |  1 -
+>  drivers/i2c/busses/Kconfig        |  1 -
+>  drivers/input/touchscreen/Kconfig |  1 -
+>  drivers/iommu/Kconfig             |  1 -
+>  drivers/nvmem/Kconfig             |  1 -
+>  drivers/pmdomain/apple/Kconfig    |  1 -
+>  drivers/soc/apple/Kconfig         |  3 ---
+>  sound/soc/apple/Kconfig           |  1 -
+>  11 files changed, 19 insertions(+), 12 deletions(-)
+
+whole series
+
+Reviewed-by: Janne Grunau <j@jannau.net>
 
