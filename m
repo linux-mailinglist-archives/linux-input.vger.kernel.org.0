@@ -1,247 +1,133 @@
-Return-Path: <linux-input+bounces-12869-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12872-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2D9AAD7D0E
-	for <lists+linux-input@lfdr.de>; Thu, 12 Jun 2025 23:12:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 723ACAD806E
+	for <lists+linux-input@lfdr.de>; Fri, 13 Jun 2025 03:43:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CD5773A6EFC
-	for <lists+linux-input@lfdr.de>; Thu, 12 Jun 2025 21:12:15 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E59DC3A4F08
+	for <lists+linux-input@lfdr.de>; Fri, 13 Jun 2025 01:43:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 138282E0B64;
-	Thu, 12 Jun 2025 21:12:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F2F261DE4C2;
+	Fri, 13 Jun 2025 01:43:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AEL0uaSZ"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RQl/YBRe"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B8DD2DFA27;
-	Thu, 12 Jun 2025 21:12:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30D1D155725;
+	Fri, 13 Jun 2025 01:43:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749762722; cv=none; b=kQHizA8DC41CM4BwISXbXHrM2ZKQzTmrezeB4KOC4cFIScJZkjEtYmX48etT75srSzPJIehCLO+UIo2qsV1hoC4Lf3L6sbR9D5XWfAxLZ1gvDN+S4bGux2EAhhldTNh8ek/g71CtdgW/MJjl4d8uuV9FwKnUNWm3pjIr3ek7ycg=
+	t=1749779020; cv=none; b=Qt1ForpnxIr4CxibHylYRfDI2GQK8VFS2m6xqXeYeE1C2j8nuPXPFO6otCD+63eVcxjuDWWcEeFIuA8FbtWqmnt1mpZmNyp+NsXDuHOxYQ2DRCRdJ5TgyF0mwliwsCvLHF4XBq4upZ7uE5AGSZRXfrDclJomTGbxYNb+keN9ywQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749762722; c=relaxed/simple;
-	bh=Li+xnd3OfWbFujc9g4zCLODzu8bXDFZr8M+WXuiOQm8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=bz8FGi3KlU/YcFMXoTZswsDJvDCZ/a917uCByZkilPnP/EKMGQya8JXOfSEEXHwLRLBVHwuMl+UqbnGd6hY7OwGqHStDZcZN8wQX0UTAyumgTRI59CxfWhLsmEcTHq7cNAm3HFZTLISyLiUs52rACEO98arepVy4qSRKfC8+mn4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AEL0uaSZ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 7100DC4CEF4;
-	Thu, 12 Jun 2025 21:12:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749762722;
-	bh=Li+xnd3OfWbFujc9g4zCLODzu8bXDFZr8M+WXuiOQm8=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=AEL0uaSZ4sTrsOzx1TIpvmjEUjJiePMJ46UYjEv5LqW8RLAHc5CZZddepfSAaboZL
-	 7O0E5KTewfNSXAzXju4psSmPDw1mZByc4A+MePw6+kV+j/u3QoN7jt7CXbevXmQHKl
-	 s5NPMKtaGUn7fsMZx41Tw3wNABC2NzXceeRMtPqkAUhSNrc5UUUYY/X5GoPg5XMzGj
-	 vCvvnu+YzYEFhKPlkK6xn82flLeqqIKov4gwxRf36ARVozidLyINRzM//j2xO4ne0Z
-	 sStK3ZToLuieMcc7GFrwgnf/kb4tkln95EnR3GJRGN1jFk6A/AL/eiyqiIrit30xrn
-	 7GI8SBPMQswqA==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6408AC71150;
-	Thu, 12 Jun 2025 21:12:02 +0000 (UTC)
-From: Sven Peter <sven@kernel.org>
-Date: Thu, 12 Jun 2025 21:11:35 +0000
-Subject: [PATCH 11/11] arm64: defconfig: Enable Apple Silicon drivers
+	s=arc-20240116; t=1749779020; c=relaxed/simple;
+	bh=2SLwzx0bWQvqoMV0uD1JLkL5ZdxoSzjaZlReV/H3F0U=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KodQLQTDdywiiaLx9zY/UhwrD4zvJUBsrhpq7x4TK5qb12gGw3fLQSryRspTVdk0RPzGT6ocbpDtW75Lq1u06zq4lC6zj533MJ/3rUoXZ2MB+AfkQnKuaktwaN1dz15cV8bvS5tvtrVclmQYU4OY3+T7EbQ925lY0AJKz9/eXT4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RQl/YBRe; arc=none smtp.client-ip=209.85.214.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-235f9ea8d08so16030955ad.1;
+        Thu, 12 Jun 2025 18:43:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1749779016; x=1750383816; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Wh5c7g6WbYJHSFHK2AxmEKyJNy5OpKeCmaZt4d/GJyk=;
+        b=RQl/YBRe5RcOl/VLaouh/gni5dEhwJDo8xVFdCCAtVPO3mKTN7OqDrz0z1wS/Fdr7Q
+         +Rqb8ikBfYMNvVXi2jnT4r0nANghiEeoR9m/9UF8W0o1DIriKKUUgoiH+cptLAc5im1f
+         dySHFcWlsZ8sfE06yoiF74bkUrKb+FSBqiuNTvdqxfFOpXFj8jb3KaDxwAZt2doOZs4c
+         pjbmFVTL/iQUGfLp5+8sOldO43wiH9gvoNb5fSpcoXxuRwXycZbYFdw4qZQGSaTbmjAw
+         vavf+C2/jOx7lrqVhYG3Nm3ltcB0tEhhUlrXf29VnqhgLBdZxL41GeHc00RkQGU4vTMI
+         oWsg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1749779016; x=1750383816;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Wh5c7g6WbYJHSFHK2AxmEKyJNy5OpKeCmaZt4d/GJyk=;
+        b=L5abRsIBd/g5U0IWNiDwyk6zUAioxw/Q5liDSNAe2aMGAKfoU+BY1nRJATJ5ibCClp
+         Quii2w6lZPzwl8bmH5RjnDYByGaIRurKbQydaV6PxgHXZxlA7SW+7j4l34HBKh3aPclO
+         jTOOetFBFujiAcqQkVtpcqZ3r16L4x12c/BULYEyBBMQBZNkEpvEO1Ncgf4Lok3hr0GV
+         vG2wzhaIQ1gjsnu3Et8KIZrLR9YMmrbC2D/9mAUyxS6eXd0sSv+zFnkjtC1aRTh7fwzf
+         yw/eKyYD1a2OgAFXV6DPM752/nBAC85bsLS4FmrxTz08FCIU3ZvjXkPtwAcPeB5v/dKC
+         T+aA==
+X-Forwarded-Encrypted: i=1; AJvYcCUB0iy6LO4Nw3teilxDl7TjYMZskSmsX6kCOFUq/jrhmqHdhTPVyuFZVq9uLI+ItNm120hTILivLOg=@vger.kernel.org, AJvYcCVe69o7dhvcuUCGU0ZBCLGMXH/hu13QsMcOaeE12o8LICJsR20nIM/VejastK8/yKed3mftbDlvY3MT+24=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz8hzQ6nY/2HZmo3Qq2TBCnlZjF/9MWurr4bt4Mo73gc42WBR9+
+	4pQN/Dfm6J9Hy075HiSdvFBu9V1p5Y9cTCu2mMwY7/0sjsGCuX4xG1b/
+X-Gm-Gg: ASbGncu1H+amUeBKZkwHV72bSLwpTYFQYDb9hbIgMAZ8Oull3EJpjvSe6ZTkGH9mlvT
+	ZqoZFZvv6Gxqof5m6zsn1YloEvSAmin1xs5UCbTL7eYWn6nHCK98vlLPUakwhClfHOXc31JvTya
+	Xg6xAJmEbhl9tdYy7FskmJ5vzhZyFrsLwFUqrjx/EL7rPJZz1vjfNjCqnlUmtG6MDZWZ8OFwFlF
+	OqAG7zGVo2wgP3+SVmzkHP8NsCYpU2rMUJoO8Db2DEHm7q/z4kOCqJZy3RgFlLVtY7ChdTm6ZQa
+	Nfo0XSgmaYn1m4xWKHAFE1zIijTW+QA2wfm5THPmo1G4XBTHUyG0JUZmB4+5uWBjyaKxDLDv
+X-Google-Smtp-Source: AGHT+IHinEDiv1sleoeZ9JFY+Z7q8b4xq+cXmtA9YdKmIHs0akX6IFB7eVtLjoy9wQYOjxr976N2vw==
+X-Received: by 2002:a17:902:ecc9:b0:235:c973:ba20 with SMTP id d9443c01a7336-2365de3fff6mr16972405ad.49.1749779016179;
+        Thu, 12 Jun 2025 18:43:36 -0700 (PDT)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2365e0d0b12sm3770575ad.253.2025.06.12.18.43.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 Jun 2025 18:43:35 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id C9A6A4209E8D; Fri, 13 Jun 2025 08:43:30 +0700 (WIB)
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	Linux Input Devices <linux-input@vger.kernel.org>
+Cc: Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Even Xu <even.xu@intel.com>,
+	Chong Han <chong.han@intel.com>,
+	Bagas Sanjaya <bagasdotme@gmail.com>,
+	Stephen Rothwell <sfr@canb.auug.org.au>
+Subject: [PATCH] HID: intel-thc-hid: Separate max input size control conditional list
+Date: Fri, 13 Jun 2025 08:43:27 +0700
+Message-ID: <20250613014327.11514-1-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250612-apple-kconfig-defconfig-v1-11-0e6f9cb512c1@kernel.org>
-References: <20250612-apple-kconfig-defconfig-v1-0-0e6f9cb512c1@kernel.org>
-In-Reply-To: <20250612-apple-kconfig-defconfig-v1-0-0e6f9cb512c1@kernel.org>
-To: Janne Grunau <j@jannau.net>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
- Neal Gompa <neal@gompa.dev>, Ulf Hansson <ulf.hansson@linaro.org>, 
- Michael Turquette <mturquette@baylibre.com>, 
- Stephen Boyd <sboyd@kernel.org>, Srinivas Kandagatla <srini@kernel.org>, 
- Andi Shyti <andi.shyti@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
- Viresh Kumar <viresh.kumar@linaro.org>, Joerg Roedel <joro@8bytes.org>, 
- Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, 
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, Vinod Koul <vkoul@kernel.org>, 
- =?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Arnd Bergmann <arnd@arndb.de>
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-clk@vger.kernel.org, linux-i2c@vger.kernel.org, iommu@lists.linux.dev, 
- linux-input@vger.kernel.org, dmaengine@vger.kernel.org, 
- linux-sound@vger.kernel.org, Sven Peter <sven@kernel.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4568; i=sven@kernel.org;
- h=from:subject:message-id;
- bh=Li+xnd3OfWbFujc9g4zCLODzu8bXDFZr8M+WXuiOQm8=;
- b=owGbwMvMwCHmIlirolUq95LxtFoSQ4a307zLLFdFnr3dPbepTfuP5dHZ1nrR2+SPHVY53Cm6W
- XRX3eGjHaUsDGIcDLJiiizb99ubPnn4RnDppkvvYeawMoEMYeDiFICJrOti+O/+5turv6cj0pJ4
- /hfOazRxXDaxXeoAe8nEiIylzdJePtIMf7h7X2/QEN277twWqQ+rj+z3n7L136uMzLv1P/P6TCy
- a1jEAAA==
-X-Developer-Key: i=sven@kernel.org; a=openpgp;
- fpr=A1E3E34A2B3C820DBC4955E5993B08092F131F93
-X-Endpoint-Received: by B4 Relay for sven@kernel.org/default with
- auth_id=407
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1534; i=bagasdotme@gmail.com; h=from:subject; bh=2SLwzx0bWQvqoMV0uD1JLkL5ZdxoSzjaZlReV/H3F0U=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDBnejdcTHWYuux4tXfgq3TItZYHzghfvnNgObHHbu8LOa s/Hf51NHaUsDGJcDLJiiiyTEvmaTu8yErnQvtYRZg4rE8gQBi5OAZjIrqeMDPPPOhwOMv3yfvLl N+snvlgdZvuxvzD/8JKzFyqWLvdhPGTJyNB63rMr8u8dt9CF9l46X8P5562WnnePf5n9FUPj6IM KexgB
+X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
+Content-Transfer-Encoding: 8bit
 
-Enable drivers for hardware present on Apple Silicon machines.
-The power domain and interrupt driver should be built-it since these are
-critical for the system to boot, the rest can be build as modules.
+Stephen Rothwell reports htmldocs warning:
 
-Previously, many of these drivers were accidentally configured as y
-such that this actually decreases the size of the kernel image:
+Documentation/hid/intel-thc-hid.rst:200: ERROR: Unexpected indentation. [docutils]
 
-vmlinux 163628520 -> 163330632 (-297888)
-Image    48388608 ->  48384512 (-  4096)
+Separate conditional list for max input size control by a blank line
+to fix the warning.
 
-Signed-off-by: Sven Peter <sven@kernel.org>
+Fixes: 45e92a093099 ("HID: Intel-thc-hid: Intel-thc: Introduce max input size control")
+Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+Closes: https://lore.kernel.org/linux-next/20250611142409.7d4683b0@canb.auug.org.au/
+Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 ---
- arch/arm64/configs/defconfig | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+ Documentation/hid/intel-thc-hid.rst | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
-index 897fc686e6a91b79770639d3eb15beb3ee48ef77..8ebebfc2fa1293bd16332858d6e6694e1a6f3088 100644
---- a/arch/arm64/configs/defconfig
-+++ b/arch/arm64/configs/defconfig
-@@ -97,6 +97,7 @@ CONFIG_CPU_FREQ_GOV_CONSERVATIVE=m
- CONFIG_CPUFREQ_DT=y
- CONFIG_ACPI_CPPC_CPUFREQ=m
- CONFIG_ARM_ALLWINNER_SUN50I_CPUFREQ_NVMEM=m
-+CONFIG_ARM_APPLE_SOC_CPUFREQ=m
- CONFIG_ARM_ARMADA_37XX_CPUFREQ=y
- CONFIG_ARM_SCPI_CPUFREQ=y
- CONFIG_ARM_IMX_CPUFREQ_DT=m
-@@ -218,6 +219,7 @@ CONFIG_HOTPLUG_PCI_ACPI=y
- CONFIG_PCI_AARDVARK=y
- CONFIG_PCIE_ALTERA=y
- CONFIG_PCIE_ALTERA_MSI=y
-+CONFIG_PCIE_APPLE=m
- CONFIG_PCIE_BRCMSTB=m
- CONFIG_PCI_HOST_THUNDER_PEM=y
- CONFIG_PCI_HOST_THUNDER_ECAM=y
-@@ -294,6 +296,7 @@ CONFIG_BLK_DEV_LOOP=y
- CONFIG_BLK_DEV_NBD=m
- CONFIG_VIRTIO_BLK=y
- CONFIG_BLK_DEV_NVME=m
-+CONFIG_NVME_APPLE=m
- CONFIG_QCOM_COINCELL=m
- CONFIG_QCOM_FASTRPC=m
- CONFIG_SRAM=y
-@@ -454,6 +457,7 @@ CONFIG_KEYBOARD_CROS_EC=y
- CONFIG_KEYBOARD_MTK_PMIC=m
- CONFIG_MOUSE_ELAN_I2C=m
- CONFIG_INPUT_TOUCHSCREEN=y
-+CONFIG_TOUCHSCREEN_APPLE_Z2=m
- CONFIG_TOUCHSCREEN_ATMEL_MXT=m
- CONFIG_TOUCHSCREEN_GOODIX=m
- CONFIG_TOUCHSCREEN_GOODIX_BERLIN_SPI=m
-@@ -538,6 +542,7 @@ CONFIG_I2C_MT65XX=y
- CONFIG_I2C_MV64XXX=y
- CONFIG_I2C_OMAP=y
- CONFIG_I2C_OWL=y
-+CONFIG_I2C_APPLE=m
- CONFIG_I2C_PXA=y
- CONFIG_I2C_QCOM_CCI=m
- CONFIG_I2C_QCOM_GENI=m
-@@ -552,6 +557,7 @@ CONFIG_I2C_UNIPHIER_F=y
- CONFIG_I2C_RCAR=y
- CONFIG_I2C_CROS_EC_TUNNEL=y
- CONFIG_SPI=y
-+CONFIG_SPI_APPLE=m
- CONFIG_SPI_ARMADA_3700=y
- CONFIG_SPI_BCM2835=m
- CONFIG_SPI_BCM2835AUX=m
-@@ -586,7 +592,9 @@ CONFIG_SPI_TEGRA210_QUAD=m
- CONFIG_SPI_TEGRA114=m
- CONFIG_SPI_SPIDEV=m
- CONFIG_SPMI=y
-+CONFIG_SPMI_APPLE=m
- CONFIG_SPMI_MTK_PMIF=m
-+CONFIG_PINCTRL_APPLE_GPIO=m
- CONFIG_PINCTRL_DA9062=m
- CONFIG_PINCTRL_MAX77620=y
- CONFIG_PINCTRL_RK805=m
-@@ -757,6 +765,7 @@ CONFIG_RENESAS_RZG2LWDT=y
- CONFIG_RENESAS_RZV2HWDT=y
- CONFIG_UNIPHIER_WATCHDOG=y
- CONFIG_PM8916_WATCHDOG=m
-+CONFIG_APPLE_WATCHDOG=m
- CONFIG_BCM2835_WDT=y
- CONFIG_BCM7038_WDT=m
- CONFIG_MFD_ADP5585=m
-@@ -983,6 +992,7 @@ CONFIG_SND_ALOOP=m
- CONFIG_SND_HDA_TEGRA=m
- CONFIG_SND_HDA_CODEC_HDMI=m
- CONFIG_SND_SOC=y
-+CONFIG_SND_SOC_APPLE_MCA=m
- CONFIG_SND_BCM2835_SOC_I2S=m
- CONFIG_SND_SOC_FSL_ASRC=m
- CONFIG_SND_SOC_FSL_MICFIL=m
-@@ -1266,6 +1276,7 @@ CONFIG_RTC_DRV_XGENE=y
- CONFIG_RTC_DRV_TI_K3=m
- CONFIG_RTC_DRV_RENESAS_RTCA3=m
- CONFIG_DMADEVICES=y
-+CONFIG_APPLE_ADMAC=m
- CONFIG_DMA_BCM2835=y
- CONFIG_DMA_SUN6I=m
- CONFIG_FSL_EDMA=y
-@@ -1310,6 +1321,7 @@ CONFIG_CROS_EC_RPMSG=m
- CONFIG_CROS_EC_SPI=y
- CONFIG_CROS_KBD_LED_BACKLIGHT=m
- CONFIG_CROS_EC_CHARDEV=m
-+CONFIG_COMMON_CLK_APPLE_NCO=m
- CONFIG_COMMON_CLK_RK808=y
- CONFIG_COMMON_CLK_SCMI=y
- CONFIG_COMMON_CLK_SCPI=y
-@@ -1451,6 +1463,7 @@ CONFIG_ARM_SMMU=y
- CONFIG_ARM_SMMU_V3=y
- CONFIG_MTK_IOMMU=y
- CONFIG_QCOM_IOMMU=y
-+CONFIG_APPLE_DART=m
- CONFIG_REMOTEPROC=y
- CONFIG_IMX_REMOTEPROC=y
- CONFIG_MTK_SCP=m
-@@ -1470,6 +1483,9 @@ CONFIG_RPMSG_QCOM_SMD=y
- CONFIG_RPMSG_VIRTIO=y
- CONFIG_SOUNDWIRE=m
- CONFIG_SOUNDWIRE_QCOM=m
-+CONFIG_APPLE_MAILBOX=m
-+CONFIG_APPLE_RTKIT=m
-+CONFIG_APPLE_SART=m
- CONFIG_FSL_DPAA=y
- CONFIG_FSL_MC_DPIO=y
- CONFIG_FSL_RCPM=y
-@@ -1504,6 +1520,7 @@ CONFIG_ARCH_TEGRA_194_SOC=y
- CONFIG_ARCH_TEGRA_234_SOC=y
- CONFIG_TI_PRUSS=m
- CONFIG_OWL_PM_DOMAINS=y
-+CONFIG_APPLE_PMGR_PWRSTATE=y
- CONFIG_RASPBERRYPI_POWER=y
- CONFIG_IMX_SCU_PD=y
- CONFIG_QCOM_CPR=y
-@@ -1567,6 +1584,7 @@ CONFIG_QCOM_PDC=y
- CONFIG_QCOM_MPM=y
- CONFIG_TI_SCI_INTR_IRQCHIP=y
- CONFIG_TI_SCI_INTA_IRQCHIP=y
-+CONFIG_APPLE_AIC=y
- CONFIG_RESET_GPIO=m
- CONFIG_RESET_IMX7=y
- CONFIG_RESET_QCOM_AOSS=y
-@@ -1640,6 +1658,7 @@ CONFIG_ARM_CORESIGHT_PMU_ARCH_SYSTEM_PMU=m
- CONFIG_NVIDIA_CORESIGHT_PMU_ARCH_SYSTEM_PMU=m
- CONFIG_MESON_DDR_PMU=m
- CONFIG_NVMEM_LAYOUT_SL28_VPD=m
-+CONFIG_NVMEM_APPLE_EFUSES=m
- CONFIG_NVMEM_IMX_OCOTP=y
- CONFIG_NVMEM_IMX_OCOTP_ELE=m
- CONFIG_NVMEM_IMX_OCOTP_SCU=y
+diff --git a/Documentation/hid/intel-thc-hid.rst b/Documentation/hid/intel-thc-hid.rst
+index 23d5110cb8710a..8b378c57b5aac0 100644
+--- a/Documentation/hid/intel-thc-hid.rst
++++ b/Documentation/hid/intel-thc-hid.rst
+@@ -195,6 +195,7 @@ This is a new feature introduced in Panther Lake platform, THC hardware allows d
+ a max input size for RxDMA. After this max size gets set and enabled, for every input report
+ packet reading, THC hardware sequencer will first read incoming input packet size, then compare
+ input packet size with the given max size:
++
+ - if input packet size <= max size, THC continues using input packet size to finish the reading
+ - if input packet size > max size, there is potential input data crash risk during
+   transferring, THC will use max size instead of input packet size for reading
 
+base-commit: da04eb7791c461bc0f113ce96af4ed59bcc12555
 -- 
-2.34.1
-
+An old man doll... just what I always wanted! - Clara
 
 
