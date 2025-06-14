@@ -1,70 +1,53 @@
-Return-Path: <linux-input+bounces-12893-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12897-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95C98AD9C6A
-	for <lists+linux-input@lfdr.de>; Sat, 14 Jun 2025 13:13:45 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id CDA6AAD9D95
+	for <lists+linux-input@lfdr.de>; Sat, 14 Jun 2025 16:37:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 65DB93BA693
-	for <lists+linux-input@lfdr.de>; Sat, 14 Jun 2025 11:13:15 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C66CA189D7E0
+	for <lists+linux-input@lfdr.de>; Sat, 14 Jun 2025 14:37:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 801D325BF1D;
-	Sat, 14 Jun 2025 11:12:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1C3AE2E2EE7;
+	Sat, 14 Jun 2025 14:37:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mwTsZuIC"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uQGMWqsp"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F0C5256C80;
-	Sat, 14 Jun 2025 11:12:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAE422DECB1;
+	Sat, 14 Jun 2025 14:37:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749899577; cv=none; b=ott/Xal8dRLaHeYQeEB+cOi8kzlc9WwRs9ab0q4uySZ2MkuVZwy7jIPOKMHsVeJLBa9q17VQ60XoOX7CBlscxmLqHxjGg4zBC2HvIjxRwe9EUgEudhlAVpdaBDpB6tfDzjHe04HYeuSOjHHV9fjUFH/8GtsNr3PrvlfTiFMzWl4=
+	t=1749911830; cv=none; b=jDUF2Ej7U+te0mex//LAu03Kf3EpLdXNfs0qzvJqimeVa09exXPzwNGRptvtK+6PZOo2ALQTQ50xKMA4VB7ZGFdO2t92LoLls309Ky7LaEsh0Je07NYhtYZ/3kAETjgXm8IlMSvh0vCFXjDtyRTHRJMBeWlRxOhz8xFGRJgJwnw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749899577; c=relaxed/simple;
-	bh=di0vudlUJl9ldcR9UsjTlgPrj2pTt9RZvG4yRZnfheA=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=o9Zo3LeOrM2ak7cXcK+jOuaGugYgbfKFpbM5HA6nedqgF72QJusSIBQpvRKpdEk7yafK0zSSig8Egv90hks3TZ3SN+PJDWanx9aiv/HF/ID0WFFWJIlh/xMRAGbSB/D357eh+zdgOAqfocKPUr2T2ZlbPTN8GsbCXY89mbqv3/k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mwTsZuIC; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 418A2C4CEEB;
-	Sat, 14 Jun 2025 11:12:51 +0000 (UTC)
+	s=arc-20240116; t=1749911830; c=relaxed/simple;
+	bh=HpQ+IOBHeSPQkLLUSRUG0Nf5j2qaZir3u+Hl3A3IsNw=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=hhVDIjWWS/s4qdLIb3lxQWo1UstDIKct/g6RHyIdNgazcUF7Ue1OGGhK5tz3IP5YUsbXnYOQAJ/n5GKV9sJIPnkJHW0vte8ItDzWEpQgr4vHpYVRkfH99mhszBOFs7vdUjtKYmanEPIybsTE3niU3vyJmLgsxONjm2GCntkxi+g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uQGMWqsp; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 4729AC4CEEB;
+	Sat, 14 Jun 2025 14:37:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749899576;
-	bh=di0vudlUJl9ldcR9UsjTlgPrj2pTt9RZvG4yRZnfheA=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=mwTsZuIC6mohekKQprEBnkvZFbg92Z06uo552hFeIUoZyeB6wGwsTy8jD0fJX7msn
-	 2s6MZ0AItWNvctoyqvv0KmmLPg5V0W41DI3KPxQ9rkye+yWJkpGg8QgKoAw8NnFttS
-	 yP0l8dDZ4Y7KxtGgN+T+lraguvPIIqekJ8Ie065J7Ft8XcdGDHcnuw8SdnEWTMm7Uk
-	 E6u8wEjwCDP0TAh8AfPEOyjtB4erytWA6n17GqUUPseVF/dL+WuPhaMIGyQ41T6y4z
-	 2hxc0PadsQyJHQIComuYupkWskeCohqOujwB0O9ldMhQTiJbI+2UQkX+phnzaZ80RI
-	 3HWemMiHHJzaQ==
-From: Mark Brown <broonie@kernel.org>
-To: Janne Grunau <j@jannau.net>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
- Neal Gompa <neal@gompa.dev>, Ulf Hansson <ulf.hansson@linaro.org>, 
- Michael Turquette <mturquette@baylibre.com>, 
- Stephen Boyd <sboyd@kernel.org>, Srinivas Kandagatla <srini@kernel.org>, 
- Andi Shyti <andi.shyti@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
- Viresh Kumar <viresh.kumar@linaro.org>, Joerg Roedel <joro@8bytes.org>, 
- Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, 
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, Vinod Koul <vkoul@kernel.org>, 
- =?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Arnd Bergmann <arnd@arndb.de>, 
- Sven Peter <sven@kernel.org>
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-clk@vger.kernel.org, linux-i2c@vger.kernel.org, iommu@lists.linux.dev, 
- linux-input@vger.kernel.org, dmaengine@vger.kernel.org, 
- linux-sound@vger.kernel.org
-In-Reply-To: <20250612-apple-kconfig-defconfig-v1-0-0e6f9cb512c1@kernel.org>
-References: <20250612-apple-kconfig-defconfig-v1-0-0e6f9cb512c1@kernel.org>
-Subject: Re: (subset) [PATCH 00/11] Drop default ARCH_APPLE from Kconfig
- and use defconfig instead
-Message-Id: <174989957100.19870.13761538351492320924.b4-ty@kernel.org>
-Date: Sat, 14 Jun 2025 12:12:51 +0100
+	s=k20201202; t=1749911830;
+	bh=HpQ+IOBHeSPQkLLUSRUG0Nf5j2qaZir3u+Hl3A3IsNw=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=uQGMWqsp59ntf2w1H0jYSMzXkjzC7MgGomjzv3pEdP8OvgKUeKXzIp0+IBjkbJCHv
+	 R4INZbZMK4HhUJ4vyt5M92+QYtKUD3DBeSbznh4VBOum+WZh1CgG/cRUSFvoh4XXep
+	 THgG7id8GnAhu/ktHmoqG6n2345nwyqTRTyHtMnZ1A9eh+Q8X7XpfSsj6sZMqk6WZV
+	 Kbw3h+REjL9fJAl7msgckNHEeLeiKxxiBeYSPqkzTfRc82c/U5CE6xEMPYwqe+PLkR
+	 jNdYg4OBZ9OsRY+ATF+M9a0zZO2OTWwPNecxddJRAwzzq6zKwASs4RuvYcL7ahHI1P
+	 eYUaeNn0KG4tA==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3318EC71153;
+	Sat, 14 Jun 2025 14:37:10 +0000 (UTC)
+From: =?utf-8?q?Nuno_S=C3=A1_via_B4_Relay?= <devnull+nuno.sa.analog.com@kernel.org>
+Subject: [PATCH v5 00/20] mfd: adp5585: support keymap events and drop
+ legacy Input driver
+Date: Sat, 14 Jun 2025 15:35:51 +0100
+Message-Id: <20250614-dev-adp5589-fw-v5-0-7e9d84906268@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -72,48 +55,126 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-c25d1
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAMeITWgC/2XQTQ7CIBCG4asY1mJgAAuuvIdxMYWpkmhrWoMa0
+ 7tLmxh/WH6TPO9inmygPtLANosn6ynFIXZtHma5YP6I7YF4DHkzEGCEkpIHShzDxRjreHPjJLR
+ vgtMG7JpldOmpifc5uNvnfYzDtesfcz/J6fpOqf9UklxwEGRF0HXQhFts8dQdVr47s6mV4OO1N
+ IWH7BVWznlFwUoovPp4I6HwKnvhoJa6rhxaW3j95aF4RdLZN+CdtaHCCsWPH8fxBVDAMBZtAQA
+ A
+X-Change-ID: 20250311-dev-adp5589-fw-e04cfd945286
+To: linux-gpio@vger.kernel.org, linux-pwm@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-input@vger.kernel.org
+Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, 
+ Linus Walleij <linus.walleij@linaro.org>, 
+ Bartosz Golaszewski <brgl@bgdev.pl>, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Liu Ying <victor.liu@nxp.com>, 
+ Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1749911835; l=3573;
+ i=nuno.sa@analog.com; s=20231116; h=from:subject:message-id;
+ bh=HpQ+IOBHeSPQkLLUSRUG0Nf5j2qaZir3u+Hl3A3IsNw=;
+ b=ArtXRoO+FuNVNZqfpl2+TCQ9EL+05vwIiPyFP6UolfWbeck0+iU9jRWBvSQUWBcWMGsimkCX1
+ vRJRENsYoM/C/HCJ62K6frCjaP1puvEpKAleEPCVZDFycxYkWHQs9oe
+X-Developer-Key: i=nuno.sa@analog.com; a=ed25519;
+ pk=3NQwYA013OUYZsmDFBf8rmyyr5iQlxV/9H4/Df83o1E=
+X-Endpoint-Received: by B4 Relay for nuno.sa@analog.com/20231116 with
+ auth_id=100
+X-Original-From: =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>
+Reply-To: nuno.sa@analog.com
 
-On Thu, 12 Jun 2025 21:11:24 +0000, Sven Peter wrote:
-> When support for Apple Silicon was originally upstreamed we somehow
-> started using `default ARCH_APPLE` for most drivers. arm64 defconfig
-> also contains ARCH_APPLE=y such that this will turn into `default y`
-> there by default which is neither what we want nor how this is usually
-> done.
-> Let's fix all that by dropping the default everywhere and adding the
-> drivers to defconfig as modules instead of built-ins.
-> None of these patches depend on each other so we can just take them all
-> independently through the respective subsystem trees.
-> 
-> [...]
+Hi all,
 
-Applied to
+Here it goes v4. Main changes is to drop chip info based struct and
+directly use an enum in the FW .data pointer, use the notifier API for
+dispatching events and multiple calls to mfd_add_devices().
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+Regarding the last point, I think I could have used multiple calls to
+devm_mfd_add_devices() and avoid those gotos in adp5585_add_devices()
+but I do not feel that would have been "correct".
 
 Thanks!
+- Nuno Sá
 
-[10/11] ASoC: apple: mca: Drop default ARCH_APPLE in Kconfig
-        commit: f59427932885f9b47b22b532b079478905b9ad08
+---
+Changes in v5:
+- Patch 2:
+  * Use the existing devm_mfd_add_devices().
+- Patch 3:
+  * Remove TODO comment.
+- Patch 4:
+  * Mention in the commit message the Copyright update.
+- Patch 6:
+  * Return a struct regmap_config pointer in
+    adp5585_fill_regmap_config();
+  * Just leave a blank entry in the adp5585_regmap_defaults array.
+- Patch 13:
+  * Improve comments for pin6 (row5) validation;
+  * Don't use magic numbers;
+  * Drop some odd line breaks;
+  * Initialize vartiable when declaring.
+- Patch 14:
+  * Drop double spaces;
+  * Don't use magic numbers;
+  * Improve some comments.
+- Patch 16:
+  * Fix missing semicolon.
+- Patch 20:
+  * DS -> datasheet. 
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+- Link to v4: https://lore.kernel.org/r/20250521-dev-adp5589-fw-v4-0-f2c988d7a7a0@analog.com
+- Link to v3: https://lore.kernel.org/r/20250512-dev-adp5589-fw-v3-0-092b14b79a88@analog.com
+- Link to v2: https://lore.kernel.org/r/20250415-dev-adp5589-fw-v2-0-3a799c3ed812@analog.com
+- Link to v1: https://lore.kernel.org/r/20250313-dev-adp5589-fw-v1-0-20e80d4bd4ea@analog.com
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+---
+Nuno Sá (20):
+      dt-bindings: mfd: adp5585: ease on the required properties
+      mfd: adp5585: only add devices given in FW
+      mfd: adp5585: enable oscilator during probe
+      mfd: adp5585: make use of MFD_CELL_NAME()
+      dt-bindings: mfd: adp5585: document adp5589 I/O expander
+      mfd: adp5585: refactor how regmap defaults are handled
+      mfd: adp5585: add support for adp5589
+      mfd: adp5585: add a per chip reg struture
+      gpio: adp5585: add support for the adp5589 expander
+      pwm: adp5585: add support for adp5589
+      dt-bindings: mfd: adp5585: add properties for input events
+      mfd: adp5585: add support for event handling
+      mfd: adp5585: support reset and unlock events
+      mfd: adp5585: add support for input devices
+      gpio: adp5585: support gpi events
+      Input: adp5585: Add Analog Devices ADP5585/89 support
+      Input: adp5589: remove the driver
+      mfd: adp5585: support getting vdd regulator
+      dt-bindings: mfd: adp5585: document reset gpio
+      mfd: adp5585: add support for a reset pin
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+ .../devicetree/bindings/mfd/adi,adp5585.yaml       |  240 ++++-
+ .../devicetree/bindings/trivial-devices.yaml       |    2 -
+ MAINTAINERS                                        |    1 +
+ drivers/gpio/Kconfig                               |    1 +
+ drivers/gpio/gpio-adp5585.c                        |  364 ++++++-
+ drivers/input/keyboard/Kconfig                     |   21 +-
+ drivers/input/keyboard/Makefile                    |    2 +-
+ drivers/input/keyboard/adp5585-keys.c              |  371 +++++++
+ drivers/input/keyboard/adp5589-keys.c              | 1066 --------------------
+ drivers/mfd/adp5585.c                              |  743 +++++++++++++-
+ drivers/pwm/pwm-adp5585.c                          |   78 +-
+ include/linux/mfd/adp5585.h                        |  118 ++-
+ 12 files changed, 1799 insertions(+), 1208 deletions(-)
+---
+base-commit: 407f60a151df3c44397e5afc0111eb9b026c38d3
+change-id: 20250311-dev-adp5589-fw-e04cfd945286
+--
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+Thanks!
+- Nuno Sá
 
-Thanks,
-Mark
 
 
