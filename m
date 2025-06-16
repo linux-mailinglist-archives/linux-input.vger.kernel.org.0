@@ -1,99 +1,116 @@
-Return-Path: <linux-input+bounces-12916-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12917-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CA4DADA643
-	for <lists+linux-input@lfdr.de>; Mon, 16 Jun 2025 04:18:09 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 097C3ADA9FD
+	for <lists+linux-input@lfdr.de>; Mon, 16 Jun 2025 09:57:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 36E21164D6A
-	for <lists+linux-input@lfdr.de>; Mon, 16 Jun 2025 02:18:10 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 40D12188B391
+	for <lists+linux-input@lfdr.de>; Mon, 16 Jun 2025 07:58:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2EB5BBE65;
-	Mon, 16 Jun 2025 02:18:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6F0AD2139C9;
+	Mon, 16 Jun 2025 07:57:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b="YgTPvhJx"
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="nL6W6Pmx"
 X-Original-To: linux-input@vger.kernel.org
-Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 543A123A6
-	for <linux-input@vger.kernel.org>; Mon, 16 Jun 2025 02:18:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C70921171B
+	for <linux-input@vger.kernel.org>; Mon, 16 Jun 2025 07:57:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750040286; cv=none; b=Eem3wZyAXXmJbv49wZziOKQ5nwWpptdvdfn7kPLEKBiIIYr80Dcry/SK7EnBj98mhuC+9J65le6KuHbJ9voeZ3TQnHpKBLE0/cSbIA3PNoMqv9m+o65rVXeb5rDeq0bl14En7konTZJDmi1I7NcanezNdoldJ2DDWZi6fMSBDxs=
+	t=1750060644; cv=none; b=LrGv41USIXXyjkivaQCzfw8SIw8Y8DhrgrZ9Vrkn37Q81WJ6PTKP7U2CmCOI8VgODiNReBRcdHzDDmbZobmhvi/nH4VspC12k9f4gS99XDJwRNNjc5YkHxgDHryJYbZ4EgKnCuLg20qRk7as7AWD7gHxz+YftK1rNfCzUzAULus=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750040286; c=relaxed/simple;
-	bh=IVQwrjQoejLfIjUdNBbi0UVcGtHKBi/Nz1zhPsUbgwo=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=amA0QA9RO9+JK16i7JA/sZMU5ohDLU25Y/F+337Vk1pXHeKMdZacCICJPf45+QoBFEShjbcCGeLDQLAqt84Hj9mFPg0GyKBE687InUePDrPu6iU25ERH/hPKMdnTdlUy2NZszutwhe1MvpZwTyvTEmkwGyBICgprJQ2xCSpiYIw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b=YgTPvhJx; arc=none smtp.client-ip=211.75.126.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
-X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 55G2HdcjE3897086, This message is accepted by code: ctloc85258
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=realtek.com; s=dkim;
-	t=1750040259; bh=IVQwrjQoejLfIjUdNBbi0UVcGtHKBi/Nz1zhPsUbgwo=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:MIME-Version;
-	b=YgTPvhJxhXKvj18ciAtyVFZ4k13atL1Uk1oyJ8fbQLSKSlqFSescEMw387OK38UGL
-	 6W4dx/kvqFXDuZrmKfN1YfVO21iIGYQwEoRFCLV63MlXit2Mfj/iMIiskBi/C7/jUP
-	 fOyTRjHtYfV0+dYjg2GgL1AvCI5ic579Z1mzVNW4HNXrGOGKOJRJgcF16dxPzpNq0C
-	 v/JNNtieNTlxWsQmAMjOVlo45SK2iiAAmfk6BiSFl0RDKWWqnW8aKMXzGAOfqWcpdw
-	 oCA290ymT7hAWhE5EFbhD/M2vD/GF0fYwaszKQROAeOWYw2fKFbd5bBfcH+gttfhzi
-	 /toG3ms+AalDA==
-Received: from mail.realtek.com (rtexh36505.realtek.com.tw[172.21.6.25])
-	by rtits2.realtek.com.tw (8.15.2/3.13/5.93) with ESMTPS id 55G2HdcjE3897086
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 16 Jun 2025 10:17:39 +0800
-Received: from RTEXMBS06.realtek.com.tw (172.21.6.99) by
- RTEXH36505.realtek.com.tw (172.21.6.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Mon, 16 Jun 2025 10:17:25 +0800
-Received: from RTEXMBS01.realtek.com.tw (172.21.6.94) by
- RTEXMBS06.realtek.com.tw (172.21.6.99) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Mon, 16 Jun 2025 10:17:25 +0800
-Received: from RTEXMBS01.realtek.com.tw ([fe80::f5bd:6ac9:46d:9547]) by
- RTEXMBS01.realtek.com.tw ([fe80::f5bd:6ac9:46d:9547%5]) with mapi id
- 15.01.2507.035; Mon, 16 Jun 2025 10:17:25 +0800
-From: =?big5?B?U2h1bWluZyBbrVOu0bvKXQ==?= <shumingf@realtek.com>
-To: Mark Brown <broonie@kernel.org>
-CC: "jikos@kernel.org" <jikos@kernel.org>,
-        "bentiss@kernel.org"
-	<bentiss@kernel.org>,
-        "linux-input@vger.kernel.org"
-	<linux-input@vger.kernel.org>,
-        "Flove(HsinFu)" <flove@realtek.com>,
-        "Oder
- Chiou" <oder_chiou@realtek.com>, Jack Yu <jack.yu@realtek.com>,
-        =?big5?B?RGVyZWsgW6TovHe4cV0=?= <derek.fang@realtek.com>,
-        "ckeepax@opensource.cirrus.com" <ckeepax@opensource.cirrus.com>,
-        "bard.liao@intel.com" <bard.liao@intel.com>
-Subject: RE: [PATCH 2/3] HID: core: Add bus define for SoundWire bus
-Thread-Topic: [PATCH 2/3] HID: core: Add bus define for SoundWire bus
-Thread-Index: AQHb3Fgk5swCrzdC/Uq27XZE/O9NALQEisuw
-Date: Mon, 16 Jun 2025 02:17:25 +0000
-Message-ID: <9d09c040209c44a78552330dff255b5c@realtek.com>
-References: <20250611102650.563137-1-shumingf@realtek.com>
- <b83b96db-b577-41db-8cf6-d7b3b75739b5@sirena.org.uk>
-In-Reply-To: <b83b96db-b577-41db-8cf6-d7b3b75739b5@sirena.org.uk>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-Content-Type: text/plain; charset="big5"
-Content-Transfer-Encoding: base64
+	s=arc-20240116; t=1750060644; c=relaxed/simple;
+	bh=4qED4T83HWdfDSMzb8LueFEqsVDN+ECnEL/SM5YaoGc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=u8sbyE9kuDZ5HlKxTL3sjRKC/aXEOiJbOIw318TRpQSe/gLw2+qN72AXAjqaE7FE3x6I79G73TDIp+pV8frgAzzJ0ljCw+1goZH55Gn8tQyy3iKJSOPszBvBf6yMwdKc92AYLGVC5Z0Qp0LUMmn36XTc9ZeVkn0LNKhSzisC2fc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=nL6W6Pmx; arc=none smtp.client-ip=209.85.167.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-553b51f5218so2417001e87.0
+        for <linux-input@vger.kernel.org>; Mon, 16 Jun 2025 00:57:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1750060640; x=1750665440; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4qED4T83HWdfDSMzb8LueFEqsVDN+ECnEL/SM5YaoGc=;
+        b=nL6W6Pmx0UGEsfqFI+kXxnr6mRuBKYS0d+hDVoZMoAQ64MboSCgLwDmjyPIZ3WaT6d
+         hhIWgYBqz8JRlskb7Y1dNaOsinm3h/17Eqn7nNVOTEtPzDOXuwRW/y9MU3ScmjP8PcnQ
+         RnFNg5ya8O5zBZJuZpas5hLMBIiNKvpUiWwa+6UP4ebwTEqow7HJBhER7nP63VbclX4d
+         pWwYf12jcqDl3pJvfbLERvVDo2AcxKEmcR3jtwkRscHtD1yqj+CX+8Flct37B2BjyvsB
+         6Xf9c9HiF2HmXvXirqbNW3XMjRuOW/rDr6Gg7Q7bobZPgQYI9QXN0IkGgmm4y13n8FYS
+         Fxww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750060640; x=1750665440;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=4qED4T83HWdfDSMzb8LueFEqsVDN+ECnEL/SM5YaoGc=;
+        b=iBR58xj+62xtkNZEI65N5dWel8CTAaTHIs9uZwkBK4eA5N2KI98zRnvgMPcmhfCvHz
+         2b+zGMqofffAyWg1aFbvqQosre6nI5hwIZ7ktNxB8ZYBOOddjc9yQtVbbLBg5USbOfxw
+         ZTeF8TtiePp99Y0mZ6DCTpuW9+3wVRL6ORJaR4xQNXIUV+oeO9dBnna1iWDVGx2QBVhO
+         9WjkofeZ5CvMdq6A+f4p8LLZIFuB4py1ynDubMNcDuMoarOVlSjDw8oe1DgIIua9Pkwv
+         g1MmhX4xEdWhqbTNf7KnD/wGXvK5RJ+z4cPxtOJ/HLKpU+X7hc1BSG7r2VuhUcw0HuX5
+         9HhA==
+X-Forwarded-Encrypted: i=1; AJvYcCV6iwqaYVUUXdkOltangJNm4quYwBJ6kkpZw9NZNVKlYXOeoemnektDQS8WRO5+rCE55RxiURFL3mPuxw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywk0SrIDrRbjGtesWjkjcJUPHLTy0Pdm4QN5qgeY3PZygNcDyVf
+	4zc7myMy3edCptn1/M8ebI1AgVrB0+VopEWnvqL5OMR7vxCjk1DGov2draYQSJ9X4e9+/Z77zSl
+	e3zjjwmtGxtZHKas0Qdv4455NGgdJzUn4tneIRGpIYg==
+X-Gm-Gg: ASbGncum8bccItRvZFUAWNHQY4tadFlF1H5i+km5QPmz+7G2MBT9Lp6J4wGh8qp9CsK
+	CIEg+emB7VxleNq5v3tYYwQF83Bo4PrA5JrE+bZxIY95RPA4SVd25F7iw2kw2epn7Z4Cd3CU1KA
+	FVa1PTradh0oSC7NocUf7GaYxOFsQdFWo6eE9qceZpiVV8iDrpENDpWvT7wA8WJmbRH89W4/vgl
+	b0=
+X-Google-Smtp-Source: AGHT+IHQCUIA9uPY+4qB8NZMyiqQEyfKQbMdGIfmGIEOyX5zJueD1rzkM7PM47GrOY2V7WgbqKjEnCfmQcLchc4ZWKk=
+X-Received: by 2002:a05:6512:33ca:b0:553:aadd:1987 with SMTP id
+ 2adb3069b0e04-553b6f0b19fmr1694038e87.30.1750060640532; Mon, 16 Jun 2025
+ 00:57:20 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+References: <20250614-dev-adp5589-fw-v5-0-7e9d84906268@analog.com> <20250614-dev-adp5589-fw-v5-9-7e9d84906268@analog.com>
+In-Reply-To: <20250614-dev-adp5589-fw-v5-9-7e9d84906268@analog.com>
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+Date: Mon, 16 Jun 2025 09:57:07 +0200
+X-Gm-Features: AX0GCFv6fter9mSjZCkrODp9lT43obOce09GneXfk4BW3yTfqtGiYH6ixmhIx-4
+Message-ID: <CAMRc=Md45jxZUJUnv+O2UK-J0mzmwV4gKuECYYgzWX50wW-HKQ@mail.gmail.com>
+Subject: Re: [PATCH v5 09/20] gpio: adp5585: add support for the adp5589 expander
+To: nuno.sa@analog.com
+Cc: linux-gpio@vger.kernel.org, linux-pwm@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-input@vger.kernel.org, 
+	Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <ukleinek@kernel.org>, 
+	Linus Walleij <linus.walleij@linaro.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Liu Ying <victor.liu@nxp.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-PiA+IFNEQ0EgKFNvdW5kV2lyZSBEZXZpY2UgQ2xhc3MgZm9yIEF1ZGlvKSB1c2VzIEhJRCB0byBj
-b252ZXkgaW5wdXQNCj4gPiBldmVudHMgZnJvbSBwZXJpcGhlcmFsIGRldmljZXMuIEFkZCBhIGJ1
-cyBkZWZpbmUgZm9yIHRoZSBTb3VuZFdpcmUgYnVzDQo+ID4gdG8gcHJlcGFyZSBzdXBwb3J0IGZv
-ciB0aGlzLg0KPiANCj4gUGF0Y2ggMyBkZXBlbmRzIG9uIHRoaXMgb25lIGFuZCBpdCBzZWVtcyBm
-YWlybHkgc3RyYWlnaHRmb3J3YXJkIC0gaXQgc2VlbXMgbGlrZQ0KPiBpdCdkIG1ha2Ugc2Vuc2Ug
-dG8gdGFrZSBpdCB0aHJvdWdoIHRoZSBBU29DIHRyZWU/DQoNCkFncmVlZC4gSSB3aWxsIHNlbmQg
-dGhpcyBzZXJpZXMgdG8gdGhlIEFTb0MgdHJlZS4NCg==
+On Sat, Jun 14, 2025 at 4:37=E2=80=AFPM Nuno S=C3=A1 via B4 Relay
+<devnull+nuno.sa.analog.com@kernel.org> wrote:
+>
+> From: Nuno S=C3=A1 <nuno.sa@analog.com>
+>
+> Support the adp5589 I/O expander which supports up to 19 pins. We need
+> to add a chip_info based struct since accessing register "banks"
+> and "bits" differs between devices.
+>
+> Also some register addresses are different.
+>
+> While at it move ADP558X_GPIO_MAX defines to the main header file and
+> rename them. That information will be needed by the top level device in
+> a following change.
+>
+> Acked-by: Linus Walleij <linus.walleij@linaro.org>
+> Signed-off-by: Nuno S=C3=A1 <nuno.sa@analog.com>
+> ---
+
+Acked-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 
