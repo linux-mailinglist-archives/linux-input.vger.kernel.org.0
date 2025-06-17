@@ -1,205 +1,102 @@
-Return-Path: <linux-input+bounces-12934-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12935-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BC1FADD55B
-	for <lists+linux-input@lfdr.de>; Tue, 17 Jun 2025 18:20:05 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 26CD6ADDAB3
+	for <lists+linux-input@lfdr.de>; Tue, 17 Jun 2025 19:33:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8AE8C2C3899
-	for <lists+linux-input@lfdr.de>; Tue, 17 Jun 2025 16:11:01 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 01F191889F4C
+	for <lists+linux-input@lfdr.de>; Tue, 17 Jun 2025 17:30:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0891D2E92AA;
-	Tue, 17 Jun 2025 16:07:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 396512DFF10;
+	Tue, 17 Jun 2025 17:30:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=criticallink.com header.i=@criticallink.com header.b="H5ndgxt0"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Pge60F26"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95D822F2360
-	for <linux-input@vger.kernel.org>; Tue, 17 Jun 2025 16:07:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE6172DF3C7;
+	Tue, 17 Jun 2025 17:30:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750176463; cv=none; b=XWmv748Crlrbu3Vg90P93Q3l9w3qnLYWPr6n8nhVx1pt1TdSu4K3C1kqLnzMxbb/iFUvqGcLJss6WSYWeXuAKiBEfaFNfOi09zfsP5AF6oJVn+D2DQGM65my7ClaJlqnQRv3yxaR0tMPO31958Uhk6UPWe2YpZ7S/qJr98D6RhY=
+	t=1750181404; cv=none; b=HqEXPscOpwLnTRjceXjQTjoVULbVgzL7Aj3AqEjhXmfdZPOLdMzvzVtXlZT9BLvjgEttyQSC+fLPJ8rDuZB/g/+TO83DXKRYOOTgkQiklQxh78230c0uXD6VKHmxmKYZmghXcNDvTQ2NxRyCytiuHSkI8/76PgST3uXvuY3Yk2U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750176463; c=relaxed/simple;
-	bh=hsUMZmu9Jou9ZkwheJsfLtzPKWC+X8bkFBOXoytw6Sk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=qjcxMOYHlu0JRKvM8p66C8ipNstJsQemz9aMh3sssk5n6GUwon7fJvjj88ex/nJPvDOSb2HNo/AWS1FjdDiXcTK/A174lBTy6lfxEgFbM7NG60XuUcfgyYnH/16kPwAjIQfYea/srDb10VfF9e5PeV0zZ2adwakNUFC4X5fzucc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=criticallink.com; spf=pass smtp.mailfrom=criticallink.com; dkim=pass (2048-bit key) header.d=criticallink.com header.i=@criticallink.com header.b=H5ndgxt0; arc=none smtp.client-ip=209.85.167.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=criticallink.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=criticallink.com
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-55220699ba8so7268283e87.2
-        for <linux-input@vger.kernel.org>; Tue, 17 Jun 2025 09:07:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=criticallink.com; s=google; t=1750176459; x=1750781259; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=W6kegWQ+4MbnquT0KfWvy4j8tbG9Vo6I4INeXpTpYPw=;
-        b=H5ndgxt0F5+BpCrHmH8dtLHX4myo36SvslR19UDJMZGW608Ua+DzDFavhWnXPd0Z1r
-         597H8cdToFt8llMVj1hyAhdINhLbLb15o1s2xFu1+c+9PTcjIA6uN95kmKINPIA0S5t5
-         SZ3MajtrAVCATXPjsXD31/HTqFEMtpmP5EpKMEf9lS1sU+O988hhBk6h6pPklwI2Mm6r
-         SYhRv+f07FIisizIMPI0iKbkEfps+rC+AMyf3HT1vxelYlTDK8EbdxCMIkT1+xAaq59K
-         2pzWfZMrS2FOQoC4LHgpUcG75Ac1RsbDxIh7AoVqA3/CIUA+CAWtbrLo7AUeDe3umY+v
-         uUEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750176459; x=1750781259;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=W6kegWQ+4MbnquT0KfWvy4j8tbG9Vo6I4INeXpTpYPw=;
-        b=cQhVIolg0VUgK8wlwnzKBQ1jlPabW21OA+FttqCbk5UYFHDxlblb5rH38MmnNq/tsg
-         5teIIucghbqD+aSUS9gVkzRIYLz1WEjbr10yAimioXVTBMOgQcfU/IS4cqT7Y6aZHSHZ
-         0FMon0+bQFZPMLti1o9NsoJS4CUArdSnm0euprlnw0fKIV0uTKOKx5A8uDl79LxVay3O
-         rUxav0JZBGndpxiaXh2PznhS03Lsnj/SLfu8DYV5RIDj49Up94KmGzMLbMtj1V4QPPzG
-         12fJHspif2rPeABU9F3nqVzOY3ASXR493J2cf+sBuBy0cpaBOJ4kueJCDH1vU0F34jyo
-         zIcw==
-X-Forwarded-Encrypted: i=1; AJvYcCWs3hkME475tJK91Kn5lQVLL2nRUyEnbuZ903T4i0YKuvfxbYXPzR+ihlizjfclJ0cZqUKC/kHFBy41uA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwtNLMtia1yvR7KDQakcskubHjiJPS34BB35Jnw1dpMXZrPqZPT
-	XONj/s98AkO8QTGI3sfgduPtgXmSdeS5P30jn10shULf/KmrAd3L/bGifDBWTnAkZOgHiX0mAdg
-	yMkAirNfkRpaeK+cn34L+x/bwe3B6ZJOJeTS5tYzF
-X-Gm-Gg: ASbGncvRPa57dMujznNeUJx90tp4s2dUdHZGMJYNERjP7UPwURgCg55IXGYwAEn+HNp
-	YNzLJzntMJQdeDJTQlTSKU0BT/AuxN9Gz8sKYoUA+FmcODdlSiCbp1OZ7doJv3hHgFDbu5VL/u7
-	MfefLnM4JBFeDA0PrQnmIqNdmsY/JTZ0A6XeQ0cn6nKA1A/aoPA/04
-X-Google-Smtp-Source: AGHT+IHsDY7mpM2G8XJVWvEJJPRcFA+0mxdcEtggouyF66TynFUpRJbKfe+JasuZ4UyZ8xeRrftFwLQMNsRZPMHpowc=
-X-Received: by 2002:a05:6512:1195:b0:553:2bf7:77be with SMTP id
- 2adb3069b0e04-553b6ee2a97mr3411368e87.22.1750176457199; Tue, 17 Jun 2025
- 09:07:37 -0700 (PDT)
+	s=arc-20240116; t=1750181404; c=relaxed/simple;
+	bh=U4h9R/89hdydTd3pc3WgABdUk8c1TST162ATESWxjuI=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=gYGeha6T9AzKZ9h0/xs+MeqF4DDaI3+CRw0j+Zt3Ms/mdXGTLD3VT8fYAF2t42rPZrZyvD/AWAwHfnWqAnncBldugHBpHrDRUK+tfQlwkMnxdE5uPdPdH8k9u8JHWdoplj0TBFMJJZTOrq7ijzPb5tTNoDroFFwUtG8a4kdepdQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Pge60F26; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90C9FC4CEF1;
+	Tue, 17 Jun 2025 17:29:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1750181403;
+	bh=U4h9R/89hdydTd3pc3WgABdUk8c1TST162ATESWxjuI=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=Pge60F26PUoupxsVy8gGE2POWKr5Xz/YMH7bqFPTQtkSfAFsjHYYtQITlJz888suB
+	 qZJ7MC4dRz07KdtR05IQx17vnCVNLfaf6l4TTcRiPsaYBsz4abI+lBV5K7cR5Sr3SG
+	 N1xk1AlDfWz6k+jgZhoZUGAaqi+AZGwr+t9Y/vMRV/6erTXcc020Kcg/9rPME61n1i
+	 +V/jVm4k+ntO3P+Ln1IHrTh7a/tT2WUoOENO4hXlwTIL0ieiLVSKKKEQf69WDtFXD3
+	 2DGlRw3y5vpEjUGrlK5RQGDD8yoqMJ5wtgOdvutpiZfw8yDJMn18C3N2lmIYSYxGDW
+	 pmJpNP6o+6cTA==
+From: Vinod Koul <vkoul@kernel.org>
+To: Janne Grunau <j@jannau.net>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
+ Neal Gompa <neal@gompa.dev>, Ulf Hansson <ulf.hansson@linaro.org>, 
+ Michael Turquette <mturquette@baylibre.com>, 
+ Stephen Boyd <sboyd@kernel.org>, Srinivas Kandagatla <srini@kernel.org>, 
+ Andi Shyti <andi.shyti@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+ Viresh Kumar <viresh.kumar@linaro.org>, Joerg Roedel <joro@8bytes.org>, 
+ Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+ =?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Arnd Bergmann <arnd@arndb.de>, Sven Peter <sven@kernel.org>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-clk@vger.kernel.org, linux-i2c@vger.kernel.org, iommu@lists.linux.dev, 
+ linux-input@vger.kernel.org, dmaengine@vger.kernel.org, 
+ linux-sound@vger.kernel.org
+In-Reply-To: <20250612-apple-kconfig-defconfig-v1-0-0e6f9cb512c1@kernel.org>
+References: <20250612-apple-kconfig-defconfig-v1-0-0e6f9cb512c1@kernel.org>
+Subject: Re: (subset) [PATCH 00/11] Drop default ARCH_APPLE from Kconfig
+ and use defconfig instead
+Message-Id: <175018139522.182101.4917904244547728654.b4-ty@kernel.org>
+Date: Tue, 17 Jun 2025 22:59:55 +0530
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250520-linux-stable-tps6594-pwrbutton-v1-0-0cc5c6e0415c@criticallink.com>
- <20250520-linux-stable-tps6594-pwrbutton-v1-1-0cc5c6e0415c@criticallink.com>
- <20250521-wandering-tested-porpoise-acbef7@kuoka> <CAKMwjwTP=xSsX3UuK02sKbXWaU7y-ErytNYCL_P0UveDytQW2A@mail.gmail.com>
- <20250529-wise-tremendous-stork-a7d091@kuoka> <CAKMwjwQOBE651A-5VVjwcv5TspO2eNZfgwWzMpTTWxhR3nGKUw@mail.gmail.com>
- <0fb4b411-1b27-43fc-8d48-e5220fc85478@kernel.org>
-In-Reply-To: <0fb4b411-1b27-43fc-8d48-e5220fc85478@kernel.org>
-From: Job Sava <jsava@criticallink.com>
-Date: Tue, 17 Jun 2025 12:07:24 -0400
-X-Gm-Features: Ac12FXxhURN5kmveW3NUmgy94-w86FHl3NzsERurIEnFbxrLzwxPI58nIBWu17I
-Message-ID: <CAKMwjwSZEhXav2U-bd+JNyVDK3JdJoN1kJjnxpfKXBKsW2XxdQ@mail.gmail.com>
-Subject: Re: [PATCH 1/3] dt-bindings: mfd: Add power-button option for TI
- TPS6594 PMIC
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Julien Panis <jpanis@baylibre.com>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-input@vger.kernel.org, jcormier@criticallink.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13.0
 
-On Tue, Jun 3, 2025 at 2:52=E2=80=AFAM Krzysztof Kozlowski <krzk@kernel.org=
-> wrote:
->
-> On 02/06/2025 15:07, Job Sava wrote:
-> > On Thu, May 29, 2025 at 5:26=E2=80=AFAM Krzysztof Kozlowski <krzk@kerne=
-l.org> wrote:
-> >>
-> >> On Fri, May 23, 2025 at 09:46:49AM GMT, Job Sava wrote:
-> >>> On Wed, May 21, 2025 at 6:01=E2=80=AFAM Krzysztof Kozlowski <krzk@ker=
-nel.org> wrote:
-> >>>>
-> >>>> On Tue, May 20, 2025 at 01:43:36PM GMT, Job Sava wrote:
-> >>>>> The TPS6594 power-button option permits users to enter STANDBY or
-> >>>>> ACTIVE state by a push, release, or short push button request.
-> >>>>>
-> >>>>> Signed-off-by: Job Sava <jsava@criticallink.com>
-> >>>>> ---
-> >>>>>  Documentation/devicetree/bindings/mfd/ti,tps6594.yaml | 15 +++++++=
-++++++++
-> >>>>>  1 file changed, 15 insertions(+)
-> >>>>>
-> >>>>> diff --git a/Documentation/devicetree/bindings/mfd/ti,tps6594.yaml =
-b/Documentation/devicetree/bindings/mfd/ti,tps6594.yaml
-> >>>>> index 6341b6070366..a40808fd2747 100644
-> >>>>> --- a/Documentation/devicetree/bindings/mfd/ti,tps6594.yaml
-> >>>>> +++ b/Documentation/devicetree/bindings/mfd/ti,tps6594.yaml
-> >>>>> @@ -37,6 +37,21 @@ properties:
-> >>>>>        device on the SPMI bus, and the secondary PMICs are the targ=
-et devices
-> >>>>>        on the SPMI bus.
-> >>>>>
-> >>>>> +  ti,power-button:
-> >>>>> +    type: boolean
-> >>>>> +    description: |
-> >>>>> +      Optional property that sets the EN/PB/VSENSE pin to be a
-> >>>>> +      power-button.
-> >>>>> +      TPS6594 has a multipurpose pin called EN/PB/VSENSE that can =
-be either
-> >>>>> +      1. EN in which case it functions as an enable pin.
-> >>>>> +      2. VSENSE which compares the voltages and triggers an automa=
-tic
-> >>>>> +      on/off request.
-> >>>>> +      3. PB in which case it can be configured to trigger an inter=
-rupt
-> >>>>> +      to the SoC.
-> >>>>> +      ti,power-button reflects the last one of those options
-> >>>>> +      where the board has a button wired to the pin and triggers
-> >>>>> +      an interrupt on pressing it.
-> >>>>
-> >>>> Don't you need to handle two other cases as well? I assume you copie=
-d
-> >>>> this from the other binding, but all three options are valid?
-> >>>>
-> >>>> Best regards,
-> >>>> Krzysztof
-> >>>>
-> >>> Hello Krzysztof,
-> >>>
-> >>> Thank you for your response!
-> >>>
-> >>> I agree that the other two cases are valid options. However, for this
-> >>> particular patch series, they may be out of scope. The primary goal o=
-f
-> >>> this patch is to enable push-button functionality, rather than
-> >>> addressing the VSENSE or EN modes.
-> >>
-> >> Binding should be complete, because if you design this as bool, it
-> >> cannot be later changed to three-state (enum).
-> >>
-> >> I don't know if the EN and VSENSE modes are anyhow useful, maybe peopl=
-e
-> >> interested in this hardware should say.
-> >>
-> >> Best regards,
-> >> Krzysztof
-> >>
-> >
-> > Hi Krzysztof,
-> >
-> > Thanks again for the feedback.
-> >
-> > I modeled this binding after the TPS65219 PMIC, which uses a boolean
->
-> Yeah, that's what I meant in my first reply.
->
-> > for ti,power-button, despite the same EN/PB/VSENSE options. Since this
-> > patch only enables PB mode, I felt a boolean was appropriate and
-> > consistent.
->
-> Properties should have only one type, so that would be a different
-> property.
-Yes, the type is boolean.
-> Someone knowing the device should come with arguments whether
-> other states for this are useful at all. Or not useful and then argument
-> that in commit msg for example.
-The other states are not useful for the kernel. Only the push button
-has a need for an interrupt handler. The other states the PMIC handles
-on its own.
 
-What exactly do you want me to change?
+On Thu, 12 Jun 2025 21:11:24 +0000, Sven Peter wrote:
+> When support for Apple Silicon was originally upstreamed we somehow
+> started using `default ARCH_APPLE` for most drivers. arm64 defconfig
+> also contains ARCH_APPLE=y such that this will turn into `default y`
+> there by default which is neither what we want nor how this is usually
+> done.
+> Let's fix all that by dropping the default everywhere and adding the
+> drivers to defconfig as modules instead of built-ins.
+> None of these patches depend on each other so we can just take them all
+> independently through the respective subsystem trees.
+> 
+> [...]
+
+Applied, thanks!
+
+[09/11] dmaengine: apple-admac: Drop default ARCH_APPLE in Kconfig
+        commit: de266931dd996fc2cb8ee8b5d12e39ea463e3f36
 
 Best regards,
--Job
->
->
-> Best regards,
-> Krzysztof
+-- 
+~Vinod
+
+
 
