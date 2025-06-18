@@ -1,136 +1,171 @@
-Return-Path: <linux-input+bounces-12946-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12947-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF099ADED1B
-	for <lists+linux-input@lfdr.de>; Wed, 18 Jun 2025 14:57:40 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D697ADED34
+	for <lists+linux-input@lfdr.de>; Wed, 18 Jun 2025 15:00:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 67A3B1891950
-	for <lists+linux-input@lfdr.de>; Wed, 18 Jun 2025 12:57:45 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4543316EF50
+	for <lists+linux-input@lfdr.de>; Wed, 18 Jun 2025 13:00:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A03572E54C5;
-	Wed, 18 Jun 2025 12:57:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5083F13957E;
+	Wed, 18 Jun 2025 13:00:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="vooGQp+c"
+	dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b="Lw2mVy6c"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com [209.85.219.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from MA0PR01CU012.outbound.protection.outlook.com (mail-southindiaazolkn19011035.outbound.protection.outlook.com [52.103.67.35])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D509A2E54CE
-	for <linux-input@vger.kernel.org>; Wed, 18 Jun 2025 12:57:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.177
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750251430; cv=none; b=jCR/yoSNhJCQIsirD1BB+XMMQm6ooDPRA6nsx+cQgis8/ZW46jKKLgd8OcOYidSy0jbWqKjSr8wli00VcY8WOaoJK1eCfI6PRlemTZwW6oY7W1yQbopUR4M7ScWbZdFhp0kvd4c2JEblVLvGYM3WluqS5RGsiwH+YnijS1h9aq4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750251430; c=relaxed/simple;
-	bh=chU3ZzgX8ixQ80XuNsDpy9w595hkOFK6g+6/L8GwJwM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ep5f+7FGEclyvXxtfIGGFzGMcQ1fRn1KaqIJZjO141Xo441Q5fMK8I5xgyko7VZ1Mwzrz4EBa+YpNuUHCtG2lf0uoP6rdZHt0d+zNKTnWZJIYoij5UcaqlojkGHKsQhWLNYMP84QETLoB27356+LAmGrx49xRIm1R2c3tuVBdIY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=vooGQp+c; arc=none smtp.client-ip=209.85.219.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-yb1-f177.google.com with SMTP id 3f1490d57ef6-e81a7d90835so6583734276.1
-        for <linux-input@vger.kernel.org>; Wed, 18 Jun 2025 05:57:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1750251427; x=1750856227; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=2X2h53UoNZQhDXBsMhRcUUHtA/t5wbotkmy7UVTkX7E=;
-        b=vooGQp+cXA7Bl9EdDFb5l+L/SbQXuI4V5FZ0RzgjuAXNy2/KAcAyg2o0IWDzripkkE
-         tBcO61mGf6On7hilM9Kk8BA7p/r54kdadUGCT7+RjJWLFtKtD49Ey3xovothllGuoj/4
-         cxXsMsagUqhtNDY9xe3IgmmjXPfqYXJqlV92vCEkihxdk3DWBzTR13Wc9w9peHStJI3V
-         2RGg4jkTHOtGpN/1nexrUJ0QdBXUzSHI/I18yISa6Mx4qaxv6QSZzxrY1VkWUzOfo/r6
-         IL7vbyCJIta0JWgxjWOjrHPMkACNqcs8A1MbsIp1o40U5q2UIjPOipsV3G9Vi/CcrE/r
-         7Gug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750251427; x=1750856227;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=2X2h53UoNZQhDXBsMhRcUUHtA/t5wbotkmy7UVTkX7E=;
-        b=LtINLA8xVuvH05YnhLNM7Db61ouEhcJk3bTwlkvod0erD6wDTRyYfBBBnmIbXFDb3v
-         +cGk61jO3B0HJp6CnOchLV3JjrLlSsfW3K3qH9hFW8xMcaTU8paXU5iHtceDD/1rpVuQ
-         OtPaE8tWjCQHNBQtApGm19CUhzdIJBALyjTCU2ykb79u07wUT9iR11aJe2gCkfc/wcFY
-         DsdlzxsCUWEyYdyK6Uv/vmp6IowhOMsYyOEtsVo3/KBxjJxUA6ndYZzMfmaTOTw/+o9N
-         RNMoZGFFdU6twd0HjCSOKGl6aavKuzUxuEDefohqUvuFpiOgwP6Ki/Gl/6abDj48LzkV
-         x6+A==
-X-Forwarded-Encrypted: i=1; AJvYcCUJU5U/4bWUmjftukiVyF6yKzYWnh0IDPSKE1eLluU1DjFYQlUsSv78WSngL3r1ocOqN8+BQtkQI7tDvg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx8+0G1rgEZV59ISqrqFq/sYsX+srsG1uqea7B7Bth5aPcSR0Tz
-	JIMtNMcm3+hHvHdwP09NQ2OhxNCYI4FfNfOIR4/72MFtx/WPAh0qQg4ieDtic+eaKMtZ/QIcPQ+
-	2T5ts7BSawXnAHetybMQ2/IbQu7VLbqs5cHII+ezcxg==
-X-Gm-Gg: ASbGnctWso0Dyr6eqzh1/eLnSU1NIoVD8cZFKOkDQTcgfs/OXV1Tpv4tM2q+eRyuLFW
-	XAITLVuktQh7t5DIfRZXPBL6neHTjkfuX4FzjAl4ULOX6jG+YA4HsUwDXGfR79jgXrT0DOmQbf7
-	Y6MJRsjWc/G+PRNaAvAZxjjtSbPDRhkqK15/+oGkK2YgU=
-X-Google-Smtp-Source: AGHT+IEZlf2SkQ6pDtcOhhdvV3LmUw3iR0H22QpguHg1V4liWBddtmQy97+4HMMAxIbIevgaVnIrB0SHGsEYRyBVYzQ=
-X-Received: by 2002:a05:6902:6303:b0:e82:2b85:ea3a with SMTP id
- 3f1490d57ef6-e822b85ee43mr16723424276.32.1750251426746; Wed, 18 Jun 2025
- 05:57:06 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A9A82F5320;
+	Wed, 18 Jun 2025 13:00:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.67.35
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1750251619; cv=fail; b=QkkHy/x6i01uoAxQ78UmcLmh1B/F+rhCEyr1nwNhaRDNUAbk0UwALbFI3gY5EIBPFUhBQ+W+mjVnYLPFeyVn0UELcj4MNb+X/Zv1F+KERuj1tTwkjfpVViGT0jsbleJFYSXDLO9pnQAePvsuLperehKtFNjpwdKa+2Zwz0fo5V4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1750251619; c=relaxed/simple;
+	bh=GVGaorbNOezVorUdd8MN/GBdSRs+f1BatjFtYh6oEF8=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=m7oT0wmFIwzaArQs01HZPZMf8oe7hoDMkZSGBpBx5mwhzb6vVHIrvAt756VvGjWeqqhfkceIviWUORKzkB8W5kRMidkbLyrFT4Sgx9HCu6b4sbpLdOvbfMbm97aMimIbsV613OFIL3o1+zNg1BogkgB7a/ZP1VMErQp4iXYQa/g=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com; spf=pass smtp.mailfrom=live.com; dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b=Lw2mVy6c; arc=fail smtp.client-ip=52.103.67.35
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=live.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=VsGUafaPMGCXEQ6K2IKttApmNb/izO5klrtUBw3AczAlLTUo1wi7u/3X8zdIzc7BEoahhNindavOP3hAJG+KHvhvW0xISkgNx0lYdPlDnqv51bsTt9asnqK2EFe1akTbtYbgmkM5s/fg/8Ce3ezBVDSF3O174Hu47n4xkZF/G7wrP10YlgOE8gYHRXANgSj/QO1NzaEoz3XTs6omiBrpRxOjZfMaNOmcpdudHis0fvchfiWAz6qicwxFk/a4Y/+ZvLrH25/kgEdzFrSjcGfsnD2u2AIb0b4Q87RxiiZKTP+aDG0kZjAQBnZ8ui8OlMfF/MaE0K7HSsGFTgF8umZ/qg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=GVGaorbNOezVorUdd8MN/GBdSRs+f1BatjFtYh6oEF8=;
+ b=KqoLONbOwqfISui8BcEr3LXQrMsI2AOrro3g0v9iKeECOXlYzMbeafzhLKdJvJ8QDXMqWCWolYssPEb7YihZ6W3oLX8A5AQfuZ0iz3C70EAgDVQPJZ1il0aVuPQodB7REsRrAW3jQJoP1Dv834pQSaj3ClU8FwhREIoojPVWt68osPoWiJfsuAPM4msijPqUbF4gLeiEkjOvJbuLu143qxRnYJggj2gPMVqsPIKoZRD2m+nVdJLnJdI4BJbTOZ5kjQjy+xTD8U3inobKt+79QIIcwgKXJuRHR9GK80TJm/phIaXvE7LuVTvMdX14stzDf2rQbxDrEIGuNd42Eo06vA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=live.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=GVGaorbNOezVorUdd8MN/GBdSRs+f1BatjFtYh6oEF8=;
+ b=Lw2mVy6cHNtN7+kO/IZV5R5sZaa0C/FeMdISPtuKYDkTHRsql60o8lBXzKtwYjhTuY5yCPd8M+LGWcqXMQtgoaKr1k5CdxI/84vclaMF3GlzYLRLBDmVI6G7rZdGtuaH+XTIefcXPeo8h6J3xMMOFKfbA2aq/upBJDMt41PhPT2YGNxdMLI4gX8XNL+MQWhaeH3oh6OTL/A6O6Tecph3dyyP+sC0PLvwLRdp32epFLwMEhYBGR+dThrrJ6RVg4/yMhOLG1PGMFItNZg9XpyVl2V97S2N6nrepjadKTidyYoXf2ZwnlnSeErx6SPlUUuXY9DEogjljSFqIynhDsAOmQ==
+Received: from PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:f7::14)
+ by MAZPR01MB6243.INDPRD01.PROD.OUTLOOK.COM (2603:1096:a01:4e::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8857.20; Wed, 18 Jun
+ 2025 13:00:11 +0000
+Received: from PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::324:c085:10c8:4e77]) by PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::324:c085:10c8:4e77%5]) with mapi id 15.20.8857.019; Wed, 18 Jun 2025
+ 13:00:11 +0000
+From: Aditya Garg <gargaditya08@live.com>
+To: Qasim Ijaz <qasdev00@gmail.com>
+CC: "jikos@kernel.org" <jikos@kernel.org>, "bentiss@kernel.org"
+	<bentiss@kernel.org>, "linux-input@vger.kernel.org"
+	<linux-input@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "stable@vger.kernel.org"
+	<stable@vger.kernel.org>
+Subject: Re: [PATCH] HID: appletb-kbd: fix "appletb_backlight" backlight
+ device reference counting
+Thread-Topic: [PATCH] HID: appletb-kbd: fix "appletb_backlight" backlight
+ device reference counting
+Thread-Index: AQHb3kk3rAvSOC8/F0uVYTlNFCF/PbQI5TGA
+Date: Wed, 18 Jun 2025 13:00:11 +0000
+Message-ID: <2946B411-6566-4B43-A7DE-DEBD13D76F3D@live.com>
+References: <20250615225941.18320-1-qasdev00@gmail.com>
+In-Reply-To: <20250615225941.18320-1-qasdev00@gmail.com>
+Accept-Language: en-IN, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PN3PR01MB9597:EE_|MAZPR01MB6243:EE_
+x-ms-office365-filtering-correlation-id: d52e8dc5-fad0-49bd-a760-08ddae680f2e
+x-microsoft-antispam:
+ BCL:0;ARA:14566002|19110799006|461199028|15080799009|7092599006|8060799009|8062599006|8022599003|3412199025|440099028|102099032;
+x-microsoft-antispam-message-info:
+ =?us-ascii?Q?OfITy/UlEgt/REvk3jk/8MG+QNbkwTpywdBVepdTX1by33WFhit5JKeIA2N6?=
+ =?us-ascii?Q?xzvsiLq2Jas7C9T91jzJuooGiB+Govvs5YhysGI5DqKNkeB2Rfb0qTAtgFMR?=
+ =?us-ascii?Q?37msaKqV7x44X3z9d8QuQmDEGakvZUMih9T8tMKgOQZpjAQ1cm+83Qk4ooaf?=
+ =?us-ascii?Q?SxU4vuy3+7TBv0golLcBkaeZNYMBdQIJZ7i0amBTQMjXTIwWgFNDZi/AhvRb?=
+ =?us-ascii?Q?UEfVqvUkAkfdxxh0DGh52l7LdJFlWujFNWIO2USZuSl2zNGONN9ztTbNBSbD?=
+ =?us-ascii?Q?xQLoSZD2sYKBB79+Ybl8w7BYHuARzrP+sG1OuPhBR5aJ9LOnLgwy5pyCpDwq?=
+ =?us-ascii?Q?ueSxRfo58f5mXpdNjo+AaBuojS4/WUOMid+2sb68NwvrPiRu3WYHsqwGOySg?=
+ =?us-ascii?Q?/IVhH06e0KGm01kIoIy1RYfvo2NWyaLypl48QmXXOBP0rl7fOrC6JAsqy8+v?=
+ =?us-ascii?Q?EritO3D5BI7d7rVp+KQZ5/FY2W8PPU+b1k9kPVzoOOZqCmDtuqnyK5jqTqry?=
+ =?us-ascii?Q?95NgU4dqTPjoKonYGdn+DOK6QWAfbGH7iroJUKXi2uzXkPKNjnYNJOO1Qyt9?=
+ =?us-ascii?Q?RzmN/MgVMhTGJrNq6uYKZtVtP7tV1GRgbZP1iPfpKFv+JNa135740ppaxVWr?=
+ =?us-ascii?Q?TaxxoEN1X3XkmhYnexVmnACm6mWLYzE8lcqzEOVGJzzXV4aaYy9OL7iT3q7O?=
+ =?us-ascii?Q?0757DFqJoB/yxCc2bfCWpqbYjR9NsoYrzuukTXUrqgwiy8cbHEgp+gDO4XAR?=
+ =?us-ascii?Q?edmZI2C9o+g1vH2iRNfC3WBYt161OcDukFGq/EgY1o2UlH5uxzGejGMdNn9C?=
+ =?us-ascii?Q?xY3MH04FzsHf1NYZQlxhSD7NFHhYBIjptKIAfX9FkjS+Xp7lPrPzU5dXyGHP?=
+ =?us-ascii?Q?w8FCGIlM/t82ZrStqvqx4HAqpkZ/LXgSG90qIwqdib72kHb3+5+fZxDT3l9b?=
+ =?us-ascii?Q?mjw6MYL1NJSe4Xql1QOF6nQDArMNGm6btEHQ3+qCOyQ8gZGpuWo7fAx4AwGz?=
+ =?us-ascii?Q?fR/C6VcVp0GJkYpNGTfGSlNbAq1MIu40AHyrDP4sx7HtkLNXAtuHOfRaGexu?=
+ =?us-ascii?Q?u1fWjRNHUdTi3wNQKKvBYQ5lqFMn5d/ytZpthrHCOYGOI4qSl+UJ7mflsE5u?=
+ =?us-ascii?Q?JxKp6baNdCuKWGcjWYduS6YGEDe/cXuMtA=3D=3D?=
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?gCtEEAsYhGi/Hq4jUo6RYc+poMbLlWthf8+k0dcH3cQH5o5dTdTwYxT2+vqF?=
+ =?us-ascii?Q?RqWruB3/xe9iXXeDU/c4F49sQXnRxlx+pE1JCAAG1kIY1dLs5oachHDFySzS?=
+ =?us-ascii?Q?Xt8T6mtWhMribI0UMRwC04hVIjzEL/R8EycaGJ49nAsF3AoXaRsTVyKyHeF9?=
+ =?us-ascii?Q?x12J2CsZyCbxCKqjHrW/1GAvkhA+ymeO1LfCOLLRCmXO1tDYA+YK9o4PlwDB?=
+ =?us-ascii?Q?oCY14Sgc9icVjxnov6IkS6O5pgyUozRfKNzaqd/k2yRYSu2eDP6tRgOnPt0m?=
+ =?us-ascii?Q?yAyu5znmM5Vp+mCqX7Sx77Vpw4Dx8BPl1SG4E7UaprcgfjgUh5gX/VLHVVIw?=
+ =?us-ascii?Q?JI9m2IRp9b2gr1GCQJ75nKdHrhsqK6SU8DY8cmbR91CN/d6C/7U1UnYxW9xQ?=
+ =?us-ascii?Q?3GuJiVf/FNkGvnGxj00/+fl7+cs2O8Yc3plU5/S4KuJ2EZgz6YB4KrLmMqJp?=
+ =?us-ascii?Q?NjF5AwO9886SiVvd4texjdog4JOA5yQhQevls9H+6uckt6k6RFzIOj1bTbpo?=
+ =?us-ascii?Q?r+An9d8T0WRNUA10Rv/GlYOP/nSOHQ6FEtTlUJFtkuNAoYULcNGonMBLFZFq?=
+ =?us-ascii?Q?IqmRZcvQjxmzZT4tcvl7zTyJ0ltPXC10wNorJJk45KiMtGXuuvO701+7HQUm?=
+ =?us-ascii?Q?M/UZ2dqrQN3JT8RYjz241zOlDElcq0QoFNnF6aeJHpg8G+BUJAdNde2Oeu2J?=
+ =?us-ascii?Q?AmeTQkY5a7DRdEJVzjvZ7VJDGD4l4IUQm98miI8KeIvkShAWj+uLMEjMzGFJ?=
+ =?us-ascii?Q?oFSucCtmaSWubAjjQp8nF/+g4hYvINPOt3vM7RVhRzduzulmYotNyipLruxy?=
+ =?us-ascii?Q?ESBVro06unOYPV+XzGY51rwMXOJqdo+vBvTAtu2rC3ar2r8WNdv46KIr2Nv4?=
+ =?us-ascii?Q?E/1mSp37BPmO5mq+25opDIFwrz0Udg3z8O471ku8sO94puFUQM3jlOd+8EW1?=
+ =?us-ascii?Q?JplHPJB6CjRPjx1qbM/HZJ+Qc8nrdnwwV/FV1/6qwAtg9Yw2U+Az9RxUSakh?=
+ =?us-ascii?Q?KOrTSvVd6RjPHHO2t+N4q8SmyKX/kYpMqKOW6nStzeMiZeGM45vUu8s/Zo3B?=
+ =?us-ascii?Q?VdruazELcaL9N0maobLNlyBwMeg29JO0fOcolF7Gc+vUIHR/i1Ju+ClmBI31?=
+ =?us-ascii?Q?1R0CaFWfE6xfGhBnYN4IxKodA1lAJtXAwIESHSdALT/ZCObz3jHD/Ux86PoH?=
+ =?us-ascii?Q?S/qRDHNxnLzaIITpoN56eioCeGAJ1d4Amvy08onNER5VFmn21ASxyIqe3MI?=
+ =?us-ascii?Q?=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <BF18E0F5A3956845A7674D258E01277C@INDPRD01.PROD.OUTLOOK.COM>
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250612-apple-kconfig-defconfig-v1-0-0e6f9cb512c1@kernel.org> <20250612-apple-kconfig-defconfig-v1-1-0e6f9cb512c1@kernel.org>
-In-Reply-To: <20250612-apple-kconfig-defconfig-v1-1-0e6f9cb512c1@kernel.org>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Wed, 18 Jun 2025 14:56:30 +0200
-X-Gm-Features: AX0GCFsnEI_9cu3U9fY7I_D0EnrNerJPcmhYfg39LAqv66uN774UfRLbAU6VCkM
-Message-ID: <CAPDyKFrQ3Uj+coa0WCG00_pyaxu-yEnH26qmS6tevZ_772oZVg@mail.gmail.com>
-Subject: Re: [PATCH 01/11] pmdomain: apple: Drop default ARCH_APPLE in Kconfig
-To: Sven Peter <sven@kernel.org>
-Cc: Janne Grunau <j@jannau.net>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, Neal Gompa <neal@gompa.dev>, 
-	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Srinivas Kandagatla <srini@kernel.org>, Andi Shyti <andi.shyti@kernel.org>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Viresh Kumar <viresh.kumar@linaro.org>, 
-	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, 
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Vinod Koul <vkoul@kernel.org>, 
-	=?UTF-8?Q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Arnd Bergmann <arnd@arndb.de>, asahi@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-pm@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org, 
-	linux-i2c@vger.kernel.org, iommu@lists.linux.dev, linux-input@vger.kernel.org, 
-	dmaengine@vger.kernel.org, linux-sound@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+X-OriginatorOrg: sct-15-20-8813-0-msonline-outlook-f2c18.templateTenant
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: d52e8dc5-fad0-49bd-a760-08ddae680f2e
+X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Jun 2025 13:00:11.0428
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MAZPR01MB6243
 
-On Thu, 12 Jun 2025 at 23:12, Sven Peter <sven@kernel.org> wrote:
->
-> When the first driver for Apple Silicon was upstreamed we accidentally
-> included `default ARCH_APPLE` in its Kconfig which then spread to almost
-> every subsequent driver. As soon as ARCH_APPLE is set to y this will
-> pull in many drivers as built-ins which is not what we want.
-> Thus, drop `default ARCH_APPLE` from Kconfig.
->
-> Signed-off-by: Sven Peter <sven@kernel.org>
+Hi Qasim
 
-Applied for next, thanks!
+> During appletb_kbd_probe, probe attempts to get the backlight device
+> by name. When this happens backlight_device_get_by_name looks for a
+> device in the backlight class which has name "appletb_backlight" and
+> upon finding a match it increments the reference count for the device
+> and returns it to the caller. However this reference is never released=20
+> leading to a reference leak.
 
-Kind regards
-Uffe
+Good catch.
 
+> Fix this by decrementing the backlight device reference count on removal
+> via put_device and on probe failure.
 
-> ---
->  drivers/pmdomain/apple/Kconfig | 1 -
->  1 file changed, 1 deletion(-)
->
-> diff --git a/drivers/pmdomain/apple/Kconfig b/drivers/pmdomain/apple/Kconfig
-> index 12237cbcfaa983083367bad70b1b54ded9ac9824..a8973f8057fba74cd3e8c7d15cd2972081c6697d 100644
-> --- a/drivers/pmdomain/apple/Kconfig
-> +++ b/drivers/pmdomain/apple/Kconfig
-> @@ -9,7 +9,6 @@ config APPLE_PMGR_PWRSTATE
->         select MFD_SYSCON
->         select PM_GENERIC_DOMAINS
->         select RESET_CONTROLLER
-> -       default ARCH_APPLE
->         help
->           The PMGR block in Apple SoCs provides high-level power state
->           controls for SoC devices. This driver manages them through the
->
-> --
-> 2.34.1
->
->
+Thanks for the fix!
+
+> Fixes: 93a0fc489481 ("HID: hid-appletb-kbd: add support for automatic bri=
+ghtness control while using the touchbar")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Qasim Ijaz <qasdev00@gmail.com>
+
+Reviewed-by: Aditya Garg <gargaditya08@live.com>
+
 
