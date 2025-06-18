@@ -1,113 +1,136 @@
-Return-Path: <linux-input+bounces-12945-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12946-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E6C3ADDEAB
-	for <lists+linux-input@lfdr.de>; Wed, 18 Jun 2025 00:23:17 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id EF099ADED1B
+	for <lists+linux-input@lfdr.de>; Wed, 18 Jun 2025 14:57:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EC8401719A9
-	for <lists+linux-input@lfdr.de>; Tue, 17 Jun 2025 22:23:17 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 67A3B1891950
+	for <lists+linux-input@lfdr.de>; Wed, 18 Jun 2025 12:57:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4BA7B2F5312;
-	Tue, 17 Jun 2025 22:23:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A03572E54C5;
+	Wed, 18 Jun 2025 12:57:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OGXaYPTm"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="vooGQp+c"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com [209.85.219.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B73132951CA;
-	Tue, 17 Jun 2025 22:23:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D509A2E54CE
+	for <linux-input@vger.kernel.org>; Wed, 18 Jun 2025 12:57:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750198991; cv=none; b=eUGyfteRsPhPN7L1hTQQu/qEcN5X0fqEyH4XgdVLeSXCOdGv6Q0Xk3Gqdyt54DM3/eMzU+4aAM8ZSW96LEhVUlXeYLpPc0Pke4hdq0UqTr99yjl95zHPWOgiZ7embnZB+gTkViqNIsajy7VM6uoc+gewRahw1IewANc8/9zGlSA=
+	t=1750251430; cv=none; b=jCR/yoSNhJCQIsirD1BB+XMMQm6ooDPRA6nsx+cQgis8/ZW46jKKLgd8OcOYidSy0jbWqKjSr8wli00VcY8WOaoJK1eCfI6PRlemTZwW6oY7W1yQbopUR4M7ScWbZdFhp0kvd4c2JEblVLvGYM3WluqS5RGsiwH+YnijS1h9aq4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750198991; c=relaxed/simple;
-	bh=kz2nXruoOT+8n1Te4FqDwPlaM62tv+vpn008cqwOM8U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NZQRIVh3frLu+B/nE0KvDl6eGx691fNxUb/kwmCzA1f0lhHpaqqNa/kDu2PsXPykv0GD1LEbrmnnynW+5UorL7VTHJI7d3surNg+ZpFEEKIKRPobj5nezh6KkN9SQtNUdn6DJNG3LrPkD0XLQFrNdmvEKbUoA2+vhk/ctE0zIdk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OGXaYPTm; arc=none smtp.client-ip=209.85.210.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-748cd3c8829so1049214b3a.2;
-        Tue, 17 Jun 2025 15:23:09 -0700 (PDT)
+	s=arc-20240116; t=1750251430; c=relaxed/simple;
+	bh=chU3ZzgX8ixQ80XuNsDpy9w595hkOFK6g+6/L8GwJwM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ep5f+7FGEclyvXxtfIGGFzGMcQ1fRn1KaqIJZjO141Xo441Q5fMK8I5xgyko7VZ1Mwzrz4EBa+YpNuUHCtG2lf0uoP6rdZHt0d+zNKTnWZJIYoij5UcaqlojkGHKsQhWLNYMP84QETLoB27356+LAmGrx49xRIm1R2c3tuVBdIY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=vooGQp+c; arc=none smtp.client-ip=209.85.219.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-yb1-f177.google.com with SMTP id 3f1490d57ef6-e81a7d90835so6583734276.1
+        for <linux-input@vger.kernel.org>; Wed, 18 Jun 2025 05:57:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750198989; x=1750803789; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ba9cyjWK9a5gtS/G1pUFwvKLF+g6GdyoidJ+9RnzRZo=;
-        b=OGXaYPTmdJvyEow3zqrrsrVzhmbmHbGsYQQ5vWhUzu6AEw3u79UDM29UUwi6zDSNiv
-         MmoheKqpMh0phV9314nlJfe+/uC+Df4Jk72VwmoTftBMk2Syi0+P5ENJNF6MtzN4lPZH
-         MCx5HKmC6ICMbLsv6QrOTAFGhwxmOer8gCVwa7iHaUdDVhgP8JlwxwRoEZxXXD8FKGfG
-         nuoogAEmSHT6SshXekLw3GgkfIZSTLxejJDnqgoAxxidMlaoWQBHkXRz3EUKyKOGgn4z
-         7X7VjUNVjVYPoe+lAyqKghjNmCzTKFP1bXh4W7B0d6t1TkNEpLg9KfykTHjsuyiENj/g
-         pf8A==
+        d=linaro.org; s=google; t=1750251427; x=1750856227; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=2X2h53UoNZQhDXBsMhRcUUHtA/t5wbotkmy7UVTkX7E=;
+        b=vooGQp+cXA7Bl9EdDFb5l+L/SbQXuI4V5FZ0RzgjuAXNy2/KAcAyg2o0IWDzripkkE
+         tBcO61mGf6On7hilM9Kk8BA7p/r54kdadUGCT7+RjJWLFtKtD49Ey3xovothllGuoj/4
+         cxXsMsagUqhtNDY9xe3IgmmjXPfqYXJqlV92vCEkihxdk3DWBzTR13Wc9w9peHStJI3V
+         2RGg4jkTHOtGpN/1nexrUJ0QdBXUzSHI/I18yISa6Mx4qaxv6QSZzxrY1VkWUzOfo/r6
+         IL7vbyCJIta0JWgxjWOjrHPMkACNqcs8A1MbsIp1o40U5q2UIjPOipsV3G9Vi/CcrE/r
+         7Gug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750198989; x=1750803789;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Ba9cyjWK9a5gtS/G1pUFwvKLF+g6GdyoidJ+9RnzRZo=;
-        b=pikFatr1NQpqv4pZdId7S2mStHV8mnf8mrnIcr8QE2imAOy54z97Awgm4O4ctHJf21
-         +1z8PSFnUI9v2QmwBU4Ermpwnhv2ulUsmt3+d720d/0EMEonT00kGT7XxXB+zkZlUg3G
-         mSOuVxBfq65izcJvMKzWhzrynFSK/WTquutTAsonRaXCxy0aANI740gO2mEL6SAih8yT
-         iRM4X767Se8nYbXqxIJBAmNy63OmOd1Zab4lHlCRBHqN00jxITPU+AJk5+P9/U5vJEft
-         PxbLkpOFN898UItK2DhbkPPQvzWkrmmVZmHdbi+JdDRdSUkVPeS1ByaA9j/Jts1psw1W
-         OncA==
-X-Forwarded-Encrypted: i=1; AJvYcCUIiW1OfGgOxLvkawAJzX5Ue1osWUQy1v9PdtobpiexN8SVKKbB+0b0k3/yVEH8VvfMvwFv9hQo0Ntt@vger.kernel.org, AJvYcCUO2D4JPpbBpoFs/RKMljo+G95RcIHxUAZLCD05opcVLTL53869jCOs2DuYucXMRtmriLdY8tItpJfpY1/X@vger.kernel.org, AJvYcCXpkmKOVDzbbsivUVWJPwWox47uLBFhP0q3v65J+BjQ8yaL4AxQUg+eTTJAUldLCRcR5lrW1fZMUiI=@vger.kernel.org, AJvYcCXzCC+HH1qGL83iE7AQtvoTbOADh/u87t2I+pYiiml+zMs7WpMIDsfysU4nw0sJQE2oXOGXI+ge5t1OrQk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyHiGDt9p22yoVEOf6vKkuNBtrERZAWWfpYpvnnGA1Hyx1aSAop
-	RCZW2QpbSkWVNnZyo01k5SfuoH1jpva6Yl/wQnRxLCKe9frnnFFXqeXP
-X-Gm-Gg: ASbGncv7ikYOjkK2/x4RcM24nZ+qN1+mICEKZ0DAytkVyyi65EdflFcnkBekf4vxwoJ
-	mR9p6j2FYS+kdP1SuV15NKRcKaFkxnpkMvmToRJSQYK7EnlAQAk2poiC3QN/GeoZJzpxiiTZVju
-	c4kBdtccCFjJ+eXb3/AY0Tz/2lJBqU1n0Ei287AzlcWWqigTg9cOBHmc2fidqIcFicDbLSbiQWf
-	6K2XE53eSeDEoRlsYxg7qbjrMPH+d4pSl6J8TNwp10pNDr7LBylX4YXXMOD93ilFlrXMj614MZx
-	c8IPQn+reIewBzfNAnPUY28JPWa9zYebarm2XnaxqfasFJ5Jv5QgZPYZmIj/d0E=
-X-Google-Smtp-Source: AGHT+IE6oCWcEIA9hAHCoer2+7IQhN18TAtn+EtjnVuvExVsZnZ1yzO0ig6GCb71zYvYy290rTKOoQ==
-X-Received: by 2002:a05:6a00:1787:b0:748:1bac:aff9 with SMTP id d2e1a72fcca58-7489cfc7ed0mr20839980b3a.18.1750198988866;
-        Tue, 17 Jun 2025 15:23:08 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:4cd9:8b8e:24cd:5a36])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-748900b0bfasm9434791b3a.122.2025.06.17.15.23.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Jun 2025 15:23:08 -0700 (PDT)
-Date: Tue, 17 Jun 2025 15:23:05 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: samuel.kayode@savoirfairelinux.com
-Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Sebastian Reichel <sre@kernel.org>, Frank Li <Frank.li@nxp.com>, imx@lists.linux.dev, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-input@vger.kernel.org, 
-	linux-pm@vger.kernel.org, Abel Vesa <abelvesa@kernel.org>, Abel Vesa <abelvesa@linux.com>, 
-	Robin Gong <b38343@freescale.com>, Robin Gong <yibin.gong@nxp.com>, 
-	Enric Balletbo i Serra <eballetbo@gmail.com>
-Subject: Re: [PATCH v7 4/6] input: pf1550: add onkey support
-Message-ID: <5eehb37ccuoafc6x2axbgesr3mweeepoco46ih2hs2ncekch4v@ku25pypnlads>
-References: <20250612-pf1550-v7-0-0e393b0f45d7@savoirfairelinux.com>
- <20250612-pf1550-v7-4-0e393b0f45d7@savoirfairelinux.com>
+        d=1e100.net; s=20230601; t=1750251427; x=1750856227;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=2X2h53UoNZQhDXBsMhRcUUHtA/t5wbotkmy7UVTkX7E=;
+        b=LtINLA8xVuvH05YnhLNM7Db61ouEhcJk3bTwlkvod0erD6wDTRyYfBBBnmIbXFDb3v
+         +cGk61jO3B0HJp6CnOchLV3JjrLlSsfW3K3qH9hFW8xMcaTU8paXU5iHtceDD/1rpVuQ
+         OtPaE8tWjCQHNBQtApGm19CUhzdIJBALyjTCU2ykb79u07wUT9iR11aJe2gCkfc/wcFY
+         DsdlzxsCUWEyYdyK6Uv/vmp6IowhOMsYyOEtsVo3/KBxjJxUA6ndYZzMfmaTOTw/+o9N
+         RNMoZGFFdU6twd0HjCSOKGl6aavKuzUxuEDefohqUvuFpiOgwP6Ki/Gl/6abDj48LzkV
+         x6+A==
+X-Forwarded-Encrypted: i=1; AJvYcCUJU5U/4bWUmjftukiVyF6yKzYWnh0IDPSKE1eLluU1DjFYQlUsSv78WSngL3r1ocOqN8+BQtkQI7tDvg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx8+0G1rgEZV59ISqrqFq/sYsX+srsG1uqea7B7Bth5aPcSR0Tz
+	JIMtNMcm3+hHvHdwP09NQ2OhxNCYI4FfNfOIR4/72MFtx/WPAh0qQg4ieDtic+eaKMtZ/QIcPQ+
+	2T5ts7BSawXnAHetybMQ2/IbQu7VLbqs5cHII+ezcxg==
+X-Gm-Gg: ASbGnctWso0Dyr6eqzh1/eLnSU1NIoVD8cZFKOkDQTcgfs/OXV1Tpv4tM2q+eRyuLFW
+	XAITLVuktQh7t5DIfRZXPBL6neHTjkfuX4FzjAl4ULOX6jG+YA4HsUwDXGfR79jgXrT0DOmQbf7
+	Y6MJRsjWc/G+PRNaAvAZxjjtSbPDRhkqK15/+oGkK2YgU=
+X-Google-Smtp-Source: AGHT+IEZlf2SkQ6pDtcOhhdvV3LmUw3iR0H22QpguHg1V4liWBddtmQy97+4HMMAxIbIevgaVnIrB0SHGsEYRyBVYzQ=
+X-Received: by 2002:a05:6902:6303:b0:e82:2b85:ea3a with SMTP id
+ 3f1490d57ef6-e822b85ee43mr16723424276.32.1750251426746; Wed, 18 Jun 2025
+ 05:57:06 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250612-pf1550-v7-4-0e393b0f45d7@savoirfairelinux.com>
+References: <20250612-apple-kconfig-defconfig-v1-0-0e6f9cb512c1@kernel.org> <20250612-apple-kconfig-defconfig-v1-1-0e6f9cb512c1@kernel.org>
+In-Reply-To: <20250612-apple-kconfig-defconfig-v1-1-0e6f9cb512c1@kernel.org>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Wed, 18 Jun 2025 14:56:30 +0200
+X-Gm-Features: AX0GCFsnEI_9cu3U9fY7I_D0EnrNerJPcmhYfg39LAqv66uN774UfRLbAU6VCkM
+Message-ID: <CAPDyKFrQ3Uj+coa0WCG00_pyaxu-yEnH26qmS6tevZ_772oZVg@mail.gmail.com>
+Subject: Re: [PATCH 01/11] pmdomain: apple: Drop default ARCH_APPLE in Kconfig
+To: Sven Peter <sven@kernel.org>
+Cc: Janne Grunau <j@jannau.net>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, Neal Gompa <neal@gompa.dev>, 
+	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Srinivas Kandagatla <srini@kernel.org>, Andi Shyti <andi.shyti@kernel.org>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Viresh Kumar <viresh.kumar@linaro.org>, 
+	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, 
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Vinod Koul <vkoul@kernel.org>, 
+	=?UTF-8?Q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Arnd Bergmann <arnd@arndb.de>, asahi@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-pm@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org, 
+	linux-i2c@vger.kernel.org, iommu@lists.linux.dev, linux-input@vger.kernel.org, 
+	dmaengine@vger.kernel.org, linux-sound@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Jun 12, 2025 at 10:55:46AM -0400, Samuel Kayode via B4 Relay wrote:
-> From: Samuel Kayode <samuel.kayode@savoirfairelinux.com>
-> 
-> Add support for the onkey of the pf1550 PMIC.
-> 
-> Reviewed-by: Frank Li <Frank.Li@nxp.com>
-> Signed-off-by: Samuel Kayode <samuel.kayode@savoirfairelinux.com>
+On Thu, 12 Jun 2025 at 23:12, Sven Peter <sven@kernel.org> wrote:
+>
+> When the first driver for Apple Silicon was upstreamed we accidentally
+> included `default ARCH_APPLE` in its Kconfig which then spread to almost
+> every subsequent driver. As soon as ARCH_APPLE is set to y this will
+> pull in many drivers as built-ins which is not what we want.
+> Thus, drop `default ARCH_APPLE` from Kconfig.
+>
+> Signed-off-by: Sven Peter <sven@kernel.org>
 
-Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Applied for next, thanks!
 
-Thank you for making the changes.
+Kind regards
+Uffe
 
--- 
-Dmitry
+
+> ---
+>  drivers/pmdomain/apple/Kconfig | 1 -
+>  1 file changed, 1 deletion(-)
+>
+> diff --git a/drivers/pmdomain/apple/Kconfig b/drivers/pmdomain/apple/Kconfig
+> index 12237cbcfaa983083367bad70b1b54ded9ac9824..a8973f8057fba74cd3e8c7d15cd2972081c6697d 100644
+> --- a/drivers/pmdomain/apple/Kconfig
+> +++ b/drivers/pmdomain/apple/Kconfig
+> @@ -9,7 +9,6 @@ config APPLE_PMGR_PWRSTATE
+>         select MFD_SYSCON
+>         select PM_GENERIC_DOMAINS
+>         select RESET_CONTROLLER
+> -       default ARCH_APPLE
+>         help
+>           The PMGR block in Apple SoCs provides high-level power state
+>           controls for SoC devices. This driver manages them through the
+>
+> --
+> 2.34.1
+>
+>
 
