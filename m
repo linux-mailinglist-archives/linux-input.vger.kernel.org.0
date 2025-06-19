@@ -1,101 +1,161 @@
-Return-Path: <linux-input+bounces-12960-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12961-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AADAADFD49
-	for <lists+linux-input@lfdr.de>; Thu, 19 Jun 2025 07:53:02 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D713ADFE32
+	for <lists+linux-input@lfdr.de>; Thu, 19 Jun 2025 08:58:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 47007176D1B
-	for <lists+linux-input@lfdr.de>; Thu, 19 Jun 2025 05:53:03 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 054571892894
+	for <lists+linux-input@lfdr.de>; Thu, 19 Jun 2025 06:57:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 57750242D8C;
-	Thu, 19 Jun 2025 05:52:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A045725F988;
+	Thu, 19 Jun 2025 06:54:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="kuzMUVdA"
+	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="ohcmyJYq"
 X-Original-To: linux-input@vger.kernel.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from smtpbg150.qq.com (smtpbg150.qq.com [18.132.163.193])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F49B242D69;
-	Thu, 19 Jun 2025 05:52:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7828F25C810;
+	Thu, 19 Jun 2025 06:54:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.132.163.193
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750312378; cv=none; b=N4Cyy+IMKhETrNfXC/tuQ42ylFmN3pfVN4g1DGuvSTTp48pnuH/CxU5QElH03Do3hy9EszGTj4d0evC43gJ5yOV5TXV7/wO/nSy8ZPENwx47rvDDKuSrWQEmIPkp6Gj63EHFUeD67bEtu8TWZbdglKQBb8Qt1B3VkpQ3rqg8VgQ=
+	t=1750316087; cv=none; b=BNGpEflwoEUIiuTANp+WubcZSeqzQcm/z6K6PlBQSK8O1lCc2d/Pj10O4VvbVEwO1xow6GC1icnFPgmbCQ+nDUekeDg08nn6R0CUdkWJZgzaBUVUbyhPj1waaFI8oLLMTgr7YfFfeZaY5k+iVoQzWGmiw26dfCKcZ4qQjyX/lB0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750312378; c=relaxed/simple;
-	bh=S+P2It97TueKH/kAbwyhYnXNnN0tqQNO09MpJUtK+fQ=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=uEULDZkIYYSq8FwaZfOHK1wnMI14oC379b7nkYMP3LvwAle9YN/MCrQCUazl9BygrZqbGEsJ2UxLCZH2Jt5iHeTMFKFTuVC7WS8tEyYURlMgZJajORO2eLGuDdUjtZaxVP5hhcZU6q352moNKwoXk3W8ZjumN2toaUxGvDL2ERA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=kuzMUVdA; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1750312373;
-	bh=S+P2It97TueKH/kAbwyhYnXNnN0tqQNO09MpJUtK+fQ=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=kuzMUVdAfcV/tHeVYxKywMBdeZTdXvqN6JkF+2Z+7W0I52mstLMSE7Hz5+xwDmqtO
-	 v2PFVxqDnc8wJVCegk6de7OGF8y2WwNVXIQH6sZiBVmwuAG/xYSZ4m86ZXYTshMhPE
-	 uSOgkuJuDxXv90Ay6AnmiSK6ASsE/SrMwPVKZ+f/m1PX4JqXuPpGqYyqA/n3TBRBKY
-	 U8NBmXgQ6fum4McfnLKB/Er6Km7G+u5Jtt53+F2clY2n8HjuUO3zjnI9PIZy5yVJiU
-	 AS8MLCwH0dNT0xj3wQ+cggx/LdAIwefMq0C0zkFzJXSuKCms7HflAeBODKztyHSv+s
-	 MpbNWr27zyWPA==
-Received: from IcarusMOD.eternityproject.eu (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: kholk11)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 716E717E06BF;
-	Thu, 19 Jun 2025 07:52:53 +0200 (CEST)
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-To: Matthias Brugger <matthias.bgg@gmail.com>, 
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
- Chen-Yu Tsai <wenst@chromium.org>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
- linux-input@vger.kernel.org
-In-Reply-To: <20250617082004.1653492-1-wenst@chromium.org>
-References: <20250617082004.1653492-1-wenst@chromium.org>
-Subject: Re: (subset) [PATCH v3 0/6] arm64: mediatek: mt8186-corsola:
- Consolidate and add new devices
-Message-Id: <175031237337.17587.18276191221301074786.b4-ty@collabora.com>
-Date: Thu, 19 Jun 2025 07:52:53 +0200
+	s=arc-20240116; t=1750316087; c=relaxed/simple;
+	bh=DKIWEFD7IuiHQJbuY8wGd57bhJyvqmxIfitMGqJ6ZdY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PCY80gSriuQlbJXBn3sr0DdHRky15NnK8jN8mPQs/KD/YRreJD7dy3YycFd9wGKZQYk8aRcQ92vLtgI06IU8PJkR+k/ojUF5B2UAbaK436pvE8fTPd8109thHHNG/IsYZmQPz706sPUgPvb0ctDEGJfWhVTzhTQ/E4pBRv3fgvs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=ohcmyJYq; arc=none smtp.client-ip=18.132.163.193
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
+	s=onoh2408; t=1750315985;
+	bh=wCgFcf8S1qz6TsKVSV0g1x9/rKEOEW9D85QGwXQvK74=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version;
+	b=ohcmyJYq6nNEquCCKhkprx2Ku2LULev9JfWxpj4W+tS7VN109dWRqKQ6g0vSI0Ah+
+	 vPRQvm282gTOpC9S9dh9fn1IsviucXJZ8DeSNZmX3mfdoZ7492kM0+/d7oijh/RmM8
+	 YVVjbe/1JY07+FCvSHIVITEeZULA0rjzh+/ymYn0=
+X-QQ-mid: zesmtpip4t1750315979t3e7fd250
+X-QQ-Originating-IP: HY7OJzCHKvNXxA3FIXoKz/JEr+i4hyX3SN3hoQqaFSs=
+Received: from avenger-e500 ( [localhost])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Thu, 19 Jun 2025 14:52:58 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 1
+X-BIZMAIL-ID: 11116470041164547082
+EX-QQ-RecipientCnt: 10
+From: WangYuli <wangyuli@uniontech.com>
+To: gregkh@linuxfoundation.org,
+	sashal@kernel.org,
+	stable@vger.kernel.org
+Cc: dmitry.torokhov@gmail.com,
+	javier.carrasco.cruz@gmail.com,
+	u.kleine-koenig@baylibre.com,
+	wens@csie.org,
+	wangyuli@uniontech.com,
+	linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 5.4~6.12] Input: sparcspkr - avoid unannotated fall-through
+Date: Thu, 19 Jun 2025 14:52:41 +0800
+Message-ID: <5C0E9B30D2B39A0D+20250619065241.37834-1-wangyuli@uniontech.com>
+X-Mailer: git-send-email 2.50.0
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.2
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: zesmtpip:uniontech.com:qybglogicsvrgz:qybglogicsvrgz8a-1
+X-QQ-XMAILINFO: MRY6qckr/MVJEExJqnp1BH/QKQK1atcuSH4z4HyTlpzMJrsp7E/BS5My
+	osjEk+ik/E+EJiXyG39h8jI5q5PZuq3ybxBqLnTr31gADAFdhAeZGgcQkOteg4FzGrqkjV6
+	8tYOk8/3qjzBuIhZbh36YNPyqhjIn21ka4egylx4GOwJk1NredqdchNB78u0yicRw78dFyA
+	LAotO4U/Wq0xiMOhFEHpHMMD9SHpQkACwI4KaAm3z8Db22eOUbT21mIBvhX0sHXUQs+ywKz
+	GRtL6g0t4Or1lVv9acEkGIF8G5RoCe1yFtepCw4VRBPfGcKqk0kgd/5c/cmraTn+ryA2Q+q
+	laXOobUEnobvpRkYBI2l/m6+iNNn0Bwm9pF395DBIhjdw4FiiqgykESVzeqbP4pmZd53HrA
+	1T9kMvaM0MTYIRRW7XuM9xy6tn6PYbNhUJRRNtzeHkKsWHsEy3+ONacDymlCe4N8eTCCUHR
+	KQk+GCvx+cWXwwo1EaqLoMOCrA0XVg9CB4ANRF3PwvRfuwlsxTniA+5i9ZiwKmGNi4ZUj9y
+	7KDXmA69gmIMmPg1tpEUtRBLFpxrRVhMB+nn4aBDawztNHpMLxIly8Wa/1CsCLrtyEIdfHD
+	JtitWzwVsodGDGGb4oYPNXo7rjXg/xPIrkyTwBnBi2KH3nnE4VK1GuSRfcislbaAMjkHxzc
+	uUvWMlQoJtAo9xp+QBZ5wPrVK0755fp6zDnCAHNokRQrDI24kPjdIYinHmPgB/Ndtpjxc/I
+	7ZrAbmwj40ttBME+VOXvY1O8i2dlMty2d5ezwViyfdaQwdK0PnSxigVWBpwQbkZgMva6AFS
+	fbfzQdE/o6vBrC79t7hW2rRxbOBqgvsoGnpd5UcAv04A0JJSygEXgge/JQFY5TzX+XnRnf9
+	neZC9xMpLWKn8m/H/eIuObVgBrtdLSwIqWtVjT2WnSCwLoKijCbO9qb5nXf1UCYCUmAPfwW
+	yb9hzWOfVt4qpWLN+4RY+IYoW1/yTu8qKK/cWPQZQKf6kMdxgcD0cipU7LdwfUuuh4VX7KV
+	5V7/2Syw==
+X-QQ-XMRINFO: MPJ6Tf5t3I/ycC2BItcBVIA=
+X-QQ-RECHKSPAM: 0
 
-On Tue, 17 Jun 2025 16:19:57 +0800, Chen-Yu Tsai wrote:
-> This is v3 of my "component probe for Corsola devices" series.
-> 
-> Changes since v2:
-> - Rebased onto next-20250616
-> - Collected reviewed-by tags
-> - Dropped driver changes that are already in v6.16-rc1
-> 
-> [...]
+[ Upstream commit 8b1d858cbd4e1800e9336404ba7892b5a721230d ]
 
-Applied to v6.16-next/dts64, thanks!
+Fix follow warnings with clang-21i (and reformat for clarity):
+  drivers/input/misc/sparcspkr.c:78:3: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
+     78 |                 case SND_TONE: break;
+        |                 ^
+  drivers/input/misc/sparcspkr.c:78:3: note: insert 'break;' to avoid fall-through
+     78 |                 case SND_TONE: break;
+        |                 ^
+        |                 break;
+  drivers/input/misc/sparcspkr.c:113:3: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
+    113 |                 case SND_TONE: break;
+        |                 ^
+  drivers/input/misc/sparcspkr.c:113:3: note: insert 'break;' to avoid fall-through
+    113 |                 case SND_TONE: break;
+        |                 ^
+        |                 break;
+  2 warnings generated.
 
-[2/6] dt-bindings: arm: mediatek: Merge MT8186 Voltorb entries
-      commit: b292005d5cafb0993f7ff2c0477d5b71cbd3e387
-[3/6] dt-bindings: arm: mediatek: Add MT8186 Squirtle Chromebooks
-      commit: a883bc5dc12d52a6a8d5afbd0131be55f0684364
-[4/6] arm64: dts: mediatek: mt8186-steelix: Mark second source components for probing
-      commit: 5349994cfd89ca17b8a820ddb41e4572d9e52b49
-[5/6] arm64: dts: mediatek: mt8186: Merge Voltorb device trees
-      commit: 14e8332e5c5d3b9f8ccfa1f3e0dfe05ca136ba2a
-[6/6] arm64: dts: mediatek: mt8186: Add Squirtle Chromebooks
-      commit: f7ef352d45b71e6f3cb7bb572f68eaa0981e9e5c
+Signed-off-by: WangYuli <wangyuli@uniontech.com>
+Link: https://lore.kernel.org/r/6730E40353C76908+20250415052439.155051-1-wangyuli@uniontech.com
+Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+---
+ drivers/input/misc/sparcspkr.c | 22 ++++++++++++++++------
+ 1 file changed, 16 insertions(+), 6 deletions(-)
 
-Cheers,
-Angelo
-
+diff --git a/drivers/input/misc/sparcspkr.c b/drivers/input/misc/sparcspkr.c
+index 20020cbc0752..a94699f2bbc6 100644
+--- a/drivers/input/misc/sparcspkr.c
++++ b/drivers/input/misc/sparcspkr.c
+@@ -75,9 +75,14 @@ static int bbc_spkr_event(struct input_dev *dev, unsigned int type, unsigned int
+ 		return -1;
+ 
+ 	switch (code) {
+-		case SND_BELL: if (value) value = 1000;
+-		case SND_TONE: break;
+-		default: return -1;
++	case SND_BELL:
++		if (value)
++			value = 1000;
++		break;
++	case SND_TONE:
++		break;
++	default:
++		return -1;
+ 	}
+ 
+ 	if (value > 20 && value < 32767)
+@@ -113,9 +118,14 @@ static int grover_spkr_event(struct input_dev *dev, unsigned int type, unsigned
+ 		return -1;
+ 
+ 	switch (code) {
+-		case SND_BELL: if (value) value = 1000;
+-		case SND_TONE: break;
+-		default: return -1;
++	case SND_BELL:
++		if (value)
++			value = 1000;
++		break;
++	case SND_TONE:
++		break;
++	default:
++		return -1;
+ 	}
+ 
+ 	if (value > 20 && value < 32767)
+-- 
+2.50.0
 
 
