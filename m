@@ -1,128 +1,101 @@
-Return-Path: <linux-input+bounces-12959-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12960-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64510ADFCFD
-	for <lists+linux-input@lfdr.de>; Thu, 19 Jun 2025 07:36:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AADAADFD49
+	for <lists+linux-input@lfdr.de>; Thu, 19 Jun 2025 07:53:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EB91017D4BF
-	for <lists+linux-input@lfdr.de>; Thu, 19 Jun 2025 05:36:08 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 47007176D1B
+	for <lists+linux-input@lfdr.de>; Thu, 19 Jun 2025 05:53:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7EA78242D6E;
-	Thu, 19 Jun 2025 05:35:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 57750242D8C;
+	Thu, 19 Jun 2025 05:52:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="AbljeIXg"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="kuzMUVdA"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F5DE23E35E
-	for <linux-input@vger.kernel.org>; Thu, 19 Jun 2025 05:35:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F49B242D69;
+	Thu, 19 Jun 2025 05:52:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750311357; cv=none; b=QnAMFDs8IB6elhK8xSZO02d9LleZ4DlzDfBLVHvBuJZjnJUSNG66RtHMkj9mSQ2T9sSBV7+srV0ydj0/FJ+xBzuw/wjgor8WMMqzCcIaOjG6t88a7F/ysb6Jg/wt1Rs7SErLvtaLQAEibxiWFjWh8zunbmDzqca2H7x3lNrf4UA=
+	t=1750312378; cv=none; b=N4Cyy+IMKhETrNfXC/tuQ42ylFmN3pfVN4g1DGuvSTTp48pnuH/CxU5QElH03Do3hy9EszGTj4d0evC43gJ5yOV5TXV7/wO/nSy8ZPENwx47rvDDKuSrWQEmIPkp6Gj63EHFUeD67bEtu8TWZbdglKQBb8Qt1B3VkpQ3rqg8VgQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750311357; c=relaxed/simple;
-	bh=3T6kJuyoKBc2nft91aab5hLZW+0/3OZRvkSZlEz+xsA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=d2ymqBuChjksM8nhx2+Fr1Dht01tGXltLNJrGmAz8I/MQnBDdCb/IWNWDxuLRJtkspmfRySey6krJZvN9qcqRUZ3Q3KJGlB2R82I4AdqwRFiKBbVcTqoGHkMxJ3myznYPOEBajKBWUe054d2GhBLj5KaP1iqxhI+LCxLiujFg2M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=AbljeIXg; arc=none smtp.client-ip=209.85.215.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-b2f0faeb994so521661a12.0
-        for <linux-input@vger.kernel.org>; Wed, 18 Jun 2025 22:35:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1750311353; x=1750916153; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=MbKgKaSzJXcq3MoycGVCSzlp40V4lZ1OfWmFaWrV5lE=;
-        b=AbljeIXgWzc5HyaqF0LJ6zpYffGY9+wpulok//kNaTbZc6/TkJKAKfbrmMzw8rS/f+
-         haPbdNy/VGgCmafJheFGqvyz7DxHbQxAi/+Ot3I76MYlZv2D48CHQBT+Av6dm7TbY1TE
-         w9ZOnR8rxJkOnB3UidGtNObmm31bntqXMkp+2WZF9cqc8VdQrESEHPPM+O+7qegW1oED
-         to7A9v6pZ8169cDLSIADe7i0rBCa8cjYXWYZDwMskHPiwYly6NhB4oPimrYJJRmI3rAW
-         IJWFhjKFxKzLPibGNhMNTnH2uShn2AlAwSVeDEqQj/po+cpsEeC3VQfJ9R0YAWDegqah
-         xD0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750311353; x=1750916153;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=MbKgKaSzJXcq3MoycGVCSzlp40V4lZ1OfWmFaWrV5lE=;
-        b=PyctTFdXw27lW29YR/rOGwRttyDhAYIvbciHEmmje1VlMT15aTQq7jXtp8IlBrrN2h
-         kz6ufE5LQt+9sK8hENz5+6Yn+USZBMlvuSMKSy66W0y0nLpzGr0kMzrI0LVwPXPsl4wq
-         1Nwhpu6zHwsOqOaw5gNRj3cpS/f1GStENJslyhH1mgpQPhlLgxQByj3xKyIAqXAcQHtO
-         qJnwDCXFR5nu3jwoyEB/eLGd3QVxRYg3iBaJEeRjsyxYp1rQUvNUlpMTdctvNhvvyM7k
-         3xehXn3bVeOs7r68C8bxyOCcD+KZLMFjsDBfmYTyvsrnDEfHPb6qxQXuPRkBIm2RyALz
-         hTkA==
-X-Forwarded-Encrypted: i=1; AJvYcCUdTxeHigGWaP57NDMvNZ9DzYfLr7qZ3XOLyr/YSW1QS7WYvZcLGX3guu3VCOXnOnM+qWonS55oRNAd1Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwAlBfJxJv7hOOKk8vAAgsws4vgoaEmmSCR7Wgg20z75e6QgRnF
-	ZGh7qFHDm2F7nxN4YjD3sLPr2p7cVZZKtCVccorMuxepTHD817l1T7dCUbULhXjVd5E=
-X-Gm-Gg: ASbGncuJG/9QCWT3aaTtqFE+4yRZFpXs3xi1mQ5ELzoWWKQr+YYUEu0jtFmH7H0xWHc
-	uS4I0vyERqE5pPx5RTpUC1PCZOh1jxyQ+o8YWMP3qSUtDKaJuEQJUfgzGe1+RuZaNkxempsunBf
-	VhXk+JGnoxcX033VSMycViNAKy5jtd3udZkNAmkjjOmOMfI9cfC6QSkiwzo8rVAsl3Ko346vlqe
-	41MRBGosV996pbKx6DWAnkgBeSMbK5EKQIoS5p0UriSwtzJsqquzz1hGikTaXM5/YGAq4U44pdc
-	9RUVsE8KS66KVNjn0ws5FOs/z1uimGSo9ohWbJvAKutaO8hMDTR/rxMdOUE3QaXtopCse9ufVQ=
-	=
-X-Google-Smtp-Source: AGHT+IF1Brl2Ml/RhPp1ZISh/ybbgy1I/Aosv1oeoYbA3EE1IVQw9sjB8PhoTnTOzWYQtjW2ZHuZqQ==
-X-Received: by 2002:a17:903:32c9:b0:235:a9b:21e7 with SMTP id d9443c01a7336-2366b3df793mr286985355ad.48.1750311353385;
-        Wed, 18 Jun 2025 22:35:53 -0700 (PDT)
-Received: from localhost ([122.172.81.72])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2365d88c0c9sm112008655ad.20.2025.06.18.22.35.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Jun 2025 22:35:52 -0700 (PDT)
-Date: Thu, 19 Jun 2025 11:05:50 +0530
-From: Viresh Kumar <viresh.kumar@linaro.org>
-To: Sven Peter <sven@kernel.org>
-Cc: Janne Grunau <j@jannau.net>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Neal Gompa <neal@gompa.dev>, Ulf Hansson <ulf.hansson@linaro.org>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Srinivas Kandagatla <srini@kernel.org>,
-	Andi Shyti <andi.shyti@kernel.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Vinod Koul <vkoul@kernel.org>,
-	Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>, Arnd Bergmann <arnd@arndb.de>,
-	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-clk@vger.kernel.org, linux-i2c@vger.kernel.org,
-	iommu@lists.linux.dev, linux-input@vger.kernel.org,
-	dmaengine@vger.kernel.org, linux-sound@vger.kernel.org
-Subject: Re: [PATCH 06/11] cpufreq: apple: drop default ARCH_APPLE in Kconfig
-Message-ID: <20250619053550.hogoo7ic5igvex3c@vireshk-i7>
-References: <20250612-apple-kconfig-defconfig-v1-0-0e6f9cb512c1@kernel.org>
- <20250612-apple-kconfig-defconfig-v1-6-0e6f9cb512c1@kernel.org>
+	s=arc-20240116; t=1750312378; c=relaxed/simple;
+	bh=S+P2It97TueKH/kAbwyhYnXNnN0tqQNO09MpJUtK+fQ=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=uEULDZkIYYSq8FwaZfOHK1wnMI14oC379b7nkYMP3LvwAle9YN/MCrQCUazl9BygrZqbGEsJ2UxLCZH2Jt5iHeTMFKFTuVC7WS8tEyYURlMgZJajORO2eLGuDdUjtZaxVP5hhcZU6q352moNKwoXk3W8ZjumN2toaUxGvDL2ERA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=kuzMUVdA; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1750312373;
+	bh=S+P2It97TueKH/kAbwyhYnXNnN0tqQNO09MpJUtK+fQ=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=kuzMUVdAfcV/tHeVYxKywMBdeZTdXvqN6JkF+2Z+7W0I52mstLMSE7Hz5+xwDmqtO
+	 v2PFVxqDnc8wJVCegk6de7OGF8y2WwNVXIQH6sZiBVmwuAG/xYSZ4m86ZXYTshMhPE
+	 uSOgkuJuDxXv90Ay6AnmiSK6ASsE/SrMwPVKZ+f/m1PX4JqXuPpGqYyqA/n3TBRBKY
+	 U8NBmXgQ6fum4McfnLKB/Er6Km7G+u5Jtt53+F2clY2n8HjuUO3zjnI9PIZy5yVJiU
+	 AS8MLCwH0dNT0xj3wQ+cggx/LdAIwefMq0C0zkFzJXSuKCms7HflAeBODKztyHSv+s
+	 MpbNWr27zyWPA==
+Received: from IcarusMOD.eternityproject.eu (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: kholk11)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 716E717E06BF;
+	Thu, 19 Jun 2025 07:52:53 +0200 (CEST)
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+To: Matthias Brugger <matthias.bgg@gmail.com>, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+ Chen-Yu Tsai <wenst@chromium.org>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+ linux-input@vger.kernel.org
+In-Reply-To: <20250617082004.1653492-1-wenst@chromium.org>
+References: <20250617082004.1653492-1-wenst@chromium.org>
+Subject: Re: (subset) [PATCH v3 0/6] arm64: mediatek: mt8186-corsola:
+ Consolidate and add new devices
+Message-Id: <175031237337.17587.18276191221301074786.b4-ty@collabora.com>
+Date: Thu, 19 Jun 2025 07:52:53 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250612-apple-kconfig-defconfig-v1-6-0e6f9cb512c1@kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.2
 
-On 12-06-25, 21:11, Sven Peter wrote:
-> When the first driver for Apple Silicon was upstreamed we accidentally
-> included `default ARCH_APPLE` in its Kconfig which then spread to almost
-> every subsequent driver. As soon as ARCH_APPLE is set to y this will
-> pull in many drivers as built-ins which is not what we want.
-> Thus, drop `default ARCH_APPLE` from Kconfig.
+On Tue, 17 Jun 2025 16:19:57 +0800, Chen-Yu Tsai wrote:
+> This is v3 of my "component probe for Corsola devices" series.
 > 
-> Signed-off-by: Sven Peter <sven@kernel.org>
-> ---
->  drivers/cpufreq/Kconfig.arm | 1 -
->  1 file changed, 1 deletion(-)
+> Changes since v2:
+> - Rebased onto next-20250616
+> - Collected reviewed-by tags
+> - Dropped driver changes that are already in v6.16-rc1
+> 
+> [...]
 
-Applied. Thanks.
+Applied to v6.16-next/dts64, thanks!
 
--- 
-viresh
+[2/6] dt-bindings: arm: mediatek: Merge MT8186 Voltorb entries
+      commit: b292005d5cafb0993f7ff2c0477d5b71cbd3e387
+[3/6] dt-bindings: arm: mediatek: Add MT8186 Squirtle Chromebooks
+      commit: a883bc5dc12d52a6a8d5afbd0131be55f0684364
+[4/6] arm64: dts: mediatek: mt8186-steelix: Mark second source components for probing
+      commit: 5349994cfd89ca17b8a820ddb41e4572d9e52b49
+[5/6] arm64: dts: mediatek: mt8186: Merge Voltorb device trees
+      commit: 14e8332e5c5d3b9f8ccfa1f3e0dfe05ca136ba2a
+[6/6] arm64: dts: mediatek: mt8186: Add Squirtle Chromebooks
+      commit: f7ef352d45b71e6f3cb7bb572f68eaa0981e9e5c
+
+Cheers,
+Angelo
+
+
 
