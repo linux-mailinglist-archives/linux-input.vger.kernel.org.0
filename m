@@ -1,56 +1,57 @@
-Return-Path: <linux-input+bounces-12976-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12977-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2079AE1474
-	for <lists+linux-input@lfdr.de>; Fri, 20 Jun 2025 09:02:01 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 24063AE147C
+	for <lists+linux-input@lfdr.de>; Fri, 20 Jun 2025 09:03:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 64459189935D
-	for <lists+linux-input@lfdr.de>; Fri, 20 Jun 2025 07:02:17 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B865F189B1B2
+	for <lists+linux-input@lfdr.de>; Fri, 20 Jun 2025 07:03:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B266E220686;
-	Fri, 20 Jun 2025 07:01:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EC3C02253E0;
+	Fri, 20 Jun 2025 07:03:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HpggF/VY"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rtWeCbFA"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 857422045B5;
-	Fri, 20 Jun 2025 07:01:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0A6F220F23;
+	Fri, 20 Jun 2025 07:03:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750402917; cv=none; b=hJSShJCwlFwfukJl5Hph8hdOwfQfPLaSyUMJRT4NCJMmgi5ezZOzQVYqWVTDtasxHVNS1luys9Ih7WOMKjx2Fb3UbhiAi/yffSNkuQaGG6MSxE5gGt6eeojJQiwcX/x9yKQHWj5Ix9PMXDh8Da9LZD+sYqLY1Lf6f+tXo1PTPRQ=
+	t=1750403011; cv=none; b=iwCwMGKNhL+qIkHdQzoQvli+lLOJI1kT+5BD1pxxKvgBurdR9SvEXdYf3xMxoE6cZIh0wimBtKXLrylbiKnNtVClAyTKC/2DqxFQXqjMNrIPcxY3Qm6IKdCJT+VxLIXR02z7Sjk5SswzVEDcw/cU5ZO8oCaxjmU5TvAkMG4cOw0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750402917; c=relaxed/simple;
-	bh=qeRxRMC63vK7esxYHm7vImv1jfMfKj7T6FnswfwrHaQ=;
+	s=arc-20240116; t=1750403011; c=relaxed/simple;
+	bh=99Uh/hFshnb6nH2dK4LmyXTBUcV2MIjmpbx0URsMjjI=;
 	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=WvFyF4QLpVX1/0IV1M/+M8PHxFTHLMcxZMLZLoDB+bCUk+2qV6OLUs/dVOlW6FphzoONPJ6sv8m5DYYD43z74jPvcyQRkOT3TJbDdBz9G3DKx1kKizC7lMfQmJOdq8UV2LVOO2nLU2WE8DPpVLCoNoxzv4wi+WKbx7mvsi0ubas=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HpggF/VY; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E371C4CEE3;
-	Fri, 20 Jun 2025 07:01:55 +0000 (UTC)
+	 MIME-Version:Content-Type; b=XzSLCfVr+MC6eihg2OEv1VlBKhCyNcHE1yJq4I3t/PimrWrMmdWZcyDfj+3v3T5soKVRODdIfg0qR1kavVA8+6FrPCNlHxoxL8p5drqPCfSSHHnWxRjp9MOrBSGt62jOXGLBqb4ocQKsBsRgSV59oPtY4Z4pDUkTZ53h9u/GkGI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rtWeCbFA; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2CF6C4CEE3;
+	Fri, 20 Jun 2025 07:03:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750402917;
-	bh=qeRxRMC63vK7esxYHm7vImv1jfMfKj7T6FnswfwrHaQ=;
+	s=k20201202; t=1750403011;
+	bh=99Uh/hFshnb6nH2dK4LmyXTBUcV2MIjmpbx0URsMjjI=;
 	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=HpggF/VY8C+Dsf7DY5i0UzBpXqEzPASrqq7wNsszOz5b7TghTljZxk3Y4L2biSi6g
-	 g/8KN28Pvu4Spku6UyvF0yjYTB1bbTzXw4sLIRK7U7/aZH8BqrgdFgCBo6WQyXm8uw
-	 txWIZ+iaIJE5C8ls0tmSS6k6UvYirUye9xN/S+RfRhRCWpvRNEM45eBZ5SfL6m6rES
-	 qQVSxrXCSNVCzK8VByBgmUNErzvsUDZ6LB2lbTODPO+917cqSewp8WkmMKKXq8SVp3
-	 LLNKIoPdHLu1QaBAvN+/Dp6ws8zeVP/uZzy9/Z9W015GnR+fm/bubrm2vjh1jPbMux
-	 PvsAT9Y8Oc+JA==
-Date: Fri, 20 Jun 2025 09:01:53 +0200 (CEST)
+	b=rtWeCbFA6bp5JsVxQ77ExFjDBNw8OqjZeARm4U/2R4P8PDYYvz0DYVGpqvCSrewSZ
+	 8Ox9U3peT8PMLMhmue5hWi1dlcvrrR5wb1wrmuFRB6XIPLNfyipCEac599VgOJk8EI
+	 kOeXkF/qsVGs8rdVVzcyqWSZSHmWb7EueKrLwXWiHh2Crt0kTyXHVc/+BEYEjfKOXJ
+	 dbVHNCvf1eXuGtJKKxdRmjfhFcQrAsi2udJtevq1XRGVL1SjURa4GLXqmo+bYHFilk
+	 q06fO8iBt9uPrKTjNixfdmfT70rMn0cTY03IIQt1UsmpucewthY17ci2iJFj4YTwyk
+	 eAonOxynP1riQ==
+Date: Fri, 20 Jun 2025 09:03:28 +0200 (CEST)
 From: Jiri Kosina <jikos@kernel.org>
-To: Qasim Ijaz <qasdev00@gmail.com>
-cc: bentiss@kernel.org, gargaditya08@live.com, linux-input@vger.kernel.org, 
-    linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH] HID: appletb-kbd: fix "appletb_backlight" backlight
- device reference counting
-In-Reply-To: <20250615225941.18320-1-qasdev00@gmail.com>
-Message-ID: <241po3rp-45q2-0pps-n724-9q87o86r4s69@xreary.bet>
-References: <20250615225941.18320-1-qasdev00@gmail.com>
+To: Yu Jiaoliang <yujiaoliang@vivo.com>
+cc: Rishi Gupta <gupt21@gmail.com>, Benjamin Tissoires <bentiss@kernel.org>, 
+    linux-i2c@vger.kernel.org, linux-input@vger.kernel.org, 
+    linux-kernel@vger.kernel.org, opensource.kernel@vivo.com
+Subject: Re: [PATCH v1] HID: mcp-2221: Replace manual comparison with min()
+ macro
+In-Reply-To: <20250619024741.5807-1-yujiaoliang@vivo.com>
+Message-ID: <qoopq849-0p41-787o-3oso-17351o4978qr@xreary.bet>
+References: <20250619024741.5807-1-yujiaoliang@vivo.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -59,21 +60,13 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 
-On Sun, 15 Jun 2025, Qasim Ijaz wrote:
+On Thu, 19 Jun 2025, Yu Jiaoliang wrote:
 
-> During appletb_kbd_probe, probe attempts to get the backlight device
-> by name. When this happens backlight_device_get_by_name looks for a
-> device in the backlight class which has name "appletb_backlight" and
-> upon finding a match it increments the reference count for the device
-> and returns it to the caller. However this reference is never released 
-> leading to a reference leak.
+> This improves code readability by using the standard
+> kernel macro for minimal value selection while maintaining identical
+> functionality.
 > 
-> Fix this by decrementing the backlight device reference count on removal
-> via put_device and on probe failure.
-> 
-> Fixes: 93a0fc489481 ("HID: hid-appletb-kbd: add support for automatic brightness control while using the touchbar")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Qasim Ijaz <qasdev00@gmail.com>
+> Signed-off-by: Yu Jiaoliang <yujiaoliang@vivo.com>
 
 Applied, thanks.
 
