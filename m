@@ -1,213 +1,293 @@
-Return-Path: <linux-input+bounces-12985-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12986-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0986CAE1E1A
-	for <lists+linux-input@lfdr.de>; Fri, 20 Jun 2025 17:10:08 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E213AE2268
+	for <lists+linux-input@lfdr.de>; Fri, 20 Jun 2025 20:43:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7F2B61BC2656
-	for <lists+linux-input@lfdr.de>; Fri, 20 Jun 2025 15:10:23 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D82651BC686B
+	for <lists+linux-input@lfdr.de>; Fri, 20 Jun 2025 18:43:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A36F2BDC03;
-	Fri, 20 Jun 2025 15:10:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2FC802EAB6A;
+	Fri, 20 Jun 2025 18:43:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b="UpfMTHhu"
+	dkim=pass (2048-bit key) header.d=savoirfairelinux.com header.i=@savoirfairelinux.com header.b="XmJvixB3"
 X-Original-To: linux-input@vger.kernel.org
-Received: from MA0PR01CU012.outbound.protection.outlook.com (mail-southindiaazolkn19011028.outbound.protection.outlook.com [52.103.67.28])
+Received: from mail.savoirfairelinux.com (mail.savoirfairelinux.com [208.88.110.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BC7F296169;
-	Fri, 20 Jun 2025 15:10:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.67.28
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750432203; cv=fail; b=No/tuiRrv9xxXGH6k/YtUhJ8RaOyWimV7DbhuhHr5VKL746iCCKp+UW2KGmwu+Djv64Cm0h3U30LeJV0aV6FzI49CQpnUynHNhSE0a/C9MVOtr2aYAlErsmAgTzyucR1/fHA1WKHoTtH/fxGOGrCR2t5fPskmgo9E5MssfunmV8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750432203; c=relaxed/simple;
-	bh=fggrRve2ZxKOPCbn8vzQxvCsxSOp9zdGwpW7ra5jnI8=;
-	h=Message-ID:Date:To:Cc:From:Subject:Content-Type:MIME-Version; b=T8vK7wrP7U9WcbCJOsRWj1EFLusw+jsmzObwFQgfh6nAorzrPVkU90PUwxFfCRk/fZV0ILEtWUd9rKFIhaveveYTCaGarRZMmjBP5w0Kj9Aj/bcACLNpM55bVzd6HJ3E8oDxGtKeUz+uWMr39t73PzO1WiGvps/IpVPAM04aQUg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com; spf=pass smtp.mailfrom=live.com; dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b=UpfMTHhu; arc=fail smtp.client-ip=52.103.67.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=live.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=XidqIceopBUlg99RBLZ4JV3iBQXOm8xFYHW9WfJ9J3k806rr3w5HzggWgg1DVUrA2WWO2N0Cc1GsXYJsP2woH3NOVAv0ro9R32L8/7FYa1aB2KsS/eTs8W39ys58XQp8cH0jctbaxzFgwZHSih8cz88xYCl9Yk37hWxI2hGBC9jtjDWmOOfoD4GIa6Txx5q3shkNTdf6YOQmsf+jUWaYRkvcX8lwLuRGgpdMK/yFb5wZIo3F5V8xaNtrUAOiAq0x4ga9P7YMB1h5gQBcMkTf8O5nfRczqyvm6O+yDyXo9NvLr99gZYhnurkvlGEz5ZM9j1CKppHbuIjWkLDQmFXRng==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=UqKa0wY4bV3NTq0yibhAhBLHkogLpa1XKd1fHX8tdGo=;
- b=Fwndsi8PyrBOhhexkiGTsurvrNYWsUYXsZMGqZ+d1GetnAkYEQN9yI1Q6Wea1B86d0ARONjVgRnFTRRqwQUwXkt93tU3mtaw2oyRc8Vdgw47RfUxhhV9Dv71jJ0noAD0l8+MNe8n99Hlr3Y4aVnEC+KYfGJzkVi25E8XE1MXmw3CpqB8j28VYLHQ2pbzKbr8PYQWlLUaPo/Zd2VQMIoRHC7Z5ddf+nIhGLimHGguAn8y7uMLhXf34ms5XWJgdG8Wh1st7bs8TVYqOQOJKENyDYqPODPnlNAFy1eBvorXv5q1oajCm6IU5dsNcEgQzixTz0sPPIlXCdvp5X4NDKyxCw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=live.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UqKa0wY4bV3NTq0yibhAhBLHkogLpa1XKd1fHX8tdGo=;
- b=UpfMTHhuJKizgaT68UO6kRRInwg+t3Et4N4MOeZrdLpB6Kh4usfXWCasPuZ6bdeLEGSAC7QiQCteNhb16JuEN1vtOOtvQX+aFLiBklVu3Jtgn5upr+lx9GHiPCGfP1ug0dZvEmGOgVmgVcKNTbKGGQoUfbGjJVS/fBKoVfhycgetVN80GsQawoIx/vhFGHtzPDgY+C1SqsVrCSrtEqswp987Gojipxu3Mqj/ZibKL3m8v+vP+7FbMvvACInCVgdZkZvjzfiHLgsap0aiL5vidxmH1blhwmqGLfdlf7BZES6MnvCls3Y2EIkkQzqMGz8FqkaEpnNpFgbcwaS57dBtdg==
-Received: from PN0PR01MB9588.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:10c::9)
- by PN3PR01MB9872.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:171::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8857.25; Fri, 20 Jun
- 2025 15:09:58 +0000
-Received: from PN0PR01MB9588.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::5b05:29d:5646:39aa]) by PN0PR01MB9588.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::5b05:29d:5646:39aa%7]) with mapi id 15.20.8857.022; Fri, 20 Jun 2025
- 15:09:58 +0000
-Message-ID:
- <PN0PR01MB958896253AF96FBFC2C3F743B87CA@PN0PR01MB9588.INDPRD01.PROD.OUTLOOK.COM>
-Date: Fri, 20 Jun 2025 20:39:45 +0530
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US
-To: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>
-From: Aditya Garg <gargaditya08@live.com>
-Subject: [PATCH RESEND] HID: magicmouse: enclose macros with complex values in
- parentheses
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PN4P287CA0027.INDP287.PROD.OUTLOOK.COM
- (2603:1096:c01:26f::16) To PN0PR01MB9588.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:10c::9)
-X-Microsoft-Original-Message-ID:
- <6058720c-7263-4f6a-8982-1a35529921a8@live.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EC7821FF3D;
+	Fri, 20 Jun 2025 18:43:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=208.88.110.44
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1750445011; cv=none; b=dKXRX5OuvU9HeCwYIiTUwd2mQSAHCmwVo2IAzWXALjrFHeqDp8RbbtfInCp6tly0RihC8XY7Ue1JwXoohNGcTcOqvyfIbj4X5KcXD4Qy+L97mQCPlH7sufgyh40za7n43ZOoliXXWU46JqPFv/VbkhCSCgmQ/cI9ySb5ft55ziA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1750445011; c=relaxed/simple;
+	bh=hfeTC/LbrTNu/kIwcjwzlqTcJlOSBsGVhxjsYYmiXcY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EOv9vPdUC5wmBby9XCzDpWSxhz99lmd7Aon6vXfXiJ7xrbxzUusymWrJSfWRSPj6Y+J29Kr8UPxPrN483tUyAkclMyH45h86pes0ZL0akcoOXGTdG8PeSYPTf7thLNB5MO4+LuQSdaf0JFmDdj+6H/WCFwwH+2sKrt8KkHeQEaI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=savoirfairelinux.com; spf=pass smtp.mailfrom=savoirfairelinux.com; dkim=pass (2048-bit key) header.d=savoirfairelinux.com header.i=@savoirfairelinux.com header.b=XmJvixB3; arc=none smtp.client-ip=208.88.110.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=savoirfairelinux.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=savoirfairelinux.com
+Received: from localhost (localhost [127.0.0.1])
+	by mail.savoirfairelinux.com (Postfix) with ESMTP id 393753D8762C;
+	Fri, 20 Jun 2025 14:43:21 -0400 (EDT)
+Received: from mail.savoirfairelinux.com ([127.0.0.1])
+ by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavis, port 10032)
+ with ESMTP id gYTgZfNRbSRD; Fri, 20 Jun 2025 14:43:20 -0400 (EDT)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.savoirfairelinux.com (Postfix) with ESMTP id 4683A3D8762F;
+	Fri, 20 Jun 2025 14:43:20 -0400 (EDT)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.savoirfairelinux.com 4683A3D8762F
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=savoirfairelinux.com; s=DFC430D2-D198-11EC-948E-34200CB392D2;
+	t=1750445000; bh=TaQQHObo8HRDlJD+n70gAPQXWO2RtYiWYUzJBZk6vh4=;
+	h=Date:From:To:Message-ID:MIME-Version;
+	b=XmJvixB32vMJfc7yNrKh45ZFj1uA5zrDmuGUdWoqrIS0o+GaD0hiTpxl6/iHNj4jV
+	 9DSmGcn1Xn2WVxgfx9Fs4NiCpGxZCPwkI4J8yVkcm6fax7kpPPyw0AE0icPxyHP8Su
+	 58ZYgmgvW/JVQtM/6AT000t9zJ21VLYPF18qhAgQqafGsUZ6jk5lzph6/RUYVWSG01
+	 o6Vrqj9JvyDjBJSRgi6Pwf4i+7CZcyJWuTEB19ja0OV4kl0KxsL/WhqwEIH9xUfAu2
+	 Q02xezEjgxiS+qMZZ0xrMWBv/e+j1J6aGjsBJx3sTyqTHKECxrT3acwep6l9mWb5LJ
+	 D+d5YMoK7r1wQ==
+X-Virus-Scanned: amavis at mail.savoirfairelinux.com
+Received: from mail.savoirfairelinux.com ([127.0.0.1])
+ by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavis, port 10026)
+ with ESMTP id uB8q18XrN1G8; Fri, 20 Jun 2025 14:43:20 -0400 (EDT)
+Received: from fedora (unknown [192.168.51.254])
+	by mail.savoirfairelinux.com (Postfix) with ESMTPSA id DCFEA3D8762C;
+	Fri, 20 Jun 2025 14:43:19 -0400 (EDT)
+Date: Fri, 20 Jun 2025 14:43:18 -0400
+From: Samuel Kayode <samuel.kayode@savoirfairelinux.com>
+To: Lee Jones <lee@kernel.org>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Sebastian Reichel <sre@kernel.org>, Frank Li <Frank.li@nxp.com>,
+	imx@lists.linux.dev, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+	linux-pm@vger.kernel.org, Abel Vesa <abelvesa@kernel.org>,
+	Abel Vesa <abelvesa@linux.com>, Robin Gong <b38343@freescale.com>,
+	Robin Gong <yibin.gong@nxp.com>,
+	Enric Balletbo i Serra <eballetbo@gmail.com>
+Subject: Re: [PATCH v7 2/6] mfd: pf1550: add core mfd driver
+Message-ID: <aFWrxtArHjb5nc0M@fedora>
+References: <20250612-pf1550-v7-0-0e393b0f45d7@savoirfairelinux.com>
+ <20250612-pf1550-v7-2-0e393b0f45d7@savoirfairelinux.com>
+ <20250619130337.GA795775@google.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PN0PR01MB9588:EE_|PN3PR01MB9872:EE_
-X-MS-Office365-Filtering-Correlation-Id: fbf67848-8117-413b-e4b0-08ddb00c83e2
-X-Microsoft-Antispam:
-	BCL:0;ARA:14566002|15080799009|7092599006|8060799009|19110799006|8022599003|5072599009|6090799003|5062599005|461199028|3412199025|440099028;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?dk5sbGpJOS9hcjlPZlVEVU5OSnExZWZFcm5kZ2NLdFQyQmFhTXZ2MTF6NnRI?=
- =?utf-8?B?a05JaURJNmQzZkdzM1JNcGhSb0ZnSU9FZHBqaEk0MUNubHVLOEVJQlB6WFZM?=
- =?utf-8?B?eTdKTmE4SVdDOE1RbXdVRmRFbzNLUXBGckF4NHloTVcxcUFyWjNYSVJjTWg3?=
- =?utf-8?B?K0VLeDcwTDRaa2ZuMjB1VUlmVlNkeFV0N25DdzhETTdIL2hVTmtKV25JMFZE?=
- =?utf-8?B?VWZONjRFWkhwTjhhMm01UDA5YkNDYWFCOVd6TXNidDdoaWtjUTd5YW9va21w?=
- =?utf-8?B?OENyREFWcG5VeTcwMHJHeU93YmJTMGQ5ZWdaZVB5eERFTDBWWlBObTRxditx?=
- =?utf-8?B?VjVVOSs2Z2VPd1paMVZvemh3bmtpL0NOWXUveVVJTG5pd3REaFl0WCtGdGNs?=
- =?utf-8?B?VlRSTG1sZ1ptMTNaRk9oYTJOQXhRR3dRWGJaVUNRNTdXNFJnRlJvaHl2Ync2?=
- =?utf-8?B?Y1Q3Zm4ra2VxQU55dWViZFNmN1RzdWpLT1FRaWNZd2F6N3B6blJsd1ZGS0x3?=
- =?utf-8?B?ZU8zL21Cak5uR3huQjFMZmFSYjdENHZISk95aWUrMG1zbDUrLzY2YUxMRi9j?=
- =?utf-8?B?WlZaMHhpVjBaUGlBU0MzelBWZXJNVmRMQ2Rud0kwSDBSQVg0V3FHUGxIdXRN?=
- =?utf-8?B?OFQ2SmZCdXp1UmNvVHg5YTFmS0NFZUp2bEE0dkY1ODhBUEI0NDhUdWx5ZWZq?=
- =?utf-8?B?U2UrSTFValZzUFBHUVllbmZ4Zm5sQ1RwOVU1NmtYRFJqUzJhT1U1Qnh0NnJW?=
- =?utf-8?B?Z3MzclpoS3dUaEc4SjRXWEh0b1djWVo3cVlvL1NYUlVSL3RrNmhJNWx1Vms1?=
- =?utf-8?B?M2xYRjc2NlNCcnhYazVCdWJsYUZ5OVp6OHdRNXpoZHRoN2syTEhmbDdUR1Ar?=
- =?utf-8?B?RlBydUpENmExeWpySFRhc1l2WUZhdnhzV2JDbnpHdGdHS0JvREt1YURaTFZi?=
- =?utf-8?B?RUpLcmRQK3NPMFUyTzgrSVUwMWlCSitvQk0zTEhVcnkyQURuSUI0YXNDbVpL?=
- =?utf-8?B?a0NZb0NoU2h6L1lqc0dKaGtTNjlWTDU1WHRYcnVQeGpmc0dnS2l2WXQ1Si9w?=
- =?utf-8?B?ZWdaVE5rT3N5c3VzS2NpbmRqZXM4RzNKclZnRzAvemJkaVRXbTR4Z29KeEtS?=
- =?utf-8?B?U1EzWS9oL1FIWmEzcGFJeTM1dzhBV1ZSK3pOQ3JEMzNVZ1E4SFd0REYzVzRX?=
- =?utf-8?B?WTVtSFZJQXl6ajJmdzhPYUczSlhRMFdOT1VUUFZEQlE1Ym8rdEFWZGdkNWpF?=
- =?utf-8?B?N0NGRWJCMjR1Tzg1RFZpU1pYR0J4UEpod2w3UGJZY3JHQjRSZzFGZm4wUmJr?=
- =?utf-8?B?dkVpaG9zYitiaHMyU0FaV2dUTW02QnZkc05JOEFEb0NKaEFFOVpnQTgrQzVH?=
- =?utf-8?B?U01uNUNmL0V0RkFWNWtVTS8rcE1SOXYxNWJoY2JNekNDbDNXTGoyc2pHYVR3?=
- =?utf-8?B?ZFVKeGRLOGtaY2ZLclkxVXcyRlhoeXlQUEZFWDFEajVpc3kybThsTWYrN3kw?=
- =?utf-8?B?ZkJZenpVMnpGMmpsLzArTUlLTjZxYWlhbjBIRjFudk5YaXg2aEtMb1JDai9C?=
- =?utf-8?Q?dth8I6vuai6oglQz9oCPMIxoez11nVGAPbFwYUAflQNmoZ?=
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?WFBIajZSZ3dBSWxLVW1TN01hdzdDRFlVTHRFVmVyMFYwNGUzays4dWFST0w2?=
- =?utf-8?B?V2RQVXJFVDVBNXhsUWlMMHArMVBSeWJFMHZ1ZjdCaEp3YTM5S0Q4WHhHQzZG?=
- =?utf-8?B?VXB3QUp5dmVkUDFOSHBZMnNkQlZndHZ5Z2hQMS9GZEpzVCs4UlhGdnNtY3VT?=
- =?utf-8?B?RjN4RWdwN1haaEJPOStJOTV0OVBBRFp6OGQ1NVV1SFZoUVYzRW0rRXZTZEdm?=
- =?utf-8?B?a0VvZUsvclFEN3FxYUtvcXN4Y052cDRiUHVHWVBXNkdFQ3hyOGdaZWFjamtS?=
- =?utf-8?B?b1NxUk1VblVFZUovU1lOY2lWSUt4WEtmWTR4cmd5UnQ1bVBUd2svZm9yQlJl?=
- =?utf-8?B?QkdwSFI3dkZSY1VHM0hNTXJBRkZmS2o3ZjJPZjIyeThneFBDb3liRENoWFc5?=
- =?utf-8?B?MmZ1SW9KbGtjUW9oYkJzbGpGMll4S1JWRko5aWxXRjlTSDVodHZ6YTV5bkhY?=
- =?utf-8?B?SU9iRm42VE9TWXBSaERZWEFuR3dCRTBTZHoxNEFjaFRmWm44Mmd5NWhpS2c2?=
- =?utf-8?B?Q04vYXMrZGxPc1NsVmMrMGZQVEF0ai9jeURHb0U5NHFtK3lPeDlkY3BlTnZH?=
- =?utf-8?B?YWJvSVhsYlVJUk81dWpFR1daS3FXdDk1ZmhZRE8vUnFXdEFzUTNBdHBVMG1h?=
- =?utf-8?B?TVZDUk5VYU1hR0ROclBScXQ2dmQ5SVdCbTJ1d0pESVJ4UEFGbkhIRWM3MWxw?=
- =?utf-8?B?SllsbHR4L0cyK2tzRnR5M0E4T0t6YTZ1SDdQcUNMbVp4Y1JzemxveEdnelVV?=
- =?utf-8?B?Ym16K3dlRG5XSXVkeWdleERxektmZ1lkNU1SeURsTW1telppYTRHcHpkVWsr?=
- =?utf-8?B?THRoYURDckV2dU10L1FVNVNBbkNYQ1RsS0hQNHorRk9qVTIrcGZMSVN0MDI5?=
- =?utf-8?B?YzVyOGhHUEowVXZqV3RwdGR3WFFQL1pDRTRmSHhnY3R6Y0w5OWd2dnB6NHFT?=
- =?utf-8?B?MGU5eFNBWlk2Y2hnSm5YVjl0NUIyQkFEVHBGZ1FjdCtBaThYL09xSU0xSnUy?=
- =?utf-8?B?RlhzS2xGOFVpV1RIMFZkbDdubHVrdmJPdnhYS2V1NHVjSmc4OVd1Y20vRitX?=
- =?utf-8?B?MHdRSmtRZmFJd1BWRllMYnFKYVo2czVQT3ZBeU5BVkZpeXJncU9hQy9kd015?=
- =?utf-8?B?OHFocldFMGdna2dZdklNeFpHVGtxNVEwYXdCSFFKd2FPZWNNeVcrMWoyL0dy?=
- =?utf-8?B?SFJ3SkNzNUxQVUk4Sy80WlJjZW10ZFBmVUdmNCtmNjU2RXBpMVhucCttcTVJ?=
- =?utf-8?B?TlZGMHpISGJMYTdLN0dKNlVlS0JpUFRwVTVtQysvakxuaVU2WmRrbHBrb09a?=
- =?utf-8?B?Y3pZZ3NKai9mWWM1OWxKWC96TFRubVk0YXE2bTRzNDF2K01CVGVIMGk0azY0?=
- =?utf-8?B?QzIrSWRRTUs4dktCZWVvTys4NW9Db3dsOE9HZHkrK1BBMUQwL0E3azFkc3lz?=
- =?utf-8?B?V3NuTjNRMVpudGtQVWhEcG9Dakl4ODFuaVMvY3c4QXZEeDZDaVNWWHd5OG14?=
- =?utf-8?B?N3BIcU50WGpiNVVKSlZ5a1BaU0k5TU84RkFQV0JudlhnOGM4L3FoZXdmZEcr?=
- =?utf-8?B?ejdsUWg2enVIeUt6STUvZmR1b05wWkE2dGY0OEE5K2xJcGk0MzZzQk1IRkVY?=
- =?utf-8?B?T3R3NnduajFDT2p5YitvcHZHOFNrV1FJbHBvTE5LUXNDN2RNb0l5TlQ3cExS?=
- =?utf-8?B?c1BGNUNUZmVjUFc0YmV6VzJYcVBxNHIvdVFuTWRmZGdYYjk0Q3hFVCtNQThn?=
- =?utf-8?Q?j5WH2pGM/jrcM4deFA=3D?=
-X-OriginatorOrg: sct-15-20-8813-0-msonline-outlook-f2c18.templateTenant
-X-MS-Exchange-CrossTenant-Network-Message-Id: fbf67848-8117-413b-e4b0-08ddb00c83e2
-X-MS-Exchange-CrossTenant-AuthSource: PN0PR01MB9588.INDPRD01.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jun 2025 15:09:58.4132
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN3PR01MB9872
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250619130337.GA795775@google.com>
 
-Checkpatch reported this error:
+Hi Lee,
 
-ERROR: Macros with complex values should be enclosed in parentheses
+Thanks a lot for the review.
 
-This patch is a simple fix for the same.
+On Thu, Jun 19, 2025 at 02:03:37PM +0100, Lee Jones wrote:
+> > +static int pf1550_read_otp(const struct pf1550_dev *pf1550, unsigned int index,
+> 
+> What does OTP mean?
+>
+It's a One-Time Programmable memory with configuration for the pf1550. I will
+expand on this in the commit description of the next version.
+> Why do you have to write to 4 registers first?
+> 
+The pf1550 was designed such that the registers of the accompanying OTP is
+accessed indirectly. Valid keys have to be written to specific pf1550
+registers. After writing the keys, the address of the OTP register to be read
+is then written to PF1550_TEST_REG_FMRADDR and its corresponding value read from
+PF1550_TEST_REG_FMRDATA.
+> This should all be made clear in some way or another.
+> 
+I'll be adding comments on this in the next version.
+> > +			   unsigned int *val)
+> > +{
+> > +	int ret = 0;
+> > +
+> > +	ret = regmap_write(pf1550->regmap, PF1550_PMIC_REG_KEY, 0x15);
+> 
+> No magic numbers.  These should all be defined.
+Will do.
+> 
+> > +	if (ret)
+> > +		goto read_err;
+> > +	ret = regmap_write(pf1550->regmap, PF1550_CHARG_REG_CHGR_KEY2, 0x50);
+> > +	if (ret)
+> > +		goto read_err;
+> > +	ret = regmap_write(pf1550->regmap, PF1550_TEST_REG_KEY3, 0xab);
+> > +	if (ret)
+> > +		goto read_err;
+> > +	ret = regmap_write(pf1550->regmap, PF1550_TEST_REG_FMRADDR, index);
+> > +	if (ret)
+> > +		goto read_err;
+> > +	ret = regmap_read(pf1550->regmap, PF1550_TEST_REG_FMRDATA, val);
+> > +	if (ret)
+> > +		goto read_err;
+> > +
+> > +	return 0;
+> > +
+> > +read_err:
+> > +	dev_err_probe(pf1550->dev, ret, "read otp reg %x found!\n", index);
+...
+> > +static int pf1550_add_child_device(struct pf1550_dev *pmic,
+> > +				   const struct mfd_cell *cell,
+> > +				   struct regmap_irq_chip_data *pdata,
+> 
+> This is not pdata.
+> 
+> > +				   int pirq,
+> > +				   const struct regmap_irq_chip *chip,
+> > +				   struct regmap_irq_chip_data **data)
+> > +{
+> > +	struct device *dev = pmic->dev;
+> > +	struct irq_domain *domain;
+> > +	int irq, ret;
+> > +
+> > +	irq = regmap_irq_get_virq(pdata, pirq);
+> > +	if (irq < 0)
+> > +		return dev_err_probe(dev, irq,
+> > +				     "Failed to get parent vIRQ(%d) for chip %s\n",
+> > +				     pirq, chip->name);
+> > +
+> > +	ret = devm_regmap_add_irq_chip(dev, pmic->regmap, irq,
+> > +				       IRQF_ONESHOT | IRQF_SHARED |
+> > +				       IRQF_TRIGGER_FALLING, 0, chip, data);
+> > +	if (ret)
+> > +		return dev_err_probe(dev, ret,
+> > +				     "Failed to add %s IRQ chip\n",
+> > +				     chip->name);
+> > +
+> > +	domain = regmap_irq_get_domain(*data);
+> > +
+> > +	return devm_mfd_add_devices(dev, PLATFORM_DEVID_NONE, cell, 1,
+> > +				    NULL, 0, domain);
+> 
+> Why can't all 3 devices be registered in one call?
+> 
+The 3 devices use different regmap_irq_chip s. I have to register them
+separately cause they have different irq domains but perhaps there is a better
+way to handle this?
+> > +}
+> 
+> To be honest, the premise around this function is a bit of a mess.
+> 
+> Please move all of this into .probe().
+Will do.
+> 
+> > +static int pf1550_i2c_probe(struct i2c_client *i2c)
+> > +{
+> > +	const struct mfd_cell *regulator = &pf1550_regulator_cell;
+> > +	const struct mfd_cell *charger = &pf1550_charger_cell;
+> > +	const struct mfd_cell *onkey = &pf1550_onkey_cell;
+> > +	unsigned int reg_data = 0, otp_data = 0;
+> > +	struct pf1550_dev *pf1550;
+> > +	int ret = 0;
+> > +
+> > +	pf1550 = devm_kzalloc(&i2c->dev, sizeof(*pf1550), GFP_KERNEL);
+> > +	if (!pf1550)
+> > +		return -ENOMEM;
+> > +
+> > +	i2c_set_clientdata(i2c, pf1550);
+> > +	pf1550->dev = &i2c->dev;
+> > +	pf1550->i2c = i2c;
+> 
+> What are you storing i2c for?
+> 
+It doesn't need to be stored.
+> Either store dev and irq OR i2c.  You don't need all three.
+> 
+Will do.
+> > +	ret = regmap_read(pf1550->regmap, PF1550_PMIC_REG_DEVICE_ID, &reg_data);
+> > +	if (ret < 0 || reg_data != PF1550_DEVICE_ID)
+> > +		return dev_err_probe(pf1550->dev, ret ?: -EINVAL,
+> > +				     "device not found!\n");
+> 
+> Are you sure?  What if the wrong device was found?
+>
+I can change the error log here to "Invalid device ID: ..."?
+>
+...
+> > +	/* add top level interrupts */
+> > +	ret = devm_regmap_add_irq_chip(pf1550->dev, pf1550->regmap, pf1550->irq,
+> > +				       IRQF_ONESHOT | IRQF_SHARED |
+> > +				       IRQF_TRIGGER_FALLING,
+> > +				       0, &pf1550_irq_chip,
+> > +				       &pf1550->irq_data);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	ret = pf1550_add_child_device(pf1550, regulator, pf1550->irq_data,
+> > +				      PF1550_IRQ_REGULATOR,
+> > +				      &pf1550_regulator_irq_chip,
+> > +				      &pf1550->irq_data_regulator);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	ret = pf1550_add_child_device(pf1550, onkey, pf1550->irq_data,
+> > +				      PF1550_IRQ_ONKEY,
+> > +				      &pf1550_onkey_irq_chip,
+> > +				      &pf1550->irq_data_onkey);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	ret = pf1550_add_child_device(pf1550, charger, pf1550->irq_data,
+> > +				      PF1550_IRQ_CHG,
+> > +				      &pf1550_charger_irq_chip,
+> > +				      &pf1550->irq_data_charger);
+> > +	return ret;
+> > +}
+> > +
+> > +static int pf1550_suspend(struct device *dev)
+> > +{
+> > +	struct i2c_client *i2c = container_of(dev, struct i2c_client, dev);
+> > +	struct pf1550_dev *pf1550 = i2c_get_clientdata(i2c);
+> 
+> You can swap all of this for:
+> 
+> 	struct pf1550_dev *pf1550 = dev_get_drvdata(dev).
+> 
+Will do.
+> > +
+> > +	if (device_may_wakeup(dev)) {
+> > +		enable_irq_wake(pf1550->irq);
+> > +		disable_irq(pf1550->irq);
+> > +	}
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static int pf1550_resume(struct device *dev)
+> > +{
+> > +	struct i2c_client *i2c = container_of(dev, struct i2c_client, dev);
+> > +	struct pf1550_dev *pf1550 = i2c_get_clientdata(i2c);
+> 
+> As above.
+> 
+> > +
+> > +	if (device_may_wakeup(dev)) {
+> > +		disable_irq_wake(pf1550->irq);
+> > +		enable_irq(pf1550->irq);
+> 
+> I would normally expect these to be around the opposite way to the ones
+> in .suspend().
+Do you mean enable_irq_wake and disable_irq in .resume() and the opposite for
+.suspend()?
+> 
+> > +	}
+> > +
+> > +	return 0;
+> > +}
+> > +
 
-Signed-off-by: Aditya Garg <gargaditya08@live.com>
----
- drivers/hid/hid-magicmouse.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/hid/hid-magicmouse.c b/drivers/hid/hid-magicmouse.c
-index a76f17158..d83909761 100644
---- a/drivers/hid/hid-magicmouse.c
-+++ b/drivers/hid/hid-magicmouse.c
-@@ -81,32 +81,32 @@ MODULE_PARM_DESC(report_undeciphered, "Report undeciphered multi-touch state fie
- 
- /* Touch surface information. Dimension is in hundredths of a mm, min and max
-  * are in units. */
--#define MOUSE_DIMENSION_X (float)9056
-+#define MOUSE_DIMENSION_X ((float)9056)
- #define MOUSE_MIN_X -1100
- #define MOUSE_MAX_X 1258
- #define MOUSE_RES_X ((MOUSE_MAX_X - MOUSE_MIN_X) / (MOUSE_DIMENSION_X / 100))
--#define MOUSE_DIMENSION_Y (float)5152
-+#define MOUSE_DIMENSION_Y ((float)5152)
- #define MOUSE_MIN_Y -1589
- #define MOUSE_MAX_Y 2047
- #define MOUSE_RES_Y ((MOUSE_MAX_Y - MOUSE_MIN_Y) / (MOUSE_DIMENSION_Y / 100))
- 
--#define TRACKPAD_DIMENSION_X (float)13000
-+#define TRACKPAD_DIMENSION_X ((float)13000)
- #define TRACKPAD_MIN_X -2909
- #define TRACKPAD_MAX_X 3167
- #define TRACKPAD_RES_X \
- 	((TRACKPAD_MAX_X - TRACKPAD_MIN_X) / (TRACKPAD_DIMENSION_X / 100))
--#define TRACKPAD_DIMENSION_Y (float)11000
-+#define TRACKPAD_DIMENSION_Y ((float)11000)
- #define TRACKPAD_MIN_Y -2456
- #define TRACKPAD_MAX_Y 2565
- #define TRACKPAD_RES_Y \
- 	((TRACKPAD_MAX_Y - TRACKPAD_MIN_Y) / (TRACKPAD_DIMENSION_Y / 100))
- 
--#define TRACKPAD2_DIMENSION_X (float)16000
-+#define TRACKPAD2_DIMENSION_X ((float)16000)
- #define TRACKPAD2_MIN_X -3678
- #define TRACKPAD2_MAX_X 3934
- #define TRACKPAD2_RES_X \
- 	((TRACKPAD2_MAX_X - TRACKPAD2_MIN_X) / (TRACKPAD2_DIMENSION_X / 100))
--#define TRACKPAD2_DIMENSION_Y (float)11490
-+#define TRACKPAD2_DIMENSION_Y ((float)11490)
- #define TRACKPAD2_MIN_Y -2478
- #define TRACKPAD2_MAX_Y 2587
- #define TRACKPAD2_RES_Y \
--- 
-2.49.0
+Thanks,
+Sam
 
