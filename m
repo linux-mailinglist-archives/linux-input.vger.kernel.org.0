@@ -1,124 +1,81 @@
-Return-Path: <linux-input+bounces-12973-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12974-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B620AE10F5
-	for <lists+linux-input@lfdr.de>; Fri, 20 Jun 2025 04:15:24 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id CBF1EAE142D
+	for <lists+linux-input@lfdr.de>; Fri, 20 Jun 2025 08:48:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BB7004A11D1
-	for <lists+linux-input@lfdr.de>; Fri, 20 Jun 2025 02:15:24 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5FDC1189673D
+	for <lists+linux-input@lfdr.de>; Fri, 20 Jun 2025 06:48:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C5B833987D;
-	Fri, 20 Jun 2025 02:15:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EE70122422B;
+	Fri, 20 Jun 2025 06:48:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.beauty header.i=me@linux.beauty header.b="GY7+7Lqu"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b/EN3rAP"
 X-Original-To: linux-input@vger.kernel.org
-Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 698DBBA36;
-	Fri, 20 Jun 2025 02:15:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750385719; cv=pass; b=ch1jZyeo0eF24GXhQv7BPaA0v8HgAYkXRPDLvMALnugcsoVDXXXoi83yWop+PJ1pcAjJ6DpI1BV9klA6euxKiRlHelY0grC/8rH67Ijg8a13xF+sHIAX7A37ef+Tkcc3hJYpgtdY9EhlB1rbjDwo2Pl/jYHCkA/lINiqgvSE2fI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750385719; c=relaxed/simple;
-	bh=Dnw06XrKlV1Pifmoc3wsavKCjfEQvcsm8D01O777nTo=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version; b=iHvtxmMPLnOBB3VEoe+m3j7lbufbSgbcDt9m37xC9oJ3c/MA1r8K141o/y48G7YvY4grsm/DTDdD85scsypQZIyPS1qK2tZ0RZE7PhxVS1VB6MLqn7BJkL9bGGwSPqnt588DwtI6lQV4fviOv4qXY+GXeW/c8yIbUBDEzzDCvgE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.beauty; spf=pass smtp.mailfrom=linux.beauty; dkim=pass (1024-bit key) header.d=linux.beauty header.i=me@linux.beauty header.b=GY7+7Lqu; arc=pass smtp.client-ip=136.143.188.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.beauty
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.beauty
-ARC-Seal: i=1; a=rsa-sha256; t=1750385711; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=Ko5tdAtMkKmHYb0aCsKQsSUdupiheFcl83AyYfiCEK7Y1YvaplRFGX0sUka/hVNzvKd574siJIBjYFsK5vKE+GYeFiDMiLXo4jWnx8V4e0tnPoq+qyMrIL67O+3dHclnZ7fw7iDjDgaC2/eqJ8WOwgCgGUDKI4sJUdsqgV5XiYU=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1750385711; h=Content-Transfer-Encoding:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To:Cc; 
-	bh=1Vj8KmK8OyZDLPbPaUEx7t3DPm7/E2cE1xd3qimBehE=; 
-	b=Jm6w4vDBtAyXqUuppT9t6LAE+DTRqM1mSsHiUjJI8+IAPsDClF8nXBLped5lUmRxRlRaNlZGY0EeMTtgJY65sHlR7EomFpVn1pn0KTtib+uTSnM5lR8hjdTVm7JZU3wxTff60e9T9p5tF9eCfuB8PD42ly4fSjMpEoPO4UeFgUo=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=linux.beauty;
-	spf=pass  smtp.mailfrom=me@linux.beauty;
-	dmarc=pass header.from=<me@linux.beauty>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1750385711;
-	s=zmail; d=linux.beauty; i=me@linux.beauty;
-	h=From:From:To:To:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To:Cc;
-	bh=1Vj8KmK8OyZDLPbPaUEx7t3DPm7/E2cE1xd3qimBehE=;
-	b=GY7+7LquSFOhq5qwfwnc0zAV3MNIVn567UBdi1BMJixFPGz37sOsKZwbOoOlTCBx
-	7b419rcNzvxvtjXgpHENsx8/u8bZMah/luApee+lp29FZPyyia5WOramRKXdkyyHjd1
-	rrXhP+JQNgqCTW1ZynhGYjjWSYX7a53WCV0f4etk=
-Received: by mx.zohomail.com with SMTPS id 1750385709954303.7840196522525;
-	Thu, 19 Jun 2025 19:15:09 -0700 (PDT)
-From: Li Chen <me@linux.beauty>
-To: Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <bentiss@kernel.org>,
-	linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] HID: rate-limit hid_warn to prevent log flooding
-Date: Fri, 20 Jun 2025 10:15:05 +0800
-Message-ID: <20250620021506.12624-1-me@linux.beauty>
-X-Mailer: git-send-email 2.49.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C07822222D2;
+	Fri, 20 Jun 2025 06:48:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1750402115; cv=none; b=E46WxlMm81NoXL3sTc8hysNBFPqntbUhllry1GcaiZ0+EYr0SaHvaN0QS0q6LyP8afMbRqBihwrpuBQa1cRfD/9DGrSakeAWrNzP0TGAkukyyjgH8TXrY7RdYkmG7y/Eo0whe2UQDmmdgh3QnqBrSY3dHT4M8PChc+dUpWP0zK0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1750402115; c=relaxed/simple;
+	bh=s20YvBqSFHG/ffmbK7H93MHNtVb1omg0JAoJo9GA+gs=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=SGKOfZPb9OgLxb0WRbHFDMOR4q2urx7dvpccboh44RaFjwhRIgwrhpq8rdjFx69KVV9DnSvlnLZbqty4jE1WCxbpOQrGw68grIWobXWXsyIot4nAl+q4Ht3XG8I0O6b2mRky3y24+HZcsOpbw1NvfJt3Wbwmzv3fZaDxxaJvxk8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=b/EN3rAP; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3DB7C4CEE3;
+	Fri, 20 Jun 2025 06:48:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1750402115;
+	bh=s20YvBqSFHG/ffmbK7H93MHNtVb1omg0JAoJo9GA+gs=;
+	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+	b=b/EN3rAPq21ruaYgE0o5BVdxWtC19uqvFNQ1hm4AtPRM2TPgEq9vgolOLd0hGkNxo
+	 grxXmUhoiKgDHAcGbff8sidEEy55rUvE8Fx7mh66jJQCACRvsUqsbgCSvmERZ03z8H
+	 ULoaSh7v+JljyjQbg2AsSj2YDCAjx+1k9/94/1xAi+GzUpGwk0+y9ETtORzIiZtmBR
+	 79LUtStRG3qA0MSeMeabkT1nkEPZAYuNiblluoPgRFrwCvvXI/VTjEz+ApHkb+A7Ao
+	 W1o8EjszEaRVgSqLjlZ9Bp7IZeWtr4F+Xh8zDOB2q5BwtS/TCHMyQsuL8K2A7J+iIP
+	 CJpUnnAVS7u2Q==
+Date: Fri, 20 Jun 2025 08:48:32 +0200 (CEST)
+From: Jiri Kosina <jikos@kernel.org>
+To: Heiko Schocher <hs@denx.de>
+cc: linux-kernel@vger.kernel.org, Benjamin Tissoires <bentiss@kernel.org>, 
+    Rishi Gupta <gupt21@gmail.com>, linux-i2c@vger.kernel.org, 
+    linux-input@vger.kernel.org
+Subject: Re: [PATCH] HID: mcp2221: set gpio pin mode
+In-Reply-To: <20250608163315.24842-1-hs@denx.de>
+Message-ID: <p1p1759q-s35n-647s-n694-01o1r5q95131@xreary.bet>
+References: <20250608163315.24842-1-hs@denx.de>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
+Content-Type: text/plain; charset=US-ASCII
 
-From: Li Chen <chenl311@chinatelecom.cn>
+On Sun, 8 Jun 2025, Heiko Schocher wrote:
 
-Syzkaller can create many uhid devices that trigger
-repeated warnings like:
+> in case we have GPIOLIB enabled the gpio pins are used
+> from the current driver as gpio pins. But may the gpio
+> functions of this pins are not enabled in the flash
+> of the chip and so gpio access fails.
+> 
+> In case CONFIG_IIO is not enabled we can prevent this
+> issue of the driver simply by enabling the gpio mode
+> for all pins.
+> 
+> Signed-off-by: Heiko Schocher <hs@denx.de>
 
-  "hid-generic xxxx: unknown main item tag 0x0"
+Now applied to hid.git#for-6.17/mcp2221. Thanks,
 
-These messages can flood the system log, especially if a crash occurs
-(e.g., with a slow UART console, leading to soft lockups). To mitigate
-this, convert `hid_warn()` to use `dev_warn_ratelimited()`.
-
-This helps reduce log noise and improves system stability under fuzzing
-or faulty device scenarios.
-
-Signed-off-by: Li Chen <chenl311@chinatelecom.cn>
----
-Changelog:
-
-v2: Introduce hid_warn_ratelimited to rate-limit the specified log.
-
- drivers/hid/hid-core.c | 2 +-
- include/linux/hid.h    | 2 ++
- 2 files changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
-index b348d0464314c..aaba7164a8c9a 100644
---- a/drivers/hid/hid-core.c
-+++ b/drivers/hid/hid-core.c
-@@ -661,7 +661,7 @@ static int hid_parser_main(struct hid_parser *parser, struct hid_item *item)
- 			item->tag <= HID_MAIN_ITEM_TAG_RESERVED_MAX)
- 			hid_warn(parser->device, "reserved main item tag 0x%x\n", item->tag);
- 		else
--			hid_warn(parser->device, "unknown main item tag 0x%x\n", item->tag);
-+			hid_warn_ratelimited(parser->device, "unknown main item tag 0x%x\n", item->tag);
- 		ret = 0;
- 	}
- 
-diff --git a/include/linux/hid.h b/include/linux/hid.h
-index 568a9d8c749bc..7f260e0e20498 100644
---- a/include/linux/hid.h
-+++ b/include/linux/hid.h
-@@ -1239,6 +1239,8 @@ void hid_quirks_exit(__u16 bus);
- 	dev_notice(&(hid)->dev, fmt, ##__VA_ARGS__)
- #define hid_warn(hid, fmt, ...)				\
- 	dev_warn(&(hid)->dev, fmt, ##__VA_ARGS__)
-+#define hid_warn_ratelimited(hid, fmt, ...)				\
-+	dev_warn_ratelimited(&(hid)->dev, fmt, ##__VA_ARGS__)
- #define hid_info(hid, fmt, ...)				\
- 	dev_info(&(hid)->dev, fmt, ##__VA_ARGS__)
- #define hid_dbg(hid, fmt, ...)				\
 -- 
-2.49.0
+Jiri Kosina
+SUSE Labs
 
 
