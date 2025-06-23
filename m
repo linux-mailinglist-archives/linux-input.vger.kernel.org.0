@@ -1,85 +1,85 @@
-Return-Path: <linux-input+bounces-13001-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13002-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA3D1AE495E
-	for <lists+linux-input@lfdr.de>; Mon, 23 Jun 2025 17:55:30 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id A1022AE498D
+	for <lists+linux-input@lfdr.de>; Mon, 23 Jun 2025 18:03:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C93073A4BA6
-	for <lists+linux-input@lfdr.de>; Mon, 23 Jun 2025 15:55:05 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6E8B27AAC9C
+	for <lists+linux-input@lfdr.de>; Mon, 23 Jun 2025 16:01:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9413726F44F;
-	Mon, 23 Jun 2025 15:55:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B85B22F24;
+	Mon, 23 Jun 2025 16:02:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OqFjGO1R"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TowIWCgv"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDA3C1F94A;
-	Mon, 23 Jun 2025 15:55:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0981D46BF;
+	Mon, 23 Jun 2025 16:02:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750694126; cv=none; b=dWhfkk5Fq+zWGp5tTWxTVZ2g9YlF7KBagN/hr1J4udXUDZrthHLM0b+nITrRzB7ig4pt/GdATesnYvuv2bcvFzaADFrO8hQltUgYnbR1OVZECghiS7Gs+8HSmdNkfICFOYPwZQ7GxEOiJsS1TCdDb7OOQ9yIHcXy/b2BBivL6iE=
+	t=1750694540; cv=none; b=ubFk/SFyr+wqSoGeVFW1MHalrXZtLfT124QKA6fDtET6p1gb7yhw1Wo9QsEWmT5nNUlsVOj2ehlZhjTDGuqvsqCFylc+I2K/nArd+A0ioiqPjzhRtxkdOxiM6n2o1YOcxi131/1JPRTXAeNWqvi/8K6TDbWTaYCEj320VvJSKLs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750694126; c=relaxed/simple;
-	bh=KRPEZQmQ3fX2XnM7Sg6ZggmDVi0Tk5svtmjpiaYr+7A=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=S2edXy3Vhm5beXEcdeqnPyIwnkw2CN/BOqRb1WiIcfrEBAh/km905q9tFB2wVEGHCYfrtO2vgYCLOGyL0GdklyctTa1bk2YThjR9wO4I2JgZfkhqhhyIskhRMYjx3AIk9p6VL092QGeTvSYkccAsv9w4CONT/kTVMvIgPOHdbd8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OqFjGO1R; arc=none smtp.client-ip=209.85.210.178
+	s=arc-20240116; t=1750694540; c=relaxed/simple;
+	bh=PfF2m70dV1KAG+p6ivtxeRb7jAqv0EoAWuRTRDMPuOY=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=hdkzUtrIYuJR9Jkk5Ch6uMJOX11FAsEF8NI9PMzafnH0ssS13Y0fFjBaYobxjYnoruseIk+ilWPFufIh7a8EzkzrsCN370KOOW6iwYNNzZjKB4kTZm+E4uDxl8iKxOze1xEfY2ccG50Y/6XCVz5t2WZj1rH4vwaX8SUGA3jAqVg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TowIWCgv; arc=none smtp.client-ip=209.85.210.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-7399a2dc13fso5098112b3a.2;
-        Mon, 23 Jun 2025 08:55:24 -0700 (PDT)
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-7406c6dd2b1so3408910b3a.0;
+        Mon, 23 Jun 2025 09:02:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750694124; x=1751298924; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1750694536; x=1751299336; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=dd5VacvJszpPl8QEKyX3YzYdAjPr0pKyQfjuRcJwbPw=;
-        b=OqFjGO1R2xckAhSUzRejNwJbNHdWXWNg/66qeL4pLxySJvQJ62GjNFRXjhDEgD6Iti
-         e8UjNol/4h3+kD6lMHt7OL5UOkTV3CgyJ55zCoovkMgAk71D6CJjsXDOEVDx0T0zF5fw
-         kZilNhQjjUnxwrIVdRd1Xrh+HcVDPaQ0xeSR4EoP+Yttf1fHwFZ5zwF4NEg0nd8HnOPk
-         EWrt6N1c//4sfjZ7shX/4KzZDP4ubY+oFaPoZTCvwtnTu8s/kc+tovot7No5amOUDtDg
-         CUaCrQVr2w2+kjgE34iQTnnp2Crw/9pzdnGtPd0VjraED2SyRoVKRmfTj13xKzylEq00
-         yA1A==
+        bh=Ub7A566iAel36VJ2cHq7qft91G9xYawgSu9tRpOG63I=;
+        b=TowIWCgvyCUtH9YZ/pI+X8EV/0tRG/3KT+hOsHQxRuluXXA81TG/5hftjJo7h6MEfM
+         BkJaxZUMv7eOSzJtdDJgiQPiiKc7N8sBpIDPiDyKVB8nXZK1HmzT8VBilHVAit5ntLhK
+         gi9QMwmez0MYzVv9D3uddzwiBBqa6Qo8s35LDvGNN3WGwFxrmbevgmdLLI6CwNggSQJG
+         pw1B3UzVIUi2QOPYPfeqaVJSjRNKTdAsXQtqgHEOtJ4+6wBA6UCqMlNkb6pk3ChVp5FV
+         A6pe4EL9TiMJ9Xw5/JHCBW0gfd+7Hrzj4qVl/+xf06Mr829kh1tEo7WJeF/KhMqQCpB/
+         /sug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750694124; x=1751298924;
+        d=1e100.net; s=20230601; t=1750694536; x=1751299336;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=dd5VacvJszpPl8QEKyX3YzYdAjPr0pKyQfjuRcJwbPw=;
-        b=NNvG0mM/0busfoie0b1slji4le5/ZWM/bhwjzrqjKo8zr7VQRZc6NouZoc0EdqJq5i
-         YihvSRbK8mrFGSwDLye8u0VmbALAgU6qZPVtBAc2rSi//EGOfhExzC7c26hY9A0iqTDs
-         xTH4BNSOqVaEemJ1NIhy3NUBaXRdqQAPhM8C5XnHnyIvvGgSApZdWZpCfryWTDr6dtYB
-         /qzveY2shoinsiUla7azdswdV/rrap49840om6IkZhJZ+v3LSLOfcpDWxsTBUI8bvFTd
-         GY8qjwvDHLoMNBZ5sNqnrhUuUKN5rZMl0hIxc6FTTSPs/3bO5+oIOISPpnRTK5ReGC1u
-         OjjA==
-X-Forwarded-Encrypted: i=1; AJvYcCXI7qzdqsv5fUoYXf8j+FhPUyHXS6WHC3l1CFIBQoPNs8DoReHYm5jIo5t39WkS3xC4615lXDqyHGEnM7I=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyuC/zNe6zVgGUD625EookRuGf4G0HVCvnCVzeFt3+M9pAL4goW
-	X/W+dmKUD2jhJ0G8MSoWTpbzEOvUaD/06WRqMCtmOZ3Y+6nCG1n9/qcKpRclnTyx
-X-Gm-Gg: ASbGncv+Ve9vfR7SBxED6Legn6ts8E9Yrus9CLZb+WxvEbpZ8px61r8HIaSdxGLjlz6
-	5DelS4nNErkDVPxOoAm+Nk4K5qqgM8tQX8xwEgHIr5nEK7fRGAL9gZmG2HLC7ojfOxf8uQ3pnez
-	vvHTZ8B8gLOrtIOx/0fFY7r7FfhPnz9RbhImCWUnGyjZEpYTkv6rXydb6Du7GJ7E35LF1DKVhQ8
-	mdcBofDW2ZiNojWAihVPP9r0TqAJDZ9OKMklz/P6H9WBQLEBCgbjV2SEkGl8xTT32YMj0cmwZZQ
-	u4VACXAvmYOIL+pKC9oxLGjxJrBLzdFd1KwB+DakXwn3eosqBHS7pA1dL3/JIPRcQ+x+SDAYoTI
-	V0S9bfKB+Ug==
-X-Google-Smtp-Source: AGHT+IErb510KTg/UQz//d3NDqJqylGlZZhnZ2yloIf9jft80Y6NswguJG4aDiPsdprhbtgt5/DqwQ==
-X-Received: by 2002:a05:6300:8e04:b0:220:2742:1c41 with SMTP id adf61e73a8af0-22027421cd6mr13509549637.16.1750694124079;
-        Mon, 23 Jun 2025 08:55:24 -0700 (PDT)
+        bh=Ub7A566iAel36VJ2cHq7qft91G9xYawgSu9tRpOG63I=;
+        b=iwIYpR31Lq1SVeVqwJhKGyXX8uzeiFGC1MA/aWcpuFmi0LxXMdoUthfRQYqPVTfq8c
+         6yqz6y7PBgDeJvwisjMnNveuYFP6mAYlz92FSlHIQ+AVHjQ/gPNKhgPVu6SNVTV5r1bo
+         L2cFoSgkIoryMa7esMw6ksd6LGVaeA1K6JPz3F6cg6YHwjc5p/cLmWE4LGxzXYjHHJvk
+         Kg8Ph80o2hho9HwoEGlN/JNHFxIBjW++dO40Mfl+GKHJsE37ivS6L40qbej9gyC2io+7
+         t0MUZ+k60Cl7qiUyagOXTxLYNRaf8SlMjL1aW1/V10pDk1cPXsQPG7f6aZhk1fzGYJhg
+         Gz4g==
+X-Forwarded-Encrypted: i=1; AJvYcCX0uYiXwP9PGqtw9pYTc1M6QlSAGXcuHSIo/0LuA2ymyvFFhFrv8O2j6TFWVJPETN9F7f39DfnJYjrYqaA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzLypZaRf1Wn4T5fK0qchoYg2kune6K7PmgLMIuyXuFG4GnJpdd
+	GHP7BoDVHYNZYCUFXWLdIP7ECIP2VMp0Zcp8SnrtU0EO3EsME48oxS3yLjPSByQN
+X-Gm-Gg: ASbGncuLChKTTVjRyP/opXIoy1ZJvD9rluBLYeMqjS8PIRukjgF0FP5KTfmAN49AhNV
+	dlHp4MYAa731GSu3+XG75upcrxKJOlxwXvpyjGUU9ztd8yF4EUT0HtLN6c2nTTtioRXu7RaEz22
+	zdgLqa6lHqASgbt6OxBgGogsUeQlbUTMEM6TfLI6LGe7K+ED5Awn9dDwTAllmlpNokmUJaR0uBc
+	+NFItNYnS0hIXeULGCjDDUx5yJDgddM9xNzLSg9n2c695PZgj007W/ptK9p9ANEVt6VS1h54dGZ
+	02TBLPk451s8VPGvGCnOYG7S7DqOYBKZa5/VVlpwsxqIDrSVo+FWFsHOunKRwZsynHRIc8hBwxf
+	bpL9u59pJQaNFgg6jJ6u6
+X-Google-Smtp-Source: AGHT+IGgE53qcBeWG31PS3sx09h9YYv+BBQv6xY/r97gXHzt6BnsnAar7deThZhOL5nju1oNKrKwUw==
+X-Received: by 2002:a05:6a20:1591:b0:218:17a2:4421 with SMTP id adf61e73a8af0-2206a12e7bbmr68554637.10.1750694535916;
+        Mon, 23 Jun 2025 09:02:15 -0700 (PDT)
 Received: from danascape.tail34aafc.ts.net ([2402:e280:218d:2e5:7949:b195:766f:55f8])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b31f1258932sm8257816a12.64.2025.06.23.08.55.21
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b31f119e820sm8187711a12.23.2025.06.23.09.02.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Jun 2025 08:55:23 -0700 (PDT)
+        Mon, 23 Jun 2025 09:02:15 -0700 (PDT)
 From: Saalim Quadri <danascape@gmail.com>
 To: jikos@kernel.org,
 	bentiss@kernel.org
 Cc: linux-input@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Saalim Quadri <danascape@gmail.com>
-Subject: [PATCH] HID: Xinmeng: Add driver for Xinmeng M71 Keyboard
-Date: Mon, 23 Jun 2025 21:25:17 +0530
-Message-Id: <20250623155517.492051-1-danascape@gmail.com>
+Subject: [PATCH v2] HID: Xinmeng: Add driver for Xinmeng M71 Keyboard
+Date: Mon, 23 Jun 2025 21:32:10 +0530
+Message-Id: <20250623160210.498570-1-danascape@gmail.com>
 X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
@@ -94,6 +94,8 @@ and charging status of the battery
 
 Signed-off-by: Saalim Quadri <danascape@gmail.com>
 ---
+v1 -> v2: Update Kconfig paragraph :/
+
  drivers/hid/Kconfig       |  12 +++
  drivers/hid/Makefile      |   1 +
  drivers/hid/hid-ids.h     |   3 +
@@ -102,7 +104,7 @@ Signed-off-by: Saalim Quadri <danascape@gmail.com>
  create mode 100644 drivers/hid/hid-xinmeng.c
 
 diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
-index 43859fc75747..534d5ca151f0 100644
+index 43859fc75747..1cc61ca63682 100644
 --- a/drivers/hid/Kconfig
 +++ b/drivers/hid/Kconfig
 @@ -536,6 +536,18 @@ config HID_XIAOMI
@@ -119,7 +121,7 @@ index 43859fc75747..534d5ca151f0 100644
 +		and want to be able to read its battery capacity.
 +
 +		To compile this driver as a module, choose M here: the
-+		module will be called hid-icade.
++		module will be called hid-xinmeng.
 +
  config HID_GYRATION
  	tristate "Gyration remote control"
