@@ -1,56 +1,57 @@
-Return-Path: <linux-input+bounces-13017-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13018-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2F21AE71CE
-	for <lists+linux-input@lfdr.de>; Tue, 24 Jun 2025 23:57:41 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DFB83AE71D0
+	for <lists+linux-input@lfdr.de>; Tue, 24 Jun 2025 23:57:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 842D9189FFFE
-	for <lists+linux-input@lfdr.de>; Tue, 24 Jun 2025 21:57:57 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1DBD417BE8F
+	for <lists+linux-input@lfdr.de>; Tue, 24 Jun 2025 21:57:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D02425B30E;
-	Tue, 24 Jun 2025 21:57:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6843125B314;
+	Tue, 24 Jun 2025 21:57:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="p5BbM2Sz"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="jdStzxXT"
 X-Original-To: linux-input@vger.kernel.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87C2F2561C2;
-	Tue, 24 Jun 2025 21:57:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47D4625B313;
+	Tue, 24 Jun 2025 21:57:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750802232; cv=none; b=tXl6E1ciNxPFhDBuN4bTCRe6No2QL33GsiPm+4yl5NDrBOUEFWdKqfIrrdIkSr+qWGrYfE28C/RAAipZAgau8t/a3cS2VpysaERu+h4Tgqrz5iZxCzvBue3aWCPVF0W2c8sSi/9pz98x8HkErP1VbyvtzuD7b1yq/nTjmpkhyXc=
+	t=1750802241; cv=none; b=J20DPtfsxzIT8wIiayoce6Go+FJMvEj8cgWndXX782wCFkcNZgnVtU1Fpalu2lYoewXwCFU/bixUkmKFh1C6bDHxzXZrtQd/y0zOOyh1ZSexNr2FCa7HFf6QWdcVqReaOxvgymb1XBOR3Zi8DBbUj8JUXWldluJlHkQpZ1lVV0I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750802232; c=relaxed/simple;
-	bh=MICpW8xSvbQyHJc16lRuTN06i664LCOeSiTaLvuagRQ=;
+	s=arc-20240116; t=1750802241; c=relaxed/simple;
+	bh=58Tb/BdGc+NPxdTW7+3xPHouBtguMronGIdSUGbsJG0=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=iA380wUgnwXUVmTB6sP9qpSZ3wYHob99wjh7Kk51/KZpfD3KBh/7Po6wH3XEL+nurGB6Cy9Qvb2F4STuaXCNwGKIcFhdLTThQLu1EbpxYn9ue/Qqu4pj7fySMr+fUJ1Unvl2a+9E9CQwfLlVcPTRYEBi1n7FvX4EOHB0IWiiDgw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=p5BbM2Sz; arc=none smtp.client-ip=148.251.105.195
+	 In-Reply-To:To:Cc; b=G6OHREc3BGj1C10B57DeZa/uNN2eeL4tQ3lPbr+hVKzJTTvCeV0cnCBm8D83ktvoc5WEqPQoBuhuXQ21lYxvDh5JI1CdNSs/b/W5hklMT+NUB+w501/zgomIsJvu4G/s/mXn0eHoqJbZ4pycIti2o8B/apK6uZNRvKvA45RgthA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=jdStzxXT; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1750802228;
-	bh=MICpW8xSvbQyHJc16lRuTN06i664LCOeSiTaLvuagRQ=;
+	s=mail; t=1750802237;
+	bh=58Tb/BdGc+NPxdTW7+3xPHouBtguMronGIdSUGbsJG0=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=p5BbM2Sz/VKPHAD+fWaayF6prjlsflEbJbtARGjBk0hDmRxtkX5cBy39yO6ZbDum1
-	 p7mepLHVWoYp9tYn8nAzSlru/v7ObGG4orkJtPyzwC3k9qSugQI+gVbwIgpU7NmTLD
-	 65KDOaioyOmjjmbYpCTle26lcOt7kvZSY8OYsdTzUHKVy3wyorN4g+ps59Zke7IvaG
-	 1y3eafv5cUit9P+wrelX88SkoAaMhmr0mtrxWtBBe/e8rlVEiUtoEsO9IppX8jiweU
-	 UcL96iGycwQF6nx1Oj+eAvpYRZpZ/Ml9dEUZbLxUXCV7X6fOISxnF69qOHP5NuSVf4
-	 AaPnEDvG5FLCQ==
+	b=jdStzxXTIQg/AJCD+RLJPaBYoD3fQF6snwI2agOqMjKCR3dsm5BQy7sh+H/PtC1qV
+	 jNenR3oR0aGP0mAZA7UGQBT46nM38dT7nqgJHfdT/K0WUNVb6PY19NhigA48DHeTyr
+	 /i9Rof6TI5FMYfm4nYOYlSA4z5/BESf5ra7ehrzo9gACbo0fJc6GxFNtuob6VwhBjL
+	 mEZVDS9PtiErnPg4s02Zd7b7xyhDvGiol1dr5mw3qQhNxj5VBC5If1252YCOVHEPcu
+	 t05H/Z2n7ogsdLaxzSV8TYpgCmJprGQZWNOr9W46Nk7VJMZT8zoDenZ4N2nKF5j78V
+	 LzstFVKw0zLgQ==
 Received: from localhost (unknown [212.93.144.165])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: cristicc)
-	by bali.collaboradmins.com (Postfix) with UTF8SMTPSA id 7A3A917E0E8F;
-	Tue, 24 Jun 2025 23:57:08 +0200 (CEST)
+	by bali.collaboradmins.com (Postfix) with UTF8SMTPSA id 5E00417E05BD;
+	Tue, 24 Jun 2025 23:57:17 +0200 (CEST)
 From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Date: Wed, 25 Jun 2025 00:56:45 +0300
-Subject: [PATCH v2 01/11] HID: playstation: Make use of bitfield macros
+Date: Wed, 25 Jun 2025 00:56:46 +0300
+Subject: [PATCH v2 02/11] HID: playstation: Add spaces around arithmetic
+ operators
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -59,7 +60,7 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250625-dualsense-hid-jack-v2-1-596c0db14128@collabora.com>
+Message-Id: <20250625-dualsense-hid-jack-v2-2-596c0db14128@collabora.com>
 References: <20250625-dualsense-hid-jack-v2-0-596c0db14128@collabora.com>
 In-Reply-To: <20250625-dualsense-hid-jack-v2-0-596c0db14128@collabora.com>
 To: Roderick Colenbrander <roderick.colenbrander@sony.com>, 
@@ -69,156 +70,167 @@ Cc: kernel@collabora.com, linux-input@vger.kernel.org,
  linux-kernel@vger.kernel.org
 X-Mailer: b4 0.14.2
 
-Improve code readability and make it more robust by replacing open coded
-bit operations with the equivalent bitfield macros.
+Get rid of several checkpatch.pl complaints:
 
-While at it, also fix the vertical alignment for some of the bitfield
-constants.
+  CHECK: spaces preferred around that '*' (ctx:VxV)
+  CHECK: spaces preferred around that '/' (ctx:VxV)
 
 Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 ---
- drivers/hid/hid-playstation.c | 77 +++++++++++++++++++++++++------------------
- 1 file changed, 45 insertions(+), 32 deletions(-)
+ drivers/hid/hid-playstation.c | 42 ++++++++++++++++++++++--------------------
+ 1 file changed, 22 insertions(+), 20 deletions(-)
 
 diff --git a/drivers/hid/hid-playstation.c b/drivers/hid/hid-playstation.c
-index 1468fb11e39dffc883181663a4ad44252e0a7ebb..79190147fa00b90a4416dd2723c68bcae811684b 100644
+index 79190147fa00b90a4416dd2723c68bcae811684b..799b47cdfe034c2b78ec589ac19e3c7a764dc784 100644
 --- a/drivers/hid/hid-playstation.c
 +++ b/drivers/hid/hid-playstation.c
-@@ -5,6 +5,7 @@
-  *  Copyright (c) 2020-2022 Sony Interactive Entertainment
-  */
- 
-+#include <linux/bitfield.h>
- #include <linux/bits.h>
- #include <linux/crc32.h>
- #include <linux/device.h>
-@@ -111,34 +112,45 @@ struct ps_led_info {
- #define DS_BUTTONS2_MIC_MUTE	BIT(2)
- 
- /* Status field of DualSense input report. */
--#define DS_STATUS_BATTERY_CAPACITY	GENMASK(3, 0)
--#define DS_STATUS_CHARGING		GENMASK(7, 4)
--#define DS_STATUS_CHARGING_SHIFT	4
-+#define DS_STATUS_BATTERY_CAPACITY		GENMASK(3, 0)
-+#define DS_STATUS_CHARGING			GENMASK(7, 4)
- 
- /* Feature version from DualSense Firmware Info report. */
--#define DS_FEATURE_VERSION(major, minor) ((major & 0xff) << 8 | (minor & 0xff))
--
-+#define DS_FEATURE_VERSION_MINOR		GENMASK(7, 0)
-+#define DS_FEATURE_VERSION_MAJOR		GENMASK(15, 8)
-+#define DS_FEATURE_VERSION(major, minor)	(FIELD_PREP(DS_FEATURE_VERSION_MAJOR, major) | \
-+						 FIELD_PREP(DS_FEATURE_VERSION_MINOR, minor))
- /*
-  * Status of a DualSense touch point contact.
-  * Contact IDs, with highest bit set are 'inactive'
-  * and any associated data is then invalid.
-  */
--#define DS_TOUCH_POINT_INACTIVE BIT(7)
-+#define DS_TOUCH_POINT_INACTIVE			BIT(7)
-+#define DS_TOUCH_POINT_X_LO			GENMASK(7, 0)
-+#define DS_TOUCH_POINT_X_HI			GENMASK(11, 8)
-+#define DS_TOUCH_POINT_X(hi, lo)		(FIELD_PREP(DS_TOUCH_POINT_X_HI, hi) | \
-+						 FIELD_PREP(DS_TOUCH_POINT_X_LO, lo))
-+#define DS_TOUCH_POINT_Y_LO			GENMASK(3, 0)
-+#define DS_TOUCH_POINT_Y_HI			GENMASK(11, 4)
-+#define DS_TOUCH_POINT_Y(hi, lo)		(FIELD_PREP(DS_TOUCH_POINT_Y_HI, hi) | \
-+						 FIELD_PREP(DS_TOUCH_POINT_Y_LO, lo))
- 
-  /* Magic value required in tag field of Bluetooth output report. */
--#define DS_OUTPUT_TAG 0x10
-+#define DS_OUTPUT_TAG				0x10
-+#define DS_OUTPUT_SEQ_TAG			GENMASK(3, 0)
-+#define DS_OUTPUT_SEQ_NO			GENMASK(7, 4)
- /* Flags for DualSense output report. */
--#define DS_OUTPUT_VALID_FLAG0_COMPATIBLE_VIBRATION BIT(0)
--#define DS_OUTPUT_VALID_FLAG0_HAPTICS_SELECT BIT(1)
--#define DS_OUTPUT_VALID_FLAG1_MIC_MUTE_LED_CONTROL_ENABLE BIT(0)
--#define DS_OUTPUT_VALID_FLAG1_POWER_SAVE_CONTROL_ENABLE BIT(1)
--#define DS_OUTPUT_VALID_FLAG1_LIGHTBAR_CONTROL_ENABLE BIT(2)
--#define DS_OUTPUT_VALID_FLAG1_RELEASE_LEDS BIT(3)
--#define DS_OUTPUT_VALID_FLAG1_PLAYER_INDICATOR_CONTROL_ENABLE BIT(4)
--#define DS_OUTPUT_VALID_FLAG2_LIGHTBAR_SETUP_CONTROL_ENABLE BIT(1)
--#define DS_OUTPUT_VALID_FLAG2_COMPATIBLE_VIBRATION2 BIT(2)
--#define DS_OUTPUT_POWER_SAVE_CONTROL_MIC_MUTE BIT(4)
--#define DS_OUTPUT_LIGHTBAR_SETUP_LIGHT_OUT BIT(1)
-+#define DS_OUTPUT_VALID_FLAG0_COMPATIBLE_VIBRATION		BIT(0)
-+#define DS_OUTPUT_VALID_FLAG0_HAPTICS_SELECT			BIT(1)
-+#define DS_OUTPUT_VALID_FLAG1_MIC_MUTE_LED_CONTROL_ENABLE	BIT(0)
-+#define DS_OUTPUT_VALID_FLAG1_POWER_SAVE_CONTROL_ENABLE		BIT(1)
-+#define DS_OUTPUT_VALID_FLAG1_LIGHTBAR_CONTROL_ENABLE		BIT(2)
-+#define DS_OUTPUT_VALID_FLAG1_RELEASE_LEDS			BIT(3)
-+#define DS_OUTPUT_VALID_FLAG1_PLAYER_INDICATOR_CONTROL_ENABLE	BIT(4)
-+#define DS_OUTPUT_VALID_FLAG2_LIGHTBAR_SETUP_CONTROL_ENABLE	BIT(1)
-+#define DS_OUTPUT_VALID_FLAG2_COMPATIBLE_VIBRATION2		BIT(2)
-+#define DS_OUTPUT_POWER_SAVE_CONTROL_MIC_MUTE			BIT(4)
-+#define DS_OUTPUT_LIGHTBAR_SETUP_LIGHT_OUT			BIT(1)
+@@ -154,9 +154,9 @@ struct ps_led_info {
  
  /* DualSense hardware limits */
  #define DS_ACC_RES_PER_G	8192
-@@ -315,7 +327,9 @@ struct dualsense_output_report {
-  * Contact IDs, with highest bit set are 'inactive'
-  * and any associated data is then invalid.
-  */
--#define DS4_TOUCH_POINT_INACTIVE BIT(7)
-+#define DS4_TOUCH_POINT_INACTIVE	BIT(7)
-+#define DS4_TOUCH_POINT_X(hi, lo)	DS_TOUCH_POINT_X(hi, lo)
-+#define DS4_TOUCH_POINT_Y(hi, lo)	DS_TOUCH_POINT_Y(hi, lo)
+-#define DS_ACC_RANGE		(4*DS_ACC_RES_PER_G)
++#define DS_ACC_RANGE		(4 * DS_ACC_RES_PER_G)
+ #define DS_GYRO_RES_PER_DEG_S	1024
+-#define DS_GYRO_RANGE		(2048*DS_GYRO_RES_PER_DEG_S)
++#define DS_GYRO_RANGE		(2048 * DS_GYRO_RES_PER_DEG_S)
+ #define DS_TOUCHPAD_WIDTH	1920
+ #define DS_TOUCHPAD_HEIGHT	1080
  
- /* Status field of DualShock4 input report. */
- #define DS4_STATUS0_BATTERY_CAPACITY	GENMASK(3, 0)
-@@ -1194,7 +1208,8 @@ static void dualsense_init_output_report(struct dualsense *ds, struct dualsense_
- 		 * Highest 4-bit is a sequence number, which needs to be increased
- 		 * every report. Lowest 4-bit is tag and can be zero for now.
- 		 */
--		bt->seq_tag = (ds->output_seq << 4) | 0x0;
-+		bt->seq_tag = FIELD_PREP(DS_OUTPUT_SEQ_NO, ds->output_seq) |
-+			      FIELD_PREP(DS_OUTPUT_SEQ_TAG, 0x0);
- 		if (++ds->output_seq == 16)
- 			ds->output_seq = 0;
+@@ -363,9 +363,9 @@ struct dualsense_output_report {
  
-@@ -1439,19 +1454,18 @@ static int dualsense_parse_report(struct ps_device *ps_dev, struct hid_report *r
- 		input_mt_report_slot_state(ds->touchpad, MT_TOOL_FINGER, active);
+ /* DualShock4 hardware limits */
+ #define DS4_ACC_RES_PER_G	8192
+-#define DS4_ACC_RANGE		(4*DS_ACC_RES_PER_G)
++#define DS4_ACC_RANGE		(4 * DS_ACC_RES_PER_G)
+ #define DS4_GYRO_RES_PER_DEG_S	1024
+-#define DS4_GYRO_RANGE		(2048*DS_GYRO_RES_PER_DEG_S)
++#define DS4_GYRO_RANGE		(2048 * DS_GYRO_RES_PER_DEG_S)
+ #define DS4_LIGHTBAR_MAX_BLINK	255 /* 255 centiseconds */
+ #define DS4_TOUCHPAD_WIDTH	1920
+ #define DS4_TOUCHPAD_HEIGHT	942
+@@ -1015,19 +1015,19 @@ static int dualsense_get_calibration_data(struct dualsense *ds)
+ 	speed_2x = (gyro_speed_plus + gyro_speed_minus);
+ 	ds->gyro_calib_data[0].abs_code = ABS_RX;
+ 	ds->gyro_calib_data[0].bias = 0;
+-	ds->gyro_calib_data[0].sens_numer = speed_2x*DS_GYRO_RES_PER_DEG_S;
++	ds->gyro_calib_data[0].sens_numer = speed_2x * DS_GYRO_RES_PER_DEG_S;
+ 	ds->gyro_calib_data[0].sens_denom = abs(gyro_pitch_plus - gyro_pitch_bias) +
+ 			abs(gyro_pitch_minus - gyro_pitch_bias);
  
- 		if (active) {
--			int x = (point->x_hi << 8) | point->x_lo;
--			int y = (point->y_hi << 4) | point->y_lo;
--
--			input_report_abs(ds->touchpad, ABS_MT_POSITION_X, x);
--			input_report_abs(ds->touchpad, ABS_MT_POSITION_Y, y);
-+			input_report_abs(ds->touchpad, ABS_MT_POSITION_X,
-+					 DS_TOUCH_POINT_X(point->x_hi, point->x_lo));
-+			input_report_abs(ds->touchpad, ABS_MT_POSITION_Y,
-+					 DS_TOUCH_POINT_Y(point->y_hi, point->y_lo));
- 		}
+ 	ds->gyro_calib_data[1].abs_code = ABS_RY;
+ 	ds->gyro_calib_data[1].bias = 0;
+-	ds->gyro_calib_data[1].sens_numer = speed_2x*DS_GYRO_RES_PER_DEG_S;
++	ds->gyro_calib_data[1].sens_numer = speed_2x * DS_GYRO_RES_PER_DEG_S;
+ 	ds->gyro_calib_data[1].sens_denom = abs(gyro_yaw_plus - gyro_yaw_bias) +
+ 			abs(gyro_yaw_minus - gyro_yaw_bias);
+ 
+ 	ds->gyro_calib_data[2].abs_code = ABS_RZ;
+ 	ds->gyro_calib_data[2].bias = 0;
+-	ds->gyro_calib_data[2].sens_numer = speed_2x*DS_GYRO_RES_PER_DEG_S;
++	ds->gyro_calib_data[2].sens_numer = speed_2x * DS_GYRO_RES_PER_DEG_S;
+ 	ds->gyro_calib_data[2].sens_denom = abs(gyro_roll_plus - gyro_roll_bias) +
+ 			abs(gyro_roll_minus - gyro_roll_bias);
+ 
+@@ -1053,19 +1053,19 @@ static int dualsense_get_calibration_data(struct dualsense *ds)
+ 	range_2g = acc_x_plus - acc_x_minus;
+ 	ds->accel_calib_data[0].abs_code = ABS_X;
+ 	ds->accel_calib_data[0].bias = acc_x_plus - range_2g / 2;
+-	ds->accel_calib_data[0].sens_numer = 2*DS_ACC_RES_PER_G;
++	ds->accel_calib_data[0].sens_numer = 2 * DS_ACC_RES_PER_G;
+ 	ds->accel_calib_data[0].sens_denom = range_2g;
+ 
+ 	range_2g = acc_y_plus - acc_y_minus;
+ 	ds->accel_calib_data[1].abs_code = ABS_Y;
+ 	ds->accel_calib_data[1].bias = acc_y_plus - range_2g / 2;
+-	ds->accel_calib_data[1].sens_numer = 2*DS_ACC_RES_PER_G;
++	ds->accel_calib_data[1].sens_numer = 2 * DS_ACC_RES_PER_G;
+ 	ds->accel_calib_data[1].sens_denom = range_2g;
+ 
+ 	range_2g = acc_z_plus - acc_z_minus;
+ 	ds->accel_calib_data[2].abs_code = ABS_Z;
+ 	ds->accel_calib_data[2].bias = acc_z_plus - range_2g / 2;
+-	ds->accel_calib_data[2].sens_numer = 2*DS_ACC_RES_PER_G;
++	ds->accel_calib_data[2].sens_numer = 2 * DS_ACC_RES_PER_G;
+ 	ds->accel_calib_data[2].sens_denom = range_2g;
+ 
+ 	/*
+@@ -1881,19 +1881,19 @@ static int dualshock4_get_calibration_data(struct dualshock4 *ds4)
+ 	speed_2x = (gyro_speed_plus + gyro_speed_minus);
+ 	ds4->gyro_calib_data[0].abs_code = ABS_RX;
+ 	ds4->gyro_calib_data[0].bias = 0;
+-	ds4->gyro_calib_data[0].sens_numer = speed_2x*DS4_GYRO_RES_PER_DEG_S;
++	ds4->gyro_calib_data[0].sens_numer = speed_2x * DS4_GYRO_RES_PER_DEG_S;
+ 	ds4->gyro_calib_data[0].sens_denom = abs(gyro_pitch_plus - gyro_pitch_bias) +
+ 			abs(gyro_pitch_minus - gyro_pitch_bias);
+ 
+ 	ds4->gyro_calib_data[1].abs_code = ABS_RY;
+ 	ds4->gyro_calib_data[1].bias = 0;
+-	ds4->gyro_calib_data[1].sens_numer = speed_2x*DS4_GYRO_RES_PER_DEG_S;
++	ds4->gyro_calib_data[1].sens_numer = speed_2x * DS4_GYRO_RES_PER_DEG_S;
+ 	ds4->gyro_calib_data[1].sens_denom = abs(gyro_yaw_plus - gyro_yaw_bias) +
+ 			abs(gyro_yaw_minus - gyro_yaw_bias);
+ 
+ 	ds4->gyro_calib_data[2].abs_code = ABS_RZ;
+ 	ds4->gyro_calib_data[2].bias = 0;
+-	ds4->gyro_calib_data[2].sens_numer = speed_2x*DS4_GYRO_RES_PER_DEG_S;
++	ds4->gyro_calib_data[2].sens_numer = speed_2x * DS4_GYRO_RES_PER_DEG_S;
+ 	ds4->gyro_calib_data[2].sens_denom = abs(gyro_roll_plus - gyro_roll_bias) +
+ 			abs(gyro_roll_minus - gyro_roll_bias);
+ 
+@@ -1904,19 +1904,19 @@ static int dualshock4_get_calibration_data(struct dualshock4 *ds4)
+ 	range_2g = acc_x_plus - acc_x_minus;
+ 	ds4->accel_calib_data[0].abs_code = ABS_X;
+ 	ds4->accel_calib_data[0].bias = acc_x_plus - range_2g / 2;
+-	ds4->accel_calib_data[0].sens_numer = 2*DS4_ACC_RES_PER_G;
++	ds4->accel_calib_data[0].sens_numer = 2 * DS4_ACC_RES_PER_G;
+ 	ds4->accel_calib_data[0].sens_denom = range_2g;
+ 
+ 	range_2g = acc_y_plus - acc_y_minus;
+ 	ds4->accel_calib_data[1].abs_code = ABS_Y;
+ 	ds4->accel_calib_data[1].bias = acc_y_plus - range_2g / 2;
+-	ds4->accel_calib_data[1].sens_numer = 2*DS4_ACC_RES_PER_G;
++	ds4->accel_calib_data[1].sens_numer = 2 * DS4_ACC_RES_PER_G;
+ 	ds4->accel_calib_data[1].sens_denom = range_2g;
+ 
+ 	range_2g = acc_z_plus - acc_z_minus;
+ 	ds4->accel_calib_data[2].abs_code = ABS_Z;
+ 	ds4->accel_calib_data[2].bias = acc_z_plus - range_2g / 2;
+-	ds4->accel_calib_data[2].sens_numer = 2*DS4_ACC_RES_PER_G;
++	ds4->accel_calib_data[2].sens_numer = 2 * DS4_ACC_RES_PER_G;
+ 	ds4->accel_calib_data[2].sens_denom = range_2g;
+ 
+ transfer_failed:
+@@ -2058,8 +2058,10 @@ static int dualshock4_led_set_blink(struct led_classdev *led, unsigned long *del
+ 		ds4->lightbar_blink_off = 50;
+ 	} else {
+ 		/* Blink delays in centiseconds. */
+-		ds4->lightbar_blink_on = min_t(unsigned long, *delay_on/10, DS4_LIGHTBAR_MAX_BLINK);
+-		ds4->lightbar_blink_off = min_t(unsigned long, *delay_off/10, DS4_LIGHTBAR_MAX_BLINK);
++		ds4->lightbar_blink_on = min_t(unsigned long, *delay_on / 10,
++					       DS4_LIGHTBAR_MAX_BLINK);
++		ds4->lightbar_blink_off = min_t(unsigned long, *delay_off / 10,
++						DS4_LIGHTBAR_MAX_BLINK);
  	}
- 	input_mt_sync_frame(ds->touchpad);
- 	input_report_key(ds->touchpad, BTN_LEFT, ds_report->buttons[2] & DS_BUTTONS2_TOUCHPAD);
- 	input_sync(ds->touchpad);
  
--	battery_data = ds_report->status & DS_STATUS_BATTERY_CAPACITY;
--	charging_status = (ds_report->status & DS_STATUS_CHARGING) >> DS_STATUS_CHARGING_SHIFT;
-+	battery_data = FIELD_GET(DS_STATUS_BATTERY_CAPACITY, ds_report->status);
-+	charging_status = FIELD_GET(DS_STATUS_CHARGING, ds_report->status);
- 
- 	switch (charging_status) {
- 	case 0x0:
-@@ -2351,11 +2365,10 @@ static int dualshock4_parse_report(struct ps_device *ps_dev, struct hid_report *
- 			input_mt_report_slot_state(ds4->touchpad, MT_TOOL_FINGER, active);
- 
- 			if (active) {
--				int x = (point->x_hi << 8) | point->x_lo;
--				int y = (point->y_hi << 4) | point->y_lo;
--
--				input_report_abs(ds4->touchpad, ABS_MT_POSITION_X, x);
--				input_report_abs(ds4->touchpad, ABS_MT_POSITION_Y, y);
-+				input_report_abs(ds4->touchpad, ABS_MT_POSITION_X,
-+						 DS4_TOUCH_POINT_X(point->x_hi, point->x_lo));
-+				input_report_abs(ds4->touchpad, ABS_MT_POSITION_Y,
-+						 DS4_TOUCH_POINT_Y(point->y_hi, point->y_lo));
- 			}
- 		}
- 		input_mt_sync_frame(ds4->touchpad);
+ 	ds4->update_lightbar_blink = true;
+@@ -2339,7 +2341,7 @@ static int dualshock4_parse_report(struct ps_device *ps_dev, struct hid_report *
+ 	/* Convert timestamp (in 5.33us unit) to timestamp_us */
+ 	sensor_timestamp = le16_to_cpu(ds4_report->sensor_timestamp);
+ 	if (!ds4->sensor_timestamp_initialized) {
+-		ds4->sensor_timestamp_us = DIV_ROUND_CLOSEST(sensor_timestamp*16, 3);
++		ds4->sensor_timestamp_us = DIV_ROUND_CLOSEST(sensor_timestamp * 16, 3);
+ 		ds4->sensor_timestamp_initialized = true;
+ 	} else {
+ 		uint16_t delta;
+@@ -2348,7 +2350,7 @@ static int dualshock4_parse_report(struct ps_device *ps_dev, struct hid_report *
+ 			delta = (U16_MAX - ds4->prev_sensor_timestamp + sensor_timestamp + 1);
+ 		else
+ 			delta = sensor_timestamp - ds4->prev_sensor_timestamp;
+-		ds4->sensor_timestamp_us += DIV_ROUND_CLOSEST(delta*16, 3);
++		ds4->sensor_timestamp_us += DIV_ROUND_CLOSEST(delta * 16, 3);
+ 	}
+ 	ds4->prev_sensor_timestamp = sensor_timestamp;
+ 	input_event(ds4->sensors, EV_MSC, MSC_TIMESTAMP, ds4->sensor_timestamp_us);
 
 -- 
 2.49.0
