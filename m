@@ -1,161 +1,251 @@
-Return-Path: <linux-input+bounces-13089-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13090-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA799AEA559
-	for <lists+linux-input@lfdr.de>; Thu, 26 Jun 2025 20:25:30 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B12CAEA55D
+	for <lists+linux-input@lfdr.de>; Thu, 26 Jun 2025 20:27:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 464017A3635
-	for <lists+linux-input@lfdr.de>; Thu, 26 Jun 2025 18:24:06 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C621216C004
+	for <lists+linux-input@lfdr.de>; Thu, 26 Jun 2025 18:27:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 730F32ECE80;
-	Thu, 26 Jun 2025 18:25:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E275D2EE5FC;
+	Thu, 26 Jun 2025 18:27:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ULSgqmDc"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DLkTv5cW"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2E9420C46D
-	for <linux-input@vger.kernel.org>; Thu, 26 Jun 2025 18:25:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D7B72EE28F;
+	Thu, 26 Jun 2025 18:27:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750962326; cv=none; b=f2z3Eo6rkJTcCP30TcZJuFbgiM+P7X1g6lWHbkwhhabYo49L1Tdg/cneQ5QGrO9aN2AYhrientxTH7zVFY3poCezZxqVmputmtB2niN1VFY/B/S/zSmNWoGrRQqj9db4pmwJ6T32ZBrbQK6PlDsa14OA+1K2OC+TAk48QXPtISA=
+	t=1750962428; cv=none; b=LKPN8clcyKHSBFuKZ15eSzkGNx1VsSdhrQ9uOb+dVCHOIZSm1pwd7VD91lNr6PzNB4jAB4fcbrNauj79luphuaWV+aiJAPEdwU5rqA3zCHgUauaSlvduY83p7acWzfoDN65zURy7A5svOzA3Eu+x3oij9/tcAUgAEgG72gDaDoQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750962326; c=relaxed/simple;
-	bh=KGzEnqhRAms/VjXefL7MW1hexp98BT9h7xj/AKgt1cM=;
-	h=Message-ID:Date:MIME-Version:To:From:Subject:Content-Type; b=lW/jcl5TrpqPMlaemNOS3CmIoA6BrwvFKDJDW2bE0nPLbfTPWhyrCaWyuQQUDSdZEAMnmE6TMjhVkg89J7uNWvHNVqaw49bKU7AUl0zqU9xhof7Gmb2BAJdZr9WeQeWvV7XVyWwuOg5x04PTZSSnEVJxmnBq8JGP6EzEO7MBfh8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ULSgqmDc; arc=none smtp.client-ip=209.85.222.182
+	s=arc-20240116; t=1750962428; c=relaxed/simple;
+	bh=oDLPT18q/r5Sa/sPW0YO3KNd7eDexr8Kae/BmRJwRFs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TOwl6q4z0tKvvjk9RXPMntl0y39ywatoKSB36e8ln4/uXdymWuQoKV5VOScGy679GmYuOz61omxOSaghlKjxMVyBiqSrGfJNHMEqKhNjxg98B8TEqMozlOORSrT7PZ27kdJXYknL+/wbSipaApHDH5znqs6PweYnp3gLQWSBbhQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DLkTv5cW; arc=none smtp.client-ip=209.85.210.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qk1-f182.google.com with SMTP id af79cd13be357-7d41cd4114aso207235985a.2
-        for <linux-input@vger.kernel.org>; Thu, 26 Jun 2025 11:25:24 -0700 (PDT)
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-74ad4533ac5so1883680b3a.0;
+        Thu, 26 Jun 2025 11:27:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750962323; x=1751567123; darn=vger.kernel.org;
-        h=content-transfer-encoding:subject:from:to:content-language
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hXZ1zOKW+DKI+NrN7T4UqnK4Zm/RWKKfS4DU2eq44lI=;
-        b=ULSgqmDcMcygpWHjCoiXnr4adlYHxQWPv+Hd5c9bn6aiuIgopmjqGq2VZWGESxOMuf
-         W4mwAJQXPmOS4TdQ0wXDTo4HfeCqM/q+FqZq8gQ1Sre/EqHA/qHKd1XxHvn1exkr0OC+
-         WfoO1IoCZy6tRiDyvwKJl10R768VSL9pW2kkRUEuy/1Cl2rP/D1BR99lgORGgXWgJaAj
-         r593/eVKQEstpWAoZA9+mPLg6BEWgO5RaSDwE8EbhhaOgtCLbdg7NQfictN3Bfm52wme
-         xa2+UZHQbHLnuzMcBO0vIrk8Kun5Ob1m8V8E6lRKKJ5ovW8RdO+CO+pIBSBMj31c1K7e
-         s6Og==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750962323; x=1751567123;
-        h=content-transfer-encoding:subject:from:to:content-language
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+        d=gmail.com; s=20230601; t=1750962426; x=1751567226; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=hXZ1zOKW+DKI+NrN7T4UqnK4Zm/RWKKfS4DU2eq44lI=;
-        b=jYbEuvVc/G56AOifcfgxE/RJyQZ6KOL8reP4/7pMvMe+5o27CvWnEfKVtJB1UTZTR9
-         NtHGnr6PN33DSLX7fhyn4ULvog934B7majUiZQ61u+oCbx9KKptJVNMXJzRTQqS3jnq3
-         vgue+JBRezxyx2b1YpCJnR0miV7mDVAAIwbYxYToIjS1ET02o2Wncybf+tVBss8BvHJA
-         NzMsj5rfuRywdR/qcglNSqDhCvdqq9mjdQllK8H7WgiZaVQwv5NMtrXe0+39RM+ap8jw
-         9bhqWAwGj9XKsPr1wRkTq4M749YFt82ww3uhaZMk/KG3TnLsEYjcYbj8YfOks7UcCxna
-         7UNw==
-X-Gm-Message-State: AOJu0YxqwJVnZvWzqIt4GtvsyR/qN+9W7qDC8hYiO+uumkoQAnVF9SBk
-	JOAAUVwMVTbZa6Oy6lMGJA02jRP88zhJXSSv9r9rfVDNn9HHUj/lwGXZKVxazowq1uk=
-X-Gm-Gg: ASbGnct0cSGjNkC9rElQXuVdU6jut32m36hN50Eh/EoHe8i5qG+6+BLAaFTf3ebuvPN
-	sgv/mziGnqZ2xOaqAheWX9p06M65/9yllQlNQPQKEdR8YqM1Mt362kFZSnA3eCTBhXHhEsmqfiM
-	pgNP8QuZDOPn1w1SJMlRoZlW9cuQKxmrAmfMiUMXACJpCB+ZgukW12hZAiSksSidkF3Rf1mLdu+
-	Ku0n21/y+LrP6z8CPCF7QMvOWkhQpJM0/Rg0x9tZA7AM0OmMuIaO9Yh3tgPpjwS0y5djDfp3PVD
-	xtae56WEmtStBGDswP9gjlTJE69kmKEPriF6RJNRXLmsI7HpMlNTDV497NcSQIHEbyxK/E5D6mC
-	URF6rwZ5jKh23Anp0XHI5npYVlnaPb/hZ87LDmZR8b+c40g==
-X-Google-Smtp-Source: AGHT+IES4Q0Xt+M1EWSVF/3eXvG3NIZrq4qYA+QJNqdKUNkXqsWAkUc+LOgyA/Rwy+ImoHMTqueW7w==
-X-Received: by 2002:a05:620a:a91b:b0:7ca:e971:8335 with SMTP id af79cd13be357-7d443927551mr91586885a.8.1750962323359;
-        Thu, 26 Jun 2025 11:25:23 -0700 (PDT)
-Received: from ?IPV6:2607:fb90:8d9f:c837:db3e:c20f:6393:ca75? ([2607:fb90:8d9f:c837:db3e:c20f:6393:ca75])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7d44317e671sm32541885a.41.2025.06.26.11.25.22
-        for <linux-input@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 26 Jun 2025 11:25:22 -0700 (PDT)
-Message-ID: <b2d0af40-876e-4a2d-99a2-236b583e9497@gmail.com>
-Date: Thu, 26 Jun 2025 14:25:20 -0400
+        bh=O3vV8wgU8a7ayXx2BtQsO02S1WK7G3s++lysiciQwb4=;
+        b=DLkTv5cWQcI7efo+lMWF462ZU/4CS3HsaobtmNjXxn6W+94l9UOlS3kpsS1G20xWzj
+         fZgU7tLE2gHSIDQvrf8r1Y9zMBzFL6RU4hQ0ueni+4JoKP8K4dHQLT3zIvDhxr3i3RUW
+         1o2MruoGqEKwF+M7/O8tSpq1L5A+HJWdNrRzocWH2CsPmXgC5c6ykj5mNnb/uvCMAsFl
+         OxTCSrYdF5vEc71ShM5XNyych3sDUyDNxygbD75MHFGDwHFbXKw4wI05IIn/Ge2T8+D3
+         cDYw3nGVt4IRNDdq8fz0PB31kxZwncqtumhvxMmvQjEppJ79+ugoItoAz5FlfE+gOYHZ
+         +J8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750962426; x=1751567226;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=O3vV8wgU8a7ayXx2BtQsO02S1WK7G3s++lysiciQwb4=;
+        b=FgiuF2Kt+JjwhRDTweppwYpFaxEawwuirVfte1f7aXxw4nSIhrE6Na5O4rM0uQ5m4f
+         4KKxr7QFt5kInQ3edy3+SGGlXAhFbb1Ecb61RPBRDgMow9Ou8om4fZz1IrmB1w7i56QE
+         8YjNSz3FrFQ2xaPPWR6ieQoSGwEWaI4WNN3nI6CvMKbENiQowQ9DAQky6EXG1ycK1tYj
+         BBRj53Jc6Fu84VG1eLXiwk7FRbxX3RhzCp/GxTMKxdfFohG+Gvmo9YtEUG+uptpBnjIy
+         vsdHVF8DWuY4b3R/1WOSz3V4V2s8Z2lhpinscbbUL2lSTiGi8hYjkVD4LlN01jwmpYHN
+         22AA==
+X-Forwarded-Encrypted: i=1; AJvYcCUFlCXmp7VPUb0r1RhXQLQIK5Oo2I20Y0O2c8Exs1cY1uAa+OJcT8vamXdT1+Cr7qyqqnxMDp4w/fWGNw==@vger.kernel.org, AJvYcCVCDqxB/Lc2lOFAqQYVo/EPLKU6pFAuWg+j7HYd8uweNE5vlwupLyQZ2BiHv8t3gVleednqHmtFrIqd26YW@vger.kernel.org, AJvYcCVaVW8GZWjyTDFMxIYMRsVQihdX1Do1NNWB6TDzRbGXYSJu6Ukr/G78xfJvdnMoXe8fhA+1rWsYm1OSB6k=@vger.kernel.org, AJvYcCVcMNiGw3xxSPlKQnESZSJxFE2pUH6Vog9IRo0EjZ3X4NEKgJ4IBOQa12vUIAQ7rUewDGs7UIWOfGxb@vger.kernel.org
+X-Gm-Message-State: AOJu0YyEaNNDdI5nV/+FbiS+9Pge+2Kvyv36b2W3evhT9GIsiXMdizZz
+	6zB8Gwcw63Pi5NzdCJqSKHhUfProUejlakT8Ls77g3KmcGlfRboyCdQ4
+X-Gm-Gg: ASbGncsG3qFjHueSgAO3yjSMdRXDV+WX8SmPF573ZBJ8Q7yFG8VV+v7BkRJl3BYdpP4
+	nsW29qPVHXAEzIz4iiQcW030dVZjcuFGqX7BNtWbCROaZeO82Ibigd7QWlJ4m2QKpWZAGBkupxU
+	cNHA0ORVfR2HxUYqe4JrTbxXj/dWzgQzPNbWb9rWogr4ZZhQv+jWZbwFEGe1D9gTMX+D4d3ItLB
+	CG5FLzIV3EcP3q9gUYJp6bgLLP45EFTOuUOdLHyfIpJ+gzwmu+oE0EciA8DC5zSY7984q43mnaH
+	jKH75uXrISptgwIMnvRIwlj3cWRZnC+r7cPN0uNSQx29S0j+SABD6rgZcnPcuHk=
+X-Google-Smtp-Source: AGHT+IHgvB5vfIak0gyaCsnSNBHpbe+KRoD8iOXRRL1Z4EwbPyyOJAqHCsgH9fqpjZ/5u/JuBCTSPw==
+X-Received: by 2002:a05:6a20:db0a:b0:215:e02f:1eb8 with SMTP id adf61e73a8af0-220a1007db5mr65991637.14.1750962426363;
+        Thu, 26 Jun 2025 11:27:06 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:9c8f:acd3:efcb:bc3d])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74af541b627sm295107b3a.38.2025.06.26.11.27.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 26 Jun 2025 11:27:05 -0700 (PDT)
+Date: Thu, 26 Jun 2025 11:27:03 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Mario Limonciello <superm1@kernel.org>
+Cc: Hans de Goede <hansg@kernel.org>, Mika Westerberg <westeri@kernel.org>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Linus Walleij <linus.walleij@linaro.org>, 
+	Bartosz Golaszewski <brgl@bgdev.pl>, "open list:GPIO ACPI SUPPORT" <linux-gpio@vger.kernel.org>, 
+	"open list:GPIO ACPI SUPPORT" <linux-acpi@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>, 
+	"open list:INPUT (KEYBOARD, MOUSE, JOYSTICK, TOUCHSCREEN)..." <linux-input@vger.kernel.org>, Mario Limonciello <mario.limonciello@amd.com>
+Subject: Re: [PATCH v2 3/3] Input: soc_button_array: Only debounce cherryview
+ and baytrail systems
+Message-ID: <du46jt3mmkvceestjadbqmxbztp5xcurg4pzwzmqavo3pnfmak@tcfnufcu6de5>
+References: <20250625181342.3175969-1-superm1@kernel.org>
+ <20250625181342.3175969-4-superm1@kernel.org>
+ <f5e1d50f-d85e-45a3-a131-f2da603c620c@kernel.org>
+ <57e9b1d5-faf1-4c7a-87fc-047e0dc102f9@kernel.org>
+ <a9bed0b4-b050-468b-91cb-bc4c81352046@kernel.org>
+ <8fc9051f-bef3-43fc-83a1-172a0eb599dc@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US
-To: linux-input@vger.kernel.org
-From: Nolan Provencher <provencher.nolan@gmail.com>
-Subject: [BUG] Touch-pad is stuck on slow poll rate - Thinkpad P14s Gen 2
- (AMD)
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <8fc9051f-bef3-43fc-83a1-172a0eb599dc@kernel.org>
 
-Good afternoon maintainers! I wanted to report an issue with the 
-touchpad on the Thinkpad P14s Gen 2. The touchpad has a delayed feeling 
-compared to Windows. Gestures are very hard to trigger on Gnome 
-environmentsÂ on Wayland. I can only trigger gestures if I move my 
-fingers very slowly. This issue is persistentÂ and never changes.
+On Wed, Jun 25, 2025 at 03:34:07PM -0500, Mario Limonciello wrote:
+> On 6/25/25 2:42 PM, Hans de Goede wrote:
+> > Hi,
+> > 
+> > On 25-Jun-25 9:23 PM, Mario Limonciello wrote:
+> > > On 6/25/25 2:03 PM, Hans de Goede wrote:
+> > > > Hi,
+> > > > 
+> > > > On 25-Jun-25 8:13 PM, Mario Limonciello wrote:
+> > > > > From: Mario Limonciello <mario.limonciello@amd.com>
+> > > > > 
+> > > > > commit 5c4fa2a6da7fb ("Input: soc_button_array - debounce the buttons")
+> > > > > hardcoded all soc-button-array devices to use a 50ms debounce timeout
+> > > > > but this doesn't work on all hardware.  The hardware I have on hand
+> > > > > actually prescribes in the ASL that the timeout should be 0:
+> > > > > 
+> > > > > GpioInt (Edge, ActiveBoth, Exclusive, PullUp, 0x0000,
+> > > > >            "\\_SB.GPIO", 0x00, ResourceConsumer, ,)
+> > > > > {   // Pin list
+> > > > >       0x0000
+> > > > > }
+> > > > > 
+> > > > > Many cherryview and baytrail systems don't have accurate values in the
+> > > > > ASL for debouncing and thus use software debouncing in gpio_keys. The
+> > > > > value to use is programmed in soc_button_array.  Detect Cherry View
+> > > > > and Baytrail using ACPI HID IDs used for those GPIO controllers and apply
+> > > > > the 50ms only for those systems.
+> > > > > 
+> > > > > Cc: Hans de Goede <hansg@kernel.org>
+> > > > > Fixes: 5c4fa2a6da7fb ("Input: soc_button_array - debounce the buttons")
+> > > > > Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+> > > > 
+> > > > I'm not a fan of this approach, I believe that we need to always debounce
+> > > > when dealing with mechanical buttons otherwise we will get unreliable /
+> > > > spurious input events.
+> > > > 
+> > > > My suggestion to deal with the issue where setting up debouncing at
+> > > > the GPIO controller level is causing issues is to always use software
+> > > > debouncing (which I suspect is what Windows does).
+> > > > 
+> > > > Let me copy and pasting my reply from the v1 thread with
+> > > > a bit more detail on my proposal:
+> > > > 
+> > > > My proposal is to add a "no_hw_debounce" flag to
+> > > > struct gpio_keys_platform_data and make the soc_button_array
+> > > > driver set that regardless of which platform it is running on.
+> > > > 
+> > > > And then in gpio_keys.c do something like this:
+> > > > 
+> > > > diff --git a/drivers/input/keyboard/gpio_keys.c b/drivers/input/keyboard/gpio_keys.c
+> > > > index f9db86da0818..2788d1e5782c 100644
+> > > > --- a/drivers/input/keyboard/gpio_keys.c
+> > > > +++ b/drivers/input/keyboard/gpio_keys.c
+> > > > @@ -552,8 +552,11 @@ static int gpio_keys_setup_key(struct platform_device *pdev,
+> > > >            bool active_low = gpiod_is_active_low(bdata->gpiod);
+> > > >              if (button->debounce_interval) {
+> > > > -            error = gpiod_set_debounce(bdata->gpiod,
+> > > > -                    button->debounce_interval * 1000);
+> > > > +            if (ddata->pdata->no_hw_debounce)
+> > > > +                error = -EINVAL;
+> > > > +            else
+> > > > +                error = gpiod_set_debounce(bdata->gpiod,
+> > > > +                        button->debounce_interval * 1000);
+> > > >                /* use timer if gpiolib doesn't provide debounce */
+> > > >                if (error < 0)
+> > > >                    bdata->software_debounce =
+> > > > 
+> > > > So keep debouncing, as that will always be necessary when dealing with
+> > > > mechanical buttons, but always use software debouncing to avoid issues
+> > > > like the issue you are seeing.
+> > > > 
+> > > > My mention of the BYT/CHT behavior in my previous email was to point
+> > > > out that those already always use software debouncing for the 50 ms
+> > > > debounce-period. It was *not* my intention to suggest to solve this
+> > > > with platform specific quirks/behavior.
+> > > > 
+> > > > Regards,
+> > > > 
+> > > > Hans
+> > > 
+> > > I mentioned on the v1 too, but let's shift conversation here.
+> > 
+> > Ack.
+> > 
+> > > So essentially all platforms using soc_button_array would always turn on software debouncing of 50ms?
+> > 
+> > Yes that is what my proposal entails.
+> > 
+> > > In that case what happens if the hardware debounce was ALSO set from the ASL?  You end up with double debouncing I would expect.
+> > 
+> > A hardware debounce of say 25 ms would still report the button down
+> > immediately, it just won't report any state changes for 25 ms
+> > after that, at least that is how I would expect this to work.
+> > 
+> > So the 50 ms ignore-button-releases for the sw debounce will start
+> > at the same time as the hw ignore-button-release window and basically
+> > the longest window will win. So having both active should not really
+> > cause any problems.
+> > 
+> > Still only using one or the other as you propose below would
+> > be better.
+> > 
+> > > Shouldn't you only turn on software debouncing when it's required?
+> > > 
+> > > I'm wondering if considering the first two patches we should have gpio-keys look up if hardware can support debounce, and then "only if it can't" we program the value from soc button array.
+> > > 
+> > > It can be done by having gpio_keys do a "get()" on debounce.  Iff the driver returns -ENOTSUPP /then/ program the software debounce.
+> > 
+> > Any special handling here should be done in soc_button_array since
+> > this is specific to how with ACPI we have the GPIO resource
+> > descriptors setting up the hw-debounce and then the need to do
+> > software debounce when that was not setup.
+> > 
+> > As for checking for -ENOTSUPP I would make soc_button_array
+> > do something like this.
+> > 
+> > ret = debounce_get()
+> > if (ret <= 0)
+> > 	use-sw-debounce;
+> > 
+> > If hw-debounce is supported but not setup, either because
+> > the exact debounce value being requested is not supported
+> > or because the DSDT specified 0, then sw-debouncing should
+> > also be used.
+> > 
+> > Note this will still require the use of a new no_hw_debounce
+> > flag so that we don't end up enabling hw-debounce in
+> > the hw-debounce is supported but not setup case.
+> > 
+> > Regards,
+> > 
+> > Hans
+> > 
+> 
+> I did some experiments with your proposal (letting SW debounce get
+> programmed) and everything seems to work fine*.  I think you're right that
+> setting a double debounce would be worst one wins.
 
-[specs]---------
+I am confused, can you explain why do we need this new no_hw_debounce
+flag? If AMD gpio driver is unable to program 50 ms debounce for a given
+pin but does not return an error (or returns an error but leaves system
+in a bad state) that is the issue in that driver and needs to be fixed
+there? Why do we need to change soc_button_driver at all?
 
-Output from libinput.list-devices regarding the touchpad:
+Thanks.
 
-Device: Â  Â  Â  Â  Â  SynPS/2 Synaptics TouchPad
-Kernel: Â  Â  Â  Â  Â  /dev/input/event11
-Group: Â  Â  Â  Â  Â  Â 8
-Seat: Â  Â  Â  Â  Â  Â  seat0, default
-Size: Â  Â  Â  Â  Â  Â  100x68mm
-Capabilities: Â  Â  pointer gesture
-Tap-to-click: Â  Â  disabled
-Tap-and-drag: Â  Â  enabled
-Tap drag lock: Â  Â disabled
-Left-handed: Â  Â  Â disabled
-Nat.scrolling: Â  Â disabled
-Middle emulation: disabled
-Calibration: Â  Â  Â n/a
-Scroll methods: Â  *two-finger edge
-Click methods: Â  Â *button-areas clickfinger
-Disable-w-typing: enabled
-Accel profiles: Â  flat *adaptive
-Rotation: Â  Â  Â  Â  n/a
-
-
-Operating system: Ubuntu 25.04 -- problem is persistentÂ on Fedora 42, 
-Ubuntu 24.04Lts, and Ubuntu 22.04Lts as well.
-Kernel:Â 6.14.0-22-generic
-CPU: Ryzen 5 Pro 5650U
-GPU: Radeon Vega integrated graphics
-
-
-[errors]---------
-
-Output from the command 'sudo dmesg | grep synaptic':
-
-[ Â  Â 1.746739] psmouse serio1: synaptics: queried max coordinates: x 
-[..5678], y [..4694]
-[ Â  Â 1.781081] psmouse serio1: synaptics: queried min coordinates: x 
-[1266..], y [1162..]
-[ Â  Â 1.781107] psmouse serio1: synaptics: Your touchpad (PNP: LEN2073 
-PNP0f13) says it can support a different bus. If i2c-hid and hid-rmi are 
-not used, you might want to try setting psmouse.synaptics_intertouch to 
-1 and report this to linux-input@vger.kernel.org.
-[ Â  Â 1.847774] psmouse serio1: synaptics: Touchpad model: 1, fw: 10.32, 
-id: 0x1e2a1, caps: 0xf01ea3/0x940300/0x12e800/0x500000, board id: 3471, 
-fw id: 3584089
-[ Â  Â 1.847823] psmouse serio1: synaptics: serio: Synaptics pass-through 
-port at isa0060/serio1/input0
-
-
-[notes]Â ---------
-
-I have the kernel parameter 'psmouse.synaptics_intertouch=1' set and the 
-i2c-hid and hid-rmi kernel modules are not loaded according to the lsmod 
-command.
-I have also attempted blacklisting the psmouse kernel module in the grub 
-configuration as well as creating a blacklist in '/etc/modprobe.d/' 
---but psmouse persists to load regardless.
-None of the fix attempts I have tried have resulted in any change in 
-symptoms or outcomes.
-
-Thank you for your time!
-
+-- 
+Dmitry
 
