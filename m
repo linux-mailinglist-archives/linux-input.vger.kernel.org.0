@@ -1,48 +1,79 @@
-Return-Path: <linux-input+bounces-13088-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13089-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50C49AEA53C
-	for <lists+linux-input@lfdr.de>; Thu, 26 Jun 2025 20:21:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA799AEA559
+	for <lists+linux-input@lfdr.de>; Thu, 26 Jun 2025 20:25:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D79EE7A96BE
-	for <lists+linux-input@lfdr.de>; Thu, 26 Jun 2025 18:19:39 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 464017A3635
+	for <lists+linux-input@lfdr.de>; Thu, 26 Jun 2025 18:24:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F16A221F11;
-	Thu, 26 Jun 2025 18:20:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 730F32ECE80;
+	Thu, 26 Jun 2025 18:25:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PxJyu2GI"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ULSgqmDc"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1979194AD5;
-	Thu, 26 Jun 2025 18:20:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2E9420C46D
+	for <linux-input@vger.kernel.org>; Thu, 26 Jun 2025 18:25:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750962058; cv=none; b=a39NczTYOexXEhEg3WY9rhUwGZEM6KYI4sClGYX4kaHRG2WJxqxwWpJvPCjQLTZAX51xefv4EelC93ERrPoFmK+wDavjpwcryPoAzPStQc/DZkBeXz5bZpncvC+G3i4xmlfUZGtrFHhh7vvKlfbrbYw8QD127mgNU9tV+Mjj2sE=
+	t=1750962326; cv=none; b=f2z3Eo6rkJTcCP30TcZJuFbgiM+P7X1g6lWHbkwhhabYo49L1Tdg/cneQ5QGrO9aN2AYhrientxTH7zVFY3poCezZxqVmputmtB2niN1VFY/B/S/zSmNWoGrRQqj9db4pmwJ6T32ZBrbQK6PlDsa14OA+1K2OC+TAk48QXPtISA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750962058; c=relaxed/simple;
-	bh=wfIlpLMZLEp7iEI0/9yZjuSwtSYUGXsKA3C6nGksKZA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Z3oPoTy7eu2Hi4PuGZhmGocG3062CcHIGz4it06S7u4H4S1RQskzCVV8CULtOUC31tID4mxZZeQbeXRYLFeai2oKWVkj6EhShuJHDOeMu/+iUQcvKpHVPQPiKSeD5ZpySrw7MkNxc+TrfLQgbCkLEn8E9xCnVsZ9jcu+YOm7CA8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PxJyu2GI; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5A41C4CEEB;
-	Thu, 26 Jun 2025 18:20:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750962056;
-	bh=wfIlpLMZLEp7iEI0/9yZjuSwtSYUGXsKA3C6nGksKZA=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=PxJyu2GIGhPRAH6dE+pDZmNZXOtkj9toMN5pOarveVaVI8dLP9SnRN4sDeiPMocST
-	 3b89QJhvwFDJ0BafbAfX2DoDIYi3TqQmo9ZhfbHKTj9GC1tXFxB2y35DVMOqpkSCpi
-	 RgLeQBUYzvyuHlvzI2jAphGsYSLkfoXyoLVM6zLvI7sVk36bqKBcCFhrtkpMMgbc2P
-	 9Nt+0ZKBBMq1CNb84qgJgOzOQGstckj/dXRhh1zUbkppzD6yoYCxcEUBOIRRinT2Ae
-	 ker2RR3fa/G1/3DivxomVJ+9fKVwHmnxLCMO2xVxDVPTixiH79T2B2ZoyRyxkfHsRQ
-	 euOHV13x2fcNQ==
-Message-ID: <cbbf0caf-82ce-4427-9844-b11e0f5cacdb@kernel.org>
-Date: Thu, 26 Jun 2025 13:20:54 -0500
+	s=arc-20240116; t=1750962326; c=relaxed/simple;
+	bh=KGzEnqhRAms/VjXefL7MW1hexp98BT9h7xj/AKgt1cM=;
+	h=Message-ID:Date:MIME-Version:To:From:Subject:Content-Type; b=lW/jcl5TrpqPMlaemNOS3CmIoA6BrwvFKDJDW2bE0nPLbfTPWhyrCaWyuQQUDSdZEAMnmE6TMjhVkg89J7uNWvHNVqaw49bKU7AUl0zqU9xhof7Gmb2BAJdZr9WeQeWvV7XVyWwuOg5x04PTZSSnEVJxmnBq8JGP6EzEO7MBfh8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ULSgqmDc; arc=none smtp.client-ip=209.85.222.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-qk1-f182.google.com with SMTP id af79cd13be357-7d41cd4114aso207235985a.2
+        for <linux-input@vger.kernel.org>; Thu, 26 Jun 2025 11:25:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1750962323; x=1751567123; darn=vger.kernel.org;
+        h=content-transfer-encoding:subject:from:to:content-language
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=hXZ1zOKW+DKI+NrN7T4UqnK4Zm/RWKKfS4DU2eq44lI=;
+        b=ULSgqmDcMcygpWHjCoiXnr4adlYHxQWPv+Hd5c9bn6aiuIgopmjqGq2VZWGESxOMuf
+         W4mwAJQXPmOS4TdQ0wXDTo4HfeCqM/q+FqZq8gQ1Sre/EqHA/qHKd1XxHvn1exkr0OC+
+         WfoO1IoCZy6tRiDyvwKJl10R768VSL9pW2kkRUEuy/1Cl2rP/D1BR99lgORGgXWgJaAj
+         r593/eVKQEstpWAoZA9+mPLg6BEWgO5RaSDwE8EbhhaOgtCLbdg7NQfictN3Bfm52wme
+         xa2+UZHQbHLnuzMcBO0vIrk8Kun5Ob1m8V8E6lRKKJ5ovW8RdO+CO+pIBSBMj31c1K7e
+         s6Og==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750962323; x=1751567123;
+        h=content-transfer-encoding:subject:from:to:content-language
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=hXZ1zOKW+DKI+NrN7T4UqnK4Zm/RWKKfS4DU2eq44lI=;
+        b=jYbEuvVc/G56AOifcfgxE/RJyQZ6KOL8reP4/7pMvMe+5o27CvWnEfKVtJB1UTZTR9
+         NtHGnr6PN33DSLX7fhyn4ULvog934B7majUiZQ61u+oCbx9KKptJVNMXJzRTQqS3jnq3
+         vgue+JBRezxyx2b1YpCJnR0miV7mDVAAIwbYxYToIjS1ET02o2Wncybf+tVBss8BvHJA
+         NzMsj5rfuRywdR/qcglNSqDhCvdqq9mjdQllK8H7WgiZaVQwv5NMtrXe0+39RM+ap8jw
+         9bhqWAwGj9XKsPr1wRkTq4M749YFt82ww3uhaZMk/KG3TnLsEYjcYbj8YfOks7UcCxna
+         7UNw==
+X-Gm-Message-State: AOJu0YxqwJVnZvWzqIt4GtvsyR/qN+9W7qDC8hYiO+uumkoQAnVF9SBk
+	JOAAUVwMVTbZa6Oy6lMGJA02jRP88zhJXSSv9r9rfVDNn9HHUj/lwGXZKVxazowq1uk=
+X-Gm-Gg: ASbGnct0cSGjNkC9rElQXuVdU6jut32m36hN50Eh/EoHe8i5qG+6+BLAaFTf3ebuvPN
+	sgv/mziGnqZ2xOaqAheWX9p06M65/9yllQlNQPQKEdR8YqM1Mt362kFZSnA3eCTBhXHhEsmqfiM
+	pgNP8QuZDOPn1w1SJMlRoZlW9cuQKxmrAmfMiUMXACJpCB+ZgukW12hZAiSksSidkF3Rf1mLdu+
+	Ku0n21/y+LrP6z8CPCF7QMvOWkhQpJM0/Rg0x9tZA7AM0OmMuIaO9Yh3tgPpjwS0y5djDfp3PVD
+	xtae56WEmtStBGDswP9gjlTJE69kmKEPriF6RJNRXLmsI7HpMlNTDV497NcSQIHEbyxK/E5D6mC
+	URF6rwZ5jKh23Anp0XHI5npYVlnaPb/hZ87LDmZR8b+c40g==
+X-Google-Smtp-Source: AGHT+IES4Q0Xt+M1EWSVF/3eXvG3NIZrq4qYA+QJNqdKUNkXqsWAkUc+LOgyA/Rwy+ImoHMTqueW7w==
+X-Received: by 2002:a05:620a:a91b:b0:7ca:e971:8335 with SMTP id af79cd13be357-7d443927551mr91586885a.8.1750962323359;
+        Thu, 26 Jun 2025 11:25:23 -0700 (PDT)
+Received: from ?IPV6:2607:fb90:8d9f:c837:db3e:c20f:6393:ca75? ([2607:fb90:8d9f:c837:db3e:c20f:6393:ca75])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7d44317e671sm32541885a.41.2025.06.26.11.25.22
+        for <linux-input@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 26 Jun 2025 11:25:22 -0700 (PDT)
+Message-ID: <b2d0af40-876e-4a2d-99a2-236b583e9497@gmail.com>
+Date: Thu, 26 Jun 2025 14:25:20 -0400
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -50,168 +81,81 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 4/4] Input: Don't send fake button presses to wake
- system
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Hans de Goede <hansg@kernel.org>, Mika Westerberg <westeri@kernel.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski
- <brgl@bgdev.pl>, "open list:GPIO ACPI SUPPORT" <linux-gpio@vger.kernel.org>,
- "open list:GPIO ACPI SUPPORT" <linux-acpi@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:INPUT (KEYBOARD, MOUSE, JOYSTICK, TOUCHSCREEN)..."
- <linux-input@vger.kernel.org>, Mario Limonciello <mario.limonciello@amd.com>
-References: <20250625215813.3477840-1-superm1@kernel.org>
- <20250625215813.3477840-5-superm1@kernel.org>
- <710f7c04-0099-4611-b2ea-4dd4219ad5e2@kernel.org>
- <23f30094-68cc-47fe-86e0-5289cb41e940@kernel.org>
- <rn2kp5tog2agvswva2ipqq2ytiqdcgccnocudsg6ckwfh4roei@provk2g6dita>
- <363c2b92-4bfc-4537-9fca-025eef09526f@kernel.org>
- <nxticocp26r5mmpkttritw76h5igw7bdpus6zaf5krkso2h5xy@wna6m2quekfi>
 Content-Language: en-US
-From: Mario Limonciello <superm1@kernel.org>
-In-Reply-To: <nxticocp26r5mmpkttritw76h5igw7bdpus6zaf5krkso2h5xy@wna6m2quekfi>
+To: linux-input@vger.kernel.org
+From: Nolan Provencher <provencher.nolan@gmail.com>
+Subject: [BUG] Touch-pad is stuck on slow poll rate - Thinkpad P14s Gen 2
+ (AMD)
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 6/26/2025 1:07 PM, Dmitry Torokhov wrote:
-> On Thu, Jun 26, 2025 at 12:53:02PM -0500, Mario Limonciello wrote:
->>
->>
->> On 6/26/25 12:44 PM, Dmitry Torokhov wrote:
->>> Hi Mario,
->>>
->>> On Thu, Jun 26, 2025 at 06:33:08AM -0500, Mario Limonciello wrote:
->>>>
->>>>
->>>> On 6/26/25 3:35 AM, Hans de Goede wrote:
->>>>> Hi Mario,
->>>>>
->>>>> On 25-Jun-25 23:58, Mario Limonciello wrote:
->>>>>> From: Mario Limonciello <mario.limonciello@amd.com>
->>>>>>
->>>>>> Sending an input event to wake a system does wake it, but userspace picks
->>>>>> up the keypress and processes it.  This isn't the intended behavior as it
->>>>>> causes a suspended system to wake up and then potentially turn off if
->>>>>> userspace is configured to turn off on power button presses.
->>>>>>
->>>>>> Instead send a PM wakeup event for the PM core to handle waking the system.
->>>>>>
->>>>>> Cc: Hans de Goede <hansg@kernel.org>
->>>>>> Fixes: 0f107573da417 ("Input: gpio_keys - handle the missing key press event in resume phase")
->>>>>> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
->>>>>> ---
->>>>>>     drivers/input/keyboard/gpio_keys.c | 7 +------
->>>>>>     1 file changed, 1 insertion(+), 6 deletions(-)
->>>>>>
->>>>>> diff --git a/drivers/input/keyboard/gpio_keys.c b/drivers/input/keyboard/gpio_keys.c
->>>>>> index 773aa5294d269..4c6876b099c43 100644
->>>>>> --- a/drivers/input/keyboard/gpio_keys.c
->>>>>> +++ b/drivers/input/keyboard/gpio_keys.c
->>>>>> @@ -420,12 +420,7 @@ static irqreturn_t gpio_keys_gpio_isr(int irq, void *dev_id)
->>>>>>     		pm_stay_awake(bdata->input->dev.parent);
->>>>>>     		if (bdata->suspended  &&
->>>>>>     		    (button->type == 0 || button->type == EV_KEY)) {
->>>>>> -			/*
->>>>>> -			 * Simulate wakeup key press in case the key has
->>>>>> -			 * already released by the time we got interrupt
->>>>>> -			 * handler to run.
->>>>>> -			 */
->>>>>> -			input_report_key(bdata->input, button->code, 1);
->>>>>> +			pm_wakeup_event(bdata->input->dev.parent, 0);
->>>
->>> There is already pm_stay_awake() above.
->>
->> But that doesn't help with the fact that userspace gets KEY_POWER from this
->> and reacts to it.
->>
->>>
->>>>>>     		}
->>>>>>     	}
->>>>>
->>>>> Hmm, we have the same problem on many Bay Trail / Cherry Trail
->>>>> windows 8 / win10 tablets, so  this has been discussed before and e.g.
->>>>> Android userspace actually needs the button-press (evdev) event to not
->>>>> immediately go back to sleep, so a similar patch has been nacked in
->>>>> the past.
->>>>>
->>>>> At least for GNOME this has been fixed in userspace by ignoring
->>>>> power-button events the first few seconds after a resume from suspend.
->>>>>
->>>>
->>>> The default behavior for logind is:
->>>>
->>>> HandlePowerKey=poweroff
->>>>
->>>> Can you share more about what version of GNOME has a workaround?
->>>> This was actually GNOME (on Ubuntu 24.04) that I found this issue.
->>>>
->>>> Nonetheless if this is dependent on an Android userspace problem could we
->>>> perhaps conditionalize it on CONFIG_ANDROID_BINDER_DEVICES?
->>>
->>> No it is not only Android, other userspace may want to distinguish
->>> between normal and "dark" resume based on keyboard or other user
->>> activity.
->>>
->>> Thanks.
->>>
->> In this specific case does the key passed up to satisfy this userspace
->> requirement and keep it awake need to specifically be a fabricated
->> KEY_POWER?
->>
->> Or could we find a key that doesn't require some userspace to ignore
->> KEY_POWER?
->>
->> Maybe something like KEY_RESERVED, KEY_FN, or KEY_POWER2?
-> 
-> The code makes no distinction between KEY_POWER and KEY_A or KEY_B, etc.
-> It simply passes event to userspace for processing.
+Good afternoon maintainers! I wanted to report an issue with the 
+touchpad on the Thinkpad P14s Gen 2. The touchpad has a delayed feeling 
+compared to Windows. Gestures are very hard to trigger on Gnome 
+environments on Wayland. I can only trigger gestures if I move my 
+fingers very slowly. This issue is persistent and never changes.
 
-Right.  I don't expect a problem with most keys, but my proposal is to 
-special case KEY_POWER while suspended.  If a key press event must be 
-sent to keep Android and other userspace happy I suggest sending 
-something different just for that situation.
+[specs]---------
 
-Like this:
+Output from libinput.list-devices regarding the touchpad:
 
-diff --git a/drivers/input/keyboard/gpio_keys.c 
-b/drivers/input/keyboard/gpio_keys.c
-index 773aa5294d269..66e788d381956 100644
---- a/drivers/input/keyboard/gpio_keys.c
-+++ b/drivers/input/keyboard/gpio_keys.c
-@@ -425,7 +425,10 @@ static irqreturn_t gpio_keys_gpio_isr(int irq, void 
-*dev_id)
-                          * already released by the time we got interrupt
-                          * handler to run.
-                          */
--                       input_report_key(bdata->input, button->code, 1);
-+                       if (button->code == KEY_POWER)
-+                               input_report_key(bdata->input, 
-KEY_WAKEUP, 1);
-+                       else
-+                               input_report_key(bdata->input, 
-button->code, 1);
-                 }
-         }
+Device:           SynPS/2 Synaptics TouchPad
+Kernel:           /dev/input/event11
+Group:            8
+Seat:             seat0, default
+Size:             100x68mm
+Capabilities:     pointer gesture
+Tap-to-click:     disabled
+Tap-and-drag:     enabled
+Tap drag lock:    disabled
+Left-handed:      disabled
+Nat.scrolling:    disabled
+Middle emulation: disabled
+Calibration:      n/a
+Scroll methods:   *two-finger edge
+Click methods:    *button-areas clickfinger
+Disable-w-typing: enabled
+Accel profiles:   flat *adaptive
+Rotation:         n/a
 
 
+Operating system: Ubuntu 25.04 -- problem is persistent on Fedora 42, 
+Ubuntu 24.04Lts, and Ubuntu 22.04Lts as well.
+Kernel: 6.14.0-22-generic
+CPU: Ryzen 5 Pro 5650U
+GPU: Radeon Vega integrated graphics
 
-> 
-> You need to fix your userspace. Even with your tweak it is possible for
-> userspace to get a normal key event "too early" and turn off the screen
-> again, so you still need to handle this situation.
-> 
-> Thanks.
-> 
 
-I want to note this driver works quite differently than how ACPI power 
-button does.
+[errors]---------
 
-You can see in acpi_button_notify() that the "keypress" is only 
-forwarded when not suspended [1].  Otherwise it's just wakeup event 
-(which is what my patch was modeling).
+Output from the command 'sudo dmesg | grep synaptic':
 
-https://github.com/torvalds/linux/blob/v6.16-rc3/drivers/acpi/button.c#L461 
-[1]
+[    1.746739] psmouse serio1: synaptics: queried max coordinates: x 
+[..5678], y [..4694]
+[    1.781081] psmouse serio1: synaptics: queried min coordinates: x 
+[1266..], y [1162..]
+[    1.781107] psmouse serio1: synaptics: Your touchpad (PNP: LEN2073 
+PNP0f13) says it can support a different bus. If i2c-hid and hid-rmi are 
+not used, you might want to try setting psmouse.synaptics_intertouch to 
+1 and report this to linux-input@vger.kernel.org.
+[    1.847774] psmouse serio1: synaptics: Touchpad model: 1, fw: 10.32, 
+id: 0x1e2a1, caps: 0xf01ea3/0x940300/0x12e800/0x500000, board id: 3471, 
+fw id: 3584089
+[    1.847823] psmouse serio1: synaptics: serio: Synaptics pass-through 
+port at isa0060/serio1/input0
+
+
+[notes] ---------
+
+I have the kernel parameter 'psmouse.synaptics_intertouch=1' set and the 
+i2c-hid and hid-rmi kernel modules are not loaded according to the lsmod 
+command.
+I have also attempted blacklisting the psmouse kernel module in the grub 
+configuration as well as creating a blacklist in '/etc/modprobe.d/' 
+--but psmouse persists to load regardless.
+None of the fix attempts I have tried have resulted in any change in 
+symptoms or outcomes.
+
+Thank you for your time!
 
 
