@@ -1,86 +1,86 @@
-Return-Path: <linux-input+bounces-13116-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13117-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD79FAEA9F7
-	for <lists+linux-input@lfdr.de>; Fri, 27 Jun 2025 00:48:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BC79AEACD4
+	for <lists+linux-input@lfdr.de>; Fri, 27 Jun 2025 04:33:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 851D77A2AFA
-	for <lists+linux-input@lfdr.de>; Thu, 26 Jun 2025 22:47:22 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 19E7E7A3F76
+	for <lists+linux-input@lfdr.de>; Fri, 27 Jun 2025 02:32:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7404815990C;
-	Thu, 26 Jun 2025 22:47:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 02EE822EE5;
+	Fri, 27 Jun 2025 02:33:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DoEAxJxP"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Az5GSdU4"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69BE020487E;
-	Thu, 26 Jun 2025 22:47:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 595AE3C01;
+	Fri, 27 Jun 2025 02:33:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750978051; cv=none; b=Mhvzqa+mIPrRU44GCb2Q4RwqwhAmjG8uJHma9r7BRdVo4YIODhkpLQ1lnOhLf3yIq9Ug3B3h99o+nvJ84wfLZhwF9ar3Rp2HlHCN3V1BHbQ87yxTvoXUQ6IUZ/nh08/RCK4cU6CZOJ5GrI55qtj+vqYhssl9hxrr+yPEvYxGhiM=
+	t=1750991601; cv=none; b=UBEJAm5hy1g7cbbfLxmVi0nt9Kz+t0P1cqzxCv+3Ri5JP9s15OdGoL6ae11TJAaFM87Lx9lYRa8FU0uFaZPVxds6suXvXZNQcaw8GTD7tq5XKqrDvjXk9y1wBOZk0zq+X5a1SJFz66A3TicKTd3Rhz0H+UPC2h/Q6xCVq0d1p6I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750978051; c=relaxed/simple;
-	bh=xwvOQG2Fp0TnncUh059mBhuoX370Uy0jlkDeTFTw6LU=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=JY4QNwUqkBk5B8WGWJqHT1TH0iv7mVWTU+EXTxBiTIfh0Q3TOoWVnUkBH6wKDh73DXh/z+7FFE/SdQueQNzjAmlFWh81BJ7i0coDAcf96LO/Cwe9sp/IvPyFY/MFz4GVJBJkBHFd3UgcJUZtu3IEtmkm/acF6qTfh+UODwrg/5Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DoEAxJxP; arc=none smtp.client-ip=209.85.221.44
+	s=arc-20240116; t=1750991601; c=relaxed/simple;
+	bh=JeDvWOF1XyNZlVbSRkKg62AXuM9cfneLs6TPaSfZpr4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=c32HbuvFh6ME9wyI5DrPz3W4nrQMMdQbUjBELuVZSlXNRv6hojsT17JDy2XPUIjP6H/L+ubSlRK6H4F9se0WNC8iNFelVNyXEFFCPCsmiPKzkamvFmiAb11WvAmuf1ZUEbEm1/OdEuk+ao8SyLTeOrlqh0eK8asIbvJSb92sSNI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Az5GSdU4; arc=none smtp.client-ip=209.85.210.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-3a57ae5cb17so934955f8f.0;
-        Thu, 26 Jun 2025 15:47:29 -0700 (PDT)
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-7399a2dc13fso2132753b3a.2;
+        Thu, 26 Jun 2025 19:33:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750978048; x=1751582848; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1750991597; x=1751596397; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=LE46Fd5THhoMQbQ1yaquPpZV06WccRBMPXqa1f4i6Rg=;
-        b=DoEAxJxPGaNjqmmeHP6RjVeGf9oV18/6sX32hAMUJG8wdf8GDH2V1PS1eMYMUZT0C4
-         DWOwGbH/bTFBzC4YYzayqcpO2ZuZ52Lpr6JGijvg75osn+u4p0qmHBBwUNG4JfuqOWOW
-         b6WnztyJXrxgw5nnj6yO67yUTdkt9Sb19hK6Dkap/gN2Goqpe1Rtwawhoy8oUoVjlIIl
-         HRl/4sRnM4wbLo9ZKHl17Uz+S+ijxvAn/Wa927tqmrBuVsen5OMRZ2UFBUa2UDfxIUAO
-         MFt/4gAoWXg/HX7DuVOR1i4FgqJoGu/URu+CwAiwfI/iCUYqwSSQEkblphMFFPHoZGzh
-         O+Ow==
+        bh=mzGMUD5FoQ+Qma22SIVK819nPdr7pYinoircpLfGQJY=;
+        b=Az5GSdU4jXt9EBpiLFgVDCPuqDp/gAnc7qFKU7GChE8gnxhRgRB7fi2xsBxhyF4fcU
+         cVOH0F5EcI74Zf2sU85I7Z/HuAuEVqJvp1mIp66RRpfJ6i2gIMIMiZCEGuO8CPXWp+y/
+         KXjdxEJGmKfhbHPvC9LyMmE29bDU9U+gbn3kq1HGORrKVu0L6YIcSh3CR8ATfl4w7ITu
+         XgITJXMSPr8aWXLou9qPK+tdePdIhw3xfKV7+5kxay6hjKtdFGtWsiRd1dTWWGvbZvdp
+         ipSOW2XUWji9AB4OFPBXLdIjEDZRXFJXPGdXTVQW6RLkLohyH4tPzt9QJwHi+yObklMh
+         ZWSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750978048; x=1751582848;
+        d=1e100.net; s=20230601; t=1750991597; x=1751596397;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=LE46Fd5THhoMQbQ1yaquPpZV06WccRBMPXqa1f4i6Rg=;
-        b=qz//F/ieQYZ2AO6AumpWqUTEP+MBgQTfa6w/QKy9vv92LFuaTB107z3e9yHAGUBt56
-         L7Z0IkepBfTdDZzJXiHrY4GErSOgv5DP3ixF9HxtX1b44d/wuEK/HDALAFzTIc4Vot4W
-         VITQk6tDYeEvhx2RsAGiVemHQ0chcRSwsVM8Fr4MImjqDfaJKYI/K6mGvMnPiyYo7Da4
-         TEhfTh37AZdAs9FIRDvhwbofW9tp6xM7P4TU9zKi8h70EqYDJsMNDM74N2GD46gZZP13
-         cCXyGaBL0HRLGHT0mblhSKsZ8PEZTrSW8q80hDgURYKyID6qfv89cv8OCx2EcmvcZYDB
-         CqcQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV3AJ9iFHXFFnL4CKDhxOAz9w3FQkqzbmAmnnBP4Fg/VahkNxT7ZjMqU6JgS9J/8H+ZVQJkAnu+OQeI6VJd@vger.kernel.org, AJvYcCW7Jeii2f/ZJdGCSVamNkxx7DnuS+vnGkM10NOzfAXnwAVzam/3ykc6ApHVDM1RvIeqGmIef5WzQtZeHQ==@vger.kernel.org, AJvYcCX/A+ZFH94Ga988TmgLVvPC2UK6VUmGyifdrytIB3NfE+h4+nB5mNUzxVcnTrB7sD5fHBkEH/wB@vger.kernel.org
-X-Gm-Message-State: AOJu0YzTC7TLm6auiAqsO5PTY4HYrNDsmZSV01vGJ3RwMSpAky59bHDa
-	qQwlFMokb06YKSkeevvGUon+LBbnFUaMJgE1GVaxw5nMVb3tZF9xeT0+
-X-Gm-Gg: ASbGncs/zFwhm9mQMuWMjDtNhuYbNO7L9aC7RX6rwNd302YwfNjawDR7IkRU9ayDWeG
-	lXn3RV9fliveit2CQ5uthOom8N7tEz5kCmLu8cqXTOPYajQb0apItcpYO7+E4Rpq5RKcJeDi8ZG
-	G3SNNKFtfw7FktQ8l7piZc0YHA7Pw2V4DrW8Nr7TQzWzhyCbJAnDgACIPgU5vLhbwLavxVqJnfI
-	B7GUckNpX4DgpgG/bhzja0YfAlMhtzQwPDHDCboFw22JV2wyHnMNyrO6NmjwjNRz9MB5V5PVDX1
-	oxplDz9RcCr0QprQpk+aj3dhuRzPyEAtHHPkKTALVO4XgCsy9ZraafwaXyKzrg==
-X-Google-Smtp-Source: AGHT+IFwipZp2Pjk5ukJPmpYYTY/v+746EDrD277Jlqx8l55LVTn+g4jCs/j/d1Nyv4X7BoU3d7O4g==
-X-Received: by 2002:a05:6000:2183:b0:3a6:d967:380c with SMTP id ffacd0b85a97d-3a8fe5b1d42mr829669f8f.36.1750978047488;
-        Thu, 26 Jun 2025 15:47:27 -0700 (PDT)
-Received: from qasdev.Home ([2a02:c7c:f4f0:900:7feb:1539:4323:a45e])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a892e52be0sm1016554f8f.64.2025.06.26.15.47.25
+        bh=mzGMUD5FoQ+Qma22SIVK819nPdr7pYinoircpLfGQJY=;
+        b=s+4ADPeZMsheQOeULonRgalWUVO7Y5jzTsojbJqW5HG8PNBdnR/ZBB70yZL4/uemDq
+         n7YoW4lUQJCKeiM9qLZlXkNjuypc3slAMG7xPK+wvlcZUhEGKrZZp95EGJzcrQoXNhj7
+         N9OODwRxLxrdOFA74dLrpU5dM8b9wMM9sgyxRrpFY/n87DWDdHGvwWPZnZ68SXFL59ef
+         lwAWfpPXYaYFax9X9h0QPQh8I071rDcpxJQARxuU9mhZm0gkSCqrZ1RL8s8vW7dQhL6y
+         SpwZ7+Fvv7BouQMOjT7UVarEXxsUJZSFiG0SQlWettGDsHiKoyCnAQ72jO2374L2JwcO
+         9l4g==
+X-Forwarded-Encrypted: i=1; AJvYcCU5ONnMMp/dEecCyNqtUaeMZPFTJExTfcXcqsquaKJcK22YLAkYaCj3tQfFRCbEaFKhgbucWnSWK8xLVaY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwAud+XN9/IP2Po3oSEZsf6pQdf85hKTp1CNd3LpiZdtKyezYWy
+	kmGzvC2CQvdsMnqK9pIUH5GfxYGLhyRCFl1juzzaURs4rZ+/8eGSVnR9
+X-Gm-Gg: ASbGncs9R9wdXyHTp2xd58FpqJ9BcI+M/nJwJFk+hMliuxNZDABcrPCv2iAo1DN4S5i
+	w0woOfJUobmj+iW1iAGsFM8yyAM2R1M8VuPECp5hlwSt5z0qd/b53wmB9cDTvnSt7B8/A7sXyZJ
+	RjSnEizYZ5m40nJMQIBH2GmmhhwMKma7VHeA4fG3PvG0NLe7uiHvLlK2T5X0rcNreKGycRowP/O
+	rYaCtnGvSYokt5gdpRg/CeaFU5x55aaeYTKpjune0oAFOmRjUShml8nl8ZhMcGIhYo1eXZ+LlWk
+	kq2QPpv1PqlaGCSqtThtd2qqoLm1mTVgqBpU8nWABORJ30jhXk6KK3k3WCeIBjT7G6HOc5cOa2d
+	jT4Hh2HI=
+X-Google-Smtp-Source: AGHT+IE0KPJ87HsMv3dtTh+XWbECzdpVVXv6McTxOopZBlTno+x0ugWKzcRPa0Xer44he323810Vnw==
+X-Received: by 2002:a05:6a20:2451:b0:21c:fc27:aee6 with SMTP id adf61e73a8af0-220a15857f3mr2183641637.22.1750991597365;
+        Thu, 26 Jun 2025 19:33:17 -0700 (PDT)
+Received: from danascape.tail34aafc.ts.net ([2402:e280:218d:2e5:925:fa94:e64:60ee])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74af57dda03sm989250b3a.147.2025.06.26.19.33.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Jun 2025 15:47:27 -0700 (PDT)
-From: Qasim Ijaz <qasdev00@gmail.com>
+        Thu, 26 Jun 2025 19:33:16 -0700 (PDT)
+From: Saalim Quadri <danascape@gmail.com>
 To: jikos@kernel.org,
 	bentiss@kernel.org
-Cc: gargaditya08@live.com,
-	linux-input@vger.kernel.org,
+Cc: linux-input@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH] HID: appletb-kbd: fix memory corruption of input_handler_list
-Date: Thu, 26 Jun 2025 23:47:11 +0100
-Message-Id: <20250626224711.13980-1-qasdev00@gmail.com>
-X-Mailer: git-send-email 2.39.5
+	Saalim Quadri <danascape@gmail.com>
+Subject: [PATCH v3] HID: Xinmeng: Add driver for Xinmeng M71 Keyboard
+Date: Fri, 27 Jun 2025 08:03:11 +0530
+Message-Id: <20250627023311.104045-1-danascape@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -89,193 +89,249 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-In appletb_kbd_probe an input handler is initialised and then registered
-with input core through input_register_handler(). When this happens input
-core will add the input handler (specifically its node) to the global
-input_handler_list. The input_handler_list is central to the functionality
-of input core and is traversed in various places in input core. An example
-of this is when a new input device is plugged in and gets registered with
-input core.
+In this driver, the battery is probed, and it checks the capacity
+and charging status of the battery
 
-The input_handler in probe is allocated as device managed memory. If a
-probe failure occurs after input_register_handler() the input_handler
-memory is freed, yet it will remain in the input_handler_list. This
-effectively means the input_handler_list contains a dangling pointer
-to data belonging to a freed input handler.
-
-This causes an issue when any other input device is plugged in - in my
-case I had an old PixArt HP USB optical mouse and I decided to
-plug it in after a failure occurred after input_register_handler().
-This lead to the registration of this input device via
-input_register_device which involves traversing over every handler
-in the corrupted input_handler_list and calling input_attach_handler(),
-giving each handler a chance to bind to newly registered device.
-
-The core of this bug is a UAF which causes memory corruption of
-input_handler_list and to fix it we must ensure the input handler is
-unregistered from input core, this is done through
-input_unregister_handler().
-
-[   63.191597] ==================================================================
-[   63.192094] BUG: KASAN: slab-use-after-free in input_attach_handler.isra.0+0x1a9/0x1e0
-[   63.192094] Read of size 8 at addr ffff888105ea7c80 by task kworker/0:2/54
-[   63.192094] 
-[   63.192094] CPU: 0 UID: 0 PID: 54 Comm: kworker/0:2 Not tainted 6.16.0-rc2-00321-g2aa6621d 
-[   63.192094] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.2-debian-1.164
-[   63.192094] Workqueue: usb_hub_wq hub_event
-[   63.192094] Call Trace:
-[   63.192094]  <TASK>
-[   63.192094]  dump_stack_lvl+0x53/0x70
-[   63.192094]  print_report+0xce/0x670
-[   63.192094]  ? input_attach_handler.isra.0+0x1a9/0x1e0
-[   63.192094]  kasan_report+0xce/0x100
-[   63.192094]  ? input_attach_handler.isra.0+0x1a9/0x1e0
-[   63.192094]  input_attach_handler.isra.0+0x1a9/0x1e0
-[   63.192094]  input_register_device+0x76c/0xd00
-[   63.192094]  hidinput_connect+0x686d/0xad60
-[   63.192094]  ? __pfx_hidinput_connect+0x10/0x10
-[   63.192094]  ? xhci_urb_enqueue+0x523/0x930
-[   63.192094]  hid_connect+0xf20/0x1b10
-[   63.192094]  ? mutex_unlock+0x7d/0xd0
-[   63.192094]  ? __pfx_mutex_unlock+0x10/0x10
-[   63.192094]  ? __pm_runtime_idle+0x95/0x1c0
-[   63.192094]  ? __pfx_hid_connect+0x10/0x10
-[   63.192094]  hid_hw_start+0x83/0x100
-[   63.192094]  hid_device_probe+0x2d1/0x680
-[   63.192094]  really_probe+0x1c3/0x690
-[   63.192094]  __driver_probe_device+0x247/0x300
-[   63.192094]  driver_probe_device+0x49/0x210
-[   63.192094]  __device_attach_driver+0x160/0x320
-[   63.192094]  ? __pfx___device_attach_driver+0x10/0x10
-[   63.192094]  bus_for_each_drv+0x10f/0x190
-[   63.192094]  ? __pfx_bus_for_each_drv+0x10/0x10
-[   63.192094]  __device_attach+0x18e/0x370
-[   63.192094]  ? __pfx___device_attach+0x10/0x10
-[   63.192094]  ? kobject_get+0x50/0xe0
-[   63.192094]  bus_probe_device+0x123/0x170
-[   63.192094]  device_add+0xd4d/0x1460
-[   63.192094]  ? __pfx_device_add+0x10/0x10
-[   63.192094]  ? up_write+0x4d/0x90
-[   63.192094]  ? __debugfs_create_file+0x377/0x5a0
-[   63.192094]  hid_add_device+0x30b/0x910
-[   63.192094]  ? __pfx_hid_add_device+0x10/0x10
-[   63.192094]  usbhid_probe+0x920/0xe00
-[   63.192094]  ? pm_runtime_enable+0xfa/0x2a0
-[   63.192094]  usb_probe_interface+0x363/0x9a0
-[   63.192094]  ? sysfs_do_create_link_sd+0x89/0x100
-[   63.192094]  really_probe+0x1c3/0x690
-[   63.192094]  __driver_probe_device+0x247/0x300
-[   63.192094]  driver_probe_device+0x49/0x210
-[   63.192094]  __device_attach_driver+0x160/0x320
-[   63.192094]  ? __pfx___device_attach_driver+0x10/0x10
-[   63.192094]  bus_for_each_drv+0x10f/0x190
-[   63.192094]  ? __pfx_bus_for_each_drv+0x10/0x10
-[   63.192094]  __device_attach+0x18e/0x370
-[   63.192094]  ? __pfx___device_attach+0x10/0x10
-[   63.192094]  ? kobject_get+0x50/0xe0
-[   63.192094]  bus_probe_device+0x123/0x170
-[   63.192094]  device_add+0xd4d/0x1460
-[   63.192094]  ? __pfx_device_add+0x10/0x10
-[   63.192094]  ? mutex_unlock+0x7d/0xd0
-[   63.192094]  ? __pfx_mutex_unlock+0x10/0x10
-[   63.192094]  usb_set_configuration+0xd14/0x1880
-[   63.192094]  usb_generic_driver_probe+0x78/0xb0
-[   63.192094]  usb_probe_device+0xaa/0x2e0
-[   63.192094]  really_probe+0x1c3/0x690
-[   63.192094]  __driver_probe_device+0x247/0x300
-[   63.192094]  ? usb_generic_driver_match+0x58/0x80
-[   63.192094]  driver_probe_device+0x49/0x210
-[   63.192094]  __device_attach_driver+0x160/0x320
-[   63.192094]  ? __pfx___device_attach_driver+0x10/0x10
-[   63.192094]  bus_for_each_drv+0x10f/0x190
-[   63.192094]  ? __pfx_bus_for_each_drv+0x10/0x10
-[   63.192094]  __device_attach+0x18e/0x370
-[   63.192094]  ? __pfx___device_attach+0x10/0x10
-[   63.192094]  ? kobject_get+0x50/0xe0
-[   63.192094]  bus_probe_device+0x123/0x170
-[   63.192094]  device_add+0xd4d/0x1460
-[   63.192094]  ? __pfx_device_add+0x10/0x10
-[   63.192094]  ? add_device_randomness+0xb2/0xe0
-[   63.192094]  usb_new_device+0x7b4/0x1000
-[   63.192094]  hub_event+0x234d/0x3fa0
-[   63.192094]  ? __pfx_hub_event+0x10/0x10
-[   63.192094]  ? _raw_spin_lock_irqsave+0x85/0xe0
-[   63.192094]  ? _raw_spin_lock_irqsave+0x85/0xe0
-[   63.192094]  ? mutex_unlock+0x7d/0xd0
-[   63.192094]  ? _raw_spin_lock_irq+0x80/0xe0
-[   63.192094]  ? __pfx__raw_spin_lock_irq+0x10/0x10
-[   63.192094]  ? __pm_runtime_suspend+0x74/0x1c0
-[   63.192094]  process_one_work+0x5bf/0xfe0
-[   63.192094]  worker_thread+0x777/0x13a0
-[   63.192094]  ? __kthread_parkme+0x99/0x180
-[   63.192094]  ? __pfx_worker_thread+0x10/0x10
-[   63.192094]  kthread+0x327/0x630
-[   63.192094]  ? __pfx_kthread+0x10/0x10
-[   63.192094]  ? __pfx__raw_spin_lock_irq+0x10/0x10
-[   63.192094]  ? __pfx_kthread+0x10/0x10
-[   63.192094]  ? __pfx_kthread+0x10/0x10
-[   63.192094]  ret_from_fork+0xff/0x1a0
-[   63.192094]  ? __pfx_kthread+0x10/0x10
-[   63.192094]  ret_from_fork_asm+0x1a/0x30
-[   63.192094]  </TASK>
-[   63.192094] 
-[   63.192094] Allocated by task 54:
-[   63.192094]  kasan_save_stack+0x33/0x60
-[   63.192094]  kasan_save_track+0x14/0x30
-[   63.192094]  __kasan_kmalloc+0x8f/0xa0
-[   63.192094]  __kmalloc_node_track_caller_noprof+0x195/0x420
-[   63.192094]  devm_kmalloc+0x74/0x1e0
-[   63.192094]  appletb_kbd_probe+0x39/0x440
-[   63.192094]  hid_device_probe+0x2d1/0x680
-[   63.192094]  really_probe+0x1c3/0x690
-[   63.192094]  __driver_probe_device+0x247/0x300
-[   63.192094]  driver_probe_device+0x49/0x210
-[   63.192094]  __device_attach_driver+0x160/0x320
-[...]
-[   63.192094] 
-[   63.192094] Freed by task 54:
-[   63.192094]  kasan_save_stack+0x33/0x60
-[   63.192094]  kasan_save_track+0x14/0x30
-[   63.192094]  kasan_save_free_info+0x3b/0x60
-[   63.192094]  __kasan_slab_free+0x37/0x50
-[   63.192094]  kfree+0xcf/0x360
-[   63.192094]  devres_release_group+0x1f8/0x3c0
-[   63.192094]  hid_device_probe+0x315/0x680
-[   63.192094]  really_probe+0x1c3/0x690
-[   63.192094]  __driver_probe_device+0x247/0x300
-[   63.192094]  driver_probe_device+0x49/0x210
-[   63.192094]  __device_attach_driver+0x160/0x320
-[...]
-
-Fixes: 93a0fc489481 ("HID: hid-appletb-kbd: add support for automatic brightness control while using the touchbar")
-Cc: stable@vger.kernel.org
-Signed-off-by: Qasim Ijaz <qasdev00@gmail.com>
+Signed-off-by: Saalim Quadri <danascape@gmail.com>
 ---
- drivers/hid/hid-appletb-kbd.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+v2 -> v3:
+	Match lore email to the driver
+	assign ret val while probing battery
+v1 -> v2: Update Kconfig paragraph :/
 
-diff --git a/drivers/hid/hid-appletb-kbd.c b/drivers/hid/hid-appletb-kbd.c
-index d11c49665147..271d1b27b8dd 100644
---- a/drivers/hid/hid-appletb-kbd.c
-+++ b/drivers/hid/hid-appletb-kbd.c
-@@ -430,13 +430,15 @@ static int appletb_kbd_probe(struct hid_device *hdev, const struct hid_device_id
- 	ret = appletb_kbd_set_mode(kbd, appletb_tb_def_mode);
- 	if (ret) {
- 		dev_err_probe(dev, ret, "Failed to set touchbar mode\n");
--		goto close_hw;
-+		goto unregister_handler;
- 	}
+ drivers/hid/Kconfig       |  12 +++
+ drivers/hid/Makefile      |   1 +
+ drivers/hid/hid-ids.h     |   3 +
+ drivers/hid/hid-xinmeng.c | 170 ++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 186 insertions(+)
+ create mode 100644 drivers/hid/hid-xinmeng.c
+
+diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
+index 43859fc75747..1cc61ca63682 100644
+--- a/drivers/hid/Kconfig
++++ b/drivers/hid/Kconfig
+@@ -536,6 +536,18 @@ config HID_XIAOMI
+ 	  Adds support for side buttons of Xiaomi Mi Dual Mode Wireless
+ 	  Mouse Silent Edition.
  
- 	hid_set_drvdata(hdev, kbd);
++config HID_XINMENG
++	tristate "Xinmeng Keyboards"
++	depends on USB_HID
++	help
++		Support for Xinmeng Keyboard.
++
++		Say Y here if you have a Xinmeng M71 Keyboard
++		and want to be able to read its battery capacity.
++
++		To compile this driver as a module, choose M here: the
++		module will be called hid-xinmeng.
++
+ config HID_GYRATION
+ 	tristate "Gyration remote control"
+ 	help
+diff --git a/drivers/hid/Makefile b/drivers/hid/Makefile
+index 10ae5dedbd84..e5c9d1276138 100644
+--- a/drivers/hid/Makefile
++++ b/drivers/hid/Makefile
+@@ -145,6 +145,7 @@ obj-$(CONFIG_HID_UDRAW_PS3)	+= hid-udraw-ps3.o
+ obj-$(CONFIG_HID_UNIVERSAL_PIDFF)	+= hid-universal-pidff.o
+ obj-$(CONFIG_HID_LED)		+= hid-led.o
+ obj-$(CONFIG_HID_XIAOMI)	+= hid-xiaomi.o
++obj-$(CONFIG_HID_XINMENG)	+= hid-xinmeng.o
+ obj-$(CONFIG_HID_XINMO)		+= hid-xinmo.o
+ obj-$(CONFIG_HID_ZEROPLUS)	+= hid-zpff.o
+ obj-$(CONFIG_HID_ZYDACRON)	+= hid-zydacron.o
+diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+index e3fb4e2fe911..f649549bd58c 100644
+--- a/drivers/hid/hid-ids.h
++++ b/drivers/hid/hid-ids.h
+@@ -1471,6 +1471,9 @@
+ #define USB_DEVICE_ID_XIN_MO_DUAL_ARCADE	0x05e1
+ #define USB_DEVICE_ID_THT_2P_ARCADE		0x75e1
  
- 	return 0;
- 
-+unregister_handler:
-+	input_unregister_handler(&kbd->inp_handler);
- close_hw:
- 	if (kbd->backlight_dev) {
- 		put_device(&kbd->backlight_dev->dev);
++#define USB_VENDOR_ID_XINMENG   0x3554
++#define USB_DEVICE_ID_XINMENG_M71_RECEIVER  0xfa09
++
+ #define USB_VENDOR_ID_XIROKU		0x1477
+ #define USB_DEVICE_ID_XIROKU_SPX	0x1006
+ #define USB_DEVICE_ID_XIROKU_MPX	0x1007
+diff --git a/drivers/hid/hid-xinmeng.c b/drivers/hid/hid-xinmeng.c
+new file mode 100644
+index 000000000000..a4f5b181bca4
+--- /dev/null
++++ b/drivers/hid/hid-xinmeng.c
+@@ -0,0 +1,170 @@
++// SPDX-License-Identifier: GPL-2.0-or-later
++/*
++ *  HID driver for Xinmeng M71 Keyboard.
++ *
++ *  Copyright (c) 2025 Saalim Quadri <danascape@gmail.com>
++ */
++
++#include <linux/device.h>
++#include <linux/hid.h>
++#include <linux/module.h>
++#include <linux/usb.h>
++
++#include "hid-ids.h"
++
++#define	BATTERY_REPORT_ID	(0x13)
++
++struct xinmeng_drvdata {
++	struct hid_device *hdev;
++	bool online;
++
++	struct power_supply *battery;
++	struct power_supply_desc battery_desc;
++	u8 battery_capacity;
++	bool battery_charging;
++};
++
++static enum power_supply_property xinmeng_battery_props[] = {
++	POWER_SUPPLY_PROP_STATUS,
++	POWER_SUPPLY_PROP_PRESENT,
++	POWER_SUPPLY_PROP_CAPACITY,
++	POWER_SUPPLY_PROP_MODEL_NAME,
++	POWER_SUPPLY_PROP_ONLINE
++};
++
++static int xinmeng_battery_get_property(struct power_supply *psy,
++					enum power_supply_property psp,
++					union power_supply_propval *val)
++{
++	struct xinmeng_drvdata *drv_data = power_supply_get_drvdata(psy);
++	int ret = 0;
++
++	switch (psp) {
++	case POWER_SUPPLY_PROP_PRESENT:
++		val->intval = 1;
++		break;
++	case POWER_SUPPLY_PROP_ONLINE:
++		val->intval = drv_data->online;
++		break;
++	case POWER_SUPPLY_PROP_STATUS:
++		if (drv_data->online)
++			val->intval = drv_data->battery_charging ?
++					POWER_SUPPLY_STATUS_CHARGING :
++					POWER_SUPPLY_STATUS_DISCHARGING;
++		else
++			val->intval = POWER_SUPPLY_STATUS_UNKNOWN;
++		break;
++	case POWER_SUPPLY_PROP_CAPACITY:
++		val->intval = drv_data->battery_capacity;
++		break;
++	case POWER_SUPPLY_PROP_MODEL_NAME:
++		val->strval = drv_data->hdev->name;
++		break;
++	default:
++		ret = -EINVAL;
++		break;
++	}
++	return ret;
++}
++
++static int xinmeng_battery_probe(struct hid_device *hdev)
++{
++	struct xinmeng_drvdata *drv_data = hid_get_drvdata(hdev);
++	struct power_supply_config pscfg = { .drv_data = drv_data };
++	int ret = 0;
++
++	drv_data->online = false;
++	drv_data->battery_capacity = 0;
++
++	drv_data->battery_desc.name = "xinmeng-m71-battery";
++	drv_data->battery_desc.type = POWER_SUPPLY_TYPE_BATTERY;
++	drv_data->battery_desc.properties = xinmeng_battery_props;
++	drv_data->battery_desc.num_properties = ARRAY_SIZE(xinmeng_battery_props);
++	drv_data->battery_desc.get_property = xinmeng_battery_get_property;
++
++	drv_data->battery = devm_power_supply_register(&hdev->dev,
++						       &drv_data->battery_desc, &pscfg);
++
++	if (IS_ERR(drv_data->battery)) {
++		ret = PTR_ERR(drv_data->battery);
++		drv_data->battery = NULL;
++		hid_err(hdev, "Unable to register battery device\n");
++		return ret;
++	}
++
++	power_supply_powers(drv_data->battery, &hdev->dev);
++
++	return ret;
++}
++
++static int xinmeng_probe(struct hid_device *hdev, const struct hid_device_id *id)
++{
++	int ret;
++	struct xinmeng_drvdata *drv_data;
++	struct usb_interface *usbif;
++
++	if (!hid_is_usb(hdev))
++		return -EINVAL;
++
++	usbif = to_usb_interface(hdev->dev.parent);
++
++	drv_data = devm_kzalloc(&hdev->dev, sizeof(*drv_data), GFP_KERNEL);
++	if (!drv_data)
++		return -ENOMEM;
++
++	hid_set_drvdata(hdev, drv_data);
++	drv_data->hdev = hdev;
++
++	ret = hid_parse(hdev);
++	if (ret)
++		return ret;
++
++	ret = hid_hw_start(hdev, HID_CONNECT_DEFAULT);
++	if (ret)
++		return ret;
++
++	if (usbif->cur_altsetting->desc.bInterfaceNumber == 1) {
++		ret = xinmeng_battery_probe(hdev);
++		if (ret < 0) {
++			hid_err(hdev, "Xinmeng hid battery_probe failed: %d\n", ret);
++			return ret;
++		}
++	}
++
++	return 0;
++}
++
++static int xinmeng_raw_event(struct hid_device *hdev,
++				 struct hid_report *report, u8 *data, int size)
++{
++	struct xinmeng_drvdata *drv_data = hid_get_drvdata(hdev);
++
++	if (drv_data->battery && data[0] == BATTERY_REPORT_ID) {
++		u8 charging_status = data[7];
++		bool is_charging = (charging_status == 0x11 || charging_status == 0x10);
++
++		drv_data->battery_capacity = data[6];
++		drv_data->battery_charging = is_charging;
++		drv_data->online = true;
++	}
++
++	return 0;
++}
++
++static const struct hid_device_id xinmeng_devices[] = {
++	{ HID_USB_DEVICE(USB_VENDOR_ID_XINMENG, USB_DEVICE_ID_XINMENG_M71_RECEIVER) },
++	{ }
++};
++MODULE_DEVICE_TABLE(hid, xinmeng_devices);
++
++static struct hid_driver xinmeng_driver = {
++	.name = "xinmeng",
++	.id_table = xinmeng_devices,
++	.probe = xinmeng_probe,
++	.raw_event = xinmeng_raw_event
++};
++module_hid_driver(xinmeng_driver);
++
++MODULE_LICENSE("GPL");
++MODULE_DESCRIPTION("HID driver for Xinmeng keyboards");
++MODULE_AUTHOR("Saalim Quadri <danascape@gmail.com>");
 -- 
-2.39.5
+2.34.1
 
 
