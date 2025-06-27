@@ -1,212 +1,202 @@
-Return-Path: <linux-input+bounces-13149-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13150-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92E69AEC0F6
-	for <lists+linux-input@lfdr.de>; Fri, 27 Jun 2025 22:30:00 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 77EDAAEC0FA
+	for <lists+linux-input@lfdr.de>; Fri, 27 Jun 2025 22:30:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 036863B0DA1
-	for <lists+linux-input@lfdr.de>; Fri, 27 Jun 2025 20:29:35 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5DEEC1C470E9
+	for <lists+linux-input@lfdr.de>; Fri, 27 Jun 2025 20:31:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 64064221265;
-	Fri, 27 Jun 2025 20:29:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CEFA8214A8B;
+	Fri, 27 Jun 2025 20:30:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="s7YBeB7k"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DW6A2IY6"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 358F6C2FB;
-	Fri, 27 Jun 2025 20:29:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9ED842CCA9;
+	Fri, 27 Jun 2025 20:30:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751056196; cv=none; b=IkEHG+VXZVQC915wnx9XhEAMOCMOTtnM/ozFN3z0Gfq6g6t4DHOboDGqCu7xTJMAQT4Ge1NLLMhy3a5zhRwjVeWtBdFLoVn9AGlv5Q4k00Y5PZhaSn0JqtnGxph21CJXEmffh9KmquqUbc3kbqf3oWZBD5QsVRX836DdidaDaRs=
+	t=1751056240; cv=none; b=ljq4y2WxQReu9koTGZ2sFoCAlrOd0aZ4CMPBEALmc34MBDuS8YPTUBNF3TqfhAGb7UvZY2v9eFnhQjEwThae5mQxX6ADL349R31CVDCyWE2/OrPzaKuiPUInW9RQmUETwh6HdO8HjNfljGZoqhyQdU4rKTdhE8/I26z1euXdEG0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751056196; c=relaxed/simple;
-	bh=gT6NJnsYHPg1UMCs3hQfS9bGXsHDce6/hgDoZLEZD4Y=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KeDgXsslPfUi78t6ZRrhEK8MfPAP0kPGGf+MsSPnD6xXBY0l3MjuL82V8NshqqhfSnB230ofljgp6DjCI4VDzpBaQ8RB7vwRoykrUpJU6JIDGTzA+b8ZAKpnhYovj3IahiLbcfTGltgqCfJ4YNXZdVUFmx0w5NHYG8THG/CZf4A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=s7YBeB7k; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B6FFC4CEE3;
-	Fri, 27 Jun 2025 20:29:54 +0000 (UTC)
+	s=arc-20240116; t=1751056240; c=relaxed/simple;
+	bh=ZRuA5FMG1fIGDnIRCHe0RknMG0RoBJNOiEM0pkknFxI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OO0tjZsxvNZ12FuqGcxoUQIQS4ynrYnptyDPGpmR1p5Qg0iT69FVoaTZj6+9AwpCykoj3hrMyhig+RPn50HKUfLVYdTlLebtz38iyPHym+apjQZJ48zmRWj/E7lptXqAHZo7rfBSxcaY+2dQNMNgnz5iOc0U/QX8DKy2GPthK2g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DW6A2IY6; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0702AC4CEE3;
+	Fri, 27 Jun 2025 20:30:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751056195;
-	bh=gT6NJnsYHPg1UMCs3hQfS9bGXsHDce6/hgDoZLEZD4Y=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=s7YBeB7kPh6XCsL6L5cdqezAkuSLTOVU3YHMPkD80Dz27soyoWERV9VgIGm6ZqZpM
-	 G0BOl1vNBuccaWoV8F9VMXBOrNd5FG919HYP9IVmfNccCY2eiCoCVi2ykr6rJT1vkh
-	 Yxe1eeKTyVnb+6RuDPSooOtkaQjsCYbj3tn2FLcvxvqHqvdy6ubz5e8I6ZhkLFaOms
-	 mknOVCV3DzzZzaQRKLeee+f3Bs0UDTFqlar7pRGNi5WFQg0jMod8eWmcJq9k/52Vpn
-	 Ty0YH9DeCu6q+YfaQNI+2c7jowk/9k5LSdGEoT3YcTPUm7LCU7adJ+Cl6sycQTwtOf
-	 svzTDwv/aiiCA==
-Message-ID: <01d6d630-2b78-4109-8197-af461631b048@kernel.org>
-Date: Fri, 27 Jun 2025 15:29:53 -0500
+	s=k20201202; t=1751056240;
+	bh=ZRuA5FMG1fIGDnIRCHe0RknMG0RoBJNOiEM0pkknFxI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=DW6A2IY6Cq5WEpCi7hTOaITjU49A5NzkZsFPsLrwR/Vp9YmwbcR3DfkkUk6Mi9rPm
+	 qyOnqmt41wshOgswFOLQVtARgCCg/CvR+Y/3QlVXQZVnEsCEjKZ5oRvzYgOaBBKW0C
+	 zB1yFLDLt3Ht37ebtrmdpG/PLgB7VmEDtY/KBTbdkgZfVJ3rBvKl2SJXciN0zw9tpx
+	 pHVyWycqja9w8QIO/vxZ87nP6w2pRRLYV96aNtdVSZdbAH0g0c5CFvvRc2VDGc9N6C
+	 xYKwuPdTwBAR2qIJa5OzHtlBEGn9hlkaviZSwCDqMoUFaT6hZ+CjyWN42Zyonaneh7
+	 ljI328wopW8DQ==
+Date: Fri, 27 Jun 2025 15:30:39 -0500
+From: Rob Herring <robh@kernel.org>
+To: Frank Li <Frank.Li@nxp.com>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Vladimir Zapolskiy <vz@mleia.com>,
+	Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>,
+	"open list:INPUT (KEYBOARD, MOUSE, JOYSTICK, TOUCHSCREEN)..." <linux-input@vger.kernel.org>,
+	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>,
+	"moderated list:ARM/LPC32XX SOC SUPPORT" <linux-arm-kernel@lists.infradead.org>,
+	open list <linux-kernel@vger.kernel.org>, imx@lists.linux.dev
+Subject: Re: [PATCH 1/1] dt-bindings: input: convert lpc32xx-key.txt to yaml
+ format
+Message-ID: <20250627203039.GA30239-robh@kernel.org>
+References: <20250624200659.2514584-1-Frank.Li@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 4/4] Input: Don't send fake button presses to wake
- system
-To: Hans de Goede <hansg@kernel.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
- Mika Westerberg <westeri@kernel.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski
- <brgl@bgdev.pl>, "open list:GPIO ACPI SUPPORT" <linux-gpio@vger.kernel.org>,
- "open list:GPIO ACPI SUPPORT" <linux-acpi@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:INPUT (KEYBOARD, MOUSE, JOYSTICK, TOUCHSCREEN)..."
- <linux-input@vger.kernel.org>, Mario Limonciello <mario.limonciello@amd.com>
-References: <CAJZ5v0j3ZyuEqSKQ+3K8M3BwPCxn5Z6KOwjyjt4cJW6HfxjPDw@mail.gmail.com>
- <hyvpl4gvxc6h2r3itfofjduwb3vpobyo7a7z6g3zapzscqtafh@ixsd4amyljva>
- <de548b27-4c43-4f30-af9d-b060101e6fd8@kernel.org>
- <75fixx6rgwsgsw6e765oxdcivcg2nkzx2fp2qywgx4vi3ihywh@ot7gdecsnttw>
- <1b0d2349-dbf7-47aa-95c9-1974e63d111a@kernel.org>
- <13025910-7639-400b-878a-cd0780c6534c@kernel.org>
- <4ajmcrl3bqeikki2etek5bafzszelgevr322tvuubx4pxxyju2@qqxz6lzcb6e5>
- <fdd635ce-5e8e-4123-8e8e-241a57b4d7fe@kernel.org>
- <eaf7bva2skjz6oo2s2f4agooplthvuztyr6tssa7rux764qw35@kscd3rtejfvn>
- <9f5e0c21-bc25-44d0-a4d4-6fd6e58a9f2e@kernel.org>
- <ly3mww7nq7uuqvdx7p2uzcrphhboeuep3yuwbaxwfimesitjaa@hf72i4vu5quo>
- <584af55f-1b73-4c17-bf85-c2d3ecf6692e@kernel.org>
- <e0469bf9-f12a-48a7-bd58-3ae346354987@kernel.org>
- <5c8ca17f-2f77-4492-ade7-a78dba45df7d@kernel.org>
-Content-Language: en-US
-From: Mario Limonciello <superm1@kernel.org>
-In-Reply-To: <5c8ca17f-2f77-4492-ade7-a78dba45df7d@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250624200659.2514584-1-Frank.Li@nxp.com>
 
-On 6/27/2025 3:25 PM, Hans de Goede wrote:
-> Hi,
+On Tue, Jun 24, 2025 at 04:06:58PM -0400, Frank Li wrote:
+> Convert lpc32xx-key.txt to yaml format.
 > 
-> On 27-Jun-25 9:44 PM, Mario Limonciello wrote:
->> On 6/27/2025 2:38 PM, Hans de Goede wrote:
->>> Hi,
->>>
->>> On 27-Jun-25 9:18 PM, Dmitry Torokhov wrote:
->>>> On Fri, Jun 27, 2025 at 01:56:53PM -0500, Mario Limonciello wrote:
->>>>> On 6/27/2025 1:36 PM, Dmitry Torokhov wrote:
->>>>>> On Fri, Jun 27, 2025 at 05:56:05PM +0200, Hans de Goede wrote:
->>>>
->>>> [ ... trim ... ]
->>>>
->>>>>>
->>>>>> 2. There is a patch from Mario (a8605b0ed187) suppressing sending
->>>>>> KEY_POWER as part of "normal" wakeup handling, pretty much the same as
->>>>>> what he and you are proposing to do in gpio-keys (and eventually in
->>>>>> every driver keyboard or button driver in the kernel). This means we no
->>>>>> longer can tell if wakeup is done by power button or sleep button (on
->>>>>> systems with dual-button models, see ACPI 4.8.3.1).
->>>>>
->>>>> Actually a8605b0ed187 was about a runtime regression not a suspend
->>>>> regression.  I didn't change anything with sending KEY_POWER during wakeup
->>>>> handling.
->>>>
->>>> Ah, right, ignorng events for "suspended" buttons was done in
->>>> e71eeb2a6bcc ("ACPI / button: Do not propagate wakeup-from-suspend
->>>> events"). Again trying to add heuristic to the kernel instead of
->>>> enlightening userspace.
->>>>
->>>> I am curious why the system is sending "Notify Wake" events when not
->>>> sleeping though?
->>>>
->>>> [ .. skip .. ]
->>>>
->>>>>
->>>>> FTR I did test Hans suggestion and it does work effectively (code below).
->>>>>
->>>>> diff --git a/drivers/input/keyboard/gpio_keys.c
->>>>> b/drivers/input/keyboard/gpio_keys.c
->>>>> index f9db86da0818b..3bc8c95e9943b 100644
->>>>> --- a/drivers/input/keyboard/gpio_keys.c
->>>>> +++ b/drivers/input/keyboard/gpio_keys.c
->>>>> @@ -425,7 +425,8 @@ static irqreturn_t gpio_keys_gpio_isr(int irq, void
->>>>> *dev_id)
->>>>>                            * already released by the time we got interrupt
->>>>>                            * handler to run.
->>>>>                            */
->>>>> -                       input_report_key(bdata->input, button->code, 1);
->>>>> +                       input_report_key(bdata->input, *bdata->code, 1);
->>>>> +                       input_sync(bdata->input);
->>>>
->>>> I start wondering if we should keep the fake press given that we do not
->>>> know for sure if wakeup truly happened because of this button press...
->>>
->>> AFAIK we cannot drop the fake press because then Android userspace
->>> will immediately go back to sleep again assuming the wakeup was
->>> e.g. just some data coming in from the modem which did not result
->>> in a notification to show, so no need to turn on the display,
->>> but instead immediately go back to sleep.
->>>
->>> IIRC last time we had this discussion (man years ago) the reason
->>> to send KEY_POWER was to let Android know that it should actualy
->>> turn on the display and show the unlock screen because the user
->>> wants that to happen.
->>>
->>> I believe this is also what the KEY_WAKEUP thing in the ACPI button
->>> code is for.
->>>
->>>> Can we track back to the wakeup source and determine this? It will not
->>>> help your problem, but I still believe userspace is where policy should
->>>> live.
->>>
->>> There is /sys/power/pm_wakeup_irq we could correlate that to the IRQ
->>> number of the ISR and then AFAICT we will definitively know if
->>> the power-button was the wakeup source ?
->>>
->>
->> So at least in my case when woken up by this power button press the IRQ isn't the one for the GPIO itself, but rather for the GPIO controller master interrupt.
->>
->> # cat /sys/power/pm_wakeup_irq
->> 7
->> # grep . /sys/kernel/irq/7/*
->> /sys/kernel/irq/7/actions:pinctrl_amd
->> /sys/kernel/irq/7/chip_name:IR-IO-APIC
->> /sys/kernel/irq/7/hwirq:7
->> /sys/kernel/irq/7/name:fasteoi
->> /sys/kernel/irq/7/per_cpu_count:0,0,0,0,0,5,0,0
->> /sys/kernel/irq/7/type:level
->> /sys/kernel/irq/7/wakeup:enabled
->>
->> # grep . /sys/kernel/irq/102/*
->> /sys/kernel/irq/102/actions:power
->> /sys/kernel/irq/102/chip_name:amd_gpio
->> /sys/kernel/irq/102/hwirq:0
->> /sys/kernel/irq/102/per_cpu_count:0,1,0,2,1,0,0,1
->> /sys/kernel/irq/102/type:edge
->> /sys/kernel/irq/102/wakeup:disabled
+> Additional changes:
+> - set maximum of key-row(column) to 4.
 > 
-> Ah, right.
+> Signed-off-by: Frank Li <Frank.Li@nxp.com>
+> ---
+>  .../devicetree/bindings/input/lpc32xx-key.txt | 34 ----------
+>  .../bindings/input/nxp,lpc3220-key.yaml       | 66 +++++++++++++++++++
+>  2 files changed, 66 insertions(+), 34 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/input/lpc32xx-key.txt
+>  create mode 100644 Documentation/devicetree/bindings/input/nxp,lpc3220-key.yaml
 > 
-> But thinking more about this I do not think believe
-> that wakeup racing is really a big issue here.
-> 
-> Wakeup racing only hits if the button ISR runs before
-> gpio_keys_resume() has run and cleared the bdata->suspended
-> flag. IOW the button was pressed before the system has
-> completely resumed in that case the users intend to me
-> very clearly was to wakeup the system.
-> 
-> So I still believe that sending key-wakeup for the simulated
-> keypress is the right thing to do in wakeup race cases even
-> if the system was actually woken up by e.g. network traffic.
-> 
-> As for Mario's patch from earlier in the thread that needs
-> some more work because it will release the wrong code if
-> the release ISR runs after gpio_keys_resume().
- > > But working further on that only is useful if we can get
-> agreement from Dmitry on that approach.
-> 
+> diff --git a/Documentation/devicetree/bindings/input/lpc32xx-key.txt b/Documentation/devicetree/bindings/input/lpc32xx-key.txt
+> deleted file mode 100644
+> index 2b075a080d303..0000000000000
+> --- a/Documentation/devicetree/bindings/input/lpc32xx-key.txt
+> +++ /dev/null
+> @@ -1,34 +0,0 @@
+> -NXP LPC32xx Key Scan Interface
+> -
+> -This binding is based on the matrix-keymap binding with the following
+> -changes:
+> -
+> -Required Properties:
+> -- compatible: Should be "nxp,lpc3220-key"
+> -- reg: Physical base address of the controller and length of memory mapped
+> -  region.
+> -- interrupts: The interrupt number to the cpu.
+> -- clocks: phandle to clock controller plus clock-specifier pair
+> -- nxp,debounce-delay-ms: Debounce delay in ms
+> -- nxp,scan-delay-ms: Repeated scan period in ms
+> -- linux,keymap: the key-code to be reported when the key is pressed
+> -  and released, see also
+> -  Documentation/devicetree/bindings/input/matrix-keymap.txt
+> -
+> -Note: keypad,num-rows and keypad,num-columns are required, and must be equal
+> -since LPC32xx only supports square matrices
+> -
+> -Example:
+> -
+> -	key@40050000 {
+> -		compatible = "nxp,lpc3220-key";
+> -		reg = <0x40050000 0x1000>;
+> -		clocks = <&clk LPC32XX_CLK_KEY>;
+> -		interrupt-parent = <&sic1>;
+> -		interrupts = <22 IRQ_TYPE_LEVEL_HIGH>;
+> -		keypad,num-rows = <1>;
+> -		keypad,num-columns = <1>;
+> -		nxp,debounce-delay-ms = <3>;
+> -		nxp,scan-delay-ms = <34>;
+> -		linux,keymap = <0x00000002>;
+> -	};
+> diff --git a/Documentation/devicetree/bindings/input/nxp,lpc3220-key.yaml b/Documentation/devicetree/bindings/input/nxp,lpc3220-key.yaml
+> new file mode 100644
+> index 0000000000000..5ab6cefd35fa3
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/input/nxp,lpc3220-key.yaml
+> @@ -0,0 +1,66 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/input/nxp,lpc3220-key.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: NXP LPC32xx Key Scan Interface
+> +
+> +maintainers:
+> +  - Frank Li <Frank.Li@nxp.com>
 
-Right; good catch.  I had thought this was a risk but didn't want to 
-over-invest in solving it until we had alignment.  I mostly wanted to 
-share it to demonstrate the idea works.
+You need a $ref to matrix-keymap.yaml
 
+> +
+> +properties:
+> +  compatible:
+> +    const: nxp,lpc3220-key
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    maxItems: 1
+> +
+> +  keypad,num-rows:
+> +    maximum: 4
+> +
+> +  keypad,num-columns:
+> +    maximum: 4
+> +
+> +  nxp,debounce-delay-ms:
+> +    description: Debounce delay in ms
+> +
+> +  nxp,scan-delay-ms:
+> +    description: Repeated scan period in ms
+> +
+> +  linux,keymap: true
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - clocks
+> +  - nxp,debounce-delay-ms
+> +  - nxp,scan-delay-ms
+> +  - linux,keymap
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +    #include <dt-bindings/clock/lpc32xx-clock.h>
+> +
+> +    key@40050000 {
+> +        compatible = "nxp,lpc3220-key";
+> +        reg = <0x40050000 0x1000>;
+> +        clocks = <&clk LPC32XX_CLK_KEY>;
+> +        interrupt-parent = <&sic1>;
+> +        interrupts = <22 IRQ_TYPE_LEVEL_HIGH>;
+> +        keypad,num-rows = <1>;
+> +        keypad,num-columns = <1>;
+> +        nxp,debounce-delay-ms = <3>;
+> +        nxp,scan-delay-ms = <34>;
+> +        linux,keymap = <0x00000002>;
+> +    };
+> -- 
+> 2.34.1
+> 
 
