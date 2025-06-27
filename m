@@ -1,48 +1,48 @@
-Return-Path: <linux-input+bounces-13147-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13148-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A808AEC053
-	for <lists+linux-input@lfdr.de>; Fri, 27 Jun 2025 21:46:02 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 878F3AEC0DB
+	for <lists+linux-input@lfdr.de>; Fri, 27 Jun 2025 22:26:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 89FDF6416C4
-	for <lists+linux-input@lfdr.de>; Fri, 27 Jun 2025 19:45:36 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4A6D91889EE5
+	for <lists+linux-input@lfdr.de>; Fri, 27 Jun 2025 20:26:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C369326B0B9;
-	Fri, 27 Jun 2025 19:45:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 83D6221D3C6;
+	Fri, 27 Jun 2025 20:26:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mDXLkkkk"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mF7yCjrV"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94B7E211460;
-	Fri, 27 Jun 2025 19:45:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54124C2FB;
+	Fri, 27 Jun 2025 20:26:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751053556; cv=none; b=pUQOMvppUP7HE8ZMQWpnnG0MTNqdAbhe6yY0hQG0ckDIFGhoqNnHeJKgapw5r/DGDdRGVNTiUJVwVtDp2H7w62b7bPxIbqpOk0RysTgZBmHCmN6WI8qpSk0WiTPlgflHhuHhgiU7lCAlB0fb2Vq85xDTtWjur6/elkj/pU5HPxg=
+	t=1751055964; cv=none; b=jLlg7AGYP1PICjuM/PriqgsEV0seZ3InEgBHEtmbOhGt7rA3OS9Eh0ZgjnqtRTm4iGMUu5iJd7tHxYW8QJTtZSB4HnpsNsgZVH8bPl8p0Xw7NJuIqfM9Tt5vfNMEWlGf0vdzktw+LUEjdpv7APV6oDZOV8BjR+3xmp1/mvcCI+I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751053556; c=relaxed/simple;
-	bh=nybGHUl0eKRvrlbvr0hzyiokVYz+dFJp2PTtyQdcxc0=;
+	s=arc-20240116; t=1751055964; c=relaxed/simple;
+	bh=YT2e/UrTPLRrkBQtY5j9rxnjaYxhH76IJd3VIMz0jqo=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=HajY90fKHS4yJ4Cvr9zOEajNu2b+iRT/xO65LNgchmqE/I8ufL2auPvvKh0jtqDO6mTuG7hLGeKZDpf32+6hTRqvmeHY74HO8IL8/+S95CinVy1DTOWXuq/EOVjfcMYXavgruJlmHRyLVx+ZW/FiS0X6dtZQzmOK0AVFf31jBTU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mDXLkkkk; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2272C4CEE3;
-	Fri, 27 Jun 2025 19:45:54 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=Us8u+GxnL6h8W9+t4E3wMJJ6wKiEDBh7dys9df51Uil9tDvqhLx/uaXWtiTuJWX2t8lZBa9abzbwuLPK99PBJQhxfA1DCvl1z48mj0hu8ym5NTgkTGEsH5f4S0HVQBNX2Fsk99mYa7npLKHcSiVj/zIbaQTYXRU6DbcW1c+FR+k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mF7yCjrV; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8460EC4CEE3;
+	Fri, 27 Jun 2025 20:26:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751053556;
-	bh=nybGHUl0eKRvrlbvr0hzyiokVYz+dFJp2PTtyQdcxc0=;
+	s=k20201202; t=1751055963;
+	bh=YT2e/UrTPLRrkBQtY5j9rxnjaYxhH76IJd3VIMz0jqo=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=mDXLkkkkNlwRMffFHNuDjksIX7ei9J32Efy0q8vMOlM19YDCpkEnMuzf7PR9osJ5g
-	 QE4Pys/SHveMMhvmOa+jF1Qoam8l5ICKxte7Nyy9hQu1EmjXQUzpiBcdu6spl4O2Pc
-	 pCZxNLjGrs3X9JJxe07Ee/+ljbdTptvAox6XfjEmk8XgQDg+UfnbZAl/0Y4iaNy1xs
-	 o3Y6FcuGuAxBjm29lmbKAUofdDJ7bs5Hu+I3a0xpfgTZ7NhBqe7aAttoDC09bLfGkd
-	 0fYj3hb1xSyfabh5m+BqGYSpUs2fZTSZtTYfzqph1rnWFC9PFCIUwpfcExypalzcA1
-	 HJcD8inGqUr5A==
-Message-ID: <5224077f-4262-425b-8183-9cc7673e381e@kernel.org>
-Date: Fri, 27 Jun 2025 14:45:53 -0500
+	b=mF7yCjrViL8c+1IpdhJAWAG1mZOOzaGeNUjsW11TEbRHSs0gCIA3Z1cwVYzdZPtRd
+	 tDOjxlz5oXFQkxd4JgAiIiEm2Cnf43lpwqnfqk7fLt9mAUnOLtVEYZjMHXSx8pWSv2
+	 EWYsgaYCvgfjUwBlRFd4oYjaQSJrW5mTZr34DIQAhBoYURUuQ+bdnyyfNOlE8npUBw
+	 5q+Sz22BfglkJltepaymcdJVORS7ZMuD+MPOzMxdRJHRtzA6pyTWf8v+k1D5oNJs0e
+	 2+4MwQSgnZ12WZAEr0yvpNXs7LD5vofNfbJ5sZN+Z2E7ZdQw/QxCG7brv6TnZ3SEyj
+	 nmv+gl9SmiFYA==
+Message-ID: <5c8ca17f-2f77-4492-ade7-a78dba45df7d@kernel.org>
+Date: Fri, 27 Jun 2025 22:25:59 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -52,9 +52,10 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v3 4/4] Input: Don't send fake button presses to wake
  system
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Hans de Goede <hansg@kernel.org>, "Rafael J. Wysocki"
- <rafael@kernel.org>, Mika Westerberg <westeri@kernel.org>,
+To: Mario Limonciello <superm1@kernel.org>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
+ Mika Westerberg <westeri@kernel.org>,
  Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
  Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski
  <brgl@bgdev.pl>, "open list:GPIO ACPI SUPPORT" <linux-gpio@vger.kernel.org>,
@@ -73,69 +74,138 @@ References: <CAJZ5v0j3ZyuEqSKQ+3K8M3BwPCxn5Z6KOwjyjt4cJW6HfxjPDw@mail.gmail.com>
  <eaf7bva2skjz6oo2s2f4agooplthvuztyr6tssa7rux764qw35@kscd3rtejfvn>
  <9f5e0c21-bc25-44d0-a4d4-6fd6e58a9f2e@kernel.org>
  <ly3mww7nq7uuqvdx7p2uzcrphhboeuep3yuwbaxwfimesitjaa@hf72i4vu5quo>
-Content-Language: en-US
-From: Mario Limonciello <superm1@kernel.org>
-In-Reply-To: <ly3mww7nq7uuqvdx7p2uzcrphhboeuep3yuwbaxwfimesitjaa@hf72i4vu5quo>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ <584af55f-1b73-4c17-bf85-c2d3ecf6692e@kernel.org>
+ <e0469bf9-f12a-48a7-bd58-3ae346354987@kernel.org>
+Content-Language: en-US, nl
+From: Hans de Goede <hansg@kernel.org>
+In-Reply-To: <e0469bf9-f12a-48a7-bd58-3ae346354987@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 6/27/2025 2:18 PM, Dmitry Torokhov wrote:
-> On Fri, Jun 27, 2025 at 01:56:53PM -0500, Mario Limonciello wrote:
->> On 6/27/2025 1:36 PM, Dmitry Torokhov wrote:
->>> On Fri, Jun 27, 2025 at 05:56:05PM +0200, Hans de Goede wrote:
-> 
-> [ ... trim ... ]
-> 
+Hi,
+
+On 27-Jun-25 9:44 PM, Mario Limonciello wrote:
+> On 6/27/2025 2:38 PM, Hans de Goede wrote:
+>> Hi,
+>>
+>> On 27-Jun-25 9:18 PM, Dmitry Torokhov wrote:
+>>> On Fri, Jun 27, 2025 at 01:56:53PM -0500, Mario Limonciello wrote:
+>>>> On 6/27/2025 1:36 PM, Dmitry Torokhov wrote:
+>>>>> On Fri, Jun 27, 2025 at 05:56:05PM +0200, Hans de Goede wrote:
 >>>
->>> 2. There is a patch from Mario (a8605b0ed187) suppressing sending
->>> KEY_POWER as part of "normal" wakeup handling, pretty much the same as
->>> what he and you are proposing to do in gpio-keys (and eventually in
->>> every driver keyboard or button driver in the kernel). This means we no
->>> longer can tell if wakeup is done by power button or sleep button (on
->>> systems with dual-button models, see ACPI 4.8.3.1).
+>>> [ ... trim ... ]
+>>>
+>>>>>
+>>>>> 2. There is a patch from Mario (a8605b0ed187) suppressing sending
+>>>>> KEY_POWER as part of "normal" wakeup handling, pretty much the same as
+>>>>> what he and you are proposing to do in gpio-keys (and eventually in
+>>>>> every driver keyboard or button driver in the kernel). This means we no
+>>>>> longer can tell if wakeup is done by power button or sleep button (on
+>>>>> systems with dual-button models, see ACPI 4.8.3.1).
+>>>>
+>>>> Actually a8605b0ed187 was about a runtime regression not a suspend
+>>>> regression.  I didn't change anything with sending KEY_POWER during wakeup
+>>>> handling.
+>>>
+>>> Ah, right, ignorng events for "suspended" buttons was done in
+>>> e71eeb2a6bcc ("ACPI / button: Do not propagate wakeup-from-suspend
+>>> events"). Again trying to add heuristic to the kernel instead of
+>>> enlightening userspace.
+>>>
+>>> I am curious why the system is sending "Notify Wake" events when not
+>>> sleeping though?
+>>>
+>>> [ .. skip .. ]
+>>>
+>>>>
+>>>> FTR I did test Hans suggestion and it does work effectively (code below).
+>>>>
+>>>> diff --git a/drivers/input/keyboard/gpio_keys.c
+>>>> b/drivers/input/keyboard/gpio_keys.c
+>>>> index f9db86da0818b..3bc8c95e9943b 100644
+>>>> --- a/drivers/input/keyboard/gpio_keys.c
+>>>> +++ b/drivers/input/keyboard/gpio_keys.c
+>>>> @@ -425,7 +425,8 @@ static irqreturn_t gpio_keys_gpio_isr(int irq, void
+>>>> *dev_id)
+>>>>                           * already released by the time we got interrupt
+>>>>                           * handler to run.
+>>>>                           */
+>>>> -                       input_report_key(bdata->input, button->code, 1);
+>>>> +                       input_report_key(bdata->input, *bdata->code, 1);
+>>>> +                       input_sync(bdata->input);
+>>>
+>>> I start wondering if we should keep the fake press given that we do not
+>>> know for sure if wakeup truly happened because of this button press...
 >>
->> Actually a8605b0ed187 was about a runtime regression not a suspend
->> regression.  I didn't change anything with sending KEY_POWER during wakeup
->> handling.
+>> AFAIK we cannot drop the fake press because then Android userspace
+>> will immediately go back to sleep again assuming the wakeup was
+>> e.g. just some data coming in from the modem which did not result
+>> in a notification to show, so no need to turn on the display,
+>> but instead immediately go back to sleep.
+>>
+>> IIRC last time we had this discussion (man years ago) the reason
+>> to send KEY_POWER was to let Android know that it should actualy
+>> turn on the display and show the unlock screen because the user
+>> wants that to happen.
+>>
+>> I believe this is also what the KEY_WAKEUP thing in the ACPI button
+>> code is for.
+>>
+>>> Can we track back to the wakeup source and determine this? It will not
+>>> help your problem, but I still believe userspace is where policy should
+>>> live.
+>>
+>> There is /sys/power/pm_wakeup_irq we could correlate that to the IRQ
+>> number of the ISR and then AFAICT we will definitively know if
+>> the power-button was the wakeup source ?
+>>
 > 
-> Ah, right, ignorng events for "suspended" buttons was done in
-> e71eeb2a6bcc ("ACPI / button: Do not propagate wakeup-from-suspend
-> events"). Again trying to add heuristic to the kernel instead of
-> enlightening userspace.
+> So at least in my case when woken up by this power button press the IRQ isn't the one for the GPIO itself, but rather for the GPIO controller master interrupt.
 > 
-> I am curious why the system is sending "Notify Wake" events when not
-> sleeping though?
+> # cat /sys/power/pm_wakeup_irq
+> 7
+> # grep . /sys/kernel/irq/7/*
+> /sys/kernel/irq/7/actions:pinctrl_amd
+> /sys/kernel/irq/7/chip_name:IR-IO-APIC
+> /sys/kernel/irq/7/hwirq:7
+> /sys/kernel/irq/7/name:fasteoi
+> /sys/kernel/irq/7/per_cpu_count:0,0,0,0,0,5,0,0
+> /sys/kernel/irq/7/type:level
+> /sys/kernel/irq/7/wakeup:enabled
+> 
+> # grep . /sys/kernel/irq/102/*
+> /sys/kernel/irq/102/actions:power
+> /sys/kernel/irq/102/chip_name:amd_gpio
+> /sys/kernel/irq/102/hwirq:0
+> /sys/kernel/irq/102/per_cpu_count:0,1,0,2,1,0,0,1
+> /sys/kernel/irq/102/type:edge
+> /sys/kernel/irq/102/wakeup:disabled
 
-I wondered the same thing.  My guess is this is a BIOS bug.
+Ah, right.
 
-> 
-> [ .. skip .. ]
-> 
->>
->> FTR I did test Hans suggestion and it does work effectively (code below).
->>
->> diff --git a/drivers/input/keyboard/gpio_keys.c
->> b/drivers/input/keyboard/gpio_keys.c
->> index f9db86da0818b..3bc8c95e9943b 100644
->> --- a/drivers/input/keyboard/gpio_keys.c
->> +++ b/drivers/input/keyboard/gpio_keys.c
->> @@ -425,7 +425,8 @@ static irqreturn_t gpio_keys_gpio_isr(int irq, void
->> *dev_id)
->>                           * already released by the time we got interrupt
->>                           * handler to run.
->>                           */
->> -                       input_report_key(bdata->input, button->code, 1);
->> +                       input_report_key(bdata->input, *bdata->code, 1);
->> +                       input_sync(bdata->input);
-> 
-> I start wondering if we should keep the fake press given that we do not
-> know for sure if wakeup truly happened because of this button press...
-> 
-> Can we track back to the wakeup source and determine this? It will not
-> help your problem, but I still believe userspace is where policy should
-> live.
-> 
-> Thanks.
-> 
+But thinking more about this I do not think believe
+that wakeup racing is really a big issue here.
+
+Wakeup racing only hits if the button ISR runs before
+gpio_keys_resume() has run and cleared the bdata->suspended
+flag. IOW the button was pressed before the system has
+completely resumed in that case the users intend to me
+very clearly was to wakeup the system.
+
+So I still believe that sending key-wakeup for the simulated
+keypress is the right thing to do in wakeup race cases even
+if the system was actually woken up by e.g. network traffic.
+
+As for Mario's patch from earlier in the thread that needs
+some more work because it will release the wrong code if
+the release ISR runs after gpio_keys_resume().
+
+But working further on that only is useful if we can get
+agreement from Dmitry on that approach.
+
+Regards,
+
+Hans
+
 
 
