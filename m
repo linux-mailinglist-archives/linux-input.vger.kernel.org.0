@@ -1,324 +1,169 @@
-Return-Path: <linux-input+bounces-13124-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13125-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A05AAEB00B
-	for <lists+linux-input@lfdr.de>; Fri, 27 Jun 2025 09:29:04 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 81B8BAEB50D
+	for <lists+linux-input@lfdr.de>; Fri, 27 Jun 2025 12:37:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E40991BC57A4
-	for <lists+linux-input@lfdr.de>; Fri, 27 Jun 2025 07:29:19 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7544C163290
+	for <lists+linux-input@lfdr.de>; Fri, 27 Jun 2025 10:36:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A78A3218E96;
-	Fri, 27 Jun 2025 07:28:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D6F1C262D14;
+	Fri, 27 Jun 2025 10:36:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PswP3KY8"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SQ7JVzZp"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5C4E1AB52D;
-	Fri, 27 Jun 2025 07:28:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D0FC218EB7;
+	Fri, 27 Jun 2025 10:36:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751009339; cv=none; b=hdyi9ZXxWABT75SghieaGoBbgb0KhjtPWz1xvl1Ro9uOpwO0b9W8wXBxgmuNwS//m5daxG/5YKShaEDxl9bP0S8necxhrDQFw3hZGx5ACt6ROBLBZeK7hnX6Wd4R3B2D1zfYTgUK/+E9IKng6HYAyCvZwv1YIjxLOqmQKQUz9DE=
+	t=1751020581; cv=none; b=hpLsalo4M4EQ4dYD0bCtjBZdRVLxXrCPkd+f9USfv2Wlsyl2gcciLn2pyMv8YJ16ZMa2y1lfweCyDHnBQDgRA4qrqaPXPyWqGQGRhexOmcisLp4vJsOIEk9p2vvvtSTCHllrNGjoVY9szj4NPtkWuqtoev6D5j1/iYtqfc5jFZ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751009339; c=relaxed/simple;
-	bh=xAwbIpUOopjddcY11bRHkhx/0Ecpy5l/9bzYYgCRJlc=;
-	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=lem4IVTSyBxCRKY+1MGlUuRhjNMklrMdrdnwWyI6WitEa9K47qGixgO2JIONuR9ePGIPksY+8dNB5iojsMm1z1loikM3OORrYls2js3xqDn9K6/JzPynUO6laYcjg71BfVgvWWHKtxJ5a7MMpdCUowC5BB4T7NA+EIdbpkyS2p4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PswP3KY8; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751009338; x=1782545338;
-  h=from:date:to:cc:subject:in-reply-to:message-id:
-   references:mime-version:content-id;
-  bh=xAwbIpUOopjddcY11bRHkhx/0Ecpy5l/9bzYYgCRJlc=;
-  b=PswP3KY8HdHJJj1ghEvswgsP+Tw0rMc/nMO6XHuPp3WCgxIcICvC+qh1
-   NhSsv3myY4AfpKWT/9pLuBKTlhaXwQ/wxIzo9nhbK7udZv0fmSEKNFJXe
-   hqckK/JSeCFB/ErhrQs+tIWHFRdLsGcJkKNlfSAH+uym2Jbvr2ErTl7w0
-   iAA+oWIT34NLw1qKATfT+WD5ieWGuo2ypeKoQNXG4Ne6H3jwu7sYPN5GS
-   ayGEFbEAFFSmKFZmqnhE0rE+dK39Rs0EDPrrIIo5C4MoKEHV1TPEJattD
-   p8XlpgU00oNSb7rySuSmd76ZYI2ADaoeUh8XcmOc53IFuscbLZdimlbVB
-   w==;
-X-CSE-ConnectionGUID: WpXnum9nSuS88q/9z6Ixrw==
-X-CSE-MsgGUID: QpH4bd7XR/eyY6TT3ntNwg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11476"; a="53443068"
-X-IronPort-AV: E=Sophos;i="6.16,269,1744095600"; 
-   d="scan'208";a="53443068"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2025 00:28:57 -0700
-X-CSE-ConnectionGUID: AJ8fxX0wTR6hNInBYm1AVg==
-X-CSE-MsgGUID: 72VvaYj0TweVXyPOoIacrQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,269,1744095600"; 
-   d="scan'208";a="157288625"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.71])
-  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2025 00:28:48 -0700
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Fri, 27 Jun 2025 10:28:44 +0300 (EEST)
-To: Vishnu Sankar <vishnuocv@gmail.com>
-cc: pali@kernel.org, dmitry.torokhov@gmail.com, hmh@hmh.eng.br, 
-    hansg@kernel.org, tglx@linutronix.de, mingo@kernel.org, jon_xie@pixart.com, 
-    jay_lee@pixart.com, zhoubinbin@loongson.cn, linux-input@vger.kernel.org, 
-    LKML <linux-kernel@vger.kernel.org>, ibm-acpi-devel@lists.sourceforge.net, 
-    platform-driver-x86@vger.kernel.org, vsankar@lenovo.com, 
-    Mark Pearson <mpearson-lenovo@squebb.ca>
-Subject: Re: [PATCH] x86/Mouse: thinkpad_acpi/Trackpoint: Trackpoint Doubletap
- handling
-In-Reply-To: <CABxCQKt7SjMhX33WGOTk8hdZf1Hvkp8YYFWJK5v1xcbQQm14nQ@mail.gmail.com>
-Message-ID: <7ed97f5f-edb2-7f15-1d53-42b7b16a5ae6@linux.intel.com>
-References: <20250620004209.28250-1-vishnuocv@gmail.com> <c7eb2d82-a487-1baa-dd89-4276551974ec@linux.intel.com> <CABxCQKvt+vreQN1+BWr-XBu+pF81n5fh9Fa59UBsV_hLgpvh3A@mail.gmail.com> <4e846cf1-e7c7-3bb9-d8b3-d266b9dfbc4e@linux.intel.com>
- <CABxCQKt7SjMhX33WGOTk8hdZf1Hvkp8YYFWJK5v1xcbQQm14nQ@mail.gmail.com>
+	s=arc-20240116; t=1751020581; c=relaxed/simple;
+	bh=kO3872BVzA02twHz/sfwpKmHU+07ZekQm+EfNqZ0pF0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=o3mhKmNYSBuy3WqCSTCvBKFpFvowEosGCcXDNnpVP9lX2ayMMSZFbBB5XhDRhUNUqEb5ewOAgjTiU+GxInM0XVcAzL4Zv5KRNsU+vZJxFajuvAGYwdKczI5JPvynrUYZhBBoQECs0VVLvGPtilY35cyCyGY/pGltmcCn7BGdhmY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SQ7JVzZp; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31C2AC4CEE3;
+	Fri, 27 Jun 2025 10:36:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1751020581;
+	bh=kO3872BVzA02twHz/sfwpKmHU+07ZekQm+EfNqZ0pF0=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=SQ7JVzZphl/F+DcZ2pCUWODg8XFaiB5ol4vBa+nlXUwCibD4NJsXeH6rCu3/JCgcB
+	 ltigztharDmY43s2dgmFiJu6OuMCVHGscNQcjVWgbTp4/gd6iSDptnkxFazNXIxjRf
+	 2D45xPZRd4FY/7lKoOMsKQyjd2fXuIGM/VKE+gJP0AXKvo7/wp92PjqRWE7XltY/Fn
+	 2QZARnsJMi5lPy0odx2V1cg61x+FynTg9UqdEa030YmGB72TN+cw1ovM4rLOFAV9Ki
+	 OkiJhryWxgAw71AT7yKWqoDEbLEIAjSxM5+J/in88DM+SloSD4VKg9JDVnKqESZFw2
+	 hgyZ7raqzoQMA==
+Received: by mail-oi1-f178.google.com with SMTP id 5614622812f47-407aac76036so1216046b6e.1;
+        Fri, 27 Jun 2025 03:36:21 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVIVf3xI47kuzS83q/DqQ4RZuXpc3DLklVaCoh4GnG8RNb1VsMlfPRQYSaVkD2FidVCWjZVXUlhnQsSyg==@vger.kernel.org, AJvYcCVwV3g61mg+HU4VErx9q1NMvHZ9auhxLaxbtAyCfMhx2ih6dCr1wnWwBuKXwo5Da3yQkJL+IeLdlx7V@vger.kernel.org, AJvYcCWAg8xjeZNTkz4g2o2EA/u70I5TUmdb4y+MtaDlxDxQGumpVGVzfel/TL2ECclvW2rRC2wldltAlNXhVJ0=@vger.kernel.org, AJvYcCXholl0Ja3C9XPdYEgronvlkmXpflXufROeQrl7agBOMDbPFzZvDLNhTTPvkmpLVvpgo1u1SuT2hpD3JWxL@vger.kernel.org
+X-Gm-Message-State: AOJu0YykdrFTi6aaGxDVy7rVkxONNcvQjkkRP7r3qPz9Xxe2NADPMlYQ
+	R8VBw6Ik2QQotefEyc9NiIW5pXzWtO/sS9bX0e1gW37A90/p1y4UQrW3rq0pPNYQOvXX6FKJf+X
+	fBAT7r0XLEnYmtu3VcN/dkkKreTctuv8=
+X-Google-Smtp-Source: AGHT+IEPLCCHKzTYLnBFG79n5+ueesNFsLXqdjZKx+8LwesqcPzYaes+O6ZfjNjAPyDfBVNjPvHhLVKn/PzciG8HJ9I=
+X-Received: by 2002:a05:6820:4b95:b0:611:b1c7:23f with SMTP id
+ 006d021491bc7-611b912ea1bmr1492281eaf.0.1751020580470; Fri, 27 Jun 2025
+ 03:36:20 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; BOUNDARY="8323328-509316558-1751009008=:1730"
-Content-ID: <57cbe644-7d65-5a9a-b89c-516906ac4fc6@linux.intel.com>
+References: <363c2b92-4bfc-4537-9fca-025eef09526f@kernel.org>
+ <nxticocp26r5mmpkttritw76h5igw7bdpus6zaf5krkso2h5xy@wna6m2quekfi>
+ <cbbf0caf-82ce-4427-9844-b11e0f5cacdb@kernel.org> <obpakvzyludc4jskqzyxf65dhqds7ie3jkbfsqdve32ouuaili@xvogkmwvbmbf>
+ <284ea5c0-dca5-4e9e-a3e7-705eca794010@kernel.org> <vkau25ybcx3bcoa2jmxlukumunzii5h6em43anh6mmzk2kyiv7@kyych4kxc4zo>
+ <0d71a686-da67-4686-8976-a17d0d1ca923@kernel.org> <CAJZ5v0gKUN1OdqAHnXNcFUAOfhpdRfa_o=L6TA2GZTpe1bMaNQ@mail.gmail.com>
+ <exmgckzoakt2ncsdphqvymcadon7k6tl36a3zvrj2pv23dffps@znq23v3qbcm2>
+ <CAJZ5v0j3ZyuEqSKQ+3K8M3BwPCxn5Z6KOwjyjt4cJW6HfxjPDw@mail.gmail.com> <hyvpl4gvxc6h2r3itfofjduwb3vpobyo7a7z6g3zapzscqtafh@ixsd4amyljva>
+In-Reply-To: <hyvpl4gvxc6h2r3itfofjduwb3vpobyo7a7z6g3zapzscqtafh@ixsd4amyljva>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Fri, 27 Jun 2025 12:36:07 +0200
+X-Gmail-Original-Message-ID: <CAJZ5v0i20Qjxw=GAc-PTHL8U5kq-zsDR2fWcp9dbrkF6PbRBqw@mail.gmail.com>
+X-Gm-Features: Ac12FXzNSwYReMMR0zsZk6Mer1g6ucUqMElqdVkF9OF_k1D4_YYY3bAYiHJyoF8
+Message-ID: <CAJZ5v0i20Qjxw=GAc-PTHL8U5kq-zsDR2fWcp9dbrkF6PbRBqw@mail.gmail.com>
+Subject: Re: [PATCH v3 4/4] Input: Don't send fake button presses to wake system
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Hans de Goede <hansg@kernel.org>, 
+	Mario Limonciello <superm1@kernel.org>, Mika Westerberg <westeri@kernel.org>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+	Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, 
+	"open list:GPIO ACPI SUPPORT" <linux-gpio@vger.kernel.org>, 
+	"open list:GPIO ACPI SUPPORT" <linux-acpi@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>, 
+	"open list:INPUT (KEYBOARD, MOUSE, JOYSTICK, TOUCHSCREEN)..." <linux-input@vger.kernel.org>, Mario Limonciello <mario.limonciello@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+On Thu, Jun 26, 2025 at 9:40=E2=80=AFPM Dmitry Torokhov
+<dmitry.torokhov@gmail.com> wrote:
+>
+> On Thu, Jun 26, 2025 at 09:31:12PM +0200, Rafael J. Wysocki wrote:
+> > On Thu, Jun 26, 2025 at 9:28=E2=80=AFPM Dmitry Torokhov
+> > <dmitry.torokhov@gmail.com> wrote:
+> > >
+> > > On Thu, Jun 26, 2025 at 09:18:56PM +0200, Rafael J. Wysocki wrote:
+> > > > On Thu, Jun 26, 2025 at 9:16=E2=80=AFPM Hans de Goede <hansg@kernel=
+.org> wrote:
+> > > > >
+> > > > > Hi,
+> > > > >
+> > > > > On 26-Jun-25 21:14, Dmitry Torokhov wrote:
+> > > > > > On Thu, Jun 26, 2025 at 08:57:30PM +0200, Hans de Goede wrote:
+> > > > > >> Hi,
+> > > > > >>
+> > > > > >> On 26-Jun-25 20:48, Dmitry Torokhov wrote:
+> > > > > >>> On Thu, Jun 26, 2025 at 01:20:54PM -0500, Mario Limonciello w=
+rote:
+> > > [...]
+> > > > > >>>> I want to note this driver works quite differently than how =
+ACPI power
+> > > > > >>>> button does.
+> > > > > >>>>
+> > > > > >>>> You can see in acpi_button_notify() that the "keypress" is o=
+nly forwarded
+> > > > > >>>> when not suspended [1].  Otherwise it's just wakeup event (w=
+hich is what my
+> > > > > >>>> patch was modeling).
+> > > > > >>>>
+> > > > > >>>> https://github.com/torvalds/linux/blob/v6.16-rc3/drivers/acp=
+i/button.c#L461
+> > > > > >>>> [1]
+> > > > > >>>
+> > > > > >>> If you check acpi_button_resume() you will see that the event=
+s are sent
+> > > > > >>> from there. Except that for some reason they chose to use KEY=
+_WAKEUP and
+> > > > > >>> not KEY_POWER, oh well. Unlike acpi button driver gpio_keys i=
+s used on
+> > > > > >>> multiple other platforms.
+> > > > > >>
+> > > > > >> Interesting, but the ACPI button code presumably only does thi=
+s on resume
+> > > > > >> for a normal press while the system is awake it does use KEY_P=
+OWER, right ?
+> > > > > >
+> > > > > > Yes. It is unclear to me why they chose to mangle the event on =
+wakeup,
+> > > > > > it does not seem to be captured in the email discussions or in =
+the patch
+> > > > > > description.
+> > > > >
+> > > > > I assume they did this to avoid the immediate re-suspend on wakeu=
+p by
+> > > > > power-button issue. GNOME has a workaround for this, but I assume=
+ that
+> > > > > some userspace desktop environments are still going to have a pro=
+blem
+> > > > > with this.
+> > > >
+> > > > It was done for this reason IIRC, but it should have been documente=
+d
+> > > > more thoroughly.
+> > >
+> > > I assert that it should not have been done and instead dealt with in
+> > > userspace. There are numerous drivers in the kernel emitting
+> > > KEY_POWER. Let userspace decide how to handle this, what keys to igno=
+re,
+> > > what keys to process and when.
+> >
+> > Please see my last message in this thread (just sent) and see the
+> > changelog of commit 16f70feaabe9 ("ACPI: button: trigger wakeup key
+> > events").
+> >
+> > This appears to be about cases when no event would be signaled to user
+> > space at all (power button wakeup from ACPI S3).
+>
+> Ahh, in S3 we do not know if we've been woken up with Sleep or Power
+> button, right? So we can not send the "right" event code and use
+> "neutral" KEY_WAKEUP for both. Is this right?
 
---8323328-509316558-1751009008=:1730
-Content-Type: text/plain; CHARSET=UTF-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Content-ID: <c81ee0c8-a338-e07e-d289-a2db07ee615e@linux.intel.com>
-
-On Fri, 27 Jun 2025, Vishnu Sankar wrote:
-
-> Hi Ilpo,
->=20
-> Thanks a lot for the review.
->=20
-> On Fri, Jun 27, 2025 at 12:09=E2=80=AFAM Ilpo J=C3=A4rvinen <ilpo.jarvine=
-n@linux.intel.com> wrote:
->       On Thu, 26 Jun 2025, Vishnu Sankar wrote:
->=20
->       > Hi Ilpo,
->       >
->       > Thanks a lot for the comments and guidance.
->       > Please find my comments inline below.
->       >
->       > On Wed, Jun 25, 2025 at 9:07 PM Ilpo J=C3=A4rvinen <
->       ilpo.jarvinen@linux.intel.com >
->       > wrote:
->       >=C2=A0 =C2=A0 =C2=A0 =C2=A0On Fri, 20 Jun 2025, Vishnu Sankar wrot=
-e:
->       >
->       >=C2=A0 =C2=A0 =C2=A0 =C2=A0I don't like the shortlog prefixes (in =
-the subject), please don't
->       make
->       >=C2=A0 =C2=A0 =C2=A0 =C2=A0confusing prefixes up like that.
->       >
->       > Got it.
->       > I will correct this in V2 (as a patch series).=C2=A0
->       >
->       >=C2=A0 =C2=A0 =C2=A0 =C2=A0> Newer ThinkPads have a doubletap feat=
-ure that needs to be
->       turned
->       >=C2=A0 =C2=A0 =C2=A0 =C2=A0> ON/OFF via the trackpoint registers.
->       >
->       >=C2=A0 =C2=A0 =C2=A0 =C2=A0Don't leave lines short mid-paragraph. =
-Either reflow the
->       paragraph or add
->       >=C2=A0 =C2=A0 =C2=A0 =C2=A0an empty line in between paragraphs.
->       >
->       > Acked.
->       > Will correct this in V2.=C2=A0=C2=A0
->       >
->       >=C2=A0 =C2=A0 =C2=A0 =C2=A0> Systems released from 2023 have doubl=
-etap disabled by default
->       and
->       >=C2=A0 =C2=A0 =C2=A0 =C2=A0> need the feature enabling to be usefu=
-l.
->       >=C2=A0 =C2=A0 =C2=A0 =C2=A0>
->       >=C2=A0 =C2=A0 =C2=A0 =C2=A0> This patch introduces support for exp=
-osing and controlling the
->       >=C2=A0 =C2=A0 =C2=A0 =C2=A0> trackpoint doubletap feature via a sy=
-sfs attribute.
->       >=C2=A0 =C2=A0 =C2=A0 =C2=A0> /sys/devices/platform/thinkpad_acpi/t=
-p_doubletap
->       >=C2=A0 =C2=A0 =C2=A0 =C2=A0> This can be toggled by an "enable" or=
- a "disable".
->       >
->       >=C2=A0 =C2=A0 =C2=A0 =C2=A0This too has too short lines.
->       >
->       > Sorry!=C2=A0
->       > Will do the needful in v2.
->       >
->       >=C2=A0 =C2=A0 =C2=A0 =C2=A0>
->       >=C2=A0 =C2=A0 =C2=A0 =C2=A0> With this implemented we can remove t=
-he masking of events, and
->       rely on
->       >
->       >=C2=A0 =C2=A0 =C2=A0 =C2=A0"With this implemented" is way too vagu=
-e wording.
->       >
->       > Sorry for this!
->       > I will make this better.=C2=A0
->       >
->       >=C2=A0 =C2=A0 =C2=A0 =C2=A0> HW control instead, when the feature =
-is disabled.
->       >=C2=A0 =C2=A0 =C2=A0 =C2=A0>
->       >=C2=A0 =C2=A0 =C2=A0 =C2=A0> Note - Early Thinkpads (pre 2015) use=
-d the same register for
->       hysteris
->       >
->       >=C2=A0 =C2=A0 =C2=A0 =C2=A0hysteresis ?
->       >
->       > Sorry for not being clear.
->       > It's the trackpoint drag hysteris=C2=A0functionality. Pre-2015 Th=
-inkPads
->       used to have a
->       > user-configurable drag hysterisis=C2=A0register (0x58).
->       > Drag hysterisis is not user configurable now.
->       >
->       >=C2=A0 =C2=A0 =C2=A0 =C2=A0> control, Check the FW IDs to make sur=
-e these are not affected.
->       >
->       >=C2=A0 =C2=A0 =C2=A0 =C2=A0This Note feels very much disconnected =
-from the rest. Should be
->       properly
->       >=C2=A0 =C2=A0 =C2=A0 =C2=A0described and perhaps in own patch (I d=
-on't know)?
->       >
->       > my bad, it's=C2=A0not FW ID, but PnP ID.=C2=A0
->       > The older ThinkPad's trackpoint controllers use the same register
->       (0x58) to control
->       > the drag hysteresis, which is obsolete now.
->       > Now (on newer systems from 2023) the same register (0x58) is rema=
-pped
->       as
->       > doubletap=C2=A0register.=C2=A0=C2=A0
->       > Just to exclude those older systems (with drag hysterisis control=
-), we
->       check the PnP
->       > ID's.
->       >
->       > I will give a better commit message in V2.
->       >
->       >=C2=A0 =C2=A0 =C2=A0 =C2=A0> trackpoint.h is moved to linux/input/=
-=2E
->       >
->       >=C2=A0 =C2=A0 =C2=A0 =C2=A0This patch doesn't look minimal and see=
-ms to be combining many
->       changes
->       >=C2=A0 =C2=A0 =C2=A0 =C2=A0into one. Please make a patch series ou=
-t of changes that can be
->       separated
->       >=C2=A0 =C2=A0 =C2=A0 =C2=A0instead of putting all together.
->       >
->       > Understood.
->       > Will make a patch series on V2
->       > 0001: Move trackpoint.h=C2=A0to include/linux/input
->       > 0002: Add new doubletap set/status/capable logics to trackpoint.c
->       > 0003: Add new trackpoint api's and trackpoint sysfs in thinkpad_a=
-cpi.c
->=20
->       Okay, sounds better.
->=20
->       >=C2=A0 =C2=A0 =C2=A0 =C2=A0> +/* List of known incapable device PN=
-P IDs */
->       >=C2=A0 =C2=A0 =C2=A0 =C2=A0> +static const char * const dt_incompa=
-tible_devices[] =3D {
->       >=C2=A0 =C2=A0 =C2=A0 =C2=A0> +=C2=A0 =C2=A0 =C2=A0"LEN0304",
->       >=C2=A0 =C2=A0 =C2=A0 =C2=A0> +=C2=A0 =C2=A0 =C2=A0"LEN0306",
->       >=C2=A0 =C2=A0 =C2=A0 =C2=A0> +=C2=A0 =C2=A0 =C2=A0"LEN0317",
->       >=C2=A0 =C2=A0 =C2=A0 =C2=A0> +=C2=A0 =C2=A0 =C2=A0"LEN031A",
->       >=C2=A0 =C2=A0 =C2=A0 =C2=A0> +=C2=A0 =C2=A0 =C2=A0"LEN031B",
->       >=C2=A0 =C2=A0 =C2=A0 =C2=A0> +=C2=A0 =C2=A0 =C2=A0"LEN031C",
->       >=C2=A0 =C2=A0 =C2=A0 =C2=A0> +=C2=A0 =C2=A0 =C2=A0"LEN031D",
->       >=C2=A0 =C2=A0 =C2=A0 =C2=A0> +};
->       >=C2=A0 =C2=A0 =C2=A0 =C2=A0> +
->       >=C2=A0 =C2=A0 =C2=A0 =C2=A0> +/*
->       >=C2=A0 =C2=A0 =C2=A0 =C2=A0> + * checks if it=E2=80=99s a doubleta=
-p capable device
->       >=C2=A0 =C2=A0 =C2=A0 =C2=A0> + * The PNP ID format eg: is "PNP: LE=
-N030d PNP0f13".
-
-There's case difference between this comment and the list.
-
->       >=C2=A0 =C2=A0 =C2=A0 =C2=A0> + */
->       >=C2=A0 =C2=A0 =C2=A0 =C2=A0> +bool is_trackpoint_dt_capable(const =
-char *pnp_id)
->       >=C2=A0 =C2=A0 =C2=A0 =C2=A0> +{
->       >=C2=A0 =C2=A0 =C2=A0 =C2=A0> +=C2=A0 =C2=A0 =C2=A0char id[16];
->       >=C2=A0 =C2=A0 =C2=A0 =C2=A0> +
->       >=C2=A0 =C2=A0 =C2=A0 =C2=A0> +=C2=A0 =C2=A0 =C2=A0/* Make sure str=
-ing starts with "PNP: " */
->       >=C2=A0 =C2=A0 =C2=A0 =C2=A0> +=C2=A0 =C2=A0 =C2=A0if (strncmp(pnp_=
-id, "PNP: LEN03", 10) !=3D 0)
->       >
->       >=C2=A0 =C2=A0 =C2=A0 =C2=A0We seem to have strstarts().
->       >
->       > Thanks a lot for the suggestion.
->       > Will make use of this.=C2=A0
->       >
->       >=C2=A0 =C2=A0 =C2=A0 =C2=A0> +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0return false;
->       >=C2=A0 =C2=A0 =C2=A0 =C2=A0> +
->       >=C2=A0 =C2=A0 =C2=A0 =C2=A0> +=C2=A0 =C2=A0 =C2=A0/* Extract the f=
-irst word after "PNP: " */
->       >=C2=A0 =C2=A0 =C2=A0 =C2=A0> +=C2=A0 =C2=A0 =C2=A0if (sscanf(pnp_i=
-d + 5, "%15s", id) !=3D 1)
->       >=C2=A0 =C2=A0 =C2=A0 =C2=A0> +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0return false;
->       >=C2=A0 =C2=A0 =C2=A0 =C2=A0> +
->       >=C2=A0 =C2=A0 =C2=A0 =C2=A0> +=C2=A0 =C2=A0 =C2=A0/* Check if it's=
- blacklisted */
->       >=C2=A0 =C2=A0 =C2=A0 =C2=A0> +=C2=A0 =C2=A0 =C2=A0for (size_t i =
-=3D 0; i <
->       ARRAY_SIZE(dt_incompatible_devices); ++i)
->       >=C2=A0 =C2=A0 =C2=A0 =C2=A0{
->       >=C2=A0 =C2=A0 =C2=A0 =C2=A0> +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0if (strcmp(pnp_id, dt_incompatible_devices[i]) =3D=3D
->       0)
->       >
->       >=C2=A0 =C2=A0 =C2=A0 =C2=A0Isn't this buggy wrt. the PNP: prefix??
->       >
->       >=C2=A0 =C2=A0 =C2=A0 =C2=A0Perhaps it would have been better to ju=
-st do pnp_id +=3D 5 before
->       sscanf()
->       >=C2=A0 =C2=A0 =C2=A0 =C2=A0as you don't care about the prefix afte=
-r that.
->       >
->       >
->       > Understood.
->       > Shall we have something like the following:
->       > =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!strstarts(pnp_id, "PNP: LEN03"))
->       > =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return false;
->       >
->       > =C2=A0 =C2=A0 =C2=A0 =C2=A0 id =3D pnp_id + 5;
->       >
->       > =C2=A0 =C2=A0 =C2=A0 =C2=A0 for (size_t i =3D 0; i < ARRAY_SIZE(d=
-t_incompatible_devices);
->       ++i) {
->       > =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0if (strncmp(id, dt_incompatible_devices[i],
->       > strlen(dt_incompatible_devices[i])) =3D=3D 0)
->=20
->       Why did you change to strncmp()?
->=20
-> I switched to strncmp() to allow matching just the known prefix part in
-> dt_incompatible_devices, rather than requiring an exact full string match=
-=2E
-> Will keep the original "if (strcmp(id, dt_incompatible_devices[i]) =3D=3D=
- 0) " logic as
-> it serves the purpose.
-
-I didn't mean to say the change is necessarily incorrect, I was just=20
-asking for reasonale as it was different from the original.
-
-If you think you it needs to be broader to the match to a prefix only,=20
-I've no problem with that.
-
---=20
- i.
---8323328-509316558-1751009008=:1730--
+Yes, it is, AFAICS.
 
