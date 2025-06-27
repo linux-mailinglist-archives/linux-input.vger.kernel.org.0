@@ -1,169 +1,296 @@
-Return-Path: <linux-input+bounces-13125-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13126-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81B8BAEB50D
-	for <lists+linux-input@lfdr.de>; Fri, 27 Jun 2025 12:37:02 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id DFFFAAEB551
+	for <lists+linux-input@lfdr.de>; Fri, 27 Jun 2025 12:49:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7544C163290
-	for <lists+linux-input@lfdr.de>; Fri, 27 Jun 2025 10:36:28 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2194517F34A
+	for <lists+linux-input@lfdr.de>; Fri, 27 Jun 2025 10:49:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D6F1C262D14;
-	Fri, 27 Jun 2025 10:36:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 009922609F0;
+	Fri, 27 Jun 2025 10:49:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SQ7JVzZp"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I56FFDrG"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D0FC218EB7;
-	Fri, 27 Jun 2025 10:36:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEE271DDC1E;
+	Fri, 27 Jun 2025 10:49:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751020581; cv=none; b=hpLsalo4M4EQ4dYD0bCtjBZdRVLxXrCPkd+f9USfv2Wlsyl2gcciLn2pyMv8YJ16ZMa2y1lfweCyDHnBQDgRA4qrqaPXPyWqGQGRhexOmcisLp4vJsOIEk9p2vvvtSTCHllrNGjoVY9szj4NPtkWuqtoev6D5j1/iYtqfc5jFZ0=
+	t=1751021374; cv=none; b=H4DvfH0EFOdN2Vo98yAozxbh9wKHaT3fyZBOlaUtot6l0r0nfIRWbZYly1aFeYOtJMPAVZd9OHN925TE7hc6EpFZRAKyataUcGUMQS7V+A+Q3/ZO+Wx+KmXjrOGw4Bvh2zGd4bFTuoE+Y6Bq70q1Ud7iA4e1iOYK27V/kGPumDU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751020581; c=relaxed/simple;
-	bh=kO3872BVzA02twHz/sfwpKmHU+07ZekQm+EfNqZ0pF0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=o3mhKmNYSBuy3WqCSTCvBKFpFvowEosGCcXDNnpVP9lX2ayMMSZFbBB5XhDRhUNUqEb5ewOAgjTiU+GxInM0XVcAzL4Zv5KRNsU+vZJxFajuvAGYwdKczI5JPvynrUYZhBBoQECs0VVLvGPtilY35cyCyGY/pGltmcCn7BGdhmY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SQ7JVzZp; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31C2AC4CEE3;
-	Fri, 27 Jun 2025 10:36:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751020581;
-	bh=kO3872BVzA02twHz/sfwpKmHU+07ZekQm+EfNqZ0pF0=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=SQ7JVzZphl/F+DcZ2pCUWODg8XFaiB5ol4vBa+nlXUwCibD4NJsXeH6rCu3/JCgcB
-	 ltigztharDmY43s2dgmFiJu6OuMCVHGscNQcjVWgbTp4/gd6iSDptnkxFazNXIxjRf
-	 2D45xPZRd4FY/7lKoOMsKQyjd2fXuIGM/VKE+gJP0AXKvo7/wp92PjqRWE7XltY/Fn
-	 2QZARnsJMi5lPy0odx2V1cg61x+FynTg9UqdEa030YmGB72TN+cw1ovM4rLOFAV9Ki
-	 OkiJhryWxgAw71AT7yKWqoDEbLEIAjSxM5+J/in88DM+SloSD4VKg9JDVnKqESZFw2
-	 hgyZ7raqzoQMA==
-Received: by mail-oi1-f178.google.com with SMTP id 5614622812f47-407aac76036so1216046b6e.1;
-        Fri, 27 Jun 2025 03:36:21 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVIVf3xI47kuzS83q/DqQ4RZuXpc3DLklVaCoh4GnG8RNb1VsMlfPRQYSaVkD2FidVCWjZVXUlhnQsSyg==@vger.kernel.org, AJvYcCVwV3g61mg+HU4VErx9q1NMvHZ9auhxLaxbtAyCfMhx2ih6dCr1wnWwBuKXwo5Da3yQkJL+IeLdlx7V@vger.kernel.org, AJvYcCWAg8xjeZNTkz4g2o2EA/u70I5TUmdb4y+MtaDlxDxQGumpVGVzfel/TL2ECclvW2rRC2wldltAlNXhVJ0=@vger.kernel.org, AJvYcCXholl0Ja3C9XPdYEgronvlkmXpflXufROeQrl7agBOMDbPFzZvDLNhTTPvkmpLVvpgo1u1SuT2hpD3JWxL@vger.kernel.org
-X-Gm-Message-State: AOJu0YykdrFTi6aaGxDVy7rVkxONNcvQjkkRP7r3qPz9Xxe2NADPMlYQ
-	R8VBw6Ik2QQotefEyc9NiIW5pXzWtO/sS9bX0e1gW37A90/p1y4UQrW3rq0pPNYQOvXX6FKJf+X
-	fBAT7r0XLEnYmtu3VcN/dkkKreTctuv8=
-X-Google-Smtp-Source: AGHT+IEPLCCHKzTYLnBFG79n5+ueesNFsLXqdjZKx+8LwesqcPzYaes+O6ZfjNjAPyDfBVNjPvHhLVKn/PzciG8HJ9I=
-X-Received: by 2002:a05:6820:4b95:b0:611:b1c7:23f with SMTP id
- 006d021491bc7-611b912ea1bmr1492281eaf.0.1751020580470; Fri, 27 Jun 2025
- 03:36:20 -0700 (PDT)
+	s=arc-20240116; t=1751021374; c=relaxed/simple;
+	bh=sk54/sA42u9F/YCJlZI6YOrjXzJO80244uRlHpMQIgQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fjNGt2hNxG/xE5asgcbc771s4Plpf26vU9UWduvCfSZNbHrpZHfOjIuYv9kowXxMgvnYy8mM9NCb+6MID98Lg9krLMJoQHi8A95R/llOFli/lkwHAcwPc0mG6vz7dXx/NqPMBnf4+KMp4/JzslySv/77gyw0sKRXX34bB1dhLnE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I56FFDrG; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-453647147c6so22176335e9.2;
+        Fri, 27 Jun 2025 03:49:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1751021371; x=1751626171; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=zgT/GDBpY98J1rn4y63rCnTUDG5J/s3VU13Cjs2CFNE=;
+        b=I56FFDrGRUB5dQjAKzIfmoUY/V9yK4xqc+B4ah8z8h/XF0RMXtV9enXSnGFR1N4C1A
+         nL8+uYGRo1EGv1TfsIIPoLSJfKfeL8C+so0/SUhwHHpFbi39OwKw9k+a8G95efX8E3Bj
+         cpwCqidmjfTI0TUAkJzPMAeHSCgfW9QRK/EGe90/KFkZkdGT9+YQbFlYts7nVH2LBACW
+         zUImySQprXouD0CW0CtcurWvOiGMdjY6J9YphIpsfw6yWdU5ZPj0SHN7sTwGmsv80csm
+         2o+DQ0r6Uygo7cwMhg/l1aP1q4uSseG8R8G0czB62SPo8hmplpvB1Q9MSdJdVA+E3wDb
+         BPag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751021371; x=1751626171;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zgT/GDBpY98J1rn4y63rCnTUDG5J/s3VU13Cjs2CFNE=;
+        b=Sfbrgkre8+KLFiG/etqjab+/h2Yy++zzWg6wEhDpuQ9tSRTtyVvLpoFha+5YiYoOpY
+         TuhxXLQ5sKeEsfpr6TSfSqlIRo1EAsIP9NumyfXctJB8Ta5e3MhWko0s6MTlDzDrWwU4
+         j6F4o93fgfXnTDiHsGBtIw8IiIZ8blwoARdRJhXzDHUTQIshUZFUvDxxB6aczQ+CINxK
+         QUbuHRW+bPwhJL1Kdi+ajcyahhSsBYoMoQccv0EefEgZJDQONioSl0VJqLcLmBnnciX+
+         pOjbR9ed7v7xphvEIYYR9IFb5DOKFVU86ofkioOH8KP343pPQEslwfgXX7Hy0p9eIQaE
+         qdYg==
+X-Forwarded-Encrypted: i=1; AJvYcCU/9DUFzW2MCe7Ik5uj6km8TncdCJZJQFt320r4g9jJZA99UstDv+fewXCLbs8nnnXwa725nJpKcAOBxgi+@vger.kernel.org, AJvYcCUtVRSSnU93sHqiW+FlH9pQZ0JJusDPpcHHCIqGm1tjbdFdhYNDe31skreYIW0Jf3ApZDIrcWJX@vger.kernel.org, AJvYcCWGh2XBDVxQpmyy6xTWc8+3fj03M9CzHV2I8cSqYCjgOXbk6Rbo2NzOhGmQ/QeldzH0bA/DypqWCxBR5g==@vger.kernel.org
+X-Gm-Message-State: AOJu0YydF7SDKHKQVUJ47am/xgMLMn07G29/WS6WJ0rnZQmF2ERqLDNl
+	vS4xFLcuETCNDB3bN6Db9r3u9P/AC6GBpQJiyQa7khIbYYqYtOiJK2Xk
+X-Gm-Gg: ASbGnctwnstkgTQf/M9jCRA3ebQCqDDXX0Ag+FoyKBVG/+wLseoKo5MZLs7Dc3h/UzN
+	zHyqgOs+WmB77KTFC5R86U++yDuANcL0qPcDnTi75W+RzrVdjoGOcSPQ18hr4yMgSsBB3U04kpR
+	KcqIhN1SCq+N+dlbULnOsgE8j8aUFhfsZClcIL6uEGTM0h8GXy5NWWFEJ4T5WyAwiB2NaWztWpc
+	5u7RjGmFhLN7pnhQ7BU85gqMciWf8lDwRGfeEm0O1vJwIGHQ2eqiAfMmoiuyR1tAm1uno/VJnNE
+	Pr4eTpZHk0EM9E7dqphg8HBGZE7YbGnqsspYRRfE/W9I4r/3bznydS6kqf8=
+X-Google-Smtp-Source: AGHT+IGKrNbbMFTqFS1Ex71dCjzRAjzHxWNNFsfrGaFZ8p7dchEFrrEqWtf3R7zmGFUo7817v3ILXA==
+X-Received: by 2002:a5d:4403:0:b0:3a5:1222:ac64 with SMTP id ffacd0b85a97d-3a9176038bbmr2301932f8f.38.1751021370899;
+        Fri, 27 Jun 2025 03:49:30 -0700 (PDT)
+Received: from gmail.com ([2a02:c7c:f4f0:900:e68e:2662:b817:f55e])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a88c8013b3sm2371641f8f.39.2025.06.27.03.49.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 27 Jun 2025 03:49:30 -0700 (PDT)
+Date: Fri, 27 Jun 2025 11:49:23 +0100
+From: Qasim Ijaz <qasdev00@gmail.com>
+To: Aditya Garg <gargaditya08@live.com>
+Cc: jikos@kernel.org, bentiss@kernel.org, linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH] HID: appletb-kbd: fix memory corruption of
+ input_handler_list
+Message-ID: <aF53MxB_2QzDOq-B@gmail.com>
+References: <20250626224711.13980-1-qasdev00@gmail.com>
+ <PN3PR01MB9597EFD23199A2F2C7142801B845A@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <363c2b92-4bfc-4537-9fca-025eef09526f@kernel.org>
- <nxticocp26r5mmpkttritw76h5igw7bdpus6zaf5krkso2h5xy@wna6m2quekfi>
- <cbbf0caf-82ce-4427-9844-b11e0f5cacdb@kernel.org> <obpakvzyludc4jskqzyxf65dhqds7ie3jkbfsqdve32ouuaili@xvogkmwvbmbf>
- <284ea5c0-dca5-4e9e-a3e7-705eca794010@kernel.org> <vkau25ybcx3bcoa2jmxlukumunzii5h6em43anh6mmzk2kyiv7@kyych4kxc4zo>
- <0d71a686-da67-4686-8976-a17d0d1ca923@kernel.org> <CAJZ5v0gKUN1OdqAHnXNcFUAOfhpdRfa_o=L6TA2GZTpe1bMaNQ@mail.gmail.com>
- <exmgckzoakt2ncsdphqvymcadon7k6tl36a3zvrj2pv23dffps@znq23v3qbcm2>
- <CAJZ5v0j3ZyuEqSKQ+3K8M3BwPCxn5Z6KOwjyjt4cJW6HfxjPDw@mail.gmail.com> <hyvpl4gvxc6h2r3itfofjduwb3vpobyo7a7z6g3zapzscqtafh@ixsd4amyljva>
-In-Reply-To: <hyvpl4gvxc6h2r3itfofjduwb3vpobyo7a7z6g3zapzscqtafh@ixsd4amyljva>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Fri, 27 Jun 2025 12:36:07 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0i20Qjxw=GAc-PTHL8U5kq-zsDR2fWcp9dbrkF6PbRBqw@mail.gmail.com>
-X-Gm-Features: Ac12FXzNSwYReMMR0zsZk6Mer1g6ucUqMElqdVkF9OF_k1D4_YYY3bAYiHJyoF8
-Message-ID: <CAJZ5v0i20Qjxw=GAc-PTHL8U5kq-zsDR2fWcp9dbrkF6PbRBqw@mail.gmail.com>
-Subject: Re: [PATCH v3 4/4] Input: Don't send fake button presses to wake system
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Hans de Goede <hansg@kernel.org>, 
-	Mario Limonciello <superm1@kernel.org>, Mika Westerberg <westeri@kernel.org>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, 
-	"open list:GPIO ACPI SUPPORT" <linux-gpio@vger.kernel.org>, 
-	"open list:GPIO ACPI SUPPORT" <linux-acpi@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>, 
-	"open list:INPUT (KEYBOARD, MOUSE, JOYSTICK, TOUCHSCREEN)..." <linux-input@vger.kernel.org>, Mario Limonciello <mario.limonciello@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <PN3PR01MB9597EFD23199A2F2C7142801B845A@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
 
-On Thu, Jun 26, 2025 at 9:40=E2=80=AFPM Dmitry Torokhov
-<dmitry.torokhov@gmail.com> wrote:
+On Fri, Jun 27, 2025 at 10:57:12AM +0530, Aditya Garg wrote:
+> 
+> 
+> On 27-06-2025 04:17 am, Qasim Ijaz wrote:
+> > In appletb_kbd_probe an input handler is initialised and then registered
+> > with input core through input_register_handler(). When this happens input
+> > core will add the input handler (specifically its node) to the global
+> > input_handler_list. The input_handler_list is central to the functionality
+> > of input core and is traversed in various places in input core. An example
+> > of this is when a new input device is plugged in and gets registered with
+> > input core.
+> > 
+> > The input_handler in probe is allocated as device managed memory. If a
+> > probe failure occurs after input_register_handler() the input_handler
+> > memory is freed, yet it will remain in the input_handler_list. This
+> > effectively means the input_handler_list contains a dangling pointer
+> > to data belonging to a freed input handler.
+> > 
+> > This causes an issue when any other input device is plugged in - in my
+> > case I had an old PixArt HP USB optical mouse and I decided to
+> > plug it in after a failure occurred after input_register_handler().
+> > This lead to the registration of this input device via
+> > input_register_device which involves traversing over every handler
+> > in the corrupted input_handler_list and calling input_attach_handler(),
+> > giving each handler a chance to bind to newly registered device.
+> > 
+> > The core of this bug is a UAF which causes memory corruption of
+> > input_handler_list and to fix it we must ensure the input handler is
+> > unregistered from input core, this is done through
+> > input_unregister_handler().
+> > 
+> > [   63.191597] ==================================================================
+> > [   63.192094] BUG: KASAN: slab-use-after-free in input_attach_handler.isra.0+0x1a9/0x1e0
+> > [   63.192094] Read of size 8 at addr ffff888105ea7c80 by task kworker/0:2/54
+> > [   63.192094] 
+> > [   63.192094] CPU: 0 UID: 0 PID: 54 Comm: kworker/0:2 Not tainted 6.16.0-rc2-00321-g2aa6621d 
+> > [   63.192094] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.2-debian-1.164
+> > [   63.192094] Workqueue: usb_hub_wq hub_event
+> > [   63.192094] Call Trace:
+> > [   63.192094]  <TASK>
+> > [   63.192094]  dump_stack_lvl+0x53/0x70
+> > [   63.192094]  print_report+0xce/0x670
+> > [   63.192094]  ? input_attach_handler.isra.0+0x1a9/0x1e0
+> > [   63.192094]  kasan_report+0xce/0x100
+> > [   63.192094]  ? input_attach_handler.isra.0+0x1a9/0x1e0
+> > [   63.192094]  input_attach_handler.isra.0+0x1a9/0x1e0
+> > [   63.192094]  input_register_device+0x76c/0xd00
+> > [   63.192094]  hidinput_connect+0x686d/0xad60
+> > [   63.192094]  ? __pfx_hidinput_connect+0x10/0x10
+> > [   63.192094]  ? xhci_urb_enqueue+0x523/0x930
+> > [   63.192094]  hid_connect+0xf20/0x1b10
+> > [   63.192094]  ? mutex_unlock+0x7d/0xd0
+> > [   63.192094]  ? __pfx_mutex_unlock+0x10/0x10
+> > [   63.192094]  ? __pm_runtime_idle+0x95/0x1c0
+> > [   63.192094]  ? __pfx_hid_connect+0x10/0x10
+> > [   63.192094]  hid_hw_start+0x83/0x100
+> > [   63.192094]  hid_device_probe+0x2d1/0x680
+> > [   63.192094]  really_probe+0x1c3/0x690
+> > [   63.192094]  __driver_probe_device+0x247/0x300
+> > [   63.192094]  driver_probe_device+0x49/0x210
+> > [   63.192094]  __device_attach_driver+0x160/0x320
+> > [   63.192094]  ? __pfx___device_attach_driver+0x10/0x10
+> > [   63.192094]  bus_for_each_drv+0x10f/0x190
+> > [   63.192094]  ? __pfx_bus_for_each_drv+0x10/0x10
+> > [   63.192094]  __device_attach+0x18e/0x370
+> > [   63.192094]  ? __pfx___device_attach+0x10/0x10
+> > [   63.192094]  ? kobject_get+0x50/0xe0
+> > [   63.192094]  bus_probe_device+0x123/0x170
+> > [   63.192094]  device_add+0xd4d/0x1460
+> > [   63.192094]  ? __pfx_device_add+0x10/0x10
+> > [   63.192094]  ? up_write+0x4d/0x90
+> > [   63.192094]  ? __debugfs_create_file+0x377/0x5a0
+> > [   63.192094]  hid_add_device+0x30b/0x910
+> > [   63.192094]  ? __pfx_hid_add_device+0x10/0x10
+> > [   63.192094]  usbhid_probe+0x920/0xe00
+> > [   63.192094]  ? pm_runtime_enable+0xfa/0x2a0
+> > [   63.192094]  usb_probe_interface+0x363/0x9a0
+> > [   63.192094]  ? sysfs_do_create_link_sd+0x89/0x100
+> > [   63.192094]  really_probe+0x1c3/0x690
+> > [   63.192094]  __driver_probe_device+0x247/0x300
+> > [   63.192094]  driver_probe_device+0x49/0x210
+> > [   63.192094]  __device_attach_driver+0x160/0x320
+> > [   63.192094]  ? __pfx___device_attach_driver+0x10/0x10
+> > [   63.192094]  bus_for_each_drv+0x10f/0x190
+> > [   63.192094]  ? __pfx_bus_for_each_drv+0x10/0x10
+> > [   63.192094]  __device_attach+0x18e/0x370
+> > [   63.192094]  ? __pfx___device_attach+0x10/0x10
+> > [   63.192094]  ? kobject_get+0x50/0xe0
+> > [   63.192094]  bus_probe_device+0x123/0x170
+> > [   63.192094]  device_add+0xd4d/0x1460
+> > [   63.192094]  ? __pfx_device_add+0x10/0x10
+> > [   63.192094]  ? mutex_unlock+0x7d/0xd0
+> > [   63.192094]  ? __pfx_mutex_unlock+0x10/0x10
+> > [   63.192094]  usb_set_configuration+0xd14/0x1880
+> > [   63.192094]  usb_generic_driver_probe+0x78/0xb0
+> > [   63.192094]  usb_probe_device+0xaa/0x2e0
+> > [   63.192094]  really_probe+0x1c3/0x690
+> > [   63.192094]  __driver_probe_device+0x247/0x300
+> > [   63.192094]  ? usb_generic_driver_match+0x58/0x80
+> > [   63.192094]  driver_probe_device+0x49/0x210
+> > [   63.192094]  __device_attach_driver+0x160/0x320
+> > [   63.192094]  ? __pfx___device_attach_driver+0x10/0x10
+> > [   63.192094]  bus_for_each_drv+0x10f/0x190
+> > [   63.192094]  ? __pfx_bus_for_each_drv+0x10/0x10
+> > [   63.192094]  __device_attach+0x18e/0x370
+> > [   63.192094]  ? __pfx___device_attach+0x10/0x10
+> > [   63.192094]  ? kobject_get+0x50/0xe0
+> > [   63.192094]  bus_probe_device+0x123/0x170
+> > [   63.192094]  device_add+0xd4d/0x1460
+> > [   63.192094]  ? __pfx_device_add+0x10/0x10
+> > [   63.192094]  ? add_device_randomness+0xb2/0xe0
+> > [   63.192094]  usb_new_device+0x7b4/0x1000
+> > [   63.192094]  hub_event+0x234d/0x3fa0
+> > [   63.192094]  ? __pfx_hub_event+0x10/0x10
+> > [   63.192094]  ? _raw_spin_lock_irqsave+0x85/0xe0
+> > [   63.192094]  ? _raw_spin_lock_irqsave+0x85/0xe0
+> > [   63.192094]  ? mutex_unlock+0x7d/0xd0
+> > [   63.192094]  ? _raw_spin_lock_irq+0x80/0xe0
+> > [   63.192094]  ? __pfx__raw_spin_lock_irq+0x10/0x10
+> > [   63.192094]  ? __pm_runtime_suspend+0x74/0x1c0
+> > [   63.192094]  process_one_work+0x5bf/0xfe0
+> > [   63.192094]  worker_thread+0x777/0x13a0
+> > [   63.192094]  ? __kthread_parkme+0x99/0x180
+> > [   63.192094]  ? __pfx_worker_thread+0x10/0x10
+> > [   63.192094]  kthread+0x327/0x630
+> > [   63.192094]  ? __pfx_kthread+0x10/0x10
+> > [   63.192094]  ? __pfx__raw_spin_lock_irq+0x10/0x10
+> > [   63.192094]  ? __pfx_kthread+0x10/0x10
+> > [   63.192094]  ? __pfx_kthread+0x10/0x10
+> > [   63.192094]  ret_from_fork+0xff/0x1a0
+> > [   63.192094]  ? __pfx_kthread+0x10/0x10
+> > [   63.192094]  ret_from_fork_asm+0x1a/0x30
+> > [   63.192094]  </TASK>
+> > [   63.192094] 
+> > [   63.192094] Allocated by task 54:
+> > [   63.192094]  kasan_save_stack+0x33/0x60
+> > [   63.192094]  kasan_save_track+0x14/0x30
+> > [   63.192094]  __kasan_kmalloc+0x8f/0xa0
+> > [   63.192094]  __kmalloc_node_track_caller_noprof+0x195/0x420
+> > [   63.192094]  devm_kmalloc+0x74/0x1e0
+> > [   63.192094]  appletb_kbd_probe+0x39/0x440
+> > [   63.192094]  hid_device_probe+0x2d1/0x680
+> > [   63.192094]  really_probe+0x1c3/0x690
+> > [   63.192094]  __driver_probe_device+0x247/0x300
+> > [   63.192094]  driver_probe_device+0x49/0x210
+> > [   63.192094]  __device_attach_driver+0x160/0x320
+> > [...]
+> > [   63.192094] 
+> > [   63.192094] Freed by task 54:
+> > [   63.192094]  kasan_save_stack+0x33/0x60
+> > [   63.192094]  kasan_save_track+0x14/0x30
+> > [   63.192094]  kasan_save_free_info+0x3b/0x60
+> > [   63.192094]  __kasan_slab_free+0x37/0x50
+> > [   63.192094]  kfree+0xcf/0x360
+> > [   63.192094]  devres_release_group+0x1f8/0x3c0
+> > [   63.192094]  hid_device_probe+0x315/0x680
+> > [   63.192094]  really_probe+0x1c3/0x690
+> > [   63.192094]  __driver_probe_device+0x247/0x300
+> > [   63.192094]  driver_probe_device+0x49/0x210
+> > [   63.192094]  __device_attach_driver+0x160/0x320
+> > [...]
+> > 
+> > Fixes: 93a0fc489481 ("HID: hid-appletb-kbd: add support for automatic brightness control while using the touchbar")
+> 
+> The handler was introduced in 7d62ba8deacf ("HID: hid-appletb-kbd: add support for fn toggle between media and function mode")
 >
-> On Thu, Jun 26, 2025 at 09:31:12PM +0200, Rafael J. Wysocki wrote:
-> > On Thu, Jun 26, 2025 at 9:28=E2=80=AFPM Dmitry Torokhov
-> > <dmitry.torokhov@gmail.com> wrote:
-> > >
-> > > On Thu, Jun 26, 2025 at 09:18:56PM +0200, Rafael J. Wysocki wrote:
-> > > > On Thu, Jun 26, 2025 at 9:16=E2=80=AFPM Hans de Goede <hansg@kernel=
-.org> wrote:
-> > > > >
-> > > > > Hi,
-> > > > >
-> > > > > On 26-Jun-25 21:14, Dmitry Torokhov wrote:
-> > > > > > On Thu, Jun 26, 2025 at 08:57:30PM +0200, Hans de Goede wrote:
-> > > > > >> Hi,
-> > > > > >>
-> > > > > >> On 26-Jun-25 20:48, Dmitry Torokhov wrote:
-> > > > > >>> On Thu, Jun 26, 2025 at 01:20:54PM -0500, Mario Limonciello w=
-rote:
-> > > [...]
-> > > > > >>>> I want to note this driver works quite differently than how =
-ACPI power
-> > > > > >>>> button does.
-> > > > > >>>>
-> > > > > >>>> You can see in acpi_button_notify() that the "keypress" is o=
-nly forwarded
-> > > > > >>>> when not suspended [1].  Otherwise it's just wakeup event (w=
-hich is what my
-> > > > > >>>> patch was modeling).
-> > > > > >>>>
-> > > > > >>>> https://github.com/torvalds/linux/blob/v6.16-rc3/drivers/acp=
-i/button.c#L461
-> > > > > >>>> [1]
-> > > > > >>>
-> > > > > >>> If you check acpi_button_resume() you will see that the event=
-s are sent
-> > > > > >>> from there. Except that for some reason they chose to use KEY=
-_WAKEUP and
-> > > > > >>> not KEY_POWER, oh well. Unlike acpi button driver gpio_keys i=
-s used on
-> > > > > >>> multiple other platforms.
-> > > > > >>
-> > > > > >> Interesting, but the ACPI button code presumably only does thi=
-s on resume
-> > > > > >> for a normal press while the system is awake it does use KEY_P=
-OWER, right ?
-> > > > > >
-> > > > > > Yes. It is unclear to me why they chose to mangle the event on =
-wakeup,
-> > > > > > it does not seem to be captured in the email discussions or in =
-the patch
-> > > > > > description.
-> > > > >
-> > > > > I assume they did this to avoid the immediate re-suspend on wakeu=
-p by
-> > > > > power-button issue. GNOME has a workaround for this, but I assume=
- that
-> > > > > some userspace desktop environments are still going to have a pro=
-blem
-> > > > > with this.
-> > > >
-> > > > It was done for this reason IIRC, but it should have been documente=
-d
-> > > > more thoroughly.
-> > >
-> > > I assert that it should not have been done and instead dealt with in
-> > > userspace. There are numerous drivers in the kernel emitting
-> > > KEY_POWER. Let userspace decide how to handle this, what keys to igno=
-re,
-> > > what keys to process and when.
-> >
-> > Please see my last message in this thread (just sent) and see the
-> > changelog of commit 16f70feaabe9 ("ACPI: button: trigger wakeup key
-> > events").
-> >
-> > This appears to be about cases when no event would be signaled to user
-> > space at all (power button wakeup from ACPI S3).
->
-> Ahh, in S3 we do not know if we've been woken up with Sleep or Power
-> button, right? So we can not send the "right" event code and use
-> "neutral" KEY_WAKEUP for both. Is this right?
+Ah yea good spot, will fix this in v2.
 
-Yes, it is, AFAICS.
+Thanks,
+Qasim
+> > Cc: stable@vger.kernel.org
+> > Signed-off-by: Qasim Ijaz <qasdev00@gmail.com>
+> > ---
+> >  drivers/hid/hid-appletb-kbd.c | 4 +++-
+> >  1 file changed, 3 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/hid/hid-appletb-kbd.c b/drivers/hid/hid-appletb-kbd.c
+> > index d11c49665147..271d1b27b8dd 100644
+> > --- a/drivers/hid/hid-appletb-kbd.c
+> > +++ b/drivers/hid/hid-appletb-kbd.c
+> > @@ -430,13 +430,15 @@ static int appletb_kbd_probe(struct hid_device *hdev, const struct hid_device_id
+> >  	ret = appletb_kbd_set_mode(kbd, appletb_tb_def_mode);
+> >  	if (ret) {
+> >  		dev_err_probe(dev, ret, "Failed to set touchbar mode\n");
+> > -		goto close_hw;
+> > +		goto unregister_handler;
+> >  	}
+> >  
+> >  	hid_set_drvdata(hdev, kbd);
+> >  
+> >  	return 0;
+> >  
+> > +unregister_handler:
+> > +	input_unregister_handler(&kbd->inp_handler);
+> >  close_hw:
+> >  	if (kbd->backlight_dev) {
+> >  		put_device(&kbd->backlight_dev->dev);
+> 
+> This makes sense. With the "Fixes:" corrected in commit message,
+> 
+> Reviewed-by: Aditya Garg <gargaditya08@live.com>
+> 
 
