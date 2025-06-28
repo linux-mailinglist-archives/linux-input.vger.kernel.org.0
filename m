@@ -1,82 +1,89 @@
-Return-Path: <linux-input+bounces-13152-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13153-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id D46AAAEC3A9
-	for <lists+linux-input@lfdr.de>; Sat, 28 Jun 2025 02:56:45 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id AF7CFAEC3AD
+	for <lists+linux-input@lfdr.de>; Sat, 28 Jun 2025 02:59:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id EFB2B1C26314
-	for <lists+linux-input@lfdr.de>; Sat, 28 Jun 2025 00:57:01 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 00DAE564185
+	for <lists+linux-input@lfdr.de>; Sat, 28 Jun 2025 00:59:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 53BEE18B495;
-	Sat, 28 Jun 2025 00:56:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B7A4A194124;
+	Sat, 28 Jun 2025 00:59:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m37lHUg/"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lLIpYTVa"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0028189905
-	for <linux-input@vger.kernel.org>; Sat, 28 Jun 2025 00:56:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FFC63595B;
+	Sat, 28 Jun 2025 00:59:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751072202; cv=none; b=b1wfitBrWAzZ1LoKyKBA3RFV83BCgvXkTQXxNhhOohZZC6is+YzzxG+IuHs61iAQU93R+yoImh8zUjZ/Gf1zyRoUhzrbSJVk5xU+keaVc06//lZM/BKw3/o8jsItmFnnZmkYGROCjQEIxu+x8Qp0CHa4bDmm5aWocN4DsY/+3/8=
+	t=1751072374; cv=none; b=u6ojdZFbNy/1qB3/qBg7UvRYYBc2tL6hEAC2NUYBaFfmNd3N2jyZlZc33POAmzfAfjZGjeDm3xaShzbqpYdYnjEdSmb+4RLV8IITDy81x9ROFWSx6CSEugFNvVeVbIOxFGe2zBDTbdt3/0hByAEIPZEZX4Kqk65YNZonK1kfUlQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751072202; c=relaxed/simple;
-	bh=h8rLv10TqIXazKSw7v1fcFTVYT0yDYsB0io4FeorvAc=;
+	s=arc-20240116; t=1751072374; c=relaxed/simple;
+	bh=HpWrrf8Gn6Gyqh+K+uViIYoXI0Q2VMcjD3NgY74uW08=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mN1jw7qvu4ztJex2Y3kMd9hj+r4k+0du84K+S+hSMnhkjCXjOSGdZWl2TggLEqakFNwIcxFs4aijmQmEi8VpuVOLKA8/d7XsCf1Z8iDNNH4DsAwmqbT+akD4Wr+ROnVWUXA3ojgaj9HyAUeCdLsTYlQqHKtmJdwrvyh2BH84FtM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=m37lHUg/; arc=none smtp.client-ip=209.85.210.173
+	 Content-Type:Content-Disposition:In-Reply-To; b=LMIO9T9f8h3MChGqvwzt8UoGzeEOqM4UoPkeMhe0wEpHXJxBPDmmgBcol6s88m1HsFFc+4wTvi1HJgsVkLtiNM0gfwi5cBP6oYXlVRDkj9uLhJ1iGgABXtI6tXmjiU0/BXUO1UXDxYRl7gX3CS04wlSY0lZHXzh28X4C+eo2R+E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lLIpYTVa; arc=none smtp.client-ip=209.85.214.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-749248d06faso3088231b3a.2
-        for <linux-input@vger.kernel.org>; Fri, 27 Jun 2025 17:56:40 -0700 (PDT)
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-234f17910d8so25048205ad.3;
+        Fri, 27 Jun 2025 17:59:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751072200; x=1751677000; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1751072373; x=1751677173; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=n/N9pHCJQlj65+ytlep2byxOJKnEUrXF0oCL+fPLA+k=;
-        b=m37lHUg/Rza7cmfjq+cd7t4ffqQoWpJSLBv5qBxBKc5I19/nAjEpQ0R07L5Wddp7Os
-         VIMXOvnqJUlaYlH5msG6xyGbY9lusyfSQX1vny8d3P8fkSo/3By3vomwLZZHBVjCdPrB
-         DZw6REEc4qL1ug0kYpsSkX+jyJAcHear8jv/BG6SNBxtRHCix6PmmtP2M7xCTAJTU6GR
-         BB6gvyutiY2EfE55Pkk9I4ha/U3epabjKMTsCAH4AAyM7s6FzRkWdN9xGxBPAPO2FaPV
-         ou1mixWYcX/RxBUZu32rZSycJ5RPg8uWwSTtXOSjYlCxCl7T0bJal7XbwoDLhoPdHsUG
-         W/Qg==
+        bh=6UAiWn8Pi1tnpIPR4P9XJoko/ztItX7ideDEdvEYdzk=;
+        b=lLIpYTVaI1kQyhrEk0UJBTjb6CYDhCBymqTQrR1g9U4RTVacn/Vhx8VJ5oRlfrSjcc
+         Bxnfo4qlMUmfrmwK7jLhztYmeA75g4u/tWtriG2r5fmt5oNYCTH1BFrO/iDks7Be35CB
+         /xT5W3LtyMmLzDKyBeU3p91lLZKEuKM/BXdUsb5H5RZcYAscuHwbD/LHmythm0xDIjvj
+         AabMhwyXvuKfR5+p/Xeor5gSJEqFL9EmAv3of7K9/v410u00aZTVl7t6IrFzKC1HYNgW
+         GvjT454E7RBPn8FK8QbKsz+wR8nDRVm3YlNfBd9ReBnN2UJZ8sPq/QmoUXb0n7OkMUaW
+         FS1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751072200; x=1751677000;
+        d=1e100.net; s=20230601; t=1751072373; x=1751677173;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=n/N9pHCJQlj65+ytlep2byxOJKnEUrXF0oCL+fPLA+k=;
-        b=hULo+AAUnXFxbSBCIRVaKavYwLBm/4iDAtFPT7hvioS8I3HKbAYHJAR0J4w6JzFtlk
-         GF0I/TMRV1Q4YzK4cWHmUb0TZl0XhayeMmqoieFI5CIOyd2WOlchhs8C36cx6qsfcIn0
-         MrMGVj0mvXgdi/TU9SA49bX3Ftlfjx0jLJo4Buzu+uxzuOP/4Z2LB/ho4Aelmag4Bimk
-         IglqTFjUIMpnmYsV58VIzSqm405m3kXtH1/zcbEE4Sa/rIhVmf6TjaodKsqGbHYYNhu8
-         gbuv9SjwYpgHZYLs+qz/6RO7ar7I98FufHRHQ49m1iep148QVgo+yGpeCFzkotYWuuWP
-         84KQ==
-X-Gm-Message-State: AOJu0YzqEOYykpMXwbgZfPKuPc5bljxNZWY1NxY8RREEGlULXt9ke6hr
-	+4tGyBnzZiNsG3llLd4gmFe4H90hRIwwfpQWXs/UmoaMBPchSmzi2oqq
-X-Gm-Gg: ASbGncsLkZ/ZcD3QV7fR4oc5ooI/ZIjheE38oT85PPYKi7wLUhaQN0/oUJ+VBE1BimL
-	vNqzDqPp/tP3XLIV9WCil9py8VDSomJRV5gAEjGkms7JQAt/Tv3+PCRBbD9Vj3MecmqTLDCL3dD
-	IjSPi7nmvkJiZMzqT/GXQooHmWkZcydvPciGiyvzAByPuxbk1WAjaO114ZZHB9PogL6Ha6cFmao
-	GXqfoJzrqbh/ZanQZYypYtBkbl9m1Mu06nXsaoKqyQRDg5X71Qnx2OUqdLEiUZRD4NUVM1xn3wE
-	YoO9Igmn2XsMimiB7Y2HwGaC5tap8PKA2tQJW6Uz2jwtd8p+n9011MjFqs5evw==
-X-Google-Smtp-Source: AGHT+IHYTyHNHWDdrDe/MLIQYXZ1iSdcpX/5XDOudbQf6CyGt1LW383ziCkhhmUjETZynKE3CVp2Ew==
-X-Received: by 2002:a05:6a00:2e82:b0:736:5822:74b4 with SMTP id d2e1a72fcca58-74af6fc7eccmr6606744b3a.21.1751072199973;
-        Fri, 27 Jun 2025 17:56:39 -0700 (PDT)
+        bh=6UAiWn8Pi1tnpIPR4P9XJoko/ztItX7ideDEdvEYdzk=;
+        b=IOvukrDxYFUIDWLcgiFSOwHxbPR8O0NOiFuftHVbM9p3YR5fLJpBBBBzO5e+U/6hzV
+         ZTa0bNfGRmZjem4BD2sxeLKaOTe2k5NcDe0l07Z5IEKYsCs/Bc1jrUMJLs0D7Tf+gbnr
+         GANE7DhlVe/CW4KvUQsFuKPqfN5hOr/UIGvn70W2Qai528hFh2G4T48P0tA8NW1iz1Hq
+         8sK7Im86FOMOgzxaw55KLOAbZDE/fNwgdW6HcNxaBc3k1vFSgIayDOBcTZtYEWPTqePH
+         1bOzpaFJxGCD16vDol5paYyBvUY2RoX5O75fZu++wMx313ze2N4clkwo69p9PRG6czzu
+         ivyw==
+X-Forwarded-Encrypted: i=1; AJvYcCU0Dtdt+F7qb75afmEwxJdxa9+WOxBHo6couOPerEmopJupQe4LFcgswaR7U1VShm+Riufx//Pl8Qs8@vger.kernel.org, AJvYcCVSfHjmMIn6uMoBCR4CowoazR5mwgB7iuQgPPGW9dC+35DAr9Ooj1+udvQ+jfofnuURoJE4dplAJ6O2mQ0=@vger.kernel.org, AJvYcCW7YWE054Buf0e+llONsUPTcwL/7jjglXmN5ASheJV3RqPvShyd55DKLtVmgpVIzyE/BVdc9NW3nsr+noyo@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywze64aLgSb80sN95QCboT4riSDJsCeS+Wrk/PeX4/QmO4TatSA
+	BpBlpXO/Neahnp1f2gTNkKuGPWMnMDBsdN394lIwYFnrJiNKmMLF1oHA
+X-Gm-Gg: ASbGncucMAaz6ICk1okRLAwGKFSrVtNoDShN2/5D9nEC6eM+AGx1TulI+QtS83XdUrs
+	QEOI4id0Zf3lVc0qZ1RBhVReiSrLM22JyILNvAFQXO2d9B9c7zXaIPyY7STbwYbfNCwLiuDIZ8r
+	OvgNBXGz2WHx0nZd0mnFEWZh13tvStGjph8ZNPPWdUjAVZzyr5crkpLKyM/v4Cqnbsa29vfgwrj
+	sbDES8vR9MBaXuZ3xCendZjRMNj2Z+hTiX6owZNH9djkXrbHqXMcJtQZ6RJlpHTAKOsafR6zTR6
+	YgwDTtXbTdZRV12Ok0uYzywjEwIMxhJncViCtIqdk1prmLumaCeB4S26FvqzWQ==
+X-Google-Smtp-Source: AGHT+IER8/+9/mIH4JWCr3PocAX0QsvyiFc1zROda2UNkXjcMckY1zi+itiyjtz9p4IRpOfqlqJ/JA==
+X-Received: by 2002:a17:903:32c8:b0:235:2e0:aa9 with SMTP id d9443c01a7336-23ac45d5f4amr79376735ad.14.1751072372489;
+        Fri, 27 Jun 2025 17:59:32 -0700 (PDT)
 Received: from google.com ([2620:15c:9d:2:d0c7:d92:6a17:eb62])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74af55c7e89sm3356583b3a.109.2025.06.27.17.56.39
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23acb2e39f7sm25732775ad.49.2025.06.27.17.59.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Jun 2025 17:56:39 -0700 (PDT)
-Date: Fri, 27 Jun 2025 17:56:36 -0700
+        Fri, 27 Jun 2025 17:59:32 -0700 (PDT)
+Date: Fri, 27 Jun 2025 17:59:29 -0700
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Nilton Perim Neto <niltonperimneto@gmail.com>
-Cc: linux-input@vger.kernel.org, gregkh@linuxfoundation.org
-Subject: Re: [PATCH] xpad - Added Acer NGR 200 Controller
-Message-ID: <qdwwrbmk5lhdncuowjybc5ii4yztmbwmdirwlrvmup34hqrytr@ccc3w5zvcbqt>
-References: <20250608060517.14967-1-niltonperimneto@gmail.com>
+To: Frank Li <Frank.Li@nxp.com>
+Cc: Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Vladimir Zapolskiy <vz@mleia.com>, Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>, 
+	"open list:INPUT (KEYBOARD, MOUSE, JOYSTICK, TOUCHSCREEN)..." <linux-input@vger.kernel.org>, 
+	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>, 
+	"moderated list:ARM/LPC32XX SOC SUPPORT" <linux-arm-kernel@lists.infradead.org>, open list <linux-kernel@vger.kernel.org>, imx@lists.linux.dev
+Subject: Re: [PATCH v2 1/1] dt-bindings: input: touchscreen: convert
+ lpc32xx-tsc.txt to yaml format
+Message-ID: <fw5kqv74vubn5wiarcq767v3aalxnoc7qosg3ao6gchijp7d5w@37vkon4mmnwh>
+References: <20250625163431.2543597-1-Frank.Li@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -85,12 +92,15 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250608060517.14967-1-niltonperimneto@gmail.com>
+In-Reply-To: <20250625163431.2543597-1-Frank.Li@nxp.com>
 
-On Sun, Jun 08, 2025 at 03:04:45AM -0300, Nilton Perim Neto wrote:
-> This patch adds the NGR 200 Xbox 360 to the xpad device tree and also Acer's VendorID
+On Wed, Jun 25, 2025 at 12:34:28PM -0400, Frank Li wrote:
+> Convert lpc32xx-tsc.txt to yaml format.
 > 
-> Signed-off-by: Nilton Perim Neto <niltonperimneto@gmail.com>
+> Additional changes:
+> - add clocks and put it into required list to match existed lpc32xx.dtsi.
+> 
+> Signed-off-by: Frank Li <Frank.Li@nxp.com>
 
 Applied, thank you.
 
