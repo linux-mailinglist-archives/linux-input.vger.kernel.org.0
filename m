@@ -1,59 +1,63 @@
-Return-Path: <linux-input+bounces-13171-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13172-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 036B5AED142
-	for <lists+linux-input@lfdr.de>; Sun, 29 Jun 2025 23:28:35 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 47182AED16D
+	for <lists+linux-input@lfdr.de>; Sun, 29 Jun 2025 23:54:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id ECEFB3AA74A
-	for <lists+linux-input@lfdr.de>; Sun, 29 Jun 2025 21:28:08 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8ECA7188A71C
+	for <lists+linux-input@lfdr.de>; Sun, 29 Jun 2025 21:54:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B784F2253AE;
-	Sun, 29 Jun 2025 21:28:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8E04D23B616;
+	Sun, 29 Jun 2025 21:54:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b="RDgh0QVc"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=snekbyte.com header.i=@snekbyte.com header.b="lPEdf6fh"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-108-mta29.mxroute.com (mail-108-mta29.mxroute.com [136.175.108.29])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66DD220E71D;
-	Sun, 29 Jun 2025 21:28:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.229.95
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B74F93A1B6
+	for <linux-input@vger.kernel.org>; Sun, 29 Jun 2025 21:54:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=136.175.108.29
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751232509; cv=none; b=eVVi6rn1bC5LgZHbp1Wg1HGNxvc2n4P5QdmvFJykYNo896qkto5LpscY7/0Op5+Kk+SkBeo+KzeP5kA6joU6Vjyq+k8+qocEfO4ugNvfeQJlUpjnfEoxy9A5N3i5h96jVGUthio6Lvt8lNreSJKGZVaylAghi5klfs2IBOScKjA=
+	t=1751234043; cv=none; b=JMarK4cYcnXS8rqJR3qQR+vh0HyMb1pXf0ntjg1GZG2TemlD6LMAa3DF/JXvZGKhFpFa7y4xA1xz0U7YxwsLX32a+NwgJQNuFBDSB30wE++amIPT2gSOC7FXoupfgtHR6z7pZsPLcfNl6aoeOpG994++f8UcpDupHcigemlnMzY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751232509; c=relaxed/simple;
-	bh=0GDCXP9hPDzJpOpQl6VuCswD1cK7eL0zqx6KEcbSgis=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=di8gzEFHCys3B2eRrvscNWnR62KPGLpmNt+cY/x34W+0JvfjrQtD/OqdFBknjlAM4jpXev6PcuxexvyBW+/Q8GcV618j5QgJAdtYVgZO4Noq5z+SwloL+PMReaWz/S/7NIKZl/BB1wYzWmcf1I5IKqPL6MvJ3ODUHnapTvsx5Ls=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org; spf=pass smtp.mailfrom=treblig.org; dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b=RDgh0QVc; arc=none smtp.client-ip=46.235.229.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=treblig.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
-	; s=bytemarkmx; h=MIME-Version:Message-ID:Date:Subject:From:Content-Type:From
-	:Subject; bh=VZn7DM19jfl0bs+hbAfDvHbiQxOWB5pW/wl5OJBKaag=; b=RDgh0QVcW0j/vLD3
-	80fkBJ6NkbwG/IMPhCxiOBRS1fPgeFvxxey7YdPpSbdS5ecBFJDE28dpP2Su+MNAT8CI2Uxwf1pgS
-	ptKhb3Q8NMma5lKf6ciZfSoKXIUZneXZlvQc0cNk9Tzc2OySQX0UlCMVUSV0iOZe3aTw8l15hLFvq
-	AIt+mjwFSFgFAz6HHrKH+jAq2laQt+TzAqHdZf3IwTk8aV6EMU+6ruSOZDj8Kz1fKpUaz2sPPqOQ8
-	G/ClwTvNwfeQCjSG2EpwvvtzTi4TWGBkeXNAPeuZ7jCHYdtUHdeL5h272IzccilexpAA85KwFyEhM
-	+qSyKcKwxaR6vy0Maw==;
-Received: from localhost ([127.0.0.1] helo=dalek.home.treblig.org)
-	by mx.treblig.org with esmtp (Exim 4.96)
-	(envelope-from <linux@treblig.org>)
-	id 1uVzZV-00Cqe6-0j;
-	Sun, 29 Jun 2025 21:28:21 +0000
-From: linux@treblig.org
-To: dmitry.torokhov@gmail.com,
-	lee@kernel.org,
+	s=arc-20240116; t=1751234043; c=relaxed/simple;
+	bh=csx2nFLsTuv9cXPbKcrSJ/S9zFSXq8N9su7jnd6UD3A=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=pWWeOOU/EJLk+7tAOqL2Yla1ELfDJgi8Y5RXgmYe2f5gRxI92KCyUmkGpNZBlqFG27sEDvkp2mGYTIpkLbjQiCtLRjjecaBWJ7M3r0WGkvvPADzm6UBX0QvdJtL9AJQNQIh2dI+K7JTBDRcZE7rJ8ZfihcvKEuuk6FLsdRCX7hw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=snekbyte.com; spf=pass smtp.mailfrom=snekbyte.com; dkim=pass (2048-bit key) header.d=snekbyte.com header.i=@snekbyte.com header.b=lPEdf6fh; arc=none smtp.client-ip=136.175.108.29
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=snekbyte.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=snekbyte.com
+Received: from filter006.mxroute.com ([136.175.111.3] filter006.mxroute.com)
+ (Authenticated sender: mN4UYu2MZsgR)
+ by mail-108-mta29.mxroute.com (ZoneMTA) with ESMTPSA id 197bdaa04110008631.003
+ for <linux-input@vger.kernel.org>
+ (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
+ Sun, 29 Jun 2025 21:48:45 +0000
+X-Zone-Loop: 2b3193c1275338f43581a8e7bfe4fd7a794e8c3593e1
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=snekbyte.com; s=x; h=Content-Transfer-Encoding:MIME-Version:Date:Subject:Cc
+	:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=e3yCd8QB9L4sn/uY1ZILguL8ZWYji4UNd3j9gxk018Q=; b=lPEdf6fhXeyDSkb1L9Fa3YnYCM
+	6yHxORL08Mf84XGgzDajvw48mkZHFtfyCXmm3p9nZm+wtl1RrRoD2oUyQCgPvnBmGXUmbmoC29Yla
+	2wKCWoc/dzygmZdZnCPdaOkiqFLk4Upe7rftz082jItns9w6TZ/oPhkj3iPOK+VjpTJgnGaheu24X
+	DAH0OXUUkFY08d27qNqaMOofxyNVJbrjDqt9kk0it3KT2VjZCYxOeu/1XJTX7kjB7R8M/cCDQvGd4
+	YvqDuQlr0GB9TDUJB0De+Ws2IxnFAhBK3u95uwC/+w096QlXTJkDUAHrbYhg1ggjO3+Z2zJea6CFw
+	1XUlqmqQ==;
+From: Leonard Dizon <leonard@snekbyte.com>
+To: jikos@kernel.org
+Cc: bentiss@kernel.org,
 	linux-input@vger.kernel.org,
-	arnd@arndb.de
-Cc: linux-kernel@vger.kernel.org,
-	"Dr. David Alan Gilbert" <linux@treblig.org>
-Subject: [PATCH] Input: pcf50633-input - Remove
-Date: Sun, 29 Jun 2025 22:28:20 +0100
-Message-ID: <20250629212820.319584-1-linux@treblig.org>
-X-Mailer: git-send-email 2.50.0
+	linux-kernel@vger.kernel.org,
+	Leonard Dizon <leonard@snekbyte.com>
+Subject: [PATCH] HID: elecom: add support for ELECOM HUGE 019B variant
+Date: Mon, 30 Jun 2025 05:48:30 +0800
+Message-ID: <20250629214830.30220-1-leonard@snekbyte.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -61,176 +65,72 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Authenticated-Id: leonard@snekbyte.com
 
-From: "Dr. David Alan Gilbert" <linux@treblig.org>
+The ELECOM M-HT1DRBK trackball has an additional device ID (056E:019B)
+not yet recognized by the driver, despite using the same report
+descriptor as earlier variants. This patch adds the new ID and applies
+the same fixups, enabling all 8 buttons to function properly.
 
-The pcf50633 was used as part of the OpenMoko devices but
-the support for its main chip was recently removed in:
-commit 61b7f8920b17 ("ARM: s3c: remove all s3c24xx support")
-
-Remove the input code.
-
-This was originally posted as a set of pcf50633 removals in March,
-and is the only major component that hasn't been picked up.
-https://lore.kernel.org/all/20250311014959.743322-1-linux@treblig.org/
-
-Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
+Signed-off-by: Leonard Dizon <leonard@snekbyte.com>
 ---
- drivers/input/misc/Kconfig          |   7 --
- drivers/input/misc/Makefile         |   1 -
- drivers/input/misc/pcf50633-input.c | 113 ----------------------------
- 3 files changed, 121 deletions(-)
- delete mode 100644 drivers/input/misc/pcf50633-input.c
+ drivers/hid/hid-elecom.c | 6 ++++--
+ drivers/hid/hid-ids.h    | 3 ++-
+ drivers/hid/hid-quirks.c | 3 ++-
+ 3 files changed, 8 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/input/misc/Kconfig b/drivers/input/misc/Kconfig
-index f5496ca0c0d2..0fb21c99a5e3 100644
---- a/drivers/input/misc/Kconfig
-+++ b/drivers/input/misc/Kconfig
-@@ -584,13 +584,6 @@ config INPUT_PALMAS_PWRBUTTON
- 	  To compile this driver as a module, choose M here. The module will
- 	  be called palmas_pwrbutton.
+diff --git a/drivers/hid/hid-elecom.c b/drivers/hid/hid-elecom.c
+index defcf91fdd14..0ad7d25d9864 100644
+--- a/drivers/hid/hid-elecom.c
++++ b/drivers/hid/hid-elecom.c
+@@ -89,7 +89,8 @@ static const __u8 *elecom_report_fixup(struct hid_device *hdev, __u8 *rdesc,
+ 		break;
+ 	case USB_DEVICE_ID_ELECOM_M_DT1URBK:
+ 	case USB_DEVICE_ID_ELECOM_M_DT1DRBK:
+-	case USB_DEVICE_ID_ELECOM_M_HT1URBK:
++	case USB_DEVICE_ID_ELECOM_M_HT1URBK_010C:
++	case USB_DEVICE_ID_ELECOM_M_HT1URBK_019B:
+ 	case USB_DEVICE_ID_ELECOM_M_HT1DRBK_010D:
+ 		/*
+ 		 * Report descriptor format:
+@@ -122,7 +123,8 @@ static const struct hid_device_id elecom_devices[] = {
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_XT4DRBK) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_DT1URBK) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_DT1DRBK) },
+-	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_HT1URBK) },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_HT1URBK_010C) },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_HT1URBK_019B) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_HT1DRBK_010D) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_HT1DRBK_011C) },
+ 	{ }
+diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+index c6468568aea1..33cc5820f2be 100644
+--- a/drivers/hid/hid-ids.h
++++ b/drivers/hid/hid-ids.h
+@@ -448,7 +448,8 @@
+ #define USB_DEVICE_ID_ELECOM_M_XT4DRBK	0x00fd
+ #define USB_DEVICE_ID_ELECOM_M_DT1URBK	0x00fe
+ #define USB_DEVICE_ID_ELECOM_M_DT1DRBK	0x00ff
+-#define USB_DEVICE_ID_ELECOM_M_HT1URBK	0x010c
++#define USB_DEVICE_ID_ELECOM_M_HT1URBK_010C	0x010c
++#define USB_DEVICE_ID_ELECOM_M_HT1URBK_019B	0x019b
+ #define USB_DEVICE_ID_ELECOM_M_HT1DRBK_010D	0x010d
+ #define USB_DEVICE_ID_ELECOM_M_HT1DRBK_011C	0x011c
  
--config INPUT_PCF50633_PMU
--	tristate "PCF50633 PMU events"
--	depends on MFD_PCF50633
--	help
--	 Say Y to include support for delivering  PMU events via  input
--	 layer on NXP PCF50633.
--
- config INPUT_PCF8574
- 	tristate "PCF8574 Keypad input device"
- 	depends on I2C
-diff --git a/drivers/input/misc/Makefile b/drivers/input/misc/Makefile
-index 6d91804d0a6f..d468c8140b93 100644
---- a/drivers/input/misc/Makefile
-+++ b/drivers/input/misc/Makefile
-@@ -59,7 +59,6 @@ obj-$(CONFIG_INPUT_MC13783_PWRBUTTON)	+= mc13783-pwrbutton.o
- obj-$(CONFIG_INPUT_MMA8450)		+= mma8450.o
- obj-$(CONFIG_INPUT_PALMAS_PWRBUTTON)	+= palmas-pwrbutton.o
- obj-$(CONFIG_INPUT_PCAP)		+= pcap_keys.o
--obj-$(CONFIG_INPUT_PCF50633_PMU)	+= pcf50633-input.o
- obj-$(CONFIG_INPUT_PCF8574)		+= pcf8574_keypad.o
- obj-$(CONFIG_INPUT_PCSPKR)		+= pcspkr.o
- obj-$(CONFIG_INPUT_PM8941_PWRKEY)	+= pm8941-pwrkey.o
-diff --git a/drivers/input/misc/pcf50633-input.c b/drivers/input/misc/pcf50633-input.c
-deleted file mode 100644
-index 6d046e236ba6..000000000000
---- a/drivers/input/misc/pcf50633-input.c
-+++ /dev/null
-@@ -1,113 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0-or-later
--/* NXP PCF50633 Input Driver
-- *
-- * (C) 2006-2008 by Openmoko, Inc.
-- * Author: Balaji Rao <balajirrao@openmoko.org>
-- * All rights reserved.
-- *
-- * Broken down from monstrous PCF50633 driver mainly by
-- * Harald Welte, Andy Green and Werner Almesberger
-- */
--
--#include <linux/kernel.h>
--#include <linux/module.h>
--#include <linux/device.h>
--#include <linux/platform_device.h>
--#include <linux/input.h>
--#include <linux/slab.h>
--
--#include <linux/mfd/pcf50633/core.h>
--
--#define PCF50633_OOCSTAT_ONKEY	0x01
--#define PCF50633_REG_OOCSTAT	0x12
--#define PCF50633_REG_OOCMODE	0x10
--
--struct pcf50633_input {
--	struct pcf50633 *pcf;
--	struct input_dev *input_dev;
--};
--
--static void
--pcf50633_input_irq(int irq, void *data)
--{
--	struct pcf50633_input *input;
--	int onkey_released;
--
--	input = data;
--
--	/* We report only one event depending on the key press status */
--	onkey_released = pcf50633_reg_read(input->pcf, PCF50633_REG_OOCSTAT)
--						& PCF50633_OOCSTAT_ONKEY;
--
--	if (irq == PCF50633_IRQ_ONKEYF && !onkey_released)
--		input_report_key(input->input_dev, KEY_POWER, 1);
--	else if (irq == PCF50633_IRQ_ONKEYR && onkey_released)
--		input_report_key(input->input_dev, KEY_POWER, 0);
--
--	input_sync(input->input_dev);
--}
--
--static int pcf50633_input_probe(struct platform_device *pdev)
--{
--	struct pcf50633_input *input;
--	struct input_dev *input_dev;
--	int ret;
--
--
--	input = kzalloc(sizeof(*input), GFP_KERNEL);
--	if (!input)
--		return -ENOMEM;
--
--	input_dev = input_allocate_device();
--	if (!input_dev) {
--		kfree(input);
--		return -ENOMEM;
--	}
--
--	platform_set_drvdata(pdev, input);
--	input->pcf = dev_to_pcf50633(pdev->dev.parent);
--	input->input_dev = input_dev;
--
--	input_dev->name = "PCF50633 PMU events";
--	input_dev->id.bustype = BUS_I2C;
--	input_dev->evbit[0] = BIT(EV_KEY) | BIT(EV_PWR);
--	set_bit(KEY_POWER, input_dev->keybit);
--
--	ret = input_register_device(input_dev);
--	if (ret) {
--		input_free_device(input_dev);
--		kfree(input);
--		return ret;
--	}
--	pcf50633_register_irq(input->pcf, PCF50633_IRQ_ONKEYR,
--				pcf50633_input_irq, input);
--	pcf50633_register_irq(input->pcf, PCF50633_IRQ_ONKEYF,
--				pcf50633_input_irq, input);
--
--	return 0;
--}
--
--static void pcf50633_input_remove(struct platform_device *pdev)
--{
--	struct pcf50633_input *input  = platform_get_drvdata(pdev);
--
--	pcf50633_free_irq(input->pcf, PCF50633_IRQ_ONKEYR);
--	pcf50633_free_irq(input->pcf, PCF50633_IRQ_ONKEYF);
--
--	input_unregister_device(input->input_dev);
--	kfree(input);
--}
--
--static struct platform_driver pcf50633_input_driver = {
--	.driver = {
--		.name = "pcf50633-input",
--	},
--	.probe = pcf50633_input_probe,
--	.remove = pcf50633_input_remove,
--};
--module_platform_driver(pcf50633_input_driver);
--
--MODULE_AUTHOR("Balaji Rao <balajirrao@openmoko.org>");
--MODULE_DESCRIPTION("PCF50633 input driver");
--MODULE_LICENSE("GPL");
--MODULE_ALIAS("platform:pcf50633-input");
+diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
+index 31508da93ba2..9bf9ce8dc803 100644
+--- a/drivers/hid/hid-quirks.c
++++ b/drivers/hid/hid-quirks.c
+@@ -410,7 +410,8 @@ static const struct hid_device_id hid_have_special_driver[] = {
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_XT4DRBK) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_DT1URBK) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_DT1DRBK) },
+-	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_HT1URBK) },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_HT1URBK_010C) },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_HT1URBK_019B) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_HT1DRBK_010D) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_HT1DRBK_011C) },
+ #endif
 -- 
 2.50.0
 
