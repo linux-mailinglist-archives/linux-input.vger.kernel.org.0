@@ -1,235 +1,354 @@
-Return-Path: <linux-input+bounces-13162-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13163-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EB40AECB50
-	for <lists+linux-input@lfdr.de>; Sun, 29 Jun 2025 06:51:39 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 30B0FAECB55
+	for <lists+linux-input@lfdr.de>; Sun, 29 Jun 2025 07:00:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E9EA01897AB1
-	for <lists+linux-input@lfdr.de>; Sun, 29 Jun 2025 04:51:54 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4A64F175177
+	for <lists+linux-input@lfdr.de>; Sun, 29 Jun 2025 05:00:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B4C531CEAC2;
-	Sun, 29 Jun 2025 04:51:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6647E18CC1C;
+	Sun, 29 Jun 2025 05:00:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="yi08TCEo"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HUmFoM9I"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-4322.protonmail.ch (mail-4322.protonmail.ch [185.70.43.22])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E04D01A3177
-	for <linux-input@vger.kernel.org>; Sun, 29 Jun 2025 04:51:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.22
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0B3D184F;
+	Sun, 29 Jun 2025 05:00:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751172691; cv=none; b=o2wnEyY8cSaZ4szJHogR1yYzX8spqHi7YiCNeVVRFpkXhajwnIS1/NGT5QHcnDbvh2b8M2X4dQIMKq99xqsrUIbSuVjYjnVYYqPK1+OaBHeeZlqC6aIPTM4LA9I5yqRKjBMEDsax8Zl9HhM5k8Mf1MPXaAFANNq1dOKaXjKWYrs=
+	t=1751173245; cv=none; b=Bla6T9CFKEyaeioSWg9r8ZGPLBxwKpUgByz26dfDq/oH5w2EptIoWchp1hChf2NGQCB13jEXWRflxsavatd32aBtyLYvHXk1UwHN/XE/t5GeaciXFvZM6FAnegGcuMIWoZR3eZdug5ZQIiharu3IwyZFW3UYwr2Vrw3o90GEtcs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751172691; c=relaxed/simple;
-	bh=r6pgP2YT+KhXzWLOpxGrAff5pQBkeiifKotZ6v9FyKY=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=RxPqef8zTYAhULBomvLv2EvC8ysBBpH1MIQWo7AKCkvPQ/aE2MYUjuQeKtBxwjGO3Htnd6B1RzHBcFSw8zUPcTQELbGWPm5F81m775tVNSWpuB+JNZprnW/uFmg06BqRKqr02uv2PyVf2kkTjIfak1rIRVYTj2o7zZQpMQDZue8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com; spf=pass smtp.mailfrom=protonmail.com; dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b=yi08TCEo; arc=none smtp.client-ip=185.70.43.22
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonmail.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-	s=protonmail3; t=1751172688; x=1751431888;
-	bh=PiQatA7X6ZWFE//uz+K0wZYykkmhBpibhI7byXsdOk4=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=yi08TCEoIjlIsDWaUaeWN4nC/4NIIgq1tnl5yL9tQwJY+/ZUIivHAlerDdGrDwZwa
-	 385FQgAHHN6tmryQ1rq/rqg+QJ397JSIjjf/FMeiLHSQv6qCPmsa60VEyqRnEBO2qZ
-	 NXzO8xAC33PZmpN92axTXhsQCgbFZdvtjEq+qGgN1MXIYII+Tk3A8CIkq9+lyUoFfl
-	 KoVuyfwE9djflR2BdQUtsiSX3Mlm7cqQ+9vorUZNSHJSx/59yINba6XfOtOwt5Zo4o
-	 iLq7V4DW5SuQqBSHw6phhezqtWLXh+7h7OIMNvW5yaR4AVJruCFPMZaPx422jthd7p
-	 MlNsxqMW9dS/Q==
-Date: Sun, 29 Jun 2025 04:51:22 +0000
-To: linux-input@vger.kernel.org, rust-for-linux@vger.kernel.org
-From: Rahul Rameshbabu <sergeantsagara@protonmail.com>
-Cc: Benjamin Tissoires <bentiss@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, Daniel Brooks <db48x@db48x.net>, Rahul Rameshbabu <sergeantsagara@protonmail.com>
-Subject: [PATCH v1 3/3] rust: hid: Glorious Gaming PC Race Model O and O- mice reference driver
-Message-ID: <20250629045031.92358-5-sergeantsagara@protonmail.com>
-In-Reply-To: <20250629045031.92358-2-sergeantsagara@protonmail.com>
-References: <20250629045031.92358-2-sergeantsagara@protonmail.com>
-Feedback-ID: 26003777:user:proton
-X-Pm-Message-ID: e80b2092eed47ffae2d60967a6719db6aa5c5a86
+	s=arc-20240116; t=1751173245; c=relaxed/simple;
+	bh=Q7uoUVM26YklCCGkMyfG3/rZ6hxEEWmX+DxJZyc2wzs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ma0mPEW6C97d6pui0/wAyvBwfkeS+nDrPN2vC1bLNyyjGylvejYPGdLwjCFltShRjv9BxK0GgdHVebDfCNr3+VF5v13pwMQVIB0avXMbQPbBJBs+cp0rXpg02DqMcp6/trrcfGWCl834DfazXxHT/Ucie/Adk6JP8PWT+99/YDc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HUmFoM9I; arc=none smtp.client-ip=209.85.214.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-22c33677183so28008635ad.2;
+        Sat, 28 Jun 2025 22:00:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1751173243; x=1751778043; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=i4Re3mTNhrRUt0s70VHPQlprdBgHhBAur2dhScRFOIA=;
+        b=HUmFoM9IjzcbLiMAPv3U5X5IV1QGXQo8op0XJ92Z7YZ1T5AduK5VhZSjO9c7D2/QiD
+         A+uedoe1SnqyVsbK1OXKcfM5RGgqpqLKbjb6qyfyvBhs8J7/fyyNRJLGCQEfJTwrnVup
+         Nozophb2ZaZUcTSrkH8OIJ21xWGKG7XzqrNOfaLzA2AZcg43CU1G2oZ9lkibKrqf90JW
+         jukY58udTzYcsohPxzjESgpMB9A/PWfw1ay14HlIp1DdUdDdjfQQR0GZfpo/2et82Uoa
+         O0OSMEYhBkjtWWFztY22YlYhuh4jaiP67R6C/Msvxdm6m2k6rYlbC6OPtEMd+nRvi+3j
+         sZ/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751173243; x=1751778043;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=i4Re3mTNhrRUt0s70VHPQlprdBgHhBAur2dhScRFOIA=;
+        b=Ju186xDe6tpxQXiFjulXagax/q52G/TOqZSr0cmtfhY6+cU658Gr31lGIcrf2f89Mv
+         /GLa/KIoepGQhYl4jGXYxUb8kZYXJ5Nx5J6YhvGmQb/T2XSaxIEPuG1dWWFFj4CjTWue
+         m1X5D1qNsoEDV0PLjBKxB1H7fUGtEzHRltxRT45EoYwoO6uXg1PdHhP1hMp0OPurhjTW
+         KGMEffrA+8JUsnk+833TRTDFXKZk7Hhd7AWmlL0XgsQ4BeYH8wrRf1ySaOxdOn033d+G
+         4jKuKsILcoO4UgE9UTYnvjWUekFHLuYYaigcSUzgy6of59/tZergPnfdQP9tB9r4wkDM
+         ldtg==
+X-Forwarded-Encrypted: i=1; AJvYcCV6PpKM8VWE4gXkOMfzXtVZ4oG5OnmcRDOfyksMD/6MPjxl3Qaz4PSyaLMB8/6NE8j5nv0XgEa+P6vsnK8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzH5Izv4C7WDJR+ZJ/7yt3xmk/+aJ0jWlpAftWexal0sbRnkex6
+	2uPNXNcpO61ISM+Ggvu/ydBUQlHGtpVD4AWcgtJqSLSIRZGkgM8nyYnQ
+X-Gm-Gg: ASbGncufXgwUUW/0paZ4kQVyKKcmu72SOYxNnkYIbXrEYCzpfErSFqmgWv9TJ1eCFb1
+	A/dguUq7z2bwRmM71OFCAQng1uB4+H0WB1y+u4n/Z2yzLlqEJoRYxDYIeJ+RAnBy7UvBqP2/f9Z
+	C3FLgt8fehaq0dYkuiK0r5Im4H2+UJ/mjIjl5bL3uM1Lwv8g0jU+QJaPQ902b2QyRNe32HOWz+c
+	YONcOQYHKxryZhuYhPnau0EuzhIDa2CT+3uKnxfZJmh63eZuGhnhp4vnqHUrmsCQOlJG8/gDljs
+	4/wOmclESIpuvvxGFRfarktbKLElkoIOuRRsS1TJw5p2aYN6/3dmQ7ZmJkDVDBc=
+X-Google-Smtp-Source: AGHT+IHD6/qsEY2xWIzEMXGgFhvOFJu+SgrD5uJylysDc6vnoF0TifSgXUoD5kOsWpE9hMUSdPqogg==
+X-Received: by 2002:a17:903:1d2:b0:224:1eab:97b2 with SMTP id d9443c01a7336-23ac48f7c22mr127949855ad.53.1751173242682;
+        Sat, 28 Jun 2025 22:00:42 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:d8da:e3e0:2b93:2315])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23acb39b9fdsm53768975ad.108.2025.06.28.22.00.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 28 Jun 2025 22:00:42 -0700 (PDT)
+Date: Sat, 28 Jun 2025 22:00:39 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Marge Yang <marge.yang@tw.synaptics.com>
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	vincent.huang@tw.synaptics.com, david.chiu@tw.synaptics.com, derek.cheng@tw.synaptics.com, 
+	sam.tsai@synaptics.com
+Subject: Re: [PATCH V1] Input: synaptics-rmi4- Add a new feature for Forcepad.
+Message-ID: <4zjilpm5vbonpg44ykhksbpv22fpvirourelpv2qwactdswrws@hltzjpze5qkj>
+References: <20250619112500.3213276-1-marge.yang@tw.synaptics.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250619112500.3213276-1-marge.yang@tw.synaptics.com>
 
-Demonstrate how to perform a report fixup from a Rust HID driver. The mice
-specify the const flag incorrectly in the consumer input report descriptor,
-which leads to inputs being ignored. Correctly patch the report descriptor =
-for
-the Model O and O- mice.
+Hi Marge,
 
-Portions of the HID report post-fixup:
-device 0:0
-...
-0x81, 0x06,                    //  Input (Data,Var,Rel)               84
-...
-0x81, 0x06,                    //  Input (Data,Var,Rel)               112
-...
-0x81, 0x06,                    //  Input (Data,Var,Rel)               140
+On Thu, Jun 19, 2025 at 11:25:00AM +0000, Marge Yang wrote:
+> From: Marge Yang <Marge.Yang@tw.synaptics.com>
+> 
+> Forcepad devices will use F21, for click simulation
+> due to lack of a metal button, so we add F21 support
+> to make forcepad support click function.
 
-Signed-off-by: Rahul Rameshbabu <sergeantsagara@protonmail.com>
----
- MAINTAINERS                      |  7 ++++
- drivers/hid/Kconfig              |  8 +++++
- drivers/hid/Makefile             |  1 +
- drivers/hid/hid-glorious.c       |  2 ++
- drivers/hid/hid_glorious_rust.rs | 62 ++++++++++++++++++++++++++++++++
- 5 files changed, 80 insertions(+)
- create mode 100644 drivers/hid/hid_glorious_rust.rs
+I guess with this we can remove the blacklist we have for forcepads in
+drivers/input/mouse/synaptics.c?
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 487750d9fd1e..80849f76c6c3 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -10200,6 +10200,13 @@ L:=09platform-driver-x86@vger.kernel.org
- S:=09Maintained
- F:=09drivers/platform/x86/gigabyte-wmi.c
-=20
-+GLORIOUS RUST DRIVER [RUST]
-+M:=09Rahul Rameshbabu <sergeantsagara@protonmail.com>
-+L:=09linux-input@vger.kernel.org
-+S:=09Maintained
-+T:=09git git://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git
-+F:=09drivers/hid/hid_glorious_rust.rs
-+
- GNSS SUBSYSTEM
- M:=09Johan Hovold <johan@kernel.org>
- S:=09Maintained
-diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
-index 5c8839ddc999..3592a4de113f 100644
---- a/drivers/hid/Kconfig
-+++ b/drivers/hid/Kconfig
-@@ -406,6 +406,14 @@ config HID_GLORIOUS
- =09  Support for Glorious PC Gaming Race mice such as
- =09  the Glorious Model O, O- and D.
-=20
-+config HID_GLORIOUS_RUST
-+=09tristate "Glorious O and O- mice Rust reference driver"
-+=09depends on USB_HID
-+=09depends on RUST_HID_ABSTRACTIONS
-+=09help
-+=09  Support for Glorious PC Gaming Race O and O- mice
-+=09  in Rust
-+
- config HID_HOLTEK
- =09tristate "Holtek HID devices"
- =09depends on USB_HID
-diff --git a/drivers/hid/Makefile b/drivers/hid/Makefile
-index 10ae5dedbd84..bd86b3db5d88 100644
---- a/drivers/hid/Makefile
-+++ b/drivers/hid/Makefile
-@@ -55,6 +55,7 @@ obj-$(CONFIG_HID_FT260)=09=09+=3D hid-ft260.o
- obj-$(CONFIG_HID_GEMBIRD)=09+=3D hid-gembird.o
- obj-$(CONFIG_HID_GFRM)=09=09+=3D hid-gfrm.o
- obj-$(CONFIG_HID_GLORIOUS)  +=3D hid-glorious.o
-+obj-$(CONFIG_HID_GLORIOUS_RUST)=09+=3D hid_glorious_rust.o
- obj-$(CONFIG_HID_VIVALDI_COMMON) +=3D hid-vivaldi-common.o
- obj-$(CONFIG_HID_GOODIX_SPI)=09+=3D hid-goodix-spi.o
- obj-$(CONFIG_HID_GOOGLE_HAMMER)=09+=3D hid-google-hammer.o
-diff --git a/drivers/hid/hid-glorious.c b/drivers/hid/hid-glorious.c
-index 5bbd81248053..d7362852c20f 100644
---- a/drivers/hid/hid-glorious.c
-+++ b/drivers/hid/hid-glorious.c
-@@ -76,8 +76,10 @@ static int glorious_probe(struct hid_device *hdev,
- }
-=20
- static const struct hid_device_id glorious_devices[] =3D {
-+#if !IS_ENABLED(CONFIG_HID_GLORIOUS_RUST)
- =09{ HID_USB_DEVICE(USB_VENDOR_ID_SINOWEALTH,
- =09=09USB_DEVICE_ID_GLORIOUS_MODEL_O) },
-+#endif
- =09{ HID_USB_DEVICE(USB_VENDOR_ID_SINOWEALTH,
- =09=09USB_DEVICE_ID_GLORIOUS_MODEL_D) },
- =09{ HID_USB_DEVICE(USB_VENDOR_ID_LAVIEW,
-diff --git a/drivers/hid/hid_glorious_rust.rs b/drivers/hid/hid_glorious_ru=
-st.rs
-new file mode 100644
-index 000000000000..de602ae33b2d
---- /dev/null
-+++ b/drivers/hid/hid_glorious_rust.rs
-@@ -0,0 +1,62 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+// Copyright (C) 2025 Rahul Rameshbabu <sergeantsagara@protonmail.com>
-+
-+//! Rust reference HID driver for Glorious Model O and O- mice
-+
-+use kernel::{self, hid, prelude::*};
-+
-+const USB_VENDOR_ID_SINOWEALTH: u32 =3D 0x258a;
-+const USB_DEVICE_ID_GLORIOUS_MODEL_O: u32 =3D 0x0036;
-+
-+struct GloriousRust;
-+
-+kernel::hid_device_table!(
-+    HID_TABLE,
-+    MODULE_HID_TABLE,
-+    <GloriousRust as hid::Driver>::IdInfo,
-+    [(
-+        hid::DeviceId::new_usb(
-+            hid::Group::Generic,
-+            USB_VENDOR_ID_SINOWEALTH,
-+            USB_DEVICE_ID_GLORIOUS_MODEL_O,
-+        ),
-+        (),
-+    )]
-+);
-+
-+#[vtable]
-+impl hid::Driver for GloriousRust {
-+    type IdInfo =3D ();
-+    const ID_TABLE: hid::IdTable<Self::IdInfo> =3D &HID_TABLE;
-+
-+    /// Glorious Model O and O- specify the const flag in the consumer inp=
-ut
-+    /// report descriptor, which leads to inputs being ignored. Fix this b=
-y
-+    /// patching the descriptor.
-+    fn report_fixup<'a, 'b: 'a>(_hdev: &hid::Device, rdesc: &'b mut [u8]) =
--> &'a [u8] {
-+        if rdesc.len() =3D=3D 213
-+            && rdesc[84] =3D=3D 129
-+            && rdesc[112] =3D=3D 129
-+            && rdesc[140] =3D=3D 129
-+            && rdesc[85] =3D=3D 3
-+            && rdesc[113] =3D=3D 3
-+            && rdesc[141] =3D=3D 3
-+        {
-+            pr_info!("patching Glorious Model O consumer control report de=
-scriptor\n");
-+
-+            rdesc[85] =3D hid::MAIN_ITEM_VARIABLE | hid::MAIN_ITEM_RELATIV=
-E;
-+            rdesc[113] =3D hid::MAIN_ITEM_VARIABLE | hid::MAIN_ITEM_RELATI=
-VE;
-+            rdesc[141] =3D hid::MAIN_ITEM_VARIABLE | hid::MAIN_ITEM_RELATI=
-VE;
-+        }
-+
-+        rdesc
-+    }
-+}
-+
-+kernel::module_hid_driver! {
-+    type: GloriousRust,
-+    name: "GloriousRust",
-+    authors: ["Rahul Rameshbabu <sergeantsagara@protonmail.com>"],
-+    description: "Rust reference HID driver for Glorious Model O and O- mi=
-ce",
-+    license: "GPL",
-+}
---=20
-2.49.0
+> 
+> Signed-off-by: Marge Yang <Marge.Yang@tw.synaptics.com>
+> ---
+>  drivers/input/rmi4/Kconfig      |   8 ++
+>  drivers/input/rmi4/Makefile     |   1 +
+>  drivers/input/rmi4/rmi_bus.c    |   3 +
+>  drivers/input/rmi4/rmi_driver.h |   5 ++
+>  drivers/input/rmi4/rmi_f21.c    | 126 ++++++++++++++++++++++++++++++++
+>  5 files changed, 143 insertions(+)
+>  create mode 100644 drivers/input/rmi4/rmi_f21.c
+> 
+> diff --git a/drivers/input/rmi4/Kconfig b/drivers/input/rmi4/Kconfig
+> index c0163b983ce6..086013be6a64 100644
+> --- a/drivers/input/rmi4/Kconfig
+> +++ b/drivers/input/rmi4/Kconfig
+> @@ -82,6 +82,14 @@ config RMI4_F12
+>  	  touchpads. For sensors that support relative pointing, F12 also
+>  	  provides mouse input.
+>  
+> +config RMI4_F21
+> +	bool "RMI4 Function 21 (PRESSURE)"
+> +	help
+> +	  Say Y here if you want to add support for RMI4 function 21.
+> +
+> +	  Function 21 provides buttons/pressure for RMI4 devices. This includes
+> +	  support for buttons/pressure on PressurePad.
+> +
+>  config RMI4_F30
+>  	bool "RMI4 Function 30 (GPIO LED)"
+>  	help
+> diff --git a/drivers/input/rmi4/Makefile b/drivers/input/rmi4/Makefile
+> index 02f14c846861..484b97eca025 100644
+> --- a/drivers/input/rmi4/Makefile
+> +++ b/drivers/input/rmi4/Makefile
+> @@ -8,6 +8,7 @@ rmi_core-$(CONFIG_RMI4_2D_SENSOR) += rmi_2d_sensor.o
+>  rmi_core-$(CONFIG_RMI4_F03) += rmi_f03.o
+>  rmi_core-$(CONFIG_RMI4_F11) += rmi_f11.o
+>  rmi_core-$(CONFIG_RMI4_F12) += rmi_f12.o
+> +rmi_core-$(CONFIG_RMI4_F21) += rmi_f21.o
+>  rmi_core-$(CONFIG_RMI4_F30) += rmi_f30.o
+>  rmi_core-$(CONFIG_RMI4_F34) += rmi_f34.o rmi_f34v7.o
+>  rmi_core-$(CONFIG_RMI4_F3A) += rmi_f3a.o
+> diff --git a/drivers/input/rmi4/rmi_bus.c b/drivers/input/rmi4/rmi_bus.c
+> index 3aee04837205..47fe7a88c92b 100644
+> --- a/drivers/input/rmi4/rmi_bus.c
+> +++ b/drivers/input/rmi4/rmi_bus.c
+> @@ -360,6 +360,9 @@ static struct rmi_function_handler *fn_handlers[] = {
+>  #ifdef CONFIG_RMI4_F12
+>  	&rmi_f12_handler,
+>  #endif
+> +#ifdef CONFIG_RMI4_F21
+> +	&rmi_f21_handler,
+> +#endif
+>  #ifdef CONFIG_RMI4_F30
+>  	&rmi_f30_handler,
+>  #endif
+> diff --git a/drivers/input/rmi4/rmi_driver.h b/drivers/input/rmi4/rmi_driver.h
+> index 3bfe9013043e..18fdf2a166d5 100644
+> --- a/drivers/input/rmi4/rmi_driver.h
+> +++ b/drivers/input/rmi4/rmi_driver.h
+> @@ -115,6 +115,10 @@ static inline int rmi_f03_overwrite_button(struct rmi_function *fn,
+>  static inline void rmi_f03_commit_buttons(struct rmi_function *fn) {}
+>  #endif
+>  
+> +#ifdef CONFIG_RMI4_F21
+> +int rmi_f21_report_pressure(struct rmi_function *fn, int i);
+> +#endif
+> +
 
+I do not see definition for this anywhere in the patch.
 
+>  #ifdef CONFIG_RMI4_F34
+>  int rmi_f34_create_sysfs(struct rmi_device *rmi_dev);
+>  void rmi_f34_remove_sysfs(struct rmi_device *rmi_dev);
+> @@ -133,6 +137,7 @@ extern struct rmi_function_handler rmi_f01_handler;
+>  extern struct rmi_function_handler rmi_f03_handler;
+>  extern struct rmi_function_handler rmi_f11_handler;
+>  extern struct rmi_function_handler rmi_f12_handler;
+> +extern struct rmi_function_handler rmi_f21_handler;
+>  extern struct rmi_function_handler rmi_f30_handler;
+>  extern struct rmi_function_handler rmi_f34_handler;
+>  extern struct rmi_function_handler rmi_f3a_handler;
+> diff --git a/drivers/input/rmi4/rmi_f21.c b/drivers/input/rmi4/rmi_f21.c
+> new file mode 100644
+> index 000000000000..93ef2331ed16
+> --- /dev/null
+> +++ b/drivers/input/rmi4/rmi_f21.c
+> @@ -0,0 +1,126 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Copyright (c) 2012-2025 Synaptics Incorporated
+> + */
+> +
+> +#include <linux/kernel.h>
+> +#include <linux/rmi.h>
+> +#include <linux/input.h>
+> +#include <linux/slab.h>
+> +#include "rmi_driver.h"
+> +
+> +#define RMI_f21_INPUT_REPORT_DATA_SIZE	6
+> +#define RMI_F21_INPUT_REPORT_FORCE_CLICK_OFFSET	5
+> +#define RMI_F21_TABLE_FORCE_CLICK_OFFSET	8
+> +#define RMI_f21_FORCE_CLICK			0x01
+
+Use BIT(0) here please.
+
+> +#define RMI_f21_DATA_REGS_MAX_SIZE	19
+
+Why such a big difference in F21 data size between HID and other
+transports?
+
+> +#define RMI_f21_FORCEPAD_BUTTON_COUNT	1
+> +
+> +struct f21_data {
+> +	/* Query Data */
+> +	u8 data_regs[RMI_f21_DATA_REGS_MAX_SIZE];
+> +	u8 input_report_data[RMI_f21_INPUT_REPORT_DATA_SIZE];
+> +	struct input_dev *input;
+> +	u16 key_code;
+> +};
+> +
+> +static irqreturn_t rmi_f21_attention(int irq, void *ctx)
+> +{
+> +	struct rmi_function *fn = ctx;
+> +	struct f21_data *f21 = dev_get_drvdata(&fn->dev);
+> +	struct rmi_driver_data *drvdata = dev_get_drvdata(&fn->rmi_dev->dev);
+> +	int error;
+> +	bool pressed;
+> +
+> +	if (drvdata->attn_data.data) {
+> +		if (drvdata->attn_data.size < RMI_f21_INPUT_REPORT_DATA_SIZE) {
+> +			dev_warn(&fn->dev, "f21 interrupted, but data is missing\n");
+> +			return IRQ_HANDLED;
+> +		}
+> +		memcpy(f21->input_report_data, drvdata->attn_data.data, RMI_f21_INPUT_REPORT_DATA_SIZE);
+
+I do not think you need to do the copy, you can test the bit directly in
+drvdata->attn_data.data buffer.
+
+> +		drvdata->attn_data.data += RMI_f21_INPUT_REPORT_DATA_SIZE;
+> +		drvdata->attn_data.size -= RMI_f21_INPUT_REPORT_DATA_SIZE;
+> +
+> +		pressed = !!(f21->input_report_data[RMI_F21_INPUT_REPORT_FORCE_CLICK_OFFSET] &
+> +					RMI_f21_FORCE_CLICK);
+
+No need to double negation here, converting to bool will do the right
+thing.
+
+> +	} else {
+> +		error = rmi_read_block(fn->rmi_dev, fn->fd.data_base_addr,
+> +					f21->data_regs, RMI_f21_DATA_REGS_MAX_SIZE);
+> +		if (error) {
+> +			dev_err(&fn->dev, "%s: Failed to read f21 data registers: %d\n",
+> +				__func__, error);
+> +			return IRQ_RETVAL(error);
+> +		}
+> +		pressed = !!(f21->data_regs[RMI_F21_TABLE_FORCE_CLICK_OFFSET] &
+> +					RMI_f21_FORCE_CLICK);
+
+Same here.
+
+> +	}
+> +
+> +	input_report_key(f21->input, f21->key_code, pressed);
+> +
+> +	return IRQ_HANDLED;
+> +}
+> +
+> +static int rmi_f21_config(struct rmi_function *fn)
+> +{
+> +	struct f21_data *f21 = dev_get_drvdata(&fn->dev);
+> +	struct rmi_driver *drv = fn->rmi_dev->driver;
+> +
+> +	if (!f21)
+> +		return 0;
+
+Is this actually possible for f21 to be NULL here?
+
+> +
+> +	drv->set_irq_bits(fn->rmi_dev, fn->irq_mask);
+> +
+> +	return 0;
+> +}
+> +
+> +static int rmi_f21_initialize(struct rmi_function *fn, struct f21_data *f21)
+> +{
+> +	struct input_dev *input = f21->input;
+> +	unsigned int button = BTN_LEFT;
+
+This variable is not needed.
+
+> +
+> +	f21->key_code = button;
+
+	f21->key_code = BTN_LEFT;
+
+> +	input_set_capability(input, EV_KEY, f21->key_code);
+> +	input->keycode = &(f21->key_code);
+
+Drop extra parenthesis.
+
+> +	input->keycodesize = sizeof(f21->key_code);
+> +	input->keycodemax = RMI_f21_FORCEPAD_BUTTON_COUNT;
+> +
+> +	__set_bit(INPUT_PROP_BUTTONPAD, input->propbit);
+> +
+> +	return 0;
+> +}
+> +
+> +static int rmi_f21_probe(struct rmi_function *fn)
+> +{
+> +	struct rmi_device *rmi_dev = fn->rmi_dev;
+> +	struct rmi_driver_data *drv_data = dev_get_drvdata(&rmi_dev->dev);
+> +	struct f21_data *f21;
+> +	int error;
+> +
+> +	if (!drv_data->input) {
+> +		dev_info(&fn->dev, "f21: no input device found, ignoring\n");
+> +		return -ENXIO;
+> +	}
+> +
+> +	f21 = devm_kzalloc(&fn->dev, sizeof(*f21), GFP_KERNEL);
+> +	if (!f21)
+> +		return -ENOMEM;
+> +
+> +	f21->input = drv_data->input;
+> +
+> +	error = rmi_f21_initialize(fn, f21);
+> +	if (error)
+> +		return error;
+> +
+> +	dev_set_drvdata(&fn->dev, f21);
+> +	return 0;
+> +}
+> +
+> +struct rmi_function_handler rmi_f21_handler = {
+> +	.driver = {
+> +		.name = "rmi4_f21",
+> +	},
+> +	.func = 0x21,
+> +	.probe = rmi_f21_probe,
+> +	.config = rmi_f21_config,
+> +	.attention = rmi_f21_attention,
+> +};
+
+Thanks.
+
+-- 
+Dmitry
 
