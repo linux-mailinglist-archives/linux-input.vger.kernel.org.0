@@ -1,159 +1,261 @@
-Return-Path: <linux-input+bounces-13184-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13185-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 002F0AED476
-	for <lists+linux-input@lfdr.de>; Mon, 30 Jun 2025 08:24:53 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DD326AED4AC
+	for <lists+linux-input@lfdr.de>; Mon, 30 Jun 2025 08:34:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1AE2E3B0FAD
-	for <lists+linux-input@lfdr.de>; Mon, 30 Jun 2025 06:24:28 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AD24C173681
+	for <lists+linux-input@lfdr.de>; Mon, 30 Jun 2025 06:34:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A54EE19CC28;
-	Mon, 30 Jun 2025 06:24:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 70C7E202F79;
+	Mon, 30 Jun 2025 06:33:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="zoStU2kX"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oD2Rr5Ge"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99F08125D6
-	for <linux-input@vger.kernel.org>; Mon, 30 Jun 2025 06:24:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44D361C862C;
+	Mon, 30 Jun 2025 06:33:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751264690; cv=none; b=cQGBgQquwOkzOu7h7hjN8EkZgjpp2bYtzPT6JEvXgVYIjtjV8Slj/mhYnvGsQfFsGWE1FfNCgXcWst+9+fpth7GvkGZ5qRAMQOmDR5hGLS4ET7cJ8dJKJSdYodbqDUduN7nJHPtpp1DZz7pBf+LjKPvUWoE8ZMWHd+aD3lI5i1o=
+	t=1751265223; cv=none; b=sMDH4h9lpeFIE4gqPTKERVyZobKyEAC0WYgNrb2EWf7jTdyKYPngLR0nL1YN0gZPCPGKChugA/0/uwV5FttDjJUraBOLrB5evbmCSQehEDCVkZVe2TPpaUrO1WIzAAMWu/kySyhrJt5ptQjor+dZG6AVMFR8D5GzX1xkoIdAsFI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751264690; c=relaxed/simple;
-	bh=3kUthHXNKY1BNSUQeAR/zCUKgmhZyHKwGzUp0tbz6AM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WaIDd6/irlnyQ+UTKEKI+moURND3+9VxndNdPwQYNYbxuFCpySHayRIYvFrfDbOJh0Pmqr7GYzS91AFpUst0j+6saJ4vPztv1ETCO0DAac/2W+0d3dzTLCTVO024Q6IWlWUJ01FD4KbKO804HcEI99CVDQU26OPbnh07RhSwlZM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=zoStU2kX; arc=none smtp.client-ip=209.85.208.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-607ec30df2bso8312930a12.1
-        for <linux-input@vger.kernel.org>; Sun, 29 Jun 2025 23:24:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1751264686; x=1751869486; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=3kUthHXNKY1BNSUQeAR/zCUKgmhZyHKwGzUp0tbz6AM=;
-        b=zoStU2kXdcpPW28OcHQCNLVln0kqSUwlI3XN6H4LBrny8I/tdh5I0kA/MRSqEvP7Hc
-         jkBHvMmZFNr7WNqPStrYUcS2iD7C0329Glq3lII519gbncmAIl4DaUMqcFmVtcxSCobd
-         GKA8bbockUM6S1BQB3MNIF+0AOWVu7uuWJtvujsqOr1Ey1h/eZeBeskFxWLgoITHolm5
-         65+gRxImN1pFeXpSaKPrf64wICVIKt3sVGPyIG95x49LZ1XloE72YNDsSMY5BX7vtB72
-         9gQhOEBdl67whaEp2IJRysp0grsE1IDT6WV0ibFiG7OR5vq6kiAuVdo4b+YsjLgVrEuc
-         gsqQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751264686; x=1751869486;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3kUthHXNKY1BNSUQeAR/zCUKgmhZyHKwGzUp0tbz6AM=;
-        b=COyzZex8cFlI38y2RWCYzQKUnHoMI1Js50OCHYuIWLBsj0Thq1QE1Ki4cKszuaNK//
-         vIInP9HyK/o6DLIXMFlgHDJN7wizurtNf77WoBzCQPtRNlYRhxRcxXg0QXLqXV0VfN2k
-         gwdDBTa936wXnfOJLQiwyC2hCt20PFN0mhQHinC07To79uHzbqtWgAo++oR64cb9nrlK
-         XCsgNGal9IjydnuuW8JP3BkiBUF51lQd6fOpmUmBftnMbnoiKvola4RT688ZpMP6CFY+
-         Kbjr77prUJVC3p2X42t8YXkSRwhrh3jT+ocUsg+e1MLP45T1+vLmvxsPtxrFe/d5OmZQ
-         r1wA==
-X-Forwarded-Encrypted: i=1; AJvYcCWAbNxdedSPAJ/iw/rsLm6LJpFwUvuQKYdY9qTFuigMYVplgWTYcbeBt7AhjUSv6ndtK0ZXhMxHVfYhDA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YylCHfAWNtfwpQeXxSWC0sQ3BoJfGNds9sxlX1HWayBNpWYeTUc
-	htGRz0NTAoEni3vwsyvjkYy8Wu8gTyWy/gjb/9pNuwS8yQQU2pUyn8zFwtq9yamWJkg=
-X-Gm-Gg: ASbGnctfoGkCwJaUtrWJ6nltkkQcff/O8GtDoPVb/qDyYcIJ7yBEqhe4T4V7sABYBIN
-	znyQbwB/9pE61CBVjhSrMpG0C8VVXQT2c2pTGfZHHIdy+EFEEqEzxVxyiu1B1Td4+P+E6bDGfVM
-	xwyGaSwpDD6OsMBJs4a5RLdzS2SAYyn/jQY4TZur6fx9ZCUdM/8IWrUarvzWJERDZfpUSifJ4Ws
-	Ojjlbwlu34vg8omqbtvKhKzrvOb0DCgLvSw2anT2zm6MCQP/heSZ1Xgd5c8Smu4HEDhpVRcOfbO
-	xtidAC0pCOkT1pNXFQsFBxsNSY+jqWgslBN++b6gWGR9LiX85hAqR+uw7QhiW4aPT5fmP1opVFW
-	xX0VP6oqdO/F9a+nKZJPzW/Ms7y6Q
-X-Google-Smtp-Source: AGHT+IFSGdbZTiu0xOVzvkK7zHYfC3CC7lX9MQQi+PIjD95NI+Aa9pooPpCIeYut8zBvkO7WKWcX9A==
-X-Received: by 2002:a17:907:3c8f:b0:ad5:55db:e413 with SMTP id a640c23a62f3a-ae34fdded62mr1081052566b.26.1751264685875;
-        Sun, 29 Jun 2025 23:24:45 -0700 (PDT)
-Received: from localhost (p200300f65f06ab0400000000000001b9.dip0.t-ipconnect.de. [2003:f6:5f06:ab04::1b9])
-        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-ae353ca371csm615679366b.179.2025.06.29.23.24.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 29 Jun 2025 23:24:45 -0700 (PDT)
-Date: Mon, 30 Jun 2025 08:24:43 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Dzmitry Sankouski <dsankouski@gmail.com>, 
-	Marek Szyprowski <m.szyprowski@samsung.com>, Krzysztof Kozlowski <krzk@kernel.org>, 
-	linux-input@vger.kernel.org
-Subject: Re: [PATCH] Input: max77693 - Simplify suspend/resume handling
-Message-ID: <6gysdq7wnhraeqqefjj2pumnn3wtral5w5cafhejfhul26ziud@tpiqjzaidbmz>
-References: <20250623110016.1370622-2-u.kleine-koenig@baylibre.com>
- <ijmemuk6lhdzy3wlm67jr54gvza3zft4473ofgfoeuxknegc4o@ysm62a64dvxy>
+	s=arc-20240116; t=1751265223; c=relaxed/simple;
+	bh=K6tpL+n+5qcjNzrP2/VpzXL4TQCVWVSKQU/Z1dntQm8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=kfGGLdrOtic5il4hMdwAEt7+hU5DuQFSKTfjJgpnASbi8k+Pflzbs1WIbSS0qt2vBJR9+gMT1G8QzAKW9eimh1/TuoQHzT2qpzlvrjCzyAAGpRvJgm0MGPzbXlslVEgSHrlHBGVkGD+D5Sp5nY6PuxHLIYe4xtX/knymNogYUN8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oD2Rr5Ge; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 875B6C4CEEB;
+	Mon, 30 Jun 2025 06:33:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1751265222;
+	bh=K6tpL+n+5qcjNzrP2/VpzXL4TQCVWVSKQU/Z1dntQm8=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=oD2Rr5Ged+JYGngN58e5ftOdNFdT6oJhTfaPtr9WFBL2O1zKK+W0U7Ck+7W86kgft
+	 1L1ucC8XI2DCgy9nFvFJqMR5GVpxr2vE4N5K00Kmgpq9epBlCDK05Ms9YXs4d2kN2j
+	 sdxtMs8ZZ9rrHhPYAHs4n5jwht7S657hbxd/troXMmquH0o+JkvGEi7HozBtPbkqQb
+	 Mk5mqXTypSVrMzQBpHsoULnIGFDeMizy6zX7zijGKZ2DVQXCwJPb0dPf9w97XhFHYf
+	 pXHCjJvvXfpRc7kruYeyv1O8abfgWZPDnYODL4PuwBu1z5il0hntN8AIRPTikpqNry
+	 hCYVWhlYbZhiA==
+Message-ID: <a14cb1e8-a0c3-4451-8c75-07e175f4620d@kernel.org>
+Date: Mon, 30 Jun 2025 08:33:33 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="f4gavijkbhhv5s5x"
-Content-Disposition: inline
-In-Reply-To: <ijmemuk6lhdzy3wlm67jr54gvza3zft4473ofgfoeuxknegc4o@ysm62a64dvxy>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 1/2] dt-bindings: input: touchscreen: add hynitron
+ cst816x
+To: Oleh Kuzhylnyi <kuzhylol@gmail.com>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Sasha Finkelstein <fnkl.kernel@gmail.com>,
+ Javier Carrasco <javier.carrasco.cruz@gmail.com>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ Javier Martinez Canillas <javierm@redhat.com>, Janne Grunau <j@jannau.net>,
+ Igor Opaniuk <igor.opaniuk@gmail.com>, Neal Gompa <neal@gompa.dev>,
+ Jeff LaBundy <jeff@labundy.com>, Neil Armstrong <neil.armstrong@linaro.org>,
+ linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20250629162523.291887-1-kuzhylol@gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <20250629162523.291887-1-kuzhylol@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+On 29/06/2025 18:25, Oleh Kuzhylnyi wrote:
+> Add documentation for Hynitron CST816x series touchscreen bindings.
+> 
+> Signed-off-by: Oleh Kuzhylnyi <kuzhylol@gmail.com>
+> ---
+> Changes in v8:
+>  - Use linux,keycodes to map touch gestures to key events
+>  - Refactore binding properties based on feedback from Jeff LaBundy
+>    and Krzysztof Kozlowski to align with official documentation
+
+This is vague. Anything can be "refactor". What changed specifically?
+
+b4 diff shows no changes.
 
 
---f4gavijkbhhv5s5x
-Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH] Input: max77693 - Simplify suspend/resume handling
-MIME-Version: 1.0
+> 
+> Changes in v7:
+>  - Introduce the gestures field along with its sub-fields
+>  - Make reset-gpio property optional
+>  - Extend main description
+>  - Remove "touchscreen" reference
+> 
+> Changes in v6:
+>  - Fix minor tweak adviced by Krzysztof:
+>  - Move additionalProperties field after required
+> 
+> Changes in v5:
+>  - No code changes
+> 
+> Changes in v4:
+>  - Add Conor's Dooley "Reviewed-by" tag
+> 
+> Changes in v3:
+>  - Rename filename to hynitron,cst816s.yaml
+>  - Update description with display details
+> 
+> Changes in v2:
+>  - Apply pin definitions and DT headers
+>  - Use generic name for DT node
+>  - Drop status field
+> 
+>  .../input/touchscreen/hynitron,cst816x.yaml   | 82 +++++++++++++++++++
+>  1 file changed, 82 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/input/touchscreen/hynitron,cst816x.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/input/touchscreen/hynitron,cst816x.yaml b/Documentation/devicetree/bindings/input/touchscreen/hynitron,cst816x.yaml
+> new file mode 100644
+> index 000000000000..0d358463d7f8
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/input/touchscreen/hynitron,cst816x.yaml
+> @@ -0,0 +1,82 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/input/touchscreen/hynitron,cst816x.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Hynitron CST816x Series Capacitive Touch controller
+> +
+> +maintainers:
+> +  - Oleh Kuzhylnyi <kuzhylol@gmail.com>
+> +
+> +description: |
+> +  Bindings for CST816x high performance self-capacitance touch chip series
+> +  with single point gesture and real two-point operation.
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - hynitron,cst816s
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  reset-gpios:
+> +    maxItems: 1
+> +
+> +  linux,keycodes:
+> +    minItems: 1
+> +    maxItems: 16
+> +    description: |
+> +      Specifies the numeric keycodes associated with each available gesture in
+> +      the following order (enter 0 for unused and reserved gestures):
+> +      0: Touch
+> +      1: Swipe up
+> +      2: Swipe down
+> +      3: Swipe left
+> +      4: Swipe right
+> +      5-11: Reserved
+> +      12: Long press
+> +      13-15: Reserved
 
-On Sun, Jun 29, 2025 at 10:41:36PM -0700, Dmitry Torokhov wrote:
-> Hi Uwe,
->=20
-> On Mon, Jun 23, 2025 at 01:00:16PM +0200, Uwe Kleine-K=F6nig wrote:
-> > max77693_haptic_disable() is a noop if !haptic->enabled, so it can be
-> > called unconditionally in max77693_haptic_suspend().
-> >=20
-> > haptic->suspend_state can only be true in max77693_haptic_resume() if
-> > haptic->enabled is also true. In this case max77693_haptic_enable() is
-> > a noop and the call can be dropped.
-> >=20
-> > After these simplifications haptic->suspend_state is essentially a
-> > write-only variable and so can be dropped, too.
-> >=20
-> > Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@baylibre.com>
-> > ---
-> > Hello,
-> >=20
-> > found that simplification while trying to understand the driver enough
-> > to improve the PWM handling. Not sure that the result is what is
-> > intended, but if you think the new behaviour is bogus then so is the
-> > status quo, just better hidden.
->=20
-> No, after your changes after suspend/resume the device is disabled
-> unconditionally, whereas the original code would enable the device if it
-> was enabled (because of effect playback) or keep it disabled.
+Fields like "reserved" makes no sense. If this is reserved, why would it
+be put into the DTS?
 
-Ah, I see where my reasoning is broken. I didn't take into account that
-max77693_haptic_disable() sets enabled =3D false.
+No, just list the items with description:
+minItems: 1
+items:
+  - description: Touch gesture (although what is a touch gesture? This
+is just a touch....)
+  - description: ...
 
-> It also does not compile...
 
-Ah dang. Usually my failure in such a case is that I failed to fixup the
-patch after I found the build problem myself. But that doesn't apply
-here.
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
 
-Sorry
-Uwe
 
---f4gavijkbhhv5s5x
-Content-Type: application/pgp-signature; name="signature.asc"
+Where is (or why there is no) the ref to touchscreen.yaml?
 
------BEGIN PGP SIGNATURE-----
+> +
+> +additionalProperties: false
 
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmhiLaAACgkQj4D7WH0S
-/k5+Kwf/TUhZcPdWeP7JXtKXxj14TjRwM+LDinfIju6PrJMhWcHDt6G8lLIvjT5w
-nasjjwqyNHFnhQ13hRU4TB4Mx7K+MfBLAQffiMQ0froxoNBiRtprquL/AixB7Hs6
-nbkzyiEBbEKvGEBElcUgE53gLoGTTcf8B272Zw8u1RDOOI50aosfj2rvni5h6DHU
-XS/w8FiSLabBFwSTMLq3YOppBTxCpudNxYK2HmYJQNQMFGGqxKNZs+SJ+T+SWYVX
-O+FmAEVU1sZOWp7Uzy3zysVmu/q13AeTeFe+Sax0t6dCJCHAKyiZXvghubmIfO+y
-xI0ESD6mLp1VOwDGD444G3yRnVS3EQ==
-=kbUg
------END PGP SIGNATURE-----
+And this not unevaluatedProperties then?
 
---f4gavijkbhhv5s5x--
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/gpio/gpio.h>
+> +    #include <dt-bindings/input/linux-event-codes.h>
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +    i2c {
+> +          #address-cells = <1>;
+> +          #size-cells = <0>;
+
+Messed indentation.
+
+> +          touchscreen@15 {
+> +              compatible = "hynitron,cst816s";
+> +              reg = <0x15>;
+> +              interrupt-parent = <&gpio0>;
+> +              interrupts = <4 IRQ_TYPE_EDGE_RISING>;
+> +              reset-gpios = <&gpio 17 GPIO_ACTIVE_LOW>;
+> +              linux,keycodes = <BTN_TOUCH>,
+
+
+
+
+Best regards,
+Krzysztof
 
