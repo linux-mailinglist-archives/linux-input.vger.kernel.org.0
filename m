@@ -1,120 +1,147 @@
-Return-Path: <linux-input+bounces-13242-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13243-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D86AAEE7D6
-	for <lists+linux-input@lfdr.de>; Mon, 30 Jun 2025 22:00:13 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 31274AEE806
+	for <lists+linux-input@lfdr.de>; Mon, 30 Jun 2025 22:18:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id ADF9E4402DF
-	for <lists+linux-input@lfdr.de>; Mon, 30 Jun 2025 19:59:46 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5C5E417FE90
+	for <lists+linux-input@lfdr.de>; Mon, 30 Jun 2025 20:18:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D8007218AD4;
-	Mon, 30 Jun 2025 20:00:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0C3291F583A;
+	Mon, 30 Jun 2025 20:18:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=nfraprado@collabora.com header.b="SWLqK6Bw"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="Q1WtwZb8"
 X-Original-To: linux-input@vger.kernel.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C9DB522A;
-	Mon, 30 Jun 2025 20:00:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751313610; cv=pass; b=cV8JKE49V34qvrBb2mZuoAiJjmmFAQD5fFf1Y5hn8Oa5W70wEO4NlLwuOm8A1AlCex7MdmYAbzRKv6NncIaigMKvz9nCOP/1Rc9zoZbLDllbmOXolxirZZD9UcsEfXjKqDmkj/oe/RyVWxwQoZPaVrq1U+Nv+lA5Vp9FblveIkQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751313610; c=relaxed/simple;
-	bh=rBUTDTzHFfwcfiT7i6BHSGVXrToMoBPF9YjK4qz9/CM=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=CG2+PSedvgQl13Glgb4DVLD+75/ymgz89zcAmOUJADMkX1fRWw0Nvq6jATV/IA4f5OqBk61kwG1+ho2vFo9D+EKNwIgshFYsBLoDG7HX+u403LWdxh8Udz6OYNPQ7QEjVf+mFZ0+5RAWAwbD7pKFqXLeVQJ+bcgN4XzgLs9f7Ck=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nfraprado@collabora.com header.b=SWLqK6Bw; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1751313593; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=oIyis2lLopynTJij4VlBnmivGgF3rJiq5l0M9s4Gb9dTR0a4XO7JFS0I8PWuLEbP2Vqln/JcxEJadChK7k/WpviSiUJuKuEGxCYxL52r2rC7yRYgkDRiXq0hJv/EtX7oSoRZbwkzz2GaFLdDERDZc/89zdttry8CcTzA5qV3YZw=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1751313593; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=rBUTDTzHFfwcfiT7i6BHSGVXrToMoBPF9YjK4qz9/CM=; 
-	b=WCPdN3ntfbZw5YLGEYsETWBGt+VZpOrJpBG0FxQY4i+t2wIHE+2h3UEshYE1Sai8dYafsxRNkzBh9LBNdSHCyOUq2/gcKir9/GJAEZz3X0AB1aujzTk1DC5ScmbIRluUXi/K7TR7rASsTQdOh4Twp/ZhwPKT34clh5rY4VyPYQE=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=nfraprado@collabora.com;
-	dmarc=pass header.from=<nfraprado@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1751313593;
-	s=zohomail; d=collabora.com; i=nfraprado@collabora.com;
-	h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To;
-	bh=rBUTDTzHFfwcfiT7i6BHSGVXrToMoBPF9YjK4qz9/CM=;
-	b=SWLqK6BwRQHFLSqizYCw1ukwzLPYtLySRrigRfm6BKHU+S7rphQY2YZhCXRBgIEl
-	SaDeB4CiA/KP939AYQF1y+iv/PMgTpb8K8nbfrUErz8j5RGxnMEqJn465ZDEawpTg+4
-	bFjQZGfMjthNskVrx4KrB7Uv9NhqrEUY6kmN2EZc=
-Received: by mx.zohomail.com with SMTPS id 1751313591718941.3513556291028;
-	Mon, 30 Jun 2025 12:59:51 -0700 (PDT)
-Message-ID: <48f573941d64217240f4750534e17faf4af0e3f6.camel@collabora.com>
-Subject: Re: [PATCH] Input: mtk-pmic-keys: Fix null pointer dereference when
- no compatible data
-From: =?ISO-8859-1?Q?N=EDcolas?= "F. R. A. Prado" <nfraprado@collabora.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>, AngeloGioacchino Del Regno
-	 <angelogioacchino.delregno@collabora.com>
-Cc: Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>, Matthias Brugger
- <matthias.bgg@gmail.com>, kernel@collabora.com,
- linux-input@vger.kernel.org,  linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org,  linux-mediatek@lists.infradead.org
-Date: Mon, 30 Jun 2025 15:59:46 -0400
-In-Reply-To: <d373gpdyqejppdysdbb4k6aat5i33epnqsebxdkjbrgfwsnqtm@43si4kmjvsmq>
-References: 
-	<20250630-mtk-pmic-keys-fix-crash-v1-1-e47351fa9d1f@collabora.com>
-	 <28111607-d5a2-4b54-964a-d010fb99193a@collabora.com>
-	 <d373gpdyqejppdysdbb4k6aat5i33epnqsebxdkjbrgfwsnqtm@43si4kmjvsmq>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4-2 
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 685781B87F0;
+	Mon, 30 Jun 2025 20:18:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1751314728; cv=none; b=GBpZFjBO8ek9Vqdq539Ur+/UW7XSJQMKmnqdd+tPnSylmQzTeHeQFqTESJ8z7xYterWHQCwQN7mMN8IQS2kThOJ5oOboO7t6zi28d8wxwwyl/GAiZYGaDCzo/s2IrwwX+fj8wmOvYmI2PTfku6jkD1Q17pwwT09D57Ty0eFBICg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1751314728; c=relaxed/simple;
+	bh=eYoPCv26BZhs2vQSuqUEgy4rFDDGY1Mq39elidL1o9c=;
+	h=Message-ID:Date:MIME-Version:Cc:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=XeT3asNVSkZyQG2/eSVQRPvAp6s2JmwMNXH3QJzVnOkIprGlINTNjMigJlpY9wrykWX05pu8JAUsbRuw5H4232W+Ymtc/ePnQ+rBf9M80BQTLWz4JBWkFo/qmfF5wPfsMZYx2AvwDzgaE/DfF1MsUfQlfKOzRBGzZTnWsFvfRdA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=Q1WtwZb8; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+Received: from [100.65.217.140] (unknown [20.236.10.163])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 609F9201A4D4;
+	Mon, 30 Jun 2025 13:18:41 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 609F9201A4D4
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1751314721;
+	bh=OYVx5tw+fe13imVYo7TA01cwwd+U7WHshA4ZukKJRgc=;
+	h=Date:Cc:Subject:To:References:From:In-Reply-To:From;
+	b=Q1WtwZb8XoSmpH21gIaN1FdHF7ovSnxS++5F+tmAybOCqyLbn4yqrXqcp9eNqUu30
+	 ZmeHxa6p5dO8z+ALfs5GquJvs14UL/3SZ2si0ijJUnVDyuTKr0DSWti1knAsQ5E0es
+	 OLJLUEoU439jYz52/tWcmPBMyZ6tm5wlTGrfKPYE=
+Message-ID: <41f3cc74-694e-41be-b767-20c7561990b8@linux.microsoft.com>
+Date: Mon, 30 Jun 2025 13:18:40 -0700
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ZohoMailClient: External
+User-Agent: Mozilla Thunderbird
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ eahariha@linux.microsoft.com, kernel@collabora.com,
+ linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH] Input: mtk-pmic-keys: Fix null pointer dereference when
+ no compatible data
+To: Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>
+References: <20250630-mtk-pmic-keys-fix-crash-v1-1-e47351fa9d1f@collabora.com>
+From: Easwar Hariharan <eahariha@linux.microsoft.com>
+Content-Language: en-US
+In-Reply-To: <20250630-mtk-pmic-keys-fix-crash-v1-1-e47351fa9d1f@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, 2025-06-30 at 08:25 -0700, Dmitry Torokhov wrote:
-> On Mon, Jun 30, 2025 at 04:06:53PM +0200, AngeloGioacchino Del Regno
-> wrote:
-> > Il 30/06/25 16:03, Louis-Alexis Eyraud ha scritto:
->=20
-> [... snip ...]
->=20
-> > > @@ -316,6 +316,9 @@ static int mtk_pmic_keys_probe(struct
-> > > platform_device *pdev)
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0const struct of_devic=
-e_id *of_id =3D
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0of_match_device(of_mtk_pmic_keys_match_tbl,
-> > > &pdev->dev);
-> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (!of_id)
-> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0return -EINVAL;
-> >=20
-> > Please, change this to `return -ENODEV;`
->=20
-> No, this definitely should not be a "silent" error because it
-> indicates
-> there is something wrong with the kernel.
->=20
-> Stepping back, why do we even enter mtk_pmic_keys_probe() if there is
-> not a matching OF ID? Are there any other patches that are not
-> upstream?
+On 6/30/2025 7:03 AM, Louis-Alexis Eyraud wrote:
+> In mtk_pmic_keys_probe function, the of_match_device function is
+> called to retrieve the compatible platform device info but its return
+> data pointer is not checked. It can lead to a null pointer deference
+> later when accessing the data field, if of_match_device returned a null
+> pointer. So, add a pointer check after calling of_match_device function
+> and return an EINVAL error in null case.
+> 
+> Signed-off-by: Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>
+> ---
+> This patch fixes a NULL pointer dereference that occurs during the
+> mtk_pmic_keys driver probe and observed at least on Mediatek Genio
+> 1200-EVK board with a kernel based on linux-next (tag: 20250630),
+> when it is configured to have mtk_pmic_keys driver as builtin
+> (CONFIG_KEYBOARD_MTK_PMIC=y):
+> ```
+> Unable to handle kernel NULL pointer dereference at virtual address
+>   00000000000000c0
+> Mem abort info:
+>   ESR = 0x0000000096000004
+>   EC = 0x25: DABT (current EL), IL = 32 bits
+>   SET = 0, FnV = 0
+>   EA = 0, S1PTW = 0
+>   FSC = 0x04: level 0 translation fault
+> Data abort info:
+>   ISV = 0, ISS = 0x00000004, ISS2 = 0x00000000
+>   CM = 0, WnR = 0, TnD = 0, TagAccess = 0
+>   GCS = 0, Overlay = 0, DirtyBit = 0, Xs = 0
+> [00000000000000c0] user address but active_mm is swapper
+> Internal error: Oops: 0000000096000004 [#1]  SMP
+> Modules linked in:
+> CPU: 4 UID: 0 PID: 1 Comm: swapper/0 Not tainted 
+>   6.16.0-rc4-next-20250630-00001-gea99c662a089 #145 PREEMPT 
+> Hardware name: MediaTek Genio 1200 EVK-P1V2-EMMC (DT)
+> pstate: 60400009 (nZCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+> pc : mtk_pmic_keys_probe+0x94/0x500
+> lr : mtk_pmic_keys_probe+0x78/0x500
+> sp : ffff80008275bb30
+> x29: ffff80008275bb70 x28: ffff80008202bbb0 x27: ffff800081df00b0
+> x26: ffff800081ef9060 x25: ffff0000c6fcf400 x24: 0000000000000000
+> x23: 0000000000000000 x22: ffff0000c6fcf410 x21: ffff0000c09f8480
+> x20: ffff0000c09f4b80 x19: 0000000000000000 x18: 00000000ffffffff
+> x17: ffff8000824cb228 x16: 00000000d7fcbc9e x15: ffff0000c0a2b274
+> x14: ffff80008275bad0 x13: ffff0000c0a2ba1c x12: 786d692d696d6373
+> x11: 0000000000000040 x10: 0000000000000001 x9 : 0000000000000000
+> x8 : ffff0000c09f8500 x7 : 0000000000000000 x6 : 000000000000003f
+> x5 : 0000000000000040 x4 : ffff0000c6fcf410 x3 : ffff0000c6fcf6c0
+> x2 : ffff0000c09f8400 x1 : ffff0000c36da000 x0 : ffff0000c6fcf410
+> Call trace:
+>  mtk_pmic_keys_probe+0x94/0x500 (P)
+>  platform_probe+0x68/0xdc
+>  really_probe+0xbc/0x2c0
+>  __driver_probe_device+0x78/0x120
+>  driver_probe_device+0x3c/0x154
+>  __driver_attach+0x90/0x1a0
+>  bus_for_each_dev+0x7c/0xdc
+>  driver_attach+0x24/0x30
+>  bus_add_driver+0xe4/0x208
+>  driver_register+0x68/0x130
+>  __platform_driver_register+0x24/0x30
+>  pmic_keys_pdrv_init+0x1c/0x28
+>  do_one_initcall+0x60/0x1d4
+>  kernel_init_freeable+0x24c/0x2b4
+>  kernel_init+0x20/0x140
+>  ret_from_fork+0x10/0x20
+> Code: aa1603e0 f90006b6 f9400681 f9000aa1 (f9406261) 
+> ---[ end trace 0000000000000000 ]---
+> ```
+> ---
+>  drivers/input/keyboard/mtk-pmic-keys.c | 3 +++
+>  1 file changed, 3 insertions(+)
 
-I'm guessing it's because the driver can be probed by a parent MFD
-driver, drivers/mfd/mt6397-core.c, and the compatibles defined in the
-MFD don't necessarily match the ones in the pmic-keys driver, for
-instance 'mediatek,mt6359-keys' is only listed in the MFD. Adding the
-missing compatibles to the pmic-keys driver should fix this.
+It's preferred to have the stack trace in the commit message body rather than below
+the cut line to allow for searching for the oops message in git history.
 
+Also, it may make sense to CC: stable@vger.kernel.org for backports
 
---=20
 Thanks,
-
-N=C3=ADcolas
+Easwar (he/him)
 
