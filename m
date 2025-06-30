@@ -1,86 +1,86 @@
-Return-Path: <linux-input+bounces-13188-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13189-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67883AED8C1
-	for <lists+linux-input@lfdr.de>; Mon, 30 Jun 2025 11:33:19 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 18FBBAED8CC
+	for <lists+linux-input@lfdr.de>; Mon, 30 Jun 2025 11:34:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 574D43B53D5
-	for <lists+linux-input@lfdr.de>; Mon, 30 Jun 2025 09:32:53 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7179B3B633A
+	for <lists+linux-input@lfdr.de>; Mon, 30 Jun 2025 09:34:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F922244683;
-	Mon, 30 Jun 2025 09:33:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9681F246BB0;
+	Mon, 30 Jun 2025 09:34:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ShNzzdJ6"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Yc9TT+/3"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91C90242D6C;
-	Mon, 30 Jun 2025 09:32:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEFC4246765;
+	Mon, 30 Jun 2025 09:34:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751275980; cv=none; b=j2GF6RwUA2Xb/OqKaQ0yztpZkpvCt+jqVZ8/9F9c7j6fOP+wPKLLbSP5CTVu0ziq8d+4CoPeT4OlqqtrQwZzlukuYvR6vJ/va+n0J+upL7/McbFW/rqhOVhbl/M5gZGywp8P3QKM3o5b5gkf8CjK3RDOA291XaLK6bNA1gnxZCc=
+	t=1751276042; cv=none; b=QbHT1fizUTKXrPHZmj7vkerM2y5WayLSjeqFWXaVv8br1rdZkMjYaSZ914pEqJZx+i1O32upciZORO4PhqDpStgrL4+iV+ZQ01nSeRt1v7UP2EIlLw9HCGmDcWxk8js6zHsz3xhrawgVqKyQf9HbT0UAOK3G3oqlt9Jc1QsVArg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751275980; c=relaxed/simple;
-	bh=cmRrk0/alHFnMCDh8ZgBmDGAlsiNNk6OQwjwWvua4eE=;
+	s=arc-20240116; t=1751276042; c=relaxed/simple;
+	bh=lKvKAZPsS/KYd+XrqLIcBDlTMIP0wJNpfc9MKVQDw0Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gawP9Ve4L9VswbWp16oKtiCLryGmGmUGxUhK7LvAsCOmyWo8iuCyI0HXy8CerO7pICa95o85jl2LUAVTlfEQ3y/ePU6JqPW3331MtprFpmJreb97Rcq2RXSURDl9WEyVFlus0W71KEVjXPwOb7txmjIgXsiPITNBdXWEZaOuLDU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ShNzzdJ6; arc=none smtp.client-ip=209.85.221.48
+	 Content-Type:Content-Disposition:In-Reply-To; b=eUYMz0r5VE5UpWoibWpUGcc1fXIT5ZoHJvtEKwI+tlmHX8K0J6B4wJJ8wnAFit34VufrKuzlfhzpnEgueWdhMcBHXujz0ceCqcDX6LkNTbdMqxVMo7b+lmhRkrjjI5ieqXGgtCbloOhC2j0DKFr2k4zx4jyK6e3U/7rIThintlA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Yc9TT+/3; arc=none smtp.client-ip=209.85.128.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-3a6cdc27438so1587354f8f.2;
-        Mon, 30 Jun 2025 02:32:58 -0700 (PDT)
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-450ce671a08so11440575e9.3;
+        Mon, 30 Jun 2025 02:34:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751275977; x=1751880777; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1751276039; x=1751880839; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=3EpjeoxeqTMuRKQnTiajZ8lmWioJMNpbepadmsjR9rk=;
-        b=ShNzzdJ6X//3PXalcNrI6T8GnKFxapjbwLrLKOmaP4MRyc9LSk0kUtl3F2YY+0UPae
-         opMw+MHtud+FqWRpE7YkLo4LLEtqViiU41pLKcW8jTIWobrdFkMlJWm3uMXDrIu7hnP+
-         hiXBQPCGjvaZhK5XNadwgOVZ5BuUhmkhcwEd42Dpyl61ugU1O8iAPZteTzduVSnQV9uZ
-         f/7qHPRSeiCARTkfH9FR+uY2sgVhWnSTfhHNY1ezRVwPGUc/cis8bXBh0J4vxnQsafUQ
-         hvXH8V3Q7tkmIs3wizXhsblhKrLfXD6x49IlOOftPIwTBOQmYpJ5nf5NXmHym+XicX3o
-         dGDQ==
+        bh=v7ZTVpIkruy1/6yYqzE1LD33CXiYUWxEYB34IGforkg=;
+        b=Yc9TT+/3fvPY1QL0MSjrSwCgHCZafOP0w1ndPUuOTI4TS995agKmyNwoc0qZZkiHc4
+         c3sAPHUIDIzq3TNO9+XKuH2aqn6wtjkrnrPDPhbQawDmbPSiRnFo/VRLAbEbtTcDOTFe
+         Q6mYP5FsrFXYHlPCLLZdCi46mIy3clj85qJgwhP89D3Y25pxCZJElMIl5j2OjznSYIzf
+         9ha16fE6tglwmJCj+OoIAsehBjGWcUerGAmgy+gZ0+4t9lbE50PpmcOZUDgiKnw8MiS/
+         0cr3rwGO0qoueoOPmg02jaAqwtNXOr/6E17cJQg7uEOzzkv0BJeG3atCgNVnH/YUT3tr
+         h87g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751275977; x=1751880777;
+        d=1e100.net; s=20230601; t=1751276039; x=1751880839;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=3EpjeoxeqTMuRKQnTiajZ8lmWioJMNpbepadmsjR9rk=;
-        b=s0QihumOlCjgQyaiCIRmaQouuro7ZOxHvfk4gT6TfyzqjRw8yJQis3xM36u9CbN9q7
-         Ta7ofH5FS0Lg3nXnwwIsx9esLb5Rt9OLmguH/uctKwwYSnvaOCjPVTqE2iu1JCT4vdmH
-         9JzCiTEqLtkIU5eSyOw9SL1bjBwetGz6beBgsQJS5+UYroebXgMoZo10NTUY0940RILs
-         nfvLIrm3sACmYcLFS9svZwFdsLPiC5DtRpqxDYOdmhyg/717OTuYQOcdtCTZjwT8AFY0
-         MITxLr13QZkTjmdeoRnrqQaEVTJk4l0Mu0tl+Nl91OxULJc6Ciq5lwMZWk9Xvt9iCfNT
-         xEaA==
-X-Forwarded-Encrypted: i=1; AJvYcCX2BRH1Yfj6aVXa/U8pkZDSzzcEctcRc5kAinzzSsM0dvpcLaw+HeZTa71lfw28nwGmWRHBLOpNX78fsg==@vger.kernel.org, AJvYcCXi9E/LZZRFGresND4x8xXD9C6FlVxkwjpmwbdAUhuPdij8pJSO8MZbhPovCO3I1O/gK2NTsfSVVNYnVFT4@vger.kernel.org
-X-Gm-Message-State: AOJu0Yya6Va7FXOm8p1DB+xaZqR+2Ejl+jQeWQk5lVOo+t1z4lFpAg5B
-	rS665LptUXoUS71bq5mWpL32GbUvb1rJ6Ur4LXYMTUj1fh+Z1Kf9mgJw
-X-Gm-Gg: ASbGncvC82VpmaKhyy4dPSjssjkew2Yj3Nk4tRsDnXVlo2K0+iwuknOWq/0NJzvokii
-	Hm+/qFv2lsdISzQIvGftA38bGGkADXAHd2obosi/44B6FV6lnXbE027xkFnJZPeEfTzLKHa8Da9
-	hmj2duLCnK+tRbX8oLa6D/CvEFBGgTSdlAn/MNMbwJrJUYGPkcQuqzT2zzeljf7g4R5SU7YoWNc
-	afoj6FJstTR/svnuJKe/zf9agD9i2wBG4QNo4e9joVMrqbSZ/VMFip0vX3GFX4JvwVLTHEC+u3+
-	arx0Bg/KzP10qkasEVQHSGUbsehIT9gjQ98LQeJhjjbgRB3059FNBQt/A/E=
-X-Google-Smtp-Source: AGHT+IGHvz7hvIJ1+tHuW3jfh163ytUZXhFdLp1KKKYn3HMiIW+9gH2CLBSNlrNBIT+tb0MdMi6pCg==
-X-Received: by 2002:a05:6000:2a04:b0:3a4:ee3f:e9a6 with SMTP id ffacd0b85a97d-3a8feb8479fmr7995116f8f.54.1751275976472;
-        Mon, 30 Jun 2025 02:32:56 -0700 (PDT)
+        bh=v7ZTVpIkruy1/6yYqzE1LD33CXiYUWxEYB34IGforkg=;
+        b=d1ZIx9SHQKJ4oewaGvJVa7iXXsGeYI/B1M0D2qT6o1IhPkqkPVEUyQXHJQSeRIao+h
+         stZnoVYZeCRfEHzBUM92GPjXXIsqAii7VTiiY7lLE7dc7XXtB4yYPell8zT540xpIDp+
+         WLFpyYcrv8twCnEj2NgwuZ9GUFdOoBwBXbxjDB6CN9ACWwiY+TMXeLPks/wQj66lJdk3
+         U752YmYBvn7Fm9rguJojzmk0n+KezBYwsY5PejR5cRXvubIsGk6cXPAtE3OX3oKcVX4F
+         EcGHUEPCgpdY75SdKupaBk77Io1qj26QjhXu0yr531eRArGCedmQGx6e8tz+CG0oQZFn
+         ADUA==
+X-Forwarded-Encrypted: i=1; AJvYcCVBvjCEhSY0Zt1vHVnRF96jVPZXgJazeeTGKVAaHcXfT47zXM6OSPJDmet2lo3HNXbr4z2R/rSCHZmYBg==@vger.kernel.org, AJvYcCWH17ZSJHgKjSirjNbkIr9t2a/DcPYE24VASJ5glbXxY1cnRgVEA0dMLRCR1rPl3U/k28NCRop8CTCc7T/v@vger.kernel.org
+X-Gm-Message-State: AOJu0YyJjNBC1JhmNWL7ZuFSLhpagelmE5slEmjaZxIax4vbbzKY0ULT
+	YJ9Py17Lmkkvf595qt58+HuDJ1ZhNYCHNSDa8aY+QJ8UY/xer9JGotgT
+X-Gm-Gg: ASbGncvy8/1uhSachY7t8TqYqzPgipiT8DqhsM2MWqBsa0WVHn0Czr/x5effB7OG8G1
+	+1B+K2lfUn9WGm6V5A3/ngnSFOFUxVVzGyFju9jcPxrEm0XRg5r7TEUpX26NhPS2F4mdNVwlONX
+	yDROIZ6xEPQMjEX6BxzmoOl4gdgeFBvRsNHErCxnUBU1QzsxbPJ0e0iIpOn/95OacstDxCfj8Z8
+	VP/kIVgpsFFdfUjlgGUUBZhZkth0vVqRoRNenCkYKHAKl54QRT3TGSerq/MFq6JMJRCkTyaLbpp
+	0x/mZqBWKmcS7PiAumYGl8L6XK+cL03v1qq5UslsRp/LHa49TPYKVN0h3vI=
+X-Google-Smtp-Source: AGHT+IGKfXk732rhiWztdNceNorQETUHYReSZk9+wn+MlI8DijKdKrW4IoL0uoGwato1K0rcRQndCw==
+X-Received: by 2002:a05:600c:1c25:b0:442:f482:c429 with SMTP id 5b1f17b1804b1-453a349da7dmr13780585e9.8.1751276038748;
+        Mon, 30 Jun 2025 02:33:58 -0700 (PDT)
 Received: from fedora ([94.73.34.56])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a88c80bb28sm9684934f8f.43.2025.06.30.02.32.55
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-453823ad1adsm159957825e9.24.2025.06.30.02.33.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Jun 2025 02:32:56 -0700 (PDT)
-Date: Mon, 30 Jun 2025 11:32:54 +0200
+        Mon, 30 Jun 2025 02:33:58 -0700 (PDT)
+Date: Mon, 30 Jun 2025 11:33:56 +0200
 From: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
 To: Aditya Garg <gargaditya08@live.com>
 Cc: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>,
 	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] HID: magicmouse: avoid setting up battery timer when
- not needed
-Message-ID: <aGJZxlV-Vyi0EDN7@fedora>
+Subject: Re: [PATCH 1/2] HID: apple: avoid setting up battery timer for
+ devices without battery
+Message-ID: <aGJaBJLwA7vbq32k@fedora>
 References: <PN3PR01MB95973218D6B4ECDAE8ECF60BB87BA@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
- <PN3PR01MB95970C5D46483D0367C1D63CB87BA@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+ <PN3PR01MB9597321C9A619D3CB336FB23B87BA@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -89,87 +89,61 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <PN3PR01MB95970C5D46483D0367C1D63CB87BA@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+In-Reply-To: <PN3PR01MB9597321C9A619D3CB336FB23B87BA@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
 
-Hi Aditya,
-
-On Wed, Jun 25, 2025 at 07:46:04PM +0530, Aditya Garg wrote:
-> Currently, the battery timer is set up for all devices using
-> hid-magicmouse, irrespective of whether they actually need it or not.
+On Wed, Jun 25, 2025 at 07:46:03PM +0530, Aditya Garg wrote:
+> Currently, the battery timer is set up for all devices using hid-apple,
+> irrespective of whether they actually have a battery or not.
 > 
-> The current implementation requires the battery timer for Magic Mouse 2
-> and Magic Trackpad 2 when connected via USB only. Add checks to ensure
-> that the battery timer is only set up when they are connected via USB.
+> APPLE_RDESC_BATTERY is a quirk that indicates the device has a battery
+> and needs the battery timer. This patch checks for this quirk before
+> setting up the timer, ensuring that only devices with a battery will
+> have the timer set up.
 > 
-> Fixes: 0b91b4e4dae6 ("HID: magicmouse: Report battery level over USB")
+> Fixes: 6e143293e17a ("HID: apple: Report Magic Keyboard battery over USB")
 > Cc: stable@vger.kernel.org
 > Signed-off-by: Aditya Garg <gargaditya08@live.com>
 > ---
->  drivers/hid/hid-magicmouse.c | 36 +++++++++++++++++++++++-------------
->  1 file changed, 23 insertions(+), 13 deletions(-)
+>  drivers/hid/hid-apple.c | 13 ++++++++-----
+>  1 file changed, 8 insertions(+), 5 deletions(-)
 > 
-> diff --git a/drivers/hid/hid-magicmouse.c b/drivers/hid/hid-magicmouse.c
-> index f49405d38..3e531905b 100644
-> --- a/drivers/hid/hid-magicmouse.c
-> +++ b/drivers/hid/hid-magicmouse.c
-> @@ -863,18 +863,22 @@ static int magicmouse_probe(struct hid_device *hdev,
+> diff --git a/drivers/hid/hid-apple.c b/drivers/hid/hid-apple.c
+> index b8b99eb01..b9f45c089 100644
+> --- a/drivers/hid/hid-apple.c
+> +++ b/drivers/hid/hid-apple.c
+> @@ -959,10 +959,12 @@ static int apple_probe(struct hid_device *hdev,
 >  		return ret;
 >  	}
 >  
-> -	timer_setup(&msc->battery_timer, magicmouse_battery_timer_tick, 0);
-> -	mod_timer(&msc->battery_timer,
-> -		  jiffies + msecs_to_jiffies(USB_BATTERY_TIMEOUT_MS));
-> -	magicmouse_fetch_battery(hdev);
-> -
-> -	if (id->vendor == USB_VENDOR_ID_APPLE &&
-> -	    (id->product == USB_DEVICE_ID_APPLE_MAGICMOUSE2 ||
-> -	     id->product == USB_DEVICE_ID_APPLE_MAGICMOUSE2_USBC ||
-> -	     ((id->product == USB_DEVICE_ID_APPLE_MAGICTRACKPAD2 ||
-> -	       id->product == USB_DEVICE_ID_APPLE_MAGICTRACKPAD2_USBC) &&
-> -	      hdev->type != HID_TYPE_USBMOUSE)))
-> -		return 0;
-> +	if (id->vendor == USB_VENDOR_ID_APPLE) {
-> +		bool is_mouse2 = (id->product == USB_DEVICE_ID_APPLE_MAGICMOUSE2 ||
-> +				  id->product == USB_DEVICE_ID_APPLE_MAGICMOUSE2_USBC);
-> +		bool is_trackpad2 = (id->product == USB_DEVICE_ID_APPLE_MAGICTRACKPAD2 ||
-> +				     id->product == USB_DEVICE_ID_APPLE_MAGICTRACKPAD2_USBC);
-> +
-> +		if (is_mouse2 || is_trackpad2) {
-> +			timer_setup(&msc->battery_timer, magicmouse_battery_timer_tick, 0);
-> +			mod_timer(&msc->battery_timer,
-> +				  jiffies + msecs_to_jiffies(USB_BATTERY_TIMEOUT_MS));
-> +			magicmouse_fetch_battery(hdev);
-> +		}
-> +
-> +		if (is_mouse2 || (is_trackpad2 && hdev->type != HID_TYPE_USBMOUSE))
-> +			return 0;
+> -	timer_setup(&asc->battery_timer, apple_battery_timer_tick, 0);
+> -	mod_timer(&asc->battery_timer,
+> -		  jiffies + msecs_to_jiffies(APPLE_BATTERY_TIMEOUT_MS));
+> -	apple_fetch_battery(hdev);
+> +	if (quirks & APPLE_RDESC_BATTERY) {
+> +		timer_setup(&asc->battery_timer, apple_battery_timer_tick, 0);
+> +		mod_timer(&asc->battery_timer,
+> +			  jiffies + msecs_to_jiffies(APPLE_BATTERY_TIMEOUT_MS));
+> +		apple_fetch_battery(hdev);
 > +	}
+>
 
-Instead of duplicating these conditions here and in magicmouse_remove(),
-you could move them into a helper function.
-
-Also, watch out the `err_stop_hw:` error case, the timer could be used
-there uninitialized.
+The same here, the `out_err:` error case uses the timer and it can
+be uninitialized.
 
 Jose
 
->  	if (!msc->input) {
->  		hid_err(hdev, "magicmouse input not registered\n");
-> @@ -947,7 +951,13 @@ static void magicmouse_remove(struct hid_device *hdev)
+>  	if (quirks & APPLE_BACKLIGHT_CTL)
+>  		apple_backlight_init(hdev);
+> @@ -985,7 +987,8 @@ static void apple_remove(struct hid_device *hdev)
+>  {
+>  	struct apple_sc *asc = hid_get_drvdata(hdev);
 >  
->  	if (msc) {
->  		cancel_delayed_work_sync(&msc->work);
-> -		timer_delete_sync(&msc->battery_timer);
-> +		if (hdev->vendor == USB_VENDOR_ID_APPLE &&
-> +		    (hdev->product == USB_DEVICE_ID_APPLE_MAGICMOUSE2 ||
-> +		     hdev->product == USB_DEVICE_ID_APPLE_MAGICMOUSE2_USBC ||
-> +		     hdev->product == USB_DEVICE_ID_APPLE_MAGICTRACKPAD2 ||
-> +		     hdev->product == USB_DEVICE_ID_APPLE_MAGICTRACKPAD2_USBC))
-> +
-> +			timer_delete_sync(&msc->battery_timer);
->  	}
+> -	timer_delete_sync(&asc->battery_timer);
+> +	if (asc->quirks & APPLE_RDESC_BATTERY)
+> +		timer_delete_sync(&asc->battery_timer);
 >  
 >  	hid_hw_stop(hdev);
+>  }
 > -- 
 > 2.43.0
 > 
