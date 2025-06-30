@@ -1,120 +1,205 @@
-Return-Path: <linux-input+bounces-13197-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13198-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E535AED9AB
-	for <lists+linux-input@lfdr.de>; Mon, 30 Jun 2025 12:20:51 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 09F20AEDA04
+	for <lists+linux-input@lfdr.de>; Mon, 30 Jun 2025 12:39:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id AE5757A8CC4
-	for <lists+linux-input@lfdr.de>; Mon, 30 Jun 2025 10:19:26 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9F6A07A2BCA
+	for <lists+linux-input@lfdr.de>; Mon, 30 Jun 2025 10:37:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD7EF25B31E;
-	Mon, 30 Jun 2025 10:20:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 09A0C244688;
+	Mon, 30 Jun 2025 10:39:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="V646PLmc"
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="1P0BXyGk"
 X-Original-To: linux-input@vger.kernel.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0380F25B2FD;
-	Mon, 30 Jun 2025 10:20:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751278809; cv=pass; b=KKGls9TR4S6IREmUXxywWs9DZvYkmZW7IttwdymI0ZmZr2I01cZL6v4YSVXCpmCJYSLJ23G8Syr/xpLoaouUGz5gZo7g5QPnBfp4jlbMv8mEfwvTJY8mdwq6+rC8sV6yDg0DFOn+BVdO55QPj2bqpJ3Ri3jLgtiqUQsi8mghucw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751278809; c=relaxed/simple;
-	bh=5IKHBKNkvDIqPBpGJU+iUfBRQ0Xc7cnG5YynHtBb5a0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=us3ZFVP977znkRnI8LrtDZD0fpSNI8qW48XyN6G2V4MSMzEkCD9EOoFrgmVtwVQBaTqwytpPgmkcBGxYKuB2cU0aFSbUC8f2njDc6H1FjdS/c6MS1DAVTNIFYKMLt1Avk9s/KLAqM+8OBuJlCONtisonro+M11Acp0H7E+ElcYI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b=V646PLmc; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1751278786; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=R+XsFmJlOH88IPsfmTD8tDk8RlbfWYQS8CSLDpRd2LvIOpVOD7Dm3hDLgBinQLA4CNNc/G14bapI+9XdK1FGzEVMudSq9Ca0i6dOp2TyhoFyvLOx1cvb35uuuDX9r/zqyCaD5qe2oXal61UvDlH431rTVsDiA5wnv3udMAY0u3g=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1751278786; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=DVGNQK3ovA1eStReJPPWHDBj+E6PFN3lZlWCymwT7kA=; 
-	b=gg4y2DBoW9TKvUNNXly/AJWjkkICsOzIuY2Evbzn6psahfRaXgkvcS6L+f+55zBA3YCwKzLXmM8DmMKZ2R5digvIejp3mGJQWGLaKyaa/MZx+lyQ/Ulh3zerGqe2wBa9jzvTMy+yc0l5SW3fIXcbsHVKHdZ89Cb+FsAbyjvKnSo=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
-	dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1751278786;
-	s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
-	h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:References:In-Reply-To:To:To:Cc:Cc:Reply-To;
-	bh=DVGNQK3ovA1eStReJPPWHDBj+E6PFN3lZlWCymwT7kA=;
-	b=V646PLmcVVU+4vqXaywt467wXSxznevX+2nnj9Y+ClnwXT/t3J07FZRwilpzrx9s
-	l9KyRR4S+bKU1DIPh6e7jWhiiz4S6cQ1CLvrk8XsHXS6n5bRJdT1sSo6cTeC+AnkHsk
-	3rI/iK9O30eumSFoaJiaZjZyPIZx4LExc/BzICyw=
-Received: by mx.zohomail.com with SMTPS id 1751278785189692.9528694352027;
-	Mon, 30 Jun 2025 03:19:45 -0700 (PDT)
-From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Date: Mon, 30 Jun 2025 12:19:27 +0200
-Subject: [PATCH 4/4] arm64: dts: rockchip: add HDMI audio on ROCK 4D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA366246BB0
+	for <linux-input@vger.kernel.org>; Mon, 30 Jun 2025 10:38:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1751279943; cv=none; b=GW9WBdBmwbJhKrT8CyoBB6Y6JKr2WW4U8r4+KSd29/u4B62Trc0b2HCJuTMOblTGWO5JDTq0fjKPrc6iU95L0QYqtn1fTtLoIfiTAW7ePbJ11wHFZ6W0+6nhQL1pRcTZ24Cvr/LO1qfTmHwGWWmgkdu5SDzwIgvPa1GlYp7Pjwk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1751279943; c=relaxed/simple;
+	bh=k+KdiBc/mn9/dxOM7/q9Js58Njn0x+1gGICxsNrcqqE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=nPR5X6RUVy5Zp7tjgVk10afD2D2YsqjVUN70iA/k9Slq+Mr0hUkDK5qI8twJdjYnSfS47HcQA+GLJqqviNfj7g+N6o8WKeofCwZQS3QXntTpbSfHjqa/wGgGcBI1j3b1wkNUSM5IbV6KgwJ9hRiUgFNDY0hfOF901aca6xP+jrs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=1P0BXyGk; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-453643020bdso37648755e9.1
+        for <linux-input@vger.kernel.org>; Mon, 30 Jun 2025 03:38:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1751279938; x=1751884738; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=pKPFv0V+pZESiVXTlV4K0nr8wRpUOdISl/cJt2AvE7Q=;
+        b=1P0BXyGk9pvxXdPXD/cgN6WGvwPgb1y9/rLoh/CSwa07yf32lif4LelGJG0F/zLsh9
+         p3jOwoG9dBq/Tfu7sEpIhK2sUF/Whpuy13SaJHTxF/r7dVT7Q8cMZvo0ABBqqdcJs57Q
+         zBGqDbjMZSD9S+/URKnaeecuSTTevVKXiFkBXg8030+TrdkncLubm385pEuRk1A++s/s
+         4/0mOkdfDLXrr3ZhH6jnEVBByd/0g1Dm62pG4x7SWeejN7dv3W+r8dYHhYooyFwuFIsI
+         D9IMjao1YomcwGFA3gaDX3bXUBp/8rEqpxReDB0SFt9ArMb8FhjFZqTdTL8c5/PZ8bAZ
+         cx/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751279938; x=1751884738;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=pKPFv0V+pZESiVXTlV4K0nr8wRpUOdISl/cJt2AvE7Q=;
+        b=REkXY6LWsG+APfc2u12iNQhepPf4ylpA0DsJV2rTEqK9v0WT7plCu++MShOjXMx1YY
+         wXBLSrYA03ubBa42q+ubm8kBa9u0nYiidEpzdZaFg+CGYvq96zexxugRkS+DlkbmRtrC
+         YTW77HFbB/sf+Z7/P0DU28fjCIhhhs//3nhOb5lk3kkiaFh2LbROQapb9ZC7yebo3ika
+         VImnLxTQbn3G7dSSh1GBbi5ujn/sQxc+f0lKgvw2cBeHWuZ4xNpR51laXlayp55qnqQ2
+         khEVTUCt44sYvq7P1+5h6w3dj/pPXPZBwRNs/dN3DTxdfurpJZZD3s8lb7OS+GqqnI4N
+         cssQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXTxsWAQjrlcCGcbCiSvYqELpZY+aO/PPMsautyf91LGspKMMaDoWuCix6Fhn0d+HnI7XDEr4n4XiDKzw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwM7jCr/fMpk2/NVngGcv4QUnP/sGlA0sDgga0lCXI4i/f8tq/q
+	IuJOU9bni8H7ifeLeXsshVL0IoIURkbmUR5HTdC6ymnxX0g+ne4QbtQKvIXDfulemb4=
+X-Gm-Gg: ASbGnctwPGJVATUH+S6Y/b33ITEw6beQjKuMc6Iz8A+vDmHkNayz0dkUowK4gLTEDHI
+	AgMj3FWvc99z8to0lmTnM2ZdyUCXbf+oCgtHfXg6iA5P0SSbCoYD+QpQJCnMfxSJieaadhtAATb
+	JbFIJusDI4HxecNoaV13gGFd2pAJsAVnKVOsBvQYoM7JWwaCk7IkennUAZbW/qt+rbwuHXTX3Yz
+	YiIOAXaz8QZ4shN98whvtQIvL+fz2IYu86fDDb4euu82PdcTffgl31nHMbyDUVisEWy58v3LEVo
+	9Og+fIoB/uCxynDPjvSq2ZzvXvtdwq24wGr4eyP8ZYZBYjM/WmK7Iq1ZAjvJre+b+AneRFnZEEs
+	Bkoa9GVa242MwqgYCArSK6jy6VV4k
+X-Google-Smtp-Source: AGHT+IGQBOAh6OVZ+HZ1cI2mDIcxZrj9eqOdGnasJJmCHYG7j8eYyesoWgNtmAzeQUKiNeAqEUmQzQ==
+X-Received: by 2002:a05:600c:530d:b0:442:ffa6:d07e with SMTP id 5b1f17b1804b1-4538ef33a85mr110955955e9.1.1751279938109;
+        Mon, 30 Jun 2025 03:38:58 -0700 (PDT)
+Received: from localhost (p200300f65f06ab0400000000000001b9.dip0.t-ipconnect.de. [2003:f6:5f06:ab04::1b9])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-453823ad247sm166168555e9.26.2025.06.30.03.38.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 30 Jun 2025 03:38:57 -0700 (PDT)
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Dzmitry Sankouski <dsankouski@gmail.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	linux-input@vger.kernel.org,
+	linux-pwm@vger.kernel.org
+Subject: [PATCH] Input: max77693 - Convert to atomic pwm operation
+Date: Mon, 30 Jun 2025 12:38:50 +0200
+Message-ID: <20250630103851.2069952-2-u.kleine-koenig@baylibre.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250630-rock4d-audio-v1-4-0b3c8e8fda9c@collabora.com>
-References: <20250630-rock4d-audio-v1-0-0b3c8e8fda9c@collabora.com>
-In-Reply-To: <20250630-rock4d-audio-v1-0-0b3c8e8fda9c@collabora.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Alexandre Belloni <alexandre.belloni@bootlin.com>, 
- Heiko Stuebner <heiko@sntech.de>
-Cc: kernel@collabora.com, linux-input@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
- Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-X-Mailer: b4 0.14.2
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3333; i=u.kleine-koenig@baylibre.com; h=from:subject; bh=k+KdiBc/mn9/dxOM7/q9Js58Njn0x+1gGICxsNrcqqE=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBoYmk7wPWiAi8LAdOScIKTkakQztMgFPRswZ5mv aVSRMnlKqKJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCaGJpOwAKCRCPgPtYfRL+ TgzDB/0Q1JenZXtZn1GQW0a9EQa1N/RXm0uzgSm2WwyvZcJZz9fsZKJ5kzw/Kg88EOC/GL/2FtW WaeqaKTlX0kE+S7+iuohPXSMztxveWxSNsQWLsykgzQNnDHlTDK80ZcgH2nUk+cZ3ZE9IkRqmaS JAnewZ8b+Hbkpw5lIZj2nORB7/Mp1gGtU7whdnMuCd704O/5kyM63odGBPFR1rfMM4B6W1sR4Lj 5l5273eE8SlecOmVZSdjbHIOdim7eivsQqqDDTM2DYpmdnfbfj/w7KsRopstaG+SpleFRijWv5z n2IsDWzczxkqj7SQWFw2naMOlwE/MFjRudx0VwaHHEA+z1Fg
+X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
 
-Much like the Sige5, the ROCK 4D also has an HDMI port, so is capable of
-providing HDMI audio output as well.
+The driver called pwm_config() and pwm_enable() separately. Today both
+are wrappers for pwm_apply_might_sleep() and it's more effective to call
+this function directly and only once. Also don't configure the
+duty_cycle and period if the next operation is to disable the PWM so
+configure the PWM in max77693_haptic_enable().
 
-Enable the SoC's hdmi_sound card, and also enable the SoC audio
-controller (sai6) that feeds into it.
+With the direct use of pwm_apply_might_sleep() the need to call
+pwm_apply_args() in .probe() is now gone, too, so drop this one.
 
-Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@baylibre.com>
 ---
- arch/arm64/boot/dts/rockchip/rk3576-rock-4d.dts | 8 ++++++++
- 1 file changed, 8 insertions(+)
+Hello,
 
-diff --git a/arch/arm64/boot/dts/rockchip/rk3576-rock-4d.dts b/arch/arm64/boot/dts/rockchip/rk3576-rock-4d.dts
-index 4d4b8ababd2436b82515443b029916b3c786dba1..70bc6f909ec0843607c2705ee9f73b0ba521a977 100644
---- a/arch/arm64/boot/dts/rockchip/rk3576-rock-4d.dts
-+++ b/arch/arm64/boot/dts/rockchip/rk3576-rock-4d.dts
-@@ -322,6 +322,10 @@ hdmi_out_con: endpoint {
- 	};
+the motivation for this patch is getting rid of pwm_config(),
+pwm_enable() and pwm_apply_args(). I plan to remove these once all
+callers are fixed to use pwm_apply_might_sleep().
+
+Best regards
+Uwe
+
+ drivers/input/misc/max77693-haptic.c | 41 ++++++----------------------
+ 1 file changed, 8 insertions(+), 33 deletions(-)
+
+diff --git a/drivers/input/misc/max77693-haptic.c b/drivers/input/misc/max77693-haptic.c
+index 1dfd7b95a4ce..ecb3e8d541c3 100644
+--- a/drivers/input/misc/max77693-haptic.c
++++ b/drivers/input/misc/max77693-haptic.c
+@@ -66,23 +66,6 @@ struct max77693_haptic {
+ 	struct work_struct work;
  };
  
-+&hdmi_sound {
-+	status = "okay";
-+};
-+
- &hdptxphy {
- 	status = "okay";
- };
-@@ -772,6 +776,10 @@ &sai1m0_sdi0
- 	status = "okay";
- };
+-static int max77693_haptic_set_duty_cycle(struct max77693_haptic *haptic)
+-{
+-	struct pwm_args pargs;
+-	int delta;
+-	int error;
+-
+-	pwm_get_args(haptic->pwm_dev, &pargs);
+-	delta = (pargs.period + haptic->pwm_duty) / 2;
+-	error = pwm_config(haptic->pwm_dev, delta, pargs.period);
+-	if (error) {
+-		dev_err(haptic->dev, "failed to configure pwm: %d\n", error);
+-		return error;
+-	}
+-
+-	return 0;
+-}
+-
+ static int max77843_haptic_bias(struct max77693_haptic *haptic, bool on)
+ {
+ 	int error;
+@@ -167,17 +150,22 @@ static int max77693_haptic_lowsys(struct max77693_haptic *haptic, bool enable)
+ static void max77693_haptic_enable(struct max77693_haptic *haptic)
+ {
+ 	int error;
++	struct pwm_state state;
  
-+&sai6 {
-+	status = "okay";
-+};
+-	if (haptic->enabled)
+-		return;
++	pwm_init_state(haptic->pwm_dev, &state);
++	state.duty_cycle = (state.period + haptic->pwm_duty) / 2;
++	state.enabled = true;
+ 
+-	error = pwm_enable(haptic->pwm_dev);
++	error = pwm_apply_might_sleep(haptic->pwm_dev, &state);
+ 	if (error) {
+ 		dev_err(haptic->dev,
+ 			"failed to enable haptic pwm device: %d\n", error);
+ 		return;
+ 	}
+ 
++	if (haptic->enabled)
++		return;
 +
- &saradc {
- 	vref-supply = <&vcca1v8_pldo2_s0>;
- 	status = "okay";
+ 	error = max77693_haptic_lowsys(haptic, true);
+ 	if (error)
+ 		goto err_enable_lowsys;
+@@ -224,13 +212,6 @@ static void max77693_haptic_play_work(struct work_struct *work)
+ {
+ 	struct max77693_haptic *haptic =
+ 			container_of(work, struct max77693_haptic, work);
+-	int error;
+-
+-	error = max77693_haptic_set_duty_cycle(haptic);
+-	if (error) {
+-		dev_err(haptic->dev, "failed to set duty cycle: %d\n", error);
+-		return;
+-	}
+ 
+ 	if (haptic->magnitude)
+ 		max77693_haptic_enable(haptic);
+@@ -340,12 +321,6 @@ static int max77693_haptic_probe(struct platform_device *pdev)
+ 		return PTR_ERR(haptic->pwm_dev);
+ 	}
+ 
+-	/*
+-	 * FIXME: pwm_apply_args() should be removed when switching to the
+-	 * atomic PWM API.
+-	 */
+-	pwm_apply_args(haptic->pwm_dev);
+-
+ 	haptic->motor_reg = devm_regulator_get(&pdev->dev, "haptic");
+ 	if (IS_ERR(haptic->motor_reg)) {
+ 		dev_err(&pdev->dev, "failed to get regulator\n");
 
+base-commit: 1343433ed38923a21425c602e92120a1f1db5f7a
 -- 
-2.50.0
+2.49.0
 
 
