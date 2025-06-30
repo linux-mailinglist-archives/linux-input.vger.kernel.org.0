@@ -1,147 +1,257 @@
-Return-Path: <linux-input+bounces-13243-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13244-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31274AEE806
-	for <lists+linux-input@lfdr.de>; Mon, 30 Jun 2025 22:18:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79FE0AEE8C4
+	for <lists+linux-input@lfdr.de>; Mon, 30 Jun 2025 22:59:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5C5E417FE90
-	for <lists+linux-input@lfdr.de>; Mon, 30 Jun 2025 20:18:52 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0797E3E0445
+	for <lists+linux-input@lfdr.de>; Mon, 30 Jun 2025 20:59:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0C3291F583A;
-	Mon, 30 Jun 2025 20:18:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 88F3725E46A;
+	Mon, 30 Jun 2025 20:59:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="Q1WtwZb8"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mqy2+A8y"
 X-Original-To: linux-input@vger.kernel.org
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 685781B87F0;
-	Mon, 30 Jun 2025 20:18:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 588C82417C5;
+	Mon, 30 Jun 2025 20:59:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751314728; cv=none; b=GBpZFjBO8ek9Vqdq539Ur+/UW7XSJQMKmnqdd+tPnSylmQzTeHeQFqTESJ8z7xYterWHQCwQN7mMN8IQS2kThOJ5oOboO7t6zi28d8wxwwyl/GAiZYGaDCzo/s2IrwwX+fj8wmOvYmI2PTfku6jkD1Q17pwwT09D57Ty0eFBICg=
+	t=1751317149; cv=none; b=i4R4g42Sm+okoezUT4aobURJJTJzgPL4NqwZxqjKm937EMlT4PpwgCpqyj51IG+ATVBkBtWuBeulqxjgqAB5SRZZNxHM/W7gt6Nt80RISQrYsc0VpJngZVnPQC9W4cMgl0Za64/12fQlADJi/SvSyv48vLOSrLOq7tqqOyMIiaE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751314728; c=relaxed/simple;
-	bh=eYoPCv26BZhs2vQSuqUEgy4rFDDGY1Mq39elidL1o9c=;
-	h=Message-ID:Date:MIME-Version:Cc:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=XeT3asNVSkZyQG2/eSVQRPvAp6s2JmwMNXH3QJzVnOkIprGlINTNjMigJlpY9wrykWX05pu8JAUsbRuw5H4232W+Ymtc/ePnQ+rBf9M80BQTLWz4JBWkFo/qmfF5wPfsMZYx2AvwDzgaE/DfF1MsUfQlfKOzRBGzZTnWsFvfRdA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=Q1WtwZb8; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
-Received: from [100.65.217.140] (unknown [20.236.10.163])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 609F9201A4D4;
-	Mon, 30 Jun 2025 13:18:41 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 609F9201A4D4
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1751314721;
-	bh=OYVx5tw+fe13imVYo7TA01cwwd+U7WHshA4ZukKJRgc=;
-	h=Date:Cc:Subject:To:References:From:In-Reply-To:From;
-	b=Q1WtwZb8XoSmpH21gIaN1FdHF7ovSnxS++5F+tmAybOCqyLbn4yqrXqcp9eNqUu30
-	 ZmeHxa6p5dO8z+ALfs5GquJvs14UL/3SZ2si0ijJUnVDyuTKr0DSWti1knAsQ5E0es
-	 OLJLUEoU439jYz52/tWcmPBMyZ6tm5wlTGrfKPYE=
-Message-ID: <41f3cc74-694e-41be-b767-20c7561990b8@linux.microsoft.com>
-Date: Mon, 30 Jun 2025 13:18:40 -0700
+	s=arc-20240116; t=1751317149; c=relaxed/simple;
+	bh=GHQy1s9b3WHXhZLvkNYc2R/H3R1R/hFBz4tzwf7xA3Q=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=HA20qgDxGQmTZpdWSC4jnX3tlYURYohHe7AoiepW+PK6g5Xq/tXJ2fFuhjdtlrQSZL9Dl9JEvlrNWItxb/pGNHrLxwSRQyoLJ4q68a6JN2t379hRauLMAyTj/KniH+4i/RzsOE2LQ/hwvio0GBwaAYNVcD6N7GMiIBYmOi1SMdI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mqy2+A8y; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E933EC4CEEB;
+	Mon, 30 Jun 2025 20:59:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1751317148;
+	bh=GHQy1s9b3WHXhZLvkNYc2R/H3R1R/hFBz4tzwf7xA3Q=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=mqy2+A8yzOXjXXIte2MyoTmjqTymmEFVLt1AcqBA8JtgxrfVd/8ix2bPXt4ljP5/e
+	 /L6leA0Cm6Hj9Sot82mkWBnsF5ukwGKwDcSADcGpEFPv5evBJKhMBYl99ZmzSj2GYR
+	 XiJ+OPvmjLSVcoVqYPuhsk9t7j2XEricg7w2BaXMm4RKz+ykr4Ucl4DlSTxYRDkjBc
+	 RJ5MCFNQ5DYX6lHZpdMIU9l+MthnCWTTdRuWlbwZxLqSDiovam+AezfFzWxWhI1Cpr
+	 xY4NZvGKCXSAWhgj3tlGHEYc/cLqVj1C3Z0DtBC90EZWpWH3N6osV+S9h6wkAjNeOq
+	 ydcnA9yRpLYNw==
+From: Sasha Levin <sashal@kernel.org>
+To: patches@lists.linux.dev,
+	stable@vger.kernel.org
+Cc: Akira Inoue <niyarium@gmail.com>,
+	Jiri Kosina <jkosina@suse.com>,
+	Sasha Levin <sashal@kernel.org>,
+	jikos@kernel.org,
+	bentiss@kernel.org,
+	linux-input@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.15 15/23] HID: lenovo: Add support for ThinkPad X1 Tablet Thin Keyboard Gen2
+Date: Mon, 30 Jun 2025 16:44:20 -0400
+Message-Id: <20250630204429.1357695-15-sashal@kernel.org>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250630204429.1357695-1-sashal@kernel.org>
+References: <20250630204429.1357695-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- eahariha@linux.microsoft.com, kernel@collabora.com,
- linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH] Input: mtk-pmic-keys: Fix null pointer dereference when
- no compatible data
-To: Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>
-References: <20250630-mtk-pmic-keys-fix-crash-v1-1-e47351fa9d1f@collabora.com>
-From: Easwar Hariharan <eahariha@linux.microsoft.com>
-Content-Language: en-US
-In-Reply-To: <20250630-mtk-pmic-keys-fix-crash-v1-1-e47351fa9d1f@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.15.4
+Content-Transfer-Encoding: 8bit
 
-On 6/30/2025 7:03 AM, Louis-Alexis Eyraud wrote:
-> In mtk_pmic_keys_probe function, the of_match_device function is
-> called to retrieve the compatible platform device info but its return
-> data pointer is not checked. It can lead to a null pointer deference
-> later when accessing the data field, if of_match_device returned a null
-> pointer. So, add a pointer check after calling of_match_device function
-> and return an EINVAL error in null case.
-> 
-> Signed-off-by: Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>
-> ---
-> This patch fixes a NULL pointer dereference that occurs during the
-> mtk_pmic_keys driver probe and observed at least on Mediatek Genio
-> 1200-EVK board with a kernel based on linux-next (tag: 20250630),
-> when it is configured to have mtk_pmic_keys driver as builtin
-> (CONFIG_KEYBOARD_MTK_PMIC=y):
-> ```
-> Unable to handle kernel NULL pointer dereference at virtual address
->   00000000000000c0
-> Mem abort info:
->   ESR = 0x0000000096000004
->   EC = 0x25: DABT (current EL), IL = 32 bits
->   SET = 0, FnV = 0
->   EA = 0, S1PTW = 0
->   FSC = 0x04: level 0 translation fault
-> Data abort info:
->   ISV = 0, ISS = 0x00000004, ISS2 = 0x00000000
->   CM = 0, WnR = 0, TnD = 0, TagAccess = 0
->   GCS = 0, Overlay = 0, DirtyBit = 0, Xs = 0
-> [00000000000000c0] user address but active_mm is swapper
-> Internal error: Oops: 0000000096000004 [#1]  SMP
-> Modules linked in:
-> CPU: 4 UID: 0 PID: 1 Comm: swapper/0 Not tainted 
->   6.16.0-rc4-next-20250630-00001-gea99c662a089 #145 PREEMPT 
-> Hardware name: MediaTek Genio 1200 EVK-P1V2-EMMC (DT)
-> pstate: 60400009 (nZCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-> pc : mtk_pmic_keys_probe+0x94/0x500
-> lr : mtk_pmic_keys_probe+0x78/0x500
-> sp : ffff80008275bb30
-> x29: ffff80008275bb70 x28: ffff80008202bbb0 x27: ffff800081df00b0
-> x26: ffff800081ef9060 x25: ffff0000c6fcf400 x24: 0000000000000000
-> x23: 0000000000000000 x22: ffff0000c6fcf410 x21: ffff0000c09f8480
-> x20: ffff0000c09f4b80 x19: 0000000000000000 x18: 00000000ffffffff
-> x17: ffff8000824cb228 x16: 00000000d7fcbc9e x15: ffff0000c0a2b274
-> x14: ffff80008275bad0 x13: ffff0000c0a2ba1c x12: 786d692d696d6373
-> x11: 0000000000000040 x10: 0000000000000001 x9 : 0000000000000000
-> x8 : ffff0000c09f8500 x7 : 0000000000000000 x6 : 000000000000003f
-> x5 : 0000000000000040 x4 : ffff0000c6fcf410 x3 : ffff0000c6fcf6c0
-> x2 : ffff0000c09f8400 x1 : ffff0000c36da000 x0 : ffff0000c6fcf410
-> Call trace:
->  mtk_pmic_keys_probe+0x94/0x500 (P)
->  platform_probe+0x68/0xdc
->  really_probe+0xbc/0x2c0
->  __driver_probe_device+0x78/0x120
->  driver_probe_device+0x3c/0x154
->  __driver_attach+0x90/0x1a0
->  bus_for_each_dev+0x7c/0xdc
->  driver_attach+0x24/0x30
->  bus_add_driver+0xe4/0x208
->  driver_register+0x68/0x130
->  __platform_driver_register+0x24/0x30
->  pmic_keys_pdrv_init+0x1c/0x28
->  do_one_initcall+0x60/0x1d4
->  kernel_init_freeable+0x24c/0x2b4
->  kernel_init+0x20/0x140
->  ret_from_fork+0x10/0x20
-> Code: aa1603e0 f90006b6 f9400681 f9000aa1 (f9406261) 
-> ---[ end trace 0000000000000000 ]---
-> ```
-> ---
->  drivers/input/keyboard/mtk-pmic-keys.c | 3 +++
->  1 file changed, 3 insertions(+)
+From: Akira Inoue <niyarium@gmail.com>
 
-It's preferred to have the stack trace in the commit message body rather than below
-the cut line to allow for searching for the oops message in git history.
+[ Upstream commit a8905238c3bbe13db90065ed74682418f23830c3 ]
 
-Also, it may make sense to CC: stable@vger.kernel.org for backports
+Add "Thinkpad X1 Tablet Gen 2 Keyboard" PID to hid-lenovo driver to fix trackpoint not working issue.
 
-Thanks,
-Easwar (he/him)
+Signed-off-by: Akira Inoue <niyarium@gmail.com>
+Signed-off-by: Jiri Kosina <jkosina@suse.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+
+**YES**
+
+This commit should be backported to stable kernel trees. Here's my
+extensive analysis:
+
+## Commit Analysis
+
+This commit adds support for the ThinkPad X1 Tablet Thin Keyboard Gen2
+by adding its USB device ID (0x60a4) to the hid-lenovo driver. The
+primary issue being fixed is that the trackpoint (pointing stick) is
+non-functional without this patch.
+
+## Code Changes Examination
+
+1. **drivers/hid/hid-ids.h**: Adds `USB_DEVICE_ID_LENOVO_X1_TAB2` with
+   value 0x60a4. This follows the existing pattern where X1_TAB is
+   0x60a3 and X1_TAB3 is 0x60b5.
+
+2. **drivers/hid/hid-lenovo.c**: The device ID is added to 7 locations:
+   - `lenovo_input_mapping()`: Enables X1 tablet keyboard-specific input
+     mappings
+   - `attr_fn_lock_store()`: Enables FnLock LED control functionality
+   - `lenovo_event()`: Handles special key events
+   - `lenovo_led_brightness_set()`: Controls mute/micmute LED indicators
+   - `lenovo_probe()`: Initializes device with tp10ubkbd infrastructure
+   - `lenovo_remove()`: Cleanup handling
+   - `lenovo_devices[]`: Device table entry with HID_GROUP_GENERIC
+
+3. **drivers/hid/hid-multitouch.c**: Adds multitouch support with
+   `MT_CLS_WIN_8_FORCE_MULTI_INPUT` class, consistent with other X1
+   Tablet devices.
+
+## Stable Backport Criteria
+
+This commit meets all the stable kernel backporting criteria:
+
+1. **Fixes a real bug**: The trackpoint is completely non-functional
+   without this patch, affecting users who own this hardware.
+
+2. **Small and contained**: The changes are minimal - just adding a
+   device ID to existing code paths. No new functionality or
+   architectural changes.
+
+3. **Obviously correct**: The pattern is identical to existing X1 Tablet
+   support (Gen1 and Gen3). The commit follows established conventions.
+
+4. **Low risk**: Cannot affect any other hardware since it's guarded by
+   specific device ID checks.
+
+5. **Hardware enablement**: This is pure hardware enablement for a
+   specific device that doesn't work at all without this patch.
+
+## Comparison with Similar Commits
+
+Looking at the provided similar commits:
+- Commits adding X1 Tablet Gen3 support (Similar #2) and X12 Tab Gen2
+  support (Similar #4) were marked YES for backporting
+- Both fixed similar issues (non-working buttons, trackpoint, FnLock)
+- This commit follows the exact same pattern
+
+The commit marked NO (Similar #1) only added partial multitouch support
+without the full hid-lenovo driver integration, which is why it wasn't
+suitable for stable.
+
+## Conclusion
+
+This is a textbook example of a commit that should be backported to
+stable kernels. It enables basic functionality (trackpoint) for specific
+hardware that is completely broken without it, using minimal, well-
+tested code patterns that cannot regress other devices.
+
+ drivers/hid/hid-ids.h        | 1 +
+ drivers/hid/hid-lenovo.c     | 8 ++++++++
+ drivers/hid/hid-multitouch.c | 8 +++++++-
+ 3 files changed, 16 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+index 1062731315a2a..898fe03074c64 100644
+--- a/drivers/hid/hid-ids.h
++++ b/drivers/hid/hid-ids.h
+@@ -818,6 +818,7 @@
+ #define USB_DEVICE_ID_LENOVO_TPPRODOCK	0x6067
+ #define USB_DEVICE_ID_LENOVO_X1_COVER	0x6085
+ #define USB_DEVICE_ID_LENOVO_X1_TAB	0x60a3
++#define USB_DEVICE_ID_LENOVO_X1_TAB2	0x60a4
+ #define USB_DEVICE_ID_LENOVO_X1_TAB3	0x60b5
+ #define USB_DEVICE_ID_LENOVO_X12_TAB	0x60fe
+ #define USB_DEVICE_ID_LENOVO_X12_TAB2	0x61ae
+diff --git a/drivers/hid/hid-lenovo.c b/drivers/hid/hid-lenovo.c
+index af29ba840522f..f4a6c506e2dd1 100644
+--- a/drivers/hid/hid-lenovo.c
++++ b/drivers/hid/hid-lenovo.c
+@@ -492,6 +492,7 @@ static int lenovo_input_mapping(struct hid_device *hdev,
+ 	case USB_DEVICE_ID_LENOVO_X12_TAB:
+ 	case USB_DEVICE_ID_LENOVO_X12_TAB2:
+ 	case USB_DEVICE_ID_LENOVO_X1_TAB:
++	case USB_DEVICE_ID_LENOVO_X1_TAB2:
+ 	case USB_DEVICE_ID_LENOVO_X1_TAB3:
+ 		return lenovo_input_mapping_x1_tab_kbd(hdev, hi, field, usage, bit, max);
+ 	default:
+@@ -605,6 +606,7 @@ static ssize_t attr_fn_lock_store(struct device *dev,
+ 	case USB_DEVICE_ID_LENOVO_X12_TAB2:
+ 	case USB_DEVICE_ID_LENOVO_TP10UBKBD:
+ 	case USB_DEVICE_ID_LENOVO_X1_TAB:
++	case USB_DEVICE_ID_LENOVO_X1_TAB2:
+ 	case USB_DEVICE_ID_LENOVO_X1_TAB3:
+ 		ret = lenovo_led_set_tp10ubkbd(hdev, TP10UBKBD_FN_LOCK_LED, value);
+ 		if (ret)
+@@ -861,6 +863,7 @@ static int lenovo_event(struct hid_device *hdev, struct hid_field *field,
+ 	case USB_DEVICE_ID_LENOVO_X12_TAB2:
+ 	case USB_DEVICE_ID_LENOVO_TP10UBKBD:
+ 	case USB_DEVICE_ID_LENOVO_X1_TAB:
++	case USB_DEVICE_ID_LENOVO_X1_TAB2:
+ 	case USB_DEVICE_ID_LENOVO_X1_TAB3:
+ 		return lenovo_event_tp10ubkbd(hdev, field, usage, value);
+ 	default:
+@@ -1144,6 +1147,7 @@ static int lenovo_led_brightness_set(struct led_classdev *led_cdev,
+ 	case USB_DEVICE_ID_LENOVO_X12_TAB2:
+ 	case USB_DEVICE_ID_LENOVO_TP10UBKBD:
+ 	case USB_DEVICE_ID_LENOVO_X1_TAB:
++	case USB_DEVICE_ID_LENOVO_X1_TAB2:
+ 	case USB_DEVICE_ID_LENOVO_X1_TAB3:
+ 		ret = lenovo_led_set_tp10ubkbd(hdev, tp10ubkbd_led[led_nr], value);
+ 		break;
+@@ -1384,6 +1388,7 @@ static int lenovo_probe(struct hid_device *hdev,
+ 	case USB_DEVICE_ID_LENOVO_X12_TAB2:
+ 	case USB_DEVICE_ID_LENOVO_TP10UBKBD:
+ 	case USB_DEVICE_ID_LENOVO_X1_TAB:
++	case USB_DEVICE_ID_LENOVO_X1_TAB2:
+ 	case USB_DEVICE_ID_LENOVO_X1_TAB3:
+ 		ret = lenovo_probe_tp10ubkbd(hdev);
+ 		break;
+@@ -1473,6 +1478,7 @@ static void lenovo_remove(struct hid_device *hdev)
+ 	case USB_DEVICE_ID_LENOVO_X12_TAB2:
+ 	case USB_DEVICE_ID_LENOVO_TP10UBKBD:
+ 	case USB_DEVICE_ID_LENOVO_X1_TAB:
++	case USB_DEVICE_ID_LENOVO_X1_TAB2:
+ 	case USB_DEVICE_ID_LENOVO_X1_TAB3:
+ 		lenovo_remove_tp10ubkbd(hdev);
+ 		break;
+@@ -1523,6 +1529,8 @@ static const struct hid_device_id lenovo_devices[] = {
+ 	 */
+ 	{ HID_DEVICE(BUS_USB, HID_GROUP_GENERIC,
+ 		     USB_VENDOR_ID_LENOVO, USB_DEVICE_ID_LENOVO_X1_TAB) },
++	{ HID_DEVICE(BUS_USB, HID_GROUP_GENERIC,
++		     USB_VENDOR_ID_LENOVO, USB_DEVICE_ID_LENOVO_X1_TAB2) },
+ 	{ HID_DEVICE(BUS_USB, HID_GROUP_GENERIC,
+ 		     USB_VENDOR_ID_LENOVO, USB_DEVICE_ID_LENOVO_X1_TAB3) },
+ 	{ HID_DEVICE(BUS_USB, HID_GROUP_GENERIC,
+diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
+index 7ac8e16e61581..536a0a47518fa 100644
+--- a/drivers/hid/hid-multitouch.c
++++ b/drivers/hid/hid-multitouch.c
+@@ -2122,12 +2122,18 @@ static const struct hid_device_id mt_devices[] = {
+ 		HID_DEVICE(BUS_I2C, HID_GROUP_GENERIC,
+ 			USB_VENDOR_ID_LG, I2C_DEVICE_ID_LG_7010) },
+ 
+-	/* Lenovo X1 TAB Gen 2 */
++	/* Lenovo X1 TAB Gen 1 */
+ 	{ .driver_data = MT_CLS_WIN_8_FORCE_MULTI_INPUT,
+ 		HID_DEVICE(BUS_USB, HID_GROUP_MULTITOUCH_WIN_8,
+ 			   USB_VENDOR_ID_LENOVO,
+ 			   USB_DEVICE_ID_LENOVO_X1_TAB) },
+ 
++	/* Lenovo X1 TAB Gen 2 */
++	{ .driver_data = MT_CLS_WIN_8_FORCE_MULTI_INPUT,
++		HID_DEVICE(BUS_USB, HID_GROUP_MULTITOUCH_WIN_8,
++			   USB_VENDOR_ID_LENOVO,
++			   USB_DEVICE_ID_LENOVO_X1_TAB2) },
++
+ 	/* Lenovo X1 TAB Gen 3 */
+ 	{ .driver_data = MT_CLS_WIN_8_FORCE_MULTI_INPUT,
+ 		HID_DEVICE(BUS_USB, HID_GROUP_MULTITOUCH_WIN_8,
+-- 
+2.39.5
+
 
