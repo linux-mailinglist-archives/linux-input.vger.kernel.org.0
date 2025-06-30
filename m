@@ -1,115 +1,120 @@
-Return-Path: <linux-input+bounces-13241-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13242-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7612AAEE788
-	for <lists+linux-input@lfdr.de>; Mon, 30 Jun 2025 21:34:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D86AAEE7D6
+	for <lists+linux-input@lfdr.de>; Mon, 30 Jun 2025 22:00:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 949BE3BD6C0
-	for <lists+linux-input@lfdr.de>; Mon, 30 Jun 2025 19:34:06 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id ADF9E4402DF
+	for <lists+linux-input@lfdr.de>; Mon, 30 Jun 2025 19:59:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 220A82D320B;
-	Mon, 30 Jun 2025 19:34:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D8007218AD4;
+	Mon, 30 Jun 2025 20:00:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JObxZ4+B"
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=nfraprado@collabora.com header.b="SWLqK6Bw"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85C861D5ACE;
-	Mon, 30 Jun 2025 19:34:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751312058; cv=none; b=fksgt8Y7IP2oqizfXC2w25ThB4Kby8BggqBShlEwWsTs3Cx2YcnVzd1dwUOZrovV8ZYbWsrOl+zHJ49GoCjU8jL4V7/eNmHULaFIf8t+O4E/J/4wfXD7RDdaKxPgoMhTEC1E8tWwcQJu/r6dnpXmy3EwlDF79NsBMkZZ4TDo0d0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751312058; c=relaxed/simple;
-	bh=0747yHzYoacqbcat5XpVzvM+JfTUMpvg7fNSMl1X7Oo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=diGC7ZL7d3Xt1Rnj8QQL1sHjSOWYjRWyhEPOFIwu4korJMEwS+Kj6zyC4EtZCLGYcqc8uY5zYS8DobyKwlVP37LFU68VOE9gic1o8xC7hBcN8nbNZdYNGMJnorqzjww3C6mzUPnxU33oU3nFQT0eNLLd51aLKwSgeg20Ipq10oY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JObxZ4+B; arc=none smtp.client-ip=209.85.214.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-22c33677183so40442485ad.2;
-        Mon, 30 Jun 2025 12:34:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751312055; x=1751916855; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=LClbUcK/fw3e4Q94laANH2vgsQ+wqepfGpDL1L6B2Sc=;
-        b=JObxZ4+BWc7mPBbJ6EKuTPbX4iLHyoQu8jkyzmGS38JMDnvord9FEoCXJVM4m8CjAm
-         OAgTD7iYZEx2umADo/wl/SO4/0dVUACB7jtZZWoAhLTfAuD2Bsxpe7ciGAKn1HaICCpG
-         uVWs0+3mxMIdo9gqBj0QwD4v3in/uTsGqljSq1TOjLjpZYdnHfU+Lh3629n+VMpDCoeO
-         vrice0we0KD2Vp438rziX1x+gKukQYrPx5iBeT06+U9BMh2hZtBfus78E4rp5Rt19ubM
-         TYLvY6N10czREq5UncYALEg6U5YMKGAdV7aRG4kZmmUD5n4CAoBAP5yvP0PxsI4jlHvY
-         /cSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751312055; x=1751916855;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=LClbUcK/fw3e4Q94laANH2vgsQ+wqepfGpDL1L6B2Sc=;
-        b=EEfc5nIzfBB3o54UDKmA7zVfd1DUT6hEy8eu/yOcZ2lMCgNaElbiKdypbnRCbWbblO
-         3Gho3sIvxPTz+aiEiGuBUkUAHBI9yhYodWWHJ8IgQfklLaS/GhTF/3myUWLh5GKPfwDS
-         xuDj8VsWQ+2cnHP8sgN9ou0VzDCswWn9c5p5PO39c9SCcmxsbCZK2bAk2piyWqihU7YN
-         s7H6lipwMxX2Ob+x52eJ2lkjPnosXhxaVqufjsFYov2jfJBy68AN70a4zvpqURe6HX5k
-         zSSpysimyqCBbZp+X1lxDMj0RfmMooU+IOMkm+YgSZqaaZIClYAAJw2d9OTICwoYGL+w
-         QRig==
-X-Forwarded-Encrypted: i=1; AJvYcCUwX6XwKiViPXSVza1NdMGdcEMzSRiTqXDATNav/cz7BX4aQKqcZ6p2e9+NRLZmfaCSoID9HjQeahU6@vger.kernel.org, AJvYcCVpNnVoVnnhD0IrUDGXS0dC00b1LPcABAHBimctLAzzZppQOTaHX3TVCMC+GavMFvWDNZltdvGVdX4vhg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxyE1VuYwzxMVAnnmJYJXneVYCmkWxf3vsQ4QMiABbnTR1WfTO9
-	NObzgpXJ8RpicBdjRO9GCff1NZt00sYPzuYlOx9FJXRKa2DO8J/5CrVr
-X-Gm-Gg: ASbGnctAswuTlW6kFJav9PvOAy5AGSe4tpKkhtqy9VJ+kM9hXBNoAnJMBNXH8fIZyYh
-	7Xi0W6yEcMMn+cQWbsjyxfB9YEVv6HGVLmWysRb8SBIYnjuGYlsehmAflZainWMOC0t/+2pvD/H
-	qeVzWVWB4Rc2wnhlgrfodoOGUatdMP/+3fIkmEusbC18wOYYNYUrab6OubTt0i29vaaKF1yLEB3
-	x1AoiypVLQQfclYF6Tlg3ulyVCuIkzI4zyr261TWqKOgs+npBttyjItRwZGafiOdQT/xrjVa6pV
-	mUHKCGUnPa6mjuWBjK0sUHgvDhmZaUFvN7zaY48Lx/o5JSiTGAO7JbLLbgJfKA==
-X-Google-Smtp-Source: AGHT+IE8vnVLXqKVbhGhHLTWKYGZSGv4W+fWSHrq6BAlCAJDLbfAG+5HfUvZZvDFKSyEEv0Edu9wrw==
-X-Received: by 2002:a17:902:ec89:b0:235:225d:3087 with SMTP id d9443c01a7336-23ac46821d4mr177827545ad.30.1751312054709;
-        Mon, 30 Jun 2025 12:34:14 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:c92b:c666:1f8:990e])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23acb39ba5bsm88813235ad.98.2025.06.30.12.34.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Jun 2025 12:34:14 -0700 (PDT)
-Date: Mon, 30 Jun 2025 12:34:11 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-Cc: Javier Carrasco <javier.carrasco.cruz@gmail.com>, 
-	linux-input@vger.kernel.org, linux-pwm@vger.kernel.org
-Subject: Re: [PATCH v2] Input: max8997_haptic - Optimize PWM configuration
-Message-ID: <gu55xwoyr2zolonk2dxupmflcpgqgqp4kh4v4ulpluvsdwik3r@gm2he7khmtut>
-References: <20250630093718.2062359-2-u.kleine-koenig@baylibre.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C9DB522A;
+	Mon, 30 Jun 2025 20:00:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1751313610; cv=pass; b=cV8JKE49V34qvrBb2mZuoAiJjmmFAQD5fFf1Y5hn8Oa5W70wEO4NlLwuOm8A1AlCex7MdmYAbzRKv6NncIaigMKvz9nCOP/1Rc9zoZbLDllbmOXolxirZZD9UcsEfXjKqDmkj/oe/RyVWxwQoZPaVrq1U+Nv+lA5Vp9FblveIkQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1751313610; c=relaxed/simple;
+	bh=rBUTDTzHFfwcfiT7i6BHSGVXrToMoBPF9YjK4qz9/CM=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=CG2+PSedvgQl13Glgb4DVLD+75/ymgz89zcAmOUJADMkX1fRWw0Nvq6jATV/IA4f5OqBk61kwG1+ho2vFo9D+EKNwIgshFYsBLoDG7HX+u403LWdxh8Udz6OYNPQ7QEjVf+mFZ0+5RAWAwbD7pKFqXLeVQJ+bcgN4XzgLs9f7Ck=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nfraprado@collabora.com header.b=SWLqK6Bw; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+ARC-Seal: i=1; a=rsa-sha256; t=1751313593; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=oIyis2lLopynTJij4VlBnmivGgF3rJiq5l0M9s4Gb9dTR0a4XO7JFS0I8PWuLEbP2Vqln/JcxEJadChK7k/WpviSiUJuKuEGxCYxL52r2rC7yRYgkDRiXq0hJv/EtX7oSoRZbwkzz2GaFLdDERDZc/89zdttry8CcTzA5qV3YZw=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1751313593; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=rBUTDTzHFfwcfiT7i6BHSGVXrToMoBPF9YjK4qz9/CM=; 
+	b=WCPdN3ntfbZw5YLGEYsETWBGt+VZpOrJpBG0FxQY4i+t2wIHE+2h3UEshYE1Sai8dYafsxRNkzBh9LBNdSHCyOUq2/gcKir9/GJAEZz3X0AB1aujzTk1DC5ScmbIRluUXi/K7TR7rASsTQdOh4Twp/ZhwPKT34clh5rY4VyPYQE=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=nfraprado@collabora.com;
+	dmarc=pass header.from=<nfraprado@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1751313593;
+	s=zohomail; d=collabora.com; i=nfraprado@collabora.com;
+	h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To;
+	bh=rBUTDTzHFfwcfiT7i6BHSGVXrToMoBPF9YjK4qz9/CM=;
+	b=SWLqK6BwRQHFLSqizYCw1ukwzLPYtLySRrigRfm6BKHU+S7rphQY2YZhCXRBgIEl
+	SaDeB4CiA/KP939AYQF1y+iv/PMgTpb8K8nbfrUErz8j5RGxnMEqJn465ZDEawpTg+4
+	bFjQZGfMjthNskVrx4KrB7Uv9NhqrEUY6kmN2EZc=
+Received: by mx.zohomail.com with SMTPS id 1751313591718941.3513556291028;
+	Mon, 30 Jun 2025 12:59:51 -0700 (PDT)
+Message-ID: <48f573941d64217240f4750534e17faf4af0e3f6.camel@collabora.com>
+Subject: Re: [PATCH] Input: mtk-pmic-keys: Fix null pointer dereference when
+ no compatible data
+From: =?ISO-8859-1?Q?N=EDcolas?= "F. R. A. Prado" <nfraprado@collabora.com>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>, AngeloGioacchino Del Regno
+	 <angelogioacchino.delregno@collabora.com>
+Cc: Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>, Matthias Brugger
+ <matthias.bgg@gmail.com>, kernel@collabora.com,
+ linux-input@vger.kernel.org,  linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org,  linux-mediatek@lists.infradead.org
+Date: Mon, 30 Jun 2025 15:59:46 -0400
+In-Reply-To: <d373gpdyqejppdysdbb4k6aat5i33epnqsebxdkjbrgfwsnqtm@43si4kmjvsmq>
+References: 
+	<20250630-mtk-pmic-keys-fix-crash-v1-1-e47351fa9d1f@collabora.com>
+	 <28111607-d5a2-4b54-964a-d010fb99193a@collabora.com>
+	 <d373gpdyqejppdysdbb4k6aat5i33epnqsebxdkjbrgfwsnqtm@43si4kmjvsmq>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4-2 
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250630093718.2062359-2-u.kleine-koenig@baylibre.com>
+X-ZohoMailClient: External
 
-On Mon, Jun 30, 2025 at 11:37:17AM +0200, Uwe Kleine-König wrote:
-> Both pwm_config() and pwm_enable() are wrappers around
-> pwm_apply_might_sleep(). Instead of calling this function twice only
-> call it once without an intermediate step.
-> 
-> Setup the PWM in max8997_haptic_enable() only where it was enabled
-> historically. max8997_haptic_set_duty_cycle() is renamed accordingly to
-> make it clear this function is only about the internal setup now.
-> pwm_config() was called earlier back then, but that call has no effect
-> on the hardware when the PWM is disabled, so delaying this configuration
-> doesn't make a difference.
-> 
-> As pwm_apply_might_sleep() is used now defining the whole state of the
-> PWM, the call to pwm_apply_args() in .probe() can be dropped now, too.
-> 
-> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@baylibre.com>
+On Mon, 2025-06-30 at 08:25 -0700, Dmitry Torokhov wrote:
+> On Mon, Jun 30, 2025 at 04:06:53PM +0200, AngeloGioacchino Del Regno
+> wrote:
+> > Il 30/06/25 16:03, Louis-Alexis Eyraud ha scritto:
+>=20
+> [... snip ...]
+>=20
+> > > @@ -316,6 +316,9 @@ static int mtk_pmic_keys_probe(struct
+> > > platform_device *pdev)
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0const struct of_devic=
+e_id *of_id =3D
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0of_match_device(of_mtk_pmic_keys_match_tbl,
+> > > &pdev->dev);
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (!of_id)
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0return -EINVAL;
+> >=20
+> > Please, change this to `return -ENODEV;`
+>=20
+> No, this definitely should not be a "silent" error because it
+> indicates
+> there is something wrong with the kernel.
+>=20
+> Stepping back, why do we even enter mtk_pmic_keys_probe() if there is
+> not a matching OF ID? Are there any other patches that are not
+> upstream?
 
-Applied with a couple of minor tweaks, thank you.
+I'm guessing it's because the driver can be probed by a parent MFD
+driver, drivers/mfd/mt6397-core.c, and the compatibles defined in the
+MFD don't necessarily match the ones in the pmic-keys driver, for
+instance 'mediatek,mt6359-keys' is only listed in the MFD. Adding the
+missing compatibles to the pmic-keys driver should fix this.
 
--- 
-Dmitry
+
+--=20
+Thanks,
+
+N=C3=ADcolas
 
