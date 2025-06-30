@@ -1,62 +1,61 @@
-Return-Path: <linux-input+bounces-13251-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13252-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8A20AEE903
-	for <lists+linux-input@lfdr.de>; Mon, 30 Jun 2025 23:01:33 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id BF196AEE902
+	for <lists+linux-input@lfdr.de>; Mon, 30 Jun 2025 23:01:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7518B1BC35C2
-	for <lists+linux-input@lfdr.de>; Mon, 30 Jun 2025 21:01:09 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 10BB74425F6
+	for <lists+linux-input@lfdr.de>; Mon, 30 Jun 2025 21:00:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CB6A523B60F;
-	Mon, 30 Jun 2025 21:00:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1801B25C6E2;
+	Mon, 30 Jun 2025 21:00:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N7PzF03i"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Hb1fRzLv"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0EF62629D;
-	Mon, 30 Jun 2025 21:00:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2CAE1865FA;
+	Mon, 30 Jun 2025 21:00:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751317235; cv=none; b=srTNPmvIYw87xLADHiae2Ec39/W+JpbiJ4vCeD9C6vKtBZSbrdhn4ADLoIue5d5y/Ur8FGnsiEwU4ZuDjaMM1wps8Jcczul24vhqm6Gw41rWREirFcV27V4ySqe96TsUHp/BcyZFpkN+RQOtB4sQ00vUe9XjsnRH6q+aIpKMsn4=
+	t=1751317258; cv=none; b=mRPXUqQ7bcPFqGMLnUFVLTiLNtrVPQVdxsuOtH2hmbDFyhCYn4DN7gF+1tZQvTKA+pdayk5Afsxpm3bT9tXNg7q1k++d9sNMCjv9VeXAzhIIYfaRj5BLRkn60JFMaijqfJCr3MGHWDFtsSLY6V0/JHtiLubBNKcZ0Bmho5tfQxg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751317235; c=relaxed/simple;
-	bh=wyD8P7xMc7095spzoAzXQ7jxntIfPO0iq6t9zlAU2l4=;
+	s=arc-20240116; t=1751317258; c=relaxed/simple;
+	bh=kUSqcunTM3pJyFXdwWVtBL9m6UTpomPlAwIkQg4B3Ok=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=d3PJIi6Kydmr6j8U7LTVJBEMAE4gQ3iJCyJwaPZw5HDZ2uAjMN92GVuQmjwJMISOPRXbeXWbNWyq6whuiv2BYk/N6caPP8Y60UrZGuYYdZdM4IcNkdYVGA04AkWL2Or0u2DRrolGGXYYX4LwQDJttHhbeKIHE/VMQN/85qfcY0s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N7PzF03i; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E754DC4CEE3;
-	Mon, 30 Jun 2025 21:00:33 +0000 (UTC)
+	 MIME-Version; b=IBNE2+bhvs1IbPgTUv5pRvVcqZiHoFPlqbnwTGV7Tah+k5c9EvmRZozd8fx6nD+qFBcFgWhBSpfP4THq4rUyPgZwa/oSXM2LTkwugzwwI/4skRfXvSGrSTeUlQ3ar62NHD2VUUBHOFpBIuUG+To26t55JDZEGBh2LRZNxmHSyfE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Hb1fRzLv; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA711C4CEEB;
+	Mon, 30 Jun 2025 21:00:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751317235;
-	bh=wyD8P7xMc7095spzoAzXQ7jxntIfPO0iq6t9zlAU2l4=;
+	s=k20201202; t=1751317257;
+	bh=kUSqcunTM3pJyFXdwWVtBL9m6UTpomPlAwIkQg4B3Ok=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=N7PzF03iVNFg8ipLIzN7onSaMYOVdpAMmp+39iP+mDnUd6X83pCYkYV8D+ODbwqHA
-	 wEENKk/yvLrHwzCXfOqg5Pg+Z0bt9TZH+XEmHXHUA/5LA674+APglUib6iIhKaWxUP
-	 oFO93LzMd/3CXKg5LXTK+M0cK7U2su7B13iFbzK7SVDWB2nqn0Fz1kawQEffDhW/55
-	 KG4m0Se8n4q40FbkFqcOWDmeOKnFGxcxno9NNmQQVAEM2b/pT6J5mQqKX87Czbdou1
-	 xsoy14xnK+VENSROT6yJdpIEVdNoiFUSffat/0kiMVtzyI0rcF8znKrIwD6jvZ6U9S
-	 t2wbpQMhEZv5A==
+	b=Hb1fRzLvloq8GLmX4NRYXLIlVApKufQaX4nc1ejqTCQklHO1+mugC2begwJ+JfNGB
+	 b6xXuGNDSVVHJyJBgFG82QTL+G90LwJU7G0/l0ZToRmY0sTfGXE8Cya8ASKUhVg68W
+	 EUe9+bgiN3jnzRmZEbJVmp2GqkO02uGeeafe/tbe3lYuiHhK0RfeE6AN8TanFydt4E
+	 9ywx6tQj6ljqJjc9fxSArR778X8fvvINf4wlZq0M8s3ST96kc4iLgg4Wnyw/MJeSI/
+	 t89Fw9MXystoLxE1JOhH0ttcPIvH2Xb3KskBe6ak+zgnrQmZFIvSvihll+nhg5a0KF
+	 uFTXkA1Y+2RbA==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: "Daniel J. Ogorchock" <djogorchock@gmail.com>,
-	Silvan Jegen <s.jegen@gmail.com>,
+Cc: Akira Inoue <niyarium@gmail.com>,
 	Jiri Kosina <jkosina@suse.com>,
 	Sasha Levin <sashal@kernel.org>,
 	jikos@kernel.org,
 	bentiss@kernel.org,
 	linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.12 21/21] HID: nintendo: avoid bluetooth suspend/resume stalls
-Date: Mon, 30 Jun 2025 16:45:36 -0400
-Message-Id: <20250630204536.1358327-21-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 08/14] HID: lenovo: Add support for ThinkPad X1 Tablet Thin Keyboard Gen2
+Date: Mon, 30 Jun 2025 16:46:33 -0400
+Message-Id: <20250630204639.1358777-8-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250630204536.1358327-1-sashal@kernel.org>
-References: <20250630204536.1358327-1-sashal@kernel.org>
+In-Reply-To: <20250630204639.1358777-1-sashal@kernel.org>
+References: <20250630204639.1358777-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -65,180 +64,193 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.12.35
+X-stable-base: Linux 6.6.95
 Content-Transfer-Encoding: 8bit
 
-From: "Daniel J. Ogorchock" <djogorchock@gmail.com>
+From: Akira Inoue <niyarium@gmail.com>
 
-[ Upstream commit 4a0381080397e77792a5168069f174d3e56175ff ]
+[ Upstream commit a8905238c3bbe13db90065ed74682418f23830c3 ]
 
-Ensure we don't stall or panic the kernel when using bluetooth-connected
-controllers. This was reported as an issue on android devices using
-kernel 6.6 due to the resume hook which had been added for usb joycons.
+Add "Thinkpad X1 Tablet Gen 2 Keyboard" PID to hid-lenovo driver to fix trackpoint not working issue.
 
-First, set a new state value to JOYCON_CTLR_STATE_SUSPENDED in a
-newly-added nintendo_hid_suspend. This makes sure we will not stall out
-the kernel waiting for input reports during led classdev suspend. The
-stalls could happen if connectivity is unreliable or lost to the
-controller prior to suspend.
-
-Second, since we lose connectivity during suspend, do not try
-joycon_init() for bluetooth controllers in the nintendo_hid_resume path.
-
-Tested via multiple suspend/resume flows when using the controller both
-in USB and bluetooth modes.
-
-Signed-off-by: Daniel J. Ogorchock <djogorchock@gmail.com>
-Reviewed-by: Silvan Jegen <s.jegen@gmail.com>
+Signed-off-by: Akira Inoue <niyarium@gmail.com>
 Signed-off-by: Jiri Kosina <jkosina@suse.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 **YES**
 
-This commit should be backported to stable kernel trees. Here's the
+This commit should be backported to stable kernel trees. Here's my
 extensive analysis:
 
-## Bug Severity and Impact
+## Commit Analysis
 
-The commit fixes a serious bug that causes **kernel stalls or panics
-during suspend/resume** when using Bluetooth-connected Nintendo
-controllers. This was specifically reported on Android devices running
-kernel 6.6, indicating real-world user impact. Kernel stalls/panics
-during suspend/resume are critical issues that can lead to data loss and
-poor user experience.
+This commit adds support for the ThinkPad X1 Tablet Thin Keyboard Gen2
+by adding its USB device ID (0x60a4) to the hid-lenovo driver. The
+primary issue being fixed is that the trackpoint (pointing stick) is
+non-functional without this patch.
 
-## Root Cause Analysis
+## Code Changes Examination
 
-Looking at the code changes and the `joycon_enforce_subcmd_rate()`
-function at lines 825-854:
+1. **drivers/hid/hid-ids.h**: Adds `USB_DEVICE_ID_LENOVO_X1_TAB2` with
+   value 0x60a4. This follows the existing pattern where X1_TAB is
+   0x60a3 and X1_TAB3 is 0x60b5.
 
-```c
-do {
-    joycon_wait_for_input_report(ctlr);
-    // ... other code ...
-} while ((consecutive_valid_deltas < JC_SUBCMD_VALID_DELTA_REQ ||
-          subcmd_delta < JC_SUBCMD_RATE_LIMITER_MS(ctlr)) &&
-         ctlr->ctlr_state == JOYCON_CTLR_STATE_READ &&
-         attempts < JC_SUBCMD_RATE_MAX_ATTEMPTS);
-```
+2. **drivers/hid/hid-lenovo.c**: The device ID is added to 7 locations:
+   - `lenovo_input_mapping()`: Enables X1 tablet keyboard-specific input
+     mappings
+   - `attr_fn_lock_store()`: Enables FnLock LED control functionality
+   - `lenovo_event()`: Handles special key events
+   - `lenovo_led_brightness_set()`: Controls mute/micmute LED indicators
+   - `lenovo_probe()`: Initializes device with tp10ubkbd infrastructure
+   - `lenovo_remove()`: Cleanup handling
+   - `lenovo_devices[]`: Device table entry with HID_GROUP_GENERIC
 
-This function contains a blocking loop that waits for input reports. If
-a Bluetooth controller loses connectivity before suspend, this loop
-could continue indefinitely (up to max attempts), causing the suspend
-process to stall.
+3. **drivers/hid/hid-multitouch.c**: Adds multitouch support with
+   `MT_CLS_WIN_8_FORCE_MULTI_INPUT` class, consistent with other X1
+   Tablet devices.
 
-## Fix Analysis
+## Stable Backport Criteria
 
-The fix is elegant and minimal:
+This commit meets all the stable kernel backporting criteria:
 
-1. **New SUSPENDED state**: Adds `JOYCON_CTLR_STATE_SUSPENDED` to
-   prevent blocking operations during suspend
-2. **Suspend handler**: Sets the controller state to SUSPENDED, which
-   breaks the blocking loop in `joycon_enforce_subcmd_rate()` since it
-   checks for `ctlr_state == JOYCON_CTLR_STATE_READ`
-3. **Resume handler modification**:
-   - For Bluetooth controllers: Simply resets state to READ without
-     reinitializing (since BT connection is lost anyway)
-   - For USB controllers: Maintains existing behavior with
-     `joycon_init()`
+1. **Fixes a real bug**: The trackpoint is completely non-functional
+   without this patch, affecting users who own this hardware.
 
-## Backport Suitability
+2. **Small and contained**: The changes are minimal - just adding a
+   device ID to existing code paths. No new functionality or
+   architectural changes.
 
-1. **Small and contained**: The changes are minimal - adding one enum
-   value, one suspend function, and modifying the resume logic
-2. **No architectural changes**: Pure bug fix with no feature additions
-3. **Low regression risk**: Changes only affect suspend/resume paths for
-   this specific driver
-4. **Similar to accepted backports**:
-   - Similar Commit #2 (backported) fixed USB controller resume issues
-   - Similar Commit #4 (backported) fixed a null pointer dereference
+3. **Obviously correct**: The pattern is identical to existing X1 Tablet
+   support (Gen1 and Gen3). The commit follows established conventions.
 
-## Stable Tree Compliance
+4. **Low risk**: Cannot affect any other hardware since it's guarded by
+   specific device ID checks.
 
-The fix meets all stable kernel criteria:
-- Fixes a real bug affecting users (kernel stalls/panics)
-- Minimal change scope
-- No new features or APIs
-- Confined to a single driver subsystem
-- Clear problem and solution
+5. **Hardware enablement**: This is pure hardware enablement for a
+   specific device that doesn't work at all without this patch.
 
-The fact that this was reported on production Android devices using
-kernel 6.6 further emphasizes the need for backporting to ensure stable
-kernel users don't experience these suspend/resume failures.
+## Comparison with Similar Commits
 
- drivers/hid/hid-nintendo.c | 38 ++++++++++++++++++++++++++++++++++++--
- 1 file changed, 36 insertions(+), 2 deletions(-)
+Looking at the provided similar commits:
+- Commits adding X1 Tablet Gen3 support (Similar #2) and X12 Tab Gen2
+  support (Similar #4) were marked YES for backporting
+- Both fixed similar issues (non-working buttons, trackpoint, FnLock)
+- This commit follows the exact same pattern
 
-diff --git a/drivers/hid/hid-nintendo.c b/drivers/hid/hid-nintendo.c
-index 55153a2f79886..2a3ae1068739d 100644
---- a/drivers/hid/hid-nintendo.c
-+++ b/drivers/hid/hid-nintendo.c
-@@ -308,6 +308,7 @@ enum joycon_ctlr_state {
- 	JOYCON_CTLR_STATE_INIT,
- 	JOYCON_CTLR_STATE_READ,
- 	JOYCON_CTLR_STATE_REMOVED,
-+	JOYCON_CTLR_STATE_SUSPENDED,
- };
+The commit marked NO (Similar #1) only added partial multitouch support
+without the full hid-lenovo driver integration, which is why it wasn't
+suitable for stable.
+
+## Conclusion
+
+This is a textbook example of a commit that should be backported to
+stable kernels. It enables basic functionality (trackpoint) for specific
+hardware that is completely broken without it, using minimal, well-
+tested code patterns that cannot regress other devices.
+
+ drivers/hid/hid-ids.h        | 1 +
+ drivers/hid/hid-lenovo.c     | 8 ++++++++
+ drivers/hid/hid-multitouch.c | 8 +++++++-
+ 3 files changed, 16 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+index a8665d57094b2..c0ce11393f0fb 100644
+--- a/drivers/hid/hid-ids.h
++++ b/drivers/hid/hid-ids.h
+@@ -807,6 +807,7 @@
+ #define USB_DEVICE_ID_LENOVO_TPPRODOCK	0x6067
+ #define USB_DEVICE_ID_LENOVO_X1_COVER	0x6085
+ #define USB_DEVICE_ID_LENOVO_X1_TAB	0x60a3
++#define USB_DEVICE_ID_LENOVO_X1_TAB2	0x60a4
+ #define USB_DEVICE_ID_LENOVO_X1_TAB3	0x60b5
+ #define USB_DEVICE_ID_LENOVO_X12_TAB	0x60fe
+ #define USB_DEVICE_ID_LENOVO_X12_TAB2	0x61ae
+diff --git a/drivers/hid/hid-lenovo.c b/drivers/hid/hid-lenovo.c
+index a4062f617ba20..90e8b6a0a873d 100644
+--- a/drivers/hid/hid-lenovo.c
++++ b/drivers/hid/hid-lenovo.c
+@@ -473,6 +473,7 @@ static int lenovo_input_mapping(struct hid_device *hdev,
+ 		return lenovo_input_mapping_tp10_ultrabook_kbd(hdev, hi, field,
+ 							       usage, bit, max);
+ 	case USB_DEVICE_ID_LENOVO_X1_TAB:
++	case USB_DEVICE_ID_LENOVO_X1_TAB2:
+ 	case USB_DEVICE_ID_LENOVO_X1_TAB3:
+ 		return lenovo_input_mapping_x1_tab_kbd(hdev, hi, field, usage, bit, max);
+ 	default:
+@@ -584,6 +585,7 @@ static ssize_t attr_fn_lock_store(struct device *dev,
+ 		break;
+ 	case USB_DEVICE_ID_LENOVO_TP10UBKBD:
+ 	case USB_DEVICE_ID_LENOVO_X1_TAB:
++	case USB_DEVICE_ID_LENOVO_X1_TAB2:
+ 	case USB_DEVICE_ID_LENOVO_X1_TAB3:
+ 		ret = lenovo_led_set_tp10ubkbd(hdev, TP10UBKBD_FN_LOCK_LED, value);
+ 		if (ret)
+@@ -779,6 +781,7 @@ static int lenovo_event(struct hid_device *hdev, struct hid_field *field,
+ 		return lenovo_event_cptkbd(hdev, field, usage, value);
+ 	case USB_DEVICE_ID_LENOVO_TP10UBKBD:
+ 	case USB_DEVICE_ID_LENOVO_X1_TAB:
++	case USB_DEVICE_ID_LENOVO_X1_TAB2:
+ 	case USB_DEVICE_ID_LENOVO_X1_TAB3:
+ 		return lenovo_event_tp10ubkbd(hdev, field, usage, value);
+ 	default:
+@@ -1062,6 +1065,7 @@ static int lenovo_led_brightness_set(struct led_classdev *led_cdev,
+ 		break;
+ 	case USB_DEVICE_ID_LENOVO_TP10UBKBD:
+ 	case USB_DEVICE_ID_LENOVO_X1_TAB:
++	case USB_DEVICE_ID_LENOVO_X1_TAB2:
+ 	case USB_DEVICE_ID_LENOVO_X1_TAB3:
+ 		ret = lenovo_led_set_tp10ubkbd(hdev, tp10ubkbd_led[led_nr], value);
+ 		break;
+@@ -1293,6 +1297,7 @@ static int lenovo_probe(struct hid_device *hdev,
+ 		break;
+ 	case USB_DEVICE_ID_LENOVO_TP10UBKBD:
+ 	case USB_DEVICE_ID_LENOVO_X1_TAB:
++	case USB_DEVICE_ID_LENOVO_X1_TAB2:
+ 	case USB_DEVICE_ID_LENOVO_X1_TAB3:
+ 		ret = lenovo_probe_tp10ubkbd(hdev);
+ 		break;
+@@ -1380,6 +1385,7 @@ static void lenovo_remove(struct hid_device *hdev)
+ 		break;
+ 	case USB_DEVICE_ID_LENOVO_TP10UBKBD:
+ 	case USB_DEVICE_ID_LENOVO_X1_TAB:
++	case USB_DEVICE_ID_LENOVO_X1_TAB2:
+ 	case USB_DEVICE_ID_LENOVO_X1_TAB3:
+ 		lenovo_remove_tp10ubkbd(hdev);
+ 		break;
+@@ -1430,6 +1436,8 @@ static const struct hid_device_id lenovo_devices[] = {
+ 	 */
+ 	{ HID_DEVICE(BUS_USB, HID_GROUP_GENERIC,
+ 		     USB_VENDOR_ID_LENOVO, USB_DEVICE_ID_LENOVO_X1_TAB) },
++	{ HID_DEVICE(BUS_USB, HID_GROUP_GENERIC,
++		     USB_VENDOR_ID_LENOVO, USB_DEVICE_ID_LENOVO_X1_TAB2) },
+ 	{ HID_DEVICE(BUS_USB, HID_GROUP_GENERIC,
+ 		     USB_VENDOR_ID_LENOVO, USB_DEVICE_ID_LENOVO_X1_TAB3) },
+ 	{ }
+diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
+index 6386043aab0bb..becd4c1ccf93c 100644
+--- a/drivers/hid/hid-multitouch.c
++++ b/drivers/hid/hid-multitouch.c
+@@ -2110,12 +2110,18 @@ static const struct hid_device_id mt_devices[] = {
+ 		HID_DEVICE(BUS_I2C, HID_GROUP_GENERIC,
+ 			USB_VENDOR_ID_LG, I2C_DEVICE_ID_LG_7010) },
  
- /* Controller type received as part of device info */
-@@ -2754,14 +2755,46 @@ static void nintendo_hid_remove(struct hid_device *hdev)
+-	/* Lenovo X1 TAB Gen 2 */
++	/* Lenovo X1 TAB Gen 1 */
+ 	{ .driver_data = MT_CLS_WIN_8_FORCE_MULTI_INPUT,
+ 		HID_DEVICE(BUS_USB, HID_GROUP_MULTITOUCH_WIN_8,
+ 			   USB_VENDOR_ID_LENOVO,
+ 			   USB_DEVICE_ID_LENOVO_X1_TAB) },
  
- static int nintendo_hid_resume(struct hid_device *hdev)
- {
--	int ret = joycon_init(hdev);
-+	struct joycon_ctlr *ctlr = hid_get_drvdata(hdev);
-+	int ret;
++	/* Lenovo X1 TAB Gen 2 */
++	{ .driver_data = MT_CLS_WIN_8_FORCE_MULTI_INPUT,
++		HID_DEVICE(BUS_USB, HID_GROUP_MULTITOUCH_WIN_8,
++			   USB_VENDOR_ID_LENOVO,
++			   USB_DEVICE_ID_LENOVO_X1_TAB2) },
 +
-+	hid_dbg(hdev, "resume\n");
-+	if (!joycon_using_usb(ctlr)) {
-+		hid_dbg(hdev, "no-op resume for bt ctlr\n");
-+		ctlr->ctlr_state = JOYCON_CTLR_STATE_READ;
-+		return 0;
-+	}
- 
-+	ret = joycon_init(hdev);
- 	if (ret)
--		hid_err(hdev, "Failed to restore controller after resume");
-+		hid_err(hdev,
-+			"Failed to restore controller after resume: %d\n",
-+			ret);
-+	else
-+		ctlr->ctlr_state = JOYCON_CTLR_STATE_READ;
- 
- 	return ret;
- }
- 
-+static int nintendo_hid_suspend(struct hid_device *hdev, pm_message_t message)
-+{
-+	struct joycon_ctlr *ctlr = hid_get_drvdata(hdev);
-+
-+	hid_dbg(hdev, "suspend: %d\n", message.event);
-+	/*
-+	 * Avoid any blocking loops in suspend/resume transitions.
-+	 *
-+	 * joycon_enforce_subcmd_rate() can result in repeated retries if for
-+	 * whatever reason the controller stops providing input reports.
-+	 *
-+	 * This has been observed with bluetooth controllers which lose
-+	 * connectivity prior to suspend (but not long enough to result in
-+	 * complete disconnection).
-+	 */
-+	ctlr->ctlr_state = JOYCON_CTLR_STATE_SUSPENDED;
-+	return 0;
-+}
-+
- #endif
- 
- static const struct hid_device_id nintendo_hid_devices[] = {
-@@ -2800,6 +2833,7 @@ static struct hid_driver nintendo_hid_driver = {
- 
- #ifdef CONFIG_PM
- 	.resume		= nintendo_hid_resume,
-+	.suspend	= nintendo_hid_suspend,
- #endif
- };
- static int __init nintendo_init(void)
+ 	/* Lenovo X1 TAB Gen 3 */
+ 	{ .driver_data = MT_CLS_WIN_8_FORCE_MULTI_INPUT,
+ 		HID_DEVICE(BUS_USB, HID_GROUP_MULTITOUCH_WIN_8,
 -- 
 2.39.5
 
