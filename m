@@ -1,58 +1,58 @@
-Return-Path: <linux-input+bounces-13253-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13254-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61C4BAEE909
-	for <lists+linux-input@lfdr.de>; Mon, 30 Jun 2025 23:02:05 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id AAA53AEE90A
+	for <lists+linux-input@lfdr.de>; Mon, 30 Jun 2025 23:02:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C1A363E15CD
-	for <lists+linux-input@lfdr.de>; Mon, 30 Jun 2025 21:01:40 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0C84A3E15F1
+	for <lists+linux-input@lfdr.de>; Mon, 30 Jun 2025 21:01:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7FCE321FF54;
-	Mon, 30 Jun 2025 21:01:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF82C1FBCB0;
+	Mon, 30 Jun 2025 21:01:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hGcSllyD"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hui95CLt"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54D451FBCB0;
-	Mon, 30 Jun 2025 21:01:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6BB05227;
+	Mon, 30 Jun 2025 21:01:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751317272; cv=none; b=t5TBiI0EOIjSKxCPZZgQuAXtsIdWBoKaPUnxWd0ew3ASve2JRU6eBasW4gNJvlQEm/C6ivbYXNIDL9eS1Ka3YhVT4DaE4JluBJOlT1lMuPEQ2FbnRa/nzmoUCIo9iGtS0j6QhFjXnPF0tQVHOv9Y9tZ3awI0PQKH5O3yF2ecK5o=
+	t=1751317273; cv=none; b=vEaM8vVca4+sSvPk+wT3VpueLGZO7nyO3As9ozbxmeeSlRRTVLefyWZbuxUCBW00SwkHi+UkJUoAmD7tcYzIwF7tiYg5/K1oXIkLcVZDSlMGIOOLzhP5QgJGKtMmUY5oyHO9pp4EptE1zc6FvCKAVX1lZjzrebulJ36wL79Fu9U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751317272; c=relaxed/simple;
-	bh=8s5Qs0cbV4FEk2puHV2jf2Zk54omOVwiV19uL1Vwb9c=;
+	s=arc-20240116; t=1751317273; c=relaxed/simple;
+	bh=x0TB5AlJcdlXAhSNRJn2B5apspJ7wr955Tigbv7taUM=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=pb+ZI8pn9gA0nSeHrX0FwYwYR4vNVoVjdLE/cxoVdb76+6TRNVB/SJo/2oXMz+eP/cRGWrH88JlZZ8pA2OECxmorGJBjoWNIIfbsFBtMFgB03RfnuaQsHP1swh9uYHiylhwAqCH9IlGPQWmT0rhBNH9Yb1G3MQggklgDDsvvE9g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hGcSllyD; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DCBBFC4CEEB;
-	Mon, 30 Jun 2025 21:01:10 +0000 (UTC)
+	 MIME-Version; b=cuCkvuA1XYwHn+9PE4DvO14M0YAELJ3u9UFUFgTdrjfbjmLVwgEsFFkfOqpInvS2tyTb4sjO3Eo6Az6+T5aUCHiUtXnYBTHNdAMtMVhRJCRImRg3imn3TxFOtKsuPjUlznoJvzaRxprX4w3YWPVMcfgt/Es6sX3ply3UQspzris=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hui95CLt; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E361C4CEE3;
+	Mon, 30 Jun 2025 21:01:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751317272;
-	bh=8s5Qs0cbV4FEk2puHV2jf2Zk54omOVwiV19uL1Vwb9c=;
+	s=k20201202; t=1751317273;
+	bh=x0TB5AlJcdlXAhSNRJn2B5apspJ7wr955Tigbv7taUM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=hGcSllyDX2Y3QbwdaGq5Dj3C5LkoCIcgJx3qg0Kf8EzDKBYWMIx4x4b6kfEn+OUvN
-	 +a/WdPV4pkHsWvB9dnti56Ps6XzHYEtjHAQ6qovepjnTZp26sphoNTbdK4QxabRoSN
-	 NN/LIv2WNBjHG7Nkx3Bw+YxUpJmSdJmJzes7Xr++eRrixd/ekpsc1bs6u7StmXj5fQ
-	 prJL6pC1fTPUbjkMCW3BIuwwSHL9qVr6eKZYtyoSAehSz6WwZuN9yDx12gXaAqOv7T
-	 spUiHqyEDrmTgc5ujhYE0E5f1up116xNFmuRqExyHhg8gqfzw1ndqcBYr0v1pXdeLr
-	 as/EcE7fLER8Q==
+	b=hui95CLtWN2KP2sN+Pp5Ep34c/406VtAYe+pX5ZYOsdouLbgmDCJwZfELjTb6GniX
+	 Rmg03X+i192jlXiYfDowjzFqk5+d2awe6eVcXDSLTP0n2mpv4HM94oD5fmMmvqy1FA
+	 KIye1sEhkO7hXKRmOKXBfg8N6SqjBLK0eBUIFxzhB6myku9DlnTWmXljlHPdt4e9th
+	 PFlaiEJqXk4k0YS+oGIjb3v96tEy0tH+f/t39hzAW6BrNNw1n3ZRseVjHqEstcMw9Z
+	 kgOMpRU6OJGt3RjUpIXJb0NwoOmIeHrgdQenQiV2A9+26kiQAIJKt+u+rmoP6iqn4h
+	 RSy25p9eG5qzw==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Zhang Heng <zhangheng@kylinos.cn>,
+Cc: "Chia-Lin Kao (AceLan)" <acelan.kao@canonical.com>,
 	Jiri Kosina <jkosina@suse.com>,
 	Sasha Levin <sashal@kernel.org>,
 	jikos@kernel.org,
 	bentiss@kernel.org,
 	linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.6 13/14] HID: Add IGNORE quirk for SMARTLINKTECHNOLOGY
-Date: Mon, 30 Jun 2025 16:46:38 -0400
-Message-Id: <20250630204639.1358777-13-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 14/14] HID: quirks: Add quirk for 2 Chicony Electronics HP 5MP Cameras
+Date: Mon, 30 Jun 2025 16:46:39 -0400
+Message-Id: <20250630204639.1358777-14-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250630204639.1358777-1-sashal@kernel.org>
 References: <20250630204639.1358777-1-sashal@kernel.org>
@@ -67,32 +67,19 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.6.95
 Content-Transfer-Encoding: 8bit
 
-From: Zhang Heng <zhangheng@kylinos.cn>
+From: "Chia-Lin Kao (AceLan)" <acelan.kao@canonical.com>
 
-[ Upstream commit 1a8953f4f7746c6a515989774fe03047c522c613 ]
+[ Upstream commit 54bae4c17c11688339eb73a04fd24203bb6e7494 ]
 
-MARTLINKTECHNOLOGY is a microphone device, when the HID interface in an
-audio device is requested to get specific report id, the following error
-may occur.
+The Chicony Electronics HP 5MP Cameras (USB ID 04F2:B824 & 04F2:B82C)
+report a HID sensor interface that is not actually implemented.
+Attempting to access this non-functional sensor via iio_info causes
+system hangs as runtime PM tries to wake up an unresponsive sensor.
 
-[  562.939373] usb 1-1.4.1.2: new full-speed USB device number 21 using xhci_hcd
-[  563.104908] usb 1-1.4.1.2: New USB device found, idVendor=4c4a, idProduct=4155, bcdDevice= 1.00
-[  563.104910] usb 1-1.4.1.2: New USB device strings: Mfr=1, Product=2, SerialNumber=3
-[  563.104911] usb 1-1.4.1.2: Product: USB Composite Device
-[  563.104912] usb 1-1.4.1.2: Manufacturer: SmartlinkTechnology
-[  563.104913] usb 1-1.4.1.2: SerialNumber: 20201111000001
-[  563.229499] input: SmartlinkTechnology USB Composite Device as /devices/pci0000:00/0000:00:07.1/0000:04:00.3/usb1/1-1/1-1.4/1-1.4.1/1-1.4.1.2/1-1.4.1.2:1.2/0003:4C4A:4155.000F/input/input35
-[  563.291505] hid-generic 0003:4C4A:4155.000F: input,hidraw2: USB HID v2.01 Keyboard [SmartlinkTechnology USB Composite Device] on usb-0000:04:00.3-1.4.1.2/input2
-[  563.291557] usbhid 1-1.4.1.2:1.3: couldn't find an input interrupt endpoint
-[  568.506654] usb 1-1.4.1.2: 1:1: usb_set_interface failed (-110)
-[  573.626656] usb 1-1.4.1.2: 1:1: usb_set_interface failed (-110)
-[  578.746657] usb 1-1.4.1.2: 1:1: usb_set_interface failed (-110)
-[  583.866655] usb 1-1.4.1.2: 1:1: usb_set_interface failed (-110)
-[  588.986657] usb 1-1.4.1.2: 1:1: usb_set_interface failed (-110)
+Add these 2 devices to the HID ignore list since the sensor interface is
+non-functional by design and should not be exposed to userspace.
 
-Ignore HID interface. The device is working properly.
-
-Signed-off-by: Zhang Heng <zhangheng@kylinos.cn>
+Signed-off-by: Chia-Lin Kao (AceLan) <acelan.kao@canonical.com>
 Signed-off-by: Jiri Kosina <jkosina@suse.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
@@ -102,75 +89,87 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
 This commit should be backported to stable kernel trees. Here's my
 extensive analysis:
 
-1. **The commit fixes a real user-visible bug**: The device causes
-   repeated USB interface timeout errors (`usb_set_interface failed
-   (-110)`) that spam the kernel log and potentially interfere with
-   device operation. The error log shows five consecutive timeout
-   failures over 25 seconds, which would significantly impact user
-   experience.
+## Key Characteristics of This Commit:
 
-2. **The fix is minimal and contained**: The code changes are extremely
-   simple - just adding two lines to define the vendor/device ID in
-   `hid-ids.h` and one line to add it to the `hid_ignore_list[]` array
-   in `hid-quirks.c`. This is the standard pattern for HID quirks.
+1. **Fixes a Critical User-Facing Bug**: The commit addresses system
+   hangs that occur when userspace attempts to access non-functional HID
+   sensor interfaces through iio_info. This is a serious usability issue
+   that can make the system unresponsive.
 
-3. **Similar commits were backported**: This is very similar to "Similar
-   Commit #1" (Logitech GROUP) which also dealt with HID interfaces on
-   audio devices causing problems. That commit added `HID_QUIRK_NOGET`
-   and was backported. The pattern is identical - an audio device with a
-   problematic HID interface that needs to be handled via quirks.
+2. **Minimal and Contained Changes**: The patch only adds two device IDs
+   to existing infrastructure:
+   - In `drivers/hid/hid-ids.h`: Added
+     `USB_DEVICE_ID_CHICONY_HP_5MP_CAMERA` (0xb824) and
+     `USB_DEVICE_ID_CHICONY_HP_5MP_CAMERA2` (0xb82c)
+   - In `drivers/hid/hid-quirks.c`: Added these two devices to the
+     `hid_ignore_list[]` array
 
-4. **No risk of regression**: The change only affects devices with
-   vendor ID 0x4c4a and product ID 0x4155. When a device matches this
-   ID, the HID subsystem will simply skip it via the `hid_ignore()`
-   function check in `hid_add_device()`. This cannot affect any other
-   devices.
+3. **Zero Risk of Regression**: The changes only affect the specific USB
+   devices (04F2:B824 and 04F2:B82C). No existing functionality is
+   modified, and no code logic is changed.
 
-5. **The device functions properly with the fix**: The commit message
-   explicitly states "The device is working properly" - meaning the
-   audio functionality works fine once the HID interface is ignored.
-   This is not breaking functionality but rather preventing the HID
-   subsystem from interfering with a working audio device.
+## Comparison with Similar Commits:
 
-6. **The error pattern indicates a hardware quirk**: The continuous
-   timeout errors (-110) when trying to set the USB interface suggests
-   the device's HID implementation doesn't properly respond to standard
-   HID commands. This is exactly the type of hardware-specific issue
-   that the HID quirks system was designed to handle.
+This commit is nearly identical to **Similar Commit #1** (which was
+backported), where a QUANTA HP 5MP Camera (0408:5473) was added to the
+ignore list for the exact same reason - non-functional sensor causing
+system hangs. Both commits:
+- Target HP 5MP cameras with non-functional sensors
+- Use the same fix approach (adding to HID ignore list)
+- Prevent system hangs when accessing the sensor
 
-This meets all the criteria for stable backporting: it fixes a bug
-affecting users, is small and self-contained, has minimal risk, and
-follows established patterns for similar fixes that were previously
-backported.
+## Alignment with Stable Kernel Rules:
 
- drivers/hid/hid-ids.h    | 3 +++
- drivers/hid/hid-quirks.c | 1 +
+The commit perfectly aligns with stable tree criteria:
+- **Fixes a real bug**: System hangs are critical issues
+- **Already in Linus' tree**: Signed-off by Jiri Kosina (HID maintainer)
+- **Small change**: Only 4 lines of actual code changes
+- **Obviously correct**: Simply adding device IDs to an ignore list
+- **No new features**: Pure bugfix
+- **Hardware-specific**: Only affects users with these specific cameras
+
+## Historical Precedent:
+
+Looking at the provided similar commits:
+- 4 out of 5 hardware quirk commits were backported (80% backport rate)
+- All commits fixing system hangs or device disconnections were
+  backported
+- The only non-backported commit (#4) involved architectural changes to
+  enum handling
+
+This commit follows the exact pattern of successfully backported
+hardware quirks, making it an excellent candidate for stable inclusion.
+
+ drivers/hid/hid-ids.h    | 2 ++
+ drivers/hid/hid-quirks.c | 2 ++
  2 files changed, 4 insertions(+)
 
 diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index c0ce11393f0fb..f344df00db03a 100644
+index f344df00db03a..0d1d7162814f3 100644
 --- a/drivers/hid/hid-ids.h
 +++ b/drivers/hid/hid-ids.h
-@@ -1502,4 +1502,7 @@
- #define USB_VENDOR_ID_SIGNOTEC			0x2133
- #define USB_DEVICE_ID_SIGNOTEC_VIEWSONIC_PD1011	0x0018
+@@ -305,6 +305,8 @@
+ #define USB_DEVICE_ID_ASUS_AK1D		0x1125
+ #define USB_DEVICE_ID_CHICONY_TOSHIBA_WT10A	0x1408
+ #define USB_DEVICE_ID_CHICONY_ACER_SWITCH12	0x1421
++#define USB_DEVICE_ID_CHICONY_HP_5MP_CAMERA	0xb824
++#define USB_DEVICE_ID_CHICONY_HP_5MP_CAMERA2	0xb82c
  
-+#define USB_VENDOR_ID_SMARTLINKTECHNOLOGY              0x4c4a
-+#define USB_DEVICE_ID_SMARTLINKTECHNOLOGY_4155         0x4155
-+
- #endif
+ #define USB_VENDOR_ID_CHUNGHWAT		0x2247
+ #define USB_DEVICE_ID_CHUNGHWAT_MULTITOUCH	0x0001
 diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
-index 73979643315bf..e4d80307b898c 100644
+index e4d80307b898c..80372342c176a 100644
 --- a/drivers/hid/hid-quirks.c
 +++ b/drivers/hid/hid-quirks.c
-@@ -894,6 +894,7 @@ static const struct hid_device_id hid_ignore_list[] = {
- #endif
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_YEALINK, USB_DEVICE_ID_YEALINK_P1K_P4K_B2K) },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_QUANTA, USB_DEVICE_ID_QUANTA_HP_5MP_CAMERA_5473) },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_SMARTLINKTECHNOLOGY, USB_DEVICE_ID_SMARTLINKTECHNOLOGY_4155) },
- 	{ }
- };
- 
+@@ -747,6 +747,8 @@ static const struct hid_device_id hid_ignore_list[] = {
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_AVERMEDIA, USB_DEVICE_ID_AVER_FM_MR800) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_AXENTIA, USB_DEVICE_ID_AXENTIA_FM_RADIO) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_BERKSHIRE, USB_DEVICE_ID_BERKSHIRE_PCWD) },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_CHICONY, USB_DEVICE_ID_CHICONY_HP_5MP_CAMERA) },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_CHICONY, USB_DEVICE_ID_CHICONY_HP_5MP_CAMERA2) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_CIDC, 0x0103) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_CYGNAL, USB_DEVICE_ID_CYGNAL_RADIO_SI470X) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_CYGNAL, USB_DEVICE_ID_CYGNAL_RADIO_SI4713) },
 -- 
 2.39.5
 
