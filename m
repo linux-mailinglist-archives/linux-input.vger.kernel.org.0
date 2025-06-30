@@ -1,61 +1,61 @@
-Return-Path: <linux-input+bounces-13257-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13258-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61641AEE91D
-	for <lists+linux-input@lfdr.de>; Mon, 30 Jun 2025 23:02:44 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A031AEE92F
+	for <lists+linux-input@lfdr.de>; Mon, 30 Jun 2025 23:03:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C74E53E1626
-	for <lists+linux-input@lfdr.de>; Mon, 30 Jun 2025 21:02:14 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 125AB1887FD9
+	for <lists+linux-input@lfdr.de>; Mon, 30 Jun 2025 21:02:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A49EB21FF54;
-	Mon, 30 Jun 2025 21:01:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 770682E9EB0;
+	Mon, 30 Jun 2025 21:01:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qhARBZQG"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AeASHnot"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C8651FBCB0;
-	Mon, 30 Jun 2025 21:01:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E56128F514;
+	Mon, 30 Jun 2025 21:01:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751317303; cv=none; b=KqC4Ed17dADCe5lBxF6qz7jp+6DgLiCxDlWqz/cJVODtceLhzZ1C7AvXs/AJiKrv4T4ivDlC4Kf+9GInov8jFZA2EqVqTdeMMfYlCENMGsJzIjhoiK6D/Ucw5HV+EeELXabFb39PJ3Fch35FKrk180mMrAns6eZXYgtIAwjzsHc=
+	t=1751317315; cv=none; b=KM2T3/vPVhNslVjpCTVPJGe3GAaLisLOqD15qOUxkeGFHcYFvOtLfRgO8owuHucQBMe1geiu6ncI4/O6kgqr9kKA8Jx5trPYU1EWGEtOYyfIHcqtHraLrObZAsK7oitvxiKPBCJ6MKndOAEAUPfeoJwmtoct7NpXgMBRZVK/Quc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751317303; c=relaxed/simple;
-	bh=LxfqtAe43d6MoxXZs0NoMYWj7x8lEN+XLmrnqUSNOrM=;
+	s=arc-20240116; t=1751317315; c=relaxed/simple;
+	bh=rLZIkib5r0o+wruC9757SBvDf5b9SX9QSMKzxOM620s=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=c1ptfe3tR21S5T/y6YhHXa9RwxO8fJ/yRIeJZq5ew9lOa4F06kHOuyOOzSSZTxMTGml3+JNjgqfTCxt59YZOM3U5VPmgUwyntdebbUxFAHpwGxStu6aTQcET9ZNdR645Tg2Ti9rZz9ln+oRAinAjyACS0iVAhMOdbjTPWeTKBZY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qhARBZQG; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58F28C4CEE3;
-	Mon, 30 Jun 2025 21:01:42 +0000 (UTC)
+	 MIME-Version; b=Xt1LVWK7e1c81aGsSip50J/h9CETHy28O8k6qd4/WYuW0YbS7itAOQnKrLNYwnhmNcTHH0bEoKyHR4KBoxvYe9N2V1rNFed6X9Qt2Ih/HIfyecLp9hlQCrZiHmHgHwmqgyd0DrvfPpvz0bNp5WZnxkTnYJkG4J6YFlLG3FxjJyE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AeASHnot; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29BF9C4CEEB;
+	Mon, 30 Jun 2025 21:01:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751317303;
-	bh=LxfqtAe43d6MoxXZs0NoMYWj7x8lEN+XLmrnqUSNOrM=;
+	s=k20201202; t=1751317315;
+	bh=rLZIkib5r0o+wruC9757SBvDf5b9SX9QSMKzxOM620s=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=qhARBZQGlj7Eq4HJaPorb5pfKGbc8qhHOPyfGZPtFp4zFZYkaz+5DDocPoumvEH4E
-	 F4inkVXb6Wvjfsj82GikuPWmVHuznVxzEdbB+9dpH0JX3D612gxsA3/6FZrkde3lDg
-	 iYY8heE7+TDQPy70FcTzqRzY4aqqSwppvMLiYQIwQpn6m9eqwW84I/fDLJ6oOavibQ
-	 t6Igza+5CvRp17eVPkMSvvRxSgRimwkkGdk5N7s5RkqXwiMy4iU93LjJ+PfxdDdTPp
-	 aSfa7GsvR/nWmrM92VRuklh2XZz/XJLMtO18xdeYMX+osS9fodGSSCEgUR6wDUhIc3
-	 jWWYVXUFx6azA==
+	b=AeASHnotLtq5VMok+me2iBwfEdE9LMrYc2GcRuNAZuBCvnkQupg8OgEZuW6V8NL44
+	 THVx6ozCGtGkvVNufkYrDAOUlQBVYuRrKetRH8ABku3xFuBhXps20J8MJBidFyPhdk
+	 xeCCcqBn9PfPI3PITaLFglT8XtDAmsMDJhDK64sfDUk+fIW26AS7gHd/iICHbnU1YH
+	 mRB54NDzuy0qi/3jpfVgwGA/wHJLEK/ljFy0r+s0WTTJ/KNyrvSREq4dImpUd1b9Hp
+	 JKkrLWOpCSQut47yUXgp3CfzBBGik6vGOG9JI3Pk4INXAN6UOipSkEKHFAf9uxsLYI
+	 0TP8Zdfe8gZ9Q==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: "Chia-Lin Kao (AceLan)" <acelan.kao@canonical.com>,
+Cc: Akira Inoue <niyarium@gmail.com>,
 	Jiri Kosina <jkosina@suse.com>,
 	Sasha Levin <sashal@kernel.org>,
 	jikos@kernel.org,
 	bentiss@kernel.org,
 	linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.1 10/10] HID: quirks: Add quirk for 2 Chicony Electronics HP 5MP Cameras
-Date: Mon, 30 Jun 2025 16:47:17 -0400
-Message-Id: <20250630204718.1359222-10-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 4/7] HID: lenovo: Add support for ThinkPad X1 Tablet Thin Keyboard Gen2
+Date: Mon, 30 Jun 2025 17:01:41 -0400
+Message-Id: <20250630210144.1359448-4-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250630204718.1359222-1-sashal@kernel.org>
-References: <20250630204718.1359222-1-sashal@kernel.org>
+In-Reply-To: <20250630210144.1359448-1-sashal@kernel.org>
+References: <20250630210144.1359448-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -64,22 +64,16 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.1.142
+X-stable-base: Linux 5.15.186
 Content-Transfer-Encoding: 8bit
 
-From: "Chia-Lin Kao (AceLan)" <acelan.kao@canonical.com>
+From: Akira Inoue <niyarium@gmail.com>
 
-[ Upstream commit 54bae4c17c11688339eb73a04fd24203bb6e7494 ]
+[ Upstream commit a8905238c3bbe13db90065ed74682418f23830c3 ]
 
-The Chicony Electronics HP 5MP Cameras (USB ID 04F2:B824 & 04F2:B82C)
-report a HID sensor interface that is not actually implemented.
-Attempting to access this non-functional sensor via iio_info causes
-system hangs as runtime PM tries to wake up an unresponsive sensor.
+Add "Thinkpad X1 Tablet Gen 2 Keyboard" PID to hid-lenovo driver to fix trackpoint not working issue.
 
-Add these 2 devices to the HID ignore list since the sensor interface is
-non-functional by design and should not be exposed to userspace.
-
-Signed-off-by: Chia-Lin Kao (AceLan) <acelan.kao@canonical.com>
+Signed-off-by: Akira Inoue <niyarium@gmail.com>
 Signed-off-by: Jiri Kosina <jkosina@suse.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
@@ -89,87 +83,174 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
 This commit should be backported to stable kernel trees. Here's my
 extensive analysis:
 
-## Key Characteristics of This Commit:
+## Commit Analysis
 
-1. **Fixes a Critical User-Facing Bug**: The commit addresses system
-   hangs that occur when userspace attempts to access non-functional HID
-   sensor interfaces through iio_info. This is a serious usability issue
-   that can make the system unresponsive.
+This commit adds support for the ThinkPad X1 Tablet Thin Keyboard Gen2
+by adding its USB device ID (0x60a4) to the hid-lenovo driver. The
+primary issue being fixed is that the trackpoint (pointing stick) is
+non-functional without this patch.
 
-2. **Minimal and Contained Changes**: The patch only adds two device IDs
-   to existing infrastructure:
-   - In `drivers/hid/hid-ids.h`: Added
-     `USB_DEVICE_ID_CHICONY_HP_5MP_CAMERA` (0xb824) and
-     `USB_DEVICE_ID_CHICONY_HP_5MP_CAMERA2` (0xb82c)
-   - In `drivers/hid/hid-quirks.c`: Added these two devices to the
-     `hid_ignore_list[]` array
+## Code Changes Examination
 
-3. **Zero Risk of Regression**: The changes only affect the specific USB
-   devices (04F2:B824 and 04F2:B82C). No existing functionality is
-   modified, and no code logic is changed.
+1. **drivers/hid/hid-ids.h**: Adds `USB_DEVICE_ID_LENOVO_X1_TAB2` with
+   value 0x60a4. This follows the existing pattern where X1_TAB is
+   0x60a3 and X1_TAB3 is 0x60b5.
 
-## Comparison with Similar Commits:
+2. **drivers/hid/hid-lenovo.c**: The device ID is added to 7 locations:
+   - `lenovo_input_mapping()`: Enables X1 tablet keyboard-specific input
+     mappings
+   - `attr_fn_lock_store()`: Enables FnLock LED control functionality
+   - `lenovo_event()`: Handles special key events
+   - `lenovo_led_brightness_set()`: Controls mute/micmute LED indicators
+   - `lenovo_probe()`: Initializes device with tp10ubkbd infrastructure
+   - `lenovo_remove()`: Cleanup handling
+   - `lenovo_devices[]`: Device table entry with HID_GROUP_GENERIC
 
-This commit is nearly identical to **Similar Commit #1** (which was
-backported), where a QUANTA HP 5MP Camera (0408:5473) was added to the
-ignore list for the exact same reason - non-functional sensor causing
-system hangs. Both commits:
-- Target HP 5MP cameras with non-functional sensors
-- Use the same fix approach (adding to HID ignore list)
-- Prevent system hangs when accessing the sensor
+3. **drivers/hid/hid-multitouch.c**: Adds multitouch support with
+   `MT_CLS_WIN_8_FORCE_MULTI_INPUT` class, consistent with other X1
+   Tablet devices.
 
-## Alignment with Stable Kernel Rules:
+## Stable Backport Criteria
 
-The commit perfectly aligns with stable tree criteria:
-- **Fixes a real bug**: System hangs are critical issues
-- **Already in Linus' tree**: Signed-off by Jiri Kosina (HID maintainer)
-- **Small change**: Only 4 lines of actual code changes
-- **Obviously correct**: Simply adding device IDs to an ignore list
-- **No new features**: Pure bugfix
-- **Hardware-specific**: Only affects users with these specific cameras
+This commit meets all the stable kernel backporting criteria:
 
-## Historical Precedent:
+1. **Fixes a real bug**: The trackpoint is completely non-functional
+   without this patch, affecting users who own this hardware.
+
+2. **Small and contained**: The changes are minimal - just adding a
+   device ID to existing code paths. No new functionality or
+   architectural changes.
+
+3. **Obviously correct**: The pattern is identical to existing X1 Tablet
+   support (Gen1 and Gen3). The commit follows established conventions.
+
+4. **Low risk**: Cannot affect any other hardware since it's guarded by
+   specific device ID checks.
+
+5. **Hardware enablement**: This is pure hardware enablement for a
+   specific device that doesn't work at all without this patch.
+
+## Comparison with Similar Commits
 
 Looking at the provided similar commits:
-- 4 out of 5 hardware quirk commits were backported (80% backport rate)
-- All commits fixing system hangs or device disconnections were
-  backported
-- The only non-backported commit (#4) involved architectural changes to
-  enum handling
+- Commits adding X1 Tablet Gen3 support (Similar #2) and X12 Tab Gen2
+  support (Similar #4) were marked YES for backporting
+- Both fixed similar issues (non-working buttons, trackpoint, FnLock)
+- This commit follows the exact same pattern
 
-This commit follows the exact pattern of successfully backported
-hardware quirks, making it an excellent candidate for stable inclusion.
+The commit marked NO (Similar #1) only added partial multitouch support
+without the full hid-lenovo driver integration, which is why it wasn't
+suitable for stable.
 
- drivers/hid/hid-ids.h    | 2 ++
- drivers/hid/hid-quirks.c | 2 ++
- 2 files changed, 4 insertions(+)
+## Conclusion
+
+This is a textbook example of a commit that should be backported to
+stable kernels. It enables basic functionality (trackpoint) for specific
+hardware that is completely broken without it, using minimal, well-
+tested code patterns that cannot regress other devices.
+
+ drivers/hid/hid-ids.h        | 1 +
+ drivers/hid/hid-lenovo.c     | 8 ++++++++
+ drivers/hid/hid-multitouch.c | 8 +++++++-
+ 3 files changed, 16 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index 21e0660179ee9..0bbba80d6c51c 100644
+index 08494eb652091..17d00cb1e9be6 100644
 --- a/drivers/hid/hid-ids.h
 +++ b/drivers/hid/hid-ids.h
-@@ -297,6 +297,8 @@
- #define USB_DEVICE_ID_ASUS_AK1D		0x1125
- #define USB_DEVICE_ID_CHICONY_TOSHIBA_WT10A	0x1408
- #define USB_DEVICE_ID_CHICONY_ACER_SWITCH12	0x1421
-+#define USB_DEVICE_ID_CHICONY_HP_5MP_CAMERA	0xb824
-+#define USB_DEVICE_ID_CHICONY_HP_5MP_CAMERA2	0xb82c
+@@ -764,6 +764,7 @@
+ #define USB_DEVICE_ID_LENOVO_TPPRODOCK	0x6067
+ #define USB_DEVICE_ID_LENOVO_X1_COVER	0x6085
+ #define USB_DEVICE_ID_LENOVO_X1_TAB	0x60a3
++#define USB_DEVICE_ID_LENOVO_X1_TAB2	0x60a4
+ #define USB_DEVICE_ID_LENOVO_X1_TAB3	0x60b5
+ #define USB_DEVICE_ID_LENOVO_X12_TAB	0x60fe
+ #define USB_DEVICE_ID_LENOVO_X12_TAB2	0x61ae
+diff --git a/drivers/hid/hid-lenovo.c b/drivers/hid/hid-lenovo.c
+index 9536f468b42c5..d74f0ddb45fdb 100644
+--- a/drivers/hid/hid-lenovo.c
++++ b/drivers/hid/hid-lenovo.c
+@@ -343,6 +343,7 @@ static int lenovo_input_mapping(struct hid_device *hdev,
+ 		return lenovo_input_mapping_tp10_ultrabook_kbd(hdev, hi, field,
+ 							       usage, bit, max);
+ 	case USB_DEVICE_ID_LENOVO_X1_TAB:
++	case USB_DEVICE_ID_LENOVO_X1_TAB2:
+ 	case USB_DEVICE_ID_LENOVO_X1_TAB3:
+ 		return lenovo_input_mapping_x1_tab_kbd(hdev, hi, field, usage, bit, max);
+ 	default:
+@@ -432,6 +433,7 @@ static ssize_t attr_fn_lock_store(struct device *dev,
+ 		break;
+ 	case USB_DEVICE_ID_LENOVO_TP10UBKBD:
+ 	case USB_DEVICE_ID_LENOVO_X1_TAB:
++	case USB_DEVICE_ID_LENOVO_X1_TAB2:
+ 	case USB_DEVICE_ID_LENOVO_X1_TAB3:
+ 		ret = lenovo_led_set_tp10ubkbd(hdev, TP10UBKBD_FN_LOCK_LED, value);
+ 		if (ret)
+@@ -616,6 +618,7 @@ static int lenovo_event(struct hid_device *hdev, struct hid_field *field,
+ 		return lenovo_event_cptkbd(hdev, field, usage, value);
+ 	case USB_DEVICE_ID_LENOVO_TP10UBKBD:
+ 	case USB_DEVICE_ID_LENOVO_X1_TAB:
++	case USB_DEVICE_ID_LENOVO_X1_TAB2:
+ 	case USB_DEVICE_ID_LENOVO_X1_TAB3:
+ 		return lenovo_event_tp10ubkbd(hdev, field, usage, value);
+ 	default:
+@@ -899,6 +902,7 @@ static int lenovo_led_brightness_set(struct led_classdev *led_cdev,
+ 		break;
+ 	case USB_DEVICE_ID_LENOVO_TP10UBKBD:
+ 	case USB_DEVICE_ID_LENOVO_X1_TAB:
++	case USB_DEVICE_ID_LENOVO_X1_TAB2:
+ 	case USB_DEVICE_ID_LENOVO_X1_TAB3:
+ 		ret = lenovo_led_set_tp10ubkbd(hdev, tp10ubkbd_led[led_nr], value);
+ 		break;
+@@ -1140,6 +1144,7 @@ static int lenovo_probe(struct hid_device *hdev,
+ 		break;
+ 	case USB_DEVICE_ID_LENOVO_TP10UBKBD:
+ 	case USB_DEVICE_ID_LENOVO_X1_TAB:
++	case USB_DEVICE_ID_LENOVO_X1_TAB2:
+ 	case USB_DEVICE_ID_LENOVO_X1_TAB3:
+ 		ret = lenovo_probe_tp10ubkbd(hdev);
+ 		break;
+@@ -1207,6 +1212,7 @@ static void lenovo_remove(struct hid_device *hdev)
+ 		break;
+ 	case USB_DEVICE_ID_LENOVO_TP10UBKBD:
+ 	case USB_DEVICE_ID_LENOVO_X1_TAB:
++	case USB_DEVICE_ID_LENOVO_X1_TAB2:
+ 	case USB_DEVICE_ID_LENOVO_X1_TAB3:
+ 		lenovo_remove_tp10ubkbd(hdev);
+ 		break;
+@@ -1253,6 +1259,8 @@ static const struct hid_device_id lenovo_devices[] = {
+ 	 */
+ 	{ HID_DEVICE(BUS_USB, HID_GROUP_GENERIC,
+ 		     USB_VENDOR_ID_LENOVO, USB_DEVICE_ID_LENOVO_X1_TAB) },
++	{ HID_DEVICE(BUS_USB, HID_GROUP_GENERIC,
++		     USB_VENDOR_ID_LENOVO, USB_DEVICE_ID_LENOVO_X1_TAB2) },
+ 	{ HID_DEVICE(BUS_USB, HID_GROUP_GENERIC,
+ 		     USB_VENDOR_ID_LENOVO, USB_DEVICE_ID_LENOVO_X1_TAB3) },
+ 	{ }
+diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
+index bc9ba011ff607..c12f7cb7e1d95 100644
+--- a/drivers/hid/hid-multitouch.c
++++ b/drivers/hid/hid-multitouch.c
+@@ -2108,12 +2108,18 @@ static const struct hid_device_id mt_devices[] = {
+ 		HID_DEVICE(BUS_I2C, HID_GROUP_GENERIC,
+ 			USB_VENDOR_ID_LG, I2C_DEVICE_ID_LG_7010) },
  
- #define USB_VENDOR_ID_CHUNGHWAT		0x2247
- #define USB_DEVICE_ID_CHUNGHWAT_MULTITOUCH	0x0001
-diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
-index 7fca632ceea79..b37927f909412 100644
---- a/drivers/hid/hid-quirks.c
-+++ b/drivers/hid/hid-quirks.c
-@@ -738,6 +738,8 @@ static const struct hid_device_id hid_ignore_list[] = {
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_AVERMEDIA, USB_DEVICE_ID_AVER_FM_MR800) },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_AXENTIA, USB_DEVICE_ID_AXENTIA_FM_RADIO) },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_BERKSHIRE, USB_DEVICE_ID_BERKSHIRE_PCWD) },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_CHICONY, USB_DEVICE_ID_CHICONY_HP_5MP_CAMERA) },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_CHICONY, USB_DEVICE_ID_CHICONY_HP_5MP_CAMERA2) },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_CIDC, 0x0103) },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_CYGNAL, USB_DEVICE_ID_CYGNAL_RADIO_SI470X) },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_CYGNAL, USB_DEVICE_ID_CYGNAL_RADIO_SI4713) },
+-	/* Lenovo X1 TAB Gen 2 */
++	/* Lenovo X1 TAB Gen 1 */
+ 	{ .driver_data = MT_CLS_WIN_8_FORCE_MULTI_INPUT,
+ 		HID_DEVICE(BUS_USB, HID_GROUP_MULTITOUCH_WIN_8,
+ 			   USB_VENDOR_ID_LENOVO,
+ 			   USB_DEVICE_ID_LENOVO_X1_TAB) },
+ 
++	/* Lenovo X1 TAB Gen 2 */
++	{ .driver_data = MT_CLS_WIN_8_FORCE_MULTI_INPUT,
++		HID_DEVICE(BUS_USB, HID_GROUP_MULTITOUCH_WIN_8,
++			   USB_VENDOR_ID_LENOVO,
++			   USB_DEVICE_ID_LENOVO_X1_TAB2) },
++
+ 	/* Lenovo X1 TAB Gen 3 */
+ 	{ .driver_data = MT_CLS_WIN_8_FORCE_MULTI_INPUT,
+ 		HID_DEVICE(BUS_USB, HID_GROUP_MULTITOUCH_WIN_8,
 -- 
 2.39.5
 
