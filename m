@@ -1,190 +1,177 @@
-Return-Path: <linux-input+bounces-13230-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13231-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6242AEDD27
-	for <lists+linux-input@lfdr.de>; Mon, 30 Jun 2025 14:40:34 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 777B9AEE016
+	for <lists+linux-input@lfdr.de>; Mon, 30 Jun 2025 16:06:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id BF6C67AC98D
-	for <lists+linux-input@lfdr.de>; Mon, 30 Jun 2025 12:38:25 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 49B2F3BE3C0
+	for <lists+linux-input@lfdr.de>; Mon, 30 Jun 2025 14:04:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A367628C03D;
-	Mon, 30 Jun 2025 12:37:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 76AC528B3E8;
+	Mon, 30 Jun 2025 14:04:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b="nN6LXT5e"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Y5fPjOco"
 X-Original-To: linux-input@vger.kernel.org
-Received: from MA0PR01CU012.outbound.protection.outlook.com (mail-southindiaazolkn19011036.outbound.protection.outlook.com [52.103.67.36])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A03128BA90;
-	Mon, 30 Jun 2025 12:37:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.67.36
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751287052; cv=fail; b=tGk8sulprAw0DbyXiy9qNbqaf9mSk12yzi6GyBM7E5WAJ+RHd5He5DU4z6Qmg4K4nFbq4bWMn/tYnsTO6WQisiOii2yyWk7OIJupe+iZe6lkaIRqsd1C5MRsk/ApxRRiDo5tjpxRqo2xo+ojN21aI1yBrAZ9Ks7rRB1jt+FfOp0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751287052; c=relaxed/simple;
-	bh=wDoits4n0Q3g1p/WWps4rhcduJJ4hS9C7pROUlZ+Tik=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=r6sQ4z/Lb2wUXBzL+dZmiOzOfm2YW/t2epTZa5vmkdE3BzO6jerrUbCDWsBF3L1EGRcmYDTLfABRaNy1wcLSZI8LxP74bPG+cO8tnS0UHWiIAsDpC7zBxDZBCgyxPywN/vxvV3qvbbI+l80v2jR3fY2BeD/ZudKwU535KfsIuV8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com; spf=pass smtp.mailfrom=live.com; dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b=nN6LXT5e; arc=fail smtp.client-ip=52.103.67.36
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=live.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Yel+9ToDkIHOw0P4usk1tFbhatQSRpPA5ZEaxOHUTHg/EMHcISGMomWcRPfjvcJ1zp2EztlmuSk00Y4Unt7qsT0exoUO6fdKcnkNgOluiV0tJterczEMqG0Z0v1gNim6d4PUKXe5JpPFLplCBFlBt52D7KmcbEFM1tqODZOxY0U1SyOjqP7RamzuLYlp9tMlXMU2IJyEmdv3kqVJrH0uv/ZAh4IuIglbzObZVkCVfMvdN2/Oy9zzFHbDqjoz86nK6qiEAIGx/TSGICb4VrLjF4/2V3Y3D8dLlvTTIQh/35FAbyKA7AIhiV+pquQE7n06OOsf9ksPA6emv36rvKuSvg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=nl/VbXF6dM4FyGF/wf1EP6kIomY7JYnz1BwqQaLqsOQ=;
- b=dZrl2ITMhHqirlOi+I58hxP1nv7P30dZLVDIGYNwEudbl8BQFM/bZoxdS+7eod0H7zUb138s1PWEu6kEt0eG5BMYr6WZoZj4XvZSLNIO7v0DjmVIqXyn48yatTlt1V2KZOslao6UUehvIa75EzW2AdCXgohngkP0WEsiTdCaPvgVT7hhoyqaidwic/1wxxAsoXr2MPEHTybRWit4FDymDJcWuJRrUsiQVnQvTjPyU3pgnpybgKChYLxkNiCU3nODykLW5hXtvbF2OGe6vQu7JNQieTcSmY8FufIySXlTFkBeVr2qpgIKmcUgxg5C+NODVZC+BqPvbCsasezHst+o+g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=live.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nl/VbXF6dM4FyGF/wf1EP6kIomY7JYnz1BwqQaLqsOQ=;
- b=nN6LXT5eJic5vaHnTzcDgELHL5TEwVoBioPrYcpJJfjkpvoNbHEII0UWTiv/VTh3150pmGsNSnNYHKUx/X+7Qu0CyNQ2ecCeYLaw2UpPF98vq4Ko6zvimxIF3AcP0XaVzX/qjPqdncH24nzc3ILG+o1m47YtrUI6HHhfHUupd82S9II25jIHU/YYFsNjzl/ohPJXyhJOmWWr9RCyorrdkXNcmUKzXufUtW8gVKW53WS21Z+t5HSNw9pmBb+hdwktjVZ50D3dkhjKJXt8O1fO/PoGzas9AEuF37nPejzcfoc7ympmdRmoTePnaMRhknqhkRN76XeocTYiFdIdlDFPLw==
-Received: from PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:f7::14)
- by PN0PR01MB6210.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:6b::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8880.30; Mon, 30 Jun
- 2025 12:37:15 +0000
-Received: from PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::324:c085:10c8:4e77]) by PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::324:c085:10c8:4e77%3]) with mapi id 15.20.8880.029; Mon, 30 Jun 2025
- 12:37:15 +0000
-From: Aditya Garg <gargaditya08@live.com>
-To: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>
-CC: "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"stable@vger.kernel.org" <stable@vger.kernel.org>,
-	=?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
-Subject: [PATCH v2 3/4] HID: apple: use secs_to_jiffies() for battery timeout
-Thread-Topic: [PATCH v2 3/4] HID: apple: use secs_to_jiffies() for battery
- timeout
-Thread-Index: AQHb6bu1FU1FYuV0ZUSv2pnM88peTA==
-Date: Mon, 30 Jun 2025 12:37:14 +0000
-Message-ID: <20250630123649.80395-4-gargaditya08@live.com>
-References: <20250630123649.80395-1-gargaditya08@live.com>
-In-Reply-To: <20250630123649.80395-1-gargaditya08@live.com>
-Accept-Language: en-IN, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PN3PR01MB9597:EE_|PN0PR01MB6210:EE_
-x-ms-office365-filtering-correlation-id: 63c9cce5-6f6a-436e-e608-08ddb7d2d7e7
-x-microsoft-antispam:
- BCL:0;ARA:14566002|19110799006|15080799009|8062599006|7092599006|8060799009|461199028|38102599003|52005399003|40105399003|440099028|3412199025|102099032;
-x-microsoft-antispam-message-info:
- =?iso-8859-1?Q?4j3QDYGSnQQ5szqywT2MIan9/vOBbWm9X2UsDP37sFL0ILNdz0iSqEk7J7?=
- =?iso-8859-1?Q?5LMoL1mV2RayF+Sc9SzAzkp+JqvPzFHbmtDhhv+/dlSGaHEG95mT9vrK64?=
- =?iso-8859-1?Q?jLS0s98ZLkgHRrSf3sftEPL039KjUo1S6C4VKIib5LUASPc3fm1J0pmZDe?=
- =?iso-8859-1?Q?lGcq+DOiFyNd/P+a2nD9D2Iu66m35fy0IRmQYJfy20ImcQk0Fem5RFQMco?=
- =?iso-8859-1?Q?zZEqcQkyEQ0G2LEUxk6922w5Squ2raDX6AYmNiFXIzATTgQgtHwUTfh6GU?=
- =?iso-8859-1?Q?hJVEJ2U5FyuhlwjvszVtCNLvxY+V0ZbBaAaRvsQ7Y6l0cGKE2E12nDnG0K?=
- =?iso-8859-1?Q?6L5Da8QbwB1St2JcV8DuE+Sf8e4Wxr+/Y7FkBsxK7RjZ1Bx3xPzpuMe+SH?=
- =?iso-8859-1?Q?B6+jssVSCXGL/qdKr6VNChjdeqC+ed47aLDy6o5sxSIZe8azblTBzsd2R5?=
- =?iso-8859-1?Q?agJaKStVXAvk/NvH32nyhHZezhlgr47R2JLa3BFf8ITdgNnDKYCmYSG84e?=
- =?iso-8859-1?Q?wJdkgSV3Npn2sHDIpSl3WDEdSaJaD/qC87JEaN6YeyswvjSu0kKK+ItHAQ?=
- =?iso-8859-1?Q?ddaQH/5ikX+c/NkKcpzOs33tCv7tMiEwxPlB0T4f14i30ojCmjrupEUZRs?=
- =?iso-8859-1?Q?PPaEd55LeYvEDpHXqLv7Z8wMCEszyxcXoiyfZtX2uchcizYBk1CVROkQwi?=
- =?iso-8859-1?Q?UsP83PEnFTwWpk28ERPsNL53VBpM0byqmHVq69U2ac6czEveXzQJzyBoYt?=
- =?iso-8859-1?Q?W2SIgzeDzHi/bA7mMRHuu62HYvEi+H9Z3c3jknnJn2CW2jDpxwzW6d1d9h?=
- =?iso-8859-1?Q?NnhNLKq97Te+vJsNeOUuWQwSzN3iqBOSRNIIpQa0jFZwcgVyfI0RiuRzyL?=
- =?iso-8859-1?Q?6nD2SpJRBVLVeh1SvcuZB98OKRz2pdxX+RLyd4jWMJpV/E7sEU2M81bJWc?=
- =?iso-8859-1?Q?9Aa8NfCIw8r39dKCzqvZrjFMF4RYb15pJi/W5dtPED7JOVUlH6c1oW2uI5?=
- =?iso-8859-1?Q?rHbWAM0sCozKOKKexOqAspaB/1v/3gXkUo5p99He3fRxNSlS+E/JpvfUfG?=
- =?iso-8859-1?Q?VuR3MQ5nmU9/2QbJre2r9wLgdN4ptysgjq43scz6P5sDA3NtvNDVCu4UOp?=
- =?iso-8859-1?Q?PUpMW6LHumN/dBcyRfYE7Qi7hygq/Zk6mztH0G+gPRy3izgXo7zX7JMwg6?=
- =?iso-8859-1?Q?wR15/AFNOG/G1Cn5emMWmwZW1ee1WjA7frlkT/hM1WwwR0HMrdkYo446eT?=
- =?iso-8859-1?Q?B9d0GaZ+8+MynsMF6/ZQ=3D=3D?=
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?iso-8859-1?Q?9orFFYQqMiFTWSMGgF/HW3OKInpIyx2Lg/NUfalNVGVno+trQyTg7ZeTnW?=
- =?iso-8859-1?Q?IgW2ZSsZAa0Gbx5XbQbjiVYV9usLZ5AhYzjmEGqmJHGkJ5oMcF5g6euUzM?=
- =?iso-8859-1?Q?VBdNaZ6KA8mZ9qy+opYKAc45Fl5PZ9Oh9ZAvmMIdZexJOeFonUWATX4LN+?=
- =?iso-8859-1?Q?R/NgpYXy06a1KVjvrrKpES5Ewt2e46imK6xfQx8jWgaQmagTTWaJM60aOV?=
- =?iso-8859-1?Q?k7NgAGcqXuSXxc9M6nDAhGmzR+KFkex2DMQkhJrJkB4JQlgPHQl5/mSZt/?=
- =?iso-8859-1?Q?bUSHdsJmhxhlosnWKwaLNPt2SRWII4nlGtY1SRRlbVL1b8LPZ2U2pLjjL7?=
- =?iso-8859-1?Q?kDCkLoB1LrXqB1vgVod3f+vU23UMZlrXEsAnzasKKcLVMtNd7S3ElC7L1C?=
- =?iso-8859-1?Q?B5RSi77eMeNJFkczhKH4EYF07m5iC24DBeJExW6QTzeggQZB+sSPC69zSy?=
- =?iso-8859-1?Q?alv6t0FAWyO2oN/nmimYnwYv6k81G83Akpd9urAG6j0a8AWXdqmwk+Q2r3?=
- =?iso-8859-1?Q?9ad+mcPJ0Zp5tC2autis/n2OPdTqiAKeAPcqMrJb1p6J2YLgoYtPrXYqmG?=
- =?iso-8859-1?Q?FmQgK52kGimQZ2lEMK9zs3OYS/0alnWC5c+CCKhnafNwf05l4twLukYB8S?=
- =?iso-8859-1?Q?UTs5IG1eFXVVfqvfh9irlWc/jW2ESNHb/4jyanypoamImf1aIBMuX1HNhy?=
- =?iso-8859-1?Q?nOvVwCHiMx1XDyXYuY6956ns8w3Uls2LRkdMXm84UtmwEvYiYtB1gbPvRg?=
- =?iso-8859-1?Q?45zkhw794sXg+G+R1KHCRAa2sy0h+XgJAcot9yK0d1IpFCzSJ8/8RVDAQR?=
- =?iso-8859-1?Q?2qhA7x3gX/HTVAnW6lPSEPWHvxWwPmV2hjaf5fSksWzv15NPv8IoVlea/k?=
- =?iso-8859-1?Q?3+y2LmrBLf7qrrNhoIQfllLsI9hJdC7F/p0zDdR6DvAxK5f7ClUEey47Ra?=
- =?iso-8859-1?Q?/Ay5LE4wZfSrLGh3e3nfeLpd4/GldmvdsTUATqINAB+f0BUFa9NRjko9Xh?=
- =?iso-8859-1?Q?n36W8bN4OcPZ3A7uoriIDnoLcTy1B5cF3LYBhwnJrEKQUDJumRKqf0EU8V?=
- =?iso-8859-1?Q?ojE2oReVb61j3CfShIRMf4oleLP5ucTPGPgIkl5vXi81ei8M3e1edaAi5o?=
- =?iso-8859-1?Q?V6Nl0OLPonjEVbFHYJ0gEViyvskgiTT6f45svyUSR0dKUAvkL6PgRg3h9J?=
- =?iso-8859-1?Q?QNr90tLkg0VGQNza6gdQTDq2Nzs06t72dMwRuBSRVhie/aOjI5bLPA4NOH?=
- =?iso-8859-1?Q?LQk3cXnoq0h3qHZlUxcnePTaeuIUs3F4w4b9afNps=3D?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FC7927F001;
+	Mon, 30 Jun 2025 14:04:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1751292286; cv=none; b=m51fWBqrGRcxV4+hd8NkaMA9O6AZs8THTKVPP14xMZtukQ+hFmyOYhvv2SbuS3aMS+AnfM2ARRVAR4aJ/6o53eqxhW4qJTgEg96kVSFSUn3A7dFxrfZAsCKKuBE2qs7Hi984c5mma4xHAiqZ/HTnbXNUVkjRkN+nBA7CjkMOyd4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1751292286; c=relaxed/simple;
+	bh=lJo4k2xVeiDebpwc+lYdH4ZwZHtPsq3pOUWr892pgog=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=uo8TCJ2ekZPVmry29oVjzlCysqC76BJXN9z6BzULQ7pTzBP4a996J8G0Fq6RsSh+zdOBRchQvBPWi0lxDQwHPpvuATwBT2+Uns+0JTgWtZp0Yiuyx7MD7SLH1ernNFycg4jT8lhqeGTZabAuLxrkbqV4oEfzDIYIfx/v/CAZ1yk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=Y5fPjOco; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1751292282;
+	bh=lJo4k2xVeiDebpwc+lYdH4ZwZHtPsq3pOUWr892pgog=;
+	h=From:Date:Subject:To:Cc:From;
+	b=Y5fPjOcofU4G1ItuixmiIZQ7ZR3mTg9aTWlF2wqf9c25xRK4agkwggxNZ+s3uqH2Q
+	 Ee+0qRSB1BSSP1dH/gZWfNEzDfc35PKIN5UnBJCIlCvHR0VsPKOXrMbAT9J2g5auXL
+	 K+PRPbF9CzNQ03ZgDfmPHsleV6/tZlT8Xy1LCWG4Y/hcQqBGV9bUXsf8Rt0wLRspMN
+	 r+aEJi37BW8SNko2suUgtG6jliHSzqFMqnfdfsEzHXEjbT+EhVrLhIUMKduQoH81oe
+	 eenEeyGGs3R99mZXgL7cwGDOarDA1OVad4yKD+eL83vt2WkIzKY+J3d/PpSOgiLEpc
+	 JzaTTg3OhiA5Q==
+Received: from yukiji.home (amontpellier-657-1-116-247.w83-113.abo.wanadoo.fr [83.113.51.247])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: laeyraud)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id AA1B417E07F2;
+	Mon, 30 Jun 2025 16:04:41 +0200 (CEST)
+From: Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>
+Date: Mon, 30 Jun 2025 16:03:44 +0200
+Subject: [PATCH] Input: mtk-pmic-keys: Fix null pointer dereference when no
+ compatible data
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: sct-15-20-8813-0-msonline-outlook-f2c18.templateTenant
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: 63c9cce5-6f6a-436e-e608-08ddb7d2d7e7
-X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Jun 2025 12:37:14.4669
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN0PR01MB6210
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250630-mtk-pmic-keys-fix-crash-v1-1-e47351fa9d1f@collabora.com>
+X-B4-Tracking: v=1; b=H4sIAD+ZYmgC/zWNwQrCMBBEfyXs2YUYjUh/RXpI48YuJWnNRqmU/
+ ntDi8c3w8xbQCgzCTRqgUxfFh5ThfNJge9dehHyszIYbay+XTTGMuAU2eNAP8HAM/rspMer6ax
+ 1wdw1BajrKVMt9+dHe3Cm96cKyhFC54TQjzFyaVSiueBfAu26bnCUhzmaAAAA
+X-Change-ID: 20250630-mtk-pmic-keys-fix-crash-42b55af280ef
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: kernel@collabora.com, linux-input@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-mediatek@lists.infradead.org, 
+ Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1751292281; l=3806;
+ i=louisalexis.eyraud@collabora.com; s=20250113; h=from:subject:message-id;
+ bh=lJo4k2xVeiDebpwc+lYdH4ZwZHtPsq3pOUWr892pgog=;
+ b=4hOq21N8D5aFlEKW2DcSULezu6veN9g5798DGmTfklmb5u7sWpNRKE7KpYYGunYkHmoo6aZQW
+ qz9saAYUu5mCtAHnUIH7z8d/6nfLeardHGP1xhvfpOSAjUxiCQIHQbz
+X-Developer-Key: i=louisalexis.eyraud@collabora.com; a=ed25519;
+ pk=CHFBDB2Kqh4EHc6JIqFn69GhxJJAzc0Zr4e8QxtumuM=
 
-The kernel now has a secs_to_jiffies() function which expands to a simpler
-code than msecs_to_jiffies(). Use the same for battery timeout which was
-using 60000 milliseconds (60 seconds).
+In mtk_pmic_keys_probe function, the of_match_device function is
+called to retrieve the compatible platform device info but its return
+data pointer is not checked. It can lead to a null pointer deference
+later when accessing the data field, if of_match_device returned a null
+pointer. So, add a pointer check after calling of_match_device function
+and return an EINVAL error in null case.
 
-Signed-off-by: Aditya Garg <gargaditya08@live.com>
+Signed-off-by: Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>
 ---
- drivers/hid/hid-apple.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+This patch fixes a NULL pointer dereference that occurs during the
+mtk_pmic_keys driver probe and observed at least on Mediatek Genio
+1200-EVK board with a kernel based on linux-next (tag: 20250630),
+when it is configured to have mtk_pmic_keys driver as builtin
+(CONFIG_KEYBOARD_MTK_PMIC=y):
+```
+Unable to handle kernel NULL pointer dereference at virtual address
+  00000000000000c0
+Mem abort info:
+  ESR = 0x0000000096000004
+  EC = 0x25: DABT (current EL), IL = 32 bits
+  SET = 0, FnV = 0
+  EA = 0, S1PTW = 0
+  FSC = 0x04: level 0 translation fault
+Data abort info:
+  ISV = 0, ISS = 0x00000004, ISS2 = 0x00000000
+  CM = 0, WnR = 0, TnD = 0, TagAccess = 0
+  GCS = 0, Overlay = 0, DirtyBit = 0, Xs = 0
+[00000000000000c0] user address but active_mm is swapper
+Internal error: Oops: 0000000096000004 [#1]  SMP
+Modules linked in:
+CPU: 4 UID: 0 PID: 1 Comm: swapper/0 Not tainted 
+  6.16.0-rc4-next-20250630-00001-gea99c662a089 #145 PREEMPT 
+Hardware name: MediaTek Genio 1200 EVK-P1V2-EMMC (DT)
+pstate: 60400009 (nZCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+pc : mtk_pmic_keys_probe+0x94/0x500
+lr : mtk_pmic_keys_probe+0x78/0x500
+sp : ffff80008275bb30
+x29: ffff80008275bb70 x28: ffff80008202bbb0 x27: ffff800081df00b0
+x26: ffff800081ef9060 x25: ffff0000c6fcf400 x24: 0000000000000000
+x23: 0000000000000000 x22: ffff0000c6fcf410 x21: ffff0000c09f8480
+x20: ffff0000c09f4b80 x19: 0000000000000000 x18: 00000000ffffffff
+x17: ffff8000824cb228 x16: 00000000d7fcbc9e x15: ffff0000c0a2b274
+x14: ffff80008275bad0 x13: ffff0000c0a2ba1c x12: 786d692d696d6373
+x11: 0000000000000040 x10: 0000000000000001 x9 : 0000000000000000
+x8 : ffff0000c09f8500 x7 : 0000000000000000 x6 : 000000000000003f
+x5 : 0000000000000040 x4 : ffff0000c6fcf410 x3 : ffff0000c6fcf6c0
+x2 : ffff0000c09f8400 x1 : ffff0000c36da000 x0 : ffff0000c6fcf410
+Call trace:
+ mtk_pmic_keys_probe+0x94/0x500 (P)
+ platform_probe+0x68/0xdc
+ really_probe+0xbc/0x2c0
+ __driver_probe_device+0x78/0x120
+ driver_probe_device+0x3c/0x154
+ __driver_attach+0x90/0x1a0
+ bus_for_each_dev+0x7c/0xdc
+ driver_attach+0x24/0x30
+ bus_add_driver+0xe4/0x208
+ driver_register+0x68/0x130
+ __platform_driver_register+0x24/0x30
+ pmic_keys_pdrv_init+0x1c/0x28
+ do_one_initcall+0x60/0x1d4
+ kernel_init_freeable+0x24c/0x2b4
+ kernel_init+0x20/0x140
+ ret_from_fork+0x10/0x20
+Code: aa1603e0 f90006b6 f9400681 f9000aa1 (f9406261) 
+---[ end trace 0000000000000000 ]---
+```
+---
+ drivers/input/keyboard/mtk-pmic-keys.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/hid/hid-apple.c b/drivers/hid/hid-apple.c
-index c8f0e2446..8ee99d603 100644
---- a/drivers/hid/hid-apple.c
-+++ b/drivers/hid/hid-apple.c
-@@ -48,7 +48,7 @@
- #define APPLE_FLAG_TB_FKEY	BIT(1)
-=20
- #define HID_COUNTRY_INTERNATIONAL_ISO	13
--#define APPLE_BATTERY_TIMEOUT_MS	60000
-+#define APPLE_BATTERY_TIMEOUT_SEC	60
-=20
- #define HID_USAGE_MAGIC_BL			0xff00000f
- #define APPLE_MAGIC_REPORT_ID_POWER		3
-@@ -645,7 +645,7 @@ static void apple_battery_timer_tick(struct timer_list =
-*t)
-=20
- 	if (apple_fetch_battery(hdev) =3D=3D 0) {
- 		mod_timer(&asc->battery_timer,
--			  jiffies + msecs_to_jiffies(APPLE_BATTERY_TIMEOUT_MS));
-+			  jiffies + secs_to_jiffies(APPLE_BATTERY_TIMEOUT_SEC));
- 	}
- }
-=20
-@@ -962,7 +962,7 @@ static int apple_probe(struct hid_device *hdev,
- 	if (quirks & APPLE_RDESC_BATTERY) {
- 		timer_setup(&asc->battery_timer, apple_battery_timer_tick, 0);
- 		mod_timer(&asc->battery_timer,
--			  jiffies + msecs_to_jiffies(APPLE_BATTERY_TIMEOUT_MS));
-+			  jiffies + secs_to_jiffies(APPLE_BATTERY_TIMEOUT_SEC));
- 		apple_fetch_battery(hdev);
- 	}
-=20
---=20
-2.49.0
+diff --git a/drivers/input/keyboard/mtk-pmic-keys.c b/drivers/input/keyboard/mtk-pmic-keys.c
+index 061d48350df661dd26832b307e1460ee8b8fd535..42fb93086db308ad87a276be4b53e9725a3a701b 100644
+--- a/drivers/input/keyboard/mtk-pmic-keys.c
++++ b/drivers/input/keyboard/mtk-pmic-keys.c
+@@ -316,6 +316,9 @@ static int mtk_pmic_keys_probe(struct platform_device *pdev)
+ 	const struct of_device_id *of_id =
+ 		of_match_device(of_mtk_pmic_keys_match_tbl, &pdev->dev);
+ 
++	if (!of_id)
++		return -EINVAL;
++
+ 	keys = devm_kzalloc(&pdev->dev, sizeof(*keys), GFP_KERNEL);
+ 	if (!keys)
+ 		return -ENOMEM;
+
+---
+base-commit: c6a68d8f7b81a6ce8962885408cc2d0c1f8b9470
+change-id: 20250630-mtk-pmic-keys-fix-crash-42b55af280ef
+
+Best regards,
+-- 
+Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>
 
 
