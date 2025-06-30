@@ -1,111 +1,222 @@
-Return-Path: <linux-input+bounces-13237-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13238-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8768AEE4EB
-	for <lists+linux-input@lfdr.de>; Mon, 30 Jun 2025 18:47:27 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DB70AEE6F3
+	for <lists+linux-input@lfdr.de>; Mon, 30 Jun 2025 20:44:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B263E7A4EF8
-	for <lists+linux-input@lfdr.de>; Mon, 30 Jun 2025 16:46:02 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 46D223BFA29
+	for <lists+linux-input@lfdr.de>; Mon, 30 Jun 2025 18:44:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3184328F933;
-	Mon, 30 Jun 2025 16:47:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 930A7295DAF;
+	Mon, 30 Jun 2025 18:44:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iEdnNNLh"
+	dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b="LW6K0Q+e"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B58932580F0;
-	Mon, 30 Jun 2025 16:47:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 008982620F5;
+	Mon, 30 Jun 2025 18:44:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.21.23.139
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751302036; cv=none; b=SV14HH9yzH/zfq3RWYdVeqJOKPfwHEWz8r7sA/oXNRTgjnqwvLuyutuU/zVYaSBpfHCy4tQvRomRCmfPUzBkloL2TIkRxkb3IJsf8BUtv4I5IHBHROPF9IuugmsSXySlG8mTKovUD5J0c3qZ49g6Oo3uL8gYw2JKodJPzc8xB08=
+	t=1751309082; cv=none; b=gG0w62q3+Bx3MSBW1oyRVwS+u3KYIFmRC0qtrGK6XVbh5DN0xGSzntgWDsbrDCUApP57AtG5oCkTo7ca3ECUXwxf0aCfHXrzxvgn97ouMuczeVsUhTble7vWgy+s3xxbaI4J6iP+UEX6DJS31jGmNt8wMznLGgmRb2FTzBKiEJ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751302036; c=relaxed/simple;
-	bh=Kdnnb4D69VxZOJNmENQk4mHq7LJOEUjRiIRlpgviKn0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Qh/Y5agj5I8/wxrQFT2yGmglDEhuqK2wasKouW7egar8r8NrE/ljFXOuJzez6j3u9vgp9GnKBkqn3X4P9BPQiQZ/jTRJEZiHQkHdq8VgPH1l5cCOBPhgGDUMqSmGqiOVG5P8mni44G77rUUIyU/CbzgyV+U9OfTdF1SZG7HLo9k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iEdnNNLh; arc=none smtp.client-ip=209.85.210.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-7425bd5a83aso2257646b3a.0;
-        Mon, 30 Jun 2025 09:47:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751302034; x=1751906834; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=iY/hTIZ/gvLsdKZo7lZtiHxsOyS7iQMgBig8vPRRf5w=;
-        b=iEdnNNLhCvo+mW8KmZHFjNEckWilKKAOJT38MhulquR/HqMbwh1GmYzQxhMfQaV+if
-         NPmGVV7dDUYqSHJINO45hd49/ynrxc+awSX0fx25GEfkPXmQjmfjcVWnsMu/YixB9c9Q
-         gp/jGi4YMRphGkTlfSEx4YmHCI2I+UNIXLs1u3QRJW8CpWcQdetlBOvdMiOqXPzCoag0
-         HeQZ9YDH1vs3utyvqFmyr5EcQ+Sg3uVEk8PNdISb0/qbv3TM34mB8k1AhczOCFjvJ1id
-         dp/L/XHvG6yPKTU37XPd8mWfXhhYmy4shAXsTKgYBzRAOJ4Q5yVSCdkkGH6Yizk3fX9n
-         Wd3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751302034; x=1751906834;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=iY/hTIZ/gvLsdKZo7lZtiHxsOyS7iQMgBig8vPRRf5w=;
-        b=Rh3B4+LIh0YJ2YDitkJ1muRsM8jnkCYbHYlrICcxwCoOXuhT6uRCLUkRVT7AjhFERm
-         xjIjQvv4zNdPDFGQZ6YR+eiISF/JTbn8bAcflJHKTCf0mcWKaHfF9gvmGyjQ4riedpCl
-         suBtggToeCbMTFiNcYzMoVSGUY1eC/ItTueZYHxf9Qk4irIHkYA2/Jiw+g20V1B4PoZL
-         1LJfw+ezpS4nim1mNfCmCXv9JqQat5gqb5rVOjWqkj6pYUSQBd7MUlkALcfK+SKxw46G
-         uKcKy//TB/Zm3jSy1LLyP5+ibMf5ZBkH08xrnS5Ftc/Jt5YFvjVsqVk3PtjM2iy2eG9P
-         dGFQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX0HuySZ9P6GeJbo5mR05z80md5C+SVJTdGNnJficjlCIJ2Gt2wVHvHQEXd2P+FHGhXpiSscVdUC6MA1TY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzECyJPreUIdWXjp/tZMvQXJ9091kphJaFXEzEkgfgjW/f0NnOV
-	5SLyDzJvIgHxBFWBH7sHo03cGiOjIhEzc5sftlUAf0MbP17HKTSjbZSy
-X-Gm-Gg: ASbGncuGoGMDKBJqB66ubimw3qFxnVUoEaHc6oSlLAK5beDu5FRnFB0BIOVk1kTrIcr
-	M/kFA6/j5nwNW8bVFKFst/5dpoxSFaueQlJRO03pJyoXu+XSOWPy56iBp2KX7oKAR5s2ib3++LO
-	EmpAcInQH8yCPaSSOu4F0ttd6iso3ZjpoS9+Hg1T6kz2wqNGkwVj4d3yssr0HVW1c0AqIRSvVh7
-	eoRetpPzJE4+Z/WzsQFnfedtGZNYkt/kalpSBXrwN9db/hdS8jrjxlSvBpAP1XNDSqajzj0kRCQ
-	/+u4Z+TCK/F3godsXp7mAu01YVySaAQvMgX5Il/5p06TV+yaPD3dEA4yxCNOjw==
-X-Google-Smtp-Source: AGHT+IG9jq9ZJLejjxDTbu7m8qrKofqReKrLSPHkpNKE10yzAigb30sRcx2Iag6Mho41WtMtEwm6qQ==
-X-Received: by 2002:a05:6a00:240c:b0:742:a77b:8bc with SMTP id d2e1a72fcca58-74af6e89170mr16767121b3a.2.1751302033802;
-        Mon, 30 Jun 2025 09:47:13 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:c92b:c666:1f8:990e])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74af541c399sm9742119b3a.52.2025.06.30.09.47.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Jun 2025 09:47:13 -0700 (PDT)
-Date: Mon, 30 Jun 2025 09:47:10 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>
-Subject: Re: [PATCH v1 1/1] Input: alps - switch to use scnprintf() to
- suppress truncation warning
-Message-ID: <ibj3zqv7amhu6yqyfjunpj6ibv3pna7zou56lp3cry3ibwvw6c@wts2psxqswjd>
-References: <20250630082245.1416796-1-andriy.shevchenko@linux.intel.com>
+	s=arc-20240116; t=1751309082; c=relaxed/simple;
+	bh=BNFWjlM83+wcoO+zJSYBmQXLGTNTc67RpeUwcFQhdU4=;
+	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
+	 Message-ID:Content-Type; b=K+kt+U6shL+NfpOh5aEKVYPwBqBSl2LIh1Kt1RIL04PYTaUkG1a2KDB5NO7VJBw38JbFFNC6qBuW86/RUCbiAMEXrD1Gx55LIcvrownF0XJjQDIuMbRct7rGcrHzML/xJ+IMvHE1FSvUrE3QKgdanhFEPWkn9z9JRS2Lqy33eG4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org; spf=pass smtp.mailfrom=disroot.org; dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b=LW6K0Q+e; arc=none smtp.client-ip=178.21.23.139
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=disroot.org
+Received: from mail01.disroot.lan (localhost [127.0.0.1])
+	by disroot.org (Postfix) with ESMTP id 04F592061D;
+	Mon, 30 Jun 2025 20:44:36 +0200 (CEST)
+X-Virus-Scanned: SPAM Filter at disroot.org
+Received: from layka.disroot.org ([127.0.0.1])
+ by localhost (disroot.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id OZkhyB3FWL8e; Mon, 30 Jun 2025 20:44:34 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
+	t=1751309074; bh=BNFWjlM83+wcoO+zJSYBmQXLGTNTc67RpeUwcFQhdU4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=LW6K0Q+eEJWWZqtuX2/Ong2KAgSekLogAKyAINQBmoE+pEqt+fEi+Hkb5aWe5XYli
+	 tqjjenxUsGb81afnJR6Kl1sxS8rFu+tExL0IBosOWz6c1nlVnsGpu8/hi2DRGbcjUH
+	 rrVs5IhvgrAAVuhr5tcOjqVlezmcKJQvN8gndQ3UdGhqo/+OVs7Vr4NzwzC8tGybGw
+	 +hG1WvOFdkJzPvysSCZ+8cWcuGafHMEVJPPRXFGQoXfi5SN3wQGzTVfKuHK6QOSot+
+	 +aFviXNBzZEc+npZQHOu/Dt4VE8fGTBBgnVG2SRD43BTjLC1ycR+gtZpRdJFzyRVt+
+	 AqBBvZ9R4OTsg==
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250630082245.1416796-1-andriy.shevchenko@linux.intel.com>
+Date: Mon, 30 Jun 2025 18:44:34 +0000
+From: Kaustabh Chakraborty <kauschluss@disroot.org>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Sangwon Jee <jeesw@melfas.com>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Henrik
+ Rydberg <rydberg@bitmath.org>, linux-input@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RFC v2 3/5] Input: melfas-mip4 - add support for touchkey
+ input events
+In-Reply-To: <ugwy3adqmxodsyhohpdv337lvbxpdzhgtojpbtrykkuyf2eivl@sl36qsvcju6v>
+References: <20250613-mip4-touchkey-v2-0-9bbbe14c016d@disroot.org>
+ <20250613-mip4-touchkey-v2-3-9bbbe14c016d@disroot.org>
+ <ugwy3adqmxodsyhohpdv337lvbxpdzhgtojpbtrykkuyf2eivl@sl36qsvcju6v>
+Message-ID: <e480fbc14bae5e2e24f2fec3d7be308c@disroot.org>
+X-Sender: kauschluss@disroot.org
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Jun 30, 2025 at 11:21:52AM +0300, Andy Shevchenko wrote:
-> The commit 76c968e75715 ("Input: alps - switch to use scnprintf() to suppress
-> truncation warning") converted one place in the driver while the other left
-> untouched. Convert the other place as well.
+On 2025-06-29 05:12, Dmitry Torokhov wrote:
+> Hi Kaustabh,
 > 
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> ---
+> On Fri, Jun 13, 2025 at 01:11:35AM +0530, Kaustabh Chakraborty wrote:
+>> The MIP4 protocol are supposed to support touchscreens, touchkeys, and
+>> combo-devices. The driver handles touchscreen events, but touchkey
+>> events are unimplemented.
 > 
-> Dmitry, thanks for fixing those problems! This one can be folded into mentioned
-> commit if you are still can / want to rebase.
+> I am confused, because I clearly see the driver parsing and forwarding
+> key events. It appears that this patch adds the ability to set the
+> keymap via device tree instead of relying on userspace to load it.
 
-Thank you Andy, I strongly prefer not to rebase for-linus branch so I
-applied this as a separate patch.
+Yeah, you're correct. Though I'm not sure this is the correct way to do
+what I'm trying to do. What I want is a driver which will drive both
+touchscreen and pure-touchkey devices.
 
-Thanks.
+I feel like a separate driver is how it should be done, although the
+protocol is same and it can be done here...
 
--- 
-Dmitry
+I had tried to get some input (hence the RFC) about this but I couldn't.
+Either my wording wasn't clear or I haven't been able to communicate it
+properly.
+
+Sorry for bringing this out of the blue in a thread.
+
+> 
+> Please adjust the patch description.
+> 
+>> 
+>> Implement them. If compiled with devicetree support, the driver 
+>> attempts
+>> to retrieve keycodes from a property named "linux,keycodes".
+>> 
+>> Signed-off-by: Kaustabh Chakraborty <kauschluss@disroot.org>
+>> ---
+>>  drivers/input/touchscreen/melfas_mip4.c | 32 
+>> ++++++++++++++++++++++++++++++--
+>>  1 file changed, 30 insertions(+), 2 deletions(-)
+>> 
+>> diff --git a/drivers/input/touchscreen/melfas_mip4.c 
+>> b/drivers/input/touchscreen/melfas_mip4.c
+>> index 
+>> a6946e3d8376d7e9b4c26f4194409e0ba78bb075..061ac353bc7a2e28f17581411af81f35c89733a1 
+>> 100644
+>> --- a/drivers/input/touchscreen/melfas_mip4.c
+>> +++ b/drivers/input/touchscreen/melfas_mip4.c
+>> @@ -169,7 +169,7 @@ struct mip4_ts {
+>>  	unsigned int event_format;
+>> 
+>>  	unsigned int key_num;
+>> -	unsigned short key_code[MIP4_MAX_KEYS];
+>> +	unsigned int key_code[MIP4_MAX_KEYS];
+>> 
+>>  	bool wake_irq_enabled;
+>> 
+>> @@ -337,8 +337,13 @@ static int mip4_query_device(struct mip4_ts *ts)
+>>  			ts->ppm_x, ts->ppm_y);
+>> 
+>>  		/* Key ts */
+>> -		if (ts->node_key > 0)
+>> +		if (ts->node_key > MIP4_MAX_KEYS) {
+>> +			dev_warn(&ts->client->dev,
+>> +				"Too many keys (%u) found\n", ts->node_key);
+>> +			ts->key_num = MIP4_MAX_KEYS;
+>> +		} else {
+>>  			ts->key_num = ts->node_key;
+>> +		}
+> 
+> I believe this is a bugfix. Please extract it into a separate patch.
+
+Agree, will do so.
+
+> 
+>>  	}
+>> 
+>>  	/* Protocol */
+>> @@ -1080,6 +1085,7 @@ static int mip4_flash_fw(struct mip4_ts *ts,
+>>  			 const u8 *fw_data, u32 fw_size, u32 fw_offset)
+>>  {
+>>  	struct i2c_client *client = ts->client;
+>> +	unsigned int i;
+>>  	int offset;
+>>  	u16 buf_addr;
+>>  	int error, error2;
+>> @@ -1149,6 +1155,11 @@ static int mip4_flash_fw(struct mip4_ts *ts,
+>>  	input_abs_set_res(ts->input, ABS_X, ts->ppm_x);
+>>  	input_abs_set_res(ts->input, ABS_Y, ts->ppm_y);
+>> 
+>> +	for (i = 0; i < ts->key_num; i++) {
+>> +		if (ts->key_code[i])
+>> +			input_set_capability(ts->input, EV_KEY, ts->key_code[i]);
+>> +	}
+>> +
+>>  	return error ? error : 0;
+>>  }
+>> 
+>> @@ -1425,6 +1436,7 @@ static int mip4_probe(struct i2c_client *client)
+>>  {
+>>  	struct mip4_ts *ts;
+>>  	struct input_dev *input;
+>> +	unsigned int i;
+>>  	int error;
+>> 
+>>  	if (!i2c_check_functionality(client->adapter, I2C_FUNC_I2C)) {
+>> @@ -1471,6 +1483,17 @@ static int mip4_probe(struct i2c_client 
+>> *client)
+>> 
+>>  	input_set_drvdata(input, ts);
+>> 
+>> +#ifdef CONFIG_OF
+>> +	error = of_property_read_u32_array(client->dev.of_node, 
+>> "linux,keycodes",
+>> +					   ts->key_code, ts->key_num);
+>> +	if (error && ts->key_num) {
+>> +		dev_warn(&client->dev,
+>> +			 "Failed to get codes for %u supported keys", ts->key_num);
+>> +		/* Disable touchkey support */
+>> +		ts->key_num = 0;
+>> +	}
+> 
+> Please use generic device properties (device_property_read_u32_array())
+> and drop the dependency on OF.
+> 
+>> +#endif
+>> +
+>>  	input->keycode = ts->key_code;
+>>  	input->keycodesize = sizeof(*ts->key_code);
+>>  	input->keycodemax = ts->key_num;
+>> @@ -1491,6 +1514,11 @@ static int mip4_probe(struct i2c_client 
+>> *client)
+>>  	if (error)
+>>  		return error;
+>> 
+>> +	for (i = 0; i < ts->key_num; i++) {
+>> +		if (ts->key_code[i])
+>> +			input_set_capability(input, EV_KEY, ts->key_code[i]);
+>> +	}
+>> +
+>>  	i2c_set_clientdata(client, ts);
+>> 
+>>  	error = devm_request_threaded_irq(&client->dev, client->irq,
+>> 
+> 
+> Thanks.
+> 
+> --
+> Dmitry
 
