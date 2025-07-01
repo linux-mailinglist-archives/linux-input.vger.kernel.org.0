@@ -1,86 +1,59 @@
-Return-Path: <linux-input+bounces-13271-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13272-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A097AEF07F
-	for <lists+linux-input@lfdr.de>; Tue,  1 Jul 2025 10:07:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62F50AEF14F
+	for <lists+linux-input@lfdr.de>; Tue,  1 Jul 2025 10:37:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 911583E2628
-	for <lists+linux-input@lfdr.de>; Tue,  1 Jul 2025 08:07:47 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id ACFD9177F4C
+	for <lists+linux-input@lfdr.de>; Tue,  1 Jul 2025 08:37:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 10A8726A087;
-	Tue,  1 Jul 2025 08:07:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7833A264FA0;
+	Tue,  1 Jul 2025 08:37:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="AqjpnFTG"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B0N1EdDj"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A727D2698AE
-	for <linux-input@vger.kernel.org>; Tue,  1 Jul 2025 08:07:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4476E1FDD;
+	Tue,  1 Jul 2025 08:37:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751357260; cv=none; b=NeEyaWXgpI8O3mqvp8nzxyF87KLgDmvoJYeCwHDn7x1WEX/HCOaDNH0hzCSfvDcddYZoYBkTsHyf69hsTeB596Ki1yMIZYH3jZ7nkL5ZK3T49ZGq4/DngT9gHE9DJtcrmUv7TtmGQlOw7exdnJYvPxJr1MZ3GZcH9+j7AMH4RTY=
+	t=1751359067; cv=none; b=aaWU1rpviqDQQ3iROgpxL03d0lrFWpXJuZ/+Jc+h5uaS6JP+VKbIA8XPm3Fcjl/+9Jwdi3lXHnIJQ77F5VL7A5B2+8CvkdEVWxQkr4MdNovrdd+9jEwBNZoo6X4+RtW1DC0i3eETUQNtFwFkpLZKhyuuoze2a/Yo67MmZ2XPUFo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751357260; c=relaxed/simple;
-	bh=H0Y4Y+6gT+bDypAMIHZWwwMwEHGCor/BmB+uA98E2OM=;
+	s=arc-20240116; t=1751359067; c=relaxed/simple;
+	bh=Fol+Onr6AX+6q8X/RzSabA3gh8+jqlmEX4hzJihL3W4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MulN40V8dVXcEHGKkSgCjsQ2i1107YVKQrBU7bLVu1TJrtrotPJlL18Y84dNu066ZJHQQtY+heqV6eTnxxfM+pTD3UfnCaG2Tn+t10CblwDGKlbPWW7XntjOA9rGvw+2TIq/9mdUJLLwmloun/90k0786L+kISLyF8yDnkLHEyM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=AqjpnFTG; arc=none smtp.client-ip=209.85.221.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-3ab112dea41so1538324f8f.1
-        for <linux-input@vger.kernel.org>; Tue, 01 Jul 2025 01:07:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1751357256; x=1751962056; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=H0Y4Y+6gT+bDypAMIHZWwwMwEHGCor/BmB+uA98E2OM=;
-        b=AqjpnFTGEtugxyyAcHyl681om2dHnlCy8CdjgqBVqbtw5TNLTs4zFvZ3bNcYK1azHg
-         biMD624SqsVQ4u3qrTxNITdcGsNJOnHnTHyFQzsrGcvG9CRi1ksp88mOym8uXZN7kxQp
-         2xaf0GOrE1rZ/bWsYvHIqB9kQ0jbjSZ2bvSTkH7Kwr2kLZMTZ0I806vPue/L3xlSm7o9
-         +MjI7oSQH5ubov93lLpPIyJIq2+6B0ZsnfMBbH82O6qtSLao2sTbVv7CbrpC24PSq4le
-         8EtlC0Ol9JnTF9rmRbPCmv+qdopbO5fkvaW2rccimOlPUNZoNKF/1QpMfajscnJPy7fq
-         A4bQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751357256; x=1751962056;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=H0Y4Y+6gT+bDypAMIHZWwwMwEHGCor/BmB+uA98E2OM=;
-        b=vXZGbNYbtMLpt++j6QYRqpiGNG2St8VAvqD856bCEpOamU1URoqkPVZEgPAOHSdhQ0
-         vurAZqEqdye2CKNMCtkzFRDMofGz1yC3Eox9oimhd3x9E/B8u8tmh2ydAtPkFZstdzTA
-         Vjwz+yMfyes+U2K/pOsNDbPGK0K1wdwPewQtL8VNCtjDcxjVicLCiTeiMDFnM1iHgiYG
-         TgSSBI3jGwHIlJ8Gab7Ms9P79SUK+vwKdi5hshvXWRzP/igKi25dP+Tdjm2B+SwGB5TA
-         eWJb8r/74duyriugwQEyW2qzdZUBG4RhAiM6QJf02/cYhaVMgDrKN80M2+ez7qY9gH9x
-         r82w==
-X-Forwarded-Encrypted: i=1; AJvYcCUxvsmmTAbzWwIu+7AKTtKCcpwcxk7KDleeLIZfdqZ2LNrHZkYdNpwR6EEb7UR8dSOWfXfLaXNYQYYVUw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzAMeCj3FUe3wdIaXsKuvFVNopuPVUVUvLCxOnkOhW+PYd7Tkgn
-	tbxpDDlRW4qP/CPHJY/ccc+j4jdvzry+bDpS5B4RqLQSwUSgNqAfCyf3O56yA7supBQ=
-X-Gm-Gg: ASbGncv7XwtLKOo5A/ok5QI7fpPQLXJRssQBDueZJq9Z4/mzHXrhQLrH2ihsYByn6rH
-	+TDgo/CEql/bNTOaDixLZ/MJj9rx8ElLws1ZAHPG1nEGZXiHCSob/f14Dwdtk300i6DpJqar39u
-	xwwzIEzkas1aWqfWAERIukOZmojClEAQCWLpAwBq745sWmK6rmiEH9o0ZkqD7k8lMiZ9kqMMQQN
-	Z9XST/Gq92L2ZPMJL9qO1z6THYuXZcg7Vr/3oMc9NQbH3k5zKvp3cagsslPWWTQVcedmnBMHyli
-	T3uJV3Rs2tVW6xWta8McCc/b9U3YeUSnid2QouETOAzxRuhk0ZvJDx5PvdNcyL7TwQc1eIYdDgF
-	lkCWA4yTrE9jk4pByiFtvCynHzK+k
-X-Google-Smtp-Source: AGHT+IEkvw7q8yaEKSS8eRq5KhPLb/USfD4VwQI9bANbNz4VBucJ8+YaGLRWc+lnBjN/LzGzNJ94Sw==
-X-Received: by 2002:a05:6000:4211:b0:3aa:34f4:d437 with SMTP id ffacd0b85a97d-3aa34f4d5e9mr10737912f8f.37.1751357255736;
-        Tue, 01 Jul 2025 01:07:35 -0700 (PDT)
-Received: from localhost (p200300f65f06ab0400000000000001b9.dip0.t-ipconnect.de. [2003:f6:5f06:ab04::1b9])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3a892e52ca4sm12574894f8f.58.2025.07.01.01.07.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Jul 2025 01:07:35 -0700 (PDT)
-Date: Tue, 1 Jul 2025 10:07:34 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Javier Carrasco <javier.carrasco.cruz@gmail.com>, 
-	linux-input@vger.kernel.org, linux-pwm@vger.kernel.org
-Subject: Re: [PATCH v2] Input: max8997_haptic - Optimize PWM configuration
-Message-ID: <57t6j7caxdtrf5iakjjekns6vslc7f2slnj2dodfjnojgak2t2@yh7h2dvcigve>
-References: <20250630093718.2062359-2-u.kleine-koenig@baylibre.com>
- <gu55xwoyr2zolonk2dxupmflcpgqgqp4kh4v4ulpluvsdwik3r@gm2he7khmtut>
+	 Content-Type:Content-Disposition:In-Reply-To; b=EeohPDJol5fj2YZDZ/eC16HnHxUfxjGV9QmZAUfZQRL4j9MVq870s8VO5cZOPtHNUTdzwhq8OAubPImOdcuqhEfUYA747rAiFAUpLxcoHo4wYXDkoonf/zhX2fGKyB555P8gllqVXxAd0gEEjPEb9RwGfozUmbfV9ODfSZR2oTs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B0N1EdDj; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A007C4CEEB;
+	Tue,  1 Jul 2025 08:37:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1751359066;
+	bh=Fol+Onr6AX+6q8X/RzSabA3gh8+jqlmEX4hzJihL3W4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=B0N1EdDjz3lDGF5Gs+i05Q7cHJGLbYBse1LJAKuoPY68lYjUhRkFMKeIokrrRaqbW
+	 YpZHyz4CJ8uKzjm+2eOJWZV4GjZrHER/KyGmZ1ddDOEPthNiVkSTDDWePD+kvfF3zZ
+	 dcAz5StHgYQV3mxUKya2f52hEQG4LEwyY7Iv7yfdy5MCJ86Qfxk4aREE+tVoI9KylW
+	 8YjunFF3aMDlaecPF5WPe3SZdANK5see5NUxsTrzYdxp85NecrWgBiJXg/QI98HF2Y
+	 hVMQMJafOR5Rha547v7p5FeqHgKRIpad22dfjALzxtIIULQYnDk6rZMVW5hkeYKfty
+	 Kr1odQXmh76Zw==
+Date: Tue, 1 Jul 2025 10:37:43 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
+To: nuno.sa@analog.com
+Cc: linux-gpio@vger.kernel.org, linux-pwm@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-input@vger.kernel.org, Lee Jones <lee@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Linus Walleij <linus.walleij@linaro.org>, 
+	Bartosz Golaszewski <brgl@bgdev.pl>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Liu Ying <victor.liu@nxp.com>
+Subject: Re: [PATCH v6 03/20] mfd: adp5585: Enable oscilator during probe
+Message-ID: <7lgjenjwbkf55ycxogibxvckcmqseq7auoaurvb7sih4nplyuw@xgh3v4qgwghe>
+References: <20250630-dev-adp5589-fw-v6-0-a0f392a0ba91@analog.com>
+ <20250630-dev-adp5589-fw-v6-3-a0f392a0ba91@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -88,60 +61,41 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="xzuleplk7zzz7weg"
+	protocol="application/pgp-signature"; boundary="ibhfvmpogrcuyehc"
 Content-Disposition: inline
-In-Reply-To: <gu55xwoyr2zolonk2dxupmflcpgqgqp4kh4v4ulpluvsdwik3r@gm2he7khmtut>
+In-Reply-To: <20250630-dev-adp5589-fw-v6-3-a0f392a0ba91@analog.com>
 
 
---xzuleplk7zzz7weg
-Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
+--ibhfvmpogrcuyehc
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v2] Input: max8997_haptic - Optimize PWM configuration
+Subject: Re: [PATCH v6 03/20] mfd: adp5585: Enable oscilator during probe
 MIME-Version: 1.0
 
-Hello Dmitry,
+Hello,
 
-On Mon, Jun 30, 2025 at 12:34:11PM -0700, Dmitry Torokhov wrote:
-> On Mon, Jun 30, 2025 at 11:37:17AM +0200, Uwe Kleine-K=F6nig wrote:
-> > Both pwm_config() and pwm_enable() are wrappers around
-> > pwm_apply_might_sleep(). Instead of calling this function twice only
-> > call it once without an intermediate step.
-> >=20
-> > Setup the PWM in max8997_haptic_enable() only where it was enabled
-> > historically. max8997_haptic_set_duty_cycle() is renamed accordingly to
-> > make it clear this function is only about the internal setup now.
-> > pwm_config() was called earlier back then, but that call has no effect
-> > on the hardware when the PWM is disabled, so delaying this configuration
-> > doesn't make a difference.
-> >=20
-> > As pwm_apply_might_sleep() is used now defining the whole state of the
-> > PWM, the call to pwm_apply_args() in .probe() can be dropped now, too.
-> >=20
-> > Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@baylibre.com>
->=20
-> Applied with a couple of minor tweaks, thank you.
+just one comment that I saw while skimming over this series in my
+mailbox:
 
-I looked up your tree, found that commit and looked at the differences.
-They are fine, thanks.
+$Subject ~= s/oscilator/oscillator/
 
 Best regards
 Uwe
 
---xzuleplk7zzz7weg
+--ibhfvmpogrcuyehc
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmhjl0IACgkQj4D7WH0S
-/k6knwgAiuzH4vkp1G1sEMYiQud9QwFbf8hWt9RVmSFDbliu3fBD6s9mf77frTnN
-SfVrgR34DdjPqPalq9lEqOmMMhunwKFLM61UPP8X309CIkirinlyspzyd7O5/s+Z
-fAITIEwYtUBzLZR54MSbKxKwd9SR5cNzxSRtJR9UZW7yXrYa+v8AniYGXdmKi0BT
-LqHXLcprxC7q/qJe6qdC82PeXM0SyemgC+tyxlGUJqpIcYcBDexyAfE98SENnprF
-NRKoTuU0HBsH8I21nQ4M57ue64Gz/zcOSMOJrBPidq+T6Giv1m22wsaSYS9cOejk
-DXACqkdJ1YVqGkea43pXo/ekR8YjYg==
-=lHs2
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmhjnlUACgkQj4D7WH0S
+/k6rugf/fAQpHtJXXJ+9liGajvF59VUtUco5aeDGq/SlLPu2XqMsQeYnNn62EsnQ
+KEaVvnxpasvpOuLby1Ormf8dD+OkMb8FAF0syjtLeXGFm+YPdgMmnh8GPOr1x39Q
++gLCxVKqo/BfU9jYY+XfPyUYcHlh1US/A/2QCupYEARsVFRzFABXpguWL0+52LOi
+5jSlu9pQA7k/4mjdTptImYEn3ZDaRtNjD7MgeL0Q+i7w1YonX1Os0e0OcjlwDVOF
+vcdwlLr9LFnHxeZuXA8xOzS0GYYPQ7yxPWlqpcmSCcOk41CJHYQVMRr5rRPx4nbF
+k5dBc4bjHjD43eUfoofFmrzPwP0llQ==
+=2BbF
 -----END PGP SIGNATURE-----
 
---xzuleplk7zzz7weg--
+--ibhfvmpogrcuyehc--
 
