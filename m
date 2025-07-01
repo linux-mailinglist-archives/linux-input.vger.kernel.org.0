@@ -1,213 +1,269 @@
-Return-Path: <linux-input+bounces-13269-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13270-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 707C5AEED5A
-	for <lists+linux-input@lfdr.de>; Tue,  1 Jul 2025 06:52:51 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F7EAAEEDF2
+	for <lists+linux-input@lfdr.de>; Tue,  1 Jul 2025 07:49:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 281387AAA34
-	for <lists+linux-input@lfdr.de>; Tue,  1 Jul 2025 04:51:26 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4B4EA188C887
+	for <lists+linux-input@lfdr.de>; Tue,  1 Jul 2025 05:49:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0975F1F2BBB;
-	Tue,  1 Jul 2025 04:52:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C11021E522;
+	Tue,  1 Jul 2025 05:49:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fTq1R9XW"
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="cMMV0hO3"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B75A319D8A7;
-	Tue,  1 Jul 2025 04:52:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A4981494A8
+	for <linux-input@vger.kernel.org>; Tue,  1 Jul 2025 05:49:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751345563; cv=none; b=gRTG+xnMQgsG3545MosfCtynat8Dnpf/ESBUAzWzSuqbfJAY3AYGFHMj/OnV/RNVEi5cHiIEcc1hHzKnzntZ422E64zctxkd4zf7y/7yxan5FxJAFv+JaIU/+T0wBHYSRZSwWGnHFLhSrCNH8i6wGvxHAlRcJRfLKBFSOpIJb5w=
+	t=1751348971; cv=none; b=p70T1WYqyi6q0WhvD/AsscYllBceDv0MTCv5vM+AQeqdVfnHxaWAk4yNsEtqUEaCvuLvSiwXD2Pd+o5x66eWeweISibzRRh3MXShjoQJkznrYHAWyaxNsa7M3yAKd/ChhQGLkMut65WZz/EN1RfcqfSG+AXBr+eTYtbfiDCc2HQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751345563; c=relaxed/simple;
-	bh=qLpGZhMZb9Z8g5y1Iw0lGZyivCoTKa8j9TbnnMY3JnA=;
+	s=arc-20240116; t=1751348971; c=relaxed/simple;
+	bh=vxM/QcB3IZclon/gK8SeVlQ40u27NfsiopRZUt/JOI4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=M5GX6VlHE3L1IKq3RsM4NvwfgH9hPuydWWBr+VBH+rNtgghcUvCnJdaAe05CAIlIew4Dg5kFgfLQdrtoAW/5tL2EZWDGY1rtxiVOejEpTsyIKTcEDlMG1yjHE4is+MndXNeA/jbWjnyZ/DUrjLDnqbAw5bb5j/WMfqeCpA0h9oE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fTq1R9XW; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751345560; x=1782881560;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=qLpGZhMZb9Z8g5y1Iw0lGZyivCoTKa8j9TbnnMY3JnA=;
-  b=fTq1R9XW/euhEmGHkLwYJEsLofBkkdF3Zwqwr5UmoO4WxviKyz/LGjwR
-   drVNa82J25zfiFGZI7Kv6eHTJUNSXIkoji7yqLbleBHT+HOIJCCjbnwmS
-   izCdtXLFt1vsPJ+vIkd3Qh/TT4uFJEAH5kXTJG7AVe9C+ERdgfbKFboJu
-   GlpHUkfpb+csNH7lKAKZL2/xpSlt/ZG394TLRu5Fzkabem6O/ga5cN+1T
-   KHM351ue87zrk/QE0tQpOCLmhEqnss1m+v9K5wXg6x4PHu8cxdZBOPQqE
-   E72voGNm0VnlXGxqSwqAZDtlv7MVj8uIS3/96NnxIlrMtBtOlaXK28iwn
-   g==;
-X-CSE-ConnectionGUID: 6R/2/Og3S/eSBBnWMNxp5w==
-X-CSE-MsgGUID: gkiU17o7S9q56bPTKEnG7Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11480"; a="53312929"
-X-IronPort-AV: E=Sophos;i="6.16,279,1744095600"; 
-   d="scan'208";a="53312929"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2025 21:52:40 -0700
-X-CSE-ConnectionGUID: lgY+P2arS0uHkQ3gVdLwdA==
-X-CSE-MsgGUID: zA6h7u5hQn62QceML/UGEA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,279,1744095600"; 
-   d="scan'208";a="158050296"
-Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 30 Jun 2025 21:52:36 -0700
-Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uWSyv-000ZjC-2J;
-	Tue, 01 Jul 2025 04:52:33 +0000
-Date: Tue, 1 Jul 2025 12:52:02 +0800
-From: kernel test robot <lkp@intel.com>
-To: Oleh Kuzhylnyi <kuzhylol@gmail.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Sasha Finkelstein <fnkl.kernel@gmail.com>,
-	Javier Carrasco <javier.carrasco.cruz@gmail.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Javier Martinez Canillas <javierm@redhat.com>,
-	Janne Grunau <j@jannau.net>, Igor Opaniuk <igor.opaniuk@gmail.com>,
-	Neal Gompa <neal@gompa.dev>, Jeff LaBundy <jeff@labundy.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Oleh Kuzhylnyi <kuzhylol@gmail.com>, linux-input@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v8 2/2] input: add hynitron cst816x series touchscreen
-Message-ID: <202507011209.R4JNwHSj-lkp@intel.com>
-References: <20250629162523.291887-2-kuzhylol@gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=lct/Fizz/0UrmS4VVIizmTBi0EYneRVLSAA6kS0Ka4EGVnFIAYdTDLdrbRBq1SZa9qMcYCpnf8ANJzn9TDrCKTIpjMin1ONlp9vBeQKKDiIvtbT7P7REN4F1dykcIFYIbh9Ehq6/kF3cR9Mbbzj8CZBMvlDFaQmJqla8uVWdEOU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=cMMV0hO3; arc=none smtp.client-ip=209.85.208.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-60c5b8ee2d9so11541722a12.2
+        for <linux-input@vger.kernel.org>; Mon, 30 Jun 2025 22:49:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1751348965; x=1751953765; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=DPK2mDOmEv5JfpYBiR28xtrw3L+ifodRxM3SpZfwQUI=;
+        b=cMMV0hO3nkA9N4fS8D8F4CoXD2PdAxTQ7disOxHG5VKsbuWFsoAdcydQ3vmOgd1gpe
+         rrGeWGs5u8a+vBkqSEwRtYyJanfZzvD+EnVOupvKentUiVIWoxYbSAPU7LcT6sB1g7Ck
+         Pc+uNN8XaAMzP+ABDtYazVGb+nQU2ZgZddrxdPVwWPtpfUXhrETTComMVoLT0yd39H8I
+         WFldg1J6Q4ZgetO3yaktEgYtEJ9WkndIVzEooE9/Y83k81RjUVnERQDdF1hjWjbXMaCI
+         nGHESvwI0TdfOWN+sKzr6Em/hHTkc0nwRvvEz2UJhjQJL1EgM6kRvqdHf4/4w/Qu508W
+         LXKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751348965; x=1751953765;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DPK2mDOmEv5JfpYBiR28xtrw3L+ifodRxM3SpZfwQUI=;
+        b=ac36JnShn6P7agezUmmahJ3FMhhP6pTEIhE/z2YaSTP4q8xb7FI03Y14JaZU0Rt5xV
+         mNboXL+ysQWx5FRqzs1EvgjBoeU0Q+Fm2b6tUc25ckWpaUAvxeA9pRGlznQRSae9ieC/
+         8S5ZD4vRN90Sm+GPwx1XKpF6exvIGw08O12X6eoUGkL5YyvWF/ISw6F0EhgZMPIoYBkv
+         fIUH2BELVop8HAcW5K69pbWf7+bNXgd2KXXEHyBYLXTQMj0txsQH3VfW3RuOWF6XvG+v
+         Pw16te2U6zF2oviOD47Xz+XCbmJiQywpnJ7NL9iiumgRMmqB9T10tcvqHv/8vyTVGEYr
+         uInA==
+X-Forwarded-Encrypted: i=1; AJvYcCUCW7OB3//OV9krg1KFYU2TaDKPhyl99oOtALupUnmGgbqCOUdGZ5uxrATtAl5KrDpBj77cu2qQlm8+EA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxLAimnwABPhrR+MWAvp7GzkxYJ963+HOCVhegSPPLQekStuaK4
+	qEEW9b4nuGFUnwNFgPh+Yhsjlb9KYtfmgb2dZa/S3DOOS00VO6b9M0U/3mEz9aWYeh8=
+X-Gm-Gg: ASbGncvmeRJnroMxNWEey6nNIPVpHexSeIBef2VfKBI1670FYmZjlOcJb1c5DRRkyMP
+	lX9/nG3wlbVGDQFkuEFjT26+qTMqDA140sfLfc7Uw3bLVQLb4I6uCBqrNE0j1pi6CftW8rTs7Ox
+	i2ED8YmT9iJZY/YEwDZqvzL9oUbQkXQ8UtuqmSf6fbaZ++wjC+wotnW/P/0kla4FcOQbcNOqg2d
+	z6j/VDFLKPFplDSJH85iw2dlqMXBcQwoYx5pKhCfM7HliBB7GcwYMWzrfZrghe/nQIceONAk6Nh
+	xCkegED1uLLRiYm+Qy2hp5xhDm5Rt56vZdeILEKYvD7JSs8DtS1SjHOV+QWRov8QqNk=
+X-Google-Smtp-Source: AGHT+IF/zVGKzrg7pkzRTLImShN4RF7dcYq1U5DPjFBEN+r606xfWedr9MRCupK7tU4pUjHIW+c0iA==
+X-Received: by 2002:a05:6402:84e:b0:60c:79de:1c59 with SMTP id 4fb4d7f45d1cf-60c88b3e392mr13904180a12.7.1751348965299;
+        Mon, 30 Jun 2025 22:49:25 -0700 (PDT)
+Received: from localhost ([2a02:8071:b783:6940:36f3:9aff:fec2:7e46])
+        by smtp.gmail.com with UTF8SMTPSA id 4fb4d7f45d1cf-60c828bbea9sm6900605a12.1.2025.06.30.22.49.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 30 Jun 2025 22:49:24 -0700 (PDT)
+Date: Tue, 1 Jul 2025 07:49:22 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Dzmitry Sankouski <dsankouski@gmail.com>, 
+	Marek Szyprowski <m.szyprowski@samsung.com>, Krzysztof Kozlowski <krzk@kernel.org>, 
+	linux-input@vger.kernel.org, linux-pwm@vger.kernel.org
+Subject: Re: [PATCH] Input: max77693 - Convert to atomic pwm operation
+Message-ID: <23ddfd32qebfzb4qftxih3mwpymghlezdv5u63qhxhqthpbxpz@u7f4tbihsfop>
+References: <20250630103851.2069952-2-u.kleine-koenig@baylibre.com>
+ <w3tkxxkqr2kmri3bz5m34dzw3hfvkqou3zbww7kwjdg72o7kla@ty777ynf26qr>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="vzv6drp5rahmxtfx"
 Content-Disposition: inline
-In-Reply-To: <20250629162523.291887-2-kuzhylol@gmail.com>
+In-Reply-To: <w3tkxxkqr2kmri3bz5m34dzw3hfvkqou3zbww7kwjdg72o7kla@ty777ynf26qr>
 
-Hi Oleh,
 
-kernel test robot noticed the following build warnings:
+--vzv6drp5rahmxtfx
+Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH] Input: max77693 - Convert to atomic pwm operation
+MIME-Version: 1.0
 
-[auto build test WARNING on dtor-input/next]
-[also build test WARNING on dtor-input/for-linus robh/for-next krzk-dt/for-next linus/master v6.16-rc4 next-20250630]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+On Mon, Jun 30, 2025 at 12:23:43PM -0700, Dmitry Torokhov wrote:
+> Hi Uwe,
+>=20
+> On Mon, Jun 30, 2025 at 12:38:50PM +0200, Uwe Kleine-K=F6nig wrote:
+> > @@ -167,17 +150,22 @@ static int max77693_haptic_lowsys(struct max77693=
+_haptic *haptic, bool enable)
+> >  static void max77693_haptic_enable(struct max77693_haptic *haptic)
+> >  {
+> >  	int error;
+> > +	struct pwm_state state;
+> > =20
+> > -	if (haptic->enabled)
+> > -		return;
+> > +	pwm_init_state(haptic->pwm_dev, &state);
+> > +	state.duty_cycle =3D (state.period + haptic->pwm_duty) / 2;
+> > +	state.enabled =3D true;
+> > =20
+> > -	error =3D pwm_enable(haptic->pwm_dev);
+> > +	error =3D pwm_apply_might_sleep(haptic->pwm_dev, &state);
+> >  	if (error) {
+> >  		dev_err(haptic->dev,
+> >  			"failed to enable haptic pwm device: %d\n", error);
+> >  		return;
+> >  	}
+> > =20
+> > +	if (haptic->enabled)
+> > +		return;
+> > +
+> >  	error =3D max77693_haptic_lowsys(haptic, true);
+> >  	if (error)
+> >  		goto err_enable_lowsys;
+>=20
+> I do not quite like that max77693_haptic_enable() now has split brain:
+> there is part of it that does update unconditionally and part that is
+> protected by the "enabled" flag. How about we keep max77693_haptic_set_du=
+ty_cycle() but make max77693_haptic_play_work()=20
+> a bit smarter, like in the version below:
+>=20
+>=20
+> Input: max77693 - convert to atomic pwm operation
+>=20
+> From: Uwe Kleine-K=F6nig <u.kleine-koenig@baylibre.com>
+>=20
+> The driver called pwm_config() and pwm_enable() separately. Today both
+> are wrappers for pwm_apply_might_sleep() and it's more effective to call
+> this function directly and only once. Also don't configure the
+> duty_cycle and period if the next operation is to disable the PWM so
+> configure the PWM in max77693_haptic_enable().
+>=20
+> With the direct use of pwm_apply_might_sleep() the need to call
+> pwm_apply_args() in .probe() is now gone, too, so drop this one.
+>=20
+> Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@baylibre.com>
+> Link: https://lore.kernel.org/r/20250630103851.2069952-2-u.kleine-koenig@=
+baylibre.com
+> Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> ---
+>  drivers/input/misc/max77693-haptic.c |   41 +++++++++++++++-------------=
+------
+>  1 file changed, 18 insertions(+), 23 deletions(-)
+>=20
+> diff --git a/drivers/input/misc/max77693-haptic.c b/drivers/input/misc/ma=
+x77693-haptic.c
+> index 1dfd7b95a4ce..5d45680d74a4 100644
+> --- a/drivers/input/misc/max77693-haptic.c
+> +++ b/drivers/input/misc/max77693-haptic.c
+> @@ -68,15 +68,16 @@ struct max77693_haptic {
+> =20
+>  static int max77693_haptic_set_duty_cycle(struct max77693_haptic *haptic)
+>  {
+> -	struct pwm_args pargs;
+> -	int delta;
+> +	struct pwm_state state;
+>  	int error;
+> =20
+> -	pwm_get_args(haptic->pwm_dev, &pargs);
+> -	delta =3D (pargs.period + haptic->pwm_duty) / 2;
+> -	error =3D pwm_config(haptic->pwm_dev, delta, pargs.period);
+> +	pwm_init_state(haptic->pwm_dev, &state);
+> +	state.duty_cycle =3D (state.period + haptic->pwm_duty) / 2;
+> +
+> +	error =3D pwm_apply_might_sleep(haptic->pwm_dev, &state);
+>  	if (error) {
+> -		dev_err(haptic->dev, "failed to configure pwm: %d\n", error);
+> +		dev_err(haptic->dev,
+> +			"failed to set pwm duty cycle: %d\n", error);
+>  		return error;
+>  	}
+> =20
+> @@ -166,12 +167,17 @@ static int max77693_haptic_lowsys(struct max77693_h=
+aptic *haptic, bool enable)
+> =20
+>  static void max77693_haptic_enable(struct max77693_haptic *haptic)
+>  {
+> +	struct pwm_state state;
+>  	int error;
+> =20
+>  	if (haptic->enabled)
+>  		return;
+> =20
+> -	error =3D pwm_enable(haptic->pwm_dev);
+> +	pwm_init_state(haptic->pwm_dev, &state);
+> +	state.duty_cycle =3D (state.period + haptic->pwm_duty) / 2;
+> +	state.enabled =3D true;
+> +
+> +	error =3D pwm_apply_might_sleep(haptic->pwm_dev, &state);
+>  	if (error) {
+>  		dev_err(haptic->dev,
+>  			"failed to enable haptic pwm device: %d\n", error);
+> @@ -224,18 +230,13 @@ static void max77693_haptic_play_work(struct work_s=
+truct *work)
+>  {
+>  	struct max77693_haptic *haptic =3D
+>  			container_of(work, struct max77693_haptic, work);
+> -	int error;
+> -
+> -	error =3D max77693_haptic_set_duty_cycle(haptic);
+> -	if (error) {
+> -		dev_err(haptic->dev, "failed to set duty cycle: %d\n", error);
+> -		return;
+> -	}
+> =20
+> -	if (haptic->magnitude)
+> -		max77693_haptic_enable(haptic);
+> -	else
+> +	if (!haptic->magnitude)
+>  		max77693_haptic_disable(haptic);
+> +	else if (haptic->enabled)
+> +		max77693_haptic_set_duty_cycle(haptic);
+> +	else
+> +		max77693_haptic_enable(haptic);
+>  }
+> =20
+>  static int max77693_haptic_play_effect(struct input_dev *dev, void *data,
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Oleh-Kuzhylnyi/input-add-hynitron-cst816x-series-touchscreen/20250630-002723
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
-patch link:    https://lore.kernel.org/r/20250629162523.291887-2-kuzhylol%40gmail.com
-patch subject: [PATCH v8 2/2] input: add hynitron cst816x series touchscreen
-config: microblaze-randconfig-r131-20250701 (https://download.01.org/0day-ci/archive/20250701/202507011209.R4JNwHSj-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 15.1.0
-reproduce: (https://download.01.org/0day-ci/archive/20250701/202507011209.R4JNwHSj-lkp@intel.com/reproduce)
+I had something like that at first, but didn't like it. With that
+approach you have two places that have to know how to set the PWM's
+duty_cycle. Also I think the control flow is more complicated.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507011209.R4JNwHSj-lkp@intel.com/
+I considered renaming max77693_haptic_enable() to something that better
+matches what it does in my variant, but max77693_haptic_configure() was
+already taken.
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/input/touchscreen/hynitron-cst816x.c:97:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be16 [usertype] abs_x @@     got unsigned long @@
-   drivers/input/touchscreen/hynitron-cst816x.c:97:21: sparse:     expected restricted __be16 [usertype] abs_x
-   drivers/input/touchscreen/hynitron-cst816x.c:97:21: sparse:     got unsigned long
->> drivers/input/touchscreen/hynitron-cst816x.c:98:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be16 [usertype] abs_y @@     got unsigned long @@
-   drivers/input/touchscreen/hynitron-cst816x.c:98:21: sparse:     expected restricted __be16 [usertype] abs_y
-   drivers/input/touchscreen/hynitron-cst816x.c:98:21: sparse:     got unsigned long
->> drivers/input/touchscreen/hynitron-cst816x.c:148:58: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected int value @@     got restricted __be16 [addressable] [usertype] abs_x @@
-   drivers/input/touchscreen/hynitron-cst816x.c:148:58: sparse:     expected int value
-   drivers/input/touchscreen/hynitron-cst816x.c:148:58: sparse:     got restricted __be16 [addressable] [usertype] abs_x
->> drivers/input/touchscreen/hynitron-cst816x.c:149:58: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected int value @@     got restricted __be16 [addressable] [usertype] abs_y @@
-   drivers/input/touchscreen/hynitron-cst816x.c:149:58: sparse:     expected int value
-   drivers/input/touchscreen/hynitron-cst816x.c:149:58: sparse:     got restricted __be16 [addressable] [usertype] abs_y
+But that might all be subjective? If you like your version better,
+that's fine, it still gets rid of pwm_config(), pwm_enable() and
+pwm_apply_args() which is my main objective.
 
-vim +97 drivers/input/touchscreen/hynitron-cst816x.c
+Best regards
+Uwe
 
-    90	
-    91	static bool cst816x_process_touch(struct cst816x_priv *priv,
-    92					  struct cst816x_touch_desc *desc)
-    93	{
-    94		if (cst816x_i2c_read_register(priv, CST816X_RD_REG, desc, sizeof(*desc)))
-    95			return false;
-    96	
-  > 97		desc->abs_x = get_unaligned_be16(&desc->abs_x) & GENMASK(11, 0);
-  > 98		desc->abs_y = get_unaligned_be16(&desc->abs_y) & GENMASK(11, 0);
-    99	
-   100		dev_dbg(&priv->client->dev, "x: %u, y: %u, t: %u, g: 0x%x\n",
-   101			desc->abs_x, desc->abs_y, desc->touch, desc->gesture);
-   102	
-   103		return true;
-   104	}
-   105	
-   106	static int cst816x_register_input(struct cst816x_priv *priv)
-   107	{
-   108		priv->input = devm_input_allocate_device(&priv->client->dev);
-   109		if (!priv->input)
-   110			return -ENOMEM;
-   111	
-   112		priv->input->name = "Hynitron CST816x Series Touchscreen";
-   113		priv->input->phys = "input/ts";
-   114		priv->input->id.bustype = BUS_I2C;
-   115		input_set_drvdata(priv->input, priv);
-   116	
-   117		input_set_abs_params(priv->input, ABS_X, 0, 240, 0, 0);
-   118		input_set_abs_params(priv->input, ABS_Y, 0, 240, 0, 0);
-   119	
-   120		for (int i = 0; i < priv->keycodemax; i++) {
-   121			if (priv->keycode[i] == KEY_RESERVED)
-   122				continue;
-   123	
-   124			input_set_capability(priv->input, EV_KEY, priv->keycode[i]);
-   125		}
-   126	
-   127		return input_register_device(priv->input);
-   128	}
-   129	
-   130	static void cst816x_reset(struct cst816x_priv *priv)
-   131	{
-   132		gpiod_set_value_cansleep(priv->reset, 1);
-   133		msleep(50);
-   134		gpiod_set_value_cansleep(priv->reset, 0);
-   135		msleep(100);
-   136	}
-   137	
-   138	static irqreturn_t cst816x_irq_cb(int irq, void *cookie)
-   139	{
-   140		struct cst816x_priv *priv = cookie;
-   141		struct cst816x_touch_desc desc;
-   142	
-   143		if (!cst816x_process_touch(priv, &desc))
-   144			return IRQ_HANDLED;
-   145	
-   146		if (desc.touch) {
-   147			input_report_key(priv->input, priv->keycode[CST816X_TOUCH], 1);
- > 148			input_report_abs(priv->input, ABS_X, desc.abs_x);
- > 149			input_report_abs(priv->input, ABS_Y, desc.abs_y);
-   150		}
-   151	
-   152		if (desc.gesture) {
-   153			input_report_key(priv->input, priv->keycode[desc.gesture & 0x0F],
-   154					 desc.touch);
-   155	
-   156			if (!desc.touch)
-   157				input_report_key(priv->input,
-   158						 priv->keycode[CST816X_TOUCH], 0);
-   159		}
-   160	
-   161		input_sync(priv->input);
-   162	
-   163		return IRQ_HANDLED;
-   164	}
-   165	
+--vzv6drp5rahmxtfx
+Content-Type: application/pgp-signature; name="signature.asc"
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmhjdt8ACgkQj4D7WH0S
+/k7gTAf+NcIvn1EBep7eVRw19GRsm/IbRNCSvyVCRuXCbSx71klLLDqnkICLEUlQ
+4wf6DlpJmrpyQ8FP+wfTTSnjIOx+bKrnWMM0+ncw4YZ8CDPTnMpQWs/x4/3qvz6Q
+t7m7Pni8xiq7ddncI8yNOGgruj6fRREzg5HWICfqETJEJni1iZfZdU/lrSRpE7cg
+SRUTqBs1efj6QPMIzt6GPRbSL+z1Cq8ugC7WugK8DdwZcYs5yg4PnLTCYBBas26k
+RaEjU4fF+FZLElHrbIAs7CSVN/LwfGOMCqnTqB52Fk09wIBOmHdTaXkDqAJhaCDm
+4kU6rWH23lXoT04G4Lg+/BZPH1eKMQ==
+=ZH+d
+-----END PGP SIGNATURE-----
+
+--vzv6drp5rahmxtfx--
 
