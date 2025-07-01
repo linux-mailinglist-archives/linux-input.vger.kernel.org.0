@@ -1,130 +1,152 @@
-Return-Path: <linux-input+bounces-13283-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13285-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD3D6AEFB10
-	for <lists+linux-input@lfdr.de>; Tue,  1 Jul 2025 15:46:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFA69AEFC99
+	for <lists+linux-input@lfdr.de>; Tue,  1 Jul 2025 16:32:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B85FC3B906C
-	for <lists+linux-input@lfdr.de>; Tue,  1 Jul 2025 13:46:24 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E353F3A47A9
+	for <lists+linux-input@lfdr.de>; Tue,  1 Jul 2025 14:31:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C4748274B4A;
-	Tue,  1 Jul 2025 13:46:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 41878276036;
+	Tue,  1 Jul 2025 14:31:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="C4nwgjcK"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KHmWtcue"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26884272E46;
-	Tue,  1 Jul 2025 13:46:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A3971487E9;
+	Tue,  1 Jul 2025 14:31:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751377605; cv=none; b=C7xNuBLf2Kv1e64D+XD1rKAnVsactClY5k82bb35/95cFZdhPFcAxzMQEVn0MoOr0Qcy+4Lzv9zc6EtTG14smmq4uXclx7mgujzjvVXGIXcY3HNM22u9a8S5QvB1Imb0yCxDfBUJMFLWEyzhScAGO8AMsmNTlXD9ia+JUACDFyM=
+	t=1751380311; cv=none; b=pEU3cL+N5xOW7VQBrjx5hndtPwf/DxkcY5H7OqrVS3dlHKQO8VvCnlFU0oNNtx+rFz3glrODDzHd/NX1VzYq/9MAvr7VafR6HphqEjYs/xbAOVha4t4X4lVkSVeniXfMkFjtN3z/hVZtegIb+Q3cXMS3cTAOi4MFtnfH33qSkQY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751377605; c=relaxed/simple;
-	bh=ibP52KV8RQXXWvzqFsSFw+ob6EAw66Mhj2C9IAdm7YY=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=HoQFe2WYYhFzGpng7sgY6rm18q7ypg9tEKxYz21jg++ur3OwmafuEp9bwOqduBMMFt2zAb9/7cnLcgbNOo7aNBUCW7s/mNpQJc2R91NnYpZSliFXMq6B+He2l+WlW1H6wkfyixYQfywq26r+rABJMHo/rAoHTIJCpP9l6giIcEg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=C4nwgjcK; arc=none smtp.client-ip=209.85.221.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-3a54690d369so3159562f8f.3;
-        Tue, 01 Jul 2025 06:46:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751377600; x=1751982400; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=ibP52KV8RQXXWvzqFsSFw+ob6EAw66Mhj2C9IAdm7YY=;
-        b=C4nwgjcKlmSPwREdPcB2tYyZhtGoi4Os5zcoLQir1iYudpgc3LejQYA1kRZ0MJvouu
-         zZXYKOGMJY11N2C5lDgvod3E5QGMrXTE0/9gf/ZxCGYDDkownOBjd4FR0VkcrEVg3T9r
-         R3yEAIbMr9a7+bqgO4oguuKAj0w5s8Ad27e80aKmqnd4M/VG+sCufLEEHxr+RtaSKHDT
-         Prsizgfvr/RE1/u+dSczG22k8gUm709VxGcCW30R4DeGbb7ow9El09I500anqIh+X5we
-         yLOZlRJznh/AUW//fx66FhkPRs8fQkywmR9i0xcXh0Oj4I+VQTk59oqHOWKLYBL0vei4
-         v/fw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751377600; x=1751982400;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ibP52KV8RQXXWvzqFsSFw+ob6EAw66Mhj2C9IAdm7YY=;
-        b=MnQcbXXEOqfzByLgo0NKe87Peb26TSOtro9kKuBpBsvL24Z26ZbBXHnrRG50LXqI00
-         l6CIigIuqk5gAqPo8IhSpJPLbvzVD+ZypGidrqDGKaPlIaa8X5lfzcyyAfyZyRY1oKPd
-         UoALC7Tj6WgOGfS9cpTtJj5Fyeg3W8EPxw2yUQdZtN6jrIBTkahnkEcNTmooMQa/uMgw
-         JQ+3h2nfl2hWLSPpLhPQn2jDpQT8tXwcM57WuP4n/w89umNXN2I2HMiGKhIVwJCRpsyT
-         cXsVtlAXEu85DiVQXwv64U14sbG5g+Pa4lWbohydRy4TNHcyIJMaXKpELytl3BztMNna
-         F39A==
-X-Forwarded-Encrypted: i=1; AJvYcCUntJRMSH02xlwaMUawsiGBm7r2H+F9EkIdz+szTl4WUAMCVQPS1FZ3Qkw+eOdIb2c+XfwZsoayu4KY@vger.kernel.org, AJvYcCVFvr18CcFD4uyYsZi1zOwSWnFOh1I7u7JSVL12ZVXdZl9gQohwY+Plyg+WxpxJTSKVc6aZStv3qT4T8nM=@vger.kernel.org, AJvYcCVZZMITX/X2w4XuLJyflPG7QrlEmLLoJZSpXJXz1Ijbp5zKDfoV1WiV2DPDKJegENQ6JY0c81TP6Hby@vger.kernel.org, AJvYcCWlLxmahm2i7qDiQ7qpJp0REIIAUvHmowmsdxFc7jxa3bnmPgw9NhNGRP9SByqJIx0u0i3v12eUd0WeKQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyqz2YqDk12js2GIipnJwD9/yM0LbftcvTBYgw1CgIGupThPYhJ
-	3KW5qkqFjYW+BCn4pAp5eHD7dPdGE9SuIDJOwKip/zcUdlmi+EwvMBit
-X-Gm-Gg: ASbGncvjB6ynqFTa51cxmInDlNK1Z/1rpFbU9STX15eeJ5QgMlHZgCmvK96jvNhnk+Y
-	D/PBfD/oYX2AquSEcN9cw9TpLg2cKaMtakHYHHpfKUs+J1JJx5m9K9weM0FRWfrN+9gPuXxULOO
-	GaN4fo5nuW62w1DsEULCXduMmAYbJaA5xQAQ4Dn+4+tdapwlp11LGctTu8Dl7TFBLLyv8WkpVn2
-	tufs+SNlxu9l2A/LoPfQv3NWk9VT8sOQssCp4g/0EqqQwN4hbsLgnZmogP4zJ346g85uZZekFQa
-	OdxeGQoryv3CL2UpL7CqYSDQcekEDZk3e7cwtj7rGNrsNVvPKl1drsEnpUn4aPBjEwv2ww==
-X-Google-Smtp-Source: AGHT+IHNzs/WLjUgqKAkUB6nlEsDDAtKiJRYzIrWS0JGdts5+xxqNpbxFYSph7JZ0yDE4KoQ73ZzuQ==
-X-Received: by 2002:a05:6000:42c1:b0:3a4:fc07:f453 with SMTP id ffacd0b85a97d-3a8f435e0acmr9959643f8f.8.1751377600119;
-        Tue, 01 Jul 2025 06:46:40 -0700 (PDT)
-Received: from [192.168.1.187] ([161.230.67.253])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a88c80b516sm12991233f8f.41.2025.07.01.06.46.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Jul 2025 06:46:39 -0700 (PDT)
-Message-ID: <b211113c728540679d589a0321041c14d36701fa.camel@gmail.com>
-Subject: Re: [PATCH v6 16/20] Input: adp5585: Add Analog Devices ADP5585/89
- support
-From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
-To: Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>
-Cc: nuno.sa@analog.com, linux-gpio@vger.kernel.org,
- linux-pwm@vger.kernel.org, 	devicetree@vger.kernel.org,
- linux-input@vger.kernel.org, Lee Jones <lee@kernel.org>,  Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>,  Linus Walleij <linus.walleij@linaro.org>, Bartosz
- Golaszewski <brgl@bgdev.pl>, Dmitry Torokhov	 <dmitry.torokhov@gmail.com>,
- Laurent Pinchart	 <laurent.pinchart@ideasonboard.com>, Liu Ying
- <victor.liu@nxp.com>
-Date: Tue, 01 Jul 2025 14:46:50 +0100
-In-Reply-To: <sjbb62jqcjvac7fzyqtk5rvxijvakwc6ldpe3p2stgtzrgj3ur@5wbl4vndhjpi>
-References: <20250630-dev-adp5589-fw-v6-0-a0f392a0ba91@analog.com>
-	 <20250630-dev-adp5589-fw-v6-16-a0f392a0ba91@analog.com>
-	 <txppsdw4w7ocnysvrm54ta4ulplwawd5pk2l5wt3bhrag6qbev@gr4ah7lgjigi>
-	 <83685a983e2134fd644a8720383408d4b452996a.camel@gmail.com>
-	 <sjbb62jqcjvac7fzyqtk5rvxijvakwc6ldpe3p2stgtzrgj3ur@5wbl4vndhjpi>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2 
+	s=arc-20240116; t=1751380311; c=relaxed/simple;
+	bh=rqJXkoluTBUb8/TC3f6BkLvnwz9KDd39/fIEKWYuoQ8=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=epMm8l9RiluSp60WssWWBq4k6x7PINdpmktv0Di75dIQDXHI61XjH4SaFSQA06nall+QpUj71w+IFRv00wSU6wJGnlH+IDxzMxffXI9jFEMWYXeEJRFvqkr7NfjWihp3XZca4txiAPNE+cjKTYy8UVAL6bhh4Bt1L+2lOuAT8sU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KHmWtcue; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 8C119C4CEEB;
+	Tue,  1 Jul 2025 14:31:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1751380310;
+	bh=rqJXkoluTBUb8/TC3f6BkLvnwz9KDd39/fIEKWYuoQ8=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=KHmWtcueEWDiKBVPFLkfp0EfLw6+rbrYzow6QeTfFzYOaVTQ9pWSy392n3rQf5tMd
+	 Mtj3rsQDJaIp3syKOaDJnldi/Qf8mMw9JO5YWKeFudq3FMWHQ0vUmdbURYCx9C0m+j
+	 GgtafA7cr6Rln12HOY5YDZmAltnzNB66Xw+QJ+bNkXXia70wUvxb6eP0ayCuypr3dm
+	 j+3emo0cqfMkxoeZ5a/f5/vhMBfPI52p3In9KkcblWDk9aFMlKFGWm1Hnm0cUxS4E+
+	 8vIL6TY7lFJJdWTbQPhA85ZTGW6dSlMdLsvIKvF/aNpa28Dz616xiG0/AJ4dcKHg/x
+	 Nnne9cceybvvA==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D036C8302F;
+	Tue,  1 Jul 2025 14:31:50 +0000 (UTC)
+From: =?utf-8?q?Nuno_S=C3=A1_via_B4_Relay?= <devnull+nuno.sa.analog.com@kernel.org>
+Subject: [PATCH v7 00/20] mfd: adp5585: support keymap events and drop
+ legacy Input driver
+Date: Tue, 01 Jul 2025 15:31:55 +0100
+Message-Id: <20250701-dev-adp5589-fw-v7-0-b1fcfe9e9826@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAFzxY2gC/2XQ3UoDMRCG4VspOTYymfyOR96HeDCbZNuA7pZdi
+ UrZezctyFZz+AWedyAXseal5FU8HS5iybWsZZ7a8A8HEU88HbMsqW2BgBa0UjLlKjmdrQ0kx0+
+ ZwcQxkbEYnGjovOSxfN2CL69tn8r6MS/ft35V19fflP6fqkqCRMgBkhmSyfzME7/Nx8c4v4trq
+ +LujbKdx+Y1e6KocwoKO693bxV2XjcPhIMygycOofPmzmP3FdU0P2KkEJJnz9B5u3unTOdt8z5
+ TCobAoevvuzuvofOueYZREzIMTOqP37btB2Uk0RztAQAA
+X-Change-ID: 20250311-dev-adp5589-fw-e04cfd945286
+To: linux-gpio@vger.kernel.org, linux-pwm@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-input@vger.kernel.org
+Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, 
+ Linus Walleij <linus.walleij@linaro.org>, 
+ Bartosz Golaszewski <brgl@bgdev.pl>, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Liu Ying <victor.liu@nxp.com>, 
+ Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1751380320; l=2789;
+ i=nuno.sa@analog.com; s=20231116; h=from:subject:message-id;
+ bh=rqJXkoluTBUb8/TC3f6BkLvnwz9KDd39/fIEKWYuoQ8=;
+ b=kdpaPC6QvTEVwYqCdDRCXSZVZxESkOXpnXuXJRkJ980kTIWXdAyFO/WBXgXMk05xtioAStEU1
+ 3z00gUZ7yi3AVcgA1+03fBy17Ya+OwUo4MQen3OvYLAtHAckqxsqJAF
+X-Developer-Key: i=nuno.sa@analog.com; a=ed25519;
+ pk=3NQwYA013OUYZsmDFBf8rmyyr5iQlxV/9H4/Df83o1E=
+X-Endpoint-Received: by B4 Relay for nuno.sa@analog.com/20231116 with
+ auth_id=100
+X-Original-From: =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>
+Reply-To: nuno.sa@analog.com
 
-On Tue, 2025-07-01 at 15:43 +0200, Uwe Kleine-K=C3=B6nig wrote:
-> Hey Nuno,
->=20
-> On Tue, Jul 01, 2025 at 10:19:03AM +0100, Nuno S=C3=A1 wrote:
-> > I did asked Lee before sending v6 but He likely missed it. I would add =
-it
-> > here
-> > but it is painful to do it with b4 so I ended up adding the log directl=
-y in
-> > the
-> > commit message. b4 was removing git notes and I also don't like git not=
-es
-> > adding
-> > that "Notes:" line in the beginning. Do you have any suggestion on how =
-you
-> > handle this with b4 other than b4 send -o $DIR && git-send-mail?
->=20
-> I'm not using b4 for sending, but ISTR that adding the --- to the commit
-> log after the S-o-b area does the right thing. You get the tripple dash
-> twice then, but git-apply does the right thing with it.
->=20
+Hi all,
 
-Yeps, I just realized that :).
+Here it goes v7 with proper changelogs. Also took opportunity to fix
+some spelling issues brought by Uwe.
 
-- Nuno S=C3=A1
+Thanks!
+- Nuno Sá
+
+---
+- Link to v5: https://lore.kernel.org/r/20250614-dev-adp5589-fw-v5-0-7e9d84906268@analog.com
+- Link to v4: https://lore.kernel.org/r/20250521-dev-adp5589-fw-v4-0-f2c988d7a7a0@analog.com
+- Link to v3: https://lore.kernel.org/r/20250512-dev-adp5589-fw-v3-0-092b14b79a88@analog.com
+- Link to v2: https://lore.kernel.org/r/20250415-dev-adp5589-fw-v2-0-3a799c3ed812@analog.com
+- Link to v1: https://lore.kernel.org/r/20250313-dev-adp5589-fw-v1-0-20e80d4bd4ea@analog.com
+- Link to v6: https://lore.kernel.org/r/20250630-dev-adp5589-fw-v6-0-a0f392a0ba91@analog.com
+
+---
+Nuno Sá (20):
+      dt-bindings: mfd: adp5585: ease on the required properties
+      mfd: adp5585: Only add devices given in FW
+      mfd: adp5585: Enable oscillator during probe
+      mfd: adp5585: Make use of MFD_CELL_NAME()
+      dt-bindings: mfd: adp5585: document adp5589 I/O expander
+      mfd: adp5585: Refactor how regmap defaults are handled
+      mfd: adp5585: Add support for adp5589
+      mfd: adp5585: Add a per chip reg struture
+      gpio: adp5585: add support for the adp5589 expander
+      pwm: adp5585: add support for adp5589
+      dt-bindings: mfd: adp5585: add properties for input events
+      mfd: adp5585: Add support for event handling
+      mfd: adp5585: Support reset and unlock events
+      mfd: adp5585: Add support for input devices
+      gpio: adp5585: support gpi events
+      Input: adp5585: Add Analog Devices ADP5585/89 support
+      Input: adp5589: remove the driver
+      mfd: adp5585: Support getting vdd regulator
+      dt-bindings: mfd: adp5585: document reset gpio
+      mfd: adp5585: Add support for a reset pin
+
+ .../devicetree/bindings/mfd/adi,adp5585.yaml       |  240 ++++-
+ .../devicetree/bindings/trivial-devices.yaml       |    2 -
+ MAINTAINERS                                        |    1 +
+ drivers/gpio/Kconfig                               |    1 +
+ drivers/gpio/gpio-adp5585.c                        |  364 ++++++-
+ drivers/input/keyboard/Kconfig                     |   21 +-
+ drivers/input/keyboard/Makefile                    |    2 +-
+ drivers/input/keyboard/adp5585-keys.c              |  371 +++++++
+ drivers/input/keyboard/adp5589-keys.c              | 1066 --------------------
+ drivers/mfd/adp5585.c                              |  741 +++++++++++++-
+ drivers/pwm/pwm-adp5585.c                          |   78 +-
+ include/linux/mfd/adp5585.h                        |  118 ++-
+ 12 files changed, 1797 insertions(+), 1208 deletions(-)
+---
+base-commit: 407f60a151df3c44397e5afc0111eb9b026c38d3
+change-id: 20250311-dev-adp5589-fw-e04cfd945286
+--
+
+Thanks!
+- Nuno Sá
+
+
 
