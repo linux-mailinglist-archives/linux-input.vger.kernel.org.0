@@ -1,231 +1,227 @@
-Return-Path: <linux-input+bounces-13312-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13313-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id B35CDAF01E6
-	for <lists+linux-input@lfdr.de>; Tue,  1 Jul 2025 19:30:41 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C94F0AF0219
+	for <lists+linux-input@lfdr.de>; Tue,  1 Jul 2025 19:44:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7A8FF520BE5
-	for <lists+linux-input@lfdr.de>; Tue,  1 Jul 2025 17:30:38 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D1BD84A3FCB
+	for <lists+linux-input@lfdr.de>; Tue,  1 Jul 2025 17:44:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BCC7E26E6F1;
-	Tue,  1 Jul 2025 17:29:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 336BD27F730;
+	Tue,  1 Jul 2025 17:44:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KgQ6bNoA"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PFC8LLDa"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AA1B27703E
-	for <linux-input@vger.kernel.org>; Tue,  1 Jul 2025 17:29:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC4DD25C6EC;
+	Tue,  1 Jul 2025 17:44:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751390957; cv=none; b=RiXHIRr4PBRhPiecq95NSVzjer4NhfJDEzn/6lvow3O9OT6CFUu7Iy8M7JzPMjD1CEqIxF8zFvWKYHFx9D73JeHAIymWaepPcz6xGPuvnRV3LpMhAH14Bacf987IzsaXZrS6Dkr+rl7Neyvu7f0evNZVETVvcCs3A7clYO3nIOE=
+	t=1751391861; cv=none; b=AYjkOZQCZo341Kygcx+rUGnnded8BAdppevYObzRAkRVbtO3hpuVajbQ91xJHlPvmvYGunR1skpiJMOKVLGyQHG1pdL0ysAz8vvtH3XN/0wTk88mhttGpCkj4WV5aul3ndTo51JwQ3d8QLMTB3AuBIPeHeyMdSo+7jkktXicXe0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751390957; c=relaxed/simple;
-	bh=dm9uvFf3iTht30eY5hBROlrniiPOf4OpDru934o6VNw=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=I27h2m8JPZcdt847wz4N6P6yxA0sz0nb9Yle4vStbqrZ1/YbNKnIGB2x5TEjMnp906YhCDuyBWkn4MPpfX6oDyg2KWUh5L8pLOLxpxSNCot/rlY2rdiWNXLChnKW6mXQuSbaJIi2OkXrT+2DvsZpBtzdeB8BdXeaLqsjdOdzNFc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KgQ6bNoA; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751390955; x=1782926955;
-  h=date:from:to:cc:subject:message-id;
-  bh=dm9uvFf3iTht30eY5hBROlrniiPOf4OpDru934o6VNw=;
-  b=KgQ6bNoAe1SN3LI743+YsKWwkgvk4+ok6o/0cGMyc2np5npKXebd3rDZ
-   DtHXwyMrijA4+LYZ1919h5hKzyDj+SnDqQI/uL7+Jg0R1qOKtbsYwfX2O
-   om54j72t/yBcjZxiXKSWUtmkOb+ULZ3iYi06ikells/m+gPgE/Ouhl/Vc
-   5tYPuxFolhF97tZ1ylSNWgWDL4pA2aeAdd7osWL8gbLdxXw+FchgZEjgY
-   6MPfuffYaWtkDZhgiEhWDmyeUHzPINCrhJtQhgvoUERdg7+wpVl1WlkRl
-   3HhPa1vcM8HWallmWDFGYEuPkLIwUFxQVH7waGM3gFKQhcEHNEwn/mVYL
-   A==;
-X-CSE-ConnectionGUID: q+U7ZJ0iSpyMkwXhiC3NFg==
-X-CSE-MsgGUID: TaJUCPGQRqeT6qD8T3quKQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11481"; a="65124742"
-X-IronPort-AV: E=Sophos;i="6.16,279,1744095600"; 
-   d="scan'208";a="65124742"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2025 10:29:15 -0700
-X-CSE-ConnectionGUID: Kw3IORyfS0eEG0p4DYZ7Ew==
-X-CSE-MsgGUID: QUuqVyRUQkajYcd+cUEB/w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,279,1744095600"; 
-   d="scan'208";a="153989668"
-Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 01 Jul 2025 10:29:13 -0700
-Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uWen9-000aUE-26;
-	Tue, 01 Jul 2025 17:29:11 +0000
-Date: Wed, 02 Jul 2025 01:29:07 +0800
-From: kernel test robot <lkp@intel.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: linux-input@vger.kernel.org
-Subject: [dtor-input:for-linus] BUILD SUCCESS
- a106b6a888caf478d5fd31d123ffa09558500772
-Message-ID: <202507020157.52Lffaf0-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	s=arc-20240116; t=1751391861; c=relaxed/simple;
+	bh=T/Oh3jotCzcmLKi13L685F87dDpqLPMtMcQj6fakPvk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=I0PEN50NROnUjWt38DdH9Ky7sXElV0pwX6o7tNIfmc8nRVV6qhj4g62bHlu3B3rXxS39N7/xorj1z7kPnY43/16TEPjoksvgOKvxglNyD4julT25aUNCk8b07OyYMNdrp3aX7yOlLF4f6Z+Wkz1mM3y5aZ7Zv2cbT8RuJXaO8+Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PFC8LLDa; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A33B7C4CEEB;
+	Tue,  1 Jul 2025 17:44:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1751391860;
+	bh=T/Oh3jotCzcmLKi13L685F87dDpqLPMtMcQj6fakPvk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=PFC8LLDaQCERloxxDdzc9fDp24D33SKAmYgZ1QFEOmzF6jiKiF2fH1EYoGLBTDyic
+	 DAf4tg0M7jTvpKKWO6Bcb9xNER/kpNY8Am6LmTbfe7sVF+DtYDlF35U1Coo3CpV4M7
+	 /Th3Z18z7qwHtMSYuKvYYoGDluKbU7eBxqGLTb2vcV1rZcyfADPAoDl0EaInKSZQMy
+	 +523XjIJeVk/nSgi3w/m0+h4md8zNTFLXti5KrMVtUpNMoC8ixPYLXAhDIboKSx9jS
+	 e17VaG1/Z+x6oAaXb9lBOGsWH7AmAbp/zzL2jDYTGZ/Kq2PWkC1Yc60bP+K5sjuSO+
+	 BX5oEW8zb2ibw==
+Date: Tue, 1 Jul 2025 19:44:17 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
+To: Waqar Hameed <waqar.hameed@axis.com>
+Cc: Vignesh Raghavendra <vigneshr@ti.com>, 
+	Julien Panis <jpanis@baylibre.com>, William Breathitt Gray <wbg@kernel.org>, 
+	Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, 
+	Peter Rosin <peda@axentia.se>, Jonathan Cameron <jic23@kernel.org>, 
+	David Lechner <dlechner@baylibre.com>, Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>, 
+	Andy Shevchenko <andy@kernel.org>, Cosmin Tanislav <cosmin.tanislav@analog.com>, 
+	Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Matteo Martelli <matteomartelli3@gmail.com>, 
+	Heiko Stuebner <heiko@sntech.de>, Francesco Dolcini <francesco@dolcini.it>, 
+	=?utf-8?Q?Jo=C3=A3o_Paulo_Gon=C3=A7alves?= <jpaulo.silvagoncalves@gmail.com>, Hugo Villeneuve <hvilleneuve@dimonoff.com>, 
+	Subhajit Ghosh <subhajit.ghosh@tweaklogic.com>, Mudit Sharma <muditsharma.info@gmail.com>, 
+	Gerald Loacker <gerald.loacker@wolfvision.net>, Song Qiang <songqiang1304521@gmail.com>, 
+	Crt Mori <cmo@melexis.com>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+	Ulf Hansson <ulf.hansson@linaro.org>, Karol Gugala <kgugala@antmicro.com>, 
+	Mateusz Holenko <mholenko@antmicro.com>, Gabriel Somlo <gsomlo@gmail.com>, Joel Stanley <joel@jms.id.au>, 
+	Claudiu Manoil <claudiu.manoil@nxp.com>, Vladimir Oltean <vladimir.oltean@nxp.com>, 
+	Wei Fang <wei.fang@nxp.com>, Clark Wang <xiaoning.wang@nxp.com>, 
+	Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+	Paolo Abeni <pabeni@redhat.com>, Vinod Koul <vkoul@kernel.org>, 
+	Kishon Vijay Abraham I <kishon@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>, 
+	Alim Akhtar <alim.akhtar@samsung.com>, Sebastian Reichel <sre@kernel.org>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Kevin Hilman <khilman@baylibre.com>, 
+	Jerome Brunet <jbrunet@baylibre.com>, Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
+	Han Xu <han.xu@nxp.com>, Haibo Chen <haibo.chen@nxp.com>, 
+	Yogesh Gaur <yogeshgaur.83@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Avri Altman <avri.altman@wdc.com>, Bart Van Assche <bvanassche@acm.org>, 
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, "Martin K. Petersen" <martin.petersen@oracle.com>, 
+	Souradeep Chowdhury <quic_schowdhu@quicinc.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
+	Bard Liao <yung-chuan.liao@linux.intel.com>, Ranjani Sridharan <ranjani.sridharan@linux.intel.com>, 
+	Daniel Baluta <daniel.baluta@nxp.com>, Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, kernel@axis.com, 
+	linux-iio@vger.kernel.org, linux-omap@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-mediatek@lists.infradead.org, linux-rockchip@lists.infradead.org, linux-input@vger.kernel.org, 
+	linux-mmc@vger.kernel.org, imx@lists.linux.dev, netdev@vger.kernel.org, 
+	linux-phy@lists.infradead.org, linux-samsung-soc@vger.kernel.org, linux-pm@vger.kernel.org, 
+	linux-pwm@vger.kernel.org, linux-amlogic@lists.infradead.org, linux-spi@vger.kernel.org, 
+	linux-scsi@vger.kernel.org, linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org, 
+	sound-open-firmware@alsa-project.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH] Remove error prints for devm_add_action_or_reset()
+Message-ID: <ylr7cuxldwb24ccenen4khtyddzq3owgzzfblbohkdxb7p7eeo@qpuddn6wrz3x>
+References: <pnd7c0s6ji2.fsf@axis.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="siz3npg32duy4f54"
+Content-Disposition: inline
+In-Reply-To: <pnd7c0s6ji2.fsf@axis.com>
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git for-linus
-branch HEAD: a106b6a888caf478d5fd31d123ffa09558500772  Input: alps - use scnprintf() to suppress truncation warning
 
-elapsed time: 1450m
+--siz3npg32duy4f54
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH] Remove error prints for devm_add_action_or_reset()
+MIME-Version: 1.0
 
-configs tested: 138
-configs skipped: 2
+Hello,
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+On Tue, Jul 01, 2025 at 05:03:33PM +0200, Waqar Hameed wrote:
+>  drivers/pwm/pwm-meson.c                          | 3 +--
 
-tested configs:
-alpha                             allnoconfig    gcc-15.1.0
-alpha                            allyesconfig    gcc-15.1.0
-alpha                               defconfig    gcc-15.1.0
-arc                              allmodconfig    gcc-15.1.0
-arc                               allnoconfig    gcc-15.1.0
-arc                              allyesconfig    gcc-15.1.0
-arc                                 defconfig    gcc-15.1.0
-arc                   randconfig-001-20250701    gcc-13.3.0
-arc                   randconfig-002-20250701    gcc-15.1.0
-arm                              allmodconfig    gcc-15.1.0
-arm                               allnoconfig    clang-21
-arm                              allyesconfig    gcc-15.1.0
-arm                                 defconfig    clang-21
-arm                      integrator_defconfig    clang-21
-arm                        mvebu_v7_defconfig    clang-21
-arm                   randconfig-001-20250701    clang-17
-arm                   randconfig-002-20250701    gcc-8.5.0
-arm                   randconfig-003-20250701    clang-21
-arm                   randconfig-004-20250701    clang-21
-arm                           sama5_defconfig    gcc-15.1.0
-arm                         wpcm450_defconfig    gcc-15.1.0
-arm64                            allmodconfig    clang-19
-arm64                             allnoconfig    gcc-15.1.0
-arm64                               defconfig    gcc-15.1.0
-arm64                 randconfig-001-20250701    clang-21
-arm64                 randconfig-002-20250701    gcc-15.1.0
-arm64                 randconfig-003-20250701    clang-18
-arm64                 randconfig-004-20250701    gcc-5.5.0
-csky                              allnoconfig    gcc-15.1.0
-csky                                defconfig    gcc-15.1.0
-csky                  randconfig-001-20250701    gcc-11.5.0
-csky                  randconfig-002-20250701    gcc-10.5.0
-hexagon                          allmodconfig    clang-17
-hexagon                           allnoconfig    clang-21
-hexagon                          allyesconfig    clang-21
-hexagon                             defconfig    clang-21
-hexagon               randconfig-001-20250701    clang-21
-hexagon               randconfig-002-20250701    clang-21
-i386                             allmodconfig    gcc-12
-i386                              allnoconfig    gcc-12
-i386                             allyesconfig    gcc-12
-i386        buildonly-randconfig-001-20250701    gcc-12
-i386        buildonly-randconfig-002-20250701    gcc-12
-i386        buildonly-randconfig-003-20250701    gcc-12
-i386        buildonly-randconfig-004-20250701    gcc-12
-i386        buildonly-randconfig-005-20250701    gcc-12
-i386        buildonly-randconfig-006-20250701    clang-20
-i386                                defconfig    clang-20
-loongarch                        allmodconfig    gcc-15.1.0
-loongarch                         allnoconfig    gcc-15.1.0
-loongarch             randconfig-001-20250701    gcc-13.3.0
-loongarch             randconfig-002-20250701    gcc-15.1.0
-m68k                             allmodconfig    gcc-15.1.0
-m68k                              allnoconfig    gcc-15.1.0
-m68k                             allyesconfig    gcc-15.1.0
-m68k                         amcore_defconfig    gcc-15.1.0
-m68k                       m5275evb_defconfig    gcc-15.1.0
-microblaze                       allmodconfig    gcc-15.1.0
-microblaze                        allnoconfig    gcc-15.1.0
-microblaze                       allyesconfig    gcc-15.1.0
-mips                              allnoconfig    gcc-15.1.0
-nios2                             allnoconfig    gcc-14.2.0
-nios2                 randconfig-001-20250701    gcc-14.2.0
-nios2                 randconfig-002-20250701    gcc-13.3.0
-openrisc                          allnoconfig    gcc-15.1.0
-openrisc                         allyesconfig    gcc-15.1.0
-openrisc                            defconfig    gcc-15.1.0
-openrisc                 simple_smp_defconfig    gcc-15.1.0
-parisc                           allmodconfig    gcc-15.1.0
-parisc                            allnoconfig    gcc-15.1.0
-parisc                           allyesconfig    gcc-15.1.0
-parisc                              defconfig    gcc-15.1.0
-parisc                randconfig-001-20250701    gcc-14.3.0
-parisc                randconfig-002-20250701    gcc-10.5.0
-powerpc                          allmodconfig    gcc-15.1.0
-powerpc                           allnoconfig    gcc-15.1.0
-powerpc                          allyesconfig    clang-21
-powerpc                   currituck_defconfig    clang-21
-powerpc                   motionpro_defconfig    clang-21
-powerpc                 mpc8313_rdb_defconfig    gcc-15.1.0
-powerpc               randconfig-001-20250701    gcc-13.3.0
-powerpc               randconfig-002-20250701    clang-21
-powerpc               randconfig-003-20250701    clang-21
-powerpc                     sequoia_defconfig    clang-17
-powerpc64             randconfig-001-20250701    clang-21
-powerpc64             randconfig-002-20250701    clang-21
-powerpc64             randconfig-003-20250701    gcc-10.5.0
-riscv                            allmodconfig    clang-21
-riscv                             allnoconfig    gcc-15.1.0
-riscv                            allyesconfig    clang-16
-riscv                               defconfig    clang-21
-riscv                 randconfig-001-20250701    gcc-14.3.0
-riscv                 randconfig-002-20250701    gcc-10.5.0
-s390                             allmodconfig    clang-18
-s390                              allnoconfig    clang-21
-s390                             allyesconfig    gcc-15.1.0
-s390                                defconfig    clang-21
-s390                  randconfig-001-20250701    gcc-9.3.0
-s390                  randconfig-002-20250701    clang-17
-sh                               allmodconfig    gcc-15.1.0
-sh                                allnoconfig    gcc-15.1.0
-sh                               allyesconfig    gcc-15.1.0
-sh                                  defconfig    gcc-15.1.0
-sh                        edosk7705_defconfig    gcc-15.1.0
-sh                    randconfig-001-20250701    gcc-5.5.0
-sh                    randconfig-002-20250701    gcc-13.3.0
-sh                          rsk7201_defconfig    gcc-15.1.0
-sh                   sh7724_generic_defconfig    gcc-15.1.0
-sh                        sh7763rdp_defconfig    gcc-15.1.0
-sh                  sh7785lcr_32bit_defconfig    gcc-15.1.0
-sparc                            allmodconfig    gcc-15.1.0
-sparc                             allnoconfig    gcc-15.1.0
-sparc                 randconfig-001-20250701    gcc-10.3.0
-sparc                 randconfig-002-20250701    gcc-15.1.0
-sparc64                             defconfig    gcc-15.1.0
-sparc64               randconfig-001-20250701    gcc-8.5.0
-sparc64               randconfig-002-20250701    gcc-12.4.0
-um                               allmodconfig    clang-19
-um                                allnoconfig    clang-21
-um                               allyesconfig    gcc-12
-um                                  defconfig    clang-21
-um                             i386_defconfig    gcc-12
-um                    randconfig-001-20250701    gcc-12
-um                    randconfig-002-20250701    gcc-12
-um                           x86_64_defconfig    clang-21
-x86_64                            allnoconfig    clang-20
-x86_64                           allyesconfig    clang-20
-x86_64      buildonly-randconfig-001-20250701    gcc-12
-x86_64      buildonly-randconfig-002-20250701    gcc-12
-x86_64      buildonly-randconfig-003-20250701    gcc-12
-x86_64      buildonly-randconfig-004-20250701    gcc-12
-x86_64      buildonly-randconfig-005-20250701    clang-20
-x86_64      buildonly-randconfig-006-20250701    clang-20
-x86_64                              defconfig    gcc-11
-x86_64                          rhel-9.4-rust    clang-18
-xtensa                            allnoconfig    gcc-15.1.0
-xtensa                randconfig-001-20250701    gcc-15.1.0
-xtensa                randconfig-002-20250701    gcc-13.3.0
+Looking at this driver I tried the following:
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+diff --git a/drivers/base/core.c b/drivers/base/core.c
+index 3809baed42f3..58a2ab74f14c 100644
+--- a/drivers/base/core.c
++++ b/drivers/base/core.c
+@@ -5062,7 +5062,7 @@ static void __dev_probe_failed(const struct device *d=
+ev, int err, bool fatal,
+  *
+  * Returns @err.
+  */
+-int dev_err_probe(const struct device *dev, int err, const char *fmt, ...)
++int _dev_err_probe(const struct device *dev, int err, const char *fmt, ...)
+ {
+ 	va_list vargs;
+=20
+@@ -5075,7 +5075,7 @@ int dev_err_probe(const struct device *dev, int err, =
+const char *fmt, ...)
+=20
+ 	return err;
+ }
+-EXPORT_SYMBOL_GPL(dev_err_probe);
++EXPORT_SYMBOL_GPL(_dev_err_probe);
+=20
+ /**
+  * dev_warn_probe - probe error check and log helper
+diff --git a/include/linux/dev_printk.h b/include/linux/dev_printk.h
+index eb2094e43050..23ef250727f1 100644
+--- a/include/linux/dev_printk.h
++++ b/include/linux/dev_printk.h
+@@ -275,7 +275,13 @@ do {									\
+ 	WARN_ONCE(condition, "%s %s: " format, \
+ 			dev_driver_string(dev), dev_name(dev), ## arg)
+=20
+-__printf(3, 4) int dev_err_probe(const struct device *dev, int err, const =
+char *fmt, ...);
++__printf(3, 4) int _dev_err_probe(const struct device *dev, int err, const=
+ char *fmt, ...);
++
++#define dev_err_probe(dev, err, ...) (								\
++	(__builtin_constant_p(err) && err =3D=3D -ENOMEM) ? err : _dev_err_probe(=
+dev, err, __VA_ARGS__)	\
++)
++
++
+ __printf(3, 4) int dev_warn_probe(const struct device *dev, int err, const=
+ char *fmt, ...);
+=20
+ /* Simple helper for dev_err_probe() when ERR_PTR() is to be returned. */
+diff --git a/include/linux/device/devres.h b/include/linux/device/devres.h
+index ae696d10faff..abfa5152b5a7 100644
+--- a/include/linux/device/devres.h
++++ b/include/linux/device/devres.h
+@@ -157,8 +157,11 @@ static inline int __devm_add_action_or_reset(struct de=
+vice *dev, void (*action)(
+ 	int ret;
+=20
+ 	ret =3D __devm_add_action(dev, action, data, name);
+-	if (ret)
++	if (ret) {
++		if (ret !=3D -ENOMEM)
++			__builtin_unreachable();
+ 		action(data);
++	}
+=20
+ 	return ret;
+ }
+
+With that
+
+        ret =3D devm_add_action_or_reset(dev, meson_pwm_s4_put_clk,
+                                       meson->channels[i].clk);
+        if (ret)
+                return dev_err_probe(dev, ret,
+                                     "Failed to add clk_put action\n");
+
+=66rom drivers/pwm/pwm-meson.c is optimized to
+
+        ret =3D devm_add_action_or_reset(dev, meson_pwm_s4_put_clk,
+                                       meson->channels[i].clk);
+        if (ret)
+                return ret;
+
+=2E
+
+I would prefer this approach, because a) there is no need to drop all
+dev_err_probe()s after devm_add_action_or_reset() and b) the
+dev_err_probe()s could stay for consistency in the error paths of a
+driver.
+
+Best regards
+Uwe
+
+--siz3npg32duy4f54
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmhkHm4ACgkQj4D7WH0S
+/k40Ugf+IGBhMZPHVoCFXh9jXSPImkCDM81Omc7cyM5CZFFdOO09K82bfGBFD7bF
+X+9ZxJqCFCRmF8AtN+3Z6xmAia7Q4jKwUgvdR/iJY4jMX6uQk49IxGgv9Ux9aAu2
+/jttnDFocIwCi6sjUxxf2HCdfwLPKhfhrl+xNpQ80kh4oBZ+L0X5s6u6Mcsu8V2P
+2O3Q05nJZK/bpCYZNgRHMeg4k71v6nG8eYw2nJ6n7dbTOtj+HnQC3GCfajWFg7mf
+al8FLQxckEkDif0f7yDlSnjUT7oF78eg1G2pf9PDBr9I15efw+TkKSmkr/MIVXJE
+YFLNKMZeRFfoAyzKWfjfpuR/ZUe+3Q==
+=uD6x
+-----END PGP SIGNATURE-----
+
+--siz3npg32duy4f54--
 
