@@ -1,137 +1,165 @@
-Return-Path: <linux-input+bounces-13341-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13342-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76D71AF63B9
-	for <lists+linux-input@lfdr.de>; Wed,  2 Jul 2025 23:05:21 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 727E3AF66E9
+	for <lists+linux-input@lfdr.de>; Thu,  3 Jul 2025 02:49:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6D3521C411D9
-	for <lists+linux-input@lfdr.de>; Wed,  2 Jul 2025 21:05:37 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0315A7A8A40
+	for <lists+linux-input@lfdr.de>; Thu,  3 Jul 2025 00:48:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D9BF220F23;
-	Wed,  2 Jul 2025 21:05:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C4827142E67;
+	Thu,  3 Jul 2025 00:49:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NlmPAFZv"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="frdZT27G"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 076172DE6F9;
-	Wed,  2 Jul 2025 21:05:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 384972C9D;
+	Thu,  3 Jul 2025 00:49:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751490313; cv=none; b=EfA1IBaNmoaPTG0BPnxxJrGA99uLuyzvLn/ALz8rMZHM1lYqGVGFzQGlknPkqx2mOIYkwNd1ZATeNK8zDv0sog8Wd+uBzImfag7YouJOieNw1QVIqNnTss4B2g5Z0ApumxbbOHeQrlqpYVU2V8m1XDpeA37t3mfVtv0avptEFug=
+	t=1751503789; cv=none; b=iZFsZ1Pz3vriA6BZruBUI8jBwL3cHg7kEi+hdxiNRQhGoNcYPgUyh7Xg52Ntiz/FR0zpe9sK/PlbYP7h8x9Ttw1aZogYWHvxzAtL+GrFqA8sPdAJhdwDVxHH4fmBkfFFVcJ5kcvOpPybHGJr4A12SzVBX8M2Q8ATQKfwygqexEw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751490313; c=relaxed/simple;
-	bh=YG6sPS0G+I71vksxn4epGkUMjbDGBdqbdGVeWWGjEjU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aAq/xuUFPzbIJJm3D3YUz8DctHyjadC1Y0mrSOumMYtMJC7sLBWZdom4OM1DAbwv+5oHB3tz8se3E7IUjU4ZVydOeYSIUCKpK5UZ1d8jMC3dn898hmN0zxj62Cet8l3+6AJY/7Q/6NxB73upuhqcr+JIppcldBWgSuyMGoF58uY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NlmPAFZv; arc=none smtp.client-ip=209.85.214.173
+	s=arc-20240116; t=1751503789; c=relaxed/simple;
+	bh=L1MwWh8rgDab++DZ+PqjpfY4euT0vjx8GWVkXg+1pDY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=pbZ7KQC/CViuwOExTgjIt6Uuwzmg32oVsW9xZRPdoeQfROUmwidorkwzT0fictRRx7Sdk+l5x7EdOzUONa9aGpfeILK0MefbFL2nfUAmu/oYTEUKV1nWDO2eKd61xWjWzMq/cJ+TtGWgJHOm/iu24Dnyz4YyyQ8J5fGUeFn+EPc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=frdZT27G; arc=none smtp.client-ip=209.85.210.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-236470b2dceso42712775ad.0;
-        Wed, 02 Jul 2025 14:05:11 -0700 (PDT)
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-74b52bf417cso873317b3a.0;
+        Wed, 02 Jul 2025 17:49:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751490311; x=1752095111; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Wh2PtfxFsXVqWIGJhK/ssCsDM+Xukv05BNpcs9NLP9I=;
-        b=NlmPAFZvcijlbCuhBELwDijrRXmTc+HQFPC/47TpiwehITCPDxVA3PqnDipqUXExiZ
-         V4mZVA2puHDq5xZtpfxegx1yjtbHM4ZNiE+3NjXh3jbXIexb9q78VjQszoZQ050cNSlE
-         ScUhBMKAL+3sz/xW5Ujavbk1dCXpmLS2bOpSbL+T0MYCI5zMb3GMN5XbPpIkWsDQexEf
-         +p0KbRAAnugxhtUnyBl66FDDY3DkOKicpCvBXHqpvTOD8WKQtRwHgFe4q/OrCtutnnqd
-         1rKELVfMbQssv9l2NHKoS12IXnO/rF+i+ssCbgoOkGSR8Bd25P/3bTL2qNeZ2oOioKlm
-         T6Wg==
+        d=gmail.com; s=20230601; t=1751503787; x=1752108587; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=0v8+lPN0LjX1t8hZDa4PteXqqs4jfj1L4KXQ05PyY3c=;
+        b=frdZT27G8Mj+KLFEkZTtrH86BmzQRJo91FqhvosvHsQBUGy4ZlrcVXip5HGESZkRs7
+         Oz83dm5oLT6pJoMMIE/1Du9u0IU2rxBZYRgaBjv+LVXeTyipkboWU5YPV5aD3eUxLAE3
+         cVWqDo8yh/m2e27QAwUI2V0RRkfQHfdtIX4ylJA1p/J1yIIu4a6iFzaSqRPF70/ooCLN
+         3/+IbH3GLj3q5aNoUy7wEIMSrNpESwllqdhnzUpBKLPHpfatnA48GbUEJy93/3IgH73Q
+         d5uBinucGUyNJwdwDP/zFbekh8EbfuNFHbyMEAH8k3FDwoVi7aPshPrBEVoG+tCi84tR
+         KQxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751490311; x=1752095111;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Wh2PtfxFsXVqWIGJhK/ssCsDM+Xukv05BNpcs9NLP9I=;
-        b=VZWNrLdWNBOYec343V0jTzZpJZc4mIqU450lLCqLxLe4R7a1JtcPtha6/b2F/oV2b3
-         bS1VgAr4/4E7VL1Gu0r3BNhsptMkb0c3ZntrGLGFz+QoaOdVfglnq5woYFycGkpNLu/u
-         XtdKTuOG4w2NZuj4ha1JwTKAotcZWSv405xI1PoPWs2LrbIP4z9AxTgM6syJsfuNOC85
-         0coK23T34gg4l4riQhjY5P3j0zLlxP+Zxjj69Ye6QtbEyHAF32nGxVYrM6AdJWEbprzs
-         +LHCtVIaCaoFf07q6qmpCcGTCHWsYfx+5fAQyPxeaYD3YT1kGKA8v+Ff0TvUqHCgr7Zz
-         RYdw==
-X-Forwarded-Encrypted: i=1; AJvYcCUSFCWKiuDnL20ckUmCSeYqERBRO1TcYpDn1lL9w+f/ETs3S7usZbQ6VOVRcIRwTu8n4+2xOoNYyTuj@vger.kernel.org, AJvYcCVBf7uz3ggCBG7CW20u0cEvO8QpZaS9hHUu3dRj+5+fIU1Ov5ty0RtzdS1GMrKkox7HEOx9Ybc+fSQRtw==@vger.kernel.org, AJvYcCWY7T6r5vnN8Ioc1jmo+JRUUU5UFx1B1nStS6MwwqZMQ3Gh5hs+mG5snHBJ4vaIbi8YJ6BOQTeGqjxhXJcd@vger.kernel.org, AJvYcCX/33PxYvrgDFyfzoHE1vCpc66kR5DOhQyr87ojGIHQdIf7w2IRNydBSqmfL2LtuRMHyEejwqcCAcKo@vger.kernel.org, AJvYcCXnVqLsx5o9Q4321TfEwccOMu+obPQdZWlgFYdbt7dAcaWk3VuhYCLHqfZORZ2xOg0j6l2tRe3nKj3ZDZw=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx5irhQ78EB8mb7UHUgt9dkOuagyGwTb2jNFXhjJZIBcoG82AAh
-	pyy7rL5oVj29PbjWpbJKvr3yMFeYXwpsAfdWPMBSCWIsuEsJzXduNGqk
-X-Gm-Gg: ASbGncvvhMgHH2boXRpfXrMqJaQyOPX5lH8D07DnetMgNMVP+Jzox5/Zp1m5ktB1eN9
-	Yy2X1XTLeIDWsPkeB72V+H8+jZ/7TJYQrrsDnLMe4St+55p5dldpHK69G8JtGQ3j2pdQN2WatGZ
-	TwdM72XnRE9zAnFCG1WZdVjRA8laSFbBLZvXmZvMlN2zwQS6hKUW2otPEVh1GCR6NUkTnoVchLe
-	8gSMFtRQ/5JE04HJrqdn5QT4L5cQLjw/GOJcQdtO2UxDmuJPkEJKaEh+T6wkRXiOCBlfgOYPklJ
-	1tUlQhlBYSc2jbAp7Nq5fSCMA6jMyXwLle16eJgV8OCeRWwovPiLdpKYSWSz/rI=
-X-Google-Smtp-Source: AGHT+IED4rigsUmACCM8UMue5pRAk+uyxupiG5Exv/rXBrfmLjc9Y12VetS1nwj6oMIn6YZGh8phpQ==
-X-Received: by 2002:a17:903:1a70:b0:234:cc7c:d2e8 with SMTP id d9443c01a7336-23c6e5b0fd8mr52532375ad.37.1751490311058;
-        Wed, 02 Jul 2025 14:05:11 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:918b:9ece:525a:9158])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23acb3acc62sm146106955ad.143.2025.07.02.14.05.09
+        d=1e100.net; s=20230601; t=1751503787; x=1752108587;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=0v8+lPN0LjX1t8hZDa4PteXqqs4jfj1L4KXQ05PyY3c=;
+        b=Yw1CnQz7vOZDc7PB8saEuJxHNcSCUcrqvKFBe1RqLLrGIJQ1Fkt9cdV/EHOno5ljVG
+         v2YvJBFW5f858FiOunbkP1hQKPFK0gz9oGeF7in2X/0HqoqdwrcsIaWCjrJuAUp/fcFa
+         n+prUeKzAQ3fghMwrEZ0+qgsmX9AuQfW082aIZAbK6zbd3s7HI9j+QX/cFvZ4juRIl2B
+         UU8+L8RlfAR51se35tWbf+y9YhARkxgSdCZVS78p5z9gmlfYDPLPGSwAGhPEVthUZTKR
+         Cd0v6R3gvBHKatCF/sj9ydjeUl1Sm39IqZNtKxeiG5BdHvJD78jxvLYMT8DgLGEOoJW4
+         unkQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUBxIX9lngWpTcfp2K7+Ph55LH736kTgOPrgrXUl9z7JiS7jboaj84DuSAexS76yrgu8MibKVXRiHe/7ZEE@vger.kernel.org, AJvYcCWjxBHDvVFMZL4ngXSEAOByW7WUm8JTCXgakzQvnjU1+lIJjTMhGkHD6trF55QynWIbeJW56Hyqf+g=@vger.kernel.org, AJvYcCXXbRcVTg1DdRIa0rGspA006UUmojaqpk5KPy4v8p6GiuIobcooGFcSmNPmqaDtHu0tqmih3arq0RUbeco=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxfXk1eKzuDAs7AZnbolc5dMr6r+OUtrkm9IZwVtKGcLjyaCQsE
+	uq6i59cz0rDQOBt8LXkTC2VoJg0/NapQo3GHUu3v1eRHP61hNYO8yiUbdcyNE/yu
+X-Gm-Gg: ASbGncsNVJ4hnEb+gSofmBVC3f4RIa8TbhF7nMpo8aSjJkDScajFJuVVVTqg/zazTM7
+	tmHVksuvEKCGISyoSFakcL3iPUuoqe58pS2klJfUnc+i9byM9gkZqX98rmMP+I34dhS8T4tr58q
+	dv53E5iiZXt2BuSQv1i2zT52kMrekeJQ1P79rVEcmEcqFNm0etC7KaoS3urqiovQLvkD9ULM2EW
+	hNdcekG8qlPEsLZS5LnLkDcsPWj8hUfj+XjKdkSrCbmcq6gWmkxKNNKVSdcEMwtkyh8WhnnFWgo
+	Vb9T7/RUBQOV4tMJSIwmGuNf3AzWorRzXBrpUT7MVLd8JCbRLiUcarZBMDPR6CgVW5IQMjEX+oD
+	6gwbbh6VQRO7bSpk2Du+Y9caxcWVIdtlHFIFUrkksKQ==
+X-Google-Smtp-Source: AGHT+IEOpiyaMTnUtNn3q+j4XbjQsCRzSZEZSxW8lJvZ4NcbiqziIphrqw+KUrsEQZVfByyZA5OoWA==
+X-Received: by 2002:a05:6a21:3282:b0:21c:f778:6736 with SMTP id adf61e73a8af0-2240b7d8998mr2173358637.27.1751503787271;
+        Wed, 02 Jul 2025 17:49:47 -0700 (PDT)
+Received: from bliptop (108-228-232-20.lightspeed.sndgca.sbcglobal.net. [108.228.232.20])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74af55c7546sm15369815b3a.111.2025.07.02.17.49.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Jul 2025 14:05:10 -0700 (PDT)
-Date: Wed, 2 Jul 2025 14:05:07 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Kamel Bouhara <kamel.bouhara@bootlin.com>, Linus Walleij <linus.walleij@linaro.org>, 
-	Bartosz Golaszewski <brgl@bgdev.pl>, Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, 
-	Michael Walle <mwalle@kernel.org>, Mark Brown <broonie@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, linux-input@vger.kernel.org, linux-pwm@vger.kernel.org, 
-	andriy.shevchenko@intel.com, =?utf-8?Q?Gr=C3=A9gory?= Clement <gregory.clement@bootlin.com>, 
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v10 10/11] input: misc: Add support for MAX7360 rotary
-Message-ID: <rfxdncj7o6ow53jthveea6byresoz3vwts3h4cqjezn3egrny3@sd63xrnhwm6s>
-References: <20250530-mdb-max7360-support-v10-0-ce3b9e60a588@bootlin.com>
- <20250530-mdb-max7360-support-v10-10-ce3b9e60a588@bootlin.com>
+        Wed, 02 Jul 2025 17:49:46 -0700 (PDT)
+From: "Derek J. Clark" <derekjohn.clark@gmail.com>
+To: Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>
+Cc: Mario Limonciello <superm1@kernel.org>,
+	Xino Ni <nijs1@lenovo.com>,
+	Zhixin Zhang <zhangzx36@lenovo.com>,
+	Mia Shao <shaohz1@lenovo.com>,
+	Mark Pearson <mpearson-lenovo@squebb.ca>,
+	"Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>,
+	"Derek J . Clark" <derekjohn.clark@gmail.com>,
+	linux-input@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 0/6] HID: Add Legion Go S Driver
+Date: Wed,  2 Jul 2025 17:49:37 -0700
+Message-ID: <20250703004943.515919-1-derekjohn.clark@gmail.com>
+X-Mailer: git-send-email 2.50.0
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250530-mdb-max7360-support-v10-10-ce3b9e60a588@bootlin.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Mathieu,
+This series adds initial support for the Legion Go S's built-in
+controller HID configuration interface. In the first patch a new HID
+uevent property is added, HID_FIRMWARE_VERSION, so as to permit fwupd
+to read the firmware version of the HID interface without detaching the
+kernel driver. The second patch adds the ability for an hid_driver to
+assign new/arbitrary uevent properties for static data that doesn't
+benefit from having a sysfs entry. The third patch adds the VID and PID
+for the Lenovo Legion Go S MCU. The fourth patch adds ABI documentation
+for the config interface introduced in the final patch. The fifth patch
+introduces the core lenovo-legos-hid driver which acts as a routing
+interface for the different endpoints. The sixth path introduces the 
+config lenovo-legos-hid driver wich uses both the HID_FIRMWARE_VERSION
+as well as arbitrary uevent properties. Additional interfaces and config
+properties are planned to be added in a future series.
 
-On Fri, May 30, 2025 at 12:00:18PM +0200, Mathieu Dubois-Briand wrote:
-> +
-> +static void max7360_rotaty_report_event(struct max7360_rotary *max7360_rotary, int steps)
+Patch 6 introduces a checkpatch WARNING that I'm unable to resolve:
+WARNING: ENOSYS means 'invalid syscall nr' and nothing else
+1292: FILE: drivers/hid/lenovo-legos-hid/lenovo-legos-hid-config.c:1085:
++       case -ENOSYS: /* during rmmod -ENOSYS is expected */
 
-s/rotaty/rotary
+This error handling case was added as it is experienced in the real world
+when the driver is rmmod. The LED subsystem produces this error code in
+its legacy code and this is not a new novel use of -ENOSYS, we are simply
+catching the case to avoid spurious errors in dmesg when the driver is
+removed. If there is a way to prevent this error from being triggered by
+checkpatch in the first place, that would be an ideal remedy, but I'm not
+aware how that can be done at this time.
 
-> +	if (max7360_rotary->relative_axis) {
-> +		input_report_rel(max7360_rotary->input, max7360_rotary->axis, steps);
-> +	} else {
-> +		int pos = max7360_rotary->pos;
-> +		int maxval = max7360_rotary->steps;
-> +
-> +		/*
-> +		 * Add steps to the position.
-> +		 * Make sure added steps are always in ]-maxval; maxval[
-> +		 * interval, so (pos + maxval) is always >= 0.
-> +		 * Then set back pos to the [0; maxval[ interval.
-> +		 */
-> +		pos += steps % maxval;
-> +		if (max7360_rotary->rollover)
-> +			pos = (pos + maxval) % maxval;
-> +		else
-> +			pos = clamp(pos, 0, maxval);
+Signed-off-by: Derek J. Clark <derekjohn.clark@gmail.com>
 
-Should it be clamp(pos, 0, maxval - 1) by chance?
 
-Otherwise:
+Derek J. Clark (4):
+  HID: Add Legion Go S ID's
+  HID: Add documentation for lenovo-legos-hid driver
+  HID: Add lenovo-legos-hid core
+  HID: Add lenovo-legos-hid configuration endpoint interface
 
-Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Mario Limonciello (2):
+  HID: Include firmware version in the uevent
+  HID: Allow HID drivers to add more uevent variables
 
-Thanks.
+ .../ABI/testing/sysfs-driver-lenovo-legos-hid |  269 +++
+ MAINTAINERS                                   |    7 +
+ drivers/hid/Kconfig                           |    2 +
+ drivers/hid/Makefile                          |    2 +
+ drivers/hid/hid-core.c                        |   11 +
+ drivers/hid/hid-ids.h                         |    4 +
+ drivers/hid/lenovo-legos-hid/Kconfig          |   11 +
+ drivers/hid/lenovo-legos-hid/Makefile         |    6 +
+ drivers/hid/lenovo-legos-hid/config.c         | 1518 +++++++++++++++++
+ drivers/hid/lenovo-legos-hid/config.h         |   19 +
+ drivers/hid/lenovo-legos-hid/core.c           |  122 ++
+ drivers/hid/lenovo-legos-hid/core.h           |   25 +
+ include/linux/hid.h                           |    2 +
+ 13 files changed, 1998 insertions(+)
+ create mode 100644 Documentation/ABI/testing/sysfs-driver-lenovo-legos-hid
+ create mode 100644 drivers/hid/lenovo-legos-hid/Kconfig
+ create mode 100644 drivers/hid/lenovo-legos-hid/Makefile
+ create mode 100644 drivers/hid/lenovo-legos-hid/config.c
+ create mode 100644 drivers/hid/lenovo-legos-hid/config.h
+ create mode 100644 drivers/hid/lenovo-legos-hid/core.c
+ create mode 100644 drivers/hid/lenovo-legos-hid/core.h
 
 -- 
-Dmitry
+2.50.0
+
 
