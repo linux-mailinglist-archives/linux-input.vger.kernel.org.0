@@ -1,135 +1,130 @@
-Return-Path: <linux-input+bounces-13356-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13357-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97455AF6BEF
-	for <lists+linux-input@lfdr.de>; Thu,  3 Jul 2025 09:48:24 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id C0FFFAF6C58
+	for <lists+linux-input@lfdr.de>; Thu,  3 Jul 2025 10:02:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5D30B3B95C3
-	for <lists+linux-input@lfdr.de>; Thu,  3 Jul 2025 07:47:56 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 08E5A1894541
+	for <lists+linux-input@lfdr.de>; Thu,  3 Jul 2025 08:01:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0BB362980D3;
-	Thu,  3 Jul 2025 07:48:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C6822BE7BE;
+	Thu,  3 Jul 2025 08:01:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WsJah6se"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dVntPm7m"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D66161C07F6;
-	Thu,  3 Jul 2025 07:48:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31A3E2BEFEF;
+	Thu,  3 Jul 2025 08:01:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751528894; cv=none; b=XTXyvuQKcphBjDhMFJwjkMjATIESLPgjcWJEArE29F5+/fTIsU49PwQ4u++6yhS+ux3BXpBFd/CaY5mpVUxlle3An0BVkvUaoTMdZOD4jTi9XchUGwS1lhAnM5eZ2GKUBkMA+22Ky9QuQxpIGPgEgRceINvB1ejkzfCgQ0HjIt8=
+	t=1751529689; cv=none; b=QIihv6wD5VjEW0zFPdNfSNOeJAWiGR1yUPZcIL1pNddUn9SxBcjXo0FFdiwl2NLVEHrsFgbbP79oMYJZVoQKHXmZI1QcXd/7G9kyWhPu6Si6hPRBqbvdcAN2KsXvzrE238phO95XRkY3QE4+5rh/BgDwj5Ntq6WWNIpUx9q34/E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751528894; c=relaxed/simple;
-	bh=R1JZXLhzsP6GKBgRmVdhQ1yr4uSjM3A3hQpAb2vJpb8=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=YXSjhUriGIrJG+MW5JuaEwL9hSqHz+WH09JZ3qZkhINfh6pSuenE/4c2XKL/E0xqySSLCU4TdxTcRvxqWkUCbZzikP0UXjU6553DLrPGntHmIzJb2fKgB2eZ8lnKe7EfB0u7MGdiF8TI5oJnJIhcy0QHcAs6Hsf3pYBZH3xqfQk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WsJah6se; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E48C9C4CEE3;
-	Thu,  3 Jul 2025 07:48:13 +0000 (UTC)
+	s=arc-20240116; t=1751529689; c=relaxed/simple;
+	bh=0R/79b7/zHxBbUcz7SkH4uoUwC8oBEx4uD3sypTtBgY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=W8KzJchc2dDHsSN4gRN+FMRqBR6eozU4uDlg+ROLgSWdRJEfjbG5WpPEUJMM7aLNeFHoEfW7dD8Pukt5rtE9omLGQfXhy40WhRTuwO0zSRChfgZKlQXuT32FNGvd39wW3OUIbWoBSV8U8YV1aHtae5R7eV+BWkyenUaXZncUouo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dVntPm7m; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1469BC4CEE3;
+	Thu,  3 Jul 2025 08:01:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751528894;
-	bh=R1JZXLhzsP6GKBgRmVdhQ1yr4uSjM3A3hQpAb2vJpb8=;
-	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=WsJah6se5ilQMs3YtWzOTr3q+vhJVzzWlySN6om95oUNMzaKkTrP9MFQmcjFTo2tC
-	 6jcgKfyZ7KrOh3Jq73LLYxWAbE53ir7rrhCoe7rXCwLHsskl5MkmrxANW7xrkT5NOx
-	 7ydbVu+0xEJgGiga3x//wBHLksaACXpklGMcLBVc6qeBnIWdtYmgmcBljKSBC+iVrq
-	 VDnqHEIDWnojq69CxxRFKVPc2iaJMWHnSc3W0bd5Uyu5KBUGFjDshgT1cP6Mqhl7Ts
-	 Hb3Dcp4LXH9XWstvqA27vIHu1o9vFLgYE6jxPooTeHcb65jplqZz9ABGU91/glv7Bk
-	 FQQpOfexOcvAg==
-Date: Thu, 3 Jul 2025 09:48:11 +0200 (CEST)
-From: Jiri Kosina <jikos@kernel.org>
-To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-cc: Roderick Colenbrander <roderick.colenbrander@sony.com>, 
-    Benjamin Tissoires <bentiss@kernel.org>, 
-    Henrik Rydberg <rydberg@bitmath.org>, kernel@collabora.com, 
-    linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 00/11] HID: playstation: Add support for audio jack
- handling on DualSense
-In-Reply-To: <20250625-dualsense-hid-jack-v2-0-596c0db14128@collabora.com>
-Message-ID: <s4596421-sr43-893r-o90r-86nr588sp32q@xreary.bet>
-References: <20250625-dualsense-hid-jack-v2-0-596c0db14128@collabora.com>
+	s=k20201202; t=1751529688;
+	bh=0R/79b7/zHxBbUcz7SkH4uoUwC8oBEx4uD3sypTtBgY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=dVntPm7mwZSiztjYj5cAEt2Hpem62/62xRmyYp4/A1ybTwWn0GxdmNmLEHvrQtaRb
+	 YskEiFD3rhZJD+6IiW6pnoQYoKjRiEKAhyfSqGqpu/y5wCUEZW5IMSdZJH3d/Pxt6x
+	 D1bEJ/Zji26lIj6uNj4X4AIRNRS4SXGuWDnBCVGXSJ4V1hck77gRCi7X4H9RpIAPEW
+	 LzeW6GB3M1AkOnrocAWXZbTbX5A6mbRGST0P6ksDPxAENDC2gTK5K2ZqRjJ63Kj9dr
+	 Z8JMmQUPbxtV9MEykrYk4/PjoNiLLhPF9ZCUmcPk1TMtnLeoLxOS9JRaO4puvyfhTA
+	 S8C6iulY774zQ==
+Date: Thu, 3 Jul 2025 10:01:23 +0200
+From: Benjamin Tissoires <bentiss@kernel.org>
+To: Jiri Kosina <jikos@kernel.org>
+Cc: Danilo Krummrich <dakr@kernel.org>, 
+	Rahul Rameshbabu <sergeantsagara@protonmail.com>, linux-input@vger.kernel.org, rust-for-linux@vger.kernel.org, 
+	Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	=?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>, Benno Lossin <benno.lossin@proton.me>, 
+	Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
+	Trevor Gross <tmgross@umich.edu>, Daniel Brooks <db48x@db48x.net>
+Subject: Re: [PATCH v1 2/3] rust: core abstractions for HID drivers
+Message-ID: <p2tuq2a77dpl3ku7a6dbwqgsk5yybemqcfyoozjl5k3auijxqk@7myvbre2aam4>
+References: <20250629045031.92358-2-sergeantsagara@protonmail.com>
+ <20250629045031.92358-4-sergeantsagara@protonmail.com>
+ <aGD9OIZ_xE6h3199@pollux>
+ <8os57581-8q0n-p226-836s-52610166qq02@xreary.bet>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <8os57581-8q0n-p226-836s-52610166qq02@xreary.bet>
 
-On Wed, 25 Jun 2025, Cristian Ciocaltea wrote:
+On Jul 03 2025, Jiri Kosina wrote:
+> On Sun, 29 Jun 2025, Danilo Krummrich wrote:
+> 
+> > (Cc: +Jiri)
+> 
+> Thanks.
+> 
+> > > diff --git a/MAINTAINERS b/MAINTAINERS
+> > > index c3f7fbd0d67a..487750d9fd1e 100644
+> > > --- a/MAINTAINERS
+> > > +++ b/MAINTAINERS
+> > > @@ -10686,6 +10686,13 @@ F:	include/uapi/linux/hid*
+> > >  F:	samples/hid/
+> > >  F:	tools/testing/selftests/hid/
+> > >  
+> > > +HID CORE LAYER [RUST]
+> > > +M:	Rahul Rameshbabu <sergeantsagara@protonmail.com>
+> > > +L:	linux-input@vger.kernel.org
+> > > +S:	Maintained
+> > > +T:	git git://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git
+> > > +F:	rust/kernel/hid.rs
+> > 
+> > I assume this is agreed with the HID CORE LAYER maintainers?
+> > 
+> > There are multiple possible options, for instance:
+> > 
+> >   1) Maintain the Rust abstractions as part of the existing MAINTAINERS entry.
+> >      Optionally, the author can be added as another maintainer or reviewer.
+> > 
+> >   2) Add a separate MAINTAINERS entry; patches still go through the same
+> >      subsystem tree.
+> > 
+> >   3) Add a separate MAINTAINERS entry; patches don't go through the subsystem
+> >      tree (e.g. because the subsystem maintainers don't want to deal with it).
+> 
+> I can't speak for Benjamin, but as far as I am concerned, I'd personally 
+> prefer option (3).
 
-> The Sony DualSense wireless controller (PS5) provides an internal mono
-> speaker, in addition to the 3.5mm jack socket for headphone output and
-> headset microphone input.  However, the default audio output path is set
-> to headphones, regardless of whether they are actually inserted or not.
-> 
-> This patch series aims to improve the audio support when operating in
-> USB mode, by implementing the following changes:
-> 
-> * Detect when the plugged state of the audio jack changes and toggle
->   audio output between headphones and internal speaker, as required.
->   The latter is achieved by essentially routing the right channel of the
->   audio source to the mono speaker.
-> 
-> * Adjust the speaker volume since its default level is too low and,
->   therefore, cannot generate any audible sound.
-> 
-> * Register a dedicated input device for the audio jack and use it to
->   report all headphone and headset mic insert events.
-> 
-> It's worth noting the latter is necessary since the controller complies
-> with v1.0 of the USB Audio Class spec (UAC1) and, therefore, cannot
-> advertise any jack detection capability.
-> 
-> However, this feature can be implemented in the generic USB audio driver
-> via quirks, i.e. by configuring an input handler to receive hotplug
-> events from the HID driver.  That's exactly what has been accomplished
-> via the "ALSA: usb-audio: Support jack detection on Sony DualSense"
-> patchset [1], which has been already merged and should be available in
-> v6.17.
-> 
-> Unrelated to the above, also provide a few driver cleanup patches, e.g.
-> make use of bitfields macros, simplify locking, fix coding style.
-> 
-> [1] https://lore.kernel.org/all/20250526-dualsense-alsa-jack-v1-0-1a821463b632@collabora.com/
-> 
-> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-> ---
-> Changes in v2:
-> - Updated cover letter including a reference to the usb-audio patch series
-> - Updated 'HID: playstation: Make use of bitfield macros' patch to drop
->   DS_STATUS_CHARGING_SHIFT and use FIELD_GET() for battery status ops
-> - Replaced 'HID: playstation: Rename DualSense input report status
->   field' with 'HID: playstation: Redefine DualSense input report status
->   field' changing data type to a 3-byte array instead of renaming the
->   struct member (Roderick)
-> - Updated 'HID: playstation: Support DualSense audio jack hotplug
->   detection' according to Roderick's feedback:
->  * Used DS_STATUS1_ prefixes for the plugged status register and rename
->    its bits to match the datasheet
->  * Defined MIC_VOLUME_ENABLE bit of DS_OUTPUT_VALID_FLAG0 register
->  * Renamed the newly introduced audio controls members in struct
->    dualsense_output_report_common: headphone_volume, speaker_volume,
->    mic_volume, audio_control, audio_control2
-> - Restricted audio jack hotplug detection and event reporting to USB
->   operation mode only, since Bluetooth audio is currently not supported
->   and it might have a negative impact on the battery life (Roderick)
-> - Rebased series onto next-20250624
-> - Link to v1: https://lore.kernel.org/r/20250526-dualsense-hid-jack-v1-0-a65fee4a60cc@collabora.com
+I understand Jiri's concerns, but I'm slighlty worried (3) will end up
+also having the leaf drivers in a separate tree, which means that 2
+trees will fight for the same resource.
 
-Just for the record -- I like the v2, and am inclined to merge it, but 
-would prefer doing that with Roderick's Ack, so I am waiting for a bit 
-here.
+First patch of this series is a first example where some changes are
+needed in the HID bus for making rust life's easier.
 
-Thanks,
+Personally, I'd like to have a say and an eye on the rust abstractions
+and most of it, on the leaf drivers. I can't say I'll proactively
+review/merge things (these past few months have shown that I merely
+manage to follow things happening ATM), but at least I can keep an eye
+and shout if something is wrong.
 
--- 
-Jiri Kosina
-SUSE Labs
+OTOH, the HID tree (the core part) is a low change tree now, so maybe a
+separate tree can be handled correctly without too much troubles.
 
+Danilo, if a separate tree is chosen, is the common practice to directly
+send the PR to Linus or does it need to got through the subsystem tree
+first (like bpf with net for example).
+
+Cheers,
+Benjamin
 
