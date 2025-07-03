@@ -1,111 +1,57 @@
-Return-Path: <linux-input+bounces-13362-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13363-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7BDBAF709A
-	for <lists+linux-input@lfdr.de>; Thu,  3 Jul 2025 12:39:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BB56AF7616
+	for <lists+linux-input@lfdr.de>; Thu,  3 Jul 2025 15:48:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5D8E53B7087
-	for <lists+linux-input@lfdr.de>; Thu,  3 Jul 2025 10:38:42 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D8F6E48802C
+	for <lists+linux-input@lfdr.de>; Thu,  3 Jul 2025 13:47:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C787D2E2671;
-	Thu,  3 Jul 2025 10:38:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F277613B2A4;
+	Thu,  3 Jul 2025 13:48:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=who-t.net header.i=@who-t.net header.b="FUblvFzV";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Jb/1y9bp"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Mw7YHBNG"
 X-Original-To: linux-input@vger.kernel.org
-Received: from fout-b1-smtp.messagingengine.com (fout-b1-smtp.messagingengine.com [202.12.124.144])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E02A6293C52;
-	Thu,  3 Jul 2025 10:38:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.144
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C51442E339E;
+	Thu,  3 Jul 2025 13:48:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751539136; cv=none; b=pHS21aExQXmvm5udPqtj8/atwfjBKSFzpD3BeGiuowm1vOsgvV4o/gm7rc82+9oVdMCyaNAXhNWPJwgT9dXx1VGW5ePaAl+kpNamKnlye+5Ti5LOgZj8KhvAuOx6VparGxHHclPhCkyrzWCDmczPeMpNDjzjOQHBa/qFYb+9NGk=
+	t=1751550485; cv=none; b=iS6yNDSk6sfdYfdQowshfQAIZ6+0/yYvroKUW8k2Iw1F9zsTxbgM3WxzFlb+Hs1mlUJjX0QYfM9hN1+KTZBu7Q+E2r+zFMnzntgsePoNob/3r/JUqgzB6AKeWQ5OdtlGOJx48d/zoeV4eDCdH8+AVVYfePukerPTtsTwrO6Unvo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751539136; c=relaxed/simple;
-	bh=BGen47jhAS+7DNLL1eo/KdMiAmGvFWxtsCR6aedawyk=;
+	s=arc-20240116; t=1751550485; c=relaxed/simple;
+	bh=Z6KlQkGacahAHBeiOlfNGCQApzd2EG8g779vIBwR9uk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=j1sOvuyg6EtNl6jmi9nAX7j3CRo5MDRKj1k+7Tbb3tEzs4V610n71VU5UQljcW9dkH/X6Fqt0U8LhecHpNDmMgvANFEXWaVtti/zAmm+/iFHLuFcDTb9Tb80R1mHyKnd9EYzxurnOdvFm5PNMXkjkVLE3/Zgwyf+zymzDesJ3YA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=who-t.net; spf=pass smtp.mailfrom=who-t.net; dkim=pass (2048-bit key) header.d=who-t.net header.i=@who-t.net header.b=FUblvFzV; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Jb/1y9bp; arc=none smtp.client-ip=202.12.124.144
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=who-t.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=who-t.net
-Received: from phl-compute-12.internal (phl-compute-12.phl.internal [10.202.2.52])
-	by mailfout.stl.internal (Postfix) with ESMTP id 850AF1D002B3;
-	Thu,  3 Jul 2025 06:38:52 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-12.internal (MEProxy); Thu, 03 Jul 2025 06:38:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=who-t.net; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm1; t=1751539132; x=1751625532; bh=LDV8TwqDyA
-	oZIAQja0tU8c6qSNHBhsZEeabLyMaqTGc=; b=FUblvFzV90JX1eselFuIEmiJXM
-	FTfhx2ACazKn4Osc9qyMxzaoo2DZwhXz8UvNh1UWUaXuWM7H3sEWq5f102te1dLo
-	B0k4NX8eqYkspRx+P7jSBQCXyVG0drakvwRWjbFA2YYGCnuRcseNByXhXYr6jyQe
-	AAPy7S7NC7WAb/qVp4djOtpzeNbU+XYgpTucU7/znGjwkD+B5nOl5R3BjD+7KDad
-	GeKIi1q2mE7piZvz+ghWv/CHcMlmnKKn3HFS3iuSbZM0+K7DofBO/ET1if98vLPB
-	GkPnu078IUQRaB73js7/aSKfkG6bvJrZJ+tOEeLA2pDYbx24pMQDitiC8Xug==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
-	1751539132; x=1751625532; bh=LDV8TwqDyAoZIAQja0tU8c6qSNHBhsZEeab
-	LyMaqTGc=; b=Jb/1y9bpvdKO8jD1NlmdNsEWS1BX2dsZvFFrvrZkT+ZvNdieoUG
-	o4a/EwZgUyItwSzoKnmtyjbbJ6ehYJ4LIpEn6MvXD3/9Gs+xnMtPcGGUaxCSYDqN
-	5k0kK/1tlyNCcz2ULLpbI4O/0akel/jpvjkpxpsJuBiL50rZv2ng4Vz9b7EH5Rr/
-	EUImvLT+hcGFecUMgPLWqb/dI1FSID9F5DquywchN3rUtLe+u4jmIN0HzPnnaK09
-	uqYMVqRopPen7wpWCIwL+DaqAxQT4m3SAdD1GbQQDn5jmobLkZfBh63FHSqoc/ml
-	AoJmoc148ADByduhqHD2JNVPvfCim3gbYqQ==
-X-ME-Sender: <xms:u11maCobzSzHhVfwZZSavpsBZ2EQ_UlCSI36NpHZWZfwBLmUFfo9Vw>
-    <xme:u11maAppahhemFmpyGsKFZHw2k97wo3EnKE7T3-IoVonwh11PkduwpdQz1497CIP9
-    IZDh9gHxmCQrOT8FsQ>
-X-ME-Received: <xmr:u11maHMNRni7mPNB_9Hl7F6V8dWdUO0fG2XO3vNp4Yv08NkXRtv1HVabWcnqAG96FEy79ua95aeQg3YV0Pbe3jMcXT2A1KaCEA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddvtddthecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpeffhffvvefukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpefrvghtvghrucfj
-    uhhtthgvrhgvrhcuoehpvghtvghrrdhhuhhtthgvrhgvrhesfihhohdqthdrnhgvtheqne
-    cuggftrfgrthhtvghrnheptefglefgvdeiuddttdffgefggeeiheevleduudffgeduueet
-    jeetteefffehgfelnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvg
-    hrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehpvghtvghrrdhhuhhtthgv
-    rhgvrhesfihhohdqthdrnhgvthdpnhgspghrtghpthhtohepudehpdhmohguvgepshhmth
-    hpohhuthdprhgtphhtthhopehsvghrghgvrghnthhsrghgrghrrgesphhrohhtohhnmhgr
-    ihhlrdgtohhmpdhrtghpthhtoheplhhinhhugidqihhnphhuthesvhhgvghrrdhkvghrnh
-    gvlhdrohhrghdprhgtphhtthhopehruhhsthdqfhhorhdqlhhinhhugiesvhhgvghrrdhk
-    vghrnhgvlhdrohhrghdprhgtphhtthhopegsvghnthhishhssehkvghrnhgvlhdrohhrgh
-    dprhgtphhtthhopehojhgvuggrsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegrlhgv
-    gidrghgrhihnohhrsehgmhgrihhlrdgtohhmpdhrtghpthhtohepsghoqhhunhdrfhgvnh
-    hgsehgmhgrihhlrdgtohhmpdhrtghpthhtohepghgrrhihsehgrghrhihguhhordhnvght
-    pdhrtghpthhtohepsghjohhrnhefpghghhesphhrohhtohhnmhgrihhlrdgtohhm
-X-ME-Proxy: <xmx:u11maB540IoCDLxpjdIgwxiHbNNgjsUi42XeW-xVmyvp__Toleblrw>
-    <xmx:u11maB7dmWI6uMgnNLRBQV4IM0tj15D6q2ejRPvklnjw4jHbmWP_yQ>
-    <xmx:u11maBi2upSfXHcM_hCLv1Pxwk8n106ivBWA6bNxh9QzVT4l37ytSw>
-    <xmx:u11maL6p1jODOYiK_8gh3ui2DvnsBhtxRQ5tsUCCoLtnzN8VBksQdQ>
-    <xmx:vF1maDVCPjATQJizQJ3n-a_YDamnglTkHY6_BxUn0UvVK63-TEnWeWco>
-Feedback-ID: i7ce144cd:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 3 Jul 2025 06:38:47 -0400 (EDT)
-Date: Thu, 3 Jul 2025 20:36:19 +1000
-From: Peter Hutterer <peter.hutterer@who-t.net>
-To: Rahul Rameshbabu <sergeantsagara@protonmail.com>
-Cc: linux-input@vger.kernel.org, rust-for-linux@vger.kernel.org,
-	Benjamin Tissoires <bentiss@kernel.org>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <benno.lossin@proton.me>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>, Daniel Brooks <db48x@db48x.net>
-Subject: Re: [PATCH v1 3/3] rust: hid: Glorious Gaming PC Race Model O and O-
- mice reference driver
-Message-ID: <20250703103619.GA1972569@quokka>
-References: <20250629045031.92358-2-sergeantsagara@protonmail.com>
- <20250629045031.92358-5-sergeantsagara@protonmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=cxeXTW5IE2Uk8YYZpYd2MZdXtvzzQfs9NlankCWPQLplnRQGlBFnBgzkg1fgSJpJHZM2Osg/K/Gi9zR5JD7SppXbjKTbSGbGgJt3LvYJbNLK23x9vgdf6YSG3Rn5UbgFVG+cdfqgUTDaMj69s+ffTmz0COCJ4XuZe98TP2ubOj8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Mw7YHBNG; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 308DEC4CEE3;
+	Thu,  3 Jul 2025 13:48:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1751550485;
+	bh=Z6KlQkGacahAHBeiOlfNGCQApzd2EG8g779vIBwR9uk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Mw7YHBNGbjWTqhVZyYcQjhlcZcnepFvpAJqqSnRLiIevv4ovVEpYsfNqhDKIUTdtx
+	 7epuO5ZsKGUYPrbK+Q//cWmDmrux9g3FXRYyZdamllx3+rYyjIlLrTPkVRjrjnkT40
+	 8Saoz9vhjnwP9rDqvD/8NBzV1e4rc+73ARxteFsnj9GoQ9jlLI7GQZwOpRt6dniDCL
+	 arc+tmla/aCQWltAL+fpMZq8hK7nlKQqJDcU+n+fD+K0r5bZB1g7D6JsWF89Tp8Dwk
+	 KIXuvFMcW0deB/cE/Qs0p4GxnxEkAJgr+C3thpFx+VA/FA5/ft6iV0H2il0Ql7v0PS
+	 H/JcEMT6pyO7Q==
+Date: Thu, 3 Jul 2025 15:48:00 +0200
+From: Benjamin Tissoires <bentiss@kernel.org>
+To: "Derek J. Clark" <derekjohn.clark@gmail.com>
+Cc: Jiri Kosina <jikos@kernel.org>, Mario Limonciello <superm1@kernel.org>, 
+	Xino Ni <nijs1@lenovo.com>, Zhixin Zhang <zhangzx36@lenovo.com>, 
+	Mia Shao <shaohz1@lenovo.com>, Mark Pearson <mpearson-lenovo@squebb.ca>, 
+	"Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>, linux-input@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/6] HID: Add Legion Go S Driver
+Message-ID: <j3isljjyd6rlddlhpp7knxgss2mpr4ft3pcx5lc7r5r4bnnzpw@wjr6brfv2hsf>
+References: <20250703004943.515919-1-derekjohn.clark@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -114,185 +60,131 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250629045031.92358-5-sergeantsagara@protonmail.com>
+In-Reply-To: <20250703004943.515919-1-derekjohn.clark@gmail.com>
 
-On Sun, Jun 29, 2025 at 04:51:22AM +0000, Rahul Rameshbabu wrote:
-> Demonstrate how to perform a report fixup from a Rust HID driver. The mice
-> specify the const flag incorrectly in the consumer input report descriptor,
-> which leads to inputs being ignored. Correctly patch the report descriptor for
-> the Model O and O- mice.
+Hi Derek,
+
+[I'll answer to this email with a very high level overview of it, as I'm
+not sure I'll have time to dig much deeper in 6/6 today.]
+
+On Jul 02 2025, Derek J. Clark wrote:
+> This series adds initial support for the Legion Go S's built-in
+> controller HID configuration interface. In the first patch a new HID
+> uevent property is added, HID_FIRMWARE_VERSION, so as to permit fwupd
+> to read the firmware version of the HID interface without detaching the
+> kernel driver.
+
+That immediately raise red flags on my side. HID_FIRMWARE_VERSION will
+likely be used only for this new driver, and that means a special case
+in each and every client.
+
+We had to deal with firmware versions in the past in the HID drivers,
+and we ended up relying on the uniq field of the hid_device (because the
+serial+firmware version uniquely identify the device).
+
+> The second patch adds the ability for an hid_driver to
+> assign new/arbitrary uevent properties for static data that doesn't
+> benefit from having a sysfs entry.
+
+That, in my mind, is even worse (for the reasons above).
+
+> The third patch adds the VID and PID
+> for the Lenovo Legion Go S MCU. 
+
+Which shouldn't be in its own patch, but part of the driver initial
+patch.
+
+> The fourth patch adds ABI documentation
+> for the config interface introduced in the final patch. The fifth patch
+> introduces the core lenovo-legos-hid driver which acts as a routing
+> interface for the different endpoints. 
+
+That "core" patch is IMO useless. All it does is:
+- check for the USB endpoint (but in the wrong way, because if you
+	insert a device through uhid with the same PID/VID it will crash)
+- replace the HID-core core functions with the same code
+
+Really, this should be squashed into the next patch (with 3/6 then).
+
+Also, why adding a new subdirectory? All the hid drivers are flat in the
+drivers/hid/ directory, and the subdirs are for transport layers. There
+is one exception for the surface driver but I don't see why you need
+such an exception (yeah, the code is big, but what's the difference in
+having a 1500 lines of code source in its own subdir vs at the root?)
+
+> The sixth path introduces the 
+> config lenovo-legos-hid driver wich uses both the HID_FIRMWARE_VERSION
+> as well as arbitrary uevent properties. Additional interfaces and config
+> properties are planned to be added in a future series.
+
+That one is too big for my liking. Generally speaking, a commit
+descrition which says "this does this and that" can be split into 2
+patches at least :)
+
+What kind of future interfaces and config properties are you planning?
+
 > 
-> Portions of the HID report post-fixup:
-> device 0:0
-> ...
-> 0x81, 0x06,                    //  Input (Data,Var,Rel)               84
-> ...
-> 0x81, 0x06,                    //  Input (Data,Var,Rel)               112
-> ...
-> 0x81, 0x06,                    //  Input (Data,Var,Rel)               140
+> Patch 6 introduces a checkpatch WARNING that I'm unable to resolve:
+> WARNING: ENOSYS means 'invalid syscall nr' and nothing else
+> 1292: FILE: drivers/hid/lenovo-legos-hid/lenovo-legos-hid-config.c:1085:
+> +       case -ENOSYS: /* during rmmod -ENOSYS is expected */
+
+We can losely waive those while merging. We do it quite often actually.
+
+But trying to minimize checkpatch warnings is a good thing, so thanks
+for that.
+
 > 
-> Signed-off-by: Rahul Rameshbabu <sergeantsagara@protonmail.com>
-> ---
->  MAINTAINERS                      |  7 ++++
->  drivers/hid/Kconfig              |  8 +++++
->  drivers/hid/Makefile             |  1 +
->  drivers/hid/hid-glorious.c       |  2 ++
->  drivers/hid/hid_glorious_rust.rs | 62 ++++++++++++++++++++++++++++++++
->  5 files changed, 80 insertions(+)
->  create mode 100644 drivers/hid/hid_glorious_rust.rs
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 487750d9fd1e..80849f76c6c3 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -10200,6 +10200,13 @@ L:	platform-driver-x86@vger.kernel.org
->  S:	Maintained
->  F:	drivers/platform/x86/gigabyte-wmi.c
->  
-> +GLORIOUS RUST DRIVER [RUST]
-> +M:	Rahul Rameshbabu <sergeantsagara@protonmail.com>
-> +L:	linux-input@vger.kernel.org
-> +S:	Maintained
-> +T:	git git://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git
-> +F:	drivers/hid/hid_glorious_rust.rs
-> +
->  GNSS SUBSYSTEM
->  M:	Johan Hovold <johan@kernel.org>
->  S:	Maintained
-> diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
-> index 5c8839ddc999..3592a4de113f 100644
-> --- a/drivers/hid/Kconfig
-> +++ b/drivers/hid/Kconfig
-> @@ -406,6 +406,14 @@ config HID_GLORIOUS
->  	  Support for Glorious PC Gaming Race mice such as
->  	  the Glorious Model O, O- and D.
->  
-> +config HID_GLORIOUS_RUST
-> +	tristate "Glorious O and O- mice Rust reference driver"
-> +	depends on USB_HID
-> +	depends on RUST_HID_ABSTRACTIONS
-> +	help
-> +	  Support for Glorious PC Gaming Race O and O- mice
-> +	  in Rust
-> +
->  config HID_HOLTEK
->  	tristate "Holtek HID devices"
->  	depends on USB_HID
-> diff --git a/drivers/hid/Makefile b/drivers/hid/Makefile
-> index 10ae5dedbd84..bd86b3db5d88 100644
-> --- a/drivers/hid/Makefile
-> +++ b/drivers/hid/Makefile
-> @@ -55,6 +55,7 @@ obj-$(CONFIG_HID_FT260)		+= hid-ft260.o
->  obj-$(CONFIG_HID_GEMBIRD)	+= hid-gembird.o
->  obj-$(CONFIG_HID_GFRM)		+= hid-gfrm.o
->  obj-$(CONFIG_HID_GLORIOUS)  += hid-glorious.o
-> +obj-$(CONFIG_HID_GLORIOUS_RUST)	+= hid_glorious_rust.o
->  obj-$(CONFIG_HID_VIVALDI_COMMON) += hid-vivaldi-common.o
->  obj-$(CONFIG_HID_GOODIX_SPI)	+= hid-goodix-spi.o
->  obj-$(CONFIG_HID_GOOGLE_HAMMER)	+= hid-google-hammer.o
-> diff --git a/drivers/hid/hid-glorious.c b/drivers/hid/hid-glorious.c
-> index 5bbd81248053..d7362852c20f 100644
-> --- a/drivers/hid/hid-glorious.c
-> +++ b/drivers/hid/hid-glorious.c
-> @@ -76,8 +76,10 @@ static int glorious_probe(struct hid_device *hdev,
->  }
->  
->  static const struct hid_device_id glorious_devices[] = {
-> +#if !IS_ENABLED(CONFIG_HID_GLORIOUS_RUST)
->  	{ HID_USB_DEVICE(USB_VENDOR_ID_SINOWEALTH,
->  		USB_DEVICE_ID_GLORIOUS_MODEL_O) },
-> +#endif
->  	{ HID_USB_DEVICE(USB_VENDOR_ID_SINOWEALTH,
->  		USB_DEVICE_ID_GLORIOUS_MODEL_D) },
->  	{ HID_USB_DEVICE(USB_VENDOR_ID_LAVIEW,
-> diff --git a/drivers/hid/hid_glorious_rust.rs b/drivers/hid/hid_glorious_rust.rs
-> new file mode 100644
-> index 000000000000..de602ae33b2d
-> --- /dev/null
-> +++ b/drivers/hid/hid_glorious_rust.rs
-> @@ -0,0 +1,62 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +
-> +// Copyright (C) 2025 Rahul Rameshbabu <sergeantsagara@protonmail.com>
-> +
-> +//! Rust reference HID driver for Glorious Model O and O- mice
-> +
-> +use kernel::{self, hid, prelude::*};
-> +
-> +const USB_VENDOR_ID_SINOWEALTH: u32 = 0x258a;
-> +const USB_DEVICE_ID_GLORIOUS_MODEL_O: u32 = 0x0036;
-> +
-> +struct GloriousRust;
-> +
-> +kernel::hid_device_table!(
-> +    HID_TABLE,
-> +    MODULE_HID_TABLE,
-> +    <GloriousRust as hid::Driver>::IdInfo,
-> +    [(
-> +        hid::DeviceId::new_usb(
-> +            hid::Group::Generic,
-> +            USB_VENDOR_ID_SINOWEALTH,
-> +            USB_DEVICE_ID_GLORIOUS_MODEL_O,
-> +        ),
-> +        (),
-> +    )]
-> +);
-> +
-> +#[vtable]
-> +impl hid::Driver for GloriousRust {
-> +    type IdInfo = ();
-> +    const ID_TABLE: hid::IdTable<Self::IdInfo> = &HID_TABLE;
-> +
-> +    /// Glorious Model O and O- specify the const flag in the consumer input
-> +    /// report descriptor, which leads to inputs being ignored. Fix this by
-> +    /// patching the descriptor.
-> +    fn report_fixup<'a, 'b: 'a>(_hdev: &hid::Device, rdesc: &'b mut [u8]) -> &'a [u8] {
-> +        if rdesc.len() == 213
-> +            && rdesc[84] == 129
-> +            && rdesc[112] == 129
-> +            && rdesc[140] == 129
-> +            && rdesc[85] == 3
-> +            && rdesc[113] == 3
-> +            && rdesc[141] == 3
+> This error handling case was added as it is experienced in the real world
+> when the driver is rmmod. The LED subsystem produces this error code in
+> its legacy code and this is not a new novel use of -ENOSYS, we are simply
+> catching the case to avoid spurious errors in dmesg when the driver is
+> removed. If there is a way to prevent this error from being triggered by
+> checkpatch in the first place, that would be an ideal remedy, but I'm not
+> aware how that can be done at this time.
 
-fwiw, all tools that I've used in the past print hex for the hid
-report descriptor items (including the excerpt in your commit message)
-so IMO using hex here would be more useful.
-
-Also at least in my head the items are logical groups, so this comparison
-should arguably be:
-
-> +            && (rdesc[84] == 129 && rdesc[85] == 3)
-
-with extra () to hopefully stop rustfmt from breaking it up.
-
-(pls ignore me if your approach is already a common pattern in the kernel)
+Again, nothing to worry about.
 
 Cheers,
-  Peter
+Benjamin
 
-> +        {
-> +            pr_info!("patching Glorious Model O consumer control report descriptor\n");
-> +
-> +            rdesc[85] = hid::MAIN_ITEM_VARIABLE | hid::MAIN_ITEM_RELATIVE;
-> +            rdesc[113] = hid::MAIN_ITEM_VARIABLE | hid::MAIN_ITEM_RELATIVE;
-> +            rdesc[141] = hid::MAIN_ITEM_VARIABLE | hid::MAIN_ITEM_RELATIVE;
-> +        }
-> +
-> +        rdesc
-> +    }
-> +}
-> +
-> +kernel::module_hid_driver! {
-> +    type: GloriousRust,
-> +    name: "GloriousRust",
-> +    authors: ["Rahul Rameshbabu <sergeantsagara@protonmail.com>"],
-> +    description: "Rust reference HID driver for Glorious Model O and O- mice",
-> +    license: "GPL",
-> +}
+> 
+> Signed-off-by: Derek J. Clark <derekjohn.clark@gmail.com>
+> 
+> 
+> Derek J. Clark (4):
+>   HID: Add Legion Go S ID's
+>   HID: Add documentation for lenovo-legos-hid driver
+>   HID: Add lenovo-legos-hid core
+>   HID: Add lenovo-legos-hid configuration endpoint interface
+> 
+> Mario Limonciello (2):
+>   HID: Include firmware version in the uevent
+>   HID: Allow HID drivers to add more uevent variables
+> 
+>  .../ABI/testing/sysfs-driver-lenovo-legos-hid |  269 +++
+>  MAINTAINERS                                   |    7 +
+>  drivers/hid/Kconfig                           |    2 +
+>  drivers/hid/Makefile                          |    2 +
+>  drivers/hid/hid-core.c                        |   11 +
+>  drivers/hid/hid-ids.h                         |    4 +
+>  drivers/hid/lenovo-legos-hid/Kconfig          |   11 +
+>  drivers/hid/lenovo-legos-hid/Makefile         |    6 +
+>  drivers/hid/lenovo-legos-hid/config.c         | 1518 +++++++++++++++++
+>  drivers/hid/lenovo-legos-hid/config.h         |   19 +
+>  drivers/hid/lenovo-legos-hid/core.c           |  122 ++
+>  drivers/hid/lenovo-legos-hid/core.h           |   25 +
+>  include/linux/hid.h                           |    2 +
+>  13 files changed, 1998 insertions(+)
+>  create mode 100644 Documentation/ABI/testing/sysfs-driver-lenovo-legos-hid
+>  create mode 100644 drivers/hid/lenovo-legos-hid/Kconfig
+>  create mode 100644 drivers/hid/lenovo-legos-hid/Makefile
+>  create mode 100644 drivers/hid/lenovo-legos-hid/config.c
+>  create mode 100644 drivers/hid/lenovo-legos-hid/config.h
+>  create mode 100644 drivers/hid/lenovo-legos-hid/core.c
+>  create mode 100644 drivers/hid/lenovo-legos-hid/core.h
+> 
 > -- 
-> 2.49.0
-> 
-> 
+> 2.50.0
 > 
 
