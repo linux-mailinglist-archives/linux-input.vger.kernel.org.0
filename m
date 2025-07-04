@@ -1,78 +1,78 @@
-Return-Path: <linux-input+bounces-13379-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13380-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 209CBAF8B9B
-	for <lists+linux-input@lfdr.de>; Fri,  4 Jul 2025 10:29:55 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 18BC3AF8B00
+	for <lists+linux-input@lfdr.de>; Fri,  4 Jul 2025 10:17:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 868934A3F8C
-	for <lists+linux-input@lfdr.de>; Fri,  4 Jul 2025 08:29:55 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6E236170670
+	for <lists+linux-input@lfdr.de>; Fri,  4 Jul 2025 08:14:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7AD272E2F1F;
-	Fri,  4 Jul 2025 07:54:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8DDB32FD593;
+	Fri,  4 Jul 2025 07:55:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LDz4zJtX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GmDPYHDY"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5F122E0B75;
-	Fri,  4 Jul 2025 07:54:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9633E2FCE33;
+	Fri,  4 Jul 2025 07:55:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751615680; cv=none; b=cudSwm2VKsMtgc51julEnW4Ry4vaOFx0dvP+xTdSG5LPOgPtMkJSoFbL2zsJoMmGlUnv+9jVcfAMA28pV7qOmVdQFcr0rXdE2negwcyB77p3U9d4PMBCrcKTHxqmbILlgiDKWVVlo2Gm6RwJyp2CcyrIBrDLk/2eXA7KicFSpbY=
+	t=1751615721; cv=none; b=f/VTkptglPjgZFj/th4ejOhvsQr7en7Z3FXKPYIq+p4SODMe2Mmq+btMv+v99rjUNDtmeAL7B/3n7JZNmZZ93ZG/2xIjy3H21nsTePjZgu1zTve+k1KI9mPyY8c5Xbe9TDpQi1NuUJANnV41oouZFAbLF6QK6x9+Z3UE0RiBRRk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751615680; c=relaxed/simple;
-	bh=wB79eH98fNbh61qiXKAUKjCvjkalYAl1YFc1JZjSyL4=;
+	s=arc-20240116; t=1751615721; c=relaxed/simple;
+	bh=AKRBPdQvBvtbRK/bXPl6r6OCwP7RJU5T2nZ52barpCE=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=aEpz1hpw2OOzTSXCLPZDy7jBIuXPXUKclGef3mQ3FOWcFhY7uSJPLpBnRPzgJ2nivCNez5q2OSsAocLn1zhhjSGuIw5Gy8PzGFR44QjjVFEl3WTplkiZLy4j/YmmyNTXfcQ36CgxxuW8bFOK39zaU2h7hfxYCFV+IqTPdOrhz1k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LDz4zJtX; arc=none smtp.client-ip=198.175.65.9
+	 MIME-Version; b=YEkoFu9xGUXCnParwSjIZzdwMPJoJYAyNtllooXYu/BHO6F2iu2vsGWIyDdeipEa4jPiDm3EvN0THTf1RKhzlr4tRCITmtjGCrbIqZdmQXZpdsGYU5ay+0SIAQEjM++AutA95l0B2MbrIvYYh3yGtghDcO8uemhr+e6XILt9Clg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GmDPYHDY; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751615678; x=1783151678;
+  t=1751615720; x=1783151720;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=wB79eH98fNbh61qiXKAUKjCvjkalYAl1YFc1JZjSyL4=;
-  b=LDz4zJtXxHcohqnrymzVQTz5BGdmH0WySIctNQmxWgHiJTi0JN9NLA6T
-   Jle/AGVnIA0kiqLlkOkoZ82ZJMttvcUdPq8PqTF0NMvv+blNhxO6IIAqe
-   i82Y2+Wi1NMV5udl5ri+8+wQpohfjFOnza8gKpMQmZwYS/cxUH36n+eD2
-   vi9FETiiqqXe6dFfAMqjgHGYcy/1vPGEDQqWOdoaE1j1oKrwbh/CaoRSZ
-   DynBZrJ6AdDha9caMf4PBzt8sCDSzW+gCff6P/hPkw42Xb6MQCzW2Djmo
-   jHxCxPTtszZEK5fevq3EXlWONoGTqcXMM6v9HNy5DxGsWNCwvei4LQMek
-   A==;
-X-CSE-ConnectionGUID: 5SOIEvK0QHKf9wSAU4565Q==
-X-CSE-MsgGUID: 64RwAvUiSiuaiaDh3JLuKw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11483"; a="76494789"
+  bh=AKRBPdQvBvtbRK/bXPl6r6OCwP7RJU5T2nZ52barpCE=;
+  b=GmDPYHDYZWod9kDSXyKXP9yMvDq5uX8MSK2Gvn/dbdjJ8TYoa2eMkYoC
+   yDSqTtTGjzKb4pK0bS2mY2b4dVjuIZRCUV8gwUJXQUwWIBjCOnoJ1QFrl
+   CXsgNi3gZ5ywVTyC5aU2huGCX4EOHVOAny+1v6ojTNfn8JCPTLY4zbcKi
+   RlUUUzbqWdP/E05OQnqA3jUXTziBpio9ansGpYhe/5a5YcY9o5VXPx+sV
+   8ORT8XPRcuhslbGPCq0X1VGdBf/res0hqYtfJI4mAN4yW0qPE+Ky/XlfT
+   Bt3ddQXdHVW5/+CsTdXuG+OmLQrNF2oEu5+eE85ruyjvgUDVJBIAaF3jW
+   Q==;
+X-CSE-ConnectionGUID: k2Bm+046SmGKX56WGj2riQ==
+X-CSE-MsgGUID: DOdFi4pgRYmtaOlbGiehwQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11483"; a="64194406"
 X-IronPort-AV: E=Sophos;i="6.16,286,1744095600"; 
-   d="scan'208";a="76494789"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2025 00:54:34 -0700
-X-CSE-ConnectionGUID: 6mn5JHY1Qs6igO/wqvoNgA==
-X-CSE-MsgGUID: iZDOe7kQS/yVZ5I/Q21eDw==
+   d="scan'208";a="64194406"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2025 00:55:07 -0700
+X-CSE-ConnectionGUID: r0Yg0XYGSACvaZf+G+FrQw==
+X-CSE-MsgGUID: U50mikryQMm5rKhXsjifnA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,286,1744095600"; 
-   d="scan'208";a="158924322"
+   d="scan'208";a="158616725"
 Received: from jkrzyszt-mobl2.ger.corp.intel.com (HELO svinhufvud.fi.intel.com) ([10.245.244.244])
-  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2025 00:54:31 -0700
+  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2025 00:55:04 -0700
 Received: from svinhufvud.lan (localhost [IPv6:::1])
-	by svinhufvud.fi.intel.com (Postfix) with ESMTP id 0227944424;
-	Fri,  4 Jul 2025 10:54:30 +0300 (EEST)
+	by svinhufvud.fi.intel.com (Postfix) with ESMTP id 70C6C44424;
+	Fri,  4 Jul 2025 10:55:02 +0300 (EEST)
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: James Ogletree <jogletre@opensource.cirrus.com>,
-	Fred Treven <fred.treven@cirrus.com>,
-	Ben Bright <ben.bright@cirrus.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: patches@opensource.cirrus.com,
-	linux-input@vger.kernel.org,
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Ingo Molnar <mingo@kernel.org>,
+	Al Viro <viro@zeniv.linux.org.uk>
+Cc: linux-input@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 40/80] Input: cs40l50: Remove redundant pm_runtime_mark_last_busy() calls
-Date: Fri,  4 Jul 2025 10:54:29 +0300
-Message-Id: <20250704075429.3220022-1-sakari.ailus@linux.intel.com>
+Subject: [PATCH 78/80] Input: cyapa - Remove redundant pm_runtime_mark_last_busy() calls
+Date: Fri,  4 Jul 2025 10:55:02 +0300
+Message-Id: <20250704075502.3223112-1-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250704075225.3212486-1-sakari.ailus@linux.intel.com>
 References: <20250704075225.3212486-1-sakari.ailus@linux.intel.com>
@@ -101,45 +101,50 @@ rc2:
         git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git \
                 pm-runtime-6.17-rc1
 
- drivers/input/misc/cs40l50-vibra.c | 4 ----
- 1 file changed, 4 deletions(-)
+ drivers/input/mouse/cyapa.c      | 3 ---
+ drivers/input/mouse/cyapa_gen5.c | 1 -
+ 2 files changed, 4 deletions(-)
 
-diff --git a/drivers/input/misc/cs40l50-vibra.c b/drivers/input/misc/cs40l50-vibra.c
-index dce3b0ec8cf3..c651a84a6335 100644
---- a/drivers/input/misc/cs40l50-vibra.c
-+++ b/drivers/input/misc/cs40l50-vibra.c
-@@ -306,7 +306,6 @@ static void cs40l50_add_worker(struct work_struct *work)
- 			list_add(&effect->list, &vib->effect_head);
- 	}
- err_pm:
--	pm_runtime_mark_last_busy(vib->dev);
- 	pm_runtime_put_autosuspend(vib->dev);
- err_exit:
- 	work_data->error = error;
-@@ -366,7 +365,6 @@ static void cs40l50_start_worker(struct work_struct *work)
- 		dev_err(vib->dev, "Effect to play not found\n");
+diff --git a/drivers/input/mouse/cyapa.c b/drivers/input/mouse/cyapa.c
+index 00c87c0532a6..6e0d956617a1 100644
+--- a/drivers/input/mouse/cyapa.c
++++ b/drivers/input/mouse/cyapa.c
+@@ -403,7 +403,6 @@ static int cyapa_open(struct input_dev *input)
  	}
  
--	pm_runtime_mark_last_busy(vib->dev);
- 	pm_runtime_put_autosuspend(vib->dev);
- err_free:
- 	kfree(work_data);
-@@ -382,7 +380,6 @@ static void cs40l50_stop_worker(struct work_struct *work)
+ 	pm_runtime_get_sync(dev);
+-	pm_runtime_mark_last_busy(dev);
+ 	pm_runtime_put_sync_autosuspend(dev);
+ out:
+ 	mutex_unlock(&cyapa->state_sync_lock);
+@@ -666,7 +665,6 @@ static int cyapa_reinitialize(struct cyapa *cyapa)
+ 		pm_runtime_enable(dev);
  
- 	vib->dsp.write(vib->dev, vib->regmap, vib->dsp.stop_cmd);
+ 		pm_runtime_get_sync(dev);
+-		pm_runtime_mark_last_busy(dev);
+ 		pm_runtime_put_sync_autosuspend(dev);
+ 	}
  
--	pm_runtime_mark_last_busy(vib->dev);
- 	pm_runtime_put_autosuspend(vib->dev);
+@@ -710,7 +708,6 @@ static irqreturn_t cyapa_irq(int irq, void *dev_id)
+ 			 * process.
+ 			 */
+ 			pm_runtime_get_sync(dev);
+-			pm_runtime_mark_last_busy(dev);
+ 			pm_runtime_put_sync_autosuspend(dev);
+ 		}
  
- 	kfree(work_data);
-@@ -454,7 +451,6 @@ static void cs40l50_erase_worker(struct work_struct *work)
- 	list_del(&erase_effect->list);
- 	kfree(erase_effect);
- err_pm:
--	pm_runtime_mark_last_busy(vib->dev);
- 	pm_runtime_put_autosuspend(vib->dev);
- err_exit:
- 	work_data->error = error;
+diff --git a/drivers/input/mouse/cyapa_gen5.c b/drivers/input/mouse/cyapa_gen5.c
+index 3b4439f10635..59f6e97d5482 100644
+--- a/drivers/input/mouse/cyapa_gen5.c
++++ b/drivers/input/mouse/cyapa_gen5.c
+@@ -2833,7 +2833,6 @@ static int cyapa_pip_event_process(struct cyapa *cyapa,
+ 		 * process.
+ 		 */
+ 		pm_runtime_get_sync(dev);
+-		pm_runtime_mark_last_busy(dev);
+ 		pm_runtime_put_sync_autosuspend(dev);
+ 		return 0;
+ 	} else if (report_id != PIP_TOUCH_REPORT_ID &&
 -- 
 2.39.5
 
