@@ -1,107 +1,181 @@
-Return-Path: <linux-input+bounces-13376-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13377-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45AB6AF874F
-	for <lists+linux-input@lfdr.de>; Fri,  4 Jul 2025 07:33:36 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id A4C96AF8B7E
+	for <lists+linux-input@lfdr.de>; Fri,  4 Jul 2025 10:28:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C3C26567D51
-	for <lists+linux-input@lfdr.de>; Fri,  4 Jul 2025 05:33:25 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2DAB0189F91A
+	for <lists+linux-input@lfdr.de>; Fri,  4 Jul 2025 08:25:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 782EF1A2545;
-	Fri,  4 Jul 2025 05:33:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A59A72D660D;
+	Fri,  4 Jul 2025 07:54:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I0HMhF3L"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TCV/J84Z"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFF141F4C8E;
-	Fri,  4 Jul 2025 05:33:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CECC42D4B6F;
+	Fri,  4 Jul 2025 07:54:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751607193; cv=none; b=DDdWUhnOH8tV8MNSoitKWZvIxq3ySyT63StSgKaoqYYeFw/Woat5FPX85lQc13mxd2RaxqzXe2lenTO80c1/uf/Fvw/18cLIG3m0JZQ53DPE8+WKg4n7dSCH8o+RGWVf6XrCmSwOLSh999OhcHuX4PANl4MX+3LkbwPX4ppsxYI=
+	t=1751615667; cv=none; b=XbO2jWiS/wGzCxT70GHiY6+oo59GswBW/FTAyjRIW+eFFvB8Q31Ux/8bgGoks07sY0I6xoHqs4yZT+mjGUZe8YrRb//50q/40dTROHrutuFBVsP/GxGZabjsGQnAonlvnPFZCkxkyPzSwF8Tjuyv455prj5A9a/MSuECHPN4B/o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751607193; c=relaxed/simple;
-	bh=0O0Jyu0BDk1FKc0g99/EdYNFTiby1PgO4mCRC3uoNHY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RZ7/fjtPAAepHWvYLH21RG3FMI2WSS7OumqtZ293ZPm2H7ULDLsg5QI+C7ii2hCixOvp1FcSTvPsLlBOD6+RdymaG52vS504KzMsJb1wJBJPsve7f7sPLiqzibXbGoM1y2tSt39zhrJMzSfy9l1HwVDewuEw2PfB6r/OYCefwd4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I0HMhF3L; arc=none smtp.client-ip=209.85.215.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-b26f7d2c1f1so825635a12.0;
-        Thu, 03 Jul 2025 22:33:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751607190; x=1752211990; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ejt8F/jG6bpSz1vmmfKxJnYrV0UQOG6l/egw1qFjuDs=;
-        b=I0HMhF3L8kunr5mTu3k1sI2HN778L2uuKM2BXbZwIoG59aQJSGHGGIBLS5m0gTd/8l
-         AStRiFuJAN1etEs2+sTspNzb8fDXq35KT7kLLApDErfZQiBTDICHjt6/QSWrbuieQ1S/
-         P+FoLpI5KgozKdtZ24sqaXegCRDAkNE6yokSv83KOSqJbdvs6X97DRbctKVqZb1UA+YC
-         sYLVnxR8oj+yPvVgi/y+F5iagyok/apKc14Ce3+h2jzby/0e+tEW0qOk03REMhOkJi7m
-         0hFwr5rGcoYKLZPAPFF+MiMvEo+9BEyN7csm/ngAr81Tshgo0Z5wXybfDvByKt5Ukm0Z
-         i3CQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751607190; x=1752211990;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ejt8F/jG6bpSz1vmmfKxJnYrV0UQOG6l/egw1qFjuDs=;
-        b=rWfPGo81RM5zUERGyDWH9gFhDqCxqpj/9VRcI0KkcdrTFd4kqq4KMDhZjNxa+oGj54
-         6zIQGS2zWxinNdD1HhLUmyWK9GvYF7tOIF5NnF/Kvb5JalUt/6mQAI9fhfAvjMKIduOX
-         ucGSDyRcaipMUTutK7nC6XNHPYtwTgUrrrPNndccyBX9dbn7fAFyr9t0CMjJNCcLu0mH
-         Tlpuaw/jLhqf6P8L7DK4SC104g6FIbchfF2KY0WAq2Wgbi/cSMZ6KclX1hAMTFpwhCAK
-         KLOM4IOnMGkrYcbKmlwUXcBEPyCQsTDthXwh+9NqiQz5qq6AXC9OwGFOnRh3rPzfCy2K
-         ur8A==
-X-Forwarded-Encrypted: i=1; AJvYcCVHe+sFgWZ9oPGqIm+rcvWQ4lVjEFxFi7Q/WKywndjavTOv4HWgRgdZP69q5lslBlNm1hf7fgFS/TWp@vger.kernel.org, AJvYcCXbIeYRzrRUQ7al9BCJc6Hykn0AADtU5SAo0zLz4p8srSRxRLhnKPN5/uZS4xtJ5EYpmZkrqEO95XyXlXI=@vger.kernel.org, AJvYcCXuoO67yFdw5UMRBgF0T/oAQ+wIX/SccwRwdVxbCtq78if8CZAmjDzdKY5Wf0Uk3NR/4cmJFlMg6iBIzeX0@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyg4oBlDY1eMfNxE6XR+u57uIS6xWrE4zLDHa5N+8tKIFdjehgD
-	Ys+3Xk/S/KCnI7A4pG/YQfO5HXWU5KY2TNRXP2MDhbROrJLFOVlX0aAt18KA+A==
-X-Gm-Gg: ASbGncvF5fVdg0F+N6Esq5/SSi6jf7M+KMDV2VEg6tjOWOTR+WBnOiTE7pOCeAfmedu
-	BtvGzqiyWTPpzDeeEwQd24u6Xj7F6emz8hRIWEhmg+NS2MSK+33aLr9BluBBwILvQOkN2w1JwXV
-	v8reyW/vY+PvAADPd6HZuncqoAQ/ThjosShnTg6I+0/3rnyyLjBM+FnjR8x4C9py5yJDulm/Hcl
-	VWD74Ct5cV+fcSl/hMjTAL9qkbM4QusUkAJ6FqGpWMle+J4czboqWryB205FCfxNCAfqd62gb37
-	R0MesVjT4KT8vNFjUXHOmBcQjnfXbg8CssBHAT7n+hNgmlwozzssQt481YetX/w9/yg19dR8LQ=
-	=
-X-Google-Smtp-Source: AGHT+IHIo3bt8SUUJoWUFyFWNKZw20xUxwX84UI64gCV5521klw5BbnY34brDo8xiSeCwodsN3rq1w==
-X-Received: by 2002:a17:903:19cc:b0:234:f580:9ed with SMTP id d9443c01a7336-23c85e18d97mr26485625ad.21.1751607190144;
-        Thu, 03 Jul 2025 22:33:10 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:8ddd:816c:9ca2:2a5f])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23c8459e14bsm11636345ad.228.2025.07.03.22.33.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Jul 2025 22:33:09 -0700 (PDT)
-Date: Thu, 3 Jul 2025 22:33:07 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>
-Cc: Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, kernel@collabora.com, 
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH 1/3] Input: mtk-pmic-keys - add support for MT6359 PMIC
- keys
-Message-ID: <vfdsmhfafwmdlbk2n6kibeaiufwkcdf3mbz77kw3w2fy353xgr@tjcmjp7mb6c6>
-References: <20250703-add-mt6359-pmic-keys-support-v1-0-21a4d2774e34@collabora.com>
- <20250703-add-mt6359-pmic-keys-support-v1-1-21a4d2774e34@collabora.com>
+	s=arc-20240116; t=1751615667; c=relaxed/simple;
+	bh=2WLiRATfI8wJEoYB6D4uEr4LXTXjQ0McJ6+WbU8bC9E=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=Uq3nzM+xDJOrT75G0x5c89PA+fXnjs9/qfAbUrXXgYIBg/M+4wNU/Cb/UhkQFtofBYhy3HKGXKqxpCAzlfcLoE1zayRR7EhOy4VvrZLWMztM2B8WTSRiTzClbLr4Ch69/8wWnGUYot/nq2SCDkJYpBzc1NlcvaHaaJqsuHEsHe0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TCV/J84Z; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1751615665; x=1783151665;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=2WLiRATfI8wJEoYB6D4uEr4LXTXjQ0McJ6+WbU8bC9E=;
+  b=TCV/J84Z4uLR/lrh1pazSewrZ+BhzmY1i68jYyh88IudOXvQzpdMSLjM
+   xL/C4K4nfKR0jP7JQu73TxSFdFpEfrcgxzvgGwunQfoUGDpaZC01hzMI0
+   M2Unl0v0wqMBOaqsLv8arWiiDtA0bfuMfuJ5BSKDF2bu6lGyQI/I4Ooe6
+   rQRFUclUa4oxlbkVofYv0/UzSxM1d0Og0DJZUoslu3oCvAyppsLASsxL3
+   60j7Ke9zJA9fTzLAE35zynaYiqJmbRL3OD6rYU5GMLiG5QTl3k/ZRcI8W
+   ++aipTF5GMBgUobVlENfluIepf0jxpZj3Burfrz5JJrdO/r0zgEiAw5DT
+   g==;
+X-CSE-ConnectionGUID: OvyPaj4rQn+kkwN/IHfQ5A==
+X-CSE-MsgGUID: aX6jAeOCQF2EvEMvvv8VEw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11483"; a="76494607"
+X-IronPort-AV: E=Sophos;i="6.16,286,1744095600"; 
+   d="scan'208";a="76494607"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2025 00:54:23 -0700
+X-CSE-ConnectionGUID: rWIsyR0XT9WSWSB/utMKWA==
+X-CSE-MsgGUID: Rz/jGlQuRYKzIxLB5RvwdQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,286,1744095600"; 
+   d="scan'208";a="158924266"
+Received: from jkrzyszt-mobl2.ger.corp.intel.com (HELO svinhufvud.fi.intel.com) ([10.245.244.244])
+  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2025 00:54:20 -0700
+Received: from svinhufvud.lan (localhost [IPv6:::1])
+	by svinhufvud.fi.intel.com (Postfix) with ESMTP id 5208844433;
+	Fri,  4 Jul 2025 10:54:18 +0300 (EEST)
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Even Xu <even.xu@intel.com>,
+	Xinpeng Sun <xinpeng.sun@intel.com>,
+	Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+	Mark Pearson <mpearson-lenovo@squebb.ca>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Wentao Guan <guanwentao@uniontech.com>,
+	Philipp Stanner <phasta@kernel.org>
+Cc: linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 26/80] HID: intel-thc-hid: Remove redundant pm_runtime_mark_last_busy() calls
+Date: Fri,  4 Jul 2025 10:54:18 +0300
+Message-Id: <20250704075418.3218839-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250704075225.3212486-1-sakari.ailus@linux.intel.com>
+References: <20250704075225.3212486-1-sakari.ailus@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250703-add-mt6359-pmic-keys-support-v1-1-21a4d2774e34@collabora.com>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Jul 03, 2025 at 05:41:03PM +0200, Louis-Alexis Eyraud wrote:
-> Add PMIC key support on MT6359 SoC.
-> 
-> Signed-off-by: Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>
+pm_runtime_put_autosuspend(), pm_runtime_put_sync_autosuspend(),
+pm_runtime_autosuspend() and pm_request_autosuspend() now include a call
+to pm_runtime_mark_last_busy(). Remove the now-reduntant explicit call to
+pm_runtime_mark_last_busy().
 
-Applied, thank you.
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+---
+The cover letter of the set can be found here
+<URL:https://lore.kernel.org/linux-pm/20250704075225.3212486-1-sakari.ailus@linux.intel.com>.
 
+In brief, this patch depends on PM runtime patches adding marking the last
+busy timestamp in autosuspend related functions. The patches are here, on
+rc2:
+
+        git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git \
+                pm-runtime-6.17-rc1
+
+ drivers/hid/intel-thc-hid/intel-quicki2c/pci-quicki2c.c | 2 --
+ drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-hid.c | 1 -
+ drivers/hid/intel-thc-hid/intel-quickspi/pci-quickspi.c | 2 --
+ drivers/hid/intel-thc-hid/intel-quickspi/quickspi-hid.c | 1 -
+ 4 files changed, 6 deletions(-)
+
+diff --git a/drivers/hid/intel-thc-hid/intel-quicki2c/pci-quicki2c.c b/drivers/hid/intel-thc-hid/intel-quicki2c/pci-quicki2c.c
+index e944a6ccb776..599f12d3e657 100644
+--- a/drivers/hid/intel-thc-hid/intel-quicki2c/pci-quicki2c.c
++++ b/drivers/hid/intel-thc-hid/intel-quicki2c/pci-quicki2c.c
+@@ -328,7 +328,6 @@ static irqreturn_t quicki2c_irq_thread_handler(int irq, void *dev_id)
+ 		if (try_recover(qcdev))
+ 			qcdev->state = QUICKI2C_DISABLED;
+ 
+-	pm_runtime_mark_last_busy(qcdev->dev);
+ 	pm_runtime_put_autosuspend(qcdev->dev);
+ 
+ 	return IRQ_HANDLED;
+@@ -711,7 +710,6 @@ static int quicki2c_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 	/* Enable runtime power management */
+ 	pm_runtime_use_autosuspend(qcdev->dev);
+ 	pm_runtime_set_autosuspend_delay(qcdev->dev, DEFAULT_AUTO_SUSPEND_DELAY_MS);
+-	pm_runtime_mark_last_busy(qcdev->dev);
+ 	pm_runtime_put_noidle(qcdev->dev);
+ 	pm_runtime_put_autosuspend(qcdev->dev);
+ 
+diff --git a/drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-hid.c b/drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-hid.c
+index 5c3ec95bb3fd..834a537b6780 100644
+--- a/drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-hid.c
++++ b/drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-hid.c
+@@ -72,7 +72,6 @@ static int quicki2c_hid_raw_request(struct hid_device *hid,
+ 		break;
+ 	}
+ 
+-	pm_runtime_mark_last_busy(qcdev->dev);
+ 	pm_runtime_put_autosuspend(qcdev->dev);
+ 
+ 	return ret;
+diff --git a/drivers/hid/intel-thc-hid/intel-quickspi/pci-quickspi.c b/drivers/hid/intel-thc-hid/intel-quickspi/pci-quickspi.c
+index 5e5f179dd113..2b518d88645a 100644
+--- a/drivers/hid/intel-thc-hid/intel-quickspi/pci-quickspi.c
++++ b/drivers/hid/intel-thc-hid/intel-quickspi/pci-quickspi.c
+@@ -335,7 +335,6 @@ static irqreturn_t quickspi_irq_thread_handler(int irq, void *dev_id)
+ 		if (try_recover(qsdev))
+ 			qsdev->state = QUICKSPI_DISABLED;
+ 
+-	pm_runtime_mark_last_busy(qsdev->dev);
+ 	pm_runtime_put_autosuspend(qsdev->dev);
+ 
+ 	return IRQ_HANDLED;
+@@ -670,7 +669,6 @@ static int quickspi_probe(struct pci_dev *pdev,
+ 	/* Enable runtime power management */
+ 	pm_runtime_use_autosuspend(qsdev->dev);
+ 	pm_runtime_set_autosuspend_delay(qsdev->dev, DEFAULT_AUTO_SUSPEND_DELAY_MS);
+-	pm_runtime_mark_last_busy(qsdev->dev);
+ 	pm_runtime_put_noidle(qsdev->dev);
+ 	pm_runtime_put_autosuspend(qsdev->dev);
+ 
+diff --git a/drivers/hid/intel-thc-hid/intel-quickspi/quickspi-hid.c b/drivers/hid/intel-thc-hid/intel-quickspi/quickspi-hid.c
+index ad52e402c28a..82c72bfa2795 100644
+--- a/drivers/hid/intel-thc-hid/intel-quickspi/quickspi-hid.c
++++ b/drivers/hid/intel-thc-hid/intel-quickspi/quickspi-hid.c
+@@ -71,7 +71,6 @@ static int quickspi_hid_raw_request(struct hid_device *hid,
+ 		break;
+ 	}
+ 
+-	pm_runtime_mark_last_busy(qsdev->dev);
+ 	pm_runtime_put_autosuspend(qsdev->dev);
+ 
+ 	return ret;
 -- 
-Dmitry
+2.39.5
+
 
