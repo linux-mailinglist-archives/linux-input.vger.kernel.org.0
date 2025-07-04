@@ -1,101 +1,92 @@
-Return-Path: <linux-input+bounces-13371-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13372-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 273E6AF85C5
-	for <lists+linux-input@lfdr.de>; Fri,  4 Jul 2025 04:52:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF4EAAF85D1
+	for <lists+linux-input@lfdr.de>; Fri,  4 Jul 2025 04:59:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id AB70D1C8503C
-	for <lists+linux-input@lfdr.de>; Fri,  4 Jul 2025 02:52:52 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 43356188C165
+	for <lists+linux-input@lfdr.de>; Fri,  4 Jul 2025 02:59:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D3A6B4B5AE;
-	Fri,  4 Jul 2025 02:52:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE1871DDA3E;
+	Fri,  4 Jul 2025 02:59:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=endrift.com header.i=@endrift.com header.b="TbRmZRq8"
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="l4/kMENZ"
 X-Original-To: linux-input@vger.kernel.org
-Received: from endrift.com (endrift.com [173.255.198.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0F8B1FC3
-	for <linux-input@vger.kernel.org>; Fri,  4 Jul 2025 02:52:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=173.255.198.10
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.5])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 201F64B5AE;
+	Fri,  4 Jul 2025 02:58:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751597552; cv=none; b=Wmdkb+Ql640+JemtPtt2JU7KHp++Bc3v5IW1TYY+NMIxezdMDTVbUGoBzniTt6UZIEQB5o9SRdDQC09PoOcsOes19aNpOaNTGwiCzwTPOu9aAo2i/odj6ncTb8E/ggNXBCIN/khRqCOdVr8ArbEZGKuBDyl+RgvA7bTcOI1zjdM=
+	t=1751597942; cv=none; b=aBLQyf2m1dGm/7/pn2PlXEAZCrpqVyjunDcIWKTfc/qdIabZ0d2iWK7d+/avbojBBLgWTpDFiK3ArmE3TeRRMUxb4QHgb9EyJuXeEd/aSMFrv7Aw2PtBGatcZTmiOItS2zYUWbjb2+V2oW76tZgUySK6RL129LjD+5lB91L6fQw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751597552; c=relaxed/simple;
-	bh=7qmXRQDNI94DH3EDik/IKCxHr1fWpjoqEWEU9PiQF9Q=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=WMUodBlqOteNtGqAH4Jj4v1l+Q0mNK4pm3Kfga2tZCNeHlgXihXcPnO9LaBSc586FKd9e/lk3/aBP6CZ9Kui4rm4PBkGZFoQ5GwWN+Ma8rl1tezmEi+YZ58tI/tKjh4jE6cZUK8YULWI7fY4m1bPvzvhxnrNegp1gpG2pPJgGPY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=endrift.com; spf=pass smtp.mailfrom=endrift.com; dkim=pass (2048-bit key) header.d=endrift.com header.i=@endrift.com header.b=TbRmZRq8; arc=none smtp.client-ip=173.255.198.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=endrift.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=endrift.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=endrift.com; s=2020;
-	t=1751597541; bh=7qmXRQDNI94DH3EDik/IKCxHr1fWpjoqEWEU9PiQF9Q=;
-	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=TbRmZRq8JligIqIpJeYg4CjVXHee7TnqF+oDpxaXEjcowprjxdRMnNEW2wm6WPfio
-	 cGmJwc/fDDSc+04/FMTyalwFChdL9P7bkCM3lqfliBFS1/H1ZCaNvH1RqGKSRdVKhE
-	 jHFS1GuEhpBg+iuTZHq7Ek9m2anQD0UsvTjWHfKN7OShc8vjMORELiHMD8zC9O7deM
-	 VgQJVpWaTqXPCH7yQoiWpW2tCTGjsl8MAGwgH6J1Fztzn66jYcpejsPO+3JpFaeSye
-	 /BJvzct7DIU1pTi2z6Fc7odOYOPdTZyH1NnQ2hFZLK1i+FZYhboy/DnbEFxQtkLoOa
-	 6yciXpv3RHBwQ==
-Received: from [192.168.0.22] (71-212-74-234.tukw.qwest.net [71.212.74.234])
-	by endrift.com (Postfix) with ESMTPSA id 26B39A01E;
-	Thu,  3 Jul 2025 19:52:21 -0700 (PDT)
-Message-ID: <92a568ca-e08f-423a-9de0-3f5b2946e721@endrift.com>
-Date: Thu, 3 Jul 2025 19:52:20 -0700
+	s=arc-20240116; t=1751597942; c=relaxed/simple;
+	bh=v9ZSaeRH6xsUbDphucE3stcYhLXtHMYDO+SbC5YTOzM=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=rpWXBxvwCJLO28yvpu1oT7d1dR5swOrDeGu2DaNs8pjb3WSgSuXN2M4SGJt1bw5/CBpQxgBF7BMEqRtrjF/9h/lFMvZ6n3FesuM4EFZ+XTGI+zYFB3frJqDmbK72lte3iNN6mAGEyaNmnDpg1hOsNHJkZx8a7tsKI0C2K1VkUuY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=l4/kMENZ; arc=none smtp.client-ip=220.197.31.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version:
+	Content-Type; bh=fWUTasDZ77zNHMZTc9qdSgR+3p0hsCmRaegRW2WfdU4=;
+	b=l4/kMENZIligMjiU7+FNAXfCSKhaxJ8cJ7K/7rb/RihrStQXXfTVXsMdCYQKZn
+	Sh1xiIXxGvgaaFcZYPF2OHyad9KAjpkzJ0srhxrJ61sG5lPRf1jvox3Ma785hS3A
+	h//2nLF3EWH+8RbMNi1HQ+Zdni8eLDwZ6DHKaEiCU58lQ=
+Received: from SZ-jihb.starsmicrosystem.com (unknown [])
+	by gzga-smtp-mtada-g0-4 (Coremail) with SMTP id _____wD357JjQ2doqh++CQ--.43258S2;
+	Fri, 04 Jul 2025 10:58:43 +0800 (CST)
+From: Hongbin Ji <jhb_ee@163.com>
+To: jogletre@opensource.cirrus.com
+Cc: fred.treven@cirrus.com,
+	ben.bright@cirrus.com,
+	dmitry.torokhov@gmail.com,
+	patches@opensource.cirrus.com,
+	linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Hongbin Ji <jhb_ee@163.com>
+Subject: [PATCH] Input: cs40l50 -  fix possible NULL pointer dereference
+Date: Fri,  4 Jul 2025 10:58:38 +0800
+Message-Id: <20250704025838.11810-1-jhb_ee@163.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] xpad - Added Acer NGR 200 Controller
-To: Nilton Perim Neto <niltonperimneto@gmail.com>,
- linux-input@vger.kernel.org, dmitry.torokhov@gmail.com,
- gregkh@linuxfoundation.org
-References: <20250608060517.14967-1-niltonperimneto@gmail.com>
-Content-Language: en-US
-From: Vicki Pfau <vi@endrift.com>
-In-Reply-To: <20250608060517.14967-1-niltonperimneto@gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wD357JjQ2doqh++CQ--.43258S2
+X-Coremail-Antispam: 1Uf129KBjvdXoWruF4xKF4DArykXrWUXr15twb_yoWfGrc_uF
+	WrGrs2kryqk3yUKFs0qw47Zry8KF1Yvw4kZFnIg39rXry0gr4DW34IgF4qvrsrWFy7tF9x
+	Gw47Wa4F9wnrGjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUvcSsGvfC2KfnxnUUI43ZEXa7sRNqXdUUUUUU==
+X-CM-SenderInfo: 5mkesvrh6rljoofrz/1tbiYAWAfGhnPtCgeQAAsh
 
-Hi,
+Add a NULL‐check and return ‑ENOMEM if allocation failed to prevent a kernel oops
 
-On 6/7/25 11:04 PM, Nilton Perim Neto wrote:
-> This patch adds the NGR 200 Xbox 360 to the xpad device tree and also Acer's VendorID
-> 
-> Signed-off-by: Nilton Perim Neto <niltonperimneto@gmail.com>
-> ---
->  drivers/input/joystick/xpad.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/drivers/input/joystick/xpad.c b/drivers/input/joystick/xpad.c
-> index 7746530da030..100aaaa7a5cb 100644
-> --- a/drivers/input/joystick/xpad.c
-> +++ b/drivers/input/joystick/xpad.c
-> @@ -177,6 +177,7 @@ static const struct xpad_device {
->  	{ 0x05fd, 0x107a, "InterAct 'PowerPad Pro' X-Box pad (Germany)", 0, XTYPE_XBOX },
->  	{ 0x05fe, 0x3030, "Chic Controller", 0, XTYPE_XBOX },
->  	{ 0x05fe, 0x3031, "Chic Controller", 0, XTYPE_XBOX },
-> +	{ 0x0502, 0x1305, "Acer NGR200", 0, XTYPE_XBOX },
+Signed-off-by: Hongbin Ji <jhb_ee@163.com>
+---
+ drivers/input/misc/cs40l50-vibra.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Shouldn't this be XTYPE_XBOX360?
+diff --git a/drivers/input/misc/cs40l50-vibra.c b/drivers/input/misc/cs40l50-vibra.c
+index dce3b0ec8cf3..61d87bc5f175 100644
+--- a/drivers/input/misc/cs40l50-vibra.c
++++ b/drivers/input/misc/cs40l50-vibra.c
+@@ -238,6 +238,9 @@ static int cs40l50_upload_owt(struct cs40l50_work *work_data)
+ 	header.data_words = len / sizeof(u32);
+ 
+ 	new_owt_effect_data = kmalloc(sizeof(header) + len, GFP_KERNEL);
++	if (!new_owt_effect_data) {
++		return -ENOMEM;
++	}
+ 
+ 	memcpy(new_owt_effect_data, &header, sizeof(header));
+ 	memcpy(new_owt_effect_data + sizeof(header), work_data->custom_data, len);
+-- 
+2.34.1
 
->  	{ 0x062a, 0x0020, "Logic3 Xbox GamePad", 0, XTYPE_XBOX },
->  	{ 0x062a, 0x0033, "Competition Pro Steering Wheel", 0, XTYPE_XBOX },
->  	{ 0x06a3, 0x0200, "Saitek Racing Wheel", 0, XTYPE_XBOX },
-> @@ -521,6 +522,7 @@ static const struct usb_device_id xpad_table[] = {
->  	XPAD_XBOX360_VENDOR(0x045e),		/* Microsoft Xbox 360 controllers */
->  	XPAD_XBOXONE_VENDOR(0x045e),		/* Microsoft Xbox One controllers */
->  	XPAD_XBOX360_VENDOR(0x046d),		/* Logitech Xbox 360-style controllers */
-> +	XPAD_XBOX360_VENDOR(0x0502),		/* Acer Inc. Xbox 360 style controllers */
->  	XPAD_XBOX360_VENDOR(0x056e),		/* Elecom JC-U3613M */
->  	XPAD_XBOX360_VENDOR(0x06a3),		/* Saitek P3600 */
->  	XPAD_XBOX360_VENDOR(0x0738),		/* Mad Catz Xbox 360 controllers */
-
-Vicki
 
