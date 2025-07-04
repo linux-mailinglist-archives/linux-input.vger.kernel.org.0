@@ -1,135 +1,101 @@
-Return-Path: <linux-input+bounces-13370-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13371-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34F60AF85A8
-	for <lists+linux-input@lfdr.de>; Fri,  4 Jul 2025 04:40:36 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 273E6AF85C5
+	for <lists+linux-input@lfdr.de>; Fri,  4 Jul 2025 04:52:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9C2C64A7702
-	for <lists+linux-input@lfdr.de>; Fri,  4 Jul 2025 02:40:36 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id AB70D1C8503C
+	for <lists+linux-input@lfdr.de>; Fri,  4 Jul 2025 02:52:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 966481DF991;
-	Fri,  4 Jul 2025 02:40:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D3A6B4B5AE;
+	Fri,  4 Jul 2025 02:52:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=endrift.com header.i=@endrift.com header.b="TbRmZRq8"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+Received: from endrift.com (endrift.com [173.255.198.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 080401DDA34;
-	Fri,  4 Jul 2025 02:40:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0F8B1FC3
+	for <linux-input@vger.kernel.org>; Fri,  4 Jul 2025 02:52:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=173.255.198.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751596825; cv=none; b=Hdkx0X5SWMdeOynImh89t8IK3ehQ3atBuHX9HKnbYfzWLgaU4X6O85j77AXJmq1aeUlIs9LIUN01oGwfcJ9hRFYhRfnmX4u/uKzDJ8Uc655ZY9/WDoyVgOOy073FQMa2LopuTy02CqpB+37h290LVhUjLhoQv5d6saIaXWMzCT0=
+	t=1751597552; cv=none; b=Wmdkb+Ql640+JemtPtt2JU7KHp++Bc3v5IW1TYY+NMIxezdMDTVbUGoBzniTt6UZIEQB5o9SRdDQC09PoOcsOes19aNpOaNTGwiCzwTPOu9aAo2i/odj6ncTb8E/ggNXBCIN/khRqCOdVr8ArbEZGKuBDyl+RgvA7bTcOI1zjdM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751596825; c=relaxed/simple;
-	bh=SAYN5VKjUnBLcKJkHCiVym3079UNk84BkRL08HA1A7U=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HNQwQiZXtnYsYkWTJGvwUV3h2bkvOLPVIz0MR/LfqSPRbjDjXevusgd35Htx01nSirQ+drVwPWqkDwHNzx0nJg5MGSTwNvYb62cgCwrYbp3K726Es2ONhSj86DdP14mJI12LwfS7LzD0n658ToMpL7PjbzRJuVIfjNGDSoDKzMc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 368a0998588011f0b29709d653e92f7d-20250704
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.45,REQID:034570ce-596c-429a-9efd-e80c6a0f942f,IP:0,U
-	RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
-	:release,TS:-5
-X-CID-META: VersionHash:6493067,CLOUDID:33ba69fe0ab85910e7858a1ae5a8be6d,BulkI
-	D:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0|50,EDM:-3,IP:nil,UR
-	L:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,S
-	PR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: 368a0998588011f0b29709d653e92f7d-20250704
-Received: from mail.kylinos.cn [(10.44.16.175)] by mailgw.kylinos.cn
-	(envelope-from <jiangyunshui@kylinos.cn>)
-	(Generic MTA)
-	with ESMTP id 1168541632; Fri, 04 Jul 2025 10:40:14 +0800
-Received: from mail.kylinos.cn (localhost [127.0.0.1])
-	by mail.kylinos.cn (NSMail) with SMTP id 060C7E008FA2;
-	Fri,  4 Jul 2025 10:40:14 +0800 (CST)
-X-ns-mid: postfix-68673F0D-745718436
-Received: from kylin-pc.. (unknown [172.25.130.133])
-	by mail.kylinos.cn (NSMail) with ESMTPA id 69236E008FA1;
-	Fri,  4 Jul 2025 10:40:12 +0800 (CST)
-From: Yunshui Jiang <jiangyunshui@kylinos.cn>
-To: linux-kernel@vger.kernel.org
-Cc: linux-input@vger.kernel.org,
-	dmitry.torokhov@gmail.com,
-	Yunshui Jiang <jiangyunshui@kylinos.cn>
-Subject: [PATCH] Input: cs40l50: Fix potential NULL dereference and memory leak
-Date: Fri,  4 Jul 2025 10:40:10 +0800
-Message-ID: <20250704024010.2353841-1-jiangyunshui@kylinos.cn>
-X-Mailer: git-send-email 2.47.1
+	s=arc-20240116; t=1751597552; c=relaxed/simple;
+	bh=7qmXRQDNI94DH3EDik/IKCxHr1fWpjoqEWEU9PiQF9Q=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=WMUodBlqOteNtGqAH4Jj4v1l+Q0mNK4pm3Kfga2tZCNeHlgXihXcPnO9LaBSc586FKd9e/lk3/aBP6CZ9Kui4rm4PBkGZFoQ5GwWN+Ma8rl1tezmEi+YZ58tI/tKjh4jE6cZUK8YULWI7fY4m1bPvzvhxnrNegp1gpG2pPJgGPY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=endrift.com; spf=pass smtp.mailfrom=endrift.com; dkim=pass (2048-bit key) header.d=endrift.com header.i=@endrift.com header.b=TbRmZRq8; arc=none smtp.client-ip=173.255.198.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=endrift.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=endrift.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=endrift.com; s=2020;
+	t=1751597541; bh=7qmXRQDNI94DH3EDik/IKCxHr1fWpjoqEWEU9PiQF9Q=;
+	h=Date:Subject:To:References:From:In-Reply-To:From;
+	b=TbRmZRq8JligIqIpJeYg4CjVXHee7TnqF+oDpxaXEjcowprjxdRMnNEW2wm6WPfio
+	 cGmJwc/fDDSc+04/FMTyalwFChdL9P7bkCM3lqfliBFS1/H1ZCaNvH1RqGKSRdVKhE
+	 jHFS1GuEhpBg+iuTZHq7Ek9m2anQD0UsvTjWHfKN7OShc8vjMORELiHMD8zC9O7deM
+	 VgQJVpWaTqXPCH7yQoiWpW2tCTGjsl8MAGwgH6J1Fztzn66jYcpejsPO+3JpFaeSye
+	 /BJvzct7DIU1pTi2z6Fc7odOYOPdTZyH1NnQ2hFZLK1i+FZYhboy/DnbEFxQtkLoOa
+	 6yciXpv3RHBwQ==
+Received: from [192.168.0.22] (71-212-74-234.tukw.qwest.net [71.212.74.234])
+	by endrift.com (Postfix) with ESMTPSA id 26B39A01E;
+	Thu,  3 Jul 2025 19:52:21 -0700 (PDT)
+Message-ID: <92a568ca-e08f-423a-9de0-3f5b2946e721@endrift.com>
+Date: Thu, 3 Jul 2025 19:52:20 -0700
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] xpad - Added Acer NGR 200 Controller
+To: Nilton Perim Neto <niltonperimneto@gmail.com>,
+ linux-input@vger.kernel.org, dmitry.torokhov@gmail.com,
+ gregkh@linuxfoundation.org
+References: <20250608060517.14967-1-niltonperimneto@gmail.com>
+Content-Language: en-US
+From: Vicki Pfau <vi@endrift.com>
+In-Reply-To: <20250608060517.14967-1-niltonperimneto@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-The cs40l50_upload_owt() function allocates memory via kmalloc()
-without checking for allocation failure, which could lead to a
-NULL pointer dereference when GFP_KERNEL allocation fails under
-memory pressure.
+Hi,
 
-Additionally, if any subsequent operation fails after successful
-allocation, the allocated memory is not freed, causing a memory
-leak.
+On 6/7/25 11:04 PM, Nilton Perim Neto wrote:
+> This patch adds the NGR 200 Xbox 360 to the xpad device tree and also Acer's VendorID
+> 
+> Signed-off-by: Nilton Perim Neto <niltonperimneto@gmail.com>
+> ---
+>  drivers/input/joystick/xpad.c | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/drivers/input/joystick/xpad.c b/drivers/input/joystick/xpad.c
+> index 7746530da030..100aaaa7a5cb 100644
+> --- a/drivers/input/joystick/xpad.c
+> +++ b/drivers/input/joystick/xpad.c
+> @@ -177,6 +177,7 @@ static const struct xpad_device {
+>  	{ 0x05fd, 0x107a, "InterAct 'PowerPad Pro' X-Box pad (Germany)", 0, XTYPE_XBOX },
+>  	{ 0x05fe, 0x3030, "Chic Controller", 0, XTYPE_XBOX },
+>  	{ 0x05fe, 0x3031, "Chic Controller", 0, XTYPE_XBOX },
+> +	{ 0x0502, 0x1305, "Acer NGR200", 0, XTYPE_XBOX },
 
-Therefore, add a NULL check for kmalloc() and returns -ENOMEM on
-failure. And use a goto cleanup pattern to ensure the allocated
-memory is freed on any error path.
+Shouldn't this be XTYPE_XBOX360?
 
-Signed-off-by: Yunshui Jiang <jiangyunshui@kylinos.cn>
----
- drivers/input/misc/cs40l50-vibra.c | 12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
+>  	{ 0x062a, 0x0020, "Logic3 Xbox GamePad", 0, XTYPE_XBOX },
+>  	{ 0x062a, 0x0033, "Competition Pro Steering Wheel", 0, XTYPE_XBOX },
+>  	{ 0x06a3, 0x0200, "Saitek Racing Wheel", 0, XTYPE_XBOX },
+> @@ -521,6 +522,7 @@ static const struct usb_device_id xpad_table[] = {
+>  	XPAD_XBOX360_VENDOR(0x045e),		/* Microsoft Xbox 360 controllers */
+>  	XPAD_XBOXONE_VENDOR(0x045e),		/* Microsoft Xbox One controllers */
+>  	XPAD_XBOX360_VENDOR(0x046d),		/* Logitech Xbox 360-style controllers */
+> +	XPAD_XBOX360_VENDOR(0x0502),		/* Acer Inc. Xbox 360 style controllers */
+>  	XPAD_XBOX360_VENDOR(0x056e),		/* Elecom JC-U3613M */
+>  	XPAD_XBOX360_VENDOR(0x06a3),		/* Saitek P3600 */
+>  	XPAD_XBOX360_VENDOR(0x0738),		/* Mad Catz Xbox 360 controllers */
 
-diff --git a/drivers/input/misc/cs40l50-vibra.c b/drivers/input/misc/cs40=
-l50-vibra.c
-index dce3b0ec8cf3..c48b6c905112 100644
---- a/drivers/input/misc/cs40l50-vibra.c
-+++ b/drivers/input/misc/cs40l50-vibra.c
-@@ -238,25 +238,31 @@ static int cs40l50_upload_owt(struct cs40l50_work *=
-work_data)
- 	header.data_words =3D len / sizeof(u32);
-=20
- 	new_owt_effect_data =3D kmalloc(sizeof(header) + len, GFP_KERNEL);
-+	if (!new_owt_effect_data)
-+		return -ENOMEM;
-=20
- 	memcpy(new_owt_effect_data, &header, sizeof(header));
- 	memcpy(new_owt_effect_data + sizeof(header), work_data->custom_data, le=
-n);
-=20
- 	error =3D regmap_read(vib->regmap, vib->dsp.owt_offset_reg, &offset);
- 	if (error)
--		return error;
-+		goto free_owt_data;
-=20
- 	error =3D regmap_bulk_write(vib->regmap, vib->dsp.owt_base_reg +
- 				  (offset * sizeof(u32)), new_owt_effect_data,
- 				  sizeof(header) + len);
- 	if (error)
--		return error;
-+		goto free_owt_data;
-=20
- 	error =3D vib->dsp.write(vib->dev, vib->regmap, vib->dsp.push_owt_cmd);
- 	if (error)
--		return error;
-+		goto free_owt_data;
-=20
- 	return 0;
-+
-+free_owt_data:
-+	kfree(new_owt_effect_data);
-+	return error;
- }
-=20
- static void cs40l50_add_worker(struct work_struct *work)
---=20
-2.47.1
-
+Vicki
 
