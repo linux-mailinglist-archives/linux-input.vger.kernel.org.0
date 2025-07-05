@@ -1,218 +1,185 @@
-Return-Path: <linux-input+bounces-13386-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13387-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B966AF9D15
-	for <lists+linux-input@lfdr.de>; Sat,  5 Jul 2025 03:12:07 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A5D9AF9EC5
+	for <lists+linux-input@lfdr.de>; Sat,  5 Jul 2025 09:31:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 976871C271C8
-	for <lists+linux-input@lfdr.de>; Sat,  5 Jul 2025 01:12:23 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E56563AF6F8
+	for <lists+linux-input@lfdr.de>; Sat,  5 Jul 2025 07:31:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B482B13AF2;
-	Sat,  5 Jul 2025 01:12:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 26A6919DF4A;
+	Sat,  5 Jul 2025 07:31:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cUh90osl"
+	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="zfNQ1xla"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mail-10629.protonmail.ch (mail-10629.protonmail.ch [79.135.106.29])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CEC786331
-	for <linux-input@vger.kernel.org>; Sat,  5 Jul 2025 01:12:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA625175A5;
+	Sat,  5 Jul 2025 07:31:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=79.135.106.29
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751677923; cv=none; b=hQ2rG/7NNOD4DbiuSzBxurSUTMzyX7/Qd6fJHm9lxpWw/CG5zX/IguNNSZDLYzzhH0TyWlh6Tq0zI4DEmJc4jbSzwBnlVreSdz3Oc+oYgK8PenfAaFPW1BIH8JaWyk2ZSvr5r5FUG00uNt8jUEOQj9a88mMTsY9czVJm/kGUmcY=
+	t=1751700698; cv=none; b=qnwLVdJmJYJMJdagDwKZfYPVxLGf4mWLYKsaRWy7CSnl7b8mMNG7NSSuXBjXesW1i8RmEL5i+DPC3VuOHVf3ncLUrHfZKjBL1T8vTzBj03a4YohfPEyiYYxg/Vwbwin/ZWBpA4OeYTIZAa8LqZDIWWICTLNdeYexTQByb3mKcCc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751677923; c=relaxed/simple;
-	bh=uVvMA0T37tNUMd6miyrrEJ7GPCUJ+he7HItwUw7U+Ow=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=e7hdcBGt2euvPA/p227ePelSZphCkvPib/ERQiyP1ANuZjU0+QgOWCUH7dyGyhTHzvmAedUYtnmXkYsuw6H/DVVTbxTcb09h9IXI5c6umB5e+8CuNu8JQXYB5a9J3iE3w/dF+wSP7tozldSL/mWCIroEi5jCVWfJoLfVMHOE/R0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cUh90osl; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751677922; x=1783213922;
-  h=date:from:to:cc:subject:message-id;
-  bh=uVvMA0T37tNUMd6miyrrEJ7GPCUJ+he7HItwUw7U+Ow=;
-  b=cUh90oslAnkB13S8H3+1wAXIRGssYorINok0hUDr5cmV3G/qXRN9HE8K
-   N6DBQwh1qitTyKOKfbT5hEKwlJdbAFb6dkDoYE+f391EhBsZZz3t8yqIb
-   wq5j6KtdsO8MwyHdw57zBjFXPgthMPLjuYxzCxsUcabUoJylJG6s/fHLN
-   jdS3Usc001eVGXXpIkyc3NZo3ofZP9EhUhrKyvjw6vUil+mvD2zZRqIKn
-   O7sJXe+32OUYSa98DsCi4SIrhw+tW1PM08sv++bI4G05clFyFQ7sAhumh
-   +cqqoiievDQUCRWD8mPpTVmMyLUA0+ZG0JXfof1B2Wkti7muTqt0MwWGi
-   w==;
-X-CSE-ConnectionGUID: Z9k0ydAyT3G6tfS+CjQhDA==
-X-CSE-MsgGUID: JsLnRYEVSLSQcaIbszg7BQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11484"; a="54097638"
-X-IronPort-AV: E=Sophos;i="6.16,288,1744095600"; 
-   d="scan'208";a="54097638"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2025 18:12:01 -0700
-X-CSE-ConnectionGUID: WF4tmVIuRmqMHP2v2hyoCg==
-X-CSE-MsgGUID: 3YL/vzQ2QQ2+dVD4rcWvnQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,288,1744095600"; 
-   d="scan'208";a="160413080"
-Received: from lkp-server01.sh.intel.com (HELO 0b2900756c14) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 04 Jul 2025 18:11:59 -0700
-Received: from kbuild by 0b2900756c14 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uXrRd-0004Ax-2Q;
-	Sat, 05 Jul 2025 01:11:57 +0000
-Date: Sat, 05 Jul 2025 09:11:14 +0800
-From: kernel test robot <lkp@intel.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: linux-input@vger.kernel.org
-Subject: [dtor-input:for-linus] BUILD SUCCESS
- 4cf65845fdd09d711fc7546d60c9abe010956922
-Message-ID: <202507050901.LCNsxYpF-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	s=arc-20240116; t=1751700698; c=relaxed/simple;
+	bh=9ZoUw5Hl/3qhmjyhcjKqY9i+D8ng2zzbXo8jy3DQEhQ=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Xo4ZhOiwpcFIQ8hoXehkAYySRKaa9MGp8YTRqbBdxRCIfC9GNFYRkiD4qYEhrZeeXDRGcI3xiIoccyq2zDiay6H22W+WtIXiFeDjtBq83r9n/pGI15QY2bw9ftT1m7HgpOhqQqYYrAJ9EL+uYPx9od9UIJCCGmYvzA4O/76LAno=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com; spf=pass smtp.mailfrom=protonmail.com; dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b=zfNQ1xla; arc=none smtp.client-ip=79.135.106.29
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonmail.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
+	s=protonmail3; t=1751700686; x=1751959886;
+	bh=J3XdgSpKZ1wBoY+0lETsQNnQofaKx79OW1d3zjVSCLg=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=zfNQ1xlaNx7V8yLaz4lP7xIsaqQS0wZ/47g+El+5IFtYPIDixJbEbLaOYrs4CcfIN
+	 dxViWsblCSzmIriZS7/Np/Yc5OkT7oZfjzmJaLtXPL9+ZKLmdi3YN/0wibt4/exvDk
+	 FxPtHQNvkCuAXOrMOYlzuRSRziADWUrfOWAopMG1WPc+B5XrC5+ZIsCAgrEPJuBnuQ
+	 QaiGul/jxAwtpGmyb49Y/VAFcRPNbXQYIE9QQfCGDDKBWXb8XhxGTM2WRvimmdW1qS
+	 Z+PQz1MFJEBHIY8d3THmBPsxzCFQFyl7QlLk13TD/rExsnoOO2vjGZ9GreUHSlIgJd
+	 PoWwtnUywdqww==
+Date: Sat, 05 Jul 2025 07:31:21 +0000
+To: Danilo Krummrich <dakr@kernel.org>
+From: Rahul Rameshbabu <sergeantsagara@protonmail.com>
+Cc: Benjamin Tissoires <bentiss@kernel.org>, Jiri Kosina <jikos@kernel.org>, linux-input@vger.kernel.org, rust-for-linux@vger.kernel.org, Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, Daniel Brooks <db48x@db48x.net>
+Subject: Re: [PATCH v1 2/3] rust: core abstractions for HID drivers
+Message-ID: <87frfbksam.fsf@protonmail.com>
+In-Reply-To: <0b7c2a9b-9cdc-41e9-bdaa-ddd8b0807449@kernel.org>
+References: <20250629045031.92358-2-sergeantsagara@protonmail.com> <20250629045031.92358-4-sergeantsagara@protonmail.com> <aGD9OIZ_xE6h3199@pollux> <8os57581-8q0n-p226-836s-52610166qq02@xreary.bet> <p2tuq2a77dpl3ku7a6dbwqgsk5yybemqcfyoozjl5k3auijxqk@7myvbre2aam4> <0b7c2a9b-9cdc-41e9-bdaa-ddd8b0807449@kernel.org>
+Feedback-ID: 26003777:user:proton
+X-Pm-Message-ID: 90fe8011a0209a46b8686dc6cc7f4d0288e76faf
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git for-linus
-branch HEAD: 4cf65845fdd09d711fc7546d60c9abe010956922  Input: cs40l50-vibra - fix potential NULL dereference in cs40l50_upload_owt()
+On Thu, 03 Jul, 2025 10:20:19 +0200 "Danilo Krummrich" <dakr@kernel.org> wr=
+ote:
+> On 7/3/25 10:01 AM, Benjamin Tissoires wrote:
+>> On Jul 03 2025, Jiri Kosina wrote:
+>>> On Sun, 29 Jun 2025, Danilo Krummrich wrote:
+>>>
+>>>> (Cc: +Jiri)
+>>>
+>>> Thanks.
+>>>
+>>>>> diff --git a/MAINTAINERS b/MAINTAINERS
+>>>>> index c3f7fbd0d67a..487750d9fd1e 100644
+>>>>> --- a/MAINTAINERS
+>>>>> +++ b/MAINTAINERS
+>>>>> @@ -10686,6 +10686,13 @@ F:=09include/uapi/linux/hid*
+>>>>>   F:=09samples/hid/
+>>>>>   F:=09tools/testing/selftests/hid/
+>>>>>
+>>>>> +HID CORE LAYER [RUST]
+>>>>> +M:=09Rahul Rameshbabu <sergeantsagara@protonmail.com>
+>>>>> +L:=09linux-input@vger.kernel.org
+>>>>> +S:=09Maintained
+>>>>> +T:=09git git://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git
+>>>>> +F:=09rust/kernel/hid.rs
+>>>>
+>>>> I assume this is agreed with the HID CORE LAYER maintainers?
+>>>>
+>>>> There are multiple possible options, for instance:
+>>>>
+>>>>    1) Maintain the Rust abstractions as part of the existing MAINTAINE=
+RS entry.
+>>>>       Optionally, the author can be added as another maintainer or rev=
+iewer.
+>>>>
+>>>>    2) Add a separate MAINTAINERS entry; patches still go through the s=
+ame
+>>>>       subsystem tree.
+>>>>
+>>>>    3) Add a separate MAINTAINERS entry; patches don't go through the s=
+ubsystem
+>>>>       tree (e.g. because the subsystem maintainers don't want to deal =
+with it).
+>>>
+>>> I can't speak for Benjamin, but as far as I am concerned, I'd personall=
+y
+>>> prefer option (3).
+>>
+>> I understand Jiri's concerns, but I'm slighlty worried (3) will end up
+>> also having the leaf drivers in a separate tree, which means that 2
+>> trees will fight for the same resource.
+>>
+>> First patch of this series is a first example where some changes are
+>> needed in the HID bus for making rust life's easier.
+>>
+>> Personally, I'd like to have a say and an eye on the rust abstractions
+>> and most of it, on the leaf drivers. I can't say I'll proactively
+>> review/merge things (these past few months have shown that I merely
+>> manage to follow things happening ATM), but at least I can keep an eye
+>> and shout if something is wrong.
+>>
+>> OTOH, the HID tree (the core part) is a low change tree now, so maybe a
+>> separate tree can be handled correctly without too much troubles.
+>>
+>> Danilo, if a separate tree is chosen, is the common practice to directly
+>> send the PR to Linus or does it need to got through the subsystem tree
+>> first (like bpf with net for example).
+>
+> We usually fall back to the global Rust tree, which is ultimately maintai=
+ned by
+> Miguel, so it's his call in the end.
+>
+> However, IMHO this is more like a "last resort" in case any other approac=
+hes
+> within the same subsystem are not desired.
+>
+>  From what I can read above, it feels to me as if having a separate tree
+> (maintained by Rahul) with him sending pull requests to you guys seems li=
+ke a
+> good option. What do you think about that?
 
-elapsed time: 1175m
+First wanted to say thanks to everyone who responded to this series.
+I am personally open to any of the above.
 
-configs tested: 125
-configs skipped: 4
+From what I can tell, Jiri and Benjamin would prefer pull
+requests/discussion of the Rust for Linux bindings not contaminate the
+hid git tree or linux-input mailing list. Patches will instead be
+submitted through the rust-for-linux mailing list and pull requests
+would be sent through the Rust for Linux tree. I can make Benjamin a
+reviewer for this effort, so he will be explicitly CCed to take a look
+at how the bindings are taking shape. I can make Jiri a reviewer if he
+would like to participate (I was assuming maybe not based on the desire
+for option 3 listed above). Maybe with this model, I have a
+rust-for-linux-hid tree where I send pull requests to the rust-for-linux
+tree?
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+On the other hand, Danilo would prefer something similar to the above
+with the caveat of pull requests going through the hid tree and patches
+through linux-input mailing list.
 
-tested configs:
-alpha                             allnoconfig    gcc-15.1.0
-alpha                            allyesconfig    gcc-15.1.0
-arc                              allmodconfig    gcc-15.1.0
-arc                               allnoconfig    gcc-15.1.0
-arc                              allyesconfig    gcc-15.1.0
-arc                   randconfig-001-20250704    gcc-15.1.0
-arc                   randconfig-002-20250704    gcc-15.1.0
-arm                              allmodconfig    gcc-15.1.0
-arm                               allnoconfig    clang-21
-arm                              allyesconfig    gcc-15.1.0
-arm                   randconfig-001-20250704    gcc-7.5.0
-arm                   randconfig-002-20250704    clang-21
-arm                   randconfig-003-20250704    gcc-7.5.0
-arm                   randconfig-004-20250704    gcc-13.4.0
-arm64                            allmodconfig    clang-19
-arm64                             allnoconfig    gcc-15.1.0
-arm64                 randconfig-001-20250704    gcc-14.3.0
-arm64                 randconfig-002-20250704    clang-21
-arm64                 randconfig-003-20250704    clang-16
-arm64                 randconfig-004-20250704    gcc-10.5.0
-csky                              allnoconfig    gcc-15.1.0
-csky                  randconfig-001-20250704    gcc-15.1.0
-csky                  randconfig-002-20250704    gcc-15.1.0
-hexagon                          allmodconfig    clang-17
-hexagon                           allnoconfig    clang-21
-hexagon                          allyesconfig    clang-21
-hexagon               randconfig-001-20250704    clang-21
-hexagon               randconfig-002-20250704    clang-21
-i386                             allmodconfig    gcc-12
-i386                              allnoconfig    gcc-12
-i386                             allyesconfig    gcc-12
-i386        buildonly-randconfig-001-20250704    gcc-12
-i386        buildonly-randconfig-002-20250704    clang-20
-i386        buildonly-randconfig-003-20250704    clang-20
-i386        buildonly-randconfig-004-20250704    clang-20
-i386        buildonly-randconfig-005-20250704    clang-20
-i386        buildonly-randconfig-006-20250704    clang-20
-i386                                defconfig    clang-20
-loongarch                        allmodconfig    clang-19
-loongarch                         allnoconfig    clang-21
-loongarch             randconfig-001-20250704    gcc-15.1.0
-loongarch             randconfig-002-20250704    gcc-15.1.0
-m68k                             allmodconfig    gcc-15.1.0
-m68k                              allnoconfig    gcc-15.1.0
-m68k                             allyesconfig    gcc-15.1.0
-microblaze                       allmodconfig    gcc-15.1.0
-microblaze                        allnoconfig    gcc-15.1.0
-microblaze                       allyesconfig    gcc-15.1.0
-microblaze                          defconfig    gcc-15.1.0
-mips                              allnoconfig    gcc-15.1.0
-nios2                             allnoconfig    gcc-14.2.0
-nios2                               defconfig    gcc-14.2.0
-nios2                 randconfig-001-20250704    gcc-7.5.0
-nios2                 randconfig-002-20250704    gcc-10.5.0
-openrisc                          allnoconfig    gcc-15.1.0
-openrisc                         allyesconfig    gcc-15.1.0
-openrisc                            defconfig    gcc-15.1.0
-parisc                           allmodconfig    gcc-15.1.0
-parisc                            allnoconfig    gcc-15.1.0
-parisc                           allyesconfig    gcc-15.1.0
-parisc                              defconfig    gcc-15.1.0
-parisc                randconfig-001-20250704    gcc-14.3.0
-parisc                randconfig-002-20250704    gcc-6.5.0
-parisc64                            defconfig    gcc-15.1.0
-powerpc                          allmodconfig    gcc-15.1.0
-powerpc                           allnoconfig    gcc-15.1.0
-powerpc                          allyesconfig    clang-21
-powerpc                     rainier_defconfig    gcc-15.1.0
-powerpc               randconfig-001-20250704    clang-21
-powerpc               randconfig-002-20250704    gcc-9.3.0
-powerpc               randconfig-003-20250704    clang-21
-powerpc                     sequoia_defconfig    clang-17
-powerpc64             randconfig-001-20250704    clang-18
-powerpc64             randconfig-002-20250704    gcc-10.5.0
-powerpc64             randconfig-003-20250704    clang-18
-riscv                            allmodconfig    clang-21
-riscv                             allnoconfig    gcc-15.1.0
-riscv                            allyesconfig    clang-16
-riscv                               defconfig    clang-21
-riscv                 randconfig-001-20250704    clang-21
-riscv                 randconfig-002-20250704    clang-21
-s390                             allmodconfig    clang-18
-s390                              allnoconfig    clang-21
-s390                             allyesconfig    gcc-15.1.0
-s390                                defconfig    clang-21
-s390                  randconfig-001-20250704    gcc-15.1.0
-s390                  randconfig-002-20250704    gcc-8.5.0
-sh                               allmodconfig    gcc-15.1.0
-sh                                allnoconfig    gcc-15.1.0
-sh                               allyesconfig    gcc-15.1.0
-sh                                  defconfig    gcc-15.1.0
-sh                          lboxre2_defconfig    gcc-15.1.0
-sh                     magicpanelr2_defconfig    gcc-15.1.0
-sh                    randconfig-001-20250704    gcc-15.1.0
-sh                    randconfig-002-20250704    gcc-13.4.0
-sh                           se7343_defconfig    gcc-15.1.0
-sparc                            allmodconfig    gcc-15.1.0
-sparc                             allnoconfig    gcc-15.1.0
-sparc                               defconfig    gcc-15.1.0
-sparc                 randconfig-001-20250704    gcc-11.5.0
-sparc                 randconfig-002-20250704    gcc-6.5.0
-sparc64                             defconfig    clang-20
-sparc64               randconfig-001-20250704    gcc-13.4.0
-sparc64               randconfig-002-20250704    clang-20
-um                               allmodconfig    clang-19
-um                                allnoconfig    clang-21
-um                               allyesconfig    gcc-12
-um                                  defconfig    clang-21
-um                             i386_defconfig    gcc-12
-um                    randconfig-001-20250704    clang-21
-um                    randconfig-002-20250704    clang-21
-um                           x86_64_defconfig    clang-21
-x86_64                            allnoconfig    clang-20
-x86_64                           allyesconfig    clang-20
-x86_64      buildonly-randconfig-001-20250704    clang-20
-x86_64      buildonly-randconfig-002-20250704    gcc-12
-x86_64      buildonly-randconfig-003-20250704    clang-20
-x86_64      buildonly-randconfig-004-20250704    clang-20
-x86_64      buildonly-randconfig-005-20250704    clang-20
-x86_64      buildonly-randconfig-006-20250704    gcc-12
-x86_64                              defconfig    gcc-11
-x86_64                          rhel-9.4-rust    clang-20
-xtensa                            allnoconfig    gcc-15.1.0
-xtensa                randconfig-001-20250704    gcc-12.4.0
-xtensa                randconfig-002-20250704    gcc-15.1.0
+I am open to either personally.
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+I will be sending a v2 hopefully soon based on Danilo's and Peter's
+feedback.
+
+In parallel, I am thinking about how to design a Drop trait for handling
+HID device unplug instead of needing a C style remove callback. This
+will be crucial for implementing sophisticated leaf drivers. The driver
+implemented here purely does report fixup. In my ideal world, all pure
+report fixup work would be done in HID-BPF space and only sophisticated
+drivers would be implemented as a Rust leaf driver. I have some separate
+scratch work playing around HID-BPF that I have not had time to clean
+up. Right now, it's just samples for doing things like key remapping on
+a keyboard. I am envisioning an Alsa UCM like model for HID-BPF for
+dealing with report fixups.
+
+--=20
+Thanks,
+
+Rahul Rameshbabu
+
 
