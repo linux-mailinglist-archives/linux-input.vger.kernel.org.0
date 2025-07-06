@@ -1,188 +1,224 @@
-Return-Path: <linux-input+bounces-13393-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13394-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7A34AFA348
-	for <lists+linux-input@lfdr.de>; Sun,  6 Jul 2025 08:27:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88349AFA639
+	for <lists+linux-input@lfdr.de>; Sun,  6 Jul 2025 17:44:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0C16E3B4082
-	for <lists+linux-input@lfdr.de>; Sun,  6 Jul 2025 06:26:55 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C3A023AE247
+	for <lists+linux-input@lfdr.de>; Sun,  6 Jul 2025 15:44:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A7C61B0437;
-	Sun,  6 Jul 2025 06:27:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B84092882A9;
+	Sun,  6 Jul 2025 15:44:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b="H3l6iy2y"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gQdWB3qX"
 X-Original-To: linux-input@vger.kernel.org
-Received: from PNZPR01CU001.outbound.protection.outlook.com (mail-centralindiaazolkn19011030.outbound.protection.outlook.com [52.103.68.30])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83C0919F424
-	for <linux-input@vger.kernel.org>; Sun,  6 Jul 2025 06:27:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.68.30
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751783235; cv=fail; b=db1Ag5lMXFQLgjm78JVoH34eDcn/Kz7Y64cNpdjJAXDny7wmObCXLAHsdpQNO/eSfQThNe8jOU5zdxftFAprtX+BO8Zr4qt2560Lp+8UZula5U/flHuZt2WiH1FX2HkjwQ8LnWr96DziDmX6aMje3WqX5gYY9H3kewEUHzWLnfs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751783235; c=relaxed/simple;
-	bh=iVhyLQ9K3JuOxVr/aRoZ78qyt24ZTFInZWWpAgTTfHg=;
-	h=Message-ID:Date:Subject:To:References:Cc:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=iklK+w/stvgyeOWp55jsM39/cxHCu7rt2Xw9ZfgBu7FKiIg4lYfxhWGmb9rme/nAgQwfsmPNqaVX5RR7LTYO0qn5EJq3TRuak3KCS49UyI7WdpuOhaJSn+s3uKzEsbsoUiVb/ufGtEnh/6wUEdgHyQLK2/LklnUcAvH6oyrQvWA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com; spf=pass smtp.mailfrom=live.com; dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b=H3l6iy2y; arc=fail smtp.client-ip=52.103.68.30
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=live.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ROLcGyeTLb0eQtWzxgGWgdSGF5thAsS977pbvwrazgqy1K1PJ2wQjSUKK3JGoGMdLv25mWRDrukoCKuebyOy+Cs+SyrxYyr4u+Le0Yjl4JLGn3UocpsIiAt739J5VGZMC1ge9+DE6BYinHg21xwxCU0M/pTnsfv9Z1tOorAnPJgFpQK9uJJT72XL5cbwq0yDWnQSATPR/wNPxoVrTgJDvHjF4Dam3M8ykQjixyW1ftV5XK/BiCxIhxYXqzOkQHd3fPtfmoHlKek6ekecc6OG49WTYDJ8uCfUm8DcBMNcdWkz9HR0PG3EmuQnVmSuq66m2P1sIujr28Tblso7wsm1GQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Zw77TB5s9F/trFwSRaJdyDWaBR155Ax0jKXbKHXLsRY=;
- b=c3yaFZ+KroPIVrwsrvjoLot7GY4RH6gO+HbrKI7Jz8Eip9hebxCQhlUAMST62Jwj8Qa0w35TywhsfZXZbhWVRfWlNSTO6E/DOFE9lmDUdLmraHkQ9U6yWEMErc3Li2Ky9sDqJ9RWe0Ube+hjxAbfEcyLyyxoxMftBdG6bMPHwbA6x2+rnhdm+48QeOA/NHSpp2mO8YHMrYdSwzaRZq7VmFuhdKeYZ/4eUOGvoapXzKAUazbIgIialytIBB/IZghx535KcZDBp6E5aV5KHoqtevTm2clUozu23zbbp68pDY8VEmdVg2dF37U01Xk2IgHSCmhMXQsT27H+Vil4D2v10g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=live.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Zw77TB5s9F/trFwSRaJdyDWaBR155Ax0jKXbKHXLsRY=;
- b=H3l6iy2yvY0sAzU3IZpRkZSfbHS9QJ8uspV4zvACykE86Zgs7G7S+exk4Em5AKc5BVL7DBF/mJ3Fu73TOGnzGUFl3Rix5MPJTKziOQMZS/IEjkqjFIBbja6lr4DbAKsuVmPBIyK/Ga3u1FTD0hbMHLpFy0uDnvKs17zKl7atZ7DQ5tEg9szhKOSEoltrky005scn/EEJTQXbJGDofzmRD87QJG4TQmHXAPO5GI26euGrS6ZwMTvlGtLweQmZnVr7BBRn1B1TkPTWfaZoSbKG7KuY52KbR/yjk3leJc+3BJUKvRNbOXNkPZRlMj3SbLsIlvKdeUhBpfWD+VO9Md3oQA==
-Received: from PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:f7::14)
- by MAXPR01MB4343.INDPRD01.PROD.OUTLOOK.COM (2603:1096:a01:1::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.24; Sun, 6 Jul
- 2025 06:27:08 +0000
-Received: from PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::324:c085:10c8:4e77]) by PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::324:c085:10c8:4e77%6]) with mapi id 15.20.8901.024; Sun, 6 Jul 2025
- 06:27:08 +0000
-Message-ID:
- <PN3PR01MB95979E06C65B4BE4051BF9B7B84CA@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
-Date: Sun, 6 Jul 2025 11:57:05 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: hid_nintendo Switch 2 Pro Controller support - where to start?
-To: Saihaj Johal <personal@sjohal.net>, linux-input@vger.kernel.org
-References: <3642543.dWV9SEqChM@saihaj-mainpc>
-Content-Language: en-US
-Cc: "Daniel J. Ogorchock" <djogorchock@gmail.com>,
- Nadia Holmquist Pedersen <nadia@nhp.sh>, Emily Strickland <linux@emily.st>,
- Ryan McClelland <rymcclel@gmail.com>, Jiri Kosina <jikos@kernel.org>,
- Benjamin Tissoires <bentiss@kernel.org>
-From: Aditya Garg <gargaditya08@live.com>
-In-Reply-To: <3642543.dWV9SEqChM@saihaj-mainpc>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BM1P287CA0024.INDP287.PROD.OUTLOOK.COM
- (2603:1096:b00:40::25) To PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:f7::14)
-X-Microsoft-Original-Message-ID:
- <c9a01ff3-b5ac-4e1f-bf8a-86a3bcd88dfb@live.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCF251E86E;
+	Sun,  6 Jul 2025 15:44:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1751816680; cv=none; b=kE/P77nUFIlOgDNZcFaBDLB67PR1Fu7g/6FppKYqbddoUeFEBEn/MfK1TzA71vdFDvgaEKnRz1iup7nD0gAq+dcdXrCsKNUlDvN9RXeOeAvyPKl1MqV8PUONwZMXCQhPcR/6WswrwX2qoWOkrn5nhj9hLFiLWLwmapcYNcwUuZo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1751816680; c=relaxed/simple;
+	bh=VrL5tCUIHQAn6qmf+uwzSyi2pqmzd0wf53fIlG/bztk=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=LU17GZagI5khT9WV1r06YaM689+KbXaGU96aXHhU9OL1zFwcIjddKoLMG64NxjiFUbg//n5J2NX74B9jXVQ8HuyuDT9ymhBxO5jdYGs6CGJcrJa5VKc8DPQMYzy1lvwmCVaQDA6jRB4Iv9IPx/Mh7py2PuETfEc00yIpsFymVY4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gQdWB3qX; arc=none smtp.client-ip=209.85.208.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-60c4521ae2cso4050218a12.0;
+        Sun, 06 Jul 2025 08:44:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1751816674; x=1752421474; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=S1VxJd0ftI9lmd3P4Wrl4+ydKOBwPcBk4404L4MsBrY=;
+        b=gQdWB3qX3ZyXjk4XPRxsLnshE7QlKuRPvhkouF6dJ8BGi4w+L3GqP7oUmkOaya/XDX
+         2rP01O+zJSdASMK8OSR34MI1TX0RyReo0HDbg6bSgBQE6EvvT+ewtJdGmr9arDI+L7lH
+         r3x4yzHQKYjeWP5TazamsxX9NFKe51rnQrzG0UR62IJsrr0AIJWGb4xMdwzRa4GqBxSD
+         bYXg0LoNXEzydAOxA2DBJPUDxY0DH/YOL3n24G1PKjom0h+rPvmq7yBdp8HqWvYENddm
+         9xNnPp+9JSZiPABQIFrQcVXwsYsv4qd5qU3ypsINE6u7EeQbDCaInKtcc/KdWOKWeQew
+         usUQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751816674; x=1752421474;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=S1VxJd0ftI9lmd3P4Wrl4+ydKOBwPcBk4404L4MsBrY=;
+        b=Jx9patFnywbPT7+F2KRGpDOZvLIFkv3sCdD1JOOVDq5N+SYy+CRc0spb836yo9APxV
+         8iUdfOQErBpTP8ZHSu1BiR/YHj2zqLl1GaFaitcJyPaSm1ny11xbDIbxLns+f2ZyWb10
+         KjdrUXzVcAUzrDZUDWbjRN49H/fcYc/eRLkt41YdC8vdranfUOC8LphWr2tAwjUPYtWW
+         /7MuczHZ6wd5Yf0jhw7jeD/hhMaj3VtO4CQ+VSz+e17u6u6dlg+vctmrmIyLUaV2DXCM
+         7+EcS61JMQOnoFPKg9yX1M+/ls7dLw/n1cISo6I213Jo+erUVDOa5OEbZMkRDmhK7i6B
+         ngwQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUkdvOufC7SMVttb2QesrvFDx3HyUK9aBqItvI6m2dYuEngGFApsf7iAif3NAtZLpFt0bg8Zx9axZ9+sf26@vger.kernel.org, AJvYcCUlXTuCKk9eTIzl5HuAo3kfzpQgsj+u8DX73ATg8K7Uj8Hk2bGtscmuCROEVmNkwoZ+/WaSU07kAdZW@vger.kernel.org, AJvYcCWnGGVMu/fyvFFf8PhJL11j2xUXE3Ra5L7fkX/T1Cc3UXJjPomxIv5RlgzgByMqmQlUZQ6MSdZK0fkPwhs=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz4xD68LIUnFTsiBnfunBJLMOADdLjBOB3oDKLcobzq4fTR8PK+
+	pjBm07dHKuYl6d2UtlYo+Y1cfkC3TaanrkRMoXkiAXZDZxHkxrV+nyse
+X-Gm-Gg: ASbGncuJkze6iYNyG3538JdNdlJ65EeBN8ry3tuNCcr4Ds6AiWZeiPDgnmjew7CkLM2
+	0h7RRcq3eSz06cAvVtqTzYyIfPaUMjw19CBNbEsalZvpADxMxoJH+fjRYKK211D1NkjMEs2cRo8
+	cCE1JbJvf9O5Ef0MlNJUz+W8zxNJqdLr0JwRxfvgqoyn/oiKxA9IM5cM69w3jyhl9CgqD7Gr6eZ
+	odk7OROaVt2g+NICrtyJpOFPxCBS+AEpgyWeqiDqFubmGbwEF9e+B7eLCPHTUFCOfSzJngj8ZLz
+	yIKKZS+LVIpnGSGFwCtCvinlDqwphUKb4XUyQzaJaX5daD1Hqq+mE3WxHl0Xa8p3UJZx+0okyvv
+	sHj5HdN5erAqo8fwwHJ2kSGWh2GoMj4fiU5csbNDRbmM=
+X-Google-Smtp-Source: AGHT+IGojFiOTvUwLHD/1y4nK1A5m7aje19PzaUW5T/89yIKMQ8IN/Gfix6eco2s4owdOo4nPtB+pA==
+X-Received: by 2002:a05:6402:3895:b0:60c:496a:c504 with SMTP id 4fb4d7f45d1cf-60ff3e20ba2mr4510936a12.23.1751816673810;
+        Sun, 06 Jul 2025 08:44:33 -0700 (PDT)
+Received: from kuzhyl-vm.mshome.net (46.205.205.61.nat.ftth.dynamic.t-mobile.pl. [46.205.205.61])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-60fcb1fb083sm4026953a12.62.2025.07.06.08.44.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 06 Jul 2025 08:44:33 -0700 (PDT)
+From: Oleh Kuzhylnyi <kuzhylol@gmail.com>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Sasha Finkelstein <fnkl.kernel@gmail.com>,
+	Javier Carrasco <javier.carrasco.cruz@gmail.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Javier Martinez Canillas <javierm@redhat.com>,
+	Janne Grunau <j@jannau.net>,
+	Igor Opaniuk <igor.opaniuk@gmail.com>,
+	Neal Gompa <neal@gompa.dev>,
+	Jeff LaBundy <jeff@labundy.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Oleh Kuzhylnyi <kuzhylol@gmail.com>,
+	linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v9 1/2] dt-bindings: input: touchscreen: add hynitron cst816x series
+Date: Sun,  6 Jul 2025 17:44:29 +0200
+Message-Id: <20250706154430.357948-1-kuzhylol@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PN3PR01MB9597:EE_|MAXPR01MB4343:EE_
-X-MS-Office365-Filtering-Correlation-Id: e5ef29dc-674d-415e-e7dd-08ddbc5621e5
-X-Microsoft-Antispam:
-	BCL:0;ARA:14566002|8060799009|7092599006|19110799006|15080799009|5072599009|6090799003|461199028|440099028|40105399003|39105399003|3412199025|10035399007;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?b2MzT2ZydTdxYU54Kzc1YW5udnAzTm9LTWVWRXBMV2k3aVhReGFXVWgxL05X?=
- =?utf-8?B?RHhXWjVZNFVWcmNxSUcybXBVVktlQ1hUUDFxbDZVTXFrbEtnMEJVSE54cWg4?=
- =?utf-8?B?dDVBNFBiWVJkRVJJMVJtbnZleWxMaTZJa3FmaVlnUUMvWklDQ2kzMDJEOHU5?=
- =?utf-8?B?NVBIeXV1bHBBanY4YVFtc0RlU3pKYWx1V2MxTVkwdGhzVGxybk03d0pzdm5I?=
- =?utf-8?B?QWVNUDF3aXZUWlhqc1R5bEJQdm8vVms3elZTcytQR1MrSThsQUt2NmlmeUcz?=
- =?utf-8?B?QjlUNkZlMmp1ejJPcjhlcXBoOXNyekhteGdoM2xxL2xzTWlmdm9DMjF0V2FM?=
- =?utf-8?B?VDJNYzlmWVIxVnYveTQvYkNJa0RydzJFSVNNMlFnT3Z3RzlNUkRWbzRvUEdD?=
- =?utf-8?B?SFZzYnRLTXRFckUwMVNCT21EcUhSekFZbkcyNWF5cFFPdjFYc2RhYnVlMVdv?=
- =?utf-8?B?MUEveTNMR2FMUlQvVE5mSTVYK0U5QStEVTVPSzZPby9GYXdWMk5zeWljNzFm?=
- =?utf-8?B?emZ2NnREbzVqM0hRUGhwb2o3VFJnTEUwUEFjbWVXWldZNnFOemIrdlhxS1Ry?=
- =?utf-8?B?TUFUODhOeXJMVytpZmtqWTFac2R1ZGlWRDlwcDBjUU9MQWdXazNvQzc4TWN5?=
- =?utf-8?B?eGtlblNyNXlYc2RKanMzTFVENzAxd2d2ZUxBZGdNWlAwdTV3dXp5bFQvdU40?=
- =?utf-8?B?Y25VcDhBNy91Uk9sL05PKzBSSkdzdHJiSS9mOW5hZ29TTC92cTBmVWZacHE3?=
- =?utf-8?B?bFBIWGpJelV5TXlWemtSWFJFNEF0YktHQnV5WDhsWTZRd3QvRzVVVmQ1NEVQ?=
- =?utf-8?B?eWNFbFQ5elJRSFJkUFFTamtmZUdURGFINEdlRkdaQ1dLcWhMdzYzZEU4bWRB?=
- =?utf-8?B?d2JhL0pWc3B5d3diMnAxRlc0dU9LOEQ2bW1jTER3RmttRU9zdzcrbEkxQlQw?=
- =?utf-8?B?NnRmRVJvTmhKTHRmcUV5RDJOd2hJeFBpWWJBT29YWGtibE5hbEFSRE9LS1pi?=
- =?utf-8?B?OXIyK2psajYveS9PWnBPTXROVDNkUFBlRzYzM0pWY1RvU0w2d1FvTTdnUVVY?=
- =?utf-8?B?R0J4VVVPeUVVM2RXdnVzNzl0Z1lzSGZzYlE3OE5Oc2M4NWlUUFExOFpzL0Zx?=
- =?utf-8?B?ejVBR1VtZnF5aHAzMEN0NkoyZ1Y3SW83SUJLakc2UHpDbTFIelZHazhuOTY1?=
- =?utf-8?B?RVBiZ0VyZEJidkdMSC9DckZCam55ZlNXUTZraC9VNENUVmtoaFhmZlh4VFFm?=
- =?utf-8?B?UnVnc0JTQWxZTHJwQ1AzbjBxZlhMNkVzWXExb0JGaUx3b0p3WjlKSmdZeGYy?=
- =?utf-8?B?aU9FendwcENwdU8wa0R0QlpaTkM4S1A1cmNwVno1c0EwK3kwNFVuNmF0VTFV?=
- =?utf-8?B?K0prSWljNXJsRExxUU4zUE9aUmxHWWtOZ0trRXlRbFNwVVp5dDAyNHFPU0N6?=
- =?utf-8?B?WHd2KzdHS2dtSmRQalVCNVJWL0VaZlA2VFJKWEljdmYwUkRub3BuQ1cyeUJL?=
- =?utf-8?B?d0tPVVpKbEF1YWE5S2g0MEZXRGprZG9ubWFsTjhLRmxDWE8vbDZ5NTlQcGVX?=
- =?utf-8?B?YUZnRnJSTXdpRytnMHZjS3lWam9xY2IwM2oxellEb04wZ044eGVoY2JkT3Rk?=
- =?utf-8?B?UXVvYVBPM3N4L2hiK2Y0TmduWEcxVnc9PQ==?=
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?eHl3Q3NqVU5OaElSaVZKYlFXd2dSMWZqb2VaNlMrMW1XSHNsRkx1d3IwY3NP?=
- =?utf-8?B?MjcvSHVOM1F3WXJUc251M2czN2Yxbmx5L0xBY05WNXQyMHRLanllZU5kemVr?=
- =?utf-8?B?TWhHT0M1blc4S1B5ajZJMVZvaXEwOWJNSk5mcVh4OEdyQ1F4UEU5azFEeXRF?=
- =?utf-8?B?WTIvZVNSV3pHM3IyL1FEM08xOE9rKzRHNFdDeEtJT2Z1RDRmc25xeFJidWl6?=
- =?utf-8?B?WUlucGh3SG5laCtWT0lYUEtpN0Yxd3ZFa3Z3NzdmNHFsRnJjcFEyOWFHWmZO?=
- =?utf-8?B?Q3c4Tis1Q2hqa05qQXVKMWt0K3hRcUt4akZTOEZXT05IeG1QaGpLV09VeXhX?=
- =?utf-8?B?VEpYYStWOTB3bVM2Wnlzbm5WN0g3S1hjY1FPR0tYTm9Kc28vRUJLUGx6TjN2?=
- =?utf-8?B?WHM5UW5SbUx1VXBoODVOUkdtZnNCU29jMEREd2hlemJ0ZXBnT1BTTjFVWE9n?=
- =?utf-8?B?WHJkanB6ZVFEdHRvcVVDQTVxSWxTbVQ2c2tqWUF5UFZ0TnhJQUFjUnJsWXJS?=
- =?utf-8?B?Qyt4VytoZkhweUZmTkNFKzgzWkhHTStSalgwc1hhRTJ5a3JENTUzMGI0Rkdx?=
- =?utf-8?B?MWRzak44aEh4TW9ydE1aYUJXakhzZzUvYjI4dDkrZVVqS3d6S01rOEZPRWla?=
- =?utf-8?B?NFRZMHRwWmZ3d2xDYzZtVjh2WXgyMFREaGJpeEx3UlJGbGN6TjRzZi9saUhP?=
- =?utf-8?B?ZGRuSjk4YUpiRlQ4WFM1QVY1KzVvS0tkQ1JtQ0EwTVBOQXlkRmlwY0RQVElw?=
- =?utf-8?B?UkprV01TMFd3SklWNFhoRXFCRlJVbUZUTDF1SndWYy9Ud0xEWGRWQkdkWDdD?=
- =?utf-8?B?TnhuQXpJTjVZZitGc1MxNE5yeUMxWkdCcUMrZDltRU1JWXlpY3RTOUJPUnV0?=
- =?utf-8?B?c2NyUTE4Z3p0OUd6N3Q0U2JxeEsxUVY0SG9pclRWMXZybHNaamprOEhhOFlR?=
- =?utf-8?B?UnI1NGtkaW5CaGFYZmMva0lWV0dIblZNa0RYUnFKTEN6Z3JXTGZBdnFDWmwr?=
- =?utf-8?B?Wms3VVJTS2Qyc3A0amVyNTFOMm8xOUR6SXlEd1ozZ1hmUGhOcHpLS0lkZys4?=
- =?utf-8?B?V2o1dHpRaU5rMVdGeXV0ekZ2NXV6dHpJWm9JWjdXQ1Fta3lHa2dLQ3FWUGF1?=
- =?utf-8?B?MmFERXVMS25DbFcyd2MxTkdZcDBTTytHdzBqWVM4ckF1WjBMczBrVmZNTTc1?=
- =?utf-8?B?Q1h1R1dGblFZUEovYVR5V0NRWlJ3bERWSzdqN2VMWTZzRHBlUWxmRGovdVNF?=
- =?utf-8?B?TlRUKzdSWVJ6YlZnaEVHa2w0cWVNSHBiTlpLS2ZmbDFMSkJwa1VSa1pGa2Nz?=
- =?utf-8?B?U2JES2VsNmJyQWgvYXM4N3VyaCt5U1pTdHRKOFVneXUxQWh4SUJtUHNkSUlw?=
- =?utf-8?B?M0Z3dG5mOCtlMGFLRjJ4Vm9sN1kyZTBaZFdKL3cxa2NYS3JHTUFTUDN5S2Rt?=
- =?utf-8?B?R25RMndmRjVNMHg2L2pveWxUZGxpT3Q3bUZGcWlITTFmdGxwMnVHQmdSNUJD?=
- =?utf-8?B?L2Y2a0ZvUW5samR5NmE3d0M0VFp6dW9VamJheGYwUi9wT281aU5xcGViUXFG?=
- =?utf-8?B?Yi80ZWRVaGd6cEZWclYyQ1NLZjA3NDhOU3BXbU9TR2Q3eVN3UXk0T2h1bUpl?=
- =?utf-8?B?TW10VWtVaDdyODZpdEdSSEgzLzE1L0QxczUrNGN0YUJoWHAvcWhtLzZPN1la?=
- =?utf-8?B?bzNhSy9sS1VJa1NHUElZZndnOURudXF6dkxtRkFmUVp1eTZibGVKTmNvdGRJ?=
- =?utf-8?Q?Mz6Z1f3o6ANKETOQ1euqAFsYnWrorMUPplckSZQ?=
-X-OriginatorOrg: sct-15-20-8813-0-msonline-outlook-f2c18.templateTenant
-X-MS-Exchange-CrossTenant-Network-Message-Id: e5ef29dc-674d-415e-e7dd-08ddbc5621e5
-X-MS-Exchange-CrossTenant-AuthSource: PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jul 2025 06:27:08.0578
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MAXPR01MB4343
+Content-Transfer-Encoding: 8bit
 
+Add documentation for Hynitron CST816x series touchscreen bindings.
 
+Signed-off-by: Oleh Kuzhylnyi <kuzhylol@gmail.com>
+---
+Changes in v9:
+ - Adjust linux,keycodes: Add items with event descriptions, and remove maxItems
+ - Adjust dt example: Fix four-spaces indentation
 
-On 06-07-2025 12:18 am, Saihaj Johal wrote:
-> Hello,
-> I recently got a Nintendo Switch 2 Pro Controller that is not currently 
-> directly supported by the kernel like how the Switch 1 controllers are. 
-> Looking in "hid-ids.h", there is no product ID for the new controller (got 
-> 0x2069 from "lsusb -v"). The device class shows as miscellaneous device, and 
-> the controller does not show the player LEDs to show it is active (it only 
-> charges over USB, alongside showing in "lsusb" as well as showing as a USB 
-> audio device for the headphone jack on the bottom). However, I have managed to 
-> get it to work as a HID device using this website (https://
-> handheldlegend.github.io/procon2tool/) which uses WebUSB to send the right 
-> commands to make the controller turn on fully. After enabling, this setup 
-> seemingly works with the existing evdev system, although with some bizarre 
-> changes like the left stick's up and down being reversed (at least in KDE's 
-> game controller settings). The first step would likely be to add the device ID 
-> to "hid-ids.h", but from there where should I go in order to perhaps work on 
-> full support? I assume anything would work on the things discovered already by 
-> the WebUSB enabler tool, however I am very new to C and kernel development in 
-> general. 
+Changes in v8:
+ - Update the bindings title to indicate CST816x series support
+ - Rephrase bindings description to describe controller more precisely
+ - Remove redundant description field from the reset-gpio property
+ - Completely remove cst816x,gestures object with all dependants
+ - Apply linux,keycodes to represent gestures (slide up, slide down, etc.)
+ - Extend dt example with linux,keycodes
+ - Align indentation in dt example to use four spaces
 
-Simply mailing the mailing list won't get you replies. You should also email
-relevant maintainers.
+Changes in v7:
+ - Introduce the gestures field along with its sub-fields
+ - Make reset-gpio property optional
+ - Extend main description
+ - Remove "touchscreen" reference
 
-Ccing them
+Changes in v6:
+ - Fix minor tweak adviced by Krzysztof:
+ - Move additionalProperties field after required
+
+Changes in v5:
+ - No code changes
+
+Changes in v4:
+ - Add Conor's Dooley "Reviewed-by" tag
+
+Changes in v3:
+ - Rename filename to hynitron,cst816s.yaml
+ - Update description with display details
+
+Changes in v2:
+ - Apply pin definitions and DT headers
+ - Use generic name for DT node
+ - Drop status field
+
+ .../input/touchscreen/hynitron,cst816x.yaml   | 65 +++++++++++++++++++
+ 1 file changed, 65 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/input/touchscreen/hynitron,cst816x.yaml
+
+diff --git a/Documentation/devicetree/bindings/input/touchscreen/hynitron,cst816x.yaml b/Documentation/devicetree/bindings/input/touchscreen/hynitron,cst816x.yaml
+new file mode 100644
+index 000000000000..72d4da636881
+--- /dev/null
++++ b/Documentation/devicetree/bindings/input/touchscreen/hynitron,cst816x.yaml
+@@ -0,0 +1,65 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/input/touchscreen/hynitron,cst816x.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Hynitron CST816x Series Capacitive Touch controller
++
++maintainers:
++  - Oleh Kuzhylnyi <kuzhylol@gmail.com>
++
++description: |
++  Bindings for CST816x high performance self-capacitance touch chip series
++  with single point gesture and real two-point operation.
++
++properties:
++  compatible:
++    enum:
++      - hynitron,cst816s
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  reset-gpios:
++    maxItems: 1
++
++  linux,keycodes:
++    minItems: 1
++    items:
++      - description: Slide up gesture
++      - description: Slide down gesture
++      - description: Slide left gesture
++      - description: Slide right gesture
++      - description: Long press gesture
++
++required:
++  - compatible
++  - reg
++  - interrupts
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++    #include <dt-bindings/input/linux-event-codes.h>
++    #include <dt-bindings/interrupt-controller/irq.h>
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++        touchscreen@15 {
++            compatible = "hynitron,cst816s";
++            reg = <0x15>;
++            interrupt-parent = <&gpio0>;
++            interrupts = <4 IRQ_TYPE_EDGE_RISING>;
++            reset-gpios = <&gpio 17 GPIO_ACTIVE_LOW>;
++            linux,keycodes = <KEY_UP>, <KEY_DOWN>, <KEY_LEFT>, <KEY_RIGHT>,
++                             <BTN_TOOL_TRIPLETAP>;
++        };
++    };
++
++...
+-- 
+2.34.1
+
 
