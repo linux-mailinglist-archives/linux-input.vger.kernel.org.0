@@ -1,210 +1,142 @@
-Return-Path: <linux-input+bounces-13396-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13397-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAAA1AFA804
-	for <lists+linux-input@lfdr.de>; Sun,  6 Jul 2025 23:49:33 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7548BAFA866
+	for <lists+linux-input@lfdr.de>; Mon,  7 Jul 2025 01:34:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 26280168007
-	for <lists+linux-input@lfdr.de>; Sun,  6 Jul 2025 21:49:34 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C4FF6169915
+	for <lists+linux-input@lfdr.de>; Sun,  6 Jul 2025 23:34:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4ABC91E3DE5;
-	Sun,  6 Jul 2025 21:49:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9DCA81F5828;
+	Sun,  6 Jul 2025 23:34:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=emily.st header.i=@emily.st header.b="QfJ8QprH";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="GcKKWDbp"
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b="fHqd48Hj"
 X-Original-To: linux-input@vger.kernel.org
-Received: from fout-b4-smtp.messagingengine.com (fout-b4-smtp.messagingengine.com [202.12.124.147])
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C18F9846F
-	for <linux-input@vger.kernel.org>; Sun,  6 Jul 2025 21:49:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.147
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751838570; cv=none; b=qy0gYPV+pC09TMIVRuM8N1AQ+wGP4x7AGocbvFW7IRv6kpfQLiwbobZ+QmBw7MMW2SZ1ODAw0R72ToespQiLfFjbasIr4OMBdgxKFxgJBIY4wg/9dOmE8llHOiMBPyRNdQ4+vqoYq52aDUzGXEwd9Ccxn/VasaFfNzSIAETbKrM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751838570; c=relaxed/simple;
-	bh=XaX4Qvovbh3Mt9VVfCSz7HyrkNQGqH1+eA3/Ax9VxyA=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=r6d160fLjvOH1fKij1EeRRZiRAKYjwXZkxmzHVDtGZYCmMy0ygvKCAPyVs9ONr6R4oBsUVsJqDzkFL/5l1MEBxgDOje6Y2z242jaYQGM8bVt5AVnjB2m5nkXKjX4OtaPlT3vaHD6M7YH8V+u+FuHVcqivT8Uj3aUtMLhAGloadg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=emily.st; spf=pass smtp.mailfrom=emily.st; dkim=pass (2048-bit key) header.d=emily.st header.i=@emily.st header.b=QfJ8QprH; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=GcKKWDbp; arc=none smtp.client-ip=202.12.124.147
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=emily.st
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=emily.st
-Received: from phl-compute-12.internal (phl-compute-12.phl.internal [10.202.2.52])
-	by mailfout.stl.internal (Postfix) with ESMTP id 808B91D00167;
-	Sun,  6 Jul 2025 17:49:26 -0400 (EDT)
-Received: from phl-imap-08 ([10.202.2.84])
-  by phl-compute-12.internal (MEProxy); Sun, 06 Jul 2025 17:49:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emily.st; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1751838566;
-	 x=1751924966; bh=XaX4Qvovbh3Mt9VVfCSz7HyrkNQGqH1+eA3/Ax9VxyA=; b=
-	QfJ8QprHiPh6CA3kF6hbnkZdVI/XeDQ+KUnNRcG5/2jrwNp/xgRwIRxxaaqCigQ8
-	iUGijok5zad13QCMMF0gGk0TcLefBzLoLjGyBbTHSLPGXSVeeZPWMs5l7OvzvlgM
-	7bFYSGDa1tOip3//dv8SeMTCudFG2Fzr9EbrJBPgY6uGCVkje4XIX8cxH7sKip0e
-	e2qJVoTC6smUxymh7X578Ut8lFmImgr7n5TTI7iT9RxSk1wtO+/T0dyrV6Zfq36A
-	Xu5oNyFaYEVOtQQRA+PgV1PodiscVu1ZVRHq7mii0LjsoeKMYW5rGl8jElOYEueZ
-	gHcu0uS19hIXDLJ2If52MQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1751838566; x=
-	1751924966; bh=XaX4Qvovbh3Mt9VVfCSz7HyrkNQGqH1+eA3/Ax9VxyA=; b=G
-	cKKWDbpmDwBgmb5HOzIiWvS+v+XePW1U/t0OVYsG5YCrDewLzpoXkRbQI873pIhC
-	Qlok6d4UJndI1P3SvLTeZlghJXrYz/qbPzDZx2vAdJyiGZzywJArTONijJCVgrgY
-	OdTmqjHBLFE4dXy0JNpgxudSzExZM4lPAuoxW08ir/7gO30AlvdFl7PYupB2RZt2
-	wr+fJVJdRLxWGgonzTR0EyO5BNg1OciaoymD0+MRMeCpPJto/w4ijLdRudApgoAb
-	zldB2TBNgkSvug/lLJ/XBWZy+JexKtaQ8jLyyEk3hhph88pi2eoW5cEkJ9pX4AV7
-	qayi4wXdtEh/H5ORWxwlQ==
-X-ME-Sender: <xms:Ze9qaBZ7JVN32Q1-fn-nCSmQjYaN2XRBdUZJ8g9-IBtto6bsi-2WGg>
-    <xme:Ze9qaIZIyedSa2_Kb-wnw7lBIfLsgDsBNh_cYEYN4gPB-2YzOOfAPtdwoFLJldwzE
-    xdN1iDgQVZmTo0tWw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdeftddtfecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenogfuuh
-    hsphgvtghtffhomhgrihhnucdlgeelmdenucfjughrpefoggffhffvvefkjghfufgtgfes
-    thhqredtredttdenucfhrhhomheplhhinhhugiesvghmihhlhidrshhtnecuggftrfgrth
-    htvghrnhepleekffefgedvgeehjeeuvdektddvjeelgfegffehvddugeeiledukeehtdfh
-    fedtnecuffhomhgrihhnpehgihhthhhusgdrihhonecuvehluhhsthgvrhfuihiivgeptd
-    enucfrrghrrghmpehmrghilhhfrhhomheplhhinhhugiesvghmihhlhidrshhtpdhnsggp
-    rhgtphhtthhopeekpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopegujhhoghhorh
-    gthhhotghksehgmhgrihhlrdgtohhmpdhrtghpthhtoheprhihmhgttghlvghlsehgmhgr
-    ihhlrdgtohhmpdhrtghpthhtohepsggvnhhtihhssheskhgvrhhnvghlrdhorhhgpdhrtg
-    hpthhtohepjhhikhhosheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepghgrrhhgrggu
-    ihhthigrtdeksehlihhvvgdrtghomhdprhgtphhtthhopehnrgguihgrsehnhhhprdhshh
-    dprhgtphhtthhopehpvghrshhonhgrlhesshhjohhhrghlrdhnvghtpdhrtghpthhtohep
-    lhhinhhugidqihhnphhuthesvhhgvghrrdhkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:Ze9qaD-dxI5jg9jLtvesGlQtzUABh0h7ElcwzGszWLBA-cj000t64Q>
-    <xmx:Ze9qaPr59EtpLrm6mEPyo5iDDgU6WMpQJvClUqWLomriGKphYbCwaQ>
-    <xmx:Ze9qaMrPoOq8UnfLKlC3yhFvYrj74_vSwim6_O6f1XFgsiabcQxzQw>
-    <xmx:Ze9qaFSRRpxR6JY8Maj7Eg4iaA8ldLaTJ0CLHq4K_zSixAOAuo14sg>
-    <xmx:Zu9qaM-KwcVQI2RP8ZnS0FbkucROvBWa4xWzh8hh2x0uKQpueq7rJ4Eq>
-Feedback-ID: i7ef146af:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id B2DE92CE0071; Sun,  6 Jul 2025 17:49:25 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E572919005E;
+	Sun,  6 Jul 2025 23:34:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1751844862; cv=pass; b=jcuZfsZJ+hk8WrGYA0NDbelXBqgPflxZSX3vFRMQuT1NFEl+f/ACyTWYdSTsYkMFQxh1+Wq9JoWtG56NmR+XhxsIc6CASMLrE1+3PtGUv3biglAGjBBZSn36pmJEZWzWlBg78SzXK9AnbZeeKFWJWraZhtusprwreu7JZ6neBoY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1751844862; c=relaxed/simple;
+	bh=itjhecGpCikTA7dpGfNaSXg7eAyxUUlQBMvigTlb97k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BqwzD+wYdi4Y72fHoqPnDTJuufPjwGr5cFE+6cbhkFQYBn3Q3S41FHAt4zUfwVw0YxJBzVtv8mzL79Q1HYFkHRN09kZPjAUmApeQqTHXywlzq8aUJwzvfjoQ77kUXlvDmsysSdlS7cF40exNbks8AZSPw0HBguZP4FB/i2dMmHw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b=fHqd48Hj; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+ARC-Seal: i=1; a=rsa-sha256; t=1751844824; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=BGHqLupuRiyOQ1O3SOFWjX1OzBR9/2L7EWvrdj4HC3DJ/jytlmR2oTGkvdkTTkiGWcc8Ijn6VTC1kcu+TMse5Y80UZe0qUlI6QQChhRRH7LGlSMsZEy+GsbqZ/7lN/ntpebKG6WsrhazZdgqCCUDZ1MmH2+12uixVLJqE9lKYMA=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1751844824; h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=itjhecGpCikTA7dpGfNaSXg7eAyxUUlQBMvigTlb97k=; 
+	b=FSCPsjbHM/QxheLzaj2IeDe18PIhW0v9YYck/XB+AhqrAH+Igv0HShxRaF+Te00iJIxc6hvX71Zx45J6YXOVfO2/989rxIPCP8vy9sQrfNb1BC6Cpuo70EQrezls9lAIEly5Kwl7b0jx86Nr3F84LgSqfV/XV79qnmFxzs4Bulg=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=sebastian.reichel@collabora.com;
+	dmarc=pass header.from=<sebastian.reichel@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1751844824;
+	s=zohomail; d=collabora.com; i=sebastian.reichel@collabora.com;
+	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
+	bh=itjhecGpCikTA7dpGfNaSXg7eAyxUUlQBMvigTlb97k=;
+	b=fHqd48HjBTov/+ORYD0F1yxkLSXlu7JcNS+HeYvgngpp78UczV/swrwXMnSBXcsn
+	ZpocJNHdOcJepk9PPLo/xl+BkCf0242YbOp1zk0tR52eccGEVyS44J/A/RCSaEmq9fN
+	4ZqtNx/s+j96u+Ghlcc7+UlC+M4VRjM7Z5H2gBmo=
+Received: by mx.zohomail.com with SMTPS id 1751844821754603.230935627197;
+	Sun, 6 Jul 2025 16:33:41 -0700 (PDT)
+Received: by venus (Postfix, from userid 1000)
+	id 2C647180F14; Mon, 07 Jul 2025 01:33:36 +0200 (CEST)
+Date: Mon, 7 Jul 2025 01:33:36 +0200
+From: Sebastian Reichel <sebastian.reichel@collabora.com>
+To: Samuel Kayode <samuel.kayode@savoirfairelinux.com>
+Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Frank Li <Frank.li@nxp.com>, imx@lists.linux.dev, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-input@vger.kernel.org, 
+	linux-pm@vger.kernel.org, Abel Vesa <abelvesa@kernel.org>, Abel Vesa <abelvesa@linux.com>, 
+	Robin Gong <b38343@freescale.com>, Robin Gong <yibin.gong@nxp.com>, 
+	Enric Balletbo i Serra <eballetbo@gmail.com>
+Subject: Re: [PATCH v7 5/6] power: supply: pf1550: add battery charger support
+Message-ID: <i7qehdo46eegyj7ebp4hetr7jtwkxceoate6tqw6aukw4cbgsl@pl6lgh4k5m4o>
+References: <20250612-pf1550-v7-0-0e393b0f45d7@savoirfairelinux.com>
+ <20250612-pf1550-v7-5-0e393b0f45d7@savoirfairelinux.com>
+ <xgwx65axwiebh27hrq7rluuf7jynb7v4o77mf2zztsf64bx3bw@iagwzeumk2su>
+ <aFwFhYoaWoSXcFdR@fedora>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ThreadId: Tfbf56cbb9d0b83fe
-Date: Sun, 06 Jul 2025 14:48:43 -0700
-From: linux@emily.st
-To: "Aditya Garg" <gargaditya08@live.com>,
- "Saihaj Johal" <personal@sjohal.net>, linux-input@vger.kernel.org
-Cc: "Daniel J. Ogorchock" <djogorchock@gmail.com>,
- "Nadia Holmquist Pedersen" <nadia@nhp.sh>,
- "Ryan McClelland" <rymcclel@gmail.com>, "Jiri Kosina" <jikos@kernel.org>,
- "Benjamin Tissoires" <bentiss@kernel.org>
-Message-Id: <0bc102b6-cdd0-4f1f-910d-db752c52eb85@app.fastmail.com>
-In-Reply-To: 
- <PN3PR01MB95979E06C65B4BE4051BF9B7B84CA@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
-References: <3642543.dWV9SEqChM@saihaj-mainpc>
- <PN3PR01MB95979E06C65B4BE4051BF9B7B84CA@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
-Subject: Re: hid_nintendo Switch 2 Pro Controller support - where to start?
-Content-Type: text/plain
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="hkm4pffdfaovyioh"
+Content-Disposition: inline
+In-Reply-To: <aFwFhYoaWoSXcFdR@fedora>
+X-Zoho-Virus-Status: 1
+X-Zoho-Virus-Status: 1
+X-Zoho-AV-Stamp: zmail-av-1.4.3/251.827.75
+X-ZohoMailClient: External
+
+
+--hkm4pffdfaovyioh
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v7 5/6] power: supply: pf1550: add battery charger support
+MIME-Version: 1.0
 
-On Sat, Jul 5, 2025, at 23:27, Aditya Garg wrote:
-> On 06-07-2025 12:18 am, Saihaj Johal wrote:
->> Hello,
->> I recently got a Nintendo Switch 2 Pro Controller that is not current=
-ly=20
->> directly supported by the kernel like how the Switch 1 controllers ar=
-e.=20
->> Looking in "hid-ids.h", there is no product ID for the new controller=
- (got=20
->> 0x2069 from "lsusb -v"). The device class shows as miscellaneous devi=
-ce, and=20
->> the controller does not show the player LEDs to show it is active (it=
- only=20
->> charges over USB, alongside showing in "lsusb" as well as showing as =
-a USB=20
->> audio device for the headphone jack on the bottom). However, I have m=
-anaged to=20
->> get it to work as a HID device using this website (https://
->> handheldlegend.github.io/procon2tool/) which uses WebUSB to send the =
-right=20
->> commands to make the controller turn on fully. After enabling, this s=
-etup=20
->> seemingly works with the existing evdev system, although with some bi=
-zarre=20
->> changes like the left stick's up and down being reversed (at least in=
- KDE's=20
->> game controller settings). The first step would likely be to add the =
-device ID=20
->> to "hid-ids.h", but from there where should I go in order to perhaps =
-work on=20
->> full support? I assume anything would work on the things discovered a=
-lready by=20
->> the WebUSB enabler tool, however I am very new to C and kernel develo=
-pment in=20
->> general.=20
->
-> Simply mailing the mailing list won't get you replies. You should also=
- email
-> relevant maintainers.
->
-> Ccing them
+Hello Samuel,
 
-Hi, in 2022 I spent some time customizing the existing `hid_nintendo` dr=
-iver to add support for a few more first-party Nintendo controllers made=
- for the Nintendo Switch. I no longer work on this, since my day job kee=
-ps me very busy, but I can try to share a little bit about the obstacles=
- I encountered.
+On Wed, Jun 25, 2025 at 10:19:49AM -0400, Samuel Kayode wrote:
+> The pf1550 charger receives a VBUS power input which can be provided eith=
+er by
+> an AC adapter or a USB bus. A depleted battery is charged using the VBUS =
+power
+> input (VBUSIN). When no power is supplied to VBUSIN, the pf1550 switches =
+the
+> load to the connected non-depleted battery.
+>=20
+> I could have two power_supply_desc, one for battery and one for the exter=
+nal
+> power?
 
-When I first encountered the `hid_nintendo` driver, it was written very =
-specifically to handle the original first-party Nintendo Switch controll=
-ers, most specifically the Joy-Cons. Part of what I did was to attempt t=
-o generalize the driver somewhat to make it easier to add support for ot=
-her kinds of controllers. I did **not** succeed in completing this work,=
- but I did make enough progress to succeed in my goal of supporting the =
-N64 and Genesis controllers. And I know that some people were successful=
- in using the driver that I forked.
+That's acceptable. But don't you have a fuel-gauge for the battery?
+If you register two POWER_SUPPLY_TYPE_BATTERY devices, then your
+board should have two batteries. If you have a fuel-gauge it will
+very likely provide much better battery data then anything you get
+out of pf1550.
 
-Although I was not directly involved in incorporating this code into the=
- Linux kernel again, I am gratified that people found it useful enough t=
-o incorporate.
+Greetings,
 
-I don't really know to what extent it's going to be necessary to rework =
-the existing driver, or whether it's appropriate to create a new driver =
-for the second generation of the Nintendo Switch input peripherals. Sinc=
-e this is a new generation of hardware device, there may be some differe=
-nces in how it communicates over USB or Bluetooth. That is a bit beyond =
-my knowledge, and I don't know if that information has been fully revers=
-e engineered yet. It probably should not be taken for granted that what =
-worked with the original Nintendo Switch controllers will work with the =
-second generation as well. I would defer to the experts on this list.
+-- Sebastian
 
-Assuming that you want to experiment simply with trying to adapt the cur=
-rent driver to handle the newer peripherals, you will first need to modi=
-fy the device IDs, as you've already discovered, in `hid-ids.h`. You wil=
-l also need to modify the driver slightly to "claim" those peripherals (=
-to tell the input subsystem which driver handles those device inputs). I=
-f you are successful in allowing the existing driver to talk to the new =
-Switch 2 controllers, then you must determine the numerical codes the co=
-ntroller emits when certain inputs are used and to map those to the actu=
-al buttons being used. Specifically, you must find a way to intercept th=
-e numerical codes that are coming from the controller, determine which i=
-nputs those control codes map to, and then calling the API of the kernel=
- to create the correct inputs. I recall that when I did this, I think I =
-read the codes out of the raw input device exposed by the kernel (somewh=
-ere in /dev/input, I think?), and then wrote down on paper which codes I=
- saw when I pressed which buttons. Then I followed the existing pattern =
-of how the kernel driver mapped those input codes to the existing kernel=
- inputs. The current driver has many good examples of this in action.
+--hkm4pffdfaovyioh
+Content-Type: application/pgp-signature; name="signature.asc"
 
-**Take all this with a grain of salt.** I did this work years ago. I was=
- never really a Linux kernel developer, and I am very rusty on how the d=
-river worked. I can only remember the generalities, and I would again de=
-fer to the experts on this list to correct any mistakes I've inadvertent=
-ly added here. I hope this helps since I was doing a very similar thing =
-to what you're doing now. Best of luck.
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmhrB88ACgkQ2O7X88g7
++po93Q/6A6bYXRf5lstEnL9kwKOfTphsoJCMbORUtvQ+oD/fFxd9tJ2CL8+hZ9GZ
+++4xcLZp7Qc6HnLXF3OjnZBjCsCVUd/uUyfH6fU6ZqrXqLTJC2hFHHsuIvJUw3zZ
+GQY06j7LYRgvXuM2orQoxqtyi1x/GnajlmYzeUzT5NvvWWyXPE+rOPea7DeLghvM
+VVtlcnRIFQO2K/ZS6U0reUFDlzzjX+BfiyRDciBRIj9Xb8L5vwEiUdKXe3edZXyR
+xZ9/shpsmELBMo2QNjKN3dT9ReGqX+z/MxubOhR5CdK54nYsxl5fSanVIvNZ9AF3
+0sMvhYm1Iop4JZ6pCJhCLd2GCrAsys1LQ0f/6ppYU+zH4DHYO1+gb/g/UN7uFdvy
+aGl1q3E2XBQXUdVPsoHCuPId77Om7+opGaxk+vEtCw0H1a/1cmLvkfvkShy+XqKP
+nb73pvL9o2zECr6zeb+M2Ff+/1zv+R2p2HVfv51CHYC/LHvZcs+2UVQ+ZlqOEB+X
+Vr/9khKhm2E/WOPoINRAWbu17bvy5TCfyAej6hJbAB/TGkNv1FjYBmxmLgb1BwDT
+NN9dJVyBoDh5hqn9qAvs/cP40RWuP/dABj6GZ6AHYWaJMHOb4eC7zavrvWSBemWn
+Sow9U1YcnEF2WcTpp6WtK0PO8T83Gae4fY1iRlWLjN2tkqYffUE=
+=hZ0x
+-----END PGP SIGNATURE-----
+
+--hkm4pffdfaovyioh--
 
