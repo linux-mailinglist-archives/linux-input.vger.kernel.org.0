@@ -1,118 +1,185 @@
-Return-Path: <linux-input+bounces-13402-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13403-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id B341FAFB71A
-	for <lists+linux-input@lfdr.de>; Mon,  7 Jul 2025 17:19:35 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id EC27AAFB8B8
+	for <lists+linux-input@lfdr.de>; Mon,  7 Jul 2025 18:35:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EEB0E3A8D95
-	for <lists+linux-input@lfdr.de>; Mon,  7 Jul 2025 15:19:08 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 51E591AA0D1F
+	for <lists+linux-input@lfdr.de>; Mon,  7 Jul 2025 16:35:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB1012E1C5C;
-	Mon,  7 Jul 2025 15:19:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2CCD9221F1F;
+	Mon,  7 Jul 2025 16:35:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=savoirfairelinux.com header.i=@savoirfairelinux.com header.b="mnUIlcp6"
+	dkim=pass (2048-bit key) header.d=sjohal.net header.i=@sjohal.net header.b="DMQlz5CP"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail.savoirfairelinux.com (mail.savoirfairelinux.com [208.88.110.44])
+Received: from smtp-190f.mail.infomaniak.ch (smtp-190f.mail.infomaniak.ch [185.125.25.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9AA829E0F1;
-	Mon,  7 Jul 2025 15:19:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=208.88.110.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43913155A25
+	for <linux-input@vger.kernel.org>; Mon,  7 Jul 2025 16:35:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.125.25.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751901568; cv=none; b=YIzWNZc7ce4C7NrTEO8ftyXMRT7oDczzSqARmi46qm50cAjt9KXBwQ4+Dxxg1ghcu/nIPL7N5BhqPzMbpRegqP0yGmdiJYQQCrkrh6Mvi/Ak6zNIfo41hMJtpzB1pjZhrHoQ1O7AJDrwZ4Ba6lZxtCDTMbgxpRstfnHweImJETI=
+	t=1751906137; cv=none; b=qiMfwNk1PSH4i14jH40J7ovSXuDXHm5Dl8nozz9/Bb5I5ixdgewFkLj87yx3cQpocDpHAZAlw0H3gf8PWeBdq7KDTGfh7e4yn6neODAdmEnyGRaPsgl3aHXWiUEsV0OI+mVa/DL0xAgYPppgg7yX2QUOPT8VEl9OcTWti/yH4Wc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751901568; c=relaxed/simple;
-	bh=tpkTBLlGyBed8stpAJAlUgzSTNIlCkTBXutlqDe25tA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gvhxayO4wPpjab/3DgBFz9J6ayEfGOMvu/Waer7nNyMOnG3o+aGxBQt+9hIuhVKnzT7xuHeB68aq9OKsU35WAvxIAGC0Gv9kQW6T06wbbYPN0KXav/XGhAvcuHDVhf6wagXOdW1tgoq/Np6YuubbEHaoEdGuAhTP0TSk2Tf1CcE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=savoirfairelinux.com; spf=pass smtp.mailfrom=savoirfairelinux.com; dkim=pass (2048-bit key) header.d=savoirfairelinux.com header.i=@savoirfairelinux.com header.b=mnUIlcp6; arc=none smtp.client-ip=208.88.110.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=savoirfairelinux.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=savoirfairelinux.com
-Received: from localhost (localhost [127.0.0.1])
-	by mail.savoirfairelinux.com (Postfix) with ESMTP id 94C1F3D87636;
-	Mon,  7 Jul 2025 11:10:19 -0400 (EDT)
-Received: from mail.savoirfairelinux.com ([127.0.0.1])
- by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavis, port 10032)
- with ESMTP id RXGVUZCcsYqL; Mon,  7 Jul 2025 11:10:19 -0400 (EDT)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.savoirfairelinux.com (Postfix) with ESMTP id 124E33D8763B;
-	Mon,  7 Jul 2025 11:10:19 -0400 (EDT)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.savoirfairelinux.com 124E33D8763B
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=savoirfairelinux.com; s=DFC430D2-D198-11EC-948E-34200CB392D2;
-	t=1751901019; bh=0aLD43uKvFCDnAlmsPAwmEzg9CJOxrOo22s1hwxDcjw=;
-	h=Date:From:To:Message-ID:MIME-Version;
-	b=mnUIlcp6yxDLXPETEAONZ2EVz5p5fLXqjxrXOiWPta2jbFMcubESKsE2/R+IyF3aa
-	 W+4l/Qk/adEJGyDl+Ov/smsRqzG1g4YuUVbc0IJaJf3qAWAWkALcZh2gV3NiTxyinU
-	 gpe5GbOGgYBWNLrQVVfDt2pYxPQQUD/rGLxZf1M/xRok9SvFRcmvhDT4KYHQiIW1di
-	 Yy9Opts23Qz/XKXy85OGek8kFuGy7PiW587OuUbNLVZHIpwydeB9bzMFgqVKBtL9Xa
-	 0lLSSJWS1ieY6JbbTYjkZ0svSGo9PGW8lnqRP/YlC6usjwacNmhZOggiJcgyWHN5Mi
-	 4tX4lAjPBHhYQ==
-X-Virus-Scanned: amavis at mail.savoirfairelinux.com
-Received: from mail.savoirfairelinux.com ([127.0.0.1])
- by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavis, port 10026)
- with ESMTP id wZubokswAwAj; Mon,  7 Jul 2025 11:10:18 -0400 (EDT)
-Received: from fedora (unknown [192.168.51.254])
-	by mail.savoirfairelinux.com (Postfix) with ESMTPSA id B11DE3D87636;
-	Mon,  7 Jul 2025 11:10:18 -0400 (EDT)
-Date: Mon, 7 Jul 2025 11:10:17 -0400
-From: Samuel Kayode <samuel.kayode@savoirfairelinux.com>
-To: Sebastian Reichel <sebastian.reichel@collabora.com>
-Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Frank Li <Frank.li@nxp.com>, imx@lists.linux.dev,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-input@vger.kernel.org, linux-pm@vger.kernel.org,
-	Abel Vesa <abelvesa@kernel.org>, Abel Vesa <abelvesa@linux.com>,
-	Robin Gong <b38343@freescale.com>, Robin Gong <yibin.gong@nxp.com>,
-	Enric Balletbo i Serra <eballetbo@gmail.com>
-Subject: Re: [PATCH v7 5/6] power: supply: pf1550: add battery charger support
-Message-ID: <aGvjWbd9FRTuqWNN@fedora>
-References: <20250612-pf1550-v7-0-0e393b0f45d7@savoirfairelinux.com>
- <20250612-pf1550-v7-5-0e393b0f45d7@savoirfairelinux.com>
- <xgwx65axwiebh27hrq7rluuf7jynb7v4o77mf2zztsf64bx3bw@iagwzeumk2su>
- <aFwFhYoaWoSXcFdR@fedora>
- <i7qehdo46eegyj7ebp4hetr7jtwkxceoate6tqw6aukw4cbgsl@pl6lgh4k5m4o>
+	s=arc-20240116; t=1751906137; c=relaxed/simple;
+	bh=m1m99lJ/laGK+xF8SdlA/A0XDAa3r6buLplzFHO1fHY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=q3mo+IAe7uT6bIAcNKSLe34E35WifhLGAPZIDD1SFJpzh7Hsn0GuoOLxHD2EvWBJ7AOg03QQb8cl59kT0NXBX9KYogYIrHe51xVDN8cvC5d7Bb4FPjuKt7Yzzz+9OqXvipIzaMxm1Y1rm8dmJ75rDLEUuJNEy3x5otXctuyq2tk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sjohal.net; spf=pass smtp.mailfrom=sjohal.net; dkim=pass (2048-bit key) header.d=sjohal.net header.i=@sjohal.net header.b=DMQlz5CP; arc=none smtp.client-ip=185.125.25.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sjohal.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sjohal.net
+Received: from smtp-4-0000.mail.infomaniak.ch (unknown [IPv6:2001:1600:7:10::a6b])
+	by smtp-4-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4bbSfW682FzctR;
+	Mon,  7 Jul 2025 17:22:43 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sjohal.net;
+	s=20250422; t=1751901763;
+	bh=yiHrsxu2dnstvcoXCQ81yiQO1f2+FQwt0RKeJ4jqLsE=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=DMQlz5CPYv1VKK9PjVinzOj1Tsi40da8PbEjQCuhUqj1YYgWlh+1+uRyVA2ogPHym
+	 CrLm8fSM8xKxkZykBBmPvsbBtLwQXWnL2DmrinqOPectQqidSRc0U410JuJK4LSUbS
+	 tAXc3QGtyrYsDcDD/ncW+wP/CT45OZmoXNdQ3/lBiGQzn3sMR14oCeOMYtz8FUDdpf
+	 BDWa+2EOnEd6QWTG7AsOWSWBV9UvM95ha2a9t1iPN5lrLAYjtjapyh1xchcwto5s2M
+	 lkin2UZ/Hcym2BT6ibbP4gj/SxoXLh/0IRDDXFvenUMIT8v1+RG8xH76WzirqOwqN3
+	 d9S7KSk1I8Vyg==
+Received: from unknown by smtp-4-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4bbSfV53ByzKwT;
+	Mon,  7 Jul 2025 17:22:42 +0200 (CEST)
+From: Saihaj Johal <personal@sjohal.net>
+To: Aditya Garg <gargaditya08@live.com>, linux-input@vger.kernel.org,
+ linux@emily.st
+Cc: "Daniel J. Ogorchock" <djogorchock@gmail.com>,
+ Nadia Holmquist Pedersen <nadia@nhp.sh>,
+ Ryan McClelland <rymcclel@gmail.com>, Jiri Kosina <jikos@kernel.org>,
+ Benjamin Tissoires <bentiss@kernel.org>
+Subject: Re: hid_nintendo Switch 2 Pro Controller support - where to start?
+Date: Mon, 07 Jul 2025 16:22:42 +0100
+Message-ID: <2753963.lGaqSPkdTl@saihaj-mainpc>
+In-Reply-To: <0bc102b6-cdd0-4f1f-910d-db752c52eb85@app.fastmail.com>
+References:
+ <3642543.dWV9SEqChM@saihaj-mainpc>
+ <PN3PR01MB95979E06C65B4BE4051BF9B7B84CA@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+ <0bc102b6-cdd0-4f1f-910d-db752c52eb85@app.fastmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <i7qehdo46eegyj7ebp4hetr7jtwkxceoate6tqw6aukw4cbgsl@pl6lgh4k5m4o>
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"
+X-Infomaniak-Routing: alpha
 
-On Mon, Jul 07, 2025 at 01:33:36AM +0200, Sebastian Reichel wrote:
-> Hello Samuel,
-> 
-> On Wed, Jun 25, 2025 at 10:19:49AM -0400, Samuel Kayode wrote:
-> > The pf1550 charger receives a VBUS power input which can be provided either by
-> > an AC adapter or a USB bus. A depleted battery is charged using the VBUS power
-> > input (VBUSIN). When no power is supplied to VBUSIN, the pf1550 switches the
-> > load to the connected non-depleted battery.
+On Sunday, 6 July 2025 22:48:43 British Summer Time linux@emily.st wrote:
+> On Sat, Jul 5, 2025, at 23:27, Aditya Garg wrote:
+> > On 06-07-2025 12:18 am, Saihaj Johal wrote:
+> >> Hello,
+> >> I recently got a Nintendo Switch 2 Pro Controller that is not currently
+> >> directly supported by the kernel like how the Switch 1 controllers are.
+> >> Looking in "hid-ids.h", there is no product ID for the new controller
+> >> (got
+> >> 0x2069 from "lsusb -v"). The device class shows as miscellaneous device,
+> >> and the controller does not show the player LEDs to show it is active
+> >> (it only charges over USB, alongside showing in "lsusb" as well as
+> >> showing as a USB audio device for the headphone jack on the bottom).
+> >> However, I have managed to get it to work as a HID device using this
+> >> website (https://
+> >> handheldlegend.github.io/procon2tool/) which uses WebUSB to send the
+> >> right
+> >> commands to make the controller turn on fully. After enabling, this setup
+> >> seemingly works with the existing evdev system, although with some
+> >> bizarre
+> >> changes like the left stick's up and down being reversed (at least in
+> >> KDE's
+> >> game controller settings). The first step would likely be to add the
+> >> device ID to "hid-ids.h", but from there where should I go in order to
+> >> perhaps work on full support? I assume anything would work on the things
+> >> discovered already by the WebUSB enabler tool, however I am very new to
+> >> C and kernel development in general.
 > > 
-> > I could have two power_supply_desc, one for battery and one for the external
-> > power?
+> > Simply mailing the mailing list won't get you replies. You should also
+> > email relevant maintainers.
+> > 
+> > Ccing them
 > 
-> That's acceptable. But don't you have a fuel-gauge for the battery?
-> If you register two POWER_SUPPLY_TYPE_BATTERY devices, then your
-> board should have two batteries. If you have a fuel-gauge it will
-> very likely provide much better battery data then anything you get
-> out of pf1550.
+> Hi, in 2022 I spent some time customizing the existing `hid_nintendo` driver
+> to add support for a few more first-party Nintendo controllers made for the
+> Nintendo Switch. I no longer work on this, since my day job keeps me very
+> busy, but I can try to share a little bit about the obstacles I
+> encountered.
+> 
+> When I first encountered the `hid_nintendo` driver, it was written very
+> specifically to handle the original first-party Nintendo Switch
+> controllers, most specifically the Joy-Cons. Part of what I did was to
+> attempt to generalize the driver somewhat to make it easier to add support
+> for other kinds of controllers. I did **not** succeed in completing this
+> work, but I did make enough progress to succeed in my goal of supporting
+> the N64 and Genesis controllers. And I know that some people were
+> successful in using the driver that I forked.
+> 
+> Although I was not directly involved in incorporating this code into the
+> Linux kernel again, I am gratified that people found it useful enough to
+> incorporate.
+> 
+> I don't really know to what extent it's going to be necessary to rework the
+> existing driver, or whether it's appropriate to create a new driver for the
+> second generation of the Nintendo Switch input peripherals. Since this is a
+> new generation of hardware device, there may be some differences in how it
+> communicates over USB or Bluetooth. That is a bit beyond my knowledge, and
+> I don't know if that information has been fully reverse engineered yet. It
+> probably should not be taken for granted that what worked with the original
+> Nintendo Switch controllers will work with the second generation as well. I
+> would defer to the experts on this list.
+> 
+> Assuming that you want to experiment simply with trying to adapt the current
+> driver to handle the newer peripherals, you will first need to modify the
+> device IDs, as you've already discovered, in `hid-ids.h`. You will also
+> need to modify the driver slightly to "claim" those peripherals (to tell
+> the input subsystem which driver handles those device inputs). If you are
+> successful in allowing the existing driver to talk to the new Switch 2
+> controllers, then you must determine the numerical codes the controller
+> emits when certain inputs are used and to map those to the actual buttons
+> being used. Specifically, you must find a way to intercept the numerical
+> codes that are coming from the controller, determine which inputs those
+> control codes map to, and then calling the API of the kernel to create the
+> correct inputs. I recall that when I did this, I think I read the codes out
+> of the raw input device exposed by the kernel (somewhere in /dev/input, I
+> think?), and then wrote down on paper which codes I saw when I pressed
+> which buttons. Then I followed the existing pattern of how the kernel
+> driver mapped those input codes to the existing kernel inputs. The current
+> driver has many good examples of this in action.
+> 
+> **Take all this with a grain of salt.** I did this work years ago. I was
+> never really a Linux kernel developer, and I am very rusty on how the
+> driver worked. I can only remember the generalities, and I would again
+> defer to the experts on this list to correct any mistakes I've
+> inadvertently added here. I hope this helps since I was doing a very
+> similar thing to what you're doing now. Best of luck.
+Hi,
+Thank you for the advice on trying to make the driver work. I have now 
+attempted adding the IDs to the existing hid_nintendo driver, however to no 
+avail. The driver definitely was doing something, considering the WebUSB 
+enabler stopped working when that changed driver was in use, but not enough. 
+It seems it would likely be best for the Switch 2 peripherals to be part of a 
+new driver, as they seem to communicate in an entirely different way. From what 
+I can gather from the documentation of the developer of the WebUSB enabler 
+tool (https://docs.handheldlegend.com/s/link-zone/doc/usb-initialization-fisHohwe4m) the Switch 2 controllers, at least over USB, send a HID command to 
+enable the controller, also containing the console's MAC address (guess we 
+could use all zeroes for the kernel driver?) probably to pair the controller 
+to the console. Then, another HID command sets the player LED to make the 
+controller fully functional. After that, however, it seems like it would 
+function like a generic HID controller based on the behaviour with the enabler 
+(so not much driver work needed there), although we would need to configure the 
+inputs in this new driver to send the right buttons to the rest of the system.  
+The documentation says some of the HID commands needed to make it work, but 
+either there is more needed that the enabler does or I'm struggling with 
+sending HID commands properly to the controller (trying hidapitester as well 
+as just echo to /dev/hidraw6) , so I've hit a dead end, as the controller does 
+nothing without those commands being sent. This would likely be something to 
+pick up for someone who has the experience in working with raw HID commands. 
+Thank you for your assistance,
+Saihaj
 
-The PMIC unfortunately does not include a fuel-gauge.
 
-I intend on having POWER_SUPPLY_TYPE_MAINS for the external power supply
-(AC adapter or USB bus) and POWER_SUPPLY_TYPE_BATTERY for the battery.
-
-Thanks,
-Sam
 
