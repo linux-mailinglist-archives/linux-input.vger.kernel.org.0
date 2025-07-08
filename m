@@ -1,231 +1,138 @@
-Return-Path: <linux-input+bounces-13420-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13421-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id B56CEAFC9A5
-	for <lists+linux-input@lfdr.de>; Tue,  8 Jul 2025 13:32:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4206AFCDB7
+	for <lists+linux-input@lfdr.de>; Tue,  8 Jul 2025 16:34:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8C9B61BC454E
-	for <lists+linux-input@lfdr.de>; Tue,  8 Jul 2025 11:32:24 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 22EC31885E12
+	for <lists+linux-input@lfdr.de>; Tue,  8 Jul 2025 14:33:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A38E92DAFB3;
-	Tue,  8 Jul 2025 11:31:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 48B992BE7B1;
+	Tue,  8 Jul 2025 14:33:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="kcAJJqIG"
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="gX6aG95p"
 X-Original-To: linux-input@vger.kernel.org
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 380EF2D8DD6;
-	Tue,  8 Jul 2025 11:31:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.198
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93CA02DFA3C
+	for <linux-input@vger.kernel.org>; Tue,  8 Jul 2025 14:33:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751974286; cv=none; b=Yz+9ul4AxbsZHgo+xLlEVOMbeDiEjs4lmNSzDS9nV/k7K9GMS1x8l7bsVcJr36YEtDscvjSJ8vjy7S0X4Erx33N/IqMob8EpwlsvIynjQwp5DNbdRZlMU/Kq8ZCvIEbearIEYT78gtbyFCJpqfxsH4Z0XOhOyFUhlH4qzQvEgnY=
+	t=1751985185; cv=none; b=C9d5JCwxUjZs2H2TGLYt+2BAQHdrnKsrK8+eYeBKBuu+b+yrQe8bUQ1FVVKQ/8D524vgdwa2yGX3fC9Do55OV0Gqg59WHUoC2Gme0ms3sC9Tvyh2ua5lzh5MFnE3khc/L4sz+6vGmo7KkGoy8LXJp3Rb9bBtbVSdXPfW78DCTdM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751974286; c=relaxed/simple;
-	bh=k6NRDXgZjHB0dbMWOAtajHFgB3DAi0mz4xkaerrE8ho=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:From:To:
-	 References:In-Reply-To; b=Aq/TnrG9m42KcJI2Vv21xPz6DIQ3eNaHO/cq2hmR4cx14ig2FNeZiu2fr07U49SyXo5C672+bYF3reIvgFX8w9foFbpbOW3mLf8OHqzuZ6DwCWEH93VgL/NoquxnmO2o/LEYenNESUlK6+zTvbJZRsNA7ee36xhg9OWjuxwJ7H8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=kcAJJqIG; arc=none smtp.client-ip=217.70.183.198
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id AE02C4424F;
-	Tue,  8 Jul 2025 11:31:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1751974280;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=7LSoQx5fTD/38a4GcvM7MJ0lnfSUZP0mXkSlQAQ16fY=;
-	b=kcAJJqIGoTN6u8HQpcIa/He+1R90CcM4yzYK5u+GV5EA3rdxyM2k4e3DnyspYG+je4+DLf
-	cmyh2XmrXrXmct3O7MKeaHdKf80zmraU6tchGd0W59NOCrptvBSSb/KfpsFPkGRnTGx8Us
-	9i49WkZv+ZbpdavADPVS9E0tC4AzawJSmlyzyJKVgCLWtjlz+GNVXLdZgZZt5INeCTS0ek
-	MHcaaLb7FxoQmolSENmWj2o06XIqoUPNvzvrAnMw1izZniD7K/TL74CTNxpzLQpf2HDy0z
-	iNWsoY2uJSgSKNA+iSavjTbFnVCg//Jiy7oe5UIaeTFw38OuODyVUp8srbuyZA==
+	s=arc-20240116; t=1751985185; c=relaxed/simple;
+	bh=9gJZ9P5U2B5/nhjex3FiPp/yJQqM7d/SqS6PCkuUsv8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ablg1gyTure8c/XNT8F/98bZ4wQw3w0cEOYgHVlghNo9Z/f6W25iAlqw1zO344NIjZIc1qLKZccX0ePjqez156AibIozOWAq4MRFZTek2TLWI0bagR8iaHge4zBt1AqO6s5DI7TaaEXOZmouXfsW4HLEBnveBPAhDr1yT+Mp2xo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=gX6aG95p; arc=none smtp.client-ip=209.85.160.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-4a98208fa69so55051301cf.1
+        for <linux-input@vger.kernel.org>; Tue, 08 Jul 2025 07:33:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rowland.harvard.edu; s=google; t=1751985182; x=1752589982; darn=vger.kernel.org;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=TkJTXQkSLDM+H3JzJZs9zJqYDllZ/dGQLsPeP5e4naI=;
+        b=gX6aG95pi4qvjXu2CmP4RIsuOhX/dFY3QETxxjwMMP9Bg7O/yaXryAH6iMcKAKjlf/
+         OF4hjqP0DsHByrtjnMo985jjvmPQiVN6dzkSgHJc/7Oi9Zw2HRGhzETwpcy+nU9oU4PD
+         CkjUslEVxUX7Aau3OCssff+aweYElGb9ntpZFPpUp5IFF/nhyccmlYmQYgTyfxY2LxqU
+         GAdW6IKKZBYtSROs9mCcyzIA3uf8PjdxWx1eJgaYGlJCK7b36IhWb02surCnTMx2YDuX
+         js9lKAgyPpxPuMl1QlB5zIyRTMohwuRoP6uC6WaHDCM7RIb17YP+UQcV/ISlaL3TsPf9
+         Tvsw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751985182; x=1752589982;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=TkJTXQkSLDM+H3JzJZs9zJqYDllZ/dGQLsPeP5e4naI=;
+        b=AHuBDPsHUUxuel2BcF/vkTx580zrTo0tOWErlUPHBgMY32OHrsWitVNe4TWdsdmHh3
+         9Do5VlyjsOB1RAHXQF9avd3erOoBY2GKuytuqPUgTJ5T51PT4Tz9auGze4cPSuwEOQnQ
+         to/cMstQASPXsFzZbDXM8F37luNWuhfb1b55XversCiEk5hqbyIM7EgB0VMtpnW5+tMX
+         dRfZku+qOzA4MD5rdYFHbvTsAuQfTFjUL4SHrhVuJpW1/GY99VQGl79U4b4SIrkI1sdL
+         rQftiLVK156MQpz+RCyqCRaKi7w4b2g0bkL9De1Z3ZciLeVvdoxPclcsPUaL9Lho9R3o
+         sS4Q==
+X-Gm-Message-State: AOJu0YzJgAe68ZmDa05o4pX833rP6PAHEsUWdqsFJL8EKgBkeVNVOd47
+	pq/yKpkTnLwmgzhV458a28o6wb2e+D16S27aL+tXs0/K62NLdK3kPeQb8vFtDlUQO6ykczZ9HRS
+	iD84=
+X-Gm-Gg: ASbGncupEIWYoVyZGsiRHUTKORx2xFjxloSQ+uyabbYfXvKptJord2WPaeuuClqM7w3
+	qOtzwK+uCEoIT2EXg7f9g8dmM6aQ1ELz85zcOz0w3rQgPOfMMMo5+i2uGTJzD4/6fnJfMc7UqxE
+	W8SrwKLl+xMhnNkAbPJ3qmGFYd9DP31gIWG79/qzEBOs36UadZQeUJl7jRrEmSYEGwOtcliUQls
+	N9jPrMyhr09l047ilORLxvFsEJ9UyQqjldQkZxA4Z6VIuZdyjD6cTbXTHa1tyya4y/8TASpd4rd
+	KrDKX6qRBoP6FMF0fBwwfUInK34TgJj+SOx+paSbysvNkZiNtMwFLj9wwHen6N/DiE5ZYSruoRi
+	Kw5Hzjma959024+A=
+X-Google-Smtp-Source: AGHT+IF12A4YzQxhASZJw3qucM2mtdDIrnVfX1CGv4cPHFWrrPOlNBqHO3i9JOSTmOyqi0e0jaMeZw==
+X-Received: by 2002:a05:622a:98f:b0:4a9:8232:cb35 with SMTP id d75a77b69052e-4a9ce5bb4c0mr45895881cf.15.1751985182246;
+        Tue, 08 Jul 2025 07:33:02 -0700 (PDT)
+Received: from rowland.harvard.edu ([140.247.181.15])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4a994aa9413sm80080391cf.78.2025.07.08.07.33.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Jul 2025 07:33:01 -0700 (PDT)
+Date: Tue, 8 Jul 2025 10:32:59 -0400
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>
+Cc: linux-input@vger.kernel.org,
+	USB mailing list <linux-usb@vger.kernel.org>
+Subject: Serious bug in HID core
+Message-ID: <c75433e0-9b47-4072-bbe8-b1d14ea97b13@rowland.harvard.edu>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 08 Jul 2025 13:31:19 +0200
-Message-Id: <DB6N1SVPVSQJ.15KQKOBOCHDCQ@bootlin.com>
-Subject: Re: [PATCH v10 04/11] pwm: max7360: Add MAX7360 PWM support
-Cc: "Lee Jones" <lee@kernel.org>, "Rob Herring" <robh@kernel.org>,
- "Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Conor Dooley"
- <conor+dt@kernel.org>, "Kamel Bouhara" <kamel.bouhara@bootlin.com>, "Linus
- Walleij" <linus.walleij@linaro.org>, "Bartosz Golaszewski" <brgl@bgdev.pl>,
- "Dmitry Torokhov" <dmitry.torokhov@gmail.com>, "Michael Walle"
- <mwalle@kernel.org>, "Mark Brown" <broonie@kernel.org>, "Greg
- Kroah-Hartman" <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
- <rafael@kernel.org>, "Danilo Krummrich" <dakr@kernel.org>,
- <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-gpio@vger.kernel.org>, <linux-input@vger.kernel.org>,
- <linux-pwm@vger.kernel.org>, <andriy.shevchenko@intel.com>,
- =?utf-8?q?Gr=C3=A9gory_Clement?= <gregory.clement@bootlin.com>, "Thomas
- Petazzoni" <thomas.petazzoni@bootlin.com>
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
-X-Mailer: aerc 0.19.0-0-gadd9e15e475d
-References: <20250530-mdb-max7360-support-v10-0-ce3b9e60a588@bootlin.com>
- <20250530-mdb-max7360-support-v10-4-ce3b9e60a588@bootlin.com>
- <amukbuzpu34jbcjhmzmvfgh6eik5isrwcicfmlqmsyibvhij72@nnmhdj3celnt>
-In-Reply-To: <amukbuzpu34jbcjhmzmvfgh6eik5isrwcicfmlqmsyibvhij72@nnmhdj3celnt>
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdefgeehiecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepggfgtgffkffuvefhvffofhgjsehtqhertdertdejnecuhfhrohhmpedfofgrthhhihgvuhcuffhusghoihhsqdeurhhirghnugdfuceomhgrthhhihgvuhdrughusghoihhsqdgsrhhirghnugessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepkefhkeeifeethfejteevfeduheduvddvuedvvddugfffhfevkefftefhuefftddunecuffhomhgrihhnpegsohhothhlihhnrdgtohhmnecukfhppedvrgdtudemtggsudegmeehheeimeejrgdttdemfehftghfmehfsgdtugemuddviedvmedvvgejieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtudemtggsudegmeehheeimeejrgdttdemfehftghfmehfsgdtugemuddviedvmedvvgejiedphhgvlhhopehlohgtrghlhhhoshhtpdhmrghilhhfrhhomhepmhgrthhhihgvuhdrughusghoihhsqdgsrhhirghnugessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepvddvpdhrtghpthhtohepuhhklhgvihhnvghksehkvghrnhgvlhdrohhrghdprhgtphhtthhopehlvggvsehkvghrnhgvlhdrohhrghdprhgtphhtt
- hhopehrohgshheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepkhhriihkodgutheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheptghonhhorhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehkrghmvghlrdgsohhuhhgrrhgrsegsohhothhlihhnrdgtohhmpdhrtghpthhtoheplhhinhhushdrfigrlhhlvghijheslhhinhgrrhhordhorhhgpdhrtghpthhtohepsghrghhlsegsghguvghvrdhplh
-X-GND-Sasl: mathieu.dubois-briand@bootlin.com
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Wed Jun 18, 2025 at 8:45 PM CEST, Uwe Kleine-K=C3=B6nig wrote:
-> On Fri, May 30, 2025 at 12:00:12PM +0200, mathieu.dubois-briand@bootlin.c=
-om wrote:
->> From: Kamel Bouhara <kamel.bouhara@bootlin.com>
-> ...
->> --- /dev/null
->> +++ b/drivers/pwm/pwm-max7360.c
->> @@ -0,0 +1,180 @@
->> +// SPDX-License-Identifier: GPL-2.0-only
->> +/*
->> + * Copyright 2025 Bootlin
->> + *
->> + * Author: Kamel BOUHARA <kamel.bouhara@bootlin.com>
->> + * Author: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
->> + *
->> + * Limitations:
->> + * - Only supports normal polarity.
->> + * - The period is fixed to 2 ms.
->> + * - Only the duty cycle can be changed, new values are applied at the =
-beginning
->> + *   of the next cycle.
->> + * - When disabled, the output is put in Hi-Z.
->> + */
->> +#include <linux/bits.h>
->> +#include <linux/dev_printk.h>
->> +#include <linux/err.h>
->> +#include <linux/math64.h>
->> +#include <linux/mfd/max7360.h>
->> +#include <linux/minmax.h>
->> +#include <linux/mod_devicetable.h>
->> +#include <linux/module.h>
->> +#include <linux/platform_device.h>
->> +#include <linux/pwm.h>
->> +#include <linux/regmap.h>
->> +#include <linux/time.h>
->> +#include <linux/types.h>
->> +
->> +#define MAX7360_NUM_PWMS			8
->> +#define MAX7360_PWM_MAX_RES			255
->> +#define MAX7360_PWM_PERIOD_NS			(2 * NSEC_PER_MSEC)
->> +
->> +struct max7360_pwm_waveform {
->> +	u8 duty_steps;
->> +	bool enabled;
->> +};
->> +
->> +static int max7360_pwm_request(struct pwm_chip *chip, struct pwm_device=
- *pwm)
->> +{
->> +	struct regmap *regmap =3D pwmchip_get_drvdata(chip);
->> +
->> +	return regmap_write_bits(regmap, MAX7360_REG_PWMCFG(pwm->hwpwm),
->> +				 MAX7360_PORT_CFG_COMMON_PWM, 0);
->> +}
->
-> Do you need to undo that in .free()?
->
+Jiri and Benjamin:
 
-No, this is just to make sure we use the individual PWM configuration
-register and not the global one, so there is no need to revert it later.
+Investigating a recent bug report from syzbot 
+(https://lore.kernel.org/linux-usb/686be237.a70a0220.29fe6c.0b0c.GAE@google.com/)
+led me to a rather serious error in the HID core.  It could affect a 
+lot of drivers, and I don't know enough about them or the HID subsystem 
+to fix it right away.
 
-I'm adding a comment explaining that.
+In short, does the value returned by hid_report_len() count the byte 
+reserved for the report ID number?
 
-> ...
->
->> +	wfhw->duty_steps =3D min(MAX7360_PWM_MAX_RES, duty_steps);
->> +	wfhw->enabled =3D !!wf->duty_length_ns;
->
-> How does the output behave if you clean the respective bit in
-> MAX7360_REG_GPIOCTRL? Unless it emits a constant low signal (and not
-> e.g. High-Z) you have to do
->
-> 	wfhw->enabled =3D !!wf->period_length_ns;
->
-> here. Please document the behaviour in a paragraph at the top of
-> the driver. Look at other drivers for the right format. The questions to
-> answer are:
->
->  - How does the driver behave on disable? (Typical is constant low or
->    High-Z or freezing. Does it stop instantly or does it complete the
->    currently running period?)
->
->  - How does the driver behave on a (non-disabling) reconfiguration? Can
->    it happen that there are glitches? (Consider for example that
->    duty_cycle changes from 0.5 ms to 1.5ms while the hardware is just in
->    the middle of the 2ms period. Does the output go high immediately
->    then producing two 0.5ms pulses during that period?)
->
+Some drivers seem to assume that it does and some seem to assume that it 
+doesn't.  Here's what the actual code from include/linux/hid.h does:
 
-Ok, I'm fixing the wfhw->enabled value.
+/**
+ * hid_report_len - calculate the report length
+ *
+ * @report: the report we want to know the length
+ */
+static inline u32 hid_report_len(struct hid_report *report)
+{
+	return DIV_ROUND_UP(report->size, 8) + (report->id > 0);
+}
 
-About the comment, I believe we already have everything, I'm just adding
-that on disable, the output is put in Hi-Z immediately.
+It's somewhere in between -- it includes the ID byte in the count if and 
+only if the ID is nonzero!  And of course, this behavior isn't mentioned 
+in the (ungrammatical) kerneldoc.
 
->> +	return 0;
->> +}
->> +
->> +static int max7360_pwm_round_waveform_fromhw(struct pwm_chip *chip, str=
-uct pwm_device *pwm,
->> +					     const void *_wfhw, struct pwm_waveform *wf)
->> +{
->> +	const struct max7360_pwm_waveform *wfhw =3D _wfhw;
->> +
->> +	wf->period_length_ns =3D wfhw->enabled ? MAX7360_PWM_PERIOD_NS : 0;
->> +	wf->duty_offset_ns =3D 0;
->> +	wf->duty_length_ns =3D DIV_ROUND_UP(wfhw->duty_steps * MAX7360_PWM_PER=
-IOD_NS,
->> +					  MAX7360_PWM_MAX_RES);
->
-> This should be 0 if !wfhw->enabled to make *wf a valid setting.
->
+The particular scenario causing the bug found by syzbot was this: 
+report->size was 0, report->id was 0, and the lower-level driver (usbhid 
+in this case) assumed that the length argument (which was 0) did include 
+the ID byte.  Since the ID was 0, the driver skipped over the first byte 
+of the buffer and decremented the length, causing the length to 
+underflow and leading to an invalid memory access.  In a more realistic 
+setting, this would merely result in data loss and leakage.
 
-OK.
+How should this be fixed?
 
-> A check for that in the core (with CONFIG_PWM_DEBUG) would be great.
->
+Related issue: When the lower-level driver's raw_request() routine is 
+called, can it assume that the first byte of the output buffer always 
+contains the report ID number, set by the HID core?  If not, should it 
+assume that the first byte is always reserved for the ID, or that the 
+first byte is reserved only when the ID is nonzero?
 
-I can submit a patch, but I'm not sure what that check should be.
+Do __hid_request() and __hid_hw_raw_request() behave the same way in 
+this regard?
 
-So I believe the check would have to be made in __pwm_set_waveform(),
-making sure wf_rounded.duty_length_ns is 0 if the PWM is not enabled or
-in other words, if wf->period_length_ns is 0. I believe calling
-pwm_wf_valid() on wf_rounded would be enough. Maybe I should add that as
-a first check in pwm_check_rounding() to cover all call sites.
-
-We already call pwm_check_rounding() code, so me already make sure that
-if wf->period_length_ns is 0, wf_rounded->period_length_ns is 0. And
-adding pwm_wf_valid(), would make sure that if
-wf_rounded->period_length_ns is 0, wf_rounded->duty_length_ns is also 0.
-
-Any opinion?
-
-> ...
->
-> Best regards
-> Uwe
-
-OK with all other comments.
-
-Thanks for your review!
-
---=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
-
+Alan Stern
 
