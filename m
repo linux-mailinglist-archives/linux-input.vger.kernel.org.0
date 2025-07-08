@@ -1,248 +1,235 @@
-Return-Path: <linux-input+bounces-13426-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13427-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09196AFD54B
-	for <lists+linux-input@lfdr.de>; Tue,  8 Jul 2025 19:25:48 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E53DDAFD6A4
+	for <lists+linux-input@lfdr.de>; Tue,  8 Jul 2025 20:47:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 220E5486974
-	for <lists+linux-input@lfdr.de>; Tue,  8 Jul 2025 17:25:21 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 32CB14A79F2
+	for <lists+linux-input@lfdr.de>; Tue,  8 Jul 2025 18:47:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1C22C2367CE;
-	Tue,  8 Jul 2025 17:25:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B4F6821B199;
+	Tue,  8 Jul 2025 18:47:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="J+GbFMso"
+	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="Do33M+Zs"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-io1-f50.google.com (mail-io1-f50.google.com [209.85.166.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.smtpout.orange.fr (smtp-81.smtpout.orange.fr [80.12.242.81])
+	(using TLSv1.2 with cipher AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 510242E6D38
-	for <linux-input@vger.kernel.org>; Tue,  8 Jul 2025 17:25:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E31BE215075;
+	Tue,  8 Jul 2025 18:46:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751995523; cv=none; b=iwJXmkDJ58jEouvpE4xOQDWnyGJb2PYmMP++mDXEVKwQdY7osdBCnZ7g8xXQ/w1QF1OAkUp16Vb2F73fQ0qYf1UY1fiFSEFAbDY8NCcjJOj9gb+B1FAsnVh6fBfjcSr5xBRbHbE3mKhBvfxMJLn3iZbU8ge34Z8VXVoyy2Uhado=
+	t=1752000422; cv=none; b=rmqtzgswenDBMjMM4xt5tjGmxpIUi0OVwOiZTEfpWcB7QS1shn5OzkxaLeZgtKmXO9LoR+JB3WAvXrfphy0IWS+D6G0mxup5BFYhh/NPmpT8xOCSYRw+7VDnH3KN7trGP3tUmfNvkpg87F4fmRHrWea82MkLQ4QnZWEU/n9iCH8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751995523; c=relaxed/simple;
-	bh=lYcinFsC3EAgBwLK9aXi8M5trFJ985aUKU/gocwLX/o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WwHTlZvY4Ncb6I/6iNghUunRw8SQUZ8CtxffLS2iUDeBd8CkuXV5rjA0qKQccDesZeNePsWi75WFOlnKCQhG18OcbCI1Nryalpn546qXOq/ce04fUePIIQY4ySewHkH6eM9zTYx+hltmKrkCPgW/uUVZ19cxHD7qfcaVPeI2dJI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=J+GbFMso; arc=none smtp.client-ip=209.85.166.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
-Received: by mail-io1-f50.google.com with SMTP id ca18e2360f4ac-875f28fde67so441732139f.1
-        for <linux-input@vger.kernel.org>; Tue, 08 Jul 2025 10:25:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1751995520; x=1752600320; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=cst6VKXal21kcvQoj/qTt4BoEK49CJUqqKIE5tWnBGg=;
-        b=J+GbFMsoPYQhWLqTjlzGwpxC4fIh+1FxFZ6CvZP3q+7uOj8mrHLH03qhG8ZFbYs27c
-         2XtuGjd9EkLB0YocqhkpWCBmKuEbIJsn1WBxZNYjHO0iV86GV/oTYBK5y+PsspIm+dHW
-         IlXKWzqJgJwRHuQqHe5QNmX96eXrtPdS1fZMOv+cISZBJzchrKQHYCfhBbzDzp5VHT+H
-         gtL6lR9GmrKZgoPnrLuPsZQLCbtWPDLptRTWu55uvRiGeGEXQfRSa1CqV2MYEX+E8BEf
-         eZ1ctPvDEgWTuOkHyC7hZo054s8EBT5ruMwYQBWlsbVrQ8cn5oIwvasF2t3PjeXOSg2I
-         hGkA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751995520; x=1752600320;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cst6VKXal21kcvQoj/qTt4BoEK49CJUqqKIE5tWnBGg=;
-        b=ix9hIJb2yxpX+u019CSJdCJB46sQdPezpasedDe17eqB0ijbgoL5AEtL+IczsLJX5X
-         UpI/MLrLxTQZ2cYi7gZJzJ2c2K0+UsM0zc4jasGikHNwnTMttmVZMrnc7c0xY/jt3PTl
-         yj3pkGapjqf6biwL9HCZVpGtrqa+USjKnDT/ULI4Ccx//7o+m6Sfq83E+2a6CEeDvbyn
-         A5cpUAgat0nXyNM1/5HZWDpO9YfFCOgoyK7hah+F7+xrCalZkD5xngAH5UG3v0cwfl3P
-         C33jvjJ1LbGsytE8G6JP36Ak+iYt5irSs3Cq+WkkxsX8dlrNq/wsLzfTOzElO5nJBTwi
-         IuoA==
-X-Forwarded-Encrypted: i=1; AJvYcCXeh7y5zJB1xPUTP0MDcql+d5s8V2DGchwB2qPMIk/bCuBYFuCvIuGzsm0bU/HxEcqBPPTrZLYS05w/9g==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyvHv89JXIIL28HLVdAB4WNGxvH117eO+JbB3moWY3imF7eUJwG
-	2lceKj0LtbkTfLbDQ/CWcKLhAfnc+ef5I3sY02y6OElDnOPyUz67sJ4g6manY4TGPg==
-X-Gm-Gg: ASbGnctiFzl6aRVm2RQ7nT0foN5cvPaoIQIPWGMMvzPkU/RzXSoiGvm1dy8Nnq0cDap
-	XI5RXj95kZ5oO6etcBXMOoepwQtgH6D/xNaMG04iXSj5e9Iq0FErzdX/I0H+xf4/dt++RGj8/Y6
-	cn2NFcV6+qtmDGrzmU+cHcfAIo24q7WMdSyuc92CgLSeEcDnG9FAY6vsnAgZxQuBAlLHKDREF9i
-	t/W0Ayx+Dp9VlFD7cAAY518qJYJCkJ39V+qoGOg36TAlbMMZUGFfjpe0zLQjeSZZNJwP+hePXLJ
-	b2qNCRt9aL/BkhBt002dUnQkonOZVbYHo3lveirMOw3oPeoqFc07EdRxf6MkhcTO4iBNoJZ2aIA
-	Izxjtj6/AjX1zOqY4rhRe3JTjzl690ApXlg4Yc5cLwDjo8P6TREQdVSs=
-X-Google-Smtp-Source: AGHT+IGuN7RVSjqRXZ0Ho5hQMC8xexikALmsvJJ5UBECJiC9PzVW4b58qr8VA3o+IcRiaa182GItEg==
-X-Received: by 2002:a05:6e02:3702:b0:3df:3d1a:2e76 with SMTP id e9e14a558f8ab-3e154dbd6d6mr48369075ab.1.1751995520179;
-        Tue, 08 Jul 2025 10:25:20 -0700 (PDT)
-Received: from rowland.harvard.edu (nat-65-112-8-52.harvard-secure.wrls.harvard.edu. [65.112.8.52])
-        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-3e1004ceb0bsm33298025ab.66.2025.07.08.10.25.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Jul 2025 10:25:19 -0700 (PDT)
-Date: Tue, 8 Jul 2025 13:25:16 -0400
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Benjamin Tissoires <bentiss@kernel.org>
-Cc: Jiri Kosina <jikos@kernel.org>, linux-input@vger.kernel.org,
-	USB mailing list <linux-usb@vger.kernel.org>
-Subject: Re: Serious bug in HID core
-Message-ID: <e3a58c95-9501-4ec8-902e-2a73402d1fe3@rowland.harvard.edu>
-References: <c75433e0-9b47-4072-bbe8-b1d14ea97b13@rowland.harvard.edu>
- <drcvdlw2kpuvsbact2gy4hvqp2i3au3shv5ozp3qms7qdfvi7t@7jofrodxeimb>
+	s=arc-20240116; t=1752000422; c=relaxed/simple;
+	bh=6Gn+yRNl1JrOAlZoap5OkCRx3E5efJLTHxU979QWAl4=;
+	h=Message-ID:Date:MIME-Version:Subject:References:From:To:Cc:
+	 In-Reply-To:Content-Type; b=mDUB2HABWqqUnh5/VsAZdPr9+wrnxbfVXsxVaI/OGlVIaaV9FvZe8+EF9mIu7Vxx8Ssw6vWARXQLtEcX3Ro4xEIo+Q8ro3bMk5UDNkvLkypzRLVseuAoN2eDAYz6USciW5XyerNsnBt/8OPPzC0fXENnbsXhK/DH4NZ26tJaRUw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=Do33M+Zs; arc=none smtp.client-ip=80.12.242.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
+Received: from [IPV6:2a01:cb10:785:b00:8347:f260:7456:7662]
+ ([IPv6:2a01:cb10:785:b00:8347:f260:7456:7662])
+	by smtp.orange.fr with ESMTPA
+	id ZDL6uHsjEt5czZDL7uZYyq; Tue, 08 Jul 2025 20:46:50 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+	s=t20230301; t=1752000410;
+	bh=1KMq9z5swwEqfJUujLxgmIpabvJfx13yCUzkaCHJsSs=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To;
+	b=Do33M+ZskTXvpQmj5Ot7c3HkmJooV8IxNLxtavB3Soz8wkUWEkxkKc2D+2h8k621h
+	 iqouVHpcMleRuXDEVdruV73DATz+EaTk3MLbTmsri+6r8hxvn31OXheuVqnU3mfG3M
+	 OeZw/r7bU2X7yFDkLwDY8uiDgJG6U9lmIFHeu962ITaJ7nAG4VpjuENbgNFjwdf04t
+	 ukZxHDhK9oSPgIbGFD7mn4DIOt8Ip/GpwVwJoWC3YCl1vTdEF4xerpeXHZtkQc1Wuk
+	 wTe/GoiQpfZ34APi/VWCV+dUxRnYeXna9qb076SObnrTkm77krCb2ZJ2OmD0SpaRRY
+	 DMjYmOu7G4dAw==
+X-ME-Helo: [IPV6:2a01:cb10:785:b00:8347:f260:7456:7662]
+X-ME-Auth: bWFyaW9uLmphaWxsZXRAd2FuYWRvby5mcg==
+X-ME-Date: Tue, 08 Jul 2025 20:46:50 +0200
+X-ME-IP: 2a01:cb10:785:b00:8347:f260:7456:7662
+Message-ID: <0406698c-6534-4aca-8994-e8a69ecee2b2@wanadoo.fr>
+Date: Tue, 8 Jul 2025 20:46:48 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <drcvdlw2kpuvsbact2gy4hvqp2i3au3shv5ozp3qms7qdfvi7t@7jofrodxeimb>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 2/6] mfd: pf1550: add core driver
+References: <20250707-pf1550-v8-0-6b6eb67c03a0@savoirfairelinux.com>
+ <20250707-pf1550-v8-2-6b6eb67c03a0@savoirfairelinux.com>
+Content-Language: en-US, fr-FR
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To: devnull+samuel.kayode.savoirfairelinux.com@kernel.org
+Cc: Frank.li@nxp.com, abelvesa@kernel.org, abelvesa@linux.com,
+ b38343@freescale.com, broonie@kernel.org, conor+dt@kernel.org,
+ devicetree@vger.kernel.org, dmitry.torokhov@gmail.com, eballetbo@gmail.com,
+ imx@lists.linux.dev, krzk+dt@kernel.org, lee@kernel.org,
+ lgirdwood@gmail.com, linux-input@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, robh@kernel.org,
+ samuel.kayode@savoirfairelinux.com, sre@kernel.org, yibin.gong@nxp.com
+In-Reply-To: <20250707-pf1550-v8-2-6b6eb67c03a0@savoirfairelinux.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Tue, Jul 08, 2025 at 05:51:08PM +0200, Benjamin Tissoires wrote:
-> Hi Alan,
+Le 07/07/2025 à 23:37, Samuel Kayode via B4 Relay a écrit :
+> From: Samuel Kayode <samuel.kayode-4ysUXcep3aM1wj+D4I0NRVaTQe2KTcn/@public.gmane.org>
 > 
-> On Jul 08 2025, Alan Stern wrote:
-> > Jiri and Benjamin:
-> > 
-> > Investigating a recent bug report from syzbot 
-> > (https://lore.kernel.org/linux-usb/686be237.a70a0220.29fe6c.0b0c.GAE@google.com/)
-> > led me to a rather serious error in the HID core.  It could affect a 
-> > lot of drivers, and I don't know enough about them or the HID subsystem 
-> > to fix it right away.
-> > 
-> > In short, does the value returned by hid_report_len() count the byte 
-> > reserved for the report ID number?
+> Add the core driver for pf1550 PMIC. There are 3 subdevices for which the
+> drivers will be added in subsequent patches.
 > 
-> It depends :)
-> 
-> See your analysis below...
-> 
-> > 
-> > Some drivers seem to assume that it does and some seem to assume that it 
-> > doesn't.  Here's what the actual code from include/linux/hid.h does:
-> > 
-> > /**
-> >  * hid_report_len - calculate the report length
-> >  *
-> >  * @report: the report we want to know the length
-> >  */
-> > static inline u32 hid_report_len(struct hid_report *report)
-> > {
-> > 	return DIV_ROUND_UP(report->size, 8) + (report->id > 0);
-> > }
-> > 
-> > It's somewhere in between -- it includes the ID byte in the count if and 
-> > only if the ID is nonzero!  And of course, this behavior isn't mentioned 
-> > in the (ungrammatical) kerneldoc.
-> 
-> Yeah, the docs are bad. But your analysis is correct: for a given
-> report, its size might include or not the report ID.
-> 
-> This is because the report ID is optional in the HID spec, and some
-> devices don't make use of it. Those devices are only exporting one
-> report type, and can not have another report type in the same HID
-> device. If a device needs to have more than one, it then needs to export
-> the report ID in all of its reports, and then report_len count that
-> extra byte.
-> 
-> To give you an example, old mice (or inexpensive ones), would export a
-> report with:
-> - X, Y, Wheel, B0, B1, B2
-> 
-> When a more advanced one might export:
-> - REPORT ID 0, X, Y, Wheel, B0, B1, B2, ... B9
-> - REPORT ID 1, SOME_VERY_COMPLEX_CONFIGURATION, ANOTHER ONE, ETC...
-> 
-> However, a HID device making use of the non report ID version can never
-> make use of a report ID (or it's custom proprietary protocol).
+> Reviewed-by: Frank Li <Frank.Li-3arQi8VN3Tc@public.gmane.org>
+> Signed-off-by: Samuel Kayode <samuel.kayode-4ysUXcep3aM1wj+D4I0NRVaTQe2KTcn/@public.gmane.org>
 
-So you're saying that while the kerneldoc for hid_report_len() could be 
-improved, the code itself is correct.  Fine.  But this merely means that 
-the real problem lies elsewhere (and _not_ in syzbot's test scenario!).  
-See below.
+Hi,
 
-Also, are you sure that all the other HID drivers realize that 
-hid_report_len() behaves this way?  It's an easy thing to get wrong.
+some nitpicks and a few real questions.
 
-> > The particular scenario causing the bug found by syzbot was this: 
-> > report->size was 0, report->id was 0, and the lower-level driver (usbhid 
-> > in this case) assumed that the length argument (which was 0) did include 
-> > the ID byte.  Since the ID was 0, the driver skipped over the first byte 
-> > of the buffer and decremented the length, causing the length to 
-> > underflow and leading to an invalid memory access.  In a more realistic 
-> > setting, this would merely result in data loss and leakage.
-> 
-> That scenario is bogus (like most of syzbots in the HID space). There
-> should be no way the HID subsystem allows a report->size of 0 to be used
-> in a set_report or a get_report. So that's where the bug lies: HID
-> trusts too much the device, and can lead to that kind of issues.
-> 
-> > 
-> > How should this be fixed?
-> 
-> We have 2 problems here:
-> - and __hid_request or __hid_raw_request should reject a null size
-> 	report, and in the __hid_request case, a report of size 1 if there is
-> 	a report ID.
-> - Why is hidinput_change_resolution_multipliers() even considfering this
-> 	report of size 0 when it should at least ensure that there is one
-> 	field within the report
-> 
-> The first one should be easy to fix: add a bunch of checks.
+CJ
 
-I would normally expect this to checked when the report descriptors are 
-read and parsed during probing.  A report of length zero could be 
-rejected then (perhaps with an error message in the kernel log).
+...
 
-However, that wouldn't fully fix the problem.  And besides, length-0 
-reports are (or should be) harmless.
+> +	/* Add top level interrupts */
+> +	ret = devm_regmap_add_irq_chip(pf1550->dev, pf1550->regmap, pf1550->irq,
+> +				       IRQF_ONESHOT | IRQF_SHARED |
+> +				       IRQF_TRIGGER_FALLING,
+> +				       0, &pf1550_irq_chip,
+> +				       &pf1550->irq_data);
+> +	if (ret)
+> +		return ret;
+> +
+> +	/* Add regulator */
+> +	irq = regmap_irq_get_virq(pf1550->irq_data, PF1550_IRQ_REGULATOR);
 
-> __hid_hw_raw_request() seems to not expose the problem actually.
-> 
-> The second one would need a little bit more understanding of the fake
-> report descriptor provided by syzbot.
+Same as above.
 
-I suppose we can get the information from syzbot if it's really 
-necessary.  But it seems to be a minor point.
+> +	if (irq < 0)
+> +		return dev_err_probe(pf1550->dev, irq,
+> +				     "Failed to get parent vIRQ(%d) for chip %s\n",
+> +				     PF1550_IRQ_REGULATOR, pf1550_irq_chip.name);
+> +
+> +	ret = devm_regmap_add_irq_chip(pf1550->dev, pf1550->regmap, irq,
+> +				       IRQF_ONESHOT | IRQF_SHARED |
+> +				       IRQF_TRIGGER_FALLING, 0,
+> +				       &pf1550_regulator_irq_chip,
+> +				       &pf1550->irq_data_regulator);
+> +	if (ret)
+> +		return dev_err_probe(pf1550->dev, ret,
+> +				     "Failed to add %s IRQ chip\n",
+> +				     pf1550_regulator_irq_chip.name);
+> +
+> +	domain = regmap_irq_get_domain(pf1550->irq_data_regulator);
+> +
+> +	ret =  devm_mfd_add_devices(pf1550->dev, PLATFORM_DEVID_NONE, regulator,
 
-> > Related issue: When the lower-level driver's raw_request() routine is 
-> > called, can it assume that the first byte of the output buffer always 
-> > contains the report ID number, set by the HID core?  If not, should it 
-> > assume that the first byte is always reserved for the ID, or that the 
-> > first byte is reserved only when the ID is nonzero?
-> 
-> The first byte should always be reserved to the report ID, and is
-> populated by 0 by hid-core when the report ID is not in use.
+2 spaces after =
 
-Then why does hid_output_report() do this:
+> +				    1, NULL, 0, domain);
+> +	if (ret)
+> +		return ret;
+> +
+> +	/* Add onkey */
+> +	irq = regmap_irq_get_virq(pf1550->irq_data, PF1550_IRQ_ONKEY);
 
-	if (report->id > 0)
-		*data++ = report->id;
+Same
 
-?  The first byte is not reserved for the ID when the ID is 0.  
-According to what you said, the assignment should be unconditional.  
-Isn't that a genuine bug?
+> +	if (irq < 0)
+> +		return dev_err_probe(pf1550->dev, irq,
+> +				     "Failed to get parent vIRQ(%d) for chip %s\n",
+> +				     PF1550_IRQ_ONKEY, pf1550_irq_chip.name);
+> +
+> +	ret = devm_regmap_add_irq_chip(pf1550->dev, pf1550->regmap, irq,
+> +				       IRQF_ONESHOT | IRQF_SHARED |
+> +				       IRQF_TRIGGER_FALLING, 0,
+> +				       &pf1550_onkey_irq_chip,
+> +				       &pf1550->irq_data_onkey);
+> +	if (ret)
+> +		return dev_err_probe(pf1550->dev, ret,
+> +				     "Failed to add %s IRQ chip\n",
+> +				     pf1550_onkey_irq_chip.name);
+> +
+> +	domain = regmap_irq_get_domain(pf1550->irq_data_onkey);
+> +
+> +	ret =  devm_mfd_add_devices(pf1550->dev, PLATFORM_DEVID_NONE, onkey, 1,
 
-And shouldn't the length computed by hid_alloc_report_buf() be one 
-larger than it is when the ID is 0?
+2 spaces after =
 
-> So the usbhid driver is doing the right thing. In case there is no
-> report ID, it ignores the first byte when making a request to the
-> device, because in my example above, the device would not expect the
-> first byte to be 0.
+> +				    NULL, 0, domain);
+> +	if (ret)
+> +		return ret;
+> +
+> +	/* Add battery charger */
+> +	irq = regmap_irq_get_virq(pf1550->irq_data, PF1550_IRQ_CHG);
 
-When usbhid skips the first byte, it also decrements the length.  Since 
-__hid_request() calls it with a length given by hid_report_len(), the 
-length has _already_ been decremented (or rather, not incremented -- it 
-doesn't account for the ID byte), and consequently the USB transfer will 
-leave out the final byte of the report.  This is the data loss I 
-mentioned earlier.  It's another bug.
+This calls irq_create_mapping().
+Should irq_dispose_mapping() or another helper be called in the error 
+handling path and in the remove function, or is it already handled by a 
+devm_ function?
 
-So which is doing the wrong thing: usbhid or __hid_request()?
+> +	if (irq < 0)
+> +		return dev_err_probe(pf1550->dev, irq,
+> +				     "Failed to get parent vIRQ(%d) for chip %s\n",
+> +				     PF1550_IRQ_CHG, pf1550_irq_chip.name);
+> +
+> +	ret = devm_regmap_add_irq_chip(pf1550->dev, pf1550->regmap, irq,
+> +				       IRQF_ONESHOT | IRQF_SHARED |
+> +				       IRQF_TRIGGER_FALLING, 0,
+> +				       &pf1550_charger_irq_chip,
+> +				       &pf1550->irq_data_charger);
+> +	if (ret)
+> +		return dev_err_probe(pf1550->dev, ret,
+> +				     "Failed to add %s IRQ chip\n",
+> +				     pf1550_charger_irq_chip.name);
+> +
+> +	domain = regmap_irq_get_domain(pf1550->irq_data_charger);
+> +
+> +	return devm_mfd_add_devices(pf1550->dev, PLATFORM_DEVID_NONE, charger,
+> +				    1, NULL, 0, domain);
+> +}
+> +
+> +static int pf1550_suspend(struct device *dev)
+> +{
+> +	struct pf1550_ddata *pf1550 = dev_get_drvdata(dev);
+> +
+> +	if (device_may_wakeup(dev)) {
+> +		enable_irq_wake(pf1550->irq);
+> +		disable_irq(pf1550->irq);
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int pf1550_resume(struct device *dev)
+> +{
+> +	struct pf1550_ddata *pf1550 = dev_get_drvdata(dev);
+> +
+> +	if (device_may_wakeup(dev)) {
+> +		disable_irq_wake(pf1550->irq);
+> +		enable_irq(pf1550->irq);
 
-> > Do __hid_request() and __hid_hw_raw_request() behave the same way in 
-> > this regard?
-> 
-> __hid_hw_raw_request() ensures that there is a minimum length of one, so
-> we should be fine. __hid_request apparently is the only one giving too
-> much trust in the report.
+Should this 2 lines be inverted?
 
-In principle there's nothing wrong with a zero-length report.  It would 
-be pretty useless, but nevertheless we should be able to handle one 
-without crashing the kernel.
+> +	}
+> +
+> +	return 0;
+> +}
 
-Alan Stern
+...
+
+> +#define PF1550_CHG_LINEAR_ONLY		12
+> +#define PF1550_CHG_SNS_MASK		0xf
+> +#define PF1550_CHG_INT_MASK             0x51
+
+Space vs tab
+
+> +
+> +#define PF1550_BAT_NO_VBUS		0
+> +#define PF1550_BAT_LOW_THAN_PRECHARG	1
+
+...
+
+CJ
 
