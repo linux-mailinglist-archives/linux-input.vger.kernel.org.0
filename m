@@ -1,81 +1,119 @@
-Return-Path: <linux-input+bounces-13416-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13417-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B3A0AFC69D
-	for <lists+linux-input@lfdr.de>; Tue,  8 Jul 2025 11:05:37 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6951AAFC6D5
+	for <lists+linux-input@lfdr.de>; Tue,  8 Jul 2025 11:14:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 32C0C3AD50E
-	for <lists+linux-input@lfdr.de>; Tue,  8 Jul 2025 09:05:05 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BA95316CE04
+	for <lists+linux-input@lfdr.de>; Tue,  8 Jul 2025 09:14:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 29D4329ACFA;
-	Tue,  8 Jul 2025 09:04:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DAD442C08C4;
+	Tue,  8 Jul 2025 09:14:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=endrift.com header.i=@endrift.com header.b="aIZ2IWRI"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="S9NoOUZo"
 X-Original-To: linux-input@vger.kernel.org
-Received: from endrift.com (endrift.com [173.255.198.10])
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABCA52C08BC
-	for <linux-input@vger.kernel.org>; Tue,  8 Jul 2025 09:04:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=173.255.198.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1EAA29B224;
+	Tue,  8 Jul 2025 09:14:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.193
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751965496; cv=none; b=VJWCOyGVLnxGMkN0E3FvOJ6hc7hiDa1a9tE/3Y2VmFGj5cDr53lzVrE6F/tafikQGy6wwpeC18HmSAkclAswYg3XtHDm97F70ZhhJ499GfHIn576EBzqviHPddJhSQbaqkdmvF5W6rIHQxWLZpglSI3bXapBt6n1TQb6WBv+yjA=
+	t=1751966046; cv=none; b=qv+XkoH9kZfLUcylPZRu6nzJGf3RECPggGLUKgyJB8g/QAPxM6W89nCszoLqUVAtqxs0v0wcau13uViB5SU7hXtZf0xilPW2kCACB6sbaWwdDyIqWTQig1Y1/4gmkf7GlfIzy+9ewbpaPujctnpRKHaH3qOseu2QEpx40MNuC90=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751965496; c=relaxed/simple;
-	bh=40I04tv8WXyaaAiYm9OL97CICCJSu6v1jQGVGnngsJQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=sz4TybmyWaQoHhB+WpOzNGc+Er8tBHYd655IYb3bgXD/O6cECBWhMNwYSbq+wyvc3PLGj/vXv01wxxe9XOSFuHH2EGhPLIIiaVa3r2j5ZtAgPCkibbamD+0KFLIylM7fFTK7Dhx5A/4hGr5Scwv8yhYgRsB9Cc6SdNOSx9B2vqI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=endrift.com; spf=pass smtp.mailfrom=endrift.com; dkim=pass (2048-bit key) header.d=endrift.com header.i=@endrift.com header.b=aIZ2IWRI; arc=none smtp.client-ip=173.255.198.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=endrift.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=endrift.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=endrift.com; s=2020;
-	t=1751965486; bh=40I04tv8WXyaaAiYm9OL97CICCJSu6v1jQGVGnngsJQ=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=aIZ2IWRIim4BCMER9H918pJUKWqdZs5P5qV2/riLY1fuVIeK704tgWmwDYA/pBpk3
-	 10zsP63Iv9ssu2Ie0aV20zzBKk7zvnJ+AA1CqtEcwMMoQctEEQKM/N4UlKaE/929d9
-	 tTblO7zalFVZlTBcG67AryeKTAvJHsH8AktTETOuS8DJjmPVH+1vgkxuSFUm0ePbSV
-	 rsML8cthjz3jmUSzZ9FZAUdazWYOoBLgnEzZk2EtaVwMZH2th4ZBN7y2rVj6o0OmTr
-	 y2QeWJQFfJCa5diHo4Ri7Qz9vyINHx941UDX6+5TlTFXgPnY95odEsJm0Xrr5VZu0w
-	 z6m03rthu5ucA==
-Received: from [192.168.0.22] (71-212-74-234.tukw.qwest.net [71.212.74.234])
-	by endrift.com (Postfix) with ESMTPSA id 4158BA0F7;
-	Tue,  8 Jul 2025 02:04:46 -0700 (PDT)
-Message-ID: <9dcfe619-686f-40f4-a0a9-c56d8f9cdcaf@endrift.com>
-Date: Tue, 8 Jul 2025 02:04:45 -0700
+	s=arc-20240116; t=1751966046; c=relaxed/simple;
+	bh=P0dWyoW87zDHAA8QBh31R0pJA2SovOolIm0JyMwdVSc=;
+	h=Mime-Version:Content-Type:Date:Message-Id:To:Subject:Cc:From:
+	 References:In-Reply-To; b=jF3ic2uQhG0YETT1p8uwcikULDtcKwRZQ4Qq0mvtNlSstDBfosr1pP3EX5A43Jns4z3JKnhm1lwwWnInU4u+DTnKAUyU4VTk5zmfnKEsdpmNQkMcvWqd1xql+ZPZAzKygCkq+YWXl1ZDGxxgqq+NwsNtdKdcZg5EkESztVKtiW8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=S9NoOUZo; arc=none smtp.client-ip=217.70.183.193
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 97DF0432E9;
+	Tue,  8 Jul 2025 09:13:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1751966036;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=I+3ankCFBI8RZvTwoXY2iWc9bSbD1frozwAdknBYHsg=;
+	b=S9NoOUZodJD8PLOgSq0IbkY55tJyFJCNwF6eiUkPLcwFTtmK15t5QtlkVuqXdTaC3rWKRL
+	2wyrq93a8Hdfdchr21YdbpZ1nmtTWpSILdb91uzhk6EkZzcJv2PWXTOWSvP5JYnv8Koo4D
+	nCWnUyMpS9ztAMSnGRDpS2RiI2MZ+SduH9/g0COhAxqFjI/PSVyKhwa+o0dP9xjXEYEd2y
+	LyTxlBgFdNfQmcjeXAp3XAjJy/IjTPz5IGZHj0xblkfGNpJEe/RMbFG4lauobSvrAnaPq8
+	U5Codiy8GxS2XDwa4kvtu1sGxhe+ZQ1EG37y+bzkzswuC1MXPeHCq14tMNa0wQ==
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Changed Acer NGR200 to XTYPE_XBOX360 fixed the table
- because
-To: Greg KH <gregkh@linuxfoundation.org>,
- Nilton Perim Neto <niltonperimneto@gmail.com>
-Cc: dmitry.torokhov@gmail.com, linux-input@vger.kernel.org
-References: <92a568ca-e08f-423a-9de0-3f5b2946e721@endrift.com>
- <20250708033126.26216-2-niltonperimneto@gmail.com>
- <2025070840-marauding-popular-517f@gregkh>
-Content-Language: en-US
-From: Vicki Pfau <vi@endrift.com>
-In-Reply-To: <2025070840-marauding-popular-517f@gregkh>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Date: Tue, 08 Jul 2025 11:13:55 +0200
+Message-Id: <DB6K4LIQEDW2.2IKGMK2O3WQ7A@bootlin.com>
+To: "Andy Shevchenko" <andriy.shevchenko@linux.intel.com>
+Subject: Re: [PATCH v10 08/11] gpio: max7360: Add MAX7360 gpio support
+Cc: "Lee Jones" <lee@kernel.org>, "Rob Herring" <robh@kernel.org>,
+ "Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Conor Dooley"
+ <conor+dt@kernel.org>, "Kamel Bouhara" <kamel.bouhara@bootlin.com>, "Linus
+ Walleij" <linus.walleij@linaro.org>, "Bartosz Golaszewski" <brgl@bgdev.pl>,
+ "Dmitry Torokhov" <dmitry.torokhov@gmail.com>,
+ =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, "Michael Walle"
+ <mwalle@kernel.org>, "Mark Brown" <broonie@kernel.org>, "Greg
+ Kroah-Hartman" <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
+ <rafael@kernel.org>, "Danilo Krummrich" <dakr@kernel.org>,
+ <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-gpio@vger.kernel.org>, <linux-input@vger.kernel.org>,
+ <linux-pwm@vger.kernel.org>, =?utf-8?q?Gr=C3=A9gory_Clement?=
+ <gregory.clement@bootlin.com>, "Thomas Petazzoni"
+ <thomas.petazzoni@bootlin.com>, "Bartosz Golaszewski"
+ <bartosz.golaszewski@linaro.org>
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+X-Mailer: aerc 0.19.0-0-gadd9e15e475d
+References: <20250530-mdb-max7360-support-v10-0-ce3b9e60a588@bootlin.com>
+ <20250530-mdb-max7360-support-v10-8-ce3b9e60a588@bootlin.com>
+ <aDny-kJqiPq-Yyx9@smile.fi.intel.com>
+In-Reply-To: <aDny-kJqiPq-Yyx9@smile.fi.intel.com>
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdefgedvlecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepggfgtgffkffvufevhffofhgjsehtqhertdertdejnecuhfhrohhmpedfofgrthhhihgvuhcuffhusghoihhsqdeurhhirghnugdfuceomhgrthhhihgvuhdrughusghoihhsqdgsrhhirghnugessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnheptefhieehheehgeehkeeuiefgkeffvdehgeefieevgfekfedthefhtdfhheeujeefnecuffhomhgrihhnpegsohhothhlihhnrdgtohhmnecukfhppedvrgdtudemtggsudegmeehheeimeejrgdttdemfehftghfmehfsgdtugemuddviedvmedvvgejieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtudemtggsudegmeehheeimeejrgdttdemfehftghfmehfsgdtugemuddviedvmedvvgejiedphhgvlhhopehlohgtrghlhhhoshhtpdhmrghilhhfrhhomhepmhgrthhhihgvuhdrughusghoihhsqdgsrhhirghnugessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepvdefpdhrtghpthhtoheprghnughrihihrdhshhgvvhgthhgvnhhkoheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehlvggvsehkv
+ ghrnhgvlhdrohhrghdprhgtphhtthhopehrohgshheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepkhhriihkodgutheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheptghonhhorhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehkrghmvghlrdgsohhuhhgrrhgrsegsohhothhlihhnrdgtohhmpdhrtghpthhtoheplhhinhhushdrfigrlhhlvghijheslhhinhgrrhhordhorhhgpdhrtghpthhtohepsghrghhlsegsghguvghvrdhplh
+X-GND-Sasl: mathieu.dubois-briand@bootlin.com
 
-On 7/8/25 1:15 AM, Greg KH wrote:
-> On Tue, Jul 08, 2025 at 12:31:27AM -0300, Nilton Perim Neto wrote:
->> You're correct Vicki
->> I wrote the wrong xtype in the device tree,
->> But now it is fine.
-> 
-> Very odd changelog text :(
-> 
+On Fri May 30, 2025 at 8:03 PM CEST, Andy Shevchenko wrote:
+> On Fri, May 30, 2025 at 12:00:16PM +0200, Mathieu Dubois-Briand wrote:
+>> Add driver for Maxim Integrated MAX7360 GPIO/GPO controller.
+>>=20
+>> Two sets of GPIOs are provided by the device:
+>> - Up to 8 GPIOs, shared with the PWM and rotary encoder functionalities.
+>>   These GPIOs also provide interrupts on input changes.
+>> - Up to 6 GPOs, on unused keypad columns pins.
+>
+> LGTM,
+> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-Yes, I'm not really sure what's going on there. It appears to be a replacement for an already-in-tree patch (22c69d786ef8 ("Input: xpad - support Acer NGR 200 Controller")), and won't apply on top of it. It's also worth noting that that patch put the entry in the wrong place in the table to begin with, so drafting up a new patch on top of the tree that fixes the table entry and moves it into the right place is probably the best way to proceed here instead.
+Thanks!
 
-Vicki
+>
+> ...
+>
+>> +#include <linux/gpio/driver.h>
+>
+> Do we still need this header? I mean do we have anything used from it her=
+e?
+>
+
+Yes, I believe we do, as we access gpio_chip members in
+max7360_gpo_init_valid_mask().
+
+
+--=20
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
 
