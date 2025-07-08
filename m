@@ -1,138 +1,126 @@
-Return-Path: <linux-input+bounces-13421-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13422-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4206AFCDB7
-	for <lists+linux-input@lfdr.de>; Tue,  8 Jul 2025 16:34:44 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 25F96AFCEC8
+	for <lists+linux-input@lfdr.de>; Tue,  8 Jul 2025 17:16:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 22EC31885E12
-	for <lists+linux-input@lfdr.de>; Tue,  8 Jul 2025 14:33:26 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id CC9541BC2ABC
+	for <lists+linux-input@lfdr.de>; Tue,  8 Jul 2025 15:15:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 48B992BE7B1;
-	Tue,  8 Jul 2025 14:33:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C500A2E06FD;
+	Tue,  8 Jul 2025 15:14:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="gX6aG95p"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Isya+k0N"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
+Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93CA02DFA3C
-	for <linux-input@vger.kernel.org>; Tue,  8 Jul 2025 14:33:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1348712CD8B
+	for <linux-input@vger.kernel.org>; Tue,  8 Jul 2025 15:14:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751985185; cv=none; b=C9d5JCwxUjZs2H2TGLYt+2BAQHdrnKsrK8+eYeBKBuu+b+yrQe8bUQ1FVVKQ/8D524vgdwa2yGX3fC9Do55OV0Gqg59WHUoC2Gme0ms3sC9Tvyh2ua5lzh5MFnE3khc/L4sz+6vGmo7KkGoy8LXJp3Rb9bBtbVSdXPfW78DCTdM=
+	t=1751987677; cv=none; b=TIg/eqGrtuKXVnk8uy70bvWkHhKf5pjEKIqWxhDx/o9gTBdJVP+vqXnVDoJjO+oREXKlnpHjX+vhYOqgiIK5o6u1YnO+U/xVrxMPmH3w7IvSAmjyaAfysF1vj/Y2eNNWRDe92Etm6CE9nUZQvyk5BnLZkX65C9ggU3T6H8qP1LM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751985185; c=relaxed/simple;
-	bh=9gJZ9P5U2B5/nhjex3FiPp/yJQqM7d/SqS6PCkuUsv8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ablg1gyTure8c/XNT8F/98bZ4wQw3w0cEOYgHVlghNo9Z/f6W25iAlqw1zO344NIjZIc1qLKZccX0ePjqez156AibIozOWAq4MRFZTek2TLWI0bagR8iaHge4zBt1AqO6s5DI7TaaEXOZmouXfsW4HLEBnveBPAhDr1yT+Mp2xo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=gX6aG95p; arc=none smtp.client-ip=209.85.160.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
-Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-4a98208fa69so55051301cf.1
-        for <linux-input@vger.kernel.org>; Tue, 08 Jul 2025 07:33:03 -0700 (PDT)
+	s=arc-20240116; t=1751987677; c=relaxed/simple;
+	bh=Qp9HYGhoVHKGyikybLoDXqYGVnVdiI5u+EpYGDWAL2o=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=rTHHxePX2xvH4vZcDr+V3Q3QqkpzA5FZA2c5nfXpnZXDGHDi2eREO3sB9RucA+NeaM97N0LOcPpa8/G5H8IKKHu4iZKU06sDDfI6LiAS0wHp2J3n1RiH7PJtPaDd+cfUayn5kIXetr3Q365Hzce1mJ6tKxb9+p0hmJ16044lPtc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Isya+k0N; arc=none smtp.client-ip=209.85.160.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-4a42c40a04aso1834261cf.1
+        for <linux-input@vger.kernel.org>; Tue, 08 Jul 2025 08:14:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1751985182; x=1752589982; darn=vger.kernel.org;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=TkJTXQkSLDM+H3JzJZs9zJqYDllZ/dGQLsPeP5e4naI=;
-        b=gX6aG95pi4qvjXu2CmP4RIsuOhX/dFY3QETxxjwMMP9Bg7O/yaXryAH6iMcKAKjlf/
-         OF4hjqP0DsHByrtjnMo985jjvmPQiVN6dzkSgHJc/7Oi9Zw2HRGhzETwpcy+nU9oU4PD
-         CkjUslEVxUX7Aau3OCssff+aweYElGb9ntpZFPpUp5IFF/nhyccmlYmQYgTyfxY2LxqU
-         GAdW6IKKZBYtSROs9mCcyzIA3uf8PjdxWx1eJgaYGlJCK7b36IhWb02surCnTMx2YDuX
-         js9lKAgyPpxPuMl1QlB5zIyRTMohwuRoP6uC6WaHDCM7RIb17YP+UQcV/ISlaL3TsPf9
-         Tvsw==
+        d=gmail.com; s=20230601; t=1751987675; x=1752592475; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ovNnR7jB2avfVIhbkNxZ8a7ZIwNV++7lp5fbb0p1xHs=;
+        b=Isya+k0N28EI4Y6NuoxQv/8UAPeR1k+IESgVdL+a5GYCYxgCzGrG5ZSIE99riYdJeQ
+         unO8vNd/n+wc7E4GljF2/3UUnjoDIiqAqYLypiEb2hJt47nK8ThlOZqA0NLBX1RT0j5T
+         v1ZilQv2ixWg8toGTxvdCZswcvyTZYvOby0KUFx7uyJ6sCvf2rq5/5zoQhFpVvH3Qmlr
+         7QwrjQ7R2PXu9f7WFkT/HER0SWktiRpVFAT45eY18bWR7kVDnHlPO6N9ahjubLczWh7H
+         Wy2hYWEZFVgiZLbkUL9b9Sy5nI7dz1Ij6Imqm+MmCLxJg8tWcQer1fk9Bo87kJ4WDu8Z
+         oiGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751985182; x=1752589982;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=TkJTXQkSLDM+H3JzJZs9zJqYDllZ/dGQLsPeP5e4naI=;
-        b=AHuBDPsHUUxuel2BcF/vkTx580zrTo0tOWErlUPHBgMY32OHrsWitVNe4TWdsdmHh3
-         9Do5VlyjsOB1RAHXQF9avd3erOoBY2GKuytuqPUgTJ5T51PT4Tz9auGze4cPSuwEOQnQ
-         to/cMstQASPXsFzZbDXM8F37luNWuhfb1b55XversCiEk5hqbyIM7EgB0VMtpnW5+tMX
-         dRfZku+qOzA4MD5rdYFHbvTsAuQfTFjUL4SHrhVuJpW1/GY99VQGl79U4b4SIrkI1sdL
-         rQftiLVK156MQpz+RCyqCRaKi7w4b2g0bkL9De1Z3ZciLeVvdoxPclcsPUaL9Lho9R3o
-         sS4Q==
-X-Gm-Message-State: AOJu0YzJgAe68ZmDa05o4pX833rP6PAHEsUWdqsFJL8EKgBkeVNVOd47
-	pq/yKpkTnLwmgzhV458a28o6wb2e+D16S27aL+tXs0/K62NLdK3kPeQb8vFtDlUQO6ykczZ9HRS
-	iD84=
-X-Gm-Gg: ASbGncupEIWYoVyZGsiRHUTKORx2xFjxloSQ+uyabbYfXvKptJord2WPaeuuClqM7w3
-	qOtzwK+uCEoIT2EXg7f9g8dmM6aQ1ELz85zcOz0w3rQgPOfMMMo5+i2uGTJzD4/6fnJfMc7UqxE
-	W8SrwKLl+xMhnNkAbPJ3qmGFYd9DP31gIWG79/qzEBOs36UadZQeUJl7jRrEmSYEGwOtcliUQls
-	N9jPrMyhr09l047ilORLxvFsEJ9UyQqjldQkZxA4Z6VIuZdyjD6cTbXTHa1tyya4y/8TASpd4rd
-	KrDKX6qRBoP6FMF0fBwwfUInK34TgJj+SOx+paSbysvNkZiNtMwFLj9wwHen6N/DiE5ZYSruoRi
-	Kw5Hzjma959024+A=
-X-Google-Smtp-Source: AGHT+IF12A4YzQxhASZJw3qucM2mtdDIrnVfX1CGv4cPHFWrrPOlNBqHO3i9JOSTmOyqi0e0jaMeZw==
-X-Received: by 2002:a05:622a:98f:b0:4a9:8232:cb35 with SMTP id d75a77b69052e-4a9ce5bb4c0mr45895881cf.15.1751985182246;
-        Tue, 08 Jul 2025 07:33:02 -0700 (PDT)
-Received: from rowland.harvard.edu ([140.247.181.15])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4a994aa9413sm80080391cf.78.2025.07.08.07.33.01
+        d=1e100.net; s=20230601; t=1751987675; x=1752592475;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ovNnR7jB2avfVIhbkNxZ8a7ZIwNV++7lp5fbb0p1xHs=;
+        b=sstfIM83TS5egjlJlWAc1uXYQ/j/IsyBsD3Bbi0tvaNpslkMS4UrtHoNucDDwEcsAN
+         RtZdc8m3CCV8niz7DXah2BXX8I2CQkH2jCxoqm6F1jxW1igyq3vMFsZ2xojV5YeQ6UNF
+         mzs/zi+vEIhbGA3XpAcKdMmqJVakljza1AAz9gkHOUbX4My1k4uG7uVXP72+e5sBBOB2
+         6LNphZC4LZep8QEwAMWyrZZNPl/hICBJEwXAbMGzoQFZ3neuChfgUOuCvJZ12SzA/q7q
+         oFm/2IQHh3VNChCxggWxuJoKdVOar47TTxiKkuPgt+lZf/JyIqumIeDbsCEA0nQQ4jjS
+         2axg==
+X-Forwarded-Encrypted: i=1; AJvYcCWmYmE8jumrm9O/wv3119pRT4SWGEbKXl8/sBhZt0qVulfxC0w/Tdenj8m1rJ87DeNEbjwKuQI8folhNw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxU44AcHzPJeD8FmNJAQ8Hm/CGhPy3dX0IhTE99DPtyTt94ODAW
+	q9fTXIulNxSu7DbQSD8TcnpZQS7WopfAsRGKU/rLK6ok4uAdxZQfhKBc
+X-Gm-Gg: ASbGncsOi5pccBvglMMQAvuRFMiGbVzXmUMwsHveVqAltOCT8lx6RU3F3/L6k8SaixU
+	QD8FnYMN82vq+3O1eeYVB5aC/teZJpOatr8AZ1tKHTiCc0wI6l2Vi3ZjMls4XGiztfGT9Uahs8n
+	ueV8DIJPTrGDLcZBoeg1OceP20ypBEGNZ3db9yRD4TMm7GnDydqQA4kbN+niuY/PY3ewkhCCCKB
+	thhq704kl7Bs6MHWyKx4IVanHzkU6wEMzkKfBwM9dL1aVusWo2enPIdYC1ej+cdAn/PTO46mxvo
+	CJgrS+O/23MCA/UcU1kYBYw4+Ut7TvKtxyeIrJv2bL3PoT2wIgzSu/fQ/k8TRVB3E1LGoEezww=
+	=
+X-Google-Smtp-Source: AGHT+IEEyhGXxe3lP6N0fAEutEU/SK4omcJhjXC8I0DKzjQDqwt672uwwDfr1TfeXiW+MKpbf5vhVA==
+X-Received: by 2002:a05:622a:12:b0:4a9:bfec:b794 with SMTP id d75a77b69052e-4a9ca630423mr26930731cf.9.1751987674506;
+        Tue, 08 Jul 2025 08:14:34 -0700 (PDT)
+Received: from PERIM ([177.149.138.121])
+        by smtp.googlemail.com with ESMTPSA id d75a77b69052e-4a9949e5221sm82261191cf.2.2025.07.08.08.14.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Jul 2025 07:33:01 -0700 (PDT)
-Date: Tue, 8 Jul 2025 10:32:59 -0400
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>
-Cc: linux-input@vger.kernel.org,
-	USB mailing list <linux-usb@vger.kernel.org>
-Subject: Serious bug in HID core
-Message-ID: <c75433e0-9b47-4072-bbe8-b1d14ea97b13@rowland.harvard.edu>
+        Tue, 08 Jul 2025 08:14:34 -0700 (PDT)
+From: Nilton Perim Neto <niltonperimneto@gmail.com>
+To: vi@endrift.com
+Cc: dmitry.torokhov@gmail.com,
+	gregkh@linuxfoundation.org,
+	linux-input@vger.kernel.org,
+	niltonperimneto@gmail.com
+Subject: Re: Re: [PATCH] Changed Acer NGR200 to XTYPE_XBOX360 fixed the table because
+Date: Tue,  8 Jul 2025 12:12:06 -0300
+Message-ID: <20250708151204.14680-3-niltonperimneto@gmail.com>
+X-Mailer: git-send-email 2.50.0
+In-Reply-To: <92a568ca-e08f-423a-9de0-3f5b2946e721@endrift.com>
+References: <92a568ca-e08f-423a-9de0-3f5b2946e721@endrift.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-Jiri and Benjamin:
+ Not sure how to procceed with it, I only want to fix my mistake, 
+ However I'm fairly new to doing git over the mail list (I just use
+ github/lab) It was previously on the wrong place and the wrong xtype, so I
+ changed it Now it is on the right place on the tree and the correct 360 XTYPE
+ Just want to correct those issues
 
-Investigating a recent bug report from syzbot 
-(https://lore.kernel.org/linux-usb/686be237.a70a0220.29fe6c.0b0c.GAE@google.com/)
-led me to a rather serious error in the HID core.  It could affect a 
-lot of drivers, and I don't know enough about them or the HID subsystem 
-to fix it right away.
+Signed-off-by: Nilton Perim Neto <niltonperimneto@gmail.com>
+---
+ drivers/input/joystick/xpad.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-In short, does the value returned by hid_report_len() count the byte 
-reserved for the report ID number?
+diff --git a/drivers/input/joystick/xpad.c b/drivers/input/joystick/xpad.c
+index bad4c3608775..a7953bf5e289 100644
+--- a/drivers/input/joystick/xpad.c
++++ b/drivers/input/joystick/xpad.c
+@@ -176,8 +176,8 @@ static const struct xpad_device {
+ 	{ 0x05fd, 0x1007, "Mad Catz Controller (unverified)", 0, XTYPE_XBOX },
+ 	{ 0x05fd, 0x107a, "InterAct 'PowerPad Pro' X-Box pad (Germany)", 0, XTYPE_XBOX },
+ 	{ 0x05fe, 0x3030, "Chic Controller", 0, XTYPE_XBOX },
+-	{ 0x05fe, 0x3031, "Chic Controller", 0, XTYPE_XBOX },
+ 	{ 0x0502, 0x1305, "Acer NGR200", 0, XTYPE_XBOX360 },
++	{ 0x05fe, 0x3031, "Chic Controller", 0, XTYPE_XBOX },
+ 	{ 0x062a, 0x0020, "Logic3 Xbox GamePad", 0, XTYPE_XBOX },
+ 	{ 0x062a, 0x0033, "Competition Pro Steering Wheel", 0, XTYPE_XBOX },
+ 	{ 0x06a3, 0x0200, "Saitek Racing Wheel", 0, XTYPE_XBOX },
+-- 
+2.50.0
 
-Some drivers seem to assume that it does and some seem to assume that it 
-doesn't.  Here's what the actual code from include/linux/hid.h does:
 
-/**
- * hid_report_len - calculate the report length
- *
- * @report: the report we want to know the length
- */
-static inline u32 hid_report_len(struct hid_report *report)
-{
-	return DIV_ROUND_UP(report->size, 8) + (report->id > 0);
-}
 
-It's somewhere in between -- it includes the ID byte in the count if and 
-only if the ID is nonzero!  And of course, this behavior isn't mentioned 
-in the (ungrammatical) kerneldoc.
-
-The particular scenario causing the bug found by syzbot was this: 
-report->size was 0, report->id was 0, and the lower-level driver (usbhid 
-in this case) assumed that the length argument (which was 0) did include 
-the ID byte.  Since the ID was 0, the driver skipped over the first byte 
-of the buffer and decremented the length, causing the length to 
-underflow and leading to an invalid memory access.  In a more realistic 
-setting, this would merely result in data loss and leakage.
-
-How should this be fixed?
-
-Related issue: When the lower-level driver's raw_request() routine is 
-called, can it assume that the first byte of the output buffer always 
-contains the report ID number, set by the HID core?  If not, should it 
-assume that the first byte is always reserved for the ID, or that the 
-first byte is reserved only when the ID is nonzero?
-
-Do __hid_request() and __hid_hw_raw_request() behave the same way in 
-this regard?
-
-Alan Stern
 
