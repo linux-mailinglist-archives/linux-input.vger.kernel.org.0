@@ -1,126 +1,74 @@
-Return-Path: <linux-input+bounces-13422-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13423-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25F96AFCEC8
-	for <lists+linux-input@lfdr.de>; Tue,  8 Jul 2025 17:16:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B75FAFCF0D
+	for <lists+linux-input@lfdr.de>; Tue,  8 Jul 2025 17:23:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CC9541BC2ABC
-	for <lists+linux-input@lfdr.de>; Tue,  8 Jul 2025 15:15:09 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id EB4121BC2206
+	for <lists+linux-input@lfdr.de>; Tue,  8 Jul 2025 15:23:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C500A2E06FD;
-	Tue,  8 Jul 2025 15:14:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CDA8E2E3361;
+	Tue,  8 Jul 2025 15:21:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Isya+k0N"
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Qh4Kk4wS"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1348712CD8B
-	for <linux-input@vger.kernel.org>; Tue,  8 Jul 2025 15:14:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A98742E1C7E
+	for <linux-input@vger.kernel.org>; Tue,  8 Jul 2025 15:21:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751987677; cv=none; b=TIg/eqGrtuKXVnk8uy70bvWkHhKf5pjEKIqWxhDx/o9gTBdJVP+vqXnVDoJjO+oREXKlnpHjX+vhYOqgiIK5o6u1YnO+U/xVrxMPmH3w7IvSAmjyaAfysF1vj/Y2eNNWRDe92Etm6CE9nUZQvyk5BnLZkX65C9ggU3T6H8qP1LM=
+	t=1751988060; cv=none; b=rqZ+PlFkOAo0I+w8OiId6jFq5C5MrgwnsAfacaX6eM1A7Uh5YdqJghyCE++AsLHWOy1jnV59TnfBhZO5d3DVpXA/tVnJKhCSBtefUzUYVqXmPPlUFJfQoU44IpOj5EILGUFx3gQEgaBxHxMzl6n2mpMFIfXZUxdc6uiA+RbDDXE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751987677; c=relaxed/simple;
-	bh=Qp9HYGhoVHKGyikybLoDXqYGVnVdiI5u+EpYGDWAL2o=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=rTHHxePX2xvH4vZcDr+V3Q3QqkpzA5FZA2c5nfXpnZXDGHDi2eREO3sB9RucA+NeaM97N0LOcPpa8/G5H8IKKHu4iZKU06sDDfI6LiAS0wHp2J3n1RiH7PJtPaDd+cfUayn5kIXetr3Q365Hzce1mJ6tKxb9+p0hmJ16044lPtc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Isya+k0N; arc=none smtp.client-ip=209.85.160.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-4a42c40a04aso1834261cf.1
-        for <linux-input@vger.kernel.org>; Tue, 08 Jul 2025 08:14:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751987675; x=1752592475; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ovNnR7jB2avfVIhbkNxZ8a7ZIwNV++7lp5fbb0p1xHs=;
-        b=Isya+k0N28EI4Y6NuoxQv/8UAPeR1k+IESgVdL+a5GYCYxgCzGrG5ZSIE99riYdJeQ
-         unO8vNd/n+wc7E4GljF2/3UUnjoDIiqAqYLypiEb2hJt47nK8ThlOZqA0NLBX1RT0j5T
-         v1ZilQv2ixWg8toGTxvdCZswcvyTZYvOby0KUFx7uyJ6sCvf2rq5/5zoQhFpVvH3Qmlr
-         7QwrjQ7R2PXu9f7WFkT/HER0SWktiRpVFAT45eY18bWR7kVDnHlPO6N9ahjubLczWh7H
-         Wy2hYWEZFVgiZLbkUL9b9Sy5nI7dz1Ij6Imqm+MmCLxJg8tWcQer1fk9Bo87kJ4WDu8Z
-         oiGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751987675; x=1752592475;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ovNnR7jB2avfVIhbkNxZ8a7ZIwNV++7lp5fbb0p1xHs=;
-        b=sstfIM83TS5egjlJlWAc1uXYQ/j/IsyBsD3Bbi0tvaNpslkMS4UrtHoNucDDwEcsAN
-         RtZdc8m3CCV8niz7DXah2BXX8I2CQkH2jCxoqm6F1jxW1igyq3vMFsZ2xojV5YeQ6UNF
-         mzs/zi+vEIhbGA3XpAcKdMmqJVakljza1AAz9gkHOUbX4My1k4uG7uVXP72+e5sBBOB2
-         6LNphZC4LZep8QEwAMWyrZZNPl/hICBJEwXAbMGzoQFZ3neuChfgUOuCvJZ12SzA/q7q
-         oFm/2IQHh3VNChCxggWxuJoKdVOar47TTxiKkuPgt+lZf/JyIqumIeDbsCEA0nQQ4jjS
-         2axg==
-X-Forwarded-Encrypted: i=1; AJvYcCWmYmE8jumrm9O/wv3119pRT4SWGEbKXl8/sBhZt0qVulfxC0w/Tdenj8m1rJ87DeNEbjwKuQI8folhNw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxU44AcHzPJeD8FmNJAQ8Hm/CGhPy3dX0IhTE99DPtyTt94ODAW
-	q9fTXIulNxSu7DbQSD8TcnpZQS7WopfAsRGKU/rLK6ok4uAdxZQfhKBc
-X-Gm-Gg: ASbGncsOi5pccBvglMMQAvuRFMiGbVzXmUMwsHveVqAltOCT8lx6RU3F3/L6k8SaixU
-	QD8FnYMN82vq+3O1eeYVB5aC/teZJpOatr8AZ1tKHTiCc0wI6l2Vi3ZjMls4XGiztfGT9Uahs8n
-	ueV8DIJPTrGDLcZBoeg1OceP20ypBEGNZ3db9yRD4TMm7GnDydqQA4kbN+niuY/PY3ewkhCCCKB
-	thhq704kl7Bs6MHWyKx4IVanHzkU6wEMzkKfBwM9dL1aVusWo2enPIdYC1ej+cdAn/PTO46mxvo
-	CJgrS+O/23MCA/UcU1kYBYw4+Ut7TvKtxyeIrJv2bL3PoT2wIgzSu/fQ/k8TRVB3E1LGoEezww=
-	=
-X-Google-Smtp-Source: AGHT+IEEyhGXxe3lP6N0fAEutEU/SK4omcJhjXC8I0DKzjQDqwt672uwwDfr1TfeXiW+MKpbf5vhVA==
-X-Received: by 2002:a05:622a:12:b0:4a9:bfec:b794 with SMTP id d75a77b69052e-4a9ca630423mr26930731cf.9.1751987674506;
-        Tue, 08 Jul 2025 08:14:34 -0700 (PDT)
-Received: from PERIM ([177.149.138.121])
-        by smtp.googlemail.com with ESMTPSA id d75a77b69052e-4a9949e5221sm82261191cf.2.2025.07.08.08.14.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Jul 2025 08:14:34 -0700 (PDT)
-From: Nilton Perim Neto <niltonperimneto@gmail.com>
-To: vi@endrift.com
-Cc: dmitry.torokhov@gmail.com,
-	gregkh@linuxfoundation.org,
-	linux-input@vger.kernel.org,
-	niltonperimneto@gmail.com
-Subject: Re: Re: [PATCH] Changed Acer NGR200 to XTYPE_XBOX360 fixed the table because
-Date: Tue,  8 Jul 2025 12:12:06 -0300
-Message-ID: <20250708151204.14680-3-niltonperimneto@gmail.com>
-X-Mailer: git-send-email 2.50.0
-In-Reply-To: <92a568ca-e08f-423a-9de0-3f5b2946e721@endrift.com>
+	s=arc-20240116; t=1751988060; c=relaxed/simple;
+	bh=Jl8nDac21d6aO+lLe0HH42UEuj+RjbsDvvlsVPN1Nj8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pZU0H/NX8adnC8DMDCQF30WsPyQ/t3qBeLvifHt5ZbGyRkG4h/h2xVN9chuZs+ezS3dKr+Nf8Nm6RsELqUseTmrEd6AgrJ76DEcMciupDARDGC4+lTL/E0u2G0ZjXvQweuoPusmsWNWQ5ZCMwab4pcYYUUFLoev7XE2gVIzH1cc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Qh4Kk4wS; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F244C4CEED;
+	Tue,  8 Jul 2025 15:20:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1751988060;
+	bh=Jl8nDac21d6aO+lLe0HH42UEuj+RjbsDvvlsVPN1Nj8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Qh4Kk4wS5hyWhMdswubCVlvoDBryAQNZEfjq1/dt+1yNGicEfOOK/2rGhljbpIAjz
+	 IHN6TwPagqEiAd1Fx/UkJY4SLjaP5qMrKpiwIBx4/qE+JYG156iVO1TjKsK7x7rTM9
+	 /y7V6tNgi8D03USIt5rmCORnlsUu37EIA+CncaV0=
+Date: Tue, 8 Jul 2025 17:20:34 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Nilton Perim Neto <niltonperimneto@gmail.com>
+Cc: vi@endrift.com, dmitry.torokhov@gmail.com, linux-input@vger.kernel.org
+Subject: Re: Re: [PATCH] Changed Acer NGR200 to XTYPE_XBOX360 fixed the table
+ because
+Message-ID: <2025070806-unpicked-protrude-400e@gregkh>
 References: <92a568ca-e08f-423a-9de0-3f5b2946e721@endrift.com>
+ <20250708151204.14680-3-niltonperimneto@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250708151204.14680-3-niltonperimneto@gmail.com>
 
- Not sure how to procceed with it, I only want to fix my mistake, 
- However I'm fairly new to doing git over the mail list (I just use
- github/lab) It was previously on the wrong place and the wrong xtype, so I
- changed it Now it is on the right place on the tree and the correct 360 XTYPE
- Just want to correct those issues
+On Tue, Jul 08, 2025 at 12:12:06PM -0300, Nilton Perim Neto wrote:
+>  Not sure how to procceed with it, I only want to fix my mistake, 
+>  However I'm fairly new to doing git over the mail list (I just use
+>  github/lab) It was previously on the wrong place and the wrong xtype, so I
+>  changed it Now it is on the right place on the tree and the correct 360 XTYPE
+>  Just want to correct those issues
 
-Signed-off-by: Nilton Perim Neto <niltonperimneto@gmail.com>
----
- drivers/input/joystick/xpad.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Please take a look at the kernel documentation for how to submit a
+patch, it describes how to write this changelog in a format that will be
+correct.
 
-diff --git a/drivers/input/joystick/xpad.c b/drivers/input/joystick/xpad.c
-index bad4c3608775..a7953bf5e289 100644
---- a/drivers/input/joystick/xpad.c
-+++ b/drivers/input/joystick/xpad.c
-@@ -176,8 +176,8 @@ static const struct xpad_device {
- 	{ 0x05fd, 0x1007, "Mad Catz Controller (unverified)", 0, XTYPE_XBOX },
- 	{ 0x05fd, 0x107a, "InterAct 'PowerPad Pro' X-Box pad (Germany)", 0, XTYPE_XBOX },
- 	{ 0x05fe, 0x3030, "Chic Controller", 0, XTYPE_XBOX },
--	{ 0x05fe, 0x3031, "Chic Controller", 0, XTYPE_XBOX },
- 	{ 0x0502, 0x1305, "Acer NGR200", 0, XTYPE_XBOX360 },
-+	{ 0x05fe, 0x3031, "Chic Controller", 0, XTYPE_XBOX },
- 	{ 0x062a, 0x0020, "Logic3 Xbox GamePad", 0, XTYPE_XBOX },
- 	{ 0x062a, 0x0033, "Competition Pro Steering Wheel", 0, XTYPE_XBOX },
- 	{ 0x06a3, 0x0200, "Saitek Racing Wheel", 0, XTYPE_XBOX },
--- 
-2.50.0
+thanks,
 
-
-
+greg k-h
 
