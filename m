@@ -1,49 +1,49 @@
-Return-Path: <linux-input+bounces-13433-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13434-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BA4DAFE3AA
-	for <lists+linux-input@lfdr.de>; Wed,  9 Jul 2025 11:10:28 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F107AFEC9B
+	for <lists+linux-input@lfdr.de>; Wed,  9 Jul 2025 16:52:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 938095833B7
-	for <lists+linux-input@lfdr.de>; Wed,  9 Jul 2025 09:10:28 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D23A1189BC08
+	for <lists+linux-input@lfdr.de>; Wed,  9 Jul 2025 14:52:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 93F4028688D;
-	Wed,  9 Jul 2025 09:09:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BBACB2E5B20;
+	Wed,  9 Jul 2025 14:52:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R4AigL5z"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d9glH6zu"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 629B9286434;
-	Wed,  9 Jul 2025 09:09:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FFE42E5B13;
+	Wed,  9 Jul 2025 14:52:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752052150; cv=none; b=Obx2n1v2A6TAYeeTAksuoN3up5gUjHnnxK77Ac/5URAu4j0vb8k6mDZJCEOtbaYC8nbpgVS+A3HsPyTwxdufHvYJSF1KE/1BVUiPlFhVZbGpYnkJLjBPzeo1G/jLmpmmNzw4vkQfA8LyRw1kl7lCcSyCAG4VD8eh1Wi6VfkFbVo=
+	t=1752072733; cv=none; b=ZT+/a8P/iWYrQWdfec/1D1A2nlzh98v6PHTNvnd6BBpSfEr+CkD/4UyB0QqfEZj0g3ZnRhbFotD6FumbN53sVxG7XfoygFV75D7vLgjA0b4TqfoE/JhhY9zE6ZCyaL+DDbONW7Y2NNR+NTRSaSnJw3PRtKQ1fXYNKrc/M3yS16Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752052150; c=relaxed/simple;
-	bh=gV2jaj6M1p/R25rUOI3yMU7iCwdkbT5nU49Xub1IN5k=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=R0SkrCl2f+KzrqbIObxQVFgIKKqGwmBHXHhIqj11DbYvQbZVYdnQigmgBz+690KSyDKzOESBkFqah6XkLt7BA6BFupk4rpZ8sAJm2pHeHRgWrQ8bmu42K/7Ozql59MgEtQQKsKZ7NlH3jqGXQycutwm8S3BrYd6a4d7Gtu/BpTM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R4AigL5z; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B4DDC4CEF6;
-	Wed,  9 Jul 2025 09:09:08 +0000 (UTC)
+	s=arc-20240116; t=1752072733; c=relaxed/simple;
+	bh=azZoStJ5QM8poD0VSBjYlRNrZW41BkMbjKVGsPL0jag=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=ZcPYnSm8QIcwYVQ2aENdipzBvYT+GxEuC86XtTWuOncNxIVpZJ6aw8EJqgDy79u06ke0wLBvQHSCeCn+LLqSX9L8yzUTGr7GhZhrCbDdK4k8htBkdZsv065Zb6tVjvVRZM1YfxUuc6TAmixlv1WAe3p/dtu/IG12rOl4jxKjueM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d9glH6zu; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B09F9C4CEEF;
+	Wed,  9 Jul 2025 14:52:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752052149;
-	bh=gV2jaj6M1p/R25rUOI3yMU7iCwdkbT5nU49Xub1IN5k=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=R4AigL5zYqE8r7rJwa45C9ifhqqcsnTuH9frlCa53A06vyATeLgY94HXoOVkzMfJE
-	 6iw90EBDtVVQKqQ7gVVRDUWQI513iR//SO+fFImjtIZh6xAN+oYPp3TE62n9E1cm02
-	 J9pgGM6QPqh7isLcZVS/3bc1AXbrt/4cVWTK/FwBynWwCV34Ng8TWrreIxwpbEAzyN
-	 iuIKXf/YsAsHryaFThoq1ZxU9szhOVagbtNktdCcsURWJkTM3KYJwqS17d0CBzr92o
-	 R9E3rmtRseK+vrNXlCbB6EucB6AuG+8xL56SR4K3y1GE08odVOYxAmdkDq1F6rq5qG
-	 ezxA4PfpjLMAw==
+	s=k20201202; t=1752072733;
+	bh=azZoStJ5QM8poD0VSBjYlRNrZW41BkMbjKVGsPL0jag=;
+	h=From:Subject:Date:To:Cc:From;
+	b=d9glH6zuxgGQPC8aksPUR8RPCfl/bjWGbZTMY/pz8YaSR8TwNnKox3+2eEb7O55np
+	 62qE4kOEFIFmhqNSk2FrklpmYxO0RbWYcMDUQBfP53hjgAhWpbCCl6HSrwmDza99pJ
+	 b5mcOYXcQxZ/3MBQw0ZcaxQVPLpTyIgB+aeS4kYcWlBoaXbfANjUuAe0e+UapjqVIe
+	 8D2e1GuTAevkFps+4F1u2cxEfMGctDjpeDXI7aDasdEkNzdXSZsktMa9hWNuUK9Ws+
+	 bZUl1pnCBtjgmlhqbr5Mm5eUh11kLWW04w7mk3LAHoUQ+voqL5u2tdSCjZD9JT2T0J
+	 OqFPIxUyuwzIA==
 From: Benjamin Tissoires <bentiss@kernel.org>
-Date: Wed, 09 Jul 2025 11:08:51 +0200
-Subject: [PATCH 3/3] selftests/hid: sync python tests to hid-tools 0.10
+Subject: [PATCH 0/3] HID: core: fix __hid_request when no report ID is used
+Date: Wed, 09 Jul 2025 16:51:45 +0200
+Message-Id: <20250709-report-size-null-v1-0-194912215cbc@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -52,86 +52,58 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250709-wip-fix-ci-v1-3-b7df4c271cf8@kernel.org>
-References: <20250709-wip-fix-ci-v1-0-b7df4c271cf8@kernel.org>
-In-Reply-To: <20250709-wip-fix-ci-v1-0-b7df4c271cf8@kernel.org>
-To: Jiri Kosina <jikos@kernel.org>, 
- Peter Hutterer <peter.hutterer@who-t.net>, Shuah Khan <shuah@kernel.org>
-Cc: linux-input@vger.kernel.org, linux-kselftest@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Benjamin Tissoires <bentiss@kernel.org>
+X-B4-Tracking: v=1; b=H4sIAAGCbmgC/x2M0QpAQBAAf0X7bOuOOOdX5OFisaWjPSSXf3d5n
+ JqZCIGEKUCbRRC6OPDmE+g8g2FxfibkMTEUqqiUURaF9k0ODPwQ+nNdsTS1tuSS0DSQsl1o4vt
+ fdv37fgSbzkZiAAAA
+X-Change-ID: 20250709-report-size-null-37619ea20288
+To: Jiri Kosina <jikos@kernel.org>, Alan Stern <stern@rowland.harvard.edu>
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Benjamin Tissoires <bentiss@kernel.org>, stable@vger.kernel.org, 
+ syzbot+8258d5439c49d4c35f43@syzkaller.appspotmail.com
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1752052142; l=2366;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1752072731; l=1457;
  i=bentiss@kernel.org; s=20230215; h=from:subject:message-id;
- bh=gV2jaj6M1p/R25rUOI3yMU7iCwdkbT5nU49Xub1IN5k=;
- b=0+AC0++/tfOnhJpHqffvD9RuKWPJlVZfsD+3zhpsNFlSJjOtzZAjnREzgfnkO/GZ7/oQvQgKW
- EJxn3PM4COmBGrkV0luAcVqFsaLHEGua35+r1EhD522l3npHsqu4jsH
+ bh=azZoStJ5QM8poD0VSBjYlRNrZW41BkMbjKVGsPL0jag=;
+ b=S+sszfxuqTW7t7g5r0nOqnfD0+lS7peXCkoVQYI05B2nkXTqCcgbPkQ7U0hj9nPbm4Kof6j8j
+ xwjwMEPD+WpCtvMSYFI9oZXYuJoqM3SoSnA6uar8+J6+ArmQ5y4OchZ
 X-Developer-Key: i=bentiss@kernel.org; a=ed25519;
  pk=7D1DyAVh6ajCkuUTudt/chMuXWIJHlv2qCsRkIizvFw=
 
-hid-tools 0.10 fixes one inconvenience introduced by
-commit 6a9e76f75c1a ("HID: multitouch: Disable touchpad
-on firmware level while not in use")
+[Ideally I'd like to have tests in selftests, but I couldn't extract
+them out of the syzbot reproducer, so sending that first series to check
+against syzbot]
 
-This change added a new callback when a hid-nultitouch device is opened
-or closed to put the underlying device into a given operating mode.
-However, in the test cases, that means that while the single threaded
-test is run, it opens the device but has to react to the device while
-the open() is still running. hid-tools now implements a minimal thread
-to circumvent this.
+Followup of https://lore.kernel.org/linux-input/c75433e0-9b47-4072-bbe8-b1d14ea97b13@rowland.harvard.edu/
 
-This makes the HID kernel tests in sync with hid-tools 0.10.
+This initial series attempt at fixing the various bugs discovered by
+Alan regarding __hid_request().
 
-This has the net effect of running the full HID python testsuite in 6
-minutes instead of 1 hour.
+Syzbot managed to create a report descriptor which presents a feature
+request of size 0 (still trying to extract it) and this exposed the fact
+that __hid_request() was incorrectly handling the case when the report
+ID is not used.
+
+Send a first batch of fixes now so we get the feedback from syzbot ASAP.
+
+Note: in the series, I also mentioned that the report of size 0 should
+be stripped out of the HID device, but without a local reproducer this
+is going to be difficult to implement.
 
 Signed-off-by: Benjamin Tissoires <bentiss@kernel.org>
 ---
- tools/testing/selftests/hid/tests/base_device.py | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+Benjamin Tissoires (3):
+      HID: core: ensure the allocated report buffer can contain the reserved report ID
+      HID: core: ensure __hid_request reserves the report ID as the first byte
+      HID: core: do not bypass hid_hw_raw_request
 
-diff --git a/tools/testing/selftests/hid/tests/base_device.py b/tools/testing/selftests/hid/tests/base_device.py
-index e13035fe1deb4c2ee5fd729d43c619bdd759c138..59465c58d94dfd3993ae87b25a62e444e93e0f66 100644
---- a/tools/testing/selftests/hid/tests/base_device.py
-+++ b/tools/testing/selftests/hid/tests/base_device.py
-@@ -23,6 +23,7 @@ import fcntl
- import functools
- import libevdev
- import os
-+import threading
- 
- try:
-     import pyudev
-@@ -344,10 +345,28 @@ class BaseDevice(UHIDDevice):
-         if not self.kernel_is_ready or not self.started:
-             return []
- 
-+        # Starting with kernel v6.16, an event is emitted when
-+        # userspace opens a kernel device, and for some devices
-+        # this translates into a SET_REPORT.
-+        # Because EvdevDevice(path) opens every single evdev node
-+        # we need to have a separate thread to process the incoming
-+        # SET_REPORT or we end up having to wait for the kernel
-+        # timeout of 5 seconds.
-+        done = False
-+
-+        def dispatch():
-+            while not done:
-+                self.dispatch(1)
-+
-+        t = threading.Thread(target=dispatch)
-+        t.start()
-+
-         self._input_nodes = [
-             EvdevDevice(path)
-             for path in self.walk_sysfs("input", "input/input*/event*")
-         ]
-+        done = True
-+        t.join()
-         return self._input_nodes
- 
-     def match_evdev_rule(self, application, evdev):
+ drivers/hid/hid-core.c | 19 ++++++++++++++-----
+ 1 file changed, 14 insertions(+), 5 deletions(-)
+---
+base-commit: 1f988d0788f50d8464f957e793fab356e2937369
+change-id: 20250709-report-size-null-37619ea20288
 
+Best regards,
 -- 
-2.49.0
+Benjamin Tissoires <bentiss@kernel.org>
 
 
