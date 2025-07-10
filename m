@@ -1,265 +1,90 @@
-Return-Path: <linux-input+bounces-13469-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13470-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CA43B004D3
-	for <lists+linux-input@lfdr.de>; Thu, 10 Jul 2025 16:13:20 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 458F7B004FD
+	for <lists+linux-input@lfdr.de>; Thu, 10 Jul 2025 16:21:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 780AD166333
-	for <lists+linux-input@lfdr.de>; Thu, 10 Jul 2025 14:08:33 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D30974E6669
+	for <lists+linux-input@lfdr.de>; Thu, 10 Jul 2025 14:20:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E8BB2270EB2;
-	Thu, 10 Jul 2025 14:08:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F1219272E44;
+	Thu, 10 Jul 2025 14:21:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=savoirfairelinux.com header.i=@savoirfairelinux.com header.b="eiI5L9tx"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JNaX6MHq"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail.savoirfairelinux.com (mail.savoirfairelinux.com [208.88.110.44])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C461242D62;
-	Thu, 10 Jul 2025 14:08:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=208.88.110.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C17A1272814;
+	Thu, 10 Jul 2025 14:21:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752156509; cv=none; b=Ux2gxVpGAw0taA9L2QjNmLSH+NXaMQzd/4442sxi05motFi6dNqB1Cf5WSyRfzXzpLOF1b3+YXgME9W0Rj7zwAokn0SkV0heRh3r5UZxE951bSYUA8DbnXXWJQ/ft0COmwpanL3l4USR2Hc4egegsK5vqHVbURdREcVdZir45vY=
+	t=1752157273; cv=none; b=leH4lpAAcUnu8bG69zpcH9CMGsN3zv1hm7sEGxgO0PkLaSGRaZo9m53vVbPXBPVgVuwaEUktNG8aoXcwWEy5mW+N+XwnZOHWMZnD6hIoVePq3Hoqq9QT27JMqK6KuVihCh/VxKGq8v3LrO9LrrGAlTdU3aQtKtdTXjGQ3DpWKQQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752156509; c=relaxed/simple;
-	bh=6+V6b48EzWgWG8MSnsUjJWAfwO4HcQ599pAv9PMWIe4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=X0fna1ZBCsiqel5mvDg9x+/Mvz+M5KpviulD9o3H1qP3u0yMx/e6W0abnlbkEz0Lz6baqp/+ET+3+eku0gxXBEzx/BL/6mpij9KzJccRF9p9/eTFx09T4EY2Prfo3DPEIIUUX6Quc77uVpN+dpKSIdZ9ORfRXHNTpCaEPe0hy/s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=savoirfairelinux.com; spf=pass smtp.mailfrom=savoirfairelinux.com; dkim=pass (2048-bit key) header.d=savoirfairelinux.com header.i=@savoirfairelinux.com header.b=eiI5L9tx; arc=none smtp.client-ip=208.88.110.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=savoirfairelinux.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=savoirfairelinux.com
-Received: from localhost (localhost [127.0.0.1])
-	by mail.savoirfairelinux.com (Postfix) with ESMTP id 807163D8570F;
-	Thu, 10 Jul 2025 10:08:20 -0400 (EDT)
-Received: from mail.savoirfairelinux.com ([127.0.0.1])
- by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavis, port 10032)
- with ESMTP id O8O26kgwxypV; Thu, 10 Jul 2025 10:08:19 -0400 (EDT)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.savoirfairelinux.com (Postfix) with ESMTP id A7AE33D875E7;
-	Thu, 10 Jul 2025 10:08:19 -0400 (EDT)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.savoirfairelinux.com A7AE33D875E7
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=savoirfairelinux.com; s=DFC430D2-D198-11EC-948E-34200CB392D2;
-	t=1752156499; bh=EhdCuuk3MsnvKWneuePEB9v7psFEpBgaIrswFJsCaTM=;
-	h=Date:From:To:Message-ID:MIME-Version;
-	b=eiI5L9txRHCopE2fnkP0oI2iR09ru1hhSxhD72AiJph9EmOfBFWozobaGPW96AJCg
-	 y20ij65cW9KEn2XjyNQOPE65m6uIniR/s4iYaKCdfJmx+WkBXOV0mJHBnMZNmXNFqn
-	 epC8zeVa3dGaPk/5jGzdzupceRde0cG3neSQFZD44FYUdaxnZL97VZMQyaDZ+xJgyq
-	 +ywApD4UlTpFGG9/xevR+agtU/kSNGNvivGQ4lmfljx85CsIKXQb37kR2gM8JKOJGk
-	 JrfZVByyinDxo4geIA6o8I951StEPiElJvF6PUPXhR2EPrUYt3jTwEE/8Sk3pRe0mJ
-	 3ZzcN5cTuFweQ==
-X-Virus-Scanned: amavis at mail.savoirfairelinux.com
-Received: from mail.savoirfairelinux.com ([127.0.0.1])
- by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavis, port 10026)
- with ESMTP id 8J66NYaKQAMU; Thu, 10 Jul 2025 10:08:19 -0400 (EDT)
-Received: from fedora (unknown [192.168.51.254])
-	by mail.savoirfairelinux.com (Postfix) with ESMTPSA id 595523D8570F;
-	Thu, 10 Jul 2025 10:08:19 -0400 (EDT)
-Date: Thu, 10 Jul 2025 10:08:18 -0400
-From: Samuel Kayode <samuel.kayode@savoirfairelinux.com>
-To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Cc: devnull+samuel.kayode.savoirfairelinux.com@kernel.org, Frank.li@nxp.com,
-	abelvesa@kernel.org, abelvesa@linux.com, b38343@freescale.com,
-	broonie@kernel.org, conor+dt@kernel.org, devicetree@vger.kernel.org,
-	dmitry.torokhov@gmail.com, eballetbo@gmail.com, imx@lists.linux.dev,
-	krzk+dt@kernel.org, lee@kernel.org, lgirdwood@gmail.com,
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-pm@vger.kernel.org, robh@kernel.org, sre@kernel.org,
-	yibin.gong@nxp.com
-Subject: Re: [PATCH v8 2/6] mfd: pf1550: add core driver
-Message-ID: <aG_JUhEQaiYQfJmz@fedora>
-References: <20250707-pf1550-v8-0-6b6eb67c03a0@savoirfairelinux.com>
- <20250707-pf1550-v8-2-6b6eb67c03a0@savoirfairelinux.com>
- <0406698c-6534-4aca-8994-e8a69ecee2b2@wanadoo.fr>
+	s=arc-20240116; t=1752157273; c=relaxed/simple;
+	bh=PiKYZARavFsgpI+GNBPD+meoU3JrO96ePdosDKUFY74=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=SpVyU7q7VXBAg8dvGiXUUj2lTEjliHjgReVTg5gyZjPiJlRmnUI27ZZc/Bz+bAPSMccuqkI0t9yETMrPGRjMc45g1zIMnHChuEUDA/778IONa6rKGR4yzFNpX0jk01j4Db+45tjuTS9t+AhgL5gcScy7fs51M/IyCfaEntL6xpo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JNaX6MHq; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0620EC4CEE3;
+	Thu, 10 Jul 2025 14:21:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1752157273;
+	bh=PiKYZARavFsgpI+GNBPD+meoU3JrO96ePdosDKUFY74=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=JNaX6MHqnBkxAq9w3Kw8L/G+6EYfDiX02choW0sza1q/GWEIzrh5GWFVEUwUpsR/A
+	 q21fqn0AnSrs1MEUfYZS6tfm7WsTLSqGWwzOGr9LuHvcxuSgM5Z/nr6iE0CRZ4c9ld
+	 Lte9eh1wD4zTGqpeuX6qSgFRKsaQkMJW+KUuOqpSgoz8uC/kwdtGRPUkKYg7SXDuX8
+	 FZpZCuRq+lKS1YD/ZNEWHzgwjafaA6Rd+MNypvOoRzq33rekjZ6mjRbr0xnOeGRd17
+	 A8p4ohiZt4qPA+7Tw9HHk6n6mMkC7inBKmukKUD8ckHw2XbVklbW3y8qFmvCoix9o7
+	 v77jUpyj3T03g==
+From: Benjamin Tissoires <bentiss@kernel.org>
+To: Jiri Kosina <jikos@kernel.org>, 
+ Peter Hutterer <peter.hutterer@who-t.net>, Shuah Khan <shuah@kernel.org>, 
+ Benjamin Tissoires <bentiss@kernel.org>
+Cc: linux-input@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20250709-wip-fix-ci-v1-0-b7df4c271cf8@kernel.org>
+References: <20250709-wip-fix-ci-v1-0-b7df4c271cf8@kernel.org>
+Subject: Re: [PATCH 0/3] selftests/hid: upgrade the python scripts to match
+ hid-tools 0.10
+Message-Id: <175215727176.770911.16764304017186964894.b4-ty@kernel.org>
+Date: Thu, 10 Jul 2025 16:21:11 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-In-Reply-To: <0406698c-6534-4aca-8994-e8a69ecee2b2@wanadoo.fr>
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.2
 
-On Tue, Jul 08, 2025 at 08:46:48PM +0200, Christophe JAILLET wrote:
-> Le 07/07/2025 =E0 23:37, Samuel Kayode via B4 Relay a =E9crit=A0:
-> > From: Samuel Kayode <samuel.kayode-4ysUXcep3aM1wj+D4I0NRVaTQe2KTcn/@p=
-ublic.gmane.org>
-> >=20
-> > Add the core driver for pf1550 PMIC. There are 3 subdevices for which=
- the
-> > drivers will be added in subsequent patches.
-> >=20
-> > Reviewed-by: Frank Li <Frank.Li-3arQi8VN3Tc@public.gmane.org>
-> > Signed-off-by: Samuel Kayode <samuel.kayode-4ysUXcep3aM1wj+D4I0NRVaTQ=
-e2KTcn/@public.gmane.org>
->=20
-> Hi,
->=20
-> some nitpicks and a few real questions.
->=20
-> CJ
->=20
-> ...
->=20
-> > +	/* Add top level interrupts */
-> > +	ret =3D devm_regmap_add_irq_chip(pf1550->dev, pf1550->regmap, pf155=
-0->irq,
-> > +				       IRQF_ONESHOT | IRQF_SHARED |
-> > +				       IRQF_TRIGGER_FALLING,
-> > +				       0, &pf1550_irq_chip,
-> > +				       &pf1550->irq_data);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	/* Add regulator */
-> > +	irq =3D regmap_irq_get_virq(pf1550->irq_data, PF1550_IRQ_REGULATOR)=
-;
->=20
-> Same as above.
->=20
-> > +	if (irq < 0)
-> > +		return dev_err_probe(pf1550->dev, irq,
-> > +				     "Failed to get parent vIRQ(%d) for chip %s\n",
-> > +				     PF1550_IRQ_REGULATOR, pf1550_irq_chip.name);
-> > +
-> > +	ret =3D devm_regmap_add_irq_chip(pf1550->dev, pf1550->regmap, irq,
-> > +				       IRQF_ONESHOT | IRQF_SHARED |
-> > +				       IRQF_TRIGGER_FALLING, 0,
-> > +				       &pf1550_regulator_irq_chip,
-> > +				       &pf1550->irq_data_regulator);
-> > +	if (ret)
-> > +		return dev_err_probe(pf1550->dev, ret,
-> > +				     "Failed to add %s IRQ chip\n",
-> > +				     pf1550_regulator_irq_chip.name);
-> > +
-> > +	domain =3D regmap_irq_get_domain(pf1550->irq_data_regulator);
-> > +
-> > +	ret =3D  devm_mfd_add_devices(pf1550->dev, PLATFORM_DEVID_NONE, reg=
-ulator,
->=20
-> 2 spaces after =3D
->
-Will drop.
-> > +				    1, NULL, 0, domain);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	/* Add onkey */
-> > +	irq =3D regmap_irq_get_virq(pf1550->irq_data, PF1550_IRQ_ONKEY);
->=20
-> Same
->=20
-> > +	if (irq < 0)
-> > +		return dev_err_probe(pf1550->dev, irq,
-> > +				     "Failed to get parent vIRQ(%d) for chip %s\n",
-> > +				     PF1550_IRQ_ONKEY, pf1550_irq_chip.name);
-> > +
-> > +	ret =3D devm_regmap_add_irq_chip(pf1550->dev, pf1550->regmap, irq,
-> > +				       IRQF_ONESHOT | IRQF_SHARED |
-> > +				       IRQF_TRIGGER_FALLING, 0,
-> > +				       &pf1550_onkey_irq_chip,
-> > +				       &pf1550->irq_data_onkey);
-> > +	if (ret)
-> > +		return dev_err_probe(pf1550->dev, ret,
-> > +				     "Failed to add %s IRQ chip\n",
-> > +				     pf1550_onkey_irq_chip.name);
-> > +
-> > +	domain =3D regmap_irq_get_domain(pf1550->irq_data_onkey);
-> > +
-> > +	ret =3D  devm_mfd_add_devices(pf1550->dev, PLATFORM_DEVID_NONE, onk=
-ey, 1,
->=20
-> 2 spaces after =3D
->=20
-Will drop.
-> > +				    NULL, 0, domain);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	/* Add battery charger */
-> > +	irq =3D regmap_irq_get_virq(pf1550->irq_data, PF1550_IRQ_CHG);
->=20
-> This calls irq_create_mapping().
-> Should irq_dispose_mapping() or another helper be called in the error
-> handling path and in the remove function, or is it already handled by a
-> devm_ function?
->=20
-This creates a mapping for the allocated `irq_data` runtime controller by
-devm_regmap_add_irq. The `irq_data` is for the top level interrupts. Sinc=
-e it
-was allocated with a devm_, I think irq_dispose_mapping is called during =
-a
-remove.
-> > +	if (irq < 0)
-> > +		return dev_err_probe(pf1550->dev, irq,
-> > +				     "Failed to get parent vIRQ(%d) for chip %s\n",
-> > +				     PF1550_IRQ_CHG, pf1550_irq_chip.name);
-> > +
-> > +	ret =3D devm_regmap_add_irq_chip(pf1550->dev, pf1550->regmap, irq,
-> > +				       IRQF_ONESHOT | IRQF_SHARED |
-> > +				       IRQF_TRIGGER_FALLING, 0,
-> > +				       &pf1550_charger_irq_chip,
-> > +				       &pf1550->irq_data_charger);
-> > +	if (ret)
-> > +		return dev_err_probe(pf1550->dev, ret,
-> > +				     "Failed to add %s IRQ chip\n",
-> > +				     pf1550_charger_irq_chip.name);
-> > +
-> > +	domain =3D regmap_irq_get_domain(pf1550->irq_data_charger);
-> > +
-> > +	return devm_mfd_add_devices(pf1550->dev, PLATFORM_DEVID_NONE, charg=
-er,
-> > +				    1, NULL, 0, domain);
-> > +}
-> > +
-> > +static int pf1550_suspend(struct device *dev)
-> > +{
-> > +	struct pf1550_ddata *pf1550 =3D dev_get_drvdata(dev);
-> > +
-> > +	if (device_may_wakeup(dev)) {
-> > +		enable_irq_wake(pf1550->irq);
-> > +		disable_irq(pf1550->irq);
-> > +	}
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static int pf1550_resume(struct device *dev)
-> > +{
-> > +	struct pf1550_ddata *pf1550 =3D dev_get_drvdata(dev);
-> > +
-> > +	if (device_may_wakeup(dev)) {
-> > +		disable_irq_wake(pf1550->irq);
-> > +		enable_irq(pf1550->irq);
->=20
-> Should this 2 lines be inverted?
->=20
-I don't think it matters. disable_irq_wake is 'completely orthogonal' to =
-the
-enable/disable(irq). See function irq_set_irq_wake.
-> > +	}
-> > +
-> > +	return 0;
-> > +}
->=20
-> ...
->=20
-> > +#define PF1550_CHG_LINEAR_ONLY		12
-> > +#define PF1550_CHG_SNS_MASK		0xf
-> > +#define PF1550_CHG_INT_MASK             0x51
->=20
-> Space vs tab
->=20
-Will make changes.
-> > +
-> > +#define PF1550_BAT_NO_VBUS		0
-> > +#define PF1550_BAT_LOW_THAN_PRECHARG	1
+On Wed, 09 Jul 2025 11:08:48 +0200, Benjamin Tissoires wrote:
+> hid-tools 0.10 fixed a test regression introduced in 6.16-rc1: the
+> kernel might communicate with the uhid node while the test suite opens
+> the evdev node. This leads to a full test-suite time which used to run
+> in 6 minutes into an hour.
+> 
+> Merge the upstream hid-tools project in the selftest kernel dir to
+> reduce that time to something manageable again.
+> 
+> [...]
 
-Thanks,
-Sam
+Applied to hid/hid.git (for-6.17/selftests), thanks!
+
+[1/3] selftests/hid: run ruff format on the python part
+      https://git.kernel.org/hid/hid/c/c85a8cb9b8d3
+[2/3] selftests/hid: sync the python tests to hid-tools 0.8
+      https://git.kernel.org/hid/hid/c/642f9b2d608c
+[3/3] selftests/hid: sync python tests to hid-tools 0.10
+      https://git.kernel.org/hid/hid/c/1aee3a44fad2
+
+Cheers,
+-- 
+Benjamin Tissoires <bentiss@kernel.org>
+
 
