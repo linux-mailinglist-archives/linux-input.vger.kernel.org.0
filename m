@@ -1,305 +1,193 @@
-Return-Path: <linux-input+bounces-13473-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13474-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67431B0063E
-	for <lists+linux-input@lfdr.de>; Thu, 10 Jul 2025 17:17:00 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DF46B00974
+	for <lists+linux-input@lfdr.de>; Thu, 10 Jul 2025 19:02:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C0E2B189395F
-	for <lists+linux-input@lfdr.de>; Thu, 10 Jul 2025 15:16:16 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 150E53AC68F
+	for <lists+linux-input@lfdr.de>; Thu, 10 Jul 2025 17:01:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B46B273D96;
-	Thu, 10 Jul 2025 15:15:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 626F72E6D22;
+	Thu, 10 Jul 2025 17:01:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eaW19AsV"
+	dkim=pass (2048-bit key) header.d=savoirfairelinux.com header.i=@savoirfairelinux.com header.b="oQDLnUo2"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.savoirfairelinux.com (mail.savoirfairelinux.com [208.88.110.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 961F922425E;
-	Thu, 10 Jul 2025 15:15:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27DF642A9D;
+	Thu, 10 Jul 2025 17:01:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=208.88.110.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752160554; cv=none; b=fnW+Xfh3c0MJBaMYmBlFtDKK4y4aMWcQgp9fyxWdn/TXL7TqeWco6c73KcTbTgnNJ4qHyCSUXuZojqZaJRSUrTREDhtNt3f1XFpUzDBfqmMCPO5YU63Iw6XlUpgN/Pxd7PMIsdVbM6usXqnDabWjCzz+REjZWo5cR8FEaYLy1Y0=
+	t=1752166903; cv=none; b=XAxb7uPTtrhpVj/MznDH65qFtR8PpcGLagSQdHB8wv3St4SKnlEBFS9fkUe8HpRRq+qoRdbhcXLKS15Cw8F/J17B/VAqjO/lK91uea7xGZmrOdB9FfGIRTgK/7rUHvyKfWYJku5YpQ8+TCLRE+gY6BK76lhvHJdSjsTD5B6AixM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752160554; c=relaxed/simple;
-	bh=cP2XdFEmvXS0OKxHIMqQZXRB1hVTr99YjAXWGN4d8uI=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=ZpqjbioVo403nfllDpHhLdBP0+8nWeVErpbsShFdMxsjvvGXKvtAtq05QREqe66HEe1PoNPqLAfzdocTushRrYB3XlhuozLiyCcE0f4cYUYL/Kp2FpL8ULDQf82SB4RcmCOOtQw/i2/8szMqemqivvaJlX32fXF+qR0//JMXReY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eaW19AsV; arc=none smtp.client-ip=209.85.216.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-313cde344d4so1326077a91.0;
-        Thu, 10 Jul 2025 08:15:52 -0700 (PDT)
+	s=arc-20240116; t=1752166903; c=relaxed/simple;
+	bh=QSzDAxfN4sppY+oXqLp+S3cjY5KSRmdh52uliVq4nZw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lKAx2LKBpvAULhGXqFhlJzKv7pOiMlVamxKsW226SWT8tg0MrK719pQkAUdJvdpmJLNzu4QRpnHl8dIK6/cyF4ib6IjBgX8u9iWlhwC1/rCNOUuLUg0ttNhRO2RJBMggQDfUWfx3VfPSGmaYf8FexTNhq64sBIh/RUdBzIaS/Oc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=savoirfairelinux.com; spf=pass smtp.mailfrom=savoirfairelinux.com; dkim=pass (2048-bit key) header.d=savoirfairelinux.com header.i=@savoirfairelinux.com header.b=oQDLnUo2; arc=none smtp.client-ip=208.88.110.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=savoirfairelinux.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=savoirfairelinux.com
+Received: from localhost (localhost [127.0.0.1])
+	by mail.savoirfairelinux.com (Postfix) with ESMTP id BDE7C3D84E48;
+	Thu, 10 Jul 2025 13:01:39 -0400 (EDT)
+Received: from mail.savoirfairelinux.com ([127.0.0.1])
+ by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavis, port 10032)
+ with ESMTP id TygYQdipvOq3; Thu, 10 Jul 2025 13:01:39 -0400 (EDT)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.savoirfairelinux.com (Postfix) with ESMTP id 037013D8E983;
+	Thu, 10 Jul 2025 13:01:39 -0400 (EDT)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.savoirfairelinux.com 037013D8E983
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752160552; x=1752765352; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:references
-         :in-reply-to:user-agent:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=k2Ut5zqrT/gFfDOz4SYZ4KaqF0Yng+eUvKdctMowZis=;
-        b=eaW19AsV/bBm/VHvFuY+3nX7zQ38DqMxLSwIsn38KzqO0kjelNfobyOkhey3JxJ8Uv
-         Cj7B4+5sQZtUsLe2uOXRE1GquEWpbSBQQa7bohHD+Ws1r8n/3fLFgZ2rlwVSoPastA00
-         Bvbr+kjecbIk3RQgwfJKLofVWK+6zi4rqOYIIzZBK60vHXiEgqxvzMX/bLEUuTqAZsZn
-         8lpATbaXHXjpaA/o/rKDC0s8eXQFBo33FH5Gp4dUMRKudb8Ud1vlND2UrHLIjpOJMSYy
-         bk+gau338z7FASJH1TtUzRF8geSKADc1lgR3ITMPXoQPk0Mk7FsRJcuoG27tEBpeuXFr
-         DVoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752160552; x=1752765352;
-        h=content-transfer-encoding:mime-version:message-id:references
-         :in-reply-to:user-agent:subject:cc:to:from:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=k2Ut5zqrT/gFfDOz4SYZ4KaqF0Yng+eUvKdctMowZis=;
-        b=d+qOQhMvEUo4IJOOes42iaPC5CKE6gSBEK0GShUD5QIdE1Oo+ffvML1X0bzmAH5W7U
-         ybpIUWx9gn/YpuKFriACTwV+zYHHKuE6oFvyosMlro1vA9TpkZ/y8oqeJbrZlV+zUaWd
-         dEcpMEPVv8aiSBA/LBfqfwqtkYE+sRyCDIglRChNkwg2dfGAPzGWoDcuaIjwjRY+AjGI
-         JVr7gB5BJUlccuza5xkmW6nl/171nsbZ8lDEeN7J3xxlhQDm2Vn5yqFt8KGyAM1cMJMl
-         Xjo9ZecyB6xQkWJvZO2qojr3HHipQmpL7xPhBxHEsTbU0bWshYsaK0a28R1I1RItVWcn
-         O9Lw==
-X-Forwarded-Encrypted: i=1; AJvYcCUmBQLmRaCBG8yIPmfiXZbjBB8C2Jjhvb+C/26iHePRebVLndReZ62wYCFjwX5AzIBcZ81BDWQ6IU4=@vger.kernel.org, AJvYcCWIwuwTlz+dPjaHGgfCKXBNAQYUstCnbdUONlLBPKf4hNudiYJ9Id0YiPP4zRTtYvjf3q4XFILogng7LkdJ@vger.kernel.org, AJvYcCWNfstO1qoXUrFrgE1gbhM/k6Q/GC4Eua5k47AUHPsBMriVyamhCi1PYvzJ/DQzDsEEz6JHi75hk/K5L8c=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwSTLNENLeOhfiVTasddbB4pWguBJHWw5JPr+vr8NMQwz1povk6
-	p6XXHRNdxMh+AAhJjF/5qfaZOmxS2qq72BqHkfDfZLOaFj85Vv9rJBVSaJLg2A==
-X-Gm-Gg: ASbGncu7dF8K4VEneCp+h6ZTlY8drb23t9NzYppgeJQmXxxIy4vDPWyRpqk3ggdDaTi
-	YBTu4EooAhoGOFqROxxWHinxfn9Nhf6OXGB0klvLFT2Dyii+/o0Lzp7CbpmR7i6zBLZnb8xBGkv
-	Pun5+0YsUxlTaYmZ9EQaxjsOgieIuO+RvhBhHXVTPnV2h5FqSnBS6QTPh6qkn/cyzv8+LH4/AdL
-	/GCtA3cIaM43mXTr+ws45m24eztSR+RrNTGQDtq9DwB0uoCDVpVQ2FUSpo0s1VbFx0V+IdYpJea
-	waNbFLHnTJAofdA1YgHGcvcp6z1KEGiD625wJ6t/8l5lzZ3fpeEezsCeNhy8imrduLvtRYvn+iD
-	LgzXIFx2B
-X-Google-Smtp-Source: AGHT+IFpSknIX5oQ3t+hSQemLFiY5TGbNbhPCpiXc0cVzMXY7k38QDCJh161Fl99D1arZbVAY4cPnA==
-X-Received: by 2002:a17:90b:1a91:b0:313:28f1:fc33 with SMTP id 98e67ed59e1d1-31c3ef23af9mr4987342a91.10.1752160551522;
-        Thu, 10 Jul 2025 08:15:51 -0700 (PDT)
-Received: from ehlo.thunderbird.net ([2607:fb91:1be0:77b7:ac39:c338:9a9b:5f99])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-31c3e973e75sm2656739a91.16.2025.07.10.08.15.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 10 Jul 2025 08:15:51 -0700 (PDT)
-Date: Thu, 10 Jul 2025 08:15:49 -0700
-From: "Derek J. Clark" <derekjohn.clark@gmail.com>
-To: Benjamin Tissoires <bentiss@kernel.org>
-CC: Jiri Kosina <jikos@kernel.org>, Mario Limonciello <superm1@kernel.org>,
- Xino Ni <nijs1@lenovo.com>, Zhixin Zhang <zhangzx36@lenovo.com>,
- Mia Shao <shaohz1@lenovo.com>, Mark Pearson <mpearson-lenovo@squebb.ca>,
- "Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>,
- linux-input@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/6] HID: Add Legion Go S Driver
-User-Agent: Thunderbird for Android
-In-Reply-To: <j3isljjyd6rlddlhpp7knxgss2mpr4ft3pcx5lc7r5r4bnnzpw@wjr6brfv2hsf>
-References: <20250703004943.515919-1-derekjohn.clark@gmail.com> <j3isljjyd6rlddlhpp7knxgss2mpr4ft3pcx5lc7r5r4bnnzpw@wjr6brfv2hsf>
-Message-ID: <3690C9ED-FC73-4783-8EB4-2CFA148E8573@gmail.com>
+	d=savoirfairelinux.com; s=DFC430D2-D198-11EC-948E-34200CB392D2;
+	t=1752166899; bh=hqZi4qDDb5Krwc362RQG8hRtm8pWkvSstpAwC6iu2Q4=;
+	h=Date:From:To:Message-ID:MIME-Version;
+	b=oQDLnUo21iaviaOCbPhg9A0kthbm1iljyw+x9vWRaVJ2aCcG3GR5eO03FUYLz2eSu
+	 w3cc6Vi0eVFBeyP5ZLm1Y8OHyhjWAVQPgHIZ1khOgD+6JELcvW5O/yubwNGgJpDz/r
+	 rxJJvR0dIfeKx6XBLmvKot1TKXwprn0IaAiIN6jEHIl5jbvRWEiqgK0D8Ui99hghZI
+	 kPXEdUY+aWnkzgB4/+ap6m0nrBF69lO/ALO/BhbejvWC0oVxPY5DfiNqTtrmWt6tGl
+	 EkkMWzNOgdvkRWrk0vwSCxU9P+EYcvqkz5JimrfrfQBnzqfAgyyfF8AGHY/TCm/wwd
+	 CpGabtHMq2HkA==
+X-Virus-Scanned: amavis at mail.savoirfairelinux.com
+Received: from mail.savoirfairelinux.com ([127.0.0.1])
+ by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavis, port 10026)
+ with ESMTP id bAcRyZFUQaQ6; Thu, 10 Jul 2025 13:01:38 -0400 (EDT)
+Received: from fedora (unknown [192.168.51.254])
+	by mail.savoirfairelinux.com (Postfix) with ESMTPSA id 9D14A3D84E48;
+	Thu, 10 Jul 2025 13:01:38 -0400 (EDT)
+Date: Thu, 10 Jul 2025 13:01:37 -0400
+From: Samuel Kayode <samuel.kayode@savoirfairelinux.com>
+To: Sean Nyekjaer <sean@geanix.com>
+Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Sebastian Reichel <sre@kernel.org>, Frank Li <Frank.li@nxp.com>,
+	imx@lists.linux.dev, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+	linux-pm@vger.kernel.org, Abel Vesa <abelvesa@kernel.org>,
+	Abel Vesa <abelvesa@linux.com>, Robin Gong <b38343@freescale.com>,
+	Robin Gong <yibin.gong@nxp.com>,
+	Enric Balletbo i Serra <eballetbo@gmail.com>
+Subject: Re: [PATCH v8 3/6] regulator: pf1550: add support for regulator
+Message-ID: <aG_x8VELlUvLxezY@fedora>
+References: <20250707-pf1550-v8-0-6b6eb67c03a0@savoirfairelinux.com>
+ <20250707-pf1550-v8-3-6b6eb67c03a0@savoirfairelinux.com>
+ <ni3bmj4ye3dp3opolk466r2ayx7iuk6hhyx4pdikydizqykfx7@nc5qdok32hsm>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ni3bmj4ye3dp3opolk466r2ayx7iuk6hhyx4pdikydizqykfx7@nc5qdok32hsm>
 
-
-
-On July 3, 2025 6:48:00 AM PDT, Benjamin Tissoires <bentiss@kernel=2Eorg> =
-wrote:
->Hi Derek,
+On Thu, Jul 10, 2025 at 02:49:21PM +0000, Sean Nyekjaer wrote:
+> > +#define PF_SW1(_chip, match, _name, mask, voltages)	{	\
+> > +	.desc = {	\
+> > +		.name = #_name,	\
+> > +		.of_match = of_match_ptr(match),	\
+> > +		.regulators_node = of_match_ptr("regulators"),	\
+> > +		.n_voltages = ARRAY_SIZE(voltages),	\
+> > +		.ops = &pf1550_sw1_ops,	\
+> > +		.type = REGULATOR_VOLTAGE,	\
+> > +		.id = _chip ## _ ## _name,	\
+> > +		.owner = THIS_MODULE,	\
+> > +		.volt_table = voltages,	\
+> > +		.vsel_reg = _chip ## _PMIC_REG_ ## _name ## _VOLT, \
+> > +		.vsel_mask = (mask),	\
+> > +	},	\
+> > +	.stby_reg = _chip ## _PMIC_REG_ ## _name ## _STBY_VOLT,	\
+> > +	.stby_mask = (mask),	\
+> > +}
+> 
+> This is unused.
 >
->[I'll answer to this email with a very high level overview of it, as I'm
->not sure I'll have time to dig much deeper in 6/6 today=2E]
->
->On Jul 02 2025, Derek J=2E Clark wrote:
->> This series adds initial support for the Legion Go S's built-in
->> controller HID configuration interface=2E In the first patch a new HID
->> uevent property is added, HID_FIRMWARE_VERSION, so as to permit fwupd
->> to read the firmware version of the HID interface without detaching the
->> kernel driver=2E
->
->That immediately raise red flags on my side=2E HID_FIRMWARE_VERSION will
->likely be used only for this new driver, and that means a special case
->in each and every client=2E
->
->We had to deal with firmware versions in the past in the HID drivers,
->and we ended up relying on the uniq field of the hid_device (because the
->serial+firmware version uniquely identify the device)=2E
->
+If checking of the DVS status for the SW1 regulator is added as you requested.
+This would prove beneficial because it is the preferred method when DVS is
+disabled for the SW1. This is the case for the default variant, A1, of the
+PMIC.
+> > +
+> > +#define PF_SW3(_chip, match, _name, min, max, mask, step)	{	\
+> 
+> [...]
+> 
+> > +
+> > +static struct pf1550_desc pf1550_regulators[] = {
+> > +	PF_SW3(PF1550, "sw1", SW1, 600000, 1387500, 0x3f, 12500),
+> > +	PF_SW3(PF1550, "sw2", SW2, 600000, 1387500, 0x3f, 12500),
+> > +	PF_SW3(PF1550, "sw3", SW3, 1800000, 3300000, 0xf, 100000),
+> 
+> Seems weird they all use the PF_SW3 macro.
+> 
+The PF_SW3 macro is very generic. It is the preferred macro when a step has to
+be provided which is the case for SW1 & SW2 with DVS enabled. The default
+variant, A1, has SW2 enabled.
+> > +	PF_VREF(PF1550, "vrefddr", VREFDDR, 1200000),
+> > +	PF_LDO1(PF1550, "ldo1", LDO1, 0x1f, pf1550_ldo13_volts),
+> > +	PF_LDO2(PF1550, "ldo2", LDO2, 0xf, 1800000, 3300000, 100000),
+> > +	PF_LDO1(PF1550, "ldo3", LDO3, 0x1f, pf1550_ldo13_volts),
+> > +};
+> > +
+> 
+> [...]
+> 
+> > +
+> > +static int pf1550_regulator_probe(struct platform_device *pdev)
+> > +{
+> > +	const struct pf1550_ddata *pf1550 = dev_get_drvdata(pdev->dev.parent);
+> > +	struct regulator_config config = { };
+> > +	struct pf1550_regulator_info *info;
+> > +	int i, irq = -1, ret = 0;
+> > +
+> > +	info = devm_kzalloc(&pdev->dev, sizeof(*info), GFP_KERNEL);
+> > +	if (!info)
+> > +		return -ENOMEM;
+> > +
+> > +	config.regmap = dev_get_regmap(pf1550->dev, NULL);
+> > +	if (!config.regmap)
+> > +		return dev_err_probe(&pdev->dev, -ENODEV,
+> > +				     "failed to get parent regmap\n");
+> > +
+> > +	config.dev = pf1550->dev;
+> > +	config.regmap = pf1550->regmap;
+> > +	info->dev = &pdev->dev;
+> > +	info->pf1550 = pf1550;
+> > +
+> > +	memcpy(info->regulator_descs, pf1550_regulators,
+> > +	       sizeof(info->regulator_descs));
+> > +
+> > +	for (i = 0; i < ARRAY_SIZE(pf1550_regulators); i++) {
+> > +		struct regulator_desc *desc;
+> > +
+> > +		desc = &info->regulator_descs[i].desc;
+> > +
+> > +		if (desc->id == PF1550_SW2 && pf1550->dvs_enb) {
+> 
+> We should enter here if dvs_enb == false.
+> My A6 variant reported 0.625V instead of the correct 1.35V
+> 
+Yeah, that would happen with the current if statement.
 
->> The second patch adds the ability for an hid_driver to
->> assign new/arbitrary uevent properties for static data that doesn't
->> benefit from having a sysfs entry=2E
->
->That, in my mind, is even worse (for the reasons above)=2E
->
-Hi Benjamin,
+Since dvs_enb is true when DVS is enabled (OTP_SW2_DVS_ENB == 0), I should
+modify the if statment to:
+(desc->id == PF1550_SW2 && !pf1550->dvs_enb) /* OTP_SW2_DVS_ENB == 1 */
 
-Sorry abtthe late reply=2E Travel & holidays have me a bit behind=2E
-
-I'll let Mario and Richard hash out the specifics on these points=2E I'll =
-just add a bit of context to why they're in this series=2E Prior to this, t=
-he fwupd plugin would disconnect this driver to query this information to s=
-ee if there was an available update=2E As this can be triggered by a system=
- daemon during gameplay that's not a reasonable expectation=2E Originally w=
-e had these as sysfs entries, and returning to them, would be simple enough=
-, but we felt like this is a fairly standard piece of information that shou=
-ld be available=2E I wasn't aware of the uniq property being used for this =
-historically, but from an outside looking in perspective this seems a bit c=
-onvoluted=2E Apart from just being unintuitive if you're not familiar, user=
-space is going to need bespoke ways to interpret this anyway as serial numb=
-ers and firmware formatting are not consistent between manufacturers=2E
-
-I'll wait to adjust this until a more thorough discussion has taken place=
-=2E
-
->> The third patch adds the VID and PID
->> for the Lenovo Legion Go S MCU=2E=20
->
->Which shouldn't be in its own patch, but part of the driver initial
->patch=2E
-
-I can do that=2E My reasoning was simply that if another patch becomes rel=
-iant on the VID and you needed to revert the other patches for any reason t=
-here would be a conflict=2E
-
->> The fourth patch adds ABI documentation
->> for the config interface introduced in the final patch=2E The fifth pat=
-ch
->> introduces the core lenovo-legos-hid driver which acts as a routing
->> interface for the different endpoints=2E=20
->
->That "core" patch is IMO useless=2E All it does is:
->- check for the USB endpoint (but in the wrong way, because if you
->	insert a device through uhid with the same PID/VID it will crash)
->- replace the HID-core core functions with the same code
-
-Can you point me to a better way?
-
-This series only implements the config endpoint=2E ATM the gamepad, touchp=
-ad, and IMU are combined into a single Steam Deck like interface in root le=
-vel userspace as a uhid device=2E I do have some plans for how to do this i=
-n the kernel instead, but the proposal isn't ready yet so I need to keep th=
-e hidraw devices available to userspace that aren't implemented yet for bac=
-kwards compatibility=2E
-
->Really, this should be squashed into the next patch (with 3/6 then)=2E
->
->Also, why adding a new subdirectory? All the hid drivers are flat in the
->drivers/hid/ directory, and the subdirs are for transport layers=2E There
->is one exception for the surface driver but I don't see why you need
->such an exception (yeah, the code is big, but what's the difference in
->having a 1500 lines of code source in its own subdir vs at the root?)
-
-Sure, I can change it to a single file if that's preferable in this subsys=
-tem=2E This is my first foray into kernel HID drivers so I'm not super fami=
-liar with the style preferences yet=2E Breaking everything up by logical su=
-bset made sense to me but I'm not married to it=2E There
-
->> The sixth path introduces the=20
->> config lenovo-legos-hid driver wich uses both the HID_FIRMWARE_VERSION
->> as well as arbitrary uevent properties=2E Additional interfaces and con=
-fig
->> properties are planned to be added in a future series=2E
->
->That one is too big for my liking=2E Generally speaking, a commit
->descrition which says "this does this and that" can be split into 2
->patches at least :)
-
-I figured, but I wasn't sure how you'd prefer I break it up=2E I was think=
-ing that one patch per attribute group would make sense but wanted some fee=
-dback before I did that to avoid going down the wrong path with them=2E
-
->What kind of future interfaces and config properties are you planning?
-
-The MCU has a gamepad interface that is more complete than what the xpad d=
-river uses, which includes some back paddles as well as native gyro data wh=
-ich is passed through from the IMU=2E There's also a separate IMU endpoint =
-so there are a couple options how this can be used=2E My thoughts are that =
-a sysfs attribute could toggle if gyro is added to one of the joysticks usi=
-ng the IMU data included in the gamepad report, and the external one could =
-be exposed as a motion sensor with the same uniq=2E Then userspace can dete=
-rmine how to use it=2E
-
-The touchpad works in both abs and rel modes with the default kernel imple=
-mentations but additional functionality can be gained through Steam Input i=
-f this is integrated into the gamepad=2E
-
-As far as additional attributes for the config interface, there is hardwar=
-e level button remapping and calibration for all axes that need to be added=
- but weren't considered critical for initial support from Lenovo=2E
-
->>=20
->> Patch 6 introduces a checkpatch WARNING that I'm unable to resolve:
->> WARNING: ENOSYS means 'invalid syscall nr' and nothing else
->> 1292: FILE: drivers/hid/lenovo-legos-hid/lenovo-legos-hid-config=2Ec:10=
-85:
->> +       case -ENOSYS: /* during rmmod -ENOSYS is expected */
->
->We can losely waive those while merging=2E We do it quite often actually=
-=2E
->
->But trying to minimize checkpatch warnings is a good thing, so thanks
->for that=2E
-
-Cool, I'll keep a brief note for posterity=2E=20
+I think that would be a more readable solution.
+> > +			/* OTP_SW2_DVS_ENB == 1? */
+> > +			desc->volt_table = pf1550_sw12_volts;
+> > +			desc->n_voltages = ARRAY_SIZE(pf1550_sw12_volts);
+> > +			desc->ops = &pf1550_sw1_ops;
+> > +		}
+> >
 
 Thanks,
-Derek
-
->>=20
->> This error handling case was added as it is experienced in the real wor=
-ld
->> when the driver is rmmod=2E The LED subsystem produces this error code =
-in
->> its legacy code and this is not a new novel use of -ENOSYS, we are simp=
-ly
->> catching the case to avoid spurious errors in dmesg when the driver is
->> removed=2E If there is a way to prevent this error from being triggered=
- by
->> checkpatch in the first place, that would be an ideal remedy, but I'm n=
-ot
->> aware how that can be done at this time=2E
->
->Again, nothing to worry about=2E
->
->Cheers,
->Benjamin
->
->>=20
->> Signed-off-by: Derek J=2E Clark <derekjohn=2Eclark@gmail=2Ecom>
->>=20
->>=20
->> Derek J=2E Clark (4):
->>   HID: Add Legion Go S ID's
->>   HID: Add documentation for lenovo-legos-hid driver
->>   HID: Add lenovo-legos-hid core
->>   HID: Add lenovo-legos-hid configuration endpoint interface
->>=20
->> Mario Limonciello (2):
->>   HID: Include firmware version in the uevent
->>   HID: Allow HID drivers to add more uevent variables
->>=20
->>  =2E=2E=2E/ABI/testing/sysfs-driver-lenovo-legos-hid |  269 +++
->>  MAINTAINERS                                   |    7 +
->>  drivers/hid/Kconfig                           |    2 +
->>  drivers/hid/Makefile                          |    2 +
->>  drivers/hid/hid-core=2Ec                        |   11 +
->>  drivers/hid/hid-ids=2Eh                         |    4 +
->>  drivers/hid/lenovo-legos-hid/Kconfig          |   11 +
->>  drivers/hid/lenovo-legos-hid/Makefile         |    6 +
->>  drivers/hid/lenovo-legos-hid/config=2Ec         | 1518 +++++++++++++++=
-++
->>  drivers/hid/lenovo-legos-hid/config=2Eh         |   19 +
->>  drivers/hid/lenovo-legos-hid/core=2Ec           |  122 ++
->>  drivers/hid/lenovo-legos-hid/core=2Eh           |   25 +
->>  include/linux/hid=2Eh                           |    2 +
->>  13 files changed, 1998 insertions(+)
->>  create mode 100644 Documentation/ABI/testing/sysfs-driver-lenovo-legos=
--hid
->>  create mode 100644 drivers/hid/lenovo-legos-hid/Kconfig
->>  create mode 100644 drivers/hid/lenovo-legos-hid/Makefile
->>  create mode 100644 drivers/hid/lenovo-legos-hid/config=2Ec
->>  create mode 100644 drivers/hid/lenovo-legos-hid/config=2Eh
->>  create mode 100644 drivers/hid/lenovo-legos-hid/core=2Ec
->>  create mode 100644 drivers/hid/lenovo-legos-hid/core=2Eh
->>=20
->> --=20
->> 2=2E50=2E0
->>=20
+Sam
 
