@@ -1,113 +1,119 @@
-Return-Path: <linux-input+bounces-13463-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13464-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE3E6B003C7
-	for <lists+linux-input@lfdr.de>; Thu, 10 Jul 2025 15:38:54 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 78035B00499
+	for <lists+linux-input@lfdr.de>; Thu, 10 Jul 2025 16:05:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 26C6D5A528F
-	for <lists+linux-input@lfdr.de>; Thu, 10 Jul 2025 13:37:00 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0F1B11C870FE
+	for <lists+linux-input@lfdr.de>; Thu, 10 Jul 2025 14:02:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C2280259C85;
-	Thu, 10 Jul 2025 13:35:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 44DC427145E;
+	Thu, 10 Jul 2025 14:02:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EXvWA31U"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YylczEb/"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 964B585C5E;
-	Thu, 10 Jul 2025 13:35:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10B95271451;
+	Thu, 10 Jul 2025 14:02:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752154529; cv=none; b=VG8rDlIoY4bJDkVeco/h0IvmFw7HR5lkORNuj7aSFYITj1asoku2dOHg9iOKzcJLC1+onbcSP7j1/y47l0tI3vQ7ZsDXqEPF0YuxxqNoL32wyBxP4gS6SCjClWM5Q8ySmIM8ijIzu1TOrL89KFJiC5xuBKgXPH1U2S7fH8l56iw=
+	t=1752156141; cv=none; b=gueLHtHTC1ynZrgujWqOt4XZAwsL2uCLgQlNTNY4cPWQEt9yEZtLwvCXjmlTQax+VNamMvyJfUooGKsiDUEA2Vw5hNNLLeQanBOS6YNzDvPV6pH6geTt5+rhUUE40UBgxc4/r8/dOboftAE/WsdDoinIWCxGXd2P5Wt9lXD3wis=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752154529; c=relaxed/simple;
-	bh=/M9ZOPzseAGnVx1rmBuaTNmSZf0uj5N2aDhVIjjH//c=;
-	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
-	 Message-Id:Subject; b=Xy3yAAAXV2SRJ31Ga1/7gzMlDsR78uYPdxV9scF791aNpjj0UT9CXALZsiZjqhZCd5MacO8lNs2VdmDoh8BkkDb3htgzsFFSssUvcVZZnLbS4AoxufE1EcaaojAkOcfitrKfOj/u8/2IWevH8K5+svNhTHbUuQ5U9ba8LZFb6+0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EXvWA31U; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08F8EC4CEED;
-	Thu, 10 Jul 2025 13:35:28 +0000 (UTC)
+	s=arc-20240116; t=1752156141; c=relaxed/simple;
+	bh=xXPB/krLKx5YsOpAfTB0Ww2kYd94E1CsAKd5TLeuqrU=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=uxnSdbv+7hqEQRfgTXAInw+Xv9qlPGw37BsghqEaOoY23hVYVpWXkd4QftlHUnTfD+q8QDdWQ+K4Mu/MLD1qQfEPE+uzyQPuZ5AFGUQUDGttp6ybkOR7YAV3lWWAnbTxoa+KvpZZPMzNrWdDxWsIipRdcYLs267HFXQA++JL2hQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YylczEb/; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E26ABC4CEE3;
+	Thu, 10 Jul 2025 14:02:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752154529;
-	bh=/M9ZOPzseAGnVx1rmBuaTNmSZf0uj5N2aDhVIjjH//c=;
-	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
-	b=EXvWA31UTuNtfzdaSHQ8/iRGlSJoB2uv5Cmam2Y3bRByEnwnsWarTgkRa7chW0wv0
-	 swQi+ElI9FUnSwECXBnsKhwlEvK5y825vqTFCjT5by88TfCPRUCjTNvSrQmSpWUP2M
-	 DFjmPCi2ZJNeTzLAyq0biwbXjCDzuNGJu+guyBZpevLH1ogNDUJdBHYaGRkKk7mSY3
-	 W+TjcNgpwcWL5RTx1IuMF2PdUqrahJd0bnhzjOvFZYI4yiVVXOm6W7J7WA9bmgW++Q
-	 wnBBvBNO1cDBpAkb3rsRLwDz7Q9YUzOWOD9xWXE8lAoZTEfbpmhDYOW9nNKTQFj+q1
-	 cRUcO/drvw/6w==
-Date: Thu, 10 Jul 2025 08:35:28 -0500
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	s=k20201202; t=1752156140;
+	bh=xXPB/krLKx5YsOpAfTB0Ww2kYd94E1CsAKd5TLeuqrU=;
+	h=From:Subject:Date:To:Cc:From;
+	b=YylczEb/lpnvmcs+P22XXkdPq/SEHyRIDf3OPwak+WOEA4wZWlKpy/b9/mTwQ6lVI
+	 wRtXJJ0oaQMmxlf/sbfy3i/izV6QaKUz9THsxoLk6yqzRaO5AcXmAxcAoX1THklQq/
+	 6KQGS5BFnIIkSa0gvXI4Asy4OIkbz8K2/2WUN5i+wA3NmXyBG5pp3jh5UYX3QkVUIm
+	 1/B9vOOVktg5jWWMSkDv2Tq8UJ365IKeUHQqUHLYqCA8tUMUM51zz781ABjVd161ta
+	 Gcjygpjmhc6RJYQarpgKBFFvPiS5ekgaQUSoYRpEvBejuk0Aujam+TrucL8kazEF9S
+	 YfkiOWuDFfQYg==
+From: Benjamin Tissoires <bentiss@kernel.org>
+Subject: [PATCH v2 0/4] HID: core: fix __hid_request when no report ID is
+ used
+Date: Thu, 10 Jul 2025 16:01:32 +0200
+Message-Id: <20250710-report-size-null-v2-0-ccf922b7c4e5@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: "Gustavo A. R. Silva" <gustavoars@kernel.org>, 
- Charles Wang <charles.goodix@gmail.com>, devicetree@vger.kernel.org, 
- Hans de Goede <hansg@kernel.org>, Luke Jones <luke@ljones.dev>, 
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
- =?utf-8?q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
- Conor Dooley <conor+dt@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>, 
- Neil Armstrong <neil.armstrong@linaro.org>, linux-input@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Ingo Molnar <mingo@kernel.org>, Eric Biggers <ebiggers@kernel.org>, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>, 
- Len Brown <len.brown@intel.com>, Al Viro <viro@zeniv.linux.org.uk>
-To: Pengyu Luo <mitltlatltl@gmail.com>
-In-Reply-To: <20250710115733.226670-2-mitltlatltl@gmail.com>
-References: <20250710115733.226670-1-mitltlatltl@gmail.com>
- <20250710115733.226670-2-mitltlatltl@gmail.com>
-Message-Id: <175215452823.2039713.12986563371135237841.robh@kernel.org>
-Subject: Re: [PATCH v2 1/2] dt-bindings: input: goodix,gt9916: Document
- stylus support
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIALzHb2gC/32NQQ6CMBBFr0Jm7Zi2ilBW3sOwQBxhYtOSKTYq4
+ e5WDuDy/fz//gKRhClCUywglDhy8BnMroB+7PxAyLfMYJQpVaUsCk1BZoz8IfRP5/BQnbSlLhf
+ qGvJsErrza1Ne2swjxznIe3tI+pf+kSWNCrU9Wm2MLvtrf36QeHL7IAO067p+AcPypKixAAAA
+X-Change-ID: 20250709-report-size-null-37619ea20288
+To: Jiri Kosina <jikos@kernel.org>, Alan Stern <stern@rowland.harvard.edu>, 
+ Shuah Khan <shuah@kernel.org>
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-kselftest@vger.kernel.org, Benjamin Tissoires <bentiss@kernel.org>, 
+ stable@vger.kernel.org, 
+ syzbot+8258d5439c49d4c35f43@syzkaller.appspotmail.com
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1752156138; l=1787;
+ i=bentiss@kernel.org; s=20230215; h=from:subject:message-id;
+ bh=xXPB/krLKx5YsOpAfTB0Ww2kYd94E1CsAKd5TLeuqrU=;
+ b=IFj366RpTlWoirqo7i2wkkLeCbj1DlUUPzN43PDtX5SZJYaE7OIToip08KhVVMdsr4LtEJwOb
+ UPyxz37iaKxDz18vh+RxwYPwsPDqnt6kfPcZKLGmJxO++5UINOtv3Ew
+X-Developer-Key: i=bentiss@kernel.org; a=ed25519;
+ pk=7D1DyAVh6ajCkuUTudt/chMuXWIJHlv2qCsRkIizvFw=
 
+New version (unchanged for patches 1-3), with a test added so we can
+detect this.
 
-On Thu, 10 Jul 2025 19:57:32 +0800, Pengyu Luo wrote:
-> Document stylus support. Optional support for DT properties:
->   - `goodix,stylus-enable`
->   - `goodix,stylus-pressure-level`
->   - `touchscreen-x-mm`
->   - `touchscreen-y-mm`
-> 
-> Signed-off-by: Pengyu Luo <mitltlatltl@gmail.com>
-> ---
->  .../bindings/input/touchscreen/goodix,gt9916.yaml    | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
-> 
+Followup of https://lore.kernel.org/linux-input/c75433e0-9b47-4072-bbe8-b1d14ea97b13@rowland.harvard.edu/
 
-My bot found errors running 'make dt_binding_check' on your patch:
+This initial series attempt at fixing the various bugs discovered by
+Alan regarding __hid_request().
 
-yamllint warnings/errors:
+Syzbot managed to create a report descriptor which presents a feature
+request of size 0 (still trying to extract it) and this exposed the fact
+that __hid_request() was incorrectly handling the case when the report
+ID is not used.
 
-dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/input/touchscreen/goodix,gt9916.yaml: properties:goodix,stylus-enable: 'description' is a dependency of 'type'
-	hint: Vendor specific properties must have a type and description unless they have a defined, common suffix.
-	from schema $id: http://devicetree.org/meta-schemas/vendor-props.yaml#
+Send a first batch of fixes now so we get the feedback from syzbot ASAP.
 
-doc reference errors (make refcheckdocs):
+Note: in the series, I also mentioned that the report of size 0 should
+be stripped out of the HID device, but I'm not entirely sure this would
+be a good idea in the end.
 
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250710115733.226670-2-mitltlatltl@gmail.com
+Signed-off-by: Benjamin Tissoires <bentiss@kernel.org>
+---
+Changes in v2:
+- added Tested-by from syzbot (https://lore.kernel.org/r/686e9113.050a0220.385921.0008.GAE@google.com)
+- added a python test for it
+- Link to v1: https://lore.kernel.org/r/20250709-report-size-null-v1-0-194912215cbc@kernel.org
 
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
+---
+Benjamin Tissoires (4):
+      HID: core: ensure the allocated report buffer can contain the reserved report ID
+      HID: core: ensure __hid_request reserves the report ID as the first byte
+      HID: core: do not bypass hid_hw_raw_request
+      selftests/hid: add a test case for the recent syzbot underflow
 
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
+ drivers/hid/hid-core.c                          | 19 +++++--
+ tools/testing/selftests/hid/tests/test_mouse.py | 70 +++++++++++++++++++++++++
+ 2 files changed, 84 insertions(+), 5 deletions(-)
+---
+base-commit: 1f988d0788f50d8464f957e793fab356e2937369
+change-id: 20250709-report-size-null-37619ea20288
 
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
+Best regards,
+-- 
+Benjamin Tissoires <bentiss@kernel.org>
 
 
