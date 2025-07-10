@@ -1,130 +1,144 @@
-Return-Path: <linux-input+bounces-13478-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13479-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3F16B009F5
-	for <lists+linux-input@lfdr.de>; Thu, 10 Jul 2025 19:30:45 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AAC5B00DBD
+	for <lists+linux-input@lfdr.de>; Thu, 10 Jul 2025 23:29:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 15A2C564E0D
-	for <lists+linux-input@lfdr.de>; Thu, 10 Jul 2025 17:30:46 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1D18C1C436DF
+	for <lists+linux-input@lfdr.de>; Thu, 10 Jul 2025 21:29:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 026E52F0E36;
-	Thu, 10 Jul 2025 17:29:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 104C02FE312;
+	Thu, 10 Jul 2025 21:29:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=savoirfairelinux.com header.i=@savoirfairelinux.com header.b="l0joj5Ns"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lJSb5oTg"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail.savoirfairelinux.com (mail.savoirfairelinux.com [208.88.110.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9205E2F0E29;
-	Thu, 10 Jul 2025 17:29:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=208.88.110.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 838BC23506E
+	for <linux-input@vger.kernel.org>; Thu, 10 Jul 2025 21:29:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752168591; cv=none; b=qKCoo1cCed/sk7ermw9LSEKv68i+3pocTg8OLE6vq1MTXYRy2BHsxpJluK6doPR9QNhCOUtYlplHiXfF1hmuO5tYflhaJuDp38Py5YeYJkQ5JQv5UjLtVeDiHKfTqDotz6nbKcMgSUL3O8f+I6Lohrxko/bHRlP6GATlfZKKHho=
+	t=1752182946; cv=none; b=Fmsv06cno+JLm5V3NV8lveRgTqq4pHMiOtGuL45bpUsA5qZ+MGZCBEZ3MXwVrSMaB7D0UNFNP/VQgLqYWq4UP1Pmy3aD1VIDmrUzmPffhxGu4f2H0xfZnCavCVhEvBulb30/9KP5BoHHAnnNvaK/tB2cv5du+JX3PGMbSY+pWd0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752168591; c=relaxed/simple;
-	bh=Y2QU6dhIoCpkxMjvh48d0GgwnQJLBzZYTZ+dfijuhDA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YObu1UNzblpxzi/rNqx+68j4SyyiJjTUl6b9388eQTxpxE1wy1Sawn2QxnOV+LjoGRnLjjPDyB2d/kJXa0FVoqHFAfpuvGysFQOkGJZ7PIlPC+B6NQ1mX2BU8tqwNqDBoJWows4JJVG4bwhxupmLRmkpeF7NDVCF6L2F2KtABTI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=savoirfairelinux.com; spf=pass smtp.mailfrom=savoirfairelinux.com; dkim=pass (2048-bit key) header.d=savoirfairelinux.com header.i=@savoirfairelinux.com header.b=l0joj5Ns; arc=none smtp.client-ip=208.88.110.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=savoirfairelinux.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=savoirfairelinux.com
-Received: from localhost (localhost [127.0.0.1])
-	by mail.savoirfairelinux.com (Postfix) with ESMTP id 228F13D8759F;
-	Thu, 10 Jul 2025 13:29:48 -0400 (EDT)
-Received: from mail.savoirfairelinux.com ([127.0.0.1])
- by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavis, port 10032)
- with ESMTP id VJ1AFnWBo4HP; Thu, 10 Jul 2025 13:29:47 -0400 (EDT)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.savoirfairelinux.com (Postfix) with ESMTP id 7C6603D87659;
-	Thu, 10 Jul 2025 13:29:47 -0400 (EDT)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.savoirfairelinux.com 7C6603D87659
+	s=arc-20240116; t=1752182946; c=relaxed/simple;
+	bh=WYbnagY6aIE2QPOhXormiV9s0RFkSUGiF6lLWgkKeIo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Fi6BR9qy5fvmsDA8QJVRwicOBfozTTNs1g2QhLo+8N9+NcQ7rgUwafhhz4sEAJP/h9lr49GcrwbM6OVJmQS+K7imZL3hhh02wkGfKfWwa9OndtVr3KA/rfYLE72PqgAkQjnRyuFuOp0hBN/OhrMy/3JbFD8PYThdseBf56jcx2k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lJSb5oTg; arc=none smtp.client-ip=209.85.210.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-74924255af4so1315765b3a.1
+        for <linux-input@vger.kernel.org>; Thu, 10 Jul 2025 14:29:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=savoirfairelinux.com; s=DFC430D2-D198-11EC-948E-34200CB392D2;
-	t=1752168587; bh=AlTPeyZEbvVpCppEtdbUfk6jkGSiu5jkvaQOyebiU3E=;
-	h=Date:From:To:Message-ID:MIME-Version;
-	b=l0joj5NsGdhr4JzqNjXvyxIreXuCOJjtQYI2Bt4pPPUhjZ17z5+4hbo/irHByVcIe
-	 o7mESkkRCA+K4mSLqMSeRS+i24hWWYAE5lFGAyNvq5k+GIc1BOpnsRs3Y5xMMy0nri
-	 fg/4jzhW/adwz+L+BPOW0KBuwSIs6MkxEHH5qdJgm46F26mdZQ+wp+Rdz56JK5muwD
-	 AJXx33bQ7Txb24+9KsF+CZL3kqggz9+NPATcPNI9O88PZUD0jtNdK91Of1C4yzBP3l
-	 H3wJoFkb131aWPwl4JCYCLXln0qXsYGCwptbem4aI+7DMY/CrLu/8o2d886rqhuLad
-	 WvfTfvdfcjPbg==
-X-Virus-Scanned: amavis at mail.savoirfairelinux.com
-Received: from mail.savoirfairelinux.com ([127.0.0.1])
- by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavis, port 10026)
- with ESMTP id 0VqTtdVW9Imo; Thu, 10 Jul 2025 13:29:47 -0400 (EDT)
-Received: from fedora (unknown [192.168.51.254])
-	by mail.savoirfairelinux.com (Postfix) with ESMTPSA id 0DBA83D8759F;
-	Thu, 10 Jul 2025 13:29:47 -0400 (EDT)
-Date: Thu, 10 Jul 2025 13:29:45 -0400
-From: Samuel Kayode <samuel.kayode@savoirfairelinux.com>
-To: Sean Nyekjaer <sean@geanix.com>
-Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Sebastian Reichel <sre@kernel.org>, Frank Li <Frank.li@nxp.com>,
-	imx@lists.linux.dev, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-	linux-pm@vger.kernel.org, Abel Vesa <abelvesa@kernel.org>,
-	Abel Vesa <abelvesa@linux.com>, Robin Gong <b38343@freescale.com>,
-	Robin Gong <yibin.gong@nxp.com>,
-	Enric Balletbo i Serra <eballetbo@gmail.com>
-Subject: Re: [PATCH v8 3/6] regulator: pf1550: add support for regulator
-Message-ID: <aG_4ic277eGBgQb0@fedora>
-References: <20250707-pf1550-v8-0-6b6eb67c03a0@savoirfairelinux.com>
- <20250707-pf1550-v8-3-6b6eb67c03a0@savoirfairelinux.com>
- <ni3bmj4ye3dp3opolk466r2ayx7iuk6hhyx4pdikydizqykfx7@nc5qdok32hsm>
- <aG_x8VELlUvLxezY@fedora>
- <ff3c3r336qgnlwfheelm6hjypnkjhw3txmeztv7mz2y6xdoxld@ecgifcvuihr3>
+        d=gmail.com; s=20230601; t=1752182943; x=1752787743; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=NY3tikFQWOYl2+aBjvgIb3mWrTfuNWb4LJGfyQX67/c=;
+        b=lJSb5oTgeIEZAhDTc8tFd69HjcuGcBh0NYtY89X9Hl10V4suolxtywhA7/BPz67MIG
+         UNm720bQX9uy2S+a2UwaCgTWx7yhgNXsjXOKz+In0YJB9IdfikZGzozCG8gLFdA7m212
+         LiOhtA/XuTmybnyzh+dRvCvfUB1mawr2X2BVhT3+YjYsRBuBq8Slun8JBLTPEWbCnBCG
+         P65Ter5rEhH9dcITRb1R4JNw3Twt2PmNa4beMez+fmAPvI+y9mCSlR65wLAlYkKRHeGn
+         rtUtNN0pV5XjAWdlJJlkDmjgl5yFsUi89BpId/w/+fDJq3UiYokVtVANmr+T56hF2FKY
+         GvvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752182943; x=1752787743;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=NY3tikFQWOYl2+aBjvgIb3mWrTfuNWb4LJGfyQX67/c=;
+        b=C+UJxN78uyPlBwpwqeCiNbiy4U8MkefnS2txHCd9FuPm4bhDdUozBj33sJuzkRmTf4
+         gOENthGRNudjg0AlheraJyX3yZn5SumZtP8kXqK5WNIdCMHWu2GkL5diHqbTezVm8voD
+         1vCpiDXKvJJX3uAlXao4eL4AX2+MnIg9XjATYg353vdW69TaDcU8wQblGwp/uc7FHISY
+         j+tXjbfCws7auxocZX+Ukmc13i9L7lAmksS14ZJv4SLGK0WTaEhyP4drO85dDuVkVlOc
+         4FD2fAtpLNC9084hKLTPklQZi9QBdHLHn2IssIZWAUsvSCIn8xI2YQbXVvDWJx0DArT8
+         bgzQ==
+X-Gm-Message-State: AOJu0YxL0VYeeD8wacZvT21qSW8efIMF3QDYLyHLzzam/Ba2n+HgJHKQ
+	wL95MwQpbsOqj4VJDO2uX6lzz49M8saZ3NWfyNj70jQf7ADB4DMotu24vIi7iQ==
+X-Gm-Gg: ASbGncu5gv12sK8aGASv3NDLUvN74XLvGkPElEqxsoc7OAaggRQbwwFuw6M2csEcJmq
+	S8/W+76zwagMUBuZ4ZtrOXm/S/XlzlTHo2pW1kMp+QCTlIN14p8DvGkUwQ8wCwGAw2zIfgi6RVp
+	ZA7HohlCnWq7wdOlUHdvVKd7Nn+scVHa0ICAFozH2TRx4Ehlt+nc31UyO2gc/CgROM/etQEVLGz
+	Fp1g6F2kszHtLGjHlHTuKSy9nLb/0gYmDLRrVHqdQCv9Qwh5n/QRpaCwg3yE2Wr8puSrKSFogIf
+	isEdL1JHiNMpDB7m6z55p1efccTMAuUIz9BMGV+Mn8RXPzgCqx2uHfbJoW7TGR7c0Sbgw5AlODd
+	iMnPIXf0CWOtcwIyVgA==
+X-Google-Smtp-Source: AGHT+IHIDAaJbA5pqWrD3+Qf7nbKBOuBcvYsUVCEc7EeWpbm80IdKHINSqi4vZfxlu/H3ivRBJkbEQ==
+X-Received: by 2002:a05:6a20:e198:b0:215:d565:3026 with SMTP id adf61e73a8af0-23137e8da69mr752709637.20.1752182943249;
+        Thu, 10 Jul 2025 14:29:03 -0700 (PDT)
+Received: from ping-dynabook-V62-B.fvrl.org ([66.96.79.214])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74eb9f8fa6csm3343913b3a.170.2025.07.10.14.29.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Jul 2025 14:29:02 -0700 (PDT)
+From: Ping Cheng <pinglinux@gmail.com>
+X-Google-Original-From: Ping Cheng <ping.cheng@wacom.com>
+To: linux-input@vger.kernel.org
+Cc: jkosina@suse.com,
+	bentiss@kernel.org,
+	Dmitry.Torokhov@gmail.com,
+	stable@kernel.org,
+	Ping Cheng <ping.cheng@wacom.com>
+Subject: [PATCH 1/2] HID: input: map HID_GD_Z to ABS_DISTANCE for stylus/pen
+Date: Thu, 10 Jul 2025 14:28:59 -0700
+Message-ID: <20250710212859.7892-1-ping.cheng@wacom.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ff3c3r336qgnlwfheelm6hjypnkjhw3txmeztv7mz2y6xdoxld@ecgifcvuihr3>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Jul 10, 2025 at 05:11:14PM +0000, Sean Nyekjaer wrote:
-> > > > +	for (i = 0; i < ARRAY_SIZE(pf1550_regulators); i++) {
-> > > > +		struct regulator_desc *desc;
-> > > > +
-> > > > +		desc = &info->regulator_descs[i].desc;
-> > > > +
-> > > > +		if (desc->id == PF1550_SW2 && pf1550->dvs_enb) {
-> > >
-> > > We should enter here if dvs_enb == false.
-> > > My A6 variant reported 0.625V instead of the correct 1.35V
-> > >
-> > Yeah, that would happen with the current if statement.
-> > 
-> > Since dvs_enb is true when DVS is enabled (OTP_SW2_DVS_ENB == 0), I should
-> > modify the if statment to:
-> > (desc->id == PF1550_SW2 && !pf1550->dvs_enb) /* OTP_SW2_DVS_ENB == 1 */
-> 
-> -		if (desc->id == PF1550_SW2 && pf1550->dvs_enb) {
-> +		if (desc->id == PF1550_SW2 && !pf1550->dvs_enb) {
-> 
-> Yes that's what I have been running my tests with :)
-> 
-> I will continue with testing the onkey and battery charger
->
-Thanks for testing!
-> > 
-> > I think that would be a more readable solution.
-> > > > +			/* OTP_SW2_DVS_ENB == 1? */
-> > > > +			desc->volt_table = pf1550_sw12_volts;
-> > > > +			desc->n_voltages = ARRAY_SIZE(pf1550_sw12_volts);
-> > > > +			desc->ops = &pf1550_sw1_ops;
-> > > > +		}
-> > > >
+HID_GD_Z is mapped to ABS_Z for stylus and pen in hid-input.c. But HID_GD_Z
+should be used to report ABS_DISTANCE for stylus and pen as described at:
+Documentation/input/event-codes.rst#n226
 
-Thanks,
-Sam
+* ABS_DISTANCE:
+
+  - Used to describe the distance of a tool from an interaction surface. This
+    event should only be emitted while the tool is hovering, meaning in close
+    proximity of the device and while the value of the BTN_TOUCH code is 0. If
+    the input device may be used freely in three dimensions, consider ABS_Z
+    instead.
+  - BTN_TOOL_<name> should be set to 1 when the tool comes into detectable
+    proximity and set to 0 when the tool leaves detectable proximity.
+    BTN_TOOL_<name> signals the type of tool that is currently detected by the
+    hardware and is otherwise independent of ABS_DISTANCE and/or BTN_TOUCH.
+
+This patch makes the correct mapping. The ABS_DISTANCE is currently not mapped
+by any HID usage in hid-generic driver.
+
+Signed-off-by: Ping Cheng <ping.cheng@wacom.com>
+---
+ drivers/hid/hid-input.c | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
+index ff1784b5c2a4..240bc8a5f3bc 100644
+--- a/drivers/hid/hid-input.c
++++ b/drivers/hid/hid-input.c
+@@ -858,8 +858,18 @@ static void hidinput_configure_usage(struct hid_input *hidinput, struct hid_fiel
+ 			goto ignore;
+ 
+ 		switch (usage->hid) {
++		case HID_GD_Z:
++			/* HID_GD_Z is mapped to ABS_DISTANCE for stylus/pen */
++			if ((field->application & 0xff) == 0x02) {
++				if (field->flags & HID_MAIN_ITEM_RELATIVE)
++					map_rel(usage->hid & 0xf);
++				else
++					map_abs_clear(ABS_DISTANCE);
++				break;
++			}
++			/* fall through for other devices/tools */
+ 		/* These usage IDs map directly to the usage codes. */
+-		case HID_GD_X: case HID_GD_Y: case HID_GD_Z:
++		case HID_GD_X: case HID_GD_Y:
+ 		case HID_GD_RX: case HID_GD_RY: case HID_GD_RZ:
+ 			if (field->flags & HID_MAIN_ITEM_RELATIVE)
+ 				map_rel(usage->hid & 0xf);
+-- 
+2.50.0
+
 
