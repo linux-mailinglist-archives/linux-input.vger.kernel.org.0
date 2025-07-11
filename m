@@ -1,222 +1,221 @@
-Return-Path: <linux-input+bounces-13482-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13483-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DC80B014A8
-	for <lists+linux-input@lfdr.de>; Fri, 11 Jul 2025 09:29:31 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D8E8AB0171F
+	for <lists+linux-input@lfdr.de>; Fri, 11 Jul 2025 11:02:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6B05A542DB0
-	for <lists+linux-input@lfdr.de>; Fri, 11 Jul 2025 07:28:34 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F255F17173B
+	for <lists+linux-input@lfdr.de>; Fri, 11 Jul 2025 09:02:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 66F4F1EFF93;
-	Fri, 11 Jul 2025 07:28:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CABE821A43D;
+	Fri, 11 Jul 2025 09:02:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ghy3fGgs"
+	dkim=pass (2048-bit key) header.d=geanix.com header.i=@geanix.com header.b="pvYjKxg+"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail-10626.protonmail.ch (mail-10626.protonmail.ch [79.135.106.26])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C9D71EFF8D;
-	Fri, 11 Jul 2025 07:28:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3E3720D500
+	for <linux-input@vger.kernel.org>; Fri, 11 Jul 2025 09:02:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=79.135.106.26
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752218933; cv=none; b=aecxkBsgxWXyjy+IKv73/RyhILhR+0AG8llhO5pzGEgc+BVnl+5h7DlWa/r+LNlRSMXjWsoyVayY15+WFJtP3KMfDGtxrPic1AC7qdyL14P/mOT2jkyQOZ0WV3Uj6pNCXaxsnBYCSuDE85oMdR4VknH/0ZLWWRozel53cTc/wt8=
+	t=1752224560; cv=none; b=Val1Rc7RGuATw0urvjurhaSeYmo5QJ9oF7Bicw6RmxKpiyt+neB+JIpCodbaOKhL8H94/tI/O619vKZv8o9+7LDRfprU6jSgUUQuKIOci22tCEWtbVEfvJyJ3gJ0wTn2Nf2dwX7C5QMuCoteVAtx7XrUl3j9MSd3nDpwDdxdH1M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752218933; c=relaxed/simple;
-	bh=3avOzIa3vglyeV7w0A35p2T13TGg3Po/DkJErYZD8Ok=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=WcgsRpPTh+wLVfiCk5wmbJ4/ReTVoPJC79ojhOfTj/15PxXgGj0mvJNf2jwBTvBPearFVFVQIidclEwzZ2XF30OBknPjPnZfs5G9VZZpnAd9R84DVJg2wacjusM6WHa7BhbMIF3jIN7viEnv8si8FeWRw7RWFA0ghR2N6tqYaUU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ghy3fGgs; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 44DDCC4CEF7;
-	Fri, 11 Jul 2025 07:28:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752218932;
-	bh=3avOzIa3vglyeV7w0A35p2T13TGg3Po/DkJErYZD8Ok=;
-	h=From:To:Cc:Subject:Date:From;
-	b=ghy3fGgsz0Ahkg92NtTOZ233fHDetbm+eMgFd1grRNbdVcSwoLEvHQ0WYbWsL+j1F
-	 uTanhGiov6q/38Nr6qmmvGeDqcyHvfnUjMCNLKo/eQP8VevAO9eiUGyBrzLgHTuJPc
-	 864jMfpL13igtio1vbVQBu619eEUy3MZ339s9/MDrl1JdaJB16/vciwjxS+QN1vj6u
-	 p3opm+jbDs6PUnHW8KZI7yhc852yqHXjnq5UkhJeGhEBSCTDcBswb37I5vUTKoxRI2
-	 2QNxMhJvtfwxTP6RxHXTggkfxA4cLx3IVDG74AgHZ9WuAqKkiY5hVw0HyqiZMrekEi
-	 LKWNMDPnGH0bg==
-From: Arnd Bergmann <arnd@kernel.org>
-To: Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <bentiss@kernel.org>
-Cc: Arnd Bergmann <arnd@arndb.de>,
-	Peter Hutterer <peter.hutterer@who-t.net>,
-	linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] HID: tighten ioctl command parsing
-Date: Fri, 11 Jul 2025 09:28:43 +0200
-Message-Id: <20250711072847.2836962-1-arnd@kernel.org>
-X-Mailer: git-send-email 2.39.5
+	s=arc-20240116; t=1752224560; c=relaxed/simple;
+	bh=5hfsErzK8U6eSfuwK4siKcG5sl3MlW6guRBomqwJNSk=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=O/KE8gAUlUVytQCyAUo2iEAG2+RC6j1dQ2M6N7EvFnnHI8WgKp0ROE28nsMmVHUpwKtXKzQbIByEQ6dY+skGG94kduDMETGP27otndNfiQkCBwHNZJB8jYQw6AO2D6NEFxg5TWheMWIvUGLyySw+6lbeE16Bthf9e6Ef34sYv20=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=geanix.com; spf=pass smtp.mailfrom=geanix.com; dkim=pass (2048-bit key) header.d=geanix.com header.i=@geanix.com header.b=pvYjKxg+; arc=none smtp.client-ip=79.135.106.26
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=geanix.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=geanix.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=geanix.com;
+	s=protonmail; t=1752224545; x=1752483745;
+	bh=Tg8aOMQgSF6YM5PlWDpcJQLYft5zXTyVat8RUlVrpKw=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=pvYjKxg+twOgyt8Gd11RZkN46LUq/vcNdz+VJNLdIhPNUk8jW8rLrZ9elL9Jk5tVr
+	 gJZOIwc3mWNqT1BXJCbD3WeF97oGiLwK0wSFpPQCbDgeMDp5i+AcGDqWsMy+ciFy2B
+	 hqBRwRtRCtfjq6sTBpQv8oILCY9PPRcHkgFKV8WtgxlijSyUiyqW4HZjDcotJ87mKm
+	 8NlwtLVFXpsmwR6xXkvCzEMYunKbwXTwo0Eoc3dMAQG98JQB8fPcaaon3ChmsPQaTC
+	 Iqk2EnOSjzHY9rVAFqxb2Mfsh8wr3LHX+9PXUpo4a34hMUOvSQybCDn2QWadpL8Z/t
+	 9rxiueNtV4oAQ==
+Date: Fri, 11 Jul 2025 09:02:18 +0000
+To: Samuel Kayode <samuel.kayode@savoirfairelinux.com>
+From: Sean Nyekjaer <sean@geanix.com>
+Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, Sebastian Reichel <sre@kernel.org>, Frank Li <Frank.li@nxp.com>, imx@lists.linux.dev, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-input@vger.kernel.org, linux-pm@vger.kernel.org, Abel Vesa <abelvesa@kernel.org>, Abel Vesa <abelvesa@linux.com>, Robin Gong <b38343@freescale.com>, Robin Gong <yibin.gong@nxp.com>, Enric Balletbo i Serra <eballetbo@gmail.com>
+Subject: Re: [PATCH v8 5/6] power: supply: pf1550: add battery charger support
+Message-ID: <e2veigexln4ma5meguxqh6jh2r2fhj2d47pv4exjzwrhlazn7d@raknfsiucqls>
+In-Reply-To: <20250707-pf1550-v8-5-6b6eb67c03a0@savoirfairelinux.com>
+References: <20250707-pf1550-v8-0-6b6eb67c03a0@savoirfairelinux.com> <20250707-pf1550-v8-5-6b6eb67c03a0@savoirfairelinux.com>
+Feedback-ID: 134068486:user:proton
+X-Pm-Message-ID: e22eee3c66a526c8ffff06f5cd1ab1c871b3bad9
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-From: Arnd Bergmann <arnd@arndb.de>
+Hi,
 
-The handling for variable-length ioctl commands in hidraw_ioctl() is
-rather complex and the check for the data direction is incomplete.
+On Mon, Jul 07, 2025 at 05:37:24PM +0100, Samuel Kayode wrote:
+> Add support for the battery charger for pf1550 PMIC.
+>=20
+> Signed-off-by: Samuel Kayode <samuel.kayode@savoirfairelinux.com>
+> ---
 
-Simplify this code using a switch() statement with the size masked
-out, to ensure the rest of the command is correctly matched.
+[...]
 
-Fixes: 9188e79ec3fd ("HID: add phys and name ioctls to hidraw")
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
- drivers/hid/hidraw.c | 123 ++++++++++++++++++-------------------------
- 1 file changed, 50 insertions(+), 73 deletions(-)
+> diff --git a/drivers/power/supply/pf1550-charger.c b/drivers/power/supply=
+/pf1550-charger.c
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..7a6bd9c30d60280f1e1c50d4e=
+1ddaf0a4998b9f0
+> --- /dev/null
+> +++ b/drivers/power/supply/pf1550-charger.c
+> @@ -0,0 +1,632 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * charger driver for the PF1550
+> + *
+> + * Copyright (C) 2016 Freescale Semiconductor, Inc.
+> + * Robin Gong <yibin.gong@freescale.com>
+> + *
+> + * Portions Copyright (c) 2025 Savoir-faire Linux Inc.
+> + * Samuel Kayode <samuel.kayode@savoirfairelinux.com>
+> + */
+> +
+> +#include <linux/devm-helpers.h>
+> +#include <linux/interrupt.h>
+> +#include <linux/mfd/pf1550.h>
+> +#include <linux/module.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/power_supply.h>
+> +
+> +#define PF1550_DEFAULT_CONSTANT_VOLT=094200000
+> +#define PF1550_DEFAULT_MIN_SYSTEM_VOLT=093500000
+> +#define PF1550_DEFAULT_THERMAL_TEMP=0975
 
-diff --git a/drivers/hid/hidraw.c b/drivers/hid/hidraw.c
-index c887f48756f4..cc657d60d689 100644
---- a/drivers/hid/hidraw.c
-+++ b/drivers/hid/hidraw.c
-@@ -403,6 +403,8 @@ static long hidraw_ioctl(struct file *file, unsigned int cmd,
- 	struct hidraw *dev;
- 	struct hidraw_list *list = file->private_data;
- 	void __user *user_arg = (void __user*) arg;
-+	struct hid_device *hid;
-+	int len;
- 
- 	down_read(&minors_rwsem);
- 	dev = hidraw_table[minor];
-@@ -453,81 +455,56 @@ static long hidraw_ioctl(struct file *file, unsigned int cmd,
- 				break;
- 			}
- 		default:
--			{
--				struct hid_device *hid = dev->hid;
--				if (_IOC_TYPE(cmd) != 'H') {
--					ret = -EINVAL;
--					break;
--				}
--
--				if (_IOC_NR(cmd) == _IOC_NR(HIDIOCSFEATURE(0))) {
--					int len = _IOC_SIZE(cmd);
--					ret = hidraw_send_report(file, user_arg, len, HID_FEATURE_REPORT);
--					break;
--				}
--				if (_IOC_NR(cmd) == _IOC_NR(HIDIOCGFEATURE(0))) {
--					int len = _IOC_SIZE(cmd);
--					ret = hidraw_get_report(file, user_arg, len, HID_FEATURE_REPORT);
--					break;
--				}
--
--				if (_IOC_NR(cmd) == _IOC_NR(HIDIOCSINPUT(0))) {
--					int len = _IOC_SIZE(cmd);
--					ret = hidraw_send_report(file, user_arg, len, HID_INPUT_REPORT);
--					break;
--				}
--				if (_IOC_NR(cmd) == _IOC_NR(HIDIOCGINPUT(0))) {
--					int len = _IOC_SIZE(cmd);
--					ret = hidraw_get_report(file, user_arg, len, HID_INPUT_REPORT);
--					break;
--				}
--
--				if (_IOC_NR(cmd) == _IOC_NR(HIDIOCSOUTPUT(0))) {
--					int len = _IOC_SIZE(cmd);
--					ret = hidraw_send_report(file, user_arg, len, HID_OUTPUT_REPORT);
--					break;
--				}
--				if (_IOC_NR(cmd) == _IOC_NR(HIDIOCGOUTPUT(0))) {
--					int len = _IOC_SIZE(cmd);
--					ret = hidraw_get_report(file, user_arg, len, HID_OUTPUT_REPORT);
--					break;
--				}
--
--				/* Begin Read-only ioctls. */
--				if (_IOC_DIR(cmd) != _IOC_READ) {
--					ret = -EINVAL;
--					break;
--				}
--
--				if (_IOC_NR(cmd) == _IOC_NR(HIDIOCGRAWNAME(0))) {
--					int len = strlen(hid->name) + 1;
--					if (len > _IOC_SIZE(cmd))
--						len = _IOC_SIZE(cmd);
--					ret = copy_to_user(user_arg, hid->name, len) ?
--						-EFAULT : len;
--					break;
--				}
--
--				if (_IOC_NR(cmd) == _IOC_NR(HIDIOCGRAWPHYS(0))) {
--					int len = strlen(hid->phys) + 1;
--					if (len > _IOC_SIZE(cmd))
--						len = _IOC_SIZE(cmd);
--					ret = copy_to_user(user_arg, hid->phys, len) ?
--						-EFAULT : len;
--					break;
--				}
--
--				if (_IOC_NR(cmd) == _IOC_NR(HIDIOCGRAWUNIQ(0))) {
--					int len = strlen(hid->uniq) + 1;
--					if (len > _IOC_SIZE(cmd))
--						len = _IOC_SIZE(cmd);
--					ret = copy_to_user(user_arg, hid->uniq, len) ?
--						-EFAULT : len;
--					break;
--				}
--			}
-+			break;
-+	}
- 
-+	hid = dev->hid;
-+	switch (cmd & ~IOCSIZE_MASK) {
-+	case HIDIOCSFEATURE(0):
-+		len = _IOC_SIZE(cmd);
-+		ret = hidraw_send_report(file, user_arg, len, HID_FEATURE_REPORT);
-+		break;
-+	case HIDIOCGFEATURE(0):
-+		len = _IOC_SIZE(cmd);
-+		ret = hidraw_get_report(file, user_arg, len, HID_FEATURE_REPORT);
-+		break;
-+	case HIDIOCSINPUT(0):
-+		len = _IOC_SIZE(cmd);
-+		ret = hidraw_send_report(file, user_arg, len, HID_INPUT_REPORT);
-+		break;
-+	case HIDIOCGINPUT(0):
-+		len = _IOC_SIZE(cmd);
-+		ret = hidraw_get_report(file, user_arg, len, HID_INPUT_REPORT);
-+		break;
-+	case HIDIOCSOUTPUT(0):
-+		len = _IOC_SIZE(cmd);
-+		ret = hidraw_send_report(file, user_arg, len, HID_OUTPUT_REPORT);
-+		break;
-+	case HIDIOCGOUTPUT(0):
-+		len = _IOC_SIZE(cmd);
-+		ret = hidraw_get_report(file, user_arg, len, HID_OUTPUT_REPORT);
-+		break;
-+	case HIDIOCGRAWNAME(0):
-+		len = strlen(hid->name) + 1;
-+		if (len > _IOC_SIZE(cmd))
-+			len = _IOC_SIZE(cmd);
-+		ret = copy_to_user(user_arg, hid->name, len) ?  -EFAULT : len;
-+		break;
-+	case HIDIOCGRAWPHYS(0):
-+		len = strlen(hid->phys) + 1;
-+		if (len > _IOC_SIZE(cmd))
-+			len = _IOC_SIZE(cmd);
-+		ret = copy_to_user(user_arg, hid->phys, len) ?  -EFAULT : len;
-+		break;
-+	case HIDIOCGRAWUNIQ(0):
-+		len = strlen(hid->uniq) + 1;
-+		if (len > _IOC_SIZE(cmd))
-+			len = _IOC_SIZE(cmd);
-+		ret = copy_to_user(user_arg, hid->uniq, len) ?  -EFAULT : len;
-+		break;
-+	default:
- 		ret = -ENOTTY;
-+		break;
- 	}
- out:
- 	up_read(&minors_rwsem);
--- 
-2.39.5
+Default is 95
+
+> +#define PF1550_CHARGER_IRQ_NR=09=095
+> +
+> +struct pf1550_charger {
+> +=09struct device *dev;
+> +=09const struct pf1550_ddata *pf1550;
+> +=09struct power_supply *charger;
+> +=09struct power_supply *battery;
+> +=09struct delayed_work vbus_sense_work;
+> +=09struct delayed_work chg_sense_work;
+> +=09struct delayed_work bat_sense_work;
+> +=09int virqs[PF1550_CHARGER_IRQ_NR];
+> +
+
+[...]
+
+> +
+> +static int pf1550_set_thermal_regulation_temp(struct pf1550_charger *chg=
+,
+> +=09=09=09=09=09      unsigned int cells)
+> +{
+> +=09unsigned int data;
+> +
+> +=09switch (cells) {
+> +=09case 60:
+> +=09=09data =3D 0x0;
+> +=09=09break;
+> +=09case 75:
+> +=09=09data =3D 0x1;
+> +=09=09break;
+> +=09case 90:
+> +=09=09data =3D 0x2;
+> +=09=09break;
+> +=09case 105:
+> +=09=09data =3D 0x3;
+> +=09=09break;
+
+From the datasheet 80, 95, 110 and 125c is supported
+
+> +=09default:
+> +=09=09return dev_err_probe(chg->dev, -EINVAL,
+> +=09=09=09=09     "Wrong value for thermal temperature\n");
+> +=09}
+> +
+> +=09data <<=3D PF1550_CHARG_REG_THM_REG_CNFG_REGTEMP_SHIFT;
+> +
+> +=09dev_dbg(chg->dev, "Thermal regulation loop temperature: %u (0x%x)\n",
+> +=09=09cells, data);
+> +
+> +=09return regmap_update_bits(chg->pf1550->regmap,
+> +=09=09=09=09  PF1550_CHARG_REG_THM_REG_CNFG,
+> +=09=09=09=09  PF1550_CHARG_REG_THM_REG_CNFG_REGTEMP_MASK,
+> +=09=09=09=09  data);
+> +}
+> +
+> +/*
+> + * Sets charger registers to proper and safe default values.
+> + */
+> +static int pf1550_reg_init(struct pf1550_charger *chg)
+> +{
+> +=09struct device *dev =3D chg->dev;
+> +=09unsigned int data;
+> +=09int ret;
+> +
+> +=09/* Unmask charger interrupt, mask DPMI and reserved bit */
+> +=09ret =3D  regmap_write(chg->pf1550->regmap, PF1550_CHARG_REG_CHG_INT_M=
+ASK,
+> +=09=09=09    PF1550_CHG_INT_MASK);
+> +=09if (ret)
+> +=09=09return dev_err_probe(dev, ret,
+> +=09=09=09=09     "Error unmask charger interrupt\n");
+> +
+> +=09ret =3D regmap_read(chg->pf1550->regmap, PF1550_CHARG_REG_VBUS_SNS,
+> +=09=09=09  &data);
+> +=09if (ret)
+> +=09=09return dev_err_probe(dev, ret, "Read charg vbus_sns error\n");
+
+data is unused here :/
+
+> +
+> +=09ret =3D pf1550_set_constant_volt(chg, chg->constant_volt);
+> +=09if (ret)
+> +=09=09return ret;
+> +
+> +=09ret =3D pf1550_set_min_system_volt(chg, chg->min_system_volt);
+> +=09if (ret)
+> +=09=09return ret;
+> +
+> +=09ret =3D pf1550_set_thermal_regulation_temp(chg,
+> +=09=09=09=09=09=09 chg->thermal_regulation_temp);
+> +=09if (ret)
+> +=09=09return ret;
+> +
+> +=09/* Turn on charger */
+> +=09ret =3D regmap_write(chg->pf1550->regmap, PF1550_CHARG_REG_CHG_OPER,
+> +=09=09=09   PF1550_CHG_TURNON);
+> +=09if (ret)
+> +=09=09return dev_err_probe(dev, ret, "Error turn on charger\n");
+
+There are 3 modes for the charger operation:
+0: charger =3D off, linear =3D off
+1: charger =3D off, linear =3D on
+2: charger =3D on, linear =3D on
+
+The driver is hardcoded to use no. 2.
+
+We are using the mode 1, and setting it to 2 causes my system to boot loop.
+
+I don't know how we should select mode, maybe it could be an option from
+the devicetree or use power_supply_get_battery_info() to look for a
+battery and the only select between 1 or 2, but 0 would also be a valid
+option.
+
+/Sean
 
 
