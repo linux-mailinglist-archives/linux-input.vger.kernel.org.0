@@ -1,239 +1,147 @@
-Return-Path: <linux-input+bounces-13495-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13496-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFCA5B01849
-	for <lists+linux-input@lfdr.de>; Fri, 11 Jul 2025 11:41:03 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D3BE2B01935
+	for <lists+linux-input@lfdr.de>; Fri, 11 Jul 2025 12:02:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 88D463B9A5F
-	for <lists+linux-input@lfdr.de>; Fri, 11 Jul 2025 09:40:36 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2EF5B563B00
+	for <lists+linux-input@lfdr.de>; Fri, 11 Jul 2025 10:02:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1CD7D279DC5;
-	Fri, 11 Jul 2025 09:40:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5860227FD5A;
+	Fri, 11 Jul 2025 10:02:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="taGRs2Aa"
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="URKRHCBG";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="hkxethWv"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fout-b7-smtp.messagingengine.com (fout-b7-smtp.messagingengine.com [202.12.124.150])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E659D252292;
-	Fri, 11 Jul 2025 09:40:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0039327F724;
+	Fri, 11 Jul 2025 10:02:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.150
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752226859; cv=none; b=SUk5zeXW7X+YVdjY2jMhet3BP9VpnGtFG4NaZn/f563JBxU89JQFbSQvwy7K4A1eLaKo3Re0oMQFbwV9/Oq6I1p8gstaC6k1WiVBl5GLOLLN9tGsbLO2qofc/vCBHWIsLRJne6xsPUMJdB1trv0jyV0a6UHJGiX/2hxQqeD2+is=
+	t=1752228130; cv=none; b=Dn0pbDYs1MbVtvcQP5CWXICk1sW03Syw3lf7jp3ZjZp3VcPrJoSvONzuwGB7flWjxQ+FX+AzrjIOIx/tZRnH9s/1F5o7EHDxkd+7v2GqG8tVpVAOSDmGl4adGmMqu8y55H3PPXpTiCOjSZm81hJlp6IOKCDdfFjk+jJNd0HO2PQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752226859; c=relaxed/simple;
-	bh=a35eaIuy9geDI1l3k8b955uTPnCKhmY71YLzZ8WE7X0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sK9fUCg2tNiUEopgQG/OOrpYf3miApLp9UP7Q7ONtP3kPv8IThm7JfxbvcIHD5fWQc8NAEYNu1BPU0kiY5kynCZu97MjcpiJBM+MLpEKKecBr4sbx7k8i+IiF1mF9mkoMyAnh6jhcIOyjSdBI/L6qlc0Uy5EJ2RDBnz38WGYx4s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=taGRs2Aa; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36F20C4CEEF;
-	Fri, 11 Jul 2025 09:40:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752226858;
-	bh=a35eaIuy9geDI1l3k8b955uTPnCKhmY71YLzZ8WE7X0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=taGRs2AaiUikmNzzwN9vxzg649shOcERtn02aLbQ/GARLsFOjXxeCw9BqKTogEqvB
-	 AGZbKtWtIO877L/Zbag0hmin+Txi7nR5ekpejvPSXm/3W3ZVtEhke7RRa/o66si5AT
-	 jxSf5azQTIpAk+K+wJjIreq/M2ALPlYBa7a+h8m4gfMTNg20y6ihl/H16Pjc2aLXNM
-	 2PaXn7oUtejzbAa44ybiJ+s9AHel8Ad6YVJkdrtT5+kIH1ZrVP9ZAK3Sr6oPAbwrC2
-	 T3RVVkk2lPR6DXYaMjq7PMFzsZyuFkCddn0ztnMuqlXfcLjWY5VFn0hBmbMCJbM2Rp
-	 CPmAfupEbK7bQ==
-Date: Fri, 11 Jul 2025 11:40:54 +0200
-From: Benjamin Tissoires <bentiss@kernel.org>
-To: Arnd Bergmann <arnd@kernel.org>
-Cc: Jiri Kosina <jikos@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Peter Hutterer <peter.hutterer@who-t.net>, linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] HID: tighten ioctl command parsing
-Message-ID: <cznzhmuizk6r3tv7ze6lqp3qoyfnu6ktmbwxbjpsf5phthsjoj@x46mthdr66l7>
-References: <20250711072847.2836962-1-arnd@kernel.org>
+	s=arc-20240116; t=1752228130; c=relaxed/simple;
+	bh=w0gx5jAmjodIyEeSESqRnYEC3p3T6ybvwWC3o8V1nb8=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=aUyrd/dETju3kwYAIdUgNG1/aSs+QXRoghQL0f59Xqt75rJ19I+HCcBVOsU3/wz+Jx9H9J08X2GJufyqtrk5iikyXHbPeTlOZGxK3fPxjm9MyY5pwHsaiU/OOWy7wfu1PU0O4s/QYWJiP82zds/bAimVIZqG8KWRqeyOP0LfUKI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=URKRHCBG; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=hkxethWv; arc=none smtp.client-ip=202.12.124.150
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+Received: from phl-compute-05.internal (phl-compute-05.phl.internal [10.202.2.45])
+	by mailfout.stl.internal (Postfix) with ESMTP id D53C91D0007C;
+	Fri, 11 Jul 2025 06:02:06 -0400 (EDT)
+Received: from phl-imap-02 ([10.202.2.81])
+  by phl-compute-05.internal (MEProxy); Fri, 11 Jul 2025 06:02:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1752228126;
+	 x=1752314526; bh=01ScwmtLZwUozZDXWHHiPwHig2+ib+jXHxICbk2YkJ0=; b=
+	URKRHCBGNh+TxoezmTAD/p76lgmPEIzP9HmN9lPgeX0TeaspkeT+lg9UlWpzYlcw
+	IxS9MvERO3YjTyJjdHX5sxrjl57r0uevksKuYFF2vTIQHpNZLphGOfc04IUatCE9
+	LtNRkgyw3W/xXvPYsE65ZUnFbfnlND15MUW0KnNs4BHhBSBdeSlffPAITUamo3sh
+	RosLnxSXR2aGdUiXkidRo5tGjdoD0YUF2yFOE3Qh//ohWyATpVwqhfvhHkxUApfb
+	bkICuaxIMUmXDJgmaelHnOw1Vu5/gxQS45vxS5X0mVJ6rjVceDa90F7/jW+rvIOV
+	TYwA9YcrocCWXH8s6v5qOg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1752228126; x=
+	1752314526; bh=01ScwmtLZwUozZDXWHHiPwHig2+ib+jXHxICbk2YkJ0=; b=h
+	kxethWv/AjN+KAXCP9eTxWwGJ15d4WiCbisIshq889A20sMbTyykzif2RZu4bsri
+	6h8G/z5aNW9UvK5Q7Y96EtvJajIa7MCm9uWxkHeJE7FMhHyjLn7e6wjTt33t5cnx
+	v8iepNF4jIdFQHfjR0H81qyB7F6G3Adr1fTt6DtXJemZIeESjWb2u7d3J921B2Lq
+	SWOuSu1+CQpAjfVr4Zb7KxKdNfA7Y5ik6hTmq0SPblDKto2UYC/75u5QeotwQB4s
+	4imGpNUJ7v69D0cIAIh0YQnYAsdr1ubrAbE6I4LegQVi3Wm7Yf0jV/fVROBUCRpf
+	ZOVizGIdyp62+V0pdqQdg==
+X-ME-Sender: <xms:HuFwaHi_hbVbaLJwZL6Jf1TifJc5yYEtPyLkRJFJBM803qiyHzsSUw>
+    <xme:HuFwaEByjk46iJb_gXDyEQDBamGzVB89RX9H1qlfZPtP3SwM7yPu1YBaC85EMhfMm
+    EeBHuytwtmyffuWZcs>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdegfedtvdcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpefoggffhffvvefkjghfufgtgfesthejredtredttdenucfhrhhomhepfdetrhhnugcu
+    uegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtthgvrh
+    hnpefhtdfhvddtfeehudekteeggffghfejgeegteefgffgvedugeduveelvdekhfdvieen
+    ucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrhhnug
+    esrghrnhgusgdruggvpdhnsggprhgtphhtthhopeeipdhmohguvgepshhmthhpohhuthdp
+    rhgtphhtthhopegrrhhnugeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepsggvnhhtih
+    hssheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepjhhikhhosheskhgvrhhnvghlrdho
+    rhhgpdhrtghpthhtoheplhhinhhugidqihhnphhuthesvhhgvghrrdhkvghrnhgvlhdroh
+    hrghdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdr
+    ohhrghdprhgtphhtthhopehpvghtvghrrdhhuhhtthgvrhgvrhesfihhohdqthdrnhgvth
+X-ME-Proxy: <xmx:HuFwaHIoyOLSFVspXd3DxNNhsTdzRRxPNxDcJMbASHpBAlRlZ342TA>
+    <xmx:HuFwaCgbsJaA22Rwf4B6lBnnOvkR1xjD2teVcXT6X84hbRsJLYR1Bw>
+    <xmx:HuFwaFSEDxkzLnnOf-01a5jKkAAUyimtinGpyb5RaVwKiC5I8v1bAg>
+    <xmx:HuFwaMWrMl2t2lvYARCgZrkPv8v7SBcU9azfDCoxrwRfvxwSu-cVOg>
+    <xmx:HuFwaPv5YLa3Ds2cA1hrsftHfj1kFFUltvvzVWSH8mOBoIhvIPGUceTT>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 6ED6F700065; Fri, 11 Jul 2025 06:02:06 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250711072847.2836962-1-arnd@kernel.org>
+X-ThreadId: T7273da0c48a59e38
+Date: Fri, 11 Jul 2025 12:01:45 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Benjamin Tissoires" <bentiss@kernel.org>,
+ "Arnd Bergmann" <arnd@kernel.org>
+Cc: "Jiri Kosina" <jikos@kernel.org>,
+ "Peter Hutterer" <peter.hutterer@who-t.net>, linux-input@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Message-Id: <6432a849-512d-4abb-b15a-c2f1b7dd6533@app.fastmail.com>
+In-Reply-To: 
+ <cznzhmuizk6r3tv7ze6lqp3qoyfnu6ktmbwxbjpsf5phthsjoj@x46mthdr66l7>
+References: <20250711072847.2836962-1-arnd@kernel.org>
+ <cznzhmuizk6r3tv7ze6lqp3qoyfnu6ktmbwxbjpsf5phthsjoj@x46mthdr66l7>
+Subject: Re: [PATCH] HID: tighten ioctl command parsing
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-Hi Arnd,
+On Fri, Jul 11, 2025, at 11:40, Benjamin Tissoires wrote:
+>
+> On Jul 11 2025, Arnd Bergmann wrote:
+>> From: Arnd Bergmann <arnd@arndb.de>
+>> 
+>> The handling for variable-length ioctl commands in hidraw_ioctl() is
+>> rather complex and the check for the data direction is incomplete.
+>> 
+>> Simplify this code using a switch() statement with the size masked
+>> out, to ensure the rest of the command is correctly matched.
+>
+> How much "urgent" you believe this patch is. I would say 6.17 material,
+> but I'm not sure if your analysis regarding "the check for the data
+> direction is incomplete." would justify a 6.16 late fix.
 
-On Jul 11 2025, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
-> 
-> The handling for variable-length ioctl commands in hidraw_ioctl() is
-> rather complex and the check for the data direction is incomplete.
-> 
-> Simplify this code using a switch() statement with the size masked
-> out, to ensure the rest of the command is correctly matched.
+I'm not aware of anything being actively broken without my patch,
+the driver just accepts extra commands that it should reject instead.
 
-How much "urgent" you believe this patch is. I would say 6.17 material,
-but I'm not sure if your analysis regarding "the check for the data
-direction is incomplete." would justify a 6.16 late fix.
+My feeling is that we still want the change backported to stable
+kernels as it does address incorrect behavior, and based on that
+it should be in a fixes branch for the current release rather than
+wait for the merge window.
 
+On the other hand, it needs to be properly tested to ensure
+I'm not breaking things.
 
-Also, lately I added a new tools/testing/selftests/hid/hidraw.c to test
-the latest HIDIOCREVOKE addition. I wonder if we should not add a couple
-of checks there to ensure we get the different kind of other ioctls
-tested before and after this patch.
+> Also, lately I added a new tools/testing/selftests/hid/hidraw.c to test
+> the latest HIDIOCREVOKE addition. I wonder if we should not add a couple
+> of checks there to ensure we get the different kind of other ioctls
+> tested before and after this patch.
 
-Cheers,
-Benjamin
+Yes, makes sense, e.g. testing HIDIOCGFEATURE with incorrect _IOC_DIR
+bits would be a useful addition.
 
-> 
-> Fixes: 9188e79ec3fd ("HID: add phys and name ioctls to hidraw")
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> ---
->  drivers/hid/hidraw.c | 123 ++++++++++++++++++-------------------------
->  1 file changed, 50 insertions(+), 73 deletions(-)
-> 
-> diff --git a/drivers/hid/hidraw.c b/drivers/hid/hidraw.c
-> index c887f48756f4..cc657d60d689 100644
-> --- a/drivers/hid/hidraw.c
-> +++ b/drivers/hid/hidraw.c
-> @@ -403,6 +403,8 @@ static long hidraw_ioctl(struct file *file, unsigned int cmd,
->  	struct hidraw *dev;
->  	struct hidraw_list *list = file->private_data;
->  	void __user *user_arg = (void __user*) arg;
-> +	struct hid_device *hid;
-> +	int len;
->  
->  	down_read(&minors_rwsem);
->  	dev = hidraw_table[minor];
-> @@ -453,81 +455,56 @@ static long hidraw_ioctl(struct file *file, unsigned int cmd,
->  				break;
->  			}
->  		default:
-> -			{
-> -				struct hid_device *hid = dev->hid;
-> -				if (_IOC_TYPE(cmd) != 'H') {
-> -					ret = -EINVAL;
-> -					break;
-> -				}
-> -
-> -				if (_IOC_NR(cmd) == _IOC_NR(HIDIOCSFEATURE(0))) {
-> -					int len = _IOC_SIZE(cmd);
-> -					ret = hidraw_send_report(file, user_arg, len, HID_FEATURE_REPORT);
-> -					break;
-> -				}
-> -				if (_IOC_NR(cmd) == _IOC_NR(HIDIOCGFEATURE(0))) {
-> -					int len = _IOC_SIZE(cmd);
-> -					ret = hidraw_get_report(file, user_arg, len, HID_FEATURE_REPORT);
-> -					break;
-> -				}
-> -
-> -				if (_IOC_NR(cmd) == _IOC_NR(HIDIOCSINPUT(0))) {
-> -					int len = _IOC_SIZE(cmd);
-> -					ret = hidraw_send_report(file, user_arg, len, HID_INPUT_REPORT);
-> -					break;
-> -				}
-> -				if (_IOC_NR(cmd) == _IOC_NR(HIDIOCGINPUT(0))) {
-> -					int len = _IOC_SIZE(cmd);
-> -					ret = hidraw_get_report(file, user_arg, len, HID_INPUT_REPORT);
-> -					break;
-> -				}
-> -
-> -				if (_IOC_NR(cmd) == _IOC_NR(HIDIOCSOUTPUT(0))) {
-> -					int len = _IOC_SIZE(cmd);
-> -					ret = hidraw_send_report(file, user_arg, len, HID_OUTPUT_REPORT);
-> -					break;
-> -				}
-> -				if (_IOC_NR(cmd) == _IOC_NR(HIDIOCGOUTPUT(0))) {
-> -					int len = _IOC_SIZE(cmd);
-> -					ret = hidraw_get_report(file, user_arg, len, HID_OUTPUT_REPORT);
-> -					break;
-> -				}
-> -
-> -				/* Begin Read-only ioctls. */
-> -				if (_IOC_DIR(cmd) != _IOC_READ) {
-> -					ret = -EINVAL;
-> -					break;
-> -				}
-> -
-> -				if (_IOC_NR(cmd) == _IOC_NR(HIDIOCGRAWNAME(0))) {
-> -					int len = strlen(hid->name) + 1;
-> -					if (len > _IOC_SIZE(cmd))
-> -						len = _IOC_SIZE(cmd);
-> -					ret = copy_to_user(user_arg, hid->name, len) ?
-> -						-EFAULT : len;
-> -					break;
-> -				}
-> -
-> -				if (_IOC_NR(cmd) == _IOC_NR(HIDIOCGRAWPHYS(0))) {
-> -					int len = strlen(hid->phys) + 1;
-> -					if (len > _IOC_SIZE(cmd))
-> -						len = _IOC_SIZE(cmd);
-> -					ret = copy_to_user(user_arg, hid->phys, len) ?
-> -						-EFAULT : len;
-> -					break;
-> -				}
-> -
-> -				if (_IOC_NR(cmd) == _IOC_NR(HIDIOCGRAWUNIQ(0))) {
-> -					int len = strlen(hid->uniq) + 1;
-> -					if (len > _IOC_SIZE(cmd))
-> -						len = _IOC_SIZE(cmd);
-> -					ret = copy_to_user(user_arg, hid->uniq, len) ?
-> -						-EFAULT : len;
-> -					break;
-> -				}
-> -			}
-> +			break;
-> +	}
->  
-> +	hid = dev->hid;
-> +	switch (cmd & ~IOCSIZE_MASK) {
-> +	case HIDIOCSFEATURE(0):
-> +		len = _IOC_SIZE(cmd);
-> +		ret = hidraw_send_report(file, user_arg, len, HID_FEATURE_REPORT);
-> +		break;
-> +	case HIDIOCGFEATURE(0):
-> +		len = _IOC_SIZE(cmd);
-> +		ret = hidraw_get_report(file, user_arg, len, HID_FEATURE_REPORT);
-> +		break;
-> +	case HIDIOCSINPUT(0):
-> +		len = _IOC_SIZE(cmd);
-> +		ret = hidraw_send_report(file, user_arg, len, HID_INPUT_REPORT);
-> +		break;
-> +	case HIDIOCGINPUT(0):
-> +		len = _IOC_SIZE(cmd);
-> +		ret = hidraw_get_report(file, user_arg, len, HID_INPUT_REPORT);
-> +		break;
-> +	case HIDIOCSOUTPUT(0):
-> +		len = _IOC_SIZE(cmd);
-> +		ret = hidraw_send_report(file, user_arg, len, HID_OUTPUT_REPORT);
-> +		break;
-> +	case HIDIOCGOUTPUT(0):
-> +		len = _IOC_SIZE(cmd);
-> +		ret = hidraw_get_report(file, user_arg, len, HID_OUTPUT_REPORT);
-> +		break;
-> +	case HIDIOCGRAWNAME(0):
-> +		len = strlen(hid->name) + 1;
-> +		if (len > _IOC_SIZE(cmd))
-> +			len = _IOC_SIZE(cmd);
-> +		ret = copy_to_user(user_arg, hid->name, len) ?  -EFAULT : len;
-> +		break;
-> +	case HIDIOCGRAWPHYS(0):
-> +		len = strlen(hid->phys) + 1;
-> +		if (len > _IOC_SIZE(cmd))
-> +			len = _IOC_SIZE(cmd);
-> +		ret = copy_to_user(user_arg, hid->phys, len) ?  -EFAULT : len;
-> +		break;
-> +	case HIDIOCGRAWUNIQ(0):
-> +		len = strlen(hid->uniq) + 1;
-> +		if (len > _IOC_SIZE(cmd))
-> +			len = _IOC_SIZE(cmd);
-> +		ret = copy_to_user(user_arg, hid->uniq, len) ?  -EFAULT : len;
-> +		break;
-> +	default:
->  		ret = -ENOTTY;
-> +		break;
->  	}
->  out:
->  	up_read(&minors_rwsem);
-> -- 
-> 2.39.5
-> 
+     Arnd
 
