@@ -1,221 +1,244 @@
-Return-Path: <linux-input+bounces-13483-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13484-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8E8AB0171F
-	for <lists+linux-input@lfdr.de>; Fri, 11 Jul 2025 11:02:47 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 91199B017BB
+	for <lists+linux-input@lfdr.de>; Fri, 11 Jul 2025 11:30:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F255F17173B
-	for <lists+linux-input@lfdr.de>; Fri, 11 Jul 2025 09:02:47 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 5CEC57BB212
+	for <lists+linux-input@lfdr.de>; Fri, 11 Jul 2025 09:29:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CABE821A43D;
-	Fri, 11 Jul 2025 09:02:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 68D0327A130;
+	Fri, 11 Jul 2025 09:30:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=geanix.com header.i=@geanix.com header.b="pvYjKxg+"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="JtGi9N+c"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-10626.protonmail.ch (mail-10626.protonmail.ch [79.135.106.26])
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3E3720D500
-	for <linux-input@vger.kernel.org>; Fri, 11 Jul 2025 09:02:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=79.135.106.26
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72702217736;
+	Fri, 11 Jul 2025 09:30:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.193
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752224560; cv=none; b=Val1Rc7RGuATw0urvjurhaSeYmo5QJ9oF7Bicw6RmxKpiyt+neB+JIpCodbaOKhL8H94/tI/O619vKZv8o9+7LDRfprU6jSgUUQuKIOci22tCEWtbVEfvJyJ3gJ0wTn2Nf2dwX7C5QMuCoteVAtx7XrUl3j9MSd3nDpwDdxdH1M=
+	t=1752226236; cv=none; b=bgUQDucQZwWdzDD+aS6Mq5MrZ/vcr9hCRb82Mu8RUPjgTHtlTZJOizNuTErmTLin9mT2ebsAZ/hmK9NfPjdiZHdpEGKINo9IBYD2tQsQm0PQKTFA/xWjQGTElICFOyWrGZJdhsCJS6JFY2971GJhZUXtfOVbpFS7G3eDUWHWpbw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752224560; c=relaxed/simple;
-	bh=5hfsErzK8U6eSfuwK4siKcG5sl3MlW6guRBomqwJNSk=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=O/KE8gAUlUVytQCyAUo2iEAG2+RC6j1dQ2M6N7EvFnnHI8WgKp0ROE28nsMmVHUpwKtXKzQbIByEQ6dY+skGG94kduDMETGP27otndNfiQkCBwHNZJB8jYQw6AO2D6NEFxg5TWheMWIvUGLyySw+6lbeE16Bthf9e6Ef34sYv20=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=geanix.com; spf=pass smtp.mailfrom=geanix.com; dkim=pass (2048-bit key) header.d=geanix.com header.i=@geanix.com header.b=pvYjKxg+; arc=none smtp.client-ip=79.135.106.26
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=geanix.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=geanix.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=geanix.com;
-	s=protonmail; t=1752224545; x=1752483745;
-	bh=Tg8aOMQgSF6YM5PlWDpcJQLYft5zXTyVat8RUlVrpKw=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=pvYjKxg+twOgyt8Gd11RZkN46LUq/vcNdz+VJNLdIhPNUk8jW8rLrZ9elL9Jk5tVr
-	 gJZOIwc3mWNqT1BXJCbD3WeF97oGiLwK0wSFpPQCbDgeMDp5i+AcGDqWsMy+ciFy2B
-	 hqBRwRtRCtfjq6sTBpQv8oILCY9PPRcHkgFKV8WtgxlijSyUiyqW4HZjDcotJ87mKm
-	 8NlwtLVFXpsmwR6xXkvCzEMYunKbwXTwo0Eoc3dMAQG98JQB8fPcaaon3ChmsPQaTC
-	 Iqk2EnOSjzHY9rVAFqxb2Mfsh8wr3LHX+9PXUpo4a34hMUOvSQybCDn2QWadpL8Z/t
-	 9rxiueNtV4oAQ==
-Date: Fri, 11 Jul 2025 09:02:18 +0000
-To: Samuel Kayode <samuel.kayode@savoirfairelinux.com>
-From: Sean Nyekjaer <sean@geanix.com>
-Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, Sebastian Reichel <sre@kernel.org>, Frank Li <Frank.li@nxp.com>, imx@lists.linux.dev, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-input@vger.kernel.org, linux-pm@vger.kernel.org, Abel Vesa <abelvesa@kernel.org>, Abel Vesa <abelvesa@linux.com>, Robin Gong <b38343@freescale.com>, Robin Gong <yibin.gong@nxp.com>, Enric Balletbo i Serra <eballetbo@gmail.com>
-Subject: Re: [PATCH v8 5/6] power: supply: pf1550: add battery charger support
-Message-ID: <e2veigexln4ma5meguxqh6jh2r2fhj2d47pv4exjzwrhlazn7d@raknfsiucqls>
-In-Reply-To: <20250707-pf1550-v8-5-6b6eb67c03a0@savoirfairelinux.com>
-References: <20250707-pf1550-v8-0-6b6eb67c03a0@savoirfairelinux.com> <20250707-pf1550-v8-5-6b6eb67c03a0@savoirfairelinux.com>
-Feedback-ID: 134068486:user:proton
-X-Pm-Message-ID: e22eee3c66a526c8ffff06f5cd1ab1c871b3bad9
+	s=arc-20240116; t=1752226236; c=relaxed/simple;
+	bh=MFhWI25TKUOW/7+K+ST5RNJLf3f09zhhoFu/1YkD0Mk=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=g1uo+lLaaaKuUZwuKweXdcssiiepXAB8+Hzwnr3g2BYbLe/A7cfk1B1EdnTuOTH62YuXxgrIni6NNHi93sgiUXjEuzU2GPENFaRQIay66dh/EK3rBRD5ByDDv/Ypy/tt3MCNFE2YaWxlG6FoV1V0kULo3JowCbxLfiDdNRjtLbo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=JtGi9N+c; arc=none smtp.client-ip=217.70.183.193
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 5913E43A04;
+	Fri, 11 Jul 2025 09:30:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1752226225;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=/HOSHlqVfpqm6UUWP2eSEV0bRaYp5o5Fh6suplE6vo8=;
+	b=JtGi9N+cvwyKoK16Kk2iznpfz0ELBQhwu3ar47I0pqRVhO9XOBDRNLL1tVosAc2Kzpcl+k
+	Trkfuf3Q+wJTd9QPJNDCbQgWUpquvvQCNXNcaC7T1dqoJqiRebYw7+xVAAzQcUrm+EEjSb
+	dTAS8v5YejVmDofs1YY27jEDQYV1eS18o5jgbI/GYFU8kIS5/ZHjmX27XUqDdjLOiOcruU
+	E9iEWQqch7JtodOqE4wRzGliyy2AabB35d6aJRfbltaiJLf26lcsaGEaJczos/x1VzZtNw
+	ecoZkP4o3nTSopUFfTaeM/psedoiIy9eN+lALUyZRYrx9UYxrI9HaGCgED2Lyw==
+From: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Subject: [PATCH v11 00/10] Add support for MAX7360
+Date: Fri, 11 Jul 2025 11:29:40 +0200
+Message-Id: <20250711-mdb-max7360-support-v11-0-cf1dee2a7d4c@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAIXZcGgC/33SzU7DMAwH8FeZcqbIsfPJifdAHOI0ZZHYWrWjG
+ pr27qSTUIvacrSV/PJ3kpsYUp/TIF4ON9GnMQ+5PZdCyqeDiMdw/khVrktDIKCSKH11qrk6has
+ lA9Xw1XVtf6kQKbiYlOZAouzs+tTk64N9ey/1MQ+Xtv9+nDLKqfu/N8oKKpccSavdtOyV2/bym
+ c/PsT2JSRxxoSBtK1gUssHViJFMqtcK/SoapNxRqCheS88qRAbeyKJmBaXaVtQ0USAdTc3sjVk
+ relZIum1FF6VhBA6Nt3WAtWJmRcHO7Zqi2ICatLMmkV8rdqHgThZbFJXAgKsh2KZZK25W9F4WV
+ xTmpJxpDEe2a8UvFMRtxU8TqSYCaWmT2ngjCQuGYOfbQXFiIvbJQNDO/XXu9/sPwZg1AzEDAAA
+ =
+To: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Kamel Bouhara <kamel.bouhara@bootlin.com>, 
+ Linus Walleij <linus.walleij@linaro.org>, 
+ Bartosz Golaszewski <brgl@bgdev.pl>, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+ =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, 
+ Michael Walle <mwalle@kernel.org>, Mark Brown <broonie@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-gpio@vger.kernel.org, linux-input@vger.kernel.org, 
+ linux-pwm@vger.kernel.org, andriy.shevchenko@intel.com, 
+ =?utf-8?q?Gr=C3=A9gory_Clement?= <gregory.clement@bootlin.com>, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+ Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+X-Mailer: b4 0.14.1
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1752226224; l=6560;
+ i=mathieu.dubois-briand@bootlin.com; s=20241219; h=from:subject:message-id;
+ bh=MFhWI25TKUOW/7+K+ST5RNJLf3f09zhhoFu/1YkD0Mk=;
+ b=jBG6lltTkm3QOaWf4YhR44m4oyVEnBX5jTZwfSjYMXMExZCmVVyoaE7OPdaUWycZrEtRixL3O
+ CHhyQx7zlMrDBWvfuJ1Q1/FExr86r5LLxthZXyahoZ+VtCvvbqLrZdo
+X-Developer-Key: i=mathieu.dubois-briand@bootlin.com; a=ed25519;
+ pk=1PVTmzPXfKvDwcPUzG0aqdGoKZJA3b9s+3DqRlm0Lww=
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdegvdeliecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffufffkgggtgffvvefosehtjeertdertdejnecuhfhrohhmpeforghthhhivghuucffuhgsohhishdquehrihgrnhguuceomhgrthhhihgvuhdrughusghoihhsqdgsrhhirghnugessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhephfekffeugedvkeeihfefjeeuueekkeeggeejgeehgfdvkeevvedvkeeiteekleevnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghdpudegqdhrtgdvrddqlhhinhhknecukfhppedvrgdtudemtggsudegmeehheeimeejrgdttdemfehftghfmehfsgdtugemuddviedvmedvvgejieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtudemtggsudegmeehheeimeejrgdttdemfehftghfmehfsgdtugemuddviedvmedvvgejiedphhgvlhhopegluddvjedrtddruddrudgnpdhmrghilhhfrhhomhepmhgrthhhihgvuhdrughusghoihhsqdgsrhhirghnugessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepvdeipdhrtghpthhtoheprhhosghhsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhpfihmsehvghgvr
+ hdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepuggrkhhrsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehkrhiihihsiihtohhfrdhkohiilhhofihskhhisehlihhnrghrohdrohhrghdprhgtphhtthhopehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmpdhrtghpthhtohepuggvvhhitggvthhrvggvsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepsghrghhlsegsghguvghvrdhplhdprhgtphhtthhopegsrhhoohhnihgvsehkvghrnhgvlhdrohhrgh
+X-GND-Sasl: mathieu.dubois-briand@bootlin.com
 
-Hi,
+This series implements a set of drivers allowing to support the Maxim
+Integrated MAX7360 device.
 
-On Mon, Jul 07, 2025 at 05:37:24PM +0100, Samuel Kayode wrote:
-> Add support for the battery charger for pf1550 PMIC.
->=20
-> Signed-off-by: Samuel Kayode <samuel.kayode@savoirfairelinux.com>
-> ---
+The MAX7360 is an I2C key-switch and led controller, with following
+functionalities:
+- Keypad controller for a key matrix of up to 8 rows and 8 columns.
+- Rotary encoder support, for a single rotary encoder.
+- Up to 8 PWM outputs.
+- Up to 8 GPIOs with support for interrupts and 6 GPOs.
 
-[...]
+Chipset pins are shared between all functionalities, so all cannot be
+used at the same time.
 
-> diff --git a/drivers/power/supply/pf1550-charger.c b/drivers/power/supply=
-/pf1550-charger.c
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..7a6bd9c30d60280f1e1c50d4e=
-1ddaf0a4998b9f0
-> --- /dev/null
-> +++ b/drivers/power/supply/pf1550-charger.c
-> @@ -0,0 +1,632 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * charger driver for the PF1550
-> + *
-> + * Copyright (C) 2016 Freescale Semiconductor, Inc.
-> + * Robin Gong <yibin.gong@freescale.com>
-> + *
-> + * Portions Copyright (c) 2025 Savoir-faire Linux Inc.
-> + * Samuel Kayode <samuel.kayode@savoirfairelinux.com>
-> + */
-> +
-> +#include <linux/devm-helpers.h>
-> +#include <linux/interrupt.h>
-> +#include <linux/mfd/pf1550.h>
-> +#include <linux/module.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/power_supply.h>
-> +
-> +#define PF1550_DEFAULT_CONSTANT_VOLT=094200000
-> +#define PF1550_DEFAULT_MIN_SYSTEM_VOLT=093500000
-> +#define PF1550_DEFAULT_THERMAL_TEMP=0975
+Lee Jones suggested the whole series goes through MFD subsystem, once
+all patches got the needed Acks.
 
-Default is 95
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+---
+Changes in v11:
+- Rebased on v6.16-rc5.
+- Small fixes in keypad and rotary encoder input drivers: typos and off
+  by one errors.
+- Various fixes in PWM driver and PWM Kconfig.
+- Link to v10: https://lore.kernel.org/r/20250530-mdb-max7360-support-v10-0-ce3b9e60a588@bootlin.com
 
-> +#define PF1550_CHARGER_IRQ_NR=09=095
-> +
-> +struct pf1550_charger {
-> +=09struct device *dev;
-> +=09const struct pf1550_ddata *pf1550;
-> +=09struct power_supply *charger;
-> +=09struct power_supply *battery;
-> +=09struct delayed_work vbus_sense_work;
-> +=09struct delayed_work chg_sense_work;
-> +=09struct delayed_work bat_sense_work;
-> +=09int virqs[PF1550_CHARGER_IRQ_NR];
-> +
+Changes in v10:
+- Rebased on v6.15
+- Do not use devm_ functions to allocate regmap-irq in gpio-remap.c
+- Link to v9: https://lore.kernel.org/r/20250522-mdb-max7360-support-v9-0-74fc03517e41@bootlin.com
 
-[...]
+Changes in v9:
+- Fix build issue with bad usage of array_size() on intermediate commit.
+- MFD: Fix error strings. Also fix #define style in the header file.
+- Pinctrl: Fix missing include.
+- PWM: Fix register writes in max7360_pwm_waveform() and
+  max7360_pwm_round_waveform_tohw().
+- GPIO: Fix GPIO valid mask initialization.
+- Link to v8: https://lore.kernel.org/r/20250509-mdb-max7360-support-v8-0-bbe486f6bcb7@bootlin.com
 
-> +
-> +static int pf1550_set_thermal_regulation_temp(struct pf1550_charger *chg=
-,
-> +=09=09=09=09=09      unsigned int cells)
-> +{
-> +=09unsigned int data;
-> +
-> +=09switch (cells) {
-> +=09case 60:
-> +=09=09data =3D 0x0;
-> +=09=09break;
-> +=09case 75:
-> +=09=09data =3D 0x1;
-> +=09=09break;
-> +=09case 90:
-> +=09=09data =3D 0x2;
-> +=09=09break;
-> +=09case 105:
-> +=09=09data =3D 0x3;
-> +=09=09break;
+Changes in v8:
+- Small changes in drivers.
+- Rebased on v6.15-rc5
+- Link to v7: https://lore.kernel.org/r/20250428-mdb-max7360-support-v7-0-4e0608d0a7ff@bootlin.com
 
-From the datasheet 80, 95, 110 and 125c is supported
+Changes in v7:
+- Add rotary encoder absolute axis support in device tree bindings and
+  driver.
+- Lot of small changes in keypad, rotary encoder and GPIO drivers.
+- Rebased on v6.15-rc4
+- Link to v6: https://lore.kernel.org/r/20250409-mdb-max7360-support-v6-0-7a2535876e39@bootlin.com
 
-> +=09default:
-> +=09=09return dev_err_probe(chg->dev, -EINVAL,
-> +=09=09=09=09     "Wrong value for thermal temperature\n");
-> +=09}
-> +
-> +=09data <<=3D PF1550_CHARG_REG_THM_REG_CNFG_REGTEMP_SHIFT;
-> +
-> +=09dev_dbg(chg->dev, "Thermal regulation loop temperature: %u (0x%x)\n",
-> +=09=09cells, data);
-> +
-> +=09return regmap_update_bits(chg->pf1550->regmap,
-> +=09=09=09=09  PF1550_CHARG_REG_THM_REG_CNFG,
-> +=09=09=09=09  PF1550_CHARG_REG_THM_REG_CNFG_REGTEMP_MASK,
-> +=09=09=09=09  data);
-> +}
-> +
-> +/*
-> + * Sets charger registers to proper and safe default values.
-> + */
-> +static int pf1550_reg_init(struct pf1550_charger *chg)
-> +{
-> +=09struct device *dev =3D chg->dev;
-> +=09unsigned int data;
-> +=09int ret;
-> +
-> +=09/* Unmask charger interrupt, mask DPMI and reserved bit */
-> +=09ret =3D  regmap_write(chg->pf1550->regmap, PF1550_CHARG_REG_CHG_INT_M=
-ASK,
-> +=09=09=09    PF1550_CHG_INT_MASK);
-> +=09if (ret)
-> +=09=09return dev_err_probe(dev, ret,
-> +=09=09=09=09     "Error unmask charger interrupt\n");
-> +
-> +=09ret =3D regmap_read(chg->pf1550->regmap, PF1550_CHARG_REG_VBUS_SNS,
-> +=09=09=09  &data);
-> +=09if (ret)
-> +=09=09return dev_err_probe(dev, ret, "Read charg vbus_sns error\n");
+Changes in v6:
+- Rebased on v6.15-rc1.
+- Use device_set_of_node_from_dev() instead of creating PWM and Pinctrl
+  on parent device.
+- Various small fixes in all drivers.
+- Fix pins property pattern in pinctrl dt bindings.
+- Link to v5: https://lore.kernel.org/r/20250318-mdb-max7360-support-v5-0-fb20baf97da0@bootlin.com
 
-data is unused here :/
+Changes in v5:
+- Add pinctrl driver to replace the previous use of request()/free()
+  callbacks for PORT pins.
+- Dropping Reviewed-by tags on device-tree binding commit, because of
+  modifications related to the previous point.
+- Remove ngpios property from GPIO device tree bindings.
+- Use GPIO valid_mask to mark unusable keypad columns GPOs, instead of
+  changing ngpios.
+- Drop patches adding support for request()/free() callbacks in GPIO
+  regmap and gpio_regmap_get_ngpio().
+- Allow gpio_regmap_register() to create the associated regmap IRQ.
+- Various fixes in MFD, PWM, GPIO and KEYPAD drivers.
+- Link to v4: https://lore.kernel.org/r/20250214-mdb-max7360-support-v4-0-8a35c6dbb966@bootlin.com
 
-> +
-> +=09ret =3D pf1550_set_constant_volt(chg, chg->constant_volt);
-> +=09if (ret)
-> +=09=09return ret;
-> +
-> +=09ret =3D pf1550_set_min_system_volt(chg, chg->min_system_volt);
-> +=09if (ret)
-> +=09=09return ret;
-> +
-> +=09ret =3D pf1550_set_thermal_regulation_temp(chg,
-> +=09=09=09=09=09=09 chg->thermal_regulation_temp);
-> +=09if (ret)
-> +=09=09return ret;
-> +
-> +=09/* Turn on charger */
-> +=09ret =3D regmap_write(chg->pf1550->regmap, PF1550_CHARG_REG_CHG_OPER,
-> +=09=09=09   PF1550_CHG_TURNON);
-> +=09if (ret)
-> +=09=09return dev_err_probe(dev, ret, "Error turn on charger\n");
+Changes in v4:
+- Modified the GPIO driver to use gpio-regmap and regmap-irq.
+- Add support for request()/free() callbacks in gpio-regmap.
+- Add support for status_is_level in regmap-irq.
+- Switched the PWM driver to waveform callbacks.
+- Various small fixes in MFD, PWM, GPIO drivers and dt bindings.
+- Rebased on v6.14-rc2.
+- Link to v3: https://lore.kernel.org/r/20250113-mdb-max7360-support-v3-0-9519b4acb0b1@bootlin.com
 
-There are 3 modes for the charger operation:
-0: charger =3D off, linear =3D off
-1: charger =3D off, linear =3D on
-2: charger =3D on, linear =3D on
+Changes in v3:
+- Fix MFD device tree binding to add gpio child nodes.
+- Fix various small issues in device tree bindings.
+- Add missing line returns in error messages.
+- Use dev_err_probe() when possible.
+- Link to v2: https://lore.kernel.org/r/20241223-mdb-max7360-support-v2-0-37a8d22c36ed@bootlin.com
 
-The driver is hardcoded to use no. 2.
+Changes in v2:
+- Removing device tree subnodes for keypad, rotary encoder and pwm
+  functionalities.
+- Fixed dt-bindings syntax and naming.
+- Fixed missing handling of requested period in PWM driver.
+- Cleanup of the code
+- Link to v1: https://lore.kernel.org/r/20241219-mdb-max7360-support-v1-0-8e8317584121@bootlin.com
 
-We are using the mode 1, and setting it to 2 causes my system to boot loop.
+---
+Kamel Bouhara (2):
+      mfd: Add max7360 support
+      pwm: max7360: Add MAX7360 PWM support
 
-I don't know how we should select mode, maybe it could be an option from
-the devicetree or use power_supply_get_battery_info() to look for a
-battery and the only select between 1 or 2, but 0 would also be a valid
-option.
+Mathieu Dubois-Briand (8):
+      dt-bindings: mfd: gpio: Add MAX7360
+      pinctrl: Add MAX7360 pinctrl driver
+      gpio: regmap: Allow to allocate regmap-irq device
+      gpio: regmap: Allow to provide init_valid_mask callback
+      gpio: max7360: Add MAX7360 gpio support
+      input: keyboard: Add support for MAX7360 keypad
+      input: misc: Add support for MAX7360 rotary
+      MAINTAINERS: Add entry on MAX7360 driver
 
-/Sean
+ .../bindings/gpio/maxim,max7360-gpio.yaml          |  83 ++++++
+ .../devicetree/bindings/mfd/maxim,max7360.yaml     | 191 +++++++++++++
+ MAINTAINERS                                        |  13 +
+ drivers/gpio/Kconfig                               |  12 +
+ drivers/gpio/Makefile                              |   1 +
+ drivers/gpio/gpio-max7360.c                        | 257 +++++++++++++++++
+ drivers/gpio/gpio-regmap.c                         |  30 +-
+ drivers/input/keyboard/Kconfig                     |  12 +
+ drivers/input/keyboard/Makefile                    |   1 +
+ drivers/input/keyboard/max7360-keypad.c            | 308 +++++++++++++++++++++
+ drivers/input/misc/Kconfig                         |  10 +
+ drivers/input/misc/Makefile                        |   1 +
+ drivers/input/misc/max7360-rotary.c                | 192 +++++++++++++
+ drivers/mfd/Kconfig                                |  14 +
+ drivers/mfd/Makefile                               |   1 +
+ drivers/mfd/max7360.c                              | 171 ++++++++++++
+ drivers/pinctrl/Kconfig                            |  11 +
+ drivers/pinctrl/Makefile                           |   1 +
+ drivers/pinctrl/pinctrl-max7360.c                  | 215 ++++++++++++++
+ drivers/pwm/Kconfig                                |  10 +
+ drivers/pwm/Makefile                               |   1 +
+ drivers/pwm/pwm-max7360.c                          | 193 +++++++++++++
+ include/linux/gpio/regmap.h                        |  18 ++
+ include/linux/mfd/max7360.h                        | 109 ++++++++
+ 24 files changed, 1853 insertions(+), 2 deletions(-)
+---
+base-commit: d7b8f8e20813f0179d8ef519541a3527e7661d3a
+change-id: 20241219-mdb-max7360-support-223a8ce45ba3
+
+Best regards,
+-- 
+Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
 
 
