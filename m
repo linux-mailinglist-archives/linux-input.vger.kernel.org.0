@@ -1,112 +1,133 @@
-Return-Path: <linux-input+bounces-13514-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13515-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40ACAB037D3
-	for <lists+linux-input@lfdr.de>; Mon, 14 Jul 2025 09:23:48 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BAD3B03B77
+	for <lists+linux-input@lfdr.de>; Mon, 14 Jul 2025 11:57:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7F6603A96C4
-	for <lists+linux-input@lfdr.de>; Mon, 14 Jul 2025 07:23:20 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id BFAFD18833F3
+	for <lists+linux-input@lfdr.de>; Mon, 14 Jul 2025 09:57:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A455423504D;
-	Mon, 14 Jul 2025 07:23:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 51CA9242D86;
+	Mon, 14 Jul 2025 09:57:02 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-io1-f72.google.com (mail-io1-f72.google.com [209.85.166.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from cello.ilitek.com (mail.ilitek.com.tw [60.248.80.92])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7A8C23371F
-	for <linux-input@vger.kernel.org>; Mon, 14 Jul 2025 07:23:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BE3A286A1;
+	Mon, 14 Jul 2025 09:56:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=60.248.80.92
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752477816; cv=none; b=LHVJJHYWoCbugFGPHrHh1o7rr9+YP2202IriXwID6LxWbHTmOwujVtr+hIQ19VVJsus8UOOpmxhyVrXgr49V8nF+a1OOfmUVT9dHoCQ12InXFXEw/XgFp5vQuOHcLKuEUFRxMqv7MJ4no5+3JPCk6+chSHBCCE/Cy2Okn2OySJI=
+	t=1752487022; cv=none; b=iukbiYJ5YHaRyiXgAQ0Ylre0l2sQTgJzQ6gPUTXtbcxpmN9+P8MKMYpHxIOv96+Hxn4NV1d0C+Hmif3Rmpuo88mAtFJCfemqFJEGd5WsQklT/u2iYLnFgAK2kTbFaLt35IKNqlv3Kdr+cJ6pnG+L7b1VrkFSTqnJXwvVNbjc8V8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752477816; c=relaxed/simple;
-	bh=D0XbUHo/Xa8r/hQ7PBSxD9mQQ3DZQ104XS2Izw8FPPk=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=H2bXiM1QCdnbczg9sR5Q0ephuq6XS929dMT6b5zeRSLDfOpips6QMmD7tlxoaYq78xYF5BO7wbEOw4A1Zz2MxYGDBquH+gpnhLwdMA+WiPxERYjWFRRm3ympp1RaNJztU7DaVzSopJei1yGQRekDWePhWJ60+PeUCkBl/pFsLBA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-io1-f72.google.com with SMTP id ca18e2360f4ac-876afa8b530so443735939f.0
-        for <linux-input@vger.kernel.org>; Mon, 14 Jul 2025 00:23:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752477814; x=1753082614;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=3IODY77gcvcd2KKIR3n98mmWxpmu21fUMmL5zBmpSWg=;
-        b=CkrXkX/O6iQJKlF1v5n3y7ZmfQ15EMiLjzMjx4v2o96elPFbtdj4RV4A9BiNlENewu
-         mTtQGDz3S5h8Y5YAjQ01Zyb2e2Y5Sl5Y3C4IAZV3Y5f9oAVEqmZd8NF5anSK/H1B8dOD
-         XTd3rZe7sLwdN6RWRuEM6vs3nzgXVvS4lOAkATJaYIH1MaYJoRU687T099yUx2ICzuFN
-         4yMvbxG/OihIS1Oa225hir4+nR50u3CcpWEVwYQKI+jsjfYaFEKZdeBoZmoKy3sdZDlr
-         xpGYyLStYjf8gZniNEtser1g4e0eLBaju6KrWZWZ1hnRmnQlZy7IJW80qSM1dAZrmsNV
-         rONA==
-X-Gm-Message-State: AOJu0YyPvDYmUvvT9Y4c72PbCdeYETBbcLmhGb5TbTW6zZaM0MK91BD8
-	w2bzlXJIcy8CKjMjhJXG2ZbxgufR2eD1is/zpQA6qQ4C4iSPXIj8ATrUtPFHEM3H2sfhrcH25TN
-	uCqtza9XDiYpKXHntlzhmunzmVGcEnitFZeDrBnPPnQCSZN/+FTVHMDxy460=
-X-Google-Smtp-Source: AGHT+IH9WdWdISWHMOSZyObAIsSi6oFJavmp4y5tPClzzemUAp8EkpGozowkz7vMhGCoHqPKmtJxGDEYtXVlfNt1ILVyMyczLDE0
+	s=arc-20240116; t=1752487022; c=relaxed/simple;
+	bh=ckWgDw3R9hXObxueDQVD0IGRb72umRdboYbqn2wrTJY=;
+	h=From:To:CC:Subject:Date:Message-ID:Content-Type:MIME-Version; b=C3N2Q9DzX9XJQ4cf4MFCXqDn7m0knHVid3Jsaih8DgT2WBEQeOpxTU6iHMIS/ZFyVRWUXymHJcM0nFHThrflT/FMjZUGlTMIiN3LOyhmFfnhCTdLvR7PqogMdyBaY96Gvc6ZNTxeHsmr8bedPYVYkXsV5SJ75ppaSZxA942i9Q0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ilitek.com; spf=pass smtp.mailfrom=ilitek.com; arc=none smtp.client-ip=60.248.80.92
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ilitek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ilitek.com
+X-UUID: 25fa050e609811f0a8cc29d1b46cc427-20250714
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.2,REQID:b5ea3243-9c4a-4ee0-b04f-974a43b69fce,IP:0,UR
+	L:0,TC:0,Content:0,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:25
+X-CID-META: VersionHash:9eb4ff7,CLOUDID:fc2423df-2070-40bb-9c24-dfabef7c07f4,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102|110|111,TC:nil,Content:0|50,EDM:
+	5,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,A
+	V:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 25fa050e609811f0a8cc29d1b46cc427-20250714
+Received: from ex2.ili.com.tw [(192.168.1.132)] by cello.ilitek.com
+	(envelope-from <joe_hung@ilitek.com>)
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+	with ESMTP id 1273878594; Mon, 14 Jul 2025 17:51:43 +0800
+Received: from EX2.ili.com.tw (192.168.1.132) by EX2.ili.com.tw
+ (192.168.1.132) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.44; Mon, 14 Jul
+ 2025 17:51:42 +0800
+Received: from EX2.ili.com.tw ([fe80::c4c3:818f:1934:2a10]) by EX2.ili.com.tw
+ ([fe80::c4c3:818f:1934:2a10%7]) with mapi id 15.01.2507.044; Mon, 14 Jul 2025
+ 17:51:42 +0800
+From: =?big5?B?Sm9lIEh1bmcgKKx4u8q2pyk=?= <joe_hung@ilitek.com>
+To: "dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>,
+	"francesco.dolcini@toradex.com" <francesco.dolcini@toradex.com>,
+	"emanuele.ghidoli@toradex.com" <emanuele.ghidoli@toradex.com>
+CC: linux-input <linux-input@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, =?big5?B?THVjYSBIc3UgKK59ucXB5Sk=?=
+	<luca_hsu@ilitek.com>, =?big5?B?Sm9lIEh1bmcgKKx4u8q2pyk=?=
+	<joe_hung@ilitek.com>
+Subject: [PATCH] input: ilitek_ts_i2c: report key event for palm
+Thread-Topic: [PATCH] input: ilitek_ts_i2c: report key event for palm
+Thread-Index: Adv0pKcAGdMD8eJ9SN+aguAgERcaJQ==
+Date: Mon, 14 Jul 2025 09:51:42 +0000
+Message-ID: <b372a99d01c14d1690afba4ceedd0936@ilitek.com>
+Accept-Language: zh-TW, en-US
+Content-Language: zh-TW
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+Content-Type: text/plain; charset="big5"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:378a:b0:3df:29a6:ffbc with SMTP id
- e9e14a558f8ab-3e2533140c2mr121077165ab.17.1752477814084; Mon, 14 Jul 2025
- 00:23:34 -0700 (PDT)
-Date: Mon, 14 Jul 2025 00:23:34 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6874b076.a70a0220.3b380f.004e.GAE@google.com>
-Subject: [syzbot] Monthly input report (Jul 2025)
-From: syzbot <syzbot+list03999ad301cf3e834e43@syzkaller.appspotmail.com>
-To: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
 
-Hello input maintainers/developers,
+RnJvbSBlYzBkODAyMTRmZWU2YWNjMGIzOGYzM2FkMGI2YjQ4NzA5ODk2M2JjIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQ0KRnJvbTogSm9lIEhvbmcgPGpvZV9odW5nQGlsaXRlay5jb20+DQpEYXRl
+OiBNb24sIDE0IEp1bCAyMDI1IDE3OjIwOjExICswODAwDQpTdWJqZWN0OiBbUEFUQ0hdIGlucHV0
+OiBpbGl0ZWtfdHNfaTJjOiByZXBvcnQga2V5IGV2ZW50IGZvciBwYWxtDQoNCkFkZCBzdXBwb3J0
+IGZvciByZXBvcnRpbmcgdXNlci1kZWZpbmVkIGtleSBldmVudCB3aGlsZSBnZXR0aW5nIHBhbG0g
+ZXZlbnQuDQoNClNpZ25lZC1vZmYtYnk6IEpvZSBIb25nIDxqb2VfaHVuZ0BpbGl0ZWsuY29tPg0K
+LS0tDQogZHJpdmVycy9pbnB1dC90b3VjaHNjcmVlbi9pbGl0ZWtfdHNfaTJjLmMgfCA0MiArKysr
+KysrKysrKysrKysrKysrKysrKw0KIDEgZmlsZSBjaGFuZ2VkLCA0MiBpbnNlcnRpb25zKCspDQoN
+CmRpZmYgLS1naXQgYS9kcml2ZXJzL2lucHV0L3RvdWNoc2NyZWVuL2lsaXRla190c19pMmMuYyBi
+L2RyaXZlcnMvaW5wdXQvdG91Y2hzY3JlZW4vaWxpdGVrX3RzX2kyYy5jDQppbmRleCAwZGQ2MzI3
+MjRhMDAuLmZkY2I0YWI2NmZiYiAxMDA2NDQNCi0tLSBhL2RyaXZlcnMvaW5wdXQvdG91Y2hzY3Jl
+ZW4vaWxpdGVrX3RzX2kyYy5jDQorKysgYi9kcml2ZXJzL2lucHV0L3RvdWNoc2NyZWVuL2lsaXRl
+a190c19pMmMuYw0KQEAgLTM5LDggKzM5LDEzIEBADQogI2RlZmluZSBJTElURUtfVFBfSTJDX1JF
+UE9SVF9JRAkJCQkweDQ4DQogDQogI2RlZmluZSBSRVBPUlRfQ09VTlRfQUREUkVTUwkJCQk2MQ0K
+KyNkZWZpbmUgQUxHT19NT0RFX0FERFJFU1MJCQkJNjINCiAjZGVmaW5lIElMSVRFS19TVVBQT1JU
+X01BWF9QT0lOVAkJCTQwDQogDQorc3RhdGljIHVpbnQgcGFsbV9rZXk7DQorbW9kdWxlX3BhcmFt
+KHBhbG1fa2V5LCB1aW50LCAwNjY0KTsNCitNT0RVTEVfUEFSTV9ERVNDKHBhbG1fa2V5LCAiU2V0
+IHBhbG0ga2V5IGNvZGUgd2hlbiBwYWxtIGlzIGRldGVjdGVkIik7DQorDQogc3RydWN0IGlsaXRl
+a19wcm90b2NvbF9pbmZvIHsNCiAJdTE2IHZlcjsNCiAJdTggdmVyX21ham9yOw0KQEAgLTE3Niw2
+ICsxODEsMTEgQEAgc3RhdGljIGludCBpbGl0ZWtfcHJvY2Vzc19hbmRfcmVwb3J0X3Y2KHN0cnVj
+dCBpbGl0ZWtfdHNfZGF0YSAqdHMpDQogCQlyZXR1cm4gLUVJTlZBTDsNCiAJfQ0KIA0KKwlpZiAo
+cGFsbV9rZXkpIHsNCisJCWlucHV0X3JlcG9ydF9rZXkodHMtPmlucHV0X2RldiwgcGFsbV9rZXks
+DQorCQkJCSAoYnVmW0FMR09fTU9ERV9BRERSRVNTXSAmIDB4ODApID8gMSA6IDApOw0KKwl9DQor
+DQogCWNvdW50ID0gRElWX1JPVU5EX1VQKHJlcG9ydF9tYXhfcG9pbnQsIHBhY2tldF9tYXhfcG9p
+bnQpOw0KIAlmb3IgKGkgPSAxOyBpIDwgY291bnQ7IGkrKykgew0KIAkJZXJyb3IgPSBpbGl0ZWtf
+aTJjX3dyaXRlX2FuZF9yZWFkKHRzLCBOVUxMLCAwLCAwLA0KQEAgLTQ3Miw2ICs0ODIsOSBAQCBz
+dGF0aWMgaW50IGlsaXRla19pbnB1dF9kZXZfaW5pdChzdHJ1Y3QgZGV2aWNlICpkZXYsIHN0cnVj
+dCBpbGl0ZWtfdHNfZGF0YSAqdHMpDQogCWlucHV0LT5uYW1lID0gSUxJVEVLX1RTX05BTUU7DQog
+CWlucHV0LT5pZC5idXN0eXBlID0gQlVTX0kyQzsNCiANCisJaWYgKHBhbG1fa2V5KQ0KKwkJX19z
+ZXRfYml0KHBhbG1fa2V5LCBpbnB1dC0+a2V5Yml0KTsNCisNCiAJX19zZXRfYml0KElOUFVUX1BS
+T1BfRElSRUNULCBpbnB1dC0+cHJvcGJpdCk7DQogDQogCWlucHV0X3NldF9hYnNfcGFyYW1zKGlu
+cHV0LCBBQlNfTVRfUE9TSVRJT05fWCwNCkBAIC01MzcsOSArNTUwLDM4IEBAIHN0YXRpYyBzc2l6
+ZV90IHByb2R1Y3RfaWRfc2hvdyhzdHJ1Y3QgZGV2aWNlICpkZXYsDQogfQ0KIHN0YXRpYyBERVZJ
+Q0VfQVRUUl9STyhwcm9kdWN0X2lkKTsNCiANCitzdGF0aWMgc3NpemVfdCBwYWxtX2tleV9zaG93
+KHN0cnVjdCBkZXZpY2UgKmRldiwNCisJCQkgICAgIHN0cnVjdCBkZXZpY2VfYXR0cmlidXRlICph
+dHRyLCBjaGFyICpidWYpDQorew0KKwlyZXR1cm4gc3lzZnNfZW1pdChidWYsICJwYWxtIGtleTog
+WyV1XVxuIiwgcGFsbV9rZXkpOw0KK30NCisNCitzdGF0aWMgc3NpemVfdCBwYWxtX2tleV9zdG9y
+ZShzdHJ1Y3QgZGV2aWNlICpkZXYsIHN0cnVjdCBkZXZpY2VfYXR0cmlidXRlICphdHRyLA0KKwkJ
+CSAgICAgIGNvbnN0IGNoYXIgKmJ1Ziwgc2l6ZV90IGNvdW50KQ0KK3sNCisJc3RydWN0IGkyY19j
+bGllbnQgKmNsaWVudCA9IHRvX2kyY19jbGllbnQoZGV2KTsNCisJc3RydWN0IGlsaXRla190c19k
+YXRhICp0cyA9IGkyY19nZXRfY2xpZW50ZGF0YShjbGllbnQpOw0KKw0KKwl1bnNpZ25lZCBsb25n
+IHRtcDsNCisNCisJaWYgKGtzdHJ0b3VsKGJ1ZiwgMTAsICZ0bXApIHx8IHRtcCA+IEtFWV9NQVgp
+DQorCQlyZXR1cm4gLUVJTlZBTDsNCisNCisJaWYgKHBhbG1fa2V5KQ0KKwkJX19jbGVhcl9iaXQo
+cGFsbV9rZXksIHRzLT5pbnB1dF9kZXYtPmtleWJpdCk7DQorDQorCV9fc2V0X2JpdCh0bXAsIHRz
+LT5pbnB1dF9kZXYtPmtleWJpdCk7DQorCXBhbG1fa2V5ID0gdG1wOw0KKw0KKwlyZXR1cm4gY291
+bnQ7DQorfQ0KKw0KK3N0YXRpYyBERVZJQ0VfQVRUUl9SVyhwYWxtX2tleSk7DQorDQogc3RhdGlj
+IHN0cnVjdCBhdHRyaWJ1dGUgKmlsaXRla19zeXNmc19hdHRyc1tdID0gew0KIAkmZGV2X2F0dHJf
+ZmlybXdhcmVfdmVyc2lvbi5hdHRyLA0KIAkmZGV2X2F0dHJfcHJvZHVjdF9pZC5hdHRyLA0KKwkm
+ZGV2X2F0dHJfcGFsbV9rZXkuYXR0ciwNCiAJTlVMTA0KIH07DQogQVRUUklCVVRFX0dST1VQUyhp
+bGl0ZWtfc3lzZnMpOw0KLS0gDQoyLjM0LjENCg0K
 
-This is a 31-day syzbot report for the input subsystem.
-All related reports/information can be found at:
-https://syzkaller.appspot.com/upstream/s/input
-
-During the period, 1 new issues were detected and 0 were fixed.
-In total, 20 issues are still open and 59 have already been fixed.
-
-Some of the still happening issues:
-
-Ref  Crashes Repro Title
-<1>  2359    Yes   WARNING in cm109_urb_irq_callback/usb_submit_urb
-                   https://syzkaller.appspot.com/bug?extid=2d6d691af5ab4b7e66df
-<2>  1228    No    possible deadlock in evdev_pass_values (2)
-                   https://syzkaller.appspot.com/bug?extid=13d3cb2a3dc61e6092f5
-<3>  853     Yes   WARNING in enable_work
-                   https://syzkaller.appspot.com/bug?extid=7053fbd8757fecbbe492
-<4>  719     Yes   KASAN: slab-out-of-bounds Read in mcp2221_raw_event
-                   https://syzkaller.appspot.com/bug?extid=52c1a7d3e5b361ccd346
-<5>  166     Yes   KASAN: stack-out-of-bounds Read in sched_show_task
-                   https://syzkaller.appspot.com/bug?extid=8d2757d62d403b2d9275
-<6>  72      Yes   WARNING in cm109_input_open/usb_submit_urb (3)
-                   https://syzkaller.appspot.com/bug?extid=ac0f9c4cc1e034160492
-<7>  44      Yes   possible deadlock in uinput_request_submit
-                   https://syzkaller.appspot.com/bug?extid=159077b1355b8cd72757
-<8>  27      Yes   WARNING in bcm5974_start_traffic/usb_submit_urb (2)
-                   https://syzkaller.appspot.com/bug?extid=b064b5599f18f7ebb1e1
-<9>  9       Yes   INFO: rcu detected stall in call_timer_fn (5)
-                   https://syzkaller.appspot.com/bug?extid=03dd0f0cbfcf5c5c24f1
-<10> 9       No    KASAN: slab-use-after-free Read in report_descriptor_read
-                   https://syzkaller.appspot.com/bug?extid=bc537ca7a0efe33988eb
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-To disable reminders for individual bugs, reply with the following command:
-#syz set <Ref> no-reminders
-
-To change bug's subsystems, reply with:
-#syz set <Ref> subsystems: new-subsystem
-
-You may send multiple commands in a single email message.
 
