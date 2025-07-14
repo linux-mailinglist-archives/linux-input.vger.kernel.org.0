@@ -1,440 +1,192 @@
-Return-Path: <linux-input+bounces-13527-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13531-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 371B9B04318
-	for <lists+linux-input@lfdr.de>; Mon, 14 Jul 2025 17:14:10 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 76F88B04633
+	for <lists+linux-input@lfdr.de>; Mon, 14 Jul 2025 19:11:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 589D816EF7B
-	for <lists+linux-input@lfdr.de>; Mon, 14 Jul 2025 15:11:58 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7AC6A1A63995
+	for <lists+linux-input@lfdr.de>; Mon, 14 Jul 2025 17:10:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F1FB226462C;
-	Mon, 14 Jul 2025 15:09:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="bok1OWWY"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF82C26136D;
+	Mon, 14 Jul 2025 17:10:34 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-io1-f74.google.com (mail-io1-f74.google.com [209.85.166.74])
+Received: from mail-io1-f80.google.com (mail-io1-f80.google.com [209.85.166.80])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A97F025B663
-	for <linux-input@vger.kernel.org>; Mon, 14 Jul 2025 15:09:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2345625D8E8
+	for <linux-input@vger.kernel.org>; Mon, 14 Jul 2025 17:10:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.80
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752505792; cv=none; b=sBtnMzJyfoo8cXpjxlEhvmeN97Igef+ndMiZbeJAs7H4hhTa1gthuzJdJPT+g7zk+q76242K4ZFFR3t7HLvfW7NamRCgTpYZM2QhRr5UbbWqEppcq6RuTjELtgVoRZNJU6E2Snrm/d3dmHu1V2KrrJvQnSiIvIPFZTzlA+RI5K8=
+	t=1752513034; cv=none; b=fNwF13YJyvsn4x8EkI9oQwOAgNkdQ/aMr1D8ChxT0rV8giN5elXkXld+z8iA+xT/h0Jwv9vSNBr/SFgnRwcnmoYZIt5+5gcLHCSjIvZtNLf/bOEAnNh3fQgNQcea6pgQs6r3Y7TPN02Ha7eeQSRKIPiJ/nmx/DydjLixDDKdmTk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752505792; c=relaxed/simple;
-	bh=tCeGjqnFdNQ0NPSFczvXaBFfpko5DBPet4fKc/RqNQE=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=jpjryvcX4gcjlmuVt6HoGKdO/qMxMCK3+2PbsvHz29akiosv/ZvuKCueDwdtfqw1opo1R05sJ/JmQrfOHTuoYj+Tkskdy3YdyNAMQPS6MMsDR7n7U/dcecfVYMihKrAByRQCcDMbXAvgZ9bYib5+ZpWvLKNVwRhPJKtkQN8IDwI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jdenose.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=bok1OWWY; arc=none smtp.client-ip=209.85.166.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jdenose.bounces.google.com
-Received: by mail-io1-f74.google.com with SMTP id ca18e2360f4ac-86d126265baso412738839f.0
-        for <linux-input@vger.kernel.org>; Mon, 14 Jul 2025 08:09:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1752505790; x=1753110590; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=nHnoetcpMIxLyjvjZ8ksTCx7rsHXxHPVxp+v8N4Zr/k=;
-        b=bok1OWWYRR1xbSD0m0PevtoFw1UNYu/uK5sXSdrPXGZN6byU/WOQCwzMw7lwY7OvkK
-         WmCpUZ8Gmji8GDypxY9ktPa0+Y+jcS+JYlJVQxCWORpxxgZH1qMS48uVs2LOfq7Xuace
-         YfQHjlSyYQtfHG0jgESpz8lWe9jp2EJIhAbtSFB/Uk6qBSF94ONYp57JfbaZl9Yq6cRe
-         diVXzl1332uv7JdbwhO/qpdM9Z7zqYMY++eiD00l2aoq2RfYRSTNYDy7+FWtP5004DB6
-         ikScXx6WLKS9zeqRrnXws/MoVno0ZkEd9sBJ7CZxktdgyJkvMSbFvo5+yS3WYfwuEO9R
-         voUA==
+	s=arc-20240116; t=1752513034; c=relaxed/simple;
+	bh=0lKaue4Q/CodZJ43BE+2ERHP0tt8CkDwoKR/aeIu+bY=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=DP31GPKCygz/glAsXZIsS2Elcm1z2LWuMPjaztkeabVEiLa/pEO+ai31Z6LNQOPRtOYgAhGmYLnke6CAMlGpffBVAbxfNnzqhYFO0jk+NoCt0CD7PZm3tZcQ47tgRB+yydER3XqRMthYO4KKn9qC3SSPUo8JKrLQVpMx4pgwhhU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.80
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-io1-f80.google.com with SMTP id ca18e2360f4ac-869e9667f58so1046997439f.3
+        for <linux-input@vger.kernel.org>; Mon, 14 Jul 2025 10:10:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752505790; x=1753110590;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=nHnoetcpMIxLyjvjZ8ksTCx7rsHXxHPVxp+v8N4Zr/k=;
-        b=gZlJ0jh6LP64pttGGF7kBlgb0v4Ev2LTLUUOkj8YieiT4/Dd956BT9RfA9HaioS2PQ
-         qaUEoEGmWhwEC/BsRHW1Ek+jzpIiy9M1EgISsQQH6PJPorvWE3v+aj4jgZ7A8embXZd6
-         DBV47vRqCogDFPo5P+wiPGqpUNiSCpoBfe8UQrWxBkSuBDTp14NTkQCYTJzFpLwQSerc
-         wGxMdi1A+xp0REtEIAY4akZN9dxUqxq4/ww+Ppo3VGZTRPzhab1IfC1CL2wIgB8qTtLK
-         YDdiMB7twO/QKn/JudWz+Iij/bIqwEg6qgSj/fveOC8Jr7HG5KRf1qT1QPaTfM7RzV86
-         2TUA==
-X-Gm-Message-State: AOJu0YyySQc31bsj3TCytXVy5EWn2egFqLU6Tmc5JCVrW4hBr2Fj0tUm
-	/oP6teHDhnrvwUlZO90fTMgbVvCq5oEm0KNEb1Gk9/kgtlBLtGmyFXE9raC/UJtVdLzHoXq0BzD
-	oyBrQkl3y3Q==
-X-Google-Smtp-Source: AGHT+IGb4Ih01RYOXIIFyvcMicKVfqZ7k8uINJiabawClKus6rgEQT02suwBT6IS5Nkz1ZVRzviT8K9QrZdY
-X-Received: from iovt22.prod.google.com ([2002:a05:6602:1416:b0:86c:fede:130b])
- (user=jdenose job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6602:6b0f:b0:86c:f8ba:5f08
- with SMTP id ca18e2360f4ac-87977f65e0amr1476438839f.1.1752505789851; Mon, 14
- Jul 2025 08:09:49 -0700 (PDT)
-Date: Mon, 14 Jul 2025 15:09:44 +0000
-In-Reply-To: <20250714-support-forcepads-v1-0-71c7c05748c9@google.com>
+        d=1e100.net; s=20230601; t=1752513032; x=1753117832;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=yEqYN+Sq66jPT1atBJx2sN18zNV7H4Qomhnbx5nCbYY=;
+        b=RuRXbpb6EMK0WAJt+s3M/JtESkESwaOaYGTcI/D745xJeVEz7ZdVSSL0RJJCaNevGw
+         acWPtSve4paowRXKHg/fonpxUR04W2N0OFmXtns5Q9vhMt8Fs+XauCTAGk92IwYuZ0Qf
+         4UbSSGHgpQRepimimd6qHsRBJ/u3f773lvN0ypwhrm1ioxe2gzOTASw3JVF0gWi3+8SZ
+         6oqu4rRZu8llezyl+zQk2Tts01SbWQ8YRemZ15XGr0QTySNfmKMqnE7GT3vVpeEukaK4
+         9O8isub480Yq2IUSEpZIZ1JtXBnVDqwG3x0rE0bwAM0ujnEEXcQRoWVkK6kG0HTq9xQ4
+         7XTQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXrpEthQQJzm/+2Q1fInGNXxidPGNx+SWsFY4sYG5e4+sHEU0kJKwe7ZBrN2QUOX0RedE8VouzGcSmErQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzwzqZc5vGsZbvSMILviyZymRI5+05GYWYeHjYNuu2WjbaVSwMP
+	Id7r3MMpbZq8wThgoD4yKZ4HAvfBY+2xTF1TbOGVwLb95z/LJNx53x5wCmJ0C+DwbiQQiG5wFAE
+	Q27ggStcIv2FV6V95FjShgFUWGyLxF4juabtTWH54GAvA73zp+55aHbYAyuA=
+X-Google-Smtp-Source: AGHT+IH/WRScfN7dW3JFoDVyXS3WSTkXzALNIo+J1byjOIvna/aSlspqHWDQ2OrSbTux9AVCHS9jqEqoAyd6gOYCAes20kXbW0Td
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20250714-support-forcepads-v1-0-71c7c05748c9@google.com>
-X-Mailer: b4 0.14.2
-Message-ID: <20250714-support-forcepads-v1-11-71c7c05748c9@google.com>
-Subject: [PATCH 11/11] HID: multitouch: add haptic multitouch support
-From: Jonathan Denose <jdenose@google.com>
-To: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, 
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Henrik Rydberg <rydberg@bitmath.org>
-Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, Angela Czubak <aczubak@google.com>, 
-	"Sean O'Brien" <seobrien@google.com>, Jonathan Denose <jdenose@google.com>
-Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+X-Received: by 2002:a05:6602:15c9:b0:86c:f9f4:6aa6 with SMTP id
+ ca18e2360f4ac-879787d8f28mr1526841439f.7.1752513032251; Mon, 14 Jul 2025
+ 10:10:32 -0700 (PDT)
+Date: Mon, 14 Jul 2025 10:10:32 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <68753a08.050a0220.33d347.0008.GAE@google.com>
+Subject: [syzbot] [input?] [usb?] UBSAN: shift-out-of-bounds in s32ton (2)
+From: syzbot <syzbot+b63d677d63bcac06cf90@syzkaller.appspotmail.com>
+To: bentiss@kernel.org, jikos@kernel.org, linux-input@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-From: Angela Czubak <aczubak@google.com>
+Hello,
 
-Add new option (MULTITOUCH_HAPTIC) to mark whether hid-multitouch
-should try and configure simple haptic device.
-Once this option is configured, and the device is recognized to have simple
-haptic capabilities, check input frames for pressure and handle it using
-hid_haptic_* API.
+syzbot found the following issue on:
 
-Signed-off-by: Angela Czubak <aczubak@google.com>
-Co-developed-by: Jonathan Denose <jdenose@google.com>
-Signed-off-by: Jonathan Denose <jdenose@google.com>
+HEAD commit:    b4b4dbfa96de media: stk1160: use usb_alloc_noncoherent/usb..
+git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+console output: https://syzkaller.appspot.com/x/log.txt?x=15a830f0580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=28729dff5d03ad1
+dashboard link: https://syzkaller.appspot.com/bug?extid=b63d677d63bcac06cf90
+compiler:       gcc (Debian 12.2.0-14+deb12u1) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1614418c580000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1257dd82580000
+
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/7301552ad828/disk-b4b4dbfa.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/c559b38fa1b6/vmlinux-b4b4dbfa.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/9c1da8b2a83f/bzImage-b4b4dbfa.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+b63d677d63bcac06cf90@syzkaller.appspotmail.com
+
+usb 4-1: config 0 interface 0 altsetting 0 has 1 endpoint descriptor, different from the interface descriptor's value: 9
+usb 4-1: New USB device found, idVendor=045e, idProduct=07da, bcdDevice= 0.00
+usb 4-1: New USB device strings: Mfr=0, Product=0, SerialNumber=0
+usb 4-1: config 0 descriptor??
+microsoft 0003:045E:07DA.0001: ignoring exceeding usage max
+microsoft 0003:045E:07DA.0001: unsupported Resolution Multiplier 0
+------------[ cut here ]------------
+UBSAN: shift-out-of-bounds in drivers/hid/hid-core.c:69:16
+shift exponent 4294967295 is too large for 32-bit type 'int'
+CPU: 0 UID: 0 PID: 10 Comm: kworker/0:1 Not tainted 6.16.0-rc4-syzkaller-00314-gb4b4dbfa96de #0 PREEMPT(voluntary) 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 05/07/2025
+Workqueue: usb_hub_wq hub_event
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:94 [inline]
+ dump_stack_lvl+0x16c/0x1f0 lib/dump_stack.c:120
+ ubsan_epilogue lib/ubsan.c:233 [inline]
+ __ubsan_handle_shift_out_of_bounds+0x27f/0x420 lib/ubsan.c:494
+ s32ton.cold+0x37/0x9c drivers/hid/hid-core.c:69
+ hid_output_field drivers/hid/hid-core.c:1841 [inline]
+ hid_output_report+0x36f/0x4a0 drivers/hid/hid-core.c:1874
+ __hid_request+0x1e0/0x3c0 drivers/hid/hid-core.c:1987
+ hidinput_change_resolution_multipliers drivers/hid/hid-input.c:1950 [inline]
+ hidinput_connect+0x1ada/0x2bd0 drivers/hid/hid-input.c:2327
+ hid_connect+0x13f3/0x1a60 drivers/hid/hid-core.c:2239
+ hid_hw_start drivers/hid/hid-core.c:2354 [inline]
+ hid_hw_start+0xaa/0x140 drivers/hid/hid-core.c:2345
+ ms_probe+0x195/0x500 drivers/hid/hid-microsoft.c:391
+ __hid_device_probe drivers/hid/hid-core.c:2724 [inline]
+ hid_device_probe+0x363/0x720 drivers/hid/hid-core.c:2761
+ call_driver_probe drivers/base/dd.c:579 [inline]
+ really_probe+0x23e/0xa90 drivers/base/dd.c:657
+ __driver_probe_device+0x1de/0x440 drivers/base/dd.c:799
+ driver_probe_device+0x4c/0x1b0 drivers/base/dd.c:829
+ __device_attach_driver+0x1df/0x310 drivers/base/dd.c:957
+ bus_for_each_drv+0x156/0x1e0 drivers/base/bus.c:462
+ __device_attach+0x1e4/0x4b0 drivers/base/dd.c:1029
+ bus_probe_device+0x17f/0x1c0 drivers/base/bus.c:537
+ device_add+0x1148/0x1a70 drivers/base/core.c:3692
+ hid_add_device+0x373/0xa60 drivers/hid/hid-core.c:2907
+ usbhid_probe+0xd38/0x13f0 drivers/hid/usbhid/hid-core.c:1435
+ usb_probe_interface+0x303/0x9c0 drivers/usb/core/driver.c:396
+ call_driver_probe drivers/base/dd.c:579 [inline]
+ really_probe+0x23e/0xa90 drivers/base/dd.c:657
+ __driver_probe_device+0x1de/0x440 drivers/base/dd.c:799
+ driver_probe_device+0x4c/0x1b0 drivers/base/dd.c:829
+ __device_attach_driver+0x1df/0x310 drivers/base/dd.c:957
+ bus_for_each_drv+0x156/0x1e0 drivers/base/bus.c:462
+ __device_attach+0x1e4/0x4b0 drivers/base/dd.c:1029
+ bus_probe_device+0x17f/0x1c0 drivers/base/bus.c:537
+ device_add+0x1148/0x1a70 drivers/base/core.c:3692
+ usb_set_configuration+0x1187/0x1e20 drivers/usb/core/message.c:2210
+ usb_generic_driver_probe+0xb1/0x110 drivers/usb/core/generic.c:250
+ usb_probe_device+0xef/0x3e0 drivers/usb/core/driver.c:291
+ call_driver_probe drivers/base/dd.c:579 [inline]
+ really_probe+0x23e/0xa90 drivers/base/dd.c:657
+ __driver_probe_device+0x1de/0x440 drivers/base/dd.c:799
+ driver_probe_device+0x4c/0x1b0 drivers/base/dd.c:829
+ __device_attach_driver+0x1df/0x310 drivers/base/dd.c:957
+ bus_for_each_drv+0x156/0x1e0 drivers/base/bus.c:462
+ __device_attach+0x1e4/0x4b0 drivers/base/dd.c:1029
+ bus_probe_device+0x17f/0x1c0 drivers/base/bus.c:537
+ device_add+0x1148/0x1a70 drivers/base/core.c:3692
+ usb_new_device+0xd07/0x1a20 drivers/usb/core/hub.c:2694
+ hub_port_connect drivers/usb/core/hub.c:5566 [inline]
+ hub_port_connect_change drivers/usb/core/hub.c:5706 [inline]
+ port_event drivers/usb/core/hub.c:5866 [inline]
+ hub_event+0x2f85/0x5030 drivers/usb/core/hub.c:5948
+ process_one_work+0x9cc/0x1b70 kernel/workqueue.c:3238
+ process_scheduled_works kernel/workqueue.c:3321 [inline]
+ worker_thread+0x6c8/0xf10 kernel/workqueue.c:3402
+ kthread+0x3c2/0x780 kernel/kthread.c:464
+ ret_from_fork+0x5b3/0x6c0 arch/x86/kernel/process.c:148
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+ </TASK>
+---[ end trace ]---
+
+
 ---
- drivers/hid/Kconfig          |  11 ++++
- drivers/hid/hid-haptic.h     |  52 +++++++++++++++++
- drivers/hid/hid-multitouch.c | 136 ++++++++++++++++++++++++++++++++++++++++++-
- 3 files changed, 198 insertions(+), 1 deletion(-)
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
-index ad6bcc4248cc111705d7cfde2b1481b46353e2d7..b7452f11a4f914f92af582ed054d42ecbcd6cb9e 100644
---- a/drivers/hid/Kconfig
-+++ b/drivers/hid/Kconfig
-@@ -817,6 +817,17 @@ config HID_MULTITOUCH
- 	  To compile this driver as a module, choose M here: the
- 	  module will be called hid-multitouch.
- 
-+config MULTITOUCH_HAPTIC
-+	bool "Simple haptic multitouch support"
-+	depends on HID_MULTITOUCH
-+	select HID_HAPTIC
-+	default n
-+	help
-+	Support for simple multitouch haptic devices.
-+	Adds extra parsing and FF device for the hid multitouch driver.
-+	It can be used for Elan 2703 haptic touchpad.
-+	To enable, say Y.
-+
- config HID_NINTENDO
- 	tristate "Nintendo Joy-Con, NSO, and Pro Controller support"
- 	depends on NEW_LEDS
-diff --git a/drivers/hid/hid-haptic.h b/drivers/hid/hid-haptic.h
-index 0a34b0c6d706a985630962acc41f7a8eb73cd343..808cec0b4e51eba1f58b839f3e552493655b7899 100644
---- a/drivers/hid/hid-haptic.h
-+++ b/drivers/hid/hid-haptic.h
-@@ -58,6 +58,7 @@ struct hid_haptic_device {
- 	struct hid_haptic_effect stop_effect;
- };
- 
-+#ifdef CONFIG_MULTITOUCH_HAPTIC
- void hid_haptic_feature_mapping(struct hid_device *hdev,
- 				struct hid_haptic_device *haptic,
- 				struct hid_field *field, struct hid_usage
-@@ -77,3 +78,54 @@ void hid_haptic_handle_press_release(struct hid_haptic_device *haptic);
- void hid_haptic_pressure_reset(struct hid_haptic_device *haptic);
- void hid_haptic_pressure_increase(struct hid_haptic_device *haptic,
- 				  __s32 pressure);
-+#else
-+static inline
-+void hid_haptic_feature_mapping(struct hid_device *hdev,
-+				struct hid_haptic_device *haptic,
-+				struct hid_field *field, struct hid_usage
-+				*usage)
-+{}
-+static inline
-+bool hid_haptic_check_pressure_unit(struct hid_haptic_device *haptic,
-+				    struct hid_input *hi, struct hid_field *field)
-+{
-+	return false;
-+}
-+static inline
-+int hid_haptic_input_mapping(struct hid_device *hdev,
-+			     struct hid_haptic_device *haptic,
-+			     struct hid_input *hi,
-+			     struct hid_field *field, struct hid_usage *usage,
-+			     unsigned long **bit, int *max)
-+{
-+	return 0;
-+}
-+static inline
-+int hid_haptic_input_configured(struct hid_device *hdev,
-+				struct hid_haptic_device *haptic,
-+				struct hid_input *hi)
-+{
-+	return 0;
-+}
-+static inline
-+void hid_haptic_reset(struct hid_device *hdev, struct hid_haptic_device *haptic)
-+{}
-+static inline
-+int hid_haptic_init(struct hid_device *hdev, struct hid_haptic_device **haptic_ptr)
-+{
-+	return 0;
-+}
-+static inline
-+void hid_haptic_handle_press_release(struct hid_haptic_device *haptic) {}
-+static inline
-+bool hid_haptic_handle_input(struct hid_haptic_device *haptic)
-+{
-+	return false;
-+}
-+static inline
-+void hid_haptic_pressure_reset(struct hid_haptic_device *haptic) {}
-+static inline
-+void hid_haptic_pressure_increase(struct hid_haptic_device *haptic,
-+				  __s32 pressure)
-+{}
-+#endif
-diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
-index b41001e02da7e02d492bd85743b359ed7ec16e7f..4ff9ac5022b13a0739dbc7ae5f6ebd84f0114a73 100644
---- a/drivers/hid/hid-multitouch.c
-+++ b/drivers/hid/hid-multitouch.c
-@@ -49,6 +49,8 @@ MODULE_LICENSE("GPL");
- 
- #include "hid-ids.h"
- 
-+#include "hid-haptic.h"
-+
- /* quirks to control the device */
- #define MT_QUIRK_NOT_SEEN_MEANS_UP	BIT(0)
- #define MT_QUIRK_SLOT_IS_CONTACTID	BIT(1)
-@@ -167,11 +169,13 @@ struct mt_report_data {
- struct mt_device {
- 	struct mt_class mtclass;	/* our mt device class */
- 	struct timer_list release_timer;	/* to release sticky fingers */
-+	struct hid_haptic_device *haptic;	/* haptic related configuration */
- 	struct hid_device *hdev;	/* hid_device we're attached to */
- 	unsigned long mt_io_flags;	/* mt flags (MT_IO_FLAGS_*) */
- 	__u8 inputmode_value;	/* InputMode HID feature value */
- 	__u8 maxcontacts;
- 	bool is_buttonpad;	/* is this device a button pad? */
-+	bool is_haptic_touchpad;	/* is this device a haptic touchpad? */
- 	bool serial_maybe;	/* need to check for serial protocol */
- 
- 	struct list_head applications;
-@@ -490,6 +494,95 @@ static void mt_get_feature(struct hid_device *hdev, struct hid_report *report)
- 	kfree(buf);
- }
- 
-+#if defined(CONFIG_MULTITOUCH_HAPTIC)
-+static int mt_haptic_init(struct hid_device *hdev,
-+				struct hid_haptic_device **haptic_ptr)
-+{
-+	return hid_haptic_init(hdev, haptic_ptr);
-+}
-+
-+static void mt_haptic_feature_mapping(struct hid_device *hdev,
-+				struct hid_haptic_device *haptic,
-+				struct hid_field *field, struct hid_usage *usage)
-+{
-+	return hid_haptic_feature_mapping(hdev, haptic, field, usage);
-+}
-+
-+static bool mt_haptic_check_pressure_unit(struct hid_haptic_device *haptic,
-+				    struct hid_input *hi, struct hid_field *field)
-+{
-+	return hid_haptic_check_pressure_unit(haptic, hi, field);
-+}
-+
-+static void mt_haptic_pressure_reset(struct hid_haptic_device *haptic)
-+{
-+	return hid_haptic_pressure_reset(haptic);
-+}
-+
-+static void mt_haptic_pressure_increase(struct hid_haptic_device *haptic,
-+				 __s32 pressure)
-+{
-+	return hid_haptic_pressure_increase(haptic, pressure);
-+}
-+
-+static int mt_haptic_input_mapping(struct hid_device *hdev,
-+			     struct hid_haptic_device *haptic,
-+			     struct hid_input *hi,
-+			     struct hid_field *field, struct hid_usage *usage,
-+			     unsigned long **bit, int *max)
-+{
-+	return hid_haptic_input_mapping(hdev, haptic, hi, field, usage, bit, max);
-+}
-+
-+static int mt_haptic_input_configured(struct hid_device *hdev,
-+				struct hid_haptic_device *haptic,
-+				struct hid_input *hi)
-+{
-+	return hid_haptic_input_configured(hdev, haptic, hi);
-+}
-+#else
-+static int mt_haptic_init(struct hid_device *hdev,
-+				struct hid_haptic_device **haptic_ptr)
-+{
-+	return 0;
-+}
-+
-+static void mt_haptic_feature_mapping(struct hid_device *hdev,
-+				struct hid_haptic_device *haptic,
-+				struct hid_field *field, struct hid_usage *usage)
-+{}
-+
-+static bool mt_haptic_check_pressure_unit(struct hid_haptic_device *haptic,
-+				    struct hid_input *hi, struct hid_field *field)
-+{
-+	return 0;
-+}
-+
-+static void mt_haptic_pressure_reset(struct hid_haptic_device *haptic)
-+{}
-+
-+static void mt_haptic_pressure_increase(struct hid_haptic_device *haptic,
-+				 __s32 pressure)
-+{}
-+
-+static int mt_haptic_input_mapping(struct hid_device *hdev,
-+			     struct hid_haptic_device *haptic,
-+			     struct hid_input *hi,
-+			     struct hid_field *field, struct hid_usage *usage,
-+			     unsigned long **bit, int *max)
-+{
-+	return 0;
-+}
-+
-+static int mt_haptic_input_configured(struct hid_device *hdev,
-+				struct hid_haptic_device *haptic,
-+				struct hid_input *hi)
-+{
-+	return 0;
-+}
-+#endif
-+
-+
- static void mt_feature_mapping(struct hid_device *hdev,
- 		struct hid_field *field, struct hid_usage *usage)
- {
-@@ -525,6 +618,8 @@ static void mt_feature_mapping(struct hid_device *hdev,
- 			mt_get_feature(hdev, field->report);
- 		break;
- 	}
-+
-+	mt_haptic_feature_mapping(hdev, td->haptic, field, usage);
- }
- 
- static void set_abs(struct input_dev *input, unsigned int code,
-@@ -856,6 +951,9 @@ static int mt_touch_input_mapping(struct hid_device *hdev, struct hid_input *hi,
- 		case HID_DG_TIPPRESSURE:
- 			set_abs(hi->input, ABS_MT_PRESSURE, field,
- 				cls->sn_pressure);
-+			td->is_haptic_touchpad =
-+				mt_haptic_check_pressure_unit(td->haptic,
-+							       hi, field);
- 			MT_STORE_FIELD(p);
- 			return 1;
- 		case HID_DG_SCANTIME:
-@@ -980,6 +1078,8 @@ static void mt_sync_frame(struct mt_device *td, struct mt_application *app,
- 
- 	app->num_received = 0;
- 	app->left_button_state = 0;
-+	if (td->is_haptic_touchpad)
-+		mt_haptic_pressure_reset(td->haptic);
- 
- 	if (test_bit(MT_IO_FLAGS_ACTIVE_SLOTS, &td->mt_io_flags))
- 		set_bit(MT_IO_FLAGS_PENDING_SLOTS, &td->mt_io_flags);
-@@ -1137,6 +1237,9 @@ static int mt_process_slot(struct mt_device *td, struct input_dev *input,
- 			minor = minor >> 1;
- 		}
- 
-+		if (td->is_haptic_touchpad)
-+			mt_haptic_pressure_increase(td->haptic, *slot->p);
-+
- 		x = hdev->quirks & HID_QUIRK_X_INVERT ?
- 			input_abs_get_max(input, ABS_MT_POSITION_X) - *slot->x :
- 			*slot->x;
-@@ -1324,6 +1427,9 @@ static int mt_touch_input_configured(struct hid_device *hdev,
- 	if (cls->is_indirect)
- 		app->mt_flags |= INPUT_MT_POINTER;
- 
-+	if (td->is_haptic_touchpad)
-+		app->mt_flags |= INPUT_MT_TOTAL_FORCE;
-+
- 	if (app->quirks & MT_QUIRK_NOT_SEEN_MEANS_UP)
- 		app->mt_flags |= INPUT_MT_DROP_UNUSED;
- 
-@@ -1359,6 +1465,7 @@ static int mt_input_mapping(struct hid_device *hdev, struct hid_input *hi,
- 	struct mt_device *td = hid_get_drvdata(hdev);
- 	struct mt_application *application;
- 	struct mt_report_data *rdata;
-+	int ret;
- 
- 	rdata = mt_find_report_data(td, field->report);
- 	if (!rdata) {
-@@ -1421,6 +1528,11 @@ static int mt_input_mapping(struct hid_device *hdev, struct hid_input *hi,
- 	if (field->physical == HID_DG_STYLUS)
- 		hi->application = HID_DG_STYLUS;
- 
-+	ret = mt_haptic_input_mapping(hdev, td->haptic, hi, field, usage, bit,
-+				       max);
-+	if (ret != 0)
-+		return ret;
-+
- 	/* let hid-core decide for the others */
- 	return 0;
- }
-@@ -1635,6 +1747,14 @@ static int mt_input_configured(struct hid_device *hdev, struct hid_input *hi)
- 	struct hid_report *report;
- 	int ret;
- 
-+	if (td->is_haptic_touchpad && (td->mtclass.name == MT_CLS_WIN_8 ||
-+	    td->mtclass.name == MT_CLS_WIN_8_FORCE_MULTI_INPUT)) {
-+		if (mt_haptic_input_configured(hdev, td->haptic, hi) == 0)
-+			td->is_haptic_touchpad = false;
-+	} else {
-+		td->is_haptic_touchpad = false;
-+	}
-+
- 	list_for_each_entry(report, &hi->reports, hidinput_list) {
- 		rdata = mt_find_report_data(td, report);
- 		if (!rdata) {
-@@ -1764,7 +1884,6 @@ static int mt_probe(struct hid_device *hdev, const struct hid_device_id *id)
- 	int ret, i;
- 	struct mt_device *td;
- 	const struct mt_class *mtclass = mt_classes; /* MT_CLS_DEFAULT */
--
- 	for (i = 0; mt_classes[i].name ; i++) {
- 		if (id->driver_data == mt_classes[i].name) {
- 			mtclass = &(mt_classes[i]);
-@@ -1777,6 +1896,10 @@ static int mt_probe(struct hid_device *hdev, const struct hid_device_id *id)
- 		dev_err(&hdev->dev, "cannot allocate multitouch data\n");
- 		return -ENOMEM;
- 	}
-+	td->haptic = kzalloc(sizeof(*(td->haptic)), GFP_KERNEL);
-+	if (!td->haptic)
-+		return -ENOMEM;
-+	td->haptic->hdev = hdev;
- 	td->hdev = hdev;
- 	td->mtclass = *mtclass;
- 	td->inputmode_value = MT_INPUTMODE_TOUCHSCREEN;
-@@ -1840,6 +1963,17 @@ static int mt_probe(struct hid_device *hdev, const struct hid_device_id *id)
- 
- 	mt_set_modes(hdev, HID_LATENCY_NORMAL, TOUCHPAD_REPORT_ALL);
- 
-+	if (td->is_haptic_touchpad) {
-+		if (mt_haptic_init(hdev, &td->haptic)) {
-+			dev_warn(&hdev->dev, "Cannot allocate haptic for %s\n",
-+				 hdev->name);
-+			td->is_haptic_touchpad = false;
-+			kfree(td->haptic);
-+		}
-+	} else {
-+		kfree(td->haptic);
-+	}
-+
- 	return 0;
- }
- 
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
--- 
-2.50.0.727.gbf7dc18ff4-goog
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
 
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
 
