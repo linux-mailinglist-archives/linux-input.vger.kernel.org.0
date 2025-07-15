@@ -1,238 +1,167 @@
-Return-Path: <linux-input+bounces-13553-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13554-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3E75B06616
-	for <lists+linux-input@lfdr.de>; Tue, 15 Jul 2025 20:33:41 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 37E5CB066D8
+	for <lists+linux-input@lfdr.de>; Tue, 15 Jul 2025 21:29:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D78764E81D3
-	for <lists+linux-input@lfdr.de>; Tue, 15 Jul 2025 18:33:13 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 546434E4193
+	for <lists+linux-input@lfdr.de>; Tue, 15 Jul 2025 19:29:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8DFBA188A3A;
-	Tue, 15 Jul 2025 18:33:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6757A2BE65E;
+	Tue, 15 Jul 2025 19:29:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b="YhRe1Ytb"
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="hkHAjOSR"
 X-Original-To: linux-input@vger.kernel.org
-Received: from PNZPR01CU001.outbound.protection.outlook.com (mail-centralindiaazolkn19011028.outbound.protection.outlook.com [52.103.68.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A299B14286;
-	Tue, 15 Jul 2025 18:33:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.68.28
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752604416; cv=fail; b=bvBdFViEfvAmBzBTDQ7IXj75Ju5LC03aFi6LBcWHRSWQQPnk1n8AklERXWdRzlyDJMuRbPkRtHb9UYgqgQb9xuAl3NzM1l5T+K4JE7bQyvmRK+RhKThxzqD/Msa6P8j7/rGjADUgr0n849/FcBZ137v3KpkoPNJ8kwhpV/nlK0U=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752604416; c=relaxed/simple;
-	bh=fBkml7GnRCR0qYRJIL/jzK/Kevjle3E46L+beC13yO0=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=QuYp63QfO4wz/Z9PqBOE+7q/3ObY9KYyNaWvOv15DKtnLI1wGDUt9VzQm0LCY3TKFbGI2qp+iDumaJnXZZgjUpD7uy1ehdby6KpyXAzXox3SzC/TDWxs9X3koaKVkhnEYWwoDdPFqCCO/IoEkiMq0dEgBg5gZhGwXyfE8frW12Y=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com; spf=pass smtp.mailfrom=live.com; dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b=YhRe1Ytb; arc=fail smtp.client-ip=52.103.68.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=live.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=UjFlxju5EZVJX9kqVq/QfUwDG9t8d+7fI4cZEidOg9w1gaQ0D+FRYMgS8/mukls07+1Qu2F9MxmExpP9efrfF7p5eO0FXtwjzHnox3e21Mm3DGGvUkeyjN6tKoHQAVCpDuzZuHLS/tBwMad0ztzkTS3o6PentNXGPs82kIEFnBl9BQ8lNf1anDTue66Na50p6gG3o6r1pm6JHtLPOcKwzj3Uc/xuQW6mOVX5DJvWLMTDWupyt48cNZNd7dDuJuuf/R5uha6PeR8Hy+UdQ2UpkhJUgnUQJGsB3mx092vxMvFgPTbsT7GXe7BIs/m43lMbVgEwGtNnu+BQKtmHm+bu+A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ZQy8uC1ZB4gPM7rSuQbuHezTijV0Mnj5zEfd0fbsG7Y=;
- b=rfOe6twmu5pXZvUj7otPHt8IH23+ZYGyG66pmVakXIxIFTkEgQMY68b+NKuaOOBnV7Ul610h5STF687yOpLcqinMG97O1tqp7pBjxSk7ALXNZSgOdMhrF/MIX7dFXS1XU53XAoCBsnl9kLHPbvUjDvOEWsP4/yjMdJgEuB75Kst/PmFy/er44ibpGiiaUvJruX2vP16BJ+mFaVGf3aexAaMSoi9THYg0mpigxeVd2nwImEk043ri0My5oLNsXr5w61JAjqZrThLRS6oR3wu2IpznnsUiNkpfpa9eKb96Hnr20Wb4saXKptH6L4rNiouex3DYIVOGvCOWyvlL0CEFJw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=live.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZQy8uC1ZB4gPM7rSuQbuHezTijV0Mnj5zEfd0fbsG7Y=;
- b=YhRe1YtbCe9yGP5TLv7EwVqhmLjUtneLlEOcqkf2tP5W2YBRZSwuW3ZvidhWC52eZ+43FfrQ55LWBkM/gm00MhJ/shEtFM+xqQNd6SmKGgRz/yIQ1pw/qlkBYNXdAPVVXlX1JVIH5om8aPhs1QtuuBjj5bW0v+4Qi7z/LH3xujNH1WHVorMEIdEkEpsX8BaiY+y79zLBbS5niPMpPWyonaYbyxbcOJsPHDFHEf+Q7UG3hk2Gpxf7SwLpM1O/oyQTjYqzmZVXAtcnvvWO5tvBrS+tdhnEk/LIudS+vE61fEiMXWB44WSgKvC+c+geBsgf/I/ev5yRziSL6aDGzEgsyw==
-Received: from PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:f7::14)
- by MA0PR01MB7555.INDPRD01.PROD.OUTLOOK.COM (2603:1096:a01:2d::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8922.32; Tue, 15 Jul
- 2025 18:33:29 +0000
-Received: from PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::324:c085:10c8:4e77]) by PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::324:c085:10c8:4e77%5]) with mapi id 15.20.8922.028; Tue, 15 Jul 2025
- 18:33:29 +0000
-Message-ID:
- <PN3PR01MB9597593E4F7B8147FCC13EA5B857A@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
-Date: Wed, 16 Jul 2025 00:03:25 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] HID: apple: validate feature-report field count to
- prevent NULL pointer dereference
-To: Qasim Ijaz <qasdev00@gmail.com>, jikos@kernel.org, bentiss@kernel.org
-Cc: orlandoch.dev@gmail.com, linux-input@vger.kernel.org,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org
-References: <20250713233008.15131-1-qasdev00@gmail.com>
-Content-Language: en-US
-From: Aditya Garg <gargaditya08@live.com>
-In-Reply-To: <20250713233008.15131-1-qasdev00@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MAXPR01CA0111.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:a00:5d::29) To PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:f7::14)
-X-Microsoft-Original-Message-ID:
- <702f8339-fbd1-4128-9c34-578aadf09f1c@live.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97D1E226863
+	for <linux-input@vger.kernel.org>; Tue, 15 Jul 2025 19:29:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.45
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1752607771; cv=none; b=YXOxuuMFyDSgL7zDufcZkzPgdfrYBTg2nldoG2TafeLKFAqXLGFJYu9yXdKHxVWdtbkUJtfhfuGCtG7tP4eG4z9dhhxil++w/3AjwKOLlqS4Ptdb7G+AEOCKa1kWhvI67cd0HyT4ijOTMTxwfVijPwMHX+ialFeMA6xx86wV/c4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1752607771; c=relaxed/simple;
+	bh=9zJeKzTRHVevMm7kxy2lCgzqahHeXAdAbMwfEa6E2Ic=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gp2DYJ8fiq/WNuQ4OW8t9HVxLZ+XPE6t6ttWcALH296/smLgaqk5UEN+i3n6TQt+R6Ow7e7RQOc/FvW3I2WFYqalnfHNfxKQOLsFUiaf5HDLiRTXen7yq3gRX4M/R8aDtFHPyQ6RfaPJrnaFPDeQvrJ1uuqwaSaKVjiVtb5k5q8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=hkHAjOSR; arc=none smtp.client-ip=209.85.219.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-6fad79433bbso55183846d6.0
+        for <linux-input@vger.kernel.org>; Tue, 15 Jul 2025 12:29:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rowland.harvard.edu; s=google; t=1752607768; x=1753212568; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Loh5GQDiloUiD9GZ7ScpbDnX416undeoJbETPhllnVQ=;
+        b=hkHAjOSRcZ5amyt9EeqvdvP2dlirbnWOboJWGuuBZ5OudENo9fDcf5kAmoGk3cA+fL
+         wG5Xah1NgPMfZApRAaANZ5qEj4s5YgLbqsrEnmZE3nvVZ4EVVdvAN0vJ6i/PN4oClh1l
+         dRpdhNdHds0Xr85KehMk81w7IPMqj8VEeStOvdQuNPnQjY1VmQsKQfHv/JJzZvBqhGCW
+         HvGJwTLRFGgojRC3crjrjTfewBYdSt29G1Y9LMxq9iCjy/osT/Tc+j3vIe7wx6AIeSIR
+         ciHjPbeXb2FDHPJq+OipnuXJhy93yKBYbmGHjeJEfAMr/dhlOMveWhBxPKD22qRlmrPP
+         lMlQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752607768; x=1753212568;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Loh5GQDiloUiD9GZ7ScpbDnX416undeoJbETPhllnVQ=;
+        b=GUwm75XrPze34vmbnm1/ttxix4Gs0Rnwn6MwsvTnvCbfQ4LAk58pN3jPOuwYlNXV9c
+         lZRvxMf4yh/A4XdFVPYwNx2UB1FcO94VD+wxHjmPKzLxq7EUtzMUC1o+RRmF7ujhGImJ
+         xBU+A4rdZLYb/6MUPXa0mkzDVd/IqNT6prK86soWBrYlw7FshUk1T63ohq2vfOzIIXea
+         Rp0oMY3gvDxXej+GlTLklTIOAtBTK3S721djdgevos4yT08bh2oumCjDosWcVaMv/v7b
+         VxDjw4ULidblFAy7hQfqGwKdy3jXv8TJQG2DfL9lgHE2GKPvlOnq1MmyKi2wJODEcoA0
+         fm3w==
+X-Forwarded-Encrypted: i=1; AJvYcCVnmjFUrEF77o+J8ku01P7c+FQCACXem+RBVOyld8Qp7wVWRPmMTGbHteX/wW5dpIlmmVuvwlkvWfb73g==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx/zOiwVKTGLGlckVFLfagZJipTTQXpvipg+f+RjXEyC3xeKDHg
+	sjv1E9agJuaQK4zUhczh/4I4DaXC003eHRZCGxQ8haPaE11LTQRRV0EIZMp3+8rdeA==
+X-Gm-Gg: ASbGncveN6S1C8L34XfMbnlmh0fN7afvcDf6GUOLF3arSsIM9y+zzwUWL1GjD3oRwjA
+	3cQBoz7AGf5mJscthk34MZzurJJKrr31Z5Jhz9SqFRp2V3sG8jDfinIzS1udbPfcX0tul/RODUj
+	YbM9mRMVODpG94V0KYPM9Y4UVdnRUOp5Y2fNNDoJaclDOYnZ3dBrbEssRwtaarly90khg0iBzqw
+	rT/p+0QE0Wzz1s71OrrE6lSIIAVcZ5Jwap1uGHz6dVUjQ3DRwq6ktjIthFEBUz7vtsv6hhA0c/e
+	zfxLL6W2hRHYb1X9O4dAqLVU4s1Jhbq5WobGQ6pqIgcUbh98IMYjeGkCPR/Kydgq8TvrLdyrlkf
+	LQi9GZCP6FkY+oG6VY4HNV3MY0k3FqP8mcnhdajRKobDSUEESz+BQ7defDCzLsro1u2m7iDdhSP
+	s43v1psNe6pfbqeGYCnB+u6wV66w==
+X-Google-Smtp-Source: AGHT+IEr4XuG9GG+SVei+ldy19H8Vs3K7iAwtvPWvgTFHm6dk2vWEZOQi4+KzKEj69mM/Ew7hW373A==
+X-Received: by 2002:ad4:5ca4:0:b0:704:8524:ca2d with SMTP id 6a1803df08f44-704f4809538mr8785246d6.1.1752607768419;
+        Tue, 15 Jul 2025 12:29:28 -0700 (PDT)
+Received: from rowland.harvard.edu (nat-65-112-8-52.harvard-secure.wrls.harvard.edu. [65.112.8.52])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-70497d396e6sm60941816d6.57.2025.07.15.12.29.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 15 Jul 2025 12:29:27 -0700 (PDT)
+Date: Tue, 15 Jul 2025 15:29:25 -0400
+From: Alan Stern <stern@rowland.harvard.edu>
+To: syzbot <syzbot+b63d677d63bcac06cf90@syzkaller.appspotmail.com>
+Cc: bentiss@kernel.org, jikos@kernel.org, linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+	syzkaller-bugs@googlegroups.com
+Subject: Re: [syzbot] [input?] [usb?] UBSAN: shift-out-of-bounds in s32ton (2)
+Message-ID: <8bec1698-5008-428f-8e71-ec002def0c54@rowland.harvard.edu>
+References: <68753a08.050a0220.33d347.0008.GAE@google.com>
+ <f6e67c38-8d63-4536-827c-09757a8d5609@rowland.harvard.edu>
+ <ea7f1f42-273b-4c07-8bf2-769992dd9ced@rowland.harvard.edu>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PN3PR01MB9597:EE_|MA0PR01MB7555:EE_
-X-MS-Office365-Filtering-Correlation-Id: d44cb8cd-4d00-4e14-95b5-08ddc3ce17f1
-X-Microsoft-Antispam:
-	BCL:0;ARA:14566002|6090799003|41001999006|5072599009|15080799012|461199028|40105399003|440099028|51005399003|3412199025;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?MitCRmRVeEhUc3FUUVZzSmRzKzFHSWlSWGE5djlhMTRkbjAwN1NUV3psQm0r?=
- =?utf-8?B?REZ2dDJJNkFOeEZTSnZoV05DSzY5SmtqRElZYXVIb0g0eGFhTHFVOWxVZkJ5?=
- =?utf-8?B?YWZjNjJmQ1pxZG9YU29mb3hzdlJVZmtuU0p2SmZWbVJUT0xObVBhcks4eHRN?=
- =?utf-8?B?eHh2ZDBvS1k0bE1kQ2FIejJOazh3cFltNXBVTGZrMGlJVmJpejhSTEQ5U1F2?=
- =?utf-8?B?cVBpblEzMStxcXdrUkRCV29pMlJTd1EranV5dDI4NEVBOHhzWXJFeC9GT3RW?=
- =?utf-8?B?b3U0V1BxVjRtc3dCSUltYUxHdjhHMXF1cDlSK3FHTDlBZFVwWFBOcXljazEr?=
- =?utf-8?B?M0tiLzQ0ZW1KUThlblZvZlYyZUZOeGFyUGNhZGsxOHBkN1IzczNWOTRMNzN0?=
- =?utf-8?B?bUFENlVKVko0QVJIbHBFM29KallZZ2MvUmNCT2lTUWVNaTNxc3pWbHFQNHlL?=
- =?utf-8?B?eGxrQUdmdU5MTXNMWWYwNElqbW12WktCT2ZoMThCN2Y5OW16cWVUUmhIUEsv?=
- =?utf-8?B?cDl5Z210dzhkWmF4WHVLc1pEa040bWR3b2J1R2hZYldQVHBreTg5YXpwcmdZ?=
- =?utf-8?B?SVdiMzFYZVo4VzhETjFscWRIRkh2c2FPMUlZb1BmOUx2QzNLUC9TWnUrR2U3?=
- =?utf-8?B?QTlmYTFDdnVLR01FbXFKTXlBejZzaTFtYkpsaStubVVZSjFhQ05oaEZzZUUr?=
- =?utf-8?B?S2ZPT1dXNkdiUTV5WkEyUzVzbjVjYUZQR09rTHRBS254KzFMVHkwekFoOGJa?=
- =?utf-8?B?N2VnMW5ha3J2K0gxcXAwbytOUVBxTDZ0SzA2Y3pIQVdHZDlkT0U0bjNrR09o?=
- =?utf-8?B?dCtYZjJ4Ykladk5LNDNUdzhjQVZDeXE3RDlVbTdTblFRRWlITmFHWUllVFRu?=
- =?utf-8?B?akUrSFpiSVlPbjk1TWJyVi9ZRkJJUHZmZ2tULzdONVh1ZlBLcE8xcjZWd3Fi?=
- =?utf-8?B?TjlZNW02cytwd2NTNTd6aFpKTi9ySit0RzkxYmZlWVZEakh4TTA2TnN1U0FW?=
- =?utf-8?B?Umx2U091S1FJMUduWDRXSWg3U0tSMGsvUHgyZ1ZoSktWSklLQVhmbTZvSnA1?=
- =?utf-8?B?Uk9aZ2F4WUJZdHVQa2JFUkh5dnU3Yk9QbkNkeHBkNWVpUG9XNEdJSkpOMUVO?=
- =?utf-8?B?aXVMMWVMT3UremFnbFROWnBNWVhQYXJkL3FjQThBT2xLWWZsK0JnOXAyaXdJ?=
- =?utf-8?B?UTNvajVXOGZHOWJTdlNIK0NiRFF2YUpHU2RtdGxWSmdMVkF4eHhjSk9TK0Rk?=
- =?utf-8?B?WjhUVWNzclh4dWVpcjkxVk96cS9Yd1pXTS82OGpiVDBwOFNMb2luRkFqRGQ4?=
- =?utf-8?B?TWVwL29wMldWYWdsMmp2d2NEeGc4Rk9pb0J4ck5KQlBkcHJ3VlY3UjVTemxi?=
- =?utf-8?B?Q0ZkK3d6SlVGb0hQUUpTZk16UmtaZDlzZDlKZ25BblhWQ0RodzN1VVVSWGhJ?=
- =?utf-8?B?YmZNNHN3TXg1N0EwSUh6NktFS29Sa1g5YUs4dlh3bzI4Tk1GRHp5TzJuT2ph?=
- =?utf-8?B?NmlwZ3ZqWWptZWJSQ3ErT0VQckVQYS9iaEk2emliRGo3cjJCTkJONldDRXA1?=
- =?utf-8?B?SE55QT09?=
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?WHFkWVBhSXFtVk80QUpGRy9CK2dwTDkxUmpLMWpkSkhoNXNuazIzM1dBa28r?=
- =?utf-8?B?Nm5qK0hwTGxjODhRQzk5d00rWjVzS0F6VzhuOXBOaVROakF0dVVneTd6cXN0?=
- =?utf-8?B?cnlUNGQrTmxBN2VMbWpwUHRpWno2eUVOMVZrVkIwZkhNZW5rTzI0SHZLZE5y?=
- =?utf-8?B?T2RTZHRNUk5zMEpqUUxsVGdGT29QKzMvb09BalB6cVZGc05DOXVEdkgxaERJ?=
- =?utf-8?B?S0d3a0JXNDhQK2R3ZDBvbTRtaisvRHp4bHdEMkFjM2ZvMVBQL1E4RXRZNzl4?=
- =?utf-8?B?Ulc5alBwTHBkS0c0eXJzYnBwOFdzeGdpVGE0VVVHZ3pZVDNMOSt6KzNFMjJL?=
- =?utf-8?B?amVlSTk2dEZ2c1F0UnI2ZXBrWDloUjRzQThoQkwyajdZR2VRZXVNeDNad1Vq?=
- =?utf-8?B?VnJZU3BPUFhITkVBbGgwNWp1WVVJY3JYeFBtdGsrMmx5RTNZWEs0andMa2tQ?=
- =?utf-8?B?ZENHZU0vQUppN2M3cTJXRnJaZEZjRkRZUHFUbEtiRlp4bktvNHBkbzRkOUVY?=
- =?utf-8?B?NDlBdTJiWnliaXBZTGR3NGFtcG9taEFkci9FUVBaQ2xJOTduYWtWRXFSdE16?=
- =?utf-8?B?dEorZGZreE5jaDQ4ak9QNVdMUHhKMm5JRnplWUMxVFQvbk0zSTQzSHY0eTJN?=
- =?utf-8?B?OU55a1Eva1RNVmM0SlBLNXhnN3V1NVQ2MlRzTCtOV0kzRDZWSlBSYjV5bUgy?=
- =?utf-8?B?a1JUVjdUWFdYUFgwRE4wMUVOcU9OeXI5MHluYTZSbUE1aTUrMEl6ZS9tQ0lv?=
- =?utf-8?B?WHhmcmI4REo3TXBwYklJbkhhYXM4RjZma3FPdXFabkJqaWRRMUlmRG9HTlhs?=
- =?utf-8?B?RmxuOGNIai96YUoxQ1grVWR2bkJDTGV2S1M5UE5USWlrYUcyNkMzUzhJMFBI?=
- =?utf-8?B?L1NsODIxTHlKd3gyU1lvUEhiY0RRRlQ4Ni93dUd5cWJzYzUvVmdQdCtVWG95?=
- =?utf-8?B?MjJ0UzFsWmpGTG00VnhTZFZXaGt4aUkwYmQwMTRMN29JUGF2N1c1K0pFR1pl?=
- =?utf-8?B?S3AzWUFHZWwwZXQ2QXBvUnQ3RFI3ZE1qN3hWL0dGU2xPVkJOU2w5dVRnVFQ4?=
- =?utf-8?B?OGkrREZDU0NaMGRaL0haVFhKZDdWVXF4dytSM011bHpYeXUwWXpTQ0l1Z0hH?=
- =?utf-8?B?UzJ6N2FQUkd3ajkxanBScVFuSWdYbVB2WmJLa29nOXRzZ0x0WUs4VmNLNEZB?=
- =?utf-8?B?YW9rZkROYW5IalRnOEZFQ2Z3b28zWVdGeFhnbDFWZXV0eENPeWdOTjEyRUV2?=
- =?utf-8?B?WWE0a3pnU3JxWUE1Q3AvZWdxdUtqV0NCRzE1QlZsM2NvdjBsZUpmV3pIbXQ1?=
- =?utf-8?B?Mk01dlVBaHY1cjBQenJzMklmNi80aUo3UW1OekE3OVZJV2RWV1BNZTRibndM?=
- =?utf-8?B?WWYxSVF3KzB1dm9QaXpZUm5xYlMwRnZEOEttc05mUUt5UUZ1TW5nQU02UXBn?=
- =?utf-8?B?WDByeVZtOGFuWm9MUVlTS0l6c1lyNk9MZzg0K1dRclJtSWdDdnZOWUpjQVF3?=
- =?utf-8?B?OEJFaVFTVlllWjFhRU4wcUxvSm5JVTVwQkJxeU1Cb3dtcnE1aHZLVUxhYjY1?=
- =?utf-8?B?TXhibUVvNlo4Tzc0R2t5WmJIL251dDFOMnlzemNlMzcvK2ZCZ21HTlhvTjB5?=
- =?utf-8?B?bnRuUkdmY2JYSjlhQ05CRU5HSXlWN0xtb1hDOHV3SmRrdXI5bEJnOXkwZ0V2?=
- =?utf-8?B?NGhCR0VmZDl3emwzRzZUNjVKc2lJaVh4S2w4SGswbmpZdlVBRkprRnVFQlVE?=
- =?utf-8?Q?D1Ij9VaH6/NRHBnAZBCHZ/2ujLp/0SsNJi1NLo7?=
-X-OriginatorOrg: sct-15-20-8813-0-msonline-outlook-f2c18.templateTenant
-X-MS-Exchange-CrossTenant-Network-Message-Id: d44cb8cd-4d00-4e14-95b5-08ddc3ce17f1
-X-MS-Exchange-CrossTenant-AuthSource: PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jul 2025 18:33:29.2549
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MA0PR01MB7555
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ea7f1f42-273b-4c07-8bf2-769992dd9ced@rowland.harvard.edu>
 
+On Mon, Jul 14, 2025 at 10:10:32AM -0700, syzbot wrote:
+> Hello,
+> 
+> syzbot found the following issue on:
+> 
+> HEAD commit:    b4b4dbfa96de media: stk1160: use usb_alloc_noncoherent/usb..
+> git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+> console output: https://syzkaller.appspot.com/x/log.txt?x=15a830f0580000
+> kernel config:  https://syzkaller.appspot.com/x/.config?x=28729dff5d03ad1
+> dashboard link: https://syzkaller.appspot.com/bug?extid=b63d677d63bcac06cf90
+> compiler:       gcc (Debian 12.2.0-14+deb12u1) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40
+> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1614418c580000
+> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1257dd82580000
+> 
+> Downloadable assets:
+> disk image: https://storage.googleapis.com/syzbot-assets/7301552ad828/disk-b4b4dbfa.raw.xz
+> vmlinux: https://storage.googleapis.com/syzbot-assets/c559b38fa1b6/vmlinux-b4b4dbfa.xz
+> kernel image: https://storage.googleapis.com/syzbot-assets/9c1da8b2a83f/bzImage-b4b4dbfa.xz
+> 
+> IMPORTANT: if you fix the issue, please add the following tag to the commit:
+> Reported-by: syzbot+b63d677d63bcac06cf90@syzkaller.appspotmail.com
+> 
+> usb 4-1: config 0 interface 0 altsetting 0 has 1 endpoint descriptor, different from the interface descriptor's value: 9
+> usb 4-1: New USB device found, idVendor=045e, idProduct=07da, bcdDevice= 0.00
+> usb 4-1: New USB device strings: Mfr=0, Product=0, SerialNumber=0
+> usb 4-1: config 0 descriptor??
+> microsoft 0003:045E:07DA.0001: ignoring exceeding usage max
+> microsoft 0003:045E:07DA.0001: unsupported Resolution Multiplier 0
+> ------------[ cut here ]------------
+> UBSAN: shift-out-of-bounds in drivers/hid/hid-core.c:69:16
+> shift exponent 4294967295 is too large for 32-bit type 'int'
+> CPU: 0 UID: 0 PID: 10 Comm: kworker/0:1 Not tainted 6.16.0-rc4-syzkaller-00314-gb4b4dbfa96de #0 PREEMPT(voluntary) 
+> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 05/07/2025
+> Workqueue: usb_hub_wq hub_event
+> Call Trace:
+>  <TASK>
+>  __dump_stack lib/dump_stack.c:94 [inline]
+>  dump_stack_lvl+0x16c/0x1f0 lib/dump_stack.c:120
+>  ubsan_epilogue lib/ubsan.c:233 [inline]
+>  __ubsan_handle_shift_out_of_bounds+0x27f/0x420 lib/ubsan.c:494
+>  s32ton.cold+0x37/0x9c drivers/hid/hid-core.c:69
+>  hid_output_field drivers/hid/hid-core.c:1841 [inline]
+>  hid_output_report+0x36f/0x4a0 drivers/hid/hid-core.c:1874
+>  __hid_request+0x1e0/0x3c0 drivers/hid/hid-core.c:1987
+>  hidinput_change_resolution_multipliers drivers/hid/hid-input.c:1950 [inline]
+>  hidinput_connect+0x1ada/0x2bd0 drivers/hid/hid-input.c:2327
 
+#syz test: git://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git c2ca42f190b6
 
-On 14/07/25 5:00 am, Qasim Ijaz wrote:
-> A malicious HID device with quirk APPLE_MAGIC_BACKLIGHT can trigger a NULL
-> pointer dereference whilst the power feature-report is toggled and sent to
-> the device in apple_magic_backlight_report_set(). The power feature-report
-> is expected to have two data fields, but if the descriptor declares one
-> field then accessing field[1] and dereferencing it in
-> apple_magic_backlight_report_set() becomes invalid
-> since field[1] will be NULL.
-> 
-> An example of a minimal descriptor which can cause the crash is something
-> like the following where the report with ID 3 (power report) only
-> references a single 1-byte field. When hid core parses the descriptor it
-> will encounter the final feature tag, allocate a hid_report (all members
-> of field[] will be zeroed out), create field structure and populate it,
-> increasing the maxfield to 1. The subsequent field[1] access and
-> dereference causes the crash.
-> 
->   Usage Page (Vendor Defined 0xFF00)
->   Usage (0x0F)
->   Collection (Application)
->     Report ID (1)
->     Usage (0x01)
->     Logical Minimum (0)
->     Logical Maximum (255)
->     Report Size (8)
->     Report Count (1)
->     Feature (Data,Var,Abs)
-> 
->     Usage (0x02)
->     Logical Maximum (32767)
->     Report Size (16)
->     Report Count (1)
->     Feature (Data,Var,Abs)
-> 
->     Report ID (3)
->     Usage (0x03)
->     Logical Minimum (0)
->     Logical Maximum (1)
->     Report Size (8)
->     Report Count (1)
->     Feature (Data,Var,Abs)
->   End Collection
-> 
-> Here we see the KASAN splat when the kernel dereferences the
-> NULL pointer and crashes:
-> 
->   [   15.164723] Oops: general protection fault, probably for non-canonical address 0xdffffc0000000006: 0000 [#1] SMP KASAN NOPTI
->   [   15.165691] KASAN: null-ptr-deref in range [0x0000000000000030-0x0000000000000037]
->   [   15.165691] CPU: 0 UID: 0 PID: 10 Comm: kworker/0:1 Not tainted 6.15.0 #31 PREEMPT(voluntary) 
->   [   15.165691] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
->   [   15.165691] RIP: 0010:apple_magic_backlight_report_set+0xbf/0x210
->   [   15.165691] Call Trace:
->   [   15.165691]  <TASK>
->   [   15.165691]  apple_probe+0x571/0xa20
->   [   15.165691]  hid_device_probe+0x2e2/0x6f0
->   [   15.165691]  really_probe+0x1ca/0x5c0
->   [   15.165691]  __driver_probe_device+0x24f/0x310
->   [   15.165691]  driver_probe_device+0x4a/0xd0
->   [   15.165691]  __device_attach_driver+0x169/0x220
->   [   15.165691]  bus_for_each_drv+0x118/0x1b0
->   [   15.165691]  __device_attach+0x1d5/0x380
->   [   15.165691]  device_initial_probe+0x12/0x20
->   [   15.165691]  bus_probe_device+0x13d/0x180
->   [   15.165691]  device_add+0xd87/0x1510
->   [...]
-> 
-> To fix this issue we should validate the number of fields that the
-> backlight and power reports have and if they do not have the required
-> number of fields then bail.
-> 
-> Fixes: 394ba612f941 ("HID: apple: Add support for magic keyboard backlight on T2 Macs")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Qasim Ijaz <qasdev00@gmail.com>
-> ---
+ drivers/hid/hid-core.c |    5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-Tested-by: Aditya Garg <gargaditya08@live.com>
+Index: usb-devel/drivers/hid/hid-core.c
+===================================================================
+--- usb-devel.orig/drivers/hid/hid-core.c
++++ usb-devel/drivers/hid/hid-core.c
+@@ -1838,9 +1838,12 @@ static void hid_output_field(const struc
+ 
+ 	for (n = 0; n < count; n++) {
+ 		if (field->logical_minimum < 0)	/* signed values */
++		{
++			pr_info("s32ton: n %u val %d size 0x%x\n",
++					n, field->value[n], size);
+ 			implement(hid, data, offset + n * size, size,
+ 				  s32ton(field->value[n], size));
+-		else				/* unsigned values */
++		} else				/* unsigned values */
+ 			implement(hid, data, offset + n * size, size,
+ 				  field->value[n]);
+ 	}
 
