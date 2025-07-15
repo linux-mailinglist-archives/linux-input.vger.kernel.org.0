@@ -1,53 +1,53 @@
-Return-Path: <linux-input+bounces-13543-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13542-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6C06B05926
-	for <lists+linux-input@lfdr.de>; Tue, 15 Jul 2025 13:49:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFC5AB05925
+	for <lists+linux-input@lfdr.de>; Tue, 15 Jul 2025 13:49:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 86D744E2331
-	for <lists+linux-input@lfdr.de>; Tue, 15 Jul 2025 11:49:09 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A53684E35FF
+	for <lists+linux-input@lfdr.de>; Tue, 15 Jul 2025 11:49:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C8BFA2DE202;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C49B52DCF72;
 	Tue, 15 Jul 2025 11:49:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="j5EJ9iyw"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JwxE+k+/"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D6EF2DCC1F;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D68623D2A4;
 	Tue, 15 Jul 2025 11:49:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752580152; cv=none; b=oaduw8G6bq+4N2YKpfAAqdjcs2j+Yk6Fp+5ju6ruvaZNp8yeL4UGb4hT5PxS+Lg1BstsMy1fbLpvz17mevcV56TGc+AQEmpJpHUQNU9KdrFu8Pjkyw1aUwQiqPftd895DuDvPhe370toLr8dFhzu/aY15BnVt6wTmJU0sUVleyQ=
+	t=1752580152; cv=none; b=RuRACuKJ2EutttjIHp9YyYSbB0wQaHgdeGEWBFYEOGUMZCNoHEa0sQZ4m4gkklBswy+E7m4/QPGlNGkyhGCVHfVWpqKo8I4uagvYjZePy6942EQCc1dYHdG0Ta5ItrgozDOE+FBbLurd3IxQxGOwhqpzUwCfeHzDST8GnEowfy8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1752580152; c=relaxed/simple;
-	bh=K3YyvrVUo9TJ+BoNxaTwXhbXTnbVRUtjpc3gKo2u96g=;
+	bh=+v33/GT8VNZ2a0IWr0u4gHxRzbuIIDZA/HnlljjzVo0=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=JoLfu+53OTPnJLRmJ1QGuhHGwiU1c2YnP+ZseqlYZwIZKOHEFiPPG5FjOFVRGFbiK4lmbKsZyss/cEPk7Ra5qzd2ycyDryjMXZS/+OCB87+hRSVhe0fnx/URTHSDdy1ajuB3PHxIFtiIABZDuVtMBGB/4w7523ei1nZYbn3voZk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=j5EJ9iyw; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 35965C4CEF9;
+	 In-Reply-To:To:Cc; b=RBz2uA2wJ8WS655QjFWV8Tl3ualDWQLITPk3aD0uieswEGw/CAzKTcPkCPrXXJjM7XGkH9pQJ/Y6P2+4wQNReTuMQJNWzmK2jME0ehTDNWPnrAnLr3DmTIl3BIzFIaFqgNK1XHGe3gsHBY7iEyYXVh410hOPu/jhvN37kmEEfEM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JwxE+k+/; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 3EBEFC4CEE3;
 	Tue, 15 Jul 2025 11:49:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1752580152;
-	bh=K3YyvrVUo9TJ+BoNxaTwXhbXTnbVRUtjpc3gKo2u96g=;
+	bh=+v33/GT8VNZ2a0IWr0u4gHxRzbuIIDZA/HnlljjzVo0=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=j5EJ9iywUgxi5tUx0U3szIAM/W+7FlxmyfQNoMoa+PQNLHSJvwDw6XcR2svW7zjHc
-	 0xoS7q8Lm+Lgi3oDBmOQxlgSL29o0yFGykUQIyqZrAXCEKyQjRF7XsRuHQ74ULuQgq
-	 WJEMgX8R4Ipp2YbZ7MCmrAE8I06s+PZhoc/dayt9vayCJIRrfZCtwSSUZdMy5I2SEf
-	 FLrGatBL7dvo3WRgzptEWhBBJTNR3R5QNo4rp4pkpHeRaWv8NrpxIE6ryUrcI1n9rq
-	 dJix3tjLL5EdXxucJ2vTiM2uXa52w1DCRK99CjCEm++ds4qg4hM0rpgGiF7ci53BHk
-	 4s0P8JnuPlXWg==
+	b=JwxE+k+/KBX3n6xjTNT9/miOHo1CfVUbFEsmtaGzHS+HIf8z5vcpUpODf/TLW/mh6
+	 DOKVRo9hrBfMwVvBVI7VgCrAfuGQsUCR8iTJakLJwkfmKXDZxVtrCozNLOmv8YN3Mf
+	 UA2F4m0yOgB1o46yH09n+TA4DG0P9DAWfj/rRFmwEcatkJli+vEBdig5y7+Z+o0QIJ
+	 303aKsACmQW+mee01UFQojPk7WoWQHi6mHpDF5/szSdLEBAuKWlKI+c6ZwsEXLB44F
+	 qMsGjB+kLwlg5F5PMFRtwu5Y+UPBo7wj7sQ5SXOu/ZrZQ1bDkXSt/zHpaTwIpPDWmx
+	 IgLyvyTUr5qnQ==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 23DD2C83F27;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 33230C83F17;
 	Tue, 15 Jul 2025 11:49:12 +0000 (UTC)
 From: David Heidelberg via B4 Relay <devnull+david.ixit.cz@kernel.org>
-Date: Tue, 15 Jul 2025 13:49:01 +0200
-Subject: [PATCH RESEND v5 2/7] Input: synaptics-rmi4 - handle
- duplicate/unknown PDT entries
+Date: Tue, 15 Jul 2025 13:49:02 +0200
+Subject: [PATCH RESEND v5 3/7] Input: synaptics-rmi4 - f12: use hardcoded
+ values for aftermarket touch ICs
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -56,7 +56,7 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250715-synaptics-rmi4-v5-2-ca255962c122@ixit.cz>
+Message-Id: <20250715-synaptics-rmi4-v5-3-ca255962c122@ixit.cz>
 References: <20250715-synaptics-rmi4-v5-0-ca255962c122@ixit.cz>
 In-Reply-To: <20250715-synaptics-rmi4-v5-0-ca255962c122@ixit.cz>
 To: Kaustabh Chakraborty <kauschluss@disroot.org>, 
@@ -70,151 +70,222 @@ Cc: linux-input@vger.kernel.org, devicetree@vger.kernel.org,
  phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht, 
  David Heidelberg <david@ixit.cz>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3909; i=david@ixit.cz;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6241; i=david@ixit.cz;
  h=from:subject:message-id;
- bh=DMyfmGUjTKWkjf5dJQfenW4XErBynGEc7q5TZ856CIQ=;
- b=owEBbQKS/ZANAwAIAWACP8TTSSByAcsmYgBodkA0uoNTZ5PIKCSrNjx/8FWKCpvGOHd1NLk8/
- a5zI8/WhnyJAjMEAAEIAB0WIQTXegnP7twrvVOnBHRgAj/E00kgcgUCaHZANAAKCRBgAj/E00kg
- cuhFD/9KrJPjQxFYJXITh9nq4LzZhLCkJyy0RMyk438mS+17jD3iAoYVpVgJnSNoyLeY9gqSUb7
- nhR4+LsVLmyQICgGw6ykGjFxc16Q4NUQJzvln2IkRgmcz8U7ZFg3cDDXJ6Tmxnb1GuyGo7xyT9p
- kvFjw1YoxA1AYkw8wxMXMAr5AnrF7KbxnKvFyCQlpdHo3MbqDu7CFsdWUCjHX/dSHbiN7BcaiQG
- 7Bd26T0f9nYxV68VpFiWunYRojavSWk0lmv8qnkXXTkHXTDKu/kw3Lwqs3a2I7EEn06mKOt4fST
- 7LlrzBW9PO5pws5cKWtFTk+b/ZFtVrN9xOWlOKQFq43zNNZ4znnbyKKc2VJ/KJQeCGMCHqHpZnK
- TQIlWIYxE77AOl7IOonCCLTKsKJhlhJ1CRbkDJlRyBh8np4m1fSJa1TTLzdurfyyIersQ29yx/H
- ZjdZ6dfRH8MKq6QicfmcIDOGi+iWQmkXJGrJSuDqWJuWjAuwg3Ek9OlWVHjZInaL957ZW7aSxoc
- rTnxDh0PQwKJOfRtu8FNF46Gx8atfE70pFxLZ2zlbOi46InUzKSqnUnbwXPA0HR2BHV+PAKOWdH
- mAQZZYyxLRtGcK9wJ68+wLhABEyUN4ksyYeM/uDwy0zE8TawI0SwwHDPW08TjoScDKqX5oCUyTx
- eSBRgv0blvUY6xg==
+ bh=wWX9Nwa4G4RJUBvdMkhnVjSL2oOd+Af8dSjqvQue9y8=;
+ b=owEBbQKS/ZANAwAIAWACP8TTSSByAcsmYgBodkA06fTD/F1ed8dL4rjj2M77/9DJaD6zQ2zVj
+ 4hVbf71z5KJAjMEAAEIAB0WIQTXegnP7twrvVOnBHRgAj/E00kgcgUCaHZANAAKCRBgAj/E00kg
+ cqTJD/9xeHnQPoBBD2AC8FW98wSScjx/2jl3hcquCeJZywvF9BKtKxcelbSg1tC3bxNov/DRulj
+ bBjdo4FNrE/NL55wFUK3jIahfJchjW1zTlJNuU5wQxpjmjFS0KxqjlRvLwpjNBIHe0B567MZtqN
+ J70kHztzdK3jy7wkGQudM5x7e6SvH2McPcbgvAtXyrb/hSGH+tOYypmQHVan9H51voXgxBYSUuM
+ inXj5WFMX0MlnDuNEOTCtrWZPUEBvzRC5375YXAdjkjfJf0bfSiAyYAcA1SXXBOPIP5Myl55Ds7
+ W/XRDYI4gvPe8dhv1F+x24q2NhKjBFLtHpZF3sPCG0K6YQ2gjDRaJvv+tVe++PocAVHCNceo76o
+ ArQzN4VGJkZSxk5gMTm6reZQATU/G1zEQZUUHeCd0VOep9DF/Ht60pOpQGzV2nbtQSrRdlrQKsT
+ jLg4LOrqf3PuKnB758J8G6yTCLPtiejIrrCUODuount6pfPDZdhW5WF5PDp7o4ow/mdCwJR2Pb9
+ 9vgqQgzZC3gRcEeFMxLfI0oJWsr6LaWvYLgn4krRXYcBEATiJRr9H1pibgR5N0rkuGaYEuwys/u
+ W6MvSDPX9q70+Jl2hLZtOO0QHhefhu1jGkVUttZzRNQfw3QijIZyc5KKUsxMSFtJgq8nTIT17Wz
+ mPZ8KsZVu06XX4w==
 X-Developer-Key: i=david@ixit.cz; a=openpgp;
  fpr=D77A09CFEEDC2BBD53A7047460023FC4D3492072
 X-Endpoint-Received: by B4 Relay for david@ixit.cz/default with auth_id=355
 X-Original-From: David Heidelberg <david@ixit.cz>
 Reply-To: david@ixit.cz
 
-From: Caleb Connolly <caleb.connolly@linaro.org>
+From: Kaustabh Chakraborty <kauschluss@disroot.org>
 
-Some third party rmi4-compatible ICs don't expose their PDT entries
-very well. Add a few checks to skip duplicate entries as well as entries
-for unsupported functions.
+Some replacement displays include third-party touch ICs which are
+devoid of register descriptors. Create a fake data register descriptor
+for such ICs and provide hardcoded default values.
 
-This is required to support some phones with third party displays.
+It isn't possible to reliably determine if the touch IC is original or
+not, so these fallback values are offered as an alternative to the error
+path when register descriptors aren't available.
 
-Validated on a stock OnePlus 6T (original parts):
-manufacturer: Synaptics, product: S3706B, fw id: 2852315
-
-Co-developed-by: Kaustabh Chakraborty <kauschluss@disroot.org>
 Signed-off-by: Kaustabh Chakraborty <kauschluss@disroot.org>
+[changes for readability / codeflow, checkpatch fixes]
 Signed-off-by: Caleb Connolly <caleb.connolly@linaro.org>
-Co-developed-by: David Heidelberg <david@ixit.cz>
 Signed-off-by: David Heidelberg <david@ixit.cz>
 ---
- drivers/input/rmi4/rmi_driver.c | 42 +++++++++++++++++++++++++++++++++++------
- drivers/input/rmi4/rmi_driver.h |  8 ++++++++
- 2 files changed, 44 insertions(+), 6 deletions(-)
+ drivers/input/rmi4/rmi_f12.c | 117 +++++++++++++++++++++++++++++++++----------
+ 1 file changed, 91 insertions(+), 26 deletions(-)
 
-diff --git a/drivers/input/rmi4/rmi_driver.c b/drivers/input/rmi4/rmi_driver.c
-index 2168b6cd7167334d44553c9c566f870a4e034179..0f6dbe586c652d641178f43ec27df3613126ca66 100644
---- a/drivers/input/rmi4/rmi_driver.c
-+++ b/drivers/input/rmi4/rmi_driver.c
-@@ -493,12 +493,39 @@ static void rmi_driver_copy_pdt_to_fd(const struct pdt_entry *pdt,
- 	fd->function_version = pdt->function_version;
+diff --git a/drivers/input/rmi4/rmi_f12.c b/drivers/input/rmi4/rmi_f12.c
+index 8246fe77114bbd8b795ba35d5a37ede8727fc7cb..1a103cc5f2235a6eafd7a3f5b89cbfc9e53203d2 100644
+--- a/drivers/input/rmi4/rmi_f12.c
++++ b/drivers/input/rmi4/rmi_f12.c
+@@ -218,6 +218,41 @@ static void rmi_f12_process_objects(struct f12_data *f12, u8 *data1, int size)
+ 		rmi_2d_sensor_abs_report(sensor, &sensor->objs[i], i);
  }
  
-+static bool rmi_pdt_entry_is_valid(struct rmi_device *rmi_dev,
-+				   struct pdt_scan_state *state, u8 fn)
++static void rmi_f12_set_hardcoded_desc(struct rmi_function *fn, struct f12_data *f12)
 +{
-+	switch (fn) {
-+	case 0x01:
-+	case 0x03:
-+	case 0x11:
-+	case 0x12:
-+	case 0x30:
-+	case 0x34:
-+	case 0x3a:
-+	case 0x54:
-+	case 0x55:
-+		if (state->pdts[fn] == true)
-+			return false;
-+		break;
-+	default:
-+		rmi_dbg(RMI_DEBUG_CORE, &rmi_dev->dev,
-+			"PDT has unknown function number %#02x\n", fn);
-+		return false;
-+	}
++	struct rmi_2d_sensor *sensor = &f12->sensor;
++	struct rmi_register_desc_item *reg_desc;
 +
-+	state->pdts[fn] = true;
-+	state->pdt_count++;
-+	return true;
++	/* We have no f12->data_reg_desc, so the pkt_size is 0, override it with
++	 * a somewhat sensible default (this corresponds to 10 fingers).
++	 */
++	sensor->pkt_size = 88;
++
++	/*
++	 * There are no register descriptors to get these values from.
++	 * We set them to high values to either be overwritten by the clip
++	 * properties from devicetree, or to just not get in the way.
++	 */
++	sensor->max_x = 65535;
++	sensor->max_y = 65535;
++
++	/*
++	 * Create the Data1 register descriptor so that touch events
++	 * can work properly.
++	 */
++	reg_desc = devm_kcalloc(&fn->dev, 1,
++			sizeof(struct rmi_register_desc_item), GFP_KERNEL);
++	reg_desc->reg = 1;
++	reg_desc->reg_size = 80;
++	reg_desc->num_subpackets = 10;
++
++	f12->data1 = reg_desc;
++	f12->data1_offset = 0;
++	sensor->nbr_fingers = reg_desc->num_subpackets;
++	sensor->report_abs = 1;
++	sensor->attn_size += reg_desc->reg_size;
 +}
 +
- #define RMI_SCAN_CONTINUE	0
- #define RMI_SCAN_DONE		1
- 
- static int rmi_scan_pdt_page(struct rmi_device *rmi_dev,
- 			     int page,
--			     int *empty_pages,
-+			     struct pdt_scan_state *state,
- 			     void *ctx,
- 			     int (*callback)(struct rmi_device *rmi_dev,
- 					     void *ctx,
-@@ -521,6 +548,9 @@ static int rmi_scan_pdt_page(struct rmi_device *rmi_dev,
- 		if (RMI4_END_OF_PDT(pdt_entry.function_number))
- 			break;
- 
-+		if (!rmi_pdt_entry_is_valid(rmi_dev, state, pdt_entry.function_number))
-+			continue;
-+
- 		retval = callback(rmi_dev, ctx, &pdt_entry);
- 		if (retval != RMI_SCAN_CONTINUE)
- 			return retval;
-@@ -531,11 +561,11 @@ static int rmi_scan_pdt_page(struct rmi_device *rmi_dev,
- 	 * or more is found, stop scanning.
- 	 */
- 	if (addr == pdt_start)
--		++*empty_pages;
-+		++state->empty_pages;
- 	else
--		*empty_pages = 0;
-+		state->empty_pages = 0;
- 
--	return (data->bootloader_mode || *empty_pages >= 2) ?
-+	return (data->bootloader_mode || state->empty_pages >= 2) ?
- 					RMI_SCAN_DONE : RMI_SCAN_CONTINUE;
+ static irqreturn_t rmi_f12_attention(int irq, void *ctx)
+ {
+ 	int retval;
+@@ -338,6 +373,40 @@ static int rmi_f12_config(struct rmi_function *fn)
+ 	return 0;
  }
  
-@@ -544,11 +574,11 @@ int rmi_scan_pdt(struct rmi_device *rmi_dev, void *ctx,
- 		 void *ctx, const struct pdt_entry *entry))
++static int rmi_f12_sensor_init(struct rmi_function *fn, struct f12_data *f12)
++{
++	struct rmi_2d_sensor *sensor = &f12->sensor;
++
++	sensor->fn = fn;
++	f12->data_addr = fn->fd.data_base_addr;
++
++	/* On quirky devices that don't have a data_reg_desc we hardcode the packet
++	 * in rmi_f12_set_hardcoded_desc(). Make sure not to set it to 0 here.
++	 */
++	if (!sensor->pkt_size)
++		sensor->pkt_size = rmi_register_desc_calc_size(&f12->data_reg_desc);
++
++	sensor->axis_align =
++		f12->sensor_pdata.axis_align;
++
++	sensor->x_mm = f12->sensor_pdata.x_mm;
++	sensor->y_mm = f12->sensor_pdata.y_mm;
++	sensor->dribble = f12->sensor_pdata.dribble;
++
++	if (sensor->sensor_type == rmi_sensor_default)
++		sensor->sensor_type =
++			f12->sensor_pdata.sensor_type;
++
++	rmi_dbg(RMI_DEBUG_FN, &fn->dev, "%s: data packet size: %d\n", __func__,
++		sensor->pkt_size);
++
++	sensor->data_pkt = devm_kzalloc(&fn->dev, sensor->pkt_size, GFP_KERNEL);
++	if (!sensor->data_pkt)
++		return -ENOMEM;
++
++	return 0;
++}
++
+ static int rmi_f12_probe(struct rmi_function *fn)
  {
- 	int page;
--	int empty_pages = 0;
-+	struct pdt_scan_state state = {0, 0, {0}};
- 	int retval = RMI_SCAN_DONE;
+ 	struct f12_data *f12;
+@@ -351,6 +420,7 @@ static int rmi_f12_probe(struct rmi_function *fn)
+ 	struct rmi_driver_data *drvdata = dev_get_drvdata(&rmi_dev->dev);
+ 	u16 data_offset = 0;
+ 	int mask_size;
++	bool hardcoded_desc_quirk = false;
  
- 	for (page = 0; page <= RMI4_MAX_PAGE; page++) {
--		retval = rmi_scan_pdt_page(rmi_dev, page, &empty_pages,
-+		retval = rmi_scan_pdt_page(rmi_dev, page, &state,
- 					   ctx, callback);
- 		if (retval != RMI_SCAN_CONTINUE)
- 			break;
-diff --git a/drivers/input/rmi4/rmi_driver.h b/drivers/input/rmi4/rmi_driver.h
-index 3bfe9013043ef3dff46249095a5b3116c8f7d9a6..cb1cacd013a3f39db96935f705f18018bf15adff 100644
---- a/drivers/input/rmi4/rmi_driver.h
-+++ b/drivers/input/rmi4/rmi_driver.h
-@@ -46,6 +46,14 @@ struct pdt_entry {
- 	u8 function_number;
- };
+ 	rmi_dbg(RMI_DEBUG_FN, &fn->dev, "%s\n", __func__);
  
-+#define RMI_PDT_MAX 0x55
+@@ -365,9 +435,9 @@ static int rmi_f12_probe(struct rmi_function *fn)
+ 	++query_addr;
+ 
+ 	if (!(buf & BIT(0))) {
+-		dev_err(&fn->dev,
+-			"Behavior of F12 without register descriptors is undefined.\n");
+-		return -ENODEV;
++		rmi_dbg(RMI_DEBUG_FN, &fn->dev,
++			"No register descriptors defined for F12, using fallback\n");
++		hardcoded_desc_quirk = true;
+ 	}
+ 
+ 	f12 = devm_kzalloc(&fn->dev, sizeof(struct f12_data) + mask_size * 2,
+@@ -375,6 +445,8 @@ static int rmi_f12_probe(struct rmi_function *fn)
+ 	if (!f12)
+ 		return -ENOMEM;
+ 
++	dev_set_drvdata(&fn->dev, f12);
 +
-+struct pdt_scan_state {
-+	u8 empty_pages;
-+	u8 pdt_count;
-+	bool pdts[RMI_PDT_MAX];
-+};
-+
- #define RMI_REG_DESC_PRESENSE_BITS	(32 * BITS_PER_BYTE)
- #define RMI_REG_DESC_SUBPACKET_BITS	(37 * BITS_PER_BYTE)
+ 	f12->abs_mask = (unsigned long *)((char *)f12
+ 			+ sizeof(struct f12_data));
+ 	f12->rel_mask = (unsigned long *)((char *)f12
+@@ -393,6 +465,18 @@ static int rmi_f12_probe(struct rmi_function *fn)
+ 		f12->sensor_pdata = pdata->sensor_pdata;
+ 	}
  
++	sensor = &f12->sensor;
++
++	if (hardcoded_desc_quirk) {
++		rmi_f12_set_hardcoded_desc(fn, f12);
++
++		ret = rmi_f12_sensor_init(fn, f12);
++		if (ret)
++			return ret;
++
++		goto skip_register_desc;
++	}
++
+ 	ret = rmi_read_register_desc(rmi_dev, query_addr,
+ 					&f12->query_reg_desc);
+ 	if (ret) {
+@@ -423,29 +507,9 @@ static int rmi_f12_probe(struct rmi_function *fn)
+ 	}
+ 	query_addr += 3;
+ 
+-	sensor = &f12->sensor;
+-	sensor->fn = fn;
+-	f12->data_addr = fn->fd.data_base_addr;
+-	sensor->pkt_size = rmi_register_desc_calc_size(&f12->data_reg_desc);
+-
+-	sensor->axis_align =
+-		f12->sensor_pdata.axis_align;
+-
+-	sensor->x_mm = f12->sensor_pdata.x_mm;
+-	sensor->y_mm = f12->sensor_pdata.y_mm;
+-	sensor->dribble = f12->sensor_pdata.dribble;
+-
+-	if (sensor->sensor_type == rmi_sensor_default)
+-		sensor->sensor_type =
+-			f12->sensor_pdata.sensor_type;
+-
+-	rmi_dbg(RMI_DEBUG_FN, &fn->dev, "%s: data packet size: %d\n", __func__,
+-		sensor->pkt_size);
+-	sensor->data_pkt = devm_kzalloc(&fn->dev, sensor->pkt_size, GFP_KERNEL);
+-	if (!sensor->data_pkt)
+-		return -ENOMEM;
+-
+-	dev_set_drvdata(&fn->dev, f12);
++	ret = rmi_f12_sensor_init(fn, f12);
++	if (ret)
++		return ret;
+ 
+ 	ret = rmi_f12_read_sensor_tuning(f12);
+ 	if (ret)
+@@ -543,6 +607,7 @@ static int rmi_f12_probe(struct rmi_function *fn)
+ 		data_offset += item->reg_size;
+ 	}
+ 
++skip_register_desc:
+ 	/* allocate the in-kernel tracking buffers */
+ 	sensor->tracking_pos = devm_kcalloc(&fn->dev,
+ 			sensor->nbr_fingers, sizeof(struct input_mt_pos),
 
 -- 
 2.50.0
