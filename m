@@ -1,118 +1,85 @@
-Return-Path: <linux-input+bounces-13550-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13551-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DB8DB06248
-	for <lists+linux-input@lfdr.de>; Tue, 15 Jul 2025 17:05:15 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 54DD8B062F0
+	for <lists+linux-input@lfdr.de>; Tue, 15 Jul 2025 17:30:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EF1873A7391
-	for <lists+linux-input@lfdr.de>; Tue, 15 Jul 2025 15:03:49 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 35F5B7A4EB7
+	for <lists+linux-input@lfdr.de>; Tue, 15 Jul 2025 15:28:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF7B21FDA9E;
-	Tue, 15 Jul 2025 15:04:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EBBC423956A;
+	Tue, 15 Jul 2025 15:30:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a6mpcnpU"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b3Pmb4nm"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B63331DF244;
-	Tue, 15 Jul 2025 15:04:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C30CC238C06;
+	Tue, 15 Jul 2025 15:30:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752591852; cv=none; b=YKbrTbIQh3VMCDTkM6o3n1vZX8oVcDuyL94ntXD8CaOd053h4WX+t1tKpX8BhQnUzvrYaVqKzWu+XhkAGInNzQHzqsXIjQJEgtth8oLeIUXbGwiv55EtEiRheXPNM6qlOGRBi8LQGp/LQqNPxlTN5yf8KkUvPXrR0YR8Qq4fIPQ=
+	t=1752593400; cv=none; b=NTC+2QftCjo5aPIzUOQOSmDSlpZQm9DjMnDNNL04TsAmP2h7pBvD1J0+v+cLHBquoRA6ITS49PHsvEkDZkXXOUzlt04r1G1de+6jUbkYp4e1dZP21XjGLvlTLh46fmkV1UdO87kX2XbHcYG+2q0s3kzCjkng0F0MyCr8Vuon1gk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752591852; c=relaxed/simple;
-	bh=aAreeY7ue7odmfTN9APRw/KRypV/I5/p3R9EKMXFQPA=;
-	h=Mime-Version:Content-Type:Date:Message-Id:To:From:Subject:Cc:
-	 References:In-Reply-To; b=aKRHLxaAwGcXPqojl8m0mJy2J0ZB8m/BPe+btf3hDp/z7Wkt5exRtmkJVtyTKqyTYjB6J5XWhWvVm49uRYAEk8/O+1Q2wFclciedaEbG+1c5MVsY27bFmbOQ0siFYtnILZyqQ7PNae7iB5KJLAaDXWs9r08bdSl7qZNO/PoRL+w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a6mpcnpU; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 608D3C4CEE3;
-	Tue, 15 Jul 2025 15:04:09 +0000 (UTC)
+	s=arc-20240116; t=1752593400; c=relaxed/simple;
+	bh=FeSYrHc49ok8ajQzXHOBsoSsGDvdw6KtwE5lGhWCJnA=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=uUafBvmiPpRt1yt7RwmYp0YdKSGUQWuRgx32UXnDLdeZqqpNE1q4SGQtg/dUNqUxaAqkQt/p2cTaA+ce9jFmqD098PC4PV7cic55pK1oGYCtkNMXkmWpr37TwfxobHMowPKpfU9Sc0CLAtxOgwiV3bLTHe9ZFajA752FwxK6mpo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=b3Pmb4nm; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0658C4CEE3;
+	Tue, 15 Jul 2025 15:29:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752591852;
-	bh=aAreeY7ue7odmfTN9APRw/KRypV/I5/p3R9EKMXFQPA=;
-	h=Date:To:From:Subject:Cc:References:In-Reply-To:From;
-	b=a6mpcnpURyLp67IkgKp7Uo9Q4mbZWaW+CCX/jgmpobvSkfgU6uFuwV5tZI8xGLIa5
-	 jyXmbVqVg+T9yGhvjQrKOdv4Ll1wBBm768/FXN9KxVFauVyLbp1+Qo779yxIdOwvh9
-	 O+Ba0LUy3WfCRTGJahUf7z5ELhAS4fPDSsn4ykevwxX9ri/WnqdoND0fGgJhucYuxx
-	 poGIhhU70tSRSVAc+q+fgZOckrrqd8hcuCxdBlrWjMC+CGfTX+KYRbAUFEad88U1uT
-	 M9SFTLcPG2CyBxjFGihypm1fP+c5wk49sO9t0L4hO11TDGHzV8ZhBWmQ34Y96BFK/K
-	 fvxX5Py9Lb6yQ==
+	s=k20201202; t=1752593400;
+	bh=FeSYrHc49ok8ajQzXHOBsoSsGDvdw6KtwE5lGhWCJnA=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=b3Pmb4nmNbXOaZ8iw7Wz9cTKN+i403X6dewwgzmp7c8Y0zRw2ylSAA4OneampnGYH
+	 qxe94hAPiT0n1kJkXBfcr04UiECDTaxJl5Nmb4W8zN4CW/g8TJ5MyRFXSodESNiZvx
+	 e2jfSFhBesa7QWcJztB/luAqAjsoQw8LR+4QIl6sDDJGe9xCKj4y07iz7oqQuex8ip
+	 qZqzsRe4KQXHgTOFmFseeYk+WSkrob5iWnw5H4W7tpMRze/GCkdabSa+nSlhua38Qt
+	 YsWOppqpZYy7N2DfNQR92RGRfSLCmOu4Ad6m+KWptG4Vs9L/uuQvlXpEwHevs/rZYc
+	 E/TejLZH0yoSg==
+From: Benjamin Tissoires <bentiss@kernel.org>
+To: Alan Stern <stern@rowland.harvard.edu>
+Cc: Jiri Kosina <jikos@kernel.org>, linux-input@vger.kernel.org, 
+ USB mailing list <linux-usb@vger.kernel.org>
+In-Reply-To: <1c8416cb-7347-4a06-b00a-20518069d263@rowland.harvard.edu>
+References: <20250710-report-size-null-v2-0-ccf922b7c4e5@kernel.org>
+ <175239324234.1701499.15395216375379684975.b4-ty@kernel.org>
+ <1c8416cb-7347-4a06-b00a-20518069d263@rowland.harvard.edu>
+Subject: Re: (subset) [PATCH] HID: core: Improve the kerneldoc for
+ hid_report_len()
+Message-Id: <175259339951.49458.13286420186218514493.b4-ty@kernel.org>
+Date: Tue, 15 Jul 2025 17:29:59 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 15 Jul 2025 17:04:07 +0200
-Message-Id: <DBCPYJW9852M.2KDHMO6QS6YPY@kernel.org>
-To: "Rahul Rameshbabu" <sergeantsagara@protonmail.com>
-From: "Danilo Krummrich" <dakr@kernel.org>
-Subject: Re: [PATCH v2 3/4] rust: core abstractions for HID drivers
-Cc: <rust-for-linux@vger.kernel.org>, <linux-input@vger.kernel.org>, "Jiri
- Kosina" <jikos@kernel.org>, <a.hindborg@kernel.org>,
- <alex.gaynor@gmail.com>, <aliceryhl@google.com>, <benno.lossin@proton.me>,
- "Benjamin Tissoires" <benjamin.tissoires@redhat.com>,
- <bjorn3_gh@protonmail.com>, <boqun.feng@gmail.com>, <db48x@db48x.net>,
- <gary@garyguo.net>, <ojeda@kernel.org>, <tmgross@umich.edu>,
- <peter.hutterer@who-t.net>
-References: <20250713211012.101476-4-sergeantsagara@protonmail.com>
- <20250713211012.101476-10-sergeantsagara@protonmail.com>
-In-Reply-To: <20250713211012.101476-10-sergeantsagara@protonmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.2
 
-On Sun Jul 13, 2025 at 11:12 PM CEST, Rahul Rameshbabu wrote:
-> +// SAFETY: Instances of `Device` are always reference-counted.
-> +unsafe impl crate::types::AlwaysRefCounted for Device {
-> +    fn inc_ref(&self) {
-> +        // SAFETY: The existence of a shared reference guarantees that t=
-he refcount is non-zero.
-> +        unsafe { bindings::kref_get(&mut ((*self.as_raw()).ref_)) }
+On Sun, 13 Jul 2025 11:36:12 -0400, Alan Stern wrote:
+> The kerneldoc for hid_report_len() needs to be improved.  The
+> description of the @report argument is ungrammatical, and the
+> documentation does not explain under what circumstances the report
+> length will include the byte reserved for the report ID.
+> 
+> Let's fix up the kerneldoc.
+> 
+> [...]
 
-I'm confused, what's the lifecycle of a struct hid_device? It embedds a str=
-uct
-device, so it also inherits its reference count. Additionally it also has a
-struct kref. Can you elaborate please?
+Applied to hid/hid.git (for-6.17/core), thanks!
 
-I don't know what the struct kref is for, but I'm pretty sure you want to m=
-anage
-the reference count of the embedded struct device here.
+[1/1] HID: core: Improve the kerneldoc for hid_report_len()
+      https://git.kernel.org/hid/hid/c/12f33ef6c2aa
 
-> +    }
-> +
-> +    unsafe fn dec_ref(obj: NonNull<Self>) {
-> +        // SAFETY: The safety requirements guarantee that the refcount i=
-s non-zero.
-> +        unsafe {
-> +            bindings::kref_put(
-> +                &mut ((*obj.cast::<bindings::hid_device>().as_ptr()).ref=
-_),
+Cheers,
+-- 
+Benjamin Tissoires <bentiss@kernel.org>
 
-I think you want &raw mut instead.
-
-> +                Some(bindings::hiddev_free),
-> +            )
-> +        }
-> +    }
-> +}
-> +
-> +impl<Ctx: device::DeviceContext> AsRef<device::Device<Ctx>> for Device<C=
-tx> {
-> +    fn as_ref(&self) -> &device::Device<Ctx> {
-> +        // SAFETY: By the type invariant of `Self`, `self.as_raw()` is a=
- pointer to a valid
-> +        // `struct hid_device`.
-> +        let dev =3D unsafe { addr_of_mut!((*self.as_raw()).dev) };
-
-You also use &raw mut meanwhile.
-
-> +
-> +        // SAFETY: `dev` points to a valid `struct device`.
-> +        unsafe { device::Device::as_ref(dev) }
-> +    }
-> +}
 
