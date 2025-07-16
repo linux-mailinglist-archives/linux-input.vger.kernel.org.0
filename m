@@ -1,108 +1,91 @@
-Return-Path: <linux-input+bounces-13569-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13570-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BA57B07CDC
-	for <lists+linux-input@lfdr.de>; Wed, 16 Jul 2025 20:25:25 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C562B07E80
+	for <lists+linux-input@lfdr.de>; Wed, 16 Jul 2025 22:03:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5BF1716D46C
-	for <lists+linux-input@lfdr.de>; Wed, 16 Jul 2025 18:25:25 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 5D7B07AEFE1
+	for <lists+linux-input@lfdr.de>; Wed, 16 Jul 2025 20:02:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 71DE0299AB1;
-	Wed, 16 Jul 2025 18:24:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5057D2877E4;
+	Wed, 16 Jul 2025 20:03:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rootcommit.com header.i=@rootcommit.com header.b="iSI+ss6z"
+	dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b="YcW51kIQ"
 X-Original-To: linux-input@vger.kernel.org
-Received: from silver.cherry.relay.mailchannels.net (silver.cherry.relay.mailchannels.net [23.83.223.166])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from sonic301-21.consmr.mail.sg3.yahoo.com (sonic301-21.consmr.mail.sg3.yahoo.com [106.10.242.84])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21F4827EFE7;
-	Wed, 16 Jul 2025 18:24:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=23.83.223.166
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752690254; cv=pass; b=PKukAXAZsK6b6hwVe4Z8hSZfU+WJ9+BLPPenawCVW+hsM9BQtUQyFzi/TLYuLvolaunSiuEpGr7QFEArrUPpBD1MxM7nQc7wveyqhIlYUYN6s1D3is5zvaaP3Vm7Yu6Y15cNOzykltDX9+2MZPoud84/jTeCJtd2Zjf+GHhbvXI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752690254; c=relaxed/simple;
-	bh=Qmt52f8/2LwAYjUUXxSr5QUHtvrdlC+AIEn/M3eHj6A=;
-	h=From:To:Cc:Subject:Message-ID:In-Reply-To:References:MIME-Version:
-	 Date; b=h62+iEfylgLh26mU1B84PSHUsEreBcqNdnpMUqfD838CSmJRb1HAm3S0i/AFv+vQ22RlDc/8Mk6MyfU40fBhTPphy9wxJhV/7nLDPkuljoyJY5YmxBlvM6GlCDqiVi93339t5zjkO8TMzIn+Aev+HtWk1tm1ejrO0UOEdYYMucs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rootcommit.com; spf=pass smtp.mailfrom=rootcommit.com; dkim=pass (2048-bit key) header.d=rootcommit.com header.i=@rootcommit.com header.b=iSI+ss6z; arc=pass smtp.client-ip=23.83.223.166
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rootcommit.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rootcommit.com
-X-Sender-Id: hostingeremail|x-authuser|michael.opdenacker@rootcommit.com
-Received: from relay.mailchannels.net (localhost [127.0.0.1])
-	by relay.mailchannels.net (Postfix) with ESMTP id 02ED68A33A2;
-	Wed, 16 Jul 2025 17:44:47 +0000 (UTC)
-Received: from fr-int-smtpout8.hostinger.io (trex-blue-5.trex.outbound.svc.cluster.local [100.120.203.220])
-	(Authenticated sender: hostingeremail)
-	by relay.mailchannels.net (Postfix) with ESMTPA id E72DE8A47BC;
-	Wed, 16 Jul 2025 17:44:45 +0000 (UTC)
-ARC-Seal: i=1; s=arc-2022; d=mailchannels.net; t=1752687886; a=rsa-sha256;
-	cv=none;
-	b=CTwgrtC/r2COz2baFj1hpQb8aDto+AsYYXLLXz4L1KLxre8nftjHf2d8a9hlMqmCJjHzra
-	FGSR5maH0sGSqcN8Wk7oHs1FdvSHheLTga/Niqcs7a38UpGERB+Pl+chSjKnHQcLbhIUTi
-	8BIaEfvAV36fTbL5p8otkZ0Dq/zDJgJTAE15ukiOO2++D+bVVrSXfOu2e57KRLKRkB8Jxr
-	S48GlkOYcQVoFKTIycK+CIlPvHJOXAu35XeAvW9d5ig/bYuHNcT/2Y7vYv0U8hNRjEG5cu
-	U46UYHB618KTisiZ7QNA7EAzdt7PcAx4b80u6hkNOZRaYv0/vJ2OTyO/hijZwA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mailchannels.net;
-	s=arc-2022; t=1752687886;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:dkim-signature;
-	bh=GlX3hB3FvSNa7llX9TkDQGn9lDzE4VQESKNVIVhRQIA=;
-	b=rypdO+OmMHJfMqUH6gMrouDKprQ3O1gIBEfifA4XI0OiJsaOm/jL4lfecO9kqnXJwyj/q1
-	88o1eWcbeiCsEE2b4Iu6wAC7f6fDuJdRR5mLpirmQ8Pq6MvUl+qIoX6Ei+vvpYzGN8l8uJ
-	/p3O3BlT/I4VI6ng1DWAQ40Jl/hIIKNS/4hPVDlSTTK77vO91YXXUixqJpJgPPTvM66BwY
-	9M4DB6YwhhJaBQN2P+kYlXV24IvvurrkE2HxAcltGX1HWVW2b1NTYXB0OVxEorJJJirF3T
-	T+C7p3/bhztnWuww0aaoX8wr5gMKU7djceRcCUm45G7bn99OZ9wVDNaMZKBCoQ==
-ARC-Authentication-Results: i=1;
-	rspamd-57f6596c64-h2sh4;
-	auth=pass smtp.auth=hostingeremail
- smtp.mailfrom=michael.opdenacker@rootcommit.com
-X-Sender-Id: hostingeremail|x-authuser|michael.opdenacker@rootcommit.com
-X-MC-Relay: Neutral
-X-MailChannels-SenderId:
- hostingeremail|x-authuser|michael.opdenacker@rootcommit.com
-X-MailChannels-Auth-Id: hostingeremail
-X-Ruddy-Decisive: 0a0ad1b23dda1374_1752687886909_4056919767
-X-MC-Loop-Signature: 1752687886909:3143730403
-X-MC-Ingress-Time: 1752687886909
-Received: from fr-int-smtpout8.hostinger.io (fr-int-smtpout8.hostinger.io
- [89.116.146.204])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
-	by 100.120.203.220 (trex/7.1.3);
-	Wed, 16 Jul 2025 17:44:46 +0000
-Received: from localhost.localdomain (unknown [IPv6:2001:861:4448:6b00:e8b0:7f05:ab28:ab3])
-	(Authenticated sender: michael.opdenacker@rootcommit.com)
-	by smtp.hostinger.com (smtp.hostinger.com) with ESMTPSA id 4bj3NC5Yswz4dDjZ;
-	Wed, 16 Jul 2025 17:44:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rootcommit.com;
-	s=hostingermail-a; t=1752687883;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GlX3hB3FvSNa7llX9TkDQGn9lDzE4VQESKNVIVhRQIA=;
-	b=iSI+ss6z3OAo4CFilTxB1e0uvRCB8Ay0dmYtyE5wKx8QlrBPQE+4XWl5n/Qxv8iwcdf2sn
-	+O2HMUPVaVYqGDn3iXOSpp2V7HQYE8ud+FSZzDPomolaXAm4cGDznZPfRsHyTWx0Mv1Cbf
-	zPd9PWG/qnb4bRbloqa+sY0amt3gk09l8ovxbfviIvgIKFh9i1DRN9ubeJrr2W+/iPQ1mi
-	HwSnIL+b3kT620KQvUGWLAq6Jip9eRWFAOwgA09yGJSvia8+hFygQvQDke0wZ5juB358eP
-	TwRTM5kR4g786rLkAT3kpxJcutjXGIyKEuclE4Z3x8AWyxNE8cCl0DihYPxvuw==
-From: michael.opdenacker@rootcommit.com
-To: anshulusr@gmail.com,
-	dmitry.torokhov@gmail.com
-Cc: linux-input@vger.kernel.org,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18F10287504
+	for <linux-input@vger.kernel.org>; Wed, 16 Jul 2025 20:03:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=106.10.242.84
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1752696220; cv=none; b=eB3TFAjQr3wBN35DhuUMB3kY59uliHAhMJebUpryFjvznQITIxEj2xHunUTohb3qLHp1AVQ1iq7vrdmkVMZvEuc0LXOtg5gJx1HDHZSE2oZ4soYkrlNM6I/o6rRlCvH4vDD+US5cHKD1m4N0UUKxekUdHZZUHba6KfwQhLTqwC0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1752696220; c=relaxed/simple;
+	bh=Jjf04ylop5U+a10qGcMbcucN7XqJczKEFJI/DCJMJzc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:References; b=Uous7uRETilraH18EBDXUhYyGXPGUrfb+He3ZuwcpMIhcJJdTscLLqLd1zeRmLcAaJ55Kz5b/M6f41fZJ51z2DApLrX3jLzRbqG0H1Z7MfZcoazLG5innm/U21IrcnUYPNAyrnjCIqkpWUmvB6Bek/VLM2P8KGq6Qz+wp/S9Vng=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.com; spf=pass smtp.mailfrom=yahoo.com; dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b=YcW51kIQ; arc=none smtp.client-ip=106.10.242.84
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1752696216; bh=OEFAEz/+4pDWbItrpxD27vn6vT/LAF+wBo7eq5wNL80=; h=From:To:Cc:Subject:Date:References:From:Subject:Reply-To; b=YcW51kIQ6TLp2W0KHBbCOnmkzTB+4alX7E0tWndvoGmi/X09hLnIryML5q0C8ZS9wmZP0OraxOGBZebjl+ytgs1zoojnvjMAz+bA+mILq1XwFny8Yl//515nVTGgP8OQPIGFaus+O4Bra/Vj8H9REQa5FsgeOaKwxgjbKi7h0GUZGW7TpyqrP9YfdKeXGtGLPB5ruWi2uErPzzVIM5xAMTIUucvh70JbRUYe98ywJA4V5dmNYLnA+Q/UCrAQwjyIxkh9DVjAOgvXq8eFOx4fDF9re9ZJdl8qDenorw78cR0N/ERCZCsxOxDu+a3AuYn3ZhNFYDgtcMHM858R9YsnHw==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1752696216; bh=+nYHDQoRCf7US3PkvKBqXKMP/ZrWG08EdigF6HMgrX+=; h=X-Sonic-MF:From:To:Subject:Date:From:Subject; b=S5QFaSBlYICSXTIQVP1W5Wd95zanxjxNXvMXn0oo45o5I4tCJjxqT+6XS7FBUMp6g5OkMvF6O2dOQk9DEsQLu49APavf/MlaUJeTqWUkGJWFilE0YixDLsfoXx+e4S+yurR1G6oVyqVgU0ElNhhdrDkpI/t2clDmKQ9s9gIWNcJ8it8DfStXSV4bqUyggVikDnTjqGzZXWdD3qKUG1jnEYpYF+BPIqqeGpgnmzv07DWJY1Pp3KP356RqNrDNi8mjmySrLTwegssnF5iyjNKjvSIpB2fsrO2QtyIhGgdDh17goI34DmGEx6p6816oAyjJoH3cIYTSkdIcQbIk0Cba8w==
+X-YMail-OSG: 2opWEMUVM1lGbozH9.hAxN5SVx9WbZd2n1tFDDlQ3Jxk_jcHvK5kVqRdVbJ.Ium
+ QlRQw0NZzzxMuv_XW666t5DUfzxJdei2vePfUxGSRc3Gpt.YxZgwvsFIXKzDjOhX.XVQmb74.T1e
+ Dfvx5np9yDNurpvyIZxKUhzGKz_i0ICYVnEfOlXWq3AvwWP57csK_JJdcqGjmkGp5XSlsH9US6uN
+ U90_2WPuBjleeomGhWPTz70Gq8wfbCDLO8NCoPYtZFb0u.n15pXJKc9kbe84cisyT1umZK.x9JfB
+ jxzRdwG59BnzQCRoydEG9KQZKzamBPMzsnmPcb2aqoWQ6IU0cBZsizWZemm.cJpCThYswWvfacd0
+ 3Xi5_6em3tcs6_gDfxeHW7f7yAObEieyFz3.fA4rbCmTxBbOtlD4zJmLUaXFRSfRhLlD7UeikfOv
+ U4G5ydPD4HrIksJXtufxT5hWUY.Gr8HraFWq8JjcwK_364LBzMdNpvBEwp_uL9E8R0YdCkIoZHlO
+ Q6_y7BTowpMKqX8nPKNFga0GD9sOz90FzZqe8ol8AoFl8fHeDMr2g9MLtkgwXxHFeTYIp1Ah7fIH
+ Yc8ATyFs8YkJ.8cHjmA3IYSXmtpzwMosP4nDWsOiHmG7MXLArbzeyh1JGAHsJiTDfqMRVUQrbrzr
+ abRGnfqnjGDgPzfXgXhruICTAlxaMjRmbQNAa94tOHFo8dAMoEg1ZfLmPS46hMD3N0Zz54DiLdY.
+ aIiGLILc63IstVThBn1NPMvrEy_p4AOAc8PxgeZAC30x5.XNjGzxa1bgkRlT54GPDtTVFGwKZw5K
+ q3l8eLyapv1zgw6kkDWjcdRzfRLoSf7TJRIl_Lg.y9e7BVN0qhmlEQDl8tQBVf61NgzW577I0wx4
+ ljd_kt0_ldJh5PHUdnsWoXt2838Pn1Pk_FWt74ibelWb3qQMADGQlbA_IqSY0a.q1PB4PyRciY0W
+ R.w2e5ahAKoxhyPlOURgDa_UFE5lFjn8yPbgVnqlcbI.wl00noswOlRyhFGYojOy0yj.IMre.kc4
+ .86KNKJIYAqZJ.13iVfkbGaiCWpFriGubBgL.D.Q3ziLo66wbV5E6BmGgMRp_JtNzianQVtGa2TH
+ vtI.eoEjJkC.ips1jTfvMB3fhk5lRHmjGWrGWSxlsAgI8vfv4HEnjpwylbGZ4p70ELT8IXfS1FC6
+ fUlmBmd95WswQzhlbT00BW.sVNlzKrDYGFuChLu7OLqNaPO_8FV5crS.Jqtz45d.OIz68PvcVcyO
+ 8HD1V6uNL.EW6vQxMc3qSHxDE9wd80FoGk6Xf48pvvEfUbhbjITG0NebDF7.MbFvIMdPqO02wmYZ
+ z4F5ZQj.XHa5d8BSzNs3s04jyN7fv51bPJunltF3UHZ.4k4UCG4GylMm3FD.Zxt0p9nSf7Z_Xeh6
+ p2_Kheaea1S9FwlyrROLiAG_.ZP2vplU19hPAEIbKTHGv2d5ygikzOMHXDBJq0uSC6DelrSefiH2
+ 1a9O004SUXCluG2cAs5jFkLYomtyZxALjbP7bYLj2L.lxWMT56NZ0kzDvLfYclfeoxT1XuYNKJcm
+ _7K3b.u2UMvpqHFg0Q6TljvbKEZYuCGGQZD7LsQZ6ll9BETaW2G3s8Ompx317v4zjltwFIGF3r_j
+ PerJPVThjkYFsBj2ObCCf9K9v4aPpC9qAiBs4CnJJyZA7aZHrrD__R6NB31yf7eD.rotaBQSzYlL
+ CjHEFuStT53Z1V7dTKBL0A7V3CBRnbpDNLyr.Y_UimuY9W7bmbneMLD3QB8e.1yxJyqyq.Li1jQo
+ _ZPqNH5ZAG.bceg9aUKKuK4uKtBRTXn1Fn1fta0YGm6twnDFemNKOhsOhrix_URoZjZFq0EJOTJl
+ hB5VGbLuclrdLBORGznh.4huJu2L5PlqI3cZbOsJJ.jMakNKEKrt4M3_Obxwmx7R0NbTkvB_V5uV
+ RWDPMKtYEDM1vM5.YuDiufmaCWgNmicbUjiEmr0sqf2Dma0kbeG0pjN7v5A8zgkdZxvJDb9PhGge
+ 8uBp9bktKcnhmjrGfL83xc7qDdPCJTkuYB59xb_A2m6HApq.nuuaQ0ww4on7Ihy_qhvOMJN1Qpvy
+ gwknbQ7QTmsrMbhHHIWnFd3vLLAFK0o0OzChndJznrHO3T1Jn_sr6fsIZdOMnuWNIEDW7IJB.haG
+ e2HQqUxuxfQt8iGW7nMIIYgDsBGEFyI_shWjq22V4ZNxwnngZZR9gqxhVsMayhfMcOApOwRlD_Fz
+ 69cVFszy3XEJ30.iGJBJATLCa7qN94yebmWztdoBTznR501ST4wDGsH.H5V9jpzlk.E49TZS8iSV
+ BNvRqnzoo1tg-
+X-Sonic-MF: <sumanth.gavini@yahoo.com>
+X-Sonic-ID: 4685dbdc-3e7a-486d-bc86-377fa78c6e34
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic301.consmr.mail.sg3.yahoo.com with HTTP; Wed, 16 Jul 2025 20:03:36 +0000
+Received: by hermes--production-ne1-9495dc4d7-dbtfw (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID a8c52d90f4f34e062d1d4f8f556dd2c9;
+          Wed, 16 Jul 2025 19:53:22 +0000 (UTC)
+From: Sumanth Gavini <sumanth.gavini@yahoo.com>
+To: skhan@linuxfoundation.org,
+	david.hunter.linux@gmail.com,
+	gupt21@gmail.com,
+	jikos@kernel.org,
+	benjamin.tissoires@redhat.com
+Cc: Sumanth Gavini <sumanth.gavini@yahoo.com>,
+	stable@vger.kernel.org,
+	linux-i2c@vger.kernel.org,
+	linux-input@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Michael Opdenacker <michael.opdenacker@rootcommit.com>
-Subject: [PATCH 2/2] Input: adafruit-seesaw: fix "flat" value to avoid drifting
-Message-ID: <20250716174422.860500-2-michael.opdenacker@rootcommit.com>
+	Hamish Martin <hamish.martin@alliedtelesis.co.nz>,
+	Jiri Kosina <jkosina@suse.cz>
+Subject: [PATCH 6.1] HID: mcp2221: Set driver data before I2C adapter add
+Date: Wed, 16 Jul 2025 14:53:13 -0500
+Message-ID: <20250716195316.176786-1-sumanth.gavini@yahoo.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250716174422.860500-1-michael.opdenacker@rootcommit.com>
-References: <20250716174422.860500-1-michael.opdenacker@rootcommit.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -110,49 +93,44 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Date: Wed, 16 Jul 2025 17:44:43 +0000 (UTC)
-X-CM-Analysis: v=2.4 cv=Vv1xAP2n c=1 sm=1 tr=0 ts=6877e50b a=73ergSEiYqifmUh+pZZJJw==:617 a=xqWC_Br6kY4A:10 a=d70CFdQeAAAA:8 a=zP-fLRyayCjw1eh9aOgA:9 a=NcxpMcIZDGm-g932nG_k:22
-X-CM-Envelope: MS4xfO6jovlNKzIM4XcILRHEyN9euk5wFBXL4B+4YTU23x7DqjfAOzZS1CWJkhSXTmeiVujAKhJix6c9Pmlh2YdUpXoAvJems1H0sj1MldaJocfJe23XRO8M wKGiGOQwyGiYzViUEke6nHsSpRnAF7X/zXzrkgP/W+OJ/v/dDHFVKQlEldpkYyNjWLQ2a9gBlwunQ8EBiEtTwH3iqbDZsDxYjWKNvyBgsOgWs/5xeC08QTIV pRUGItpHjFv7co/0HRy4j9A41YnkHYpe6E7S4Td/eT2a7ZtcDPzw0m8syzfgM8+Nv3Xgj154bAcptmwXdMmpEYLgAFE93SwQOMMmXlu+nenGpTGJkBNY6mln ILnRWL54DqSnQrJ9jNUj7RwgocVX7NS2b0eluUzUyFnve4gqx5YL3Ozovjqdvixtoqyrf13BdSb7GQhV6O+XVc2rvhsEfozfXQVXYM6xuB7dcx3r5fk=
-X-AuthUser: michael.opdenacker@rootcommit.com
+References: <20250716195316.176786-1-sumanth.gavini.ref@yahoo.com>
 
-From: Michael Opdenacker <michael.opdenacker@rootcommit.com>
+The process of adding an I2C adapter can invoke I2C accesses on that new
+adapter (see i2c_detect()).
 
-Tests on 9 Adafruit Mini I2C Gamepad devices have shown that
-the center X and Y values (when the joystick is left at its center position)
-deviate from 511, which is the center of the [0, 1023] value range:
+Ensure we have set the adapter's driver data to avoid null pointer
+dereferences in the xfer functions during the adapter add.
 
-Device     Center X   Vs. Expected (511) Center Y   Vs. Expected (511)
-1          519        8                  493        -18
-2          524        13                 518        7     Not very stable data!
-3          508        -3                 531        20
-4          531        20                 508        -3
-5          505        -6                 521        10
-6          519        8                  477        -34   Big outlier, ignored!
-7          519        8                  524        13
-8          524        13                 510        -1
-9          517        6                  511        0
+This has been noted in the past and the same fix proposed but not
+completed. See:
+https://lore.kernel.org/lkml/ef597e73-ed71-168e-52af-0d19b03734ac@vigem.de/
 
-This change causes any X and Y value that is withing a [-20, +20]
-interval around 511, to be reported as centered. This avoids
-unwanted drifting (towards left, right, top or bottom)
-and makes playing with this device easier.
-
-Signed-off-by: Michael Opdenacker <michael.opdenacker@rootcommit.com>
+Signed-off-by: Hamish Martin <hamish.martin@alliedtelesis.co.nz>
+Signed-off-by: Jiri Kosina <jkosina@suse.cz>
+Signed-off-by: Sumanth Gavini <sumanth.gavini@yahoo.com>
 ---
- drivers/input/joystick/adafruit-seesaw.c | 2 +-
+ drivers/hid/hid-mcp2221.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/input/joystick/adafruit-seesaw.c b/drivers/input/joystick/adafruit-seesaw.c
-index 2b18451a0953..03eb181d5aef 100644
---- a/drivers/input/joystick/adafruit-seesaw.c
-+++ b/drivers/input/joystick/adafruit-seesaw.c
-@@ -50,7 +50,7 @@
+diff --git a/drivers/hid/hid-mcp2221.c b/drivers/hid/hid-mcp2221.c
+index de52e9f7bb8c..9973545c1c4b 100644
+--- a/drivers/hid/hid-mcp2221.c
++++ b/drivers/hid/hid-mcp2221.c
+@@ -873,12 +873,12 @@ static int mcp2221_probe(struct hid_device *hdev,
+ 			"MCP2221 usb-i2c bridge on hidraw%d",
+ 			((struct hidraw *)hdev->hidraw)->minor);
  
- #define SEESAW_JOYSTICK_MAX_AXIS	1023
- #define SEESAW_JOYSTICK_FUZZ		2
--#define SEESAW_JOYSTICK_FLAT		4
-+#define SEESAW_JOYSTICK_FLAT		20
++	i2c_set_adapdata(&mcp->adapter, mcp);
+ 	ret = i2c_add_adapter(&mcp->adapter);
+ 	if (ret) {
+ 		hid_err(hdev, "can't add usb-i2c adapter: %d\n", ret);
+ 		goto err_i2c;
+ 	}
+-	i2c_set_adapdata(&mcp->adapter, mcp);
  
- #define SEESAW_GAMEPAD_POLL_INTERVAL_MS	16
- #define SEESAW_GAMEPAD_POLL_MIN		8
+ 	/* Setup GPIO chip */
+ 	mcp->gc = devm_kzalloc(&hdev->dev, sizeof(*mcp->gc), GFP_KERNEL);
+-- 
+2.43.0
+
 
