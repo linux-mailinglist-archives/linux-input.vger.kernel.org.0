@@ -1,166 +1,140 @@
-Return-Path: <linux-input+bounces-13567-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13568-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B9B8B07A7A
-	for <lists+linux-input@lfdr.de>; Wed, 16 Jul 2025 17:58:34 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 53550B07BE6
+	for <lists+linux-input@lfdr.de>; Wed, 16 Jul 2025 19:22:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8A1804E5165
-	for <lists+linux-input@lfdr.de>; Wed, 16 Jul 2025 15:57:56 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 96A24178ED6
+	for <lists+linux-input@lfdr.de>; Wed, 16 Jul 2025 17:22:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0EA59273D9E;
-	Wed, 16 Jul 2025 15:58:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3F8F22F5C2E;
+	Wed, 16 Jul 2025 17:22:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="v1Yz0V9Q"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gXgWRBeF"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EEC028BA9A
-	for <linux-input@vger.kernel.org>; Wed, 16 Jul 2025 15:58:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEF481F0E3E;
+	Wed, 16 Jul 2025 17:22:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752681500; cv=none; b=qfUW2pU4/gSUduNQvOQ1Y7ZSUzdqYpA5Przj9K2OanqDm7xnZmxT1B5shFb/bI7Pp+2Ir94e3+VtpRw8Y66EAZxq0tkThTNabMrZPvOWshLhWh4i6llTeK6LGjDsKzc+iPi4BhkL+4kPkNB+Fd+uIyKRnkFsJs0eRaBU2eUF5+M=
+	t=1752686551; cv=none; b=gNGUJxLWOF7fup3zFFsA5cLkNaRC/Bh8nz7u3ZNW1VDY7qSrbFQrKz+Xyen1q+Z19JvmLe3+qR4/O+PskO0mtyEiIRsadkw/yZQZ9Nu+k9vb7bedfbB61f10K2zZ1KDIbO0LFJHGeuNQin7mvltDkmITeqoV3HKgr+/mEwc7hm4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752681500; c=relaxed/simple;
-	bh=6nqta9AmEHYZq91Htn1KwyrNmyqwvXdb3uNy1YSYzkM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XfHOlYxL9AHbfZnMLtQm4DZh7S7jvEnYMp1OErLt9cI0mXUC391qge/CiWpSOTV9UZDcTMCwUYVKsBk+VvBxPi0MhyTwl/icqkcwjd1NkprzM7Rcdxhnp0SlmXeZlrRHgh4AIQbiS4iSWTSTH+YWteSmK5yaaYmJZMS9I3uAk6Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=v1Yz0V9Q; arc=none smtp.client-ip=209.85.219.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
-Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-6fadb9a0325so764336d6.2
-        for <linux-input@vger.kernel.org>; Wed, 16 Jul 2025 08:58:18 -0700 (PDT)
+	s=arc-20240116; t=1752686551; c=relaxed/simple;
+	bh=dNvoUpoRa5Y1wjumZTX1amXOcXvjUJSrbmTOAzQ0KP0=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=gwHtKirEKdaPlcVT/Pty/5B0YD9wbqEaJ6kc2A2ef4VbS/1bqQIFY+swuxf7xCDFxf1rrg4od9XKFNMBHarH57xsBgpwh/3TfF7/dv/buzZuaJymCXTLWNekaLp4SrN8xZCEBZDylPEw2J5CWJeIVAjOPsFJUfCu4bQpbiuIHBg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gXgWRBeF; arc=none smtp.client-ip=209.85.210.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-7425bd5a83aso207323b3a.0;
+        Wed, 16 Jul 2025 10:22:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1752681497; x=1753286297; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=oCmbG5Cc4Qj+GuEi5hKR3TL5SByYcFwAYZ/BLKGNEyk=;
-        b=v1Yz0V9QhpdCBNwrGl9VkA2KwSRVYbxOyYZ7iYKXINTodHEPOGDCDpCWwa63xArZEQ
-         JJtlce3emswEPUkYg20yq3UtCYk22wJmGujgYqMQ+8fqwxAQNXDPI95I6lmcCAEzbnhq
-         8Co1J8k6OWS/JLSeSvoCPeT4jGd2E36zRAbyfT4DZl84Il5/I/rzS4h+t/NEkIL+96hX
-         blZuxfjiROgrTFPU9B9DUAYJydNWzhnYgh1ExqWRV/V0FfJD9D5NKTC6Jb1ZZiwrUWpC
-         woT1c8YqeLZt+Kbg2xHnLsmpfF07OD8I6YQDS5oJdUo6imHtHek1o7ose+n+BZ8xwy/H
-         tmZw==
+        d=gmail.com; s=20230601; t=1752686549; x=1753291349; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=62luRaihefSOD30ytw09M7xPkQEYCchqQIT7epBstqI=;
+        b=gXgWRBeFnbx7eMcobA9z7M0XqtQxqS623rC0DbLwTi5NqL3l/QPtPbQgm82MQumswy
+         7WEnsg82CRp2ObjDdKWAoWawx/dcMEg364yotE1y4faSul+SNmK3LFOSxDORtpO1N2U2
+         AwyXeTeL9jkBylifdbODRhLFmjtP20PqHvGPb8FKY0wWCZNvJ+PM5XEXTSAppmchY+sX
+         CiKv1r2tXp/tjZ+lRS5iT4YNJti4p3Zvr74i7UGSlExfwBVpWTYN5mOeYLcyDX35FQxG
+         iWlIwersIoudwksXKU7xrpEKaNt5M9PN8hwDsecwL7n9JZTo5dIaM99EzQTXNjpIR92A
+         nlpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752681497; x=1753286297;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=oCmbG5Cc4Qj+GuEi5hKR3TL5SByYcFwAYZ/BLKGNEyk=;
-        b=aZcd34w4hiVn/cPCcg3OJqLl/5mfNRpdjBX1YD5pRxU/EiRQv4jgx4nYCLbbdkv++L
-         yJoe2pjlw8rVwB41sXwTRyeo1BRyoTYEfzIUf8tWLXsvJXeSiTDiexMFZlznpGjHiuRU
-         KR+3WnDKe5K1Jq5fzhzWfjLAmPDT2u7yU8griZc1JMDEYPSXw3W4URX21RBoT9eg24Q2
-         +CUdnhKjLj14YAI8AdJ+pDnWboytBI7XpaF1mTf1SVnSwvk2n6rX0DLlhE//cCRw+eLR
-         U5MeqW+Iq0APH1aylk+KwDRI2u1WyBxSEZyePz7oWwGQi9T+4uTMhEvWW8+ED9m+wV7Y
-         Cj9A==
-X-Forwarded-Encrypted: i=1; AJvYcCU9zNenXaFj/jPn8glRaEQDHR0ijNsJLtjf3BMs30Md6tJ98ZwspUUXkWYg1YRIGpvsXJNxqOtQRie0Hg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwQrKLJUQJYuh5JIFnsQKUsfb+MQau7H1LEyiP6vjPMR1ZBtVWR
-	cVs7wDneieiucLqUmA+n6Uzk11NotHeSzNQNaAsWuXX2DZWYaaJH/3QEUR0E5j+NJg==
-X-Gm-Gg: ASbGncvcwWy+lV/iVScdSjneFmR49ddSLDw8t4HoPbmEpQtPjqAH5Gvnl2VdDd6Bo9l
-	/MnXEEh8kVGqmKUHQdP+f/B8VWGiS70RU6/H46SS42nz7zc64EvhopLZqb3l609DA9QywN+K0X5
-	aJ48c1HrW4uqGdGKpd9n8CrLuSXfc/1i4b3WCoGeSE8trno+mXu9F4HOew6cWNGRrWEJkrBbN+T
-	7c9nMZcq4eyrLU/fJYbByg38HFnf3X9dG+BOfUPmqYwOv5XDdlM56jgHYwNlUxjtUGg6qoWM/Ii
-	9DkYb2y3qVnWDkYxEPPAMe8tQ7N/D8KrkZyeXVHq7WjYnw+gihdQf0BQ6onjYIGT6KdR1P9ESew
-	brAYOZmIgFY1KBHJmmNKGhbQ6gR6J5Gi9jClM4oFa1TFz0+pkloHZoCmdwUqlYshjAtbHndnZmx
-	9jE1wlCQ+eIshi6qs=
-X-Google-Smtp-Source: AGHT+IFsCw1bCj8/HsfuBMZZD8pEcSDfQxxlKagGV4XvKNFxpy1HQ2TTRQZEdkyv4BFKbjQ0850Wag==
-X-Received: by 2002:a05:6214:3186:b0:704:8f24:f044 with SMTP id 6a1803df08f44-704f6af81efmr51856426d6.34.1752681497195;
-        Wed, 16 Jul 2025 08:58:17 -0700 (PDT)
-Received: from rowland.harvard.edu (nat-65-112-8-52.harvard-secure.wrls.harvard.edu. [65.112.8.52])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-7049799e874sm72296036d6.18.2025.07.16.08.58.16
+        d=1e100.net; s=20230601; t=1752686549; x=1753291349;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=62luRaihefSOD30ytw09M7xPkQEYCchqQIT7epBstqI=;
+        b=M66d0nI7PlqfVnkweDPr4CPccCHiMTsDqRxdrQrHa9QPc0fD3BoJBd2mgHzP+TpAgp
+         w4hFhlRIIspLcvDT248aua+2FWBu/i0IhxmGB4UvyuO+SpX0bih+AqyCVsyvvYpOmOQZ
+         bsg8O1sLglduUGfDg0KzKUMsvw8dVsMbOllx/YknOsDfNa7XVsoPClFTiz0SJHAuGWzE
+         4I9hiEP7dtKvfx7YcHU0b5Vsv3+320ct7VRnev8E0q9QNdykTTRe0hj2s6qxS9SHPYjN
+         glJpmS+KdlBdaKeqwn8OBnE6NNDODgr41AgF0iZvKUSryqudXmpDvKDDQUhnkIReHqDs
+         w3zQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUdTsohEYwbNyHeId92OxPbp6CUoS3erIHZybf6jN1AGYIXxuz0x+5AgNgIkSdb9+9XOSQgWgMp/n1vXYhu@vger.kernel.org, AJvYcCWEPDagKlCMTxG+NgOol/rK3RdE5ff61mSm01eb5GcT5imCSoWizBwa/X6JO2RdNFq2lk0wQQvXgDx8kw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxZO5nJQ1bMrijaCtng1ZnkiQASL5zzGNXlFZi3BRwuP5muz7ti
+	ztKhEfNciqL9FrQZZ7qzZgUGjAtVlK7NwF/s94L47n78mI6y89OAc3zj
+X-Gm-Gg: ASbGncv4SmNq3rMVg8dgW2o7Ksfj0waozkmS6C9Nr6il5apjXCtXE8+86zvYpz9aEkr
+	WasnrQpnIh4lu8OTg/ZAKNlBlSP5yA2D/tcKICBIw24pyurdo4BaR/zVhcOEVc+GWK5oasDz+9e
+	oHkjI5OS+3OqoWpIOy4K6fwSYJFQTUdcoSNkLc+ELRsa6r3XWeHC2P48O2x4IoPV90aQBENvTy2
+	icgT11vWiPHBSbU31jd6f0ytffDaXQJbt8saJHlZQvjCJMIN/6a9kXd/OqYDWVYLEBqufsEIViw
+	rp+WgJU45u1SkLyzvcS4vDZAcKapiMBKQLsJ3VSnS9a8QoTkGOeEH/Ab5v7XcfovjKk+Hg2kxUu
+	+yXuNpPvsFXkEhQ2U4eK7h/H2u79C3FS7NBT9LKs6yxUXSP3Dwg==
+X-Google-Smtp-Source: AGHT+IGVPETf5S6BM0ddjqSPJDjZLQAah3dClp+KlwLDPDtT+7iucojanh6xKy2KwjTXAY8Q81UALA==
+X-Received: by 2002:a05:6a00:2387:b0:74c:f1d8:c402 with SMTP id d2e1a72fcca58-75722869d96mr4998947b3a.8.1752686548894;
+        Wed, 16 Jul 2025 10:22:28 -0700 (PDT)
+Received: from name2965-Precision-7820-Tower.. ([121.185.186.233])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74eb9f1b2f6sm15188832b3a.99.2025.07.16.10.22.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Jul 2025 08:58:16 -0700 (PDT)
-Date: Wed, 16 Jul 2025 11:58:14 -0400
-From: Alan Stern <stern@rowland.harvard.edu>
-To: syzbot <syzbot+b63d677d63bcac06cf90@syzkaller.appspotmail.com>
-Cc: bentiss@kernel.org, jikos@kernel.org, linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-	syzkaller-bugs@googlegroups.com
-Subject: Re: [syzbot] [input?] [usb?] UBSAN: shift-out-of-bounds in s32ton (2)
-Message-ID: <d21dcce3-88ba-416c-9d18-ea47855c48fc@rowland.harvard.edu>
-References: <8bec1698-5008-428f-8e71-ec002def0c54@rowland.harvard.edu>
- <6876b0ec.a70a0220.693ce.0019.GAE@google.com>
- <78c3fb66-c30f-4c64-a499-61c1665186a8@rowland.harvard.edu>
+        Wed, 16 Jul 2025 10:22:28 -0700 (PDT)
+From: Jeongjun Park <aha310510@gmail.com>
+To: jikos@kernel.org,
+	bentiss@kernel.org
+Cc: andrew.smirnov@gmail.com,
+	juha.kuikka@gmail.com,
+	linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Jeongjun Park <aha310510@gmail.com>
+Subject: [PATCH] HID: microsoft: add a call hid_hw_stop() in probe()
+Date: Thu, 17 Jul 2025 02:22:21 +0900
+Message-Id: <20250716172221.1360886-1-aha310510@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <78c3fb66-c30f-4c64-a499-61c1665186a8@rowland.harvard.edu>
+Content-Transfer-Encoding: 8bit
 
-Benjamin:
+If hid_hw_start() succeeds but ms_init_ff() fails, it will return without
+calling hid_hw_stop(), which will cause a memory leak. So to prevent this,
+we need to change probe() to call hid_hw_stop().
 
-On Wed, Jul 16, 2025 at 10:29:38AM -0400, Alan Stern wrote:
-> On Tue, Jul 15, 2025 at 12:50:04PM -0700, syzbot wrote:
-> > Hello,
-> > 
-> > syzbot has tested the proposed patch but the reproducer is still triggering an issue:
-> > UBSAN: shift-out-of-bounds in s32ton
-> > 
-> > microsoft 0003:045E:07DA.0001: ignoring exceeding usage max
-> > microsoft 0003:045E:07DA.0001: unsupported Resolution Multiplier 0
-> > hid: s32ton: n 0 val 0 size 0x0
-> > ------------[ cut here ]------------
-> > UBSAN: shift-out-of-bounds in drivers/hid/hid-core.c:69:16
-> > shift exponent 4294967295 is too large for 32-bit type '__s32' (aka 'int')
-> 
-> Benjamin:
-> 
-> Clearly there's going to be trouble when you try to convert a signed 
-> 32-bit value to a 0-bit number!
-> 
-> My impression is that hid_parser_global() should reject Report Size or 
-> Report Count items with a value of 0.  Such fields would be meaningless 
-> in any case.  The routine checks for values that are too large, but not 
-> for values that are too small.
-> 
-> Does this look like the right approach?
-> 
-> Alan Stern
-> 
-> #syz test: git://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git c2ca42f1
-> 
->  drivers/hid/hid-core.c |    6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
-> 
-> Index: usb-devel/drivers/hid/hid-core.c
-> ===================================================================
-> --- usb-devel.orig/drivers/hid/hid-core.c
-> +++ usb-devel/drivers/hid/hid-core.c
-> @@ -464,7 +464,8 @@ static int hid_parser_global(struct hid_
->  
->  	case HID_GLOBAL_ITEM_TAG_REPORT_SIZE:
->  		parser->global.report_size = item_udata(item);
-> -		if (parser->global.report_size > 256) {
-> +		if (parser->global.report_size > 256 ||
-> +				parser->global.report_size == 0) {
->  			hid_err(parser->device, "invalid report_size %d\n",
->  					parser->global.report_size);
->  			return -1;
-> @@ -473,7 +474,8 @@ static int hid_parser_global(struct hid_
->  
->  	case HID_GLOBAL_ITEM_TAG_REPORT_COUNT:
->  		parser->global.report_count = item_udata(item);
-> -		if (parser->global.report_count > HID_MAX_USAGES) {
-> +		if (parser->global.report_count > HID_MAX_USAGES ||
-> +				parser->global.report_count == 0) {
->  			hid_err(parser->device, "invalid report_count %d\n",
->  					parser->global.report_count);
->  			return -1;
+Fixes: 73c5b254c365 ("HID: microsoft: Add rumble support for Xbox One S controller")
+Signed-off-by: Jeongjun Park <aha310510@gmail.com>
+---
+ drivers/hid/hid-microsoft.c | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
-This patch didn't work; the error message never showed up in the kernel 
-log.  Nevertheless, hidinput_change_resolution_multipliers() tried to 
-create an output report with a field having size 0.
-
-How can this to happen without hid_scan_report() or hid_open_report() 
-running?  It shouldn't be possible to use a report before it has been 
-checked for validity.
-
-Alan Stern
+diff --git a/drivers/hid/hid-microsoft.c b/drivers/hid/hid-microsoft.c
+index 18ac21c0bcb2..a27ea59a1bef 100644
+--- a/drivers/hid/hid-microsoft.c
++++ b/drivers/hid/hid-microsoft.c
+@@ -385,22 +385,26 @@ static int ms_probe(struct hid_device *hdev, const struct hid_device_id *id)
+ 	ret = hid_parse(hdev);
+ 	if (ret) {
+ 		hid_err(hdev, "parse failed\n");
+-		goto err_free;
++		return ret;
+ 	}
+ 
+ 	ret = hid_hw_start(hdev, HID_CONNECT_DEFAULT | ((quirks & MS_HIDINPUT) ?
+ 				HID_CONNECT_HIDINPUT_FORCE : 0));
+ 	if (ret) {
+ 		hid_err(hdev, "hw start failed\n");
+-		goto err_free;
++		return ret;
+ 	}
+ 
+ 	ret = ms_init_ff(hdev);
+-	if (ret)
++	if (ret) {
+ 		hid_err(hdev, "could not initialize ff, continuing anyway");
++		goto err_hw_stop;
++	}
+ 
+ 	return 0;
+-err_free:
++
++err_hw_stop:
++	hid_hw_stop(hdev);
+ 	return ret;
+ }
+ 
+--
 
