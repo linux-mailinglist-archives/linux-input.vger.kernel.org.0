@@ -1,152 +1,162 @@
-Return-Path: <linux-input+bounces-13558-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13559-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 429B6B07810
-	for <lists+linux-input@lfdr.de>; Wed, 16 Jul 2025 16:29:53 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E55AB078C1
+	for <lists+linux-input@lfdr.de>; Wed, 16 Jul 2025 16:57:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 246C2175689
-	for <lists+linux-input@lfdr.de>; Wed, 16 Jul 2025 14:29:49 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E72327BEE23
+	for <lists+linux-input@lfdr.de>; Wed, 16 Jul 2025 14:51:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3ACA424468D;
-	Wed, 16 Jul 2025 14:29:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="pjtQlq8I"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 62AB2266565;
+	Wed, 16 Jul 2025 14:50:07 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
+Received: from mail-io1-f70.google.com (mail-io1-f70.google.com [209.85.166.70])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F145218589
-	for <linux-input@vger.kernel.org>; Wed, 16 Jul 2025 14:29:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC6AC24167B
+	for <linux-input@vger.kernel.org>; Wed, 16 Jul 2025 14:50:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.70
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752676184; cv=none; b=rfmf7xWygj1HCPPys7pZJ7qF75+3CC8tt2IjOZ/Orf8pVYLuiH8oUpqDX+1FRziJlIUKL34Y5lRnnvPf81JQr8p9O3OhCnFgFIp8oLsMrLcueKEpZcSru3XxWAMw+P5X5tVwiGMu8XDyjLWWrB0IooxIxfhCtlY5+ogFzx+lZho=
+	t=1752677407; cv=none; b=YCZjAt9Vc6x0LxLFWPwbYJe6een0HK/zuPAltXKP+Gpz9oHGa5D2eb7CC3nYuJLkgR+ffAqRzuuaQNdJ9pK/e+2pgvzDFNgkrNEyDG9jD6NAqrOVBdbUH3LIEuYihTXEhWp07+HR1b1F6tMJZ0Ei7mpR9LhTE2DYizH/WnVKbJc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752676184; c=relaxed/simple;
-	bh=eKUmlpIGboQT6S5Ovz6KOSqf2T5cj+mftR73RhnZT+s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KjL6RQd3VrdhJRB7zfz+f2hKNHpTdLLoywxM9g5NQ+vuaYDFKPvm2aDnqXdyzEeD6wdfdCSMngg9ZzBRCHCkM8xOMLUlvqPAkacGS/KphLYpXZi2/aGMnzSWVBSnwmNXHm6cXrRftCxZ/49MkjxLw2TaVLF458Zd9VWaZ5YXOZ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=pjtQlq8I; arc=none smtp.client-ip=209.85.222.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
-Received: by mail-qk1-f181.google.com with SMTP id af79cd13be357-7e346ab53d8so52675385a.0
-        for <linux-input@vger.kernel.org>; Wed, 16 Jul 2025 07:29:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1752676181; x=1753280981; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Qt9z7TyyvFxzc9Zi5QX61Y9RbsiY23u8uaORF/jvc7k=;
-        b=pjtQlq8IX8EaOxjjDRdPRgI92utzhFKWca+2epJjYzCqL0ml1OceuruNYv4YPrvlwj
-         nr3BlrXUyZFovuHUUIKtEGWsfI0RF9Wm98suBLvLCYZ5X8UrVoemUel8DjqfVdl7GgUS
-         qNN3mslKO70h9htLfkMcY+XP9lm4eJbtWoxPyjUPUzILHZF2Q42vRavSxYglC5pilLz/
-         TYZgkAE2JqMee654L65PhAebhTI4+aNW1pw/stRveuurM3+JKc860CZ5wYxaegQfyvE1
-         tcQkZDC0EgBxFGdcKGnZCLYEIXfSF1XDpsq+JBcGAX9jp1X/DtTAUTVGS9FOLjLGliN6
-         Q2CA==
+	s=arc-20240116; t=1752677407; c=relaxed/simple;
+	bh=v/cFd8LGc77JiQS6Ma1a9yIBm4YncIv4X5DpZLd5K70=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
+	 Content-Type; b=eBfnZcAKpwHMrAeITPbaKiSd/aNVsdsyMBR/6F7a9RBdMA6/glfao1ohqlGT64fGC4cLamIxPOYUh49eY/Kwbk4PKcWL0POfQtFBNziFvrYmbX10VTnsevHUp60C4dmDmwUJL+2BgSI3QkRMTWksYnATHncggLDpKEnyJ02i6s8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.70
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-io1-f70.google.com with SMTP id ca18e2360f4ac-876a8bb06b0so1193503739f.1
+        for <linux-input@vger.kernel.org>; Wed, 16 Jul 2025 07:50:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752676181; x=1753280981;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Qt9z7TyyvFxzc9Zi5QX61Y9RbsiY23u8uaORF/jvc7k=;
-        b=gBHS1lD+u78eqD+8jFbPM0rhAUwkAcMBdVVrF35YOyNGVnhxRWWtFtSO24pYJnDt5e
-         Wgj/daZrEv8ycGaTOVz1vTLbl4W9A7MnpFZBrjwM0IB/2Tg9kQrhM6UZKhJ+pcLt93X4
-         xxJeodmOGXg2M0EfUzp46PBZG6ASOGT26gFZHmLez1s2pGRSlA2A4h9j17y0BOR5E9li
-         qosqkVSF4nFbPStca88sxdF+hFjdbc7dqYXmpQpVEz+B+tX7GoPyMKB0q9135wUaLReo
-         N37MFtpvZLdVqEuV+INN/TnME9bTNpJPj9+l6Jf/8w6y6CFOG8TKs5oZRCtFKYKusNfi
-         JG2w==
-X-Forwarded-Encrypted: i=1; AJvYcCVNd6dKyfPioRGIf6atSrbfB8e5xjA2mmddrvdApN6BquiFfRwmn/1lJwabaxT+/HXGhzY/+3ArAOzQNQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwA0UJXpKq0Ivz46A8ge+YDdW+w8Z0mhnlBN62mlI5b3r2r5dhG
-	s3Of4ijyYuEtgJT59r28MCB6x3JbayHYx0YtaVE8W+0rHsE7H38s2cmpRWhsPYRmCA==
-X-Gm-Gg: ASbGncstIdOj86fFZ8JqgZ8m8ri3r8SaceIXYP7G4MrdQc/R5MDXwTjBbpOJ0ZZcISE
-	5KRmxoW6MY9O8Ysk+Ur7CkHP2RgXAUcssuSv/AUK72q32VAobtdcS+uLDP8ZPSuE3kPVQNgq2uO
-	2MnSGEJNOpEgbUjwhtVTR6gcgg4BKHj1C6yZVclNG6BQ/YdV7XmGMu5pAhUye4jwvoqvbsvQXC0
-	MjfKt5VIn2Gie5zlH3w7chcTpPF+oGwB08vUjS1yCmCjgNw+tCUDbRnVjjkOs7JU84l1URh3tKM
-	j/FoJUlZvj+s45u74Tbc016Vpuj4T9GXhQ4yoqCq8shU80ajaQiJouRFgdV3rwc1yOYNfELuK+Z
-	JocqxsMJlq0wDs7/DWmbhrz8EYzwE/Qw/Xj5iyxIm
-X-Google-Smtp-Source: AGHT+IF3xlSqjICIE4by+UPGer4acYrJ4z0g+fjVRC6/rj7+8rf0BJhYUp+VmTOPflFKpHho7TjrBQ==
-X-Received: by 2002:ad4:5cec:0:b0:704:7dbd:d991 with SMTP id 6a1803df08f44-704f4a9a406mr57966406d6.31.1752676180409;
-        Wed, 16 Jul 2025 07:29:40 -0700 (PDT)
-Received: from rowland.harvard.edu ([140.247.181.15])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-70497d39c9dsm70452096d6.66.2025.07.16.07.29.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Jul 2025 07:29:39 -0700 (PDT)
-Date: Wed, 16 Jul 2025 10:29:38 -0400
-From: Alan Stern <stern@rowland.harvard.edu>
-To: syzbot <syzbot+b63d677d63bcac06cf90@syzkaller.appspotmail.com>
-Cc: bentiss@kernel.org, jikos@kernel.org, linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-	syzkaller-bugs@googlegroups.com
-Subject: Re: [syzbot] [input?] [usb?] UBSAN: shift-out-of-bounds in s32ton (2)
-Message-ID: <78c3fb66-c30f-4c64-a499-61c1665186a8@rowland.harvard.edu>
-References: <8bec1698-5008-428f-8e71-ec002def0c54@rowland.harvard.edu>
- <6876b0ec.a70a0220.693ce.0019.GAE@google.com>
+        d=1e100.net; s=20230601; t=1752677405; x=1753282205;
+        h=to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=sc0V+S5OAOz3pvNlHvI1SrT3sYqqIKrLyk5lIAGwRxU=;
+        b=vMHtvjMcdUIMCgvFbngqU7TuTFb+EAsozZ0JupwE80u7i/4toJSHJDrDvKiLrOEZCH
+         rQdXdXDMcBb0Jr1z2c3mBRDiDX1srBkBiv6G5Geg77LBDT8DcvfdAZgTK6VRIq70p2kH
+         V1gi7Np30TAWvf3kLfXsyoItsl3KfuZkT8rfvK/w30nchkd+wMkET2bEC1O9nMEz2EVV
+         6ZavkYHxydbaa6Cn7e6H6PhpdZjFY8JdgiUfAvXy3s8IhZPTLBMKyqei76ijywP2JaSx
+         RF8eo18n9o1S9gJ9VdFoKoPGEuAL4w/0D/L/JqvIAxwe6hNIRAcdS5Y2xKIHwE6mSQFo
+         eJ1Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWBm53VeSGO7q9VvTtyrti3Gw/VgLkuceFwQ9HCOtGn2zUYpsZsy06Q7HGYPT4wjXuCt9StrYWzvRIhUA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyaVaCKtvJd7lZF2FZmfRVrlHKPYL6e8oJzLJDNCaYoP9zzXLrl
+	KjZx11tOnAIxLkHytucUYrgVnMHi8QKiVuNi7wBx6zPhrZUnBHgAITQPHzEbsc00BOngdcOHulx
+	tZhWrjGNPIpWdZvbU54nmUTFz9XaS/c3eFIz4EIujAOth/+85cM12Gd/fmh4=
+X-Google-Smtp-Source: AGHT+IGdc8vzM7iSvXCp9mmrCm/Yx2viXXS0+jBJNeQ1/3p6asXTO6JfB2XsUtZHnhxp0zGrSm5hmCR7kciIQp0XhsrFyeM0Avm+
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6876b0ec.a70a0220.693ce.0019.GAE@google.com>
+X-Received: by 2002:a05:6602:4f42:b0:873:1c2d:18e7 with SMTP id
+ ca18e2360f4ac-879c2ae999fmr240157039f.10.1752677404683; Wed, 16 Jul 2025
+ 07:50:04 -0700 (PDT)
+Date: Wed, 16 Jul 2025 07:50:04 -0700
+In-Reply-To: <78c3fb66-c30f-4c64-a499-61c1665186a8@rowland.harvard.edu>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6877bc1c.a70a0220.693ce.002b.GAE@google.com>
+Subject: Re: [syzbot] [input?] [usb?] UBSAN: shift-out-of-bounds in s32ton (2)
+From: syzbot <syzbot+b63d677d63bcac06cf90@syzkaller.appspotmail.com>
+To: bentiss@kernel.org, jikos@kernel.org, linux-input@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
+	stern@rowland.harvard.edu, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Jul 15, 2025 at 12:50:04PM -0700, syzbot wrote:
-> Hello,
-> 
-> syzbot has tested the proposed patch but the reproducer is still triggering an issue:
-> UBSAN: shift-out-of-bounds in s32ton
-> 
-> microsoft 0003:045E:07DA.0001: ignoring exceeding usage max
-> microsoft 0003:045E:07DA.0001: unsupported Resolution Multiplier 0
-> hid: s32ton: n 0 val 0 size 0x0
-> ------------[ cut here ]------------
-> UBSAN: shift-out-of-bounds in drivers/hid/hid-core.c:69:16
-> shift exponent 4294967295 is too large for 32-bit type '__s32' (aka 'int')
+Hello,
 
-Benjamin:
+syzbot has tested the proposed patch but the reproducer is still triggering an issue:
+UBSAN: shift-out-of-bounds in s32ton
 
-Clearly there's going to be trouble when you try to convert a signed 
-32-bit value to a 0-bit number!
+usb 1-1: config 0 interface 0 altsetting 0 has 1 endpoint descriptor, different from the interface descriptor's value: 9
+usb 1-1: New USB device found, idVendor=045e, idProduct=07da, bcdDevice= 0.00
+usb 1-1: New USB device strings: Mfr=0, Product=0, SerialNumber=0
+usb 1-1: config 0 descriptor??
+microsoft 0003:045E:07DA.0001: ignoring exceeding usage max
+microsoft 0003:045E:07DA.0001: unsupported Resolution Multiplier 0
+------------[ cut here ]------------
+UBSAN: shift-out-of-bounds in drivers/hid/hid-core.c:69:16
+shift exponent 4294967295 is too large for 32-bit type '__s32' (aka 'int')
+CPU: 0 UID: 0 PID: 10 Comm: kworker/0:1 Not tainted 6.15.0-syzkaller-11339-gc2ca42f190b6-dirty #0 PREEMPT(full) 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 05/07/2025
+Workqueue: usb_hub_wq hub_event
+Call Trace:
+ <TASK>
+ dump_stack_lvl+0x189/0x250 lib/dump_stack.c:120
+ ubsan_epilogue+0xa/0x40 lib/ubsan.c:233
+ __ubsan_handle_shift_out_of_bounds+0x386/0x410 lib/ubsan.c:494
+ s32ton+0xde/0x140 drivers/hid/hid-core.c:69
+ hid_output_field drivers/hid/hid-core.c:1844 [inline]
+ hid_output_report+0x419/0x790 drivers/hid/hid-core.c:1876
+ __hid_request+0x14a/0x420 drivers/hid/hid-core.c:1999
+ hidinput_change_resolution_multipliers drivers/hid/hid-input.c:1950 [inline]
+ hidinput_connect+0x218a/0x3030 drivers/hid/hid-input.c:2327
+ hid_connect+0x499/0x1980 drivers/hid/hid-core.c:2250
+ hid_hw_start+0xa8/0x120 drivers/hid/hid-core.c:2365
+ ms_probe+0x180/0x430 drivers/hid/hid-microsoft.c:391
+ __hid_device_probe drivers/hid/hid-core.c:2735 [inline]
+ hid_device_probe+0x3a0/0x710 drivers/hid/hid-core.c:2772
+ call_driver_probe drivers/base/dd.c:-1 [inline]
+ really_probe+0x26a/0x9a0 drivers/base/dd.c:657
+ __driver_probe_device+0x18c/0x2f0 drivers/base/dd.c:799
+ driver_probe_device+0x4f/0x430 drivers/base/dd.c:829
+ __device_attach_driver+0x2ce/0x530 drivers/base/dd.c:957
+ bus_for_each_drv+0x251/0x2e0 drivers/base/bus.c:462
+ __device_attach+0x2b8/0x400 drivers/base/dd.c:1029
+ bus_probe_device+0x185/0x260 drivers/base/bus.c:537
+ device_add+0x7b6/0xb50 drivers/base/core.c:3692
+ hid_add_device+0x398/0x540 drivers/hid/hid-core.c:2918
+ usbhid_probe+0xe13/0x12a0 drivers/hid/usbhid/hid-core.c:1435
+ usb_probe_interface+0x644/0xbc0 drivers/usb/core/driver.c:396
+ call_driver_probe drivers/base/dd.c:-1 [inline]
+ really_probe+0x26a/0x9a0 drivers/base/dd.c:657
+ __driver_probe_device+0x18c/0x2f0 drivers/base/dd.c:799
+ driver_probe_device+0x4f/0x430 drivers/base/dd.c:829
+ __device_attach_driver+0x2ce/0x530 drivers/base/dd.c:957
+ bus_for_each_drv+0x251/0x2e0 drivers/base/bus.c:462
+ __device_attach+0x2b8/0x400 drivers/base/dd.c:1029
+ bus_probe_device+0x185/0x260 drivers/base/bus.c:537
+ device_add+0x7b6/0xb50 drivers/base/core.c:3692
+ usb_set_configuration+0x1a87/0x20e0 drivers/usb/core/message.c:2210
+ usb_generic_driver_probe+0x8d/0x150 drivers/usb/core/generic.c:250
+ usb_probe_device+0x1c4/0x390 drivers/usb/core/driver.c:291
+ call_driver_probe drivers/base/dd.c:-1 [inline]
+ really_probe+0x26a/0x9a0 drivers/base/dd.c:657
+ __driver_probe_device+0x18c/0x2f0 drivers/base/dd.c:799
+ driver_probe_device+0x4f/0x430 drivers/base/dd.c:829
+ __device_attach_driver+0x2ce/0x530 drivers/base/dd.c:957
+ bus_for_each_drv+0x251/0x2e0 drivers/base/bus.c:462
+ __device_attach+0x2b8/0x400 drivers/base/dd.c:1029
+ bus_probe_device+0x185/0x260 drivers/base/bus.c:537
+ device_add+0x7b6/0xb50 drivers/base/core.c:3692
+ usb_new_device+0xa39/0x16c0 drivers/usb/core/hub.c:2663
+ hub_port_connect drivers/usb/core/hub.c:5531 [inline]
+ hub_port_connect_change drivers/usb/core/hub.c:5671 [inline]
+ port_event drivers/usb/core/hub.c:5831 [inline]
+ hub_event+0x2941/0x4a00 drivers/usb/core/hub.c:5913
+ process_one_work kernel/workqueue.c:3238 [inline]
+ process_scheduled_works+0xade/0x17b0 kernel/workqueue.c:3321
+ worker_thread+0x8a0/0xda0 kernel/workqueue.c:3402
+ kthread+0x70e/0x8a0 kernel/kthread.c:464
+ ret_from_fork+0x3f9/0x770 arch/x86/kernel/process.c:148
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+ </TASK>
+---[ end trace ]---
 
-My impression is that hid_parser_global() should reject Report Size or 
-Report Count items with a value of 0.  Such fields would be meaningless 
-in any case.  The routine checks for values that are too large, but not 
-for values that are too small.
 
-Does this look like the right approach?
+Tested on:
 
-Alan Stern
-
-#syz test: git://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git c2ca42f1
-
- drivers/hid/hid-core.c |    6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
-
-Index: usb-devel/drivers/hid/hid-core.c
-===================================================================
---- usb-devel.orig/drivers/hid/hid-core.c
-+++ usb-devel/drivers/hid/hid-core.c
-@@ -464,7 +464,8 @@ static int hid_parser_global(struct hid_
- 
- 	case HID_GLOBAL_ITEM_TAG_REPORT_SIZE:
- 		parser->global.report_size = item_udata(item);
--		if (parser->global.report_size > 256) {
-+		if (parser->global.report_size > 256 ||
-+				parser->global.report_size == 0) {
- 			hid_err(parser->device, "invalid report_size %d\n",
- 					parser->global.report_size);
- 			return -1;
-@@ -473,7 +474,8 @@ static int hid_parser_global(struct hid_
- 
- 	case HID_GLOBAL_ITEM_TAG_REPORT_COUNT:
- 		parser->global.report_count = item_udata(item);
--		if (parser->global.report_count > HID_MAX_USAGES) {
-+		if (parser->global.report_count > HID_MAX_USAGES ||
-+				parser->global.report_count == 0) {
- 			hid_err(parser->device, "invalid report_count %d\n",
- 					parser->global.report_count);
- 			return -1;
+commit:         c2ca42f1 HID: core: do not bypass hid_hw_raw_request
+git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git
+console output: https://syzkaller.appspot.com/x/log.txt?x=16e948f0580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=ec692dfd475747ff
+dashboard link: https://syzkaller.appspot.com/bug?extid=b63d677d63bcac06cf90
+compiler:       Debian clang version 20.1.7 (++20250616065708+6146a88f6049-1~exp1~20250616065826.132), Debian LLD 20.1.7
+patch:          https://syzkaller.appspot.com/x/patch.diff?x=13f6f58c580000
 
 
