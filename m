@@ -1,162 +1,249 @@
-Return-Path: <linux-input+bounces-13559-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13561-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E55AB078C1
-	for <lists+linux-input@lfdr.de>; Wed, 16 Jul 2025 16:57:39 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E03AB0792C
+	for <lists+linux-input@lfdr.de>; Wed, 16 Jul 2025 17:12:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E72327BEE23
-	for <lists+linux-input@lfdr.de>; Wed, 16 Jul 2025 14:51:54 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 57964175EE0
+	for <lists+linux-input@lfdr.de>; Wed, 16 Jul 2025 15:12:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 62AB2266565;
-	Wed, 16 Jul 2025 14:50:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5171D289E1C;
+	Wed, 16 Jul 2025 15:11:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="umuis4Br"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-io1-f70.google.com (mail-io1-f70.google.com [209.85.166.70])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC6AC24167B
-	for <linux-input@vger.kernel.org>; Wed, 16 Jul 2025 14:50:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.70
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17DE626FD8F;
+	Wed, 16 Jul 2025 15:11:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752677407; cv=none; b=YCZjAt9Vc6x0LxLFWPwbYJe6een0HK/zuPAltXKP+Gpz9oHGa5D2eb7CC3nYuJLkgR+ffAqRzuuaQNdJ9pK/e+2pgvzDFNgkrNEyDG9jD6NAqrOVBdbUH3LIEuYihTXEhWp07+HR1b1F6tMJZ0Ei7mpR9LhTE2DYizH/WnVKbJc=
+	t=1752678714; cv=none; b=raqSmdWe4wS2Ekt5kE1Y1jjk2xuhYv6gZq7DmsoRSJuEgawpFG761UOBJqcwzRqrAHJs8trOdT5OOaTap+OWQKZQ/Il9h98VAriAZ8Pv9+x15A7Zr3uuwCyNA2ArISlp3K2V3vAfx0/rfplZ6E0T4ozkbXq9tWlN+g26RUY8IfE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752677407; c=relaxed/simple;
-	bh=v/cFd8LGc77JiQS6Ma1a9yIBm4YncIv4X5DpZLd5K70=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
-	 Content-Type; b=eBfnZcAKpwHMrAeITPbaKiSd/aNVsdsyMBR/6F7a9RBdMA6/glfao1ohqlGT64fGC4cLamIxPOYUh49eY/Kwbk4PKcWL0POfQtFBNziFvrYmbX10VTnsevHUp60C4dmDmwUJL+2BgSI3QkRMTWksYnATHncggLDpKEnyJ02i6s8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.70
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-io1-f70.google.com with SMTP id ca18e2360f4ac-876a8bb06b0so1193503739f.1
-        for <linux-input@vger.kernel.org>; Wed, 16 Jul 2025 07:50:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752677405; x=1753282205;
-        h=to:from:subject:message-id:in-reply-to:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=sc0V+S5OAOz3pvNlHvI1SrT3sYqqIKrLyk5lIAGwRxU=;
-        b=vMHtvjMcdUIMCgvFbngqU7TuTFb+EAsozZ0JupwE80u7i/4toJSHJDrDvKiLrOEZCH
-         rQdXdXDMcBb0Jr1z2c3mBRDiDX1srBkBiv6G5Geg77LBDT8DcvfdAZgTK6VRIq70p2kH
-         V1gi7Np30TAWvf3kLfXsyoItsl3KfuZkT8rfvK/w30nchkd+wMkET2bEC1O9nMEz2EVV
-         6ZavkYHxydbaa6Cn7e6H6PhpdZjFY8JdgiUfAvXy3s8IhZPTLBMKyqei76ijywP2JaSx
-         RF8eo18n9o1S9gJ9VdFoKoPGEuAL4w/0D/L/JqvIAxwe6hNIRAcdS5Y2xKIHwE6mSQFo
-         eJ1Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWBm53VeSGO7q9VvTtyrti3Gw/VgLkuceFwQ9HCOtGn2zUYpsZsy06Q7HGYPT4wjXuCt9StrYWzvRIhUA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyaVaCKtvJd7lZF2FZmfRVrlHKPYL6e8oJzLJDNCaYoP9zzXLrl
-	KjZx11tOnAIxLkHytucUYrgVnMHi8QKiVuNi7wBx6zPhrZUnBHgAITQPHzEbsc00BOngdcOHulx
-	tZhWrjGNPIpWdZvbU54nmUTFz9XaS/c3eFIz4EIujAOth/+85cM12Gd/fmh4=
-X-Google-Smtp-Source: AGHT+IGdc8vzM7iSvXCp9mmrCm/Yx2viXXS0+jBJNeQ1/3p6asXTO6JfB2XsUtZHnhxp0zGrSm5hmCR7kciIQp0XhsrFyeM0Avm+
+	s=arc-20240116; t=1752678714; c=relaxed/simple;
+	bh=UtM958aqz1YHnOTOGs9smbhIoh1KXaJY4XPn+XVCi/c=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=DooXo6qnQpd9hRnvT2E6FohljeTzgouH2YAldeD4NVctKI9misHaO04iW4RrUCAESHS7YutYrRJp/7L/LvovlaHXZ2G0BoeoxKkzdPCIkGE/xgUc4I4rCdTRkFKH+op+n7ewUchlogfLOZH1AvnK/edtVPrq96vErMDaho/vR+4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=umuis4Br; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 87DE7C4CEE7;
+	Wed, 16 Jul 2025 15:11:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1752678713;
+	bh=UtM958aqz1YHnOTOGs9smbhIoh1KXaJY4XPn+XVCi/c=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=umuis4BrfPUlJTEFJEwQychHtaCauKjBvuufF6Nj+5Kta2bw/ZReEebE0TNmTlAkt
+	 bkvaAsOLYSDL0hx2/Q2El0UyXdHcCTR69GCnYU9wU24uS1eolhIdvKQLLAepzb+qwK
+	 OsUN8U8Aw2BMSReGF2kaTCcuxBctdwtnhMObMOooZMeSr1G4aL0FO78Eacqnltp9DO
+	 OS7AC1iNCD+VDnB4wp1Wc3n+RXfS/qZWFX1f3K4gIi6knpO4T2Ha5kMg053AyBNO6B
+	 07SxLWet017xJvqae2MIeEQiWPNStBqSa0QwdMnGYNHyPQywVBNN5F9PezwoeDdK6+
+	 hGloLYRhaG0VQ==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 73B50C83F27;
+	Wed, 16 Jul 2025 15:11:53 +0000 (UTC)
+From: Samuel Kayode via B4 Relay <devnull+samuel.kayode.savoirfairelinux.com@kernel.org>
+Subject: [PATCH v9 0/6] add support for pf1550 PMIC MFD-based drivers
+Date: Wed, 16 Jul 2025 11:11:43 -0400
+Message-Id: <20250716-pf1550-v9-0-502a647f04ef@savoirfairelinux.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6602:4f42:b0:873:1c2d:18e7 with SMTP id
- ca18e2360f4ac-879c2ae999fmr240157039f.10.1752677404683; Wed, 16 Jul 2025
- 07:50:04 -0700 (PDT)
-Date: Wed, 16 Jul 2025 07:50:04 -0700
-In-Reply-To: <78c3fb66-c30f-4c64-a499-61c1665186a8@rowland.harvard.edu>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6877bc1c.a70a0220.693ce.002b.GAE@google.com>
-Subject: Re: [syzbot] [input?] [usb?] UBSAN: shift-out-of-bounds in s32ton (2)
-From: syzbot <syzbot+b63d677d63bcac06cf90@syzkaller.appspotmail.com>
-To: bentiss@kernel.org, jikos@kernel.org, linux-input@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
-	stern@rowland.harvard.edu, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAC/Bd2gC/33QTWrDMBAF4KsEreswsjSSnVXvUbrQz6gRNHYqO
+ SYl+O5VHbBNoV6+4fHNMA+WKUXK7HR4sERjzLHvSmhfDsydTfdBVfQlsxpqBKx1dQ0cESovgQf
+ woG0DrJSviUK8z9Db+zMn+roVb3gOmTWZKtdfLnE4HUZ15Mh+i+eYhz59zweMYm7+3TWKCiqJQ
+ bUShfPIX7MZ+5iCiYk+Y3e7H4s7a6NcBQViEWQRbPABORG2zu0IuBE4LAIWgTz4loQxxukdQW0
+ FvgiqCEKG2vtAIJF2BL0V6kXQRQASrbAQJPq9G5pV0LB+simCsoqs0g6EgX+EaZp+AKWakoIaA
+ gAA
+X-Change-ID: 20250527-pf1550-d401f0d07b80
+To: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Mark Brown <broonie@kernel.org>, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+ Sebastian Reichel <sre@kernel.org>, Frank Li <Frank.li@nxp.com>
+Cc: imx@lists.linux.dev, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-input@vger.kernel.org, 
+ linux-pm@vger.kernel.org, Abel Vesa <abelvesa@kernel.org>, 
+ Abel Vesa <abelvesa@linux.com>, Robin Gong <b38343@freescale.com>, 
+ Robin Gong <yibin.gong@nxp.com>, 
+ Enric Balletbo i Serra <eballetbo@gmail.com>, 
+ Sean Nyekjaer <sean@geanix.com>, 
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>, 
+ Samuel Kayode <samuel.kayode@savoirfairelinux.com>, 
+ Abel Vesa <abelvesa@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+ Frank Li <Frank.Li@nxp.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1752678712; l=7369;
+ i=samuel.kayode@savoirfairelinux.com; s=20250527;
+ h=from:subject:message-id;
+ bh=UtM958aqz1YHnOTOGs9smbhIoh1KXaJY4XPn+XVCi/c=;
+ b=rToN1rBQ3nyLowp+lou6hnMpN695fupPLytIBKKozgQYugw/omApEQKFGEQ5bxUn0IZ7JiaPD
+ 2+2wN8odKfNDRT0pzsjenqfaoVYulhz40p93DCmdhTy4TZCZQx4jBD6
+X-Developer-Key: i=samuel.kayode@savoirfairelinux.com; a=ed25519;
+ pk=TPSQGQ5kywnnPyGs0EQqLajLFbdDu17ahXz8/gxMfio=
+X-Endpoint-Received: by B4 Relay for
+ samuel.kayode@savoirfairelinux.com/20250527 with auth_id=412
+X-Original-From: Samuel Kayode <samuel.kayode@savoirfairelinux.com>
+Reply-To: samuel.kayode@savoirfairelinux.com
 
-Hello,
+This series adds support for pf1550 PMIC. It provides the core driver and a
+three sub-drivers for the regulator, power supply and input subsystems.
 
-syzbot has tested the proposed patch but the reproducer is still triggering an issue:
-UBSAN: shift-out-of-bounds in s32ton
+Patch 1 adds the DT binding document for the PMIC. Patches 2-5 adds the
+pertinent drivers. Last patch adds a MAINTAINERS entry for the drivers.
 
-usb 1-1: config 0 interface 0 altsetting 0 has 1 endpoint descriptor, different from the interface descriptor's value: 9
-usb 1-1: New USB device found, idVendor=045e, idProduct=07da, bcdDevice= 0.00
-usb 1-1: New USB device strings: Mfr=0, Product=0, SerialNumber=0
-usb 1-1: config 0 descriptor??
-microsoft 0003:045E:07DA.0001: ignoring exceeding usage max
-microsoft 0003:045E:07DA.0001: unsupported Resolution Multiplier 0
-------------[ cut here ]------------
-UBSAN: shift-out-of-bounds in drivers/hid/hid-core.c:69:16
-shift exponent 4294967295 is too large for 32-bit type '__s32' (aka 'int')
-CPU: 0 UID: 0 PID: 10 Comm: kworker/0:1 Not tainted 6.15.0-syzkaller-11339-gc2ca42f190b6-dirty #0 PREEMPT(full) 
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 05/07/2025
-Workqueue: usb_hub_wq hub_event
-Call Trace:
- <TASK>
- dump_stack_lvl+0x189/0x250 lib/dump_stack.c:120
- ubsan_epilogue+0xa/0x40 lib/ubsan.c:233
- __ubsan_handle_shift_out_of_bounds+0x386/0x410 lib/ubsan.c:494
- s32ton+0xde/0x140 drivers/hid/hid-core.c:69
- hid_output_field drivers/hid/hid-core.c:1844 [inline]
- hid_output_report+0x419/0x790 drivers/hid/hid-core.c:1876
- __hid_request+0x14a/0x420 drivers/hid/hid-core.c:1999
- hidinput_change_resolution_multipliers drivers/hid/hid-input.c:1950 [inline]
- hidinput_connect+0x218a/0x3030 drivers/hid/hid-input.c:2327
- hid_connect+0x499/0x1980 drivers/hid/hid-core.c:2250
- hid_hw_start+0xa8/0x120 drivers/hid/hid-core.c:2365
- ms_probe+0x180/0x430 drivers/hid/hid-microsoft.c:391
- __hid_device_probe drivers/hid/hid-core.c:2735 [inline]
- hid_device_probe+0x3a0/0x710 drivers/hid/hid-core.c:2772
- call_driver_probe drivers/base/dd.c:-1 [inline]
- really_probe+0x26a/0x9a0 drivers/base/dd.c:657
- __driver_probe_device+0x18c/0x2f0 drivers/base/dd.c:799
- driver_probe_device+0x4f/0x430 drivers/base/dd.c:829
- __device_attach_driver+0x2ce/0x530 drivers/base/dd.c:957
- bus_for_each_drv+0x251/0x2e0 drivers/base/bus.c:462
- __device_attach+0x2b8/0x400 drivers/base/dd.c:1029
- bus_probe_device+0x185/0x260 drivers/base/bus.c:537
- device_add+0x7b6/0xb50 drivers/base/core.c:3692
- hid_add_device+0x398/0x540 drivers/hid/hid-core.c:2918
- usbhid_probe+0xe13/0x12a0 drivers/hid/usbhid/hid-core.c:1435
- usb_probe_interface+0x644/0xbc0 drivers/usb/core/driver.c:396
- call_driver_probe drivers/base/dd.c:-1 [inline]
- really_probe+0x26a/0x9a0 drivers/base/dd.c:657
- __driver_probe_device+0x18c/0x2f0 drivers/base/dd.c:799
- driver_probe_device+0x4f/0x430 drivers/base/dd.c:829
- __device_attach_driver+0x2ce/0x530 drivers/base/dd.c:957
- bus_for_each_drv+0x251/0x2e0 drivers/base/bus.c:462
- __device_attach+0x2b8/0x400 drivers/base/dd.c:1029
- bus_probe_device+0x185/0x260 drivers/base/bus.c:537
- device_add+0x7b6/0xb50 drivers/base/core.c:3692
- usb_set_configuration+0x1a87/0x20e0 drivers/usb/core/message.c:2210
- usb_generic_driver_probe+0x8d/0x150 drivers/usb/core/generic.c:250
- usb_probe_device+0x1c4/0x390 drivers/usb/core/driver.c:291
- call_driver_probe drivers/base/dd.c:-1 [inline]
- really_probe+0x26a/0x9a0 drivers/base/dd.c:657
- __driver_probe_device+0x18c/0x2f0 drivers/base/dd.c:799
- driver_probe_device+0x4f/0x430 drivers/base/dd.c:829
- __device_attach_driver+0x2ce/0x530 drivers/base/dd.c:957
- bus_for_each_drv+0x251/0x2e0 drivers/base/bus.c:462
- __device_attach+0x2b8/0x400 drivers/base/dd.c:1029
- bus_probe_device+0x185/0x260 drivers/base/bus.c:537
- device_add+0x7b6/0xb50 drivers/base/core.c:3692
- usb_new_device+0xa39/0x16c0 drivers/usb/core/hub.c:2663
- hub_port_connect drivers/usb/core/hub.c:5531 [inline]
- hub_port_connect_change drivers/usb/core/hub.c:5671 [inline]
- port_event drivers/usb/core/hub.c:5831 [inline]
- hub_event+0x2941/0x4a00 drivers/usb/core/hub.c:5913
- process_one_work kernel/workqueue.c:3238 [inline]
- process_scheduled_works+0xade/0x17b0 kernel/workqueue.c:3321
- worker_thread+0x8a0/0xda0 kernel/workqueue.c:3402
- kthread+0x70e/0x8a0 kernel/kthread.c:464
- ret_from_fork+0x3f9/0x770 arch/x86/kernel/process.c:148
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
- </TASK>
----[ end trace ]---
+The patches 3-5 depend on the core driver provided in patch 2.
 
+Changes since v1:
+   - DT bindings for all devices included
+   - Add onkey driver
+   - Add driver for the regulators
+   - Ensure charger is activated as some variants have it off by default
+   - Update mfd and charger driver per feedback from eballetbo@gmail.com
+   - Add myself as maintainer for these drivers
+   - Link to v1: https://lore.kernel.org/1523974819-8711-1-git-send-email-abel.vesa@nxp.com/
 
-Tested on:
+Changes since v2:
+   - Rebase on recent mainline kernel v6.15
+   - Single yaml file containing dt bindings for all pf1550 devices
+   - irq mapping done in MFD driver as suggested by Dmitry Torokhov
+   - Drop unnecessary includes in drivers
+   - Replace dev_err with dev_err_probe in probe method of drivers
+   - Drop compatible string from drivers of the sub-devices
+   - Remove dependency on OF from drivers of the sub-devices
+   - onkey: move driver from input/keyboard into input/misc
+   - onkey: remove dependency on OF
+   - onkey: use onkey virqs instead of central irq
+   - onkey: fix integer overflow for regmap_write when unmasking
+     interrupts during pf1550_onkey_resume
+   - charger: add support for monitored-battery which is used in setting
+     a constant voltage for the charger.
+   - Address other feedback from Dmitry Torokhov and Krzysztof Kozlowski
+   - Link to v2: https://lore.kernel.org/cover.1747409892.git.samuel.kayode@savoirfairelinux.com/
 
-commit:         c2ca42f1 HID: core: do not bypass hid_hw_raw_request
-git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git
-console output: https://syzkaller.appspot.com/x/log.txt?x=16e948f0580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=ec692dfd475747ff
-dashboard link: https://syzkaller.appspot.com/bug?extid=b63d677d63bcac06cf90
-compiler:       Debian clang version 20.1.7 (++20250616065708+6146a88f6049-1~exp1~20250616065826.132), Debian LLD 20.1.7
-patch:          https://syzkaller.appspot.com/x/patch.diff?x=13f6f58c580000
+Changes since v3:
+   - Update manufacturer from Freescale to NXP in compatible,
+     dt-binding and Kconfigs
+   - Use C++ style comments for SPDX license in .c code
+   - Add portions copyright to source code
+   - irqs are defined as struct resource in mfd cell such that
+     platform_get_irq is used in the sub-devices
+   - Make struct pf1550_dev of type const in sub-device driver
+   - irq variable dropped from sub-device driver struct
+   - EXPORT_SYMBOL of global pf1550_read_otp function for use in
+     regulator driver
+   - Drop unneeded info in driver_data when defining device table id
+   - regulator: validate ramp_delay
+   - regulator: report overcurrent and over temperature events
+   - onkey: drop unnecessary keycode variable
+   - onkey: change wakeup variable to type bool
+   - onkey: replace (error < 0) with error in if statement when possible
+   - onkey: use pm_sleep_ptr when defining driver.pm
+   - charger: finish handling of some interrupts in threaded irq handler
+   - Link to v3: https://lore.kernel.org/20250527-pf1550-v3-0-45f69453cd51@savoirfairelinux.com/
+
+Changes since v4:
+   - Use top level interrupt to minimize number of registers checked on
+     each interrupt
+   - Fix bad offset for temperature interrupts of regulator irq chip
+   - Address Krzysztof's comments for dt-binding
+   - regulator: add comments to clarify difference in its interrupts
+   - regulator: issue warn event for _LS interrupt and error event for
+     _HS interrupt
+   - regulator: validate maximum and minimum ramp_delay
+   - charger: drop lock in battery and charger delayed_work
+   - charger: more conservative locking for vbus delayed_work
+   - charger: apply lock when setting power_supply type during register
+     intialization
+   - Link to v4: https://lore.kernel.org/r/20250603-pf1550-v4-0-bfdf51ee59cc@savoirfairelinux.com
+
+Changes since v5:
+   - Ensure lowercase when assigning hex values
+   - Add imx@lists.linux.dev to relevant mailing list in MAINTAINERS file
+   - Use GENMASK macro
+   - Drop unused chips variable
+   - Read the OTP in the mfd driver probe for new dvs_enb variable
+   - Hardcode IRQ flags in pf1550_add_child function
+   - charger: drop the mutex entirely
+   - charger: reverse christmas tree style local variable definition in
+     probe
+   - Link to v5: https://lore.kernel.org/r/20250610-pf1550-v5-0-ed0d9e3aaac7@savoirfairelinux.com
+
+Changes since v6:
+   - Use reverse christmas tree order
+   - Drop 0 in table id's driver data
+   - charger: store virq to avoid reinvoking platform_get_irq in ISR
+   - Link to v6: https://lore.kernel.org/r/20250611-pf1550-v6-0-34f2ddfe045e@savoirfairelinux.com
+
+Changes since v7:
+  - Thanks everyone for the reviews
+  - Use C++ comment only for SPDX license header in core, charger and
+    onkey drivers
+  - Drop filenames from comments
+  - Rename pf1550_dev to pf1550_ddata
+  - Define OTP register for accessing status of DVS
+  - core: rename from `mfd driver` to `core driver`
+  - core: add child devices in a cleaner manner
+  - charger: define two power supplies: battery and external power
+  - charger: use devm_delayed_work_autocancel
+  - Link to v7: https://lore.kernel.org/r/20250612-pf1550-v7-0-0e393b0f45d7@savoirfairelinux.com
+
+Changes since v8:
+  - Collect Frank's `Reviewed-by` tags
+  - core: use consistent whitespace
+  - regulator: add standby support for regulators requested by Sean Nyekjaer
+  - regulator: add support for SW1 DVS enable/disable
+  - regulator: fix improper DVS activation
+  - regulator: add map_voltage for regulators
+  - regulator: add enable/disable for regulators
+  - charger: use datasheet thermal regulation temperature ranges
+  - charger: select charger operation mode based on the application
+  - onkey: add support for disabling system power down via onkey
+  - dt-bindings: changed temperature ranges
+  - dt-bindings: added `disable-key-power`
+  - Link to v8: https://lore.kernel.org/r/20250707-pf1550-v8-0-6b6eb67c03a0@savoirfairelinux.com
+
+Signed-off-by: Samuel Kayode <samuel.kayode@savoirfairelinux.com>
+---
+Samuel Kayode (6):
+      dt-bindings: mfd: add pf1550
+      mfd: pf1550: add core driver
+      regulator: pf1550: add support for regulator
+      input: pf1550: add onkey support
+      power: supply: pf1550: add battery charger support
+      MAINTAINERS: add an entry for pf1550 mfd driver
+
+ .../devicetree/bindings/mfd/nxp,pf1550.yaml        | 144 +++++
+ MAINTAINERS                                        |  11 +
+ drivers/input/misc/Kconfig                         |  11 +
+ drivers/input/misc/Makefile                        |   1 +
+ drivers/input/misc/pf1550-onkey.c                  | 196 +++++++
+ drivers/mfd/Kconfig                                |  16 +
+ drivers/mfd/Makefile                               |   2 +
+ drivers/mfd/pf1550.c                               | 374 ++++++++++++
+ drivers/power/supply/Kconfig                       |  11 +
+ drivers/power/supply/Makefile                      |   1 +
+ drivers/power/supply/pf1550-charger.c              | 636 +++++++++++++++++++++
+ drivers/regulator/Kconfig                          |   9 +
+ drivers/regulator/Makefile                         |   1 +
+ drivers/regulator/pf1550-regulator.c               | 429 ++++++++++++++
+ include/linux/mfd/pf1550.h                         | 271 +++++++++
+ 15 files changed, 2113 insertions(+)
+---
+base-commit: 0a4b866d08c6adaea2f4592d31edac6deeb4dcbd
+change-id: 20250527-pf1550-d401f0d07b80
+
+Best regards,
+-- 
+Samuel Kayode <samuel.kayode@savoirfairelinux.com>
+
 
 
