@@ -1,60 +1,96 @@
-Return-Path: <linux-input+bounces-13576-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13577-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D14AB0813D
-	for <lists+linux-input@lfdr.de>; Thu, 17 Jul 2025 02:03:04 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BD08B0814D
+	for <lists+linux-input@lfdr.de>; Thu, 17 Jul 2025 02:12:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B724F189D651
-	for <lists+linux-input@lfdr.de>; Thu, 17 Jul 2025 00:03:21 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AF86616F9D2
+	for <lists+linux-input@lfdr.de>; Thu, 17 Jul 2025 00:12:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 74523DDAB;
-	Thu, 17 Jul 2025 00:02:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DDBD64A33;
+	Thu, 17 Jul 2025 00:12:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=endrift.com header.i=@endrift.com header.b="SQnViuAA"
+	dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b="BmutKgrK"
 X-Original-To: linux-input@vger.kernel.org
-Received: from endrift.com (endrift.com [173.255.198.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from sonic314-20.consmr.mail.sg3.yahoo.com (sonic314-20.consmr.mail.sg3.yahoo.com [106.10.240.144])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD280635
-	for <linux-input@vger.kernel.org>; Thu, 17 Jul 2025 00:02:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=173.255.198.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1D4CEEC3
+	for <linux-input@vger.kernel.org>; Thu, 17 Jul 2025 00:12:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=106.10.240.144
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752710574; cv=none; b=SBBjZIl/SNvdArCYLZBHDnfX39lMcriix/1ZQID03I2QUTQauMIMuaPIbvFYouqK2itemucf/X+r8ATa/aTo9wl+3RFeG18LzdbZrs8rJB8QZgi9MhzlvFPt1GZz5Hva2JfRnobpBRHajbHAQC1ouLHVfKqyZ2oniY17Xdw0Q0I=
+	t=1752711132; cv=none; b=R7i6K4FS3PtUliMg4Mqm+pp01U2HgB6y9D1rZQg9koKwiliV75zfdSwYIGYDO7gp+bnh57NS0ZtLqO+GKj0LgeJLzm1btFNHsmQREeBpeQy0D/BeEe0cOwNR+cVwdhHhzHpX7MZ1q7da4Yjf2EmNVoXkjai4YtJrQurc7bRZHgM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752710574; c=relaxed/simple;
-	bh=Dah4r8fEsHVax3BbUzIFceY+F1kvxdQPVCrEwuNDePU=;
+	s=arc-20240116; t=1752711132; c=relaxed/simple;
+	bh=CS0urUrY3Y9gDj3DWUDYDlVKij5a0JibdpkUY1iaOV0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=bO+MSR0E5jqIW9d06ysv8tK30WGpqA051cDG0ymgKewtPw2j9Vs1a+J94WLnJcPE5Q4sjhhjf4sn8AGEy+x76OSWuEYir4Rb2BcfdhLoLcQ/vApgsN7iWH8APsQ965c2ojSth5HpxxalwnAXUjbaicWkPgs7c/7rGUpK/1tnvVE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=endrift.com; spf=pass smtp.mailfrom=endrift.com; dkim=pass (2048-bit key) header.d=endrift.com header.i=@endrift.com header.b=SQnViuAA; arc=none smtp.client-ip=173.255.198.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=endrift.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=endrift.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=endrift.com; s=2020;
-	t=1752710572; bh=Dah4r8fEsHVax3BbUzIFceY+F1kvxdQPVCrEwuNDePU=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=SQnViuAAYOOda9EHzNR97b9WMljhEtPwNCn3uDZQfP9z4KQzwSr0jhC6IYI4ht7k6
-	 rkZPuSiXNW1aEPjXprh4h31lN6gbttTrf9jnylo/KNjrn5zTbfGckpmu3kry5PJ5D3
-	 a5o4MTscaqEhiGvkY/M95/8piAavfD1kAxP9SwImBkGYtWVfgua/C8YLfJzULwUbJA
-	 +jq1aKpZobZRkvha6HdiMY8N+BvFFUFP1ogVcfWDWSNAK6jzdKHzU2LZLI04pPpEM/
-	 zOcMBGoyYqlCHLe1NQ3UvoDFoL4sOHi6i4w1Ejykbkn6Jvltloo0socygYunIxAikM
-	 jxsAEboLg+6Wg==
-Received: from microtis.vulpes.eutheria.net (71-212-74-234.tukw.qwest.net [71.212.74.234])
-	by endrift.com (Postfix) with ESMTPSA id C23C513208B;
-	Wed, 16 Jul 2025 17:02:51 -0700 (PDT)
-From: Vicki Pfau <vi@endrift.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <bentiss@kernel.org>,
-	linux-input@vger.kernel.org
-Cc: Vicki Pfau <vi@endrift.com>
-Subject: [PATCH v2 3/3] HID: hid-steam: Use new BTN_GRIP* buttons
-Date: Wed, 16 Jul 2025 17:01:40 -0700
-Message-ID: <20250717000143.1902875-4-vi@endrift.com>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250717000143.1902875-1-vi@endrift.com>
-References: <20250717000143.1902875-1-vi@endrift.com>
+	 MIME-Version; b=hqLBsbseEhwcELyKpRMF614X3xtH7SixPyK9UD+H0GlO/BVyGNLUMPjUG4mn1Rl2Q0Tb44kvgIGMx2iMRLEKNJx6Qf2jUbP01ZAD5D1g5PCOfAI9czmtJpVbMofjlaS1pJxfKZoYtbap1t1wfDY45xDpIvOALsVJvkKT9aJWIrU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.com; spf=pass smtp.mailfrom=yahoo.com; dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b=BmutKgrK; arc=none smtp.client-ip=106.10.240.144
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1752711128; bh=Pm6uvSR6cGTi4JmjTnV4AIy9A7mP6dpEnqMAfr6kl4I=; h=From:To:Cc:Subject:Date:In-Reply-To:References:From:Subject:Reply-To; b=BmutKgrKMvHQshDrAekNhhhK3y1hPy+pLXhwzW9Gsyu1hS59b2rKjhAeTNxSM+LV4oNdVJDZWJoeeiT7h32fio2+SY5dSa7ZZy1a9UkmnEqi98swrElboxkWQ3p4f6m8pJhvLdbou0vTdC2kVU8OV3BC7c/Tgjx4D4/jAAjqAatda5XK1bKRsAvC/+ChiXX2qnM7LR2bq6sJ45qtJl5yvNTSWWMv4Uwy4pYTyhPnw4fOtTbwdauQ4yNeqGCnlxQEVDWVFUqipLpQXFRXrEl1aMAPN3W8WVRJgkKWVBnUvT0NZCY3BxaRv9cSJf+GbsP0STAj2oNoh4+y0ATOAglsog==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1752711128; bh=zPtujQkMtgcrbCpug0cjG4o4YCbVSSmE41zEHLHL4EZ=; h=X-Sonic-MF:From:To:Subject:Date:From:Subject; b=eaVGyp/EGHxmlRinz3DgyPpUsDpiFwhdmKbXa9e+wk+AQJEypSthy6BU37s2AroGrBv7H3JSEeTwVGwfVCd3lAFsxgiNabaYJzYUT3jrUbVkpAnwkNeHLgesby0r46TsAT1BDOnhVZ7uaGHPnbpEpomtgbkqwaAWG9IppSlbLYB4Fq/AOSNNTTf0g4DDan/xSGCEu8IOWDBBXVsnaqJLqPwrCtz1fe9FTz+Ccnsa6Zrc9KWDII8Vi2z2KkYZpMIXWybOZFmn3D8sdefTM2bX++BMT32M5vLjm+rycOHMyappVP+z+t6XDn0Qeb97leeTqwhxGmeifCmykVb3C/RgEA==
+X-YMail-OSG: xUS1gOsVM1ndvL45pPpR_mnPZpD.eaCadjZntH_Ch1hfmKwp1hZzwZlx5h.pcYb
+ QI_FCOV2PjAnLMVrPOZzTi.xWsQgjSte7oCAApcSq0V.9zqDbIcCUrJ1R7NpJISGnacoBKdJT6k2
+ mDsjx.ISkYSQglieWG4BOcNsNEwoGaMxrhbGvwIAjVxNfdcyylb2couierwSNczibJsdNyAcdQHa
+ YB5VamsFfNhZiXObUsM_5ztgrYTvZBt5BeND.XdUt_S8YsCd2sksAGvTXWyTTkGWW7368fNIvJAI
+ or.dbwDFoVh_ykVFrT5MMdG1IMdlckzLbx6gAqE4hCflIcCzacldQ1ic1c8hdxTvRMr3oBRZL85i
+ sMd9d8NkOBXmY2UBvDyearA7WBDPzXqSQpBRQxa8A93pn8KlKqR6JmccDHg456OhNHYJVmsL7rtw
+ z5r6BQhdJdC2ZsK5jCfM18ZuLMUuz4Xvttswt.hAlNCewUYxc4q202ECM4OlcDdG4.OXuFaDwTlN
+ n4TpazTXM.R7u6lIGq8dezRq6g9j8610Gp4MKED6svTAATKtnY.4EPP5PigRuyyBG3k7Iy2U6B_R
+ .ArtR9Ad0BliH8noJBL7t1tYJ5lprxIyYof2CGfGup69GsRb3t9YqYZEORwfCKwfBVZVr_eXs6s5
+ psjmrGOm0d9iuUTZV3XqMtLC0DO6rCzOmiGB5hS7jucKHxtuuDDYKUuqgGEo6vbiK6wpLYMGUbcP
+ RXvkC14PYk0KGZ4BibLeYRqQQiuLu0rHPq6TEpg3YgZcW.AeXROnahiB5pTrSKu3IMlaRtTc67ew
+ mcWvuoZKuMmAUWMfuugUA5mjHzW.oJIyBr90T29ds4hR86.BAz2Xa0rjspeLE_aJ0xVqS0NUkzbE
+ UxFRBTmhIYVv_28qP65wUL4brO3aiNBzuZO4_i2RiYhczCBQNIdQxCdp96uHSi.eR6SQd2mXgwwr
+ e_ZaTm_45QwJ68QiUiCfEtgSXR7QMPpHv178QsVs7EWXdMSAqed3WCmdcO1Q3agYWpE8FfKy4aAs
+ Guaoh_ENBv5gs2teSTgxFr4hnmQGzRewjYx0gRuPeYEYIkzU4aCGPOqRcFt96qWPRb0R8L18NDxM
+ VdqcxPKLP6WlEl57k.9ViBwDmFuQNlAhgMflvez0fOmmtuiGLT9_pEShIlRb2virtsENaI7K5iHn
+ DT3bQ2P8OgoeqmJXufe5juUzmMrPEVGf0GeaXJNwrIZ7l8r3XFsfvj6AYYnRRM7vjiRSLujtTaQe
+ veVFYlsBlNW6zzlfY28.mGHubcrmWpEs8yTJ52Ye1iFolV180IY4cAgKbp2XmgyhlzN5TKR6.7kr
+ XBywZNA0UGylJcMdJj22aN3b2rAGAKU5f7PBbGFUNa0IjrNE_Pp0Z9tLj2o5y3CEHETnb_YuC0r0
+ TllBUEpmkfA_8J.8mQLjHpDCzfir.PQRIXo2I9u0bblR0S7OugFU8OeTzudmkRdCUjmbYzvnVp9w
+ c_KztwmY57p0v9m9DZfgG8h3rJGeIxMCyIcqjSfycsnRlkyuv9O25MHZrs5dZidv9GFbnq1JFlvW
+ YwiDa1v5OqXFV4Mxewy6aMq8EbkBbdbUP8.AiIwnqHVz7gHYF7i023j03S5MtUiDbMjSlAYvcE31
+ wZy7LaPMV.13PHoQDV1O_QFiBtc_DKlgOhDFqVo7vBlf23PN0uUkBYS.TwQikYarwpETqzhiQkqN
+ trucYVIzgQKeVzBVrUvWhpqudfnNBAEXdgNb5YpX4eEws3EmWHFQaAOy4_PvcjZIsezDHCjJzwu9
+ bvObbiemp7TsEPcw3WVkHYMU2lGjyml9fagYhOv2hwVx.WbwaUwuHWLlVgpM3acOrPC4w4FyXUh8
+ 1gnwKVwScoawDPNo2eQ1_q3oFh94mC7vDChnzvvHr.Hd7oriGkXSHxX2vlcC0vmQ7DGnmZtbsTnu
+ LqcT6JpQwDIPe.vXxI.1ZqogC1BY6bkV8MMEGLBRFYXt7aDwa5H4LJCpWtLJRlzVJuGNrEwh8wo0
+ SJOwET5Kradc9.0SsLH2c9mZgCSFbpdBN5HQ5QAkPjDdDlyqzV7T8dZNnFRdgbj.3Ari_4qa97C0
+ 54Gcf.HE4a5ELj2sRlSOAC34wX29j9Xt16aD_p9PFtbgXE4j3yPXlmk3zugWUpFxDZTmVslDe3ag
+ O0fIbAkWxOy5CQoJ6O13A0akFQWeSddj3pTGkSYLFoebAAr6M08HUjrPd3qwymSqTBu7hAxtHZxa
+ G9Iw7dREm1TRD7FE7w.bVUJcNMszj2yZFRdcyDQrYS86QdQtZXAMl6z761Revn0kcEy4BANYQHMg
+ 9HFoVRtx8FhaErWcEVoBZLClBwwO5EdLvKsOA2A2v5Q--
+X-Sonic-MF: <sumanth.gavini@yahoo.com>
+X-Sonic-ID: 86ec978a-c595-4df4-bfc7-e6d2468b373f
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic314.consmr.mail.sg3.yahoo.com with HTTP; Thu, 17 Jul 2025 00:12:08 +0000
+Received: by hermes--production-ne1-9495dc4d7-mqk7g (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID f04af0276389773268c316570c99886b;
+          Thu, 17 Jul 2025 00:01:56 +0000 (UTC)
+From: Sumanth Gavini <sumanth.gavini@yahoo.com>
+To: lkp@intel.com,
+	skhan@linuxfoundation.org,
+	david.hunter.linux@gmail.com,
+	gupt21@gmail.com,
+	jikos@kernel.org,
+	benjamin.tissoires@redhat.com
+Cc: Sumanth Gavini <sumanth.gavini@yahoo.com>,
+	stable@vger.kernel.org,
+	linux-i2c@vger.kernel.org,
+	linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	oe-kbuild-all@lists.linux.dev,
+	Hamish Martin <hamish.martin@alliedtelesis.co.nz>,
+	Jiri Kosina <jkosina@suse.cz>
+Subject: [PATCH V2 6.1] HID: mcp2221: Set driver data before I2C adapter add
+Date: Wed, 16 Jul 2025 19:01:50 -0500
+Message-ID: <20250717000151.183803-1-sumanth.gavini@yahoo.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <aHgM7XIAzGo8fgwN@32653d2b52f0>
+References: <aHgM7XIAzGo8fgwN@32653d2b52f0>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -63,102 +99,49 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Vicki Pfau <vi@endrift.com>
----
- drivers/hid/hid-steam.c | 35 ++++++++++++++++-------------------
- 1 file changed, 16 insertions(+), 19 deletions(-)
+commit f1228f4d4254dfad837f1a1e4c69930417798047 upstream.
 
-diff --git a/drivers/hid/hid-steam.c b/drivers/hid/hid-steam.c
-index 949d307c66a8..197126d6e081 100644
---- a/drivers/hid/hid-steam.c
-+++ b/drivers/hid/hid-steam.c
-@@ -755,15 +755,12 @@ static int steam_input_register(struct steam_device *steam)
- 	input_set_capability(input, EV_KEY, BTN_THUMBL);
- 	input_set_capability(input, EV_KEY, BTN_THUMB);
- 	input_set_capability(input, EV_KEY, BTN_THUMB2);
-+	input_set_capability(input, EV_KEY, BTN_GRIPL);
-+	input_set_capability(input, EV_KEY, BTN_GRIPR);
- 	if (steam->quirks & STEAM_QUIRK_DECK) {
- 		input_set_capability(input, EV_KEY, BTN_BASE);
--		input_set_capability(input, EV_KEY, BTN_TRIGGER_HAPPY1);
--		input_set_capability(input, EV_KEY, BTN_TRIGGER_HAPPY2);
--		input_set_capability(input, EV_KEY, BTN_TRIGGER_HAPPY3);
--		input_set_capability(input, EV_KEY, BTN_TRIGGER_HAPPY4);
--	} else {
--		input_set_capability(input, EV_KEY, BTN_GEAR_DOWN);
--		input_set_capability(input, EV_KEY, BTN_GEAR_UP);
-+		input_set_capability(input, EV_KEY, BTN_GRIPL2);
-+		input_set_capability(input, EV_KEY, BTN_GRIPR2);
+The process of adding an I2C adapter can invoke I2C accesses on that new
+adapter (see i2c_detect()).
+
+Ensure we have set the adapter's driver data to avoid null pointer
+dereferences in the xfer functions during the adapter add.
+
+This has been noted in the past and the same fix proposed but not
+completed. See:
+https://lore.kernel.org/lkml/ef597e73-ed71-168e-52af-0d19b03734ac@vigem.de/
+
+Signed-off-by: Hamish Martin <hamish.martin@alliedtelesis.co.nz>
+Signed-off-by: Jiri Kosina <jkosina@suse.cz>
+Signed-off-by: Sumanth Gavini <sumanth.gavini@yahoo.com>
+---
+changes in v2:
+- No code changes
+- Link to v1:https://lore.kernel.org/stable/20250716195316.176786-1-sumanth.gavini@yahoo.com/
+- Updated the upstream commit ID in the log
+---
+ drivers/hid/hid-mcp2221.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/hid/hid-mcp2221.c b/drivers/hid/hid-mcp2221.c
+index de52e9f7bb8c..9973545c1c4b 100644
+--- a/drivers/hid/hid-mcp2221.c
++++ b/drivers/hid/hid-mcp2221.c
+@@ -873,12 +873,12 @@ static int mcp2221_probe(struct hid_device *hdev,
+ 			"MCP2221 usb-i2c bridge on hidraw%d",
+ 			((struct hidraw *)hdev->hidraw)->minor);
+ 
++	i2c_set_adapdata(&mcp->adapter, mcp);
+ 	ret = i2c_add_adapter(&mcp->adapter);
+ 	if (ret) {
+ 		hid_err(hdev, "can't add usb-i2c adapter: %d\n", ret);
+ 		goto err_i2c;
  	}
+-	i2c_set_adapdata(&mcp->adapter, mcp);
  
- 	input_set_abs_params(input, ABS_X, -32767, 32767, 0, 0);
-@@ -1419,8 +1416,8 @@ static inline s16 steam_le16(u8 *data)
-  *  9.4  | BTN_SELECT | menu left
-  *  9.5  | BTN_MODE   | steam logo
-  *  9.6  | BTN_START  | menu right
-- *  9.7  | BTN_GEAR_DOWN | left back lever
-- * 10.0  | BTN_GEAR_UP   | right back lever
-+ *  9.7  | BTN_GRIPL  | left back lever
-+ * 10.0  | BTN_GRIPR  | right back lever
-  * 10.1  | --         | left-pad clicked
-  * 10.2  | BTN_THUMBR | right-pad clicked
-  * 10.3  | BTN_THUMB  | left-pad touched (but see explanation below)
-@@ -1485,8 +1482,8 @@ static void steam_do_input_event(struct steam_device *steam,
- 	input_event(input, EV_KEY, BTN_SELECT, !!(b9 & BIT(4)));
- 	input_event(input, EV_KEY, BTN_MODE, !!(b9 & BIT(5)));
- 	input_event(input, EV_KEY, BTN_START, !!(b9 & BIT(6)));
--	input_event(input, EV_KEY, BTN_GEAR_DOWN, !!(b9 & BIT(7)));
--	input_event(input, EV_KEY, BTN_GEAR_UP, !!(b10 & BIT(0)));
-+	input_event(input, EV_KEY, BTN_GRIPL, !!(b9 & BIT(7)));
-+	input_event(input, EV_KEY, BTN_GRIPR, !!(b10 & BIT(0)));
- 	input_event(input, EV_KEY, BTN_THUMBR, !!(b10 & BIT(2)));
- 	input_event(input, EV_KEY, BTN_THUMBL, !!(b10 & BIT(6)));
- 	input_event(input, EV_KEY, BTN_THUMB, lpad_touched || lpad_and_joy);
-@@ -1547,8 +1544,8 @@ static void steam_do_input_event(struct steam_device *steam,
-  *  9.4  | BTN_SELECT | menu left
-  *  9.5  | BTN_MODE   | steam logo
-  *  9.6  | BTN_START  | menu right
-- *  9.7  | BTN_TRIGGER_HAPPY3 | left bottom grip button
-- *  10.0 | BTN_TRIGGER_HAPPY4 | right bottom grip button
-+ *  9.7  | BTN_GRIPL2 | left bottom grip button
-+ *  10.0 | BTN_GRIPR2 | right bottom grip button
-  *  10.1 | BTN_THUMB  | left pad pressed
-  *  10.2 | BTN_THUMB2 | right pad pressed
-  *  10.3 | --         | left pad touched
-@@ -1573,8 +1570,8 @@ static void steam_do_input_event(struct steam_device *steam,
-  *  12.6 | --         | unknown
-  *  12.7 | --         | unknown
-  *  13.0 | --         | unknown
-- *  13.1 | BTN_TRIGGER_HAPPY1 | left top grip button
-- *  13.2 | BTN_TRIGGER_HAPPY2 | right top grip button
-+ *  13.1 | BTN_GRIPL  | left top grip button
-+ *  13.2 | BTN_GRIPR  | right top grip button
-  *  13.3 | --         | unknown
-  *  13.4 | --         | unknown
-  *  13.5 | --         | unknown
-@@ -1659,8 +1656,8 @@ static void steam_do_deck_input_event(struct steam_device *steam,
- 	input_event(input, EV_KEY, BTN_SELECT, !!(b9 & BIT(4)));
- 	input_event(input, EV_KEY, BTN_MODE, !!(b9 & BIT(5)));
- 	input_event(input, EV_KEY, BTN_START, !!(b9 & BIT(6)));
--	input_event(input, EV_KEY, BTN_TRIGGER_HAPPY3, !!(b9 & BIT(7)));
--	input_event(input, EV_KEY, BTN_TRIGGER_HAPPY4, !!(b10 & BIT(0)));
-+	input_event(input, EV_KEY, BTN_GRIPL2, !!(b9 & BIT(7)));
-+	input_event(input, EV_KEY, BTN_GRIPR2, !!(b10 & BIT(0)));
- 	input_event(input, EV_KEY, BTN_THUMBL, !!(b10 & BIT(6)));
- 	input_event(input, EV_KEY, BTN_THUMBR, !!(b11 & BIT(2)));
- 	input_event(input, EV_KEY, BTN_DPAD_UP, !!(b9 & BIT(0)));
-@@ -1669,8 +1666,8 @@ static void steam_do_deck_input_event(struct steam_device *steam,
- 	input_event(input, EV_KEY, BTN_DPAD_DOWN, !!(b9 & BIT(3)));
- 	input_event(input, EV_KEY, BTN_THUMB, !!(b10 & BIT(1)));
- 	input_event(input, EV_KEY, BTN_THUMB2, !!(b10 & BIT(2)));
--	input_event(input, EV_KEY, BTN_TRIGGER_HAPPY1, !!(b13 & BIT(1)));
--	input_event(input, EV_KEY, BTN_TRIGGER_HAPPY2, !!(b13 & BIT(2)));
-+	input_event(input, EV_KEY, BTN_GRIPL, !!(b13 & BIT(1)));
-+	input_event(input, EV_KEY, BTN_GRIPR, !!(b13 & BIT(2)));
- 	input_event(input, EV_KEY, BTN_BASE, !!(b14 & BIT(2)));
- 
- 	input_sync(input);
+ 	/* Setup GPIO chip */
+ 	mcp->gc = devm_kzalloc(&hdev->dev, sizeof(*mcp->gc), GFP_KERNEL);
 -- 
-2.49.0
+2.43.0
 
 
