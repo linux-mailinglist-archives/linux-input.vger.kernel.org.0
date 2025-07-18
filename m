@@ -1,151 +1,164 @@
-Return-Path: <linux-input+bounces-13588-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13589-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16F68B099EF
-	for <lists+linux-input@lfdr.de>; Fri, 18 Jul 2025 04:47:15 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id CD18FB09A1C
+	for <lists+linux-input@lfdr.de>; Fri, 18 Jul 2025 05:17:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0B1717B41C4
-	for <lists+linux-input@lfdr.de>; Fri, 18 Jul 2025 02:45:46 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 609D07B9B16
+	for <lists+linux-input@lfdr.de>; Fri, 18 Jul 2025 03:15:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F08891AC88B;
-	Fri, 18 Jul 2025 02:47:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D85ED1400C;
+	Fri, 18 Jul 2025 03:16:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b="DUIjQPAu"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cSkxrrwF"
 X-Original-To: linux-input@vger.kernel.org
-Received: from sonic310-21.consmr.mail.sg3.yahoo.com (sonic310-21.consmr.mail.sg3.yahoo.com [106.10.244.141])
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0396F194A60
-	for <linux-input@vger.kernel.org>; Fri, 18 Jul 2025 02:47:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=106.10.244.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59A70BA27;
+	Fri, 18 Jul 2025 03:16:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752806823; cv=none; b=ZCXpk+n46PLjya1LlcWwblqqO7MrcSMP4P3AuUNEFMSs36nvw36IgYz9h9xSgBBokQU8vTEcwOjXThKy+AYDR/yd4jYMnnR7L0F6Nm8phTvSsKLBorMQSdtmXpeItkoH4Yqyan44ZJSTpBjY1LIHcf2Xwh1a7Lqxb6BvYmJZPOE=
+	t=1752808616; cv=none; b=INX5/N0Q360leiQwHSyO3WfsyfAThK4aZIgCFyTpII/eG3EprRNW4SGg85cjCgA7Y3fEPIwC/4R5WlDqGGwZsq6PFnxN3GS3NiZ/HXKx2flNeymFdIVBRdZ67Fxh1oY0uV8on/GGH4Z2IR+GF1ZIQVzyCj8adha4Y+EwvlQIrwg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752806823; c=relaxed/simple;
-	bh=n35W0xE1KRwyXbLo/I23QujB27Prt4ZJPQ458DzJTjc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=WGExme/nr7dzL4UAcHOY6+1c82UJbinMQUHiy2TlcvOMBOx4piB+M9UK5YePqCNyhd4tcWnTnhDqY92gVmzQn0+8oFd31IPYgGQ3WQSEgDTeAu8xzUgLRaRB5xz/2Zkwn/VxzgH03JyTbEuvf9LFNrUm5FyWHQCH9Ft0hsZVG1k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.com; spf=pass smtp.mailfrom=yahoo.com; dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b=DUIjQPAu; arc=none smtp.client-ip=106.10.244.141
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1752806813; bh=KnfypI/4lpZjtaqAfDlUQ6peA6y22hadDc71Xj3e8Rw=; h=From:To:Cc:Subject:Date:In-Reply-To:References:From:Subject:Reply-To; b=DUIjQPAuYNfEXBlWOJOxPmMF0/Ft/XRprfIOCV2kq2HkIa6HzSuqLwjHAwV75bQ6Un3v7wAT6v895J4jInJMEOVEvnjbzpSviWZrT1yyk1HdiJQ+1UxCYmzzjdKWuJ5+F3jwRq335Yuks0hgXnPGO6y4han98ipgNr/IzsuqpS+yFHyl0jtJcRkiHLh+9NELbxfrtM2CYeIAoJYC7+NV2TlQoyHnXnN/k2JTdRJZmKHKLaiRT46n/7Dby913FoUxI5hXb7RlAXB4cSbhuEiaMzai5Aq8cCUNg1voK1xt1fOSrJGUsHkDjjZVlJFJzLZluwfOnnoKZliSW0fRX42l4A==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1752806813; bh=TtinutD4fxw5Tw3uIviTRlOoZPBzUNXg250lOjl6rGT=; h=X-Sonic-MF:From:To:Subject:Date:From:Subject; b=YLVAMbIkz48IPrVjIpSggy1/Wb5cqrI+Z7N8f999lBV0SXU3f3n4RS1Tc2fi+9qkdggjxdbhOCMffezZzESvk4o7szs10uv9am164jG3Eouv8s6FU1Ruh9MGQPlycKLn4UfKblLhRmM6lumg3QgWP2su9TAEj3hcO5xr4ODONzobWBeka4sUNXWAcXMNZgdHNXUrKJzqbfqmtu4zkYqbNDw9HNyTmA1vYicP7s9YR6SKmmY3hP0jJ/jyYuvI8kaVNT0lsFtnprAzUYgPKAQ6Hey6g2TntIseR8xMRTQCr0927m+nI9IOKLLtU9DQvdWYVutz+FVelV6NNgIGabdTUQ==
-X-YMail-OSG: 2DGhbhsVM1lnLzolCVXTUzdG.kL95lj2huabQ0kB4HVBiPj4VS4R_rWrkP.3HTj
- LBL_sx36hwN2jq5lygyH1685LZSqKvnG7hzPraOVkU_ZktsY04frlpK54nWDQDk8ISxTCXliwFak
- vpLWese3_nBwizWCcjrDxhWsKcyxmUFnW0IOcitBdj5EURN6sRtPdc0ihWymTkOPoppOKK4i_vWE
- B5xo5tnYv5NQb7.yVXOYw6kjMrVTAzzifQlUGiNNEyfAALRDugWDr82ppqxgBnUHXRC.aSCKtqoj
- _owERHpdvF7hSXR7RcvBPplxgFobMoePMAnabxdIxhR211.E7ygWTdCSFI29_oATzdLd4gYoMv2J
- LJC64g8EpDDU.ME5KD1woyTMWW_chVqy2sYHlG504f.74zpqSoPvl43p0rR.4oAdD.wwvjI2e4Xd
- 2TDWZKSb6b8emwL0kCTJvVgndISdsaFPTb5ga4kEkYxk8j9DNN6NKaC9M9hPDSMZ1IVbKG4x.IFa
- uz6k_R7ZRu0F9leFY7C82U1RY60YIDq9GgOtLHvRul2mbLckCienprIYW9bgwOQ5_iOrBN2sVT1C
- uVH9SdcqubaCw5cHzsHDhcDgBEsplVCDRQBCfrBb9uvPlhUat0kAUfOfpeh4K_oGkHk9b7QRRoox
- L2gnUIRYC2qD.7TaoOywwSp1WEk_mQYavA0sYZHFCU48Hm3U_2xYkQJaWpNhxNqco21FyP2acDyH
- O4NgZIkOdlaeZTddJvFtwaSXtUgR9.Op2fvI99asorbhe58JmmI4vi5xzqAZ6pAghIYzwVSgDEMV
- TgwquREho8TMfid.Ye346zwMmK6DQwqr0TBG3faN6XPFfe5spfwCsgbb5gMjq7xd6xtpmAZfYslj
- pkq3cJHudcwQUrOdVoga2oiNA.ZFL5LCxMAA_Fp91X3.cCgAA1oh7tPlazs_.rkDK7_7TKXYM5nM
- wOs2TH60EV_g5rPVTQy_vA39Dv3KTLm8YDkpv.DqBKhqhKYVDXM83epbxAOHXb7HYqdbcKrjZKph
- e4ZzGnr2SQ0UoJzd0RhAOWfpA1VgkQEsOnVZMNGF5Tj4v5RHgeUdxw6R2.x80EsZF5RZsllnK4wL
- yXYzIkHS1hcyBicSiGir78jqo0OUGhtRnEzYYADenq7co2srrKC.hiYLtelatzexnaTgKLoqryaK
- 9KkV0R9_BUdxFHmRvl6ClpF38Rt06yv0Mqe454u7tVrCQXOd6sowJo1J47tQ3aB6ptof.2mkhzHW
- JUJ75xQ9l24zXcr81ZNLz1GLIht9DEBcSXW1qzwAy5T5WgN6W3fOYNDqkBisnDNwSbOjpM.ThSGe
- w7Xp.0ViqJJITfMTwylZLH5VPUXXXmS3QPSCBYI20tKBunCTWUw4FxyqsgeGE94YuZEr2BRBe62T
- Q2jEViez9UerJlqvXli4tuArNwf92b2JiycCUDsrpi7IEHazos_6Dc3wz7CyTPnfEXfCaBSpn8TG
- veoihmxujTIuJaikGYtveoll3LBPVNjSoifl0Xnb3wKUJ3pwgqGx2LzJplTfjXyx.NgOFEJmbduG
- SCScmYnSxTsFWkeUZAak1AQKwHwoXWn6Z02rUA8d6NW6arq_8.cpmFBGO1cart.pke.xf_TZZPfy
- EAvqak6PE7H1ICS2r3N8fMgpyWGNIEfsgeII3_titQsOoaJ6TENbVjcSa87jZY6UP3NiyM6JXHtJ
- lsJujrCogPePQ7hHzKgssS9io55wf4EGG3qZdRKOKsht.a9r4Q_LnNHhtE64zWH0Wc.6oJ2ssqq2
- 16bRV87Sfn9CE2ii3dPAoAVM8ce2J6vTG4x2f1vie1_5XjERSoeDQnLoBsiUnUJ_btFdSK7Da5vN
- _ii97yGGR74bGZblXHFdQZufy5qNArQ2pl_2Nf2uPYXrwJm4UVopSgFmOIBP.tb6XWLv86Qq4m4.
- gQ_m4tlvbBbyb.wMhBt8NdQ39noGGPGoeaMj2MkytVcym565j7D4YZEQ_aRSE0pBJ8rKBWgyF.Sb
- J6RENjjyuRP41IaDVx4GxH6aOXft.daYQzKWPKddE0kmOSaCi1Ds19O7iFMfW5KsBe3AtCmXsj0A
- SzhHZM0ipNn7cvVExVJH7j2tBYmoTdLK1ByZMYPYODEH5gGGolstYqdgNshzAlfS13.v0YOBaQZf
- YIyo_Iwin72X2sRw6m6iUwg4rdKGcDvjQPWj8NRJViu9jwODe3DQ0ao6Dvl5ZumnceZmm.gcrUbB
- mQl3r_yF6XkBGkzx_GtS9ndUJr6kuHdUs3LLwrdLEE6Giswi8FBg17P5USTE9sn8KrC85olKJCBb
- mG2N7k3BBjmpyriuFackYk4comaZ9gkoO9yE62Sws
-X-Sonic-MF: <sumanth.gavini@yahoo.com>
-X-Sonic-ID: 2a6f5cea-ec48-451f-b092-f4c6414def04
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic310.consmr.mail.sg3.yahoo.com with HTTP; Fri, 18 Jul 2025 02:46:53 +0000
-Received: by hermes--production-ne1-9495dc4d7-4hxbl (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 658c3deb5093bc2afee7b1ac10fa70e9;
-          Fri, 18 Jul 2025 02:36:38 +0000 (UTC)
-From: Sumanth Gavini <sumanth.gavini@yahoo.com>
-To: lkp@intel.com,
-	gupt21@gmail.com,
-	jikos@kernel.org,
-	benjamin.tissoires@redhat.com,
-	sashal@kernel.org
-Cc: Sumanth Gavini <sumanth.gavini@yahoo.com>,
-	skhan@linuxfoundation.org,
-	david.hunter.linux@gmail.com,
-	stable@vger.kernel.org,
-	linux-i2c@vger.kernel.org,
-	linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	oe-kbuild-all@lists.linux.dev,
-	Hamish Martin <hamish.martin@alliedtelesis.co.nz>,
-	Jiri Kosina <jkosina@suse.cz>
-Subject: [PATCH v3 6.1] HID: mcp2221: Set driver data before I2C adapter add
-Date: Thu, 17 Jul 2025 21:36:33 -0500
-Message-ID: <20250718023634.267341-1-sumanth.gavini@yahoo.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <1752798271-200317d7@stable.kernel.org>
-References: <1752798271-200317d7@stable.kernel.org>
+	s=arc-20240116; t=1752808616; c=relaxed/simple;
+	bh=BHE/f2XhvtPalYNkrnzjR50K/1vVTxvfy4teDpHZYx0=;
+	h=Content-Type:From:Mime-Version:Subject:Date:Message-Id:References:
+	 Cc:In-Reply-To:To; b=V/C3VT4rSK/d3hO0LCVZpOe1Z6IIAIuWvEnZi3F44B6buS6iZRMS/rHjaqi14d4BuHIyrLOYBIjrjj5TVUFQ47tY3dtdali7BP3UrXHy/MZ2OGvgkCEHHwAyDCDcf0p5ZcrKFBVURw3GG/be4Twt9v9bb/+1eF9rv/HI/bkID+8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cSkxrrwF; arc=none smtp.client-ip=209.85.215.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-b34a71d9208so1148329a12.3;
+        Thu, 17 Jul 2025 20:16:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1752808614; x=1753413414; darn=vger.kernel.org;
+        h=to:in-reply-to:cc:references:message-id:date:subject:mime-version
+         :from:content-transfer-encoding:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=7hWo3MjRjElSlM+vr74dLYKzPASj9Y2C0vM0sDb1jyM=;
+        b=cSkxrrwF2zhafS/4jw8Wq36QrdS4UAYhqwgcUGo0lyD7M5aocKH4stFwa7z6okdjav
+         n0lrizuUEmI0l7YXL2W7fLd8eCdP+Hu5tA7Z1FsinkiIQL6LguXJX+blZCNKZjjk70pj
+         L9eDb3KiLaK6Inr4WP+0mrYS1hCjuw2hFiEUTOwJe1VDOg46IQZpOd5q+/wTIO70CozG
+         VUsInF/8mNcbH5ufR9sJl3JS3Y7/qAmT7tzoFraIEWeRQMlBzvW/1chFyIrMOznLLnhy
+         oLRsFa8YEqjYaA2tdDhrfUiabB7CPQz7an/+nU2v7WlM1Bfw/51Vg8sUhVen6j5R6UNo
+         XsNw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752808614; x=1753413414;
+        h=to:in-reply-to:cc:references:message-id:date:subject:mime-version
+         :from:content-transfer-encoding:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=7hWo3MjRjElSlM+vr74dLYKzPASj9Y2C0vM0sDb1jyM=;
+        b=OO5/TPwWBVBhm4D5L17r6tVDE02h2E9N3FaY38H4YVJoY8uvhA3qR8kkQj34ojCdHt
+         AvkggLmIa6y8kjFBORQMSQLStJAhTTbwbee1gEKhkM+gEtKnEzCIga9DjIscjYI4nYwY
+         CEKwWtP0XS1mB3TTtQxPKwWEn6E+CksRUmf7wdsypt2ZhDHCHYFBwEzdPc52u4+oMIAa
+         Jt3s1UbScZeGwYYLJrKRJXm0/dRHYobmFuNZvsOAOBcUMZfH0LzRKlBu8sExNN3KUtxL
+         BrRpy7TLn4PCK+wCV6GNaPbKIRBQlVbhhB9B+mAJDOSZZahILpRftEFsxf++H0/HwwKo
+         Y3FA==
+X-Forwarded-Encrypted: i=1; AJvYcCUEkdSm6fyFaHt5U4rKNxC+rJApGej3/ERJX2pF0C2VtwNnaP2e3AXIKCCrbwq26eqwOifvwb/qqR0nqw==@vger.kernel.org, AJvYcCWuT4AoTyfBriFrz2/yNnQ49EMCEI92auWs+UKfzhVFRxTIku15qBSOjnhGiVxo5qF9J0SsOvAM1nIikGxu@vger.kernel.org, AJvYcCXWZMMeLdzhAO1BMJQNaXI8NX/vd5Ln4smqACT6Mz58GQ3pKot1G5iB9ef60VxABsSzl3EJMBpA@vger.kernel.org
+X-Gm-Message-State: AOJu0YzBzOW6N+t1AfIObjdw77NmyFoDm0H4qE/1r6i3B/WGl7RCo7V9
+	XbXO7jSJt8jwEZsZVOWDtq3btRPKM/3+88gFGM+TlRzceQpKibNWZdeeBz9UUQ==
+X-Gm-Gg: ASbGnctoMn+TijlSfLZUPxOSOYgeWzVJIIHxgmQc/OkZuoYvICYzQe5NZfaIgJK25N/
+	MnlT6vh231zVaW9JTLgCH+vhtI259pqfYSbW7k6MEoGKRfd4eA2hBs3EAPqD3QbvSzrXwOO/zsC
+	Soef4KdfePC2PIqDxz710b+Y6eRRO0mKmmB8qKF5OA5+yaSoV9Vjp1DHGkqCxXu38fw0Opxdqdo
+	uZukbaQo/6EUlcmt/YDF+YUSyEqDWDwq4cg7Dje76ymR+Su+a5aBUjoz6HX9OhKrK476R82cgE6
+	a9SJRcrAY7CR7mSnQRh/NoBpFvI4krcQfuf12+a9MZBS0inUvpizP4teusArtnToktHIlbC8XGm
+	jrDRTObeaVZcbiZZOFHxHjh7n6sWDgDxg2oudBAELOW9IISgncDYmhMw+UvNi0XMu6Ov8VDanqt
+	ruMu6YHuU1vmkV
+X-Google-Smtp-Source: AGHT+IF5VQDbZ+QqzLcQV5X7C1m3C1oQGwCBnO6TLpGH4bUjsW0xcL1s9B2UZhZYWOMpD8bRAGEOXQ==
+X-Received: by 2002:a17:90b:2788:b0:311:e8cc:4255 with SMTP id 98e67ed59e1d1-31c9f4dfa9amr11377244a91.31.1752808614088;
+        Thu, 17 Jul 2025 20:16:54 -0700 (PDT)
+Received: from smtpclient.apple (pa49-199-174-195.pa.vic.optusnet.com.au. [49.199.174.195])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-31c9f1e6a8bsm4203212a91.18.2025.07.17.20.16.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 17 Jul 2025 20:16:53 -0700 (PDT)
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+From: Orlando Chamberlain <orlandoch.dev@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0 (1.0)
+Subject: Re: [PATCH] HID: apple: validate feature-report field count to prevent NULL pointer dereference
+Date: Fri, 18 Jul 2025 13:16:41 +1000
+Message-Id: <68CBB472-565A-4CA8-9ECF-E0F278B10F19@gmail.com>
+References: <20250713233008.15131-1-qasdev00@gmail.com>
+Cc: jikos@kernel.org, bentiss@kernel.org, gargaditya08@live.com,
+ linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org
+In-Reply-To: <20250713233008.15131-1-qasdev00@gmail.com>
+To: Qasim Ijaz <qasdev00@gmail.com>
+X-Mailer: iPhone Mail (22F76)
 
-commit f2d4a5834638bbc967371b9168c0b481519f7c5e upstream.
+Hi Qasim,
 
-The process of adding an I2C adapter can invoke I2C accesses on that new
-adapter (see i2c_detect()).
+> On 14 Jul 2025, at 9:31=E2=80=AFam, Qasim Ijaz <qasdev00@gmail.com> wrote:=
 
-Ensure we have set the adapter's driver data to avoid null pointer
-dereferences in the xfer functions during the adapter add.
+> ...
+>  [   15.164723] Oops: general protection fault, probably for non-canonical=
+ address 0xdffffc0000000006: 0000 [#1] SMP KASAN NOPTI
+>  [   15.165691] KASAN: null-ptr-deref in range [0x0000000000000030-0x00000=
+00000000037]
+>  [   15.165691] CPU: 0 UID: 0 PID: 10 Comm: kworker/0:1 Not tainted 6.15.0=
+ #31 PREEMPT(voluntary)
+>  [   15.165691] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIO=
+S 1.16.2-debian-1.16.2-1 04/01/2014
+>  [   15.165691] RIP: 0010:apple_magic_backlight_report_set+0xbf/0x210
+>  [   15.165691] Call Trace:
+>  [   15.165691]  <TASK>
+>  [   15.165691]  apple_probe+0x571/0xa20
+>  [   15.165691]  hid_device_probe+0x2e2/0x6f0
+>  [   15.165691]  really_probe+0x1ca/0x5c0
+>  [   15.165691]  __driver_probe_device+0x24f/0x310
+>  [   15.165691]  driver_probe_device+0x4a/0xd0
+>  [   15.165691]  __device_attach_driver+0x169/0x220
+>  [   15.165691]  bus_for_each_drv+0x118/0x1b0
+>  [   15.165691]  __device_attach+0x1d5/0x380
+>  [   15.165691]  device_initial_probe+0x12/0x20
+>  [   15.165691]  bus_probe_device+0x13d/0x180
+>  [   15.165691]  device_add+0xd87/0x1510
+>  [...]
+>=20
+> To fix this issue we should validate the number of fields that the
+> backlight and power reports have and if they do not have the required
+> number of fields then bail.
+>=20
+> Fixes: 394ba612f941 ("HID: apple: Add support for magic keyboard backlight=
+ on T2 Macs")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Qasim Ijaz <qasdev00@gmail.com>
 
-This has been noted in the past and the same fix proposed but not
-completed. See:
-https://lore.kernel.org/lkml/ef597e73-ed71-168e-52af-0d19b03734ac@vigem.de/
+I haven't had a chance to test this on my laptop but Aditya has the same Mac=
+book model anyway. As long as this fixes the null deref you got with the spo=
+ofed hid device in qemu, this seems fine.
 
-Signed-off-by: Hamish Martin <hamish.martin@alliedtelesis.co.nz>
-Signed-off-by: Jiri Kosina <jkosina@suse.cz>
-Signed-off-by: Sumanth Gavini <sumanth.gavini@yahoo.com>
----
-changes in v3:
-- No code changes
-- Corrected the upstream commit ID
-changes in v2:
-- No code changes
-- Link to v1:https://lore.kernel.org/stable/20250716195316.176786-1-sumanth.gavini@yahoo.com/
-- Updated the upstream commit ID in the log
----
- drivers/hid/hid-mcp2221.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/hid/hid-mcp2221.c b/drivers/hid/hid-mcp2221.c
-index de52e9f7bb8c..9973545c1c4b 100644
---- a/drivers/hid/hid-mcp2221.c
-+++ b/drivers/hid/hid-mcp2221.c
-@@ -873,12 +873,12 @@ static int mcp2221_probe(struct hid_device *hdev,
- 			"MCP2221 usb-i2c bridge on hidraw%d",
- 			((struct hidraw *)hdev->hidraw)->minor);
- 
-+	i2c_set_adapdata(&mcp->adapter, mcp);
- 	ret = i2c_add_adapter(&mcp->adapter);
- 	if (ret) {
- 		hid_err(hdev, "can't add usb-i2c adapter: %d\n", ret);
- 		goto err_i2c;
- 	}
--	i2c_set_adapdata(&mcp->adapter, mcp);
- 
- 	/* Setup GPIO chip */
- 	mcp->gc = devm_kzalloc(&hdev->dev, sizeof(*mcp->gc), GFP_KERNEL);
--- 
-2.43.0
-
+Reviewed-by: Orlando Chamberlain <orlandoch.dev@gmail.com>
+> ---
+> drivers/hid/hid-apple.c | 3 ++-
+> 1 file changed, 2 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/hid/hid-apple.c b/drivers/hid/hid-apple.c
+> index ed34f5cd5a91..183229ae5f02 100644
+> --- a/drivers/hid/hid-apple.c
+> +++ b/drivers/hid/hid-apple.c
+> @@ -890,7 +890,8 @@ static int apple_magic_backlight_init(struct hid_devic=
+e *hdev)
+>    backlight->brightness =3D report_enum->report_id_hash[APPLE_MAGIC_REPOR=
+T_ID_BRIGHTNESS];
+>    backlight->power =3D report_enum->report_id_hash[APPLE_MAGIC_REPORT_ID_=
+POWER];
+>=20
+> -    if (!backlight->brightness || !backlight->power)
+> +    if (!backlight->brightness || backlight->brightness->maxfield < 2 ||
+> +        !backlight->power || backlight->power->maxfield < 2)
+>        return -ENODEV;
+>=20
+>    backlight->cdev.name =3D ":white:" LED_FUNCTION_KBD_BACKLIGHT;
+> --
+> 2.39.5
+>=20
 
