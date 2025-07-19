@@ -1,143 +1,169 @@
-Return-Path: <linux-input+bounces-13596-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13597-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8756B0B087
-	for <lists+linux-input@lfdr.de>; Sat, 19 Jul 2025 16:48:19 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 497AFB0B2AA
+	for <lists+linux-input@lfdr.de>; Sun, 20 Jul 2025 00:50:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5A7881AA64FA
-	for <lists+linux-input@lfdr.de>; Sat, 19 Jul 2025 14:48:37 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9BC9A7A426C
+	for <lists+linux-input@lfdr.de>; Sat, 19 Jul 2025 22:48:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2C03121D59F;
-	Sat, 19 Jul 2025 14:48:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C0C05286D76;
+	Sat, 19 Jul 2025 22:46:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="Urq9Gdzx"
+	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="Yvtn5EZ9"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-10628.protonmail.ch (mail-10628.protonmail.ch [79.135.106.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64E9B146A72
-	for <linux-input@vger.kernel.org>; Sat, 19 Jul 2025 14:48:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A07B92288EA;
+	Sat, 19 Jul 2025 22:46:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=79.135.106.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752936495; cv=none; b=VMpRoCpR+/v7swA1Lq2yu8mbGkEvpjhmA9E1VenVhEwIFSpqSnpz+sXCrq7LMxc+CTeOcXMO5bwoVof4hDAXLa/dyNF2fOTPsnnugmXkt3sFdn1Q/nSDk1EAAiJD7rAZQjIwdM9AGY/+tFI1g2Usy2Orj+eDGwbiRze9OTSS62A=
+	t=1752965195; cv=none; b=H+lGR7bOJTZG7+InOqU+qEncziQBwzLfZO5QuxtD5By4pPdKaj8Jg8072rkbQ11lc/t30w5TPZJlAGFV8D0kx2ENrnMlCsCoFBhsLMgV7cQAhjA6t+0GkSW99lHjf3+11ymcVepPntOgLGoa0MCzra4QFB8Wph8Vqgr3bSnDtnI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752936495; c=relaxed/simple;
-	bh=28XnBw7q177szPp/TEn7iGwfbaGLu0lOkwxbxmfTAFo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=C4K6FVYsJ7GOYzNeo4yPOcO6aShcuvGFin9c1UOjxaK9vpPrt1k1iXwH0c2Lk0wEOrQtu1VT7XKQKSt8scThOQ3J6Eyq0/B/kmjDPSnRXlEpUiSVAZ/IMEKM413jFW7++yuQuKpTFBYn0WeZkk3dNoSxol6KP8DVn8RVqLJh8Iw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=Urq9Gdzx; arc=none smtp.client-ip=209.85.160.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
-Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-4ab7082b3f7so38710431cf.3
-        for <linux-input@vger.kernel.org>; Sat, 19 Jul 2025 07:48:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1752936492; x=1753541292; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=GktA+Qc4C2gku9tgC+xGfCvYixZIxS7PIy2EBRiNL8Y=;
-        b=Urq9GdzxQwqC261OTzPmkAWGPRdP5R9W8inZhU2iuFfINgcuuDjHVckfDrHi+Mkknn
-         7RvQj1BEfCw+FyDv3eEsir1KMcyodduzyoH+Sx/+MPIRENILLlrmQFR438o3jEcKu8gm
-         /EXF/TVxXLSpAv3u8Blsoeoy+sSgqQgPxTr5IbvQJSc0nxU507DZ/T+naEbAVRRuJWnl
-         Vcw8+hELlE17hT+G8zIyJ0qxXorPaRBZDD985mRc4o849Bv+bsiznfAJPA+/aRWKZzQ4
-         1pMr4GkIj4CenAj6FvCsc4gIsHiYgAIqh2QbriWFDWyHcu9z02o8CKtgmdV4CWa8Q/9/
-         Xesg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752936492; x=1753541292;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=GktA+Qc4C2gku9tgC+xGfCvYixZIxS7PIy2EBRiNL8Y=;
-        b=fX65LWT/YhvDlAYzE5t3s4je49DmiQz/u1qsAB2qOvKFz8bByhY20p18VHhiG7ildV
-         g7sxya/g1nBPn9Jc3fgLOP4SOQ1PyXXNhGAl5Uu2UyLNCl+XwIaIu+MG9toiwTmJ/Ql2
-         pSijyhwtMytNsbW9HLw2BvYbE59ms8P9piNZW/uWZXWBhZo5edQ4JIEv1/ZEdU5B4mDr
-         muvVwj8lQbiV0mpCw8hmSYGwPVV/m15eZ5ejG6uZ4IX2RCdGvCO28c7Nf9zOhW4eyyKC
-         pZpKhosW3mwlYA4Bm8BzifyybmP/4ak3BfuIUvvbelOfPI6Nx7e/6pOLeg940UVVgR8t
-         WBdA==
-X-Forwarded-Encrypted: i=1; AJvYcCWhAbGYex+IZZ8Sle11j0cWFUPVQ8Y/pwPRUFx7vzCWmfveiH43Vsr4oJhVUm6c/THjOpUKq5kFnQg+nA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwjDcZoZpNwhGSFXpXIMI01o2shQ+l/rJngTjNdmO43+dqsLBhq
-	KqjNopdS2F0zQkNfSYTLRXfKUIHGIOwdn4gedOsNJb9xqeB66ej1MS5caD8DXo+5Ug==
-X-Gm-Gg: ASbGncsQyjBzUF1Hf3I4VwpqFwDdXHzxT/fU3rHjbcUyw92gBTUicWK5XS5D9+m8qmq
-	xsRbbB9kTwG8kjHu3aF8K4S5HWkDgQ0O4WigL3mg3jTWd146Ssy5QTpihGnXMFjaI+YuPiCl3C7
-	UPZC4qWLDS4zpuHDpF8zZ+YGMAqY8IRpYhc9LuuGY3urHrAjvBUgJQ3EiePYUSM7PtKWYXxDUXr
-	RJ1PcrFfs8AUB/kRzrhOpTc4TkpTAGPuc8fYj5oY0e9VyVF6XNRZJU8/YZyLdBghFGtMqqKg9cF
-	+iKDWCFCdlSaeM2sjftWLriRUHIYbRgd9wcqTnTR9dr5y8CbK0pcYdXVNqX4cEQIygoM06+keDr
-	NmCpsu0+KYH5+BVT/8VCHmU4=
-X-Google-Smtp-Source: AGHT+IF+rERqamMpsCeMReo4+AhIbc/oNuC0Bp58/dxdqIZvmhBxs9npo13uMROLsAZUUSfk2u6LoA==
-X-Received: by 2002:a05:6214:5096:b0:6fa:fddf:734b with SMTP id 6a1803df08f44-704f6ac577dmr182774486d6.24.1752936492301;
-        Sat, 19 Jul 2025 07:48:12 -0700 (PDT)
-Received: from rowland.harvard.edu ([2601:19b:681:fd10::317e])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7e356c9250esm208771285a.89.2025.07.19.07.48.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 19 Jul 2025 07:48:11 -0700 (PDT)
-Date: Sat, 19 Jul 2025 10:48:08 -0400
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Benjamin Tissoires <bentiss@kernel.org>
-Cc: syzbot <syzbot+b63d677d63bcac06cf90@syzkaller.appspotmail.com>,
-	jikos@kernel.org, linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-	syzkaller-bugs@googlegroups.com
-Subject: Re: [PATCH] HID: core: Reject report fields with a size or count of 0
-Message-ID: <a2c3537a-8ddc-467f-a9f4-b4d413914914@rowland.harvard.edu>
-References: <68791b6f.a70a0220.693ce.004b.GAE@google.com>
- <8a4eb6b0-f640-4207-9f05-83e06080410b@rowland.harvard.edu>
- <lrhydvc7huuqck2kvqzobqt7hhwt36zwsa2i3fpegbpykt5q43@2md6gfitjlb3>
+	s=arc-20240116; t=1752965195; c=relaxed/simple;
+	bh=kffTkW850VF5wGh6V7wd3o7vd5InBDrvMPVk+VWKD/Q=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=q/YDt6OwB+8qGUxHLV2iYn5zFbTKpLYXLl5zgjgrlYX3CZsh91ltW1jnvbCJYhOxsSapwZNzDFRSPbEBYHrmwnsKI/AABX75a/5+2bc49VFj/aW3oJGqeWRzoMwdkj0pa7QQcfSVb6uLM1qHoIq+BQ62blLpo4UjNGdTSnDewRQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com; spf=pass smtp.mailfrom=protonmail.com; dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b=Yvtn5EZ9; arc=none smtp.client-ip=79.135.106.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonmail.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
+	s=protonmail3; t=1752965182; x=1753224382;
+	bh=PtTdGXf4R6zktuL5D6QEHfNFozpK+VJyJk6OsGvtqvw=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=Yvtn5EZ9KLHE5TB6++QOqXMU71UGJvzCxbmmdjci+J+Jr/PFLQeOBJc2ecRzdzISx
+	 bYMG3hJcJo6WnXa6lltjyJewult+tD/YsRlFrotQxXF0POMKYtjowv3eF7xd4YBORf
+	 f2L9CR/7P8eigUoKcoNXCRfpXU+NWU0RRAATbBh2dn85ANE4Acnb8sOS/2rAGVv5SS
+	 8bAmdzo8YCG7ysdHVRMpv5sMJHfrc/Zy6wj7oLYu+iWya2i6Wcegmcoret0S5vpJDn
+	 cqTD8WvXz62549f61RGU8b5WZ3C3xb4CqV6INuob7vJO1svfgIXEKkUPxRtPWXj/A2
+	 06SCPVHOnWajg==
+Date: Sat, 19 Jul 2025 22:46:18 +0000
+To: Danilo Krummrich <dakr@kernel.org>
+From: Rahul Rameshbabu <sergeantsagara@protonmail.com>
+Cc: rust-for-linux@vger.kernel.org, linux-input@vger.kernel.org, Jiri Kosina <jikos@kernel.org>, a.hindborg@kernel.org, alex.gaynor@gmail.com, aliceryhl@google.com, benno.lossin@proton.me, Benjamin Tissoires <benjamin.tissoires@redhat.com>, bjorn3_gh@protonmail.com, boqun.feng@gmail.com, db48x@db48x.net, gary@garyguo.net, ojeda@kernel.org, tmgross@umich.edu, peter.hutterer@who-t.net
+Subject: Re: [PATCH v2 3/4] rust: core abstractions for HID drivers
+Message-ID: <871pqb7qa4.fsf@protonmail.com>
+In-Reply-To: <DBCPYJW9852M.2KDHMO6QS6YPY@kernel.org>
+References: <20250713211012.101476-4-sergeantsagara@protonmail.com> <20250713211012.101476-10-sergeantsagara@protonmail.com> <DBCPYJW9852M.2KDHMO6QS6YPY@kernel.org>
+Feedback-ID: 26003777:user:proton
+X-Pm-Message-ID: 6cfca77322ca16b823db94f9275e78c63f54a7f0
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <lrhydvc7huuqck2kvqzobqt7hhwt36zwsa2i3fpegbpykt5q43@2md6gfitjlb3>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Sat, Jul 19, 2025 at 10:36:01AM +0200, Benjamin Tissoires wrote:
-> On Jul 17 2025, Alan Stern wrote:
-> > Testing by the syzbot fuzzer showed that the HID core gets a
-> > shift-out-of-bounds exception when it tries to convert a 32-bit
-> > quantity to a 0-bit quantity.  This is hardly an unexpected result,
-> > but it means that we should not accept report fields that have a size
-> > of zero bits.  Similarly, there's no reason to accept report fields
-> > with a count of zero; either type of item is completely meaningless
-> > since no information can be conveyed in zero bits.
-> > 
-> > Reject fields with a size or count of zero, and reject reports
-> > containing such fields.
-> > 
-> > Signed-off-by: Alan Stern <stern@rowland.harvard.edu>
-> > Reported-by: syzbot+b63d677d63bcac06cf90@syzkaller.appspotmail.com
-> > Closes: https://lore.kernel.org/linux-usb/68753a08.050a0220.33d347.0008.GAE@google.com/
-> > Tested-by: syzbot+b63d677d63bcac06cf90@syzkaller.appspotmail.com
-> > Fixes: dde5845a529f ("[PATCH] Generic HID layer - code split")
-> > Cc: stable@vger.kernel.org
+On Tue, 15 Jul, 2025 17:04:07 +0200 "Danilo Krummrich" <dakr@kernel.org> wr=
+ote:
+> On Sun Jul 13, 2025 at 11:12 PM CEST, Rahul Rameshbabu wrote:
+>> +// SAFETY: Instances of `Device` are always reference-counted.
+>> +unsafe impl crate::types::AlwaysRefCounted for Device {
+>> +    fn inc_ref(&self) {
+>> +        // SAFETY: The existence of a shared reference guarantees that =
+the refcount is non-zero.
+>> +        unsafe { bindings::kref_get(&mut ((*self.as_raw()).ref_)) }
+>
+> I'm confused, what's the lifecycle of a struct hid_device? It embedds a s=
+truct
+> device, so it also inherits its reference count. Additionally it also has=
+ a
+> struct kref. Can you elaborate please?
+>
+> I don't know what the struct kref is for, but I'm pretty sure you want to=
+ manage
+> the reference count of the embedded struct device here.
+>
 
-> Sigh... I applied this one too quickly before going on holidays.
-> 
-> This breaks the hid testsuite:
-> https://gitlab.freedesktop.org/bentiss/hid/-/jobs/80805946
-> 
-> (yes, I should have run it before applying).
-> 
-> So basically, there are devices out there with a "broken" report size of
-> 0, and this patch now entirely disables them.
-> 
-> That Saitek gamepad has the following (see tools/testing/selftests/hid/tests/test_gamepad.py):
->         0x95, 0x01,                    # ..Report Count (1)                  60
->         0x75, 0x00,                    # ..Report Size (0)                   62
->         0x81, 0x03,                    # ..Input (Cnst,Var,Abs)              64
-> 
-> So we'd need to disable the field, but not invalidate the entire report.
-> 
-> I'm glad I scheduled this one for the next cycle.
-> 
-> I'll try to get something next week.
+Hi Danilo,
 
-So then would it be better to accept these report fields (perhaps with a 
-warning) and instead, harden the core HID code so that it doesn't choke 
-when it runs across one of them?
+The hid subsystem uses a separate ref counter from the one maintained by
+the embedded struct device. hid_device_release is assigned to the
+embedded struct device's release method and makes use of this separate
+reference (in drivers/hid/hid-core.c).
 
-Alan Stern
+drivers/hid/hid-debug.c makes use of the same reference in a similar
+manner to what I do here in hid_debug_events_release and
+hid_debug_events_open.
+
+Basically, the hid subsystem has a separate reference counter on top of
+the one embedded in the kobject of struct device;
+
+I decided to follow the same pattern used in the core C HID subsystem.
+This pattern is found in hid-core + hid_debug.
+
+However, thank you for bringing this up since I think that you are right
+that it would be better to increment the reference count for the
+underlying device rather than use this separate external reference
+count.
+
+It might even make sense to refactor core C HID to remove this separate
+kref and have hid_debug increase the reference count of the underlying
+struct device's kobject.
+
+Right now, we can have the following situation in the hid subsystem.
+
+1. struct device's kobject decrements to 0
+2. struct device's release callback is called
+3. This invokes hid_device_ref and decrements struct hid_device's ref
+4. hid_debug is in use, so the ref has not gone to 0 yet
+5. When hid_debug is ready to tear down the instance, hiddev_free will
+   get called
+
+The above creates a weird situation where the HID device can still be
+in-use even though the underlying device instance has reached a
+reference count of 0.
+
+I will first start with fixing this in my Rust code, but I will take a
+look at cleaning this up in the core HID subsystem as well.
+
+>> +    }
+>> +
+>> +    unsafe fn dec_ref(obj: NonNull<Self>) {
+>> +        // SAFETY: The safety requirements guarantee that the refcount =
+is non-zero.
+>> +        unsafe {
+>> +            bindings::kref_put(
+>> +                &mut ((*obj.cast::<bindings::hid_device>().as_ptr()).re=
+f_),
+>
+> I think you want &raw mut instead.
+>
+>> +                Some(bindings::hiddev_free),
+>> +            )
+>> +        }
+>> +    }
+>> +}
+>> +
+>> +impl<Ctx: device::DeviceContext> AsRef<device::Device<Ctx>> for Device<=
+Ctx> {
+>> +    fn as_ref(&self) -> &device::Device<Ctx> {
+>> +        // SAFETY: By the type invariant of `Self`, `self.as_raw()` is =
+a pointer to a valid
+>> +        // `struct hid_device`.
+>> +        let dev =3D unsafe { addr_of_mut!((*self.as_raw()).dev) };
+>
+> You also use &raw mut meanwhile.
+>
+>> +
+>> +        // SAFETY: `dev` points to a valid `struct device`.
+>> +        unsafe { device::Device::as_ref(dev) }
+>> +    }
+>> +}
+
+https://doc.rust-lang.org/std/primitive.pointer.html#3-create-it-using-raw
+
+Yes, I want &raw mut in the places you mentioned. Thanks :)
+
+Thanks,
+Rahul Rameshbabu
+
 
