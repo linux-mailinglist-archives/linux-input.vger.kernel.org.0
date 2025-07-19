@@ -1,143 +1,158 @@
-Return-Path: <linux-input+bounces-13593-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13594-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06042B0AA85
-	for <lists+linux-input@lfdr.de>; Fri, 18 Jul 2025 21:07:44 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id A4D67B0AEC8
+	for <lists+linux-input@lfdr.de>; Sat, 19 Jul 2025 10:36:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2DA895A7BC9
-	for <lists+linux-input@lfdr.de>; Fri, 18 Jul 2025 19:07:45 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 353AA7ABEFD
+	for <lists+linux-input@lfdr.de>; Sat, 19 Jul 2025 08:34:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C21C42E719E;
-	Fri, 18 Jul 2025 19:07:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8C2FC23535A;
+	Sat, 19 Jul 2025 08:36:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=criticallink.com header.i=@criticallink.com header.b="eQjkb3a1"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OmG2jT4X"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3783020101D
-	for <linux-input@vger.kernel.org>; Fri, 18 Jul 2025 19:07:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 625601D90C8;
+	Sat, 19 Jul 2025 08:36:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752865658; cv=none; b=JuLNVXqNslca8bZAFpB6+3kCh3ZF/hrytmpafY/HVFTBVHBH/lvWLwrigbttFA2gJwcUaF9BftTxokfVx/MR2Khm1Hkt3G9GbVkkVZ/YbCChf1Ri5XodTYPLjxNwgfQtw/KjtZIJhqPkcPvsfFkXPpi9arRzz3xlO5YTjiQQE9k=
+	t=1752914166; cv=none; b=muUMrv5DF3LApS/tpGPaW+N/sTFHxzcz/6H0g9mz1w8p201MoFjcLGe+hNmuLsW/KRWAcNzhH67fXPftyJZW4VQrlqvgH2djr5Hhd7MDgu2x4oLMIePT2Fl/j/o8MK4nN0OJ4hUAqwZ/oNoiF28wSA3qDSYqZFkpbsbFrf/oX3U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752865658; c=relaxed/simple;
-	bh=gKMAOL4E57ZrKNppROw+hMC5sdw+R+Db64LcCmKnZpw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=nlMFU6sV8pTDdZsezG2kLyIGiJLVdy4xNEnRSlcEhWGE8P87qAWXVRIhghhZqYVgzBIcoDaFaY0ZkkCc0o+HA9su8oApOgJAkT2kjVCCA7fcGH4tK5V1T2iPt+A5Ihomi8TKEOnjdeleP/mWLyuSU8Xkc+52y2zt5xSJ8OS6Rrw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=criticallink.com; spf=pass smtp.mailfrom=criticallink.com; dkim=pass (2048-bit key) header.d=criticallink.com header.i=@criticallink.com header.b=eQjkb3a1; arc=none smtp.client-ip=209.85.128.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=criticallink.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=criticallink.com
-Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-70a57a8ffc3so24368887b3.0
-        for <linux-input@vger.kernel.org>; Fri, 18 Jul 2025 12:07:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=criticallink.com; s=google; t=1752865656; x=1753470456; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=v1R+bTONl5hHgbwB0kA7IlpGtYJMtSz84Mc+5SeI9Qk=;
-        b=eQjkb3a1Uuqyc+c2/wrLRa1AEaxlXBUVYSs/LymUkid80XcSJg8p9uqlW96rsbvRjv
-         rOfgpJE0g70CEkopF8Lv9FwIfVPf1O0D5u027rId15C063vU+Jzy/Mic+YfvPpGQ6UIN
-         7oqzeVlh+AvRyFsfASW/Zn6kok7ps8Y5u3yvLEAygrlpmNbX82RA6w9Kq5YVWb72Gl7e
-         F/0SETGpJ2h2inwrp1hmSbFfwPi2TULmI82gwoWbWehf8BaNmpQthtv/NP2zv36prJYD
-         EMgblzdnb+kXzhnzdkm7MQx3pXKYi1FNSMDl+xdjv59A5/T54d4T5kfXmmdXCjua1FT6
-         Izlw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752865656; x=1753470456;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=v1R+bTONl5hHgbwB0kA7IlpGtYJMtSz84Mc+5SeI9Qk=;
-        b=c66/3FUlIWFNV3RsTTD0q1vxyVd5ahULVDyw12qGvzBJuAo2H06SqdXVm/vBrwHghm
-         C6VRsCXaFS/t/1k/M58QZuP1OipWhlUBZeA9pUuMFT00Luurjg8QUQ2x8KT3zZemvrsj
-         lICkLMFJBX+vodn+g6ryEqPdjE8S8acxyMOwFxzMjO13ATIEgeCNPBPV3dMbe/9yBeO2
-         WVVHKgv943EfmkGJiVBfmipLvh4mS6NtRELKVT+AXtsksi5pex1J9kOajvngvFh3B4fX
-         ikY55WrTChglavpE05KwURpLw3xWTV0Dt352R+DEKCRqMsa2GYeJf6VGXx+0ndw7tgb+
-         JXoQ==
-X-Forwarded-Encrypted: i=1; AJvYcCViPUbTCSIeW47x+QZGMCfHwXV0LB7/zF24YVdyb4pUjn/LUGiE90VYXpk8iK2YqFrBfZrqHSUqHm39Kw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz6DUjsl1w+AbuYL+OH5dsmfdvr7/MVACJ98WiSgRFrfgXHu082
-	MgtBw/U5O9dCrH4drEQA3j5/4AWukYq9eWv9F4VyeG3U523Pmejd6vlWq0xWDHF3z7oFSSoTET6
-	4AXJNKhXW9FKsZWgjL7dsLb1zsLb3DPnEkwevIUag
-X-Gm-Gg: ASbGncvBcor0v3kZX3v7ApzVMn5cadykQyFnrQ8C20jHfVnaAUSrANSllO7RiLBVW3f
-	+ovpsxES+67/la6c6lIlZaOiBsSg7WSaEPkRGvYmT0hNA3DochjtndyyYcsHnPQRQlIXB4FUG8I
-	gO/KXzrnnCZL51aA+qvs8puebgUrMQ7d9CDUtFro3ilsZFBtkuUoFfq1qGcirBPs3fafcov1qEo
-	dJyRA==
-X-Google-Smtp-Source: AGHT+IHdu2N0EBK/ErljdlLwrx3ILsLU6lMRBT2UTCrZLdQTvYgxzsQ0wmvhUzUAASF16uNQPk7dLkoRYW4KxZBs8fs=
-X-Received: by 2002:a05:690c:6207:b0:718:38bd:bee4 with SMTP id
- 00721157ae682-7195235cd63mr51739027b3.40.1752865655992; Fri, 18 Jul 2025
- 12:07:35 -0700 (PDT)
+	s=arc-20240116; t=1752914166; c=relaxed/simple;
+	bh=DgRYHsDEdld8GQT4my232dd1qeXC7Mrj4s1plK4XcyE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Tt7tNrH2OnOl7VpMXas0asl0rkW60Uw5bOIZLX9OQeTluAiCYqsYaPTP59L1XQQVFGJtstyKWzIyK9ZXDsyJ3V3i5RdoE47RKJY6CrcBefI/ucOujZxLB/7V3Xgj8DVm7UVQg2ZS5/nrxExl83ms9EEg7DXWSesbZ7GC9/RvvxY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OmG2jT4X; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 676D8C4CEF4;
+	Sat, 19 Jul 2025 08:36:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1752914165;
+	bh=DgRYHsDEdld8GQT4my232dd1qeXC7Mrj4s1plK4XcyE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=OmG2jT4XUtm55kS/0zp40UjzI/DXFImWSz7EsFeyFSgCBJ5sM9l07XGr1iBxKGZiK
+	 2JrBkn1fyRyUUb2YjTtgd9cMKtAq47heDYbMhTgQ7itcCs42+yt4KjE61M1pCIWec7
+	 Wb2q3CEU5SEAeKQjaTxibKxVyMFUAD9aOwvCX5g4C33sMbgTYEncLuqvQxHEBAn2jh
+	 McBToSVFtSC0idfD1NC+Lg8syra9a9uf+9XL5ifecLilZ9ZMb3bbKI8h3fl2ILoBQT
+	 kOtuFmXK4lNnnjDyQy8LLIpT4ZEZkdbqXs3H0+p6DVza+T/I0wpLBi+VNvpHEzlrMo
+	 LweCaKDbMfu1w==
+Date: Sat, 19 Jul 2025 10:36:01 +0200
+From: Benjamin Tissoires <bentiss@kernel.org>
+To: Alan Stern <stern@rowland.harvard.edu>
+Cc: syzbot <syzbot+b63d677d63bcac06cf90@syzkaller.appspotmail.com>, 
+	jikos@kernel.org, linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
+Subject: Re: [PATCH] HID: core: Reject report fields with a size or count of 0
+Message-ID: <lrhydvc7huuqck2kvqzobqt7hhwt36zwsa2i3fpegbpykt5q43@2md6gfitjlb3>
+References: <68791b6f.a70a0220.693ce.004b.GAE@google.com>
+ <8a4eb6b0-f640-4207-9f05-83e06080410b@rowland.harvard.edu>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250520-linux-stable-tps6594-pwrbutton-v1-0-0cc5c6e0415c@criticallink.com>
- <20250520-linux-stable-tps6594-pwrbutton-v1-1-0cc5c6e0415c@criticallink.com>
- <20250521-wandering-tested-porpoise-acbef7@kuoka> <CAKMwjwTP=xSsX3UuK02sKbXWaU7y-ErytNYCL_P0UveDytQW2A@mail.gmail.com>
- <20250529-wise-tremendous-stork-a7d091@kuoka> <CAKMwjwQOBE651A-5VVjwcv5TspO2eNZfgwWzMpTTWxhR3nGKUw@mail.gmail.com>
- <0fb4b411-1b27-43fc-8d48-e5220fc85478@kernel.org> <CAKMwjwSZEhXav2U-bd+JNyVDK3JdJoN1kJjnxpfKXBKsW2XxdQ@mail.gmail.com>
- <DBEDT0OKPYAC.EX6HDQCKUWIS@walle.cc>
-In-Reply-To: <DBEDT0OKPYAC.EX6HDQCKUWIS@walle.cc>
-From: Jon Cormier <jcormier@criticallink.com>
-Date: Fri, 18 Jul 2025 15:07:23 -0400
-X-Gm-Features: Ac12FXy7q3q6U50Dg6MYZU_77NgvzE3OW9vAVUYRGRaaMpzgf6mgFEVPfckFZic
-Message-ID: <CADL8D3bpVVrswNUvS5nSeQYuZbyPOfMoMFG_JrPSFb9YkNEKdg@mail.gmail.com>
-Subject: Re: [PATCH 1/3] dt-bindings: mfd: Add power-button option for TI
- TPS6594 PMIC
-To: Michael Walle <michael@walle.cc>
-Cc: Job Sava <jsava@criticallink.com>, Krzysztof Kozlowski <krzk@kernel.org>, Lee Jones <lee@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Julien Panis <jpanis@baylibre.com>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-input@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <8a4eb6b0-f640-4207-9f05-83e06080410b@rowland.harvard.edu>
 
-On Thu, Jul 17, 2025 at 9:58=E2=80=AFAM Michael Walle <michael@walle.cc> wr=
-ote:
->
-> Hi,
->
-> > > Someone knowing the device should come with arguments whether
-> > > other states for this are useful at all. Or not useful and then argum=
-ent
-> > > that in commit msg for example.
-> > The other states are not useful for the kernel. Only the push button
-> > has a need for an interrupt handler. The other states the PMIC handles
-> > on its own.
-> >
-> > What exactly do you want me to change?
->
-> Because the driver isn't setting the configuration anyway, wouldn't
-> it be possible to read the config bits (Register 0x3c, bits 7-6) to
-> figure out whether the pin is configured as power-button instead of
-> having this property?
->
-> I mean, the correct config is likely stored in the NVM anyway, and
-> reconfiguring it to another value seems unlikely.
-Currently, the TPS MFD driver only loads the power button driver if
-the flag is set.  We could put that discovery code in the MFD driver,
-but what if the system designer doesn't want the power button driver?
-I'm not sure auto detecting it makes sense.
+On Jul 17 2025, Alan Stern wrote:
+> Testing by the syzbot fuzzer showed that the HID core gets a
+> shift-out-of-bounds exception when it tries to convert a 32-bit
+> quantity to a 0-bit quantity.  This is hardly an unexpected result,
+> but it means that we should not accept report fields that have a size
+> of zero bits.  Similarly, there's no reason to accept report fields
+> with a count of zero; either type of item is completely meaningless
+> since no information can be conveyed in zero bits.
+> 
+> Reject fields with a size or count of zero, and reject reports
+> containing such fields.
+> 
+> Signed-off-by: Alan Stern <stern@rowland.harvard.edu>
+> Reported-by: syzbot+b63d677d63bcac06cf90@syzkaller.appspotmail.com
+> Closes: https://lore.kernel.org/linux-usb/68753a08.050a0220.33d347.0008.GAE@google.com/
+> Tested-by: syzbot+b63d677d63bcac06cf90@syzkaller.appspotmail.com
+> Fixes: dde5845a529f ("[PATCH] Generic HID layer - code split")
+> Cc: stable@vger.kernel.org
+> 
+> ---
+> 
+> The commit listed in the Fixes tag is not really the right one.  But
+> code motion made tracking it back any further more difficult than I
+> wanted to deal with, so I stopped there.  That commit is from 2006,
+> which is already far enough in the past.
+> 
+>  drivers/hid/hid-core.c |   15 ++++++++++++---
+>  1 file changed, 12 insertions(+), 3 deletions(-)
+> 
+> Index: usb-devel/drivers/hid/hid-core.c
+> ===================================================================
+> --- usb-devel.orig/drivers/hid/hid-core.c
+> +++ usb-devel/drivers/hid/hid-core.c
+> @@ -313,7 +313,14 @@ static int hid_add_field(struct hid_pars
+>  	}
+>  
+>  	offset = report->size;
+> -	report->size += parser->global.report_size * parser->global.report_count;
+> +	i = parser->global.report_size * parser->global.report_count;
+> +	if (i == 0) {
+> +		dbg_hid("invalid field size/count 0x%x 0x%x\n",
+> +			parser->global.report_size,
+> +			parser->global.report_count);
+> +		return -1;
+> +	}
+> +	report->size += i;
+>  
+>  	if (parser->device->ll_driver->max_buffer_size)
+>  		max_buffer_size = parser->device->ll_driver->max_buffer_size;
+> @@ -464,7 +471,8 @@ static int hid_parser_global(struct hid_
+>  
+>  	case HID_GLOBAL_ITEM_TAG_REPORT_SIZE:
+>  		parser->global.report_size = item_udata(item);
+> -		if (parser->global.report_size > 256) {
+> +		if (parser->global.report_size > 256 ||
+> +				parser->global.report_size == 0) {
+>  			hid_err(parser->device, "invalid report_size %d\n",
+>  					parser->global.report_size);
+>  			return -1;
 
-We are basing this on the other TI PMIC drivers and how they are
-configured. I'm not sure I want to reinvent the wheel, so to speak.
->
-> -michael
+Sigh... I applied this one too quickly before going on holidays.
 
+This breaks the hid testsuite:
+https://gitlab.freedesktop.org/bentiss/hid/-/jobs/80805946
 
+(yes, I should have run it before applying).
 
+So basically, there are devices out there with a "broken" report size of
+0, and this patch now entirely disables them.
 
---
-Jonathan Cormier
-Senior Software Engineer
+That Saitek gamepad has the following (see tools/testing/selftests/hid/tests/test_gamepad.py):
+        0x95, 0x01,                    # ..Report Count (1)                  60
+        0x75, 0x00,                    # ..Report Size (0)                   62
+        0x81, 0x03,                    # ..Input (Cnst,Var,Abs)              64
 
-Voice:  315.425.4045 x222
+So we'd need to disable the field, but not invalidate the entire report.
 
-http://www.CriticalLink.com
-6712 Brooklawn Parkway, Syracuse, NY 13211
+I'm glad I scheduled this one for the next cycle.
+
+I'll try to get something next week.
+
+Cheers,
+Benjamin
+
+> @@ -473,7 +481,8 @@ static int hid_parser_global(struct hid_
+>  
+>  	case HID_GLOBAL_ITEM_TAG_REPORT_COUNT:
+>  		parser->global.report_count = item_udata(item);
+> -		if (parser->global.report_count > HID_MAX_USAGES) {
+> +		if (parser->global.report_count > HID_MAX_USAGES ||
+> +				parser->global.report_count == 0) {
+>  			hid_err(parser->device, "invalid report_count %d\n",
+>  					parser->global.report_count);
+>  			return -1;
 
