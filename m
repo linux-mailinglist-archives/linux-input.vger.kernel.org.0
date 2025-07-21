@@ -1,242 +1,132 @@
-Return-Path: <linux-input+bounces-13613-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13614-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9444EB0B9E3
-	for <lists+linux-input@lfdr.de>; Mon, 21 Jul 2025 04:04:35 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 974E3B0BCDC
+	for <lists+linux-input@lfdr.de>; Mon, 21 Jul 2025 08:42:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8FF87176E61
-	for <lists+linux-input@lfdr.de>; Mon, 21 Jul 2025 02:04:33 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D8D043B6A3D
+	for <lists+linux-input@lfdr.de>; Mon, 21 Jul 2025 06:42:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6128A13D246;
-	Mon, 21 Jul 2025 02:04:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED52127EFFA;
+	Mon, 21 Jul 2025 06:42:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="WU5GuecE"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gdgWa7zU"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-24417.protonmail.ch (mail-24417.protonmail.ch [109.224.244.17])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A177215748F;
-	Mon, 21 Jul 2025 02:04:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.224.244.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C04D627EC80;
+	Mon, 21 Jul 2025 06:42:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753063470; cv=none; b=BLKb3pbxFMggdZjPdaLX00ctYYSYqLcDFBqPo8u4mpxiTLLpyq8HyhnzaiowVkQus/g8GcQpGH6YC852nI81rLEXjsCHeQtiiHbzcyPlXU7v3RwuI+MVT1eR8XF6VZ6a5NHES+G/66xS8avGjXNol7zFn7iVJWCE2NcxDJvdA8o=
+	t=1753080159; cv=none; b=q8CrhTLiCskqxWK6PuLxMY8XSBWs13l6it0UWwR9p+xhlfhrYuZzX42LCOUfpNg4DYGTabUrEGoVQ/vzA0X1FiFx1w922OEs6tUz+7JkOvmY1bVlNgdyCFPru/Z2Nf/drnm80LDVMuTGcfzCK8lXoqsEYALbSufU4orsro7H/TY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753063470; c=relaxed/simple;
-	bh=JntV3RGjz1Jbe0FoUMzE5n20T/KBYLOoC0wvMbE0SQA=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=WdzBY4AJxG8afZWcjuTEOnZMczDlJdH4pUyoJCnvpi6L3SdvnGjOb/VpNpCUtZ2lFkUB0NbNv0KAeH2GyKAOXk14U1W1TAUem2Hn21qk72685p4jDIuZeRNhPSopeqhOdTPnOfkHtwhC6YZHcBKaVXycmvqh2CbVo+qgJgoU2Bk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com; spf=pass smtp.mailfrom=protonmail.com; dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b=WU5GuecE; arc=none smtp.client-ip=109.224.244.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonmail.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-	s=protonmail3; t=1753063466; x=1753322666;
-	bh=xrSdxGPnLC2CBHkZSGp5i4YD6BUUlFfg9BJWTFd34G0=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=WU5GuecEcEXPNz9Zf3jYuyx8ZjXIYj/0c8ptABmIFbAI2AtosM8iXqsDrp8LZBItr
-	 CfSPCi3QMZSCo8lxvkN2Un2Jy67h70Lsl3il2d8yWyih2uMgRU5PqCxZagV06HXuNA
-	 42BvAgoXwuSLXftW79XcfAZ7sZdqXUwNW5I00LUyZGTq91EC8FCh3VMcTuf3AFPt2S
-	 F/+P5xucqaDyPV5Tkz1ws8Z9VeJyl5y1Gf2a28y780jyhIzwj03r9MvyUCmPkvyPn2
-	 NmrSWbGpIojMPMDEs/t8qjSsLDZkuNUc3xLNIeVRO2HkY0bsTTN+1aRSd+kwZ7CtUd
-	 3jxc74uqWk3HA==
-Date: Mon, 21 Jul 2025 02:04:19 +0000
-To: linux-input@vger.kernel.org, rust-for-linux@vger.kernel.org
-From: Rahul Rameshbabu <sergeantsagara@protonmail.com>
-Cc: a.hindborg@kernel.org, alex.gaynor@gmail.com, aliceryhl@google.com, benjamin.tissoires@redhat.com, benno.lossin@proton.me, bjorn3_gh@protonmail.com, boqun.feng@gmail.com, dakr@kernel.org, db48x@db48x.net, gary@garyguo.net, jikos@kernel.org, ojeda@kernel.org, peter.hutterer@who-t.net, tmgross@umich.edu, Rahul Rameshbabu <sergeantsagara@protonmail.com>
-Subject: [PATCH v3 3/3] rust: hid: Glorious PC Gaming Race Model O and O- mice reference driver
-Message-ID: <20250721020211.196394-5-sergeantsagara@protonmail.com>
-In-Reply-To: <20250721020211.196394-2-sergeantsagara@protonmail.com>
-References: <20250721020211.196394-2-sergeantsagara@protonmail.com>
-Feedback-ID: 26003777:user:proton
-X-Pm-Message-ID: 2f3f4229a94318008f7e57ba86d3bde5b9824782
+	s=arc-20240116; t=1753080159; c=relaxed/simple;
+	bh=R0y01Ira8vxCv34EaQba0Oh2JfMMnOt+9HcYYnrhJ8k=;
+	h=Content-Type:Date:Message-Id:Subject:Cc:From:To:References:
+	 In-Reply-To; b=P8Y7F4bJJC8l3mY/76P5dsGDoG1yAh67chvOW4ZFRKDXWimOpKnMlJ+VnK5HH9sjol7R6ziBooKM+WvpZAWnr8+enXaDg9YXjgDMtbPgCFUHOY4tZuvP/6XK6//cgZiOBRRj8TtXzCyui+fyzOQpWb9VxiCpjILuVNwVhDb60JU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gdgWa7zU; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B7184C4CEED;
+	Mon, 21 Jul 2025 06:42:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1753080157;
+	bh=R0y01Ira8vxCv34EaQba0Oh2JfMMnOt+9HcYYnrhJ8k=;
+	h=Date:Subject:Cc:From:To:References:In-Reply-To:From;
+	b=gdgWa7zUKhWWxVb7zMuTgFjTlM1F+8XSUbzJPspaVX2xc0YJAT2JgY3r5NY6cIRAh
+	 zh92DAxdjN0+sk/aZHrW2NVRKdvOXB1rPZZrIb8P+xytL2AkWCnI4eXpnFR6jyvtaz
+	 3n2fufub4WDiqSlRrpxWad+N6tBteybAPGTG73n5qu7yD7UjmqgPLjnh7yNLJsaF/p
+	 PCn8rPS3j3SkC5HO1EVVqT1T3YYcFjqdIiKjOmGKxmbA79TUwZlCDZJmrVinsW0iC4
+	 yaOksr5ZNyRJ6S3Hj9LK8bk7dedaskp1gZD3WZDeIuFHtfzJ8LailcJqBEv/TuIifz
+	 NScTJ6JNUthtA==
+Content-Type: multipart/signed;
+ boundary=6493458b0ac4188a6504b0b3b194601da3c29538be77290fa402a0754a70;
+ micalg=pgp-sha384; protocol="application/pgp-signature"
+Date: Mon, 21 Jul 2025 08:42:32 +0200
+Message-Id: <DBHJ1S8MTSA2.35ZZDZFQGFNB1@kernel.org>
+Subject: Re: [PATCH 1/3] dt-bindings: mfd: Add power-button option for TI
+ TPS6594 PMIC
+Cc: "Job Sava" <jsava@criticallink.com>, "Krzysztof Kozlowski"
+ <krzk@kernel.org>, "Lee Jones" <lee@kernel.org>, "Rob Herring"
+ <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Conor
+ Dooley" <conor+dt@kernel.org>, "Julien Panis" <jpanis@baylibre.com>,
+ "Dmitry Torokhov" <dmitry.torokhov@gmail.com>,
+ <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-input@vger.kernel.org>
+From: "Michael Walle" <mwalle@kernel.org>
+To: "Jon Cormier" <jcormier@criticallink.com>, "Jerome Neanne"
+ <jneanne@baylibre.com>, "Markus Schneider-Pargmann" <msp@baylibre.com>
+X-Mailer: aerc 0.16.0
+References: <20250520-linux-stable-tps6594-pwrbutton-v1-0-0cc5c6e0415c@criticallink.com> <20250520-linux-stable-tps6594-pwrbutton-v1-1-0cc5c6e0415c@criticallink.com> <20250521-wandering-tested-porpoise-acbef7@kuoka> <CAKMwjwTP=xSsX3UuK02sKbXWaU7y-ErytNYCL_P0UveDytQW2A@mail.gmail.com> <20250529-wise-tremendous-stork-a7d091@kuoka> <CAKMwjwQOBE651A-5VVjwcv5TspO2eNZfgwWzMpTTWxhR3nGKUw@mail.gmail.com> <0fb4b411-1b27-43fc-8d48-e5220fc85478@kernel.org> <CAKMwjwSZEhXav2U-bd+JNyVDK3JdJoN1kJjnxpfKXBKsW2XxdQ@mail.gmail.com> <DBEDT0OKPYAC.EX6HDQCKUWIS@walle.cc> <CADL8D3bpVVrswNUvS5nSeQYuZbyPOfMoMFG_JrPSFb9YkNEKdg@mail.gmail.com>
+In-Reply-To: <CADL8D3bpVVrswNUvS5nSeQYuZbyPOfMoMFG_JrPSFb9YkNEKdg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+
+--6493458b0ac4188a6504b0b3b194601da3c29538be77290fa402a0754a70
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
 
-Demonstrate how to perform a report fixup from a Rust HID driver. The mice
-specify the const flag incorrectly in the consumer input report descriptor,
-which leads to inputs being ignored. Correctly patch the report descriptor
-for the Model O and O- mice.
+[+ Jerome and Markus ]
 
-Portions of the HID report post-fixup:
-device 0:0
-...
-0x81, 0x06,                    //  Input (Data,Var,Rel)               84
-...
-0x81, 0x06,                    //  Input (Data,Var,Rel)               112
-...
-0x81, 0x06,                    //  Input (Data,Var,Rel)               140
+Hi,
 
-Signed-off-by: Rahul Rameshbabu <sergeantsagara@protonmail.com>
----
+> > > > Someone knowing the device should come with arguments whether
+> > > > other states for this are useful at all. Or not useful and then arg=
+ument
+> > > > that in commit msg for example.
+> > > The other states are not useful for the kernel. Only the push button
+> > > has a need for an interrupt handler. The other states the PMIC handle=
+s
+> > > on its own.
+> > >
+> > > What exactly do you want me to change?
+> >
+> > Because the driver isn't setting the configuration anyway, wouldn't
+> > it be possible to read the config bits (Register 0x3c, bits 7-6) to
+> > figure out whether the pin is configured as power-button instead of
+> > having this property?
+> >
+> > I mean, the correct config is likely stored in the NVM anyway, and
+> > reconfiguring it to another value seems unlikely.
+> Currently, the TPS MFD driver only loads the power button driver if
+> the flag is set.  We could put that discovery code in the MFD driver,
+> but what if the system designer doesn't want the power button driver?
 
-Notes:
-    Changelog:
-   =20
-        v2->v3:
-          * Fixed docstring formatting
-          * Updated MAINTAINERS file based on v1 and v2 discussion
-        v1->v2:
-          * Use vendor id and device id from drivers/hid/hid-ids.h bindings
-          * Make use for dev_err! as appropriate
+The device tree is not for configuration. The designer can just
+ignore the input event in that case.
 
- MAINTAINERS                      |  7 ++++
- drivers/hid/Kconfig              |  8 +++++
- drivers/hid/Makefile             |  1 +
- drivers/hid/hid-glorious.c       |  2 ++
- drivers/hid/hid_glorious_rust.rs | 60 ++++++++++++++++++++++++++++++++
- 5 files changed, 78 insertions(+)
- create mode 100644 drivers/hid/hid_glorious_rust.rs
+> I'm not sure auto detecting it makes sense.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 6c60765f2aaa..eee9a33914ef 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -10200,6 +10200,13 @@ L:=09platform-driver-x86@vger.kernel.org
- S:=09Maintained
- F:=09drivers/platform/x86/gigabyte-wmi.c
-=20
-+GLORIOUS RUST DRIVER [RUST]
-+M:=09Rahul Rameshbabu <sergeantsagara@protonmail.com>
-+L:=09linux-input@vger.kernel.org
-+S:=09Maintained
-+T:=09git git://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git rust
-+F:=09drivers/hid/hid_glorious_rust.rs
-+
- GNSS SUBSYSTEM
- M:=09Johan Hovold <johan@kernel.org>
- S:=09Maintained
-diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
-index 922e76e18af2..b8ef750fb8b6 100644
---- a/drivers/hid/Kconfig
-+++ b/drivers/hid/Kconfig
-@@ -406,6 +406,14 @@ config HID_GLORIOUS
- =09  Support for Glorious PC Gaming Race mice such as
- =09  the Glorious Model O, O- and D.
-=20
-+config HID_GLORIOUS_RUST
-+=09tristate "Glorious O and O- mice Rust reference driver"
-+=09depends on USB_HID
-+=09depends on RUST_HID_ABSTRACTIONS
-+=09help
-+=09  Support for Glorious PC Gaming Race O and O- mice
-+=09  in Rust.
-+
- config HID_HOLTEK
- =09tristate "Holtek HID devices"
- =09depends on USB_HID
-diff --git a/drivers/hid/Makefile b/drivers/hid/Makefile
-index 10ae5dedbd84..bd86b3db5d88 100644
---- a/drivers/hid/Makefile
-+++ b/drivers/hid/Makefile
-@@ -55,6 +55,7 @@ obj-$(CONFIG_HID_FT260)=09=09+=3D hid-ft260.o
- obj-$(CONFIG_HID_GEMBIRD)=09+=3D hid-gembird.o
- obj-$(CONFIG_HID_GFRM)=09=09+=3D hid-gfrm.o
- obj-$(CONFIG_HID_GLORIOUS)  +=3D hid-glorious.o
-+obj-$(CONFIG_HID_GLORIOUS_RUST)=09+=3D hid_glorious_rust.o
- obj-$(CONFIG_HID_VIVALDI_COMMON) +=3D hid-vivaldi-common.o
- obj-$(CONFIG_HID_GOODIX_SPI)=09+=3D hid-goodix-spi.o
- obj-$(CONFIG_HID_GOOGLE_HAMMER)=09+=3D hid-google-hammer.o
-diff --git a/drivers/hid/hid-glorious.c b/drivers/hid/hid-glorious.c
-index 5bbd81248053..d7362852c20f 100644
---- a/drivers/hid/hid-glorious.c
-+++ b/drivers/hid/hid-glorious.c
-@@ -76,8 +76,10 @@ static int glorious_probe(struct hid_device *hdev,
- }
-=20
- static const struct hid_device_id glorious_devices[] =3D {
-+#if !IS_ENABLED(CONFIG_HID_GLORIOUS_RUST)
- =09{ HID_USB_DEVICE(USB_VENDOR_ID_SINOWEALTH,
- =09=09USB_DEVICE_ID_GLORIOUS_MODEL_O) },
-+#endif
- =09{ HID_USB_DEVICE(USB_VENDOR_ID_SINOWEALTH,
- =09=09USB_DEVICE_ID_GLORIOUS_MODEL_D) },
- =09{ HID_USB_DEVICE(USB_VENDOR_ID_LAVIEW,
-diff --git a/drivers/hid/hid_glorious_rust.rs b/drivers/hid/hid_glorious_ru=
-st.rs
-new file mode 100644
-index 000000000000..8cffc1c605dd
---- /dev/null
-+++ b/drivers/hid/hid_glorious_rust.rs
-@@ -0,0 +1,60 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+// Copyright (C) 2025 Rahul Rameshbabu <sergeantsagara@protonmail.com>
-+
-+//! Rust reference HID driver for Glorious Model O and O- mice.
-+
-+use kernel::{self, bindings, device, hid, prelude::*};
-+
-+struct GloriousRust;
-+
-+kernel::hid_device_table!(
-+    HID_TABLE,
-+    MODULE_HID_TABLE,
-+    <GloriousRust as hid::Driver>::IdInfo,
-+    [(
-+        hid::DeviceId::new_usb(
-+            hid::Group::Generic,
-+            bindings::USB_VENDOR_ID_SINOWEALTH,
-+            bindings::USB_DEVICE_ID_GLORIOUS_MODEL_O,
-+        ),
-+        (),
-+    )]
-+);
-+
-+#[vtable]
-+impl hid::Driver for GloriousRust {
-+    type IdInfo =3D ();
-+    const ID_TABLE: hid::IdTable<Self::IdInfo> =3D &HID_TABLE;
-+
-+    /// Fix the Glorious Model O and O- consumer input report descriptor t=
-o use
-+    /// the variable and relative flag, while clearing the const flag.
-+    ///
-+    /// Without this fixup, inputs from the mice will be ignored.
-+    fn report_fixup<'a, 'b: 'a>(hdev: &hid::Device<device::Core>, rdesc: &=
-'b mut [u8]) -> &'a [u8] {
-+        if rdesc.len() =3D=3D 213
-+            && (rdesc[84] =3D=3D 129 && rdesc[85] =3D=3D 3)
-+            && (rdesc[112] =3D=3D 129 && rdesc[113] =3D=3D 3)
-+            && (rdesc[140] =3D=3D 129 && rdesc[141] =3D=3D 3)
-+        {
-+            dev_info!(
-+                hdev.as_ref(),
-+                "patching Glorious Model O consumer control report descrip=
-tor\n"
-+            );
-+
-+            rdesc[85] =3D hid::MAIN_ITEM_VARIABLE | hid::MAIN_ITEM_RELATIV=
-E;
-+            rdesc[113] =3D hid::MAIN_ITEM_VARIABLE | hid::MAIN_ITEM_RELATI=
-VE;
-+            rdesc[141] =3D hid::MAIN_ITEM_VARIABLE | hid::MAIN_ITEM_RELATI=
-VE;
-+        }
-+
-+        rdesc
-+    }
-+}
-+
-+kernel::module_hid_driver! {
-+    type: GloriousRust,
-+    name: "GloriousRust",
-+    authors: ["Rahul Rameshbabu <sergeantsagara@protonmail.com>"],
-+    description: "Rust reference HID driver for Glorious Model O and O- mi=
-ce",
-+    license: "GPL",
-+}
---=20
-2.47.2
+Why?
 
+> We are basing this on the other TI PMIC drivers and how they are
+> configured. I'm not sure I want to reinvent the wheel, so to speak.
 
+That was never a good reason. Maybe there was a reason for the
+TPS65219. Markus? Jerome? I haven't found anything in the commit
+messages or cover letters. Only that it is "optional". Not sure what
+that means. According to the TPS65219 datasheet, that pin if not
+used shall be configured as EN and be connected to VSYS.
+
+-michael
+
+--6493458b0ac4188a6504b0b3b194601da3c29538be77290fa402a0754a70
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iKgEABMJADAWIQTIVZIcOo5wfU/AngkSJzzuPgIf+AUCaH3hWRIcbXdhbGxlQGtl
+cm5lbC5vcmcACgkQEic87j4CH/hFtAF/d1kdDlZUxRD9dqbtdD3Pkp9siZiMMOkP
+A8dvPl4Q37apv3pBGU1xvF/RwwElPKGKAYCPjkNWw/8Pjy9QYI485mpRElbm8EqP
+Q4yItP4WaDZtZykP4FGO1RMMYyvT5pHWopY=
+=4oih
+-----END PGP SIGNATURE-----
+
+--6493458b0ac4188a6504b0b3b194601da3c29538be77290fa402a0754a70--
 
