@@ -1,128 +1,83 @@
-Return-Path: <linux-input+bounces-13650-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13651-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E08DAB0E1D6
-	for <lists+linux-input@lfdr.de>; Tue, 22 Jul 2025 18:26:32 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 085BEB0E6E6
+	for <lists+linux-input@lfdr.de>; Wed, 23 Jul 2025 01:07:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C811016CD1C
-	for <lists+linux-input@lfdr.de>; Tue, 22 Jul 2025 16:26:32 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E224B1C81694
+	for <lists+linux-input@lfdr.de>; Tue, 22 Jul 2025 23:07:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2EABB283128;
-	Tue, 22 Jul 2025 16:24:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4579027C875;
+	Tue, 22 Jul 2025 23:07:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="bLGzyCoq"
+	dkim=pass (1024-bit key) header.d=zohomail.com header.i=safinaskar@zohomail.com header.b="CaaEJXhM"
 X-Original-To: linux-input@vger.kernel.org
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
+Received: from sender4-pp-o95.zoho.com (sender4-pp-o95.zoho.com [136.143.188.95])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8118281525;
-	Tue, 22 Jul 2025 16:24:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.198
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753201461; cv=none; b=JUKA6Kg0ov9St2oB+6HpX66trQFzYrf/IOytRIKfuemzOZa7fWV5O9YRUZYWlpav0jvdNLvcU7E2isikPxky97Xw4eMBorY4s/2GvpJ3euSDHMreQbBvN+RweYu6D5HSyXVmlM8k3Zp9koQh3LutRfWOo2Ft2yhOridErrOKqm8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753201461; c=relaxed/simple;
-	bh=xJ6iY8o+ZOpmD8Y1clJfWaa8E3xKOaOVi2G4V5Rnvlk=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=EU1A85DcwiLw3A0px/fFHuLT7KlLjlxPbbuHGm915d8EsjB1qsiWrUfFQn4OIFH7y4mZosw4ePh6TH2nFkPlYNwoNqrDAuIbfGO4gXn+3OublTeTjdiDPdEN7vNQ7PyQdjB9z9JRw7yHLo4xyFaWd0nG+GBwl8M11VXovFZXAHU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=bLGzyCoq; arc=none smtp.client-ip=217.70.183.198
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 3903E442BA;
-	Tue, 22 Jul 2025 16:24:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1753201454;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Sx6wkia9Ry4UV/E6LGN80qIoVg+MTk5IsREllQ76Ch0=;
-	b=bLGzyCoqzxIMa79ZmkUahyDwsQ+XS6zaMNd5Pf5V2rhY8d7vNUINERAx5x5Mt8gYhp4F0B
-	Jg5Px/QOUd+A9V9dY7VAXZZwItq1PeQiMZqb13VBwgjme0i2RnRSM4QO1wjvQuyMdGM0JG
-	rlb47DSgd3f5XyvNx5daQyMTmsFUOzvmxUYnk9BrYUu+AtKZdF2ZCP9LBrNV4fvg3vEODl
-	+P9d0cWXD8buV5w5P0QGnFt2drcApwLWG56ynsnZULkyRTgcPfCo5fpGB6/4lEMEtCKZGt
-	B0OopUC/tfJ1PTjplNLMJk6iVQZhWlbtsaY8jnimobHo0Nqmq/i1iXtCh4/NRg==
-From: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Date: Tue, 22 Jul 2025 18:23:54 +0200
-Subject: [PATCH v12 10/10] MAINTAINERS: Add entry on MAX7360 driver
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6D7D1B808;
+	Tue, 22 Jul 2025 23:07:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.95
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1753225629; cv=pass; b=p6CBPM0u6XLHwYjfd0qhNZ37uS5/KMMMfcblw1alL4ReBm76A3QxL0S1sI0YsuCxSKbTkvo7ZaOMuXPmvd5lAn9Yps3j3hem12Jt5UQ5r/Wqk1IeMm/QUoBQVm64G/i63EnQA4Wrg8yDsft+BS8jUxfoFPrc/AnHd0mmBazZVH8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1753225629; c=relaxed/simple;
+	bh=yIr3a5+KfAu5PEyLhxmw8if4Mje3ixMLVstRZjSi/Io=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=o+aQSqr+UiCjROoh3fkKIJ5ucnITG8LiBvVFL5yJprg7QbNL/wcJunNLp+a++AXjxfJg2GLg141Vh1LKXGmIw+aFpnG6fKGM4RPENrfuJ18NCXJhsQVgApZXWCxKQwIihl+WNtspKd4dSY8HKBx5M1Ol7BYRL3I2fbYplIe7ol8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.com; spf=pass smtp.mailfrom=zohomail.com; dkim=pass (1024-bit key) header.d=zohomail.com header.i=safinaskar@zohomail.com header.b=CaaEJXhM; arc=pass smtp.client-ip=136.143.188.95
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zohomail.com
+ARC-Seal: i=1; a=rsa-sha256; t=1753225611; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=Cu1RdkP00+7XpHY3Mjq2JUIk2z2xZvzrTSsTqGDEQxzMr8lt9R7OJYoYZJu8y6N4ggm3tLCz2mb2EHJ/BvtDGzj3XHKfSiBoWUw1A3inFHElKEuXWMyJa9zpIAGOBMgh1IE3Ieh4K4ymv6ajbXKj9F5q06vF24g/WyQbMNvDR/0=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1753225611; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=yIr3a5+KfAu5PEyLhxmw8if4Mje3ixMLVstRZjSi/Io=; 
+	b=L+PqbNgASota/TlO3QTbLIR0qNxr8e8YPzsbfsjBUnq1OJFpfILq5BSStqE2l6QTdgakg4Vmnc59AXcScR0fxhpYBDBo1Up6I1t72Aszfigcl5q1saFneniWh81GHRRAyd8hGQaAXDIKTLlbDRx8VJPIaBIbIthn40XEH5Zp9A4=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=zohomail.com;
+	spf=pass  smtp.mailfrom=safinaskar@zohomail.com;
+	dmarc=pass header.from=<safinaskar@zohomail.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1753225611;
+	s=zm2022; d=zohomail.com; i=safinaskar@zohomail.com;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Feedback-ID:Message-Id:Reply-To;
+	bh=yIr3a5+KfAu5PEyLhxmw8if4Mje3ixMLVstRZjSi/Io=;
+	b=CaaEJXhMt9Pmq8CHZJtoG4JdSWD16XlQPiUqomi9bKwj5jxhm40kgKtWwk0UbQG9
+	gSzEJczvaBBwEVR3RACe8w0viXL9vnr0zj4DN/5K3UBU5+cJEe5EG9gYdhoEqarHr7I
+	taU0AoUDqZ/+sudPY/6SYwk0gUEETxAX4lCavU0c=
+Received: by mx.zohomail.com with SMTPS id 1753225608045842.7295880076102;
+	Tue, 22 Jul 2025 16:06:48 -0700 (PDT)
+From: Askar Safin <safinaskar@zohomail.com>
+To: linux-input@vger.kernel.org
+Cc: bentiss@kernel.org,
+	kl@kl.wtf,
+	linux-i2c@vger.kernel.org,
+	linux-firmware@kernel.org,
+	Dell.Client.Kernel@dell.com
+Subject: Re: Bug: i2c_designware: touchpad doesn't work after 40 min suspend on Dell Precision 7780
+Date: Wed, 23 Jul 2025 02:06:42 +0300
+Message-ID: <20250722230642.25243-1-safinaskar@zohomail.com>
+X-Mailer: git-send-email 2.47.2
+In-Reply-To: <1945bec9a47.7ee2a33b5058.7025603412967539178@zohomail.com>
+References: <1945bec9a47.7ee2a33b5058.7025603412967539178@zohomail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250722-mdb-max7360-support-v12-10-3747721a8d02@bootlin.com>
-References: <20250722-mdb-max7360-support-v12-0-3747721a8d02@bootlin.com>
-In-Reply-To: <20250722-mdb-max7360-support-v12-0-3747721a8d02@bootlin.com>
-To: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Kamel Bouhara <kamel.bouhara@bootlin.com>, 
- Linus Walleij <linus.walleij@linaro.org>, 
- Bartosz Golaszewski <brgl@bgdev.pl>, 
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
- =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, 
- Michael Walle <mwalle@kernel.org>, Mark Brown <broonie@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-gpio@vger.kernel.org, linux-input@vger.kernel.org, 
- linux-pwm@vger.kernel.org, andriy.shevchenko@intel.com, 
- =?utf-8?q?Gr=C3=A9gory_Clement?= <gregory.clement@bootlin.com>, 
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-X-Mailer: b4 0.14.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1753201440; l=1082;
- i=mathieu.dubois-briand@bootlin.com; s=20241219; h=from:subject:message-id;
- bh=xJ6iY8o+ZOpmD8Y1clJfWaa8E3xKOaOVi2G4V5Rnvlk=;
- b=RCtvc6Srpi81Hw3SAZmo9YPbfFfM9Vq/dZhYOLivl7rVBPorISC3LthYFL0evjIQ9O0I0LgBM
- smlCMBzi1IPCGB54JVnNsV915RaNmFWhlivYJPIbbp5VuJ2sDKhD6vw
-X-Developer-Key: i=mathieu.dubois-briand@bootlin.com; a=ed25519;
- pk=1PVTmzPXfKvDwcPUzG0aqdGoKZJA3b9s+3DqRlm0Lww=
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdejheefiecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephfffufggtgfgkfhfjgfvvefosehtjeertdertdejnecuhfhrohhmpeforghthhhivghuucffuhgsohhishdquehrihgrnhguuceomhgrthhhihgvuhdrughusghoihhsqdgsrhhirghnugessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnheptdfhgeetvddvheejieehheehueetjeelkedtfeehhefgfeeglefhteegtddthfetnecukfhppedvrgdtudemtggsudegmeehheeimeejrgdttdemfehftghfmehfsgdtugemuddviedvmedvvgejieenucevlhhushhtvghrufhiiigvpeehnecurfgrrhgrmhepihhnvghtpedvrgdtudemtggsudegmeehheeimeejrgdttdemfehftghfmehfsgdtugemuddviedvmedvvgejiedphhgvlhhopegluddvjedrtddruddrudgnpdhmrghilhhfrhhomhepmhgrthhhihgvuhdrughusghoihhsqdgsrhhirghnugessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepvdefpdhrtghpthhtoheplhhinhhushdrfigrlhhlvghijheslhhinhgrrhhordhorhhgpdhrtghpthhtohepmhifrghllhgvsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegrnhgurhhihidrshhhv
- ghvtghhvghnkhhosehinhhtvghlrdgtohhmpdhrtghpthhtoheprhgrfhgrvghlsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehkrhiikhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhpfihmsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheptghonhhorhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehlvggvsehkvghrnhgvlhdrohhrgh
-X-GND-Sasl: mathieu.dubois-briand@bootlin.com
+Content-Transfer-Encoding: 8bit
+Feedback-ID: rr08011227b0408efdca9d5344e2bd0c600000817b8b7241ba8ca31cff2d9ee816fab5e2adf5c194274d45c6:zu080112272db8fbb740a89cec6a72ac400000145bd564ab960a00b929a4e9166cf8100a78e6646a40f7b239:rf0801122cf86b378d59d051b43b55dcf30000b47e712d8c352d072bf833edb503c126536d56792e3bf66fcd75760ca08f:ZohoMail
+X-ZohoMailClient: External
 
-Add myself as maintainer of Maxim MAX7360 driver and device-tree bindings.
+The bug is fixed by latest touchpad firmware. Unfortunately, it does not come as part of
+system firmware. Nor it can be updated via fwupdmgr. You have to download touchpad firmware
+update utility from Dell and run it within Windows.
 
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
----
- MAINTAINERS | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 60bba48f5479..469317272dab 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -14808,6 +14808,19 @@ L:	linux-iio@vger.kernel.org
- S:	Maintained
- F:	drivers/iio/temperature/max30208.c
- 
-+MAXIM MAX7360 KEYPAD LED MFD DRIVER
-+M:	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-+S:	Maintained
-+F:	Documentation/devicetree/bindings/gpio/maxim,max7360-gpio.yaml
-+F:	Documentation/devicetree/bindings/mfd/maxim,max7360.yaml
-+F:	drivers/gpio/gpio-max7360.c
-+F:	drivers/input/keyboard/max7360-keypad.c
-+F:	drivers/input/misc/max7360-rotary.c
-+F:	drivers/mfd/max7360.c
-+F:	drivers/pinctrl/pinctrl-max7360.c
-+F:	drivers/pwm/pwm-max7360.c
-+F:	include/linux/mfd/max7360.h
-+
- MAXIM MAX77650 PMIC MFD DRIVER
- M:	Bartosz Golaszewski <brgl@bgdev.pl>
- L:	linux-kernel@vger.kernel.org
-
--- 
-2.39.5
-
+--
+Askar Safin
 
