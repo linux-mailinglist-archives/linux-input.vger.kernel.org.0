@@ -1,278 +1,250 @@
-Return-Path: <linux-input+bounces-13634-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13635-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88EC7B0D776
-	for <lists+linux-input@lfdr.de>; Tue, 22 Jul 2025 12:38:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06BD6B0D802
+	for <lists+linux-input@lfdr.de>; Tue, 22 Jul 2025 13:19:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F10736C4C7D
-	for <lists+linux-input@lfdr.de>; Tue, 22 Jul 2025 10:37:38 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 259343B9C40
+	for <lists+linux-input@lfdr.de>; Tue, 22 Jul 2025 11:18:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 954BE2DC35C;
-	Tue, 22 Jul 2025 10:37:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 56FC728CF67;
+	Tue, 22 Jul 2025 11:19:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b="cZTJWNCt"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="a9OY86lF"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CE472E3387
-	for <linux-input@vger.kernel.org>; Tue, 22 Jul 2025 10:37:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A5148F40;
+	Tue, 22 Jul 2025 11:19:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753180643; cv=none; b=aQbFAfwNuSuWb6NRFghDH+dF04f79+ScYBZG1EqJ6Rzp6BCImoAbzSdg5JYOhh0al5VmEUPf3+TgXQYqJWWEl3Xpgwf/k3oFVRPwRiihy1pTN2AZptsbs+hjxPx42mFOVKE5KvY91tdQRTMyY4MWOvocp6sKQ/O9/063goJ2k1E=
+	t=1753183148; cv=none; b=gmYzm1cs+GUTa9GsueIPMUIi695/yoGrcQnF5wVag0wKh1Hj15zIE8mGvhekrizvp179T3ZL/vdWBvcDjwGCWO7s25xzODnSI5FWO6qaTFQ8DMihiIupOV5GIahrvSSXchS0sxvHFQTsEpl80knh1t9Ny+E2XhDwBUktp4hSl10=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753180643; c=relaxed/simple;
-	bh=544owQth2eYHOtuZem85B7R//X9yXkusHL8qgRLe1MY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=sGaSO2YVEfbsx/GLI3DZErtQOr+9M464UbBSD6aR7eOECHvuHn34ojjkB8R4yXQeksJ1xYtA3DL0g7OInQxb3PsmlbyDqPtQwI19z0tbgtT38ZPkisCtxfXNkFWj/tKEWRUJyygYHK6GJ0AyL+tfnjNbkvWt49X2pujARYBd888=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=amarulasolutions.com; spf=pass smtp.mailfrom=amarulasolutions.com; dkim=pass (1024-bit key) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b=cZTJWNCt; arc=none smtp.client-ip=209.85.218.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=amarulasolutions.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amarulasolutions.com
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-ae3703c2a8bso937018566b.0
-        for <linux-input@vger.kernel.org>; Tue, 22 Jul 2025 03:37:21 -0700 (PDT)
+	s=arc-20240116; t=1753183148; c=relaxed/simple;
+	bh=/pi07YCWUK9NhuZCP73XtyvuKXHE+FC+o9jjLgf76MU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HmcYBakVlLj63/8O6APinlqJmmTvs1WhqLDy+SfAk/GAlhgL8XFMjQb+VtODtfKZRDU2BONe4Qq+/ERqaZTgLpAoclHDHvLJfK8AQOFtDcvLskvL+IfhY4DTTj0QLNqT5rEsQJJnqn78d8a1MW+pTAawv6mrrBtGeMHDQ70Mbvk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=a9OY86lF; arc=none smtp.client-ip=209.85.221.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-3a510432236so3203955f8f.0;
+        Tue, 22 Jul 2025 04:19:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amarulasolutions.com; s=google; t=1753180640; x=1753785440; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2oVD/JfoNNaDmsm+Xmi5oDSaNjfSX3YkjZgxJuhnDRo=;
-        b=cZTJWNCt1oahuTLJgvUnpaJFe383xquzJRztA6ETtINmQNOaYXJeJ3GHLnRHlbUjUb
-         yCoOduARpvSfVQU+bVttIVQ06FIuONYw1KfhzLNjawfxxucNZMgxyqR6Pq+Yx++tIhoC
-         65pTJs66Q3DwRNMNqdVDeLI0ZtApL88SxTPl4=
+        d=gmail.com; s=20230601; t=1753183145; x=1753787945; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=wEurD6iXsPr7RepkDOyveYJGKHwIE5RRMqk4xOBcUeM=;
+        b=a9OY86lF2FI4Byrs5UoOZZpejQX4HMhMcTI/V3ReGVLYfByY1kCI+HxnDVnL63Oq0P
+         OrQ34sQjvaD5Id42Ix+2r7knDsa9+7zZPwnYOA+q+ksebxjhE6s3e+wpgBCDrwSaWVAc
+         9GT3AhdWNm2cP9N9zlpf+yyvt26k7Io/ZQcHmWp0QMZwcVa8ny47XfrQiZbIHB44JfQn
+         Ay23Yv7TpVuYZ2RLxe59Jr1DReYVCMPd62/22eMwyHy6oVsxyDMGdViooficFyCawWj/
+         +NiQHHYkfa5RnCD8q7WuQJvzoSNAi+779uUOPt6srq+yQl3s9x9XWhtboWwiBh0shzkb
+         4ZLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753180640; x=1753785440;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=2oVD/JfoNNaDmsm+Xmi5oDSaNjfSX3YkjZgxJuhnDRo=;
-        b=CsLJ5utd8Kebr7A5tzwaZGeWwcwoZPN0HzHeVJR5dVm4uPm+9q1JuG1UbHlg/OKagI
-         IuUCF+oic2wwbV7lNgHD+aungVzUuyWelLmbHgMWuWQX6YmboX5u0k8V5GRQ08XGMarU
-         5HUQ+rWP+czhZIfdDavXdPMSweBzzmxIaD8FRXpeZM6/7tItDKCFe+VJnvcBWPgTFmXB
-         CV1mgPIK5JglT3rHisFErqOCY9Y+qn5MYWTGzKW6zOBJmrC0rSFCTJLpBoqvwpk+Eosm
-         Dwasy1ZiBFhfWgIgSlU/r8h+47soDipWqSNoHYqtO+rh4kiEMgMoI8ZmP16ixKBkL6lK
-         ZpJQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX4BRSzgog+1BvkNTrxdMe2AHYg9Z4Yq5IzgkprBfQ9mWYlyH7vCTwdGB6KfBAkI04CKbRLm9EAzP7Xxg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyxYCo4npBeCTz2fGvtoRtf+eA2/hAJVZtkZgMoBENT7SGtAtPh
-	7k98GYbzDZThnjqt0WwHhAwR5Vr0yIpXB6e4J9f2cz1ZLQpv9L8Q94KPG2mLQJxPAuA=
-X-Gm-Gg: ASbGncsCplyhbQj0Mypitewi7B5kuue1h9vThR3hfLFCimwo64pzy1VJ+4VLYtOBWVS
-	m4IFLaFMIBIf/Zn/PQN7CVYz8ETSyGgiKcs599IEHQOb7UguLCu59W0c+qDst2OjzGJzJS3fH7k
-	U2UVTCu9zfaNd7Z1EMoAHSfNlqSfVYKH9VEEMa8f+czOUNQ8CVTMF43+dQvTEUmXnc7gV1e6mjq
-	Ku3Dl2nmmehy5OWxKylDneFtAuNgeeiXoqVur6SQiHVy1RLT00e+RddzpZzsGeF78Bw+BMpT7Lx
-	G5jkMJfy+NbNvPkn8v/sfiju1XlnMNvblS8bh93foKONjjfHBH6HHlVgV0y4m9hnvq4nXAMUYi/
-	xHNDyGDrVMSDw/2I9igPothauOeJ6M4+vajBa4k/wc7vxMm1SYCwyrncQrNM=
-X-Google-Smtp-Source: AGHT+IGStQC9p3KnKnSdXHMyUMvaqHcAacRkAh69PXIKKkeDsY2m0YgH1GOz6iF/AlAHUl9+4h+0Uw==
-X-Received: by 2002:a17:907:3e93:b0:ae3:d026:36cd with SMTP id a640c23a62f3a-aec6a6235eemr1682182966b.42.1753180639487;
-        Tue, 22 Jul 2025 03:37:19 -0700 (PDT)
-Received: from localhost.localdomain ([2001:b07:6474:ebbf:2bba:d7b0:8e79:c982])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aec6ca310e2sm844568766b.79.2025.07.22.03.37.18
+        d=1e100.net; s=20230601; t=1753183145; x=1753787945;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=wEurD6iXsPr7RepkDOyveYJGKHwIE5RRMqk4xOBcUeM=;
+        b=Wt7/+fKSWDOYEpaeOL3ogS/jWZlUKaDV0GqTvEaGQiF1rQM0SUqfNwHAh0X+WOtXOC
+         PZlrZKq9ugOEe8QfpCfF5jWubRr+puYzHERO3tGvmrRsPrp8SWPtPmH6fzGGUoZOc22C
+         ON5OeLWp3HjbmAmqW0+YVpJ7tzv6ewr78GHkOhDZMD/LYGfM74yRBHRYzjUy7g6GrcSY
+         ldSwPYFJ1GS6JEMUGJd9toYaMBhbA33JxsQybRtZSBxGPHaZvT93LcCY3tYVKqDobRZO
+         sSJjeA4xgszdBM3DYkLribONT3buhrwg9+8OyY8azEXGuCu27JHolJw4Gzku0j1U51sG
+         gnVw==
+X-Forwarded-Encrypted: i=1; AJvYcCWtLnsidzMJq0fRTof94BZFavg34A7/Ao53AkaiPB2BETeSyIQE8SJGv4hCw1ULQaYZwwjkEYNmFg2E8A==@vger.kernel.org, AJvYcCXosLsctGtsyEuYv3B76Ny+BHqVg1xqnQ5d1N7vLCthASp/sPqBWPlXn9BVvDXta4U0dBrI6P9s4dipATCO@vger.kernel.org, AJvYcCXxyxyVjMQ73enpvLkDNDjCzZ2Q4S1vAUpy15tu4VDZI++h4hSN7sUWkjEHL7qyEwSblGPfeUrR@vger.kernel.org
+X-Gm-Message-State: AOJu0YxvoP4GtERjr/jP5fIG1a92aPF1s/rDcftzFnjtkskcwBKOpte+
+	qEDtZml5OEu4sKiYxK74EJJl2ouYi3dPqJkSPIVN6zwAxcAtsXbED5dW
+X-Gm-Gg: ASbGncu3uyY5beUDZluIChgtCIicc4XYQxwfSz5itDlfN2SZfM370AQyolQNoGJIFQM
+	9u9hV01G+E9IXHNp9Pxtwy8uSCjMd4AxvCcUNWZRR6jCGr38LfNDAq3b7a8TDPu28KJK9aSxStZ
+	SUH6Qqn+F7YwdiU1zTWCbADVEzspkZlODuOJ17dPaEOe4EMYxfsXslzmX31qs35CmmmM8CRO2c7
+	+E5TMDjP/p/AV+mgg4vL//d46nDytGhoeX6Gd1qasZk7eppMm1Ki/xZMdbreX4+owFDXlMYF0Pa
+	Kc+Ax/DFGQ4Obx3e5kofX/OGMBInAFTdSm4j4G1d/sea/w5GV+fHGt+AO+aR8D4+py5RWQTBLcd
+	02txGqth4zdgJEoNCels=
+X-Google-Smtp-Source: AGHT+IF6XPEcSkqdIT7aDFpbGYg19VkOPLerg36vUxXct9CB8PNS8G+//5b23f6j4/cqnq91dQ5iZA==
+X-Received: by 2002:a05:6000:3102:b0:3a4:ec23:dba5 with SMTP id ffacd0b85a97d-3b60e4c910dmr17528503f8f.5.1753183144331;
+        Tue, 22 Jul 2025 04:19:04 -0700 (PDT)
+Received: from gmail.com ([2a02:c7c:f4f0:900:2e21:a766:f429:7a71])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b61ca2c013sm13179175f8f.33.2025.07.22.04.19.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Jul 2025 03:37:19 -0700 (PDT)
-From: Dario Binacchi <dario.binacchi@amarulasolutions.com>
-To: linux-kernel@vger.kernel.org
-Cc: linux-amarula@amarulasolutions.com,
-	Dario Binacchi <dario.binacchi@amarulasolutions.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Fabio Estevam <festevam@gmail.com>,
-	Michael Trimarchi <michael@amarulasolutions.com>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Shawn Guo <shawnguo@kernel.org>,
-	imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-input@vger.kernel.org
-Subject: [PATCH 4/4] Input: imx6ul_tsc - use BIT, FIELD_{GET,PREP} and GENMASK macros
-Date: Tue, 22 Jul 2025 12:36:18 +0200
-Message-ID: <20250722103706.3440777-5-dario.binacchi@amarulasolutions.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250722103706.3440777-1-dario.binacchi@amarulasolutions.com>
-References: <20250722103706.3440777-1-dario.binacchi@amarulasolutions.com>
+        Tue, 22 Jul 2025 04:19:03 -0700 (PDT)
+Date: Tue, 22 Jul 2025 12:19:01 +0100
+From: Qasim Ijaz <qasdev00@gmail.com>
+To: Jiri Slaby <jirislaby@kernel.org>
+Cc: jikos@kernel.org, bentiss@kernel.org, linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+	Dmitry Savin <envelsavinds@gmail.com>
+Subject: Re: [PATCH RESEND] HID: multitouch: fix slab out-of-bounds access in
+ mt_report_fixup()
+Message-ID: <aH9zl18IqvL7l9pX@gmail.com>
+References: <20250722080003.3605-1-qasdev00@gmail.com>
+ <c90e88a4-7fff-49fa-8a6f-24f3671d9390@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <c90e88a4-7fff-49fa-8a6f-24f3671d9390@kernel.org>
 
-Replace opencoded masking and shifting, with BIT(), GENMASK(),
-FIELD_GET() and FIELD_PREP() macros.
+On Tue, Jul 22, 2025 at 11:16:15AM +0200, Jiri Slaby wrote:
+> On 22. 07. 25, 10:00, Qasim Ijaz wrote:
+> > A malicious HID device can trigger a slab out-of-bounds during
+> > mt_report_fixup() by passing in report descriptor smaller than
+> > 607 bytes. mt_report_fixup() attempts to patch byte offset 607
+> > of the descriptor with 0x25 by first checking if byte offset
+> > 607 is 0x15 however it lacks bounds checks to verify if the
+> > descriptor is big enough before conducting this check. Fix
+> > this vulnerability by ensuring the descriptor size is
+> > greater than or equal to 608 before accessing it.
+> > 
+> > Below is the KASAN splat after the out of bounds access happens:
+> > 
+> > [   13.671954] ==================================================================
+> > [   13.672667] BUG: KASAN: slab-out-of-bounds in mt_report_fixup+0x103/0x110
+> > [   13.673297] Read of size 1 at addr ffff888103df39df by task kworker/0:1/10
+> > [   13.673297]
+> > [   13.673297] CPU: 0 UID: 0 PID: 10 Comm: kworker/0:1 Not tainted 6.15.0-00005-gec5d573d83f4-dirty #3
+> > [   13.673297] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.2-debian-1.16.2-1 04/04
+> > [   13.673297] Call Trace:
+> > [   13.673297]  <TASK>
+> > [   13.673297]  dump_stack_lvl+0x5f/0x80
+> > [   13.673297]  print_report+0xd1/0x660
+> > [   13.673297]  kasan_report+0xe5/0x120
+> > [   13.673297]  __asan_report_load1_noabort+0x18/0x20
+> > [   13.673297]  mt_report_fixup+0x103/0x110
+> > [   13.673297]  hid_open_report+0x1ef/0x810
+> > [   13.673297]  mt_probe+0x422/0x960
+> > [   13.673297]  hid_device_probe+0x2e2/0x6f0
+> > [   13.673297]  really_probe+0x1c6/0x6b0
+> > [   13.673297]  __driver_probe_device+0x24f/0x310
+> > [   13.673297]  driver_probe_device+0x4e/0x220
+> > [   13.673297]  __device_attach_driver+0x169/0x320
+> > [   13.673297]  bus_for_each_drv+0x11d/0x1b0
+> > [   13.673297]  __device_attach+0x1b8/0x3e0
+> > [   13.673297]  device_initial_probe+0x12/0x20
+> > [   13.673297]  bus_probe_device+0x13d/0x180
+> > [   13.673297]  device_add+0xe3a/0x1670
+> > [   13.673297]  hid_add_device+0x31d/0xa40
+> > [...]
+> > 
+> > Fixes: c8000deb6836 ("HID: multitouch: Add support for GT7868Q")
+> > Cc: stable@vger.kernel.org
+> > Signed-off-by: Qasim Ijaz <qasdev00@gmail.com>
+> > Reviewed-by: Dmitry Savin <envelsavinds@gmail.com>
+> > ---
+> >   drivers/hid/hid-multitouch.c | 25 ++++++++++++++++---------
+> >   1 file changed, 16 insertions(+), 9 deletions(-)
+> > 
+> > diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
+> > index 7ac8e16e6158..af4abe3ba410 100644
+> > --- a/drivers/hid/hid-multitouch.c
+> > +++ b/drivers/hid/hid-multitouch.c
+> > @@ -1461,18 +1461,25 @@ static const __u8 *mt_report_fixup(struct hid_device *hdev, __u8 *rdesc,
+> >   	if (hdev->vendor == I2C_VENDOR_ID_GOODIX &&
+> >   	    (hdev->product == I2C_DEVICE_ID_GOODIX_01E8 ||
+> >   	     hdev->product == I2C_DEVICE_ID_GOODIX_01E9)) {
+> > -		if (rdesc[607] == 0x15) {
+> > -			rdesc[607] = 0x25;
+> > -			dev_info(
+> > -				&hdev->dev,
+> > -				"GT7868Q report descriptor fixup is applied.\n");
+> > +		if (*size >= 608) {
+> > +			if (rdesc[607] == 0x15) {
+> > +				rdesc[607] = 0x25;
+> > +				dev_info(
+> > +					&hdev->dev,
+> > +					"GT7868Q report descriptor fixup is applied.\n");
+> > +			} else {
+> > +				dev_info(
+> > +					&hdev->dev,
+> > +					"The byte is not expected for fixing the report descriptor. \
+> > +					It's possible that the touchpad firmware is not suitable for applying the fix. \
+> > +					got: %x\n",
+> 
+> This is wrong. You have all the spaces/tabs in the string now. Drop all the
+> backslashes, and open and close the string on every line.
+> 
+> > +					rdesc[607]);
+> > +			}
+> 
+> As this is superlong and superindented, perhaps introduce a new function for
+> these devices?
+> 
+> >   		} else {
+> >   			dev_info(
+> >   				&hdev->dev,
+> > -				"The byte is not expected for fixing the report descriptor. \
+> > -It's possible that the touchpad firmware is not suitable for applying the fix. \
+> > -got: %x\n",
+> 
+> This was horrid too, yeah.
+> 
+> > -				rdesc[607]);
+> > +				"GT7868Q fixup: report descriptor only %u bytes, skipping\n",
+> 
+> A predicate missing. Eg. "has only", or "is only".
+> 
 
-Signed-off-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
+Thanks for the feedback Jiri, I took the advice on board, is something
+like this better?
 
----
-
- drivers/input/touchscreen/imx6ul_tsc.c | 88 ++++++++++++++------------
- 1 file changed, 48 insertions(+), 40 deletions(-)
-
-diff --git a/drivers/input/touchscreen/imx6ul_tsc.c b/drivers/input/touchscreen/imx6ul_tsc.c
-index a6066643bd48..e74999c5e22f 100644
---- a/drivers/input/touchscreen/imx6ul_tsc.c
-+++ b/drivers/input/touchscreen/imx6ul_tsc.c
-@@ -21,25 +21,23 @@
- #include <linux/log2.h>
- 
- /* ADC configuration registers field define */
--#define ADC_AIEN		(0x1 << 7)
-+#define ADC_AIEN		BIT(7)
-+#define ADC_ADCH_MASK		GENMASK(4, 0)
- #define ADC_CONV_DISABLE	0x1F
--#define ADC_AVGE		(0x1 << 5)
--#define ADC_CAL			(0x1 << 7)
--#define ADC_CALF		0x2
--#define ADC_12BIT_MODE		(0x2 << 2)
--#define ADC_CONV_MODE_MASK	(0x3 << 2)
-+#define ADC_AVGE		BIT(5)
-+#define ADC_CAL			BIT(7)
-+#define ADC_CALF		BIT(1)
-+#define ADC_CONV_MODE_MASK	GENMASK(3, 2)
-+#define ADC_12BIT_MODE		0x2
- #define ADC_IPG_CLK		0x00
--#define ADC_INPUT_CLK_MASK	0x3
--#define ADC_CLK_DIV_8		(0x03 << 5)
--#define ADC_CLK_DIV_MASK	(0x3 << 5)
--#define ADC_SHORT_SAMPLE_MODE	(0x0 << 4)
--#define ADC_SAMPLE_MODE_MASK	(0x1 << 4)
--#define ADC_HARDWARE_TRIGGER	(0x1 << 13)
--#define ADC_AVGS_SHIFT		14
--#define ADC_AVGS_MASK		(0x3 << 14)
-+#define ADC_INPUT_CLK_MASK	GENMASK(1, 0)
-+#define ADC_CLK_DIV_8		0x03
-+#define ADC_CLK_DIV_MASK	GENMASK(6, 5)
-+#define ADC_SAMPLE_MODE		BIT(4)
-+#define ADC_HARDWARE_TRIGGER	BIT(13)
-+#define ADC_AVGS_MASK		GENMASK(15, 14)
- #define SELECT_CHANNEL_4	0x04
- #define SELECT_CHANNEL_1	0x01
--#define DISABLE_CONVERSION_INT	(0x0 << 7)
- 
- /* ADC registers */
- #define REG_ADC_HC0		0x00
-@@ -66,20 +64,26 @@
- #define REG_TSC_DEBUG_MODE	0x70
- #define REG_TSC_DEBUG_MODE2	0x80
- 
-+/* TSC_MEASURE_VALUE register field define */
-+#define X_VALUE_MASK		GENMASK(27, 16)
-+#define Y_VALUE_MASK		GENMASK(11, 0)
-+
- /* TSC configuration registers field define */
--#define DETECT_4_WIRE_MODE	(0x0 << 4)
--#define AUTO_MEASURE		0x1
--#define MEASURE_SIGNAL		0x1
--#define DETECT_SIGNAL		(0x1 << 4)
--#define VALID_SIGNAL		(0x1 << 8)
--#define MEASURE_INT_EN		0x1
--#define MEASURE_SIG_EN		0x1
--#define VALID_SIG_EN		(0x1 << 8)
-+#define MEASURE_DELAY_TIME_MASK	GENMASK(31, 8)
-+#define DETECT_5_WIRE_MODE	BIT(4)
-+#define AUTO_MEASURE		BIT(0)
-+#define MEASURE_SIGNAL		BIT(0)
-+#define DETECT_SIGNAL		BIT(4)
-+#define VALID_SIGNAL		BIT(8)
-+#define MEASURE_INT_EN		BIT(0)
-+#define MEASURE_SIG_EN		BIT(0)
-+#define VALID_SIG_EN		BIT(8)
- #define DE_GLITCH_MASK		GENMASK(30, 29)
- #define DE_GLITCH_DEF		0x02
--#define START_SENSE		(0x1 << 12)
--#define TSC_DISABLE		(0x1 << 16)
-+#define START_SENSE		BIT(12)
-+#define TSC_DISABLE		BIT(16)
- #define DETECT_MODE		0x2
-+#define STATE_MACHINE_MASK	GENMASK(22, 20)
- 
- struct imx6ul_tsc {
- 	struct device *dev;
-@@ -115,19 +119,20 @@ static int imx6ul_adc_init(struct imx6ul_tsc *tsc)
- 
- 	adc_cfg = readl(tsc->adc_regs + REG_ADC_CFG);
- 	adc_cfg &= ~(ADC_CONV_MODE_MASK | ADC_INPUT_CLK_MASK);
--	adc_cfg |= ADC_12BIT_MODE | ADC_IPG_CLK;
--	adc_cfg &= ~(ADC_CLK_DIV_MASK | ADC_SAMPLE_MODE_MASK);
--	adc_cfg |= ADC_CLK_DIV_8 | ADC_SHORT_SAMPLE_MODE;
-+	adc_cfg |= FIELD_PREP(ADC_CONV_MODE_MASK, ADC_12BIT_MODE) |
-+		FIELD_PREP(ADC_INPUT_CLK_MASK, ADC_IPG_CLK);
-+	adc_cfg &= ~(ADC_CLK_DIV_MASK | ADC_SAMPLE_MODE);
-+	adc_cfg |= FIELD_PREP(ADC_CLK_DIV_MASK, ADC_CLK_DIV_8);
- 	if (tsc->average_enable) {
- 		adc_cfg &= ~ADC_AVGS_MASK;
--		adc_cfg |= (tsc->average_select) << ADC_AVGS_SHIFT;
-+		adc_cfg |= FIELD_PREP(ADC_AVGS_MASK, tsc->average_select);
- 	}
- 	adc_cfg &= ~ADC_HARDWARE_TRIGGER;
- 	writel(adc_cfg, tsc->adc_regs + REG_ADC_CFG);
- 
- 	/* enable calibration interrupt */
- 	adc_hc |= ADC_AIEN;
--	adc_hc |= ADC_CONV_DISABLE;
-+	adc_hc |= FIELD_PREP(ADC_ADCH_MASK, ADC_CONV_DISABLE);
- 	writel(adc_hc, tsc->adc_regs + REG_ADC_HC0);
- 
- 	/* start ADC calibration */
-@@ -167,19 +172,21 @@ static void imx6ul_tsc_channel_config(struct imx6ul_tsc *tsc)
+ static const __u8 *mt_report_fixup(struct hid_device *hdev, __u8 *rdesc,
+				   unsigned int *size)
  {
- 	u32 adc_hc0, adc_hc1, adc_hc2, adc_hc3, adc_hc4;
+          if (hdev->vendor == I2C_VENDOR_ID_GOODIX &&
+              (hdev->product == I2C_DEVICE_ID_GOODIX_01E8 ||
+               hdev->product == I2C_DEVICE_ID_GOODIX_01E9)) {
+		 if (*size < 608) {
+			 dev_info(
+				 &hdev->dev,
+				 "GT7868Q fixup: report descriptor is only %u bytes, skipping\n",
+				 *size);
+                          return rdesc;
+                  }
  
--	adc_hc0 = DISABLE_CONVERSION_INT;
-+	adc_hc0 = FIELD_PREP(ADC_AIEN, 0);
- 	writel(adc_hc0, tsc->adc_regs + REG_ADC_HC0);
+		 if (rdesc[607] == 0x15) {
+			 rdesc[607] = 0x25;
+			 dev_info(
+				 &hdev->dev,
+				 "GT7868Q fixup: report descriptor fixup is applied.\n");
+		 } else {
+			 dev_info(&hdev->dev,
+				 "GT7868Q fixup: offset 607 is %x (expected 0x15), "
+				 "descriptor may be malformed, skipping\n",
+				 rdesc[607]);
+		 }
+	  }
  
--	adc_hc1 = DISABLE_CONVERSION_INT | SELECT_CHANNEL_4;
-+	adc_hc1 = FIELD_PREP(ADC_AIEN, 0) |
-+		FIELD_PREP(ADC_ADCH_MASK, SELECT_CHANNEL_4);
- 	writel(adc_hc1, tsc->adc_regs + REG_ADC_HC1);
- 
--	adc_hc2 = DISABLE_CONVERSION_INT;
-+	adc_hc2 = FIELD_PREP(ADC_AIEN, 0);
- 	writel(adc_hc2, tsc->adc_regs + REG_ADC_HC2);
- 
--	adc_hc3 = DISABLE_CONVERSION_INT | SELECT_CHANNEL_1;
-+	adc_hc3 = FIELD_PREP(ADC_AIEN, 0) |
-+		FIELD_PREP(ADC_ADCH_MASK, SELECT_CHANNEL_1);
- 	writel(adc_hc3, tsc->adc_regs + REG_ADC_HC3);
- 
--	adc_hc4 = DISABLE_CONVERSION_INT;
-+	adc_hc4 = FIELD_PREP(ADC_AIEN, 0);
- 	writel(adc_hc4, tsc->adc_regs + REG_ADC_HC4);
+ 	  return rdesc;
  }
- 
-@@ -194,8 +201,9 @@ static void imx6ul_tsc_set(struct imx6ul_tsc *tsc)
- 	u32 debug_mode2;
- 	u32 start;
- 
--	basic_setting |= tsc->measure_delay_time << 8;
--	basic_setting |= DETECT_4_WIRE_MODE | AUTO_MEASURE;
-+	basic_setting |= FIELD_PREP(MEASURE_DELAY_TIME_MASK,
-+				    tsc->measure_delay_time);
-+	basic_setting |= AUTO_MEASURE;
- 	writel(basic_setting, tsc->tsc_regs + REG_TSC_BASIC_SETTING);
- 
- 	debug_mode2 = FIELD_PREP(DE_GLITCH_MASK, tsc->de_glitch);
-@@ -255,7 +263,7 @@ static bool tsc_wait_detect_mode(struct imx6ul_tsc *tsc)
- 
- 		usleep_range(200, 400);
- 		debug_mode2 = readl(tsc->tsc_regs + REG_TSC_DEBUG_MODE2);
--		state_machine = (debug_mode2 >> 20) & 0x7;
-+		state_machine = FIELD_GET(STATE_MACHINE_MASK, debug_mode2);
- 	} while (state_machine != DETECT_MODE);
- 
- 	usleep_range(200, 400);
-@@ -283,8 +291,8 @@ static irqreturn_t tsc_irq_fn(int irq, void *dev_id)
- 
- 	if (status & MEASURE_SIGNAL) {
- 		value = readl(tsc->tsc_regs + REG_TSC_MEASURE_VALUE);
--		x = (value >> 16) & 0x0fff;
--		y = value & 0x0fff;
-+		x = FIELD_GET(X_VALUE_MASK, value);
-+		y = FIELD_GET(Y_VALUE_MASK, value);
- 
- 		/*
- 		 * In detect mode, we can get the xnur gpio value,
--- 
-2.43.0
 
+the key changes I made are:
+
+- Move size check to the top, this way the indentation level is decent
+- get rid of message backslashes
+- shorten the fixup failure message when rdesc[607] is not 0x15 and make
+  it a bit clearer since this message was the longest - just a minor
+  cleanup
+- added "is only %u bytes" as you suggested
+
+if this is all good I can send v2.
+
+Thanks
+qasim
+> > +				*size);
+> >   		}
+> >   	}
+> 
+> thanks,
+> -- 
+> js
+> suse labs
+> 
 
