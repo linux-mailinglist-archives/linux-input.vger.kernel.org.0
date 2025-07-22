@@ -1,217 +1,251 @@
-Return-Path: <linux-input+bounces-13639-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13640-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19E64B0E151
-	for <lists+linux-input@lfdr.de>; Tue, 22 Jul 2025 18:10:07 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 38475B0E1A3
+	for <lists+linux-input@lfdr.de>; Tue, 22 Jul 2025 18:24:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0D7077B1C9B
-	for <lists+linux-input@lfdr.de>; Tue, 22 Jul 2025 16:08:28 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4E2E816AD1E
+	for <lists+linux-input@lfdr.de>; Tue, 22 Jul 2025 16:24:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB0CA27A454;
-	Tue, 22 Jul 2025 16:09:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CA6D827AC35;
+	Tue, 22 Jul 2025 16:24:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="NxYOh0wn"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="SVZmiIAQ"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B23C1E5B69;
-	Tue, 22 Jul 2025 16:09:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6479927A46F;
+	Tue, 22 Jul 2025 16:24:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.198
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753200585; cv=none; b=IF3OSXnq+3Zk+8bdOEocXigVm4r4XTapug9vqq1GZS76cIhZYndCLjwqlHBhtjkbSxb3N4N0WOixRa5aYtiJrMysker+vr2BmLpKXWjO2u1C/2A+z7XXaU1UKKm1HxatNq9yBBEfZ5Ke4PiHtwqIk5Hp5eGmaAP7QOjAApQUG+o=
+	t=1753201447; cv=none; b=KGYzS+wZo1KUwKhPhTSwU5UrZuhvyJnDxMHohnORo5jYHCfhMEqBWv3++0Tg5OSgkrUVFnjg6Jogc9Rdm7BjaIUD/tDT2D95fylG+g9WSx7L8mT8g1md7Hacuz51Gy89Xst3TKkVkaK/Pu/43B1wmLaUsfb3+lRAqg2eM6VZTWY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753200585; c=relaxed/simple;
-	bh=DNMSnCUpupSxBs2I5aWAsVBdwIy2uXQbv4wv/xdkf98=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=Gk2mIiR7ooGdFvgiCktfg56VfDTFQUeTgucFBoHCL1MCnuTbhc8h2DiOvKzKwNGK1DJz0DWKKwQPm1U3zl1evy77nByalMs2y46gSFNfucbwAUEYTFSRj2QkOrM3Okfcs7HdS0tgP9mMjMHusIW5peeE2UfXzIhHI8wLcmOWnl8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=NxYOh0wn; arc=none smtp.client-ip=212.227.17.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
-	s=s31663417; t=1753200579; x=1753805379; i=w_armin@gmx.de;
-	bh=WQ2S25k3eRQ+d9qHupzJvo+pxYLzJFrIHbpZgH924og=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:
-	 References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=NxYOh0wngz9/esO+3CGUjE6NAOUHmOPwMX6d51uNnIr5BrpSOcj+R1fAplqlJJ8w
-	 CMDk04GwIrDZJuoAnvhJrFtkC1abfBd6GmGlHJCoMZ+nF7j7NaaCcmE7O2HsQAetS
-	 1PXfcymb4e3/JRTE9PYl1hkPMfFQRSQt0TVD68HNJ3xOrRGpwI3yFXmiTfcGJZTr7
-	 Nqecmdmqs+TPGgMi7h7JXJsoMRZmSYqOmrHOvlmZRY55XsQNEhlRovhSypTrHMJlw
-	 huU6LhH9725UebdUMCfKsFgzN8Ak6T4HmctTzJflkX6hPsIhyGUqyNJ8WCx4ElaRF
-	 iFUILPondjniqPwrVw==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.0.24] ([87.177.78.219]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MPogF-1uHTU00oZH-00LbpD; Tue, 22
- Jul 2025 18:09:39 +0200
-Message-ID: <616bdb32-0d57-476b-8ad0-f2be3c5c9fbe@gmx.de>
-Date: Tue, 22 Jul 2025 18:09:37 +0200
+	s=arc-20240116; t=1753201447; c=relaxed/simple;
+	bh=6+QKmtXatEDMJmwweO5PBDyYQYZx7SbN1S02PCNHlT8=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=pWZadNxrK7dMSo5R5UfttdaP3pSVbw1Av298nl7mN9Y/Saw/VSr8p8HXkw8bVqfwe0f4ecgKHMVyTcDFYOdJ7AB9Eeu8hViKfNnBksb4w5IJOxr1UltLS128Wjrd+55MKgBGSdoLMq+OUFt62mm4pxKXrggVv9KV+TWWNSw/ZvQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=SVZmiIAQ; arc=none smtp.client-ip=217.70.183.198
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: by mail.gandi.net (Postfix) with ESMTPSA id BA0E243EB5;
+	Tue, 22 Jul 2025 16:24:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1753201442;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=3S6rrfxuXZPbHMowkoW0rGpZN3lOeigWd6+vovDesCg=;
+	b=SVZmiIAQGutd9g5fnU18ktE4SZ84M8G3Sjfx/h5nRFScxMMdu6szuPH/unKjsyrF79I2ch
+	AymMPcQ2FvbR2C1vRHPEdfPxEX+sVVySuDzlswOgOY4f9nGQv6/JOjeyJ72X8YBjXHuu3t
+	Rl7ErC48YG9SAaSnlDNRFcFUsuj67Gtkt52zfG0A9Z/6OJsS0n6Og2e0UdMQ4p8W4XUbC3
+	zT+C2BS875uXI7ony1S2Ng7cap2UZ3VOlbiOZWtLNa7S96lRKKawrD34ixs4zgPQQVcxpr
+	d3HrjQa/G6gbPjCasK8h4WUT/HcqxE3TFsg/IJ/cOLR9l2uZr9sl7A3ep2QTqA==
+From: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Subject: [PATCH v12 00/10] Add support for MAX7360
+Date: Tue, 22 Jul 2025 18:23:44 +0200
+Message-Id: <20250722-mdb-max7360-support-v12-0-3747721a8d02@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Missing ACPI driver for a keyboard button in Xiaomi RedmiBook Pro
- 16
-To: Nikita Krasnov <nikita.nikita.krasnov@gmail.com>,
- linux-acpi@vger.kernel.org, linux-input@vger.kernel.org,
- platform-driver-x86@vger.kernel.org, linux@weissschuh.net, fengwk94@gmail.com
-References: <6c7e2d8a-8c79-4311-8126-c888a6519c71@gmail.com>
- <68cc7f60-39b1-47f3-9120-82f8b0f26d9c@gmx.de>
- <b1f1fa0f-fd32-4e5d-a9df-9ac2af428a86@gmail.com>
-Content-Language: en-US
-From: Armin Wolf <W_Armin@gmx.de>
-In-Reply-To: <b1f1fa0f-fd32-4e5d-a9df-9ac2af428a86@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:Scq8WI1nb8wnBmhwIyLj4+kc/Sl6hL1757rHz6Wf3XPvaR+s6ai
- 3ZdleLYoeC7wt5utu8Y0jpC5Sdlci31s2WGSzjWEnazC6Y7gyNEMqLow2786aP5wUHLkKQ5
- ymYblf3v8a8RaMtahsGZdYwRthb96TNH0lKlwNMWmBUtV71Z2RB96TOytwY6tla7pJUM3WQ
- pDL9/4GU6vOgSAZ5lL/Fw==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:zYRX0oVDKKY=;0y4dghwAOa/CZ8rzZeh9MzwXLfe
- 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
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIABC7f2gC/33SyWrDQAwA0F8JPtdFy6w99T9KD7PIjaGJg52al
+ JB/7zhQnGK7R4mZN5JG12qQvpWhetldq17Gdmi7YwmQnnZV2ofjh9RtLomKgBQS+vqQY30IF8s
+ G6uHrdOr6c03EwSVROgauys1TL017ubNv7yXet8O567/vr4w4Zf/3RqyhduIYrXbTsdfYdefP9
+ vicukM1iSM9KMTrChWFbXCZKLGRvFT4V9GAuKFwUbxGH1VIEeJKLWpWCNW6oqaOAutkcozemKW
+ iZ4XRrSu6KE0kiKHxNgdYKmZWFGxM1xTFBtKsnTXCfqnYB4U2arFFUQIGXIZgm2apuFnRW7W4o
+ sQoypnGxBTtUvEPCtG64qeOVJOANVpRK3+E8MAwbKwdFCcJRy8GgnZuxcHZsYgbzrS/qcEsQsF
+ mlf46t9vtB0G4gAF5AwAA
+To: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Kamel Bouhara <kamel.bouhara@bootlin.com>, 
+ Linus Walleij <linus.walleij@linaro.org>, 
+ Bartosz Golaszewski <brgl@bgdev.pl>, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+ =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, 
+ Michael Walle <mwalle@kernel.org>, Mark Brown <broonie@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-gpio@vger.kernel.org, linux-input@vger.kernel.org, 
+ linux-pwm@vger.kernel.org, andriy.shevchenko@intel.com, 
+ =?utf-8?q?Gr=C3=A9gory_Clement?= <gregory.clement@bootlin.com>, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+ Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+X-Mailer: b4 0.14.1
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1753201440; l=6816;
+ i=mathieu.dubois-briand@bootlin.com; s=20241219; h=from:subject:message-id;
+ bh=6+QKmtXatEDMJmwweO5PBDyYQYZx7SbN1S02PCNHlT8=;
+ b=bU2Bj3F6T+mJcs/O+7v2rxetsdZMFNziPU2gd+nlmkTTwg14bjU8X4T0vgphVvIJhNYwU9ZAH
+ f9WWqf3jrIEBnGhTonlaxLZXh9iwDnIqwg7lOD2dudIZYC1egpCyCkF
+X-Developer-Key: i=mathieu.dubois-briand@bootlin.com; a=ed25519;
+ pk=1PVTmzPXfKvDwcPUzG0aqdGoKZJA3b9s+3DqRlm0Lww=
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdejheefiecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffufffkgggtgffvvefosehtjeertdertdejnecuhfhrohhmpeforghthhhivghuucffuhgsohhishdquehrihgrnhguuceomhgrthhhihgvuhdrughusghoihhsqdgsrhhirghnugessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhephfekffeugedvkeeihfefjeeuueekkeeggeejgeehgfdvkeevvedvkeeiteekleevnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghdpudegqdhrtgdvrddqlhhinhhknecukfhppedvrgdtudemtggsudegmeehheeimeejrgdttdemfehftghfmehfsgdtugemuddviedvmedvvgejieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtudemtggsudegmeehheeimeejrgdttdemfehftghfmehfsgdtugemuddviedvmedvvgejiedphhgvlhhopegluddvjedrtddruddrudgnpdhmrghilhhfrhhomhepmhgrthhhihgvuhdrughusghoihhsqdgsrhhirghnugessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepvdeipdhrtghpthhtoheplhhinhhushdrfigrlhhlvghijheslhhinhgrrhhordhorhhgpdhrtghpthhtohepmhifrghll
+ hgvsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegrnhgurhhihidrshhhvghvtghhvghnkhhosehinhhtvghlrdgtohhmpdhrtghpthhtoheprhgrfhgrvghlsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehkrhiikhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegsrghrthhoshiirdhgohhlrghsiigvfihskhhisehlihhnrghrohdrohhrghdprhgtphhtthhopehlihhnuhigqdhpfihmsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheptghonhhorhdoughtsehkvghrnhgvlhdrohhrgh
+X-GND-Sasl: mathieu.dubois-briand@bootlin.com
 
-Am 22.07.25 um 14:48 schrieb Nikita Krasnov:
+This series implements a set of drivers allowing to support the Maxim
+Integrated MAX7360 device.
 
-> On Mon, Jul 21, 2025 at 02:23:32AM +0300 Armin Wolf wrote:
->> please share the whole output of acpidump as the DSDT contains only two=
- unrelated
->> WMI devices.
-> Sure! I've attached a ZIP archive with the output of the `acpidump -b`.
->
->> I think that we do not need another driver in this case, as the xiaomi-=
-wmi driver
->> is responsible for handling WMI events on Xiaomi devices. I can check w=
-hat needs
->> to be done in order to add support for those additional keyboard events=
-, but for
->> that i need the full output of acpidump.
-> Btw, I'd appreciate if you didn't patch the driver yourself and instead
-> let me do it. This is a golden opportunity for me to gain some
-> experience! :D
+The MAX7360 is an I2C key-switch and led controller, with following
+functionalities:
+- Keypad controller for a key matrix of up to 8 rows and 8 columns.
+- Rotary encoder support, for a single rotary encoder.
+- Up to 8 PWM outputs.
+- Up to 8 GPIOs with support for interrupts and 6 GPOs.
 
-Sure, but you have to develop a new WMI driver for your device because aft=
-er looking at the
-ACPI tables (SSDT20 in particular) i came to the conclusion that the xiaom=
-i-wmi driver cannot
-be used in this case.
+Chipset pins are shared between all functionalities, so all cannot be
+used at the same time.
 
-> If you may, there are some questions I have about this issue:
->
->   1. From what I saw on the internet, ACPI is a protocol
->      (specification?) for how the power management is done on the modern
->      hardware. What do keyboard events have to do with ACPI? Is it
->      because the keypress here is handled by the firmware?
+Lee Jones suggested the whole series goes through MFD subsystem, once
+all patches got the needed Acks.
 
-The hotkey events cannot be delivered over the standard keyboard interface=
- as there are no scan codes
-defined for all of those events. Because of this the platform firmware (in=
- this case ACPI) provides a
-virtual device (the WMI device) for receiving those events from the (embed=
-ded) keyboard controller.
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+---
+Changes in v12:
+- Rebased on v6.16-rc6.
+- PWM: fixed rounding rules.
+- PWM: added a link to the datasheet and fixed case in two error
+  messages.
+- Link to v11: https://lore.kernel.org/r/20250711-mdb-max7360-support-v11-0-cf1dee2a7d4c@bootlin.com
 
->
->   2. Where in the kernel source tree can I seem some similar drivers?
->      Something to understand there general structure and internals.
+Changes in v11:
+- Rebased on v6.16-rc5.
+- Small fixes in keypad and rotary encoder input drivers: typos and off
+  by one errors.
+- Various fixes in PWM driver and PWM Kconfig.
+- Link to v10: https://lore.kernel.org/r/20250530-mdb-max7360-support-v10-0-ce3b9e60a588@bootlin.com
 
-Take a look at https://docs.kernel.org/wmi/driver-development-guide.html.
+Changes in v10:
+- Rebased on v6.15
+- Do not use devm_ functions to allocate regmap-irq in gpio-remap.c
+- Link to v9: https://lore.kernel.org/r/20250522-mdb-max7360-support-v9-0-74fc03517e41@bootlin.com
 
-In your case you need to write a WMI event driver for the following WMI de=
-vice:
+Changes in v9:
+- Fix build issue with bad usage of array_size() on intermediate commit.
+- MFD: Fix error strings. Also fix #define style in the header file.
+- Pinctrl: Fix missing include.
+- PWM: Fix register writes in max7360_pwm_waveform() and
+  max7360_pwm_round_waveform_tohw().
+- GPIO: Fix GPIO valid mask initialization.
+- Link to v8: https://lore.kernel.org/r/20250509-mdb-max7360-support-v8-0-bbe486f6bcb7@bootlin.com
 
-class WMIEvent : __ExtrinsicEvent {
-};
+Changes in v8:
+- Small changes in drivers.
+- Rebased on v6.15-rc5
+- Link to v7: https://lore.kernel.org/r/20250428-mdb-max7360-support-v7-0-4e0608d0a7ff@bootlin.com
 
-[WMI, Dynamic, Provider("WmiProv"), Locale("MS\\0x40A"), Description("Root=
- WMI HID_EVENT20"), guid("{46c93e13-ee9b-4262-8488-563bca757fef}")]
-class HID_EVENT20 : WmiEvent {
-   [key, read] string InstanceName;
-   [read] boolean Active;
-   [WmiDataId(1), read, write, Description("Package Data")] uint8 EventDet=
-ail[32];
-};
+Changes in v7:
+- Add rotary encoder absolute axis support in device tree bindings and
+  driver.
+- Lot of small changes in keypad, rotary encoder and GPIO drivers.
+- Rebased on v6.15-rc4
+- Link to v6: https://lore.kernel.org/r/20250409-mdb-max7360-support-v6-0-7a2535876e39@bootlin.com
 
-The event data of this WMI event device is a buffer with a size of 32 byte=
-s. The "EV20" ACPI control method
-is responsible for filling this buffer with information regarding hotkey e=
-vents. I suggest that you write a
-skeleton driver first that basically prints the content of this buffer to =
-the kernel log using print_hex_dump_bytes().
+Changes in v6:
+- Rebased on v6.15-rc1.
+- Use device_set_of_node_from_dev() instead of creating PWM and Pinctrl
+  on parent device.
+- Various small fixes in all drivers.
+- Fix pins property pattern in pinctrl dt bindings.
+- Link to v5: https://lore.kernel.org/r/20250318-mdb-max7360-support-v5-0-fb20baf97da0@bootlin.com
 
-This way you can determine the mapping between WMI event numbers and the h=
-otkeys. In your case the event data seems
-to be structured like this:
+Changes in v5:
+- Add pinctrl driver to replace the previous use of request()/free()
+  callbacks for PORT pins.
+- Dropping Reviewed-by tags on device-tree binding commit, because of
+  modifications related to the previous point.
+- Remove ngpios property from GPIO device tree bindings.
+- Use GPIO valid_mask to mark unusable keypad columns GPOs, instead of
+  changing ngpios.
+- Drop patches adding support for request()/free() callbacks in GPIO
+  regmap and gpio_regmap_get_ngpio().
+- Allow gpio_regmap_register() to create the associated regmap IRQ.
+- Various fixes in MFD, PWM, GPIO and KEYPAD drivers.
+- Link to v4: https://lore.kernel.org/r/20250214-mdb-max7360-support-v4-0-8a35c6dbb966@bootlin.com
 
-	1. byte: event class
-	2. byte: event number
-	3. byte: event payload
+Changes in v4:
+- Modified the GPIO driver to use gpio-regmap and regmap-irq.
+- Add support for request()/free() callbacks in gpio-regmap.
+- Add support for status_is_level in regmap-irq.
+- Switched the PWM driver to waveform callbacks.
+- Various small fixes in MFD, PWM, GPIO drivers and dt bindings.
+- Rebased on v6.14-rc2.
+- Link to v3: https://lore.kernel.org/r/20250113-mdb-max7360-support-v3-0-9519b4acb0b1@bootlin.com
 
-If you need further help just ask me :).
+Changes in v3:
+- Fix MFD device tree binding to add gpio child nodes.
+- Fix various small issues in device tree bindings.
+- Add missing line returns in error messages.
+- Use dev_err_probe() when possible.
+- Link to v2: https://lore.kernel.org/r/20241223-mdb-max7360-support-v2-0-37a8d22c36ed@bootlin.com
 
->   3. What is WMI? Primarily in the context of the Linux kernel, of
->      course There is Documentation/driver-api/wmi.rst, but it hard to
->      understand what exactly is it talking about if you had no prior
->      experience with writing drivers.
+Changes in v2:
+- Removing device tree subnodes for keypad, rotary encoder and pwm
+  functionalities.
+- Fixed dt-bindings syntax and naming.
+- Fixed missing handling of requested period in PWM driver.
+- Cleanup of the code
+- Link to v1: https://lore.kernel.org/r/20241219-mdb-max7360-support-v1-0-8e8317584121@bootlin.com
 
-ACPI-WMI is a Windows-specific extension of the ACPI interface. It=20
-allows the firmware to expose custom management interfaces (WMI objects)=
-=20
-of the Windows Management Interface (WMI). We implement a subset of the=20
-WMI interface inside the Linux kernel to be able to control the various=20
-platform-specific settings being exposed this way. Thanks, Armin Wolf
+---
+Kamel Bouhara (2):
+      mfd: Add max7360 support
+      pwm: max7360: Add MAX7360 PWM support
+
+Mathieu Dubois-Briand (8):
+      dt-bindings: mfd: gpio: Add MAX7360
+      pinctrl: Add MAX7360 pinctrl driver
+      gpio: regmap: Allow to allocate regmap-irq device
+      gpio: regmap: Allow to provide init_valid_mask callback
+      gpio: max7360: Add MAX7360 gpio support
+      input: keyboard: Add support for MAX7360 keypad
+      input: misc: Add support for MAX7360 rotary
+      MAINTAINERS: Add entry on MAX7360 driver
+
+ .../bindings/gpio/maxim,max7360-gpio.yaml          |  83 ++++++
+ .../devicetree/bindings/mfd/maxim,max7360.yaml     | 191 +++++++++++++
+ MAINTAINERS                                        |  13 +
+ drivers/gpio/Kconfig                               |  12 +
+ drivers/gpio/Makefile                              |   1 +
+ drivers/gpio/gpio-max7360.c                        | 257 +++++++++++++++++
+ drivers/gpio/gpio-regmap.c                         |  30 +-
+ drivers/input/keyboard/Kconfig                     |  12 +
+ drivers/input/keyboard/Makefile                    |   1 +
+ drivers/input/keyboard/max7360-keypad.c            | 308 +++++++++++++++++++++
+ drivers/input/misc/Kconfig                         |  10 +
+ drivers/input/misc/Makefile                        |   1 +
+ drivers/input/misc/max7360-rotary.c                | 192 +++++++++++++
+ drivers/mfd/Kconfig                                |  14 +
+ drivers/mfd/Makefile                               |   1 +
+ drivers/mfd/max7360.c                              | 171 ++++++++++++
+ drivers/pinctrl/Kconfig                            |  11 +
+ drivers/pinctrl/Makefile                           |   1 +
+ drivers/pinctrl/pinctrl-max7360.c                  | 215 ++++++++++++++
+ drivers/pwm/Kconfig                                |  10 +
+ drivers/pwm/Makefile                               |   1 +
+ drivers/pwm/pwm-max7360.c                          | 206 ++++++++++++++
+ include/linux/gpio/regmap.h                        |  18 ++
+ include/linux/mfd/max7360.h                        | 109 ++++++++
+ 24 files changed, 1866 insertions(+), 2 deletions(-)
+---
+base-commit: 347e9f5043c89695b01e66b3ed111755afcf1911
+change-id: 20241219-mdb-max7360-support-223a8ce45ba3
+
+Best regards,
+-- 
+Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
 
 
