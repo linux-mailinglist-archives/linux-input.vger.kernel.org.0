@@ -1,196 +1,194 @@
-Return-Path: <linux-input+bounces-13661-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13662-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E26EB0EA94
-	for <lists+linux-input@lfdr.de>; Wed, 23 Jul 2025 08:26:06 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 04359B0EB89
+	for <lists+linux-input@lfdr.de>; Wed, 23 Jul 2025 09:14:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5F5A33B833C
-	for <lists+linux-input@lfdr.de>; Wed, 23 Jul 2025 06:25:37 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E15127ABAA3
+	for <lists+linux-input@lfdr.de>; Wed, 23 Jul 2025 07:13:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 540AA26C3A8;
-	Wed, 23 Jul 2025 06:25:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8524225A659;
+	Wed, 23 Jul 2025 07:14:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b="Pe2ZOYTI"
+	dkim=pass (1024-bit key) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b="ckyEgRp8"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D93D151991
-	for <linux-input@vger.kernel.org>; Wed, 23 Jul 2025 06:25:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6CA9158535
+	for <linux-input@vger.kernel.org>; Wed, 23 Jul 2025 07:14:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753251958; cv=none; b=UAb1h2WdaZULMyTIaebUasfjSXwNCe0vY2WNrcIY6C0R2TCqD+jViA45zBZLDl6ASluwzE2/d2Bd8VwE6V8f0xeCD1JGz+A2GVteQgPgmMr/rhdlTvTR6VaeM0kT7vaSpFIYXgjy6GqqKBC6KaOunEuzlPl5ylEhRXQ488v0dBQ=
+	t=1753254889; cv=none; b=rrbZ9PFXQ0cr858VCLn+WnKQ04ld8/93QimsIfGWknpEsAD1Ld8M9m0IPKUBhZDd/gicn6C1TsbrCLfVMsCQeWdTPVzxAz22jykebtBhR1ebQn6NqNv0Te5YRHirE7wUk8QQGn5Fp73I5MPTfAl16RfVZlJQKnkiTF9NEEWelUY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753251958; c=relaxed/simple;
-	bh=rjVLg+Kx2yGpOGWAmrHV1jRFLlfqEIuxLIrSCY7YtLM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=GQ28zsXvqFwr+ZVpnS86lMktnuGXpICMouSwWBQvGF2mLEyatfXLB+9q5mqHl/xyCP0ItDUrgieHv6S6sbzAX4btCLv6fPaKTPBfF6H1RwfPLFuljA86hqYFFts+PaoebdgjVlY0crY4u9ImWAGF7IxZjOe/iXwX3306lHK1veQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=amarulasolutions.com; spf=pass smtp.mailfrom=amarulasolutions.com; dkim=pass (1024-bit key) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b=Pe2ZOYTI; arc=none smtp.client-ip=209.85.128.170
+	s=arc-20240116; t=1753254889; c=relaxed/simple;
+	bh=mI3eOP0Qv/SWk/IoD2/DKt5erOKKXZgTjawchOE/wRk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Vvy4qhMQTPoHPRgOxlOX7HGhIrWKSsRMBjlhd7vhu5hWsGQrquJtGj9IDtXwyhaEOUN1zl9ZizuSGBHtkTJQkhVtTZ/rKWEcDtseqMR995Ougfx2OmujxBY9RAxfSBIo4oRjQ5GNVoaJn0Rtrdzb53DMXEdvvATAFz6/7ssipPc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=amarulasolutions.com; spf=pass smtp.mailfrom=amarulasolutions.com; dkim=pass (1024-bit key) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b=ckyEgRp8; arc=none smtp.client-ip=209.85.208.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=amarulasolutions.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amarulasolutions.com
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-71841a48502so51859327b3.2
-        for <linux-input@vger.kernel.org>; Tue, 22 Jul 2025 23:25:55 -0700 (PDT)
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-6129ff08877so1049932a12.1
+        for <linux-input@vger.kernel.org>; Wed, 23 Jul 2025 00:14:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amarulasolutions.com; s=google; t=1753251954; x=1753856754; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kGZYO2e54F3r+OK1iTp4D/RkgP/MYmQ/jepAEaRz8qU=;
-        b=Pe2ZOYTIsNY0e2gzz9j8lfioMzePQBIKpEcFXEaUkrYANP4GoMInB0FdHQq++5CT+h
-         OsrvzOzuocLBjtwTAhihBZz+XqB4SAaNNfYLZoejkZHjo2HVMBfXExXlL26IJ2tH31bK
-         0Xf9BxK1PHnjDAPjlI5yYcAOyYwQBrE50Jt0E=
+        d=amarulasolutions.com; s=google; t=1753254886; x=1753859686; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=9zsnQoYlGAtPfOsdm2IE5TQWxuSL8YKpwWHSnuH75p8=;
+        b=ckyEgRp8qwvzf4kOZB6ipyJO5ybWCaE15us5CdqlttkOYgd9OalWGHP/lnW51UotAC
+         O0NHyEc9rX69AzRXArO1WUvUauz1/A61ECTtadLjeFhkeuwNPjVlItyA/XfV+0R82PmV
+         EoY+GWTNFcCimZpP4EPQb1UOiJMQkRQhtG3SM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753251954; x=1753856754;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=kGZYO2e54F3r+OK1iTp4D/RkgP/MYmQ/jepAEaRz8qU=;
-        b=HPALLibz+GIItP3v2lp2NOyldOaerbmZEtKRahlnXu+lkJNOKL42XlY0mpwVAblEKq
-         g7Hi9+RNgZfwyu0sOrH0/xHWQMHWUi1nEJfy4agjh0Y3UWZReL5k7tTSBQpgstWLwXJ8
-         jDv6StFMKIL+f0d8BpjZH1XbzTMOU+MqrGOOYTFyBa9nK/OtavGgCds5G2Sm1Bg9jAy+
-         oLZv1uQ5bWFyJ6iRx3WJbZuBEVKdNLi3drwRjayvcH8b3OYffW2ibTWiGEXr5dqdJILK
-         nukj+ajF4iTuPeMOa2zsFiRDs//48hE2SVxVC8w2L6xcfL2qEVSafsQeWjP6kJMUUG9M
-         42dA==
-X-Forwarded-Encrypted: i=1; AJvYcCX5Y5FuMVKwQ14erpC8i2XqlJ1CS+9t4YcoS+S6diKi0OFigiCIYaXh3tELkOzx5mlTRy5E8kKEXzHDrQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YySOsmc0YoZ18DD89scO6wfUreLHrqy/lGOdNVeVRKz283v60s9
-	536jCh9xnbj7lQouS0XzyZqycmxFjbwBhiqf9+O3HN+mso9wy9jMrw8vFFerO8GxQ5cbrrXpJYA
-	WQn3SHUYPlwEM3d8fZIZXuxfKDxLHCxxE/fMJiIpo1w==
-X-Gm-Gg: ASbGncsBnIJkCBqye6QdafNGHdbhKm5zThoYaGDZzU9wPHFEo5rOkbksE8NFz24hoIE
-	XuLKnS5DduhzomlSzQ9glwFq5oyby21W1h8GQD4iaS2TeTxnLtknM3YPzO392CW0bSJbV0kXi4c
-	wA/BV+6/0jahKp6lPzUv1Hkp7KVfCEhMswGlV+k95sIyuEQhJrbo4+yxe3/YKdaXa10rrnIsSQ/
-	sLZRQ==
-X-Google-Smtp-Source: AGHT+IHv5nL6qViIs6gJAMz6sbFRUndksqf/qf03+nefju0bAxUOnsbQF6PtkZC5WvhFVsjvSryN5UHwWNkVm2efPGw=
-X-Received: by 2002:a05:690c:3347:b0:70e:1874:b914 with SMTP id
- 00721157ae682-719b4133d40mr24952697b3.9.1753251954012; Tue, 22 Jul 2025
- 23:25:54 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1753254886; x=1753859686;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=9zsnQoYlGAtPfOsdm2IE5TQWxuSL8YKpwWHSnuH75p8=;
+        b=kqE28xx0RreukSkdeuL5QNrwbUh4xOYSozw/ZjXl71y16JYzZ5IPzouKSGMJ//pBH2
+         jre3LbdzbN/Hf9i8fekc8fmrN80tFy23l9o6ZFEmpxV+7p6g33ogDrh2vFhz/VVqP1sB
+         HySxAOIqYe9OfZmhxP0befRM4I7asHH+GyzijW10PfYZeqTPJmDUX9q3kxM5v0WpQQOD
+         CoZW1P+f/m1I6NineCpBgrCjoDppwdKGz9r82Th59ZliOml/imDxS7dPP5sJ6skvrd/N
+         wmW3Jq/zI3LkLifd1DVyH6IjWkF09M8gzeaTJ+F0vaz8bmZWVfk4T8PMTWifuQ0TltzQ
+         AYhQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWF2Bv/dEyWUKeBwPR2Yx8ilYxhAP6dMstVgiYxR4bgFXKB5htBD40iQTMAwR80SsX1xm+LieuAZUporw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyILJ+v2ELRQonzb9rdR8ckiCakTYEMT1yZ/qoAunzcwpXnnCRH
+	GqnCnuhsSt1rGa6gAkRvFpAURmgVBfjXkNCjwp7fbygV2XLIvOQxKxxUsdxWe3WzDZs=
+X-Gm-Gg: ASbGncu/e+H4FmraLZcC1op+hiVuB6pxvU8ZrDVjLxlpPBkUb/Tq9Uy6FZLzrZNqxYI
+	tfBUa0dY7lo1VevX3g7Txlz1QyDPcau+pS/pSRd52YFlwkdHI1bF0/CsRNWS7t7CrELNTWC96Y8
+	ghVFqk/7uPA6R2QaaIQptgheyyNJiIv1SI3pRjpW5PaKh3MHgJ/DiA4agtzm5D4oSjZoJJaoyan
+	PyUSTN1fPrFhvbYYAIB491shVjUsNGKsi3vu80p0KhC4AVafj10XhHGfYldIKKap8KzCOBUkg31
+	KTMyyOsIg8pP6IaQj+0LyBp8MhqWlqgTbTjLyUpEuGxOHtxJNLHjW800/UC3qi3X42iYtffjDRk
+	fz4t7MFoA8GhcuOO1CHn/Y6KjXcWCbwOQvNH1fL8v0VJ5Y7BrnNBL7xXoYfJexFp0xmmiA6BUHg
+	vBwzEI40Uedw1lRuKoE3WoUehqZzMzR9+LFqccJgjqoB3/IyXboeJQ65B5GUGydZht
+X-Google-Smtp-Source: AGHT+IHXPN5Tuqtpbz2c82B4GJgt/27zMO5flrScxbOfd0W5i6tJDzdfZGk1pNa38lNrnnbEsvlhKQ==
+X-Received: by 2002:a17:907:c2a:b0:aec:6701:b4ef with SMTP id a640c23a62f3a-af15484cc84mr638526466b.16.1753254885856;
+        Wed, 23 Jul 2025 00:14:45 -0700 (PDT)
+Received: from dario-ThinkPad-T14s-Gen-2i.homenet.telecomitalia.it (host-87-15-176-33.retail.telecomitalia.it. [87.15.176.33])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aec6c7d524asm999334466b.45.2025.07.23.00.14.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Jul 2025 00:14:45 -0700 (PDT)
+From: Dario Binacchi <dario.binacchi@amarulasolutions.com>
+To: linux-kernel@vger.kernel.org
+Cc: linux-amarula@amarulasolutions.com,
+	Dario Binacchi <dario.binacchi@amarulasolutions.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-input@vger.kernel.org,
+	linux-rpi-kernel@lists.infradead.org
+Subject: [PATCH] dt-bindings: touchscreen: drop any reference to touchscreen.txt
+Date: Wed, 23 Jul 2025 09:14:20 +0200
+Message-ID: <20250723071442.3456665-1-dario.binacchi@amarulasolutions.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250722103706.3440777-1-dario.binacchi@amarulasolutions.com>
- <20250722103706.3440777-3-dario.binacchi@amarulasolutions.com> <20250723050319.GA1239529-robh@kernel.org>
-In-Reply-To: <20250723050319.GA1239529-robh@kernel.org>
-From: Dario Binacchi <dario.binacchi@amarulasolutions.com>
-Date: Wed, 23 Jul 2025 08:25:43 +0200
-X-Gm-Features: Ac12FXyzezWWf_pUFGOcPk-V-mRbQEUXptOJkigIidJmFt9VjBBdYB7tr8ictgw
-Message-ID: <CABGWkvpWPXz8bFPC3OgqY+C6cgu6hHGh6muCQkoCOEVK048fSA@mail.gmail.com>
-Subject: Re: [PATCH 2/4] dt-bindings: input: touchscreen: fsl,imx6ul-tsc: add fsl,glitch-threshold
-To: Rob Herring <robh@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-amarula@amarulasolutions.com, 
-	Conor Dooley <conor+dt@kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
-	Fabio Estevam <festevam@gmail.com>, Haibo Chen <haibo.chen@nxp.com>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>, devicetree@vger.kernel.org, 
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
-	linux-input@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Wed, Jul 23, 2025 at 7:03=E2=80=AFAM Rob Herring <robh@kernel.org> wrote=
-:
->
-> On Tue, Jul 22, 2025 at 12:36:16PM +0200, Dario Binacchi wrote:
-> > Add support for glitch threshold configuration. A detected signal is va=
-lid
-> > only if it lasts longer than the set threshold; otherwise, it is regard=
-ed
-> > as a glitch.
-> >
-> > Signed-off-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
-> > ---
-> >
-> >  .../input/touchscreen/fsl,imx6ul-tsc.yaml      | 18 ++++++++++++++++++
-> >  1 file changed, 18 insertions(+)
-> >
-> > diff --git a/Documentation/devicetree/bindings/input/touchscreen/fsl,im=
-x6ul-tsc.yaml b/Documentation/devicetree/bindings/input/touchscreen/fsl,imx=
-6ul-tsc.yaml
-> > index 678756ad0f92..2fee2940213f 100644
-> > --- a/Documentation/devicetree/bindings/input/touchscreen/fsl,imx6ul-ts=
-c.yaml
-> > +++ b/Documentation/devicetree/bindings/input/touchscreen/fsl,imx6ul-ts=
-c.yaml
-> > @@ -62,6 +62,23 @@ properties:
-> >      description: Number of data samples which are averaged for each re=
-ad.
-> >      enum: [ 1, 4, 8, 16, 32 ]
-> >
-> > +  fsl,glitch-threshold:
-> > +    $ref: /schemas/types.yaml#/definitions/uint32
-> > +    default: 0
-> > +    enum: [ 0, 1, 2, 3 ]
-> > +    description: |
-> > +      Indicates the glitch threshold. The threshold is defined by numb=
-er
-> > +      of clock cycles. A detect signal is only valid if it is exist lo=
-nger
-> > +      than threshold; otherwise, it is regarded as a glitch.
-> > +      0: Normal function: 8191 clock cycles
-> > +         Low power mode: 9 clock cycles
-> > +      1: Normal function: 4095 clock cycles
-> > +         Low power mode: 7 clock cycles
-> > +      2: Normal function: 2047 clock cycles
-> > +         Low power mode: 5 clock cycles
-> > +      3: Normal function: 1023 clock cycles
-> > +         Low power mode: 3 clock cycles
->
-> Don't we have common properties for this expressed in time? Debounce
-> time IIRC.
+With commit 1d6204e2f51f ("dt-bindings: touchscreen: Add touchscreen
+schema") touchscreen.txt is no longer needed. Remove the file and
+replace every reference to it with the corresponding YAML schema.
 
-I tried checking in
-Documentation/devicetree/bindings/input/touchscreen/touchscreen.yaml,
-but I didn't find anything about it.
+Signed-off-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
 
-It exists in some specific touchscreen bindings:
-- azoteq,iqs7211.yaml
-- brcm,iproc-touchscreen.txt
-- fsl-mx25-tcq.txt,
-- ti,ads7843.yaml.
+---
 
-Only fsl-mx25-tcq.txt expresses it in terms of time (ns).
+ .../devicetree/bindings/input/touchscreen/bu21013.txt  |  2 +-
+ .../devicetree/bindings/input/touchscreen/eeti.txt     |  2 +-
+ .../input/touchscreen/raspberrypi,firmware-ts.txt      | 10 +++++-----
+ .../bindings/input/touchscreen/touchscreen.txt         |  1 -
+ .../devicetree/bindings/input/touchscreen/zet6223.txt  | 10 +++++-----
+ 5 files changed, 12 insertions(+), 13 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/input/touchscreen/touchscreen.txt
 
-Thanks and regards,
-Dario
+diff --git a/Documentation/devicetree/bindings/input/touchscreen/bu21013.txt b/Documentation/devicetree/bindings/input/touchscreen/bu21013.txt
+index da4c9d8b99b1..9f1a6d03c4da 100644
+--- a/Documentation/devicetree/bindings/input/touchscreen/bu21013.txt
++++ b/Documentation/devicetree/bindings/input/touchscreen/bu21013.txt
+@@ -17,7 +17,7 @@ Optional properties:
+  - touchscreen-swapped-x-y : General touchscreen binding, see [1].
+ 
+ [1] All general touchscreen properties are described in
+-    Documentation/devicetree/bindings/input/touchscreen/touchscreen.txt.
++    Documentation/devicetree/bindings/input/touchscreen/touchscreen.yaml.
+ 
+ Deprecated properties:
+  - rohm,touch-max-x        : Maximum outward permitted limit in the X axis
+diff --git a/Documentation/devicetree/bindings/input/touchscreen/eeti.txt b/Documentation/devicetree/bindings/input/touchscreen/eeti.txt
+index 32b3712c916e..1230b0fd153f 100644
+--- a/Documentation/devicetree/bindings/input/touchscreen/eeti.txt
++++ b/Documentation/devicetree/bindings/input/touchscreen/eeti.txt
+@@ -10,7 +10,7 @@ Optional properties:
+ 		latched. This is necessary for platforms that lack
+ 		support for level-triggered IRQs.
+ 
+-The following optional properties described in touchscreen.txt are
++The following optional properties described in touchscreen.yaml are
+ also supported:
+ 
+ - touchscreen-inverted-x
+diff --git a/Documentation/devicetree/bindings/input/touchscreen/raspberrypi,firmware-ts.txt b/Documentation/devicetree/bindings/input/touchscreen/raspberrypi,firmware-ts.txt
+index 2a1af240ccc3..c554c89b4e55 100644
+--- a/Documentation/devicetree/bindings/input/touchscreen/raspberrypi,firmware-ts.txt
++++ b/Documentation/devicetree/bindings/input/touchscreen/raspberrypi,firmware-ts.txt
+@@ -6,11 +6,11 @@ Required properties:
+ 
+ Optional properties:
+  - firmware: Reference to RPi's firmware device node
+- - touchscreen-size-x: See touchscreen.txt
+- - touchscreen-size-y: See touchscreen.txt
+- - touchscreen-inverted-x: See touchscreen.txt
+- - touchscreen-inverted-y: See touchscreen.txt
+- - touchscreen-swapped-x-y: See touchscreen.txt
++ - touchscreen-size-x: See touchscreen.yaml
++ - touchscreen-size-y: See touchscreen.yaml
++ - touchscreen-inverted-x: See touchscreen.yaml
++ - touchscreen-inverted-y: See touchscreen.yaml
++ - touchscreen-swapped-x-y: See touchscreen.yaml
+ 
+ Example:
+ 
+diff --git a/Documentation/devicetree/bindings/input/touchscreen/touchscreen.txt b/Documentation/devicetree/bindings/input/touchscreen/touchscreen.txt
+deleted file mode 100644
+index e1adb902d503..000000000000
+--- a/Documentation/devicetree/bindings/input/touchscreen/touchscreen.txt
++++ /dev/null
+@@ -1 +0,0 @@
+-See touchscreen.yaml
+diff --git a/Documentation/devicetree/bindings/input/touchscreen/zet6223.txt b/Documentation/devicetree/bindings/input/touchscreen/zet6223.txt
+index 27d55a506f18..384eeb4a333e 100644
+--- a/Documentation/devicetree/bindings/input/touchscreen/zet6223.txt
++++ b/Documentation/devicetree/bindings/input/touchscreen/zet6223.txt
+@@ -10,11 +10,11 @@ Optional properties:
+ - vio-supply		  : Specification for VIO supply (1.8V or 3.3V,
+ 			    depending on system interface needs).
+ - vcc-supply		  : Specification for 3.3V VCC supply.
+-- touchscreen-size-x	  : See touchscreen.txt
+-- touchscreen-size-y	  : See touchscreen.txt
+-- touchscreen-inverted-x  : See touchscreen.txt
+-- touchscreen-inverted-y  : See touchscreen.txt
+-- touchscreen-swapped-x-y : See touchscreen.txt
++- touchscreen-size-x	  : See touchscreen.yaml
++- touchscreen-size-y	  : See touchscreen.yaml
++- touchscreen-inverted-x  : See touchscreen.yaml
++- touchscreen-inverted-y  : See touchscreen.yaml
++- touchscreen-swapped-x-y : See touchscreen.yaml
+ 
+ Example:
+ 
+-- 
+2.43.0
 
->
-> > +
-> >  required:
-> >    - compatible
-> >    - reg
-> > @@ -94,4 +111,5 @@ examples:
-> >          measure-delay-time =3D <0xfff>;
-> >          pre-charge-time =3D <0xffff>;
-> >          touchscreen-average-samples =3D <32>;
-> > +        fsl,glitch-threshold =3D <2>;
-> >      };
-> > --
-> > 2.43.0
-> >
-
-
-
---=20
-
-Dario Binacchi
-
-Senior Embedded Linux Developer
-
-dario.binacchi@amarulasolutions.com
-
-__________________________________
-
-
-Amarula Solutions SRL
-
-Via Le Canevare 30, 31100 Treviso, Veneto, IT
-
-T. +39 042 243 5310
-info@amarulasolutions.com
-
-www.amarulasolutions.com
+base-commit: 89be9a83ccf1f88522317ce02f854f30d6115c41
+branch: drop-touchscreen.txt
 
