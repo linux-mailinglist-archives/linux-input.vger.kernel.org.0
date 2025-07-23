@@ -1,83 +1,318 @@
-Return-Path: <linux-input+bounces-13651-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13652-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 085BEB0E6E6
-	for <lists+linux-input@lfdr.de>; Wed, 23 Jul 2025 01:07:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4E1AB0E791
+	for <lists+linux-input@lfdr.de>; Wed, 23 Jul 2025 02:26:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E224B1C81694
-	for <lists+linux-input@lfdr.de>; Tue, 22 Jul 2025 23:07:30 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6FF991C28588
+	for <lists+linux-input@lfdr.de>; Wed, 23 Jul 2025 00:26:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4579027C875;
-	Tue, 22 Jul 2025 23:07:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=zohomail.com header.i=safinaskar@zohomail.com header.b="CaaEJXhM"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BA6FB20330;
+	Wed, 23 Jul 2025 00:25:58 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from sender4-pp-o95.zoho.com (sender4-pp-o95.zoho.com [136.143.188.95])
+Received: from relay.hostedemail.com (smtprelay0014.hostedemail.com [216.40.44.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6D7D1B808;
-	Tue, 22 Jul 2025 23:07:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.95
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753225629; cv=pass; b=p6CBPM0u6XLHwYjfd0qhNZ37uS5/KMMMfcblw1alL4ReBm76A3QxL0S1sI0YsuCxSKbTkvo7ZaOMuXPmvd5lAn9Yps3j3hem12Jt5UQ5r/Wqk1IeMm/QUoBQVm64G/i63EnQA4Wrg8yDsft+BS8jUxfoFPrc/AnHd0mmBazZVH8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753225629; c=relaxed/simple;
-	bh=yIr3a5+KfAu5PEyLhxmw8if4Mje3ixMLVstRZjSi/Io=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=o+aQSqr+UiCjROoh3fkKIJ5ucnITG8LiBvVFL5yJprg7QbNL/wcJunNLp+a++AXjxfJg2GLg141Vh1LKXGmIw+aFpnG6fKGM4RPENrfuJ18NCXJhsQVgApZXWCxKQwIihl+WNtspKd4dSY8HKBx5M1Ol7BYRL3I2fbYplIe7ol8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.com; spf=pass smtp.mailfrom=zohomail.com; dkim=pass (1024-bit key) header.d=zohomail.com header.i=safinaskar@zohomail.com header.b=CaaEJXhM; arc=pass smtp.client-ip=136.143.188.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zohomail.com
-ARC-Seal: i=1; a=rsa-sha256; t=1753225611; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=Cu1RdkP00+7XpHY3Mjq2JUIk2z2xZvzrTSsTqGDEQxzMr8lt9R7OJYoYZJu8y6N4ggm3tLCz2mb2EHJ/BvtDGzj3XHKfSiBoWUw1A3inFHElKEuXWMyJa9zpIAGOBMgh1IE3Ieh4K4ymv6ajbXKj9F5q06vF24g/WyQbMNvDR/0=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1753225611; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=yIr3a5+KfAu5PEyLhxmw8if4Mje3ixMLVstRZjSi/Io=; 
-	b=L+PqbNgASota/TlO3QTbLIR0qNxr8e8YPzsbfsjBUnq1OJFpfILq5BSStqE2l6QTdgakg4Vmnc59AXcScR0fxhpYBDBo1Up6I1t72Aszfigcl5q1saFneniWh81GHRRAyd8hGQaAXDIKTLlbDRx8VJPIaBIbIthn40XEH5Zp9A4=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=zohomail.com;
-	spf=pass  smtp.mailfrom=safinaskar@zohomail.com;
-	dmarc=pass header.from=<safinaskar@zohomail.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1753225611;
-	s=zm2022; d=zohomail.com; i=safinaskar@zohomail.com;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Feedback-ID:Message-Id:Reply-To;
-	bh=yIr3a5+KfAu5PEyLhxmw8if4Mje3ixMLVstRZjSi/Io=;
-	b=CaaEJXhMt9Pmq8CHZJtoG4JdSWD16XlQPiUqomi9bKwj5jxhm40kgKtWwk0UbQG9
-	gSzEJczvaBBwEVR3RACe8w0viXL9vnr0zj4DN/5K3UBU5+cJEe5EG9gYdhoEqarHr7I
-	taU0AoUDqZ/+sudPY/6SYwk0gUEETxAX4lCavU0c=
-Received: by mx.zohomail.com with SMTPS id 1753225608045842.7295880076102;
-	Tue, 22 Jul 2025 16:06:48 -0700 (PDT)
-From: Askar Safin <safinaskar@zohomail.com>
-To: linux-input@vger.kernel.org
-Cc: bentiss@kernel.org,
-	kl@kl.wtf,
-	linux-i2c@vger.kernel.org,
-	linux-firmware@kernel.org,
-	Dell.Client.Kernel@dell.com
-Subject: Re: Bug: i2c_designware: touchpad doesn't work after 40 min suspend on Dell Precision 7780
-Date: Wed, 23 Jul 2025 02:06:42 +0300
-Message-ID: <20250722230642.25243-1-safinaskar@zohomail.com>
-X-Mailer: git-send-email 2.47.2
-In-Reply-To: <1945bec9a47.7ee2a33b5058.7025603412967539178@zohomail.com>
-References: <1945bec9a47.7ee2a33b5058.7025603412967539178@zohomail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 382F4139E;
+	Wed, 23 Jul 2025 00:25:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.14
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1753230358; cv=none; b=ncy8xOBOXGyoAlOH4/x4TKIaGEw3KfEKPj6qX8LWt/tSGP2w2S6Zw4FN/9vTn3+QuYFcyK/YXthObkQoU/XBV+/ARb/TzmnkBf5P6JxrAUfQKCxeptGtu56SxFq3cU6nBf0RvAYqbFL57zSUVwfhLovuKU6yvjVxmS1/ar7qo7o=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1753230358; c=relaxed/simple;
+	bh=hul9bcAAdEwyaiKKCTx2o+tVzV4pehmPablumkZG3Y8=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=D6AzORpyf7ffMz4TzMHGpH42TFuRBotvnmfSkRCuNstPX3LSwl6+jAjRGfT6Iz6SltXrle4aX0QyTfSSeycZFcrW9OpI3e9fP5yGAP8tBKyOkC5HOdn1+1mR3ZTQxuAnE6IlaHaWtFv/6NN1+7vvH8bB4E9DJfEayxpzzSoej9c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=goodmis.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
+Received: from omf04.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay02.hostedemail.com (Postfix) with ESMTP id 60783132168;
+	Wed, 23 Jul 2025 00:25:54 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf04.hostedemail.com (Postfix) with ESMTPA id E63B920023;
+	Wed, 23 Jul 2025 00:25:51 +0000 (UTC)
+Date: Tue, 22 Jul 2025 20:25:51 -0400
+From: Steven Rostedt <rostedt@goodmis.org>
+To: WangYuli <wangyuli@uniontech.com>
+Cc: dmitry.torokhov@gmail.com, guanwentao@uniontech.com,
+ linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, mathieu.desnoyers@efficios.com,
+ mhiramat@kernel.org, niecheng1@uniontech.com, wangyuli@deepin.org,
+ zhanjun@uniontech.com, Winston Wen <wentao@uniontech.com>
+Subject: Re: [PATCH 1/2] input: Add tracepoint support
+Message-ID: <20250722202551.1614f59a@gandalf.local.home>
+In-Reply-To: <C1C54D7FA3DF3958+20250710073148.3994900-1-wangyuli@uniontech.com>
+References: <19571F312EE197A5+20250710072634.3992019-1-wangyuli@uniontech.com>
+	<C1C54D7FA3DF3958+20250710073148.3994900-1-wangyuli@uniontech.com>
+X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Feedback-ID: rr08011227b0408efdca9d5344e2bd0c600000817b8b7241ba8ca31cff2d9ee816fab5e2adf5c194274d45c6:zu080112272db8fbb740a89cec6a72ac400000145bd564ab960a00b929a4e9166cf8100a78e6646a40f7b239:rf0801122cf86b378d59d051b43b55dcf30000b47e712d8c352d072bf833edb503c126536d56792e3bf66fcd75760ca08f:ZohoMail
-X-ZohoMailClient: External
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Stat-Signature: baeic9fzi43tc78qgo3kei49w1y5cezr
+X-Rspamd-Server: rspamout05
+X-Rspamd-Queue-Id: E63B920023
+X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
+X-Session-ID: U2FsdGVkX193A/s2WGqzx4pBRRNDJ1gOIKL8W9+9Jf0=
+X-HE-Tag: 1753230351-603085
+X-HE-Meta: U2FsdGVkX19GNv9QaZQuPy7p4ue5inL2b1yJ9jONT6HKBRFgQczDarm1qZ6KNCZvYsTT8GPK8uvLjgkbdAH+g+YYlt7F3eFqqYlIbB/crZ/VDJtczMSgxWbOaD5GvlS1Eq+lk8o2meGwMvya755aaiRatrtwarFPrKFklaD8KEmufIkm9T5DXov45Di5n78dks1b4sQZUctnDFhWUWTFRT7UfQq8QWjE28GkXDPNfI9VRpw8G1dDvg2W1REluc2SRAcLxbnRq372J82mpnLZDS+KVUOLQYMwVdnAPTzgtQQWnfxAxZA/mwRq+YJimlIUqB6PHOT+nxT9wNQul1KqMya3lTKSeO2kwSMtIS04RCPhxDx8Ee8nAyRkyfrLi6+I4HBgzn93IBBbs6dexRFFm/i5DT0O0Wh4
 
-The bug is fixed by latest touchpad firmware. Unfortunately, it does not come as part of
-system firmware. Nor it can be updated via fwupdmgr. You have to download touchpad firmware
-update utility from Dell and run it within Windows.
+On Thu, 10 Jul 2025 15:31:38 +0800
+WangYuli <wangyuli@uniontech.com> wrote:
 
---
-Askar Safin
+> diff --git a/include/trace/events/input.h b/include/trace/events/input.h
+> new file mode 100644
+> index 000000000000..3c5ffcfb7c8d
+> --- /dev/null
+> +++ b/include/trace/events/input.h
+> @@ -0,0 +1,251 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/* input tracepoints
+> + *
+> + * Copyright (C) 2025 WangYuli <wangyuli@uniontech.com>
+> + */
+> +#undef TRACE_SYSTEM
+> +#define TRACE_SYSTEM input
+> +
+> +#if !defined(_TRACE_INPUT_H) || defined(TRACE_HEADER_MULTI_READ)
+> +#define _TRACE_INPUT_H
+> +
+> +#include <linux/tracepoint.h>
+> +#include <linux/input.h>
+> +
+> +/**
+> + * input_event - called when an input event is processed
+> + * @dev: input device that generated the event
+> + * @type: event type (EV_KEY, EV_REL, EV_ABS, etc.)
+> + * @code: event code within the type
+> + * @value: event value
+> + *
+> + * This tracepoint fires for every input event processed by the input core.
+> + * It can be used to monitor input device activity and debug input issues.
+> + */
+> +TRACE_EVENT(
+> +	input_event,
+> +
+> +	TP_PROTO(struct input_dev *dev, unsigned int type, unsigned int code,
+> +		 int value),
+> +
+> +	TP_ARGS(dev, type, code, value),
+> +
+> +	TP_STRUCT__entry(__string(name, dev->name ?: "unknown") __field(
+> +		unsigned int, type) __field(unsigned int, code)
+> +				 __field(int, value) __field(u16, bustype)
+> +					 __field(u16, vendor)
+> +						 __field(u16, product)),
+> +
+
+The contents of the tracepoints in the subsystems are determined by the
+subsystem maintainers, but please follow the tracepoint formatting. The
+above is horrible. It should look like a structure layout. One wouldn't
+write:
+
+struct entry { char *name;
+		unsigned int type; unsigned int code;
+			int value; u16 bustype;
+				u16 vendor;
+					u16 product; };
+
+That's what the above looks like. It should be instead:
+
+	TP_STRUCT__entry(
+		__string(	name,		dev->name ?: "unknown"	)
+		__field(	unsigned int,	type			)
+		__field(	unsigned int,	code			)
+		__field(	int,		value			)
+		__field(	u16,		bustype			)
+		__field(	u16,		vendor			)
+		__field(	u16,		product			)
+	),
+
+So the fields can be easily visible and easily reviewed.
+
+
+> +	TP_fast_assign(__assign_str(name); __entry->type = type;
+> +		       __entry->code = code; __entry->value = value;
+> +		       __entry->bustype = dev->id.bustype;
+> +		       __entry->vendor = dev->id.vendor;
+> +		       __entry->product = dev->id.product;),
+> +
+> +	TP_printk(
+> +		"dev=%s type=%u code=%u value=%d bus=%04x vendor=%04x product=%04x",
+> +		__get_str(name), __entry->type, __entry->code, __entry->value,
+> +		__entry->bustype, __entry->vendor, __entry->product));
+> +
+> +/**
+> + * input_device_register - called when an input device is registered
+> + * @dev: input device being registered
+> + *
+> + * This tracepoint fires when a new input device is registered with the
+> + * input subsystem. Useful for monitoring device hotplug events.
+> + */
+> +TRACE_EVENT(
+> +	input_device_register,
+> +
+> +	TP_PROTO(struct input_dev *dev),
+> +
+> +	TP_ARGS(dev),
+> +
+> +	TP_STRUCT__entry(__string(name, dev->name ?: "unknown") __string(
+> +		phys, dev->phys ?: "") __field(u16, bustype)
+> +				 __field(u16, vendor) __field(u16, product)
+> +					 __field(u16, version)),
+
+Same here.
+
+> +
+> +	TP_fast_assign(__assign_str(name); __assign_str(phys);
+> +		       __entry->bustype = dev->id.bustype;
+> +		       __entry->vendor = dev->id.vendor;
+> +		       __entry->product = dev->id.product;
+> +		       __entry->version = dev->id.version;),
+> +
+> +	TP_printk(
+> +		"dev=%s phys=%s bus=%04x vendor=%04x product=%04x version=%04x",
+> +		__get_str(name), __get_str(phys), __entry->bustype,
+> +		__entry->vendor, __entry->product, __entry->version));
+> +
+> +/**
+> + * input_device_unregister - called when an input device is unregistered
+> + * @dev: input device being unregistered
+> + *
+> + * This tracepoint fires when an input device is unregistered from the
+> + * input subsystem. Useful for monitoring device hotplug events.
+> + */
+> +TRACE_EVENT(input_device_unregister,
+> +
+> +	    TP_PROTO(struct input_dev *dev),
+> +
+> +	    TP_ARGS(dev),
+> +
+> +	    TP_STRUCT__entry(__string(name, dev->name ?: "unknown") __string(
+> +		    phys, dev->phys ?: "") __field(u16, bustype)
+> +				     __field(u16, vendor)
+> +					     __field(u16, product)),
+
+ditto.
+
+> +
+> +	    TP_fast_assign(__assign_str(name); __assign_str(phys);
+> +			   __entry->bustype = dev->id.bustype;
+> +			   __entry->vendor = dev->id.vendor;
+> +			   __entry->product = dev->id.product;),
+> +
+> +	    TP_printk("dev=%s phys=%s bus=%04x vendor=%04x product=%04x",
+> +		      __get_str(name), __get_str(phys), __entry->bustype,
+> +		      __entry->vendor, __entry->product));
+> +
+> +/**
+> + * input_handler_connect - called when an input handler connects to a device
+> + * @handler: input handler
+> + * @dev: input device
+> + * @minor: assigned minor number (if applicable)
+> + *
+> + * This tracepoint fires when an input handler (like evdev, mousedev) connects
+> + * to an input device, creating a new input handle.
+> + */
+> +TRACE_EVENT(input_handler_connect,
+> +
+> +	    TP_PROTO(struct input_handler *handler, struct input_dev *dev,
+> +		     int minor),
+> +
+> +	    TP_ARGS(handler, dev, minor),
+> +
+> +	    TP_STRUCT__entry(__string(handler_name, handler->name)
+> +				     __string(dev_name, dev->name ?: "unknown")
+> +					     __field(int, minor)),
+
+ditto.
+
+> +
+> +	    TP_fast_assign(__assign_str(handler_name); __assign_str(dev_name);
+> +			   __entry->minor = minor;),
+> +
+> +	    TP_printk("handler=%s dev=%s minor=%d", __get_str(handler_name),
+> +		      __get_str(dev_name), __entry->minor));
+> +
+> +/**
+> + * input_grab_device - called when a device is grabbed by a handler
+> + * @dev: input device being grabbed
+> + * @handle: input handle doing the grab
+> + *
+> + * This tracepoint fires when an input device is grabbed exclusively
+> + * by an input handler, typically for security or special processing.
+> + */
+> +TRACE_EVENT(input_grab_device,
+> +
+> +	    TP_PROTO(struct input_dev *dev, struct input_handle *handle),
+> +
+> +	    TP_ARGS(dev, handle),
+> +
+> +	    TP_STRUCT__entry(__string(dev_name, dev->name ?: "unknown")
+> +				     __string(handler_name,
+> +					      handle->handler->name)),
+
+ditto.
+
+> +
+> +	    TP_fast_assign(__assign_str(dev_name); __assign_str(handler_name);),
+> +
+> +	    TP_printk("dev=%s grabbed_by=%s", __get_str(dev_name),
+> +		      __get_str(handler_name)));
+> +
+> +/**
+> + * input_release_device - called when a grabbed device is released
+> + * @dev: input device being released
+> + * @handle: input handle releasing the grab
+> + *
+> + * This tracepoint fires when an input device grab is released.
+> + */
+> +TRACE_EVENT(input_release_device,
+> +
+> +	    TP_PROTO(struct input_dev *dev, struct input_handle *handle),
+> +
+> +	    TP_ARGS(dev, handle),
+> +
+> +	    TP_STRUCT__entry(__string(dev_name, dev->name ?: "unknown")
+> +				     __string(handler_name,
+> +					      handle->handler->name)),
+
+ditto.
+
+> +
+> +	    TP_fast_assign(__assign_str(dev_name); __assign_str(handler_name);),
+> +
+> +	    TP_printk("dev=%s released_by=%s", __get_str(dev_name),
+> +		      __get_str(handler_name)));
+> +
+> +DECLARE_EVENT_CLASS(input_device_state,
+> +
+> +		    TP_PROTO(struct input_dev *dev),
+> +
+> +		    TP_ARGS(dev),
+> +
+> +		    TP_STRUCT__entry(__string(name, dev->name ?: "unknown")
+> +					     __field(unsigned int, users)
+> +						     __field(bool, inhibited)),
+
+ditto.
+
+-- Steve
+
+> +
+> +		    TP_fast_assign(__assign_str(name);
+> +				   __entry->users = dev->users;
+> +				   __entry->inhibited = dev->inhibited;),
+> +
+> +		    TP_printk("dev=%s users=%u inhibited=%s", __get_str(name),
+> +			      __entry->users,
+> +			      __entry->inhibited ? "true" : "false"));
+> +
 
