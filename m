@@ -1,151 +1,127 @@
-Return-Path: <linux-input+bounces-13673-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13674-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67328B0F823
-	for <lists+linux-input@lfdr.de>; Wed, 23 Jul 2025 18:30:36 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id DC9DBB0F981
+	for <lists+linux-input@lfdr.de>; Wed, 23 Jul 2025 19:44:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 97F81543561
-	for <lists+linux-input@lfdr.de>; Wed, 23 Jul 2025 16:30:36 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 68EFB188F682
+	for <lists+linux-input@lfdr.de>; Wed, 23 Jul 2025 17:41:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 213FD1F4634;
-	Wed, 23 Jul 2025 16:30:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9E24022B8B6;
+	Wed, 23 Jul 2025 17:37:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GIfGqhno"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VYa2s30/"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9EE4157A6B;
-	Wed, 23 Jul 2025 16:30:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6BA2227574;
+	Wed, 23 Jul 2025 17:37:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753288232; cv=none; b=axyMu7aq2KVjf1GlqZj2QTQfzeDeVQB2LDsFlwbG3DG6fsowLGu6QsRA+CPqWEYEecVBBiPGpLQc9Vk92UjVwzsR3x1Gecn8LV+LpRi7gZ28/ST9j++a8xm2jwENM9M2HUnbJx0WjGMo6Q0qZEJzYggAc7IbFW/1xwjkd57KCaM=
+	t=1753292240; cv=none; b=HI06fMETzi2OuIL+alrV3DEoi6vKgrS2OdEL5TKuSU2gJZejTiZS4myFsCWzxMfz7nTThZtUpD1AuB/xcxcnlurSSjwWJQ7L3BhnBc0lfQT3JbOgfOU5c2OfhfWYBjr4HAd8IYWvCaJ8icZOH2HohBD9XI/DeR/YJUtjCzfLx8k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753288232; c=relaxed/simple;
-	bh=PkeO9PDMqnc6QujLZf8nUPiNScSwar/lUSE3gpzMV5w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FNons+lqggd59Zuv0OM9clzaAPXB4EnULC++cDu7ToYuDib8ydRLaJa16IyzclQtKq+BRwQu8UDTAMgh1LzuwggFZwtEn3McDZhV99C2mlM+xEOM5Ep1Iyscnta8p/R4u8T3FqWS5zzdw0pAx3cR1krfqw2IOmW2YCIgF+m5yBc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GIfGqhno; arc=none smtp.client-ip=209.85.214.173
+	s=arc-20240116; t=1753292240; c=relaxed/simple;
+	bh=rjZa4jQ92WzR1buCinsSPkKs46EphiG1VoHBWeHqJ44=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=iAak2V2vyzJEp4/+dUaGq+SQ191n+RxPGWNeSS3dB1Az33rMEwQlPuw1xPZJXfkpFNiJcotdZsUhinJrAfa9x9CKDM0oYsdg+5JGekalVKK7umolxwC7SWUcLBqXXK4VxUS4xe3zSo9KS+sygNMUoMK7QgSS1hzEqPe/5n2ddVg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VYa2s30/; arc=none smtp.client-ip=209.85.221.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-235f9e87f78so66504525ad.2;
-        Wed, 23 Jul 2025 09:30:30 -0700 (PDT)
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-3a507e88b0aso68128f8f.1;
+        Wed, 23 Jul 2025 10:37:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1753288230; x=1753893030; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=aiUd9JCXxvuDHsJvrKsD2gXg4/O+HTvlr0dCqXezPfQ=;
-        b=GIfGqhnoMHDVNaFoINHi4u0n228nU9XoXzvd17BY1Oxp99KRNndhc107jXeAdhxWPU
-         MNDWzbTylXdD2/2PpmvtF8AveyoF/WNx9f0R/wG4QLyotzMGkGtZgXFfGHpLfIRoNAWq
-         JtU2JbI4nMKkeViijX+hRyIJV+VPmdF1fKl0rw4AOIvCmE/OwIqdDkQNQ1GTC28tyIC1
-         K7I0RbUYeXhNauBnx2sYLg5KHYLaPOdHf9342QKsLvvP18LH6IkN8GMZ836/q72SI93R
-         w3sfG1Q1GLW+ldyAdEJJtOYMunam+P6xI8bABCoHj40t5aQ9fAq2ShKkJXfsjNE/C/IO
-         x29g==
+        d=gmail.com; s=20230601; t=1753292237; x=1753897037; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=KlttEDH05prTNfq+ea0u2Drdfy6nVwhRi7cMSKNkO7o=;
+        b=VYa2s30/Rw5ANj2emubxyZ8keO8oOeXO7NUgxNoFM7B9tHeuXvgs3yxzYwqrRJYYTc
+         gqb65P6RAGE07uBWt2t43yZmoUpw+S/iQ/Fj62x660KjKzPLFCH/be4xRyxFkx2ZokDw
+         KU1hrnBDBq4khkY87nhAVIDkKoH7T422wdsrEkI7I/PLBceVs1hcVxCvSHYKEmOanrY8
+         bZbH78PkREYNBipz2WLOS6JRuVdK0QIUUOrgyIpXfpAxbar6PnSlK7PSSyHee95o6PX9
+         f6umAdy2aNm/bbbm3RYGPv6GaldyjCsvsjiXh3mgd6h2UFYKdy7AiczW/R7BFHM1Sdaw
+         AMLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753288230; x=1753893030;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=aiUd9JCXxvuDHsJvrKsD2gXg4/O+HTvlr0dCqXezPfQ=;
-        b=XCnMPRQA9VDGG7LnLajSGefzdhBfW1a2GAV8oou3byCHD+mcdJ2WQY9lJX5moYdilA
-         teNbNf+a70/lO6lcGkXss8txE+xaB3k1d+Vg4cfxwjqpontG2aIapw0xulhjJEhkA09h
-         oBkAJm9tJtI7Zo6EWi/kn7LjjJmAoaDhnJeW1Bx1PKU4amgHcIDe01cqry1iJJ7giFuM
-         R4LtxOfA6dML8cP8Gpypz4ikSSIOU1x0l6VEf6OAvyXyHphVa4qi7C/PzRnfGgbw1jcT
-         ENAPxrebMwu/vDsk4NSLDcE8T7QDtQ8GRRncL69VoX0zaWPHB21Pqp1qRCgfQO59u/sn
-         DCKQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVFJB9/q0mhh3kXGIg3l06QMasHVJw5bplC8x3zlTgceFhusqg7+0CQ8D76Jxu5zg3klT0gZz9MbyjBCv0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxKZDu8JCwIdVUd6ZmOcX2Wf3xRxvCfTkooM52ev+T6TN9uE4cv
-	b0HE7pyX3XH/IS5R3v2mDHux4ijOoBeLrrVCzqxDNjPhbMx/pCZRZbOT6hqOpw==
-X-Gm-Gg: ASbGnctpwXwS1aSKUMdXAJAi8tkZx3uIlJqJbf9iuqnkX80EoyxcNfZcQ25y0sWxGJs
-	a5ZITb7EkzUfiglhH1yx59DvhFPdWjdDRdPXdqA1OcKRA/ngpySxh792zPNmnhTtuBv/H5jeise
-	xy9MdAJTdJDee8yFuH+wfe2a+w0sDvfOrvzrGZ7BhBsU0OSIhu5iUpRTkMXb2tTgb6bMeplSLTY
-	OP60EHEaRFex9UB6a+mEgE8Z9d7RKNB/sj6HxtgKzfIigMPXa1rvWcxsJC0QHjDBR+Vjmg45bhx
-	fjP7xLLuCk2TQmxD17vRe/tIfPrFVxpBYlQd07JjOjtBIqt+KK6xfMpATBBYYYLI1rA8T3YBdX0
-	Ec8i2zUAI5MbzLHI5UCPeDNo=
-X-Google-Smtp-Source: AGHT+IH8OBSw12ZLlQDKcLJS/LPxrH3qiamfj5i0R4e1dUumM4GXuXXU0A/S+Ah+z2YqDMY0wj93Wg==
-X-Received: by 2002:a17:902:cf09:b0:235:ecf2:393 with SMTP id d9443c01a7336-23f981de13dmr50365195ad.53.1753288229868;
-        Wed, 23 Jul 2025 09:30:29 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:a883:25a3:a8f0:9fef])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23e3b6b4d04sm99486865ad.125.2025.07.23.09.30.28
+        d=1e100.net; s=20230601; t=1753292237; x=1753897037;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=KlttEDH05prTNfq+ea0u2Drdfy6nVwhRi7cMSKNkO7o=;
+        b=BFFQndrI9JgntwdOzR2RZsIEYCAqR66qPhGgh7wQwh/pMVHLIRdnRLH9znAuWkmuA5
+         2Z5A06iEINiWJwSS9FrOrjM6LrrC1lLU4ebMUltFJ7HYqSrjjhAgPnUS+cWb+zXNEeUj
+         4GudhLBQrXiM+ALCVFuztShdZD/i1vKUsbXpGWu5SeKx0XC+4eTt97daBcC9jNat0kNI
+         o41Lgmu6WACbzaOnPJ8MuzFqKSmD4gYvSoT19lhHS8X4XSc51Jlnqfa5roR8dqqYyl2C
+         u9gWY3ji1918aOIORoxhE73JnVZ3j81uuUW4t3XrN0PBqHz+qjcxpF2FMQWymfyUFekY
+         BFhQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUcedbS6gSRTEsHlfq6z/g02QqSxXMbkSG68BC2s/vdjI5GvduI3hh9AwT/PiN02gfB+n/zWsxat9YHCXE=@vger.kernel.org, AJvYcCVodC1j2Oi2FTDHfA3KobrlN7kvQ3hNl9MLCWSvhu5FUfe3P//OLDs6OKtRR6CWsBTC8LhU2JxS@vger.kernel.org
+X-Gm-Message-State: AOJu0YyvfmfX39HlP10SFigF0Ub/JsvwWJV1U+Y8sSbIGlZyHvS3jHHE
+	5xLz/F04Ce+hrXhUjsOPy2kgNNCtDVyF8dGhoMD95YcSvXP+yDpS38c0
+X-Gm-Gg: ASbGnct04bODvj4OiU2AEuusMjZuq1fTvXVstmzBR4DDKhgUDIfRSXzyRAWYmZ1jgbv
+	oe+EkVXRqXfp1jFNO6NQamzSyHnjxpWssVjUtCw6s9OiWewbSwExhxD3TBpl0X/Abd/G3sjcp/+
+	KOgIW/dnMmCXPZxbv8Gsu9mYfhYEFUr+JgbmJ51v8LWAKbgCvCAf2OkXyWynyNbB1J75csJmT3k
+	3imZszbLWVmC1BmKrhINUFQtOmSfgjLfsR/ZqzLEiVWLr8uoBmzjOGsJpPt7gEVFjuAIn8tUElB
+	QKOS64nOyi7Zm3B9p01Ny7c+53U9Lh3aYixNBHpKWuCEyg4gbCbv0qQxwdhme+T+1jw5dnNR0yW
+	jt9l4D/9J7lYODYCtRy0Ckg==
+X-Google-Smtp-Source: AGHT+IE3KbWMQ5xYVuQes3e+Ej3tBCSlC2qdBRuaX0zaWpDwjxOX/Cd/Zs4snUJi1/joOzjnGEafCA==
+X-Received: by 2002:a05:6000:1885:b0:3a4:f644:95f0 with SMTP id ffacd0b85a97d-3b768f165f7mr3434077f8f.54.1753292236917;
+        Wed, 23 Jul 2025 10:37:16 -0700 (PDT)
+Received: from qasdev.Home ([2a02:c7c:f4f0:900:24ed:b04c:5d6c:b1a7])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b61ca487c1sm16953808f8f.41.2025.07.23.10.37.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Jul 2025 09:30:29 -0700 (PDT)
-Date: Wed, 23 Jul 2025 09:30:26 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Marge Yang <marge.yang@tw.synaptics.com>
-Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	david.chiu@tw.synaptics.com, derek.cheng@tw.synaptics.com, sam.tsai@synaptics.com, 
-	vincent.huang@tw.synaptics.com
-Subject: Re: [PATCH V2] Input: synaptics-rmi4- Add a new feature for Forcepad.
-Message-ID: <6sjnlz2zcstrsjgh5qxfmswlvwyjm5wiyz4wtlndprskw2aocr@icqoimso45wd>
-References: <20250716033648.1785509-1-marge.yang@tw.synaptics.com>
+        Wed, 23 Jul 2025 10:37:16 -0700 (PDT)
+From: Qasim Ijaz <qasdev00@gmail.com>
+To: jikos@kernel.org,
+	bentiss@kernel.org
+Cc: linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH] HID: multitouch: fix integer overflow in set_abs()
+Date: Wed, 23 Jul 2025 18:36:59 +0100
+Message-Id: <20250723173659.59327-1-qasdev00@gmail.com>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250716033648.1785509-1-marge.yang@tw.synaptics.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Marge,
+It is possible for a malicious HID device to trigger a signed integer
+overflow (undefined behaviour) in set_abs() in the following expression
+by supplying bogus logical maximum and minimum values:
+	
+	int fuzz = snratio ? (fmax - fmin) / snratio : 0;
 
-On Wed, Jul 16, 2025 at 03:36:48AM +0000, Marge Yang wrote:
-> +	f21->sensor_count = fn->fd.query_base_addr & (BIT(0) | BIT(1) | BIT(2) | BIT(3));
+For example, if the logical_maximum is INT_MAX and logical_minimum is -1
+then (fmax - fmin) resolves to INT_MAX + 1, which does not fit in a 32-bit
+signed int, so the subtraction overflows. Fix this by computing the 
+difference in a 64 bit context.
 
-We could either use GENMASK or just 0x0f. BIT() is for individual bits.
+Fixes: 5519cab477b6 ("HID: hid-multitouch: support for PixCir-based panels")
+Cc: stable@vger.kernel.org
+Signed-off-by: Qasim Ijaz <qasdev00@gmail.com>
+---
+ drivers/hid/hid-multitouch.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-> +
-> +	if (fn->fd.query_base_addr & BIT(5)) {
-> +		if (fn->fd.query_base_addr & BIT(6))
-> +			f21->query15_offset = 2;
-> +		else
-> +			f21->query15_offset = 1;
-> +
-> +		rmi_read_block(fn->rmi_dev, fn->fd.query_base_addr + f21->query15_offset,
-> +					f21->data_regs, 1);
-> +		f21->max_number_Of_finger = f21->data_regs[0] & 0x0F;
-> +	} else {
-> +		dev_info(&fn->dev, "f21_query15 doesn't support.\n");
-> +		f21->query15_offset = 0;
-> +		f21->max_number_Of_finger = 5;
-> +	}
-> +
-> +	if (fn->fd.query_base_addr & BIT(6)) {
-
-Just double-checking - should it be BIT(5) give that reading of number of fingers
-is gated by BIT(5) in the block above.
-
-> +		dev_info(&fn->dev, "Support new F21 feature.\n");
-> +		/*Each finger uses one byte, and the button state uses one byte.*/
-> +		f21->attn_data_size = f21->max_number_Of_finger + 1;
-> +		f21->attn_data_index_for_button = f21->attn_data_size - 1;
-> +		/*
-> +		 * Each sensor uses two bytes, the button state uses one byte,
-> +		 * and each finger uses two bytes.
-> +		 */
-> +		f21->data_reg_size = f21->sensor_count * 2 + 1 +
-> +								f21->max_number_Of_finger * 2;
-> +		f21->data_reg_index_for_button = f21->sensor_count * 2;
-> +	} else {
-> +		dev_info(&fn->dev, "Support old F21 feature.\n");
-> +		/*Each finger uses two bytes, and the button state uses one byte.*/
-> +		f21->attn_data_size = f21->sensor_count * 2 + 1;
-> +		f21->attn_data_index_for_button = f21->attn_data_size - 1;
-> +		/*Each finger uses two bytes, and the button state uses one byte.*/
-> +		f21->data_reg_size = f21->sensor_count * 2 + 1;
-> +		f21->data_reg_index_for_button = f21->data_reg_size - 1;
-
-The block is duplicated?
-
-No need to resubmit the patch, please just provide the answer to the
-above questions.
-
-Thanks.
-
+diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
+index 22c6314a8843..687638ed6d0f 100644
+--- a/drivers/hid/hid-multitouch.c
++++ b/drivers/hid/hid-multitouch.c
+@@ -540,7 +540,8 @@ static void set_abs(struct input_dev *input, unsigned int code,
+ {
+ 	int fmin = field->logical_minimum;
+ 	int fmax = field->logical_maximum;
+-	int fuzz = snratio ? (fmax - fmin) / snratio : 0;
++	s64 diff = (s64)fmax - (s64)fmin;
++	int fuzz = snratio ? (int)div_s64(diff, snratio) : 0;
+ 	input_set_abs_params(input, code, fmin, fmax, fuzz, 0);
+ 	input_abs_set_res(input, code, hidinput_calc_abs_res(field, code));
+ }
 -- 
-Dmitry
+2.39.5
+
 
