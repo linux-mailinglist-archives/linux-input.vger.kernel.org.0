@@ -1,156 +1,116 @@
-Return-Path: <linux-input+bounces-13681-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13682-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFB1BB10139
-	for <lists+linux-input@lfdr.de>; Thu, 24 Jul 2025 09:01:31 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 35307B108B4
+	for <lists+linux-input@lfdr.de>; Thu, 24 Jul 2025 13:12:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0B04D166CD0
-	for <lists+linux-input@lfdr.de>; Thu, 24 Jul 2025 07:01:32 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 32A057A774A
+	for <lists+linux-input@lfdr.de>; Thu, 24 Jul 2025 11:10:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A41B920012B;
-	Thu, 24 Jul 2025 07:01:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6AFF926C397;
+	Thu, 24 Jul 2025 11:11:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="t1GrbAp9"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nZQRW4qh"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77C54EEA6;
-	Thu, 24 Jul 2025 07:01:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4B4326C3A4;
+	Thu, 24 Jul 2025 11:11:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753340487; cv=none; b=vBGb4inNXEg7buFxYTQTm98oDQLl22LNGj/Ld9tz+Q1lqXjNncBzYVRXhWEuIxOWuRGoEQRspXMwGJCT70TqNCvrGRp/ZFD5O3qbQoi1sQHqt9cKnXPjz+igUKhcRW7GugxUqgV1Rk+x1s3Ze4M2BnBTAoW72Ny5A/SeT4xalYA=
+	t=1753355514; cv=none; b=DEBeKm9r8K1dfmVHLZftnrLq7Ar3Oct1mMD7I64s98n7ncWzLH+gl0igrtPJuQ+7xFNVC+orj8rDX6VBOPDxDP9yAUDhsuN87v/FrSNftJ2TK1wbIFV+aV2wJeknJEN6A4UBmNvzqaYjLy/s4WTh8R1BWjeqtfgR6RscGqpelXc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753340487; c=relaxed/simple;
-	bh=tuq6Rmgg5VT6PaXnAV5s/mubX6mQSTO5YzbVqh22Nv4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rW+mMRtMSSXc0BpYKmGmbM0E0WHu9X2NNyL1bomghxIZvjRD0LItunWn34nmrbRmxicolzcIrWnTTMTmSVnZrGvSv5BKh7EuOvzkpEyrbo1UIk/t9QFR+W2nZe4rbJOStT6a7j7DAnxqGZU/P2J4Fr3levFLygCz9M/peLnSftk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=t1GrbAp9; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 99A56C4CEED;
-	Thu, 24 Jul 2025 07:01:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753340487;
-	bh=tuq6Rmgg5VT6PaXnAV5s/mubX6mQSTO5YzbVqh22Nv4=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=t1GrbAp9Ix4dXQayW38sTtqu6z3Z1oo8eNmtzOMA5jeRm5cAT33CsgAvD1VehjLMd
-	 I31FeCAy+yVK7O43klAFYHv4DoAgBay8yjr4uHT5wJwS8alTrQJq1QTnuyKOzW3kkw
-	 mlmH1JGxYAJGDQJCtX+/oT221bW1U+lF9fixSd/syQUdG7iSoUXBsEJge1sCOZPJBb
-	 zyK6PHkSsB7SOq6y7IcO5OhBfupNoA7X/wpXbfRr+3c7hShL4bv5hvPYg+VG53qgDi
-	 dF+5R/johiOYvmSTQh+UKxU9hhPgwT12X94tLKdnGDkEKNSygo0adtbctMrJyY1/Xh
-	 9a/JHqca61d6g==
-Message-ID: <0541891e-2631-43fa-8f3c-a7afb83436b2@kernel.org>
-Date: Thu, 24 Jul 2025 09:01:24 +0200
+	s=arc-20240116; t=1753355514; c=relaxed/simple;
+	bh=rW6eweYjEhNfddmRprGQiSK1Ka0W7aGE0mUZqAQYMHo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=OY7l8jgE5I3oADHMotF+pVxt+gyeCp9EZWlxsCMVvZ+qKCEgJGzg2+EGcsXnDRKjfTZ3hsUBznckmF3LIXJck1TQi1h0Ixm4FA5hDqCKhYiYvG+LQ88jYZHSPqnQ3RLpfo0Eb8H1qFvc5+wAjn1A/AsaXrmuNmMt4ie/s9W3jPQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nZQRW4qh; arc=none smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-455b00283a5so5258345e9.0;
+        Thu, 24 Jul 2025 04:11:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1753355511; x=1753960311; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=dTYbV4nxDsvnMsaeWUhKOQ7nhv5G6Dj9og0zlTLu+bM=;
+        b=nZQRW4qhnSOMIOAN19ORRYMQUDmJnSw+IGVyQs7XoYfmJa61ZblGakL4QC5jNEnXvz
+         M6J7+DrKOhoLSTySQC+KZzxaoXTVmCsiz459aXmYkxF65frHLMJD4lKAO15dbiGAOeE0
+         NZ5NGqT+xRFmQn7X7x6b/g0t1W4wmn4Mc42W1pKAcEMQSdzVouN5SMYMORkOownsJVBN
+         5+4tS7nfpxFH9nx9KXxiGu+5Wnne2tvAhaKX7myiqGORACt/sKNxxFfxXQyFy5eSWkpF
+         zVvgnNhWuhx21gNMOr9HwxDIkEZydwUPIJ+HZXOPmCEhzP72BPIDUus4KL0M8pRsC5rj
+         UwNw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753355511; x=1753960311;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=dTYbV4nxDsvnMsaeWUhKOQ7nhv5G6Dj9og0zlTLu+bM=;
+        b=qBhCeS1OokrH5nBqO/9cFKx1WbGIBSGXQ+9i94cfVP5SaVTMvT5p/cPtqAwDWm1uNi
+         Wp2uJTxSRNWxT6yN06xrhGg+gpsx3D9Ur5SmbtLeSodUV+cEMRMYgcqYs3aUtXr8TOjd
+         xnutSdJlPis9K0G7vNwAY8bI6qcmRNFGHhd4xTJfdgNn9Xrs4NhvohcphYIrZHJcbO8h
+         D0721HvZFINJgeN1F/mTJmzdUOcoQog74wtXf03p9JAeJOcDixcuwLHRcwoh8ikOWHVQ
+         P/4kK9+DIwpEMFfAQAdnyUX9cIgUAF/6luT1GEbv8lr9SPRd7XU391hEYzPRI7QnB6Ga
+         LtZA==
+X-Forwarded-Encrypted: i=1; AJvYcCUazdnbHH48NvoNv8ReBX4d8PC2TJIvFhWbb3oMXKSdu05KKQ+IthaBuCz6SWxLO1Z6AqR+7zB6FuiCtQ==@vger.kernel.org, AJvYcCVdPW2m/Hkv32WoPX+5wG3uk+TE4zJHAng5zZ5p+r/WvC3nP8nFgnHGJX+DMKm5gRPi/nrK+6E/bnIEv7PQ@vger.kernel.org
+X-Gm-Message-State: AOJu0YwJjjqok0dzJewCNpdysisfUMc682tD2RsIyDbOOEasEZrwSj/a
+	sfL88TIIpbssnO7WARZwk5DImeoxpJCGIeH4aD+s/48On4dXBU78/BXT
+X-Gm-Gg: ASbGncsEJJuJ6S3xLh8+d0JZ/SYY+NWDoZyAmput1peHPYxZAGHD7CzT23fsQJMj1gS
+	E4YLmdUofzReeFD/1X2M3da2FMbrQBWDhPOLoMU4Zc97UDHufXU1ZwLrtq1Sg+krfafupyACQs4
+	BYGm4nUpa4FmEhvLNGY5aAxlrI00bmT0zmxZBuxqozvxSwImIa1v6wnpVbF+jd91QC1IOv67y3z
+	dkw80Fb02Jz7R0DeSWTm21NUAqXNCfXkTShokdydFGUzMwHNz9636LIJY9JqX4VrKSxu0pn9i8D
+	CpJfpOJrk0e3rkPSLsky+BR5NhjWQr4SlYeaRcViONM5nevO5eHdphM6CNCUXKhKZfbI8opsoGm
+	eBLQsEbeOo0SzZeluMnkj
+X-Google-Smtp-Source: AGHT+IHMwXOEmt/B+iD3qWA3UbigtYtOjMkSnVDF9plV1h01nJZP8fGi99c3B5hKHH66bYOCZTFXBw==
+X-Received: by 2002:a05:600c:358c:b0:456:11db:2f1e with SMTP id 5b1f17b1804b1-45868ca7563mr60549065e9.15.1753355510864;
+        Thu, 24 Jul 2025 04:11:50 -0700 (PDT)
+Received: from localhost ([87.254.0.133])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-45870532b5asm16008315e9.5.2025.07.24.04.11.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 24 Jul 2025 04:11:50 -0700 (PDT)
+From: Colin Ian King <colin.i.king@gmail.com>
+To: Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	linux-input@vger.kernel.org
+Cc: kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH][next] HID: Kconfig: Fix spelling mistake "enthropy" -> "entropy"
+Date: Thu, 24 Jul 2025 12:11:18 +0100
+Message-ID: <20250724111118.141114-1-colin.i.king@gmail.com>
+X-Mailer: git-send-email 2.50.0
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] HID: multitouch: fix slab out-of-bounds access in
- mt_report_fixup()
-To: Qasim Ijaz <qasdev00@gmail.com>, jikos@kernel.org, bentiss@kernel.org
-Cc: envelsavinds@gmail.com, linux-input@vger.kernel.org,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org
-References: <20250723110036.24439-1-qasdev00@gmail.com>
-Content-Language: en-US
-From: Jiri Slaby <jirislaby@kernel.org>
-Autocrypt: addr=jirislaby@kernel.org; keydata=
- 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
-In-Reply-To: <20250723110036.24439-1-qasdev00@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-On 23. 07. 25, 13:00, Qasim Ijaz wrote:
-> A malicious HID device can trigger a slab out-of-bounds during
-> mt_report_fixup() by passing in report descriptor smaller than
-> 607 bytes. mt_report_fixup() attempts to patch byte offset 607
-> of the descriptor with 0x25 by first checking if byte offset
-> 607 is 0x15 however it lacks bounds checks to verify if the
-> descriptor is big enough before conducting this check. Fix
-> this bug by ensuring the descriptor size is at least 608
-> bytes before accessing it.
-> 
-> Below is the KASAN splat after the out of bounds access happens:
-> 
-> [   13.671954] ==================================================================
-> [   13.672667] BUG: KASAN: slab-out-of-bounds in mt_report_fixup+0x103/0x110
-...
-> [...]
-> 
-> Fixes: c8000deb6836 ("HID: multitouch: Add support for GT7868Q")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Qasim Ijaz <qasdev00@gmail.com>
+There is a spelling mistake in the HID_U2FZERO description. Fix it.
 
-LGTM
-Reviewed-by: Jiri Slaby <jirislaby@kernel.org>
+Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+---
+ drivers/hid/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> --- a/drivers/hid/hid-multitouch.c
-> +++ b/drivers/hid/hid-multitouch.c
-> @@ -1503,6 +1503,14 @@ static const __u8 *mt_report_fixup(struct hid_device *hdev, __u8 *rdesc,
->   	if (hdev->vendor == I2C_VENDOR_ID_GOODIX &&
->   	    (hdev->product == I2C_DEVICE_ID_GOODIX_01E8 ||
->   	     hdev->product == I2C_DEVICE_ID_GOODIX_01E9)) {
-> +		if (*size < 608) {
-> +			dev_info(
-
-Except I would not add \n to the line above.
-
-> +				&hdev->dev,
-> +				"GT7868Q fixup: report descriptor is only %u bytes, skipping\n",
-> +				*size);
-> +			return rdesc;
-> +		}
-> +
->   		if (rdesc[607] == 0x15) {
->   			rdesc[607] = 0x25;
->   			dev_info(
-
-thanks,
+diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
+index a57901203aeb..79997553d8f9 100644
+--- a/drivers/hid/Kconfig
++++ b/drivers/hid/Kconfig
+@@ -1243,7 +1243,7 @@ config HID_U2FZERO
+ 
+ 	  U2F Zero supports custom commands for blinking the LED
+ 	  and getting data from the internal hardware RNG.
+-	  The internal hardware can be used to feed the enthropy pool.
++	  The internal hardware can be used to feed the entropy pool.
+ 
+ 	  U2F Zero only supports blinking its LED, so this driver doesn't
+ 	  allow setting the brightness to anything but 1, which will
 -- 
-js
-suse labs
+2.50.0
+
 
