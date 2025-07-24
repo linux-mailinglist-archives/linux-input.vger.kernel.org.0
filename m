@@ -1,273 +1,148 @@
-Return-Path: <linux-input+bounces-13679-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13680-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E668B0FF30
-	for <lists+linux-input@lfdr.de>; Thu, 24 Jul 2025 05:38:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54C28B10133
+	for <lists+linux-input@lfdr.de>; Thu, 24 Jul 2025 08:58:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 168E84E21C8
-	for <lists+linux-input@lfdr.de>; Thu, 24 Jul 2025 03:38:04 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2C8DBAA0F1E
+	for <lists+linux-input@lfdr.de>; Thu, 24 Jul 2025 06:58:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 82B9C1DF99C;
-	Thu, 24 Jul 2025 03:38:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 80CAA20C029;
+	Thu, 24 Jul 2025 06:58:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=tw.synaptics.com header.i=@tw.synaptics.com header.b="HyRjOH/E"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DiLmzMm/"
 X-Original-To: linux-input@vger.kernel.org
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com (mail-dm6nam04on2113.outbound.protection.outlook.com [40.107.102.113])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7CDA1DED5F;
-	Thu, 24 Jul 2025 03:38:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.102.113
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753328309; cv=fail; b=I0xu3XZ7R1ONg/xufhSm0WSYWjMZJyZIEe3UR7ZTS662kqHYDaSZYOYEbdoywBVWMPwTDjOgbT9KxUUdVh0c/n0Qir5wLUqOSlweZ+rIICgedH3nXHVVhT4zizgQzgfGFN/rvCvRVgf3k+mNbYXjoXWTTKSIzSfyzI5t7GwafQM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753328309; c=relaxed/simple;
-	bh=ctVq9G5g0KMC6+ZUVczETH8EVI1EFQbxIPQXKfaJ+9Y=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=DqitkPPcCmEQTbHqvKPCmwuShmipSMei30S35es3PKWtogYwjcjh9LqOEUwhJwtxiXxh8GeurcGb2fZBoUE9LaSz8h3P9JRfGY33oe8B48gU/HNIGAFTcMGiKfKigg/fVKQRLCOTzjsJLXKG0Hkh5H5qHGUvWP90CG8tEL0t+jo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tw.synaptics.com; spf=pass smtp.mailfrom=tw.synaptics.com; dkim=pass (1024-bit key) header.d=tw.synaptics.com header.i=@tw.synaptics.com header.b=HyRjOH/E; arc=fail smtp.client-ip=40.107.102.113
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tw.synaptics.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tw.synaptics.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=waYhegAsQ35joJ66cAGOnl5aYV64IvZs7MuYZKCyFhxGQaxMbAyh+U3bKeLm0aZUy6qiPDY5q1gXPRl3+41EM2ZKRHS8we1zEsLm3bEsUa2lhgUyrt7Wytcaw89QXqLoY4O/mDIxdztjgYeO+IxUGEP0z5w1kr5Xk4gV4x8z3O5YQb9zbSBmna1Hew/84kTMkVZPvIO5hRXNYfw8Ilqc5s6RVd9zOw3lM/hiYAecODcWmEN3w99tRAYZ76cOByIGoQra9FZSEkbp0BgxO9CHrXkrVmtKo8/KUFTeUcBUX0qhG+mLIt0BDCZypCxJcPqRfQxXbW6S7L47qhE3Fkl4sA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=q+xT98hQYAb32eB/lP5tQitHA7Q/UI6yzeopY9kZkqw=;
- b=F2wlhP8pqPGTQ4u07428M8z6W/eIQNSuY1ObKK89bvr/57EbZayu+4c9CJsZfI6/FwsGc9CsUtIY+oLRDaYsn2xSaAkWAT5XsFY9mFUt8EHRRktm9hrDFzlqCuOhWXiSpOw4DjBEIB06uBB0I6txTsWbjWnlAP18AfMdL9OSRDY4X84z/583FBfdhvYteZadLAf5H/Ie6/ObOl04o+3tkkm3Jn7Hv/rxc6R5jOFUSVPAzIgp7wRhWuerq986p3+O8mltpf2COchO2sWX5icsxxdF7T/pB5fOekfVHxRJklotyq/It4Cz5g7ylt4tUAnOqTesOTIiVNF3xMgDj22OuQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=tw.synaptics.com; dmarc=pass action=none
- header.from=tw.synaptics.com; dkim=pass header.d=tw.synaptics.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tw.synaptics.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=q+xT98hQYAb32eB/lP5tQitHA7Q/UI6yzeopY9kZkqw=;
- b=HyRjOH/EnQR0mud8dyVFH+j2OIFQIRzI5EvYM/5Q8wFI2A+WVKDzlazuhd947t+q4liMJBmNFKSvebwV7h6g9S8d4ixBrpWraTgo0IeHPtEKw46X83XrQ5Mqu+ct8sAhfFW9v9dLuET8L5Ai/rjPVHD7NscBiZv6LEl2jXYH42I=
-Received: from MW4PR03MB6651.namprd03.prod.outlook.com (2603:10b6:303:12e::17)
- by PH0PR03MB6218.namprd03.prod.outlook.com (2603:10b6:510:d7::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8964.21; Thu, 24 Jul
- 2025 03:38:24 +0000
-Received: from MW4PR03MB6651.namprd03.prod.outlook.com
- ([fe80::593f:d937:950:4a0d]) by MW4PR03MB6651.namprd03.prod.outlook.com
- ([fe80::593f:d937:950:4a0d%6]) with mapi id 15.20.8964.019; Thu, 24 Jul 2025
- 03:38:24 +0000
-From: Marge Yang <Marge.Yang@tw.synaptics.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>, Marge Yang
-	<Marge.Yang@tw.synaptics.com>
-CC: "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, David Chiu
-	<David.Chiu@tw.synaptics.com>, Derek Cheng <derek.cheng@tw.synaptics.com>,
-	Sam Tsai <Sam.Tsai@synaptics.com>, Vincent Huang
-	<Vincent.huang@tw.synaptics.com>
-Subject: RE: [PATCH V2] Input: synaptics-rmi4- Add a new feature for Forcepad.
-Thread-Topic: [PATCH V2] Input: synaptics-rmi4- Add a new feature for
- Forcepad.
-Thread-Index: AQHb9gLgBDZ3KBSHeEOcWz30uUN1G7Q/8ioAgACwR9A=
-Date: Thu, 24 Jul 2025 03:38:24 +0000
-Message-ID:
- <MW4PR03MB66518CD2DE0AAD98B1A9366FA35EA@MW4PR03MB6651.namprd03.prod.outlook.com>
-References: <20250716033648.1785509-1-marge.yang@tw.synaptics.com>
- <6sjnlz2zcstrsjgh5qxfmswlvwyjm5wiyz4wtlndprskw2aocr@icqoimso45wd>
-In-Reply-To: <6sjnlz2zcstrsjgh5qxfmswlvwyjm5wiyz4wtlndprskw2aocr@icqoimso45wd>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=tw.synaptics.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: MW4PR03MB6651:EE_|PH0PR03MB6218:EE_
-x-ms-office365-filtering-correlation-id: 509b2137-bfbe-4783-d3b8-08ddca638b22
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|376014|366016|38070700018;
-x-microsoft-antispam-message-info:
- =?us-ascii?Q?1H0UI3oJLn6UBKJ0Jgz7AmJVf6x8lwdf0To3Juw4QJDe6APg2Ja3KyDxtWcK?=
- =?us-ascii?Q?r+KUJtJGM6edxNBrXh3yliHOxeoy8l46pHXLWkEnWoKoEEtQkd/6qNvShQK5?=
- =?us-ascii?Q?KffmX2659656pTgBZ5Ue0D/0CNuWztWlvjeX523Yb50ykG+GdXhYrhliJ0gd?=
- =?us-ascii?Q?/MG+PBX9v2rnaeHxJHggFjrkyb1EEwzn+snC+X1vOIbWMXNUhoLVsdAG1H7n?=
- =?us-ascii?Q?y2FhXfBLFNF0lWnkx1GOFDp98UZxGlWJKD5VcEdk4yxPE8rqd6Eq/J3SA5v6?=
- =?us-ascii?Q?NxUVHL8Cs6vKqcVrGy5AE1+OqRsEBONCYU25cQhFn5OR/g2O//kQ1/5kmEbz?=
- =?us-ascii?Q?oRBq29kqjpuBh2NVv22oJv0xe2H7upYuuvw043fjvFRFOtT5ACQSDeSburye?=
- =?us-ascii?Q?Yf09GvPN7T1Q1okbPwedD5KCE+7qGoU1Al5MdmTPX43G6Z9pc5IT85ZcdBwX?=
- =?us-ascii?Q?8Y2/Mf5z4oX7bybPkGHVRx1GRbS9nV+yL5Lj+r2lZf9R/gWnkaPBGmXUg0tN?=
- =?us-ascii?Q?yjWbyHNsE4X2V0g6cfYASxT4grBd3bO0+vFA3wxse/3CjgaV3ezg3gmixHtw?=
- =?us-ascii?Q?tOa1bVag81+geTdpGm/EM2q7izn8hODNUfvTKrcRF9IJEt+9ObyYrs1W/m1D?=
- =?us-ascii?Q?I8/X8jgdRjXVopHBzussUTJOch386wqRVI00ooMBGey485IqwIuKHYPpUret?=
- =?us-ascii?Q?EjQjNeuaUdIR6I60kNBcFKgqtM1u8xZsrN4kk0PTGlDXMFOLTMrGML05xboV?=
- =?us-ascii?Q?kRDjgmoQjcugVGNhvTJF/l/ozY0Ng2wkLZgRUh9Fk2EI0G0lyvgZmF5VVMP6?=
- =?us-ascii?Q?MRfZzGvtPbVEus//SlROUi4Lw1OVAB3TdM9n6VJ20jY619NSyTGO3cHOOK3C?=
- =?us-ascii?Q?QCbMEzSQ8bpJ2ElKEi7Nm2NQnVqWlaAipxu8MbdckAvrrcZR2W/r68oDt7d2?=
- =?us-ascii?Q?kJtyagFUplvh0jM3Ynd0/8Q5NyrRdCW7LdJpMx2aeiQPMS8+cXHxMH3hadXj?=
- =?us-ascii?Q?+pKifmmCnqUHY4GZ9IGZteo1ZlCvVJTgHSJrtuxXMb55DfxdC4k1FGaBeOU5?=
- =?us-ascii?Q?IPI9792U+GLnZjuPRV0mbFCIkJjD3Od6+POgN2/coyXHgTTvLCzS+8l+YVyu?=
- =?us-ascii?Q?BSPjNKAWlTAdTEZODA2B67vCGilptZ9jvWA9a8IeX77a7DMmQqELNSp2YA0k?=
- =?us-ascii?Q?Sv1PPTi5/Z/pcVqsJwrR2qmshnBpBPgAQITWhyxcGvyP/c0toU5NbM3Pbcxg?=
- =?us-ascii?Q?sVjxD9MlOiAjoaA8cCwgE3918jgd0GvGN+rsDTeGhK3JzXlonhSNypcL01uV?=
- =?us-ascii?Q?rGodGqvTwb2Rf8DEO7aKbHvzBfeVd51cZfWvdT6fcUY1KeOlZA/++6uqkzDD?=
- =?us-ascii?Q?TDQwbHiNQz5o1HrSDMT+ZvAEwQhTFieT8Qz7iBdvEB40g89z4DTzPDrdSHHn?=
- =?us-ascii?Q?y2+J4fmuUzjcnL923evHuCwSOETR6e2Od6XORDHSUAlDD6Vckeuksw=3D=3D?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW4PR03MB6651.namprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(38070700018);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?9LRjVRK1mmVUQos20Md0mMyyhgdxc8mYvM2DvJMcMj7EEY5iU2WibavR7K7M?=
- =?us-ascii?Q?YMLkuUEQiU+OWaMOGhVhvn/A93rfcNn8wXLRtCu5G5AEVzM9BZNntqKdFnGJ?=
- =?us-ascii?Q?9wdPkN4IzOSQyJnbDB40sv/pVDet06pnJjFi9SANCHnXG/3+WOWkVDxwyBNM?=
- =?us-ascii?Q?ndtPDLeZZCtfjxxpb/8ktrvy/4sYjZTdBh9iZ+zYK3jLPlr0ZsJlrQsrKgEm?=
- =?us-ascii?Q?qgClmtk02AkHMgUoeNvuSmH23Ic1I7QTNYWEEJSwEEz5qEDWVh8ET/jgPJND?=
- =?us-ascii?Q?+xaqZkV2Hi0yYPS2wKD2ejk5kypKX/xaz17Zu7HnCei3hFsyMSxkIOJSYWc9?=
- =?us-ascii?Q?pyqXuA00gJw3/AFu+e9tkLgNoQ7CYKwkt1CL7JJcG72UKA2ZEc/pfUMDYT9y?=
- =?us-ascii?Q?KdtDBVtNBRiMVXfaezHdDzsRxlWBFTNCdAlJRLvWUtfMTbvALUSa3E7i+N6c?=
- =?us-ascii?Q?7X1n1RvUYT2X3FQt/npZaU8LDIX3rYeO8f6OYlboWQT5f5T24wqTpmvaricn?=
- =?us-ascii?Q?L2hVw8ARqmVGvpvonIjmDDR9nW1cN0qX2Ym+lFicVoZd6Xt52Ov+IN/0EpHn?=
- =?us-ascii?Q?AVltghNzBPzeVFi1d7RjcIR1my/vZYuNAIM+EesnxW73l+gPlJ+Li8PAamFG?=
- =?us-ascii?Q?G0oGZwvyMuqdGtae2eKZcimylesB4X0KLoJzPxUIsn7H+DEBR3fsIb6jyrus?=
- =?us-ascii?Q?sbu/PZJ7PBrAbyZNYbKbvyen0tPJbBh+Uwy1K+nietaRUpCZJtFc35NfdE7G?=
- =?us-ascii?Q?olyIEF7qXsBFCn+EsUmxOScqgmrpW2hlPvwlone6CUjgrULMrp/hZ+FoXjDO?=
- =?us-ascii?Q?X8eQD4XYr7YIL2OHcEHAA96H7Iy2CjDVh9E4KtKaAa6RzQHC1HcRPTEdml6W?=
- =?us-ascii?Q?rUonSj4RNwbsaCQrTPhA6BLjjsswkdtmAl9lQrLlB5BHoRGo/2fjMdhz+b8/?=
- =?us-ascii?Q?TJsoYIfrshjLAUZ2/b989cTfunxRbTf1KYNBh7ffroIhIniSKniTolgVjvrO?=
- =?us-ascii?Q?pG83Mmoeg1v8Q2qjLnnWU9H1hHjKTx6p+gfbgB/g5y/Z46pKWoQnkJnKeye9?=
- =?us-ascii?Q?r7+UmFm0iWxXnfUiZZ1SQVud4UDB1AJMiFRiwTPl3erkMwTnDMjDEvTdel4D?=
- =?us-ascii?Q?4yBZBsuoaAzYLtuJq32Tv/HXm5rGNN10RuyPAU6naa++sHUZx6j7s6cmCqES?=
- =?us-ascii?Q?RiqGk8iabJnhhHH9Jf0uwdUY4PZcKpzyPo8A+7EQLnXeEioTGtBuvc0iUbWc?=
- =?us-ascii?Q?lZMvIBEl4KIIGbrKoXjiS+o1JBPXcyfwHgJAPqQSGjrfZnZmtM/WzlqaRQhQ?=
- =?us-ascii?Q?O0+Dou878EgmfUAAmyp/J1zEKa9rQe+D/leBn7mjNiiUFPax56soL2fjZfVG?=
- =?us-ascii?Q?CKZycKRzgdjzzYjuHBbrd8aLe0TWhG4rpLzpQ75quWADRomNzlAavBM9co89?=
- =?us-ascii?Q?r8AkqFTuLuA6uGP/MMN/bUcDyF2NdZ0/XlJ+8oMuoMhJw22JOCFbmu6AUyfE?=
- =?us-ascii?Q?rjcBnYn5MqNh3DmyO8QYkyZg5ksln2iGK6gbfNCZER+XQaMRUM9zlfE8FQtT?=
- =?us-ascii?Q?h5TgCAmYXabsVaG8ilZ8L73gThq7VqO3uNeCLM9R?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51F35186E2E;
+	Thu, 24 Jul 2025 06:58:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1753340324; cv=none; b=rSIlwZ8tG2O3SppcLWtupEwmfOza0LUgY3ZGpJJ+ZSX0AbWhWPEuT4h9u0zu2JFdIxpitlYBU/7FYKPrczXaEiYI2xjBgRAyVD/yOFpoUTNqJfVISdrJwhu3usGLdKUpBD03p5hh34qJX9vbOy0BA4OtVx0hHVs/BpLPWcuYmFM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1753340324; c=relaxed/simple;
+	bh=0bMTNkozri/CbM6+5xVraaydZgu6CQ5CRv7CRtr4fhI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=gtuhWusUAnkGu+vHz1Pg3cHI16eX/s6I4s5ueGRz0qdl1boouDhzX+5fNEI59J4lWzPeiJdOc1HvKR0J4hl1l6srRVE7mkJUkzFovDM/tcDai886pWn0cxZ/PzfGs7YuCpo7PFWxUrAqm/FPpD0l1HN5kd95Bg3o7rpJTLAK6QU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DiLmzMm/; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 862D1C4CEED;
+	Thu, 24 Jul 2025 06:58:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1753340323;
+	bh=0bMTNkozri/CbM6+5xVraaydZgu6CQ5CRv7CRtr4fhI=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=DiLmzMm/8DHBZDfO6KuPcxHC+3lMduF/Hw8SoeNVmLaE8V6D5kkkHwwZZEczXiNLo
+	 zOMEYkbUftqenzpC9ZXMO/v1bdAXrXJ+yVdH1E4phocMrVsKbTB8NANSYShSz3+Ikj
+	 F4SF/zvsTp6vUlitHZdd+GErZJrX0n8+KXYympZoVc4SHtef2So/nShCzz67PnZck9
+	 uJ2+T8iY3QbkUhimGZq/3kqwomIOAD0wFrXmw0SK1NDWcG5gezAaF6CwFLPdxa9j/P
+	 eqcl8h3bh2Ie17ii3/Tmtpxp3rTjTxetGUpoDq2NouVfLzDrwjnjRKwW7WjVV7AwmJ
+	 EjreS2Wd6Fo1g==
+Message-ID: <914ff45b-2260-42c0-9ccf-a3efd667d4f5@kernel.org>
+Date: Thu, 24 Jul 2025 08:58:40 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: tw.synaptics.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MW4PR03MB6651.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 509b2137-bfbe-4783-d3b8-08ddca638b22
-X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Jul 2025 03:38:24.0794
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 335d1fbc-2124-4173-9863-17e7051a2a0e
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: HIjljU0GDt/hn/HYKaCvwZIGYq85SWGj6JRwlCMcyWvoXI94wOOGYXEd1oPankMQIAxy89wNJPA53WAL5PRBRw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR03MB6218
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] HID: multitouch: fix integer overflow in set_abs()
+To: Qasim Ijaz <qasdev00@gmail.com>, jikos@kernel.org, bentiss@kernel.org
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org
+References: <20250723173659.59327-1-qasdev00@gmail.com>
+Content-Language: en-US
+From: Jiri Slaby <jirislaby@kernel.org>
+Autocrypt: addr=jirislaby@kernel.org; keydata=
+ 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
+In-Reply-To: <20250723173659.59327-1-qasdev00@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Dmitry,
-	Update the status.
+On 23. 07. 25, 19:36, Qasim Ijaz wrote:
+> It is possible for a malicious HID device to trigger a signed integer
+> overflow (undefined behaviour) in set_abs() in the following expression
+> by supplying bogus logical maximum and minimum values:
+> 	
+> 	int fuzz = snratio ? (fmax - fmin) / snratio : 0;
+> 
+> For example, if the logical_maximum is INT_MAX and logical_minimum is -1
+> then (fmax - fmin) resolves to INT_MAX + 1, which does not fit in a 32-bit
+> signed int, so the subtraction overflows.
 
-Thanks
-Marge Yang
+The question is if it matters with -fwrapv?
 
------Original Message-----
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>=20
-Sent: Thursday, July 24, 2025 12:30 AM
-To: Marge Yang <Marge.Yang@tw.synaptics.com>
-Cc: linux-input@vger.kernel.org; linux-kernel@vger.kernel.org; David Chiu <=
-David.Chiu@tw.synaptics.com>; Derek Cheng <derek.cheng@tw.synaptics.com>; S=
-am Tsai <Sam.Tsai@synaptics.com>; Vincent Huang <Vincent.huang@tw.synaptics=
-.com>
-Subject: Re: [PATCH V2] Input: synaptics-rmi4- Add a new feature for Forcep=
-ad.
+> Fix this by computing the
+> difference in a 64 bit context.
+> 
+> Fixes: 5519cab477b6 ("HID: hid-multitouch: support for PixCir-based panels")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Qasim Ijaz <qasdev00@gmail.com>
+> ---
+>   drivers/hid/hid-multitouch.c | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
+> index 22c6314a8843..687638ed6d0f 100644
+> --- a/drivers/hid/hid-multitouch.c
+> +++ b/drivers/hid/hid-multitouch.c
+> @@ -540,7 +540,8 @@ static void set_abs(struct input_dev *input, unsigned int code,
+>   {
+>   	int fmin = field->logical_minimum;
+>   	int fmax = field->logical_maximum;
+> -	int fuzz = snratio ? (fmax - fmin) / snratio : 0;
+> +	s64 diff = (s64)fmax - (s64)fmin;
+> +	int fuzz = snratio ? (int)div_s64(diff, snratio) : 0;
+>   	input_set_abs_params(input, code, fmin, fmax, fuzz, 0);
+>   	input_abs_set_res(input, code, hidinput_calc_abs_res(field, code));
+>   }
 
-CAUTION: Email originated externally, do not click links or open attachment=
-s unless you recognize the sender and know the content is safe.
+-- 
+js
+suse labs
 
-
-Hi Marge,
-
-On Wed, Jul 16, 2025 at 03:36:48AM +0000, Marge Yang wrote:
-> +     f21->sensor_count =3D fn->fd.query_base_addr & (BIT(0) | BIT(1) |=20
-> + BIT(2) | BIT(3));
-
-We could either use GENMASK or just 0x0f. BIT() is for individual bits.
-
-[Marge 0724]
-Thank you for the reminder. We will use this design going forward.
-> +
-> +     if (fn->fd.query_base_addr & BIT(5)) {
-> +             if (fn->fd.query_base_addr & BIT(6))
-> +                     f21->query15_offset =3D 2;
-> +             else
-> +                     f21->query15_offset =3D 1;
-> +
-> +             rmi_read_block(fn->rmi_dev, fn->fd.query_base_addr + f21->q=
-uery15_offset,
-> +                                     f21->data_regs, 1);
-> +             f21->max_number_Of_finger =3D f21->data_regs[0] & 0x0F;
-> +     } else {
-> +             dev_info(&fn->dev, "f21_query15 doesn't support.\n");
-> +             f21->query15_offset =3D 0;
-> +             f21->max_number_Of_finger =3D 5;
-> +     }
-> +
-> +     if (fn->fd.query_base_addr & BIT(6)) {
-
-Just double-checking - should it be BIT(5) give that reading of number of f=
-ingers is gated by BIT(5) in the block above.
-
-[Marge 0724]=20
-Using BIT (6) is more appropriate.
-BIT6: Indicates whether the force-calibration version is supported.
-The old firmware does not support this feature.
-The new firmware can use this BIT to determine whether it's the new or old =
-version.
-
-BIT5: Indicates whether reading the maximum number of finger-pressure level=
-s is supported.
-
-> +             dev_info(&fn->dev, "Support new F21 feature.\n");
-> +             /*Each finger uses one byte, and the button state uses one =
-byte.*/
-> +             f21->attn_data_size =3D f21->max_number_Of_finger + 1;
-> +             f21->attn_data_index_for_button =3D f21->attn_data_size - 1=
-;
-> +             /*
-> +              * Each sensor uses two bytes, the button state uses one by=
-te,
-> +              * and each finger uses two bytes.
-> +              */
-> +             f21->data_reg_size =3D f21->sensor_count * 2 + 1 +
-> +                                                             f21->max_nu=
-mber_Of_finger * 2;
-> +             f21->data_reg_index_for_button =3D f21->sensor_count * 2;
-> +     } else {
-> +             dev_info(&fn->dev, "Support old F21 feature.\n");
-> +             /*Each finger uses two bytes, and the button state uses one=
- byte.*/
-> +             f21->attn_data_size =3D f21->sensor_count * 2 + 1;
-> +             f21->attn_data_index_for_button =3D f21->attn_data_size - 1=
-;
-> +             /*Each finger uses two bytes, and the button state uses one=
- byte.*/
-> +             f21->data_reg_size =3D f21->sensor_count * 2 + 1;
-> +             f21->data_reg_index_for_button =3D f21->data_reg_size - 1;
-
-The block is duplicated?
-
-[Marge 0724]
-Comparing the new and old firmware versions:
-Based on BIT6, we can distinguish between the new and old firmware versions=
-.
-The definition of the attention data size differs.
-The size of the F21 data block and the definition of its button index also =
-differ.
-Therefore, by definition, this block is not duplicated.
-
-No need to resubmit the patch, please just provide the answer to the above =
-questions.
-
-Thanks.
-
---
-Dmitry
 
