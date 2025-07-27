@@ -1,235 +1,185 @@
-Return-Path: <linux-input+bounces-13699-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13700-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 890ABB1320B
-	for <lists+linux-input@lfdr.de>; Sun, 27 Jul 2025 23:53:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FB83B13238
+	for <lists+linux-input@lfdr.de>; Mon, 28 Jul 2025 00:24:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 962461896F98
-	for <lists+linux-input@lfdr.de>; Sun, 27 Jul 2025 21:53:53 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id AC04F188BF43
+	for <lists+linux-input@lfdr.de>; Sun, 27 Jul 2025 22:24:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EADCB2AF11;
-	Sun, 27 Jul 2025 21:53:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C22D422424E;
+	Sun, 27 Jul 2025 22:24:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aajZjtgE"
+	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="hNU2T5RX"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1451E24676E
-	for <linux-input@vger.kernel.org>; Sun, 27 Jul 2025 21:53:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F005B198E8C;
+	Sun, 27 Jul 2025 22:24:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753653210; cv=none; b=micSopA5v37nIGzl1EoqjorU1FjoKvX2PthOsdsTpcfAQUIxJemTk/FhGoe4EPEx8ZaFYXR9ZeY0Z3ifyw6k+TftHWj7uljBUHJCaEKNlVDBHADtGPz/aFKxCdZdXFBJLObYCxUTKuzQ8zvqM5cpDpA8//FYUHRI/2o4EF9y5Ko=
+	t=1753655052; cv=none; b=adN8xogCP1YCx+nJ2kpw8/L9tnFomPbwYvrDtlYynpKmkeAQD5a3n2BEkJ3h+w1uhZCXt7XFfMtEtqjvr9C0/iF5hMGEBIYv+eRNgAmU7QX6BcH5O59qaLv3HwZn5RMbcEt+a0PHdoOjF3Gud9YjeBIhO4vdyc+RUgHGawT9ZHo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753653210; c=relaxed/simple;
-	bh=AsNZo78g3QtR7rVhiXGxn+A+hm/vud4cK1Ud1hKhZek=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=HlCR4+1zLF1UhbKMF0qXSaf/0bhDECaefHxgb9T2f+XI6+E+kvW0X8D5uwemSoDc+70IU/GYJDNyfbX48d+CfXRvezOlUG1OSRUYS4A0xIZlHo3pou8dmQw8uVJgd53uYhiMsh8nrWdYE5l5HbUG6+fQ5FjlTzF5ISvlBLdRUHM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aajZjtgE; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753653209; x=1785189209;
-  h=date:from:to:cc:subject:message-id;
-  bh=AsNZo78g3QtR7rVhiXGxn+A+hm/vud4cK1Ud1hKhZek=;
-  b=aajZjtgEtz3jHTp4hO1icrqJpXHnCUKngImvumNPJCnF4L92Zbd4A5Na
-   itJlggV6FvbFVQLHSt3byQzEEkzstNPNmHyAxg3OjZm9X+QF5XgLujvke
-   6+Y1mhfyOs0Ehsa4Evap5cj2sIbiIQPjHQys6uEs4EO04pyRGL9Vq9Uz1
-   uIIc6xOB+eYC5BC1FTxBnUXaxN7uIKgLrsWrWL71B/ETTaQUMv9fUg0nS
-   fe9QVrKfk0xLMrIqqRWrUx+RyqxOFLQKO7X/e1HblYSwogOh6FrW+Yb9x
-   rC/RuIdKlQWoz3rhahkrpvtccgjx8gmvJYeEooHr/F3q2mZ308ZK453hA
-   w==;
-X-CSE-ConnectionGUID: 7YKfxyUkTR6MQWL+xoUXSQ==
-X-CSE-MsgGUID: xwWK/NK6TxqzpZrb3wfsMg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11504"; a="55840870"
-X-IronPort-AV: E=Sophos;i="6.16,339,1744095600"; 
-   d="scan'208";a="55840870"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2025 14:53:28 -0700
-X-CSE-ConnectionGUID: yOuZkRnKTF2Npl7ROmtPnw==
-X-CSE-MsgGUID: qyb87RSYQ525F0zj/EV1kw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,339,1744095600"; 
-   d="scan'208";a="161842065"
-Received: from lkp-server01.sh.intel.com (HELO 160750d4a34c) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 27 Jul 2025 14:53:27 -0700
-Received: from kbuild by 160750d4a34c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1ug9J7-00003D-1y;
-	Sun, 27 Jul 2025 21:53:25 +0000
-Date: Mon, 28 Jul 2025 05:53:05 +0800
-From: kernel test robot <lkp@intel.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: linux-input@vger.kernel.org
-Subject: [dtor-input:next] BUILD SUCCESS
- 1c44b818b81bf6a111a702536a560f5bc830c6d5
-Message-ID: <202507280553.sWxhe2Ds-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	s=arc-20240116; t=1753655052; c=relaxed/simple;
+	bh=ISZBQJUakdaBUwOdxrBWUAiu/Vjs+cOfRQdcsu6fu/M=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=h4JlPoXDhT3jEmmIlNZcZ4zI+gKhVXZaS8WDWB7HZrS1o/bsoN/vsgKZyV7l4E6SXrqNejtJkWGV8JkiHALR7GvTUxFI2SLnOGG1JIj2trZkP/BTOHdaiH0j4Yuh+FyX08b68XsRZ/wJfs1pDQqPYUpwjUYESLWcZeHuv2RgNGM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=hNU2T5RX; arc=none smtp.client-ip=212.227.17.22
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
+	s=s31663417; t=1753655043; x=1754259843; i=w_armin@gmx.de;
+	bh=ISZBQJUakdaBUwOdxrBWUAiu/Vjs+cOfRQdcsu6fu/M=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:
+	 References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:cc:content-transfer-encoding:
+	 content-type:date:from:message-id:mime-version:reply-to:subject:
+	 to;
+	b=hNU2T5RXhC8EhZ/FXCtnIW5/9Y1uBITwm73W4k7sMxjLzWoTl/aRPfeJXQurUKRU
+	 mvC4fAYpyH7LqQ9ZKGGFdRLJWiMqbxB7G7eDiiLyGHAJ1RRF26o0i8CXfGIgVs/Mf
+	 FdbkGr021IRbuHdKcXO0edPupKO8h4fISGcvsuU7XDFebsL3KEo4tLQMZ9hxxRLLW
+	 nigg9OMYw5VkcbcUPDyknw9kpgQnQmK2jPFuHwm8JhgCycXlUO6pSI/BJLxs9WSj8
+	 PFD3PY2HG5hm2PO2ZOAVwIr2AKpQVJiS0EMowK8xK6pWB5IJLNLDkULlBp7mfXGZv
+	 FP6bQeWaPLK/sOrHYw==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.0.69] ([87.177.78.219]) by mail.gmx.net (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1M3lYB-1ufsXI0q0p-008T6U; Mon, 28
+ Jul 2025 00:24:03 +0200
+Message-ID: <b4707664-6177-45ff-a284-36e921f316e7@gmx.de>
+Date: Mon, 28 Jul 2025 00:24:02 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: Missing ACPI driver for a keyboard button in Xiaomi RedmiBook Pro
+ 16
+To: Nikita Krasnov <nikita.nikita.krasnov@gmail.com>,
+ linux-acpi@vger.kernel.org, linux-input@vger.kernel.org,
+ platform-driver-x86@vger.kernel.org, linux@weissschuh.net, fengwk94@gmail.com
+References: <6c7e2d8a-8c79-4311-8126-c888a6519c71@gmail.com>
+ <68cc7f60-39b1-47f3-9120-82f8b0f26d9c@gmx.de>
+ <b1f1fa0f-fd32-4e5d-a9df-9ac2af428a86@gmail.com>
+ <616bdb32-0d57-476b-8ad0-f2be3c5c9fbe@gmx.de>
+ <8f3d1015-3bef-4e7f-abea-c6665163af16@gmail.com>
+Content-Language: en-US
+From: Armin Wolf <W_Armin@gmx.de>
+In-Reply-To: <8f3d1015-3bef-4e7f-abea-c6665163af16@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:Tuj1I0LqUjg1MkBY7z6AIBTFJGkhEfPWMH0MnLYx2ceSDa0BYaS
+ C3qz5pX9Gj3BzwLgDciWnsxt9A69xW6MlizH/wqmBy+ApCg6Dv83nooEuP7LVMEfan22d6G
+ YQjJ64c5CX9yZF/DZl3JsCj2LLeiu/9KYoLsHAemwapHxeAC7pE/FASivr49aDKXf6SrBI5
+ YFmissVOnSXKZWHC02IoA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:8q2+l2z9yLo=;Cf1COkLEV6IUXFjLRdEmqOeJCM9
+ GAykuKFcMWBD7FAntReo1/Veqa+uiMhak+dB19voeYGJFY5oLogZK1c5XXK+7uXCuFmE6Kuo9
+ OaYF3Uaz9yCvz9iN8G4r5N2NeIunscaXv5aGhXF6y6wIImiofEb15ekeV9hr7HQkhOhM59VHy
+ pkdb4h4RMtvQfYoD4YpyYSoKENgNEBfT9Xa1y7tiC7EAjqsSUm0DHrSmMUi5adJ7HSx8xagD1
+ KMJyOabkxi5by5nOMzuiYpSzDUDHpL6F2wLdme9NXH7gFYK5SyB2G2gtdMTfS6wDMcOAAGp+m
+ eViRjmO1Fslzf0WL6Z3FVbO0qtjx88GHxGeXVHT7o5juZ6OsgPDXwdDm9Ap7iLUlep+ZE4jDH
+ YaWIdCzmc8C/q29x5K3nakkVxk3nKdfAp/7Ftx4aMCQCZNaUa2WccWhsjHNPIIiC9X4x0sWc2
+ +tsBW6Qv1FWwRmV5r7/jC6RAU2GRV+mJJI0R1WeAC5lmJclQqswWgj/eI8Da9vOJLvv0ePiIP
+ sNWlji7hrtTrfbxQQ12dw+00RwRbQ+S4YBUWjIcdt7ARDKj4wvu4eWP2RG07J6uergS+t9vS8
+ 5LmK3l44cZ1pFtoYLHx+cJIVlNBzKCrlPVS3FkrQzR8rvjrWBMig7vnmld0NUgBZLXWnNGQTJ
+ 6Y5O/YI/sKvMTWEwQow7bqizCCjj6WAeV+ELEV7XNAmBP/0RqXHXU5EoSPpXyUJe+yStIdU4A
+ Rcw5wcwOxAG/HZyYXIJDYoL2mM6i9r9JVR7CzREuWnsfHGcFROX4ebnjnEVnUPopbusO0PE/X
+ 8OHpQTACrexUTeiPRbUvreCTFMC+xt+YO/wvoFAKfMlLvQYnMW546BdXx+JEEYkPLudcBerVl
+ /A+GhJTinuLYCXNChk6YbPO7TaQpKB6AoO2IcAohdQfl5FILC7XA5C9j3B1tzw/tTVZ7nJZMo
+ +x1+7xhVR0i1Xtp6NTG2KzG6McDToMVoxjrKXLUApuLbgRc1yGYnrjyEkjQ7iWP+YB0zdJly0
+ tSEl+Q4QUtQdrK8lmDn07jsqONmmUPOE0lJT0PBTkvcNftfF+EPyCUSfJJpkind9/YgS5FDmR
+ IsFP3EFX9NYt0/IgqyOg5VMQjE/XbGwZGHFZrK7o4m8wg0P8AqXHId5NW9p4FMh8Bpj6Onr6E
+ dBOyOef14ZZgnTn/stx3kH2WRnT+F/qgMd+9F8LNh2Eh5mKRthUBtsfr1MyEULoarpAw6pLN5
+ Pt5DTYHAZ9Egqip4Gegbie+vne8uaqXoK5+QeWfIhag9cPlSXiienG0rLkjHqYRc7HVUgsEed
+ ctKZsmCM1Z22x7I3+bhWeASaDkWKxNZzWg8OsDFRwjzuU8RQXcaDjGGwoztLWMQig6YocqvcI
+ F+4v08YvSqAf7I3VyGM/y4D5anW6nE7TR19Sq6N4zNmBr3DOxuk32FSrrtfomtRR6KbyvWq3b
+ g1icU87eCpqubZp/7i8YBqEIkPJiMcxwA5/D06UdVLA+oAkUJFxIGRuQgrEJD25HIcnbS8RM8
+ v8Cs4tMZaCvgkL/i/kLPDd05+hUa5lh3AV5X/qfQX7fR2YYWbP0Y4LYUSgO5wdFqj8zFro0eK
+ bCa8Ygm1uLNn9gv3uiFeVda4HaYprp6yB2hCTOHxIzyz3ZPaTvYYlJGUVtcMTAoKEs6u8/QJ3
+ iSDdNAC+mc+gsts5YAxXN8jwjRMNyusQFKwpOYSnpUpLwvxNetHbtyqOHSFDvTrKqn5vyE98q
+ h0MpjSSM0tEgjqEjK6Mfq02tsDHjTVcwqjK17Wa6LOwZCy4hWniQ6DmZEP2M2DlI+8dr8Ea+F
+ dVEftY+IOxgCPef/IpOWHh/kNjej7BUSRQiIRBhT1EqOm8qmvg3Gm7f8U/ZwSZNiE2bYof8HQ
+ Ev2tmkKHy1CtWG0xgm8l9t0smQWceKEbHhkwRqFCPpe1pre0cmPYyxOxqjcH+CF5kBVwQIk2i
+ /MvEgZ4GEko1IxGo4xuPbOo1l+kEPJjEMcweEsLwRJ0cIE/4KPOV/oeEwR8RiH6dqtyzRyGcN
+ U0sYBrRbxy+Pg7fRDUqHC2ysBpc7xLAAACYVUFlGM/GbgNh9Sug9FvW5385i59lWHZ+jX9ehO
+ C7tvSTCkjY39oZkmr8gXNw2oLdF6bxNa/auqh4XWEN/hq00iCxS49m6jPLNARL3m4cP+8CJoY
+ 8AzejEQKpbNRseIA+ShLI0VcyQ9fof/gt+37vWeyOV4jcwCuV/ZTvBAJjzQiIh4IyVzeuZHX2
+ 8l60csW7IL+9oWDNROjI7xmvPyBhwfg46dmXpe1Fi3Bz6NVW8bwy4+d+CrVimO7A+0U17JRME
+ mTFUKrTlDlXBeQYrc4jFJq7fHrZDVHO5edH5JK+KnOmFJtpqtccbxe4fmskymMjAQLBWdJBfu
+ imaWflLojDppv5Y6q6yh7vSRJSQQjunujEWyQ8rZpdFXn3J9cPAtYAqaDKnYbZ3h4XmgpCNKS
+ oZCMPVZFyG2/Gnf593VQJiu+TlHktUONOHfB29Opswk+DZtVfrWPpslKiwtmOyfWTMGUSaDHs
+ Qkh29FytVuldpk2NoDLpiZlIV7I+S/kUE8z52QPdrket8qusIS3hvF2gzClhPAqhr7MRJ7NQo
+ smgK9ihlKYD4ETZgaVj+PPa46/17bzllVhZxo23tI58OIm7WNsz15ZKSiTKZcgi+uKEtWKCyJ
+ +EUnKbEjhEpAPob7wzWoEqAjDc3bbhsgIe5jRGGz2oLBmocpQLL5DTlNjTguuYRpYRGPwfMtY
+ GBmsHqrusDc3Bgep1cN2/uYBXF0PFyuOfd9BpmaHWiD1LnRPAwwU52n//37GUxXKOF7sULuVb
+ nnufCfmrSGiExWxmGpjD/Gu5P73ittiIJIFV0crIeUS8hjSajpUyvrrmaSJeU74boprUMvNdl
+ mlzfgAZGyXTXEBWf55LanHsXfXu82LM5pcqQg/SSVHZoQHuvNbqVlx2XMCcQUUfa9RMqW5ruu
+ X5zewHMf6rPyQVMc5KHlGPO+HkdcnJQ2qzEnvu7GxGVMgrxUoY46NwnVDd3hplhEk5saeop7x
+ 9S4DSPhkv7YxjaVOXDm5TZ+t+RfccvYkWu2JpI0XnR3V9r1CGTVDJDHMANPgzAqhu1lh2jPaz
+ U3lP/fqCOHM0927A4oZdQs2xRQnHqacTstINcPDAlAFy6HPJJzvfEyhLIimsZJy7iDa/4A8R2
+ Oj4uDdpbUDJ1wZMboo0F7iuOSAm5ooHadnIo9Kj8N8cfv+PHqcTE3f+Mj6GtkXLlG3aYV6e2i
+ o6c2sh+FFMCwZplw4RpEP265Rwf+61qnpl61eUmaOx9ohyxXzn8LxQ8LrWlBqbu9BOYRd3UR8
+ tYVN2CuPS8VxQcvkr9IryW/bqXkLdMoIlt4PxwppeBBKaC4KBkqiO+XRqZ5o7KyDDDzJjyRAK
+ NWCnBhzxOkiW+y5HAbzIZc04sypuTrhIRvGmtHiqf59TRwL2e6xd/c9BNvD9GC
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
-branch HEAD: 1c44b818b81bf6a111a702536a560f5bc830c6d5  Input: st1232 - add touch-overlay handling
+Am 27.07.25 um 13:23 schrieb Nikita Krasnov:
 
-elapsed time: 727m
+> Hello again!
+>
+> Sorry for taking so long. Real life stuff gets in the way :(
+>
+> On Tue, Jul 22, 2025 at 07:09:37PM +0300 Armin Wolf wrote:
+>> Take a look at https://docs.kernel.org/wmi/driver-development-guide.html.
+> Thanks! Coupled with articles [1] and [2] this was a very good
+> introduction to WMI and ACPI.
 
-configs tested: 142
-configs skipped: 4
+Please note that the LWN article regarding WMI drivers is quite outdated. Please follow the
+WMI driver development guide from the kernel documentation instead.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+>> Sure, but you have to develop a new WMI driver for your device because after looking at the
+>> ACPI tables (SSDT20 in particular) i came to the conclusion that the xiaomi-wmi driver cannot
+>> be used in this case.
+> Why is that? Is it because xiaomi-wmi is using deprecated GUID-based WMI
+> interface?
 
-tested configs:
-alpha                             allnoconfig    gcc-15.1.0
-alpha                            allyesconfig    gcc-15.1.0
-alpha                               defconfig    gcc-15.1.0
-arc                              allmodconfig    gcc-15.1.0
-arc                               allnoconfig    gcc-15.1.0
-arc                              allyesconfig    gcc-15.1.0
-arc                                 defconfig    gcc-15.1.0
-arc                   randconfig-001-20250727    gcc-15.1.0
-arc                   randconfig-002-20250727    gcc-8.5.0
-arm                              allmodconfig    gcc-15.1.0
-arm                               allnoconfig    clang-22
-arm                              allyesconfig    gcc-15.1.0
-arm                                 defconfig    clang-22
-arm                             pxa_defconfig    gcc-15.1.0
-arm                   randconfig-001-20250727    gcc-11.5.0
-arm                   randconfig-002-20250727    gcc-14.3.0
-arm                   randconfig-003-20250727    clang-22
-arm                   randconfig-004-20250727    gcc-10.5.0
-arm                         socfpga_defconfig    gcc-15.1.0
-arm                        vexpress_defconfig    gcc-15.1.0
-arm                         wpcm450_defconfig    gcc-15.1.0
-arm64                            allmodconfig    clang-19
-arm64                             allnoconfig    gcc-15.1.0
-arm64                               defconfig    gcc-15.1.0
-arm64                 randconfig-001-20250727    gcc-11.5.0
-arm64                 randconfig-002-20250727    clang-18
-arm64                 randconfig-003-20250727    clang-17
-arm64                 randconfig-004-20250727    gcc-5.5.0
-csky                              allnoconfig    gcc-15.1.0
-csky                                defconfig    gcc-15.1.0
-csky                  randconfig-001-20250727    gcc-15.1.0
-csky                  randconfig-002-20250727    gcc-12.5.0
-hexagon                          allmodconfig    clang-17
-hexagon                           allnoconfig    clang-22
-hexagon                          allyesconfig    clang-22
-hexagon                             defconfig    clang-22
-hexagon               randconfig-001-20250727    clang-22
-hexagon               randconfig-002-20250727    clang-22
-i386                             allmodconfig    gcc-12
-i386                              allnoconfig    gcc-12
-i386                             allyesconfig    gcc-12
-i386        buildonly-randconfig-001-20250727    gcc-12
-i386        buildonly-randconfig-002-20250727    gcc-12
-i386        buildonly-randconfig-003-20250727    clang-20
-i386        buildonly-randconfig-004-20250727    clang-20
-i386        buildonly-randconfig-005-20250727    clang-20
-i386        buildonly-randconfig-006-20250727    clang-20
-i386                                defconfig    clang-20
-loongarch                        allmodconfig    clang-19
-loongarch                         allnoconfig    clang-22
-loongarch                           defconfig    clang-19
-loongarch             randconfig-001-20250727    clang-22
-loongarch             randconfig-002-20250727    clang-22
-m68k                             allmodconfig    gcc-15.1.0
-m68k                              allnoconfig    gcc-15.1.0
-m68k                             allyesconfig    gcc-15.1.0
-m68k                                defconfig    gcc-15.1.0
-m68k                        m5307c3_defconfig    gcc-15.1.0
-microblaze                       allmodconfig    gcc-15.1.0
-microblaze                        allnoconfig    gcc-15.1.0
-microblaze                       allyesconfig    gcc-15.1.0
-microblaze                          defconfig    gcc-15.1.0
-mips                              allnoconfig    gcc-15.1.0
-mips                         db1xxx_defconfig    clang-22
-nios2                             allnoconfig    gcc-11.5.0
-nios2                               defconfig    gcc-11.5.0
-nios2                 randconfig-001-20250727    gcc-8.5.0
-nios2                 randconfig-002-20250727    gcc-11.5.0
-openrisc                          allnoconfig    gcc-15.1.0
-openrisc                         allyesconfig    gcc-15.1.0
-openrisc                            defconfig    gcc-15.1.0
-openrisc                 simple_smp_defconfig    gcc-15.1.0
-parisc                           allmodconfig    gcc-15.1.0
-parisc                            allnoconfig    gcc-15.1.0
-parisc                           allyesconfig    gcc-15.1.0
-parisc                              defconfig    gcc-15.1.0
-parisc                randconfig-001-20250727    gcc-11.5.0
-parisc                randconfig-002-20250727    gcc-12.5.0
-parisc64                            defconfig    gcc-15.1.0
-powerpc                          allmodconfig    gcc-15.1.0
-powerpc                           allnoconfig    gcc-15.1.0
-powerpc                          allyesconfig    clang-22
-powerpc                  iss476-smp_defconfig    gcc-15.1.0
-powerpc               randconfig-001-20250727    gcc-13.4.0
-powerpc               randconfig-002-20250727    clang-22
-powerpc               randconfig-003-20250727    clang-22
-powerpc64             randconfig-001-20250727    gcc-12.5.0
-powerpc64             randconfig-002-20250727    clang-22
-powerpc64             randconfig-003-20250727    clang-22
-riscv                            allmodconfig    clang-22
-riscv                             allnoconfig    gcc-15.1.0
-riscv                            allyesconfig    clang-16
-riscv                               defconfig    clang-22
-riscv                 randconfig-001-20250727    clang-22
-riscv                 randconfig-002-20250727    clang-20
-s390                             allmodconfig    clang-18
-s390                              allnoconfig    clang-22
-s390                             allyesconfig    gcc-15.1.0
-s390                                defconfig    clang-22
-s390                  randconfig-001-20250727    clang-22
-s390                  randconfig-002-20250727    clang-22
-sh                               allmodconfig    gcc-15.1.0
-sh                                allnoconfig    gcc-15.1.0
-sh                               allyesconfig    gcc-15.1.0
-sh                                  defconfig    gcc-15.1.0
-sh                         ecovec24_defconfig    gcc-15.1.0
-sh                        edosk7760_defconfig    gcc-15.1.0
-sh                          polaris_defconfig    gcc-15.1.0
-sh                          r7785rp_defconfig    gcc-15.1.0
-sh                    randconfig-001-20250727    gcc-6.5.0
-sh                    randconfig-002-20250727    gcc-11.5.0
-sh                           se7780_defconfig    gcc-15.1.0
-sparc                            allmodconfig    gcc-15.1.0
-sparc                             allnoconfig    gcc-15.1.0
-sparc                               defconfig    gcc-15.1.0
-sparc                 randconfig-001-20250727    gcc-6.5.0
-sparc                 randconfig-002-20250727    gcc-8.5.0
-sparc64                          alldefconfig    gcc-15.1.0
-sparc64                             defconfig    clang-20
-sparc64               randconfig-001-20250727    gcc-7.5.0
-sparc64               randconfig-002-20250727    gcc-6.5.0
-um                               allmodconfig    clang-19
-um                                allnoconfig    clang-22
-um                               allyesconfig    gcc-12
-um                                  defconfig    clang-22
-um                             i386_defconfig    gcc-12
-um                    randconfig-001-20250727    clang-22
-um                    randconfig-002-20250727    clang-22
-um                           x86_64_defconfig    clang-22
-x86_64                            allnoconfig    clang-20
-x86_64                           allyesconfig    clang-20
-x86_64      buildonly-randconfig-001-20250727    gcc-12
-x86_64      buildonly-randconfig-002-20250727    clang-20
-x86_64      buildonly-randconfig-003-20250727    clang-20
-x86_64      buildonly-randconfig-004-20250727    clang-20
-x86_64      buildonly-randconfig-005-20250727    clang-20
-x86_64      buildonly-randconfig-006-20250727    clang-20
-x86_64                              defconfig    gcc-11
-x86_64                          rhel-9.4-rust    clang-20
-xtensa                            allnoconfig    gcc-15.1.0
-xtensa                randconfig-001-20250727    gcc-6.5.0
-xtensa                randconfig-002-20250727    gcc-11.5.0
+No, it is because your device is using a different WMI interface for delivering events. Device manufacturers
+are not exactly known for using the same WMI interfaces for a long time :(.
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> Btw, it's so weird for me that there are many laptop models, but only
+> one *-wmi.c file per manufacturer (be it Xiaomi, ThinkPad, MSI or Asus).
+> Is it because most of the time we write a driver for a specific piece of
+> hardware that may be reused in different laptop models?
+
+Usually a given WMI interface is used on a wide range of models so that the device manufacturers
+do not have to develop a giant number of backends for their control center applications under Windows.
+
+That is why many WMI driver work on a wide range of devices from a given manufacturer.
+
+>> I suggest that you write a skeleton driver first that basically prints
+>> the content of this buffer to the kernel log using print_hex_dump_bytes().
+> About that... Would you be okay with me implementing this driver in
+> Rust? I assume it's you, an ACPI WMI DRIVER maintainer, whose permission
+> needs to be granted to green-light this?
+
+Personally i have no problem with you writing a WMI driver in Rust, but currently we have
+no suitable bindings for the WMI driver API. Additionally i am currently designing a new
+WMI driver API that will make it easier to implement the necessary Rust bindings, so the
+whole thing might take some time.
+
+Would it be possible for you to implement the WMI driver in C?
+
+Thanks,
+Armin Wolf
+
+> [1]: https://lwn.net/Articles/391230/
+> [2]: https://lwn.net/Articles/367630/
+>
+> --
+> Nikita Krasnov
 
