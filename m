@@ -1,48 +1,48 @@
-Return-Path: <linux-input+bounces-13710-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13711-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0507B14930
-	for <lists+linux-input@lfdr.de>; Tue, 29 Jul 2025 09:33:25 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4533BB14942
+	for <lists+linux-input@lfdr.de>; Tue, 29 Jul 2025 09:39:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E91AF4E2923
-	for <lists+linux-input@lfdr.de>; Tue, 29 Jul 2025 07:32:46 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 83A7B1672B5
+	for <lists+linux-input@lfdr.de>; Tue, 29 Jul 2025 07:39:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C7782641FC;
-	Tue, 29 Jul 2025 07:33:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0319B264638;
+	Tue, 29 Jul 2025 07:39:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gI66fBEA"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WSBlS7Km"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32E3C2248BF;
-	Tue, 29 Jul 2025 07:33:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC20A83A14;
+	Tue, 29 Jul 2025 07:39:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753774385; cv=none; b=T9h7/1NyZ/Ij7jJei894EwSwSZ2YSXRFDFUOkRQ0GrsDBSUdaU9q5A4muLUTF88A5VJvx+pPuz8jUnTHisZUH5heBLV033v+g1EkSlADCjjD1rfpQrGMyJXgcntIK1qV6uhUxw2W81ATLwitdaL+wtOtSPVP226hDzl93EVWbYk=
+	t=1753774762; cv=none; b=C4MozWnOEXZyXAJqPavfdd4eELUU3vXRerSYhr6Kd6aCrBkdEfG0CmlH6DzCSRPNRrMfASj6MS4qFWUwP6yBOst/xd/5C2UeoMjy5iHp1ykXCet4KPBN2cjNuA+fFnwQXJO1bsfbXcW/sqwchpD1xOoimXbmX1VIBOCexadWWzU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753774385; c=relaxed/simple;
-	bh=CxqkaF7ekVdwSdtSEeCYKk2cQa8nwCz+CBmrB3n4Oj8=;
+	s=arc-20240116; t=1753774762; c=relaxed/simple;
+	bh=Yr4CiO8AKyQsvI0fLW+5oBAI7JvE/7rVOWGvHmPQsRo=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hT9iE04wrFSLnDDYNkjJqXUwWE4aiVJC/3Yf+lu16SCr3Nphq9t82qrgWXAOofTjt+URarGDF/NZsxG8b1NCu6gjcAD9VsoRERjhIDQU6atAf2YuxBZ0CsN2XhVFzp6aaQNiibdLYGocVEiqn9xpfv4dsQgDQ6cfnsI7kSagSo8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gI66fBEA; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C442CC4CEF8;
-	Tue, 29 Jul 2025 07:33:02 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=ddleOnKupEoS4Ri4z58578x2R8na9pXa80bTaUMu2nWK+QTc8gJ4j2906shZuddz7Ib1fO5sB5fUl0NeI61lONtKvcr+gu50FOXNLzmftVohEA1eJ9xKL9BOK8wMSclisWw6v4a2CNY073Wd+ryupHt7UoQI9zA+SNl+J8/JEGc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WSBlS7Km; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 726B1C4CEEF;
+	Tue, 29 Jul 2025 07:39:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753774384;
-	bh=CxqkaF7ekVdwSdtSEeCYKk2cQa8nwCz+CBmrB3n4Oj8=;
+	s=k20201202; t=1753774762;
+	bh=Yr4CiO8AKyQsvI0fLW+5oBAI7JvE/7rVOWGvHmPQsRo=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=gI66fBEAYeyg+yQpo0/8giOHu/JTcPZE+SfM52Rbbs6IYABr3wc/IfnD7XVDeGkZq
-	 buh9Rv5F3TDx19bk2dvOrX6Rhj8XMtTY6DFQ2bVWNx7BZCXIJk7PaqPNMWZ+4p24rh
-	 hfaWxBfLkhCpucUMSqsyN91RPDlsNUr1Ln8HKEcoY2L8G/qHEsGGLNuKU403uhD+Zs
-	 AijUSdiIo+WfUJbn1xzBejAGj0cPw5P0TfsC2HqHJBSjCD4MpbvmfCRqbJ1ZBeedSe
-	 xlbvaoDguj3Vb1YvS9XhmMBj5beoQFamfAHnDG/ObHgL6fPHfJ4s5YS4wYfO5RiBoU
-	 aHvDE5ijywH/w==
-Message-ID: <8f7cbf16-4cdd-4f95-8ff8-971da749b41e@kernel.org>
-Date: Tue, 29 Jul 2025 09:33:00 +0200
+	b=WSBlS7KmsrMyKBf1crmPq+RsMZeJcrFfaBjnrPoDxqWxPKI5nxnx1IroId0Bpa5PX
+	 e2xsBwEpA/v9ZNcRg3dx3M/d/6EwYmGxWX9PH8O4B/e53sDlGRbLQCnQRoDyysgyI4
+	 NQ3sxHW2yS2d8R69KIvUeh/f3AeZujnglUknStbRXm5nvjss7f+j+JvViqTCdWdU5d
+	 qq6JjC+sUsViitqoCH1/bPoEITOZogAjKsglC+ec7GpZPV+NaHZ0jT4FILbCL35hgy
+	 uXh1BH0/5+bRXxmbQa5T/o0SCIs2SHuz+wdGE/eFeLkVBEdfmY9JaBMqR1DAAC/65G
+	 GEUK5T67KzdsA==
+Message-ID: <0354f1b7-1c79-4e3a-ac0b-e612f184e631@kernel.org>
+Date: Tue, 29 Jul 2025 09:39:18 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -50,13 +50,12 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] dt-bindings vnc virtual input
+Subject: Re: [PATCH 0/2] Register virtual GPIO keys for VNC
 To: marlonwu@126.com, robh@kernel.org, dmitry.torokhov@gmail.com,
  krzk+dt@kernel.org
 Cc: linux-input@vger.kernel.org, devicetree@vger.kernel.org,
  MenglongWoo@aliyun.com
 References: <20250729064346.22834-1-marlonwu@126.com>
- <20250729064346.22834-2-marlonwu@126.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -102,113 +101,21 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20250729064346.22834-2-marlonwu@126.com>
+In-Reply-To: <20250729064346.22834-1-marlonwu@126.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 29/07/2025 08:43, marlonwu@126.com wrote:
 > From: Menglong Wu <marlonwu@126.com>
-
-Please use subject prefixes matching the subsystem. You can get them for
-example with `git log --oneline -- DIRECTORY_OR_FILE` on the directory
-your patch is touching. For bindings, the preferred subjects are
-explained here:
-https://www.kernel.org/doc/html/latest/devicetree/bindings/submitting-patches.html#i-for-patch-submitters
-
 > 
-> Add documentation for virtual GPIO keys to enable full ANSI keyboard
-> emulation via VNC on embedded devices without physical keyboards.
-> 
-> - vnc-virtual-input.txt: Usage scenario and implementation details
-> - vnc-virtual-input.yaml: Formal DT binding specification
-> - MAINTAINERS: Add entry for VNC virtual input support
-> 
-> The solution registers virtual GPIOs (starting from 400) to avoid conflicts
-> with physical GPIOs while supporting standard Linux input codes.
-> 
-> Signed-off-by: Menglong Wu <marlonwu@126.com>
-> ---
->  .../bindings/input/vnc-virtual-input.txt      | 153 ++++++++++++++++++
->  .../bindings/input/vnc-virtual-input.yaml     |  86 ++++++++++
->  MAINTAINERS                                   |   7 +
->  3 files changed, 246 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/input/vnc-virtual-input.txt
+> Test platform
+> -------------
+> Kernel: 4.14.98
 
-We do not take txt bindings anymore, sorry.
+Really? That's ancient kernel.
 
->  create mode 100644 Documentation/devicetree/bindings/input/vnc-virtual-input.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/input/vnc-virtual-input.txt b/Documentation/devicetree/bindings/input/vnc-virtual-input.txt
-> new file mode 100644
-> index 000000000000..77d12308c553
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/input/vnc-virtual-input.txt
-> @@ -0,0 +1,153 @@
-> +Register virtual GPIO keys for VNC
-> +==========================
-> +
-> +# Purpose
-> +
-> +To emulate a full ANSI keyboard on embedded devices without physical
-> +keyboards.The server responds to key events via x11vnc.
-> +This resolves the limitation where embedded systems only register a few
-> +GPIO keys, making them unable to process full keyboard inputs.
-> +
-> +documented in Documentation/devicetree/bindings/input/vnc-virtual-input.yaml
-
-I don't understand the placement of this file in bindings. What are you
-writing bindings for here?
-
-
-> diff --git a/Documentation/devicetree/bindings/input/vnc-virtual-input.yaml b/Documentation/devicetree/bindings/input/vnc-virtual-input.yaml
-> new file mode 100644
-> index 000000000000..8b5414cb2bea
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/input/vnc-virtual-input.yaml
-> @@ -0,0 +1,86 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/input/a.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: VNC Virtual GPIO Keys
-> +
-> +maintainers:
-> +  - Menglong Wu <marlonwu@126.com>
-> +
-> +description: |
-> +  This binding describes a virtual GPIO key input node for VNC remote
-> +  input.
-
-Describe the hardware, not the binding...
-
-> +  It is based on the standard gpio-keys binding.
-> +
-> +select: false
-> +
-> +allOf:
-> +  - $ref: gpio-keys.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    const: gpio-keys
-
-So this is all completely redundant and not needed. Drop the bindings.
-
-> +
-> +  status:
-> +    enum:
-> +      - okay
-> +      - disabled
-
-Do you see any bindings with this?
-
-Srsly, it's second bindings today. I think you send some AI slops to us.
-
-Please confirm:
-
-Did you use any AI tool to generate this file?
+We cannot take any of this. You need to rebase and test on patches on
+the latest kernel. Not some ancient, buggy thing.
 
 Best regards,
 Krzysztof
