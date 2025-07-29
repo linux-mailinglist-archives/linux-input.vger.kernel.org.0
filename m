@@ -1,143 +1,312 @@
-Return-Path: <linux-input+bounces-13717-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13718-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DA38B1527D
-	for <lists+linux-input@lfdr.de>; Tue, 29 Jul 2025 20:10:27 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id B7409B15342
+	for <lists+linux-input@lfdr.de>; Tue, 29 Jul 2025 21:06:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6446D545087
-	for <lists+linux-input@lfdr.de>; Tue, 29 Jul 2025 18:10:27 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id DEC0018942A2
+	for <lists+linux-input@lfdr.de>; Tue, 29 Jul 2025 19:06:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D081295DBD;
-	Tue, 29 Jul 2025 18:10:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3A55324290D;
+	Tue, 29 Jul 2025 19:06:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=plexus.com header.i=@plexus.com header.b="pjqDRtV9"
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=mail.selcloud.ru header.i=@mail.selcloud.ru header.b="cWaLt6IH";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=foxido.dev header.i=@foxido.dev header.b="NJMjP+m2";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=foxido.dev header.i=@foxido.dev header.b="xNdfUu/J"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mx0a-0046e701.pphosted.com (mx0a-0046e701.pphosted.com [67.231.149.93])
+Received: from sender6.mail.selcloud.ru (sender6.mail.selcloud.ru [5.8.75.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFCA62AE90;
-	Tue, 29 Jul 2025 18:10:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.93
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C3C646447;
+	Tue, 29 Jul 2025 19:06:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=5.8.75.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753812622; cv=none; b=jUmaRqET3kDYwHrUQqtsH9nvvl39YmaUg1vjBPJ+gxrWhi02RhzYe2EaMJgCgn3/+fPlZSRrswuJJ+0Eyxs7y16i6cMY7RCmQVZdE9FQK5Q9tL8Nx9fmQWv67o9bXME+t0luc23st1n5YXhrXibi/WXRGr1pjSp2TQ5ipdhIrHw=
+	t=1753815992; cv=none; b=h94Yg1GLhlKOb8UKNBycszXmiYrj0dEW4/6V5XlkFfT91bnkMwP8ul2ETLetqCwb1u3ZumnmB1qMXsx4boSE1Xoeh2N9VL/fbfK5IooIu+i8mHvLEu33PBEQeoZ1POZjJBquM6k/ciq4Dvlo1bTZuZFYKcMT+zSnqmH+lZqqCvE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753812622; c=relaxed/simple;
-	bh=9R39EpjRsrM9NBjuKWJ3b9Sl/p6l42CkUZtTPH9wn10=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jZhnjSBdGopUCz+QixY9yzKmUbsi4eQjFo2Z+u9S1pnBeE+rmAml8qJseQT46GpHbS1RAGobnd6LuOf1uRkfhND3bUOj/RfxY3AZIQEc1xdC51cNwv6eXz/ewtwmpAFsqIa7IsXaCtatKQjQCfODyrA2cNujwrMp4ciExb/pLFU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=plexus.com; spf=pass smtp.mailfrom=plexus.com; dkim=pass (2048-bit key) header.d=plexus.com header.i=@plexus.com header.b=pjqDRtV9; arc=none smtp.client-ip=67.231.149.93
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=plexus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=plexus.com
-Received: from pps.filterd (m0425989.ppops.net [127.0.0.1])
-	by mx0a-0046e701.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56T8rttL032514;
-	Tue, 29 Jul 2025 12:59:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=plexus.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pps1; bh=7/Pov
-	LSJDwcXcsFbB5zYUztmeVGVrjtuuVCZP0SNRK0=; b=pjqDRtV9szxgrG13ps9Z1
-	aQjOtYZZYpc3dulaCGE7tLefRb5Xd6Jg/VIcPndsyGEObaU5HF+41tIp8eLv2g6Q
-	l7boOxdn4CuyChONS841A82Opskd6Zn2X+7xHDJ5K5xnmsgHETxrY1dor0701zAy
-	4YdcmXHUtK5HkIGYiPYvxk0MwPfqajncku/zWPUAB9F2+fnIokAzDGRxkA55vGnL
-	YHy2vhQ6+X5Ibef8mCLubp766hZDzjm1SrNkhgjX4XyCp4K6AURh3/JtiBXOmvkd
-	VdHy8/k9l2bYvnbKkrrvMz3XRoiLe5GYoohLz4tmfoByOMsWeFqSBM/SS0C1XjER
-	A==
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-0046e701.pphosted.com (PPS) with ESMTPS id 486fc9t4tr-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 29 Jul 2025 12:59:53 -0500 (CDT)
-Received: from m0425989.ppops.net (m0425989.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.1.12/8.18.0.8) with ESMTP id 56THvoMS011174;
-	Tue, 29 Jul 2025 12:59:52 -0500
-Received: from intranet-smtp.plexus.com ([64.215.193.254])
-	by mx0a-0046e701.pphosted.com (PPS) with ESMTPS id 486fc9t4tp-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 29 Jul 2025 12:59:52 -0500 (CDT)
-Received: from localhost (unknown [10.255.48.203])
-	by intranet-smtp.plexus.com (Postfix) with ESMTP id A3C553B4F7;
-	Tue, 29 Jul 2025 12:59:51 -0500 (CDT)
-Date: Tue, 29 Jul 2025 12:49:51 -0500
-From: Danny Kaehn <danny.kaehn@plexus.com>
-To: Willie Thai <wthai@nvidia.com>
-Cc: andriy.shevchenko@linux.intel.com, bartosz.golaszewski@linaro.org,
-        bentiss@kernel.org, devicetree@vger.kernel.org,
-        dmitry.torokhov@gmail.com, ethan.twardy@plexus.com, jikos@kernel.org,
-        krzk+dt@kernel.org, linux-input@vger.kernel.org, robh@kernel.org,
-        tingkaic@nvidia.com, rastekar@nvidia.com, dkodihalli@nvidia.com,
-        mhn@nvidia.com, arundp@nvidia.com
-Subject: Re: Re [PATCH v11 0/4] Firmware Support for USB-HID Devices and
- CP2112
-Message-ID: <20250729174951.GB4111945@LNDCL34533.neenah.na.plexus.com>
-References: <20240605-cp2112-dt-v11-0-d55f0f945a62@plexus.com>
- <20250729145350.3538324-1-wthai@nvidia.com>
+	s=arc-20240116; t=1753815992; c=relaxed/simple;
+	bh=+GaupTqSCjbeFEvw5Jk6GGk1W1IENNrlN8kSLyAKUTo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fgD5qw8Ajqqlaf9pO6z8sSQi0fNKB2FzAFXgUfVyjxYCeNsXz14KmCKnATw2nzH/s4AJgu7GvhNMUe2I8NVpZmd8yf85oyUxsgAyhJAyz9J6G+dQNWZ0XxN4oO1P3SpETXnKeMPvN8l+PG4/dowIyY2cpGxzUdLLFtJp4AkuIU8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foxido.dev; spf=pass smtp.mailfrom=mail.selcloud.ru; dkim=pass (1024-bit key) header.d=mail.selcloud.ru header.i=@mail.selcloud.ru header.b=cWaLt6IH; dkim=pass (1024-bit key) header.d=foxido.dev header.i=@foxido.dev header.b=NJMjP+m2; dkim=fail (2048-bit key) header.d=foxido.dev header.i=@foxido.dev header.b=xNdfUu/J reason="signature verification failed"; arc=none smtp.client-ip=5.8.75.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foxido.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mail.selcloud.ru
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=mail.selcloud.ru; s=selcloud; h=Content-Transfer-Encoding:MIME-Version:
+	Message-ID:Date:Subject:Cc:To:From:List-id:List-Unsubscribe:Sender:Reply-To:
+	Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Help:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=fZLtxJxccotz6SHSOldtB6ck/NMsEGIi3fSCgwF03tY=; t=1753815988; x=1753988788;
+	 b=cWaLt6IHoaeTul5OXw0cv798u8I8B+psUnRw9T1ED+lS2IGQuFXRLdVqqFqvtq2r7vyuM7KuYL
+	vSXvp+0AUtXnP46oua651IPPM+wXWA1vRlC/2Z7JYAN6fpIogGfJRHDwggjzMpslAMYLaduGdMQIT
+	Aise0j0eVAMdUZkwpDPs=;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=foxido.dev;
+	 s=selcloud; h=Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject
+	:Cc:To:From:List-id:List-Unsubscribe:Sender:Reply-To:Content-Type:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:In-Reply-To:References:List-Help:List-Subscribe:List-Post:
+	List-Owner:List-Archive; bh=fZLtxJxccotz6SHSOldtB6ck/NMsEGIi3fSCgwF03tY=;
+	t=1753815988; x=1753988788; b=NJMjP+m2qWJtMPB5gDvOXanp2pSZasFJJ2a2+6YRZnCCWR5
+	EEze6pP47/FHXAxH7MyRWJ4Xz8tMbR0LUgeFYqTDhfrNlY+OctEwFHMHwBAPG8NPKTq6J9Kj+zfEL
+	NMlbXPqD7BrUa/VMSG9X1qT+iXgFy9lBt74rKOGG36AKYnc=;
+Precedence: bulk
+X-Issuen: 1118611
+X-User: 280060488
+X-Postmaster-Msgtype: 3849
+Feedback-ID: 1118611:15965:3849:samotpravil
+X-From: foxido.dev
+X-from-id: 15965
+X-MSG-TYPE: bulk
+List-Unsubscribe-Post: List-Unsubscribe=One-Click
+X-blist-id: 3849
+X-Gungo: 20250728.224157
+X-SMTPUID: mlgnr60
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxido.dev; s=dkim;
+	t=1753815973; h=from:subject:date:message-id:to:cc:mime-version:
+	 content-transfer-encoding; bh=ry9b4jvpXnBWI4/HJV5u1m2bDrfUO+pkxJci9GRZHCw=;
+	b=xNdfUu/Jf3bQFn6+GmMI1Z9Btt/+FwRyHrySPhqqbVE0DjRJEUWc5a2659YXp0ba/luIP8
+	MqljvPwrO/Mc+kqmgWgE7XBEOPEZYSHYwIdbo5nIhqRbsiAU3R2q0PZ7rr8vM9FLIA01Mo
+	Z0iOrrZhfgEXfupv4FzVBu0n6segBEn9SUAK+NJYq9NxrWpOMOIYhYDPlfhN2cV4lAbGBj
+	f5yawsmAtPhhZkzIxs1F2Cpok15yH3iBw/mk1dLlY/nFR+nCwvJ9pPesqN1kuwPa9kEyl4
+	xi3eBJxex1IIlWHL6O9ZJSfAUT5sQMqOF/RgmboWRzqXApLwlBQ7v69cy0i/lw==
+From: Gladyshev Ilya <foxido@foxido.dev>
+To: foxido@foxido.dev
+Cc: w_armin@gmx.de,
+	linux-input@vger.kernel.org,
+	nikita.nikita.krasnov@gmail.com,
+	Hans de Goede <hansg@kernel.org>,
+	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	linux-kernel@vger.kernel.org,
+	platform-driver-x86@vger.kernel.org
+Subject: [PATCH v2] platform/x86: Add WMI driver for Redmibook keyboard.
+Date: Tue, 29 Jul 2025 22:05:21 +0300
+Message-ID: <20250729190528.8446-1-foxido@foxido.dev>
+X-Mailer: git-send-email 2.50.0
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250729145350.3538324-1-wthai@nvidia.com>
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzI5MDEzNyBTYWx0ZWRfX4bahBf2Pr8yR
- E8kvaNmam2d+n5iPqgVzBQQZ5DRG46k9Gls+ZnerSOzCp1EOkv3fXXkavHKKfFF6h+yIKzIew4B
- 0ALCHkAVY+XlnWphCyBdPHIP7wUbdkLo8FcgUacVtwaRswFTseWPcSGoppW6YhgCj0C3zQaDQ5b
- D4FOLumU1ldGnss7P6FRBhHTSIu7hLQ2eeIMXYA23xJxssiQ6tgzwgGTqI8GjM5AGKUq/HPk1x9
- wuTd9J6XDUrATehI0+Tml2IaNOlFEpVHwaqYG8FynEom8GYn8eWkALo6k206uDfd4oX1hiVwcFn
- 2J1KfRo31yo/guD+ayJL3D27RKhynZVaM77zL3c9PJR6g2BCMIB/qF9PLhQdZLdhAYjkHt5gOYi
- tMrYS2WYmuvbNxucPX1VHDnfjdmgniDndwlsBbRD59cBTpF02c+p4HId9/HRkswXrcfcByxZ
-X-Proofpoint-GUID: 312z6txhGSLceQEcODaSszh7lFLENVah
-X-Proofpoint-ORIG-GUID: bTmR2Lq0mhgR7NC8jNcJ94qoc4Du_vPQ
-X-Authority-Analysis: v=2.4 cv=ZtntK87G c=1 sm=1 tr=0 ts=68890c19 cx=c_pps
- a=356DXeqjepxy6lyVU6o3hA==:117 a=356DXeqjepxy6lyVU6o3hA==:17
- a=p-amL0WH6BgkGnzH:21 a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10
- a=weiHyVKbh4n8zbIAmYYA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
-X-Proofpoint-Spam-Reason: orgsafe
+X-Last-TLS-Session-Version: TLSv1.3
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jul 29, 2025 at 02:53:50PM +0000, Willie Thai wrote:
-> Hi Danny,
-> 
-> I hope this message finds you well.
-> Thank you for the patch set — it’s exactly what we need for the I2C-over-USB feature in our new products.
-> Could you please let us know when we can expect the next version of the patch set?
-> If you've paused work on it, we're happy to take over and continue from where you left off.
-> 
-> Thanks!
+This driver implements support for various Fn keys (like Cut) and Xiaomi
+specific AI button.
 
-Thanks for reaching out!
+Signed-off-by: Gladyshev Ilya <foxido@foxido.dev>
+---
 
-Apologies, I haven't been working on this in a while, and have only been able
-to intermittently return to attempt to bring it forward.
+Changes from v1:
+- Use sparse-keymap instead of manual matching
+- Fix GUID case so it actually autoloads
+- Other fixes from v1 review
 
-Feel free to take over and move this forward! I'm not sure what the protocol
-is for that, as far as changelogs and versions and whatnot. If your product's
-timeline for needing this mainlined is not urgent; however, I can prioritize
-coming back to this and having a v12 submitted, likely by the end of next
-week, to remove the overhead needed for you to assume ownership of the
-patchset.
+Link to v1: https://lore.kernel.org/platform-driver-x86/20250727223516.29=
+244-1-foxido@foxido.dev/
 
-The last several versions of this patchset have all revolved around trying
-to get this change working for ACPI as well as DeviceTree in such a way which
-make the ACPI and DeviceTree interface/binding acceptable to their respective
-maintainers. With this latest version, it seemed that there was not going to
-be any consensus between the two firmware languages, so it seemed an entirely
-different binding/interface and corresponding logic in the device driver
-would be needed. This seems unfortunate, as it seemed the whole purpose of
-the fwnode / device_*() functions was to unify the driver interface to the
-firmware language used... but this is presumably a special case, being almost
-exclusively a device composed of different generic device functions...
+---
+ MAINTAINERS                      |   6 ++
+ drivers/platform/x86/Kconfig     |  11 +++
+ drivers/platform/x86/Makefile    |   1 +
+ drivers/platform/x86/redmi-wmi.c | 129 +++++++++++++++++++++++++++++++
+ 4 files changed, 147 insertions(+)
+ create mode 100644 drivers/platform/x86/redmi-wmi.c
 
-Let me know if you plan to take this over and if there's any
-documentation/context/test procedures you would need from me; else I would be
-happy to start moving this forward again now that there is someone waiting
-on it.
-
-Thanks
-
-Danny Kaehn
-
+diff --git a/MAINTAINERS b/MAINTAINERS
+index c0b444e5fd5a..eb25fb10e751 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -20965,6 +20965,12 @@ S:	Maintained
+ T:	git https://github.com/pkshih/rtw.git
+ F:	drivers/net/wireless/realtek/rtw89/
+=20
++REDMIBOOK WMI DRIVERS
++M:	Gladyshev Ilya <foxido@foxido.dev>
++L:	platform-driver-x86@vger.kernel.org
++S:	Maintained
++F:	drivers/platform/x86/redmi-wmi.c
++
+ REDPINE WIRELESS DRIVER
+ L:	linux-wireless@vger.kernel.org
+ S:	Orphan
+diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
+index e5cbd58a99f3..3c570cb398d3 100644
+--- a/drivers/platform/x86/Kconfig
++++ b/drivers/platform/x86/Kconfig
+@@ -109,6 +109,17 @@ config XIAOMI_WMI
+ 	  To compile this driver as a module, choose M here: the module will
+ 	  be called xiaomi-wmi.
+=20
++config REDMI_WMI
++	tristate "Redmibook WMI key driver"
++	depends on ACPI_WMI
++	depends on INPUT
++	help
++	  Say Y here if you want support for WMI-based hotkey events on
++	  Xiaomi Redmibook devices.
++
++	  To compile this driver as a module, choose M here: the module will
++	  be called redmi-wmi.
++
+ config GIGABYTE_WMI
+ 	tristate "Gigabyte WMI temperature driver"
+ 	depends on ACPI_WMI
+diff --git a/drivers/platform/x86/Makefile b/drivers/platform/x86/Makefil=
+e
+index bea87a85ae75..406dd0807ba7 100644
+--- a/drivers/platform/x86/Makefile
++++ b/drivers/platform/x86/Makefile
+@@ -13,6 +13,7 @@ obj-$(CONFIG_HUAWEI_WMI)		+=3D huawei-wmi.o
+ obj-$(CONFIG_MXM_WMI)			+=3D mxm-wmi.o
+ obj-$(CONFIG_NVIDIA_WMI_EC_BACKLIGHT)	+=3D nvidia-wmi-ec-backlight.o
+ obj-$(CONFIG_XIAOMI_WMI)		+=3D xiaomi-wmi.o
++obj-$(CONFIG_REDMI_WMI)			+=3D redmi-wmi.o
+ obj-$(CONFIG_GIGABYTE_WMI)		+=3D gigabyte-wmi.o
+=20
+ # Acer
+diff --git a/drivers/platform/x86/redmi-wmi.c b/drivers/platform/x86/redm=
+i-wmi.c
+new file mode 100644
+index 000000000000..732688fb94e0
+--- /dev/null
++++ b/drivers/platform/x86/redmi-wmi.c
+@@ -0,0 +1,129 @@
++// SPDX-License-Identifier: GPL-2.0
++/* WMI driver for Xiaomi Redmibooks */
++
++#include <linux/acpi.h>
++#include <linux/device.h>
++#include <linux/input.h>
++#include <linux/input/sparse-keymap.h>
++#include <linux/module.h>
++#include <linux/mutex.h>
++#include <linux/unaligned.h>
++#include <linux/wmi.h>
++
++#include <uapi/linux/input-event-codes.h>
++
++#define WMI_REDMIBOOK_KEYBOARD_EVENT_GUID "46C93E13-EE9B-4262-8488-563BC=
+A757FEF"
++
++#define AI_KEY_VALUE_MASK 0x00000100
++
++static const struct key_entry redmi_wmi_keymap[] =3D {
++	{KE_KEY, 0x00000201,	{KEY_SELECTIVE_SCREENSHOT}},
++	{KE_KEY, 0x00000301,	{KEY_ALL_APPLICATIONS}},
++	{KE_KEY, 0x00001b01,	{KEY_SETUP}},
++
++	/* AI button has code for each position */
++	{KE_KEY, 0x00011801,	{KEY_ASSISTANT}},
++	{KE_KEY, 0x00011901,	{KEY_ASSISTANT}},
++
++	/* Keyboard backlight */
++	{KE_IGNORE, 0x00000501, {}},
++	{KE_IGNORE, 0x00800501, {}},
++	{KE_IGNORE, 0x00050501, {}},
++	{KE_IGNORE, 0x000a0501, {}},
++
++	{KE_END}
++};
++
++struct redmi_wmi {
++	struct input_dev *input_dev;
++	/* Protects the key event sequence */
++	struct mutex key_lock;
++};
++
++static int redmi_wmi_probe(struct wmi_device *wdev, const void *context)
++{
++	struct redmi_wmi *data;
++	int err;
++
++	/* Init dev */
++	data =3D devm_kzalloc(&wdev->dev, sizeof(*data), GFP_KERNEL);
++	if (!data)
++		return -ENOMEM;
++
++	dev_set_drvdata(&wdev->dev, data);
++
++	err =3D devm_mutex_init(&wdev->dev, &data->key_lock);
++	if (err)
++		return err;
++
++	/* Setup input device */
++	data->input_dev =3D devm_input_allocate_device(&wdev->dev);
++	if (!data->input_dev)
++		return -ENOMEM;
++	data->input_dev->name =3D "Redmibook WMI keys";
++	data->input_dev->phys =3D "wmi/input0";
++
++	err =3D sparse_keymap_setup(data->input_dev, redmi_wmi_keymap, NULL);
++	if (err)
++		return err;
++
++	return input_register_device(data->input_dev);
++}
++
++static void redmi_wmi_notify(struct wmi_device *wdev, union acpi_object =
+*obj)
++{
++	struct redmi_wmi *data =3D dev_get_drvdata(&wdev->dev);
++	int value =3D 1;
++	bool autorelease =3D true;
++
++	if (obj->type !=3D ACPI_TYPE_BUFFER) {
++		dev_err(&wdev->dev, "Bad response type %u\n", obj->type);
++		return;
++	}
++
++	if (obj->buffer.length !=3D 32) {
++		dev_err(&wdev->dev, "Invalid buffer length %u\n", obj->buffer.length);
++		return;
++	}
++
++	/* For linearizability */
++	guard(mutex)(&data->key_lock);
++
++	u32 payload =3D get_unaligned_le32(obj->buffer.pointer);
++	struct key_entry *entry =3D sparse_keymap_entry_from_scancode(data->inp=
+ut_dev, payload);
++
++	if (!entry) {
++		dev_dbg(&wdev->dev, "Unknown WMI event with payload %u", payload);
++		return;
++	}
++
++	/* AI key quirk */
++	if (entry->keycode =3D=3D KEY_ASSISTANT) {
++		value =3D !(payload & AI_KEY_VALUE_MASK);
++		autorelease =3D false;
++	}
++
++	sparse_keymap_report_entry(data->input_dev, entry, value, autorelease);
++}
++
++static const struct wmi_device_id redmi_wmi_id_table[] =3D {
++	{ .guid_string =3D WMI_REDMIBOOK_KEYBOARD_EVENT_GUID },
++	{ }
++};
++
++static struct wmi_driver redmi_wmi_driver =3D {
++	.driver =3D {
++		.name =3D "redmi-wmi",
++		.probe_type =3D PROBE_PREFER_ASYNCHRONOUS
++	},
++	.id_table =3D redmi_wmi_id_table,
++	.probe =3D redmi_wmi_probe,
++	.notify =3D redmi_wmi_notify,
++	.no_singleton =3D true,
++};
++module_wmi_driver(redmi_wmi_driver);
++
++MODULE_DEVICE_TABLE(wmi, redmi_wmi_id_table);
++MODULE_AUTHOR("Gladyshev Ilya <foxido@foxido.dev>");
++MODULE_DESCRIPTION("Redmibook WMI driver");
++MODULE_LICENSE("GPL");
+--=20
+2.50.0
 
 
