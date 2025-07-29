@@ -1,170 +1,143 @@
-Return-Path: <linux-input+bounces-13716-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13717-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95ED9B14F9A
-	for <lists+linux-input@lfdr.de>; Tue, 29 Jul 2025 16:54:30 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DA38B1527D
+	for <lists+linux-input@lfdr.de>; Tue, 29 Jul 2025 20:10:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C7FC04E5AD4
-	for <lists+linux-input@lfdr.de>; Tue, 29 Jul 2025 14:54:00 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6446D545087
+	for <lists+linux-input@lfdr.de>; Tue, 29 Jul 2025 18:10:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E7546216392;
-	Tue, 29 Jul 2025 14:54:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D081295DBD;
+	Tue, 29 Jul 2025 18:10:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="Cvm1oiaL"
+	dkim=pass (2048-bit key) header.d=plexus.com header.i=@plexus.com header.b="pjqDRtV9"
 X-Original-To: linux-input@vger.kernel.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2089.outbound.protection.outlook.com [40.107.236.89])
+Received: from mx0a-0046e701.pphosted.com (mx0a-0046e701.pphosted.com [67.231.149.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CC001ACEDD;
-	Tue, 29 Jul 2025 14:54:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.236.89
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753800867; cv=fail; b=Hbl3o7gaCPp4ygEOtb4M1ZSyAQUGD2n8CwkIV8UDfs3xUoFSKEkfVQpwClytuj4ymBhAS1abBKo2XIBwk0rUxIX4f2NNXa6UF8T6MdTP/wAfsoyo8tLBeJC7B0m0kCyg6e2vJEPX+gBT4lYM+7kW32b4i8O2QPrIq5B7YhAduyc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753800867; c=relaxed/simple;
-	bh=Idi4Kv2tMWFleBWJM51FJhUEtSh8p/eU7KOMRS6hnp4=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hdyJiVaRPUOdkqWyffh5HWNCO/UNhdRQyYsw1TSiNqADbWFFD8oeqRQV3CrDBBXJovXrijSJIdcgzA6Y0r9nok5q3+0LcLsYrVBspmoxpZtT4eIlr+RX9RHsXTVtkPBlNDsGgmYrXIPqRJbwnTCZruAe5Wpc+SiTp7tTf56ULjk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=Cvm1oiaL; arc=fail smtp.client-ip=40.107.236.89
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=R7gdSSXUtqUUOmugYdO8iMSzTzyqLewZqJV2yko1sFL1aQNp+7zNFeP3x6I7g/Hsbpj3uqiTazI96fva8KwrCOeEcQN4dTzKsO9uS3UI77wNyHTs2SYv/tJOHLW0eLR24vpZDzB8VxZmGaYF+VDDKq175jid430f/6tpDGQxGWhBxYlrmSCbsem/WFgNqnohPs9LbNoJd3kCz1Y1EQkxy8Q3dUQMCWP0b5MdjVsbHid72+Nho2KajUJrxmXcbTVK9JyfcJQbmwpRI/jXZgVGfY9l2iQ0CBzr8RjX2VmjRbbLRvZo8X3uVcGEpBNFr3aso8Ab3v9Cf9liJ3XBR0DB7A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Idi4Kv2tMWFleBWJM51FJhUEtSh8p/eU7KOMRS6hnp4=;
- b=oUORVKYJjJfTS5IMCG2jNB4Ba0wLJ4Jm91zVwbKQwkB5i10byaEhOtgLSDL7pUtA3a504mAgDiVkGsOrm+V1itzg5T+W16S8Z3h96UuUdmv1RNZEzhRLsr18d+2MOR0+Uc0aBAirAybbCGycmC4zOvqv/4Frso1LWjATL9prpwgbjleGsh28D+qb4Pknslebwq3jx3O91ZjNh+Rj1JDBBh6+BqqbrQQYkI7xc+8y0pAg4N71JQpsuEuu6UBC4f5CHRAsuqFDsn+e4qEqBv+DHFxqnjlID8E2iJkDn+t1ptU/MyqNMG3bf4dtihHrTBYbVS5jG46UvHbdUVgg4g3VUg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.161) smtp.rcpttodomain=plexus.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Idi4Kv2tMWFleBWJM51FJhUEtSh8p/eU7KOMRS6hnp4=;
- b=Cvm1oiaLOduKdgwqY9sFY5TwFGLdNk/kR19x5ljNHdzBRxvOnNQs2dsMY0vCa11+4fWgVaTFGKyl2Hs/+EHamll75Zz2XvTUcGhKPl9yczahiv8eoRRaWtf5/eUeOqZGo8k7efW+QSrHiyVCsUxVCSrQWQHuUmS9Bud2vFcCCfcnvNVAK/Fo6HCFurSqllPjEjAILjB5RsgqR9WC8QhvksAqhSbc2gXbfsxcfz2FVYleZk+UPthLf+KhLoYfy2SRBxoF0IAR++OjX33NKLfJ3mPLQl3NFy6WMQo3h/wJlVzAuaVnfUqr41B5OE1HHJRmP/m3qxJxmxTnWGCkLgohJA==
-Received: from MW4PR03CA0002.namprd03.prod.outlook.com (2603:10b6:303:8f::7)
- by SA0PR12MB4398.namprd12.prod.outlook.com (2603:10b6:806:9f::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8964.25; Tue, 29 Jul
- 2025 14:54:21 +0000
-Received: from CO1PEPF000075EE.namprd03.prod.outlook.com
- (2603:10b6:303:8f:cafe::13) by MW4PR03CA0002.outlook.office365.com
- (2603:10b6:303:8f::7) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8964.23 via Frontend Transport; Tue,
- 29 Jul 2025 14:54:21 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.161) by
- CO1PEPF000075EE.mail.protection.outlook.com (10.167.249.37) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8989.10 via Frontend Transport; Tue, 29 Jul 2025 14:54:20 +0000
-Received: from rnnvmail205.nvidia.com (10.129.68.10) by mail.nvidia.com
- (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Tue, 29 Jul
- 2025 07:54:02 -0700
-Received: from rnnvmail203.nvidia.com (10.129.68.9) by rnnvmail205.nvidia.com
- (10.129.68.10) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Tue, 29 Jul
- 2025 07:53:50 -0700
-Received: from willie-obmc-builder.nvidia.com (10.127.8.10) by mail.nvidia.com
- (10.129.68.9) with Microsoft SMTP Server id 15.2.1544.14 via Frontend
- Transport; Tue, 29 Jul 2025 07:53:50 -0700
-From: Willie Thai <wthai@nvidia.com>
-To: <danny.kaehn@plexus.com>
-CC: <andriy.shevchenko@linux.intel.com>, <bartosz.golaszewski@linaro.org>,
-	<bentiss@kernel.org>, <devicetree@vger.kernel.org>,
-	<dmitry.torokhov@gmail.com>, <ethan.twardy@plexus.com>, <jikos@kernel.org>,
-	<krzk+dt@kernel.org>, <linux-input@vger.kernel.org>, <robh@kernel.org>,
-	<tingkaic@nvidia.com>, <rastekar@nvidia.com>, <dkodihalli@nvidia.com>,
-	<mhn@nvidia.com>, <arundp@nvidia.com>
-Subject: Re [PATCH v11 0/4] Firmware Support for USB-HID Devices and CP2112
-Date: Tue, 29 Jul 2025 14:53:50 +0000
-Message-ID: <20250729145350.3538324-1-wthai@nvidia.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240605-cp2112-dt-v11-0-d55f0f945a62@plexus.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFCA62AE90;
+	Tue, 29 Jul 2025 18:10:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.93
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1753812622; cv=none; b=jUmaRqET3kDYwHrUQqtsH9nvvl39YmaUg1vjBPJ+gxrWhi02RhzYe2EaMJgCgn3/+fPlZSRrswuJJ+0Eyxs7y16i6cMY7RCmQVZdE9FQK5Q9tL8Nx9fmQWv67o9bXME+t0luc23st1n5YXhrXibi/WXRGr1pjSp2TQ5ipdhIrHw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1753812622; c=relaxed/simple;
+	bh=9R39EpjRsrM9NBjuKWJ3b9Sl/p6l42CkUZtTPH9wn10=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jZhnjSBdGopUCz+QixY9yzKmUbsi4eQjFo2Z+u9S1pnBeE+rmAml8qJseQT46GpHbS1RAGobnd6LuOf1uRkfhND3bUOj/RfxY3AZIQEc1xdC51cNwv6eXz/ewtwmpAFsqIa7IsXaCtatKQjQCfODyrA2cNujwrMp4ciExb/pLFU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=plexus.com; spf=pass smtp.mailfrom=plexus.com; dkim=pass (2048-bit key) header.d=plexus.com header.i=@plexus.com header.b=pjqDRtV9; arc=none smtp.client-ip=67.231.149.93
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=plexus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=plexus.com
+Received: from pps.filterd (m0425989.ppops.net [127.0.0.1])
+	by mx0a-0046e701.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56T8rttL032514;
+	Tue, 29 Jul 2025 12:59:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=plexus.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pps1; bh=7/Pov
+	LSJDwcXcsFbB5zYUztmeVGVrjtuuVCZP0SNRK0=; b=pjqDRtV9szxgrG13ps9Z1
+	aQjOtYZZYpc3dulaCGE7tLefRb5Xd6Jg/VIcPndsyGEObaU5HF+41tIp8eLv2g6Q
+	l7boOxdn4CuyChONS841A82Opskd6Zn2X+7xHDJ5K5xnmsgHETxrY1dor0701zAy
+	4YdcmXHUtK5HkIGYiPYvxk0MwPfqajncku/zWPUAB9F2+fnIokAzDGRxkA55vGnL
+	YHy2vhQ6+X5Ibef8mCLubp766hZDzjm1SrNkhgjX4XyCp4K6AURh3/JtiBXOmvkd
+	VdHy8/k9l2bYvnbKkrrvMz3XRoiLe5GYoohLz4tmfoByOMsWeFqSBM/SS0C1XjER
+	A==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-0046e701.pphosted.com (PPS) with ESMTPS id 486fc9t4tr-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 29 Jul 2025 12:59:53 -0500 (CDT)
+Received: from m0425989.ppops.net (m0425989.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.1.12/8.18.0.8) with ESMTP id 56THvoMS011174;
+	Tue, 29 Jul 2025 12:59:52 -0500
+Received: from intranet-smtp.plexus.com ([64.215.193.254])
+	by mx0a-0046e701.pphosted.com (PPS) with ESMTPS id 486fc9t4tp-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 29 Jul 2025 12:59:52 -0500 (CDT)
+Received: from localhost (unknown [10.255.48.203])
+	by intranet-smtp.plexus.com (Postfix) with ESMTP id A3C553B4F7;
+	Tue, 29 Jul 2025 12:59:51 -0500 (CDT)
+Date: Tue, 29 Jul 2025 12:49:51 -0500
+From: Danny Kaehn <danny.kaehn@plexus.com>
+To: Willie Thai <wthai@nvidia.com>
+Cc: andriy.shevchenko@linux.intel.com, bartosz.golaszewski@linaro.org,
+        bentiss@kernel.org, devicetree@vger.kernel.org,
+        dmitry.torokhov@gmail.com, ethan.twardy@plexus.com, jikos@kernel.org,
+        krzk+dt@kernel.org, linux-input@vger.kernel.org, robh@kernel.org,
+        tingkaic@nvidia.com, rastekar@nvidia.com, dkodihalli@nvidia.com,
+        mhn@nvidia.com, arundp@nvidia.com
+Subject: Re: Re [PATCH v11 0/4] Firmware Support for USB-HID Devices and
+ CP2112
+Message-ID: <20250729174951.GB4111945@LNDCL34533.neenah.na.plexus.com>
 References: <20240605-cp2112-dt-v11-0-d55f0f945a62@plexus.com>
+ <20250729145350.3538324-1-wthai@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-NV-OnPremToCloud: AnonymousSubmission
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1PEPF000075EE:EE_|SA0PR12MB4398:EE_
-X-MS-Office365-Filtering-Correlation-Id: b5d8b4b6-ec68-4e0b-f063-08ddceafcce8
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|376014|1800799024|7416014|36860700013;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?ZXozVVRGTU14VTNGVmpiUVFZTGRwTlUxZTBkVTBMUGxHWGxLV3NzMjl3TS9K?=
- =?utf-8?B?cEx0WXlnUFNQK0J2MUZvdTkwMTN4Y0VFNUZCM2RNeHBLdU9WZzkraiswYWl6?=
- =?utf-8?B?VzBMaENZNEM4K21SWlBENWc5VXY2aDJ5cE5zMlBCeG41eEF2cVRWU0sveXc2?=
- =?utf-8?B?TkczNVNibFF0SWduVEExb2lONWVSaHR6R01TZjNwZEdCQVc2TXRrSzgwaVA4?=
- =?utf-8?B?czhyZys5NW5MMU5jVDFOa1lVMng0MkNJRHpld0Y2MDNGbjZWNnYzVlQybXpu?=
- =?utf-8?B?RUVOeUtCbktHTHhPWWt6STg0dEtLSzRNZmUzWlI1dUQyaFVjNlpOVGl2TlJP?=
- =?utf-8?B?cDBVUzU1QVBFQjdXNDNBcHdqVk43eEQzVURXWWdic2cwSE11K0d1bm43VUc3?=
- =?utf-8?B?eUVBRURGRFc5TStnUTlGdTluc2U0QzM1MitZRFhQbFFGY2hiTUs3VzY5QS9v?=
- =?utf-8?B?TTY4TmFhWlFWOGF6V1lXeVExNFc3b0JteG5wNkExV015MVRXOVNHN05tWndW?=
- =?utf-8?B?a0JnYnVFQ01Fc2xoTE9wUGk3bkhjSnRIc2ZwYTRaRGNZVkRyTTJuam4rQmF3?=
- =?utf-8?B?bGcyUzBEbFVvMHJHQmYxWldCdzZuMEZXa0d2RGdRWVRUWnhDaEhzTTJYLzRI?=
- =?utf-8?B?WjVGYmdCYk5qOGFRbXpXSTdjaktBSStIeFQ4NlRUdEt4bzJmcmpsaTlsRmZh?=
- =?utf-8?B?SzRIZXE1ZkVQL3RHSlJTQWhqN0NSNklOOU9XUUpHMDduVG0rNXhSWUdiQ0xP?=
- =?utf-8?B?TFVxOFJFcWFmVThTL3BzUUJNRGdzUUY5clF0alRObi90NUdhVmEwRktzZGgv?=
- =?utf-8?B?cEZ4eXZMak5tMjFIRGpuWGNRYmRseGpFRGJtRGxCVmNnRG9wVXNjSFU5ZjNS?=
- =?utf-8?B?U3E0Wi9LRlJhcGpWWUl2U3FpMmRPZHdsT09nKzdLYVlzQWpyL0NqRDJxMWdx?=
- =?utf-8?B?RWRYV0FJbE9nRUFkb3RyUVBNUHpwbnlxUWhwRk1jNGJlRkx3anF6TTMrUDZv?=
- =?utf-8?B?NFZ3NjFlSlFNd1MzdXI4b1RsMG1ncWFlRnB1UTd1bWhYLzJLUGZFTVN6UmlP?=
- =?utf-8?B?N0hwT2Z5R1BIVXR5MGZOL2szVmkvRWxTbUFsb3FWTTlSVThJNVRDN1NJRy9z?=
- =?utf-8?B?d3pBa0lxNmEreGxYM2pldUlGbENxUmJoQUt2OHZwMm5HWW1lTnFwWVAzUGdq?=
- =?utf-8?B?RWFrQjltYXEyZkpUanJmSlZIN1FpQ3FCeVBRS01CQlVCYmgyRXFpT3RzTlJu?=
- =?utf-8?B?MVBGQlRGVDZZUm9aZW5HNElMQ29OMEw2Q0IwNE5EOXRHSExHZ2ZXM2VycDBx?=
- =?utf-8?B?OW1lall6OHRCY1A5NDkwSUZIWnN2b1ZmTzdoSUEraGRvNnZoRGtUeWkwVmJ3?=
- =?utf-8?B?MmVkOEFaRXMyVFNab1ZVK2d6TG4zeitYVTZpR1JScUtXZjlmM0lWSm0zUDJP?=
- =?utf-8?B?L1hqOW1EeENCbmxnQVpxYmVzQmdhMzZtL0RtMVBXNDdNMlR5OGpDbXh5WlE0?=
- =?utf-8?B?SkVtOGRIV2ttdEdvblc4UmE4Yi9ycER5c1BRcmZQQ2tyMndveHl1SFpMYzRy?=
- =?utf-8?B?cHNyN3NxR2xEMkhlYTd6dEVEQnlXTmxTNzVoK2prNm9rM0Y2UkRML0ZPVW5X?=
- =?utf-8?B?VkUvbWlJR0d1aXpiaDIxRGZoUnFVeHYwbkMrNzBheDlqeUlzc3ZDVUhid3Vx?=
- =?utf-8?B?dU1sNDB6c3AxMjVxUlVkZ1BETDVhM2Q1TUFKZjczTGRDNVRjUkZ0U2t2Rzlj?=
- =?utf-8?B?OHdNTDlmbUh4enZuVzh1NVpEWHFVbWUzV1NXdEVIbWU5RGRaeUluZ1dmUWsy?=
- =?utf-8?B?SEo2cFg4T2FQOHhrMVd6b3Vxa2JsOW9VdU5tcTVvTWNieFBidmpQZE9hQTgw?=
- =?utf-8?B?RkcyTHhJZmIvaU5JZy91M052em4rcGZ6MXhEcVRaVzB5WjRyOUlnbThrMVIw?=
- =?utf-8?B?a2Q0NTdTSENueXppK0ZsRmVzam1lSTBIT1MweWFjbzRlWThISmhrVE0zRXlP?=
- =?utf-8?B?Zi9Xa3g0WjUzWVRLdEp2ZjhuUmkvMWpxWHU2YVRxMDdPRFRTRHh1MS9Tbjdv?=
- =?utf-8?Q?jevCUH?=
-X-Forefront-Antispam-Report:
-	CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230040)(82310400026)(376014)(1800799024)(7416014)(36860700013);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jul 2025 14:54:20.7328
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: b5d8b4b6-ec68-4e0b-f063-08ddceafcce8
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	CO1PEPF000075EE.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4398
+In-Reply-To: <20250729145350.3538324-1-wthai@nvidia.com>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzI5MDEzNyBTYWx0ZWRfX4bahBf2Pr8yR
+ E8kvaNmam2d+n5iPqgVzBQQZ5DRG46k9Gls+ZnerSOzCp1EOkv3fXXkavHKKfFF6h+yIKzIew4B
+ 0ALCHkAVY+XlnWphCyBdPHIP7wUbdkLo8FcgUacVtwaRswFTseWPcSGoppW6YhgCj0C3zQaDQ5b
+ D4FOLumU1ldGnss7P6FRBhHTSIu7hLQ2eeIMXYA23xJxssiQ6tgzwgGTqI8GjM5AGKUq/HPk1x9
+ wuTd9J6XDUrATehI0+Tml2IaNOlFEpVHwaqYG8FynEom8GYn8eWkALo6k206uDfd4oX1hiVwcFn
+ 2J1KfRo31yo/guD+ayJL3D27RKhynZVaM77zL3c9PJR6g2BCMIB/qF9PLhQdZLdhAYjkHt5gOYi
+ tMrYS2WYmuvbNxucPX1VHDnfjdmgniDndwlsBbRD59cBTpF02c+p4HId9/HRkswXrcfcByxZ
+X-Proofpoint-GUID: 312z6txhGSLceQEcODaSszh7lFLENVah
+X-Proofpoint-ORIG-GUID: bTmR2Lq0mhgR7NC8jNcJ94qoc4Du_vPQ
+X-Authority-Analysis: v=2.4 cv=ZtntK87G c=1 sm=1 tr=0 ts=68890c19 cx=c_pps
+ a=356DXeqjepxy6lyVU6o3hA==:117 a=356DXeqjepxy6lyVU6o3hA==:17
+ a=p-amL0WH6BgkGnzH:21 a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10
+ a=weiHyVKbh4n8zbIAmYYA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+X-Proofpoint-Spam-Reason: orgsafe
 
-Hi Danny,
+On Tue, Jul 29, 2025 at 02:53:50PM +0000, Willie Thai wrote:
+> Hi Danny,
+> 
+> I hope this message finds you well.
+> Thank you for the patch set — it’s exactly what we need for the I2C-over-USB feature in our new products.
+> Could you please let us know when we can expect the next version of the patch set?
+> If you've paused work on it, we're happy to take over and continue from where you left off.
+> 
+> Thanks!
 
-I hope this message finds you well.
-Thank you for the patch set — it’s exactly what we need for the I2C-over-USB feature in our new products.
-Could you please let us know when we can expect the next version of the patch set?
-If you've paused work on it, we're happy to take over and continue from where you left off.
+Thanks for reaching out!
 
-Thanks!
+Apologies, I haven't been working on this in a while, and have only been able
+to intermittently return to attempt to bring it forward.
+
+Feel free to take over and move this forward! I'm not sure what the protocol
+is for that, as far as changelogs and versions and whatnot. If your product's
+timeline for needing this mainlined is not urgent; however, I can prioritize
+coming back to this and having a v12 submitted, likely by the end of next
+week, to remove the overhead needed for you to assume ownership of the
+patchset.
+
+The last several versions of this patchset have all revolved around trying
+to get this change working for ACPI as well as DeviceTree in such a way which
+make the ACPI and DeviceTree interface/binding acceptable to their respective
+maintainers. With this latest version, it seemed that there was not going to
+be any consensus between the two firmware languages, so it seemed an entirely
+different binding/interface and corresponding logic in the device driver
+would be needed. This seems unfortunate, as it seemed the whole purpose of
+the fwnode / device_*() functions was to unify the driver interface to the
+firmware language used... but this is presumably a special case, being almost
+exclusively a device composed of different generic device functions...
+
+Let me know if you plan to take this over and if there's any
+documentation/context/test procedures you would need from me; else I would be
+happy to start moving this forward again now that there is someone waiting
+on it.
+
+Thanks
+
+Danny Kaehn
+
+
 
