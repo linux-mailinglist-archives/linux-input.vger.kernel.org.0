@@ -1,48 +1,48 @@
-Return-Path: <linux-input+bounces-13711-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13712-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4533BB14942
-	for <lists+linux-input@lfdr.de>; Tue, 29 Jul 2025 09:39:27 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id E3829B1498B
+	for <lists+linux-input@lfdr.de>; Tue, 29 Jul 2025 09:54:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 83A7B1672B5
-	for <lists+linux-input@lfdr.de>; Tue, 29 Jul 2025 07:39:27 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id F2D5B189A064
+	for <lists+linux-input@lfdr.de>; Tue, 29 Jul 2025 07:54:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0319B264638;
-	Tue, 29 Jul 2025 07:39:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1A127276058;
+	Tue, 29 Jul 2025 07:52:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WSBlS7Km"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HRINu7+p"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC20A83A14;
-	Tue, 29 Jul 2025 07:39:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E321C276054;
+	Tue, 29 Jul 2025 07:52:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753774762; cv=none; b=C4MozWnOEXZyXAJqPavfdd4eELUU3vXRerSYhr6Kd6aCrBkdEfG0CmlH6DzCSRPNRrMfASj6MS4qFWUwP6yBOst/xd/5C2UeoMjy5iHp1ykXCet4KPBN2cjNuA+fFnwQXJO1bsfbXcW/sqwchpD1xOoimXbmX1VIBOCexadWWzU=
+	t=1753775568; cv=none; b=Mz8Qf8zAX5B6AMguXuLKYIfmdptHc8IpdUT4oTArDLYW2Uoa6U1075EBMdvhuwIUOeROGZg3LvHBh2a5uNfPHdme0GX0hHXYG4oT8IqgzSHbRu7+ilqt3uI87L+eCrn3MZw/it5UxQybo4UBMSwkMVGH+ATXAxMgiQTa20FTLVQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753774762; c=relaxed/simple;
-	bh=Yr4CiO8AKyQsvI0fLW+5oBAI7JvE/7rVOWGvHmPQsRo=;
+	s=arc-20240116; t=1753775568; c=relaxed/simple;
+	bh=IPmVfhfdtdjpL4mpVvZPm8YoACD+TlFd8z/KaAVXQ9g=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ddleOnKupEoS4Ri4z58578x2R8na9pXa80bTaUMu2nWK+QTc8gJ4j2906shZuddz7Ib1fO5sB5fUl0NeI61lONtKvcr+gu50FOXNLzmftVohEA1eJ9xKL9BOK8wMSclisWw6v4a2CNY073Wd+ryupHt7UoQI9zA+SNl+J8/JEGc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WSBlS7Km; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 726B1C4CEEF;
-	Tue, 29 Jul 2025 07:39:20 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=Qx+1XLWbeYc92XVZtdPKjn7D+J9y14bZf04EhhGD2qguVXE+SjK9bjI4OUKCZbGhIyqRL/QrIxEirlt3cQ8KihlZ2H8RglF9yPDET4+rPME/dlvVdHtV7djBnv0gQLb13lGaC7P246xPLQQuuOQKPgS5NzkqNu90LreNWkpKhiQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HRINu7+p; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E36F4C4CEEF;
+	Tue, 29 Jul 2025 07:52:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753774762;
-	bh=Yr4CiO8AKyQsvI0fLW+5oBAI7JvE/7rVOWGvHmPQsRo=;
+	s=k20201202; t=1753775567;
+	bh=IPmVfhfdtdjpL4mpVvZPm8YoACD+TlFd8z/KaAVXQ9g=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=WSBlS7KmsrMyKBf1crmPq+RsMZeJcrFfaBjnrPoDxqWxPKI5nxnx1IroId0Bpa5PX
-	 e2xsBwEpA/v9ZNcRg3dx3M/d/6EwYmGxWX9PH8O4B/e53sDlGRbLQCnQRoDyysgyI4
-	 NQ3sxHW2yS2d8R69KIvUeh/f3AeZujnglUknStbRXm5nvjss7f+j+JvViqTCdWdU5d
-	 qq6JjC+sUsViitqoCH1/bPoEITOZogAjKsglC+ec7GpZPV+NaHZ0jT4FILbCL35hgy
-	 uXh1BH0/5+bRXxmbQa5T/o0SCIs2SHuz+wdGE/eFeLkVBEdfmY9JaBMqR1DAAC/65G
-	 GEUK5T67KzdsA==
-Message-ID: <0354f1b7-1c79-4e3a-ac0b-e612f184e631@kernel.org>
-Date: Tue, 29 Jul 2025 09:39:18 +0200
+	b=HRINu7+ptJV/pjBWQcFQa76VkjNFr4ZhW++qGFUISXrN15VZK+BafRJTF1pg+Ud7p
+	 5dlujXYUelj/nzK2l/swqS7nzc/mQwaYpC6xdqRDOousKbedJyOiupmbYTp9/2KfLL
+	 7gqXdu4rdljLWE9YC1DnA7kmoCsQ2cfGfUZHWSZaJKQlugHq9aTUvoNdpFB7m5qJbT
+	 gnqWUw6g3ppwEa69+edAJJqCV6TDld3ejdxCWKPZ75J9Oq/mRUsN/yf3ZVzLMLMGAv
+	 lhdj6DH6eDhvc5uy07Y8NOOr7SB18fMkBVvJ405Yf125ShWPMbigz7J0HsR5kdS3s1
+	 3bq0kYyAqRuQA==
+Message-ID: <7d575315-f2b3-4d86-9069-e394489b6fd5@kernel.org>
+Date: Tue, 29 Jul 2025 09:52:43 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -50,12 +50,13 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/2] Register virtual GPIO keys for VNC
+Subject: Re: [PATCH 2/2] ARM: dts: Add virtual GPIO input for VNC keyboard
 To: marlonwu@126.com, robh@kernel.org, dmitry.torokhov@gmail.com,
  krzk+dt@kernel.org
 Cc: linux-input@vger.kernel.org, devicetree@vger.kernel.org,
  MenglongWoo@aliyun.com
 References: <20250729064346.22834-1-marlonwu@126.com>
+ <20250729064346.22834-3-marlonwu@126.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -101,21 +102,37 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20250729064346.22834-1-marlonwu@126.com>
+In-Reply-To: <20250729064346.22834-3-marlonwu@126.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 29/07/2025 08:43, marlonwu@126.com wrote:
 > From: Menglong Wu <marlonwu@126.com>
 > 
-> Test platform
-> -------------
-> Kernel: 4.14.98
+> Implements a complete ANSI keyboard solution for VNC remote input
+> on ARM devices by:
+> 
+> 1. Adding a device tree include file (vnc-virtual-input.dtsi) that:
+>    - Defines a gpio-mockup controller with 104 virtual GPIOs
+>    (startingfrom 400)
+>    - Maps all standard keyboard keys
+>    (F1-F12, alphanumeric, modifiers, etc.)
+>    - Follows Linux input event codes for key mappings
+> 
+> 2. Updating MAINTAINERS to track the new dtsi file
+> 
+> The virtual GPIO approach allows embedded systems without physical
+> keyboards to receive full keyboard input via VNC while avoiding
+> conflicts with realGPIO numbering.
+> 
+> Signed-off-by: Menglong Wu <marlonwu@126.com>
+> ---
+>  MAINTAINERS                              |   1 +
+>  arch/arm/boot/dts/vnc-virtual-input.dtsi | 569 +++++++++++++++++++++++
 
-Really? That's ancient kernel.
+This is a dead, no-op, impossible to test code.
 
-We cannot take any of this. You need to rebase and test on patches on
-the latest kernel. Not some ancient, buggy thing.
+Also, does not follow any upstream coding style.
 
 Best regards,
 Krzysztof
