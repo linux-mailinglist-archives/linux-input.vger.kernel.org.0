@@ -1,132 +1,125 @@
-Return-Path: <linux-input+bounces-13727-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13728-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id F035BB168F1
-	for <lists+linux-input@lfdr.de>; Thu, 31 Jul 2025 00:14:27 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DF44B169B7
+	for <lists+linux-input@lfdr.de>; Thu, 31 Jul 2025 02:40:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 69FD418C4361
-	for <lists+linux-input@lfdr.de>; Wed, 30 Jul 2025 22:14:46 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0E7023AF811
+	for <lists+linux-input@lfdr.de>; Thu, 31 Jul 2025 00:39:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 332861F7904;
-	Wed, 30 Jul 2025 22:14:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 55A862745E;
+	Thu, 31 Jul 2025 00:40:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="tGg7DklG";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="Sz4EPmOZ"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Dkor+TAP"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 258B41DED57;
-	Wed, 30 Jul 2025 22:14:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6C8AEAF1;
+	Thu, 31 Jul 2025 00:40:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753913664; cv=none; b=R/wbLwbJig1BRMWUvyGd6w0QSSxPyzSP2SVvs68lWWnL37dVmX5Akx24MnJQiLs6UdcVX8HHYLQBFwyKsOCFmDOZQ6GJpNyIgqNZM3QbNle4oI2aRVr8LoW4+syUa7CfIR+768fs77twkitiE9hKqMwCQ3LHGyV+SNjK7tprFlI=
+	t=1753922408; cv=none; b=DYpvfdYkbjEMUOXBB3OGVLNrOV5hz2AW1k3pVCthmckAz/wso8zEO2irRK/pxnbQzzAVHkOUERwRF76eGMdrsusIdDDEpkscYtiucuBSdvNLTSsFfQ5LffHbB6d3PbP/OaCF9+dFh5IWwE3h35+9/Xh0QMOp4ViEOHb/gsFEJXY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753913664; c=relaxed/simple;
-	bh=VXNv1CY4rYlURx2Xvz87YYss0gcbJ71iawWXgQl0stM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=uY6T5CJeJYjsIBiFJVcNrRTsq4J/1qE72EzV4E6h8NQCkIucX2YwFZxGE32p3flGo8MUCJaTHn5fOg3+bR9OAP6WWo8DXlTRd2J7csLZcmzrgZP4H1YSeAzL40NsOrYnAP5088upHSnssAV7xNKk4bTtmy7miY0/t5wDZFJZ/is=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=tGg7DklG; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=Sz4EPmOZ; arc=none smtp.client-ip=80.241.56.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4bsmhj68JDz9tSn;
-	Thu, 31 Jul 2025 00:14:13 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1753913653;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=d8CWksLx1mLapQnnOZN8xsm/x5QszWCNlZNE7nYusws=;
-	b=tGg7DklGHfnibTiA8zogOZHRCnPhCdaynBWmfyWR5i43yjaaxiiEq4X9pyDDyG2snRTfR3
-	yJ5dZi3/eyu5engM90AbY1C7RDREPozHFTSICFjkWdlnEDIqUrCb1IeJweGbyBizmjM+pZ
-	Pu9Ic0BEenxVcPMczSe2bWTgso8Za3lW/ViCMaxw8ElULuMuhw2ucab+UJISFS7BXmdkyS
-	992SrAXokMr7aNY000OBA1ndcr6ku0Dbd9ilvWRQu0EC7Y4u2Sd8XkRZ+/DPw5+y1Ay8qC
-	1Z8taueSetj7YfQ+An8egbsY1KZN+41Meovpjx1oG7tBewaOQ0HLpZ1e+JFWqA==
-Message-ID: <9187a38c-89d8-455e-a1b3-ee584d983064@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1753913651;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=d8CWksLx1mLapQnnOZN8xsm/x5QszWCNlZNE7nYusws=;
-	b=Sz4EPmOZ5v/HAw0vsMzZuyVFotFdOjBIc77C5ULBlRyVSsaWrqJkR8u2BQzoRJRU7PASZs
-	rdauLb43JrTFiVODz2zQJYPmXhtatK0+75oerTJg0fFTqxO7qeFi+abjKEkUVktdwBzQ7+
-	JhhcBLLhE1UJenc9jmX2xVJbWXmMhpSWsCAaOQrW8MxSYdNwDoWuOoow+L4JFvZHwvx8Yc
-	mG341NnwFErQkjW7dL8nTeijJOHY40bKU53wJQK7kKwxfXfPBqzo3DudLmNcNDVgo9I6Ik
-	ibkiAzRRMX1PtmtjwW5VEkvEfauQIopybzV76k+fLQdU15XWzdg6LtD96+Zbcw==
-Date: Thu, 31 Jul 2025 00:14:09 +0200
+	s=arc-20240116; t=1753922408; c=relaxed/simple;
+	bh=YFqrM//DiDSufkHT6/8PzBNI6rSgk/CKtILqnpzshIs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PzM+m1fdEVM1rvZxLySmrzNthhXFVYCY3SsdS97YOh/4GAP/LXpiKPJe5yOvCzDVs++TrLjqpqXCf0OB62avySUVRBCu7ePL+H/Fj3otZJ9JMu2YMfGRejVfthVq+AFppMNKmv/5RjhpepWdA0XhodPG3Nec84pxatI4vKMNlX0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Dkor+TAP; arc=none smtp.client-ip=209.85.216.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-3137c20213cso522898a91.3;
+        Wed, 30 Jul 2025 17:40:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1753922405; x=1754527205; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=RHP+0SACw47dRZq5OFGnkXBtjxEvwIqg5sVwcoYBiog=;
+        b=Dkor+TAPcvwV67mhK+M0DD3Ywfbwtq29xAcw+Bppjtb8BPlYkSgXXT7PxF93awy4TZ
+         8lAWyEryvlaYD51BLWEfExg0NtXBH0F0cd0VvdPeP+suJRl6KOuRQC3y8SkLBQnF6FrV
+         BwSTkxq/kHKkbgAc8Xw9fuA+k+1pvJHSI+MQQRjityWvgSd8w3XVgwNK1D8+QbZ3Ov6f
+         qXBpg+sg6EYCGz4fgMYhgLTe8WRWP8QHJ61xFzIo39SUnJemhlLGx7l4DTRygFVFtLla
+         3EVzlU40dW1H04hLBdwtpJKuvd6xXm8mpT84CnCc33f+/pim4WWrfY4Ae/X3NpZdePaI
+         Vd9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753922405; x=1754527205;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=RHP+0SACw47dRZq5OFGnkXBtjxEvwIqg5sVwcoYBiog=;
+        b=dFEMevjiZ/laN4iAQaFsn8g6fD6AhAzH873H9UqoqQgBwLIVtqffLSPDkJlseLeMR2
+         QRI2pCycBSq3O+hRsOU1v3gihLgWaP6L0LYUxPkeN/F3mhYyKsfUFvILMQ3q9E/zIOVT
+         GdEcIkiUNeGRESn3rXV4f/zoW2/VtMZANaY1xy9sPRaKmUxiWyaSkDyQZ5znwD+QpN9u
+         PbIy6mE+XP4qmU9ZSrKcuxy/SW6pM4V9HpKvcB0w6ipHToOzua8jZfemkQfYIa0QigSG
+         9S09i9asln2eBhWY7mBYBwEgMfbtbynYzL/Uow0DWppeHN+6+v5Gf4YvfVh4wTZdmNlG
+         z7mQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVLt4rTpNdP6XwMXvhQjWdOlFMlouHFGJlrK0eJ7etzgpEbUhCduft6beZ0KasPw106c4a7elwMha4=@vger.kernel.org, AJvYcCWdDmJvVoyT5NsO0MlWn/kf0AC53VGBrW1fCy6lnGktu2y0kno7JfCzifBJOWaGwEEF7mL+VQQ+VMAhpUZ/@vger.kernel.org, AJvYcCXFi5m2ur17S0xUP7x55SWxP6Ekwd6MzJ39eEAjRQ2x9LNuY3AYbHrTNf8IPkd3BcoMAyhh0P8qmbP57fA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzfWbLLA+3sODbLXAY8kkzWJmexXFPK+veGwz+OGJ7cGtQ8/y3Z
+	gDQJevb90Czvi9C/dgJmLtrryQcf0wl9+StSyc/eZGoss8t1k/sr21WFoJJexA==
+X-Gm-Gg: ASbGnct7xC8x35u5ZN5EgvuiTrOQgH8RqWPipBu91qKX+0e5XL57F+TqKobwz0bvkOt
+	7F7Arqe8bQ19LehcTDTw6Y58hM/DGQkYXTdyMAoIQk9K+SA9SxEbZaqNAxuq2RSPEb75mQTSHwA
+	1dYoEC/QjspkkY77Yw58YojiyOOWiHoZhGDDileR9/vhm7zGvSxD2PVIiN99SMQ2zokIf+oz3aT
+	T540LsS8Th1nOXuSkPp/Ijnq/3V52hSXO74O3iec+W+p8xZ0yKZXVgZZfO4hwvDH2A8BZh041m/
+	RABcDmOW+QqM6FJY+p+MZUCWiTsDuKtssVyz/qTpoNUkqBqzU6h6OnbUYScgU/uR+WLieOjBmHi
+	BaYM+TxF/5stOfo3KywPXjZ7twNgWbX4Djwgw0QpbviskB6fDI9dUYUF2NApuRGZ+smkDkHUTDR
+	fPEwX23Y+Xzg3O
+X-Google-Smtp-Source: AGHT+IFsePyZ2gqGD7UiSxRMsEOvAoTwD29rJ9f6eSbQK8JD+vZtL8JUOCxubUsoMKlY0+CsiTzB0A==
+X-Received: by 2002:a17:90b:4b09:b0:31e:ff94:3fa0 with SMTP id 98e67ed59e1d1-31f5ddb7e8fmr8448390a91.6.1753922405065;
+        Wed, 30 Jul 2025 17:40:05 -0700 (PDT)
+Received: from bliptop (108-228-232-20.lightspeed.sndgca.sbcglobal.net. [108.228.232.20])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3207eba6b69sm338301a91.2.2025.07.30.17.40.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 30 Jul 2025 17:40:04 -0700 (PDT)
+From: "Derek J. Clark" <derekjohn.clark@gmail.com>
+To: Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>
+Cc: Xino Ni <nijs1@lenovo.com>,
+	Zhixin Zhang <zhangzx36@lenovo.com>,
+	Mia Shao <shaohz1@lenovo.com>,
+	"Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>,
+	"Derek J . Clark" <derekjohn.clark@gmail.com>,
+	linux-input@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] input: (xpad) Add New Legion Go Controller PID
+Date: Wed, 30 Jul 2025 17:39:54 -0700
+Message-ID: <20250731004000.11331-1-derekjohn.clark@gmail.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH] Input: goodix - add support for polling on devices
- without IRQ line
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
- linux-input@vger.kernel.org, Dave Stevenson
- <dave.stevenson@raspberrypi.com>, Hans de Goede <hdegoede@redhat.com>,
- linux-renesas-soc@vger.kernel.org
-References: <20250610005458.126842-1-marek.vasut+renesas@mailbox.org>
- <6kqp24t5c23vcvv7wuirkjz6a5s3daacifw37rb5554v4uqeit@jzsinkx6qb7r>
- <cfa155f9-573a-479a-b8db-89c3bb077114@mailbox.org>
- <csjblrulwqcmcjvyzbetng6o3ct4xedff26nvgwlb56fkqphew@rp63nsl7reuk>
-Content-Language: en-US
-From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <csjblrulwqcmcjvyzbetng6o3ct4xedff26nvgwlb56fkqphew@rp63nsl7reuk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-MBO-RS-META: 9atjx5rzbxmrgbwbfdmr6u66famueosd
-X-MBO-RS-ID: 9ee2df0d5b4e547d427
+Content-Transfer-Encoding: 8bit
 
-On 6/30/25 5:40 PM, Dmitry Torokhov wrote:
-> On Mon, Jun 30, 2025 at 11:44:03AM +0200, Marek Vasut wrote:
->> On 6/30/25 3:32 AM, Dmitry Torokhov wrote:
->>> Hi Marek,
->>
->> Hi,
->>
->>> On Tue, Jun 10, 2025 at 02:54:12AM +0200, Marek Vasut wrote:
->>>> Add the capability of polling the touch controller for events every
->>>> 16ms, which is useful on hardware that did integrate this touch
->>>> controller, but did not integrate the IRQ line, like the RasPi .
->>>>
->>>> Make use of the generic input poller code. Factor out the code
->>>> from goodix_ts_irq_handler() into generic goodix_ts_handler(), so
->>>> it can be used both by the IRQ handler and poller callback.
->>>>
->>>> Use of_client->irq to find out whether the interrupt line is present
->>>> or not, independent of whether this is OF or ACPI system. It is not
->>>> possible to register poller in case request_irq() fails, because the
->>>> request_irq() in this driver is deliberately called after the input
->>>> device was registered, and registering the generic poller at that point
->>>> is too late already.
->>>>
->>>> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
->>>
->>> There was another version of this patch that was submitted and reviewed
->>> by Hans, so I merged it.
->>
->> Is it the following patch, with malformed commit message and some odd
->> "LF-15225" subject tag ?
->>
->> https://patchwork.kernel.org/project/linux-input/patch/20250522020418.1963422-1-qijian.guo@nxp.com/
-> 
-> Yes, I cleaned the commit message.
+Adds additional PID for the Lenovo Legion Go detachable controllers.
 
-OK. I just tested that patch and it does work on my hardware too.
+A recent firmware update for the Lenovo Legion Go Controller MCU enabled
+interoperability between it and the upcoming Lenovo Legion Go 2
+controllers. As part of this change the PID was changed to 0x61eb. This is
+the same PID that will be used by the Legion Go 2 when it ships.
 
+Signed-off-by: Derek J. Clark <derekjohn.clark@gmail.com>
+---
+ drivers/input/joystick/xpad.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/input/joystick/xpad.c b/drivers/input/joystick/xpad.c
+index c066a4da7c14..0baceea33a26 100644
+--- a/drivers/input/joystick/xpad.c
++++ b/drivers/input/joystick/xpad.c
+@@ -318,6 +318,7 @@ static const struct xpad_device {
+ 	{ 0x1689, 0xfd01, "Razer Onza Classic Edition", 0, XTYPE_XBOX360 },
+ 	{ 0x1689, 0xfe00, "Razer Sabertooth", 0, XTYPE_XBOX360 },
+ 	{ 0x17ef, 0x6182, "Lenovo Legion Controller for Windows", 0, XTYPE_XBOX360 },
++	{ 0x17ef, 0x61eb, "Lenovo Legion Controller for Windows", 0, XTYPE_XBOX360 },
+ 	{ 0x1949, 0x041a, "Amazon Game Controller", 0, XTYPE_XBOX360 },
+ 	{ 0x1a86, 0xe310, "Legion Go S", 0, XTYPE_XBOX360 },
+ 	{ 0x1bad, 0x0002, "Harmonix Rock Band Guitar", 0, XTYPE_XBOX360 },
 -- 
-Best regards,
-Marek Vasut
+2.50.1
+
 
