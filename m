@@ -1,173 +1,111 @@
-Return-Path: <linux-input+bounces-13747-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13749-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7B85B177E9
-	for <lists+linux-input@lfdr.de>; Thu, 31 Jul 2025 23:17:13 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 64261B17B64
+	for <lists+linux-input@lfdr.de>; Fri,  1 Aug 2025 05:10:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2286A3B523B
-	for <lists+linux-input@lfdr.de>; Thu, 31 Jul 2025 21:17:11 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 949E85667C0
+	for <lists+linux-input@lfdr.de>; Fri,  1 Aug 2025 03:10:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 05B5D262FF1;
-	Thu, 31 Jul 2025 21:17:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3535F16D9BF;
+	Fri,  1 Aug 2025 03:10:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a2dccOxl"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fAwOVOei"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C12D7202962;
-	Thu, 31 Jul 2025 21:17:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3E017262B
+	for <linux-input@vger.kernel.org>; Fri,  1 Aug 2025 03:10:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753996623; cv=none; b=pK1MYzhU/Z1YWlsLp4BOWBK0Q8WWl5nl7n0pBfu3vuY1ybJF4htBtzsMMiMk8PTMl3VcorLDhohGzd6pytnQ/A6GCC/z8cGd88FiUBHBgJ621+S2+SsTGss2AChYumPg+8TGXW0pcIJx6Kv4dbP/GLUaAvyNbZ/2k0jNmwvE4ds=
+	t=1754017803; cv=none; b=PfAhb+Awp/h0KOdYqJKhPVIZZMZIFaKV0VMhrATT2hs61/tyULOmVPgqfy/1Dy/IDuJvFZcPuqieYCvPtgb9nCjL9iYU8J2ofCpcZVeIWZCP9KISZJJVSylLuVXQg3j58/ZLa6Z6Rd2V+qj4y1ssYk0mgw4XcV/oS4V84xzpSy4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753996623; c=relaxed/simple;
-	bh=1ixpZp7CIxilpaIq5f9PmB4aAh7XXulplpDrhLfLjfo=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=EglsyYj74wPTY3urgQW5t7pR1WYacx4p5kkFhasMnrliEYTt5iLwSE6U1PRlJFnXLosnMR2G5lxKuKArYs8uj2pnhPARQLmGNRe7BenaZMv2/63SSrWQK+Uf0pNWv92GSH67PVhjGc00HaQkH/5mO/dfJ9v6xLoBPQc0tyhdrmk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a2dccOxl; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 58BBBC4CEF4;
-	Thu, 31 Jul 2025 21:17:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753996623;
-	bh=1ixpZp7CIxilpaIq5f9PmB4aAh7XXulplpDrhLfLjfo=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=a2dccOxlVIGuvBGIyxKy2f29u3rwfovcnOikXMEQ2S/sNHcJmslsyYxKPZUSAZCYP
-	 o/t1LvpndYf1aSGzq3RAcJWWO+pUtf+LiushnMfBuW/qyQcdU/Xenl3xBbMv5z1dW/
-	 R+tuK9xbjKiS7vBypm+vOPbcJMmYaxh+JA/4iZszSZi7M0aQWhXdHJ9BcESZF5WO/t
-	 LSZw690QGtSXb8LG7GTEuu3glyh8c+/pfGSBCO+RS/G2qjps3rWqKBD+MDPuIsqe+7
-	 H3ceYN/bgLizvypMoKM53ToPJbvxtYWAnMd1Vshs3BjpoUVzDpm5TRAUgGWxTTijpl
-	 b1EtX7ZNtTZhQ==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DD9FC87FD2;
-	Thu, 31 Jul 2025 21:17:03 +0000 (UTC)
-From: David Heidelberg via B4 Relay <devnull+david.ixit.cz@kernel.org>
-Date: Thu, 31 Jul 2025 23:17:02 +0200
-Subject: [PATCH v6 2/2] arm64: dts: qcom: sdm845-oneplus: Add alert-slider
+	s=arc-20240116; t=1754017803; c=relaxed/simple;
+	bh=kpPVwXU506qGDP2XLZpLrVkFHaAF/DmDyNKvv6kA90k=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=jkBgC+K6op94jEJ0GWpkVTWkPO2fF64duriVoAHR/0eaGNFfiTOxiSNR68c5NVGBEpucvX8RlK34ykoSzbWEHGOeR96GWejdT7hdedA1ZjtHL8Lz5SB4XcLTQ2pgBq7XMNPgw2AZZfloecc8RF5CHaryuEyEx0kTO7c9k0HBu5U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fAwOVOei; arc=none smtp.client-ip=209.85.214.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2407235722bso17258135ad.1
+        for <linux-input@vger.kernel.org>; Thu, 31 Jul 2025 20:10:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1754017800; x=1754622600; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=cETyuE3wvamROXC4Lt1c/4pgEuTp9p/utbq8DdU1MPs=;
+        b=fAwOVOei2wLRNc8s/rejgWrMiFJq6X/7RPSX5lNgUULgvX9Tjqq+QI5O7Mj/qEl9F1
+         8g1dbxH2bzThPz1tOjPELF4izFbctRkkvAAX3xMHTD0abayJpCmcVglyDutz1EdZPsj5
+         CHv5ag1SR0p5jEWD8aRb9QVmMSKFhwLK1mJ6Engu4l2C49xfxYn4s5ctKv2B0uhPK61M
+         dPSvV2YTUDL7R6l+5prWT/dJw8yV7NIgebffNHU6+WryGKcjJ7FXoinX8OmiAq2V9KES
+         E95qSNrYBL39AxcfE2sNu2O+ddCWnIUoCLDNJe0rXxJY0JdiNruaJs6MFcQhVA3lttbs
+         wgww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1754017800; x=1754622600;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=cETyuE3wvamROXC4Lt1c/4pgEuTp9p/utbq8DdU1MPs=;
+        b=pMwp77mhOnvxIm/9YlRowdTFKPAU8QQ48FnMMEfecw6AuoqtYvc0+LZBUHuaXFuYc0
+         dSIB+4lDK/r+cPZ/MMXDULBxlr4cpEKgzp+ac+jFxEdLA9shM8jB9IfUQeUw7giY+hZN
+         Qj9nTaOnHPoeMGuoE9YrMp6zRWjaqvSsqkfqd4GAI7Wn0k/wXWl/mbGCemd9fDzXW+lc
+         uSBQzmgSdZXUywizX+VZyXg18b0k+hcVKROv1GGrpu3XoYgNEXd8uH0QGDW8zgJt1OI6
+         IXuMto4O64O31VVzcma2KycHhnLvclDj+JTI/8ytnOztw7aSqskc3Asv0wIybz4kVxY/
+         f2Ug==
+X-Gm-Message-State: AOJu0Yx9irXeKHuyi05t9MaINxak1j6iqMtO3MiBuLlp6c/R1LV+a+hg
+	TQMFeyiYry7AJkPcZB72AW2VWg41B3fRn7A+2nt2B4d5P9T2bg1pAyLrD2/lPTmmNbQ=
+X-Gm-Gg: ASbGnctCoStgK5HYt8nL0IakH7ETyaYDwT9d/Z8bxdkQg7m/7PeE7np5NhkRVsfl6r4
+	vwiEmX43wWHC3PaEugImDK2XSaqOUL36D8X7n6a+3U0lov5eg2Cba0NvIVqhhBqxCwECJOZvhjp
+	BcLpT/debngbznMDJHivgNYa+NXX18kFm4vCxuCKUEqWEaeb4A/iFocecNiBUOcIK/TtIivPNfe
+	59BlK69UdZuFKk54NUyuzmM6jM5crlLCEhWNpRgDMINZRwrc58l8661aZjywOugN1n7NCVToAzJ
+	OSINfU9QxZMzXTiZ5C4uQtsMH0iogj3/jqTEma39I7/ggLMCrAxK+AbPMu7t21Ei5Fu5SGbzwze
+	C
+X-Google-Smtp-Source: AGHT+IF/xRwr31b/zkC4PSliavs9581oG9S6covzsL7EdfHkNr1owCdzvMZdIDzwS9ENKq05JWeYbA==
+X-Received: by 2002:a17:902:e848:b0:240:636c:df91 with SMTP id d9443c01a7336-24096aef320mr141208035ad.34.1754017800400;
+        Thu, 31 Jul 2025 20:10:00 -0700 (PDT)
+Received: from fedora ([2607:fb90:331e:245::f165])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-241e899d28asm30215185ad.142.2025.07.31.20.09.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 31 Jul 2025 20:09:59 -0700 (PDT)
+From: Ping Cheng <pinglinux@gmail.com>
+X-Google-Original-From: Ping Cheng <ping.cheng@wacom.com>
+To: linux-input@vger.kernel.org
+Cc: jkosina@suse.com,
+	bentiss@kernel.org,
+	Ping Cheng <ping.cheng@wacom.com>
+Subject: [PATCH] HID: Wacom: Add a new Art Pen
+Date: Thu, 31 Jul 2025 20:09:56 -0700
+Message-ID: <20250801030956.17198-1-ping.cheng@wacom.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250731-op6-tri-state-v6-2-569c25cbc8c2@ixit.cz>
-References: <20250731-op6-tri-state-v6-0-569c25cbc8c2@ixit.cz>
-In-Reply-To: <20250731-op6-tri-state-v6-0-569c25cbc8c2@ixit.cz>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
- Jonathan Corbet <corbet@lwn.net>, Jiri Kosina <jikos@kernel.org>, 
- Benjamin Tissoires <bentiss@kernel.org>, 
- Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>
-Cc: linux-input@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- devicetree@vger.kernel.org, Gergo Koteles <soyer@irl.hu>, 
- Casey Connolly <casey@connolly.tech>, David Heidelberg <david@ixit.cz>, 
- Konrad Dybcio <konradybcio@kernel.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2333; i=david@ixit.cz;
- h=from:subject:message-id;
- bh=DXHdtGfW2ujmBmU5jNstKdQ/ztd3ylHZnqWhAQYlHgI=;
- b=owEBbQKS/ZANAwAIAWACP8TTSSByAcsmYgBoi91NRxOGFBofJhr/R5Qdt2mdrdvgOYd4CdEY/
- uWPxnDvh4OJAjMEAAEIAB0WIQTXegnP7twrvVOnBHRgAj/E00kgcgUCaIvdTQAKCRBgAj/E00kg
- cszzEADJPC237t0NxPire+2qZzcPXxWYcO+wmI15gTOVT6+wrSM23ipHcqO5jaIr1QgFY40i0Pw
- uPSgd3MFV3+u9K+FcYFzyuOkQZkXv5XD+YKZE/D3kXDUtAvEWZzj5Nt0nJGVWAKApTTqP9JdIa2
- Jdwz54VuKl4567SLe7fJsddZ68UH7cpsp5Q0yUMQtjvJ//I4a8dOaiNG1KnB+vI2iElRkRBFL5E
- bt5I6b5fnQKG1b+fg8ZeN7gUg70vRTl4oEk8dxwJnfogSJ4b9kNuHnfR39ku26Dssls3CIbsaq1
- u0cwdNRwfINl5xs93JiwrWE6jJNy4Vz5hLvOwc29SXBrKHAj+g8T4SAX3PUZM9mAq9klUss6yED
- uLa0mT7ni6OZ2jiKAMVNJ5X5goM0T+7ZxwE4GaLwO7bdEEPDkmksB5l+7vUHonRAJpebdisiOCj
- sZ54XzIFMtXCq4aYoy0MM2NVSpPITVlZNqYrq9p4Jko65xRp57tAUYfOD1AYLHpM7dP1oLlpwVP
- UF/66IcCB60tKcLLshWhHayu5d1XP9V9TK5ckGFahSmhEZKHa52G58HHceZEWsbXYQI1ZlF+0f+
- 5ogFenEmvZzgy4KIhaqafM/gZQytYAD1WYct4b00z7hWrtjZNGg0yLTIIgE/zRkp1ILarCDBepu
- V/UDPYponoAfzZA==
-X-Developer-Key: i=david@ixit.cz; a=openpgp;
- fpr=D77A09CFEEDC2BBD53A7047460023FC4D3492072
-X-Endpoint-Received: by B4 Relay for david@ixit.cz/default with auth_id=355
-X-Original-From: David Heidelberg <david@ixit.cz>
-Reply-To: david@ixit.cz
+Content-Transfer-Encoding: 8bit
 
-From: Gergo Koteles <soyer@irl.hu>
-
-The alert-slider is a tri-state sound profile switch found on the
-OnePlus 6, Android maps the states to "silent", "vibrate" and "ring".
-Expose them as ABS_SND_PROFILE events.
-The previous GPIO numbers were wrong. Update them to the correct ones.
-
-Co-developed-by: Casey Connolly <casey@connolly.tech>
-Signed-off-by: Casey Connolly <casey@connolly.tech>
-Signed-off-by: Gergo Koteles <soyer@irl.hu>
-Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
-Signed-off-by: David Heidelberg <david@ixit.cz>
+Signed-off-by: Ping Cheng <ping.cheng@wacom.com>
 ---
- .../arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi | 39 ++++++++++++++++++++--
- 1 file changed, 37 insertions(+), 2 deletions(-)
+ drivers/hid/wacom_wac.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/arch/arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi b/arch/arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi
-index b118d666e535a433f44b66c71b36e55df2ce5c80..242c78828992f9fbb384b690352660a496b22411 100644
---- a/arch/arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi
-@@ -21,6 +21,41 @@
- /delete-node/ &rmtfs_mem;
- 
- / {
-+	alert-slider {
-+		compatible = "gpio-keys";
-+		label = "Alert slider";
-+
-+		pinctrl-0 = <&alert_slider_default>;
-+		pinctrl-names = "default";
-+
-+		switch-top {
-+			label = "Silent";
-+			linux,input-type = <EV_ABS>;
-+			linux,code = <ABS_SND_PROFILE>;
-+			linux,input-value = <SND_PROFILE_SILENT>;
-+			gpios = <&tlmm 126 GPIO_ACTIVE_LOW>;
-+			linux,can-disable;
-+		};
-+
-+		switch-middle {
-+			label = "Vibrate";
-+			linux,input-type = <EV_ABS>;
-+			linux,code = <ABS_SND_PROFILE>;
-+			linux,input-value = <SND_PROFILE_VIBRATE>;
-+			gpios = <&tlmm 52 GPIO_ACTIVE_LOW>;
-+			linux,can-disable;
-+		};
-+
-+		switch-bottom {
-+			label = "Ring";
-+			linux,input-type = <EV_ABS>;
-+			linux,code = <ABS_SND_PROFILE>;
-+			linux,input-value = <SND_PROFILE_RING>;
-+			gpios = <&tlmm 24 GPIO_ACTIVE_LOW>;
-+			linux,can-disable;
-+		};
-+	};
-+
- 	aliases {
- 		serial0 = &uart9;
- 		serial1 = &uart6;
-@@ -799,8 +834,8 @@ hall_sensor_default: hall-sensor-default-state {
- 		bias-disable;
- 	};
- 
--	tri_state_key_default: tri-state-key-default-state {
--		pins = "gpio40", "gpio42", "gpio26";
-+	alert_slider_default: alert-slider-default-state {
-+		pins = "gpio126", "gpio52", "gpio24";
- 		function = "gpio";
- 		drive-strength = <2>;
- 		bias-disable;
-
+diff --git a/drivers/hid/wacom_wac.c b/drivers/hid/wacom_wac.c
+index 955b39d22524..9b2c710f8da1 100644
+--- a/drivers/hid/wacom_wac.c
++++ b/drivers/hid/wacom_wac.c
+@@ -684,6 +684,7 @@ static bool wacom_is_art_pen(int tool_id)
+ 	case 0x885:	/* Intuos3 Marker Pen */
+ 	case 0x804:	/* Intuos4/5 13HD/24HD Marker Pen */
+ 	case 0x10804:	/* Intuos4/5 13HD/24HD Art Pen */
++	case 0x204:     /* Art Pen 2 */
+ 		is_art_pen = true;
+ 		break;
+ 	}
 -- 
-2.50.1
-
+2.43.0
 
 
