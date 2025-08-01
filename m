@@ -1,57 +1,57 @@
-Return-Path: <linux-input+bounces-13757-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13758-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5148B1824B
-	for <lists+linux-input@lfdr.de>; Fri,  1 Aug 2025 15:17:08 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 664FCB1824E
+	for <lists+linux-input@lfdr.de>; Fri,  1 Aug 2025 15:17:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6F1231AA74D4
-	for <lists+linux-input@lfdr.de>; Fri,  1 Aug 2025 13:17:27 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 579EC3B1CCE
+	for <lists+linux-input@lfdr.de>; Fri,  1 Aug 2025 13:17:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AAB4C2561D4;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B6843256C71;
 	Fri,  1 Aug 2025 13:16:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="KpXd8Kbt"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="IwsF/Bg4"
 X-Original-To: linux-input@vger.kernel.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF313248F5F;
-	Fri,  1 Aug 2025 13:16:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF379248F6A;
+	Fri,  1 Aug 2025 13:16:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754054217; cv=none; b=sFUetNTWQ/QJxA8DOlRYNFKYwmGozPMOSdbVJZ5sdSVnAnC2Wub0aT2oPBGfy0V8G7uiQ1PIXckXdNASi4c27u7TXXISSkSlZQK6drIGw0562JBG2NTX7U1/WlagaauOuhHnOc3Jpd3164MmMs5vew2Rx+B5aUkjCySMMR5UZUE=
+	t=1754054217; cv=none; b=O1zkNFOOiUTfqi3hbb1oKb6bXv0hPpKPs++JnuQqeHUI6KJxJmS1oN/XskhpeHM6SePuAD18Zf0uygujLD78Hqug52VEEgLdKRW7UBoQMdFSB+GuhOBZ/w4xtxeRII18BsXEy+nsACifeEoevADK94ubSZN2kgmkfEBRM2c+wPQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1754054217; c=relaxed/simple;
-	bh=5ietD06f8Z2UeewCIdXHPrS5WF1AM8TGkC/CX4qWjOU=;
+	bh=KXWB/BbVESzaULTtNNY4Nclu2iCefeG1Uv0TWkv7OIk=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=NSu/hA8rd3yGLKb384SbVKuTtDRRTArqiKugJzWwaKKUOjDzaAQ9joHEqR6+jgU5Dd2JSSdABp7wh2j1VjJgsa/pEmwUcgyGJTw1AtA75Gd0hBreHJsWkfxbdmiNRPD6ic8MLDbMmeD3MEni/9pLvQuUDSo+iK/N3PqhxLTVTyI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=KpXd8Kbt; arc=none smtp.client-ip=148.251.105.195
+	 In-Reply-To:To:Cc; b=Z+e7xG+e/8W5Px5A+OyVd3ZrmjBnmXnH79yVmmmrf+BbCtAs/NbJz0vY/mol6jZB/5XhBrtfzLD7VVdbEYkap4JHqn3S3mxmE0ORDGfQiUNzdPVc4fju5B3odkezRklZJdkjhZQR1sKkAsAk8+WztaYqEpcD5XGfT6qwHDgY9jA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=IwsF/Bg4; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1754054213;
-	bh=5ietD06f8Z2UeewCIdXHPrS5WF1AM8TGkC/CX4qWjOU=;
+	s=mail; t=1754054214;
+	bh=KXWB/BbVESzaULTtNNY4Nclu2iCefeG1Uv0TWkv7OIk=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=KpXd8KbtYIbC53CV9/bcGCey1JzAGtn6x3OO5N98xTgrg1IeDe2C8YthWcPUhfGyE
-	 eI9quD6l6FzrXt1ILTbSibNwbcfNI0i+Q+qLjkAGisU+klqbsdQ+CH8Gj1kSz5nceL
-	 2QrXgEl2pt9CKrCW6+Rc5YnhM72Tto3/e1ue2S4j6y6C58rlzZZx/12MK0OFDWB2zw
-	 A71ac4k9WddICRILXNb2SSFIXX58uIDEDeImTH2+uHPLuj1jNHzZkd1rXmBm1HNInB
-	 nKgC5pixmsB95nKIl7xUmG1Hqaj2VYeCCp/tXjPQrTJ06w9Fn1NvYmTsDBym6Y/egh
-	 D5B7pW0PnUbxQ==
+	b=IwsF/Bg4ucxHBGMXzMqLVvfhcy0AZ5pDjNci7u3wImdZ1heyjZ3DN593B4NCoI4ol
+	 4dR5RMjjIPkPR2BgVRCtKyDOzEd4EwXKo2JNvhAn0ENhsiYDNwFMxQSDg/elCWnHgh
+	 ujOaZ9qrH2+Et7Y4RpYffzJmntFEg2IOq8QFMlmg54PtBg464KCz66DxuWadduMrBp
+	 PGcbh8OvvaDpdzSj6AldS3LrbjezfKUO8JhOa8BDQTHVCy427ZEUzijgDO+SM5DN+O
+	 aPefURvHBuvLbJqx8jX7xMNF0IATzcTUjntWv5xAdeg+bbJIbSx4ix6lEtt6vUzhx5
+	 jFI878MOtI8MA==
 Received: from 2a01cb0892f2d600c8f85cf092d4af51.ipv6.abo.wanadoo.fr (2a01cb0892f2d600c8f85cf092d4af51.ipv6.abo.wanadoo.fr [IPv6:2a01:cb08:92f2:d600:c8f8:5cf0:92d4:af51])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: jmassot)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id C529417E0DD7;
-	Fri,  1 Aug 2025 15:16:52 +0200 (CEST)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 8E6DE17E0FFA;
+	Fri,  1 Aug 2025 15:16:53 +0200 (CEST)
 From: Julien Massot <julien.massot@collabora.com>
-Date: Fri, 01 Aug 2025 15:16:49 +0200
-Subject: [PATCH 1/3] Input: mtk-pmic-keys - MT6359 has a specific release
- irq
+Date: Fri, 01 Aug 2025 15:16:50 +0200
+Subject: [PATCH 2/3] arm64: dts: mediatek: mt8395-nio-12l: add PMIC and
+ GPIO keys support
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -60,7 +60,7 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250801-radxa-nio-12-l-gpio-v1-1-d0840f85d2c8@collabora.com>
+Message-Id: <20250801-radxa-nio-12-l-gpio-v1-2-d0840f85d2c8@collabora.com>
 References: <20250801-radxa-nio-12-l-gpio-v1-0-d0840f85d2c8@collabora.com>
 In-Reply-To: <20250801-radxa-nio-12-l-gpio-v1-0-d0840f85d2c8@collabora.com>
 To: kernel@collabora.com, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
@@ -73,34 +73,85 @@ Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
  devicetree@vger.kernel.org, Julien Massot <julien.massot@collabora.com>
 X-Mailer: b4 0.14.2
 
-A recent commit in linux-next added support for key events.
-However, the key release event is not properly handled: only key press events
-are generated, leaving key states stuck in "pressed".
-
-This patch ensures that both key press and key release events are properly
-emitted by handling the release logic correctly.
-
-Note: the code was introduced in linux-next by commit
-bc25e6bf032e ("Input: mtk-pmic-keys - add support for MT6359 PMIC keys")
-and is not yet present in mainline.
+Add support for PMIC and GPIO keys on the Radxa NIO 12L board:
+Declare a gpio-keys node for the Volume Up button using GPIO106.
+Add the corresponding pin configuration in the pinctrl node.
+Add a mediatek,mt6359-keys subnode under the PMIC to handle the
+power and home buttons exposed by the MT6359.
 
 Signed-off-by: Julien Massot <julien.massot@collabora.com>
 ---
- drivers/input/keyboard/mtk-pmic-keys.c | 1 +
- 1 file changed, 1 insertion(+)
+ .../boot/dts/mediatek/mt8395-radxa-nio-12l.dts     | 36 ++++++++++++++++++++++
+ 1 file changed, 36 insertions(+)
 
-diff --git a/drivers/input/keyboard/mtk-pmic-keys.c b/drivers/input/keyboard/mtk-pmic-keys.c
-index 50e2e792c91d2626d3f282d04a1db60845827ef2..0f9a589306482265f1f65c5a100b3f4aba0a2ed3 100644
---- a/drivers/input/keyboard/mtk-pmic-keys.c
-+++ b/drivers/input/keyboard/mtk-pmic-keys.c
-@@ -129,6 +129,7 @@ static const struct mtk_pmic_regs mt6359_regs = {
- 				   MTK_PMIC_HOMEKEY_RST),
- 	.pmic_rst_reg = MT6359_TOP_RST_MISC,
- 	.rst_lprst_mask = MTK_PMIC_RST_DU_MASK,
-+	.key_release_irq = true,
+diff --git a/arch/arm64/boot/dts/mediatek/mt8395-radxa-nio-12l.dts b/arch/arm64/boot/dts/mediatek/mt8395-radxa-nio-12l.dts
+index 329c60cc6a6be0b4be8c0b8bb033b32d35302804..fd596e2298285361ad7c2fb828feec598d75a73e 100644
+--- a/arch/arm64/boot/dts/mediatek/mt8395-radxa-nio-12l.dts
++++ b/arch/arm64/boot/dts/mediatek/mt8395-radxa-nio-12l.dts
+@@ -8,6 +8,7 @@
+ #include "mt8195.dtsi"
+ #include "mt6359.dtsi"
+ #include <dt-bindings/gpio/gpio.h>
++#include <dt-bindings/input/input.h>
+ #include <dt-bindings/interrupt-controller/irq.h>
+ #include <dt-bindings/pinctrl/mt8195-pinfunc.h>
+ #include <dt-bindings/regulator/mediatek,mt6360-regulator.h>
+@@ -60,6 +61,18 @@ backlight: backlight {
+ 		status = "disabled";
+ 	};
+ 
++	keys: gpio-keys {
++		compatible = "gpio-keys";
++
++		button-volume-up {
++			wakeup-source;
++			debounce-interval = <100>;
++			gpios = <&pio 106 GPIO_ACTIVE_LOW>;
++			label = "volume_up";
++			linux,code = <KEY_VOLUMEUP>;
++		};
++	};
++
+ 	wifi_vreg: regulator-wifi-3v3-en {
+ 		compatible = "regulator-fixed";
+ 		regulator-name = "wifi_3v3_en";
+@@ -626,6 +639,14 @@ pins-txd {
+ 		};
+ 	};
+ 
++	gpio_key_pins: gpio-keys-pins {
++		pins {
++			pinmux = <PINMUX_GPIO106__FUNC_GPIO106>;
++			bias-pull-up;
++			input-enable;
++		};
++	};
++
+ 	i2c2_pins: i2c2-pins {
+ 		pins-bus {
+ 			pinmux = <PINMUX_GPIO12__FUNC_SDA2>,
+@@ -880,6 +901,21 @@ &pciephy {
+ 
+ &pmic {
+ 	interrupts-extended = <&pio 222 IRQ_TYPE_LEVEL_HIGH>;
++
++	mt6359keys: keys {
++		compatible = "mediatek,mt6359-keys";
++		mediatek,long-press-mode = <1>;
++		power-off-time-sec = <0>;
++
++		power-key {
++			linux,keycodes = <KEY_POWER>;
++			wakeup-source;
++		};
++
++		home {
++			linux,keycodes = <KEY_HOME>;
++		};
++	};
  };
  
- struct mtk_pmic_keys_info {
+ &scp {
 
 -- 
 2.50.1
