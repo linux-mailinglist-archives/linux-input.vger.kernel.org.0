@@ -1,86 +1,85 @@
-Return-Path: <linux-input+bounces-13751-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13752-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7AFFB17F73
-	for <lists+linux-input@lfdr.de>; Fri,  1 Aug 2025 11:37:44 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 85616B17F76
+	for <lists+linux-input@lfdr.de>; Fri,  1 Aug 2025 11:38:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 383AA1C24563
-	for <lists+linux-input@lfdr.de>; Fri,  1 Aug 2025 09:38:03 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D9D8A1C27131
+	for <lists+linux-input@lfdr.de>; Fri,  1 Aug 2025 09:38:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 96FB02288EA;
-	Fri,  1 Aug 2025 09:37:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BD4F52288EA;
+	Fri,  1 Aug 2025 09:38:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e+pxXfmZ"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="krmeFpW/"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFC6C78F58;
-	Fri,  1 Aug 2025 09:37:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9174227B9F;
+	Fri,  1 Aug 2025 09:38:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754041058; cv=none; b=Wrcp6TaXq7gGoO+cegNe8kf/50Eix6CxIeHtSj/TvfIVXy3y/cxsQW6YW/tY+XKzXTjRp8OmWO1nuenplz9TagalPziTQMYT6fBvHuTioNPsbBIKAglHHDiBanLKMcVpfoStpQyBl7QX/jN5E8m/UEmgEVSINCOgqZ32J+Ooc3Q=
+	t=1754041089; cv=none; b=Ne5Vsx7FOxLpuFExmj1cMeYpaxmJ32106etDMb4FtQ6nOa4fAMCJJaNV+rPNmK0Mx4cs0riff9yHirB4sZdKzb6yCzSDo861mBs3i6LMaIdSf0VJxAwBQH1fFdZttywYKO1KRrghGuIA0JBBZmZ+dT+eBhgk96p8wH/R1toLW+c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754041058; c=relaxed/simple;
-	bh=K8IidkAxx7b6OjhfuXgrnbfygKnQsttvwOIbqsG4EIM=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=KnEJLIzQ2NABSQYCeUKcI2Xl5zcq27w1TOJ2HGeDW/TedlX45/9DgDWULdhs++g5ovrTOzIXHScPUAcADyFzk4jqQsqXMOiZISsrbYCUrgoeEL7ckYA2oO1KAtgA4rtISZuVa3/Vp9vxDhSnxD+/mKn0cT1Qxz4CKxQc1Nua9JM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=e+pxXfmZ; arc=none smtp.client-ip=209.85.208.53
+	s=arc-20240116; t=1754041089; c=relaxed/simple;
+	bh=hEug3iKt6+lqE9FFSAj77Oi6Eybay1wZKbpcaw5o3p0=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Dh2/ma5r2Wx+JFe71+KKjgwonEJV7qrCRXvav50zVML/3FYKIkFP1EsiYCnbTZajx5uItPUySOBkHouKxMNPVb+w8TpazuiW+Y4NmpYDpi9Y2lzVrfYBi3FGAZu/Jt4Z2E1JvXWQ1xGwcbi2RRXTbPSoUk2WzwVwgU9c+xhonMg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=krmeFpW/; arc=none smtp.client-ip=209.85.218.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-60bfcada295so1103530a12.1;
-        Fri, 01 Aug 2025 02:37:36 -0700 (PDT)
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-af922ab4849so211328066b.3;
+        Fri, 01 Aug 2025 02:38:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1754041055; x=1754645855; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1754041086; x=1754645886; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=OOlOpSizB2wUtysPUMys+O2uMZJzVajxOlsjXd0pMWU=;
-        b=e+pxXfmZPYeHUUfRWg1i8dBYJmtEN2kArrUPlCTZ9mnVP7hs/WTKP06vY20Cibly3O
-         93298Vu/awyh2rRGgjGqIpwIlyQkP3pLTUsVG3ZNXl7u42c7lHD1kV3EXuEk3iCLQMkS
-         6w6YpuSMoKKuSD2jDMJI35nmzeR3ECvphknKv0uRq4gFvStcfA4ZvI58Rtr/wYsRTKyU
-         y+y42KXvsepi2j6GTliWSRdrUj2r7iLluk4TsoOQLsGwspYdhrgXGmNNx8IcB+bJ0gqq
-         oc//5ILkXiGkHv8R0dIvLB3OB8HhlIZkxuLLdTRU6AmxCUY6u87Z2Q/JAAGGPFbHfNu8
-         jzwA==
+        bh=vxkeCmtZT9MST8DfaI8R87oY8Q/h3AVNkFRicZNhOV0=;
+        b=krmeFpW/11knDSmm/3TDfqdM8S0UJkVN0vz5uANPdWcB4wFINwHB8/BjuWzZRE/lvd
+         VQeDNkU4sVUQb1OufUhL7ccu238KAWLhLb5IT2P2P5pkoGPijrde2xVIAiWx/jCp60l/
+         v0TUCfeBUtGO3mhwhzJvDg6ImNiZuZpRiZxPiv9yITIPp1Kmv8kz3sBlJsMKttjlSzB0
+         qzI/XdX31ITo4By3E0T26dyH3uK/CFuRFEHxYHWJ/VJCZh2o2/Z+CU3GiyiwVqsOn98N
+         opecqDzxM/pdFcwQgFcHjt6hgDq16CwXPSiUgmbSUt3Aabp+2nY4ox6UiV+lYyaF07QW
+         uEkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754041055; x=1754645855;
+        d=1e100.net; s=20230601; t=1754041086; x=1754645886;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=OOlOpSizB2wUtysPUMys+O2uMZJzVajxOlsjXd0pMWU=;
-        b=kiaGgLO5W20WwV2uHni+oI21velko3lPJ/bMhGSmD9QQJMHvatKXJ8vxNtNwIGmp3l
-         slcherFDfseIkcs34X1BS6SxTo5BtegwRBD3dhjnPDLW/A0hyA3FZ3XtvNi/Eb76VvdS
-         Gh51fEg1k636NEMjBhz6BBP7I4iyMa0O5FQuEJoac2xV15axBzQ0xOVJVEjdRrkJ34fv
-         OuKkK+Q9+BUdm/1fKsfLt17o9JhIDXuONA8+sWV1Hjb5ClUF5Qyw6LgFxt6LfDXtVkD2
-         xZtxCYT40CJFqiqEVItyCF7NWrfFNgCyJNHwHKpksqo8KVmS0WPp5qdCjp5yAk+AqaeQ
-         32Kw==
-X-Forwarded-Encrypted: i=1; AJvYcCUu5i9++dwtcr0oe3ZmyX1t7eWrdyi74Tysa1N2YJSWllw6iaEtMtI7eG0e4CR6aI80yUoDcWC3Ic63T9Q=@vger.kernel.org, AJvYcCWeDxNeUbnPJq2ek+8RQHVG7y43CNsFIiIoHu0gr+w5ZxLThREJT4G+KFs4I8zdA11/xkTrcXJ7@vger.kernel.org
-X-Gm-Message-State: AOJu0YyjBY+HkqVIpGr13c9TC6Z0NE0EMlX86P+TDsrzTleU5UEKhYFS
-	2dBNlRaKD15W7yLpWjknYgyu8w4Wcp4oI0i6Q9zCGv/BpTkKQkOM5JUWsmTx8BaG
-X-Gm-Gg: ASbGncs/lGh12uIUeBmT9b/Nnud57Ya+3A/hRE0jsoXpgM8FGXGwQh7XUn7bsvb4cQo
-	fF0u3aJcMG++GjyIeBv+WcCqlPcdFM0Qn2k2issyfiOwIbCh3j2qJH/IokfW4d+lImM85dr0lo9
-	NuW0CWmTYu9WCecrPwFw0eSAN4oPNWq1H+21LR3PUF5+FuHtOtRJj0WjW4ul9+667F44AVaHl+1
-	C0LWuTnhTG6Ia7xOLyTEkMbyr3a1jZLhbd8ZE+v/cf+MeK1G3qYmNExIOtG7u3LMG6T/U2CEkkJ
-	1mJs9ffEQQgGXPdoCvKeJq8df4AucfL8aYqmygl/07rjFjA1RXTSjCs63ucQTxfWXWBK+tzpK9O
-	fBc2XQ5qDwuO8it3iyfT3DI5qtWjCU6uqEYg=
-X-Google-Smtp-Source: AGHT+IEZgrkv+ynSFqDmCZjFIwig05Tuq1icb4e8qAENs85ADc/+UvhkSzLmLfYvxrqeHE+JSMKtVQ==
-X-Received: by 2002:a17:906:c14f:b0:aec:65a0:b60a with SMTP id a640c23a62f3a-af8fd7390d6mr1333093266b.17.1754041054788;
-        Fri, 01 Aug 2025 02:37:34 -0700 (PDT)
+        bh=vxkeCmtZT9MST8DfaI8R87oY8Q/h3AVNkFRicZNhOV0=;
+        b=HE9SVEGQx5FbnvNXednDhUBK1dULdSRu62MllY8CYnvQXgOVL5wuJQ1c/8/W41IC0F
+         WUGIhqXTpJpAJ4Hr+G8pry76Yjkqp5s1AJM1Y9h7Nv9oHjjD4ElxZdi5dEqNDofZ66Bh
+         zoY8zHANjykxBaQh8ZRloOVNAedI5bQlHSb3ydJmHCmEe2ma5xN0aFeNhhgDeU0T7Adx
+         c7BYiT09zTJrqcgOqyheZYAVDxG+eaPbO+QaxGFig7N/gG+nTN+KPcpKlA5GQ7YPCWKL
+         zjHWqG4vYNk0ayyRobJac57WEsy2Xz3Zm6h00ryC0diEmqxlMfB6h+A1VGCZz7EtrpnE
+         G+6g==
+X-Forwarded-Encrypted: i=1; AJvYcCV0VEvSNG4fMflmDBnEClsWKMuWZ3iVEDDO/r3WbevYnnuXJfKtbGLpDK3T1xUj6tT5SD1xcP/KIIylnYs=@vger.kernel.org, AJvYcCVbPLVqh+063hT3vrbWNKOygkwULGIc0BuEXlaoHZO9M+X93H+sl2nohGUKbWhdAZ0eTgQzVaLf@vger.kernel.org
+X-Gm-Message-State: AOJu0YxdBItDQzo4bwbYCL/d8Q52Skj0khXcICBozBslAZjWnvCp4SnH
+	rbrMSiF8TC0oBw8r5YY6m7PRcsESFW2Ze3le9EWr6dWc/j26tHdgIu6UiZTxWgTY
+X-Gm-Gg: ASbGncv9oN+s+n7Bi610/DQ2lEYmXXskuXwjWBn8nnHSxXzIrsHgfcsAD0n65ZTx91j
+	pTednltO3ahQoUvlOIhFfHxRGiTtYA6ibc7F8JIZRQnN2CFRwc8wN1jFses7axa7Tc4H9AQ/clr
+	KbeXWg5rKwpwRpVkYGJqHcwkzmt1Sfm3ltSqiEjaT1wHg60n03lGb/mAPTbc4Xw/OwoAgzr2B0Z
+	RK+ITqV5eMxuSqZCJjnYdA9VJEkGFQsORA2XeSZRgGOSnCPMgNtXLAfo7+ZFH9ote0tnUnghowR
+	RnJn0PwFZUzrXNf3P1rnjTPRD6mI4s/d1+8jlZBbuA8WbeJzN+xrxeNa4pYMmtrLJV4pvfqT4es
+	gL29YMAfQm2Gf1Om5VPJYohnqYWQHdOTwzLM=
+X-Google-Smtp-Source: AGHT+IEtJbIL5AStXZV/BsRZgnc9v1l2MDi6MjoI0HmJp7hAP4UJ+XiETwFKEiWwW/oM0PWv6Rx18A==
+X-Received: by 2002:a17:907:96a4:b0:af9:1c73:cefd with SMTP id a640c23a62f3a-af93195679bmr229155266b.52.1754041085813;
+        Fri, 01 Aug 2025 02:38:05 -0700 (PDT)
 Received: from localhost.localdomain ([193.138.218.204])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-af93b4d4c27sm6824366b.66.2025.08.01.02.37.33
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-af91a1e6cecsm261569766b.70.2025.08.01.02.38.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 01 Aug 2025 02:37:34 -0700 (PDT)
+        Fri, 01 Aug 2025 02:38:05 -0700 (PDT)
 From: Qasim Ijaz <qasdev00@gmail.com>
 To: jikos@kernel.org,
 	bentiss@kernel.org
 Cc: linux-input@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	Jiri Slaby <jirislaby@kernel.org>
-Subject: [PATCH v2 RESEND] HID: multitouch: fix slab out-of-bounds access in mt_report_fixup()
-Date: Fri,  1 Aug 2025 10:36:19 +0100
-Message-Id: <20250801093619.4918-1-qasdev00@gmail.com>
+	stable@vger.kernel.org
+Subject: [PATCH] HID: asus: fix UAF via HID_CLAIMED_INPUT validation
+Date: Fri,  1 Aug 2025 10:38:00 +0100
+Message-Id: <20250801093800.5234-1-qasdev00@gmail.com>
 X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
@@ -90,76 +89,134 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-A malicious HID device can trigger a slab out-of-bounds during
-mt_report_fixup() by passing in report descriptor smaller than
-607 bytes. mt_report_fixup() attempts to patch byte offset 607
-of the descriptor with 0x25 by first checking if byte offset
-607 is 0x15 however it lacks bounds checks to verify if the
-descriptor is big enough before conducting this check. Fix
-this bug by ensuring the descriptor size is at least 608
-bytes before accessing it.
+After hid_hw_start() is called hidinput_connect() will eventually be 
+called to set up the device with the input layer since the 
+HID_CONNECT_DEFAULT connect mask is used. During hidinput_connect()
+all input and output reports are processed and corresponding hid_inputs
+are allocated and configured via hidinput_configure_usages(). This
+process involves slot tagging report fields and configuring usages
+by setting relevant bits in the capability bitmaps. However it is possible
+that the capability bitmaps are not set at all leading to the subsequent
+hidinput_has_been_populated() check to fail leading to the freeing of the
+hid_input and the underlying input device.
 
-Below is the KASAN splat after the out of bounds access happens:
+This becomes problematic because a malicious HID device like a 
+ASUS ROG N-Key keyboard can trigger the above scenario via a 
+specially crafted descriptor which then leads to a user-after-free
+when the name of the freed input device is written to later on after
+hid_hw_start(). Below, report 93 intentionally utilises the 
+HID_UP_UNDEFINED Usage Page which is skipped during usage
+configuration, leading to the frees.
 
-[   13.671954] ==================================================================
-[   13.672667] BUG: KASAN: slab-out-of-bounds in mt_report_fixup+0x103/0x110
-[   13.673297] Read of size 1 at addr ffff888103df39df by task kworker/0:1/10
-[   13.673297]
-[   13.673297] CPU: 0 UID: 0 PID: 10 Comm: kworker/0:1 Not tainted 6.15.0-00005-gec5d573d83f4-dirty #3
-[   13.673297] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.2-debian-1.16.2-1 04/04
-[   13.673297] Call Trace:
-[   13.673297]  <TASK>
-[   13.673297]  dump_stack_lvl+0x5f/0x80
-[   13.673297]  print_report+0xd1/0x660
-[   13.673297]  kasan_report+0xe5/0x120
-[   13.673297]  __asan_report_load1_noabort+0x18/0x20
-[   13.673297]  mt_report_fixup+0x103/0x110
-[   13.673297]  hid_open_report+0x1ef/0x810
-[   13.673297]  mt_probe+0x422/0x960
-[   13.673297]  hid_device_probe+0x2e2/0x6f0
-[   13.673297]  really_probe+0x1c6/0x6b0
-[   13.673297]  __driver_probe_device+0x24f/0x310
-[   13.673297]  driver_probe_device+0x4e/0x220
-[   13.673297]  __device_attach_driver+0x169/0x320
-[   13.673297]  bus_for_each_drv+0x11d/0x1b0
-[   13.673297]  __device_attach+0x1b8/0x3e0
-[   13.673297]  device_initial_probe+0x12/0x20
-[   13.673297]  bus_probe_device+0x13d/0x180
-[   13.673297]  device_add+0xe3a/0x1670
-[   13.673297]  hid_add_device+0x31d/0xa40
+0x05, 0x0D,        // Usage Page (Digitizer)
+0x09, 0x05,        // Usage (Touch Pad)
+0xA1, 0x01,        // Collection (Application)
+0x85, 0x0D,        //   Report ID (13)
+0x06, 0x00, 0xFF,  //   Usage Page (Vendor Defined 0xFF00)
+0x09, 0xC5,        //   Usage (0xC5)
+0x15, 0x00,        //   Logical Minimum (0)
+0x26, 0xFF, 0x00,  //   Logical Maximum (255)
+0x75, 0x08,        //   Report Size (8)
+0x95, 0x04,        //   Report Count (4)
+0xB1, 0x02,        //   Feature (Data,Var,Abs)
+0x85, 0x5D,        //   Report ID (93)
+0x06, 0x00, 0x00,  //   Usage Page (Undefined)
+0x09, 0x01,        //   Usage (0x01)
+0x15, 0x00,        //   Logical Minimum (0)
+0x26, 0xFF, 0x00,  //   Logical Maximum (255)
+0x75, 0x08,        //   Report Size (8)
+0x95, 0x1B,        //   Report Count (27)
+0x81, 0x02,        //   Input (Data,Var,Abs)
+0xC0,              // End Collection
+
+Below is the KASAN splat after triggering the UAF:
+
+[   21.672709] ==================================================================
+[   21.673700] BUG: KASAN: slab-use-after-free in asus_probe+0xeeb/0xf80
+[   21.673700] Write of size 8 at addr ffff88810a0ac000 by task kworker/1:2/54
+[   21.673700] 
+[   21.673700] CPU: 1 UID: 0 PID: 54 Comm: kworker/1:2 Not tainted 6.16.0-rc4-g9773391cf4dd-dirty #36 PREEMPT(voluntary) 
+[   21.673700] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
+[   21.673700] Call Trace:
+[   21.673700]  <TASK>
+[   21.673700]  dump_stack_lvl+0x5f/0x80
+[   21.673700]  print_report+0xd1/0x660
+[   21.673700]  kasan_report+0xe5/0x120
+[   21.673700]  __asan_report_store8_noabort+0x1b/0x30
+[   21.673700]  asus_probe+0xeeb/0xf80
+[   21.673700]  hid_device_probe+0x2ee/0x700
+[   21.673700]  really_probe+0x1c6/0x6b0
+[   21.673700]  __driver_probe_device+0x24f/0x310
+[   21.673700]  driver_probe_device+0x4e/0x220
+[...]
+[   21.673700] 
+[   21.673700] Allocated by task 54:
+[   21.673700]  kasan_save_stack+0x3d/0x60
+[   21.673700]  kasan_save_track+0x18/0x40
+[   21.673700]  kasan_save_alloc_info+0x3b/0x50
+[   21.673700]  __kasan_kmalloc+0x9c/0xa0
+[   21.673700]  __kmalloc_cache_noprof+0x139/0x340
+[   21.673700]  input_allocate_device+0x44/0x370
+[   21.673700]  hidinput_connect+0xcb6/0x2630
+[   21.673700]  hid_connect+0xf74/0x1d60
+[   21.673700]  hid_hw_start+0x8c/0x110
+[   21.673700]  asus_probe+0x5a3/0xf80
+[   21.673700]  hid_device_probe+0x2ee/0x700
+[   21.673700]  really_probe+0x1c6/0x6b0
+[   21.673700]  __driver_probe_device+0x24f/0x310
+[   21.673700]  driver_probe_device+0x4e/0x220
+[...]
+[   21.673700] 
+[   21.673700] Freed by task 54:
+[   21.673700]  kasan_save_stack+0x3d/0x60
+[   21.673700]  kasan_save_track+0x18/0x40
+[   21.673700]  kasan_save_free_info+0x3f/0x60
+[   21.673700]  __kasan_slab_free+0x3c/0x50
+[   21.673700]  kfree+0xcf/0x350
+[   21.673700]  input_dev_release+0xab/0xd0
+[   21.673700]  device_release+0x9f/0x220
+[   21.673700]  kobject_put+0x12b/0x220
+[   21.673700]  put_device+0x12/0x20
+[   21.673700]  input_free_device+0x4c/0xb0
+[   21.673700]  hidinput_connect+0x1862/0x2630
+[   21.673700]  hid_connect+0xf74/0x1d60
+[   21.673700]  hid_hw_start+0x8c/0x110
+[   21.673700]  asus_probe+0x5a3/0xf80
+[   21.673700]  hid_device_probe+0x2ee/0x700
+[   21.673700]  really_probe+0x1c6/0x6b0
+[   21.673700]  __driver_probe_device+0x24f/0x310
+[   21.673700]  driver_probe_device+0x4e/0x220
 [...]
 
-Fixes: c8000deb6836 ("HID: multitouch: Add support for GT7868Q")
+Fixes: 9ce12d8be12c ("HID: asus: Add i2c touchpad support")
 Cc: stable@vger.kernel.org
 Signed-off-by: Qasim Ijaz <qasdev00@gmail.com>
-Reviewed-by: Jiri Slaby <jirislaby@kernel.org>
 ---
-v2:
-- Simplify fix with a if-size check after discussion with Jiri Slaby
-- Change explanation of bug to reflect inclusion of a if-size check
+ drivers/hid/hid-asus.c | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
- drivers/hid/hid-multitouch.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
-
-diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
-index 294516a8f541..22c6314a8843 100644
---- a/drivers/hid/hid-multitouch.c
-+++ b/drivers/hid/hid-multitouch.c
-@@ -1503,6 +1503,14 @@ static const __u8 *mt_report_fixup(struct hid_device *hdev, __u8 *rdesc,
- 	if (hdev->vendor == I2C_VENDOR_ID_GOODIX &&
- 	    (hdev->product == I2C_DEVICE_ID_GOODIX_01E8 ||
- 	     hdev->product == I2C_DEVICE_ID_GOODIX_01E9)) {
-+		if (*size < 608) {
-+			dev_info(
-+				&hdev->dev,
-+				"GT7868Q fixup: report descriptor is only %u bytes, skipping\n",
-+				*size);
-+			return rdesc;
-+		}
+diff --git a/drivers/hid/hid-asus.c b/drivers/hid/hid-asus.c
+index 4b45e31f0bab..9bce9c84ab20 100644
+--- a/drivers/hid/hid-asus.c
++++ b/drivers/hid/hid-asus.c
+@@ -1212,8 +1212,14 @@ static int asus_probe(struct hid_device *hdev, const struct hid_device_id *id)
+ 		hid_err(hdev, "Asus hw start failed: %d\n", ret);
+ 		return ret;
+ 	}
+-
+-	if (!drvdata->input) {
 +
- 		if (rdesc[607] == 0x15) {
- 			rdesc[607] = 0x25;
- 			dev_info(
++	/*
++	 * Check that input registration succeeded. Checking that
++	 * HID_CLAIMED_INPUT is set prevents a UAF when all input devices
++	 * were freed during registration due to no usages being mapped,
++	 * leaving drvdata->input pointing to freed memory.
++	 */
++	if (!drvdata->input || !(hdev->claimed & HID_CLAIMED_INPUT)) {
+ 		hid_err(hdev, "Asus input not registered\n");
+ 		ret = -ENOMEM;
+ 		goto err_stop_hw;
 -- 
 2.39.5
+
 
