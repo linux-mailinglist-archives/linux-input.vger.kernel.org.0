@@ -1,138 +1,153 @@
-Return-Path: <linux-input+bounces-13753-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13754-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA5B0B17FF8
-	for <lists+linux-input@lfdr.de>; Fri,  1 Aug 2025 12:11:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4FA9B180A7
+	for <lists+linux-input@lfdr.de>; Fri,  1 Aug 2025 13:05:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A47FC3AAA45
-	for <lists+linux-input@lfdr.de>; Fri,  1 Aug 2025 10:11:56 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 96F233A5629
+	for <lists+linux-input@lfdr.de>; Fri,  1 Aug 2025 11:05:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 17F3723370F;
-	Fri,  1 Aug 2025 10:11:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A9BF937160;
+	Fri,  1 Aug 2025 11:05:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sz5q07GJ"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="IZskYN6m"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com [209.85.210.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D408220E030;
-	Fri,  1 Aug 2025 10:11:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00C7223AE87
+	for <linux-input@vger.kernel.org>; Fri,  1 Aug 2025 11:05:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754043112; cv=none; b=XAatORsp1WSTNBUSIxmR6aHJUkcis5zwy5URt4YndyOQIMDX8dCC/ak6koROwHeg0IG+tMzoa7nirjpTL0lQ0VrhtgptUgN2yiLs2gDksMcnz1/bd76x8M4pKnYId94aEdZ5aN81zV4j9evydY9BhLALnYCzAQa08I459M7j7r8=
+	t=1754046313; cv=none; b=LSPsWDmZCvGEEUfk2lujKXkWXXED7qb1AmMAhMDf1Llcv+0NlvnpLfpl28l0YokvWNHCcix8esXEpiZHKOg33USbnsa1zqEeIF9n1CjZ2JjInvHJBmqyNiOpLGMrJ9LuBuJSi9R0t8WP+JJgQwjlz//UAoikFwIqiDVeiTAEe5A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754043112; c=relaxed/simple;
-	bh=emSfXgxgLE13qdHNoG4H5bIFSvoxwcECzeINaeEVYRc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=R7UPjkTaRKAvV0crsum9AVpaTQxVsucxz8/TTFLhYsWYi2rzY0BRzU9ut1YZhbLfY05JJykxvnuwj0fi1B8Md5DAw58JKLD+V9oiYhIXFoy8HfL5buTN0B7NIyMbhAYbG17ojKGy1R1KmaauLhKPv1qAdSpZDnE6gyfam2uLyqc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sz5q07GJ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C549DC4CEE7;
-	Fri,  1 Aug 2025 10:11:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754043111;
-	bh=emSfXgxgLE13qdHNoG4H5bIFSvoxwcECzeINaeEVYRc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=sz5q07GJsgTqqkdMenDp3vnrAyom3IziUOdcb+iep8kxTMI/my/PYOEanQXh284Qt
-	 mdA5ZAj7sUVg5gpNlnxi95F5ziHsHjpczCdKNGjfjt9BfqE7TwdPHT9nMDiUuQ01vr
-	 W6S/u4lYnq1htAhq7CFA8hsTEbhil5pvQxEczUNjwcoRYc/H82cyuKC17PvPD3JVVc
-	 g17rXskfOILO+3oLfMBvP2Raz5zXUDJwgFJfUsyzK4/cBMs7eP/85yuGiS2qEaGhUG
-	 sWEQRDwaNboXcJcXOecz6tL6YBCmgVW0QLQt3OikwXoDSMADTm31TqHP9iqFWTTBbm
-	 1xDXcrN1sCRTg==
-Date: Fri, 1 Aug 2025 12:11:48 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
-To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Kamel Bouhara <kamel.bouhara@bootlin.com>, Linus Walleij <linus.walleij@linaro.org>, 
-	Bartosz Golaszewski <brgl@bgdev.pl>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
-	Michael Walle <mwalle@kernel.org>, Mark Brown <broonie@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, linux-input@vger.kernel.org, linux-pwm@vger.kernel.org, 
-	andriy.shevchenko@intel.com, =?utf-8?Q?Gr=C3=A9gory?= Clement <gregory.clement@bootlin.com>, 
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: Re: [PATCH v12 04/10] pwm: max7360: Add MAX7360 PWM support
-Message-ID: <2msg7e7q42ocjewv35rytdtxwrfqrndpm2y5ustqeaeodencsd@nfdufgtevxte>
-References: <20250722-mdb-max7360-support-v12-0-3747721a8d02@bootlin.com>
- <20250722-mdb-max7360-support-v12-4-3747721a8d02@bootlin.com>
+	s=arc-20240116; t=1754046313; c=relaxed/simple;
+	bh=/+jMRUVcZ6t8Pl8l4LNW+ajilhtOkPFN+4QMcHsiT+g=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Fxw5RfkkDP4OOSGARf2KCR6NpyH6mx73ob3AGGH7lYXiwxOzDQMcZc5Y1EB903icePvaoq7rmSj436JF8MC5Gm/+a9KKecScZL90mJy+pILo0hpTk9m30edCgM0qH3JafmN1ywy9SW1n4wwsabGzk4Z7B2+PNDorFxKejRbTFUI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=IZskYN6m; arc=none smtp.client-ip=209.85.210.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-ot1-f53.google.com with SMTP id 46e09a7af769-73e58d51060so385433a34.0
+        for <linux-input@vger.kernel.org>; Fri, 01 Aug 2025 04:05:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1754046311; x=1754651111; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/+jMRUVcZ6t8Pl8l4LNW+ajilhtOkPFN+4QMcHsiT+g=;
+        b=IZskYN6mZrvU/Q8092yR4joeg+TARsyo10jcJJt31M3dQHkf7oXFB2veU/I4YxNV4H
+         wwH904rYXHg8xy6+v+XiqyGHJ7OtI4lH+6I2ajj/CVrtM0fyRnYHFs+nh3l0rqa85T9+
+         AMVjHEAlLaBq34xGySiizsDWypESszjJh6f5U=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1754046311; x=1754651111;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=/+jMRUVcZ6t8Pl8l4LNW+ajilhtOkPFN+4QMcHsiT+g=;
+        b=QZ6eYlI64twpPVasNGBpyslzEfs3aMeNwn9856EV040MliNL2Y/G3zh7dDD2M4vtYU
+         tIAt7Q9vw8nR2xQmD4/1DKiXRZ+f9BjqAaAgaU9Up7Ui7b8ROeX0cZZx2+s3eRkjlzDc
+         d+1HFcmnh2sNp4nlCJdfBmCKcZbzIZtLZr/Z3d897f0q93gqJakbpz76xy2QXAe7+wHe
+         jkgFLL0DYSxU32R1JF/ZlKdRLABPCsKwNUr09ghDtB+IbLH9gI9m9Hhh/bXmcotdhQcl
+         fgt8DPfG5rw+YEzvM7R/D3NQRJHCffHOmucylR8AibXkv9AZJxc+W5uDd7OmwWWcyncF
+         VLJg==
+X-Forwarded-Encrypted: i=1; AJvYcCUDrUJ5CNPZSyhTR7e/Qxi5Ole6xBtTa4YmuUEVbHG2gmLwx4bO3cw9RODSJG2VgnkOVOymxdlwicKgJQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzRoqtvmfIffaVCRqrLsUbcoUER4SOo7f/Ph3SFj5CiiX6wedSW
+	CDyUbj6CtSEJyF1DnOlVvYSzGqliIxlj1XGYvXEWwJrmz25yCYmoELOrpoMpcrPKg0ORG2lWj4F
+	XJuqSizJ/HcuqfPIwKGDD1qU7/qHnXr0yY7oNyFTl
+X-Gm-Gg: ASbGnct0prgU/xfZRRcLC+vzhLbuzbqy1nLMU0NBxh0/JaVh1bYMKVhIPwSi5eytL1I
+	nCfeF42ia8OAviP9mB0Xm5MBa+lH0zm2DtyftNXIuOkPXf2ZiFMmuUMwkghWhLwA7SqIMUgLebj
+	yxjOulue0sErWd+Sjg+ETrPJhmWNKSC2Y1cDz/PrRsmPGea9MID/tR2cRXsAth+I8hVLLimW9C8
+	lbxD3keO98dwb9h+3EmqhNTjJH4/M/6wPeqKA/L9Ma7xA==
+X-Google-Smtp-Source: AGHT+IFcu23cfo1L+r2ndOaJ6tIGjp3L6Og5YNOYpWEWiKowVEeAG4TrrXquLF+MqSuI+nCk5jD+RBvLEHmkGlbWWB8=
+X-Received: by 2002:a05:6830:3987:b0:73e:9293:554b with SMTP id
+ 46e09a7af769-74177aadc6fmr7049993a34.12.1754046310929; Fri, 01 Aug 2025
+ 04:05:10 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="7segp7ac5cyefa5g"
-Content-Disposition: inline
-In-Reply-To: <20250722-mdb-max7360-support-v12-4-3747721a8d02@bootlin.com>
+References: <20250731101344.2761757-1-treapking@google.com>
+ <1519a7c3872a59b7b5f12e99529237035499bc26@intel.com> <CAD=FV=VBhamkffZhVuMEoiwfAoeHRzSORo+=eqMLYVsSBMO-bQ@mail.gmail.com>
+In-Reply-To: <CAD=FV=VBhamkffZhVuMEoiwfAoeHRzSORo+=eqMLYVsSBMO-bQ@mail.gmail.com>
+From: Pin-yen Lin <treapking@chromium.org>
+Date: Fri, 1 Aug 2025 19:04:59 +0800
+X-Gm-Features: Ac12FXz59Gv-xeWJuJdY52SRDvtajWsArQQuLuzom-4gp2vT2ns_QxyRWnAtOXk
+Message-ID: <CAEXTbpcPxpbtwy70uGxMcwsTcjpTqEX3EBZUyMg-6k5ULE1PmA@mail.gmail.com>
+Subject: Re: [PATCH 1/2] drm/panel: Allow powering on panel follower after
+ panel is enabled
+To: Doug Anderson <dianders@chromium.org>, Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, Jessica Zhang <quic_jesszhan@quicinc.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, linux-kernel@vger.kernel.org, 
+	linux-input@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	Chen-Yu Tsai <wenst@chromium.org>, Pin-Yen Lin <treapking@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Hi Doug and Jani,
+
+Thanks for the review.
+
+On Fri, Aug 1, 2025 at 12:38=E2=80=AFAM Doug Anderson <dianders@chromium.or=
+g> wrote:
+>
+> Hi,
+>
+> On Thu, Jul 31, 2025 at 3:31=E2=80=AFAM Jani Nikula <jani.nikula@linux.in=
+tel.com> wrote:
+> >
+> > On Thu, 31 Jul 2025, Pin-Yen Lin <treapking@chromium.org> wrote:
+> > > Some touch controllers have to be powered on after the panel's backli=
+ght
+> > > is enabled. To support these controllers, introduce after_panel_enabl=
+ed
+> > > flag to the panel follower and power on the device after the panel an=
+d
+> > > its backlight are enabled.
+> >
+> > I think it's *very* confusing and error prone to call follower hooks at
+> > different places depending on a flag. The hook names and documentation
+> > say *when* they get called, and that should not change.
+> >
+> > I think the right approach would be to add .panel_enabled and
+> > .panel_disabling hooks to struct drm_panel_follower_funcs, and have the=
+m
+> > called after panel (and backlight) have been enabled and before panel
+> > (and backlight) are disabled, respectively.
+> >
+> > In i2c-hid-core.c, you'd then have two copies of struct
+> > drm_panel_follower_funcs, and use one or the other depending on the
+> > quirk. You can even reuse the functions.
+> >
+> > I think overall it'll be be more consistent, more flexible, and probabl=
+y
+> > fewer lines of code too.
+
+I was thinking that we probably will never have a device that needs to
+register both .panel_prepared() and .panel_enabled(), so I implemented
+it like this. I'll update this in the next version.
+
+I'll also fix the s-o-b line. Apparently I've messed up with my local
+git setting.
+>
+> Yes, exactly what Jani said. We've wanted to do this before, but I
+> just never got around to it. There's even a (public) bug for it in the
+> Google bug tracker and I've just assigned it to you. :-P
+>
+> https://issuetracker.google.com/305780363
+
+So my series is not a new idea :P
+>
+> -Doug
 
 
---7segp7ac5cyefa5g
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Subject: Re: [PATCH v12 04/10] pwm: max7360: Add MAX7360 PWM support
-MIME-Version: 1.0
-
-On Tue, Jul 22, 2025 at 06:23:48PM +0200, Mathieu Dubois-Briand wrote:
-> +static int max7360_pwm_round_waveform_tohw(struct pwm_chip *chip,
-> +					   struct pwm_device *pwm,
-> +					   const struct pwm_waveform *wf,
-> +					   void *_wfhw)
-> +{
-> +	struct max7360_pwm_waveform *wfhw = _wfhw;
-> +	u64 duty_steps;
-> +
-> +	/*
-> +	 * Ignore user provided values for period_length_ns and duty_offset_ns:
-> +	 * we only support fixed period of MAX7360_PWM_PERIOD_NS and offset of 0.
-> +	 * Values from 0 to 254 as duty_steps will provide duty cycles of 0/256
-> +	 * to 254/256, while value 255 will provide a duty cycle of 100%.
-> +	 */
-> +	if (wf->duty_length_ns >= MAX7360_PWM_PERIOD_NS) {
-> +		duty_steps = MAX7360_PWM_MAX;
-> +	} else {
-> +		duty_steps = (u32)wf->duty_length_ns * MAX7360_PWM_STEPS / MAX7360_PWM_PERIOD_NS;
-> +		if (duty_steps == MAX7360_PWM_MAX)
-> +			duty_steps = MAX7360_PWM_MAX - 1;
-> +	}
-> +
-> +	wfhw->duty_steps = min(MAX7360_PWM_MAX, duty_steps);
-> +	wfhw->enabled = !!wf->period_length_ns;
-> +
-> +	return 0;
-
-The unconditional return 0 is wrong and testing with PWM_DEBUG enabled
-should tell you that.
-
-I think the right thing to do here is:
-
-	if (wf->period_length_ns > MAX7360_PWM_PERIOD_NS)
-		return 1;
-	else
-		return 0;
-
-Otherwise looks fine.
-
-Best regards
-Uwe
-
---7segp7ac5cyefa5g
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmiMkuEACgkQj4D7WH0S
-/k5GpggAoRMGf6bBt76DGferXRgCHrKnAuG70WtM4Ae+thaAxNDvteHX/NGrc9nv
-CH3nIMUgYGFo8OtBBVJkHtlV/Bl44mbxk9cXLGOupuOoM3J2rHV3ex+kVJzYkT5b
-j6nCZiDaDwu4G8KVN0I1o5sNam7BvUHo2kBSpyJrTcMKDtcGcKly2nS2y4RTJZ5w
-n/Jip/bw0kOJIR9+n2tCwmkmHOH56WXFyMYjvqb8z1gdnr4F/tDp+XGuK3Fs2a1q
-Bn1nqXtqJZWtoMIUWD943ekNcpYolqMkeM7SqEDuyIo6wpbKwMbNy//CIr/ZhSmb
-7Qly62VCNOd/6dx4wssh+LMOgd5Png==
-=y1VP
------END PGP SIGNATURE-----
-
---7segp7ac5cyefa5g--
+Regards,
+Pin-yen
 
