@@ -1,361 +1,165 @@
-Return-Path: <linux-input+bounces-13750-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13751-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8295FB17CB2
-	for <lists+linux-input@lfdr.de>; Fri,  1 Aug 2025 08:00:47 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id D7AFFB17F73
+	for <lists+linux-input@lfdr.de>; Fri,  1 Aug 2025 11:37:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D07991C24DA6
-	for <lists+linux-input@lfdr.de>; Fri,  1 Aug 2025 06:01:05 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 383AA1C24563
+	for <lists+linux-input@lfdr.de>; Fri,  1 Aug 2025 09:38:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2933778F26;
-	Fri,  1 Aug 2025 06:00:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 96FB02288EA;
+	Fri,  1 Aug 2025 09:37:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="DV4FXQp/"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e+pxXfmZ"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35BC0DDC3;
-	Fri,  1 Aug 2025 06:00:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFC6C78F58;
+	Fri,  1 Aug 2025 09:37:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754028043; cv=none; b=Ne0GwgvAR0YdUswGIxgpFW8VH6v8vmbg1yhQ9r3lMuM07YgIWh5rHCcBhFdandvj4zBLFzeH0h2X6ajtRrxBV+f4g3VZx4anI9npwj72r2TKIJVpK1OGjCfIIzajDUvAPbeM+csRGNBYQST0AMN7tIIoxtJqfKpmfCPU+p49q9o=
+	t=1754041058; cv=none; b=Wrcp6TaXq7gGoO+cegNe8kf/50Eix6CxIeHtSj/TvfIVXy3y/cxsQW6YW/tY+XKzXTjRp8OmWO1nuenplz9TagalPziTQMYT6fBvHuTioNPsbBIKAglHHDiBanLKMcVpfoStpQyBl7QX/jN5E8m/UEmgEVSINCOgqZ32J+Ooc3Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754028043; c=relaxed/simple;
-	bh=Uk6FNkjiuU6KebCqcIkLmVP5LAzCcrrnI83BBYjUbIU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=sOkkmxnhbndrEzUKJxCV0hFg9GL8+gQTkuzNex6PoUGnndxjm3NXsbqw9dz7KY15V1/C7k0hocjw/ZTWiFIHYVcvZu1tcAbjan639CdUCX4QI8Da93XZLTtfeBiNJWjasYTIfj5SuWEXX70GqUn7WSqm749HX2fRB2dOMp4rqXk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=DV4FXQp/; arc=none smtp.client-ip=212.227.17.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
-	s=s31663417; t=1754028038; x=1754632838; i=w_armin@gmx.de;
-	bh=izZmsp93jevYHwwBsyPpdSc6PEJGVjnNB2jeH/0/B68=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=DV4FXQp/iYcnGNiPB70dHl8LhNE9CuOOg/M6lDJ86eioCKqoz6PHEnappfrGFQzf
-	 6YhYsCOy8vewPRUKN+XIw5BnYK4dSTLkFcKVxE24cdolI6aIbpG0L+xfVOR42ph+g
-	 /TNFZgYIKi9N8TfOKZYVshmLsYFbNpsn9zrE0oR9lbjmAGjCGFOXA3c8SeKXFduoT
-	 SRt8/0dHbMdphSvDdMwKzn5pO//5iZ+amRixBIoVUV8YG+g3n6x9utea4uE3Zg0Vy
-	 xc78UahdoDNy5NDBZLHMpBz5OpH8uxCTKoCuGMJhKClE5sclrjF8rnXrMG7Qbz+LF
-	 KZByqAx7eM/Mv3c1Mg==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.0.69] ([87.177.78.219]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MxUrx-1uSdum3SIb-00t6T2; Fri, 01
- Aug 2025 08:00:37 +0200
-Message-ID: <c3314673-0b9d-464a-81cf-7cf1bd737a8b@gmx.de>
-Date: Fri, 1 Aug 2025 08:00:35 +0200
+	s=arc-20240116; t=1754041058; c=relaxed/simple;
+	bh=K8IidkAxx7b6OjhfuXgrnbfygKnQsttvwOIbqsG4EIM=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=KnEJLIzQ2NABSQYCeUKcI2Xl5zcq27w1TOJ2HGeDW/TedlX45/9DgDWULdhs++g5ovrTOzIXHScPUAcADyFzk4jqQsqXMOiZISsrbYCUrgoeEL7ckYA2oO1KAtgA4rtISZuVa3/Vp9vxDhSnxD+/mKn0cT1Qxz4CKxQc1Nua9JM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=e+pxXfmZ; arc=none smtp.client-ip=209.85.208.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-60bfcada295so1103530a12.1;
+        Fri, 01 Aug 2025 02:37:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1754041055; x=1754645855; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=OOlOpSizB2wUtysPUMys+O2uMZJzVajxOlsjXd0pMWU=;
+        b=e+pxXfmZPYeHUUfRWg1i8dBYJmtEN2kArrUPlCTZ9mnVP7hs/WTKP06vY20Cibly3O
+         93298Vu/awyh2rRGgjGqIpwIlyQkP3pLTUsVG3ZNXl7u42c7lHD1kV3EXuEk3iCLQMkS
+         6w6YpuSMoKKuSD2jDMJI35nmzeR3ECvphknKv0uRq4gFvStcfA4ZvI58Rtr/wYsRTKyU
+         y+y42KXvsepi2j6GTliWSRdrUj2r7iLluk4TsoOQLsGwspYdhrgXGmNNx8IcB+bJ0gqq
+         oc//5ILkXiGkHv8R0dIvLB3OB8HhlIZkxuLLdTRU6AmxCUY6u87Z2Q/JAAGGPFbHfNu8
+         jzwA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1754041055; x=1754645855;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=OOlOpSizB2wUtysPUMys+O2uMZJzVajxOlsjXd0pMWU=;
+        b=kiaGgLO5W20WwV2uHni+oI21velko3lPJ/bMhGSmD9QQJMHvatKXJ8vxNtNwIGmp3l
+         slcherFDfseIkcs34X1BS6SxTo5BtegwRBD3dhjnPDLW/A0hyA3FZ3XtvNi/Eb76VvdS
+         Gh51fEg1k636NEMjBhz6BBP7I4iyMa0O5FQuEJoac2xV15axBzQ0xOVJVEjdRrkJ34fv
+         OuKkK+Q9+BUdm/1fKsfLt17o9JhIDXuONA8+sWV1Hjb5ClUF5Qyw6LgFxt6LfDXtVkD2
+         xZtxCYT40CJFqiqEVItyCF7NWrfFNgCyJNHwHKpksqo8KVmS0WPp5qdCjp5yAk+AqaeQ
+         32Kw==
+X-Forwarded-Encrypted: i=1; AJvYcCUu5i9++dwtcr0oe3ZmyX1t7eWrdyi74Tysa1N2YJSWllw6iaEtMtI7eG0e4CR6aI80yUoDcWC3Ic63T9Q=@vger.kernel.org, AJvYcCWeDxNeUbnPJq2ek+8RQHVG7y43CNsFIiIoHu0gr+w5ZxLThREJT4G+KFs4I8zdA11/xkTrcXJ7@vger.kernel.org
+X-Gm-Message-State: AOJu0YyjBY+HkqVIpGr13c9TC6Z0NE0EMlX86P+TDsrzTleU5UEKhYFS
+	2dBNlRaKD15W7yLpWjknYgyu8w4Wcp4oI0i6Q9zCGv/BpTkKQkOM5JUWsmTx8BaG
+X-Gm-Gg: ASbGncs/lGh12uIUeBmT9b/Nnud57Ya+3A/hRE0jsoXpgM8FGXGwQh7XUn7bsvb4cQo
+	fF0u3aJcMG++GjyIeBv+WcCqlPcdFM0Qn2k2issyfiOwIbCh3j2qJH/IokfW4d+lImM85dr0lo9
+	NuW0CWmTYu9WCecrPwFw0eSAN4oPNWq1H+21LR3PUF5+FuHtOtRJj0WjW4ul9+667F44AVaHl+1
+	C0LWuTnhTG6Ia7xOLyTEkMbyr3a1jZLhbd8ZE+v/cf+MeK1G3qYmNExIOtG7u3LMG6T/U2CEkkJ
+	1mJs9ffEQQgGXPdoCvKeJq8df4AucfL8aYqmygl/07rjFjA1RXTSjCs63ucQTxfWXWBK+tzpK9O
+	fBc2XQ5qDwuO8it3iyfT3DI5qtWjCU6uqEYg=
+X-Google-Smtp-Source: AGHT+IEZgrkv+ynSFqDmCZjFIwig05Tuq1icb4e8qAENs85ADc/+UvhkSzLmLfYvxrqeHE+JSMKtVQ==
+X-Received: by 2002:a17:906:c14f:b0:aec:65a0:b60a with SMTP id a640c23a62f3a-af8fd7390d6mr1333093266b.17.1754041054788;
+        Fri, 01 Aug 2025 02:37:34 -0700 (PDT)
+Received: from localhost.localdomain ([193.138.218.204])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-af93b4d4c27sm6824366b.66.2025.08.01.02.37.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 01 Aug 2025 02:37:34 -0700 (PDT)
+From: Qasim Ijaz <qasdev00@gmail.com>
+To: jikos@kernel.org,
+	bentiss@kernel.org
+Cc: linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org,
+	Jiri Slaby <jirislaby@kernel.org>
+Subject: [PATCH v2 RESEND] HID: multitouch: fix slab out-of-bounds access in mt_report_fixup()
+Date: Fri,  1 Aug 2025 10:36:19 +0100
+Message-Id: <20250801093619.4918-1-qasdev00@gmail.com>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] platform/x86: Add WMI driver for Redmibook keyboard.
-To: Gladyshev Ilya <foxido@foxido.dev>
-Cc: linux-input@vger.kernel.org, nikita.nikita.krasnov@gmail.com,
- Hans de Goede <hansg@kernel.org>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org
-References: <20250730185619.8725-1-foxido@foxido.dev>
-Content-Language: en-US
-From: Armin Wolf <W_Armin@gmx.de>
-In-Reply-To: <20250730185619.8725-1-foxido@foxido.dev>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:s/x6Q7YoWb4Sq1+0MSVvMLtEDHRIIKiVeRGz280RJxYZliOE41P
- HT7CMiDKspw8lWSe0qufSyOMPufa1iZ5yE4x3WOVCrKBXJKyyjwILo+rlixrT4LpGsS1o8v
- l3bVxzFQ2xiVETn8IIZWkbjYkhJBZSDDZ+8YVV8sZpOEgyagoZi5a0CeKkWlyfHnDSTq0xU
- AVgylWuvN99NVRmEnGCRA==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:vRi6Vlswy+4=;WCzs9OU+dscIHzNiw/ZEvq6taqE
- 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
+Content-Transfer-Encoding: 8bit
 
-Am 30.07.25 um 20:56 schrieb Gladyshev Ilya:
+A malicious HID device can trigger a slab out-of-bounds during
+mt_report_fixup() by passing in report descriptor smaller than
+607 bytes. mt_report_fixup() attempts to patch byte offset 607
+of the descriptor with 0x25 by first checking if byte offset
+607 is 0x15 however it lacks bounds checks to verify if the
+descriptor is big enough before conducting this check. Fix
+this bug by ensuring the descriptor size is at least 608
+bytes before accessing it.
 
-> This driver implements support for various Fn keys (like Cut) and Xiaomi
-> specific AI button.
->
-> Signed-off-by: Gladyshev Ilya <foxido@foxido.dev>
-> ---
-> Changes since v2:
-> - Fix Kconfig dependencies
-> - Accept WMI buffers that are bigger than expected
->
-> Link to v2: https://lore.kernel.org/platform-driver-x86/20250729190528.8=
-446-1-foxido@foxido.dev/
-> ---
->   MAINTAINERS                      |   6 ++
->   drivers/platform/x86/Kconfig     |  12 +++
->   drivers/platform/x86/Makefile    |   1 +
->   drivers/platform/x86/redmi-wmi.c | 129 +++++++++++++++++++++++++++++++
->   4 files changed, 148 insertions(+)
->   create mode 100644 drivers/platform/x86/redmi-wmi.c
->
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index c0b444e5fd5a..eb25fb10e751 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -20965,6 +20965,12 @@ S:	Maintained
->   T:	git https://github.com/pkshih/rtw.git
->   F:	drivers/net/wireless/realtek/rtw89/
->  =20
-> +REDMIBOOK WMI DRIVERS
-> +M:	Gladyshev Ilya <foxido@foxido.dev>
-> +L:	platform-driver-x86@vger.kernel.org
-> +S:	Maintained
-> +F:	drivers/platform/x86/redmi-wmi.c
-> +
->   REDPINE WIRELESS DRIVER
->   L:	linux-wireless@vger.kernel.org
->   S:	Orphan
-> diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
-> index e5cbd58a99f3..9f98a7042e43 100644
-> --- a/drivers/platform/x86/Kconfig
-> +++ b/drivers/platform/x86/Kconfig
-> @@ -109,6 +109,18 @@ config XIAOMI_WMI
->   	  To compile this driver as a module, choose M here: the module will
->   	  be called xiaomi-wmi.
->  =20
-> +config REDMI_WMI
-> +	tristate "Redmibook WMI key driver"
-> +	depends on ACPI_WMI
-> +	depends on INPUT
-> +	select INPUT_SPARSEKMAP
-> +	help
-> +	  Say Y here if you want support for WMI-based hotkey events on
-> +	  Xiaomi Redmibook devices.
-> +
-> +	  To compile this driver as a module, choose M here: the module will
-> +	  be called redmi-wmi.
-> +
->   config GIGABYTE_WMI
->   	tristate "Gigabyte WMI temperature driver"
->   	depends on ACPI_WMI
-> diff --git a/drivers/platform/x86/Makefile b/drivers/platform/x86/Makefi=
-le
-> index bea87a85ae75..406dd0807ba7 100644
-> --- a/drivers/platform/x86/Makefile
-> +++ b/drivers/platform/x86/Makefile
-> @@ -13,6 +13,7 @@ obj-$(CONFIG_HUAWEI_WMI)		+=3D huawei-wmi.o
->   obj-$(CONFIG_MXM_WMI)			+=3D mxm-wmi.o
->   obj-$(CONFIG_NVIDIA_WMI_EC_BACKLIGHT)	+=3D nvidia-wmi-ec-backlight.o
->   obj-$(CONFIG_XIAOMI_WMI)		+=3D xiaomi-wmi.o
-> +obj-$(CONFIG_REDMI_WMI)			+=3D redmi-wmi.o
->   obj-$(CONFIG_GIGABYTE_WMI)		+=3D gigabyte-wmi.o
->  =20
->   # Acer
-> diff --git a/drivers/platform/x86/redmi-wmi.c b/drivers/platform/x86/red=
-mi-wmi.c
-> new file mode 100644
-> index 000000000000..3dbf4a40a4ff
-> --- /dev/null
-> +++ b/drivers/platform/x86/redmi-wmi.c
-> @@ -0,0 +1,129 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/* WMI driver for Xiaomi Redmibooks */
-> +
-> +#include <linux/acpi.h>
-> +#include <linux/device.h>
-> +#include <linux/input.h>
-> +#include <linux/input/sparse-keymap.h>
-> +#include <linux/module.h>
-> +#include <linux/mutex.h>
-> +#include <linux/unaligned.h>
-> +#include <linux/wmi.h>
-> +
-> +#include <uapi/linux/input-event-codes.h>
-> +
-> +#define WMI_REDMIBOOK_KEYBOARD_EVENT_GUID "46C93E13-EE9B-4262-8488-563B=
-CA757FEF"
-> +
-> +#define AI_KEY_VALUE_MASK 0x00000100
-> +
-> +static const struct key_entry redmi_wmi_keymap[] =3D {
-> +	{KE_KEY, 0x00000201,	{KEY_SELECTIVE_SCREENSHOT}},
-> +	{KE_KEY, 0x00000301,	{KEY_ALL_APPLICATIONS}},
-> +	{KE_KEY, 0x00001b01,	{KEY_SETUP}},
-> +
-> +	/* AI button has code for each position */
-> +	{KE_KEY, 0x00011801,	{KEY_ASSISTANT}},
-> +	{KE_KEY, 0x00011901,	{KEY_ASSISTANT}},
-> +
-> +	/* Keyboard backlight */
-> +	{KE_IGNORE, 0x00000501, {}},
-> +	{KE_IGNORE, 0x00800501, {}},
-> +	{KE_IGNORE, 0x00050501, {}},
-> +	{KE_IGNORE, 0x000a0501, {}},
-> +
-> +	{KE_END}
-> +};
-> +
-> +struct redmi_wmi {
-> +	struct input_dev *input_dev;
-> +	/* Protects the key event sequence */
-> +	struct mutex key_lock;
-> +};
-> +
-> +static int redmi_wmi_probe(struct wmi_device *wdev, const void *context=
-)
-> +{
-> +	struct redmi_wmi *data;
-> +	int err;
-> +
-> +	/* Init dev */
-> +	data =3D devm_kzalloc(&wdev->dev, sizeof(*data), GFP_KERNEL);
-> +	if (!data)
-> +		return -ENOMEM;
-> +
-> +	dev_set_drvdata(&wdev->dev, data);
-> +
-> +	err =3D devm_mutex_init(&wdev->dev, &data->key_lock);
-> +	if (err)
-> +		return err;
-> +
-> +	/* Setup input device */
-> +	data->input_dev =3D devm_input_allocate_device(&wdev->dev);
-> +	if (!data->input_dev)
-> +		return -ENOMEM;
+Below is the KASAN splat after the out of bounds access happens:
 
-Please leave a blank line here.
+[   13.671954] ==================================================================
+[   13.672667] BUG: KASAN: slab-out-of-bounds in mt_report_fixup+0x103/0x110
+[   13.673297] Read of size 1 at addr ffff888103df39df by task kworker/0:1/10
+[   13.673297]
+[   13.673297] CPU: 0 UID: 0 PID: 10 Comm: kworker/0:1 Not tainted 6.15.0-00005-gec5d573d83f4-dirty #3
+[   13.673297] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.2-debian-1.16.2-1 04/04
+[   13.673297] Call Trace:
+[   13.673297]  <TASK>
+[   13.673297]  dump_stack_lvl+0x5f/0x80
+[   13.673297]  print_report+0xd1/0x660
+[   13.673297]  kasan_report+0xe5/0x120
+[   13.673297]  __asan_report_load1_noabort+0x18/0x20
+[   13.673297]  mt_report_fixup+0x103/0x110
+[   13.673297]  hid_open_report+0x1ef/0x810
+[   13.673297]  mt_probe+0x422/0x960
+[   13.673297]  hid_device_probe+0x2e2/0x6f0
+[   13.673297]  really_probe+0x1c6/0x6b0
+[   13.673297]  __driver_probe_device+0x24f/0x310
+[   13.673297]  driver_probe_device+0x4e/0x220
+[   13.673297]  __device_attach_driver+0x169/0x320
+[   13.673297]  bus_for_each_drv+0x11d/0x1b0
+[   13.673297]  __device_attach+0x1b8/0x3e0
+[   13.673297]  device_initial_probe+0x12/0x20
+[   13.673297]  bus_probe_device+0x13d/0x180
+[   13.673297]  device_add+0xe3a/0x1670
+[   13.673297]  hid_add_device+0x31d/0xa40
+[...]
 
-> +	data->input_dev->name =3D "Redmibook WMI keys";
-> +	data->input_dev->phys =3D "wmi/input0";
-> +
-> +	err =3D sparse_keymap_setup(data->input_dev, redmi_wmi_keymap, NULL);
-> +	if (err)
-> +		return err;
-> +
-> +	return input_register_device(data->input_dev);
-> +}
-> +
-> +static void redmi_wmi_notify(struct wmi_device *wdev, union acpi_object=
- *obj)
-> +{
-> +	struct redmi_wmi *data =3D dev_get_drvdata(&wdev->dev);
-> +	bool autorelease =3D true;
-> +	int value =3D 1;
-> +
-> +	if (obj->type !=3D ACPI_TYPE_BUFFER) {
-> +		dev_err(&wdev->dev, "Bad response type %u\n", obj->type);
-> +		return;
-> +	}
-> +
-> +	if (obj->buffer.length < 32) {
-> +		dev_err(&wdev->dev, "Invalid buffer length %u\n", obj->buffer.length)=
-;
-> +		return;
-> +	}
-> +
-> +	/* For linearizability */
-> +	guard(mutex)(&data->key_lock);
+Fixes: c8000deb6836 ("HID: multitouch: Add support for GT7868Q")
+Cc: stable@vger.kernel.org
+Signed-off-by: Qasim Ijaz <qasdev00@gmail.com>
+Reviewed-by: Jiri Slaby <jirislaby@kernel.org>
+---
+v2:
+- Simplify fix with a if-size check after discussion with Jiri Slaby
+- Change explanation of bug to reflect inclusion of a if-size check
 
-You only need to guard the actual input reporting, so please move the guar=
-d just above the call to
-sparse_keymap_report_entry().
+ drivers/hid/hid-multitouch.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-> +
-> +	u32 payload =3D get_unaligned_le32(obj->buffer.pointer);
-> +	struct key_entry *entry =3D sparse_keymap_entry_from_scancode(data->in=
-put_dev, payload);
-> +
-> +	if (!entry) {
-> +		dev_dbg(&wdev->dev, "Unknown WMI event with payload %u", payload);
-> +		return;
-> +	}
-> +
-> +	/* AI key quirk */
-> +	if (entry->keycode =3D=3D KEY_ASSISTANT) {
-> +		value =3D !(payload & AI_KEY_VALUE_MASK);
-> +		autorelease =3D false;
-> +	}
-> +
-> +	sparse_keymap_report_entry(data->input_dev, entry, value, autorelease)=
-;
-> +}
-> +
-> +static const struct wmi_device_id redmi_wmi_id_table[] =3D {
-> +	{ .guid_string =3D WMI_REDMIBOOK_KEYBOARD_EVENT_GUID },
-
-Please use "{ WMI_REDMIBOOK_KEYBOARD_EVENT_GUID, NULL }," instead.
-
-With the above issues fixed:
-
-Reviewed-by: Armin Wolf <W_Armin@gmx.de>
-
-> +	{ }
-> +};
-> +
-> +static struct wmi_driver redmi_wmi_driver =3D {
-> +	.driver =3D {
-> +		.name =3D "redmi-wmi",
-> +		.probe_type =3D PROBE_PREFER_ASYNCHRONOUS
-> +	},
-> +	.id_table =3D redmi_wmi_id_table,
-> +	.probe =3D redmi_wmi_probe,
-> +	.notify =3D redmi_wmi_notify,
-> +	.no_singleton =3D true,
-> +};
-> +module_wmi_driver(redmi_wmi_driver);
-> +
-> +MODULE_DEVICE_TABLE(wmi, redmi_wmi_id_table);
-> +MODULE_AUTHOR("Gladyshev Ilya <foxido@foxido.dev>");
-> +MODULE_DESCRIPTION("Redmibook WMI driver");
-> +MODULE_LICENSE("GPL");
+diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
+index 294516a8f541..22c6314a8843 100644
+--- a/drivers/hid/hid-multitouch.c
++++ b/drivers/hid/hid-multitouch.c
+@@ -1503,6 +1503,14 @@ static const __u8 *mt_report_fixup(struct hid_device *hdev, __u8 *rdesc,
+ 	if (hdev->vendor == I2C_VENDOR_ID_GOODIX &&
+ 	    (hdev->product == I2C_DEVICE_ID_GOODIX_01E8 ||
+ 	     hdev->product == I2C_DEVICE_ID_GOODIX_01E9)) {
++		if (*size < 608) {
++			dev_info(
++				&hdev->dev,
++				"GT7868Q fixup: report descriptor is only %u bytes, skipping\n",
++				*size);
++			return rdesc;
++		}
++
+ 		if (rdesc[607] == 0x15) {
+ 			rdesc[607] = 0x25;
+ 			dev_info(
+-- 
+2.39.5
 
