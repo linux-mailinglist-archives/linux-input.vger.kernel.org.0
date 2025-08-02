@@ -1,191 +1,127 @@
-Return-Path: <linux-input+bounces-13764-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13765-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FA62B18F67
-	for <lists+linux-input@lfdr.de>; Sat,  2 Aug 2025 18:30:36 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id EF2BFB19024
+	for <lists+linux-input@lfdr.de>; Sat,  2 Aug 2025 23:33:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 689D017D083
-	for <lists+linux-input@lfdr.de>; Sat,  2 Aug 2025 16:30:36 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D035B17C5C7
+	for <lists+linux-input@lfdr.de>; Sat,  2 Aug 2025 21:33:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E39371B7F4;
-	Sat,  2 Aug 2025 16:30:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB4A9253B52;
+	Sat,  2 Aug 2025 21:33:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IyYtJDfl"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=smtpservice.net header.i=@smtpservice.net header.b="bIdkvxPc";
+	dkim=pass (2048-bit key) header.d=medip.dev header.i=@medip.dev header.b="dtNNoLFC"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from e3i331.smtp2go.com (e3i331.smtp2go.com [158.120.85.75])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E33DA48
-	for <linux-input@vger.kernel.org>; Sat,  2 Aug 2025 16:30:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A348A1F2C45
+	for <linux-input@vger.kernel.org>; Sat,  2 Aug 2025 21:33:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=158.120.85.75
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754152232; cv=none; b=cIhtK6Csb7BE4+BztNEp2rsyReKKMncmMtsf9gcBnknFuhnDjYdYzjHDl+Yk5gvwPP1OBFV6GJSp2O5jLNcdhoH8PSRm/2hJb9Heq4qeATpYQ/dGvAhps94mN7NsW0wm+hV7pBJm5W28jqftkx0wksjwutkH5O4jVInJiJLqP+M=
+	t=1754170384; cv=none; b=UwyGqeGr+BaWpAaGMf6k4wc/YHn9q7prCDVekxnMOKf96B7mMwEBFxr0NUIBPQpK+J4XCl8n25dc2AMSOVgp9V0+fVI31rigei+WbRdam6iFw9EUztjKYN8Kw3sYRBshY0tIcQ+NCaQR5QjVd7dTgqrxPqJxpVVgfwt0v/FW7ZY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754152232; c=relaxed/simple;
-	bh=76USa+cWQwkmgJIaVn7el8T1qWdWXAaoHuXVd3CGGas=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=d8ty8x5qkCoJUwI0P+n1kWXZSRANhkqJtHSeenMks1uL9+DUgWwXDSl5rMGzmgqg1+sUSdkAiDbVyNa+WdZdKnqwtE70HV+tCdSTM5Kge4SCW0RmFA9vB1oemcV3UFScSm8kkjcgMcOopGBPt5Wfv5F3/wEAc3XHFcN1fKQ0QZQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IyYtJDfl; arc=none smtp.client-ip=209.85.128.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4561a4a8bf2so19501855e9.1
-        for <linux-input@vger.kernel.org>; Sat, 02 Aug 2025 09:30:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1754152229; x=1754757029; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=5A4mEcHsHite00EqK96cBB7wAaikEY7thFthdZTAO/c=;
-        b=IyYtJDflYEW9Ij8CCY0e27WVyTSTiiFNMCzCorPml1EEO1qC6Pu2PCnlGpyU+qwNh8
-         8l0iHlPAJjYZI+RS0zf3VsktWVRWBKzMmizWQIk/wH+g6EyR2cbfrfB3WZ57d89aTADQ
-         MWsyLkhcYznrE6a1+68kp4Q21JtG9uU3G5nTzGIAx3KvzWvixF1k0wjZLBr6/nOVk+Gq
-         bwxNSGBX3UySnGzgOGDKfeN8Moq8n7Fq32/fzGB/jOf/RY1Va77zpDc8WN3ZxbGXdaA1
-         p5choG6eMdN/aZK7gB5P87QPxjHOT4KnNXxG4KE7VHjSPQyMazj83eyf8ruQJx1spvHO
-         20gw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754152229; x=1754757029;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=5A4mEcHsHite00EqK96cBB7wAaikEY7thFthdZTAO/c=;
-        b=Rh0wcqOnTCyyJkO+eXM8H9pFeeKTsSF9BOLpCt5Cx/mbKJuApiJupo7js+QCl3wUWm
-         CIIimdfJGb56YdnkcIXT3F+51ZV2W+TamMo8uVCxTyyhvzsG5re/dCJ4nJ5ntjtIA5hr
-         /jPgQgyS/N0y1rSJd/jPlUDCOrw7GNn8pwOPye8muU4Zfjfb8p3PM8aWJ8Y0dSiswsxZ
-         pSlGmYndCdZYcIVBGVEF56Fr4srir+vdDoU0HGpktnH6Bc3NcNY+28BPXYv+z/+cDRge
-         u3hEVFUbH0Y7FzcCv21vnP3LWllwKDOZS8rQHB6xWIgmIgTTsteWx1L4VZ5CAvQRNJ09
-         7V1w==
-X-Forwarded-Encrypted: i=1; AJvYcCWiW0c5qlMEbzFWMKnoMi74leb7PlS21LezH2mFylsZS8yPCJ1V6k5tbZEJs2NOjMcuzkVhzcsIg+tfSQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxyIE1Gx5qXTw3uVQSAhGnEDNk8IGj0kmWh13na7/bB0+BoMcXP
-	giz0vePkeQeNG4ZJn6CpxAoJlNEVbfQgVcPJQnPvFL9SETZLLMrYX74R
-X-Gm-Gg: ASbGncso1uR1cbWU8MyN1g/xwW7+5Z5kiHxj9+lM8RvOIQM7K86BlYWSJHoWIUbxbXW
-	TG+IjNAVxowY4xeV5TAjtk6M1fd6whHRNhHH3St7d9yC4LzNnSR8w0yDqc+g1/MNtVW5U223oRd
-	ukdByrKXj19NjKM2JTfFpoumOpOF/0W8pUsEEU4CDAVJbsdtIMUuw2G/MD3IblIaHENPcKIYIPt
-	PEWBwmJRVWKijHsM988mvrZvc/XVgGf9TeSIFPYezejg+8o9yRBBYl+r0aJNrd0F4jPL+joBVLX
-	7VAR5FnFDQ8rk5iveo2x4BDCm/aBDSyDe2kYq/nZANEvPN1T8jIJNNSwmtADkjzoDKOYpVcqxyS
-	cs3asVA6KQJ01Jx9e9+2F6GCO2Akmzfw8d9pyVGQ=
-X-Google-Smtp-Source: AGHT+IHSXvZBEGFG4YxJvO+lAzZJxOBQijeOBPdaImXY4YXO2AU6G3opmRqGOJ1xuFZzdW8IKJeO6g==
-X-Received: by 2002:a05:600c:1554:b0:456:1442:86e with SMTP id 5b1f17b1804b1-458b6b3308emr27499115e9.21.1754152229173;
-        Sat, 02 Aug 2025 09:30:29 -0700 (PDT)
-Received: from fedora ([94.73.32.0])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-458f713eb44sm3842085e9.14.2025.08.02.09.30.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 02 Aug 2025 09:30:28 -0700 (PDT)
-Date: Sat, 2 Aug 2025 18:30:26 +0200
-From: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
-To: =?utf-8?B?5Y2i5Zu95a6P?= <luguohong@xiaomi.com>
-Cc: "jikos@kernel.org" <jikos@kernel.org>,
-	"bentiss@kernel.org" <bentiss@kernel.org>,
-	"linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-	"torvalds@linux-foundation.org" <torvalds@linux-foundation.org>,
-	"linus@linuxfoundation.org" <linus@linuxfoundation.org>,
-	"jkosina@suse.cz" <jkosina@suse.cz>
-Subject: Re: =?utf-8?B?6L2s5Y+ROiBjb21taXQ/YTYwOGRj?=
- =?utf-8?Q?1c06397dc50ab773498433432fb5938f92?= (patch)  has a bug
-Message-ID: <aI49Im0sGb6fpgc8@fedora>
-References: <51055c7ae10e40319473938f831d0af8@xiaomi.com>
- <b3cf760898054fb1adb4285e84f4a702@xiaomi.com>
+	s=arc-20240116; t=1754170384; c=relaxed/simple;
+	bh=GLhv/T2dtFQ3GlTlK7o9Bmk4Du5gnHqSjrhT57Tn/uE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hokZbgZLfXwjblxx3gXpRS+EHJuAPgG1sZygDoh/n6vdanOa3qZzBNtHf7aOPSJdkjQfD7cYlO2U423PS6dxDWX+jxMOnXtpvJ9HMAMWZaT3e8Vcw8tp5QjK81AUgZNOlzkug/msYTUuFWgNFc+Pak87KwDTkDmnffaVloR0o1A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=medip.dev; spf=pass smtp.mailfrom=em1255854.medip.dev; dkim=pass (2048-bit key) header.d=smtpservice.net header.i=@smtpservice.net header.b=bIdkvxPc; dkim=pass (2048-bit key) header.d=medip.dev header.i=@medip.dev header.b=dtNNoLFC; arc=none smtp.client-ip=158.120.85.75
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=medip.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=em1255854.medip.dev
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=smtpservice.net;
+ i=@smtpservice.net; q=dns/txt; s=a1-4; t=1754170373; h=feedback-id :
+ x-smtpcorp-track : date : message-id : to : subject : from : reply-to
+ : sender : list-unsubscribe : list-unsubscribe-post;
+ bh=AcX9VcErMWRg0sR1MbexnWdLJ0Tu14req403gJypbmc=;
+ b=bIdkvxPcTwFI86bsNBgRJt07KW0Mq+/Ig8i0SA1lAAlEaZYSkfU7bHqK4H0ssBwcifTXI
+ Za379Z/TPa33ceGsFSIsCFhVHp2np9aIH8F40O2rtPpiCmqiRfeugW+e+nqHc36hlV91U6S
+ mHsD1dkpG60TkjCeozA2YxVK9yLWkuNscRp2lfABIAWF09l4u0gVFVIT3bUOAvJzzXvJveg
+ +Uud3mYKPqcXWlDj4Hb/hQX8gLBHXYYwu/8NSzrBRAbRrX4TZKuf6L5SrT8sUAWPkjj5uNp
+ CG3Gy27k6eqxFaWWpM1bSDYizDkngmwTP6+hMQKSAaYJ0Ia4KDFIUBv8PmKQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=medip.dev;
+ i=@medip.dev; q=dns/txt; s=s1255854; t=1754170373; h=from : subject :
+ to : message-id : date;
+ bh=AcX9VcErMWRg0sR1MbexnWdLJ0Tu14req403gJypbmc=;
+ b=dtNNoLFCT0fJ6DifLSl5zZhlevZHzTOEGfmKOAW14pT8hInSLs40snSRbEVCwIm6DKN2N
+ 6DFd1lyWXz7PtekIgBhaXV0Iyy4E0JAfrMoyYgjB2SC1VfUUA9jD97e9929Ixx7Sl6f4fPB
+ deWDaeuPvGNPDy9iWn3CRNL+cXOSHd2iBzCX7z8F8NrhtCRKL1OSMr0dJtVI/xThaiohZoe
+ n7/uBGRnzjqNG58ng2C5rTR1ozFJ+emRHONXVCKlM8EgO5SSskZlOj2nsSqUALijJDBxu3N
+ cbdIyu+WJ8BaJidPjvYV44ExawIUN0Vvi6z3dwfCFpbUxC4rfP+Dm4cvrjMQ==
+Received: from [10.152.250.198] (helo=vilez)
+	by smtpcorp.com with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.98.1-S2G)
+	(envelope-from <edip@medip.dev>)
+	id 1uiJqP-FnQW0hPvggj-NCpg;
+	Sat, 02 Aug 2025 21:32:46 +0000
+From: edip@medip.dev
+To: dmitry.torokhov@gmail.com
+Cc: jikos@kernel.org,
+	bentiss@kernel.org,
+	linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Edip Hazuri <edip@medip.dev>
+Subject: [PATCH 1/2] Input: Add key event code for Fn + P
+Date: Sun,  3 Aug 2025 00:21:50 +0300
+Message-ID: <20250802212149.16707-2-edip@medip.dev>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <b3cf760898054fb1adb4285e84f4a702@xiaomi.com>
+X-Report-Abuse: Please forward a copy of this message, including all headers, to <abuse-report@smtp2go.com>
+Feedback-ID: 1255854m:1255854ay30w_v:1255854sMNE8L0U3Q
+X-smtpcorp-track: R-V7ZdS_w03l.e1voHp-jQOGP.CxuSpgP-0ld
 
-Hi 卢国宏,
+From: Edip Hazuri <edip@medip.dev>
 
-Thanks a lot for reporting this issue.
+Newer Victus (and probably newer omen) laptops contains a "Fn + P"
+Shortcut. This is intended to use with Omen Gaming Hub, Which is
+changing the performance profile when this shortcut triggered. This
+shortcut is shown on performance control page, see [1]
 
-On Sat, Aug 02, 2025 at 12:23:54PM +0000, 卢国宏 wrote:
-> Hello, José and Jiri!
-> I've discovered that the patch you submitted to the Linux community,
-> "https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/commit/?h=linux-6.3.y&id=a608dc1c06397dc50ab773498433432fb5938f92"
-> contains a bug. Even with your patch, the charging status of HID
-> devices is still not reported to upper layers in a timely manner.
-> The reasons are as follows:
->
-> [...]
-> 
-> if function hidinput_set_battery_charge_status() return true, That is,
-> the charging status of the HID device has changed，This charging status
-> will not be reported，Because, only when handled is false,
-> "hid input update battery(hid, value);" will be called.
+Currently there is no key definition to handle this. So add a KEY_FN_P
+keycode define to be able to use this shortcut.
 
-I wrote this patch a while ago and I can't remember the exact reason
-why hidinput_update_battery() is only called by hidinput_hid_event()
-when hidinput_set_battery_charge_status() returns false.
+[1]: https://jpcdn.it/img/adadf6c927ffeb75afd8038f95db400a.png
 
-The devices I have change their status, for example, discharging to
-charging, when they are connected via Bluetooth and I switch them to
-USB. This reconnection reports the status to user-space, so there is
-no need for additional synchronization.
-Does your device work in the same manner?
+Signed-off-by: Edip Hazuri <edip@medip.dev>
+---
+ drivers/hid/hid-debug.c                | 2 +-
+ include/uapi/linux/input-event-codes.h | 1 +
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
-However, before we try to fix the problem, it would be nice if you
-could provide a reproducer.
+diff --git a/drivers/hid/hid-debug.c b/drivers/hid/hid-debug.c
+index 4424c0512ba..2bcf7b24801 100644
+--- a/drivers/hid/hid-debug.c
++++ b/drivers/hid/hid-debug.c
+@@ -3342,7 +3342,7 @@ static const char *keys[KEY_MAX + 1] = {
+ 	[KEY_FN_1] = "Fn+1",			[KEY_FN_2] = "Fn+2",
+ 	[KEY_FN_B] = "Fn+B",			[KEY_FN_D] = "Fn+D",
+ 	[KEY_FN_E] = "Fn+E",			[KEY_FN_F] = "Fn+F",
+-	[KEY_FN_S] = "Fn+S",
++	[KEY_FN_S] = "Fn+S",			[KEY_FN_P] = "Fn+P",
+ 	[KEY_FN_F1] = "Fn+F1",			[KEY_FN_F2] = "Fn+F2",
+ 	[KEY_FN_F3] = "Fn+F3",			[KEY_FN_F4] = "Fn+F4",
+ 	[KEY_FN_F5] = "Fn+F5",			[KEY_FN_F6] = "Fn+F6",
+diff --git a/include/uapi/linux/input-event-codes.h b/include/uapi/linux/input-event-codes.h
+index 3b2524e4b66..2fc79b32425 100644
+--- a/include/uapi/linux/input-event-codes.h
++++ b/include/uapi/linux/input-event-codes.h
+@@ -548,6 +548,7 @@
+ #define KEY_FN_S		0x1e3
+ #define KEY_FN_B		0x1e4
+ #define KEY_FN_RIGHT_SHIFT	0x1e5
++#define KEY_FN_P		0x1e6
+ 
+ #define KEY_BRL_DOT1		0x1f1
+ #define KEY_BRL_DOT2		0x1f2
+-- 
+2.50.1
 
-What device is affected by this bug?
-
-By using "sudo hid-recorder" and selecting your device, you will be
-able to capture and replay (with "hid-replay") the HID events sent
-by your device.
-Could you share a recording of your device changing from the charging
-to discharging status and back to charging so we can reproduce the
-issue, please?
-
-If the recording is too long, please upload it to a server.
-
-> Therefore, the function "hidinput set battery charge status" can be
-> changed to the following:
-> 
-> static bool hidinput_set_battery_charge_status(struct hid_device *dev,
-> + unsigned int usage, int value)
-> +{
-> + switch (usage) {
-> + case HID_BAT_CHARGING:
-> + dev->battery_charge_status = value ?
-> + POWER_SUPPLY_STATUS_CHARGING :
-> + POWER_SUPPLY_STATUS_DISCHARGING;
-> + power_supply_changed(dev->battery);
-> + return true;
-> + }
-> +
-> + return false;
-> +}
-
-Could you test if this patch also solves your problem, please?
-
-diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
-index 9d80635a91eb..bce580beb5c6 100644
---- a/drivers/hid/hid-input.c
-+++ b/drivers/hid/hid-input.c
-@@ -1515,11 +1515,8 @@ void hidinput_hid_event(struct hid_device *hid, struct hid_field *field, struct
-                return;
-
-        if (usage->type == EV_PWR) {
--               bool handled = hidinput_set_battery_charge_status(hid, usage->hid, value);
--
--               if (!handled)
--                       hidinput_update_battery(hid, value);
--
-+               hidinput_set_battery_charge_status(hid, usage->hid, value);
-+               hidinput_update_battery(hid, value);
-                return;
-        }
-
-Thanks a lot in advance,
-José Expósito
-
-> Because we have encountered this problem in our project, and this
-> method can solve it.
-> I hope you can solve this problem as soon as possible, otherwise,
-> we will encounter this problem again in our future projects.
->
-> Thank you so much！
 
