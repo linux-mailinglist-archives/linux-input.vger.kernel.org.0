@@ -1,143 +1,124 @@
-Return-Path: <linux-input+bounces-13762-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13763-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07F75B18A03
-	for <lists+linux-input@lfdr.de>; Sat,  2 Aug 2025 03:03:18 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id D3CA6B18EC5
+	for <lists+linux-input@lfdr.de>; Sat,  2 Aug 2025 15:46:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 79E11627765
-	for <lists+linux-input@lfdr.de>; Sat,  2 Aug 2025 01:03:16 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6D542189BDA0
+	for <lists+linux-input@lfdr.de>; Sat,  2 Aug 2025 13:46:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9810B6FBF;
-	Sat,  2 Aug 2025 01:03:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 878B01E519;
+	Sat,  2 Aug 2025 13:46:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K2JaZVyq"
+	dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b="C1xgKKfx"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mout02.posteo.de (mout02.posteo.de [185.67.36.66])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08A05A48;
-	Sat,  2 Aug 2025 01:03:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92A9D23BCE7
+	for <linux-input@vger.kernel.org>; Sat,  2 Aug 2025 13:46:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.67.36.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754096593; cv=none; b=qANotd8kaEXenlxEyN0IQ8kiD7ieQJSTXhM1K0Zx5TT7B65wogUSjdyUxPMu5WTKAgyyc7BmKRt6ADHpOf6/RKcQLwDMb0IUU/vjNCkU0BI8/x2NI6Nuo0oPimNi9BX0CwiN3IQ02IWs5Tu4GJqWbfE0VXkjksWOHb5GmAtSg3s=
+	t=1754142369; cv=none; b=kZ0jGUIPbZX2m1pBJLAx28gXOy9Q6Ta24CvHC5fLmFYJnrsTFrNM0TL46VoEkGLh1PO/IQT+ODkoEBYZSazwIbvz+zjY/dStf8KCXz28eq8CFFAwj7e0WI1y5IdmwqHYXJWyZABwhl5Z7QzWcFSujRlBLcYqnxoZIdEeFnQjwI4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754096593; c=relaxed/simple;
-	bh=AY7j+7mv2dE5hcJpd/tAvFtobFcD1mgqJgfqGiQynVE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PfB49F//3rlDuToLmSqNUxYEpyERIRIkJlNaMaGjrgR7X0znHGt5+6EWqm1ms2SktiuTSekph/iySPUoomsbr8CYSpNOdwWE9KC2TWOJmSGrXH3xFwwfldOIEJU+kpdzn7MBKzoMfkbTuixvptR2a0z2Pq0Bl316c8kZSdniB5k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K2JaZVyq; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754096592; x=1785632592;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=AY7j+7mv2dE5hcJpd/tAvFtobFcD1mgqJgfqGiQynVE=;
-  b=K2JaZVyq1etD/zfzt4vPgIBgHKKIr8CToFSZDH/Hr5elfUzuY4pXd6ZR
-   +uWDe40Xsp83xNdFRf7LaATQk8i4fHtvkR/wmsOw6TmT+g98DerLRwspk
-   bVM4ymctXowZhK609325X5c/E97jFLr1keakIIz7Xt19IP3vQ1tdOwU+C
-   seXszXSBCKi2WfiSqFet08Dcyjm8gAB5JwO+eWJ21rZGNc2DeXtSjrKDA
-   E17MQgIJqhahzy+OhtbxXmBX+JpKkDmH8cSRXjWkzndNF6l+Xh7BzrxhW
-   +DHMEmWtwSpQ0KSunNn/Cg7JbnvIAkD0IWg7NeMaS11Lf4abwDu3vLddt
-   Q==;
-X-CSE-ConnectionGUID: AURiZbY/RWi8kc0hH73cKQ==
-X-CSE-MsgGUID: xUY5J8TkSWOIplD3lz9BxA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11508"; a="56586896"
-X-IronPort-AV: E=Sophos;i="6.17,258,1747724400"; 
-   d="scan'208";a="56586896"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Aug 2025 18:03:12 -0700
-X-CSE-ConnectionGUID: k31tPsVwSPa+bMhbp3/FQA==
-X-CSE-MsgGUID: 5Bej1XubQpKWWuO99tKLyw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,258,1747724400"; 
-   d="scan'208";a="168165493"
-Received: from lkp-server01.sh.intel.com (HELO 160750d4a34c) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 01 Aug 2025 18:03:08 -0700
-Received: from kbuild by 160750d4a34c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1ui0eQ-00053c-00;
-	Sat, 02 Aug 2025 01:03:06 +0000
-Date: Sat, 2 Aug 2025 09:02:10 +0800
-From: kernel test robot <lkp@intel.com>
-To: Julien Massot <julien.massot@collabora.com>, kernel@collabora.com,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org,
-	Julien Massot <julien.massot@collabora.com>
-Subject: Re: [PATCH 1/3] Input: mtk-pmic-keys - MT6359 has a specific release
- irq
-Message-ID: <202508020802.nZBo2mGV-lkp@intel.com>
-References: <20250801-radxa-nio-12-l-gpio-v1-1-d0840f85d2c8@collabora.com>
+	s=arc-20240116; t=1754142369; c=relaxed/simple;
+	bh=NXGZV+eWjal/j8I5d/z3GchjI6sUsX4UHc+bLHtVPe4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SpwMokzjk7nFACAraq6NPgXWdB0wZVfNCOlozKVgU7YnWg/U8ejFMQj5O015dUnNv5iE37ZO8tS4m1VnYb/gMx27Oz6FpUY7jl+ROhnKFx59YDA3ruRxLxE9llz39wrK/nB3ZeDhW9Izp0Udn4ayYBN5tSXMiAJGB1L0GQXSgzg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de; spf=pass smtp.mailfrom=posteo.de; dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b=C1xgKKfx; arc=none smtp.client-ip=185.67.36.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.de
+Received: from submission (posteo.de [185.67.36.169]) 
+	by mout02.posteo.de (Postfix) with ESMTPS id 4AE1C240103
+	for <linux-input@vger.kernel.org>; Sat,  2 Aug 2025 15:45:55 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=posteo.de; s=2017;
+	t=1754142360; bh=MdHIJppBkLN8gYJiKRNyD2UBKFvXcGrHkaAKVD9Vc+4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:
+	 Content-Transfer-Encoding:From;
+	b=C1xgKKfxinzMu0uYmo/r57fhBzIHK4kSjiE5XYFV7HXlXjoXXxx7OVFOFjYr4TG4a
+	 U5qtwDPzVtJ5XNOIwTFOnN07XYq4y2GMOhMXnejleTpS7araMetYJ/SxaHC8k8YuIx
+	 f9NBL6AVeC88Dg16SBxSD6Hd6niVmVEoR8DR4wxjRrgcfHuoTfbd1cujhfquz0ESX2
+	 2STSuAuywXNgoSshEbOXqLH9V4bIsGwffbCJjoqQ50Dk5KcyOQjhG74cPg8S84tmQj
+	 l19dFKXgsSXDTFnPOhEyFxwQEhY/QPzG9ANhkwzr4Dmp/E3BhHh0+Z4lssRsxOI1UI
+	 I7JSLG/Si7/pg==
+Received: from customer (localhost [127.0.0.1])
+	by submission (posteo.de) with ESMTPSA id 4bvPGp4m0Rz6tlh;
+	Sat,  2 Aug 2025 15:45:54 +0200 (CEST)
+From: Martin Hilgendorf <martin.hilgendorf@posteo.de>
+To: Jiri Kosina <jikos@kernel.org>
+Cc: Martin Hilgendorf <martin.hilgendorf@posteo.de>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] HID: elecom: add support for ELECOM M-DT2DRBK
+Date: Sat, 02 Aug 2025 13:45:55 +0000
+Message-ID: <20250802134542.21692-1-martin.hilgendorf@posteo.de>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250801-radxa-nio-12-l-gpio-v1-1-d0840f85d2c8@collabora.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Julien,
+The DT2DRBK trackball has 8 buttons, but the report descriptor only
+specifies 5. This patch adds the device ID and performs a similar fixup as
+for other ELECOM devices to enable the remaining 3 buttons.
 
-kernel test robot noticed the following build errors:
+Signed-off-by: Martin Hilgendorf <martin.hilgendorf@posteo.de>
+---
+ drivers/hid/hid-elecom.c | 2 ++
+ drivers/hid/hid-ids.h    | 1 +
+ drivers/hid/hid-quirks.c | 1 +
+ 3 files changed, 4 insertions(+)
 
-[auto build test ERROR on b9ddaa95fd283bce7041550ddbbe7e764c477110]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Julien-Massot/Input-mtk-pmic-keys-MT6359-has-a-specific-release-irq/20250801-211817
-base:   b9ddaa95fd283bce7041550ddbbe7e764c477110
-patch link:    https://lore.kernel.org/r/20250801-radxa-nio-12-l-gpio-v1-1-d0840f85d2c8%40collabora.com
-patch subject: [PATCH 1/3] Input: mtk-pmic-keys - MT6359 has a specific release irq
-config: arc-randconfig-002-20250802 (https://download.01.org/0day-ci/archive/20250802/202508020802.nZBo2mGV-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 14.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250802/202508020802.nZBo2mGV-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508020802.nZBo2mGV-lkp@intel.com/
-
-All error/warnings (new ones prefixed by >>):
-
->> drivers/input/keyboard/mtk-pmic-keys.c:132:10: error: 'const struct mtk_pmic_regs' has no member named 'key_release_irq'
-     132 |         .key_release_irq = true,
-         |          ^~~~~~~~~~~~~~~
->> drivers/input/keyboard/mtk-pmic-keys.c:132:28: warning: excess elements in struct initializer
-     132 |         .key_release_irq = true,
-         |                            ^~~~
-   drivers/input/keyboard/mtk-pmic-keys.c:132:28: note: (near initialization for 'mt6359_regs')
-
-
-vim +132 drivers/input/keyboard/mtk-pmic-keys.c
-
-   120	
-   121	static const struct mtk_pmic_regs mt6359_regs = {
-   122		.keys_regs[MTK_PMIC_PWRKEY_INDEX] =
-   123			MTK_PMIC_KEYS_REGS(MT6359_TOPSTATUS,
-   124					   0x2, MT6359_PSC_TOP_INT_CON0, 0x5,
-   125					   MTK_PMIC_PWRKEY_RST),
-   126		.keys_regs[MTK_PMIC_HOMEKEY_INDEX] =
-   127			MTK_PMIC_KEYS_REGS(MT6359_TOPSTATUS,
-   128					   0x8, MT6359_PSC_TOP_INT_CON0, 0xa,
-   129					   MTK_PMIC_HOMEKEY_RST),
-   130		.pmic_rst_reg = MT6359_TOP_RST_MISC,
-   131		.rst_lprst_mask = MTK_PMIC_RST_DU_MASK,
- > 132		.key_release_irq = true,
-   133	};
-   134	
-
+diff --git a/drivers/hid/hid-elecom.c b/drivers/hid/hid-elecom.c
+index 0ad7d25d9864..69771fd35006 100644
+--- a/drivers/hid/hid-elecom.c
++++ b/drivers/hid/hid-elecom.c
+@@ -101,6 +101,7 @@ static const __u8 *elecom_report_fixup(struct hid_device *hdev, __u8 *rdesc,
+ 		 */
+ 		mouse_button_fixup(hdev, rdesc, *rsize, 12, 30, 14, 20, 8);
+ 		break;
++	case USB_DEVICE_ID_ELECOM_M_DT2DRBK:
+ 	case USB_DEVICE_ID_ELECOM_M_HT1DRBK_011C:
+ 		/*
+ 		 * Report descriptor format:
+@@ -123,6 +124,7 @@ static const struct hid_device_id elecom_devices[] = {
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_XT4DRBK) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_DT1URBK) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_DT1DRBK) },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_DT2DRBK) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_HT1URBK_010C) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_HT1URBK_019B) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_HT1DRBK_010D) },
+diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+index 5a1096283855..6dc797de3117 100644
+--- a/drivers/hid/hid-ids.h
++++ b/drivers/hid/hid-ids.h
+@@ -451,6 +451,7 @@
+ #define USB_DEVICE_ID_ELECOM_M_XT4DRBK	0x00fd
+ #define USB_DEVICE_ID_ELECOM_M_DT1URBK	0x00fe
+ #define USB_DEVICE_ID_ELECOM_M_DT1DRBK	0x00ff
++#define USB_DEVICE_ID_ELECOM_M_DT2DRBK	0x018d
+ #define USB_DEVICE_ID_ELECOM_M_HT1URBK_010C	0x010c
+ #define USB_DEVICE_ID_ELECOM_M_HT1URBK_019B	0x019b
+ #define USB_DEVICE_ID_ELECOM_M_HT1DRBK_010D	0x010d
+diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
+index ff11f1ad344d..5c15af9afa98 100644
+--- a/drivers/hid/hid-quirks.c
++++ b/drivers/hid/hid-quirks.c
+@@ -411,6 +411,7 @@ static const struct hid_device_id hid_have_special_driver[] = {
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_XT4DRBK) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_DT1URBK) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_DT1DRBK) },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_DT2DRBK) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_HT1URBK_010C) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_HT1URBK_019B) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_HT1DRBK_010D) },
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.50.1
+
 
