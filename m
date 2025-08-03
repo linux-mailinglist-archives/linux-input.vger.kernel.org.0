@@ -1,68 +1,85 @@
-Return-Path: <linux-input+bounces-13769-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13770-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3FC4B19472
-	for <lists+linux-input@lfdr.de>; Sun,  3 Aug 2025 18:03:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EEF1B194B7
+	for <lists+linux-input@lfdr.de>; Sun,  3 Aug 2025 20:14:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 79D5F3B6D78
-	for <lists+linux-input@lfdr.de>; Sun,  3 Aug 2025 16:03:05 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2D1DC3B5801
+	for <lists+linux-input@lfdr.de>; Sun,  3 Aug 2025 18:14:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 96B5813E898;
-	Sun,  3 Aug 2025 16:03:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A7AA21DF72C;
+	Sun,  3 Aug 2025 18:14:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=temperror (0-bit key) header.d=antheas.dev header.i=@antheas.dev header.b="jsqVw89X"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TYm4IafS"
 X-Original-To: linux-input@vger.kernel.org
-Received: from relay10.grserver.gr (relay10.grserver.gr [37.27.248.198])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 506BAA927;
-	Sun,  3 Aug 2025 16:02:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=37.27.248.198
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5A2519D8A3
+	for <linux-input@vger.kernel.org>; Sun,  3 Aug 2025 18:13:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754236981; cv=none; b=XWL3AcuFEp+oPQEeG2KK2PpeWGYTz+qAasxLlBGwLkJpciano2Cis4YqM3avP/sEK1gUfo60WZKQkWSkNTSL07oHYgvJYjGglHg3QdkAcg6y/riZ9F8PEnNf7xREJe3xRUV30ctJ2tVPJrn1wFQSEF3eWGybVb9fWRndx9YS0S4=
+	t=1754244840; cv=none; b=GtOsQmg/fDXW4MMLt3vqbFxjTn2DCNnXSFCbyWIveWe7qejJDtLRJNSiKze3fgHlDYAj+R6SrHtkfrnhRikMn1cIXDwNpKsPijlafSG1yDI4BK4sZqZ+lUVZzhiPrOt3kONIWbGU6ba256g+uvE+kCx1WWKyr1RxE/mDODHqUK4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754236981; c=relaxed/simple;
-	bh=DhXkVvqYK67HUD0X7L7vAEhJH9rCLXOnTe93zJ+xraY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=OWTcmNxNRccL980YPzD+YFKOHEv+ViLQDZcXS1WNWXYkMSxa7S0f4YnotE7PqzXmnnKBNaikGOcsLXU2x/q/5EM5ULe14eiSB8S6qopb/VMjRTP9i17ykIOGr3zRKnOtDmVIVBuHNwBt0yA/fFy9XXJ5rEYID6aZgtFjAIbZhec=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev; spf=pass smtp.mailfrom=antheas.dev; dkim=temperror (0-bit key) header.d=antheas.dev header.i=@antheas.dev header.b=jsqVw89X; arc=none smtp.client-ip=37.27.248.198
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=antheas.dev
-Received: from relay10 (localhost.localdomain [127.0.0.1])
-	by relay10.grserver.gr (Proxmox) with ESMTP id 98A7747244;
-	Sun,  3 Aug 2025 19:02:57 +0300 (EEST)
-Received: from linux3247.grserver.gr (linux3247.grserver.gr [213.158.90.240])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by relay10.grserver.gr (Proxmox) with ESMTPS id 2FE6547250;
-	Sun,  3 Aug 2025 19:02:57 +0300 (EEST)
-Received: from antheas-z13 (unknown [IPv6:2a02:2149:8bf7:1200:9e45:7272:4009:7cbe])
-	by linux3247.grserver.gr (Postfix) with ESMTPSA id 19AA91FE3BF;
-	Sun,  3 Aug 2025 19:02:56 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
-	s=default; t=1754236976;
-	bh=h3CTsbyVq6Gc+osFum5TicXzOpwPj43B75L4QMAJ2Uk=; h=From:To:Subject;
-	b=jsqVw89Xf1IGXc24psn1ubZhuCgQO7AdCIDG4lwoDvd5HguIHuwj7AcaA4x2ICmw3
-	 5yRDRowJAK8IazaRsuEjj35INnx9lsmoj+05bkgvHQCGugZ6oXzRYKG5bXEC+ZtGPf
-	 swqoS7msm/ZhzTK92/O63qkmawm1A2JECad6BIWHbILvCIFzNgYIai84uPMuzhnOHq
-	 wzg5Qss209Satz2q+MSDSIMvjx5ggFUCUObl7WsAbMFj+2thCXerqURxV3hYJhEJcZ
-	 C0ZfcJ4qAg765eQoFwnXNaNevG2rMGPQxVdAuNpNwSRJuwSSYZiLj25aq+jb4ckH5/
-	 LLddk5tG+80Wg==
-Authentication-Results: linux3247.grserver.gr;
-	spf=pass (sender IP is 2a02:2149:8bf7:1200:9e45:7272:4009:7cbe) smtp.mailfrom=lkml@antheas.dev smtp.helo=antheas-z13
-Received-SPF: pass (linux3247.grserver.gr: connection is authenticated)
-From: Antheas Kapenekakis <lkml@antheas.dev>
-To: linux-input@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <bentiss@kernel.org>,
-	Antheas Kapenekakis <lkml@antheas.dev>
-Subject: [PATCH v1] HID: mf: add support for Legion Go dual dinput modes
-Date: Sun,  3 Aug 2025 18:02:53 +0200
-Message-ID: <20250803160253.12956-1-lkml@antheas.dev>
+	s=arc-20240116; t=1754244840; c=relaxed/simple;
+	bh=S9nqapKEb01tvGddhOh2batSc2hAenpmMBoDiGsZnbE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=kbx5aytfIqHvZrFNHxMSxKloa4TINoizwbl1dJOweC32f+M4Qhyf9yLLnogcYSVMihDUo8J7uu887DYwsi8wdj8DG7k9E1XL3WyK022ZLpTIuPdLTlPoQlFfeR939ykY5PgxSE0+jnQT+BBWAZLISImst4CuNCbtCDzhkQaLK/Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TYm4IafS; arc=none smtp.client-ip=209.85.208.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-6155527ab87so535361a12.1
+        for <linux-input@vger.kernel.org>; Sun, 03 Aug 2025 11:13:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1754244837; x=1754849637; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=RipzPtmmlLLMnb92JmHaTNr1wJqUK0wFfhtRRvlUP5M=;
+        b=TYm4IafSYLjoKhJDxHZk6R4U37ssFiWS0efLYI+aMrr7b7YBkaJn4gLDjt36qTDQkY
+         H2VkQAilpyT1fJQkRZozSdoT/C7283+BmOT8YONuva5deeY/f2Iai4LbYGUeGnlAJlRr
+         YUICtC/OKjQuK3e0cz7yZwKfUYlskWIxH3AsLZoTl5tne0zvcGFzWiP5/wD8ILwQsGed
+         HlUIzqOMZQcUjSU3ekjhmg6pSO7JkUEtFHiCdo272yAAzhzAm33k25mFoBJ4HUuJm4MM
+         AIsXuRDvp1YG/m8YZtAOIfw4p2JB9+DNrzFZKhCql74081H9Hqwb+U+mVPjBksy5j8WH
+         LpQg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1754244837; x=1754849637;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=RipzPtmmlLLMnb92JmHaTNr1wJqUK0wFfhtRRvlUP5M=;
+        b=GAltx31aaXLOm36eOksTT7s+JMay7AocKTcjFZr6OVwp7BQHC6bXdCqz3heiVxR1cQ
+         ECExzcrcb+R31jVFeVYzSptpmmd6wSBAkBv3MQsb/j+6Qu9sgx46upJXDTbMsuTayuFt
+         pMTsZpLd6HFP5xYVskJpgzQ/DAVXYLqHYmwxzTF4oW+hyoGzGst/+YWVbFHTXstUp5jD
+         gei0e1cAEUvSo74SClOffqboQq+teeTEvS72bAYEKuRTuTHEkNiKO6wiiF/2SoEVGOe4
+         4J5qYCCCJVyObkj6ZboHEWprL3ZkpEuzTXwybkhAcz0uSgvGDc23xt7AZP0TanyMudma
+         kq0w==
+X-Forwarded-Encrypted: i=1; AJvYcCWcNn1DX3aE8+wLA/a32b4wM8Lh6a42IBsi9o3lCkUpKvwhyMJR+3FtYtZHt+euCMKLA2MDj4vPMB3hPQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzevZNoKEciNYifEx/xNZrahal1iChsXG2yWSlp7S6rU09VrGHR
+	1T7NidOlQMnQvOD+SWwZBqyGElYDEZ3qEcr1YPCADbdyXuQS03IRI/mx4j4oEw==
+X-Gm-Gg: ASbGnctttUatE328wcMRHR/RSv1PkFR/FI7jUY+55c86faFGJbQ16DhVv1dTTNNzW5X
+	oS2eh0NifNIn3vMIpS0QGOupbuEFZGx654QgbitFzT0nWJ5oDu0CkDNw6p/y68EHBMOXpyzbxWd
+	crHDrXxp7JjVde7EPgH6LlXSkLP1ns7QT8FHQbcA/hW65G7Ud5Qx/w/++PretZgg71EtAmMnSM1
+	afdKbOdQPXBp+dASZBgLC7XlNX1SwJ7Rmd4xMGFPP91MV5wajaFpO5iYYKauXrF1S5ZbzGSenZQ
+	TA6/3CNLVUUHq0oa+ErHYgHrc2uIWG6HJyJQylCrzSlsZvepJbKWpEU2k00e7Q68i+ExPE0OPMQ
+	DkM+8F3pmy9vtbJPT9id+3gFIpDODwbQEMyQY3J+eeyE0qeYwI6HubamyhqpwG3XKny3tc4cmka
+	1ajD+gSZrntw==
+X-Google-Smtp-Source: AGHT+IFiVQ27wSLYwhwskzMRjLLXMa4SsgIlxUrzBp1JbKk1hrgxpMF6Bp04KpgUxWyeQSlsQKdt+A==
+X-Received: by 2002:a17:907:3f2a:b0:ae3:bd92:e6aa with SMTP id a640c23a62f3a-af9400097ebmr281386666b.6.1754244836971;
+        Sun, 03 Aug 2025 11:13:56 -0700 (PDT)
+Received: from laptok.lan (87-205-5-123.static.ip.netia.com.pl. [87.205.5.123])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-af91a750253sm614570366b.86.2025.08.03.11.13.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 03 Aug 2025 11:13:56 -0700 (PDT)
+From: =?UTF-8?q?Tomasz=20Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>
+To: jikos@kernel.org,
+	bentiss@kernel.org
+Cc: oleg@makarenk.ooo,
+	linux-input@vger.kernel.org
+Subject: [PATCH 00/17] Further hid-pidff improvements and fixes
+Date: Sun,  3 Aug 2025 20:13:37 +0200
+Message-ID: <20250803181354.60034-1-tomasz.pakula.oficjalny@gmail.com>
 X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
@@ -70,60 +87,45 @@ List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-PPP-Message-ID: 
- <175423697677.1977220.16120075393321365676@linux3247.grserver.gr>
-X-PPP-Vhost: antheas.dev
-X-Virus-Scanned: clamav-milter 1.0.9 at linux3247.grserver.gr
-X-Virus-Status: Clean
 
-The Legion Go features detachable controllers which support a dual
-dinput mode. In this mode, the controllers appear under a single HID
-device with two applications.
+Another batch of improvements/fixes/updates to the hid-pidff driver. A lot of
+code quality improvements with probably more to come as we better understand the
+driver and strive to simplify it's inner workings. I think we're currently past
+75% of touchups + Oleg is working on some compatibility changes for Simagic
+support in a "pass-through" mode.
 
-Currently, both controllers appear under the same event device, causing
-their controls to be mixed up. This patch separates the two so that
-they can be used independently.
+Direction fix only for conditional effects fixes FFB in Forza games on Moza.
 
-In addition, the latest firmware update for the Legion Go swaps the IDs
-to the ones used by the Legion Go 2, so add those IDs as well.
+I removed Anssi's email from the "welcome message" that appears on succesful
+PID init to make sure people will look for LKML to send in bug reports.
 
-Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
----
- drivers/hid/hid-ids.h    | 2 ++
- drivers/hid/hid-quirks.c | 2 ++
- 2 files changed, 4 insertions(+)
+Tomasz Pakuła (17):
+  HID: pidff: Use direction fix only for conditional effects
+  HID: pidff: Remove unhelpful pidff_set_actuators helper
+  HID: pidff: Remove unneeded debug
+  HID: pidff: Use ARRAY_SIZE macro instead of sizeof
+  HID: pidff: Treat PID_REQUIRED_REPORTS as count, not max
+  HID: pidff: Better quirk assigment when searching for fields
+  HID: pidff: Simplify HID field/usage searching logic
+  HID: pidff: Add support for AXES_ENABLE field
+  HID: pidff: Update debug messages
+  HID: pidff: Rework pidff_upload_effect
+  HID: pidff: Separate check for infinite duration
+  HID: pidff: PERMISSIVE_CONTROL quirk autodetection
+  HID: pidff: Remove Anssi's email address from info msg
+  HID: pidff: Define all cardinal directions
+  HID: pidff: clang-format pass
+  HID: universal-pidff: clang-format pass
+  HID: pidff: Reduce PID_EFFECT_OPERATION spam
 
-diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index 5a1096283855..f849b1c2efb9 100644
---- a/drivers/hid/hid-ids.h
-+++ b/drivers/hid/hid-ids.h
-@@ -834,6 +834,8 @@
- #define USB_DEVICE_ID_LENOVO_PIXART_USB_MOUSE_6019	0x6019
- #define USB_DEVICE_ID_LENOVO_PIXART_USB_MOUSE_602E	0x602e
- #define USB_DEVICE_ID_LENOVO_PIXART_USB_MOUSE_6093	0x6093
-+#define USB_DEVICE_ID_LENOVO_LEGION_GO_DUAL_DINPUT	0x6184
-+#define USB_DEVICE_ID_LENOVO_LEGION_GO2_DUAL_DINPUT	0x61ed
- 
- #define USB_VENDOR_ID_LETSKETCH		0x6161
- #define USB_DEVICE_ID_WP9620N		0x4d15
-diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
-index ff11f1ad344d..88c89fe91689 100644
---- a/drivers/hid/hid-quirks.c
-+++ b/drivers/hid/hid-quirks.c
-@@ -124,6 +124,8 @@ static const struct hid_device_id hid_quirks[] = {
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_KYE, USB_DEVICE_ID_KYE_MOUSEPEN_I608X_V2), HID_QUIRK_MULTI_INPUT },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_KYE, USB_DEVICE_ID_KYE_PENSKETCH_T609A), HID_QUIRK_MULTI_INPUT },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_LABTEC, USB_DEVICE_ID_LABTEC_ODDOR_HANDBRAKE), HID_QUIRK_ALWAYS_POLL },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_LENOVO, USB_DEVICE_ID_LENOVO_LEGION_GO_DUAL_DINPUT), HID_QUIRK_MULTI_INPUT },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_LENOVO, USB_DEVICE_ID_LENOVO_LEGION_GO2_DUAL_DINPUT), HID_QUIRK_MULTI_INPUT },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_LENOVO, USB_DEVICE_ID_LENOVO_OPTICAL_USB_MOUSE_600E), HID_QUIRK_ALWAYS_POLL },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_LENOVO, USB_DEVICE_ID_LENOVO_PIXART_USB_MOUSE_608D), HID_QUIRK_ALWAYS_POLL },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_LENOVO, USB_DEVICE_ID_LENOVO_PIXART_USB_MOUSE_6019), HID_QUIRK_ALWAYS_POLL },
+ drivers/hid/hid-universal-pidff.c |  57 +--
+ drivers/hid/usbhid/hid-pidff.c    | 711 +++++++++++++++++-------------
+ drivers/hid/usbhid/hid-pidff.h    |   2 +-
+ 3 files changed, 439 insertions(+), 331 deletions(-)
 
-base-commit: 186f3edfdd41f2ae87fc40a9ccba52a3bf930994
 -- 
 2.50.1
-
 
 
