@@ -1,87 +1,87 @@
-Return-Path: <linux-input+bounces-13778-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13779-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 718CDB194BF
-	for <lists+linux-input@lfdr.de>; Sun,  3 Aug 2025 20:14:13 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F48FB194C0
+	for <lists+linux-input@lfdr.de>; Sun,  3 Aug 2025 20:14:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2D4353B62FE
-	for <lists+linux-input@lfdr.de>; Sun,  3 Aug 2025 18:14:12 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 490F11893D09
+	for <lists+linux-input@lfdr.de>; Sun,  3 Aug 2025 18:14:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 85C801E25ED;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F41361E9B2F;
 	Sun,  3 Aug 2025 18:14:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Qk1QViRc"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jPIwqzgO"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 965641DF742
-	for <linux-input@vger.kernel.org>; Sun,  3 Aug 2025 18:14:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 302141DF755
+	for <linux-input@vger.kernel.org>; Sun,  3 Aug 2025 18:14:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754244847; cv=none; b=oRv9YHdNjyazD5W2YHwj1TwzRae9BwvqN58Ws76vIdykUOgCSk6PzQVfG+Tw1QZfNPpvMmVEVD6N7wals1gKLjfxxkSQ9LHEhxreBoKWZMs4o+FxqSqZbVLNIK8Z9LqCOvNeXf3hF2njpixNsROnyq8G4DSZfem2E5Tx0R9NMOo=
+	t=1754244847; cv=none; b=Kfr0sitaoS7UiKsLU9q31AmXxVvw4NGyd+dj1k+OZd2Si6T24gsRsiy1s6osB0yrwWL0Xy44r9z33L+TQpBVvwcBIy+E6G/ovtGtTneEXBj7hfCchu97bEKAubofbMZDw1/52brW5fq9rxMp9I3bM6NJsKAxX0ACJP8Gsd+fGEc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1754244847; c=relaxed/simple;
-	bh=IaE1dmo1YNSArpI23hT/zFdb3vAwYLY5fZGfbkLLkl8=;
+	bh=e915KpSPTIYMb9Gu1Cxy+HipKv6aoKhh+CaRu8damvo=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=MIvbeKmDBg9IpccNqbGWk1isOrXamnIqg6f7mypO3gWIIY4BBEDKGT/yKTmhjkkGzI4BLpsZivhCcBP8ULS1Tg7Gr27pZP35GA2GOiHNVajMGtMFvOxEQL/7mr8zUcqcSO0XsyxxEJNkJsti3P6PvQZsJoxCKCch+3Kn0fKPbh8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Qk1QViRc; arc=none smtp.client-ip=209.85.218.52
+	 MIME-Version:Content-Type; b=dPWAeY3s6KSvg8ct+bB121oPB+W5W/ojszu4o2LfuCYUbjPVvF5+XSGCypm/Vw2dk7dYbYV7NxI9a+xIN46MCyZGWn2PQvU5QV/c7EVCMpwqR0obiDpcHk72DYRAgHQQza3Om6V+oKy+7UnyMxfY+AwpRHFvJ3vJtjl0V/ViFWE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jPIwqzgO; arc=none smtp.client-ip=209.85.208.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-af935b052d9so44331666b.0
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-6155527ab87so535373a12.1
         for <linux-input@vger.kernel.org>; Sun, 03 Aug 2025 11:14:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20230601; t=1754244844; x=1754849644; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=eUEzdyLXxouEVX/82qJW1stzkgcrAZxhsgDh1/Iofe4=;
-        b=Qk1QViRc9DoDR5lxYKo5ND3ng4Q5Mral1mcY5RLTuHg6CMq926OLHs9Rh8SitaGBZw
-         LKGi42E0aK1hM1SYxHss2ofxYj0tCOrM4fPF210zMF2aKd5IsAIa5n0DHMr0k2VtPsHO
-         mCPa+JjtNyU1UH8NiiV8Vyn9Yv2PoKX6gOtRyAE4ES4kAzgXlqDGjIpJHDzOHc4E8Ek/
-         m5jJx/1djinGMzt0WyDBsQNPWXKvjjz1lW9r+CzTZUImY8AWm2QS2LZ9z3Bu2aMlVJOg
-         sEWo3ZZGUPyz79yEj3T2DQU8IVI+tsR7PSnPqg9gh1ltwdJWJKEMZv7ZJov3U5R+F4yu
-         A8+g==
+        bh=6uRMpeTcyUbKrM9TQkB8Fprd38OZjJE3OZz28UqTflU=;
+        b=jPIwqzgOpw16cS2Rrzsw5bnAtKmraoSQM6+pDDbkCjPzmFH18aAX2Dlk+2oB8usgzu
+         VtJOVqVInecDXP4tXY85gtWoaMghs4MopHqjdX2QZ4vqqICSy+ZyoR72r3v2mw6HPXVm
+         DQy9v8h99wU6uYoMhEcTR9G9zduypPjwn5csKJK2FRmke49tgbyzstNrUsbQbL9wMMjB
+         Ux8GPn3hRINc1kvNCWnFgREgsA3eyOMN2kzPBrNbyAdzCy+WnU6i9wWYicmEnredTsJ3
+         TwK/yR8PT8BGb1BTWo0wf30Hr3NUjs3+QwNepe34P9rZ57rtKhiEmLEiJDRhmT/4e1eV
+         1VUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1754244844; x=1754849644;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=eUEzdyLXxouEVX/82qJW1stzkgcrAZxhsgDh1/Iofe4=;
-        b=rxVDLBkVzJEErxaIrvVhXWq1nS36VJtGbOuGhYcQpAi/ux8rOdQpkHCA8wGr1mehiC
-         DNgE9T/JAGCX0G7rrBVx0niTxk6WdmzbQpREU+5IatQgJbQ+ieBXqx3afWdMHuGXtEoM
-         RH+aERw7SW8tGsoksiq6thIgTekkOuwpxnj5YprS/NANLiSxRObAV/V2KSLeFWLd84/E
-         Bzpzt5l0ljFmi76702kJRCxfO3IEV3X+4UljQHvClbN0d+UqKwFE4zWjp5S+yiXZ+OK2
-         OG3MEXTXMGrove+sBZr/cLJ/OCiVLb2FXQ15tOkY7YA5wx6d1upKSV1T9XxmFFOgqw3j
-         AcSA==
-X-Forwarded-Encrypted: i=1; AJvYcCUo3ZqIBMQmcdWCe1z8pWLZKhFYtm+rgO0tJgoqinztj8tsFQcL3PYg3gnP8hVDZ6nlNnA+tX+PMN+wQQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy/5qCCP+kyRTQDKmeRK0kVikWOlXDHTFDFV/xa6dIkG2IKuavZ
-	ObOZ9T7JhImIa2oGP9TS9Z4v/M+IcC906RCe2F4LMnG9nfDnkPjuJW/CuxDTRg==
-X-Gm-Gg: ASbGnctoD/B+tXsw0CxkuMwpPtAYRjOBt/15A+K58OxOj0MvVefxmTEzj0ou4FMGmJn
-	PRPDVOINID3VWO7SjiNRKiUva0zuTkHTSvDIukRipb0AgO4mZhBGKfUEzA7p2N6kCXPg/YVWhpo
-	0H0aReXwD3Nu7qnxyhjtoZdIroNT2soUgyf1ibR5vVRQ0B+SsTeEeD3FvV3wbswhdQ3MYYJE3Zi
-	WecnzjzXwqsKOLoVHP/gp82heWnKwJ0Glll6ttAJNYOf7TAlfzXPGEl3Bbq4myAUjNaM5VnD/Lm
-	gchlWCpjeUCh+y7A/gkp6RNzSexMl2vgeazYYmG619qKjCUZDFB9l93aUZmc9dcGrnX8YOtzdPS
-	GKz/LTfmwEg3GXffmf56ylnaE62XFjnP3IbNq8YX3JukRH+viSzDJ+fdQEqEeaP0UogTgkCX4hC
-	k=
-X-Google-Smtp-Source: AGHT+IGQFYksWCe/lDb8kocfRKVuzO/I+akaKMQbdpiuNmsJCQBmcFC8J66+WU5zJJiw7yIHIv/QSQ==
-X-Received: by 2002:a17:907:c27:b0:ae0:cd6e:5d0 with SMTP id a640c23a62f3a-af940243f69mr311535666b.11.1754244843762;
-        Sun, 03 Aug 2025 11:14:03 -0700 (PDT)
+        bh=6uRMpeTcyUbKrM9TQkB8Fprd38OZjJE3OZz28UqTflU=;
+        b=n0+rbiy9ejZ0b+yw/PvzC3lggkVwhcMdnhprUnnyv3Y8610+GMylsfsdwbPqoTAh82
+         WQybAQL2KWfk+S09Z4ekMTMDJUXyIT6n/d5Q/K3rVDorY37NLWy43ylUm+SHSOAJkG4L
+         oZRrNbp/iwBcsti4mXu0bbgddtxSjZCrGjb7QrIlwTqVbIhgQU1kI5J/FIiFN9j3ZtcM
+         Xbmyn+/XfqQsK/0OJ4L+FkQJM1Jev4u/dN1CddVLx6Rq1bADg44XyVu/Zm3xv2MuPm9H
+         wYyT8trYefpJafqWUN3Wh37RCcEYwaQQnlBK7mkBqbfqcXivvahFeEaE2+xBvnWaDh/y
+         n2dw==
+X-Forwarded-Encrypted: i=1; AJvYcCWssGBN1NRoFm9nFHWOzmyaGaD8jDTfDXWgl2vDcOTIbEKG8bBRmKx+2TBJo+40F8ZpU38sl4JT79pKUg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz7I/GMjsux1UQNQH43TjstF0mCRWSH3OxJwVtlTZow3XTv7YCX
+	+HTu2CWeA8VvXyvdpxT/AJlxrxbTPJchE778lSTmt8CH6AWBOX62tqxR
+X-Gm-Gg: ASbGncsJLngrK88bc2dMFaOueUBt4GuL9GutJ5mnwnMcjFmc1kb5kfcU85FCAoELWZW
+	1ro0rt+EhdoXnmXfwIfItzA3RalwYDY0hpYr9IEG5XXTnc/7+cM1LyrwXb82Hm6wIjuOh3oOe7S
+	vafk2i+vsgaZoTVzS+RIheyNOp24hsmIeP1FJxS9c11Bu8owyPpLUqCcRYA8iZi59+8WqzxOWFU
+	Mgn1k8jvddo/6UYtZJ7QX9eVLd5UQcvQwQESEtnbCnsx+FgkiC7FbVyXCD1i6TObvvl1tGE0VBT
+	W5bMXUWpZlf4g4jk3112F/AJCQDb9uW+K0gXUPCEfPY2ggLVcrt2CQK+JEaRp892Ov65WzWtrgS
+	SGznS98ZOR5B9F9AVKCuHaHgahzSVkH5R5kjAdBwVHH+a95bxwTBOEVI6G0igPY06NKQiAzLE5N
+	sRG2fA+CvxoQ==
+X-Google-Smtp-Source: AGHT+IEAfi3BOMbep7204KJbj3Xg2i4FparFPJexHVV0SXdhbhlgZb77yRG7iLR2razdbv7/qcA8pQ==
+X-Received: by 2002:a17:907:60d0:b0:ae4:1eb:c461 with SMTP id a640c23a62f3a-af940196008mr331817566b.14.1754244844442;
+        Sun, 03 Aug 2025 11:14:04 -0700 (PDT)
 Received: from laptok.lan (87-205-5-123.static.ip.netia.com.pl. [87.205.5.123])
         by smtp.gmail.com with ESMTPSA id a640c23a62f3a-af91a750253sm614570366b.86.2025.08.03.11.14.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 03 Aug 2025 11:14:03 -0700 (PDT)
+        Sun, 03 Aug 2025 11:14:04 -0700 (PDT)
 From: =?UTF-8?q?Tomasz=20Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>
 To: jikos@kernel.org,
 	bentiss@kernel.org
 Cc: oleg@makarenk.ooo,
 	linux-input@vger.kernel.org
-Subject: [PATCH 08/17] HID: pidff: Add support for AXES_ENABLE field
-Date: Sun,  3 Aug 2025 20:13:45 +0200
-Message-ID: <20250803181354.60034-9-tomasz.pakula.oficjalny@gmail.com>
+Subject: [PATCH 09/17] HID: pidff: Update debug messages
+Date: Sun,  3 Aug 2025 20:13:46 +0200
+Message-ID: <20250803181354.60034-10-tomasz.pakula.oficjalny@gmail.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250803181354.60034-1-tomasz.pakula.oficjalny@gmail.com>
 References: <20250803181354.60034-1-tomasz.pakula.oficjalny@gmail.com>
@@ -94,207 +94,65 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-AXES_ENABLE can be used in place of DIRECTION_ENABLE to indicate, which
-FFB-enabled axes will be affected by a given effect. EFFECT_DIRECTION
-enables all and uses the first direction only while AXES_ENABLE is a
-bitmask and bit indexes are the same as the defined GD usages in the
-EFFECT_DIRECTION array. Each axis can have it's own direction in this
-case.
-
-Search for AXES_ENABLE, set AXES_ENABLE for all axes if DIRECTION_ENABLE
-is not used.
-
-Search for specific axes in the direction array. Save their indexes. This
-let us know what axes are actually available on the device and which bit
-in the AXES_ENABLE field corresponds to which axis.
-
 Signed-off-by: Tomasz Pakuła <tomasz.pakula.oficjalny@gmail.com>
 ---
- drivers/hid/usbhid/hid-pidff.c | 91 ++++++++++++++++++++++++++++++++--
- 1 file changed, 87 insertions(+), 4 deletions(-)
+ drivers/hid/usbhid/hid-pidff.c | 15 +++++++++++----
+ 1 file changed, 11 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/hid/usbhid/hid-pidff.c b/drivers/hid/usbhid/hid-pidff.c
-index 2e8eac944be0..0f49d2836e9e 100644
+index 0f49d2836e9e..689419b20bf0 100644
 --- a/drivers/hid/usbhid/hid-pidff.c
 +++ b/drivers/hid/usbhid/hid-pidff.c
-@@ -51,6 +51,7 @@ static const u8 pidff_reports[] = {
- 
- /* PID special fields */
- #define PID_EFFECT_TYPE			0x25
-+#define PID_AXES_ENABLE			0x55
- #define PID_DIRECTION			0x57
- #define PID_EFFECT_OPERATION_ARRAY	0x78
- #define PID_BLOCK_LOAD_STATUS		0x8b
-@@ -150,6 +151,31 @@ static const u8 pidff_effect_operation_status[] = { 0x79, 0x7b };
- /* Polar direction 90 degrees (East) */
- #define PIDFF_FIXED_WHEEL_DIRECTION	0x4000
- 
-+/* AXES_ENABLE and DIRECTION axes */
-+enum pid_axes {
-+	PID_AXIS_X,
-+	PID_AXIS_Y,
-+	PID_AXIS_Z,
-+	PID_AXIS_RX,
-+	PID_AXIS_RY,
-+	PID_AXIS_RZ,
-+	PID_AXIS_SLIDER,
-+	PID_AXIS_DIAL,
-+	PID_AXIS_WHEEL,
-+	PID_AXES_COUNT,
-+};
-+static const u8 pidff_direction_axis[] = {
-+	HID_USAGE & HID_GD_X,
-+	HID_USAGE & HID_GD_Y,
-+	HID_USAGE & HID_GD_Z,
-+	HID_USAGE & HID_GD_RX,
-+	HID_USAGE & HID_GD_RY,
-+	HID_USAGE & HID_GD_RZ,
-+	HID_USAGE & HID_GD_SLIDER,
-+	HID_USAGE & HID_GD_DIAL,
-+	HID_USAGE & HID_GD_WHEEL,
-+};
-+
- struct pidff_usage {
- 	struct hid_field *field;
- 	s32 *value;
-@@ -184,6 +210,7 @@ struct pidff_device {
- 	/* Special fields in set_effect */
- 	struct hid_field *set_effect_type;
- 	struct hid_field *effect_direction;
-+	struct hid_field *axes_enable;
- 
- 	/* Special field in device_control */
- 	struct hid_field *device_control;
-@@ -198,11 +225,13 @@ struct pidff_device {
- 	int type_id[ARRAY_SIZE(pidff_effect_types)];
- 	int status_id[ARRAY_SIZE(pidff_block_load_status)];
- 	int operation_id[ARRAY_SIZE(pidff_effect_operation_status)];
-+	int direction_axis_id[ARRAY_SIZE(pidff_direction_axis)];
- 
- 	int pid_id[PID_EFFECTS_MAX];
- 
- 	u32 quirks;
- 	u8 effect_count;
-+	u8 axis_count;
- };
- 
- static int pidff_is_effect_conditional(struct ff_effect *effect)
-@@ -306,14 +335,37 @@ static void pidff_set_effect_direction(struct pidff_device *pidff,
- 				       struct ff_effect *effect)
+@@ -623,8 +623,7 @@ static void pidff_set_gain_report(struct pidff_device *pidff, u16 gain)
+  */
+ static void pidff_set_device_control(struct pidff_device *pidff, int field)
  {
- 	u16 direction = effect->direction;
-+	int direction_enable = 1;
+-	int i, index;
+-	int field_index = pidff->control_id[field];
++	const int field_index = pidff->control_id[field];
  
- 	/* Use fixed direction if needed */
- 	if (pidff->quirks & HID_PIDFF_QUIRK_FIX_CONDITIONAL_DIRECTION &&
- 	    pidff_is_effect_conditional(effect))
- 		direction = PIDFF_FIXED_WHEEL_DIRECTION;
+ 	if (field_index < 1)
+ 		return;
+@@ -634,8 +633,9 @@ static void pidff_set_device_control(struct pidff_device *pidff, int field)
+ 		hid_dbg(pidff->hid, "DEVICE_CONTROL is a bitmask\n");
  
-+	pidff->set_effect[PID_DIRECTION_ENABLE].value[0] = direction_enable;
- 	pidff->effect_direction->value[0] =
- 		pidff_rescale(direction, U16_MAX, pidff->effect_direction);
+ 		/* Clear current bitmask */
+-		for (i = 0; i < ARRAY_SIZE(pidff_device_control); i++) {
+-			index = pidff->control_id[i];
++		for (int i = 0; i < ARRAY_SIZE(pidff_device_control); i++) {
++			int index = pidff->control_id[i];
 +
-+	if (direction_enable)
-+		return;
-+
-+	/*
-+	 * For use with improved FFB API
-+	 * We want to read the selected axes and their direction from the effect
-+	 * struct and only enable those. For now, enable all axes.
-+	 *
-+	 */
-+	for (int i = 0; i < PID_AXES_COUNT; i++) {
-+		/* HID index starts with 1 */
-+		int index = pidff->direction_axis_id[i] - 1;
-+
-+		if (index < 0)
-+			continue;
-+
-+		pidff->axes_enable->value[index] = 1;
-+		pidff->effect_direction->value[index] = pidff_rescale(
-+			direction, U16_MAX, pidff->effect_direction);
-+	}
+ 			if (index < 1)
+ 				continue;
+ 
+@@ -650,6 +650,8 @@ static void pidff_set_device_control(struct pidff_device *pidff, int field)
+ 
+ 	hid_hw_request(pidff->hid, pidff->reports[PID_DEVICE_CONTROL], HID_REQ_SET_REPORT);
+ 	hid_hw_wait(pidff->hid);
++	hid_dbg(pidff->hid, "Device control command 0x%02x sent",
++		pidff_device_control[field]);
  }
  
  /*
-@@ -411,7 +463,6 @@ static void pidff_set_effect_report(struct pidff_device *pidff,
- 			effect->trigger.interval);
- 	pidff->set_effect[PID_GAIN].value[0] =
- 		pidff->set_effect[PID_GAIN].field->logical_maximum;
--	pidff->set_effect[PID_DIRECTION_ENABLE].value[0] = 1;
- 
- 	pidff_set_effect_direction(pidff, effect);
- 
-@@ -1122,12 +1173,13 @@ static struct hid_field *pidff_find_special_field(struct hid_report *report,
-  * Fill a pidff->*_id struct table
-  */
- static int pidff_find_special_keys(int *keys, struct hid_field *fld,
--				   const u8 *usagetable, int count)
-+				   const u8 *usagetable, int count,
-+				   unsigned int usage_page)
+@@ -751,6 +753,9 @@ static void pidff_playback_pid(struct pidff_device *pidff, int pid_id, int n)
  {
- 	int found = 0;
+ 	pidff->effect_operation[PID_EFFECT_BLOCK_INDEX].value[0] = pid_id;
  
- 	for (int i = 0; i < count; i++) {
--		keys[i] = pidff_find_usage(fld, HID_UP_PID | usagetable[i]) + 1;
-+		keys[i] = pidff_find_usage(fld, usage_page | usagetable[i]) + 1;
- 		if (keys[i])
- 			found++;
- 	}
-@@ -1136,7 +1188,11 @@ static int pidff_find_special_keys(int *keys, struct hid_field *fld,
++	hid_dbg(pidff->hid, "%s PID effect %d", n == 0 ? "stopping" : "playing",
++		pid_id);
++
+ 	if (n == 0) {
+ 		pidff->effect_operation_status->value[0] =
+ 			pidff->operation_id[PID_EFFECT_STOP];
+@@ -772,6 +777,8 @@ static int pidff_playback(struct input_dev *dev, int effect_id, int value)
+ {
+ 	struct pidff_device *pidff = dev->ff->private;
  
- #define PIDFF_FIND_SPECIAL_KEYS(keys, field, name) \
- 	pidff_find_special_keys(pidff->keys, pidff->field, pidff_ ## name, \
--		ARRAY_SIZE(pidff_ ## name))
-+		ARRAY_SIZE(pidff_ ## name), HID_UP_PID)
-+
-+#define PIDFF_FIND_GENERAL_DESKTOP(keys, field, name) \
-+	pidff_find_special_keys(pidff->keys, pidff->field, pidff_ ## name, \
-+		ARRAY_SIZE(pidff_ ## name), HID_UP_GENDESK)
- 
- /*
-  * Find and check the special fields
-@@ -1151,6 +1207,9 @@ static int pidff_find_special_fields(struct pidff_device *pidff)
- 	pidff->set_effect_type =
- 		pidff_find_special_field(pidff->reports[PID_SET_EFFECT],
- 					 PID_EFFECT_TYPE, 1);
-+	pidff->axes_enable =
-+		pidff_find_special_field(pidff->reports[PID_SET_EFFECT],
-+					 PID_AXES_ENABLE, 0);
- 	pidff->effect_direction =
- 		pidff_find_special_field(pidff->reports[PID_SET_EFFECT],
- 					 PID_DIRECTION, 0);
-@@ -1216,6 +1275,30 @@ static int pidff_find_special_fields(struct pidff_device *pidff)
- 		return -1;
- 	}
- 
-+	if (!pidff->axes_enable)
-+		hid_info(pidff->hid, "axes enable field not found!\n");
-+	else
-+		hid_dbg(pidff->hid, "axes enable report count: %u\n",
-+			pidff->axes_enable->report_count);
-+
-+	uint found = PIDFF_FIND_GENERAL_DESKTOP(direction_axis_id, axes_enable,
-+						direction_axis);
-+
-+	pidff->axis_count = found;
-+	hid_dbg(pidff->hid, "found direction axes: %u", found);
-+
-+	for (int i = 0; i < sizeof(pidff_direction_axis); i++) {
-+		if (!pidff->direction_axis_id[i])
-+			continue;
-+
-+		hid_dbg(pidff->hid, "axis %d, usage: 0x%04x, index: %d", i + 1,
-+			pidff_direction_axis[i], pidff->direction_axis_id[i]);
-+	}
-+
-+	if (pidff->axes_enable && found != pidff->axes_enable->report_count)
-+		hid_warn(pidff->hid, "axes_enable: %u != direction axes: %u",
-+			 pidff->axes_enable->report_count, found);
-+
++	hid_dbg(pidff->hid, "requesting %s on FF effect %d",
++		value == 0 ? "stop" : "playback", effect_id);
+ 	pidff_playback_pid(pidff, pidff->pid_id[effect_id], value);
  	return 0;
  }
- 
 -- 
 2.50.1
 
