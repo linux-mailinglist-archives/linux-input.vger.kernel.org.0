@@ -1,87 +1,87 @@
-Return-Path: <linux-input+bounces-13780-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13782-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6802B194C1
-	for <lists+linux-input@lfdr.de>; Sun,  3 Aug 2025 20:14:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F392B194C3
+	for <lists+linux-input@lfdr.de>; Sun,  3 Aug 2025 20:14:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5D7AD3B6647
-	for <lists+linux-input@lfdr.de>; Sun,  3 Aug 2025 18:14:14 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D5D8F3B6A2F
+	for <lists+linux-input@lfdr.de>; Sun,  3 Aug 2025 18:14:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9DFF01DE896;
-	Sun,  3 Aug 2025 18:14:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 448781E1DFC;
+	Sun,  3 Aug 2025 18:14:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="goBuf8AE"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WEI+Ilvo"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97CB01E1DFC
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E35221DF742
 	for <linux-input@vger.kernel.org>; Sun,  3 Aug 2025 18:14:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754244849; cv=none; b=fq9ozymWOHiWhN+D5dY1N8+YKvF3y+oLQCjrH3BIVpKO2Gg57Mx3xipsZCLbC34mOqD8FBVGLjlvIymRYSacuxRJDKbeS9YFC/44NQ/eGELPIB0o6+T1OI+NzBFEZrPlpn1+aeqgbeWgwLLWIRkGUF4ihoG5aF7ZWlWQzZ7JVls=
+	t=1754244850; cv=none; b=KwbJp6D5sH04InudgakZJTa82I7t9U24NnwQEwfuVmgSQ9nfigOAwD8fXT7kVjsOAAF2+y8BkFXE3jEyHxk/dKGsOIWKwYGzKbsy35HRPeEDuU3j7LydlS8/+xiPBFqrCcIP5s2i9e8+GHvMGsNABHn1d6uMI+AkotwsFpDDgjA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754244849; c=relaxed/simple;
-	bh=iEefw58dTjOLDc9LmVjly6bYNwWVitEkzAsmOoqEf8o=;
+	s=arc-20240116; t=1754244850; c=relaxed/simple;
+	bh=I19PfO2UxPXkUmsFSm8/QBrCCRr8ThJ952QKIIi/t7I=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=BtJDwhjXHzoM7WMGMDn9pANA8MjIF5RCQGk4TO788pjGwh0q/PsxSDWl7FXSp4quketcPIrVNwMx77sSM3DUzbOaCcI2aHTnAa5RCU+B+ItpGVJ8vmvDJfFi3F+ilQTeW3GnKTS95OA2FcE0DNkVCd03Uo3GsbWK6QnxepFSo5U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=goBuf8AE; arc=none smtp.client-ip=209.85.208.46
+	 MIME-Version:Content-Type; b=QgUi5wkjswBEVty1NAzKep2ey/JkSV0MB/3952K6sBhkYeTvWyKlkr3V33tYd2KZ7FMG6ZjDH+/KmNMM799lZM+VYKRTR1CfeuWLJZiy1D0b00H+7Ro65GkosBH28UICu7GuEu3FCPNjlNfrYNi/7CI2VHKC+mcaeKFZb4H8als=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WEI+Ilvo; arc=none smtp.client-ip=209.85.218.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-6158745f51dso589455a12.0
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-af94440f4ecso26191666b.1
         for <linux-input@vger.kernel.org>; Sun, 03 Aug 2025 11:14:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20230601; t=1754244846; x=1754849646; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Y1nUT+E5jGxyff1Y6y8RNJPxDE6Ojaw5b70nEDGUEi8=;
-        b=goBuf8AED7cDSu3gc6lid6PAjpw9CcniyiXPg2eWqCdDIDayv0ZgGfgjHGJ9omXPE4
-         B/HqehbOliNA4eJSSTcSwM9jt+R2BO8pjgGGUHGBPf6/F2ErRxIbEQ8v4VfXFs0SIaL+
-         CVMBS67PZwAXbsvwgJ/hFm9BhOcGOpjwdHEtdvhbbHH3GM/or9ThV1HrRZNHoZCN1Mwq
-         dpVp5H0dmitOIg4v7ycg9oKpbrA1se1FMPenIY8PIHvWtZyvF3Jq7yg0XlGuOaXPMl5W
-         qarirZQ9o+fupJQzyrr/+Qq8F8tkJa+Y1Xegu/AYCk8+oGpzuox/8NzOSoz4yc+u/K+Z
-         CE+A==
+        bh=Fw6YTYzP6TeXxjfrPLfYs/o7am5hq49RWRkk3XI3RPA=;
+        b=WEI+IlvonnwoWGFWr7tqeePLSWsB3FIYvDn2nzMVeIqnuPtSnWLS93moqOpNxBCC7O
+         /Ge/rMeXydY9JTr5jDOp2APWmz/s25ilG+j0Uxwp5dARm6WQJMCXM0geDLnfbTmpiKgf
+         o41d+wNMV6sRw8HKBxY3CdV9AwIiRNA077W2jRILe3kkkdGBPYTiQ5Yjfqw5VHMmc2Ll
+         UWOI4jhXy6XzeNU2CzO+cwI0+DVEmswOHybD1mhGBFLU6DCil0/Om2c7Pnc/irfvouFO
+         9Db07vOUztPMwlnb/CXnvHuOMXsDvEKJNbuV28/O1F6C7qrSFwY9J9puD2wS0P+LPEBv
+         Tysg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1754244846; x=1754849646;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Y1nUT+E5jGxyff1Y6y8RNJPxDE6Ojaw5b70nEDGUEi8=;
-        b=Xlf4lDyR/F5/dNOSqEafCPsGe6aBswIULGCDiAtMqWhochJgkAhgwhPpMbtK7pw+lv
-         infXE8x8ImZCwAoR8X3YJe5/+cX9KB7vB0kuZ1o8NgcZId1utl5zjl2atERroqGtr3MK
-         sw4KWu7zfmOWGUD/GeLbfFZywXip7zOhKoBVeu8yE83bIEAiZHRZUysPz4/JgAIcGn1a
-         QnRUdmUYAIn4BbyMZ0nlrwYBszXEmz52tfij6RhNbEXWGKFc24cDPX+yHgUEFidHt8Q2
-         6S9j0UEFGEDFx9hR11qTzxwhxkx8zkLFnjCkCNAEye9to1hwqAMtocF9bsf8vsBtzGDb
-         2rFg==
-X-Forwarded-Encrypted: i=1; AJvYcCV783z8EI1puuTdyiJVZ9TzXB3VjSDvKEv0iQqJxnLsJWDYybJ4xoPvcG+DNkKectMIqO2yPpnXVGhxKQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw3JxrUPW0EYKp0ry69k4MRpA+05SHWQZ+u146Sj3/mVgGbzab9
-	TaQ9Il+At8ahEZdC2YZMWfMk6WlissWZt+v6IfGMbXaFAWQNGTx3J2m9
-X-Gm-Gg: ASbGncvvwfXKK7nYCes90/dhOsL1l9/LeZM4NoPAGueq851HUyiLIiez+yMOjjyg8CF
-	BCkhd1oRerc7jTpo04ZOOGxbcmE7Hsj+nsKmA6gfRe+SFcS7g/+DNKoahasMJ8JnKPWVTHkZZQO
-	itf/ML5ALEF0reC3V46xqjbOV218bMm0CeGyq3uNbiQ7d7GlKm1CM6JMSPnkgoEgOM2ucQc5ZbE
-	+fWCBbAS/KO8ZrBhpWAmzVN9Ucx2CU0EzCfK1S2S9ByBOnf9yr4Zsp/3vsdtud+J4mgqFISwrI2
-	e94PPHaVdKdhFbLnKy9ufXkGzL5LH1PHNyzOacYEXArPa/kg+dYZCmhEv0ORRJjS6mKRARcWr+U
-	QEQYUe80DBtEaYjLQ3r5Tg9t5FeThvtRtdpV9F1kG9u8Y3xWM3M4OzzVLjgvUQJh3pZy7O6tGon
-	gKFo1B6oFjOQ==
-X-Google-Smtp-Source: AGHT+IH2zCM+s8keBbQevHNczbSOaT+1AeuzPLo2cvOV8ESFayTiNDci5NOD1PKL6JMvGaspHeofiw==
-X-Received: by 2002:a17:907:2da5:b0:ae0:c276:d90e with SMTP id a640c23a62f3a-af940006e0emr286989366b.4.1754244845441;
-        Sun, 03 Aug 2025 11:14:05 -0700 (PDT)
+        bh=Fw6YTYzP6TeXxjfrPLfYs/o7am5hq49RWRkk3XI3RPA=;
+        b=LXyKRNwydfA1wPRUPozsWMiepsgN517fzxHc0icr/BoRXpAsoPnJRWesB1qzoQiitW
+         FW1q3nMZh1KLSv7QOM07pYrpir3+BWr75ibSk+siH/Ywhdoz0wx5gyIKX/mUqHpldbPk
+         /g90P0XiSXVolHktoRanwakD64NztvwzHws5N3S6NrtfDowxXWvaEAcgKWzzJFWcjoAi
+         lafi1qZAszL1HF6aHkTD6LcS01ha2HVTUm/8mi/Qczqdlr6E05MMMgv15UQ9vRdPDnbY
+         7LzWpDf327SMZm8ZRcFXBPP48AHnpPIvHxpXrFMDrkVdP5BfIDs/1+cXHI2pyzt1ezRQ
+         LUhw==
+X-Forwarded-Encrypted: i=1; AJvYcCWsOfzDzTrDyqQj3bzrTV6uYzxiRYQKQfWqNxDzqhZUQQD6EKQiA6H1o1JYT7CCtIghkvbNwHDLYJmzIQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwEzK3yeQ7dLfemOlKqlUqWnWO0R0nDfWoFx3O2r7JFaPCTpedG
+	DwhxtzRjRGAFNGMCkosml8q0NcjrhT/vjlalcbqEbSdYl5s8bdddIEGL
+X-Gm-Gg: ASbGncuSdSPciOErP755DyVFZF+RmJQiGTIqjmwH445Le5lvOlC50TZ/RUw+X7s6jd9
+	O/bEbqKTWmiT/f1tjxOQOCEcx9FCGdQLyDWyGakvopvcN6KVsH6xqyju2OKyV93XBz8JN62sU5S
+	cx2VJmU7iv8pHjCg38YILwavjicA3biO1J98grgtFNlear8XxC6Kq/J4pF5RCpvhSev50X/PMmp
+	0KKVThxoC1wHozW5VKX+3IHtlpCeZRsyV6uvxuxQadqOnHPLkPKR7bcMoeLxRvTZR4PwPUjAHy6
+	d8qUaualuVtK3CgltddGXnMXTuVvXdhYLD2oHfiXFh8O4xxHGMWHNbZYNqsh7wBVrfbFiEl5AYr
+	gSkuVQLOF4FWULZyeM98VMLrzvv21kVNBG6Dutt6BOvJvdv4cDW+QFbZKeP7hQazE7Cr1yl3Dk5
+	66eaSeXMK0Gg==
+X-Google-Smtp-Source: AGHT+IEGLlpdvF2pv5svBJr6BReHyxgNNJOL8w9fUio2He/X7eBBpTO6kVvm7QowJdkLUxUEdGGI2A==
+X-Received: by 2002:a17:907:98b:b0:ae3:617a:c52 with SMTP id a640c23a62f3a-af93ffd4788mr297683866b.2.1754244846186;
+        Sun, 03 Aug 2025 11:14:06 -0700 (PDT)
 Received: from laptok.lan (87-205-5-123.static.ip.netia.com.pl. [87.205.5.123])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-af91a750253sm614570366b.86.2025.08.03.11.14.04
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-af91a750253sm614570366b.86.2025.08.03.11.14.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 03 Aug 2025 11:14:04 -0700 (PDT)
+        Sun, 03 Aug 2025 11:14:05 -0700 (PDT)
 From: =?UTF-8?q?Tomasz=20Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>
 To: jikos@kernel.org,
 	bentiss@kernel.org
 Cc: oleg@makarenk.ooo,
 	linux-input@vger.kernel.org
-Subject: [PATCH 10/17] HID: pidff: Rework pidff_upload_effect
-Date: Sun,  3 Aug 2025 20:13:47 +0200
-Message-ID: <20250803181354.60034-11-tomasz.pakula.oficjalny@gmail.com>
+Subject: [PATCH 11/17] HID: pidff: Separate check for infinite duration
+Date: Sun,  3 Aug 2025 20:13:48 +0200
+Message-ID: <20250803181354.60034-12-tomasz.pakula.oficjalny@gmail.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250803181354.60034-1-tomasz.pakula.oficjalny@gmail.com>
 References: <20250803181354.60034-1-tomasz.pakula.oficjalny@gmail.com>
@@ -94,400 +94,44 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-One of the more complicated functions. Expunge some of the logic to
-separate functions (FF -> PID id conversion)
-
-Add a macro for envelope check to make it more readable in the upload
-function.
-
-All this made it possible to to expunge common code from the big switch
-statement and reduce the overall function size considerably. Now it can
-fit on one screen.
-
-Move the effect_cout logic from report functions to upload/erase
-functions.
+It will be used in a few more places so this makes sure it will always
+work the same.
 
 Signed-off-by: Tomasz Pakuła <tomasz.pakula.oficjalny@gmail.com>
 ---
- drivers/hid/usbhid/hid-pidff.c | 243 ++++++++++++++++-----------------
- 1 file changed, 115 insertions(+), 128 deletions(-)
+ drivers/hid/usbhid/hid-pidff.c | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/hid/usbhid/hid-pidff.c b/drivers/hid/usbhid/hid-pidff.c
-index 689419b20bf0..32d42792c95a 100644
+index 32d42792c95a..534fb28f6e55 100644
 --- a/drivers/hid/usbhid/hid-pidff.c
 +++ b/drivers/hid/usbhid/hid-pidff.c
-@@ -142,7 +142,7 @@ static const u8 pidff_effect_types[] = {
- #define PID_BLOCK_LOAD_SUCCESS	0
- #define PID_BLOCK_LOAD_FULL	1
- #define PID_BLOCK_LOAD_ERROR	2
--static const u8 pidff_block_load_status[] = { 0x8c, 0x8d, 0x8e};
-+static const u8 pidff_block_load_status[] = { 0x8c, 0x8d, 0x8e };
- 
- #define PID_EFFECT_START	0
- #define PID_EFFECT_STOP		1
-@@ -242,6 +242,62 @@ static int pidff_is_effect_conditional(struct ff_effect *effect)
+@@ -242,6 +242,11 @@ static int pidff_is_effect_conditional(struct ff_effect *effect)
  	       effect->type == FF_FRICTION;
  }
  
-+/*
-+ * Get PID effect index from FF effect type.
-+ * Return 0 if invalid.
-+ */
-+static int pidff_effect_ff_to_pid(struct ff_effect *effect)
++static int pidff_is_duration_infinite(u16 duration)
 +{
-+	switch (effect->type) {
-+	case FF_CONSTANT:
-+		return PID_CONSTANT;
-+	case FF_RAMP:
-+		return PID_RAMP;
-+	case FF_SPRING:
-+		return PID_SPRING;
-+	case FF_DAMPER:
-+		return PID_DAMPER;
-+	case FF_INERTIA:
-+		return PID_INERTIA;
-+	case FF_FRICTION:
-+		return PID_FRICTION;
-+	case FF_PERIODIC:
-+		switch (effect->u.periodic.waveform) {
-+		case FF_SQUARE:
-+			return PID_SQUARE;
-+		case FF_TRIANGLE:
-+			return PID_TRIANGLE;
-+		case FF_SINE:
-+			return PID_SINE;
-+		case FF_SAW_UP:
-+			return PID_SAW_UP;
-+		case FF_SAW_DOWN:
-+			return PID_SAW_DOWN;
-+		}
-+	}
-+	pr_err("invalid effect type\n");
-+	return -EINVAL;
-+}
-+
-+/*
-+ * Get effect id in the device descriptor.
-+ * Return 0 if invalid.
-+ */
-+static int pidff_get_effect_type_id(struct pidff_device *pidff,
-+				    struct ff_effect *effect)
-+{
-+	int id = pidff_effect_ff_to_pid(effect);
-+
-+	if (id < 0)
-+		return 0;
-+
-+	if (effect->type == FF_PERIODIC &&
-+	    pidff->quirks & HID_PIDFF_QUIRK_PERIODIC_SINE_ONLY)
-+		id = PID_SINE;
-+
-+	return pidff->type_id[id];
++	return duration == FF_INFINITE || duration == PID_INFINITE;
 +}
 +
  /*
-  * Clamp value for a given field
-  */
-@@ -387,12 +443,12 @@ static void pidff_set_envelope_report(struct pidff_device *pidff,
- 			pidff->set_envelope[PID_FADE_LEVEL].field);
+  * Get PID effect index from FF effect type.
+  * Return 0 if invalid.
+@@ -374,12 +379,8 @@ static void pidff_set_time(struct pidff_usage *usage, u16 time)
  
- 	pidff_set_time(&pidff->set_envelope[PID_ATTACK_TIME],
--			envelope->attack_length);
-+		       envelope->attack_length);
- 	pidff_set_time(&pidff->set_envelope[PID_FADE_TIME],
--			envelope->fade_length);
-+		       envelope->fade_length);
- 
- 	hid_hw_request(pidff->hid, pidff->reports[PID_SET_ENVELOPE],
--			HID_REQ_SET_REPORT);
-+		       HID_REQ_SET_REPORT);
- }
- 
- /*
-@@ -401,7 +457,7 @@ static void pidff_set_envelope_report(struct pidff_device *pidff,
- static int pidff_needs_set_envelope(struct ff_envelope *envelope,
- 				    struct ff_envelope *old)
+ static void pidff_set_duration(struct pidff_usage *usage, u16 duration)
  {
--	bool needs_new_envelope;
-+	int needs_new_envelope;
- 
- 	needs_new_envelope = envelope->attack_level  != 0 ||
- 			     envelope->fade_level    != 0 ||
-@@ -409,8 +465,7 @@ static int pidff_needs_set_envelope(struct ff_envelope *envelope,
- 			     envelope->fade_length   != 0;
- 
- 	if (!needs_new_envelope)
--		return false;
+-	/* Infinite value conversion from Linux API -> PID */
+-	if (duration == FF_INFINITE)
+-		duration = PID_INFINITE;
 -
-+		return 0;
- 	if (!old)
- 		return needs_new_envelope;
- 
-@@ -423,8 +478,8 @@ static int pidff_needs_set_envelope(struct ff_envelope *envelope,
- /*
-  * Send constant force report to the device
-  */
--static void pidff_set_constant_force_report(struct pidff_device *pidff,
--					    struct ff_effect *effect)
-+static void pidff_set_constant_report(struct pidff_device *pidff,
-+				      struct ff_effect *effect)
- {
- 	pidff->set_constant[PID_EFFECT_BLOCK_INDEX].value[0] =
- 		pidff->block_load[PID_EFFECT_BLOCK_INDEX].value[0];
-@@ -432,7 +487,7 @@ static void pidff_set_constant_force_report(struct pidff_device *pidff,
- 			 effect->u.constant.level);
- 
- 	hid_hw_request(pidff->hid, pidff->reports[PID_SET_CONSTANT],
--			HID_REQ_SET_REPORT);
-+		       HID_REQ_SET_REPORT);
- }
- 
- /*
-@@ -583,8 +638,8 @@ static int pidff_needs_set_condition(struct ff_effect *effect,
- /*
-  * Send ramp force report to the device
-  */
--static void pidff_set_ramp_force_report(struct pidff_device *pidff,
--					struct ff_effect *effect)
-+static void pidff_set_ramp_report(struct pidff_device *pidff,
-+				  struct ff_effect *effect)
- {
- 	pidff->set_ramp[PID_EFFECT_BLOCK_INDEX].value[0] =
- 		pidff->block_load[PID_EFFECT_BLOCK_INDEX].value[0];
-@@ -593,7 +648,7 @@ static void pidff_set_ramp_force_report(struct pidff_device *pidff,
- 	pidff_set_signed(&pidff->set_ramp[PID_RAMP_END],
- 			 effect->u.ramp.end_level);
- 	hid_hw_request(pidff->hid, pidff->reports[PID_SET_RAMP],
--			HID_REQ_SET_REPORT);
-+		       HID_REQ_SET_REPORT);
- }
- 
- /*
-@@ -703,9 +758,6 @@ static int pidff_request_effect_upload(struct pidff_device *pidff, int efnum)
- {
- 	int j;
- 
--	if (!pidff->effect_count)
--		pidff_reset(pidff);
--
- 	pidff->create_new_effect_type->value[0] = efnum;
- 	hid_hw_request(pidff->hid, pidff->reports[PID_CREATE_NEW_EFFECT],
- 			HID_REQ_SET_REPORT);
-@@ -725,8 +777,6 @@ static int pidff_request_effect_upload(struct pidff_device *pidff, int efnum)
- 			hid_dbg(pidff->hid, "device reported free memory: %d bytes\n",
- 				 pidff->block_load[PID_RAM_POOL_AVAILABLE].value ?
- 				 pidff->block_load[PID_RAM_POOL_AVAILABLE].value[0] : -1);
--
--			pidff->effect_count++;
- 			return 0;
- 		}
- 		if (pidff->block_load_status->value[0] ==
-@@ -767,7 +817,7 @@ static void pidff_playback_pid(struct pidff_device *pidff, int pid_id, int n)
+ 	/* PID defines INFINITE as the max possible value for duration field */
+-	if (duration == PID_INFINITE) {
++	if (pidff_is_duration_infinite(duration)) {
+ 		usage->value[0] = (1U << usage->field->report_size) - 1;
+ 		return;
  	}
- 
- 	hid_hw_request(pidff->hid, pidff->reports[PID_EFFECT_OPERATION],
--			HID_REQ_SET_REPORT);
-+		       HID_REQ_SET_REPORT);
- }
- 
- /*
-@@ -791,10 +841,7 @@ static void pidff_erase_pid(struct pidff_device *pidff, int pid_id)
- {
- 	pidff->block_free[PID_EFFECT_BLOCK_INDEX].value[0] = pid_id;
- 	hid_hw_request(pidff->hid, pidff->reports[PID_BLOCK_FREE],
--			HID_REQ_SET_REPORT);
--
--	if (pidff->effect_count > 0)
--		pidff->effect_count--;
-+		       HID_REQ_SET_REPORT);
- }
- 
- /*
-@@ -816,139 +863,79 @@ static int pidff_erase_effect(struct input_dev *dev, int effect_id)
- 	pidff_playback_pid(pidff, pid_id, 0);
- 	pidff_erase_pid(pidff, pid_id);
- 
-+	if (pidff->effect_count > 0)
-+		pidff->effect_count--;
-+
-+	hid_dbg(pidff->hid, "current effect count: %d", pidff->effect_count);
- 	return 0;
- }
- 
-+#define PIDFF_SET_REPORT_IF_NEEDED(type, effect, old) \
-+	({ if (!old || pidff_needs_set_## type(effect, old)) \
-+		pidff_set_ ##type## _report(pidff, effect); })
-+
-+#define PIDFF_SET_ENVELOPE_IF_NEEDED(type, effect, old) \
-+	({ if (pidff_needs_set_envelope(&effect->u.type.envelope, \
-+	       old ? &old->u.type.envelope : NULL)) \
-+		pidff_set_envelope_report(pidff, &effect->u.type.envelope); })
-+
- /*
-  * Effect upload handler
-  */
--static int pidff_upload_effect(struct input_dev *dev, struct ff_effect *effect,
-+static int pidff_upload_effect(struct input_dev *dev, struct ff_effect *new,
- 			       struct ff_effect *old)
- {
- 	struct pidff_device *pidff = dev->ff->private;
--	int type_id;
--	int error;
-+	const int type_id = pidff_get_effect_type_id(pidff, new);
- 
--	pidff->block_load[PID_EFFECT_BLOCK_INDEX].value[0] = 0;
--	if (old) {
--		pidff->block_load[PID_EFFECT_BLOCK_INDEX].value[0] =
--			pidff->pid_id[effect->id];
-+	if (!type_id) {
-+		hid_err(pidff->hid, "effect type not supported\n");
-+		return -EINVAL;
- 	}
- 
--	switch (effect->type) {
-+	if (!pidff->effect_count)
-+		pidff_reset(pidff);
-+
-+	if (!old) {
-+		int error = pidff_request_effect_upload(pidff, type_id);
-+
-+		if (error)
-+			return error;
-+
-+		pidff->effect_count++;
-+		hid_dbg(pidff->hid, "current effect count: %d", pidff->effect_count);
-+		pidff->pid_id[new->id] =
-+			pidff->block_load[PID_EFFECT_BLOCK_INDEX].value[0];
-+	}
-+
-+	pidff->block_load[PID_EFFECT_BLOCK_INDEX].value[0] =
-+		pidff->pid_id[new->id];
-+
-+	PIDFF_SET_REPORT_IF_NEEDED(effect, new, old);
-+	switch (new->type) {
- 	case FF_CONSTANT:
--		if (!old) {
--			error = pidff_request_effect_upload(pidff,
--					pidff->type_id[PID_CONSTANT]);
--			if (error)
--				return error;
--		}
--		if (!old || pidff_needs_set_effect(effect, old))
--			pidff_set_effect_report(pidff, effect);
--		if (!old || pidff_needs_set_constant(effect, old))
--			pidff_set_constant_force_report(pidff, effect);
--		if (pidff_needs_set_envelope(&effect->u.constant.envelope,
--					old ? &old->u.constant.envelope : NULL))
--			pidff_set_envelope_report(pidff, &effect->u.constant.envelope);
-+		PIDFF_SET_REPORT_IF_NEEDED(constant, new, old);
-+		PIDFF_SET_ENVELOPE_IF_NEEDED(constant, new, old);
- 		break;
- 
- 	case FF_PERIODIC:
--		if (!old) {
--			switch (effect->u.periodic.waveform) {
--			case FF_SQUARE:
--				type_id = PID_SQUARE;
--				break;
--			case FF_TRIANGLE:
--				type_id = PID_TRIANGLE;
--				break;
--			case FF_SINE:
--				type_id = PID_SINE;
--				break;
--			case FF_SAW_UP:
--				type_id = PID_SAW_UP;
--				break;
--			case FF_SAW_DOWN:
--				type_id = PID_SAW_DOWN;
--				break;
--			default:
--				hid_err(pidff->hid, "invalid waveform\n");
--				return -EINVAL;
--			}
--
--			if (pidff->quirks & HID_PIDFF_QUIRK_PERIODIC_SINE_ONLY)
--				type_id = PID_SINE;
--
--			error = pidff_request_effect_upload(pidff,
--					pidff->type_id[type_id]);
--			if (error)
--				return error;
--		}
--		if (!old || pidff_needs_set_effect(effect, old))
--			pidff_set_effect_report(pidff, effect);
--		if (!old || pidff_needs_set_periodic(effect, old))
--			pidff_set_periodic_report(pidff, effect);
--		if (pidff_needs_set_envelope(&effect->u.periodic.envelope,
--					old ? &old->u.periodic.envelope : NULL))
--			pidff_set_envelope_report(pidff, &effect->u.periodic.envelope);
-+		PIDFF_SET_REPORT_IF_NEEDED(periodic, new, old);
-+		PIDFF_SET_ENVELOPE_IF_NEEDED(periodic, new, old);
- 		break;
- 
- 	case FF_RAMP:
--		if (!old) {
--			error = pidff_request_effect_upload(pidff,
--					pidff->type_id[PID_RAMP]);
--			if (error)
--				return error;
--		}
--		if (!old || pidff_needs_set_effect(effect, old))
--			pidff_set_effect_report(pidff, effect);
--		if (!old || pidff_needs_set_ramp(effect, old))
--			pidff_set_ramp_force_report(pidff, effect);
--		if (pidff_needs_set_envelope(&effect->u.ramp.envelope,
--					old ? &old->u.ramp.envelope : NULL))
--			pidff_set_envelope_report(pidff, &effect->u.ramp.envelope);
-+		PIDFF_SET_REPORT_IF_NEEDED(ramp, new, old);
-+		PIDFF_SET_ENVELOPE_IF_NEEDED(ramp, new, old);
- 		break;
- 
- 	case FF_SPRING:
- 	case FF_DAMPER:
- 	case FF_INERTIA:
- 	case FF_FRICTION:
--		if (!old) {
--			switch (effect->type) {
--			case FF_SPRING:
--				type_id = PID_SPRING;
--				break;
--			case FF_DAMPER:
--				type_id = PID_DAMPER;
--				break;
--			case FF_INERTIA:
--				type_id = PID_INERTIA;
--				break;
--			case FF_FRICTION:
--				type_id = PID_FRICTION;
--				break;
--			}
--			error = pidff_request_effect_upload(pidff,
--					pidff->type_id[type_id]);
--			if (error)
--				return error;
--		}
--		if (!old || pidff_needs_set_effect(effect, old))
--			pidff_set_effect_report(pidff, effect);
--		if (!old || pidff_needs_set_condition(effect, old))
--			pidff_set_condition_report(pidff, effect);
-+		PIDFF_SET_REPORT_IF_NEEDED(condition, new, old);
- 		break;
--
--	default:
--		hid_err(pidff->hid, "invalid type\n");
--		return -EINVAL;
- 	}
--
--	if (!old)
--		pidff->pid_id[effect->id] =
--		    pidff->block_load[PID_EFFECT_BLOCK_INDEX].value[0];
--
- 	hid_dbg(pidff->hid, "uploaded\n");
--
- 	return 0;
- }
- 
 -- 
 2.50.1
 
