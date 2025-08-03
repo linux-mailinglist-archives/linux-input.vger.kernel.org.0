@@ -1,72 +1,95 @@
-Return-Path: <linux-input+bounces-13765-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13766-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF2BFB19024
-	for <lists+linux-input@lfdr.de>; Sat,  2 Aug 2025 23:33:11 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C31DB192EE
+	for <lists+linux-input@lfdr.de>; Sun,  3 Aug 2025 08:57:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D035B17C5C7
-	for <lists+linux-input@lfdr.de>; Sat,  2 Aug 2025 21:33:11 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B2A813B8359
+	for <lists+linux-input@lfdr.de>; Sun,  3 Aug 2025 06:57:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB4A9253B52;
-	Sat,  2 Aug 2025 21:33:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B6EE258CD8;
+	Sun,  3 Aug 2025 06:57:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=smtpservice.net header.i=@smtpservice.net header.b="bIdkvxPc";
-	dkim=pass (2048-bit key) header.d=medip.dev header.i=@medip.dev header.b="dtNNoLFC"
+	dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b="efkYHxAn"
 X-Original-To: linux-input@vger.kernel.org
-Received: from e3i331.smtp2go.com (e3i331.smtp2go.com [158.120.85.75])
+Received: from smtp-relay-internal-1.canonical.com (smtp-relay-internal-1.canonical.com [185.125.188.123])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A348A1F2C45
-	for <linux-input@vger.kernel.org>; Sat,  2 Aug 2025 21:33:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=158.120.85.75
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49EF62AD00
+	for <linux-input@vger.kernel.org>; Sun,  3 Aug 2025 06:57:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.125.188.123
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754170384; cv=none; b=UwyGqeGr+BaWpAaGMf6k4wc/YHn9q7prCDVekxnMOKf96B7mMwEBFxr0NUIBPQpK+J4XCl8n25dc2AMSOVgp9V0+fVI31rigei+WbRdam6iFw9EUztjKYN8Kw3sYRBshY0tIcQ+NCaQR5QjVd7dTgqrxPqJxpVVgfwt0v/FW7ZY=
+	t=1754204273; cv=none; b=DPF6vW6o9lfqQ/aHbeJHndvAQIoqtjLcT+HEGj4fyJZlxCp7nVo12CRJP24E+zQaga7e0uqyWdq3YTpRfRMAQS/1HmxMtRvymPMhoesEEfEOzWypkubIRrD0/aqE1irN06I00RiImHMeI249OpdNISIzYVbnKE54j5J7Xj4hPuo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754170384; c=relaxed/simple;
-	bh=GLhv/T2dtFQ3GlTlK7o9Bmk4Du5gnHqSjrhT57Tn/uE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hokZbgZLfXwjblxx3gXpRS+EHJuAPgG1sZygDoh/n6vdanOa3qZzBNtHf7aOPSJdkjQfD7cYlO2U423PS6dxDWX+jxMOnXtpvJ9HMAMWZaT3e8Vcw8tp5QjK81AUgZNOlzkug/msYTUuFWgNFc+Pak87KwDTkDmnffaVloR0o1A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=medip.dev; spf=pass smtp.mailfrom=em1255854.medip.dev; dkim=pass (2048-bit key) header.d=smtpservice.net header.i=@smtpservice.net header.b=bIdkvxPc; dkim=pass (2048-bit key) header.d=medip.dev header.i=@medip.dev header.b=dtNNoLFC; arc=none smtp.client-ip=158.120.85.75
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=medip.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=em1255854.medip.dev
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=smtpservice.net;
- i=@smtpservice.net; q=dns/txt; s=a1-4; t=1754170373; h=feedback-id :
- x-smtpcorp-track : date : message-id : to : subject : from : reply-to
- : sender : list-unsubscribe : list-unsubscribe-post;
- bh=AcX9VcErMWRg0sR1MbexnWdLJ0Tu14req403gJypbmc=;
- b=bIdkvxPcTwFI86bsNBgRJt07KW0Mq+/Ig8i0SA1lAAlEaZYSkfU7bHqK4H0ssBwcifTXI
- Za379Z/TPa33ceGsFSIsCFhVHp2np9aIH8F40O2rtPpiCmqiRfeugW+e+nqHc36hlV91U6S
- mHsD1dkpG60TkjCeozA2YxVK9yLWkuNscRp2lfABIAWF09l4u0gVFVIT3bUOAvJzzXvJveg
- +Uud3mYKPqcXWlDj4Hb/hQX8gLBHXYYwu/8NSzrBRAbRrX4TZKuf6L5SrT8sUAWPkjj5uNp
- CG3Gy27k6eqxFaWWpM1bSDYizDkngmwTP6+hMQKSAaYJ0Ia4KDFIUBv8PmKQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=medip.dev;
- i=@medip.dev; q=dns/txt; s=s1255854; t=1754170373; h=from : subject :
- to : message-id : date;
- bh=AcX9VcErMWRg0sR1MbexnWdLJ0Tu14req403gJypbmc=;
- b=dtNNoLFCT0fJ6DifLSl5zZhlevZHzTOEGfmKOAW14pT8hInSLs40snSRbEVCwIm6DKN2N
- 6DFd1lyWXz7PtekIgBhaXV0Iyy4E0JAfrMoyYgjB2SC1VfUUA9jD97e9929Ixx7Sl6f4fPB
- deWDaeuPvGNPDy9iWn3CRNL+cXOSHd2iBzCX7z8F8NrhtCRKL1OSMr0dJtVI/xThaiohZoe
- n7/uBGRnzjqNG58ng2C5rTR1ozFJ+emRHONXVCKlM8EgO5SSskZlOj2nsSqUALijJDBxu3N
- cbdIyu+WJ8BaJidPjvYV44ExawIUN0Vvi6z3dwfCFpbUxC4rfP+Dm4cvrjMQ==
-Received: from [10.152.250.198] (helo=vilez)
-	by smtpcorp.com with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.98.1-S2G)
-	(envelope-from <edip@medip.dev>)
-	id 1uiJqP-FnQW0hPvggj-NCpg;
-	Sat, 02 Aug 2025 21:32:46 +0000
-From: edip@medip.dev
-To: dmitry.torokhov@gmail.com
-Cc: jikos@kernel.org,
+	s=arc-20240116; t=1754204273; c=relaxed/simple;
+	bh=3Q+/Y1GGbBB3cZCpx2+SgdSBiEzvjUaz/Mt8EQnlbnI=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=HxWb50CQdtdqrqV1x5D12BVAH26106FLKAIxYsHc2kt76uXdb48D/oyrCsjj6lgPtlsXzsexwQrmPMxeVYw2FhMT3jzUjw9RpGYR6i4C6qFlJe07Ig+fp+2N2TPPDhrr0A38d87I6CbM/Q1AP+VLqmlLAs7+Ny7/uO9/fbDDe+M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com; spf=pass smtp.mailfrom=canonical.com; dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b=efkYHxAn; arc=none smtp.client-ip=185.125.188.123
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=canonical.com
+Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com [209.85.167.69])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id A89923F290
+	for <linux-input@vger.kernel.org>; Sun,  3 Aug 2025 06:57:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+	s=20210705; t=1754204263;
+	bh=4L4BWM8flzXDud1pJuJoJ3jcEt3Nv7W53k9mRGZ71vY=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version;
+	b=efkYHxAn/Vn03uyJ6/+X49NJVIbTPWauyIvjeZRLy4lusmXT7VAbCQBm+ko19Wjud
+	 BV1JCdMEgVJZWHidveAfE/RPUutVC5Y0q7FXK2nuJkCcTno0wsc6JUvwkUEaDy1xIz
+	 nEtM0HAYGprMKmWr0+ypWkgzSEZyLAz0iC/xLkKZ3okzP0DSq0NK74aijjURa4S9lp
+	 yNVtbKcncubT50BiXizKlOFbpRmM1wHq2awPpK70Tyy1pkuu4HtdX9J28WrNtCKVXv
+	 JyPdij5U6NxKYuqCsHa5liTV7OhcwtsFb3aFucgQWb6wklOtohSQLnGWmk3fvlLRuh
+	 cPPcrBE0plWvA==
+Received: by mail-lf1-f69.google.com with SMTP id 2adb3069b0e04-55b8422dbdaso1884227e87.0
+        for <linux-input@vger.kernel.org>; Sat, 02 Aug 2025 23:57:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1754204263; x=1754809063;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=4L4BWM8flzXDud1pJuJoJ3jcEt3Nv7W53k9mRGZ71vY=;
+        b=hQ2rn9hg1x6ajDepaj+G6XCW3SRPg17gGvyyTyssRFDoeHoXYAxuidYAk7bEoUPs7T
+         xm1PRj1BO/sROq7QRy1EUuAiDd+Ba2qJ419U3nTBJ2boMU7E8yNAdhQJroYNTK/pCvry
+         fnMaGwcTSL/O6fKBuksXXUJ71TH2FjdN1ilmJBcEX45fmpIx/dKe6fuB+R8TvzYZgYj5
+         4SPlyKuW3v97vFLzbo75Pzg2K8wwFqQMZahSRSxkfQjVGX964JrIIv2eq9VrxQofkjZS
+         HwU3wmN0JYMi3++NdOGzQVpz8QjwFjniG9Gby+jB9cYVxpjJ0pYjoJJndQpIcZ13O1O9
+         wlfw==
+X-Forwarded-Encrypted: i=1; AJvYcCVfFRSqGv/avi2siCPGzq9C8PPLh7faDutcY7SQM3NNkcKGT3j7ta+Pj/WrYv78+IU8BBq/ktSf/0WTRg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxwJDVE3OHsWiKw0q7pofrvUypeAHqM5Nf2iL57W1Ys2PAjB3zw
+	ciBOsLy4+ZRpCTqv182zf256QX2vBYmxBq/mF8rbH1XBF6tTAS/ffWfiiHpdXP1ea8gQGDsUqCx
+	fiJ0U6nA3ODZ2UiDiEerYrYnt8QybmubJ8yYMqjMegyYEIvq6VsPeNRavDIwA0Rf8bhooNmyXFR
+	J2p0W6vXtFyYF2jFw=
+X-Gm-Gg: ASbGncsUF8q7RHZEL6yLxqEaonk/20H5rxZ2NYmRQePlyh3Fdf+YfB2XdTb3qWfc9nt
+	+mLWx6Rjr0YU13aw7oJUooCcxFGbgyrSIrckejLbB5cidZ5+Ev/8v+49khnys5dujqgp+UEzjc1
+	Pn6BL4hXDEnfufE4VckmHhBcrAZM7vMayq0JC97Jc4jAS/NgpBZ/x2OjZnf6rXItEtvXQm+wG2m
+	R2Eu7L27BaryfXMUIEnMVuP9GDtoXQLZwg+bAiDJmdZLS7QpQuHQifMUApMrU7Eui8pU7kY87CP
+	IDkaLTkeTcsmqBjnJAetIS9lI/hH+xA52NP465iY16MUw7NuRNI/w0xj
+X-Received: by 2002:a05:6512:3d22:b0:553:a469:3fed with SMTP id 2adb3069b0e04-55b97abd668mr1440901e87.11.1754204262797;
+        Sat, 02 Aug 2025 23:57:42 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFI6d54OeJNyimMjiPKB/keXc8zPMccEG3pKCflM6/1aolOs0KOPeWteKjEnWhIcEPkGSsHhQ==
+X-Received: by 2002:a05:6512:3d22:b0:553:a469:3fed with SMTP id 2adb3069b0e04-55b97abd668mr1440898e87.11.1754204262342;
+        Sat, 02 Aug 2025 23:57:42 -0700 (PDT)
+Received: from localhost.localdomain ([162.213.32.233])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-55b9dbcbad2sm288627e87.56.2025.08.02.23.57.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 02 Aug 2025 23:57:40 -0700 (PDT)
+From: Aaron Ma <aaron.ma@canonical.com>
+To: even.xu@intel.com,
+	xinpeng.sun@intel.com,
+	jikos@kernel.org,
 	bentiss@kernel.org,
 	linux-input@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Edip Hazuri <edip@medip.dev>
-Subject: [PATCH 1/2] Input: Add key event code for Fn + P
-Date: Sun,  3 Aug 2025 00:21:50 +0300
-Message-ID: <20250802212149.16707-2-edip@medip.dev>
-X-Mailer: git-send-email 2.50.1
+	aaron.ma@canonical.com
+Subject: [PATCH 1/2] HID: intel-thc-hid: intel-quicki2c: Fix ACPI dsd ICRS/ISUB length
+Date: Sun,  3 Aug 2025 14:57:25 +0800
+Message-ID: <20250803065726.2895470-1-aaron.ma@canonical.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -74,54 +97,79 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Report-Abuse: Please forward a copy of this message, including all headers, to <abuse-report@smtp2go.com>
-Feedback-ID: 1255854m:1255854ay30w_v:1255854sMNE8L0U3Q
-X-smtpcorp-track: R-V7ZdS_w03l.e1voHp-jQOGP.CxuSpgP-0ld
 
-From: Edip Hazuri <edip@medip.dev>
+The QuickI2C ACPI _DSD methods return ICRS and ISUB data with a
+trailing byte, making the actual length is one more byte than the
+structs defined.
 
-Newer Victus (and probably newer omen) laptops contains a "Fn + P"
-Shortcut. This is intended to use with Omen Gaming Hub, Which is
-changing the performance profile when this shortcut triggered. This
-shortcut is shown on performance control page, see [1]
+It caused stack-out-of-bounds and kernel crash:
 
-Currently there is no key definition to handle this. So add a KEY_FN_P
-keycode define to be able to use this shortcut.
+kernel: BUG: KASAN: stack-out-of-bounds in quicki2c_acpi_get_dsd_property.constprop.0+0x111/0x1b0 [intel_quicki2c]
+kernel: Write of size 12 at addr ffff888106d1f900 by task kworker/u33:2/75
+kernel:
+kernel: CPU: 3 UID: 0 PID: 75 Comm: kworker/u33:2 Not tainted 6.16.0+ #3 PREEMPT(voluntary)
+kernel: Workqueue: async async_run_entry_fn
+kernel: Call Trace:
+kernel:  <TASK>
+kernel:  dump_stack_lvl+0x76/0xa0
+kernel:  print_report+0xd1/0x660
+kernel:  ? __pfx__raw_spin_lock_irqsave+0x10/0x10
+kernel:  ? __kasan_slab_free+0x5d/0x80
+kernel:  ? kasan_addr_to_slab+0xd/0xb0
+kernel:  kasan_report+0xe1/0x120
+kernel:  ? quicki2c_acpi_get_dsd_property.constprop.0+0x111/0x1b0 [intel_quicki2c]
+kernel:  ? quicki2c_acpi_get_dsd_property.constprop.0+0x111/0x1b0 [intel_quicki2c]
+kernel:  kasan_check_range+0x11c/0x200
+kernel:  __asan_memcpy+0x3b/0x80
+kernel:  quicki2c_acpi_get_dsd_property.constprop.0+0x111/0x1b0 [intel_quicki2c]
+kernel:  ? __pfx_quicki2c_acpi_get_dsd_property.constprop.0+0x10/0x10 [intel_quicki2c]
+kernel:  quicki2c_get_acpi_resources+0x237/0x730 [intel_quicki2c]
+[...]
+kernel:  </TASK>
+kernel:
+kernel: The buggy address belongs to stack of task kworker/u33:2/75
+kernel:  and is located at offset 48 in frame:
+kernel:  quicki2c_get_acpi_resources+0x0/0x730 [intel_quicki2c]
+kernel:
+kernel: This frame has 3 objects:
+kernel:  [32, 36) 'hid_desc_addr'
+kernel:  [48, 59) 'i2c_param'
+kernel:  [80, 224) 'i2c_config'
 
-[1]: https://jpcdn.it/img/adadf6c927ffeb75afd8038f95db400a.png
+ACPI DSD methods return:
 
-Signed-off-by: Edip Hazuri <edip@medip.dev>
+\_SB.PC00.THC0.ICRS Buffer       000000003fdc947b 001 Len 0C = 0A 00 80 1A 06 00 00 00 00 00 00 00
+\_SB.PC00.THC0.ISUB Buffer       00000000f2fcbdc4 001 Len 91 = 00 00 00 00 00 00 00 00 00 00 00 00
+
+Adding reserved padding to quicki2c_subip_acpi_parameter/config.
+
+Fixes: 5282e45ccbfa9 ("HID: intel-thc-hid: intel-quicki2c: Add THC QuickI2C ACPI interfaces")
+Signed-off-by: Aaron Ma <aaron.ma@canonical.com>
 ---
- drivers/hid/hid-debug.c                | 2 +-
- include/uapi/linux/input-event-codes.h | 1 +
- 2 files changed, 2 insertions(+), 1 deletion(-)
+ drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-dev.h | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/hid/hid-debug.c b/drivers/hid/hid-debug.c
-index 4424c0512ba..2bcf7b24801 100644
---- a/drivers/hid/hid-debug.c
-+++ b/drivers/hid/hid-debug.c
-@@ -3342,7 +3342,7 @@ static const char *keys[KEY_MAX + 1] = {
- 	[KEY_FN_1] = "Fn+1",			[KEY_FN_2] = "Fn+2",
- 	[KEY_FN_B] = "Fn+B",			[KEY_FN_D] = "Fn+D",
- 	[KEY_FN_E] = "Fn+E",			[KEY_FN_F] = "Fn+F",
--	[KEY_FN_S] = "Fn+S",
-+	[KEY_FN_S] = "Fn+S",			[KEY_FN_P] = "Fn+P",
- 	[KEY_FN_F1] = "Fn+F1",			[KEY_FN_F2] = "Fn+F2",
- 	[KEY_FN_F3] = "Fn+F3",			[KEY_FN_F4] = "Fn+F4",
- 	[KEY_FN_F5] = "Fn+F5",			[KEY_FN_F6] = "Fn+F6",
-diff --git a/include/uapi/linux/input-event-codes.h b/include/uapi/linux/input-event-codes.h
-index 3b2524e4b66..2fc79b32425 100644
---- a/include/uapi/linux/input-event-codes.h
-+++ b/include/uapi/linux/input-event-codes.h
-@@ -548,6 +548,7 @@
- #define KEY_FN_S		0x1e3
- #define KEY_FN_B		0x1e4
- #define KEY_FN_RIGHT_SHIFT	0x1e5
-+#define KEY_FN_P		0x1e6
+diff --git a/drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-dev.h b/drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-dev.h
+index 6ddb584bd6110..97085a6a7452d 100644
+--- a/drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-dev.h
++++ b/drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-dev.h
+@@ -71,6 +71,7 @@ struct quicki2c_subip_acpi_parameter {
+ 	u16 device_address;
+ 	u64 connection_speed;
+ 	u8 addressing_mode;
++	u8 reserved;
+ } __packed;
  
- #define KEY_BRL_DOT1		0x1f1
- #define KEY_BRL_DOT2		0x1f2
+ /**
+@@ -120,6 +121,7 @@ struct quicki2c_subip_acpi_config {
+ 	u64 HMTD;
+ 	u64 HMRD;
+ 	u64 HMSL;
++	u8 reserved;
+ };
+ 
+ struct device;
 -- 
-2.50.1
+2.43.0
 
 
