@@ -1,96 +1,91 @@
-Return-Path: <linux-input+bounces-13788-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13789-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDB04B1952F
-	for <lists+linux-input@lfdr.de>; Sun,  3 Aug 2025 22:40:20 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 25899B19C58
+	for <lists+linux-input@lfdr.de>; Mon,  4 Aug 2025 09:20:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A732C7A5FB7
-	for <lists+linux-input@lfdr.de>; Sun,  3 Aug 2025 20:38:49 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C69133AE512
+	for <lists+linux-input@lfdr.de>; Mon,  4 Aug 2025 07:20:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6009E1DE8A0;
-	Sun,  3 Aug 2025 20:40:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 002C3215073;
+	Mon,  4 Aug 2025 07:20:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="KKRVs//S"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="caWwhiOs"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38BE31FE444
-	for <linux-input@vger.kernel.org>; Sun,  3 Aug 2025 20:40:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C14BA15539A;
+	Mon,  4 Aug 2025 07:20:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754253610; cv=none; b=EQl7yjdh58pms5mKz28BMld9JrhTGb/khMmiJ1kVJb/cZyb4vYM1FRJ/Nz319S4XtTkvylDmjrnNoTfo9nV2u4L+fK7sXT2OlX6CH2t2k8R110jW2j3PsO7KFuunIAK8ouDo9zjqYmMevZ137bLzMtSvGlb+MtwmF5ytZ6jyaE0=
+	t=1754292027; cv=none; b=tUJ2tzo4DKViAntqbr493QRmllUsH/yb/PcddUabEv6AAQe9IJVCTpQdq3r/JIsvHYdHu1GXdRno+C0kEQA4wCArmNX2zITZWC6iDwOFCzQt8oq1joaKwmbetHlialsnAvAwp00HOt1fqz1tHlZXp/MNVG65MVlTghZmAJOQBW0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754253610; c=relaxed/simple;
-	bh=tzLH/YUExqTegN4sI56xlZ8maB8KzJUjpOhBuVYG1JA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IB8Xr7mAj/eXim/5AQZNr+fhqVjVzsrRp4GEoXVqviq3FI5Fc8AU62PNm81vktEHzFPzCLyIKIilvDExzsXvTfc59KTqNRJmzN5y4G+KMDtbRLC+NSwUn0o7d7snUBuvn6sF4TYGSKl9CUBLAlD5ut4jX8BcQY8aGYMa6cyCkWc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=KKRVs//S; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=5vm0
-	SxJu7Lne/9TVu7ssZXea18OLLC2K5dYsygJBt9M=; b=KKRVs//S+sQ92DcZ4KMq
-	u8nsdEZ9MfJ8tF9+2mIEnMKa16OXkFhageH6Q3dusOQHzpClzDFxFhQ6DqxKIqyK
-	Uf3NBHVB0NKgalwxkup9TG+R7v+ahB5EFSvjt8WEnHBdbEx3SmTO6JltOg3rUBQV
-	kx30VnagDoDnl085prpZDQkQPhnx3BeetweZr9+itITcepP1ErvhOlEutMUVlCMu
-	oG5ZgggbyNfeSyrs5j7AHZYstpvrNGAfHGIR7jUIcMYCfycsPBiiImpXM45eWsM9
-	un0A3l69l+xmhVFCkT05XjGxeQNA+OXeTC4vAwJOBCeZl7ifxDL/zHPzY62FsRnj
-	qA==
-Received: (qmail 1644961 invoked from network); 3 Aug 2025 22:40:01 +0200
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 3 Aug 2025 22:40:01 +0200
-X-UD-Smtp-Session: l3s3148p1@0xPE/ns7QIoujntd
-Date: Sun, 3 Aug 2025 22:40:01 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Sven Peter <sven@kernel.org>
-Cc: Janne Grunau <j@jannau.net>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Neal Gompa <neal@gompa.dev>, Ulf Hansson <ulf.hansson@linaro.org>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Srinivas Kandagatla <srini@kernel.org>,
-	Andi Shyti <andi.shyti@kernel.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Viresh Kumar <viresh.kumar@linaro.org>,
-	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Vinod Koul <vkoul@kernel.org>,
-	Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>, Arnd Bergmann <arnd@arndb.de>,
-	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-clk@vger.kernel.org, linux-i2c@vger.kernel.org,
-	iommu@lists.linux.dev, linux-input@vger.kernel.org,
-	dmaengine@vger.kernel.org, linux-sound@vger.kernel.org
-Subject: Re: [PATCH 05/11] i2c: apple: Drop default ARCH_APPLE in Kconfig
-Message-ID: <aI_JIZhHGg9GcD-D@shikoro>
-References: <20250612-apple-kconfig-defconfig-v1-0-0e6f9cb512c1@kernel.org>
- <20250612-apple-kconfig-defconfig-v1-5-0e6f9cb512c1@kernel.org>
+	s=arc-20240116; t=1754292027; c=relaxed/simple;
+	bh=AeROgIG1PExcbVHzDZ8nSxZE+aY6x8DPdGfSLCWONB0=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=f7yD37AkswmiZbl13Rx8GIm2qbBud2pie9szVhMtvD2MeaZZwCrC7K2JPHvcPmslAI2k3lZcG+s8sRgnHz3HcZcDPj0GrlnzeZLdF82sA2xQxw3pGdHZ8qD+WCxDunyo2QVOqmhYkgQYn7GmE6cilELvNosl/6mOmeXcqz897N4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=caWwhiOs; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E65E5C4CEE7;
+	Mon,  4 Aug 2025 07:20:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1754292027;
+	bh=AeROgIG1PExcbVHzDZ8nSxZE+aY6x8DPdGfSLCWONB0=;
+	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+	b=caWwhiOsT8nXprGVu7UkYujDYO3awmKuFlrcmNw+Rh6XN14m2VVn92O28CnVF2nrU
+	 QbPra3xv3FXHXiQm2Q+7mS7cLHgyFZMztmtzhePVl9lZrtRBK0c/YXcgRJw2eGMPld
+	 EchLRwNX6p5TUhhno1ODWtCVUDSpKQAomtXAzaRTCyL6VwH3lmduwovC1dOpmqB/l7
+	 EPAPbGsQ+5O3BdvSo5JYtXf754O+KrDDvPsnwT+7oYQbLnZhfdsE0KU2J+dB33KEqd
+	 YqHXyZK5eWikvqamAtFLEK6pZojuFOnEP8AmIp9LwtUyqn4FS0IoF/k75mpnrhf5ON
+	 rBljuJYv8vO7A==
+Date: Mon, 4 Aug 2025 09:20:24 +0200 (CEST)
+From: Jiri Kosina <jikos@kernel.org>
+To: Andrey Smirnov <andrew.smirnov@gmail.com>
+cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>, 
+    linux-usb@vger.kernel.org, 
+    "open list:HID CORE LAYER" <linux-input@vger.kernel.org>
+Subject: Re: dev->uniq is not unique for individual USB interfaces
+In-Reply-To: <CAHQ1cqErtqZjSakSUppxKEPvK3xJYfKydM02RJTcDO0RV77r3g@mail.gmail.com>
+Message-ID: <03s194q6-n6n7-2p42-5o48-99726p7qp0n0@xreary.bet>
+References: <CAHQ1cqErtqZjSakSUppxKEPvK3xJYfKydM02RJTcDO0RV77r3g@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250612-apple-kconfig-defconfig-v1-5-0e6f9cb512c1@kernel.org>
+Content-Type: text/plain; charset=US-ASCII
 
-On Thu, Jun 12, 2025 at 09:11:29PM +0000, Sven Peter wrote:
-> When the first driver for Apple Silicon was upstreamed we accidentally
-> included `default ARCH_APPLE` in its Kconfig which then spread to almost
-> every subsequent driver. As soon as ARCH_APPLE is set to y this will
-> pull in many drivers as built-ins which is not what we want.
-> Thus, drop `default ARCH_APPLE` from Kconfig.
+On Mon, 21 Jul 2025, Andrey Smirnov wrote:
+
+> Hey folks:
 > 
-> Signed-off-by: Sven Peter <sven@kernel.org>
+> I'm working on a custom USB device that presents N battery powered HID
+> interfaces with each interface reporting its own battery life via
+> standard HID Power Device report. The problem I'm running into is that
+> 
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/hid/hid-input.c?h=v6.16-rc7#n524
+> 
+> assumes that "uniq" field of a "struct hid_device" is always unique, but
+> 
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/hid/usbhid/hid-core.c?h=v6.16-rc7#n1415
+> 
+> populates "uniq" with iSerialNumber which is only unique per USB
+> device, not per USB interface. At the first glance the right way to
+> fix this would be to change how uniq is generated by usbhid_probe()
+> but that probably would break some userspace assumptions? 
 
-Applied to for-next (for 6.17 mergewindow), thanks!
+Hmm, actually, from top of my head I am not able to come up with any 
+userspace breakage this might cause. Do you have anything particular on 
+mind?
+
+Thanks,
+
+-- 
+Jiri Kosina
+SUSE Labs
 
 
