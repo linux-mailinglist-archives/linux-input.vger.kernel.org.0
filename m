@@ -1,251 +1,189 @@
-Return-Path: <linux-input+bounces-13819-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13820-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB306B1B390
-	for <lists+linux-input@lfdr.de>; Tue,  5 Aug 2025 14:38:57 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C361FB1B448
+	for <lists+linux-input@lfdr.de>; Tue,  5 Aug 2025 15:12:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 164FA181B4C
-	for <lists+linux-input@lfdr.de>; Tue,  5 Aug 2025 12:38:58 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D368B3A5AED
+	for <lists+linux-input@lfdr.de>; Tue,  5 Aug 2025 13:12:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D6EE7270565;
-	Tue,  5 Aug 2025 12:38:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 434A3274B5C;
+	Tue,  5 Aug 2025 13:10:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EZKrzEaP"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B5YKuO2W"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C56B826FA58;
-	Tue,  5 Aug 2025 12:38:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 189752727ED;
+	Tue,  5 Aug 2025 13:10:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754397526; cv=none; b=eOM/htAg/NNUNurzDAsqp0BCICqsLGmk6GIBOM3BZV7CROIn+Kbf0kCI7a8FDgMbzblXgm8cz0BHeM5FC2ZnASntmTRBVbUnnW9MnXJM6dNWjOsSe6fwWW8DrRh4mYkVoh9e1T9znzm8lfslHMkwFsjFmYB5akLTThctOm/Y0J8=
+	t=1754399451; cv=none; b=h1zEacqKJrqZbn5JUrGkZHI/7AE1JjPmR1oMibpk50Ju9xWIyCj8t/zrYH3XdvWvsB7TRSMLCN9//RDCS9bmfM7j4xwF/gg8iWzMec3+Nk/YnTnExudsGNDp0Gb3kkp+Wz8Qw/2nvAsGkn2YWmKq2qm4TxbbfgVeWHw39adC+/k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754397526; c=relaxed/simple;
-	bh=fCIplKjYYvhpVdE9ZwS6nVUEDINPUMXvXSNU7sUfpLA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cH8wa/e4gplFdBiaRkmtcKU8+FxzPByYzLgtVGivpQaWd7yB8jC4I/ugyKj3mlVLOwNuX+WuHSsDKpNs+NOApIBz5nnYaHiykiZXISRDexTjBIWgHfmu5ODmNA95Ii22M5ED5nj9y6npM0G6FA9UyE4i13uE7uClo2J1FJVL9gk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EZKrzEaP; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-459d44d286eso10072065e9.0;
-        Tue, 05 Aug 2025 05:38:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1754397523; x=1755002323; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=BJ14w+qzAAQEnx9IRn2IhM8wMVTsftHc0WzBxA+b8MU=;
-        b=EZKrzEaPOi/pBA/t0HWHIYHN356tT/qJzXpd2ec9CWQLyofoT9iM7Dq7A74GhvWKD8
-         Z4ugeBGvbRm/lrUg0vtqloGwdslSQZdnjhjoTqR5SDiCkU67cRSzU6Gev0yWOBg7PLQI
-         8Zvlk5TlMMxLYD9vdbkLf3aHlVeMkqR9jhNMStNCBSBjM8tbbevuQtaWSYnoE7LUOUvZ
-         GmYt+MQokKApMzEFoI13bTu8lSgVMLIYaaa14jfbSXd/kc07WcxVyS2EKsa5j5vgazeY
-         spbPdwbYVWaBAeh+wwQsx8bqXZPeYgHyFbXUQ4/jGvYAcVGE1oIY/TO/aHaUvZ3bM7Iy
-         WTEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754397523; x=1755002323;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=BJ14w+qzAAQEnx9IRn2IhM8wMVTsftHc0WzBxA+b8MU=;
-        b=MFX8Z8kHP2zkJmG5wlo2CGAUzqK5zuRAssUHoU6IVDY4uAissXv9z+W25WWhvnXb8x
-         i9luBbY16la8hbLSoxmodUKQf9Dglmd6qSH8I2yYkW5pmquT/NAqxJSzwhP20ujCocIU
-         Xw0BNUmhA4YandeXiVtyy5hGcdhvHxzktGHDLzaLX/Zbaulg7qNeM/y5slVHAeEtmXzU
-         gIHQa05i9MuphcWfHhjUPU99HnjjCw80mo6OkXN1Wq0dtKWXZpNQ1MiwzvK+GXn1a6Ic
-         +Bd1UBOYtp1KT5Zyz5eWVoKUJCEyKKJaIpaQ8WMy5q7jKEivvEMezCKka8pNpO5KgSd0
-         2VAw==
-X-Forwarded-Encrypted: i=1; AJvYcCVy/zUjVipg0QZAI5HQqw5pvDGdgcF3ht96a6dFZG3KfvhS9adoYhq/Tk6HOLK+2yLzSfgLG//slo8olQ==@vger.kernel.org, AJvYcCWrh/z2ahwNRTmlOpSoQtybW86niPHJ0EG+S3JgzUVHeGhWtBcDLohwzUrIL3xPJ9oJCPWK3x/MRdUYGSi6@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx/Sv9pTCe6JIrT5hicGiS5OuW3KOY4eT8Txu//z+b86HsqpJJq
-	pFhBk2aUQzH+FYC8QKjIm2FG6dKKddvdhVTYHZYaMdfOa8xE1Dl7m7eb
-X-Gm-Gg: ASbGncvnM0iiFueYw2XX1/r3sRB7GAOx5SYFTKU7IFIZTLRAcUMeehXMznCJTvH0GI+
-	7j1vUyjGi0TsZmGZJDG7lIEyKY3O+OBfpT14JLOSMc956hVbvUrgEP1PnJcE69OWsp27/MrsgD1
-	d+vM8JygCq+MK8gCY8BFA3bysrUO+MTe0iX/5j8m6tGxDU0QhkFXM6evz+LLJQiHZszETN+fzUz
-	n7vkIVQ0eRoGVrpLcoWK6Nnl63T1ENpaIXNXtcetwA/9QUHjTGQJHKBibE8kZB86/jOOId1VZHc
-	3pAJ1smCSWPBMerdgUOwREhG3fE0sXeO/EJhQkbVh0hoXqRXA/SeN0wAq9xAKc+L5smRL+j04y1
-	wwT3mOxAH2C1XPFMNu4U=
-X-Google-Smtp-Source: AGHT+IGCTUpgIyHYb6qNCft/zvHNNGTnRYA97DL8RwHs7vdamwEDZwqquWmTekfjImPiYPPqyjqpZA==
-X-Received: by 2002:a05:600c:3590:b0:456:942:b162 with SMTP id 5b1f17b1804b1-459e0cc270dmr34334525e9.11.1754397522618;
-        Tue, 05 Aug 2025 05:38:42 -0700 (PDT)
-Received: from fedora ([94.73.32.0])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-458f713eb44sm111257425e9.14.2025.08.05.05.38.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Aug 2025 05:38:41 -0700 (PDT)
-Date: Tue, 5 Aug 2025 14:38:39 +0200
-From: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
-To: =?utf-8?B?5Y2i5Zu95a6P?= <luguohong@xiaomi.com>
-Cc: "jikos@kernel.org" <jikos@kernel.org>,
-	"bentiss@kernel.org" <bentiss@kernel.org>,
-	"linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	Fei1 Jiang =?utf-8?B?6JKL6aOe?= <jiangfei1@xiaomi.com>
-Subject: Re: =?utf-8?B?562U5aSNOiDnrZTlpI06IFtFeHRl?=
- =?utf-8?Q?rnal_Mail=5D=5BPATC?= =?utf-8?Q?H?= 2/2] HID: input: report
- battery status changes immediately
-Message-ID: <aJH7T7_8p0GT3f2L@fedora>
-References: <20250804091215.6637-1-jose.exposito89@gmail.com>
- <20250804091215.6637-2-jose.exposito89@gmail.com>
- <a235549c5cf24205bb7ce7f05737c403@xiaomi.com>
- <aJHEAHH6KCAGxs8N@fedora>
- <b5aa18342f42420093db90ee2ead88ba@xiaomi.com>
+	s=arc-20240116; t=1754399451; c=relaxed/simple;
+	bh=h5ekgn5hXqvCDBbs3x7HLBwTL0Kln0Mi1jfQN529SGU=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=a/JuGQ009LAQ5S5ZJl3Bc3VKXbqZz8sS8u04YU2tUWnG3axdUJ5iod7QYtFrQ8g1iX6gRnHDeW5oGZyn9ow8sx4R4PMlw5OdxOh0dhuGwHOzSTB/AgfFmaQgvc9hg/cQBVCuLh44QInGvGAriIbBdYrjPHcMPeD7RnG6TyuGF30=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B5YKuO2W; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A40C3C4CEF7;
+	Tue,  5 Aug 2025 13:10:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1754399451;
+	bh=h5ekgn5hXqvCDBbs3x7HLBwTL0Kln0Mi1jfQN529SGU=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=B5YKuO2WvXbePO4P+ZRr/Xzl6WUo6Yu4KGoLmemVodgB2Y0I/o46/9utWS6HlqWfB
+	 VWjmbpQLLgDgsD5C4+WX/9eVieJ2pgHCjtz0Ci2M7vhHI3jR9yOothYFT1YX0jSdNF
+	 0K+odx4OfRNHt2Y+RCHJ9djOZxBffXNwi6iQo5WGezzmLleuK9hhUu4wisOsdkrMHv
+	 LTlxuw9NFJKcInXKZrZLi8dU9g7LJ4LLpKdmr+0pJmxJ6aKLn6KTzX1nalBw8/04Kf
+	 HqDmEfRdgWh/P/Fu/+0T67Pyaplf37dTZ9afxn0TP+1CI0kiiB8iGTiZMloe/svCga
+	 WIMAIq1rsOMJg==
+From: Sasha Levin <sashal@kernel.org>
+To: patches@lists.linux.dev,
+	stable@vger.kernel.org
+Cc: Li Chen <chenl311@chinatelecom.cn>,
+	Jiri Kosina <jkosina@suse.com>,
+	Sasha Levin <sashal@kernel.org>,
+	jikos@kernel.org,
+	bentiss@kernel.org,
+	linux-input@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.16-6.15] HID: rate-limit hid_warn to prevent log flooding
+Date: Tue,  5 Aug 2025 09:09:04 -0400
+Message-Id: <20250805130945.471732-29-sashal@kernel.org>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250805130945.471732-1-sashal@kernel.org>
+References: <20250805130945.471732-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.16
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <b5aa18342f42420093db90ee2ead88ba@xiaomi.com>
 
-Hi,
+From: Li Chen <chenl311@chinatelecom.cn>
 
-On Tue, Aug 05, 2025 at 12:25:17PM +0000, 卢国宏 wrote:
-> ________________________________
-> 发件人: José Expósito <jose.exposito89@gmail.com>
-> 发送时间: 2025年8月5日 16:42
-> 收件人: 卢国宏
-> 抄送: jikos@kernel.org; bentiss@kernel.org; linux-input@vger.kernel.org; linux-kernel@vger.kernel.org; Fei1 Jiang 蒋飞
-> 主题: Re: 答复: [External Mail][PATCH 2/2] HID: input: report battery status changes immediately
-> 
-> [外部邮件] 此邮件来源于小米公司外部，请谨慎处理。若对邮件安全性存疑，请将邮件转发给misec@xiaomi.com进行反馈
-> 
-> Hi!
-> 
-> On Tue, Aug 05, 2025 at 01:43:30AM +0000, 卢国宏 wrote:
-> > ________________________________
-> > 发件人: José Expósito <jose.exposito89@gmail.com>
-> > 发送时间: 2025年8月4日 17:11
-> > 收件人: jikos@kernel.org
-> > 抄送: bentiss@kernel.org; 卢国宏; linux-input@vger.kernel.org; linux-kernel@vger.kernel.org; José Expósito
-> > 主题: [External Mail][PATCH 2/2] HID: input: report battery status changes immediately
-> >
-> > [外部邮件] 此邮件来源于小米公司外部，请谨慎处理。若对邮件安全性存疑，请将邮件转发给misec@xiaomi.com进行反馈
-> >
-> > When the battery status changes, report the change immediately to user
-> > space.
-> >
-> > Fixes: a608dc1c0639 ("HID: input: map battery system charging")
-> > Reported-by: 卢国宏 <luguohong@xiaomi.com>
-> > Closes: https://lore.kernel.org/linux-input/aI49Im0sGb6fpgc8@fedora/T/
-> > Signed-off-by: José Expósito <jose.exposito89@gmail.com>
-> > ---
-> >  drivers/hid/hid-input.c | 17 ++++++++++-------
-> >  1 file changed, 10 insertions(+), 7 deletions(-)
-> >
-> > diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
-> > index 262787e6eb20..277538a17b57 100644
-> > --- a/drivers/hid/hid-input.c
-> > +++ b/drivers/hid/hid-input.c
-> > @@ -609,13 +609,19 @@ static bool hidinput_update_battery_charge_status(struct hid_device *dev,
-> >         return false;
-> >  }
-> >
-> > -static void hidinput_update_battery(struct hid_device *dev, int value)
-> > +static void hidinput_update_battery(struct hid_device *dev, unsigned int usage,
-> > +                                   int value)
-> >  {
-> >         int capacity;
-> >
-> >         if (!dev->battery)
-> >                 return;
-> >
-> > +       if (hidinput_update_battery_charge_status(dev, usage, value)) {
-> > +               power_supply_changed(dev->battery);
-> > +               return;
-> > +       }
-> > +
-> >
-> > > Hi, José. Shouldn't the return statement in this code be removed?
-> > > Otherwise, if both the battery level and the charging status change
-> > > simultaneously, the code following the if statement that updates the
-> > > battery level won't run, and the battery level won't be updated.
-> > > Thanks!
-> 
-> At least on the hardware I have access to, changes are reported independently.
-> 
-> I added a log at the beginning of this function to illustrate it.
-> This is the output when the battery of my device goes from 99% to 95%:
-> 
->     New EV_PWR report:
->         usage = 8716389
->         value = 99
->     New EV_PWR report:
->         usage = 8716356 (HID_BAT_CHARGING)
->         value = 0       (POWER_SUPPLY_STATUS_DISCHARGING)
->     [...]
->     New EV_PWR report:
->         usage = 8716389
->         value = 95
->     New EV_PWR report:
->         usage = 8716356 (HID_BAT_CHARGING)
->         value = 0       (POWER_SUPPLY_STATUS_DISCHARGING)
-> 
-> If we remove that return, then "value" (0 or 1) would be used as battery level,
-> reporting wrong battery levels to user-space.
-> 
-> Isn't your device reporting its battery information in a similar way?
-> 
-> > --->>>
-> > Hello, Jose!
-> > You're right, this return can't be removed. I had previously only
-> > theoretically assumed they would be reported simultaneously, but
-> > that turned out to be incorrect. It seems your solution should be fine.
-> > Finally, when will your patch be merged into the Linux kernel?
-> > We're looking forward to using this feature. Thank you very much!
+[ Upstream commit 4051ead99888f101be92c7ce90d2de09aac6fd1c ]
 
-Would you be able to test that the patches work on your device?
+Syzkaller can create many uhid devices that trigger
+repeated warnings like:
 
-I assume there won't be surprises, but better to double check if
-you have access to the affected device.
+  "hid-generic xxxx: unknown main item tag 0x0"
 
-Once you test it, I'll send a second version of the code fixing a
-warning and adding you as tester of the patch. Then it is up to
-the maintainers to merge it.
+These messages can flood the system log, especially if a crash occurs
+(e.g., with a slow UART console, leading to soft lockups). To mitigate
+this, convert `hid_warn()` to use `dev_warn_ratelimited()`.
 
-Looking forward for your testing,
-Jose
+This helps reduce log noise and improves system stability under fuzzing
+or faulty device scenarios.
+
+Signed-off-by: Li Chen <chenl311@chinatelecom.cn>
+Signed-off-by: Jiri Kosina <jkosina@suse.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+
+LLM Generated explanations, may be completely bogus:
+
+**Backport Status: YES**
+
+This commit should be backported to stable kernel trees for the
+following reasons:
+
+## Bug Fix for System Stability Issue
+
+This commit addresses a **real system stability problem** that can lead
+to soft lockups under specific conditions. The code changes show that
+when malformed HID devices (either intentionally via fuzzing tools like
+syzkaller or faulty hardware) send invalid data, the kernel can generate
+excessive warning messages that flood the system log.
+
+## Specific Code Analysis:
+
+1. **Location of the fix** (drivers/hid/hid-core.c:661-663): The
+   warnings are generated in the HID parser's main item processing
+   function when encountering unknown or reserved tags:
+  ```c
+  hid_warn(parser->device, "reserved main item tag 0x%x\n", item->tag);
+  hid_warn(parser->device, "unknown main item tag 0x%x\n", item->tag);
+  ```
+
+2. **Simple and contained change**: The fix only:
+   - Adds a new `hid_warn_ratelimited` macro in include/linux/hid.h
+   - Replaces two `hid_warn` calls with `hid_warn_ratelimited` calls
+   - Total change is just 6 lines (4 insertions, 2 modifications)
+
+3. **No architectural changes**: This is a straightforward substitution
+   that uses the existing kernel infrastructure (`dev_warn_ratelimited`)
+   which is already widely used throughout the kernel.
+
+## Meets Stable Kernel Criteria:
+
+1. **Fixes a real bug**: The commit explicitly mentions that excessive
+   logging can cause "soft lockups" especially with slow UART consoles -
+   this is a serious stability issue that affects real users.
+
+2. **Security implications**: The commit mentions syzkaller (kernel
+   fuzzer) can trigger this, and uhid devices can be created by
+   unprivileged users in many configurations, making this a potential
+   DoS vector.
+
+3. **Minimal risk**: Rate-limiting warnings has virtually no risk of
+   regression - it doesn't change any functional behavior, only reduces
+   log output frequency.
+
+4. **Already proven pattern**: Similar rate-limiting fixes have been
+   applied in the HID subsystem before (e.g., commit e93363f716a2 for
+   Nintendo controller) and throughout the kernel for log flooding
+   issues.
+
+5. **Clear reproducibility**: The issue is triggered by malformed HID
+   devices sending invalid item tags, which can happen with faulty
+   hardware or intentional fuzzing.
+
+The commit follows the stable kernel rules perfectly: it's a small,
+obvious fix for a real problem that improves system stability without
+introducing new features or making risky changes.
+
+ drivers/hid/hid-core.c | 4 ++--
+ include/linux/hid.h    | 2 ++
+ 2 files changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
+index b31b8a2fd540..a110d1965447 100644
+--- a/drivers/hid/hid-core.c
++++ b/drivers/hid/hid-core.c
+@@ -659,9 +659,9 @@ static int hid_parser_main(struct hid_parser *parser, struct hid_item *item)
+ 	default:
+ 		if (item->tag >= HID_MAIN_ITEM_TAG_RESERVED_MIN &&
+ 			item->tag <= HID_MAIN_ITEM_TAG_RESERVED_MAX)
+-			hid_warn(parser->device, "reserved main item tag 0x%x\n", item->tag);
++			hid_warn_ratelimited(parser->device, "reserved main item tag 0x%x\n", item->tag);
+ 		else
+-			hid_warn(parser->device, "unknown main item tag 0x%x\n", item->tag);
++			hid_warn_ratelimited(parser->device, "unknown main item tag 0x%x\n", item->tag);
+ 		ret = 0;
+ 	}
  
-> 
-> Jose
-> 
-> PS - I'll fix the warning in v2 and add a Tested-by: 卢国宏 tag once
->      this is confirmed to work on the affected hardware.
-> 
-> >
-> >
-> >         if (value == 0 || value < dev->battery_min || value > dev->battery_max)
-> >                 return;
-> >
-> > @@ -648,7 +654,8 @@ static bool hidinput_update_battery_charge_status(struct hid_device *dev,
-> >         return false;
-> >  }
-> >
-> > -static void hidinput_update_battery(struct hid_device *dev, int value)
-> > +static void hidinput_update_battery(struct hid_device *dev, unsigned int usage,
-> > +                                   int value)
-> >  {
-> >  }
-> >  #endif /* CONFIG_HID_BATTERY_STRENGTH */
-> > @@ -1515,11 +1522,7 @@ void hidinput_hid_event(struct hid_device *hid, struct hid_field *field, struct
-> >                 return;
-> >
-> >         if (usage->type == EV_PWR) {
-> > -               bool handled = hidinput_update_battery_charge_status(hid, usage->hid, value);
-> > -
-> > -               if (!handled)
-> > -                       hidinput_update_battery(hid, value);
-> > -
-> > +               hidinput_update_battery(hid, usage->hid, value);
-> >                 return;
-> >         }
-> >
-> > --
-> > 2.50.1
-> >
-> > #/******本邮件及其附件含有小米公司的保密信息，仅限于发送给上面地址中列出的个人或群组。禁止任何其他人以任何形式使用（包括但不限于全部或部分地泄露、复制、或散发）本邮件中的信息。如果您错收了本邮件，请您立即电话或邮件通知发件人并删除本邮件！ This e-mail and its attachments contain confidential information from XIAOMI, which is intended only for the person or entity whose address is listed above. Any use of the information contained herein in any way (including, but not limited to, total or partial disclosure, reproduction, or dissemination) by persons other than the intended recipient(s) is prohibited. If you receive this e-mail in error, please notify the sender by phone or email immediately and delete it!******/#
-> #/******本邮件及其附件含有小米公司的保密信息，仅限于发送给上面地址中列出的个人或群组。禁止任何其他人以任何形式使用（包括但不限于全部或部分地泄露、复制、或散发）本邮件中的信息。如果您错收了本邮件，请您立即电话或邮件通知发件人并删除本邮件！ This e-mail and its attachments contain confidential information from XIAOMI, which is intended only for the person or entity whose address is listed above. Any use of the information contained herein in any way (including, but not limited to, total or partial disclosure, reproduction, or dissemination) by persons other than the intended recipient(s) is prohibited. If you receive this e-mail in error, please notify the sender by phone or email immediately and delete it!******/#
+diff --git a/include/linux/hid.h b/include/linux/hid.h
+index 568a9d8c749b..7f260e0e2049 100644
+--- a/include/linux/hid.h
++++ b/include/linux/hid.h
+@@ -1239,6 +1239,8 @@ void hid_quirks_exit(__u16 bus);
+ 	dev_notice(&(hid)->dev, fmt, ##__VA_ARGS__)
+ #define hid_warn(hid, fmt, ...)				\
+ 	dev_warn(&(hid)->dev, fmt, ##__VA_ARGS__)
++#define hid_warn_ratelimited(hid, fmt, ...)				\
++	dev_warn_ratelimited(&(hid)->dev, fmt, ##__VA_ARGS__)
+ #define hid_info(hid, fmt, ...)				\
+ 	dev_info(&(hid)->dev, fmt, ##__VA_ARGS__)
+ #define hid_dbg(hid, fmt, ...)				\
+-- 
+2.39.5
+
 
