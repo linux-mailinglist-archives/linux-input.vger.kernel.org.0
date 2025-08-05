@@ -1,105 +1,140 @@
-Return-Path: <linux-input+bounces-13828-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13829-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA8DAB1BBA1
-	for <lists+linux-input@lfdr.de>; Tue,  5 Aug 2025 23:07:51 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id EF07DB1BBC3
+	for <lists+linux-input@lfdr.de>; Tue,  5 Aug 2025 23:32:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C5268184B12
-	for <lists+linux-input@lfdr.de>; Tue,  5 Aug 2025 21:07:51 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id BE4DD18A5076
+	for <lists+linux-input@lfdr.de>; Tue,  5 Aug 2025 21:32:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7C338238179;
-	Tue,  5 Aug 2025 21:07:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B6C69218ACC;
+	Tue,  5 Aug 2025 21:32:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bIhQMfOS"
 X-Original-To: linux-input@vger.kernel.org
-Received: from plesk.hostmyservers.fr (plesk.hostmyservers.fr [45.145.164.37])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C012721FF2D;
-	Tue,  5 Aug 2025 21:07:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.145.164.37
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 101BB1C8633;
+	Tue,  5 Aug 2025 21:32:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754428067; cv=none; b=k3UqOFvo5or6bf8nNuLNoWB0vChaTym4B2qhHub62AM2f1+2+rmeVnXGRFqsBROFR9sh15zwBhiQ54e48xq1xggpk+W+6ZW6AYGXJakYiBCOFExP8ADNZCWGAiX43JW/42sLNnbN2+lbVEii3LoG81fM2OqRw5be8MWYrsaYhlo=
+	t=1754429532; cv=none; b=QFeqTQ+tFZ270xnwAL0ZE/icAHesEGgu9IIrRJbhs0+gTdclkO6Tcb2TxoOp5zNLo/uYcrNbKop41Oj0LuM1gTJil9ZU/Z0W/1mjEJWYoFBD6mU/FEgZa/SJ97kxzO0YEl2KQdFHyK9oNH+vIAZHA1AOFBIIIqjtM/NeGp0c+cs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754428067; c=relaxed/simple;
-	bh=2sNQ0Va3Wkk3KtTPynj/Pf6/rVIuhWWX8vzhbm0vmmM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JGoGG53nhUGLDvpQPLKEGPgm4R/Ygmi4Wv7l0Ec7bq8RTxPBtI4uU3oyHAJSFFT4kZJCURvBesi57HZeqK/QmAeDg3U/koRAeqRGEkvFUOegEYvdjeChn+AflD4sICQ03vQVvJgjNuheQkEw/lj1CKKYktKBGQTQFdfh0tdrwEk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=arnaud-lcm.com; spf=pass smtp.mailfrom=arnaud-lcm.com; arc=none smtp.client-ip=45.145.164.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=arnaud-lcm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arnaud-lcm.com
-Received: from [IPV6:2a02:8084:255b:aa00:7b12:35fe:1712:13bc] (unknown [IPv6:2a02:8084:255b:aa00:7b12:35fe:1712:13bc])
-	by plesk.hostmyservers.fr (Postfix) with ESMTPSA id 7CDB34230E;
-	Tue,  5 Aug 2025 21:07:42 +0000 (UTC)
-Authentication-Results: Plesk;
-        spf=pass (sender IP is 2a02:8084:255b:aa00:7b12:35fe:1712:13bc) smtp.mailfrom=contact@arnaud-lcm.com smtp.helo=[IPV6:2a02:8084:255b:aa00:7b12:35fe:1712:13bc]
-Received-SPF: pass (Plesk: connection is authenticated)
-Message-ID: <c1520e91-4ca2-4244-b335-62ab5509b8d0@arnaud-lcm.com>
-Date: Tue, 5 Aug 2025 22:07:41 +0100
+	s=arc-20240116; t=1754429532; c=relaxed/simple;
+	bh=ldwf5W7T+7CJjPkbQHiEy0ZwCv91sQ3XtdOVhU9/DUc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lzrXs40m/m3uEn8RLvZ1h23TXHJAH2TQ/1QZwMhnhdUAP9cTD9UEh/h3ESAFgbPGaaLwZqpbS3LSCOHGDu1z1IsbMPUwwPe2AL/dlrnNXtNDIQPsHPw7PUiWdtKUOD0MuWVl11ZGVuQAtj2xnBh7/rG9ujiqN9DhlcQKF9vTPV0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bIhQMfOS; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1754429531; x=1785965531;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=ldwf5W7T+7CJjPkbQHiEy0ZwCv91sQ3XtdOVhU9/DUc=;
+  b=bIhQMfOSCvl8dxus1fvwEb1G7l0gOA9/d1fWGnres5A9Kri+5quMEcr5
+   MexOTsyln/hqKRkgE+8TF+iouwArnzXlmqxpkSjudbh8QuS/ykBWjwDss
+   WUzgtbZMqZ/Qhd13UvX+j5DzK5YsmbYnONaS00pKZKyH09q5EORueQ/JD
+   PUofsmlkrvw7lJR18zUfKpuLFXGl3gEJCoJIeTQDWuX1yswNmMf/R8WFo
+   cdF8K9M32GCQ5E/x/bE6FdBx8N6xq/z4pc1CgQe4sMmKXRoQkv/UioX/e
+   YKWN6IgcTGwbCOIxi8uKeAu1ai7z/XbkVWL2qq09D5niPhrOny0mJ636J
+   A==;
+X-CSE-ConnectionGUID: xmNDeYafT0GR8e2th9uH6w==
+X-CSE-MsgGUID: 630FUHypRpemvuNrVyhQIA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11513"; a="56875535"
+X-IronPort-AV: E=Sophos;i="6.17,268,1747724400"; 
+   d="scan'208";a="56875535"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2025 14:32:10 -0700
+X-CSE-ConnectionGUID: sS+4LaZBRxWUPoJHjnyjmg==
+X-CSE-MsgGUID: xwqXsN4iS6q1y+pqves5PA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,268,1747724400"; 
+   d="scan'208";a="188275254"
+Received: from smile.fi.intel.com ([10.237.72.52])
+  by fmviesa002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2025 14:32:07 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1ujPGN-00000003rEk-3LnA;
+	Wed, 06 Aug 2025 00:32:03 +0300
+Date: Wed, 6 Aug 2025 00:32:03 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Danny Kaehn <danny.kaehn@plexus.com>
+Cc: Willie Thai <wthai@nvidia.com>, bartosz.golaszewski@linaro.org,
+	bentiss@kernel.org, devicetree@vger.kernel.org,
+	dmitry.torokhov@gmail.com, ethan.twardy@plexus.com,
+	jikos@kernel.org, krzk+dt@kernel.org, linux-input@vger.kernel.org,
+	robh@kernel.org, tingkaic@nvidia.com, rastekar@nvidia.com,
+	dkodihalli@nvidia.com, mhn@nvidia.com, arundp@nvidia.com
+Subject: Re: Re [PATCH v11 0/4] Firmware Support for USB-HID Devices and
+ CP2112
+Message-ID: <aJJ4U_qJY63jIvZm@smile.fi.intel.com>
+References: <20240605-cp2112-dt-v11-0-d55f0f945a62@plexus.com>
+ <20250729145350.3538324-1-wthai@nvidia.com>
+ <20250729174951.GB4111945@LNDCL34533.neenah.na.plexus.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] hid: fix I2C read buffer overflow in raw_event() for
- mcp2221
-To: Benjamin Tissoires <bentiss@kernel.org>
-Cc: Jiri Kosina <jikos@kernel.org>, linux-i2c@vger.kernel.org,
- linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
- syzbot+52c1a7d3e5b361ccd346@syzkaller.appspotmail.com
-References: <20250726220931.7126-1-contact@arnaud-lcm.com>
-Content-Language: en-US
-From: Arnaud Lecomte <contact@arnaud-lcm.com>
-In-Reply-To: <20250726220931.7126-1-contact@arnaud-lcm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-PPP-Message-ID: <175442806300.8956.3593607534755415224@Plesk>
-X-PPP-Vhost: arnaud-lcm.com
+In-Reply-To: <20250729174951.GB4111945@LNDCL34533.neenah.na.plexus.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-Hi Benjamin,
-I’m forwarding this patch to you since I noticed that Rishi’s last 
-activity on the Linux mailing list was
-over three years ago, he may no longer be actively involved.
-Please let me know if this is the right approach or if there’s a more 
-appropriate way to proceed.
-I’d hate to cause any inconvenience.
+On Tue, Jul 29, 2025 at 12:49:51PM -0500, Danny Kaehn wrote:
+> On Tue, Jul 29, 2025 at 02:53:50PM +0000, Willie Thai wrote:
+> > Hi Danny,
+> > 
+> > I hope this message finds you well.
+> > Thank you for the patch set — it’s exactly what we need for the I2C-over-USB feature in our new products.
+> > Could you please let us know when we can expect the next version of the patch set?
+> > If you've paused work on it, we're happy to take over and continue from where you left off.
+> > 
+> > Thanks!
+> 
+> Thanks for reaching out!
+> 
+> Apologies, I haven't been working on this in a while, and have only been able
+> to intermittently return to attempt to bring it forward.
+> 
+> Feel free to take over and move this forward! I'm not sure what the protocol
+> is for that, as far as changelogs and versions and whatnot. If your product's
+> timeline for needing this mainlined is not urgent; however, I can prioritize
+> coming back to this and having a v12 submitted, likely by the end of next
+> week, to remove the overhead needed for you to assume ownership of the
+> patchset.
+> 
+> The last several versions of this patchset have all revolved around trying
+> to get this change working for ACPI as well as DeviceTree in such a way which
+> make the ACPI and DeviceTree interface/binding acceptable to their respective
+> maintainers. With this latest version, it seemed that there was not going to
+> be any consensus between the two firmware languages, so it seemed an entirely
+> different binding/interface and corresponding logic in the device driver
+> would be needed. This seems unfortunate, as it seemed the whole purpose of
+> the fwnode / device_*() functions was to unify the driver interface to the
+> firmware language used... but this is presumably a special case, being almost
+> exclusively a device composed of different generic device functions...
+> 
+> Let me know if you plan to take this over and if there's any
+> documentation/context/test procedures you would need from me; else I would be
+> happy to start moving this forward again now that there is someone waiting
+> on it.
 
-Cheers,
-Arnaud
+Right and I'm, for instance, lost the context long time ago, so please Cc me on
+a new version to have a fresh look at it.
 
-On 26/07/2025 23:09, Arnaud Lecomte wrote:
-> As reported by syzbot, mcp2221_raw_event lacked
-> validation of incoming I2C read data sizes, risking buffer
-> overflows in mcp->rxbuf during multi-part transfers.
-> As highlighted in the DS20005565B spec, p44, we have:
-> "The number of read-back data bytes to follow in this packet:
-> from 0 to a maximum of 60 bytes of read-back bytes."
-> This patch enforces we don't exceed this limit.
->
-> Reported-by: syzbot+52c1a7d3e5b361ccd346@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=52c1a7d3e5b361ccd346
-> Tested-by: syzbot+52c1a7d3e5b361ccd346@syzkaller.appspotmail.com
-> Signed-off-by: Arnaud Lecomte <contact@arnaud-lcm.com>
-> ---
->   drivers/hid/hid-mcp2221.c | 4 ++++
->   1 file changed, 4 insertions(+)
->
-> diff --git a/drivers/hid/hid-mcp2221.c b/drivers/hid/hid-mcp2221.c
-> index 0f93c22a479f..83941b916cd6 100644
-> --- a/drivers/hid/hid-mcp2221.c
-> +++ b/drivers/hid/hid-mcp2221.c
-> @@ -814,6 +814,10 @@ static int mcp2221_raw_event(struct hid_device *hdev,
->   			}
->   			if (data[2] == MCP2221_I2C_READ_COMPL ||
->   			    data[2] == MCP2221_I2C_READ_PARTIAL) {
-> +				if (!mcp->rxbuf || mcp->rxbuf_idx < 0 || data[3] > 60) {
-> +					mcp->status = -EINVAL;
-> +					break;
-> +				}
->   				buf = mcp->rxbuf;
->   				memcpy(&buf[mcp->rxbuf_idx], &data[4], data[3]);
->   				mcp->rxbuf_idx = mcp->rxbuf_idx + data[3];
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
 
