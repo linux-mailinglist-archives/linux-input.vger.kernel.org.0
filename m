@@ -1,102 +1,114 @@
-Return-Path: <linux-input+bounces-13826-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13827-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7768FB1BB76
-	for <lists+linux-input@lfdr.de>; Tue,  5 Aug 2025 22:33:43 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 91DDBB1BB8D
+	for <lists+linux-input@lfdr.de>; Tue,  5 Aug 2025 22:57:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AD88C182BC5
-	for <lists+linux-input@lfdr.de>; Tue,  5 Aug 2025 20:33:43 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id ACFE07AC55B
+	for <lists+linux-input@lfdr.de>; Tue,  5 Aug 2025 20:56:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ADD32219A95;
-	Tue,  5 Aug 2025 20:33:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2376723771E;
+	Tue,  5 Aug 2025 20:57:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=endrift.com header.i=@endrift.com header.b="qiEWSq7P"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D+k4IvMB"
 X-Original-To: linux-input@vger.kernel.org
-Received: from endrift.com (endrift.com [173.255.198.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9322D4315E;
-	Tue,  5 Aug 2025 20:33:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=173.255.198.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B840B12E7F;
+	Tue,  5 Aug 2025 20:57:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754426019; cv=none; b=ddP+kPj9qsGaWeHgRqm2T6P9m3/SYL6kgjnrogQuNH9/oLzUj8JPYUkTiGhUc73D0Mq81EN9XQjtDI4p8MBfbXM9a3rJ+YYokXQK/NWzsqkoGnoRt33UvZ2zmfBHzHw7vb4XA5hrWxgXpG8G/DJi6VTy1rwu0omGT109m0/gEmE=
+	t=1754427451; cv=none; b=Zgxhm9evHhNyhNAHbzodk3IqwRJ5oK0MtpD3Lrqzk2vaZNzj/Axm7HjQ+pttau89z4DxBk0OH2wsTeEB9CvnX2EbEd5KAtk/tleEavjJF0SNbi6hO/xok5uj533tQUbZSszZM6ceyiJTV6xlliAbNKr1jwg4kuoy9ZJwXyqjCSo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754426019; c=relaxed/simple;
-	bh=nfVspZqWAHj5ymORAIDiEh0obQXe/3IXyXave1VHwBE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=Unv4DeDP51PnqUuiNjVbb+PRVqiJ1z7Cve/qXCej+7XXufhUnVuQndOXGidhHd4EWA3KE6eVKtxIfIFcIg3gwSIYmcyGV3IyoSWyofe5C97KcadreRLVEoY5cFG3FXXuuUlECeHlT/yrdqNzp+5yT5AJCLVIF2ruPOZ+D1YAZV8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=endrift.com; spf=pass smtp.mailfrom=endrift.com; dkim=pass (2048-bit key) header.d=endrift.com header.i=@endrift.com header.b=qiEWSq7P; arc=none smtp.client-ip=173.255.198.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=endrift.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=endrift.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=endrift.com; s=2020;
-	t=1754425420; bh=nfVspZqWAHj5ymORAIDiEh0obQXe/3IXyXave1VHwBE=;
-	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=qiEWSq7PGMTh0Mmgpot1/XP2XiY+8u6IzSC4xsN4ovIgYsamlhWIOxWj0dQmo5n0k
-	 CzT7sYcBTWfaebaUsONV8f1sKtp42GBv9SqmKo6ywbeaT3gxLm09c9IGuaLV2dao2L
-	 /a/v2T8ejWFg+5XEM0aF5GoRaMVfvw+Natba0eGjgZImbw2ylCMNFcN6+WwZKhIy15
-	 sKTvjoOC8w1hvqqPyCOfbeUCfXTQ8oYViQPnUf2geiuNY9Ce9+nNdbNUFEj2sSgYLE
-	 lKHemh5gQ+kY1mAKEEvLydM/FvbivzEpLRzYGVGqHrsum+ywE1WE1pRWvI7sDSTQOe
-	 bvKFtHRDpdvYw==
-Received: from [192.168.0.22] (71-212-74-234.tukw.qwest.net [71.212.74.234])
-	by endrift.com (Postfix) with ESMTPSA id 53082A03F;
-	Tue,  5 Aug 2025 13:23:40 -0700 (PDT)
-Message-ID: <1607cb00-1146-4a64-92cc-65eb91062706@endrift.com>
-Date: Tue, 5 Aug 2025 13:23:39 -0700
+	s=arc-20240116; t=1754427451; c=relaxed/simple;
+	bh=nJY6sL1Vow1jh2tM+KxiZZCdPvhuDW6WGjFbMJBy7lg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bgQO9ihoynkGwRft6XKUUq1E53C/O+62OX8GrkTM5fGHeh1f52x4fz5TDmS2ClbO58Zsrmx/nl574d1Me7OoL94KkPpoqT4bVXCe5jTpN9WJ/Fl/eO+34UCapADhuyKS9c497GgRsvAKqFz6tEU2ZQdjZLpPvcDw12f/L6RGOlE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=D+k4IvMB; arc=none smtp.client-ip=209.85.216.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-31ec651c2a1so3887400a91.0;
+        Tue, 05 Aug 2025 13:57:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1754427449; x=1755032249; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=PZB3WPkf3WjR1LKMOJSlQ99aS+by1+OhlcwCN4d0hnw=;
+        b=D+k4IvMBRTabzJwmpHQr57teAGamrutkewVlepk3KVyB6jQCBUVkbaI/kAXlQyh0ue
+         3zYJBfYIg52kYII7lDpUatyIeHkmm4sq/CFTnUqiVq8wJm6YWVlHewXlKqJkSWXJiXlH
+         LIjgZQzap/phdECfClnpvtTw5a+VU9ig1Gwx0ioOUhCnLYx6bFt/t+182cuG9rY9si08
+         iH7XEo1jt+othdUOLeIhtb4ovpoMSIJpFAk9FYWN47AXsLw97NZTO4rDzd6l6kdo6cTu
+         UElDnQjVJNXN2Hq/7F6GaBhoeNdm5Tf/4DwcZ938FeC88UlUjv8GGqBGXQmkCLSUjcF/
+         xLvg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1754427449; x=1755032249;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=PZB3WPkf3WjR1LKMOJSlQ99aS+by1+OhlcwCN4d0hnw=;
+        b=D3Q3/YBl+tyksJYk1gMnbhn+B3sC+ar0VDEjsprni5IpKLeXwn+jOXGoOnuQbRg7n7
+         BE030jwP3Yg5Y17/B3aCFy/BCBmLbw/wdB/8IyEmRbgpQijR9BFnzsq5ZubmFIC2B0R9
+         M/uimVjysW1V6Tl8pQpQtj3lrKKX9HzM3/OHy8+BWIF8/qD4v8QLh5qNGhXtkQL6mUuk
+         mv07+UHAQT/iOAgujzVpEqb7b+N0qL+zTanPDcV6SEyj3/G76UzenoUYy/k6jFGQOEkk
+         SM1X2HcySeI04PuTDntckRKtRhILuHerNgbYtgWi0xTwpZ+RWDLOt5ytVtzakc7RLOGg
+         ZO6Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWWtluLBve9QruNjW7MQH2TeCN8KEwyP1Pkh0qTgOaYjNmwvg4YpAEcoTAsH4SXHtbwfm6dw/2oBxP5G8Lo@vger.kernel.org, AJvYcCXSo5lBhttS8cdYYGPuVSMqByMWE6KFp6yfrjI8ri+oPe6eT8EvVYDdzEO18cT2JEpcqErRNR6srMK2Vg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw7JKJKHBy/uIsTtjCuvzNUctWaGd/ZNRh7P2QhHAswKKLflwuM
+	lPmfqdU7uHCuXP4IH+q1mLmJaSPlh6Su/B/sFVw6Jiog1X7j2XVM3Mn3
+X-Gm-Gg: ASbGncslkYslyBadtrINrsJ0Su4tCGUiZcajis15dC7OAKKu/nowe6FKYfcAqlM06Gw
+	el9mbPumGdjENDi3idm/eafyzRpgkDOCgNXui3bM0tb5YidPAnRrd9qvkHFfzTBGdkt7HdXfqRt
+	0bf0fLQpv8hpF6p/qhn/chGsbtfwGeyZ9/2EUHOD9YNs8vtsWQQi4BV/EWR/xELrmTIUbXFqTGw
+	ZGcxSe5Kaz9bMHvWn1GaHqP8LD4XyFPr3TSW8FeOVGpBRqt2WUNQwsZwA7pm+jwbtTRRoZ0sQfl
+	BjdBtp2JMKsCfhl1bIJmge+L9SC/A+jD4y+50Mnwliu1XMN12j/ofKtlgqTNLw02ISIV7KXvWE2
+	Jh6PU/QZhnCkm6b8DZo52a6ftjGghEmLv3w==
+X-Google-Smtp-Source: AGHT+IG444f++5vk3FrhvAJtQZExIerTSfjt7xRE0X6jhjyLmVTLpcVShlovUWrdPmhXw+dvslCrdA==
+X-Received: by 2002:a17:90b:2fc3:b0:31f:336a:f0db with SMTP id 98e67ed59e1d1-32166e093b4mr240510a91.10.1754427448808;
+        Tue, 05 Aug 2025 13:57:28 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:7365:6457:e1c0:7ff1])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-31f63da6141sm17808048a91.1.2025.08.05.13.57.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 Aug 2025 13:57:28 -0700 (PDT)
+Date: Tue, 5 Aug 2025 13:57:25 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Vicki Pfau <vi@endrift.com>
+Cc: =?utf-8?Q?P=C3=A4r?= Eriksson <parherman@gmail.com>, 
+	Pavel Rojtberg <rojtberg@gmail.com>, Nilton Perim Neto <niltonperimneto@gmail.com>, 
+	Antheas Kapenekakis <lkml@antheas.dev>, Mario Limonciello <mario.limonciello@amd.com>, 
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/3] xpad: Add support for Thrustmaster, Inc. Ferrari 458
+ Spider Racing Wheel
+Message-ID: <qnu5h6nyigaxdv3m3uxfztrxm6bad6hv6jfnvgbkr5ewhjgplz@dleqh5zzljbd>
+References: <20250805192036.53918-1-parherman@gmail.com>
+ <1607cb00-1146-4a64-92cc-65eb91062706@endrift.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/3] xpad: Add support for Thrustmaster, Inc. Ferrari 458
- Spider Racing Wheel
-To: =?UTF-8?Q?P=C3=A4r_Eriksson?= <parherman@gmail.com>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Pavel Rojtberg <rojtberg@gmail.com>,
- Nilton Perim Neto <niltonperimneto@gmail.com>,
- Antheas Kapenekakis <lkml@antheas.dev>,
- Mario Limonciello <mario.limonciello@amd.com>, linux-input@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20250805192036.53918-1-parherman@gmail.com>
-Content-Language: en-US
-From: Vicki Pfau <vi@endrift.com>
-In-Reply-To: <20250805192036.53918-1-parherman@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1607cb00-1146-4a64-92cc-65eb91062706@endrift.com>
 
-Hi Pär,
+Hi Vicki,
 
-On 8/5/25 12:20 PM, Pär Eriksson wrote:
-> Hello,
-> 
-> This patch series adds support for the Thrustmaster, Inc. Ferrari 458 Spider Racing Wheel (USB ID 044f:b671) to the xpad driver. The implementation is inspired by the work in https://github.com/Capure/xpad.
-> 
-> The wheel reports steering and pedal data at non-standard offsets, so custom axis mapping is introduced via a new mapping flag.
-> I have tested the changes with the actual hardware on Fedora 42 (kernel 6.15.7-200.fc42.x86_64), and confirmed correct input reporting.
-> 
-> If you prefer a different name for the mapping flag, please let me know.
-> 
-> Please consider this for upstream inclusion.
-> 
-> Pär Eriksson (3):
->   Input: xpad - Add MAP_FERRARI_458_CUSTOM_AXES mapping flag
->   Input: xpad - Add Thrustmaster Ferrari 458 Spider (044f:b671) device
->     entry
->   Input: xpad - Implement custom axis mapping for Ferrari 458 Spider
-> 
->  drivers/input/joystick/xpad.c | 35 ++++++++++++++++++++++++-----------
->  1 file changed, 24 insertions(+), 11 deletions(-)
-> 
+On Tue, Aug 05, 2025 at 01:23:39PM -0700, Vicki Pfau wrote:
 
-So I have several concerns with this series in general. First of all, it should be just one patch, but more importantly, the device *does* have standard offsets...just not standard *gamepad* offsets. GIP, the Xbox One controller protocol, uses GUIDs to specify the type of device in question. Most devices you're familiar with use the gamepad GUID, but the wheels use a different one which have a different set of mappings. So ideally, the name of the flag would be MAP_WHEEL.
+> I have a new driver I've been working on for a few months that
+> supports all of this stuff properly, including wheels, that I am
+> hoping to support for the 6.17 merge window.
 
-However, the problem runs deeper. This is all easily detectable from the metadata. xpad *in general* does not support the metadata parsing, so we can't autodetect it without parsing it. Unfortunately, the metadata message is fragmented. xpad *in general* does not support fragmented messages. xpad is based on a very rudimentary understanding of the protocol, which is very obsolete at this point.
+6.17 merge window is closing this weekend so no new drivers can go into
+it anymore, only what was in maintainer trees/linux-next.
 
-I have a new driver I've been working on for a few months that supports all of this stuff properly, including wheels, that I am hoping to support for the 6.17 merge window. I may be too late, but if I submit it soon you can at least pull it downstream while waiting for the 6.18 merge window. I'll see if I can get it ready before the end of the week.
+6.18 is the earliest option.
 
-Vicki
+Thanks.
+
+-- 
+Dmitry
 
