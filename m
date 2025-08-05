@@ -1,175 +1,251 @@
-Return-Path: <linux-input+bounces-13818-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13819-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6644CB1B123
-	for <lists+linux-input@lfdr.de>; Tue,  5 Aug 2025 11:34:14 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id EB306B1B390
+	for <lists+linux-input@lfdr.de>; Tue,  5 Aug 2025 14:38:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0D068188CF76
-	for <lists+linux-input@lfdr.de>; Tue,  5 Aug 2025 09:34:33 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 164FA181B4C
+	for <lists+linux-input@lfdr.de>; Tue,  5 Aug 2025 12:38:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CCB5F26C39E;
-	Tue,  5 Aug 2025 09:33:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D6EE7270565;
+	Tue,  5 Aug 2025 12:38:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=axis.com header.i=@axis.com header.b="EBwkD9CE"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EZKrzEaP"
 X-Original-To: linux-input@vger.kernel.org
-Received: from DB3PR0202CU003.outbound.protection.outlook.com (mail-northeuropeazon11010018.outbound.protection.outlook.com [52.101.84.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CD6925A2DD;
-	Tue,  5 Aug 2025 09:33:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.84.18
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754386424; cv=fail; b=javuaMfpNAuSD4iVlhWqwHjdJTOhxHlSBK7ltvUWfp08n5l1ygcKilOGhmkZYZGQN4/+tZVI0VB8jcV1r6FVztHGHS54IuoEb0apMMGlO3tGhakyKav0Ja9l2eEvnyIax1BBLNQrkscX9ZrFM34QqIhUUl4tI0Oj4sX5sA7kMWs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754386424; c=relaxed/simple;
-	bh=L03yRsMZpjuvgTbyF+buB8wpJR8kW7SmU6DKWYvPR7w=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=k2imsHzMfxJYW1PXKcIYLUou/7FtG1Be7t3qTGbQ+ONuvXVgxWw8JLfG6iINOLgXvIfEOdwP5E9ocsXZcT86btUq+dw3BpKApVZPPeOeVfynsDhxwOEobG3RylhKwSAEaxPVi4rXJ65YyKx9+KCs2O0sZOcR3CbKtmaRX8i17mI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=axis.com; spf=pass smtp.mailfrom=axis.com; dkim=pass (1024-bit key) header.d=axis.com header.i=@axis.com header.b=EBwkD9CE; arc=fail smtp.client-ip=52.101.84.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=axis.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=axis.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=WmgfnCRJTtBxOApAA8LattMBH8U7BrPl4gLnGWGqNB8uB9GFxhP0Cb5PGvr9nUyeUtTOIXgJiNOqNQhDveIyh1Ab0gBDMuGcIDoV+Zk+xvntamEL4AmbAlM7UTyC5cx0qbbqgoJngrxW0imPSmaoQ15JhuB9yuRDPs4ySw97dhVpxFckyOrPFV+f4+leBnCTEQcme2UrRtNisRR1xBrHaxrW278DRSWejeS7Lfya73vMaeXemeK1mxbWCLHJuAbDOahkoPYqu+icHKcrk2SMCqWzdwSo3s+t9dPo1Neey5WHp0Pq/DEajWl3X3ipTghXyqODpv5v6quR9oCR39Habg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+t9wQLZBGQZW5+IM798QdAa7hlQdJj+4S/1kMfdU7Ag=;
- b=OT7LlKR7/IXIkGh/bevhCd5DhiTfvGDoV8RDRNH69mwsswc1H7XYtDiGvpLhPSnYpIdfLdYlLmG8ptQ5m7byIILO+flvIcmp+8h1IYHAwtzyspwXmnjsU7Q/4CT2OJFSxN5Krhtmx2V4juRQNJe2FCi/N8kmbiHvWw6pFFnwclCn/01F7FiI7hNhcwiADiIySN5Et9ppi7HQ7KXtBd0vEZWpC1efe46CzOjmACoOdmB+oJt/+U5u4Kx1O4jclZlWHt4y2xvZFk1s2SgeknhKqzbTw0pfBnSAlqQ4UPDAtboxReLjC5FOQnQWQ6r6ZdTNJCtf2WCT/scxpRkxmCfTew==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 195.60.68.100) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=axis.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=axis.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+t9wQLZBGQZW5+IM798QdAa7hlQdJj+4S/1kMfdU7Ag=;
- b=EBwkD9CEKNoCVqDOcQKuxdHDaLfMPXMQ38gMTtf4WpCBwDcoFdMYNokn23k2OCRm5vGLtuipQBMiADm4nadGBcoK90S/IHSnW2maKZhZ8/Xxo/ufDKPo3rkRzGgSq/oDRHS95llUlcei+ZSNKIacVJNTqkhh1O+zlswM054jqik=
-Received: from CWLP123CA0024.GBRP123.PROD.OUTLOOK.COM (2603:10a6:401:56::36)
- by AS8PR02MB7157.eurprd02.prod.outlook.com (2603:10a6:20b:2e7::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8989.20; Tue, 5 Aug
- 2025 09:33:39 +0000
-Received: from AM3PEPF0000A790.eurprd04.prod.outlook.com
- (2603:10a6:401:56:cafe::5c) by CWLP123CA0024.outlook.office365.com
- (2603:10a6:401:56::36) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8989.21 via Frontend Transport; Tue,
- 5 Aug 2025 09:33:39 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 195.60.68.100)
- smtp.mailfrom=axis.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=axis.com;
-Received-SPF: Pass (protection.outlook.com: domain of axis.com designates
- 195.60.68.100 as permitted sender) receiver=protection.outlook.com;
- client-ip=195.60.68.100; helo=mail.axis.com; pr=C
-Received: from mail.axis.com (195.60.68.100) by
- AM3PEPF0000A790.mail.protection.outlook.com (10.167.16.119) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.9009.8 via Frontend Transport; Tue, 5 Aug 2025 09:33:39 +0000
-Received: from pc52311-2249 (10.4.0.13) by se-mail01w.axis.com (10.20.40.7)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.44; Tue, 5 Aug
- 2025 11:33:34 +0200
-From: Waqar Hameed <waqar.hameed@axis.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-CC: <kernel@axis.com>, <linux-input@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>
-Subject: [PATCH v2] input: zforce_ts: Remove error print for
- devm_add_action_or_reset()
-User-Agent: a.out
-Date: Tue, 5 Aug 2025 11:33:34 +0200
-Message-ID: <pndbjoum7td.a.out@axis.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C56B826FA58;
+	Tue,  5 Aug 2025 12:38:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1754397526; cv=none; b=eOM/htAg/NNUNurzDAsqp0BCICqsLGmk6GIBOM3BZV7CROIn+Kbf0kCI7a8FDgMbzblXgm8cz0BHeM5FC2ZnASntmTRBVbUnnW9MnXJM6dNWjOsSe6fwWW8DrRh4mYkVoh9e1T9znzm8lfslHMkwFsjFmYB5akLTThctOm/Y0J8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1754397526; c=relaxed/simple;
+	bh=fCIplKjYYvhpVdE9ZwS6nVUEDINPUMXvXSNU7sUfpLA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cH8wa/e4gplFdBiaRkmtcKU8+FxzPByYzLgtVGivpQaWd7yB8jC4I/ugyKj3mlVLOwNuX+WuHSsDKpNs+NOApIBz5nnYaHiykiZXISRDexTjBIWgHfmu5ODmNA95Ii22M5ED5nj9y6npM0G6FA9UyE4i13uE7uClo2J1FJVL9gk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EZKrzEaP; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-459d44d286eso10072065e9.0;
+        Tue, 05 Aug 2025 05:38:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1754397523; x=1755002323; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=BJ14w+qzAAQEnx9IRn2IhM8wMVTsftHc0WzBxA+b8MU=;
+        b=EZKrzEaPOi/pBA/t0HWHIYHN356tT/qJzXpd2ec9CWQLyofoT9iM7Dq7A74GhvWKD8
+         Z4ugeBGvbRm/lrUg0vtqloGwdslSQZdnjhjoTqR5SDiCkU67cRSzU6Gev0yWOBg7PLQI
+         8Zvlk5TlMMxLYD9vdbkLf3aHlVeMkqR9jhNMStNCBSBjM8tbbevuQtaWSYnoE7LUOUvZ
+         GmYt+MQokKApMzEFoI13bTu8lSgVMLIYaaa14jfbSXd/kc07WcxVyS2EKsa5j5vgazeY
+         spbPdwbYVWaBAeh+wwQsx8bqXZPeYgHyFbXUQ4/jGvYAcVGE1oIY/TO/aHaUvZ3bM7Iy
+         WTEA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1754397523; x=1755002323;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=BJ14w+qzAAQEnx9IRn2IhM8wMVTsftHc0WzBxA+b8MU=;
+        b=MFX8Z8kHP2zkJmG5wlo2CGAUzqK5zuRAssUHoU6IVDY4uAissXv9z+W25WWhvnXb8x
+         i9luBbY16la8hbLSoxmodUKQf9Dglmd6qSH8I2yYkW5pmquT/NAqxJSzwhP20ujCocIU
+         Xw0BNUmhA4YandeXiVtyy5hGcdhvHxzktGHDLzaLX/Zbaulg7qNeM/y5slVHAeEtmXzU
+         gIHQa05i9MuphcWfHhjUPU99HnjjCw80mo6OkXN1Wq0dtKWXZpNQ1MiwzvK+GXn1a6Ic
+         +Bd1UBOYtp1KT5Zyz5eWVoKUJCEyKKJaIpaQ8WMy5q7jKEivvEMezCKka8pNpO5KgSd0
+         2VAw==
+X-Forwarded-Encrypted: i=1; AJvYcCVy/zUjVipg0QZAI5HQqw5pvDGdgcF3ht96a6dFZG3KfvhS9adoYhq/Tk6HOLK+2yLzSfgLG//slo8olQ==@vger.kernel.org, AJvYcCWrh/z2ahwNRTmlOpSoQtybW86niPHJ0EG+S3JgzUVHeGhWtBcDLohwzUrIL3xPJ9oJCPWK3x/MRdUYGSi6@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx/Sv9pTCe6JIrT5hicGiS5OuW3KOY4eT8Txu//z+b86HsqpJJq
+	pFhBk2aUQzH+FYC8QKjIm2FG6dKKddvdhVTYHZYaMdfOa8xE1Dl7m7eb
+X-Gm-Gg: ASbGncvnM0iiFueYw2XX1/r3sRB7GAOx5SYFTKU7IFIZTLRAcUMeehXMznCJTvH0GI+
+	7j1vUyjGi0TsZmGZJDG7lIEyKY3O+OBfpT14JLOSMc956hVbvUrgEP1PnJcE69OWsp27/MrsgD1
+	d+vM8JygCq+MK8gCY8BFA3bysrUO+MTe0iX/5j8m6tGxDU0QhkFXM6evz+LLJQiHZszETN+fzUz
+	n7vkIVQ0eRoGVrpLcoWK6Nnl63T1ENpaIXNXtcetwA/9QUHjTGQJHKBibE8kZB86/jOOId1VZHc
+	3pAJ1smCSWPBMerdgUOwREhG3fE0sXeO/EJhQkbVh0hoXqRXA/SeN0wAq9xAKc+L5smRL+j04y1
+	wwT3mOxAH2C1XPFMNu4U=
+X-Google-Smtp-Source: AGHT+IGCTUpgIyHYb6qNCft/zvHNNGTnRYA97DL8RwHs7vdamwEDZwqquWmTekfjImPiYPPqyjqpZA==
+X-Received: by 2002:a05:600c:3590:b0:456:942:b162 with SMTP id 5b1f17b1804b1-459e0cc270dmr34334525e9.11.1754397522618;
+        Tue, 05 Aug 2025 05:38:42 -0700 (PDT)
+Received: from fedora ([94.73.32.0])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-458f713eb44sm111257425e9.14.2025.08.05.05.38.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 Aug 2025 05:38:41 -0700 (PDT)
+Date: Tue, 5 Aug 2025 14:38:39 +0200
+From: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
+To: =?utf-8?B?5Y2i5Zu95a6P?= <luguohong@xiaomi.com>
+Cc: "jikos@kernel.org" <jikos@kernel.org>,
+	"bentiss@kernel.org" <bentiss@kernel.org>,
+	"linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	Fei1 Jiang =?utf-8?B?6JKL6aOe?= <jiangfei1@xiaomi.com>
+Subject: Re: =?utf-8?B?562U5aSNOiDnrZTlpI06IFtFeHRl?=
+ =?utf-8?Q?rnal_Mail=5D=5BPATC?= =?utf-8?Q?H?= 2/2] HID: input: report
+ battery status changes immediately
+Message-ID: <aJH7T7_8p0GT3f2L@fedora>
+References: <20250804091215.6637-1-jose.exposito89@gmail.com>
+ <20250804091215.6637-2-jose.exposito89@gmail.com>
+ <a235549c5cf24205bb7ce7f05737c403@xiaomi.com>
+ <aJHEAHH6KCAGxs8N@fedora>
+ <b5aa18342f42420093db90ee2ead88ba@xiaomi.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-ClientProxiedBy: se-mail01w.axis.com (10.20.40.7) To se-mail01w.axis.com
- (10.20.40.7)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM3PEPF0000A790:EE_|AS8PR02MB7157:EE_
-X-MS-Office365-Filtering-Correlation-Id: 22490f3e-36cb-4ac5-a403-08ddd4032924
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700013|1800799024|82310400026|376014|13003099007;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?XUl/J+KEejwHhXJm44emnWay3HtD9k61DAgNNCaAi0JrW3Ktg9nExuogZ0N7?=
- =?us-ascii?Q?oaY7xzlGV1aMahRVtX7OMJckAFhcrY3NLjB2OsxV9IMZe6sjHww59DxwzwE+?=
- =?us-ascii?Q?JomhesG98/Eu85jz9tnz1kwPKy/RqTe6RIoqoVBJMtT4wSBGN/qFz3Gc3/AE?=
- =?us-ascii?Q?2srD79hJbiHdXjQwwvLxu/7sPVeBDZTKfIX0BNaxPxQ0LR064ev7b7sDncae?=
- =?us-ascii?Q?m2wsBv+1XFz6M8gu4R3dPLvSiOq3CjSa7KMnXIlMBMFfp7gDyRDcQiW7K70b?=
- =?us-ascii?Q?dApTkp6+34TbzxQz6kKs/2AM9Jy9jr0cBEbSrEJjexux2jhsr9XabX5RHwja?=
- =?us-ascii?Q?GW4L9qq//SOoynpZrO8F628MrUdXsvICkzyYMvAZZy3HvbOL4h66UKBf44Dw?=
- =?us-ascii?Q?mp82lAsTVvt0kyMc66Fprq0KXgDNF7PkjRS8jnTN4eVCUhDOE/YvbCwCxHJh?=
- =?us-ascii?Q?qIheIh2jfEintZeYEGCXJlt/wJ5okUZ+pMtK6ZPA2epNkwNnodPBmimzojcE?=
- =?us-ascii?Q?csiRPQJ5oPhfUAAFYAHdlbZN6B2dCD/A+pGBX9vYV+dvIrW/qWGV8UO1ChYs?=
- =?us-ascii?Q?Q+piAOMMvaqG2EzGgDUsFnh+9LEuRaia6sBvsZbGYYYlGXxSBZcbRGRu6L0O?=
- =?us-ascii?Q?awkmXDf06eIHhIhOkUA7Ttgnnfthdn0tCQWrwh+Zh4RMD5GGJKL3/cboGEYU?=
- =?us-ascii?Q?YqJyF0B0xlSw8oR1YJT1prumx8uu0MMj4Ui28VryW/qm22acmt0FFSvScRcz?=
- =?us-ascii?Q?cvSU1jcWoNPolXZWdGxU+5yZeL4iaFCS2lON7EpGT0q9FcXCwu0Rkyp6jhnR?=
- =?us-ascii?Q?8Hqlsf+hrBf6F08aECVCMFCJ4usci3d/ogw+OwKEnDd8f09dMOpljzq+3sFJ?=
- =?us-ascii?Q?brXdvfupz1+HfzPBxWLAHHBIVihnsC7YO36Szw/1SptsXZaCbbfF0cZng/EH?=
- =?us-ascii?Q?0HRmlMB5iT7BGAHU1VRUxppT+1Ew4du06pe95oYkLXTGlMCz0CzDEt2csO8X?=
- =?us-ascii?Q?OzyOBXkWiMD8p1BOtV71fwzwO9B0Tx87aXDraAzL2wrsyMeM1DNS1BINO8vR?=
- =?us-ascii?Q?AA+EWBnf/48mslHOHwhANu6j/q/zlDxrrMhjDjXMfqbQ4V7EkJSnMkMvCqLf?=
- =?us-ascii?Q?/zJVxbeKzlm0yCY+LnUmFzVcu9aV+9LCDhvCkAQNV6cLcLTuFfXP3lMaIm3y?=
- =?us-ascii?Q?DIafaTeQRr8bKIl2GYlNss469Uf6A1YErkByGGxn2BeQU9itmQtspYEFZ2QD?=
- =?us-ascii?Q?lOI/lz8w+DbjUrPMeNWKtC7asTEwBcN8ZUIz4tfcqJRC760MtQiklzmGqtHp?=
- =?us-ascii?Q?fWvIzzLRcGFaLPVg6cVigbtySxQDCPd5ceWozViL60tCRxgJY9ufREYxbVEm?=
- =?us-ascii?Q?PEOdCETVZRbZqfIrcNUhpmyHdGr3uGhDu9kWkshWF8FVeEv1nm2fLUI0QAhP?=
- =?us-ascii?Q?wxhvoQXyl4rkQ/ZQN2q04Li7ryjOdzL/WyuvtK4PGKK3A7Tgd3gr+GYvqv6m?=
- =?us-ascii?Q?7JOJGNEjoUKTYjzDHTCU+x0gm8wFS8LKjdYI?=
-X-Forefront-Antispam-Report:
-	CIP:195.60.68.100;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.axis.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(1800799024)(82310400026)(376014)(13003099007);DIR:OUT;SFP:1101;
-X-OriginatorOrg: axis.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Aug 2025 09:33:39.6318
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 22490f3e-36cb-4ac5-a403-08ddd4032924
-X-MS-Exchange-CrossTenant-Id: 78703d3c-b907-432f-b066-88f7af9ca3af
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=78703d3c-b907-432f-b066-88f7af9ca3af;Ip=[195.60.68.100];Helo=[mail.axis.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	AM3PEPF0000A790.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR02MB7157
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <b5aa18342f42420093db90ee2ead88ba@xiaomi.com>
 
-When `devm_add_action_or_reset()` fails, it is due to a failed memory
-allocation and will thus return `-ENOMEM`. `dev_err_probe()` doesn't do
-anything when error is `-ENOMEM`. Therefore, remove the useless call to
-`dev_err_probe()` when `devm_add_action_or_reset()` fails, and just
-return the value instead.
+Hi,
 
-Signed-off-by: Waqar Hameed <waqar.hameed@axis.com>
----
-Changes in v2:
+On Tue, Aug 05, 2025 at 12:25:17PM +0000, 卢国宏 wrote:
+> ________________________________
+> 发件人: José Expósito <jose.exposito89@gmail.com>
+> 发送时间: 2025年8月5日 16:42
+> 收件人: 卢国宏
+> 抄送: jikos@kernel.org; bentiss@kernel.org; linux-input@vger.kernel.org; linux-kernel@vger.kernel.org; Fei1 Jiang 蒋飞
+> 主题: Re: 答复: [External Mail][PATCH 2/2] HID: input: report battery status changes immediately
+> 
+> [外部邮件] 此邮件来源于小米公司外部，请谨慎处理。若对邮件安全性存疑，请将邮件转发给misec@xiaomi.com进行反馈
+> 
+> Hi!
+> 
+> On Tue, Aug 05, 2025 at 01:43:30AM +0000, 卢国宏 wrote:
+> > ________________________________
+> > 发件人: José Expósito <jose.exposito89@gmail.com>
+> > 发送时间: 2025年8月4日 17:11
+> > 收件人: jikos@kernel.org
+> > 抄送: bentiss@kernel.org; 卢国宏; linux-input@vger.kernel.org; linux-kernel@vger.kernel.org; José Expósito
+> > 主题: [External Mail][PATCH 2/2] HID: input: report battery status changes immediately
+> >
+> > [外部邮件] 此邮件来源于小米公司外部，请谨慎处理。若对邮件安全性存疑，请将邮件转发给misec@xiaomi.com进行反馈
+> >
+> > When the battery status changes, report the change immediately to user
+> > space.
+> >
+> > Fixes: a608dc1c0639 ("HID: input: map battery system charging")
+> > Reported-by: 卢国宏 <luguohong@xiaomi.com>
+> > Closes: https://lore.kernel.org/linux-input/aI49Im0sGb6fpgc8@fedora/T/
+> > Signed-off-by: José Expósito <jose.exposito89@gmail.com>
+> > ---
+> >  drivers/hid/hid-input.c | 17 ++++++++++-------
+> >  1 file changed, 10 insertions(+), 7 deletions(-)
+> >
+> > diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
+> > index 262787e6eb20..277538a17b57 100644
+> > --- a/drivers/hid/hid-input.c
+> > +++ b/drivers/hid/hid-input.c
+> > @@ -609,13 +609,19 @@ static bool hidinput_update_battery_charge_status(struct hid_device *dev,
+> >         return false;
+> >  }
+> >
+> > -static void hidinput_update_battery(struct hid_device *dev, int value)
+> > +static void hidinput_update_battery(struct hid_device *dev, unsigned int usage,
+> > +                                   int value)
+> >  {
+> >         int capacity;
+> >
+> >         if (!dev->battery)
+> >                 return;
+> >
+> > +       if (hidinput_update_battery_charge_status(dev, usage, value)) {
+> > +               power_supply_changed(dev->battery);
+> > +               return;
+> > +       }
+> > +
+> >
+> > > Hi, José. Shouldn't the return statement in this code be removed?
+> > > Otherwise, if both the battery level and the charging status change
+> > > simultaneously, the code following the if statement that updates the
+> > > battery level won't run, and the battery level won't be updated.
+> > > Thanks!
+> 
+> At least on the hardware I have access to, changes are reported independently.
+> 
+> I added a log at the beginning of this function to illustrate it.
+> This is the output when the battery of my device goes from 99% to 95%:
+> 
+>     New EV_PWR report:
+>         usage = 8716389
+>         value = 99
+>     New EV_PWR report:
+>         usage = 8716356 (HID_BAT_CHARGING)
+>         value = 0       (POWER_SUPPLY_STATUS_DISCHARGING)
+>     [...]
+>     New EV_PWR report:
+>         usage = 8716389
+>         value = 95
+>     New EV_PWR report:
+>         usage = 8716356 (HID_BAT_CHARGING)
+>         value = 0       (POWER_SUPPLY_STATUS_DISCHARGING)
+> 
+> If we remove that return, then "value" (0 or 1) would be used as battery level,
+> reporting wrong battery levels to user-space.
+> 
+> Isn't your device reporting its battery information in a similar way?
+> 
+> > --->>>
+> > Hello, Jose!
+> > You're right, this return can't be removed. I had previously only
+> > theoretically assumed they would be reported simultaneously, but
+> > that turned out to be incorrect. It seems your solution should be fine.
+> > Finally, when will your patch be merged into the Linux kernel?
+> > We're looking forward to using this feature. Thank you very much!
 
-* Split the patch to one seperate patch for each sub-system.
+Would you be able to test that the patches work on your device?
 
-Link to v1: https://lore.kernel.org/all/pnd7c0s6ji2.fsf@axis.com/
+I assume there won't be surprises, but better to double check if
+you have access to the affected device.
 
- drivers/input/touchscreen/zforce_ts.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+Once you test it, I'll send a second version of the code fixing a
+warning and adding you as tester of the patch. Then it is up to
+the maintainers to merge it.
 
-diff --git a/drivers/input/touchscreen/zforce_ts.c b/drivers/input/touchscreen/zforce_ts.c
-index df42fdf36ae3..4d000b5b3ae6 100644
---- a/drivers/input/touchscreen/zforce_ts.c
-+++ b/drivers/input/touchscreen/zforce_ts.c
-@@ -739,8 +739,7 @@ static int zforce_probe(struct i2c_client *client)
+Looking forward for your testing,
+Jose
  
- 	error = devm_add_action_or_reset(&client->dev, zforce_reset, ts);
- 	if (error)
--		return dev_err_probe(&client->dev, error,
--				     "failed to register reset action\n");
-+		return error;
- 
- 	snprintf(ts->phys, sizeof(ts->phys),
- 		 "%s/input0", dev_name(&client->dev));
-
-base-commit: 260f6f4fda93c8485c8037865c941b42b9cba5d2
--- 
-2.39.5
-
+> 
+> Jose
+> 
+> PS - I'll fix the warning in v2 and add a Tested-by: 卢国宏 tag once
+>      this is confirmed to work on the affected hardware.
+> 
+> >
+> >
+> >         if (value == 0 || value < dev->battery_min || value > dev->battery_max)
+> >                 return;
+> >
+> > @@ -648,7 +654,8 @@ static bool hidinput_update_battery_charge_status(struct hid_device *dev,
+> >         return false;
+> >  }
+> >
+> > -static void hidinput_update_battery(struct hid_device *dev, int value)
+> > +static void hidinput_update_battery(struct hid_device *dev, unsigned int usage,
+> > +                                   int value)
+> >  {
+> >  }
+> >  #endif /* CONFIG_HID_BATTERY_STRENGTH */
+> > @@ -1515,11 +1522,7 @@ void hidinput_hid_event(struct hid_device *hid, struct hid_field *field, struct
+> >                 return;
+> >
+> >         if (usage->type == EV_PWR) {
+> > -               bool handled = hidinput_update_battery_charge_status(hid, usage->hid, value);
+> > -
+> > -               if (!handled)
+> > -                       hidinput_update_battery(hid, value);
+> > -
+> > +               hidinput_update_battery(hid, usage->hid, value);
+> >                 return;
+> >         }
+> >
+> > --
+> > 2.50.1
+> >
+> > #/******本邮件及其附件含有小米公司的保密信息，仅限于发送给上面地址中列出的个人或群组。禁止任何其他人以任何形式使用（包括但不限于全部或部分地泄露、复制、或散发）本邮件中的信息。如果您错收了本邮件，请您立即电话或邮件通知发件人并删除本邮件！ This e-mail and its attachments contain confidential information from XIAOMI, which is intended only for the person or entity whose address is listed above. Any use of the information contained herein in any way (including, but not limited to, total or partial disclosure, reproduction, or dissemination) by persons other than the intended recipient(s) is prohibited. If you receive this e-mail in error, please notify the sender by phone or email immediately and delete it!******/#
+> #/******本邮件及其附件含有小米公司的保密信息，仅限于发送给上面地址中列出的个人或群组。禁止任何其他人以任何形式使用（包括但不限于全部或部分地泄露、复制、或散发）本邮件中的信息。如果您错收了本邮件，请您立即电话或邮件通知发件人并删除本邮件！ This e-mail and its attachments contain confidential information from XIAOMI, which is intended only for the person or entity whose address is listed above. Any use of the information contained herein in any way (including, but not limited to, total or partial disclosure, reproduction, or dissemination) by persons other than the intended recipient(s) is prohibited. If you receive this e-mail in error, please notify the sender by phone or email immediately and delete it!******/#
 
