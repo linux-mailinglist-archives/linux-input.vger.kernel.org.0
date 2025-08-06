@@ -1,100 +1,110 @@
-Return-Path: <linux-input+bounces-13830-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13831-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBD30B1BDC7
-	for <lists+linux-input@lfdr.de>; Wed,  6 Aug 2025 02:16:56 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 84C7AB1BDD5
+	for <lists+linux-input@lfdr.de>; Wed,  6 Aug 2025 02:24:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 15D427AE616
-	for <lists+linux-input@lfdr.de>; Wed,  6 Aug 2025 00:15:25 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4617C18A7DB9
+	for <lists+linux-input@lfdr.de>; Wed,  6 Aug 2025 00:24:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 73912EADC;
-	Wed,  6 Aug 2025 00:16:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 97BB118EAB;
+	Wed,  6 Aug 2025 00:24:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=endrift.com header.i=@endrift.com header.b="TiX0F+P2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jdpvXhla"
 X-Original-To: linux-input@vger.kernel.org
-Received: from endrift.com (endrift.com [173.255.198.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71646DDAB;
-	Wed,  6 Aug 2025 00:16:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=173.255.198.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B50A113AF2;
+	Wed,  6 Aug 2025 00:24:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754439409; cv=none; b=S8GANHS//rhbLzKUOV9tyO2idnLGiaUZetNCpb/YfCfiQjQyu14PyAjZUfYi/eqI92QaWLm5skgy8uTB4qEbSJV2M0/oqqwoxRlVmJtWffr8puRqSGMnKtsAmiJ7O9WT+w60enY6NjxhPI5z1U7DXlQY3IXDrdmJHH/fuKf+erk=
+	t=1754439865; cv=none; b=chYRI6UA6IJ7N1hMKSr9BMbT6Kum2gHs+WAA0rQTpSZ5n9FRkrPKwCSMxYZYvlq9GGojk+/Zl5VT0/Mt5o769tzRZmbGsJQV27naxM5/WiRMOIvfJFuSx141s5CbwJuylMEYvSQznwYBqHVBZ2MrhICAjPLzne4laXTc6XljWlE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754439409; c=relaxed/simple;
-	bh=eo0k5fk31VzWja4brLjy00H1B4D+XJXyA8qqzBF4rtw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Za+d/OW6EyjE37ZASoy/CTFzAd1LgozxLxKf5kt7YvOfdpyqXZuUZMOoZh+D28xmX2WeT5SsCtuCoEJS4YBFdzLfiY0Yn8MU9bUXZmiglGamrNCiT3lJXse2b2ABcroQuuGv1POVA+LiSJtp5+P3v5jd5wLmmW00lFUfYJXH7ro=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=endrift.com; spf=pass smtp.mailfrom=endrift.com; dkim=pass (2048-bit key) header.d=endrift.com header.i=@endrift.com header.b=TiX0F+P2; arc=none smtp.client-ip=173.255.198.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=endrift.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=endrift.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=endrift.com; s=2020;
-	t=1754439406; bh=eo0k5fk31VzWja4brLjy00H1B4D+XJXyA8qqzBF4rtw=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=TiX0F+P2CMpB+e3dXtS9nvaMJNX75rwTcQVB9G6PdE7x6HYe9A+JYEnXxb0s7EH5C
-	 kAXxd3GSnwKDoFeIt1Wz7YpMuF8sVJ+HsXEmlc9rxf55ixwXB0sDtFj2YuUcNYTsl/
-	 blermp6lI4kwACfSLJ7M7IcTUmlGWB29Pgg9evAcRdSN7mfHG8RTZHny3134e+7DOA
-	 UvDA3prspDYzhGgla0RkxDnG3L5lCOcyjSExkznPqx/UEnvz1GOgTylLF4XkhG0ASy
-	 jM3/1BZN1ILqBNZtWUAXNCJhH2l4eiwDa/yQjumRZeqSadHU/du75VsZE7s0H51kjB
-	 5K0CoM7+6Jeaw==
-Received: from [192.168.0.22] (71-212-74-234.tukw.qwest.net [71.212.74.234])
-	by endrift.com (Postfix) with ESMTPSA id 011B3A043;
-	Tue,  5 Aug 2025 17:16:45 -0700 (PDT)
-Message-ID: <c4e5f516-ba90-4c50-8a79-0bffa5b0f1f0@endrift.com>
-Date: Tue, 5 Aug 2025 17:16:44 -0700
+	s=arc-20240116; t=1754439865; c=relaxed/simple;
+	bh=NiDxZsY547/dYaQ+I07KrcgaTx4wOefvN+uysj//JVg=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Svx4HOJlO05QqJJsnSIp9WpS/1SefG6p9pKHoOJZ6QC17RvIjWF0XWwr/EQU0VUknKwsVg157k3q2ah5995/VeKV+dO39EYFpJIBbztEDXEXgxDc1Lnb/jUUchp/OhsV0lTQ3jarHFwgs1ExiHC7/whYBEuoNKNf+1DxeoAvSwA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jdpvXhla; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1754439864; x=1785975864;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=NiDxZsY547/dYaQ+I07KrcgaTx4wOefvN+uysj//JVg=;
+  b=jdpvXhlaLSCX0VNan+CHDZlCD0ki6MKHCkML9sK5xo+pgo2UddM94Cty
+   mnP92+6t+jKbRvn6JtH+t69nnWrw8m6pD1FW1+bipt1kzxGoC9Oqhilm9
+   H8L1AjZVvdBBTGSFxcVm0N4REHv1Mju979KjfFq68TDfuayoA/jHHLHGF
+   WiuL/n02i7Hgqi+jxQhR+2P+/O061kWpTEsoU+6uAlweHZnV77+UbchUq
+   34/rBlArkC9XiBwnaQ2MEqKE9NJ+fLWDhLTx2MMsu2IPZmMmuDSqinmrm
+   XDoqqKsBLiFJF8276+hM2/ppjmeEsyeQ0wOJf7q2gyqEaNN0YZzHTdpi1
+   w==;
+X-CSE-ConnectionGUID: 1uayUPStSwG6wjpdy7rNTA==
+X-CSE-MsgGUID: SG9X1+NSRICqYxu34srrng==
+X-IronPort-AV: E=McAfee;i="6800,10657,11513"; a="74326411"
+X-IronPort-AV: E=Sophos;i="6.17,268,1747724400"; 
+   d="scan'208";a="74326411"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2025 17:24:23 -0700
+X-CSE-ConnectionGUID: 9O4T3e7/QeiZ0gjjq8UODg==
+X-CSE-MsgGUID: iIbob0mFSXS4KoXZm0GVvg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,268,1747724400"; 
+   d="scan'208";a="169897799"
+Received: from shsensorbuild.sh.intel.com ([10.239.133.18])
+  by fmviesa004.fm.intel.com with ESMTP; 05 Aug 2025 17:24:21 -0700
+From: Even Xu <even.xu@intel.com>
+To: jikos@kernel.org,
+	bentiss@kernel.org
+Cc: srinivas.pandruvada@linux.intel.com,
+	linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Even Xu <even.xu@intel.com>,
+	Rui Zhang <rui1.zhang@intel.com>
+Subject: [PATCH] Hid: Intel-thc-hid: Intel-quicki2c: Enhance driver re-install flow
+Date: Wed,  6 Aug 2025 08:23:32 +0800
+Message-Id: <20250806002332.1487447-1-even.xu@intel.com>
+X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/3] xpad: Add support for Thrustmaster, Inc. Ferrari 458
- Spider Racing Wheel
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: =?UTF-8?Q?P=C3=A4r_Eriksson?= <parherman@gmail.com>,
- Pavel Rojtberg <rojtberg@gmail.com>,
- Nilton Perim Neto <niltonperimneto@gmail.com>,
- Antheas Kapenekakis <lkml@antheas.dev>,
- Mario Limonciello <mario.limonciello@amd.com>, linux-input@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20250805192036.53918-1-parherman@gmail.com>
- <1607cb00-1146-4a64-92cc-65eb91062706@endrift.com>
- <qnu5h6nyigaxdv3m3uxfztrxm6bad6hv6jfnvgbkr5ewhjgplz@dleqh5zzljbd>
-Content-Language: en-US
-From: Vicki Pfau <vi@endrift.com>
-In-Reply-To: <qnu5h6nyigaxdv3m3uxfztrxm6bad6hv6jfnvgbkr5ewhjgplz@dleqh5zzljbd>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi Dmitry
+After driver module is removed and during re-install stage, if there
+is continueous user touching on the screen, it is a risk impacting
+THC hardware initialization which causes driver installation failure.
 
-On 8/5/25 1:57 PM, Dmitry Torokhov wrote:
-> Hi Vicki,
-> 
-> On Tue, Aug 05, 2025 at 01:23:39PM -0700, Vicki Pfau wrote:
-> 
->> I have a new driver I've been working on for a few months that
->> supports all of this stuff properly, including wheels, that I am
->> hoping to support for the 6.17 merge window.
-> 
-> 6.17 merge window is closing this weekend so no new drivers can go into
-> it anymore, only what was in maintainer trees/linux-next.
+This patch enhances this flow by quiescing the external touch
+interrupt after driver is removed which keeps THC hardware
+ignore external interrupt during this remove and re-install stage.
 
-I see. I haven't been paying attention to how merge window timing works until now, so that's on me for not cleaning it up sooner for this cycle. My other concerns for this patchset still stand, though.
+Signed-off-by: Even Xu <even.xu@intel.com>
+Tested-by: Rui Zhang <rui1.zhang@intel.com>
+Fixes: 66b59bfce6d9 ("HID: intel-thc-hid: intel-quicki2c: Complete THC QuickI2C driver")
+---
+ drivers/hid/intel-thc-hid/intel-quicki2c/pci-quicki2c.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-> 
-> 6.18 is the earliest option.
+diff --git a/drivers/hid/intel-thc-hid/intel-quicki2c/pci-quicki2c.c b/drivers/hid/intel-thc-hid/intel-quicki2c/pci-quicki2c.c
+index e944a6ccb776..854926b3cfd4 100644
+--- a/drivers/hid/intel-thc-hid/intel-quicki2c/pci-quicki2c.c
++++ b/drivers/hid/intel-thc-hid/intel-quicki2c/pci-quicki2c.c
+@@ -419,6 +419,7 @@ static struct quicki2c_device *quicki2c_dev_init(struct pci_dev *pdev, void __io
+  */
+ static void quicki2c_dev_deinit(struct quicki2c_device *qcdev)
+ {
++	thc_interrupt_quiesce(qcdev->thc_hw, true);
+ 	thc_interrupt_enable(qcdev->thc_hw, false);
+ 	thc_ltr_unconfig(qcdev->thc_hw);
+ 	thc_wot_unconfig(qcdev->thc_hw);
+-- 
+2.40.1
 
-That gives me more time to clean it up and generally get it working better, so I guess it's a trade-off here. It's still missing some features I'd like to get in so I don't have to do significant refactoring later.
-
-> 
-> Thanks.
-> 
-
-Thanks,
-Vicki
 
