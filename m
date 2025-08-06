@@ -1,131 +1,137 @@
-Return-Path: <linux-input+bounces-13838-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13839-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76D05B1C7B7
-	for <lists+linux-input@lfdr.de>; Wed,  6 Aug 2025 16:36:44 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 336B4B1C853
+	for <lists+linux-input@lfdr.de>; Wed,  6 Aug 2025 17:10:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 777B1622096
-	for <lists+linux-input@lfdr.de>; Wed,  6 Aug 2025 14:36:41 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0130C18C23D3
+	for <lists+linux-input@lfdr.de>; Wed,  6 Aug 2025 15:10:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB3A028C867;
-	Wed,  6 Aug 2025 14:36:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B05A528F95E;
+	Wed,  6 Aug 2025 15:10:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="KY9Y+E59"
+	dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b="scYpNwRr"
 X-Original-To: linux-input@vger.kernel.org
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8D41823DD;
-	Wed,  6 Aug 2025 14:36:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F195C28DEF0
+	for <linux-input@vger.kernel.org>; Wed,  6 Aug 2025 15:10:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754490998; cv=none; b=MNDvcLC5e0F/9hjOd3PGlNdfNMq8Hr4pR1G2nsw7u+dyLowsC1BsLO4WmujnxrGSlw9PnQ1oER+ofwqgzGfxO1U8i0AWgjhV4qln7sgtN1VCtFvs0K7Q6kz8zQK3EHfyLL8Lahra6tsUyS92pxCoF7uTeTH/GNKJOQwvci8Zclw=
+	t=1754493023; cv=none; b=Oa9qsW5JeMj6Nd/O1SQ++dBdbn7JRf+7fx5MNST99AjJp5w/7mARg3c7rrZY62B4Wc0UF7tgLqjolbPQWagYno+WNyEk1hZm25rjaL4NWouWr2Skis7cDR5QvFvofnZLH0tPgMMyYIuaUHHFEI+DRCugoFQz+xAKwqtG2brr5fk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754490998; c=relaxed/simple;
-	bh=3vnFjNfdaPh9SkFU3xP/Tt9Wl47FarfEWi3jrckk/M0=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:From:To:
-	 References:In-Reply-To; b=pDA/lL22ol9sgMpgd/u3r57mktipVA186dKnbaIHFllF1tGlF/M84tka3/YdYCCJ2hWFdG9UPjxccdLZvTaJdNglmI8rMnGvmPh2BfzUcdt3npwBu9/xeVVUwxaQWiMSn0DNo5lnE2KcXAlnIIyidSrF3sUhvC/r8rvzKX/yQhA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=KY9Y+E59; arc=none smtp.client-ip=217.70.183.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id C9683438ED;
-	Wed,  6 Aug 2025 14:36:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1754490994;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JTJr4tzpqtVoTjg53YR9Pm/8memoRI7DH2lY0xra0mI=;
-	b=KY9Y+E59AUQWeNFvBIpOIf7XAa1Bh8a0TQRAnd6eEEo4LNTOTd6g8n/G3ZOOa0Nwi3LnaT
-	zIl3QZEocK4LNBQlJiuLSpuv6F06Zq9cQM9GjIkZ/LHiwE94EGJL22bWAilud3HlOuujnu
-	Q9q9tSMlo42aQXmp6OJl3j9iapfgWM3QcloMvC/YEr2yjIXUd3d6K8DjweMkF7U67TsXW3
-	vhxizfgJJ+FyF5GNnkUfVNJVZdf30ksz7St7wKj0yFRx/6yPuVH+HReS0SeWrQS2LJDanu
-	4jblGZcX1JlBx2l1MYxE4d53DPqPG2KA0bDH/S/RDt89AV/ST/iAuE+v3nWk2A==
+	s=arc-20240116; t=1754493023; c=relaxed/simple;
+	bh=XJj/+Ii9ne9FVPI/eszO2aSskv5085eVs2yaTGWarcc=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=iYgL4aed0qesWyWvYWsiE4A7OYGciSLiwwNav1M7ifyS5Gi2kDgKm22zVbGq6GEQteFr/u3KzrEqgO7+quydIcEJzFyGW5Bnt8B1JwGVnYmqzGEk6x0FMHtQ7cl5q0Pnykjc+14wERg9GsjYGI7oWqjPA9AQfP3l7FZhRgHQ1CI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fairphone.com; spf=pass smtp.mailfrom=fairphone.com; dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b=scYpNwRr; arc=none smtp.client-ip=209.85.218.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fairphone.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fairphone.com
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-af949bdf36cso791438266b.0
+        for <linux-input@vger.kernel.org>; Wed, 06 Aug 2025 08:10:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=fairphone.com; s=fair; t=1754493020; x=1755097820; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=lXNDxz+vD1qrumGSjygzCNxB/cloZERXqd/svDy5PxU=;
+        b=scYpNwRrI3m+cydN9NbfpAbpYxG2Gj3p6jVHu06y7Nm/h3ip44dvKfkup8WIZwV0ha
+         i8W4j9YL5zDbEPXK1qVpFvG7R+yRBnGpLFaydGKOVXwPldkrm7gG3SCHKVvZby7dBMTk
+         qfMP5rwcehqi24w900h5To/Tym9bv5pbKxaqO5mOzbxXMvSFWqGyITVhE+A6o+I++GME
+         1aip0poL4zqErGbZDPKGyAW8v99U9gDYmaGGnZEFeNfCom5p2tgSgmHio1XstCzoS/2C
+         mBmosHeVLSL3q60+iB4vaiRPG7SnRv50xbXCdD7cz4OpWbuE5FQdkVUhFKwAfZtBKqyz
+         RaTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1754493020; x=1755097820;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=lXNDxz+vD1qrumGSjygzCNxB/cloZERXqd/svDy5PxU=;
+        b=AEuIidQ5j//w9E+FNkpsPQJsXRmFYRMcGe4EfxFxuFNtSAe6iii90RKLxMXLZCRNUm
+         KqlyHl/IdlAYR0F/vdG4gpyoKhJqc+rOjh0+tAlV8Sg+SDSODIXzgFp345TkRc6YB/0d
+         ALxPV+LR/P38MpEKS8OWFpTvVtZLxTJDsVxgvIKPiskUJ/hnTt0NBtSIzuEutHfDMxxS
+         P82MjcvYI0Qjf3cNXrAMDe1UKQl/4yUWAt7MxMPOow18Ri2JWFLrLZTrJyjwIxGIT8JM
+         x8XIgsDqA//CT2AjQFW7h2c6LdAqvY267eCJKNrRlULsTUNksLmr0DCMw+gKemw2qouX
+         Hkhw==
+X-Gm-Message-State: AOJu0YxoWhc/tz2bRAHytjOBlzQExqKrJNoEUoH1C6Jr+e1WV+Y3QK14
+	cmNSKQiSDCnQ3X5f4yWbHsRRBKCJiMVPB7ukDW+1n1ZWS0+T8JIUEiHDiai+kEnw+I4=
+X-Gm-Gg: ASbGncvLgEiFMEWRJ16lKWiDeJlMumOAQ19dhC2pExEHFBHDIe6d5dlYZN7qbXXwqHt
+	P7MJD2ACnwfzS4VuCKVAv3+QkE4kmOGlowrpy+tYW624Y3SYQnCZ8LEJWZQlbRBVTpLe0LVQCky
+	lmkZmFTp1nUzBhS4KwqKp3ue1hNaJKRW2Rik3QAiwuS1HTTRDWbHYk0mvy38la/869PyW+xU3qf
+	+4xUD4rOWBy6U3tYGmlnOcw7WW9Ap/bAho63AGZ8ygf1k3l2SmuSWRIt3FoEzF50F6tFDXXr2ey
+	+EWI3qN+voPSFfa+5Skjq1XRklo3kVR5F4b+x6xnnkwDSOkhAfBBcX2hfv6a4ouQITixBDZh9aG
+	clW9CqcTZwgqLQE+aBRqS2n++8MLAc4w/TcIWbg9e2/pEJxW28ycHhBeB9wUdf073yz5UC9wkI6
+	P0CtkrMzTpdOqlHw==
+X-Google-Smtp-Source: AGHT+IFGxksQxksr9gdwZChs5Q7bTY2ry/u6i3uopbyTI4KkbR/QSULpJPg3RPcCg7fhSoD/RX3RLw==
+X-Received: by 2002:a17:907:7f18:b0:af9:2502:7772 with SMTP id a640c23a62f3a-af992bc37femr303160166b.54.1754493020271;
+        Wed, 06 Aug 2025 08:10:20 -0700 (PDT)
+Received: from [172.16.220.71] (144-178-202-139.static.ef-service.nl. [144.178.202.139])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-af91a0a3b77sm1120100666b.51.2025.08.06.08.10.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 06 Aug 2025 08:10:19 -0700 (PDT)
+From: Griffin Kroah-Hartman <griffin.kroah@fairphone.com>
+Subject: [PATCH 0/3] Add support for Awinic AW86927 haptic driver
+Date: Wed, 06 Aug 2025 17:10:07 +0200
+Message-Id: <20250806-aw86927-v1-0-23d8a6d0f2b2@fairphone.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 06 Aug 2025 16:36:32 +0200
-Message-Id: <DBVF5EWK7WRF.3Q0CRECYQOER0@bootlin.com>
-Subject: Re: [PATCH v12 04/10] pwm: max7360: Add MAX7360 PWM support
-Cc: "Lee Jones" <lee@kernel.org>, "Rob Herring" <robh@kernel.org>,
- "Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Conor Dooley"
- <conor+dt@kernel.org>, "Kamel Bouhara" <kamel.bouhara@bootlin.com>, "Linus
- Walleij" <linus.walleij@linaro.org>, "Bartosz Golaszewski" <brgl@bgdev.pl>,
- "Dmitry Torokhov" <dmitry.torokhov@gmail.com>, "Michael Walle"
- <mwalle@kernel.org>, "Mark Brown" <broonie@kernel.org>, "Greg
- Kroah-Hartman" <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
- <rafael@kernel.org>, "Danilo Krummrich" <dakr@kernel.org>,
- <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-gpio@vger.kernel.org>, <linux-input@vger.kernel.org>,
- <linux-pwm@vger.kernel.org>, <andriy.shevchenko@intel.com>,
- =?utf-8?q?Gr=C3=A9gory_Clement?= <gregory.clement@bootlin.com>, "Thomas
- Petazzoni" <thomas.petazzoni@bootlin.com>, "Andy Shevchenko"
- <andriy.shevchenko@linux.intel.com>
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
-X-Mailer: aerc 0.19.0-0-gadd9e15e475d
-References: <20250722-mdb-max7360-support-v12-0-3747721a8d02@bootlin.com>
- <20250722-mdb-max7360-support-v12-4-3747721a8d02@bootlin.com>
- <2msg7e7q42ocjewv35rytdtxwrfqrndpm2y5ustqeaeodencsd@nfdufgtevxte>
- <DBVBZ48R7DNR.850O5X7MLMEF@bootlin.com>
- <praujgmc3c63j6brecp5kwn7tbdd7rcxmrxn67kxhxcr7rpyhw@pfbsgycx4aop>
-In-Reply-To: <praujgmc3c63j6brecp5kwn7tbdd7rcxmrxn67kxhxcr7rpyhw@pfbsgycx4aop>
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdduudekfedtucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpegggfgtfffkufevhffvofhfjgesthhqredtredtjeenucfhrhhomhepfdforghthhhivghuucffuhgsohhishdquehrihgrnhgufdcuoehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeekhfekieeftefhjeetveefudehuddvvdeuvddvudfgfffhveekffethfeuffdtudenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepvdgrtddumegtsgdugeemheehieemjegrtddtmeeffhgtfhemfhgstdgumeduvdeivdemvdgvjeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddumegtsgdugeemheehieemjegrtddtmeeffhgtfhemfhgstdgumeduvdeivdemvdgvjeeipdhhvghloheplhhotggrlhhhohhsthdpmhgrihhlfhhrohhmpehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedvfedprhgtphhtthhopehukhhlvghinhgvkheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhgvvgeskhgvrhhnvghlrdhorhhgpdhrtghpt
- hhtoheprhhosghhsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehkrhiikhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegtohhnohhrodgutheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepkhgrmhgvlhdrsghouhhhrghrrgessghoohhtlhhinhdrtghomhdprhgtphhtthhopehlihhnuhhsrdifrghllhgvihhjsehlihhnrghrohdrohhrghdprhgtphhtthhopegsrhhglhessghguggvvhdrphhl
-X-GND-Sasl: mathieu.dubois-briand@bootlin.com
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAE9wk2gC/3XMTQ6CMBCG4auQrq3pz1DAlfcwLsZhKl0IpBjUE
+ O5ucaNRXH6Ted5JDBwDD2KXTSLyGIbQtWnoTSaowfbMMtRpC6NMrkoFEm+lq0whq7quyRpPyCT
+ Sdx/Zh/urdDim3YTh2sXHKzzq5frbGLVU0hnUTLrwHmHvMcS+6VreUncRS2c0nzZ/W7PYwvkUd
+ ApOtGbtp3Vva5MFAMITFInimoU/FpKlXClrqhKt5m87z/MTH5SnElYBAAA=
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>, 
+ Luca Weiss <luca.weiss@fairphone.com>
+Cc: linux-input@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ Griffin Kroah-Hartman <griffin.kroah@fairphone.com>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1754493019; l=1235;
+ i=griffin.kroah@fairphone.com; s=20250804; h=from:subject:message-id;
+ bh=XJj/+Ii9ne9FVPI/eszO2aSskv5085eVs2yaTGWarcc=;
+ b=bdtHg4oKQcgns5dedD3nEjg/wB17OzGg5zzZbVVTORzPqFBn4Q/wt7aXuBTPE7Pq0fa0CN+CN
+ XlnMIvCr7uSBsuHZZZUpFgzhBW7tuaWKKIMZykbrRCv3BKVqL0J6pe+
+X-Developer-Key: i=griffin.kroah@fairphone.com; a=ed25519;
+ pk=drSBvqKFiR+xucmLWONHSq/wGrW+YvcVtBXFYnYzn8U=
 
-On Wed Aug 6, 2025 at 4:02 PM CEST, Uwe Kleine-K=C3=B6nig wrote:
-> On Wed, Aug 06, 2025 at 02:07:15PM +0200, Mathieu Dubois-Briand wrote:
->> > I think the right thing to do here is:
->> >
->> > 	if (wf->period_length_ns > MAX7360_PWM_PERIOD_NS)
->> > 		return 1;
->> > 	else
->> > 		return 0;
->>=20
->> I can definitely do that, but now I'm a bit confused by the meaning of
->> this return value: is it 0 on success, 1 if some rounding was made,
->> -errno on error? So I believe I should only return 0 if
->> wf->period_length_ns =3D=3D MAX7360_PWM_PERIOD_NS, no?
->>=20
->> Or reading this comment on pwm_round_waveform_might_sleep(), maybe we
->> only have to return 1 if some value is rounded UP. So I believe the test
->> should be (wf->period_length_ns < MAX7360_PWM_PERIOD_NS).
->
-> Right,
->
-> 	if (wf->period_length_ns < MAX7360_PWM_PERIOD_NS)
-> 		return 1;
-> 	else
-> 		return 0;
->
-> So 0 =3D request could be matched by only rounding down, 1 =3D request co=
-uld
-> be matched but rounding up was needed, negative value =3D error.
->
+Add devicetree bindings and a driver for the AW86927 haptic driver, and
+add it to the devicetree for the Fairphone 5 smartphone.
 
-Ok, thanks for the explanation.
+This driver does not enable all capabilities of the AW86927, features
+such as f0 detection, rtp mode, and cont mode are not included.
 
-I will fix the return value, and a new version should come soon.
+Note: This is my first driver I have ever worked on so if there is
+anything I can do to improve it please let me know!
+
+Signed-off-by: Griffin Kroah-Hartman <griffin.kroah@fairphone.com>
+---
+Griffin Kroah-Hartman (3):
+      dt-bindings: input: Add bindings for Awinic AW86927
+      Input: aw86927 - add driver for Awinic AW86927
+      arm64: dts: qcom: qcm6490-fairphone-fp5: Add vibrator support
+
+ .../devicetree/bindings/input/awinic,aw86927.yaml  |  48 ++
+ arch/arm64/boot/dts/qcom/qcm6490-fairphone-fp5.dts |  18 +-
+ drivers/input/misc/Kconfig                         |  11 +
+ drivers/input/misc/Makefile                        |   1 +
+ drivers/input/misc/aw86927.c                       | 841 +++++++++++++++++++++
+ 5 files changed, 918 insertions(+), 1 deletion(-)
+---
+base-commit: 3624e9a34b36d64a7037946eda28ae9599363a3b
+change-id: 20250804-aw86927-9dddc32fcaec
 
 Best regards,
-Mathieu
-
-
---=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+-- 
+Griffin Kroah-Hartman <griffin.kroah@fairphone.com>
 
 
