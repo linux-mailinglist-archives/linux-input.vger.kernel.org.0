@@ -1,170 +1,129 @@
-Return-Path: <linux-input+bounces-13845-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13846-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9DA1B1C8B8
-	for <lists+linux-input@lfdr.de>; Wed,  6 Aug 2025 17:29:12 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id BE1A4B1CA02
+	for <lists+linux-input@lfdr.de>; Wed,  6 Aug 2025 18:50:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9C8106271AC
-	for <lists+linux-input@lfdr.de>; Wed,  6 Aug 2025 15:29:11 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5F03418C37B0
+	for <lists+linux-input@lfdr.de>; Wed,  6 Aug 2025 16:50:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A476293B5F;
-	Wed,  6 Aug 2025 15:28:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 20237247280;
+	Wed,  6 Aug 2025 16:49:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="u7P08CXk"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="esYAIY1z"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7ADE8292B54
-	for <linux-input@vger.kernel.org>; Wed,  6 Aug 2025 15:28:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D61EBA34;
+	Wed,  6 Aug 2025 16:49:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754494139; cv=none; b=jBqK5cTGMx6EXqbx2FqrhQEDKFIGyss+13il+GTPCwI4rFrJBumuvYkUbxiBVBhWPf3y433hZAAB1Xz3S/Mg4t2ndMvWW4d6QX6po6Zgl/9vz3LRK86yY5puPB7nbCRJYxqOc+rwR17V+I6CM1G7LRoJEavSItt1Z4YUqkwwyno=
+	t=1754498998; cv=none; b=HwrWKwgCEYLwIXGuAYsHZ3zjVIY6el0uznBxJoPbrThd3X07EdQo4amV9WCmJIK0GnwZKI64aBaQ8iaK52veO/VM+DNdyT4lsj/VivxnVtDc+PmiNjHifig3Swggvsp1NxTr4+SmBleiii4dUBz3SIpML6++TJeEu5W32c2jRdo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754494139; c=relaxed/simple;
-	bh=njnkMeXbBDfv59fZU5JyPP1/vQsmLknJZSUpgVpQIic=;
-	h=Mime-Version:Content-Type:Date:Message-Id:From:To:Cc:Subject:
-	 References:In-Reply-To; b=bSS3uu/elkvUFT9h6M/WAIe1hkn9JzB+2QmE9e9OM5hu6yTzoC8VAleQpAOGDOcdr1wonSnZIhrDuU9aiUZLiOBqjaPLBfJ5YaOk2RtHyeAOu9YdVFYrb3FZ3ASRK76SsppCp9swEQbsVt10mSNlMy/BXp8d9IGXRWlCzywvIT8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=u7P08CXk; arc=none smtp.client-ip=209.85.221.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-3b78d337dd9so3813636f8f.3
-        for <linux-input@vger.kernel.org>; Wed, 06 Aug 2025 08:28:57 -0700 (PDT)
+	s=arc-20240116; t=1754498998; c=relaxed/simple;
+	bh=9fXIfvecTSaOv7VPj33ymGSXSz01PDOaFPOL7TXwfng=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=n0th7cc0xACLlEchqzj8jlS21C1bsm8M4XoLQEtDduBE3QoIE1CjkbKKYHVVGUmG4bH77VRpumm/yCm2PQMtPAPJtJAvQmP6vfhFDwJfLUy3QbLLbpRJ47oXw6gI47jV1XNejtWmXopgp7yniEOoefMKUPl5nQHCAmNZ0UOURT4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=esYAIY1z; arc=none smtp.client-ip=209.85.210.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-76bc5e68d96so137527b3a.3;
+        Wed, 06 Aug 2025 09:49:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1754494136; x=1755098936; darn=vger.kernel.org;
-        h=in-reply-to:references:subject:cc:to:from:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6ASSxJEQXfE633CevXWqyyh5f9WPRpCDbV8wTQIWfMY=;
-        b=u7P08CXklqtrakIE7WQtSZt9fTEh9XfBYF0vu9B6liWJjyNQ5Wef+qDfYQQUnHl7E3
-         qrdIp7Uo9nBrQ9VP2ldUknh2jA88XN/TPUqu0sfePGGNMQDAhGrVaMLEZaCF9yK7KL+F
-         Fb2f2GxF/eTd3d00nk9Ryji0lqW4vFhO/bT3Rd0Bxs8/jwXj5j+TUvcxTEVWta+pp1qX
-         IgTU68NoEA7ABggj0D25BhvBfjhO/8u4j5Tmy7Qpsa21hDrDwZt6BgMJbIFpbms9GPj6
-         8667NnK52xUICloHNOtOSOrRRpvBQbt3gwFR/XKuRkqdSpiqEcO+e1zJblVfNZ+z4J5t
-         aBfw==
+        d=gmail.com; s=20230601; t=1754498996; x=1755103796; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=2hxPoNGqnrfhBrfHS1iu6MjT/Y0C5RkQPJequbXhIKE=;
+        b=esYAIY1zDXWRjVrlgY5oMjWC8tfGWWtWlp6B20fmNt6tL30RwGPp68Viot2zZotIDn
+         ivBkh6hT2FI0qtGsC+kthpiygL76YNrbAMGEClFgMoEeCZMRcBm+vazg4eqo8Shhst18
+         fz6qBXQxPVuRgdWzVctbQ2GEWRn3C0le25vJl096tcJKV/n4st5mbmmHBCp/3yrYrf7c
+         1nY71vyzKui1img1JOWgov6FxFaPY+ONwVvG13+mtEs9c662j2axnBrcxB2tqfIsLwiQ
+         D7Mk4FOTJRSejuPkmw9wvVX4PSJacj0TvinWgTKG6VtQLd0Nmt1WLSDrZ5Kc+bEiL39C
+         If1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754494136; x=1755098936;
-        h=in-reply-to:references:subject:cc:to:from:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=6ASSxJEQXfE633CevXWqyyh5f9WPRpCDbV8wTQIWfMY=;
-        b=NJJO9GbaQoMtwraA4Hqy0znjTuxNQe5jQh53w966OvWVldMDqaHFpfz0YN7urQLNT7
-         ZkOwnDC2lpQsoF+Fz43170w4rG5jZkoqwc2Va/9q/iqtAN8p8EyjiQ1i/3YTEQGdXR6G
-         C05o+SW+AqjiHUKr9re2bG4vo132INpGrBWOvhaUPmimhNU9SLtk6A4pmf3uIq5Hf6Zm
-         jr67Zzn7PEwbRZ237eSRDa5Wk54JKTx/MJLVm7FAuwogDaySTnymh+9tJk8auYXbhoVA
-         F2m4SYMv7krxb62qNJovj42AfNHIimfK6/iTD7+XdY/gk0NOBzo4Bk4jEnfN+L4pUBJR
-         AzRg==
-X-Gm-Message-State: AOJu0YyjJ6pf7O7S2BvmXZ6ycwxBbjeqSYEodcfoEN9hPfqcg5ynvfiJ
-	QXuFuaOPmfUMmHvkZ5C6SjjGBQgFdF+dx+mocg0gPXjqK2PE98K4zd0z5t1Z2YWjRwQ=
-X-Gm-Gg: ASbGnctdWpA1dDbJ0AGwuushSPBJeaCGo6r2wUqynH/unjLRnBtxPOMjaUo2OkadhOZ
-	cCvSHhUci9k3Al8/dBjWaGEnmb6FIGuLHevvLlchd5l2wN54YOCCe3d46lM8fQjS4cmyXJdGN19
-	h3uAWvAWYHXSznVDP+qWT62RP/26zGAhvejbjlCmgLHjs/Uy86w7YpefFGBRS4VgB+QPiCyqK2u
-	DJIc2lFWTR5LxgDBacpFeKzTfoegLffQuBhYCk/PAZuRMlduZCI1fa//zWrbcG0M1kIQbqKxplX
-	pJQJnGRQBPyRE6noqlda7wgse05h4sTW8v7TjqAuk/PxhDgA2U7fZJsLXnMsQmlIqFzY0wsEAgk
-	nojBkJ2Oe+ydPJK3qUX1hQqsvRks=
-X-Google-Smtp-Source: AGHT+IGms6BpP/B6mpjSuEArIcBP3P6tAGM77/jKb6ok4h3wKMwoMthR/0suEVsblhKxO8hTtm5llg==
-X-Received: by 2002:a5d:64e8:0:b0:3b8:d3cc:8dc with SMTP id ffacd0b85a97d-3b8f491cc2emr2641189f8f.28.1754494135791;
-        Wed, 06 Aug 2025 08:28:55 -0700 (PDT)
-Received: from localhost ([2a00:2381:fd67:101:6c39:59e6:b76d:825])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b79c48de68sm23490188f8f.67.2025.08.06.08.28.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 06 Aug 2025 08:28:55 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1754498996; x=1755103796;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2hxPoNGqnrfhBrfHS1iu6MjT/Y0C5RkQPJequbXhIKE=;
+        b=Dn0drnYLGco+D+FuNASABgH93q+SqFmo672DXgQy2ZDl6hj2DLm4/pd40fOIEKClsV
+         QfUuTuwiH8jN7P2gwnHaAsqwEXOi/GKjrJgHwlF+eI1RTt0x6ZVbjBWZrGbq74Mn+WsH
+         WhPWADtdhkZOFLrbQMGEOmKlY2QlvwMSEqG7mWBumDDz4kMTQ6II65greuZfs9BJ8MAm
+         A8jIW9rl188d+srCeYy8T7mtNmpYqa7vjHJB/PcfRSUT2hPfCif5I8Nd/+VgHxAGJ3Pq
+         FCoNwmBpRIB6DbsLc59UR65hpe9aOW0ABTs6A6LXk5L5lOh0CPlXRO0G1zsQKuDVPPJA
+         Anxg==
+X-Forwarded-Encrypted: i=1; AJvYcCUodIPDiCZKI8dVRhqHmngIrLk+ye/0eD63y0ufmr0Q3kOU58/OjWaC8xX6Lz2UOnVg9uhQ8OQKa6Sr0jkK@vger.kernel.org, AJvYcCVdb8+ptC4wGAVdkGqrBX5uWeOwGPbnCM+2KY2B7F381zmSIBG/CCl6byxNMSGZm8LniMprMztcd0bXZjQ=@vger.kernel.org, AJvYcCXk/k3dfUWiQepEbR4U60HGHtO4LPO+eVxQsKSP1Y/y2tQU6fsORSytLuXp8sJklAHV55eUBrkTUDDa@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx3m0Xf229EYmAEJX1tUEQKA0n5/Isr2mn9s04gOs+3v3sCNJji
+	stgiBCTdbAH9DDzZlo/npSq/eKKr1p//4QVRIrQf12y1XeXx9dicxZfb
+X-Gm-Gg: ASbGncvDWoCeRxkewOUgU6xf4LfesMCLRjStpG3KTpxfItGvCHuZd0SIb1Wmu8n+Z3g
+	PJveS+6r4Je/dSgR56nvelZQ40ROe+AlOyx8NcCMWyaq02IpvJmj+4zpJgAQMW7zXela1g0bcHA
+	1SFsCEll4hphQCuCIQ602qeIrO474pDQTanfbadMGbfYchHOsnpe8saQa4TRvuqrwrtxqd5HKga
+	+aJjjFjxHCYQDV8hSRLgWnX+8JSPOa+NboywKLg6SM+IjE6/jWbvyr9qiIqn6Qjw8qJKAOLpmx4
+	QfJ7Qsu4wCke/jWcfvEpv47pfnVqA1PctoTQqzRlIj+oBWo4+W2TXve+RKcYF0zH8LU3PCp5nhr
+	RvPnpgbaPHGdYa6GBtz2I+3M=
+X-Google-Smtp-Source: AGHT+IFsccJl+8grrtfEeQECM+TOHiPBar5NCMMdqnb5GEn/iiF9QyTE/qR0isk8lV8PjxYY9tqQWg==
+X-Received: by 2002:a05:6a20:7484:b0:240:750:58f with SMTP id adf61e73a8af0-240314f5ef5mr5388018637.30.1754498995688;
+        Wed, 06 Aug 2025 09:49:55 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:f30b:816f:bb8c:fe9f])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-76bcce6f30bsm15918359b3a.16.2025.08.06.09.49.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 06 Aug 2025 09:49:55 -0700 (PDT)
+Date: Wed, 6 Aug 2025 09:49:52 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: Julien Massot <julien.massot@collabora.com>, kernel@collabora.com, 
+	Matthias Brugger <matthias.bgg@gmail.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, linux-input@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH 1/3] Input: mtk-pmic-keys - MT6359 has a specific release
+ irq
+Message-ID: <akavphbw2wh5vga3eoe6abqdawdssko4cy2sz7oedef4jvzunn@37whg62gmfoh>
+References: <20250801-radxa-nio-12-l-gpio-v1-0-d0840f85d2c8@collabora.com>
+ <20250801-radxa-nio-12-l-gpio-v1-1-d0840f85d2c8@collabora.com>
+ <a9cd33f5-cc37-4a1d-b1fd-094761a146ed@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 06 Aug 2025 16:28:54 +0100
-Message-Id: <DBVG9ID1KS59.27QTXCZOWJVNM@linaro.org>
-From: "Alexey Klimov" <alexey.klimov@linaro.org>
-To: "Griffin Kroah-Hartman" <griffin.kroah@fairphone.com>, "Dmitry Torokhov"
- <dmitry.torokhov@gmail.com>, "Rob Herring" <robh@kernel.org>, "Krzysztof
- Kozlowski" <krzk+dt@kernel.org>, "Conor Dooley" <conor+dt@kernel.org>,
- "Bjorn Andersson" <andersson@kernel.org>, "Konrad Dybcio"
- <konradybcio@kernel.org>, "Luca Weiss" <luca.weiss@fairphone.com>
-Cc: <linux-input@vger.kernel.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>
-Subject: Re: [PATCH 2/3] Input: aw86927 - add driver for Awinic AW86927
-X-Mailer: aerc 0.20.0
-References: <20250806-aw86927-v1-0-23d8a6d0f2b2@fairphone.com>
- <20250806-aw86927-v1-2-23d8a6d0f2b2@fairphone.com>
-In-Reply-To: <20250806-aw86927-v1-2-23d8a6d0f2b2@fairphone.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a9cd33f5-cc37-4a1d-b1fd-094761a146ed@collabora.com>
 
-Hi Griffin,
+On Mon, Aug 04, 2025 at 10:05:21AM +0200, AngeloGioacchino Del Regno wrote:
+> Il 01/08/25 15:16, Julien Massot ha scritto:
+> > A recent commit in linux-next added support for key events.
+> > However, the key release event is not properly handled: only key press events
+> > are generated, leaving key states stuck in "pressed".
+> > 
+> > This patch ensures that both key press and key release events are properly
+> > emitted by handling the release logic correctly.
+> > 
+> > Note: the code was introduced in linux-next by commit
+> > bc25e6bf032e ("Input: mtk-pmic-keys - add support for MT6359 PMIC keys")
+> > and is not yet present in mainline.
+> > 
+> > Signed-off-by: Julien Massot <julien.massot@collabora.com>
+> 
+> Well, you are effectively fixing the commit that you pointed out, so this needs
+> 
+> Fixes: bc25e6bf032e ("Input: mtk-pmic-keys - add support for MT6359 PMIC keys")
+> 
+> and
+> 
+> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
-On Wed Aug 6, 2025 at 4:10 PM BST, Griffin Kroah-Hartman wrote:
-> Add support for the I2C-connected Awinic AW86927 LRA haptic driver.
->
-> This driver includes a hardcoded sine waveform to be uploaded to the
-> AW86927's SRAM for haptic playback.
-> This driver does not currently support all the capabilities of the
-> AW86927, such as F0 calibration, RTP mode, and CONT mode.
->
-> Signed-off-by: Griffin Kroah-Hartman <griffin.kroah@fairphone.com>
-> ---
->  drivers/input/misc/Kconfig   |  11 +
->  drivers/input/misc/Makefile  |   1 +
->  drivers/input/misc/aw86927.c | 841 +++++++++++++++++++++++++++++++++++++=
-++++++
+I am really interested in how exactly this was developed, tested, and
+reviewed...
 
-[...]
+Thanks.
 
-> +static int aw86927_probe(struct i2c_client *client)
-> +{
-> +	struct aw86927_data *haptics;
-> +	unsigned int read_buf;
-> +	int err;
-> +
-> +	haptics =3D devm_kzalloc(&client->dev, sizeof(struct aw86927_data), GFP=
-_KERNEL);
-> +	if (!haptics)
-> +		return -ENOMEM;
-> +
-> +	haptics->dev =3D &client->dev;
-> +	haptics->client =3D client;
-> +
-> +	i2c_set_clientdata(client, haptics);
-> +	dev_set_drvdata(&client->dev, haptics);
-> +
-> +	haptics->regmap =3D devm_regmap_init_i2c(client, &aw86927_regmap_config=
-);
-> +	if (IS_ERR(haptics->regmap))
-> +		return dev_err_probe(haptics->dev, PTR_ERR(haptics->regmap),
-> +					"Failed to allocate register map\n");
-> +
-> +	haptics->input_dev =3D devm_input_allocate_device(haptics->dev);
-> +	if (!haptics->input_dev)
-> +		return -ENOMEM;
-> +
-> +	haptics->reset_gpio =3D devm_gpiod_get(haptics->dev, "reset", GPIOD_OUT=
-_HIGH);
-> +	if (IS_ERR(haptics->reset_gpio))
-> +		return dev_err_probe(haptics->dev, PTR_ERR(haptics->reset_gpio),
-> +				     "Failed to get reset gpio\n");
-> +
-> +	/* Hardware reset */
-> +	aw86927_hw_reset(haptics);
-> +
-> +	/* Software reset */
-> +	err =3D regmap_write(haptics->regmap, AW86927_RSTCFG, AW86927_RSTCFG_SO=
-FTRST);
-> +	if (err)
-> +		return dev_err_probe(haptics->dev, PTR_ERR(haptics->regmap),
-> +					"Failed Software reset\n");
-> +
-> +	/* Wait ~3s until I2C is accessible */
-> +	usleep_range(3000, 3500);
-
-3 ms or 3 seconds?
-
-[..]
-
-Best regards,
-Alexey
+-- 
+Dmitry
 
