@@ -1,167 +1,306 @@
-Return-Path: <linux-input+bounces-13833-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13834-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9317BB1C168
-	for <lists+linux-input@lfdr.de>; Wed,  6 Aug 2025 09:40:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E460B1C16B
+	for <lists+linux-input@lfdr.de>; Wed,  6 Aug 2025 09:42:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C077E185EFC
-	for <lists+linux-input@lfdr.de>; Wed,  6 Aug 2025 07:40:07 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A81F3181AA2
+	for <lists+linux-input@lfdr.de>; Wed,  6 Aug 2025 07:42:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F0DD021A95D;
-	Wed,  6 Aug 2025 07:40:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 72D3521859A;
+	Wed,  6 Aug 2025 07:42:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kvAk3qzz"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X4Cz4PzC"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39D57217723;
-	Wed,  6 Aug 2025 07:40:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 616DA1FC8;
+	Wed,  6 Aug 2025 07:42:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754466001; cv=none; b=trpej2j53Ufxk63Mz811gNqhys9KqcXj0DPNANZalpjXkzGED/OWU9NvI/PU1WqnwjBYcFZLqDbJLGvmYAiFvz8Np2fHkUPTumZ7xdJNTMsRkPoVdahLkZruDQ6Erb7J2GFH/mmiP2vnjXL3HdiO+6iPTtKNdvERuJeiyG6lzsI=
+	t=1754466135; cv=none; b=qMQjs0Jejnedi6ZyrI94f8prnhaidVd4S/cb+dckeeMiBjLuObfAiqfbBR3kE4CaemFIoz4Ayv39ndEioWaSkKjzFd7KsOuDXMYCEPDUo4uJsbgyFzMKf3o2QYQGmwKigpT+JNj8yK2AO2GExdkT4mEw4nhsmUCsrjq7P1CQOE4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754466001; c=relaxed/simple;
-	bh=P+mQdIKVx8+6SPXgnvAOQPII5PqeUjTD2wcxHWeYFRY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=nP4uLzbGpDv9QyvW6mH50XcOxuT1YokCjUothS5SbwZG+VVgx0WH3WvwUewMrJmmtA8OxLHzCwwHhb4b8Uh16S5pv3Oyb7pxkGcBZd/lzlRrxvr7N8yj7QHzetFCZmTmQsDk9LW/z7NnYpE0HmamX9DvFay1JgFOmjKNBEjyOIg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kvAk3qzz; arc=none smtp.client-ip=209.85.221.54
+	s=arc-20240116; t=1754466135; c=relaxed/simple;
+	bh=ki+85WZZErf2h8qeAmHmY+ki0OS4XjOJXt0lI5UvJA4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EvfWNAYSbMN9mh/3dADi4gZ9RzCCCV1CDXJl8ccdcrXiu6KeTu7Rc0IQWDx+YpOKSLQIgRtml0N86NvvGsgxzoueQRde7k/Ww7vcP4aRQ8Wc/DGPyKdrpDZlgQCq+8SjqMMgL5dqgAsmHQeFUZfhcDdhaTzSQA1sdrOU7O+CPN4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=X4Cz4PzC; arc=none smtp.client-ip=209.85.128.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-3b79bddd604so4233269f8f.0;
-        Wed, 06 Aug 2025 00:39:59 -0700 (PDT)
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4563cfac2d2so46347785e9.3;
+        Wed, 06 Aug 2025 00:42:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1754465998; x=1755070798; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=sLZ9Qr5s+xpRmBmPIo2N0uouymCQZmt4dfwlf4omJlM=;
-        b=kvAk3qzzLVt4TJ0rrJc1CHcE/JMezYZG9UQUDDthqNI8K5z6tXds+55hfjhoXqBIGr
-         jAgGvWijtGUCAfwzyKDGzynjMN/WGqNfPgoktyZDXc+sHwuPVMWG+55/lVel3H+StgsP
-         n7QOOg2JxJIv/gcVYIwhz4XPS0Mc4gQG0Hjqihk5XPW/oamGChvvhAuU0n3nzWo3bgPS
-         i6MeR22dELPcoOt4dEq4C4yjXvIi1vvmS54qbXhr4GRmeHBvJuO0RP7mB9MLvJp+fYW8
-         pnnt9wv0yCQOsUi4TDJ5B14VQ/CYf9ztNN+uUexK4OzeIPOx78ZJyI31dwYcKmxnvYYe
-         VJuA==
+        d=gmail.com; s=20230601; t=1754466132; x=1755070932; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=6FT24UNbMHeaORvKTfTuqFUto6VDI1Q4PAbvNaBHL8w=;
+        b=X4Cz4PzCGgzU/Roq5UJaJtxvgflW4CtJQn5S7Oeh7gzzc/qO85yoz7hnzkitUP6zbF
+         cyUd0hkBPrG54S95pZ62V0gsZyDYwmsyjaEOGBQliyV/BRDo9hkvp7EHt38PofmtZw/+
+         E/H1gQs9Bcq3+5qax9C7NMjg7NaYK5+r7AlFQ6kkeCbF/aFxrH9Dw9t2yvVY+1Vu8icV
+         etduZINKlhcvKX3coBRhvnJF3X75A8ELFbdBcLAcgtO2GVb4I2agWKlYqmBGjAtFkHa7
+         5E28J42ySnIZHkDZCNikM5FW1XYrFNxDFMaGlr5WDQBU8qYkioPbCPgbvHk75HnNWmyW
+         sUtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754465998; x=1755070798;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=sLZ9Qr5s+xpRmBmPIo2N0uouymCQZmt4dfwlf4omJlM=;
-        b=krSlax9x45mlPsbebdoY3c7gqR8Zs2IYiJ6QR2nz9yoNkWWT6Os9lsQS7G+wvMvmtH
-         AdGeegHHTVbIaw7zTNxzEZalZOjQQI97KJVZ7MVpAjrNq24xOeR1AUZFhS+5W2Do9Dvr
-         gwwNYLAg4JgK+PPUJQVIZ7KECyPiYegKVQajZtP2fvTcO/3eVzHLGMlP4GYoFeH0bf1C
-         OZHNaRZeL4IC+YuWDnG5feWeMGfAU2dPCVk7AZpnHKTdYtLTDCLSXkOqlRKdbTE0GTsZ
-         x1WqnViq8YpKegNHOl43pcAlMZ3E0FqR5HChnun6srJG5U3btW1yFVrvVhQxUXqPkRNh
-         WTZQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU9yfB712RwF4/octjl5xWFTfF3Di6QymDr/ovHriKCPAdlkDUrjxR96bjww6EtMAyRJMhyx8fqDjQQ7IHK@vger.kernel.org, AJvYcCX3uztZ18J2TDiF/ADhV49X87rw7OhQ0gCsyfgI9o4iwyTI5NYZpiiaIglhZkO82OEfBE7wrFnCqAHZiQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx/GwZHYkpRCxAOzUdtpcRi8AMY6tnnyhacV6ryjE1ah7nif0Jl
-	IRu+Lse1rr3QbhYGEhIzv3Tkp6/PTvvp37uV1JzB+fb/AWE9UeBenwUn
-X-Gm-Gg: ASbGncutjiNCts7SVyuVcNHC0Sb2z8tmSYM+KQ1pITC6Eo1+h6UJD7JROaOwvQWruWr
-	WgVNP0g3E10Nlw2vqAZoOHJFwIzZMg4vPI8Y2vjtThhri+Y9bqyu5OOjyPV164WLbHTODwW72xq
-	i94KX4jE8WrGno3FVR/e7FDNMV8mELIeJrh0lLo8k7X4/3Lkq6IYMiPXHi+TrVBGfO1X/YFTF5E
-	XkOkLDzMFe8K4xQVC4beEQ2GsPWyVkYeoI+Yr6hq3LShvPQMoCCD/ZBi6yV08Tjsfw+Omuhzeir
-	hpn+ZxdhRNRhoN7n6pXc+DZpUnPwJrrE5tU/2arUMdbAYBfMDBI+840S/YZUNzl58TkAkSjVhSG
-	DYXQ1QCzhctzESvxM8Is=
-X-Google-Smtp-Source: AGHT+IF12SoXPtt2sCWPJz4R53Xg01mev0M8BY7JZJkE6p6WYxbdzyy/pWCAZGYbz1HfLRIEB94qOA==
-X-Received: by 2002:a05:6000:258a:b0:3b7:9af4:9c93 with SMTP id ffacd0b85a97d-3b8f41c836cmr1481755f8f.35.1754465998497;
-        Wed, 06 Aug 2025 00:39:58 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1754466132; x=1755070932;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=6FT24UNbMHeaORvKTfTuqFUto6VDI1Q4PAbvNaBHL8w=;
+        b=epk/Z9dFnWmfPgPj7+HEgZjRdlcznkVaTqpbkZ21H1zy5jIbEa/3r4t/NncFhgp+y9
+         xypkMbtNxuv9JlYPDarPTjnsPPXj7b+d+Gw0Xc3TslmndCa/5O5/pJWMDtZo8+XBRgZF
+         5mMumWcHlqSL11dDLhHn2td//RfDukgdf1pXrSxxtVk6fGaNM/U5CfOF39gQCfNYpo4a
+         TuGnyj9fDLvvXV6YJSNh+s5UfreCV0G7aKolD12gcv4DEG9uHkSgLFzJcINHu4pHQkWN
+         /gxt3TWtVzEhOoKAqiLCaTqbSYSXWWApvhLtLVmJvkJroYMLw6p+jwdc3VDhmgidZGCj
+         8JKw==
+X-Forwarded-Encrypted: i=1; AJvYcCVmvFcIT2G9KSWGLgWFgdpVNX2Eb7JO8wXV3JdzjFGZuxKlpSPeOkqaw8wYOrJjUUQm5Ogx2dPC4zTmMA==@vger.kernel.org, AJvYcCXqutZQ4jmlT0n1o+nhDnNPLSDpIPFuibMwnELTmlwlZHqAMMwTpE5i7CTv0W5S63EJQtBk4x65bK2rTKG8@vger.kernel.org
+X-Gm-Message-State: AOJu0YyOpjN4vU7rfZD57GLbkDrnW+jdBiMcz3tNZELqGAVswfaLbIrg
+	H7NjGOiFKffzr1GHNpjq3b4wrP9MikUYCWigeA+AyN/Mv0hg2S6jyvZ1k564HA==
+X-Gm-Gg: ASbGncsrWRWdJ7bMG5MH8RNVShbkDC/N66VSV9Mp6UIhJ8W82yi+zUf4fQVb0OP9WxC
+	9DXteskJFkSWl9vLDoKC60kSLKtmpXLTLJ5kvTHFSe4t/cI8hweHu6PgcjwnOtRlzqZUn3qI5DZ
+	H1Mcc1yVwNy7j57LgJ0FuEZC9PbT4KqPEEPO3dcuSwHS04CsFA6/aaT82p3S+VqUM5+yMfN96pL
+	qR30M55M3l40Z4mHV/PaysmfDkxe8chFNAUgQMbxw3yJmRFp5IKIyKgqaebcVrWb6SzRu2s1yH+
+	tyrKN4dGNl+Saa4j4j4IFTcA5fX1wfuOIypsdKcFVFkcy0CcJNSCPgmK8odSw81gopZ/LOzfVGx
+	N5rTIQGLrL+llhqnV+Hk=
+X-Google-Smtp-Source: AGHT+IHPYrArLENkrYpyT+ebS9Hl1NiNdjOvdG5F1ChQY+7/LnRIlSa14LZSdOIcB3sE1c1D6Bz6+w==
+X-Received: by 2002:a05:600c:4689:b0:458:bfb1:1fb6 with SMTP id 5b1f17b1804b1-459e7440b43mr12701065e9.2.1754466131400;
+        Wed, 06 Aug 2025 00:42:11 -0700 (PDT)
 Received: from fedora ([94.73.32.0])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b8f5d7deaasm1012694f8f.65.2025.08.06.00.39.57
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-459e588144fsm34288725e9.28.2025.08.06.00.42.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Aug 2025 00:39:58 -0700 (PDT)
-From: =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
-To: jikos@kernel.org
-Cc: bentiss@kernel.org,
-	luguohong@xiaomi.com,
-	linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	=?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
-Subject: [PATCH v2 2/2] HID: input: report battery status changes immediately
-Date: Wed,  6 Aug 2025 09:39:14 +0200
-Message-ID: <20250806073944.5310-2-jose.exposito89@gmail.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20250806073944.5310-1-jose.exposito89@gmail.com>
-References: <20250806073944.5310-1-jose.exposito89@gmail.com>
+        Wed, 06 Aug 2025 00:42:10 -0700 (PDT)
+Date: Wed, 6 Aug 2025 09:42:09 +0200
+From: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
+To: =?utf-8?B?5Y2i5Zu95a6P?= <luguohong@xiaomi.com>
+Cc: "jikos@kernel.org" <jikos@kernel.org>,
+	"bentiss@kernel.org" <bentiss@kernel.org>,
+	"linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	Fei1 Jiang =?utf-8?B?6JKL6aOe?= <jiangfei1@xiaomi.com>
+Subject: Re: =?utf-8?B?562U5aSNOiDnrZTlpI06IOetlA==?=
+ =?utf-8?B?5aSNOiBbRXh0ZXJuYWwgTWFpbF1bUEFUQw==?= =?utf-8?Q?H?= 2/2] HID:
+ input: report battery status changes immediately
+Message-ID: <aJMHUTyeaE0Q_yUA@fedora>
+References: <20250804091215.6637-1-jose.exposito89@gmail.com>
+ <20250804091215.6637-2-jose.exposito89@gmail.com>
+ <a235549c5cf24205bb7ce7f05737c403@xiaomi.com>
+ <aJHEAHH6KCAGxs8N@fedora>
+ <b5aa18342f42420093db90ee2ead88ba@xiaomi.com>
+ <aJH7T7_8p0GT3f2L@fedora>
+ <6454c36ced0140df978f29a7b4208f4a@xiaomi.com>
+ <9dbdee5aa8fa4b899bfbb8be3b4cd6c5@xiaomi.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <9dbdee5aa8fa4b899bfbb8be3b4cd6c5@xiaomi.com>
 
-When the battery status changes, report the change immediately to user
-space.
+Hi 卢国宏,
 
-Fixes: a608dc1c0639 ("HID: input: map battery system charging")
-Reported-by: 卢国宏 <luguohong@xiaomi.com>
-Closes: https://lore.kernel.org/linux-input/aI49Im0sGb6fpgc8@fedora/T/
-Tested-by: 卢国宏 <luguohong@xiaomi.com>
-Signed-off-by: José Expósito <jose.exposito89@gmail.com>
----
- drivers/hid/hid-input.c | 23 ++++++++++-------------
- 1 file changed, 10 insertions(+), 13 deletions(-)
+On Wed, Aug 06, 2025 at 07:03:05AM +0000, 卢国宏 wrote:
+> 
+> Hello, Jose!
+> I've completed testing on our devices. Your patch works fine for charging status reporting.
+> Below is the switching log between partially charged state and uncharged state：
+> 
+> ...
+> Xiaomi handler POWER_SUPPLY_STATUS=Charging
+> ...
+> Xiaomi handler POWER_SUPPLY_STATUS=Discharging
+> ...
+> Xiaomi handler POWER_SUPPLY_STATUS=Charging
+> 
+> In addition, the handle battery level can also be reported normally.
+> Now you should be able to submit your patch to the Linux kernel. After submitting,
+> please send me a copy of the official patch so I can contact Google to merge it into
+> their GKI and enable this feature in our products first. Thank you very much!
 
-diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
-index 262787e6eb20..f45f856a127f 100644
---- a/drivers/hid/hid-input.c
-+++ b/drivers/hid/hid-input.c
-@@ -609,13 +609,19 @@ static bool hidinput_update_battery_charge_status(struct hid_device *dev,
- 	return false;
- }
- 
--static void hidinput_update_battery(struct hid_device *dev, int value)
-+static void hidinput_update_battery(struct hid_device *dev, unsigned int usage,
-+				    int value)
- {
- 	int capacity;
- 
- 	if (!dev->battery)
- 		return;
- 
-+	if (hidinput_update_battery_charge_status(dev, usage, value)) {
-+		power_supply_changed(dev->battery);
-+		return;
-+	}
-+
- 	if (value == 0 || value < dev->battery_min || value > dev->battery_max)
- 		return;
- 
-@@ -642,13 +648,8 @@ static void hidinput_cleanup_battery(struct hid_device *dev)
- {
- }
- 
--static bool hidinput_update_battery_charge_status(struct hid_device *dev,
--						  unsigned int usage, int value)
--{
--	return false;
--}
--
--static void hidinput_update_battery(struct hid_device *dev, int value)
-+static void hidinput_update_battery(struct hid_device *dev, unsigned int usage,
-+				    int value)
- {
- }
- #endif	/* CONFIG_HID_BATTERY_STRENGTH */
-@@ -1515,11 +1516,7 @@ void hidinput_hid_event(struct hid_device *hid, struct hid_field *field, struct
- 		return;
- 
- 	if (usage->type == EV_PWR) {
--		bool handled = hidinput_update_battery_charge_status(hid, usage->hid, value);
--
--		if (!handled)
--			hidinput_update_battery(hid, value);
--
-+		hidinput_update_battery(hid, usage->hid, value);
- 		return;
- 	}
- 
--- 
-2.50.1
+Thanks a lot for testing it. Here is the link to the patch:
+https://lore.kernel.org/linux-input/20250806073944.5310-1-jose.exposito89@gmail.com/T/
 
+Best wishes,
+Jose
+
+> 
+> luguohong
+> 
+> ________________________________
+> 发件人: 卢国宏
+> 发送时间: 2025年8月6日 9:41
+> 收件人: José Expósito
+> 抄送: jikos@kernel.org; bentiss@kernel.org; linux-input@vger.kernel.org; linux-kernel@vger.kernel.org; Fei1 Jiang 蒋飞; 卢国宏
+> 主题: 答复: 答复: 答复: [External Mail][PATCH 2/2] HID: input: report battery status changes immediately
+> 
+> 
+> 
+> 
+> OK! I'll use your patch and finish testing it soon and let you know the results, thanks!
+> 
+> 
+> ________________________________
+> 发件人: José Expósito <jose.exposito89@gmail.com>
+> 发送时间: 2025年8月5日 20:38
+> 收件人: 卢国宏
+> 抄送: jikos@kernel.org; bentiss@kernel.org; linux-input@vger.kernel.org; linux-kernel@vger.kernel.org; Fei1 Jiang 蒋飞
+> 主题: Re: 答复: 答复: [External Mail][PATCH 2/2] HID: input: report battery status changes immediately
+> 
+> [外部邮件] 此邮件来源于小米公司外部，请谨慎处理。若对邮件安全性存疑，请将邮件转发给misec@xiaomi.com进行反馈
+> 
+> Hi,
+> 
+> On Tue, Aug 05, 2025 at 12:25:17PM +0000, 卢国宏 wrote:
+> > ________________________________
+> > 发件人: José Expósito <jose.exposito89@gmail.com>
+> > 发送时间: 2025年8月5日 16:42
+> > 收件人: 卢国宏
+> > 抄送: jikos@kernel.org; bentiss@kernel.org; linux-input@vger.kernel.org; linux-kernel@vger.kernel.org; Fei1 Jiang 蒋飞
+> > 主题: Re: 答复: [External Mail][PATCH 2/2] HID: input: report battery status changes immediately
+> >
+> > [外部邮件] 此邮件来源于小米公司外部，请谨慎处理。若对邮件安全性存疑，请将邮件转发给misec@xiaomi.com进行反馈
+> >
+> > Hi!
+> >
+> > On Tue, Aug 05, 2025 at 01:43:30AM +0000, 卢国宏 wrote:
+> > > ________________________________
+> > > 发件人: José Expósito <jose.exposito89@gmail.com>
+> > > 发送时间: 2025年8月4日 17:11
+> > > 收件人: jikos@kernel.org
+> > > 抄送: bentiss@kernel.org; 卢国宏; linux-input@vger.kernel.org; linux-kernel@vger.kernel.org; José Expósito
+> > > 主题: [External Mail][PATCH 2/2] HID: input: report battery status changes immediately
+> > >
+> > > [外部邮件] 此邮件来源于小米公司外部，请谨慎处理。若对邮件安全性存疑，请将邮件转发给misec@xiaomi.com进行反馈
+> > >
+> > > When the battery status changes, report the change immediately to user
+> > > space.
+> > >
+> > > Fixes: a608dc1c0639 ("HID: input: map battery system charging")
+> > > Reported-by: 卢国宏 <luguohong@xiaomi.com>
+> > > Closes: https://lore.kernel.org/linux-input/aI49Im0sGb6fpgc8@fedora/T/
+> > > Signed-off-by: José Expósito <jose.exposito89@gmail.com>
+> > > ---
+> > >  drivers/hid/hid-input.c | 17 ++++++++++-------
+> > >  1 file changed, 10 insertions(+), 7 deletions(-)
+> > >
+> > > diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
+> > > index 262787e6eb20..277538a17b57 100644
+> > > --- a/drivers/hid/hid-input.c
+> > > +++ b/drivers/hid/hid-input.c
+> > > @@ -609,13 +609,19 @@ static bool hidinput_update_battery_charge_status(struct hid_device *dev,
+> > >         return false;
+> > >  }
+> > >
+> > > -static void hidinput_update_battery(struct hid_device *dev, int value)
+> > > +static void hidinput_update_battery(struct hid_device *dev, unsigned int usage,
+> > > +                                   int value)
+> > >  {
+> > >         int capacity;
+> > >
+> > >         if (!dev->battery)
+> > >                 return;
+> > >
+> > > +       if (hidinput_update_battery_charge_status(dev, usage, value)) {
+> > > +               power_supply_changed(dev->battery);
+> > > +               return;
+> > > +       }
+> > > +
+> > >
+> > > > Hi, José. Shouldn't the return statement in this code be removed?
+> > > > Otherwise, if both the battery level and the charging status change
+> > > > simultaneously, the code following the if statement that updates the
+> > > > battery level won't run, and the battery level won't be updated.
+> > > > Thanks!
+> >
+> > At least on the hardware I have access to, changes are reported independently.
+> >
+> > I added a log at the beginning of this function to illustrate it.
+> > This is the output when the battery of my device goes from 99% to 95%:
+> >
+> >     New EV_PWR report:
+> >         usage = 8716389
+> >         value = 99
+> >     New EV_PWR report:
+> >         usage = 8716356 (HID_BAT_CHARGING)
+> >         value = 0       (POWER_SUPPLY_STATUS_DISCHARGING)
+> >     [...]
+> >     New EV_PWR report:
+> >         usage = 8716389
+> >         value = 95
+> >     New EV_PWR report:
+> >         usage = 8716356 (HID_BAT_CHARGING)
+> >         value = 0       (POWER_SUPPLY_STATUS_DISCHARGING)
+> >
+> > If we remove that return, then "value" (0 or 1) would be used as battery level,
+> > reporting wrong battery levels to user-space.
+> >
+> > Isn't your device reporting its battery information in a similar way?
+> >
+> > > --->>>
+> > > Hello, Jose!
+> > > You're right, this return can't be removed. I had previously only
+> > > theoretically assumed they would be reported simultaneously, but
+> > > that turned out to be incorrect. It seems your solution should be fine.
+> > > Finally, when will your patch be merged into the Linux kernel?
+> > > We're looking forward to using this feature. Thank you very much!
+> 
+> Would you be able to test that the patches work on your device?
+> 
+> I assume there won't be surprises, but better to double check if
+> you have access to the affected device.
+> 
+> Once you test it, I'll send a second version of the code fixing a
+> warning and adding you as tester of the patch. Then it is up to
+> the maintainers to merge it.
+> 
+> Looking forward for your testing,
+> Jose
+> 
+> >
+> > Jose
+> >
+> > PS - I'll fix the warning in v2 and add a Tested-by: 卢国宏 tag once
+> >      this is confirmed to work on the affected hardware.
+> >
+> > >
+> > >
+> > >         if (value == 0 || value < dev->battery_min || value > dev->battery_max)
+> > >                 return;
+> > >
+> > > @@ -648,7 +654,8 @@ static bool hidinput_update_battery_charge_status(struct hid_device *dev,
+> > >         return false;
+> > >  }
+> > >
+> > > -static void hidinput_update_battery(struct hid_device *dev, int value)
+> > > +static void hidinput_update_battery(struct hid_device *dev, unsigned int usage,
+> > > +                                   int value)
+> > >  {
+> > >  }
+> > >  #endif /* CONFIG_HID_BATTERY_STRENGTH */
+> > > @@ -1515,11 +1522,7 @@ void hidinput_hid_event(struct hid_device *hid, struct hid_field *field, struct
+> > >                 return;
+> > >
+> > >         if (usage->type == EV_PWR) {
+> > > -               bool handled = hidinput_update_battery_charge_status(hid, usage->hid, value);
+> > > -
+> > > -               if (!handled)
+> > > -                       hidinput_update_battery(hid, value);
+> > > -
+> > > +               hidinput_update_battery(hid, usage->hid, value);
+> > >                 return;
+> > >         }
+> > >
+> > > --
+> > > 2.50.1
+> > >
+> > > #/******本邮件及其附件含有小米公司的保密信息，仅限于发送给上面地址中列出的个人或群组。禁止任何其他人以任何形式使用（包括但不限于全部或部分地泄露、复制、或散发）本邮件中的信息。如果您错收了本邮件，请您立即电话或邮件通知发件人并删除本邮件！ This e-mail and its attachments contain confidential information from XIAOMI, which is intended only for the person or entity whose address is listed above. Any use of the information contained herein in any way (including, but not limited to, total or partial disclosure, reproduction, or dissemination) by persons other than the intended recipient(s) is prohibited. If you receive this e-mail in error, please notify the sender by phone or email immediately and delete it!******/#
+> > #/******本邮件及其附件含有小米公司的保密信息，仅限于发送给上面地址中列出的个人或群组。禁止任何其他人以任何形式使用（包括但不限于全部或部分地泄露、复制、或散发）本邮件中的信息。如果您错收了本邮件，请您立即电话或邮件通知发件人并删除本邮件！ This e-mail and its attachments contain confidential information from XIAOMI, which is intended only for the person or entity whose address is listed above. Any use of the information contained herein in any way (including, but not limited to, total or partial disclosure, reproduction, or dissemination) by persons other than the intended recipient(s) is prohibited. If you receive this e-mail in error, please notify the sender by phone or email immediately and delete it!******/#
+> #/******本邮件及其附件含有小米公司的保密信息，仅限于发送给上面地址中列出的个人或群组。禁止任何其他人以任何形式使用（包括但不限于全部或部分地泄露、复制、或散发）本邮件中的信息。如果您错收了本邮件，请您立即电话或邮件通知发件人并删除本邮件！ This e-mail and its attachments contain confidential information from XIAOMI, which is intended only for the person or entity whose address is listed above. Any use of the information contained herein in any way (including, but not limited to, total or partial disclosure, reproduction, or dissemination) by persons other than the intended recipient(s) is prohibited. If you receive this e-mail in error, please notify the sender by phone or email immediately and delete it!******/#
 
