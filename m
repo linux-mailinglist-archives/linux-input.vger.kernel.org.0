@@ -1,79 +1,347 @@
-Return-Path: <linux-input+bounces-13852-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13853-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1CEEB1D205
-	for <lists+linux-input@lfdr.de>; Thu,  7 Aug 2025 07:30:55 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 645E8B1D223
+	for <lists+linux-input@lfdr.de>; Thu,  7 Aug 2025 07:45:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id CBBCA4E3601
-	for <lists+linux-input@lfdr.de>; Thu,  7 Aug 2025 05:30:54 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 28BA618A7D2F
+	for <lists+linux-input@lfdr.de>; Thu,  7 Aug 2025 05:45:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 227BA2222D6;
-	Thu,  7 Aug 2025 05:30:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1CDB51CD0C;
+	Thu,  7 Aug 2025 05:45:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WNQk9ZFC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EKqORrkD"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0E47221FDE;
-	Thu,  7 Aug 2025 05:30:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35047215F6C
+	for <linux-input@vger.kernel.org>; Thu,  7 Aug 2025 05:45:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754544611; cv=none; b=cov0QKp0Zvkz1XZByVCVTxAZQKsq5TsaQE6m/BvEP770rQHdJueH3Zn4KaibbZ+o0hcMWIV4o78zIYhcIqPAELwHCMZW7WEdf+GDx8X9yylisE/78uK9WJdo+6w1MwfJJ4dhvA9N4fIRwhIAYieg1on/Py9537ukf6vaUVpkX4U=
+	t=1754545520; cv=none; b=fM+Vtwr3PG/K1DDM6/T1ozRwnAnyCLI5UNfBSRqqVg14Fdnu6GwU4JhQeEX3awUMqVYxovXFiIOYbk7cIVJEzTAPMv+v4OEC4TtCk6b4ixUgc3BV9WoVSwngqEDMLAzcKB5zloPrQWdz/Bg7JqeU6Nb8o75qF9cXc/vT9FuBuDY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754544611; c=relaxed/simple;
-	bh=pCvzds38Ad31TyUoBBs0E0B/dIJ8Y//UK/MVHvmrZR8=;
-	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=isSOJQxWAfBxnFMOTqmjjo72lx+PiOsYi16rLwfsYhFMoLdF6Os7632qbQUy1cvIXi5Hp1DWg7cYObfl1soWVs+JS68iMrTPh4kcoP2iCBKzyRiHp/JX4eHBSR9QSlnZcifRIXpbe6uZ8mN5es7t4QJIwBqGrBnWFBK6rNh03GQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WNQk9ZFC; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D08CBC4CEF9;
-	Thu,  7 Aug 2025 05:30:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754544610;
-	bh=pCvzds38Ad31TyUoBBs0E0B/dIJ8Y//UK/MVHvmrZR8=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=WNQk9ZFC0/U3Y8mQsBz9FKm/a0VN2D5sX4zA/L9ov1ovbjSMu9lDHdjoN/YjutOu5
-	 lRbJkecnysp7aoXkttqnffGtvnoMpdkl5ms9iS5OQ+7OiTf4uR+eG8MUeSZvHOzYfj
-	 l0nqQSFLa/JPOdXbclrikotdHLxuBkJLQJ4D5qsXgn86G2mOEHeribznC4PefHgH/N
-	 DmceZ0i25XszzT0ylbchz81wFGoQiJwW6+6eBgt7ZkoD5cS46v6U4zNEIUPdaAx0l0
-	 ziL4n5l7j+s+O1pYhn3G3p+hWSG8lZTrzIZvTL6EzHU+A0JYZGuYMvnDMZnpTd62bb
-	 888htJJ6UzbVA==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id BDC48383BF57;
-	Thu,  7 Aug 2025 05:30:25 +0000 (UTC)
-Subject: Re: [git pull] Input updates for v6.17-rc0
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <7ool7vscmhygq3jtks25bxhxbm2aijk6wp3cpy6njoifw6b5ri@2le5vfs3ztzo>
-References: <7ool7vscmhygq3jtks25bxhxbm2aijk6wp3cpy6njoifw6b5ri@2le5vfs3ztzo>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <7ool7vscmhygq3jtks25bxhxbm2aijk6wp3cpy6njoifw6b5ri@2le5vfs3ztzo>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git tags/input-for-v6.17-rc0
-X-PR-Tracked-Commit-Id: ab93e0dd72c37d378dd936f031ffb83ff2bd87ce
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 6e64f4580381e32c06ee146ca807c555b8f73e24
-Message-Id: <175454462447.3059740.16526507247379175805.pr-tracker-bot@kernel.org>
-Date: Thu, 07 Aug 2025 05:30:24 +0000
+	s=arc-20240116; t=1754545520; c=relaxed/simple;
+	bh=LSHReLOwtwmgU9sNtn3dBZ3aLLCcTUbFnRhIr2x67dA=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=T+Ki0da78jmnN2ZanfmqmExDvzkTb+chpT6oQM11crGAwOXiMioyO3Nx15pGrK/VF/NIrE+ayRHOfzKndKnXl130ZW53RItFVI/JyNi2pjZGpgUxPAi+zmVMWEsIw8Ys7o/o4HEv8I8dh21Cf5BBQzg7/LM6FibW2AWLKkshB/A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EKqORrkD; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1754545517; x=1786081517;
+  h=date:from:to:cc:subject:message-id;
+  bh=LSHReLOwtwmgU9sNtn3dBZ3aLLCcTUbFnRhIr2x67dA=;
+  b=EKqORrkDzXG3jWsYS2mAbmiLp/o+hJ/t4v/NCCOPQH4D+pIKcUtoyFCJ
+   Q9h1XrSXySZ0MjHFTpmEIjGP/2ZN0aB1YDsjHTJnac0O2bO8babcdeVvb
+   Su6Ktmi+84i66qnW1ETUDL6KRARo/ikhF8Cwf1l/jb2RXdz2n/TyYNGzj
+   saGGLQcbhPETCLtC9gmulf32jPREAFDxEMrLiJ+BPqJ6FjD765vOIcakJ
+   1/yWzlb59V5+tYSXtPIBANfhenZUIJhpoXh+ABLqtvgI+j1PVWdAxaXZl
+   XA5O2lzAwUTvnkoWCjKuw6rfommrA8O+lQZyXvOimwKfVhXZSpwcdGVPu
+   g==;
+X-CSE-ConnectionGUID: BCpEFt1sSuS58yFEsosxEw==
+X-CSE-MsgGUID: T3PQSRgoQ2Or3iGiWxWp1w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11514"; a="57005335"
+X-IronPort-AV: E=Sophos;i="6.17,271,1747724400"; 
+   d="scan'208";a="57005335"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2025 22:45:15 -0700
+X-CSE-ConnectionGUID: ykn112eSRe6MVjqxaaEqTQ==
+X-CSE-MsgGUID: hEU1z+esQfCaIGSlerZ7Jg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,271,1747724400"; 
+   d="scan'208";a="164868941"
+Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
+  by fmviesa006.fm.intel.com with ESMTP; 06 Aug 2025 22:45:14 -0700
+Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ujtR4-0002QW-1V;
+	Thu, 07 Aug 2025 05:45:08 +0000
+Date: Thu, 07 Aug 2025 13:44:17 +0800
+From: kernel test robot <lkp@intel.com>
 To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, linux-kernel@vger.kernel.org, linux-input@vger.kernel.org, Bartosz Golaszewski <brgl@bgdev.pl>
+Cc: linux-input@vger.kernel.org
+Subject: [dtor-input:next] BUILD REGRESSION
+ 4f67c41894674d351a4b4e7dd3471380b71b5bb3
+Message-ID: <202508071356.cM5ubhUO-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 
-The pull request you sent on Wed, 6 Aug 2025 21:25:21 -0700:
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
+branch HEAD: 4f67c41894674d351a4b4e7dd3471380b71b5bb3  HID: hid-steam: Use new BTN_GRIP* buttons
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git tags/input-for-v6.17-rc0
+Error/Warning (recently discovered and may have been fixed):
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/6e64f4580381e32c06ee146ca807c555b8f73e24
+    https://lore.kernel.org/oe-kbuild-all/202508041754.ykl25o1q-lkp@intel.com
+    https://lore.kernel.org/oe-kbuild-all/202508071018.TcyVGL9C-lkp@intel.com
 
-Thank you!
+    ERROR: modpost: __ex_table+0x1e28 references non-executable section '.rodata.xgene_rng_init.str1.4'
+    drivers/input/touch-overlay.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+Error/Warning ids grouped by kconfigs:
+
+recent_errors
+|-- alpha-allnoconfig
+|   `-- drivers-input-touch-overlay.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- alpha-allyesconfig
+|   `-- drivers-input-touch-overlay.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- arc-allmodconfig
+|   `-- drivers-input-touch-overlay.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- arc-allnoconfig
+|   `-- drivers-input-touch-overlay.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- arc-allyesconfig
+|   `-- drivers-input-touch-overlay.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- arc-randconfig-001-20250807
+|   `-- drivers-input-touch-overlay.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- arc-randconfig-002-20250807
+|   `-- drivers-input-touch-overlay.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- arm-allnoconfig
+|   `-- drivers-input-touch-overlay.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- arm-randconfig-001-20250807
+|   `-- drivers-input-touch-overlay.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- arm-randconfig-002-20250807
+|   `-- drivers-input-touch-overlay.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- arm-randconfig-003-20250807
+|   `-- drivers-input-touch-overlay.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- arm64-allnoconfig
+|   `-- drivers-input-touch-overlay.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- csky-allnoconfig
+|   `-- drivers-input-touch-overlay.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- csky-randconfig-001-20250807
+|   `-- drivers-input-touch-overlay.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- csky-randconfig-002-20250807
+|   `-- drivers-input-touch-overlay.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- hexagon-allmodconfig
+|   `-- drivers-input-touch-overlay.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- hexagon-allyesconfig
+|   `-- drivers-input-touch-overlay.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- hexagon-randconfig-001-20250807
+|   `-- drivers-input-touch-overlay.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- hexagon-randconfig-002-20250807
+|   `-- drivers-input-touch-overlay.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- i386-buildonly-randconfig-001-20250807
+|   `-- drivers-input-touch-overlay.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- i386-buildonly-randconfig-002-20250807
+|   `-- drivers-input-touch-overlay.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- i386-buildonly-randconfig-003-20250807
+|   `-- drivers-input-touch-overlay.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- i386-buildonly-randconfig-004-20250807
+|   `-- drivers-input-touch-overlay.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- i386-buildonly-randconfig-005-20250807
+|   `-- drivers-input-touch-overlay.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- i386-buildonly-randconfig-006-20250807
+|   `-- drivers-input-touch-overlay.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- loongarch-allmodconfig
+|   `-- drivers-input-touch-overlay.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- loongarch-randconfig-001-20250807
+|   `-- drivers-input-touch-overlay.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- m68k-allmodconfig
+|   `-- drivers-input-touch-overlay.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- m68k-allnoconfig
+|   `-- drivers-input-touch-overlay.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- m68k-allyesconfig
+|   `-- drivers-input-touch-overlay.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- microblaze-allmodconfig
+|   `-- drivers-input-touch-overlay.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- microblaze-allnoconfig
+|   `-- drivers-input-touch-overlay.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- microblaze-allyesconfig
+|   `-- drivers-input-touch-overlay.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- mips-allnoconfig
+|   `-- drivers-input-touch-overlay.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- nios2-allnoconfig
+|   `-- drivers-input-touch-overlay.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- openrisc-allnoconfig
+|   `-- drivers-input-touch-overlay.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- openrisc-allyesconfig
+|   `-- drivers-input-touch-overlay.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- parisc-allmodconfig
+|   `-- drivers-input-touch-overlay.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- parisc-allnoconfig
+|   `-- drivers-input-touch-overlay.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- parisc-allyesconfig
+|   `-- drivers-input-touch-overlay.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- powerpc-allmodconfig
+|   `-- drivers-input-touch-overlay.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- powerpc-allnoconfig
+|   `-- drivers-input-touch-overlay.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- powerpc-allyesconfig
+|   `-- drivers-input-touch-overlay.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- powerpc-randconfig-001-20250807
+|   `-- drivers-input-touch-overlay.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- powerpc-randconfig-002-20250807
+|   `-- drivers-input-touch-overlay.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- powerpc-randconfig-003-20250807
+|   `-- drivers-input-touch-overlay.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- powerpc64-randconfig-002-20250807
+|   `-- drivers-input-touch-overlay.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- riscv-allnoconfig
+|   `-- drivers-input-touch-overlay.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- riscv-randconfig-001-20250807
+|   `-- drivers-input-touch-overlay.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- riscv-randconfig-002-20250807
+|   |-- ERROR:__ex_table-references-non-executable-section-.rodata.xgene_rng_init.str1.
+|   `-- drivers-input-touch-overlay.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- s390-allmodconfig
+|   `-- drivers-input-touch-overlay.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- s390-allnoconfig
+|   `-- drivers-input-touch-overlay.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- s390-allyesconfig
+|   `-- drivers-input-touch-overlay.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- s390-randconfig-001-20250807
+|   `-- drivers-input-touch-overlay.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- s390-randconfig-002-20250807
+|   `-- drivers-input-touch-overlay.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- sh-allmodconfig
+|   `-- drivers-input-touch-overlay.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- sh-allnoconfig
+|   `-- drivers-input-touch-overlay.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- sh-allyesconfig
+|   `-- drivers-input-touch-overlay.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- sh-randconfig-001-20250807
+|   `-- drivers-input-touch-overlay.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- um-allmodconfig
+|   `-- drivers-input-touch-overlay.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- um-allyesconfig
+|   `-- drivers-input-touch-overlay.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- um-randconfig-002-20250807
+|   `-- drivers-input-touch-overlay.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- x86_64-allnoconfig
+|   `-- drivers-input-touch-overlay.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- x86_64-allyesconfig
+|   `-- drivers-input-touch-overlay.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- x86_64-defconfig
+|   `-- drivers-input-touch-overlay.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+`-- x86_64-rhel-9.4-rust
+    `-- drivers-input-touch-overlay.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+
+elapsed time: 728m
+
+configs tested: 112
+configs skipped: 3
+
+tested configs:
+alpha                             allnoconfig    gcc-15.1.0
+alpha                            allyesconfig    gcc-15.1.0
+arc                              allmodconfig    gcc-15.1.0
+arc                               allnoconfig    gcc-15.1.0
+arc                              allyesconfig    gcc-15.1.0
+arc                   randconfig-001-20250807    gcc-13.4.0
+arc                   randconfig-002-20250807    gcc-12.5.0
+arm                              allmodconfig    gcc-15.1.0
+arm                               allnoconfig    clang-22
+arm                              allyesconfig    gcc-15.1.0
+arm                   randconfig-001-20250807    clang-22
+arm                   randconfig-002-20250807    gcc-10.5.0
+arm                   randconfig-003-20250807    clang-22
+arm                   randconfig-004-20250807    gcc-8.5.0
+arm64                            allmodconfig    clang-19
+arm64                             allnoconfig    gcc-15.1.0
+arm64                 randconfig-001-20250807    gcc-8.5.0
+arm64                 randconfig-002-20250807    gcc-8.5.0
+arm64                 randconfig-003-20250807    clang-22
+arm64                 randconfig-004-20250807    gcc-14.3.0
+csky                              allnoconfig    gcc-15.1.0
+csky                  randconfig-001-20250807    gcc-15.1.0
+csky                  randconfig-002-20250807    gcc-15.1.0
+hexagon                          allmodconfig    clang-17
+hexagon                           allnoconfig    clang-22
+hexagon                          allyesconfig    clang-22
+hexagon               randconfig-001-20250807    clang-22
+hexagon               randconfig-002-20250807    clang-22
+i386                             allmodconfig    gcc-12
+i386                              allnoconfig    gcc-12
+i386                             allyesconfig    gcc-12
+i386        buildonly-randconfig-001-20250807    clang-20
+i386        buildonly-randconfig-002-20250807    clang-20
+i386        buildonly-randconfig-003-20250807    gcc-12
+i386        buildonly-randconfig-004-20250807    gcc-11
+i386        buildonly-randconfig-005-20250807    gcc-12
+i386        buildonly-randconfig-006-20250807    gcc-12
+i386                                defconfig    clang-20
+loongarch                        allmodconfig    clang-19
+loongarch                         allnoconfig    clang-22
+loongarch             randconfig-001-20250807    clang-22
+loongarch             randconfig-002-20250807    gcc-15.1.0
+m68k                             allmodconfig    gcc-15.1.0
+m68k                              allnoconfig    gcc-15.1.0
+m68k                             allyesconfig    gcc-15.1.0
+microblaze                       allmodconfig    gcc-15.1.0
+microblaze                        allnoconfig    gcc-15.1.0
+microblaze                       allyesconfig    gcc-15.1.0
+mips                              allnoconfig    gcc-15.1.0
+nios2                             allnoconfig    gcc-11.5.0
+nios2                 randconfig-001-20250807    gcc-11.5.0
+nios2                 randconfig-002-20250807    gcc-8.5.0
+openrisc                          allnoconfig    gcc-15.1.0
+openrisc                         allyesconfig    gcc-15.1.0
+openrisc                            defconfig    gcc-15.1.0
+parisc                           allmodconfig    gcc-15.1.0
+parisc                            allnoconfig    gcc-15.1.0
+parisc                           allyesconfig    gcc-15.1.0
+parisc                randconfig-001-20250807    gcc-8.5.0
+parisc                randconfig-002-20250807    gcc-11.5.0
+powerpc                          allmodconfig    gcc-15.1.0
+powerpc                           allnoconfig    gcc-15.1.0
+powerpc                          allyesconfig    clang-22
+powerpc               randconfig-001-20250807    gcc-12.5.0
+powerpc               randconfig-002-20250807    gcc-10.5.0
+powerpc               randconfig-003-20250807    gcc-11.5.0
+powerpc64             randconfig-001-20250807    gcc-11.5.0
+powerpc64             randconfig-002-20250807    clang-22
+powerpc64             randconfig-003-20250807    gcc-13.4.0
+riscv                            allmodconfig    clang-22
+riscv                             allnoconfig    gcc-15.1.0
+riscv                            allyesconfig    clang-16
+riscv                               defconfig    clang-22
+riscv                 randconfig-001-20250807    gcc-12.5.0
+riscv                 randconfig-002-20250807    gcc-8.5.0
+s390                             allmodconfig    clang-18
+s390                              allnoconfig    clang-22
+s390                             allyesconfig    gcc-15.1.0
+s390                                defconfig    clang-22
+s390                  randconfig-001-20250807    clang-22
+s390                  randconfig-002-20250807    clang-22
+sh                               allmodconfig    gcc-15.1.0
+sh                                allnoconfig    gcc-15.1.0
+sh                               allyesconfig    gcc-15.1.0
+sh                                  defconfig    gcc-15.1.0
+sh                    randconfig-001-20250807    gcc-14.3.0
+sh                    randconfig-002-20250807    gcc-9.5.0
+sparc                            allmodconfig    gcc-15.1.0
+sparc                             allnoconfig    gcc-15.1.0
+sparc                 randconfig-001-20250807    gcc-14.3.0
+sparc                 randconfig-002-20250807    gcc-15.1.0
+sparc64                             defconfig    clang-20
+sparc64               randconfig-001-20250807    clang-22
+sparc64               randconfig-002-20250807    clang-22
+um                               allmodconfig    clang-19
+um                                allnoconfig    clang-22
+um                               allyesconfig    gcc-12
+um                    randconfig-001-20250807    gcc-12
+um                    randconfig-002-20250807    gcc-11
+x86_64                            allnoconfig    clang-20
+x86_64                           allyesconfig    clang-20
+x86_64      buildonly-randconfig-001-20250807    clang-20
+x86_64      buildonly-randconfig-002-20250807    gcc-12
+x86_64      buildonly-randconfig-003-20250807    clang-20
+x86_64      buildonly-randconfig-004-20250807    clang-20
+x86_64      buildonly-randconfig-005-20250807    gcc-11
+x86_64      buildonly-randconfig-006-20250807    gcc-12
+x86_64                              defconfig    gcc-11
+x86_64                          rhel-9.4-rust    clang-20
+xtensa                            allnoconfig    gcc-15.1.0
+xtensa                randconfig-001-20250807    gcc-15.1.0
+xtensa                randconfig-002-20250807    gcc-8.5.0
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
