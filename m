@@ -1,137 +1,89 @@
-Return-Path: <linux-input+bounces-13854-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13855-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC6AAB1D297
-	for <lists+linux-input@lfdr.de>; Thu,  7 Aug 2025 08:42:56 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F6EAB1D317
+	for <lists+linux-input@lfdr.de>; Thu,  7 Aug 2025 09:13:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id ED21C7B0BD1
-	for <lists+linux-input@lfdr.de>; Thu,  7 Aug 2025 06:41:24 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 30B273A3B7B
+	for <lists+linux-input@lfdr.de>; Thu,  7 Aug 2025 07:13:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 795C121ADAE;
-	Thu,  7 Aug 2025 06:42:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A0AED231830;
+	Thu,  7 Aug 2025 07:13:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="ZPXalRcW"
+	dkim=pass (2048-bit key) header.d=khirnov.net header.i=@khirnov.net header.b="gAIfZ4TG"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail0.khirnov.net (red.khirnov.net [176.97.15.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D78F212FAA
-	for <linux-input@vger.kernel.org>; Thu,  7 Aug 2025 06:42:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A900230BCE;
+	Thu,  7 Aug 2025 07:13:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=176.97.15.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754548970; cv=none; b=pOxnKvv1bsU1WLAlKrufeBV3/MXZOtlTP5BqNcUXhSLUvS+wuFU9f8CUKTyDZsorEYm9sb93j23Ma0rurFeF9dvZjSMkbklRLic4ZKX1bTMxuhj3TAr5lWSVAPXLTP63z3sO8swHndWmUufG9Ud4Hv1748Yp5wPS/JVQjuhHNQo=
+	t=1754550827; cv=none; b=ZN2+82uLWO4KoHA6qUpV8pA8sfQP9bRfYBQK8JLJVKgwITqkHNb/f/8G8X+EYLt6XKEJPcVvfG/ps9ztiKCHWRAQXM9NmH2CCseatN4qzkGE3JXttrEaqO1KkprWwfi1jpm/lBh/64IG4IYnaBoDL1o6ZdGs8Si/gG1SKFzKAPg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754548970; c=relaxed/simple;
-	bh=uP9ivKG0gwdO+sDzB9YFDIqePy8klb0Nt1Aexa1ZWQk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Uvm6aHndx5jF6heoWFrctjr6NL2I5vRoscQbs/KNdgO1r6UIqrvBrX06GSbOaJARws+a+FX5yGIsUFL3X/oyqtEMl2NDIiWXNSYjVvQHPLh/BlCZyRuE0hLgEVAhBbREak2JX2E6uvz+D0ujqmNvDZ2soLZwbVWi7knWBDexbpE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=ZPXalRcW; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-458baf449cbso6150355e9.0
-        for <linux-input@vger.kernel.org>; Wed, 06 Aug 2025 23:42:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1754548966; x=1755153766; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=uP9ivKG0gwdO+sDzB9YFDIqePy8klb0Nt1Aexa1ZWQk=;
-        b=ZPXalRcWiSAIlEQi9/MpfZUGwcGuhq371F8w/vqi2wbsgm+Cb/99CppaJBluUgdpTM
-         IG6dH+TFl38C8FhrpoExCuc2Z+/2cWOQrvxpkgb2hp+Cze3oqoLVQ6JDx5opLCKjMZpI
-         zyJVc+zOnuZUbGpY/MmNt14gwKexcEfC3Vjq0frhlMdQ7JZYY33Cnr9PvFcId/uztmd1
-         K581uehAqxrIYN5GQ0trYHZ+0eM8UsDeU7+3EtBRRXxhNRNs38UXhON04L9w3vMUcdad
-         YWAtqQfuk728TiTNaNMss6I1QBkaveDhL+vd7USp3C6gcSdrRwibgUj3AFRBj753jDCc
-         CKtg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754548966; x=1755153766;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=uP9ivKG0gwdO+sDzB9YFDIqePy8klb0Nt1Aexa1ZWQk=;
-        b=E8PAOE/2KuJQtpMczoG7Rq0M3zi/oywgz991ity0Ez5qf/3G5x+Qvdxsh/JyXBAk/j
-         hEA8uEEVAiOa1squ/4Zg+K/XvDxp9LatZsbwUYO4Cm2uOzvU5QQcrXy09opaDZqD/jNU
-         TJ43H5khLR59tP2YgCP7LNOB4ALQH3ZMINfyv23DJHzpb69UwYPFsflPdxrLN8o3Es7I
-         Sj3ZiMjL3adwye3vm97o9D8/B4jK7lzvkxO5evvDwrd4yb2WARMsy6YDZ7NTmFz7uTEw
-         HZRLjHhNhoJlWzqIkTQH/tQMGXFKRDyRZEoJxZGtnt7mEjQp9v+xC8XaWdYdqZI2QQRO
-         y/ug==
-X-Forwarded-Encrypted: i=1; AJvYcCVU15xIbQzrNgdHaqn7ta2LqgtCdD3r/iWQ4lDiYcibkkhxwQamifxeuoj+wuCwf7fcpNVjSf1P8eU2fg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxqL1TpqSFZ2810WwvOGznvpPJ62lGLSs6fYzovoxdXyJ4l++qv
-	LS55gyiL9HEBV22hn434h6P2rPypqBEJ5AEYhoneGhzZHzS510+t6zSZrXXTDgWmYn8=
-X-Gm-Gg: ASbGnctorfMAU1uxnTfLdjovhXxc4KV6oVuhQwkbEOLAKldYT5vSMTEz71UxdX6FRxB
-	ZXgttjgWuwg4IKO/yvPqU8zpvUTnFok9V8s7UtTHNOLUPAdDzRZeJaHMYQYSEr4YvnJN79fH2wT
-	IangNMUebsIBg32xWeS8KMdgWy2bWDBohy7dCqOFjKhXWVmG65CeeKqh+xWDdldkqIgNn5ADiR4
-	iSTmWrqCkq8DieHKVc1i9F0hP5HSUAzHlPn6gT7mBumpduMpE8dBXXwgkUEnGu9MCc2DXsXKZ/0
-	WGlFESjeL8m6f1LJQ4eNwQyGjuIqVnQqF6S0H7lSA8O5DrObhproVQ6IDvlBdeCldw05qKh3SDE
-	lkZmWHJ4DyBqseqwZBh3FGmMNDQIycCe57C2c/I5J811y4zUQdxyblKW+WpjcUnyDkVIGdLTqqN
-	A=
-X-Google-Smtp-Source: AGHT+IHzXz2Uk/7pTy25fPfXEKO7AloRT0dUDzCMj/HHgy0kvtiGAsIj+6CtnEoJSRW9ZAes50RTwQ==
-X-Received: by 2002:a05:600c:4751:b0:459:df48:3b19 with SMTP id 5b1f17b1804b1-459e70d8e4bmr53512055e9.18.1754548966464;
-        Wed, 06 Aug 2025 23:42:46 -0700 (PDT)
-Received: from localhost (p200300f65f06ab0400000000000001b9.dip0.t-ipconnect.de. [2003:f6:5f06:ab04::1b9])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-458b866392csm125512955e9.2.2025.08.06.23.42.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Aug 2025 23:42:45 -0700 (PDT)
-Date: Thu, 7 Aug 2025 08:42:44 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Dzmitry Sankouski <dsankouski@gmail.com>, 
-	Marek Szyprowski <m.szyprowski@samsung.com>, Krzysztof Kozlowski <krzk@kernel.org>, 
-	linux-input@vger.kernel.org, linux-pwm@vger.kernel.org
-Subject: Re: [PATCH] Input: max77693 - Convert to atomic pwm operation
-Message-ID: <njphx3mgvidjjxusatcc65mwd3zpdehz7rxes2hu6eb22lrtfr@734q26m5oyjo>
-References: <20250630103851.2069952-2-u.kleine-koenig@baylibre.com>
- <w3tkxxkqr2kmri3bz5m34dzw3hfvkqou3zbww7kwjdg72o7kla@ty777ynf26qr>
- <23ddfd32qebfzb4qftxih3mwpymghlezdv5u63qhxhqthpbxpz@u7f4tbihsfop>
- <yafw6oi62ckqgz7ur4idua2r2sjyxnfomc7h2v5w6tthqwu334@5i6tdfumtj5b>
- <sl3jqe36dfxfzblposdtkvlgalc4ydixpqkfmn7gc6hcjfwmqn@7bex3mxwjqyy>
- <zxeva5asxre7oc6vakfoyiehegt5c4i7qwaeue5woxk4xir3di@thcg7lyadvn3>
- <wfdklejfruh4m54kmekyu2xssd6uss7es2nyvhqhki5zgbziwk@6bounno2zauu>
+	s=arc-20240116; t=1754550827; c=relaxed/simple;
+	bh=YUA5RiBpGAWvHlxz8fkf1jghXvZc3JwjJoR84RaygdQ=;
+	h=Content-Type:Subject:From:To:Cc:In-Reply-To:References:Date:
+	 Message-ID:MIME-Version; b=CAq3rJDlhhxfRbdRi6/kF4hU8RxGLTUTnQaYn3kAHhi2IotIQhEgX58vc3gwqpAnQVANwAtaJE7xjCQ23r4Qj9DrvJISs/7i+rC6yjoGKfjCUgHUjfkVEQIYfUGfS+szLXCvSOSVTNYowtGB6Rd8T8hx3xiHFF1eoyi/FOJYZNQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=khirnov.net; spf=pass smtp.mailfrom=khirnov.net; dkim=pass (2048-bit key) header.d=khirnov.net header.i=@khirnov.net header.b=gAIfZ4TG; arc=none smtp.client-ip=176.97.15.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=khirnov.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=khirnov.net
+Authentication-Results: mail0.khirnov.net;
+	dkim=pass (2048-bit key; unprotected) header.d=khirnov.net header.i=@khirnov.net header.a=rsa-sha256 header.s=mail header.b=gAIfZ4TG;
+	dkim-atps=neutral
+Received: from localhost (localhost [IPv6:::1])
+	by mail0.khirnov.net (Postfix) with ESMTP id 59BD3244CD3;
+	Thu,  7 Aug 2025 09:04:36 +0200 (CEST)
+Received: from mail0.khirnov.net ([IPv6:::1])
+ by localhost (mail0.khirnov.net [IPv6:::1]) (amavis, port 10024) with ESMTP
+ id gZ89qqBFjTSv; Thu,  7 Aug 2025 09:04:34 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=khirnov.net; s=mail;
+	t=1754550274; bh=YUA5RiBpGAWvHlxz8fkf1jghXvZc3JwjJoR84RaygdQ=;
+	h=Subject:From:To:Cc:In-Reply-To:References:Date:From;
+	b=gAIfZ4TG2b94qbXW4Mr74i9wHfoyIGxDV2FaEeVRmGEFg66z545iz7ZJeUmyjL6v/
+	 /AZArhDoFdG+uABq0TPY68aS7/C67ExDMszMxPtm8IoDSkpTCCkiPsP4rKSTaiRkYk
+	 JiGP8N4AAddXpfTZFQgM7IkCdbOXBo1KbVpCsnJoQEksu5lY2GyQFKKJ2Oar5hHpRi
+	 g45LlAO+cntHN8Gee076rGXNloZZH1fZmDeZKKxOFhnFvg2TaOlgCaumnRFLC7PSYK
+	 Onxq87Bjvf8rrJiMj1LAxi1Ba+UOq2fYCbvKsLDvcKFvl9QkHiNskqGigPDJYE25cs
+	 wz7/v//fNOnuw==
+Received: from lain.khirnov.net (lain.khirnov.net [IPv6:2001:67c:1138:4306::3])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
+	 client-signature RSA-PSS (2048 bits) client-digest SHA256)
+	(Client CN "lain.khirnov.net", Issuer "smtp.khirnov.net SMTP CA" (verified OK))
+	by mail0.khirnov.net (Postfix) with ESMTPS id 1DEA0244CD2;
+	Thu,  7 Aug 2025 09:04:34 +0200 (CEST)
+Received: by lain.khirnov.net (Postfix, from userid 1000)
+	id F1FB91601BA; Thu,  7 Aug 2025 09:04:33 +0200 (CEST)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Subject:  Re: [PATCH v2 1/2] Input: allocate a keycode for Fn+space
+From:  Anton Khirnov <anton@khirnov.net>
+To:  Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:  platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-input@vger.kernel.org, Corentin Chary <corentin.chary@gmail.com>,
+ "Luke D. Jones" <luke@ljones.dev>, Hans de Goede <hansg@kernel.org>,
+ Ilpo =?utf-8?q?J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+In-Reply-To:  <20250714150756.21197-2-anton@khirnov.net>
+References:  <20250714150756.21197-1-anton@khirnov.net>
+ <20250714150756.21197-2-anton@khirnov.net>
+Date: Thu, 07 Aug 2025 09:04:33 +0200
+Message-ID: <175455027396.18450.6158883214483744371@lain.khirnov.net>
+User-Agent: alot/0.8.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="3cuilknb6gxn3qm5"
-Content-Disposition: inline
-In-Reply-To: <wfdklejfruh4m54kmekyu2xssd6uss7es2nyvhqhki5zgbziwk@6bounno2zauu>
 
+Hi Dmitry,
+could you please look at this?
 
---3cuilknb6gxn3qm5
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Subject: Re: [PATCH] Input: max77693 - Convert to atomic pwm operation
-MIME-Version: 1.0
-
-Hello Dmitry,
-
-On Wed, Aug 06, 2025 at 09:33:25PM -0700, Dmitry Torokhov wrote:
-> The patch is in the pull request I just sent to Linus, hope this
-> unblocks you.
-
-I'm not under great pressure, but if I know it's not stalled that's
-great.
-
-Thanks
-Uwe
-
---3cuilknb6gxn3qm5
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmiUStgACgkQj4D7WH0S
-/k5oUwf7BRLEAsseXAb/TFll0UBQF++jsIHmvZopKC0nAsw4U8oepBq6d9K6l4vK
-4dvulSGbfBXfx9z27Y1Vn4Eh5uVAtR/OY1y2UeG7Z8sl7p1VXI1d5Bv5x8BGdQUW
-6UTOSoLojMCsnjGGNb//YIl38ml46pN8pkN+YZuegmpMAZ93w/ugmH0SyfCNsqoB
-ZkWThDs+uQ0ZRvXqDog6UwrYlQwhHkhDHQjiCzCviFNBCYsYtB2aQQS/c7WXN+6U
-nkZW7D7xrDlho84O8fpt40L83dgHd1+mYDQmzsygfwyzVeNInYwBjMXq3LMmxxuS
-oChOdWzkzS9l02N9Z5yNOXNJFD8UqQ==
-=PpjV
------END PGP SIGNATURE-----
-
---3cuilknb6gxn3qm5--
+Thanks,
+-- 
+Anton Khirnov
 
