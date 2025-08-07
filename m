@@ -1,132 +1,140 @@
-Return-Path: <linux-input+bounces-13850-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13851-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F2B0B1D177
-	for <lists+linux-input@lfdr.de>; Thu,  7 Aug 2025 06:29:26 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id BA1ECB1D17B
+	for <lists+linux-input@lfdr.de>; Thu,  7 Aug 2025 06:33:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 105241AA166B
-	for <lists+linux-input@lfdr.de>; Thu,  7 Aug 2025 04:29:45 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 54DD94E175D
+	for <lists+linux-input@lfdr.de>; Thu,  7 Aug 2025 04:33:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B61701E1DFC;
-	Thu,  7 Aug 2025 04:29:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 70628199FB0;
+	Thu,  7 Aug 2025 04:33:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="T0DJwjlL"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bMau9Pfm"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 456218F6E;
-	Thu,  7 Aug 2025 04:29:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0777415624D;
+	Thu,  7 Aug 2025 04:33:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754540959; cv=none; b=Ny1r9HS5nB193ztwGUmfqaN2xGntMMYnf0nenYAkqmhQQoJ2JRWYo3ysyLgcUE6kCUAfgQter5OCKnLMKPuBOcC7M29RoJonxaL+UdlHQr7YcWi6gc8/KosGI1D3LvKLaTr6KNZsUXFiCBHYCiFiNWe9SmkXu8TAaBPG9qXchpk=
+	t=1754541210; cv=none; b=Cnn1HNSCNuZ/mABtAvzpAE67uBcBrKzaFVBoVbrBxntyTxWL5BUJPfU5zgPlGpbWR378fWmvmYpRaRqTYTELnhqGUo5qMIPVcA/OfMt4ARyYZIvGQhAmV0Ra8kOyJdLuXcWZ1dUgyVBB3G9Gf5+aINsp9I9KmqzBdiWYZYAQzLw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754540959; c=relaxed/simple;
-	bh=Rqs7qqQtk1AFIV8i5FvyH/sbeMnqewCvwMdL0VhH/Vs=;
+	s=arc-20240116; t=1754541210; c=relaxed/simple;
+	bh=cbiPNIRxJ0+TPk8XHjQGiCTC2gFsZ7Bja2SpJghvWS8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SvGxYaMXpKVIU37fQihbT7wc0WLcytmiHbThk9jEzeGKGgoOvYdFra3Ww5/pd+MotTiAqQtQt0Zd5M7L9XAOkknUbo0itk+IVQCxOc0vmqxj+D53KiicCtNMCV3SyY7U+UXijU6eQbgXNxWZOG6ALy/pDa4NI8IXdBolu1fTFpc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=T0DJwjlL; arc=none smtp.client-ip=209.85.214.179
+	 Content-Type:Content-Disposition:In-Reply-To; b=b4CDqAKR87XrwI6cjuKymoLpXLACXaY6QzU8vFizVLnVHI78Wcs02pJzLAClvUTp5v+l9SLpXe2CZ9Xt1FR7tNXRchUqo95Lvsyi8H+xBCzGXsj/pp8sHJWUABGEsRCZmf3EYH73xFpdqxMQ2OoHWaEV36J1bdBB1iPP+dVE4EI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bMau9Pfm; arc=none smtp.client-ip=209.85.210.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2407235722bso5529485ad.1;
-        Wed, 06 Aug 2025 21:29:17 -0700 (PDT)
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-76bc5e68d96so524199b3a.3;
+        Wed, 06 Aug 2025 21:33:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1754540957; x=1755145757; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=fLjoW/JR7SYyN82M64yJPv3/KhQEznxNWUu4jcinAK4=;
-        b=T0DJwjlL0FhR0Jkb5i5uY63i5XL9Fdv7K4xSeTxePdjgWdSW9xQPj6SHLesMnnx1A7
-         +ebeJA8GGCbCmXIEIXpygKdFN7fz1TBUV58APF63zjQOOlvexYxuOhYMD15N5Ex9iAbY
-         1SlwBx+oW/soCDY4cZSix7i9B5ALwd1gr04O/vRUdGLoYG1EECu3vluHOGAyRSANCLTT
-         as00y3Z62IqhW5jVtkLKj9Jq3GiOk6PcyTkKrt+n6+hZn1nr27oaFnClo3ZqE3pK38CU
-         YUc+O6STXtBSAGceE/E2quOURXpuEODLI7D/Z4OS2OScJCRMKcOytcSiOU98Xfjp/6Y7
-         IslQ==
+        d=gmail.com; s=20230601; t=1754541208; x=1755146008; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=z9RPuX2Cey64XT1m8nGtJ8B2vs45y2EWTHKYflCfe/k=;
+        b=bMau9PfmXpV5bpGmJxIlTZvBndaoBgcntJfTbUyEQV7rVBdy77mtk8yzLuvOTpLYw5
+         JrZM09xTI8zxM5nmFWNEGJ6Fih2PZJOZMo8jNLHLSK4FVmyD1vRCGrzbPeFChO8AlV+c
+         Lb/92VZK8ELIOE0/bO8kV38fZ1deoLMv4YonxKfI2pQKUl7zYxABHokdRB6QyV+J5aol
+         Q60lUTMF1ycE/OWHR6rzQnT4tQI3LaZkTu1KtYq72Y0GbHAiZMjhBOY8hS009sgQU3zR
+         0bHQgFjp3EyoEZwmp1aA61uPEoTYe+dfM1G0/Pv0pibuD1p5BMdf3HcBPxTbnm/zPABt
+         tWiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754540957; x=1755145757;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=fLjoW/JR7SYyN82M64yJPv3/KhQEznxNWUu4jcinAK4=;
-        b=dfnNRfeKxpnJ9pJBPdxg+A0lgffWjyG4uKJPYpHwTaS0OSprhI0J8kypacGd46neIC
-         Qn8puJ61FcTwmPA6CgKbyezn+Tf3+VbSbKHD6XFqZVA8orvzbRY+5BR0bmuCcuuJkmtn
-         OvsCpOuZZmBES1g8paXQuiCqkRgkGrnXzbjpnvORvE70u4wwQQQjxM6HdGu+t3zB3Hqb
-         PC53IZeQD3Ymi6lWWZl8kyZkElwp4tnjecwE6n1BMxJeB3brkj4wghwDQEvJtDdtN2vS
-         k7+x1U1QwTaoF2dllg7yfbq6+lIB8bu1RpnD0yfz3He81EvQm2vXDTvAEZrhYwshgaee
-         K7ug==
-X-Forwarded-Encrypted: i=1; AJvYcCW0n5qnNEWF7Eog1WxY2QbsgIv0v2Jkmfbso4Djgzjaa/YOqwLja5gBOMuhRCkTaUftTZV+Un5Kulo4BWU=@vger.kernel.org, AJvYcCWPb6UmkJ6ubzKqzDLjN3+lLaSOPqM9kXnpERVjpcV33waoCXTBTpDPkLHM2iWq+uiRostVsvJ1QKvW@vger.kernel.org, AJvYcCWXInNj2BS9NnxUe8KdkgciT/Za+UOTvzC4SOwuZE7eV2WBwYhotzC2aK7w/FmH5tQkTwjY45r/V5zsmK5L@vger.kernel.org, AJvYcCXXKrxtvlUQcflBHojyns4jeEmICzq24lMtOzDLk/k5HgOXdjWLdeh4CUj7t5ed4+h+jkvxa2br6uRMRYo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwNovoiL2TjtK0+h0n9DgJCmG9JjBvj1WZbfHwxyFchyI+K2Ciw
-	yGdpdJ4inik8+wRczwG9jiW8hXWRxVI046+2iGLSzIc2h7WUGzCfPViN
-X-Gm-Gg: ASbGncuA06lNrWDmQ1bErR52/CzCij01Qat5/T499SW6C+XYSdqU7SD0L1u7qhukDtH
-	Cy/FjJHFlT55FjsWd5DDr5Tvc0i5PlItTFzggIJGnJRTj1lDYdFhbCgxxBt+JUbBbz70A2BIRHt
-	YtRU880pyi/aio3GMH2e+IcD2Vj+iFF10xbQ4Z87TfjqxoiH3Om7W9D8HShzxbTjg4q7jqurdPC
-	wzbcB9va5qO9zheYP4GhaGM872Ww+fpt5vcLsoUJge/R4K2r88namNvm/xrW1oxchkGJmP2+a16
-	N1TNVhuEtGhX4h/n7VNWWDqTOHd7fORs3RH6PkGIT3GPCA5Lv6I+92YmcEVBj/KWOWjKorI9iSI
-	qcrxLoGbXfjgg/zs3hFCiAYM=
-X-Google-Smtp-Source: AGHT+IH7Ykgv5OaxQo1cMX7bcE1ucqXXe+QxvHYtt8i6uHT6Rug4kEWpU6ysRLV/oIs0MlSvGS3Yag==
-X-Received: by 2002:a17:902:ec92:b0:238:120:134a with SMTP id d9443c01a7336-2429f4380d2mr84511455ad.22.1754540957372;
-        Wed, 06 Aug 2025 21:29:17 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1754541208; x=1755146008;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=z9RPuX2Cey64XT1m8nGtJ8B2vs45y2EWTHKYflCfe/k=;
+        b=Pmbuv6iK8y4WPctVmg2kdE+qJaqFpQxgjJkXaCFTsXIUbMsB0Qj30McUhDwqxVfSXL
+         AEH6YqTpXEhpX77QNtUbZV0BNvTOBP3EIgS2EZU5zJe2p2oNI5Sql8ZXkWou4/Sry/Fd
+         ABQrRGjL/H7UQ3XpMF7H+fM3wapXWj6OKB7xcHzbapwJBgzcNHfhthJzNwz0I5tP5Bo9
+         XhL7c9jS6Xwt4ZVk24GFvgVxcYKYk7VFzaE4ezmYp82vw3gbVEa4uYvP5FTjIQAgkNzm
+         r/mHhoY8xUJE4vs0m4iv8So0LfckMxUBtE4hRNTj9p+6fOLa1LqTSvnQIO+w7v96FlDd
+         JUWQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUitVle5KdMtBe5qYWwSQQCuTt8iul1/PZpFP/I/9AIHqJG1wIGzYwQfMMRENjJaubocHpMdsLVeMVL@vger.kernel.org, AJvYcCXd+El9R+U+Fi/CNVjgDPq190oTpXXS6MrdydKMtd+BKKi4352KZQz/aKwm5Rv5WtuaAcfkq/KNIut4jA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwifSduo+UomWBYV+59D6ArLmVTc2qTwQSdmFBBXMyh1MICee4q
+	8TnA4S4t5m/fNa0LVQyxI3u8CdB6gNwu5KGpv7HvGrFDt3BMomhaI/QN
+X-Gm-Gg: ASbGncveFBSgwhGtEcOD2oWhGJfGkc8G1Alhvp8GGEm4OYZsx4nuuiJxfXWvELNAU87
+	ssSq7A88X+BP9zjeEk3vRDbvm32Qm1sqMnmeN1Hi+Zeh1Z+uinZv3bbfMb4PPpVW/mLPeJ9qXiS
+	cUPl90ZTFjuwPIRh4ziK+2iS63L4B99yEOKdB8OlGX0EBk02UwPtlVfMJSeurNv1PE9AQ3SZBXB
+	U0i8CG1VXx9NaTkozPs9ErK67JT+oCpbzTMBUC5k8XRKZMHxiyGailbWVwV3PR4aV+1YnzgpQ4r
+	cM2dhEpNVWGAt7w83u82u2o5Z1St1kfssOxpP6zIN7HOX2v/3B4NwjXpElq2ZKo15qtK4mF1A3x
+	8sElAeGdlA07o5IHCa43Tf77JipEoIe1MaA==
+X-Google-Smtp-Source: AGHT+IE9HgAvb08HTM/crqgnI+qCFrfYWX97YigV8hs+Qk95YqDkSXjYt97lMSarUud2kNrlpFoSew==
+X-Received: by 2002:a17:903:120b:b0:240:2efe:c384 with SMTP id d9443c01a7336-2429f2fe7d1mr72582435ad.19.1754541208143;
+        Wed, 06 Aug 2025 21:33:28 -0700 (PDT)
 Received: from google.com ([2620:15c:9d:2:1dc7:76a8:a227:b1c7])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-241e8aaaf05sm173046435ad.162.2025.08.06.21.29.16
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-32161282ab6sm4340573a91.26.2025.08.06.21.33.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Aug 2025 21:29:16 -0700 (PDT)
-Date: Wed, 6 Aug 2025 21:29:14 -0700
+        Wed, 06 Aug 2025 21:33:27 -0700 (PDT)
+Date: Wed, 6 Aug 2025 21:33:25 -0700
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: david@ixit.cz
-Cc: Kaustabh Chakraborty <kauschluss@disroot.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, "Jason A. Donenfeld" <Jason@zx2c4.com>, 
-	Matthias Schiffer <matthias.schiffer@ew.tq-group.com>, Vincent Huang <vincent.huang@tw.synaptics.com>, 
-	linux-input@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht, 
-	Casey Connolly <casey.connolly@linaro.org>, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH RESEND v5 0/7] Input: synaptics-rmi4 - add quirks for
- third party touchscreen controllers
-Message-ID: <aggtzmlxvj4so6t7trlo5ianjcbq2jrsodv6hlkhtrvgl2qpqj@gflvqocxjckb>
-References: <20250731-synaptics-rmi4-v5-0-cd0d87d34afa@ixit.cz>
+To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+Cc: Dzmitry Sankouski <dsankouski@gmail.com>, 
+	Marek Szyprowski <m.szyprowski@samsung.com>, Krzysztof Kozlowski <krzk@kernel.org>, 
+	linux-input@vger.kernel.org, linux-pwm@vger.kernel.org
+Subject: Re: [PATCH] Input: max77693 - Convert to atomic pwm operation
+Message-ID: <wfdklejfruh4m54kmekyu2xssd6uss7es2nyvhqhki5zgbziwk@6bounno2zauu>
+References: <20250630103851.2069952-2-u.kleine-koenig@baylibre.com>
+ <w3tkxxkqr2kmri3bz5m34dzw3hfvkqou3zbww7kwjdg72o7kla@ty777ynf26qr>
+ <23ddfd32qebfzb4qftxih3mwpymghlezdv5u63qhxhqthpbxpz@u7f4tbihsfop>
+ <yafw6oi62ckqgz7ur4idua2r2sjyxnfomc7h2v5w6tthqwu334@5i6tdfumtj5b>
+ <sl3jqe36dfxfzblposdtkvlgalc4ydixpqkfmn7gc6hcjfwmqn@7bex3mxwjqyy>
+ <zxeva5asxre7oc6vakfoyiehegt5c4i7qwaeue5woxk4xir3di@thcg7lyadvn3>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20250731-synaptics-rmi4-v5-0-cd0d87d34afa@ixit.cz>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <zxeva5asxre7oc6vakfoyiehegt5c4i7qwaeue5woxk4xir3di@thcg7lyadvn3>
 
-Hi David,
+Hi Uwe,
 
-On Thu, Jul 31, 2025 at 11:06:50PM +0200, David Heidelberg via B4 Relay wrote:
-> With the growing popularity of running upstream Linux on mobile devices,
-> we're beginning to run into more and more edgecases. The OnePlus 6 is a
-> fairly well supported 2018 era smartphone, selling over a million units
-> in it's first 22 days. With this level of popularity, it's almost
-> inevitable that we get third party replacement displays, and as a
-> result, replacement touchscreen controllers.
+On Tue, Jul 29, 2025 at 10:04:06PM +0200, Uwe Kleine-König wrote:
+> Hello Dmitry,
 > 
-> The OnePlus 6 shipped with an extremely usecase specific touchscreen
-> driver, it implemented only the bare minimum parts of the highly generic
-> rmi4 protocol, instead hardcoding most of the register addresses.
+> On Wed, Jul 02, 2025 at 08:02:33AM +0200, Uwe Kleine-König wrote:
+> > On Tue, Jul 01, 2025 at 11:06:50AM -0700, Dmitry Torokhov wrote:
+> > > On Tue, Jul 01, 2025 at 07:49:22AM +0200, Uwe Kleine-König wrote:
+> > > > 
+> > > > I had something like that at first, but didn't like it. With that
+> > > > approach you have two places that have to know how to set the PWM's
+> > > > duty_cycle. Also I think the control flow is more complicated.
+> > > > 
+> > > > I considered renaming max77693_haptic_enable() to something that better
+> > > > matches what it does in my variant, but max77693_haptic_configure() was
+> > > > already taken.
+> > > > 
+> > > > But that might all be subjective? If you like your version better,
+> > > > that's fine, it still gets rid of pwm_config(), pwm_enable() and
+> > > > pwm_apply_args() which is my main objective.
+> > > 
+> > > Yes, I agree that it is subjective. I know that you do not quite like
+> > > the version I posted, still will you be OK if it is attributed to you?
+> > 
+> > Yes, feel free to apply it as you suggested.
 > 
-> As a result, the third party touchscreen controllers that are often
-> found in replacement screens, implement only the registers that the
-> downstream driver reads from. They additionally have other restrictions
-> such as heavy penalties on unaligned reads.
-> 
-> This series attempts to implement the necessary workaround to support
-> some of these chips with the rmi4 driver. Although it's worth noting
-> that at the time of writing there are other unofficial controllers in
-> the wild that don't work even with these patches.
-> 
-> We have been shipping these patches in postmarketOS for the last several
-> years, and they are known to not cause any regressions on the OnePlus
-> 6/6T (with the official Synaptics controller), however I don't own any
-> other rmi4 hardware to further validate this.
+> As of today's next that didn't happen. Do you have this patch still on
+> your radar?
 
-Sorry for not handling the patches in the last few submissions. I am
-planning on addressing them once merge window opens.
+My bad, I lost track of it when I reshuffled my queue. 
+
+> 
+> This is the last driver making use of pwm_config(), it would be great to
+> get rid of that.
+
+The patch is in the pull request I just sent to Linus, hope this
+unblocks you.
 
 Thanks.
 
