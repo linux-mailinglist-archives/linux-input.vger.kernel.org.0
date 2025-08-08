@@ -1,67 +1,67 @@
-Return-Path: <linux-input+bounces-13874-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13875-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DCE5B1EB9A
-	for <lists+linux-input@lfdr.de>; Fri,  8 Aug 2025 17:22:17 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DDA4FB1EBAF
+	for <lists+linux-input@lfdr.de>; Fri,  8 Aug 2025 17:23:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7ED5618C0344
-	for <lists+linux-input@lfdr.de>; Fri,  8 Aug 2025 15:21:00 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 97EAE3AD175
+	for <lists+linux-input@lfdr.de>; Fri,  8 Aug 2025 15:23:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 15A7F283C9C;
-	Fri,  8 Aug 2025 15:20:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 42261283C9D;
+	Fri,  8 Aug 2025 15:22:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iWsIAYmP"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gs8U69l6"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB74D236A73;
-	Fri,  8 Aug 2025 15:20:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19FFE2836AF;
+	Fri,  8 Aug 2025 15:22:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754666435; cv=none; b=Ti54lXAjFP+6Q7BeAQNjzNEiBrozk67w2aslfqz6M924quNXhpcrFIM8T5PGj7+YkDQDjJiONBnM42x33Gt+Go5atDwRbBAkpUcsV2JHA11dp5NblRrwp4rCpPmsr8+3Y20hEJcg0DmFBvDSDjePk6/TUzgyrumow5AsTix6/sQ=
+	t=1754666530; cv=none; b=V39h8uFPolKtJXpgMPXrjXjjMAZJoIs7IzZVe0bMwBWMM2xKXT++q7DdwPVxOCBP4w+CE+5/P7saYjxQxYWOw7O7Kow+J5cCRMiZZzIgC7GkMbDWRI/4eLwPjwR675OKcWMId+sG+sca6evJYJQ46cBgjgSiiHq+0dgwqjsBCj8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754666435; c=relaxed/simple;
-	bh=vwCFqwUL01DNTrnN+v0UHsEkzjzYJynmCUZDf9U+qXA=;
+	s=arc-20240116; t=1754666530; c=relaxed/simple;
+	bh=NWPfkLvSzYXpOS3JkL5/KajBbmF4O88cmr615YX9oHI=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=nXf8ns4vFwjvdXGklMg91CiGfJLPARKlW12OxE7K6ajVirrj59I/+d32ePprC0/hrmIuwVyASg3gJjxBOIVgH9Gpz5BlriY9Jfd3hr/VwflqHI6OAoc+YP6pn4YvdW64RAQMKX1VIcwibi5mDhj872EQJIzuNYXkfxgBkEs/rgc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iWsIAYmP; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 19096C4CEF4;
-	Fri,  8 Aug 2025 15:20:30 +0000 (UTC)
+	 MIME-Version; b=XKn9Jt1HhbTNxl2BFWl2ASijj/VFEqfUImgaKzpiN5DPIdpPn2VK8l7NWm1AtCsaXcgRd+DhRDcgRPf2i/MG+ZFwoa4w22pCdAuBlZU+qgPLnMY0Ilm4w8rANrfhz8V1dWCpolDRVFjefZZexgBzDCnh7XM4DvdVA1Xo/+F6Tf0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gs8U69l6; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D141C4CEED;
+	Fri,  8 Aug 2025 15:22:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754666434;
-	bh=vwCFqwUL01DNTrnN+v0UHsEkzjzYJynmCUZDf9U+qXA=;
+	s=k20201202; t=1754666529;
+	bh=NWPfkLvSzYXpOS3JkL5/KajBbmF4O88cmr615YX9oHI=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=iWsIAYmPgoX9KoJprcyqYPkZJzJ4NLmZYeLDW9qUqdoXnr7+hMt79yMQWmshi9dBU
-	 A6sxrbsXKH2jBtzwlcMN8UfNHTartAjNde06WnCAfIyaWLH6IujzoPV9trVL3wNr62
-	 5RtFAVnf75Tpy3knWYF0anaro4MF1YiANqmma/7LgJQm3xVXFSNzGA/AUvAPgeQU6z
-	 P1D808bIJG+WyE4Flyn7Mo3fxyLvN5UapStY/U3l8ctPU/mzRJDlKcXSnHQ7DkTPxp
-	 wDDftM/eBeIETvt9ARsjJLkuN1XqTSC0Q1eay4exXTgUTTn1BlG1GGEkTIObHzD0pk
-	 rUg6kVFDdzOXQ==
+	b=gs8U69l6pTkBtbfrmTTcI1PVHkTpEocW8j7r53jtN+EIn8TwLb8RplwrfHIeFYG7V
+	 apMn0EbVyq9TKwD5X6kEwlsDRmB86149cDLTAjAF6rVZlZDjLTldLe+YgZ3rUlr0EW
+	 fbKNlG9g8VRyzbtDJHykKlhy4euYr48FsGOZfanSbBOmblz8XNedNjByLSnjyeiuJi
+	 7KB0797CXA0MtwqJfOQ9+2rTVWSAMMZ4bxoQ8WckZt/TPGadYtnm5OuiDqQZWx/blk
+	 8OL0ACb+7vkR7GJkzuSi8CNqMB5zsGVYAeDQ7TqMVZR1tUHLM6WzvJb6R5j5SSFT8O
+	 C6eEOZPvCJrwg==
 From: Arnd Bergmann <arnd@kernel.org>
 To: Bartosz Golaszewski <brgl@bgdev.pl>,
 	Linus Walleij <linus.walleij@linaro.org>,
 	linux-gpio@vger.kernel.org,
 	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Hans de Goede <hansg@kernel.org>,
-	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+	Matti Vaittinen <mazziesaccount@gmail.com>,
+	Lee Jones <lee@kernel.org>
 Cc: Arnd Bergmann <arnd@arndb.de>,
-	Lee Jones <lee@kernel.org>,
-	Dzmitry Sankouski <dsankouski@gmail.com>,
-	Heiko Stuebner <heiko@sntech.de>,
-	"Dr. David Alan Gilbert" <linux@treblig.org>,
-	=?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <linux@weissschuh.net>,
-	Guenter Roeck <linux@roeck-us.net>,
+	Gatien Chevallier <gatien.chevallier@foss.st.com>,
+	Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
 	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Charles Keepax <ckeepax@opensource.cirrus.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
 	linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	platform-driver-x86@vger.kernel.org
-Subject: [PATCH 05/21] x86/platform: select legacy gpiolib interfaces where used
-Date: Fri,  8 Aug 2025 17:17:49 +0200
-Message-Id: <20250808151822.536879-6-arnd@kernel.org>
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 09/21] input: gpio-keys: make legacy gpiolib optional
+Date: Fri,  8 Aug 2025 17:17:53 +0200
+Message-Id: <20250808151822.536879-10-arnd@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250808151822.536879-1-arnd@kernel.org>
 References: <20250808151822.536879-1-arnd@kernel.org>
@@ -75,72 +75,114 @@ Content-Transfer-Encoding: 8bit
 
 From: Arnd Bergmann <arnd@arndb.de>
 
-A few old machines have not been converted away from the old-style
-gpiolib interfaces. Make these select the new CONFIG_GPIOLIB_LEGACY
-symbol so the code still works where it is needed but can be left
-out otherwise.
+Most users of gpio-keys and gpio-keys-polled use modern gpiolib
+interfaces, but there are still number of ancient sh, arm32 and x86
+machines that have never been converted.
+
+Add an #ifdef block for the parts of the driver that are only
+used on those legacy machines.
 
 Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- drivers/input/misc/Kconfig                       | 3 +++
- drivers/platform/x86/Kconfig                     | 3 +++
- drivers/platform/x86/x86-android-tablets/Kconfig | 1 +
- 3 files changed, 7 insertions(+)
+ drivers/input/keyboard/gpio_keys.c        | 5 +++--
+ drivers/input/keyboard/gpio_keys_polled.c | 2 ++
+ drivers/mfd/rohm-bd71828.c                | 2 ++
+ drivers/mfd/rohm-bd718x7.c                | 2 ++
+ include/linux/gpio_keys.h                 | 2 ++
+ 5 files changed, 11 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/input/misc/Kconfig b/drivers/input/misc/Kconfig
-index 0fb21c99a5e3..681d4123ef2b 100644
---- a/drivers/input/misc/Kconfig
-+++ b/drivers/input/misc/Kconfig
-@@ -860,6 +860,9 @@ config INPUT_IDEAPAD_SLIDEBAR
- config INPUT_SOC_BUTTON_ARRAY
- 	tristate "Windows-compatible SoC Button Array"
- 	depends on KEYBOARD_GPIO && ACPI
-+	depends on X86
-+	depends on GPIOLIB
-+	select GPIOLIB_LEGACY
- 	help
- 	  Say Y here if you have a SoC-based tablet that originally runs
- 	  Windows 8 or a Microsoft Surface Book 2, Pro 5, Laptop 1 or later.
-diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
-index 6d238e120dce..979a2fce8fc1 100644
---- a/drivers/platform/x86/Kconfig
-+++ b/drivers/platform/x86/Kconfig
-@@ -309,6 +309,7 @@ config MERAKI_MX100
- 	depends on GPIOLIB
- 	depends on GPIO_ICH
- 	depends on LEDS_CLASS
-+	select GPIOLIB_LEGACY
- 	select LEDS_GPIO
- 	help
- 	  This driver provides support for the front button and LEDs on
-@@ -564,6 +565,7 @@ config PCENGINES_APU2
- 	depends on INPUT && INPUT_KEYBOARD && GPIOLIB
- 	depends on LEDS_CLASS
- 	select GPIO_AMD_FCH
-+	select GPIOLIB_LEGACY
- 	select KEYBOARD_GPIO_POLLED
- 	select LEDS_GPIO
- 	help
-@@ -591,6 +593,7 @@ config PORTWELL_EC
- config BARCO_P50_GPIO
- 	tristate "Barco P50 GPIO driver for identify LED/button"
- 	depends on GPIOLIB
-+	select GPIOLIB_LEGACY
- 	help
- 	  This driver provides access to the GPIOs for the identify button
- 	  and led present on Barco P50 board.
-diff --git a/drivers/platform/x86/x86-android-tablets/Kconfig b/drivers/platform/x86/x86-android-tablets/Kconfig
-index 193da15ee01c..54fa6112c9ea 100644
---- a/drivers/platform/x86/x86-android-tablets/Kconfig
-+++ b/drivers/platform/x86/x86-android-tablets/Kconfig
-@@ -8,6 +8,7 @@ config X86_ANDROID_TABLETS
- 	depends on I2C && SPI && SERIAL_DEV_BUS
- 	depends on GPIOLIB && PMIC_OPREGION
- 	depends on ACPI && EFI && PCI
-+	select GPIOLIB_LEGACY
- 	select NEW_LEDS
- 	select LEDS_CLASS
- 	select POWER_SUPPLY
+diff --git a/drivers/input/keyboard/gpio_keys.c b/drivers/input/keyboard/gpio_keys.c
+index f9db86da0818..984b20f773ed 100644
+--- a/drivers/input/keyboard/gpio_keys.c
++++ b/drivers/input/keyboard/gpio_keys.c
+@@ -528,6 +528,7 @@ static int gpio_keys_setup_key(struct platform_device *pdev,
+ 			 */
+ 			bdata->gpiod = NULL;
+ 		}
++#ifdef CONFIG_GPIOLIB_LEGACY
+ 	} else if (gpio_is_valid(button->gpio)) {
+ 		/*
+ 		 * Legacy GPIO number, so request the GPIO here and
+@@ -546,6 +547,7 @@ static int gpio_keys_setup_key(struct platform_device *pdev,
+ 
+ 		if (button->active_low ^ gpiod_is_active_low(bdata->gpiod))
+ 			gpiod_toggle_active_low(bdata->gpiod);
++#endif
+ 	}
+ 
+ 	if (bdata->gpiod) {
+@@ -583,8 +585,7 @@ static int gpio_keys_setup_key(struct platform_device *pdev,
+ 			if (irq < 0) {
+ 				error = irq;
+ 				dev_err_probe(dev, error,
+-					      "Unable to get irq number for GPIO %d\n",
+-					      button->gpio);
++					      "Unable to get irq number for GPIO\n");
+ 				return error;
+ 			}
+ 			bdata->irq = irq;
+diff --git a/drivers/input/keyboard/gpio_keys_polled.c b/drivers/input/keyboard/gpio_keys_polled.c
+index e6707d72210e..0ae0e53910ea 100644
+--- a/drivers/input/keyboard/gpio_keys_polled.c
++++ b/drivers/input/keyboard/gpio_keys_polled.c
+@@ -301,6 +301,7 @@ static int gpio_keys_polled_probe(struct platform_device *pdev)
+ 				return dev_err_probe(dev, PTR_ERR(bdata->gpiod),
+ 						     "failed to get gpio\n");
+ 			}
++#ifdef CONFIG_GPIOLIB_LEGACY
+ 		} else if (gpio_is_valid(button->gpio)) {
+ 			/*
+ 			 * Legacy GPIO number so request the GPIO here and
+@@ -323,6 +324,7 @@ static int gpio_keys_polled_probe(struct platform_device *pdev)
+ 
+ 			if (button->active_low ^ gpiod_is_active_low(bdata->gpiod))
+ 				gpiod_toggle_active_low(bdata->gpiod);
++#endif
+ 		}
+ 
+ 		bdata->last_state = -1;
+diff --git a/drivers/mfd/rohm-bd71828.c b/drivers/mfd/rohm-bd71828.c
+index a14b7aa69c3c..fb68694fadca 100644
+--- a/drivers/mfd/rohm-bd71828.c
++++ b/drivers/mfd/rohm-bd71828.c
+@@ -21,7 +21,9 @@
+ 
+ static struct gpio_keys_button button = {
+ 	.code = KEY_POWER,
++#ifdef CONFIG_GPIOLIB_LEGACY
+ 	.gpio = -1,
++#endif
+ 	.type = EV_KEY,
+ };
+ 
+diff --git a/drivers/mfd/rohm-bd718x7.c b/drivers/mfd/rohm-bd718x7.c
+index 25e494a93d48..6c99ab62e31b 100644
+--- a/drivers/mfd/rohm-bd718x7.c
++++ b/drivers/mfd/rohm-bd718x7.c
+@@ -20,7 +20,9 @@
+ 
+ static struct gpio_keys_button button = {
+ 	.code = KEY_POWER,
++#ifdef CONFIG_GPIOLIB_LEGACY
+ 	.gpio = -1,
++#endif
+ 	.type = EV_KEY,
+ };
+ 
+diff --git a/include/linux/gpio_keys.h b/include/linux/gpio_keys.h
+index 80fa930b04c6..e8d6dc290efb 100644
+--- a/include/linux/gpio_keys.h
++++ b/include/linux/gpio_keys.h
+@@ -25,7 +25,9 @@ struct device;
+  */
+ struct gpio_keys_button {
+ 	unsigned int code;
++#ifdef CONFIG_GPIOLIB_LEGACY
+ 	int gpio;
++#endif
+ 	int active_low;
+ 	const char *desc;
+ 	unsigned int type;
 -- 
 2.39.5
 
