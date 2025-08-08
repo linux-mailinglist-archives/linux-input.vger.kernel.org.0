@@ -1,343 +1,120 @@
-Return-Path: <linux-input+bounces-13857-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13858-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FA3AB1D974
-	for <lists+linux-input@lfdr.de>; Thu,  7 Aug 2025 15:55:43 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 239DBB1E144
+	for <lists+linux-input@lfdr.de>; Fri,  8 Aug 2025 06:32:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2AF2E3A4928
-	for <lists+linux-input@lfdr.de>; Thu,  7 Aug 2025 13:55:42 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4CB55163458
+	for <lists+linux-input@lfdr.de>; Fri,  8 Aug 2025 04:32:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9FF681EB5B;
-	Thu,  7 Aug 2025 13:55:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 73415198851;
+	Fri,  8 Aug 2025 04:32:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fkK5PDBM"
+	dkim=pass (2048-bit key) header.d=endrift.com header.i=@endrift.com header.b="bFIVDCEQ"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from endrift.com (endrift.com [173.255.198.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3C012561AA
-	for <linux-input@vger.kernel.org>; Thu,  7 Aug 2025 13:55:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACB3178F4A
+	for <linux-input@vger.kernel.org>; Fri,  8 Aug 2025 04:32:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=173.255.198.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754574938; cv=none; b=YjJ7MDg0Aq7B6RqjXO48uvsAGHtGmu5OQHkhNTpUyxjCs2Dg1t00PN0Dfpm6WGnmAWpPfSzy0f9hRrxfa7c90nM7WD34H9r/8nGCbplNrmW4+kMNX666bloMXn0fTI0kpIL180HesLx4Vh3IDMsma+fAvFUCerDEQpn1ZVrJsko=
+	t=1754627535; cv=none; b=QvKnMPAfKTn7daio2sK4UKm+4C5nAnwR1BebayYA/gMUIzxHEKT1Bpo30k6GnffvTFn97LKGm9zhgV5bNtOgQVWM3XboUU75C1Xo8k6dIxSgzSHOSkkylt1lFsWY7bTUpN/HQIrCmiCpPq+lNYlCBwjlo0GN4rmy/6m2TyVedWg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754574938; c=relaxed/simple;
-	bh=r0weakq83yM2yi5nugNtoqj3EAcdQsdIylpWQxDKbkI=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=go64B6h3qyC7SUulgL3VSMHupoVLCPkq6sqGptdw+mxJ0IPmtwg8viWXZEEO7Ta5UoGpJOgLHH0u1sK8RRCye1NebnPpZg9X0pqsVADXV8NTBLhwFkQYrj+KIgeGJJcMnChFdB+hl1oZ5yxO/47xEN7vDOIoulvKES47FTMMtCM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fkK5PDBM; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754574937; x=1786110937;
-  h=date:from:to:cc:subject:message-id;
-  bh=r0weakq83yM2yi5nugNtoqj3EAcdQsdIylpWQxDKbkI=;
-  b=fkK5PDBM8MV0vpoJ4mBx2WZJLD77n6yXGY77Iyo6KlkIykKWaD1ay9aw
-   8bj38j2peOGUBKJD/oVfmRtIkZHDzFcjg7G92QEqD7dXDB9s284Xstzrw
-   Q4ZWi/MNnhFOX3D8MLQPfMcBty8OI1g6i7VHSuEadzm9u9UurcME7Eoxx
-   a1T+G/ZXp1+oD3/P/njTcbNU/Tys83RiRZ1gqQdlYUWm13//MmT67rDMQ
-   G1D9BCFL9AOC/A3kOjewBBnSDK+UP3wRX9kO78BSI+CJX6J8hcDLK4lOc
-   SC4H0ykM8UqJN8lN/1ytYluWT76+gJzSRes81SzXeUn58YqpKEvtrPsLx
-   Q==;
-X-CSE-ConnectionGUID: QQtGVcLuQKK433lBY9VRJw==
-X-CSE-MsgGUID: t/Z3wd9QSlChe6OaDJxRcw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11514"; a="44500915"
-X-IronPort-AV: E=Sophos;i="6.17,271,1747724400"; 
-   d="scan'208";a="44500915"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2025 06:55:36 -0700
-X-CSE-ConnectionGUID: 4nlGJ3JXRt2rwYDmeWiTvg==
-X-CSE-MsgGUID: /4DQBlVYR8aVFfQodl1W4w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,271,1747724400"; 
-   d="scan'208";a="169531498"
-Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 07 Aug 2025 06:55:35 -0700
-Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uk15c-0002rC-2r;
-	Thu, 07 Aug 2025 13:55:29 +0000
-Date: Thu, 07 Aug 2025 21:55:28 +0800
-From: kernel test robot <lkp@intel.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: linux-input@vger.kernel.org
-Subject: [dtor-input:for-linus] BUILD SUCCESS
- ab93e0dd72c37d378dd936f031ffb83ff2bd87ce
-Message-ID: <202508072117.0Ol4ykg5-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	s=arc-20240116; t=1754627535; c=relaxed/simple;
+	bh=HyJxetMSxcLvXRC/GDmuEq4B3fTf6WVthRNoXFyhT8w=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Ob4Y2upYRA77e5hwgYud+xtH5cGKixNTPMWj842jjOv0o9xnSnuL18+aMkqqSRVieIF/g2wi6SkM+Qv0GRtuUfJscG4dqtFJxHNCycVRd4/ZTpXWFXhXmai2/BjZ4N9CUwBRxRQldTNAnMbULM6ghCuvZy8CKRpmaHfP4pll570=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=endrift.com; spf=pass smtp.mailfrom=endrift.com; dkim=pass (2048-bit key) header.d=endrift.com header.i=@endrift.com header.b=bFIVDCEQ; arc=none smtp.client-ip=173.255.198.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=endrift.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=endrift.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=endrift.com; s=2020;
+	t=1754627527; bh=HyJxetMSxcLvXRC/GDmuEq4B3fTf6WVthRNoXFyhT8w=;
+	h=From:To:Cc:Subject:Date:From;
+	b=bFIVDCEQUUhvaVspWRYLCy9xOjgWVpNKobjsZtJSpJsR3nrrfhzhrC8tpEKulHM63
+	 KXbzkLnjchRppEiO+47jUS2rOoserRH0gohUkTgvRhnCgVM3S7F41Mkq4U5NV62j28
+	 dA6Oxs8BsqSqfLVVUftoKvM+cwBlMgI/07lA5CSfFjnCChsJ3D68o8u2LDFumSC6vI
+	 K5UwYv/XIkC57DRVlykIhjoAIPVtfsgus4BIxmMLRDAMrGovTPp08XLCVcCetm/WOT
+	 o9GIKFeFdkX2bZRccV8i1mQpfjPvUOc/1NpqotloE8U5H/C+e6vN6xY1/yGm9kyTCY
+	 Yg4noOu4LNxOg==
+Received: from nebulosa.vulpes.eutheria.net (71-212-74-234.tukw.qwest.net [71.212.74.234])
+	by endrift.com (Postfix) with ESMTPSA id D763CA03E;
+	Thu,  7 Aug 2025 21:32:06 -0700 (PDT)
+From: Vicki Pfau <vi@endrift.com>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	linux-input@vger.kernel.org
+Cc: Vicki Pfau <vi@endrift.com>
+Subject: [PATCH 0/6] Input: xbox_gip - Add new driver for Xbox GIP
+Date: Thu,  7 Aug 2025 21:30:07 -0700
+Message-ID: <20250808043017.1953101-1-vi@endrift.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git for-linus
-branch HEAD: ab93e0dd72c37d378dd936f031ffb83ff2bd87ce  Merge branch 'next' into for-linus
+This introduces a new driver for the Xbox One/Series controller protocol,
+officially known as the Gaming Input Protocol, or GIP for short.
 
-elapsed time: 1220m
+Microsoft released documentation on (some of) GIP in late 2024, upon which
+this driver is based. Though the documentation was incomplete, it still
+provided enough information to warrant a clean start over the previous,
+incomplete implementation.
 
-configs tested: 250
-configs skipped: 4
+This driver is already at feature parity with the GIP support in xpad,
+along with several more enhancements:
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+- Proper support for parsing message length and fragmented messages
+- Metadata parsing, allowing for auto-detection on various parameters,
+  including the presence and location in the message of the share button,
+  as well as detection of specific device types
+- Controllable LED support
+- HID passthrough for the Chatpad
+- Preliminary support for racing wheels and flight sticks
 
-tested configs:
-alpha                             allnoconfig    clang-22
-alpha                             allnoconfig    gcc-15.1.0
-alpha                            allyesconfig    clang-19
-alpha                            allyesconfig    gcc-15.1.0
-alpha                               defconfig    clang-19
-arc                              allmodconfig    clang-19
-arc                              allmodconfig    gcc-15.1.0
-arc                               allnoconfig    clang-22
-arc                               allnoconfig    gcc-15.1.0
-arc                              allyesconfig    clang-19
-arc                              allyesconfig    gcc-15.1.0
-arc                                 defconfig    clang-19
-arc                   randconfig-001-20250807    clang-22
-arc                   randconfig-001-20250807    gcc-13.4.0
-arc                   randconfig-002-20250807    clang-22
-arc                   randconfig-002-20250807    gcc-12.5.0
-arm                              allmodconfig    clang-19
-arm                              allmodconfig    gcc-15.1.0
-arm                               allnoconfig    clang-22
-arm                              allyesconfig    clang-19
-arm                              allyesconfig    gcc-15.1.0
-arm                         axm55xx_defconfig    clang-22
-arm                                 defconfig    clang-19
-arm                      jornada720_defconfig    clang-22
-arm                        mvebu_v7_defconfig    clang-22
-arm                             mxs_defconfig    clang-22
-arm                   randconfig-001-20250807    clang-22
-arm                   randconfig-002-20250807    clang-22
-arm                   randconfig-002-20250807    gcc-10.5.0
-arm                   randconfig-003-20250807    clang-22
-arm                   randconfig-004-20250807    clang-22
-arm                   randconfig-004-20250807    gcc-8.5.0
-arm64                            allmodconfig    clang-19
-arm64                             allnoconfig    clang-22
-arm64                             allnoconfig    gcc-15.1.0
-arm64                               defconfig    clang-19
-arm64                 randconfig-001-20250807    clang-22
-arm64                 randconfig-001-20250807    gcc-8.5.0
-arm64                 randconfig-002-20250807    clang-22
-arm64                 randconfig-002-20250807    gcc-8.5.0
-arm64                 randconfig-003-20250807    clang-22
-arm64                 randconfig-004-20250807    clang-22
-arm64                 randconfig-004-20250807    gcc-14.3.0
-csky                              allnoconfig    clang-22
-csky                              allnoconfig    gcc-15.1.0
-csky                                defconfig    clang-19
-csky                                defconfig    clang-22
-csky                  randconfig-001-20250807    gcc-15.1.0
-csky                  randconfig-002-20250807    gcc-15.1.0
-hexagon                          allmodconfig    clang-17
-hexagon                          allmodconfig    clang-19
-hexagon                           allnoconfig    clang-22
-hexagon                          allyesconfig    clang-19
-hexagon                          allyesconfig    clang-22
-hexagon                             defconfig    clang-19
-hexagon               randconfig-001-20250807    clang-22
-hexagon               randconfig-001-20250807    gcc-15.1.0
-hexagon               randconfig-002-20250807    clang-22
-hexagon               randconfig-002-20250807    gcc-15.1.0
-i386                             allmodconfig    clang-20
-i386                             allmodconfig    gcc-12
-i386                              allnoconfig    clang-20
-i386                              allnoconfig    gcc-12
-i386                             allyesconfig    clang-20
-i386                             allyesconfig    gcc-12
-i386        buildonly-randconfig-001-20250807    clang-20
-i386        buildonly-randconfig-001-20250807    gcc-12
-i386        buildonly-randconfig-002-20250807    clang-20
-i386        buildonly-randconfig-002-20250807    gcc-12
-i386        buildonly-randconfig-003-20250807    gcc-12
-i386        buildonly-randconfig-004-20250807    gcc-11
-i386        buildonly-randconfig-004-20250807    gcc-12
-i386        buildonly-randconfig-005-20250807    gcc-12
-i386        buildonly-randconfig-006-20250807    gcc-12
-i386                                defconfig    clang-20
-i386                  randconfig-001-20250807    gcc-12
-i386                  randconfig-002-20250807    gcc-12
-i386                  randconfig-003-20250807    gcc-12
-i386                  randconfig-004-20250807    gcc-12
-i386                  randconfig-005-20250807    gcc-12
-i386                  randconfig-006-20250807    gcc-12
-i386                  randconfig-007-20250807    gcc-12
-i386                  randconfig-011-20250807    clang-20
-i386                  randconfig-012-20250807    clang-20
-i386                  randconfig-013-20250807    clang-20
-i386                  randconfig-014-20250807    clang-20
-i386                  randconfig-015-20250807    clang-20
-i386                  randconfig-016-20250807    clang-20
-i386                  randconfig-017-20250807    clang-20
-loongarch                        allmodconfig    clang-19
-loongarch                         allnoconfig    clang-22
-loongarch                           defconfig    clang-19
-loongarch             randconfig-001-20250807    clang-22
-loongarch             randconfig-001-20250807    gcc-15.1.0
-loongarch             randconfig-002-20250807    gcc-15.1.0
-m68k                             allmodconfig    clang-19
-m68k                             allmodconfig    gcc-15.1.0
-m68k                              allnoconfig    gcc-15.1.0
-m68k                             allyesconfig    clang-19
-m68k                             allyesconfig    gcc-15.1.0
-m68k                                defconfig    clang-19
-microblaze                       allmodconfig    clang-19
-microblaze                       allmodconfig    gcc-15.1.0
-microblaze                        allnoconfig    gcc-15.1.0
-microblaze                       allyesconfig    clang-19
-microblaze                       allyesconfig    gcc-15.1.0
-microblaze                          defconfig    gcc-15.1.0
-mips                              allnoconfig    gcc-15.1.0
-mips                          rb532_defconfig    clang-22
-nios2                            alldefconfig    clang-22
-nios2                             allnoconfig    gcc-11.5.0
-nios2                             allnoconfig    gcc-15.1.0
-nios2                               defconfig    gcc-15.1.0
-nios2                 randconfig-001-20250807    gcc-11.5.0
-nios2                 randconfig-001-20250807    gcc-15.1.0
-nios2                 randconfig-002-20250807    gcc-15.1.0
-nios2                 randconfig-002-20250807    gcc-8.5.0
-openrisc                          allnoconfig    clang-22
-openrisc                          allnoconfig    gcc-15.1.0
-openrisc                         allyesconfig    gcc-15.1.0
-openrisc                            defconfig    gcc-12
-parisc                           allmodconfig    gcc-15.1.0
-parisc                            allnoconfig    clang-22
-parisc                            allnoconfig    gcc-15.1.0
-parisc                           allyesconfig    gcc-15.1.0
-parisc                              defconfig    gcc-15.1.0
-parisc                randconfig-001-20250807    gcc-15.1.0
-parisc                randconfig-001-20250807    gcc-8.5.0
-parisc                randconfig-002-20250807    gcc-11.5.0
-parisc                randconfig-002-20250807    gcc-15.1.0
-parisc64                            defconfig    gcc-15.1.0
-powerpc                          allmodconfig    gcc-15.1.0
-powerpc                           allnoconfig    clang-22
-powerpc                           allnoconfig    gcc-15.1.0
-powerpc                          allyesconfig    clang-22
-powerpc                          allyesconfig    gcc-15.1.0
-powerpc                    amigaone_defconfig    clang-22
-powerpc                   currituck_defconfig    clang-22
-powerpc                       ppc64_defconfig    clang-22
-powerpc               randconfig-001-20250807    gcc-12.5.0
-powerpc               randconfig-001-20250807    gcc-15.1.0
-powerpc               randconfig-002-20250807    gcc-10.5.0
-powerpc               randconfig-002-20250807    gcc-15.1.0
-powerpc               randconfig-003-20250807    gcc-11.5.0
-powerpc               randconfig-003-20250807    gcc-15.1.0
-powerpc                         wii_defconfig    clang-22
-powerpc64             randconfig-001-20250807    gcc-11.5.0
-powerpc64             randconfig-001-20250807    gcc-15.1.0
-powerpc64             randconfig-002-20250807    clang-22
-powerpc64             randconfig-002-20250807    gcc-15.1.0
-powerpc64             randconfig-003-20250807    gcc-13.4.0
-powerpc64             randconfig-003-20250807    gcc-15.1.0
-riscv                            allmodconfig    clang-22
-riscv                            allmodconfig    gcc-15.1.0
-riscv                             allnoconfig    clang-22
-riscv                             allnoconfig    gcc-15.1.0
-riscv                            allyesconfig    clang-16
-riscv                            allyesconfig    gcc-15.1.0
-riscv                               defconfig    gcc-12
-riscv                    nommu_virt_defconfig    clang-22
-riscv                 randconfig-001-20250807    gcc-12.5.0
-riscv                 randconfig-002-20250807    gcc-12.5.0
-riscv                 randconfig-002-20250807    gcc-8.5.0
-s390                             allmodconfig    clang-18
-s390                             allmodconfig    gcc-15.1.0
-s390                              allnoconfig    clang-22
-s390                             allyesconfig    gcc-15.1.0
-s390                                defconfig    gcc-12
-s390                  randconfig-001-20250807    clang-22
-s390                  randconfig-001-20250807    gcc-12.5.0
-s390                  randconfig-002-20250807    clang-22
-s390                  randconfig-002-20250807    gcc-12.5.0
-sh                               allmodconfig    gcc-15.1.0
-sh                                allnoconfig    gcc-15.1.0
-sh                               allyesconfig    gcc-15.1.0
-sh                                  defconfig    gcc-12
-sh                    randconfig-001-20250807    gcc-12.5.0
-sh                    randconfig-001-20250807    gcc-14.3.0
-sh                    randconfig-002-20250807    gcc-12.5.0
-sh                    randconfig-002-20250807    gcc-9.5.0
-sh                      rts7751r2d1_defconfig    clang-22
-sh                           se7721_defconfig    clang-22
-sparc                            allmodconfig    gcc-15.1.0
-sparc                             allnoconfig    gcc-15.1.0
-sparc                               defconfig    gcc-15.1.0
-sparc                 randconfig-001-20250807    gcc-12.5.0
-sparc                 randconfig-001-20250807    gcc-14.3.0
-sparc                 randconfig-002-20250807    gcc-12.5.0
-sparc                 randconfig-002-20250807    gcc-15.1.0
-sparc64                             defconfig    gcc-12
-sparc64               randconfig-001-20250807    clang-22
-sparc64               randconfig-001-20250807    gcc-12.5.0
-sparc64               randconfig-002-20250807    clang-22
-sparc64               randconfig-002-20250807    gcc-12.5.0
-um                               allmodconfig    clang-19
-um                                allnoconfig    clang-22
-um                               allyesconfig    clang-19
-um                               allyesconfig    gcc-12
-um                                  defconfig    gcc-12
-um                             i386_defconfig    gcc-12
-um                    randconfig-001-20250807    gcc-12
-um                    randconfig-001-20250807    gcc-12.5.0
-um                    randconfig-002-20250807    gcc-11
-um                    randconfig-002-20250807    gcc-12.5.0
-um                           x86_64_defconfig    gcc-12
-x86_64                            allnoconfig    clang-20
-x86_64                           allyesconfig    clang-20
-x86_64      buildonly-randconfig-001-20250807    clang-20
-x86_64      buildonly-randconfig-001-20250807    gcc-11
-x86_64      buildonly-randconfig-002-20250807    gcc-11
-x86_64      buildonly-randconfig-002-20250807    gcc-12
-x86_64      buildonly-randconfig-003-20250807    clang-20
-x86_64      buildonly-randconfig-003-20250807    gcc-11
-x86_64      buildonly-randconfig-004-20250807    clang-20
-x86_64      buildonly-randconfig-004-20250807    gcc-11
-x86_64      buildonly-randconfig-005-20250807    gcc-11
-x86_64      buildonly-randconfig-006-20250807    gcc-11
-x86_64      buildonly-randconfig-006-20250807    gcc-12
-x86_64                              defconfig    clang-20
-x86_64                              defconfig    gcc-11
-x86_64                                  kexec    clang-20
-x86_64                randconfig-001-20250807    gcc-12
-x86_64                randconfig-002-20250807    gcc-12
-x86_64                randconfig-003-20250807    gcc-12
-x86_64                randconfig-004-20250807    gcc-12
-x86_64                randconfig-005-20250807    gcc-12
-x86_64                randconfig-006-20250807    gcc-12
-x86_64                randconfig-007-20250807    gcc-12
-x86_64                randconfig-008-20250807    gcc-12
-x86_64                randconfig-071-20250807    clang-20
-x86_64                randconfig-072-20250807    clang-20
-x86_64                randconfig-073-20250807    clang-20
-x86_64                randconfig-074-20250807    clang-20
-x86_64                randconfig-075-20250807    clang-20
-x86_64                randconfig-076-20250807    clang-20
-x86_64                randconfig-077-20250807    clang-20
-x86_64                randconfig-078-20250807    clang-20
-x86_64                               rhel-9.4    clang-20
-x86_64                           rhel-9.4-bpf    gcc-12
-x86_64                          rhel-9.4-func    clang-20
-x86_64                    rhel-9.4-kselftests    clang-20
-x86_64                         rhel-9.4-kunit    gcc-12
-x86_64                           rhel-9.4-ltp    gcc-12
-x86_64                          rhel-9.4-rust    clang-20
-xtensa                            allnoconfig    gcc-15.1.0
-xtensa                randconfig-001-20250807    gcc-12.5.0
-xtensa                randconfig-001-20250807    gcc-15.1.0
-xtensa                randconfig-002-20250807    gcc-12.5.0
-xtensa                randconfig-002-20250807    gcc-8.5.0
-xtensa                         virt_defconfig    clang-22
+The framework set out in this driver also allows future expansion for
+specialized device types and additional features more cleanly than xpad.
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Future plans include:
+
+- Improved support for racing wheels and flight sticks, including force
+  feedback and LED support.
+- Support for the security handshake, which is required for devices that use
+  wireless dongles.
+- Exposing a raw character device to enable sending vendor-specific commands
+  from userspace.
+- Event logging to either sysfs or dmesg.
+- Support for the headphone jack.
+
+Also included in this series is the addition of three new ABS input types, with
+the two relevant ones to HID added to the mappings
+
+Vicki Pfau (6):
+  Input: xbox_gip - Add new driver for Xbox GIP
+  Input: xpad - Remove Xbox One support
+  Input: Add ABS_CLUTCH, HANDBRAKE, and SHIFTER
+  HID: Map more automobile simulation inputs
+  Input: xbox_gip - Add wheel support
+  Input: xbox_gip - Add flight stick support
+
+ Documentation/input/devices/xpad.rst   |   17 +-
+ MAINTAINERS                            |    6 +
+ drivers/hid/hid-debug.c                |   16 +-
+ drivers/hid/hid-input.c                |    2 +
+ drivers/input/joystick/Kconfig         |   26 +
+ drivers/input/joystick/Makefile        |    1 +
+ drivers/input/joystick/xbox_gip.c      | 3434 ++++++++++++++++++++++++
+ drivers/input/joystick/xpad.c          |  634 +----
+ include/uapi/linux/input-event-codes.h |    3 +
+ 9 files changed, 3492 insertions(+), 647 deletions(-)
+ create mode 100644 drivers/input/joystick/xbox_gip.c
+
+-- 
+2.50.1
+
 
