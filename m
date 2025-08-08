@@ -1,58 +1,58 @@
-Return-Path: <linux-input+bounces-13868-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13869-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAF4CB1E206
-	for <lists+linux-input@lfdr.de>; Fri,  8 Aug 2025 08:14:32 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D8A53B1E628
+	for <lists+linux-input@lfdr.de>; Fri,  8 Aug 2025 12:11:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 51F1F722AD8
-	for <lists+linux-input@lfdr.de>; Fri,  8 Aug 2025 06:14:17 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DC750168613
+	for <lists+linux-input@lfdr.de>; Fri,  8 Aug 2025 10:11:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6A90122541F;
-	Fri,  8 Aug 2025 06:13:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 80FB9273816;
+	Fri,  8 Aug 2025 10:11:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="dxqFy/+P"
+	dkim=pass (2048-bit key) header.d=geanix.com header.i=@geanix.com header.b="UY2cD6QL"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-4322.protonmail.ch (mail-4322.protonmail.ch [185.70.43.22])
+Received: from mail-05.mail-europe.com (mail-05.mail-europe.com [85.9.206.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C106224AED
-	for <linux-input@vger.kernel.org>; Fri,  8 Aug 2025 06:13:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.22
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08DCB270ED4;
+	Fri,  8 Aug 2025 10:10:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.9.206.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754633635; cv=none; b=pZD8nlWQg9gOt2YjpUGnuVy5if9ebqJeDiMTEbsnPxsva2I8Wj88FVNVNMjRZQb42YYg3fP3TAsCSbz/MYD197Ub0uCu/f4QN8tomFDl9FHHtDHJNxVjc4wQFzg2T/7Zhd9mN7SJYU5dttJucSy/4TfqMpoeYnTixAevcomY6p8=
+	t=1754647862; cv=none; b=oG9hfMWgnfYQSlS8D9AcUSDtX4Y8dZvII/5b0VVTBWcNapffz0ab0hsct/KsGk10jx6HBw2VB34cQ1lJA2pvxF1bjWwRZfb9qWS8r9qkHgzyA6JEONarihdg8E4Ju0xdZ69fwS9QqISDbkqIig4jA3RDkqSKOB4rw/fvR8gU5+Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754633635; c=relaxed/simple;
-	bh=JntV3RGjz1Jbe0FoUMzE5n20T/KBYLOoC0wvMbE0SQA=;
+	s=arc-20240116; t=1754647862; c=relaxed/simple;
+	bh=RggGRjMHU2R6gkBzlubXye+UKgPBHxSYw5o58uEuNPE=;
 	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=c/5Knw/n8yzFGWPTwj0OfeRCQbzDRgFNn/rWZn9fULJWbf0QBCErbKw3V/QDdFTy8OXLxirw5/kC3PbiPc/4DISKv79ixR+z4WtJu7ZpE/wrmZFQzc2pg5OyPQMD/1mwYdA3816DGir5hBG0zXyi1rsP09lMC0MPOlGLeLo9CKo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com; spf=pass smtp.mailfrom=protonmail.com; dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b=dxqFy/+P; arc=none smtp.client-ip=185.70.43.22
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonmail.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-	s=protonmail3; t=1754633631; x=1754892831;
-	bh=xrSdxGPnLC2CBHkZSGp5i4YD6BUUlFfg9BJWTFd34G0=;
+	 MIME-Version:Content-Type; b=PJASWWDx1gKm4nbwjsE3e4cXIR8Kjv/rwpNTTETFoG5Y5lfjBSFCXOY0T2kFht+C1kC8H2BhYy+2nG2K7SzTC5ON1ki/5TaNjnu1aD5vAWfKE+Pscfb4L623UcpgDnHuYm0B7x3gVQObxxJMRKZJIaSPyN9cGwxafyobCVJPMkg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=geanix.com; spf=pass smtp.mailfrom=geanix.com; dkim=pass (2048-bit key) header.d=geanix.com header.i=@geanix.com header.b=UY2cD6QL; arc=none smtp.client-ip=85.9.206.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=geanix.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=geanix.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=geanix.com;
+	s=protonmail; t=1754647840; x=1754907040;
+	bh=Yq9VQhZI5mAsxhu/WxdvqFhc+hT1CLK+UVkJM6ho9rw=;
 	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
 	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
 	 Message-ID:BIMI-Selector;
-	b=dxqFy/+PkjD1o+TA0cM1CwWEqQvubtgpEPW8WVL3uw/rnyG3NcdGSR0dFjb1h0Wu5
-	 znkAb5aDlzNmXnvq8CGoWo4Uzyp7zNhUZpVcfBRz8bMOWYN0mM3lC/bWySBSRC/2DB
-	 +cJ0z3V/o8UX0j4DER9YkChO+CpJCAl1RLjLCiiEtaRdYLIg3y0wzkjbg64HLOvp5D
-	 UoeiM5t8i+SFcrtcU2KOUWJGY6ri1pwRHLIFBp/blsAZFkZDw9EMIvBN+oQWXJBbxn
-	 WSyzKNu4rnKrjHPVtWMmf9o/gVzzo5x7k9EmFyTV+VN6nhlf5UhbV4Pk3dltOhB5vC
-	 Aoh/NVMZM2wHw==
-Date: Fri, 08 Aug 2025 06:13:45 +0000
-To: linux-input@vger.kernel.org, rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org
-From: Rahul Rameshbabu <sergeantsagara@protonmail.com>
-Cc: Jiri Kosina <jikos@kernel.org>, a.hindborg@kernel.org, alex.gaynor@gmail.com, aliceryhl@google.com, benno.lossin@proton.me, Benjamin Tissoires <benjamin.tissoires@redhat.com>, bjorn3_gh@protonmail.com, boqun.feng@gmail.com, dakr@kernel.org, db48x@db48x.net, gary@garyguo.net, ojeda@kernel.org, tmgross@umich.edu, peter.hutterer@who-t.net, Rahul Rameshbabu <sergeantsagara@protonmail.com>
-Subject: [PATCH v3 RESEND 3/3] rust: hid: Glorious PC Gaming Race Model O and O- mice reference driver
-Message-ID: <20250808061223.3770-4-sergeantsagara@protonmail.com>
-In-Reply-To: <20250808061223.3770-1-sergeantsagara@protonmail.com>
-References: <20250808061223.3770-1-sergeantsagara@protonmail.com>
-Feedback-ID: 26003777:user:proton
-X-Pm-Message-ID: c9bd5a3fc1b9156b0fec7d365b455a8cf514e2b3
+	b=UY2cD6QL6Z23vuTH8SwENI1P/vPhlVOC0sEpCxucNH4Fjo70CHZQgdlKNhG+6/yvo
+	 V7Ef8n9eBOhuVxSviIZPpEm8V4Lp0WXUcStRSA+xeGFURo1cgBHsW8r86vaiBeuQ6n
+	 moPZyiqjJcwADczZnZ9BBFqOoM5V3bhZo2w+3n0iQz4Tx6t/sIGyx9FfoZ9GAuzTfz
+	 THoh3WTG/65PJE+v2cEdcfkJASJmTON07MKLQagdl/UQ7+xEWC6DFEk1caJbp48zq1
+	 7S/S2+tGSAm9uEdWLrPeWTGvYBVlTof7qYKFjm/QmPENccZFQGca0bXW4Y878UNaP0
+	 bbyJ3R+6lsSeg==
+Date: Fri, 08 Aug 2025 10:10:35 +0000
+To: samuel.kayode@savoirfairelinux.com
+From: Sean Nyekjaer <sean@geanix.com>
+Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, Sebastian Reichel <sre@kernel.org>, Frank Li <Frank.li@nxp.com>, imx@lists.linux.dev, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-input@vger.kernel.org, linux-pm@vger.kernel.org, Abel Vesa <abelvesa@kernel.org>, Abel Vesa <abelvesa@linux.com>, Robin Gong <b38343@freescale.com>, Robin Gong <yibin.gong@nxp.com>, Enric Balletbo i Serra <eballetbo@gmail.com>, Christophe JAILLET <christophe.jaillet@wanadoo.fr>, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH v9 1/6] dt-bindings: mfd: add pf1550
+Message-ID: <gj565636v5qgohhf5usklfqydkc6lzifzhrbquoyawbwvhdlma@kajszdivkp2e>
+In-Reply-To: <20250716-pf1550-v9-1-502a647f04ef@savoirfairelinux.com>
+References: <20250716-pf1550-v9-0-502a647f04ef@savoirfairelinux.com> <20250716-pf1550-v9-1-502a647f04ef@savoirfairelinux.com>
+Feedback-ID: 134068486:user:proton
+X-Pm-Message-ID: 2267f331269a8e8c5fc399b9463def7d4fed3f7c
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -62,181 +62,264 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-Demonstrate how to perform a report fixup from a Rust HID driver. The mice
-specify the const flag incorrectly in the consumer input report descriptor,
-which leads to inputs being ignored. Correctly patch the report descriptor
-for the Model O and O- mice.
+On Wed, Jul 16, 2025 at 11:11:44AM +0100, Samuel Kayode via B4 Relay wrote:
+> From: Samuel Kayode <samuel.kayode@savoirfairelinux.com>
+>=20
+> Add a DT binding document for pf1550 PMIC. This describes the core mfd
+> device along with its children: regulators, charger and onkey.
+>=20
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Signed-off-by: Samuel Kayode <samuel.kayode@savoirfairelinux.com>
+> ---
+> v9:
+>  - Add regulator suspend bindings in example
+>  - Add binding for disabling onkey power down
+>  - Fix thermal regulation temperature range
+> v5:
+>  - Address Krzystof's feedback:
+>    - Drop monitored battery ref already included in power supply schema
+>    - Move `additionalProperties` close to `type` for regulator
+>    - Drop unneccessary |
+>    - Change `additionalProperties` to `unevaluatedProperties` for the
+>      PMIC
+> v4:
+>  - Address Krzystof's feedback:
+>    - Filename changed to nxp,pf1550.yaml
+>    - Replace Freescale with NXP
+>    - Define include before battery-cell
+>    - Drop operating-range-celsius in example since
+>      nxp,thermal-regulation-celsisus already exists
+>  - Not sure if there is similar binding to thermal-regulation...
+>    for regulating temperature on thermal-zones? @Sebastian and @Krzysztof
+> v3:
+>  - Address Krzysztof's feedback:
+>    - Fold charger and onkey objects
+>    - Drop compatible for sub-devices: onkey, charger and regulator.
+>    - Drop constant voltage property already included in
+>      monitored-battery
+>    - Fix whitespace warnings
+>    - Fix license
+> v2:
+>  - Add yamls for the PMIC and the sub-devices
+> ---
+>  .../devicetree/bindings/mfd/nxp,pf1550.yaml        | 144 +++++++++++++++=
+++++++
+>  1 file changed, 144 insertions(+)
+>=20
+> diff --git a/Documentation/devicetree/bindings/mfd/nxp,pf1550.yaml b/Docu=
+mentation/devicetree/bindings/mfd/nxp,pf1550.yaml
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..ede5b6a2106ff60f4b47b3602=
+fea8dd0b62d6fcf
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/mfd/nxp,pf1550.yaml
+> @@ -0,0 +1,144 @@
+> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/mfd/nxp,pf1550.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: NXP PF1550 Power Management IC
+> +
+> +maintainers:
+> +  - Samuel Kayode <samuel.kayode@savoirfairelinux.com>
+> +
+> +description:
+> +  PF1550 PMIC provides battery charging and power supply for low power I=
+oT and
+> +  wearable applications. This device consists of an i2c controlled MFD t=
+hat
+> +  includes regulators, battery charging and an onkey/power button.
+> +
+> +$ref: /schemas/power/supply/power-supply.yaml
+> +
+> +properties:
+> +  compatible:
+> +    const: nxp,pf1550
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  wakeup-source: true
+> +
+> +  regulators:
+> +    type: object
+> +    additionalProperties: false
+> +
+> +    patternProperties:
+> +      "^(ldo[1-3]|sw[1-3]|vrefddr)$":
+> +        type: object
+> +        $ref: /schemas/regulator/regulator.yaml
+> +        description:
+> +          regulator configuration for ldo1-3, buck converters(sw1-3)
+> +          and DDR termination reference voltage (vrefddr)
+> +        unevaluatedProperties: false
+> +
+> +  monitored-battery:
+> +    description: |
+> +      A phandle to a monitored battery node that contains a valid value
+> +      for:
+> +      constant-charge-voltage-max-microvolt.
+> +
+> +  nxp,thermal-regulation-celsius:
+> +    description:
+> +      Temperature threshold for thermal regulation of charger in celsius=
+.
+> +    enum: [ 80, 95, 110, 125 ]
+> +
+> +  nxp,min-system-microvolt:
+> +    description:
+> +      System specific lower limit voltage.
+> +    enum: [ 3500000, 3700000, 4300000 ]
+> +
+> +  nxp,disable-key-power:
+> +    type: boolean
+> +    description:
+> +      Disable power-down using a long key-press. The onkey driver will r=
+emove
+> +      support for the KEY_POWER key press when triggered using a long pr=
+ess of
+> +      the onkey.
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +
+> +unevaluatedProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +    #include <dt-bindings/input/linux-event-codes.h>
+> +
+> +    battery: battery-cell {
+> +        compatible =3D "simple-battery";
+> +        constant-charge-voltage-max-microvolt =3D <4400000>;
+> +    };
+> +
+> +    i2c {
+> +        #address-cells =3D <1>;
+> +        #size-cells =3D <0>;
+> +
+> +        pmic@8 {
+> +            compatible =3D "nxp,pf1550";
+> +            reg =3D <0x8>;
+> +
+> +            interrupt-parent =3D <&gpio1>;
+> +            interrupts =3D <2 IRQ_TYPE_LEVEL_LOW>;
+> +            wakeup-source;
+> +            monitored-battery =3D <&battery>;
+> +            nxp,min-system-microvolt =3D <4300000>;
+> +            nxp,thermal-regulation-celsius =3D <80>;
+> +
+> +            regulators {
+> +                sw1_reg: sw1 {
+> +                    regulator-name =3D "sw1";
+> +                    regulator-min-microvolt =3D <600000>;
+> +                    regulator-max-microvolt =3D <1387500>;
+> +                    regulator-always-on;
+> +                    regulator-ramp-delay =3D <6250>;
+> +                };
+> +
+> +                sw2_reg: sw2 {
+> +                    regulator-name =3D "sw2";
+> +                    regulator-min-microvolt =3D <600000>;
+> +                    regulator-max-microvolt =3D <1387500>;
+> +                    regulator-always-on;
+> +                };
+> +
+> +                sw3_reg: sw3 {
+> +                    regulator-name =3D "sw3";
+> +                    regulator-min-microvolt =3D <1800000>;
+> +                    regulator-max-microvolt =3D <3300000>;
+> +                    regulator-always-on;
+> +                };
+> +
+> +                vldo1_reg: ldo1 {
+> +                    regulator-name =3D "ldo1";
+> +                    regulator-min-microvolt =3D <750000>;
+> +                    regulator-max-microvolt =3D <3300000>;
+> +                    regulator-always-on;
+> +                };
+> +
+> +                vldo2_reg: ldo2 {
+> +                    regulator-name =3D "ldo2";
+> +                    regulator-min-microvolt =3D <1800000>;
+> +                    regulator-max-microvolt =3D <3300000>;
+> +                    regulator-always-on;
+> +                };
+> +
+> +                vldo3_reg: ldo3 {
+> +                    regulator-name =3D "ldo3";
+> +                    regulator-min-microvolt =3D <750000>;
+> +                    regulator-max-microvolt =3D <3300000>;
+> +                    regulator-always-on;
+> +                };
+> +            };
+> +        };
+> +    };
+>=20
+> --
+> 2.50.1
+>=20
+>=20
 
-Portions of the HID report post-fixup:
-device 0:0
-...
-0x81, 0x06,                    //  Input (Data,Var,Rel)               84
-...
-0x81, 0x06,                    //  Input (Data,Var,Rel)               112
-...
-0x81, 0x06,                    //  Input (Data,Var,Rel)               140
+Does it make sense to show that the driver support suspend to mem
+states? Like...
 
-Signed-off-by: Rahul Rameshbabu <sergeantsagara@protonmail.com>
----
 
-Notes:
-    Changelog:
-   =20
-        v2->v3:
-          * Fixed docstring formatting
-          * Updated MAINTAINERS file based on v1 and v2 discussion
-        v1->v2:
-          * Use vendor id and device id from drivers/hid/hid-ids.h bindings
-          * Make use for dev_err! as appropriate
+=09=09=09sw1_reg: sw1 {
+=09=09=09=09regulator-name =3D "sw1";
+=09=09=09=09regulator-min-microvolt =3D <1325000>;
+=09=09=09=09regulator-max-microvolt =3D <1325000>;
+=09=09=09=09regulator-always-on;
 
- MAINTAINERS                      |  7 ++++
- drivers/hid/Kconfig              |  8 +++++
- drivers/hid/Makefile             |  1 +
- drivers/hid/hid-glorious.c       |  2 ++
- drivers/hid/hid_glorious_rust.rs | 60 ++++++++++++++++++++++++++++++++
- 5 files changed, 78 insertions(+)
- create mode 100644 drivers/hid/hid_glorious_rust.rs
+=09=09=09=09regulator-state-mem {
+=09=09=09=09=09regulator-on-in-suspend;
+=09=09=09=09=09regulator-suspend-max-microvolt =3D <900000>;
+=09=09=09=09=09regulator-suspend-min-microvolt =3D <900000>;
+=09=09=09=09};
+=09=09=09};
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 6c60765f2aaa..eee9a33914ef 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -10200,6 +10200,13 @@ L:=09platform-driver-x86@vger.kernel.org
- S:=09Maintained
- F:=09drivers/platform/x86/gigabyte-wmi.c
-=20
-+GLORIOUS RUST DRIVER [RUST]
-+M:=09Rahul Rameshbabu <sergeantsagara@protonmail.com>
-+L:=09linux-input@vger.kernel.org
-+S:=09Maintained
-+T:=09git git://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git rust
-+F:=09drivers/hid/hid_glorious_rust.rs
-+
- GNSS SUBSYSTEM
- M:=09Johan Hovold <johan@kernel.org>
- S:=09Maintained
-diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
-index 922e76e18af2..b8ef750fb8b6 100644
---- a/drivers/hid/Kconfig
-+++ b/drivers/hid/Kconfig
-@@ -406,6 +406,14 @@ config HID_GLORIOUS
- =09  Support for Glorious PC Gaming Race mice such as
- =09  the Glorious Model O, O- and D.
-=20
-+config HID_GLORIOUS_RUST
-+=09tristate "Glorious O and O- mice Rust reference driver"
-+=09depends on USB_HID
-+=09depends on RUST_HID_ABSTRACTIONS
-+=09help
-+=09  Support for Glorious PC Gaming Race O and O- mice
-+=09  in Rust.
-+
- config HID_HOLTEK
- =09tristate "Holtek HID devices"
- =09depends on USB_HID
-diff --git a/drivers/hid/Makefile b/drivers/hid/Makefile
-index 10ae5dedbd84..bd86b3db5d88 100644
---- a/drivers/hid/Makefile
-+++ b/drivers/hid/Makefile
-@@ -55,6 +55,7 @@ obj-$(CONFIG_HID_FT260)=09=09+=3D hid-ft260.o
- obj-$(CONFIG_HID_GEMBIRD)=09+=3D hid-gembird.o
- obj-$(CONFIG_HID_GFRM)=09=09+=3D hid-gfrm.o
- obj-$(CONFIG_HID_GLORIOUS)  +=3D hid-glorious.o
-+obj-$(CONFIG_HID_GLORIOUS_RUST)=09+=3D hid_glorious_rust.o
- obj-$(CONFIG_HID_VIVALDI_COMMON) +=3D hid-vivaldi-common.o
- obj-$(CONFIG_HID_GOODIX_SPI)=09+=3D hid-goodix-spi.o
- obj-$(CONFIG_HID_GOOGLE_HAMMER)=09+=3D hid-google-hammer.o
-diff --git a/drivers/hid/hid-glorious.c b/drivers/hid/hid-glorious.c
-index 5bbd81248053..d7362852c20f 100644
---- a/drivers/hid/hid-glorious.c
-+++ b/drivers/hid/hid-glorious.c
-@@ -76,8 +76,10 @@ static int glorious_probe(struct hid_device *hdev,
- }
-=20
- static const struct hid_device_id glorious_devices[] =3D {
-+#if !IS_ENABLED(CONFIG_HID_GLORIOUS_RUST)
- =09{ HID_USB_DEVICE(USB_VENDOR_ID_SINOWEALTH,
- =09=09USB_DEVICE_ID_GLORIOUS_MODEL_O) },
-+#endif
- =09{ HID_USB_DEVICE(USB_VENDOR_ID_SINOWEALTH,
- =09=09USB_DEVICE_ID_GLORIOUS_MODEL_D) },
- =09{ HID_USB_DEVICE(USB_VENDOR_ID_LAVIEW,
-diff --git a/drivers/hid/hid_glorious_rust.rs b/drivers/hid/hid_glorious_ru=
-st.rs
-new file mode 100644
-index 000000000000..8cffc1c605dd
---- /dev/null
-+++ b/drivers/hid/hid_glorious_rust.rs
-@@ -0,0 +1,60 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+// Copyright (C) 2025 Rahul Rameshbabu <sergeantsagara@protonmail.com>
-+
-+//! Rust reference HID driver for Glorious Model O and O- mice.
-+
-+use kernel::{self, bindings, device, hid, prelude::*};
-+
-+struct GloriousRust;
-+
-+kernel::hid_device_table!(
-+    HID_TABLE,
-+    MODULE_HID_TABLE,
-+    <GloriousRust as hid::Driver>::IdInfo,
-+    [(
-+        hid::DeviceId::new_usb(
-+            hid::Group::Generic,
-+            bindings::USB_VENDOR_ID_SINOWEALTH,
-+            bindings::USB_DEVICE_ID_GLORIOUS_MODEL_O,
-+        ),
-+        (),
-+    )]
-+);
-+
-+#[vtable]
-+impl hid::Driver for GloriousRust {
-+    type IdInfo =3D ();
-+    const ID_TABLE: hid::IdTable<Self::IdInfo> =3D &HID_TABLE;
-+
-+    /// Fix the Glorious Model O and O- consumer input report descriptor t=
-o use
-+    /// the variable and relative flag, while clearing the const flag.
-+    ///
-+    /// Without this fixup, inputs from the mice will be ignored.
-+    fn report_fixup<'a, 'b: 'a>(hdev: &hid::Device<device::Core>, rdesc: &=
-'b mut [u8]) -> &'a [u8] {
-+        if rdesc.len() =3D=3D 213
-+            && (rdesc[84] =3D=3D 129 && rdesc[85] =3D=3D 3)
-+            && (rdesc[112] =3D=3D 129 && rdesc[113] =3D=3D 3)
-+            && (rdesc[140] =3D=3D 129 && rdesc[141] =3D=3D 3)
-+        {
-+            dev_info!(
-+                hdev.as_ref(),
-+                "patching Glorious Model O consumer control report descrip=
-tor\n"
-+            );
-+
-+            rdesc[85] =3D hid::MAIN_ITEM_VARIABLE | hid::MAIN_ITEM_RELATIV=
-E;
-+            rdesc[113] =3D hid::MAIN_ITEM_VARIABLE | hid::MAIN_ITEM_RELATI=
-VE;
-+            rdesc[141] =3D hid::MAIN_ITEM_VARIABLE | hid::MAIN_ITEM_RELATI=
-VE;
-+        }
-+
-+        rdesc
-+    }
-+}
-+
-+kernel::module_hid_driver! {
-+    type: GloriousRust,
-+    name: "GloriousRust",
-+    authors: ["Rahul Rameshbabu <sergeantsagara@protonmail.com>"],
-+    description: "Rust reference HID driver for Glorious Model O and O- mi=
-ce",
-+    license: "GPL",
-+}
---=20
-2.47.2
+=09=09=09sw2_reg: sw2 {
+=09=09=09=09regulator-name =3D "sw2";
+=09=09=09=09regulator-min-microvolt =3D <1350000>;
+=09=09=09=09regulator-max-microvolt =3D <1350000>;
+=09=09=09=09regulator-always-on;
 
+=09=09=09=09regulator-state-mem {
+=09=09=09=09=09regulator-on-in-suspend;
+=09=09=09=09};
+=09=09=09};
+
+=09=09=09sw3_reg: sw3 {
+=09=09=09=09regulator-name =3D "sw3";
+=09=09=09=09regulator-min-microvolt =3D <3300000>;
+=09=09=09=09regulator-max-microvolt =3D <3300000>;
+=09=09=09=09regulator-always-on;
+
+=09=09=09=09regulator-state-mem {
+=09=09=09=09=09regulator-on-in-suspend;
+=09=09=09=09};
+=09=09=09};
+
+=09=09=09vldo1_reg: ldo1 {
+=09=09=09=09regulator-name =3D "ldo1";
+=09=09=09=09regulator-min-microvolt =3D <2900000>;
+=09=09=09=09regulator-max-microvolt =3D <2900000>;
+=09=09=09=09regulator-always-on;
+
+=09=09=09=09regulator-state-mem {
+=09=09=09=09=09regulator-off-in-suspend;
+=09=09=09=09};
+=09=09=09};
+
+Br,
+Sean
 
 
