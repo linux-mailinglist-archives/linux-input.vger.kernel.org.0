@@ -1,55 +1,55 @@
-Return-Path: <linux-input+bounces-13863-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13862-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A47DDB1E14A
-	for <lists+linux-input@lfdr.de>; Fri,  8 Aug 2025 06:32:26 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D13F3B1E148
+	for <lists+linux-input@lfdr.de>; Fri,  8 Aug 2025 06:32:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 995633B91BC
-	for <lists+linux-input@lfdr.de>; Fri,  8 Aug 2025 04:32:22 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 006C816489A
+	for <lists+linux-input@lfdr.de>; Fri,  8 Aug 2025 04:32:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E79871DC98C;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD36F1DB95E;
 	Fri,  8 Aug 2025 04:32:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=endrift.com header.i=@endrift.com header.b="w/drWrnz"
+	dkim=pass (2048-bit key) header.d=endrift.com header.i=@endrift.com header.b="ByrqbJcz"
 X-Original-To: linux-input@vger.kernel.org
 Received: from endrift.com (endrift.com [173.255.198.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CA891C5D72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CA381C3BEB
 	for <linux-input@vger.kernel.org>; Fri,  8 Aug 2025 04:32:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=173.255.198.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754627537; cv=none; b=oNAQ1MqItFzNxP4StpsSFlIp3Gtyh/CVzURq1Bd5sqyjREj1KK+vOB6IRDOSQbVpNCf8E+7aL+9secPC1ask24AA6dl9SzXnQr2ENaBqpH5nBXsG+SN4enCwFvPGWD4yCFvJ+UcAB+xE1cRVKIlJT080oGREYZOSctKF/rjSE/g=
+	t=1754627537; cv=none; b=r1C4IDJZv9hlpfojDP0co98ObIxm7v6/2OkvswV6hMLrx8cBu1GjlLTqTY74pExegeYYYrvhGRoCXQluOB0Td0NVRcDis7OFYxv09JuM6zImWCwpnyYbc40lUJHzyTxd/W9GG25lXYvVAwsV3TWG5MYaHcZzDywprfhj3z0lfDI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1754627537; c=relaxed/simple;
-	bh=kNBAskOENIObQq4+4C+x45WGxfUAczrDoiqIrzpOTdY=;
+	bh=hE2nbM9euRAu1xQkKR+wKOytZJqwscD7rFx8m6XAeH0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=DnLihULVIziOW21WOpxEsBdw9f3zyF7zbzHNgq8dzVwBjNE0vaHWHI9cehSOIXjizmpu7/ZVCLyZdbFq6GCRLTJolNa1tQTNdXf3BWCBQBoGEZaS13Gp99H5urIlKOYqFA+Bl+S+FkbMJQiVZ+WfQAhrP072nuNf0y20s3Zrmnw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=endrift.com; spf=pass smtp.mailfrom=endrift.com; dkim=pass (2048-bit key) header.d=endrift.com header.i=@endrift.com header.b=w/drWrnz; arc=none smtp.client-ip=173.255.198.10
+	 MIME-Version; b=eW1TRO7MRQMKrOoHPhyrLJ5UkevWInUOMYdT174SH0sonzwLEUgcWEDNy8BPa1tOl05RMqdlCbH0p9hD0Gm5blR04Cr9zVY+qNAHCzNuiyTus5EB0y6cy2dIWmsLxpZCzvyjAMaZ6ed+zWlkcoHSSVwN0K9oIFkX1EYtzVSL9HQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=endrift.com; spf=pass smtp.mailfrom=endrift.com; dkim=pass (2048-bit key) header.d=endrift.com header.i=@endrift.com header.b=ByrqbJcz; arc=none smtp.client-ip=173.255.198.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=endrift.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=endrift.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=endrift.com; s=2020;
-	t=1754627529; bh=kNBAskOENIObQq4+4C+x45WGxfUAczrDoiqIrzpOTdY=;
+	t=1754627529; bh=hE2nbM9euRAu1xQkKR+wKOytZJqwscD7rFx8m6XAeH0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=w/drWrnzyk5ksS3ImtpVnZJSPxxMz3MWk17JUxagdkda2HF2Bd5+OAECQe3GV+Eww
-	 IouQ1qCmZZr8jqPtz9sjCczbV7qnl/8YGak0qhUASa2TrmFSPtRgZJnhCTI1nnhWV7
-	 ocaiEJH4h0Hm9maVG5tTey9uMauHON3cOy3MdwF/zaS8it3Thd844JTxNXCEHSuiHb
-	 ob1giNbVjU3J2pAwnIegiUuCBpGCxDPCtB1ZVS5neyMbnK+1Jf5c9ys09jO6bRpKhu
-	 9KM7ygRN/Anhjc0dcGLlLJ8fbyXoJ+PMpnCqPrM/T6uLOBL6K7+fqnGxNXkmF4gcXE
-	 wjhpUR8Rh3CGw==
+	b=ByrqbJczL5ZIyyOLwUkLVPTdMOnEFLuEHS7Q93h4kdvbRDSO8+chfnePUJLq3XLt2
+	 /XVMtH/iCykB6Rj3jAHb8pnVteJbF5KVe4Kh/B9cONGYdExcuyqd6dkmi+auk7hHoB
+	 MLefN96FPewfdaLUHSmDhtrG5y3htgxlqZBCzpGSecCGHUs7eturioyHBQgyV+aPjB
+	 bhTJf6vO6plC8wpS6lrYOKaGoCdCSM+2ex1L8hzew3SvBvlkFSnaw8Y5dg5AIHf9pC
+	 plaKmXExWVeSp6HjTQRAt7scfbb9AZCdJXCvBWbSYpV53aHUKgqj9c4dajS4+HmeKC
+	 PeobDqaQf8Raw==
 Received: from nebulosa.vulpes.eutheria.net (71-212-74-234.tukw.qwest.net [71.212.74.234])
-	by endrift.com (Postfix) with ESMTPSA id D8BF2A264;
-	Thu,  7 Aug 2025 21:32:08 -0700 (PDT)
+	by endrift.com (Postfix) with ESMTPSA id 33F4513208A;
+	Thu,  7 Aug 2025 21:32:09 -0700 (PDT)
 From: Vicki Pfau <vi@endrift.com>
 To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
 	linux-input@vger.kernel.org
 Cc: Vicki Pfau <vi@endrift.com>
-Subject: [PATCH 5/6] Input: xbox_gip - Add wheel support
-Date: Thu,  7 Aug 2025 21:30:12 -0700
-Message-ID: <20250808043017.1953101-6-vi@endrift.com>
+Subject: [PATCH 6/6] Input: xbox_gip - Add flight stick support
+Date: Thu,  7 Aug 2025 21:30:13 -0700
+Message-ID: <20250808043017.1953101-7-vi@endrift.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250808043017.1953101-1-vi@endrift.com>
 References: <20250808043017.1953101-1-vi@endrift.com>
@@ -61,345 +61,237 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This adds preliminary support for racing wheel support in xbox_gip,
-exposing them mapped to the newly added axes.
+This adds preliminary flight stick support, with a few caveats:
+
+- Flight sticks support up to 64 extra buttons. This only exposes the first
+  50, as there isn't any good place to map the remainder.
+- Flight sticks support up to 12 extra axes. This picks a fairly abritrary
+  mapping for them, as there's again no good place to map them.
+
+Flight sticks also have addressible LEDs, but I don't have a device that
+supports them so I can't test them yet.
 
 Signed-off-by: Vicki Pfau <vi@endrift.com>
 ---
- drivers/input/joystick/xbox_gip.c | 209 ++++++++++++++++++++++++++++--
- 1 file changed, 201 insertions(+), 8 deletions(-)
+ drivers/input/joystick/xbox_gip.c | 126 +++++++++++++++++++++++++++++-
+ 1 file changed, 123 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/input/joystick/xbox_gip.c b/drivers/input/joystick/xbox_gip.c
-index afb70311c064e..874705a9b6bfb 100644
+index 874705a9b6bfb..36611ba8d038e 100644
 --- a/drivers/input/joystick/xbox_gip.c
 +++ b/drivers/input/joystick/xbox_gip.c
-@@ -10,7 +10,7 @@
-  * - Event logging
+@@ -11,9 +11,10 @@
   * - Sending fragmented messages
   * - Raw character device
-- * - Wheel support
-+ * - Wheel force feedback
-  * - Flight stick support
+  * - Wheel force feedback
+- * - Flight stick support
   * - More arcade stick testing
   * - Arcade stick extra buttons
-@@ -219,6 +219,22 @@
- #define GIP_EXTENDED_STATUS_ACCESS_DENIED	3
- #define GIP_EXTENDED_STATUS_FAILED		4
++ * - More flight stick testing
++ * - Flight stick LEDs
+  *
+  * This driver is based on the Microsoft GIP spec at:
+  * https://aka.ms/gipdocs
+@@ -37,6 +38,9 @@
+ #define MAX_MESSAGE_LENGTH 0x4000
+ #define MAX_ATTACHMENTS 8
  
-+/* Wheel-specific flags */
-+#define GIP_WHEEL_HAS_POWER		BIT(3)
-+#define GIP_WHEEL_HANDBRAKE_CONN	BIT(4)
-+#define GIP_WHEEL_CLUTCH_CONN		BIT(5)
-+#define GIP_WHEEL_BRAKE_CONN		BIT(6)
-+#define GIP_WHEEL_THROTTLE_CONN		BIT(7)
++#define MAX_GIP_FLIGHT_STICK_BUTTONS 64
++#define MAX_GIP_FLIGHT_STICK_AXES 12
 +
-+#define GIP_HSHIFTER_NONE	0
-+#define GIP_HSHIFTER_2POS	1 /* 2 position, no neutral */
-+#define GIP_HSHIFTER_2POS_N	2 /* 2 position, neutral */
-+#define GIP_HSHIFTER_RTL_1TL	3 /* Reverse top left, first top left */
-+#define GIP_HSHIFTER_RTL_1BL	4 /* Reverse top left, first bottom left */
-+#define GIP_HSHIFTER_RBL	5 /* Reverse bottom left */
-+#define GIP_HSHIFTER_RTR	6 /* Reverse top right */
-+#define GIP_HSHIFTER_RBR	7 /* Reverse bottom right */
-+
- /* Internal constants, not part of protocol */
- #define GIP_DEFAULT_IN_SYSTEM_MESSAGES 0x5e
- #define GIP_DEFAULT_OUT_SYSTEM_MESSAGES 0x472
-@@ -234,6 +250,8 @@
+ #define MAX_IN_MESSAGES 8
+ #define MAX_OUT_MESSAGES 8
  
- #define GIP_QUIRK_NO_HELLO		BIT(0)
- #define GIP_QUIRK_NO_IMPULSE_VIBRATION	BIT(1)
-+#define GIP_QUIRK_FORCE_GAMEPAD_SB	BIT(2)
-+#define GIP_QUIRK_WHEEL_FORCE_HANDBRAKE	BIT(31)
- 
- #define GIP_LED_GUIDE_MAX_BRIGHTNESS	100 /* Spec says 47, but larger values work */
- #define GIP_LED_GUIDE_INIT_BRIGHTNESS	20
-@@ -276,6 +294,11 @@ enum gip_elite_button_format {
- 	GIP_BTN_FMT_XBE2_5,
- };
- 
-+enum gip_vendor_type {
-+	GIP_VENDOR_NONE = 0,
-+	GIP_VENDOR_LOGI_TRUE_FORCE_WHEEL = 1,
-+};
-+
- static const guid_t guid_arcade_stick =
- 	GUID_INIT(0x332054cc, 0xa34b, 0x41d5, 0xa3, 0x4a, 0xa6, 0xa6, 0x71, 0x1e, 0xc4, 0xb3);
- static const guid_t guid_console_function_map =
-@@ -354,6 +377,18 @@ static const struct gip_audio_format gip_audio_format_table[MAX_GIP_AUDIO_FORMAT
+@@ -377,6 +381,21 @@ static const struct gip_audio_format gip_audio_format_table[MAX_GIP_AUDIO_FORMAT
  	[GIP_AUDIO_FORMAT_48000HZ_8CH] = { .rate = 48000, .channels = 8 },
  };
  
-+struct gip_wheel_info {
-+	uint8_t connections;
-+	uint8_t shifter_type: 3;
-+	uint8_t max_gear: 5;
-+	uint16_t angle_setting;
-+	uint16_t max_angle;
-+	uint16_t max_throttle;
-+	uint16_t max_brake;
-+	uint16_t max_clutch;
-+	uint8_t max_handbrake;
++static const unsigned int gip_flight_stick_extra_axes[MAX_GIP_FLIGHT_STICK_AXES] = {
++	ABS_RUDDER,
++	ABS_WHEEL,
++	ABS_GAS,
++	ABS_BRAKE,
++	ABS_CLUTCH,
++	ABS_HANDBRAKE,
++	ABS_HAT1X,
++	ABS_HAT1Y,
++	ABS_HAT2X,
++	ABS_HAT2Y,
++	ABS_HAT3X,
++	ABS_HAT3Y,
 +};
 +
- struct gip_quirks {
- 	uint16_t vendor_id;
- 	uint16_t product_id;
-@@ -370,6 +405,11 @@ struct gip_quirks {
- };
+ struct gip_wheel_info {
+ 	uint8_t connections;
+ 	uint8_t shifter_type: 3;
+@@ -1564,6 +1583,7 @@ static bool gip_send_set_device_state(struct gip_attachment *attachment, uint8_t
+ static int gip_setup_input_device(struct gip_attachment *attachment)
+ {
+ 	struct input_dev *input;
++	int i;
+ 	int rc;
  
- static const struct gip_quirks quirks[] = {
-+	/* Thrustmaster T128X GIP Racing Wheel */
-+	{ 0x044f, 0xb69c, 0,
-+		.quirks = GIP_QUIRK_FORCE_GAMEPAD_SB | GIP_QUIRK_WHEEL_FORCE_HANDBRAKE,
-+		.device_type = GIP_TYPE_WHEEL },
-+
- 	/* Xbox One Controller (model 1573) */
- 	{ 0x045e, 0x02d1, 0, .override_name = "Xbox One Controller" },
- 
-@@ -497,11 +537,14 @@ struct gip_attachment {
- 	enum gip_elite_button_format xbe_format;
- 	uint32_t features;
- 	uint32_t quirks;
-+	enum gip_vendor_type vendor_type;
- 
- 	int extra_buttons;
- 	int extra_axes;
- 
- 	bool dpad_as_buttons;
-+	struct gip_wheel_info wheel;
-+	int8_t logi_dial_state;
- 	struct hid_device *hdev;
- };
- 
-@@ -1573,10 +1616,44 @@ static int gip_setup_input_device(struct gip_attachment *attachment)
+ 	input = input_allocate_device();
+@@ -1616,6 +1636,24 @@ static int gip_setup_input_device(struct gip_attachment *attachment)
  		input_set_capability(input, EV_KEY, BTN_THUMBR);
  		input_set_capability(input, EV_KEY, BTN_THUMBL);
  		break;
--	case GIP_TYPE_FLIGHT_STICK:
- 	case GIP_TYPE_WHEEL:
-+		input_set_abs_params(input, ABS_WHEEL,
-+			-attachment->wheel.max_angle - 1,
-+			attachment->wheel.max_angle, 0, 0);
-+		input_abs_set_res(input, ABS_WHEEL, attachment->wheel.angle_setting);
-+		if (attachment->wheel.max_throttle)
-+			input_set_abs_params(input, ABS_GAS, 0,
-+				attachment->wheel.max_throttle, 0, 0);
-+
-+		if (attachment->wheel.max_brake)
-+			input_set_abs_params(input, ABS_BRAKE, 0,
-+				attachment->wheel.max_brake, 0, 0);
-+
-+		if (attachment->wheel.max_clutch)
-+			input_set_abs_params(input, ABS_CLUTCH, 0,
-+				attachment->wheel.max_clutch, 0, 0);
-+
-+		if (attachment->wheel.max_handbrake)
-+			input_set_abs_params(input, ABS_HANDBRAKE, 0,
-+				attachment->wheel.max_handbrake, 0, 0);
-+
-+		if (attachment->wheel.shifter_type)
-+			input_set_abs_params(input, ABS_SHIFTER, -1,
-+				attachment->wheel.max_gear, 0, 0);
-+
-+
-+		if (attachment->vendor_type == GIP_VENDOR_LOGI_TRUE_FORCE_WHEEL) {
-+			input_set_capability(input, EV_KEY, BTN_THUMBL);
-+			input_set_capability(input, EV_KEY, BTN_THUMBR);
-+			input_set_capability(input, EV_KEY, KEY_KPPLUS);
-+			input_set_capability(input, EV_KEY, KEY_KPMINUS);
-+			input_set_capability(input, EV_KEY, KEY_KPENTER);
-+			input_set_capability(input, EV_REL, REL_DIAL);
-+		}
++	case GIP_TYPE_FLIGHT_STICK:
++		input_set_capability(input, EV_KEY, BTN_TOP);
++		input_set_capability(input, EV_KEY, BTN_TOP2);
++		for (i = 0; i < attachment->extra_buttons && i < 10; i++)
++			input_set_capability(input, EV_KEY, BTN_0 + i);
++		for (i = 10; i < attachment->extra_buttons && i - 10 < 40; i++)
++			input_set_capability(input, EV_KEY, BTN_TRIGGER_HAPPY + i - 10);
++		if (attachment->extra_buttons > 50)
++			dev_info(GIP_DEV(attachment),
++				"Device has too many extra buttons, 51 through %i ignored\n",
++				attachment->extra_buttons);
++		input_set_abs_params(input, ABS_X, -32768, 32767, 0, 0);
++		input_set_abs_params(input, ABS_Y, -32768, 32767, 0, 0);
++		input_set_abs_params(input, ABS_Z, -32768, 32767, 0, 0);
++		input_set_abs_params(input, ABS_THROTTLE, 0, 65535, 0, 0);
++		for (i = 0; i < attachment->extra_axes && i < MAX_GIP_FLIGHT_STICK_AXES; i++)
++			input_set_abs_params(input, gip_flight_stick_extra_axes[i], 0, 65535, 0, 0);
 +		break;
+ 	case GIP_TYPE_WHEEL:
+ 		input_set_abs_params(input, ABS_WHEEL,
+ 			-attachment->wheel.max_angle - 1,
+@@ -1653,7 +1691,6 @@ static int gip_setup_input_device(struct gip_attachment *attachment)
+ 		break;
  	case GIP_TYPE_UNKNOWN:
  	case GIP_TYPE_NAVIGATION_CONTROLLER:
-+	case GIP_TYPE_FLIGHT_STICK:
+-	case GIP_TYPE_FLIGHT_STICK:
  		break;
  	case GIP_TYPE_CHATPAD:
  	case GIP_TYPE_HEADSET:
-@@ -1601,6 +1678,11 @@ static int gip_setup_input_device(struct gip_attachment *attachment)
- 	if (attachment->vendor_id == 0x045e && attachment->product_id == 0x0b0a)
- 		input_set_abs_params(input, ABS_PROFILE, 0, 3, 0, 0);
- 
-+	if (attachment->quirks & GIP_QUIRK_WHEEL_FORCE_HANDBRAKE) {
-+		input_set_capability(input, EV_KEY, BTN_THUMBR);
-+		input_set_capability(input, EV_KEY, BTN_THUMBL);
-+	}
-+
- #ifdef CONFIG_JOYSTICK_XBOX_GIP_FF
- 	if (attachment->features & GIP_FEATURE_MOTOR_CONTROL) {
- 		input_set_capability(input, EV_FF, FF_RUMBLE);
-@@ -1680,6 +1762,14 @@ static int gip_send_init_sequence(struct gip_attachment *attachment)
- 			return rc;
+@@ -1770,6 +1807,12 @@ static int gip_send_init_sequence(struct gip_attachment *attachment)
+ 			sizeof(request));
  	}
  
-+	if (attachment->attachment_type == GIP_TYPE_WHEEL) {
-+		struct gip_initial_reports_request request = { 0 };
-+
++	if (attachment->attachment_type == GIP_TYPE_FLIGHT_STICK
++		&& gip_supports_vendor_message(attachment,
++		GIP_CMD_DEVICE_CAPABILITIES, false))
 +		gip_send_vendor_message(attachment,
-+			GIP_CMD_INITIAL_REPORTS_REQUEST, 0, &request,
-+			sizeof(request));
-+	}
++			GIP_CMD_DEVICE_CAPABILITIES, 0, NULL, 0);
 +
  	usb_make_path(attachment->device->udev, attachment->phys,
  		sizeof(attachment->phys));
  	len = strlen(attachment->phys);
-@@ -1688,7 +1778,8 @@ static int gip_send_init_sequence(struct gip_attachment *attachment)
- 			sizeof(attachment->phys) - len, "/input%d",
+@@ -1779,7 +1822,8 @@ static int gip_send_init_sequence(struct gip_attachment *attachment)
  			attachment->attachment_index);
  
--	if (gip_attachment_is_controller(attachment) && !attachment->input) {
-+	if (gip_attachment_is_controller(attachment) && !attachment->input
-+		&& attachment->attachment_type != GIP_TYPE_WHEEL) {
+ 	if (gip_attachment_is_controller(attachment) && !attachment->input
+-		&& attachment->attachment_type != GIP_TYPE_WHEEL) {
++		&& attachment->attachment_type != GIP_TYPE_WHEEL
++		&& attachment->attachment_type != GIP_TYPE_FLIGHT_STICK) {
  		rc = gip_setup_input_device(attachment);
  		if (rc == -ENODEV)
  			return 0;
-@@ -2005,6 +2096,13 @@ static int gip_handle_command_metadata_respose(struct gip_attachment *attachment
- 			expected_guid = &guid_headset;
- 			break;
- 		}
-+
-+		if (strcmp(type, "Logi.Xbox.Input.TrueForceWheel") == 0) {
-+			attachment->attachment_type = GIP_TYPE_WHEEL;
-+			attachment->vendor_type = GIP_VENDOR_LOGI_TRUE_FORCE_WHEEL;
-+			expected_guid = &guid_logi_true_force_wheel;
-+			break;
-+		}
- 	}
+@@ -2242,6 +2286,22 @@ static int gip_handle_command_firmware(struct gip_attachment *attachment,
+ 	return -ENOTSUPP;
+ }
  
- 	found_expected_guid = !expected_guid;
-@@ -2307,13 +2405,87 @@ static void gip_handle_arcade_stick_report(struct gip_attachment *attachment,
++static int gip_handle_device_capabilities(struct gip_attachment *attachment,
++	const struct gip_header *header, const void *bytes, int num_bytes)
++{
++	const struct gip_device_capabilities_response *response = bytes;
++
++	if (attachment->input)
++		return 0;
++
++	if (num_bytes < 4)
++		return -EINVAL;
++
++	attachment->extra_axes = response->extra_axis_count;
++	attachment->extra_buttons = response->extra_button_count;
++	return gip_setup_input_device(attachment);
++}
++
+ static int gip_handle_command_raw_report(struct gip_attachment *attachment,
+ 	const struct gip_header *header, const uint8_t *bytes, int num_bytes)
+ {
+@@ -2405,6 +2465,58 @@ static void gip_handle_arcade_stick_report(struct gip_attachment *attachment,
  	}
  }
  
-+static void gip_handle_wheel_report(struct gip_attachment *attachment,
++static void gip_handle_flight_stick_report(struct gip_attachment *attachment,
 +	struct input_dev *dev, const uint8_t *bytes, int num_bytes)
 +{
 +	int32_t axis;
++	int i;
 +
-+	if (num_bytes < 16)
++	if (num_bytes < 19)
 +		return;
 +
-+	axis = bytes[2];
-+	axis |= bytes[3] << 8;
-+	input_report_abs(dev, ABS_WHEEL, axis - 0x8000);
++	/* Fire 1 and 2 */
++	input_report_key(dev, BTN_TOP, bytes[2] & BIT(0));
++	input_report_key(dev, BTN_TOP2, bytes[2] & BIT(1));
 +
-+	if (attachment->wheel.connections & GIP_WHEEL_THROTTLE_CONN) {
-+		axis = bytes[4];
-+		axis |= bytes[5] << 8;
-+		input_report_abs(dev, ABS_GAS, axis);
++	for (i = 0; i < attachment->extra_buttons && i < 10; i++) {
++		input_report_key(dev, BTN_0 + i,
++			bytes[i / 8 + 3] & BIT(i));
++	}
++	for (i = 10; i < attachment->extra_buttons && i - 10 < 40; i++) {
++		input_report_key(dev, BTN_TRIGGER_HAPPY + i - 10,
++			bytes[i / 8 + 3] & BIT(i));
 +	}
 +
-+	if (attachment->wheel.connections & GIP_WHEEL_BRAKE_CONN) {
-+		axis = bytes[6];
-+		axis |= bytes[7] << 8;
-+		input_report_abs(dev, ABS_BRAKE, axis);
-+	}
++	/*
++	 * Roll, pitch and yaw are signed. Throttle and any
++	 * extra axes are unsigned. All values are full-range.
++	 */
++	axis = bytes[11];
++	axis |= bytes[12] << 8;
++	input_report_abs(dev, ABS_X, (int16_t) axis);
 +
-+	if (attachment->wheel.connections & GIP_WHEEL_CLUTCH_CONN) {
-+		axis = bytes[8];
-+		axis |= bytes[9] << 8;
-+		input_report_abs(dev, ABS_CLUTCH, axis);
-+	}
++	axis = bytes[13];
++	axis |= bytes[14] << 8;
++	input_report_abs(dev, ABS_Y, (int16_t) axis);
 +
-+	if (attachment->wheel.connections & GIP_WHEEL_HANDBRAKE_CONN)
-+		input_report_abs(dev, ABS_HANDBRAKE, bytes[10]);
++	axis = bytes[15];
++	axis |= bytes[16] << 8;
++	input_report_abs(dev, ABS_Z, (int16_t) axis);
 +
-+	if (attachment->wheel.shifter_type)
-+		input_report_abs(dev, ABS_SHIFTER, (int8_t)bytes[12]);
++	axis = bytes[17];
++	axis |= bytes[18] << 8;
++	input_report_abs(dev, ABS_THROTTLE, axis);
 +
-+	if (attachment->vendor_type == GIP_VENDOR_LOGI_TRUE_FORCE_WHEEL && num_bytes >= 18) {
-+		int dial = bytes[17] >> 5;
++	for (i = 0; i < attachment->extra_axes && i < MAX_GIP_FLIGHT_STICK_AXES; i++) {
++		if (20 + i * 2 >= num_bytes)
++			return;
 +
-+		input_report_key(dev, BTN_THUMBL, bytes[17] & BIT(0));
-+		input_report_key(dev, BTN_THUMBR, bytes[17] & BIT(1));
-+		input_report_key(dev, KEY_KPPLUS, bytes[17] & BIT(2));
-+		input_report_key(dev, KEY_KPMINUS, bytes[17] & BIT(3));
-+		input_report_key(dev, KEY_KPENTER, bytes[17] & BIT(4));
-+		if (dial == 0 && attachment->logi_dial_state == 7)
-+			input_report_rel(dev, REL_DIAL, -1);
-+		else if (dial == 7 && attachment->logi_dial_state == 0)
-+			input_report_rel(dev, REL_DIAL, 1);
-+		else
-+			input_report_rel(dev, REL_DIAL,
-+				attachment->logi_dial_state - dial);
-+		attachment->logi_dial_state = dial;
++		axis = bytes[19 + i * 2];
++		axis |= bytes[20 + i * 2] << 8;
++		input_report_abs(dev, gip_flight_stick_extra_axes[i], axis);
 +	}
 +}
 +
- static int gip_handle_ll_input_report(struct gip_attachment *attachment,
- 	const struct gip_header *header, const uint8_t *bytes, int num_bytes)
+ static void gip_handle_wheel_report(struct gip_attachment *attachment,
+ 	struct input_dev *dev, const uint8_t *bytes, int num_bytes)
  {
- 	struct input_dev *dev = attachment->input;
- 
--	if (!dev)
--		return -ENODEV;
-+	if (!dev) {
-+		if (attachment->attachment_type == GIP_TYPE_WHEEL) {
-+			if (num_bytes < 17)
-+				return -EINVAL;
-+			attachment->wheel.max_gear = bytes[11] & 0x1F;
-+			attachment->wheel.shifter_type = bytes[11] >> 5;
-+			attachment->wheel.angle_setting = bytes[13];
-+			attachment->wheel.angle_setting |= bytes[14] << 8;
-+			attachment->wheel.connections = bytes[16];
-+
-+			if (attachment->quirks & GIP_QUIRK_WHEEL_FORCE_HANDBRAKE)
-+				attachment->wheel.connections |= GIP_WHEEL_HANDBRAKE_CONN;
-+
-+			if (attachment->wheel.angle_setting && attachment->wheel.max_angle)
-+				return gip_setup_input_device(attachment);
-+			else
-+				return 0;
-+		} else {
-+			return -ENODEV;
-+		}
-+	}
- 
- 	if (attachment->device_state != GIP_STATE_START) {
- 		dev_dbg(GIP_DEV(attachment), "Discarding early input report\n");
-@@ -2336,6 +2508,14 @@ static int gip_handle_ll_input_report(struct gip_attachment *attachment,
+@@ -2508,6 +2620,9 @@ static int gip_handle_ll_input_report(struct gip_attachment *attachment,
  	case GIP_TYPE_ARCADE_STICK:
  		gip_handle_arcade_stick_report(attachment, dev, bytes, num_bytes);
  		break;
-+	case GIP_TYPE_WHEEL:
-+		gip_handle_wheel_report(attachment, dev, bytes, num_bytes);
++	case GIP_TYPE_FLIGHT_STICK:
++		gip_handle_flight_stick_report(attachment, dev, bytes, num_bytes);
 +		break;
-+	}
-+
-+	if (attachment->quirks & GIP_QUIRK_FORCE_GAMEPAD_SB) {
-+		input_report_key(dev, BTN_THUMBL, bytes[1] & BIT(6));
-+		input_report_key(dev, BTN_THUMBR, bytes[1] & BIT(7));
- 	}
+ 	case GIP_TYPE_WHEEL:
+ 		gip_handle_wheel_report(attachment, dev, bytes, num_bytes);
+ 		break;
+@@ -2723,6 +2838,11 @@ static int gip_handle_message(struct gip_attachment *attachment,
+ 			num_bytes);
  
- 	if (attachment->features & GIP_FEATURE_ELITE_BUTTONS) {
-@@ -2413,9 +2593,22 @@ static int gip_handle_ll_input_report(struct gip_attachment *attachment,
- static int gip_handle_ll_static_configuration(struct gip_attachment *attachment,
- 	const struct gip_header *header, const uint8_t *bytes, int num_bytes)
- {
--	/* TODO */
--	dev_dbg(GIP_DEV(attachment), "Unimplemented Static Configuration message\n");
--	return -ENOTSUPP;
-+	if (attachment->attachment_type == GIP_TYPE_WHEEL) {
-+		if (num_bytes < 11)
-+			return -EINVAL;
-+		attachment->wheel.max_angle = BIT(bytes[0]) - 1;
-+		attachment->wheel.max_throttle = BIT(bytes[1]) - 1;
-+		attachment->wheel.max_brake = BIT(bytes[2]) - 1;
-+		attachment->wheel.max_clutch = BIT(bytes[3]) - 1;
-+		attachment->wheel.max_handbrake = BIT(bytes[4]) - 1;
-+		if (attachment->wheel.angle_setting && attachment->wheel.max_angle)
-+			return gip_setup_input_device(attachment);
-+	} else {
-+		/* TODO */
-+		dev_dbg(GIP_DEV(attachment), "Unimplemented Static Configuration message\n");
-+		return -ENOTSUPP;
-+	}
-+	return 0;
- }
- 
- static int gip_handle_ll_button_info_report(struct gip_attachment *attachment,
+ 	switch (header->message_type) {
++	case GIP_CMD_DEVICE_CAPABILITIES:
++		if (attachment->attachment_type == GIP_TYPE_FLIGHT_STICK)
++			return gip_handle_device_capabilities(attachment,
++				header, bytes, num_bytes);
++		break;
+ 	case GIP_CMD_RAW_REPORT:
+ 		if (attachment->features & GIP_FEATURE_ELITE_BUTTONS)
+ 			return gip_handle_command_raw_report(attachment,
 -- 
 2.50.1
 
