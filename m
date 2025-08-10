@@ -1,86 +1,106 @@
-Return-Path: <linux-input+bounces-13881-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13882-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB64BB1FB9F
-	for <lists+linux-input@lfdr.de>; Sun, 10 Aug 2025 20:14:32 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C807B1FD07
+	for <lists+linux-input@lfdr.de>; Mon, 11 Aug 2025 01:04:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CEBA71735F5
-	for <lists+linux-input@lfdr.de>; Sun, 10 Aug 2025 18:14:32 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id F1C90188A709
+	for <lists+linux-input@lfdr.de>; Sun, 10 Aug 2025 23:05:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 93ABA26B759;
-	Sun, 10 Aug 2025 18:14:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 96A39218AC4;
+	Sun, 10 Aug 2025 23:04:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R8+vw5DP"
+	dkim=pass (2048-bit key) header.d=ewhac.org header.i=@ewhac.org header.b="aiCF13TJ"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from eastern.birch.relay.mailchannels.net (eastern.birch.relay.mailchannels.net [23.83.209.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A78B91B3930;
-	Sun, 10 Aug 2025 18:14:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.173
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754849669; cv=none; b=GIv+Dzlm2qZ8U17VykwAxSoAyJvfa+uu0ut16qFiyaADQAywqM2aOaTibQHfN+ml5zW593RMXdG4AC4d5TVBlxGMK9DKouBQKDJhyRpitfHA7KUTKsKhtHIf6bZKoH8X/0jgsH1kPLo1C4/nxjNa2y/e5ewYkyxt8rGo/nD1oms=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754849669; c=relaxed/simple;
-	bh=hEug3iKt6+lqE9FFSAj77Oi6Eybay1wZKbpcaw5o3p0=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=S5LBWYsdRTcn7WtbSta2ApogB5FYO96c3U+C1rmXvJQLRRRr7hBli5ms+APBnuFxHp9p+XovL7QguSc6r7fUo4dIUIr/6AJpqQz8D9NBSdbfD5l4L+8ezBFQbLnokyujtjTSW2ZuvxaiaPlpIGjIM1JXVlK3Bb83yQs0xtx0u78=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=R8+vw5DP; arc=none smtp.client-ip=209.85.208.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-33253a73769so29921451fa.3;
-        Sun, 10 Aug 2025 11:14:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1754849666; x=1755454466; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=vxkeCmtZT9MST8DfaI8R87oY8Q/h3AVNkFRicZNhOV0=;
-        b=R8+vw5DPyOe6mQQ23Ybm0i7msR+8fnXX0jF0ljeM/rD0bAok6npnrRAWyeGirZwBUS
-         HNOUftIo9FvWz0MAAIZrixb+Y4HHOT6836ZfvCp4oFxhwdd3arYLBuqI31kanfDC8Iad
-         OXG6O9WcFQdMPdJ64c7S/CLGx2dBhLvvaV0+4f5XdDY7d7Jnzm8VyTtAck8TfQtHrqxW
-         ljKizVJBjfGL3RIzL+ZSLV+0BlVryT63sm8Do9cGv/HRC/Yy64p5vXYGZ9R1jlNu2pb7
-         /rqtK9XPFgLDcBEu0s/Dhtrp/EnRHV7K7FhvWzmWp+EcxRm3ELo/v2364yP4rI2cGZK+
-         n+Dw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754849666; x=1755454466;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=vxkeCmtZT9MST8DfaI8R87oY8Q/h3AVNkFRicZNhOV0=;
-        b=B76YT0EmCr+SmRj3rUXBdX51qG/IX7caAG753KqnRE0ImlEbJIRktw/V1cYBltips4
-         KJzp/j9Iuum9plsXyhn916ROQnRPZue+KPq2ectDVgKL/Hyeb/hSrXEnsxdBvApN3+Rw
-         W3X+wJb3xL0gJlguMtX/N0Z7oCTjet/Y1qxrokAwQ8Gm4lzM3JyQAwncKjBvbA59fC6P
-         HCcqGCPY6eCAsSobJhMMjOHyUpyjc3/acKJg+Gv1pcQMRi9YlNOHKc8AGUpxQ/Nv6PsJ
-         lSgQAkgxVuTmELeRr7cwB4vUJsLzueF+Lb2yQlRnspBx7XJORl3zRakfmz2MnCX4ux0G
-         TuJg==
-X-Forwarded-Encrypted: i=1; AJvYcCVyOoOWfa8FqwARotfmiv8BAIg3aeSjidIaX6UIDYg3TXk73IrrFMhAsTCbd9NWlerb0mYw5lrHPEJ0xw==@vger.kernel.org, AJvYcCXnOyVI+9kEH7qOm7vBikD65FBgH72r+xRKye7bxdrfcP3QRiHi6f9lUrGz5U8NDZexTDo7giEtewkEc5XQ@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy0rtIOmn6XEw2mdK8aCxBMZwJnDZ6iUVXeAaMGF723Po8goPKt
-	cGZnJdb1DdUwU8aDdVYMfxwY8nFy8okM/o2C/5x+0akxhIGbKNGmsfi2Z3WFiw==
-X-Gm-Gg: ASbGnctGdLTrXMCnMKn5TkogNxyvLysawWpGpy9gqQPn3XoEaxRD/j2P1j4ghOKUw8i
-	ae4fotOiivB4PzLs+gJ5pY+P7MmA2bFewq1UAJ1j0a6ETd0V4j+kF4cpBTeeG5Rk4eQKk2oWa38
-	A8DfuD2W+X4NOou2lmatjFiW8V+OyUwHWz0xjepKcCr2+CYbQkRIAZvMNkiLHa331HAIBN+taah
-	WzDElZGbzEDaktmHSzwPpldnJj9Tbdmli9XXch2QmDO+ATInH8OOzjjy56QbCYR+stee0dk+p+L
-	bwRQmT2W8ucaQ1QdMtJE5/wtrfs3rsd2yYpD+TAWl1HydyBEKyzFTBI50F32C45RsFpN+kBZBQJ
-	ISUwzbNfuN4Qd+5jGLo+mhT+oAwG90LCyvNg=
-X-Google-Smtp-Source: AGHT+IELATMjgT4bY9R4UvqZA8GL5XaRhmwJus4SKwnyjDntrPOWefydngds4aRUclSj9chkUBfVnw==
-X-Received: by 2002:a05:651c:b22:b0:32a:66e6:9ffe with SMTP id 38308e7fff4ca-333a22836dfmr25414421fa.21.1754849665436;
-        Sun, 10 Aug 2025 11:14:25 -0700 (PDT)
-Received: from localhost.localdomain ([185.209.199.157])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-332388d8b96sm38542881fa.49.2025.08.10.11.14.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 10 Aug 2025 11:14:25 -0700 (PDT)
-From: Qasim Ijaz <qasdev00@gmail.com>
-To: jikos@kernel.org,
-	bentiss@kernel.org,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D604A19ABDE;
+	Sun, 10 Aug 2025 23:04:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=23.83.209.55
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1754867087; cv=pass; b=NsN9y6ieVYTm6HNOJOY0gjINkEMqi2s4LQvu/uviK7Si5Y4UGxj6yO6MV3zcNyvrVb2IGAcaqtrtATotg/oWzyxV5yby2SQqRvr8CLOWEw+LlFfWAm0M6wI/pE0ZgwTsHDSrMTcX+RbWGl/3BaVB33SUQyHGz0dES1NO8LyYoIU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1754867087; c=relaxed/simple;
+	bh=lQeG4MS6DSKdbD32ayqEcmvT3LgEuzf0yteVUsfnuhw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZFGuCrKPEW31xedMoFpFdXMaq2l5Cn3jZhEW2MWDimuRR1I9nSNISHTcwzmjH1YKKKh9GpRRQOP4Yy8haUTpsVVy3rxCDvgDYsBjo9/lc9hUnuWSg+v+3dOOqd2GJsl4R1auyPS6TSHAZT0XAJHZKzszNN25ujOfFn0SyqaDiSQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ewhac.org; spf=pass smtp.mailfrom=ewhac.org; dkim=pass (2048-bit key) header.d=ewhac.org header.i=@ewhac.org header.b=aiCF13TJ; arc=pass smtp.client-ip=23.83.209.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ewhac.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ewhac.org
+X-Sender-Id: dreamhost|x-authsender|ewhac@ewhac.org
+Received: from relay.mailchannels.net (localhost [127.0.0.1])
+	by relay.mailchannels.net (Postfix) with ESMTP id D6AE222826;
+	Sun, 10 Aug 2025 22:56:44 +0000 (UTC)
+Received: from pdx1-sub0-mail-a238.dreamhost.com (trex-blue-7.trex.outbound.svc.cluster.local [100.96.10.77])
+	(Authenticated sender: dreamhost)
+	by relay.mailchannels.net (Postfix) with ESMTPA id 71C1F22A5F;
+	Sun, 10 Aug 2025 22:56:44 +0000 (UTC)
+ARC-Seal: i=1; s=arc-2022; d=mailchannels.net; t=1754866604; a=rsa-sha256;
+	cv=none;
+	b=odOdNih00ZGe9iI9yPtswydpSL1EkGSvYV9025UaLHL3Ehwg22CCTGm4AoaNB75CiglKeo
+	TYsG7j27Vl2JCoZqUHScPPYbXHlwM1F9LseMAUDbdMwXGCFEb33rrix49Rm3xg/RXb1IFL
+	sxuts/kTuOkJ6rvu7PP7Q9hcNUt1sRkro/fJ59WcIbVR1Ej37HQZBqZXK1xJzO+Bgqnc4X
+	ssXa5olC9P/cv1rzBXBvUaQv7I2zjitRhmcmlgGtDurs6MQrGksLFCgmQhFDyLgFu9uUhB
+	uqh8tYXEsr9lX/8W6VJ1F12gRzoaO0r3AuICBHbNIU2cia68inr2x/P1SmaBtQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mailchannels.net;
+	s=arc-2022; t=1754866604;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:dkim-signature;
+	bh=LAFmSq5dIbq9UMpunUIzD0guzxD7pZNPQs3v5sp2wFQ=;
+	b=av8HAPBWXto2Nwac37IzOc6uA9e4EvRZR/okMDappnNGO9Ae3CecDkY1W7KDijqgkfpIy7
+	AR5/dkRffr3GPKDeZeCsrAtyOTlJZmIgY7xKJUGB7h78I63OITEt1DgPh4/7OAqxuFz4IB
+	j21c3Bk8OKYINZBzdu2QSfohZ2GgQGWgakB2uqbu3xfDfmqmSzJ5yoyKeUgAqdSf49cGSO
+	WaeQKqHTvF9sfIKDWGyhldwVIz03DNU2PtyQgnWitWMZ2EUKE0X40/3FuW6NgpyoxTLRMd
+	xhJn2e0kBF9Vq57JlWlg5ArK104r1xsJqMgJhK0qYGzc50N/jX1Y2EPY+F4p9Q==
+ARC-Authentication-Results: i=1;
+	rspamd-698857ffff-2crhk;
+	auth=pass smtp.auth=dreamhost smtp.mailfrom=ewhac@ewhac.org
+X-Sender-Id: dreamhost|x-authsender|ewhac@ewhac.org
+X-MC-Relay: Neutral
+X-MailChannels-SenderId: dreamhost|x-authsender|ewhac@ewhac.org
+X-MailChannels-Auth-Id: dreamhost
+X-Bored-Befitting: 1737dc956e62aff5_1754866604744_492461852
+X-MC-Loop-Signature: 1754866604744:3424811984
+X-MC-Ingress-Time: 1754866604744
+Received: from pdx1-sub0-mail-a238.dreamhost.com (pop.dreamhost.com
+ [64.90.62.162])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
+	by 100.96.10.77 (trex/7.1.3);
+	Sun, 10 Aug 2025 22:56:44 +0000
+Received: from exiguous.ewhac.net (unknown [135.180.175.143])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: ewhac@ewhac.org)
+	by pdx1-sub0-mail-a238.dreamhost.com (Postfix) with ESMTPSA id 4c0Y6h0khgz4B;
+	Sun, 10 Aug 2025 15:56:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ewhac.org;
+	s=dreamhost; t=1754866604;
+	bh=LAFmSq5dIbq9UMpunUIzD0guzxD7pZNPQs3v5sp2wFQ=;
+	h=From:To:Cc:Subject:Date:Content-Transfer-Encoding;
+	b=aiCF13TJQpK1gEMtN3T7GPzGzK746OY9iuZXVrr82bZxlozd1YfbHdyLUerGlrKCf
+	 8yGUvpB7vsnvLAwMTKeS/0Dz+3Ax7U0GVkh0XhYDvw7TjEB1t1He8i2012qa8cde0B
+	 BNhT2TqurFuIoPuMQv7EOaBKby+DX5ZkC+wHBFVQIj5GnRfL+3suAGXteY+GpJLA2V
+	 2ZEfu1nId8brWNOmCxZpaUEqRuL+wTowfkQ9MY9nG2Zfptzrr1JDmx/7di3bjqopK7
+	 miSrZkUvXMoBPFmEqiR+mJtba5XKqpLEWepxd5KwgQVCIKwMm6X3cNfBR6MkmSD9CS
+	 8yg26DTaPnBGA==
+From: "Leo L. Schwab" <ewhac@ewhac.org>
+To: Hans de Goede <hansg@kernel.org>
+Cc: Kate Hsuan <hpa@redhat.com>,
+	"Leo L. Schwab" <ewhac@ewhac.org>,
+	Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>,
 	linux-input@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Cc: stable@vger.kernel.org
-Subject: [PATCH RESEND] HID: asus: fix UAF via HID_CLAIMED_INPUT validation
-Date: Sun, 10 Aug 2025 19:10:41 +0100
-Message-Id: <20250810181041.44874-1-qasdev00@gmail.com>
-X-Mailer: git-send-email 2.39.5
+Subject: [PATCH] HID: lg-g15 - Add support for Logitech G13.
+Date: Sun, 10 Aug 2025 15:56:10 -0700
+Message-ID: <20250810225617.1006272-2-ewhac@ewhac.org>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -89,134 +109,619 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-After hid_hw_start() is called hidinput_connect() will eventually be 
-called to set up the device with the input layer since the 
-HID_CONNECT_DEFAULT connect mask is used. During hidinput_connect()
-all input and output reports are processed and corresponding hid_inputs
-are allocated and configured via hidinput_configure_usages(). This
-process involves slot tagging report fields and configuring usages
-by setting relevant bits in the capability bitmaps. However it is possible
-that the capability bitmaps are not set at all leading to the subsequent
-hidinput_has_been_populated() check to fail leading to the freeing of the
-hid_input and the underlying input device.
+The Logitech G13 is a gaming keypad with general-purpose macro keys,
+four LED-backlit macro preset keys, five "menu" keys, backlight toggle
+key, an analog thumbstick, RGB LED backlight, and a monochrome LCD
+display.
 
-This becomes problematic because a malicious HID device like a 
-ASUS ROG N-Key keyboard can trigger the above scenario via a 
-specially crafted descriptor which then leads to a user-after-free
-when the name of the freed input device is written to later on after
-hid_hw_start(). Below, report 93 intentionally utilises the 
-HID_UP_UNDEFINED Usage Page which is skipped during usage
-configuration, leading to the frees.
+This patch supports input event generation for all keys, the thumbstick,
+and exposes all LEDs.
 
-0x05, 0x0D,        // Usage Page (Digitizer)
-0x09, 0x05,        // Usage (Touch Pad)
-0xA1, 0x01,        // Collection (Application)
-0x85, 0x0D,        //   Report ID (13)
-0x06, 0x00, 0xFF,  //   Usage Page (Vendor Defined 0xFF00)
-0x09, 0xC5,        //   Usage (0xC5)
-0x15, 0x00,        //   Logical Minimum (0)
-0x26, 0xFF, 0x00,  //   Logical Maximum (255)
-0x75, 0x08,        //   Report Size (8)
-0x95, 0x04,        //   Report Count (4)
-0xB1, 0x02,        //   Feature (Data,Var,Abs)
-0x85, 0x5D,        //   Report ID (93)
-0x06, 0x00, 0x00,  //   Usage Page (Undefined)
-0x09, 0x01,        //   Usage (0x01)
-0x15, 0x00,        //   Logical Minimum (0)
-0x26, 0xFF, 0x00,  //   Logical Maximum (255)
-0x75, 0x08,        //   Report Size (8)
-0x95, 0x1B,        //   Report Count (27)
-0x81, 0x02,        //   Input (Data,Var,Abs)
-0xC0,              // End Collection
-
-Below is the KASAN splat after triggering the UAF:
-
-[   21.672709] ==================================================================
-[   21.673700] BUG: KASAN: slab-use-after-free in asus_probe+0xeeb/0xf80
-[   21.673700] Write of size 8 at addr ffff88810a0ac000 by task kworker/1:2/54
-[   21.673700] 
-[   21.673700] CPU: 1 UID: 0 PID: 54 Comm: kworker/1:2 Not tainted 6.16.0-rc4-g9773391cf4dd-dirty #36 PREEMPT(voluntary) 
-[   21.673700] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
-[   21.673700] Call Trace:
-[   21.673700]  <TASK>
-[   21.673700]  dump_stack_lvl+0x5f/0x80
-[   21.673700]  print_report+0xd1/0x660
-[   21.673700]  kasan_report+0xe5/0x120
-[   21.673700]  __asan_report_store8_noabort+0x1b/0x30
-[   21.673700]  asus_probe+0xeeb/0xf80
-[   21.673700]  hid_device_probe+0x2ee/0x700
-[   21.673700]  really_probe+0x1c6/0x6b0
-[   21.673700]  __driver_probe_device+0x24f/0x310
-[   21.673700]  driver_probe_device+0x4e/0x220
-[...]
-[   21.673700] 
-[   21.673700] Allocated by task 54:
-[   21.673700]  kasan_save_stack+0x3d/0x60
-[   21.673700]  kasan_save_track+0x18/0x40
-[   21.673700]  kasan_save_alloc_info+0x3b/0x50
-[   21.673700]  __kasan_kmalloc+0x9c/0xa0
-[   21.673700]  __kmalloc_cache_noprof+0x139/0x340
-[   21.673700]  input_allocate_device+0x44/0x370
-[   21.673700]  hidinput_connect+0xcb6/0x2630
-[   21.673700]  hid_connect+0xf74/0x1d60
-[   21.673700]  hid_hw_start+0x8c/0x110
-[   21.673700]  asus_probe+0x5a3/0xf80
-[   21.673700]  hid_device_probe+0x2ee/0x700
-[   21.673700]  really_probe+0x1c6/0x6b0
-[   21.673700]  __driver_probe_device+0x24f/0x310
-[   21.673700]  driver_probe_device+0x4e/0x220
-[...]
-[   21.673700] 
-[   21.673700] Freed by task 54:
-[   21.673700]  kasan_save_stack+0x3d/0x60
-[   21.673700]  kasan_save_track+0x18/0x40
-[   21.673700]  kasan_save_free_info+0x3f/0x60
-[   21.673700]  __kasan_slab_free+0x3c/0x50
-[   21.673700]  kfree+0xcf/0x350
-[   21.673700]  input_dev_release+0xab/0xd0
-[   21.673700]  device_release+0x9f/0x220
-[   21.673700]  kobject_put+0x12b/0x220
-[   21.673700]  put_device+0x12/0x20
-[   21.673700]  input_free_device+0x4c/0xb0
-[   21.673700]  hidinput_connect+0x1862/0x2630
-[   21.673700]  hid_connect+0xf74/0x1d60
-[   21.673700]  hid_hw_start+0x8c/0x110
-[   21.673700]  asus_probe+0x5a3/0xf80
-[   21.673700]  hid_device_probe+0x2ee/0x700
-[   21.673700]  really_probe+0x1c6/0x6b0
-[   21.673700]  __driver_probe_device+0x24f/0x310
-[   21.673700]  driver_probe_device+0x4e/0x220
-[...]
-
-Fixes: 9ce12d8be12c ("HID: asus: Add i2c touchpad support")
-Cc: stable@vger.kernel.org
-Signed-off-by: Qasim Ijaz <qasdev00@gmail.com>
+Signed-off-by: Leo L. Schwab <ewhac@ewhac.org>
 ---
- drivers/hid/hid-asus.c | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+ drivers/hid/hid-ids.h    |   1 +
+ drivers/hid/hid-lg-g15.c | 448 +++++++++++++++++++++++++++++++++++++--
+ 2 files changed, 428 insertions(+), 21 deletions(-)
 
-diff --git a/drivers/hid/hid-asus.c b/drivers/hid/hid-asus.c
-index 4b45e31f0bab..9bce9c84ab20 100644
---- a/drivers/hid/hid-asus.c
-+++ b/drivers/hid/hid-asus.c
-@@ -1212,8 +1212,14 @@ static int asus_probe(struct hid_device *hdev, const struct hid_device_id *id)
- 		hid_err(hdev, "Asus hw start failed: %d\n", ret);
- 		return ret;
- 	}
--
--	if (!drvdata->input) {
+diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+index 33cc5820f2be..7ed1e402b80a 100644
+--- a/drivers/hid/hid-ids.h
++++ b/drivers/hid/hid-ids.h
+@@ -870,6 +870,7 @@
+ #define USB_DEVICE_ID_LOGITECH_DUAL_ACTION	0xc216
+ #define USB_DEVICE_ID_LOGITECH_RUMBLEPAD2	0xc218
+ #define USB_DEVICE_ID_LOGITECH_RUMBLEPAD2_2	0xc219
++#define USB_DEVICE_ID_LOGITECH_G13		0xc21c
+ #define USB_DEVICE_ID_LOGITECH_G15_LCD		0xc222
+ #define USB_DEVICE_ID_LOGITECH_G11		0xc225
+ #define USB_DEVICE_ID_LOGITECH_G15_V2_LCD	0xc227
+diff --git a/drivers/hid/hid-lg-g15.c b/drivers/hid/hid-lg-g15.c
+index f8605656257b..cbbd20bc089c 100644
+--- a/drivers/hid/hid-lg-g15.c
++++ b/drivers/hid/hid-lg-g15.c
+@@ -17,6 +17,8 @@
+ #include <dt-bindings/leds/common.h>
+ 
+ #include "hid-ids.h"
++#include "linux/input-event-codes.h"
++#include "linux/input.h"
+ 
+ #define LG_G15_TRANSFER_BUF_SIZE	20
+ 
+@@ -26,7 +28,11 @@
+ #define LG_G510_FEATURE_BACKLIGHT_RGB	0x05
+ #define LG_G510_FEATURE_POWER_ON_RGB	0x06
+ 
++#define LG_G13_FEATURE_M_KEYS_LEDS	0x05
++#define LG_G13_FEATURE_BACKLIGHT_RGB	0x07
++
+ enum lg_g15_model {
++	LG_G13,
+ 	LG_G15,
+ 	LG_G15_V2,
+ 	LG_G510,
+@@ -45,6 +51,12 @@ enum lg_g15_led_type {
+ 	LG_G15_LED_MAX
+ };
+ 
++struct g13_input_report {
++	u8 report_id;	// 1
++	u8 joy_x, joy_y;
++	u8 keybits[5];
++};
++
+ struct lg_g15_led {
+ 	union {
+ 		struct led_classdev cdev;
+@@ -63,12 +75,182 @@ struct lg_g15_data {
+ 	struct mutex mutex;
+ 	struct work_struct work;
+ 	struct input_dev *input;
++	struct input_dev *input_js; // joystick device for G13
+ 	struct hid_device *hdev;
+ 	enum lg_g15_model model;
+ 	struct lg_g15_led leds[LG_G15_LED_MAX];
+ 	bool game_mode_enabled;
+ };
+ 
++/********* G13 LED functions ***********/
++/*
++ * G13 retains no state across power cycles, and always powers up with the backlight on,
++ * color #5AFF6E, all macro key LEDs off.
++ */
++static int lg_g13_get_leds_state(struct lg_g15_data *g15)
++{
++	u8 * const tbuf = g15->transfer_buf;
++	int ret, high;
++
++	/*  RGB backlight.  */
++	ret = hid_hw_raw_request(g15->hdev, LG_G13_FEATURE_BACKLIGHT_RGB,
++				 tbuf, 5,
++				 HID_FEATURE_REPORT, HID_REQ_GET_REPORT);
++	if (ret != 5) {
++		hid_err(g15->hdev, "Error getting backlight brightness: %d\n", ret);
++		return (ret < 0) ? ret : -EIO;
++	}
++
++	/*  Normalize RGB intensities against highest component.  */
++	high = max3(tbuf[1], tbuf[2], tbuf[3]);
++	if (high) {
++		g15->leds[LG_G15_KBD_BRIGHTNESS].red =
++			DIV_ROUND_CLOSEST(tbuf[1] * 255, high);
++		g15->leds[LG_G15_KBD_BRIGHTNESS].green =
++			DIV_ROUND_CLOSEST(tbuf[2] * 255, high);
++		g15->leds[LG_G15_KBD_BRIGHTNESS].blue =
++			DIV_ROUND_CLOSEST(tbuf[3] * 255, high);
++		g15->leds[LG_G15_KBD_BRIGHTNESS].brightness = high;
++	} else {
++		g15->leds[LG_G15_KBD_BRIGHTNESS].red        = 255;
++		g15->leds[LG_G15_KBD_BRIGHTNESS].green      = 255;
++		g15->leds[LG_G15_KBD_BRIGHTNESS].blue       = 255;
++		g15->leds[LG_G15_KBD_BRIGHTNESS].brightness = 0;
++	}
++
++	/*  Macro LEDs.  */
++	ret = hid_hw_raw_request(g15->hdev, LG_G13_FEATURE_M_KEYS_LEDS,
++				 tbuf, 5,
++				 HID_FEATURE_REPORT, HID_REQ_GET_REPORT);
++	if (ret != 5) {
++		hid_err(g15->hdev, "Error getting macro LED brightness: %d\n", ret);
++		return (ret < 0) ? ret : -EIO;
++	}
++
++	for (int i = LG_G15_MACRO_PRESET1;  i < LG_G15_LED_MAX;  ++i)
++		g15->leds[i].brightness = tbuf[1] & (1 << (i - LG_G15_MACRO_PRESET1));
++
++	return 0;
++}
++
++/* Must be called with g15->mutex locked */
++static int lg_g13_kbd_led_write(struct lg_g15_data *g15,
++				struct lg_g15_led *g15_led,
++				enum led_brightness brightness)
++{
++	struct mc_subled const * const subleds = g15_led->mcdev.subled_info;
++	u8 * const tbuf = g15->transfer_buf;
++	int ret;
++
++	led_mc_calc_color_components(&g15_led->mcdev, brightness);
++
++	tbuf[0] = 5;
++	tbuf[1] = subleds[0].brightness;
++	tbuf[2] = subleds[1].brightness;
++	tbuf[3] = subleds[2].brightness;
++	tbuf[4] = 0;
++
++	ret = hid_hw_raw_request(g15->hdev, LG_G13_FEATURE_BACKLIGHT_RGB,
++				 tbuf, 5,
++				 HID_FEATURE_REPORT, HID_REQ_SET_REPORT);
++	if (ret == 5) {
++		g15_led->brightness = brightness;
++		ret = 0;
++	} else {
++		hid_err(g15->hdev, "Error setting backlight brightness: %d\n", ret);
++		ret = (ret < 0) ? ret : -EIO;
++	}
++
++	return ret;
++}
++
++static int lg_g13_kbd_led_set(struct led_classdev *led_cdev, enum led_brightness brightness)
++{
++	struct led_classdev_mc *mc = lcdev_to_mccdev(led_cdev);
++	struct lg_g15_led *g15_led =
++		container_of(mc, struct lg_g15_led, mcdev);
++	struct lg_g15_data *g15 = dev_get_drvdata(led_cdev->dev->parent);
++	int ret;
++
++	/* Ignore LED off on unregister / keyboard unplug */
++	if (led_cdev->flags & LED_UNREGISTERING)
++		return 0;
++
++	mutex_lock(&g15->mutex);
++	ret = lg_g13_kbd_led_write(g15, g15_led, brightness);
++	mutex_unlock(&g15->mutex);
++
++	return ret;
++}
++
++static enum led_brightness lg_g13_kbd_led_get(struct led_classdev *led_cdev)
++{
++	struct led_classdev_mc const * const mc = lcdev_to_mccdev(led_cdev);
++	struct lg_g15_led const *g15_led =
++		container_of(mc, struct lg_g15_led, mcdev);
++
++	return g15_led->brightness;
++}
++
++static int lg_g13_mkey_led_set(struct led_classdev *led_cdev, enum led_brightness brightness)
++{
++	struct lg_g15_led *g15_led =
++		container_of(led_cdev, struct lg_g15_led, cdev);
++	struct lg_g15_data *g15 = dev_get_drvdata(led_cdev->dev->parent);
++	int i, ret;
++	u8 * const tbuf = g15->transfer_buf;
++	u8 val, mask = 0;
++
++	/* Ignore LED off on unregister / keyboard unplug */
++	if (led_cdev->flags & LED_UNREGISTERING)
++		return 0;
++
++	mutex_lock(&g15->mutex);
++
++	for (i = LG_G15_MACRO_PRESET1;  i < LG_G15_LED_MAX;  ++i) {
++		if (i == g15_led->led)
++			val = brightness;
++		else
++			val = g15->leds[i].brightness;
++
++		if (val)
++			mask |= 1 << (i - LG_G15_MACRO_PRESET1);
++	}
++
++	tbuf[0] = 5;
++	tbuf[1] = mask;
++	tbuf[2] =
++	tbuf[3] =
++	tbuf[4] = 0;
++
++	ret = hid_hw_raw_request(g15->hdev, LG_G13_FEATURE_M_KEYS_LEDS,
++				 tbuf, 5,
++				 HID_FEATURE_REPORT, HID_REQ_SET_REPORT);
++	if (ret == 5) {
++		g15_led->brightness = brightness;
++		ret = 0;
++	} else {
++		hid_err(g15->hdev, "Error setting LED brightness: %d\n", ret);
++		ret = (ret < 0) ? ret : -EIO;
++	}
++
++	mutex_unlock(&g15->mutex);
++
++	return ret;
++}
++
++static enum led_brightness lg_g13_mkey_led_get(struct led_classdev *led_cdev)
++{
++	/*
++	 * G13 doesn't change macro key LEDs behind our back, so they're
++	 * whatever we last set them to.
++	 */
++	struct lg_g15_led *g15_led =
++		container_of(led_cdev, struct lg_g15_led, cdev);
++
++	return g15_led->brightness;
++}
++
+ /******** G15 and G15 v2 LED functions ********/
+ 
+ static int lg_g15_update_led_brightness(struct lg_g15_data *g15)
+@@ -390,6 +572,8 @@ static int lg_g15_get_initial_led_brightness(struct lg_g15_data *g15)
+ 	int ret;
+ 
+ 	switch (g15->model) {
++	case LG_G13:
++		return lg_g13_get_leds_state(g15);
+ 	case LG_G15:
+ 	case LG_G15_V2:
+ 		return lg_g15_update_led_brightness(g15);
+@@ -417,6 +601,115 @@ static int lg_g15_get_initial_led_brightness(struct lg_g15_data *g15)
+ 
+ /******** Input functions ********/
+ 
++/**
++ * g13_input_report.keybits[] is not 32-bit aligned, so we can't use the bitops macros.
++ *
++ * @ary: Pointer to array of u8s
++ * @b:   Bit index into ary, LSB first.  Not range checked.
++ */
++#define	TEST_BIT(ary, b)	((1 << ((b) & 7)) & (ary)[(b) >> 3])
++
++/*  Table mapping keybits[] bit positions to event codes.  */
++/*  Note: Indices are discontinuous to aid readability.  */
++static const u16 g13_keys_for_bits[] = {
++	/*  Main keypad - keys G1 - G22  */
++	[0]	= KEY_MACRO1,
++	[1]	= KEY_MACRO2,
++	[2]	= KEY_MACRO3,
++	[3]	= KEY_MACRO4,
++	[4]	= KEY_MACRO5,
++	[5]	= KEY_MACRO6,
++	[6]	= KEY_MACRO7,
++	[7]	= KEY_MACRO8,
++	[8]	= KEY_MACRO9,
++	[9]	= KEY_MACRO10,
++	[10]	= KEY_MACRO11,
++	[11]	= KEY_MACRO12,
++	[12]	= KEY_MACRO13,
++	[13]	= KEY_MACRO14,
++	[14]	= KEY_MACRO15,
++	[15]	= KEY_MACRO16,
++	[16]	= KEY_MACRO17,
++	[17]	= KEY_MACRO18,
++	[18]	= KEY_MACRO19,
++	[19]	= KEY_MACRO20,
++	[20]	= KEY_MACRO21,
++	[21]	= KEY_MACRO22,
++
++	/*  LCD menu buttons.  */
++	[24]	= KEY_KBD_LCD_MENU5,	// "Next page" button
++	[25]	= KEY_KBD_LCD_MENU1,	// Left-most
++	[26]	= KEY_KBD_LCD_MENU2,
++	[27]	= KEY_KBD_LCD_MENU3,
++	[28]	= KEY_KBD_LCD_MENU4,	// Right-most
++
++	/*  Macro preset and record buttons; have red LEDs under them.  */
++	[29]	= KEY_MACRO_PRESET1,
++	[30]	= KEY_MACRO_PRESET2,
++	[31]	= KEY_MACRO_PRESET3,
++	[32]	= KEY_MACRO_RECORD_START,
++
++	/*  33-35 handled by joystick device.  */
++
++	/*  Backlight toggle.  */
++	[37]	= KEY_LIGHTS_TOGGLE,
++};
++
++static const u16 g13_keys_for_bits_js[] = {
++	/*  Joystick buttons  */
++	/*  These keybits are at bit indices 33, 34, and 35.  */
++	BTN_BASE,	// Left side
++	BTN_BASE2,	// Bottom side
++	BTN_THUMB,	// Stick depress
++};
++
++static int lg_g13_event(struct lg_g15_data *g15, u8 const *data)
++{
++	struct g13_input_report const * const rep = (struct g13_input_report *) data;
++	int i, val;
++	bool hw_brightness_changed;
 +
 +	/*
-+	 * Check that input registration succeeded. Checking that
-+	 * HID_CLAIMED_INPUT is set prevents a UAF when all input devices
-+	 * were freed during registration due to no usages being mapped,
-+	 * leaving drvdata->input pointing to freed memory.
++	 * Main macropad and menu keys.
++	 * Emit key events defined for each bit position.
 +	 */
-+	if (!drvdata->input || !(hdev->claimed & HID_CLAIMED_INPUT)) {
- 		hid_err(hdev, "Asus input not registered\n");
- 		ret = -ENOMEM;
- 		goto err_stop_hw;
++	for (i = 0;  i < ARRAY_SIZE(g13_keys_for_bits);  ++i) {
++		if (g13_keys_for_bits[i]) {
++			val = TEST_BIT(rep->keybits, i);
++			input_report_key(g15->input, g13_keys_for_bits[i], val);
++		}
++	}
++	input_sync(g15->input);
++
++	/*
++	 * Joystick.
++	 * Emit button and deflection events.
++	 */
++	for (i = 0;  i < ARRAY_SIZE(g13_keys_for_bits_js);  ++i) {
++		if (g13_keys_for_bits_js[i]) {
++			val = TEST_BIT(rep->keybits, i + 33);
++			input_report_key(g15->input_js, g13_keys_for_bits_js[i], val);
++		}
++	}
++	input_report_abs(g15->input_js, ABS_X, rep->joy_x);
++	input_report_abs(g15->input_js, ABS_Y, rep->joy_y);
++	input_sync(g15->input_js);
++
++	/*
++	 * Bit 23 of keybits[] reports the current backlight on/off state.  If
++	 * it has changed from the last cached value, apply an update.
++	 */
++	hw_brightness_changed =
++		(!!TEST_BIT(rep->keybits, 23)) ^ (g15->leds[0].cdev.brightness_hw_changed > 0);
++	if (hw_brightness_changed) {
++		led_classdev_notify_brightness_hw_changed(
++			&g15->leds[0].cdev,
++			TEST_BIT(rep->keybits, 23) ? LED_FULL : LED_OFF);
++	}
++
++	return 0;
++}
++
+ /* On the G15 Mark I Logitech has been quite creative with which bit is what */
+ static void lg_g15_handle_lcd_menu_keys(struct lg_g15_data *g15, u8 *data)
+ {
+@@ -572,6 +865,10 @@ static int lg_g15_raw_event(struct hid_device *hdev, struct hid_report *report,
+ 		return 0;
+ 
+ 	switch (g15->model) {
++	case LG_G13:
++		if (data[0] == 0x01  &&  size == sizeof(struct g13_input_report))
++			return lg_g13_event(g15, data);
++		break;
+ 	case LG_G15:
+ 		if (data[0] == 0x02 && size == 9)
+ 			return lg_g15_event(g15, data);
+@@ -616,13 +913,22 @@ static void lg_g15_setup_led_rgb(struct lg_g15_data *g15, int index)
+ {
+ 	int i;
+ 	struct mc_subled *subled_info;
+-
+-	g15->leds[index].mcdev.led_cdev.brightness_set_blocking =
+-		lg_g510_kbd_led_set;
+-	g15->leds[index].mcdev.led_cdev.brightness_get =
+-		lg_g510_kbd_led_get;
+-	g15->leds[index].mcdev.led_cdev.max_brightness = 255;
+-	g15->leds[index].mcdev.num_colors = 3;
++	struct lg_g15_led * const gled = &g15->leds[index];
++
++	if (g15->model == LG_G13) {
++		gled->mcdev.led_cdev.brightness_set_blocking =
++			lg_g13_kbd_led_set;
++		gled->mcdev.led_cdev.brightness_get =
++			lg_g13_kbd_led_get;
++		gled->mcdev.led_cdev.flags = LED_BRIGHT_HW_CHANGED;
++	} else {
++		gled->mcdev.led_cdev.brightness_set_blocking =
++			lg_g510_kbd_led_set;
++		gled->mcdev.led_cdev.brightness_get =
++			lg_g510_kbd_led_get;
++	}
++	gled->mcdev.led_cdev.max_brightness = 255;
++	gled->mcdev.num_colors = 3;
+ 
+ 	subled_info = devm_kcalloc(&g15->hdev->dev, 3, sizeof(*subled_info), GFP_KERNEL);
+ 	if (!subled_info)
+@@ -632,20 +938,20 @@ static void lg_g15_setup_led_rgb(struct lg_g15_data *g15, int index)
+ 		switch (i + 1) {
+ 		case LED_COLOR_ID_RED:
+ 			subled_info[i].color_index = LED_COLOR_ID_RED;
+-			subled_info[i].intensity = g15->leds[index].red;
++			subled_info[i].intensity = gled->red;
+ 			break;
+ 		case LED_COLOR_ID_GREEN:
+ 			subled_info[i].color_index = LED_COLOR_ID_GREEN;
+-			subled_info[i].intensity = g15->leds[index].green;
++			subled_info[i].intensity = gled->green;
+ 			break;
+ 		case LED_COLOR_ID_BLUE:
+ 			subled_info[i].color_index = LED_COLOR_ID_BLUE;
+-			subled_info[i].intensity = g15->leds[index].blue;
++			subled_info[i].intensity = gled->blue;
+ 			break;
+ 		}
+ 		subled_info[i].channel = i;
+ 	}
+-	g15->leds[index].mcdev.subled_info = subled_info;
++	gled->mcdev.subled_info = subled_info;
+ }
+ 
+ static int lg_g15_register_led(struct lg_g15_data *g15, int i, const char *name)
+@@ -656,6 +962,23 @@ static int lg_g15_register_led(struct lg_g15_data *g15, int i, const char *name)
+ 	g15->leds[i].cdev.name = name;
+ 
+ 	switch (g15->model) {
++	case LG_G13:
++		if (i < LG_G15_BRIGHTNESS_MAX) {
++			/*  RGB backlight.  */
++			lg_g15_setup_led_rgb(g15, i);
++			ret = devm_led_classdev_multicolor_register_ext(&g15->hdev->dev,
++									&g15->leds[i].mcdev,
++									NULL);
++		} else {
++			/*  Macro keys  */
++			g15->leds[i].cdev.brightness_set_blocking = lg_g13_mkey_led_set;
++			g15->leds[i].cdev.brightness_get          = lg_g13_mkey_led_get;
++			g15->leds[i].cdev.max_brightness          = 1;
++
++			ret = devm_led_classdev_register(&g15->hdev->dev,
++							 &g15->leds[i].cdev);
++		}
++		break;
+ 	case LG_G15:
+ 	case LG_G15_V2:
+ 		g15->leds[i].cdev.brightness_get = lg_g15_led_get;
+@@ -702,27 +1025,60 @@ static int lg_g15_register_led(struct lg_g15_data *g15, int i, const char *name)
+ }
+ 
+ /* Common input device init code shared between keyboards and Z-10 speaker handling */
+-static void lg_g15_init_input_dev(struct hid_device *hdev, struct input_dev *input,
+-				  const char *name)
++static void lg_g15_init_input_dev_core(struct hid_device *hdev,
++				       struct input_dev *input,
++				       char const *name)
+ {
+-	int i;
+-
+-	input->name = name;
+-	input->phys = hdev->phys;
+-	input->uniq = hdev->uniq;
++	input->name       = name;
++	input->phys       = hdev->phys;
++	input->uniq       = hdev->uniq;
+ 	input->id.bustype = hdev->bus;
+ 	input->id.vendor  = hdev->vendor;
+ 	input->id.product = hdev->product;
+ 	input->id.version = hdev->version;
+ 	input->dev.parent = &hdev->dev;
+-	input->open = lg_g15_input_open;
+-	input->close = lg_g15_input_close;
++	input->open       = lg_g15_input_open;
++	input->close      = lg_g15_input_close;
++}
++
++static void lg_g15_init_input_dev(struct hid_device *hdev, struct input_dev *input,
++				  const char *name)
++{
++	int i;
++
++	lg_g15_init_input_dev_core(hdev, input, name);
+ 
+ 	/* Keys below the LCD, intended for controlling a menu on the LCD */
+ 	for (i = 0; i < 5; i++)
+ 		input_set_capability(input, EV_KEY, KEY_KBD_LCD_MENU1 + i);
+ }
+ 
++static void lg_g13_init_input_dev(struct hid_device *hdev,
++				  struct input_dev *input, const char *name,
++				  struct input_dev *input_js, const char *name_js)
++{
++	/*  Macropad.  */
++	lg_g15_init_input_dev_core(hdev, input, name);
++	for (int i = 0;  i < ARRAY_SIZE(g13_keys_for_bits);  ++i) {
++		if (g13_keys_for_bits[i]) {
++			input_set_capability(input, EV_KEY, g13_keys_for_bits[i]);
++		}
++	}
++
++	/*  OBTW, we're a joystick, too...  */
++	lg_g15_init_input_dev_core(hdev, input_js, name_js);
++	for (int i = 0;  i < ARRAY_SIZE(g13_keys_for_bits_js);  ++i) {
++		if (g13_keys_for_bits_js[i]) {
++			input_set_capability(input_js, EV_KEY, g13_keys_for_bits_js[i]);
++		}
++	}
++
++	input_set_capability(input_js, EV_ABS, ABS_X);
++	input_set_abs_params(input_js, ABS_X, 0, 255, 0, 0);
++	input_set_capability(input_js, EV_ABS, ABS_Y);
++	input_set_abs_params(input_js, ABS_Y, 0, 255, 0, 0);
++}
++
+ static int lg_g15_probe(struct hid_device *hdev, const struct hid_device_id *id)
+ {
+ 	static const char * const led_names[] = {
+@@ -739,7 +1095,7 @@ static int lg_g15_probe(struct hid_device *hdev, const struct hid_device_id *id)
+ 	unsigned int connect_mask = 0;
+ 	bool has_ff000000 = false;
+ 	struct lg_g15_data *g15;
+-	struct input_dev *input;
++	struct input_dev *input, *input_js;
+ 	struct hid_report *rep;
+ 	int ret, i, gkeys = 0;
+ 
+@@ -778,6 +1134,21 @@ static int lg_g15_probe(struct hid_device *hdev, const struct hid_device_id *id)
+ 	hid_set_drvdata(hdev, (void *)g15);
+ 
+ 	switch (g15->model) {
++	case LG_G13:
++		/*
++		 * Some usermode libraries tend to ignore devices that don't
++		 * "look like" a joystick.  Create additional input device
++		 * dedicated as joystick.
++		 */
++		input_js = devm_input_allocate_device(&hdev->dev);
++		if (!input_js)
++			return -ENOMEM;
++		g15->input_js = input_js;
++		input_set_drvdata(input_js, hdev);
++
++		connect_mask = HID_CONNECT_HIDRAW;
++		gkeys = 25;
++		break;
+ 	case LG_G15:
+ 		INIT_WORK(&g15->work, lg_g15_leds_changed_work);
+ 		/*
+@@ -859,6 +1230,34 @@ static int lg_g15_probe(struct hid_device *hdev, const struct hid_device_id *id)
+ 			goto error_hw_stop;
+ 
+ 		return 0; /* All done */
++	} else if (g15->model == LG_G13) {
++		static char const * const g13_led_names[] = {
++			/*  Backlight is shared between LCD and keys.  */
++			"g13:rgb:kbd_backlight",
++			NULL,	// Keep in sync with led_type enum
++			"g13:red:macro_preset_1",
++			"g13:red:macro_preset_2",
++			"g13:red:macro_preset_3",
++			"g13:red:macro_record",
++		};
++		lg_g13_init_input_dev(hdev,
++				      input,    "Logitech G13 Gaming Keypad",
++				      input_js, "Logitech G13 Thumbstick");
++		ret = input_register_device(input);
++		if (ret)
++			goto error_hw_stop;
++		ret = input_register_device(input_js);
++		if (ret)
++			goto error_hw_stop;
++
++		for (i = 0;  i < ARRAY_SIZE(g13_led_names);  ++i) {
++			if (g13_led_names[i]) {
++				ret = lg_g15_register_led(g15, i, g13_led_names[i]);
++				if (ret)
++					goto error_hw_stop;
++			}
++		}
++		return 0;
+ 	}
+ 
+ 	/* Setup and register input device */
+@@ -903,6 +1302,13 @@ static int lg_g15_probe(struct hid_device *hdev, const struct hid_device_id *id)
+ }
+ 
+ static const struct hid_device_id lg_g15_devices[] = {
++	/*
++	 * The G13 is a macropad-only device with an LCD, LED backlighing,
++	 * and joystick.
++	 */
++	{ HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH,
++			 USB_DEVICE_ID_LOGITECH_G13),
++		.driver_data = LG_G13 },
+ 	/* The G11 is a G15 without the LCD, treat it as a G15 */
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH,
+ 		USB_DEVICE_ID_LOGITECH_G11),
 -- 
-2.39.5
+2.50.1
 
 
