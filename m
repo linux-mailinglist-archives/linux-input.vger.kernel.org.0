@@ -1,238 +1,134 @@
-Return-Path: <linux-input+bounces-13878-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13879-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A7C9B1FAAC
-	for <lists+linux-input@lfdr.de>; Sun, 10 Aug 2025 17:13:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0277CB1FB5D
+	for <lists+linux-input@lfdr.de>; Sun, 10 Aug 2025 19:31:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8E1FE7A869D
-	for <lists+linux-input@lfdr.de>; Sun, 10 Aug 2025 15:11:27 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 53A1B7AA749
+	for <lists+linux-input@lfdr.de>; Sun, 10 Aug 2025 17:30:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 41FB725C706;
-	Sun, 10 Aug 2025 15:12:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB8AB1DDC33;
+	Sun, 10 Aug 2025 17:31:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tLBTws0x"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XS110JeH"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F28B208A7;
-	Sun, 10 Aug 2025 15:12:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEA68FC0B;
+	Sun, 10 Aug 2025 17:31:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754838772; cv=none; b=XCXD1iZKyIf41YPiOtgA2UXd+/6Q321i+Pca9izARi44Q3dnNqZ1rRCGJI2+DQF8sI38AXaipnHEBW37OhX8x8WzQB4gdo1gsxItmkCQAIwRwzU9tSmIRAflMIUcnASkUOP/xjbWw1c4qo/RzdfB+lKADr3FzQWWBgmFZPqtNtM=
+	t=1754847105; cv=none; b=F944olMrv7BrF7YN0QVzLCPoISKr9lpyk+gy9QqElyDjNl+NQg35LiLv+70HAxUQdDfQ7ZL3NnIyfgOiS0M1SBsdtU1sMYC6tVNCuc8sE/18hTLQuMMV2dBWGmzGIi7q9CFaxk1z7oF/ZivnUI34p+a8BYdCeJNPwfQQcXkGLfE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754838772; c=relaxed/simple;
-	bh=92DNNeaJh4B30+E5mUTWLRfD2YMswZh0XAsqdfVt/Ns=;
-	h=Content-Type:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To; b=ELpnnwZ8bs0E7I6r57xCuHTJu2Hcke83XXffwo1ABo6elIEbqEagfXPak87dU125Xdsf36p42oV/Xs5/p7X0Oa0eVB+Usc9ZsISZmxsR4ZTdPZgMyNFdWQlsJzWbEoWxeF16MLI1wcOFOLpycd+bTmHWH+XN1JwQArXJSqH6CGg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tLBTws0x; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2CDE8C4CEEB;
-	Sun, 10 Aug 2025 15:12:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754838771;
-	bh=92DNNeaJh4B30+E5mUTWLRfD2YMswZh0XAsqdfVt/Ns=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=tLBTws0x7tBiIMbyYOuQklS5mHKmuZHfThLfeOqp5YNHiEJSf6M5A4jB7IEknVIWO
-	 S9xpSAuOkJ/KsnAmKWcKfHgkMgrEDru3epw23PR89GzwUfz9sBPllRHC2iQ3zrZMbs
-	 zqLIp5tgokPhK9ndo2ApkMJ69xowtvTEO+OVrAHg+D8zQQBj3WEy5ez8wme8Cr+2Lc
-	 U+O8zPi0hlDEd/kHvSYfleSnch4yXbz1+JmcKS2HC1Z7l4vM+LclwPWCjng/xS6TEi
-	 fYsZd3GZjEwED62WvH+UJYS1fz0pbI+J+AttHgAp5I3UD9aG15ZuEroW9dfMCZAci7
-	 aF/Y1DqyfVRrA==
-Content-Type: multipart/mixed; boundary="------------esjKvN8AEjEUOU80jpmuCZLh"
-Message-ID: <9bc69944-a34e-4a4e-9071-7d2049d12449@kernel.org>
-Date: Sun, 10 Aug 2025 17:12:46 +0200
+	s=arc-20240116; t=1754847105; c=relaxed/simple;
+	bh=aGs02sc6LESggoW37yomq+DDwZ03g4IwHFGzac0j87I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WPWBPvh7WykkHIBaju4JTe43wQ5GX6hevwG6oI62heeFfmlGMVBidNelkdhSy7z8zmBJ/sWmssQxOnAf2Mgj4LUe+yijQ6OtjV9cs6u4hCSp3NYx7E8YEi6O59iy3HOXz+QjqF7xzr6dvfoGeyh5AAdDepAWLh9UbPZBnUTTzUQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XS110JeH; arc=none smtp.client-ip=209.85.208.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-3322d10e29dso29533171fa.0;
+        Sun, 10 Aug 2025 10:31:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1754847102; x=1755451902; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=yTaJLRTtqeXWxdYr5rgLHJrchc4OZe1+0HwTL62xei4=;
+        b=XS110JeHZN3RcOCy+Rc3aYk97Xk5vPvYzrSl/csOl9QMt6pEH3Sxcnxv0QhGg9FERX
+         UnNftXGirX1nBmBQg+CgTmt7eWI7BedoXZ75rZzl3CaBpdRv08Ol82Fyd+odujz4OIhF
+         zKabsglU+jXqjfm8by4DyVVn2vkHQcK+thJKvPhyxryH1y7tH6WsyRCiGYrV/ET7gDiI
+         Ayw1Dltcj/lcnbLVopgjlAj80pbJduW0ImoFjWzmNyQ0Lp0aLUi0+s7XC37J+Tn3JhEq
+         0eNO8d7/DBICF12Ngis7YEYRN4vNtRkBJbeG9yKalzIynSbiGjm9Tq9KZUHBCs7tT+QZ
+         qrMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1754847102; x=1755451902;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=yTaJLRTtqeXWxdYr5rgLHJrchc4OZe1+0HwTL62xei4=;
+        b=w2A+GLKOd6QQi4JQhQ2dbt6qrcwGaYe0Qs89XhYRN+qLEYDmimRnQE+ndiLNpFFMkt
+         NBNCgap12RSiGswfVUTpVF6Dyn6JKJWff+xoPhAC0OomPuPB4j82w7riejwlHUm7ee+R
+         PqE+CMOSl6IsEwtDzOWDLGWBDuD4zSoS0kk3/vDTI6Um1p7s+ZepoQNmwTspzZEm9i2m
+         /iiiOA7LYqalcP/UucD5+XywyaoZic4pgbsBFcHQWh+thnK1QOHz9XH0yMNhLf5v7hWu
+         v83zcJqvS/Hh79uDL85B0PDLSFqIZXuAMwq9EjBmyvfEquiFbtjoDnY5V+G7U+DfkdhO
+         WY+Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUj0oCU7xRmGoQyk0knci9cTQhw5nIP+ZcwmQBffkwaLCWsTdR3/PeR7L9og2qp54DqF3B9E2jufKx2M5oR@vger.kernel.org, AJvYcCUnz09/5Yyow7yan8gPak/Pwog/poj6/7zKxfpD2AGvPlsixULAMIC6RaF3Bfa9B4YuTnhAQleU@vger.kernel.org, AJvYcCVkY5i6hHjVP0Q2OMz8ZCMmp0NCxvnbJsNqtdq1+N5JL4pE1B/FGU10JcvGsGL/NqomIpeDFRgo90bvDA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyBGvgEDML5krzZMK+iDc1N7DVGjU8Q7U0O5e+P4rDLSJkV0k9+
+	SUXNxoY17Ygr5+v35gji7hcMG5BMWc/qk9Ykox8AHaEf2EZDNWUXjovKVzkdqg==
+X-Gm-Gg: ASbGncuHVMvhneBY6kAi+amMFn38UaGVQInrnd481jOEb1G04q+JAQ2HrF1IEpz8gWO
+	aGP6ZZ+lADFDvm8IeeE71kP8cndjbleMtbh+ra5hn7BSXJbylD5H6sSzeBc5ub0G/xP3y4Hanc5
+	/H2FxQFMtAm+v7J2/FEU2LxcdWzKDvjd+ABBJQkL4EAuQtA+mTFDb5sDql0ieebR8Sb3oTzHqDC
+	MTmjmtYcUmPUIwNdaLu6Ts+OR1QwktXXMVwtdl8KvHg676GL2Qg8SsJUNnglw6ZXG0xv6ytnGz0
+	Fk6d247lnMG84LHGvZSMuFBmaRECCFPnJDNWITmvXQ2zb5KOFkQiOlf9ph+RTdqbfY67OVkG8n1
+	GuynLSkB6ZS8FWYFl2g==
+X-Google-Smtp-Source: AGHT+IGexTDKokp9rk/e6fsbCXImxJu0jdE/ahX4LI8fjziTk042QG5GF6IUPrE69FOI/cc07tS3Pg==
+X-Received: by 2002:a05:6512:2391:b0:55b:9376:5318 with SMTP id 2adb3069b0e04-55cc011b322mr2088594e87.40.1754847101748;
+        Sun, 10 Aug 2025 10:31:41 -0700 (PDT)
+Received: from gmail.com ([185.209.199.97])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-55b8898bf90sm3956911e87.26.2025.08.10.10.31.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 10 Aug 2025 10:31:41 -0700 (PDT)
+Date: Sun, 10 Aug 2025 18:31:35 +0100
+From: Qasim Ijaz <qasdev00@gmail.com>
+To: Jiri Slaby <jirislaby@kernel.org>
+Cc: jikos@kernel.org, bentiss@kernel.org, linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH] HID: multitouch: fix integer overflow in set_abs()
+Message-ID: <aJjXacCgSk-aNyTh@gmail.com>
+References: <20250723173659.59327-1-qasdev00@gmail.com>
+ <914ff45b-2260-42c0-9ccf-a3efd667d4f5@kernel.org>
+ <aIJXqs-U8vDpYv0S@gmail.com>
+ <f7257221-cbfa-4f51-8ac4-38060bfaf2f4@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 05/21] x86/platform: select legacy gpiolib interfaces
- where used
-To: Arnd Bergmann <arnd@arndb.de>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Arnd Bergmann <arnd@kernel.org>
-Cc: Bartosz Golaszewski <brgl@bgdev.pl>,
- Linus Walleij <linus.walleij@linaro.org>,
- "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- Lee Jones <lee@kernel.org>, Dzmitry Sankouski <dsankouski@gmail.com>,
- =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, linux <linux@treblig.org>,
- =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>,
- Guenter Roeck <linux@roeck-us.net>, linux-input@vger.kernel.org,
- linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org
-References: <20250808151822.536879-1-arnd@kernel.org>
- <20250808151822.536879-6-arnd@kernel.org>
- <aJccS7fdcx0INYTA@smile.fi.intel.com>
- <3190334c-538d-4e2d-80a4-6e24b255e844@app.fastmail.com>
-From: Hans de Goede <hansg@kernel.org>
-Content-Language: en-US, nl
-In-Reply-To: <3190334c-538d-4e2d-80a4-6e24b255e844@app.fastmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <f7257221-cbfa-4f51-8ac4-38060bfaf2f4@kernel.org>
 
-This is a multi-part message in MIME format.
---------------esjKvN8AEjEUOU80jpmuCZLh
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-
-Hi Arnd, Andy,
-
-On 9-Aug-25 9:44 PM, Arnd Bergmann wrote:
-> On Sat, Aug 9, 2025, at 12:00, Andy Shevchenko wrote:
->> On Fri, Aug 08, 2025 at 05:17:49PM +0200, Arnd Bergmann wrote:
->>> From: Arnd Bergmann <arnd@arndb.de>
->>>
->>> A few old machines have not been converted away from the old-style
->>> gpiolib interfaces. Make these select the new CONFIG_GPIOLIB_LEGACY
->>> symbol so the code still works where it is needed but can be left
->>> out otherwise.
->>
->>> --- a/drivers/platform/x86/x86-android-tablets/Kconfig
->>> +++ b/drivers/platform/x86/x86-android-tablets/Kconfig
->>> @@ -8,6 +8,7 @@ config X86_ANDROID_TABLETS
->>>  	depends on I2C && SPI && SERIAL_DEV_BUS
->>>  	depends on GPIOLIB && PMIC_OPREGION
->>>  	depends on ACPI && EFI && PCI
->>> +	select GPIOLIB_LEGACY
->>>  	select NEW_LEDS
->>>  	select LEDS_CLASS
->>>  	select POWER_SUPPLY
->>
->> Hmm... This is a surprising change. But I leave it to Hans.
-
-Yes I was surprised by this myself since I explicitly removed
-all legacy GPIO use from the x86-android-tablets code a while
-ago (or so I thought).
-
-> I think the only function that still needs it is
-> x86_android_tablet_probe() doing
+On Thu, Jul 31, 2025 at 09:43:38AM +0200, Jiri Slaby wrote:
+> On 24. 07. 25, 17:56, Qasim Ijaz wrote:
+> > On Thu, Jul 24, 2025 at 08:58:40AM +0200, Jiri Slaby wrote:
+> > > On 23. 07. 25, 19:36, Qasim Ijaz wrote:
+> > > > It is possible for a malicious HID device to trigger a signed integer
+> > > > overflow (undefined behaviour) in set_abs() in the following expression
+> > > > by supplying bogus logical maximum and minimum values:
+> > > > 	
+> > > > 	int fuzz = snratio ? (fmax - fmin) / snratio : 0;
+> > > > 
+> > > > For example, if the logical_maximum is INT_MAX and logical_minimum is -1
+> > > > then (fmax - fmin) resolves to INT_MAX + 1, which does not fit in a 32-bit
+> > > > signed int, so the subtraction overflows.
+> > > 
+> > > The question is if it matters with -fwrapv?
+> > 
+> > Ah yea thanks for bringing this up Jiri. I think you might be correct,
+> > after doing some research it looks like the kernel enables -fno‑strict‑overflow
+> > which implies -fwrapv which leads to wrap around instead of UB If I undestand
+> > correctly. So with that in mind this patch probably doesn't do anything
+> > useful, do you agree?
 > 
-> static struct gpio_keys_button *buttons;
+> Yes, it correctly wraps around. But the question remains :). Does it matter
+> or not?
 > 
->                 for (i = 0; i < dev_info->gpio_button_count; i++) {
->                         ret = x86_android_tablet_get_gpiod(dev_info->gpio_button[i].chip,
->                                                            dev_info->gpio_button[i].pin,
->                                                            dev_info->gpio_button[i].button.desc,
->                                                            false, GPIOD_IN, &gpiod);
-> 
->                         buttons[i] = dev_info->gpio_button[i].button;
->                         buttons[i].gpio = desc_to_gpio(gpiod);
->                         /* Release GPIO descriptor so that gpio-keys can request it */
->                         devm_gpiod_put(&x86_android_tablet_device->dev, gpiod);
->                 }
-> 
-> So the driver itself uses gpio descriptors, but it passes
-> some of them into another driver by number. There is probably
-> an easy workaround that I did not see.
 
-Ah I see, so this is basically in the same boat as
-drivers/input/misc/soc_button_array.c which also first
-gets a gpio_desc and then calls desc_to_gpio() to store
-the GPIO number in struct gpio_keys_button which is passed
-as platform_data to drivers/input/keyboard/gpio_keys.c
+probably not. From what I can tell it doesn't look like any further security
+issues occur as a result of the wrap around behaviour so i think its
+probably best to drop this patch.
 
-The gpio_keys driver then converts things back
-into a gpio_desc in gpio_keys_setup_key()
-using devm_gpio_request_one() + gpio_to_desc()
-
-So it looks like we need to add a gpiod member to
-struct gpio_keys_button (include/linux/gpio_keys.h)
-and modify gpio_keys.c to prefer that over using
-button->gpio, something like the attached patch
-basically.
-
-I won't have time to work on this until September,
-so if someone wants to take the attached patch and run
-with it go for it.
-
-Note the x86-android-tablets / soc_button_array code
-will become responsible for requesting / releasing
-the gpiod when using the new gpio_keys_button.gpiod
-member.
-
-For the x86-android-tablets code this is easy, just drop
-these 2 lines:
-
-                        /* Release GPIO descriptor so that gpio-keys can request it */
-                        devm_gpiod_put(&x86_android_tablet_device->dev, gpiod);
-
-And for soc_button_array.c it is _probably_ just a matter
-of switching to devm_gpiod_get_index() and drop the
-gpiod_put().
-
-I have hardware to test both the x86-android-tablets
-code as well as the soc_button_array code. I might be
-able to do a quick test on August 22nd or 29th.
-
-Regards,
-
-Hans
-
-
-p.s.
-
-It looks like this will also help with:
-
-drivers/platform/x86/meraki-mx100.c
-drivers/platform/x86/pcengines-apuv2.c
-drivers/platform/x86/barco-p50-gpio.c
-
-I do not have hardware to test these, but if the changes
-work for x86-android-tablets + soc_button_array then
-hopefully they will be fine here too.
-
---------------esjKvN8AEjEUOU80jpmuCZLh
-Content-Type: text/x-patch; charset=UTF-8;
- name="0001-Input-gpio-keys-Allow-directly-passing-a-gpio_desc-i.patch"
-Content-Disposition: attachment;
- filename*0="0001-Input-gpio-keys-Allow-directly-passing-a-gpio_desc-i.pa";
- filename*1="tch"
-Content-Transfer-Encoding: base64
-
-RnJvbSA2ZmU0YmQ3MzFkYjU5YmIwMWNjMGNlM2NiZDI0MTI0MzRlYTA1M2M2IE1vbiBTZXAg
-MTcgMDA6MDA6MDAgMjAwMQpGcm9tOiBIYW5zIGRlIEdvZWRlIDxoYW5zZ0BrZXJuZWwub3Jn
-PgpEYXRlOiBTdW4sIDEwIEF1ZyAyMDI1IDE2OjU4OjAxICswMjAwClN1YmplY3Q6IFtQQVRD
-SF0gSW5wdXQ6IGdwaW8ta2V5cyAtIEFsbG93IGRpcmVjdGx5IHBhc3NpbmcgYSBncGlvX2Rl
-c2MgaW5zdGVhZAogb2YgYSBHUElPIG51bWJlcgoKVXNpbmcgR1BJTyBudW1iZXJzIGlzIGRl
-cHJlY2F0ZWQuIEFsbG93IGNvZGUgcGFzc2luZyBHUElPLWtleXMgaW5mbyB0aHJvdWdoCnBs
-YXRmb3JtLWRhdGEgKHN0cnVjdCBncGlvX2tleXNfYnV0dG9uKSB0byBkaXJlY3RseSBwYXNz
-IGEgZ3Bpb19kZXNjCmluc3RlYWQgb2YgYSBHUElPIG51bWJlci4KCk5vdGUgcmVxdWVzdGlu
-ZyAvIHJlbGVhc2luZyB0aGUgZ3Bpb19kZXNjIHdpbGwgYmUgdGhlIHJlc3BvbnNpYmlsaXR5
-Cm9mIHRoZSBjb2RlIHBhc3NpbmcgaW4gdGhlIHBsYXRmb3JtLWRhdGEuCgpTaWduZWQtb2Zm
-LWJ5OiBIYW5zIGRlIEdvZWRlIDxoYW5zZ0BrZXJuZWwub3JnPgotLS0KIGRyaXZlcnMvaW5w
-dXQva2V5Ym9hcmQvZ3Bpb19rZXlzLmMgfCAyICsrCiBpbmNsdWRlL2xpbnV4L2dwaW9fa2V5
-cy5oICAgICAgICAgIHwgNSArKysrLQogMiBmaWxlcyBjaGFuZ2VkLCA2IGluc2VydGlvbnMo
-KyksIDEgZGVsZXRpb24oLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2lucHV0L2tleWJvYXJk
-L2dwaW9fa2V5cy5jIGIvZHJpdmVycy9pbnB1dC9rZXlib2FyZC9ncGlvX2tleXMuYwppbmRl
-eCBmOWRiODZkYTA4MTguLjMyMzI0N2Y2M2E3ZSAxMDA2NDQKLS0tIGEvZHJpdmVycy9pbnB1
-dC9rZXlib2FyZC9ncGlvX2tleXMuYworKysgYi9kcml2ZXJzL2lucHV0L2tleWJvYXJkL2dw
-aW9fa2V5cy5jCkBAIC01MjgsNiArNTI4LDggQEAgc3RhdGljIGludCBncGlvX2tleXNfc2V0
-dXBfa2V5KHN0cnVjdCBwbGF0Zm9ybV9kZXZpY2UgKnBkZXYsCiAJCQkgKi8KIAkJCWJkYXRh
-LT5ncGlvZCA9IE5VTEw7CiAJCX0KKwl9IGVsc2UgaWYgKGJ1dHRvbi0+Z3Bpb2QpIHsKKwkJ
-YmRhdGEtPmdwaW9kID0gYnV0dG9uLT5ncGlvZDsKIAl9IGVsc2UgaWYgKGdwaW9faXNfdmFs
-aWQoYnV0dG9uLT5ncGlvKSkgewogCQkvKgogCQkgKiBMZWdhY3kgR1BJTyBudW1iZXIsIHNv
-IHJlcXVlc3QgdGhlIEdQSU8gaGVyZSBhbmQKZGlmZiAtLWdpdCBhL2luY2x1ZGUvbGludXgv
-Z3Bpb19rZXlzLmggYi9pbmNsdWRlL2xpbnV4L2dwaW9fa2V5cy5oCmluZGV4IDgwZmE5MzBi
-MDRjNi4uN2MzMmMzYTA2OTVmIDEwMDY0NAotLS0gYS9pbmNsdWRlL2xpbnV4L2dwaW9fa2V5
-cy5oCisrKyBiL2luY2x1ZGUvbGludXgvZ3Bpb19rZXlzLmgKQEAgLTUsMTEgKzUsMTMgQEAK
-ICNpbmNsdWRlIDxsaW51eC90eXBlcy5oPgogCiBzdHJ1Y3QgZGV2aWNlOworc3RydWN0IGdw
-aW9fZGVzYzsKIAogLyoqCiAgKiBzdHJ1Y3QgZ3Bpb19rZXlzX2J1dHRvbiAtIGNvbmZpZ3Vy
-YXRpb24gcGFyYW1ldGVycwogICogQGNvZGU6CQlpbnB1dCBldmVudCBjb2RlIChLRVlfKiwg
-U1dfKikKLSAqIEBncGlvOgkJJS0xIGlmIHRoaXMga2V5IGRvZXMgbm90IHN1cHBvcnQgZ3Bp
-bworICogQGdwaW86CQklLTEgaWYgdGhpcyBrZXkgZG9lcyBub3Qgc3VwcG9ydCBncGlvIChk
-ZXByZWNhdGVkIHVzZSBncGlvZCkKKyAqIEBncGlvZDoJCWdwaW9fZGVzYyBmb3IgdGhlIEdQ
-SU8sIE5VTEwgaWYgdGhpcyBrZXkgZG9lcyBub3Qgc3VwcG9ydCBncGlvCiAgKiBAYWN0aXZl
-X2xvdzoJCSV0cnVlIGluZGljYXRlcyB0aGF0IGJ1dHRvbiBpcyBjb25zaWRlcmVkCiAgKgkJ
-CWRlcHJlc3NlZCB3aGVuIGdwaW8gaXMgbG93CiAgKiBAZGVzYzoJCWxhYmVsIHRoYXQgd2ls
-bCBiZSBhdHRhY2hlZCB0byBidXR0b24ncyBncGlvCkBAIC0yNiw2ICsyOCw3IEBAIHN0cnVj
-dCBkZXZpY2U7CiBzdHJ1Y3QgZ3Bpb19rZXlzX2J1dHRvbiB7CiAJdW5zaWduZWQgaW50IGNv
-ZGU7CiAJaW50IGdwaW87CisJc3RydWN0IGdwaW9fZGVzYyAqZ3Bpb2Q7CiAJaW50IGFjdGl2
-ZV9sb3c7CiAJY29uc3QgY2hhciAqZGVzYzsKIAl1bnNpZ25lZCBpbnQgdHlwZTsKLS0gCjIu
-NDkuMAoK
-
---------------esjKvN8AEjEUOU80jpmuCZLh--
+thanks,
+qasim
+> thanks,
+> -- 
+> js
+> suse labs
 
