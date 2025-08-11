@@ -1,147 +1,137 @@
-Return-Path: <linux-input+bounces-13912-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13913-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C20BB212E9
-	for <lists+linux-input@lfdr.de>; Mon, 11 Aug 2025 19:11:02 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id AE97CB21547
+	for <lists+linux-input@lfdr.de>; Mon, 11 Aug 2025 21:21:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 713683E089C
-	for <lists+linux-input@lfdr.de>; Mon, 11 Aug 2025 17:11:02 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D938A1A20D9A
+	for <lists+linux-input@lfdr.de>; Mon, 11 Aug 2025 19:22:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8D1E0296BA2;
-	Mon, 11 Aug 2025 17:10:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DA20B2D77F1;
+	Mon, 11 Aug 2025 19:21:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="HW6UqpBX"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CerY5KrD"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mout.web.de (mout.web.de [212.227.15.4])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AF4A29BDB3;
-	Mon, 11 Aug 2025 17:10:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DB82311C13;
+	Mon, 11 Aug 2025 19:21:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754932257; cv=none; b=iY4MBu5VRiZhhli9Pf7qVjdt93++eyTMTXtDdBiyO9ZbyjyxxzTJ4PZFYtGZs45cSAgOq606psWlSfm45AvYVhk88pI4jS1MrmR9Ri8C4XPfre9QenAh6pBkQLppsjjW9yDZOkSBd2R7q1sQYKzYRyKG6jr5l/23aZrPXLiP99A=
+	t=1754940117; cv=none; b=REospKGzssVVTlEM3WRTMEjyugvrJ3t8eBJzSd1pjj7EG4HZQ/7RLvrclf8MjeE5pVqL5NG5+/roJXm0HTi4VRPaozhJ0NSRh5Z58Ma69a3kU2+lQ6DMNQMt9DnkiQkOP+tmjoZ4c47CEkfEcvfI+oqHRQn1TVbVhjULRmcUENU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754932257; c=relaxed/simple;
-	bh=NfcpECgqdHNwW4J3rj9k/7ZBMdwz41KP0vR83+uTCm4=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
-	 In-Reply-To:Content-Type; b=NXxjbyrgev7DrpYH+2ETynasN7FWpWShuL/UMn9rMsscOysVHecLVGBeR5vE2QBMp6C6JH7kURLhl3gayRWsX9QLlCtvjQHTiTNMZaPBgXHNzUKxGNnY6iJyB1ppO22hSRWvGEE6ycrGA6Mi2cYDoJ+vRl60bPoCUCr9oO4X4lk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=HW6UqpBX; arc=none smtp.client-ip=212.227.15.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1754932248; x=1755537048; i=markus.elfring@web.de;
-	bh=iFEz9eT6F16hlYN806F59ir7VxzWd+QswdLQxOMMfBU=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
-	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 cc:content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=HW6UqpBXMEySXIUGN3fY2IbTR4VZeVs+7Q6pDbx/vSj4r+SnihLyKZ0/+JyRtPp4
-	 CVeI+q98ivxCDFwzB4d/4IU67ur/pxhPIb9Y5jaEGAY49/gN5sutTRhtGKlfr/6xB
-	 Yd5XJy6wQrKLRzaeq2tN4nP6nIAIX8fgYn7R4JrgLPkLzFoB4crf9Gk47kmtpCApD
-	 JZMvx9uW9DUCYCgA2T4DgcCDRdVh6FNcouo3HchfalosZAWbZVcTfoQE5loGo6WIz
-	 BaBdbeDhxu9JXW6EfkIUIMyxPvBhK8Wgi3M0Q1fetJmQAYmkEkI40QjCXfeKdCO1s
-	 GiugdmVq+B77SmMjyQ==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.29] ([94.31.69.213]) by smtp.web.de (mrweb006
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1MN6BN-1v4YV31uQX-00Tt0q; Mon, 11
- Aug 2025 19:10:48 +0200
-Message-ID: <d37e7ccd-1d5d-4237-8a7e-a0eb10ec069d@web.de>
-Date: Mon, 11 Aug 2025 19:10:46 +0200
+	s=arc-20240116; t=1754940117; c=relaxed/simple;
+	bh=q6vUO1LUw1MQiS0jp/g9fLsU/SLKkeJqnk9YMwD57BA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=G+tIouXr4DaIQ6iVkeUm/VWRFNt1IgeqP/efzsnsOTFLTpVQjwU3td+ggR7j8G85bhinvGkk/myAPvwiP5kRQO3zqnLLrQeShmCvJ67kWh6XzU2Z12QQZDNiPdTnFy6j3uXPyOOZi8DKa6hP23JLfMGmDocBixCln6oQf4tvfmc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CerY5KrD; arc=none smtp.client-ip=209.85.210.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-76858e9e48aso4161797b3a.2;
+        Mon, 11 Aug 2025 12:21:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1754940116; x=1755544916; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=5X+m1D+29cxcS9CDLMiWrMU592qkoFKmt7du6+JeuBk=;
+        b=CerY5KrDgJNCNKtNmdSni20w3UY+cJs1RBQmg7VHuNZLM/Goi4rSsW7U8/fj6w5c6q
+         2kvAhMsG3+IUxkxgpfpH4ByuTf+lska5ygH5xYzcm9KnWj48I7cSuwBeaWw7mdWEaFgU
+         SxdRRACEamYaOEPh4bPIlXDFDuyR+Wo99zoyGWR54kprvXuDigBs+f0sflp1tlvNI+l8
+         H2BpCH7bBCcPxIAYOkdk6VWZbxCAnsPvljoIkVgX4UavmLWyILKKUMZh4vYCKZFbgrsd
+         +kZZme6+xl9b8/fzkLSInUK1RyWVZNuZVttxzvBw18ImgqU8JIunt4oasQM+vSdeHKTz
+         z8EQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1754940116; x=1755544916;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=5X+m1D+29cxcS9CDLMiWrMU592qkoFKmt7du6+JeuBk=;
+        b=EKB/ywbawJ1FoqSL5vER/tnqvqv/O6oONCvmh8YkcWiG2pK++snseZ3fCj4kqzIkuS
+         5pe8kF+goj7TawKNcqZBeewCLa9xapVGCJciSBrXsxC6jRbo3ouFNFzjMV05P6qE5Aig
+         X/lJyXlElE99gtVMwpGVB/OeQMte+DS3JSNuWjCzFbc13Zm5sgTxQA0m8Qr86XycfbTs
+         bPrA9B6pfMAOLjC4VNP+f/BHu4p0ABzyWn1sB3a71xt9qLBXU7k09opIkkNeyWhX60j8
+         UVa3Ghu1znpBIJoDSc7QEKtuzjnM5T5Hi+LO/J0S+HTmgInXfqc95x1vL/Uhg06NF+Fe
+         tCPw==
+X-Forwarded-Encrypted: i=1; AJvYcCUpDdrgEc2QlZ2qTnnAgI8CxNjWzxxc5aQiHx9tkeC5WivUx1WlnlRE20/rRwPNgJPgAtqi6kbfEwb7@vger.kernel.org, AJvYcCVG89wqTJ1JNtdLX2vSuRljfManpCpDA5WoV/6prXNTA7vyE6V9LHx3aMwGjaXQAlCWXF24IYe2ROVMols=@vger.kernel.org, AJvYcCVqZNxNTta1NYB8qkFUbanjAwJZBJwzeg2UCk4yc4y9RTgyU8pCcwtIrMWa6jvg2lrsag6+cXgjUIZzxcWA@vger.kernel.org
+X-Gm-Message-State: AOJu0YzAqLNoXHBk9ZiWgjuaiOMyZw9f8DSN/NS4no37HLYFarwEwFEw
+	UB0htbrJRHeW1sXC2JCH+XmgihChvhJZh+FLm1PJFO7Y9pe1Y/aFrlJc
+X-Gm-Gg: ASbGncsM3nPZGe31leH+MttMx5KQrzcIhRWRIRTrflVtwoAw9xIeovyCD5ZiaW3rGUQ
+	Fq+afuW8dxPsiiriSXaeBUJSDhYLArykyBfNfHsUVMlG5bB4G1Kmmtv4ZFo0clP1kbFEpQFokbr
+	OtFh6mRnl3cVEofmYj7eQMh92oO6ySLVx308/sE86/Nw7sCKcOWLjp6ItDCVKSsESZZpqROOPeT
+	D2u6LDjVaPQHeXXXzpt2BEcOUbTEwsObDmUrSIw77UaR1faL8sVa5J5QfUl0VJNb1iKnb3KJs7t
+	aGCX85gZMCTzAfmbnLV+sc8tjuss00/+XO3cDoNun1yIW9ek3dKczQQv/cX8R6m0efna/ah+ENG
+	Dit78AVxNzDFFHR8dBt3AJic=
+X-Google-Smtp-Source: AGHT+IHTBePaeMogrxNHoERLv/u64P5eEMxy3rp0ld4rJBrJHJ1JWgcnxDhX7J/c8Z8e9gplqP2gog==
+X-Received: by 2002:a05:6a00:39a1:b0:76b:f260:8614 with SMTP id d2e1a72fcca58-76e0ddf1eddmr1126933b3a.3.1754940114735;
+        Mon, 11 Aug 2025 12:21:54 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:69d7:30de:b05e:915b])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-76bdf61d182sm24617278b3a.119.2025.08.11.12.21.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 Aug 2025 12:21:54 -0700 (PDT)
+Date: Mon, 11 Aug 2025 12:21:51 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Matti Vaittinen <mazziesaccount@gmail.com>, 
+	Arnd Bergmann <arnd@kernel.org>, Bartosz Golaszewski <brgl@bgdev.pl>, 
+	Linus Walleij <linus.walleij@linaro.org>, linux-gpio@vger.kernel.org, Lee Jones <lee@kernel.org>, 
+	Arnd Bergmann <arnd@arndb.de>, Gatien Chevallier <gatien.chevallier@foss.st.com>, 
+	Fabrice Gasnier <fabrice.gasnier@foss.st.com>, Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, 
+	Thomas Gleixner <tglx@linutronix.de>, Charles Keepax <ckeepax@opensource.cirrus.com>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Christophe JAILLET <christophe.jaillet@wanadoo.fr>, 
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 09/21] input: gpio-keys: make legacy gpiolib optional
+Message-ID: <mrqxggv7vhclnranoc3uacfyzccod6dmc54kip4f7wjdpngjzz@falnsjwnfcjc>
+References: <20250808151822.536879-1-arnd@kernel.org>
+ <20250808151822.536879-10-arnd@kernel.org>
+ <b7e97aa3-8f2d-4a59-8a38-577717404865@gmail.com>
+ <aJnng9z9pUTFI49x@smile.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: "Leo L. Schwab" <ewhac@ewhac.org>, linux-input@vger.kernel.org
-Cc: LKML <linux-kernel@vger.kernel.org>,
- Benjamin Tissoires <bentiss@kernel.org>, Hans de Goede <hansg@kernel.org>,
- Jiri Kosina <jikos@kernel.org>, Kate Hsuan <hpa@redhat.com>
-References: <20250810225617.1006272-2-ewhac@ewhac.org>
-Subject: Re: [PATCH] HID: lg-g15 - Add support for Logitech G13.
-Content-Language: en-GB, de-DE
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20250810225617.1006272-2-ewhac@ewhac.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:bWtxhUXcLy/ImE83BhS+Vieazvy+5acd1YLg7TCqsur3QJK51zV
- eeZcFK7K8XXTNkt/7aCFNAeJFFdpOp00GLDf0oKJCPCmGpSk8KwJIwbCqwMorpGS3gqg/WE
- Rosi8Di4FvyOY9sM0sMSIaQUa7M3m2aBfevZb8sELcD1+5mA7hLmczEhZalDyg5VTO5YzhM
- NIUlPYZciwiq3fM1afRpw==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:SIdeQWToKv0=;H7Lmjt5s8wBVRuGOjfZ+fZAYbYw
- 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
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aJnng9z9pUTFI49x@smile.fi.intel.com>
 
-=E2=80=A6
-> +++ b/drivers/hid/hid-lg-g15.c
-=E2=80=A6
-> +static int lg_g13_kbd_led_set(struct led_classdev *led_cdev, enum led_b=
-rightness brightness)
-> +{
-=E2=80=A6
-> +	mutex_lock(&g15->mutex);
-> +	ret =3D lg_g13_kbd_led_write(g15, g15_led, brightness);
-> +	mutex_unlock(&g15->mutex);
-> +
-> +	return ret;
-> +}
-=E2=80=A6
+On Mon, Aug 11, 2025 at 03:52:19PM +0300, Andy Shevchenko wrote:
+> On Mon, Aug 11, 2025 at 01:34:43PM +0300, Matti Vaittinen wrote:
+> > On 08/08/2025 18:17, Arnd Bergmann wrote:
+> 
+> ...
+> 
+> > As such, this patch seems Ok to me, you can treat this as an ack :) This,
+> > however made me ponder following - is this the tight way to handle the
+> > power-button IRQ? I don't see any other MFD devices doing this in same way,
+> > although I am pretty sure there are other PMICs with similar power-button
+> > IRQ...
+> > 
+> > I see for example the "drivers/mfd/rt5120.c" to invoke
+> > "drivers/input/misc/rt5120-pwrkey.c" instead of using the gpio-keys. This,
+> > however, feels like code duplication to me. I'd rather kept using the
+> > gpio-keys, but seeing:
+> > 
+> > git grep KEY_POWER drivers/mfd/
+> > drivers/mfd/rohm-bd71828.c:     .code = KEY_POWER,
+> > drivers/mfd/rohm-bd718x7.c:     .code = KEY_POWER,
+> > 
+> > makes me wonder if there is more widely used (better) way?
+> 
+> FWIW, on Intel platforms that use power button by PMIC we add a special driver
+> for each of such cases.
 
-Under which circumstances would you become interested to apply a statement
-like =E2=80=9Cguard(mutex)(&g15->mutex);=E2=80=9D?
-https://elixir.bootlin.com/linux/v6.16/source/include/linux/mutex.h#L225
+If we can make gpio-keys work for various power buttons that would be
+great IMO. The MFD drivers in question already are using device tree,
+but they do not define/expect nodes for the power buttons. If the nodes
+were there then I think gpio-keys would work out of the box?
 
-Regards,
-Markus
+Thanks.
+
+-- 
+Dmitry
 
