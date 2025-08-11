@@ -1,113 +1,168 @@
-Return-Path: <linux-input+bounces-13917-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13918-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BB92B21795
-	for <lists+linux-input@lfdr.de>; Mon, 11 Aug 2025 23:40:49 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id ECCA9B21897
+	for <lists+linux-input@lfdr.de>; Tue, 12 Aug 2025 00:48:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E947B3A92CF
-	for <lists+linux-input@lfdr.de>; Mon, 11 Aug 2025 21:40:47 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B193717E8CE
+	for <lists+linux-input@lfdr.de>; Mon, 11 Aug 2025 22:47:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD2B72E3386;
-	Mon, 11 Aug 2025 21:40:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B5291F0995;
+	Mon, 11 Aug 2025 22:47:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=mail.selcloud.ru header.i=@mail.selcloud.ru header.b="rrkN+jh3";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=foxido.dev header.i=@foxido.dev header.b="HUFp0JB5";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=foxido.dev header.i=@foxido.dev header.b="bESo7f/I"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PeJZz4iz"
 X-Original-To: linux-input@vger.kernel.org
-Received: from sender8.mail.selcloud.ru (sender8.mail.selcloud.ru [5.8.75.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 091CF28505F;
-	Mon, 11 Aug 2025 21:40:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=5.8.75.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6993C1F948;
+	Mon, 11 Aug 2025 22:47:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754948442; cv=none; b=MbYq112ol275BCgKnEia3ere1sC+igxX4+3zitS0QX0f3Kt9rDgt8DmJBVOkh6uWH7QBjmn9Qsqh10lMix9xJD8XwYxkY05slDq85gBBnhvm1SNzzwnEXmVVeCUCH8+W3RMalK1U2G3Ph9lr/jyDksya7E3amzuXUaKGrw7hZ80=
+	t=1754952470; cv=none; b=LQPT6wSjagSpFhJskd3qrJx3chWAN/uBAELuRToI2x+HVhpnrsvq/qAV8JWWmGHtA9ZfXQk7opWb5rS/82YhcLEhYnw0PPkpeyKfAEOxuyaF/rQ04epL8J4F3b2N1OjQrU4qf22AqpiF/bq/RRyYR1ZFFQMZ2b7xTMsx7pP/X8A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754948442; c=relaxed/simple;
-	bh=INcKSIidEmhooOmWAnHvpbNFQ375p7EmobfY35aDgN0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=DAkIQyXLIUt4Hk6J2lE5QdI/mUTTifDpLZLOcePkmX/lyLL/u4WP14yM4KwbojQP/lLniw64e1tTnn/ghjvTbSNqiBPUoX72Xx5EuO4/ZJ1NX26MAEBKpfHYS0Ylhfc3xCEDBy3auHvbDsk6LCHxRtZliqVGdG++qLTzNHV3Gig=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foxido.dev; spf=pass smtp.mailfrom=mail.selcloud.ru; dkim=pass (1024-bit key) header.d=mail.selcloud.ru header.i=@mail.selcloud.ru header.b=rrkN+jh3; dkim=pass (1024-bit key) header.d=foxido.dev header.i=@foxido.dev header.b=HUFp0JB5; dkim=fail (2048-bit key) header.d=foxido.dev header.i=@foxido.dev header.b=bESo7f/I reason="signature verification failed"; arc=none smtp.client-ip=5.8.75.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foxido.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mail.selcloud.ru
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=mail.selcloud.ru; s=selcloud; h=Content-Transfer-Encoding:MIME-Version:
-	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:List-id:
-	List-Unsubscribe:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Help:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=kPtagQpWqNGYIhY9cPRe9omNLYktbtQe2SAvQBI3k3c=; t=1754948438; x=1755121238;
-	 b=rrkN+jh37O4cPLnRQVba+qQYBvP4BQqX5v37ArVp+wk1w/MzPLvzZXHy9bJn1cSZwAnPPOZoow
-	38o0lPx78DHtk8339YAKMd1gbK5JIYlXRKG2HwF+qB9nODhrQMxNjMIh9hGW5f9feuyv6+HIlOr41
-	qLDsXMhTUww/ZnRkuT4E=;
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=foxido.dev;
-	 s=selcloud; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
-	Message-ID:Date:Subject:Cc:To:From:List-id:List-Unsubscribe:Sender:Reply-To:
-	Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Help:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=kPtagQpWqNGYIhY9cPRe9omNLYktbtQe2SAvQBI3k3c=; t=1754948438; x=1755121238;
-	 b=HUFp0JB5v7Fj3etYI9dZcrdwhNTFa8sz/nldxHo2R0eMQaF3DQsdONFM5HHhJnFbetUeO5K1rW
-	EEB+1EeCaIZjKg8ndAKjUjxlnRIA1CriZ5dIYtpLGESiWuK47eiTialYbahtJaMNbmPSwK2XR/7wh
-	0XO3FM7x0rLUqiuO6vqc=;
-Precedence: bulk
-X-Issuen: 1136024
-X-User: 99111435
-X-Postmaster-Msgtype: 3849
-Feedback-ID: 1136024:15965:3849:samotpravil
-X-From: foxido.dev
-X-from-id: 15965
-X-MSG-TYPE: bulk
-List-Unsubscribe-Post: List-Unsubscribe=One-Click
-X-blist-id: 3849
-X-Gungo: 20250728.224157
-X-SMTPUID: mlgnr62
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxido.dev; s=dkim;
-	t=1754947462; h=from:subject:date:message-id:to:cc:mime-version:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=GEwHpxe57zRDnKU/ER/Gz01cI639JWwJ3pd6HVxPdXQ=;
-	b=bESo7f/ItUToyDdaynA7h2Z2GXGdA534dvVh/CbEetQjjf5Wofdin50hS7uQ80SM9HIeeb
-	0ZTnV+3IESU8AWvk/WNGAv9em+fD/r1UZbyjMJOIBDm8AVogsg7bQ8ZUQO9xTb7rhsl+Bm
-	jDB1Dkf1o0KlHujw049d1TC/5AkatlDmmT5LV7CuJJvPsMxEwOXfqyfzOlJFbIw87atL/j
-	ybdejJPGMEXrXSSCLAd4BN0o9fE9bMDHi5VB1glGM9h4bUcRTaHLrKsTRGcaJiv9NEBSlC
-	IYG1R3RJnitje+EfOwlM73+kyd05GavDtqQq2wKwqa+FlbNb7qAbvPpQBdwbyQ==
-From: foxidokun <foxido@foxido.dev>
-To: dmitry.torokhov@gmail.com
-Cc: foxido@foxido.dev,
-	hansg@kernel.org,
-	ilpo.jarvinen@linux.intel.com,
+	s=arc-20240116; t=1754952470; c=relaxed/simple;
+	bh=IcUTq5iwG/KanHRp34pDfsV1t4ZOxfXSCyrMBmgGyH0=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Vb0Eu9SOQVO1N1UURSDc3RmCFB1Syvr/VqzWCz6Ne4q101XaeiePMZBYPc6xDdeG+YjIyA+4qnyNgqTNMND5G61S/Bc47/edH9vZGp2GTogpgQBWHB3rPfGrRbjhIlA376Dm3xcI3P0pTwTzYZGhJ0RnhKrhC7ODx7/ajcWlgww=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PeJZz4iz; arc=none smtp.client-ip=209.85.221.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-3b78b2c6ecfso2628654f8f.0;
+        Mon, 11 Aug 2025 15:47:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1754952466; x=1755557266; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=gh502WkusaTkmyG0Spy7bcgdYWp2HJ8npYN0OFby5Zo=;
+        b=PeJZz4izIPupO5KuQQAxsjAkZUcBIsuJMGeJrMyQYMq8XS4gBFzM6BBgbjdm4ZirXi
+         tjPK11UvUdZJZtD5iDwAqkgX/s4SdBQEaCNFk0Sy/r8opfaOqdVhoiseRfYdmU7YYtx4
+         P2DSZJz6tyTZnX5H1gwp4HByyBZ6HVxkfIG7QDeE8WJtZyB82y6iRijAVm56CqI8zvxK
+         Qc9OsUmZ25hjtNfSMTdkCoV4uki4htjE+C3S8JEPJUExyRdQcPmPvnNcxBPZd9TOeqXv
+         bTRPbW+PpDWmgWmX8U03XCduyfulDRMJWsWZ0OZgeHVLWG3Y41EwMnr/gf91o0Yrt3L/
+         ouig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1754952466; x=1755557266;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=gh502WkusaTkmyG0Spy7bcgdYWp2HJ8npYN0OFby5Zo=;
+        b=jkurnvp+bg2BqxAGXalG3pIbOvSNvfUx4zfDe7X4yLZ7XyhhuCczO2wKvOyCgx0lsY
+         9Q/93GzJuKpV0pRFtQ4GI0Ix5agpWUta7AnsEi/ELKFsWtIr5u7agTVZLLcj4vbXNc0o
+         sfrtDGCRulzaiDpYRF2iFWIS6Jjj2vQ7KqnusY1N3qjUDOWAAekavNzUbYw9t4bn4umy
+         sagb+2IF9OA55FYoj0jtLY/le6ZEINRqSau0MuKKF93rh25MTsUVB1YPDgNq0Wp8drCD
+         SFUFwNxyP+Qbv99lw2TqBka7wuHYUJSNjxQR4DXxk8EhDqL35+lu4ALdJ/aitTob3KoH
+         Q5DQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU3+h0Vgyvm+CSDFEeliwTEEmqY+oNkIWs46UgednUVziijULUrdkv8To/mZK+MnDsOzg4dtIIlA+nc@vger.kernel.org, AJvYcCV9Viy/EhB9bt7Ojha6bm5e4Q1nt6GcGo4AF/k8GO6eIZ4bibn7NyYbtFKz0ztQUaU7VQlUrKInefPi@vger.kernel.org, AJvYcCVzLq+/Bow7d7ykRYi6xNQIAdqL+FPSO/uB4+qlpZU8ShEyNRKOSitECoZC+9KacVB/tA6H9g9dWamm@vger.kernel.org, AJvYcCWxIUr+T3bGyWR3A7CXb19MNkC1Go+G4ezIdGJ+ud9hrL6aD2OeItHeojtftK55nxjCiHrjx3PHQYRTQGk=@vger.kernel.org, AJvYcCXotcqN4fvVFT+1Bmp66yQOrrA2ruRyxMIhOLkhDStrWfbcCmDJzXA8YXfH2JabpC0e9W9BwFFY1NF/gWw=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx1FtR2xr4NmxB1u7c3/gjyYhc8koOnMlgg9yiYRvt5T7ocEtgf
+	TqHGKyra5iPd6RU7VuPqH2sTezyXoBW0k/kUsQlHM8kXRtCxA2Fm9mGALe2PL9yiYg==
+X-Gm-Gg: ASbGncu1EQz2nxOTpzoUTOmBj+83itqvXQ9e2/+NEQ+OkBUni+QvYXhjWBPo4d2bhLb
+	QV3ZKxVpPWA6oy3A6ryAEz70q6DicJZq5U5lkP5TSb36KE1Le8MAKrYao5eW/fh10UtKX1IqdNB
+	u1wAzoZQ3zqkZhL7jNEe8FR7y7N3udEMf+jdb6+CmzfG7ARO3koSaDzoW4wjnyW6hZfnQ+LDWMM
+	KhX4+dCbGCdm3bQY5jEEDidDyp3H1dzB11aVo1dVAc2fpsUJMpFCGzQeIL7h6x5Ybd+pj+waZ+U
+	gH4tN9+7noD11+BIDDwkKQPPKlTjGyTb360pSNnwOu3SEYPzGxa4GAgsfGo+VZsar9f7QM8E7KU
+	70FBp47kttqe8FJqMw7lPAFXlHScjQ8xmBuZsS0x9ZLcX5os=
+X-Google-Smtp-Source: AGHT+IGUJhjcdu0pxWoIH7hIgQBl2MWtDsz3IxGcteSPIo1lTpSxVwEgRTX0M5SzVOnQPUY7qp82tw==
+X-Received: by 2002:a5d:64e9:0:b0:3b7:973b:39bc with SMTP id ffacd0b85a97d-3b911014b74mr1051233f8f.54.1754952466252;
+        Mon, 11 Aug 2025 15:47:46 -0700 (PDT)
+Received: from localhost.localdomain ([2a0d:e487:224f:9b35:8c56:5611:71e6:ca77])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-459dbba5210sm343678175e9.2.2025.08.11.15.47.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 Aug 2025 15:47:45 -0700 (PDT)
+From: Jihed Chaibi <jihed.chaibi.dev@gmail.com>
+To: linux-kernel@vger.kernel.org
+Cc: peter.ujfalusi@gmail.com,
+	dmitry.torokhov@gmail.com,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	lgirdwood@gmail.com,
+	tiwai@suse.com,
+	conor+dt@kernel.org,
+	lee@kernel.org,
+	ukleinek@kernel.org,
+	broonie@kernel.org,
+	gregkh@linuxfoundation.org,
 	linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	nikita.nikita.krasnov@gmail.com,
-	platform-driver-x86@vger.kernel.org,
-	w_armin@gmx.de
-Subject: Re: [PATCH v2] platform/x86: Add WMI driver for Redmibook keyboard.
-Date: Tue, 12 Aug 2025 00:23:53 +0300
-Message-ID: <20250811212353.4494-1-foxido@foxido.dev>
-X-Mailer: git-send-email 2.50.0
-In-Reply-To: <5e32uo4suh3mtib4tohtekwvycxgfzqcem3wwc6k6wwdxyjhpc@bt57y7vyvpmz>
-References: <5e32uo4suh3mtib4tohtekwvycxgfzqcem3wwc6k6wwdxyjhpc@bt57y7vyvpmz>
+	devicetree@vger.kernel.org,
+	linux-pwm@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	shuah@kernel.org,
+	jihed.chaibi.dev@gmail.com
+Subject: [PATCH 0/8] dt-bindings: Convert TWL4030/6040 family binding to DT schema
+Date: Tue, 12 Aug 2025 00:47:31 +0200
+Message-Id: <20250811224739.53869-1-jihed.chaibi.dev@gmail.com>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Last-TLS-Session-Version: TLSv1.3
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-> > +	/* For linearizability */
-> > +	guard(mutex)(&data->key_lock);
->
-> What is the exact purpose of this mutex? What does it protect?=20
+Hello,
 
-It protects key sequence, so there wouldn't be race between two press & r=
-elease combinations resuulting into press - press - release - release ord=
-er.
+This series modernizes the Device Tree bindings for the Texas
+Instruments TWL4030/TWL6040 family by converting all remaining
+legacy TXT bindings to the structured YAML DT schema format.
 
---
-Gladyshev Ilya
+This improves the bindings by adding formal type checking, clear property
+definitions, and machine-readable examples, which allows for automated
+validation and better documentation for developers.
+
+The following eight patches are included in this series, covering the
+audio, keypad, power, PWM, and USB sub-modules.
+
+Thank you,
+
+Jihed Chaibi (8):
+  mfd: dt-bindings: ti,twl4030-audio: convert to DT schema
+  mfd: dt-bindings: ti,twl6040: convert to DT schema
+  input: dt-bindings: ti,twl4030-keypad: convert to DT schema
+  mfd: dt-bindings: ti,twl4030-power: convert to DT schema
+  pwm: dt-bindings: ti,twl-pwm: convert to DT schema
+  pwm: dt-bindings: ti,twl-pwmled: convert to DT schema
+  sound: dt-bindings: ti,omap-twl4030: convert to DT schema
+  usb: dt-bindings: ti,twlxxxx-usb: convert to DT schema
+
+ .../bindings/input/ti,twl4030-keypad.yaml     |  44 +++++
+ .../bindings/input/twl4030-keypad.txt         |  27 ---
+ .../bindings/mfd/ti,twl4030-audio.yaml        |  91 ++++++++++
+ .../bindings/mfd/ti,twl4030-power.yaml        |  69 ++++++++
+ .../devicetree/bindings/mfd/ti,twl6040.yaml   | 155 ++++++++++++++++++
+ .../devicetree/bindings/mfd/twl4030-audio.txt |  46 ------
+ .../devicetree/bindings/mfd/twl4030-power.txt |  48 ------
+ .../devicetree/bindings/mfd/twl6040.txt       |  67 --------
+ .../devicetree/bindings/pwm/ti,twl-pwm.txt    |  17 --
+ .../devicetree/bindings/pwm/ti,twl-pwm.yaml   |  46 ++++++
+ .../devicetree/bindings/pwm/ti,twl-pwmled.txt |  17 --
+ .../bindings/pwm/ti,twl-pwmled.yaml           |  46 ++++++
+ .../bindings/sound/omap-twl4030.txt           |  62 -------
+ .../bindings/sound/ti,omap-twl4030.yaml       | 101 ++++++++++++
+ .../bindings/usb/ti,twlxxxx-usb.yaml          | 121 ++++++++++++++
+ .../devicetree/bindings/usb/twlxxxx-usb.txt   |  43 -----
+ 16 files changed, 673 insertions(+), 327 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/input/ti,twl4030-keypad.yaml
+ delete mode 100644 Documentation/devicetree/bindings/input/twl4030-keypad.txt
+ create mode 100644 Documentation/devicetree/bindings/mfd/ti,twl4030-audio.yaml
+ create mode 100644 Documentation/devicetree/bindings/mfd/ti,twl4030-power.yaml
+ create mode 100644 Documentation/devicetree/bindings/mfd/ti,twl6040.yaml
+ delete mode 100644 Documentation/devicetree/bindings/mfd/twl4030-audio.txt
+ delete mode 100644 Documentation/devicetree/bindings/mfd/twl4030-power.txt
+ delete mode 100644 Documentation/devicetree/bindings/mfd/twl6040.txt
+ delete mode 100644 Documentation/devicetree/bindings/pwm/ti,twl-pwm.txt
+ create mode 100644 Documentation/devicetree/bindings/pwm/ti,twl-pwm.yaml
+ delete mode 100644 Documentation/devicetree/bindings/pwm/ti,twl-pwmled.txt
+ create mode 100644 Documentation/devicetree/bindings/pwm/ti,twl-pwmled.yaml
+ delete mode 100644 Documentation/devicetree/bindings/sound/omap-twl4030.txt
+ create mode 100644 Documentation/devicetree/bindings/sound/ti,omap-twl4030.yaml
+ create mode 100644 Documentation/devicetree/bindings/usb/ti,twlxxxx-usb.yaml
+ delete mode 100644 Documentation/devicetree/bindings/usb/twlxxxx-usb.txt
+
+-- 
+2.39.5
+
 
