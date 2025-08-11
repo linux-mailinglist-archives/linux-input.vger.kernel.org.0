@@ -1,128 +1,147 @@
-Return-Path: <linux-input+bounces-13906-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13907-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38772B20954
-	for <lists+linux-input@lfdr.de>; Mon, 11 Aug 2025 14:52:35 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 22CCBB209B3
+	for <lists+linux-input@lfdr.de>; Mon, 11 Aug 2025 15:10:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5BE32168F34
-	for <lists+linux-input@lfdr.de>; Mon, 11 Aug 2025 12:52:35 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C158D423FCF
+	for <lists+linux-input@lfdr.de>; Mon, 11 Aug 2025 13:10:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A9A7E217709;
-	Mon, 11 Aug 2025 12:52:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 932E32DCBFB;
+	Mon, 11 Aug 2025 13:10:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S5XNTjBH"
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="ojjnhV8s"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 149182E370F;
-	Mon, 11 Aug 2025 12:52:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EC5D2D7803
+	for <linux-input@vger.kernel.org>; Mon, 11 Aug 2025 13:10:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754916749; cv=none; b=iIJDU6ZgpePnlyO9fvSAHDQo3JxdXodbQ32S7noahDQlY6aYCR95/IN0Vszk3HVw6Bbi8XzXnu5Z/2TLHXRX5dnftdMPoHK/4eg/VxB2vw8hGpIv8LE+V+mw84o9kfMBKuKcnXkJ5NjgyWTY8xWLurf5d0Aq7td3zSXij8TC3r0=
+	t=1754917840; cv=none; b=suKwEHtJUZ/NRvBUrZ8se22eE/CWrqYeXmveFLTF8ggn3UyvTOy2+AwQQUzZQ4FVjQYR1BZysodBp7pxFW3mC5nRByyb+MsnBTcFLFz2AqY9Ys4SPlLGclH9s4uY8vfPMjDWDEMV3fLkVpunHUcE5xI9BU/VzbV/3GMCvZDF8ZA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754916749; c=relaxed/simple;
-	bh=sKcDxReHvOjMWuRz/JJIjfs2GC55bod9+lD6K9tF16k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MEz3z8jrRELXMwdpxVQazfohNrXtoAzOz+CzSuhuI6NrFRz9GBzfP0aI9ZSYcP+Ub5Rq9c/H84EjRUEtjUbWXNZtsAUYpkrWixIJAUvunkgim+v+yDYRy7ptYJgoX5B27N7VXe7bYHTx1bRcDs7YQzQCUcMTIaIccuhXj/ErsgY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S5XNTjBH; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754916748; x=1786452748;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=sKcDxReHvOjMWuRz/JJIjfs2GC55bod9+lD6K9tF16k=;
-  b=S5XNTjBH7Y2WCbXYIKDTjDR5mrAnUZYYcWXcR+pT4v2jMTTZ/nEEbiAy
-   vOA9+9c/eK/lCZzRaPf1Q1SlxG0VVFwzZd0VXCotiRIOmAyk6nuRvKU5I
-   lj8P/VFcgw+ifwgumVxpykW3K69c45WAdzKGItOdB4V+Wlc87XBcL4M6k
-   o6kdHfeWuTfzZuR3nnsiMNxJfQqubjnu6z6HtYulSUOVLv8QhrZBRxYR6
-   XzPJz4ZHUxbX8ce31UPWbOGIm0mLTQTST0/PT51vKbqQdHr14FLEm7UUR
-   YMvKg9EZyxOQGTc1PShbOKL6CaB566gXB2KNGOpXTfVEosj8WoMuYdUdA
-   g==;
-X-CSE-ConnectionGUID: b6lVElART9eyo31z69buCQ==
-X-CSE-MsgGUID: +d13Y+FPSUWis5NArG2mbQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11518"; a="57089243"
-X-IronPort-AV: E=Sophos;i="6.17,278,1747724400"; 
-   d="scan'208";a="57089243"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2025 05:52:27 -0700
-X-CSE-ConnectionGUID: xFz4n3B8RWuruOLSnyLmXg==
-X-CSE-MsgGUID: bBnKF4ZXRJqsXLbK/cPS6w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,278,1747724400"; 
-   d="scan'208";a="166709515"
-Received: from smile.fi.intel.com ([10.237.72.52])
-  by fmviesa010.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2025 05:52:23 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1ulS0i-000000052c0-0OQj;
-	Mon, 11 Aug 2025 15:52:20 +0300
-Date: Mon, 11 Aug 2025 15:52:19 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Matti Vaittinen <mazziesaccount@gmail.com>
-Cc: Arnd Bergmann <arnd@kernel.org>, Bartosz Golaszewski <brgl@bgdev.pl>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	linux-gpio@vger.kernel.org,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Lee Jones <lee@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-	Gatien Chevallier <gatien.chevallier@foss.st.com>,
-	Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 09/21] input: gpio-keys: make legacy gpiolib optional
-Message-ID: <aJnng9z9pUTFI49x@smile.fi.intel.com>
-References: <20250808151822.536879-1-arnd@kernel.org>
- <20250808151822.536879-10-arnd@kernel.org>
- <b7e97aa3-8f2d-4a59-8a38-577717404865@gmail.com>
+	s=arc-20240116; t=1754917840; c=relaxed/simple;
+	bh=YdcvZYKwitUcECgcbI2UhLZ6metpTwEak9n/5y6m0SA=;
+	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=AqOT7HU0VumjmdCQaM+EM6ACssesCkWsNTQS7GnDAk8drgTHw0iUCP/pQEIbi5Odpb1c3OocF2z/Bx8ZbVrxMg8etiXQayis6mSlcVg9BJX140yP2vnpqaOH+RTdX+Dm7/+fw8YBXVsIDQtASUfLWXtg4yf4fQw1yGCB4ZOhgkM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=ojjnhV8s; arc=none smtp.client-ip=209.85.214.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2402b5396cdso26401845ad.2
+        for <linux-input@vger.kernel.org>; Mon, 11 Aug 2025 06:10:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1754917837; x=1755522637; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:references:mime-version:in-reply-to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=YdcvZYKwitUcECgcbI2UhLZ6metpTwEak9n/5y6m0SA=;
+        b=ojjnhV8sG5RePBCOlfNn+HKKrpovehYP/8l1sr0vNYpFHhYyNj9xWMV43bJeaTo+kp
+         pGJmmwo0JTwJGp+EMoH+TiRmSHHwCWtSKYf/ADQ+n41Fq7MLbvF4puoYKzMZIfAb5Yr5
+         rfyUeS8+hBywvWWe45et8EVilsYHrox7Ct03tWZtWfpes3F5MB7MSmpvGYu3l/KMy0Lm
+         Xz5nZcHYvM5pMpkmNGOifNAmrO7N485x8Dy3qu1/BQr+p2mpzG31DunBz5mKNnrnKK8W
+         RdKVIPz8XNIoKoiGQOe1wq9OXTmtM2HvY5MHwnIuZgNfLGAMI4k+PY6m2DfBQiYd+C7+
+         Xhsg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1754917837; x=1755522637;
+        h=cc:to:subject:message-id:date:references:mime-version:in-reply-to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=YdcvZYKwitUcECgcbI2UhLZ6metpTwEak9n/5y6m0SA=;
+        b=wzZVDUN53sESwYgltnrkuNmB22UySMZ6LdfkOE9jiIiQsrJhz8btZF/F8F84E9Jpeu
+         UnHDjC1LehpKaLWyqD91T5vF5OLUBBb8XJYbXnZBKdXs72pqDTlBHdX3lFXsGfGZA4hf
+         QkiqQqTH/dpNAlqgiR73Iv5QGSnXc77Q6Li5YUUP/DuObRs4uplBUr2QYaHItVHqVgHd
+         aVA+IqSJhVBiZngzH9ic0jsf5oPkWYAHY3Fh9SBahNDmosvUMY24Q4kzxlxBeZb7GdU7
+         x3L+faF/fiJ6V9qrMPD77OkcQ3slbrpqm0v9ay3prJ9BmnJhClaiXlf7DXDoR7XHKIev
+         aEtA==
+X-Forwarded-Encrypted: i=1; AJvYcCXMCOShV29tV26JzkaOarPA+ZpOa+2fWUNgABCCgw0HAYVQ4x+uSOnYxjuVrq7HaQ2U9BZW6S0ifAgtzA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyCX6u0Duybblx8Ik8BNw3wrJ2BIwbu1ZKqHXuhkzX/sGjpP7IR
+	wJGJqU61FRNR8Z4XnCtSlTe4WYRZo+WOxTkOR3nnLHizmwAecBfR4vYIkoTMIFBR2LzvdKXE4Sc
+	cFzovADFNz9eopKrtYwxOSp4H9+WzZb0gl3woaryh7w==
+X-Gm-Gg: ASbGncsRoDYAvJPx3IryQmXxP1gRNIzNlx1UzKPGvtyluQ4oY46rwFl8nhjpLloK3Vj
+	GP+LH4M2rDHOpIeDPhg66CAnAtRMWpDSHuxc812rwkNR/lamZcn2VSJxpIPbluAlY1Kb4RfSlrW
+	S2DkZiUaBf4vG7CPypyyIobuttk/p7tTSouagmpoqlwIMCj9YUFSy02aSpolwcRAz7++XIoiT/g
+	/yTgncWjFI0+F7qavmQ+Z3jwBqHtzktNn3XLtQ=
+X-Google-Smtp-Source: AGHT+IEgMvtsNpCEbzm+bQO3Dq6oVeggGu7qnt+f1HYUPfLnzNmxpfjIx2ohdBUK5XJ+fhQGIjFsq0lNMPvywZaOZwE=
+X-Received: by 2002:a17:903:32cb:b0:240:96a:b812 with SMTP id
+ d9443c01a7336-242c203d030mr203994295ad.24.1754917837398; Mon, 11 Aug 2025
+ 06:10:37 -0700 (PDT)
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 11 Aug 2025 06:10:31 -0700
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 11 Aug 2025 06:10:31 -0700
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+In-Reply-To: <20250808151822.536879-1-arnd@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b7e97aa3-8f2d-4a59-8a38-577717404865@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+References: <20250808151822.536879-1-arnd@kernel.org>
+Date: Mon, 11 Aug 2025 06:10:31 -0700
+X-Gm-Features: Ac12FXxi-t7kK_6HIDwsxWJsHZcp5BcOM26Y8X32Zi2av6pcVu6UuipKim4OtEQ
+Message-ID: <CAMRc=MeyW8gtG_hsLWytCpufQRmg3s5QZenxCvP3MNGmaoo2cA@mail.gmail.com>
+Subject: Re: [PATCH 00/21] gpiolib: fence off legacy interfaces
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>, Andrew Lunn <andrew@lunn.ch>, 
+	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, 
+	Gregory Clement <gregory.clement@bootlin.com>, Russell King <linux@armlinux.org.uk>, 
+	Daniel Mack <daniel@zonque.org>, Haojian Zhuang <haojian.zhuang@gmail.com>, 
+	Robert Jarzmik <robert.jarzmik@free.fr>, Krzysztof Kozlowski <krzk@kernel.org>, 
+	Alim Akhtar <alim.akhtar@samsung.com>, Geert Uytterhoeven <geert@linux-m68k.org>, 
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Yoshinori Sato <ysato@users.sourceforge.jp>, 
+	Rich Felker <dalias@libc.org>, John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, 
+	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, Lee Jones <lee@kernel.org>, 
+	Pavel Machek <pavel@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Matti Vaittinen <mazziesaccount@gmail.com>, Florian Fainelli <florian.fainelli@broadcom.com>, 
+	Jeff Johnson <jjohnson@kernel.org>, Hans de Goede <hansg@kernel.org>, 
+	=?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jaroslav Kysela <perex@perex.cz>, 
+	Takashi Iwai <tiwai@suse.com>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+	"Dr. David Alan Gilbert" <linux@treblig.org>, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, linux-samsung-soc@vger.kernel.org, 
+	linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org, 
+	linux-sh@vger.kernel.org, linux-input@vger.kernel.org, 
+	linux-leds@vger.kernel.org, linux-media@vger.kernel.org, 
+	patches@opensource.cirrus.com, netdev@vger.kernel.org, 
+	linux-wireless@vger.kernel.org, ath10k@lists.infradead.org, 
+	platform-driver-x86@vger.kernel.org, linux-usb@vger.kernel.org, 
+	linux-sound@vger.kernel.org, Bartosz Golaszewski <brgl@bgdev.pl>, 
+	Linus Walleij <linus.walleij@linaro.org>, linux-gpio@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Aug 11, 2025 at 01:34:43PM +0300, Matti Vaittinen wrote:
-> On 08/08/2025 18:17, Arnd Bergmann wrote:
+On Fri, 8 Aug 2025 17:17:44 +0200, Arnd Bergmann <arnd@kernel.org> said:
+> From: Arnd Bergmann <arnd@arndb.de>
+>
+> Commit 678bae2eaa81 ("gpiolib: make legacy interfaces optional") was
+> merged for linux-6.17, so now it is possible to use the legacy interfaces
+> conditionally and eventually have the support left out of the kernel
+> whenever it is not needed.
+>
+> I created six patches to force-enable CONFIG_GPIOLIB_LEGACY on the
+> few (mostly ancient) platforms that still require this, plus a set of
+> patches to either add the corresponding Kconfig dependencies that make
+> the device drivers conditional on that symbol, or change them to no
+> longer require it.
+>
+> The final patch ends up turning the Kconfig symbol off by default,
+> which of course depends on everything else getting merged first to avoid
+> build errors.
+>
+> I would suggest that patches 1-20 can just get merged through the
+> respective maintainer trees independently when they are deemed ready,
+> and the final patch can wait another merge window.
+>
 
-...
+Oh, not at all, I'm fine sending a second PR late into the merge window to
+get that done in a single cycle.
 
-> As such, this patch seems Ok to me, you can treat this as an ack :) This,
-> however made me ponder following - is this the tight way to handle the
-> power-button IRQ? I don't see any other MFD devices doing this in same way,
-> although I am pretty sure there are other PMICs with similar power-button
-> IRQ...
-> 
-> I see for example the "drivers/mfd/rt5120.c" to invoke
-> "drivers/input/misc/rt5120-pwrkey.c" instead of using the gpio-keys. This,
-> however, feels like code duplication to me. I'd rather kept using the
-> gpio-keys, but seeing:
-> 
-> git grep KEY_POWER drivers/mfd/
-> drivers/mfd/rohm-bd71828.c:     .code = KEY_POWER,
-> drivers/mfd/rohm-bd718x7.c:     .code = KEY_POWER,
-> 
-> makes me wonder if there is more widely used (better) way?
+Thanks for doing this, awesome work!
 
-FWIW, on Intel platforms that use power button by PMIC we add a special driver
-for each of such cases.
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Bartosz
 
