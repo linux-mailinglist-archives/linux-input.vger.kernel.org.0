@@ -1,259 +1,256 @@
-Return-Path: <linux-input+bounces-13886-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13887-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5883FB205A5
-	for <lists+linux-input@lfdr.de>; Mon, 11 Aug 2025 12:36:32 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 21109B2060D
+	for <lists+linux-input@lfdr.de>; Mon, 11 Aug 2025 12:47:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0FE00188E9F9
-	for <lists+linux-input@lfdr.de>; Mon, 11 Aug 2025 10:36:28 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0CD8118971AE
+	for <lists+linux-input@lfdr.de>; Mon, 11 Aug 2025 10:47:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4368C2248BE;
-	Mon, 11 Aug 2025 10:34:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E848324A047;
+	Mon, 11 Aug 2025 10:47:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LQtUuk4A"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="K5qBvlkr"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44A332253E9;
-	Mon, 11 Aug 2025 10:34:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4F3524886F;
+	Mon, 11 Aug 2025 10:46:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754908490; cv=none; b=Yo89QJ5hPKsImS7R4wstvNXpySbXBg1PHHOmaTjepE91uHSpndYjK9B1vwtGp4Sj3WLdVcJxRaGRl5UjIw6tgSSs9ZU/SCWvlUSUnNA6d0ygUwqdGXtQoeEGdTZp6ttqXyuvNs2BFSGyjKqG6I5BTUKtbxWOtEHRsnNoEdG9W2k=
+	t=1754909222; cv=none; b=mLY/dAMS4MUQMLuYxF6zfUnJDMVDgYMUms87vcbuJovNZbrJg/Skp4hHH8MWZonyeB+n+8ZG2CsbycvbRam4h3MrTwvoT+Q4d/VKqddrCbRnSPP+IMsxa7mfsy3barqyM0BJzzMajrYdm34vzS4OyisKbdYcHlhMBBEI2HSABWY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754908490; c=relaxed/simple;
-	bh=1vlHv6Px1eYLtdGgu2Ty/fXv2MFPBY2XO+bhllMxoks=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Nw+HCkgdzK/AtWrDUYIcqr/w3nfBGHfY7AWm6B0bV25819YCvBzAs6pWIU380MbRDeW2jKJnKHnz8JCVEJqhCkpcIZPRjAZbCjKroYID2MmNLz/2d7o1FPT379LaoZGCV7wtcd+YqlXpyCLwLMrE7U5xovexxKK/nD53ztTKbxc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LQtUuk4A; arc=none smtp.client-ip=209.85.167.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-556fd896c99so3606839e87.3;
-        Mon, 11 Aug 2025 03:34:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1754908486; x=1755513286; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=xVkeBhGZWokh7cmfvwm/viK0uMUshY/NRCF71JVFH+o=;
-        b=LQtUuk4ASV7qxG96nkJ4MyHWPBVWArTNQ4L/JS2w6tD70xLmG/feZZdmAFhNKNusnr
-         Jiq+OfaR5izUcifmRxf7eO6szwADzxaEsGxWtc4CbLvDyvLQSC+I1qk5UhSYcV+cP0z/
-         BKwSHveMmPyeSXT66tGkMIO9IdVIQjxAIhWx3t9V3+x5P7HfjUX2RcqPk7pwI+s9w0be
-         Ij2ECeF1c9j1+97NFZUgK9Ykbal0vmy6gm70YEiVFxf4tjf766CtNTnETFKkTuVM638m
-         hZ3n2QR9wXz1aVHSq7q8A2vfbk7MVqxDNrWRNi7QQCO+BdwU8bk40xK88f98WMBWRwOE
-         Xwdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754908486; x=1755513286;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=xVkeBhGZWokh7cmfvwm/viK0uMUshY/NRCF71JVFH+o=;
-        b=MjTJUBkbg37Gr9jYXOOLBktiI7oYWb8j/8WLQD6fNoMeOjKJw0ivN4L/TUsPO9aOA8
-         frTGK1Fd0GvRAAEEbbdPHas8Bhdu1P5drdLpZmjQudacoNXRaqguy/2aNRgGBx2iHqg+
-         zzh8HHukQbeablBphp9SG9E5DfRYtaWhA1TdH/UFIJ2pznFHIDgbB0+3DoFxZ0Jtbgks
-         zC7BboKzrWO7WST4smUM8pOskH+jbkd/oZ1h4AxlHGuWqBfOtwW9HF79RCtA8Dkv34mM
-         Qn6yV/m70SlE6m5lK55bYJhyo+urY6apEwCjhQUNoX3W3Va/1h8OTVBCwF129ZyPbUR9
-         ZCxg==
-X-Forwarded-Encrypted: i=1; AJvYcCVWbowag0p/R4YXuoLZufezcRfIaSQ+gT1FbRLcaIf94kvMDGAU+RoBGgIPXpxsQ/X4tTjuTG5rz3Sn@vger.kernel.org, AJvYcCWJb+J58C9jspBagVdDq3m+ojzAmGS3dpumgcx11G6DzFpdmcOkpQNKJvixS4WDPKLVhs883nTk6ITUk0tB@vger.kernel.org, AJvYcCWzAjJkyaEuTWZYrgNmcR657ElQTA0lUumQyhcg1NJJIKgI5BY/kBbqUOgGQLjTj8ZWvT8UA18PTPL7ZWA=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxj4mIXMlE039h6o1xo5uhFb0vwt+DwOcN9p3WpjS7di9TR7p+7
-	KQ3oPoiCt3Wejx2iWLKU9FR9V0j5TyzEYjf3WWkrdhORMpTYMZuBa5e3
-X-Gm-Gg: ASbGnctusntBsd12bgnctRuF/cuDUNv8sWN1RRZ+dwbUGu3jP8Q5OGwC/GuWy6je7I5
-	kBGjQx8elLgEJjAm0uWsUVez/lIMCkqibpYmbUi6ICiF9zzHRZXQMtMJYE5qUDW9yD/9f6rrQoO
-	WkrUDZi68xHzem01YjlJDml2VFKu2JWfWvoQjhNOoxjrSl+u3LpRHenEQQjvoqdWsmtHabRaXWo
-	mw17aaqfL9d7SYEof4erctMbPwVjnROuVBmZfrCvPDn1X/sJi32J1HTfTIc4T3bbH0o2qkCfOeL
-	bdtEBuDxlHcmb8PRwPhIavds8ReQ4u64jLiHsDm78r42BIK6xqgUZETt5iWjfKzEpwCXmpfJAoG
-	GnZpzXuHW0E6odypvKT0LjKIG1LBIsZ6I9SWmK8T6crCTSb/2HVzwJZv2Cwj4uvGJLwKMHe5fM8
-	90WRs=
-X-Google-Smtp-Source: AGHT+IETaLJYFx+bsfg4cBqsGAjrcijmy8/Ov+YfnKtp2jsr35IKM/ta5BmKJDpDCoMgIaYs24JBIQ==
-X-Received: by 2002:a05:6512:3f02:b0:55c:bfe7:f045 with SMTP id 2adb3069b0e04-55cc0112fbemr2937187e87.40.1754908485923;
-        Mon, 11 Aug 2025 03:34:45 -0700 (PDT)
-Received: from ?IPV6:2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703? ([2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-55cd1000bf3sm665504e87.6.2025.08.11.03.34.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 11 Aug 2025 03:34:45 -0700 (PDT)
-Message-ID: <b7e97aa3-8f2d-4a59-8a38-577717404865@gmail.com>
-Date: Mon, 11 Aug 2025 13:34:43 +0300
+	s=arc-20240116; t=1754909222; c=relaxed/simple;
+	bh=qRJxrx2kH/jKzAy7Y76+IeYgvBpq9Pd1PkMu54IdC5Y=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=GVzIew/RTrLB2/9PFQ7AJs3q8tH0tNHXFB1jINvk1Qnknsu4B/+p+F46akLMH4t1GA3kTkx6HMUc2GuH3sKwdixk07y8fExUqM/lJ6YcY0LwWnoZz0YyGd9PqKUIxjdS/qSHKNhWDyo5iDBgXqje5/vXzr80WfZLqzZ0ZEzYB68=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=K5qBvlkr; arc=none smtp.client-ip=217.70.183.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 0FA09430D1;
+	Mon, 11 Aug 2025 10:46:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1754909211;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=wVZOYTf0GJ2/qWrvDFPVc4lWVhJuGoORLCS0wP2/2YM=;
+	b=K5qBvlkrhFMFKYtNJESUXGtZe1rrLZmVqxTvxVD3MVBop6bPpCKUBkRoAFprEBx359NtDi
+	12vOIl3m8C32Yui68aP0HFfGrzwlX/yigKYa+tyAHlPTbO1FsvhKJiOPjJJs8ab2fekdTK
+	BhHtxMcCL45P4Onq1Lt1ZiLRD8aN33Dl8ZPPqXEkKta4EY9CPIDKDI451yJ7IT7K4aOsTe
+	JRbGBectAAkm48vlWaxkucB05017rcHNufA0ND+iTnyC12fr0oQR4jCCgS5lKwrorKkCg3
+	QwBpOvnKrwdLQk0IeaVYbYvMWMM74ic5MXM1oStxA8+XbtTnH8QOYGRMJhcorQ==
+From: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Subject: [PATCH v13 00/10] Add support for MAX7360
+Date: Mon, 11 Aug 2025 12:46:18 +0200
+Message-Id: <20250811-mdb-max7360-support-v13-0-e79fcabff386@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 09/21] input: gpio-keys: make legacy gpiolib optional
-To: Arnd Bergmann <arnd@kernel.org>, Bartosz Golaszewski <brgl@bgdev.pl>,
- Linus Walleij <linus.walleij@linaro.org>, linux-gpio@vger.kernel.org,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, Lee Jones <lee@kernel.org>
-Cc: Arnd Bergmann <arnd@arndb.de>,
- Gatien Chevallier <gatien.chevallier@foss.st.com>,
- Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Charles Keepax <ckeepax@opensource.cirrus.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
- linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20250808151822.536879-1-arnd@kernel.org>
- <20250808151822.536879-10-arnd@kernel.org>
-Content-Language: en-US, en-AU, en-GB, en-BW
-From: Matti Vaittinen <mazziesaccount@gmail.com>
-In-Reply-To: <20250808151822.536879-10-arnd@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAPrJmWgC/33SyU7DMBAG4FdBORM0i1dOvAfi4JVGok2VlKqo6
+ rvjFKEExeHokf15xv6vzZiGLo3N88O1GdK5G7v+UBbIjw9N2LnDe2q7WAoNAQkktO0++nbvLpo
+ VtOPn8dgPp5aInQlJSO+4KSePQ8rd5c6+vpX1rhtP/fB1v+WMU/V/74wttCYZRi3NtO3F9/3po
+ zs8hX7fTOKZFgpxXaGisHYmEgVWKa4V/lUkIG4oXBQr0Xrhggdf6UXMCqGoK2KayLEMKnpvlVo
+ rclYYTV2RRcmewLtsdXSwVtSsCNh4XVUU7UiyNFoltmtFLxTa6EUXRSRQYCI4nfNaMbMit3oxR
+ fE+CaOy8sHrtWIXClFdsdNEIgdgiTqJyh8hLBiGjdhBcUJib5MCJ42pODg7GnHDmfIbMsaUyOk
+ oQsWhhbM1Fv4kWGhNWGIM9Ne53W7fwDynHcEDAAA=
+To: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Kamel Bouhara <kamel.bouhara@bootlin.com>, 
+ Linus Walleij <linus.walleij@linaro.org>, 
+ Bartosz Golaszewski <brgl@bgdev.pl>, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+ =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, 
+ Michael Walle <mwalle@kernel.org>, Mark Brown <broonie@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-gpio@vger.kernel.org, linux-input@vger.kernel.org, 
+ linux-pwm@vger.kernel.org, andriy.shevchenko@intel.com, 
+ =?utf-8?q?Gr=C3=A9gory_Clement?= <gregory.clement@bootlin.com>, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+ Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+X-Mailer: b4 0.14.1
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1754909209; l=7002;
+ i=mathieu.dubois-briand@bootlin.com; s=20241219; h=from:subject:message-id;
+ bh=qRJxrx2kH/jKzAy7Y76+IeYgvBpq9Pd1PkMu54IdC5Y=;
+ b=jj7h7TXtMIXGjynb1s0pJ6tNzZDAEftsRU1dFyd/Wta/npm99b1dWfQUCD9KbE2A+Xab03CiM
+ xh4gT/UCKffBB0dUZvo9PVm0gw1wK5g6cgDu6268fnkwvupG0PhSpWg
+X-Developer-Key: i=mathieu.dubois-briand@bootlin.com; a=ed25519;
+ pk=1PVTmzPXfKvDwcPUzG0aqdGoKZJA3b9s+3DqRlm0Lww=
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddufedvvdehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhufffkfggtgfgvfevofesthejredtredtjeenucfhrhhomhepofgrthhhihgvuhcuffhusghoihhsqdeurhhirghnugcuoehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpefhkeffueegvdekiefhfeejueeukeekgeegjeeghefgvdekveevvdekieetkeelveenucffohhmrghinhepkhgvrhhnvghlrdhorhhgpddugedqrhgtvddrqdhlihhnkhenucfkphepvdgrtddumegtsgdugeemheehieemjegrtddtmeeffhgtfhemfhgstdgumeduvdeivdemvdgvjeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddumegtsgdugeemheehieemjegrtddtmeeffhgtfhemfhgstdgumeduvdeivdemvdgvjeeipdhhvghloheplgduvdejrddtrddurddungdpmhgrihhlfhhrohhmpehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedviedprhgtphhtthhopegurghkrheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprghnughrihihrdhshhgvvhgth
+ hgvnhhkoheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehlihhnuhigqdhpfihmsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepuhhklhgvihhnvghksehkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhinhhpuhhtsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhushdrfigrlhhlvghijheslhhinhgrrhhordhorhhgpdhrtghpthhtohepghhrvghgohhrhidrtghlvghmvghnthessghoohhtlhhinhdrtghomh
+X-GND-Sasl: mathieu.dubois-briand@bootlin.com
 
-Hi dee Ho peeps,
+This series implements a set of drivers allowing to support the Maxim
+Integrated MAX7360 device.
 
-On 08/08/2025 18:17, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
-> 
-> Most users of gpio-keys and gpio-keys-polled use modern gpiolib
-> interfaces, but there are still number of ancient sh, arm32 and x86
-> machines that have never been converted.
-> 
-> Add an #ifdef block for the parts of the driver that are only
-> used on those legacy machines.
-> 
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> ---
->   drivers/input/keyboard/gpio_keys.c        | 5 +++--
->   drivers/input/keyboard/gpio_keys_polled.c | 2 ++
->   drivers/mfd/rohm-bd71828.c                | 2 ++
->   drivers/mfd/rohm-bd718x7.c                | 2 ++
->   include/linux/gpio_keys.h                 | 2 ++
->   5 files changed, 11 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/input/keyboard/gpio_keys.c b/drivers/input/keyboard/gpio_keys.c
-> index f9db86da0818..984b20f773ed 100644
-> --- a/drivers/input/keyboard/gpio_keys.c
-> +++ b/drivers/input/keyboard/gpio_keys.c
-> @@ -528,6 +528,7 @@ static int gpio_keys_setup_key(struct platform_device *pdev,
->   			 */
->   			bdata->gpiod = NULL;
->   		}
-> +#ifdef CONFIG_GPIOLIB_LEGACY
->   	} else if (gpio_is_valid(button->gpio)) {
->   		/*
->   		 * Legacy GPIO number, so request the GPIO here and
-> @@ -546,6 +547,7 @@ static int gpio_keys_setup_key(struct platform_device *pdev,
->   
->   		if (button->active_low ^ gpiod_is_active_low(bdata->gpiod))
->   			gpiod_toggle_active_low(bdata->gpiod);
-> +#endif
->   	}
->   
->   	if (bdata->gpiod) {
-> @@ -583,8 +585,7 @@ static int gpio_keys_setup_key(struct platform_device *pdev,
->   			if (irq < 0) {
->   				error = irq;
->   				dev_err_probe(dev, error,
-> -					      "Unable to get irq number for GPIO %d\n",
-> -					      button->gpio);
-> +					      "Unable to get irq number for GPIO\n");
->   				return error;
->   			}
->   			bdata->irq = irq;
-> diff --git a/drivers/input/keyboard/gpio_keys_polled.c b/drivers/input/keyboard/gpio_keys_polled.c
-> index e6707d72210e..0ae0e53910ea 100644
-> --- a/drivers/input/keyboard/gpio_keys_polled.c
-> +++ b/drivers/input/keyboard/gpio_keys_polled.c
-> @@ -301,6 +301,7 @@ static int gpio_keys_polled_probe(struct platform_device *pdev)
->   				return dev_err_probe(dev, PTR_ERR(bdata->gpiod),
->   						     "failed to get gpio\n");
->   			}
-> +#ifdef CONFIG_GPIOLIB_LEGACY
->   		} else if (gpio_is_valid(button->gpio)) {
->   			/*
->   			 * Legacy GPIO number so request the GPIO here and
-> @@ -323,6 +324,7 @@ static int gpio_keys_polled_probe(struct platform_device *pdev)
->   
->   			if (button->active_low ^ gpiod_is_active_low(bdata->gpiod))
->   				gpiod_toggle_active_low(bdata->gpiod);
-> +#endif
->   		}
->   
->   		bdata->last_state = -1;
-> diff --git a/drivers/mfd/rohm-bd71828.c b/drivers/mfd/rohm-bd71828.c
-> index a14b7aa69c3c..fb68694fadca 100644
-> --- a/drivers/mfd/rohm-bd71828.c
-> +++ b/drivers/mfd/rohm-bd71828.c
-> @@ -21,7 +21,9 @@
->   
->   static struct gpio_keys_button button = {
->   	.code = KEY_POWER,
-> +#ifdef CONFIG_GPIOLIB_LEGACY
->   	.gpio = -1,
-> +#endif
->   	.type = EV_KEY,
->   };
->   
-> diff --git a/drivers/mfd/rohm-bd718x7.c b/drivers/mfd/rohm-bd718x7.c
-> index 25e494a93d48..6c99ab62e31b 100644
-> --- a/drivers/mfd/rohm-bd718x7.c
-> +++ b/drivers/mfd/rohm-bd718x7.c
-> @@ -20,7 +20,9 @@
->   
->   static struct gpio_keys_button button = {
->   	.code = KEY_POWER,
-> +#ifdef CONFIG_GPIOLIB_LEGACY
->   	.gpio = -1,
-> +#endif
->   	.type = EV_KEY,
->   };
->   
-> diff --git a/include/linux/gpio_keys.h b/include/linux/gpio_keys.h
-> index 80fa930b04c6..e8d6dc290efb 100644
-> --- a/include/linux/gpio_keys.h
-> +++ b/include/linux/gpio_keys.h
-> @@ -25,7 +25,9 @@ struct device;
->    */
->   struct gpio_keys_button {
->   	unsigned int code;
-> +#ifdef CONFIG_GPIOLIB_LEGACY
->   	int gpio;
-> +#endif
->   	int active_low;
->   	const char *desc;
->   	unsigned int type;
+The MAX7360 is an I2C key-switch and led controller, with following
+functionalities:
+- Keypad controller for a key matrix of up to 8 rows and 8 columns.
+- Rotary encoder support, for a single rotary encoder.
+- Up to 8 PWM outputs.
+- Up to 8 GPIOs with support for interrupts and 6 GPOs.
 
-AFAIR, these ROHM PMICs (bd718[15, 27, 28, 37, 47, 50, 78, 85]) all 
-provide a 'button IRQ', from a power button. (Or, couple of IRQs but 
-let's skip the details) The gpio-keys is used to send the KEY_POWER 
-event when IRQ is detected.
+Chipset pins are shared between all functionalities, so all cannot be
+used at the same time.
 
-The IRQ comes from the PMIC, and the regmap_irq chip provided by the MFD 
-provides it. This IRQ information is delivered to the gpio-keys from the 
-MFD driver via platform data. That's basically what these "button" 
-structs are here for. No GPIO line information (only the IRQ number) is 
-needed to be delivered to the gpio-keys. This problematic assignment:
+Lee Jones suggested the whole series goes through MFD subsystem, once
+all patches got the needed Acks.
 
- > +#ifdef CONFIG_GPIOLIB_LEGACY
- >   	.gpio = -1,
- > +#endif
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+---
+Changes in v13:
+- Rebased on v6.17-rc1.
+- PWM: fixed return value on rounding.
+- Link to v12: https://lore.kernel.org/r/20250722-mdb-max7360-support-v12-0-3747721a8d02@bootlin.com
 
-is only needed to invalidate the gpio information so that the gpio-keys 
-wont use it, only the IRQ.
+Changes in v12:
+- Rebased on v6.16-rc6.
+- PWM: fixed rounding rules.
+- PWM: added a link to the datasheet and fixed case in two error
+  messages.
+- Link to v11: https://lore.kernel.org/r/20250711-mdb-max7360-support-v11-0-cf1dee2a7d4c@bootlin.com
 
-As such, this patch seems Ok to me, you can treat this as an ack :) 
-This, however made me ponder following - is this the tight way to handle 
-the power-button IRQ? I don't see any other MFD devices doing this in 
-same way, although I am pretty sure there are other PMICs with similar 
-power-button IRQ...
+Changes in v11:
+- Rebased on v6.16-rc5.
+- Small fixes in keypad and rotary encoder input drivers: typos and off
+  by one errors.
+- Various fixes in PWM driver and PWM Kconfig.
+- Link to v10: https://lore.kernel.org/r/20250530-mdb-max7360-support-v10-0-ce3b9e60a588@bootlin.com
 
-I see for example the "drivers/mfd/rt5120.c" to invoke 
-"drivers/input/misc/rt5120-pwrkey.c" instead of using the gpio-keys. 
-This, however, feels like code duplication to me. I'd rather kept using 
-the gpio-keys, but seeing:
+Changes in v10:
+- Rebased on v6.15
+- Do not use devm_ functions to allocate regmap-irq in gpio-remap.c
+- Link to v9: https://lore.kernel.org/r/20250522-mdb-max7360-support-v9-0-74fc03517e41@bootlin.com
 
-git grep KEY_POWER drivers/mfd/
-drivers/mfd/rohm-bd71828.c:     .code = KEY_POWER,
-drivers/mfd/rohm-bd718x7.c:     .code = KEY_POWER,
+Changes in v9:
+- Fix build issue with bad usage of array_size() on intermediate commit.
+- MFD: Fix error strings. Also fix #define style in the header file.
+- Pinctrl: Fix missing include.
+- PWM: Fix register writes in max7360_pwm_waveform() and
+  max7360_pwm_round_waveform_tohw().
+- GPIO: Fix GPIO valid mask initialization.
+- Link to v8: https://lore.kernel.org/r/20250509-mdb-max7360-support-v8-0-bbe486f6bcb7@bootlin.com
 
-makes me wonder if there is more widely used (better) way?
+Changes in v8:
+- Small changes in drivers.
+- Rebased on v6.15-rc5
+- Link to v7: https://lore.kernel.org/r/20250428-mdb-max7360-support-v7-0-4e0608d0a7ff@bootlin.com
 
-Yours,
-	-- Matti
+Changes in v7:
+- Add rotary encoder absolute axis support in device tree bindings and
+  driver.
+- Lot of small changes in keypad, rotary encoder and GPIO drivers.
+- Rebased on v6.15-rc4
+- Link to v6: https://lore.kernel.org/r/20250409-mdb-max7360-support-v6-0-7a2535876e39@bootlin.com
+
+Changes in v6:
+- Rebased on v6.15-rc1.
+- Use device_set_of_node_from_dev() instead of creating PWM and Pinctrl
+  on parent device.
+- Various small fixes in all drivers.
+- Fix pins property pattern in pinctrl dt bindings.
+- Link to v5: https://lore.kernel.org/r/20250318-mdb-max7360-support-v5-0-fb20baf97da0@bootlin.com
+
+Changes in v5:
+- Add pinctrl driver to replace the previous use of request()/free()
+  callbacks for PORT pins.
+- Dropping Reviewed-by tags on device-tree binding commit, because of
+  modifications related to the previous point.
+- Remove ngpios property from GPIO device tree bindings.
+- Use GPIO valid_mask to mark unusable keypad columns GPOs, instead of
+  changing ngpios.
+- Drop patches adding support for request()/free() callbacks in GPIO
+  regmap and gpio_regmap_get_ngpio().
+- Allow gpio_regmap_register() to create the associated regmap IRQ.
+- Various fixes in MFD, PWM, GPIO and KEYPAD drivers.
+- Link to v4: https://lore.kernel.org/r/20250214-mdb-max7360-support-v4-0-8a35c6dbb966@bootlin.com
+
+Changes in v4:
+- Modified the GPIO driver to use gpio-regmap and regmap-irq.
+- Add support for request()/free() callbacks in gpio-regmap.
+- Add support for status_is_level in regmap-irq.
+- Switched the PWM driver to waveform callbacks.
+- Various small fixes in MFD, PWM, GPIO drivers and dt bindings.
+- Rebased on v6.14-rc2.
+- Link to v3: https://lore.kernel.org/r/20250113-mdb-max7360-support-v3-0-9519b4acb0b1@bootlin.com
+
+Changes in v3:
+- Fix MFD device tree binding to add gpio child nodes.
+- Fix various small issues in device tree bindings.
+- Add missing line returns in error messages.
+- Use dev_err_probe() when possible.
+- Link to v2: https://lore.kernel.org/r/20241223-mdb-max7360-support-v2-0-37a8d22c36ed@bootlin.com
+
+Changes in v2:
+- Removing device tree subnodes for keypad, rotary encoder and pwm
+  functionalities.
+- Fixed dt-bindings syntax and naming.
+- Fixed missing handling of requested period in PWM driver.
+- Cleanup of the code
+- Link to v1: https://lore.kernel.org/r/20241219-mdb-max7360-support-v1-0-8e8317584121@bootlin.com
+
+---
+Kamel Bouhara (2):
+      mfd: Add max7360 support
+      pwm: max7360: Add MAX7360 PWM support
+
+Mathieu Dubois-Briand (8):
+      dt-bindings: mfd: gpio: Add MAX7360
+      pinctrl: Add MAX7360 pinctrl driver
+      gpio: regmap: Allow to allocate regmap-irq device
+      gpio: regmap: Allow to provide init_valid_mask callback
+      gpio: max7360: Add MAX7360 gpio support
+      input: keyboard: Add support for MAX7360 keypad
+      input: misc: Add support for MAX7360 rotary
+      MAINTAINERS: Add entry on MAX7360 driver
+
+ .../bindings/gpio/maxim,max7360-gpio.yaml          |  83 ++++++
+ .../devicetree/bindings/mfd/maxim,max7360.yaml     | 191 +++++++++++++
+ MAINTAINERS                                        |  13 +
+ drivers/gpio/Kconfig                               |  12 +
+ drivers/gpio/Makefile                              |   1 +
+ drivers/gpio/gpio-max7360.c                        | 257 +++++++++++++++++
+ drivers/gpio/gpio-regmap.c                         |  30 +-
+ drivers/input/keyboard/Kconfig                     |  12 +
+ drivers/input/keyboard/Makefile                    |   1 +
+ drivers/input/keyboard/max7360-keypad.c            | 308 +++++++++++++++++++++
+ drivers/input/misc/Kconfig                         |  10 +
+ drivers/input/misc/Makefile                        |   1 +
+ drivers/input/misc/max7360-rotary.c                | 192 +++++++++++++
+ drivers/mfd/Kconfig                                |  14 +
+ drivers/mfd/Makefile                               |   1 +
+ drivers/mfd/max7360.c                              | 171 ++++++++++++
+ drivers/pinctrl/Kconfig                            |  11 +
+ drivers/pinctrl/Makefile                           |   1 +
+ drivers/pinctrl/pinctrl-max7360.c                  | 215 ++++++++++++++
+ drivers/pwm/Kconfig                                |  10 +
+ drivers/pwm/Makefile                               |   1 +
+ drivers/pwm/pwm-max7360.c                          | 209 ++++++++++++++
+ include/linux/gpio/regmap.h                        |  18 ++
+ include/linux/mfd/max7360.h                        | 109 ++++++++
+ 24 files changed, 1869 insertions(+), 2 deletions(-)
+---
+base-commit: 8f5ae30d69d7543eee0d70083daf4de8fe15d585
+change-id: 20241219-mdb-max7360-support-223a8ce45ba3
+
+Best regards,
+-- 
+Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+
 
