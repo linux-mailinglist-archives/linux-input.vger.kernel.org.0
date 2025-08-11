@@ -1,124 +1,113 @@
-Return-Path: <linux-input+bounces-13916-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13917-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A151B21706
-	for <lists+linux-input@lfdr.de>; Mon, 11 Aug 2025 23:08:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BB92B21795
+	for <lists+linux-input@lfdr.de>; Mon, 11 Aug 2025 23:40:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 103B7681185
-	for <lists+linux-input@lfdr.de>; Mon, 11 Aug 2025 21:07:33 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E947B3A92CF
+	for <lists+linux-input@lfdr.de>; Mon, 11 Aug 2025 21:40:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D67432E2DCD;
-	Mon, 11 Aug 2025 21:06:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD2B72E3386;
+	Mon, 11 Aug 2025 21:40:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="e1Orvt08"
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=mail.selcloud.ru header.i=@mail.selcloud.ru header.b="rrkN+jh3";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=foxido.dev header.i=@foxido.dev header.b="HUFp0JB5";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=foxido.dev header.i=@foxido.dev header.b="bESo7f/I"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from sender8.mail.selcloud.ru (sender8.mail.selcloud.ru [5.8.75.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AADC92E285B;
-	Mon, 11 Aug 2025 21:06:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 091CF28505F;
+	Mon, 11 Aug 2025 21:40:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=5.8.75.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754946388; cv=none; b=iPTKShblFuq4YgxHcYE0anJjWaEQzQ3CGLb1KFWSZU5CIIQPPuSD010DUa2/UOii4DZprcTrRUPFW3hGHmfFLubzJPwmpUUviCxfTXPZhYUdS+BQ0R831U+D+5IJ7ZdSeaOj+oVlyLkUQl3WN43Lwq2lWnUeprUq+jo2masPeRA=
+	t=1754948442; cv=none; b=MbYq112ol275BCgKnEia3ere1sC+igxX4+3zitS0QX0f3Kt9rDgt8DmJBVOkh6uWH7QBjmn9Qsqh10lMix9xJD8XwYxkY05slDq85gBBnhvm1SNzzwnEXmVVeCUCH8+W3RMalK1U2G3Ph9lr/jyDksya7E3amzuXUaKGrw7hZ80=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754946388; c=relaxed/simple;
-	bh=jH1iI4xJGwfuGZfxy0AnoVyd9Mt7S2hCjqY8su0Nvls=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KGAUb9+fK3nGBsi9ljAMFgu0Ufsz7matt/BPN2s2nY/9SMf2lUC9l3JP6Koew7nHGJuldFa8I35LRxuWCR0pcqo5WAa9RkbNkoItFGP0JLOawNh+xArlF6I0+Ueixl9U2wfzV0ENOl8QnHYuoW4v5RVenpgv06mgpLRuGDWCQCk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=e1Orvt08; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0BBAC4CEED;
-	Mon, 11 Aug 2025 21:06:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754946388;
-	bh=jH1iI4xJGwfuGZfxy0AnoVyd9Mt7S2hCjqY8su0Nvls=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=e1Orvt08q5Zgo0cG4iKsVZ5iN/3lETY1fNRYe0SuFZVLA119agKtglbKQFvnCiffG
-	 u0q1Ne8orVfFWi6lyK7w2unX3vaskOl6ovVzO4/2V4v9Of+RLiv43ehxlS3GIUa54a
-	 6vy/jDGi5vKmxH/TZmrQVbUfjw5MPzJUPp6PK7NLGOtdMnlMxVMFGeJm4w73s0XiI2
-	 ihXG4JhViXvHA52uqp/xK4fstwqsh746V4B4EX+5goBJAWOivVU1IJL9ddOoTncxrw
-	 ll4tLoNc+y4NM2N6FCw6Rq9xNDcaIQGk4g0rKnrszU4NQIBUoqYqLZ8meDz/XdZsb3
-	 DqXuUL3JmiQiA==
-Message-ID: <73b355d7-ed40-48c7-b624-380ebdac8f5a@kernel.org>
-Date: Mon, 11 Aug 2025 16:06:26 -0500
+	s=arc-20240116; t=1754948442; c=relaxed/simple;
+	bh=INcKSIidEmhooOmWAnHvpbNFQ375p7EmobfY35aDgN0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=DAkIQyXLIUt4Hk6J2lE5QdI/mUTTifDpLZLOcePkmX/lyLL/u4WP14yM4KwbojQP/lLniw64e1tTnn/ghjvTbSNqiBPUoX72Xx5EuO4/ZJ1NX26MAEBKpfHYS0Ylhfc3xCEDBy3auHvbDsk6LCHxRtZliqVGdG++qLTzNHV3Gig=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foxido.dev; spf=pass smtp.mailfrom=mail.selcloud.ru; dkim=pass (1024-bit key) header.d=mail.selcloud.ru header.i=@mail.selcloud.ru header.b=rrkN+jh3; dkim=pass (1024-bit key) header.d=foxido.dev header.i=@foxido.dev header.b=HUFp0JB5; dkim=fail (2048-bit key) header.d=foxido.dev header.i=@foxido.dev header.b=bESo7f/I reason="signature verification failed"; arc=none smtp.client-ip=5.8.75.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foxido.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mail.selcloud.ru
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=mail.selcloud.ru; s=selcloud; h=Content-Transfer-Encoding:MIME-Version:
+	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:List-id:
+	List-Unsubscribe:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Help:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=kPtagQpWqNGYIhY9cPRe9omNLYktbtQe2SAvQBI3k3c=; t=1754948438; x=1755121238;
+	 b=rrkN+jh37O4cPLnRQVba+qQYBvP4BQqX5v37ArVp+wk1w/MzPLvzZXHy9bJn1cSZwAnPPOZoow
+	38o0lPx78DHtk8339YAKMd1gbK5JIYlXRKG2HwF+qB9nODhrQMxNjMIh9hGW5f9feuyv6+HIlOr41
+	qLDsXMhTUww/ZnRkuT4E=;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=foxido.dev;
+	 s=selcloud; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
+	Message-ID:Date:Subject:Cc:To:From:List-id:List-Unsubscribe:Sender:Reply-To:
+	Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Help:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=kPtagQpWqNGYIhY9cPRe9omNLYktbtQe2SAvQBI3k3c=; t=1754948438; x=1755121238;
+	 b=HUFp0JB5v7Fj3etYI9dZcrdwhNTFa8sz/nldxHo2R0eMQaF3DQsdONFM5HHhJnFbetUeO5K1rW
+	EEB+1EeCaIZjKg8ndAKjUjxlnRIA1CriZ5dIYtpLGESiWuK47eiTialYbahtJaMNbmPSwK2XR/7wh
+	0XO3FM7x0rLUqiuO6vqc=;
+Precedence: bulk
+X-Issuen: 1136024
+X-User: 99111435
+X-Postmaster-Msgtype: 3849
+Feedback-ID: 1136024:15965:3849:samotpravil
+X-From: foxido.dev
+X-from-id: 15965
+X-MSG-TYPE: bulk
+List-Unsubscribe-Post: List-Unsubscribe=One-Click
+X-blist-id: 3849
+X-Gungo: 20250728.224157
+X-SMTPUID: mlgnr62
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxido.dev; s=dkim;
+	t=1754947462; h=from:subject:date:message-id:to:cc:mime-version:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=GEwHpxe57zRDnKU/ER/Gz01cI639JWwJ3pd6HVxPdXQ=;
+	b=bESo7f/ItUToyDdaynA7h2Z2GXGdA534dvVh/CbEetQjjf5Wofdin50hS7uQ80SM9HIeeb
+	0ZTnV+3IESU8AWvk/WNGAv9em+fD/r1UZbyjMJOIBDm8AVogsg7bQ8ZUQO9xTb7rhsl+Bm
+	jDB1Dkf1o0KlHujw049d1TC/5AkatlDmmT5LV7CuJJvPsMxEwOXfqyfzOlJFbIw87atL/j
+	ybdejJPGMEXrXSSCLAd4BN0o9fE9bMDHi5VB1glGM9h4bUcRTaHLrKsTRGcaJiv9NEBSlC
+	IYG1R3RJnitje+EfOwlM73+kyd05GavDtqQq2wKwqa+FlbNb7qAbvPpQBdwbyQ==
+From: foxidokun <foxido@foxido.dev>
+To: dmitry.torokhov@gmail.com
+Cc: foxido@foxido.dev,
+	hansg@kernel.org,
+	ilpo.jarvinen@linux.intel.com,
+	linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	nikita.nikita.krasnov@gmail.com,
+	platform-driver-x86@vger.kernel.org,
+	w_armin@gmx.de
+Subject: Re: [PATCH v2] platform/x86: Add WMI driver for Redmibook keyboard.
+Date: Tue, 12 Aug 2025 00:23:53 +0300
+Message-ID: <20250811212353.4494-1-foxido@foxido.dev>
+X-Mailer: git-send-email 2.50.0
+In-Reply-To: <5e32uo4suh3mtib4tohtekwvycxgfzqcem3wwc6k6wwdxyjhpc@bt57y7vyvpmz>
+References: <5e32uo4suh3mtib4tohtekwvycxgfzqcem3wwc6k6wwdxyjhpc@bt57y7vyvpmz>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] gpiolib: acpi: Program debounce when finding GPIO
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Hans de Goede <hansg@kernel.org>, Mika Westerberg <westeri@kernel.org>,
- Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski
- <brgl@bgdev.pl>, "open list:GPIO ACPI SUPPORT" <linux-gpio@vger.kernel.org>,
- "open list:GPIO ACPI SUPPORT" <linux-acpi@vger.kernel.org>,
- "open list:INPUT (KEYBOARD, MOUSE, JOYSTICK, TOUCHSCREEN)..."
- <linux-input@vger.kernel.org>
-References: <20250811164356.613840-1-superm1@kernel.org>
- <aJpVw39tBNkEtkgZ@smile.fi.intel.com>
-Content-Language: en-US
-From: Mario Limonciello <superm1@kernel.org>
-In-Reply-To: <aJpVw39tBNkEtkgZ@smile.fi.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-Last-TLS-Session-Version: TLSv1.3
+Content-Transfer-Encoding: quoted-printable
 
-On 8/11/25 3:42 PM, Andy Shevchenko wrote:
-> On Mon, Aug 11, 2025 at 11:43:56AM -0500, Mario Limonciello (AMD) wrote:
->> When soc-button-array looks up the GPIO to use it calls acpi_find_gpio()
->> which will parse _CRS.
->>
->> acpi_find_gpio.cold (drivers/gpio/gpiolib-acpi-core.c:953)
->> gpiod_find_and_request (drivers/gpio/gpiolib.c:4598 drivers/gpio/gpiolib.c:4625)
->> gpiod_get_index (drivers/gpio/gpiolib.c:4877)
->>
->> The GPIO is setup basically, but the debounce information is discarded.
->> The platform will assert what debounce should be in _CRS, so program it
->> at the time it's available.
->>
->> As this is considered non fatal if it fails, introduce a helper for
->> programming debounce and show a warning when failing to program.
-> 
-> I think I already commented on this previously. Let me do that below anyway.
-> 
-> ...
-> 
-> 
->> +static void acpi_set_debounce_timeout(struct gpio_desc *desc, unsigned int timeout)
->> +{
->> +	int ret;
->> +
->> +	/* ACPI uses hundredths of milliseconds units */
->> +	ret = gpio_set_debounce_timeout(desc, timeout * 10);
->> +	if (ret)
->> +		dev_warn(&desc->gdev->dev,
->> +			 "Failed to set debounce-timeout: %d\n", ret);
->> +}
-> 
-> I would make it still return the code to the caller. See below why.
-> 
-> 
-> ...
-> 
->> -			/* ACPI uses hundredths of milliseconds units */
->> -			ret = gpio_set_debounce_timeout(desc, info.debounce * 10);
->> -			if (ret)
->> -				return ret;
->> +			acpi_set_debounce_timeout(desc, info.debounce);
-> 
-> The commit message fails to explain why we do relax the condition here. This is
-> about GpioInt() resource and so far I haven't heard about misused debounce
-> values there. If we drop the fatality, it has to be a separate patch explaining
-> why. But only if we have practical use cases. AS long as there no failed
-> platforms, I can't agree on this piece of change.
-> 
+> > +	/* For linearizability */
+> > +	guard(mutex)(&data->key_lock);
+>
+> What is the exact purpose of this mutex? What does it protect?=20
 
-Thanks for the feedback.  I thought that I got your feedback the first 
-time when I originally squashed, but I must have failed.
+It protects key sequence, so there wouldn't be race between two press & r=
+elease combinations resuulting into press - press - release - release ord=
+er.
 
-In that case I don't think we really need a helper at all.  I'll change 
-it for v4 to just add the extra call without the use of a helper.
+--
+Gladyshev Ilya
 
