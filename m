@@ -1,155 +1,68 @@
-Return-Path: <linux-input+bounces-13901-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13902-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEBFBB20711
-	for <lists+linux-input@lfdr.de>; Mon, 11 Aug 2025 13:14:00 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A01CB20803
+	for <lists+linux-input@lfdr.de>; Mon, 11 Aug 2025 13:39:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 143582A232A
-	for <lists+linux-input@lfdr.de>; Mon, 11 Aug 2025 11:14:01 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8B4AB164D4D
+	for <lists+linux-input@lfdr.de>; Mon, 11 Aug 2025 11:39:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D3EA2BF005;
-	Mon, 11 Aug 2025 11:13:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8794F2D0C85;
+	Mon, 11 Aug 2025 11:39:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b="TROteofY"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BeST76Bg"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92A7F2BEC23
-	for <linux-input@vger.kernel.org>; Mon, 11 Aug 2025 11:13:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C2CA191493;
+	Mon, 11 Aug 2025 11:39:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754910825; cv=none; b=GowxHGEiLdq5AtZj7mtJyw5/auHViJVoQC0AqXCFFb2Wux+IBLq4SUkfp75Uc0oJkGbxykIFviYG10eo+835Yq2PJ35cB13nmcaFhG+P33LV6hFuMqJjiA0pQAKVeeKQ9onxTfLmOnVRhaMsVrgFeUH4Z6X9LJXtXUhgh5YeFc8=
+	t=1754912343; cv=none; b=QwmGtPL0ahI3NhJ8EEbXvyuczCAfnuzW948doZXp6zKGbgw92f1tJ5VU2wH/o0oL+SAIDjrdood9HYkl9QvzwuTvOG5DqyZyOmqA/Sn/ECNZU977pCr7m+pnZWLXRDThU/BRAl/DHfNN5wPw2LrpjuyTs5Tn2hF0BwkK5yKJWEs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754910825; c=relaxed/simple;
-	bh=mkMKBwz5BKx3M5ukHVq0U7xYjHmmJcHQfBYE9D9pbLY=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Fj+QtYWbYt8QaNoo1RFpLr+t/6qptS1t8ssKoqhgiSZsYiKUcJ8LJaxZO+DrZjkssb7/mGJhO/t/zSXW3kEa4g/MRJYxll5JwcwpJfx1w6QQCFqVWpdedAinTTfi1jaxgDQUPeWQrcVDtxfXwDRj2RIJ16yfb7lpik80TQAvtXY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fairphone.com; spf=pass smtp.mailfrom=fairphone.com; dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b=TROteofY; arc=none smtp.client-ip=209.85.208.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fairphone.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fairphone.com
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-61580eb7995so8586384a12.0
-        for <linux-input@vger.kernel.org>; Mon, 11 Aug 2025 04:13:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fairphone.com; s=fair; t=1754910821; x=1755515621; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=SKHJowmVjOKhweg/31XcJuN1dKyemiZUjq/gTTEI0D4=;
-        b=TROteofYOvDg3irF3m9RkDwT3FLkah9WL0dLcQzXxIevGrTa7+MBhT0UXpahFRAOuP
-         g4lSe8UwlIQAb04/jEIJ1Kd8/sAdoFLv1GjLg/kYA8x+uoHO/lfIRzBq03505w5506My
-         wmoUKRaRbWAfsB2AnzCrUVm9o4x9tzAcQ0e7XrmBFrW+zpIVyUIYabkryATfWi18r8LF
-         yHa3uTABTLLmajy6dQ+HRkz5tXfDWDS3pHnm9HfghNbyZgAqwVE0ZnYxau3tVaZF1h4B
-         KJ1E1r78+pCb4y0W82D8ixIlDiabUyM2EX8/OG2PNNRzExuhACoFWmZ2xmi5fhbKjqVI
-         KGKw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754910821; x=1755515621;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=SKHJowmVjOKhweg/31XcJuN1dKyemiZUjq/gTTEI0D4=;
-        b=WZz11yAca5VkZBXauv8qrumfhYvrkLWCZ5aHMRVn0dMvek6dmar9M4pULnUprsgRqM
-         3Wb8EhGUiukB4l3EjQDVskaPbgHFf0yk22cwkDeli49PBsMH/BbA1vXvJwLuYgkzAMCH
-         j5v0VzDLjc2brU0sdLyA+QzAdemeCUg6nBpvuTsY/gr0GJXWVkUJeSXFb4FRX62FpykG
-         CcMAn7GW92on9oLkXNxdA23m2A4kpVGr7fbTBV/NLo6OZutvZBZKY9ztqlyXKR46n515
-         yh9/lMf48kIKUeoGSL5/ELrO8KHrmP2Hpx06jYqEcjWa63WjMNuhDhdOYYFSa8OWCdIr
-         nh6A==
-X-Gm-Message-State: AOJu0YzGA0FzxrbCMayQN0vlmfy1nqtzddvpjIajc/YQvvxJL7c5rsd8
-	+es/gtttOYEvYbLPUPzeNwBsmzqfslhfRCVp0Oamm7/qWxj5LbK2V5KX5u7YB7pma7c=
-X-Gm-Gg: ASbGncsbuwGNJYlO+Ft7c7gyQcQP23bT9Xu4bRlVgW5XTnpNB8FbyywOZOUZvU1Yikg
-	ZAVXIlVf+kau9LqiuYPNGyR2bDZPWpfRl0xxhHglSKpDbBFkAusJWNeYNzVUp3DGiQrdPljdVWF
-	9kw04X7r8u6eUIk6+Q5mz4BnBP3sUIFBYhTLrd49RbYxkWEKURe7LWF8QaIMig5LvJHj1ArZT1a
-	8AEyM0thndcRTG3ZKGh1JPF/yH8jsd1gYFNatSYB2CtwOC5wK6yJAnRvVrs5tIzqCK6zd/Fbm1G
-	4nTEvfLUWJp1TdzcnQcoz9GWvvEsZ/0h6wRRiuN3YlVNkRXP2AAixS4KVCIsdWGlBiXz6aaL1FF
-	q/C8XcHZKyTUud6GhzuDFnKAk3dTspRFNDGjIjLhDDx3Jg9rtDJV6+kBNf4yBoJiISOkio4XVzg
-	Efqf8JD49wNepNzg==
-X-Google-Smtp-Source: AGHT+IHRCN7eL24f2+uJ1/cTx21XdXiqqR+ERsGO4alvFO10WDOS1ocb+M0vZv9ahqle1MU54VlnSw==
-X-Received: by 2002:a05:6402:34c3:b0:618:1ccf:5d33 with SMTP id 4fb4d7f45d1cf-6181ccf5ef0mr4724047a12.3.1754910820752;
-        Mon, 11 Aug 2025 04:13:40 -0700 (PDT)
-Received: from [172.16.220.71] (144-178-202-139.static.ef-service.nl. [144.178.202.139])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-61821e562c0sm2467278a12.30.2025.08.11.04.13.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Aug 2025 04:13:40 -0700 (PDT)
-From: Griffin Kroah-Hartman <griffin.kroah@fairphone.com>
-Date: Mon, 11 Aug 2025 13:12:03 +0200
-Subject: [PATCH v2 3/3] arm64: dts: qcom: qcm6490-fairphone-fp5: Add
- vibrator support
+	s=arc-20240116; t=1754912343; c=relaxed/simple;
+	bh=nxzasvokZUTvEwIkIttlFs2/bLWUGFwww6pz1b7Avic=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=lexRsimazg+QoVdFdbOZTEXhx5w0JfWpVi9XDRVuFmLkwkDs7/4BeVaaEj+9xzvp4VpKkLMQ/gcXKThnnVU7vFBkf+dDwG2l5knzOH7eDL8nksgvsxmhvoyqq4s2mMTi3pF+v78Tx29Gp8gVdUpasdbLToVerh10LJs1JrRdJAA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BeST76Bg; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C1E5C4CEED;
+	Mon, 11 Aug 2025 11:39:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1754912342;
+	bh=nxzasvokZUTvEwIkIttlFs2/bLWUGFwww6pz1b7Avic=;
+	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+	b=BeST76BgId7QNCcFOQaZLgzbDSF2+xqAasxshukkX9W7lo8EaqYboUb+lTFlxumJ5
+	 +ZVVzKtTKL/CE4Vj1DY8l2slXVRCpsNL74g9nMd+51CJglzf1Ht8xiQo9QpwUcODCq
+	 wP3FNX4dWZXhXZKOjMD/mwhGadhDGdkXbZYewvjyl55aXYTMnlb7n5dtVCT+5Zs291
+	 XD03J15amLcPx7DAQWI53I6DidpGIYCF0BDg6FH+EIynNsxnZkQIGk7YMOSUMG0Fhq
+	 eG/1hQoK4Lic7eeXbzP84gpBvXznPCeXvksb7i0rwK1ECtkW/uSihT1U4uuJ0xAZJl
+	 eU2EJ3iFMch1g==
+Date: Mon, 11 Aug 2025 13:39:00 +0200 (CEST)
+From: Jiri Kosina <jikos@kernel.org>
+To: Aaron Ma <aaron.ma@canonical.com>
+cc: even.xu@intel.com, xinpeng.sun@intel.com, bentiss@kernel.org, 
+    linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] HID: intel-thc-hid: intel-quicki2c: Fix ACPI dsd
+ ICRS/ISUB length
+In-Reply-To: <20250803065726.2895470-1-aaron.ma@canonical.com>
+Message-ID: <qosrs9q2-6qrr-46r7-7nnp-s1nr1o265885@xreary.bet>
+References: <20250803065726.2895470-1-aaron.ma@canonical.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250811-aw86927-v2-3-64be8f3da560@fairphone.com>
-References: <20250811-aw86927-v2-0-64be8f3da560@fairphone.com>
-In-Reply-To: <20250811-aw86927-v2-0-64be8f3da560@fairphone.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>, 
- Luca Weiss <luca.weiss@fairphone.com>
-Cc: linux-input@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- Griffin Kroah-Hartman <griffin.kroah@fairphone.com>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1754910818; l=1231;
- i=griffin.kroah@fairphone.com; s=20250804; h=from:subject:message-id;
- bh=mkMKBwz5BKx3M5ukHVq0U7xYjHmmJcHQfBYE9D9pbLY=;
- b=RzORlAlz1VWsCrifplQz2SBF+em4EZ3hbSv5P4U3iXjuWlyJeHqx7WLRQ4fYGjxBiBEqtOBLU
- 5UAtWu+vTfnCXFwRxIUeOwaKNEcsIHQx+/fTBGZYAlaQQtubiJUJA0x
-X-Developer-Key: i=griffin.kroah@fairphone.com; a=ed25519;
- pk=drSBvqKFiR+xucmLWONHSq/wGrW+YvcVtBXFYnYzn8U=
+Content-Type: text/plain; charset=US-ASCII
 
-Add the required node for haptic playback (Awinic AW86927).
-
-Signed-off-by: Griffin Kroah-Hartman <griffin.kroah@fairphone.com>
----
- arch/arm64/boot/dts/qcom/qcm6490-fairphone-fp5.dts | 18 +++++++++++++++++-
- 1 file changed, 17 insertions(+), 1 deletion(-)
-
-diff --git a/arch/arm64/boot/dts/qcom/qcm6490-fairphone-fp5.dts b/arch/arm64/boot/dts/qcom/qcm6490-fairphone-fp5.dts
-index 4c6cb4a644e2..9576efdf1e8d 100644
---- a/arch/arm64/boot/dts/qcom/qcm6490-fairphone-fp5.dts
-+++ b/arch/arm64/boot/dts/qcom/qcm6490-fairphone-fp5.dts
-@@ -866,7 +866,16 @@ ocp96011_sbu_mux: endpoint {
- 		};
- 	};
- 
--	/* AW86927FCR haptics @ 5a */
-+	vibrator@5a {
-+		compatible = "awinic,aw86927";
-+		reg = <0x5a>;
-+
-+		interrupts-extended = <&tlmm 101 IRQ_TYPE_EDGE_FALLING>;
-+		reset-gpios = <&tlmm 100 GPIO_ACTIVE_LOW>;
-+
-+		pinctrl-0 = <&aw86927_int_default>;
-+		pinctrl-names = "default";
-+	};
- };
- 
- &i2c2 {
-@@ -1415,6 +1424,13 @@ usb_redrive_1v8_en_default: usb-redrive-1v8-en-default-state {
- 		bias-disable;
- 		output-high;
- 	};
-+
-+	aw86927_int_default: aw86927-int-default-state {
-+		pins = "gpio101";
-+		function = "gpio";
-+		drive-strength = <2>;
-+		bias-pull-up;
-+	};
- };
- 
- &uart5 {
+Both patches now applied to hid.git#for-6.17/upstream-fixes, thanks.
 
 -- 
-2.43.0
+Jiri Kosina
+SUSE Labs
 
 
