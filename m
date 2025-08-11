@@ -1,80 +1,128 @@
-Return-Path: <linux-input+bounces-13905-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13906-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DB3DB20849
-	for <lists+linux-input@lfdr.de>; Mon, 11 Aug 2025 14:01:05 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 38772B20954
+	for <lists+linux-input@lfdr.de>; Mon, 11 Aug 2025 14:52:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DCFB542670A
-	for <lists+linux-input@lfdr.de>; Mon, 11 Aug 2025 12:01:03 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5BE32168F34
+	for <lists+linux-input@lfdr.de>; Mon, 11 Aug 2025 12:52:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2671F2D3229;
-	Mon, 11 Aug 2025 12:01:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A9A7E217709;
+	Mon, 11 Aug 2025 12:52:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hAEwfeDy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S5XNTjBH"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0248141C62
-	for <linux-input@vger.kernel.org>; Mon, 11 Aug 2025 12:01:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 149182E370F;
+	Mon, 11 Aug 2025 12:52:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754913662; cv=none; b=HI3a/Ya6RC11D/LzPd4dYNJX1X1Pyr36sdT6tYGwjRLH3pmCbqBfY9ige543Bq6MWGZ48JKELzx3Oi2U7wzGV3k4YDM/j8H9r+pe3xHSKauqGVezdYwylHrN8WEqvPV3+fXcoU35s3IbVhmMKydwtdqVHaZj1TDI7FI9MxE4d2A=
+	t=1754916749; cv=none; b=iIJDU6ZgpePnlyO9fvSAHDQo3JxdXodbQ32S7noahDQlY6aYCR95/IN0Vszk3HVw6Bbi8XzXnu5Z/2TLHXRX5dnftdMPoHK/4eg/VxB2vw8hGpIv8LE+V+mw84o9kfMBKuKcnXkJ5NjgyWTY8xWLurf5d0Aq7td3zSXij8TC3r0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754913662; c=relaxed/simple;
-	bh=88dzZzqEtKbbPbVxGM5RDOh0at5b5FE20LfFybVZI9w=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=cHZdntGBFu+s773XxuMLz2dMsjZ8FsPF9ep9/Qw1MOgMQi1+d8pZggky8w92g0NJK1sdJznzmZeCizkOxEVuBRtlp4A1otu/GSCF5C9nh+BZIaAab2YtKB2TTWWu06YHEfBW0iLGKG1EOLVb81jmsSPQRk70y8Itu9lfrAoXPq0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hAEwfeDy; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1CD95C4CEED;
-	Mon, 11 Aug 2025 12:01:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754913661;
-	bh=88dzZzqEtKbbPbVxGM5RDOh0at5b5FE20LfFybVZI9w=;
-	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=hAEwfeDyXp/Du2FhOosLjCVerLn5qHO/04P69C6JDjUTNC1LfDGDAn1h4JAWXu3hc
-	 B/ONXrf/W8enUWAhsbAfsJkBSHup2vdblgHKVXkoIsogI0bjhXxUCuhz7JG0Jptc35
-	 +HUaS2M+WCT0dO5ckRsvitwzqNiUem4rYINB7jy5T3hkPYEiEfP1Yt2eNIxilE0cZL
-	 QQRxr2MwAjULMas/R7yXU79EfLvwtkTMWQIa0im9qIuT0/YfLnX2ZkD2fWNT+OXA/O
-	 upPhKkjS4TLwmupKRs1LiFsvHfXOg1dS4rxdpSC7OfSwS3TMb7d6FteXbanHRzgi/I
-	 nHknd9vYPRctw==
-Date: Mon, 11 Aug 2025 14:00:58 +0200 (CEST)
-From: Jiri Kosina <jikos@kernel.org>
-To: Vicki Pfau <vi@endrift.com>
-cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
-    Benjamin Tissoires <benjamin.tissoires@redhat.com>, 
-    linux-input@vger.kernel.org
-Subject: Re: [PATCH 4/6] HID: Map more automobile simulation inputs
-In-Reply-To: <20250808043017.1953101-5-vi@endrift.com>
-Message-ID: <sp9n10pn-0o05-8qo6-32sp-qo23n564547r@xreary.bet>
-References: <20250808043017.1953101-1-vi@endrift.com> <20250808043017.1953101-5-vi@endrift.com>
+	s=arc-20240116; t=1754916749; c=relaxed/simple;
+	bh=sKcDxReHvOjMWuRz/JJIjfs2GC55bod9+lD6K9tF16k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MEz3z8jrRELXMwdpxVQazfohNrXtoAzOz+CzSuhuI6NrFRz9GBzfP0aI9ZSYcP+Ub5Rq9c/H84EjRUEtjUbWXNZtsAUYpkrWixIJAUvunkgim+v+yDYRy7ptYJgoX5B27N7VXe7bYHTx1bRcDs7YQzQCUcMTIaIccuhXj/ErsgY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S5XNTjBH; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1754916748; x=1786452748;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=sKcDxReHvOjMWuRz/JJIjfs2GC55bod9+lD6K9tF16k=;
+  b=S5XNTjBH7Y2WCbXYIKDTjDR5mrAnUZYYcWXcR+pT4v2jMTTZ/nEEbiAy
+   vOA9+9c/eK/lCZzRaPf1Q1SlxG0VVFwzZd0VXCotiRIOmAyk6nuRvKU5I
+   lj8P/VFcgw+ifwgumVxpykW3K69c45WAdzKGItOdB4V+Wlc87XBcL4M6k
+   o6kdHfeWuTfzZuR3nnsiMNxJfQqubjnu6z6HtYulSUOVLv8QhrZBRxYR6
+   XzPJz4ZHUxbX8ce31UPWbOGIm0mLTQTST0/PT51vKbqQdHr14FLEm7UUR
+   YMvKg9EZyxOQGTc1PShbOKL6CaB566gXB2KNGOpXTfVEosj8WoMuYdUdA
+   g==;
+X-CSE-ConnectionGUID: b6lVElART9eyo31z69buCQ==
+X-CSE-MsgGUID: +d13Y+FPSUWis5NArG2mbQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11518"; a="57089243"
+X-IronPort-AV: E=Sophos;i="6.17,278,1747724400"; 
+   d="scan'208";a="57089243"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2025 05:52:27 -0700
+X-CSE-ConnectionGUID: xFz4n3B8RWuruOLSnyLmXg==
+X-CSE-MsgGUID: bBnKF4ZXRJqsXLbK/cPS6w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,278,1747724400"; 
+   d="scan'208";a="166709515"
+Received: from smile.fi.intel.com ([10.237.72.52])
+  by fmviesa010.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2025 05:52:23 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1ulS0i-000000052c0-0OQj;
+	Mon, 11 Aug 2025 15:52:20 +0300
+Date: Mon, 11 Aug 2025 15:52:19 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Matti Vaittinen <mazziesaccount@gmail.com>
+Cc: Arnd Bergmann <arnd@kernel.org>, Bartosz Golaszewski <brgl@bgdev.pl>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	linux-gpio@vger.kernel.org,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Lee Jones <lee@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+	Gatien Chevallier <gatien.chevallier@foss.st.com>,
+	Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Charles Keepax <ckeepax@opensource.cirrus.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 09/21] input: gpio-keys: make legacy gpiolib optional
+Message-ID: <aJnng9z9pUTFI49x@smile.fi.intel.com>
+References: <20250808151822.536879-1-arnd@kernel.org>
+ <20250808151822.536879-10-arnd@kernel.org>
+ <b7e97aa3-8f2d-4a59-8a38-577717404865@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <b7e97aa3-8f2d-4a59-8a38-577717404865@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Thu, 7 Aug 2025, Vicki Pfau wrote:
+On Mon, Aug 11, 2025 at 01:34:43PM +0300, Matti Vaittinen wrote:
+> On 08/08/2025 18:17, Arnd Bergmann wrote:
 
-> The HID usage tables section 5.3 specify clutch and shifter values that had
-> previously been ignored. As the ABS_CLUTCH and ABS_SHIFTER bits now exist,
-> we should use them appropriately.
+...
+
+> As such, this patch seems Ok to me, you can treat this as an ack :) This,
+> however made me ponder following - is this the tight way to handle the
+> power-button IRQ? I don't see any other MFD devices doing this in same way,
+> although I am pretty sure there are other PMICs with similar power-button
+> IRQ...
 > 
-> Signed-off-by: Vicki Pfau <vi@endrift.com>
+> I see for example the "drivers/mfd/rt5120.c" to invoke
+> "drivers/input/misc/rt5120-pwrkey.c" instead of using the gpio-keys. This,
+> however, feels like code duplication to me. I'd rather kept using the
+> gpio-keys, but seeing:
+> 
+> git grep KEY_POWER drivers/mfd/
+> drivers/mfd/rohm-bd71828.c:     .code = KEY_POWER,
+> drivers/mfd/rohm-bd718x7.c:     .code = KEY_POWER,
+> 
+> makes me wonder if there is more widely used (better) way?
 
-FWIW
-
-	Acked-by: Jiri Kosina <jkosina@suse.com>
-
-so that it could be merged together with the rest of the series.
+FWIW, on Intel platforms that use power button by PMIC we add a special driver
+for each of such cases.
 
 -- 
-Jiri Kosina
-SUSE Labs
+With Best Regards,
+Andy Shevchenko
+
 
 
