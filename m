@@ -1,183 +1,143 @@
-Return-Path: <linux-input+bounces-13932-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13934-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59880B21CC3
-	for <lists+linux-input@lfdr.de>; Tue, 12 Aug 2025 07:11:27 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 822ECB21EC6
+	for <lists+linux-input@lfdr.de>; Tue, 12 Aug 2025 09:07:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0E33C3B4AC1
-	for <lists+linux-input@lfdr.de>; Tue, 12 Aug 2025 05:11:26 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7393217CBB0
+	for <lists+linux-input@lfdr.de>; Tue, 12 Aug 2025 07:07:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 68AFE278E42;
-	Tue, 12 Aug 2025 05:11:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C158D2D6E6F;
+	Tue, 12 Aug 2025 07:07:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QMsmmC2r"
+	dkim=pass (2048-bit key) header.d=ewhac.org header.i=@ewhac.org header.b="jXE/ZqBv"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from dog.birch.relay.mailchannels.net (dog.birch.relay.mailchannels.net [23.83.209.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85BDC1A9FA6;
-	Tue, 12 Aug 2025 05:11:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.171
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754975483; cv=none; b=IRYUSOgYM6jInVMvfoGrzqDrNYd0m4OdIWc/K+3gH6sSjGEiQ+u7n5SWt2lBkgolatk3WF5vtJ0H2MSEgJH5rPmqVjzoOrYeZBTNP3XSZIIOKxVkOnzZ420m4fLAAzKWLjMZsSzg1YWWI1koZRvVCrMrgqC+TijWVJtBI2SwWeA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754975483; c=relaxed/simple;
-	bh=ruoWzsKElHTPoCIhnSgV0Sg7RApZtpOfeWv8x9LYjcg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MleMVjnoRwo4Xk33vEQOMGJZShfgIVOr4ZYbb13SD5dlIFpNXOYVyeimnzjCjtgoNiGx6z7xYH6sYS0BgdQUV7Zeql2j5Xv/Bzut+n0l7TTLjz/pKLM8/TA8wmKvb8e0Ae3McMqvYBd1v/PC5tti0QHBLBRK9rs5fVsebMBnVLs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QMsmmC2r; arc=none smtp.client-ip=209.85.208.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-333be1f3f46so18511151fa.2;
-        Mon, 11 Aug 2025 22:11:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1754975479; x=1755580279; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=6RCogcx5Oo6CLi0hB9llbGlmCv7IU5XWHAW2F4/A1O8=;
-        b=QMsmmC2rrFn5Ob1oNw/DzCewplzJ2m+X0fWHCcKbh1zup+tvlq7ouQY4yah3I5eCSv
-         odz0a7IabDbXTDICkkvkL4SkamcNWbAdRXR2Z9TQH0ZSGKxrH+mNtfNfnzHnX4f6ppP2
-         PGh3Wj66O8ToZ3NX491oTFDIs3KA4UZSKL90FcxpyfHI2LONaWTNtLF3XLCEhFGQD0l1
-         Cxny5+ra+TkUHxWcKGV1kz+060f7pbQ9/iRq6s1AADkxRpz4Y3Bv05cVZHu7P9IQk+E5
-         yvBuNHUGzAHLhPCoSggqvI53CoYcpaioJt0Va5ScbEMMTi44guC7FLAHv0ZaSJ3/J8pO
-         +XTg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754975479; x=1755580279;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=6RCogcx5Oo6CLi0hB9llbGlmCv7IU5XWHAW2F4/A1O8=;
-        b=dIvtz1CAuMAbfzTkcr2typU9quh5KXHTpFx/FO7SSwbVzIjTv2gdKjb091MVtm1ioQ
-         uHk63l4SmqlFvRe7wvB6RePyO3zG+JIZefFRLL1Fs+0M0cM2y3gAtm21IYXBQDJbM+fJ
-         qMRM6Dt+a5KSOB/dwRMmdCrR9aWZ3pCi3BT8YyIyxbSgW+E/P9BbTH9uAoIai8FAk2km
-         AxTTPhMYvWnWSH/frnlzuFeZlS1+Kp45PBuTG1bh83kn7za5qcD7Fb9/41IM3id4kfmo
-         TWSyjAysFk/TEf3r0mar3B1rHVpipyY+BUaEGO+Nc8s5Un2wRhYML7xttmjMNXPHeb18
-         QnTw==
-X-Forwarded-Encrypted: i=1; AJvYcCVTAVXngNHZhbzSUwle6wISbkGyzYU5pVYpLt4i2Asd7RpAiy+dBIt/j/EN3s5bEbqvuSA4edVUp7wa@vger.kernel.org, AJvYcCXBVLmHCajAO6UGo2ufNnctoSl2KQ+cTUfnOK4J/lf/EOIwZrsrr4+9U3QvG4RsnCtGJHN4KbQ564iAXi/A@vger.kernel.org, AJvYcCXSiylD1DCs7mTWuSXSwmUnlhW+hvUTupzNRuMNCCyfpKKdumfZVd9MaObiI16qSG29C8SgFGNy+COS8s4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwmzV31zzdNmg9StQleBkiKxkmobzgO5QpHIITDUxT1rbq2aJty
-	zxMv7WSmFWuHb8T9qtYkuN65HRz46+0cYK4RqDmfFjc7gLQ5eP49oowp
-X-Gm-Gg: ASbGnctOKpEC7DihJLl7g4R5Xps0iUOFjTDQDgR8yjElsmAVlTvkrIEQKLAtwHHapOG
-	8U11RLd6ZUL1TGFh+K26eXDw4EINPvkwDzZtvtVW4/NdIPbS0nhGHm9A7L0dZy+vV1CZ3C3kgd+
-	l0Ptye7FuhK67LValqVSJYQfuXcFWlYcsBP6lm12EmRpxHjHyqYJ4QF5ADigCAdY4KgSQOE5izX
-	CRtZ0zE/+t4CTFGGdxz6PxxFhqItRUM7/7ErTeKzAEovZDOE2wovdxADgb4B4TE8+O0e+wP0tGA
-	5L3HwVT1oiw3xodxRIZ43cbxiddaGEFQIf6mLeT+AIQwNCch9lnX2bzu/WwHZB4prtQxyEKWt6I
-	tvglP4PQpUJ+52jw3l+a2IQx8/plnIU8wKOS+Ck1+28xicn8EppyVJIIKaUylJOAHBy1VFko0p9
-	NO/zs=
-X-Google-Smtp-Source: AGHT+IHWJM7707fkvhhfDDaVDfm0yh8SKnLXN3Du9JflbVXZU98HEhTKuegsiCyTS1CVAK9w56sCKQ==
-X-Received: by 2002:a2e:bc10:0:b0:332:50e7:9898 with SMTP id 38308e7fff4ca-333d7ad447emr4442691fa.13.1754975479216;
-        Mon, 11 Aug 2025 22:11:19 -0700 (PDT)
-Received: from ?IPV6:2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703? ([2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-332388d46besm42491251fa.48.2025.08.11.22.11.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 11 Aug 2025 22:11:18 -0700 (PDT)
-Message-ID: <b3c94552-c104-42e3-be15-7e8362e8039e@gmail.com>
-Date: Tue, 12 Aug 2025 08:11:16 +0300
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5C74311C19;
+	Tue, 12 Aug 2025 07:06:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=23.83.209.48
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1754982421; cv=pass; b=jUxdcl1oELTR/iZJACWm9wi3XIpn2UKbRqb8EpvNVV9sopa1e/8T2XsRt7Zfe4+6VfUr5oYorOWSxtoP72rOVihLIIOMPUDVm9tiI32sfa5iHlgKgnm/vjXHDVzqE/Nxw6Ij32wc6r+g6BAsE6mhBhnSJfPGATncCMt8ZYfrF8o=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1754982421; c=relaxed/simple;
+	bh=ZQ0okqKGDJVVm4Nkk1XqJHtZmMRv7bgVvv+UZcX7ZIs=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=V8p2eF/aNRlZfShxPfUsNUV5kd1lZyuLAEiDv2IHnA87X/mQwCn7Z3Hhckflp3p8S4pevs3QPtWkZWNrd9b5ezjIClGc6G/nj7QSelQIKCJtYoFb8qtBDqd0btpMS6eMQ7LZwZguVU7dO1XwGF5iGSS+UdoqCMkyt2RG2xXq5SE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ewhac.org; spf=pass smtp.mailfrom=ewhac.org; dkim=pass (2048-bit key) header.d=ewhac.org header.i=@ewhac.org header.b=jXE/ZqBv; arc=pass smtp.client-ip=23.83.209.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ewhac.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ewhac.org
+X-Sender-Id: dreamhost|x-authsender|ewhac@ewhac.org
+Received: from relay.mailchannels.net (localhost [127.0.0.1])
+	by relay.mailchannels.net (Postfix) with ESMTP id 0F2EF84736;
+	Tue, 12 Aug 2025 06:51:36 +0000 (UTC)
+Received: from pdx1-sub0-mail-a238.dreamhost.com (trex-blue-7.trex.outbound.svc.cluster.local [100.96.10.77])
+	(Authenticated sender: dreamhost)
+	by relay.mailchannels.net (Postfix) with ESMTPA id 9975F831EA;
+	Tue, 12 Aug 2025 06:51:35 +0000 (UTC)
+ARC-Seal: i=1; s=arc-2022; d=mailchannels.net; t=1754981495; a=rsa-sha256;
+	cv=none;
+	b=C8dnRZ8qS87AKhdDyo9p9kBxtKPwNgw0zZg6fI9HWQmi1K+0fw82FIpaaHKNq0/Bd9EWCk
+	uJWvaBAiLEASQsEHBsPw7E8TV5LXeyvhzEscY7xebkTz9dLmZ95XdLWgfVQk0DN7pjl0Kr
+	J+NMrKN61WXczfCJXar/GoF3QF0sE1txbzesj/XYYe35RVqekAbzPRD9796JNzEpu8o6Zg
+	K0MdEESjylcNTdxsbmy4WkmMUv49QvxaPZejUKS1YhAquKBreJ5Qo5NaVHp/7iTxMdwlRV
+	SmeXaG5RBf2ZvsdalflSRLXcH6B+7zWj8L1T3uEXBlVPXmBdw8y4UhtMGtWQ/g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mailchannels.net;
+	s=arc-2022; t=1754981495;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:dkim-signature;
+	bh=kRicNxBu0/BNrlEnKXrl0+QWeet/sW5wMlvda/7vxUw=;
+	b=FO1oP/qnfAqFKBd6wld+pHNebaBzjFmTVcU+kE4+yT+Uca/0KAe5eS7E5lq1rSqPoVLMbx
+	etETfbWPYcVta4i4MEU7YrlK2T5+gmKCDDMJIE8UR1y3NWXvUory1QkMzDj3RkKCAiRaeV
+	Htyh7th3xI6/z6PK2TFCEmQBuR3OuEYoVCySexLsqKF5iM1mleUbHvElnBFLhInUgTMYKE
+	wXagUasX8Pf8E27h3zs6XyykChr8W0/LEha4vUYmPbru9dmg923MG+F1AtFLpaoubqpXVT
+	jR/6qQa+DIXrZ2dNjzWmRFRSHR4AQf9Jgsu2warpzRN/HyouVQhZz3agDNgoVA==
+ARC-Authentication-Results: i=1;
+	rspamd-7c5968dc44-zd5gp;
+	auth=pass smtp.auth=dreamhost smtp.mailfrom=ewhac@ewhac.org
+X-Sender-Id: dreamhost|x-authsender|ewhac@ewhac.org
+X-MC-Relay: Neutral
+X-MailChannels-SenderId: dreamhost|x-authsender|ewhac@ewhac.org
+X-MailChannels-Auth-Id: dreamhost
+X-Eight-Illustrious: 7e53320657b34859_1754981495884_3580620071
+X-MC-Loop-Signature: 1754981495884:1929241158
+X-MC-Ingress-Time: 1754981495884
+Received: from pdx1-sub0-mail-a238.dreamhost.com (pop.dreamhost.com
+ [64.90.62.162])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
+	by 100.96.10.77 (trex/7.1.3);
+	Tue, 12 Aug 2025 06:51:35 +0000
+Received: from ewhac.org (unknown [135.180.175.143])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: ewhac@ewhac.org)
+	by pdx1-sub0-mail-a238.dreamhost.com (Postfix) with ESMTPSA id 4c1Mc73419z4B;
+	Mon, 11 Aug 2025 23:51:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ewhac.org;
+	s=dreamhost; t=1754981495;
+	bh=kRicNxBu0/BNrlEnKXrl0+QWeet/sW5wMlvda/7vxUw=;
+	h=Date:From:To:Cc:Subject:Content-Type:Content-Transfer-Encoding;
+	b=jXE/ZqBv0rGhivCxTn9hasaILo7mHtfwoX1hzTV4bLyYFkbmGoonsR32C4M2p/kVM
+	 qHrUOLvHOSVHty9xGEDT8CGGDS4eKnGgM4t32VUhfs9/j1Ltc8CswCf5p6eJmlt71k
+	 64tp3uTs4tbxJoleE7ksFj9yCRmeO9AuLAlwgqyFiMoOqTyJEVYN6k3+hIYNCRWBz0
+	 gomFhNpzM2Tc41JuHXcIqmFDzEDvyHDEzBqiCKTDFBsVUErP5T7GGYWUjVzq+lc+eF
+	 /Ennz1jpi3HivlZXdw0mxxrdFYfY++/qzXinKTWoyuin5Etn5CzKz1LYPsk1Z/E3oS
+	 7XF7pCHrQVblg==
+Received: from ewhac by walkies with local (Exim 4.98.2)
+	(envelope-from <ewhac@ewhac.org>)
+	id 1ulir8-00000004crC-3yVV;
+	Mon, 11 Aug 2025 23:51:34 -0700
+Date: Mon, 11 Aug 2025 23:51:34 -0700
+From: "Leo L. Schwab" <ewhac@ewhac.org>
+To: Markus Elfring <Markus.Elfring@web.de>
+Cc: linux-input@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	Hans de Goede <hansg@kernel.org>, Jiri Kosina <jikos@kernel.org>,
+	Kate Hsuan <hpa@redhat.com>, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH] HID: lg-g15 - Add support for Logitech G13.
+Message-ID: <aJrkdqrCG2FQZr53@ewhac.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 09/21] input: gpio-keys: make legacy gpiolib optional
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Arnd Bergmann <arnd@kernel.org>, Bartosz Golaszewski <brgl@bgdev.pl>,
- Linus Walleij <linus.walleij@linaro.org>, linux-gpio@vger.kernel.org,
- Lee Jones <lee@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- Gatien Chevallier <gatien.chevallier@foss.st.com>,
- Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
- Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Charles Keepax <ckeepax@opensource.cirrus.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
- linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20250808151822.536879-1-arnd@kernel.org>
- <20250808151822.536879-10-arnd@kernel.org>
- <b7e97aa3-8f2d-4a59-8a38-577717404865@gmail.com>
- <aJnng9z9pUTFI49x@smile.fi.intel.com>
- <mrqxggv7vhclnranoc3uacfyzccod6dmc54kip4f7wjdpngjzz@falnsjwnfcjc>
- <aJpOEq_5jqGTUr4x@smile.fi.intel.com>
-Content-Language: en-US, en-AU, en-GB, en-BW
-From: Matti Vaittinen <mazziesaccount@gmail.com>
-In-Reply-To: <aJpOEq_5jqGTUr4x@smile.fi.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <202508120615.TGJUom52-lkp@intel.com>
+ <d37e7ccd-1d5d-4237-8a7e-a0eb10ec069d@web.de>
+ <92a3486e-f101-4ca4-a611-a5c1c6afa6ca@web.de>
 
-On 11/08/2025 23:09, Andy Shevchenko wrote:
-> On Mon, Aug 11, 2025 at 12:21:51PM -0700, Dmitry Torokhov wrote:
->> On Mon, Aug 11, 2025 at 03:52:19PM +0300, Andy Shevchenko wrote:
->>> On Mon, Aug 11, 2025 at 01:34:43PM +0300, Matti Vaittinen wrote:
->>>> On 08/08/2025 18:17, Arnd Bergmann wrote:
+On Mon, Aug 11, 2025 at 07:00:24PM +0200, Markus Elfring wrote:
+> See also once more:
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/process/submitting-patches.rst?h=v6.16#n94
 > 
-> ...
+
+On Mon, Aug 11, 2025 at 07:10:46PM +0200, Markus Elfring wrote:
+> Under which circumstances would you become interested to apply a statement
+> like “guard(mutex)(&g15->mutex);”?
+> https://elixir.bootlin.com/linux/v6.16/source/include/linux/mutex.h#L225
 > 
->>>> As such, this patch seems Ok to me, you can treat this as an ack :) This,
->>>> however made me ponder following - is this the tight way to handle the
->>>> power-button IRQ? I don't see any other MFD devices doing this in same way,
->>>> although I am pretty sure there are other PMICs with similar power-button
->>>> IRQ...
->>>>
->>>> I see for example the "drivers/mfd/rt5120.c" to invoke
->>>> "drivers/input/misc/rt5120-pwrkey.c" instead of using the gpio-keys. This,
->>>> however, feels like code duplication to me. I'd rather kept using the
->>>> gpio-keys, but seeing:
->>>>
->>>> git grep KEY_POWER drivers/mfd/
->>>> drivers/mfd/rohm-bd71828.c:     .code = KEY_POWER,
->>>> drivers/mfd/rohm-bd718x7.c:     .code = KEY_POWER,
->>>>
->>>> makes me wonder if there is more widely used (better) way?
->>>
->>> FWIW, on Intel platforms that use power button by PMIC we add a special driver
->>> for each of such cases.
->>
->> If we can make gpio-keys work for various power buttons that would be
->> great IMO. The MFD drivers in question already are using device tree,
->> but they do not define/expect nodes for the power buttons. If the nodes
->> were there then I think gpio-keys would work out of the box?
-> 
-> Looking at the, e.g., https://elixir.bootlin.com/linux/v6.16/source/drivers/platform/x86/intel/mrfld_pwrbtn.c,
-> I am not sure it's as simply as it sounds. Basically it's an IRQ, which
-> requires IRQ handling and proper acking/masking/etc.
 
-In some (many?) cases the interrupts (acking/masking) are handled by an 
-irqchip code. When this is the case, the gpio-keys (or any other 
-power-button code) does not need to care about IRQ-specifics. (I don't 
-know about the Intel driver though.)
+On Tue, Aug 12, 2025 at 08:00:09AM +0800, kernel test robot wrote:
+> kernel test robot noticed the following build errors:
+> [ ... ]
+>    drivers/hid/hid-lg-g15.c: In function 'lg_g13_event':
+> >> drivers/hid/hid-lg-g15.c:703:68: error: 'struct led_classdev' has no member named 'brightness_hw_changed'
+>      703 |                 (!!TEST_BIT(rep->keybits, 23)) ^ (g15->leds[0].cdev.brightness_hw_changed > 0);
+>          |                                                                    ^
+>
+	Thank you.  Updated patch forthcoming which will hopefully address
+these concerns.
 
-Problem with many of the bd718* (and probably some other MFD drivers) 
-is, that the interrupts are really relevant only for the drivers 
-specific to this one device (like PMIC in ROHM case). When this is the 
-case, the device is not really (from the HW perspective) an 
-interrupt-controller, which means it shouldn't probably be marked as one 
-in the device-tree either. It will then also mean that there can't be 
-meaningful interrupt specification for the button IRQ in the 
-device-tree, right?
-
-Additionally, we have devices where most of the interrupts are internal 
-to the PMIC, but then the PMIC also has some pins usable as GPIO, which 
-can be used as interrupt sources. Eg, someone can connect another device 
-to these pins - which makes the PMIC an interrupt-controller. For these 
-PMICs the power-button IRQ can be provided via device-tree node (but the 
-IRQ spec may become a bit hairy, since most of the IRQs are meant to be 
-internal).
-
-Hence, for me, providing the IRQ number in platform data seems still to 
-be the right thing to do :)
-
-TLDR; I agree with Dmitry. It's nice to have an easily re-usable 
-power-button handler, which requires no IC-specific code. Gpio-keys 
-works for simple IRQ based power-buttons where IRQ controller takes care 
-of the acks/masks. I just wanted to know if it is for some reason 
-discouraged, or if I've used it in a wrong way (because the grep 
-resulted so few results).
-
-Yours,
-	-- Matti
+					Schwab
 
