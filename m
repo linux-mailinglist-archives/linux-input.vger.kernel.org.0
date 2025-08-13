@@ -1,168 +1,85 @@
-Return-Path: <linux-input+bounces-13962-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13963-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CF93B24607
-	for <lists+linux-input@lfdr.de>; Wed, 13 Aug 2025 11:51:33 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B0B0AB245EC
+	for <lists+linux-input@lfdr.de>; Wed, 13 Aug 2025 11:48:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 909D13AB20B
-	for <lists+linux-input@lfdr.de>; Wed, 13 Aug 2025 09:47:04 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 73D4A7B8DD9
+	for <lists+linux-input@lfdr.de>; Wed, 13 Aug 2025 09:46:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C7E12F2910;
-	Wed, 13 Aug 2025 09:41:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C82F62F49E4;
+	Wed, 13 Aug 2025 09:43:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BJ7BbSf8"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MQTo0Bnr"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2484C2ED16D;
-	Wed, 13 Aug 2025 09:41:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D7482F49E3;
+	Wed, 13 Aug 2025 09:43:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755078102; cv=none; b=l0uqRKCl5TMfhnt0CZMDFJ5ODPV6UqyYcHWDketjbZ3byYCiv5ABwzAPc7AGG9jpPh6NQjBeXKXxTPqGBnBz6R4CWoHjxZpfYlhpoDEh6ffzRgivsJMGvjOmXKETfYB0C1eXprySr8TUd4HSI1hhczP+I4aaiQAg+m025IU4s6k=
+	t=1755078209; cv=none; b=rKy91rgwaEbfxeCWpNLlpUHdSqInFMDsTi86PtBJyixmkeAriJsTKyorXICxrRIELElZXwO8s+W17W6id/jtzowcKJ/v1yCsBy0dSnuAOhekhECXY2nr4NT8LbtZlnlTeQnLAED+mCI1VBiKEBYijkkPgNZWPhgbnSeou0GC6j0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755078102; c=relaxed/simple;
-	bh=uiPIPOH/oX+kh+Fm75zjM5o93wJTsklX3fdXosMjObw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sVnFcRM3xW6sNxzsjLCOaPUrUnCxpAljuhozq03AtgykOJU7rH4rwXbnodwZNemBRY1UnvX4wW1VZVmOcvbAkkQZ6Fb5tHXQA+YA82PK3Al0SgquR5QsT3qtJZTMz4CG5UNeuY5ptW/KdnxvFjMEyjeHbx/Dr1DMzMLlVK4wxKg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BJ7BbSf8; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9FB14C4CEEB;
-	Wed, 13 Aug 2025 09:41:40 +0000 (UTC)
+	s=arc-20240116; t=1755078209; c=relaxed/simple;
+	bh=2CYSXSBYq1yIR3wbdZ1I7bq0fSZwbBOw313F1cLYXNM=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=nM+brnzmtQtaoM3zRbVyar6l+wGhf7SPdETd0hSCP+h7H/TLZ2PL8ZWH3aTGmUH3ARr7asxGb4Tm2UfUW4CXi//4EsW9pkwicUkZ/4vXTNptNbwD4MWEKdWJYJ2XZooouzSDzxHOeh7yd+SIAiYTrlfgx1fJW02N7hyMohFlrLg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MQTo0Bnr; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C56C2C4CEEB;
+	Wed, 13 Aug 2025 09:43:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755078101;
-	bh=uiPIPOH/oX+kh+Fm75zjM5o93wJTsklX3fdXosMjObw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=BJ7BbSf8AyS9ziwbGDbjmkdtrIhNM1GiqzH2PyV/G2f53BrkWbX5/zCYM9I3Ip9ro
-	 xB9nVuZU3fpQRRa1lG4aSYf78SxBlgdRKMaOq8FbIlXRFQ8O+0SU+WV0rS67XtaJ4b
-	 V5qKMryELnAl88wo/x5C9JXOMk+UGIddaIqQIXzaswKAWbTfi2iHrX2+VPlQCx2Xye
-	 7zdAQHnzJpGXBCSCmNTaMMeS8/hjC5y3VqLfAfA7u2RLF5PGtlMym4osXXdFL2NdLn
-	 DtqxFRbj7wcoUyClqufQghF6/nysroRuQs5VkvOWqS99UzTulaO80iMuVQZGHx/z6S
-	 932AczzlrXkvA==
-Date: Wed, 13 Aug 2025 11:41:38 +0200
+	s=k20201202; t=1755078209;
+	bh=2CYSXSBYq1yIR3wbdZ1I7bq0fSZwbBOw313F1cLYXNM=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=MQTo0Bnr5EORwCpjiwRbuiUfh0V5l3wgFfnbMKnLmOPvqSpVy/H/emqBbBPUUNx6F
+	 nIta4TV6bWB+wiyCR7Il9Ti22jPb7MUWlWB8s3ZzuuaHuPRi4CK+uu383GDo+UrF3O
+	 92L0TYp+tYJ8Xz+vrPEwGG9/L8CVmqonFI/+E4ocV7q+li9PelXzf3hIpA9GVCDEfs
+	 zFLOQvZoCtfzgB8jy7YHBNqJb6ZeoQ7usWOP8uPqvqXC5vDwzG/F4X5KY0sWwE0pJx
+	 ar0rLJo48bOPuKNODWrFri7YatVDaHNqXisxqmZvDkj+ZC2rPaAgsy0Dmfxtgbtua7
+	 9hYoU0ZJchvvw==
 From: Benjamin Tissoires <bentiss@kernel.org>
-To: Minjong Kim <minbell.kim@samsung.com>
-Cc: Jiri Kosina <jikos@kernel.org>, linux-input@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] HID: hid-ntrig: fix unable to handle page fault in
- ntrig_report_version()
-Message-ID: <53uert6bh3h5iieft6hokij5sq73zs3scpoqtmtpg3tuhfc6w4@vxf5m4gmkc57>
-References: <CGME20250717061154epcas1p329022ab54ed143d2a8d5b3f8b7554b38@epcas1p3.samsung.com>
- <20250717-hid-ntrig-page-fault-fix-v1-1-96fa145a137f@samsung.com>
- <rqo85n88-82s2-30s6-qn80-r4r943p4q59o@xreary.bet>
- <20250813051751.z6vxd6tvrfelmxou@minbellkim-500TGA-500SGA>
- <elszhqc5knv2o4mvq2frul6vglqxsdyrjepzgmda45lmrh4ylp@qvdvsgumuigx>
- <20250813092234.ja5qfpvkxocfnchd@minbellkim-500TGA-500SGA>
+To: Rishi Gupta <gupt21@gmail.com>, Arnaud Lecomte <contact@arnaud-lcm.com>
+Cc: Jiri Kosina <jikos@kernel.org>, linux-i2c@vger.kernel.org, 
+ linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ syzbot+52c1a7d3e5b361ccd346@syzkaller.appspotmail.com
+In-Reply-To: <20250726220931.7126-1-contact@arnaud-lcm.com>
+References: <20250726220931.7126-1-contact@arnaud-lcm.com>
+Subject: Re: [PATCH] hid: fix I2C read buffer overflow in raw_event() for
+ mcp2221
+Message-Id: <175507820752.20076.8458113244883958100.b4-ty@kernel.org>
+Date: Wed, 13 Aug 2025 11:43:27 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250813092234.ja5qfpvkxocfnchd@minbellkim-500TGA-500SGA>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.2
 
-On Aug 13 2025, Minjong Kim wrote:
-> On Wed, Aug 13, 2025 at 10:39:37AM +0200, Benjamin Tissoires wrote:
-> > On Aug 13 2025, Minjong Kim wrote:
-> > > 
-> > > From 75e52defd4b2fd138285c5ad953942e2e6cf2fbb Mon Sep 17 00:00:00 2001
-> > > From: Minjong Kim <minbell.kim@samsung.com>
-> > > Date: Thu, 17 Jul 2025 14:37:47 +0900
-> > > Subject: [PATCH v2] HID: hid-ntrig: fix unable to handle page fault in
-> > >  ntrig_report_version()
-> > > 
-> > > in ntrig_report_version(), hdev parameter passed from hid_probe().
-> > > sending descriptor to /dev/uhid can make hdev->dev.parent->parent to null
-> > > if hdev->dev.parent->parent is null, usb_dev has
-> > > invalid address(0xffffffffffffff58) that hid_to_usb_dev(hdev) returned
-> > > when usb_rcvctrlpipe() use usb_dev,it trigger
-> > > page fault error for address(0xffffffffffffff58)
-> > > 
-> > > add null check logic to ntrig_report_version()
-> > > before calling hid_to_usb_dev()
-> > > 
-> > > Signed-off-by: Minjong Kim <minbell.kim@samsung.com>
-> > > ---
-> > >  drivers/hid/hid-ntrig.c | 3 +++
-> > >  1 file changed, 3 insertions(+)
-> > > 
-> > > diff --git a/drivers/hid/hid-ntrig.c b/drivers/hid/hid-ntrig.c
-> > > index 2738ce947434..fa948d9e236c 100644
-> > > --- a/drivers/hid/hid-ntrig.c
-> > > +++ b/drivers/hid/hid-ntrig.c
-> > > @@ -144,6 +144,9 @@ static void ntrig_report_version(struct hid_device *hdev)
-> > >  	struct usb_device *usb_dev = hid_to_usb_dev(hdev);
-> > >  	unsigned char *data = kmalloc(8, GFP_KERNEL);
-> > > 
-> > > +	if (!hdev->dev.parent->parent)
-> > 
-> > Why simply not use if(!hid_is_usb(hdev)) instead?
-> > 
-> > Cheers,
-> > Benjamin
-> >
+On Sat, 26 Jul 2025 23:09:31 +0100, Arnaud Lecomte wrote:
+> As reported by syzbot, mcp2221_raw_event lacked
+> validation of incoming I2C read data sizes, risking buffer
+> overflows in mcp->rxbuf during multi-part transfers.
+> As highlighted in the DS20005565B spec, p44, we have:
+> "The number of read-back data bytes to follow in this packet:
+> from 0 to a maximum of 60 bytes of read-back bytes."
+> This patch enforces we don't exceed this limit.
 > 
-> From 61818c85614ad40beab53cee421272814576836d Mon Sep 17 00:00:00 2001
-> From: Minjong Kim <minbell.kim@samsung.com>
-> Date: Thu, 17 Jul 2025 14:37:47 +0900
-> Subject: [PATCH v3] HID: hid-ntrig: fix unable to handle page fault in
->  ntrig_report_version()
-> 
-> in ntrig_report_version(), hdev parameter passed from hid_probe().
-> sending descriptor to /dev/uhid can make hdev->dev.parent->parent to null
-> if hdev->dev.parent->parent is null, usb_dev has
-> invalid address(0xffffffffffffff58) that hid_to_usb_dev(hdev) returned
-> when usb_rcvctrlpipe() use usb_dev,it trigger
-> page fault error for address(0xffffffffffffff58)
-> 
-> add null check logic to ntrig_report_version()
-> before calling hid_to_usb_dev()
-> 
-> Signed-off-by: Minjong Kim <minbell.kim@samsung.com>
-> ---
->  drivers/hid/hid-ntrig.c | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/drivers/hid/hid-ntrig.c b/drivers/hid/hid-ntrig.c
-> index 2738ce947434..0f76e241e0af 100644
-> --- a/drivers/hid/hid-ntrig.c
-> +++ b/drivers/hid/hid-ntrig.c
-> @@ -144,6 +144,9 @@ static void ntrig_report_version(struct hid_device *hdev)
->  	struct usb_device *usb_dev = hid_to_usb_dev(hdev);
->  	unsigned char *data = kmalloc(8, GFP_KERNEL);
->  
-> +	if (!hid_is_usb(hdev))
-> +		return;
-> +
->  	if (!data)
->  		goto err_free;
->  
-> -- 
-> 2.34.1
-> 
-> 
-> I checked that crashes didn't occuered this patch
-> then, I'm just wondering why it is effective?
-> could you explain me about this?
+> [...]
 
-You are basically trying to detect if a device is connected through uhid
-or usb. uhid doesn't set the hdev->dev.parent->parent field, which is
-only available when connected over an actual USB port.
+Applied to hid/hid.git (for-6.17/upstream-fixes), thanks!
 
-So instead of relying on struct internals, I just told you to use the
-proper mechanism to ensure that the function which will call usb
-specifics will actually work on usb connected devices only, not emulated
-devices.
+[1/1] hid: fix I2C read buffer overflow in raw_event() for mcp2221
+      https://git.kernel.org/hid/hid/c/b56cc41a3ae7
 
 Cheers,
-Benjamin
-
-> 
-> Best regards,
-
+-- 
+Benjamin Tissoires <bentiss@kernel.org>
 
 
