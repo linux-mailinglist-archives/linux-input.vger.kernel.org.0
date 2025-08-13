@@ -1,87 +1,87 @@
-Return-Path: <linux-input+bounces-13980-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13981-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6CE9B25460
-	for <lists+linux-input@lfdr.de>; Wed, 13 Aug 2025 22:11:08 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 18179B25455
+	for <lists+linux-input@lfdr.de>; Wed, 13 Aug 2025 22:10:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 89FF19A5E54
-	for <lists+linux-input@lfdr.de>; Wed, 13 Aug 2025 20:10:17 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 653D61C855FE
+	for <lists+linux-input@lfdr.de>; Wed, 13 Aug 2025 20:10:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B9EC92FD7BA;
-	Wed, 13 Aug 2025 20:10:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3A9E82FD7CF;
+	Wed, 13 Aug 2025 20:10:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gK3ogwHM"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XTALqIKK"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C89962FD7B8
-	for <linux-input@vger.kernel.org>; Wed, 13 Aug 2025 20:10:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 798B02FD7BF
+	for <linux-input@vger.kernel.org>; Wed, 13 Aug 2025 20:10:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755115811; cv=none; b=oPkceO62Sk00Cszh7vmkjHwndZc+kDJbX5Uy+QwlbyIzcSXKNMeh1VWaMNU2QSz4spyikWKJiXohh71X1Bx/MPZ91pWGFzdG18GDTOdmjaA6uEK8HwfPp8SUsLRXzJvBl3PJ8M6s8fMJxjtmGWul7AW7WBQkEgWqDKHMp97XtNw=
+	t=1755115812; cv=none; b=aDcoGc3vVnIDV/c8PCl8wxopXvmI5lG6t6bTe4ru2mNeItuYDW62iA0IyTFAi2tlex7TnrjxJdpRDiXU7K3kg85HSFD0BYig7hhfdDhrSnoy2v1Fkfcj6KdnvXyDnuet+6IDcoCoact2cP8J9Sq15cB5WNUpbh7sToTcsg03rgc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755115811; c=relaxed/simple;
-	bh=WQdmBIDWDwjwU+p3Cyn5FP24KWSW/IDoo7k3kTfrDac=;
+	s=arc-20240116; t=1755115812; c=relaxed/simple;
+	bh=fSeXuCNLn50zEFEYr+dX7zcSXr9kE/0zvHaTMnnz4p8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hJgw4nlXf0bgmFi3rq/sRs01zu8I9jWJTxidvKaXukdBPM2GssYvEAP0Z7xT4plaawkIgyQD3ElkNAA0kw6r2UC82MI8Z2cL+cYY8psMgndlJFTuB50cxEXA7gSOVoMmeUeuBqw4mtmYzb1R9q8l3AWDY/s8M8QyqEbd3rVWfow=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gK3ogwHM; arc=none smtp.client-ip=209.85.218.41
+	 MIME-Version:Content-Type; b=lZxOKAYlvm1TaQ2W7n/ICi3CkKsibR2NFkz4XYoJzDPjfKt+kSF3WVePSv2McmeUBeY+zzbmSRapJoMh4UlCZ8HYNh0CqDR7r1Nj9KaVNGa4pVAUucqjmygX+9MjEaTu9SCEJp+vAbIwd6svdUy8A5iE5/93ln0utXbGYOmb3n4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XTALqIKK; arc=none smtp.client-ip=209.85.218.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-afcb79fb221so3174966b.2
-        for <linux-input@vger.kernel.org>; Wed, 13 Aug 2025 13:10:09 -0700 (PDT)
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-afcb78d5e13so3236866b.1
+        for <linux-input@vger.kernel.org>; Wed, 13 Aug 2025 13:10:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755115808; x=1755720608; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1755115809; x=1755720609; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=4xQNBJpLo+ENTfbN0SB+vJ104e+ysv9gTzT8Xztb8OA=;
-        b=gK3ogwHMFTn9whUb20aBPCET+33xZAaqUGfRosMtS1MkYDOhMVUFeNHzQBHCyPsI0L
-         e1aiftyAjPn9LBlfOClk/yzHDDLCufSSuE/zesjImPhzPgT0pbzIgaoeVqqHoqLqn3+U
-         rYtI4Jt8YXO6+0PP+xIXQNCvik4RR6Redi8wVSyuGjygTU1CpD1/f/M08gl4gpjwjAsX
-         WYeQdeSCYw3nzyFxUJk/MV1GvNTGGO89ZkGWs21hm/ZwORLaTAdKsSZPcvJLg9z5kyHY
-         6GJH0qPtq1W+nvcIwZitAL4O9WaR8wDCiYNQ3zttELVR5nsYDWVN0UnLaFTBV0J80H4q
-         TNOg==
+        bh=HtOrb7V+J7PqCFzhJp4YD9Mip/hvCyAShGIDPm0hP+A=;
+        b=XTALqIKKtGRccvFlw13PVaIMRiUmhx8m4DlrgYz357rUwzF4Bg5e2P+m2EV+SiVbEI
+         ueMsUI21RwZD3a46jDNaAT+hVh1NGkd/8N99T0h9fJj77e+L9X3Xppltg3f1p9zZvKvf
+         1V4+fjhDGIzFzPGqwMBooG+rAoVbgphLYIcJ3OK5T6qT5E/x2chwsqfS3AiTdYGs//YY
+         /ktGN5mvsWzOIuBXMLu0i4x1HfG4awBneeFOvt4BO/zJnIIyLYM1uojxNHfedmTOCiUQ
+         a7OmErN7evNN3rNSnzvKkEoXPo/X4YYfFWvZu3t7PeyRWph9/Rx0mmrqQL4sE6X+Brj5
+         YGxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755115808; x=1755720608;
+        d=1e100.net; s=20230601; t=1755115809; x=1755720609;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=4xQNBJpLo+ENTfbN0SB+vJ104e+ysv9gTzT8Xztb8OA=;
-        b=xRiXSOQ20LoDXbBfzM42fz30hm8csvWE0m1r34ymm/uxGXbefUrZNQjK/glELg3X7N
-         i4z9t4bYYNBFrcd/mU0oSQ3B1uxhc2F9Q2P6fy7FwHU4+LEvwvmVPjrHkDlBpk927Jp8
-         XC4zvXV2U3BySv8glttQSwBEdyr/S1ii7cZkKkuIQBR7JBHpvfd5cwyJK8SumSTNtA/0
-         flMnMrmLLdkDZW0DTUjVPEo8sBq6bPmKK90AbjOttSN0En9trPm+V83CRYACjbAUR01+
-         oBGm1ZPlIZ0Fd9xNur3QKY/GZ2bc9TpZVz/Zx77HCVtJawrNpep4jlIv1JzmoZ/a6df/
-         oyOg==
-X-Forwarded-Encrypted: i=1; AJvYcCU20WBoT1M7jfDITRTEYSmGpx4RjbYHouV8pmJYnCKU1Cs3KEaFnNEIuGD1PB0QSnLJFgVumj0jXkm/RA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzFT8IJlX0c8QL5muPsc3caYagFZrD2lbS1j11xyg99fMi9rfCB
-	uLG+73rMqJp8BNyjCAfgINCMzS3PwCOE2P0C8l1vyF2DfBoVvoDIH2ry
-X-Gm-Gg: ASbGnctdXKff7ijNgqKguPR9Br4m2mXoZT5kMlg1azk+k0YdZhi0ZDRBrsBiUux22Gw
-	5qpe2H3FYAUBQ1Ugo3hzJ6GCedDocrhNOC+1JgTI4A5Xl2Kxa4fvdts4tHbI0gooSMI31t3+dNe
-	uiQ/JwXP0S9LR45TTzvPVJ7k9PfTm41BchSBxFSN3MKpXzbmX51ITg0DCvplS6KaO1WIR8DlAZO
-	IdM8IeuEwsd+wtJZD7SD5wzA3+PVFyYTFWgS0blXtGhxIoYq3iqI96qUAcdtoDNOrbh6XcG8hXu
-	ObuGtt6xVUMw6uAR7C3KuyLuZog1ucl+sWZ+iGa8zMbzHJfDtx8kCIISTI+tX9qw3xBK5BYD6eT
-	DPmLCSoVuEd+ZNKbAJC5cHwmey8SLoxaKkkbAHOPQYoaW9J68h6UYyW5462p6nHwIBtxZU5N4Ky
-	Q=
-X-Google-Smtp-Source: AGHT+IFBLLqguoZ+1E5J93NTUjVJIFQMlutL7M/Iu6MYuW06y1e5mFesrrfT65LquupWiGR+faIpng==
-X-Received: by 2002:a17:907:7204:b0:af9:5903:3696 with SMTP id a640c23a62f3a-afcb97cb358mr21029166b.2.1755115807820;
-        Wed, 13 Aug 2025 13:10:07 -0700 (PDT)
+        bh=HtOrb7V+J7PqCFzhJp4YD9Mip/hvCyAShGIDPm0hP+A=;
+        b=bbe+xOm8nWgsOuLz5nl/qZcafIKQb8hklZoLoMEKYFF4RbtgRceO9tJ64A1gjHlA3Z
+         1WfKsAMEExKq7EFag3wXh5iS3KGJneY1JC7dccPqPHn7eeoG1BhcYzQzPUMbj26RlYJg
+         1KLkyYNrEw44kjiL9OURhjGxuMY+mOiZvhZFX8u2Ssk8Mk49XQYcYXYBnlAp0hUsLbAc
+         y6EV3Bg3k5DptxP5Mg3+rXEjmWeqs3dt65Yr6yNHGU3VxZIA3eIDDhPtDDo9V8CQ2trL
+         klqX7JsCAxVMXdkXzpFmVkBhEhePm+bHHusWGCzN3HhgnP4JiLEiEIt6ULxBJFyv2F69
+         Z29g==
+X-Forwarded-Encrypted: i=1; AJvYcCXYs/GLAb176h45vGJbWg5p/vaW7p/bnuBUbI+AGMuoJl82ZBs6nrO53pn6Zqu5vFCdicqqak2wmoI7Zw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxHoqyz+SOhh9VQ4KreQbJ5/nsRzRm10SXeRETIb9bndmzGU8zR
+	kl1bedMMKIkbkC2QYAL26M/ouW+S+kTu3vJ2Hmbdn/PmI1a6KlcLL75kpg1rUw==
+X-Gm-Gg: ASbGncusGa73X411oXtkRegR77SjwsYQ93pLzsidGG99gGeJD0XGFJ7H6ZFb58gCBJ5
+	dZ0PNX96WFFTPQhf9fX6pTza7F9hUTachLh1Uw1aA57EhfdLY8IGYpH9q8zxEq8KjB5OGIu04zw
+	vCaO8H25Ht/keEO5JeE1WY+p9ivbT4gLpAoZgm8YrD5tTIoXzK0AgKuHyYJFB3HJ0sLaTRmscjf
+	PGAimpxEB1k+jLRypJGzNXwA15kODx00Rw5QT11gtzvUaAVlUBBKzegXuAC2AR5uCmLxBjutbgx
+	a4p0+DJkxlgm73mabruD8JCIBsOXlSRP4qoHCZeFazzAEgz0tIxS99VbB//7lU67IzVtNoLv7uC
+	d1VqQnpVoesjMGZ7FxnR0jovUdJhEP2tn7npfLZZ2uGW+YFCFPP2t/yAS5RstJcf195v1kALQkG
+	M=
+X-Google-Smtp-Source: AGHT+IF00FGqsp2HtG4kG2iWqEi2H1lDPJ3tsfyREC8koiZ5bIXFsbNT6Z2kyS6tO6i7q+i1lPcMEg==
+X-Received: by 2002:a17:906:c145:b0:af9:3d0a:f383 with SMTP id a640c23a62f3a-afca4d61532mr187394666b.6.1755115808503;
+        Wed, 13 Aug 2025 13:10:08 -0700 (PDT)
 Received: from laptok.lan (87-205-5-123.static.ip.netia.com.pl. [87.205.5.123])
         by smtp.gmail.com with ESMTPSA id a640c23a62f3a-af91a21c0ccsm2454092266b.111.2025.08.13.13.10.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Aug 2025 13:10:07 -0700 (PDT)
+        Wed, 13 Aug 2025 13:10:08 -0700 (PDT)
 From: =?UTF-8?q?Tomasz=20Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>
 To: jikos@kernel.org,
 	bentiss@kernel.org
 Cc: oleg@makarenk.ooo,
 	linux-input@vger.kernel.org
-Subject: [PATCH v2 01/17] HID: pidff: Use direction fix only for conditional effects
-Date: Wed, 13 Aug 2025 22:09:49 +0200
-Message-ID: <20250813201005.17819-2-tomasz.pakula.oficjalny@gmail.com>
+Subject: [PATCH v2 02/17] HID: pidff: Remove unhelpful pidff_set_actuators helper
+Date: Wed, 13 Aug 2025 22:09:50 +0200
+Message-ID: <20250813201005.17819-3-tomasz.pakula.oficjalny@gmail.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250813201005.17819-1-tomasz.pakula.oficjalny@gmail.com>
 References: <20250813201005.17819-1-tomasz.pakula.oficjalny@gmail.com>
@@ -94,139 +94,45 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The already fixed bug in SDL only affected conditional effects. This
-should fix FFB in Forza Horizion 4/5 on Moza Devices as Forza Horizon
-flips the constant force direction instead of using negative magnitude
-values.
-
-Changing the direction in the effect directly in pidff_upload_effect()
-would affect it's value in further operations like comparing to the old
-effect and/or just reading the effect values in the user application.
-
-This, in turn, would lead to constant PID_SET_EFFECT spam as the effect
-direction would constantly not match the value that's set by the
-application.
-
-This way, it's still transparent to any software/API.
-
-Only affects conditional effects now so it's better for it to explicitly
-state that in the name. If any HW ever needs fixed direction for other
-effects, we'll add more quirks.
+Abstracts away too little of the functionality and replaces a nice,
+defined value with a magic bool. There's no actual need for it.
 
 Signed-off-by: Tomasz Pakuła <tomasz.pakula.oficjalny@gmail.com>
 Reviewed-by: Oleg Makarenko <oleg@makarenk.ooo>
 ---
- drivers/hid/hid-universal-pidff.c | 20 ++++++++++----------
- drivers/hid/usbhid/hid-pidff.c    | 28 +++++++++++++++++++++++-----
- drivers/hid/usbhid/hid-pidff.h    |  2 +-
- 3 files changed, 34 insertions(+), 16 deletions(-)
+ drivers/hid/usbhid/hid-pidff.c | 12 +-----------
+ 1 file changed, 1 insertion(+), 11 deletions(-)
 
-diff --git a/drivers/hid/hid-universal-pidff.c b/drivers/hid/hid-universal-pidff.c
-index 554a6559aeb7..70fce0f88e82 100644
---- a/drivers/hid/hid-universal-pidff.c
-+++ b/drivers/hid/hid-universal-pidff.c
-@@ -144,25 +144,25 @@ static int universal_pidff_input_configured(struct hid_device *hdev,
- 
- static const struct hid_device_id universal_pidff_devices[] = {
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_MOZA, USB_DEVICE_ID_MOZA_R3),
--		.driver_data = HID_PIDFF_QUIRK_FIX_WHEEL_DIRECTION },
-+		.driver_data = HID_PIDFF_QUIRK_FIX_CONDITIONAL_DIRECTION },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_MOZA, USB_DEVICE_ID_MOZA_R3_2),
--		.driver_data = HID_PIDFF_QUIRK_FIX_WHEEL_DIRECTION },
-+		.driver_data = HID_PIDFF_QUIRK_FIX_CONDITIONAL_DIRECTION },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_MOZA, USB_DEVICE_ID_MOZA_R5),
--		.driver_data = HID_PIDFF_QUIRK_FIX_WHEEL_DIRECTION },
-+		.driver_data = HID_PIDFF_QUIRK_FIX_CONDITIONAL_DIRECTION },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_MOZA, USB_DEVICE_ID_MOZA_R5_2),
--		.driver_data = HID_PIDFF_QUIRK_FIX_WHEEL_DIRECTION },
-+		.driver_data = HID_PIDFF_QUIRK_FIX_CONDITIONAL_DIRECTION },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_MOZA, USB_DEVICE_ID_MOZA_R9),
--		.driver_data = HID_PIDFF_QUIRK_FIX_WHEEL_DIRECTION },
-+		.driver_data = HID_PIDFF_QUIRK_FIX_CONDITIONAL_DIRECTION },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_MOZA, USB_DEVICE_ID_MOZA_R9_2),
--		.driver_data = HID_PIDFF_QUIRK_FIX_WHEEL_DIRECTION },
-+		.driver_data = HID_PIDFF_QUIRK_FIX_CONDITIONAL_DIRECTION },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_MOZA, USB_DEVICE_ID_MOZA_R12),
--		.driver_data = HID_PIDFF_QUIRK_FIX_WHEEL_DIRECTION },
-+		.driver_data = HID_PIDFF_QUIRK_FIX_CONDITIONAL_DIRECTION },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_MOZA, USB_DEVICE_ID_MOZA_R12_2),
--		.driver_data = HID_PIDFF_QUIRK_FIX_WHEEL_DIRECTION },
-+		.driver_data = HID_PIDFF_QUIRK_FIX_CONDITIONAL_DIRECTION },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_MOZA, USB_DEVICE_ID_MOZA_R16_R21),
--		.driver_data = HID_PIDFF_QUIRK_FIX_WHEEL_DIRECTION },
-+		.driver_data = HID_PIDFF_QUIRK_FIX_CONDITIONAL_DIRECTION },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_MOZA, USB_DEVICE_ID_MOZA_R16_R21_2),
--		.driver_data = HID_PIDFF_QUIRK_FIX_WHEEL_DIRECTION },
-+		.driver_data = HID_PIDFF_QUIRK_FIX_CONDITIONAL_DIRECTION },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_CAMMUS, USB_DEVICE_ID_CAMMUS_C5) },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_CAMMUS, USB_DEVICE_ID_CAMMUS_C12) },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_VRS, USB_DEVICE_ID_VRS_DFP),
 diff --git a/drivers/hid/usbhid/hid-pidff.c b/drivers/hid/usbhid/hid-pidff.c
-index 614a20b62023..c6b4f61e535d 100644
+index c6b4f61e535d..3cf844f7ad4a 100644
 --- a/drivers/hid/usbhid/hid-pidff.c
 +++ b/drivers/hid/usbhid/hid-pidff.c
-@@ -205,6 +205,14 @@ struct pidff_device {
- 	u8 effect_count;
- };
- 
-+static int pidff_is_effect_conditional(struct ff_effect *effect)
-+{
-+	return effect->type == FF_SPRING  ||
-+	       effect->type == FF_DAMPER  ||
-+	       effect->type == FF_INERTIA ||
-+	       effect->type == FF_FRICTION;
-+}
-+
- /*
-  * Clamp value for a given field
-  */
-@@ -294,6 +302,20 @@ static void pidff_set_duration(struct pidff_usage *usage, u16 duration)
- 	pidff_set_time(usage, duration);
+@@ -605,16 +605,6 @@ static void pidff_set_device_control(struct pidff_device *pidff, int field)
+ 	hid_hw_wait(pidff->hid);
  }
  
-+static void pidff_set_effect_direction(struct pidff_device *pidff,
-+				       struct ff_effect *effect)
-+{
-+	u16 direction = effect->direction;
-+
-+	/* Use fixed direction if needed */
-+	if (pidff->quirks & HID_PIDFF_QUIRK_FIX_CONDITIONAL_DIRECTION &&
-+	    pidff_is_effect_conditional(effect))
-+		direction = PIDFF_FIXED_WHEEL_DIRECTION;
-+
-+	pidff->effect_direction->value[0] =
-+		pidff_rescale(direction, U16_MAX, pidff->effect_direction);
-+}
-+
+-/*
+- * Modify actuators state
+- */
+-static void pidff_set_actuators(struct pidff_device *pidff, bool enable)
+-{
+-	hid_dbg(pidff->hid, "%s actuators\n", enable ? "Enable" : "Disable");
+-	pidff_set_device_control(pidff,
+-		enable ? PID_ENABLE_ACTUATORS : PID_DISABLE_ACTUATORS);
+-}
+-
  /*
-  * Send envelope report to the device
+  * Reset the device, stop all effects, enable actuators
   */
-@@ -395,11 +417,7 @@ static void pidff_set_effect_report(struct pidff_device *pidff,
- 		pidff->set_effect[PID_GAIN].field->logical_maximum;
- 	pidff->set_effect[PID_DIRECTION_ENABLE].value[0] = 1;
+@@ -626,7 +616,7 @@ static void pidff_reset(struct pidff_device *pidff)
+ 	pidff->effect_count = 0;
  
--	/* Use fixed direction if needed */
--	pidff->effect_direction->value[0] = pidff_rescale(
--		pidff->quirks & HID_PIDFF_QUIRK_FIX_WHEEL_DIRECTION ?
--		PIDFF_FIXED_WHEEL_DIRECTION : effect->direction,
--		U16_MAX, pidff->effect_direction);
-+	pidff_set_effect_direction(pidff, effect);
+ 	pidff_set_device_control(pidff, PID_STOP_ALL_EFFECTS);
+-	pidff_set_actuators(pidff, 1);
++	pidff_set_device_control(pidff, PID_ENABLE_ACTUATORS);
+ }
  
- 	/* Omit setting delay field if it's missing */
- 	if (!(pidff->quirks & HID_PIDFF_QUIRK_MISSING_DELAY))
-diff --git a/drivers/hid/usbhid/hid-pidff.h b/drivers/hid/usbhid/hid-pidff.h
-index a53a8b436baa..f321f675e131 100644
---- a/drivers/hid/usbhid/hid-pidff.h
-+++ b/drivers/hid/usbhid/hid-pidff.h
-@@ -16,7 +16,7 @@
- #define HID_PIDFF_QUIRK_PERMISSIVE_CONTROL	BIT(2)
- 
- /* Use fixed 0x4000 direction during SET_EFFECT report upload */
--#define HID_PIDFF_QUIRK_FIX_WHEEL_DIRECTION	BIT(3)
-+#define HID_PIDFF_QUIRK_FIX_CONDITIONAL_DIRECTION	BIT(3)
- 
- /* Force all periodic effects to be uploaded as SINE */
- #define HID_PIDFF_QUIRK_PERIODIC_SINE_ONLY	BIT(4)
+ /*
 -- 
 2.50.1
 
