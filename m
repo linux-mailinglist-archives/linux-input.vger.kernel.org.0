@@ -1,155 +1,146 @@
-Return-Path: <linux-input+bounces-13956-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13957-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82CC6B23CFB
-	for <lists+linux-input@lfdr.de>; Wed, 13 Aug 2025 02:12:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5D4EB24014
+	for <lists+linux-input@lfdr.de>; Wed, 13 Aug 2025 07:18:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C6A9C18C1D31
-	for <lists+linux-input@lfdr.de>; Wed, 13 Aug 2025 00:13:05 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 394B61A25685
+	for <lists+linux-input@lfdr.de>; Wed, 13 Aug 2025 05:18:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8E16329A1;
-	Wed, 13 Aug 2025 00:12:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 74EF82877D9;
+	Wed, 13 Aug 2025 05:18:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f7RCyBf9"
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="vkRMB/3n"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mailout2.samsung.com (mailout2.samsung.com [203.254.224.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C7821362;
-	Wed, 13 Aug 2025 00:12:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A37442110E
+	for <linux-input@vger.kernel.org>; Wed, 13 Aug 2025 05:18:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755043962; cv=none; b=ObLX9LZcjZN9zHyw0KI1fT9c+Lt3gIXMS55Cl/WcXcSOx7ZX+v0b5tpISn3OBj0EUMk3cT+4G76XCXAKBjeo9QcM7pg9dhC+iTr45b2cnfspKAn0GuCxtjIaaZ3aD6xFXjHb4eupIldqBA/GUslbloxQdeOO9bSrer6sik/zZ4c=
+	t=1755062288; cv=none; b=kWpFPuX4xXIWELVALwjnvSslvHH2Xp2LljR5AjnMc4aDkCmLBwe5Z0/sVhsv8hWo74A4bfK7ZdZFjG/Y1zWO4g9p9cr3LtEdVud24NYUZdVnJ8M5VI6zrUHKkSM2QS3P/63PppeKq4DwKSTYaLs4PYfXO30+y6ufY/JfNu4mIVM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755043962; c=relaxed/simple;
-	bh=1Tr9ngM0B3CoAU05H/kRQA1PIZsGr9P2b7J6IHj7rc8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lXdBSqo8pzvb99xM6czTq5eDgQYMZedliaaXYTibzfnUT/y3Lj3eLXHFy6eB4kWg/F3Yanox1yXDDjPyB5ZnQuryxXqOOjU6jjAjcWZiztsY33sCBJKBvNklRl/tjNECZgwVbRl12GyV9Kxiwr9W4y7U9Vy1v/cAKqWZSXOajho=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f7RCyBf9; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755043961; x=1786579961;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=1Tr9ngM0B3CoAU05H/kRQA1PIZsGr9P2b7J6IHj7rc8=;
-  b=f7RCyBf9u6QX/uH/uZg7aCgw4hAG/BqM7mjsr/dnZ3nJDekXqe1a/T7p
-   JgCWl9VmqzV3EXqHhcem5hTYOHQJhr1krl63/Rao5gErmRexfk+VnocQl
-   wO6j7E8Lc2ulYyfgCRoyFszhkM6CgC496fXEb4Lla7ePZrbb0AT9VhYP8
-   IVTEX+AWFTuIW4pMMgwhVPajwumGbH3YQ1G9ZEzXfZfFjK66yXAAO8qt/
-   m2mnFAqAHrU9clZbbS36r5ofsvgK9v9xX0Dc3yrOLSJDYN4MXbhNFnF/S
-   wGMN5S0PgIodHfjjPNS5TQfPd1dMWPKXt/jGEO+YOFv/alf1n7LvnawyN
-   w==;
-X-CSE-ConnectionGUID: Wr3n2FhDTjufqm0hX0H/8w==
-X-CSE-MsgGUID: thagp4GeRHuRpB248KPDCQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11520"; a="57288127"
-X-IronPort-AV: E=Sophos;i="6.17,285,1747724400"; 
-   d="scan'208";a="57288127"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2025 17:12:40 -0700
-X-CSE-ConnectionGUID: mMDdZx+RSeGMSVytg0aK5w==
-X-CSE-MsgGUID: H4Hm9LM5SR64YJLmfQAsgg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,285,1747724400"; 
-   d="scan'208";a="167120607"
-Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa010.fm.intel.com with ESMTP; 12 Aug 2025 17:12:38 -0700
-Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1ulz60-0009Oq-2W;
-	Wed, 13 Aug 2025 00:12:24 +0000
-Date: Wed, 13 Aug 2025 08:11:48 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Leo L. Schwab" <ewhac@ewhac.org>, Hans de Goede <hansg@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Kate Hsuan <hpa@redhat.com>,
-	"Leo L. Schwab" <ewhac@ewhac.org>, Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <bentiss@kernel.org>,
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] HID: lg-g15 - Add support for Logitech G13.
-Message-ID: <202508130759.HscxexZX-lkp@intel.com>
-References: <20250812065327.515098-2-ewhac@ewhac.org>
+	s=arc-20240116; t=1755062288; c=relaxed/simple;
+	bh=pqt4TowKaairXtxotzS9GcjIWm2v0xycJVC1daM6Wcs=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:In-Reply-To:
+	 Content-Type:References; b=QpBiW5j0vaofbDmO+a6pE4yY+09TY1KonNnADvJpeN0BstxgqpWZrkCl6ZC2CuZznlBbEkJTME36fpzvNAMScDgxChK/2/O3ZWWwWpyEGIAGuBunlWUa93EX8Noo0QMffdC6eF4A/cFCzVxi2oW9HJGzzXExd0lVoGyqFDZZJgY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=vkRMB/3n; arc=none smtp.client-ip=203.254.224.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+Received: from epcas1p3.samsung.com (unknown [182.195.41.47])
+	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20250813051756epoutp02b69abffd0528331fe171ded33d256b6b~bO9eD7nKc2186421864epoutp02o
+	for <linux-input@vger.kernel.org>; Wed, 13 Aug 2025 05:17:56 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20250813051756epoutp02b69abffd0528331fe171ded33d256b6b~bO9eD7nKc2186421864epoutp02o
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1755062276;
+	bh=hpvD0dypGmFLQDWc1pQmIUIu7vdT6qLoNn3MqbTtnAI=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=vkRMB/3nXFf3vwqavr8qfI3S3nkrU/2WWw03joEBz3q2cJ+3DGG7Z+NJt3mwYcSkD
+	 F5A9AKim8GcJR4GBCCroL+tqLtubYgRoaNrlXp2AJsKiwGsiKGUx+q54mBXfWsxwFg
+	 eL1YC3IghX4cKBl5YtGxQAivqDRUoVHPSVP0pHVo=
+Received: from epsnrtp03.localdomain (unknown [182.195.42.155]) by
+	epcas1p3.samsung.com (KnoxPortal) with ESMTPS id
+	20250813051756epcas1p3e7124ac6418c2c4cc1ccdc02502771bf~bO9dwl2A30069800698epcas1p3Z;
+	Wed, 13 Aug 2025 05:17:56 +0000 (GMT)
+Received: from epcas1p2.samsung.com (unknown [182.195.38.248]) by
+	epsnrtp03.localdomain (Postfix) with ESMTP id 4c1xTc1GB3z3hhT3; Wed, 13 Aug
+	2025 05:17:56 +0000 (GMT)
+Received: from epsmtip2.samsung.com (unknown [182.195.34.31]) by
+	epcas1p2.samsung.com (KnoxPortal) with ESMTPA id
+	20250813051755epcas1p2afddf98d4639ee15a3f8aa72b8e99c14~bO9c3s-9u1089710897epcas1p2N;
+	Wed, 13 Aug 2025 05:17:55 +0000 (GMT)
+Received: from minbellkim-500TGA-500SGA (unknown [10.252.69.135]) by
+	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20250813051755epsmtip24ce12ffd36354bf7a8233c95ee9e4ff6~bO9c1tNxW1683016830epsmtip2C;
+	Wed, 13 Aug 2025 05:17:55 +0000 (GMT)
+Date: Wed, 13 Aug 2025 14:17:51 +0900
+From: Minjong Kim <minbell.kim@samsung.com>
+To: Jiri Kosina <jikos@kernel.org>
+Cc: Benjamin Tissoires <bentiss@kernel.org>, linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] HID: hid-ntrig: fix unable to handle page fault in
+ ntrig_report_version()
+Message-ID: <20250813051751.z6vxd6tvrfelmxou@minbellkim-500TGA-500SGA>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+In-Reply-To: <rqo85n88-82s2-30s6-qn80-r4r943p4q59o@xreary.bet>
+X-CMS-MailID: 20250813051755epcas1p2afddf98d4639ee15a3f8aa72b8e99c14
+X-Msg-Generator: CA
+Content-Type: multipart/mixed;
+	boundary="----TQfym8SLV53j68Oh-Z7X3icTIQ_pywbqltYHDPsxVxR0HChE=_226c20_"
+CMS-TYPE: 101P
+cpgsPolicy: CPGSC10-711,Y
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20250717061154epcas1p329022ab54ed143d2a8d5b3f8b7554b38
+References: <CGME20250717061154epcas1p329022ab54ed143d2a8d5b3f8b7554b38@epcas1p3.samsung.com>
+	<20250717-hid-ntrig-page-fault-fix-v1-1-96fa145a137f@samsung.com>
+	<rqo85n88-82s2-30s6-qn80-r4r943p4q59o@xreary.bet>
+
+------TQfym8SLV53j68Oh-Z7X3icTIQ_pywbqltYHDPsxVxR0HChE=_226c20_
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <20250812065327.515098-2-ewhac@ewhac.org>
 
-Hi Leo,
+On Tue, Aug 12, 2025 at 02:46:24PM +0200, Jiri Kosina wrote:
+> 
+> I know that mixing declarations and code is fine these days, but we 
+> haven't been progressive enough to switch to that coding style in HID 
+> subsystem yet :) Would you be willing to move it below the declarations?
+>  
 
-kernel test robot noticed the following build warnings:
+From 75e52defd4b2fd138285c5ad953942e2e6cf2fbb Mon Sep 17 00:00:00 2001
+From: Minjong Kim <minbell.kim@samsung.com>
+Date: Thu, 17 Jul 2025 14:37:47 +0900
+Subject: [PATCH v2] HID: hid-ntrig: fix unable to handle page fault in
+ ntrig_report_version()
 
-[auto build test WARNING on hid/for-next]
-[also build test WARNING on linus/master v6.17-rc1 next-20250812]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+in ntrig_report_version(), hdev parameter passed from hid_probe().
+sending descriptor to /dev/uhid can make hdev->dev.parent->parent to null
+if hdev->dev.parent->parent is null, usb_dev has
+invalid address(0xffffffffffffff58) that hid_to_usb_dev(hdev) returned
+when usb_rcvctrlpipe() use usb_dev,it trigger
+page fault error for address(0xffffffffffffff58)
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Leo-L-Schwab/HID-lg-g15-Add-support-for-Logitech-G13/20250812-151139
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
-patch link:    https://lore.kernel.org/r/20250812065327.515098-2-ewhac%40ewhac.org
-patch subject: [PATCH v2] HID: lg-g15 - Add support for Logitech G13.
-config: arm-randconfig-004-20250813 (https://download.01.org/0day-ci/archive/20250813/202508130759.HscxexZX-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250813/202508130759.HscxexZX-lkp@intel.com/reproduce)
+add null check logic to ntrig_report_version()
+before calling hid_to_usb_dev()
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508130759.HscxexZX-lkp@intel.com/
+Signed-off-by: Minjong Kim <minbell.kim@samsung.com>
+---
+ drivers/hid/hid-ntrig.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-All warnings (new ones prefixed by >>):
+diff --git a/drivers/hid/hid-ntrig.c b/drivers/hid/hid-ntrig.c
+index 2738ce947434..fa948d9e236c 100644
+--- a/drivers/hid/hid-ntrig.c
++++ b/drivers/hid/hid-ntrig.c
+@@ -144,6 +144,9 @@ static void ntrig_report_version(struct hid_device *hdev)
+ 	struct usb_device *usb_dev = hid_to_usb_dev(hdev);
+ 	unsigned char *data = kmalloc(8, GFP_KERNEL);
 
-   drivers/hid/hid-lg-g15.c: In function 'lg_g13_event':
->> drivers/hid/hid-lg-g15.c:660:7: warning: unused variable 'hw_brightness_changed' [-Wunused-variable]
-     bool hw_brightness_changed;
-          ^~~~~~~~~~~~~~~~~~~~~
++	if (!hdev->dev.parent->parent)
++		return;
++
+ 	if (!data)
+ 		goto err_free;
+
+--
+2.34.1
+
+I move it below the declarations.
+
+Best regards,
 
 
-vim +/hw_brightness_changed +660 drivers/hid/hid-lg-g15.c
+------TQfym8SLV53j68Oh-Z7X3icTIQ_pywbqltYHDPsxVxR0HChE=_226c20_
+Content-Type: text/plain; charset="utf-8"
 
-   655	
-   656	static int lg_g13_event(struct lg_g15_data *g15, u8 const *data)
-   657	{
-   658		struct g13_input_report const * const rep = (struct g13_input_report *) data;
-   659		int i, val;
- > 660		bool hw_brightness_changed;
-   661	
-   662		/*
-   663		 * Main macropad and menu keys.
-   664		 * Emit key events defined for each bit position.
-   665		 */
-   666		for (i = 0;  i < ARRAY_SIZE(g13_keys_for_bits);  ++i) {
-   667			if (g13_keys_for_bits[i]) {
-   668				val = TEST_BIT(rep->keybits, i);
-   669				input_report_key(g15->input, g13_keys_for_bits[i], val);
-   670			}
-   671		}
-   672		input_sync(g15->input);
-   673	
-   674		/*
-   675		 * Joystick.
-   676		 * Emit button and deflection events.
-   677		 */
-   678		for (i = 0;  i < ARRAY_SIZE(g13_keys_for_bits_js);  ++i) {
-   679			if (g13_keys_for_bits_js[i]) {
-   680				val = TEST_BIT(rep->keybits, i + 33);
-   681				input_report_key(g15->input_js, g13_keys_for_bits_js[i], val);
-   682			}
-   683		}
-   684		input_report_abs(g15->input_js, ABS_X, rep->joy_x);
-   685		input_report_abs(g15->input_js, ABS_Y, rep->joy_y);
-   686		input_sync(g15->input_js);
-   687	
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+------TQfym8SLV53j68Oh-Z7X3icTIQ_pywbqltYHDPsxVxR0HChE=_226c20_--
 
