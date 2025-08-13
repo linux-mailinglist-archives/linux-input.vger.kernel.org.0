@@ -1,207 +1,106 @@
-Return-Path: <linux-input+bounces-13996-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13997-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BCCFB2545C
-	for <lists+linux-input@lfdr.de>; Wed, 13 Aug 2025 22:10:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97A05B25486
+	for <lists+linux-input@lfdr.de>; Wed, 13 Aug 2025 22:29:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3CCDD1C857BE
-	for <lists+linux-input@lfdr.de>; Wed, 13 Aug 2025 20:10:56 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id EA16E1C81804
+	for <lists+linux-input@lfdr.de>; Wed, 13 Aug 2025 20:29:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 87D652FD7BA;
-	Wed, 13 Aug 2025 20:10:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 501052D663D;
+	Wed, 13 Aug 2025 20:29:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kVvX2CNg"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="l1189CjP"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE71B299947
-	for <linux-input@vger.kernel.org>; Wed, 13 Aug 2025 20:10:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C81E2C0F90;
+	Wed, 13 Aug 2025 20:29:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755115825; cv=none; b=kwUUk4nnkPmjhuevguZd/GivSUCgOmNqv20JCdaAc7bNujLZ6IeOnMj8GWel9ZLz/4+heofaifwp6iWu2jCNgn1mVHeVCtZ/0OeGM6M9AbFss065eW1msivshWudFWZEOeafm+iq0RCAFp/oMaijGvsRZxny14LJlcNuCYR1fx0=
+	t=1755116953; cv=none; b=ekaBjHl7Cd52zgD+GjEvhDEzfbqbuzDq1dyhrgAz94VlL3cc5R0Vb0cSNa+/FPvDuG3zdzIidRDrE0Qo14bhR4LPD2FiLmYwKTkwpRMUgD/a6EqO49ZU50rUP6kYLyZG+mIRUwKlbiU8HwrcpuhNDjvfURP4GVnFBzK1us/71jg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755115825; c=relaxed/simple;
-	bh=3BxJxZXbB5unfYwnDzhxIoXz6yB5FGiS4IgugSmolxE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=A6imkgWtsTI2qtHB/3j3aCa5QRwdpbo8AXuyDhojK5AaXDyZGwNl0xtgKtwawupqYq6KFf7Q/e3oprpxhCHePmUGa32k0XyS5/QNkIpNZyyVxMaTe8v9zHaBAfdu+HuyrB0owokPz9QVQGsU56THVjf5x9fsoygC9wAqkSaen9M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kVvX2CNg; arc=none smtp.client-ip=209.85.218.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-afcb79fb221so3183366b.2
-        for <linux-input@vger.kernel.org>; Wed, 13 Aug 2025 13:10:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755115822; x=1755720622; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=L0MR75+1AF/iABvrz7m73mqJnwV5J6bUgQ3VjSaYfGs=;
-        b=kVvX2CNgHyv7H1sjdtDvMFygNW1S+vHFlxiEdYBt4GIECG8UmqbK5n8CKTJtfNCckG
-         AP5hUdDZuYwlpsmUfvTB2RsdxsRotsmZatM2qjWZX53bfi35Vv7iwMfvNVTBWds+Jqvv
-         4SapCrfeYaABAyb1YQaue6MjfyzJAYeSFV/Iaa8Ky5+srSPEMfbNzpTH6tghVmEO04Tq
-         IlwUVOoHDaNnOW3n7WfwdmnrCRh58+PCpX9Y4bRhVHrtbNpWSHbuS+NyIwrSqFTg9mj3
-         sNqya8U+5DpB8cd8NGY1sWHSETN/6GpVQ1692AGtZu9ruFI2bDg+ycnw0YXgJUzjh82v
-         8wJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755115822; x=1755720622;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=L0MR75+1AF/iABvrz7m73mqJnwV5J6bUgQ3VjSaYfGs=;
-        b=QRRYKzzhY4q4RHKg0t0VzwTYAxCRIEnVADUAyuURvGFMBoBQJItam4KbirqI7Iuqdj
-         0bbENRQvmBMFfcfI+Wi06m3DTht7xRraIsT1uM4dSlcD7roc8Ux9O/vNZHVQhNr3eHCl
-         2tyXzjg9xRZPeq1/9pW4XciCDuiX+yclTYDXwb6VhnuZW/AOLLLT3TEycLdFNM+1ehIb
-         my3RrONKGaq6sVECHcA9jnvaLrjZwhQc3ZGvcaENLAmWWbiNF+bGqR1Spu/WnrfdExZa
-         +jgq9JFMRC6s/AlBWsZUdg/IL583DCyr9UCdPYgrAg81GIJylbDTUfxWWQvHMKKnclnZ
-         H5Og==
-X-Forwarded-Encrypted: i=1; AJvYcCW8mWSmgZfESo6qh3N5uxBpCnOEDtPnXnB3MwdyesuSBbdrFE9tvvVFeHo62tD647P+HU6z+mdBcsiv6w==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxj+u8LxFHTtdguMyVtgCKcKqE2w/XZ+b9BnZx3RwyCBHKfgTEZ
-	gIjuUJsKHMjrRw5B8UVFviLFwQIhC5WtDVoFEbI2bt9DR1qMFZn1isTa
-X-Gm-Gg: ASbGncs4U/0K5kN1QWZH7S/EG8d3XcuoHSn0AzquVaKQ+WtXBapfmzlvlgl6F4FipFV
-	0MD2+EYA5zFJcMYfRZDnzzdWQ3KAmtwMIYnHpFd9XDXSqYv0EYjsrGWkCXeKZutltihkvJwK45n
-	nq6MFC8Jtq0NZIi0LIp6nJxtOtV7A76QlZoxCfyHe33Jqzm7N2W75dbcJFG3H5f4I0yLMv6Ar1W
-	duPUUubMEKhyjhwJhLiWiS9DRi0lZYnA9gPwDvx3OdmeS2chgsMvrmawweKng+a1GNfDu9plIZh
-	dwBP0qP72weF+NOnaopUWcqHGzXrkhgY3R64jHZCAyjLUIy8++p3AuMiGI5SU+lkUe0oWL+p0sU
-	EdWZSSaUOki5Ev+h5vptd4ATLLO/6T+9fdiqJPOwxpfZwQdcXAy7lBycqs41KV1Md2C/54Nh331
-	E=
-X-Google-Smtp-Source: AGHT+IEeC1Qnat5BCA3h+0oCS1yNEQrHKRml+7xLMDlL2xlH767VWxdNkg/183bNGO5+NVa7+zKH1w==
-X-Received: by 2002:a17:907:704:b0:adb:2f16:7ba1 with SMTP id a640c23a62f3a-afcb97f3512mr19910966b.6.1755115821780;
-        Wed, 13 Aug 2025 13:10:21 -0700 (PDT)
-Received: from laptok.lan (87-205-5-123.static.ip.netia.com.pl. [87.205.5.123])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-af91a21c0ccsm2454092266b.111.2025.08.13.13.10.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Aug 2025 13:10:21 -0700 (PDT)
-From: =?UTF-8?q?Tomasz=20Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>
-To: jikos@kernel.org,
-	bentiss@kernel.org
-Cc: oleg@makarenk.ooo,
-	linux-input@vger.kernel.org
-Subject: [PATCH v2 17/17] HID: pidff: Reduce PID_EFFECT_OPERATION spam
-Date: Wed, 13 Aug 2025 22:10:05 +0200
-Message-ID: <20250813201005.17819-18-tomasz.pakula.oficjalny@gmail.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20250813201005.17819-1-tomasz.pakula.oficjalny@gmail.com>
-References: <20250813201005.17819-1-tomasz.pakula.oficjalny@gmail.com>
+	s=arc-20240116; t=1755116953; c=relaxed/simple;
+	bh=JDqkqLnA1DgwrkxpFOGRanFFgHAOdkpUE2gvLXGPfb0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YSH8Nz7HHlw0IAJ4Tpf3nrWqbA741xnKoXzPJ2AkBLhyfBZYCGrF4UMkLV3E/tAqOHEuEDNJOvDwNtcemXfDCh9nDsMcs/1Zb8/PWfRTJ16VsvzNIywefkLJIZTcvP1YOkrJhSlUI+nCDGksnePKgAKZnHGSfGhwMMBEXcF9/PY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=l1189CjP; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 509D7C4CEEB;
+	Wed, 13 Aug 2025 20:29:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755116951;
+	bh=JDqkqLnA1DgwrkxpFOGRanFFgHAOdkpUE2gvLXGPfb0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=l1189CjP9ZTarvY9ceaieigv/aNNlwUUoVqmGx2j6PeIT/sjoavrw+j0Ko+NMJPFa
+	 Nt1+myVWY9FV32xNHi/gZMxbsA2SS0mn2m8MM5ySv/8OBgvrs+80YAP9/WpF5Rcequ
+	 1XfNpBG3qsuNq93vUMFFNO/X8NpjrUrXgjzC8xdkk4cbhnBnvZ2kX0SbqOWX5nL7s/
+	 xBtUFQZ0pWr1p1/YRqfPC6I5EpKj2eaBGjfXFFOyzQACJDQG6pdB+CwRknSu37nqgc
+	 bbFmbK7s2DFRjzJB89bWZeoxFqnnPAqVV11jZt+d2REN7ZdW2+rEwogMHeUkAzFz/L
+	 okM/auhD7lglQ==
+Date: Wed, 13 Aug 2025 21:29:05 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Jihed Chaibi <jihed.chaibi.dev@gmail.com>
+Cc: linux-kernel@vger.kernel.org, peter.ujfalusi@gmail.com,
+	dmitry.torokhov@gmail.com, robh@kernel.org, krzk+dt@kernel.org,
+	lgirdwood@gmail.com, tiwai@suse.com, conor+dt@kernel.org,
+	lee@kernel.org, ukleinek@kernel.org, gregkh@linuxfoundation.org,
+	linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-pwm@vger.kernel.org, linux-sound@vger.kernel.org,
+	linux-usb@vger.kernel.org, shuah@kernel.org
+Subject: Re: [PATCH 7/8] sound: dt-bindings: ti,omap-twl4030: convert to DT
+ schema
+Message-ID: <11e5ae2f-d692-4f34-8319-8fda028fda5d@sirena.org.uk>
+References: <20250811224739.53869-1-jihed.chaibi.dev@gmail.com>
+ <20250811224739.53869-8-jihed.chaibi.dev@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="z01+OwFMchK4Q9wz"
+Content-Disposition: inline
+In-Reply-To: <20250811224739.53869-8-jihed.chaibi.dev@gmail.com>
+X-Cookie: Turn the other cheek.
 
-Keep track of effect's loop_count to reduce the spam of ffb play
-commands coming from some games. This should speed up normal magnitude
-etc updates and slightly increase max possible FFB refresh rate.
 
-Helps games like Dirt Rally 2.0, F1 2023, WRC from KT
+--z01+OwFMchK4Q9wz
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Signed-off-by: Tomasz Pakuła <tomasz.pakula.oficjalny@gmail.com>
----
- drivers/hid/usbhid/hid-pidff.c | 36 ++++++++++++++++++++++++++--------
- 1 file changed, 28 insertions(+), 8 deletions(-)
+On Tue, Aug 12, 2025 at 12:47:38AM +0200, Jihed Chaibi wrote:
 
-diff --git a/drivers/hid/usbhid/hid-pidff.c b/drivers/hid/usbhid/hid-pidff.c
-index 50a8924edfcc..0342c0a3f476 100644
---- a/drivers/hid/usbhid/hid-pidff.c
-+++ b/drivers/hid/usbhid/hid-pidff.c
-@@ -184,6 +184,12 @@ struct pidff_usage {
- 	s32 *value;
- };
- 
-+struct pidff_effect {
-+	int pid_id;
-+	int is_infinite;
-+	unsigned int loop_count;
-+};
-+
- struct pidff_device {
- 	struct hid_device *hid;
- 
-@@ -202,6 +208,8 @@ struct pidff_device {
- 	struct pidff_usage effect_operation[ARRAY_SIZE(pidff_effect_operation)];
- 	struct pidff_usage block_free[ARRAY_SIZE(pidff_block_free)];
- 
-+	struct pidff_effect effect[PID_EFFECTS_MAX];
-+
- 	/*
- 	 * Special field is a field that is not composed of
- 	 * usage<->value pairs that pidff_usage values are
-@@ -230,8 +238,6 @@ struct pidff_device {
- 	int operation_id[ARRAY_SIZE(pidff_effect_operation_status)];
- 	int direction_axis_id[ARRAY_SIZE(pidff_direction_axis)];
- 
--	int pid_id[PID_EFFECTS_MAX];
--
- 	u32 quirks;
- 	u8 effect_count;
- 	u8 axis_count;
-@@ -798,6 +804,12 @@ static int pidff_request_effect_upload(struct pidff_device *pidff, int efnum)
- 	return -EIO;
- }
- 
-+static int pidff_needs_playback(struct pidff_device *pidff, int effect_id, int n)
-+{
-+	return pidff->effect[effect_id].is_infinite ||
-+	       pidff->effect[effect_id].loop_count != n;
-+}
-+
- /*
-  * Play the effect with PID id n times
-  */
-@@ -829,9 +841,14 @@ static int pidff_playback(struct input_dev *dev, int effect_id, int value)
- {
- 	struct pidff_device *pidff = dev->ff->private;
- 
-+	if (!pidff_needs_playback(pidff, effect_id, value))
-+		return 0;
-+
- 	hid_dbg(pidff->hid, "requesting %s on FF effect %d",
- 		value == 0 ? "stop" : "playback", effect_id);
--	pidff_playback_pid(pidff, pidff->pid_id[effect_id], value);
-+
-+	pidff->effect[effect_id].loop_count = value;
-+	pidff_playback_pid(pidff, pidff->effect[effect_id].pid_id, value);
- 	return 0;
- }
- 
-@@ -852,10 +869,9 @@ static void pidff_erase_pid(struct pidff_device *pidff, int pid_id)
- static int pidff_erase_effect(struct input_dev *dev, int effect_id)
- {
- 	struct pidff_device *pidff = dev->ff->private;
--	int pid_id = pidff->pid_id[effect_id];
-+	int pid_id = pidff->effect[effect_id].pid_id;
- 
--	hid_dbg(pidff->hid, "starting to erase %d/%d\n", effect_id,
--		pidff->pid_id[effect_id]);
-+	hid_dbg(pidff->hid, "starting to erase %d/%d\n", effect_id, pid_id);
- 
- 	/*
- 	 * Wait for the queue to clear. We do not want
-@@ -906,12 +922,16 @@ static int pidff_upload_effect(struct input_dev *dev, struct ff_effect *new,
- 
- 		pidff->effect_count++;
- 		hid_dbg(pidff->hid, "current effect count: %d", pidff->effect_count);
--		pidff->pid_id[new->id] =
-+		pidff->effect[new->id].loop_count = 0;
-+		pidff->effect[new->id].pid_id =
- 			pidff->block_load[PID_EFFECT_BLOCK_INDEX].value[0];
- 	}
- 
-+	pidff->effect[new->id].is_infinite =
-+		pidff_is_duration_infinite(new->replay.length);
-+
- 	pidff->block_load[PID_EFFECT_BLOCK_INDEX].value[0] =
--		pidff->pid_id[new->id];
-+		pidff->effect[new->id].pid_id;
- 
- 	PIDFF_SET_REPORT_IF_NEEDED(effect, new, old);
- 	switch (new->type) {
--- 
-2.50.1
+> Convert the legacy TXT binding for the OMAP TWL4030 sound card
+> to the modern YAML DT schema format. This adds formal validation
+> and improves documentation.
 
+Acked-by: Mark Brown <broonie@kernel.org>
+
+Please submit patches using subject lines reflecting the style for the
+subsystem, this makes it easier for people to identify relevant patches.
+Look at what existing commits in the area you're changing are doing and
+make sure your subject lines visually resemble what they're doing.
+There's no need to resubmit to fix this alone.
+
+--z01+OwFMchK4Q9wz
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmic9ZEACgkQJNaLcl1U
+h9DsmAf8C2WEGZVTspM9EPpF8Gy1IOWSpSZhVHAkTzZyrUIixzwbYvF4+DXjEnZk
+HeWO9uMVHTG9As1ouM7GysgUGVrOH9UJk5VkEoIoZVIa+AI/SmAjNhkck1EZ85zE
+Kjhtv8Mv2NN7vzsfFCg9EEdRN1JDFkxGXc0Au+/sSPbPMoW3E87JFUj4fCuXc/Fh
+xqLN0fXvgk6FIpBM2gM9TlHuuGqXKj33PiNHNz2loWkLRZ1woZNnsURzUvQx/5xm
+Mj6Mf/MTK7zzsFMGst2jLBICjj3G0Yk7iswk/9ZMwoT6ym5Xgy05nvaDAvzqPvKw
++6rernCFRjmR98GcHCQR+68pJD1JiQ==
+=feCv
+-----END PGP SIGNATURE-----
+
+--z01+OwFMchK4Q9wz--
 
