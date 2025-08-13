@@ -1,83 +1,86 @@
-Return-Path: <linux-input+bounces-13969-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13970-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54BE8B248DD
-	for <lists+linux-input@lfdr.de>; Wed, 13 Aug 2025 13:53:54 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CD8FBB248F8
+	for <lists+linux-input@lfdr.de>; Wed, 13 Aug 2025 13:59:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9F29E1897FEF
-	for <lists+linux-input@lfdr.de>; Wed, 13 Aug 2025 11:54:13 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E3BA7561D9C
+	for <lists+linux-input@lfdr.de>; Wed, 13 Aug 2025 11:57:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B63832FAC1A;
-	Wed, 13 Aug 2025 11:53:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E21D72F7441;
+	Wed, 13 Aug 2025 11:56:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tzfVHWRT"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZMInV3YL"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F1E22FAC0B;
-	Wed, 13 Aug 2025 11:53:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB20425C80D;
+	Wed, 13 Aug 2025 11:56:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755086020; cv=none; b=Kj1BqNAvG+2rKcoPPkUJENYtLTFb1BX1h2HVhinkwGBJ8/pOhKn09aS4k0JdGcJ1oUTXdkQKyS1JetFJkhVtGZh4HJnWqUBJTphygq3YQz6hWVpetO/YFwvsu+koJ9Bs8mhZIa4q1K8C/RhJJ3Bx0GOgOiyqscGvAx9UUqIePEY=
+	t=1755086219; cv=none; b=Pum3+TR47Q7Wh8I7Th3aOyeTopTsZuLUN3K4tHQZtJC8rsubSSdhfnnpeOkQVWDAQ3VC+Ly2b/nDlDLvmskotSRsHEVvg9QhzttCPjxz1lVyqbSp/IIpSwddWoaa7MI7mza/Dg+Wct0VAVWEpXlyYDPPeBXxS8hYrZ5y9OQyzcw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755086020; c=relaxed/simple;
-	bh=99v3Uwoa/nOwJ1hZoHDKKGH9HyS5tXk1KKaE58BxJAE=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=SzpUcRZ4SBxAj5bQ9dvBRQ86ZvGlFcRK7hLJ29Jg1Kw25TWPdyU1XfXu1VlqAvwZvSHCPsJgQNP8eYHcvbd0qI7IpsdMtim2d6i2HZ1Bi9yL8h16lhR0YGKcfvU8LkvFh8t/adG/TYhydlrvXxyMkpt5t0K2TvA2NwI+ugyjV+w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tzfVHWRT; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 508F2C4CEF5;
-	Wed, 13 Aug 2025 11:53:38 +0000 (UTC)
+	s=arc-20240116; t=1755086219; c=relaxed/simple;
+	bh=ic9jYHlvqW8X8XkbQZo0JxtF8yPI5ARNOFOn8sDThMg=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=JBOM6FuVmorJAi6YuIimZE9edsUH8uRXLwZ3LcepvxN8igNz/QAaiVg11OV8+HrH0+tRdUAxS0/Z6l6fmMHrnHjl6mPwswzSMJoQAZZfb4R+cCkEYO2nBL+xcC/aYSrTXunu8rYRbZyVABniG7x0w4JSg31TWjWADH17ZUPhuZ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZMInV3YL; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE6A1C4CEEB;
+	Wed, 13 Aug 2025 11:56:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755086019;
-	bh=99v3Uwoa/nOwJ1hZoHDKKGH9HyS5tXk1KKaE58BxJAE=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=tzfVHWRTIjwki9AmMkTJnGUsgE9HZOKt+TtVoK09Nsgwpuqh6rc1KIS83QBcrhRDh
-	 qXiO1tQSolkA9S63vjuRPHSnHdVY0d8ju8sOSDMOwHOv5h51GiradBkbh1C5RpxCXP
-	 SsZ3dNOjbYDhDO/81z5edEkdd89l+pgPtRo5gkQybngVFy42Be8Iw2Pjss7E0ATqbR
-	 dN+6/gzPAMbZgfdTMGBFOAqvLOc24gD5GB9qLi5ckDQnJwQeBg9SARhnxdT3YtFXQ7
-	 D1adyhMHba20PRBk/dofCQ2Mz+4pokFHt+VK4YTm94txKr4niiW6vXYhl492VMmaDn
-	 qXJZzlF5JCpnQ==
-From: Benjamin Tissoires <bentiss@kernel.org>
-To: Jiri Kosina <jikos@kernel.org>, Minjong Kim <minbell.kim@samsung.com>
-Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20250813-hid-ntrig-page-fault-fix-v2-1-f98581f35106@samsung.com>
-References: <CGME20250813103051epcas1p39a9dacf48770020ca234e0c648bb01d2@epcas1p3.samsung.com>
- <20250813-hid-ntrig-page-fault-fix-v2-1-f98581f35106@samsung.com>
-Subject: Re: [PATCH v2] HID: hid-ntrig: fix unable to handle page fault in
- ntrig_report_version()
-Message-Id: <175508601806.12409.17351034009690656147.b4-ty@kernel.org>
-Date: Wed, 13 Aug 2025 13:53:38 +0200
+	s=k20201202; t=1755086219;
+	bh=ic9jYHlvqW8X8XkbQZo0JxtF8yPI5ARNOFOn8sDThMg=;
+	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+	b=ZMInV3YLOEXDfpAP4yhaBPXMMU+vb9n1FbOoQOaCGtb1rcsI077fkq8a7u+x94zcY
+	 N3k+GPyE9FcnmRwPOrna7smkgYqjr3U91cpcQcAlTPI3tLglEgt3Xq3Ql+VABnayhu
+	 Ox4DFKkI1Rk45EBFZcu0F0skbMz2cSA9/NEPEhFfPvubfOZ3Ft/PvqgOygVQSChoUz
+	 fEMCjna65+dHvxF3TQOBneu1afFNG3JzwkMMvM4SybOp5FsMf6pCnYXfdgs9XCczDl
+	 lzZ8oxGbbEtkVTXJVwx8dJBpX94OULxpJa0lel9/8E4vMyOYbY9bMC9u52vA5CCLeT
+	 YDdTSY0lEAwWQ==
+Date: Wed, 13 Aug 2025 13:56:56 +0200 (CEST)
+From: Jiri Kosina <jikos@kernel.org>
+To: Even Xu <even.xu@intel.com>
+cc: bentiss@kernel.org, srinivas.pandruvada@linux.intel.com, 
+    linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
+    Rui Zhang <rui1.zhang@intel.com>
+Subject: Re: [PATCH] Hid: Intel-thc-hid: Intel-quicki2c: Enhance driver
+ re-install flow
+In-Reply-To: <20250806002332.1487447-1-even.xu@intel.com>
+Message-ID: <8pss6rqp-9n14-980o-8s72-39ss0q0s9o58@xreary.bet>
+References: <20250806002332.1487447-1-even.xu@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.2
+Content-Type: text/plain; charset=US-ASCII
 
-On Wed, 13 Aug 2025 19:30:22 +0900, Minjong Kim wrote:
-> in ntrig_report_version(), hdev parameter passed from hid_probe().
-> sending descriptor to /dev/uhid can make hdev->dev.parent->parent to null
-> if hdev->dev.parent->parent is null, usb_dev has
-> invalid address(0xffffffffffffff58) that hid_to_usb_dev(hdev) returned
-> when usb_rcvctrlpipe() use usb_dev,it trigger
-> page fault error for address(0xffffffffffffff58)
+On Wed, 6 Aug 2025, Even Xu wrote:
+
+> After driver module is removed and during re-install stage, if there
+> is continueous user touching on the screen, it is a risk impacting
+> THC hardware initialization which causes driver installation failure.
 > 
-> [...]
+> This patch enhances this flow by quiescing the external touch
+> interrupt after driver is removed which keeps THC hardware
+> ignore external interrupt during this remove and re-install stage.
+> 
+> Signed-off-by: Even Xu <even.xu@intel.com>
+> Tested-by: Rui Zhang <rui1.zhang@intel.com>
+> Fixes: 66b59bfce6d9 ("HID: intel-thc-hid: intel-quicki2c: Complete THC QuickI2C driver")
 
-Applied to hid/hid.git (for-6.17/upstream-fixes), thanks!
+(please use the uppercase/lowercase in shortlog consistently with how HID 
+subsystem has been using it ... I've fixed that manually for this one).
 
-[1/1] HID: hid-ntrig: fix unable to handle page fault in ntrig_report_version()
-      https://git.kernel.org/hid/hid/c/185c926283da
+Applied to hid.git#for-6.17/upstream-fixes, thanks.
 
-Cheers,
 -- 
-Benjamin Tissoires <bentiss@kernel.org>
+Jiri Kosina
+SUSE Labs
 
 
