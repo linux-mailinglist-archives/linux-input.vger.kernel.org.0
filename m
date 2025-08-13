@@ -1,57 +1,56 @@
-Return-Path: <linux-input+bounces-13963-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-13964-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0B0AB245EC
-	for <lists+linux-input@lfdr.de>; Wed, 13 Aug 2025 11:48:00 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1592AB245EF
+	for <lists+linux-input@lfdr.de>; Wed, 13 Aug 2025 11:48:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 73D4A7B8DD9
-	for <lists+linux-input@lfdr.de>; Wed, 13 Aug 2025 09:46:27 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C3D907B8F26
+	for <lists+linux-input@lfdr.de>; Wed, 13 Aug 2025 09:46:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C82F62F49E4;
-	Wed, 13 Aug 2025 09:43:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A8CE2F8BF1;
+	Wed, 13 Aug 2025 09:43:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MQTo0Bnr"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="C1twrd93"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D7482F49E3;
-	Wed, 13 Aug 2025 09:43:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D2A92F8BDF;
+	Wed, 13 Aug 2025 09:43:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755078209; cv=none; b=rKy91rgwaEbfxeCWpNLlpUHdSqInFMDsTi86PtBJyixmkeAriJsTKyorXICxrRIELElZXwO8s+W17W6id/jtzowcKJ/v1yCsBy0dSnuAOhekhECXY2nr4NT8LbtZlnlTeQnLAED+mCI1VBiKEBYijkkPgNZWPhgbnSeou0GC6j0=
+	t=1755078211; cv=none; b=O3jbRr9WVYQ2HKirwpsJ2hSUykadEnMn0w4fWnIoNBUtAmJzQLolPaDSv4A5GD1jryH23HhzePRzR8sDzRmRySwyB8g61MIYpapnfDykRvrZ9Wxd3IXKZcg0aaWFnO51vvbHCq3NBpitIRDpZqqjGDAuOCU9xheRRcXac9dzd3E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755078209; c=relaxed/simple;
-	bh=2CYSXSBYq1yIR3wbdZ1I7bq0fSZwbBOw313F1cLYXNM=;
+	s=arc-20240116; t=1755078211; c=relaxed/simple;
+	bh=N0Lff5QX5H65Nvu8xKFVfX3EgZNQa3ItLK4rAN0jw+k=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=nM+brnzmtQtaoM3zRbVyar6l+wGhf7SPdETd0hSCP+h7H/TLZ2PL8ZWH3aTGmUH3ARr7asxGb4Tm2UfUW4CXi//4EsW9pkwicUkZ/4vXTNptNbwD4MWEKdWJYJ2XZooouzSDzxHOeh7yd+SIAiYTrlfgx1fJW02N7hyMohFlrLg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MQTo0Bnr; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C56C2C4CEEB;
-	Wed, 13 Aug 2025 09:43:27 +0000 (UTC)
+	 MIME-Version:Content-Type; b=bDGXSnpYm+a06AbV9P8PcJPIG3RcrKktDx+z4cjNaM80upQIOLDXQzgjoIA+asn/ZyQEgkWzSt8Am/KnCaLbi4dc9Co8jhxV2DU4aRNkiXQexzIAN2YOHF0CiISzrIhwZpoSvt7NspoxU9+Imoi8cEHGqXH2fesW59r279mLUH0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=C1twrd93; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90840C4CEF5;
+	Wed, 13 Aug 2025 09:43:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755078209;
-	bh=2CYSXSBYq1yIR3wbdZ1I7bq0fSZwbBOw313F1cLYXNM=;
+	s=k20201202; t=1755078210;
+	bh=N0Lff5QX5H65Nvu8xKFVfX3EgZNQa3ItLK4rAN0jw+k=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=MQTo0Bnr5EORwCpjiwRbuiUfh0V5l3wgFfnbMKnLmOPvqSpVy/H/emqBbBPUUNx6F
-	 nIta4TV6bWB+wiyCR7Il9Ti22jPb7MUWlWB8s3ZzuuaHuPRi4CK+uu383GDo+UrF3O
-	 92L0TYp+tYJ8Xz+vrPEwGG9/L8CVmqonFI/+E4ocV7q+li9PelXzf3hIpA9GVCDEfs
-	 zFLOQvZoCtfzgB8jy7YHBNqJb6ZeoQ7usWOP8uPqvqXC5vDwzG/F4X5KY0sWwE0pJx
-	 ar0rLJo48bOPuKNODWrFri7YatVDaHNqXisxqmZvDkj+ZC2rPaAgsy0Dmfxtgbtua7
-	 9hYoU0ZJchvvw==
+	b=C1twrd93wg2L3YBTg8rPA0NDYXxjYQLKGJH+ikpDwbVS/xzwf8K+yxjugFSCD5Ijk
+	 CCEfnfhe+xGqa2e1tnZk7utciA0lBtFEQa+Jzx7Rf+YVenpZYAX36sHfVDxsClc3JV
+	 S+t41ZlqgfP9I0mBYDesdeM588IxMhP6NO7fYohPv0DOVsoLYz35Zpr2yNM0tF/NBN
+	 ak9YT9kvawA4vKFSdQeDKtvuSVUqPPx2jD3Ke7lsKUtnpno+FFXA1TcvgeIlY+gqE2
+	 YHbSlb39JhKh4vUTXmf+EiRcooPsvrvMEOPJpNmTVn5n0nV/ssLty4Vcg1jOClNznj
+	 vYDWnx4+4kM+g==
 From: Benjamin Tissoires <bentiss@kernel.org>
-To: Rishi Gupta <gupt21@gmail.com>, Arnaud Lecomte <contact@arnaud-lcm.com>
-Cc: Jiri Kosina <jikos@kernel.org>, linux-i2c@vger.kernel.org, 
- linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
- syzbot+52c1a7d3e5b361ccd346@syzkaller.appspotmail.com
-In-Reply-To: <20250726220931.7126-1-contact@arnaud-lcm.com>
-References: <20250726220931.7126-1-contact@arnaud-lcm.com>
-Subject: Re: [PATCH] hid: fix I2C read buffer overflow in raw_event() for
- mcp2221
-Message-Id: <175507820752.20076.8458113244883958100.b4-ty@kernel.org>
-Date: Wed, 13 Aug 2025 11:43:27 +0200
+To: jikos@kernel.org, linux-input@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Qasim Ijaz <qasdev00@gmail.com>
+Cc: stable@vger.kernel.org
+In-Reply-To: <20250810181041.44874-1-qasdev00@gmail.com>
+References: <20250810181041.44874-1-qasdev00@gmail.com>
+Subject: Re: [PATCH RESEND] HID: asus: fix UAF via HID_CLAIMED_INPUT
+ validation
+Message-Id: <175507820932.20076.1828761859413180643.b4-ty@kernel.org>
+Date: Wed, 13 Aug 2025 11:43:29 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -62,21 +61,24 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.14.2
 
-On Sat, 26 Jul 2025 23:09:31 +0100, Arnaud Lecomte wrote:
-> As reported by syzbot, mcp2221_raw_event lacked
-> validation of incoming I2C read data sizes, risking buffer
-> overflows in mcp->rxbuf during multi-part transfers.
-> As highlighted in the DS20005565B spec, p44, we have:
-> "The number of read-back data bytes to follow in this packet:
-> from 0 to a maximum of 60 bytes of read-back bytes."
-> This patch enforces we don't exceed this limit.
+On Sun, 10 Aug 2025 19:10:41 +0100, Qasim Ijaz wrote:
+> After hid_hw_start() is called hidinput_connect() will eventually be
+> called to set up the device with the input layer since the
+> HID_CONNECT_DEFAULT connect mask is used. During hidinput_connect()
+> all input and output reports are processed and corresponding hid_inputs
+> are allocated and configured via hidinput_configure_usages(). This
+> process involves slot tagging report fields and configuring usages
+> by setting relevant bits in the capability bitmaps. However it is possible
+> that the capability bitmaps are not set at all leading to the subsequent
+> hidinput_has_been_populated() check to fail leading to the freeing of the
+> hid_input and the underlying input device.
 > 
 > [...]
 
 Applied to hid/hid.git (for-6.17/upstream-fixes), thanks!
 
-[1/1] hid: fix I2C read buffer overflow in raw_event() for mcp2221
-      https://git.kernel.org/hid/hid/c/b56cc41a3ae7
+[1/1] HID: asus: fix UAF via HID_CLAIMED_INPUT validation
+      https://git.kernel.org/hid/hid/c/d3af6ca9a8c3
 
 Cheers,
 -- 
