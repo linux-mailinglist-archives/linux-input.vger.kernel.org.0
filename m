@@ -1,116 +1,240 @@
-Return-Path: <linux-input+bounces-14003-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14004-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38758B26124
-	for <lists+linux-input@lfdr.de>; Thu, 14 Aug 2025 11:39:01 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CD67B262F9
+	for <lists+linux-input@lfdr.de>; Thu, 14 Aug 2025 12:40:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9BF26189BAA6
-	for <lists+linux-input@lfdr.de>; Thu, 14 Aug 2025 09:34:19 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C26D617EFFE
+	for <lists+linux-input@lfdr.de>; Thu, 14 Aug 2025 10:40:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AAACF2FD7D7;
-	Thu, 14 Aug 2025 09:30:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 331D0239E7E;
+	Thu, 14 Aug 2025 10:40:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y2dYubL9"
 X-Original-To: linux-input@vger.kernel.org
-Received: from outboundhk.mxmail.xiaomi.com (outboundhk.mxmail.xiaomi.com [207.226.244.123])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 35A0D2FD1D4;
-	Thu, 14 Aug 2025 09:30:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=207.226.244.123
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51B68318133;
+	Thu, 14 Aug 2025 10:39:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755163824; cv=none; b=ULZS4FetJdYcL/vVT6g/NXQOOAPO984euH17ZQz35lgTxTAiUm731VdeXfs/LLFdvYvmhUz0xLk+t1/j/6Px5YU/AiowJULplkdcnY8xH3Wh7JHm7mAEMk1cN4VHe8fvpZR0IJ+v7bcoqdUF0kib396bKwzGLPagBdupanHm0/A=
+	t=1755168000; cv=none; b=k1IYMM7uZZETA4vYWhOpKB88F3Xqz+/+4tXJZ52sZEQhToQCjQlFWvf6wZCnHOqTau78vDfKKAMQTrcWrpyD0dT11RAleNjvEUshmVL5BvMhNSmxzlEC2GwiLHKOWZw8SVdiBuLir4BUZPzZqYrhP7/2XxriFB3S/8gKuXSgAqc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755163824; c=relaxed/simple;
-	bh=oAv4khhixX7rgl9LeDM66Sqj/mt7su23eFC/twsrkTk=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=uD7AGq4zqjyebJyoV0vu3A0RPeZ+C0LOrZ0lNmteRcmGiiRVv3dD0cyWrppRA60413sxklbckHgkVHTVfBSNBVPNoC+eStUvTW/KFZGe/i+KL9h0y28maIufSlC/9WJUvTAGruwHdizSmQCDYzQ9w+u0sD+qFG92nsQ9ymOCva0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=xiaomi.com; spf=pass smtp.mailfrom=xiaomi.com; arc=none smtp.client-ip=207.226.244.123
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=xiaomi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xiaomi.com
-X-CSE-ConnectionGUID: x57VMXEGSwqeqhVAQgHV4Q==
-X-CSE-MsgGUID: DZYZCTcbQk2av5mijUA8/g==
-X-IronPort-AV: E=Sophos;i="6.17,287,1747670400"; 
-   d="scan'208";a="149241492"
-From: =?gb2312?B?wqy5+rrq?= <luguohong@xiaomi.com>
-To: Jiri Kosina <jikos@kernel.org>, =?gb2312?B?Sm9zqKYgRXhwqK5zaXRv?=
-	<jose.exposito89@gmail.com>
-CC: "bentiss@kernel.org" <bentiss@kernel.org>, "linux-input@vger.kernel.org"
-	<linux-input@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, =?gb2312?B?RmVpMSBKaWFuZyC9r7fJ?=
-	<jiangfei1@xiaomi.com>, "tkjos@google.com" <tkjos@google.com>
-Subject: =?gb2312?B?tPC4tDogW0V4dGVybmFsIE1haWxdUmU6IFtQQVRDSCB2MiAyLzJdIEhJRDog?=
- =?gb2312?B?aW5wdXQ6IHJlcG9ydCBiYXR0ZXJ5IHN0YXR1cyBjaGFuZ2VzIGltbWVkaWF0?=
- =?gb2312?Q?ely?=
-Thread-Topic: [External Mail]Re: [PATCH v2 2/2] HID: input: report battery
- status changes immediately
-Thread-Index: AQHcCrXbrGKdcLZC0kSUAM9u6AlyFrReLnjCgAO2gDo=
-Date: Thu, 14 Aug 2025 09:30:14 +0000
-Message-ID: <53cecfd5c34c4f109d4ad1b5e4e7a955@xiaomi.com>
-References: <20250806073944.5310-1-jose.exposito89@gmail.com>
- <20250806073944.5310-2-jose.exposito89@gmail.com>,<4q4qn3p8-6s3s-289n-44s2-43s76qrs2oo4@xreary.bet>,<6c923b9403bb45988f211cae45e4f748@xiaomi.com>
-In-Reply-To: <6c923b9403bb45988f211cae45e4f748@xiaomi.com>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-Content-Type: text/plain; charset="gb2312"
-Content-Transfer-Encoding: base64
+	s=arc-20240116; t=1755168000; c=relaxed/simple;
+	bh=p06MvJgtcL5Wzvs+Hc9e0fECqZuplhgzVFE2ug/2z8I=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=cMsH5E7yBLOEzIhlSOxfUSvwkTSmXpQHZVju8ib0o52xi+wrVJlMSbIpeddj8FTDUDmwfTDrkHGsrRF/2wg5ogyEI5XGN0l/QYZ/FJD/nPicec/vYM9picClblG7jj5xz+QQBVvT9sHr33w5/vcm6ZqMMHz04CKafKsuMjHCNR8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Y2dYubL9; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-45a1b281d25so2953495e9.3;
+        Thu, 14 Aug 2025 03:39:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1755167996; x=1755772796; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=57VUURc27LxVFIBsmK8jZRMZVLyyp3u4YL6pJCsmNDY=;
+        b=Y2dYubL9fz/M5n8VdKhNXDOIJhrNqjBYJdBPyK2zGUAZjNh29pgwpK+H4Tsv0cgfyl
+         MfnOn8Ebm3ch/LstGxqiohfBKLsqWDt2xKbnmb0ZODp+Af0Q6WijtQaa85+rL+IOGEpF
+         CgTDThCtvTn8g8+zSAUkTUfrkytNTrsTrvxlzWQb+yiDS231GDl8Fwyn2UR/5sZ4fQFr
+         Qec+rr/SMJxx9Mni7EE850rgtoTIZe5BLLyJuO1l7MJmYgVbfNpYJA9zjY42anYJu6yt
+         7XlRIpnv2tlRsmZojSBcJfLxFRqRHw9P4Tc0AJsWoIkKZe+IEqVxquOO99u9oEr0HyHw
+         t89g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755167996; x=1755772796;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=57VUURc27LxVFIBsmK8jZRMZVLyyp3u4YL6pJCsmNDY=;
+        b=TDvI91EYs9xJ7FU0c8g5UYF8HPYJDKr8zb6okHNZ5QWgVkvNED89LLE/RFJIaK27bl
+         dliYdds8eZFw1nhUIF5C18ylHM4L2FmGym+LNJWx/MmsWLSb7qqCauGfIeWKD9FWvHH+
+         Xk+lp+QJkq4MMm8AOCbpJkrShZDXXkA0xk10sozUgvGleXGSaVrnMndAqrpmhNquBgOO
+         iM6Nj73GxyFxnDMWx7iQBZSiiqZxx1nPGPm+d8rzBV3cDq4vxtuwrNmBs2I/jCHVLm7u
+         A22jnfpdZ8P0mHpnM5DERZa2R9fQPdNj+Vn5aFFDAveAnW5qi8RDY6h0clTJU2R5ngiN
+         g4vA==
+X-Forwarded-Encrypted: i=1; AJvYcCU/b3gZ8wgW3amuweY5ix/RU1yUJBS3T+2vucT2qcp5UGpcbYuJzonvmRRVqk+UduSiCk7VIDvWOI3Iu07Q@vger.kernel.org, AJvYcCVF9FxuQPl+jMzLUspEa6KX5bYuGJn1Nku8sHLOFXnm2YrET5ajFEKmIY8AO0k7xpOa+dtDdtvMRttbGw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzNSJtVwy/Up27hh3+OgY/WFn08qy02XfoNe9xCsvNQ+MlmRdOx
+	kTI+wsfRq5Phefz94S/vGZ45ihfEG1perihaYXL2hfCUZkxRwFIVPjfIZywSyw==
+X-Gm-Gg: ASbGncsGNaRwpRlEYTA37Bf/SSLIuCPZim1QVg05XpFa3FKxpgcPI6EEVVtEI+WhSRG
+	BZMZtB1bKXaoTlijraKKyQ5YnHdrmlxonFKnx4EYm/6X2/IuwLE2DgXDZydAHlKzzELI7qr5HgV
+	+/Z9mvI+pjd3w9s94MGvVd1MUmzMf/G0+CEJ/l4w9a5sJidgVgCGk33OoL/TqRF/K4DJfp9DT99
+	j0pIqGv8McV0uDKDCXIycqYjPo3BR1k4DvhviYRrYZA/h9XvUQF9dQEjTD3k5bPjO2Qez69Btgb
+	d9/mlg2bnHTjEdYEAzItgAFIeBK9i1ZHHMc9FD4YYEAefgwXk23hJ15U8sv1rYWMnZYAhPUfjgy
+	veH30+eXV+JdqJeLJrSgANEkjMISBdw==
+X-Google-Smtp-Source: AGHT+IFAkKLNmtuyJkHer8b7gaduPvs4Mr3VYaQlQqlwAQOjoaeNWP0Kmsbn4DSFm9O9VoSLBLKJ2Q==
+X-Received: by 2002:a05:600c:524c:b0:43d:4e9:27ff with SMTP id 5b1f17b1804b1-45a1b601572mr18942675e9.7.1755167996373;
+        Thu, 14 Aug 2025 03:39:56 -0700 (PDT)
+Received: from fedora ([94.73.32.0])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b9132f00ecsm8214300f8f.24.2025.08.14.03.39.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 Aug 2025 03:39:55 -0700 (PDT)
+From: =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
+To: jikos@kernel.org
+Cc: bentiss@kernel.org,
+	luguohong@xiaomi.com,
+	linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	=?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
+Subject: [PATCH v3 1/2] HID: input: rename hidinput_set_battery_charge_status()
+Date: Thu, 14 Aug 2025 12:39:39 +0200
+Message-ID: <20250814103947.116139-1-jose.exposito89@gmail.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-DQpIZWxsbywgSm9zqKYgYW5kIEppcmkhDQpXaGVuIHdpbGwgdGhpcyBISUQgcGF0Y2ggYmUgbWVy
-Z2VkIGludG8gdGhlIExpbnV4IG1haW5saW5lPyBXZSBhcmUgbG9va2luZyBmb3J3YXJkIHRvIHVz
-aW5nIHRoaXMgZmVhdHVyZSwgc28gcGxlYXNlIGhlbHAgdXMgcHVzaCBpdCBmb3J3YXJkISBUaGFu
-ayB5b3UgdmVyeSBtdWNoIQ0KDQpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fDQq3orz+yMs6IMKsufq66g0Kt6LLzcqxvOQ6IDIwMjXE6jjUwjEyyNUgODo0NA0KytW8/sjL
-OiBKaXJpIEtvc2luYTsgSm9zqKYgRXhwqK5zaXRvDQqzrcvNOiBiZW50aXNzQGtlcm5lbC5vcmc7
-IGxpbnV4LWlucHV0QHZnZXIua2VybmVsLm9yZzsgbGludXgta2VybmVsQHZnZXIua2VybmVsLm9y
-ZzsgRmVpMSBKaWFuZyC9r7fJOyDCrLn6uuoNCtb3zOI6ILTwuLQ6IFtFeHRlcm5hbCBNYWlsXVJl
-OiBbUEFUQ0ggdjIgMi8yXSBISUQ6IGlucHV0OiByZXBvcnQgYmF0dGVyeSBzdGF0dXMgY2hhbmdl
-cyBpbW1lZGlhdGVseQ0KDQpIZWxsbywgSmlyaSENCg0KTm93YWRheXMsIHRoZXJlIGFyZSBtb3Jl
-IGFuZCBtb3JlIEhJRCBkZXZpY2VzIGNvbm5lY3RlZCB0byBBbmRyb2lkIGFuZCBMaW51eCBkZXZp
-Y2VzLiBGb3IgZXhhbXBsZSwgd2UgaGF2ZSBhbHJlYWR5IHJlYWNoZWQgdGhlIHRoaXJkIGdlbmVy
-YXRpb24gb2YgY29udHJvbGxlcnMsIGEgSElEIGRldmljZS4gSW4gZWFjaCBnZW5lcmF0aW9uLCB3
-ZSBuZWVkIHRvIHJlcG9ydCB0aGUgY2hhcmdpbmcgc3RhdHVzIG9mIHRoZSBjb250cm9sbGVyLCBh
-IEhJRCBkZXZpY2UsIHRvIHRoZSBBbmRyb2lkIHBob25lLiBPbmx5IHRoZW4gY2FuIHRoZSBwaG9u
-ZSBrbm93IHRoZSBjaGFyZ2luZyBzdGF0dXMgb2YgdGhlIEhJRCBkZXZpY2UuIEJhc2VkIG9uIHRo
-aXMgY2hhcmdpbmcgc3RhdHVzLCB0aGUgcGhvbmUgY2FuIGRldGVybWluZSB0aGUgUEQgZmFzdCBj
-aGFyZ2luZyBsb2dpYyBhbmQgaG93IHRvIHByb2NlZWQuIEluIGFkZGl0aW9uIHRvIHVzLCBvdGhl
-ciBtb2JpbGUgcGhvbmUgbWFudWZhY3R1cmVycywgc3VjaCBhcyBWSVZPLCBoYXZlIGFsc28gbWFk
-ZSBzZXZlcmFsIGdlbmVyYXRpb25zIG9mIGNvbnRyb2xsZXJzLiBXZSBhbHNvIGVuY291bnRlcmVk
-IHRoaXMgcHJhY3RpY2FsIHByb2JsZW0gaW4gdGhlIHByb2Nlc3Mgb2YgbWFraW5nIHRoZSBjb250
-cm9sbGVyLCBzbyB3ZSByYWlzZWQgdGhpcyBpc3N1ZSB3aXRoIHlvdS4gT3VyIHNvbHV0aW9uIGlz
-IGFsc28gYmFzZWQgb24gdGhlIEhJRCBwcm90b2NvbC4gVGhhbmsgeW91IQ0KDQoNCl9fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fDQq3orz+yMs6IEppcmkgS29zaW5hIDxqaWtvc0BrZXJu
-ZWwub3JnPg0Kt6LLzcqxvOQ6IDIwMjXE6jjUwjExyNUgMTk6NDgNCsrVvP7IyzogSm9zqKYgRXhw
-qK5zaXRvDQqzrcvNOiBiZW50aXNzQGtlcm5lbC5vcmc7IMKsufq66jsgbGludXgtaW5wdXRAdmdl
-ci5rZXJuZWwub3JnOyBsaW51eC1rZXJuZWxAdmdlci5rZXJuZWwub3JnDQrW98ziOiBbRXh0ZXJu
-YWwgTWFpbF1SZTogW1BBVENIIHYyIDIvMl0gSElEOiBpbnB1dDogcmVwb3J0IGJhdHRlcnkgc3Rh
-dHVzIGNoYW5nZXMgaW1tZWRpYXRlbHkNCg0KW83isr/Tyrz+XSC0y9PKvP7AtNS009rQocPXuavL
-vs3isr+jrMfrvffJ97SmwO2ho8j0ttTTyrz+sLLIq9DUtObSyaOsx+u9q9PKvP7XqreiuPhtaXNl
-Y0B4aWFvbWkuY29tvfjQ0Le0wKENCg0KT24gV2VkLCA2IEF1ZyAyMDI1LCBKb3OopiBFeHCornNp
-dG8gd3JvdGU6DQoNCj4gV2hlbiB0aGUgYmF0dGVyeSBzdGF0dXMgY2hhbmdlcywgcmVwb3J0IHRo
-ZSBjaGFuZ2UgaW1tZWRpYXRlbHkgdG8gdXNlcg0KPiBzcGFjZS4NCg0KQ291bGQgeW91IHBsZWFz
-ZSBtYWtlIHRoZSBjaGFuZ2Vsb2cgYSBsaXR0bGUgYml0IG1vcmUgZWxhYm9yYXRpdmUsIGkuZS4N
-CndoeSBpcyBpdCBuZWVkZWQsIHdoYXQgdXNlci12aXNpYmxlIGJlaGF2aW9yIGNoYW5nZS9pbXBy
-b3ZlbWVudCBpdCBicmluZ3MsDQpldGMuDQoNCkkga25vdyBpdCdzIGluIHRoZSBlLW1haWwgdGhy
-ZWFkLCBidXQgYXQgbGVhc3Qgc29tZSBzdW1tYXJ5IHNob3VsZCBnbyBhbHNvDQp0byB0aGUgY29t
-bWl0IGl0c2VsZi4NCg0KVGhhbmtzLA0KDQotLQ0KSmlyaSBLb3NpbmENClNVU0UgTGFicw0KDQoj
-LyoqKioqKrG+08q8/rywxuS4vbz+uqzT0NChw9e5q8u+tcSxo8Pc0MXPoqOsvfbP3tPat6LLzbj4
-yc/D5rXY1rfW0MHQs/a1xLj2yMu78si61+mho7371rnIzrrOxuTL+8jL0tTIzrrO0M7Kvcq508Oj
-qLD8wKi1q7K7z97T2sirsr+78rK/t9a12NC5wrahori01sahorvyyaK3oqOpsb7Tyrz+1tC1xNDF
-z6Kho8jnufvE+rTtytXBy7G+08q8/qOsx+vE+sGivLS157uwu/LTyrz+zajWqreivP7Iy7Kiyb6z
-/bG+08q8/qOhIFRoaXMgZS1tYWlsIGFuZCBpdHMgYXR0YWNobWVudHMgY29udGFpbiBjb25maWRl
-bnRpYWwgaW5mb3JtYXRpb24gZnJvbSBYSUFPTUksIHdoaWNoIGlzIGludGVuZGVkIG9ubHkgZm9y
-IHRoZSBwZXJzb24gb3IgZW50aXR5IHdob3NlIGFkZHJlc3MgaXMgbGlzdGVkIGFib3ZlLiBBbnkg
-dXNlIG9mIHRoZSBpbmZvcm1hdGlvbiBjb250YWluZWQgaGVyZWluIGluIGFueSB3YXkgKGluY2x1
-ZGluZywgYnV0IG5vdCBsaW1pdGVkIHRvLCB0b3RhbCBvciBwYXJ0aWFsIGRpc2Nsb3N1cmUsIHJl
-cHJvZHVjdGlvbiwgb3IgZGlzc2VtaW5hdGlvbikgYnkgcGVyc29ucyBvdGhlciB0aGFuIHRoZSBp
-bnRlbmRlZCByZWNpcGllbnQocykgaXMgcHJvaGliaXRlZC4gSWYgeW91IHJlY2VpdmUgdGhpcyBl
-LW1haWwgaW4gZXJyb3IsIHBsZWFzZSBub3RpZnkgdGhlIHNlbmRlciBieSBwaG9uZSBvciBlbWFp
-bCBpbW1lZGlhdGVseSBhbmQgZGVsZXRlIGl0ISoqKioqKi8jDQo=
+In preparation for a patch fixing a bug affecting
+hidinput_set_battery_charge_status(), rename the function to
+hidinput_update_battery_charge_status() and move it up so it can be used
+by hidinput_update_battery().
+
+Refactor, no functional changes.
+
+Tested-by: 卢国宏 <luguohong@xiaomi.com>
+Signed-off-by: José Expósito <jose.exposito89@gmail.com>
+
+---
+
+v3:
+
+ - Improved commit message
+ - Link to v2: https://lore.kernel.org/linux-input/20250806073944.5310-1-jose.exposito89@gmail.com/
+
+v2:
+
+ - Added Tested-by: 卢国宏 <luguohong@xiaomi.com>
+ - Fixed compile warning:
+   https://lore.kernel.org/linux-input/202508042305.PBym6Evd-lkp@intel.com/
+ - Link to v1: https://lore.kernel.org/linux-input/20250804091215.6637-1-jose.exposito89@gmail.com/
+---
+ drivers/hid/hid-input-test.c | 10 +++++-----
+ drivers/hid/hid-input.c      | 38 ++++++++++++++++++------------------
+ 2 files changed, 24 insertions(+), 24 deletions(-)
+
+diff --git a/drivers/hid/hid-input-test.c b/drivers/hid/hid-input-test.c
+index 77c2d45ac62a..6f5c71660d82 100644
+--- a/drivers/hid/hid-input-test.c
++++ b/drivers/hid/hid-input-test.c
+@@ -7,7 +7,7 @@
+ 
+ #include <kunit/test.h>
+ 
+-static void hid_test_input_set_battery_charge_status(struct kunit *test)
++static void hid_test_input_update_battery_charge_status(struct kunit *test)
+ {
+ 	struct hid_device *dev;
+ 	bool handled;
+@@ -15,15 +15,15 @@ static void hid_test_input_set_battery_charge_status(struct kunit *test)
+ 	dev = kunit_kzalloc(test, sizeof(*dev), GFP_KERNEL);
+ 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, dev);
+ 
+-	handled = hidinput_set_battery_charge_status(dev, HID_DG_HEIGHT, 0);
++	handled = hidinput_update_battery_charge_status(dev, HID_DG_HEIGHT, 0);
+ 	KUNIT_EXPECT_FALSE(test, handled);
+ 	KUNIT_EXPECT_EQ(test, dev->battery_charge_status, POWER_SUPPLY_STATUS_UNKNOWN);
+ 
+-	handled = hidinput_set_battery_charge_status(dev, HID_BAT_CHARGING, 0);
++	handled = hidinput_update_battery_charge_status(dev, HID_BAT_CHARGING, 0);
+ 	KUNIT_EXPECT_TRUE(test, handled);
+ 	KUNIT_EXPECT_EQ(test, dev->battery_charge_status, POWER_SUPPLY_STATUS_DISCHARGING);
+ 
+-	handled = hidinput_set_battery_charge_status(dev, HID_BAT_CHARGING, 1);
++	handled = hidinput_update_battery_charge_status(dev, HID_BAT_CHARGING, 1);
+ 	KUNIT_EXPECT_TRUE(test, handled);
+ 	KUNIT_EXPECT_EQ(test, dev->battery_charge_status, POWER_SUPPLY_STATUS_CHARGING);
+ }
+@@ -63,7 +63,7 @@ static void hid_test_input_get_battery_property(struct kunit *test)
+ }
+ 
+ static struct kunit_case hid_input_tests[] = {
+-	KUNIT_CASE(hid_test_input_set_battery_charge_status),
++	KUNIT_CASE(hid_test_input_update_battery_charge_status),
+ 	KUNIT_CASE(hid_test_input_get_battery_property),
+ 	{ }
+ };
+diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
+index ff1784b5c2a4..262787e6eb20 100644
+--- a/drivers/hid/hid-input.c
++++ b/drivers/hid/hid-input.c
+@@ -595,6 +595,20 @@ static void hidinput_cleanup_battery(struct hid_device *dev)
+ 	dev->battery = NULL;
+ }
+ 
++static bool hidinput_update_battery_charge_status(struct hid_device *dev,
++						  unsigned int usage, int value)
++{
++	switch (usage) {
++	case HID_BAT_CHARGING:
++		dev->battery_charge_status = value ?
++					     POWER_SUPPLY_STATUS_CHARGING :
++					     POWER_SUPPLY_STATUS_DISCHARGING;
++		return true;
++	}
++
++	return false;
++}
++
+ static void hidinput_update_battery(struct hid_device *dev, int value)
+ {
+ 	int capacity;
+@@ -617,20 +631,6 @@ static void hidinput_update_battery(struct hid_device *dev, int value)
+ 		power_supply_changed(dev->battery);
+ 	}
+ }
+-
+-static bool hidinput_set_battery_charge_status(struct hid_device *dev,
+-					       unsigned int usage, int value)
+-{
+-	switch (usage) {
+-	case HID_BAT_CHARGING:
+-		dev->battery_charge_status = value ?
+-					     POWER_SUPPLY_STATUS_CHARGING :
+-					     POWER_SUPPLY_STATUS_DISCHARGING;
+-		return true;
+-	}
+-
+-	return false;
+-}
+ #else  /* !CONFIG_HID_BATTERY_STRENGTH */
+ static int hidinput_setup_battery(struct hid_device *dev, unsigned report_type,
+ 				  struct hid_field *field, bool is_percentage)
+@@ -642,14 +642,14 @@ static void hidinput_cleanup_battery(struct hid_device *dev)
+ {
+ }
+ 
+-static void hidinput_update_battery(struct hid_device *dev, int value)
++static bool hidinput_update_battery_charge_status(struct hid_device *dev,
++						  unsigned int usage, int value)
+ {
++	return false;
+ }
+ 
+-static bool hidinput_set_battery_charge_status(struct hid_device *dev,
+-					       unsigned int usage, int value)
++static void hidinput_update_battery(struct hid_device *dev, int value)
+ {
+-	return false;
+ }
+ #endif	/* CONFIG_HID_BATTERY_STRENGTH */
+ 
+@@ -1515,7 +1515,7 @@ void hidinput_hid_event(struct hid_device *hid, struct hid_field *field, struct
+ 		return;
+ 
+ 	if (usage->type == EV_PWR) {
+-		bool handled = hidinput_set_battery_charge_status(hid, usage->hid, value);
++		bool handled = hidinput_update_battery_charge_status(hid, usage->hid, value);
+ 
+ 		if (!handled)
+ 			hidinput_update_battery(hid, value);
+-- 
+2.50.1
+
 
