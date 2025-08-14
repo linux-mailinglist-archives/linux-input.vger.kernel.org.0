@@ -1,162 +1,177 @@
-Return-Path: <linux-input+bounces-14033-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14034-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3C9FB26F03
-	for <lists+linux-input@lfdr.de>; Thu, 14 Aug 2025 20:36:01 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id F3A7EB27029
+	for <lists+linux-input@lfdr.de>; Thu, 14 Aug 2025 22:27:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D9D0EAA56A0
-	for <lists+linux-input@lfdr.de>; Thu, 14 Aug 2025 18:35:59 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EBD395E6C4B
+	for <lists+linux-input@lfdr.de>; Thu, 14 Aug 2025 20:27:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4649E22DFA5;
-	Thu, 14 Aug 2025 18:35:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6C2DF258CF7;
+	Thu, 14 Aug 2025 20:27:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MLm6nyJ6"
+	dkim=pass (2048-bit key) header.d=ewhac.org header.i=@ewhac.org header.b="aw4tTbAC"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from iguana.tulip.relay.mailchannels.net (iguana.tulip.relay.mailchannels.net [23.83.218.253])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4F6F31984B;
-	Thu, 14 Aug 2025 18:35:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755196559; cv=none; b=KPcF/RxvjnM9mpXR7/sa8c8g06s/KYHkHwxt+DaVbpvaKMJVy0dc7lpPgVWJH1vvtFFy3EYOmeNxhjejZyGxFdmAi5qngX27E6aEtybgaQrxFLm9KkZVuYtnJ0x30Gc7fkOW8+XLpv7Y3nKclgNSh16bBejbxq4UTHaoZ5+39UE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755196559; c=relaxed/simple;
-	bh=oFoTevpJTkFC3fnPkHq5WaRUhn9wdzE1Nk7qHgaKBHA=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4188B1FF60A;
+	Thu, 14 Aug 2025 20:27:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=23.83.218.253
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1755203241; cv=pass; b=YE0bHgcOGu4UtJxz9XFWJnFDtKVyaRFuIrSJAKCWLu92ih6CdI4NSUec61aruGmpmINAghFSitmK2xNUVr6GRL/0h0V/0Z6E1f33BbQ+vuoHe+NnnyyzgcsltOkZ6rFU+USBnJEpr11nVlI12fljjFAw34x9LFmcVAudA45ANN8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1755203241; c=relaxed/simple;
+	bh=nRlGCCJCEYe988/EJMXA2bn8aYuuWN/aly6RkZI8q7c=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Un+ZLK4JQjo236yeh56QBa+EW2n7j5vTFUR3q6G+TbfATWiBWYmhhLXLkTwThXaS9Egn5tIH7iVkkZAJ1lfCtHmcH2Ify2P1D2toja4mFIJGyiwjHNCioIssFDuJJ46yC//Fiv4Z/fE9166W/K+bQypvi3UhSWI1CDlgQ5kmz/0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MLm6nyJ6; arc=none smtp.client-ip=209.85.210.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-76e2eb3726cso793730b3a.3;
-        Thu, 14 Aug 2025 11:35:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755196557; x=1755801357; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=kJt/hcAMZ2yC+7PBLbpVyeoi2vS5Vy+duo50bI9bdV8=;
-        b=MLm6nyJ6KW8O7NRsS1xYgMlgzxBdCe+doD4YLtXX+JNh1ImEoaPnbvMEmumoLBPnJJ
-         KiFiVHSnT10uRU4GkpqEvJndzmljP6sneadVVSqjf6hHV3hihCsyl8mqwPdd4T3LK1k9
-         jwlKc5CdNA1xyQDV8tRGTKq3NFv66GYGj5qKvqyA9/StyqzkLCsnODoLWOO4QxiBXo7a
-         DqyUixtRAwjMYEW1aTGXLSlj23MkDOP/HliJfXsK80fHGOwFAzLWAicj56FFGmsSxaXZ
-         S3vy3kuULBT99ypBfxtrZWjhkXyJn32F6JT63YH6j5VfP0UDLXv4ihQN5586JGV3/muj
-         qRlw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755196557; x=1755801357;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kJt/hcAMZ2yC+7PBLbpVyeoi2vS5Vy+duo50bI9bdV8=;
-        b=YHjZMcdFvMaNnCuWrKwca3EWAROlX0/hYwN81fhOwG5vSc0iURtqosfWxOyiY4A4hs
-         0j0wKw4+y/usDipz9eMlZihexbnB1Icgdkizozvgc2YdKLeEsCsNZAc1Omlt52XsYIW2
-         ENeh61xRspgJQbongr2mPKgmF7CIdyQpCV4c2bDdVOenq4pKxyAAozxGuNFHJv7IutqY
-         /9pdENj975SLSxEa0BCSvyuE5wZHbTnUbEtQOhwm7sfARdJYOC1cWn8KjwBwVbXsQLSP
-         0PJkoRcAofKKi7XGDlWp1l5Azu719bAgfgDkoxkFTASUWyMustJQainDKFAgI5YexzEE
-         KS6A==
-X-Forwarded-Encrypted: i=1; AJvYcCUYxtyIfpSDK8OZzzF4KJEPcUFnJZThJLwOMmbftzPWMsaN3qb36Xx7IXRZNQOgS52ctRuNmg+OYxfT@vger.kernel.org, AJvYcCVIa2YskxUevOsawJ2pIlpHWCACV6fLJxYaTnln1loPNMOzxujMuZdTW6HQ7IcXItfZJDld26Nf6sfKdv4=@vger.kernel.org, AJvYcCVsyp1Bk6RcNaG6R3SerCpn/W8m12YmfNcQ6NZYuHbGDMHaT8o06GogXn/F3eJPNwuGOfj0aVY0x3VB@vger.kernel.org, AJvYcCW5z8Dq/7E7A8WYupuWuU1okaO9HuK0ALhTZKa0hgHcd+IjENcdU021+h9sVYNzgIg7AJp5YmZpKsSBAMI=@vger.kernel.org, AJvYcCWg1awFdJuB42m7U/gBV9Bet6SsW8scCeZi2CGwoEFJWj4ztr+LPt3ubuso7t8zmEbLriMVONm1lVKC@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy2gcsjI2kSvgu6vyv0QHtvz3c5LkIE4FPP2E4JBnJcz65xMIhc
-	y3cNrEMkHWit4zqws485oRlZcn434BpyDfDER6yDm+sTWZUE4QC1Pnf4oyDNnQ==
-X-Gm-Gg: ASbGncthaXlYigHFUkOtislDlGVSHDJ5/vQh4pGaiy2/bQPFk5DJEfJ6UGuUN/Yl00t
-	q2Tpx9YSYW/bqwE07dt4E2Ns//iYmzp82m+Oktt19l6tdpWpfr8ekTO+X07KhW8SuCZPaNFcCYr
-	7y2sIlY/PZWD40WnOf1YRvnPoUb/fHpUmw7hsgZev1F10tziQqd2655foPqulN+YtblpE+d6SRT
-	MxvPlfh2lcNSlkf8tf4ha+cn/zsztfXhhebU0NUI/HrL88gtzWzQSMYEWmpxf5RKyXdQd7Khdjp
-	CWezE3+tBz7rT9Fh5trgqL93CNJo4hkNq7cE3id/DvL3N1A/6WWsUDHSolH37WjSk89UeZV3tSZ
-	dY6sjFKQ3xLGL7nN6dXfnyrQlaHfSJkztZg==
-X-Google-Smtp-Source: AGHT+IFTQsaL27wAfrPNbpedIL9oHlFrTHdo6Z1kKN/DyNl5f8XhqHluOPZCfB1ZEEe26gStm1qrjg==
-X-Received: by 2002:a05:6a20:12c2:b0:240:2265:acba with SMTP id adf61e73a8af0-240bd25247amr6795783637.42.1755196556706;
-        Thu, 14 Aug 2025 11:35:56 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:bd82:9778:4ed6:7372])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b424ca987desm25052379a12.40.2025.08.14.11.35.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Aug 2025 11:35:56 -0700 (PDT)
-Date: Thu, 14 Aug 2025 11:35:53 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Jihed Chaibi <jihed.chaibi.dev@gmail.com>
-Cc: linux-kernel@vger.kernel.org, andreas@kemnade.info, 
-	peter.ujfalusi@gmail.com, robh@kernel.org, krzk+dt@kernel.org, lgirdwood@gmail.com, 
-	tiwai@suse.com, conor+dt@kernel.org, lee@kernel.org, ukleinek@kernel.org, 
-	broonie@kernel.org, gregkh@linuxfoundation.org, linux-input@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-pwm@vger.kernel.org, linux-sound@vger.kernel.org, 
-	linux-usb@vger.kernel.org, shuah@kernel.org
-Subject: Re: [PATCH v2 3/9] input: dt-bindings: ti,twl4030-keypad: convert to
- DT schema
-Message-ID: <ziwtdg4elih73nkguilamjh4gfgg76t2evwvnj6pscywvfexyc@abvlmgoij3us>
-References: <20250814132129.138943-1-jihed.chaibi.dev@gmail.com>
- <20250814132129.138943-4-jihed.chaibi.dev@gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=uKsrnRjv8y5ZS9lUDc9tLXY3Mfp/7zcry7CbYYrw2+R3D+JAsslzUopXrowUL7lZwtEO1gTon7ewl30cSuCCdxYESTb6rEYVTltv9ddx4CdM4YsxIOkYea0AX2HXUkzqC7VDmdvAGDS7ikxtaJ9CfCwOzjeQg1zUvwlreAFOF0E=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ewhac.org; spf=pass smtp.mailfrom=ewhac.org; dkim=pass (2048-bit key) header.d=ewhac.org header.i=@ewhac.org header.b=aw4tTbAC; arc=pass smtp.client-ip=23.83.218.253
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ewhac.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ewhac.org
+X-Sender-Id: dreamhost|x-authsender|ewhac@ewhac.org
+Received: from relay.mailchannels.net (localhost [127.0.0.1])
+	by relay.mailchannels.net (Postfix) with ESMTP id 02314162C4E;
+	Thu, 14 Aug 2025 20:27:09 +0000 (UTC)
+Received: from pdx1-sub0-mail-a258.dreamhost.com (trex-blue-8.trex.outbound.svc.cluster.local [100.96.56.14])
+	(Authenticated sender: dreamhost)
+	by relay.mailchannels.net (Postfix) with ESMTPA id 8C3B4163971;
+	Thu, 14 Aug 2025 20:27:08 +0000 (UTC)
+ARC-Seal: i=1; s=arc-2022; d=mailchannels.net; t=1755203228; a=rsa-sha256;
+	cv=none;
+	b=ZEWp4FLqZD5whrpn9IcswqasGEptv/7+S2eJml45Ld1w98Vmt0Ohy0FKGPa8+/Cotyjg4N
+	LVNOpjRBUSHmirLnNU/eAhYNb+eAZNpGac1m8YIIIOXqoR0L//RN7CXpLPyCku3m9I4GYi
+	ZhnSBFldy8KUgKlQYM/XaJpGNCp8mcO7tJln/C0604SeSm5CTkwxHr7umYTBjBViMgbiWg
+	EXT6KB2C063GmwAltzVVnxpNc/8w9of9E/dDVWlgkGxtydjai1ZT/+AzXK66jpmHw2GmG6
+	AOtD6foJUblyICLhL0B4qFlUiJ5BcbmyHD2VVwlEqLLc6BinbT10a9IYsVtxTg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mailchannels.net;
+	s=arc-2022; t=1755203228;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:dkim-signature;
+	bh=Ht4Yilg24DjWd+8Xf45zZ9kAMEuvotKdSx04jUYmF38=;
+	b=HUJpOLXWr6M/G/foUNx/8FXHBHXWRriQ4feLTvG06WQCdqYHYuV5Zf1Ykgz9/UvA4KcRgU
+	HIsrsNqtdUrMlucqqWFjAQ50uSIKoqx9CcVbESmQnGSGaIHI6bQUhTxCxvCaD1CdY7Xa55
+	DkTEN97+erpaTUR2UHwurXyUxhEH8Ce1R8S/P/+qH5GNGzPTgrLb408PTgvdmFPpWRl8pB
+	fiKsENtMfh3E3NX7m9k7/cNva5Fz9PhzGZFvO3Ui6aJShv+6YwG78gOLF9w6kTVD9Jsdmx
+	9YSskhyVsfwBGMVe7gvYFsaM+qZJd8sQb8oTtUTPfZiaHH9h5AhdyHcUdkdb+Q==
+ARC-Authentication-Results: i=1;
+	rspamd-865b9ccc6c-jwf8c;
+	auth=pass smtp.auth=dreamhost smtp.mailfrom=ewhac@ewhac.org
+X-Sender-Id: dreamhost|x-authsender|ewhac@ewhac.org
+X-MC-Relay: Neutral
+X-MailChannels-SenderId: dreamhost|x-authsender|ewhac@ewhac.org
+X-MailChannels-Auth-Id: dreamhost
+X-Industry-Trade: 3605f0b77398cca0_1755203228839_1202641544
+X-MC-Loop-Signature: 1755203228839:294781078
+X-MC-Ingress-Time: 1755203228838
+Received: from pdx1-sub0-mail-a258.dreamhost.com (pop.dreamhost.com
+ [64.90.62.162])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
+	by 100.96.56.14 (trex/7.1.3);
+	Thu, 14 Aug 2025 20:27:08 +0000
+Received: from ewhac.org (unknown [135.180.175.143])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: ewhac@ewhac.org)
+	by pdx1-sub0-mail-a258.dreamhost.com (Postfix) with ESMTPSA id 4c2xcD2dqNzCW;
+	Thu, 14 Aug 2025 13:27:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ewhac.org;
+	s=dreamhost; t=1755203228;
+	bh=Ht4Yilg24DjWd+8Xf45zZ9kAMEuvotKdSx04jUYmF38=;
+	h=Date:From:To:Cc:Subject:Content-Type:Content-Transfer-Encoding;
+	b=aw4tTbACC9BkZEuADf+iedQBY3MrT+dr56yGWpcJ8TdIvCKYm5RvYBT/oEvqtsUYz
+	 vD9xci53Gv6bI7wRDX/YK3bPF+6S7fa0goGbbB0Y6FMXXpZZPQhQTYuDAoICSNCnfl
+	 rNKbyxqUCYx1b2q5OMTxw1g9llOiok4/NNR/95rkcKPP/VAKBOsLn5umS6VQzoItdG
+	 oQ0uk15tIgrenLmzrBd64hr+C21Y0eoBtWtdraKyD7A2CfkCr392t9fajVGum4LGvF
+	 PbsGOrz4A8tjMPPtGMZJ8LkDBgoHsS/z5ANQY5Vjqwl0LuJu265xS9E1xh6WTFfXas
+	 uBadEnOYHiuRg==
+Received: from ewhac by walkies with local (Exim 4.98.2)
+	(envelope-from <ewhac@ewhac.org>)
+	id 1umeXT-00000004yYX-1G7z;
+	Thu, 14 Aug 2025 13:27:07 -0700
+Date: Thu, 14 Aug 2025 13:27:07 -0700
+From: "Leo L. Schwab" <ewhac@ewhac.org>
+To: Kate Hsuan <hpa@redhat.com>
+Cc: Hans de Goede <hansg@kernel.org>, Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] HID: lg-g15 - Add support for Logitech G13.
+Message-ID: <aJ5Gm5AaLI6iJ4le@ewhac.org>
+References: <20250812065327.515098-2-ewhac@ewhac.org>
+ <CAEth8oEf3c9quzL2boHo=dJg6+p8scSsq5hL7j2LLjdtREsQxw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250814132129.138943-4-jihed.chaibi.dev@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAEth8oEf3c9quzL2boHo=dJg6+p8scSsq5hL7j2LLjdtREsQxw@mail.gmail.com>
 
-On Thu, Aug 14, 2025 at 03:21:23PM +0200, Jihed Chaibi wrote:
-> Convert the legacy TXT binding for the TWL4030 keypad module
-> to the modern YAML DT schema format. This adds formal validation
-> and improves documentation by inheriting from the matrix-keymap schema.
-> 
-> Changes in v2:
-> Simplified the description field by removing redundant '|'
-> as it does not affect formatting in this context.
-> 
-> Signed-off-by: Jihed Chaibi <jihed.chaibi.dev@gmail.com>
-> ---
->  .../bindings/input/ti,twl4030-keypad.yaml     | 44 +++++++++++++++++++
->  .../bindings/input/twl4030-keypad.txt         | 27 ------------
->  2 files changed, 44 insertions(+), 27 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/input/ti,twl4030-keypad.yaml
->  delete mode 100644 Documentation/devicetree/bindings/input/twl4030-keypad.txt
-> 
-> diff --git a/Documentation/devicetree/bindings/input/ti,twl4030-keypad.yaml b/Documentation/devicetree/bindings/input/ti,twl4030-keypad.yaml
-> new file mode 100644
-> index 000000000..2efc88b89
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/input/ti,twl4030-keypad.yaml
-> @@ -0,0 +1,44 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/input/ti,twl4030-keypad.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Texas Instruments TWL4030-family Keypad Controller
-> +
-> +maintainers:
-> +  - Peter Ujfalusi <peter.ujfalusi@gmail.com>
-> +
-> +description:
-> +  TWL4030's Keypad controller is used to interface a SoC with a matrix-type
-> +  keypad device. The keypad controller supports multiple row and column lines.
-> +  A key can be placed at each intersection of a unique row and a unique column.
-> +  The keypad controller can sense a key-press and key-release and report the
-> +  event using a interrupt to the cpu.
-> +
-> +allOf:
-> +  - $ref: matrix-keymap.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    const: ti,twl4030-keypad
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +required:
-> +  - compatible
-> +  - interrupts
-> +  - keypad,num-rows
-> +  - keypad,num-columns
+On Thu, Aug 14, 2025 at 05:09:09PM +0800, Kate Hsuan wrote:
+> Thank you for your work.
+>
+	Thank you for your feedback.  And thank you for collecting all your
+comments into one post.
 
-I wonder if "linux,keymap" should not be made required as well... 
+> On Tue, Aug 12, 2025 at 2:57 PM Leo L. Schwab <ewhac@ewhac.org> wrote:
+> The comment should in C comments, for example
+>  struct input_dev *input_js;  /*joystick device for G13*/
+>
+	Will sweep all those up.
 
-Thanks.
+> > +static int lg_g13_kbd_led_set(struct led_classdev *led_cdev, enum led_brightness brightness)
+> > +{
+> > +       struct led_classdev_mc *mc = lcdev_to_mccdev(led_cdev);
+> > +       struct lg_g15_led *g15_led =
+> > +               container_of(mc, struct lg_g15_led, mcdev);
+> > +       struct lg_g15_data *g15 = dev_get_drvdata(led_cdev->dev->parent);
+> > +
+> > +       /* Ignore LED off on unregister / keyboard unplug */
+> > +       if (led_cdev->flags & LED_UNREGISTERING)
+> > +               return 0;
+> > +
+> > +       guard(mutex)(&g15->mutex);
+> guard() can be moved to lg_g13_kbd_led_write() to ensure the code is
+> protected by a mutex lock when lg_g13_kbd_led_write() is called.
+>
+	I was mimicking the existing structure of the G15 and G510 code,
+which I assumed was set up that way for a reason.  Will move this.
 
--- 
-Dmitry
+> > +static int lg_g13_event(struct lg_g15_data *g15, u8 const *data)
+> > +{
+> > +       struct g13_input_report const * const rep = (struct g13_input_report *) data;
+> > +       int i, val;
+> > +       bool hw_brightness_changed;
+> Remove unused variable.
+>
+	I will be slightly restructuring this.
+
+> >         switch (g15->model) {
+> > +       case LG_G13:
+> > +               /*
+> > +                * Some usermode libraries tend to ignore devices that don't
+> > +                * "look like" a joystick.  Create additional input device
+> > +                * dedicated as joystick.
+> > +                */
+> Nit.
+> Improve the comment and describe the hardware and the variable
+> settings below in brief.
+
+	I'll wordsmith this.  It'll get a bit wordier, though...
+
+> Some style and comment style issues are pointed out, and I'll start to
+> test this work after I receive my G13.
+>
+	If anything explodes, please let me know right away.
+
+					Schwab
 
