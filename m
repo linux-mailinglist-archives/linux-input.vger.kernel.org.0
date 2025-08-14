@@ -1,108 +1,151 @@
-Return-Path: <linux-input+bounces-14021-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14022-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6AC9B267EC
-	for <lists+linux-input@lfdr.de>; Thu, 14 Aug 2025 15:48:14 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 44048B26942
+	for <lists+linux-input@lfdr.de>; Thu, 14 Aug 2025 16:28:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E45A05E8064
-	for <lists+linux-input@lfdr.de>; Thu, 14 Aug 2025 13:37:48 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D99A5602F9C
+	for <lists+linux-input@lfdr.de>; Thu, 14 Aug 2025 14:14:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6C5922FC88B;
-	Thu, 14 Aug 2025 13:33:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7955F21CA1E;
+	Thu, 14 Aug 2025 14:11:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Z3TFREvM"
+	dkim=pass (2048-bit key) header.d=kemnade.info header.i=@kemnade.info header.b="Bea4MgOI"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.andi.de1.cc (mail.andi.de1.cc [178.238.236.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33AF21514E4;
-	Thu, 14 Aug 2025 13:33:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B2BE1F0E29;
+	Thu, 14 Aug 2025 14:11:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.238.236.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755178429; cv=none; b=dUpTggMM4qq5R4lleY+gKe9vBHUvY8aWrXd6qFWB8QFTnBUmxZxbN95dNG7KTAu73qpHlERP/FbzIMn0B7eLE4+0vfVBOe7uIytP46leyuH9ptMfxEHNrr8UVwCwIs4FeqgQ6CuYMw8nQ99xJiZqj863nT813D5l9e6XFA52LZc=
+	t=1755180670; cv=none; b=ZD30SoFwekHVOraoTPMxrevxf0uWqc9K+WinuUBNekkddVgF6dPrlwWorHu2Svop7Ar8ZozHIneIDqD/qID3uBBDri7Zd0I3FNHe0B5kt+kUhD3dQ4M142SH9O8+QIwTOXYMVQJ1eLyXwuqDym8jUPlnBnfPKyXLxwGuaVaw/PY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755178429; c=relaxed/simple;
-	bh=qzHOrb660hNBXkxGw6DWMOMC3lLxUoz/yT/E1S7tZKI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JmW4Ys8h5pnFaqpq+frJ4K4nAngN0V+2GyoD/vJoQZlO52BH2aWWRTUSHGnEoX5FjZB29zUTjpP9SFJx4OGHtWitt9MmpOeq1DmYT57s2KYd4XOUWx2vLxq/Fo66hTY+vUBehFBgY1khBjqdBoZwkxM445CzOBWTmoYYQEidB/k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Z3TFREvM; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24D9DC4CEED;
-	Thu, 14 Aug 2025 13:33:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755178428;
-	bh=qzHOrb660hNBXkxGw6DWMOMC3lLxUoz/yT/E1S7tZKI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Z3TFREvMs1WoLOVL2tGaVT1AakYVA6W35J8m4vEyfQfAyM33dod6zbIvi5EZ1o4ab
-	 +wMY1hRryZmJya4eBLPwosoXvYCs7Hm8DP4mJqMxIjz+fK3bTqZyQyIajhMwZadJ3A
-	 VgKFpqwqWMz5XEiP87KZltrdbdpp7ekrl4gAU2w5KnSxbY9Tc79i75ZmxsSbc6noSa
-	 14Zr9EcpAfOR6dYy1EH27ORo6AzIYNG9OjyukxBmc9XHqR84SWyKav01vmYQ15nCYc
-	 kS4Zb/fu4eIRpPpxjviCrOuPbqL1PgkfEYx1n7Bl6BVDLraINW34jdIQrNZEM8PE8E
-	 hX7jkkQX4Kkqg==
-Date: Thu, 14 Aug 2025 14:33:42 +0100
-From: Mark Brown <broonie@kernel.org>
+	s=arc-20240116; t=1755180670; c=relaxed/simple;
+	bh=g5nEgrfMvzqF5xAHkSQGZWNmxD88JGyjLjhNV/ORsvQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=PEgWLGZg4sJ29OoN5B8KJOsHRptTTz7NgqLIwU4jHpOzquJS8cevoWtKyl8C7u3av0rFFhA48IOfjYVlUpkFOujAJUjd6YWjnmmBMrlTsw9pBmRVLVpsH4lpyhp13HFLvqzbCll3yFfYj+Y8d5w4cinmOQmx1n2YctjXkANgS6A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kemnade.info; spf=pass smtp.mailfrom=kemnade.info; dkim=pass (2048-bit key) header.d=kemnade.info header.i=@kemnade.info header.b=Bea4MgOI; arc=none smtp.client-ip=178.238.236.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kemnade.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kemnade.info
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=kemnade.info; s=20220719; h=References:In-Reply-To:Cc:From:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID;
+	bh=AleR0jYJ5DHvKnLDLo4Rx8JfI+/zLDkGskHcM2qem8E=; b=Bea4MgOIZSyDaDYUB4fy8WFhWl
+	Mw9jANWLwS7UTPEsJOwcvtj9FwG0X17GFAEqhuHxxITyPfcRoO0im2PJVFI2OIxGWPOoHm9977Ich
+	yYBG9NnEGuDyD1ISeujvQ1jAJQNHs8Ic0/ykuI5Tm3yimx1TUEEZ/nyvN0vkRz2JaAs7K8rIQMl+U
+	P/RPBkhNB3hv4KSf7ayQAQ7LNVtWuRxgDkyMPJarySK1J3+uEVrLjwmHDLxipCExD6YUYp/xlbGHe
+	wUp5RhfjAYd2qBsMeeE7S2pahhjUpRH1OxiBaFKHV0WMoc3ofHGP5/0syIywALRkCqyL7a1ohm873
+	P0HjMvIA==;
+Date: Thu, 14 Aug 2025 16:10:55 +0200
+From: Andreas Kemnade <andreas@kemnade.info>
 To: Jihed Chaibi <jihed.chaibi.dev@gmail.com>
-Cc: linux-kernel@vger.kernel.org, andreas@kemnade.info,
-	peter.ujfalusi@gmail.com, dmitry.torokhov@gmail.com,
-	robh@kernel.org, krzk+dt@kernel.org, lgirdwood@gmail.com,
-	tiwai@suse.com, conor+dt@kernel.org, lee@kernel.org,
-	ukleinek@kernel.org, gregkh@linuxfoundation.org,
-	linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-pwm@vger.kernel.org, linux-sound@vger.kernel.org,
-	linux-usb@vger.kernel.org, shuah@kernel.org
-Subject: Re: [PATCH v2 7/9] Documentation: omap-twl4030: convert to DT schema
-Message-ID: <8c9366a5-482e-4bf2-b8cc-79e789bf2ff0@sirena.org.uk>
+Cc: linux-kernel@vger.kernel.org, peter.ujfalusi@gmail.com,
+ dmitry.torokhov@gmail.com, robh@kernel.org, krzk+dt@kernel.org,
+ lgirdwood@gmail.com, tiwai@suse.com, conor+dt@kernel.org, lee@kernel.org,
+ ukleinek@kernel.org, broonie@kernel.org, gregkh@linuxfoundation.org,
+ linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-pwm@vger.kernel.org, linux-sound@vger.kernel.org,
+ linux-usb@vger.kernel.org, shuah@kernel.org
+Subject: Re: [PATCH v2 4/9] mfd: dt-bindings: ti,twl4030-power: convert to
+ DT schema
+Message-ID: <20250814161055.332a829a@akair>
+In-Reply-To: <20250814132129.138943-5-jihed.chaibi.dev@gmail.com>
 References: <20250814132129.138943-1-jihed.chaibi.dev@gmail.com>
- <20250814132129.138943-8-jihed.chaibi.dev@gmail.com>
+	<20250814132129.138943-5-jihed.chaibi.dev@gmail.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="4nUJ618zm+2DpXSV"
-Content-Disposition: inline
-In-Reply-To: <20250814132129.138943-8-jihed.chaibi.dev@gmail.com>
-X-Cookie: This sentence no verb.
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
+Am Thu, 14 Aug 2025 15:21:24 +0200
+schrieb Jihed Chaibi <jihed.chaibi.dev@gmail.com>:
 
---4nUJ618zm+2DpXSV
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, Aug 14, 2025 at 03:21:27PM +0200, Jihed Chaibi wrote:
-> Convert the legacy TXT binding for the OMAP TWL4030 sound card
+> Convert the legacy TXT binding for the TWL4030 power module
 > to the modern YAML DT schema format. This adds formal validation
 > and improves documentation.
-
+> 
 > Changes in v2:
+> Simplified the description field by removing redundant '|' as it
+> does not affect formatting in this context.
+> 
+> Signed-off-by: Jihed Chaibi <jihed.chaibi.dev@gmail.com>
+> ---
+>  .../bindings/mfd/ti,twl4030-power.yaml        | 69 +++++++++++++++++++
+>  .../devicetree/bindings/mfd/twl4030-power.txt | 48 -------------
+>  2 files changed, 69 insertions(+), 48 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/mfd/ti,twl4030-power.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/mfd/twl4030-power.txt
+> 
+> diff --git a/Documentation/devicetree/bindings/mfd/ti,twl4030-power.yaml b/Documentation/devicetree/bindings/mfd/ti,twl4030-power.yaml
+> new file mode 100644
+> index 000000000..713e2facf
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/mfd/ti,twl4030-power.yaml
+> @@ -0,0 +1,69 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/mfd/ti,twl4030-power.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Texas Instruments TWL4030-family Power Management Module
+> +
+> +maintainers:
+> +  - Peter Ujfalusi <peter.ujfalusi@gmail.com>
+> +
+> +description:
+> +  The power management module inside the TWL family provides several facilities
+> +  to control the power resources, including power scripts. For now, the
+> +  binding only supports the complete shutdown of the system after poweroff.
+> +
+> +properties:
+> +  compatible:
+> +    description: |
+> +      The compatible string determines the specific power configuration.
+> +        "ti,twl4030-power": Standard power control.
+> +        "ti,twl4030-power-reset": Recommended for OMAP3530 and similar SoCs
+> +          that require a special configuration for warm reset to work correctly.
+> +        "ti,twl4030-power-idle": Loads the TI-recommended configuration for
+> +          idle modes into the PMIC.
+> +        "ti,twl4030-power-idle-osc-off": Uses the recommended idle configuration
+> +          but also shuts down the external oscillator. This may not work on all
+> +          boards depending on the oscillator wiring.
+> +
+> +    enum:
+> +      - ti,twl4030-power
+> +      - ti,twl4030-power-reset
+> +      - ti,twl4030-power-idle
+> +      - ti,twl4030-power-idle-osc-off
+> +
+yes, this is ugly use of compatible, but not easy being patched away.
 
-This should go after the ---, tools use this to remove the changelog
-when committing.
+> +  ti,system-power-controller:
+> +    type: boolean
+> +    description:
+> +      Indicates that the TWL4030 is the power supply master of the system,
+> +      allowing it to initiate system power-off.
+> +
+this too is deprecated, we already have the system-power-controller
+node in the parent.
 
-> - Fixed comment formatting (added spaces for better alignment).
-> - Updated commit subject to align with subsystem style.
+> +  ti,use_poweroff:
+> +    type: boolean
+> +    description: Deprecated name for ti,system-power-controller.
+> +    deprecated: true
+> +
+I think we can even totally drop this and maybe add this whole stuff to
+ti,twl.yaml, no extra file.
 
-Should be ASoC: dt-bindings:=20
-
---4nUJ618zm+2DpXSV
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmid5bUACgkQJNaLcl1U
-h9A2/gf8DYx2qBWKgxDl5J/9xk1Tol23Uwe7rnV2+wSVddxlxcPYEO+lCQ+ktiYz
-EJi0x9SUpw/em43nQulrEBY7vvJH6jlOMpM7qehbhuCdkAqIN1Be8e7/bR3LfGCM
-27wWzx1+Hxoun9V4q7w0MuKhjztsmti5MouUB03NQbR13uGmV9kNxJWF9juqAujI
-xfcamPWNGGyPF6GRjiuuBhPmrjl8yFh8u2UyiI4E1IS/GL3kth1FjC8igDAMniou
-2Fgn4M+BQrHi94iGGe+T19uAue1VARcg2RkYU6WUkuiBSRr673eL1OJQVOIoiFn6
-dm6JtgM4fu3FxSdbGp+fonGTJEdUZA==
-=3+dF
------END PGP SIGNATURE-----
-
---4nUJ618zm+2DpXSV--
+Regards,
+Andreas
 
