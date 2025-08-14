@@ -1,126 +1,172 @@
-Return-Path: <linux-input+bounces-14006-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14007-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 836A5B26305
-	for <lists+linux-input@lfdr.de>; Thu, 14 Aug 2025 12:43:26 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id B5B2CB263E8
+	for <lists+linux-input@lfdr.de>; Thu, 14 Aug 2025 13:14:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4D8C77B1ACF
-	for <lists+linux-input@lfdr.de>; Thu, 14 Aug 2025 10:41:39 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id ADC827B38CA
+	for <lists+linux-input@lfdr.de>; Thu, 14 Aug 2025 11:12:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 17F7C2C0F67;
-	Thu, 14 Aug 2025 10:43:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 35C162F90DF;
+	Thu, 14 Aug 2025 11:14:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WM6SMPss"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nNpjrfeQ"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 689FE25A2D8;
-	Thu, 14 Aug 2025 10:43:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1D472F39B2;
+	Thu, 14 Aug 2025 11:14:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755168189; cv=none; b=ms70h43To8j2RgURcNEuYEFMW9Ud/NP8YoqzFGecJOlbZrRPVJZUQT3bTtJxV22I4PWbrjI4AJpTzFCXUOEaiRGxRbeGiitzQpR4Ab2pC8hURtvwSsLSOWEvZ8rIVw8Wek1K15EA77xzFOCoGfj34EgFFeojVjJEs3em7bn4L3Y=
+	t=1755170054; cv=none; b=Ut15ndK9suyWTvlPi7DRjKmO94cmLLVDWMaRypWKxuWA8pHu+VadjJ6yv6l6yEZp82zCdcyPcg7J2QmL6NLM/Mn/GPL9gb4POPCN2yXj2gwqSWNVcr1EyFTdvAOID7POMYFRvLQ3eEjz5vah/gFkgjO6Bm6y49ViemAkEAi2Xws=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755168189; c=relaxed/simple;
-	bh=9xh2Nft5Qxdo2gHxv00QeRiNf5440z4bTPZ674GGC18=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JBX0ehMU1wEtG4UmgCCXnstpDNALjlurVHXRsRqM0Wo0IAEN5xbtcU8yg6XypbFLq5p64tU+cDV7W3+8Qrj6v9dxCIauOTTbSwSiFbFVjnoLOMcsPVA3AhtVQc+vWqhVYltNDr8NW4qtUyklx1VzBrCryfxfGQjbEbZrs4y/DcU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WM6SMPss; arc=none smtp.client-ip=209.85.128.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-45a1b0bde14so3769775e9.2;
-        Thu, 14 Aug 2025 03:43:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755168186; x=1755772986; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=jMgZVJV8GbdzEDE5ofwso5AKnFy8hsBf9wu7z3fU3lo=;
-        b=WM6SMPssixKzfGFoKs1teDySWZVTAqDXE1M6KwE06q3J9RPVXHabECJgyvvq8UQhbZ
-         xg4DbvDBlBzUpvaH/+xcpj+3M9uZWQgs8b9Nyg+p94a8baaqcRQyGXlRKekQ81x1smQ0
-         nzTc2JRjY1s4FuMFQY6hQtmLQ7vfYABII+kk9sOFMsS3A/HieE4Mqqm+LTtd4QaMORUm
-         mWz5FiPw/6+jvhPKPYYzY0Sc2oQky6ggNitQCvkxuRRARYNQtPmrSk0URscmujb7yg3h
-         HNxqSuVZ4t8e7hnYHHaZn0nOsckjrTR61dAqoKRw/hv1sFrO3LU3D75eWUavvOCnTVse
-         bHEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755168186; x=1755772986;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=jMgZVJV8GbdzEDE5ofwso5AKnFy8hsBf9wu7z3fU3lo=;
-        b=A3GGsxtKM2M23WfUyq8Od97DIBldEin0gsMcynlnD3S98ACKnztPu1G1P8YCajIlVb
-         aQRLo/etD6QSBP3Atrt8AJtJnr6Go+TzQex1Gz5tXlplZ0HW0KMW+o050wlx7aj4yEze
-         B3rPveFu6qzq7miR4XkMqSavuXOJA5C7hXAkbzJNr+OoFg2GUs6begN28sJwDMhgvGUs
-         U+hd7AP1v2ND7lIMhWXn5tn8311xalIAYSiXg6F+6shn6Oo8nhtVh0r7/yEiroi3gzp9
-         ah+yNGNazO2SHVTe1g4GBLC6ajA2PVmuy5wN4j6cTe9S8ldKzQZmv+iIIMlpGdj/Mc1w
-         aZ6w==
-X-Forwarded-Encrypted: i=1; AJvYcCVlcL/7tCIC1Q8nYiMyyoneysC82OUQXLJ6xrTYbv+A0XeFHnLUHljpP/ENWZO5kEKbWSVkAfwmw+7Xefyw@vger.kernel.org, AJvYcCWmyY3cZxYOZxssTZfTOkyObGAvIQ9NC8Ss1dAsNszUFhNOx4Ym/TiV3+BzhsSvXLzEnbS3u4Je97cRMg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YywTfnK5yfI7jEHsaxNrbfq+YJyPSXhSIhaXgg8gJ13si4RHeNr
-	QaUStxqP7EIaZYm6BSp21tCuUcKyn5IbBEKNtLhm+rh6Z4yc6d0eEEwR
-X-Gm-Gg: ASbGncsJyIbW5F/R6im9RJIAqzJ6rqW0rOqbAF8TVSxxfP/fkwDobn+QA5m2VYiuv3e
-	l9aWb+yO8sa6uDnz/ycCErVVSIGJEe8H/lj02BOsvY2smVAA1+zEQON/wNht1mc6M2a78SZBqYo
-	kPs2uPSBvJLTrthCZvM3tw8Pd2rVRx7BLAspzTThHKY/s36R2388RcF/QU38SpzJ8PTZqaZ6inG
-	OMSuZq2Sen78HW2fRWQg6hYvaUZXaHXfvSuKsYPjQrexzO5k1On+R4fWOc1n37y+MRK4eXQo6O/
-	o2ncwhPjWZNTt33EHzmkizOloogef1h77RDL7iAiSRaNlzWq9SQ0pLu5i9/B96RY6+nmqjdiVNQ
-	JpQ6Np+aR1NHvR+4nyVz5Zj7NJEVXUg==
-X-Google-Smtp-Source: AGHT+IE8U7YEJr/vjLhJ1eyFnFBHbO16i39TNttYrnx/WJArcafNfbz6A0kvScoL9qfUBS2aW1vLFA==
-X-Received: by 2002:a05:600c:35d3:b0:456:1514:5b04 with SMTP id 5b1f17b1804b1-45a1b6554f3mr16357915e9.21.1755168185550;
-        Thu, 14 Aug 2025 03:43:05 -0700 (PDT)
-Received: from fedora ([94.73.32.0])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45a1c76f055sm16789975e9.22.2025.08.14.03.43.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Aug 2025 03:43:04 -0700 (PDT)
-Date: Thu, 14 Aug 2025 12:43:02 +0200
-From: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
-To: Jiri Kosina <jikos@kernel.org>
-Cc: bentiss@kernel.org, luguohong@xiaomi.com, linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] HID: input: report battery status changes
- immediately
-Message-ID: <aJ29tlqoQYFa-WYt@fedora>
-References: <20250806073944.5310-1-jose.exposito89@gmail.com>
- <20250806073944.5310-2-jose.exposito89@gmail.com>
- <4q4qn3p8-6s3s-289n-44s2-43s76qrs2oo4@xreary.bet>
+	s=arc-20240116; t=1755170054; c=relaxed/simple;
+	bh=tEQmYgzbbnDyqDEJWRtGvNd+F5EzBR/vQBdSyaJQhYo=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=f8zoWRljDaUtkBEG9jh9Akue/JgQHMQF2UYUfm6gU4hT/joe+akAkfpcd0ZHLLYz2KzJli0+FGfjLaIpZN4Vt1/8xS3graQCyQD/V4f92xGOE0q/i4rZPBfKTyrijFZMf6hOgat7utoV3U51SBti+RH3jtwtejtHqLftwZnUyC8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nNpjrfeQ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CBF02C4CEED;
+	Thu, 14 Aug 2025 11:13:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755170053;
+	bh=tEQmYgzbbnDyqDEJWRtGvNd+F5EzBR/vQBdSyaJQhYo=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=nNpjrfeQtIacQG0WEX7mhSYTd7hQlnB7xgoGgJ3v0sCDCZTw/gWywOLfqOYZY4LEw
+	 5E1vCRzlD1L7yPW24oE8hMcbLDvBgKF7UglcpNWQtk+d21igAN/jkLiw4vfw95mmaO
+	 Wy7Aqpr6pD43wwMPVYuuHLtW+Bl/6xetkfjwBZUQFNWFgaJ0eeIdJk6JAFWM+nmE53
+	 +kHohC9FP8zxW9RrnA7dkwqqcgSuN4MKh4R6jlzu+aBiOCgoS1PQtvycwFenFDAKSf
+	 8NGwtU+raJOCaLGmFHJD4RvJXWWS3gsAOxCpMzRtcOJrdMPkcN8DQ2NiQbSAuAjRLj
+	 ccmAEOd0wNzVg==
+From: Mark Brown <broonie@kernel.org>
+To: linux-kernel@vger.kernel.org, 
+ Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: Adrian Hunter <adrian.hunter@intel.com>, 
+ Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+ Alim Akhtar <alim.akhtar@samsung.com>, 
+ Andrea della Porta <andrea.porta@suse.com>, 
+ =?utf-8?q?Andreas_F=C3=A4rber?= <afaerber@suse.de>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, Andy Shevchenko <andy@kernel.org>, 
+ Andy Yan <andy.yan@rock-chips.com>, Avi Fishman <avifishman70@gmail.com>, 
+ Bartosz Golaszewski <brgl@bgdev.pl>, 
+ Benjamin Fair <benjaminfair@google.com>, 
+ Bjorn Andersson <andersson@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+ Daniel Lezcano <daniel.lezcano@linaro.org>, 
+ David Airlie <airlied@gmail.com>, David Lechner <dlechner@baylibre.com>, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+ Drew Fustini <fustini@kernel.org>, dri-devel@lists.freedesktop.org, 
+ Fabio Estevam <festevam@gmail.com>, 
+ Fabrice Gasnier <fabrice.gasnier@foss.st.com>, Fu Wei <wefu@redhat.com>, 
+ Guo Ren <guoren@kernel.org>, Hans Verkuil <hverkuil@kernel.org>, 
+ =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, imx@lists.linux.dev, 
+ Iwona Winiarska <iwona.winiarska@intel.com>, 
+ Jaroslav Kysela <perex@perex.cz>, Jassi Brar <jassisinghbrar@gmail.com>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Jerome Brunet <jbrunet@baylibre.com>, Jonas Karlman <jonas@kwiboo.se>, 
+ Jonathan Cameron <jic23@kernel.org>, Kevin Hilman <khilman@baylibre.com>, 
+ Kishon Vijay Abraham I <kishon@kernel.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>, 
+ Krzysztof Kozlowski <krzk@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Lee Jones <lee@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Linus Walleij <linus.walleij@linaro.org>, linux-actions@lists.infradead.org, 
+ linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+ linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org, 
+ linux-gpio@vger.kernel.org, linux-iio@vger.kernel.org, 
+ linux-input@vger.kernel.org, linux-media@vger.kernel.org, 
+ linux-mmc@vger.kernel.org, linux-phy@lists.infradead.org, 
+ linux-pm@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
+ linux-pwm@vger.kernel.org, linux-riscv@lists.infradead.org, 
+ linux-rockchip@lists.infradead.org, linux-rtc@vger.kernel.org, 
+ linux-samsung-soc@vger.kernel.org, linux-sound@vger.kernel.org, 
+ linux-spi@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
+ linux-sunxi@lists.linux.dev, Liu Ying <victor.liu@nxp.com>, 
+ Lukasz Luba <lukasz.luba@arm.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Manivannan Sadhasivam <mani@kernel.org>, 
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+ Maxime Ripard <mripard@kernel.org>, 
+ Michael Turquette <mturquette@baylibre.com>, 
+ Miquel Raynal <miquel.raynal@bootlin.com>, Nancy Yuen <yuenn@google.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Nicolin Chen <nicoleotsuka@gmail.com>, 
+ =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, openbmc@lists.ozlabs.org, 
+ Patrick Venture <venture@google.com>, 
+ Paul Walmsley <paul.walmsley@sifive.com>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, 
+ Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Robert Foss <rfoss@kernel.org>, 
+ Samuel Holland <samuel.holland@sifive.com>, 
+ Samuel Holland <samuel@sholland.org>, Sandy Huang <hjc@rock-chips.com>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>, 
+ Shengjiu Wang <shengjiu.wang@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Stephen Boyd <sboyd@kernel.org>, Takashi Iwai <tiwai@suse.com>, 
+ Tali Perry <tali.perry1@gmail.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Tomer Maimon <tmaimon77@gmail.com>, Ulf Hansson <ulf.hansson@linaro.org>, 
+ =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, 
+ Vasily Khoruzhick <anarsoul@gmail.com>, Vinod Koul <vkoul@kernel.org>, 
+ Vladimir Zapolskiy <vz@mleia.com>, Xiubo Li <Xiubo.Lee@gmail.com>, 
+ Yangtao Li <tiny.windzz@gmail.com>, Zhang Rui <rui.zhang@intel.com>
+In-Reply-To: <20250813161517.4746-1-wsa+renesas@sang-engineering.com>
+References: <20250813161517.4746-1-wsa+renesas@sang-engineering.com>
+Subject: Re: (subset) [PATCH 00/21] treewide: remove unneeded 'fast_io'
+ parameter in regmap_config
+Message-Id: <175517003454.17441.365944262533574232.b4-ty@kernel.org>
+Date: Thu, 14 Aug 2025 12:13:54 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <4q4qn3p8-6s3s-289n-44s2-43s76qrs2oo4@xreary.bet>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-cff91
 
-Hi Jiri,
-
-On Mon, Aug 11, 2025 at 01:48:22PM +0200, Jiri Kosina wrote:
-> On Wed, 6 Aug 2025, José Expósito wrote:
+On Wed, 13 Aug 2025 18:14:46 +0200, Wolfram Sang wrote:
+> While working on a driver using regmap with MMIO, I wondered if I need
+> to set 'fast_io' in the config. Turned out I don't need to, so I added
+> documentation for it with commit ffc72771ff6e ("regmap: Annotate that
+> MMIO implies fast IO").
 > 
-> > When the battery status changes, report the change immediately to user
-> > space.
+> This series fixes the existing users in the tree which needlessly set
+> the flag. They have been found using this coccinelle script:
 > 
-> Could you please make the changelog a little bit more elaborative, i.e. 
-> why is it needed, what user-visible behavior change/improvement it brings, 
-> etc.
-> 
-> I know it's in the e-mail thread, but at least some summary should go also 
-> to the commit itself.
+> [...]
 
-Thanks a lot for reviewing these patches.
+Applied to
 
-I sent v3 with a more detailed description of the fix:
-https://lore.kernel.org/linux-input/20250814103947.116139-1-jose.exposito89@gmail.com/
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
 
-Jose
+Thanks!
 
-> Thanks,
-> 
-> -- 
-> Jiri Kosina
-> SUSE Labs
-> 
+[19/21] spi: remove unneeded 'fast_io' parameter in regmap_config
+        commit: 48124569bbc6bfda1df3e9ee17b19d559f4b1aa3
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
 
