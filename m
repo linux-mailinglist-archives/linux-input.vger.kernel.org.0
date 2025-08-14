@@ -1,172 +1,219 @@
-Return-Path: <linux-input+bounces-14007-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14008-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5B2CB263E8
-	for <lists+linux-input@lfdr.de>; Thu, 14 Aug 2025 13:14:24 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A7160B264F9
+	for <lists+linux-input@lfdr.de>; Thu, 14 Aug 2025 14:06:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id ADC827B38CA
-	for <lists+linux-input@lfdr.de>; Thu, 14 Aug 2025 11:12:50 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 77A537B8254
+	for <lists+linux-input@lfdr.de>; Thu, 14 Aug 2025 12:03:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 35C162F90DF;
-	Thu, 14 Aug 2025 11:14:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EEA592FC89D;
+	Thu, 14 Aug 2025 12:05:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nNpjrfeQ"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="WdfPffef"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1D472F39B2;
-	Thu, 14 Aug 2025 11:14:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36BE62FC86B
+	for <linux-input@vger.kernel.org>; Thu, 14 Aug 2025 12:05:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755170054; cv=none; b=Ut15ndK9suyWTvlPi7DRjKmO94cmLLVDWMaRypWKxuWA8pHu+VadjJ6yv6l6yEZp82zCdcyPcg7J2QmL6NLM/Mn/GPL9gb4POPCN2yXj2gwqSWNVcr1EyFTdvAOID7POMYFRvLQ3eEjz5vah/gFkgjO6Bm6y49ViemAkEAi2Xws=
+	t=1755173110; cv=none; b=VX44dXlJtgFZeCyav+wrObCLvNoHJFd/O7zIBsJ6zGlXywKBpT6jbQVz8boAM//jG+2q7mdNonM0bMxSS23UgqmUpSk8HxzKuNoZbvB04dK+0kXhx2CEn8PB77HuGa/X1gyb66+O/q31JwdUa3Vyy1fP5BTve/yC/UCkIW2qO4s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755170054; c=relaxed/simple;
-	bh=tEQmYgzbbnDyqDEJWRtGvNd+F5EzBR/vQBdSyaJQhYo=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=f8zoWRljDaUtkBEG9jh9Akue/JgQHMQF2UYUfm6gU4hT/joe+akAkfpcd0ZHLLYz2KzJli0+FGfjLaIpZN4Vt1/8xS3graQCyQD/V4f92xGOE0q/i4rZPBfKTyrijFZMf6hOgat7utoV3U51SBti+RH3jtwtejtHqLftwZnUyC8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nNpjrfeQ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CBF02C4CEED;
-	Thu, 14 Aug 2025 11:13:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755170053;
-	bh=tEQmYgzbbnDyqDEJWRtGvNd+F5EzBR/vQBdSyaJQhYo=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=nNpjrfeQtIacQG0WEX7mhSYTd7hQlnB7xgoGgJ3v0sCDCZTw/gWywOLfqOYZY4LEw
-	 5E1vCRzlD1L7yPW24oE8hMcbLDvBgKF7UglcpNWQtk+d21igAN/jkLiw4vfw95mmaO
-	 Wy7Aqpr6pD43wwMPVYuuHLtW+Bl/6xetkfjwBZUQFNWFgaJ0eeIdJk6JAFWM+nmE53
-	 +kHohC9FP8zxW9RrnA7dkwqqcgSuN4MKh4R6jlzu+aBiOCgoS1PQtvycwFenFDAKSf
-	 8NGwtU+raJOCaLGmFHJD4RvJXWWS3gsAOxCpMzRtcOJrdMPkcN8DQ2NiQbSAuAjRLj
-	 ccmAEOd0wNzVg==
-From: Mark Brown <broonie@kernel.org>
-To: linux-kernel@vger.kernel.org, 
- Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: Adrian Hunter <adrian.hunter@intel.com>, 
- Alexandre Belloni <alexandre.belloni@bootlin.com>, 
- Alexandre Torgue <alexandre.torgue@foss.st.com>, 
- Alim Akhtar <alim.akhtar@samsung.com>, 
- Andrea della Porta <andrea.porta@suse.com>, 
- =?utf-8?q?Andreas_F=C3=A4rber?= <afaerber@suse.de>, 
- Andrzej Hajda <andrzej.hajda@intel.com>, Andy Shevchenko <andy@kernel.org>, 
- Andy Yan <andy.yan@rock-chips.com>, Avi Fishman <avifishman70@gmail.com>, 
- Bartosz Golaszewski <brgl@bgdev.pl>, 
- Benjamin Fair <benjaminfair@google.com>, 
- Bjorn Andersson <andersson@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
- Daniel Lezcano <daniel.lezcano@linaro.org>, 
- David Airlie <airlied@gmail.com>, David Lechner <dlechner@baylibre.com>, 
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
- Drew Fustini <fustini@kernel.org>, dri-devel@lists.freedesktop.org, 
- Fabio Estevam <festevam@gmail.com>, 
- Fabrice Gasnier <fabrice.gasnier@foss.st.com>, Fu Wei <wefu@redhat.com>, 
- Guo Ren <guoren@kernel.org>, Hans Verkuil <hverkuil@kernel.org>, 
- =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, imx@lists.linux.dev, 
- Iwona Winiarska <iwona.winiarska@intel.com>, 
- Jaroslav Kysela <perex@perex.cz>, Jassi Brar <jassisinghbrar@gmail.com>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Jerome Brunet <jbrunet@baylibre.com>, Jonas Karlman <jonas@kwiboo.se>, 
- Jonathan Cameron <jic23@kernel.org>, Kevin Hilman <khilman@baylibre.com>, 
- Kishon Vijay Abraham I <kishon@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>, 
- Krzysztof Kozlowski <krzk@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Lee Jones <lee@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
- Linus Walleij <linus.walleij@linaro.org>, linux-actions@lists.infradead.org, 
- linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
- linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org, 
- linux-gpio@vger.kernel.org, linux-iio@vger.kernel.org, 
- linux-input@vger.kernel.org, linux-media@vger.kernel.org, 
- linux-mmc@vger.kernel.org, linux-phy@lists.infradead.org, 
- linux-pm@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
- linux-pwm@vger.kernel.org, linux-riscv@lists.infradead.org, 
- linux-rockchip@lists.infradead.org, linux-rtc@vger.kernel.org, 
- linux-samsung-soc@vger.kernel.org, linux-sound@vger.kernel.org, 
- linux-spi@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
- linux-sunxi@lists.linux.dev, Liu Ying <victor.liu@nxp.com>, 
- Lukasz Luba <lukasz.luba@arm.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Manivannan Sadhasivam <mani@kernel.org>, 
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
- Maxime Ripard <mripard@kernel.org>, 
- Michael Turquette <mturquette@baylibre.com>, 
- Miquel Raynal <miquel.raynal@bootlin.com>, Nancy Yuen <yuenn@google.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Nicolin Chen <nicoleotsuka@gmail.com>, 
- =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, openbmc@lists.ozlabs.org, 
- Patrick Venture <venture@google.com>, 
- Paul Walmsley <paul.walmsley@sifive.com>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Philipp Zabel <p.zabel@pengutronix.de>, 
- Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, Robert Foss <rfoss@kernel.org>, 
- Samuel Holland <samuel.holland@sifive.com>, 
- Samuel Holland <samuel@sholland.org>, Sandy Huang <hjc@rock-chips.com>, 
- Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>, 
- Shengjiu Wang <shengjiu.wang@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Stephen Boyd <sboyd@kernel.org>, Takashi Iwai <tiwai@suse.com>, 
- Tali Perry <tali.perry1@gmail.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Tomer Maimon <tmaimon77@gmail.com>, Ulf Hansson <ulf.hansson@linaro.org>, 
- =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, 
- Vasily Khoruzhick <anarsoul@gmail.com>, Vinod Koul <vkoul@kernel.org>, 
- Vladimir Zapolskiy <vz@mleia.com>, Xiubo Li <Xiubo.Lee@gmail.com>, 
- Yangtao Li <tiny.windzz@gmail.com>, Zhang Rui <rui.zhang@intel.com>
-In-Reply-To: <20250813161517.4746-1-wsa+renesas@sang-engineering.com>
-References: <20250813161517.4746-1-wsa+renesas@sang-engineering.com>
-Subject: Re: (subset) [PATCH 00/21] treewide: remove unneeded 'fast_io'
- parameter in regmap_config
-Message-Id: <175517003454.17441.365944262533574232.b4-ty@kernel.org>
-Date: Thu, 14 Aug 2025 12:13:54 +0100
+	s=arc-20240116; t=1755173110; c=relaxed/simple;
+	bh=lk3jW0faW7OReYq7pDapWGe91fd5chxPJdTiD0YhjJc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=AnIkZQi7E0ZMoaS3NpkrM7Y1wsWlt+Oe29ksEH1gSvUP9zi6/FZzRYdxTWSY/+16NSMLeZKZnBRQgEN2tEz6cZBMKnPYYVyj/vjRiAFLeDn9x+z5Os5CfiOyIsAuDLowSanAC2LUg4TnGu+jLExrN6wrZ/Xotw2heiDKhn10J80=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=WdfPffef; arc=none smtp.client-ip=209.85.210.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-76e2e89bebaso660496b3a.1
+        for <linux-input@vger.kernel.org>; Thu, 14 Aug 2025 05:05:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1755173108; x=1755777908; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=YbxwOaTxt+VPxH7wGs43dhEneWCWtvKUM9346HZzhbc=;
+        b=WdfPffefxUPjalkPAjFUhdbgT5NxTUQoKkZQKBmPJR1lQ8VBsseXBTLbUnox6iXPHD
+         d3KbLjUVNa5OgOZdF02DjGtJYQ2gZa21i3gQgE/mk932vrfGA3GSIk+V2ei1pymuAvIC
+         zQgGZa/io/edTrZWAJFnxPRsK2/+ymKluW7XbQ5qR4wrlBtsNhXdtf/yZGyISkKGSxyQ
+         uN0Y6EyF3Zk8jXqwGGriivXTpMiTBDHaNTHuWE+p7HE9NJIqbr7iwpg7b6v8dxH0UUw2
+         K+0B+FpkaSrImzFmGnYS6CPaNhQEzEARwesVH0ctGh7b9xBTa1KXbqNmw4Ur4A+i9sqB
+         blkw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755173108; x=1755777908;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=YbxwOaTxt+VPxH7wGs43dhEneWCWtvKUM9346HZzhbc=;
+        b=qTaNVWmGhta2yRwte0Xd7aLNr1NpEJsOXKjXq6KHPsUwkFyRw0rJVeuRtyo6O/cQxH
+         iwgGSjkO0V7/ztacrLlu5+Q8qOUYODSJiykykrskehucxamlwQysgSOGi28jRimvNal0
+         k413/VyLf71tvB54JLyed9HLeu/dUaFeqOQk51Gio/xJdba3sPynqBgY7aPs80tfn7ZM
+         nQUxMD5DW57IoYK5KxkDiHtDZFoYClJ8HECHEp1akG6qVus2956/Ke1bPoWsvtZo9zlS
+         GLhJnlWFNfWNZ5jNtG+Ml5vfNotmVWDEZiKah3d1bDr3Gg72VFs1f3NfSbW4aBPd1AeY
+         Ff1A==
+X-Forwarded-Encrypted: i=1; AJvYcCXpucLsZX1urGT/FYqEQPFbI1ydC1sXEAZjn+JEko6agQu5luDPzkReAjxMQ9VMmA2jFUvtPIEfLjlhOQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzPVtJm1++lbp2dJY1+3u6GBd//zIQeANKjuZ34Ibq91UGr1jLs
+	uGLmP9OUx+ZpKbnayqyp4tmvc5bgMDomaAWfjGn2GYvBH3Gw3XCQDpXLK5VxljgQYc4i5Y1h3KH
+	wWktBtWaYcMi+nmltj1MpXaHLMEC7sqj905BtbLR/Xo/UpPNOXcv5pQ5zvFBx1A==
+X-Gm-Gg: ASbGncvPfpcmisPYCgEWiDUOdem7dbiFWan6e4UvAUZFfxLZJqfK0zMXzBWbFFXePmM
+	V1sgaczPIl4187e1mVthSULrZdwOaUecHJodAtislPLs5AZGiYwD2c2TX52Hj31TL1deDrua8qr
+	z4P028qODqoyymY0BJAGEac0rqP60qypL6Hn+iVrRKSvMl8i3pgZgXKgh0HsNQI/XOAr3cdRF2q
+	Wiv47vumlIcyBmYn3cIM3p3NkxHl6+N68LJd31/2S8tw8L2AbFv/S4=
+X-Google-Smtp-Source: AGHT+IELWN7YR5k/Qexa61FDkbtcQO4u3bxP2v28zhnPFg2HZ8xCotv7o4JcAzeGXsKBzlDNPPoEv9ueklQHM3OWnkY=
+X-Received: by 2002:a17:903:1ae4:b0:23d:f986:6472 with SMTP id
+ d9443c01a7336-24458a65075mr33851945ad.25.1755173108111; Thu, 14 Aug 2025
+ 05:05:08 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-cff91
+References: <6880f54c.050a0220.248954.0000.GAE@google.com> <4a32f6c1-8d81-4a51-beed-caf8bc52fcc2@kernel.dk>
+In-Reply-To: <4a32f6c1-8d81-4a51-beed-caf8bc52fcc2@kernel.dk>
+From: Aleksandr Nogikh <nogikh@google.com>
+Date: Thu, 14 Aug 2025 14:04:56 +0200
+X-Gm-Features: Ac12FXyjw24Ser7OqH_RG52sC2W_8XRTLvzA8fomNCOW3wS5--cm3OoRWMfM6Nk
+Message-ID: <CANp29Y56=ekm5UZyW6DgohHNFucYOwe_dYE09qw084wFOBiwzA@mail.gmail.com>
+Subject: Re: [syzbot] [input?] [usb?] [io-uring?] INFO: task hung in
+ io_wq_put_and_exit (5)
+To: Jens Axboe <axboe@kernel.dk>
+Cc: syzbot <syzbot+e328767eafd849df0a78@syzkaller.appspotmail.com>, 
+	io-uring@vger.kernel.org, linux-input@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 13 Aug 2025 18:14:46 +0200, Wolfram Sang wrote:
-> While working on a driver using regmap with MMIO, I wondered if I need
-> to set 'fast_io' in the config. Turned out I don't need to, so I added
-> documentation for it with commit ffc72771ff6e ("regmap: Annotate that
-> MMIO implies fast IO").
-> 
-> This series fixes the existing users in the tree which needlessly set
-> the flag. They have been found using this coccinelle script:
-> 
-> [...]
+Hi Jens,
 
-Applied to
+On Wed, Aug 13, 2025 at 4:32=E2=80=AFPM Jens Axboe <axboe@kernel.dk> wrote:
+>
+> On Wed, Jul 23, 2025 at 8:44?AM syzbot <syzbot+e328767eafd849df0a78@syzka=
+ller.appspotmail.com> wrote:
+> >
+> > Hello,
+> >
+> > syzbot found the following issue on:
+> >
+> > HEAD commit:    bf61759db409 Merge tag 'sched_ext-for-6.16-rc6-fixes' o=
+f g..
+> > git tree:       upstream
+> > console+strace: https://syzkaller.appspot.com/x/log.txt?x=3D12b877d4580=
+000
+> > kernel config:  https://syzkaller.appspot.com/x/.config?x=3D415e83411fe=
+fd73f
+> > dashboard link: https://syzkaller.appspot.com/bug?extid=3De328767eafd84=
+9df0a78
+> > compiler:       gcc (Debian 12.2.0-14+deb12u1) 12.2.0, GNU ld (GNU Binu=
+tils for Debian) 2.40
+> > syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=3D110b938c5=
+80000
+> > C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=3D1622a38c580=
+000
+> >
+> > Downloadable assets:
+> > disk image: https://storage.googleapis.com/syzbot-assets/22c5f1286a72/d=
+isk-bf61759d.raw.xz
+> > vmlinux: https://storage.googleapis.com/syzbot-assets/cc79af4d966c/vmli=
+nux-bf61759d.xz
+> > kernel image: https://storage.googleapis.com/syzbot-assets/b2e6d621f424=
+/bzImage-bf61759d.xz
+> >
+> > The issue was bisected to:
+> >
+> > commit e5598d6ae62626d261b046a2f19347c38681ff51
+> > Author: Pavel Begunkov <asml.silence@gmail.com>
+> > Date:   Thu Aug 24 22:53:31 2023 +0000
+> >
+> >     io_uring: compact SQ/CQ heads/tails
+> >
+> > bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=3D12c92b82=
+580000
+> > final oops:     https://syzkaller.appspot.com/x/report.txt?x=3D11c92b82=
+580000
+> > console output: https://syzkaller.appspot.com/x/log.txt?x=3D16c92b82580=
+000
+> >
+> > IMPORTANT: if you fix the issue, please add the following tag to the co=
+mmit:
+> > Reported-by: syzbot+e328767eafd849df0a78@syzkaller.appspotmail.com
+> > Fixes: e5598d6ae626 ("io_uring: compact SQ/CQ heads/tails")
+> >
+> > INFO: task syz-executor971:5849 blocked for more than 143 seconds.
+> >       Not tainted 6.16.0-rc6-syzkaller-00279-gbf61759db409 #0
+> >       Blocked by coredump.
+> > "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this messag=
+e.
+> > task:syz-executor971 state:D stack:26488 pid:5849  tgid:5849  ppid:5844=
+   task_flags:0x400148 flags:0x00024002
+> > Call Trace:
+> >  <TASK>
+> >  context_switch kernel/sched/core.c:5397 [inline]
+> >  __schedule+0x116a/0x5de0 kernel/sched/core.c:6786
+> >  __schedule_loop kernel/sched/core.c:6864 [inline]
+> >  schedule+0xe7/0x3a0 kernel/sched/core.c:6879
+> >  schedule_timeout+0x257/0x290 kernel/time/sleep_timeout.c:75
+> >  do_wait_for_common kernel/sched/completion.c:95 [inline]
+> >  __wait_for_common+0x2ff/0x4e0 kernel/sched/completion.c:116
+> >  io_wq_exit_workers io_uring/io-wq.c:1319 [inline]
+> >  io_wq_put_and_exit+0x271/0x8d0 io_uring/io-wq.c:1347
+> >  io_uring_clean_tctx+0x10d/0x190 io_uring/tctx.c:203
+> >  io_uring_cancel_generic+0x69c/0x9a0 io_uring/io_uring.c:3212
+> >  io_uring_files_cancel include/linux/io_uring.h:19 [inline]
+> >  do_exit+0x2ce/0x2bd0 kernel/exit.c:911
+> >  do_group_exit+0xd3/0x2a0 kernel/exit.c:1105
+> >  __do_sys_exit_group kernel/exit.c:1116 [inline]
+> >  __se_sys_exit_group kernel/exit.c:1114 [inline]
+> >  __x64_sys_exit_group+0x3e/0x50 kernel/exit.c:1114
+> >  x64_sys_call+0x1530/0x1730 arch/x86/include/generated/asm/syscalls_64.=
+h:232
+> >  do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+> >  do_syscall_64+0xcd/0x4c0 arch/x86/entry/syscall_64.c:94
+> >  entry_SYSCALL_64_after_hwframe+0x77/0x7f
+> > RIP: 0033:0x7f141ec08e39
+> > RSP: 002b:00007ffcd1b0b6e8 EFLAGS: 00000246 ORIG_RAX: 00000000000000e7
+> > RAX: ffffffffffffffda RBX: 0000000000000000 RCX: 00007f141ec08e39
+> > RDX: 000000000000003c RSI: 00000000000000e7 RDI: 0000000000000000
+> > RBP: 00007f141ec843b0 R08: ffffffffffffffb8 R09: 0000000000000000
+> > R10: 000000000000000e R11: 0000000000000246 R12: 00007f141ec843b0
+> > R13: 0000000000000000 R14: 00007f141ec880c0 R15: 00007f141ebd7020
+> >  </TASK>
+> > INFO: task syz-executor971:5850 blocked for more than 143 seconds.
+> >       Not tainted 6.16.0-rc6-syzkaller-00279-gbf61759db409 #0
+> >       Blocked by coredump.
+>
+> I took a look at this one, and it's simply waiting on nullb0 timeouts
+> that it's flooded the queue with. Since it's flooding the nullb0 device
+> which has been configured to time out IO, we'll have a lot of io-wq
+> workers that are sitting blocked waiting on making progress. That can
+> obviously take a long time, which then in turn triggers the io_uring
+> cancelation/exit warning because of that. It all seems to be working as
+> it should.
+>
+> I don't think there's a bug here because of that, the only thing that's
+> "stuck" is because each timeout takes 30s to trigger and there are tons
+> of them.
+>
+> #syz invalid
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
+FWIW: if the bug is weird, but syzbot keeps on observing the crashes,
+it's better to let it stay open than to close it with "syz invalid".
+In this case, syzbot will just reopen the bug as "INFO: task hung in
+io_wq_put_and_exit (6)", "INFO: task hung in io_wq_put_and_exit (7)",
+and so on.
 
-Thanks!
+--=20
+Aleksandr
 
-[19/21] spi: remove unneeded 'fast_io' parameter in regmap_config
-        commit: 48124569bbc6bfda1df3e9ee17b19d559f4b1aa3
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+>
+> --
+> Jens Axboe
+>
 
