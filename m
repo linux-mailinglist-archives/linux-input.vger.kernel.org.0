@@ -1,188 +1,143 @@
-Return-Path: <linux-input+bounces-14043-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14044-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 146C0B28241
-	for <lists+linux-input@lfdr.de>; Fri, 15 Aug 2025 16:44:10 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id F2A58B2826B
+	for <lists+linux-input@lfdr.de>; Fri, 15 Aug 2025 16:50:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 537F31BC1FF0
-	for <lists+linux-input@lfdr.de>; Fri, 15 Aug 2025 14:42:39 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E68B41698CB
+	for <lists+linux-input@lfdr.de>; Fri, 15 Aug 2025 14:50:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9AFE32264AA;
-	Fri, 15 Aug 2025 14:42:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D71F22A1E1;
+	Fri, 15 Aug 2025 14:50:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QGhHpuiS"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=smtpservice.net header.i=@smtpservice.net header.b="lXxMKZMH";
+	dkim=pass (2048-bit key) header.d=medip.dev header.i=@medip.dev header.b="GjX9UrVO"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from e3i331.smtp2go.com (e3i331.smtp2go.com [158.120.85.75])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32DDD1DD9AC;
-	Fri, 15 Aug 2025 14:42:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62FF2319854
+	for <linux-input@vger.kernel.org>; Fri, 15 Aug 2025 14:50:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=158.120.85.75
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755268932; cv=none; b=SNhpiggnkyeE9A40sTIS95MDv1GE+NrbqcxwEUJI6oJej7AM2cdvzeCFScha1rZK+f/f/Z3Vto/lRpVbPEEb0uvlbXjXrtna2B3INUDpqC6zffP78GwWZK+tg8NEm3lZorToO1CTgrz2utfyFe82d9NHJiBDnmdFLOYya1vf9As=
+	t=1755269412; cv=none; b=jdxrci54c6gUtquZyDTLgXZ1Onp6sqq5s4dFT+os3pIxE2enszjIf3X72r4DJwnl8kGcW7rH2KdVPgPWvzOzkahBzNAzxPCcjQkJTpgXpUUZgifQV+O+GdOclHwU0Bfub6e6QwBnGs/2QfJ7MxDvyBse0KcNH0cPY20/wZlWiV0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755268932; c=relaxed/simple;
-	bh=3eUf4UXirGpUX0gw3VvalDgnQQxUYuzOa7d+Bn86Fb0=;
+	s=arc-20240116; t=1755269412; c=relaxed/simple;
+	bh=vBbph5dHkhutdCTVkxJyDj2PavT5WvspsYrnw8x0n+A=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=uoFmnoQUiiydNZvBSIwjw1eFMinxeq2dGKl6YT05B4duAUcyXIcx+CZ7jQuJ5taxR7mj7ziRg1uLszZAQ4/r/WbMrgUwP7rVOSMDZcEBij0JMWC0f41d7cXPPdoszmT7Q+eNY2Dl1gb2xUtotHKAg+E5n1JbABVeQWDAIsFn52o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QGhHpuiS; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3B35C4CEEB;
-	Fri, 15 Aug 2025 14:42:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755268931;
-	bh=3eUf4UXirGpUX0gw3VvalDgnQQxUYuzOa7d+Bn86Fb0=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=QGhHpuiSTtGAbt/6dlTCnnoTA4ZplxFC8Tro0GJAdbAh12tMNEUSLu07z11OvQBvk
-	 oHTf5TJS/YKStrrrPHeWRzwJ0jGE6j5AZ1tbRvaZy3dDmEE9KCuVb15MPpzSH6J/gw
-	 2nlRciQR5ILTUmZcjfPb8Wftcr9/dguuRdUZKw9cWJDeaG76YAPPH1GvTVv9P/kSEx
-	 wLYcS3eJZ7unChNgWOYh7wQNPjdRjal2zeZDCWKyPnLkisSlJQ+WGVCBgVhn2LIrAt
-	 +qG7XHhqCY/zS15DuM72YtrsT2tpKSGGxqzGtUU2p/oH3AF5g3+H8o04kc5YGhgMBJ
-	 knwp+/59e078g==
-From: Bjorn Andersson <andersson@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: Mark Brown <broonie@kernel.org>,
-	Adrian Hunter <adrian.hunter@intel.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	Andrea della Porta <andrea.porta@suse.com>,
-	=?UTF-8?q?Andreas=20F=C3=A4rber?= <afaerber@suse.de>,
-	Andrzej Hajda <andrzej.hajda@intel.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Andy Yan <andy.yan@rock-chips.com>,
-	Avi Fishman <avifishman70@gmail.com>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Benjamin Fair <benjaminfair@google.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	David Airlie <airlied@gmail.com>,
-	David Lechner <dlechner@baylibre.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Drew Fustini <fustini@kernel.org>,
-	dri-devel@lists.freedesktop.org,
-	Fabio Estevam <festevam@gmail.com>,
-	Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
-	Fu Wei <wefu@redhat.com>,
-	Guo Ren <guoren@kernel.org>,
-	Hans Verkuil <hverkuil@kernel.org>,
-	=?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko@sntech.de>,
-	imx@lists.linux.dev,
-	Iwona Winiarska <iwona.winiarska@intel.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Jassi Brar <jassisinghbrar@gmail.com>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Jonas Karlman <jonas@kwiboo.se>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-	Lee Jones <lee@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	linux-actions@lists.infradead.org,
-	linux-amlogic@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-clk@vger.kernel.org,
-	linux-gpio@vger.kernel.org,
-	linux-iio@vger.kernel.org,
-	linux-input@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-mmc@vger.kernel.org,
-	linux-phy@lists.infradead.org,
-	linux-pm@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
-	linux-pwm@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	linux-rockchip@lists.infradead.org,
-	linux-rtc@vger.kernel.org,
-	linux-samsung-soc@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	linux-spi@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-sunxi@lists.linux.dev,
-	Liu Ying <victor.liu@nxp.com>,
-	Lukasz Luba <lukasz.luba@arm.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Nancy Yuen <yuenn@google.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Nicolin Chen <nicoleotsuka@gmail.com>,
-	=?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>,
-	openbmc@lists.ozlabs.org,
-	Patrick Venture <venture@google.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Robert Foss <rfoss@kernel.org>,
-	Samuel Holland <samuel.holland@sifive.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Sandy Huang <hjc@rock-chips.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Shengjiu Wang <shengjiu.wang@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Takashi Iwai <tiwai@suse.com>,
-	Tali Perry <tali.perry1@gmail.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Tomer Maimon <tmaimon77@gmail.com>,
-	Ulf Hansson <ulf.hansson@linaro.org>,
-	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
-	Vasily Khoruzhick <anarsoul@gmail.com>,
-	Vinod Koul <vkoul@kernel.org>,
-	Vladimir Zapolskiy <vz@mleia.com>,
-	Xiubo Li <Xiubo.Lee@gmail.com>,
-	Yangtao Li <tiny.windzz@gmail.com>,
-	Zhang Rui <rui.zhang@intel.com>
-Subject: Re: (subset) [PATCH 00/21] treewide: remove unneeded 'fast_io' parameter in regmap_config
-Date: Fri, 15 Aug 2025 09:42:02 -0500
-Message-ID: <175526892008.370600.8859545110801188375.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250813161517.4746-1-wsa+renesas@sang-engineering.com>
-References: <20250813161517.4746-1-wsa+renesas@sang-engineering.com>
+	 MIME-Version:Content-Type; b=QjXTsKJOq5CRF0847U6W7VKDwHwC/2uoKN18zyUqFuhYGZjcb+6hAcSfxXTiRT0dKIwKIcw7Pa4+BM3yNBqJvbWUUP4OhJoVqeLyUJrp0hpblBlPWH9nLshqAB2NeiIckkGkr2jn2cB5jJPYfspFhnmTV5X6c6UMfBL7pnm82kc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=medip.dev; spf=pass smtp.mailfrom=em1255854.medip.dev; dkim=pass (2048-bit key) header.d=smtpservice.net header.i=@smtpservice.net header.b=lXxMKZMH; dkim=pass (2048-bit key) header.d=medip.dev header.i=@medip.dev header.b=GjX9UrVO; arc=none smtp.client-ip=158.120.85.75
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=medip.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=em1255854.medip.dev
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=smtpservice.net;
+ i=@smtpservice.net; q=dns/txt; s=a1-4; t=1755269406; h=feedback-id :
+ x-smtpcorp-track : date : message-id : to : subject : from : reply-to
+ : sender : list-unsubscribe : list-unsubscribe-post;
+ bh=wULHCv+96eZLnevpHZpeudlEQ8kLugY9ap1N6Mw6mS8=;
+ b=lXxMKZMH3zcGm5YHy7Lq9lOsRNkEzA4xAvQSf90p/hze6H2DsEcruT4AIbKQgEpcyIb9D
+ 2UgxUuq5M6COEIhkj/rlDqHR2B3enbBmYrD7KyePzVx/SmlEpEw8VDxzwtWBJFRyDrwmxZ0
+ KywXIh8qDAZpV5kwJS3IJeHiJWCqjOhN7LqpkMwb3bLbxv1AZDdeADPSqhF9d3HtWeHxeY/
+ JZ4ejEm7tSo9fp8Y6pUpCVfMrXhSoCoY3cg8Vz4zK0cxrTKIrvcWRuufRFfYJ78Lz/PTZ/B
+ wZQ/sTGd1ERcI0ypFrRy533gkR8qUgfgQz8JedH15YEl0YvidWXKunmQw1Zg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=medip.dev;
+ i=@medip.dev; q=dns/txt; s=s1255854; t=1755269406; h=from : subject :
+ to : message-id : date;
+ bh=wULHCv+96eZLnevpHZpeudlEQ8kLugY9ap1N6Mw6mS8=;
+ b=GjX9UrVOyAPjj5TogiGA3teg2HR9ecjlo3QfBVSgs3CWswFDNNnQZQTE/SdBQTSkFtE56
+ 4cZMY6U8vI+GgFiOhd663/PIwklbN1W0p1aCVQwzkhgOsWLumLsaZCcNZNJZ0EgukaoNXtB
+ vcrlxqzl+dWDGeAEjFmVJopvKiR9+ouaW+FLDK+8Eqias5pJkqJOJgxE5odDLvIvO8Z/eCh
+ vM5VdzAsS4WzVwn747ZKEKIq+nzuFm7bqxsNIOADAn0mtMG9UsnPc/ylj+jQqt8JXcPC30W
+ AWKQQ1Xexm9dWkZARGAwHQpK5S1fcJ3yzWzCexO3PMtwk/tUxSP6zoBYvmPA==
+Received: from [10.152.250.198] (helo=vilez.localnet)
+	by smtpcorp.com with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.98.1-S2G)
+	(envelope-from <edip@medip.dev>)
+	id 1umvkm-4o5NDgrs3MH-eLYV;
+	Fri, 15 Aug 2025 14:50:00 +0000
+From: Edip Hazuri <edip@medip.dev>
+To: dmitry.torokhov@gmail.com, jikos@kernel.org
+Reply-To: 20250802212149.16707-2-edip@medip.dev
+Cc: bentiss@kernel.org, linux-input@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Edip Hazuri <edip@medip.dev>
+Subject: Re: [PATCH 1/2] Input: Add key event code for Fn + P
+Date: Fri, 15 Aug 2025 17:49:55 +0300
+Message-ID: <1965589.tdWV9SEqCh@vilez>
+In-Reply-To: <20250802212149.16707-2-edip@medip.dev>
+References: <20250802212149.16707-2-edip@medip.dev>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+X-Report-Abuse: Please forward a copy of this message, including all headers, to <abuse-report@smtp2go.com>
+Feedback-ID: 1255854m:1255854ay30w_v:1255854sNJGsZfqxx
+X-smtpcorp-track: gN-0eJJsAXyq.6r5K-nOkNnkQ.04hJOA5y_Nj
+
+On Sunday, August 3, 2025 12:21:50=E2=80=AFAM GMT+03:00 edip@medip.dev wrot=
+e:
+> From: Edip Hazuri <edip@medip.dev>
+>=20
+> Newer Victus (and probably newer omen) laptops contains a "Fn + P"
+> Shortcut. This is intended to use with Omen Gaming Hub, Which is
+> changing the performance profile when this shortcut triggered. This
+> shortcut is shown on performance control page, see [1]
+>=20
+> Currently there is no key definition to handle this. So add a KEY_FN_P
+> keycode define to be able to use this shortcut.
+>=20
+> [1]: https://jpcdn.it/img/adadf6c927ffeb75afd8038f95db400a.png
+>=20
+> Signed-off-by: Edip Hazuri <edip@medip.dev>
+> ---
+>  drivers/hid/hid-debug.c                | 2 +-
+>  include/uapi/linux/input-event-codes.h | 1 +
+>  2 files changed, 2 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/hid/hid-debug.c b/drivers/hid/hid-debug.c
+> index 4424c0512ba..2bcf7b24801 100644
+> --- a/drivers/hid/hid-debug.c
+> +++ b/drivers/hid/hid-debug.c
+> @@ -3342,7 +3342,7 @@ static const char *keys[KEY_MAX + 1] =3D {
+>  	[KEY_FN_1] =3D "Fn+1",			[KEY_FN_2] =3D=20
+"Fn+2",
+>  	[KEY_FN_B] =3D "Fn+B",			[KEY_FN_D] =3D "Fn+D",
+>  	[KEY_FN_E] =3D "Fn+E",			[KEY_FN_F] =3D=20
+"Fn+F",
+> -	[KEY_FN_S] =3D "Fn+S",
+> +	[KEY_FN_S] =3D "Fn+S",			[KEY_FN_P] =3D "Fn+P",
+>  	[KEY_FN_F1] =3D "Fn+F1",			[KEY_FN_F2] =3D=20
+"Fn+F2",
+>  	[KEY_FN_F3] =3D "Fn+F3",			[KEY_FN_F4] =3D=20
+"Fn+F4",
+>  	[KEY_FN_F5] =3D "Fn+F5",			[KEY_FN_F6] =3D=20
+"Fn+F6",
+> diff --git a/include/uapi/linux/input-event-codes.h
+> b/include/uapi/linux/input-event-codes.h index 3b2524e4b66..2fc79b32425
+> 100644
+> --- a/include/uapi/linux/input-event-codes.h
+> +++ b/include/uapi/linux/input-event-codes.h
+> @@ -548,6 +548,7 @@
+>  #define KEY_FN_S		0x1e3
+>  #define KEY_FN_B		0x1e4
+>  #define KEY_FN_RIGHT_SHIFT	0x1e5
+> +#define KEY_FN_P		0x1e6
+>=20
+>  #define KEY_BRL_DOT1		0x1f1
+>  #define KEY_BRL_DOT2		0x1f2
+
+Hello,
+
+Please don't merge this. I made a v2 of this patch and this is no longer=20
+needed.=20
+
+Thanks!
 
 
-On Wed, 13 Aug 2025 18:14:46 +0200, Wolfram Sang wrote:
-> While working on a driver using regmap with MMIO, I wondered if I need
-> to set 'fast_io' in the config. Turned out I don't need to, so I added
-> documentation for it with commit ffc72771ff6e ("regmap: Annotate that
-> MMIO implies fast IO").
-> 
-> This series fixes the existing users in the tree which needlessly set
-> the flag. They have been found using this coccinelle script:
-> 
-> [...]
 
-Applied, thanks!
-
-[18/21] soc: remove unneeded 'fast_io' parameter in regmap_config
-        commit: 5d8a9c8401648d338d072a488d455ed4611c5d4b
-
-Best regards,
--- 
-Bjorn Andersson <andersson@kernel.org>
 
