@@ -1,221 +1,188 @@
-Return-Path: <linux-input+bounces-14042-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14043-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24CAFB28184
-	for <lists+linux-input@lfdr.de>; Fri, 15 Aug 2025 16:20:14 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 146C0B28241
+	for <lists+linux-input@lfdr.de>; Fri, 15 Aug 2025 16:44:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 949023B608A
-	for <lists+linux-input@lfdr.de>; Fri, 15 Aug 2025 14:19:46 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 537F31BC1FF0
+	for <lists+linux-input@lfdr.de>; Fri, 15 Aug 2025 14:42:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED6142628D;
-	Fri, 15 Aug 2025 14:19:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9AFE32264AA;
+	Fri, 15 Aug 2025 14:42:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c76VpiMJ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QGhHpuiS"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11B171EEA55
-	for <linux-input@vger.kernel.org>; Fri, 15 Aug 2025 14:19:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32DDD1DD9AC;
+	Fri, 15 Aug 2025 14:42:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755267582; cv=none; b=tpG18BGEK4OGT8zeMXCtKQIRt3zxZqW9C+wN4+Emgc7Crj5c9eBkWgOMIRqQwo0b0PSBi4anyjKCeQjptxexXfxtWIZZU+qP5tsJPQv3hNpLmbb7TwwBz9r9OkSXXrBEKfoOrNlwdtlK4TpU38XR8qEEZWelJQ5hRFu7e7m+Frg=
+	t=1755268932; cv=none; b=SNhpiggnkyeE9A40sTIS95MDv1GE+NrbqcxwEUJI6oJej7AM2cdvzeCFScha1rZK+f/f/Z3Vto/lRpVbPEEb0uvlbXjXrtna2B3INUDpqC6zffP78GwWZK+tg8NEm3lZorToO1CTgrz2utfyFe82d9NHJiBDnmdFLOYya1vf9As=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755267582; c=relaxed/simple;
-	bh=nY2emvoTP7zNClhl8OK0HYbvXp4+iF5muTPW8OiisNQ=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=XJmyqO5CTGSnTky/P1i5XhZHgOpv9tYe1kTDPEt2gPrLAYSMktRDeZ5Hdv20NvijorNxzyEKU5wtEQ1AnNjjp8CRTy7HZmldF7H3kQRGROMVGJuTPaCE+GTBkEXYqeiXLJLNqmdW0Oe6sYAscVYaYWCY3+Eu5ufpBhJSMhtAXxY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=c76VpiMJ; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755267581; x=1786803581;
-  h=date:from:to:cc:subject:message-id;
-  bh=nY2emvoTP7zNClhl8OK0HYbvXp4+iF5muTPW8OiisNQ=;
-  b=c76VpiMJ0WBCYrV3XHcyvpYCLDoT33vXjvVpeJr+iKXDvoBIt57AEdMF
-   O13AyEI9deAgUFrLGXzYtSUPnwH/O0+afc8/XOpOKchhZ/IKpH4gLFxWi
-   vys0Z4g4MceKXZOHma/nGcZ6Rh4N+IZLryZATJ45B4kPLMbP5qYJX++KU
-   1hnG3n3I7uneZ5ZtyYv0PRvaATS5ed+78d0OZdk58C2i1VHz+CmDHWokv
-   jvuxsFYrL9SrlRuefPdetkJBd7cdj2F8D0d3khtMzAkYilIoaDnRH8x7V
-   mqsoa7tW+PpI7TPSd1p3LgkAdJSyqqI1ygc6ybsK/xPwCggjmhhS5nJvP
-   Q==;
-X-CSE-ConnectionGUID: 2C3oUqKBR8+KatztEdqQgw==
-X-CSE-MsgGUID: sxx9Ni0gT0uyTjvOgMsEQw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11523"; a="68189046"
-X-IronPort-AV: E=Sophos;i="6.17,290,1747724400"; 
-   d="scan'208";a="68189046"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2025 07:19:41 -0700
-X-CSE-ConnectionGUID: bnQAqzegSh+i3JR6fXZfZA==
-X-CSE-MsgGUID: 6ohccCj5TYy5riM2DKxppg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,290,1747724400"; 
-   d="scan'208";a="190735127"
-Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 15 Aug 2025 07:19:39 -0700
-Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1umvHG-000C1Q-2F;
-	Fri, 15 Aug 2025 14:19:35 +0000
-Date: Fri, 15 Aug 2025 22:18:45 +0800
-From: kernel test robot <lkp@intel.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: linux-input@vger.kernel.org
-Subject: [dtor-input:next] BUILD SUCCESS
- 80025149db06566079a9727b2abf17300081608c
-Message-ID: <202508152239.j9U8QIhk-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	s=arc-20240116; t=1755268932; c=relaxed/simple;
+	bh=3eUf4UXirGpUX0gw3VvalDgnQQxUYuzOa7d+Bn86Fb0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=uoFmnoQUiiydNZvBSIwjw1eFMinxeq2dGKl6YT05B4duAUcyXIcx+CZ7jQuJ5taxR7mj7ziRg1uLszZAQ4/r/WbMrgUwP7rVOSMDZcEBij0JMWC0f41d7cXPPdoszmT7Q+eNY2Dl1gb2xUtotHKAg+E5n1JbABVeQWDAIsFn52o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QGhHpuiS; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3B35C4CEEB;
+	Fri, 15 Aug 2025 14:42:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755268931;
+	bh=3eUf4UXirGpUX0gw3VvalDgnQQxUYuzOa7d+Bn86Fb0=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=QGhHpuiSTtGAbt/6dlTCnnoTA4ZplxFC8Tro0GJAdbAh12tMNEUSLu07z11OvQBvk
+	 oHTf5TJS/YKStrrrPHeWRzwJ0jGE6j5AZ1tbRvaZy3dDmEE9KCuVb15MPpzSH6J/gw
+	 2nlRciQR5ILTUmZcjfPb8Wftcr9/dguuRdUZKw9cWJDeaG76YAPPH1GvTVv9P/kSEx
+	 wLYcS3eJZ7unChNgWOYh7wQNPjdRjal2zeZDCWKyPnLkisSlJQ+WGVCBgVhn2LIrAt
+	 +qG7XHhqCY/zS15DuM72YtrsT2tpKSGGxqzGtUU2p/oH3AF5g3+H8o04kc5YGhgMBJ
+	 knwp+/59e078g==
+From: Bjorn Andersson <andersson@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: Mark Brown <broonie@kernel.org>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Andrea della Porta <andrea.porta@suse.com>,
+	=?UTF-8?q?Andreas=20F=C3=A4rber?= <afaerber@suse.de>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Andy Yan <andy.yan@rock-chips.com>,
+	Avi Fishman <avifishman70@gmail.com>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Benjamin Fair <benjaminfair@google.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Daniel Lezcano <daniel.lezcano@linaro.org>,
+	David Airlie <airlied@gmail.com>,
+	David Lechner <dlechner@baylibre.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Drew Fustini <fustini@kernel.org>,
+	dri-devel@lists.freedesktop.org,
+	Fabio Estevam <festevam@gmail.com>,
+	Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
+	Fu Wei <wefu@redhat.com>,
+	Guo Ren <guoren@kernel.org>,
+	Hans Verkuil <hverkuil@kernel.org>,
+	=?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko@sntech.de>,
+	imx@lists.linux.dev,
+	Iwona Winiarska <iwona.winiarska@intel.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Jassi Brar <jassisinghbrar@gmail.com>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Jonas Karlman <jonas@kwiboo.se>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+	Lee Jones <lee@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	linux-actions@lists.infradead.org,
+	linux-amlogic@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-clk@vger.kernel.org,
+	linux-gpio@vger.kernel.org,
+	linux-iio@vger.kernel.org,
+	linux-input@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-mmc@vger.kernel.org,
+	linux-phy@lists.infradead.org,
+	linux-pm@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-pwm@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	linux-rockchip@lists.infradead.org,
+	linux-rtc@vger.kernel.org,
+	linux-samsung-soc@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	linux-spi@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-sunxi@lists.linux.dev,
+	Liu Ying <victor.liu@nxp.com>,
+	Lukasz Luba <lukasz.luba@arm.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Nancy Yuen <yuenn@google.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Nicolin Chen <nicoleotsuka@gmail.com>,
+	=?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>,
+	openbmc@lists.ozlabs.org,
+	Patrick Venture <venture@google.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Robert Foss <rfoss@kernel.org>,
+	Samuel Holland <samuel.holland@sifive.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Sandy Huang <hjc@rock-chips.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Shengjiu Wang <shengjiu.wang@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Takashi Iwai <tiwai@suse.com>,
+	Tali Perry <tali.perry1@gmail.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Tomer Maimon <tmaimon77@gmail.com>,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
+	Vasily Khoruzhick <anarsoul@gmail.com>,
+	Vinod Koul <vkoul@kernel.org>,
+	Vladimir Zapolskiy <vz@mleia.com>,
+	Xiubo Li <Xiubo.Lee@gmail.com>,
+	Yangtao Li <tiny.windzz@gmail.com>,
+	Zhang Rui <rui.zhang@intel.com>
+Subject: Re: (subset) [PATCH 00/21] treewide: remove unneeded 'fast_io' parameter in regmap_config
+Date: Fri, 15 Aug 2025 09:42:02 -0500
+Message-ID: <175526892008.370600.8859545110801188375.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20250813161517.4746-1-wsa+renesas@sang-engineering.com>
+References: <20250813161517.4746-1-wsa+renesas@sang-engineering.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
-branch HEAD: 80025149db06566079a9727b2abf17300081608c  Input: include export.h in modules using EXPORT_SYMBOL*()
 
-elapsed time: 1154m
+On Wed, 13 Aug 2025 18:14:46 +0200, Wolfram Sang wrote:
+> While working on a driver using regmap with MMIO, I wondered if I need
+> to set 'fast_io' in the config. Turned out I don't need to, so I added
+> documentation for it with commit ffc72771ff6e ("regmap: Annotate that
+> MMIO implies fast IO").
+> 
+> This series fixes the existing users in the tree which needlessly set
+> the flag. They have been found using this coccinelle script:
+> 
+> [...]
 
-configs tested: 128
-configs skipped: 5
+Applied, thanks!
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+[18/21] soc: remove unneeded 'fast_io' parameter in regmap_config
+        commit: 5d8a9c8401648d338d072a488d455ed4611c5d4b
 
-tested configs:
-alpha                             allnoconfig    gcc-15.1.0
-alpha                            allyesconfig    gcc-15.1.0
-alpha                               defconfig    gcc-15.1.0
-arc                              allmodconfig    gcc-15.1.0
-arc                               allnoconfig    gcc-15.1.0
-arc                              allyesconfig    gcc-15.1.0
-arc                                 defconfig    gcc-15.1.0
-arc                     haps_hs_smp_defconfig    gcc-15.1.0
-arc                   randconfig-001-20250815    gcc-8.5.0
-arc                   randconfig-002-20250815    gcc-9.5.0
-arm                              allmodconfig    gcc-15.1.0
-arm                               allnoconfig    clang-22
-arm                              allyesconfig    gcc-15.1.0
-arm                                 defconfig    clang-22
-arm                      footbridge_defconfig    clang-17
-arm                        mvebu_v5_defconfig    gcc-15.1.0
-arm                   randconfig-001-20250815    clang-16
-arm                   randconfig-002-20250815    clang-18
-arm                   randconfig-003-20250815    gcc-14.3.0
-arm                   randconfig-004-20250815    gcc-8.5.0
-arm64                            allmodconfig    clang-19
-arm64                             allnoconfig    gcc-15.1.0
-arm64                               defconfig    gcc-15.1.0
-arm64                 randconfig-001-20250815    gcc-8.5.0
-arm64                 randconfig-002-20250815    gcc-8.5.0
-arm64                 randconfig-003-20250815    clang-22
-arm64                 randconfig-004-20250815    gcc-15.1.0
-csky                              allnoconfig    gcc-15.1.0
-csky                                defconfig    gcc-15.1.0
-csky                  randconfig-001-20250815    gcc-15.1.0
-csky                  randconfig-002-20250815    gcc-15.1.0
-hexagon                          allmodconfig    clang-17
-hexagon                           allnoconfig    clang-22
-hexagon                          allyesconfig    clang-22
-hexagon               randconfig-001-20250815    clang-22
-hexagon               randconfig-002-20250815    clang-22
-i386                             allmodconfig    gcc-12
-i386                              allnoconfig    gcc-12
-i386                             allyesconfig    gcc-12
-i386        buildonly-randconfig-001-20250815    gcc-12
-i386        buildonly-randconfig-002-20250815    clang-20
-i386        buildonly-randconfig-003-20250815    clang-20
-i386        buildonly-randconfig-004-20250815    clang-20
-i386        buildonly-randconfig-005-20250815    clang-20
-i386        buildonly-randconfig-006-20250815    gcc-12
-i386                                defconfig    clang-20
-loongarch                        allmodconfig    clang-19
-loongarch                         allnoconfig    clang-22
-loongarch             randconfig-001-20250815    clang-22
-loongarch             randconfig-002-20250815    clang-20
-m68k                             allmodconfig    gcc-15.1.0
-m68k                              allnoconfig    gcc-15.1.0
-m68k                             allyesconfig    gcc-15.1.0
-microblaze                       allmodconfig    gcc-15.1.0
-microblaze                        allnoconfig    gcc-15.1.0
-microblaze                       allyesconfig    gcc-15.1.0
-microblaze                          defconfig    gcc-15.1.0
-mips                              allnoconfig    gcc-15.1.0
-nios2                             allnoconfig    gcc-11.5.0
-nios2                               defconfig    gcc-11.5.0
-nios2                 randconfig-001-20250815    gcc-11.5.0
-nios2                 randconfig-002-20250815    gcc-11.5.0
-openrisc                          allnoconfig    gcc-15.1.0
-openrisc                         allyesconfig    gcc-15.1.0
-openrisc                            defconfig    gcc-15.1.0
-parisc                           allmodconfig    gcc-15.1.0
-parisc                            allnoconfig    gcc-15.1.0
-parisc                           allyesconfig    gcc-15.1.0
-parisc                              defconfig    gcc-15.1.0
-parisc                randconfig-001-20250815    gcc-8.5.0
-parisc                randconfig-002-20250815    gcc-14.3.0
-parisc64                            defconfig    gcc-15.1.0
-powerpc                          allmodconfig    gcc-15.1.0
-powerpc                           allnoconfig    gcc-15.1.0
-powerpc                          allyesconfig    clang-22
-powerpc               randconfig-001-20250815    gcc-11.5.0
-powerpc               randconfig-002-20250815    clang-19
-powerpc               randconfig-003-20250815    gcc-11.5.0
-powerpc64             randconfig-001-20250815    gcc-14.3.0
-powerpc64             randconfig-002-20250815    gcc-10.5.0
-powerpc64             randconfig-003-20250815    clang-22
-riscv                            allmodconfig    clang-22
-riscv                             allnoconfig    gcc-15.1.0
-riscv                            allyesconfig    clang-16
-riscv                               defconfig    clang-22
-riscv                 randconfig-001-20250815    gcc-12.5.0
-riscv                 randconfig-002-20250815    gcc-8.5.0
-s390                             allmodconfig    clang-18
-s390                              allnoconfig    clang-22
-s390                             allyesconfig    gcc-15.1.0
-s390                                defconfig    clang-22
-s390                  randconfig-001-20250815    gcc-8.5.0
-s390                  randconfig-002-20250815    clang-22
-sh                               allmodconfig    gcc-15.1.0
-sh                                allnoconfig    gcc-15.1.0
-sh                               allyesconfig    gcc-15.1.0
-sh                                  defconfig    gcc-15.1.0
-sh                    randconfig-001-20250815    gcc-11.5.0
-sh                    randconfig-002-20250815    gcc-12.5.0
-sparc                            allmodconfig    gcc-15.1.0
-sparc                             allnoconfig    gcc-15.1.0
-sparc                               defconfig    gcc-15.1.0
-sparc                 randconfig-001-20250815    gcc-11.5.0
-sparc                 randconfig-002-20250815    gcc-13.4.0
-sparc64                             defconfig    clang-20
-sparc64               randconfig-001-20250815    clang-22
-sparc64               randconfig-002-20250815    gcc-15.1.0
-um                               allmodconfig    clang-19
-um                                allnoconfig    clang-22
-um                               allyesconfig    gcc-12
-um                                  defconfig    clang-22
-um                             i386_defconfig    gcc-12
-um                    randconfig-001-20250815    gcc-12
-um                    randconfig-002-20250815    clang-19
-um                           x86_64_defconfig    clang-22
-x86_64                            allnoconfig    clang-20
-x86_64                           allyesconfig    clang-20
-x86_64      buildonly-randconfig-001-20250815    clang-20
-x86_64      buildonly-randconfig-002-20250815    gcc-12
-x86_64      buildonly-randconfig-003-20250815    gcc-12
-x86_64      buildonly-randconfig-004-20250815    clang-20
-x86_64      buildonly-randconfig-005-20250815    clang-20
-x86_64      buildonly-randconfig-006-20250815    gcc-12
-x86_64                              defconfig    gcc-11
-x86_64                          rhel-9.4-rust    clang-20
-xtensa                            allnoconfig    gcc-15.1.0
-xtensa                randconfig-001-20250815    gcc-8.5.0
-xtensa                randconfig-002-20250815    gcc-15.1.0
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Best regards,
+-- 
+Bjorn Andersson <andersson@kernel.org>
 
