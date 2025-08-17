@@ -1,112 +1,86 @@
-Return-Path: <linux-input+bounces-14057-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14058-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD925B29100
-	for <lists+linux-input@lfdr.de>; Sun, 17 Aug 2025 02:05:38 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EA3CB29296
+	for <lists+linux-input@lfdr.de>; Sun, 17 Aug 2025 12:23:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A44B317D37C
-	for <lists+linux-input@lfdr.de>; Sun, 17 Aug 2025 00:05:38 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A16321B238B2
+	for <lists+linux-input@lfdr.de>; Sun, 17 Aug 2025 10:23:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2EA647FD;
-	Sun, 17 Aug 2025 00:05:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EW5PLlE+"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F1CE23372C;
+	Sun, 17 Aug 2025 10:23:01 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from vs81.iboxed.net (vs10.datenmanufaktur-hosting.net [213.160.73.65])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A633E367
-	for <linux-input@vger.kernel.org>; Sun, 17 Aug 2025 00:05:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 613CA14B06C;
+	Sun, 17 Aug 2025 10:22:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.160.73.65
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755389134; cv=none; b=aUwKrBxAJ7+PjWPcOz5UBlqK737myiMKQ05T43U55Pd7/4uNwNH+qzK+MrFbxTG758S+/QWpfq6BbbIYu/QnGrftOIcOb2Y/GFUx8FUV+8weJvhRyzLgDToyYYAYgo2kKxvhTBePYw5iBpd+AY5TUe+oE2pYHyBQm+MnI7+r2eI=
+	t=1755426181; cv=none; b=fUnDxQZ3GeQY1ref0BoxjiRb6N+O5ef8oppdWOHqiB6Ppflgx8Kvm9u4ekYTFIRC+ZUn+ceczZuhwDbQG/nVmks8hQXxa2A1CsoKp8cItEUUER8T2o9koZ3ioW3hvDVeBA0nJeIoWRmg9mhd4WBx53yU59GOJh6+I69hl7N6MnI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755389134; c=relaxed/simple;
-	bh=PyPkVfQ3a59itI3H2aT8qqmtCzyRplhU9nuRLlup6Zw=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=VXMu2ME9m3pQnyrXF4z41j81Z0yMcEVjhmKXj+Er9zv2UGe2jyIf25n61g4jPOswoqjLeMQCch3aBZz5hcxNJXllQLnxJonSxJXg8mXeabPlRj6uWTrj9VRM8ACeCOzmWWxisL916sDslSOQ6Gj3H2kIWqSBfR7jaPQ/64oVBQo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EW5PLlE+; arc=none smtp.client-ip=209.85.222.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-7e8704da966so215462685a.1
-        for <linux-input@vger.kernel.org>; Sat, 16 Aug 2025 17:05:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755389131; x=1755993931; darn=vger.kernel.org;
-        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=PyPkVfQ3a59itI3H2aT8qqmtCzyRplhU9nuRLlup6Zw=;
-        b=EW5PLlE+tx/pbDqnp0J8RO5xhlB3oBc3EGvKp/g2hWtlC5HlbAuKXc39+NmHPqnChu
-         s1Pbaed1r6C3ol+amA4hHdv1OopQd5CkXOC3wiRmOkc6y0uS9nUY9UOOzcHzVehr2zOR
-         eqEQP4r6JfVYTAdDQuQLmqErpTsazTgNmZGkjHXULn9DaKNrmXdLRDrMunNIJvgqiB7v
-         vgNyv9wOdfDo3U7FXF/VBI1LghjqaCVId4hWu6RiRzy4yx8m/AR8hJuDghS25jgja6Ti
-         zgL5+Vkkn+CH4zDSav+cGQPXLmuWwg/3fnr7ziwHT0qyw7FL00ImSxs1efGbGlfQlo3I
-         ws4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755389131; x=1755993931;
-        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=PyPkVfQ3a59itI3H2aT8qqmtCzyRplhU9nuRLlup6Zw=;
-        b=LWhdg5J8cuukp4rx0vrYfmwACJR0f7P0qMZ4NhF7qQ4gS93gvlj4RRl3IU/RGmErgW
-         Kv5hhZ0r8FF9i3rTVOUGN3Ty4/MmbKtfP5bBPI5Za6V+OoF27W9u2WhJ7MCSWS59JJwJ
-         p4Ss2/TW8LrvvlB07QXSwKVRz/o7geJX/6Lsr3aQ8rNHkZYCszWT7f4ixWuGcCk9buXl
-         +JuITiJlUUslFSdSfEsbDdS2Esp8v/E94fM2b0h5WI3Hb0uv3lH8Y8JaccKDYLIXkO5Z
-         3syluG4NXyAbIbE+kp1fm4xYXZsqyM/cyueNy8ihFBil/DDc4TXy7/d86GCJLafAXmt+
-         ciHQ==
-X-Gm-Message-State: AOJu0YztDcUodcVfC2xurcOdtZLq9rg3mQqrSI93GifRTiViQbGApSuw
-	f88OKgvGsQNpTrNHj4J7Ec/4bniGNCfzODOAbSe9IRKimFfZpEP4f22g2rr6dbJHUC1Rg1+mt+y
-	wN1W1R9+LdbNDWAZvpWHwXvO7BkCXJp35yhzGH4M=
-X-Gm-Gg: ASbGncuboU+rqy9QLYT+ie5nJJc3MCcP3QwK0RTt+gGCc218LBXfomVxVljwVOJ7WfV
-	Jv5Rw+yOIysPURRNHyTKQSn/T8l1/LH+5gIQPfsuTszpbgADSC7P6nVOm6vHCabsgTYAd7mDHjc
-	o8f/ow/ZfoQD6ETg0A4RTAl3aT0LOBt7kUcE4DfrNSr6UfG7HlgodpnsIMUEJfRwkgqcsyxGoIL
-	NO8m1k=
-X-Google-Smtp-Source: AGHT+IG9a+GXRwOQZLYL9QYQYqqdfsMLfKLmrRUj3altIVOBnaSBGJRoPK/fGvGX7uBsPz6p/C7DSFLd3/bCNnuvtlk=
-X-Received: by 2002:a05:620a:1790:b0:7e8:6ffe:23ec with SMTP id
- af79cd13be357-7e87df467c5mr956776285a.13.1755389131336; Sat, 16 Aug 2025
- 17:05:31 -0700 (PDT)
+	s=arc-20240116; t=1755426181; c=relaxed/simple;
+	bh=lJC10/440A/pwP+F4k2P/0FHtlqf6NxLunA99P4CC7U=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=WIqj70MjcZhYx5VtaNpsnRkkQFeSCgRVTnZc6lqW3To4SSRW+3rdpmo5gsDdvrgOpzPX1O59JRbPg2Ek/FGmH52O+oj4RsOyZ4wFIExBPuvyhWzbvyW/QI9hV0PdQQ9PYy90YnKcxQgKOkkLk5qVRGXIJBKpM+V7HqTcdqgtNDY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=blala.de; spf=pass smtp.mailfrom=blala.de; arc=none smtp.client-ip=213.160.73.65
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=blala.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=blala.de
+Received: from blala.de (localhost [127.0.0.1])
+	by vs81.iboxed.net (8.15.2/8.15.2/Debian-14~deb10u1) with ESMTP id 57HARprR029752;
+	Sun, 17 Aug 2025 10:27:51 GMT
+Received: (from akurz@localhost)
+	by blala.de (8.15.2/8.15.2/Submit) id 57HARpKr029751;
+	Sun, 17 Aug 2025 10:27:51 GMT
+From: Alexander Kurz <akurz@blala.de>
+To: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Dzmitry Sankouski <dsankouski@gmail.com>,
+        "Dr. David Alan Gilbert" <linux@treblig.org>,
+        Heiko Stuebner <heiko@sntech.de>,
+        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
+        devicetree@vger.kernel.org, linux-input@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, Alexander Kurz <akurz@blala.de>
+Subject: [PATCH 0/6] Fix, extend and upport OF to mc13xxx pwrbutton
+Date: Sun, 17 Aug 2025 10:27:44 +0000
+Message-Id: <20250817102751.29709-1-akurz@blala.de>
+X-Mailer: git-send-email 2.20.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: J Deckerido <jsdeckerido@gmail.com>
-Date: Sat, 16 Aug 2025 21:05:15 -0300
-X-Gm-Features: Ac12FXzk6uZMZBymkQN6eTSVq0QZevBbeMC8HuwrJzva-7_i5ZeilA8S0XDY4po
-Message-ID: <CABxuLgM7VmPvzHpOM=2cb6rXe_OY2-y2LFN68qNZFTtcwaD+EQ@mail.gmail.com>
-Subject: goodix touchscreen: Issues on Ayaneo Flip DS (GDIX1002)
-To: linux-input@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-There was previous discussion for GDIX1003 (Flip DS bottom screen)
-support in the goodix driver, and adding "GDIX1003" to acpi_device_id
-for goodix_acpi_match worked.
+Goal of this patch series is to make the mc13892 PWRON1 button usable,
+found e.g. on amazon kindle D01100/D01200 readers.
+A ten-year-old IRQ issue needed a fix, mc13783-pwrbutton had to be
+extended to the other to mc13xxx PMIC as well (keeping the mc13892
+PWRON3 key unsupported for simplicity) and adding OF support.
+The implementation has been tested on amazon kindle D01100 and D01200
+readers using PWRON1 of a mc13892.
 
-However there remains issues for the top screen:
+Alexander Kurz (6):
+  Input: mc13783-pwrbutton: fix irq mixup
+  Input: mc13783-pwrbutton: use managed resources
+  Input: mc13783-pwrbutton: enable other mc13xxx PMIC
+  Input: mc13783-pwrbutton: convert members to array
+  dt-bindings: mfd: mc13xxx: add pwrbutton dt support
+  Input: mc13783-pwrbutton: add OF support
 
-1. The config from the device isn't read properly, and the driver
-assigns the default max x y and a max touch num of 1 to the device.
-(GDIX1002 has the same bus as GDIX1003 on Ayaneo Flip DS, former has
-addr 0x1, while latter has addr 0x14, and the latter's config loads
-fine.)
+ .../devicetree/bindings/mfd/mc13xxx.txt       |  35 +++
+ drivers/input/misc/Kconfig                    |   4 +-
+ drivers/input/misc/mc13783-pwrbutton.c        | 202 +++++++++++++-----
+ include/linux/mfd/mc13783.h                   |   4 +-
+ include/linux/mfd/mc13xxx.h                   |  17 +-
+ 5 files changed, 196 insertions(+), 66 deletions(-)
 
-2. The touch data read from the device is only valid for the first
-touch (if max touch num is overridden in the source code). It seems
-when reading from addr += header_contact_keycode_size, the device
-treats the addr as the original GOODIX_READ_COOR_ADDR anyway. In other
-words, unless it's an issue with configuring the device, we should
-always read from GOODIX_READ_COOR_ADDR instead of an offset from it
-for subsequent touches.
+-- 
+2.39.5
 
-3. Timeout may be too short, as the device's touch up events are
-sometimes skipped, making the touchscreen seem stuck.
-
-Apologies if some info is irrelevant. I tried to fix it on my end
-since I have a device, however issue 1 is very confusing to me. Advice
-is appreciated!
-
-Thanks and regards,
-
-J
 
