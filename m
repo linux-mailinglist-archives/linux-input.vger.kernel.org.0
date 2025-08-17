@@ -1,418 +1,178 @@
-Return-Path: <linux-input+bounces-14068-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14069-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D754B2952C
-	for <lists+linux-input@lfdr.de>; Sun, 17 Aug 2025 23:39:16 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9ABE5B29533
+	for <lists+linux-input@lfdr.de>; Sun, 17 Aug 2025 23:53:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D293A200111
-	for <lists+linux-input@lfdr.de>; Sun, 17 Aug 2025 21:39:15 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 63AE47A18C1
+	for <lists+linux-input@lfdr.de>; Sun, 17 Aug 2025 21:52:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A9B12459FB;
-	Sun, 17 Aug 2025 21:39:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C6A7521B9FD;
+	Sun, 17 Aug 2025 21:53:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bUT95qh1"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cJ/49QcH"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D75C8211A11;
-	Sun, 17 Aug 2025 21:39:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 496E2149E17;
+	Sun, 17 Aug 2025 21:53:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755466752; cv=none; b=s8tIPRkquTeam/cHE9n6kXyl+NpLdJG+ImkjtkLioXPS6luscBKJqaGHIIdXlfHJt4jtH9LYozJKbuzo9VspPXhF3NMabqXBRHZd2Sb3zVZfR3o93MJuh1nXWCbX2cpRjlOaATk6xHvfqh8MwJ1Adl/ksLzdzWVYeZNDcViLBEw=
+	t=1755467611; cv=none; b=gDrM6i0MWg/qwz+iMGHtD1gYNATgLTOEyf7PYULHa2/UcCaaOOoIgF5Ur5OsKu+0+Ls5pCG5EW3by4ZsrjjY9plOZMDXFwGg5Dao3yvTSDwTfIFeLKmL3WAfDl0rBeC47/Iz/kO6nKh8X6rhr27yA0Z50WRa9cQoAmTIy7Rm3Ss=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755466752; c=relaxed/simple;
-	bh=Au2hvNbd2Y2ELJ+lv9guGQoJJWAIBwxVp81OlPoOQSY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=k7cQOKjXrLPZ/csXglnSnj1hwkmxqw4UVldSueEf6jN/gXuGuDrdxGV/o3hRrQPLp+LvHoGp0Diy2viK2QN43+L+higcqr4Ryz9kOOWPROzTYKanm3Pc6BuEB5SVzsJO6Eo09bvA95cfRoZwam4194X8o3Ysm9spkSVIMeVT/b8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bUT95qh1; arc=none smtp.client-ip=209.85.214.180
+	s=arc-20240116; t=1755467611; c=relaxed/simple;
+	bh=YXCWOViuEUExG1sERbqTpLIfxjyR073h8gnVrwDbKis=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mXxiEgTZprFARFvBGM4MOVXFdQPjBJlfBoO+7TfpAqKfBFCGZ9FEYqOeqYgaIvG0RtRlFCOGeJvUEXAcJO5wuFMw8SAmQc9fJPjRCyF309wvrZ9MOnwTop/+1gHFVonitI30P6rfJR2VWR50EpNFgV2NE9X5UheQ80tr64qaTXI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cJ/49QcH; arc=none smtp.client-ip=209.85.210.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2445805aa2eso27431015ad.1;
-        Sun, 17 Aug 2025 14:39:10 -0700 (PDT)
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-76e1fc69f86so3165162b3a.0;
+        Sun, 17 Aug 2025 14:53:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755466750; x=1756071550; darn=vger.kernel.org;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=3CMHVYIxB9QEi8KWl30XfN+sR/a7DpIIYiGsyFTxqJo=;
-        b=bUT95qh1fFhOV6ADJ3oCL5psxq9hObCbJEK/kBSQrAcXRIpTSouXNesQFgLIRkpAEG
-         SXcfu3n2JfbF1cYtovVBqGSOLV0INNkQd1T19WHVi+46HpMD6q479k1KZMLl6JF09Lh5
-         Vg+Fl+X9n/A3/N2AohwFMLtsf0j3u/iDmaHDSz57S5VxR1ovUWfW/6O2v2U1b8qzv3c3
-         Cn3EG05EWxXI2Aeas+H69i0twG7xUsP2Lxc22J4v2nVIiLhWK16Qq7c4eNuiZfg7f2xA
-         Gm9PaKBStGS+tP9adMTZr8usSaAewnAhrPHI3AxuQyAYRv59n/1ysfauf12PwnzjHkrt
-         r1cQ==
+        d=gmail.com; s=20230601; t=1755467609; x=1756072409; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=fMFOYD7dTng51TwDNUgsmlrPl36b8E0TwBZ9PftmkPU=;
+        b=cJ/49QcHlfRhFpvSFsyDpGtb6Ka2MnJDBOJGma4T/0iXzxAfhV6jRQaXu8QurvcH5T
+         wcbFQAAM9jX8NTtaemFEL7elA2DXZ9mw321G2B9UOwlkz1brCKQrrdKubTxho8zmnH6F
+         P3Iz/TTEOxALoHEo/SYDbkFs1lxDXS70qUsvIcrruuxn5SQK5GvogJMuwEg+7Ju4vuv+
+         eG0ycXciC0Uj9jgbN6z2zaeb4efCGV3JAT+HH/WDVatu/Q4fDjeth3R+8OrBsLIalhEj
+         7wC30e9AGEF/rnPWTtcL8xRUEGcinkTLIeFSPlI64QleCqXXxJ5iSXzN+0HEDmRKuP0o
+         U8HA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755466750; x=1756071550;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=3CMHVYIxB9QEi8KWl30XfN+sR/a7DpIIYiGsyFTxqJo=;
-        b=va2ZW7aDJbkNQAXcFHJDYuavlVDTRClfPqc4f+BLvxF/8siCOqPRrY/50jEx+JMJ1/
-         4maXkEpbC2wghwQbH+T+Bh/Nz+ZxG6GmpCG+hk38l+1c2pOEJeWipcXJci7Md+vmeulZ
-         o3L2YNqTdat4VG5Me4wAOaiJ/Bt/ZAHvbDmcq4NzGGwrrD33bupeSsBSZl4p98sX2JCT
-         LkyYiK5hOowINHRHV8WjyEdwgYk5jmP8tScbCdCoCv51DxdZLnm1iWWzEijRQKBrdaGv
-         KZqQFs4a0k09Fob7kw+ftiSsI65TMOnHakYmhmVN0WghnaQy6a+KmeTDkkKt22RJ4Oud
-         1Cig==
-X-Forwarded-Encrypted: i=1; AJvYcCWrxQ3H8Yj26QHx8Z4nCdU/KSlhs7V9GDZUrewdBz3NNQgN5WKaxJFhSJ5rCuGIKU66s4Oye8hyJMknoQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx1TlI1D9HLSM7Fh8wb9lV109fkww7Xwu3QBAPbEs27FtH+IQ7T
-	ebadq9pir9Chmv4LnbVccDeQm80+YppSIN71Voc75x1ekBe9+6DYAwS1yhe7oA==
-X-Gm-Gg: ASbGncseZWNYMxl9cWXX27erP5krWpM//rBK8Wbt2YrivIvuSu2LbY57Vn7Too/N4+f
-	idhSFYKd/Iwmpe2D0IjbrbiJsjGdNQ1/t6563X0QvzKINM/YUpQAI54trcJ/KZcswF4mhLCto0P
-	dLbjxnhSCvGaGMHtBJuhaRcFhwwO8z1i4wWti05h7m/WxsVMgtOFuxnzw+nUrQeY33DV57jczT4
-	4EM3qRUItrMO9gVeYHCTe9/5k1xEn9AjcyxkjDJSn5hDg84EKkpnri9XwFSlEbcJDnHSvYyG3KD
-	mbCXFUfik4zrYCAxrk/JBqu2pq4VXur9dRvQMg4a4QkNoJNl3yifybCrayVG4uQfdOqF1LdtTeZ
-	XvKye6uAaWqPN5gUu0NKaGg==
-X-Google-Smtp-Source: AGHT+IFH2OeFOYErbglAeZo0Dnd4mUXd4S+FqvYy1HcUgpKE4bboTMf8zZuZgXCQsZYOLX+2w4Hd5g==
-X-Received: by 2002:a17:902:f647:b0:234:bca7:2920 with SMTP id d9443c01a7336-2446d744f72mr169866775ad.24.1755466749608;
-        Sun, 17 Aug 2025 14:39:09 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:11e:c24d:ff01:22c4])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2446d56e9e5sm62021205ad.148.2025.08.17.14.39.08
+        d=1e100.net; s=20230601; t=1755467609; x=1756072409;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=fMFOYD7dTng51TwDNUgsmlrPl36b8E0TwBZ9PftmkPU=;
+        b=wiTdqCRQhnTz/awwwmoEGVx10Zm7/buhGO25/1auYV756GUNFnAG7ISNbuUl8kzN3l
+         tq9gKbXmOxn23IyEb0EUCfvwhJgj1T3JRAFaIvN1NHsBtGJyGkEeSLqAtsXk9MzGRrnM
+         BTI9gotzPUc4WwK/I385GW5iB89V3N1/NBkIkAiNsAbz/rugUJVCgMGk44zHVmvlCIcD
+         CW9DtyT5rJP+5iT+FKim5HstfHBylY1xUyPtYuZM5yfYomQmtDPLXbuUbsTyDwk2/RFh
+         cXroj/IT1zh6dq+0uuMECMCQHkAiYT86PyST5iL430On/xFu+D3jAjuxF+l8+eP9MOh4
+         dqVQ==
+X-Gm-Message-State: AOJu0YyFhaUJ2vSP1veMY/XPpF/FIUaQNMZKwB1uhBaV0PhxQMKQyHVi
+	OWlbuq7W3Tigv6cK+m2mJaTyGcHuLwFfavDyFtu4tWTH1ApllTAYFRafpD/mdQ==
+X-Gm-Gg: ASbGncvAnNf+6ZxmBLMTYidyUdsGfv9F4QNC+N1uASZ41W3Djs4vIPJi1TY3vDy0Gh0
+	ebVDsUljs7LCmPzWaaS3qZJvFPb1hKjyrE+jIQAeoJ9DLV+sxWX9Xo8s/uqYKM8z0iavVIS1TMP
+	3F+gg7uf8lVWTus6zWW+RIj1cnl5xaRhAGLjk1Ny9nScfuMyz0S5uww/Tvnh0tW5XNJnLnmsV2d
+	Jen+4wFDTojzt1bWVrdQfirZbpojwtYBhnqgEeOketsqjU/078Z8LLCgUagYroCzv2qh6paOelS
+	vBrRYG5z98BzEx5+/cdgPnVuVCeQY97cv6FfadltyPNdw0W/SVLprz/5swPq9IFCMFPRoDn2Y2O
+	ncNdk3H2mG5qBGMec+goLuigaBmGUXZ/kjlaPuqVfEbrV
+X-Google-Smtp-Source: AGHT+IEodPl5+1A1HBCn8jZAoq2asWPuBXactM79Xq02VLDkl9zif4o68L0R168921SXaq7TnHWTqA==
+X-Received: by 2002:a17:903:19f0:b0:240:20a8:cc22 with SMTP id d9443c01a7336-2446bce46c0mr135081285ad.4.1755467609166;
+        Sun, 17 Aug 2025 14:53:29 -0700 (PDT)
+Received: from dtor-ws.sjc.corp.google.com ([2620:15c:9d:2:11e:c24d:ff01:22c4])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-244903222fcsm3832995ad.84.2025.08.17.14.53.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 17 Aug 2025 14:39:08 -0700 (PDT)
-Date: Sun, 17 Aug 2025 14:39:06 -0700
+        Sun, 17 Aug 2025 14:53:28 -0700 (PDT)
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: linux-kernel@vger.kernel.org
-Cc: Arnd Bergmann <arnd@arndb.de>, 
-	Rajeev Kumar <rajeevkumar.linux@gmail.com>, linux-input@vger.kernel.org
-Subject: [PATCH] Input: spear-keyboard - drop support for platform data
-Message-ID: <vppjxui76im26uamznx7evm5lmbe3d6v3oxsa7mqyytykh4zm6@nhlf33v3hp6g>
+To: linux-input@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	Arnd Bergmann <arnd@arndb.de>,
+	Eric Miao <eric.y.miao@gmail.com>
+Subject: [PATCH 1/3] Input: pxa27x-keypad - replace uint32_t with u32
+Date: Sun, 17 Aug 2025 14:53:13 -0700
+Message-ID: <20250817215316.1872689-1-dmitry.torokhov@gmail.com>
+X-Mailer: git-send-email 2.51.0.rc1.163.g2494970778-goog
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-There are no in-kernel users of spear kbd_platform_data in the kernel,
-and the driver supports configuration via device tree, so drop
-support of static platform data and move properties parsing from
-OF-specific methods to generic ones.
+u32 is preferred way to refer to unsigned 32 bit values in the kernel,
+use it instead of uint32_t.
 
 Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 ---
- drivers/input/keyboard/spear-keyboard.c      |  71 ++------
- include/linux/platform_data/keyboard-spear.h | 164 -------------------
- 2 files changed, 15 insertions(+), 220 deletions(-)
+ drivers/input/keyboard/pxa27x_keypad.c | 24 ++++++++++++------------
+ 1 file changed, 12 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/input/keyboard/spear-keyboard.c b/drivers/input/keyboard/spear-keyboard.c
-index e3abc1484520..d0420b125571 100644
---- a/drivers/input/keyboard/spear-keyboard.c
-+++ b/drivers/input/keyboard/spear-keyboard.c
-@@ -14,6 +14,7 @@
- #include <linux/errno.h>
- #include <linux/interrupt.h>
- #include <linux/input.h>
-+#include <linux/input/matrix_keypad.h>
- #include <linux/io.h>
- #include <linux/irq.h>
- #include <linux/kernel.h>
-@@ -22,7 +23,6 @@
- #include <linux/platform_device.h>
- #include <linux/slab.h>
- #include <linux/types.h>
--#include <linux/platform_data/keyboard-spear.h>
+diff --git a/drivers/input/keyboard/pxa27x_keypad.c b/drivers/input/keyboard/pxa27x_keypad.c
+index d4eb839ffbf5..995e4e227581 100644
+--- a/drivers/input/keyboard/pxa27x_keypad.c
++++ b/drivers/input/keyboard/pxa27x_keypad.c
+@@ -108,8 +108,8 @@ struct pxa27x_keypad {
+ 	unsigned int row_shift;
  
- /* Keyboard Registers */
- #define MODE_CTL_REG	0x00
-@@ -56,13 +56,12 @@ struct spear_kbd {
- 	void __iomem *io_base;
- 	struct clk *clk;
- 	unsigned int irq;
--	unsigned int mode;
--	unsigned int suspended_rate;
-+	u32 mode;
-+	u32 suspended_rate;
-+	u32 mode_ctl_reg;
- 	unsigned short last_key;
- 	unsigned short keycodes[NUM_ROWS * NUM_COLS];
--	bool rep;
- 	bool irq_wake_enabled;
--	u32 mode_ctl_reg;
+ 	/* state row bits of each column scan */
+-	uint32_t matrix_key_state[MAX_MATRIX_KEY_COLS];
+-	uint32_t direct_key_state;
++	u32 matrix_key_state[MAX_MATRIX_KEY_COLS];
++	u32 direct_key_state;
+ 
+ 	unsigned int direct_key_mask;
  };
+@@ -410,8 +410,8 @@ static void pxa27x_keypad_scan_matrix(struct pxa27x_keypad *keypad)
+ 	const struct pxa27x_keypad_platform_data *pdata = keypad->pdata;
+ 	struct input_dev *input_dev = keypad->input_dev;
+ 	int row, col, num_keys_pressed = 0;
+-	uint32_t new_state[MAX_MATRIX_KEY_COLS];
+-	uint32_t kpas = keypad_readl(KPAS);
++	u32 new_state[MAX_MATRIX_KEY_COLS];
++	u32 kpas = keypad_readl(KPAS);
  
- static irqreturn_t spear_kbd_interrupt(int irq, void *dev_id)
-@@ -143,46 +142,8 @@ static void spear_kbd_close(struct input_dev *dev)
- 	kbd->last_key = KEY_RESERVED;
- }
+ 	num_keys_pressed = KPAS_MUKP(kpas);
  
--#ifdef CONFIG_OF
--static int spear_kbd_parse_dt(struct platform_device *pdev,
--                                        struct spear_kbd *kbd)
--{
--	struct device_node *np = pdev->dev.of_node;
--	int error;
--	u32 val, suspended_rate;
--
--	if (!np) {
--		dev_err(&pdev->dev, "Missing DT data\n");
--		return -EINVAL;
--	}
--
--	if (of_property_read_bool(np, "autorepeat"))
--		kbd->rep = true;
--
--	if (of_property_read_u32(np, "suspended_rate", &suspended_rate))
--		kbd->suspended_rate = suspended_rate;
--
--	error = of_property_read_u32(np, "st,mode", &val);
--	if (error) {
--		dev_err(&pdev->dev, "DT: Invalid or missing mode\n");
--		return error;
--	}
--
--	kbd->mode = val;
--	return 0;
--}
--#else
--static inline int spear_kbd_parse_dt(struct platform_device *pdev,
--				     struct spear_kbd *kbd)
--{
--	return -ENOSYS;
--}
--#endif
--
- static int spear_kbd_probe(struct platform_device *pdev)
+@@ -434,10 +434,10 @@ static void pxa27x_keypad_scan_matrix(struct pxa27x_keypad *keypad)
+ 	}
+ 
+ 	if (num_keys_pressed > 1) {
+-		uint32_t kpasmkp0 = keypad_readl(KPASMKP0);
+-		uint32_t kpasmkp1 = keypad_readl(KPASMKP1);
+-		uint32_t kpasmkp2 = keypad_readl(KPASMKP2);
+-		uint32_t kpasmkp3 = keypad_readl(KPASMKP3);
++		u32 kpasmkp0 = keypad_readl(KPASMKP0);
++		u32 kpasmkp1 = keypad_readl(KPASMKP1);
++		u32 kpasmkp2 = keypad_readl(KPASMKP2);
++		u32 kpasmkp3 = keypad_readl(KPASMKP3);
+ 
+ 		new_state[0] = kpasmkp0 & KPASMKP_MKC_MASK;
+ 		new_state[1] = (kpasmkp0 >> 16) & KPASMKP_MKC_MASK;
+@@ -450,7 +450,7 @@ static void pxa27x_keypad_scan_matrix(struct pxa27x_keypad *keypad)
+ 	}
+ scan:
+ 	for (col = 0; col < pdata->matrix_key_cols; col++) {
+-		uint32_t bits_changed;
++		u32 bits_changed;
+ 		int code;
+ 
+ 		bits_changed = keypad->matrix_key_state[col] ^ new_state[col];
+@@ -474,7 +474,7 @@ static void pxa27x_keypad_scan_matrix(struct pxa27x_keypad *keypad)
+ 
+ #define DEFAULT_KPREC	(0x007f007f)
+ 
+-static inline int rotary_delta(uint32_t kprec)
++static inline int rotary_delta(u32 kprec)
  {
--	struct kbd_platform_data *pdata = dev_get_platdata(&pdev->dev);
--	const struct matrix_keymap_data *keymap = pdata ? pdata->keymap : NULL;
- 	struct spear_kbd *kbd;
- 	struct input_dev *input_dev;
- 	int irq;
-@@ -198,6 +159,14 @@ static int spear_kbd_probe(struct platform_device *pdev)
- 		return -ENOMEM;
- 	}
+ 	if (kprec & KPREC_OF0)
+ 		return (kprec & 0xff) + 0x7f;
+@@ -511,7 +511,7 @@ static void report_rotary_event(struct pxa27x_keypad *keypad, int r, int delta)
+ static void pxa27x_keypad_scan_rotary(struct pxa27x_keypad *keypad)
+ {
+ 	const struct pxa27x_keypad_platform_data *pdata = keypad->pdata;
+-	uint32_t kprec;
++	u32 kprec;
  
-+	error = device_property_read_u32(&pdev->dev, "st,mode", &kbd->mode);
-+	if (error) {
-+		dev_err(&pdev->dev, "Invalid or missing mode\n");
-+		return error;
-+	}
-+
-+	device_property_read_u32(&pdev->dev, "suspended_rate", &kbd->suspended_rate);
-+
- 	input_dev = devm_input_allocate_device(&pdev->dev);
- 	if (!input_dev) {
- 		dev_err(&pdev->dev, "unable to allocate input device\n");
-@@ -207,16 +176,6 @@ static int spear_kbd_probe(struct platform_device *pdev)
- 	kbd->input = input_dev;
- 	kbd->irq = irq;
+ 	/* read and reset to default count value */
+ 	kprec = keypad_readl(KPREC);
+@@ -529,7 +529,7 @@ static void pxa27x_keypad_scan_direct(struct pxa27x_keypad *keypad)
+ 	const struct pxa27x_keypad_platform_data *pdata = keypad->pdata;
+ 	struct input_dev *input_dev = keypad->input_dev;
+ 	unsigned int new_state;
+-	uint32_t kpdk, bits_changed;
++	u32 kpdk, bits_changed;
+ 	int i;
  
--	if (!pdata) {
--		error = spear_kbd_parse_dt(pdev, kbd);
--		if (error)
--			return error;
--	} else {
--		kbd->mode = pdata->mode;
--		kbd->rep = pdata->rep;
--		kbd->suspended_rate = pdata->suspended_rate;
--	}
--
- 	kbd->io_base = devm_platform_get_and_ioremap_resource(pdev, 0, NULL);
- 	if (IS_ERR(kbd->io_base))
- 		return PTR_ERR(kbd->io_base);
-@@ -234,21 +193,21 @@ static int spear_kbd_probe(struct platform_device *pdev)
- 	input_dev->open = spear_kbd_open;
- 	input_dev->close = spear_kbd_close;
- 
--	error = matrix_keypad_build_keymap(keymap, NUM_ROWS, NUM_COLS,
-+	error = matrix_keypad_build_keymap(NULL, NUM_ROWS, NUM_COLS,
- 					   kbd->keycodes, input_dev);
- 	if (error) {
- 		dev_err(&pdev->dev, "Failed to build keymap\n");
- 		return error;
- 	}
- 
--	if (kbd->rep)
-+	if (device_property_read_bool(&pdev->dev, "autorepeat"))
- 		__set_bit(EV_REP, input_dev->evbit);
- 	input_set_capability(input_dev, EV_MSC, MSC_SCAN);
- 
- 	input_set_drvdata(input_dev, kbd);
- 
- 	error = devm_request_irq(&pdev->dev, irq, spear_kbd_interrupt, 0,
--			"keyboard", kbd);
-+				 "keyboard", kbd);
- 	if (error) {
- 		dev_err(&pdev->dev, "request_irq failed\n");
- 		return error;
-diff --git a/include/linux/platform_data/keyboard-spear.h b/include/linux/platform_data/keyboard-spear.h
-deleted file mode 100644
-index 5e3ff653900c..000000000000
---- a/include/linux/platform_data/keyboard-spear.h
-+++ /dev/null
-@@ -1,164 +0,0 @@
--/*
-- * Copyright (C) 2010 ST Microelectronics
-- * Rajeev Kumar <rajeevkumar.linux@gmail.com>
-- *
-- * This file is licensed under the terms of the GNU General Public
-- * License version 2. This program is licensed "as is" without any
-- * warranty of any kind, whether express or implied.
-- */
--
--#ifndef __PLAT_KEYBOARD_H
--#define __PLAT_KEYBOARD_H
--
--#include <linux/bitops.h>
--#include <linux/input.h>
--#include <linux/input/matrix_keypad.h>
--#include <linux/types.h>
--
--#define DECLARE_9x9_KEYMAP(_name) \
--int _name[] = { \
--	KEY(0, 0, KEY_ESC), \
--	KEY(0, 1, KEY_1), \
--	KEY(0, 2, KEY_2), \
--	KEY(0, 3, KEY_3), \
--	KEY(0, 4, KEY_4), \
--	KEY(0, 5, KEY_5), \
--	KEY(0, 6, KEY_6), \
--	KEY(0, 7, KEY_7), \
--	KEY(0, 8, KEY_8), \
--	KEY(1, 0, KEY_9), \
--	KEY(1, 1, KEY_MINUS), \
--	KEY(1, 2, KEY_EQUAL), \
--	KEY(1, 3, KEY_BACKSPACE), \
--	KEY(1, 4, KEY_TAB), \
--	KEY(1, 5, KEY_Q), \
--	KEY(1, 6, KEY_W), \
--	KEY(1, 7, KEY_E), \
--	KEY(1, 8, KEY_R), \
--	KEY(2, 0, KEY_T), \
--	KEY(2, 1, KEY_Y), \
--	KEY(2, 2, KEY_U), \
--	KEY(2, 3, KEY_I), \
--	KEY(2, 4, KEY_O), \
--	KEY(2, 5, KEY_P), \
--	KEY(2, 6, KEY_LEFTBRACE), \
--	KEY(2, 7, KEY_RIGHTBRACE), \
--	KEY(2, 8, KEY_ENTER), \
--	KEY(3, 0, KEY_LEFTCTRL), \
--	KEY(3, 1, KEY_A), \
--	KEY(3, 2, KEY_S), \
--	KEY(3, 3, KEY_D), \
--	KEY(3, 4, KEY_F), \
--	KEY(3, 5, KEY_G), \
--	KEY(3, 6, KEY_H), \
--	KEY(3, 7, KEY_J), \
--	KEY(3, 8, KEY_K), \
--	KEY(4, 0, KEY_L), \
--	KEY(4, 1, KEY_SEMICOLON), \
--	KEY(4, 2, KEY_APOSTROPHE), \
--	KEY(4, 3, KEY_GRAVE), \
--	KEY(4, 4, KEY_LEFTSHIFT), \
--	KEY(4, 5, KEY_BACKSLASH), \
--	KEY(4, 6, KEY_Z), \
--	KEY(4, 7, KEY_X), \
--	KEY(4, 8, KEY_C), \
--	KEY(5, 0, KEY_V), \
--	KEY(5, 1, KEY_B), \
--	KEY(5, 2, KEY_N), \
--	KEY(5, 3, KEY_M), \
--	KEY(5, 4, KEY_COMMA), \
--	KEY(5, 5, KEY_DOT), \
--	KEY(5, 6, KEY_SLASH), \
--	KEY(5, 7, KEY_RIGHTSHIFT), \
--	KEY(5, 8, KEY_KPASTERISK), \
--	KEY(6, 0, KEY_LEFTALT), \
--	KEY(6, 1, KEY_SPACE), \
--	KEY(6, 2, KEY_CAPSLOCK), \
--	KEY(6, 3, KEY_F1), \
--	KEY(6, 4, KEY_F2), \
--	KEY(6, 5, KEY_F3), \
--	KEY(6, 6, KEY_F4), \
--	KEY(6, 7, KEY_F5), \
--	KEY(6, 8, KEY_F6), \
--	KEY(7, 0, KEY_F7), \
--	KEY(7, 1, KEY_F8), \
--	KEY(7, 2, KEY_F9), \
--	KEY(7, 3, KEY_F10), \
--	KEY(7, 4, KEY_NUMLOCK), \
--	KEY(7, 5, KEY_SCROLLLOCK), \
--	KEY(7, 6, KEY_KP7), \
--	KEY(7, 7, KEY_KP8), \
--	KEY(7, 8, KEY_KP9), \
--	KEY(8, 0, KEY_KPMINUS), \
--	KEY(8, 1, KEY_KP4), \
--	KEY(8, 2, KEY_KP5), \
--	KEY(8, 3, KEY_KP6), \
--	KEY(8, 4, KEY_KPPLUS), \
--	KEY(8, 5, KEY_KP1), \
--	KEY(8, 6, KEY_KP2), \
--	KEY(8, 7, KEY_KP3), \
--	KEY(8, 8, KEY_KP0), \
--}
--
--#define DECLARE_6x6_KEYMAP(_name) \
--int _name[] = { \
--	KEY(0, 0, KEY_RESERVED), \
--	KEY(0, 1, KEY_1), \
--	KEY(0, 2, KEY_2), \
--	KEY(0, 3, KEY_3), \
--	KEY(0, 4, KEY_4), \
--	KEY(0, 5, KEY_5), \
--	KEY(1, 0, KEY_Q), \
--	KEY(1, 1, KEY_W), \
--	KEY(1, 2, KEY_E), \
--	KEY(1, 3, KEY_R), \
--	KEY(1, 4, KEY_T), \
--	KEY(1, 5, KEY_Y), \
--	KEY(2, 0, KEY_D), \
--	KEY(2, 1, KEY_F), \
--	KEY(2, 2, KEY_G), \
--	KEY(2, 3, KEY_H), \
--	KEY(2, 4, KEY_J), \
--	KEY(2, 5, KEY_K), \
--	KEY(3, 0, KEY_B), \
--	KEY(3, 1, KEY_N), \
--	KEY(3, 2, KEY_M), \
--	KEY(3, 3, KEY_COMMA), \
--	KEY(3, 4, KEY_DOT), \
--	KEY(3, 5, KEY_SLASH), \
--	KEY(4, 0, KEY_F6), \
--	KEY(4, 1, KEY_F7), \
--	KEY(4, 2, KEY_F8), \
--	KEY(4, 3, KEY_F9), \
--	KEY(4, 4, KEY_F10), \
--	KEY(4, 5, KEY_NUMLOCK), \
--	KEY(5, 0, KEY_KP2), \
--	KEY(5, 1, KEY_KP3), \
--	KEY(5, 2, KEY_KP0), \
--	KEY(5, 3, KEY_KPDOT), \
--	KEY(5, 4, KEY_RO), \
--	KEY(5, 5, KEY_ZENKAKUHANKAKU), \
--}
--
--#define KEYPAD_9x9     0
--#define KEYPAD_6x6     1
--#define KEYPAD_2x2     2
--
--/**
-- * struct kbd_platform_data - spear keyboard platform data
-- * keymap: pointer to keymap data (table and size)
-- * rep: enables key autorepeat
-- * mode: choose keyboard support(9x9, 6x6, 2x2)
-- * suspended_rate: rate at which keyboard would operate in suspended mode
-- *
-- * This structure is supposed to be used by platform code to supply
-- * keymaps to drivers that implement keyboards.
-- */
--struct kbd_platform_data {
--	const struct matrix_keymap_data *keymap;
--	bool rep;
--	unsigned int mode;
--	unsigned int suspended_rate;
--};
--
--#endif /* __PLAT_KEYBOARD_H */
+ 	kpdk = keypad_readl(KPDK);
 -- 
 2.51.0.rc1.163.g2494970778-goog
 
-
--- 
-Dmitry
 
