@@ -1,179 +1,141 @@
-Return-Path: <linux-input+bounces-14060-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14065-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A9DBB2929F
-	for <lists+linux-input@lfdr.de>; Sun, 17 Aug 2025 12:23:34 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A9E9B292CE
+	for <lists+linux-input@lfdr.de>; Sun, 17 Aug 2025 13:20:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id CFBAE7A1D12
-	for <lists+linux-input@lfdr.de>; Sun, 17 Aug 2025 10:21:55 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 76BB4207C23
+	for <lists+linux-input@lfdr.de>; Sun, 17 Aug 2025 11:20:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 51AF824339D;
-	Sun, 17 Aug 2025 10:23:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB76322E3E9;
+	Sun, 17 Aug 2025 11:20:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SplVtv2L"
 X-Original-To: linux-input@vger.kernel.org
-Received: from vs81.iboxed.net (vs10.datenmanufaktur-hosting.net [213.160.73.65])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E8412248B4;
-	Sun, 17 Aug 2025 10:23:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.160.73.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BB391DF72C;
+	Sun, 17 Aug 2025 11:20:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755426182; cv=none; b=T3KBK/Gd3PVqQBX/lsWPJFDFoScSBMz9OxE8lIVse1mBCm8hakqYTk1GxqkdLYUtV8e8KqQQTI/zLRVsj1aHLxyzIBnEUE+q/OeMVnGG1X/Qv2xmtmiyoWwmH65jemBalfxT55IyzbxOzbx84YBFj+M7k1lLV7V2Yaw5C/A06u8=
+	t=1755429631; cv=none; b=gCy/KArIIYrXzaECCU2utNA4+TDgKmHd1u0MBfhaU8e+MOzVzZHCciQzx0/tCyDYJ60N7yhIEmh5tNYDjXXRWiKl046S+o+NPDJcXxdgINubga50xQVCY27cdRlslYXVTdW9KiaK4GhN6iwOeJKATEVtTGbsermyK6t/41AJD6g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755426182; c=relaxed/simple;
-	bh=585Abtsi7kLDK7HjA8PidTqFDuFQS3xTittK7OJfS58=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=fsIfSg1wECEUWRjrFDe6bMFUjDiAJ4ILUJVQyCxxVljRQXt39phCY6/lGivVQGQhT9vQRZnkwUu8bfsEK5ZdpkMwljQnSERprkhQBd80CNbIF1wbV45tzN4SvKfGFXoIjjufZCpvRrdusim5rGS4ifmCI9qmLU2AFYlbAPLGCgw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=blala.de; spf=pass smtp.mailfrom=blala.de; arc=none smtp.client-ip=213.160.73.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=blala.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=blala.de
-Received: from blala.de (localhost [127.0.0.1])
-	by vs81.iboxed.net (8.15.2/8.15.2/Debian-14~deb10u1) with ESMTP id 57HARrLH029800;
-	Sun, 17 Aug 2025 10:27:53 GMT
-Received: (from akurz@localhost)
-	by blala.de (8.15.2/8.15.2/Submit) id 57HARrrt029795;
-	Sun, 17 Aug 2025 10:27:53 GMT
-From: Alexander Kurz <akurz@blala.de>
-To: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Dzmitry Sankouski <dsankouski@gmail.com>,
-        "Dr. David Alan Gilbert" <linux@treblig.org>,
-        Heiko Stuebner <heiko@sntech.de>,
-        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
-        devicetree@vger.kernel.org, linux-input@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, Alexander Kurz <akurz@blala.de>
-Subject: [PATCH 6/6] Input: mc13783-pwrbutton: add OF support
-Date: Sun, 17 Aug 2025 10:27:50 +0000
-Message-Id: <20250817102751.29709-7-akurz@blala.de>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20250817102751.29709-1-akurz@blala.de>
-References: <20250817102751.29709-1-akurz@blala.de>
+	s=arc-20240116; t=1755429631; c=relaxed/simple;
+	bh=1wvZ2IDIaF9XkDgCzflrzoa20I0MXthhV7J//iFVRdc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=gpW4RdbgDZsYPHy694AzyYep5ipyAMp0ONnNoXTNCV99xUZvYLjvN91Ah0A2kudPGWqewRRxkhqNhUyqP6zKpkrAhU8UeGpD/dDM6xWGjDudG4AlX4MXL3U9Ms6rOl1npY2RaH23RXNY4FrtdFD0tPWoHQ0TuP2X2H4WeXRKm5Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SplVtv2L; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D7560C4CEEB;
+	Sun, 17 Aug 2025 11:20:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755429631;
+	bh=1wvZ2IDIaF9XkDgCzflrzoa20I0MXthhV7J//iFVRdc=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=SplVtv2L05IgSg3kmApX0hujmX4avkXopuKvkO3/Qij7v/Uur4W8kXm8tM+gxzkAT
+	 ucakaWr/Lgq8bSA5qwFlcqA8PLGg7nopkbzXQEM/8ebnztr+IiAcr8JNL7hYOKuLFq
+	 HRVYjhpxr9uRRhfmR+Zaqm5+/uKMpze6cCCETgnBWca0H/cA/z2pfZXpoBNgsiCDLy
+	 176J5CVGZZS7zJIkL65jp4ybGXxMjrWDi7pyPfqj/I1O0/uGfb5ry6PlMSBd3qxqMS
+	 +Sb1lVaiWoaUqUXnBgAUlcdh062UPA8AaWhnBuHW8JgTcmv+av/4FMCn/mhb4XxGFN
+	 Aq28A6UHrf+cQ==
+Message-ID: <2499a87f-9919-4795-a793-7e3eed0bbb87@kernel.org>
+Date: Sun, 17 Aug 2025 13:20:25 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 5/6] dt-bindings: mfd: mc13xxx: add pwrbutton dt support
+To: Alexander Kurz <akurz@blala.de>, Lee Jones <lee@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Dzmitry Sankouski <dsankouski@gmail.com>,
+ "Dr. David Alan Gilbert" <linux@treblig.org>,
+ Heiko Stuebner <heiko@sntech.de>,
+ =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
+ devicetree@vger.kernel.org, linux-input@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+References: <20250817102751.29709-1-akurz@blala.de>
+ <20250817102751.29709-6-akurz@blala.de>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <20250817102751.29709-6-akurz@blala.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Add OF support for the mc13783-pwrbutton so that it can be used with
-modern DT based systems.
+On 17/08/2025 12:27, Alexander Kurz wrote:
+> diff --git a/Documentation/devicetree/bindings/mfd/mc13xxx.txt b/Documentation/devicetree/bindings/mfd/mc13xxx.txt
+> index 8261ea73278a..3c7bad07858f 100644
+> --- a/Documentation/devicetree/bindings/mfd/mc13xxx.txt
+> +++ b/Documentation/devicetree/bindings/mfd/mc13xxx.txt
+> @@ -24,6 +24,15 @@ Sub-nodes:
+>    Documentation/devicetree/bindings/leds/common.txt.
+>  - regulators : Contain the regulator nodes. The regulators are bound using
+>    their names as listed below with their registers and bits for enabling.
+> +- pwrbuttons : Contains the onoff input button nodes.
+> +  - #address-cells: Must be 1.
+> +  - #size-cells: Must be 0.
+> +  - reg: Contains the BUTTON ID (see below)
+> +  - linux,code
+> +  - debounce-delay-value: debouncing selection of 0 (0ms), 1 (default 30ms),
+> +    2(150ms) or 3 (750ms).
+> +  - active-low
+> +  - enable-reset
 
-Signed-off-by: Alexander Kurz <akurz@blala.de>
----
- drivers/input/misc/mc13783-pwrbutton.c | 78 +++++++++++++++++++++++++-
- 1 file changed, 75 insertions(+), 3 deletions(-)
+We do not take new properties in TXT format, especially entire device nodes.
 
-diff --git a/drivers/input/misc/mc13783-pwrbutton.c b/drivers/input/misc/mc13783-pwrbutton.c
-index 49bc5d25f098..11a97ce070a5 100644
---- a/drivers/input/misc/mc13783-pwrbutton.c
-+++ b/drivers/input/misc/mc13783-pwrbutton.c
-@@ -29,6 +29,7 @@
- #include <linux/mfd/mc13783.h>
- #include <linux/sched.h>
- #include <linux/slab.h>
-+#include <linux/of.h>
- 
- struct mc13783_pwrb {
- 	struct input_dev *pwr;
-@@ -105,8 +106,75 @@ static irqreturn_t button3_irq(int irq, void *_priv)
- 	return button_irq(MC13783_IRQ_ONOFD3, _priv);
- }
- 
-+#ifdef CONFIG_OF
-+static inline struct mc13xxx_buttons_platform_data __init *mc13xxx_pwrbutton_probe_dt(
-+	struct platform_device *pdev)
-+{
-+	struct mc13xxx_buttons_platform_data *pdata;
-+	struct device_node *parent, *child;
-+	struct device *dev = &pdev->dev;
-+	enum mc13xxx_chip_type chip = platform_get_device_id(pdev)->driver_data;
-+	int ret = -ENODATA;
-+
-+	/* ONOFD3 is only supported for MC13783. */
-+	int max_idx = chip != MC13XXX_CHIP_TYPE_MC13783 ? 2 : 1;
-+
-+	pdata = devm_kzalloc(dev, sizeof(*pdata), GFP_KERNEL);
-+	if (!pdata)
-+		return ERR_PTR(-ENOMEM);
-+
-+	parent = of_get_child_by_name(dev->parent->of_node, "pwrbuttons");
-+	if (!parent)
-+		goto out_node_put;
-+
-+	for_each_child_of_node(parent, child) {
-+		u32 idx;
-+		u8 dbnc = MC13783_BUTTON_DBNC_30MS;
-+
-+		if (of_property_read_u32(child, "reg", &idx))
-+			continue;
-+
-+		if (idx > max_idx) {
-+			dev_warn(dev, "reg out of range\n");
-+			continue;
-+		}
-+
-+		of_property_read_u8(child, "debounce-delay-value", &dbnc);
-+		if (dbnc > MC13783_BUTTON_DBNC_750MS) {
-+			dev_warn(dev, "debounce-delay-value out of range\n");
-+			continue;
-+		}
-+
-+		if (of_property_read_u32(child, "linux,code", &pdata->b_on_key[idx]))
-+			continue;
-+
-+		if (of_property_read_bool(child, "active-low"))
-+			pdata->b_on_flags[idx] |= MC13783_BUTTON_POL_INVERT;
-+
-+		if (of_property_read_bool(child, "enable-reset"))
-+			pdata->b_on_flags[idx] |= MC13783_BUTTON_RESET_EN;
-+
-+		pdata->b_on_flags[idx] |= MC13783_BUTTON_ENABLE | dbnc;
-+	}
-+
-+	ret = 0;
-+
-+out_node_put:
-+	of_node_put(parent);
-+
-+	return ret ? ERR_PTR(ret) : pdata;
-+}
-+#else
-+static inline struct mc13xxx_buttons_platform_data __init *mc13xxx_pwrbutton_probe_dt(
-+	struct platform_device *pdev)
-+{
-+	return ERR_PTR(-ENODEV);
-+}
-+#endif
-+
- static int mc13783_pwrbutton_probe(struct platform_device *pdev)
- {
-+	struct device *dev = &pdev->dev;
- 	const struct mc13xxx_buttons_platform_data *pdata;
- 	struct mc13xxx *mc13783 = dev_get_drvdata(pdev->dev.parent);
- 	enum mc13xxx_chip_type chip = platform_get_device_id(pdev)->driver_data;
-@@ -116,9 +184,13 @@ static int mc13783_pwrbutton_probe(struct platform_device *pdev)
- 	int reg = 0;
- 
- 	pdata = dev_get_platdata(&pdev->dev);
--	if (!pdata) {
--		dev_err(&pdev->dev, "missing platform data\n");
--		return -ENODEV;
-+	if (dev->parent->of_node) {
-+		pdata = mc13xxx_pwrbutton_probe_dt(pdev);
-+		if (IS_ERR(pdata))
-+			return PTR_ERR(pdata);
-+	} else if (!pdata) {
-+		dev_err(dev, "missing platform data\n");
-+		return -ENODATA;
- 	}
- 
- 	pwr = devm_input_allocate_device(&pdev->dev);
--- 
-2.39.5
+Please convert the binding to DT schema first and then extend it.
 
+
+Best regards,
+Krzysztof
 
