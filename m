@@ -1,245 +1,180 @@
-Return-Path: <linux-input+bounces-14074-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14075-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DF77B2959E
-	for <lists+linux-input@lfdr.de>; Mon, 18 Aug 2025 00:48:15 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B11DB295D2
+	for <lists+linux-input@lfdr.de>; Mon, 18 Aug 2025 02:20:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 59F8317F95F
-	for <lists+linux-input@lfdr.de>; Sun, 17 Aug 2025 22:48:03 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4E7242027AD
+	for <lists+linux-input@lfdr.de>; Mon, 18 Aug 2025 00:20:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9FB0C233723;
-	Sun, 17 Aug 2025 22:47:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E5F401DA4E;
+	Mon, 18 Aug 2025 00:20:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B765snAx"
+	dkim=pass (1024-bit key) header.d=NETORG5796793.onmicrosoft.com header.i=@NETORG5796793.onmicrosoft.com header.b="M2n67gc/"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM02-BN1-obe.outbound.protection.outlook.com (mail-bn1nam02on2101.outbound.protection.outlook.com [40.107.212.101])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 160A02236F7;
-	Sun, 17 Aug 2025 22:47:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755470866; cv=none; b=YfCyMea+UQVcpH5WIPyjqSnieD/sGHzBBJvDhLCjVG/kKk0+m67Njv9wk1EYi6G/KwJ0qIg3RjqsVqsxDdNPQl6I47ZxVo1A0pLuHVTtkfJsKaAvgISRtwzOuak+BHPFjxdKyAOqPjjIdg06Y6VRvItHMIuX9RSZKA7rjKIHXA4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755470866; c=relaxed/simple;
-	bh=ed8XvC5O8aK1Mynuk6bERZOlPdQE+5MQ2uchyNYhyvo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Kfm3tHRntbXzz6IIaf3ETAcTtSY6lT4g1PRRPi/IDyc7GDAbrFLbMq81e/TvLC0EIZmhVSeQEw8xJQPYhuSQGpcGz2JgTCVakDYxG8aiJCH/7Q8qUXekkFgKM4d8UNgHsOkrq5c0PoUxgdcVe07ehR/iX2SWwLCuwMkYqlEor3A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B765snAx; arc=none smtp.client-ip=209.85.210.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-76e2ea79219so4016392b3a.2;
-        Sun, 17 Aug 2025 15:47:44 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29D0731771A
+	for <linux-input@vger.kernel.org>; Mon, 18 Aug 2025 00:20:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.212.101
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1755476437; cv=fail; b=NYTGZWrO47kWJbxmeOowWEWeJ2ywBYgMO3cXmaGbV1JcwrzyWujAVSY+djM6FewmtXValAmWMOD6iWwc0znKZzDu2GGRpW6ZlwmnOymliz0Ws+IYH6FzHEkK6HJgXXXgkBXWwIRTXbfSuWIeemnlr9elR/WIXW68EtpsNZg9uv8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1755476437; c=relaxed/simple;
+	bh=toKJNKGzN9tcOocIrw8kB9F8NQ0W2CON3iTqmzcVfOY=;
+	h=Date:From:To:Cc:Subject:Message-ID:Content-Type:
+	 Content-Disposition:MIME-Version; b=FSeOmIxqJGdgzlkZz76VJI3/0znVdADZCcpB0i/eszOo/mUa5q7KKAqJ6CICc+h/sWlkXgcCJblYCj55Xl8ToB0oLbxaBDIc5gK62TjVXKbm0g/kVGWocDR7oW/B66tkwK78XtWkBionzdJyadNVa7BS1smJfjrmwRHLeCI+p5U=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=labundy.com; spf=pass smtp.mailfrom=labundy.com; dkim=pass (1024-bit key) header.d=NETORG5796793.onmicrosoft.com header.i=@NETORG5796793.onmicrosoft.com header.b=M2n67gc/; arc=fail smtp.client-ip=40.107.212.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=labundy.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=labundy.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=faZXZHVKr4k4YZBNA7p6oKW1itq50W8rYU/qKAy8h9lqY0DA2L+iOu9kaRQaAevAvdVCSs2TfzI1jmG9zxUlyQPOoMUwVkJhSQzWwPBpa6+qBW8mQ175OaW3d60fkThqXMMgOuAIAvNp1brajlf2TWKXJIBFv7p+VoVVSYc9D2bdCaQ2qhoMYVIwTL64kHFR2GM7qbuZd7ciZKNB+H5y0I0iFf9StD6p4LSrqfwL7yfgyU/XeheWUI+6ipNsqd2Ury4csVyybgqaTthxWjdMCOmTtwxNQB4lWZFj9Ule0gNQBUzrxDMOCz6b29d71cBqzKtFkJb3f96sU3E5JDefkQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=NLmahp8Zz+vKn6E8RAtFaQU2QWE+MQTSiY5+mEnRUOc=;
+ b=W5bNNg+jQFToxTHadJ98U1OVygAir40ATDsTGd5lFQq+ZIH2QG1Sz0Q0/D3l1iWo/WSIZaIxeAChcWz6InXFMJCX+1s1YAcogdD4i4d/klsZZmuaopKFN3/tkajP5DYTAmSpvwnMEcdyXYH7kNLTQDyyMFDQFKNMRczWUB/cArtYL2puk0X6PwjGSHZWP915r44xkmW9lOOU1zd8ob5HlB6rAu1B7YllSPAZjUW10OocGWqKxOPYB7uxYjRvm7u+6zIAPk8x7Xddm2VrzHCtgekVxZgOVe6Ng3vhnYQnXx/fA3GU10rfOvWI5iipLNSyhiJ6ZTFd59j700bDJHN0qQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=labundy.com; dmarc=pass action=none header.from=labundy.com;
+ dkim=pass header.d=labundy.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755470864; x=1756075664; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=PNa2Zj6/Px4am483RWwOJO2UkcFvpKOXS+fsWLIJ0BM=;
-        b=B765snAxodVGIeGlwk34uEri7c85oN3rm/xfqdozBLgZBIiYzC8nzR7pt69IUmk7qX
-         N5YpVaB0P1PCSFVcgu5hyp+3HoHusPS2SNHkM2zffQgVJmz93Lq/e4nhNg6G39OCUKNl
-         wWrPraODcElpDaHPMOkWukktz0lhVASYPAKelQB6pIwXYBYgKY0i+Ba+gqcNon6fCW6+
-         fAq61/ehXA5x0g1ZBQUplCFyLptMa5S+PqB7seAZtEZ3zJfn4H3krBHq65E2STDvMxa6
-         d1pcP4yIrHVr8oRvwvO5wEB2myCKi00miHWHgLPWoYqQP4e9z2WU3//oUOEUFsym58Bu
-         3tcQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755470864; x=1756075664;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=PNa2Zj6/Px4am483RWwOJO2UkcFvpKOXS+fsWLIJ0BM=;
-        b=AJb08spIwzECU+P08CRe9PK51CaVXVyDu74Htm3hBSJBIaVWA/Z5/cyrZAe93ohG1t
-         imgAOyKx94MGHyMw2pGSasicxI9dIa1xFlGnNzk3182WpoaN8dqm2xKQ/OWmVZILbjwK
-         m5km3KCP3mq1IRmK1ZRYkPRte5YEIbCaMORRcQFLF8zFIKhrh0DpgIi8By+5+OdhiERq
-         et04Rg4jQH+tF+hNE9hd3ZkoOcvC6d7usS73QtR+KUTiD8wq4RgnR/E6CAq5bRzivSer
-         LJdFTM1VpnHl2UxtZvG2BphF8isCRoFqntTfd3xNr2+FC6MzJEEXnWt1AR6c5fNY9Ep5
-         +w5Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUNUZ7Eaow4d64VzKyiApEziwi60aYCvX2hmKOYnjfcHq/7mDo4RDSyWbgqC1jBIM63LukzWIxVma7muw==@vger.kernel.org, AJvYcCUdadLvf2fFrPxHiKZBhfI20rtuQQQF7tBwayWhfRcZoqnjKargLrr1Mvt1nzf+Ofxuf2Zp8EVFTZs3Ch+j@vger.kernel.org
-X-Gm-Message-State: AOJu0YwzrWQrYsjdGgninZ6458RDARDu/JjcckIQY+DjH19STt6h0iOR
-	4GZdAJVbAq65GqvN3Ha1qKQqKv0B0nxr115S2fZHDtTdecVzSnNwGitB
-X-Gm-Gg: ASbGncuslkM8FSNaVJxT8qhZM13co1QqANKN/IfZx+1TEGH6/IT8REFrEyk1tbJ8jjv
-	1Li2rYqyVs9gcpdgRkBhOBxxqYU9bZArADlluvjy5Qc+UzAKornDasjBXNDl31l8CRiwtSD3/Cs
-	3x4ciexyGXabF/36CldojyYDImQm+ipMrwGc7Yn/ThrjcnqNENICn8qTlWOQt0MiniuFk9BG1QA
-	+qAp8Bhjj5Rd6suwVZv+YTBRku30odRohdydwskGMKfhEJ0PFn0tg5Km0CdJMn8jewDZb4XDEzT
-	ysnstzbA06BfaUPvJOLQ6P2HVslj3RJ/vcq7zLU0/eHe4xXm1+X6lS1VXCbjcqnlAEo59AD3hsy
-	Mpp8BZVHohxdHMiVYhUuZLqQ669TyAXGWhG6J4l6PwEJW
-X-Google-Smtp-Source: AGHT+IEe7ZKMvCboWtdT/PjB9ev9bvUSxEnvRdhcIITRdD6jebDPm1UVFIhhOSMuHtQRz2/d1hh62g==
-X-Received: by 2002:a17:902:ea03:b0:240:3dbb:7603 with SMTP id d9443c01a7336-2446d713295mr137721165ad.19.1755470864256;
-        Sun, 17 Aug 2025 15:47:44 -0700 (PDT)
-Received: from dtor-ws.sjc.corp.google.com ([2620:15c:9d:2:11e:c24d:ff01:22c4])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2446d5792f1sm62741795ad.155.2025.08.17.15.47.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 17 Aug 2025 15:47:43 -0700 (PDT)
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Matti Vaittinen <mazziesaccount@gmail.com>,
-	Lee Jones <lee@kernel.org>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Arnd Bergmann <arnd@kernel.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 3/3] mfd: rohm-bd718x7: Use software nodes for gpio-keys
-Date: Sun, 17 Aug 2025 15:47:28 -0700
-Message-ID: <20250817224731.1911207-3-dmitry.torokhov@gmail.com>
-X-Mailer: git-send-email 2.51.0.rc1.163.g2494970778-goog
-In-Reply-To: <20250817224731.1911207-1-dmitry.torokhov@gmail.com>
-References: <20250817224731.1911207-1-dmitry.torokhov@gmail.com>
+ d=NETORG5796793.onmicrosoft.com; s=selector1-NETORG5796793-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=NLmahp8Zz+vKn6E8RAtFaQU2QWE+MQTSiY5+mEnRUOc=;
+ b=M2n67gc/l1jCtIdaYnC8j8NPfSUPVJ+kAxqFOEP/Hqnvo/VsrHUYockNXH93lMurPeTZvhjZBE8ya106mQ1zI3LNpL2k5yqs6EQufARrfTI7yOWU7u33HAxtAHjZuLxIag/2UaKpVA/qmcUHZeqLqSil5xTrh8MCW4M+Pa3jGmM=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=labundy.com;
+Received: from BN7PR08MB3937.namprd08.prod.outlook.com (2603:10b6:406:8f::25)
+ by DM8PR08MB7366.namprd08.prod.outlook.com (2603:10b6:8:13::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9031.24; Mon, 18 Aug
+ 2025 00:20:32 +0000
+Received: from BN7PR08MB3937.namprd08.prod.outlook.com
+ ([fe80::e881:2e05:573:2d6c]) by BN7PR08MB3937.namprd08.prod.outlook.com
+ ([fe80::e881:2e05:573:2d6c%6]) with mapi id 15.20.9031.023; Mon, 18 Aug 2025
+ 00:20:31 +0000
+Date: Sun, 17 Aug 2025 19:20:22 -0500
+From: Jeff LaBundy <jeff@labundy.com>
+To: dmitry.torokhov@gmail.com
+Cc: linux-input@vger.kernel.org, jeff@labundy.com
+Subject: [PATCH] Input: iqs7222 - avoid enabling unused interrupts
+Message-ID: <aKJxxgEWpNaNcUaW@nixie71>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-ClientProxiedBy: DM6PR07CA0132.namprd07.prod.outlook.com
+ (2603:10b6:5:330::25) To BN7PR08MB3937.namprd08.prod.outlook.com
+ (2603:10b6:406:8f::25)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN7PR08MB3937:EE_|DM8PR08MB7366:EE_
+X-MS-Office365-Filtering-Correlation-Id: cc5d73a5-a2e5-44f1-8707-08dddded093c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?w7++ois+j+yFwreiRF3jliWTRCou9M9jRxWTRaOM09GBamDJotqy0V0REPcc?=
+ =?us-ascii?Q?Pj0v6Kxb31C52ELw5uQUETZeGk3uzPuuR6j9X3YdL8wOnFdbwZp48Cnp/gR/?=
+ =?us-ascii?Q?pygCBJyWMjxob+DTM+ezr35VDtCtWX0k9OYumm9yfbvwfYRg/DbY/WUehDWV?=
+ =?us-ascii?Q?UMlErROap7AglgQPq8fleDMAk2RTSmlYu34H4PgjHdpXSTOfyO7F4ub/d/h6?=
+ =?us-ascii?Q?lBOzMux3EEcM/qyjiMJh4kt9yAO+KHAA31p2VngH8k4OwoCS6UTw08sROw3X?=
+ =?us-ascii?Q?aJJ1fsO1b6AFLssJSOAIlnme5K3K58wGiQe/rw7yrjQ7V2RVxtfF+4ZRCeyF?=
+ =?us-ascii?Q?yLmOk6TuuISKrKSFef2C1/a+94eFWZJJYLBzj297+uS/DgObvg4y6l04qXv5?=
+ =?us-ascii?Q?QDx39LL0gi1HnRnfjEPH1WVOR+/C1vKp/TpWWZjQiOarcqS8tcoauKcfmRf+?=
+ =?us-ascii?Q?1ble9MpZDc43zztlaRWga2HKGOYM8BhaFDVIV2bBVLkqjqR3MLlIgNgvjZkT?=
+ =?us-ascii?Q?WiKPC7/sH8DSlbfDuXiaDuf3C9jKeye902ZAya8cx6L0HffB0e3IIPF2j7Kp?=
+ =?us-ascii?Q?ah6LcU7w7ySEweT3vDasM7LakuPLbulZBCnx1KuHOYyXJSJL5M5GgFl6uSer?=
+ =?us-ascii?Q?rhcV2ghcPmWJfUGCxqA2knOpaNce60C5Uf2yPC7FE/av2GGxWiJm5uqMjmnF?=
+ =?us-ascii?Q?R+VtKt0faKv24OKnbL8NHb1sbyt3p7F5i7zEq+nwyKM9gNRLVHmuPoE539dj?=
+ =?us-ascii?Q?zweAgV4COF3qEQ2vv21ON4s7p1FsRXDpPR9gka+5PW0Rk1y+qFzVhKUaVuKf?=
+ =?us-ascii?Q?WJaIsxALy0y4vCIMKK+7GsdRS46a0MKW75GRFCddgCOONfrFLCFsJlyF2zfA?=
+ =?us-ascii?Q?bD3GQvW1pNR1Z+sIB1RMIZkwIgycye60A4NfitcEeoQ5KhkCf8OjvCtWUHcP?=
+ =?us-ascii?Q?LGJg9fPzdi6eGNj5M4iJG8+FM7LGQ+4SRFL3EASNObVKjwEMVo/weq0N3u/T?=
+ =?us-ascii?Q?gJtLGXcGWfDpqarO/P2B88nBHUJJJywbBtWAZvjaqGolDjMso1hWfwhpLuHj?=
+ =?us-ascii?Q?ZZEwyr28QdMJw8MBO4PYnzsMgLVuvAZf7KQpYnft59iTk+/4FaX/WNjsJnzT?=
+ =?us-ascii?Q?Q3ol1KiE15BecyMXRussBZHAdD5mZ8IKY8Oe7+aMIF8GXard+51Rwc5to4sw?=
+ =?us-ascii?Q?NQ9uI8MffYuO8brGA/CmPo1k/363BVeWiXIXYI2To5nosfArpFC9otXsOjkN?=
+ =?us-ascii?Q?feJVdvCA18MEHftw4Uge9PuysDCc1B7mch4eVs2FKAz8qTYpdDpXwxLkZ8aU?=
+ =?us-ascii?Q?C/E/UdgWUqjUp8iNxHvh/8H++G9Wve6JWWZubl2nB5OszfiIvvlb2wOrR7VK?=
+ =?us-ascii?Q?F+iy7i+xkCcvY6kBeB+rmWGmBBM5X6iEG6jSfzpHipv2PySPmQ=3D=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN7PR08MB3937.namprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?AF1dM7kAc1jiN3vvxILP0+vlVHuN6rM7D/o2iInUtF+nJtqtO2BgGLgOwBOd?=
+ =?us-ascii?Q?tTyxhJK6yaD+vBczxCM8vmnWw31IFkCw8iekJJIOgZtrSBbV5Caeldhc7c0z?=
+ =?us-ascii?Q?Jhbp9PRlt6t0TwkVe3x+U8XfHj+slpNT+SZFb2OcnGx6cuHiyMQDGPoHpsBQ?=
+ =?us-ascii?Q?QXiRoEZGap9mxQNpj1utL72PfOn2CBu59mNwO/cqhv0ETvkBUNpyNqJdKDi8?=
+ =?us-ascii?Q?Fg1V1HLmlh+qgsTyovxH/YFmQU1iKunlHB97DCUSdgZzK09jPJOrx6Os8u6M?=
+ =?us-ascii?Q?u8PAe0LghNBujPcHzqCmZp8gNtpSV5kUWBeWCQj9+UMI4Ho2eDKrKgv5+gE4?=
+ =?us-ascii?Q?r+xDomgKmqMjsvlqSwDNQDCyEjEBSochQy5+A+DPoDs2+ee5lKjDsKuPtIsf?=
+ =?us-ascii?Q?LTfSuRaSnQMSgcu7MjYQBc/+O5+G+iO4w82/5MmLGjK6fi6rnG29gzRWOi8/?=
+ =?us-ascii?Q?T9fVKgWu8j317iA6vDMARuEeESuAot32bWuqiXbC8zO42L4K6y5mc89Q4d48?=
+ =?us-ascii?Q?1u3i/i4nszk95OmzKBVtMncKxzRV/8/QKK7Cmt+9lfudkgb6aubUY3op+DYp?=
+ =?us-ascii?Q?ZTi/74ooZ9wUJhUCUs4tE40BAyTQqDk1qq/Bu/ePpZ9xyRIjgTYfRkJsWvio?=
+ =?us-ascii?Q?Qt1csyssF+I3jM22Xxnb605iKZR9+mrG2UIOQTUiuxTj/ppV5pwrzTMNYJgS?=
+ =?us-ascii?Q?3d6AQ4bwvp/b0mXFtVj2zGaLcMMD2m4tAKvAYsYIemkTiMe/KfvFM8z1b6xb?=
+ =?us-ascii?Q?aIEp77My856zLuPA/H16UpLgAJ5Azs07LdNSMGBhKQYGVZtHrDk0yFyN8KK0?=
+ =?us-ascii?Q?rtt0BpwQqIXzPL2cSjlKwn653jx2EIrjbAqc720NImJ31G7tT0z/5jq1Jk15?=
+ =?us-ascii?Q?lo0uWFpCfdYF4TrfbrmmMV4p8aiv5gP2p6Mz2o25o60XA8vU2gfPV49Afpb5?=
+ =?us-ascii?Q?jDtS8Y7KbQsuM9Rrs61zopecoGtkVm+Su3amc2krIf5zCENIO6HxuchIwPcD?=
+ =?us-ascii?Q?+BEgoJawrSwmPCjk21OTwvBBhLHJQ4GLPZJZOomtfKviX2Bh82FBX7ZBUNZl?=
+ =?us-ascii?Q?N1nqHfNutdUvYtFSkwij00ogcu09sv2z3durQCSXEZ/YsuweSSyncO7K9Abj?=
+ =?us-ascii?Q?oP7MoSqjNDTeGJSEMcBS81Zr/nEBzT+f32L2iJj9oq7KNQlLaPnWSz6h7S8E?=
+ =?us-ascii?Q?bMg7eVOWnirnOPVIPXGeLhD68ksUiobtg6PfjeB363JzEfxFffbRACtBJHkG?=
+ =?us-ascii?Q?pnkofawddAyaxQUAjsQACDUyQxUhmRSnC6WBzxGask6oToT59+fw/QEitewk?=
+ =?us-ascii?Q?C+UeGkHrwCIu1cYCZ69yJCcUSnqlhCQ+k4N1ik7heO+64qCvRlDK1uC2WTid?=
+ =?us-ascii?Q?f+qzuhx6wYx0IPWc/qCR/HCYCA9WIst41wmEGjIFb/n91C+t6xA92Ao7qGzC?=
+ =?us-ascii?Q?WCQcCDdyqJscjyI1+hYHAQ7ybqX1nF+R0ijWSkSpltzrb2ylhTgZkC+vKgrL?=
+ =?us-ascii?Q?vB0hRCx55B/liwZ8sAc/Fuh3rqk1+KkyxFgm6/8EUlf2TT4thIgoKN8YFTm+?=
+ =?us-ascii?Q?5zGGdgMSUOV2A19O3MjzFlRS7AiX7PjiRCXYp3QL?=
+X-OriginatorOrg: labundy.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: cc5d73a5-a2e5-44f1-8707-08dddded093c
+X-MS-Exchange-CrossTenant-AuthSource: BN7PR08MB3937.namprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Aug 2025 00:20:31.5491
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 00b69d09-acab-4585-aca7-8fb7c6323e6f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: HcGy+sDzIvObArqP5LBPeOwZYbLY7BImrkYIb+kf9HMpbBQtuDL8YoxfH/F2A4T2+qEkRTUfEIfCLRzxnD3x3A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM8PR08MB7366
 
-Refactor the rohm-bd7182x7 MFD driver to use software nodes for
-instantiating the gpio-keys child device, replacing the old
-platform_data mechanism.
+If a proximity event node is defined so as to specify the wake-up
+properties of the touch surface, the proximity event interrupt is
+enabled unconditionally. This may result in unwanted interrupts.
 
-The power key's properties are now defined using software nodes and
-property entries. The IRQ is passed as a resource attached to the
-platform device.
+Solve this problem by enabling the interrupt only if the event is
+mapped to a key or switch code.
 
-This will allow dropping support for using platform data for configuring
-gpio-keys in the future.
+Signed-off-by: Jeff LaBundy <jeff@labundy.com>
 ---
- drivers/mfd/rohm-bd718x7.c | 76 ++++++++++++++++++++++++++++++--------
- 1 file changed, 60 insertions(+), 16 deletions(-)
+ drivers/input/misc/iqs7222.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/mfd/rohm-bd718x7.c b/drivers/mfd/rohm-bd718x7.c
-index 25e494a93d48..20150656ac9c 100644
---- a/drivers/mfd/rohm-bd718x7.c
-+++ b/drivers/mfd/rohm-bd718x7.c
-@@ -7,7 +7,6 @@
- // Datasheet for BD71837MWV available from
- // https://www.rohm.com/datasheet/BD71837MWV/bd71837mwv-e
+diff --git a/drivers/input/misc/iqs7222.c b/drivers/input/misc/iqs7222.c
+index 80b917944b51..ea26f85b9e9e 100644
+--- a/drivers/input/misc/iqs7222.c
++++ b/drivers/input/misc/iqs7222.c
+@@ -2424,6 +2424,9 @@ static int iqs7222_parse_chan(struct iqs7222_private *iqs7222,
+ 		if (error)
+ 			return error;
  
--#include <linux/gpio_keys.h>
- #include <linux/i2c.h>
- #include <linux/input.h>
- #include <linux/interrupt.h>
-@@ -15,26 +14,41 @@
- #include <linux/mfd/core.h>
- #include <linux/module.h>
- #include <linux/of.h>
-+#include <linux/property.h>
- #include <linux/regmap.h>
- #include <linux/types.h>
++		if (!iqs7222->kp_type[chan_index][i])
++			continue;
++
+ 		if (!dev_desc->event_offset)
+ 			continue;
  
--static struct gpio_keys_button button = {
--	.code = KEY_POWER,
--	.gpio = -1,
--	.type = EV_KEY,
-+static const struct software_node bd718xx_pwrkey_node = {
-+	.name = "bd718xx-power-key",
- };
- 
--static struct gpio_keys_platform_data bd718xx_powerkey_data = {
--	.buttons = &button,
--	.nbuttons = 1,
--	.name = "bd718xx-pwrkey",
-+static const struct property_entry bd718xx_powerkey_props[] = {
-+	PROPERTY_ENTRY_U32("linux,code", KEY_POWER),
-+	PROPERTY_ENTRY_STRING("label", "bd718xx-pwrkey"),
-+	{ }
-+};
-+
-+static const struct software_node bd718xx_powerkey_key_node = {
-+	.properties = bd718xx_powerkey_props,
-+	.parent = &bd718xx_pwrkey_node,
-+};
-+
-+static const struct software_node *bd718xx_swnodes[] = {
-+	&bd718xx_pwrkey_node,
-+	&bd718xx_powerkey_key_node,
-+	NULL,
-+};
-+
-+static struct resource bd718xx_powerkey_irq_resources[] = {
-+	DEFINE_RES_IRQ_NAMED(BD718XX_INT_PWRBTN_S, "bd718xx-pwrkey"),
- };
- 
- static struct mfd_cell bd71837_mfd_cells[] = {
- 	{
- 		.name = "gpio-keys",
--		.platform_data = &bd718xx_powerkey_data,
--		.pdata_size = sizeof(bd718xx_powerkey_data),
-+		.swnode = &bd718xx_pwrkey_node,
-+		.resources = bd718xx_powerkey_irq_resources,
-+		.num_resources = ARRAY_SIZE(bd718xx_powerkey_irq_resources),
- 	},
- 	{ .name = "bd71837-clk", },
- 	{ .name = "bd71837-pmic", },
-@@ -43,8 +57,9 @@ static struct mfd_cell bd71837_mfd_cells[] = {
- static struct mfd_cell bd71847_mfd_cells[] = {
- 	{
- 		.name = "gpio-keys",
--		.platform_data = &bd718xx_powerkey_data,
--		.pdata_size = sizeof(bd718xx_powerkey_data),
-+		.swnode = &bd718xx_pwrkey_node,
-+		.resources = bd718xx_powerkey_irq_resources,
-+		.num_resources = ARRAY_SIZE(bd718xx_powerkey_irq_resources),
- 	},
- 	{ .name = "bd71847-clk", },
- 	{ .name = "bd71847-pmic", },
-@@ -126,6 +141,30 @@ static int bd718xx_init_press_duration(struct regmap *regmap,
- 	return 0;
- }
- 
-+static int bd718xx_reg_cnt;
-+
-+static int bd718xx_i2c_register_swnodes(void)
-+{
-+	int error;
-+
-+	if (bd718xx_reg_cnt == 0) {
-+		error = software_node_register_node_group(bd718xx_swnodes);
-+		if (error)
-+			return error;
-+	}
-+
-+	bd718xx_reg_cnt++;
-+	return 0;
-+}
-+
-+static void bd718xx_i2c_unregister_swnodes(void *dummy)
-+{
-+	if (bd718xx_reg_cnt != 0) {
-+		software_node_unregister_node_group(bd718xx_swnodes);
-+		bd718xx_reg_cnt--;
-+	}
-+}
-+
- static int bd718xx_i2c_probe(struct i2c_client *i2c)
- {
- 	struct regmap *regmap;
-@@ -170,13 +209,18 @@ static int bd718xx_i2c_probe(struct i2c_client *i2c)
- 	if (ret)
- 		return ret;
- 
--	ret = regmap_irq_get_virq(irq_data, BD718XX_INT_PWRBTN_S);
-+	ret = bd718xx_i2c_register_swnodes();
-+	if (ret)
-+		return dev_err_probe(&i2c->dev, ret, "Failed to register swnodes\n");
-+
-+	ret = devm_add_action_or_reset(&i2c->dev, bd718xx_i2c_unregister_swnodes, NULL);
-+	if (ret)
-+		return ret;
- 
-+	ret = regmap_irq_get_virq(irq_data, BD718XX_INT_PWRBTN_S);
- 	if (ret < 0)
- 		return dev_err_probe(&i2c->dev, ret, "Failed to get the IRQ\n");
- 
--	button.irq = ret;
--
- 	ret = devm_mfd_add_devices(&i2c->dev, PLATFORM_DEVID_AUTO,
- 				   mfd, cells, NULL, 0,
- 				   regmap_irq_get_domain(irq_data));
 -- 
-2.51.0.rc1.163.g2494970778-goog
+2.34.1
 
 
