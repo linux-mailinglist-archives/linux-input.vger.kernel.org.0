@@ -1,104 +1,128 @@
-Return-Path: <linux-input+bounces-14076-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14077-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEFE2B295F8
-	for <lists+linux-input@lfdr.de>; Mon, 18 Aug 2025 02:52:47 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B6E9B295FC
+	for <lists+linux-input@lfdr.de>; Mon, 18 Aug 2025 03:00:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 92B734E4EAF
-	for <lists+linux-input@lfdr.de>; Mon, 18 Aug 2025 00:52:46 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BD5004E6C01
+	for <lists+linux-input@lfdr.de>; Mon, 18 Aug 2025 01:00:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A64F91F2BAB;
-	Mon, 18 Aug 2025 00:52:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 089BD4C98;
+	Mon, 18 Aug 2025 01:00:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hOLxy4f3"
 X-Original-To: linux-input@vger.kernel.org
-Received: from outboundhk.mxmail.xiaomi.com (outboundhk.mxmail.xiaomi.com [207.226.244.123])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 498C21F9F47;
-	Mon, 18 Aug 2025 00:52:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=207.226.244.123
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8420D3FE5F
+	for <linux-input@vger.kernel.org>; Mon, 18 Aug 2025 01:00:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755478362; cv=none; b=in4YBLDh/9nlYRuM4cnDWdpwqX0L+JkfviXkO+SWDEeLItyY8PY683bCfL1aamcNqQpRp+cG0UUJ9MYAFAYXTm1QNwufJ/V+OJYXIZQvOFArkWrb1FfrjqxUXkuPjpoNbXtAVDVgR04meaO/dp+8NrkPY0fH567By9pP2sE5SCc=
+	t=1755478854; cv=none; b=NOlmvHwaHJ/sXD6RC13neyG5JgE1oxp81fr9+mHGQfM5NRzzZX1RCSen0wnJCs+EroQ+lxq6M+FTPNkTvGWc5rz1VLmyN+n1NY3RmtKasLGAScHmP00PcYY1pu+SAbh1C/r697FjfKGLWx1nBhL9CKENurjOC9CnmI2wHlTb64g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755478362; c=relaxed/simple;
-	bh=zverf+i839FeEH1z5oH6cTC5zYeVbvbSWasiO5A2aBE=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=Dni87uE7oyoYAJ36U7vPJZHLN9qtIHhPMmQFh1+N+klzAEH0peIrtbUfnujdsNIUfKC41/XgTxBK2g34QsU4PnrEqJgQ+PfxQHGdWk1V6FM+HkLudNsW1xKh9dkKoWfX7NQ7ms7lwpzBfuppSpBAURWKLB49HQoxDPdhhTqE+LE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=xiaomi.com; spf=pass smtp.mailfrom=xiaomi.com; arc=none smtp.client-ip=207.226.244.123
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=xiaomi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xiaomi.com
-X-CSE-ConnectionGUID: CUT4fKZSSq+EPIuxPCTUOQ==
-X-CSE-MsgGUID: PcQg34JjTGWhMxizu7Ij5w==
-X-IronPort-AV: E=Sophos;i="6.17,293,1747670400"; 
-   d="scan'208";a="149500033"
-From: =?gb2312?B?wqy5+rrq?= <luguohong@xiaomi.com>
-To: =?gb2312?B?Sm9zqKYgRXhwqK5zaXRv?= <jose.exposito89@gmail.com>, Jiri Kosina
-	<jikos@kernel.org>
-CC: "bentiss@kernel.org" <bentiss@kernel.org>, "linux-input@vger.kernel.org"
-	<linux-input@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, =?gb2312?B?y87D3MPc?= <songmimi@xiaomi.com>,
-	=?gb2312?B?VGhvbWFzIFpoYW8g1dTqzQ==?= <zhaohui7@xiaomi.com>,
-	"tkjos@google.com" <tkjos@google.com>, =?gb2312?B?wqy5+rrq?=
-	<luguohong@xiaomi.com>
-Subject: =?gb2312?B?tPC4tDogW0V4dGVybmFsIE1haWxdUmU6IFtQQVRDSCB2MiAyLzJdIEhJRDog?=
- =?gb2312?B?aW5wdXQ6IHJlcG9ydCBiYXR0ZXJ5IHN0YXR1cyBjaGFuZ2VzIGltbWVkaWF0?=
- =?gb2312?Q?ely?=
-Thread-Topic: [External Mail]Re: [PATCH v2 2/2] HID: input: report battery
- status changes immediately
-Thread-Index: AQHcCrXbrGKdcLZC0kSUAM9u6AlyFrRhdOIAgAYpLxg=
-Date: Mon, 18 Aug 2025 00:52:31 +0000
-Message-ID: <5209b6cc4fd94859896b0ec7c3f34be3@xiaomi.com>
-References: <20250806073944.5310-1-jose.exposito89@gmail.com>
- <20250806073944.5310-2-jose.exposito89@gmail.com>
- <4q4qn3p8-6s3s-289n-44s2-43s76qrs2oo4@xreary.bet>,<aJ29tlqoQYFa-WYt@fedora>
-In-Reply-To: <aJ29tlqoQYFa-WYt@fedora>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-Content-Type: text/plain; charset="gb2312"
-Content-Transfer-Encoding: base64
+	s=arc-20240116; t=1755478854; c=relaxed/simple;
+	bh=5hobYoSyfX7MVbNRx4d4ILz3mOpPgQBXGZVGIRr7Pds=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hxKG3ZkuKD5nOyzZHV+cnoMAMnBNOeC5behcfIbQRJJ9TDeGXo8ZOEYTnTSFa2b2DxQ/8QceTmS5QfXv/ejvKRqZPLIPSPme1qdCF0fCq2Um4BDxURyILPBGLlWUxGFUfzfl64Zw/5xe043ORHJubV/vwywPSdaU+z1Orb5sBSk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hOLxy4f3; arc=none smtp.client-ip=209.85.210.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-76e2e8bb2e5so3928644b3a.1
+        for <linux-input@vger.kernel.org>; Sun, 17 Aug 2025 18:00:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1755478853; x=1756083653; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=YcCdFPTuu/D2HZYbbKtGM40X7+5+M8MvfJcOxNPwkxQ=;
+        b=hOLxy4f3ByXw1wcqDeROOQd2Yp3mZJpfViFqQ/Ldx+HR9+VPdbw2CxSYQ+UyhePzyB
+         ftBxaku2TdRqlqvS/5XgWDCZGMPeNyfobEnbjLySWHNHfvIkdoATM839NnG3oOtjUgeA
+         M8yghO8FmK3AAarnytGre6jQGGkyqlqTdB3cGnbODvYNIpFTOqcffgRJoK/QHMB/YG8M
+         uBpAuof7pIvt5oqklaAav+mz8r5viDjyxrvgyCaf0ludaOizDXegF4W1L8kk8NcDAUMG
+         W04Gap02i0Uwx8LbjJqP9wp1JDpvNWMXc9YEF3XsPmkP10KCckCmQi0la1nX+GD9XZmO
+         w0nA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755478853; x=1756083653;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=YcCdFPTuu/D2HZYbbKtGM40X7+5+M8MvfJcOxNPwkxQ=;
+        b=A3adyh081L4oKli8pdjOXva4Jxak7lfR5/m/QXkQq3D3bl2ElnaEG0oK2tngB8J88n
+         TJJR7gYH9fF97p1v5bxuXauNUFqUQyo+sAx7lwBNKJyoM24Qc8c3mcGxS0TI21p71PMh
+         vJdTIM7LjmgIwVttzQfPoZ7KtPNd2JCkgbC7MVHQFEssU3yIeWw8m742XhFOGu0S5jAs
+         nl5DZhJLkFxXnGz+bH0MHQtkQGQ1i0TSoW1SSO8WhCpIR35gPqwZsqPj+3mY992l/QUT
+         F2FSkB5h3cW6b8oEXS1Q667W0Fb1+NNwypqLYlXeQt7tyrhMLf+GLwJHWhfOHxMccOTK
+         u5OA==
+X-Gm-Message-State: AOJu0Yw8lSoCcdFNLyfaPnZdYNRzwSXuYjQikRGfzUu4ACxMBR6Mt4Al
+	w9/pBLaofWTDE/1XgTywX/twQpWNb033ZQd3apMiSY2Zox01Jr+CFrwd
+X-Gm-Gg: ASbGncvD7CI0I2DQrJyyac5IFWfJPXRfvmw9IAe41Mw06LsvC59MbGurg3HR36fGWx2
+	Prsr6MSx+40h5e9fVJPr+cJhO5vYwf0YawE3PyY2Yhm9BtRDMOSRmU7wqwdXROl0CuhdaMhDVJW
+	5Cw0sUYY3EHAZL8PQDX70ZGTMQMN67DHUPwBmm0hgDC/k3nHAtcewUUqII4Jle8wqu83ocyc9gj
+	ZQfNR8dNj2c757Dxpv4hQZ8MCM2vPzRtw01BMt5nUAWL/RSjTc06ZpgKTZxrtoraWtG3EpqYx5H
+	p+4tnDkvfMgd/kr/c7ANOVGfDJ/x54qHxyzflNeC86IZ/Ogfzq8dDinReIdbnoXbXdM7/Q4u3Qv
+	yic/p8Br3SWTJqcSLGtU0Ew==
+X-Google-Smtp-Source: AGHT+IE55K35kUTFQojxF0IwqaG35lGix8H4x7i/WJdOu9O9bE6xkXUa/w1ThvPlXBFfpKGlZutjBg==
+X-Received: by 2002:a05:6a21:9986:b0:233:f0c6:a8a4 with SMTP id adf61e73a8af0-240d2f066a4mr18188280637.31.1755478852577;
+        Sun, 17 Aug 2025 18:00:52 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:11e:c24d:ff01:22c4])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-76e45566f98sm5803693b3a.72.2025.08.17.18.00.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 17 Aug 2025 18:00:49 -0700 (PDT)
+Date: Sun, 17 Aug 2025 18:00:46 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Jeff LaBundy <jeff@labundy.com>
+Cc: linux-input@vger.kernel.org
+Subject: Re: [PATCH] Input: iqs7222 - avoid enabling unused interrupts
+Message-ID: <jqtokes6treccrh4xuawyiidydhsitpl6kbyqov2ge2vroklrn@ly7uxtl6fnbf>
+References: <aKJxxgEWpNaNcUaW@nixie71>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aKJxxgEWpNaNcUaW@nixie71>
 
-SGkgSmlyaSwNCkhvdydzIHlvdXIgcmV2aWV3IG9mIHRoaXMgcGF0Y2ggZ29pbmc/IFdlIGxvb2sg
-Zm9yd2FyZCB0byBoZWFyaW5nIGZyb20geW91LiBUaGFuayB5b3UhDQpfX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fDQq3orz+yMs6IEpvc6imIEV4cKiuc2l0byA8am9zZS5l
-eHBvc2l0bzg5QGdtYWlsLmNvbT4NCreiy83KsbzkOiAyMDI1xOo41MIxNMjVIDE4OjQzDQrK1bz+
-yMs6IEppcmkgS29zaW5hDQqzrcvNOiBiZW50aXNzQGtlcm5lbC5vcmc7IMKsufq66jsgbGludXgt
-aW5wdXRAdmdlci5rZXJuZWwub3JnOyBsaW51eC1rZXJuZWxAdmdlci5rZXJuZWwub3JnDQrW98zi
-OiBbRXh0ZXJuYWwgTWFpbF1SZTogW1BBVENIIHYyIDIvMl0gSElEOiBpbnB1dDogcmVwb3J0IGJh
-dHRlcnkgc3RhdHVzIGNoYW5nZXMgaW1tZWRpYXRlbHkNCg0KW83isr/Tyrz+XSC0y9PKvP7AtNS0
-09rQocPXuavLvs3isr+jrMfrvffJ97SmwO2ho8j0ttTTyrz+sLLIq9DUtObSyaOsx+u9q9PKvP7X
-qreiuPhtaXNlY0B4aWFvbWkuY29tvfjQ0Le0wKENCg0KSGkgSmlyaSwNCg0KT24gTW9uLCBBdWcg
-MTEsIDIwMjUgYXQgMDE6NDg6MjJQTSArMDIwMCwgSmlyaSBLb3NpbmEgd3JvdGU6DQo+IE9uIFdl
-ZCwgNiBBdWcgMjAyNSwgSm9zqKYgRXhwqK5zaXRvIHdyb3RlOg0KPg0KPiA+IFdoZW4gdGhlIGJh
-dHRlcnkgc3RhdHVzIGNoYW5nZXMsIHJlcG9ydCB0aGUgY2hhbmdlIGltbWVkaWF0ZWx5IHRvIHVz
-ZXINCj4gPiBzcGFjZS4NCj4NCj4gQ291bGQgeW91IHBsZWFzZSBtYWtlIHRoZSBjaGFuZ2Vsb2cg
-YSBsaXR0bGUgYml0IG1vcmUgZWxhYm9yYXRpdmUsIGkuZS4NCj4gd2h5IGlzIGl0IG5lZWRlZCwg
-d2hhdCB1c2VyLXZpc2libGUgYmVoYXZpb3IgY2hhbmdlL2ltcHJvdmVtZW50IGl0IGJyaW5ncywN
-Cj4gZXRjLg0KPg0KPiBJIGtub3cgaXQncyBpbiB0aGUgZS1tYWlsIHRocmVhZCwgYnV0IGF0IGxl
-YXN0IHNvbWUgc3VtbWFyeSBzaG91bGQgZ28gYWxzbw0KPiB0byB0aGUgY29tbWl0IGl0c2VsZi4N
-Cg0KVGhhbmtzIGEgbG90IGZvciByZXZpZXdpbmcgdGhlc2UgcGF0Y2hlcy4NCg0KSSBzZW50IHYz
-IHdpdGggYSBtb3JlIGRldGFpbGVkIGRlc2NyaXB0aW9uIG9mIHRoZSBmaXg6DQpodHRwczovL2xv
-cmUua2VybmVsLm9yZy9saW51eC1pbnB1dC8yMDI1MDgxNDEwMzk0Ny4xMTYxMzktMS1qb3NlLmV4
-cG9zaXRvODlAZ21haWwuY29tLw0KDQpKb3NlDQoNCj4gVGhhbmtzLA0KPg0KPiAtLQ0KPiBKaXJp
-IEtvc2luYQ0KPiBTVVNFIExhYnMNCj4NCiMvKioqKioqsb7Tyrz+vLDG5Li9vP66rNPQ0KHD17mr
-y761xLGjw9zQxc+io6y99s/e09q3osvNuPjJz8PmtdjWt9bQwdCz9rXEuPbIy7vyyLrX6aGjvfvW
-ucjOus7G5Mv7yMvS1MjOus7Qzsq9yrnTw6OosPzAqLWrsrvP3tPayKuyv7vysr+31rXY0LnCtqGi
-uLTWxqGiu/LJoreio6mxvtPKvP7W0LXE0MXPoqGjyOe5+8T6tO3K1cHLsb7Tyrz+o6zH68T6waK8
-tLXnu7C78tPKvP7NqNaqt6K8/sjLsqLJvrP9sb7Tyrz+o6EgVGhpcyBlLW1haWwgYW5kIGl0cyBh
-dHRhY2htZW50cyBjb250YWluIGNvbmZpZGVudGlhbCBpbmZvcm1hdGlvbiBmcm9tIFhJQU9NSSwg
-d2hpY2ggaXMgaW50ZW5kZWQgb25seSBmb3IgdGhlIHBlcnNvbiBvciBlbnRpdHkgd2hvc2UgYWRk
-cmVzcyBpcyBsaXN0ZWQgYWJvdmUuIEFueSB1c2Ugb2YgdGhlIGluZm9ybWF0aW9uIGNvbnRhaW5l
-ZCBoZXJlaW4gaW4gYW55IHdheSAoaW5jbHVkaW5nLCBidXQgbm90IGxpbWl0ZWQgdG8sIHRvdGFs
-IG9yIHBhcnRpYWwgZGlzY2xvc3VyZSwgcmVwcm9kdWN0aW9uLCBvciBkaXNzZW1pbmF0aW9uKSBi
-eSBwZXJzb25zIG90aGVyIHRoYW4gdGhlIGludGVuZGVkIHJlY2lwaWVudChzKSBpcyBwcm9oaWJp
-dGVkLiBJZiB5b3UgcmVjZWl2ZSB0aGlzIGUtbWFpbCBpbiBlcnJvciwgcGxlYXNlIG5vdGlmeSB0
-aGUgc2VuZGVyIGJ5IHBob25lIG9yIGVtYWlsIGltbWVkaWF0ZWx5IGFuZCBkZWxldGUgaXQhKioq
-KioqLyMNCg==
+Hi Jeff,
+
+On Sun, Aug 17, 2025 at 07:20:22PM -0500, Jeff LaBundy wrote:
+> If a proximity event node is defined so as to specify the wake-up
+> properties of the touch surface, the proximity event interrupt is
+> enabled unconditionally. This may result in unwanted interrupts.
+> 
+> Solve this problem by enabling the interrupt only if the event is
+> mapped to a key or switch code.
+
+Should I tag this for stable?
+
+> 
+> Signed-off-by: Jeff LaBundy <jeff@labundy.com>
+> ---
+>  drivers/input/misc/iqs7222.c | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/drivers/input/misc/iqs7222.c b/drivers/input/misc/iqs7222.c
+> index 80b917944b51..ea26f85b9e9e 100644
+> --- a/drivers/input/misc/iqs7222.c
+> +++ b/drivers/input/misc/iqs7222.c
+> @@ -2424,6 +2424,9 @@ static int iqs7222_parse_chan(struct iqs7222_private *iqs7222,
+>  		if (error)
+>  			return error;
+>  
+> +		if (!iqs7222->kp_type[chan_index][i])
+> +			continue;
+> +
+>  		if (!dev_desc->event_offset)
+>  			continue;
+>  
+
+Thanks.
+
+-- 
+Dmitry
 
