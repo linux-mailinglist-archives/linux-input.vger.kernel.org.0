@@ -1,72 +1,61 @@
-Return-Path: <linux-input+bounces-14106-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14107-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A196CB2AF44
-	for <lists+linux-input@lfdr.de>; Mon, 18 Aug 2025 19:20:33 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B38AB2AFE2
+	for <lists+linux-input@lfdr.de>; Mon, 18 Aug 2025 20:03:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EC807560C06
-	for <lists+linux-input@lfdr.de>; Mon, 18 Aug 2025 17:20:32 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B452A7A551F
+	for <lists+linux-input@lfdr.de>; Mon, 18 Aug 2025 18:01:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CB44C1F91C8;
-	Mon, 18 Aug 2025 17:20:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F69F258EC3;
+	Mon, 18 Aug 2025 18:03:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fx/e4U8D"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C88D521D3DC;
-	Mon, 18 Aug 2025 17:20:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9ED62512F1;
+	Mon, 18 Aug 2025 18:03:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755537623; cv=none; b=AxBjTAtgTxCiOOYThEZl2kAvGDyK+oUBQOFI/oo5+dwUkm2dGP/C4W2AA+3pbfNp4yleE0gGq4Rb5uXLOZy6ervuKFafKsgNn78N07klcHAtl4vaE+V2HkF5kceIc9S5OLpUhSSoyGuIsoP7k8pThD7cUlQlNcgeFdBB9hPFP2s=
+	t=1755540182; cv=none; b=sy+fH5ODL+HYAOj7N36LqXozQItBleLpImK+yz6GvTsiYMQMObm2bp0naeDDQNmTFj+CaZQF7zmySBdys8WT5K4+Dp7tV+TyMM4n1qBYoHFIXNocWz3DZQkFZmiUkt7LaenMiwbGtw0R8E90Ku44p52pZrjcCgKlZPhv0PiKaHM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755537623; c=relaxed/simple;
-	bh=FLeQ4+JKflMPvM/Dz11rbcDrnCkZbSZwPTCwfMMBuUQ=;
+	s=arc-20240116; t=1755540182; c=relaxed/simple;
+	bh=sy2HseQpuY1KFb5MS/LhskQXRTAgmW5ax8h6/mVUC44=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=g02gHzMvPCMKE88ow29+gJYa/6PxCfjFzYIBnKEKlRxG8yILxeBey/wrTOCr53xplqg4gTkTX4CyoWR0DDtoRf77ZbUTa/fBpDKw5228LIyRkPuQUxf8Ibs5VK9wXUXIqTEBVZjE+1dmj7x0nK0oH2IKNXkMiv67/PJMQfbdTcA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=reject dis=none) header.from=mail.ru; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.214.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=reject dis=none) header.from=mail.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2445826fd9dso49612305ad.3;
-        Mon, 18 Aug 2025 10:20:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755537621; x=1756142421;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UwoejNvkuML9Z6Jm4R+g0KULg+/6ABawxJNnc7Rp5AU=;
-        b=uQZWS90rnXr1v0tT+NxV30Xj2MuK7rHAskM7/5hZ4TNzwLy+D2kpwgXk9eyaoXu5iV
-         UNqbRcfDKPxECYADeRaOyxtG5bHGb1O5a88qp62v+d2Trrs0TlhOml613x3P9atOTeQw
-         vNO0RM8aVIGxaqjWQ9JBae/jTp/+mwIXrOQdq3goWbxt+aytQhvnOzryL3/hqwohY1/8
-         fzIty495LTNLinrkqjUuhwOW3YAWXSSeq/WMlIXf2E9230Olr4HlwDFBc3T4p4qeED+W
-         Nz4K7eLSoZL4axXCwcmjfuHsSs7DW1jwaTa/AJN8T8+KkuhmmPknns9RrpkM3uOFt0qx
-         shIg==
-X-Forwarded-Encrypted: i=1; AJvYcCURiPxtBHdlEA7skJJ4tIvW/l0gJABRWj96bgEhh7K+aBOusc/tiviHjS/D2MMWnBuyquXsnsV4vbwNDw==@vger.kernel.org, AJvYcCWAjo+8MGRl2oD99TLiDRYor8kzo3DgMbX/ERpYgB7ZoGWgA4AooDcGpD6ZS4g380jORf6SKmNichv4e4mO@vger.kernel.org
-X-Gm-Message-State: AOJu0YxpZKLjbS9ZFaYrKpdM/S8Xy9a2aFpuJ2HVn6xKp9ggaiLMhxoi
-	WDTZ3Ld1jbbvQ+O4fxpbc8wetbTybFpqskPyZxl5dsehaRoMBukaQPXe
-X-Gm-Gg: ASbGncuCwOtCVMMHeXVnwBz+pnRI0pJYpdtLKXaN7OdUJtT+fcSggGIQE4NzLdpdI+a
-	rfcSDoP/1Nc8EyUPxVzxxWT7YQDzs/5wbwNelDBIojJzMVZArYIKnYkvH0MwxuW54hMJzV8b5H7
-	VJmLV9A6cR05SFlwnMO5bV1p/czH4SSQ3Rd+siq3npcdpK6hcgmjTZzOPDet6fGk5RewpYdwTOu
-	iGsF8hycVMXZ2drdHxOho3139yxxRvS9qEdIUnj6bhxF7GXX9rYd1T8OP1AF8P/XohxC7Z+WDen
-	7r+Tmrq2U1cmuY9dBWPhVp+Fo8zmsRTMPQb+LQCQS3XBoirvgjmipY9zbXFi3BC1WcB6n6SKewa
-	SamxqvKA1xHYSXCw=
-X-Google-Smtp-Source: AGHT+IEP8ypl4DnEA9ePzYYdAIZM7mfW4yBcg7sUt3c4DthERUHwm6I7itsQX+/xheLOctNaBBW6/g==
-X-Received: by 2002:a17:902:d4c7:b0:240:7308:aecb with SMTP id d9443c01a7336-2449d05e08dmr2589905ad.32.1755537620840;
-        Mon, 18 Aug 2025 10:20:20 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:11e:c24d:ff01:22c4])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2446d53bf5dsm84849625ad.114.2025.08.18.10.20.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Aug 2025 10:20:20 -0700 (PDT)
-Date: Mon, 18 Aug 2025 10:20:17 -0700
-From: Dmitry Torokhov <dtor@mail.ru>
-To: Jeongjun Park <aha310510@gmail.com>
-Cc: jikos@kernel.org, bentiss@kernel.org, x0r@dv-life.ru, 
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] HID: axff: add cleanup allocated struct axff_device heap
-Message-ID: <fv32i2ejsupm64mpadzsfudaeuzkavkazpmnn2e4ijqeobl4gs@porr2zpxn4aj>
-References: <20250818154302.811718-1-aha310510@gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=LKlT5AIa3Ez6sHnkkZZv5z0yT+yhRkhyU1dUQ5NqsngbpKKwcBEqdRFJqWAzyUwyPXctg6CAMJJvyg/tpxdK+9DrTqkKoT92HKDl6JIoIl+1ji8CFSFaZOuNblTGiPES+irrI1uXNiQrbqeY/QVd41yl3uR3RkdhLxmz+8O8WYI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fx/e4U8D; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1ADA7C4CEEB;
+	Mon, 18 Aug 2025 18:03:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755540181;
+	bh=sy2HseQpuY1KFb5MS/LhskQXRTAgmW5ax8h6/mVUC44=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=fx/e4U8DRiek1xCuQytfjVkCExQoQ5udsEcI8KURPt/U3V/7QsGgCjEpAuTRF48dT
+	 goX9Coo04WXUy1MDISIQC4TlS44hFVrxyY5SgIShjOIedNnViPNb+GcVrlPFlar4gb
+	 1/oDxc/dDnyNUsA7YBihJWqV7rF6SXGlC8uO6RLD54T66Z73chiROy/CfIBhmux3n5
+	 THnayOaMD0LdIXoZfCavF+4lf0UxHDdZOPhFBb8uK8KwmIssl0OXo3Oh7jFuYeAsqB
+	 tPdhMyHyiJtbGx9PMp6qIcql/6Pnywj49KHYkC2/a4XYmWg/TPOwvJi/2PoYmf085J
+	 qsCrmx+bjKDqQ==
+Date: Mon, 18 Aug 2025 13:03:00 -0500
+From: Rob Herring <robh@kernel.org>
+To: Jihed Chaibi <jihed.chaibi.dev@gmail.com>
+Cc: linux-kernel@vger.kernel.org, peter.ujfalusi@gmail.com,
+	dmitry.torokhov@gmail.com, krzk+dt@kernel.org, lgirdwood@gmail.com,
+	tiwai@suse.com, conor+dt@kernel.org, lee@kernel.org,
+	ukleinek@kernel.org, broonie@kernel.org, gregkh@linuxfoundation.org,
+	linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-pwm@vger.kernel.org, linux-sound@vger.kernel.org,
+	linux-usb@vger.kernel.org, shuah@kernel.org
+Subject: Re: [PATCH 7/8] sound: dt-bindings: ti,omap-twl4030: convert to DT
+ schema
+Message-ID: <20250818180300.GA1668844-robh@kernel.org>
+References: <20250811224739.53869-1-jihed.chaibi.dev@gmail.com>
+ <20250811224739.53869-8-jihed.chaibi.dev@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -75,69 +64,204 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250818154302.811718-1-aha310510@gmail.com>
+In-Reply-To: <20250811224739.53869-8-jihed.chaibi.dev@gmail.com>
 
-Hi Jeongjun,
-
-On Tue, Aug 19, 2025 at 12:43:02AM +0900, Jeongjun Park wrote:
-> Currently, acrux hid driver allocates heap memory equal to
-> sizeof(struct axff_device) to support force feedback, but there's no code
-> to free this memory except when initialization fails. This causes the
-> allocated memory to not be freed even if the driver is detached.
+On Tue, Aug 12, 2025 at 12:47:38AM +0200, Jihed Chaibi wrote:
+> Convert the legacy TXT binding for the OMAP TWL4030 sound card
+> to the modern YAML DT schema format. This adds formal validation
+> and improves documentation.
 > 
-> Therefore, to properly clean up and safely manage the allocated heap,
-> must be modified to use devm_kzalloc().
-
-You have not tested this, have you? The private data that is passed to
-input_ff_create_memless() is freed by ml_ff_destroy() which is invoked
-when input core calls input_ff_destroy() as part of input device
-teardown. Your change introduces double-free. 
-
-> 
-> Fixes: c0dbcc33c652 ("HID: add ACRUX game controller force feedback support")
-> Signed-off-by: Jeongjun Park <aha310510@gmail.com>
+> Signed-off-by: Jihed Chaibi <jihed.chaibi.dev@gmail.com>
 > ---
->  drivers/hid/hid-axff.c | 8 ++------
->  1 file changed, 2 insertions(+), 6 deletions(-)
+>  .../bindings/sound/omap-twl4030.txt           |  62 -----------
+>  .../bindings/sound/ti,omap-twl4030.yaml       | 101 ++++++++++++++++++
+>  2 files changed, 101 insertions(+), 62 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/sound/omap-twl4030.txt
+>  create mode 100644 Documentation/devicetree/bindings/sound/ti,omap-twl4030.yaml
 > 
-> diff --git a/drivers/hid/hid-axff.c b/drivers/hid/hid-axff.c
-> index fbe4e16ab029..b8202737f4c8 100644
-> --- a/drivers/hid/hid-axff.c
-> +++ b/drivers/hid/hid-axff.c
-> @@ -96,7 +96,7 @@ static int axff_init(struct hid_device *hid)
->  		return -ENODEV;
->  	}
->  
-> -	axff = kzalloc(sizeof(struct axff_device), GFP_KERNEL);
-> +	axff = devm_kzalloc(&hid->dev, sizeof(struct axff_device), GFP_KERNEL);
->  	if (!axff)
->  		return -ENOMEM;
->  
-> @@ -104,7 +104,7 @@ static int axff_init(struct hid_device *hid)
->  
->  	error = input_ff_create_memless(dev, axff, axff_play);
->  	if (error)
-> -		goto err_free_mem;
-> +		return error;
->  
->  	axff->report = report;
->  	hid_hw_request(hid, axff->report, HID_REQ_SET_REPORT);
-> @@ -112,10 +112,6 @@ static int axff_init(struct hid_device *hid)
->  	hid_info(hid, "Force Feedback for ACRUX game controllers by Sergei Kolzun <x0r@dv-life.ru>\n");
->  
->  	return 0;
+> diff --git a/Documentation/devicetree/bindings/sound/omap-twl4030.txt b/Documentation/devicetree/bindings/sound/omap-twl4030.txt
+> deleted file mode 100644
+> index f6a715e4e..000000000
+> --- a/Documentation/devicetree/bindings/sound/omap-twl4030.txt
+> +++ /dev/null
+> @@ -1,62 +0,0 @@
+> -* Texas Instruments SoC with twl4030 based audio setups
 > -
-> -err_free_mem:
-> -	kfree(axff);
-> -	return error;
->  }
->  #else
->  static inline int axff_init(struct hid_device *hid)
-> --
+> -Required properties:
+> -- compatible: "ti,omap-twl4030"
+> -- ti,model: Name of the sound card (for example "omap3beagle")
+> -- ti,mcbsp: phandle for the McBSP node
+> -
+> -Optional properties:
+> -- ti,codec: phandle for the twl4030 audio node
+> -- ti,mcbsp-voice: phandle for the McBSP node connected to the voice port of twl
+> -- ti, jack-det-gpio: Jack detect GPIO
+> -- ti,audio-routing: List of connections between audio components.
+> -  Each entry is a pair of strings, the first being the connection's sink,
+> -  the second being the connection's source.
+> -  If the routing is not provided all possible connection will be available
+> -
+> -Available audio endpoints for the audio-routing table:
+> -
+> -Board connectors:
+> - * Headset Stereophone
+> - * Earpiece Spk
+> - * Handsfree Spk
+> - * Ext Spk
+> - * Main Mic
+> - * Sub Mic
+> - * Headset Mic
+> - * Carkit Mic
+> - * Digital0 Mic
+> - * Digital1 Mic
+> - * Line In
+> -
+> -twl4030 pins:
+> - * HSOL
+> - * HSOR
+> - * EARPIECE
+> - * HFL
+> - * HFR
+> - * PREDRIVEL
+> - * PREDRIVER
+> - * CARKITL
+> - * CARKITR
+> - * MAINMIC
+> - * SUBMIC
+> - * HSMIC
+> - * DIGIMIC0
+> - * DIGIMIC1
+> - * CARKITMIC
+> - * AUXL
+> - * AUXR
+> -
+> - * Headset Mic Bias
+> - * Mic Bias 1 /* Used for Main Mic or Digimic0 */
+> - * Mic Bias 2 /* Used for Sub Mic or Digimic1 */
+> -
+> -Example:
+> -
+> -sound {
+> -	compatible = "ti,omap-twl4030";
+> -	ti,model = "omap3beagle";
+> -
+> -	ti,mcbsp = <&mcbsp2>;
+> -};
+> diff --git a/Documentation/devicetree/bindings/sound/ti,omap-twl4030.yaml b/Documentation/devicetree/bindings/sound/ti,omap-twl4030.yaml
+> new file mode 100644
+> index 000000000..3124320d6
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/sound/ti,omap-twl4030.yaml
+> @@ -0,0 +1,101 @@
+> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/sound/ti,omap-twl4030.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Texas Instruments SoC with twl4030 based audio setups
+> +
+> +maintainers:
+> +  - Peter Ujfalusi <peter.ujfalusi@gmail.com>
+> +
+> +description:
+> +  Bindings for audio setups on TI OMAP SoCs using TWL4030-family audio codec connected via a McBSP port.
+
+Wrap lines at 80. Drop 'Bindings for'.
+
+> +
+> +properties:
+> +  compatible:
+> +    const: ti,omap-twl4030
+> +
+> +  ti,model:
+> +    $ref: /schemas/types.yaml#/definitions/string
+> +    description: Name of the sound card (for example "omap3beagle").
+> +
+> +  ti,mcbsp:
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+> +    description: phandle for the McBSP node.
+> +
+> +  ti,codec:
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+> +    description: phandle for the twl4030 audio node.
+> +
+> +  ti,mcbsp-voice:
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+> +    description: phandle to the McBSP node connected to the voice port.
+> +
+> +  ti,jack-det-gpio:
+> +    description: GPIO specifier for jack detection.
+> +    maxItems: 1
+> +
+> +  ti,audio-routing:
+> +    description: |
+> +      A list of audio routing connections. Each entry is a pair of strings,
+> +      with the first being the connection's sink and the second being the
+> +      source. If not provided, all possible connections are available.
+> +
+> +      Available TWL4030 Pins:  "HFL", "HFR",
+> +        "PREDRIVEL", "PREDRIVER", "CARKITL", "CARKITR", "MAINMIC", "SUBMIC",
+> +        "HSMIC", "DIGIMIC0", "DIGIMIC1", "CARKITMIC", "AUXL", "AUXR",
+> +        "Headset Mic Bias", "Mic Bias 1", "Mic Bias 2"
+
+Is this list supposed to match the below 'CODEC Pins'? If so, then don't 
+duplicate it here. If not, then I'm confused.
+
+> +    $ref: /schemas/types.yaml#/definitions/non-unique-string-array
+> +    items:
+> +      enum:
+> +        # Board Connectors
+> +        - Headset Stereophone
+> +        - Earpiece Spk
+> +        - Handsfree Spk
+> +        - Ext Spk
+> +        - Main Mic
+> +        - Sub Mic
+> +        - Headset Mic
+> +        - Carkit Mic
+> +        - Digital0 Mic
+> +        - Digital1 Mic
+> +        - Line In
+> +
+> +        # CODEC Pins
+> +        - HSOL
+> +        - HSOR
+> +        - EARPIECE
+> +        - HFL
+> +        - HFR
+> +        - PREDRIVEL
+> +        - PREDRIVER
+> +        - CARKITL
+> +        - CARKITR
+> +        - MAINMIC
+> +        - SUBMIC
+> +        - HSMIC
+> +        - DIGIMIC0
+> +        - DIGIMIC1
+> +        - CARKITMIC
+> +        - AUXL
+> +        - AUXR
+> +
+> +        # Headset Mic Bias
+> +        - Mic Bias 1 # Used for Main Mic or Digimic0
+> +        - Mic Bias 2 # Used for Sub Mic or Digimic1
+> +
+> +required:
+> +  - compatible
+> +  - ti,model
+> +  - ti,mcbsp
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    sound {
+> +        compatible = "ti,omap-twl4030";
+> +        ti,model = "omap3beagle";
+> +        ti,mcbsp = <&mcbsp2>;
+> +    };
+> -- 
+> 2.39.5
 > 
-
-Thanks.
-
--- 
-Dmitry
 
