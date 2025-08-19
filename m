@@ -1,115 +1,103 @@
-Return-Path: <linux-input+bounces-14130-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14131-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id D50C7B2B920
-	for <lists+linux-input@lfdr.de>; Tue, 19 Aug 2025 08:09:37 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 969B7B2B969
+	for <lists+linux-input@lfdr.de>; Tue, 19 Aug 2025 08:30:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4A7CD7A6B3F
-	for <lists+linux-input@lfdr.de>; Tue, 19 Aug 2025 06:08:03 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3377B1708BB
+	for <lists+linux-input@lfdr.de>; Tue, 19 Aug 2025 06:29:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 375FC2652A4;
-	Tue, 19 Aug 2025 06:09:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B6B342652A4;
+	Tue, 19 Aug 2025 06:29:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FsVMJGQI"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bq6PI60W"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1C5824887E;
-	Tue, 19 Aug 2025 06:09:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B6072620C3;
+	Tue, 19 Aug 2025 06:29:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755583769; cv=none; b=E0WxfUoY73pCVKYkvluuzTjtT7sPTfLNe4ALdYw4zHBmQBPwuZW8OIu+f1eYjdFOWS9l0aamR9jrXRd5+VDAlhB90RDTrmglAbDifZ8UjJnrJ8E8wdv2SaH0b+1/YVEENByr5mHrMhc2IQ5hfgVSIoQWXksutcF5y06zDT2g7oY=
+	t=1755584957; cv=none; b=ecerGtFz5TGypuVxH+iQ7NrmGYffrR9dnXSAECVkD3+Fb+oOcZwPTvOQL3Q5VMPAtCzvVSvV8aDIFzKhkCeXrU16jwIAACwSs2wrgQhwbOG5ZZf9/axkfjyyxxRgzlZ/vyA9QxbhO9h+MwAVV31isewDLGEZ5cxrX9rJQgOTcSg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755583769; c=relaxed/simple;
-	bh=o8gg4esKzhrXW5xRLa4YA+2LIArey07uhNGPYg+o6r0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bK1iTeRF+9c72oyZa3lqES2wthWPL1kXj0EShZvFfgz7IJqMHP8qlJ2N4XExxfhSThOX3DqoHFzX7wV+5Xj08WjXZScRbQUQT2e6hasajabulfdYwkJooShgt9UQfYpzo3hJxRCfY6VnJpsnMaYxLZrShBYSlYxy1iRiEP4bmuc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FsVMJGQI; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA340C4CEF4;
-	Tue, 19 Aug 2025 06:09:27 +0000 (UTC)
+	s=arc-20240116; t=1755584957; c=relaxed/simple;
+	bh=Ds/kYnJixEUoFRnXtUsQJvHiSZQr8WOM/RaU3EBAFv4=;
+	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
+	 Message-Id:Subject; b=PM6EjmR2gY5V+VoiDprEqyvtbJc6Cli8pNWS5xckovBGJ8z0H8ALOSjQhaASQux78jGqGaF852jp/PeqIgm74xNgdoA6JA7swNYcG80q4JKX15Zv1rngXiDLPofaoyxQ2r+YLUiTvIx/tnBLGYPjgpBAmRyFjCnX+ApjYLfv1Ew=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bq6PI60W; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6090C4CEF4;
+	Tue, 19 Aug 2025 06:29:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755583768;
-	bh=o8gg4esKzhrXW5xRLa4YA+2LIArey07uhNGPYg+o6r0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=FsVMJGQITGW1H27xkdEzFhnhVzzVZHSJJ+sYfdI3vue67s81lO3PyhAa8qvVe2XwC
-	 aRPqZxecPuS6ERc4/+eGYccsRxMsvMqmmOjYDIiI7JCqcbuXSeO0oA6xWp3wGFiizi
-	 d7bNqC0g5x2R/MvLKZf+70O8/MGlluUeeIZmhWUdz3UyeVCc4Qg/WBeTe175KVmDTa
-	 gNDGthWz7LdEBQxc1smD7WOT9fI3VD9nYjrm8BbRPFLt143DwAV+GpEL1QGJ1xwih9
-	 XG9PGCyW+MUBN4XsvDA51dmpazmjEx55VkNg1w10eyQ/Mjm+4HT0ReFd41OMRj3MUT
-	 cNX8i5by7Z4dw==
-Date: Tue, 19 Aug 2025 08:09:25 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
-To: Jihed Chaibi <jihed.chaibi.dev@gmail.com>
-Cc: linux-kernel@vger.kernel.org, peter.ujfalusi@gmail.com, 
-	dmitry.torokhov@gmail.com, robh@kernel.org, krzk+dt@kernel.org, lgirdwood@gmail.com, 
-	tiwai@suse.com, conor+dt@kernel.org, lee@kernel.org, broonie@kernel.org, 
-	gregkh@linuxfoundation.org, linux-input@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-pwm@vger.kernel.org, linux-sound@vger.kernel.org, linux-usb@vger.kernel.org, 
-	shuah@kernel.org
-Subject: Re: [PATCH 0/8] dt-bindings: Convert TWL4030/6040 family binding to
- DT schema
-Message-ID: <564lqfhskoiivxziptyhrkajpblrrnk7nmfe73fzsd6ov2vwlh@n6ydqbrxh2my>
-References: <20250811224739.53869-1-jihed.chaibi.dev@gmail.com>
+	s=k20201202; t=1755584956;
+	bh=Ds/kYnJixEUoFRnXtUsQJvHiSZQr8WOM/RaU3EBAFv4=;
+	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
+	b=bq6PI60WYmKRIGvFdLyxhcqWoHr48sPYL6I8r0PFSxnU3m4eNKGSxHd91V9h2lWIT
+	 mxBIDYKLM3FduoRiOtyqArmX6JiKY3Q/4DYZgEctttb6XHV6CbM0vhUpc7zXHWMkLB
+	 RGrbMT7Ar5+OFbeVdCRlpg09dn4WMX7F3oSGvkxWFQz3veLOF8DjnSC4TekSzjTDmy
+	 0NbzL5ldXoPtNV3IrJuvhQzZPbMbnnIha3OG6T3jRvF2/xqgdS4hKNUKdy7tfE32jY
+	 MTuXtluTk88RTTOPwqTZsRkDhja2lCv5ZLaAi9B7FyqCwadE4/JnEoi/Kl0CxVV8x2
+	 ulCDqTsZjkIwg==
+Date: Tue, 19 Aug 2025 01:29:15 -0500
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="wx3t3mqnpi5eirrc"
-Content-Disposition: inline
-In-Reply-To: <20250811224739.53869-1-jihed.chaibi.dev@gmail.com>
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: linux-kernel@vger.kernel.org, dmitry.torokhov@gmail.com, 
+ linux-input@vger.kernel.org, dianders@chromium.org, bentiss@kernel.org, 
+ devicetree@vger.kernel.org, jikos@kernel.org, conor+dt@kernel.org, 
+ krzk+dt@kernel.org
+To: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
+In-Reply-To: <20250819034852.1230264-2-yelangyan@huaqin.corp-partner.google.com>
+References: <20250819034852.1230264-1-yelangyan@huaqin.corp-partner.google.com>
+ <20250819034852.1230264-2-yelangyan@huaqin.corp-partner.google.com>
+Message-Id: <175558495339.3265543.8952208535079492565.robh@kernel.org>
+Subject: Re: [PATCH v1 1/2] dt-bindings: HID: i2c-hid: parade: Introduce
+ bindings for Parade tc3408
 
 
---wx3t3mqnpi5eirrc
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH 0/8] dt-bindings: Convert TWL4030/6040 family binding to
- DT schema
-MIME-Version: 1.0
+On Tue, 19 Aug 2025 11:48:51 +0800, Langyan Ye wrote:
+> The tc3408 touch screen chip same as Elan eKTH6915 controller
+> has a reset gpio. The difference is that they have different
+> post_power_delay_ms.
+> 
+> Signed-off-by: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
+> ---
+>  .../bindings/input/parade,tc3408.yaml         | 72 +++++++++++++++++++
+>  1 file changed, 72 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/input/parade,tc3408.yaml
+> 
 
-Hello,
+My bot found errors running 'make dt_binding_check' on your patch:
 
-On Tue, Aug 12, 2025 at 12:47:31AM +0200, Jihed Chaibi wrote:
-> This series modernizes the Device Tree bindings for the Texas
-> Instruments TWL4030/TWL6040 family by converting all remaining
-> legacy TXT bindings to the structured YAML DT schema format.
->=20
-> This improves the bindings by adding formal type checking, clear property
-> definitions, and machine-readable examples, which allows for automated
-> validation and better documentation for developers.
->=20
-> The following eight patches are included in this series, covering the
-> audio, keypad, power, PWM, and USB sub-modules.
+yamllint warnings/errors:
 
-Thanks for doing that.
+dtschema/dtc warnings/errors:
 
-I think the patches are all orthogonal and can/should be applied by the
-respective subsystem maintainers once they are considered ready?
 
-Best regards
-Uwe
+doc reference errors (make refcheckdocs):
 
---wx3t3mqnpi5eirrc
-Content-Type: application/pgp-signature; name="signature.asc"
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250819034852.1230264-2-yelangyan@huaqin.corp-partner.google.com
 
------BEGIN PGP SIGNATURE-----
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
 
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmikFRMACgkQj4D7WH0S
-/k7K4Qf+NXaiDwh8VZ3/FPuqYKi8JDG6yZev/d9gfb9whZz7mnjc5HNUoniMaaIX
-WPmzU2zk9W7nV/JaCamjURYPHvQI+4K6CbOmBU2AmO3CAgfbejOoUjtsQmNa+bei
-XSrmaRgy9awVDnE30dT6AsV5cgCAgq6pjhJYXrftH5827tFkeHdHd1KEsZj07TdD
-iglm1Pfcb0RKy0L6A/Wab7O10bFbkeuNWphUnfN0ikJ/cTSS3fGuiAuH2dT+olfA
-LULNsZWSim7+vfXhiS75zbSIEovn4HmvgxMDmsNKYLnhZXj7AR/7fRMtwmx2LUxS
-iaeLl8en8XlDqUMqoyVdNHyRkHmCdw==
-=k0sm
------END PGP SIGNATURE-----
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
 
---wx3t3mqnpi5eirrc--
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
+
 
