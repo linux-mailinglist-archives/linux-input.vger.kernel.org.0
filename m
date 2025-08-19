@@ -1,300 +1,224 @@
-Return-Path: <linux-input+bounces-14138-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14139-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8ED3B2BED0
-	for <lists+linux-input@lfdr.de>; Tue, 19 Aug 2025 12:23:04 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 975E0B2BF59
+	for <lists+linux-input@lfdr.de>; Tue, 19 Aug 2025 12:50:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E60D07A56D0
-	for <lists+linux-input@lfdr.de>; Tue, 19 Aug 2025 10:21:29 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5B939683750
+	for <lists+linux-input@lfdr.de>; Tue, 19 Aug 2025 10:49:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E890726B74F;
-	Tue, 19 Aug 2025 10:22:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 693FD322DD2;
+	Tue, 19 Aug 2025 10:49:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lFIQneHU"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fHgBq52R"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 304D627A13A;
-	Tue, 19 Aug 2025 10:22:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94F9D322DA8;
+	Tue, 19 Aug 2025 10:49:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755598978; cv=none; b=JC/ZBAZWgAdU76XaJwp3qQg+hx2GUrEsLYapjxMdrJwGnak2jyO8VVwm+tKoX88eRHMfvb3XFyfvgS0JAPdlTf96ujuHtT6PhL5pCRD6qf4+uGu2mnXwp6y9Jyx1VWIXdg5B0hWv1Q1H0VlgavjJBrVjsX29EubH9BaNEQB5qTw=
+	t=1755600574; cv=none; b=RdAMU64So104Th9eOZR1LqAUiL76J9h86D/Ab6jx8D0GrO7StPeIE9gbsk1lDekQmamLJng+YO/3ZPuLhvLpWoL4D6B4wTYTv1fz7gAvCgOAunB4GDWf4JCU9E3EHL3RSB1pNH0qNSs5I3rSn6XGpevqo9/8K6nvDnul9GyD0O8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755598978; c=relaxed/simple;
-	bh=j95Um73gyG4EtltIsfdN0ieCULPUTUdPkrOxfnhQWiw=;
-	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=njzNnTCCCQw019fD6fQAWmxa/+VUro48PEVsEPdAnicSahZCJ7AG63CTWlsqVsUQuBCLOv8CCIURVmR6BK2R66Q7pjf+m4mOnff33PTqZwMGFGrXrBXKHRaV7q8nCS3A/62TtFGVkgct/ZS0Xv+CQ5jk/SrgnGVTphE3H8JnUa0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lFIQneHU; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755598978; x=1787134978;
-  h=from:date:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=j95Um73gyG4EtltIsfdN0ieCULPUTUdPkrOxfnhQWiw=;
-  b=lFIQneHULSInvHOW18Q3RV7rGIZUP+jRkotkJV3YfjIV6AAFR3GdRc/B
-   rNgOkFkNXIXWK25uoRk1L0yjHS6bN6ODfskUaDT62r6tuKsxzW06HDdgb
-   0uPRiCFKS2DE3eL6XfhqfL+zpAK3Sf/ixCQk3MbmlqqBz7v50CrkpX7pg
-   wJUCYjIW8QK01B3YjcjA9Cpd+pZfKNfGke+isi2AGWiJVwo1mHgA0+kF0
-   kyEV5yn5MokTg6TIa00sGHF+QXd1KNHKHmvOYvgUAhtprM6nsYqbJVZ3K
-   v0KZDsp6mUMrqwLYshVkMwmj75LixDNx/5A6Dnk9L07tuHQwsHToQh4mg
-   A==;
-X-CSE-ConnectionGUID: XThKuLDxQwqs+YiA7Rt5rQ==
-X-CSE-MsgGUID: bXXjyfyqScK/i0FS6cGFwA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11526"; a="57984851"
-X-IronPort-AV: E=Sophos;i="6.17,300,1747724400"; 
-   d="scan'208";a="57984851"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2025 03:22:56 -0700
-X-CSE-ConnectionGUID: QvlZq7gwQ9+E/5LhCsTkdQ==
-X-CSE-MsgGUID: wxs8UbLiQcSp83OgTe8Nxw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,300,1747724400"; 
-   d="scan'208";a="168616509"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.120])
-  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2025 03:22:52 -0700
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Tue, 19 Aug 2025 13:22:49 +0300 (EEST)
-To: Gladyshev Ilya <foxido@foxido.dev>
-cc: Armin Wolf <w_armin@gmx.de>, linux-input@vger.kernel.org, 
-    nikita.nikita.krasnov@gmail.com, Armin Wolf <W_Armin@gmx.de>, 
-    Hans de Goede <hansg@kernel.org>, LKML <linux-kernel@vger.kernel.org>, 
-    platform-driver-x86@vger.kernel.org
-Subject: Re: [PATCH v5] platform/x86: Add WMI driver for Redmibook
- keyboard.
-In-Reply-To: <20250813153137.18355-1-foxido@foxido.dev>
-Message-ID: <0ed8cf19-09cc-52cd-bc55-bf3f5d9e0c33@linux.intel.com>
-References: <20250813153137.18355-1-foxido@foxido.dev>
+	s=arc-20240116; t=1755600574; c=relaxed/simple;
+	bh=T46Uasl3VJxlxNo80o6ebc2zTu4vKF2/PblcoHDVwMQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=DH5j6O3t0NPL5m9KnZn4tN/2g8AU/UF5My2bjkCsNOxYY6hYfL3jU3nOB0zv+0Z5MSqCR7lIWqwdNY2+88MVYUchJd0VQBXVUh6eaA2VX/yhDFKltz4nvGzDMH6ZTxrfSXW8ajMdgrig2DkKC1aLWtWW2wdkGwiYP+xrzQpwJos=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fHgBq52R; arc=none smtp.client-ip=209.85.208.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-333f917a67aso36166621fa.2;
+        Tue, 19 Aug 2025 03:49:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1755600571; x=1756205371; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=MFwb/+jLeeSbD9h5yPm11+tckUwhb16fMa7VyrdJU0I=;
+        b=fHgBq52RVixQKR979q4CiRWdBqgsd+eZXQ8L5GghKCIAzrPg8lIDf/2Yf4Y/X/DcpO
+         KJeNhD6GZd712lzFg8QeJ74bE0y44zQNZwZcR0E7zMjlHrOzjWH0WUp5bKmAL6Gf4yAJ
+         YBKQ4uivGWqWqnWyKJYAdG66ovrCmgJWZXE+VeigM3MJIx1ws1OY2Rjs/xd2jQRGMKSI
+         +544ApdQzAroK3FN6YDt1yzINQGYCIN3FnBnxJXj277bNmk4RRwa5qGxcFxfbt/WHkSb
+         pQs3+9jYEIQ8s8mZ/pQSJLS1Ckn9t0XIGq4tWVrSw7lZSL8ABAUDxU3tuiLYsLmtZYAL
+         YbVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755600571; x=1756205371;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=MFwb/+jLeeSbD9h5yPm11+tckUwhb16fMa7VyrdJU0I=;
+        b=hcU82bzIkIMyhiO/VSMxRVNJmZqPOoVpb4wapuK8v7JQgmtqHVN4NFy4A9o5lNzN9+
+         JT0LJGqu/mNiqWI84fwinyAV3kXedoQ+kTCm9zxyaPDbEOdl63+NLHtwuvosSC7MOLqu
+         702W2KR3qGs5up0kw21IC5lm6Qc00AGYBExTYlpZOFU6k1bpYTEwBHxB6Jbm0tZI09f9
+         EbusBHLRysfyw2y5RHcnnZQuKFVQJT4VJRTxJNI4dOlxHOsYl5CAC3mCH05/0jJ7Gx10
+         f9BjlOU4e6jfVjaa2Y/JMA3X9hnsyaxqL+JoK0MQxdiuz8m9OAnyWUnb1GiEaj7pp2hE
+         4g/g==
+X-Forwarded-Encrypted: i=1; AJvYcCURHCTjkkmHvdo3QAAR1ZPGAt3zmIONCCd1++7BJGRwWKwc//8hMFny4X4GEX4ZiYTwsujLWPjBWZhrhJpG@vger.kernel.org, AJvYcCXdJ1xV9UERW8U/zY/T1Jo64RW5u6nqenAVIMW+LT+wveOKpVbc1PZp5ND8KGkIglfjKkHnRvD7sDY7dQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy9ChRdE4h7G7xOVbSoZ9TpRS5BionbVM1olkryUcxDD2s1NuGF
+	af9lHSRW2OOxPUljdv6j7b/EUbPFjF/KT5Qhj2MLivxc8LFfxxD4D+UljRZHSw==
+X-Gm-Gg: ASbGnctu/tVN13mG8HD/aBC/05RQUnC669efmJBvmuAQiXKzjilgBkIxsa/Ec/dG3gP
+	qTqmXesOQiu21UexLn1CDkBMgTk0neAzyjEkuOLisdfPMW/ZdARVLtwzcKudVaO8FgFliXQm/la
+	JjWR4QZbXprZ0yGA1CSjBhkw9IlOZ/sPX8AKCOwZDvmaa5twz9GrlvXF6FIvHO//pI024x9eVdS
+	Ny51iQyw444TwPsXv847eqktp0447n/DbMnYwmVGbNhEltIGDXjCGWTHyo56KRz84ywYQzYh/pk
+	sR6N9Qd+D9MS4zjguKdrVdRD5Vdi7OTc6Lp6QsWesvXyPY7S1/d+jhFLwCzYgyxYKL0PbyKEbAI
+	/AjpajNWQot5DOSmS5U7cXx58NxB7OvuhR0cZ7xxRdU8bXZ4TPVXb7k0WQshq5OIcTfjZIB3d/A
+	8qMCGXGeK3giz8GA==
+X-Google-Smtp-Source: AGHT+IEE9uI9oRakvbKoErlaTNhTyDks/tkNbha7u1DuZeou8B233lBPS+GsL3pl26sLMSBYHs3N5g==
+X-Received: by 2002:a2e:b8c5:0:b0:332:1c24:d32c with SMTP id 38308e7fff4ca-335307040c0mr6685241fa.28.1755600570451;
+        Tue, 19 Aug 2025 03:49:30 -0700 (PDT)
+Received: from ?IPV6:2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703? ([2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3340a60542csm21597251fa.40.2025.08.19.03.49.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 19 Aug 2025 03:49:29 -0700 (PDT)
+Message-ID: <60a311ca-1642-48f0-8b73-267c0ba58bc4@gmail.com>
+Date: Tue, 19 Aug 2025 13:49:28 +0300
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/3] mfd: rohm-bd71828: Use software nodes for gpio-keys
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Lee Jones <lee@kernel.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Arnd Bergmann <arnd@kernel.org>, Bartosz Golaszewski <brgl@bgdev.pl>,
+ Linus Walleij <linus.walleij@linaro.org>, linux-input@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20250817224731.1911207-1-dmitry.torokhov@gmail.com>
+ <20250817224731.1911207-2-dmitry.torokhov@gmail.com>
+ <0adb5e0a-ea37-4bd5-87ff-654b770261f2@gmail.com>
+ <a3fb7466-6774-4ae6-9e67-d35247ffa765@gmail.com>
+ <jnf7z5hlljmoxw6ud3vuz4jaohh2ewjnpparh2dpbhef7ea7vp@up74k2viwhad>
+Content-Language: en-US, en-AU, en-GB, en-BW
+From: Matti Vaittinen <mazziesaccount@gmail.com>
+In-Reply-To: <jnf7z5hlljmoxw6ud3vuz4jaohh2ewjnpparh2dpbhef7ea7vp@up74k2viwhad>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Wed, 13 Aug 2025, Gladyshev Ilya wrote:
-
-> This driver implements support for various Fn keys (like Cut) and Xiaomi
-> specific AI button.
+On 18/08/2025 20:11, Dmitry Torokhov wrote:
+> On Mon, Aug 18, 2025 at 09:56:07AM +0300, Matti Vaittinen wrote:
+>> On 18/08/2025 09:54, Matti Vaittinen wrote:
+>>> On 18/08/2025 01:47, Dmitry Torokhov wrote:
+>>>> Refactor the rohm-bd71828 MFD driver to use software nodes for
+>>>> instantiating the gpio-keys child device, replacing the old
+>>>> platform_data mechanism.
+>>>
+>>> Thanks for doing this Dmitry! I believe I didn't understand how
+>>> providing the IRQs via swnode works... :)
+>>>
+>>> If I visit the ROHM office this week, then I will try to test this using
+>>> the PMIC HW. (Next week I'll be in ELCE, and after it I have probably
+>>> already forgotten this...)
+>>>
+>>>> The power key's properties are now defined using software nodes and
+>>>> property entries. The IRQ is passed as a resource attached to the
+>>>> platform device.
+>>>>
+>>>> This will allow dropping support for using platform data for configuring
+>>>> gpio-keys in the future.
+>>>>
+>>>> Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+>>>> ---
+>>>>    drivers/mfd/rohm-bd71828.c | 81 +++++++++++++++++++++++++++-----------
+>>>>    1 file changed, 58 insertions(+), 23 deletions(-)
+>>>>
+>>>> diff --git a/drivers/mfd/rohm-bd71828.c b/drivers/mfd/rohm-bd71828.c
+>>>> index a14b7aa69c3c..c29dde9996b7 100644
+>>>> --- a/drivers/mfd/rohm-bd71828.c
+>>>> +++ b/drivers/mfd/rohm-bd71828.c
+>>>> @@ -4,7 +4,6 @@
+>>>
+>>> // ...snip
+>>>
+>>>> +static int bd71828_reg_cnt;
+>>>> +
+>>>> +static int bd71828_i2c_register_swnodes(void)
+>>>> +{
+>>>> +    int error;
+>>>> +
+>>>> +    if (bd71828_reg_cnt == 0) {
+>>>
+>>> Isn't this check racy...
+>>>
+>>>> +        error = software_node_register_node_group(bd71828_swnodes);
+>>>> +        if (error)
+>>>> +            return error;
+>>>> +    }
+>>>> +
+>>>> +    bd71828_reg_cnt++;
+>>>
+>>> ... with this...
+>>>
+>>>> +    return 0;
+>>>> +}
+>>>> +
+>>>> +static void bd71828_i2c_unregister_swnodes(void *dummy)
+>>>> +{
+>>>> +    if (bd71828_reg_cnt != 0) {
+>>>
+>>> ...this...
+>>>
+>>>> +        software_node_unregister_node_group(bd71828_swnodes);
+>>>> +        bd71828_reg_cnt--;
+>>>
+>>> ...and this? Perhaps add a mutex or use atomics?
+>>>
+>>> Also, shouldn't the software_node_unregister_node_group() be only called
+>>> for the last instance to exit (Eg, "if (bd71828_reg_cnt == 0)" instead
+>>> of the "if (bd71828_reg_cnt != 0) {")?
+>>
+>> Oh. Probably "if (bd71828_reg_cnt == 1)".
 > 
-> Reviewed-by: Armin Wolf <W_Armin@gmx.de>
-> Signed-off-by: Gladyshev Ilya <foxido@foxido.dev>
-> ---
-> Changes since v4:
-> - Cosmetic fixes from Ilpo's review (posted on v3)
+> You are right, I am not sure what I was thinking when I wrote this.
 > 
-> Link to v4: https://lore.kernel.org/platform-driver-x86/20250801120321.9742-1-foxido@foxido.dev
-> ---
->  MAINTAINERS                      |   6 ++
->  drivers/platform/x86/Kconfig     |  12 +++
->  drivers/platform/x86/Makefile    |   1 +
->  drivers/platform/x86/redmi-wmi.c | 128 +++++++++++++++++++++++++++++++
->  4 files changed, 147 insertions(+)
->  create mode 100644 drivers/platform/x86/redmi-wmi.c
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index c0b444e5fd5a..eb25fb10e751 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -20965,6 +20965,12 @@ S:	Maintained
->  T:	git https://github.com/pkshih/rtw.git
->  F:	drivers/net/wireless/realtek/rtw89/
->  
-> +REDMIBOOK WMI DRIVERS
-> +M:	Gladyshev Ilya <foxido@foxido.dev>
-> +L:	platform-driver-x86@vger.kernel.org
-> +S:	Maintained
-> +F:	drivers/platform/x86/redmi-wmi.c
-> +
->  REDPINE WIRELESS DRIVER
->  L:	linux-wireless@vger.kernel.org
->  S:	Orphan
-> diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
-> index e5cbd58a99f3..9f98a7042e43 100644
-> --- a/drivers/platform/x86/Kconfig
-> +++ b/drivers/platform/x86/Kconfig
-> @@ -109,6 +109,18 @@ config XIAOMI_WMI
->  	  To compile this driver as a module, choose M here: the module will
->  	  be called xiaomi-wmi.
->  
-> +config REDMI_WMI
-> +	tristate "Redmibook WMI key driver"
-> +	depends on ACPI_WMI
-> +	depends on INPUT
-> +	select INPUT_SPARSEKMAP
-> +	help
-> +	  Say Y here if you want support for WMI-based hotkey events on
-> +	  Xiaomi Redmibook devices.
-> +
-> +	  To compile this driver as a module, choose M here: the module will
-> +	  be called redmi-wmi.
-> +
->  config GIGABYTE_WMI
->  	tristate "Gigabyte WMI temperature driver"
->  	depends on ACPI_WMI
-> diff --git a/drivers/platform/x86/Makefile b/drivers/platform/x86/Makefile
-> index bea87a85ae75..406dd0807ba7 100644
-> --- a/drivers/platform/x86/Makefile
-> +++ b/drivers/platform/x86/Makefile
-> @@ -13,6 +13,7 @@ obj-$(CONFIG_HUAWEI_WMI)		+= huawei-wmi.o
->  obj-$(CONFIG_MXM_WMI)			+= mxm-wmi.o
->  obj-$(CONFIG_NVIDIA_WMI_EC_BACKLIGHT)	+= nvidia-wmi-ec-backlight.o
->  obj-$(CONFIG_XIAOMI_WMI)		+= xiaomi-wmi.o
-> +obj-$(CONFIG_REDMI_WMI)			+= redmi-wmi.o
->  obj-$(CONFIG_GIGABYTE_WMI)		+= gigabyte-wmi.o
->  
->  # Acer
-> diff --git a/drivers/platform/x86/redmi-wmi.c b/drivers/platform/x86/redmi-wmi.c
-> new file mode 100644
-> index 000000000000..104c4953d67d
-> --- /dev/null
-> +++ b/drivers/platform/x86/redmi-wmi.c
-> @@ -0,0 +1,128 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/* WMI driver for Xiaomi Redmibooks */
-> +
-> +#include <linux/acpi.h>
-> +#include <linux/device.h>
-> +#include <linux/input.h>
-> +#include <linux/input/sparse-keymap.h>
-> +#include <linux/module.h>
-> +#include <linux/mutex.h>
-> +#include <linux/unaligned.h>
-> +#include <linux/wmi.h>
-> +
-> +#include <uapi/linux/input-event-codes.h>
-> +
-> +#define WMI_REDMIBOOK_KEYBOARD_EVENT_GUID "46C93E13-EE9B-4262-8488-563BCA757FEF"
-> +
-> +#define AI_KEY_VALUE_MASK 0x00000100
-> +
-> +static const struct key_entry redmi_wmi_keymap[] = {
-> +	{KE_KEY, 0x00000201,	{KEY_SELECTIVE_SCREENSHOT}},
-> +	{KE_KEY, 0x00000301,	{KEY_ALL_APPLICATIONS}},
-> +	{KE_KEY, 0x00001b01,	{KEY_SETUP}},
-> +
-> +	/* AI button has code for each position */
-> +	{KE_KEY, 0x00011801,	{KEY_ASSISTANT}},
-> +	{KE_KEY, 0x00011901,	{KEY_ASSISTANT}},
-> +
-> +	/* Keyboard backlight */
-> +	{KE_IGNORE, 0x00000501, {}},
-> +	{KE_IGNORE, 0x00800501, {}},
-> +	{KE_IGNORE, 0x00050501, {}},
-> +	{KE_IGNORE, 0x000a0501, {}},
-> +
-> +	{KE_END}
-> +};
-> +
-> +struct redmi_wmi {
-> +	struct input_dev *input_dev;
-> +	/* Protects the key event sequence */
-> +	struct mutex key_lock;
-> +};
-> +
-> +static int redmi_wmi_probe(struct wmi_device *wdev, const void *context)
-> +{
-> +	struct redmi_wmi *data;
-> +	int err;
-> +
-> +	/* Init dev */
-> +	data = devm_kzalloc(&wdev->dev, sizeof(*data), GFP_KERNEL);
-> +	if (!data)
-> +		return -ENOMEM;
-> +
-> +	dev_set_drvdata(&wdev->dev, data);
-> +
-> +	err = devm_mutex_init(&wdev->dev, &data->key_lock);
-> +	if (err)
-> +		return err;
-> +
-> +	data->input_dev = devm_input_allocate_device(&wdev->dev);
-> +	if (!data->input_dev)
-> +		return -ENOMEM;
-> +
-> +	data->input_dev->name = "Redmibook WMI keys";
-> +	data->input_dev->phys = "wmi/input0";
-> +
-> +	err = sparse_keymap_setup(data->input_dev, redmi_wmi_keymap, NULL);
-> +	if (err)
-> +		return err;
-> +
-> +	return input_register_device(data->input_dev);
-> +}
-> +
-> +static void redmi_wmi_notify(struct wmi_device *wdev, union acpi_object *obj)
-> +{
-> +	struct redmi_wmi *data = dev_get_drvdata(&wdev->dev);
-> +	bool autorelease = true;
-> +	u32 payload;
-> +	int value = 1;
-> +
-> +	if (obj->type != ACPI_TYPE_BUFFER) {
-> +		dev_err(&wdev->dev, "Bad response type %u\n", obj->type);
-> +		return;
-> +	}
-> +
-> +	if (obj->buffer.length < 32) {
-> +		dev_err(&wdev->dev, "Invalid buffer length %u\n", obj->buffer.length);
-> +		return;
-> +	}
-> +
-> +	payload = get_unaligned_le32(obj->buffer.pointer);
-> +	struct key_entry *entry = sparse_keymap_entry_from_scancode(data->input_dev, payload);
+> I actually doubt that sharing of nodes between devices would work well.
+> But I believe these devices are singletons, it should not be possible to
+> have several of them in a single system, right?
 
-Please only define variables at the beginning of some block (in this case, 
-at the beginning of the function).
+I can't say for sure. I have seen more and more setups where more than 
+one PMIC is used to power-up a system. Thus I nowadays try to use 
+solutions which don't limit the amount of instances.
 
-The only exception to this rule are cleanup.h related variables which may 
-have to be defined mid-function to ensure the correct teardown order of 
-the auto variables.
+The BD718[37,47,50] regulator driver seems to be written in a way it 
+doesn't properly support multiple driver instances. (It uses global 
+data, with a comment that if multiple instances need to be supported the 
+data should be copied):
+https://elixir.bootlin.com/linux/v6.11-rc2/source/drivers/regulator/bd718x7-regulator.c#L1558
 
-> +
-> +	if (!entry) {
-> +		dev_dbg(&wdev->dev, "Unknown WMI event with payload %u", payload);
-> +		return;
-> +	}
-> +
-> +	/* AI key quirk */
-> +	if (entry->keycode == KEY_ASSISTANT) {
-> +		value = !(payload & AI_KEY_VALUE_MASK);
-> +		autorelease = false;
-> +	}
-> +
-> +	guard(mutex)(&data->key_lock);
-> +	sparse_keymap_report_entry(data->input_dev, entry, value, autorelease);
-> +}
-> +
-> +static const struct wmi_device_id redmi_wmi_id_table[] = {
-> +	{ WMI_REDMIBOOK_KEYBOARD_EVENT_GUID, NULL },
-> +	{ }
-> +};
-> +
-> +static struct wmi_driver redmi_wmi_driver = {
-> +	.driver = {
-> +		.name = "redmi-wmi",
-> +		.probe_type = PROBE_PREFER_ASYNCHRONOUS,
-> +	},
-> +	.id_table = redmi_wmi_id_table,
-> +	.probe = redmi_wmi_probe,
-> +	.notify = redmi_wmi_notify,
-> +	.no_singleton = true,
-> +};
-> +module_wmi_driver(redmi_wmi_driver);
-> +
-> +MODULE_DEVICE_TABLE(wmi, redmi_wmi_id_table);
-> +MODULE_AUTHOR("Gladyshev Ilya <foxido@foxido.dev>");
-> +MODULE_DESCRIPTION("Redmibook WMI driver");
-> +MODULE_LICENSE("GPL");
-> 
+For BD71828 and BD71815 I don't see existing limitations on how many 
+instances there can be...
 
--- 
- i.
+...except that I do :)
 
+The current MFD driver uses single static global for the gpio_keys 
+platform data. I assume that wouldn't be race-free if we had multiple 
+instances.
+
+So, I am unsure what to say. I know that for example the BD9680x PMIC 
+series is intended to be used with multi-PMIC configurations, and I 
+believe these setups are getting more common. Hence I would like to see 
+the bd718XX code to work on multi-PMIC systems too, so the gpio_keys 
+swnode example could be copied over to new PMICs ;)
+
+But yeah, I am not insisting on it. The existing solution does not 
+support multiple instances, so if you think it gets too cumbersome to 
+add such support, then I am happy with supporting just one chip/system.
+
+> So maybe the best way is
+> to simply instantiate them in probe and bail out if they are already
+> registered.
+
+Well, I wouldn't say best (as explained above), but yes, sufficient for 
+these PMICs AFAICS.
+
+Thanks for doing this!
+
+Yours,
+	-- Matti
 
