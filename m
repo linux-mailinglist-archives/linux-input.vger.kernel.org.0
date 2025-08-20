@@ -1,138 +1,128 @@
-Return-Path: <linux-input+bounces-14172-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14173-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D22FB2D6F2
-	for <lists+linux-input@lfdr.de>; Wed, 20 Aug 2025 10:45:28 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9261BB2DC54
+	for <lists+linux-input@lfdr.de>; Wed, 20 Aug 2025 14:25:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 31C5F18834A0
-	for <lists+linux-input@lfdr.de>; Wed, 20 Aug 2025 08:43:37 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B01BD72530F
+	for <lists+linux-input@lfdr.de>; Wed, 20 Aug 2025 12:25:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CA8462D6E73;
-	Wed, 20 Aug 2025 08:43:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D6737262A;
+	Wed, 20 Aug 2025 12:25:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=huaqin-corp-partner-google-com.20230601.gappssmtp.com header.i=@huaqin-corp-partner-google-com.20230601.gappssmtp.com header.b="SQkN8BFF"
 X-Original-To: linux-input@vger.kernel.org
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60D2A231826;
-	Wed, 20 Aug 2025 08:43:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6A7A235BEE
+	for <linux-input@vger.kernel.org>; Wed, 20 Aug 2025 12:25:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755679392; cv=none; b=tqF7+rq2vFAJXXswa7Zn55/K8SmD5cvc68AH3oOvHdzCcT91lgMcOQZeEo67XxHiXm+yIZIPgGTpVZQXRy8lg9Xtr7r7785XzgRaSB0tnRkveBi0DlBnq0W8PcgWIjuRCSb8yG3pB8nNpbfZZvQhhSIIK2pvEBShgEOvqbJo9vw=
+	t=1755692731; cv=none; b=NVNfPPbFlnusBsi78J5ulSnuOmSmyYoUq412/6Z0juCG7hoDrDdNzc58REr+TU4q5uQTWJKQ8E64+QLf8p8x+ukZWa6bZQnFgrfwmv7nvpaT/JnkP9hSsCSr8ziLT1OrU/+0WwdiuM9lwMsV37sefU1rMK93LpgTZzPkgf2kGAU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755679392; c=relaxed/simple;
-	bh=OTNDXWm2istqtQ1ghENtJQH4veoUvRR5tM4m9KE1Yw8=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=jOydSIPueX3ExzicY0hwSmi9sL00Cg72G1QZZYYNIOtbbHEJ6MEja6kIbf8rTZG/dBinQamVYjUJpnJwuKVapfKHMMTSvYvIxflkIoaw7rlYYVciQmwboVbtMpyOrEadIjxvsly4ieXJ42d7Cy9cO+uTsQeo4KvuSvuzrWnWLsQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hadess.net; spf=pass smtp.mailfrom=hadess.net; arc=none smtp.client-ip=217.70.183.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hadess.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hadess.net
-Received: by mail.gandi.net (Postfix) with ESMTPSA id B5CBD41B5F;
-	Wed, 20 Aug 2025 08:43:07 +0000 (UTC)
-Message-ID: <fda10472aeb6d7c1155b804959f3dfa3bd0a4979.camel@hadess.net>
-Subject: Re: [PATCH] HID: logitech: Add ids for G PRO 2 LIGHTSPEED
-From: Bastien Nocera <hadess@hadess.net>
-To: Matt Coffin <mcoffin13@gmail.com>, linux-input@vger.kernel.org
-Cc: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>,
-  Filipe =?ISO-8859-1?Q?La=EDns?=	 <lains@riseup.net>,
- linux-kernel@vger.kernel.org
-Date: Wed, 20 Aug 2025 10:43:06 +0200
-In-Reply-To: <20250820074951.1120397-1-mcoffin13@gmail.com>
-References: <20250820074951.1120397-1-mcoffin13@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2 (3.56.2-1.fc42) 
+	s=arc-20240116; t=1755692731; c=relaxed/simple;
+	bh=xUgpi/yU5v2YDFQpPE4JwiRi2DdyTbCUF82XELIQqVw=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Ntr4keiKDIZvnMWOuW4ovYvtJeZPrO63OAq0hLUgkl5PnGnwAtCI+bkaiLtU8ST0MPnVo49C+KyuOebHdzK/ervg5msR6VaDGr7uLc2tqQXe1NRCfNJ7dUWNalGaz1SKu44qEHk2NCSVF7EHkobnh23cZC+nPJ3F3V37YdW/c4E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=huaqin.corp-partner.google.com; spf=pass smtp.mailfrom=huaqin.corp-partner.google.com; dkim=pass (2048-bit key) header.d=huaqin-corp-partner-google-com.20230601.gappssmtp.com header.i=@huaqin-corp-partner-google-com.20230601.gappssmtp.com header.b=SQkN8BFF; arc=none smtp.client-ip=209.85.215.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=huaqin.corp-partner.google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaqin.corp-partner.google.com
+Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-b47175d02dcso5301105a12.3
+        for <linux-input@vger.kernel.org>; Wed, 20 Aug 2025 05:25:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=huaqin-corp-partner-google-com.20230601.gappssmtp.com; s=20230601; t=1755692729; x=1756297529; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Hx11J/6XEjmmJ7LOB55tZi1n3uqABTD9Wv6DRY/RJN4=;
+        b=SQkN8BFFwJfC0QDIPBqhvebOsJJ+Pf1m+8XC1AJXqzVOZKkZWJxvVkghRE0asWsmi6
+         1eWLOxC0RR14o7O/BjOqYAvht8smDLO5aRWiEpITza8bMaVRoFtO7CBh+EtKbtOIQuAw
+         2Zs79ttXEsIyLG5BYuf4DRYK7FC7ovxRKU52g+FZFCHRpc8IDACgm6L6HgC6xT9bRehU
+         W7G8JjZldQFJ7XN450BZ2BE3T9kcUDn19U0xQXbIUWTh50/6m7XuBH1VYjoB6A0PVR3m
+         +OJxJz/kdbIW4CPXZFpcEbbE192nA82ExojesVKoV2kk3yP1JuMUDQMooabpE7N8byER
+         CLOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755692729; x=1756297529;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Hx11J/6XEjmmJ7LOB55tZi1n3uqABTD9Wv6DRY/RJN4=;
+        b=Z1KeSmH5uCXiMiujPlr4J+GTRhy1JcabUejHo4wmJeCDaodl6d7zv1KPL2EiooVvhw
+         FPnk1zOEAxq+TQlSlCXxk/okt4WgnP6jQqTUlNEe8bPxbsSy/O6r2rvBZA/AysZ5sdPF
+         M+tGBbAedd26CEW4bmNOD+SPpDV158NYPAbDnhsc9fF8CBsywvESHY75yHEUTc5Y0e2l
+         KQM+O9qUKFGU7hycowLK13P0SU/W36HU3ACmmN3PGvfrbqXTBHdy8WTrHbbSuTYHkxcU
+         eBn/P58e9Mjwr7IKumGaBodeV7Kqgj56ASD8GEoDPczI2D29AqrBBEh6U7h74uf9wteO
+         IaPg==
+X-Forwarded-Encrypted: i=1; AJvYcCW9Mh/UQWpG/TNetWCwOc7xUIfbABGhiS1lATzFQCsjd9T3gW1qKaKqi3o7XviO0URj86Kv7R5tFNwmtw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwTuZ97wdKag9p+hHlH57GnaQ60bTq5zd6cqi14JtgDDUuqyEXH
+	kqncNVcI1h8DHewJluD6P2YH/BKrAtfu5pVE3ML68iKMC2hIN/cRFGq3hLmvVF64nCY=
+X-Gm-Gg: ASbGncu2O5Y1e5NSgKr3e4tI9fZkX8EGqDcYMvr5EBhya1Y7dNZUxSxQcz7cE+97DIt
+	2eMN4eGrZKEnoChBrsjOsBu1wavFevrx1Db2bKxgLmNroixCONgibYs6Rfs+brizXErGHvwjv2t
+	SYxC/vkUtBlsIzLdq20TdeT678SMwT3CYmVnKD3IAF566X37niYI2hkquLiLVxVijBddCudhCeA
+	yyqwtV1BgRtd7nooUnZDg2tuTip7ECwZvfLYvX43eHuUWmcYIdiHve9GHJfieE8HsypHsKVBax4
+	nVlUqFlEBIFJZhT7T8OUcOhlgB1mKpyFft/HxVUMcFS+zspr99LYt0Wy9oVWiCBnyYYgvgcwGu8
+	azqsCQXo4lLxN27OtcRA2smy8EN6SYQWeaGRXjJriimnuRzLdPdHPIIPfchdzepduqj1iYg==
+X-Google-Smtp-Source: AGHT+IFS0/CNO8sJaiTLh+MwmPnTL5fkEo454inx3uj8dauJbbVA8ZR4IH2KqSHuflT3Voa/ZdsIbA==
+X-Received: by 2002:a17:902:fc8e:b0:240:14f9:cf13 with SMTP id d9443c01a7336-245ef278ba4mr32765695ad.51.1755692729040;
+        Wed, 20 Aug 2025 05:25:29 -0700 (PDT)
+Received: from dgp100339560-01.huaqin.com ([116.66.212.162])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-245ed4c745dsm25450135ad.73.2025.08.20.05.25.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 20 Aug 2025 05:25:28 -0700 (PDT)
+From: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
+To: dmitry.torokhov@gmail.com,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	jikos@kernel.org,
+	bentiss@kernel.org
+Cc: dianders@chromium.org,
+	linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
+Subject: [PATCH v2 0/2] Add tc3408 bindings and timing
+Date: Wed, 20 Aug 2025 20:25:18 +0800
+Message-Id: <20250820122520.3356738-1-yelangyan@huaqin.corp-partner.google.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdduheejledvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkuffhvfevffgjfhgtgfgfggesthhqredttderjeenucfhrhhomhepuegrshhtihgvnhcupfhotggvrhgruceohhgruggvshhssehhrgguvghsshdrnhgvtheqnecuggftrfgrthhtvghrnhepieffgfehtedtgefgjeeggfffgeeuvdegveekveejfeekkedujeehteffueefffeunecukfhppedvrgdtudemvgefgeemvggtjeefmegtfhdvtdemjeduuggrmeefsggumedvtdgrleemudeffeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtudemvgefgeemvggtjeefmegtfhdvtdemjeduuggrmeefsggumedvtdgrleemudeffedphhgvlhhopeglkffrvheimedvrgdtudemvgefgeemvggtjeefmegtfhdvtdemjeduuggrmeefsggumedvtdgrleemudeffegnpdhmrghilhhfrhhomhephhgruggvshhssehhrgguvghsshdrnhgvthdpnhgspghrtghpthhtohepiedprhgtphhtthhopehmtghofhhfihhnudefsehgmhgrihhlrdgtohhmpdhrtghpthhtoheplhhinhhugidqihhnphhuthesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehjihhkohhssehkvghrnhgvlhdrohhrg
- hdprhgtphhtthhopegsvghnthhishhssehkvghrnhgvlhdrohhrghdprhgtphhtthhopehlrghinhhssehrihhsvghuphdrnhgvthdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrgh
-X-GND-Sasl: hadess@hadess.net
+Content-Transfer-Encoding: 8bit
 
-On Wed, 2025-08-20 at 01:49 -0600, Matt Coffin wrote:
-> Adds support for the G PRO 2 LIGHTSPEED Wireless via it's nano receiver
+The tc3408 touch screen chip same as Elan eKTH6915 controller
+has a reset gpio. The difference is that they have different
+post_power_delay_ms.
 
-"its"
+According to the Parade TC3408 datasheet, the reset pin requires a
+pull-down duration longer than 10 ms, therefore post_power_delay_ms
+is set to 10. In addition, the chipset requires an initialization
+time greater than 300 ms after reset, so post_gpio_reset_on_delay_ms
+is configured as 300.
 
-> or directly. This nano receiver appears to work identically to the 1_1
-> receiver for the case I've verified, which is the battery status through
-> lg-hidpp.
->=20
-> The same appears to be the case wired, sharing much with the Pro X
-> Superlight 2; differences seemed to lie in userland configuration rather
-> than in interfaces used by hid_logitech_hidpp on the kernel side.
->=20
-> I verified the sysfs interface for battery charge/discharge status, and
-> capacity read to be working on my 910-007290 device (white).
->=20
-> Signed-off-by: Matt Coffin <mcoffin13@gmail.com>
+Changes in v2:
+- PATCH 1/2: Drop redundant "bindings for" from subject
+- PATCH 1/2: Improve description (describe hardware instead of bindings)
+- PATCH 1/2: Drop "panel: true" property
+- PATCH 1/2: Drop redundant description for reset-gpios
+- PATCH 1/2: Use unevaluatedProperties: false instead of additionalProperties
+- Link to v1: https://lore.kernel.org/all/20250819034852.1230264-1-yelangyan@huaqin.corp-partner.google.com/
 
-Otherwise LGTM
+Langyan Ye (2):
+  dt-bindings: input: Add Parade TC3408 touchscreen controller
+  HID: i2c-hid: elan: Add parade-tc3408 timing
 
-Reviewed-by: Bastien Nocera <hadess@hadess.net>
+ .../bindings/input/parade,tc3408.yaml         | 68 +++++++++++++++++++
+ drivers/hid/i2c-hid/i2c-hid-of-elan.c         |  8 +++
+ 2 files changed, 76 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/input/parade,tc3408.yaml
 
-> ---
-> =C2=A0drivers/hid/hid-ids.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 | 1 +
-> =C2=A0drivers/hid/hid-logitech-dj.c=C2=A0=C2=A0=C2=A0 | 4 ++++
-> =C2=A0drivers/hid/hid-logitech-hidpp.c | 2 ++
-> =C2=A03 files changed, 7 insertions(+)
->=20
-> diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-> index 5a1096283855..37dc42380373 100644
-> --- a/drivers/hid/hid-ids.h
-> +++ b/drivers/hid/hid-ids.h
-> @@ -907,6 +907,7 @@
-> =C2=A0#define USB_DEVICE_ID_LOGITECH_NANO_RECEIVER_2		0xc534
-> =C2=A0#define
-> USB_DEVICE_ID_LOGITECH_NANO_RECEIVER_LIGHTSPEED_1	0xc539
-> =C2=A0#define
-> USB_DEVICE_ID_LOGITECH_NANO_RECEIVER_LIGHTSPEED_1_1	0xc53f
-> +#define
-> USB_DEVICE_ID_LOGITECH_NANO_RECEIVER_LIGHTSPEED_1_2	0xc543
-> =C2=A0#define USB_DEVICE_ID_LOGITECH_NANO_RECEIVER_POWERPLAY	0xc53a
-> =C2=A0#define USB_DEVICE_ID_LOGITECH_BOLT_RECEIVER	0xc548
-> =C2=A0#define USB_DEVICE_ID_SPACETRAVELLER	0xc623
-> diff --git a/drivers/hid/hid-logitech-dj.c b/drivers/hid/hid-
-> logitech-dj.c
-> index 34fa71ceec2b..cce54dd9884a 100644
-> --- a/drivers/hid/hid-logitech-dj.c
-> +++ b/drivers/hid/hid-logitech-dj.c
-> @@ -1983,6 +1983,10 @@ static const struct hid_device_id
-> logi_dj_receivers[] =3D {
-> =C2=A0	=C2=A0 HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH,
-> =C2=A0		USB_DEVICE_ID_LOGITECH_NANO_RECEIVER_LIGHTSPEED_1_1)
-> ,
-> =C2=A0	 .driver_data =3D recvr_type_gaming_hidpp},
-> +	{ /* Logitech lightspeed receiver (0xc543) */
-> +	=C2=A0 HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH,
-> +		USB_DEVICE_ID_LOGITECH_NANO_RECEIVER_LIGHTSPEED_1_2)
-> ,
-> +	 .driver_data =3D recvr_type_gaming_hidpp},
-> =C2=A0
-> =C2=A0	{ /* Logitech 27 MHz HID++ 1.0 receiver (0xc513) */
-> =C2=A0	=C2=A0 HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH,
-> USB_DEVICE_ID_MX3000_RECEIVER),
-> diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-
-> logitech-hidpp.c
-> index 10a3bc5f931b..aaef405a717e 100644
-> --- a/drivers/hid/hid-logitech-hidpp.c
-> +++ b/drivers/hid/hid-logitech-hidpp.c
-> @@ -4596,6 +4596,8 @@ static const struct hid_device_id
-> hidpp_devices[] =3D {
-> =C2=A0	=C2=A0 HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, 0xC094) },
-> =C2=A0	{ /* Logitech G Pro X Superlight 2 Gaming Mouse over USB */
-> =C2=A0	=C2=A0 HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, 0xC09b) },
-> +	{ /* Logitech G PRO 2 LIGHTSPEED Wireless Mouse over USB */
-> +	=C2=A0 HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, 0xc09a) },
-> =C2=A0
-> =C2=A0	{ /* G935 Gaming Headset */
-> =C2=A0	=C2=A0 HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, 0x0a87),
+-- 
+2.34.1
+
 
