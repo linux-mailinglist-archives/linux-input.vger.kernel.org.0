@@ -1,156 +1,113 @@
-Return-Path: <linux-input+bounces-14176-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14177-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FB99B2DD84
-	for <lists+linux-input@lfdr.de>; Wed, 20 Aug 2025 15:16:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42B8DB2DE1C
+	for <lists+linux-input@lfdr.de>; Wed, 20 Aug 2025 15:42:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7DB853A8119
-	for <lists+linux-input@lfdr.de>; Wed, 20 Aug 2025 13:15:50 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8EB5B3B8F4F
+	for <lists+linux-input@lfdr.de>; Wed, 20 Aug 2025 13:38:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B785131CA59;
-	Wed, 20 Aug 2025 13:15:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DEA772E426B;
+	Wed, 20 Aug 2025 13:37:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fSJ4EbNb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Cmvqq/V/"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A73C2E2294;
-	Wed, 20 Aug 2025 13:15:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46057266580;
+	Wed, 20 Aug 2025 13:37:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755695745; cv=none; b=avhMr3UpyxdUibjAg1600Z/oheMNWuK0SExGqOWTsoz5OFk2nPAISLl+F14LKib9k2e5RWWQfmNrnI0o3u0ULh9/hJG1ySL3fqAJ/nwwukQFlIQ86BBXOdn8BjeUywthCQ2SSLJ0Q94RN6uHZHilJf91U5goVB7ettaT/WYhMzI=
+	t=1755697053; cv=none; b=MFFUdBJXylgmLB15WrxFiHmXfuB2VcWAL//HeYz25XKkwe1nuxfFTgaX/wOv2cQGFJOQ2JHm2eDLMoCvafducmR608SxASssVLQP2UQ5tEfdXzqmjXbeyeybUdf7WV9JX2tiPiGlgPcQlCJQr3Sm/NJkAnRa+pkT5Kkl32Twh0o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755695745; c=relaxed/simple;
-	bh=MR95KeLBXnAjoONlEEmciqveTZvYSEB/+NGwOV3m1HA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=tqjnxWk/nYLjkyGDaNoI/YY68gODU8D7utqq52pKN1dHdjmidzEc2FFda8HH0ZH/nOYz3NcDKGBrzFOatJvkOho+TCHRTV/TAouZuFUhdg2bGumkoRhpZ6qba7RHgzgSrm6axN0klkqZ+e8bAOigL3O38+x+U3lAVT3XfG0eM24=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fSJ4EbNb; arc=none smtp.client-ip=209.85.216.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-323266cdf64so5085910a91.0;
-        Wed, 20 Aug 2025 06:15:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755695743; x=1756300543; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZhA+TycHOu2hS6f7GrjCAcmbAsgcqmJx9pZ/zTGM90U=;
-        b=fSJ4EbNbRxF9JfiPxCGUiw5Yug76WE4hb5GY7vCicY9JC2rJsDRBwk4Fupqg2AfjuO
-         2hSNvkFUymYmd1Gu31DvUGyHvdHYzIIvslIuhQEfRO/Lfm4W0Xw2L+h80xiV9rbYY/rl
-         EsNZnxcBwJPydHHJfX4KGoM5a57X/vBozkst5kLnmDWcoxf3f/QWEd6slVaB7THk0e3X
-         LUuT0xlqB2ilTmAGHIC6SHMiN4DggfpfVwe6wTv5xCjruJi9te4+6Wfv07XIFxD/n1Gm
-         ic2QOD7GPj1MOTZxTDKy3BSYTNKFdwtE7sKrorMmiugCkcP4N5pBlfASRygngE1NUeF/
-         LGQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755695743; x=1756300543;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ZhA+TycHOu2hS6f7GrjCAcmbAsgcqmJx9pZ/zTGM90U=;
-        b=cBgbfmvNKIPUTLFi68aMzyVS1PspDWf434XewrNunxL/mavbssKC77imUNzW8zx5+l
-         kJlHH9WorqyDEVU58Ktb9m3frnTVIY5PdiT59B7Lcpv3XfhST90X6cA+3UaURjR1HwiJ
-         sdaihbf7lB/YpZ2CHMFxPnWO2UcQlsLEhyF1nG8gYW43dVszPF0onTZDnR+U4KRfli3k
-         8b6xqtqghaP37Moptg3mlOYWY/u/PFo26xqrjRS8Qv54Z7vww9ceCP43JrvGoxhIR/oF
-         sakglJiLHYo1EVTJP3AF5FTwZlWe0ndYGuHob2l22fioEoiQdWLOr3GlS4KXFsXvY7rx
-         Q7Vw==
-X-Forwarded-Encrypted: i=1; AJvYcCUEUi6GJtPGoBY6yZbuucsIPGO18q1bi3cR0f6CITPOzbGn8T0GMjLS1fnhDQYi86CxkvnmSI3dCsSn@vger.kernel.org, AJvYcCVvcqtIajYfSXu/uYQL5tvOJQ/qDL98hYsepRGwn6hS9ykwm1nGx2W0hacSFm188FftZedwedNW5H4OL6bR@vger.kernel.org, AJvYcCWD+7Metaagg4l/CBABPShjTr/pUuQ7yDpG687xZ9P2vorz8QuDs7ne8D9chrVCpXwx0IbVj+YonrV9pA==@vger.kernel.org, AJvYcCWG3EuAiWR0qa3R0kmhYDu1GU6rZliisUl5I59/JhJH0iRFOKE+bUolsAg4ZQnjP7SoRVz7FJCp3gyP@vger.kernel.org, AJvYcCWO02inTkf8tqn7MPPTggvB6KE8BWGeZNFewXVK9+wbNlVELXpcvky9m58oDDPrdPwCuu3LluVdZH+zS/c=@vger.kernel.org, AJvYcCWn10s8h0QiQIV6qfiUipqPXYW3jdVqcAO09Ja8qT9QRRjls1kLY5jDLOUtB9CEC9sjadv2Y3/WVVorolw=@vger.kernel.org, AJvYcCXGB+46/ZJykt/5GgVig39qT0qOybai4T8tRMrwoP/nWEETDIwtFmc7FvZvdP70MjKYdlKpyWxYyk4p@vger.kernel.org, AJvYcCXqHfMJO/inzDejhbRjwnloGIPxyrp1kBd/F1ejCjivtaviaPf8qXw/c4FfnhEU/jk9FwhcOycchmhlfw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxaQTOpca+hiYbaZqxP0U1jgTTXJriFqp0gC2st0TlIiPO5u7IM
-	/oxMB/z4+frzdsFn4dB6sshNLZyuKM2O2zH1uPvDyekL3dtKSMqQqMq32/qcUGkQTmdsRSFRJwU
-	+JkspIRUqYsyRcWzFrIB5eZIY1T0+TWTahrI=
-X-Gm-Gg: ASbGncsaqmNMnKv28wH5JSMYjPqZAGJqSl4ad0E873XkJe1xz+kGBwpLYPUPoxTtx0d
-	g6z2pumTmaEr2kXgsO3tFSOB7wq0VR83uQ2Q7Prr4mdC8TWYY8Y1fl/PN7oPlxw1zIGXpmljopd
-	jeKqAMl2UCLGFaFFOocblBZP33z9uqqEi3mh2QlDGhMpglo97uxe5qZY22FD9xXJtL9Mh+uoMYZ
-	anRR7V3C+FxSE+S/FpmcECIdtmnuzkb7TtCkFhH
-X-Google-Smtp-Source: AGHT+IEQh0IA7hBcK+vbOCeiQ1tRGJH5G+7OtgvpKYYK6HmLASozA+JsGJ6hRWUdJWiR1ke/zCt0aQqhwBmm2t+61Ek=
-X-Received: by 2002:a17:90b:384d:b0:320:fda8:fabe with SMTP id
- 98e67ed59e1d1-324e143edbemr3404966a91.22.1755695743221; Wed, 20 Aug 2025
- 06:15:43 -0700 (PDT)
+	s=arc-20240116; t=1755697053; c=relaxed/simple;
+	bh=yEQXmulFxXDG1sDyRSlljcnvKgb1IGDGxAqi0eFtdOU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EK0jb6N2eWa5YQdrTeQB1na+Q/Hh8kVXOXa9opylMDlhtWa+RW/pWt+sAZ5n4AVMQds0XFtDZfPmU0Mq8XkP6fdgjcfXx5XkBDlMnckNLW+4VxXo1jkt5WRmalowkPhuzgW5Y1Sm8A8QyNLS2KECKph5DMqBt4i6ywwUDkZ0qG4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Cmvqq/V/; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1755697052; x=1787233052;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=yEQXmulFxXDG1sDyRSlljcnvKgb1IGDGxAqi0eFtdOU=;
+  b=Cmvqq/V/sa9mFvrn6r+wKsO2wV0utAsWqqLP3jNGRFBDfSjfHAxEVZcY
+   vgGH6LGEoX7L4UVcTSjaEPqH725i2IOQsQzflz6ZyEEH8RHEN2kOecRBM
+   fNfSalms/+xbaPgCp+Tyq6fGtfk/07ujJdyuKeodvxVtSWW986L/LTEjh
+   UjJELbiE1Mx3b9nk2/vfZEGFxyNzNFtPYa4lLSpEDEqNvCtIfh6HmlHs9
+   +eJ+tQWx5SredolmDNBGXsOvneURqzuKukcqJE1IjtflpMXTgmHxfD6KS
+   6+961a5PfriGA1HprIkNAVUB/Np9NbGELQfP8uwTxbNG5iaHcz9ch5yR/
+   g==;
+X-CSE-ConnectionGUID: Vl14jqLZRtiHzyGrgE/+nw==
+X-CSE-MsgGUID: M5gHHJ4+SLqDDPbQ+x+v+Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11527"; a="57892108"
+X-IronPort-AV: E=Sophos;i="6.17,302,1747724400"; 
+   d="scan'208";a="57892108"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Aug 2025 06:37:31 -0700
+X-CSE-ConnectionGUID: +zJGEgihRieZpi4Z/o+xIA==
+X-CSE-MsgGUID: 1/fMQfY+Teqb4w6fR2smbQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,302,1747724400"; 
+   d="scan'208";a="172358778"
+Received: from smile.fi.intel.com ([10.237.72.52])
+  by orviesa003.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Aug 2025 06:37:29 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1uoj0H-00000006wg8-3ePk;
+	Wed, 20 Aug 2025 16:37:25 +0300
+Date: Wed, 20 Aug 2025 16:37:25 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Matti Vaittinen <mazziesaccount@gmail.com>, Lee Jones <lee@kernel.org>,
+	Arnd Bergmann <arnd@kernel.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/3] Input: gpio_keys - fall back to platform_get_irq()
+ for interrupt-only keys
+Message-ID: <aKXPlSXlujuPPuzl@smile.fi.intel.com>
+References: <20250817224731.1911207-1-dmitry.torokhov@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250816021523.167049-1-jihed.chaibi.dev@gmail.com>
- <20250816021523.167049-2-jihed.chaibi.dev@gmail.com> <20250819-humongous-muscular-curassow-5accd5@kuoka>
- <20250819223157.0b271c74@akair> <e0bec141-6aef-475f-b997-60fdf8234b82@kernel.org>
-In-Reply-To: <e0bec141-6aef-475f-b997-60fdf8234b82@kernel.org>
-From: Jihed Chaibi <jihed.chaibi.dev@gmail.com>
-Date: Wed, 20 Aug 2025 15:15:32 +0200
-X-Gm-Features: Ac12FXwJjTEuvAdX2Wnbu9Wcm5-vo-L0VsLLi4HcMA86Hx-OXfvGEyfpUyCJh3Y
-Message-ID: <CANBuOYrs2QNRXd6Qc28tBDSySrbh+vJ83+-+2XxB3jY2fH9qtg@mail.gmail.com>
-Subject: Re: [PATCH v3 1/6] dt-bindings: mfd: twl: Add missing sub-nodes for
- TWL4030 & TWL603x
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Andreas Kemnade <andreas@kemnade.info>, linux-kernel@vger.kernel.org, 
-	peter.ujfalusi@gmail.com, dmitry.torokhov@gmail.com, robh@kernel.org, 
-	krzk+dt@kernel.org, lgirdwood@gmail.com, tiwai@suse.com, conor+dt@kernel.org, 
-	lee@kernel.org, ukleinek@kernel.org, broonie@kernel.org, 
-	gregkh@linuxfoundation.org, linus.walleij@linaro.org, brgl@bgdev.pl, 
-	aaro.koskinen@iki.fi, khilman@baylibre.com, rogerq@kernel.org, 
-	tony@atomide.com, linux-gpio@vger.kernel.org, linux-input@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-pwm@vger.kernel.org, 
-	linux-sound@vger.kernel.org, linux-usb@vger.kernel.org, 
-	linux-omap@vger.kernel.org, shuah@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250817224731.1911207-1-dmitry.torokhov@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Wed, Aug 20, 2025 at 7:57=E2=80=AFAM Krzysztof Kozlowski <krzk@kernel.or=
-g> wrote:
->
-> On 19/08/2025 22:31, Andreas Kemnade wrote:
-> >>
-> >>> +          type: object
-> >>> +          $ref: /schemas/usb/ti,twlxxxx-usb.yaml#
-> >>
-> >> Are you sure your patchset is bsiectable? Apply this patch and test. Y=
-ou
-> >> will see errors and you must fix these. Even after fixing you have
-> >> strict dependencies so your cover letter must explain these (or mergin=
-g
-> >> constraints)...
-> >>
-> > what are the rules here regarding bisectability? non-existing files
->
-> dt_binding_check.
->
->
-> Best regards,
-> Krzysztof
+On Sun, Aug 17, 2025 at 03:47:26PM -0700, Dmitry Torokhov wrote:
+> To allow transitioning away from gpio-keys platform data attempt to
+> retrieve IRQ for interrupt-only keys using platform_get_irq_optional()
+> if interrupt is not specified in platform data.
 
-Hello Krzysztof and Andreas,
+...
 
-Thanks again for your feedback,
+> +			irq = platform_get_irq_optional(pdev, idx);
+> +			if (irq < 0) {
 
-You were right that my series had strict dependencies. Testing again I
-found that a
-local 'dt_binding_check' -only including this patch- passed, but the
-dependencies
-(non-existent yaml files in $ref) caused errors during a full 'dtbs_check'.
+> +				error = irq;
+> +				return dev_err_probe(dev, error,
 
-I managed to fix those dtbs_check warnings/errors thanks to
-'additionalProperties: true'
-to break the hard dependencies on the other new YAML files, and by
-adding optional
-definitions for the 'clocks' and 'clock-names' properties, which I
-found are used by several
-OMAP dts files.
+Assigning error is redundant.
 
-Please let me know what you think of this, and whether I should send the ne=
-w,
-corrected v4 of this MFD (single) patch.
+> +						     "Unable to determine IRQ# for button #%d",
+> +						     idx);
+> +			}
 
-I have already sent the independent v4 patches for the other
-subsystems (ASoC, USB, etc.).
-in order to reach a much better orthogonality and independence between
-the patches.
+-- 
+With Best Regards,
+Andy Shevchenko
 
-Thanks again for your guidance.
-Best regards,
 
-Jihed
 
