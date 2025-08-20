@@ -1,294 +1,120 @@
-Return-Path: <linux-input+bounces-14182-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14183-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7992AB2DFD8
-	for <lists+linux-input@lfdr.de>; Wed, 20 Aug 2025 16:48:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED29BB2DFE3
+	for <lists+linux-input@lfdr.de>; Wed, 20 Aug 2025 16:48:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C3EF21C46087
-	for <lists+linux-input@lfdr.de>; Wed, 20 Aug 2025 14:47:44 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A22C41C477B7
+	for <lists+linux-input@lfdr.de>; Wed, 20 Aug 2025 14:48:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F51428F50F;
-	Wed, 20 Aug 2025 14:47:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 27CE73218C5;
+	Wed, 20 Aug 2025 14:48:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=persistentsystems.com header.i=@persistentsystems.com header.b="l3sZ+PHR"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="KsCwDHuZ"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mx0a-00856c01.pphosted.com (mx0a-00856c01.pphosted.com [148.163.156.220])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBE0B3FE7;
-	Wed, 20 Aug 2025 14:47:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=148.163.156.220
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755701240; cv=fail; b=N4lCZZ8CYs/GfSxkt5b7WNbuWwn5Evb36Ennbsj2ORptfv2sIyHjHl6m1NebioeLptnt6HGCoUIWqU2gNuBggLAPRRwGkMm1hNO+z8lo21LSjwkWkRFt7rdtLvOoz7WvH1X5QLWBWCeVnw3kh0TLLOdaIgQJPxEgnQpAA0/Wggw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755701240; c=relaxed/simple;
-	bh=vIP1gvSkDc3/hgBJrA/lgCA4SvtxbWCLgwD/5uspgQk=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=sc6bzIsevPhspE9jbgEZrh+2bmJQSaD/C429j9aaPzKA8pvc4/kkyFdLXcfMr/kgv61jyvGp50rfRpYK1jRPyELykwvu8jHnxbQCyzSLG9pALP5p7t3zqiulO++872ZDgod+yX3qb84BSiwNN0Oe3WX+Iq0fRbkshE8PmkLFxF4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=persistentsystems.com; spf=pass smtp.mailfrom=persistentsystems.com; dkim=pass (2048-bit key) header.d=persistentsystems.com header.i=@persistentsystems.com header.b=l3sZ+PHR; arc=fail smtp.client-ip=148.163.156.220
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=persistentsystems.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=persistentsystems.com
-Received: from pps.filterd (m0350632.ppops.net [127.0.0.1])
-	by mx0a-00856c01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57KCskwS023099;
-	Wed, 20 Aug 2025 10:47:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	persistentsystems.com; h=cc:content-transfer-encoding
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=pps; bh=PQmUExCo//+H4rwaGeiFXZ5lJb9reN
-	jN5y2lLMIs0dA=; b=l3sZ+PHRVBBYHby7T3LyFRjJNiCYOU0RPJmE34UO8YQMHo
-	3AF8l0sDE1NKJDC0xW3AEjy376qeaN+Wi/2CMLgd/RW/YEOBUaqEdsDXSCho0Xu0
-	hJRKHv9czJhA4PDLRauWwymb3TkHZm5dEOurXe3+HkRdlhA1FPUNGwnHaJsuP4gG
-	3xhBiMDqW0/Y6uz3JQ/04xIL111tWV73JQEzEU+t2mRNHykt8NJLubyDIrjbOKlt
-	CNVrzgC6EfY/Sju0nc3BOGlwBCs+nJoc93QxHqyVdH+S8l7pm4kop3aaluKjOtVw
-	mNI0LRVL7W/rCvrvh3Xq0teQXeSe7Frg4lRQ0qcw==
-Received: from sa9pr09cu002.outbound.protection.outlook.com (mail-southcentralusazon11010064.outbound.protection.outlook.com [40.93.193.64])
-	by mx0a-00856c01.pphosted.com (PPS) with ESMTPS id 48n0v20a43-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 20 Aug 2025 10:47:15 -0400 (EDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=aKKoEFdtcm6MYoEXk+zd1+EYYZnLPAKg4fNubcjhKNpvUAa1nebYkfsCIvOvlut5oGFvLi1t15dg3tmMqUXtV13YEQIX36FwSmEsjviPOb2dmNtx0so4/VN3lKwBYwrWKIVJ+ohyvZ6YXrs8ts3q+FMh43pYASBhFLPX/JrnxorPbOUF9RSReS3iI3BXDB4a3yGuxo9MTXVbQV+tB9PYDetrMtOkCJVgsjIa8jSv6J1Y3iqm3MrL+vUFeEdGBxHXoFjZstsQpXkYt36X78WwM1h9uvErNoWvGPx6kVlwDnXdg2Ni9tmjmUjCbfuh1Y1/n5PyvPoW1gsZQXTmLQVgMQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PQmUExCo//+H4rwaGeiFXZ5lJb9reNjN5y2lLMIs0dA=;
- b=q4OzLlTxIkxehcgT0w4ZwL5BVtpjsqJH2NaC232Xg75fs1fKwhQLqXEKkhuoBhpPSB1z/odM2MSG0PeFN/4DhOk1hvtd1cjHPpNyv6I4kVIaeOfUTYN3MOpZaEfcNRCY7yUvkWwTIfFdjxi+DO+TxTcQuP4j3r4hmNwZVZtMFPJGAMt2QEM3O1baiLXOsDlMxMtE+HvZZR7+DPNUbq5GEBMFx0ogN1QlLoThPnHTfHJLdZMrd8M06Syq1QArLsd0b7e14P5dBckl+UoOON3xD0fylwSnS9zdQtTd7tF3uc4NzCzptJYIEduRNpqqKv31zhuZVcYKHCnh0NVj14iAmQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=persistentsystems.com; dmarc=pass action=none
- header.from=persistentsystems.com; dkim=pass header.d=persistentsystems.com;
- arc=none
-Received: from SJ0PR09MB10822.namprd09.prod.outlook.com (2603:10b6:a03:513::6)
- by SA9PR09MB5936.namprd09.prod.outlook.com (2603:10b6:806:43::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9052.14; Wed, 20 Aug
- 2025 14:47:14 +0000
-Received: from SJ0PR09MB10822.namprd09.prod.outlook.com
- ([fe80::b2eb:39f1:81a0:75eb]) by SJ0PR09MB10822.namprd09.prod.outlook.com
- ([fe80::b2eb:39f1:81a0:75eb%7]) with mapi id 15.20.9052.012; Wed, 20 Aug 2025
- 14:47:14 +0000
-From: Feliks Peysakhov <fpeysakhov@persistentsystems.com>
-To: "gupt21@gmail.com" <gupt21@gmail.com>
-CC: "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>
-Subject: [BUG] hid-mcp2221: I2C timeouts cause permanent bus lockup
-Thread-Topic: [BUG] hid-mcp2221: I2C timeouts cause permanent bus lockup
-Thread-Index: AQHcETHVVcD9tCR4XE+722cARKrxbLRrlryQgAAJH5k=
-Date: Wed, 20 Aug 2025 14:47:13 +0000
-Message-ID:
- <SJ0PR09MB1082298BDEECF4744431DE726C433A@SJ0PR09MB10822.namprd09.prod.outlook.com>
-References:
- <DS0PR09MB1082645B489866447C7166858C430A@DS0PR09MB10826.namprd09.prod.outlook.com>
- <SJ0PR09MB10822B683C8306136D37C01B9C433A@SJ0PR09MB10822.namprd09.prod.outlook.com>
-In-Reply-To:
- <SJ0PR09MB10822B683C8306136D37C01B9C433A@SJ0PR09MB10822.namprd09.prod.outlook.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-msip_labels:
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SJ0PR09MB10822:EE_|SA9PR09MB5936:EE_
-x-ms-office365-filtering-correlation-id: 23b95e24-7470-46f7-5676-08dddff8738a
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|41320700013|366016|1800799024|38070700018;
-x-microsoft-antispam-message-info:
- =?iso-8859-1?Q?QAGwWRrZBORamkhnAXbL18v8OXB+Y6fHpTn+jAMWzGwcVMpXKa6UISgA9c?=
- =?iso-8859-1?Q?uze147zauPZaldA9/efsO3zC+wTTEXhS99w5TZz80caNjNu30tVEtXL2J/?=
- =?iso-8859-1?Q?eX1yQ5dSfKDQvJy/xROD1uF+535hoQfqIrVHJmoJXHkpqS1b3/EZUVSmKF?=
- =?iso-8859-1?Q?9lMGxZNhXvp5LGsbhLXkplOHJbiD1LRUmFdRUMoVL1jGZA1/yzFQjkRg/2?=
- =?iso-8859-1?Q?K+2rFVCxQhfgVyRvbUVQYSCivjg4zH/N+VwgOWoR9lClkzYW0rl5YXe7OK?=
- =?iso-8859-1?Q?SYFzZP/nCfJWp5bAaLYfvAkppCvZYLB0R1wLH5TkTkxenMRhYJN5X+I3I8?=
- =?iso-8859-1?Q?NXQawmYcS/S4uRnWkpXucHn77NTV2FO9NkkuuS6nJteWvHUQ+V8NqaZPoO?=
- =?iso-8859-1?Q?y18JgLbnjVweB2WHdqmydESQv1AEi/ZnmARYVSY7LpLL495CHFKwUIZ4bY?=
- =?iso-8859-1?Q?zUWjUoIsqtyjXTxRUvEd7tKO8ftbwisP+ntZ98CXJij2v59swjfSWrjclW?=
- =?iso-8859-1?Q?OP/P0QTkzZDDQBhEuC4LyQR+JRQjIP9CISdjwN0YMa1M4Um2C40QmjlNnR?=
- =?iso-8859-1?Q?hw14bOhLEiMOX7+LKpeQAVXRvUc1UvIaIPiEF7q2U8H5tK5YbD7SMAtmnT?=
- =?iso-8859-1?Q?0kQNQC7C12McSr3/FQu/O6HWR05h9sHneEodwQwzOpvSupovk/qs29DHNv?=
- =?iso-8859-1?Q?UCDLmnar3r9bLZ6ovyoPyyzg9xrqqehlfX0vuENsE4OcntMLENwbBsv/S3?=
- =?iso-8859-1?Q?yPcJJek4iaARDzT2R+y40h8ps82TPosw5thkzooRWZ1hrHZLgxyU4dgsa8?=
- =?iso-8859-1?Q?3QEmm06g/pRHKq+l0UmHyxb7hfZMcRz0MDZUG2g2GgNVqQ0LPva/6QBG55?=
- =?iso-8859-1?Q?MYcZuiW8hEP+ZCwWKkT6hMmq9vhDu2KJNOQBwEsbyi0GBkCZ0uTPORxus5?=
- =?iso-8859-1?Q?7Opc4jsfYIJ41ufr2g8yf4MQ3mjWuO79orKhujoZ9qB12EAq3zKry+tzS3?=
- =?iso-8859-1?Q?mnkNyUZxyBZ2XySLRBll3Lvx0fICFpaFPnjlQX4kvAi+kq/fSYBS4B6Ref?=
- =?iso-8859-1?Q?La2smYmh63yWeNe94It5BBc+IdcS20YbU0eejQP1J4qebgi9/Oqazv2SxT?=
- =?iso-8859-1?Q?89La4ILhQz2Fi9gJ6/Qa21sGErFBCRBt5yvyX4fA6o1rrXGZS5VVCFRFYY?=
- =?iso-8859-1?Q?utb8zbkk8mZ+lfPe9z6FlyIf+1zrb/+5EUXarXt2zwzPiokJy4Ry/7TlVa?=
- =?iso-8859-1?Q?FC3jRPN6SrV9dKwvS73l0C7kOtmcMfxYn3kh3h/mgtXPsWZSk9+pK09rKH?=
- =?iso-8859-1?Q?RgebrF6D2BIjqmjKDzkSMvjdRY4JhUcCytlgicl4LyMbGv7XlyThgjWQCp?=
- =?iso-8859-1?Q?Aq1U8+PeTOQNHMaMcrlOhxsGFHKr9PspLJFSbHkNDUk+ewgv7PuLRER6Et?=
- =?iso-8859-1?Q?No2McLb0RUqnOY8L258ZVPW7Au7aRfHpzYtvXfeVuveiWIKZrocTWO+MnI?=
- =?iso-8859-1?Q?Y=3D?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR09MB10822.namprd09.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(41320700013)(366016)(1800799024)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?iso-8859-1?Q?vlguqC/c9JZ3QBP3uPzGA4YmfSKJhUKqdwj0qYBI2mS+THBrIZL2kXxqfX?=
- =?iso-8859-1?Q?H2aKWhkOGmLlihEY7WlV7rWsuY6Ekn7ss7YDRPKT7/OwU5IE8E3bX7+Nm7?=
- =?iso-8859-1?Q?pCwSwoZIRCSNYpvZwhFZMl3+Gvj4y1UJOW5zm9ZKvCMtQhD7j2B/rBOgUv?=
- =?iso-8859-1?Q?PuVIGlYbZURpLEgcbuqEdiEJJP2cnhq2hMtfbIGqSNVOoSSWRZJIfMqwox?=
- =?iso-8859-1?Q?SptEUA59NHNpXx+PoxnyTz98+WBHRBmtmlT6iX+kxLK6ztieBnRf+lqb7I?=
- =?iso-8859-1?Q?H/V+3+Um7xqpV+XeHGsq0tNG4zMVmgdG8IsdED/StAvQt5JGNdKCb1yObm?=
- =?iso-8859-1?Q?IG4T9oBYszs2cyXUchAdKyouWz+1bn1FLW4EPG2NsOnLlm9WQhoaOCG10J?=
- =?iso-8859-1?Q?oA/zYb7S9WGxzKrkthQcko+P+d3/+t8uj7e02dSdyRtIkRO8ZXsY6CTO4e?=
- =?iso-8859-1?Q?GO9Q5s5Bzs9sLGE4esNMy2OcIUyQVGiQC4LXKkUDjZL6Eyem7r04SKkxw/?=
- =?iso-8859-1?Q?qa7w5/xXpH/n4N8wgYfwJd3Mnfo7brAmcj7Kqa8yOYQbU71MT+WyyKIKNV?=
- =?iso-8859-1?Q?wWAyMKiv28mlxIu3GFY16QXJAh9HJEJ9pvNgjlRBZ80S9+XHqLZCpMr5Gp?=
- =?iso-8859-1?Q?zyLnrJWXeONMtHmv8xLxPWxHfWec/ZLbUC/p/8IeXdPC2SWYTrXYV/QPXG?=
- =?iso-8859-1?Q?5Hcg0MJVhNLD6D2jKEZerYyaE1Jn6MNRcYSwB3+KGkstikE9H+QqfN3gYU?=
- =?iso-8859-1?Q?ZV5irgWZWzfue3yPqEOse8O/QzeOoEafk9aktAh31sO9YEGyTyf7DnbRoK?=
- =?iso-8859-1?Q?PaiE5bOJLpJ6q3J2Hjr3EfyFrtjF7NHJUDadyaxq35I8ZnX5wxtiDrFnor?=
- =?iso-8859-1?Q?bPY2pZxg6TZORVtp6jw4w4NSZRKgy9igkpYYnM+tfuBRyKWVmxP7pUKMdp?=
- =?iso-8859-1?Q?+vMhE6Ufgbp+4L5n21uG6n7hAFqTJAww4AIH0uWxjdEtNMhC7qbXwayjo8?=
- =?iso-8859-1?Q?1o1ZtLyPp+XGvBpx4YbZr4CmA7PHGmLRcWI0TTNCcYjq3ynfm03lpQl8YU?=
- =?iso-8859-1?Q?YrYbAZG3GXahqjI1XqOpom0Qfsdachh6NWnVztzg5xOLQ+iLSCDD53tKt8?=
- =?iso-8859-1?Q?97G5TdUSAw5gVrTZ6XB1y//sIHU+GVSyG/s4Wj7yuZ3lLuJ8Y4abR9COgc?=
- =?iso-8859-1?Q?Bi85nVa/xFwXQq91SUR3Epi1ZRfoTEUhVGAUuWWNHH3Iv85reoItvzfk2t?=
- =?iso-8859-1?Q?5iDcns3S0Ai7UORwUZl/B7CerzWx66L1xJ4hekYISCTc/Z+IKhne8k9cBu?=
- =?iso-8859-1?Q?98HrO/LQANO5xMS6k08c/zo6U5vEO95d3n1WGHjGzlmUwV01VLfsuWM3a3?=
- =?iso-8859-1?Q?59N4LrfHLthwhPga0z4dyFIglQj122EKtbi7EZb4XtKauyTTrHvj4ihlpn?=
- =?iso-8859-1?Q?1qb7lgrmjMQ6/HvGmyla807HS81zV7jmctihrl3bmIKAHtdGu459NjhWy2?=
- =?iso-8859-1?Q?osfk6FfG14aX6+Xgg0YRl423o9RKVzsFppALqN7/JTeOpqbBgzw9K5LuR3?=
- =?iso-8859-1?Q?ILg7znJv7NITa/UZX7Vy35RMTT4g7CKM0CT3h/NnwN1M8TEOc+2m740gaE?=
- =?iso-8859-1?Q?kfnZmKcVMb6ZlhTfdTcLF5qwq+fiI6d6/OvjBxoW7lsFfGr7lzCQ+0LQ?=
- =?iso-8859-1?Q?=3D=3D?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B85A3218BC
+	for <linux-input@vger.kernel.org>; Wed, 20 Aug 2025 14:48:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1755701290; cv=none; b=T4/F6jrD3eDdvxQMKeqfV+YoArhSEbigQ0dy6Dt8jt5QVH7BqzqjKVZ7A9nVnbQ9/La5yt3GQBL/tlefLxIEuFcj+JWtVxApA94pvbnL94jWgnGvHwT0apKZGeJsSN54X0ewmSC1wvN81z6+9yhzcSm2biYJHtLDb/H/ok0Fhak=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1755701290; c=relaxed/simple;
+	bh=IUrGjrl/l1txCsSgOPZXbhPn6Tnj3VCBGH0kaDqFOLI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=m0KMaIiUq6yptwzqyz5rGVxYiZkhkfLicA8udxGYi6lQ6N3UjIe6IcbGpGpEMOdooTB/qgGt7DG8lmcjE6Z5/PBQMKBBsgNl7z4QSwnGSdNIX19pv2ttxqrLAYo28VVIrEcRnDolT+2xrGwy+8jMUWLQb8VN88xS1pkQ4+PTCIM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=KsCwDHuZ; arc=none smtp.client-ip=209.85.218.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-afcb7af30a5so1107576866b.3
+        for <linux-input@vger.kernel.org>; Wed, 20 Aug 2025 07:48:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1755701285; x=1756306085; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NhUBGcq9KiQJcxiCAotwdJ7eICoMjF6+FIweyxl7rFg=;
+        b=KsCwDHuZMHf74e5warBYTrtTQBTkhk5lZRT9ynRCjcvwtESc3Y4xuc38bA6c5GdFmE
+         2Vl1KUVPmrqHJczv+ROF+bl04yzDrUz+EDrNLV8fI2df/iOS5VA5DPyMPNTxiV0ebK1l
+         d0/VSeELdbFtsUv2shLTPnodFRmOVnyqau+fA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755701285; x=1756306085;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=NhUBGcq9KiQJcxiCAotwdJ7eICoMjF6+FIweyxl7rFg=;
+        b=FOUwiizarXyc92psTCr0XEFbWcj6xcq9s9pwu0lX331XJtYhATGa91/Hup+KopzTKu
+         ow01tWp6aWw7IdY2uR+1f5QgQmxuiyqEqvzWDQxP6t/yAuqafDj0wX7S1qGaarYJAgCI
+         izlkECSLo4qZlausRqg/L5zWdXXKqcS6NBjFOUzWG4vSasi5XqU29tPSomf+C1mxp+Fs
+         7mCIm/C2xa0lnXaoQldlqBJ+72eBCP6/uMWAp8xO8VXadxRvt+YFjbqXqkbifHSm4Pgv
+         kRFRD1fY2JqHXXnu7TQd4hfkMQkoO6lpvJZJmN8e0mFOog8dCJFrW8UOrmSOdHs0J8kh
+         clbQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWHtwzArFSwWaCcbw/8mGHji1QNh4axUt7McDP1f1hEN25NGqfoSBNg9K9OamxYWd3I9IvqA/BidCAHcA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxIFDAV7ZRFzwLVcaSX2CayjLssbNGbzNxaihrhhzsMTTgOaVQm
+	Bykb1LVOaRtHa+pV//0/lazowN4XaJ/GqdHzoRCLWVZtKC3V+RILpuzymrq1mZzlOXoFHH8rHiz
+	CBjQtdg==
+X-Gm-Gg: ASbGncv2ABiD2xqFwgx6MwsDS1IIEjjRlTzF3XXw9CQ0kpmGRvX4zHxxjI2LW/Ktqia
+	c8EA8RWQYpH6cWLuBYWxT2jyESPKmUxqTqTb0d7jk345+gxtj6AM2F+2MoRBOyMVgmMDHtkIW2Y
+	KzEwcGVoz19NNY86bK2Ps2pDO/Wa90aUauTKZaJwKmZD/4I11B0tGuoQ4rbrfudN4cY+Lkd6WXE
+	3piV2xei8WX6t59UzMiOsofSYTaenO+/jvs1o9FkmkMbFUyocCIrI1w0b8HwGqWpMI85+D5+zO1
+	lLZ6aLvxLvUPcaNeIbi+HLsO1TAFXjdZzgb/JJaWoHHlJxcdjGj1p9HR/7RBGCXMMQEzhWcyUZM
+	UW141zbOVHEdC5wbSyXqYkwfQetkxShVQ3Y1cVQ+C6iBgdopfVHTZgMhZ95IAD8iKO79R59RD
+X-Google-Smtp-Source: AGHT+IGXCdXLxW054/i0KJnNZdwNq13vBQAm/4JypUF/W4ENHa7ZKvvL5kH9JCJ36+jnuvLDBmWYZg==
+X-Received: by 2002:a17:907:1c9d:b0:af9:7f4f:775e with SMTP id a640c23a62f3a-afdf01e3898mr266208066b.51.1755701284675;
+        Wed, 20 Aug 2025 07:48:04 -0700 (PDT)
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com. [209.85.218.51])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-afded478b2csm191154066b.62.2025.08.20.07.48.03
+        for <linux-input@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 20 Aug 2025 07:48:03 -0700 (PDT)
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-afcb7a3a085so1010515166b.2
+        for <linux-input@vger.kernel.org>; Wed, 20 Aug 2025 07:48:03 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUtWakr46iB40brFaIbh7yOUDHuQbVyNrfBdTiGcP8gbjGf4D6aQzD6162iXtrGQavcUNHlOlUROf4O0w==@vger.kernel.org
+X-Received: by 2002:a17:907:1c27:b0:ade:44f8:569 with SMTP id
+ a640c23a62f3a-afdf01a0f35mr268297266b.42.1755701282745; Wed, 20 Aug 2025
+ 07:48:02 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: persistentsystems.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR09MB10822.namprd09.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 23b95e24-7470-46f7-5676-08dddff8738a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Aug 2025 14:47:13.9370
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: cf020604-ae4f-4402-9ee7-1b018a65703d
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA9PR09MB5936
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODE5MDE5NiBTYWx0ZWRfX+tNqFzEx2LZc
- 0OmmWMFwt0EFtEbL9p0CyxNw2n7C++UHk7Mo2GDvtxg+IzKmzaOeg62OM2BzNTI1cjM+x+sOZXV
- 2DrtfGq/QqzuPQ7ArmyWjsenqzeXBM0f6gCzzguEUIXU9MiRGy0WQTpwwUTe38TdPWb5qbo0oS1
- 4s+Ext6E3ftjiXEoXV3IG9i9ZDfpOzYLZCxAMlOEgfAQB37Xe39vJVWbWHRSA2/uudmP2aAMlpH
- Qj7XxT/eBRlL9WTgDYi8gjZbygZVEuHpuOJR+62v7PW0eSTnoSF1uci1jPZhk45meVXSOdQL02F
- c5nvYmkAxngtXm0PudaN+yCiodjUaT3nBunytPpk5CuC3uijz26yYx9DAs2ItMCrHGByaMmo6pd
- XiEhcI3Zifv2cf8+ns8F1tHXM2HoMQ==
-X-Proofpoint-GUID: xGs9vk8emX2JsaDC4gss2x8bm1XiJOC_
-X-Proofpoint-ORIG-GUID: xGs9vk8emX2JsaDC4gss2x8bm1XiJOC_
-X-Authority-Analysis: v=2.4 cv=GpMbOk1C c=1 sm=1 tr=0 ts=68a5dff3 cx=c_pps
- a=cLuZufyk34MbHPgqdTxtfw==:117 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19
- a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=8nJEP1OIZ-IA:10
- a=2OwXVqhp2XgA:10 a=danhDmx_AAAA:8 a=NEAV23lmAAAA:8 a=JsMfjHRbAAAA:8
- a=1dVwtWwagfwfTViSMZQA:9 a=wPNLvfGTeEIA:10 a=YWTD54lXyBypdVhPORuv:22
+References: <20250820122520.3356738-1-yelangyan@huaqin.corp-partner.google.com>
+ <20250820122520.3356738-3-yelangyan@huaqin.corp-partner.google.com>
+In-Reply-To: <20250820122520.3356738-3-yelangyan@huaqin.corp-partner.google.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Wed, 20 Aug 2025 07:47:48 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=X=C1oycGMS2GvGQWxVMR8h-4kv3pXQrH0rXyfvqwv4PQ@mail.gmail.com>
+X-Gm-Features: Ac12FXyiFWnDzrYzsNCIRBTvsCzSDFE08U3w3EJvjmOQdowoUEgqgJLZWf1XMk0
+Message-ID: <CAD=FV=X=C1oycGMS2GvGQWxVMR8h-4kv3pXQrH0rXyfvqwv4PQ@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] HID: i2c-hid: elan: Add parade-tc3408 timing
+To: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
+Cc: dmitry.torokhov@gmail.com, robh@kernel.org, krzk+dt@kernel.org, 
+	conor+dt@kernel.org, jikos@kernel.org, bentiss@kernel.org, 
+	linux-input@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Rishi Gupta,
+Hi,
 
-I'm experiencing an issue with the hid-mcp2221 driver where I2C operations
-to non-existent addresses cause timeouts that permanently lock the I2C bus,
-requiring a USB device reset to recover.
+On Wed, Aug 20, 2025 at 5:25=E2=80=AFAM Langyan Ye
+<yelangyan@huaqin.corp-partner.google.com> wrote:
+>
+> Parade-tc3408 requires reset to pull down time greater than 10ms,
+> so the configuration post_power_delay_ms is 10, and the chipset
+> initial time is required to be greater than 300ms,
+> so the post_gpio_reset_on_delay_ms is set to 300.
+>
+> Signed-off-by: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
+> ---
+>  drivers/hid/i2c-hid/i2c-hid-of-elan.c | 8 ++++++++
+>  1 file changed, 8 insertions(+)
 
-**Problem Description:**
-When sending an I2C command to an empty/non-existent address, the operation
-times out and all subsequent I2C operations fail until the MCP2221 USB devi=
-ce
-is physically reset. This can also happen if sending a command to a valid a=
-ddress,
-but there is a connection issue and the request is not returned.
-
-**Expected Behavior:**
-The driver should handle timeouts gracefully and reset the I2C bus state
-automatically, similar to how the Microchip-provided driver handles this sc=
-enario.
-
-**System Information:**
-- Kernel version: 6.8.0-59-generic #61~22.04.1-Ubuntu
-- Repo from Canonical: https://git.launchpad.net/~ubuntu-kernel/ubuntu/+sou=
-rce/linux/+git/jammy/commit/drivers/hid/hid-mcp2221.c?h=3DUbuntu-hwe-6.8-6.=
-8.0-52.53_22.04.1
-- Driver: hid-mcp2221
-- Device: MCP2221A USB-to-I2C bridge (04d8:00dd)
-
-**Steps to Reproduce:**
-1. Send I2C command to non-existent address (e.g., 0x99)
-2. Operation times out
-3. All subsequent I2C operations fail with timeout errors, even to a valid =
-address after that.
-4. Only USB device reset restores functionality
-
-**Comparison:**
-The Microchip-provided i2c-mcp2221 driver (from their example code) handles
-this scenario with some form of bus recovery. In fact I noticed that the LK=
- driver
-used to do the same until it was removed in this commit. This includes a fu=
-ll
-reset of the I2C bus on the chip via a set speed command. I can see why thi=
-s
-was cleaned up since its not efficient.
-https://github.com/torvalds/linux/commit/02a46753601a24e1673d9c28173121055e=
-8e6cc9
-
-**Impact:**
-This makes the driver unreliable for production I2C applications where addr=
-essing
-non-existent devices might occur during bus scanning or device detection ro=
-utines.
-For our use cases the greatest risk could be a board that is not powered up=
- fully or a
-mistake on the user side where nothing is connected forcing the chip to loc=
-k up
-for any subsequent R/Ws.
-
-**Proposed Solution:**
-The driver should implement automatic I2C bus cancellation/reset when
-operations timeout, similar to the recovery logic in the Microchip driver.
-I think potentially there are some cancels missing in the mcp_i2c_write
-and mcp_i2c_smbus_read functions.
-
-I noticed there are cancels in place that are trying to be called but also =
-failing
-since the chip has a successful return status, but then sets a NACK flag. T=
-he
-cancel commands themselves are failing at the chip. I noticed that cancels
-do not work until the chip actually reports an error state.
-
---- a/hid-mcp2221.c
-+++ b/hid-mcp2221.c
-@@ -318,6 +318,8 @@ static int mcp_i2c_write(struct mcp2221 *mcp,
-             ret =3D mcp_send_data_req_status(mcp, mcp->txbuf, len + 4);
-             if (ret) {
-+                      usleep_range(980, 1000);
-+                      mcp_cancel_last_cmd(mcp);
-                     return ret;
-             }
-@@ -399,6 +401,8 @@ static int mcp_i2c_smbus_read(struct mcp2221 *mcp,
-     ret =3D mcp_send_data_req_status(mcp, mcp->txbuf, 4);
-     if (ret) {
-+              usleep_range(980, 1000);
-+              mcp_cancel_last_cmd(mcp);
-             return ret;
-     }
-
-I'm happy to provide more details, test patches, or assist with debugging.
-Please let me know what you think.
-
-Best regards,
-Feliks Peysakhov
-
-P.S. Sorry for the duplicate email resent to mailing list as plain text
-This message is intended solely for the Addressee and may contain informati=
-on that is PROPRIETARY and CONFIDENTIAL. If you are not the intended recipi=
-ent and/or are not responsible for delivery of the message to such intended=
- recipient, or if you believe you have received this communication in error=
-, please do not print, copy, retransmit, disseminate, or otherwise use the =
-information. Please notify the sender immediately that you have received th=
-is e-mail in error, and please delete all copies of the message and its att=
-achments that you have received. Thank You. Persistent Systems, LLC, www.pe=
-rsistentsystems.com
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
 
