@@ -1,118 +1,96 @@
-Return-Path: <linux-input+bounces-14179-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14180-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EE05B2DE59
-	for <lists+linux-input@lfdr.de>; Wed, 20 Aug 2025 15:51:34 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EB55B2DEC8
+	for <lists+linux-input@lfdr.de>; Wed, 20 Aug 2025 16:12:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C6B3E584986
-	for <lists+linux-input@lfdr.de>; Wed, 20 Aug 2025 13:48:29 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B0EEB7AACB9
+	for <lists+linux-input@lfdr.de>; Wed, 20 Aug 2025 14:11:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 70B74156F5E;
-	Wed, 20 Aug 2025 13:46:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D56E52641E3;
+	Wed, 20 Aug 2025 14:12:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SlkxVxQX"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oluJR3lY"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E95313AC1C;
-	Wed, 20 Aug 2025 13:46:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9BB0263F28;
+	Wed, 20 Aug 2025 14:12:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755697608; cv=none; b=TWjgyj2PxkhffKnN6PJtK8HDJJUt2glDaXUBvO8HAzDfIVgTScBFBh5e0MI5JzMabL+eElEGpfpcMwOyHYTHtiX1/bl/cwTIDzjpFv+92YY0vkTdkYzDNZ0HwMzH5zv8sAJEsO3/BvHJOmCRajUFPPJHhWsOgnHekOs3TZwoVq0=
+	t=1755699148; cv=none; b=FBvslu+l+rRb57lGlqKbhiv98YJi55o5qEHzl9EvzzgExx7g99avar7XQkpH8z5U5Eek13okefq8LG5Vs3intN0prOl0ZfMnqLnVGu8ga4SsDRPx4fck5E+RLzA1cz9QdDV6g45/LGvZd9WVDCUB/LhwBVDZpXxrn73Ny/DsJ9A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755697608; c=relaxed/simple;
-	bh=eL6OmjUfcEblm9jH5gM1guK7rt+rufzeVM6JcMHixQE=;
+	s=arc-20240116; t=1755699148; c=relaxed/simple;
+	bh=sOQr8yffbQ/+IOQl6NWTMrHW4wUlh8Jhbg3Cjrv2hcs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FOzDAxU6RcYNdrOZA0VM3C6diZQZlLpExVhfxeCBf+XstfERRbldA0KSUZ6JLHDrYqexayvmmxb7WdgYkLd1m8HNexkW4mPjCwEDzw8rXGpcapabaZGF53PH8yIl4kpf42aj9Q2Cq8g38kwQ7m5qbZnR1nZyCMtIa8xTjBUl8gk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SlkxVxQX; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755697607; x=1787233607;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=eL6OmjUfcEblm9jH5gM1guK7rt+rufzeVM6JcMHixQE=;
-  b=SlkxVxQXsKSSw7Ch3LrellylHMS4ecvg+QSebN3NeABJVCk/EpnSBGEt
-   pBc8tSiFxnZPVJh8KuLy2uFH901oQCOzoo28CRsUFdWvxS69hsdkQFv23
-   Kn6hu0mli9RO/hrj7AiRVy/EnpZkJqFlDpbpDGjGzS8QW1E3sGn5Yor7E
-   iKqSxxoCh/MCKW8A/4kctMq/wyH364JAemrHcwbSJJaJmz5ta7q2y4y1C
-   E6v16ElpDFgVyCzqmhtvXLeYAjo7tc+MKLwss/6QPFkw+vGlxq0UT+Lyq
-   UFaK62kz9MKJ37HNcf9niwNXHwQ7oF9es6qgsrzk3xZDohyRZtdgrq517
-   g==;
-X-CSE-ConnectionGUID: 6O9OFjRvRVmXhe2cC+RJ8A==
-X-CSE-MsgGUID: a01x5E7qRLuQ7PFBWe41bA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11527"; a="61791966"
-X-IronPort-AV: E=Sophos;i="6.17,302,1747724400"; 
-   d="scan'208";a="61791966"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Aug 2025 06:46:44 -0700
-X-CSE-ConnectionGUID: QTAel4swTlqBwgC7IBaZrQ==
-X-CSE-MsgGUID: wCBv+13xSjKB8AAPAD4/lw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,302,1747724400"; 
-   d="scan'208";a="168081449"
-Received: from smile.fi.intel.com ([10.237.72.52])
-  by orviesa007.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Aug 2025 06:46:42 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1uoj9D-00000006woZ-37qk;
-	Wed, 20 Aug 2025 16:46:39 +0300
-Date: Wed, 20 Aug 2025 16:46:39 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Linus Walleij <linus.walleij@linaro.org>
-Cc: "Mario Limonciello (AMD)" <superm1@kernel.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Mika Westerberg <westeri@kernel.org>,
-	"open list:GPIO ACPI SUPPORT" <linux-gpio@vger.kernel.org>,
-	"open list:GPIO ACPI SUPPORT" <linux-acpi@vger.kernel.org>,
-	"open list:INPUT (KEYBOARD, MOUSE, JOYSTICK, TOUCHSCREEN)..." <linux-input@vger.kernel.org>,
-	Amit Chaudhari <amitchaudhari@mac.com>
-Subject: Re: [PATCH 1/2] gpiolib: acpi: Add quirk for ASUS ProArt PX13
-Message-ID: <aKXRvzPdeKnM2RTS@smile.fi.intel.com>
-References: <20250814183430.3887973-1-superm1@kernel.org>
- <CACRpkdba9c9FdJoAufRVEKxXRP-kk5QZusiqxmWoY6D-gK9tYA@mail.gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=uX3jt/+1suc8JuhYt+zI6CBZfe7hMkneDLQoqiypNzpAvPyPmP9grth+Bns8wCwoqaCNE5yS+UYMEqnSUwmZ45HWVGVxPTrmkmiUSM18QYXPsqzSiFrWhvjQGuRBv0EW6PNra8YiGFYXxuyitseOjpcTeEKRCGgvX1cCeYXqF+Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oluJR3lY; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D3D8C116B1;
+	Wed, 20 Aug 2025 14:12:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755699148;
+	bh=sOQr8yffbQ/+IOQl6NWTMrHW4wUlh8Jhbg3Cjrv2hcs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=oluJR3lYHewJGVf/ZHSt7d9jYsvqkVGm3QAjzOYMqOdh/RTlO7tPxiIjHi7iriEUF
+	 xWDluKUH6gJiPdtukcB0GaEmfFu/2YC/KoHsjnpST4w5mXrAkbCWYeVfPq4Wu/NMxt
+	 zTLJAk4pOSI1zcwGL4VzJ6MPbwfH+o1lTobJuR0r5E+cUy6Vx1+h8K7rQH2WiCCqWi
+	 KOOJEJll2siPgiABDeN0+o63OqHL6aPx0SV1QriA9zFQyqADKWiIQsLbO2FWCHi5g7
+	 QphzfGldwZUOIkTsDuTdrqNMXuNjDfrFQTdcioOs772WmY6KnNeDBI5Av352KlS/DR
+	 09BS/onYFPAfw==
+Date: Wed, 20 Aug 2025 09:12:27 -0500
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Jihed Chaibi <jihed.chaibi.dev@gmail.com>
+Cc: shuah@kernel.org, peter.ujfalusi@gmail.com, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, conor+dt@kernel.org,
+	dmitry.torokhov@gmail.com, linux-input@vger.kernel.org,
+	krzk+dt@kernel.org
+Subject: Re: [PATCH v4] input: dt-bindings: ti,twl4030-keypad: convert to DT
+ schema
+Message-ID: <175569914663.3379918.5538718443722944593.robh@kernel.org>
+References: <20250819222823.157943-1-jihed.chaibi.dev@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CACRpkdba9c9FdJoAufRVEKxXRP-kk5QZusiqxmWoY6D-gK9tYA@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+In-Reply-To: <20250819222823.157943-1-jihed.chaibi.dev@gmail.com>
 
-On Tue, Aug 19, 2025 at 02:16:28PM +0200, Linus Walleij wrote:
-> On Thu, Aug 14, 2025 at 8:34 PM Mario Limonciello (AMD)
-> <superm1@kernel.org> wrote:
+
+On Wed, 20 Aug 2025 00:28:23 +0200, Jihed Chaibi wrote:
+> Convert the legacy TXT binding for the TWL4030 keypad module
+> to the modern YAML DT schema format. This adds formal validation
+> and improves documentation by inheriting from the matrix-keymap schema.
 > 
-> > The ASUS ProArt PX13 has a spurious wakeup event from the touchpad
-> > a few moments after entering hardware sleep.  This can be avoided
-> > by preventing the touchpad from being a wake source.
-> >
-> > Add to the wakeup ignore list.
-> >
-> > Reported-by: Amit Chaudhari <amitchaudhari@mac.com>
-> > Closes: https://gitlab.freedesktop.org/drm/amd/-/issues/4482
-> > Tested-by: Amit Chaudhari <amitchaudhari@mac.com>
-> > Signed-off-by: Mario Limonciello (AMD) <superm1@kernel.org>
+> Signed-off-by: Jihed Chaibi <jihed.chaibi.dev@gmail.com>
 > 
-> Bartosz is on vacation and this patch series is half-pinctrl so I applied this
-> and patch 2/2 for pin control fixes.
+> ---
+> Changes in v4:
+>  - No changes.
+>  - This patch is split from larger series per maintainer feedback.
+>  - v3 link:
+>     https://lore.kernel.org/all/20250816021523.167049-1-jihed.chaibi.dev@gmail.com/
+> 
+> Changes in v3:
+>  - Made 'linux,keymap' a required property as suggested by the reviewer.
+> 
+> Changes in v2:
+>  - Simplified the description field by removing redundant '|'
+>  as it does not affect formatting in this context.
+> ---
+>  .../bindings/input/ti,twl4030-keypad.yaml     | 59 +++++++++++++++++++
+>  .../bindings/input/twl4030-keypad.txt         | 27 ---------
+>  2 files changed, 59 insertions(+), 27 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/input/ti,twl4030-keypad.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/input/twl4030-keypad.txt
+> 
 
-I also was on vacation and become to full speed next week. But series is fine,
-just one nit-pick I commented on, it can be addressed in a separate followup.
-
--- 
-With Best Regards,
-Andy Shevchenko
-
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 
 
