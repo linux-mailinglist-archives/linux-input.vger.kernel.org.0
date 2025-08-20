@@ -1,139 +1,156 @@
-Return-Path: <linux-input+bounces-14175-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14176-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 680BBB2DC5D
-	for <lists+linux-input@lfdr.de>; Wed, 20 Aug 2025 14:26:49 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FB99B2DD84
+	for <lists+linux-input@lfdr.de>; Wed, 20 Aug 2025 15:16:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DC887A03B3B
-	for <lists+linux-input@lfdr.de>; Wed, 20 Aug 2025 12:26:10 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7DB853A8119
+	for <lists+linux-input@lfdr.de>; Wed, 20 Aug 2025 13:15:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6C3D82F1FC6;
-	Wed, 20 Aug 2025 12:25:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B785131CA59;
+	Wed, 20 Aug 2025 13:15:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=huaqin-corp-partner-google-com.20230601.gappssmtp.com header.i=@huaqin-corp-partner-google-com.20230601.gappssmtp.com header.b="Qyvl3gK8"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fSJ4EbNb"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2F882D24BD
-	for <linux-input@vger.kernel.org>; Wed, 20 Aug 2025 12:25:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A73C2E2294;
+	Wed, 20 Aug 2025 13:15:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755692739; cv=none; b=aNulxGSmPFMwHMDc0lbZLUmGFRcIX//O6AN7+qrJDqeJ65Vl4M1dtQs89Wdi7YW77A8yKKqwgvWevnkh5bi20/bmoJ/Bpu1j4P15UuilFfYcOX9GxBh/XsGyvM57EhlxJhjaHPoFH5ntly8CJyVKuR1MZKRVawP0HWBlu56BwlI=
+	t=1755695745; cv=none; b=avhMr3UpyxdUibjAg1600Z/oheMNWuK0SExGqOWTsoz5OFk2nPAISLl+F14LKib9k2e5RWWQfmNrnI0o3u0ULh9/hJG1ySL3fqAJ/nwwukQFlIQ86BBXOdn8BjeUywthCQ2SSLJ0Q94RN6uHZHilJf91U5goVB7ettaT/WYhMzI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755692739; c=relaxed/simple;
-	bh=CeotG1Hu/ciNhCFkEO+QnBJCoR9/jtz4I4MM+NxZd5U=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=ZmN+ruqxgoUJ97u0TAResD8dKtLGN+9BNSuU9VvX0ujmaFhx9AGPbVohcDnbujvs6awJkWpwFCrb3SIwIY3wG0yENJu1wd9NBuhtdpXlcdo6a3aev0rIzz7HjPhiVOPywdYHpWTKS0Q7C49JYvI7OoVJYUXwGMKcCt7c4fe4DdY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=huaqin.corp-partner.google.com; spf=pass smtp.mailfrom=huaqin.corp-partner.google.com; dkim=pass (2048-bit key) header.d=huaqin-corp-partner-google-com.20230601.gappssmtp.com header.i=@huaqin-corp-partner-google-com.20230601.gappssmtp.com header.b=Qyvl3gK8; arc=none smtp.client-ip=209.85.215.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=huaqin.corp-partner.google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaqin.corp-partner.google.com
-Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-b47174aec0eso4279107a12.2
-        for <linux-input@vger.kernel.org>; Wed, 20 Aug 2025 05:25:36 -0700 (PDT)
+	s=arc-20240116; t=1755695745; c=relaxed/simple;
+	bh=MR95KeLBXnAjoONlEEmciqveTZvYSEB/+NGwOV3m1HA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=tqjnxWk/nYLjkyGDaNoI/YY68gODU8D7utqq52pKN1dHdjmidzEc2FFda8HH0ZH/nOYz3NcDKGBrzFOatJvkOho+TCHRTV/TAouZuFUhdg2bGumkoRhpZ6qba7RHgzgSrm6axN0klkqZ+e8bAOigL3O38+x+U3lAVT3XfG0eM24=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fSJ4EbNb; arc=none smtp.client-ip=209.85.216.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-323266cdf64so5085910a91.0;
+        Wed, 20 Aug 2025 06:15:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=huaqin-corp-partner-google-com.20230601.gappssmtp.com; s=20230601; t=1755692736; x=1756297536; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1755695743; x=1756300543; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=RmdG5DlYugS6q7DtukrVNJuzOFU57fMjmsXm7FON0so=;
-        b=Qyvl3gK8Pz8d64dYAskAbLAAbR4Nr/S0inYIJfdp1QQU2Z7uwsK8+sPiwj+qut0DOM
-         2IYn3KF8swri2MQW/1FEvBM/ZXRvPO63OMVVzQknxngiZQ2SBY6TMMseGv9S6Jz75DhB
-         z49QQ32XJJ/ddQ9ueSJ0BEdaErBut27OeESVgsjso6VWEnH+G7XKE+zPhZP+rkq7nV/Y
-         aKnvMqzPCrADCGhPcCCVuuV1qPiYD8jLv8FMUFt6n+Dz1q9/ECrTe3603gGvF2SfZp4B
-         qrMKjwoNS+8vBzLoOA2ckDlNGnOPsQylPMbPOXQ1/X+xEI6grFucxJmHm3xfPfbExBzu
-         npIw==
+        bh=ZhA+TycHOu2hS6f7GrjCAcmbAsgcqmJx9pZ/zTGM90U=;
+        b=fSJ4EbNbRxF9JfiPxCGUiw5Yug76WE4hb5GY7vCicY9JC2rJsDRBwk4Fupqg2AfjuO
+         2hSNvkFUymYmd1Gu31DvUGyHvdHYzIIvslIuhQEfRO/Lfm4W0Xw2L+h80xiV9rbYY/rl
+         EsNZnxcBwJPydHHJfX4KGoM5a57X/vBozkst5kLnmDWcoxf3f/QWEd6slVaB7THk0e3X
+         LUuT0xlqB2ilTmAGHIC6SHMiN4DggfpfVwe6wTv5xCjruJi9te4+6Wfv07XIFxD/n1Gm
+         ic2QOD7GPj1MOTZxTDKy3BSYTNKFdwtE7sKrorMmiugCkcP4N5pBlfASRygngE1NUeF/
+         LGQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755692736; x=1756297536;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1755695743; x=1756300543;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=RmdG5DlYugS6q7DtukrVNJuzOFU57fMjmsXm7FON0so=;
-        b=q7pZKN9Pf7UwEIqgstibwsLRoy+m+89BkHBQ3tTtDS88pROPIH6TT52oFBkoLPArrg
-         jtStqZaSVmDuJXpLcTbnyNXvWI6PHeeR6m40aqLDjXOChzTSdEZU3WqLVC6pKM4UdlGw
-         3w7HiGFfgMsxmwvnxzMEw0P4hKWh2TqkLpZfdqkzYv71C6bK8Ll65gXSub6H4rcO/0ob
-         KOgAzOIC37lVUOSC7UTYtN2J7jQL5gAis+m/pLjZdkzc2HFdxGy1NEcSK3N0U1y55Wzk
-         4k0KS0fDkX2VKw+uR69E316y1zRb151YNOop19GmlCkkaC2XeM/Lmfq0FCoEUQ6N6MRi
-         nhBA==
-X-Forwarded-Encrypted: i=1; AJvYcCUg1Tq5tsxQ8QHi4Q1CBGaEr6mgmtBPOmnN6zenXtQCboim2hepgxHjD7lBPnca6CEoTO9xb/ZP1YsS6g==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzyXuKbgYbksyRqPurAsqwt0LQuzOullF6OEQIfycF2cPGQ0UP9
-	4hqYG0ZMNt/W8L5Rp/0Ef1ic7noeS/8y/IaBYXchHQLl106H5AesushsScwHEbBJFag=
-X-Gm-Gg: ASbGncspbM6XuUNuus28UmZwCeaI1DOCLz60Y7BHnupJSW7Vmtd5pD4qZe8hAf4a4R6
-	jq9eKSeRZgbptsymP20x7jQV/iVTgqOUFnj3VrPbbdQM9rNADKUgOMzXCO8F71lF8HftJdg8g7F
-	e6c1U7idBnHeOIA1ULj7/PKLQdJ2zAf1HiQAgG80woCGoA09Sgae/i3FZSghmW0GEYkPbE8Spaq
-	jFnmSgFYq3/MDgoF51qbgElzY5x3VDh2wryUXQwBiFTaNyHiiWTePP1nAoRwhKUGu475aoncrTl
-	JcLjXuuQbXs6NcHrKQWbmWdseB1yE5wb/XP39e37HUf4K1IeOxBEmCLKSISAwjGXcw8cr5Cg8EL
-	Q0WUh+BmOFe/OoFkXksWN5aKBX/iWgqTgB+Yiks6Az5qOSv1UwBb6vbD2ue80QWHhWDphrQ==
-X-Google-Smtp-Source: AGHT+IFWXveBplzBI373wJkuOopt7z07DoZZliYZMmzDqvSeXkhutFQFlIGjWN/Z38FuhMPcgQY3Nw==
-X-Received: by 2002:a17:903:19cc:b0:242:fba2:b8e4 with SMTP id d9443c01a7336-245ef27bad7mr39608355ad.56.1755692735800;
-        Wed, 20 Aug 2025 05:25:35 -0700 (PDT)
-Received: from dgp100339560-01.huaqin.com ([116.66.212.162])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-245ed4c745dsm25450135ad.73.2025.08.20.05.25.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Aug 2025 05:25:35 -0700 (PDT)
-From: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
-To: dmitry.torokhov@gmail.com,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	jikos@kernel.org,
-	bentiss@kernel.org
-Cc: dianders@chromium.org,
-	linux-input@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
-Subject: [PATCH v2 2/2] HID: i2c-hid: elan: Add parade-tc3408 timing
-Date: Wed, 20 Aug 2025 20:25:20 +0800
-Message-Id: <20250820122520.3356738-3-yelangyan@huaqin.corp-partner.google.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250820122520.3356738-1-yelangyan@huaqin.corp-partner.google.com>
-References: <20250820122520.3356738-1-yelangyan@huaqin.corp-partner.google.com>
+        bh=ZhA+TycHOu2hS6f7GrjCAcmbAsgcqmJx9pZ/zTGM90U=;
+        b=cBgbfmvNKIPUTLFi68aMzyVS1PspDWf434XewrNunxL/mavbssKC77imUNzW8zx5+l
+         kJlHH9WorqyDEVU58Ktb9m3frnTVIY5PdiT59B7Lcpv3XfhST90X6cA+3UaURjR1HwiJ
+         sdaihbf7lB/YpZ2CHMFxPnWO2UcQlsLEhyF1nG8gYW43dVszPF0onTZDnR+U4KRfli3k
+         8b6xqtqghaP37Moptg3mlOYWY/u/PFo26xqrjRS8Qv54Z7vww9ceCP43JrvGoxhIR/oF
+         sakglJiLHYo1EVTJP3AF5FTwZlWe0ndYGuHob2l22fioEoiQdWLOr3GlS4KXFsXvY7rx
+         Q7Vw==
+X-Forwarded-Encrypted: i=1; AJvYcCUEUi6GJtPGoBY6yZbuucsIPGO18q1bi3cR0f6CITPOzbGn8T0GMjLS1fnhDQYi86CxkvnmSI3dCsSn@vger.kernel.org, AJvYcCVvcqtIajYfSXu/uYQL5tvOJQ/qDL98hYsepRGwn6hS9ykwm1nGx2W0hacSFm188FftZedwedNW5H4OL6bR@vger.kernel.org, AJvYcCWD+7Metaagg4l/CBABPShjTr/pUuQ7yDpG687xZ9P2vorz8QuDs7ne8D9chrVCpXwx0IbVj+YonrV9pA==@vger.kernel.org, AJvYcCWG3EuAiWR0qa3R0kmhYDu1GU6rZliisUl5I59/JhJH0iRFOKE+bUolsAg4ZQnjP7SoRVz7FJCp3gyP@vger.kernel.org, AJvYcCWO02inTkf8tqn7MPPTggvB6KE8BWGeZNFewXVK9+wbNlVELXpcvky9m58oDDPrdPwCuu3LluVdZH+zS/c=@vger.kernel.org, AJvYcCWn10s8h0QiQIV6qfiUipqPXYW3jdVqcAO09Ja8qT9QRRjls1kLY5jDLOUtB9CEC9sjadv2Y3/WVVorolw=@vger.kernel.org, AJvYcCXGB+46/ZJykt/5GgVig39qT0qOybai4T8tRMrwoP/nWEETDIwtFmc7FvZvdP70MjKYdlKpyWxYyk4p@vger.kernel.org, AJvYcCXqHfMJO/inzDejhbRjwnloGIPxyrp1kBd/F1ejCjivtaviaPf8qXw/c4FfnhEU/jk9FwhcOycchmhlfw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxaQTOpca+hiYbaZqxP0U1jgTTXJriFqp0gC2st0TlIiPO5u7IM
+	/oxMB/z4+frzdsFn4dB6sshNLZyuKM2O2zH1uPvDyekL3dtKSMqQqMq32/qcUGkQTmdsRSFRJwU
+	+JkspIRUqYsyRcWzFrIB5eZIY1T0+TWTahrI=
+X-Gm-Gg: ASbGncsaqmNMnKv28wH5JSMYjPqZAGJqSl4ad0E873XkJe1xz+kGBwpLYPUPoxTtx0d
+	g6z2pumTmaEr2kXgsO3tFSOB7wq0VR83uQ2Q7Prr4mdC8TWYY8Y1fl/PN7oPlxw1zIGXpmljopd
+	jeKqAMl2UCLGFaFFOocblBZP33z9uqqEi3mh2QlDGhMpglo97uxe5qZY22FD9xXJtL9Mh+uoMYZ
+	anRR7V3C+FxSE+S/FpmcECIdtmnuzkb7TtCkFhH
+X-Google-Smtp-Source: AGHT+IEQh0IA7hBcK+vbOCeiQ1tRGJH5G+7OtgvpKYYK6HmLASozA+JsGJ6hRWUdJWiR1ke/zCt0aQqhwBmm2t+61Ek=
+X-Received: by 2002:a17:90b:384d:b0:320:fda8:fabe with SMTP id
+ 98e67ed59e1d1-324e143edbemr3404966a91.22.1755695743221; Wed, 20 Aug 2025
+ 06:15:43 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250816021523.167049-1-jihed.chaibi.dev@gmail.com>
+ <20250816021523.167049-2-jihed.chaibi.dev@gmail.com> <20250819-humongous-muscular-curassow-5accd5@kuoka>
+ <20250819223157.0b271c74@akair> <e0bec141-6aef-475f-b997-60fdf8234b82@kernel.org>
+In-Reply-To: <e0bec141-6aef-475f-b997-60fdf8234b82@kernel.org>
+From: Jihed Chaibi <jihed.chaibi.dev@gmail.com>
+Date: Wed, 20 Aug 2025 15:15:32 +0200
+X-Gm-Features: Ac12FXwJjTEuvAdX2Wnbu9Wcm5-vo-L0VsLLi4HcMA86Hx-OXfvGEyfpUyCJh3Y
+Message-ID: <CANBuOYrs2QNRXd6Qc28tBDSySrbh+vJ83+-+2XxB3jY2fH9qtg@mail.gmail.com>
+Subject: Re: [PATCH v3 1/6] dt-bindings: mfd: twl: Add missing sub-nodes for
+ TWL4030 & TWL603x
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Andreas Kemnade <andreas@kemnade.info>, linux-kernel@vger.kernel.org, 
+	peter.ujfalusi@gmail.com, dmitry.torokhov@gmail.com, robh@kernel.org, 
+	krzk+dt@kernel.org, lgirdwood@gmail.com, tiwai@suse.com, conor+dt@kernel.org, 
+	lee@kernel.org, ukleinek@kernel.org, broonie@kernel.org, 
+	gregkh@linuxfoundation.org, linus.walleij@linaro.org, brgl@bgdev.pl, 
+	aaro.koskinen@iki.fi, khilman@baylibre.com, rogerq@kernel.org, 
+	tony@atomide.com, linux-gpio@vger.kernel.org, linux-input@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-pwm@vger.kernel.org, 
+	linux-sound@vger.kernel.org, linux-usb@vger.kernel.org, 
+	linux-omap@vger.kernel.org, shuah@kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Parade-tc3408 requires reset to pull down time greater than 10ms,
-so the configuration post_power_delay_ms is 10, and the chipset
-initial time is required to be greater than 300ms,
-so the post_gpio_reset_on_delay_ms is set to 300.
+On Wed, Aug 20, 2025 at 7:57=E2=80=AFAM Krzysztof Kozlowski <krzk@kernel.or=
+g> wrote:
+>
+> On 19/08/2025 22:31, Andreas Kemnade wrote:
+> >>
+> >>> +          type: object
+> >>> +          $ref: /schemas/usb/ti,twlxxxx-usb.yaml#
+> >>
+> >> Are you sure your patchset is bsiectable? Apply this patch and test. Y=
+ou
+> >> will see errors and you must fix these. Even after fixing you have
+> >> strict dependencies so your cover letter must explain these (or mergin=
+g
+> >> constraints)...
+> >>
+> > what are the rules here regarding bisectability? non-existing files
+>
+> dt_binding_check.
+>
+>
+> Best regards,
+> Krzysztof
 
-Signed-off-by: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
----
- drivers/hid/i2c-hid/i2c-hid-of-elan.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+Hello Krzysztof and Andreas,
 
-diff --git a/drivers/hid/i2c-hid/i2c-hid-of-elan.c b/drivers/hid/i2c-hid/i2c-hid-of-elan.c
-index 3fcff6daa0d3..23826cb808b7 100644
---- a/drivers/hid/i2c-hid/i2c-hid-of-elan.c
-+++ b/drivers/hid/i2c-hid/i2c-hid-of-elan.c
-@@ -179,11 +179,19 @@ static const struct elan_i2c_hid_chip_data ilitek_ili2901_chip_data = {
- 	.main_supply_name = "vcc33",
- };
- 
-+static const struct elan_i2c_hid_chip_data parade_tc3408_chip_data = {
-+	.post_power_delay_ms = 10,
-+	.post_gpio_reset_on_delay_ms = 100,
-+	.hid_descriptor_address = 0x0001,
-+	.main_supply_name = "vcc33",
-+};
-+
- static const struct of_device_id elan_i2c_hid_of_match[] = {
- 	{ .compatible = "elan,ekth6915", .data = &elan_ekth6915_chip_data },
- 	{ .compatible = "elan,ekth6a12nay", .data = &elan_ekth6a12nay_chip_data },
- 	{ .compatible = "ilitek,ili9882t", .data = &ilitek_ili9882t_chip_data },
- 	{ .compatible = "ilitek,ili2901", .data = &ilitek_ili2901_chip_data },
-+	{ .compatible = "parade,tc3408", .data = &parade_tc3408_chip_data },
- 	{ }
- };
- MODULE_DEVICE_TABLE(of, elan_i2c_hid_of_match);
--- 
-2.34.1
+Thanks again for your feedback,
 
+You were right that my series had strict dependencies. Testing again I
+found that a
+local 'dt_binding_check' -only including this patch- passed, but the
+dependencies
+(non-existent yaml files in $ref) caused errors during a full 'dtbs_check'.
+
+I managed to fix those dtbs_check warnings/errors thanks to
+'additionalProperties: true'
+to break the hard dependencies on the other new YAML files, and by
+adding optional
+definitions for the 'clocks' and 'clock-names' properties, which I
+found are used by several
+OMAP dts files.
+
+Please let me know what you think of this, and whether I should send the ne=
+w,
+corrected v4 of this MFD (single) patch.
+
+I have already sent the independent v4 patches for the other
+subsystems (ASoC, USB, etc.).
+in order to reach a much better orthogonality and independence between
+the patches.
+
+Thanks again for your guidance.
+Best regards,
+
+Jihed
 
