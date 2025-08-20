@@ -1,130 +1,115 @@
-Return-Path: <linux-input+bounces-14204-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14205-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F4D6B2E4BE
-	for <lists+linux-input@lfdr.de>; Wed, 20 Aug 2025 20:14:02 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F9FAB2E532
+	for <lists+linux-input@lfdr.de>; Wed, 20 Aug 2025 20:55:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 553B0188E65D
-	for <lists+linux-input@lfdr.de>; Wed, 20 Aug 2025 18:13:38 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BECAFAA0322
+	for <lists+linux-input@lfdr.de>; Wed, 20 Aug 2025 18:55:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 32DCD273803;
-	Wed, 20 Aug 2025 18:13:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6610227F19F;
+	Wed, 20 Aug 2025 18:55:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="THi96t5M"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CozULjtI"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BDA136CE0C;
-	Wed, 20 Aug 2025 18:13:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 208672522A7;
+	Wed, 20 Aug 2025 18:55:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755713594; cv=none; b=ozeb6B+IKDnoCD7bS+lmggW7r5iTrALRqxtjwV7Ax/fnD3txB0bzV2mC+y6bNSXqywgI9h2tdmRp/Y2pRxpFVBDq5Wp27GATpBPYzJN5hyIpMztAaViUPOwYLNdwDlK6RF+ggmv2w1N70oQaGtnf5osZRNDOEMIYo0YnGTwNlZc=
+	t=1755716110; cv=none; b=q+xHpZ4WM4cW8Y3L05qoSMsUF7sFfL4Fim7ZsHBtOk7yzzw8pzAB34zE+wcAdyvs2SW0VpARmLwHHRaBCU+goDMrPhYuB7e9/Fck471sS7gxY1Wlh7x7RidXsgsMCH32VZ6b1Pkk5TMJPUgXg4unUfAKxBVvzWsfSq8ML4auO78=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755713594; c=relaxed/simple;
-	bh=U4XxtLW5tXCGpupZxQAOI2qgtW8qRObiwM9ZU2+Uo7Y=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=hSLsWNYliYfWXNCTpc0H3K5xopbnI/fXndg3gTG30vMwkbPpeSawMZ6vExAx41NCBx3JkZpUUYigu1ZHcW5Ko4dyj3WYWdkJq0OregBD/Enygn+o6XnjSAY1Sh3pFh3gJ+YZRXcRRt8LwzGax/4AcbyswJFP1q+8y3yWGy1pBco=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=THi96t5M; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27F36C4CEE7;
-	Wed, 20 Aug 2025 18:13:12 +0000 (UTC)
+	s=arc-20240116; t=1755716110; c=relaxed/simple;
+	bh=KrxBI4bw6u84H4zKkUEDYwKmV2iNFMyZmZhqsrfdtV8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=R7IYANhACssORhLKzP6jQq3x17roE97+5pN+L699rcZMDrzXa7lxE43m16CTuT74DTPuPlTRn+DfDjTPiYsxsXSbESyPveoJmfv+lQh4rOslTHx6i834mGZUz96ua78O9d9U3nLbflzqKjgdJPXdx9RXXyHSlTdeyflKhypqmKg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CozULjtI; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6CD47C4CEE7;
+	Wed, 20 Aug 2025 18:55:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755713593;
-	bh=U4XxtLW5tXCGpupZxQAOI2qgtW8qRObiwM9ZU2+Uo7Y=;
-	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=THi96t5MHqQlys4O1q7PDgFZrfy4jZ/lz4oKbYxLlb1CYWyKV5jEB4sxxKUbb1uHv
-	 vi8PCs6zvxQaTVFMMPE8YUcjlXuBblFA2YgZe40F1Igp8pDW5KwntDTR9O+P5IGejt
-	 nyCyzcsjPNhZytm0cGbwdA57/sFtqx5IYtVpVaKkF+ACYALOoxljnPXMCmSutE4fdG
-	 +VTVin1GQz5GRHhpir+RV1fDtgtH5ooAYLKrGsCNzYXGjyrv64O9wQPyBTyf7k5Te+
-	 myYb042H8grK81/Udvrntuo6aY3xQBxm6bhs5pSH3+Lgimd8A5CggCW7Jh9n3ixHS4
-	 s5f/sHcT5bEsA==
-Date: Wed, 20 Aug 2025 20:13:10 +0200 (CEST)
-From: Jiri Kosina <jikos@kernel.org>
-To: Matt Coffin <mcoffin13@gmail.com>
-cc: linux-input@vger.kernel.org, Benjamin Tissoires <bentiss@kernel.org>, 
-    =?ISO-8859-15?Q?Filipe_La=EDns?= <lains@riseup.net>, 
-    Bastien Nocera <hadess@hadess.net>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] HID: logitech: Add ids for G PRO 2 LIGHTSPEED
-In-Reply-To: <20250820074951.1120397-1-mcoffin13@gmail.com>
-Message-ID: <7410n255-8p7s-s107-09ps-nr6r65oq706s@xreary.bet>
-References: <20250820074951.1120397-1-mcoffin13@gmail.com>
+	s=k20201202; t=1755716109;
+	bh=KrxBI4bw6u84H4zKkUEDYwKmV2iNFMyZmZhqsrfdtV8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=CozULjtI87ezxw30qO0tiBXmd/B+a0DtFD8O0r1Ijt8QQQx8BThbtwW8QWNFZ8zwn
+	 GDhVSyvd/eTXNDvmuoKLP8gZbzIqwAavVeNAJTL9AD4T+oq9JD211sXJ3A9jIHdBe9
+	 oby2P2YVBQ3I8r9mQM/Lwt2RVdfRe2sGJcP/c1x3u1vg+xkh+l09/RNCiQufnL+vjh
+	 GyhWNZepnUHlVO7AOBcuUpAEM08nIs4SZGmNIG29XplZsZ5MYKbpImtIHpbPRBy/n6
+	 J3D2v1i3GLEYxCZCXE+oRmNdlWlQrHy63msQ03IsVrcWk7mI62sGbw7/ZkfMSJmtPd
+	 X3jYiXs/0WZXQ==
+Date: Wed, 20 Aug 2025 13:55:08 -0500
+From: Rob Herring <robh@kernel.org>
+To: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+Cc: airlied@gmail.com, amergnat@baylibre.com, andrew+netdev@lunn.ch,
+	andrew-ct.chen@mediatek.com,
+	angelogioacchino.delregno@collabora.com, broonie@kernel.org,
+	chunkuang.hu@kernel.org, ck.hu@mediatek.com, conor+dt@kernel.org,
+	davem@davemloft.net, dmitry.torokhov@gmail.com, edumazet@google.com,
+	flora.fu@mediatek.com, houlong.wei@mediatek.com, jeesw@melfas.com,
+	jmassot@collabora.com, kernel@collabora.com, krzk+dt@kernel.org,
+	kuba@kernel.org, kyrie.wu@mediatek.corp-partner.google.com,
+	lgirdwood@gmail.com, linus.walleij@linaro.org,
+	louisalexis.eyraud@collabora.com, maarten.lankhorst@linux.intel.com,
+	matthias.bgg@gmail.com, mchehab@kernel.org,
+	minghsiu.tsai@mediatek.com, mripard@kernel.org,
+	p.zabel@pengutronix.de, pabeni@redhat.com, sean.wang@kernel.org,
+	simona@ffwll.ch, support.opensource@diasemi.com,
+	tiffany.lin@mediatek.com, tzimmermann@suse.de,
+	yunfei.dong@mediatek.com, devicetree@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
+	linux-gpio@vger.kernel.org, linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-mediatek@lists.infradead.org, linux-sound@vger.kernel.org,
+	netdev@vger.kernel.org
+Subject: Re: [PATCH v1 14/14] dt-bindings: media: mediatek,jpeg: Fix jpeg
+ encoder/decoder ranges
+Message-ID: <20250820185508.GA273751-robh@kernel.org>
+References: <20250820171302.324142-1-ariel.dalessandro@collabora.com>
+ <20250820171302.324142-15-ariel.dalessandro@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250820171302.324142-15-ariel.dalessandro@collabora.com>
 
-On Wed, 20 Aug 2025, Matt Coffin wrote:
+On Wed, Aug 20, 2025 at 02:13:02PM -0300, Ariel D'Alessandro wrote:
+> Commit 14176e94bb35d ("arm64: dts: mediatek: mt8195: Fix ranges for jpeg
 
-> Adds support for the G PRO 2 LIGHTSPEED Wireless via it's nano receiver
-> or directly. This nano receiver appears to work identically to the 1_1
-> receiver for the case I've verified, which is the battery status through
-> lg-hidpp.
+That commit is not in any upstream tree.
+
+> enc/decoder nodes") redefined jpeg encoder/decoder children node ranges.
+> Update the related device tree binding yaml definition to match
+> mediatek/mt8195.dtsi, as this is currently the only one using it.
 > 
-> The same appears to be the case wired, sharing much with the Pro X
-> Superlight 2; differences seemed to lie in userland configuration rather
-> than in interfaces used by hid_logitech_hidpp on the kernel side.
-> 
-> I verified the sysfs interface for battery charge/discharge status, and
-> capacity read to be working on my 910-007290 device (white).
-> 
-> Signed-off-by: Matt Coffin <mcoffin13@gmail.com>
+> Signed-off-by: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
 > ---
->  drivers/hid/hid-ids.h            | 1 +
->  drivers/hid/hid-logitech-dj.c    | 4 ++++
->  drivers/hid/hid-logitech-hidpp.c | 2 ++
->  3 files changed, 7 insertions(+)
+>  .../media/mediatek,mt8195-jpegdec.yaml        | 31 ++++++++++---------
+>  .../media/mediatek,mt8195-jpegenc.yaml        | 15 ++++-----
+>  2 files changed, 24 insertions(+), 22 deletions(-)
 > 
-> diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-> index 5a1096283855..37dc42380373 100644
-> --- a/drivers/hid/hid-ids.h
-> +++ b/drivers/hid/hid-ids.h
-> @@ -907,6 +907,7 @@
->  #define USB_DEVICE_ID_LOGITECH_NANO_RECEIVER_2		0xc534
->  #define USB_DEVICE_ID_LOGITECH_NANO_RECEIVER_LIGHTSPEED_1	0xc539
->  #define USB_DEVICE_ID_LOGITECH_NANO_RECEIVER_LIGHTSPEED_1_1	0xc53f
-> +#define USB_DEVICE_ID_LOGITECH_NANO_RECEIVER_LIGHTSPEED_1_2	0xc543
->  #define USB_DEVICE_ID_LOGITECH_NANO_RECEIVER_POWERPLAY	0xc53a
->  #define USB_DEVICE_ID_LOGITECH_BOLT_RECEIVER	0xc548
->  #define USB_DEVICE_ID_SPACETRAVELLER	0xc623
-> diff --git a/drivers/hid/hid-logitech-dj.c b/drivers/hid/hid-logitech-dj.c
-> index 34fa71ceec2b..cce54dd9884a 100644
-> --- a/drivers/hid/hid-logitech-dj.c
-> +++ b/drivers/hid/hid-logitech-dj.c
-> @@ -1983,6 +1983,10 @@ static const struct hid_device_id logi_dj_receivers[] = {
->  	  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH,
->  		USB_DEVICE_ID_LOGITECH_NANO_RECEIVER_LIGHTSPEED_1_1),
->  	 .driver_data = recvr_type_gaming_hidpp},
-> +	{ /* Logitech lightspeed receiver (0xc543) */
-> +	  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH,
-> +		USB_DEVICE_ID_LOGITECH_NANO_RECEIVER_LIGHTSPEED_1_2),
-> +	 .driver_data = recvr_type_gaming_hidpp},
+> diff --git a/Documentation/devicetree/bindings/media/mediatek,mt8195-jpegdec.yaml b/Documentation/devicetree/bindings/media/mediatek,mt8195-jpegdec.yaml
+> index e5448c60e3eb5..b1f3df258dc87 100644
+> --- a/Documentation/devicetree/bindings/media/mediatek,mt8195-jpegdec.yaml
+> +++ b/Documentation/devicetree/bindings/media/mediatek,mt8195-jpegdec.yaml
+> @@ -36,7 +36,7 @@ properties:
 >  
->  	{ /* Logitech 27 MHz HID++ 1.0 receiver (0xc513) */
->  	  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, USB_DEVICE_ID_MX3000_RECEIVER),
-> diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hidpp.c
-> index 10a3bc5f931b..aaef405a717e 100644
-> --- a/drivers/hid/hid-logitech-hidpp.c
-> +++ b/drivers/hid/hid-logitech-hidpp.c
-> @@ -4596,6 +4596,8 @@ static const struct hid_device_id hidpp_devices[] = {
->  	  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, 0xC094) },
->  	{ /* Logitech G Pro X Superlight 2 Gaming Mouse over USB */
->  	  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, 0xC09b) },
-> +	{ /* Logitech G PRO 2 LIGHTSPEED Wireless Mouse over USB */
-> +	  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, 0xc09a) },
->  
->  	{ /* G935 Gaming Headset */
->  	  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, 0x0a87),
+>  # Required child node:
+>  patternProperties:
+> -  "^jpgdec@[0-9a-f]+$":
+> +  "^jpgdec@[0-9],[0-9a-f]+$":
 
-Applied to hid.git#for-6.17/upstream-fixes, thanks.
+This is wrong unless 0-9 is a separate, distinct address (like a chip 
+select #).
 
--- 
-Jiri Kosina
-SUSE Labs
+Rob
 
 
