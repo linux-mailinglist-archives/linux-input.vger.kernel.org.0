@@ -1,217 +1,157 @@
-Return-Path: <linux-input+bounces-14166-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14167-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FAA4B2CFD8
-	for <lists+linux-input@lfdr.de>; Wed, 20 Aug 2025 01:23:23 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id EBB74B2D2AE
+	for <lists+linux-input@lfdr.de>; Wed, 20 Aug 2025 05:47:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 24C8F188403A
-	for <lists+linux-input@lfdr.de>; Tue, 19 Aug 2025 23:23:12 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7BF017B46FA
+	for <lists+linux-input@lfdr.de>; Wed, 20 Aug 2025 03:45:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1641725485A;
-	Tue, 19 Aug 2025 23:22:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BFFB71DE4EC;
+	Wed, 20 Aug 2025 03:47:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K6jwqxZr"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eWv/BnkO"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55A7721ADDB;
-	Tue, 19 Aug 2025 23:22:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 872D31DF738;
+	Wed, 20 Aug 2025 03:47:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755645767; cv=none; b=fD+oGFPGVy1noHcdfUHzi57IeYro4kOHrk20svFeHYT1DkH0WtevHZYkQTv+34/PbPZOrzTTZKXIISfr922r6L/uLl/W0PScVHDq9+Ag+K6wmMsKAwLQWgmxM1JdL474zeHE9x301aH/igQqbXrqWJcKOoZcTbcyHCH2DOtdZkY=
+	t=1755661633; cv=none; b=XR6np37xhqn5lvW/FIH6XQ8Qs1WHQt+86NXlby19rqKQMFmRQlfBFmRs7ohCSVFX7xet5DDa+8jUsdCqyq+R6iH0L3lNRNe8gfBJeARnsfzkylw6aPt8z9COnOT3OZ9fL2IM6dissYNFE/WQcSLCeG7zOxtmjPijwcttYFlcQt8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755645767; c=relaxed/simple;
-	bh=9jkN28NHaaCVj6JDzv6Hw14M+7ThWCQNtbL0G3psptQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=GqZGdCbOGG58l7fwDFyN9kw7u8h77UVeRo00KQw9lIm8Q20NQYYNc2TwX1X4sVjJjP1ihEygXxLFncj87mg4alYUVCXzEFkdgtYTC9L1DMh46XpzSkJsBpNZ0BRQSDzszvOa5WIpKybFy7ZDyMqinrzbTSfusATYv59N7rmkdlA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K6jwqxZr; arc=none smtp.client-ip=209.85.160.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-4b113500aebso41323261cf.0;
-        Tue, 19 Aug 2025 16:22:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755645765; x=1756250565; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=K422/Y/9yj8ALHij9Y1sYg9rSj8Y/+PMz3oGCIVOfdw=;
-        b=K6jwqxZrjaNrV+uHBKktGJCBlWeVDkE9vuEcr4AwUleV0IRC06Ddr6HogdqXnfv4Jq
-         ecxHsT0aiNhXzZVTREofbQUOJIo8L36pejQ6DKDMTapvc8zCqxZ+zIa0ZfsUYwoGTT0E
-         RJVv9aomnQXn69zBeTpKwpHKKtk8jyEfthY9OMuyeSZMGA5y/BYOMwG1v4ma0UIjRIi2
-         vvUW0pPxrLH+7itfGNyQzH43DWmzzwvsd85+nSf1g/Y8Uqa2SJzw4F/o9eGoJ8g/+ZjN
-         1vuMDcr34y5RwRDNmoObPZI1UpVsZ4i6UoY3Ffqbgo35+QNNsFzrl4lzcq1YA1QH0/Ax
-         58lg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755645765; x=1756250565;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=K422/Y/9yj8ALHij9Y1sYg9rSj8Y/+PMz3oGCIVOfdw=;
-        b=aNVp09vXH3PcIUpVBbKtRJydXpJFjHng/ZUJJ74Ag/kkpEeUjkL/VIald4lze+NGrY
-         fbn8Qv8t1Y91TejNJQriKfSSdA0H1+PhjmKVWihjnSlrYS4mRjQ0b9aKNksLqKr7yYLB
-         twTxmZSP8PAN78MJ/1niMwszmXjMd0jyuTrW4jE0f79ByPzqOI7fHUb3OZjr5ZH5KQFl
-         jzctl027YeDX1e3FHYzHC6sjweXOxGBw3sY4HJ3KTRn2yYEXBE016uSlfxl05mYfxcW6
-         NfVzJl39wrFzJngenrlYu+28szTmbFiJSZ3ijgcUkaxyl0/Drp2eIey3Ve0g/Iq4JiiZ
-         w6Qw==
-X-Forwarded-Encrypted: i=1; AJvYcCUwcVvb2kU3H+RdRGbdGqeyzo8MZauNKpvOBxpjgKvROj507u5I6jmcmq/nkYUEUc+o+f3U/73KGawqfe0=@vger.kernel.org, AJvYcCWHhhxSDr8DEVTUxMoPILoL0J6c6OmhBRFm3z+8RGnQ0cMQf0lHg66H14ZwVshm7bRiEwvnXeSbZ+PMGjY=@vger.kernel.org, AJvYcCWi6Q92YMPLLKIQ3FIk+DXCwmaXWfbFDjJ/gjbqDYAzoJyqEOQQdKZFpR7fux2BuBf+azaih7HwM2p6e7eT@vger.kernel.org, AJvYcCXEogQ0mNVzVVUEm6QMhnRYVA9WwrZobbYHgLGA7kfaoMO4Fq0Ax0T1qPEB4S/qzOqcjwpPrP/mDt7l@vger.kernel.org, AJvYcCXirtnkJ0ImEVcv2YIKUgRRU+5ETRQm9l68d577PWDE0x+9xoxwvajhIQgdnXTin0TLNZ7fUgAKlf+x@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy+8sDQ/Ba2YfemplplzHQfXCqfRtBdTqf+4KKynjMwnOMOnsIv
-	z0h9ENDGB8b3DmG9g0PXwqhtmSyCxgXo+hPrVcu+qyYrr3jPF/zdhllAkWUSv0foOxsyPFqoLyk
-	WHjedqm4W9B/i5VSF6ypwHPrcKwzc2Lc=
-X-Gm-Gg: ASbGncty9S4gXksULV1q2YjFUfAu7LcPwuGtlM7JCiph/l6eAzkqWd/ts7Sg2tll3/Y
-	C9rN05BbWplDcsQ75A4QOg+nmTZV3DQ0p5/w4dUUTJSr5Gwx8g1XpcnEQgR2yamSDm5vQMetVmy
-	j9nr6kfTT0TJLXqDNwMefDX41vQLQuCSjdeun8qD7ukOB5XNcCki4kWVN0d1N8aoeZggqMTYg2q
-	2zaw03MxNcP4WC5
-X-Google-Smtp-Source: AGHT+IHJre8AvfYFwM+tKjlP1D/tcobYVeLPY4jalmq308RktLJB1oePkAuJ7BQTBO7wQ2idbBiWEq+aIlj4VxZBRRo=
-X-Received: by 2002:a05:622a:304:b0:4b2:8ac4:ef61 with SMTP id
- d75a77b69052e-4b291c0a095mr9690251cf.68.1755645765106; Tue, 19 Aug 2025
- 16:22:45 -0700 (PDT)
+	s=arc-20240116; t=1755661633; c=relaxed/simple;
+	bh=vSeJYwfcmIDTveGK+s5gZiGH0ks5nVI5eBbq5nxwBMg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=twCIg5Wve6PFi2/MaJg6P4OT2FpZ7u2fjlSEkJ65n5S6Syy9erulRquwzSF+NiRKJiKcKebQYlOiBBEV5XrE48N62YYFXMmkCjS+MbvrpYbeJrSrsvkMRd7hlm8VFEgQU6NQ+CA8rq5BpnRZ//e3KZZ1wZ+pVl9H7aAOyMMkWd4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eWv/BnkO; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06F34C4CEEB;
+	Wed, 20 Aug 2025 03:47:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755661633;
+	bh=vSeJYwfcmIDTveGK+s5gZiGH0ks5nVI5eBbq5nxwBMg=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=eWv/BnkOIYMnc3/CrObYZ1HQZytf1yYF8AcjhkAAHpcPEwTRFGgA7gZP7RJPE11z2
+	 pPvWF7+Q918d7jreDXu/E2Yz0k1UQ44CkUnrLUIoYRl6Fs7DBjfVXelHV7soizUHMG
+	 A1rhJAF8ELNSJ3/w+j3A+3/Ktf3exEOesufI6fszyiD8tmPbAMLUyeQkA6MuGYmXDG
+	 v9VfWr7Bo8gMIS5Fx2V5LDR+NorT7e5Ek+y6q7Za6ae5sQ+LueVZmNOPvhGH6q1r5p
+	 P8Qy3UnHTMLtSn70e8+HAZ5HelQv3aGKkLGIsviB623cVZt117P+07x+iaBQ2qcszE
+	 SXW6V3EE0vqsQ==
+Message-ID: <07815053-0e31-4e8e-8049-b652c929323b@kernel.org>
+Date: Wed, 20 Aug 2025 05:47:09 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250819-macsmc-subdevs-v1-0-57df6c3e5f19@gmail.com>
- <20250819-macsmc-subdevs-v1-2-57df6c3e5f19@gmail.com> <20250819201537.GA1223169-robh@kernel.org>
-In-Reply-To: <20250819201537.GA1223169-robh@kernel.org>
-From: James Calligeros <jcalligeros99@gmail.com>
-Date: Wed, 20 Aug 2025 09:22:26 +1000
-X-Gm-Features: Ac12FXy5USWNvk81C09AV_y_m0PHlKCGlBXsRbqwyr8NREPpK7i0eE4MCUv2BBE
-Message-ID: <CAHgNfTw+wetmZzvPgkANpmSD4b6k0785QZLpBVD9FMqNDnq2EQ@mail.gmail.com>
-Subject: Re: [PATCH 2/8] dt-bindings: hwmon: add Apple System Management
- Controller hwmon schema
-To: Rob Herring <robh@kernel.org>
-Cc: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Neal Gompa <neal@gompa.dev>, Lee Jones <lee@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, Jean Delvare <jdelvare@suse.com>, 
-	Guenter Roeck <linux@roeck-us.net>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, asahi@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-rtc@vger.kernel.org, 
-	linux-hwmon@vger.kernel.org, linux-input@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 2/2] platform/x86: asus-wmi: Refactor Ally
+ suspend/resume
+To: Luke Jones <luke@ljones.dev>, linux-kernel@vger.kernel.org
+Cc: hdegoede@redhat.com, ilpo.jarvinen@linux.intel.com,
+ platform-driver-x86@vger.kernel.org, linux-input@vger.kernel.org,
+ bentiss@kernel.org, jikos@kernel.org, mario.limonciello@amd.com,
+ lkml@antheas.dev
+References: <20250323023421.78012-1-luke@ljones.dev>
+ <20250323023421.78012-3-luke@ljones.dev>
+Content-Language: en-US
+From: Jiri Slaby <jirislaby@kernel.org>
+Autocrypt: addr=jirislaby@kernel.org; keydata=
+ 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
+In-Reply-To: <20250323023421.78012-3-luke@ljones.dev>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Rob,
+On 23. 03. 25, 3:34, Luke Jones wrote:
+> From: "Luke D. Jones" <luke@ljones.dev>
+> 
+> Adjust how the CSEE direct call hack is used.
+> 
+> The results of months of testing combined with help from ASUS to
+> determine the actual cause of suspend issues has resulted in this
+> refactoring which immensely improves the reliability for devices which
+> do not have the following minimum MCU FW version:
+> - ROG Ally X: 313
+> - ROG Ally 1: 319
+...
+> --- a/drivers/platform/x86/asus-wmi.c
+> +++ b/drivers/platform/x86/asus-wmi.c
+...
+> @@ -5010,6 +5060,10 @@ static int asus_wmi_probe(struct platform_device *pdev)
+>   			return ret;
+>   	}
+>   
+> +	ret = acpi_register_lps0_dev(&asus_ally_s2idle_dev_ops);
 
-On Wed, Aug 20, 2025 at 6:15=E2=80=AFAM Rob Herring <robh@kernel.org> wrote=
-:
->
-> On Tue, Aug 19, 2025 at 09:47:54PM +1000, James Calligeros wrote:
-> > Apple Silicon devices integrate a vast array of sensors, monitoring
-> > current, power, temperature, and voltage across almost every part of
-> > the system. The sensors themselves are all connected to the System
-> > Management Controller (SMC). The SMC firmware exposes the data
-> > reported by these sensors via its standard FourCC-based key-value
-> > API. The SMC is also responsible for monitoring and controlling any
-> > fans connected to the system, exposing them in the same way.
-> >
-> > For reasons known only to Apple, each device exposes its sensors with
-> > an almost totally unique set of keys. This is true even for devices
-> > which share an SoC. An M1 Mac mini, for example, will report its core
-> > temperatures on different keys to an M1 MacBook Pro. Worse still, the
-> > SMC does not provide a way to enumerate the available keys at runtime,
-> > nor do the keys follow any sort of reasonable or consistent naming
-> > rules that could be used to deduce their purpose. We must therefore
-> > know which keys are present on any given device, and which function
-> > they serve, ahead of time.
->
-> I'm confused because you say this, but then the .dtsi files are common.
+This likely causes crashes:
+https://bugzilla.suse.com/show_bug.cgi?id=1246924
 
-The SMC exposes dozens of sensors, and figuring out which one is which
-when all we have to go by are cryptic FourCCs is proving very time consumin=
-g.
-This is made worse by the fact that even sensors which you'd think should
-be consistent across devices with a given SoC are often not. For example,
-the M1 Mac mini exposes the application core temperature sensors on differe=
-nt
-keys to the M1 MacBook Pro. We have only included the minimal subset of
-sensors/fans that we know are common to most devices to validate our approa=
-ch
-with and make the driver itself useful.
+ > asus-nb-wmi asus-nb-wmi: Detected ATK, not ASUSWMI, use DSTS
+ > list_add double add: new=ffffffffc2094460, prev=ffffffffafa5cd20, 
+next=ffffffffc2094460.
+ > ------------[ cut here ]------------
+ > kernel BUG at lib/list_debug.c:35!
+...
+ > acpi_register_lps0_dev.cold (include/linux/list.h:88 
+include/linux/list.h:150 include/linux/list.h:169 
+drivers/acpi/x86/s2idle.c:663)
+ > asus_wmi_probe (drivers/platform/x86/asus-wmi.c:5045 (discriminator 
+1) drivers/platform/x86/asus-wmi.c:5089 (discriminator 1)) asus_wmi
+ > platform_probe (drivers/base/platform.c:1404)
+ > really_probe (drivers/base/dd.c:579)
 
-> > +    patternProperties:
-> > +      "^fan-[A-Za-z0-9]{4}":
-> > +        type: object
-> > +        additionalProperties: false
-> > +        required:
-> > +          - apple,key-id
-> > +        properties:
-> > +          apple,key-id:
-> > +            $ref: /schemas/types.yaml#/definitions/string
-> > +            pattern: "^[A-Za-z0-9]{4}"
-> > +            description: The SMC FourCC key of the desired fan. This i=
-s the
-> > +              main key, which reports the fan's current speed. Sould m=
-atch
->
-> typo
->
-> > +              the node's suffix, but doesn't have to.
->
-> Why can't we require that they match? (Other than we can't express that
-> in schema?)
+It looks like acpi_register_lps0_dev() is called twice with those ops...
 
-I made this optional mostly because these subnode names are inconsequential=
-.
-It's the apple,key-id property that matters. If it makes more sense
-to say that the node name and property 'must' match instead of 'should' the=
-n
-there's no reason we can't do that. Another option is to just have a
-numbered sequence, e.g. fan-01, temperature-01, etc.
+Should the above be registered only if it is this RC71 device?
 
-> > +          apple,fan-minimum:
-> > +            $ref: /schemas/types.yaml#/definitions/string
-> > +            pattern: "^[A-Za-z0-9]{4}"
-> > +            description: The minimum speed the current fan can run at
->
-> This is not the speed, but the identifier key to retrieve the min speed,
-> right? That's not clear. It's a bit odd that everything is a key id, but
-> one property has that in the name and the others don't. I don't have any
-> better suggestion though...
+thanks,
+-- 
+js
+suse labs
 
-Would it make sense to append '-key' to all of the optional fan properties
-to make this clearer?
-
-> > +          apple,fan-maximum:
-> > +            $ref: /schemas/types.yaml#/definitions/string
-> > +            pattern: "^[A-Za-z0-9]{4}"
-> > +            description: The maximum speed the current fan can run at
-> > +          apple,fan-target:
-> > +            $ref: /schemas/types.yaml#/definitions/string
-> > +            pattern: "^[A-Za-z0-9]{4}"
-> > +            description: Writeable endpoint for setting desired fan sp=
-eed
-> > +          apple,fan-mode:
-> > +            $ref: /schemas/types.yaml#/definitions/string
-> > +            pattern: "^[A-Za-z0-9]{4}"
-> > +            description: Writeable endpoint to enable/disable manual f=
-an
-> > +              control
-> > +          label:
-> > +            $ref: /schemas/types.yaml#/definitions/string
-> > +            description: Human-readable name for the sensor
->
-> Surely more than apple,key-id is required? How would it be useful with
-> only that? You can know how many fans you have, but have no info or
-> control over them?
-
-The key specified in apple,key-id is the fan's current speed, which is the
-only key strictly required to enumerate the presence of a fan in the system=
-.
-All of the other keys are optional information that are only really useful
-when implementing manual fan control, which is itself optional as the platf=
-orm
-really expects the SMC firmware to have control over fan speeds at all time=
-s.
-
-> Rob
-
-Regards,
-
-James
 
