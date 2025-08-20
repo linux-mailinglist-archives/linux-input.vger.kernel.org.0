@@ -1,120 +1,156 @@
-Return-Path: <linux-input+bounces-14183-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14184-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED29BB2DFE3
-	for <lists+linux-input@lfdr.de>; Wed, 20 Aug 2025 16:48:57 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 28943B2E2E6
+	for <lists+linux-input@lfdr.de>; Wed, 20 Aug 2025 19:04:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A22C41C477B7
-	for <lists+linux-input@lfdr.de>; Wed, 20 Aug 2025 14:48:59 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3293A5E4B86
+	for <lists+linux-input@lfdr.de>; Wed, 20 Aug 2025 17:03:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 27CE73218C5;
-	Wed, 20 Aug 2025 14:48:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3FD93334387;
+	Wed, 20 Aug 2025 17:03:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="KsCwDHuZ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Dr1d03/z"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B85A3218BC
-	for <linux-input@vger.kernel.org>; Wed, 20 Aug 2025 14:48:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D41FF221F2F;
+	Wed, 20 Aug 2025 17:02:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755701290; cv=none; b=T4/F6jrD3eDdvxQMKeqfV+YoArhSEbigQ0dy6Dt8jt5QVH7BqzqjKVZ7A9nVnbQ9/La5yt3GQBL/tlefLxIEuFcj+JWtVxApA94pvbnL94jWgnGvHwT0apKZGeJsSN54X0ewmSC1wvN81z6+9yhzcSm2biYJHtLDb/H/ok0Fhak=
+	t=1755709380; cv=none; b=I76Kx4ye36sfgAxHK6r4H42NVC0LQIRlQbOnTawxGVEsh713QYk8nj2vkEGoz16tOtOvVIRjyjViunSklbRJryLfRjTXExhTAgvpGLUyuGSh7yUlmdLtKxhdgjtE0PE1mifwp/cO/wXiTuroQzQ04ohSdL5B1kQqFAz9SR5vGN0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755701290; c=relaxed/simple;
-	bh=IUrGjrl/l1txCsSgOPZXbhPn6Tnj3VCBGH0kaDqFOLI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=m0KMaIiUq6yptwzqyz5rGVxYiZkhkfLicA8udxGYi6lQ6N3UjIe6IcbGpGpEMOdooTB/qgGt7DG8lmcjE6Z5/PBQMKBBsgNl7z4QSwnGSdNIX19pv2ttxqrLAYo28VVIrEcRnDolT+2xrGwy+8jMUWLQb8VN88xS1pkQ4+PTCIM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=KsCwDHuZ; arc=none smtp.client-ip=209.85.218.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-afcb7af30a5so1107576866b.3
-        for <linux-input@vger.kernel.org>; Wed, 20 Aug 2025 07:48:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1755701285; x=1756306085; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NhUBGcq9KiQJcxiCAotwdJ7eICoMjF6+FIweyxl7rFg=;
-        b=KsCwDHuZMHf74e5warBYTrtTQBTkhk5lZRT9ynRCjcvwtESc3Y4xuc38bA6c5GdFmE
-         2Vl1KUVPmrqHJczv+ROF+bl04yzDrUz+EDrNLV8fI2df/iOS5VA5DPyMPNTxiV0ebK1l
-         d0/VSeELdbFtsUv2shLTPnodFRmOVnyqau+fA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755701285; x=1756306085;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=NhUBGcq9KiQJcxiCAotwdJ7eICoMjF6+FIweyxl7rFg=;
-        b=FOUwiizarXyc92psTCr0XEFbWcj6xcq9s9pwu0lX331XJtYhATGa91/Hup+KopzTKu
-         ow01tWp6aWw7IdY2uR+1f5QgQmxuiyqEqvzWDQxP6t/yAuqafDj0wX7S1qGaarYJAgCI
-         izlkECSLo4qZlausRqg/L5zWdXXKqcS6NBjFOUzWG4vSasi5XqU29tPSomf+C1mxp+Fs
-         7mCIm/C2xa0lnXaoQldlqBJ+72eBCP6/uMWAp8xO8VXadxRvt+YFjbqXqkbifHSm4Pgv
-         kRFRD1fY2JqHXXnu7TQd4hfkMQkoO6lpvJZJmN8e0mFOog8dCJFrW8UOrmSOdHs0J8kh
-         clbQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWHtwzArFSwWaCcbw/8mGHji1QNh4axUt7McDP1f1hEN25NGqfoSBNg9K9OamxYWd3I9IvqA/BidCAHcA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxIFDAV7ZRFzwLVcaSX2CayjLssbNGbzNxaihrhhzsMTTgOaVQm
-	Bykb1LVOaRtHa+pV//0/lazowN4XaJ/GqdHzoRCLWVZtKC3V+RILpuzymrq1mZzlOXoFHH8rHiz
-	CBjQtdg==
-X-Gm-Gg: ASbGncv2ABiD2xqFwgx6MwsDS1IIEjjRlTzF3XXw9CQ0kpmGRvX4zHxxjI2LW/Ktqia
-	c8EA8RWQYpH6cWLuBYWxT2jyESPKmUxqTqTb0d7jk345+gxtj6AM2F+2MoRBOyMVgmMDHtkIW2Y
-	KzEwcGVoz19NNY86bK2Ps2pDO/Wa90aUauTKZaJwKmZD/4I11B0tGuoQ4rbrfudN4cY+Lkd6WXE
-	3piV2xei8WX6t59UzMiOsofSYTaenO+/jvs1o9FkmkMbFUyocCIrI1w0b8HwGqWpMI85+D5+zO1
-	lLZ6aLvxLvUPcaNeIbi+HLsO1TAFXjdZzgb/JJaWoHHlJxcdjGj1p9HR/7RBGCXMMQEzhWcyUZM
-	UW141zbOVHEdC5wbSyXqYkwfQetkxShVQ3Y1cVQ+C6iBgdopfVHTZgMhZ95IAD8iKO79R59RD
-X-Google-Smtp-Source: AGHT+IGXCdXLxW054/i0KJnNZdwNq13vBQAm/4JypUF/W4ENHa7ZKvvL5kH9JCJ36+jnuvLDBmWYZg==
-X-Received: by 2002:a17:907:1c9d:b0:af9:7f4f:775e with SMTP id a640c23a62f3a-afdf01e3898mr266208066b.51.1755701284675;
-        Wed, 20 Aug 2025 07:48:04 -0700 (PDT)
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com. [209.85.218.51])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-afded478b2csm191154066b.62.2025.08.20.07.48.03
-        for <linux-input@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 20 Aug 2025 07:48:03 -0700 (PDT)
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-afcb7a3a085so1010515166b.2
-        for <linux-input@vger.kernel.org>; Wed, 20 Aug 2025 07:48:03 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUtWakr46iB40brFaIbh7yOUDHuQbVyNrfBdTiGcP8gbjGf4D6aQzD6162iXtrGQavcUNHlOlUROf4O0w==@vger.kernel.org
-X-Received: by 2002:a17:907:1c27:b0:ade:44f8:569 with SMTP id
- a640c23a62f3a-afdf01a0f35mr268297266b.42.1755701282745; Wed, 20 Aug 2025
- 07:48:02 -0700 (PDT)
+	s=arc-20240116; t=1755709380; c=relaxed/simple;
+	bh=Zv4ujPO3KQCQ/S/zZ+87yMEeTHGtDtwjmsw35eFBLPg=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=GJeKu3gn/6repjJ2Tilsx8ObkFzt3ZlNB8lv0AdCbKsv3nJDGWP6bkp8t5bVVAacMd/DPFGlnZEQgz9CoeLBGJ3w+qUhW+e4gwleM8BlFaSX4VU+tc4tQS1wiR7PRw4YAqwHkYNsp3abWm86rAQt+Q3szir5y4AiBa5c8JjHUW0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Dr1d03/z; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A73AC113CF;
+	Wed, 20 Aug 2025 17:02:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755709379;
+	bh=Zv4ujPO3KQCQ/S/zZ+87yMEeTHGtDtwjmsw35eFBLPg=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=Dr1d03/ztQZzehnuA3pVpw7eG2apfzSIzXWZn4V8PSF/oxOnzaMyj6VZxDgQ3XY0C
+	 nca+A2IJDoLbxKo30R/YmbItPPf92i6LVVRW7LTdmYn+yLP3bLCTrV977h9BaHEtKx
+	 NXa2PCl2PJ+9sKMlIBp1C0l2xmBSHRNp1Ot+Slf6644+zsAzHmD5BYUvfwKZ1SqBPg
+	 b3bNilTK6GPtQRkA2c0x0ltTwqwessPnwFUwQuinpUV1sWYrBj8/SGJJQ8Wlda48Mw
+	 vcZIdxxAkqbQkwlZ9DlQZ/Zs8lvh3SMTfcqlJlRdXT5KDCZbCRFgNoX/rafdY4my5h
+	 Ujim+Xbb9lOhA==
+From: Vinod Koul <vkoul@kernel.org>
+To: linux-kernel@vger.kernel.org, 
+ Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: Mark Brown <broonie@kernel.org>, 
+ Adrian Hunter <adrian.hunter@intel.com>, 
+ Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+ Alim Akhtar <alim.akhtar@samsung.com>, 
+ Andrea della Porta <andrea.porta@suse.com>, 
+ =?utf-8?q?Andreas_F=C3=A4rber?= <afaerber@suse.de>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, Andy Shevchenko <andy@kernel.org>, 
+ Andy Yan <andy.yan@rock-chips.com>, Avi Fishman <avifishman70@gmail.com>, 
+ Bartosz Golaszewski <brgl@bgdev.pl>, 
+ Benjamin Fair <benjaminfair@google.com>, 
+ Bjorn Andersson <andersson@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+ Daniel Lezcano <daniel.lezcano@linaro.org>, 
+ David Airlie <airlied@gmail.com>, David Lechner <dlechner@baylibre.com>, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+ Drew Fustini <fustini@kernel.org>, dri-devel@lists.freedesktop.org, 
+ Fabio Estevam <festevam@gmail.com>, 
+ Fabrice Gasnier <fabrice.gasnier@foss.st.com>, Fu Wei <wefu@redhat.com>, 
+ Guo Ren <guoren@kernel.org>, Hans Verkuil <hverkuil@kernel.org>, 
+ =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, imx@lists.linux.dev, 
+ Iwona Winiarska <iwona.winiarska@intel.com>, 
+ Jaroslav Kysela <perex@perex.cz>, Jassi Brar <jassisinghbrar@gmail.com>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Jerome Brunet <jbrunet@baylibre.com>, Jonas Karlman <jonas@kwiboo.se>, 
+ Jonathan Cameron <jic23@kernel.org>, Kevin Hilman <khilman@baylibre.com>, 
+ Kishon Vijay Abraham I <kishon@kernel.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>, 
+ Krzysztof Kozlowski <krzk@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Lee Jones <lee@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Linus Walleij <linus.walleij@linaro.org>, linux-actions@lists.infradead.org, 
+ linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+ linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org, 
+ linux-gpio@vger.kernel.org, linux-iio@vger.kernel.org, 
+ linux-input@vger.kernel.org, linux-media@vger.kernel.org, 
+ linux-mmc@vger.kernel.org, linux-phy@lists.infradead.org, 
+ linux-pm@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
+ linux-pwm@vger.kernel.org, linux-riscv@lists.infradead.org, 
+ linux-rockchip@lists.infradead.org, linux-rtc@vger.kernel.org, 
+ linux-samsung-soc@vger.kernel.org, linux-sound@vger.kernel.org, 
+ linux-spi@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
+ linux-sunxi@lists.linux.dev, Liu Ying <victor.liu@nxp.com>, 
+ Lukasz Luba <lukasz.luba@arm.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Manivannan Sadhasivam <mani@kernel.org>, 
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+ Maxime Ripard <mripard@kernel.org>, 
+ Michael Turquette <mturquette@baylibre.com>, 
+ Miquel Raynal <miquel.raynal@bootlin.com>, Nancy Yuen <yuenn@google.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Nicolin Chen <nicoleotsuka@gmail.com>, 
+ =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, openbmc@lists.ozlabs.org, 
+ Patrick Venture <venture@google.com>, 
+ Paul Walmsley <paul.walmsley@sifive.com>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, 
+ Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Robert Foss <rfoss@kernel.org>, 
+ Samuel Holland <samuel.holland@sifive.com>, 
+ Samuel Holland <samuel@sholland.org>, Sandy Huang <hjc@rock-chips.com>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>, 
+ Shengjiu Wang <shengjiu.wang@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Stephen Boyd <sboyd@kernel.org>, Takashi Iwai <tiwai@suse.com>, 
+ Tali Perry <tali.perry1@gmail.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Tomer Maimon <tmaimon77@gmail.com>, Ulf Hansson <ulf.hansson@linaro.org>, 
+ =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, 
+ Vasily Khoruzhick <anarsoul@gmail.com>, Vladimir Zapolskiy <vz@mleia.com>, 
+ Xiubo Li <Xiubo.Lee@gmail.com>, Yangtao Li <tiny.windzz@gmail.com>, 
+ Zhang Rui <rui.zhang@intel.com>
+In-Reply-To: <20250813161517.4746-1-wsa+renesas@sang-engineering.com>
+References: <20250813161517.4746-1-wsa+renesas@sang-engineering.com>
+Subject: Re: (subset) [PATCH 00/21] treewide: remove unneeded 'fast_io'
+ parameter in regmap_config
+Message-Id: <175570934550.66459.15951444863822303407.b4-ty@kernel.org>
+Date: Wed, 20 Aug 2025 22:32:25 +0530
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250820122520.3356738-1-yelangyan@huaqin.corp-partner.google.com>
- <20250820122520.3356738-3-yelangyan@huaqin.corp-partner.google.com>
-In-Reply-To: <20250820122520.3356738-3-yelangyan@huaqin.corp-partner.google.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Wed, 20 Aug 2025 07:47:48 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=X=C1oycGMS2GvGQWxVMR8h-4kv3pXQrH0rXyfvqwv4PQ@mail.gmail.com>
-X-Gm-Features: Ac12FXyiFWnDzrYzsNCIRBTvsCzSDFE08U3w3EJvjmOQdowoUEgqgJLZWf1XMk0
-Message-ID: <CAD=FV=X=C1oycGMS2GvGQWxVMR8h-4kv3pXQrH0rXyfvqwv4PQ@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] HID: i2c-hid: elan: Add parade-tc3408 timing
-To: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
-Cc: dmitry.torokhov@gmail.com, robh@kernel.org, krzk+dt@kernel.org, 
-	conor+dt@kernel.org, jikos@kernel.org, bentiss@kernel.org, 
-	linux-input@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13.0
 
-Hi,
 
-On Wed, Aug 20, 2025 at 5:25=E2=80=AFAM Langyan Ye
-<yelangyan@huaqin.corp-partner.google.com> wrote:
->
-> Parade-tc3408 requires reset to pull down time greater than 10ms,
-> so the configuration post_power_delay_ms is 10, and the chipset
-> initial time is required to be greater than 300ms,
-> so the post_gpio_reset_on_delay_ms is set to 300.
->
-> Signed-off-by: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
-> ---
->  drivers/hid/i2c-hid/i2c-hid-of-elan.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
+On Wed, 13 Aug 2025 18:14:46 +0200, Wolfram Sang wrote:
+> While working on a driver using regmap with MMIO, I wondered if I need
+> to set 'fast_io' in the config. Turned out I don't need to, so I added
+> documentation for it with commit ffc72771ff6e ("regmap: Annotate that
+> MMIO implies fast IO").
+> 
+> This series fixes the existing users in the tree which needlessly set
+> the flag. They have been found using this coccinelle script:
+> 
+> [...]
 
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
+Applied, thanks!
+
+[12/21] phy: remove unneeded 'fast_io' parameter in regmap_config
+        commit: e1e1e77f7df7cbee959ba024e5475907fe561c98
+
+Best regards,
+-- 
+~Vinod
+
+
 
