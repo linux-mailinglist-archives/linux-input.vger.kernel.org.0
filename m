@@ -1,136 +1,89 @@
-Return-Path: <linux-input+bounces-14214-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14215-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id A12A0B2E6DE
-	for <lists+linux-input@lfdr.de>; Wed, 20 Aug 2025 22:45:16 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 23012B2E939
+	for <lists+linux-input@lfdr.de>; Thu, 21 Aug 2025 02:08:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 624FBA21660
-	for <lists+linux-input@lfdr.de>; Wed, 20 Aug 2025 20:45:15 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id EEF9F7A45B9
+	for <lists+linux-input@lfdr.de>; Thu, 21 Aug 2025 00:06:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 531582F0C5E;
-	Wed, 20 Aug 2025 20:44:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 007B420330;
+	Thu, 21 Aug 2025 00:07:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GUHVK2kR"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dL6rtiBA"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 083F22D9EF9;
-	Wed, 20 Aug 2025 20:44:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6610A921;
+	Thu, 21 Aug 2025 00:07:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755722683; cv=none; b=dVqz+zyXBSQ7cPXfJAMMaJm/+0Ycu1K7UOugmg7FMjmam4OYVOGCkW3ZRVlhdkiuZTAPjNQJwoU5I1NjW9SuFSOcIxbE8v7EOxiNjX97yvjrQ8dgvrVANiYzyjVaAyJb1R2c8sKq1pK3M60oXMbugrkcheIoImNmMdiMpNiRKmY=
+	t=1755734874; cv=none; b=nAJz0LMTtf1ctseANFMNtxwRghidfi2DTdEbNIyYrpCMW/HJViuI5BElvfQd4xWFqbdM0axqp2DVOZnfamOe7qCL3UMJsNQyjhFlV6fyGFfuezKlHBeweUkK9isny6t18+XZJADwEo6Fbj0nDRiU5RjtWnywFBhUwYqfyzRboN0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755722683; c=relaxed/simple;
-	bh=lJ1hQC4FSkaeInMQ9OwyDwx59vbkBqmqCr00VADdE6M=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=uU1fUPnyz3F9PV6PxAIIc+4jqCxSiY1r2fVB6DgLf6y54NouFfPZqP36eTz+uXyfPCAHU2DMmnlr6MDWmSDB/GZka/dxc6jtEIVU0SXgyPPzNkNz/Chje8X7CYGnhcBGBOVS+WS/RyVfx0a0EywHnak/41sVVomOLRNIyMz+Zho=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GUHVK2kR; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 77ADCC2BCB9;
-	Wed, 20 Aug 2025 20:44:42 +0000 (UTC)
+	s=arc-20240116; t=1755734874; c=relaxed/simple;
+	bh=c47+fMWeDw96kRkQrYoUXjIWccy+0mVTu7/4RDUErVg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=K3vGtocPONo3KbDGmWGxrhS3STeYKq0HersybhCMRS9ILtVR4GJ27k33m1bHSLTTCoV1ns4fe0mJ+5ktxeUa9+4mi4Al+b3+06BFjqQN8n8D5QNJDr3+Dvs7+V6PDZRsjd4d/Z7h8rNbvp5akOpletsyFYPEK2/seCxtDIkC0kY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dL6rtiBA; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2DCFFC4CEE7;
+	Thu, 21 Aug 2025 00:07:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755722682;
-	bh=lJ1hQC4FSkaeInMQ9OwyDwx59vbkBqmqCr00VADdE6M=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=GUHVK2kRerD7AoMhOVzVlR5USeBWPCwW9uGSvjHfykPFcRNQUPTtYo55JuwQfzYfL
-	 AI1uBwdsFF8Q8T5z7jw0AOVRSymyxZ4tufZklELk/RJo4noIrDqpvhoxW+Fv8hO7cD
-	 4Mwbp8qYC6EmZ1jbs7EXNpKj/juKdPM0vlyysXLAdmE/hsncCdGEt4Ocb374ENxuHD
-	 +WuOypi2agLZ5jkrBzyhqdFiADzYM3jxvJah1tuqW5cLWn6wV5hO7rqCi6Xlo7S4In
-	 96/EB433ct9WeD83YgpTg+SyryHKJomegwgqIBOwtd/syS7lQViXrjh0IBYkhojVw3
-	 H4d/HxF7pn9kA==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C6A7CA0EDC;
-	Wed, 20 Aug 2025 20:44:42 +0000 (UTC)
-From: Samuel Kayode via B4 Relay <devnull+samuel.kayode.savoirfairelinux.com@kernel.org>
-Date: Wed, 20 Aug 2025 16:44:41 -0400
-Subject: [PATCH v10 6/6] MAINTAINERS: add an entry for pf1550 mfd driver
+	s=k20201202; t=1755734874;
+	bh=c47+fMWeDw96kRkQrYoUXjIWccy+0mVTu7/4RDUErVg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=dL6rtiBAFhyMJxcIoWiQkGRYy9OMELDo37o6D+6qYXEkDPigImN/LKO+hNSpPmM7Y
+	 Zn+9vyJhWwTRQDIMi2KRVzvbogEMyt1XuDTf4yh29aSvODa59AjjyK9LBXD/PSpNzB
+	 qjnTQufuJYw6ByM210NgYFrK4spA3idE9VxaoCT+vLLPz1M3LvnweCzROWxT6VQ+Ng
+	 GtoevQnHbPsWpFxpRtcI/ClxAQHgul/d5uh3CN+SdO9AV2LTMa/6RiZGBJYPzxfeWd
+	 8cgTbkn45VW+9cK85GkrJFTxmSLYQB6oRFgmjjX7ge0snUhVNyRplNa3mCLLfjCweh
+	 gZrSecoSJY+Gg==
+Date: Wed, 20 Aug 2025 19:07:48 -0500
+From: Rob Herring <robh@kernel.org>
+To: Vladimir Zapolskiy <vz@mleia.com>
+Cc: Frank Li <Frank.Li@nxp.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>,
+	"open list:INPUT (KEYBOARD, MOUSE, JOYSTICK, TOUCHSCREEN)..." <linux-input@vger.kernel.org>,
+	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>,
+	"moderated list:ARM/LPC32XX SOC SUPPORT" <linux-arm-kernel@lists.infradead.org>,
+	open list <linux-kernel@vger.kernel.org>, imx@lists.linux.dev
+Subject: Re: [RESEND v2 1/1] dt-bindings: input: convert lpc32xx-key.txt to
+ yaml format
+Message-ID: <20250821000748.GA1767841-robh@kernel.org>
+References: <20250818183814.3603308-1-Frank.Li@nxp.com>
+ <ddcd3af2-534d-4708-9f7d-e301a91373ab@mleia.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250820-pf1550-v10-6-4c0b6e4445e3@savoirfairelinux.com>
-References: <20250820-pf1550-v10-0-4c0b6e4445e3@savoirfairelinux.com>
-In-Reply-To: <20250820-pf1550-v10-0-4c0b6e4445e3@savoirfairelinux.com>
-To: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
- Mark Brown <broonie@kernel.org>, 
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
- Sebastian Reichel <sre@kernel.org>, Frank Li <Frank.li@nxp.com>
-Cc: imx@lists.linux.dev, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-input@vger.kernel.org, 
- linux-pm@vger.kernel.org, Abel Vesa <abelvesa@kernel.org>, 
- Abel Vesa <abelvesa@linux.com>, Robin Gong <b38343@freescale.com>, 
- Robin Gong <yibin.gong@nxp.com>, 
- Enric Balletbo i Serra <eballetbo@gmail.com>, 
- Sean Nyekjaer <sean@geanix.com>, 
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>, 
- Samuel Kayode <samuel.kayode@savoirfairelinux.com>, 
- Abel Vesa <abelvesa@kernel.org>, Frank Li <Frank.Li@nxp.com>, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1755722681; l=1227;
- i=samuel.kayode@savoirfairelinux.com; s=20250527;
- h=from:subject:message-id;
- bh=v9TE3OjU72u4FujlV703JbwctqJD/5aDkzjsVneeZaY=;
- b=GIIcM0qzZAYLTKVVfzT9A1wTYWJMV/KRPEU8O1UjSCRJ6Ueb42urLTG8WwfRnkOOMic4SWpvH
- nM0WwybvfmpCJT0r9oK5DUlzAIuBS4G7+Y+wratkteE4DjU7hpwVxba
-X-Developer-Key: i=samuel.kayode@savoirfairelinux.com; a=ed25519;
- pk=TPSQGQ5kywnnPyGs0EQqLajLFbdDu17ahXz8/gxMfio=
-X-Endpoint-Received: by B4 Relay for
- samuel.kayode@savoirfairelinux.com/20250527 with auth_id=412
-X-Original-From: Samuel Kayode <samuel.kayode@savoirfairelinux.com>
-Reply-To: samuel.kayode@savoirfairelinux.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ddcd3af2-534d-4708-9f7d-e301a91373ab@mleia.com>
 
-From: Samuel Kayode <samuel.kayode@savoirfairelinux.com>
+On Mon, Aug 18, 2025 at 11:02:58PM +0300, Vladimir Zapolskiy wrote:
+> On 8/18/25 21:38, Frank Li wrote:
+> > Convert lpc32xx-key.txt to yaml format.
+> > 
+> > Additional changes:
+> > - set maximum of key-row(column) to 4.
+> > - add ref to matrix-keymap.yaml.
+> > 
+> > Reviewed-by: Vladimir Zapolskiy <vz@mleia.com>
+> > Signed-off-by: Frank Li <Frank.Li@nxp.com>
+> 
+> FWIW I'm fine, if this change enters over linux-input, otherwise I'll send it
+> in a PR to linux-arm-kernel/for-next.
 
-Add MAINTAINERS entry for pf1550 PMIC.
+The input subsystem is the default.
 
-Reviewed-by: Frank Li <Frank.Li@nxp.com>
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Tested-by: Sean Nyekjaer <sean@geanix.com>
-Signed-off-by: Samuel Kayode <samuel.kayode@savoirfairelinux.com>
----
-v9:
- - Pick up Frank's `Reviewed-by` tag
-v6:
- - Add imx mailing list
----
- MAINTAINERS | 11 +++++++++++
- 1 file changed, 11 insertions(+)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 60bba48f5479a025f9da3eaf9dbacb67a194df07..ffc834aace4272e663f9717bcffd67100eb546c7 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -17996,6 +17996,17 @@ F:	Documentation/devicetree/bindings/clock/imx*
- F:	drivers/clk/imx/
- F:	include/dt-bindings/clock/imx*
- 
-+NXP PF1550 PMIC MFD DRIVER
-+M:	Samuel Kayode <samuel.kayode@savoirfairelinux.com>
-+L:	imx@lists.linux.dev
-+S:	Maintained
-+F:	Documentation/devicetree/bindings/mfd/nxp,pf1550.yaml
-+F:	drivers/input/misc/pf1550-onkey.c
-+F:	drivers/mfd/pf1550.c
-+F:	drivers/power/supply/pf1550-charger.c
-+F:	drivers/regulator/pf1550-regulator.c
-+F:	include/linux/mfd/pfd1550.h
-+
- NXP PF8100/PF8121A/PF8200 PMIC REGULATOR DEVICE DRIVER
- M:	Jagan Teki <jagan@amarulasolutions.com>
- S:	Maintained
-
--- 
-2.50.1
-
+Rob
 
 
