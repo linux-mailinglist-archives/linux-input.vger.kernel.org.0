@@ -1,122 +1,129 @@
-Return-Path: <linux-input+bounces-14233-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14234-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96D44B2F8F0
-	for <lists+linux-input@lfdr.de>; Thu, 21 Aug 2025 14:54:24 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A32BB2FA55
+	for <lists+linux-input@lfdr.de>; Thu, 21 Aug 2025 15:28:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 3D7334E135A
-	for <lists+linux-input@lfdr.de>; Thu, 21 Aug 2025 12:54:23 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 78CD31895A11
+	for <lists+linux-input@lfdr.de>; Thu, 21 Aug 2025 13:25:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 913662D3744;
-	Thu, 21 Aug 2025 12:54:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 36EB5334398;
+	Thu, 21 Aug 2025 13:24:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b="tFrD9DRD"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RnBgB5CT"
 X-Original-To: linux-input@vger.kernel.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9232531A064;
-	Thu, 21 Aug 2025 12:54:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8777334378;
+	Thu, 21 Aug 2025 13:24:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755780862; cv=none; b=heDwWwME91Faj1BouG69FBBBg0d0tQ7iDE+DQUc+UmVr1KJFx84XcMEFduBUEHWGqDck7frosoQRbxMuDBaR5EjwFyZ3b3UwV4n1Egj6I2oO2H9y4npCH9gLt62SbnUrFd+VPpo3jfbWagVAOHfBuGwsOkxfmR34piGjhcg4Z88=
+	t=1755782694; cv=none; b=QcWGiPyoep64c5GzbAYJ7EDqwNZSqe22YndGKhiDFnrAMBXdKnWCUhm9YAhKLHN8MFLc2nEjdE6DT0yV+D2K5vMPUy9cuE3onDTLg6AkLpCtR/2bYjmDLhN38ecbpCdSE+5YGiId4uT7rLuYBEYdV3ZbhJVW0MWkMjxfutxjuQo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755780862; c=relaxed/simple;
-	bh=yPYXsMvMZwuv5LYXBpJH2Br7t6U0f2hpP77PO6BRizY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Q/5L+rv/1i7afbPe/2vkniwvnanQz95kZgX5YszlESmF7DaT7t86RtyomllFqKovVuKlLhfnyZ8q1fIjYPCuiZV0paqMYMh0Re95tpT8rHMVc9suiKHioBb+MuYCVOoZt7n19WSaZHqEBE/MSLy9sqW/g/jepnWITOh9x7OAcB0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b=tFrD9DRD; arc=none smtp.client-ip=185.11.138.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
-	s=gloria202408; h=Content-Type:Content-Transfer-Encoding:MIME-Version:
-	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Reply-To;
-	bh=oPmbTFgKwmws/imMERrk5+csIAfdPrepxIOhDHih7fk=; b=tFrD9DRDe1N9rs+3EymWJKnzqp
-	38dsX6wz13pmCgC9XmBjyyKuDdR3VrA6ewwFMHKFEuqsAl2pdIxXDXdHmoIs0Z7lJFmlS4Pgr2L/K
-	jev80vziBX8ufdlRUep4ierc5hVPi4TPz/r57MhkAURYKVi3yHpiCtEoT4JK48E0IToKC0qMpQG//
-	TtY2N14pEYWbSTtVzkV/MQpqhK35ohSYJQ51nCt1yKWm4UkGJqXmBAJC+xmIQoMmMHFNHEyIr8gkm
-	YyizSBFPrfa4Y+VHJvpJFfTzWq491KG51hi3kB2xprpAGAm3NW1pMun2s/4Eagio91w/mGwY+hW7W
-	jY14wyHA==;
-Received: from i53875bd9.versanet.de ([83.135.91.217] helo=diego.localnet)
-	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <heiko@sntech.de>)
-	id 1up4o0-0006JL-2C; Thu, 21 Aug 2025 14:54:12 +0200
-From: Heiko =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>
-To: dmitry.torokhov@gmail.com, Xichao Zhao <zhao.xichao@vivo.com>
-Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
- Xichao Zhao <zhao.xichao@vivo.com>
-Subject: Re: [PATCH] Input: Remove dev_err_probe() if error is -ENOMEM
-Date: Thu, 21 Aug 2025 14:54:10 +0200
-Message-ID: <25449163.kmuVQn2iE0@diego>
-In-Reply-To: <20250821094751.573411-1-zhao.xichao@vivo.com>
-References: <20250821094751.573411-1-zhao.xichao@vivo.com>
+	s=arc-20240116; t=1755782694; c=relaxed/simple;
+	bh=76ReIJtXJzBwzWrjJa65Ko+8l//Yi0hjkZIdqxBBBC4=;
+	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
+	 Message-Id:Subject; b=RmhO+oB7Llr+QsStDx+ilgypEj+cP/uDdKKac/A3bHaqoBuW25k3HVUzDO3MKwZtIXxHoTbmXtiEN24ctUyJvTMRewg2x+zgcVw9LT8ldX2ozSwK5lGgSbyoMf3h6FUx0lRVOYtT94saNgenVQo179P4RGFGm2oUmLaz8AmEPE0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RnBgB5CT; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4DFE2C4CEEB;
+	Thu, 21 Aug 2025 13:24:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755782693;
+	bh=76ReIJtXJzBwzWrjJa65Ko+8l//Yi0hjkZIdqxBBBC4=;
+	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
+	b=RnBgB5CTZ17kmiwkBbDAExo7pQlNQ7peebeeq092niVb2vM+IwmJxsaCAvlOS3f1A
+	 1KXPgaHqN2qA+FxKYuTun7TaAYGIOyMoiJwznaRPhIPEf4jTowAINPvQa5U5Y/q2cm
+	 31QZA8P9XHmdskehrqJbo59m7Mlp3EwsKBWt55rxDk06koyNoMi+dS8TV3XLfBuySg
+	 BUN7JtkuVLrS9PAtC2+onlSRb59amhYyTZUBKjLNryTjslMPmnQOlFeQij1/xLGXTP
+	 g87wdPfMA2peIEu6ojeGdw+oPlXqMg0JJ2c5MCSOLr2n2eQ+fqaYHiBWU7p3uiloB5
+	 8ovoQJMVlfSvA==
+Date: Thu, 21 Aug 2025 08:24:52 -0500
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: flora.fu@mediatek.com, chunkuang.hu@kernel.org, broonie@kernel.org, 
+ linux-gpio@vger.kernel.org, mripard@kernel.org, 
+ louisalexis.eyraud@collabora.com, mchehab@kernel.org, 
+ kyrie.wu@mediatek.corp-partner.google.com, lgirdwood@gmail.com, 
+ linux-kernel@vger.kernel.org, dmitry.torokhov@gmail.com, 
+ conor+dt@kernel.org, kernel@collabora.com, 
+ linux-arm-kernel@lists.infradead.org, amergnat@baylibre.com, 
+ netdev@vger.kernel.org, tiffany.lin@mediatek.com, 
+ linux-input@vger.kernel.org, airlied@gmail.com, linux-clk@vger.kernel.org, 
+ jeesw@melfas.com, yunfei.dong@mediatek.com, linus.walleij@linaro.org, 
+ sean.wang@kernel.org, linux-media@vger.kernel.org, 
+ linux-sound@vger.kernel.org, tzimmermann@suse.de, 
+ andrew-ct.chen@mediatek.com, minghsiu.tsai@mediatek.com, simona@ffwll.ch, 
+ kuba@kernel.org, jmassot@collabora.com, devicetree@vger.kernel.org, 
+ linux-mediatek@lists.infradead.org, houlong.wei@mediatek.com, 
+ angelogioacchino.delregno@collabora.com, andrew+netdev@lunn.ch, 
+ support.opensource@diasemi.com, maarten.lankhorst@linux.intel.com, 
+ ck.hu@mediatek.com, matthias.bgg@gmail.com, pabeni@redhat.com, 
+ p.zabel@pengutronix.de, edumazet@google.com, krzk+dt@kernel.org, 
+ davem@davemloft.net, dri-devel@lists.freedesktop.org
+To: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+In-Reply-To: <20250820171302.324142-5-ariel.dalessandro@collabora.com>
+References: <20250820171302.324142-1-ariel.dalessandro@collabora.com>
+ <20250820171302.324142-5-ariel.dalessandro@collabora.com>
+Message-Id: <175578240744.3438740.13033328475024605529.robh@kernel.org>
+Subject: Re: [PATCH v1 04/14] net: dt-bindings: Convert Marvell 8897/8997
+ bindings to YAML
 
-Am Donnerstag, 21. August 2025, 11:47:51 Mitteleurop=C3=A4ische Sommerzeit =
-schrieb Xichao Zhao:
-> The dev_err_probe() doesn't do anything when error is '-ENOMEM'.
-> Therefore, remove the useless call to dev_err_probe(), and just
-> return the value instead.
->=20
-> Signed-off-by: Xichao Zhao <zhao.xichao@vivo.com>
 
-Acked-by: Heiko Stuebner <heiko@sntech.de>
-
-=46unnily enough, it seems I "messed up" in both drivers - just with a
-decade in between :-)
-
-
-Heiko
-
+On Wed, 20 Aug 2025 14:12:52 -0300, Ariel D'Alessandro wrote:
+> Convert the existing text-based DT bindings for Marvell 8897/8997
+> (sd8897/sd8997) bluetooth devices controller to a YAML schema.
+> 
+> While here, bindings for "usb1286,204e" (USB interface) are dropped from
+> the YAML definition as these are currently documented in file:
+> 
+> - Documentation/devicetree/bindings/net/btusb.txt
+> 
+> Signed-off-by: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
 > ---
->  drivers/input/misc/qnap-mcu-input.c   | 2 +-
->  drivers/input/touchscreen/zforce_ts.c | 3 +--
->  2 files changed, 2 insertions(+), 3 deletions(-)
->=20
-> diff --git a/drivers/input/misc/qnap-mcu-input.c b/drivers/input/misc/qna=
-p-mcu-input.c
-> index 76e62f0816c1..3be899bfc114 100644
-> --- a/drivers/input/misc/qnap-mcu-input.c
-> +++ b/drivers/input/misc/qnap-mcu-input.c
-> @@ -103,7 +103,7 @@ static int qnap_mcu_input_probe(struct platform_devic=
-e *pdev)
-> =20
->  	input =3D devm_input_allocate_device(dev);
->  	if (!input)
-> -		return dev_err_probe(dev, -ENOMEM, "no memory for input device\n");
-> +		return -ENOMEM;
-> =20
->  	idev->input =3D input;
->  	idev->dev =3D dev;
-> diff --git a/drivers/input/touchscreen/zforce_ts.c b/drivers/input/touchs=
-creen/zforce_ts.c
-> index df42fdf36ae3..a360749fa076 100644
-> --- a/drivers/input/touchscreen/zforce_ts.c
-> +++ b/drivers/input/touchscreen/zforce_ts.c
-> @@ -747,8 +747,7 @@ static int zforce_probe(struct i2c_client *client)
-> =20
->  	input_dev =3D devm_input_allocate_device(&client->dev);
->  	if (!input_dev)
-> -		return dev_err_probe(&client->dev, -ENOMEM,
-> -				     "could not allocate input device\n");
-> +		return -ENOMEM;
-> =20
->  	ts->client =3D client;
->  	ts->input =3D input_dev;
->=20
+>  .../bindings/net/marvell,sd8897-bt.yaml       | 91 +++++++++++++++++++
+>  .../bindings/net/marvell-bt-8xxx.txt          | 83 -----------------
+>  2 files changed, 91 insertions(+), 83 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/net/marvell,sd8897-bt.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/net/marvell-bt-8xxx.txt
+> 
 
+My bot found errors running 'make dt_binding_check' on your patch:
 
+yamllint warnings/errors:
 
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/net/marvell,sd8897-bt.yaml: marvell,wakeup-gap-ms: missing type definition
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/net/marvell,sd8897-bt.example.dtb: bluetooth@2 (marvell,sd8897-bt): marvell,wakeup-gap-ms: b'\x00d' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
+
+doc reference errors (make refcheckdocs):
+Warning: Documentation/devicetree/bindings/net/btusb.txt references a file that doesn't exist: Documentation/devicetree/bindings/net/marvell-bt-8xxx.txt
+Documentation/devicetree/bindings/net/btusb.txt: Documentation/devicetree/bindings/net/marvell-bt-8xxx.txt
+
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250820171302.324142-5-ariel.dalessandro@collabora.com
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
 
 
