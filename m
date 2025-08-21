@@ -1,200 +1,238 @@
-Return-Path: <linux-input+bounces-14226-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14227-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECB64B2EEC9
-	for <lists+linux-input@lfdr.de>; Thu, 21 Aug 2025 08:55:11 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id F2DDDB2EEDD
+	for <lists+linux-input@lfdr.de>; Thu, 21 Aug 2025 08:58:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id EE7431898B47
-	for <lists+linux-input@lfdr.de>; Thu, 21 Aug 2025 06:53:34 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4BB34171B48
+	for <lists+linux-input@lfdr.de>; Thu, 21 Aug 2025 06:56:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3040C2E888A;
-	Thu, 21 Aug 2025 06:53:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1E2D32E88B3;
+	Thu, 21 Aug 2025 06:56:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Qs7XcmMv"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iyD74Lzo"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E31732E62B1;
-	Thu, 21 Aug 2025 06:53:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E89972E88AA;
+	Thu, 21 Aug 2025 06:56:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755759190; cv=none; b=RVLHIKuHMmHPAWhZ8as+c4ONAX7MO2DLGcSqjuQKBXejK+amWSgxkiScQqQqOs3fAeGksvirw1QjBySJbvSFg3sEPOmBP4u8QHj/x8vksHK35Cw12Re/8W1dE30filN/UfkMWuAmYMndc2JwC90F2S35tYRsLYFvE1OloKEtVH8=
+	t=1755759397; cv=none; b=SBGWvzyG4riRtfl/IgSQdL0xvUDeNHEMrUQgdAX8l54XPyv1IyFSsFXQRmQCW0fDzFYptkUgTxNf+w0NyEH1uhIMNRGovCDu3O360fSTmuJkG/1a66WTAzm4YQu0fd26G9aaUDbKmXqUHhl4R7cuTERYeASvIGSL8fMFher4cY0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755759190; c=relaxed/simple;
-	bh=Bq9tP1dBXwQ3sRC4YKUxmHUFPSXpyXHLlJKSZ1attcQ=;
+	s=arc-20240116; t=1755759397; c=relaxed/simple;
+	bh=zqrGrPWDA12jmUEme9JEM61Z57Zt0G3OsRiJIV/ySg0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=n78rQaSabD/ScKUnpdTllO9ZlOg/hDxdCc+ldpAowt6f4umkVt5TxhZ8AArkxFRzJinaYlanbIJQWKe0+FhGCd+kGDQAQhPK9H/U8b72NoTMSW3CS4wOv092aogUcb+K2vG42wz4oKsRxYZrpbO/St1YuZzDs5k89jvumpkF2SI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Qs7XcmMv; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22860C4CEED;
-	Thu, 21 Aug 2025 06:53:09 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=fC3PX9rJZqtOe4JMB1m3CjEgVHGJaaX/x06rzP8wvzeiZBnEtqIkN8SRge0m13jinHh+aGNItQ7VT+wl1/qlcsjsooH9j1QFeyQDmVRYHiNP9OJm5158KEFnprh/simyaHSkdtncywObLKroiv5mjDnIan6Ih9Rc76M3dkmfpkU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iyD74Lzo; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4885BC4CEED;
+	Thu, 21 Aug 2025 06:56:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755759189;
-	bh=Bq9tP1dBXwQ3sRC4YKUxmHUFPSXpyXHLlJKSZ1attcQ=;
+	s=k20201202; t=1755759396;
+	bh=zqrGrPWDA12jmUEme9JEM61Z57Zt0G3OsRiJIV/ySg0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Qs7XcmMvSsV7ZlsJpkSxU/mY6+27bCRXN2nW1JYMEkIZbbbxqeCb++SHayuZouPBe
-	 pXLdV6i4y+uV93jaiaeZXB1iriW3zE/bbKi69plgG3xa5OIs0Qi76qhRmK7VU1E6ss
-	 LtnBtwtwFnfX6J44cs071lPZ9x5vD+8uwLd7zPounkMciOpdxkDvBvqh8jlNUP8dii
-	 u2f72i1+0PrrVy50oULnOBet9AcjJiPjRXovxGrycQLyhLCkK3Ylvj06fa/HZTKOhm
-	 8BZFUH4yFIxuQlwwigXeCGWanttsE4WFa/g75aoSrNq3PTsRHEf2r+EsWQcMVJMPEe
-	 J0JNPZ+l1tSHA==
-Date: Thu, 21 Aug 2025 08:53:07 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
-Cc: airlied@gmail.com, amergnat@baylibre.com, andrew+netdev@lunn.ch, 
-	andrew-ct.chen@mediatek.com, angelogioacchino.delregno@collabora.com, broonie@kernel.org, 
-	chunkuang.hu@kernel.org, ck.hu@mediatek.com, conor+dt@kernel.org, davem@davemloft.net, 
-	dmitry.torokhov@gmail.com, edumazet@google.com, flora.fu@mediatek.com, 
-	houlong.wei@mediatek.com, jeesw@melfas.com, jmassot@collabora.com, kernel@collabora.com, 
-	krzk+dt@kernel.org, kuba@kernel.org, kyrie.wu@mediatek.corp-partner.google.com, 
-	lgirdwood@gmail.com, linus.walleij@linaro.org, louisalexis.eyraud@collabora.com, 
-	maarten.lankhorst@linux.intel.com, matthias.bgg@gmail.com, mchehab@kernel.org, 
-	minghsiu.tsai@mediatek.com, mripard@kernel.org, p.zabel@pengutronix.de, pabeni@redhat.com, 
-	robh@kernel.org, sean.wang@kernel.org, simona@ffwll.ch, 
-	support.opensource@diasemi.com, tiffany.lin@mediatek.com, tzimmermann@suse.de, 
-	yunfei.dong@mediatek.com, devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-mediatek@lists.infradead.org, linux-sound@vger.kernel.org, netdev@vger.kernel.org
-Subject: Re: [PATCH v1 10/14] regulator: dt-bindings: Convert Dialog
- Semiconductor DA9211 Regulators to YAML
-Message-ID: <20250821-practical-coyote-of-hail-d2fddb@kuoka>
-References: <20250820171302.324142-1-ariel.dalessandro@collabora.com>
- <20250820171302.324142-11-ariel.dalessandro@collabora.com>
+	b=iyD74Lzovz2uZ37J4b4iVwSRutyTD5uROxOH5k+6sgLAvyYukgeA2hCLgd3ndqtMW
+	 OFlBfsH/Y9kzH8m9jlDM+H0jD0JcAq13uHfx0VWQ/Jb0gP6Kz//kCjmefmvxbG/XJ1
+	 34WSX6rfdlbYEC0STStRrB4TIJ8TFNv8q2vAM+Kf+Fo/RMPcXj/YEkc+Anberg8f6f
+	 PcCzKzU23I8yTr9BjGcqrMka1ohTzTBsoJA4ngskzpnXZs7WQwgL9yFftqNnd2xNut
+	 BIVDOdeXnaEMcgrK0aItlIF78GdE2/gHgjNZ0QDNCV13XSasmCQjA94losjyl05K5u
+	 qaD3nEIEq+Z0w==
+Date: Thu, 21 Aug 2025 08:56:32 +0200
+From: Benjamin Tissoires <bentiss@kernel.org>
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: Jiri Kosina <jikos@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Peter Hutterer <peter.hutterer@who-t.net>, linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] HID: tighten ioctl command parsing
+Message-ID: <tsvy2y4x7xaut6y7fykuc7ltdf777rt2g32zt2biagts6hgjub@iidwntp527og>
+References: <20250711072847.2836962-1-arnd@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250820171302.324142-11-ariel.dalessandro@collabora.com>
+In-Reply-To: <20250711072847.2836962-1-arnd@kernel.org>
 
-On Wed, Aug 20, 2025 at 02:12:58PM -0300, Ariel D'Alessandro wrote:
-> Convert the existing text-based DT bindings for Dialog Semiconductor DA9211
-> Voltage Regulators family to a YAML schema. Examples are simplified, as
-> these are all equal.
-
-Also not wrapped... fix your editor to recognize how commits are
-written.
-
+On Jul 11 2025, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
 > 
-> Signed-off-by: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+> The handling for variable-length ioctl commands in hidraw_ioctl() is
+> rather complex and the check for the data direction is incomplete.
+> 
+> Simplify this code using a switch() statement with the size masked
+> out, to ensure the rest of the command is correctly matched.
+> 
+> Fixes: 9188e79ec3fd ("HID: add phys and name ioctls to hidraw")
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 > ---
+>  drivers/hid/hidraw.c | 123 ++++++++++++++++++-------------------------
+>  1 file changed, 50 insertions(+), 73 deletions(-)
+> 
+> diff --git a/drivers/hid/hidraw.c b/drivers/hid/hidraw.c
+> index c887f48756f4..cc657d60d689 100644
+> --- a/drivers/hid/hidraw.c
+> +++ b/drivers/hid/hidraw.c
+> @@ -403,6 +403,8 @@ static long hidraw_ioctl(struct file *file, unsigned int cmd,
+>  	struct hidraw *dev;
+>  	struct hidraw_list *list = file->private_data;
+>  	void __user *user_arg = (void __user*) arg;
+> +	struct hid_device *hid;
+> +	int len;
+>  
+>  	down_read(&minors_rwsem);
+>  	dev = hidraw_table[minor];
+> @@ -453,81 +455,56 @@ static long hidraw_ioctl(struct file *file, unsigned int cmd,
+>  				break;
+>  			}
+>  		default:
+> -			{
+> -				struct hid_device *hid = dev->hid;
+> -				if (_IOC_TYPE(cmd) != 'H') {
+> -					ret = -EINVAL;
+> -					break;
+> -				}
+> -
+> -				if (_IOC_NR(cmd) == _IOC_NR(HIDIOCSFEATURE(0))) {
+> -					int len = _IOC_SIZE(cmd);
+> -					ret = hidraw_send_report(file, user_arg, len, HID_FEATURE_REPORT);
+> -					break;
+> -				}
+> -				if (_IOC_NR(cmd) == _IOC_NR(HIDIOCGFEATURE(0))) {
+> -					int len = _IOC_SIZE(cmd);
+> -					ret = hidraw_get_report(file, user_arg, len, HID_FEATURE_REPORT);
+> -					break;
+> -				}
+> -
+> -				if (_IOC_NR(cmd) == _IOC_NR(HIDIOCSINPUT(0))) {
+> -					int len = _IOC_SIZE(cmd);
+> -					ret = hidraw_send_report(file, user_arg, len, HID_INPUT_REPORT);
+> -					break;
+> -				}
+> -				if (_IOC_NR(cmd) == _IOC_NR(HIDIOCGINPUT(0))) {
+> -					int len = _IOC_SIZE(cmd);
+> -					ret = hidraw_get_report(file, user_arg, len, HID_INPUT_REPORT);
+> -					break;
+> -				}
+> -
+> -				if (_IOC_NR(cmd) == _IOC_NR(HIDIOCSOUTPUT(0))) {
+> -					int len = _IOC_SIZE(cmd);
+> -					ret = hidraw_send_report(file, user_arg, len, HID_OUTPUT_REPORT);
+> -					break;
+> -				}
+> -				if (_IOC_NR(cmd) == _IOC_NR(HIDIOCGOUTPUT(0))) {
+> -					int len = _IOC_SIZE(cmd);
+> -					ret = hidraw_get_report(file, user_arg, len, HID_OUTPUT_REPORT);
+> -					break;
+> -				}
+> -
+> -				/* Begin Read-only ioctls. */
+> -				if (_IOC_DIR(cmd) != _IOC_READ) {
+> -					ret = -EINVAL;
+> -					break;
+> -				}
+> -
+> -				if (_IOC_NR(cmd) == _IOC_NR(HIDIOCGRAWNAME(0))) {
+> -					int len = strlen(hid->name) + 1;
+> -					if (len > _IOC_SIZE(cmd))
+> -						len = _IOC_SIZE(cmd);
+> -					ret = copy_to_user(user_arg, hid->name, len) ?
+> -						-EFAULT : len;
+> -					break;
+> -				}
+> -
+> -				if (_IOC_NR(cmd) == _IOC_NR(HIDIOCGRAWPHYS(0))) {
+> -					int len = strlen(hid->phys) + 1;
+> -					if (len > _IOC_SIZE(cmd))
+> -						len = _IOC_SIZE(cmd);
+> -					ret = copy_to_user(user_arg, hid->phys, len) ?
+> -						-EFAULT : len;
+> -					break;
+> -				}
+> -
+> -				if (_IOC_NR(cmd) == _IOC_NR(HIDIOCGRAWUNIQ(0))) {
+> -					int len = strlen(hid->uniq) + 1;
+> -					if (len > _IOC_SIZE(cmd))
+> -						len = _IOC_SIZE(cmd);
+> -					ret = copy_to_user(user_arg, hid->uniq, len) ?
+> -						-EFAULT : len;
+> -					break;
+> -				}
+> -			}
+> +			break;
+> +	}
+>  
+> +	hid = dev->hid;
+> +	switch (cmd & ~IOCSIZE_MASK) {
 
-...
+Jiri pinged me about this one, and I gave it a go with the existing
+tests I have in selftests... and turns out that this changes the logic
+of the ioctl processing.
 
-> +---
-> +$id: http://devicetree.org/schemas/regulator/dlg,da9211.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: |
+The removed block was in the default section of the switch/case
+statement. Now it's added *after*, meaning that any ioctl that was
+normally processed before are now caught in the default of the switch
+statement below and return -ENOTTY.
 
-Drop |
+Running tools/testing/selftests/hid/hid_bpf showed that.
 
-> +  Dialog Semiconductor DA9211/DA9212/DA9213/DA9223/DA9214/DA9224/DA9215/DA9225
-> +  Voltage Regulator
-> +
-> +maintainers:
-> +  - Ariel D'Alessandro <ariel.dalessandro@collabora.com>
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - "dlg,da9211"
-> +      - "dlg,da9212"
-> +      - "dlg,da9213"
-> +      - "dlg,da9223"
-> +      - "dlg,da9214"
-> +      - "dlg,da9224"
-> +      - "dlg,da9215"
-> +      - "dlg,da9225"
+Cheers,
+Benjamin
 
-No quotes. I don't think this was ever tested.
-
-Also, keep it properly ordered
-
-
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  regulators:
-> +    type: object
-> +    additionalProperties: false
-> +    description: |
-
-Drop |
-
-> +      List of regulators provided by the device
-> +
-> +    patternProperties:
-> +      "^BUCK([A-B])$":
-
-[AB]
-
-> +        type: object
-> +        $ref: regulator.yaml#
-> +        description: |
-> +          Properties for a single BUCK regulator
-> +
-> +        properties:
-> +          regulator-initial-mode:
-> +            items:
-> +              enum: [ 1, 2, 3 ]
-> +            description: Defined in include/dt-bindings/regulator/dlg,da9211-regulator.h
-> +
-> +          regulator-allowed-modes:
-> +            items:
-> +              enum: [ 1, 2, 3 ]
-> +            description: Defined in include/dt-bindings/regulator/dlg,da9211-regulator.h
-> +
-> +          enable-gpios:
-> +            maxItems: 1
-> +            description: Specify a valid GPIO for platform control of the regulator
-
-Drop description, obvious.
-
-> +
-> +        unevaluatedProperties: false
-
-For nested blocks this goes after $ref: regulator.
-
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +  - regulators
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/regulator/dlg,da9211-regulator.h>
-> +
-> +    i2c1 {
-
-i2c
-
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        da9212: da9212@68 {
-
-Node names should be generic. See also an explanation and list of
-examples (not exhaustive) in DT specification:
-https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
-
-
-Best regards,
-Krzysztof
-
+> +	case HIDIOCSFEATURE(0):
+> +		len = _IOC_SIZE(cmd);
+> +		ret = hidraw_send_report(file, user_arg, len, HID_FEATURE_REPORT);
+> +		break;
+> +	case HIDIOCGFEATURE(0):
+> +		len = _IOC_SIZE(cmd);
+> +		ret = hidraw_get_report(file, user_arg, len, HID_FEATURE_REPORT);
+> +		break;
+> +	case HIDIOCSINPUT(0):
+> +		len = _IOC_SIZE(cmd);
+> +		ret = hidraw_send_report(file, user_arg, len, HID_INPUT_REPORT);
+> +		break;
+> +	case HIDIOCGINPUT(0):
+> +		len = _IOC_SIZE(cmd);
+> +		ret = hidraw_get_report(file, user_arg, len, HID_INPUT_REPORT);
+> +		break;
+> +	case HIDIOCSOUTPUT(0):
+> +		len = _IOC_SIZE(cmd);
+> +		ret = hidraw_send_report(file, user_arg, len, HID_OUTPUT_REPORT);
+> +		break;
+> +	case HIDIOCGOUTPUT(0):
+> +		len = _IOC_SIZE(cmd);
+> +		ret = hidraw_get_report(file, user_arg, len, HID_OUTPUT_REPORT);
+> +		break;
+> +	case HIDIOCGRAWNAME(0):
+> +		len = strlen(hid->name) + 1;
+> +		if (len > _IOC_SIZE(cmd))
+> +			len = _IOC_SIZE(cmd);
+> +		ret = copy_to_user(user_arg, hid->name, len) ?  -EFAULT : len;
+> +		break;
+> +	case HIDIOCGRAWPHYS(0):
+> +		len = strlen(hid->phys) + 1;
+> +		if (len > _IOC_SIZE(cmd))
+> +			len = _IOC_SIZE(cmd);
+> +		ret = copy_to_user(user_arg, hid->phys, len) ?  -EFAULT : len;
+> +		break;
+> +	case HIDIOCGRAWUNIQ(0):
+> +		len = strlen(hid->uniq) + 1;
+> +		if (len > _IOC_SIZE(cmd))
+> +			len = _IOC_SIZE(cmd);
+> +		ret = copy_to_user(user_arg, hid->uniq, len) ?  -EFAULT : len;
+> +		break;
+> +	default:
+>  		ret = -ENOTTY;
+> +		break;
+>  	}
+>  out:
+>  	up_read(&minors_rwsem);
+> -- 
+> 2.39.5
+> 
 
