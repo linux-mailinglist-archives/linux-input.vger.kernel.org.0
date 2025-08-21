@@ -1,148 +1,134 @@
-Return-Path: <linux-input+bounces-14242-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14244-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F711B2FF9C
-	for <lists+linux-input@lfdr.de>; Thu, 21 Aug 2025 18:07:19 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id CFBD0B3010B
+	for <lists+linux-input@lfdr.de>; Thu, 21 Aug 2025 19:29:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A42E17BE026
-	for <lists+linux-input@lfdr.de>; Thu, 21 Aug 2025 16:05:32 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id BB43F18970F1
+	for <lists+linux-input@lfdr.de>; Thu, 21 Aug 2025 17:28:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B73E72D29B7;
-	Thu, 21 Aug 2025 16:06:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="L09ve3g5"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0C98B33471E;
+	Thu, 21 Aug 2025 17:26:56 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD6432D3745;
-	Thu, 21 Aug 2025 16:06:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63A893376A5
+	for <linux-input@vger.kernel.org>; Thu, 21 Aug 2025 17:26:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755792394; cv=none; b=shI5NQXpLc0ewb4bMhYrJkuB4RQ2nQB+CPa1L60Z9wgpsa2Vb2SmkukbtGwmJM5aDVOo6uHvzgtNMjeouGrftjnhEDHjSZyB6/6iFnJaeTPiDnW+xP01a0vxlNCxKjZjNm2Lq7drm/biAsA4W52eJ1ZWKIbjh1UtXedHwSC34N8=
+	t=1755797215; cv=none; b=OZ8fuMzf7fB5Hw+6s9lEyyOrU7Acg7CWjvk2bnQdEx6xYXJrvifOv1kbYXvSBRawCpECEVOk8AJ5jz211dZhNRMtErwnwv3EgkQeSZDVdikEwuK4nl6+iKXGmAbZLhkGD17b7F9f8R2Supg0A5hk2IKjOPhRRvlrT4jozHx4uR0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755792394; c=relaxed/simple;
-	bh=wcbuo+3AyQiSAOlwL37GqZNp7kSPC8hi55kPJHMirsU=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:Content-Type; b=Rqtq1/8hRG+tbMKObMVB7hEcLZ2PVwoEIMUl5/IpT26ySgoyg27yE1z5PubQCYzwHTEFN4cv2zo/4u5yH0nX33mDrx2Sm5aHVpj+HyTR3HUoQMSsrHF03HegJLS6Fut26NpjnMJQE9ARyYr560c98cgGoiK/JiVzWpm+y4WJLcg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=L09ve3g5; arc=none smtp.client-ip=209.85.218.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-afcb7a16441so173160966b.2;
-        Thu, 21 Aug 2025 09:06:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755792391; x=1756397191; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:from:content-language
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=q9dk1yp1rV4JBOFv12CvKzNbPaa/5Em4ZRaChGbcovk=;
-        b=L09ve3g5WC0zBlbxQ1/QCPQLQpnNbfrsH5A26+i5sZbURpR0OJ7ewCuAGbTUR728s6
-         zX00FrduE4DSzk0+RNNIZZiRqVQblDu7e5LzQL4mQdObXu/4IcPRnlOkD0JhgE3YxNC3
-         u43zz1zH924VdRhrMBVm7rkpGP6bRMUOOI5+AAzZ+fUAnzVTogDVxEu/Zs9jxK60amvV
-         0lPvytHir1Q/J6P6UkntOE8qMbmQyz+9H4XEI1RBG21ZpbJ6WFz49J9FUu6MFei3hFpN
-         uxZ6h/v58OffmTHGFJUXcOcBm4LXnoxZ6/HwThk8QOn2d2Cy1EKwo2XQrPUAWvRJ7Lwe
-         xuvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755792391; x=1756397191;
-        h=content-transfer-encoding:cc:to:subject:from:content-language
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=q9dk1yp1rV4JBOFv12CvKzNbPaa/5Em4ZRaChGbcovk=;
-        b=lzxim12W9X83z1d9RfWZt6h1IUqhWB0ZztW74DJHEkZdUTUevT2nTqBOBuFmkv6Ecf
-         bHoRjAFnZAQBMLbA0YrxlNTNQXmHU2TeSOxwfnYNEY8T+5FtlYg85DQ7KHuQWZajbd3Q
-         1gzl/tC4rb8J+cOtPikpuZOI4H2M71bT85R1xvDnNuiq//XWtMSLW4wnedwrcFrWbibr
-         /Guwr4oyAIi/KFXVTajBhcGVaFahOCvwEFkESPGnlYB1a6Sv3/MJdOFfk3lQhrlObTwF
-         f8NykjlTVvfoJfq+El+yz/2RsxAwzck73zaNJe4ewUsuvh94RlY25covGXBsl+d3Pqh3
-         GREw==
-X-Forwarded-Encrypted: i=1; AJvYcCWmotBR/5CK296cjBlQJzZKp0QjjwXYSNAT9pOHis4WMKTm7FaLkcacbdd1dGFfjweaG2aYIhb+jUkOei0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzASfy/oOlIu7K7TeQ2d0/1MMrzYLh163+D1vh6QhGBrI1pRJLv
-	XKXqaMs6YUVoy05b3ohd86wjjepO3yROM2mOLpb970noq1ZeYwYACpiPNn8RbfhN
-X-Gm-Gg: ASbGncskNTjOOuckXiutL7wYFyF6QVcUHjQyuavtrk7MW65B75FsfU831I7VaS3jH2D
-	1nymVT53BLV4A2b5rqI0+/vOvwdSt3CSdBb/k1Gm2E7zN5lu5X5NbOzVnuHoUJa1qcNblAZjWl/
-	il7qi+l1r5Ycn1Hk2h94vv9vycLeo/BXcCDDv2a66DeBjojwJiXFl0kKxcq39DJsuXHJVJuIPN6
-	LHMeuNi6XYatW3SRlVEnPcM/AJs6uDi53m0TR1qsk9Gwu27p63Gzf4tG3YC9Dk9mJdJQ0wMz+0e
-	knoq0uq6tSTpxgCnXIjpiP+lqJfqmjJdJEk6XdC3DZlDyBUL3eSjv4xal8AuPF6rrW7J9zOKmiv
-	el/62lK1RyBykwMWADzTDQ3SKshGkIVUPc+bYj++MXcb4QPZ2VPvXm0jb9ybupTNbDw94aZyuOL
-	3/t8ltHCaLJQ==
-X-Google-Smtp-Source: AGHT+IGKXeMeNQVsD7I3Q41pa0/1sqAvoMwsxsmgB21YXcBn7EBXZ6SIqmeKxjoEvA32/r19jYIiAQ==
-X-Received: by 2002:a17:907:3f90:b0:afd:d9e3:9541 with SMTP id a640c23a62f3a-afe07d7f373mr291307466b.65.1755792390777;
-        Thu, 21 Aug 2025 09:06:30 -0700 (PDT)
-Received: from [192.168.1.171] (host-95-252-189-221.retail.telecomitalia.it. [95.252.189.221])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-afded2badd9sm408882466b.20.2025.08.21.09.06.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 21 Aug 2025 09:06:30 -0700 (PDT)
-Message-ID: <7514c681-1020-4b31-b195-ebbc3e4a611f@gmail.com>
-Date: Thu, 21 Aug 2025 18:06:29 +0200
+	s=arc-20240116; t=1755797215; c=relaxed/simple;
+	bh=27PkDugFDXO+RkBfyXFnee1MMhm1ZsvwaLoTK5nHyGs=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=ftMpoPUMVs/PYgLPZky78nbIhNpvu+WIICPAGggIk1Lv6znnsJEgTpGsi53mpkpH9Amj9Ahk7swVJDiXKGdZEXFOlc5Ov7A0lqcQoo5rD0QiNbXyYeNjMnfYI+PwjccR6fqM+ancyg7eTbSoV73yZiicsGk9T/KRMj4ltTpNS1s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from dude02.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::28])
+	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
+	(envelope-from <m.felsch@pengutronix.de>)
+	id 1up93e-0002Ta-Hh; Thu, 21 Aug 2025 19:26:38 +0200
+From: Marco Felsch <m.felsch@pengutronix.de>
+Subject: [PATCH v3 0/4] Input: Add support for TouchNetix aXiom touchscreen
+Date: Thu, 21 Aug 2025 19:26:35 +0200
+Message-Id: <20250821-v6-10-topic-touchscreen-axiom-v3-0-940ccee6dba3@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US, it
-From: Massimo Giambona <massimo.giambona@gmail.com>
-Subject: [HID][asus] Fn+Esc not handled on ASUS ProArt P16
-To: jikos@kernel.org, bentiss@kernel.org
-Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAMtWp2gC/4XOPQ6DMAwF4KtUmZvKTgk/nXqPqgMEFzw0QQlEV
+ Ii7NyB16sBi6flJn72IQJ4piNtpEZ4iB3Y2hev5JExf244ktykLBSqDAjIZc4kgRzewSXMyfTC
+ eyMp6ZvdOlS5ypBIBUSRj8PTiefcfz5R7DqPzn/1cxG27y4hYHcgRJcgcVVYp3VQFlveBbDeN3
+ lmeLy2JjY/qR2rQ6pBUiaw1tU16u84B/sh1Xb8s0RGTIgEAAA==
+X-Change-ID: 20240704-v6-10-topic-touchscreen-axiom-105761e81011
+To: Luis Chamberlain <mcgrof@kernel.org>, 
+ Russ Weight <russ.weight@linux.dev>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, 
+ Andrew Morton <akpm@linux-foundation.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+ Kamel Bouhara <kamel.bouhara@bootlin.com>, 
+ Marco Felsch <kernel@pengutronix.de>, Henrik Rydberg <rydberg@bitmath.org>, 
+ Danilo Krummrich <dakr@kernel.org>, Danilo Krummrich <dakr@kernel.org>
+Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-input@vger.kernel.org, kernel@pengutronix.de, 
+ Marco Felsch <m.felsch@pengutronix.de>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+X-Mailer: b4 0.14.2
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:1101:1d::28
+X-SA-Exim-Mail-From: m.felsch@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-input@vger.kernel.org
 
-Hello,
+Hi,
 
-on ASUS ProArt P16 laptops the Fn+Esc key is not handled by the hid-asus
-driver.
+this adds the support for the TouchNetix aXiom touchcontroller family.
 
-When pressing Fn+Esc, dmesg shows:
+The following features are added:
+ - I2C communication
+ - Input event handling
+ - Touchcontroller firmware (AXFW or ALC) updates
+ - Touchcontroller config (TH2CFGBIN) updates
 
-   [21348.413951] asus 0003:0B05:19B6.0002: Unmapped Asus vendor 
-usagepage code 0x4e
-   [21348.498405] asus 0003:0B05:19B6.0002: Unmapped Asus vendor 
-usagepage code 0x4e
+Regards,
+  Marco
 
-One message is for press, the other for release.
+Changes in v3:
+- Link to v2: https://lore.kernel.org/r/20250529-v6-10-topic-touchscreen-axiom-v2-0-a5edb105a600@pengutronix.de
+- firmware: fix commit message (Russ)
+- dt-bindings: Add ack from Krzysztof
+- dt-bindings: make use of GPIO_ACTIVE_LOW (Krzysztof)
+- dt-bindings: drop 'panel: true' property (Krzysztof)
+- driver: make use of sysfs_emit (Greg)
+- driver: s/WARN()/dev_warn()/ to not take down the system (Greg)
+- driver: fix build dependency error by adding "depends on DRM || !DRM"
+- driver: harmonize usage printing to u%02X
 
-According to USB PCap traces (see 
-https://gitlab.com/asus-linux/asusctl/-/issues/585),
-Fn+Esc sends:
+Changes in v2:
+- Link to v1: https://lore.kernel.org/r/20241119-v6-10-topic-touchscreen-axiom-v1-0-6124925b9718@pengutronix.de
+- Rework the firmware-duplicate handling -> expose the error to the
+  userspace
+- Drop Krzysztof Kozlowski ACK and RB
+- Add panel-follower support
+- Add sysfs-driver-input-touchnetix-axiom documentation
+- Add support for new firmware 4.8.9
+- Add support to handle 2D and 3D firmware
 
-   - 0x5ad04e01 (enable)
-   - 0x5ad04e00 (disable)
+---
+Kamel Bouhara (2):
+      dt-bindings: vendor-prefixes: Add TouchNetix AS
+      dt-bindings: input: Add TouchNetix axiom touchscreen
 
-It would be useful to map this to KEY_FN_ESC (or another appropriate 
-keycode)
-in drivers/hid/hid-asus.c so that it becomes available to userspace.
+Marco Felsch (2):
+      firmware_loader: expand firmware error codes with up-to-date error
+      Input: Add TouchNetix aXiom I2C Touchscreen support
 
-System information:
-- Model: ASUS ProArt P16 H7606 (BIOS 319)
-- Kernel version: Linux 6.15.10-200.fc42.x86_64
-- evtest: no event generated
-- dmesg: "Unmapped Asus vendor usagepage code 0x4e"
-- Distribution: Fedora 42 Workstation
+ .../testing/sysfs-driver-input-touchnetix-axiom    |   74 +
+ .../input/touchscreen/touchnetix,ax54a.yaml        |   62 +
+ .../devicetree/bindings/vendor-prefixes.yaml       |    2 +
+ drivers/base/firmware_loader/sysfs_upload.c        |    1 +
+ drivers/input/touchscreen/Kconfig                  |   17 +
+ drivers/input/touchscreen/Makefile                 |    1 +
+ drivers/input/touchscreen/touchnetix_axiom.c       | 2974 ++++++++++++++++++++
+ include/linux/firmware.h                           |    2 +
+ lib/test_firmware.c                                |    1 +
+ 9 files changed, 3134 insertions(+)
+---
+base-commit: 038d61fd642278bab63ee8ef722c50d10ab01e8f
+change-id: 20240704-v6-10-topic-touchscreen-axiom-105761e81011
 
-Additional notes:
-- I tested a local modification of hid-asus.c:
+Best regards,
+-- 
+Marco Felsch <m.felsch@pengutronix.de>
 
-     case 0x4e:
-         asus_map_key_clear(KEY_FN_ESC);
-
-   With this, Fn+Esc is mapped correctly.
-- I also tried sending the raw reports to enable/disable the FnLock feature
-   from the driver, but hit an error:
-     "BUG: scheduling while atomic"
-- I wrote a small tool: https://github.com/m4ss1m0g/proart_p16_fnlock
-
-Could you please consider adding support for this key to the driver?
-
-Thanks for your work,
-
-Massimo
-
-P.S. Other unmapped vendor codes were also observed on this machine:
-- Fn+F8  (emoji): dmesg code 0x7e
-- Fn+F12 (ProArt): dmesg code 0x8b
-- Fn+F10 (Camera toggle): dmesg codes 0x85, 0x01 (but work)
-These may also deserve mapping, but Fn+Esc is the most important one.
 
