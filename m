@@ -1,140 +1,123 @@
-Return-Path: <linux-input+bounces-14261-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14262-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C077B323EC
-	for <lists+linux-input@lfdr.de>; Fri, 22 Aug 2025 23:08:57 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DE36CB324A2
+	for <lists+linux-input@lfdr.de>; Fri, 22 Aug 2025 23:34:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1E6D47A1EFC
-	for <lists+linux-input@lfdr.de>; Fri, 22 Aug 2025 21:07:22 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9B2F86237AB
+	for <lists+linux-input@lfdr.de>; Fri, 22 Aug 2025 21:33:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C12D12D6625;
-	Fri, 22 Aug 2025 21:08:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1E10C221F09;
+	Fri, 22 Aug 2025 21:33:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="NT2WoL/P";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Q051JxfG"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JjP6CzhD"
 X-Original-To: linux-input@vger.kernel.org
-Received: from fhigh-a2-smtp.messagingengine.com (fhigh-a2-smtp.messagingengine.com [103.168.172.153])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51BED235355;
-	Fri, 22 Aug 2025 21:08:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.153
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2A1418E025;
+	Fri, 22 Aug 2025 21:33:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755896931; cv=none; b=dxib1/hVXVpsPDHJCvuFnNt+TxRY3VW7ihhAxkYEyVLrJ5xg0+32YwJZ4UZTKPZVD03J/kmFULjPLImjIkVV96YhO44yibeJgWHcktPqU2N/g7+oHtjUiBzMn4QWt8XvWvuT9cB7MWO3kBR3IZfkrKhB64STMrfZlc+fsEYjcpo=
+	t=1755898385; cv=none; b=piTV2wxbzEApeNm2M33OoYwEIAcPyRY6iPBFbmD8WJIuTUW34Pbffd7roHZ3tNbWwglT6kZsVOf8C+nQzjlmIG4pKcg9fD5yLhRK8KkrdqbUbXkdRTImtwcN5tuCcfNejxDFP/YQygIw8irQEFbT+x4GWYfVYEMjZM8rKOgYKLI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755896931; c=relaxed/simple;
-	bh=G+wNN9LZGoJMdMYM7NRxnBMhXN40hoev/kh0xyC0MAE=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=DFLE/OrrZXTSD7V1n5BapVtmJXvmV7Jh/a2owDnAsLl0nk0OCtPl9t0iLnGIqCVsir9jXVhK/e08kk53vJqtfjs3gN2NdjzlQ66H3fKg97RV0jqmRUxpgxdJML7YPT/S3G/c053Cuq5mT5FOa2oKQ2vZumrBwcE7EMpcFUeGzdk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=NT2WoL/P; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Q051JxfG; arc=none smtp.client-ip=103.168.172.153
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 504C114000C4;
-	Fri, 22 Aug 2025 17:08:48 -0400 (EDT)
-Received: from phl-imap-02 ([10.202.2.81])
-  by phl-compute-05.internal (MEProxy); Fri, 22 Aug 2025 17:08:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1755896928;
-	 x=1755983328; bh=qzcdv5e72TDibiCgYHH3IYqxizwzwFmcFARX2hXlQC0=; b=
-	NT2WoL/Ph17g/5b+s+frOVbVNWeY5T+YLZ0GaCqLS65YWRL//tWcWfm2swuj1thQ
-	TjCGckHHJnCk7lEclt9oabMsON2vih4xqp8TxVwWx855fI49J0pj0E+2t6TQa9Zy
-	iA506beOY/HErOJwMUzZZCjfjJAQYdsQQO1QS9U+a811wiMrnUKSv/3auukMPA/h
-	wbtTlqgbBFs/LjZQjbn7/11is7mTPN1/qm2ioeNg3pdDp/ecbuUzk6ESX+dAVSiM
-	1ixkDWPKgLfYX0mY8/dQcCroW9D96WS6heLbV6Fkyladz1jDkVRUU+FxU+LxqctF
-	BYvkdw7i/rvnLDFe715bOA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1755896928; x=
-	1755983328; bh=qzcdv5e72TDibiCgYHH3IYqxizwzwFmcFARX2hXlQC0=; b=Q
-	051JxfGxiVtMAGB2VBXxzm76DaVhzUHBjmXi4dCs1oWYkkckDmTZ59Uu2ucERnTe
-	N9LEQ/Y4YDtysn2IYte7KkEZYn9f5vzJcjC9iFoe5gkxbj5tDNdoEU6WkRzroHRA
-	Am6ePAi3VaefRMm9yCnizPI6SH+3KZQeHqBk1//MViQhFDMw9Wxpsp5XY/KV3XX7
-	c7XG1ph8EE8AC0GaojAFMMjP/rEZAu2NWlDAS/ASjpPeSOnoe03uxKIThc6aDYya
-	A4BSMegwpcNH4X8+gKdbXdPC2SdEnwV9WJa+lf5cBOtxt9T3QG446WyuFHrmEIMH
-	oucF4heZH6N+E3MhtWPHw==
-X-ME-Sender: <xms:YNyoaIEgt6IqYwYGOtaqCIJC2BOoWEsvGL2f3A0HyqtP8JSQQ7HVwg>
-    <xme:YNyoaBXZDuzeSy2TrZ3iIgUUYuxZnt5c7SvU_WLB3spuIKL1OgL6QCa3jcPGDVTj5
-    26EspbIoI-Z5orxeTo>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdduieegjeelucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddtnecuhfhrohhmpedftehrnhgu
-    uceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrthhtvg
-    hrnhephfdthfdvtdefhedukeetgefggffhjeeggeetfefggfevudegudevledvkefhvdei
-    necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprghrnh
-    gusegrrhhnuggsrdguvgdpnhgspghrtghpthhtohepiedpmhhouggvpehsmhhtphhouhht
-    pdhrtghpthhtoheprghrnhgusehkvghrnhgvlhdrohhrghdprhgtphhtthhopegsvghnth
-    hishhssehkvghrnhgvlhdrohhrghdprhgtphhtthhopehjihhkohhssehkvghrnhgvlhdr
-    ohhrghdprhgtphhtthhopehlihhnuhigqdhinhhpuhhtsehvghgvrhdrkhgvrhhnvghlrd
-    horhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghl
-    rdhorhhgpdhrtghpthhtohepphgvthgvrhdrhhhuthhtvghrvghrseifhhhoqdhtrdhnvg
-    ht
-X-ME-Proxy: <xmx:YNyoaMNQlCXPPZB9EPLhkmVr-WW_C4g4kSLkBbHzdCDRr9lH9Hvpew>
-    <xmx:YNyoaKULgtx6VTR6teOWrsUJJWL_cyztVzRKjQ3NMxmwqwk3_kwdvQ>
-    <xmx:YNyoaI03v4pls1GFtw-TA0N4VkKGtHQNMp1v1ZMmA3YzpHlZpp4R0w>
-    <xmx:YNyoaAoxk0Zlu8OQ9X9b_g_DWFGN4g1jIa8PsH6yIE5dBVPiDX4fuA>
-    <xmx:YNyoaAABDXldS6kwiDP2Ub2GmccGbKukvQk7UogKK9wjsRsL5mPRhx1x>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id F234B700065; Fri, 22 Aug 2025 17:08:47 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	s=arc-20240116; t=1755898385; c=relaxed/simple;
+	bh=qc4VtCzC5iA9jJFQPDwUr258FyQvh0265IhdsBWV9nc=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=tTLXorpLYOLUTagEgmwWrz2Z3KuEPH64f+49Sx0Z+P/KwDlGId8xOVfUK+zNvR1qsqzGlhcDKd7Etg6HK3YmeRHtb2TtlXIFVioDSxTMEbrJOaIlXRJdrdtkQ62AgMveWzJljsTo6Hvm6uIQ5tEuODSPcH6Kz6KFfVjVJ/xsJxI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JjP6CzhD; arc=none smtp.client-ip=209.85.210.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-76e92b3ded3so1323234b3a.2;
+        Fri, 22 Aug 2025 14:33:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1755898383; x=1756503183; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=cbxUDYSkcfSyuOmhdt6DxCZGSkJMa92pasDj2sJtI7M=;
+        b=JjP6CzhD7mwovwFR16isniz7pu7GNbcOCBte+ZNtRvCKDJ3DscwlpafghCBBxVscFj
+         OPm8IOphniTdPOGCSmUfWAksBktDgrUhObh2EkBwFqXI9jhkC5C50Ij1qaChgR9Ve6+V
+         OJXLgAWaRT6MbUSbqaEpVby82m4/gPGgtM4WlxVXS1VFZEQGApKH+oSGuxQ2JeNkXpVw
+         ZG4P0GD7/ccwftfm3zVxFCc1uBPsA4rmByp5eDK23zHNm8syH5awAmj24rzWkZyJWqSD
+         PZ6OKIbN64XxjmDxdRFyZgJj4InE/Btsga66ysT8R7a0kEeENcTxhbgnsDBXIi/CSv6B
+         82Dw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755898383; x=1756503183;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=cbxUDYSkcfSyuOmhdt6DxCZGSkJMa92pasDj2sJtI7M=;
+        b=XyUeKoVHtWK4NqGbEqqUEzGDNI/5JGZ2XmM0jM5EKXrr9PwP//m1wh8YUlpUCTo3+e
+         UfOwCkgUgxlxwt1tFD13jx2GebTO/s9eEdRCnoaxFHpj0KkKa4aIHlVCObGVIJtIqT/5
+         o3ZTGqh05ojIR6EEgcliHrBUM1LfFvSec4CGOmZDqmVw1rNzujes1Q6rI24IOrcPXuek
+         5nHIrKWqRgfS/2A/1DG0BANstzyfL4PU/GDS2ri1pM1h2N/wdATFqUUJ7pXPhz6RUrDN
+         7GtxRUblf/EeZQJweC5QWSG+8HMb8fIcaGEQ9ia+RfiEtsgyWaNu/rvpnKBBgfISSqFC
+         kG8Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVyJypAzF/vqLCA43e/hip0IZzyGZy/F1rOV7soN3PobHr+PmGXp9/dc8MoOw6+dG3Dhxsvtc9HlTHHzVQ=@vger.kernel.org, AJvYcCXb6UjFIYeZ9DXA8w7E4IpIVXNg5SnYazNUrO3F6gdzqi0zm8jBQXIg7dLBzEAy+8L4EhVvjZijLrtJ@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxs5ORHD5XsMvppbJhKtldT+6C8TsyJVNpXXqFIxGiAITHJJfyr
+	6AUk/ueoDCRenSWNM/8sGKlvRHT01bby09Bpi4qN1VLjJemSZvcvD9xV
+X-Gm-Gg: ASbGncvHkshGybn/iE+oo0flgMGVAFnqwMr8DGm9knO2lqiWp5JDKv7ma9IyznMQWoK
+	PTw8hW5I7eZI7Y1/jx8PMz9pi0iQ7W0qIQc++6F+AyUtbtlSRdbDPSH5kZyxxKuSyXeWziTnR3h
+	YdoPYqzUUaOihDbFzOJSzi0njfW+CIwaKtgiwe8wuBiKv/KtYfCOaTVjHLaLLOhOUC5GEj2L8Mr
+	Hn0gwWLyzA10jRnlEwUVBYKluCMvIGyRcN2t3RiwxA/I+HfqRUqA0lEyN1IgN4tqdDfoe3IYU4e
+	K11ljoCZRhP5rYHUH3SXDQBL4B1dhcnTIp3GnzLuffKx/EKs2taXbdZCjiCqk/jWAYhRjrUb0Rh
+	Q7TdL8f+7z5zoPY+VbF0VdcdDmC0uPz1HBu4mcDK+zCZDE9w=
+X-Google-Smtp-Source: AGHT+IHIKKRnxk8kUwQx22V5fjRik2AjaNox9iWdfVwvg6WufzdjdyyHOO3jB3+yIyBtgLXaolbrqQ==
+X-Received: by 2002:a17:903:19ce:b0:235:eb8d:7fff with SMTP id d9443c01a7336-2462ef1f70amr57820005ad.28.1755898382592;
+        Fri, 22 Aug 2025 14:33:02 -0700 (PDT)
+Received: from fabio-Precision-3551.. ([2804:14c:485:4b61:5ae1:41a6:4f22:1c64])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2466889a088sm5111305ad.134.2025.08.22.14.32.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 22 Aug 2025 14:33:02 -0700 (PDT)
+From: Fabio Estevam <festevam@gmail.com>
+To: dmitry.torokhov@gmail.com
+Cc: robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	Frank.Li@nxp.com,
+	linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	Fabio Estevam <festevam@gmail.com>
+Subject: [PATCH] dt-bindings: input: touchscreen: tsc2007: Document 'wakeup-source'
+Date: Fri, 22 Aug 2025 18:32:45 -0300
+Message-Id: <20250822213245.125901-1-festevam@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ThreadId: ARbEP23X_bYV
-Date: Fri, 22 Aug 2025 23:08:25 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Benjamin Tissoires" <bentiss@kernel.org>,
- "Arnd Bergmann" <arnd@kernel.org>
-Cc: "Jiri Kosina" <jikos@kernel.org>,
- "Peter Hutterer" <peter.hutterer@who-t.net>, linux-input@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Message-Id: <e0557372-b029-4831-8d32-c1eb512ac736@app.fastmail.com>
-In-Reply-To: 
- <tsvy2y4x7xaut6y7fykuc7ltdf777rt2g32zt2biagts6hgjub@iidwntp527og>
-References: <20250711072847.2836962-1-arnd@kernel.org>
- <tsvy2y4x7xaut6y7fykuc7ltdf777rt2g32zt2biagts6hgjub@iidwntp527og>
-Subject: Re: [PATCH] HID: tighten ioctl command parsing
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Thu, Aug 21, 2025, at 08:56, Benjamin Tissoires wrote:
-> On Jul 11 2025, Arnd Bergmann wrote:
->>
->> +			break;
->> +	}
->>  
->> +	hid = dev->hid;
->> +	switch (cmd & ~IOCSIZE_MASK) {
->
-> Jiri pinged me about this one, and I gave it a go with the existing
-> tests I have in selftests... and turns out that this changes the logic
-> of the ioctl processing.
->
-> The removed block was in the default section of the switch/case
-> statement. Now it's added *after*, meaning that any ioctl that was
-> normally processed before are now caught in the default of the switch
-> statement below and return -ENOTTY.
->
-> Running tools/testing/selftests/hid/hid_bpf showed that.
+The 'wakeup-source' property is used by many devicetree files and is
+also supported by the tsc2007_core driver.
 
-Ah, of course, thanks for checking and describing the issue.
+Document it to avoid the following dt-schema warning:
 
-Did you already come up with a fixed patch? I'm currently
-travelling and won't be able to send a v2 quickly, so if you
-have a version that works for you, let's use that instead.
+'wakeup-source' does not match any of the regexes: '^pinctrl-[0-9]+$'
 
-     Arnd
+Signed-off-by: Fabio Estevam <festevam@gmail.com>
+---
+ .../devicetree/bindings/input/touchscreen/ti.tsc2007.yaml       | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/Documentation/devicetree/bindings/input/touchscreen/ti.tsc2007.yaml b/Documentation/devicetree/bindings/input/touchscreen/ti.tsc2007.yaml
+index 8bb4bc7df4fa..2a225baeb1a9 100644
+--- a/Documentation/devicetree/bindings/input/touchscreen/ti.tsc2007.yaml
++++ b/Documentation/devicetree/bindings/input/touchscreen/ti.tsc2007.yaml
+@@ -26,6 +26,8 @@ properties:
+ 
+   pendown-gpio: true
+ 
++  wakeup-source: true
++
+   ti,max-rt:
+     $ref: /schemas/types.yaml#/definitions/uint32
+     description: maximum pressure.
+-- 
+2.34.1
+
 
