@@ -1,159 +1,221 @@
-Return-Path: <linux-input+bounces-14256-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14257-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 683EBB31857
-	for <lists+linux-input@lfdr.de>; Fri, 22 Aug 2025 14:52:15 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 360DDB31E3C
+	for <lists+linux-input@lfdr.de>; Fri, 22 Aug 2025 17:21:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 183871C82161
-	for <lists+linux-input@lfdr.de>; Fri, 22 Aug 2025 12:50:29 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 67F615C6255
+	for <lists+linux-input@lfdr.de>; Fri, 22 Aug 2025 15:14:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C14912FD1BE;
-	Fri, 22 Aug 2025 12:49:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF329213248;
+	Fri, 22 Aug 2025 15:14:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="SDESnmyJ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lcdvgiT3"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE71C2FD1C4
-	for <linux-input@vger.kernel.org>; Fri, 22 Aug 2025 12:49:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5D7F20E023;
+	Fri, 22 Aug 2025 15:14:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755866971; cv=none; b=g/4sB9aD38W+g4QvKMzXpaxFw64vgfnQnEWX42pACAajY13sfVoiIEJVl+PbosQmTylvmjoN7tgrjpT+tEAK0aOBwr7nmLVGGM6yi4SOvkkDOJU1PgAqGl92Kzm7d34U6soOV6hgIcUEGpGVH383ktKPWVy+vKVozrLZ0DiJMVM=
+	t=1755875656; cv=none; b=axRJ3pS0V/XBLf9GpGC5iZSQFba9SLvzch1jqYIqUhTXOXpEGnbcRcLFVVtpSyShlqS1bkTotLql75PCV8S8RwcxPD3PCUaQp8lRXTksL7a+V7SugIV+MvLJ1AJDNP8TrcxrbI2NZdw//s3M9Cx7WqS0nFXdoplSxH4yZWsMndk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755866971; c=relaxed/simple;
-	bh=hqPSW8gjRuHQDQ+i6kbMnBBBnlr60fdu7FJ683wtg9E=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:From:To:
-	 References:In-Reply-To; b=EdzVhyfLOVGIusZdccc1mmyqc4UkkvTgCeh3InmdCoaO66JUzFYzkbjUd01QgTby4P9krZGgqKxsQyQjaNSqPDWR+vwKjbi30ND3cRIk8cLeYh3+IAkgTDYNjqx3q5cC2AdO7BYL6KoLm6KJ81wMRvhSo8gtAoPgTGaMYwhDPl4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=SDESnmyJ; arc=none smtp.client-ip=185.246.85.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 77DC84E40BA8;
-	Fri, 22 Aug 2025 12:49:22 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 45D03604AD;
-	Fri, 22 Aug 2025 12:49:22 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 58D961C22DAC7;
-	Fri, 22 Aug 2025 14:49:15 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1755866961; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=Ua42caSIreMTSgZq76zsnJuAIzw5ug7AfcH2QBcncRU=;
-	b=SDESnmyJ/kgcZDMS117RQSYG6rtBD/JCv3cYBZOa9cHLPlLtCFuEa5ocMI/hx9RFSDNbG7
-	L2Sewj3/uIebW3MjKm87ZtSWD0uuJ9wy8pyVSDDdmKN2ZOGdHqmEk6CVZbYXeqqGvOXaz3
-	VU2ejhHOYZUxXIj2xWhYJOt9atBG7jK/AgR0LKXDK+s1YqGhLKGbb1MojYTW3wmMzNpvGD
-	U3I9ZAbTNFdzR6nu9DKlol+72VaLaT5Q5yrJN8plgt7jpNOrZd9DtH4QtId4+zMdz630LJ
-	yL3mgzLzGsLAhOKUkLYGGxNtx89sBeu+Mho/QbCpLdG0PBEA/zUVHgA9DRP/xg==
+	s=arc-20240116; t=1755875656; c=relaxed/simple;
+	bh=LonE3rEgRMxIVsYfDjiHDPQfYMJ4W3TyT5tCihgHym0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hzp9wth/bJnR3S+qCsdGlz9n7zLHfQbmgJ4YrABAUo05s3QTAtrXtHITn9KF10zCmfwIphXAKxYaDzL2UWUxxf0pRbI4p2MrOlSRL68OGUXufQmzBkhZn3TVdJ7CqtYP/37kvgrVfhJrbnfvH9lTKr9XB9IxK6VkrQxwJu//N9E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lcdvgiT3; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28AE3C4CEED;
+	Fri, 22 Aug 2025 15:14:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755875656;
+	bh=LonE3rEgRMxIVsYfDjiHDPQfYMJ4W3TyT5tCihgHym0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=lcdvgiT329HDpoh0VCPKjLOr0moxcH5cK28AAxLH4+gdXwe82hWMy5dQXf+hxi+SJ
+	 e5skJ6Ap3UNK0hxPe/1QnheFWVpdsPDuOEyu/CscLYWgU30HdVoKiMx0zfj5Wy/CwO
+	 cSBIRzhdLMkd6X6u2lLgcYTDtvl9pespreueOrlccrxtDtXBmjc4D3yOKhl7LjVwQ5
+	 WRahCkYy+4d50YdUNM+F8DB4LPVIQUwhjRHIh6Ac0h1fO7vCZVT1jWiRh9yW8JCFOw
+	 AZM9juQBSX/GvY2Z50e0J5uHQ1wlVf5cHwNZOkZXtCySwR9zTYxtOWABXBHT5B2nDf
+	 L8Yg2tntKVzEQ==
+Date: Fri, 22 Aug 2025 10:14:15 -0500
+From: Rob Herring <robh@kernel.org>
+To: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+Cc: airlied@gmail.com, amergnat@baylibre.com, andrew+netdev@lunn.ch,
+	andrew-ct.chen@mediatek.com,
+	angelogioacchino.delregno@collabora.com, broonie@kernel.org,
+	chunkuang.hu@kernel.org, ck.hu@mediatek.com, conor+dt@kernel.org,
+	davem@davemloft.net, dmitry.torokhov@gmail.com, edumazet@google.com,
+	flora.fu@mediatek.com, houlong.wei@mediatek.com, jeesw@melfas.com,
+	jmassot@collabora.com, kernel@collabora.com, krzk+dt@kernel.org,
+	kuba@kernel.org, kyrie.wu@mediatek.corp-partner.google.com,
+	lgirdwood@gmail.com, linus.walleij@linaro.org,
+	louisalexis.eyraud@collabora.com, maarten.lankhorst@linux.intel.com,
+	matthias.bgg@gmail.com, mchehab@kernel.org,
+	minghsiu.tsai@mediatek.com, mripard@kernel.org,
+	p.zabel@pengutronix.de, pabeni@redhat.com, sean.wang@kernel.org,
+	simona@ffwll.ch, support.opensource@diasemi.com,
+	tiffany.lin@mediatek.com, tzimmermann@suse.de,
+	yunfei.dong@mediatek.com, devicetree@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
+	linux-gpio@vger.kernel.org, linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-mediatek@lists.infradead.org, linux-sound@vger.kernel.org,
+	netdev@vger.kernel.org
+Subject: Re: [PATCH v1 05/14] sound: dt-bindings: Convert MediaTek RT5650
+ codecs bindings to YAML
+Message-ID: <20250822151415.GA3819434-robh@kernel.org>
+References: <20250820171302.324142-1-ariel.dalessandro@collabora.com>
+ <20250820171302.324142-6-ariel.dalessandro@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 22 Aug 2025 14:49:10 +0200
-Message-Id: <DC8YVXKCZAE4.5QJM9MP4HJZ5@bootlin.com>
-Subject: Re: [PATCH v13 04/10] pwm: max7360: Add MAX7360 PWM support
-Cc: "Lee Jones" <lee@kernel.org>, "Rob Herring" <robh@kernel.org>,
- "Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Conor Dooley"
- <conor+dt@kernel.org>, "Kamel Bouhara" <kamel.bouhara@bootlin.com>, "Linus
- Walleij" <linus.walleij@linaro.org>, "Bartosz Golaszewski" <brgl@bgdev.pl>,
- "Dmitry Torokhov" <dmitry.torokhov@gmail.com>, "Michael Walle"
- <mwalle@kernel.org>, "Mark Brown" <broonie@kernel.org>, "Greg
- Kroah-Hartman" <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
- <rafael@kernel.org>, "Danilo Krummrich" <dakr@kernel.org>,
- <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-gpio@vger.kernel.org>, <linux-input@vger.kernel.org>,
- <linux-pwm@vger.kernel.org>, <andriy.shevchenko@intel.com>,
- =?utf-8?q?Gr=C3=A9gory_Clement?= <gregory.clement@bootlin.com>, "Thomas
- Petazzoni" <thomas.petazzoni@bootlin.com>, "Andy Shevchenko"
- <andriy.shevchenko@linux.intel.com>
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
-X-Mailer: aerc 0.19.0-0-gadd9e15e475d
-References: <20250811-mdb-max7360-support-v13-0-e79fcabff386@bootlin.com>
- <20250811-mdb-max7360-support-v13-4-e79fcabff386@bootlin.com>
- <l5crrk3ugpo2ggjtykcy5eretclgntebyq52xuouekoimbrsvh@u4koyu5z2wwi>
-In-Reply-To: <l5crrk3ugpo2ggjtykcy5eretclgntebyq52xuouekoimbrsvh@u4koyu5z2wwi>
-X-Last-TLS-Session-Version: TLSv1.3
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250820171302.324142-6-ariel.dalessandro@collabora.com>
 
-On Mon Aug 18, 2025 at 11:05 AM CEST, Uwe Kleine-K=C3=B6nig wrote:
-> Hello,
->
-> On Mon, Aug 11, 2025 at 12:46:22PM +0200, Mathieu Dubois-Briand wrote:
->> From: Kamel Bouhara <kamel.bouhara@bootlin.com>
->>=20
->> Add driver for Maxim Integrated MAX7360 PWM controller, supporting up to
->> 8 independent PWM outputs.
->>=20
->> Signed-off-by: Kamel Bouhara <kamel.bouhara@bootlin.com>
->> Co-developed-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.co=
-m>
->> Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
->> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
->> ---
->> ...
->> +static int max7360_pwm_round_waveform_tohw(struct pwm_chip *chip,
->> +					   struct pwm_device *pwm,
->> +					   const struct pwm_waveform *wf,
->> +					   void *_wfhw)
->> +{
->> +	struct max7360_pwm_waveform *wfhw =3D _wfhw;
->> +	u64 duty_steps;
->> +
->> +	/*
->> +	 * Ignore user provided values for period_length_ns and duty_offset_ns=
-:
->> +	 * we only support fixed period of MAX7360_PWM_PERIOD_NS and offset of=
- 0.
->> +	 * Values from 0 to 254 as duty_steps will provide duty cycles of 0/25=
-6
->> +	 * to 254/256, while value 255 will provide a duty cycle of 100%.
->> +	 */
->> +	if (wf->duty_length_ns >=3D MAX7360_PWM_PERIOD_NS) {
->> +		duty_steps =3D MAX7360_PWM_MAX;
->> +	} else {
->> +		duty_steps =3D (u32)wf->duty_length_ns * MAX7360_PWM_STEPS / MAX7360_=
-PWM_PERIOD_NS;
->> +		if (duty_steps =3D=3D MAX7360_PWM_MAX)
->> +			duty_steps =3D MAX7360_PWM_MAX - 1;
->> +	}
->> +
->> +	wfhw->duty_steps =3D min(MAX7360_PWM_MAX, duty_steps);
->> +	wfhw->enabled =3D !!wf->period_length_ns;
->> +
->> +	if (wf->period_length_ns < MAX7360_PWM_PERIOD_NS)
->
-> I know this code was suggested as is by me, but I think we need:
->
-> 	if (wf->period_length_ns && wf->period_length_ns < MAX7360_PWM_PERIOD_NS=
-)
->
-> here to prevent to trigger a PWM_DEBUG warning. Sorry to spot this only
-> now.
->
+On Wed, Aug 20, 2025 at 02:12:53PM -0300, Ariel D'Alessandro wrote:
+> Convert the existing text-based DT bindings for Mediatek MT8173 RT5650
+> codecs to a YAML schema.
+> 
+> Signed-off-by: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+> ---
+>  .../sound/mediatek,mt8173-rt5650.yaml         | 73 +++++++++++++++++++
+>  .../bindings/sound/mt8173-rt5650.txt          | 31 --------
+>  2 files changed, 73 insertions(+), 31 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/sound/mediatek,mt8173-rt5650.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/sound/mt8173-rt5650.txt
+> 
+> diff --git a/Documentation/devicetree/bindings/sound/mediatek,mt8173-rt5650.yaml b/Documentation/devicetree/bindings/sound/mediatek,mt8173-rt5650.yaml
+> new file mode 100644
+> index 0000000000000..36e4f9c4c3d62
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/sound/mediatek,mt8173-rt5650.yaml
+> @@ -0,0 +1,73 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/sound/mediatek,mt8173-rt5650.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Mediatek MT8173 with RT5650 codecs and HDMI via I2S
+> +
+> +maintainers:
+> +  - Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+> +
+> +properties:
+> +  compatible:
+> +    const: "mediatek,mt8173-rt5650"
 
-Right, this does make sense. I will send a new version shortly.
+Drop quotes.
 
->> +		return 1;
->> +	else
->> +		return 0;
->> +}
->
-> Best regards
-> Uwe
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  mediatek,audio-codec:
+> +    $ref: /schemas/types.yaml#/definitions/phandle-array
+> +    description:
+> +      The phandles of rt5650 codecs and of the HDMI encoder node.
+> +    minItems: 2
+> +
+> +  mediatek,platform:
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+> +    description:
+> +      The phandle of MT8173 ASoC platform.
+> +
+> +  mediatek,mclk:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    description: |
+> +      The MCLK source.
+> +      0: external oscillator, MCLK = 12.288M
+> +      1: internal source from mt8173, MCLK = sampling rate * 256
+> +
+> +  codec-capture:
+> +    description: Subnode of rt5650 codec capture.
+> +    type: object
+> +
+> +    properties:
+> +      sound-dai:
+> +        maxItems: 1
+> +        description: phandle of the CPU DAI
+> +
+> +    additionalProperties: false
+> +
+> +required:
+> +  - compatible
+> +  - mediatek,audio-codec
+> +  - mediatek,platform
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    sound: sound {
 
-Best regards,
-Mathieu
+Drop unused label.
 
---=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
-
+> +        compatible = "mediatek,mt8173-rt5650";
+> +        mediatek,audio-codec = <&rt5650 &hdmi0>;
+> +        mediatek,platform = <&afe>;
+> +        pinctrl-names = "default";
+> +        pinctrl-0 = <&aud_i2s2>;
+> +
+> +        mediatek,mclk = <1>;
+> +        codec-capture {
+> +            sound-dai = <&rt5650 1>;
+> +        };
+> +    };
+> +
+> +...
+> diff --git a/Documentation/devicetree/bindings/sound/mt8173-rt5650.txt b/Documentation/devicetree/bindings/sound/mt8173-rt5650.txt
+> deleted file mode 100644
+> index 29dce2ac8773a..0000000000000
+> --- a/Documentation/devicetree/bindings/sound/mt8173-rt5650.txt
+> +++ /dev/null
+> @@ -1,31 +0,0 @@
+> -MT8173 with RT5650 CODECS and HDMI via I2S
+> -
+> -Required properties:
+> -- compatible : "mediatek,mt8173-rt5650"
+> -- mediatek,audio-codec: the phandles of rt5650 codecs
+> -                        and of the hdmi encoder node
+> -- mediatek,platform: the phandle of MT8173 ASoC platform
+> -
+> -Optional subnodes:
+> -- codec-capture : the subnode of rt5650 codec capture
+> -Required codec-capture subnode properties:
+> -- sound-dai: audio codec dai name on capture path
+> -  <&rt5650 0> : Default setting. Connect rt5650 I2S1 for capture. (dai_name = rt5645-aif1)
+> -  <&rt5650 1> : Connect rt5650 I2S2 for capture. (dai_name = rt5645-aif2)
+> -
+> -- mediatek,mclk: the MCLK source
+> -  0 : external oscillator, MCLK = 12.288M
+> -  1 : internal source from mt8173, MCLK = sampling rate*256
+> -
+> -Example:
+> -
+> -	sound {
+> -		compatible = "mediatek,mt8173-rt5650";
+> -		mediatek,audio-codec = <&rt5650 &hdmi0>;
+> -		mediatek,platform = <&afe>;
+> -		mediatek,mclk = <0>;
+> -		codec-capture {
+> -			sound-dai = <&rt5650 1>;
+> -		};
+> -	};
+> -
+> -- 
+> 2.50.1
+> 
 
