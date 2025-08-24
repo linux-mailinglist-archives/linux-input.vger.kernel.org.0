@@ -1,76 +1,78 @@
-Return-Path: <linux-input+bounces-14277-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14278-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAD78B32EAB
-	for <lists+linux-input@lfdr.de>; Sun, 24 Aug 2025 11:19:58 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CA47B32EB5
+	for <lists+linux-input@lfdr.de>; Sun, 24 Aug 2025 11:21:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8F98D3A738F
-	for <lists+linux-input@lfdr.de>; Sun, 24 Aug 2025 09:19:57 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A53DF189CFFD
+	for <lists+linux-input@lfdr.de>; Sun, 24 Aug 2025 09:20:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9C46B24E00F;
-	Sun, 24 Aug 2025 09:19:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8DB96261B91;
+	Sun, 24 Aug 2025 09:19:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i8c8cagX"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VpJMbsHY"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E68A5221FC8;
-	Sun, 24 Aug 2025 09:19:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBA812367C3;
+	Sun, 24 Aug 2025 09:19:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756027194; cv=none; b=OHi3DCufmovyNz3oTSlwdC4htXgm1UA2mlTehXAETOVZ4vPzVV4MxVIe1nf5E19kYmLvcWYUU/ZfELXmSM4gnUSZ9pIdQZpUHcUAwUFtU8tEHhKuD0lx3dO4OLAY4c0HxtbXuPN5KtWT2PgwsfClzE7NIAlRYGvDrGMvohplsEw=
+	t=1756027195; cv=none; b=gQyKwlEFgnxE214o67oqjQWMniq0sCzN4A5W96RePGcSJkdg0/fdObZk5QOjhlm23p3EOv07RYcOommRJrCybz7Nqzmp9QLqGnIreJ2m96gzVU7zQ4VPdLjrgRD6DlOJoWDeuYx8IxJapLYvJozfBc2yXjhj5g8z9EHFhfSkM6k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756027194; c=relaxed/simple;
-	bh=Xc0rFLtXnERzBghwNqjwjIWQ3Jz2QFIxiamdTT3BRr8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=E2hvQQV7+c3lKiv1+LSepn0xxyz9hiJ3oYmGaEK2MmSf/5o7ZjNHks+YsCU54jBT+BCg5HxUAd1yXCAU8Nw15DI7+rQkTFraM13UWHeX4QsIyYPqw+mtStKPeEXAeQsCc/b41UmwpRZvxw0waWGhxQDpu3ViqPe0RpuGadzkEuU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=i8c8cagX; arc=none smtp.client-ip=209.85.208.46
+	s=arc-20240116; t=1756027195; c=relaxed/simple;
+	bh=CLOxWccIYnvvu3kJQ2b/QNmsXCM1KjyWuzm/WqI7bsQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=SdWB5cN8pYwE8XY0V/Q7ffmhejVa+YkENfT0mLg5jrI9qw5mBEmNn/JWtwGFIyrhtQ5Wuck+SFLnen7t+ZDMYVzC1s/SXOVKo7YErP8Bn9j7TAbIb1v+PAY7bwc8xkClffyPPhdtVmasdrDU6ihIlsvz8+BTWAZH0BQWMIzSCRE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VpJMbsHY; arc=none smtp.client-ip=209.85.208.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-61c325a4d18so1831538a12.0;
-        Sun, 24 Aug 2025 02:19:52 -0700 (PDT)
+Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-61c325a4d83so1633843a12.0;
+        Sun, 24 Aug 2025 02:19:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756027191; x=1756631991; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Iwr3CagSoS9NORMuiYNSzeUajjdGZr7+Rut9vr3Cp58=;
-        b=i8c8cagXCYI7g54rZ7dqx+4jfjAaHAzt7V+onHmiJfgbzQLTXswKzA/WgNVGqBN4RW
-         4FPQMb973XA/k3NZC/LGIxYbl3wmdv1dJsNYeVZJtSJO64myx0epCZFqWGJCzu3XKrZQ
-         XlgQ2DYtKn/b58NkLj+6+JYy0XxDeDL2rTufU1x4NjuMmnWSi9RWx95UfGb58sQxUamT
-         g2p9CUEpnQBiJ7CGJ6utuYLjRSe1aJdxsLLhA3D2cSiHsBYk2gs0ASMrurquGXLTqdui
-         cn1E0eroLUS8bQHXLt1yEt9yGf8sJpummYPdZBPszQdnM18757l7yWzSU1L5T+dygyGm
-         K5Zg==
+        d=gmail.com; s=20230601; t=1756027192; x=1756631992; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1IoiYlwnNrCIW8lexuGkUDfV5aY2e9GYzOXh9ukM7g0=;
+        b=VpJMbsHY4FZvfq8n3guD8hlwWDyA5gnenKJquWr+wxxrCz4vvgfVBAgWk7ZPiM8/dU
+         Vbm3dpE0TRY68zQOvzIIFPOcHgUJHLBTqe390gf+HeNoN/1lMGGmqZ5j6GyTAWWI9+ge
+         qqLhzZnhaCy1Zlre/IHv5qJiNCsbGm38P8PYFl3GeVb5upU2DcksPzamZNYCeYVPUOqd
+         DXmjVv6ugOv1YrgeEc9DfzTaLo4UcxeW1xSRaMmfOub+ZnwiB49cVpsMyy86h3kMxVr3
+         HL5q5s/qw82UgQSzJWg631u60NvYoGbfq7e18dqYCJxoJwtOyhnHYorvvFN2bW94ESXs
+         IIXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756027191; x=1756631991;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Iwr3CagSoS9NORMuiYNSzeUajjdGZr7+Rut9vr3Cp58=;
-        b=t5D0qMJ2Y6lyWuwHS7R+2psuiztavIBqxc3m4evVM/+dQ8li8YqeI8rF5ckVOja2Be
-         4cgPyEOfCFAnTnHosuEAOj2Cfy9asREu2nq9bsvpykFUhG77bO96uAzxXcRWpM+JNUYP
-         W/jGT2T2whcPAMin2Gg7SPcD24TpgFLQ+9X86Sy5AfK260qJ1ibClxZo0GN+NtngX2pp
-         mse7ltmUrwECZ0fDea/O9X5mh3CMzn/5uYa5UDMlVJytAwyRu/sGXCmYoQ4gX83sKJYn
-         BePRKtGr1Z+aSAFC9omibEbz9peNiydJOFOwzExO4iWVFlbilfqQPa2OiM42n5ptWuH3
-         NBvw==
-X-Forwarded-Encrypted: i=1; AJvYcCVRMiodT6PJLl+yxW3FLf7fzMH9/9myvxTqICatNxb40wWwCH8gJVjwpT7rdCc3ZSimcy20gIqFayaj6Ug=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy5gX7UxDVEcaxdRSbvd2R/L48SQYfJNSVS7Qfrx6vc6SqG+f4p
-	nalauVIqUnc5koXXY8kH9qAUFTyuM6t/96ejPEhZVATY/LBXj7rK22eZ
-X-Gm-Gg: ASbGnctCq7UF9i4j2IJQ29u67m8ytBobGhWSELrNm0FbajEITUawAyHbPRNRK9tZyiM
-	5d1p0RGZ7JVPskCyKGG329wZoDfqj+SfVfv7BI3tyySCby7AjAwTZNxEDaHcyZZXb40YJUCrmZt
-	rJkL7/hTQOGzQrArJUD4otqU9F8BFF1P0LU4rGoLiJtkB79OcrpgHLeixYVy2Vdg73QkeRXqcTv
-	ZfqQDrHPUBT2WPRMjF4lGJjmNB5gW+OhX7YdZKNMl15qgYFdFnEdBViYom0OlBU8GLVYFlOEvSS
-	PtYD2eePF5xqijWYZOnTuaiG7E+DWIbfwtGg3P7Tb//DPwxHe5fBt0RbJywoIJ1VYnNxYUxi0j4
-	T8WaRTuMdOiADpg==
-X-Google-Smtp-Source: AGHT+IGa/WGupyYOl/LtSn8uDCWCLmPH1dC11IF+NzOdLEyQIg8InISz7SXQoB2IZHxOahNNY6jPeA==
-X-Received: by 2002:a05:6402:4401:b0:618:1250:ac54 with SMTP id 4fb4d7f45d1cf-61c1b6e498fmr7881849a12.21.1756027191097;
+        d=1e100.net; s=20230601; t=1756027192; x=1756631992;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=1IoiYlwnNrCIW8lexuGkUDfV5aY2e9GYzOXh9ukM7g0=;
+        b=wNEDSXXgXgedPsHQu7UUkxEkgVhA4EJ7eWoYQmxMxr7E7+KqwAIwOQ7yToZsHdbsaN
+         382xSUMNuXPDqLpETiYyK0xkuvV4ccuX//w0TykjHzLxahNSk/yM4WrKd0dTDVuv8GnI
+         B+E9v0Ur0ab4iZCiTIjo1bo/XfH5kAyD17i9O4A2eBDVmj/NimX1/A/+IaPeW1yFLsNb
+         Gwmulreq7Tc8bsZo4cCZGf3ftqZzbyVUue8akKOiqlZY+/LzZ+lQE7sf2GtOgkX+wubE
+         QDKBXT5CEOZ1KrGLP0C8IS1XAI4iCMDQGaeXyMmIx254VhXkam6ljxQrLQrlNLKvdB3S
+         cpRw==
+X-Forwarded-Encrypted: i=1; AJvYcCXW7UYTOuF5VmVtrP/iKi8fy6JJ2n63UMXMfGlrOKs8+T8tvo+QYdBKK4u3PXffcLTn23TSsuF46Jdo+zs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyxmrXEhTreXR7+Xl3R4G033mCAFEvBwHJ9KZ4cwHNzuhlsh+EG
+	GpQ5T6kM7d/96oR9GHiPLDzjA+I70mjR6443ZDqj1JGFCKl927jqk7/E
+X-Gm-Gg: ASbGncs55U/12s/sO1YpQ0DNzEEiGmlanXG6sIZTuP96Gc1UGHa9ELESLBiAyC5VP10
+	DBCRYW+26kry+Dwrdyxo04La7DbrA8tzOBY3OAL67Eqd3i3HENLavufV+WPuLwujS2MnJNO5ETe
+	WFRNoip1bMt9maRMPMoS0U8r8VDBDiMq+agf+RCDnQVPSzTWNWo8f3c7C9CpJ9A7wF/3Khaxe+B
+	FZXIEc+k0vGrQJT5lGeZG2+o0jUewt4DWZj7hORqoTK/jkAN9PMKGrdzvsGF5fql5tPsf9mYgGZ
+	k71MWi2GPGnUlleW/jV3/MB05qxvb4EUYYylHoBIojWj/MQiTxcYBLZYRO/I6auMs9j9dYZPYid
+	KGM9IzhEkHwZqAA==
+X-Google-Smtp-Source: AGHT+IGfPfXz22eKmXiiINdnri7eFy8msADCastxL7L+rQSFZREB4Dx2iCO7aaVZtG2wVJRrRI4MYg==
+X-Received: by 2002:a05:6402:26cb:b0:61a:89aa:8d16 with SMTP id 4fb4d7f45d1cf-61c1b4f8650mr8356820a12.23.1756027191924;
         Sun, 24 Aug 2025 02:19:51 -0700 (PDT)
 Received: from xeon.. ([188.163.112.76])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-61c30cf22d5sm2970156a12.0.2025.08.24.02.19.50
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-61c30cf22d5sm2970156a12.0.2025.08.24.02.19.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 24 Aug 2025 02:19:50 -0700 (PDT)
+        Sun, 24 Aug 2025 02:19:51 -0700 (PDT)
 From: Svyatoslav Ryhel <clamor95@gmail.com>
 To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
 	Svyatoslav Ryhel <clamor95@gmail.com>,
@@ -78,10 +80,12 @@ To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
 	Andreas Kemnade <andreas@kemnade.info>
 Cc: linux-input@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 0/2 RESEND] input: touchcreen: tsc2007: make interrupt optional
-Date: Sun, 24 Aug 2025 12:19:25 +0300
-Message-ID: <20250824091927.105121-1-clamor95@gmail.com>
+Subject: [PATCH v2 1/2 RESEND] input: touchcreen: tsc2007: change warning to debug message if pen GPIO is not defined
+Date: Sun, 24 Aug 2025 12:19:26 +0300
+Message-ID: <20250824091927.105121-2-clamor95@gmail.com>
 X-Mailer: git-send-email 2.48.1
+In-Reply-To: <20250824091927.105121-1-clamor95@gmail.com>
+References: <20250824091927.105121-1-clamor95@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -90,24 +94,27 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-In case tsc2007 is used as an ADC sensor there will be no interrupt
-provided at all, so set up an interrupt only if one is present and
-remove associated warning.
+Since pen GPIO request is optional, there is no reason to throw dev_warn if
+such GPIO is not defined.
 
+Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
 ---
-Changes in v2:
-- commit spit into making interrupt optional and changing message typefrom
-  warn to dbg
----
+ drivers/input/touchscreen/tsc2007_core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Svyatoslav Ryhel (2):
-  input: touchcreen: tsc2007: change warning to debug message if pen
-    GPIO is not defined
-  input: touchcreen: tsc2007: make interrupt optional
-
- drivers/input/touchscreen/tsc2007_core.c | 30 ++++++++++++++----------
- 1 file changed, 17 insertions(+), 13 deletions(-)
-
+diff --git a/drivers/input/touchscreen/tsc2007_core.c b/drivers/input/touchscreen/tsc2007_core.c
+index 8d832a372b89..17c82baf87df 100644
+--- a/drivers/input/touchscreen/tsc2007_core.c
++++ b/drivers/input/touchscreen/tsc2007_core.c
+@@ -254,7 +254,7 @@ static int tsc2007_probe_properties(struct device *dev, struct tsc2007 *ts)
+ 	if (ts->gpiod)
+ 		ts->get_pendown_state = tsc2007_get_pendown_state_gpio;
+ 	else
+-		dev_warn(dev, "Pen down GPIO is not specified in properties\n");
++		dev_dbg(dev, "Pen down GPIO is not specified in properties\n");
+ 
+ 	return 0;
+ }
 -- 
 2.43.0
 
