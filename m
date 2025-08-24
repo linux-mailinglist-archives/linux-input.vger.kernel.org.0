@@ -1,78 +1,78 @@
-Return-Path: <linux-input+bounces-14278-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14279-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CA47B32EB5
-	for <lists+linux-input@lfdr.de>; Sun, 24 Aug 2025 11:21:45 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id C60C7B32EB6
+	for <lists+linux-input@lfdr.de>; Sun, 24 Aug 2025 11:22:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A53DF189CFFD
-	for <lists+linux-input@lfdr.de>; Sun, 24 Aug 2025 09:20:22 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A415E1B6052E
+	for <lists+linux-input@lfdr.de>; Sun, 24 Aug 2025 09:20:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8DB96261B91;
-	Sun, 24 Aug 2025 09:19:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 710472652B2;
+	Sun, 24 Aug 2025 09:19:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VpJMbsHY"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QBNY0Gb+"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBA812367C3;
-	Sun, 24 Aug 2025 09:19:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4628253B67;
+	Sun, 24 Aug 2025 09:19:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756027195; cv=none; b=gQyKwlEFgnxE214o67oqjQWMniq0sCzN4A5W96RePGcSJkdg0/fdObZk5QOjhlm23p3EOv07RYcOommRJrCybz7Nqzmp9QLqGnIreJ2m96gzVU7zQ4VPdLjrgRD6DlOJoWDeuYx8IxJapLYvJozfBc2yXjhj5g8z9EHFhfSkM6k=
+	t=1756027196; cv=none; b=mQemJTcrXwjGDB9bo8VJg58yKLB/0vJPmOIMl81vrnawiU+ZDhjxFbfADapWC4tcTzfbEUBNPb40JhX5GPM5m1pqZZr09yPWylBZGoHeSaZ+wLRVLFeXe8c4ekB8fn1o1t5OjxddXn8aL+epVMGBMTjmRMr0Zpa66KoH/r8tWQ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756027195; c=relaxed/simple;
-	bh=CLOxWccIYnvvu3kJQ2b/QNmsXCM1KjyWuzm/WqI7bsQ=;
+	s=arc-20240116; t=1756027196; c=relaxed/simple;
+	bh=edZR1btW6A4eDg3x1fEnZEnlele9TQiBEwxkzxjCbec=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=SdWB5cN8pYwE8XY0V/Q7ffmhejVa+YkENfT0mLg5jrI9qw5mBEmNn/JWtwGFIyrhtQ5Wuck+SFLnen7t+ZDMYVzC1s/SXOVKo7YErP8Bn9j7TAbIb1v+PAY7bwc8xkClffyPPhdtVmasdrDU6ihIlsvz8+BTWAZH0BQWMIzSCRE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VpJMbsHY; arc=none smtp.client-ip=209.85.208.42
+	 MIME-Version; b=HqRkrPmZW91RrHHlL/6ekzezSEfEHCRjofsxdQMF0j7njCggRotlf4jc2CA2Da+9BH+mtV/diTG6WY/dx64KSP9sRkPwY+d6c4yUb3oKxWyqr6G3bB2uIzBn6Ki90+G17zZg8E7qNsp+YsBngfgChulEO7sk7BbjvnaKuxbafGA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QBNY0Gb+; arc=none smtp.client-ip=209.85.218.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-61c325a4d83so1633843a12.0;
-        Sun, 24 Aug 2025 02:19:53 -0700 (PDT)
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-afcb7ae31caso630322266b.3;
+        Sun, 24 Aug 2025 02:19:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756027192; x=1756631992; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1756027193; x=1756631993; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=1IoiYlwnNrCIW8lexuGkUDfV5aY2e9GYzOXh9ukM7g0=;
-        b=VpJMbsHY4FZvfq8n3guD8hlwWDyA5gnenKJquWr+wxxrCz4vvgfVBAgWk7ZPiM8/dU
-         Vbm3dpE0TRY68zQOvzIIFPOcHgUJHLBTqe390gf+HeNoN/1lMGGmqZ5j6GyTAWWI9+ge
-         qqLhzZnhaCy1Zlre/IHv5qJiNCsbGm38P8PYFl3GeVb5upU2DcksPzamZNYCeYVPUOqd
-         DXmjVv6ugOv1YrgeEc9DfzTaLo4UcxeW1xSRaMmfOub+ZnwiB49cVpsMyy86h3kMxVr3
-         HL5q5s/qw82UgQSzJWg631u60NvYoGbfq7e18dqYCJxoJwtOyhnHYorvvFN2bW94ESXs
-         IIXQ==
+        bh=86M3pmzwJRLDCFOCVFnJvUsA5KO70ZclE0/xWDdlZuk=;
+        b=QBNY0Gb+DSuf8AtQLrR0vrvYtBWGGLU4HTDpLolywNrYzu784m+sHh9sNBomFgrkRO
+         L2mOLOMovXLW5PpGrl1Wb5svaZMvQDqbXDsgx2Bac1OEysqZ3AcDh9BLaXSSLb1cVznA
+         yNieXFuhRuFsTXaSR9N5twq1KAbayd15Jval/47x3FA8YF48poc5hrkQ5XR9dT8xdSlD
+         gFhHHK3HsSQR/sXURSEBvhHUdL6mMySdfLHfNvI76wrNDN88yQb6envZvSGH7ci8p+6z
+         mVAOZpiYQd6FwB1rMzG1IpDBBE4/dOSRQHnJ0lo0XZhsPDwvkqgjrJ50ThI/ZKrzb0v1
+         xETQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756027192; x=1756631992;
+        d=1e100.net; s=20230601; t=1756027193; x=1756631993;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=1IoiYlwnNrCIW8lexuGkUDfV5aY2e9GYzOXh9ukM7g0=;
-        b=wNEDSXXgXgedPsHQu7UUkxEkgVhA4EJ7eWoYQmxMxr7E7+KqwAIwOQ7yToZsHdbsaN
-         382xSUMNuXPDqLpETiYyK0xkuvV4ccuX//w0TykjHzLxahNSk/yM4WrKd0dTDVuv8GnI
-         B+E9v0Ur0ab4iZCiTIjo1bo/XfH5kAyD17i9O4A2eBDVmj/NimX1/A/+IaPeW1yFLsNb
-         Gwmulreq7Tc8bsZo4cCZGf3ftqZzbyVUue8akKOiqlZY+/LzZ+lQE7sf2GtOgkX+wubE
-         QDKBXT5CEOZ1KrGLP0C8IS1XAI4iCMDQGaeXyMmIx254VhXkam6ljxQrLQrlNLKvdB3S
-         cpRw==
-X-Forwarded-Encrypted: i=1; AJvYcCXW7UYTOuF5VmVtrP/iKi8fy6JJ2n63UMXMfGlrOKs8+T8tvo+QYdBKK4u3PXffcLTn23TSsuF46Jdo+zs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyxmrXEhTreXR7+Xl3R4G033mCAFEvBwHJ9KZ4cwHNzuhlsh+EG
-	GpQ5T6kM7d/96oR9GHiPLDzjA+I70mjR6443ZDqj1JGFCKl927jqk7/E
-X-Gm-Gg: ASbGncs55U/12s/sO1YpQ0DNzEEiGmlanXG6sIZTuP96Gc1UGHa9ELESLBiAyC5VP10
-	DBCRYW+26kry+Dwrdyxo04La7DbrA8tzOBY3OAL67Eqd3i3HENLavufV+WPuLwujS2MnJNO5ETe
-	WFRNoip1bMt9maRMPMoS0U8r8VDBDiMq+agf+RCDnQVPSzTWNWo8f3c7C9CpJ9A7wF/3Khaxe+B
-	FZXIEc+k0vGrQJT5lGeZG2+o0jUewt4DWZj7hORqoTK/jkAN9PMKGrdzvsGF5fql5tPsf9mYgGZ
-	k71MWi2GPGnUlleW/jV3/MB05qxvb4EUYYylHoBIojWj/MQiTxcYBLZYRO/I6auMs9j9dYZPYid
-	KGM9IzhEkHwZqAA==
-X-Google-Smtp-Source: AGHT+IGfPfXz22eKmXiiINdnri7eFy8msADCastxL7L+rQSFZREB4Dx2iCO7aaVZtG2wVJRrRI4MYg==
-X-Received: by 2002:a05:6402:26cb:b0:61a:89aa:8d16 with SMTP id 4fb4d7f45d1cf-61c1b4f8650mr8356820a12.23.1756027191924;
-        Sun, 24 Aug 2025 02:19:51 -0700 (PDT)
+        bh=86M3pmzwJRLDCFOCVFnJvUsA5KO70ZclE0/xWDdlZuk=;
+        b=TXmL/FZlGRbxLS69GnCLQlk4mut4nJYmWEowZvT3G8Tvqo2dlB0Dk+NAPSX/7ErJTo
+         1ObMfSNKcxBoNspsrn+GVLgJQju+CyZxYPOdkFDQkAIsveVmI9ZHYYXkSp4h2VBHNqPF
+         buHISZkYy219gK9tzqek5S2FNCRiA1VdLHO6/eJ2g8ir1rUDTgNYOtDIzjWc6fL1JnT1
+         /pAr57q8Ya1MYbFyBBnmArjGdFH+tzuhhX9kYUCnmkRlsaSQBwXpNYcuSbXW++OCnIKd
+         QYGz1z608TzuVWzCDmRf5QePcDGpnyqdFmKDEc8sFiSji5j6TXeW8JoPhFEKr3kIDYO3
+         if/A==
+X-Forwarded-Encrypted: i=1; AJvYcCWDcNBqj3PtvoO6Rwaotb1pnGMniXJ9uRIh+UL+NXhntcDOv4qmRqkAyNaTM69DTgTnoy6qRbAuBwkGlyU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzV/yOuDHv4iM0/SrDV8wD6iFnHf9rYmKFD55Oq6bWcCTjohLPR
+	m/3z94/Jev3lh0ALAcdl3+q8zpoGSU47eav6cqDM99PWVFaXtt9ThgLr
+X-Gm-Gg: ASbGncsWX6gwtmJKmahQmhP7cYiUc+xDVJWLIPK9f9JuTQpgHKUgv4qn/S4m6wK3WBA
+	BG3Z9PAJIANYb2uzL5IcBgxjKPYxfKav85NXBaqyhq9LU0rZ3dqPRKuUtL0nnqkZCViaEDp4gOQ
+	SVhAnjQIp1mBi+QwjBdsrDa/k8mi1c3iIXDAbyAdHYUv47gWHvpx8MyRCkmwwz8azR2wiXRhyFs
+	QLblfqVyE2i/iiAPtKUbYrG+F4Mo/NJNdpf+GmpaPd5SFVsRJgYolYhImHoHy+/PoAxXhJQvCgC
+	r+ANT+FvUEoyBgXhMY44hTEPqCsbbMk2Xl6GymqkWRp1zLuP1CVpA+i19aXmTsEZoqOLxDcNihf
+	oiSfrbRCwrRhLXg==
+X-Google-Smtp-Source: AGHT+IFM3JHt0NvZu8yGNNoz0qrFo/IJsDqafbZdlO/h7MY8JvCvHdg7gqOvmuJKmYAq6y2NIpPpJw==
+X-Received: by 2002:a17:906:a1c2:b0:afe:5765:2011 with SMTP id a640c23a62f3a-afe57660199mr260109366b.53.1756027192825;
+        Sun, 24 Aug 2025 02:19:52 -0700 (PDT)
 Received: from xeon.. ([188.163.112.76])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-61c30cf22d5sm2970156a12.0.2025.08.24.02.19.51
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-61c30cf22d5sm2970156a12.0.2025.08.24.02.19.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 24 Aug 2025 02:19:51 -0700 (PDT)
+        Sun, 24 Aug 2025 02:19:52 -0700 (PDT)
 From: Svyatoslav Ryhel <clamor95@gmail.com>
 To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
 	Svyatoslav Ryhel <clamor95@gmail.com>,
@@ -80,9 +80,9 @@ To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
 	Andreas Kemnade <andreas@kemnade.info>
 Cc: linux-input@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 1/2 RESEND] input: touchcreen: tsc2007: change warning to debug message if pen GPIO is not defined
-Date: Sun, 24 Aug 2025 12:19:26 +0300
-Message-ID: <20250824091927.105121-2-clamor95@gmail.com>
+Subject: [PATCH v2 2/2 RESEND] input: touchcreen: tsc2007: make interrupt optional
+Date: Sun, 24 Aug 2025 12:19:27 +0300
+Message-ID: <20250824091927.105121-3-clamor95@gmail.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250824091927.105121-1-clamor95@gmail.com>
 References: <20250824091927.105121-1-clamor95@gmail.com>
@@ -94,27 +94,68 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Since pen GPIO request is optional, there is no reason to throw dev_warn if
-such GPIO is not defined.
+In case tsc2007 is used as an ADC sensor there will be no interrupt
+provided at all, so set up an interrupt only if one is present.
 
 Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
 ---
- drivers/input/touchscreen/tsc2007_core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/input/touchscreen/tsc2007_core.c | 28 ++++++++++++++----------
+ 1 file changed, 16 insertions(+), 12 deletions(-)
 
 diff --git a/drivers/input/touchscreen/tsc2007_core.c b/drivers/input/touchscreen/tsc2007_core.c
-index 8d832a372b89..17c82baf87df 100644
+index 17c82baf87df..4b169200e689 100644
 --- a/drivers/input/touchscreen/tsc2007_core.c
 +++ b/drivers/input/touchscreen/tsc2007_core.c
-@@ -254,7 +254,7 @@ static int tsc2007_probe_properties(struct device *dev, struct tsc2007 *ts)
- 	if (ts->gpiod)
- 		ts->get_pendown_state = tsc2007_get_pendown_state_gpio;
- 	else
--		dev_warn(dev, "Pen down GPIO is not specified in properties\n");
-+		dev_dbg(dev, "Pen down GPIO is not specified in properties\n");
+@@ -178,7 +178,8 @@ static void tsc2007_stop(struct tsc2007 *ts)
+ 	mb();
+ 	wake_up(&ts->wait);
  
- 	return 0;
+-	disable_irq(ts->irq);
++	if (ts->irq)
++		disable_irq(ts->irq);
  }
+ 
+ static int tsc2007_open(struct input_dev *input_dev)
+@@ -189,7 +190,8 @@ static int tsc2007_open(struct input_dev *input_dev)
+ 	ts->stopped = false;
+ 	mb();
+ 
+-	enable_irq(ts->irq);
++	if (ts->irq)
++		enable_irq(ts->irq);
+ 
+ 	/* Prepare for touch readings - power down ADC and enable PENIRQ */
+ 	err = tsc2007_xfer(ts, PWRDOWN);
+@@ -362,17 +364,19 @@ static int tsc2007_probe(struct i2c_client *client)
+ 			pdata->init_platform_hw();
+ 	}
+ 
+-	err = devm_request_threaded_irq(&client->dev, ts->irq,
+-					NULL, tsc2007_soft_irq,
+-					IRQF_ONESHOT,
+-					client->dev.driver->name, ts);
+-	if (err) {
+-		dev_err(&client->dev, "Failed to request irq %d: %d\n",
+-			ts->irq, err);
+-		return err;
+-	}
++	if (ts->irq) {
++		err = devm_request_threaded_irq(&client->dev, ts->irq,
++						NULL, tsc2007_soft_irq,
++						IRQF_ONESHOT,
++						client->dev.driver->name, ts);
++		if (err) {
++			dev_err(&client->dev, "Failed to request irq %d: %d\n",
++				ts->irq, err);
++			return err;
++		}
+ 
+-	tsc2007_stop(ts);
++		tsc2007_stop(ts);
++	}
+ 
+ 	/* power down the chip (TSC2007_SETUP does not ACK on I2C) */
+ 	err = tsc2007_xfer(ts, PWRDOWN);
 -- 
 2.43.0
 
