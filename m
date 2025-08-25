@@ -1,143 +1,94 @@
-Return-Path: <linux-input+bounces-14297-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14298-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E056B3330C
-	for <lists+linux-input@lfdr.de>; Mon, 25 Aug 2025 00:09:03 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0838DB342A7
+	for <lists+linux-input@lfdr.de>; Mon, 25 Aug 2025 16:07:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1485A2060F3
-	for <lists+linux-input@lfdr.de>; Sun, 24 Aug 2025 22:08:39 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4CF905E52B2
+	for <lists+linux-input@lfdr.de>; Mon, 25 Aug 2025 14:01:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 14DC8263C8E;
-	Sun, 24 Aug 2025 22:08:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1B86E2EFDAD;
+	Mon, 25 Aug 2025 13:55:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kemnade.info header.i=@kemnade.info header.b="WNaySMpV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qifnz8g1"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail.andi.de1.cc (mail.andi.de1.cc [178.238.236.174])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CF5A257836;
-	Sun, 24 Aug 2025 22:08:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.238.236.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 380E82FC01D;
+	Mon, 25 Aug 2025 13:55:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756073289; cv=none; b=OtG+HzubagHj4kB3w6Rx2kRlLTkdr4MXzN2bG7TYyXG6Zn/5lR11Klo5L5LcyeDt9io3WN84xtr5Iy0p2QK0+AxtECtrwZF+9tNGrDhFkvUkKfI/yshot9P9k89XqwoSiKibLkcO9hPE1H2uZALq1cz0QrYgrTZTYs2v58pE6mc=
+	t=1756130117; cv=none; b=PBCSXrJX54lKWm69q/UhAFG1gfV2kwEUEn7wa66r3WnV4FXrJe/gE2fhO69JMEBdF7cjlzHxQo08RGVeDQ2Jd4nlP1iIdr583vvepUn1lS8tQunGTpPm2cQuIdvTAQHUOwmTkpVbCXxhuk2ZZOFnaFG+VIJP8qlHcZwcXiyZ5D4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756073289; c=relaxed/simple;
-	bh=CUcs35OJOETWZAyV81kcK5XJcR6zEFg5XONEReKO7jk=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=istgFYXzjpO3ZsOoWcaguXfoNHSW9MyesN8h4suUcNK8hQUyahs3UwPqFHJdE2AHBlucMm5sdR37kOapWNAPFtOxge/oBuY11KW7cZGAbnTTQu0zNB1jvdoK4WlOpldIkcvtHNA2uA14t5dVMKp3RgfGueD6NWkXY13BH/6ViPI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kemnade.info; spf=pass smtp.mailfrom=kemnade.info; dkim=pass (2048-bit key) header.d=kemnade.info header.i=@kemnade.info header.b=WNaySMpV; arc=none smtp.client-ip=178.238.236.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kemnade.info
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kemnade.info
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=kemnade.info; s=20220719; h=Cc:In-Reply-To:References:From:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID;
-	bh=ymOYjpVivlCLXw/DbSukmlKetF/L1S/nZ1r8QgNYs6I=; b=WNaySMpVkPcY22UBeVJVrotvng
-	mWsIhLlkom2bKfVe+ROntXyaINeDU7dbtXR0jfhQeTsYuY7Elt0Isx2nd8UZST6JXA8oN9Vlk0FfL
-	yNMVZZVSnkhW3pe44RSEGq+SNxgG5JmFvPAqhnZCa+X+sitWIaN7/kp6fgtqavKirXC+ort2Rjp8O
-	O1hl7cxeGzdR5M6Uk9XIq0+cQsncRm9yeODhrujWuSN7McxT8J2/EClW2RVmXD5By7xDhuVBbG9Yq
-	kqGZOrHfEHGzbQ5U586uZhrMWr1yy+8bvWDB72EP0i/wL8QZUFTEiqa89kvlxu0R94n2LPX3f6yB4
-	YdmbK4Ow==;
-From: Andreas Kemnade <andreas@kemnade.info>
-Date: Mon, 25 Aug 2025 00:07:30 +0200
-Subject: [PATCH RFC 3/3] ARM: dts: ti/omap: epson-bt2ws: add touchpad
+	s=arc-20240116; t=1756130117; c=relaxed/simple;
+	bh=zO/sLys/4yz85uc0CmNHawX6EL8astseSjzu207Ew1M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oO5O0Ah/M7ATbtW8JTlAyYa+2Sv0eRhiD50XmvjQddkW5P2rRy0hC0cGY9nzqGZ4muZulIQznjskhsUKlPViOIV2g/Bzf7WFLN8tIhGdDjZJ8aaeGIew0CuX5LRKj5nTvijEpMBO572dVvdjmqUoBH23WMb5UACmPqQc0931GbI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qifnz8g1; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1756130116; x=1787666116;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=zO/sLys/4yz85uc0CmNHawX6EL8astseSjzu207Ew1M=;
+  b=Qifnz8g1mnkyvWucmJAMOof5g2md1ftFA3nlzGPKfb12U+F/1bukzd+t
+   5U6IoeVUSTx5vYprN3DZHscLT0Fax2wQ7CseppxKr8OSB+qd3vXHABj9E
+   7OuwECmB372zM3C18l6okZxpZrYsboNLn4d5IyZ+jqSD/A1sPBzUZsR1Q
+   EZX6Y+O/srzOyturXw8t6t/loMBdVo0GsbHOxSqrVMeHlWDQV95Q9IuFF
+   ohQyD27SH/372iKjzPo4MHMP+6VNLkF9kWTb50004K1UJIcGMtQ4KSall
+   U/7hBOfO7JV+FFYAFezVSubvr7Yv5uDgxscBP0FeubVU30lciCRaNhaLw
+   A==;
+X-CSE-ConnectionGUID: Gl+dLIS9TAm+q8z3DK3xMQ==
+X-CSE-MsgGUID: 4DnpaklbTFqnzBGm5pmnhg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11533"; a="45916849"
+X-IronPort-AV: E=Sophos;i="6.18,213,1751266800"; 
+   d="scan'208";a="45916849"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2025 06:55:14 -0700
+X-CSE-ConnectionGUID: 9Q1DaNOmS+qj1cW2Aps6ZQ==
+X-CSE-MsgGUID: pl5iI+DQRvSiBRYT1P0N8g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,213,1751266800"; 
+   d="scan'208";a="169691924"
+Received: from smile.fi.intel.com ([10.237.72.52])
+  by fmviesa008.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2025 06:55:13 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1uqXfD-00000008WaA-18DK;
+	Mon, 25 Aug 2025 16:55:11 +0300
+Date: Mon, 25 Aug 2025 16:55:11 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Subject: Re: [PATCH v1 0/2] Input: wdt87xx_i2c - a couple of cleanups
+Message-ID: <aKxrP6B83gGDgcQ_@smile.fi.intel.com>
+References: <20250321183957.455518-1-andriy.shevchenko@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250825-ektp-submit-v1-3-1dd476c1277b@kemnade.info>
-References: <20250825-ektp-submit-v1-0-1dd476c1277b@kemnade.info>
-In-Reply-To: <20250825-ektp-submit-v1-0-1dd476c1277b@kemnade.info>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Henrik Rydberg <rydberg@bitmath.org>, 
- Tony Lindgren <tony@atomide.com>, hns@goldelico.com
-Cc: linux-input@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-omap@vger.kernel.org, 
- Andreas Kemnade <andreas@kemnade.info>
-X-Mailer: b4 0.15-dev-50721
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1934; i=andreas@kemnade.info;
- h=from:subject:message-id; bh=CUcs35OJOETWZAyV81kcK5XJcR6zEFg5XONEReKO7jk=;
- b=owGbwMvMwCEm/rzkS6lq2x3G02pJDBmrey1V3cImFFwTMHq4oKO/4FLwZuP8gIgk058/jpaGf
- di3tXR7RykLgxgHg6yYIssvawW3TyrPcoOnRtjDzGFlAhnCwMUpABMJucvwV/pnwtWiWX5e8+PV
- UhbMXGJjVlJ/fkmTx+pGY3bBWVN3tzP8L7PjYnR456kmz7vgdOfxO97Xd/At2PR6y2Gf8ze+ee3
- ZxAsA
-X-Developer-Key: i=andreas@kemnade.info; a=openpgp;
- fpr=EEC0DB858E66C0DA70620AC07DBD6AC74DE29324
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250321183957.455518-1-andriy.shevchenko@linux.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-Add the EKTP1059 based touchpad connected via SPI.
+On Fri, Mar 21, 2025 at 08:39:16PM +0200, Andy Shevchenko wrote:
+> A couple of cleanups related to ACPI ID table and probe function.
 
-Signed-off-by: Andreas Kemnade <andreas@kemnade.info>
----
- arch/arm/boot/dts/ti/omap/omap4-epson-embt2ws.dts | 32 +++++++++++++++++++++++
- 1 file changed, 32 insertions(+)
-
-diff --git a/arch/arm/boot/dts/ti/omap/omap4-epson-embt2ws.dts b/arch/arm/boot/dts/ti/omap/omap4-epson-embt2ws.dts
-index c90f43cc2fae..746ac4761b0d 100644
---- a/arch/arm/boot/dts/ti/omap/omap4-epson-embt2ws.dts
-+++ b/arch/arm/boot/dts/ti/omap/omap4-epson-embt2ws.dts
-@@ -429,6 +429,23 @@ MATRIX_KEY(1, 1, KEY_VOLUMEDOWN)
- 	linux,input-no-autorepeat;
- };
- 
-+&mcspi1 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&mcspi1_pins>;
-+
-+	touchpad@0 {
-+		compatible = "elan,ektp1059";
-+		reg = <0>;      /* cs0 */
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&elan_pins>;
-+		interrupt-parent = <&gpio2>;
-+		interrupts = <20 IRQ_TYPE_LEVEL_LOW>;
-+		spi-max-frequency = <200000>;
-+		spi-cpol;
-+		spi-cpha;
-+	};
-+};
-+
- &mcbsp2 {
- 	#sound-dai-cells = <0>;
- 	pinctrl-names = "default";
-@@ -506,6 +523,12 @@ OMAP4_IOPAD(0x1d4, PIN_OUTPUT | MUX_MODE3) /* gpio191 */
- 		>;
- 	};
- 
-+	elan_pins: pinmux-elan-pins {
-+		pinctrl-single,pins = <
-+			OMAP4_IOPAD(0x78, PIN_INPUT | MUX_MODE3) /* gpio52 */
-+		>;
-+	};
-+
- 	gpio_keys_pins: pinmux-gpio-key-pins {
- 		pinctrl-single,pins = <
- 			OMAP4_IOPAD(0x56, PIN_INPUT_PULLUP | MUX_MODE3) /* gpio35 */
-@@ -579,6 +602,15 @@ OMAP4_IOPAD(0x1ce, PIN_OUTPUT | MUX_MODE3) /* gpio27 */
- 		>;
- 	};
- 
-+	mcspi1_pins: pinmux-mcspi1-pins {
-+		pinctrl-single,pins = <
-+			OMAP4_IOPAD(0x132, PIN_INPUT_PULLUP | MUX_MODE0)
-+			OMAP4_IOPAD(0x134, PIN_INPUT_PULLUP | MUX_MODE0)
-+			OMAP4_IOPAD(0x136, PIN_OUTPUT | MUX_MODE0)
-+			OMAP4_IOPAD(0x138, PIN_OUTPUT | MUX_MODE0)
-+		>;
-+	};
-+
- 	mcbsp2_pins: pinmux-mcbsp2-pins {
- 		pinctrl-single,pins = <
- 			OMAP4_IOPAD(0x0f6, PIN_INPUT | MUX_MODE0)       /* abe_mcbsp2_clkx */
+Any news here?
 
 -- 
-2.39.5
+With Best Regards,
+Andy Shevchenko
+
 
 
