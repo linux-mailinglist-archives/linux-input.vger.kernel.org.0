@@ -1,72 +1,116 @@
-Return-Path: <linux-input+bounces-14312-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14313-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7B45B35A67
-	for <lists+linux-input@lfdr.de>; Tue, 26 Aug 2025 12:49:51 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7ED62B35F44
+	for <lists+linux-input@lfdr.de>; Tue, 26 Aug 2025 14:40:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id BF1C24E2C5B
-	for <lists+linux-input@lfdr.de>; Tue, 26 Aug 2025 10:49:50 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BEC1D3651E7
+	for <lists+linux-input@lfdr.de>; Tue, 26 Aug 2025 12:40:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 06183286881;
-	Tue, 26 Aug 2025 10:49:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BCEF5340D80;
+	Tue, 26 Aug 2025 12:39:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DDFqe5vt"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AC5w6rYO"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1626273810;
-	Tue, 26 Aug 2025 10:49:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91208307484;
+	Tue, 26 Aug 2025 12:39:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756205386; cv=none; b=SDnkBtpEvzwxu9e71ChsysIc5qx6ADvIvOTXyejwYg4iJPX3pDB6K7npQGlSUGBySBhT2TSKKMtnXIHrtSEpV3whUSFsAO/vgsL5zI9UisVe4K3CfAhJKmM/Ib31yI8JW7gfx92HmuuZfpZgj39FhWy8eOzmq3MfyV43/kw+HJA=
+	t=1756211996; cv=none; b=tjsWynZ4rmPsmiabUhK/dEHk+N0q47gjpHZ9FC7g1hwKWkxzVYSlNtfSRdbQGg+mfVY2YqTOEe5X696erMg0mIMjsjM09+32y/TYdHBa0cBIW4vycScLaTZkZX24s8QHgUy/dlMrWsmYvwkOUdmmEjwHnoGkffIsrTToLcc7Sbo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756205386; c=relaxed/simple;
-	bh=QvfQxHRT0op9SoU5DmBsvmJsXBKP+TNeLzFz78P8DE0=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=IyurGTSfLfg1KuNZA6Iq1m0qvzzNY4hfHYGlgrCy8jc0F5fBvlttmBL0Z2NJR3OUZX+h9Yvv1lJp2982Mmy84ojbuYHa1q9bKSGELBXuZcIpvuK2yk5dnDvRe6aif5Yb3ZoDbvqMB+sNCJonAObz23b1+mvNWnt2usQgiKyHoKU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DDFqe5vt; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EFBADC4CEF1;
-	Tue, 26 Aug 2025 10:49:45 +0000 (UTC)
+	s=arc-20240116; t=1756211996; c=relaxed/simple;
+	bh=FdTxkx27DEI4OddOd/l4Cuq+3wL3DnqDXP41ZxT66wQ=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=UU8g33Oc2BBUbV8nzl0jZYOCPTc5u4pucTQqf3JGQ0N56r9N7/+BQIybakfXYHEEyNNK/5N+7Nj44NmANBiYWwfIYTxzWxChThVDcw0KyheyEdpn4c0p1i4pVHMNaHzg5LhzBRxqnqgEXiIXPUzjO7I9CToNTiHhj2PURMIjIBg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AC5w6rYO; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8373C19422;
+	Tue, 26 Aug 2025 12:39:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756205386;
-	bh=QvfQxHRT0op9SoU5DmBsvmJsXBKP+TNeLzFz78P8DE0=;
-	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=DDFqe5vtY7Xd3RECwXJ3v3YJ0UYoZ2e1S99usBBGSZzQntLyNCwYGOhGNrumbLa2A
-	 bGLdRnbUAg0yA2u6LkpzK0kZlAqHyK6yN0YZlissHa0aVcgK3YY/zLrSh+eEq6KB1s
-	 MRZVzid0WQ/Y6KLKZmbDGGYy495UA/iUO4fm6qmJU8ePsdGKnRSnpkYhiAzDcTlwmq
-	 dvp7xT1rNJA8BEWesKR/puUpk6CvvXVU0pKQ5liwDodQ9lycpZUSlq7xNgNEWMvGws
-	 /nSwX14vb8giKBbEUa/W9kozrtNNOXrcOUAIkpQQomCEKQUaLRktJrhQosLhhc9KIo
-	 tlZ1u56rJcHxw==
-Date: Tue, 26 Aug 2025 12:49:43 +0200 (CEST)
-From: Jiri Kosina <jikos@kernel.org>
-To: Antheas Kapenekakis <lkml@antheas.dev>
-cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
-    Benjamin Tissoires <bentiss@kernel.org>
-Subject: Re: [PATCH v1] HID: mf: add support for Legion Go dual dinput
- modes
-In-Reply-To: <CAGwozwH8Px=6X1AnH+3pohqdr9Y5thi6MfzJgOGtPC2c23ksjQ@mail.gmail.com>
-Message-ID: <6ron46ns-o519-p872-294q-6pors07nsqp9@xreary.bet>
-References: <20250803160253.12956-1-lkml@antheas.dev> <404sp531-6o34-rs48-po90-5276or97q405@xreary.bet> <CAGwozwH8Px=6X1AnH+3pohqdr9Y5thi6MfzJgOGtPC2c23ksjQ@mail.gmail.com>
+	s=k20201202; t=1756211995;
+	bh=FdTxkx27DEI4OddOd/l4Cuq+3wL3DnqDXP41ZxT66wQ=;
+	h=From:Subject:Date:To:Cc:From;
+	b=AC5w6rYOpqfy4A3s3qhmc2ysemAvxx3gKHj/LVVvO4yTPUY9LZaJS/7PuOE4ABjzm
+	 QNX3VZyrsbKxxwnwkR/wqCKsblVBHt1vOngzuGzxE46FcSCSJqfLylAQAtbZ2BqOu0
+	 U3yXcIjvTfiR/kq+cIqy71DeRgHb2bWnknYgvzXvDjKjAvFt6LAcoC6WjcwSXy0YmP
+	 uQd6pIamL2q7yBM/MYfHrfcvSNQvMhTv71QvTKwxLN3kYN2rxBKHQbV2JpcZk+bvXs
+	 uzo7E0gMHsICQDMol7KT6jJSHWWp/s3UNM4tPDEzpXzJcUzsW44OwWvzAoFdxC3G71
+	 KfZDMv3ByteAw==
+From: Benjamin Tissoires <bentiss@kernel.org>
+Subject: [PATCH v2 0/3] HID: hidraw: rework ioctls
+Date: Tue, 26 Aug 2025 14:39:38 +0200
+Message-Id: <20250826-b4-hidraw-ioctls-v2-0-c7726b236719@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAqrrWgC/0XMQQ6CMBBA0auQWTukDNCiK+9hXFQYYCK2ZkrUh
+ HB3Gzcu3+L/DRKrcIJTsYHyS5LEkEGHAvrZh4lRhmwgQ63pqMVbg7MM6t8osV+XhNaOdUNHZ2r
+ ykLOn8iif3/JyzR41PnCdlf1/5KrKOOoaV1JX26MlrNBrGM531sBLGXWCff8CvgPp3J0AAAA=
+X-Change-ID: 20250825-b4-hidraw-ioctls-66f34297032a
+To: Jiri Kosina <jikos@kernel.org>, Shuah Khan <shuah@kernel.org>, 
+ Arnd Bergmann <arnd@kernel.org>
+Cc: linux-input@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Benjamin Tissoires <bentiss@kernel.org>, 
+ Arnd Bergmann <arnd@arndb.de>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1756211993; l=1497;
+ i=bentiss@kernel.org; s=20230215; h=from:subject:message-id;
+ bh=FdTxkx27DEI4OddOd/l4Cuq+3wL3DnqDXP41ZxT66wQ=;
+ b=Ehpo9uX+I+5To0S/HtUZphec62X4XoCGF1CHNK+99O3EF/JqRZEZuOrRHAYMCDwppr2pPsXwE
+ vn95o49EWksA2kCoco8qmcp8x4NQwQoKh0B37tdwkcoyxgWKVNlHR6q
+X-Developer-Key: i=bentiss@kernel.org; a=ed25519;
+ pk=7D1DyAVh6ajCkuUTudt/chMuXWIJHlv2qCsRkIizvFw=
 
-On Tue, 26 Aug 2025, Antheas Kapenekakis wrote:
+Arnd sent the v1 of the series in July, and it was bogus. So with a
+little help from claude-sonnet I built up the missing ioctls tests and
+tried to figure out a way to apply Arnd's logic without breaking the
+existing ioctls.
 
-> Can you replace mf with quirks when merging if it is more appropriate?
+The end result is in patch 3/3, which makes use of subfunctions to keep
+the main ioctl code path clean.
 
-Done. Now in hid.git#for-6.17/upstream-fixes. Thanks,
+Arnd, I kept your From: and SoB fields, please shout if you are unhappy.
 
+Signed-off-by: Benjamin Tissoires <bentiss@kernel.org>
+---
+changes in v2:
+- add new hidraw ioctls tests
+- refactor Arnd's patch to keep the existing error path logic
+- link to v1: https://lore.kernel.org/linux-input/20250711072847.2836962-1-arnd@kernel.org/
+
+---
+
+Jiri, checkpatch.pl complains about my co-develop tag. Did we get some
+consensus for AI-assisted tag?
+
+---
+Arnd Bergmann (1):
+      HID: tighten ioctl command parsing
+
+Benjamin Tissoires (2):
+      selftests/hid: hidraw: add more coverage for hidraw ioctls
+      selftests/hid: hidraw: forge wrong ioctls and tests them
+
+ drivers/hid/hidraw.c                     | 224 ++++++++-------
+ include/uapi/linux/hidraw.h              |   2 +
+ tools/testing/selftests/hid/hid_common.h |   6 +
+ tools/testing/selftests/hid/hidraw.c     | 473 +++++++++++++++++++++++++++++++
+ 4 files changed, 603 insertions(+), 102 deletions(-)
+---
+base-commit: b80a75cf6999fb79971b41eaec7af2bb4b514714
+change-id: 20250825-b4-hidraw-ioctls-66f34297032a
+
+Best regards,
 -- 
-Jiri Kosina
-SUSE Labs
+Benjamin Tissoires <bentiss@kernel.org>
 
 
