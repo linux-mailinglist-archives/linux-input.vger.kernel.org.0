@@ -1,374 +1,133 @@
-Return-Path: <linux-input+bounces-14316-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14317-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CD0FB35F4A
-	for <lists+linux-input@lfdr.de>; Tue, 26 Aug 2025 14:40:42 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8429AB364EC
+	for <lists+linux-input@lfdr.de>; Tue, 26 Aug 2025 15:42:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id BC6917A3901
-	for <lists+linux-input@lfdr.de>; Tue, 26 Aug 2025 12:39:05 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 844D046634F
+	for <lists+linux-input@lfdr.de>; Tue, 26 Aug 2025 13:35:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 129EA343214;
-	Tue, 26 Aug 2025 12:40:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7597D23817D;
+	Tue, 26 Aug 2025 13:35:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZvoJeHgY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QtTplz1q"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D835E3431FE;
-	Tue, 26 Aug 2025 12:40:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB1461C4609;
+	Tue, 26 Aug 2025 13:35:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756212001; cv=none; b=XVAMs4/gpN7/B8hh3gjIsU04+5tcDZsjD7wkumYk8cAppFTCysZ922DJONkl1sJxGdGqAb/1ZC0k3cwtWe+tPEyYlOfBkXnctxc5LtzyQbtle15n0VM9ehQpjIqykxEdop1dOS9+iPhc96YSY/ym7zsgLjAye4TEQuszNTh+WOY=
+	t=1756215330; cv=none; b=D3XCa2RYwdBUFj9VWp5dtkwu36E0+95/XUJyAukQ7S3wi150JF0Bzr36uEpktsphnhyXxYda/B6rLJO54XhRrvSoYpN6LNJkWbaryx4rjilQMdm5+dRkGJ4lg3qc7Md95QvzpAcad/b68YPgyMhp2UiDbj6AL7f0pYa5+ALakbs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756212001; c=relaxed/simple;
-	bh=LjmB04QPgjrYgaIwBfEs0zviXWneUfF/3NzneUzlG0E=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=BuhKvbifgosTHSD/DiibMhBG/sh72JbgRHZOwVPPGN3yWE7INP92a8tYItUBV409hSf5pBh4nDpi0+HEfU5ehNlw/pZ9EG3fBi7BpTFZqjgGmD1vsrBBzOvfUDiZmxmOYxho5O6PH+JQ2xhK7zSZuDx8f7+Oq5O/qOk9rC5YusI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZvoJeHgY; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DEBC5C19424;
-	Tue, 26 Aug 2025 12:39:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756212000;
-	bh=LjmB04QPgjrYgaIwBfEs0zviXWneUfF/3NzneUzlG0E=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=ZvoJeHgYirAothpZ1fo8dpGbuZ1gXoSqup1ue2GphXnmbcwU0BEB+w7JCcjPMlMZO
-	 oX2Jhpy9viJU9FDMbIMh2EVNRfJ8PyPB/m3r/n+kFrhKiK415y5QW3YHxSEtclIUDg
-	 LaTDgC0U1kW/MzKFNvuqrZeuwPNcuoGeolVKUkd4/vpPy+grcSQh3dO5UFbHt69Nf/
-	 r6OKViMBTlttUipH7DvZyGy5mPjUl3Bdf/cckaCAeExA0bPr/c/zV8T/U4bNYQ6/9S
-	 Lkn3Rsyvxvf8wK3oTq05MOu3TqQJcvjkW3pf0dwSWdW8KIKOdzpknl01F/kFg/NERq
-	 NVeW1exRxPCQQ==
-From: bentiss@kernel.org
-Date: Tue, 26 Aug 2025 14:39:41 +0200
-Subject: [PATCH v2 3/3] HID: tighten ioctl command parsing
+	s=arc-20240116; t=1756215330; c=relaxed/simple;
+	bh=4zzOWz3tOCVtj3UxT2pkXPzRk86vf+e/s92XUhn9BKE=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=OBY9e1NkmG6bxzswNsr4Umf/VG+8u0slthUy8NZV4V3uFoTzGK+1zc1zKuaXfQy9NP8YihyMCcsPUeR9tWrqBScpkQwnnK46l7ncQCJkypY7c5uPYDlMUdb2zBeT+Xhn9ozqAXbWLEytDApbDjnHEOl3RcQe0wPc95ojcjw4DMI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QtTplz1q; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1756215329; x=1787751329;
+  h=message-id:subject:from:to:cc:date:in-reply-to:
+   references:content-transfer-encoding:mime-version;
+  bh=4zzOWz3tOCVtj3UxT2pkXPzRk86vf+e/s92XUhn9BKE=;
+  b=QtTplz1qpwX6RrhGieS+lbuH33RyoeNwmF0v6wKORQ8vAXMRlrnexrH/
+   dxee+YrqteFJQhfZv5TkAVfIsl5i5Iby6or5GYbjpOliMJaBW7CntHCru
+   HZXDDqShvIg1PRsgXOAk0GJ5GLRQrATzITb0V4cHNVJ6/+cebkXg76SLG
+   2WaQ6j2A5qFVJyoTHzd+6Op2iC4DLfUif7lBjM6wM6wUyOwvANYDe+K/l
+   tuqUtM7WRFSCmGll30vSCWTWP0y+UEY5xF2pXBnP1gFVex328xfv7d9Zu
+   nUdCRQeJd/RhppsNmrm1iGlYzdru7pa7s0kfKXg9wLxJx0/An4d6P4aPS
+   w==;
+X-CSE-ConnectionGUID: yO4GD17hSwWkPt4OnqR+eg==
+X-CSE-MsgGUID: 0Bp5GsydSea+QLKKIoL/lg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11534"; a="46025427"
+X-IronPort-AV: E=Sophos;i="6.18,214,1751266800"; 
+   d="scan'208";a="46025427"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2025 06:35:29 -0700
+X-CSE-ConnectionGUID: iUioBfLQT/eTdGJcwtpAtg==
+X-CSE-MsgGUID: NRItNlDURsiUfHCVIM6bcA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,214,1751266800"; 
+   d="scan'208";a="169951396"
+Received: from spandruv-desk1.amr.corp.intel.com ([10.125.109.13])
+  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2025 06:35:28 -0700
+Message-ID: <e783088816bdf9ab95b1becde94b6b7bf2a2e93f.camel@linux.intel.com>
+Subject: Re: [PATCH 1/2] hid: intel-thc-hid: intel-quicki2c: Add WCL Device
+ IDs
+From: srinivas pandruvada <srinivas.pandruvada@linux.intel.com>
+To: Xinpeng Sun <xinpeng.sun@intel.com>, jikos@kernel.org, bentiss@kernel.org
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Date: Tue, 26 Aug 2025 06:35:26 -0700
+In-Reply-To: <20250826072701.991046-1-xinpeng.sun@intel.com>
+References: <20250826072701.991046-1-xinpeng.sun@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.3-0ubuntu1 
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250826-b4-hidraw-ioctls-v2-3-c7726b236719@kernel.org>
-References: <20250826-b4-hidraw-ioctls-v2-0-c7726b236719@kernel.org>
-In-Reply-To: <20250826-b4-hidraw-ioctls-v2-0-c7726b236719@kernel.org>
-To: Jiri Kosina <jikos@kernel.org>, Shuah Khan <shuah@kernel.org>, 
- Arnd Bergmann <arnd@kernel.org>
-Cc: linux-input@vger.kernel.org, linux-kselftest@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Benjamin Tissoires <bentiss@kernel.org>, 
- Arnd Bergmann <arnd@arndb.de>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1756211993; l=9012;
- i=bentiss@kernel.org; s=20230215; h=from:subject:message-id;
- bh=KZHaOS6e7iHYeZyNxItBcY9Qs+NZLFJ6hQpelRnM5kk=;
- b=i380UFR0uXVHXY2lFZNgDq58bgE+nWEzzbVgLo679JKVUyFr402smHWrAgBHwbtLG8yYbE/4e
- PTec60LEg/hDufvUUgcXfJYNvN7fl61CAlqM8jYjvt/uIwWzznmUkV9
-X-Developer-Key: i=bentiss@kernel.org; a=ed25519;
- pk=7D1DyAVh6ajCkuUTudt/chMuXWIJHlv2qCsRkIizvFw=
 
-From: Arnd Bergmann <arnd@arndb.de>
+On Tue, 2025-08-26 at 15:27 +0800, Xinpeng Sun wrote:
 
-The handling for variable-length ioctl commands in hidraw_ioctl() is
-rather complex and the check for the data direction is incomplete.
+Not even a single line of description?
 
-Simplify this code by factoring out the various ioctls grouped by dir
-and size, and using a switch() statement with the size masked out, to
-ensure the rest of the command is correctly matched.
+Thanks,
+Srinivas
 
-Fixes: 9188e79ec3fd ("HID: add phys and name ioctls to hidraw")
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-Signed-off-by: Benjamin Tissoires <bentiss@kernel.org>
----
- drivers/hid/hidraw.c        | 224 ++++++++++++++++++++++++--------------------
- include/uapi/linux/hidraw.h |   2 +
- 2 files changed, 124 insertions(+), 102 deletions(-)
-
-diff --git a/drivers/hid/hidraw.c b/drivers/hid/hidraw.c
-index c887f48756f4be2a4bac03128f2885bde96c1e39..bbd6f23bce78951c7d667ff5c1c923cee3509e3f 100644
---- a/drivers/hid/hidraw.c
-+++ b/drivers/hid/hidraw.c
-@@ -394,27 +394,15 @@ static int hidraw_revoke(struct hidraw_list *list)
- 	return 0;
- }
- 
--static long hidraw_ioctl(struct file *file, unsigned int cmd,
--							unsigned long arg)
-+static long hidraw_fixed_size_ioctl(struct file *file, struct hidraw *dev, unsigned int cmd,
-+				    void __user *arg)
- {
--	struct inode *inode = file_inode(file);
--	unsigned int minor = iminor(inode);
--	long ret = 0;
--	struct hidraw *dev;
--	struct hidraw_list *list = file->private_data;
--	void __user *user_arg = (void __user*) arg;
--
--	down_read(&minors_rwsem);
--	dev = hidraw_table[minor];
--	if (!dev || !dev->exist || hidraw_is_revoked(list)) {
--		ret = -ENODEV;
--		goto out;
--	}
-+	struct hid_device *hid = dev->hid;
- 
- 	switch (cmd) {
- 		case HIDIOCGRDESCSIZE:
--			if (put_user(dev->hid->rsize, (int __user *)arg))
--				ret = -EFAULT;
-+			if (put_user(hid->rsize, (int __user *)arg))
-+				return -EFAULT;
- 			break;
- 
- 		case HIDIOCGRDESC:
-@@ -422,113 +410,145 @@ static long hidraw_ioctl(struct file *file, unsigned int cmd,
- 				__u32 len;
- 
- 				if (get_user(len, (int __user *)arg))
--					ret = -EFAULT;
--				else if (len > HID_MAX_DESCRIPTOR_SIZE - 1)
--					ret = -EINVAL;
--				else if (copy_to_user(user_arg + offsetof(
--					struct hidraw_report_descriptor,
--					value[0]),
--					dev->hid->rdesc,
--					min(dev->hid->rsize, len)))
--					ret = -EFAULT;
-+					return -EFAULT;
-+
-+				if (len > HID_MAX_DESCRIPTOR_SIZE - 1)
-+					return -EINVAL;
-+
-+				if (copy_to_user(arg + offsetof(
-+				    struct hidraw_report_descriptor,
-+				    value[0]),
-+				    hid->rdesc,
-+				    min(hid->rsize, len)))
-+					return -EFAULT;
-+
- 				break;
- 			}
- 		case HIDIOCGRAWINFO:
- 			{
- 				struct hidraw_devinfo dinfo;
- 
--				dinfo.bustype = dev->hid->bus;
--				dinfo.vendor = dev->hid->vendor;
--				dinfo.product = dev->hid->product;
--				if (copy_to_user(user_arg, &dinfo, sizeof(dinfo)))
--					ret = -EFAULT;
-+				dinfo.bustype = hid->bus;
-+				dinfo.vendor = hid->vendor;
-+				dinfo.product = hid->product;
-+				if (copy_to_user(arg, &dinfo, sizeof(dinfo)))
-+					return -EFAULT;
- 				break;
- 			}
- 		case HIDIOCREVOKE:
- 			{
--				if (user_arg)
--					ret = -EINVAL;
--				else
--					ret = hidraw_revoke(list);
--				break;
-+				struct hidraw_list *list = file->private_data;
-+
-+				if (arg)
-+					return -EINVAL;
-+
-+				return hidraw_revoke(list);
- 			}
- 		default:
--			{
--				struct hid_device *hid = dev->hid;
--				if (_IOC_TYPE(cmd) != 'H') {
--					ret = -EINVAL;
--					break;
--				}
-+			/*
-+			 * None of the above ioctls can return -EAGAIN, so
-+			 * use it as a marker that we need to check variable
-+			 * length ioctls.
-+			 */
-+			return -EAGAIN;
-+	}
- 
--				if (_IOC_NR(cmd) == _IOC_NR(HIDIOCSFEATURE(0))) {
--					int len = _IOC_SIZE(cmd);
--					ret = hidraw_send_report(file, user_arg, len, HID_FEATURE_REPORT);
--					break;
--				}
--				if (_IOC_NR(cmd) == _IOC_NR(HIDIOCGFEATURE(0))) {
--					int len = _IOC_SIZE(cmd);
--					ret = hidraw_get_report(file, user_arg, len, HID_FEATURE_REPORT);
--					break;
--				}
-+	return 0;
-+}
- 
--				if (_IOC_NR(cmd) == _IOC_NR(HIDIOCSINPUT(0))) {
--					int len = _IOC_SIZE(cmd);
--					ret = hidraw_send_report(file, user_arg, len, HID_INPUT_REPORT);
--					break;
--				}
--				if (_IOC_NR(cmd) == _IOC_NR(HIDIOCGINPUT(0))) {
--					int len = _IOC_SIZE(cmd);
--					ret = hidraw_get_report(file, user_arg, len, HID_INPUT_REPORT);
--					break;
--				}
-+static long hidraw_rw_variable_size_ioctl(struct file *file, struct hidraw *dev, unsigned int cmd,
-+					  void __user *user_arg)
-+{
-+	int len = _IOC_SIZE(cmd);
-+
-+	switch (cmd & ~IOCSIZE_MASK) {
-+	case HIDIOCSFEATURE(0):
-+		return hidraw_send_report(file, user_arg, len, HID_FEATURE_REPORT);
-+	case HIDIOCGFEATURE(0):
-+		return hidraw_get_report(file, user_arg, len, HID_FEATURE_REPORT);
-+	case HIDIOCSINPUT(0):
-+		return hidraw_send_report(file, user_arg, len, HID_INPUT_REPORT);
-+	case HIDIOCGINPUT(0):
-+		return hidraw_get_report(file, user_arg, len, HID_INPUT_REPORT);
-+	case HIDIOCSOUTPUT(0):
-+		return hidraw_send_report(file, user_arg, len, HID_OUTPUT_REPORT);
-+	case HIDIOCGOUTPUT(0):
-+		return hidraw_get_report(file, user_arg, len, HID_OUTPUT_REPORT);
-+	}
- 
--				if (_IOC_NR(cmd) == _IOC_NR(HIDIOCSOUTPUT(0))) {
--					int len = _IOC_SIZE(cmd);
--					ret = hidraw_send_report(file, user_arg, len, HID_OUTPUT_REPORT);
--					break;
--				}
--				if (_IOC_NR(cmd) == _IOC_NR(HIDIOCGOUTPUT(0))) {
--					int len = _IOC_SIZE(cmd);
--					ret = hidraw_get_report(file, user_arg, len, HID_OUTPUT_REPORT);
--					break;
--				}
-+	return -EINVAL;
-+}
- 
--				/* Begin Read-only ioctls. */
--				if (_IOC_DIR(cmd) != _IOC_READ) {
--					ret = -EINVAL;
--					break;
--				}
-+static long hidraw_ro_variable_size_ioctl(struct file *file, struct hidraw *dev, unsigned int cmd,
-+					  void __user *user_arg)
-+{
-+	struct hid_device *hid = dev->hid;
-+	int len = _IOC_SIZE(cmd);
-+	int field_len;
-+
-+	switch (cmd & ~IOCSIZE_MASK) {
-+	case HIDIOCGRAWNAME(0):
-+		field_len = strlen(hid->name) + 1;
-+		if (len > field_len)
-+			len = field_len;
-+		return copy_to_user(user_arg, hid->name, len) ?  -EFAULT : len;
-+	case HIDIOCGRAWPHYS(0):
-+		field_len = strlen(hid->phys) + 1;
-+		if (len > field_len)
-+			len = field_len;
-+		return copy_to_user(user_arg, hid->phys, len) ?  -EFAULT : len;
-+	case HIDIOCGRAWUNIQ(0):
-+		field_len = strlen(hid->uniq) + 1;
-+		if (len > field_len)
-+			len = field_len;
-+		return copy_to_user(user_arg, hid->uniq, len) ?  -EFAULT : len;
-+	}
- 
--				if (_IOC_NR(cmd) == _IOC_NR(HIDIOCGRAWNAME(0))) {
--					int len = strlen(hid->name) + 1;
--					if (len > _IOC_SIZE(cmd))
--						len = _IOC_SIZE(cmd);
--					ret = copy_to_user(user_arg, hid->name, len) ?
--						-EFAULT : len;
--					break;
--				}
-+	return -EINVAL;
-+}
- 
--				if (_IOC_NR(cmd) == _IOC_NR(HIDIOCGRAWPHYS(0))) {
--					int len = strlen(hid->phys) + 1;
--					if (len > _IOC_SIZE(cmd))
--						len = _IOC_SIZE(cmd);
--					ret = copy_to_user(user_arg, hid->phys, len) ?
--						-EFAULT : len;
--					break;
--				}
-+static long hidraw_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
-+{
-+	struct inode *inode = file_inode(file);
-+	unsigned int minor = iminor(inode);
-+	struct hidraw *dev;
-+	struct hidraw_list *list = file->private_data;
-+	void __user *user_arg = (void __user *)arg;
-+	int ret;
- 
--				if (_IOC_NR(cmd) == _IOC_NR(HIDIOCGRAWUNIQ(0))) {
--					int len = strlen(hid->uniq) + 1;
--					if (len > _IOC_SIZE(cmd))
--						len = _IOC_SIZE(cmd);
--					ret = copy_to_user(user_arg, hid->uniq, len) ?
--						-EFAULT : len;
--					break;
--				}
--			}
-+	down_read(&minors_rwsem);
-+	dev = hidraw_table[minor];
-+	if (!dev || !dev->exist || hidraw_is_revoked(list)) {
-+		ret = -ENODEV;
-+		goto out;
-+	}
-+
-+	if (_IOC_TYPE(cmd) != 'H') {
-+		ret = -EINVAL;
-+		goto out;
-+	}
- 
-+	if (_IOC_NR(cmd) > HIDIOCTL_LAST || _IOC_NR(cmd) == 0) {
- 		ret = -ENOTTY;
-+		goto out;
- 	}
-+
-+	ret = hidraw_fixed_size_ioctl(file, dev, cmd, user_arg);
-+	if (ret != -EAGAIN)
-+		goto out;
-+
-+	switch (_IOC_DIR(cmd)) {
-+	case (_IOC_READ | _IOC_WRITE):
-+		ret = hidraw_rw_variable_size_ioctl(file, dev, cmd, user_arg);
-+		break;
-+	case _IOC_READ:
-+		ret = hidraw_ro_variable_size_ioctl(file, dev, cmd, user_arg);
-+		break;
-+	default:
-+		/* Any other IOC_DIR is wrong */
-+		ret = -EINVAL;
-+	}
-+
- out:
- 	up_read(&minors_rwsem);
- 	return ret;
-diff --git a/include/uapi/linux/hidraw.h b/include/uapi/linux/hidraw.h
-index d5ee269864e07fcaba481fa285bacbd98739e44f..ebd701b3c18d9d7465880199091933f13f2e1128 100644
---- a/include/uapi/linux/hidraw.h
-+++ b/include/uapi/linux/hidraw.h
-@@ -48,6 +48,8 @@ struct hidraw_devinfo {
- #define HIDIOCGOUTPUT(len)    _IOC(_IOC_WRITE|_IOC_READ, 'H', 0x0C, len)
- #define HIDIOCREVOKE	      _IOW('H', 0x0D, int) /* Revoke device access */
- 
-+#define HIDIOCTL_LAST		_IOC_NR(HIDIOCREVOKE)
-+
- #define HIDRAW_FIRST_MINOR 0
- #define HIDRAW_MAX_DEVICES 64
- /* number of reports to buffer */
-
--- 
-2.51.0
+> Signed-off-by: Xinpeng Sun <xinpeng.sun@intel.com>
+> ---
+> =C2=A0drivers/hid/intel-thc-hid/intel-quicki2c/pci-quicki2c.c | 2 ++
+> =C2=A0drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-dev.h | 2 ++
+> =C2=A02 files changed, 4 insertions(+)
+>=20
+> diff --git a/drivers/hid/intel-thc-hid/intel-quicki2c/pci-quicki2c.c
+> b/drivers/hid/intel-thc-hid/intel-quicki2c/pci-quicki2c.c
+> index f122fde879b9..17b1f2df8f8a 100644
+> --- a/drivers/hid/intel-thc-hid/intel-quicki2c/pci-quicki2c.c
+> +++ b/drivers/hid/intel-thc-hid/intel-quicki2c/pci-quicki2c.c
+> @@ -1019,6 +1019,8 @@ static const struct pci_device_id
+> quicki2c_pci_tbl[] =3D {
+> =C2=A0	{ PCI_DEVICE_DATA(INTEL, THC_PTL_H_DEVICE_ID_I2C_PORT2,
+> &ptl_ddata) },
+> =C2=A0	{ PCI_DEVICE_DATA(INTEL, THC_PTL_U_DEVICE_ID_I2C_PORT1,
+> &ptl_ddata) },
+> =C2=A0	{ PCI_DEVICE_DATA(INTEL, THC_PTL_U_DEVICE_ID_I2C_PORT2,
+> &ptl_ddata) },
+> +	{ PCI_DEVICE_DATA(INTEL, THC_WCL_DEVICE_ID_I2C_PORT1,
+> &ptl_ddata) },
+> +	{ PCI_DEVICE_DATA(INTEL, THC_WCL_DEVICE_ID_I2C_PORT2,
+> &ptl_ddata) },
+> =C2=A0	{ }
+> =C2=A0};
+> =C2=A0MODULE_DEVICE_TABLE(pci, quicki2c_pci_tbl);
+> diff --git a/drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-dev.h
+> b/drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-dev.h
+> index b78c8864d39e..240492a38c24 100644
+> --- a/drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-dev.h
+> +++ b/drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-dev.h
+> @@ -13,6 +13,8 @@
+> =C2=A0#define
+> PCI_DEVICE_ID_INTEL_THC_PTL_H_DEVICE_ID_I2C_PORT2	0xE34A
+> =C2=A0#define
+> PCI_DEVICE_ID_INTEL_THC_PTL_U_DEVICE_ID_I2C_PORT1	0xE448
+> =C2=A0#define
+> PCI_DEVICE_ID_INTEL_THC_PTL_U_DEVICE_ID_I2C_PORT2	0xE44A
+> +#define
+> PCI_DEVICE_ID_INTEL_THC_WCL_DEVICE_ID_I2C_PORT1=C2=A0	0x4D48
+> +#define
+> PCI_DEVICE_ID_INTEL_THC_WCL_DEVICE_ID_I2C_PORT2=C2=A0	0x4D4A
+> =C2=A0
+> =C2=A0/* Packet size value, the unit is 16 bytes */
+> =C2=A0#define MAX_PACKET_SIZE_VALUE_LNL			256
 
 
