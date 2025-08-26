@@ -1,141 +1,114 @@
-Return-Path: <linux-input+bounces-14305-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14306-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D750FB351F4
-	for <lists+linux-input@lfdr.de>; Tue, 26 Aug 2025 04:57:41 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 57D8BB3559F
+	for <lists+linux-input@lfdr.de>; Tue, 26 Aug 2025 09:27:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B33BA1685EF
-	for <lists+linux-input@lfdr.de>; Tue, 26 Aug 2025 02:57:41 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 12C9F3A39EF
+	for <lists+linux-input@lfdr.de>; Tue, 26 Aug 2025 07:27:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E11729D287;
-	Tue, 26 Aug 2025 02:57:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 64C54393DE3;
+	Tue, 26 Aug 2025 07:27:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=who-t.net header.i=@who-t.net header.b="vce6q9hC";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="YUNdhF4s"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Fkv29RJc"
 X-Original-To: linux-input@vger.kernel.org
-Received: from fout-a3-smtp.messagingengine.com (fout-a3-smtp.messagingengine.com [103.168.172.146])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33DC426AABE;
-	Tue, 26 Aug 2025 02:57:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.146
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87389239E75;
+	Tue, 26 Aug 2025 07:27:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756177057; cv=none; b=XN9+/lBMi1D7a5oO/H57tH24uzcBStjxHBmoOSn5wJGuBZvF+utvY45VFkB39pUU7cFsHt6ktZZ6Dte7nx/NbtQbK3purJZkhetcoCsPa5f7kPj6oKH0tq4n9Xmq7/D5YuubknBY3bWqGjamg3X5lG/gvBUD8Ms78r9YclfnGaY=
+	t=1756193242; cv=none; b=tMYY3AzlnEWu0uj1jBLPpJRfk0UZHM2PwdZxngWHCBSXui4KFhOQlZtY2LICKI710Zkb86pDBFhAXQAmZem6nHzNiSTVB906ZoRsIQfzpSu/qDugrJEcvAlc+yGGZDylpqq/gI838iL8IhG7ot1riCbCX75x+hl9V0554AvWBzI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756177057; c=relaxed/simple;
-	bh=X/QhuRVzj3TUd3vJgrVHdecmYHTN2a+P1lvdxkaLF2A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OTjABDhLoPJ02So0xeWKzd4DnBFEU7adj8kFyqgVxIagqPJAgiTiDCTGNPF9CnNM0XfA8ItLFQMWr6qsP3QQPJDTRH1+S3rFkKNrQQ+SrgEgMVFSFphHH+4S61bdjTYAsZBmwFbM8r2VB1Yfvwm82z/AkPhmPdivhP6w1l2ayiI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=who-t.net; spf=pass smtp.mailfrom=who-t.net; dkim=pass (2048-bit key) header.d=who-t.net header.i=@who-t.net header.b=vce6q9hC; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=YUNdhF4s; arc=none smtp.client-ip=103.168.172.146
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=who-t.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=who-t.net
-Received: from phl-compute-12.internal (phl-compute-12.internal [10.202.2.52])
-	by mailfout.phl.internal (Postfix) with ESMTP id 2FF23EC04B3;
-	Mon, 25 Aug 2025 22:57:33 -0400 (EDT)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-12.internal (MEProxy); Mon, 25 Aug 2025 22:57:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=who-t.net; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm2; t=1756177053; x=1756263453; bh=v81cD//zJu
-	pnSCCP8CrsDh+XoDhDzQdGX6qL1l7ka8E=; b=vce6q9hCaD+FFCEz+grQtJj2uA
-	U7ibPmRyv7ToBHGc5UlEg/m5U80S9oNONE2XrIph0bNl5jCYSPUEcElCfme78ugd
-	ENFcE1rOKTIVGPUTBiX/botoup/xuHouLJ45J1ZkwnDbqMJz4EUh3vx0bmLn5Kga
-	VYjXx01f87O2d444eau6aS4La4CAxihSE4gdlPQf9CsNFB6iEJt9wotWfKbUtkgd
-	WI/xeM/UMrP3/4wNFwsd94o6tSddstWExA+u5f30zDQfgUZRatmoq+XDscwAJ5dK
-	MgAkRlzb4elmTMfM16/fZkmI4unAaQjtegAG471YH3CzmxbMYXRcBSzizfSQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
-	1756177053; x=1756263453; bh=v81cD//zJupnSCCP8CrsDh+XoDhDzQdGX6q
-	L1l7ka8E=; b=YUNdhF4sYWKrZV4VmAzmZK8+T0d1D4Ux+rAms9vHiobmIkSZiYs
-	O4q53FQx0kVQ5wFfjlVup+rsb+2kXeyLKyVkNt3cpnqSxKFKTZoIg7tS7ETYv/UJ
-	BFYyM4K9E7pwp+/9vgw+TlWJkADYKO9fg4UaT/BPjvbHQKLzeG/lnetcSmKdDtaO
-	ekmn8UdP+GeT+HCxbJ3TJqgXDm/jgMmEIfYuB1yT89Xh29Z9JumvPvBdiWL/ZXdj
-	+pnl7Hu+Q0iuYMJzWVmmMIC3n1xA/j2KnaNdDGO3L6qvrqSilmkbDWWes+z5R6B9
-	xBrKB1/bR+P6iYgh6zirNKu4Zj7DzFe+B5w==
-X-ME-Sender: <xms:nCKtaKtJYaPSdzI6Hitz-9miuQODM0nRsRBMA73JvgFNXEsem71rGw>
-    <xme:nCKtaI41gdkO3-pJqnkbc3WakFWWvtClx8w59RF0A5W-eWSF7FAd9iz9xs7e26JNr
-    YVd489hCF0_Rq9vjR0>
-X-ME-Received: <xmr:nCKtaFWvn4MpvkVCXmsy3Mule9gQJ2AD4UhxB0LWsuq3jd3q8A7cbUGYMzNeowPekekBaS9-Q6zdbF-Fco0jdI1ihfBuYVhM-Q>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddujeegudefucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepfffhvfevuffkfhggtggujgesthdtredttddtvdenucfhrhhomheprfgvthgvrhcu
-    jfhuthhtvghrvghruceophgvthgvrhdrhhhuthhtvghrvghrseifhhhoqdhtrdhnvghtqe
-    enucggtffrrghtthgvrhhnpeekvdekgeehfeejgfdvudffhfevheejffevgfeigfekhfdu
-    ieefudfgtedugfetgfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrih
-    hlfhhrohhmpehpvghtvghrrdhhuhhtthgvrhgvrhesfihhohdqthdrnhgvthdpnhgspghr
-    tghpthhtohepgedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepsggvnhhtihhssh
-    eskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepjhhikhhosheskhgvrhhnvghlrdhorhhg
-    pdhrtghpthhtoheplhhinhhugidqihhnphhuthesvhhgvghrrdhkvghrnhgvlhdrohhrgh
-    dprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhr
-    gh
-X-ME-Proxy: <xmx:nSKtaK8Yy2KyN-500tHjNCpYzzVhPXw_Hj4EbMPdWdAmTXj3HNVK3A>
-    <xmx:nSKtaBmjJyeTtSx47l40M0neb0r9wDXqfikeAgF90n1ushLOGFwZTg>
-    <xmx:nSKtaIV6h_Tu3qwytv5-oonBb7S2QReyd0SVOh_L8T3EKCfjmU4REg>
-    <xmx:nSKtaOHS_6P7bicLJNfLEabkFg1tdSY-xt_04t12q7DGxli67ozs5Q>
-    <xmx:nSKtaLRb4TbSbAROuHUrdkMKvjzO_YyhQM2uHfRIXhspLOROe0Ku505n>
-Feedback-ID: i7ce144cd:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 25 Aug 2025 22:57:31 -0400 (EDT)
-Date: Tue, 26 Aug 2025 12:54:51 +1000
-From: Peter Hutterer <peter.hutterer@who-t.net>
-To: Benjamin Tissoires <bentiss@kernel.org>
-Cc: Jiri Kosina <jikos@kernel.org>, linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/2] HID: bpf: allow bpf to rebind a driver to
- hid-mutltiouch
-Message-ID: <20250826025451.GA1765489@quokka>
-References: <20250821-bpf-rescan-v1-0-08f9e2bc01bb@kernel.org>
+	s=arc-20240116; t=1756193242; c=relaxed/simple;
+	bh=pntWWrGVuPp5HzGt640eACPG+Nj7VbEsiuFZwlfE7y4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=DL9WY7E5NwIpk3Xg4Z5xcof7cO6mx/8EnlNkr837UYmzmHLC54q04YOSadXWT0BFnfsEYzlh/pD3E+zpzg4qlULAi8A6/et2yeV1olf5w6pHYem10Eq2XV5FDvjHlDKA6odon/wE1dx1LxaVDnF6Pcg971xoFQsJPlvsbPWZdo0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Fkv29RJc; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1756193241; x=1787729241;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=pntWWrGVuPp5HzGt640eACPG+Nj7VbEsiuFZwlfE7y4=;
+  b=Fkv29RJcnhT2GpGqOw/S3aB3vfVIRBQcz6J14xSLun0cYD0Tf1M6jxMx
+   Z4OcnWdGUcrc+Bqd+coLyn5xoQDQW17r8hNi6t2gqK8Bzd5M4U8x4nwg2
+   Hvd1A/uC5gMGdAwCZxBP7awKhJBIdn3Rnt3yu/g/dePyFpFP433bCNvi8
+   /SgnExXq+5vogjEEPSsp00Uavl6wk59tMNcHoCogCwWeaXGjoWvKMMbk6
+   xzzazL3wn+fkiqCUVeLZ78cpUOcvZ2/+Mt9JqWJuTFuiQ6ZH2a6Pxvo7R
+   fNMWhEZdUbLK7Ub3vhnYvedAov2OgmmmC/9RSYyBfsDygPLSJZHHNRNVP
+   A==;
+X-CSE-ConnectionGUID: /zxOSDdYS76ZykttJxPaRw==
+X-CSE-MsgGUID: jOQgRL8VQh2BD2WLawsepg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11533"; a="69519239"
+X-IronPort-AV: E=Sophos;i="6.18,214,1751266800"; 
+   d="scan'208";a="69519239"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2025 00:27:20 -0700
+X-CSE-ConnectionGUID: rB0QoYusQbWr+/fdEgzjhA==
+X-CSE-MsgGUID: FXQ2xWiBS1i7Mh717L5JnA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,214,1751266800"; 
+   d="scan'208";a="173901870"
+Received: from shsensorbuild.sh.intel.com ([10.239.132.250])
+  by orviesa004.jf.intel.com with ESMTP; 26 Aug 2025 00:27:18 -0700
+From: Xinpeng Sun <xinpeng.sun@intel.com>
+To: jikos@kernel.org,
+	bentiss@kernel.org
+Cc: srinivas.pandruvada@linux.intel.com,
+	linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Xinpeng Sun <xinpeng.sun@intel.com>
+Subject: [PATCH 1/2] hid: intel-thc-hid: intel-quicki2c: Add WCL Device IDs
+Date: Tue, 26 Aug 2025 15:27:00 +0800
+Message-Id: <20250826072701.991046-1-xinpeng.sun@intel.com>
+X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250821-bpf-rescan-v1-0-08f9e2bc01bb@kernel.org>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Aug 21, 2025 at 04:38:12PM +0200, Benjamin Tissoires wrote:
-> This happened while Peter was trying to fix a Viewsonic device: the HID
-> device sending multiotuch data through a proprietary collection was
-> handled by hid-generic, and we don't have any way of attaching it to
-> hid-multitouch because the pre-scanning wasn't able to see the Contact
-> ID HID usage.
-> 
-> After a little of back and forth, it turns out that the best solution is
-> to re-scan the device when a report descriptor is changed from the BPF
-> point of view.
-> 
-> Signed-off-by: Benjamin Tissoires <bentiss@kernel.org>
+Signed-off-by: Xinpeng Sun <xinpeng.sun@intel.com>
+---
+ drivers/hid/intel-thc-hid/intel-quicki2c/pci-quicki2c.c | 2 ++
+ drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-dev.h | 2 ++
+ 2 files changed, 4 insertions(+)
 
-Thanks, this series looks good to me.
+diff --git a/drivers/hid/intel-thc-hid/intel-quicki2c/pci-quicki2c.c b/drivers/hid/intel-thc-hid/intel-quicki2c/pci-quicki2c.c
+index f122fde879b9..17b1f2df8f8a 100644
+--- a/drivers/hid/intel-thc-hid/intel-quicki2c/pci-quicki2c.c
++++ b/drivers/hid/intel-thc-hid/intel-quicki2c/pci-quicki2c.c
+@@ -1019,6 +1019,8 @@ static const struct pci_device_id quicki2c_pci_tbl[] = {
+ 	{ PCI_DEVICE_DATA(INTEL, THC_PTL_H_DEVICE_ID_I2C_PORT2, &ptl_ddata) },
+ 	{ PCI_DEVICE_DATA(INTEL, THC_PTL_U_DEVICE_ID_I2C_PORT1, &ptl_ddata) },
+ 	{ PCI_DEVICE_DATA(INTEL, THC_PTL_U_DEVICE_ID_I2C_PORT2, &ptl_ddata) },
++	{ PCI_DEVICE_DATA(INTEL, THC_WCL_DEVICE_ID_I2C_PORT1, &ptl_ddata) },
++	{ PCI_DEVICE_DATA(INTEL, THC_WCL_DEVICE_ID_I2C_PORT2, &ptl_ddata) },
+ 	{ }
+ };
+ MODULE_DEVICE_TABLE(pci, quicki2c_pci_tbl);
+diff --git a/drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-dev.h b/drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-dev.h
+index b78c8864d39e..240492a38c24 100644
+--- a/drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-dev.h
++++ b/drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-dev.h
+@@ -13,6 +13,8 @@
+ #define PCI_DEVICE_ID_INTEL_THC_PTL_H_DEVICE_ID_I2C_PORT2	0xE34A
+ #define PCI_DEVICE_ID_INTEL_THC_PTL_U_DEVICE_ID_I2C_PORT1	0xE448
+ #define PCI_DEVICE_ID_INTEL_THC_PTL_U_DEVICE_ID_I2C_PORT2	0xE44A
++#define PCI_DEVICE_ID_INTEL_THC_WCL_DEVICE_ID_I2C_PORT1 	0x4D48
++#define PCI_DEVICE_ID_INTEL_THC_WCL_DEVICE_ID_I2C_PORT2 	0x4D4A
+ 
+ /* Packet size value, the unit is 16 bytes */
+ #define MAX_PACKET_SIZE_VALUE_LNL			256
+-- 
+2.40.1
 
-Reviewed-by: Peter Hutterer <peter.hutterer@who-t.net>
-
-Cheers,
-  Peter
-
-> ---
-> Benjamin Tissoires (2):
->       HID: core: factor out hid_set_group()
->       HID: bpf: rescan the device for the group after a load/unload
-> 
->  drivers/hid/hid-core.c | 44 ++++++++++++++++++++++++++++++++++++--------
->  1 file changed, 36 insertions(+), 8 deletions(-)
-> ---
-> base-commit: f55f91622e6f10884d30049f6748588b3718eecd
-> change-id: 20250821-bpf-rescan-d4764865c67f
-> 
-> Best regards,
-> -- 
-> Benjamin Tissoires <bentiss@kernel.org>
-> 
 
