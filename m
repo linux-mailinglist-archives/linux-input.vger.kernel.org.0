@@ -1,121 +1,98 @@
-Return-Path: <linux-input+bounces-14379-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14380-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E024B3BA17
-	for <lists+linux-input@lfdr.de>; Fri, 29 Aug 2025 13:44:43 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 849C1B3BA68
+	for <lists+linux-input@lfdr.de>; Fri, 29 Aug 2025 13:58:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DC20756497C
-	for <lists+linux-input@lfdr.de>; Fri, 29 Aug 2025 11:44:42 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id CD83A1CC1746
+	for <lists+linux-input@lfdr.de>; Fri, 29 Aug 2025 11:58:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D8FC238C0A;
-	Fri, 29 Aug 2025 11:44:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0AB301E285A;
+	Fri, 29 Aug 2025 11:58:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=slmail.me header.i=@slmail.me header.b="tZOwSSsg"
+	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="yWKc1Z2Z"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-107163.simplelogin.co (mail-107163.simplelogin.co [79.135.107.163])
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6CE22D23B6
-	for <linux-input@vger.kernel.org>; Fri, 29 Aug 2025 11:44:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=79.135.107.163
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756467881; cv=pass; b=RoWdZpVT4zStp/bGJOVy3LvfePgkefa/Km42p9RCwn/g3TmyUztn7+MHDmh2CnENfKBPZrewTVbsf2QTPwUq7uXKQtjSpG1qPXxPXyhXRkXY6eEDv1MlKYYexSvdBNqDCCS14nZKPSbvtHIrFWNXt7opv7MYbeJUvTlqyT6JZc0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756467881; c=relaxed/simple;
-	bh=n5DoHCNywup6l9+BRLWy4SYpfOtSuxQUT+2Jlv4Y8nY=;
-	h=Date:Subject:MIME-Version:Content-Type:From:To:Cc:Message-ID; b=ejfJXkkL+ltRpkVjbVp6u/o8wCZCc7EnV9LVhk/R+4E43vdqrUaV+ZG42mOSDfr5eb5LFTO9rwfmbgQfM0uZWZ+2u4/jxKJK6rXVMdWeiJtWZu8pKAoU8BM9RAGxVa6WUYWDg3z00P6Ikv46w8Zr1lNx0j01cv5v7CSJyASlOpU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=slmail.me; spf=pass smtp.mailfrom=slmail.me; dkim=pass (1024-bit key) header.d=slmail.me header.i=@slmail.me header.b=tZOwSSsg; arc=pass smtp.client-ip=79.135.107.163
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=slmail.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=slmail.me
-ARC-Seal: i=1; a=rsa-sha256; d=simplelogin.co; s=arc-20230626; t=1756467386;
-	cv=none; b=eg+7Hmgpi8kkWdkOVShX05+BH1zQKMYH1FdWay5T7Ghg34cOLAGJzHcuW+lMFZVjhWDcAbxfR1jv1FS0FLZhPrBpyMH4q4u3mKshwnTBZh23k+HupKEmIl1KhS2+0C+1CX9XMmwLxzn6gdUWVy+1NGu/8vUENKQIv0PfBbrDDvoFmLXCtawLTwC6QY2C+sxFGaIXlyD534PYVe6zFY2Ve8n2/O/QZKpkyE8tOL0U9UA+6pxcttc9szKAuK5XkfbL5FPlO0tGpsSYlYpp9+9d0PyBjtn41zKa+uPhPPofzGQEqs8LEfP5MoYuYab3Gs8IFV0rOuJ4Mxq8nfDrXOhl9Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; d=simplelogin.co; s=arc-20230626;
-	t=1756467386; c=relaxed/simple;
-	bh=n5DoHCNywup6l9+BRLWy4SYpfOtSuxQUT+2Jlv4Y8nY=;
-	h=Date:Subject:From:To:Cc; b=ZA14LfaVkc9ZJSIdA3JvzyDgwAStkmFyQInymtb3fJkxvpfumsuo0/jhPUEi1KOC+vJk4D7yP8fAQz2LiK/kLhGJbTdes/ExfzpLE1g/J7w3EPgZUEIqg6HiSdSv71e5DrU/8C5u746DOyzUw0VE9Igl1sLB+n7hDRGNV5UACL/XGx41zfZxynrxMmQhdtnbZ7yhl5evxilbPWpmYhonabxWhi2s3OvKB6+dss/bS+rYl1c/9qhmhi3OyNRZUAVVWfp2gs/tdKYiy4lj8lvbyrJrYAuNvzENya64AVoCFka65LQUH80IcoUlE1CEVZ+PHCCUtwQ/PWQexjGDpKZYtw==
-ARC-Authentication-Results: i=1; mail.protonmail.ch
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=slmail.me; s=dkim;
-	t=1756467385;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=n5DoHCNywup6l9+BRLWy4SYpfOtSuxQUT+2Jlv4Y8nY=;
-	b=tZOwSSsgfy8absNd70V+JrivExQ6dR+NX5OiLxQIWQk1mNBx9tumT2CHuQCJlXet1yeoCR
-	m2HLNmK4MH4nBrT6P07xO+LJM0MPlg8/ugaqrLdCHHpdqoN+hczGbKCa5AUdsXBmox7tgv
-	mDzVOffzaUjNOEmL7SB6R4WXLpX8sk4=
-Date: Fri, 29 Aug 2025 11:36:18 +0000
-Subject: Re: Bug report - Sticky keys acting not sticky sometimes
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 485E82D12E4;
+	Fri, 29 Aug 2025 11:58:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.237.130.52
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1756468684; cv=none; b=CgAP3W7tMonYwqiTUXQOuTER3qEfpAPc2Rw6hx1IhJ2DY0r5doqBCmBbZBfXozqTlsl8pFd1tifwISwPYyIyJpeiUs/ZTdmeLSN61jOiqepbbN7Jy/LKQdawU/rFaFLa1/z+eov7Rg2TcU06uZSy3o7i4RHWFJPZL7OENyT8PIg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1756468684; c=relaxed/simple;
+	bh=ynveZ1yqv7u1kVZVuyyTknKuM8nqhb1csnyz1gTkaao=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Xe8f8qLdk0bHdWzu42HR7AZVOEoXYJg05wo1lv0Oz07HzuaXw0kxwZ3JqgHtUO50bjVj+NolHIkwYuIZrPSawOtaHe5DHXqeHSlKPe8QxGhAtB9Vmooax3NlEsGXZjhpMnisoB+4FIHkTB1qpaf2waF0cOriQShz+cfRfGAS4c4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=yWKc1Z2Z; arc=none smtp.client-ip=80.237.130.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=leemhuis.info; s=he214686; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:From:
+	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
+	Content-Transfer-Encoding:Content-ID:Content-Description:In-Reply-To:
+	References; bh=OiUAwF7kCruDwiTlDNNG4PcIpUt2a1KBnH5GQtUR5Ug=; t=1756468682;
+	x=1756900682; b=yWKc1Z2ZKMYNWv9c74FcEHV9NMLErerVvI5QR1iXby/TTErStde/CVOxaGpVx
+	fw9IsXESbG5N/l6NAz6VIeSUskgCPpw4ILubRbotP4zJmtFLX+T1A3cy8Pg89bWjH85Zpyy3sapP5
+	bqQqaVfsTp3Wpc6j3y/fkgF3+Og6mK4edug3JwwdigpBhB/8ttovc27XU1W5IKtHFYeFm2CSb3zMh
+	wYtrk8GM2UcMj0sGVAGxeXtgdj3D42MjEOFsXE9Uj7Ic78wu5wpl238nSXJsuRJZRcpUZ4karIco/
+	E5Z/AMTCaIs8POXQvhaSETEJR0FzbhaIBpljxTEeQ3g1zWVVJA==;
+Received: from [2a02:8108:8984:1d00:a0cf:1912:4be:477f]; authenticated
+	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128)
+	id 1urxjz-00A0uS-0E;
+	Fri, 29 Aug 2025 13:57:59 +0200
+Message-ID: <dd24398b-0d10-45d4-b93d-4377c017f2e7@leemhuis.info>
+Date: Fri, 29 Aug 2025 13:57:57 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; protocol="application/pgp-signature";
- micalg=pgp-sha512;
- boundary="------a3bdc29b6e5aab888bbfaee2534b07ce6e38dc4f5969853691b6d737927ae055";
- charset=utf-8
+User-Agent: Mozilla Thunderbird
+Subject: Re: Bug report - Sticky keys acting not sticky sometimes
+To: Alerymin <alerdev.ca4x6@simplelogin.com>, stable@vger.kernel.org
+Cc: regressions@lists.linux.dev, dmitry.torokhov@gmail.com,
+ linux-input@vger.kernel.org
+References: <175646738541.6.2676742517164037652.877606794@simplelogin.com>
+From: Thorsten Leemhuis <regressions@leemhuis.info>
+Content-Language: de-DE, en-US
+In-Reply-To: <175646738541.6.2676742517164037652.877606794@simplelogin.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-From: Mathieu <mathieug.rsbog@slmail.me>
-To: stable@vger.kernel.org
-Cc: 
- regressions@lists.linux.dev,dmitry.torokhov@gmail.com,linux-input@vger.kernel.org
-Message-ID: <175646738541.6.2676742517164037652.877606794@simplelogin.com>
-X-SimpleLogin-Type: Reply
-X-SimpleLogin-EmailLog-ID: 877606795
-X-SimpleLogin-Want-Signing: yes
+X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1756468682;4e6a38f4;
+X-HE-SMSGID: 1urxjz-00A0uS-0E
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------a3bdc29b6e5aab888bbfaee2534b07ce6e38dc4f5969853691b6d737927ae055
-Content-Type: multipart/mixed;boundary=---------------------2a429f09b9a235ef4171a0b772069893
+Lo!
 
------------------------2a429f09b9a235ef4171a0b772069893
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;charset=utf-8
+On 29.08.25 13:36, Alerymin wrote:
+> Note:
+> The issue looks like it's from tty directly but I don't see who is the maintainer, so I email the closest I can get
+> 
+> Description:
+> In command line, sticky keys reset only when typing ASCII and ISO-8859-1 characters.
+> Tested with the QWERTY Lafayette layout: https://codeberg.org/Alerymin/kbd-qwerty-lafayette
+> 
+> Observed Behaviour:
+> When the layout is loaded in ISO-8859-15, most characters typed don't reset the sticky key, unless it's basic ASCII characters or Unicode
+> When the layout is loaded in ISO-8859-1, the sticky key works fine.
+> 
+> Expected behaviour:
+> Sticky key working in ISO-8859-1 and ISO-8859-15
+> 
+> System used:
+> Arch Linux, kernel 6.16.3-arch1-1
 
-Note:
-The issue looks like it's from tty directly but I don't see who is the mai=
-ntainer, so I email the closest I can get
+Thx for the report. You CCed the regressions list, so please allow me to
+ask: what's the last version where this worked? And FWIW in case nobody
+comes around with an idea what might cause this any time soon: could you
+bisect[1] what's causing the problem? Ciao, Thorsten
 
-Description:
-In command line, sticky keys reset only when typing ASCII and ISO-8859-1 c=
-haracters.
-Tested with the QWERTY Lafayette layout: https://codeberg.org/Alerymin/kbd=
--qwerty-lafayette
-
-Observed Behaviour:
-When the layout is loaded in ISO-8859-15, most characters typed don't rese=
-t the sticky key, unless it's basic ASCII characters or Unicode
-When the layout is loaded in ISO-8859-1, the sticky key works fine.
-
-Expected behaviour:
-Sticky key working in ISO-8859-1 and ISO-8859-15
-
-System used:
-Arch Linux, kernel 6.16.3-arch1-1
------------------------2a429f09b9a235ef4171a0b772069893--
-
---------a3bdc29b6e5aab888bbfaee2534b07ce6e38dc4f5969853691b6d737927ae055
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-Version: ProtonMail
-
-wrsEARYKAG0FgmixkKQJkOLfGQMiQb0dRRQAAAAAABwAIHNhbHRAbm90YXRp
-b25zLm9wZW5wZ3Bqcy5vcmfTkqPJNkGeCHWxoJzCDGaTeoq+AMlCzt0LqPcI
-IlruHRYhBA/2MWvcJ0ye/0b56OLfGQMiQb0dAABIgAD+NuL4jcK/RKvUdskM
-n6FkZTldQiUuCyUrX4G4YHVuyfoBALiduiZYfYIiL1itze8hd9zWWXnCF7HV
-3bIzIlVhQQ8C
-=BCRE
------END PGP SIGNATURE-----
-
-
---------a3bdc29b6e5aab888bbfaee2534b07ce6e38dc4f5969853691b6d737927ae055--
-
-
+[1]
+https://docs.kernel.org/admin-guide/verify-bugs-and-bisect-regressions.html
 
