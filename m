@@ -1,179 +1,281 @@
-Return-Path: <linux-input+bounces-14384-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14385-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D963B3BBA5
-	for <lists+linux-input@lfdr.de>; Fri, 29 Aug 2025 14:50:45 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B28EB3C115
+	for <lists+linux-input@lfdr.de>; Fri, 29 Aug 2025 18:43:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6FA2418835E5
-	for <lists+linux-input@lfdr.de>; Fri, 29 Aug 2025 12:51:05 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 407877BD393
+	for <lists+linux-input@lfdr.de>; Fri, 29 Aug 2025 16:40:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 316B3261B96;
-	Fri, 29 Aug 2025 12:50:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 25E2E337680;
+	Fri, 29 Aug 2025 16:40:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=simplelogin.com header.i=@simplelogin.com header.b="neD+MVra"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T4xOVhID"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-107161.simplelogin.co (mail-107161.simplelogin.co [79.135.107.161])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A513EEDE
-	for <linux-input@vger.kernel.org>; Fri, 29 Aug 2025 12:50:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=79.135.107.161
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756471841; cv=pass; b=FAQRoZtExdiCyH9fQMepArN0CjU0gQPGVNabmUuh0rfIDUEI1i3m88MsjkYif69cRife23NgGLWjah/Dseu+My21P0AIlQaorZ1G7YbvckdDIDamTAcpoEnM8O1XngT6LC68PaT7T6UEYIn9lRROe+kvjTOU7UY7o8aJytdCMoc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756471841; c=relaxed/simple;
-	bh=RsjxGaAFoZ0RsFFplhir6YFkz69W3zYQG/jgXDx16jA=;
-	h=Date:Subject:In-Reply-To:MIME-Version:Content-Type:From:To:Cc:
-	 Message-ID:References; b=OdlTii7iUi2xPKmNWf8dRqC2Jwlsgt8xSGpIz3epLFsyNt5rZq9QZOxMUJdn5LRGARqerbOHICQp0y7lJkGltF895AQDuE4qmcWcI+cTtUVsH7CoqZMM2cKLaE4lSmGpCiBauh3WqzYguDR/ShS/n/vDzLZbLD6/E72O4jIm8Yk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=simplelogin.com; spf=pass smtp.mailfrom=simplelogin.com; dkim=pass (1024-bit key) header.d=simplelogin.com header.i=@simplelogin.com header.b=neD+MVra; arc=pass smtp.client-ip=79.135.107.161
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=simplelogin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=simplelogin.com
-ARC-Seal: i=1; a=rsa-sha256; d=simplelogin.co; s=arc-20230626; t=1756471837;
-	cv=none; b=xfY8sCnvyuI6fdxuxhF+EJ1QzUNtR/znKFjVBpotUKlFF/4sUctsPsc8XieUvyLd7I+5eGTajQwlR8JcouaOBKhXnTeLos1tiK04BfX9zocsoCCLGvo0zGYQr4+/nbIc+q0NXgUzpJ8aFSAleKrbx47MoS7rAi6M3TWkrBkxSLVpQjklrZAwOHfgy4ANhwP84vqgk52Eu4h6+yEhIS/bZWH7NNUb+wfS6jkXEO3Yydv3I3D8L/IlpMizJlD0r1Zjzoxmpbq9I//D5BTO2B4XjnJmn09wXqGOmYheFP72Pyx1J0q/6aux+VNi1SojIW/iK+YmM7W2Vq2KmA+aosmHrg==
-ARC-Message-Signature: i=1; a=rsa-sha256; d=simplelogin.co; s=arc-20230626;
-	t=1756471837; c=relaxed/simple;
-	bh=RsjxGaAFoZ0RsFFplhir6YFkz69W3zYQG/jgXDx16jA=;
-	h=Date:Subject:In-Reply-To:From:To:Cc:References; b=X8733OpxZqN45af8NrWIRcYsVo8whudOXrkvnQRcPGlLy4tQBjYEqZnNvYWUeP7O0Q4cD0aOqfRuT1wq1M8XhjBEPDtOgwSkvJyppYoXA2I5JW1PscKQtOKSfzjo8p2fKop/g7BvEwO3mKoJG8gTjBoK2wRwCxtVJrNy0K6TDpXGwMo+00C9C4eUqVp8n0u6kNaNuz4H+ocdaAoFdGTWF8Bcl75E1IvhWdFMYDPc9aexIh6SxMm3QDwL37jw3cSViq9c5CBoJySkNWNgF7QyldUsW+80IqZjMJDjCcQWYNBlxZub6tyW2TnQxdsYUxrPISUPyjCZk3DQ/DQiBd5C7g==
-ARC-Authentication-Results: i=1; mail.protonmail.ch
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=simplelogin.com;
-	s=dkim; t=1756471837;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=RsjxGaAFoZ0RsFFplhir6YFkz69W3zYQG/jgXDx16jA=;
-	b=neD+MVratKjFKK3e6IRKCRUD1gErU/wE5uVX2Xs4QX7fhveazjZUatP8sdiYPbWFMUO6x/
-	AtPDq9WY12v8KXQEJ8bYE8tO82xFfdR9bChGcezBllo17F2I1a8yBejuL+mTxQ0LjXqu2Z
-	4jeWxm7YmAW9ffjVjOUvXcXZsURIVc0=
-Date: Fri, 29 Aug 2025 12:50:31 +0000
-Subject: Re: Bug report - Sticky keys acting not sticky sometimes
-In-Reply-To: <27863761-d747-459a-af85-18abe207c0ca@leemhuis.info>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA5E93375D5;
+	Fri, 29 Aug 2025 16:40:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1756485659; cv=none; b=o5wEZ9Hjp2rXoXRiBNNwKmbz4kBs4oNffHCH8b9+FKlSpbeQyST2X7IX16wubx6/AtqeUcc2N5vsd7csgD0lz9kf1KlDjzmZ7ENKLFsQ79J5tX9sgYQJgHg7t8zAtf9sQKDXb7YUh5HU6aCu/vT8IpNO/LMsHI6hlD9n6F9EWEQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1756485659; c=relaxed/simple;
+	bh=RQx3k9ICtqz81FINdTuayS6/7Dq2k0lIJ6C2JyMWlIc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fxrIPCT8OZXEI7p+Xs0S71HyIftjDwaiB7yMcJKj8K79diTjd2RWISHbwUdZNjBLb0N3iWX0PgWu2X3MvQ3R8QIyriuaCvxMailoy9qYz8TkmRI7DWhGdf+KahyaSSSz7Qg2E3uYdJ+eMxun1/zStF7Osr0IlM2WfE3wVdEYIh4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T4xOVhID; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8881DC4CEF0;
+	Fri, 29 Aug 2025 16:40:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756485658;
+	bh=RQx3k9ICtqz81FINdTuayS6/7Dq2k0lIJ6C2JyMWlIc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=T4xOVhIDRV5duZ1GpPtBu0+6fshz/3NrsQrkdmFaUSY8AOpusTD94aeN2gst44zpd
+	 ZhwDpjky2b0/wq9sWQzJkeeVDbSFOsdHfp2C3Y4KVopYG3x5cI4191potu3DGLy7lP
+	 Gm7LhA0RQWOborD5EVfMODfkVxs8N35QzduH/DmnookgDoTj+Dtob1Ml2b67igB4Dt
+	 6BvhQX7LI5LLUnTdr1paCJMFi2ZdLFFJ2+d5RnXfqmK+KYVnZ8Xr1+ODKCPYkIGmtr
+	 stuklWrxlbDep/kyZ4A9Gp5yavNZj6kje2Rr1BxFE9tub+RnlqqLQhw9oNa8vr1FVd
+	 k33l4jW/UYRcg==
+Date: Fri, 29 Aug 2025 11:40:57 -0500
+From: Rob Herring <robh@kernel.org>
+To: James Calligeros <jcalligeros99@gmail.com>
+Cc: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Neal Gompa <neal@gompa.dev>, Lee Jones <lee@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>, asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-rtc@vger.kernel.org,
+	linux-hwmon@vger.kernel.org, linux-input@vger.kernel.org
+Subject: Re: [PATCH v2 02/11] dt-bindings: hwmon: Add Apple System Management
+ Controller hwmon schema
+Message-ID: <20250829164057.GA976361-robh@kernel.org>
+References: <20250827-macsmc-subdevs-v2-0-ce5e99d54c28@gmail.com>
+ <20250827-macsmc-subdevs-v2-2-ce5e99d54c28@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; protocol="application/pgp-signature";
- micalg=pgp-sha512;
- boundary="------7a1a13f2bdd02d19b1a0cd1016c8abb2d8fd43fc744af901de6e2679f5db4857";
- charset=utf-8
-Content-Transfer-Encoding: 7bit
-From: Alerymin <alerdev.ca4x6@simplelogin.com>
-To: Thorsten Leemhuis <regressions@leemhuis.info>
-Cc: dmitry.torokhov@gmail.com,linux-input@vger.kernel.org
-Message-ID: <175647183710.10.7805660721964829096.877719640@simplelogin.com>
-References: <175646738541.6.2676742517164037652.877606794@simplelogin.com>
- <dd24398b-0d10-45d4-b93d-4377c017f2e7@leemhuis.info>
- <175646914218.7.12773379431621187280.877650584@simplelogin.com>
- <27863761-d747-459a-af85-18abe207c0ca@leemhuis.info>
-X-SimpleLogin-Type: Reply
-X-SimpleLogin-EmailLog-ID: 877719643
-X-SimpleLogin-Want-Signing: yes
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250827-macsmc-subdevs-v2-2-ce5e99d54c28@gmail.com>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------7a1a13f2bdd02d19b1a0cd1016c8abb2d8fd43fc744af901de6e2679f5db4857
-Content-Type: multipart/mixed;boundary=---------------------8ae16afa01c4f027e05a259f3e4e1bd7
+On Wed, Aug 27, 2025 at 09:22:36PM +1000, James Calligeros wrote:
+> Apple Silicon devices integrate a vast array of sensors, monitoring
+> current, power, temperature, and voltage across almost every part of
+> the system. The sensors themselves are all connected to the System
+> Management Controller (SMC). The SMC firmware exposes the data
+> reported by these sensors via its standard FourCC-based key-value
+> API. The SMC is also responsible for monitoring and controlling any
+> fans connected to the system, exposing them in the same way.
+> 
+> For reasons known only to Apple, each device exposes its sensors with
+> an almost totally unique set of keys. This is true even for devices
+> which share an SoC. An M1 Mac mini, for example, will report its core
+> temperatures on different keys to an M1 MacBook Pro. Worse still, the
+> SMC does not provide a way to enumerate the available keys at runtime,
+> nor do the keys follow any sort of reasonable or consistent naming
+> rules that could be used to deduce their purpose. We must therefore
+> know which keys are present on any given device, and which function
+> they serve, ahead of time.
+> 
+> Add a schema so that we can describe the available sensors for a given
+> Apple Silicon device in the Devicetree.
+> 
+> Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
+> ---
+>  .../bindings/hwmon/apple,smc-hwmon.yaml  | 132 +++++++++++++++++++++++++
+>  .../bindings/mfd/apple,smc.yaml          |  36 +++++++
+>  MAINTAINERS                              |   1 +
+>  3 files changed, 169 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/hwmon/apple,smc-hwmon.yaml b/Documentation/devicetree/bindings/hwmon/apple,smc-hwmon.yaml
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..08cc4f55f3a41ca8b3b428088f96240266fa42e8
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/hwmon/apple,smc-hwmon.yaml
+> @@ -0,0 +1,132 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/hwmon/apple,smc-hwmon.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Apple SMC Hardware Monitoring
+> +
+> +description:
+> +  Apple's System Management Controller (SMC) exposes a vast array of
+> +  hardware monitoring sensors, including temperature probes, current and
+> +  voltage sense, power meters, and fan speeds. It also provides endpoints
+> +  to manually control the speed of each fan individually. Each Apple
+> +  Silicon device exposes a different set of endpoints via SMC keys. This
+> +  is true even when two machines share an SoC. The CPU core temperature
+> +  sensor keys on an M1 Mac mini are different to those on an M1 MacBook
+> +  Pro, for example.
+> +
+> +maintainers:
+> +  - James Calligeros <jcalligeros99@gmail.com>
+> +
+> +definitions:
 
------------------------8ae16afa01c4f027e05a259f3e4e1bd7
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;charset=utf-8
+$defs
 
+definitions was convention. $defs is in json-schema spec now.
 
+> +  apple,key-id:
+> +    $ref: /schemas/types.yaml#/definitions/string
+> +    pattern: "^[A-Za-z0-9]{4}$"
+> +    description: The SMC FourCC key of the desired sensor.
+> +      Must match the node's suffix.
+> +
+> +  label:
+> +    description: Human-readable name for the sensor
+> +
+> +properties:
+> +  compatible:
+> +    const: apple,smc-hwmon
+> +
+> +patternProperties:
+> +  "^current-[A-Za-z0-9]{4}$":
+> +    type: object
+> +    additionalProperties: false
+> +
+> +    properties:
+> +      apple,key-id:
+> +        $ref: "#/definitions/apple,key-id"
+> +
+> +      label:
+> +        $ref: "#/definitions/label"
+> +
+> +    required:
+> +      - apple,key-id
+> +      - label
 
+This should be something like this:
 
+"^current-[A-Za-z0-9]{4}$":
+  $ref: "#/$defs/sensor"
+  unevaluatedProperties: false
 
+With the $defs/sensor being:
 
-On Friday, August 29th, 2025 at 12:38, Thorsten Leemhuis <regressions@leem=
-huis.info> wrote:
+$defs:
+  sensor:
+    type: object
+    
+    properties:
+      apple,key-id:
+        $ref: /schemas/types.yaml#/definitions/string
+        pattern: "^[A-Za-z0-9]{4}$"
+        description: 
+          The SMC FourCC key of the desired sensor. Must match the 
+          node's suffix.
 
-> =
+      label:
+        description: Human-readable name for the sensor
 
+    required:
+      - apple,key-id
+      - label
 
-> =
+Though in general, 'label' should never be required being just for human 
+convenience.
 
+> +
+> +  "^fan-[A-Za-z0-9]{4}$":
+> +    type: object
+> +    additionalProperties: false
 
-> On 29.08.25 14:05, Alerymin wrote:
-> =
+And this one the same as above, but with the additional fan properties 
+listed here.
 
-
-> > On Friday, August 29th, 2025 at 11:58, Thorsten Leemhuis
-> > regressions@leemhuis.info wrote:
-> > =
-
-
-> > > On 29.08.25 13:36, Alerymin wrote:
-> > =
-
-
-> > Well, I read the reporting page a bit too quickly so I CCed the
-> > regressions list while I shouldn't have, sorry. I've never seen it
-> > work normally, it's not a regression.
-> =
-
-
-> =
-
-
-> Happens, no worries. But in that case a hint to anyone that might reply
-> to this thread: feel free to drop the regressions list and the stable
-> list (it's off-topic there, too)
-> =
-
-
-> > On a github issues on kbd-
-> > project legionus had a few ideas about it: https://github.com/
-> > legionus/kbd/issues/140
-> =
-
-
-> =
-
-
-> FWIW, some developers do not follow links in cases like this, as they
-> get a lot of reports every day and not much time at hand (and walking
-> through other tickets often is cumbersome). You chances will thus be
-> higher is you summarize the important bits in a case like this; then
-> people might follow the link if they really care.
-> =
-
-
-> Good luck! Ciao, Thorsten
-
-From the github issue. The problem may come from `drivers/tty/vt/keyboard.=
-c`
-
-Legionus says maybe it misses `slockstate =3D 0` around line 1492 before t=
-he return.
-
-To test it I have a keyboard layout using that: https://codeberg.org/Alery=
-min/kbd-qwerty-lafayette
-Just make sure you change the CtrlL to SCtrlL in the fr-lafayette.map so i=
-t registers a Sticky key (I had to keep a working version).
-Load it with `loadkeys fr-lafayette.map`.
------------------------8ae16afa01c4f027e05a259f3e4e1bd7--
-
---------7a1a13f2bdd02d19b1a0cd1016c8abb2d8fd43fc744af901de6e2679f5db4857
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-Version: ProtonMail
-
-wrsEARYKAG0FgmixoggJkOLfGQMiQb0dRRQAAAAAABwAIHNhbHRAbm90YXRp
-b25zLm9wZW5wZ3Bqcy5vcmet5+BatvcFab6UBS8AvJ6wt6EdGCuR0TdkXZ1a
-v02u0RYhBA/2MWvcJ0ye/0b56OLfGQMiQb0dAADRoAD+MHNJKqjU9X3o/+0U
-iKjy/VIU3QT15iYCEb63NNqvTwEA/RDRjajXkqmmp3WDPlZFiNqwLBuhtArZ
-4vOr+SKo9KYM
-=H1He
------END PGP SIGNATURE-----
-
-
---------7a1a13f2bdd02d19b1a0cd1016c8abb2d8fd43fc744af901de6e2679f5db4857--
-
-
+> +
+> +    properties:
+> +      apple,key-id:
+> +        $ref: "#/definitions/apple,key-id"
+> +
+> +      apple,fan-minimum:
+> +        $ref: /schemas/types.yaml#/definitions/string
+> +        pattern: "^[A-Za-z0-9]{4}$"
+> +        description: SMC key containing the fan's minimum speed
+> +
+> +      apple,fan-maximum:
+> +        $ref: /schemas/types.yaml#/definitions/string
+> +        pattern: "^[A-Za-z0-9]{4}$"
+> +        description: SMC key containing the fan's maximum speed
+> +
+> +      apple,fan-target:
+> +        $ref: /schemas/types.yaml#/definitions/string
+> +        pattern: "^[A-Za-z0-9]{4}$"
+> +        description: Writeable endpoint for setting desired fan speed
+> +
+> +      apple,fan-mode:
+> +        $ref: /schemas/types.yaml#/definitions/string
+> +        pattern: "^[A-Za-z0-9]{4}$"
+> +        description: Writeable key to enable/disable manual fan control
+> +
+> +      label:
+> +        $ref: "#/definitions/label"
+> +
+> +    required:
+> +      - apple,key-id
+> +      - label
+> +
+> +  "^power-[A-Za-z0-9]{4}$":
+> +    type: object
+> +    additionalProperties: false
+> +
+> +    properties:
+> +      apple,key-id:
+> +        $ref: "#/definitions/apple,key-id"
+> +
+> +      label:
+> +        $ref: "#/definitions/label"
+> +
+> +    required:
+> +      - apple,key-id
+> +      - label
+> +
+> +  "^temperature-[A-Za-z0-9]{4}$":
+> +    type: object
+> +    additionalProperties: false
+> +
+> +    properties:
+> +      apple,key-id:
+> +        $ref: "#/definitions/apple,key-id"
+> +
+> +      label:
+> +        $ref: "#/definitions/label"
+> +
+> +    required:
+> +      - apple,key-id
+> +      - label
+> +
+> +  "^voltage-[A-Za-z0-9]{4}$":
+> +    type: object
+> +    additionalProperties: false
+> +
+> +    properties:
+> +      apple,key-id:
+> +        $ref: "#/definitions/apple,key-id"
+> +
+> +      label:
+> +        $ref: "#/definitions/label"
+> +
+> +    required:
+> +      - apple,key-id
+> +      - label
+> +
+> +additionalProperties: false
 
