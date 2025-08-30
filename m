@@ -1,332 +1,323 @@
-Return-Path: <linux-input+bounces-14395-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14396-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1E96B3C3FD
-	for <lists+linux-input@lfdr.de>; Fri, 29 Aug 2025 22:59:44 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D79CB3C81F
+	for <lists+linux-input@lfdr.de>; Sat, 30 Aug 2025 07:29:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AE0F75A5268
-	for <lists+linux-input@lfdr.de>; Fri, 29 Aug 2025 20:59:44 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 22D4D580EC1
+	for <lists+linux-input@lfdr.de>; Sat, 30 Aug 2025 05:29:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 00B68346A0B;
-	Fri, 29 Aug 2025 20:59:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CEBAA1E3DF8;
+	Sat, 30 Aug 2025 05:29:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="dESvnRAv"
+	dkim=pass (1024-bit key) header.d=altimeter.info header.i=@altimeter.info header.b="ogPzQXJw"
 X-Original-To: linux-input@vger.kernel.org
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0950122B594;
-	Fri, 29 Aug 2025 20:59:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from hognose1.porkbun.com (hognose1.porkbun.com [35.82.102.206])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBA0016A395;
+	Sat, 30 Aug 2025 05:29:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.82.102.206
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756501180; cv=none; b=isIZRD5OoIYWWQzC5Fyqlx/SqXLuQZjUF6VYg4w0jhRkyk/d/ohBTbkyO+NPyLYnn8/z60l8LZBZzSE0kR/s9Dbb0KsoZj0V2ohVYlcAa3r5u66dx71xL2IhtWCj44PRe6fQTB+OKkU89HvhzIsuDmss687fxkFdgH22RQSv7m8=
+	t=1756531769; cv=none; b=ZyG0ZRlbMEVs3MKTIqSeMztURir85luhFjx0DdjKBCYN6tdKjdWKZYXn3gTX/Awqb1VjaRDDk4cI/PA8e5bEXWgYSa7gAgQF+RHVV6BwG5ofHzEVVM2mTXJ4JMvpBo/8c0XsPhBWAgt0psInNm/kevFQVRAXnjmGaXUL7z0SlqY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756501180; c=relaxed/simple;
-	bh=+2BW0UEG49SU/o/955BEv69wInYx4DfrQgnHNrBDmdc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=tt7rTCT6H0/q5rEPXyru7MC5eFsIjG/bz7YGFum1277tNWrf3tT0fTYLKc3XvF/VJbk5EXCp/PF/PIOPCg259Sjl/albHlHrqn/RGTQkk8OgjXArJ5x6GeBdQGCCCSKBYDAqgRegSOASZYQhsQ7irnHf8T0kSPBZq4XT+zsK5WI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=dESvnRAv; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
-Received: from [192.168.0.88] (192-184-212-33.fiber.dynamic.sonic.net [192.184.212.33])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 4CA79211627B;
-	Fri, 29 Aug 2025 13:59:36 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 4CA79211627B
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1756501177;
-	bh=JFWDwi8WW+5cmq8k1iafkjchsEZ4XvNd8Q16Wo9KAu8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=dESvnRAvmpVLr0VYBZnRRYhqqZR3B639/FohGqaKD2D5bP/9Yrve21Irvr3nS9rb6
-	 oV0XKAIHOKvPIy3mqCdHpdb+o4CglUZTuulng4cFfFX5xmNa+/8oCUYPlxUGlvaNbr
-	 67e3J3ZlD0dwqiTzzvQCWTMikVloz4heqlFWTFCA=
-Message-ID: <0b9ea4e8-3751-0286-4bd9-fe09035dd22d@linux.microsoft.com>
-Date: Fri, 29 Aug 2025 13:59:35 -0700
+	s=arc-20240116; t=1756531769; c=relaxed/simple;
+	bh=Q5daGjJ/YXbXYY8U7XevbYytlvZ8JW6mh9q6e73x/kc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=RJQF/HyB9xgRwaD+O1HxEql5xPUSinjuUONbfZuVKIOcvBdekwcaadPYpst9R4HeuGNvXdkXpCCHB51wx0WTK+0pZZZyrZBWsBxxaqleui1Br+b9V6wPxR6PPtHwU9gJbEFTv4h7469st7ulh2ACKCBv+Q+pSOY6ptACH4keCQg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=altimeter.info; spf=pass smtp.mailfrom=altimeter.info; dkim=pass (1024-bit key) header.d=altimeter.info header.i=@altimeter.info header.b=ogPzQXJw; arc=none smtp.client-ip=35.82.102.206
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=altimeter.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=altimeter.info
+Received: from altimeter-info (unknown [45.55.225.183])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(Client did not present a certificate)
+	(Authenticated sender: linux-kernel@altimeter.info)
+	by hognose1.porkbun.com (Postfix) with ESMTPSA id 9CAD54537E;
+	Sat, 30 Aug 2025 05:21:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=altimeter.info;
+	s=default; t=1756531267;
+	bh=HnV5VLDf2K/1ocXH/EITt37CP9a3TzSH0gmHqKu3CYg=;
+	h=Date:From:To:Cc:Subject;
+	b=ogPzQXJwqLlZ5CJyMwL2QqHEvdlq3yOwgW7C11lqVNyFb3pVt7DL3wnJPL2xuOzDQ
+	 dY4qoqb63rFT3NmYRC1PsuRhBhoQp/NdJqRGkPSKg204SRGK1jXmnD/J2ZG4ZrlKvp
+	 zDDqZQPoQYVsn78QLQHugYaLjoBZOnbqSsReNEF8=
+Date: Sat, 30 Aug 2025 05:21:02 +0000
+From: Ivan Gorinov <linux-kernel@altimeter.info>
+To: Jiri Kosina <jikos@kernel.org>
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] Input: Improve WinWing Orion2 throttle support
+Message-ID: <20250830052102.GA28400@altimeter-info>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.1
-Subject: Re: [PATCH V0 1/2] hyper-v: Add CONFIG_HYPERV_VMBUS option
-Content-Language: en-US
-To: Nuno Das Neves <nunodasneves@linux.microsoft.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-input@vger.kernel.org, linux-hyperv@vger.kernel.org,
- netdev@vger.kernel.org, linux-pci@vger.kernel.org,
- linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org,
- linux-arch@vger.kernel.org, virtualization@lists.linux.dev
-Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch, jikos@kernel.org,
- bentiss@kernel.org, kys@microsoft.com, haiyangz@microsoft.com,
- wei.liu@kernel.org, decui@microsoft.com, dmitry.torokhov@gmail.com,
- andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
- kuba@kernel.org, pabeni@redhat.com, bhelgaas@google.com,
- James.Bottomley@HansenPartnership.com, martin.petersen@oracle.com,
- gregkh@linuxfoundation.org, deller@gmx.de, arnd@arndb.de,
- sgarzare@redhat.com, horms@kernel.org
-References: <20250828005952.884343-1-mrathor@linux.microsoft.com>
- <20250828005952.884343-2-mrathor@linux.microsoft.com>
- <5003d5e8-a025-4827-b8a0-6fe11877421b@linux.microsoft.com>
-From: Mukesh R <mrathor@linux.microsoft.com>
-In-Reply-To: <5003d5e8-a025-4827-b8a0-6fe11877421b@linux.microsoft.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.5.24 (2015-08-30)
 
-On 8/28/25 17:29, Nuno Das Neves wrote:
-> On 8/27/2025 5:59 PM, Mukesh Rathor wrote:
->> Somehow vmbus driver is hinged on CONFIG_HYPERV. It appears this is initial
->> code that did not get addressed when the scope of CONFIG_HYPERV went beyond
->> vmbus. This commit creates a fine grained HYPERV_VMBUS option and updates
->> drivers that depend on VMBUS.
->>
-> 
-> The commit message can be improved. The docs are helpful here:
-> https://docs.kernel.org/process/submitting-patches.html#describe-your-changes
-> 
-> In particular, some clearer reasons for the change.
-> e.g.
-> - CONFIG_HYPERV encompasses too much right now. It's not always clear what
->   depends on builtin hyperv code and what depends on vmbus.
-> 
-> - Since there is so much builtin hyperv code, building CONFIG_HYPERV as a
->   module doesn't make intuitive sense. Building vmbus support as a module does.
-> 
-> - There are actually some real scenarios someone may want to compile with
->   CONFIG_HYPERV but without vmbus, like baremetal root partition.
-> 
-> FWIW I think it's a good idea, interested to hear what others think.
+Add support for Orion2 throttle configurations with more than 32 button codes
+on the grip handle (this means the device reports more than 80 button codes).
 
-Sorry, you had mentioned it and I expanded the cover letter and forgot the
-commit message here. You said it better than I could above, so I can just use
-that in V1 next week if no other comments.
+Map additional button codes to KEY_MACRO1 .. KEY_MACRO28.
 
-Thanks,
--Mukesh
+Make the module simpler, removing report descriptor fixup.
 
+Signed-off-by: Ivan Gorinov <linux-kernel@altimeter.info>
+---
+ drivers/hid/Kconfig       |   2 +
+ drivers/hid/hid-winwing.c | 167 +++++++++++++++++++++++---------------
+ 2 files changed, 104 insertions(+), 65 deletions(-)
 
-> Nuno
-> 
->> Signed-off-by: Mukesh Rathor <mrathor@linux.microsoft.com>
->> ---
->>  drivers/gpu/drm/Kconfig        |  2 +-
->>  drivers/hid/Kconfig            |  2 +-
->>  drivers/hv/Kconfig             | 12 +++++++++---
->>  drivers/hv/Makefile            |  2 +-
->>  drivers/input/serio/Kconfig    |  4 ++--
->>  drivers/net/hyperv/Kconfig     |  2 +-
->>  drivers/pci/Kconfig            |  2 +-
->>  drivers/scsi/Kconfig           |  2 +-
->>  drivers/uio/Kconfig            |  2 +-
->>  drivers/video/fbdev/Kconfig    |  2 +-
->>  include/asm-generic/mshyperv.h |  8 +++++---
->>  net/vmw_vsock/Kconfig          |  2 +-
->>  12 files changed, 25 insertions(+), 17 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
->> index f7ea8e895c0c..58f34da061c6 100644
->> --- a/drivers/gpu/drm/Kconfig
->> +++ b/drivers/gpu/drm/Kconfig
->> @@ -398,7 +398,7 @@ source "drivers/gpu/drm/imagination/Kconfig"
->>  
->>  config DRM_HYPERV
->>  	tristate "DRM Support for Hyper-V synthetic video device"
->> -	depends on DRM && PCI && HYPERV
->> +	depends on DRM && PCI && HYPERV_VMBUS
->>  	select DRM_CLIENT_SELECTION
->>  	select DRM_KMS_HELPER
->>  	select DRM_GEM_SHMEM_HELPER
->> diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
->> index a57901203aeb..fe3dc8c0db99 100644
->> --- a/drivers/hid/Kconfig
->> +++ b/drivers/hid/Kconfig
->> @@ -1162,7 +1162,7 @@ config GREENASIA_FF
->>  
->>  config HID_HYPERV_MOUSE
->>  	tristate "Microsoft Hyper-V mouse driver"
->> -	depends on HYPERV
->> +	depends on HYPERV_VMBUS
->>  	help
->>  	Select this option to enable the Hyper-V mouse driver.
->>  
->> diff --git a/drivers/hv/Kconfig b/drivers/hv/Kconfig
->> index 2e8df09db599..08c4ed005137 100644
->> --- a/drivers/hv/Kconfig
->> +++ b/drivers/hv/Kconfig
->> @@ -44,18 +44,24 @@ config HYPERV_TIMER
->>  
->>  config HYPERV_UTILS
->>  	tristate "Microsoft Hyper-V Utilities driver"
->> -	depends on HYPERV && CONNECTOR && NLS
->> +	depends on HYPERV_VMBUS && CONNECTOR && NLS
->>  	depends on PTP_1588_CLOCK_OPTIONAL
->>  	help
->>  	  Select this option to enable the Hyper-V Utilities.
->>  
->>  config HYPERV_BALLOON
->>  	tristate "Microsoft Hyper-V Balloon driver"
->> -	depends on HYPERV
->> +	depends on HYPERV_VMBUS
->>  	select PAGE_REPORTING
->>  	help
->>  	  Select this option to enable Hyper-V Balloon driver.
->>  
->> +config HYPERV_VMBUS
->> +	tristate "Microsoft Hyper-V Vmbus driver"
->> +	depends on HYPERV
->> +	help
->> +	  Select this option to enable Hyper-V Vmbus driver.
->> +
->>  config MSHV_ROOT
->>  	tristate "Microsoft Hyper-V root partition support"
->>  	depends on HYPERV && (X86_64 || ARM64)
->> @@ -75,7 +81,7 @@ config MSHV_ROOT
->>  
->>  config MSHV_VTL
->>  	tristate "Microsoft Hyper-V VTL driver"
->> -	depends on X86_64 && HYPERV_VTL_MODE
->> +	depends on X86_64 && HYPERV_VTL_MODE && HYPERV_VMBUS
->>  	# Mapping VTL0 memory to a userspace process in VTL2 is supported in OpenHCL.
->>  	# VTL2 for OpenHCL makes use of Huge Pages to improve performance on VMs,
->>  	# specially with large memory requirements.
->> diff --git a/drivers/hv/Makefile b/drivers/hv/Makefile
->> index c53a0df746b7..050517756a82 100644
->> --- a/drivers/hv/Makefile
->> +++ b/drivers/hv/Makefile
->> @@ -1,5 +1,5 @@
->>  # SPDX-License-Identifier: GPL-2.0
->> -obj-$(CONFIG_HYPERV)		+= hv_vmbus.o
->> +obj-$(CONFIG_HYPERV_VMBUS)	+= hv_vmbus.o
->>  obj-$(CONFIG_HYPERV_UTILS)	+= hv_utils.o
->>  obj-$(CONFIG_HYPERV_BALLOON)	+= hv_balloon.o
->>  obj-$(CONFIG_MSHV_ROOT)		+= mshv_root.o
->> diff --git a/drivers/input/serio/Kconfig b/drivers/input/serio/Kconfig
->> index 17edc1597446..c7ef347a4dff 100644
->> --- a/drivers/input/serio/Kconfig
->> +++ b/drivers/input/serio/Kconfig
->> @@ -276,8 +276,8 @@ config SERIO_OLPC_APSP
->>  
->>  config HYPERV_KEYBOARD
->>  	tristate "Microsoft Synthetic Keyboard driver"
->> -	depends on HYPERV
->> -	default HYPERV
->> +	depends on HYPERV_VMBUS
->> +	default HYPERV_VMBUS
->>  	help
->>  	  Select this option to enable the Hyper-V Keyboard driver.
->>  
->> diff --git a/drivers/net/hyperv/Kconfig b/drivers/net/hyperv/Kconfig
->> index c8cbd85adcf9..982964c1a9fb 100644
->> --- a/drivers/net/hyperv/Kconfig
->> +++ b/drivers/net/hyperv/Kconfig
->> @@ -1,7 +1,7 @@
->>  # SPDX-License-Identifier: GPL-2.0-only
->>  config HYPERV_NET
->>  	tristate "Microsoft Hyper-V virtual network driver"
->> -	depends on HYPERV
->> +	depends on HYPERV_VMBUS
->>  	select UCS2_STRING
->>  	select NLS
->>  	help
->> diff --git a/drivers/pci/Kconfig b/drivers/pci/Kconfig
->> index 9a249c65aedc..7065a8e5f9b1 100644
->> --- a/drivers/pci/Kconfig
->> +++ b/drivers/pci/Kconfig
->> @@ -221,7 +221,7 @@ config PCI_LABEL
->>  
->>  config PCI_HYPERV
->>  	tristate "Hyper-V PCI Frontend"
->> -	depends on ((X86 && X86_64) || ARM64) && HYPERV && PCI_MSI && SYSFS
->> +	depends on ((X86 && X86_64) || ARM64) && HYPERV_VMBUS && PCI_MSI && SYSFS
->>  	select PCI_HYPERV_INTERFACE
->>  	select IRQ_MSI_LIB
->>  	help
->> diff --git a/drivers/scsi/Kconfig b/drivers/scsi/Kconfig
->> index 5522310bab8d..19d0884479a2 100644
->> --- a/drivers/scsi/Kconfig
->> +++ b/drivers/scsi/Kconfig
->> @@ -589,7 +589,7 @@ config XEN_SCSI_FRONTEND
->>  
->>  config HYPERV_STORAGE
->>  	tristate "Microsoft Hyper-V virtual storage driver"
->> -	depends on SCSI && HYPERV
->> +	depends on SCSI && HYPERV_VMBUS
->>  	depends on m || SCSI_FC_ATTRS != m
->>  	default HYPERV
->>  	help
->> diff --git a/drivers/uio/Kconfig b/drivers/uio/Kconfig
->> index b060dcd7c635..6f86a61231e6 100644
->> --- a/drivers/uio/Kconfig
->> +++ b/drivers/uio/Kconfig
->> @@ -140,7 +140,7 @@ config UIO_MF624
->>  
->>  config UIO_HV_GENERIC
->>  	tristate "Generic driver for Hyper-V VMBus"
->> -	depends on HYPERV
->> +	depends on HYPERV_VMBUS
->>  	help
->>  	  Generic driver that you can bind, dynamically, to any
->>  	  Hyper-V VMBus device. It is useful to provide direct access
->> diff --git a/drivers/video/fbdev/Kconfig b/drivers/video/fbdev/Kconfig
->> index c21484d15f0c..72c63eaeb983 100644
->> --- a/drivers/video/fbdev/Kconfig
->> +++ b/drivers/video/fbdev/Kconfig
->> @@ -1774,7 +1774,7 @@ config FB_BROADSHEET
->>  
->>  config FB_HYPERV
->>  	tristate "Microsoft Hyper-V Synthetic Video support"
->> -	depends on FB && HYPERV
->> +	depends on FB && HYPERV_VMBUS
->>  	select DMA_CMA if HAVE_DMA_CONTIGUOUS && CMA
->>  	select FB_IOMEM_HELPERS_DEFERRED
->>  	help
->> diff --git a/include/asm-generic/mshyperv.h b/include/asm-generic/mshyperv.h
->> index 1d2ad1304ad4..66c58c91b530 100644
->> --- a/include/asm-generic/mshyperv.h
->> +++ b/include/asm-generic/mshyperv.h
->> @@ -165,6 +165,7 @@ static inline u64 hv_generate_guest_id(u64 kernel_version)
->>  
->>  void __init hv_mark_resources(void);
->>  
->> +#if IS_ENABLED(CONFIG_HYPERV_VMBUS)
->>  /* Free the message slot and signal end-of-message if required */
->>  static inline void vmbus_signal_eom(struct hv_message *msg, u32 old_msg_type)
->>  {
->> @@ -200,6 +201,10 @@ static inline void vmbus_signal_eom(struct hv_message *msg, u32 old_msg_type)
->>  	}
->>  }
->>  
->> +extern int vmbus_interrupt;
->> +extern int vmbus_irq;
->> +#endif /* CONFIG_HYPERV_VMBUS */
->> +
->>  int hv_get_hypervisor_version(union hv_hypervisor_version_info *info);
->>  
->>  void hv_setup_vmbus_handler(void (*handler)(void));
->> @@ -213,9 +218,6 @@ void hv_setup_crash_handler(void (*handler)(struct pt_regs *regs));
->>  void hv_remove_crash_handler(void);
->>  void hv_setup_mshv_handler(void (*handler)(void));
->>  
->> -extern int vmbus_interrupt;
->> -extern int vmbus_irq;
->> -
->>  #if IS_ENABLED(CONFIG_HYPERV)
->>  /*
->>   * Hypervisor's notion of virtual processor ID is different from
->> diff --git a/net/vmw_vsock/Kconfig b/net/vmw_vsock/Kconfig
->> index 56356d2980c8..8e803c4828c4 100644
->> --- a/net/vmw_vsock/Kconfig
->> +++ b/net/vmw_vsock/Kconfig
->> @@ -72,7 +72,7 @@ config VIRTIO_VSOCKETS_COMMON
->>  
->>  config HYPERV_VSOCKETS
->>  	tristate "Hyper-V transport for Virtual Sockets"
->> -	depends on VSOCKETS && HYPERV
->> +	depends on VSOCKETS && HYPERV_VMBUS
->>  	help
->>  	  This module implements a Hyper-V transport for Virtual Sockets.
->>  
+diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
+index a57901203aeb..3317981e65dc 100644
+--- a/drivers/hid/Kconfig
++++ b/drivers/hid/Kconfig
+@@ -1309,6 +1309,8 @@ config HID_WINWING
+ 	help
+ 	  Support for WinWing Orion2 throttle base with the following grips:
+ 
++	    * TGRIP-15E
++	    * TGRIP-15EX
+ 	    * TGRIP-16EX
+ 	    * TGRIP-18
+ 
+diff --git a/drivers/hid/hid-winwing.c b/drivers/hid/hid-winwing.c
+index d4afbbd27807..54e0f43163a8 100644
+--- a/drivers/hid/hid-winwing.c
++++ b/drivers/hid/hid-winwing.c
+@@ -38,6 +38,7 @@ struct winwing_drv_data {
+ 	__u8 *report_buf;
+ 	struct mutex lock;
+ 	unsigned int num_leds;
++	int too_many_buttons;
+ 	struct winwing_led leds[];
+ };
+ 
+@@ -81,12 +82,10 @@ static int winwing_init_led(struct hid_device *hdev,
+ 	int ret;
+ 	int i;
+ 
+-	size_t data_size = struct_size(data, leds, 3);
+-
+-	data = devm_kzalloc(&hdev->dev, data_size, GFP_KERNEL);
++	data = hid_get_drvdata(hdev);
+ 
+ 	if (!data)
+-		return -ENOMEM;
++		return -EINVAL;
+ 
+ 	data->report_buf = devm_kmalloc(&hdev->dev, MAX_REPORT, GFP_KERNEL);
+ 
+@@ -106,6 +105,7 @@ static int winwing_init_led(struct hid_device *hdev,
+ 						"%s::%s",
+ 						dev_name(&input->dev),
+ 						info->led_name);
++
+ 		if (!led->cdev.name)
+ 			return -ENOMEM;
+ 
+@@ -114,14 +114,96 @@ static int winwing_init_led(struct hid_device *hdev,
+ 			return ret;
+ 	}
+ 
+-	hid_set_drvdata(hdev, data);
+-
+ 	return ret;
+ }
+ 
++static int winwing_map_button(int button, int too_many_buttons)
++{
++	if (button < 1)
++		return KEY_RESERVED;
++
++	if (button > 112)
++		return KEY_RESERVED;
++
++	if (button <= 16) {
++		/*
++		 * Grip buttons [1 .. 16] are mapped to
++		 * key codes BTN_TRIGGER .. BTN_DEAD
++		 */
++		return (button - 1) + BTN_JOYSTICK;
++	}
++
++	if (button >= 65) {
++		/*
++		 * Base buttons [65 .. 112] are mapped to
++		 * key codes BTN_TRIGGER_HAPPY17 .. KEY_MAX
++		 */
++		return (button - 65) + BTN_TRIGGER_HAPPY17;
++	}
++
++	if (too_many_buttons) {
++		if (button <= 48) {
++			/*
++			 * Grip buttons [17 .. 44] are mapped to
++			 * KEY_MACRO1 .. KEY_MACRO28;
++			 * button numbers [45 .. 48] are not used.
++			 */
++			return (button - 17) + KEY_MACRO1;
++		} else {
++			/*
++			 * Grip buttons [49 .. 64] are mapped to
++			 * BTN_TRIGGER_HAPPY1 .. BTN_TRIGGER_HAPPY16
++			 */
++			return (button - 49) + BTN_TRIGGER_HAPPY1;
++		}
++	} else {
++		if (button <= 32) {
++			/*
++			 * Grip buttons [17 .. 32] are mapped to
++			 * BTN_TRIGGER_HAPPY1 .. BTN_TRIGGER_HAPPY16
++			 */
++			return (button - 17) + BTN_TRIGGER_HAPPY1;
++		}
++		/* Not mapping button numbers [33 .. 64] */
++	}
++
++	return KEY_RESERVED;
++}
++
++static int winwing_input_mapping(struct hid_device *hdev,
++	struct hid_input *hi, struct hid_field *field, struct hid_usage *usage,
++	unsigned long **bit, int *max)
++{
++	struct winwing_drv_data *data;
++	int code = KEY_RESERVED;
++	int button = 0;
++
++	data = hid_get_drvdata(hdev);
++
++	if (!data)
++		return -EINVAL;
++
++	if ((usage->hid & HID_USAGE_PAGE) != HID_UP_BUTTON)
++		return 0;
++
++	if (field->application != HID_GD_JOYSTICK)
++		return 0;
++
++	/* Button numbers start with 1 */
++	button = usage->hid & HID_USAGE;
++
++	code = winwing_map_button(button, data->too_many_buttons);
++
++	hid_map_usage(hi, usage, bit, max, EV_KEY, code);
++
++	return 1;
++}
++
+ static int winwing_probe(struct hid_device *hdev,
+ 		const struct hid_device_id *id)
+ {
++	struct winwing_drv_data *data;
++	size_t data_size = struct_size(data, leds, 3);
+ 	int ret;
+ 
+ 	ret = hid_parse(hdev);
+@@ -130,6 +212,15 @@ static int winwing_probe(struct hid_device *hdev,
+ 		return ret;
+ 	}
+ 
++	data = devm_kzalloc(&hdev->dev, data_size, GFP_KERNEL);
++
++	if (!data)
++		return -ENOMEM;
++
++	data->too_many_buttons = id->driver_data;
++
++	hid_set_drvdata(hdev, data);
++
+ 	ret = hid_hw_start(hdev, HID_CONNECT_DEFAULT);
+ 	if (ret) {
+ 		hid_err(hdev, "hw start failed\n");
+@@ -152,64 +243,11 @@ static int winwing_input_configured(struct hid_device *hdev,
+ 	return ret;
+ }
+ 
+-static const __u8 original_rdesc_buttons[] = {
+-	0x05, 0x09, 0x19, 0x01, 0x29, 0x6F,
+-	0x15, 0x00, 0x25, 0x01, 0x35, 0x00,
+-	0x45, 0x01, 0x75, 0x01, 0x95, 0x6F,
+-	0x81, 0x02, 0x75, 0x01, 0x95, 0x01,
+-	0x81, 0x01
+-};
+-
+-/*
+- * HID report descriptor shows 111 buttons, which exceeds maximum
+- * number of buttons (80) supported by Linux kernel HID subsystem.
+- *
+- * This module skips numbers 32-63, unused on some throttle grips.
+- */
+-
+-static const __u8 *winwing_report_fixup(struct hid_device *hdev, __u8 *rdesc,
+-		unsigned int *rsize)
+-{
+-	int sig_length = sizeof(original_rdesc_buttons);
+-	int unused_button_numbers = 32;
+-
+-	if (*rsize < 34)
+-		return rdesc;
+-
+-	if (memcmp(rdesc + 8, original_rdesc_buttons, sig_length) == 0) {
+-
+-		/* Usage Maximum */
+-		rdesc[13] -= unused_button_numbers;
+-
+-		/*  Report Count for buttons */
+-		rdesc[25] -= unused_button_numbers;
+-
+-		/*  Report Count for padding [HID1_11, 6.2.2.9] */
+-		rdesc[31] += unused_button_numbers;
+-
+-		hid_info(hdev, "winwing descriptor fixed\n");
+-	}
+-
+-	return rdesc;
+-}
+-
+-static int winwing_raw_event(struct hid_device *hdev,
+-		struct hid_report *report, u8 *raw_data, int size)
+-{
+-	if (size >= 15) {
+-		/* Skip buttons 32 .. 63 */
+-		memmove(raw_data + 5, raw_data + 9, 6);
+-
+-		/* Clear the padding */
+-		memset(raw_data + 11, 0, 4);
+-	}
+-
+-	return 0;
+-}
+-
+ static const struct hid_device_id winwing_devices[] = {
+-	{ HID_USB_DEVICE(0x4098, 0xbe62) },  /* TGRIP-18 */
+-	{ HID_USB_DEVICE(0x4098, 0xbe68) },  /* TGRIP-16EX */
++	{ HID_USB_DEVICE(0x4098, 0xbd65), .driver_data = 1 },  /* TGRIP-15E  */
++	{ HID_USB_DEVICE(0x4098, 0xbd64), .driver_data = 1 },  /* TGRIP-15EX */
++	{ HID_USB_DEVICE(0x4098, 0xbe68), .driver_data = 0 },  /* TGRIP-16EX */
++	{ HID_USB_DEVICE(0x4098, 0xbe62), .driver_data = 0 },  /* TGRIP-18   */
+ 	{}
+ };
+ 
+@@ -218,10 +256,9 @@ MODULE_DEVICE_TABLE(hid, winwing_devices);
+ static struct hid_driver winwing_driver = {
+ 	.name = "winwing",
+ 	.id_table = winwing_devices,
++	.input_mapping = winwing_input_mapping,
+ 	.probe = winwing_probe,
+ 	.input_configured = winwing_input_configured,
+-	.report_fixup = winwing_report_fixup,
+-	.raw_event = winwing_raw_event,
+ };
+ module_hid_driver(winwing_driver);
+ 
+-- 
+2.34.1
 
 
