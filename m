@@ -1,219 +1,269 @@
-Return-Path: <linux-input+bounces-14402-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14403-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F6D3B3D1BC
-	for <lists+linux-input@lfdr.de>; Sun, 31 Aug 2025 11:54:03 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 56801B3D37F
+	for <lists+linux-input@lfdr.de>; Sun, 31 Aug 2025 15:01:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 491923B8984
-	for <lists+linux-input@lfdr.de>; Sun, 31 Aug 2025 09:54:02 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0F3BB163CCE
+	for <lists+linux-input@lfdr.de>; Sun, 31 Aug 2025 13:01:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D3FF2236E9;
-	Sun, 31 Aug 2025 09:53:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 941C317A2EB;
+	Sun, 31 Aug 2025 13:01:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eXVQYGsj"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RsTucDx9"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBF321F4631;
-	Sun, 31 Aug 2025 09:53:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AA7517993;
+	Sun, 31 Aug 2025 13:01:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756634038; cv=none; b=UckCfZ/Xs23JeRKUM6/7U6OBpOEL9ngd2hVx9+Js9nmIMn5jRXHsXRV3Kt35+H5eQtEMfyspe6vTr7uD2eRReQ4dDHn6des55TaWRflEqBQCLAJebvfMUvQTZa003Dbtwuq288bxnTzBjA87qT6UHtQiwJ/cg1seUn68k4MxIyU=
+	t=1756645276; cv=none; b=i1o4+rf2kctT+3GOEA0H/8NjXJgB6pRsQZsN0yiNr8eQOzJaDn29bcS3UlmL3OB5VBJ/FatekQaw1ktxxdCDkxkeCLeH/XBMdhJpihTw8upsyUIoLMK+Sc6eYU773tvYgMRhrcfUCdTY4tBT/k+L8P8Jf2LwPuyl8Mb4uzTcQ4s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756634038; c=relaxed/simple;
-	bh=Ek+BiIRHxgNs2ntzTc4wtOGbFbtBAir6+BOqV5HXXc8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Z/yioWOAFPnSTMRphqkWQxHOoZGTk0YH3X81Pm5yU3T1T6rXTH/qxlZRFAI2oLpozgKBaV3w6dDjnw9STSa6xU+cBzoJTtdrFe1s2Q31WTIfSorVdFDy/Nf0q/vigPcJM+67v7c1NK8a8s9ps0o5ssiTkPIrZXG3RYH5HY+DeF4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eXVQYGsj; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-45b8b25296fso1197355e9.2;
-        Sun, 31 Aug 2025 02:53:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756634035; x=1757238835; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=GZgIDh3/JXHTnaWBbnGXx9Cu8hTVtAVj9QpuBiEQrzw=;
-        b=eXVQYGsjeQKRvzSgLOHLwK+S+fIeMsmcPQDwevMnHP0i8z+XSG9dB2UbxU76q+7Xn4
-         OIz6W/LOI746NXDoc1E/KhNwGTYBsE7AbgixbHnoOrsgv9Ov3bKsIDWKQqMz66oZsSLz
-         aErpj8EoBejssMhXyD8eNcQnI5/PBWDTC9jTDZz59+WbghpkyCiRU6EjcFUuAJ0szubg
-         mt2kLzZi9Lvm18K5MQNXsP/m1T0WJOni7j88zPqk6q3fCFYUvNdUVQTHupnb4QCZzJkf
-         7DSj7oa1FyKS4x9NGSLsF9mI6ELdQn8oiQW85g4ma9QNcslVXBlcTc3+1y3lVAY3X8AD
-         vEJg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756634035; x=1757238835;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=GZgIDh3/JXHTnaWBbnGXx9Cu8hTVtAVj9QpuBiEQrzw=;
-        b=Mb5GKuxWkftb5Pc9Y3AFrlT1EHrrBPqS04bV/o1K0HVFjau9RPUisVOuK6XFjuxpzz
-         oqQybfL0AMAGCNI8Z5mwaPRaT13WBE9IKd2Hf0TQZyTB0UYUZmxARWD4YGxUS9zywU5c
-         O/X9Cfw8BQZj8ViSAMOQOgJQmduwPW6RAPguXC1zuZOqp80yhV0dl/UgxxrVEDmi6AQn
-         PVm1YFOJEl8rq1OClQzCa8kO3t0OFNBmfQEaV3XLJOVWTqC1fcJkcNj1AbqyXf3XQxTD
-         yk4sFlHFu9C7U3CEfFcvxhdr6jCWn0/iipyMxiN4iuEEyFzFSbjmvS5AAR9PqgUD9jK6
-         MvGg==
-X-Forwarded-Encrypted: i=1; AJvYcCXYBwce7lgetAucnjXS/jAA97nIHJ2vPRw0r6r6ZBpGvd5pHWgNo/OAB4DKjl4fnzCELweu3OlOvMg1sns=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyhMwDvroBFrFJl/QAJKvNrf/swKR6e34zyX4ZiIqJaFc+lrwz6
-	GsGhDdoID1aQB9mFVuX3kILpOkSGthUzXjPBM3zet1jR+wgXfFVkhi4o
-X-Gm-Gg: ASbGncshdSd6hk1M219KFmojb5yGxEWdDOabRr9q2h/CndZN/QKNj4RuEOnY1+aj8dI
-	LSd+rAV2CtkXKRHiKDN4mWXzeJwAya49S+tHWHKL/ACctoBBbLMgQtCMb6WEHC8QMCpi4dZW3DC
-	3PhOqZ7kvkx4+BYpSrfG+HtttWm7Ef2PhhuwQSeJjrKauY+/vp1GpAG0glHM5FK2OzrfLs0ATFE
-	R+5arSSG+qeeh30dNZy7HhdgvDStG4juX2vXfOY8zR/E/gyvFj9tCKQu7hok+EPJrHHQEGBJmq8
-	+XxJBYAF8EXfmgk84w0FMdPcN8dC/qTGrze+0O3N49gU1xXUeM3RocA4SNiBkIRnNHPLSbvNerW
-	POVHvRCjYYAkrExOihYshp2cakHHuZMIdImt2l2MUZLugHBjW7uOULQ9qK6mX8A==
-X-Google-Smtp-Source: AGHT+IGXBZ3aj54GVw0OLH+dJmWIcaFJv0Uaox2YesewDE7M3HMKuoDLbwBL9ToqcHZJj+kAhToRJQ==
-X-Received: by 2002:a5d:64e4:0:b0:3ce:f4fe:403c with SMTP id ffacd0b85a97d-3d1dddf0380mr2601998f8f.16.1756634034976;
-        Sun, 31 Aug 2025 02:53:54 -0700 (PDT)
-Received: from bookboi.. (v2202404220747262886.hotsrv.de. [152.53.14.10])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3d0b9402299sm9415133f8f.18.2025.08.31.02.53.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 31 Aug 2025 02:53:54 -0700 (PDT)
-From: stepeos <stevepeter.oswald@gmail.com>
-X-Google-Original-From: stepeos <onegearmode@gmail.com>
-To: jikos@kernel.org
-Cc: linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Steve Oswald <stevepeter.oswald@gmail.com>
-Subject: [PATCH] HID: LOFREE: Fix back/forward buttons for
-Date: Sun, 31 Aug 2025 12:53:48 +0300
-Message-ID: <20250831095348.93453-1-onegearmode@gmail.com>
-X-Mailer: git-send-email 2.48.1
+	s=arc-20240116; t=1756645276; c=relaxed/simple;
+	bh=K/RRwgtr/jyuBfa0ugyglnMmaTHqDQfBmdCFjAF1Ls4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Ub5swaNi7Q6w2MVwNEvFj+HSUYT1bVoDg0SCxPWzvISeD2CyioDZnT/P/+V0lOk1LmCVQPsLfpio4122mlXS3sJvRMdQhpqf8LnTnG2maqNUTPdPbJOWYsK6RgNZQz3RmgJ4B39Vc0waMWlgRVD5BRhbeRRkZPSs/pJkPCnu62s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RsTucDx9; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8BAE8C4CEED;
+	Sun, 31 Aug 2025 13:01:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756645275;
+	bh=K/RRwgtr/jyuBfa0ugyglnMmaTHqDQfBmdCFjAF1Ls4=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=RsTucDx9/vPcmMgdmOOiGi8ikusW3G0Bnh52wZGxkw0HxmhFE7zDlzrkWoSpm9iWy
+	 KvjknB8qSsJC8xztc1SggoAvBCMdn23se+e23jf4Dwfty7iZisNFYUauMNC6vkjT9k
+	 iYUZ+w/+uNNdbpBmitY+/bTRPB+e350Ic1DWnl0C2E079QWZ3HHk8TWK8zHpydWYog
+	 D/g3Y+D5vsTI/7jJVY/XYrvUi0YnLANmT1I0msWi9e9sIZm2XUj4PFXHhYK32+/VEl
+	 sx62O8OLSIF/XecPhgVJFTeYwvG7khRU8p1KUs+TEplh3ptLwbRilEKwJt74xGoiXI
+	 0l3KQeeC50MNQ==
+Message-ID: <7d356834-5795-4979-9f51-0ffcec52ae1d@kernel.org>
+Date: Sun, 31 Aug 2025 15:01:12 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] HID: lg-g15 - Add support for Logitech G13.
+To: "Leo L. Schwab" <ewhac@ewhac.org>
+Cc: Kate Hsuan <hpa@redhat.com>, Jiri Kosina <jikos@kernel.org>,
+ Benjamin Tissoires <bentiss@kernel.org>, linux-input@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20250814212641.197573-2-ewhac@ewhac.org>
+From: Hans de Goede <hansg@kernel.org>
+Content-Language: en-US, nl
+In-Reply-To: <20250814212641.197573-2-ewhac@ewhac.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-From: Steve Oswald <stevepeter.oswald@gmail.com>
+Hi Leo,
 
----
- drivers/hid/hid-ids.h    |  3 ++
- drivers/hid/hid-lofree.c | 96 ++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 99 insertions(+)
- create mode 100644 drivers/hid/hid-lofree.c
+On 14-Aug-25 11:26 PM, Leo L. Schwab wrote:
+> The Logitech G13 is a gaming keypad with general-purpose macro keys,
+> four LED-backlit macro preset keys, five "menu" keys, backlight toggle
+> key, an analog thumbstick, RGB LED backlight, and a monochrome LCD
+> display.
+> 
+> Support input event generation for all keys and the thumbstick, and
+> expose all LEDs.
+> 
+> Signed-off-by: Leo L. Schwab <ewhac@ewhac.org>
 
-diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index 33cc5820f2be..cb2704550043 100644
---- a/drivers/hid/hid-ids.h
-+++ b/drivers/hid/hid-ids.h
-@@ -848,6 +848,9 @@
- #define USB_DEVICE_ID_PXN_V12_LITE_2	0x1211
- #define USB_DEVICE_LITE_STAR_GT987_FF	0x2141
- 
-+#define USB_VENDOR_ID_LOFREE		0x248A
-+#define USB_VENDOR_ID_LOFREE_TOUCH		0x8266
-+
- #define USB_VENDOR_ID_LOGITECH		0x046d
- #define USB_DEVICE_ID_LOGITECH_Z_10_SPK	0x0a07
- #define USB_DEVICE_ID_LOGITECH_AUDIOHUB 0x0a0e
-diff --git a/drivers/hid/hid-lofree.c b/drivers/hid/hid-lofree.c
-new file mode 100644
-index 000000000000..89383527e519
---- /dev/null
-+++ b/drivers/hid/hid-lofree.c
-@@ -0,0 +1,96 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+/*
-+ * Custom HID driver for Lofree products
-+ * Adds support for Back (BTN_SIDE) and Forward (BTN_EXTRA) buttons
-+ * 
-+ * Copyright (c) 2025 Steve Oswald
-+ * based on hid-cherry
-+ */
-+
-+#include <linux/module.h>
-+#include <linux/hid.h>
-+#include <linux/input.h>
-+#include "hid-ids.h"
-+
-+/*
-+ * Remaps back/forward buttons to input events for Lofree Touch.
-+ */
-+static int lofree_touch_raw_event(struct hid_device *hdev,
-+				  struct hid_report *report, u8 *data, int size)
-+{
-+	struct hid_input *hidinput;
-+	struct input_dev *input;
-+
-+	if (report->id != 3)
-+		return 0;
-+
-+	list_for_each_entry(hidinput, &hdev->inputs, list) {
-+		input = hidinput->input;
-+		input_report_key(input, BTN_SIDE, !!(data[1] & 0x08));
-+		input_report_key(input, BTN_EXTRA, !!(data[1] & 0x10));
-+		input_sync(input);
-+	}
-+
-+	return 0;
-+}
-+
-+/*
-+ * Apply capabilities.
-+ */
-+static int lofree_touch_input_configured(struct hid_device *hdev,
-+					 struct hid_input *hi)
-+{
-+	struct input_dev *input = hi->input;
-+
-+	input_set_capability(input, EV_KEY, BTN_SIDE);
-+	input_set_capability(input, EV_KEY, BTN_EXTRA);
-+
-+	return 0;
-+}
-+
-+static int lofree_probe(struct hid_device *hdev, const struct hid_device_id *id)
-+{
-+	int ret;
-+
-+	ret = hid_parse(hdev);
-+	if (ret) {
-+		hid_err(hdev, "HID parse failed\n");
-+		return ret;
-+	}
-+
-+	ret = hid_hw_start(hdev, HID_CONNECT_DEFAULT);
-+	if (ret) {
-+		hid_err(hdev, "HID hw start failed\n");
-+		return ret;
-+	}
-+
-+	hid_info(hdev, "Touch@LOFREE custom HID driver loaded\n");
-+	return 0;
-+}
-+
-+static void lofree_remove(struct hid_device *hdev)
-+{
-+	hid_hw_stop(hdev);
-+}
-+
-+static const struct hid_device_id lofree_touch_devices[] = {
-+	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOFREE,
-+			       USB_VENDOR_ID_LOFREE_TOUCH) },
-+	{}
-+};
-+MODULE_DEVICE_TABLE(hid, lofree_touch_devices);
-+
-+static struct hid_driver lofree_touch_driver = {
-+	.name = "hid_lofree_touch",
-+	.id_table = lofree_touch_devices,
-+	.probe = lofree_probe,
-+	.remove = lofree_remove,
-+	.raw_event = lofree_touch_raw_event,
-+	.input_configured = lofree_touch_input_configured,
-+};
-+
-+module_hid_driver(lofree_touch_driver);
-+
-+MODULE_LICENSE("GPL");
-+MODULE_DESCRIPTION(
-+	"HID driver for some special Lofree devices like Lofree Touch mouse.");
--- 
-2.48.1
+Thank you for your patch overal this looks good to me,
+some remarks inline below.
+
+...
+
+> diff --git a/drivers/hid/hid-lg-g15.c b/drivers/hid/hid-lg-g15.c
+> index f8605656257b..6e1d79abfb23 100644
+> --- a/drivers/hid/hid-lg-g15.c
+> +++ b/drivers/hid/hid-lg-g15.c
+
+...
+
+> +/**
+> + * g13_input_report.keybits[] is not 32-bit aligned, so we can't use the bitops macros.
+> + *
+> + * @ary: Pointer to array of u8s
+> + * @b: Bit index into ary, LSB first.  Not range checked.
+> + */
+> +#define	TEST_BIT(ary, b)	((1 << ((b) & 7)) & (ary)[(b) >> 3])
+> +
+> +/* Table mapping keybits[] bit positions to event codes. */
+> +/* Note: Indices are discontinuous to aid readability. */
+> +static const u16 g13_keys_for_bits[] = {
+> +	/* Main keypad - keys G1 - G22 */
+> +	[0] = KEY_MACRO1,
+> +	[1] = KEY_MACRO2,
+> +	[2] = KEY_MACRO3,
+> +	[3] = KEY_MACRO4,
+> +	[4] = KEY_MACRO5,
+> +	[5] = KEY_MACRO6,
+> +	[6] = KEY_MACRO7,
+> +	[7] = KEY_MACRO8,
+> +	[8] = KEY_MACRO9,
+> +	[9] = KEY_MACRO10,
+> +	[10] = KEY_MACRO11,
+> +	[11] = KEY_MACRO12,
+> +	[12] = KEY_MACRO13,
+> +	[13] = KEY_MACRO14,
+> +	[14] = KEY_MACRO15,
+> +	[15] = KEY_MACRO16,
+> +	[16] = KEY_MACRO17,
+> +	[17] = KEY_MACRO18,
+> +	[18] = KEY_MACRO19,
+> +	[19] = KEY_MACRO20,
+> +	[20] = KEY_MACRO21,
+> +	[21] = KEY_MACRO22,
+> +
+> +	/* LCD menu buttons. */
+> +	[24] = KEY_KBD_LCD_MENU5,	/* "Next page" button */
+> +	[25] = KEY_KBD_LCD_MENU1,	/* Left-most */
+> +	[26] = KEY_KBD_LCD_MENU2,
+> +	[27] = KEY_KBD_LCD_MENU3,
+> +	[28] = KEY_KBD_LCD_MENU4,	/* Right-most */
+> +
+> +	/* Macro preset and record buttons; have red LEDs under them. */
+> +	[29] = KEY_MACRO_PRESET1,
+> +	[30] = KEY_MACRO_PRESET2,
+> +	[31] = KEY_MACRO_PRESET3,
+> +	[32] = KEY_MACRO_RECORD_START,
+> +
+> +	/* 33-35 handled by joystick device. */
+> +
+> +	/* Backlight toggle. */
+> +	[37] = KEY_LIGHTS_TOGGLE,
+> +};
+> +
+> +static const u16 g13_keys_for_bits_js[] = {
+> +	/* Joystick buttons */
+> +	/* These keybits are at bit indices 33, 34, and 35. */
+> +	BTN_BASE,	/* Left side */
+> +	BTN_BASE2,	/* Bottom side */
+> +	BTN_THUMB,	/* Stick depress */
+> +};
+
+You are using this 33 offset hardcoded below, maybe
+at a #define for this, e.g. :
+
+#define G13_JS_KEYBITS_OFFSET	33
+
+> +
+> +static int lg_g13_event(struct lg_g15_data *g15, u8 const *data)
+> +{
+> +	struct g13_input_report const * const rep = (struct g13_input_report *) data;
+> +	int i, val;
+> +
+> +	/*
+> +	 * Main macropad and menu keys.
+> +	 * Emit key events defined for each bit position.
+> +	 */
+> +	for (i = 0; i < ARRAY_SIZE(g13_keys_for_bits); ++i) {
+> +		if (g13_keys_for_bits[i]) {
+> +			val = TEST_BIT(rep->keybits, i);
+> +			input_report_key(g15->input, g13_keys_for_bits[i], val);
+> +		}
+> +	}
+> +	input_sync(g15->input);
+> +
+> +	/*
+> +	 * Joystick.
+> +	 * Emit button and deflection events.
+> +	 */
+> +	for (i = 0; i < ARRAY_SIZE(g13_keys_for_bits_js); ++i) {
+> +		if (g13_keys_for_bits_js[i]) {
+
+g13_keys_for_bits_js[] is contiguous so no need
+for this if (g13_keys_for_bits_js[i]) test.
+
+> +			val = TEST_BIT(rep->keybits, i + 33);
+> +			input_report_key(g15->input_js, g13_keys_for_bits_js[i], val);
+> +		}
+> +	}
+> +	input_report_abs(g15->input_js, ABS_X, rep->joy_x);
+> +	input_report_abs(g15->input_js, ABS_Y, rep->joy_y);
+> +	input_sync(g15->input_js);
+> +
+> +	if (IS_ENABLED(CONFIG_LEDS_BRIGHTNESS_HW_CHANGED)) {
+
+I do not believe that this IS_ENABLED(CONFIG_LEDS_BRIGHTNESS_HW_CHANGED)
+is necessary, led_classdev_notify_brightness_hw_changed() has a static
+inline replacement when CONFIG_LEDS_BRIGHTNESS_HW_CHANGED is not set,
+so you can just call it unconditionally.
+
+This is already called unconditionally in other places of the code.
+
+> +		/*
+> +		 * Bit 23 of keybits[] reports the current backlight on/off
+> +		 * state.  If it has changed from the last cached value, apply
+> +		 * an update.
+> +		 */
+> +		bool hw_brightness_changed = (!!TEST_BIT(rep->keybits, 23))
+> +					   ^ (g15->leds[0].cdev.brightness_hw_changed > 0);
+> +		if (hw_brightness_changed)
+> +			led_classdev_notify_brightness_hw_changed(
+> +				&g15->leds[0].cdev,
+> +				TEST_BIT(rep->keybits, 23) ? LED_FULL : LED_OFF);
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+
+...
+
+> +static void lg_g13_init_input_dev(struct hid_device *hdev,
+> +				  struct input_dev *input, const char *name,
+> +				  struct input_dev *input_js, const char *name_js)
+> +{
+> +	/* Macropad. */
+> +	lg_g15_init_input_dev_core(hdev, input, name);
+> +	for (int i = 0; i < ARRAY_SIZE(g13_keys_for_bits); ++i) {
+> +		if (g13_keys_for_bits[i])
+> +			input_set_capability(input, EV_KEY, g13_keys_for_bits[i]);
+> +	}
+> +
+> +	/* OBTW, we're a joystick, too... */
+> +	lg_g15_init_input_dev_core(hdev, input_js, name_js);
+> +	for (int i = 0; i < ARRAY_SIZE(g13_keys_for_bits_js); ++i) {
+> +		if (g13_keys_for_bits_js[i])
+> +			input_set_capability(input_js, EV_KEY, g13_keys_for_bits_js[i]);
+
+g13_keys_for_bits_js[] is contiguous so no need
+for this if (g13_keys_for_bits_js[i]) test.
+
+This will also allow you to drop the {} from the for loop.
+
+> +	}
+> +
+> +	input_set_capability(input_js, EV_ABS, ABS_X);
+> +	input_set_abs_params(input_js, ABS_X, 0, 255, 0, 0);
+> +	input_set_capability(input_js, EV_ABS, ABS_Y);
+> +	input_set_abs_params(input_js, ABS_Y, 0, 255, 0, 0);
+> +}
+> +
+>  static int lg_g15_probe(struct hid_device *hdev, const struct hid_device_id *id)
+>  {
+>  	static const char * const led_names[] = {
+...
+
+Besides from my few small remarks this looks good to me,
+feel free to add:
+
+Reviewed-by: Hans de Goede <hansg@kernel.org>
+
+to the next version.
+
+Regards,
+
+Hans
+
+
 
 
