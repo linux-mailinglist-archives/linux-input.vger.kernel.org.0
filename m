@@ -1,269 +1,102 @@
-Return-Path: <linux-input+bounces-14403-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14404-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56801B3D37F
-	for <lists+linux-input@lfdr.de>; Sun, 31 Aug 2025 15:01:20 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 53F97B3D4EE
+	for <lists+linux-input@lfdr.de>; Sun, 31 Aug 2025 21:25:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0F3BB163CCE
-	for <lists+linux-input@lfdr.de>; Sun, 31 Aug 2025 13:01:20 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D1421188D3F2
+	for <lists+linux-input@lfdr.de>; Sun, 31 Aug 2025 19:26:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 941C317A2EB;
-	Sun, 31 Aug 2025 13:01:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BFA5F275AFF;
+	Sun, 31 Aug 2025 19:25:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RsTucDx9"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="g6qkGZGy"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AA7517993;
-	Sun, 31 Aug 2025 13:01:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20773273803
+	for <linux-input@vger.kernel.org>; Sun, 31 Aug 2025 19:25:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756645276; cv=none; b=i1o4+rf2kctT+3GOEA0H/8NjXJgB6pRsQZsN0yiNr8eQOzJaDn29bcS3UlmL3OB5VBJ/FatekQaw1ktxxdCDkxkeCLeH/XBMdhJpihTw8upsyUIoLMK+Sc6eYU773tvYgMRhrcfUCdTY4tBT/k+L8P8Jf2LwPuyl8Mb4uzTcQ4s=
+	t=1756668353; cv=none; b=mOaFNPUUgpVsRmUc9a4pcBvQv0dsLqzRlLE1LKFkOTemPFrrn+yy1wROtEPzzRts10g8yZHU+D+BYaC8+KB7avqKCyk8XMMhpHiHfLMhQ5TvMpSWbHQCw3lb2FOBe9ztrTnkqzrDpa12ITGebppBwBLEyl+YOwrTEEIEtiEwwo8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756645276; c=relaxed/simple;
-	bh=K/RRwgtr/jyuBfa0ugyglnMmaTHqDQfBmdCFjAF1Ls4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Ub5swaNi7Q6w2MVwNEvFj+HSUYT1bVoDg0SCxPWzvISeD2CyioDZnT/P/+V0lOk1LmCVQPsLfpio4122mlXS3sJvRMdQhpqf8LnTnG2maqNUTPdPbJOWYsK6RgNZQz3RmgJ4B39Vc0waMWlgRVD5BRhbeRRkZPSs/pJkPCnu62s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RsTucDx9; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8BAE8C4CEED;
-	Sun, 31 Aug 2025 13:01:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756645275;
-	bh=K/RRwgtr/jyuBfa0ugyglnMmaTHqDQfBmdCFjAF1Ls4=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=RsTucDx9/vPcmMgdmOOiGi8ikusW3G0Bnh52wZGxkw0HxmhFE7zDlzrkWoSpm9iWy
-	 KvjknB8qSsJC8xztc1SggoAvBCMdn23se+e23jf4Dwfty7iZisNFYUauMNC6vkjT9k
-	 iYUZ+w/+uNNdbpBmitY+/bTRPB+e350Ic1DWnl0C2E079QWZ3HHk8TWK8zHpydWYog
-	 D/g3Y+D5vsTI/7jJVY/XYrvUi0YnLANmT1I0msWi9e9sIZm2XUj4PFXHhYK32+/VEl
-	 sx62O8OLSIF/XecPhgVJFTeYwvG7khRU8p1KUs+TEplh3ptLwbRilEKwJt74xGoiXI
-	 0l3KQeeC50MNQ==
-Message-ID: <7d356834-5795-4979-9f51-0ffcec52ae1d@kernel.org>
-Date: Sun, 31 Aug 2025 15:01:12 +0200
+	s=arc-20240116; t=1756668353; c=relaxed/simple;
+	bh=nTZQ1uiIfsY4BtQ6D/A7TBydRWoGHhMQe+hGXtNdtDc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=GCydQrrp7s1VElXPTT3gmgMgZMVdWTRnSJTi89j8E3+Y76+f/zAHGvMLC69ZL2SlFBXSusiGCNxOQjjFs41JfYJeb0jbCpC2XrcgwppI5V4FOB39DD4yDL8n4cjnvAnEJ3Ti6c3XQ/+WCQFCJNE3H/7B6xIr9uD/5Q3+RYY2Wqw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=g6qkGZGy; arc=none smtp.client-ip=209.85.221.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-3cbb3ff70a0so2240631f8f.2
+        for <linux-input@vger.kernel.org>; Sun, 31 Aug 2025 12:25:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1756668349; x=1757273149; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nTZQ1uiIfsY4BtQ6D/A7TBydRWoGHhMQe+hGXtNdtDc=;
+        b=g6qkGZGy979sGqUjYvAzW+gKoVi+GvFM7OkFcvvz/DyPhNIlL/2tyMGkYVIOdTdY9D
+         PSArzk0yL17bzEXxWWm7Y5FhsVS/2HtHOalJXlnFhjZqnPE8fAv1DbGn/Y8CAytnh7i6
+         8POmmFOFFsNgAnYfP7iagAiwUvFGCkqw/zrC1iB+lpNJerbsGMy22xTohN0ue+8KRWn0
+         QSLJUC/8NGiyHbdEmsYWTDSYEkNDZsLjG+wA3j3Vrx9cTI8Vw4YinVJPTZsKsR3sD61f
+         xIVSL0nprslwPgDRMCT6qsDCXLFFDW/TO4GXeAZonE7owWryO9WmeTEInL3F6Qis73kf
+         Ql/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756668349; x=1757273149;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=nTZQ1uiIfsY4BtQ6D/A7TBydRWoGHhMQe+hGXtNdtDc=;
+        b=o93tQDvo0MuG5j0zysYAtGUXsJ0Mx1Znnhr2eC6SnjfCJWRfDFygVP8MXK5Ic/A/Zn
+         M98a6zEes7QH766SeRkiclvmltsTG9EUMIw5H6f1wFmbz1cDznSvYveMae7r1H2nSrKx
+         w07IXaCZeB5V4//PTtYUVftX5hWFxumaxN5hmM3E+YXEiHxUSYw+XcW46Qv76hJ9/4eZ
+         B2UV7KjhCQDYB9NfLqYN/v7ewsufW0xaEdu+6wyk7XmfpOfc3Xi6WIB3p697sKik7Fpo
+         rnJanAWtGAAVVCGa7u0qVsVA7HHpK0FuDhf91hJKlN0WupXYqJvHuUHfsRNULWweaQrk
+         Ojmg==
+X-Forwarded-Encrypted: i=1; AJvYcCV0heuyZx7N4QH4/dUcFEH4/ueGzaZnDpc3plY/y4yehvm90X4uY18wqbpH7JGO8Gijq1RKtXojpUniLA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzN/tsK+beSrrPURFFJXBXpeE9+nlhq4l9B8psO6ff0mHk0ZzXT
+	WRa5Qjwvw9xhn+NNOvmZIiYnMQeFPdk2dTNqIUf/K7e1IJWmgs9cbxBZ
+X-Gm-Gg: ASbGnctWFkKiYkQ/PX+4EooNkkHpdcim0K9hBfsJ4otH9NXj4kJJ+hsuF6YqxFQlGJm
+	E3REqBhBU7sn4g7KEgATpZb7YX6nR5yd1KJqJqpqLc2CbaSgd0hX1kb43ItnQvNGkapHSsWzvST
+	wUDGinGR2s9wNgxH38bod0N2oZwYG0fkLZV3kNwOZNs39NMNed8v3PrFOFP0BpgMmQH28jEpjO7
+	+88dx4P4gVd+DRgZialjDJAHKKWAQhtZjv/ANa2C6jW+UHgngbmt602gbdaFJuN/Z8FqrysUlQw
+	fIlSCpIscvJm3twaeBr8mC5ibTd4kQsmxBTvW5x9IYPoBWi8GZe9L/5jNoo5RDdPBi5JGejGGdi
+	14mBhLvabqZuWt7BHg+TFLCYSy8+kRRHkzUk=
+X-Google-Smtp-Source: AGHT+IHuEZaHyLfgTLMTWy0xYTYylZJyYVkdho+fvnI1X6l/E/xXC3osvjzvD/BD9JGoZQ9aJiRbNA==
+X-Received: by 2002:a5d:64cd:0:b0:3ce:16d3:7be0 with SMTP id ffacd0b85a97d-3d1d9ac1d70mr3789756f8f.0.1756668349203;
+        Sun, 31 Aug 2025 12:25:49 -0700 (PDT)
+Received: from snakeroot ([2a05:87c3:2001:7400:a813:80fa:2b5d:a86a])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3d0f85c287fsm10241810f8f.52.2025.08.31.12.25.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 31 Aug 2025 12:25:48 -0700 (PDT)
+From: Stuart Hayhurst <stuart.a.hayhurst@gmail.com>
+To: mavchatz@protonmail.com
+Cc: benjamin.tissoires@redhat.com,
+	hadess@hadess.net,
+	jikos@kernel.org,
+	lains@riseup.net,
+	linux-input@vger.kernel.org
+Subject: Re: [PATCH v3 RESEND] HID: logitech-dj: Add support for a new lightspeed receiver iteration
+Date: Sun, 31 Aug 2025 20:24:06 +0100
+Message-ID: <20250831192548.433157-1-stuart.a.hayhurst@gmail.com>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20240627224242.193873-1-mavchatz@protonmail.com>
+References: <20240627224242.193873-1-mavchatz@protonmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] HID: lg-g15 - Add support for Logitech G13.
-To: "Leo L. Schwab" <ewhac@ewhac.org>
-Cc: Kate Hsuan <hpa@redhat.com>, Jiri Kosina <jikos@kernel.org>,
- Benjamin Tissoires <bentiss@kernel.org>, linux-input@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20250814212641.197573-2-ewhac@ewhac.org>
-From: Hans de Goede <hansg@kernel.org>
-Content-Language: en-US, nl
-In-Reply-To: <20250814212641.197573-2-ewhac@ewhac.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi Leo,
+Is there any chance this can be updated for 6.16 / 6.17?
+I'd like to test this with my G915 TKL, I came up with almost exactly this solution myself, then found this while troubleshooting it...
 
-On 14-Aug-25 11:26 PM, Leo L. Schwab wrote:
-> The Logitech G13 is a gaming keypad with general-purpose macro keys,
-> four LED-backlit macro preset keys, five "menu" keys, backlight toggle
-> key, an analog thumbstick, RGB LED backlight, and a monochrome LCD
-> display.
-> 
-> Support input event generation for all keys and the thumbstick, and
-> expose all LEDs.
-> 
-> Signed-off-by: Leo L. Schwab <ewhac@ewhac.org>
-
-Thank you for your patch overal this looks good to me,
-some remarks inline below.
-
-...
-
-> diff --git a/drivers/hid/hid-lg-g15.c b/drivers/hid/hid-lg-g15.c
-> index f8605656257b..6e1d79abfb23 100644
-> --- a/drivers/hid/hid-lg-g15.c
-> +++ b/drivers/hid/hid-lg-g15.c
-
-...
-
-> +/**
-> + * g13_input_report.keybits[] is not 32-bit aligned, so we can't use the bitops macros.
-> + *
-> + * @ary: Pointer to array of u8s
-> + * @b: Bit index into ary, LSB first.  Not range checked.
-> + */
-> +#define	TEST_BIT(ary, b)	((1 << ((b) & 7)) & (ary)[(b) >> 3])
-> +
-> +/* Table mapping keybits[] bit positions to event codes. */
-> +/* Note: Indices are discontinuous to aid readability. */
-> +static const u16 g13_keys_for_bits[] = {
-> +	/* Main keypad - keys G1 - G22 */
-> +	[0] = KEY_MACRO1,
-> +	[1] = KEY_MACRO2,
-> +	[2] = KEY_MACRO3,
-> +	[3] = KEY_MACRO4,
-> +	[4] = KEY_MACRO5,
-> +	[5] = KEY_MACRO6,
-> +	[6] = KEY_MACRO7,
-> +	[7] = KEY_MACRO8,
-> +	[8] = KEY_MACRO9,
-> +	[9] = KEY_MACRO10,
-> +	[10] = KEY_MACRO11,
-> +	[11] = KEY_MACRO12,
-> +	[12] = KEY_MACRO13,
-> +	[13] = KEY_MACRO14,
-> +	[14] = KEY_MACRO15,
-> +	[15] = KEY_MACRO16,
-> +	[16] = KEY_MACRO17,
-> +	[17] = KEY_MACRO18,
-> +	[18] = KEY_MACRO19,
-> +	[19] = KEY_MACRO20,
-> +	[20] = KEY_MACRO21,
-> +	[21] = KEY_MACRO22,
-> +
-> +	/* LCD menu buttons. */
-> +	[24] = KEY_KBD_LCD_MENU5,	/* "Next page" button */
-> +	[25] = KEY_KBD_LCD_MENU1,	/* Left-most */
-> +	[26] = KEY_KBD_LCD_MENU2,
-> +	[27] = KEY_KBD_LCD_MENU3,
-> +	[28] = KEY_KBD_LCD_MENU4,	/* Right-most */
-> +
-> +	/* Macro preset and record buttons; have red LEDs under them. */
-> +	[29] = KEY_MACRO_PRESET1,
-> +	[30] = KEY_MACRO_PRESET2,
-> +	[31] = KEY_MACRO_PRESET3,
-> +	[32] = KEY_MACRO_RECORD_START,
-> +
-> +	/* 33-35 handled by joystick device. */
-> +
-> +	/* Backlight toggle. */
-> +	[37] = KEY_LIGHTS_TOGGLE,
-> +};
-> +
-> +static const u16 g13_keys_for_bits_js[] = {
-> +	/* Joystick buttons */
-> +	/* These keybits are at bit indices 33, 34, and 35. */
-> +	BTN_BASE,	/* Left side */
-> +	BTN_BASE2,	/* Bottom side */
-> +	BTN_THUMB,	/* Stick depress */
-> +};
-
-You are using this 33 offset hardcoded below, maybe
-at a #define for this, e.g. :
-
-#define G13_JS_KEYBITS_OFFSET	33
-
-> +
-> +static int lg_g13_event(struct lg_g15_data *g15, u8 const *data)
-> +{
-> +	struct g13_input_report const * const rep = (struct g13_input_report *) data;
-> +	int i, val;
-> +
-> +	/*
-> +	 * Main macropad and menu keys.
-> +	 * Emit key events defined for each bit position.
-> +	 */
-> +	for (i = 0; i < ARRAY_SIZE(g13_keys_for_bits); ++i) {
-> +		if (g13_keys_for_bits[i]) {
-> +			val = TEST_BIT(rep->keybits, i);
-> +			input_report_key(g15->input, g13_keys_for_bits[i], val);
-> +		}
-> +	}
-> +	input_sync(g15->input);
-> +
-> +	/*
-> +	 * Joystick.
-> +	 * Emit button and deflection events.
-> +	 */
-> +	for (i = 0; i < ARRAY_SIZE(g13_keys_for_bits_js); ++i) {
-> +		if (g13_keys_for_bits_js[i]) {
-
-g13_keys_for_bits_js[] is contiguous so no need
-for this if (g13_keys_for_bits_js[i]) test.
-
-> +			val = TEST_BIT(rep->keybits, i + 33);
-> +			input_report_key(g15->input_js, g13_keys_for_bits_js[i], val);
-> +		}
-> +	}
-> +	input_report_abs(g15->input_js, ABS_X, rep->joy_x);
-> +	input_report_abs(g15->input_js, ABS_Y, rep->joy_y);
-> +	input_sync(g15->input_js);
-> +
-> +	if (IS_ENABLED(CONFIG_LEDS_BRIGHTNESS_HW_CHANGED)) {
-
-I do not believe that this IS_ENABLED(CONFIG_LEDS_BRIGHTNESS_HW_CHANGED)
-is necessary, led_classdev_notify_brightness_hw_changed() has a static
-inline replacement when CONFIG_LEDS_BRIGHTNESS_HW_CHANGED is not set,
-so you can just call it unconditionally.
-
-This is already called unconditionally in other places of the code.
-
-> +		/*
-> +		 * Bit 23 of keybits[] reports the current backlight on/off
-> +		 * state.  If it has changed from the last cached value, apply
-> +		 * an update.
-> +		 */
-> +		bool hw_brightness_changed = (!!TEST_BIT(rep->keybits, 23))
-> +					   ^ (g15->leds[0].cdev.brightness_hw_changed > 0);
-> +		if (hw_brightness_changed)
-> +			led_classdev_notify_brightness_hw_changed(
-> +				&g15->leds[0].cdev,
-> +				TEST_BIT(rep->keybits, 23) ? LED_FULL : LED_OFF);
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-
-...
-
-> +static void lg_g13_init_input_dev(struct hid_device *hdev,
-> +				  struct input_dev *input, const char *name,
-> +				  struct input_dev *input_js, const char *name_js)
-> +{
-> +	/* Macropad. */
-> +	lg_g15_init_input_dev_core(hdev, input, name);
-> +	for (int i = 0; i < ARRAY_SIZE(g13_keys_for_bits); ++i) {
-> +		if (g13_keys_for_bits[i])
-> +			input_set_capability(input, EV_KEY, g13_keys_for_bits[i]);
-> +	}
-> +
-> +	/* OBTW, we're a joystick, too... */
-> +	lg_g15_init_input_dev_core(hdev, input_js, name_js);
-> +	for (int i = 0; i < ARRAY_SIZE(g13_keys_for_bits_js); ++i) {
-> +		if (g13_keys_for_bits_js[i])
-> +			input_set_capability(input_js, EV_KEY, g13_keys_for_bits_js[i]);
-
-g13_keys_for_bits_js[] is contiguous so no need
-for this if (g13_keys_for_bits_js[i]) test.
-
-This will also allow you to drop the {} from the for loop.
-
-> +	}
-> +
-> +	input_set_capability(input_js, EV_ABS, ABS_X);
-> +	input_set_abs_params(input_js, ABS_X, 0, 255, 0, 0);
-> +	input_set_capability(input_js, EV_ABS, ABS_Y);
-> +	input_set_abs_params(input_js, ABS_Y, 0, 255, 0, 0);
-> +}
-> +
->  static int lg_g15_probe(struct hid_device *hdev, const struct hid_device_id *id)
->  {
->  	static const char * const led_names[] = {
-...
-
-Besides from my few small remarks this looks good to me,
-feel free to add:
-
-Reviewed-by: Hans de Goede <hansg@kernel.org>
-
-to the next version.
-
-Regards,
-
-Hans
-
-
-
+Thanks,
+Stuart
 
