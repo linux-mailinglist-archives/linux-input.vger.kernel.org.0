@@ -1,191 +1,380 @@
-Return-Path: <linux-input+bounces-14407-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14408-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DFB3B3DFF7
-	for <lists+linux-input@lfdr.de>; Mon,  1 Sep 2025 12:20:30 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 749B7B3E625
+	for <lists+linux-input@lfdr.de>; Mon,  1 Sep 2025 15:54:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EB10B3AFBB4
-	for <lists+linux-input@lfdr.de>; Mon,  1 Sep 2025 10:20:17 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 574897A71C1
+	for <lists+linux-input@lfdr.de>; Mon,  1 Sep 2025 13:52:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BCAD73002B1;
-	Mon,  1 Sep 2025 10:20:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 01C962FB622;
+	Mon,  1 Sep 2025 13:54:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="TIDXfaM2";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="iQNOygej"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jFI4WhoV"
 X-Original-To: linux-input@vger.kernel.org
-Received: from fout-b7-smtp.messagingengine.com (fout-b7-smtp.messagingengine.com [202.12.124.150])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64868305068;
-	Mon,  1 Sep 2025 10:20:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.150
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49C1A1C27;
+	Mon,  1 Sep 2025 13:53:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756722015; cv=none; b=MhfKSfw0Za0YTfMrJ79qmo7yAnRUbM7ANemgG1XeU1uOs2Hoy2fHYIuNfSy39XHmkeXFkB3ueHwahpNeGQgomsk19wHC4VVIJ+jf4540up+c7SOhyC53rBaqUX+2CxDZi5ucWP0zeAZ/sJk9UUqeh7Sop1oEsOjEFJhvVaKxUDE=
+	t=1756734839; cv=none; b=PXxZdBveSIpHx6Pu3uDTA1t55iz6OjdRM3Q4gTJOon+EzGcjYCnG9A5IjTDxyjBWMaefznME4i7tc6jSlEm5ofGTHuFfbCOXFhYMMM24Ni6iZochuTNl2/dEHYCSTHawgrx6zBZWOg0QwhpBpwjBx3r8+jLo3XKxTZJ/qD5jskM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756722015; c=relaxed/simple;
-	bh=Y8Tb+m/HScr5qE9ER9dJ8sPMOqgFCRTapvm6JyzihTs=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=OGlQ92JiQ7Vaj0SLnePHPegC4VYRwwB3tottjI5eWVv1llK7SWQv5s8eItQ3836x711PUjfLzX/JMpFZKMQNoudLNrILfBqLReOtQrUqOEIvM+XbldgR7XB8eH9VsGJDIDieWbBaa0OP0X1YKLINPxxhaTVisWdCWkOzVKbhp9M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=TIDXfaM2; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=iQNOygej; arc=none smtp.client-ip=202.12.124.150
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailfout.stl.internal (Postfix) with ESMTP id 668421D00238;
-	Mon,  1 Sep 2025 06:20:12 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-05.internal (MEProxy); Mon, 01 Sep 2025 06:20:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:message-id:mime-version:reply-to
-	:subject:subject:to:to; s=fm2; t=1756722012; x=1756808412; bh=j9
-	opy8fANg8wAVYAeXir3BkxPG3tSAJ23TA9BHXHU5w=; b=TIDXfaM269Jcsbckd0
-	sy/SweI5yhufpKsZXiAmjjjedw9LzJVogSA0AnBsuzvR2UlKZAHAOfwzZRKgzaMi
-	1Pjv1zY1wffW2w10nx3fymKlvgJtxS2esLLAqQYBrQuf210tLO8ppBjr3RT23xke
-	KvnssNfURzLEmhaH9XlzE8jp0ZSHObMPycjyIf+fSliip6ZSdSjiMks+3pDunoUT
-	5rcPGUkJjkfZHoUcuyW16RPkN4VW1zcCY22jJ1uwUbv1od8OjvPWLGgRFIdi1z5z
-	PdbIExJ/TT8Rs8hTVnv5LVVH/yIjb+afPRW6ZQP5Do++aTgDE8zhhCHtE1TnGGs3
-	9mjQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
-	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm1; t=1756722012; x=1756808412; bh=j9opy8fANg8wAVYAeXir3BkxPG3t
-	SAJ23TA9BHXHU5w=; b=iQNOygejlW4FIxfPDPiQumCLiwlHAImmG1HoFxVgtWDS
-	ipYjydA9wG2X3jll6pUYtwtRbFvpmQZkQNk4TOf9/AH82Di66/PuDzpruazkTMmy
-	UxYEa175MvtapmmhJeVBghu2Fdul6i9nbuyNdyNGAfG/xJ5WsobEuzHVledGhynz
-	xJh4ZBz4vRkH2AaM6F1ff/Sxi+CdyDGvXGNfv8Mvmz1Dk9HXb0DNRNwaC13MmzrU
-	+cuRufc7e1MEQtsWoLh4vGX8nUKIx0rdBOpaYKbLzp6We3rDUV4Hy7CZuWdFZUKK
-	Nz8k1XCAWN0b4xsH7P43ygDyuoGlT08LWWuIZodc8w==
-X-ME-Sender: <xms:W3O1aKQmvHfJ6xldhmw4ectEwmgqFhjHpqYI6SGxYw68yZPSin2Qyg>
-    <xme:W3O1aMqgIWQD4CLo5ItHg-a6L0L9pIoBE9pQL9p3aPGoS-1xAUMeEq8aZLklHfwsS
-    hj6mc4kkx2P_ZdL9Vo>
-X-ME-Received: <xmr:W3O1aHmni0yU1gb9VLpaWvkjcV8oTsSHsXcNsb8wmNjyArevWHQOBpDa8y1tDQbMuBCn6tdqGGNU1G9wzCoTdGFZJiYEJwxjgB32Aw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdduleduledtucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhephfffufggtgfgkffvvefosehtjeertdertdejnecuhfhrohhmpeflrghnnhgvucfi
-    rhhunhgruhcuoehjsehjrghnnhgruhdrnhgvtheqnecuggftrfgrthhtvghrnhepfeehle
-    dtheefteejfedvheetuedttdetleegudeuteejveetieefuedvfeffvdeinecuffhomhgr
-    ihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmh
-    epmhgrihhlfhhrohhmpehjsehjrghnnhgruhdrnhgvthdpnhgspghrtghpthhtohepkedp
-    mhhouggvpehsmhhtphhouhhtpdhrtghpthhtoheprhgvghhrvghsshhiohhnsheslhhish
-    htshdrlhhinhhugidruggvvhdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhg
-    vghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehjsehjrghnnhgruhdrnhgvthdprh
-    gtphhtthhopehlihhnuhigqdhinhhpuhhtsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhr
-    tghpthhtohepsggvnhhtihhssheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepjhhikh
-    hosheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepvhhishhhnhhuohgtvhesghhmrghi
-    lhdrtghomhdprhgtphhtthhopehsthgrsghlvgesvhhgvghrrdhkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:W3O1aFc0-eIKH-oi_W_NM5S9AGVtkVh5cNE5nk4bmLORSG0_ITbytA>
-    <xmx:XHO1aDop90wgW4yLZN9cdpsL_AQOGYQvEZAtdeI4i1AozwaRDYoXzQ>
-    <xmx:XHO1aPOlxeon_JhzC9c3-J6QhV_I_ToP9qzlSEKMN8cJOzGUXlVynQ>
-    <xmx:XHO1aGjhD7dqgE0rXqjj9utAPF8P4-t1c3hCnmDAu_BqpWsZTfowJw>
-    <xmx:XHO1aHbZv2CO5wUd6PBXUtA6IWAw6YNY4PpLduPYwiHTg5Z1aIs70fHq>
-Feedback-ID: i47b949f6:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 1 Sep 2025 06:20:11 -0400 (EDT)
-From: Janne Grunau <j@jannau.net>
-Date: Mon, 01 Sep 2025 12:20:07 +0200
-Subject: [PATCH] HID: lenovo: Use KEY_PERFORMANCE instead of ACPI's
- platform_profile
+	s=arc-20240116; t=1756734839; c=relaxed/simple;
+	bh=q1l39/qWULtcklU4dvKGAq4X0HcIR7cTEfCWPbaWihs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=rrWhi/8PT/eZsGAkoVSGYg3bQbBD8R8tUkSkp4vtTpFiu2pdWCfNKsudjqVitK0NleM4WaUqer85LNGDpp5f+Ssb81W+W0q5kjQC6+Df9X9/vPynO4ELodOUdkaaDXzGFTUNPDvVQ4cy4L8D0T2vCbZ5VXPuo/dV/OfDtMMyoZ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jFI4WhoV; arc=none smtp.client-ip=209.85.215.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-b4f8bf49aeaso398246a12.1;
+        Mon, 01 Sep 2025 06:53:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1756734837; x=1757339637; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=rK1EbDKDuWPUrJNs2px748yhqHLstsIWGKUzW9Z511w=;
+        b=jFI4WhoVY/zTZSAy/7CWbrQeIdcM3+RIDr+A1486VfzCN4CmM25InjWvW06ZOA9ag9
+         4Uc4iToU2FZ1DfeUuKGjcGBjZ6MIyYVomK97qphtT47smW2qMBjjphm3TAyqNw8Lnv+/
+         kv2xW/EarT7LNeODp9mixpLoFF2zBRUKImu/Xz3pJCqWk+8bdVCYDAcbECLQkGTn/JN0
+         AS8yLSkvJt3fuUqTuSGbff/g6t3Xjy/WUkXFeN/hgp4OORbI7Tc/IeVepBd0Z5QXujTk
+         5Bj1+IiQWGwH+p5qZglVX3R8Vk306lKpo91P6gpSbfzYAqugzpczkxfmEO0yTODftzWb
+         Al8g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756734837; x=1757339637;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=rK1EbDKDuWPUrJNs2px748yhqHLstsIWGKUzW9Z511w=;
+        b=G7xE/ayDh9HGSJvmm6YmKOO/7glu7aUzveDp1NeIoiKQ7suu8q9x0EYbjtjd5aKiE0
+         qag9TsIEOJZIby/YgaFGNuflMu0w20cjy1qVppBVU6gbgeo4JKFPz4XWXSh8hb67lSB+
+         6vCBj22ha27k3sj9toO4A072PjJgv2gN4uZYDsLyLdP+Rbhml8Hb9BwxWrYzqoVwFjJP
+         36TGpWH8VdYDQetRtlDOrwp0ys6iDkBLAmD4AcGjAALLf+mKDky70dWY9HV1kkcQZVSc
+         mlpafbztnKUCCzpwm9N5k7DIClj0XM2xweTPaLfhCiwOT+7sEAHU2bh0BB2/0FLlIiv4
+         eCqQ==
+X-Forwarded-Encrypted: i=1; AJvYcCURBW43WhYI8VUI02zHcShfNTlNgyfIdUv1tZvL0kdZYWw3ZjV3WAKD41UkaehL30zqdeBlTtQ4WmQDvSA5@vger.kernel.org, AJvYcCUdXIwLJp+lskml+dY7wl0HM1X+yvfagY4NHC844TT6hVqcQF92dXZ65SF2rzgFT8lLeYGVZhtCcH8YTg==@vger.kernel.org, AJvYcCXZlrgVXMD23eA0YXF0LpXD4/eN5r886H1tGkk9KPRYwxakM1Wmoj8ohDNvYCHSA0nm+0SQUJYSwC47gFO8/fRE6lB/fg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx0geaB6WXk4HjL2/6Chh7BuS+s0feh01xniKZAjk/Fj5Fs8DPE
+	Z9D6S6HGjGHzIHljZhk+wKAsZlbhxHmcEzFywkqezwPWGVcZmywIFjG0hQWU3J+j2mLdBhOb
+X-Gm-Gg: ASbGncsPsdq2wYZMENP/CKz3rDNayGOG4YQMNqXB5WuB+G9bZjzFBpUeH9AOGx417Q6
+	b+rEedawZRlGHF5cyh+RKkGs2ksoMPYq5DTLzk/U9nf8utX562res7eT5sTE55+BaAUwwqqy/XS
+	nizbu2UrPbdlxYJGhIloNjuZwQTUUqrOfEqI4vpIg7WzoJJUAQKXvN5lpwYrm4q0eYMdW8K8vNE
+	CJuYHbInLwSBJntO/5K9E5pqICTcmw4KwXlyjT5Lwy7Jzappc66TUmbMfeWOnG7gX6C3XJ2UoOa
+	XuW9NSxlmcIk/uiKVqCFPNutxtYyPllgsaSybjTM56sI6LkHTd6WjAjXL0lCcJBpeaEY3PGI2YR
+	adujumzQAVLj/vQeXVpwyXiNRL5WZj3EOwjl0Z7L3IT8HBe/jBdfo016s2iHnxs5vw37YuryWml
+	A=
+X-Google-Smtp-Source: AGHT+IHFqCqitZlzdPBclNqo3AnC1Zazlu6sHnOHE7NOv+jzSjNSZPJL+v2HShi62/cyEJsA3T28RQ==
+X-Received: by 2002:a17:903:3c45:b0:242:9be2:f67a with SMTP id d9443c01a7336-24944873f96mr107659715ad.11.1756734837415;
+        Mon, 01 Sep 2025 06:53:57 -0700 (PDT)
+Received: from c12-ThinkPad-X1-Carbon-Gen-12.. ([2404:7a80:b9a1:7100:d5e9:d016:7fe4:a7c2])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-24906390e6bsm106733415ad.96.2025.09.01.06.53.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 01 Sep 2025 06:53:56 -0700 (PDT)
+From: Vishnu Sankar <vishnuocv@gmail.com>
+To: dmitry.torokhov@gmail.com,
+	hmh@hmh.eng.br,
+	hansg@kernel.org,
+	ilpo.jarvinen@linux.intel.com,
+	derekjohn.clark@gmail.com
+Cc: mpearson-lenovo@squebb.ca,
+	linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	ibm-acpi-devel@lists.sourceforge.net,
+	platform-driver-x86@vger.kernel.org,
+	vsankar@lenovo.com,
+	Vishnu Sankar <vishnuocv@gmail.com>
+Subject: [PATCH v3 1/3] input: mouse: trackpoint: Add doubletap enable/disable support
+Date: Mon,  1 Sep 2025 22:53:05 +0900
+Message-ID: <20250901135308.52340-1-vishnuocv@gmail.com>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250901-hid-lenovo-drop-platform_profile-v1-1-e2e9c68483ab@jannau.net>
-X-B4-Tracking: v=1; b=H4sIAFZztWgC/x2N0QqDMAwAf0XyvEBVinS/MmSUNdVAbUoqMhD/3
- eLjwXF3QiVlqvDuTlA6uLLkBv2rg9/q80LIoTEMZrDGmR5XDpgoyyEYVAqW5Pcoun2LSuREGGz
- Txjg5bx20TFGK/H8Wn/m6bkUm0uxyAAAA
-X-Change-ID: 20250901-hid-lenovo-drop-platform_profile-d59013f79a59
-To: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, 
- Vishnu Sankar <vishnuocv@gmail.com>
-Cc: linux-input@vger.kernel.org, regressions@lists.linux.dev, 
- linux-kernel@vger.kernel.org, stable@vger.kernel.org, 
- Janne Grunau <j@jannau.net>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2600; i=j@jannau.net;
- s=yk2024; h=from:subject:message-id;
- bh=Y8Tb+m/HScr5qE9ER9dJ8sPMOqgFCRTapvm6JyzihTs=;
- b=owGbwMvMwCW2UNrmdq9+ahrjabUkhoytxZFhacmLxDviJ/mo5X07ciH7jM0fm1+6c821rztEM
- 0zf8tizo5SFQYyLQVZMkSVJ+2UHw+oaxZjaB2Ewc1iZQIYwcHEKwETSHBn+u9mrLuCO0Jlw8eje
- pjMc7spiX/yS13b/N+I5pfmVo9c9kZHhCXeJ83K55zaHP+XrM7bER3vXty8/of9L+k5Lzsqg6Z8
- 4AA==
-X-Developer-Key: i=j@jannau.net; a=openpgp;
- fpr=8B336A6BE4E5695E89B8532B81E806F586338419
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Commit 84c9d2a968c82 ("HID: lenovo: Support for ThinkPad-X12-TAB-1/2 Kbd
-Fn keys") added a dependency on ACPI's platform_profile. This should not
-be done for generic USB devices as this prevents using the devices on
-non ACPI devices like Apple silicon Macs and other non-ACPI arm64
-systems. An attempt to allow using platform_profile on non-ACPI systems
-was rejected in [1] and instead platform_profile was made to fail during
-init in commit dd133162c9cf ("ACPI: platform_profile: Avoid initializing
-on non-ACPI platforms").
-So remove the broken dependency and instead let's user space handle this
-keycode by sending the new KEY_PERFORMANCE. Stable backport depends on
-commit 89c5214639294 ("Input: add keycode for performance mode key").
+Add support for enabling and disabling doubletap on TrackPoint devices
+that support this functionality. The feature is detected using firmware
+ID and exposed via sysfs as `doubletap_enabled`.
 
-[1]: https://lore.kernel.org/linux-acpi/CAJZ5v0icRdTSToaKbdf=MdRin4NyB2MstUVaQo8VR6-n7DkVMQ@mail.gmail.com/
+The feature is only available on newer ThinkPads (2023 and later).The driver
+exposes this capability via a new sysfs attribute:
+"/sys/bus/serio/devices/seriox/doubletap_enabled".
 
-Cc: regressions@lists.linux.dev
-Cc: stable@vger.kernel.org
-Fixes: 84c9d2a968c82 ("HID: lenovo: Support for ThinkPad-X12-TAB-1/2 Kbd Fn keys")
-Signed-off-by: Janne Grunau <j@jannau.net>
+The attribute is only created if the device is detected to be capable of
+doubletap via firmware and variant ID checks. This functionality will be
+used by platform drivers such as thinkpad_acpi to expose and control doubletap
+via user interfaces.
+
+Signed-off-by: Vishnu Sankar <vishnuocv@gmail.com>
+Suggested-by: Mark Pearson <mpearson-lenovo@squebb.ca>
+Suggested-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 ---
- #regzbot introduced: 84c9d2a968c82
+Changes in v2:
+- Improve commit messages
+- Sysfs attributes moved to trackpoint.c
+- Removed unnecessary comments
+- Removed unnecessary debug messages
+- Using strstarts() instead of strcmp()
+- is_trackpoint_dt_capable() modified
+- Removed _BIT suffix and used BIT() define.
+- Reverse the trackpoint_doubletap_status() logic to return error first.
+- Removed export functions as a result of the design change
+- Changed trackpoint_dev->psmouse to parent_psmouse
+- The path of trackpoint.h is not changed.
+Changes in v3:
+- No changes.
 ---
- drivers/hid/Kconfig      | 2 --
- drivers/hid/hid-lenovo.c | 4 +---
- 2 files changed, 1 insertion(+), 5 deletions(-)
+ drivers/input/mouse/trackpoint.c | 149 +++++++++++++++++++++++++++++++
+ drivers/input/mouse/trackpoint.h |  15 ++++
+ 2 files changed, 164 insertions(+)
 
-diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
-index a57901203aeb284acd23be727d2fad0c137c101c..8ae63f8257cd582448e9683ca7fc654c8e465c0f 100644
---- a/drivers/hid/Kconfig
-+++ b/drivers/hid/Kconfig
-@@ -597,8 +597,6 @@ config HID_LED
+diff --git a/drivers/input/mouse/trackpoint.c b/drivers/input/mouse/trackpoint.c
+index 5f6643b69a2c..c6f17b0dec3a 100644
+--- a/drivers/input/mouse/trackpoint.c
++++ b/drivers/input/mouse/trackpoint.c
+@@ -16,6 +16,8 @@
+ #include "psmouse.h"
+ #include "trackpoint.h"
  
- config HID_LENOVO
- 	tristate "Lenovo / Thinkpad devices"
--	depends on ACPI
--	select ACPI_PLATFORM_PROFILE
- 	select NEW_LEDS
- 	select LEDS_CLASS
- 	help
-diff --git a/drivers/hid/hid-lenovo.c b/drivers/hid/hid-lenovo.c
-index b3121fa7a72d73f2b9ac12f36bc3d87c2649c69b..654879814f97aaf876ac16c00bf9efca22d116f3 100644
---- a/drivers/hid/hid-lenovo.c
-+++ b/drivers/hid/hid-lenovo.c
-@@ -32,8 +32,6 @@
- #include <linux/leds.h>
- #include <linux/workqueue.h>
++static struct trackpoint_data *trackpoint_dev;
++
+ static const char * const trackpoint_variants[] = {
+ 	[TP_VARIANT_IBM]		= "IBM",
+ 	[TP_VARIANT_ALPS]		= "ALPS",
+@@ -63,6 +65,21 @@ static int trackpoint_write(struct ps2dev *ps2dev, u8 loc, u8 val)
+ 	return ps2_command(ps2dev, param, MAKE_PS2_CMD(3, 0, TP_COMMAND));
+ }
  
--#include <linux/platform_profile.h>
--
- #include "hid-ids.h"
++/* Read function for TrackPoint extended registers */
++static int trackpoint_extended_read(struct ps2dev *ps2dev, u8 loc, u8 *val)
++{
++	u8 ext_param[2] = {TP_READ_MEM, loc};
++	int error;
++
++	error = ps2_command(ps2dev,
++			    ext_param, MAKE_PS2_CMD(2, 1, TP_COMMAND));
++
++	if (!error)
++		*val = ext_param[0];
++
++	return error;
++}
++
+ static int trackpoint_toggle_bit(struct ps2dev *ps2dev, u8 loc, u8 mask)
+ {
+ 	u8 param[3] = { TP_TOGGLE, loc, mask };
+@@ -393,6 +410,131 @@ static int trackpoint_reconnect(struct psmouse *psmouse)
+ 	return 0;
+ }
  
- /* Userspace expects F20 for mic-mute KEY_MICMUTE does not work */
-@@ -734,7 +732,7 @@ static int lenovo_raw_event_TP_X12_tab(struct hid_device *hdev, u32 raw_data)
- 				report_key_event(input, KEY_RFKILL);
- 				return 1;
- 			}
--			platform_profile_cycle();
-+			report_key_event(input, KEY_PERFORMANCE);
- 			return 1;
- 		case TP_X12_RAW_HOTKEY_FN_F10:
- 			/* TAB1 has PICKUP Phone and TAB2 use Snipping tool*/
-
----
-base-commit: 8f5ae30d69d7543eee0d70083daf4de8fe15d585
-change-id: 20250901-hid-lenovo-drop-platform_profile-d59013f79a59
-
-Best regards,
++/* List of known incapable device PNP IDs */
++static const char * const dt_incompatible_devices[] = {
++	"LEN0304",
++	"LEN0306",
++	"LEN0317",
++	"LEN031A",
++	"LEN031B",
++	"LEN031C",
++	"LEN031D",
++};
++
++/*
++ * checks if it’s a doubletap capable device
++ * The PNP ID format eg: is "PNP: LEN030d PNP0f13".
++ */
++static bool is_trackpoint_dt_capable(const char *pnp_id)
++{
++	const char *id_start;
++	char id[8];
++
++	if (!strstarts(pnp_id, "PNP: LEN03"))
++		return false;
++
++	/* Points to "LEN03xxxx" */
++	id_start = pnp_id + 5;
++	if (sscanf(id_start, "%7s", id) != 1)
++		return false;
++
++	/* Check if it's blacklisted */
++	for (size_t i = 0; i < ARRAY_SIZE(dt_incompatible_devices); ++i) {
++		if (strcmp(id, dt_incompatible_devices[i]) == 0)
++			return false;
++	}
++	return true;
++}
++
++/* Trackpoint doubletap status function */
++static int trackpoint_doubletap_status(bool *status)
++{
++	struct trackpoint_data *tp = trackpoint_dev;
++	struct ps2dev *ps2dev = &tp->parent_psmouse->ps2dev;
++	u8 reg_val;
++	int rc;
++
++	/* Reading the Doubletap register using extended read */
++	rc = trackpoint_extended_read(ps2dev, TP_DOUBLETAP, &reg_val);
++	if (rc)
++		return rc;
++
++	*status = reg_val & TP_DOUBLETAP_STATUS ? true : false;
++
++	return 0;
++}
++
++/* Trackpoint doubletap enable/disable function */
++static int trackpoint_set_doubletap(bool enable)
++{
++	struct trackpoint_data *tp = trackpoint_dev;
++	struct ps2dev *ps2dev = &tp->parent_psmouse->ps2dev;
++	static u8 doubletap_state;
++	u8 new_val;
++
++	if (!tp)
++		return -ENODEV;
++
++	new_val = enable ? TP_DOUBLETAP_ENABLE : TP_DOUBLETAP_DISABLE;
++
++	if (doubletap_state == new_val)
++		return 0;
++
++	doubletap_state = new_val;
++
++	return trackpoint_write(ps2dev, TP_DOUBLETAP, new_val);
++}
++
++/*
++ * Trackpoint Doubletap Interface
++ * Control/Monitoring of Trackpoint Doubletap from:
++ * /sys/bus/serio/devices/seriox/doubletap_enabled
++ */
++static ssize_t doubletap_enabled_show(struct device *dev,
++				struct device_attribute *attr, char *buf)
++{
++	struct serio *serio = to_serio_port(dev);
++	struct psmouse *psmouse = psmouse_from_serio(serio);
++	struct trackpoint_data *tp = psmouse->private;
++	bool status;
++	int rc;
++
++	if (!tp || !tp->doubletap_capable)
++		return -ENODEV;
++
++	rc = trackpoint_doubletap_status(&status);
++	if (rc)
++		return rc;
++
++	return sysfs_emit(buf, "%d\n", status ? 1 : 0);
++}
++
++static ssize_t doubletap_enabled_store(struct device *dev,
++					struct device_attribute *attr,
++					const char *buf, size_t count)
++{
++	struct serio *serio = to_serio_port(dev);
++	struct psmouse *psmouse = psmouse_from_serio(serio);
++	struct trackpoint_data *tp = psmouse->private;
++	bool enable;
++	int err;
++
++	if (!tp || !tp->doubletap_capable)
++		return -ENODEV;
++
++	err = kstrtobool(buf, &enable);
++	if (err)
++		return err;
++
++	err = trackpoint_set_doubletap(enable);
++	if (err)
++		return err;
++
++	return count;
++}
++
++static DEVICE_ATTR_RW(doubletap_enabled);
++
+ int trackpoint_detect(struct psmouse *psmouse, bool set_properties)
+ {
+ 	struct ps2dev *ps2dev = &psmouse->ps2dev;
+@@ -425,6 +567,9 @@ int trackpoint_detect(struct psmouse *psmouse, bool set_properties)
+ 	psmouse->reconnect = trackpoint_reconnect;
+ 	psmouse->disconnect = trackpoint_disconnect;
+ 
++	trackpoint_dev = psmouse->private;
++	trackpoint_dev->parent_psmouse = psmouse;
++
+ 	if (variant_id != TP_VARIANT_IBM) {
+ 		/* Newer variants do not support extended button query. */
+ 		button_info = 0x33;
+@@ -470,6 +615,10 @@ int trackpoint_detect(struct psmouse *psmouse, bool set_properties)
+ 		     psmouse->vendor, firmware_id,
+ 		     (button_info & 0xf0) >> 4, button_info & 0x0f);
+ 
++	tp->doubletap_capable = is_trackpoint_dt_capable(ps2dev->serio->firmware_id);
++	if (tp->doubletap_capable)
++		device_create_file(&psmouse->ps2dev.serio->dev, &dev_attr_doubletap_enabled);
++
+ 	return 0;
+ }
+ 
+diff --git a/drivers/input/mouse/trackpoint.h b/drivers/input/mouse/trackpoint.h
+index eb5412904fe0..256e8cb35581 100644
+--- a/drivers/input/mouse/trackpoint.h
++++ b/drivers/input/mouse/trackpoint.h
+@@ -8,6 +8,8 @@
+ #ifndef _TRACKPOINT_H
+ #define _TRACKPOINT_H
+ 
++#include <linux/bitops.h>
++
+ /*
+  * These constants are from the TrackPoint System
+  * Engineering documentation Version 4 from IBM Watson
+@@ -69,6 +71,8 @@
+ 					/* (how hard it is to drag */
+ 					/* with Z-axis pressed) */
+ 
++#define TP_DOUBLETAP		0x58	/* TrackPoint doubletap register */
++
+ #define TP_MINDRAG		0x59	/* Minimum amount of force needed */
+ 					/* to trigger dragging */
+ 
+@@ -139,6 +143,14 @@
+ #define TP_DEF_TWOHAND		0x00
+ #define TP_DEF_SOURCE_TAG	0x00
+ 
++/* Doubletap register values */
++#define TP_DOUBLETAP_ENABLE	0xFF	/* Enable value */
++#define TP_DOUBLETAP_DISABLE	0xFE	/* Disable value */
++
++#define TP_DOUBLETAP_STATUS_BIT 0	/* 0th bit defines enable/disable */
++
++#define TP_DOUBLETAP_STATUS   BIT(TP_DOUBLETAP_STATUS_BIT)
++
+ #define MAKE_PS2_CMD(params, results, cmd) ((params<<12) | (results<<8) | (cmd))
+ 
+ struct trackpoint_data {
+@@ -150,11 +162,14 @@ struct trackpoint_data {
+ 	u8 thresh, upthresh;
+ 	u8 ztime, jenks;
+ 	u8 drift_time;
++	bool doubletap_capable;
+ 
+ 	/* toggles */
+ 	bool press_to_select;
+ 	bool skipback;
+ 	bool ext_dev;
++
++	struct psmouse *parent_psmouse;
+ };
+ 
+ int trackpoint_detect(struct psmouse *psmouse, bool set_properties);
 -- 
-Janne Grunau <j@jannau.net>
+2.48.1
 
 
