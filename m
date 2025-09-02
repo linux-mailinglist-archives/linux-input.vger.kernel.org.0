@@ -1,125 +1,135 @@
-Return-Path: <linux-input+bounces-14424-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14425-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3AB1B402C4
-	for <lists+linux-input@lfdr.de>; Tue,  2 Sep 2025 15:23:41 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id CC37BB4052B
+	for <lists+linux-input@lfdr.de>; Tue,  2 Sep 2025 15:50:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4725B3BCDC2
-	for <lists+linux-input@lfdr.de>; Tue,  2 Sep 2025 13:21:42 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8B9F41B237F8
+	for <lists+linux-input@lfdr.de>; Tue,  2 Sep 2025 13:46:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2704826563F;
-	Tue,  2 Sep 2025 13:18:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E152C324B0C;
+	Tue,  2 Sep 2025 13:41:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VjrEBk7/"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZwWBlnAw"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F101A304BA4;
-	Tue,  2 Sep 2025 13:18:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADFAD2D4B4E;
+	Tue,  2 Sep 2025 13:41:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756819132; cv=none; b=k5jj/6rjA6ZbX4s7nx52anQYparz3zGWteNYdUsAmw1XJKe6xQ2xxCV5NdWnEaXOh/dLCGCwBeWJKHs+vs7HQL9pq27DvOxAJ6gh5nuTYi6RS7H4RKbEOpi0JSmH1HfnOasqwPPlyI1kWrSedno9SoId4CCYy+VfAfb+dS2gftg=
+	t=1756820485; cv=none; b=PAroHw0YlzwWQwkKiyyEu6wL2y444E6oI+cLFKQe8CW1s4pw5S30GXjFXUfp132yFKh0OpvCWn/XIKPpnHQ/JLwCoZCyJB7lvkYvZSDrHiz9ImJVkBwAyWqg2sYWWy54Pj6ZT42sMHFmUGjGajE1UMeG9FGxNryUbbdxJDxeRbk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756819132; c=relaxed/simple;
-	bh=3OlIsexLNj280IDiHBciTLojhFBSfNBq82YiRU5Yb4I=;
+	s=arc-20240116; t=1756820485; c=relaxed/simple;
+	bh=ZVVlpLZtW001ia11Gv9DKuA1Yfy1spmGwT9D/HHzZoQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IjKJs8dLQBGXGSmuwtPA11ucE6XMQJYfTIjovk32RPiwJK++qN5UddiQ6cU0KZZJ0bpnpW8IlwEFQXQGA7/E62LWXDJFIa9guAmho1yH4dbNfsyc0RSleyCBtwClRw7X8ZfwscZz9yvq389Nm3CoMFe9gHz9FFmIAmobKO+OZUM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VjrEBk7/; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9DB5AC4CEED;
-	Tue,  2 Sep 2025 13:18:50 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=BZMi56pzJjlG7bkR0IYpS5DsbrI2q+VdnQ3kdtAp3axnEuuYEGN5kY+j8qe/geZl8S7xx7hQbb0BYcGyCXdP1up67ADewuEvOXFvOcMEMVbt1MnqPFkG3gsy/AH0IbUjv9JQQTeabDF3AWj2C3m2rc18/1BFq6tv6chrvyCNeCU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZwWBlnAw; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8CD18C4CEFB;
+	Tue,  2 Sep 2025 13:41:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756819131;
-	bh=3OlIsexLNj280IDiHBciTLojhFBSfNBq82YiRU5Yb4I=;
+	s=k20201202; t=1756820485;
+	bh=ZVVlpLZtW001ia11Gv9DKuA1Yfy1spmGwT9D/HHzZoQ=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=VjrEBk7/GBQB1RNdCrvoc4NxQmwXITuCLuJVjArCdPbII01bVOGn4lGDMU5dZD+7M
-	 F6dT7jysa4nSPGT4Vadn6SkSl6IrTqgOJZJHxCkgW2vQjFJUhEAT//mo7nmVC4ZH6e
-	 5rJJ6OF9DEEuKm7lBf8z2GyG6bffNueSHosHWTkNos8/iS7wAP8tIyeTiuT03PHPOk
-	 C9xveW26wVKMRDOsqpJgiaK5FKbGtLKpwa3iLa8w7XcpCGKRyDFzkK7EQmXEOxwi3M
-	 KORrLTFoj6inwMGJ0vwLgkEX74EGGpSIvag6aB++qMVaYrJsM8CF8QrKmLigt5dAj8
-	 7YEHUy0+ENPIw==
-Date: Tue, 2 Sep 2025 21:18:47 +0800
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Benson Leung <bleung@chromium.org>, linux-input@vger.kernel.org,
-	chrome-platform@lists.linux.dev
-Subject: Re: [PATCH 0/5] platform/chrome: Fix a race when probing drivers
-Message-ID: <aLbutygmfjV4AuhZ@tzungbi-laptop>
-References: <20250828083601.856083-1-tzungbi@kernel.org>
- <sqgfgwmbpxvaszyxt4mymne6dvhzjvuifogsqjdu6j3tm436ph@x7chldp3dfpr>
- <aLGhLCc9UQWwBz47@tzungbi-laptop>
+	b=ZwWBlnAwxUOSjTlgMlo3w+hpjeXp789p38pxg3MIVv/SyyuAuKaCsP2HtTYFPQbsw
+	 ipI91tkwRXxx5v0GyencRIJ6MkFv5P19K+B3LE0Vm4Hg5FuK/63AVmU86O/ExS7rI2
+	 MJJeyRBvBDhbvqH+XHEbxDOo3MWE2FCu8PpuinsrqurB/LmexmeYwCKa5oqVKpR1pv
+	 sb4pvmADBKBbuEsmhW7C758YcnSXtO8cWz5qGDFyTb2cc/hH1cjcLUbRX2sONdxr8d
+	 eLgLq30LcHJb7jUHQR/7f3+HJst8lWyDKdB5cWtbDiGeupGHw3ntvh6czNTJYy6JDI
+	 14ROImnYnTqLw==
+Date: Tue, 2 Sep 2025 14:41:18 +0100
+From: Lee Jones <lee@kernel.org>
+To: samuel.kayode@savoirfairelinux.com
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Sebastian Reichel <sre@kernel.org>, Frank Li <Frank.li@nxp.com>,
+	imx@lists.linux.dev, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+	linux-pm@vger.kernel.org, Abel Vesa <abelvesa@kernel.org>,
+	Abel Vesa <abelvesa@linux.com>, Robin Gong <b38343@freescale.com>,
+	Robin Gong <yibin.gong@nxp.com>,
+	Enric Balletbo i Serra <eballetbo@gmail.com>,
+	Sean Nyekjaer <sean@geanix.com>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Subject: Re: [PATCH v10 5/6] power: supply: pf1550: add battery charger
+ support
+Message-ID: <20250902134118.GP2163762@google.com>
+References: <20250820-pf1550-v10-0-4c0b6e4445e3@savoirfairelinux.com>
+ <20250820-pf1550-v10-5-4c0b6e4445e3@savoirfairelinux.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <aLGhLCc9UQWwBz47@tzungbi-laptop>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250820-pf1550-v10-5-4c0b6e4445e3@savoirfairelinux.com>
 
-On Fri, Aug 29, 2025 at 08:50:01PM +0800, Tzung-Bi Shih wrote:
-> On Fri, Aug 29, 2025 at 11:28:55AM +0000, Dmitry Torokhov wrote:
-> > On Thu, Aug 28, 2025 at 08:35:56AM +0000, Tzung-Bi Shih wrote:
-> > > A race is observed when cros_ec_lpc and cros-ec-keyb are all built as
-> > > modules.  cros_ec_lpc is cros-ec-keyb's parent.  However, they can be
-> > > probed at the same time.
-> > > 
-> > > Example:
-> > > 
-> > > + -----------------------------------------------------------------+
-> > > | Some init process (e.g. udevd) | deferred_probe_work_func worker |
-> > > + -----------------------------------------------------------------+
-> > > | Probe cros-ec-keyb.            |                                 |
-> > > | - Decide to defer[1].          |                                 |
-> > > |                                | A device bound to a driver[2].  |
-> > > | Probe cros_ec_lpc.             |                                 |
-> > > | - Init the struct[3].          |                                 |
-> > > |                                | Retry cros-ec-keyb from the     |
-> > > |                                | deferred list[4].               |
-> > > |                                | - Won't defer again as [3].     |
-> > > |                                | - Access uninitialized data in  |
-> > > |                                |   the struct.                   |
-> > > | - Register the device.         |                                 |
-> > > + -----------------------------------------------------------------+
-> > > 
-> > > [1] https://elixir.bootlin.com/linux/v6.16/source/drivers/input/keyboard/cros_ec_keyb.c#L707
-> > > [2] https://elixir.bootlin.com/linux/v6.16/source/drivers/base/dd.c#L405
-> > > [3] https://elixir.bootlin.com/linux/v6.16/source/drivers/platform/chrome/cros_ec_lpc.c#L644
-> > > [4] https://elixir.bootlin.com/linux/v6.16/source/drivers/base/dd.c#L418
-> > > 
-> > > Note that the device link[5] can't help as in the observed environment,
-> > > the devices are already added via device_add()[6].
-> > > 
-> > > [5] https://www.kernel.org/doc/html/latest/driver-api/device_link.html#usage
-> > > [6] https://elixir.bootlin.com/linux/v6.16/source/drivers/acpi/acpi_platform.c#L177
-> > > 
-> > > The series fixes the issue by ensuring the struct is ready for accessing
-> > > before continuing to probe cros-ec-keyb.
-> > 
-> > Why is the keyboard platform device instantiated before the transport
-> > (cros_ec_lpc) is done initializing? I think this is the root of the
-> > issue...
-> 
-> I may misunderstand but it seems to me:
-> 
-> - The ACPI bus enumerated and instantiated the platform devices[6] first.
-> 
-> - The keyboard platform device was probed when `cros_ec_keyb_driver`
->   registered.  It deferred as its parent's drvdata was NULL[1].
-> 
-> - The transport platform device was probed when `cros_ec_lpc_driver`
->   registered.  It set the drvdata[3].
-> 
-> - The keyboard platform device was probed again from retrying the deferred
->   list, by another thread `deferred_probe_work_func`.  The parent's drvdata
->   wasn't NULL and cros_ec_register() for the transport device weren't
->   finished.  The race happened.
+Power:
 
-Hi Dmitry,
+> From: Samuel Kayode <samuel.kayode@savoirfairelinux.com>
+> 
+> Add support for the battery charger for pf1550 PMIC.
+> 
+> Reviewed-by: Frank Li <Frank.Li@nxp.com>
+> Tested-by: Sean Nyekjaer <sean@geanix.com>
+> Signed-off-by: Samuel Kayode <samuel.kayode@savoirfairelinux.com>
+> ---
+> v9:
+> - Fix thermal regulation temperature ranges
+> - Fix default thermal regulation temperature
+> - Drop unused `data` variable in reg_init
+> - Select charger operation mode based on application - suggested by Sean
+> v8:
+> - Drop PF1550_CHARGER_NAME
+> - Drop unnecessary POWER_SUPPLY_STATUS_CHARGING s
+> - Replace POWER_SUPPLY_HEALTH_DEAD with POWER_SUPPLY_HEALTH_NO_BATTERY
+> - Drop check for charger in delayed_work s
+> - Use dev_warn when battery is over-voltage
+> - Define two power supplies: charger and battery
+> - Use devm_delayed_work_autocancel to automate cleanup and fix race
+>   condition
+> v7:
+> - Use reverse christmas tree order
+> - Drop unecessary 0 in id table's driver data field
+> - Store virqs to avoid reinvoking platform_get_irq in the interrupt
+>   service routine
+> - Drop manufacturer and model global variables
+> v6:
+> - Drop lock entirely
+> - Reverse christmas tree order for variables defined in probe as
+>   suggested by Frank
+> - return pf1550_reg_init
+> v5:
+> - Drop lock for battery and charger delayed_work
+> - More conservative locking in vbus delayed_work
+> - Apply lock when setting power supply type during register initialization
+> v4:
+> - Finish handling of some interrupts in threaded irq handler
+> - Use platform_get_irq
+> v3:
+> - Use struct power_supply_get_battery_info to get constant charge
+>   voltage if specified
+> - Use virqs mapped in MFD driver
+> v2:
+> - Address feedback from Enric Balletbo Serra
+> ---
+>  drivers/power/supply/Kconfig          |  11 +
+>  drivers/power/supply/Makefile         |   1 +
+>  drivers/power/supply/pf1550-charger.c | 636 ++++++++++++++++++++++++++++++++++
+>  3 files changed, 648 insertions(+)
 
-Does it make sense to you?
+Once Sebastian takes this, I'll merge the set.
+
+-- 
+Lee Jones [李琼斯]
 
