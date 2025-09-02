@@ -1,98 +1,106 @@
-Return-Path: <linux-input+bounces-14410-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14411-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A1F9B3E634
-	for <lists+linux-input@lfdr.de>; Mon,  1 Sep 2025 15:55:24 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id C1F99B3F1D2
+	for <lists+linux-input@lfdr.de>; Tue,  2 Sep 2025 03:13:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 37F7F204ED2
-	for <lists+linux-input@lfdr.de>; Mon,  1 Sep 2025 13:55:22 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2F9851A86514
+	for <lists+linux-input@lfdr.de>; Tue,  2 Sep 2025 01:13:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 363AA33EB10;
-	Mon,  1 Sep 2025 13:54:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 005972DEA7B;
+	Tue,  2 Sep 2025 01:13:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RY4lXt4c"
+	dkim=pass (2048-bit key) header.d=ewhac.org header.i=@ewhac.org header.b="k3LCDYNJ"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from dog.elm.relay.mailchannels.net (dog.elm.relay.mailchannels.net [23.83.212.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7073833A01A;
-	Mon,  1 Sep 2025 13:54:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.178
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756734882; cv=none; b=poIbVOel7XhVipBNMgHbMMj51ItlJvUBjp9IHGMm2sa1+lHW0e59yc/9G0zKrZBTHx0hFrLsplcRwkrPi15KVrILso4byDBMMAzO0BpiC1ZZj4YRp8w6ViFut4P4iGM4Uo5nIRv4wDheExlFpFtv/9HATNAnEPce9qdWIRAes7U=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756734882; c=relaxed/simple;
-	bh=QVK+8sL7qG8wagIwyT0IjqC80DQFdFOPePRJZwwL4+o=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=h0lbRD3dteescDXcVRhY2Ek6qmKNJlZuUMY+3mJ19o05spVFXNd6l8rw9GZfV+7tgydQlQNNxE/yc9Hp+YUqva2nOWffqz6ZPuLdQHEY616vtxJP3H3g7PGiZHkC5dnyuXDvv+LlCZuBhFTn6sP9p0HENv+nhflHzLn349V0Czs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RY4lXt4c; arc=none smtp.client-ip=209.85.215.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-b4d5886f825so2382870a12.0;
-        Mon, 01 Sep 2025 06:54:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756734880; x=1757339680; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Qmat2k9pfOSO69Tb0r7zHqSs9B7iOPv+szdxWbx8dGw=;
-        b=RY4lXt4chXJ5ktNZndNcg2rVqE2YJczWQ/HDB1wv8jaapEFvHz+1fRrByMwvQjt/6e
-         vpTX91NGl/kIKpMV1QEjqoZ1LDzGko9YB8hcKPkBe9gPc7+5HwQspacDLbkp8+tJM6g5
-         5x3tGgrn4cVsE6Q/Jxnp3Ftt358EzfhxcjocnI7IJb/EogrFJjJZlb2X7PPoCks3JB38
-         VFKlM+1X1dG1044j9T0X4tDh+Qzhwl+XAXz+iVLvhOJhlIAn16sKhphntzxZXIS98slT
-         x3hW1fWWYF/mNUuf9425hf6bfo0OBw++WTcFzbhd8cX5raNxfJjO1nIG3TPFKS1G3quV
-         gaaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756734880; x=1757339680;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Qmat2k9pfOSO69Tb0r7zHqSs9B7iOPv+szdxWbx8dGw=;
-        b=GfUOU9fC/fbDh5zpF6RsbX1sNUmUoE4BgweixHFgRBGKJR+tY8UARgUEubYs/BTt0a
-         ACTkAjOYWjTqozsCwhepb6Pt58tXkWtFWMlLs/GtNDBJnTj1Eaf+Nu4oByo30akN1rqz
-         Z7ichQYsqE8HJ3k7dLM+crm/rB11PYP9SNkESvS2mQr7VWtVHJD5av3DEDqRjwpInav6
-         tcKo6pTGMma9oW0C0TDLOMayQiVOrYbzXTaa3os1YOCyC0QjFlmOaKIJBewBnZ+L/RvB
-         nYUhddW+x4VVcjwnIChzcrY/3+TjL8A5B5iCW1mAlzoXxKcVaR6DNfv9qkDzGHJmmEqo
-         sbAA==
-X-Forwarded-Encrypted: i=1; AJvYcCVsFVeDQTOQAqDppSeBgVtQRPyLnz86FNf/+tjQKojcKzJLgU6WvbYsJFSezjNjDhGQnwffSKBshz2z1TN0@vger.kernel.org, AJvYcCWPrqIMqhBVbYEC9SXDV29dPyszl9Hvb/8ior7alKaV7NdVXE60MtnvYxOL3E2HZ1yBR67gXmGJXw9OpA==@vger.kernel.org, AJvYcCXqDh3MyRBZu32tYcICpJlewt2IpkwSwGDQM/yQXwkEoBCP4vc53IMwPQRQFWGRAvDqnIgoHgyJB21Fv4IYE0xLpiMgZQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwrcjW8OOY3cDsD3QTh2Jm8hz4kZgCHkW4VzhjCPG2DIe1x1vEj
-	awvMkXvJTpuCF769JXU3/sHiuHym/X+P/yImfX4XdqEio6jNyW06O+hd
-X-Gm-Gg: ASbGncuGGgvIUcOGI75txvZgAhf7Q3/2EMeoxzoet2ndR3Z9iLJ44iqtMxBSJqrtzaq
-	8oqoVtIwIbWGoZK0qqnW6Gukix6n1oRJqEgyaJPDWxC8p9K0W0dcSOM7XvXH0vUVqO3ukxj8nHG
-	KZ/2yZ5ZiJ7WP5xFMAtGtO1jXp3J7kACSOq4JFLJRevWs/xAVM93oPPK3StOgFHSF2C0H1dtY/O
-	a7M/+Bikv0j+LTFE8ClwJcpWxc9PN0kmkDJbG0JCDnFAND9iP5vVuWIRzxQ40+t7xDJ2ZWIacCa
-	fBBhxrQPBRJ/c3/fPCR6uh0/C1SmkXvtTQoROQlYJKRe6XrZvm2qef+EGzNtCuTMFa940aNpLz6
-	bpWLOTwmIDDqNRk7m8xzCIdwnBwodlQNIETolhAQQKMCewQA8xd5pJTnUWjZYNv+dTdD7DMkpLa
-	M=
-X-Google-Smtp-Source: AGHT+IG/Q4L45KXe+/gksjaOcTZyKvCY1W3Jewqq8/y5N+D8XoPHGgEBozIvDzGI/eqExhq1Jik3Qw==
-X-Received: by 2002:a17:902:ccd1:b0:246:de32:10d2 with SMTP id d9443c01a7336-24944a458c3mr103898685ad.15.1756734879524;
-        Mon, 01 Sep 2025 06:54:39 -0700 (PDT)
-Received: from c12-ThinkPad-X1-Carbon-Gen-12.. ([2404:7a80:b9a1:7100:d5e9:d016:7fe4:a7c2])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-24906390e6bsm106733415ad.96.2025.09.01.06.54.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Sep 2025 06:54:39 -0700 (PDT)
-From: Vishnu Sankar <vishnuocv@gmail.com>
-To: dmitry.torokhov@gmail.com,
-	hmh@hmh.eng.br,
-	hansg@kernel.org,
-	ilpo.jarvinen@linux.intel.com,
-	derekjohn.clark@gmail.com
-Cc: mpearson-lenovo@squebb.ca,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0BBD28643D;
+	Tue,  2 Sep 2025 01:13:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=23.83.212.48
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1756775601; cv=pass; b=V3mfGLwETJPc8hSzOw1CBpvGz0KCVr2o1YWdmpZsnFxL5MVpRZNa9CqDDqJgtR6Mj/kGPnW3rVSycrgha1H4Be08Mxa35N1vZ4c+z79mcIO7Y8mbKTrmlPGBxMWYY90QKZp5LoS9GbeOBt3OoL1w8ebgVduYeCuk+mEP1g5JjmU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1756775601; c=relaxed/simple;
+	bh=+bCOkiYV3uPe0fvx0toDl4GRYaIkJuRC+t3Lud/DiiM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=QN5z4+DvZ6fB7qWF7VlqjOrnPwO8lo1kxCf7UCZMolzBIXs49m05eWyNYs3akWwUbsAya1LC+eHg1ce730rpNrqAga7p8rLO8B9w7TqRmN6uG/jqU9Kou+RVNy1NJeN1inpkQ3XhhZLIAF1O63ShxccX7KvsCzpl+c6T9pcElI4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ewhac.org; spf=pass smtp.mailfrom=ewhac.org; dkim=pass (2048-bit key) header.d=ewhac.org header.i=@ewhac.org header.b=k3LCDYNJ; arc=pass smtp.client-ip=23.83.212.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ewhac.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ewhac.org
+X-Sender-Id: dreamhost|x-authsender|ewhac@ewhac.org
+Received: from relay.mailchannels.net (localhost [127.0.0.1])
+	by relay.mailchannels.net (Postfix) with ESMTP id E03A42C50D0;
+	Tue,  2 Sep 2025 00:37:35 +0000 (UTC)
+Received: from pdx1-sub0-mail-a232.dreamhost.com (100-103-70-103.trex-nlb.outbound.svc.cluster.local [100.103.70.103])
+	(Authenticated sender: dreamhost)
+	by relay.mailchannels.net (Postfix) with ESMTPA id 598872C5E57;
+	Tue,  2 Sep 2025 00:37:35 +0000 (UTC)
+ARC-Seal: i=1; s=arc-2022; d=mailchannels.net; t=1756773455; a=rsa-sha256;
+	cv=none;
+	b=2r6RrFLOK7+oaQnyvhchre1FkfUAGGuHR+aXyvH4q2e93UENVJoX96603RIqY1sspjluN0
+	NgO4YpQ9e8d99sTZJNiT3N+RNA+9h65g/9cWa7KVUdXnowKAiFXi33mAu8C76EsxiMedbA
+	jslM1MRAl7TbjUS8VHHQvuiqScxmMS+BVtCwvrLnu8/lkMX3WX/aEwhxPtm524DBDMqeQs
+	wPfhFkkbQYYJLm36nmlKsTraXBtCwWM1D665jt1bYbD0a1SxW/laTJNQY+SzpipIG/3sS7
+	YYszsGEoBGV4iYYrd4bo97bPGly8eTxii6iQouoKgBGp8HUzkuW5mtcz/NgM7g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mailchannels.net;
+	s=arc-2022; t=1756773455;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:dkim-signature;
+	bh=iTLjohd+ArAXnTa/fPI47XcSU+SmFoasXJ04RxNIOy4=;
+	b=NDFuhS9vjBc1r8rLadMZrKxnezTPzcIxDsGpnzbEUZVaowykOC456YukEGGVgm00YsIZAF
+	zShCX9OEF1lntL877QgDKwbj+G1dDXfLi2XLzVOjbxcIuDIydIpy3W/UgB4XXKf3mA2mgO
+	3rad7N/ONdImrV/pFJJfqatcyjzsdJ5UKLpKUeGcSngD2WPb80mv6EplpJIoN/MtKxaTlN
+	dKzCmHeITFfmnqmB5gmvIy3BuiniKLgiH/xiX+gE1BrjpeEMGBHK1q38Rux/YYblQtenO0
+	nwEZ0KXD5c3Baye0agcH0r3XQKZA8/ndvwHFNpFNLtvhrr39CcucdYRstiq2uA==
+ARC-Authentication-Results: i=1;
+	rspamd-9594d4cf9-zz84x;
+	auth=pass smtp.auth=dreamhost smtp.mailfrom=ewhac@ewhac.org
+X-Sender-Id: dreamhost|x-authsender|ewhac@ewhac.org
+X-MC-Relay: Neutral
+X-MailChannels-SenderId: dreamhost|x-authsender|ewhac@ewhac.org
+X-MailChannels-Auth-Id: dreamhost
+X-Suffer-Cooing: 6fae87e54a236bcb_1756773455702_3420505337
+X-MC-Loop-Signature: 1756773455702:582792192
+X-MC-Ingress-Time: 1756773455702
+Received: from pdx1-sub0-mail-a232.dreamhost.com (pop.dreamhost.com
+ [64.90.62.162])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
+	by 100.103.70.103 (trex/7.1.3);
+	Tue, 02 Sep 2025 00:37:35 +0000
+Received: from exiguous.ewhac.net (unknown [135.180.175.143])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: ewhac@ewhac.org)
+	by pdx1-sub0-mail-a232.dreamhost.com (Postfix) with ESMTPSA id 4cG6Jv086yz9q;
+	Mon,  1 Sep 2025 17:37:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ewhac.org;
+	s=dreamhost; t=1756773455;
+	bh=iTLjohd+ArAXnTa/fPI47XcSU+SmFoasXJ04RxNIOy4=;
+	h=From:To:Cc:Subject:Date:Content-Transfer-Encoding;
+	b=k3LCDYNJ6LFG+mSrRO+Ye0axTMggRsK8W+riCjDanhlV8na4ft5rwY2kgOLWZNz1R
+	 ZLZnXZII8g8wndP5EnqGNYA3a9qMzMfr+/SnajoBc1SQzAEz3WrZyY2hxQAZMZ+PZv
+	 xxacig7bwj3UZqpTshJbHgJF4N4Cf9UHabXozWqUX1DZISGAP59WrvvA+nUuouOD2T
+	 xw/4RESxferFRBzLfQdUUsCnNX/2ZNaoOqhEeyswKWzMk6OKJHhj5XzN9HcizbbtG1
+	 yIYrJfodn2coSZ6UhX04REn7MrfqiphVAYk0CVsupdvYkuhBC0rQJUhj3+HQLBDstO
+	 mVt33G3Fol+Cg==
+From: "Leo L. Schwab" <ewhac@ewhac.org>
+To: Hans de Goede <hansg@kernel.org>
+Cc: Kate Hsuan <hpa@redhat.com>,
+	"Leo L. Schwab" <ewhac@ewhac.org>,
+	Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>,
 	linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	ibm-acpi-devel@lists.sourceforge.net,
-	platform-driver-x86@vger.kernel.org,
-	vsankar@lenovo.com,
-	Vishnu Sankar <vishnuocv@gmail.com>
-Subject: [PATCH v3 3/3] platform/x86: thinkpad_acpi: Use trackpoint doubletap interface via sysfs
-Date: Mon,  1 Sep 2025 22:53:07 +0900
-Message-ID: <20250901135308.52340-3-vishnuocv@gmail.com>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250901135308.52340-1-vishnuocv@gmail.com>
-References: <20250901135308.52340-1-vishnuocv@gmail.com>
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v5] HID: lg-g15 - Add support for Logitech G13.
+Date: Mon,  1 Sep 2025 17:36:44 -0700
+Message-ID: <20250902003659.361934-2-ewhac@ewhac.org>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -101,248 +109,614 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-TrackPoint devices supporting doubletap expose a sysfs attribute under
-/sys/devices/.../trackpoint/doubletap_enabled. This patch enables
-thinkpad_acpi to detect if the system has a TrackPoint device with
-doubletap capability, and allows toggling the feature via sysfs.
+The Logitech G13 is a gaming keypad with general-purpose macro keys,
+four LED-backlit macro preset keys, five "menu" keys, backlight toggle
+key, an analog thumbstick, RGB LED backlight, and a monochrome LCD
+display.
 
-This avoids direct linking between subsystems and relies on sysfs
-as the interface for coordination between input and platform drivers.
+Support input event generation for all keys and the thumbstick, and
+expose all LEDs.
 
-Signed-off-by: Vishnu Sankar <vishnuocv@gmail.com>
-Suggested-by: Mark Pearson <mpearson-lenovo@squebb.ca>
-Suggested-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Signed-off-by: Leo L. Schwab <ewhac@ewhac.org>
+Reviewed-by: Hans de Goede <hansg@kernel.org>
+Tested-by: Kate Hsuan <hpa@redhat.com>
 ---
-Changes in v2:
-- Updated commit message to clarify dependency on trackpoint driver
-- Now handling sysfs read/write of trackpoint driver using file read/write
-- Removed sysfs attribute creation of trackpoint double tap here.
-- Reversed the logic and return false right away
-- Dropped unnecessary debug messages
-- Using dev_dbg() instead of pr_xxxx()
+Changes in v5:
+  - None; resend v4 due to bounced email submission.
+Changes in v4:
+  - Minor changes recommended by Hans de Goede <hansg@kernel.org>.
 Changes in v3:
-- No changes
----
- drivers/platform/x86/lenovo/thinkpad_acpi.c | 155 +++++++++++++++++++-
- 1 file changed, 147 insertions(+), 8 deletions(-)
+  - Re-revise commit message.
+  - Conditionally compile the section depending on
+    CONFIG_LEDS_BRIGHTNESS_HW_CHANGED correctly this time.
+  - Use led-class-multicolor facilities for the RGB backlight.
+  - Changes recommended by Kate Hsuan <hpa@redhat.com>:
+    - Use guard(mutex) construct.
+    - Fix numerous style nits.
+Changes in v2:
+  - Add `#ifdef CONFIG_LEDS_BRIGHTNESS_HW_CHANGED` bracket around new
+    code segment dependent on that feature (fixes test robot build
+    error).
+  - Use `guard(mutex)` construct in new code (existing code left
+    unmodified).
+  - Commit message revised.
 
-diff --git a/drivers/platform/x86/lenovo/thinkpad_acpi.c b/drivers/platform/x86/lenovo/thinkpad_acpi.c
-index cc19fe520ea9..f5070442a7ba 100644
---- a/drivers/platform/x86/lenovo/thinkpad_acpi.c
-+++ b/drivers/platform/x86/lenovo/thinkpad_acpi.c
-@@ -72,6 +72,13 @@
- #include <linux/units.h>
- #include <linux/workqueue.h>
+ drivers/hid/hid-ids.h    |   1 +
+ drivers/hid/hid-lg-g15.c | 426 +++++++++++++++++++++++++++++++++++++--
+ 2 files changed, 411 insertions(+), 16 deletions(-)
+
+diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+index 33cc5820f2be..7ed1e402b80a 100644
+--- a/drivers/hid/hid-ids.h
++++ b/drivers/hid/hid-ids.h
+@@ -870,6 +870,7 @@
+ #define USB_DEVICE_ID_LOGITECH_DUAL_ACTION	0xc216
+ #define USB_DEVICE_ID_LOGITECH_RUMBLEPAD2	0xc218
+ #define USB_DEVICE_ID_LOGITECH_RUMBLEPAD2_2	0xc219
++#define USB_DEVICE_ID_LOGITECH_G13		0xc21c
+ #define USB_DEVICE_ID_LOGITECH_G15_LCD		0xc222
+ #define USB_DEVICE_ID_LOGITECH_G11		0xc225
+ #define USB_DEVICE_ID_LOGITECH_G15_V2_LCD	0xc227
+diff --git a/drivers/hid/hid-lg-g15.c b/drivers/hid/hid-lg-g15.c
+index f8605656257b..62cb795c2393 100644
+--- a/drivers/hid/hid-lg-g15.c
++++ b/drivers/hid/hid-lg-g15.c
+@@ -26,7 +26,11 @@
+ #define LG_G510_FEATURE_BACKLIGHT_RGB	0x05
+ #define LG_G510_FEATURE_POWER_ON_RGB	0x06
  
-+#include <linux/fs.h>
-+#include <linux/file.h>
-+#include <linux/err.h>
-+#include <linux/fcntl.h>
-+#include <linux/namei.h>
-+#include <linux/kernel_read_file.h>
++#define LG_G13_FEATURE_M_KEYS_LEDS	0x05
++#define LG_G13_FEATURE_BACKLIGHT_RGB	0x07
 +
- #include <acpi/battery.h>
- #include <acpi/video.h>
+ enum lg_g15_model {
++	LG_G13,
+ 	LG_G15,
+ 	LG_G15_V2,
+ 	LG_G510,
+@@ -45,6 +49,12 @@ enum lg_g15_led_type {
+ 	LG_G15_LED_MAX
+ };
  
-@@ -373,7 +380,8 @@ static struct {
- 	u32 hotkey_poll_active:1;
- 	u32 has_adaptive_kbd:1;
- 	u32 kbd_lang:1;
--	u32 trackpoint_doubletap:1;
-+	u32 trackpoint_doubletap_state:1;
-+	u32 trackpoint_doubletap_capable:1;
- 	struct quirk_entry *quirks;
- } tp_features;
++struct g13_input_report {
++	u8 report_id;	/* Report ID is always set to 1. */
++	u8 joy_x, joy_y;
++	u8 keybits[5];
++};
++
+ struct lg_g15_led {
+ 	union {
+ 		struct led_classdev cdev;
+@@ -63,12 +73,172 @@ struct lg_g15_data {
+ 	struct mutex mutex;
+ 	struct work_struct work;
+ 	struct input_dev *input;
++	struct input_dev *input_js; /* Separate joystick device for G13. */
+ 	struct hid_device *hdev;
+ 	enum lg_g15_model model;
+ 	struct lg_g15_led leds[LG_G15_LED_MAX];
+ 	bool game_mode_enabled;
+ };
  
-@@ -2879,6 +2887,107 @@ static DEVICE_ATTR_RW(hotkey_poll_freq);
- 
- #endif /* CONFIG_THINKPAD_ACPI_HOTKEY_POLL */
- 
++/********* G13 LED functions ***********/
 +/*
-+ * Trackpoint doubletap handlers
-+ * These set of functions will communicate with the sysfs attributes of TrackPoint driver
-+ * Attribute : /sys/bus/serio/devices/seriox/doubletap_enabled
++ * G13 retains no state across power cycles, and always powers up with the backlight on,
++ * color #5AFF6E, all macro key LEDs off.
 + */
-+
-+/* Global buffer to reuse path */
-+static char trackpoint_doubletap_path[128];
-+
-+/* Function to find the correct serio path with TrackPoint attribute "doubletap_enabled" */
-+static int thinkpad_find_trackpoint_path(void)
++static int lg_g13_get_leds_state(struct lg_g15_data *g15)
 +{
-+	struct path serio_path;
-+	char path_buf[128];
-+	int i;
++	u8 * const tbuf = g15->transfer_buf;
++	int ret, high;
 +
-+	for (i = 0; i < 10; i++) {
-+		snprintf(path_buf, sizeof(path_buf),
-+		"/sys/bus/serio/devices/serio%d/doubletap_enabled", i);
-+
-+		if (!kern_path(path_buf, LOOKUP_FOLLOW, &serio_path)) {
-+			path_put(&serio_path);
-+			snprintf(trackpoint_doubletap_path, sizeof(trackpoint_doubletap_path),
-+				"%s", path_buf);
-+			pr_info("ThinkPad ACPI: TrackPoint doubletap found at %s\n",
-+				trackpoint_doubletap_path);
-+			return 0;
-+		}
-+	}
-+	return -ENODEV;
-+}
-+
-+/* Writing to the sysfs attribute of Trackpoint "doubletap_enabled" */
-+static int write_doubletap_sysfs_value(const void *buf, size_t count, loff_t *pos)
-+{
-+	struct file *filp;
-+	ssize_t written;
-+
-+	if (!buf)
-+		return -EINVAL;
-+
-+	filp = filp_open(trackpoint_doubletap_path, O_WRONLY | O_CREAT, 0644);
-+	if (IS_ERR(filp))
-+		return PTR_ERR(filp);
-+
-+	/* Required to avoid EINVAL from vfs checks in some cases */
-+	if (!(filp->f_mode & FMODE_CAN_WRITE)) {
-+		filp_close(filp, NULL);
-+		return -EINVAL;
++	/* RGB backlight. */
++	ret = hid_hw_raw_request(g15->hdev, LG_G13_FEATURE_BACKLIGHT_RGB,
++				 tbuf, 5,
++				 HID_FEATURE_REPORT, HID_REQ_GET_REPORT);
++	if (ret != 5) {
++		hid_err(g15->hdev, "Error getting backlight brightness: %d\n", ret);
++		return (ret < 0) ? ret : -EIO;
 +	}
 +
-+	/* Write using kernel_write */
-+	written = kernel_write(filp, buf, count, pos);
-+	filp_close(filp, NULL);
++	/* Normalize RGB intensities against the highest component. */
++	high = max3(tbuf[1], tbuf[2], tbuf[3]);
++	if (high) {
++		g15->leds[LG_G15_KBD_BRIGHTNESS].red =
++			DIV_ROUND_CLOSEST(tbuf[1] * 255, high);
++		g15->leds[LG_G15_KBD_BRIGHTNESS].green =
++			DIV_ROUND_CLOSEST(tbuf[2] * 255, high);
++		g15->leds[LG_G15_KBD_BRIGHTNESS].blue =
++			DIV_ROUND_CLOSEST(tbuf[3] * 255, high);
++		g15->leds[LG_G15_KBD_BRIGHTNESS].brightness = high;
++	} else {
++		g15->leds[LG_G15_KBD_BRIGHTNESS].red        = 255;
++		g15->leds[LG_G15_KBD_BRIGHTNESS].green      = 255;
++		g15->leds[LG_G15_KBD_BRIGHTNESS].blue       = 255;
++		g15->leds[LG_G15_KBD_BRIGHTNESS].brightness = 0;
++	}
 +
-+	return written < 0 ? written : 0;
-+}
++	/* Macro LEDs. */
++	ret = hid_hw_raw_request(g15->hdev, LG_G13_FEATURE_M_KEYS_LEDS,
++				 tbuf, 5,
++				 HID_FEATURE_REPORT, HID_REQ_GET_REPORT);
++	if (ret != 5) {
++		hid_err(g15->hdev, "Error getting macro LED brightness: %d\n", ret);
++		return (ret < 0) ? ret : -EIO;
++	}
 +
-+/* Function to read the TrackPoint doubletap status */
-+static int trackpoint_read_doubletap_status(bool *enabled)
-+{
-+	struct file *filp;
-+	loff_t pos = 0;
-+	char buf[8];
-+	ssize_t ret;
-+
-+	if (!enabled)
-+		return -EINVAL;
-+
-+	if (!trackpoint_doubletap_path[0])
-+		return -ENODEV;
-+
-+	filp = filp_open(trackpoint_doubletap_path, O_RDONLY, 0);
-+	if (IS_ERR(filp))
-+		return PTR_ERR(filp);
-+
-+	ret = kernel_read(filp, buf, sizeof(buf) - 1, &pos);
-+	filp_close(filp, NULL);
-+
-+	if (ret < 0)
-+		return ret;
-+
-+	buf[ret] = '\0'; // Safe: ret < sizeof(buf)
-+
-+	*enabled = (buf[0] == '1');
++	for (int i = LG_G15_MACRO_PRESET1; i < LG_G15_LED_MAX; ++i)
++		g15->leds[i].brightness = tbuf[1] & (1 << (i - LG_G15_MACRO_PRESET1));
 +
 +	return 0;
 +}
 +
-+/* Function to check the TrackPoint doubletap status */
-+static int thinkpad_set_doubletap_status(bool enable)
++static int lg_g13_kbd_led_write(struct lg_g15_data *g15,
++				struct lg_g15_led *g15_led,
++				enum led_brightness brightness)
 +{
-+	const char *val = enable ? "1" : "0";
-+	loff_t pos = 0;
++	struct mc_subled const * const subleds = g15_led->mcdev.subled_info;
++	u8 * const tbuf = g15->transfer_buf;
++	int ret;
 +
-+	if (!trackpoint_doubletap_path[0])
-+		return -ENODEV;
++	guard(mutex)(&g15->mutex);
 +
-+	return write_doubletap_sysfs_value(val, strlen(val), &pos);
++	led_mc_calc_color_components(&g15_led->mcdev, brightness);
++
++	tbuf[0] = 5;
++	tbuf[1] = subleds[0].brightness;
++	tbuf[2] = subleds[1].brightness;
++	tbuf[3] = subleds[2].brightness;
++	tbuf[4] = 0;
++
++	ret = hid_hw_raw_request(g15->hdev, LG_G13_FEATURE_BACKLIGHT_RGB,
++				 tbuf, 5,
++				 HID_FEATURE_REPORT, HID_REQ_SET_REPORT);
++	if (ret != 5) {
++		hid_err(g15->hdev, "Error setting backlight brightness: %d\n", ret);
++		return (ret < 0) ? ret : -EIO;
++	}
++
++	g15_led->brightness = brightness;
++	return 0;
 +}
 +
- /* sysfs hotkey radio_sw (pollable) ------------------------------------ */
- static ssize_t hotkey_radio_sw_show(struct device *dev,
- 			   struct device_attribute *attr,
-@@ -3326,6 +3435,8 @@ static int __init hotkey_init(struct ibm_init_struct *iibm)
- 	bool radiosw_state  = false;
- 	bool tabletsw_state = false;
- 	int hkeyv, res, status, camera_shutter_state;
-+	bool dt_state;
-+	int rc;
- 
- 	vdbg_printk(TPACPI_DBG_INIT | TPACPI_DBG_HKEY,
- 			"initializing hotkey subdriver\n");
-@@ -3557,9 +3668,22 @@ static int __init hotkey_init(struct ibm_init_struct *iibm)
- 
- 	hotkey_poll_setup_safe(true);
- 
--	/* Enable doubletap by default */
--	tp_features.trackpoint_doubletap = 1;
-+	/* Checking doubletap status by default */
-+	rc = thinkpad_find_trackpoint_path();
-+	if (rc) {
-+		dev_dbg(&tpacpi_pdev->dev, "Could not find TrackPoint doubletap sysfs path\n");
-+		tp_features.trackpoint_doubletap_capable = false;
++static int lg_g13_kbd_led_set(struct led_classdev *led_cdev, enum led_brightness brightness)
++{
++	struct led_classdev_mc *mc = lcdev_to_mccdev(led_cdev);
++	struct lg_g15_led *g15_led =
++		container_of(mc, struct lg_g15_led, mcdev);
++	struct lg_g15_data *g15 = dev_get_drvdata(led_cdev->dev->parent);
++
++	/* Ignore LED off on unregister / keyboard unplug */
++	if (led_cdev->flags & LED_UNREGISTERING)
 +		return 0;
++
++	return lg_g13_kbd_led_write(g15, g15_led, brightness);
++}
++
++static enum led_brightness lg_g13_kbd_led_get(struct led_classdev *led_cdev)
++{
++	struct led_classdev_mc const * const mc = lcdev_to_mccdev(led_cdev);
++	struct lg_g15_led const *g15_led =
++		container_of(mc, struct lg_g15_led, mcdev);
++
++	return g15_led->brightness;
++}
++
++static int lg_g13_mkey_led_set(struct led_classdev *led_cdev, enum led_brightness brightness)
++{
++	struct lg_g15_led *g15_led =
++		container_of(led_cdev, struct lg_g15_led, cdev);
++	struct lg_g15_data *g15 = dev_get_drvdata(led_cdev->dev->parent);
++	int i, ret;
++	u8 * const tbuf = g15->transfer_buf;
++	u8 val, mask = 0;
++
++	/* Ignore LED off on unregister / keyboard unplug */
++	if (led_cdev->flags & LED_UNREGISTERING)
++		return 0;
++
++	guard(mutex)(&g15->mutex);
++
++	for (i = LG_G15_MACRO_PRESET1; i < LG_G15_LED_MAX; ++i) {
++		if (i == g15_led->led)
++			val = brightness;
++		else
++			val = g15->leds[i].brightness;
++
++		if (val)
++			mask |= 1 << (i - LG_G15_MACRO_PRESET1);
 +	}
-+	tp_features.trackpoint_doubletap_capable = true;
++
++	tbuf[0] = 5;
++	tbuf[1] = mask;
++	tbuf[2] = 0;
++	tbuf[3] = 0;
++	tbuf[4] = 0;
++
++	ret = hid_hw_raw_request(g15->hdev, LG_G13_FEATURE_M_KEYS_LEDS,
++				 tbuf, 5,
++				 HID_FEATURE_REPORT, HID_REQ_SET_REPORT);
++	if (ret != 5) {
++		hid_err(g15->hdev, "Error setting LED brightness: %d\n", ret);
++		return (ret < 0) ? ret : -EIO;
++	}
++
++	g15_led->brightness = brightness;
++	return 0;
++}
++
++static enum led_brightness lg_g13_mkey_led_get(struct led_classdev *led_cdev)
++{
++	/*
++	 * G13 doesn't change macro key LEDs behind our back, so they're
++	 * whatever we last set them to.
++	 */
++	struct lg_g15_led *g15_led =
++		container_of(led_cdev, struct lg_g15_led, cdev);
++
++	return g15_led->brightness;
++}
++
+ /******** G15 and G15 v2 LED functions ********/
  
-+	rc = trackpoint_read_doubletap_status(&dt_state);
-+	if (rc) {
-+		/* Disable if access to register fails */
-+		dt_state = false;
-+		dev_dbg(&tpacpi_pdev->dev, "Doubletap failed to check status\n");
+ static int lg_g15_update_led_brightness(struct lg_g15_data *g15)
+@@ -390,6 +560,8 @@ static int lg_g15_get_initial_led_brightness(struct lg_g15_data *g15)
+ 	int ret;
+ 
+ 	switch (g15->model) {
++	case LG_G13:
++		return lg_g13_get_leds_state(g15);
+ 	case LG_G15:
+ 	case LG_G15_V2:
+ 		return lg_g15_update_led_brightness(g15);
+@@ -417,6 +589,116 @@ static int lg_g15_get_initial_led_brightness(struct lg_g15_data *g15)
+ 
+ /******** Input functions ********/
+ 
++/**
++ * g13_input_report.keybits[] is not 32-bit aligned, so we can't use the bitops macros.
++ *
++ * @ary: Pointer to array of u8s
++ * @b: Bit index into ary, LSB first.  Not range checked.
++ */
++#define	TEST_BIT(ary, b)	((1 << ((b) & 7)) & (ary)[(b) >> 3])
++
++/* Table mapping keybits[] bit positions to event codes. */
++/* Note: Indices are discontinuous to aid readability. */
++static const u16 g13_keys_for_bits[] = {
++	/* Main keypad - keys G1 - G22 */
++	[0] = KEY_MACRO1,
++	[1] = KEY_MACRO2,
++	[2] = KEY_MACRO3,
++	[3] = KEY_MACRO4,
++	[4] = KEY_MACRO5,
++	[5] = KEY_MACRO6,
++	[6] = KEY_MACRO7,
++	[7] = KEY_MACRO8,
++	[8] = KEY_MACRO9,
++	[9] = KEY_MACRO10,
++	[10] = KEY_MACRO11,
++	[11] = KEY_MACRO12,
++	[12] = KEY_MACRO13,
++	[13] = KEY_MACRO14,
++	[14] = KEY_MACRO15,
++	[15] = KEY_MACRO16,
++	[16] = KEY_MACRO17,
++	[17] = KEY_MACRO18,
++	[18] = KEY_MACRO19,
++	[19] = KEY_MACRO20,
++	[20] = KEY_MACRO21,
++	[21] = KEY_MACRO22,
++
++	/* LCD menu buttons. */
++	[24] = KEY_KBD_LCD_MENU5,	/* "Next page" button */
++	[25] = KEY_KBD_LCD_MENU1,	/* Left-most */
++	[26] = KEY_KBD_LCD_MENU2,
++	[27] = KEY_KBD_LCD_MENU3,
++	[28] = KEY_KBD_LCD_MENU4,	/* Right-most */
++
++	/* Macro preset and record buttons; have red LEDs under them. */
++	[29] = KEY_MACRO_PRESET1,
++	[30] = KEY_MACRO_PRESET2,
++	[31] = KEY_MACRO_PRESET3,
++	[32] = KEY_MACRO_RECORD_START,
++
++	/* 33-35 handled by joystick device. */
++
++	/* Backlight toggle. */
++	[37] = KEY_LIGHTS_TOGGLE,
++};
++
++#define	G13_JS_KEYBITS_OFFSET	33
++
++static const u16 g13_keys_for_bits_js[] = {
++	/* Joystick buttons */
++	/* These keybits are at bit indices 33, 34, and 35. */
++	BTN_BASE,	/* Left side */
++	BTN_BASE2,	/* Bottom side */
++	BTN_THUMB,	/* Stick depress */
++};
++
++static int lg_g13_event(struct lg_g15_data *g15, u8 const *data)
++{
++	struct g13_input_report const * const rep = (struct g13_input_report *) data;
++	int i, val;
++
++	/*
++	 * Main macropad and menu keys.
++	 * Emit key events defined for each bit position.
++	 */
++	for (i = 0; i < ARRAY_SIZE(g13_keys_for_bits); ++i) {
++		if (g13_keys_for_bits[i]) {
++			val = TEST_BIT(rep->keybits, i);
++			input_report_key(g15->input, g13_keys_for_bits[i], val);
++		}
 +	}
-+	tp_features.trackpoint_doubletap_state = dt_state;
- 	return 0;
++	input_sync(g15->input);
++
++	/*
++	 * Joystick.
++	 * Emit button and deflection events.
++	 */
++	for (i = 0; i < ARRAY_SIZE(g13_keys_for_bits_js); ++i) {
++		val = TEST_BIT(rep->keybits, i + G13_JS_KEYBITS_OFFSET);
++		input_report_key(g15->input_js, g13_keys_for_bits_js[i], val);
++	}
++	input_report_abs(g15->input_js, ABS_X, rep->joy_x);
++	input_report_abs(g15->input_js, ABS_Y, rep->joy_y);
++	input_sync(g15->input_js);
++
++	if (IS_ENABLED(CONFIG_LEDS_BRIGHTNESS_HW_CHANGED)) {
++		/*
++		 * Bit 23 of keybits[] reports the current backlight on/off
++		 * state.  If it has changed from the last cached value, apply
++		 * an update.
++		 */
++		bool hw_brightness_changed = (!!TEST_BIT(rep->keybits, 23))
++					   ^ (g15->leds[0].cdev.brightness_hw_changed > 0);
++		if (hw_brightness_changed)
++			led_classdev_notify_brightness_hw_changed(
++				&g15->leds[0].cdev,
++				TEST_BIT(rep->keybits, 23) ? LED_FULL : LED_OFF);
++	}
++
++	return 0;
++}
++
+ /* On the G15 Mark I Logitech has been quite creative with which bit is what */
+ static void lg_g15_handle_lcd_menu_keys(struct lg_g15_data *g15, u8 *data)
+ {
+@@ -572,6 +854,10 @@ static int lg_g15_raw_event(struct hid_device *hdev, struct hid_report *report,
+ 		return 0;
+ 
+ 	switch (g15->model) {
++	case LG_G13:
++		if (data[0] == 0x01 && size == sizeof(struct g13_input_report))
++			return lg_g13_event(g15, data);
++		break;
+ 	case LG_G15:
+ 		if (data[0] == 0x02 && size == 9)
+ 			return lg_g15_event(g15, data);
+@@ -616,13 +902,22 @@ static void lg_g15_setup_led_rgb(struct lg_g15_data *g15, int index)
+ {
+ 	int i;
+ 	struct mc_subled *subled_info;
+-
+-	g15->leds[index].mcdev.led_cdev.brightness_set_blocking =
+-		lg_g510_kbd_led_set;
+-	g15->leds[index].mcdev.led_cdev.brightness_get =
+-		lg_g510_kbd_led_get;
+-	g15->leds[index].mcdev.led_cdev.max_brightness = 255;
+-	g15->leds[index].mcdev.num_colors = 3;
++	struct lg_g15_led * const gled = &g15->leds[index];
++
++	if (g15->model == LG_G13) {
++		gled->mcdev.led_cdev.brightness_set_blocking =
++			lg_g13_kbd_led_set;
++		gled->mcdev.led_cdev.brightness_get =
++			lg_g13_kbd_led_get;
++		gled->mcdev.led_cdev.flags = LED_BRIGHT_HW_CHANGED;
++	} else {
++		gled->mcdev.led_cdev.brightness_set_blocking =
++			lg_g510_kbd_led_set;
++		gled->mcdev.led_cdev.brightness_get =
++			lg_g510_kbd_led_get;
++	}
++	gled->mcdev.led_cdev.max_brightness = 255;
++	gled->mcdev.num_colors = 3;
+ 
+ 	subled_info = devm_kcalloc(&g15->hdev->dev, 3, sizeof(*subled_info), GFP_KERNEL);
+ 	if (!subled_info)
+@@ -632,20 +927,20 @@ static void lg_g15_setup_led_rgb(struct lg_g15_data *g15, int index)
+ 		switch (i + 1) {
+ 		case LED_COLOR_ID_RED:
+ 			subled_info[i].color_index = LED_COLOR_ID_RED;
+-			subled_info[i].intensity = g15->leds[index].red;
++			subled_info[i].intensity = gled->red;
+ 			break;
+ 		case LED_COLOR_ID_GREEN:
+ 			subled_info[i].color_index = LED_COLOR_ID_GREEN;
+-			subled_info[i].intensity = g15->leds[index].green;
++			subled_info[i].intensity = gled->green;
+ 			break;
+ 		case LED_COLOR_ID_BLUE:
+ 			subled_info[i].color_index = LED_COLOR_ID_BLUE;
+-			subled_info[i].intensity = g15->leds[index].blue;
++			subled_info[i].intensity = gled->blue;
+ 			break;
+ 		}
+ 		subled_info[i].channel = i;
+ 	}
+-	g15->leds[index].mcdev.subled_info = subled_info;
++	gled->mcdev.subled_info = subled_info;
  }
  
-@@ -3863,9 +3987,7 @@ static bool hotkey_notify_8xxx(const u32 hkey, bool *send_acpi_ev)
- {
- 	switch (hkey) {
- 	case TP_HKEY_EV_TRACK_DOUBLETAP:
--		if (tp_features.trackpoint_doubletap)
--			tpacpi_input_send_key(hkey, send_acpi_ev);
--
-+		*send_acpi_ev = true;
- 		return true;
- 	default:
- 		return false;
-@@ -11194,6 +11316,7 @@ static struct platform_driver tpacpi_hwmon_pdriver = {
- static bool tpacpi_driver_event(const unsigned int hkey_event)
- {
- 	int camera_shutter_state;
-+	int rc;
+ static int lg_g15_register_led(struct lg_g15_data *g15, int i, const char *name)
+@@ -656,6 +951,23 @@ static int lg_g15_register_led(struct lg_g15_data *g15, int i, const char *name)
+ 	g15->leds[i].cdev.name = name;
  
- 	switch (hkey_event) {
- 	case TP_HKEY_EV_BRGHT_UP:
-@@ -11285,8 +11408,24 @@ static bool tpacpi_driver_event(const unsigned int hkey_event)
- 		mutex_unlock(&tpacpi_inputdev_send_mutex);
- 		return true;
- 	case TP_HKEY_EV_DOUBLETAP_TOGGLE:
--		tp_features.trackpoint_doubletap = !tp_features.trackpoint_doubletap;
--		return true;
-+		if (tp_features.trackpoint_doubletap_capable) {
-+			rc = thinkpad_set_doubletap_status(!tp_features.trackpoint_doubletap_state);
+ 	switch (g15->model) {
++	case LG_G13:
++		if (i < LG_G15_BRIGHTNESS_MAX) {
++			/* RGB backlight. */
++			lg_g15_setup_led_rgb(g15, i);
++			ret = devm_led_classdev_multicolor_register_ext(&g15->hdev->dev,
++									&g15->leds[i].mcdev,
++									NULL);
++		} else {
++			/* Macro keys */
++			g15->leds[i].cdev.brightness_set_blocking = lg_g13_mkey_led_set;
++			g15->leds[i].cdev.brightness_get = lg_g13_mkey_led_get;
++			g15->leds[i].cdev.max_brightness = 1;
 +
-+			if (rc) {
-+				dev_dbg(&tpacpi_pdev->dev, "Trackpoint doubletap toggle failed\n");
-+			} else {
-+				tp_features.trackpoint_doubletap_state =
-+					!tp_features.trackpoint_doubletap_state;
-+				dev_dbg(&tpacpi_pdev->dev, "Trackpoint doubletap is %s\n",
-+						tp_features.trackpoint_doubletap_state ? "enabled" : "disabled");
-+				return true;
++			ret = devm_led_classdev_register(&g15->hdev->dev,
++							 &g15->leds[i].cdev);
++		}
++		break;
+ 	case LG_G15:
+ 	case LG_G15_V2:
+ 		g15->leds[i].cdev.brightness_get = lg_g15_led_get;
+@@ -702,11 +1014,9 @@ static int lg_g15_register_led(struct lg_g15_data *g15, int i, const char *name)
+ }
+ 
+ /* Common input device init code shared between keyboards and Z-10 speaker handling */
+-static void lg_g15_init_input_dev(struct hid_device *hdev, struct input_dev *input,
+-				  const char *name)
++static void lg_g15_init_input_dev_core(struct hid_device *hdev, struct input_dev *input,
++				       char const *name)
+ {
+-	int i;
+-
+ 	input->name = name;
+ 	input->phys = hdev->phys;
+ 	input->uniq = hdev->uniq;
+@@ -717,12 +1027,42 @@ static void lg_g15_init_input_dev(struct hid_device *hdev, struct input_dev *inp
+ 	input->dev.parent = &hdev->dev;
+ 	input->open = lg_g15_input_open;
+ 	input->close = lg_g15_input_close;
++}
++
++static void lg_g15_init_input_dev(struct hid_device *hdev, struct input_dev *input,
++				  const char *name)
++{
++	int i;
++
++	lg_g15_init_input_dev_core(hdev, input, name);
+ 
+ 	/* Keys below the LCD, intended for controlling a menu on the LCD */
+ 	for (i = 0; i < 5; i++)
+ 		input_set_capability(input, EV_KEY, KEY_KBD_LCD_MENU1 + i);
+ }
+ 
++static void lg_g13_init_input_dev(struct hid_device *hdev,
++				  struct input_dev *input, const char *name,
++				  struct input_dev *input_js, const char *name_js)
++{
++	/* Macropad. */
++	lg_g15_init_input_dev_core(hdev, input, name);
++	for (int i = 0; i < ARRAY_SIZE(g13_keys_for_bits); ++i) {
++		if (g13_keys_for_bits[i])
++			input_set_capability(input, EV_KEY, g13_keys_for_bits[i]);
++	}
++
++	/* OBTW, we're a joystick, too... */
++	lg_g15_init_input_dev_core(hdev, input_js, name_js);
++	for (int i = 0; i < ARRAY_SIZE(g13_keys_for_bits_js); ++i)
++		input_set_capability(input_js, EV_KEY, g13_keys_for_bits_js[i]);
++
++	input_set_capability(input_js, EV_ABS, ABS_X);
++	input_set_abs_params(input_js, ABS_X, 0, 255, 0, 0);
++	input_set_capability(input_js, EV_ABS, ABS_Y);
++	input_set_abs_params(input_js, ABS_Y, 0, 255, 0, 0);
++}
++
+ static int lg_g15_probe(struct hid_device *hdev, const struct hid_device_id *id)
+ {
+ 	static const char * const led_names[] = {
+@@ -739,7 +1079,7 @@ static int lg_g15_probe(struct hid_device *hdev, const struct hid_device_id *id)
+ 	unsigned int connect_mask = 0;
+ 	bool has_ff000000 = false;
+ 	struct lg_g15_data *g15;
+-	struct input_dev *input;
++	struct input_dev *input, *input_js;
+ 	struct hid_report *rep;
+ 	int ret, i, gkeys = 0;
+ 
+@@ -778,6 +1118,25 @@ static int lg_g15_probe(struct hid_device *hdev, const struct hid_device_id *id)
+ 	hid_set_drvdata(hdev, (void *)g15);
+ 
+ 	switch (g15->model) {
++	case LG_G13:
++		/*
++		 * The G13 has an analog thumbstick with nearby buttons.  Some
++		 * libraries and applications are known to ignore devices that
++		 * don't "look like" a joystick, and a device with two ABS axes
++		 * and 25+ macro keys would confuse them.
++		 *
++		 * Create an additional input device dedicated to appear as a
++		 * simplified joystick (two ABS axes, three BTN buttons).
++		 */
++		input_js = devm_input_allocate_device(&hdev->dev);
++		if (!input_js)
++			return -ENOMEM;
++		g15->input_js = input_js;
++		input_set_drvdata(input_js, hdev);
++
++		connect_mask = HID_CONNECT_HIDRAW;
++		gkeys = 25;
++		break;
+ 	case LG_G15:
+ 		INIT_WORK(&g15->work, lg_g15_leds_changed_work);
+ 		/*
+@@ -859,6 +1218,34 @@ static int lg_g15_probe(struct hid_device *hdev, const struct hid_device_id *id)
+ 			goto error_hw_stop;
+ 
+ 		return 0; /* All done */
++	} else if (g15->model == LG_G13) {
++		static char const * const g13_led_names[] = {
++			/* Backlight is shared between LCD and keys. */
++			"g13:rgb:kbd_backlight",
++			NULL,	/* Keep in sync with led_type enum */
++			"g13:red:macro_preset_1",
++			"g13:red:macro_preset_2",
++			"g13:red:macro_preset_3",
++			"g13:red:macro_record",
++		};
++		lg_g13_init_input_dev(hdev,
++				      input, "Logitech G13 Gaming Keypad",
++				      input_js, "Logitech G13 Thumbstick");
++		ret = input_register_device(input);
++		if (ret)
++			goto error_hw_stop;
++		ret = input_register_device(input_js);
++		if (ret)
++			goto error_hw_stop;
++
++		for (i = 0; i < ARRAY_SIZE(g13_led_names); ++i) {
++			if (g13_led_names[i]) {
++				ret = lg_g15_register_led(g15, i, g13_led_names[i]);
++				if (ret)
++					goto error_hw_stop;
 +			}
 +		}
-+		/*
-+		 * Suppress the event if Doubletap is not supported
-+		 * or if the trackpoint_set_doubletap_status() is failing
-+		 */
-+		return false;
- 	case TP_HKEY_EV_PROFILE_TOGGLE:
- 	case TP_HKEY_EV_PROFILE_TOGGLE2:
- 		platform_profile_cycle();
++		return 0;
+ 	}
+ 
+ 	/* Setup and register input device */
+@@ -903,6 +1290,13 @@ static int lg_g15_probe(struct hid_device *hdev, const struct hid_device_id *id)
+ }
+ 
+ static const struct hid_device_id lg_g15_devices[] = {
++	/*
++	 * The G13 is a macropad-only device with an LCD, LED backlighing,
++	 * and joystick.
++	 */
++	{ HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH,
++			 USB_DEVICE_ID_LOGITECH_G13),
++		.driver_data = LG_G13 },
+ 	/* The G11 is a G15 without the LCD, treat it as a G15 */
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH,
+ 		USB_DEVICE_ID_LOGITECH_G11),
 -- 
-2.48.1
+2.51.0
 
 
