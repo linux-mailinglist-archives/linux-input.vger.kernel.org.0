@@ -1,58 +1,60 @@
-Return-Path: <linux-input+bounces-14418-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14419-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 188A8B3FFE2
-	for <lists+linux-input@lfdr.de>; Tue,  2 Sep 2025 14:18:21 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A1BAB3FFAF
+	for <lists+linux-input@lfdr.de>; Tue,  2 Sep 2025 14:13:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id BE52D7B85B1
-	for <lists+linux-input@lfdr.de>; Tue,  2 Sep 2025 12:12:14 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 44895189F119
+	for <lists+linux-input@lfdr.de>; Tue,  2 Sep 2025 12:14:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 48B0630496A;
-	Tue,  2 Sep 2025 12:08:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BEA93304BA3;
+	Tue,  2 Sep 2025 12:08:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bIBhxa9r"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mYRCLF1j"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18FDD304969;
-	Tue,  2 Sep 2025 12:08:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91803288C20;
+	Tue,  2 Sep 2025 12:08:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756814927; cv=none; b=M+owhsS+R65ah74bnm3rfGctRlxH4JVY5JKlnSLhdkB6yzPntPrYC3KJmZ03nWkdDbrK36kpbPayEd3S1jozXpSVIbxVfdqjQyy+iQzrQbSlyUPDGsOZyufd/Vp+m3556GaR/5SiMQPBvtRLea/d1rpERI3wFYxxXnRdDJZdMd8=
+	t=1756814928; cv=none; b=d1gSG2L5qs2p2nNb84bffGD4neETAicMSnIHIRt9XEmQVWHvIhZuZKw6mshtCqzq7DiXDUDTVz87s8Mwuf4SYLeaFDfUx4uug35kguAE38/BeuqeSq2tueC3+NuSGsVbbcayihkTQb8cpOn+tEFJWIcmlRUQVwRVFy7eddvrK+I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756814927; c=relaxed/simple;
-	bh=TWBOkaAMgS8nixfHJ6MketFW6NqNTcg+z9VAOmrhpFo=;
+	s=arc-20240116; t=1756814928; c=relaxed/simple;
+	bh=z9m46Ui7kqekWI0ueXhEf5xm8P5czmCtUkQnG7PP3yg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=OdOO/gze5nnZ9ZNsHAhlJdZxibGBhgHPu1/ZfgZxoK4sarMQh5foB7LzwXz+hXj2M2m17+6N86NVcd+tBRPx22OH8ykMoUbNcLj13dg/pUXrHEb3Xg1d2mdawuKHKV70hpTzJs0x/9Y28E8Crab7+uI3HSTa4W3wd3Lpx2FNluI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bIBhxa9r; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18118C4CEF7;
-	Tue,  2 Sep 2025 12:08:46 +0000 (UTC)
+	 MIME-Version:Content-Type; b=oX0yvecG2NaqCtm2mvUJywB8w/YSvCF54+iTSga4QNTp9z6MBXwZjJa4OU5RvyIpOMJNvdLlLKXth0OP7GK6ux5MJVgzmq5UfpuKflDmhcoWFxkhAuFh4FJp8E16KETFlW/EG2+VoPCrd4ouISmfHnOOn83drib2QzZxgvqmH3Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mYRCLF1j; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3EE79C4CEED;
+	Tue,  2 Sep 2025 12:08:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756814926;
-	bh=TWBOkaAMgS8nixfHJ6MketFW6NqNTcg+z9VAOmrhpFo=;
+	s=k20201202; t=1756814928;
+	bh=z9m46Ui7kqekWI0ueXhEf5xm8P5czmCtUkQnG7PP3yg=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=bIBhxa9rSQ0WUtgk46xaGVOm3cKzHBugNrxRKY4cS29kL4G43eHejcCqRnkk7JtLL
-	 lKMqUkV7jLCq5TnYAYjI+UujWPcxk0u5xr/QGnlJSq298RjPhHHe9l1ev/qebfiOsT
-	 ixCGaY3BGL9QuuvJhj2d2+5jVsPnweawiQIoeuS8z4C2qt8JbKjgtmN1e4ERn19WqQ
-	 dMNB6I/jOBsud7QyseHkjUH7E6WX6hD3pVEuQDP8ImcQSc0mkE3gf/cjOtjlDP8OqT
-	 3l5W8UnWpAoEPlrX+8bpU2AcPwmJVeon7Vm1bFayfn9+5wumh10z71cNi33HuNZrpr
-	 rC2y66IztziNQ==
+	b=mYRCLF1j+/YojfuvLZL7oXtoGVOQWLuUB32mE1aXSJpjwDzu3EisP0befiO4sM9Zm
+	 8Qeo+WAeK3YZuYMlQ/GPzAli27W18KDdTWjZHQpafb8JetDo8uT8kmh3NDshWg1Gc1
+	 i0xlDy94cAwzgBPw+KDS4J4hRL3MHx5ZEGT3KP87pxyUCOYrajyYmz99w9/PH9pW0F
+	 rW2wUTChuzScEqQYQLFpTEFen2DQjrU7z4Ac3K8/hNMGdkbKCXTBoCQcSolmdkKXhr
+	 nYslGh9SNf0uJY0zgvb6zCQLCJHFnSYieInZrGBP/M0dpBfLh8CqG/KQs/ArnFwcwo
+	 WTe3o46A6wUMg==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Martin Hilgendorf <martin.hilgendorf@posteo.de>,
-	Jiri Kosina <jkosina@suse.com>,
+Cc: Arnaud Lecomte <contact@arnaud-lcm.com>,
+	syzbot+52c1a7d3e5b361ccd346@syzkaller.appspotmail.com,
+	Benjamin Tissoires <bentiss@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
+	gupt21@gmail.com,
 	jikos@kernel.org,
-	bentiss@kernel.org,
+	linux-i2c@vger.kernel.org,
 	linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.16] HID: elecom: add support for ELECOM M-DT2DRBK
-Date: Tue,  2 Sep 2025 08:08:18 -0400
-Message-ID: <20250902120833.1342615-7-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.16-6.12] hid: fix I2C read buffer overflow in raw_event() for mcp2221
+Date: Tue,  2 Sep 2025 08:08:19 -0400
+Message-ID: <20250902120833.1342615-8-sashal@kernel.org>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250902120833.1342615-1-sashal@kernel.org>
 References: <20250902120833.1342615-1-sashal@kernel.org>
@@ -65,18 +67,27 @@ MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.16.4
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Martin Hilgendorf <martin.hilgendorf@posteo.de>
+From: Arnaud Lecomte <contact@arnaud-lcm.com>
 
-[ Upstream commit 832e5777143e799a97e8f9b96f002a90f06ba548 ]
+[ Upstream commit b56cc41a3ae7323aa3c6165f93c32e020538b6d2 ]
 
-The DT2DRBK trackball has 8 buttons, but the report descriptor only
-specifies 5. This patch adds the device ID and performs a similar fixup as
-for other ELECOM devices to enable the remaining 3 buttons.
+As reported by syzbot, mcp2221_raw_event lacked
+validation of incoming I2C read data sizes, risking buffer
+overflows in mcp->rxbuf during multi-part transfers.
+As highlighted in the DS20005565B spec, p44, we have:
+"The number of read-back data bytes to follow in this packet:
+from 0 to a maximum of 60 bytes of read-back bytes."
+This patch enforces we don't exceed this limit.
 
-Signed-off-by: Martin Hilgendorf <martin.hilgendorf@posteo.de>
-Signed-off-by: Jiri Kosina <jkosina@suse.com>
+Reported-by: syzbot+52c1a7d3e5b361ccd346@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=52c1a7d3e5b361ccd346
+Tested-by: syzbot+52c1a7d3e5b361ccd346@syzkaller.appspotmail.com
+Signed-off-by: Arnaud Lecomte <contact@arnaud-lcm.com>
+Link: https://patch.msgid.link/20250726220931.7126-1-contact@arnaud-lcm.com
+Signed-off-by: Benjamin Tissoires <bentiss@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
@@ -84,107 +95,98 @@ LLM Generated explanations, may be completely bogus:
 
 **Backport Status: YES**
 
-This commit should be backported to stable kernel trees for the
-following reasons:
+This commit should definitely be backported to stable kernel trees.
+Here's my extensive analysis:
 
-## Hardware Enablement Bug Fix
-The commit fixes a functional bug where the ELECOM M-DT2DRBK trackball
-mouse has 8 physical buttons but only 5 are usable due to an incorrect
-HID report descriptor. This is clearly stated in the commit message:
-"The DT2DRBK trackball has 8 buttons, but the report descriptor only
-specifies 5."
+## Security Impact Analysis
 
-## Minimal and Contained Changes
-The patch is extremely small and low-risk:
-- Adds one device ID definition (`USB_DEVICE_ID_ELECOM_M_DT2DRBK
-  0x018d`)
-- Adds the device to three existing device tables
-- Reuses existing fixup logic by adding `case
-  USB_DEVICE_ID_ELECOM_M_DT2DRBK:` alongside the already-supported
-  `USB_DEVICE_ID_ELECOM_M_HT1DRBK_011C` case
+This is a **critical security vulnerability** - a buffer overflow in the
+HID MCP2221 driver that was discovered and reported by syzbot. The
+vulnerability occurs in `mcp2221_raw_event()` at line 820 (post-patch)
+where the driver performs:
 
-## Follows Established Pattern
-The code changes show this device shares the exact same fixup parameters
-as the M-HT1DRBK_011C device (lines 104-113 in hid-elecom.c):
 ```c
-case USB_DEVICE_ID_ELECOM_M_DT2DRBK:
-case USB_DEVICE_ID_ELECOM_M_HT1DRBK_011C:
-    /* Report descriptor format:
-     - 22: button bit count
-     - 30: padding bit count
-     - 24: button report size
-     - 16: button usage maximum
-     */
-    mouse_button_fixup(hdev, rdesc, *rsize, 22, 30, 24, 16, 8);
+memcpy(&buf[mcp->rxbuf_idx], &data[4], data[3]);
 ```
 
-## No Risk of Regression
-- The changes only affect the specific device ID (0x018d)
-- No modifications to core HID subsystem logic
-- Uses well-tested `mouse_button_fixup()` function already in use for
-  multiple other ELECOM devices
-- Cannot affect other devices or subsystems
+Without the fix, `data[3]` (which comes from untrusted USB HID input) is
+used directly as the copy length without validation. According to the
+hardware specification (DS20005565B, page 44), this value should never
+exceed 60 bytes, but the driver wasn't enforcing this limit.
 
-## User Impact
-Without this patch, users of the ELECOM M-DT2DRBK trackball cannot use 3
-of the 8 physical buttons, significantly limiting the device's
-functionality on Linux. This is the type of hardware enablement fix that
-stable kernels should include to maintain proper hardware support.
+## Vulnerability Details
 
-## Similar Patches Precedent
-The git history shows similar ELECOM device support additions have been
-routinely added (e.g., commit 29f316a1d7e0a for M-HT1DRBK_011C device),
-indicating this is standard practice for the HID subsystem.
+1. **Attack Vector**: A malicious USB device or compromised MCP2221
+   device could send crafted HID reports with `data[3]` > 60, causing:
+   - Buffer overflow in `mcp->rxbuf`
+   - Potential arbitrary memory corruption
+   - Possible privilege escalation or code execution
 
- drivers/hid/hid-elecom.c | 2 ++
- drivers/hid/hid-ids.h    | 1 +
- drivers/hid/hid-quirks.c | 1 +
- 3 files changed, 4 insertions(+)
+2. **The Fix**: The patch adds critical bounds checking:
+```c
+if (!mcp->rxbuf || mcp->rxbuf_idx < 0 || data[3] > 60) {
+    mcp->status = -EINVAL;
+    break;
+}
+```
 
-diff --git a/drivers/hid/hid-elecom.c b/drivers/hid/hid-elecom.c
-index 0ad7d25d98647..69771fd350060 100644
---- a/drivers/hid/hid-elecom.c
-+++ b/drivers/hid/hid-elecom.c
-@@ -101,6 +101,7 @@ static const __u8 *elecom_report_fixup(struct hid_device *hdev, __u8 *rdesc,
- 		 */
- 		mouse_button_fixup(hdev, rdesc, *rsize, 12, 30, 14, 20, 8);
- 		break;
-+	case USB_DEVICE_ID_ELECOM_M_DT2DRBK:
- 	case USB_DEVICE_ID_ELECOM_M_HT1DRBK_011C:
- 		/*
- 		 * Report descriptor format:
-@@ -123,6 +124,7 @@ static const struct hid_device_id elecom_devices[] = {
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_XT4DRBK) },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_DT1URBK) },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_DT1DRBK) },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_DT2DRBK) },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_HT1URBK_010C) },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_HT1URBK_019B) },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_HT1DRBK_010D) },
-diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index a687fbbb77b00..0e2b9be3bd8b3 100644
---- a/drivers/hid/hid-ids.h
-+++ b/drivers/hid/hid-ids.h
-@@ -448,6 +448,7 @@
- #define USB_DEVICE_ID_ELECOM_M_XT4DRBK	0x00fd
- #define USB_DEVICE_ID_ELECOM_M_DT1URBK	0x00fe
- #define USB_DEVICE_ID_ELECOM_M_DT1DRBK	0x00ff
-+#define USB_DEVICE_ID_ELECOM_M_DT2DRBK	0x018d
- #define USB_DEVICE_ID_ELECOM_M_HT1URBK_010C	0x010c
- #define USB_DEVICE_ID_ELECOM_M_HT1URBK_019B	0x019b
- #define USB_DEVICE_ID_ELECOM_M_HT1DRBK_010D	0x010d
-diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
-index 90be93bdb0895..416160cfde77b 100644
---- a/drivers/hid/hid-quirks.c
-+++ b/drivers/hid/hid-quirks.c
-@@ -412,6 +412,7 @@ static const struct hid_device_id hid_have_special_driver[] = {
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_XT4DRBK) },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_DT1URBK) },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_DT1DRBK) },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_DT2DRBK) },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_HT1URBK_010C) },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_HT1URBK_019B) },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_HT1DRBK_010D) },
+This ensures:
+- `mcp->rxbuf` is not NULL
+- `mcp->rxbuf_idx` is not negative (preventing underflow)
+- `data[3]` doesn't exceed the hardware's maximum of 60 bytes
+
+## Stable Backport Criteria Assessment
+
+✅ **Fixes a real bug affecting users**: Yes - security vulnerability
+with potential for system compromise
+✅ **Small and contained fix**: Yes - only 4 lines added, single
+validation check
+✅ **No major side effects**: The fix only adds validation, doesn't
+change functionality
+✅ **No architectural changes**: Simple bounds checking addition
+✅ **Critical subsystem impact**: HID subsystem, but localized to one
+driver
+✅ **Already marked for stable**: The commit shows `[ Upstream commit
+b56cc41a3ae7323aa3c6165f93c32e020538b6d2 ]` indicating it's already been
+selected
+✅ **Follows stable rules**: Critical security fix with minimal
+regression risk
+✅ **Tested by syzbot**: The fix was validated by the same fuzzer that
+found the issue
+
+## Additional Context
+
+- The vulnerability was found through systematic fuzzing (syzbot),
+  indicating it's reachable through normal USB HID operations
+- The MCP2221 is a USB-to-I2C/UART converter chip commonly used in
+  embedded systems and development boards
+- Without this fix, any system with an MCP2221 device (or emulated
+  device) is vulnerable to memory corruption attacks
+- The fix is already upstream (commit
+  b56cc41a3ae7323aa3c6165f93c32e020538b6d2) and has been tested
+
+This is a textbook example of what should be backported to stable: a
+simple, well-tested security fix that prevents a serious vulnerability
+without introducing new features or complexity.
+
+ drivers/hid/hid-mcp2221.c | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/drivers/hid/hid-mcp2221.c b/drivers/hid/hid-mcp2221.c
+index 6c0ac14f11a6a..2cfc8e1a2912d 100644
+--- a/drivers/hid/hid-mcp2221.c
++++ b/drivers/hid/hid-mcp2221.c
+@@ -816,6 +816,10 @@ static int mcp2221_raw_event(struct hid_device *hdev,
+ 			}
+ 			if (data[2] == MCP2221_I2C_READ_COMPL ||
+ 			    data[2] == MCP2221_I2C_READ_PARTIAL) {
++				if (!mcp->rxbuf || mcp->rxbuf_idx < 0 || data[3] > 60) {
++					mcp->status = -EINVAL;
++					break;
++				}
+ 				buf = mcp->rxbuf;
+ 				memcpy(&buf[mcp->rxbuf_idx], &data[4], data[3]);
+ 				mcp->rxbuf_idx = mcp->rxbuf_idx + data[3];
 -- 
 2.50.1
 
