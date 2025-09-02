@@ -1,60 +1,58 @@
-Return-Path: <linux-input+bounces-14417-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14418-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D725B3FFA6
-	for <lists+linux-input@lfdr.de>; Tue,  2 Sep 2025 14:13:40 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 188A8B3FFE2
+	for <lists+linux-input@lfdr.de>; Tue,  2 Sep 2025 14:18:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 794C918959A9
-	for <lists+linux-input@lfdr.de>; Tue,  2 Sep 2025 12:14:00 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id BE52D7B85B1
+	for <lists+linux-input@lfdr.de>; Tue,  2 Sep 2025 12:12:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B3BDC2FB973;
-	Tue,  2 Sep 2025 12:08:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 48B0630496A;
+	Tue,  2 Sep 2025 12:08:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mYISNsMy"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bIBhxa9r"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89CD6288C20;
-	Tue,  2 Sep 2025 12:08:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18FDD304969;
+	Tue,  2 Sep 2025 12:08:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756814922; cv=none; b=LDJteAxDkhovEsa4eo0lV6dLvsEcGSFwdp9wD36pJG/6bvo7VweO46WsXOCaCARvWSh6envOwqeXb61kSlWaZ7O9zMgzKUX+EzBnxD6yEdZFbpM8ATW1DpuSmyqCqpEkQZ8Wo+xPl8M/fTL3GkhzIvjNVD9R2cb41v4QCvEuegg=
+	t=1756814927; cv=none; b=M+owhsS+R65ah74bnm3rfGctRlxH4JVY5JKlnSLhdkB6yzPntPrYC3KJmZ03nWkdDbrK36kpbPayEd3S1jozXpSVIbxVfdqjQyy+iQzrQbSlyUPDGsOZyufd/Vp+m3556GaR/5SiMQPBvtRLea/d1rpERI3wFYxxXnRdDJZdMd8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756814922; c=relaxed/simple;
-	bh=HeA1+/cHV5gPmD0WyG1N3nwGnqxfJ4RmixgnSuMv4Ic=;
+	s=arc-20240116; t=1756814927; c=relaxed/simple;
+	bh=TWBOkaAMgS8nixfHJ6MketFW6NqNTcg+z9VAOmrhpFo=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=EcDuJUKhojoBPFY6ObpEljGf6BYfn/uYeQ3ofPb1Bkh/TRnXK7ILLIf5RZc0vkVLtaCteKTsSZ7wodrd3Y5/nNlieVSHQvG4Y1QLTl9BscOh7evyvLMhN2hBoG+1ddV1uTmR8KY8MythJ7gV3rF26AsKWeTqY/xXeZbsDyoVUNg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mYISNsMy; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E3B7C4CEED;
-	Tue,  2 Sep 2025 12:08:41 +0000 (UTC)
+	 MIME-Version; b=OdOO/gze5nnZ9ZNsHAhlJdZxibGBhgHPu1/ZfgZxoK4sarMQh5foB7LzwXz+hXj2M2m17+6N86NVcd+tBRPx22OH8ykMoUbNcLj13dg/pUXrHEb3Xg1d2mdawuKHKV70hpTzJs0x/9Y28E8Crab7+uI3HSTa4W3wd3Lpx2FNluI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bIBhxa9r; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18118C4CEF7;
+	Tue,  2 Sep 2025 12:08:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756814922;
-	bh=HeA1+/cHV5gPmD0WyG1N3nwGnqxfJ4RmixgnSuMv4Ic=;
+	s=k20201202; t=1756814926;
+	bh=TWBOkaAMgS8nixfHJ6MketFW6NqNTcg+z9VAOmrhpFo=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=mYISNsMyYFngdyR8w+SOjktMZM+9/n/3dOylpCuT8CQT0t/pBcDeZC5SgbIc0aw8A
-	 H9FXgXpdg1qGXc6LsgJlGSYa1BgIR8xhp+hNGG30BumqddtAMZr1iCiP5JhyolSSJb
-	 HTj7/ForXletQO1/rnP63Tkhi3Ynys+vQ7DfGtuzqASY7oInBVQuskrh0NcPU5V35j
-	 M1IjElgfmDYwpdfwFciQHqFrFAulKtSMM5W2wxl0OL3+wdz5JuPDK0HJNNSrpu3thq
-	 9lefec8qVz474QEMjIaLqewnfF/FvFO6a9sMZBj0YPc7K4NGcwgNP/L2zUle58lycW
-	 BvOhvpPAJlhJg==
+	b=bIBhxa9rSQ0WUtgk46xaGVOm3cKzHBugNrxRKY4cS29kL4G43eHejcCqRnkk7JtLL
+	 lKMqUkV7jLCq5TnYAYjI+UujWPcxk0u5xr/QGnlJSq298RjPhHHe9l1ev/qebfiOsT
+	 ixCGaY3BGL9QuuvJhj2d2+5jVsPnweawiQIoeuS8z4C2qt8JbKjgtmN1e4ERn19WqQ
+	 dMNB6I/jOBsud7QyseHkjUH7E6WX6hD3pVEuQDP8ImcQSc0mkE3gf/cjOtjlDP8OqT
+	 3l5W8UnWpAoEPlrX+8bpU2AcPwmJVeon7Vm1bFayfn9+5wumh10z71cNi33HuNZrpr
+	 rC2y66IztziNQ==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Zhang Lixu <lixu.zhang@intel.com>,
-	Andy Shevchenko <andriy.shevchenko@intel.com>,
-	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+Cc: Martin Hilgendorf <martin.hilgendorf@posteo.de>,
 	Jiri Kosina <jkosina@suse.com>,
 	Sasha Levin <sashal@kernel.org>,
 	jikos@kernel.org,
-	linux@treblig.org,
+	bentiss@kernel.org,
 	linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.16-5.15] HID: intel-ish-hid: Increase ISHTP resume ack timeout to 300ms
-Date: Tue,  2 Sep 2025 08:08:14 -0400
-Message-ID: <20250902120833.1342615-3-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.16] HID: elecom: add support for ELECOM M-DT2DRBK
+Date: Tue,  2 Sep 2025 08:08:18 -0400
+Message-ID: <20250902120833.1342615-7-sashal@kernel.org>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250902120833.1342615-1-sashal@kernel.org>
 References: <20250902120833.1342615-1-sashal@kernel.org>
@@ -69,31 +67,15 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.16.4
 Content-Transfer-Encoding: 8bit
 
-From: Zhang Lixu <lixu.zhang@intel.com>
+From: Martin Hilgendorf <martin.hilgendorf@posteo.de>
 
-[ Upstream commit dfbd535db74df0343ca39670e06326d7aee8c8f4 ]
+[ Upstream commit 832e5777143e799a97e8f9b96f002a90f06ba548 ]
 
-During s2idle suspend/resume testing on some systems, occasional several
-tens of seconds delays were observed in HID sensor resume handling. Trace
-analysis revealed repeated "link not ready" timeout errors during
-set/get_report operations, which were traced to the
-hid_ishtp_cl_resume_handler() timing out while waiting for the ISHTP
-resume acknowledgment. The previous timeout was set to 50ms, which proved
-insufficient on affected machines.
+The DT2DRBK trackball has 8 buttons, but the report descriptor only
+specifies 5. This patch adds the device ID and performs a similar fixup as
+for other ELECOM devices to enable the remaining 3 buttons.
 
-Empirical measurements on failing systems showed that the time from ISH
-resume initiation to receiving the ISHTP resume ack could be as long as
-180ms. As a result, the 50ms timeout caused failures.
-
-To address this, increase the wait timeout for ISHTP resume ack from 50ms
-to 300ms, providing a safer margin for slower hardware. Additionally, add
-error logging when a timeout occurs to aid future debugging and issue
-triage. No functional changes are made beyond the timeout adjustment and
-improved error reporting.
-
-Signed-off-by: Zhang Lixu <lixu.zhang@intel.com>
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
-Acked-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Signed-off-by: Martin Hilgendorf <martin.hilgendorf@posteo.de>
 Signed-off-by: Jiri Kosina <jkosina@suse.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
@@ -102,149 +84,107 @@ LLM Generated explanations, may be completely bogus:
 
 **Backport Status: YES**
 
-This commit should be backported to stable kernel trees. Here's my
-extensive analysis:
+This commit should be backported to stable kernel trees for the
+following reasons:
 
-## 1. Bug Fix Nature
+## Hardware Enablement Bug Fix
+The commit fixes a functional bug where the ELECOM M-DT2DRBK trackball
+mouse has 8 physical buttons but only 5 are usable due to an incorrect
+HID report descriptor. This is clearly stated in the commit message:
+"The DT2DRBK trackball has 8 buttons, but the report descriptor only
+specifies 5."
 
-The commit addresses a **real user-facing bug** that causes "several
-tens of seconds delays" during HID sensor resume handling on s2idle
-suspend/resume cycles. The code changes show this fixes timeout failures
-in `hid_ishtp_cl_resume_handler()` that were causing "link not ready"
-errors and preventing proper resume of HID sensors.
+## Minimal and Contained Changes
+The patch is extremely small and low-risk:
+- Adds one device ID definition (`USB_DEVICE_ID_ELECOM_M_DT2DRBK
+  0x018d`)
+- Adds the device to three existing device tables
+- Reuses existing fixup logic by adding `case
+  USB_DEVICE_ID_ELECOM_M_DT2DRBK:` alongside the already-supported
+  `USB_DEVICE_ID_ELECOM_M_HT1DRBK_011C` case
 
-## 2. Small and Contained Changes
+## Follows Established Pattern
+The code changes show this device shares the exact same fixup parameters
+as the M-HT1DRBK_011C device (lines 104-113 in hid-elecom.c):
+```c
+case USB_DEVICE_ID_ELECOM_M_DT2DRBK:
+case USB_DEVICE_ID_ELECOM_M_HT1DRBK_011C:
+    /* Report descriptor format:
+     - 22: button bit count
+     - 30: padding bit count
+     - 24: button report size
+     - 16: button usage maximum
+     */
+    mouse_button_fixup(hdev, rdesc, *rsize, 22, 30, 24, 16, 8);
+```
 
-The commit makes minimal, focused changes:
-- **Primary change**: Increases `WAIT_FOR_RESUME_ACK_MS` from 50ms to
-  300ms
-- **Location consolidation**: Moves the constant definition from
-  multiple files to a single header (`ishtp-dev.h:51`)
-- **Error logging addition**: Adds two lines in `ishtp-hid-
-  client.c:762-763` for debugging
-- **Total impact**: Only 12 lines changed across 4 files
+## No Risk of Regression
+- The changes only affect the specific device ID (0x018d)
+- No modifications to core HID subsystem logic
+- Uses well-tested `mouse_button_fixup()` function already in use for
+  multiple other ELECOM devices
+- Cannot affect other devices or subsystems
 
-## 3. No Architectural Changes
+## User Impact
+Without this patch, users of the ELECOM M-DT2DRBK trackball cannot use 3
+of the 8 physical buttons, significantly limiting the device's
+functionality on Linux. This is the type of hardware enablement fix that
+stable kernels should include to maintain proper hardware support.
 
-The commit makes no structural changes - it only:
-- Adjusts a timeout value based on empirical measurements (180ms
-  observed in failing systems)
-- Adds diagnostic logging
-- Consolidates a constant definition
+## Similar Patches Precedent
+The git history shows similar ELECOM device support additions have been
+routinely added (e.g., commit 29f316a1d7e0a for M-HT1DRBK_011C device),
+indicating this is standard practice for the HID subsystem.
 
-## 4. Clear Regression Risk Assessment
+ drivers/hid/hid-elecom.c | 2 ++
+ drivers/hid/hid-ids.h    | 1 +
+ drivers/hid/hid-quirks.c | 1 +
+ 3 files changed, 4 insertions(+)
 
-The change has **minimal regression risk**:
-- Increasing timeout from 50ms to 300ms cannot break existing working
-  systems
-- Systems that resumed within 50ms will continue to work
-- Systems that needed 50-180ms (previously failing) will now work
-- The 300ms provides safety margin without being excessive
-
-## 5. Subsystem Impact
-
-The changes are confined to the Intel ISH HID driver subsystem:
-- `drivers/hid/intel-ish-hid/` - a specific hardware driver
-- Does not affect core kernel functionality
-- Only impacts systems with Intel ISH (Integrated Sensor Hub) hardware
-
-## 6. Historical Context
-
-Looking at the git history:
-- The 50ms timeout was introduced in commit `e48bf29cf9d6d6` (2021) for
-  async resume
-- Multiple recent fixes in this subsystem (`07583a00106`,
-  `823987841424`) show it's actively maintained
-- The commit is already marked with "Upstream commit
-  dfbd535db74df0343ca39670e06326d7aee8c8f4" indicating it's been
-  accepted upstream
-
-## 7. Stable Tree Rules Compliance
-
-The commit perfectly aligns with stable tree criteria:
-- **Fixes a real bug**: Resume failures causing multi-second delays
-- **Tested solution**: Based on empirical measurements (180ms observed)
-- **Minimal change**: Simple timeout adjustment
-- **Hardware-specific**: Only affects Intel ISH hardware users
-- **No new features**: Pure bugfix with diagnostic improvement
-
-## 8. Additional Evidence
-
-The commit message explicitly states:
-- "The previous timeout was set to 50ms, which proved insufficient on
-  affected machines"
-- "Empirical measurements on failing systems showed that the time...
-  could be as long as 180ms"
-- This is based on actual testing and measurements, not speculation
-
-The error logging addition (`hid_ishtp_trace()` and `dev_err()`) will
-help diagnose any future issues without changing functionality.
-
-This is an ideal candidate for stable backporting - it fixes a concrete
-bug with minimal risk and clear benefit to affected users.
-
- drivers/hid/intel-ish-hid/ipc/pci-ish.c      | 3 ---
- drivers/hid/intel-ish-hid/ishtp-hid-client.c | 3 +++
- drivers/hid/intel-ish-hid/ishtp/bus.c        | 3 ---
- drivers/hid/intel-ish-hid/ishtp/ishtp-dev.h  | 3 +++
- 4 files changed, 6 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/hid/intel-ish-hid/ipc/pci-ish.c b/drivers/hid/intel-ish-hid/ipc/pci-ish.c
-index c57483224db6f..9d150ce234f25 100644
---- a/drivers/hid/intel-ish-hid/ipc/pci-ish.c
-+++ b/drivers/hid/intel-ish-hid/ipc/pci-ish.c
-@@ -264,9 +264,6 @@ static void ish_shutdown(struct pci_dev *pdev)
- 
- static struct device __maybe_unused *ish_resume_device;
- 
--/* 50ms to get resume response */
--#define WAIT_FOR_RESUME_ACK_MS		50
--
- /**
-  * ish_resume_handler() - Work function to complete resume
-  * @work:	work struct
-diff --git a/drivers/hid/intel-ish-hid/ishtp-hid-client.c b/drivers/hid/intel-ish-hid/ishtp-hid-client.c
-index 6550ad5bfbb53..d8c3c54a8c0f2 100644
---- a/drivers/hid/intel-ish-hid/ishtp-hid-client.c
-+++ b/drivers/hid/intel-ish-hid/ishtp-hid-client.c
-@@ -759,6 +759,9 @@ static void hid_ishtp_cl_resume_handler(struct work_struct *work)
- 	if (ishtp_wait_resume(ishtp_get_ishtp_device(hid_ishtp_cl))) {
- 		client_data->suspended = false;
- 		wake_up_interruptible(&client_data->ishtp_resume_wait);
-+	} else {
-+		hid_ishtp_trace(client_data, "hid client: wait for resume timed out");
-+		dev_err(cl_data_to_dev(client_data), "wait for resume timed out");
- 	}
- }
- 
-diff --git a/drivers/hid/intel-ish-hid/ishtp/bus.c b/drivers/hid/intel-ish-hid/ishtp/bus.c
-index 5ac7d70a7c843..93a0432e70581 100644
---- a/drivers/hid/intel-ish-hid/ishtp/bus.c
-+++ b/drivers/hid/intel-ish-hid/ishtp/bus.c
-@@ -852,9 +852,6 @@ EXPORT_SYMBOL(ishtp_device);
-  */
- bool ishtp_wait_resume(struct ishtp_device *dev)
- {
--	/* 50ms to get resume response */
--	#define WAIT_FOR_RESUME_ACK_MS		50
--
- 	/* Waiting to get resume response */
- 	if (dev->resume_flag)
- 		wait_event_interruptible_timeout(dev->resume_wait,
-diff --git a/drivers/hid/intel-ish-hid/ishtp/ishtp-dev.h b/drivers/hid/intel-ish-hid/ishtp/ishtp-dev.h
-index ec9f6e87aaf23..23db97ecf21cd 100644
---- a/drivers/hid/intel-ish-hid/ishtp/ishtp-dev.h
-+++ b/drivers/hid/intel-ish-hid/ishtp/ishtp-dev.h
-@@ -47,6 +47,9 @@
- 
- #define	MAX_DMA_DELAY	20
- 
-+/* 300ms to get resume response */
-+#define WAIT_FOR_RESUME_ACK_MS		300
-+
- /* ISHTP device states */
- enum ishtp_dev_state {
- 	ISHTP_DEV_INITIALIZING = 0,
+diff --git a/drivers/hid/hid-elecom.c b/drivers/hid/hid-elecom.c
+index 0ad7d25d98647..69771fd350060 100644
+--- a/drivers/hid/hid-elecom.c
++++ b/drivers/hid/hid-elecom.c
+@@ -101,6 +101,7 @@ static const __u8 *elecom_report_fixup(struct hid_device *hdev, __u8 *rdesc,
+ 		 */
+ 		mouse_button_fixup(hdev, rdesc, *rsize, 12, 30, 14, 20, 8);
+ 		break;
++	case USB_DEVICE_ID_ELECOM_M_DT2DRBK:
+ 	case USB_DEVICE_ID_ELECOM_M_HT1DRBK_011C:
+ 		/*
+ 		 * Report descriptor format:
+@@ -123,6 +124,7 @@ static const struct hid_device_id elecom_devices[] = {
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_XT4DRBK) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_DT1URBK) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_DT1DRBK) },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_DT2DRBK) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_HT1URBK_010C) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_HT1URBK_019B) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_HT1DRBK_010D) },
+diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+index a687fbbb77b00..0e2b9be3bd8b3 100644
+--- a/drivers/hid/hid-ids.h
++++ b/drivers/hid/hid-ids.h
+@@ -448,6 +448,7 @@
+ #define USB_DEVICE_ID_ELECOM_M_XT4DRBK	0x00fd
+ #define USB_DEVICE_ID_ELECOM_M_DT1URBK	0x00fe
+ #define USB_DEVICE_ID_ELECOM_M_DT1DRBK	0x00ff
++#define USB_DEVICE_ID_ELECOM_M_DT2DRBK	0x018d
+ #define USB_DEVICE_ID_ELECOM_M_HT1URBK_010C	0x010c
+ #define USB_DEVICE_ID_ELECOM_M_HT1URBK_019B	0x019b
+ #define USB_DEVICE_ID_ELECOM_M_HT1DRBK_010D	0x010d
+diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
+index 90be93bdb0895..416160cfde77b 100644
+--- a/drivers/hid/hid-quirks.c
++++ b/drivers/hid/hid-quirks.c
+@@ -412,6 +412,7 @@ static const struct hid_device_id hid_have_special_driver[] = {
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_XT4DRBK) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_DT1URBK) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_DT1DRBK) },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_DT2DRBK) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_HT1URBK_010C) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_HT1URBK_019B) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_HT1DRBK_010D) },
 -- 
 2.50.1
 
