@@ -1,64 +1,48 @@
-Return-Path: <linux-input+bounces-14440-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14441-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90BC5B40EEB
-	for <lists+linux-input@lfdr.de>; Tue,  2 Sep 2025 22:54:24 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1565FB40EFE
+	for <lists+linux-input@lfdr.de>; Tue,  2 Sep 2025 23:05:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5451D16D3BD
-	for <lists+linux-input@lfdr.de>; Tue,  2 Sep 2025 20:54:24 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 25EA43B5698
+	for <lists+linux-input@lfdr.de>; Tue,  2 Sep 2025 21:05:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE7EB2E3B07;
-	Tue,  2 Sep 2025 20:54:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9AF202E9EC9;
+	Tue,  2 Sep 2025 21:05:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MRkn+Or4"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3341745C0B
-	for <linux-input@vger.kernel.org>; Tue,  2 Sep 2025 20:54:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D0F32E7BDF;
+	Tue,  2 Sep 2025 21:05:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756846459; cv=none; b=G2UjNxDr0G6MRa0NJUbpMgNuYu6JNHzty5lb3O/MfceXl7F0rdDKbCukvqldQZBRh0WpFyn4gM1V4K1Xw7MPv5SU+gnP9ycRNZhGLRXF8rOfIMPE27v7ui2Nyud8HWKANOxtFZ3gl7bwAr2Z6Wcm+o1R/ja8sfMPkMZYhXoM2BY=
+	t=1756847110; cv=none; b=n3si7PokGUy1r0o+wS4ip6NW8TVb2Q7Gp6WsYet2J3LLOaVAvw6hoj20P01BkJVmhAp3QsY38NJbgt6Z7O7q7wIBOVGHhVwgNfmkJaR031fG82A/qFVxXKzukSQmUTIPvjoLNnbzVIGs+HJsvaCy8Ct533n5iGytlioCr/Fa5S8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756846459; c=relaxed/simple;
-	bh=YY94nwIh7dlnQ98MZthN4AL8lz9jZ0YNsC16aZc3jao=;
-	h=Message-ID:Date:MIME-Version:To:From:Subject:Cc:Content-Type; b=tZPHmZ0ITiuSZJAgrHDa1EJDnN9vRqdoTcJBw7zwuTuauvZbtumKnCQqzfz7bjqfKsMDCSjwwUvsbpLFhcRxaSucDEIvHJQSQpKPXzvLXBprLX7XuPotjtuOfQ9tjmmqxdq/Gh9hIGs3S+wo892gob3ovfwj/sqnBLAdhdYv6Oo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bitbybitsp.com; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.210.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bitbybitsp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-7724cacc32bso2327591b3a.0
-        for <linux-input@vger.kernel.org>; Tue, 02 Sep 2025 13:54:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756846457; x=1757451257;
-        h=content-transfer-encoding:cc:subject:from:content-language:to
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=9M78Iyi3IzNWHlWKKAxeJNPsqQQlPf24K++epM0hzfY=;
-        b=Qv41AW738m6iVM60Tce6gLidg1ADXb51a4M98eAMOpT5O9OGcEOkCTawVMa/P36mXb
-         JUdiPK7kejtqWSM0s/POnKyAfvQI8njEBoYZJNTEzWrmEF6+C+XkAlcfzRQgJv1YDIj7
-         0FXL8b/Ja0L1BAe7ZHOufwAQ8/Tj4TVEgkoUTYTpawWhHR+rZgYGrxvyLgElpvVesoV+
-         sSOEshYMdmUaXE5eh/On0QJJxu+q15nWglMmXIJa8qUFjZEH2iZbpoZKScgOs7ZLE2R/
-         3zS/StKMsXv4e8TZ2RfXzzEouYVMpoyeG8SubZK8d7n3t48h07osELJPyXtmufGVBzun
-         TdvA==
-X-Gm-Message-State: AOJu0YxqVNeX8kQD5ugdL7HZ/Mo8pPfEeMSTeCHKPE0OsXASdxU5KucZ
-	Cedh8thxYaa/kSKdRJYrnHhh8K1Wuk6xFZJxIfZAjcdxtwQTFMZjseD6iusr/UWQg5Q=
-X-Gm-Gg: ASbGncu8R9EGgWIv7DdyYmPg9FzCxue7+i1BIwYOoUxQ4fu3LcpG08mmDvgHLn0OubT
-	fmwT2QM4NyjzeUKXeKsah0aiKmuTbnSK47BSsCRXUsAVqCzme1nXTankrfcnKyuX4ipNgfxa+g9
-	ZQ7jyrfy0YQ7kgnWub+A49FSf5NfHBQdZiBuvslkAbMp4qyqdu48goE2Xk8ujoKGdKWSPBz4pq4
-	aPove56CPMquFHbb0P4x2k0eUd8gmY1eiW5/H49eBNr+4L6V3lsts9A6MzdHCaaEwd+dm6g/F/e
-	irD0qEF++S1P3+Uxoi3m+xi1mnGaaNfprbmFMJ1BqZMiKJtCxkHWMMFeopUbFMdrIsxnHlUkaut
-	v9HrBbHxcZxqsuHqMeEQFHhbuzpEQLd9SCL+kh1lDN3ShfH+719km7QFUHfwRjsjttHyziw==
-X-Google-Smtp-Source: AGHT+IHhWScmuT77Fb7+5nu2PGXDXZVhyl1za4VVydA6Vd776nie25kH0js3i9VCTaKUU3IEr9Fztw==
-X-Received: by 2002:a17:903:ac8:b0:248:75da:f791 with SMTP id d9443c01a7336-24944aed0c1mr166423755ad.47.1756846457183;
-        Tue, 02 Sep 2025 13:54:17 -0700 (PDT)
-Received: from [192.168.167.204] (ip72-208-129-79.ph.ph.cox.net. [72.208.129.79])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-24906594319sm138227485ad.114.2025.09.02.13.54.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 02 Sep 2025 13:54:16 -0700 (PDT)
-Message-ID: <7e2f3193-a1c0-4e08-9a57-840d718919a7@bitbybitsp.com>
-Date: Tue, 2 Sep 2025 13:54:13 -0700
+	s=arc-20240116; t=1756847110; c=relaxed/simple;
+	bh=WjiAUtQOvsH2qbKA2s3udE/vJGeq936XDWYdFQFYvcs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=htbfG8clWbfgdqfwLUCwuRYRw5YWo3+dnDOKaM2LExSGTaGIDrNdV1vHAe5Ik0r1V+NclnDB0DCgJfxxQcKTn/+DMg99N+yfNyvXGpKOPjvbLtxYV9z09zC/44pVv2ZRLv9qxriNn1nH73tZ09xyb4FxpfacXqC5ZzP/AAYMFdA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MRkn+Or4; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62DB9C4CEED;
+	Tue,  2 Sep 2025 21:05:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756847109;
+	bh=WjiAUtQOvsH2qbKA2s3udE/vJGeq936XDWYdFQFYvcs=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=MRkn+Or4h5vSaoc8kgJJZxOd01MMQtXJdlNPFtvfpam78OFAwZ/1/qa68zZmj22Gb
+	 nGI05LBWnJ6YWYdIAH5ejuIAVZkD+tt4YrR5AqJSRTbYhTmH2dF3GTBUWrubRObIJh
+	 Rqb/La23wuKcNSA2Z8eLF3OQAehienYD0V9VkptteXNC6E4FhOrtDSd7kkQ0g+Vpc4
+	 O306EAeZyc1PIuQM5UV0xxq+eX2m5Bc+wWFpkvGjjYRdncsQ8RD7lhWc9+AUCCC1bv
+	 xcmxmLfTHbcTQPtf3oyYmcQ1F2JJl5eZDXeYUvUgaabIV22o8VDLt9cs0Q8ASzOLEf
+	 btllMZVTAqIcQ==
+Message-ID: <9c47d260-b51e-4ad0-80b5-fc735b48c894@kernel.org>
+Date: Tue, 2 Sep 2025 23:05:06 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -66,97 +50,184 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-To: linux-input@vger.kernel.org
-Content-Language: en-US
-From: Ross Martin <ross@bitbybitsp.com>
-Subject: [PATCH 001/001] hid: Fix for Lenovo Yoga Book 9i top screen
-Cc: rydberg@bitmath.org
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v3] HID: lg-g15 - Add support for Logitech G13.
+To: "Leo L. Schwab" <ewhac@ewhac.org>
+Cc: Kate Hsuan <hpa@redhat.com>, Jiri Kosina <jikos@kernel.org>,
+ Benjamin Tissoires <bentiss@kernel.org>, linux-input@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20250814212641.197573-2-ewhac@ewhac.org>
+ <7d356834-5795-4979-9f51-0ffcec52ae1d@kernel.org>
+ <aLSntMknSv3lMarZ@ewhac.org>
+ <8ae2cc92-5dfe-466d-95fd-da74309d7244@kernel.org>
+ <2de88077-eb8d-44ad-a96a-5db889913cba@kernel.org>
+ <aLdWZJwSrpvgXPFL@ewhac.org>
+Content-Language: en-US, nl
+From: Hans de Goede <hansg@kernel.org>
+In-Reply-To: <aLdWZJwSrpvgXPFL@ewhac.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Issue:  The current multitouch detection causes the Lenovo Yoga Book 9i 
-to be detected as type  MT_CLS_WIN_8.  This has 
-MT_QUIRK_CONTACT_CNT_ACCURATE set, which causes the touchscreen to 
-recognize only a single touch, not multitouch.
+Hi,
 
-This patch creates a unique type MT_CLS_LENOVO_YOGA_BOOK_9I for this 
-laptop, with MT_QUIRK_CONTACT_CNT_ACCURATE removed.  The result is that 
-multitouch works properly on the top screen.  This laptop has two 
-screens, and the bottom one still doesn't work. Partial progress.
+On 2-Sep-25 22:41, Leo L. Schwab wrote:
+> 	Didn't directly receive the intermediate reply:
+> 
+> On Tue, Sep 02, 2025 at 11:14:09AM +0200, Hans de Goede wrote:
+>> On 2-Sep-25 11:07 AM, Hans de Goede wrote:
+>>> Ah I see. Yes if you do need to do a CONFIG check then using IS_ENABLED()
+>>> is good.
+>>>
+>>> But I'm afraid that the underlying problem here is the use of
+>>> cdev.brightness_hw_changed this is really only meant for led-class.c
+>>> internal use.
+>>>
+> 	Then there should be a comment in the include file to that effect.
+> 
+>>> The idea of cdev.brightness_hw_changed is that it stores the last
+>>> value set by the hw.
+>>>
+>>> But in the mean time that value may have been overwritten by software.
+>>>
+>>> I think that you will fail to call led_classdev_notify_brightness_hw_changed()
+>>> (you can add a debug print to check) if the following happens:
+>>>
+>>> 1. Brightness set to 255 (RGB 255,255,255) through sysfs
+>>> 2. State toggled to off by backlight control button, brightness is now 0
+>>> 3. Brightness set to 255 (RGB 255,255,255) through sysfs
+>>> 4. State toggled to off by backlight control button, brightness is now 0
+>>>
+> 	This does not happen.  The G13 accepts and remembers backlight color
+> settings even when the LEDs have been toggled off locally.
+> 
+> ```
+> #### Initial state: Backlight on, full green:
+> root:/sys/class/leds/g13:rgb:kbd_backlight# cat brightness brightness_hw_changed multi_intensity 
+> 255
+> 255
+> 0 255 0
+> root:/sys/class/leds/g13:rgb:kbd_backlight# echo 255 0 0 > multi_intensity 
+> #### Backlight is on, full red.
+> root:/sys/class/leds/g13:rgb:kbd_backlight# cat brightness brightness_hw_changed multi_intensity 
+> 255
+> 255
+> 255 0 0
+> #### Backlight toggle button pressed; backlight is now off.
+> root:/sys/class/leds/g13:rgb:kbd_backlight# cat brightness brightness_hw_changed multi_intensity 
+> 255
+> 0
+> 255 0 0
+> root:/sys/class/leds/g13:rgb:kbd_backlight# echo 0 0 255 > multi_intensity 
+> #### Backlight color set to full blue, but is still off.
+> root:/sys/class/leds/g13:rgb:kbd_backlight# cat brightness brightness_hw_changed multi_intensity 
+> 255
+> 0
+> 0 0 255
+> #### Backlight toggle button pressed; backlight is now on, and blue.
+> root:/sys/class/leds/g13:rgb:kbd_backlight# cat brightness brightness_hw_changed multi_intensity 
+> 255
+> 255
+> 0 0 255
+> ```
+> 
+> 	This also works if you alter `brightness` while the backlight is
+> toggled off.  IMHO, this is correct, principle-of-least-surprise behavior.
 
-Note that this patch defines MT_CLS_LENOVO_YOGA_BOOK_9I as 0x0115, 
-making it the next in the sequence of IDs.  There is a possible issue if 
-other patches have gone in and also use 0x0115. The number may need to 
-be adjusted.
+I see, interesting.
 
-Signed-off-by:  Ross Martin <ross@bitbybitsp.com>
+So what happens if you turn off the backlight with the toggle button on the G13
+and then write 0 to brightness in sysfs and then press the toggle button again?
+
+> 	Further (at least on my machine), `brightness_hw_changed` is
+> read-only in sysfs, and therefore can't be altered by host software.
+> Therefore, it would seem that using `cdev.brightness_hw_changed` as a cache
+> value is valid.
+
+Right it does seem that using cdev.brightness_hw_changed is valid in
+this case.
+
+But the LED API is supposed to have the brightness attribute present
+the actual current brightness of the device.
+
+I'm not sure how upower will react if the poll() on brightness_hw_changed
+wakes upower up and then the reported brightness is unchanged...
+
+I need to think about this a bit and check the upower code, let me
+get back to you on this in a day or 2 ...
+
+>>> I also see that you use TEST_BIT(rep->keybits, 23) ? LED_FULL : LED_OFF
+>>> for the brightness value send to led_classdev_notify_brightness_hw_changed()
+>>> but I would expect the hw to restore the previous brightness on a toggle
+>>> from off -> on through the button? So then that should be send.
+>>>
+>>> And you also never update cdev.brightness and use the cached 
+>>> struct lg_g15_led.brightness in lg_g13_kbd_led_get(). This means that
+>>> after a hw toggle of the backlight reading the brightness from sysfs
+>>> will show the wrong (old) value.
+>>>
+> 	This prompts the question:  What is the full intensity calculation
+> formula intended to be?  The docs appear to be rather quiet on this point.
+> If we assume all intensity/brightness values (0-255) are essentially mapped
+> to the range [0.0, 1.0], then it seems to me the calculation is:
+> 
+> 	out = intensity * brightness * brightness_hw_changed
+
+The way the API is intended to work is that after a hw-brightness-changes
+event brightness == brightness_hw_changed in sysfs.
+
+brightness_hw_changed only purpose is to cache the last hw set value so
+that if userspace writing a new value to brightness races with
+a brightness_hw_changed event a userspace process listening can still
+read which value the hw actually send. TBH this is of little value to
+userspace but the LED subsys maintainer insisted on this.
+
+IOW the formula should always be:
+
+ 	out = intensity * brightness
+
+The problem is that in the G13 case the real formula is:
+
+ 	out = intensity * brightness * internal-g13-toggle-bool
+
+And there is no standard userspace API for how to deal with
+the device having an internal-g13-toggle-bool
+
+The G510 has something similar which is why I left out
+brightness_hw_changed event generation in the G510 code.
+
+As mentioned before I need to think a bit about how to handle
+this. I have an idea howto handle this and I can try and
+prototype this on the G510 which has more or less the same
+problem, except that it simply throws away brightness writes
+while toggled off with the button.
 
 
-START OF PATCH
+> 
+>>> I think that instead what you need to do is create a
+>>> lg_g13_leds_changed_work() mirroring lg_g15_leds_changed_work()
+> 
+> 	I dissent.  But then it's entirely possible I'm still missing
+> something...
+> 
+> 	The only edge case I'm immediately aware of is:
+> 
+> 	* Plug in G13.
+> 	* Toggle backlight off.
+> 	* Unload kernel module.
+> 	* Reload kernel module.
+> 
+> 	The backlight is now toggled off, but the newly loaded driver
+> doesn't know this.  Attempting to read `brightness_hw_changed` from sysfs at
+> this point will result in ENODATA (essentially reporting, "I don't know").
+> AFAIK, there is no way to probe the G13 for the current state of the
+> backlight HW toggle.  However, the moment the user generates any event on
+> the G13, the correct state will be obtained, and `brightness_hw_changed`
+> will be updated accordingly.  Not ideal, but seemed the most honest
+> approach.
 
-diff -rup linux-orig/drivers/hid/hid-ids.h linux/drivers/hid/hid-ids.h
---- linux-orig/drivers/hid/hid-ids.h    2025-09-02 12:56:48.870143225 -0700
-+++ linux/drivers/hid/hid-ids.h    2025-09-02 13:17:55.987704096 -0700
-@@ -837,6 +837,7 @@
-  #define USB_DEVICE_ID_LENOVO_PIXART_USB_MOUSE_6093    0x6093
-  #define USB_DEVICE_ID_LENOVO_LEGION_GO_DUAL_DINPUT    0x6184
-  #define USB_DEVICE_ID_LENOVO_LEGION_GO2_DUAL_DINPUT    0x61ed
-+#define USB_DEVICE_ID_LENOVO_YOGA_BOOK_9I            0x6161
+Ack.
 
-  #define USB_VENDOR_ID_LETSKETCH        0x6161
-  #define USB_DEVICE_ID_WP9620N        0x4d15
-diff -rup linux-orig/drivers/hid/hid-multitouch.c 
-linux/drivers/hid/hid-multitouch.c
---- linux-orig/drivers/hid/hid-multitouch.c    2025-09-02 
-12:56:48.874143269 -0700
-+++ linux/drivers/hid/hid-multitouch.c    2025-09-02 13:18:51.722450468 
--0700
-@@ -222,6 +222,8 @@ static void mt_post_parse(struct mt_devi
-  #define MT_CLS_RAZER_BLADE_STEALTH        0x0112
-  #define MT_CLS_SMART_TECH            0x0113
-  #define MT_CLS_APPLE_TOUCHBAR            0x0114
-+#define MT_CLS_LENOVO_YOGA_BOOK_9I        0x0115
-+
-  #define MT_CLS_SIS                0x0457
+Regards,
 
-  #define MT_DEFAULT_MAXCONTACT    10
-@@ -413,6 +415,14 @@ static const struct mt_class mt_classes[
-              MT_QUIRK_APPLE_TOUCHBAR,
-          .maxcontacts = 11,
-      },
-+    { .name = MT_CLS_LENOVO_YOGA_BOOK_9I,
-+        .quirks = MT_QUIRK_ALWAYS_VALID |
-+            MT_QUIRK_IGNORE_DUPLICATES |
-+            MT_QUIRK_HOVERING |
-+            MT_QUIRK_STICKY_FINGERS |
-+            MT_QUIRK_WIN8_PTP_BUTTONS,
-+        .export_all_inputs = true,
-+    },
-      { .name = MT_CLS_SIS,
-          .quirks = MT_QUIRK_NOT_SEEN_MEANS_UP |
-              MT_QUIRK_ALWAYS_VALID |
-@@ -2388,6 +2398,11 @@ static const struct hid_device_id mt_dev
-          HID_DEVICE(BUS_USB, HID_GROUP_MULTITOUCH_WIN_8, 
-USB_VENDOR_ID_GOOGLE,
-              USB_DEVICE_ID_GOOGLE_WHISKERS) },
-
-+    /* Lenovo Yogo Book 9i (adds support for top screen of two screens) */
-+    { .driver_data = MT_CLS_LENOVO_YOGA_BOOK_9I,
-+        HID_DEVICE(HID_BUS_ANY, HID_GROUP_ANY, USB_VENDOR_ID_LENOVO,
-+            USB_DEVICE_ID_LENOVO_YOGA_BOOK_9I) },
-+
-      /* sis */
-      { .driver_data = MT_CLS_SIS,
-          HID_DEVICE(HID_BUS_ANY, HID_GROUP_ANY, USB_VENDOR_ID_SIS_TOUCH,
-
-
-END OF PATCH
-
-
--- 
-Ross Martin
-Bit by Bit Signal Processing LLC
-ross@bitbybitsp.com
-+1-623-487-8011
+Hans
 
 
