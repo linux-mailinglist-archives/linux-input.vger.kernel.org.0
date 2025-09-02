@@ -1,119 +1,125 @@
-Return-Path: <linux-input+bounces-14423-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14424-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7C32B40197
-	for <lists+linux-input@lfdr.de>; Tue,  2 Sep 2025 14:58:34 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C3AB1B402C4
+	for <lists+linux-input@lfdr.de>; Tue,  2 Sep 2025 15:23:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7E6357A66C7
-	for <lists+linux-input@lfdr.de>; Tue,  2 Sep 2025 12:56:56 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4725B3BCDC2
+	for <lists+linux-input@lfdr.de>; Tue,  2 Sep 2025 13:21:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9CD5B2D63F6;
-	Tue,  2 Sep 2025 12:56:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2704826563F;
+	Tue,  2 Sep 2025 13:18:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pwazNMHJ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VjrEBk7/"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E7272D5C95;
-	Tue,  2 Sep 2025 12:56:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F101A304BA4;
+	Tue,  2 Sep 2025 13:18:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756817774; cv=none; b=OflUV30N9gXKLZY2hp1scbAjUj1nG7/F7KbOGURtB9TKkMiYSECYRchaPr+iogtlSvc0M3LDgz+FL4yizQttHuOfFP4CCFOnGUcufEgK+5v8aovMvDfMsQmQGbHUPGGCFhnaPGC4Wuqs26I/xM+E9Z44vn1YgwlaY6H4MBQhDP0=
+	t=1756819132; cv=none; b=k5jj/6rjA6ZbX4s7nx52anQYparz3zGWteNYdUsAmw1XJKe6xQ2xxCV5NdWnEaXOh/dLCGCwBeWJKHs+vs7HQL9pq27DvOxAJ6gh5nuTYi6RS7H4RKbEOpi0JSmH1HfnOasqwPPlyI1kWrSedno9SoId4CCYy+VfAfb+dS2gftg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756817774; c=relaxed/simple;
-	bh=6fXt4bhKhGQeDgocLc+VTGxwmm9hlaSYbwbrhqO4eo4=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=lucBmrwg++jHdYRdZCeDdEewQV8yTkO9VH8r6aYoCyLEEhM0cDDeEv8/AIXY67ZL3LWYQcVHHiNWJD5xn5U+4WUcSIpBx3RR4JXNSxUZLX+nXr1non7c0csbBC4IV4YCXN7SAqCKcTorBGJl/TCEpKSfyYL+WcrC63s32vPSHTI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pwazNMHJ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11F86C4CEF4;
-	Tue,  2 Sep 2025 12:56:03 +0000 (UTC)
+	s=arc-20240116; t=1756819132; c=relaxed/simple;
+	bh=3OlIsexLNj280IDiHBciTLojhFBSfNBq82YiRU5Yb4I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IjKJs8dLQBGXGSmuwtPA11ucE6XMQJYfTIjovk32RPiwJK++qN5UddiQ6cU0KZZJ0bpnpW8IlwEFQXQGA7/E62LWXDJFIa9guAmho1yH4dbNfsyc0RSleyCBtwClRw7X8ZfwscZz9yvq389Nm3CoMFe9gHz9FFmIAmobKO+OZUM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VjrEBk7/; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9DB5AC4CEED;
+	Tue,  2 Sep 2025 13:18:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756817774;
-	bh=6fXt4bhKhGQeDgocLc+VTGxwmm9hlaSYbwbrhqO4eo4=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=pwazNMHJ405xvwddvksWXCvf2Bzxx2noy2IUYDoxR08pNT70eoYJ6avMGFl9/Brfy
-	 djIhKc4IwsWYRDzf4ckgbuj4YCoKw+9YxQrmPP2zcN5BTWN72msT/8L7gG1b4AnNXA
-	 H4LLv6NBYhzDqxK03/Bs/TmEL+LOYNY+NS+YPvoSxcEaL2K4fCDy8dQcwcD1Yoj3r7
-	 9WeAzZMLfWuw825r0YE0Jvdw3d0z5Gpm6BLaVjSBhLdAAnUEwVxIWvjvouZoMk16IB
-	 vPb54RivBXsgQ9vEkrWC7YCee6GXl108+ujfuPj+LCZ1l3MNDksA1EisuEfyh34BqK
-	 8exw6nerb4i/Q==
-From: Lee Jones <lee@kernel.org>
-To: Bartosz Golaszewski <brgl@bgdev.pl>, 
- Linus Walleij <linus.walleij@linaro.org>, linux-gpio@vger.kernel.org, 
- Arnd Bergmann <arnd@kernel.org>
-Cc: Arnd Bergmann <arnd@arndb.de>, Andrew Lunn <andrew@lunn.ch>, 
- Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, 
- Gregory Clement <gregory.clement@bootlin.com>, 
- Russell King <linux@armlinux.org.uk>, Daniel Mack <daniel@zonque.org>, 
- Haojian Zhuang <haojian.zhuang@gmail.com>, 
- Robert Jarzmik <robert.jarzmik@free.fr>, 
- Krzysztof Kozlowski <krzk@kernel.org>, 
- Alim Akhtar <alim.akhtar@samsung.com>, 
- Geert Uytterhoeven <geert@linux-m68k.org>, 
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
- Yoshinori Sato <ysato@users.sourceforge.jp>, Rich Felker <dalias@libc.org>, 
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, 
- Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, 
- x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, Lee Jones <lee@kernel.org>, 
- Pavel Machek <pavel@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Matti Vaittinen <mazziesaccount@gmail.com>, 
- Florian Fainelli <florian.fainelli@broadcom.com>, 
- Jeff Johnson <jjohnson@kernel.org>, Hans de Goede <hansg@kernel.org>, 
- =?utf-8?q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
- "Dr. David Alan Gilbert" <linux@treblig.org>, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
- linux-samsung-soc@vger.kernel.org, linux-m68k@lists.linux-m68k.org, 
- linux-mips@vger.kernel.org, linux-sh@vger.kernel.org, 
- linux-input@vger.kernel.org, linux-leds@vger.kernel.org, 
- linux-media@vger.kernel.org, patches@opensource.cirrus.com, 
- netdev@vger.kernel.org, linux-wireless@vger.kernel.org, 
- ath10k@lists.infradead.org, platform-driver-x86@vger.kernel.org, 
- linux-usb@vger.kernel.org, linux-sound@vger.kernel.org
-In-Reply-To: <20250808151822.536879-1-arnd@kernel.org>
-References: <20250808151822.536879-1-arnd@kernel.org>
-Subject: Re: (subset) [PATCH 00/21] gpiolib: fence off legacy interfaces
-Message-Id: <175681776381.2341743.17892612215782644085.b4-ty@kernel.org>
-Date: Tue, 02 Sep 2025 13:56:03 +0100
+	s=k20201202; t=1756819131;
+	bh=3OlIsexLNj280IDiHBciTLojhFBSfNBq82YiRU5Yb4I=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=VjrEBk7/GBQB1RNdCrvoc4NxQmwXITuCLuJVjArCdPbII01bVOGn4lGDMU5dZD+7M
+	 F6dT7jysa4nSPGT4Vadn6SkSl6IrTqgOJZJHxCkgW2vQjFJUhEAT//mo7nmVC4ZH6e
+	 5rJJ6OF9DEEuKm7lBf8z2GyG6bffNueSHosHWTkNos8/iS7wAP8tIyeTiuT03PHPOk
+	 C9xveW26wVKMRDOsqpJgiaK5FKbGtLKpwa3iLa8w7XcpCGKRyDFzkK7EQmXEOxwi3M
+	 KORrLTFoj6inwMGJ0vwLgkEX74EGGpSIvag6aB++qMVaYrJsM8CF8QrKmLigt5dAj8
+	 7YEHUy0+ENPIw==
+Date: Tue, 2 Sep 2025 21:18:47 +0800
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Benson Leung <bleung@chromium.org>, linux-input@vger.kernel.org,
+	chrome-platform@lists.linux.dev
+Subject: Re: [PATCH 0/5] platform/chrome: Fix a race when probing drivers
+Message-ID: <aLbutygmfjV4AuhZ@tzungbi-laptop>
+References: <20250828083601.856083-1-tzungbi@kernel.org>
+ <sqgfgwmbpxvaszyxt4mymne6dvhzjvuifogsqjdu6j3tm436ph@x7chldp3dfpr>
+ <aLGhLCc9UQWwBz47@tzungbi-laptop>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.15-dev-c81fc
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aLGhLCc9UQWwBz47@tzungbi-laptop>
 
-On Fri, 08 Aug 2025 17:17:44 +0200, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
+On Fri, Aug 29, 2025 at 08:50:01PM +0800, Tzung-Bi Shih wrote:
+> On Fri, Aug 29, 2025 at 11:28:55AM +0000, Dmitry Torokhov wrote:
+> > On Thu, Aug 28, 2025 at 08:35:56AM +0000, Tzung-Bi Shih wrote:
+> > > A race is observed when cros_ec_lpc and cros-ec-keyb are all built as
+> > > modules.  cros_ec_lpc is cros-ec-keyb's parent.  However, they can be
+> > > probed at the same time.
+> > > 
+> > > Example:
+> > > 
+> > > + -----------------------------------------------------------------+
+> > > | Some init process (e.g. udevd) | deferred_probe_work_func worker |
+> > > + -----------------------------------------------------------------+
+> > > | Probe cros-ec-keyb.            |                                 |
+> > > | - Decide to defer[1].          |                                 |
+> > > |                                | A device bound to a driver[2].  |
+> > > | Probe cros_ec_lpc.             |                                 |
+> > > | - Init the struct[3].          |                                 |
+> > > |                                | Retry cros-ec-keyb from the     |
+> > > |                                | deferred list[4].               |
+> > > |                                | - Won't defer again as [3].     |
+> > > |                                | - Access uninitialized data in  |
+> > > |                                |   the struct.                   |
+> > > | - Register the device.         |                                 |
+> > > + -----------------------------------------------------------------+
+> > > 
+> > > [1] https://elixir.bootlin.com/linux/v6.16/source/drivers/input/keyboard/cros_ec_keyb.c#L707
+> > > [2] https://elixir.bootlin.com/linux/v6.16/source/drivers/base/dd.c#L405
+> > > [3] https://elixir.bootlin.com/linux/v6.16/source/drivers/platform/chrome/cros_ec_lpc.c#L644
+> > > [4] https://elixir.bootlin.com/linux/v6.16/source/drivers/base/dd.c#L418
+> > > 
+> > > Note that the device link[5] can't help as in the observed environment,
+> > > the devices are already added via device_add()[6].
+> > > 
+> > > [5] https://www.kernel.org/doc/html/latest/driver-api/device_link.html#usage
+> > > [6] https://elixir.bootlin.com/linux/v6.16/source/drivers/acpi/acpi_platform.c#L177
+> > > 
+> > > The series fixes the issue by ensuring the struct is ready for accessing
+> > > before continuing to probe cros-ec-keyb.
+> > 
+> > Why is the keyboard platform device instantiated before the transport
+> > (cros_ec_lpc) is done initializing? I think this is the root of the
+> > issue...
 > 
-> Commit 678bae2eaa81 ("gpiolib: make legacy interfaces optional") was
-> merged for linux-6.17, so now it is possible to use the legacy interfaces
-> conditionally and eventually have the support left out of the kernel
-> whenever it is not needed.
+> I may misunderstand but it seems to me:
 > 
-> [...]
+> - The ACPI bus enumerated and instantiated the platform devices[6] first.
+> 
+> - The keyboard platform device was probed when `cros_ec_keyb_driver`
+>   registered.  It deferred as its parent's drvdata was NULL[1].
+> 
+> - The transport platform device was probed when `cros_ec_lpc_driver`
+>   registered.  It set the drvdata[3].
+> 
+> - The keyboard platform device was probed again from retrying the deferred
+>   list, by another thread `deferred_probe_work_func`.  The parent's drvdata
+>   wasn't NULL and cros_ec_register() for the transport device weren't
+>   finished.  The race happened.
 
-Applied, thanks!
+Hi Dmitry,
 
-[12/21] mfd: arizona: make legacy gpiolib interface optional
-        commit: 12f6c0afc8987d72017a3ecf7c1183cb951b0d24
-[13/21] mfd: si476x: add GPIOLIB_LEGACY dependency
-        commit: 1ae250257e43b3fba225e4f8ea7d87125dc861ae
-[14/21] mfd: aat2870: add GPIOLIB_LEGACY dependency
-        commit: 3144986f37911f131f373743f294b2941a8ef37c
-
---
-Lee Jones [李琼斯]
-
+Does it make sense to you?
 
