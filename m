@@ -1,687 +1,251 @@
-Return-Path: <linux-input+bounces-14416-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14417-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 104A7B3F9EF
-	for <lists+linux-input@lfdr.de>; Tue,  2 Sep 2025 11:14:31 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D725B3FFA6
+	for <lists+linux-input@lfdr.de>; Tue,  2 Sep 2025 14:13:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C91701778EB
-	for <lists+linux-input@lfdr.de>; Tue,  2 Sep 2025 09:14:30 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 794C918959A9
+	for <lists+linux-input@lfdr.de>; Tue,  2 Sep 2025 12:14:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9EF5E2580CF;
-	Tue,  2 Sep 2025 09:14:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B3BDC2FB973;
+	Tue,  2 Sep 2025 12:08:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="j2pelOgo"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mYISNsMy"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 776891EF0B0;
-	Tue,  2 Sep 2025 09:14:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89CD6288C20;
+	Tue,  2 Sep 2025 12:08:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756804462; cv=none; b=tWUbH7kt/Ie3PgSdR4AJN+h9cow9ELJRYbCoUiQJHtn1njuNo2KnDgWff9qUpB7VnmnhPjmhVTKS+Sct9GPWC/DEI8zriXtOXT2xve62SYixF7gtibFX3xXjshF2fpHYNkF0qYT1lL52IFo5FEXDgw4PYr8ggfne/Wxfnv3pih4=
+	t=1756814922; cv=none; b=LDJteAxDkhovEsa4eo0lV6dLvsEcGSFwdp9wD36pJG/6bvo7VweO46WsXOCaCARvWSh6envOwqeXb61kSlWaZ7O9zMgzKUX+EzBnxD6yEdZFbpM8ATW1DpuSmyqCqpEkQZ8Wo+xPl8M/fTL3GkhzIvjNVD9R2cb41v4QCvEuegg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756804462; c=relaxed/simple;
-	bh=uaLNb7Yt5kWU/EWncV3ytsudg9MXOP5r+N9J3ZbF0pk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=YcB7+OQL/0n0dXoxaT8NUXN7vntOT+jEqi3QXtv9lMaCxjlgqSNatZG46uAMZiLxJuxtZKLCiBvxS5o4vlJxDBnGJ0GX9T5AuF7IbMxM0XvgTSuMf9elZqbB6e8A7/ICXewD/RlcvsJ4Yr5t4OMje2qKru82+YnqWkY1NgVTmZY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=j2pelOgo; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B89BFC4CEF5;
-	Tue,  2 Sep 2025 09:14:20 +0000 (UTC)
+	s=arc-20240116; t=1756814922; c=relaxed/simple;
+	bh=HeA1+/cHV5gPmD0WyG1N3nwGnqxfJ4RmixgnSuMv4Ic=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=EcDuJUKhojoBPFY6ObpEljGf6BYfn/uYeQ3ofPb1Bkh/TRnXK7ILLIf5RZc0vkVLtaCteKTsSZ7wodrd3Y5/nNlieVSHQvG4Y1QLTl9BscOh7evyvLMhN2hBoG+1ddV1uTmR8KY8MythJ7gV3rF26AsKWeTqY/xXeZbsDyoVUNg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mYISNsMy; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E3B7C4CEED;
+	Tue,  2 Sep 2025 12:08:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756804462;
-	bh=uaLNb7Yt5kWU/EWncV3ytsudg9MXOP5r+N9J3ZbF0pk=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=j2pelOgo/sPbyQYgr6Z6M1xTPVxheS7+KmT+/RajR554dBP59SKwQzYD81FHoYDNb
-	 LJFYQ2bbqFlT43gu9QIZR9rQb/s6PXGt8LuTolOsMZVCqE8zsZaFI8QcGmJ24C+5ve
-	 nReKtM3ODebxMyQ5dLJ083Lscg5WwiwIylYOW5h8/ks5HIUol0pPCKcZwQ/5xv4s+9
-	 0vQKFZ7b8GjVrfPwxmyVK6Dr5T4VKZ/L6lDQz7Rp4DfnYZRkReKv+0IhSdoJeL4xK+
-	 kLKzW+2Bfuf1lHOyN+iKq7JL4MEZ+dLpcjmjT52VKmDRavndqTzDIebFGq2Tbq4yd6
-	 tm2F9Ep+seqQA==
-Message-ID: <f0067b2b-d621-4a45-bcc6-0a3c1b7338df@kernel.org>
-Date: Tue, 2 Sep 2025 11:14:18 +0200
+	s=k20201202; t=1756814922;
+	bh=HeA1+/cHV5gPmD0WyG1N3nwGnqxfJ4RmixgnSuMv4Ic=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=mYISNsMyYFngdyR8w+SOjktMZM+9/n/3dOylpCuT8CQT0t/pBcDeZC5SgbIc0aw8A
+	 H9FXgXpdg1qGXc6LsgJlGSYa1BgIR8xhp+hNGG30BumqddtAMZr1iCiP5JhyolSSJb
+	 HTj7/ForXletQO1/rnP63Tkhi3Ynys+vQ7DfGtuzqASY7oInBVQuskrh0NcPU5V35j
+	 M1IjElgfmDYwpdfwFciQHqFrFAulKtSMM5W2wxl0OL3+wdz5JuPDK0HJNNSrpu3thq
+	 9lefec8qVz474QEMjIaLqewnfF/FvFO6a9sMZBj0YPc7K4NGcwgNP/L2zUle58lycW
+	 BvOhvpPAJlhJg==
+From: Sasha Levin <sashal@kernel.org>
+To: patches@lists.linux.dev,
+	stable@vger.kernel.org
+Cc: Zhang Lixu <lixu.zhang@intel.com>,
+	Andy Shevchenko <andriy.shevchenko@intel.com>,
+	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+	Jiri Kosina <jkosina@suse.com>,
+	Sasha Levin <sashal@kernel.org>,
+	jikos@kernel.org,
+	linux@treblig.org,
+	linux-input@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.16-5.15] HID: intel-ish-hid: Increase ISHTP resume ack timeout to 300ms
+Date: Tue,  2 Sep 2025 08:08:14 -0400
+Message-ID: <20250902120833.1342615-3-sashal@kernel.org>
+X-Mailer: git-send-email 2.50.1
+In-Reply-To: <20250902120833.1342615-1-sashal@kernel.org>
+References: <20250902120833.1342615-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5] HID: lg-g15 - Add support for Logitech G13.
-To: "Leo L. Schwab" <ewhac@ewhac.org>
-Cc: Kate Hsuan <hpa@redhat.com>, Jiri Kosina <jikos@kernel.org>,
- Benjamin Tissoires <bentiss@kernel.org>, linux-input@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20250902003659.361934-2-ewhac@ewhac.org>
-From: Hans de Goede <hansg@kernel.org>
-Content-Language: en-US, nl
-In-Reply-To: <20250902003659.361934-2-ewhac@ewhac.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.16.4
+Content-Transfer-Encoding: 8bit
 
-Hi All,
+From: Zhang Lixu <lixu.zhang@intel.com>
 
-On 2-Sep-25 2:36 AM, Leo L. Schwab wrote:
-> The Logitech G13 is a gaming keypad with general-purpose macro keys,
-> four LED-backlit macro preset keys, five "menu" keys, backlight toggle
-> key, an analog thumbstick, RGB LED backlight, and a monochrome LCD
-> display.
-> 
-> Support input event generation for all keys and the thumbstick, and
-> expose all LEDs.
-> 
-> Signed-off-by: Leo L. Schwab <ewhac@ewhac.org>
-> Reviewed-by: Hans de Goede <hansg@kernel.org>
-> Tested-by: Kate Hsuan <hpa@redhat.com>
-> ---
-> Changes in v5:
->   - None; resend v4 due to bounced email submission.
+[ Upstream commit dfbd535db74df0343ca39670e06326d7aee8c8f4 ]
 
-Note to the HID maintainers, the brightness_hw_changed handling
-needs some work here, see the v3 thread discussion, so please
-do not merge this yet.
+During s2idle suspend/resume testing on some systems, occasional several
+tens of seconds delays were observed in HID sensor resume handling. Trace
+analysis revealed repeated "link not ready" timeout errors during
+set/get_report operations, which were traced to the
+hid_ishtp_cl_resume_handler() timing out while waiting for the ISHTP
+resume acknowledgment. The previous timeout was set to 50ms, which proved
+insufficient on affected machines.
 
-Regards,
+Empirical measurements on failing systems showed that the time from ISH
+resume initiation to receiving the ISHTP resume ack could be as long as
+180ms. As a result, the 50ms timeout caused failures.
 
-Hans
+To address this, increase the wait timeout for ISHTP resume ack from 50ms
+to 300ms, providing a safer margin for slower hardware. Additionally, add
+error logging when a timeout occurs to aid future debugging and issue
+triage. No functional changes are made beyond the timeout adjustment and
+improved error reporting.
 
+Signed-off-by: Zhang Lixu <lixu.zhang@intel.com>
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
+Acked-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Signed-off-by: Jiri Kosina <jkosina@suse.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
 
+LLM Generated explanations, may be completely bogus:
 
-> Changes in v4:
->   - Minor changes recommended by Hans de Goede <hansg@kernel.org>.
-> Changes in v3:
->   - Re-revise commit message.
->   - Conditionally compile the section depending on
->     CONFIG_LEDS_BRIGHTNESS_HW_CHANGED correctly this time.
->   - Use led-class-multicolor facilities for the RGB backlight.
->   - Changes recommended by Kate Hsuan <hpa@redhat.com>:
->     - Use guard(mutex) construct.
->     - Fix numerous style nits.
-> Changes in v2:
->   - Add `#ifdef CONFIG_LEDS_BRIGHTNESS_HW_CHANGED` bracket around new
->     code segment dependent on that feature (fixes test robot build
->     error).
->   - Use `guard(mutex)` construct in new code (existing code left
->     unmodified).
->   - Commit message revised.
-> 
->  drivers/hid/hid-ids.h    |   1 +
->  drivers/hid/hid-lg-g15.c | 426 +++++++++++++++++++++++++++++++++++++--
->  2 files changed, 411 insertions(+), 16 deletions(-)
-> 
-> diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-> index 33cc5820f2be..7ed1e402b80a 100644
-> --- a/drivers/hid/hid-ids.h
-> +++ b/drivers/hid/hid-ids.h
-> @@ -870,6 +870,7 @@
->  #define USB_DEVICE_ID_LOGITECH_DUAL_ACTION	0xc216
->  #define USB_DEVICE_ID_LOGITECH_RUMBLEPAD2	0xc218
->  #define USB_DEVICE_ID_LOGITECH_RUMBLEPAD2_2	0xc219
-> +#define USB_DEVICE_ID_LOGITECH_G13		0xc21c
->  #define USB_DEVICE_ID_LOGITECH_G15_LCD		0xc222
->  #define USB_DEVICE_ID_LOGITECH_G11		0xc225
->  #define USB_DEVICE_ID_LOGITECH_G15_V2_LCD	0xc227
-> diff --git a/drivers/hid/hid-lg-g15.c b/drivers/hid/hid-lg-g15.c
-> index f8605656257b..62cb795c2393 100644
-> --- a/drivers/hid/hid-lg-g15.c
-> +++ b/drivers/hid/hid-lg-g15.c
-> @@ -26,7 +26,11 @@
->  #define LG_G510_FEATURE_BACKLIGHT_RGB	0x05
->  #define LG_G510_FEATURE_POWER_ON_RGB	0x06
->  
-> +#define LG_G13_FEATURE_M_KEYS_LEDS	0x05
-> +#define LG_G13_FEATURE_BACKLIGHT_RGB	0x07
-> +
->  enum lg_g15_model {
-> +	LG_G13,
->  	LG_G15,
->  	LG_G15_V2,
->  	LG_G510,
-> @@ -45,6 +49,12 @@ enum lg_g15_led_type {
->  	LG_G15_LED_MAX
->  };
->  
-> +struct g13_input_report {
-> +	u8 report_id;	/* Report ID is always set to 1. */
-> +	u8 joy_x, joy_y;
-> +	u8 keybits[5];
-> +};
-> +
->  struct lg_g15_led {
->  	union {
->  		struct led_classdev cdev;
-> @@ -63,12 +73,172 @@ struct lg_g15_data {
->  	struct mutex mutex;
->  	struct work_struct work;
->  	struct input_dev *input;
-> +	struct input_dev *input_js; /* Separate joystick device for G13. */
->  	struct hid_device *hdev;
->  	enum lg_g15_model model;
->  	struct lg_g15_led leds[LG_G15_LED_MAX];
->  	bool game_mode_enabled;
->  };
->  
-> +/********* G13 LED functions ***********/
-> +/*
-> + * G13 retains no state across power cycles, and always powers up with the backlight on,
-> + * color #5AFF6E, all macro key LEDs off.
-> + */
-> +static int lg_g13_get_leds_state(struct lg_g15_data *g15)
-> +{
-> +	u8 * const tbuf = g15->transfer_buf;
-> +	int ret, high;
-> +
-> +	/* RGB backlight. */
-> +	ret = hid_hw_raw_request(g15->hdev, LG_G13_FEATURE_BACKLIGHT_RGB,
-> +				 tbuf, 5,
-> +				 HID_FEATURE_REPORT, HID_REQ_GET_REPORT);
-> +	if (ret != 5) {
-> +		hid_err(g15->hdev, "Error getting backlight brightness: %d\n", ret);
-> +		return (ret < 0) ? ret : -EIO;
-> +	}
-> +
-> +	/* Normalize RGB intensities against the highest component. */
-> +	high = max3(tbuf[1], tbuf[2], tbuf[3]);
-> +	if (high) {
-> +		g15->leds[LG_G15_KBD_BRIGHTNESS].red =
-> +			DIV_ROUND_CLOSEST(tbuf[1] * 255, high);
-> +		g15->leds[LG_G15_KBD_BRIGHTNESS].green =
-> +			DIV_ROUND_CLOSEST(tbuf[2] * 255, high);
-> +		g15->leds[LG_G15_KBD_BRIGHTNESS].blue =
-> +			DIV_ROUND_CLOSEST(tbuf[3] * 255, high);
-> +		g15->leds[LG_G15_KBD_BRIGHTNESS].brightness = high;
-> +	} else {
-> +		g15->leds[LG_G15_KBD_BRIGHTNESS].red        = 255;
-> +		g15->leds[LG_G15_KBD_BRIGHTNESS].green      = 255;
-> +		g15->leds[LG_G15_KBD_BRIGHTNESS].blue       = 255;
-> +		g15->leds[LG_G15_KBD_BRIGHTNESS].brightness = 0;
-> +	}
-> +
-> +	/* Macro LEDs. */
-> +	ret = hid_hw_raw_request(g15->hdev, LG_G13_FEATURE_M_KEYS_LEDS,
-> +				 tbuf, 5,
-> +				 HID_FEATURE_REPORT, HID_REQ_GET_REPORT);
-> +	if (ret != 5) {
-> +		hid_err(g15->hdev, "Error getting macro LED brightness: %d\n", ret);
-> +		return (ret < 0) ? ret : -EIO;
-> +	}
-> +
-> +	for (int i = LG_G15_MACRO_PRESET1; i < LG_G15_LED_MAX; ++i)
-> +		g15->leds[i].brightness = tbuf[1] & (1 << (i - LG_G15_MACRO_PRESET1));
-> +
-> +	return 0;
-> +}
-> +
-> +static int lg_g13_kbd_led_write(struct lg_g15_data *g15,
-> +				struct lg_g15_led *g15_led,
-> +				enum led_brightness brightness)
-> +{
-> +	struct mc_subled const * const subleds = g15_led->mcdev.subled_info;
-> +	u8 * const tbuf = g15->transfer_buf;
-> +	int ret;
-> +
-> +	guard(mutex)(&g15->mutex);
-> +
-> +	led_mc_calc_color_components(&g15_led->mcdev, brightness);
-> +
-> +	tbuf[0] = 5;
-> +	tbuf[1] = subleds[0].brightness;
-> +	tbuf[2] = subleds[1].brightness;
-> +	tbuf[3] = subleds[2].brightness;
-> +	tbuf[4] = 0;
-> +
-> +	ret = hid_hw_raw_request(g15->hdev, LG_G13_FEATURE_BACKLIGHT_RGB,
-> +				 tbuf, 5,
-> +				 HID_FEATURE_REPORT, HID_REQ_SET_REPORT);
-> +	if (ret != 5) {
-> +		hid_err(g15->hdev, "Error setting backlight brightness: %d\n", ret);
-> +		return (ret < 0) ? ret : -EIO;
-> +	}
-> +
-> +	g15_led->brightness = brightness;
-> +	return 0;
-> +}
-> +
-> +static int lg_g13_kbd_led_set(struct led_classdev *led_cdev, enum led_brightness brightness)
-> +{
-> +	struct led_classdev_mc *mc = lcdev_to_mccdev(led_cdev);
-> +	struct lg_g15_led *g15_led =
-> +		container_of(mc, struct lg_g15_led, mcdev);
-> +	struct lg_g15_data *g15 = dev_get_drvdata(led_cdev->dev->parent);
-> +
-> +	/* Ignore LED off on unregister / keyboard unplug */
-> +	if (led_cdev->flags & LED_UNREGISTERING)
-> +		return 0;
-> +
-> +	return lg_g13_kbd_led_write(g15, g15_led, brightness);
-> +}
-> +
-> +static enum led_brightness lg_g13_kbd_led_get(struct led_classdev *led_cdev)
-> +{
-> +	struct led_classdev_mc const * const mc = lcdev_to_mccdev(led_cdev);
-> +	struct lg_g15_led const *g15_led =
-> +		container_of(mc, struct lg_g15_led, mcdev);
-> +
-> +	return g15_led->brightness;
-> +}
-> +
-> +static int lg_g13_mkey_led_set(struct led_classdev *led_cdev, enum led_brightness brightness)
-> +{
-> +	struct lg_g15_led *g15_led =
-> +		container_of(led_cdev, struct lg_g15_led, cdev);
-> +	struct lg_g15_data *g15 = dev_get_drvdata(led_cdev->dev->parent);
-> +	int i, ret;
-> +	u8 * const tbuf = g15->transfer_buf;
-> +	u8 val, mask = 0;
-> +
-> +	/* Ignore LED off on unregister / keyboard unplug */
-> +	if (led_cdev->flags & LED_UNREGISTERING)
-> +		return 0;
-> +
-> +	guard(mutex)(&g15->mutex);
-> +
-> +	for (i = LG_G15_MACRO_PRESET1; i < LG_G15_LED_MAX; ++i) {
-> +		if (i == g15_led->led)
-> +			val = brightness;
-> +		else
-> +			val = g15->leds[i].brightness;
-> +
-> +		if (val)
-> +			mask |= 1 << (i - LG_G15_MACRO_PRESET1);
-> +	}
-> +
-> +	tbuf[0] = 5;
-> +	tbuf[1] = mask;
-> +	tbuf[2] = 0;
-> +	tbuf[3] = 0;
-> +	tbuf[4] = 0;
-> +
-> +	ret = hid_hw_raw_request(g15->hdev, LG_G13_FEATURE_M_KEYS_LEDS,
-> +				 tbuf, 5,
-> +				 HID_FEATURE_REPORT, HID_REQ_SET_REPORT);
-> +	if (ret != 5) {
-> +		hid_err(g15->hdev, "Error setting LED brightness: %d\n", ret);
-> +		return (ret < 0) ? ret : -EIO;
-> +	}
-> +
-> +	g15_led->brightness = brightness;
-> +	return 0;
-> +}
-> +
-> +static enum led_brightness lg_g13_mkey_led_get(struct led_classdev *led_cdev)
-> +{
-> +	/*
-> +	 * G13 doesn't change macro key LEDs behind our back, so they're
-> +	 * whatever we last set them to.
-> +	 */
-> +	struct lg_g15_led *g15_led =
-> +		container_of(led_cdev, struct lg_g15_led, cdev);
-> +
-> +	return g15_led->brightness;
-> +}
-> +
->  /******** G15 and G15 v2 LED functions ********/
->  
->  static int lg_g15_update_led_brightness(struct lg_g15_data *g15)
-> @@ -390,6 +560,8 @@ static int lg_g15_get_initial_led_brightness(struct lg_g15_data *g15)
->  	int ret;
->  
->  	switch (g15->model) {
-> +	case LG_G13:
-> +		return lg_g13_get_leds_state(g15);
->  	case LG_G15:
->  	case LG_G15_V2:
->  		return lg_g15_update_led_brightness(g15);
-> @@ -417,6 +589,116 @@ static int lg_g15_get_initial_led_brightness(struct lg_g15_data *g15)
->  
->  /******** Input functions ********/
->  
-> +/**
-> + * g13_input_report.keybits[] is not 32-bit aligned, so we can't use the bitops macros.
-> + *
-> + * @ary: Pointer to array of u8s
-> + * @b: Bit index into ary, LSB first.  Not range checked.
-> + */
-> +#define	TEST_BIT(ary, b)	((1 << ((b) & 7)) & (ary)[(b) >> 3])
-> +
-> +/* Table mapping keybits[] bit positions to event codes. */
-> +/* Note: Indices are discontinuous to aid readability. */
-> +static const u16 g13_keys_for_bits[] = {
-> +	/* Main keypad - keys G1 - G22 */
-> +	[0] = KEY_MACRO1,
-> +	[1] = KEY_MACRO2,
-> +	[2] = KEY_MACRO3,
-> +	[3] = KEY_MACRO4,
-> +	[4] = KEY_MACRO5,
-> +	[5] = KEY_MACRO6,
-> +	[6] = KEY_MACRO7,
-> +	[7] = KEY_MACRO8,
-> +	[8] = KEY_MACRO9,
-> +	[9] = KEY_MACRO10,
-> +	[10] = KEY_MACRO11,
-> +	[11] = KEY_MACRO12,
-> +	[12] = KEY_MACRO13,
-> +	[13] = KEY_MACRO14,
-> +	[14] = KEY_MACRO15,
-> +	[15] = KEY_MACRO16,
-> +	[16] = KEY_MACRO17,
-> +	[17] = KEY_MACRO18,
-> +	[18] = KEY_MACRO19,
-> +	[19] = KEY_MACRO20,
-> +	[20] = KEY_MACRO21,
-> +	[21] = KEY_MACRO22,
-> +
-> +	/* LCD menu buttons. */
-> +	[24] = KEY_KBD_LCD_MENU5,	/* "Next page" button */
-> +	[25] = KEY_KBD_LCD_MENU1,	/* Left-most */
-> +	[26] = KEY_KBD_LCD_MENU2,
-> +	[27] = KEY_KBD_LCD_MENU3,
-> +	[28] = KEY_KBD_LCD_MENU4,	/* Right-most */
-> +
-> +	/* Macro preset and record buttons; have red LEDs under them. */
-> +	[29] = KEY_MACRO_PRESET1,
-> +	[30] = KEY_MACRO_PRESET2,
-> +	[31] = KEY_MACRO_PRESET3,
-> +	[32] = KEY_MACRO_RECORD_START,
-> +
-> +	/* 33-35 handled by joystick device. */
-> +
-> +	/* Backlight toggle. */
-> +	[37] = KEY_LIGHTS_TOGGLE,
-> +};
-> +
-> +#define	G13_JS_KEYBITS_OFFSET	33
-> +
-> +static const u16 g13_keys_for_bits_js[] = {
-> +	/* Joystick buttons */
-> +	/* These keybits are at bit indices 33, 34, and 35. */
-> +	BTN_BASE,	/* Left side */
-> +	BTN_BASE2,	/* Bottom side */
-> +	BTN_THUMB,	/* Stick depress */
-> +};
-> +
-> +static int lg_g13_event(struct lg_g15_data *g15, u8 const *data)
-> +{
-> +	struct g13_input_report const * const rep = (struct g13_input_report *) data;
-> +	int i, val;
-> +
-> +	/*
-> +	 * Main macropad and menu keys.
-> +	 * Emit key events defined for each bit position.
-> +	 */
-> +	for (i = 0; i < ARRAY_SIZE(g13_keys_for_bits); ++i) {
-> +		if (g13_keys_for_bits[i]) {
-> +			val = TEST_BIT(rep->keybits, i);
-> +			input_report_key(g15->input, g13_keys_for_bits[i], val);
-> +		}
-> +	}
-> +	input_sync(g15->input);
-> +
-> +	/*
-> +	 * Joystick.
-> +	 * Emit button and deflection events.
-> +	 */
-> +	for (i = 0; i < ARRAY_SIZE(g13_keys_for_bits_js); ++i) {
-> +		val = TEST_BIT(rep->keybits, i + G13_JS_KEYBITS_OFFSET);
-> +		input_report_key(g15->input_js, g13_keys_for_bits_js[i], val);
-> +	}
-> +	input_report_abs(g15->input_js, ABS_X, rep->joy_x);
-> +	input_report_abs(g15->input_js, ABS_Y, rep->joy_y);
-> +	input_sync(g15->input_js);
-> +
-> +	if (IS_ENABLED(CONFIG_LEDS_BRIGHTNESS_HW_CHANGED)) {
-> +		/*
-> +		 * Bit 23 of keybits[] reports the current backlight on/off
-> +		 * state.  If it has changed from the last cached value, apply
-> +		 * an update.
-> +		 */
-> +		bool hw_brightness_changed = (!!TEST_BIT(rep->keybits, 23))
-> +					   ^ (g15->leds[0].cdev.brightness_hw_changed > 0);
-> +		if (hw_brightness_changed)
-> +			led_classdev_notify_brightness_hw_changed(
-> +				&g15->leds[0].cdev,
-> +				TEST_BIT(rep->keybits, 23) ? LED_FULL : LED_OFF);
-> +	}
-> +
-> +	return 0;
-> +}
-> +
->  /* On the G15 Mark I Logitech has been quite creative with which bit is what */
->  static void lg_g15_handle_lcd_menu_keys(struct lg_g15_data *g15, u8 *data)
->  {
-> @@ -572,6 +854,10 @@ static int lg_g15_raw_event(struct hid_device *hdev, struct hid_report *report,
->  		return 0;
->  
->  	switch (g15->model) {
-> +	case LG_G13:
-> +		if (data[0] == 0x01 && size == sizeof(struct g13_input_report))
-> +			return lg_g13_event(g15, data);
-> +		break;
->  	case LG_G15:
->  		if (data[0] == 0x02 && size == 9)
->  			return lg_g15_event(g15, data);
-> @@ -616,13 +902,22 @@ static void lg_g15_setup_led_rgb(struct lg_g15_data *g15, int index)
->  {
->  	int i;
->  	struct mc_subled *subled_info;
-> -
-> -	g15->leds[index].mcdev.led_cdev.brightness_set_blocking =
-> -		lg_g510_kbd_led_set;
-> -	g15->leds[index].mcdev.led_cdev.brightness_get =
-> -		lg_g510_kbd_led_get;
-> -	g15->leds[index].mcdev.led_cdev.max_brightness = 255;
-> -	g15->leds[index].mcdev.num_colors = 3;
-> +	struct lg_g15_led * const gled = &g15->leds[index];
-> +
-> +	if (g15->model == LG_G13) {
-> +		gled->mcdev.led_cdev.brightness_set_blocking =
-> +			lg_g13_kbd_led_set;
-> +		gled->mcdev.led_cdev.brightness_get =
-> +			lg_g13_kbd_led_get;
-> +		gled->mcdev.led_cdev.flags = LED_BRIGHT_HW_CHANGED;
-> +	} else {
-> +		gled->mcdev.led_cdev.brightness_set_blocking =
-> +			lg_g510_kbd_led_set;
-> +		gled->mcdev.led_cdev.brightness_get =
-> +			lg_g510_kbd_led_get;
-> +	}
-> +	gled->mcdev.led_cdev.max_brightness = 255;
-> +	gled->mcdev.num_colors = 3;
->  
->  	subled_info = devm_kcalloc(&g15->hdev->dev, 3, sizeof(*subled_info), GFP_KERNEL);
->  	if (!subled_info)
-> @@ -632,20 +927,20 @@ static void lg_g15_setup_led_rgb(struct lg_g15_data *g15, int index)
->  		switch (i + 1) {
->  		case LED_COLOR_ID_RED:
->  			subled_info[i].color_index = LED_COLOR_ID_RED;
-> -			subled_info[i].intensity = g15->leds[index].red;
-> +			subled_info[i].intensity = gled->red;
->  			break;
->  		case LED_COLOR_ID_GREEN:
->  			subled_info[i].color_index = LED_COLOR_ID_GREEN;
-> -			subled_info[i].intensity = g15->leds[index].green;
-> +			subled_info[i].intensity = gled->green;
->  			break;
->  		case LED_COLOR_ID_BLUE:
->  			subled_info[i].color_index = LED_COLOR_ID_BLUE;
-> -			subled_info[i].intensity = g15->leds[index].blue;
-> +			subled_info[i].intensity = gled->blue;
->  			break;
->  		}
->  		subled_info[i].channel = i;
->  	}
-> -	g15->leds[index].mcdev.subled_info = subled_info;
-> +	gled->mcdev.subled_info = subled_info;
->  }
->  
->  static int lg_g15_register_led(struct lg_g15_data *g15, int i, const char *name)
-> @@ -656,6 +951,23 @@ static int lg_g15_register_led(struct lg_g15_data *g15, int i, const char *name)
->  	g15->leds[i].cdev.name = name;
->  
->  	switch (g15->model) {
-> +	case LG_G13:
-> +		if (i < LG_G15_BRIGHTNESS_MAX) {
-> +			/* RGB backlight. */
-> +			lg_g15_setup_led_rgb(g15, i);
-> +			ret = devm_led_classdev_multicolor_register_ext(&g15->hdev->dev,
-> +									&g15->leds[i].mcdev,
-> +									NULL);
-> +		} else {
-> +			/* Macro keys */
-> +			g15->leds[i].cdev.brightness_set_blocking = lg_g13_mkey_led_set;
-> +			g15->leds[i].cdev.brightness_get = lg_g13_mkey_led_get;
-> +			g15->leds[i].cdev.max_brightness = 1;
-> +
-> +			ret = devm_led_classdev_register(&g15->hdev->dev,
-> +							 &g15->leds[i].cdev);
-> +		}
-> +		break;
->  	case LG_G15:
->  	case LG_G15_V2:
->  		g15->leds[i].cdev.brightness_get = lg_g15_led_get;
-> @@ -702,11 +1014,9 @@ static int lg_g15_register_led(struct lg_g15_data *g15, int i, const char *name)
->  }
->  
->  /* Common input device init code shared between keyboards and Z-10 speaker handling */
-> -static void lg_g15_init_input_dev(struct hid_device *hdev, struct input_dev *input,
-> -				  const char *name)
-> +static void lg_g15_init_input_dev_core(struct hid_device *hdev, struct input_dev *input,
-> +				       char const *name)
->  {
-> -	int i;
-> -
->  	input->name = name;
->  	input->phys = hdev->phys;
->  	input->uniq = hdev->uniq;
-> @@ -717,12 +1027,42 @@ static void lg_g15_init_input_dev(struct hid_device *hdev, struct input_dev *inp
->  	input->dev.parent = &hdev->dev;
->  	input->open = lg_g15_input_open;
->  	input->close = lg_g15_input_close;
-> +}
-> +
-> +static void lg_g15_init_input_dev(struct hid_device *hdev, struct input_dev *input,
-> +				  const char *name)
-> +{
-> +	int i;
-> +
-> +	lg_g15_init_input_dev_core(hdev, input, name);
->  
->  	/* Keys below the LCD, intended for controlling a menu on the LCD */
->  	for (i = 0; i < 5; i++)
->  		input_set_capability(input, EV_KEY, KEY_KBD_LCD_MENU1 + i);
->  }
->  
-> +static void lg_g13_init_input_dev(struct hid_device *hdev,
-> +				  struct input_dev *input, const char *name,
-> +				  struct input_dev *input_js, const char *name_js)
-> +{
-> +	/* Macropad. */
-> +	lg_g15_init_input_dev_core(hdev, input, name);
-> +	for (int i = 0; i < ARRAY_SIZE(g13_keys_for_bits); ++i) {
-> +		if (g13_keys_for_bits[i])
-> +			input_set_capability(input, EV_KEY, g13_keys_for_bits[i]);
-> +	}
-> +
-> +	/* OBTW, we're a joystick, too... */
-> +	lg_g15_init_input_dev_core(hdev, input_js, name_js);
-> +	for (int i = 0; i < ARRAY_SIZE(g13_keys_for_bits_js); ++i)
-> +		input_set_capability(input_js, EV_KEY, g13_keys_for_bits_js[i]);
-> +
-> +	input_set_capability(input_js, EV_ABS, ABS_X);
-> +	input_set_abs_params(input_js, ABS_X, 0, 255, 0, 0);
-> +	input_set_capability(input_js, EV_ABS, ABS_Y);
-> +	input_set_abs_params(input_js, ABS_Y, 0, 255, 0, 0);
-> +}
-> +
->  static int lg_g15_probe(struct hid_device *hdev, const struct hid_device_id *id)
->  {
->  	static const char * const led_names[] = {
-> @@ -739,7 +1079,7 @@ static int lg_g15_probe(struct hid_device *hdev, const struct hid_device_id *id)
->  	unsigned int connect_mask = 0;
->  	bool has_ff000000 = false;
->  	struct lg_g15_data *g15;
-> -	struct input_dev *input;
-> +	struct input_dev *input, *input_js;
->  	struct hid_report *rep;
->  	int ret, i, gkeys = 0;
->  
-> @@ -778,6 +1118,25 @@ static int lg_g15_probe(struct hid_device *hdev, const struct hid_device_id *id)
->  	hid_set_drvdata(hdev, (void *)g15);
->  
->  	switch (g15->model) {
-> +	case LG_G13:
-> +		/*
-> +		 * The G13 has an analog thumbstick with nearby buttons.  Some
-> +		 * libraries and applications are known to ignore devices that
-> +		 * don't "look like" a joystick, and a device with two ABS axes
-> +		 * and 25+ macro keys would confuse them.
-> +		 *
-> +		 * Create an additional input device dedicated to appear as a
-> +		 * simplified joystick (two ABS axes, three BTN buttons).
-> +		 */
-> +		input_js = devm_input_allocate_device(&hdev->dev);
-> +		if (!input_js)
-> +			return -ENOMEM;
-> +		g15->input_js = input_js;
-> +		input_set_drvdata(input_js, hdev);
-> +
-> +		connect_mask = HID_CONNECT_HIDRAW;
-> +		gkeys = 25;
-> +		break;
->  	case LG_G15:
->  		INIT_WORK(&g15->work, lg_g15_leds_changed_work);
->  		/*
-> @@ -859,6 +1218,34 @@ static int lg_g15_probe(struct hid_device *hdev, const struct hid_device_id *id)
->  			goto error_hw_stop;
->  
->  		return 0; /* All done */
-> +	} else if (g15->model == LG_G13) {
-> +		static char const * const g13_led_names[] = {
-> +			/* Backlight is shared between LCD and keys. */
-> +			"g13:rgb:kbd_backlight",
-> +			NULL,	/* Keep in sync with led_type enum */
-> +			"g13:red:macro_preset_1",
-> +			"g13:red:macro_preset_2",
-> +			"g13:red:macro_preset_3",
-> +			"g13:red:macro_record",
-> +		};
-> +		lg_g13_init_input_dev(hdev,
-> +				      input, "Logitech G13 Gaming Keypad",
-> +				      input_js, "Logitech G13 Thumbstick");
-> +		ret = input_register_device(input);
-> +		if (ret)
-> +			goto error_hw_stop;
-> +		ret = input_register_device(input_js);
-> +		if (ret)
-> +			goto error_hw_stop;
-> +
-> +		for (i = 0; i < ARRAY_SIZE(g13_led_names); ++i) {
-> +			if (g13_led_names[i]) {
-> +				ret = lg_g15_register_led(g15, i, g13_led_names[i]);
-> +				if (ret)
-> +					goto error_hw_stop;
-> +			}
-> +		}
-> +		return 0;
->  	}
->  
->  	/* Setup and register input device */
-> @@ -903,6 +1290,13 @@ static int lg_g15_probe(struct hid_device *hdev, const struct hid_device_id *id)
->  }
->  
->  static const struct hid_device_id lg_g15_devices[] = {
-> +	/*
-> +	 * The G13 is a macropad-only device with an LCD, LED backlighing,
-> +	 * and joystick.
-> +	 */
-> +	{ HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH,
-> +			 USB_DEVICE_ID_LOGITECH_G13),
-> +		.driver_data = LG_G13 },
->  	/* The G11 is a G15 without the LCD, treat it as a G15 */
->  	{ HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH,
->  		USB_DEVICE_ID_LOGITECH_G11),
+**Backport Status: YES**
+
+This commit should be backported to stable kernel trees. Here's my
+extensive analysis:
+
+## 1. Bug Fix Nature
+
+The commit addresses a **real user-facing bug** that causes "several
+tens of seconds delays" during HID sensor resume handling on s2idle
+suspend/resume cycles. The code changes show this fixes timeout failures
+in `hid_ishtp_cl_resume_handler()` that were causing "link not ready"
+errors and preventing proper resume of HID sensors.
+
+## 2. Small and Contained Changes
+
+The commit makes minimal, focused changes:
+- **Primary change**: Increases `WAIT_FOR_RESUME_ACK_MS` from 50ms to
+  300ms
+- **Location consolidation**: Moves the constant definition from
+  multiple files to a single header (`ishtp-dev.h:51`)
+- **Error logging addition**: Adds two lines in `ishtp-hid-
+  client.c:762-763` for debugging
+- **Total impact**: Only 12 lines changed across 4 files
+
+## 3. No Architectural Changes
+
+The commit makes no structural changes - it only:
+- Adjusts a timeout value based on empirical measurements (180ms
+  observed in failing systems)
+- Adds diagnostic logging
+- Consolidates a constant definition
+
+## 4. Clear Regression Risk Assessment
+
+The change has **minimal regression risk**:
+- Increasing timeout from 50ms to 300ms cannot break existing working
+  systems
+- Systems that resumed within 50ms will continue to work
+- Systems that needed 50-180ms (previously failing) will now work
+- The 300ms provides safety margin without being excessive
+
+## 5. Subsystem Impact
+
+The changes are confined to the Intel ISH HID driver subsystem:
+- `drivers/hid/intel-ish-hid/` - a specific hardware driver
+- Does not affect core kernel functionality
+- Only impacts systems with Intel ISH (Integrated Sensor Hub) hardware
+
+## 6. Historical Context
+
+Looking at the git history:
+- The 50ms timeout was introduced in commit `e48bf29cf9d6d6` (2021) for
+  async resume
+- Multiple recent fixes in this subsystem (`07583a00106`,
+  `823987841424`) show it's actively maintained
+- The commit is already marked with "Upstream commit
+  dfbd535db74df0343ca39670e06326d7aee8c8f4" indicating it's been
+  accepted upstream
+
+## 7. Stable Tree Rules Compliance
+
+The commit perfectly aligns with stable tree criteria:
+- **Fixes a real bug**: Resume failures causing multi-second delays
+- **Tested solution**: Based on empirical measurements (180ms observed)
+- **Minimal change**: Simple timeout adjustment
+- **Hardware-specific**: Only affects Intel ISH hardware users
+- **No new features**: Pure bugfix with diagnostic improvement
+
+## 8. Additional Evidence
+
+The commit message explicitly states:
+- "The previous timeout was set to 50ms, which proved insufficient on
+  affected machines"
+- "Empirical measurements on failing systems showed that the time...
+  could be as long as 180ms"
+- This is based on actual testing and measurements, not speculation
+
+The error logging addition (`hid_ishtp_trace()` and `dev_err()`) will
+help diagnose any future issues without changing functionality.
+
+This is an ideal candidate for stable backporting - it fixes a concrete
+bug with minimal risk and clear benefit to affected users.
+
+ drivers/hid/intel-ish-hid/ipc/pci-ish.c      | 3 ---
+ drivers/hid/intel-ish-hid/ishtp-hid-client.c | 3 +++
+ drivers/hid/intel-ish-hid/ishtp/bus.c        | 3 ---
+ drivers/hid/intel-ish-hid/ishtp/ishtp-dev.h  | 3 +++
+ 4 files changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/hid/intel-ish-hid/ipc/pci-ish.c b/drivers/hid/intel-ish-hid/ipc/pci-ish.c
+index c57483224db6f..9d150ce234f25 100644
+--- a/drivers/hid/intel-ish-hid/ipc/pci-ish.c
++++ b/drivers/hid/intel-ish-hid/ipc/pci-ish.c
+@@ -264,9 +264,6 @@ static void ish_shutdown(struct pci_dev *pdev)
+ 
+ static struct device __maybe_unused *ish_resume_device;
+ 
+-/* 50ms to get resume response */
+-#define WAIT_FOR_RESUME_ACK_MS		50
+-
+ /**
+  * ish_resume_handler() - Work function to complete resume
+  * @work:	work struct
+diff --git a/drivers/hid/intel-ish-hid/ishtp-hid-client.c b/drivers/hid/intel-ish-hid/ishtp-hid-client.c
+index 6550ad5bfbb53..d8c3c54a8c0f2 100644
+--- a/drivers/hid/intel-ish-hid/ishtp-hid-client.c
++++ b/drivers/hid/intel-ish-hid/ishtp-hid-client.c
+@@ -759,6 +759,9 @@ static void hid_ishtp_cl_resume_handler(struct work_struct *work)
+ 	if (ishtp_wait_resume(ishtp_get_ishtp_device(hid_ishtp_cl))) {
+ 		client_data->suspended = false;
+ 		wake_up_interruptible(&client_data->ishtp_resume_wait);
++	} else {
++		hid_ishtp_trace(client_data, "hid client: wait for resume timed out");
++		dev_err(cl_data_to_dev(client_data), "wait for resume timed out");
+ 	}
+ }
+ 
+diff --git a/drivers/hid/intel-ish-hid/ishtp/bus.c b/drivers/hid/intel-ish-hid/ishtp/bus.c
+index 5ac7d70a7c843..93a0432e70581 100644
+--- a/drivers/hid/intel-ish-hid/ishtp/bus.c
++++ b/drivers/hid/intel-ish-hid/ishtp/bus.c
+@@ -852,9 +852,6 @@ EXPORT_SYMBOL(ishtp_device);
+  */
+ bool ishtp_wait_resume(struct ishtp_device *dev)
+ {
+-	/* 50ms to get resume response */
+-	#define WAIT_FOR_RESUME_ACK_MS		50
+-
+ 	/* Waiting to get resume response */
+ 	if (dev->resume_flag)
+ 		wait_event_interruptible_timeout(dev->resume_wait,
+diff --git a/drivers/hid/intel-ish-hid/ishtp/ishtp-dev.h b/drivers/hid/intel-ish-hid/ishtp/ishtp-dev.h
+index ec9f6e87aaf23..23db97ecf21cd 100644
+--- a/drivers/hid/intel-ish-hid/ishtp/ishtp-dev.h
++++ b/drivers/hid/intel-ish-hid/ishtp/ishtp-dev.h
+@@ -47,6 +47,9 @@
+ 
+ #define	MAX_DMA_DELAY	20
+ 
++/* 300ms to get resume response */
++#define WAIT_FOR_RESUME_ACK_MS		300
++
+ /* ISHTP device states */
+ enum ishtp_dev_state {
+ 	ISHTP_DEV_INITIALIZING = 0,
+-- 
+2.50.1
 
 
