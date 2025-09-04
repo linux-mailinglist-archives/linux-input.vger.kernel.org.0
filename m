@@ -1,130 +1,170 @@
-Return-Path: <linux-input+bounces-14482-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14483-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F81AB43CAD
-	for <lists+linux-input@lfdr.de>; Thu,  4 Sep 2025 15:12:20 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1461AB43E06
+	for <lists+linux-input@lfdr.de>; Thu,  4 Sep 2025 16:06:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B774C188CA31
-	for <lists+linux-input@lfdr.de>; Thu,  4 Sep 2025 13:12:40 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C2AC716CCB1
+	for <lists+linux-input@lfdr.de>; Thu,  4 Sep 2025 14:06:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CAB032FD7A8;
-	Thu,  4 Sep 2025 13:12:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 56B182222AC;
+	Thu,  4 Sep 2025 14:06:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QDB95XJT"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jvICIT9I"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2514D277CA4
-	for <linux-input@vger.kernel.org>; Thu,  4 Sep 2025 13:12:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB31E163
+	for <linux-input@vger.kernel.org>; Thu,  4 Sep 2025 14:06:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756991535; cv=none; b=PSGK1l+HSsJzysmTDKmpL4B93uB1Bi3ERAM+v5SjuuQiwguY0d1P+Fzy5cyFACzGIW5V4wLLBSC2aaEO1fbPcONTB4pCry7Na8nOMBJfTxxXk3yDaDr/pghAxTn4B8fjCenW2o4sgv3VR/56YJLBa7R2NDIq7sOwfVx/LwsbLVQ=
+	t=1756994789; cv=none; b=AI1z3FzJDeKWeVh+g7HIwMHphVCnNf+mzEmGHaYGoo/o5sBhXKqj4wdsdOaHQK21QjIXQmFjIiVcaNvtqg8Bu6aIIIvE+P3YdJAcUIUL9p5dS3g8E7mQ4jED0rcEELHiObSbpSeHC1+ChqB3Iz7c2KSimd0nNgduZpCuraDwVDk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756991535; c=relaxed/simple;
-	bh=ec/KvvoKbEENb2LavGjyZbfezE0uIP8KPjuOVXbDKU8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=F94Zw2g5ai5dvoEsnj/Vh3QGOCqOXZOMx+GVtV5xJTZ38UaJ28TVZb3mbknMvsnT8raHQSjOwj2TG2mInGuK1tOSj1OUbA4HfL0m0SzjwKcomMrO1HT19LCPBd08whjEPLrrDMnAhyuQU9TvXBL4QZqW/c9FJ/2KW2HpkQnZb0U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QDB95XJT; arc=none smtp.client-ip=209.85.221.47
+	s=arc-20240116; t=1756994789; c=relaxed/simple;
+	bh=e7u5z2geXOmINqkIDOhhFeHO5so4W2iVgskRRd7gL5A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jccKygy0mbZKsByljkftpdT8eO3ZceJk7gq5blzOjDShinj3z+vVMQ6nt0BoPfKVKzLsdEufMTCAkKtX24Fo6kOv2wTYkh/xBkMoL0qVgE2MB/fCRlkCZ4kANDxZkyauTNVX1hdfuMOKqS8UUZvVkcK6qNeBn8n17Ne18QTLWVQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jvICIT9I; arc=none smtp.client-ip=209.85.210.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-3d1bf79d7acso627075f8f.0
-        for <linux-input@vger.kernel.org>; Thu, 04 Sep 2025 06:12:13 -0700 (PDT)
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-772488c78bcso1100420b3a.1
+        for <linux-input@vger.kernel.org>; Thu, 04 Sep 2025 07:06:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756991532; x=1757596332; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=dpzGRMvpU5+wBtzn4p02ePfJoml3OILLddTZb49OX4E=;
-        b=QDB95XJTha0/uHFiVm1TYICbvD0A5DpSn6alB3vs/5ACVASBhXhN1JB2h5y7TqXP1D
-         SKiZtQNFNmIxwl4/+8ITSnw/PacTk0tSUl6VUk8LnXkK9pDfPSrFGg7ckcbsZRCWf9Lr
-         +QMR7bICwL4ebRndk08iUQxwJj/7gXX3HY/o1JpnrVPLWyBS8RBUODTP2rAf3U7zuByG
-         h+l3hnbvlydErMsl5JLXFbm+2h79ZA5yThwMOir6GuMWv4byO9jgbAbmgmR0he8toJaV
-         UOZlh9UO4s/Kap8ZDWI2P8+LUCC8zlhBa0fPw9XGsHbKFBpuJiOL/1tD8s1GFaAPl9Ph
-         SNNw==
+        d=gmail.com; s=20230601; t=1756994787; x=1757599587; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=R+3rSnC1ctBUpLC6xRDn/aduZQO5mYlu5dXsw2qKG24=;
+        b=jvICIT9Ihfz+waFlpoMo1eo8lJVKoXHw60r6GgTv/SwBg9QOOfYZRXDOWQSWTtTaFg
+         YDOn0froKxAmwOEL8PIEHsaJjv9OBJs2U7hbvAvhUMYtt7QCQaPgFTrgGMitjNXptjyB
+         DTAQgcqTKCDqqwchFiJECaTXw1cufYfP0QlkrbJwN2Wo3CGteSF5+DEK7kYNKqKUyaVj
+         M/ioWfYMXDXku7VH/2iASh6ntRgesCfnZrSQ5McvYo/ly3gtQD6og8jqWFkLlZbRdzBu
+         2VGZYpspdh50OItES0M4KtpJOunJ0HCUzMNFBZ/yfnF35dtDDabQ8Zq5APfzJjafncO7
+         29dw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756991532; x=1757596332;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=dpzGRMvpU5+wBtzn4p02ePfJoml3OILLddTZb49OX4E=;
-        b=VS40or4xphTGuG79oLzOwiplM1+eABj61ZklHr7YZVFhQu0jZC4ik8ZeAiGTgDC0vL
-         /nzD4Fdx4yw/9vz//beYyuxkxjO46zjbnVYrmdjabEo/K2fUYGZFYSFG7X4j5BOr8oJW
-         vnQ+ObXb+nRTgzJOOeKY4H+mLZLMKgklIGM2gZ8+XILieiBDwVnxiyaQt13Scu4IcHXT
-         es2cHjQNX/oO16pGeIIM8yDP1PSL+z3Rm2SaZa70ecRWBGs4u8WdK2pZ52dJjxM20SWb
-         GUKdhMt24ClgCtbSKbId+B3bwUWegz1qfiPFhUAHnTAC2APvWY/DsHt08+38kPBbcPs7
-         nLHQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWu1scq+82jkBGjaQXkrmptgbJ+O4rTuUlp+xtrzXh+IA3wExvJqKE7ZuwBAGYavAfF4hJ4GwRUgHERmg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxbOdRSQf+PkAgKRzIvORh0k29Y/pM7RkSXBBkE48qWsRFCkT+v
-	ho5y6bVUBPS0i5rEcnlq4MeAknbOdgOEBm6UeAFNdildTWjycoafMULxJRDPNrTd9/M1svsMMjT
-	rFisvQOmU/XH0ukT3LSgZUQX6Hrp4gxw=
-X-Gm-Gg: ASbGncvRGCrzZptBXgPPaFdt3hrUSPLuLcFiW7v+Ai3la0lEvg9vUSu523jWB3tLq3E
-	+2fLOYL82u/X/3UdSkCnZab0hQHNqTVZX8S6ODYWNA5GXOSuN6C9xw1+iLMgDPAjORFtxQQ/5nr
-	3EdhbqAfapDw06VzkxxUQvELHr45hMd4VRnbMohvGuQdDXTHPwOqbvjKS1vyJuaI0dFbX36+Mcp
-	GmqkZs5MPRItM4X/lB6AijNfUCr2nW/aw2MZMiwbvMvSuWF/YFP
-X-Google-Smtp-Source: AGHT+IH76rHbVyTKMAmqAGjhO32vR0jgHVom1joj5iW7wZfw2Qwingm0axsM99kY4dslxl3lYB8UPxSLCHSqhU+/LVQ=
-X-Received: by 2002:a05:6000:288b:b0:3cd:2328:898b with SMTP id
- ffacd0b85a97d-3d1e05b5c25mr14841326f8f.47.1756991532148; Thu, 04 Sep 2025
- 06:12:12 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1756994787; x=1757599587;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=R+3rSnC1ctBUpLC6xRDn/aduZQO5mYlu5dXsw2qKG24=;
+        b=oMrlTsMa6Ih868iNNaMmqTMxoPsxbJclUtnCY0FZfklE80wXz5z8tJEAL1uT2ji3JV
+         G5jBZqVqF2eGW7kxrULfUBH7hQ96PJ+bPLkx9ieaH282oy1/aAdIApqU7JjMVEYm99/L
+         xS6FPwrFwRbK5IezyHdiLBrdHDCPJPKriHqkiLSc6ZKJ8tQdycf6SndkIdPkaEmKoP1L
+         7aVZ4uSq6UwGNBJXULYQalzwUg5CjaejZ+hu2She5TS/ReRr8Ri2ZQoyNXb7mGxfCHwS
+         ukz+npeWiLJIwHm8Or/Km7LKbWCkKNZutjJVUFk2QMVMHRoRaIdktw5hP3woqBAoJ4aN
+         d37g==
+X-Forwarded-Encrypted: i=1; AJvYcCW4BMAemU0iK/4r2e31gjNoWkOYA6Mt8LfBGV4GCcBrVLf5lX2ir46cwFvBe3O+GAeDTY/P6iLwa5R+ig==@vger.kernel.org
+X-Gm-Message-State: AOJu0YygpgEpDcksjEVJOYZ3dHUZ1o3wow3AtKM/LdM1NkX2jAKj8aHF
+	OUaq0f4MrTcmB39hsBkpEAcwYbdPZuNhssrCn9doiOjzomlSWGtkKRv1
+X-Gm-Gg: ASbGncspyUU8KtBkxM1qSzgbgVw2UwtyhhIgggqAZEEOgbbC/vMh8LD1fFBMmAwA9du
+	y6IeymLPIuojVrmq0rWcr+4pxoRJIGALuqO3p99u3DCh0lmZymEgd0+qVsi0lKuMcGZK/eSf21r
+	GNGB2KQJzKUzCMOtP5HL94mnp+5ITaIfET+URf9eHSpopdJpycF5h8a12GUlc9VfhhKfob7xTaH
+	FKXQrsBa3p+Gorbl3W841qWrLn1dfOpm6BO+8NlJWYDxQbdVtfCJzIdfpXR4wQ76EfoAzcaokt+
+	YsQJ/d/WoRGaBUI6ze4Cel14dj7BQPHIVoFwwh2gsaC5JqTEAOBrdLgcT67UNhvMeIuoVctap9D
+	LvgM8R4qj/mai46bfokPkYRQ=
+X-Google-Smtp-Source: AGHT+IFnjbMbw3puYxXAtqTmAfBZ+PbSsGIu/mKvHAuj21P2R2p+8F45+1w7VRRvLnKF54BRxKirTA==
+X-Received: by 2002:a05:6300:218a:b0:243:c6d1:776c with SMTP id adf61e73a8af0-243d6e0625bmr25847874637.21.1756994786864;
+        Thu, 04 Sep 2025 07:06:26 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:463b:8ef9:3432:4c09])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b4cd0164c38sm16961113a12.10.2025.09.04.07.06.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 04 Sep 2025 07:06:26 -0700 (PDT)
+Date: Thu, 4 Sep 2025 07:06:23 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: Benson Leung <bleung@chromium.org>, linux-input@vger.kernel.org, 
+	chrome-platform@lists.linux.dev
+Subject: Re: [PATCH 0/5] platform/chrome: Fix a race when probing drivers
+Message-ID: <4gtrvxpo6zqk54uvavrox7hszszdpvdubz4w6iaks72zq3jjsw@b6cfvi5ysj2u>
+References: <20250828083601.856083-1-tzungbi@kernel.org>
+ <sqgfgwmbpxvaszyxt4mymne6dvhzjvuifogsqjdu6j3tm436ph@x7chldp3dfpr>
+ <aLGhLCc9UQWwBz47@tzungbi-laptop>
+ <aLbutygmfjV4AuhZ@tzungbi-laptop>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250902184128.4100275-1-mavchatz@protonmail.com>
- <CALTg27=fZ+_2b2AXmKk5UcZG_2-zm2XP3+xzbSUrWdahD7ShaA@mail.gmail.com>
- <20d3b05b-dbe0-4802-b724-fe4ab5e279d6@protonmail.com> <CALTg27=Q6a2yJK6y3MUSzngsbnpXhv6vwtS_Y-t0LaKg1kK7Ag@mail.gmail.com>
- <f92cda21-12d2-4e4d-ae84-666c6f8dce77@protonmail.com> <CALTg27=vaZK6ksriDDoN71pqr0VEbvxAz7Dp1w1toG+tO71Ldg@mail.gmail.com>
- <12899c24-a16f-4d64-bc40-a06b4c5c3e6f@protonmail.com>
-In-Reply-To: <12899c24-a16f-4d64-bc40-a06b4c5c3e6f@protonmail.com>
-From: Stuart <stuart.a.hayhurst@gmail.com>
-Date: Thu, 4 Sep 2025 14:12:00 +0100
-X-Gm-Features: Ac12FXzDy5kKXUYHUog8zXKHw7HZ6MZxzBupwFx9V-DAmiP4FY2spZNweDKNZyQ
-Message-ID: <CALTg27=uP+jCU7oog41GiZrw7LX_mSfrQtKbDW+xpAHzN7_6cQ@mail.gmail.com>
-Subject: Re: [PATCH v4] HID: logitech-dj: Add support for a new lightspeed
- receiver iteration
-To: Mavroudis Chatzilazaridis <mavchatz@protonmail.com>
-Cc: jikos@kernel.org, linux-input@vger.kernel.org, 
-	benjamin.tissoires@redhat.com, hadess@hadess.net, lains@riseup.net
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aLbutygmfjV4AuhZ@tzungbi-laptop>
 
-> Hm. It appears I may have misunderstood how this works. Please undo the
-> previous diff and apply the following on top instead:
+Hi Tzung-Bi,
 
-Done, still no change :(
+On Tue, Sep 02, 2025 at 09:18:47PM +0800, Tzung-Bi Shih wrote:
+> On Fri, Aug 29, 2025 at 08:50:01PM +0800, Tzung-Bi Shih wrote:
+> > On Fri, Aug 29, 2025 at 11:28:55AM +0000, Dmitry Torokhov wrote:
+> > > On Thu, Aug 28, 2025 at 08:35:56AM +0000, Tzung-Bi Shih wrote:
+> > > > A race is observed when cros_ec_lpc and cros-ec-keyb are all built as
+> > > > modules.  cros_ec_lpc is cros-ec-keyb's parent.  However, they can be
+> > > > probed at the same time.
+> > > > 
+> > > > Example:
+> > > > 
+> > > > + -----------------------------------------------------------------+
+> > > > | Some init process (e.g. udevd) | deferred_probe_work_func worker |
+> > > > + -----------------------------------------------------------------+
+> > > > | Probe cros-ec-keyb.            |                                 |
+> > > > | - Decide to defer[1].          |                                 |
+> > > > |                                | A device bound to a driver[2].  |
+> > > > | Probe cros_ec_lpc.             |                                 |
+> > > > | - Init the struct[3].          |                                 |
+> > > > |                                | Retry cros-ec-keyb from the     |
+> > > > |                                | deferred list[4].               |
+> > > > |                                | - Won't defer again as [3].     |
+> > > > |                                | - Access uninitialized data in  |
+> > > > |                                |   the struct.                   |
+> > > > | - Register the device.         |                                 |
+> > > > + -----------------------------------------------------------------+
+> > > > 
+> > > > [1] https://elixir.bootlin.com/linux/v6.16/source/drivers/input/keyboard/cros_ec_keyb.c#L707
+> > > > [2] https://elixir.bootlin.com/linux/v6.16/source/drivers/base/dd.c#L405
+> > > > [3] https://elixir.bootlin.com/linux/v6.16/source/drivers/platform/chrome/cros_ec_lpc.c#L644
+> > > > [4] https://elixir.bootlin.com/linux/v6.16/source/drivers/base/dd.c#L418
+> > > > 
+> > > > Note that the device link[5] can't help as in the observed environment,
+> > > > the devices are already added via device_add()[6].
+> > > > 
+> > > > [5] https://www.kernel.org/doc/html/latest/driver-api/device_link.html#usage
+> > > > [6] https://elixir.bootlin.com/linux/v6.16/source/drivers/acpi/acpi_platform.c#L177
+> > > > 
+> > > > The series fixes the issue by ensuring the struct is ready for accessing
+> > > > before continuing to probe cros-ec-keyb.
+> > > 
+> > > Why is the keyboard platform device instantiated before the transport
+> > > (cros_ec_lpc) is done initializing? I think this is the root of the
+> > > issue...
+> > 
+> > I may misunderstand but it seems to me:
+> > 
+> > - The ACPI bus enumerated and instantiated the platform devices[6] first.
+> > 
+> > - The keyboard platform device was probed when `cros_ec_keyb_driver`
+> >   registered.  It deferred as its parent's drvdata was NULL[1].
+> > 
+> > - The transport platform device was probed when `cros_ec_lpc_driver`
+> >   registered.  It set the drvdata[3].
+> > 
+> > - The keyboard platform device was probed again from retrying the deferred
+> >   list, by another thread `deferred_probe_work_func`.  The parent's drvdata
+> >   wasn't NULL and cros_ec_register() for the transport device weren't
+> >   finished.  The race happened.
+> 
+> Hi Dmitry,
+> 
+> Does it make sense to you?
 
-> I think it happens when the devices paired to it disconnect/reconnect.
+I'll have to research how MFD mixes up statically described and
+DT-described platform devices and makes sure that children are not
+probed before the parent is ready - I think we need to make cros_ec
+behave the same way.
 
-Yep, that matches
+Thanks.
 
-> Can you also dump the HID report descriptors when the keyboard is
-> plugged in directly via USB?
-
-Sure (046d:c343):
-
-003:007:002:DESCRIPTOR         1756991366.823468
- 06 00 FF 09 01 A1 01 85 10 95 06 75 08 15 00 26
- FF 00 09 01 81 00 09 01 91 00 C0 06 00 FF 09 02
- A1 01 85 11 95 13 75 08 15 00 26 FF 00 09 02 81
- 00 09 02 91 00 C0
-
-003:007:001:DESCRIPTOR         1756991366.827464
- 05 01 09 02 A1 01 85 02 09 01 A1 00 95 10 75 01
- 15 00 25 01 05 09 19 01 29 10 81 02 95 02 75 10
- 16 01 80 26 FF 7F 05 01 09 30 09 31 81 06 95 01
- 75 08 15 81 25 7F 09 38 81 06 95 01 05 0C 0A 38
- 02 81 06 C0 C0 05 0C 09 01 A1 01 85 03 95 02 75
- 10 15 01 26 FF 02 19 01 2A FF 02 81 00 C0 05 01
- 09 80 A1 01 85 04 95 01 75 02 15 01 25 03 09 82
- 09 81 09 83 81 00 75 06 81 03 C0
-
-003:007:000:DESCRIPTOR         1756991366.831465
- 05 01 09 06 A1 01 05 07 19 E0 29 E7 15 00 25 01
- 75 01 95 08 81 02 95 05 05 08 19 01 29 05 91 02
- 95 01 75 03 91 03 95 70 75 01 05 07 19 04 29 73
- 81 02 95 05 19 87 29 8B 81 02 95 03 19 90 29 92
- 81 02 C0
+-- 
+Dmitry
 
