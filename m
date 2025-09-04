@@ -1,279 +1,191 @@
-Return-Path: <linux-input+bounces-14491-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14493-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88123B4442C
-	for <lists+linux-input@lfdr.de>; Thu,  4 Sep 2025 19:16:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6065FB44535
+	for <lists+linux-input@lfdr.de>; Thu,  4 Sep 2025 20:18:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7A3AC16E401
-	for <lists+linux-input@lfdr.de>; Thu,  4 Sep 2025 17:16:24 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CEB6656083D
+	for <lists+linux-input@lfdr.de>; Thu,  4 Sep 2025 18:18:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6BF9D30E0FB;
-	Thu,  4 Sep 2025 17:16:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1D312341669;
+	Thu,  4 Sep 2025 18:18:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="mo9FLJWp"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="oLu6V+pW"
 X-Original-To: linux-input@vger.kernel.org
-Received: from AM0PR02CU008.outbound.protection.outlook.com (mail-westeuropeazon11013026.outbound.protection.outlook.com [52.101.72.26])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1B682C1A2;
-	Thu,  4 Sep 2025 17:16:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.72.26
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757006166; cv=fail; b=B6qVrJERDU7QUdOLAnUgL7RCyNFPIWs/8HJcI1rYPubvDIXgAU5UoCY4YAA85xiixIzig6qr2W+RdWlYzSnkPxzwYpx1qmoFrd09TF00XzujU5c8V97WYLRgEJMVJtrt4mBt3UWxuCFxNnwI2xUDWXu9t551tQKJRIlAf3vfMVI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757006166; c=relaxed/simple;
-	bh=Svx703Ww5dERgSoCb25wrICQdd8Sf6n42+SJItGU8Rk=;
-	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=oRORaza23CV9lI7N/Y8oiFIezAfWFOUT+4IPl//zJ6lapu7ynz8xE3DXYSZtYda2tdcQI0ZZsYWUCERcpihmWk4GYipmfWmrp88jw7o0zU+My6xtRtmuJM18eWnPjLxFJlDv6SCIcfjQBWdU0HnGCPvHMaw+aE4eduoCZ99b8cs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=mo9FLJWp; arc=fail smtp.client-ip=52.101.72.26
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=gOzfpQugOEl4/bjhjdRQHvcylMmXwKQSby9SrGdGpFrsNI7NIIkU6nL6DKc9LlVDficR+Qnm7b40YUcqr70oCcwv0i9vZC79M92znknRdse9QPOZqa8lYRoIjMyfwtt04U90HEpyy86QJwVbvkpMmh+byO+DaoeHsbAn5rUDskPnovT+CxYu5DEPSoOj9/lVzpxKp9OUm9bwkq05NznrWu+zP5vxV/FRiBzvKSC5ht7mKJySI2XNp0ewyLcaTU7Mdp/W7deX626rbFAuOYe53bYPHRFNY40ZzMALVAOHyRGQtwAxQxioNegi0WjunS2Il9fadzA9iyzPOljw5WQxOg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=CKF741Fzo+bqI80C4IhJ14QPzQyIkx51jb2lJxqNHiA=;
- b=lBfTAxcz5hV3QzRM/8iudOFM7Mg6axFTmo56dJDu0bBwVWJoHKpL9QhG5J+KuS1o2wYWllIxOaYtWjGP1hrg99ZTYxAHLuui4Waru6sXU+N1E/JMY6Pksis2qUWmyBArhmVraacqt/YWCRiVoFHSvX4gKO9YvSzwA+WtT2XcvdMgw/V3pATVR1BrpV7PynEU00Y826/VA5K9V5K/NfBm6Ya1ciKCoUC7djByDJ0XKAE4s/hkWF26OVyJ82nvcF9dX+yddyG/NGBDOaDtrq92dV3wK1oppJvO6WnaFZi8nmvf/OsASoVnX9g5pAi2Hq+45FWFzzns+ihnfMM3n+XxkA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CKF741Fzo+bqI80C4IhJ14QPzQyIkx51jb2lJxqNHiA=;
- b=mo9FLJWptntUXhVFbvLcNXsSRJkV3+E+DO5J97TuZnU1aXt/2ksCmXQ/ZaHP6AXKk11hCe48g99BjTum4+MwZ8prjsi6xZPBQmxl3Srrbj3fcNGqggeUo650PnzJ3LnfdsD4RcbQ8KrmHDIqqUb4BE4PDS9Sl+3PlP3MhOxQv5Rrzy3AadYV2JJPz6Fx4z7xHTsIgup/3n4WR+5OWg57soMM2JMgcM65GcmBeJluggbOKDByrCcVyE9kZBXiZosNXgzpOfadSelnabcmgy8W3gXis0ENJXvd2PZEQVV4zv1emPaUf7NKJOqpHN+hnwZxM2ru/hAn2VDBGgCjVUZ7UA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from DB9PR04MB9626.eurprd04.prod.outlook.com (2603:10a6:10:309::18)
- by MRWPR04MB11492.eurprd04.prod.outlook.com (2603:10a6:501:75::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9094.17; Thu, 4 Sep
- 2025 17:16:00 +0000
-Received: from DB9PR04MB9626.eurprd04.prod.outlook.com
- ([fe80::55ef:fa41:b021:b5dd]) by DB9PR04MB9626.eurprd04.prod.outlook.com
- ([fe80::55ef:fa41:b021:b5dd%5]) with mapi id 15.20.9094.015; Thu, 4 Sep 2025
- 17:16:00 +0000
-From: Frank Li <Frank.Li@nxp.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	linux-input@vger.kernel.org (open list:INPUT (KEYBOARD, MOUSE, JOYSTICK, TOUCHSCREEN)...),
-	devicetree@vger.kernel.org (open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS),
-	linux-kernel@vger.kernel.org (open list)
-Cc: imx@lists.linux.dev
-Subject: [PATCH v2 1/1] dt-bindings: input: exc3000: move eeti,egalax_ts from egalax-ts.txt to eeti,exc3000.yaml
-Date: Thu,  4 Sep 2025 13:15:41 -0400
-Message-Id: <20250904171543.517650-1-Frank.Li@nxp.com>
-X-Mailer: git-send-email 2.34.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SJ0PR03CA0357.namprd03.prod.outlook.com
- (2603:10b6:a03:39c::32) To DB9PR04MB9626.eurprd04.prod.outlook.com
- (2603:10a6:10:309::18)
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5498E2FFDC6;
+	Thu,  4 Sep 2025 18:18:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1757009926; cv=none; b=PqNC4WDQhcr5X4cTaLQapQN3f0wfZch5ZHIBGdXEf65EsCgrAFPlX1ho0TrPGH3tPW0DV48NQSRtacoziAOuONNR8cBvF0xEqOjQh9R3MAWauYqx/LaPGo04SR5sOywgSbYMuMMO5D1fzGdBxY6LHHF/KPlFWPjXEiT2vHi676w=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1757009926; c=relaxed/simple;
+	bh=7c8nj6KxULONPPQj8MkFkKHnBlddpgD0kXlRJfUjxGA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=sqD79JzV802fdS+RCelu9vaq6qx8m0lyWVf+88uTEQPhpD3XyWzH1odZhlEvERvLKTJcwzNQzMAypYisWzE13dL84xYOMztZLl2K9OduRUKx/wBjnKV0KJ7r7f55EEx2d1PWGQARFRH++RAANZREtTSzA3Yx6pkxWBFQzSSuIEo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=oLu6V+pW; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+Received: from [192.168.0.88] (192-184-212-33.fiber.dynamic.sonic.net [192.184.212.33])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 6A3772119CB7;
+	Thu,  4 Sep 2025 11:18:42 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 6A3772119CB7
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1757009923;
+	bh=d/D6Qrj0sP6g8qAnJASJd8z3FHjIIoC1QYzFJbAmmgM=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=oLu6V+pWgKTtTfQLhdxwHfvtkUJ0N0iCi/cfaSJbTLxtH/SZHgcXWgxsK9ZoNkfuI
+	 Jhe+3szLxA45hPC786Cup2SrThBmJ//Jy32lAGJDJ0uCT8yGVHH2WlO1x+gdZ2XUBb
+	 VnhKgbbsVrL7mHJ17eqOI/RKV3FeYxFdGYLhbtKQ=
+Message-ID: <4f38c613-255c-eaf6-0d50-28f8ffc02fff@linux.microsoft.com>
+Date: Thu, 4 Sep 2025 11:18:41 -0700
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DB9PR04MB9626:EE_|MRWPR04MB11492:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1916285a-47eb-4417-6fc6-08ddebd6b779
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|19092799006|376014|52116014|38350700014|921020|7053199007;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?eYTADqF4C1NOidYT8oFvqhjnZhfaiFlrK0e8MQx/EEK6WfpUJBL6yZ0rKyjX?=
- =?us-ascii?Q?3Uyp8QkHR65e7XLY38Nrnc4mPXIeSdXui2U1VdYDXMa8AhT8aRwcVEWIjMpd?=
- =?us-ascii?Q?z94vuM/C+sno8gHB4ZGdyX2/9grpB/fIOP65+nYGKw9lcWT+JdXe2pdTTM8q?=
- =?us-ascii?Q?QEgqdTxM8pg3FInKUL1biw9V5nh8oVT8Bp7LInRTcwMWjS0qkzHMbjaeT889?=
- =?us-ascii?Q?X9qnYyoyI39sdwbd0CZNJ3IfiVUDpo8q0bBmHV5O9SAtDDPcD5EsBJHI41o1?=
- =?us-ascii?Q?9uZnyTxAO3LKohQDdG8/0fMtPY0UzaPyxVR7IaCcD/lvmcH11fngJVk/svMx?=
- =?us-ascii?Q?6QVr+eqXQfdHeMx9JXRrkE0o9m4MQvdO3mrwaT6KAAhHtXztJDlV2Tj64g5m?=
- =?us-ascii?Q?eivcl0ahhzuw/T/vfo9nGUAd7F9wo+CqGo3xuqFD4mGwAyLaFnNo3FLWX8uk?=
- =?us-ascii?Q?HzT7agkxuUXOnCqNM/PnIAk5UlGP8eM8OuNYpCug2Y2iuc9y7ydwFkenTxh4?=
- =?us-ascii?Q?YNd+V5PG/hH+2VChF2aHvPITlNcQBGF7rvPI7g2IwcpyXzFVMZN1uLCKg47b?=
- =?us-ascii?Q?WMfCUkZu41w2N22ZRPmBOf+kwLG1kzpr41fWg+DkEhPwzvvLgdqGQFw5vXDs?=
- =?us-ascii?Q?hwuatQMnDv4rxUtPeYSwifqhGu3RW1gnF+0m4TpA/hgh8e/f97F5im2FMoru?=
- =?us-ascii?Q?RbfPQi8384C7AUVaSKbSSALcZTlnHMhgUa8Dcuzfkx+KdQLoyX1mAvhhfTMK?=
- =?us-ascii?Q?JQki6i4GQApn5Ffa/uj61dJ3vu/UaEzPJuuUZ0MIxr/rqjLrv4Ap7q8Ubyaf?=
- =?us-ascii?Q?ALBA47Xze0P1nFGb7eI508YKEIM14+CBC9gEC/ULThUK/KqhU2wjDLnJUcBE?=
- =?us-ascii?Q?3tVAMGi8BYwafLmHmH+lQbnXZzP+Y/ixbAawRrljAM8qwrVn108nPEpK3ZMc?=
- =?us-ascii?Q?mG/qHAMZtUJhrvIKBCaDIWPr1imswgqrDVGfoQoRVuUjJGYXCaKSJJbd1N7p?=
- =?us-ascii?Q?qErRikRD33kl7E6qX6saq4Uh+IV+Qdhyp4JD0s8BUAWFNfM9bZAzNsJakPoi?=
- =?us-ascii?Q?+eNdhTxmrQbhNKDYA9VdfUvrySWPXADmunab18ZkJj9UXHRkuycMKWjrUhNU?=
- =?us-ascii?Q?PaIdeWsQK23HhkfaAVzeb+KelfK63q9MDnomh+07wdcK4H3lIsnkL4r1ULPp?=
- =?us-ascii?Q?FRuLORC85JB3aw9jmG1khoWwU+j0TcKJX3HE7PVq9qBvFBdlC05wtImEc88A?=
- =?us-ascii?Q?93Is9nDFpiKxNoO/5M591z+iDahbut735sCtnlSGPaQL41PNSF8uHU02kg7x?=
- =?us-ascii?Q?u5Iwn3mJyhuUG5keQlyhS3j5a7YQsYQ7tUAKt+G2POFgIeTw8iPx3DMOFvqw?=
- =?us-ascii?Q?8Fr2Bt9eikHJl2xngEkEZA4Ygrxw9A2xwuVrNeKxqdoIz0qI8Vp6hhWiku34?=
- =?us-ascii?Q?zFuLKlMKxrZNi0DEa+IgXueAUriIMqemv9zNOiptmcbYghIAJ3ACRxqfQ8yC?=
- =?us-ascii?Q?DA+B6biBeIOVxKA=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9PR04MB9626.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(19092799006)(376014)(52116014)(38350700014)(921020)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?MfsNHYYCPLjqALJcWMoXGdhu1/u1OL47HTpscHyOYxYRYOfb9VfgBK7YZ3on?=
- =?us-ascii?Q?6j5+s7ZfyEHdy1lxkmWcuoqz78G4U1ZOds7rIQwFARN8P6D+4oJ1lmFyhhuv?=
- =?us-ascii?Q?iNIc2FyMmBX0TzhS9XmUcb/pwzQ6XF3vU2UAdaxoDc+S6lv7ugPDQh2lXSW4?=
- =?us-ascii?Q?pv3sZ5uwfMVHrv7azjW4DCzhQuj1GtwagcQz4Fqo9KzAPBogToqy0vvQQXy+?=
- =?us-ascii?Q?PWsJHDZZCTandrf2mWU0iftZShXe4NcEDYC6JKYZPwjQvrAzNNH6GZW998fV?=
- =?us-ascii?Q?npgv8WJdBMVv0jg7UWVmAzhIOTnYmPSaYGWee19/4J0EVBYHCtlmjmPHqu35?=
- =?us-ascii?Q?uo33jqBZFiJgp2cRL/X+QSzE8ZO+XxgXEh73y2OTMH101YDcDpAAwHzT6j14?=
- =?us-ascii?Q?b/iIv0rQEtxr2WNMKiUvj4X7RudYSahVRZ+2Uq9/DBHnjRaAjlMvmL1QCvta?=
- =?us-ascii?Q?8yKGzUeUer2jsk47s6CcaKHghfPGnxZPKS1P61bvnY+CIRWJIuEvEY9N/dJb?=
- =?us-ascii?Q?G8p60qc1zhyIskvGH9uVp3U0Np/e7JHCHm26tUceIpiIAS53YYwqJmR4KTgl?=
- =?us-ascii?Q?uBY6Eo9i31A8U0KXuZBy8YAs/QzDd3Ae8IVPIFN4F+3usB3FEmedoBCDILqS?=
- =?us-ascii?Q?GCzM8sogIu5QvUXTpG31wZo1cmy2cXQYCs3ZfLxvVVCDjUxTsYSEdDrdZVRf?=
- =?us-ascii?Q?pedCPp4hv0O9reLdZSftkSGs4gvp5+gOrlyQzodqaxiDmjtMBpW4OrHbQluD?=
- =?us-ascii?Q?eRxbhMvp6gi9Jz9UylMjsYov9AnTlDfC5SzuRrwHHwuGewuwtFDtbS6zuL6W?=
- =?us-ascii?Q?AlQHDljPcdxwnnn+Bl0pFGnFcVRt/j0u1vpLpkWd5G1CTt9dWiFlC6A7clfX?=
- =?us-ascii?Q?n7ZL2Spk7ufYDoXaI6Ap6sdNYNBvGhZgLTsvBPUSClGECmPYpsdJmtNocBV+?=
- =?us-ascii?Q?Pek/e2q+HShX+ZzzECL0CPnS2DllmRb+PBlqmQ08OxLbxBIkN4nWXEjjYtR9?=
- =?us-ascii?Q?rsdDTgt24nDDuLD7VD2f1uaqsImVFsLRPVsKYcRMXagjb+keRJOR61rSha3J?=
- =?us-ascii?Q?sKqVVcCZua095pDbkPUmwjIcCqsnCd/pTUVET2wMtZOJy83amkI0q2DFO+2i?=
- =?us-ascii?Q?8NbNjXbwqlYgMykeCDvNjUOtGpkT31Z41A+f2TnF7EJ3m2T1KN0SjP6AMa/+?=
- =?us-ascii?Q?mU33w71wtfW6FbPKG6t7ljhjFAGeRbol7ETx7cLYw3qcTlYqbdB4GS3jSgS4?=
- =?us-ascii?Q?1iowx8QlA3Id1YMSuxueuvhq2eXUZJ9A98BdF8/VUWT5PpPlPF4BfcjObOXF?=
- =?us-ascii?Q?f5P2jfRH1/LInZWtStvhCv0xFsya6nEWg/crKVUrAvUujU6Etw0w/oMuOp/+?=
- =?us-ascii?Q?Zem7Anszj8QynQARTJ0S1KYHRvzOwjEft7I088zukLyNlZjw2A+gFcKZNa4Q?=
- =?us-ascii?Q?0rw33T5uP20osZeRxehRTffXNrM/uFgHu+1MjlqZafTPq230DypCjrc81GTI?=
- =?us-ascii?Q?6bRbCZuJgHAhqNUmXOg6ekCY8fDWhGIomBqnIzXpc8gx77ixjN9d7G0V3LqX?=
- =?us-ascii?Q?2sGU08Tas2n7NPVfl62lNOhLprgBjLgLSv7fhrK7?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1916285a-47eb-4417-6fc6-08ddebd6b779
-X-MS-Exchange-CrossTenant-AuthSource: DB9PR04MB9626.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Sep 2025 17:15:59.9843
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: D387jblXrIBlEonat2wrNrPyk93lX1913beKc6npFDIZRks/9w8myU3r8CAqXVap8jl7VDtRFFeMB9iPjqCQOA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MRWPR04MB11492
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.1
+Subject: Re: [PATCH V0 0/2] Fix CONFIG_HYPERV and vmbus related anamoly
+Content-Language: en-US
+To: Michael Kelley <mhklinux@outlook.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+ "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+ "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+ "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+ "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
+ "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
+ "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+ "virtualization@lists.linux.dev" <virtualization@lists.linux.dev>
+Cc: "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+ "mripard@kernel.org" <mripard@kernel.org>,
+ "tzimmermann@suse.de" <tzimmermann@suse.de>,
+ "airlied@gmail.com" <airlied@gmail.com>, "simona@ffwll.ch"
+ <simona@ffwll.ch>, "jikos@kernel.org" <jikos@kernel.org>,
+ "bentiss@kernel.org" <bentiss@kernel.org>,
+ "kys@microsoft.com" <kys@microsoft.com>,
+ "haiyangz@microsoft.com" <haiyangz@microsoft.com>,
+ "wei.liu@kernel.org" <wei.liu@kernel.org>,
+ "decui@microsoft.com" <decui@microsoft.com>,
+ "dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>,
+ "andrew+netdev@lunn.ch" <andrew+netdev@lunn.ch>,
+ "davem@davemloft.net" <davem@davemloft.net>,
+ "edumazet@google.com" <edumazet@google.com>,
+ "kuba@kernel.org" <kuba@kernel.org>, "pabeni@redhat.com"
+ <pabeni@redhat.com>, "bhelgaas@google.com" <bhelgaas@google.com>,
+ "James.Bottomley@HansenPartnership.com"
+ <James.Bottomley@HansenPartnership.com>,
+ "martin.petersen@oracle.com" <martin.petersen@oracle.com>,
+ "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+ "deller@gmx.de" <deller@gmx.de>, "arnd@arndb.de" <arnd@arndb.de>,
+ "sgarzare@redhat.com" <sgarzare@redhat.com>,
+ "horms@kernel.org" <horms@kernel.org>
+References: <20250828005952.884343-1-mrathor@linux.microsoft.com>
+ <SN6PR02MB4157917D84D00DBDAF54BD69D406A@SN6PR02MB4157.namprd02.prod.outlook.com>
+ <ff4c58f1-564d-ddfa-bdff-48ffee6e0d72@linux.microsoft.com>
+ <SN6PR02MB41573C5451F21286667C5441D400A@SN6PR02MB4157.namprd02.prod.outlook.com>
+From: Mukesh R <mrathor@linux.microsoft.com>
+In-Reply-To: <SN6PR02MB41573C5451F21286667C5441D400A@SN6PR02MB4157.namprd02.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Remove legacy binding egalax-ts.txt file. And add compatible string
-eeti,egalax_ts and wakeup-gpios to eeti,exc3000.yaml. "eeti,egalax_ts" is
-general compatible string, which is not preferred. But it is compatible
-with old devices (older than 10 years) and existing driver in
-drivers/input/touchscreen/egalax_ts.c.
+On 9/4/25 09:26, Michael Kelley wrote:
+> From: Mukesh R <mrathor@linux.microsoft.com> Sent: Wednesday, September 3, 2025 7:17 PM
+>>
+>> On 9/2/25 07:42, Michael Kelley wrote:
+>>> From: Mukesh Rathor <mrathor@linux.microsoft.com> Sent: Wednesday, August 27, 2025 6:00 PM
+>>>>
+>>>> At present, drivers/Makefile will subst =m to =y for CONFIG_HYPERV for hv
+>>>> subdir. Also, drivers/hv/Makefile replaces =m to =y to build in
+>>>> hv_common.c that is needed for the drivers. Moreover, vmbus driver is
+>>>> built if CONFIG_HYPER is set, either loadable or builtin.
+>>>>
+>>>> This is not a good approach. CONFIG_HYPERV is really an umbrella config that
+>>>> encompasses builtin code and various other things and not a dedicated config
+>>>> option for VMBUS. Vmbus should really have a config option just like
+>>>> CONFIG_HYPERV_BALLOON etc. This small series introduces CONFIG_HYPERV_VMBUS
+>>>> to build VMBUS driver and make that distinction explicit. With that
+>>>> CONFIG_HYPERV could be changed to bool.
+>>>
+>>> Separating the core hypervisor support (CONFIG_HYPERV) from the VMBus
+>>> support (CONFIG_HYPERV_VMBUS) makes sense to me. Overall the code
+>>> is already mostly in separate source files code, though there's some
+>>> entanglement in the handling of VMBus interrupts, which could be
+>>> improved later.
+>>>
+>>> However, I have a compatibility concern. Consider this scenario:
+>>>
+>>> 1) Assume running in a Hyper-V VM with a current Linux kernel version
+>>>     built with CONFIG_HYPERV=m.
+>>> 2) Grab a new version of kernel source code that contains this patch set.
+>>> 3) Run 'make olddefconfig' to create the .config file for the new kernel.
+>>> 4) Build the new kernel. This succeeds.
+>>> 5) Install and run the new kernel in the Hyper-V VM. This fails.
+>>>
+>>> The failure occurs because CONFIG_HYPERV=m is no longer legal,
+>>> so the .config file created in Step 3 has CONFIG_HYPERV=n. The
+>>> newly built kernel has no Hyper-V support and won't run in a
+>>> Hyper-V VM.
+>>>
+>>> As a second issue, if in Step 1 the current kernel was built with
+>>> CONFIG_HYPERV=y, then the .config file for the new kernel will have
+>>> CONFIG_HYPERV=y, which is better. But CONFIG_HYPERV_VMBUS
+>>> defaults to 'n', so the new kernel doesn't have any VMBus drivers
+>>> and won't run in a typical Hyper-V VM.
+>>>
+>>> The second issue could be fixed by assigning CONFIG_HYPERV_VMBUS
+>>> a default value, such as whatever CONFIG_HYPERV is set to. But
+>>> I'm not sure how to fix the first issue, except by continuing to
+>>> allow CONFIG_HYPERV=m.
+>>
+>> To certain extent, imo, users are expected to check config files
+>> for changes when moving to new versions/releases, so it would be a
+>> one time burden. 
+> 
+> I'm not so sanguine about the impact. For those of us who work with
+> Hyper-V frequently, yes, it's probably not that big of an issue -- we can
+> figure it out. But a lot of Azure/Hyper-V users aren't that familiar with
+> the details of how the Kconfig files are put together. And the issue occurs
+> with no error messages that something has gone wrong in building
+> the kernel, except that it won't boot. Just running "make olddefconfig"
+> has worked in the past, so some users will be befuddled and end up
+> generating Azure support incidents. I also wonder about breaking
+> automated test suites for new kernels, as they are likely to be running
+> "make olddefconfig" or something similar as part of the automation.
+> 
+>> CONFIG_HYPERV=m is just broken imo as one sees that
+>> in .config but magically symbols in drivers/hv are in kerenel.
+>>
+> 
+> I agree that's not ideal. But note that some Hyper-V code and symbols
+> like ms_hyperv_init_platform() and related functions show up when
+> CONFIG_HYPERVISOR_GUEST=y, even if CONFIG_HYPERV=n. That's
+> the code in arch/x86/kernel/cpu/mshyperv.c and it's because Hyper-V
+> is one of the recognized and somewhat hardwired hypervisors (like
+> VMware, for example).
+> 
+> Finally, there are about a dozen other places in the kernel that use
+> the same Makefile construct to make some code built-in even though
+> the CONFIG option is set to "m". That may not be enough occurrences
+> to make it standard practice, but Hyper-V guests are certainly not the
+> only case.
+> 
+> In my mind, this is judgment call with no absolute right answer. What
+> do others think about the tradeoffs?
 
-Allow address 0x4 for eeti,egalax_ts.
+Wei had said in private message that he agrees this is a good idea. Nuno
+said earlier above: 
 
-Don't require touchscreen-size-x(y) for eeti,egalax_ts.
+"FWIW I think it's a good idea, interested to hear what others think."
 
-Keep the same restriction for existing compatible string.
+Thanks,
+-Mukesh
 
-Fix below DTB_CHECKS warnings:
-arch/arm/boot/dts/nxp/imx/imx6dl-gw52xx.dtb: /soc/bus@2100000/i2c@21a8000/egalax_ts@4: failed to match any schema with compatible: ['eeti,egalax_ts']
-
-Signed-off-by: Frank Li <Frank.Li@nxp.com>
----
-change in v2
-- sorry missed one local change at v1
-- allow address 0x4 for eeti,egalax_ts.
-- move out touchscreen-size-x(y) from required.
----
- .../input/touchscreen/eeti,exc3000.yaml       | 30 +++++++++++++++----
- .../bindings/input/touchscreen/egalax-ts.txt  | 18 -----------
- 2 files changed, 24 insertions(+), 24 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/input/touchscreen/egalax-ts.txt
-
-diff --git a/Documentation/devicetree/bindings/input/touchscreen/eeti,exc3000.yaml b/Documentation/devicetree/bindings/input/touchscreen/eeti,exc3000.yaml
-index 1c7ae05a8c15e..d19b07d4cfd4a 100644
---- a/Documentation/devicetree/bindings/input/touchscreen/eeti,exc3000.yaml
-+++ b/Documentation/devicetree/bindings/input/touchscreen/eeti,exc3000.yaml
-@@ -9,25 +9,25 @@ title: EETI EXC3000 series touchscreen controller
- maintainers:
-   - Dmitry Torokhov <dmitry.torokhov@gmail.com>
- 
--allOf:
--  - $ref: touchscreen.yaml#
--
- properties:
-   compatible:
-     oneOf:
-       - const: eeti,exc3000
-       - const: eeti,exc80h60
-       - const: eeti,exc80h84
-+      - const: eeti,egalax_ts # Do NOT use for new binding
-       - items:
-           - enum:
-               - eeti,exc81w32
-           - const: eeti,exc80h84
-   reg:
--    const: 0x2a
-+    enum: [0x4, 0x2a]
-   interrupts:
-     maxItems: 1
-   reset-gpios:
-     maxItems: 1
-+  wakeup-gpios:
-+    maxItems: 1
-   vdd-supply:
-     description: Power supply regulator for the chip
-   touchscreen-size-x: true
-@@ -40,11 +40,29 @@ required:
-   - compatible
-   - reg
-   - interrupts
--  - touchscreen-size-x
--  - touchscreen-size-y
- 
- additionalProperties: false
- 
-+allOf:
-+  - $ref: touchscreen.yaml#
-+
-+  - if:
-+      properties:
-+        compatible:
-+          not:
-+            contains:
-+              const: eeti,egalax_ts
-+    then:
-+      properties:
-+        reg:
-+          const: 0x2a
-+
-+        wakeup-gpios: false
-+
-+      required:
-+        - touchscreen-size-x
-+        - touchscreen-size-y
-+
- examples:
-   - |
-     #include "dt-bindings/interrupt-controller/irq.h"
-diff --git a/Documentation/devicetree/bindings/input/touchscreen/egalax-ts.txt b/Documentation/devicetree/bindings/input/touchscreen/egalax-ts.txt
-deleted file mode 100644
-index ebbe938105745..0000000000000
---- a/Documentation/devicetree/bindings/input/touchscreen/egalax-ts.txt
-+++ /dev/null
-@@ -1,18 +0,0 @@
--* EETI eGalax Multiple Touch Controller
--
--Required properties:
--- compatible: must be "eeti,egalax_ts"
--- reg: i2c slave address
--- interrupts: touch controller interrupt
--- wakeup-gpios: the gpio pin to be used for waking up the controller
--  and also used as irq pin
--
--Example:
--
--	touchscreen@4 {
--		compatible = "eeti,egalax_ts";
--		reg = <0x04>;
--		interrupt-parent = <&gpio1>;
--		interrupts = <9 IRQ_TYPE_LEVEL_LOW>;
--		wakeup-gpios = <&gpio1 9 GPIO_ACTIVE_LOW>;
--	};
--- 
-2.34.1
 
 
