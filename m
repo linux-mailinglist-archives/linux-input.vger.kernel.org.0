@@ -1,105 +1,168 @@
-Return-Path: <linux-input+bounces-14478-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14479-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B409B43B8C
-	for <lists+linux-input@lfdr.de>; Thu,  4 Sep 2025 14:27:54 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 89DC6B43C07
+	for <lists+linux-input@lfdr.de>; Thu,  4 Sep 2025 14:48:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1BE711764BB
-	for <lists+linux-input@lfdr.de>; Thu,  4 Sep 2025 12:27:54 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3FB1F3BAB2F
+	for <lists+linux-input@lfdr.de>; Thu,  4 Sep 2025 12:48:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1BAC72EB871;
-	Thu,  4 Sep 2025 12:27:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7CC632FC009;
+	Thu,  4 Sep 2025 12:48:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eyJvHmgn"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aXbzv+W2"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 872E52EA480;
-	Thu,  4 Sep 2025 12:27:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B47265464D;
+	Thu,  4 Sep 2025 12:48:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756988869; cv=none; b=g/DgAcQEg31REzS4hO6iDRcQF2Wl+UmqShi0J6yb+PTdUY00gPlRyoUp9sOb2qbJ2EcOY3x3py6KKEo8T/gobVB849kOb1wP10FvKdzqVpFTPR2WGovgulBUwSleEHx8m6WWMuG3J2L39VEeVEck4KKLXQp3NimxWfI+ODpNs9c=
+	t=1756990131; cv=none; b=mDc4R8mAKZIlRYDksP0Yqg3nXj+BSQ3EBavIp0H6m+KDj703I8KxR+v5YoKk0IKKkysjjpQ3XYGulK19/ewZpiKI0Fl2RY7SqxmXHkUlPg9fH5cwSkQ5qvf1JXROsYCWlqVWYAAgHTTnNbmVqWhcFBYVNrKCKy/AqONoRyYvxZA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756988869; c=relaxed/simple;
-	bh=wZDhbFsgmTueBN/a2zLR83yhR4/cUs6y8TYhFvqGpEI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RrVYosgUCSXXTBmC58c9n0LexkozNDcpql5pNM3w4SVdXCGPNSpDVs85fLpuUYzfJrM6R6RpZK+mSiXOefFkkN/887pxeafBQm5L7Z4mkBUMJ9Q+Oc7SRqdfQMJ3VxAMkgf8ipsw16cWOBWRYKwp8YScasnTMoNfKQcRaBMuQ+o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eyJvHmgn; arc=none smtp.client-ip=209.85.216.48
+	s=arc-20240116; t=1756990131; c=relaxed/simple;
+	bh=X4XQaMvtFiSI0o01k9Y+U2kGWuRSS1mgykufRyzX2Kg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=q+O1Uo2wS2kVLZLCecCsNe9MhByiLafmH/WF5Pm8kCyMwYWu/iY78DO8vOz+KiE+BZIdQuDDWlKBI5xLR+ky8mMBqrFlCMckNd47jIrbO2F3v28wn9j6KZI9WyUhaLLsM7GKNCnGIxmvVOb0Bbx5LjodEWMnmyTy0jgHFfsbI5Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aXbzv+W2; arc=none smtp.client-ip=209.85.221.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-32326e2f0b3so697418a91.2;
-        Thu, 04 Sep 2025 05:27:47 -0700 (PDT)
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-3da4c14a5f9so1328543f8f.0;
+        Thu, 04 Sep 2025 05:48:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756988867; x=1757593667; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=c+6RnTXTsFZV2E77rjI/+MMkmxPjsaktk/mW1McK42s=;
-        b=eyJvHmgniAaJhWA/x2nWFU3k/8+Wecf870pRzaCpxyHR7HIq/Y2qGIw2IaFgzrRMJq
-         DTRduqtroIUYl76C5bFsPR9guhakRbzB7TtZ+/2JpB7Spe5t3vwmMofax/psKTnSIS28
-         czTg1SFp6bC8GT4pjP6QV7n1jdRhvEGVS4//rt7AEw+bkr/MnL1baDsv0PgVzyuyQGaE
-         tlrX7RvvxfA2WnGBk1id1AifXZePcKjlYmazCIJbfnDzJx7QhsLK0USFbmCC84LT1ycT
-         BlKMUOeVxkJ7dCNplYIsVj1XBw6e+tEzAyhymGmps0EW6xf33xzGbAMVQXZBjlkCEm/h
-         GZWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756988867; x=1757593667;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1756990128; x=1757594928; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=c+6RnTXTsFZV2E77rjI/+MMkmxPjsaktk/mW1McK42s=;
-        b=MxvmjZXe6trrUCmS8FfXnvQmADCaeadbStf5ujpl8r3n3WDtrglYaq7ebp3ItCW/LJ
-         1E1K8WDGBZAOl5Ur9+CzlR8qLAI5MZtZKt/LA4labp64eFhdd2JDq7ef485UsPBj+Uda
-         gVznFhwiFH48v2dqaaqj7bYTFcXTPZOWjaMlB10cwr/9P6kJAWs7pShZA/fJYfhHLVdZ
-         gmDe/hEmdtRKQGDAoIjajLIZ5ZQ+cOOF2CKR5H51kMebQjP0euTFpeVZWDfb1Ao+TgUt
-         GlQXUzcmPJUMb0UGRCd3iNSdFkvcUWHGHJa1KsXLECrWszKQniGqdeuk7n45GUwi6HhD
-         wFNw==
-X-Forwarded-Encrypted: i=1; AJvYcCWkd12BPxPBM3t7VKW+63pmQnrJCkld0c7fuHYfsxH91G1M8H9HFiyNUVnIEWLf0Qv5Aa9Os4QNmSMzGyA=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxj+TG2rY9GOdFzkWudF0756oPX62dttL1vVY2EWI3rQXyqPjwu
-	W2T7NYFAVgku9uPlavb9kW0wenBqs7tF8pgmvcfguZVrf9Xv7vu6exUe
-X-Gm-Gg: ASbGncssqGoOwVDqztqsqCtNdx+QxFADfX4ZOeR59KyDFQDiigiHY0/6wCtsNi0Pktj
-	RUsfpRvO9WvXgRIEn31pTSm3OFWeKYlvelLAk++YJIgLr5OnCETxhhUUQEfYMZ+sOXnBOx1P4bh
-	PPgle6huRjxlL8ZuIRNaLnBf+tZdpZf3YWFByQnva1l0PHvqEnwPCRdig1oR67sZO4PWTc4zd26
-	dAnx2ciBXPXrzc8cZsl8bpxxAcznu1Zb6QbCdsTtTRQQXcY7vdYSoZzF3Vic3buiPZWc3/d3Alv
-	6b+GC0mwNegf0JmAVOZrf2hx/faaxfH1BHQjAyI2B2AfHebGeFteSI7lgA0prtWGQwDyiW8f8o5
-	in5eFXqylczeERX023D4w4+8=
-X-Google-Smtp-Source: AGHT+IGplxNuZwrzLDkICPoqrn6Q2kmNbBGpJJVHaB243MvEBlIyDJyve/PyR5jcmCa8eLNJLz5mVA==
-X-Received: by 2002:a17:90b:384d:b0:327:d459:e600 with SMTP id 98e67ed59e1d1-32815452282mr27226305a91.15.1756988866709;
-        Thu, 04 Sep 2025 05:27:46 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:463b:8ef9:3432:4c09])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-32b58d8ca8dsm5576683a91.7.2025.09.04.05.27.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Sep 2025 05:27:46 -0700 (PDT)
-Date: Thu, 4 Sep 2025 05:27:44 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Antheas Kapenekakis <lkml@antheas.dev>
-Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Brandon Lin <brandon@emergence.ltd>, Sergey Belozyorcev <belozyorcev@ya.ru>
-Subject: Re: [PATCH v1] Input: xpad - add ID for Flydigi Apex 5
-Message-ID: <u4vua23v2a7fb6j5ysf27fgc3x5li5q2l4zqyl7vw3wf7sn2um@qlbmp7xbgvzv>
-References: <20250903165114.2987905-1-lkml@antheas.dev>
+        bh=WZVlyZjRKsXifjqY1UL5f20VbSu7xNc630lWHOD2+kc=;
+        b=aXbzv+W2dYUYFJJrQ4io41Oh80Vdok1hgaIBFfMNkFyynIR6jEN2P6TSQ8v0UQSkjA
+         XvDxqw19qjt3drCDNmk9G/KINRwXMUzED290wvKmwcrnyWJ7n3zCKFaOlRDEvJ/q0PLD
+         tp1IDJ2Xum2zXJkvaaub/C3hu+KBuUQFH3E4efAU9NyMMDtL5S+/Mys2zbqDi+Fney+A
+         bR+SGhxrcrpQaVn/d3bFavJBiLUJyNTBbINZGNXqn04S/TEFZVYPpAx6Vi/2RIA+uF6d
+         IK/zBXCKHo/atJAo8FXmMhxQJYflGT6+di8Pq11m2IfKqJzJxv1hVr3tPd74/l6ZSE1e
+         y6HA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756990128; x=1757594928;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=WZVlyZjRKsXifjqY1UL5f20VbSu7xNc630lWHOD2+kc=;
+        b=Polyn0fbKxDAXd8VMes1buHJwL9w0Vrlb0gW4anSmCdWcYIv69csxkHx5Nsqx+7heK
+         j9YKnTcIPTpAmQT2DqiApoUnYEFyitne9JKrV+Fc/pKvjsXZJcewdwNeq/l8nqMZbaPD
+         xI7eIPnSIYgpfiLUXLU3Z+3BMoetDa8B+rES0wWlBj8F+Owa3cWgmBcrSDCFqs7u15pI
+         me3wTskg6ndiVWqu0E4cQBoUstypGqQ0gJNzcq02S288qN6FrBCdxVunuj8HcQgqZlnM
+         9Q323VzciHAAivpTiiJJXnD2UJGQd4toDiRVr9LD6SQAPpcdbrmDT1KjmMKmAUFFWMe/
+         Rh4Q==
+X-Forwarded-Encrypted: i=1; AJvYcCULQoUtnzRHmAps6yJ5Ts6Q2Ja+tdaLgVF0wqqTL4iMyT9TjY/QiCYahpXPxLKDRuGFBymIhEpN6PA1Abn1@vger.kernel.org, AJvYcCV6dGxnbYR2Bvka0WUO4UDMpi+7BnBt+LNMDOFL0mrdfFx0tHzDJ8hzwTSqjAqOKS2mEk7VVArapgvH01w=@vger.kernel.org, AJvYcCWXwGJExayHwvvxSCzzu/THNH4slnyFCOukU17ZaOvb99YfjikEXOngbcIYY5kL3veqi1VXx4FhqC56@vger.kernel.org, AJvYcCXatUo1nuHR6hz6iyZwozuzz6vocvEx8jZA61K2d+AeA6hHP6pzmHc3xBhZN6GRWwOCuEl3741Uq9RXRCA=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx7a9b2RNrI1mJnBQ8swzP4NM0dDq56DyaJmmITBdnM5IdqsHLC
+	orCaCX7BXS4Gdae3VUu7D24eT3R8lpX0oKuqHIIQ0iKCaEqAivySkUnNqNQEkQ62SLyC4UMDBsV
+	gqYoqglyhktuzBv/MOla5meVDydQOiKU=
+X-Gm-Gg: ASbGnctUKB94+7WSeh9cr8l6DDHsJRKYREaXMAWz/AWoRot80HVeRbpX6BdVsGRL0hS
+	jJy0pWylT8SF1ufNmYxHGgzu2T3PHCm+kZaEgqimH+6EcxLUZqeS/XgKVXoLNAtn/MEZDaOzjyL
+	ekDW1F8WqAimPjzVe8ZsxJavJLKR0qbD48yi3Kzezazm+5k6u5S800Ean5PPB5IlEST+tVU+Ok0
+	N9jlKWy/WPBZmFolQ7i35VAebPd0Q==
+X-Google-Smtp-Source: AGHT+IHJgb5ZK3/x3D0k4RvP5eDU3ZpKPFmw0GCoXPu4nPhadRVrgI33bU76aO+Qn842wznMLbls7IyO86ZUoYmBKJY=
+X-Received: by 2002:a05:6000:26d1:b0:3e0:b982:ca49 with SMTP id
+ ffacd0b85a97d-3e0b982d0acmr2131607f8f.2.1756990127686; Thu, 04 Sep 2025
+ 05:48:47 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250903165114.2987905-1-lkml@antheas.dev>
+References: <20250903161947.109328-1-clamor95@gmail.com> <20250903161947.109328-2-clamor95@gmail.com>
+ <75wc4lutipb7uszkqfuakjl7iqsygjif4df5phosifkgi3serc@t75jpefbbbcs>
+In-Reply-To: <75wc4lutipb7uszkqfuakjl7iqsygjif4df5phosifkgi3serc@t75jpefbbbcs>
+From: Svyatoslav Ryhel <clamor95@gmail.com>
+Date: Thu, 4 Sep 2025 15:48:36 +0300
+X-Gm-Features: Ac12FXyqolMHhcEVaWO6TF_qYRS1ymxnZW7Xsug83f2VeNBvmBV6FfcI9PTDfjY
+Message-ID: <CAPVz0n0b7wAZXQc9inET6+pQUnp-GRVF+ojwSDENmu5yxHgW9w@mail.gmail.com>
+Subject: Re: [PATCH v1 1/2] input: rmi4: fix RMI_2D clipping
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>, 
+	Jonathan Hunter <jonathanh@nvidia.com>, =?UTF-8?Q?Jonas_Schw=C3=B6bel?= <jonasschwoebel@yahoo.de>, 
+	devicetree@vger.kernel.org, linux-tegra@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Sep 03, 2025 at 06:51:14PM +0200, Antheas Kapenekakis wrote:
-> The Flydigi Apex 5 has an XInput mode. Add the vid and pid for it.
-> 
-> Reported-by: Brandon Lin <brandon@emergence.ltd>
-> Reported-by: Sergey Belozyorcev <belozyorcev@ya.ru>
-> Closes: https://github.com/ublue-os/bazzite/issues/3014
-> Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
+=D1=87=D1=82, 4 =D0=B2=D0=B5=D1=80. 2025=E2=80=AF=D1=80. =D0=BE 14:58 Dmitr=
+y Torokhov <dmitry.torokhov@gmail.com> =D0=BF=D0=B8=D1=88=D0=B5:
+>
+> Hi Svyatoslav,
+>
+> On Wed, Sep 03, 2025 at 07:19:45PM +0300, Svyatoslav Ryhel wrote:
+> > From: Jonas Schw=C3=B6bel <jonasschwoebel@yahoo.de>
+> >
+> > The physical max_y value was overridden with a clip_y_max value. This
+> > caused problems when inverting/flipping the screen. Further it messed u=
+p
+> > calculation of resolution.
+> >
+> > Signed-off-by: Jonas Schw=C3=B6bel <jonasschwoebel@yahoo.de>
+> > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+> > ---
+> >  drivers/input/rmi4/rmi_2d_sensor.c | 5 ++---
+> >  1 file changed, 2 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/drivers/input/rmi4/rmi_2d_sensor.c b/drivers/input/rmi4/rm=
+i_2d_sensor.c
+> > index b7fe6eb35a4e..b4762b3c8b24 100644
+> > --- a/drivers/input/rmi4/rmi_2d_sensor.c
+> > +++ b/drivers/input/rmi4/rmi_2d_sensor.c
+> > @@ -56,7 +56,7 @@ void rmi_2d_sensor_abs_process(struct rmi_2d_sensor *=
+sensor,
+> >               obj->x =3D min(sensor->max_x, obj->x);
+> >
+> >       if (axis_align->clip_y_high)
+> > -             obj->y =3D  min(sensor->max_y, obj->y);
+> > +             obj->y =3D  min(axis_align->clip_y_high, obj->y);
+> >
+> >       sensor->tracking_pos[slot].x =3D obj->x;
+> >       sensor->tracking_pos[slot].y =3D obj->y;
+> > @@ -149,13 +149,12 @@ static void rmi_2d_sensor_set_input_params(struct=
+ rmi_2d_sensor *sensor)
+> >
+> >               sensor->min_y =3D sensor->axis_align.clip_y_low;
+> >               if (sensor->axis_align.clip_y_high)
+> > -                     sensor->max_y =3D min(sensor->max_y,
+> > +                     max_y =3D min(sensor->max_y,
+>
+> I see that you want to have sensor->max_y to carry maximum coordinate
+> the sensor is capable of reporting, so that flipping works properly. If
+> this is the case you should also be deleting sensor->min_y and always
+> use 0 in its place, otherwise there is inconsistency.
+>
+> You also need to deal with X coordinate in the similar fashion.
+>
+> >                               sensor->axis_align.clip_y_high);
+> >
+> >               set_bit(EV_ABS, input->evbit);
+> >
+> >               max_x =3D sensor->max_x;
+> > -             max_y =3D sensor->max_y;
+>
+> This makes max_y potentially uninitialized.
+>
+> >               if (sensor->axis_align.swap_axes)
+> >                       swap(max_x, max_y);
+> >               input_set_abs_params(input, ABS_MT_POSITION_X, 0, max_x, =
+0, 0);
+>
+> I am unconvinced that using raw sensor coordinates to calculate
+> resolution is a good idea. It has potential to regress existing users.
+>
+> Thanks.
+>
 
-Applied, thank you.
+I will take a deeper look, thank you for review.
 
--- 
-Dmitry
+> --
+> Dmitry
 
