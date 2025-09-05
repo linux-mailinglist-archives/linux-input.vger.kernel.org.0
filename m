@@ -1,56 +1,57 @@
-Return-Path: <linux-input+bounces-14507-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14508-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1630DB456E2
-	for <lists+linux-input@lfdr.de>; Fri,  5 Sep 2025 13:52:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDF2CB456E3
+	for <lists+linux-input@lfdr.de>; Fri,  5 Sep 2025 13:52:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A1EBA5C0C32
-	for <lists+linux-input@lfdr.de>; Fri,  5 Sep 2025 11:52:12 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 421A95C0F35
+	for <lists+linux-input@lfdr.de>; Fri,  5 Sep 2025 11:52:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 04ACC26B747;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 69CFF34A32C;
 	Fri,  5 Sep 2025 11:52:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="KoNu/PZB"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Ka30bxE/"
 X-Original-To: linux-input@vger.kernel.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0D90343D76;
-	Fri,  5 Sep 2025 11:52:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6121B3469ED;
+	Fri,  5 Sep 2025 11:52:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757073128; cv=none; b=bgB/c5jUvXBrPH2BibwrdjmXz/LKas875JTG10l6hFTYKDaIqR9p9Wp/BlZao5b2j4YZbpk8bPcUZMTMrPnVtQbog/ttu64MXrFo+2aA5tA0aTjnwVVlLz1S3aV8c0plY/jYZayh9iFbtWH+JMR6QyjlMzoUfccdQamfGXBpnxY=
+	t=1757073129; cv=none; b=rdQs4i+jLMevRXm56d1ZmZSsRou3pGdP/73K7NRFXk1GQqSReCyb8xiVB3ILIPvZlM8ioB13eJg0dPMn9J/P+abG9W2Usqm4BqLYPbtqZOoFs0fScvNCPe/GJ0Tiir/wV8eHPww5FR/k3qUANmHVPqx6HyXZ2vnIjoU9B6Dm2wc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757073128; c=relaxed/simple;
-	bh=dST/8xVStC32ekP6gB7vITv41T5xV6Hei4eA5fX+3yk=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=NFxRhVeXzMcAt5JRO/ghD7U085jR0+iWz/HS+rOuck9oAC2AV8PIpzeqZshrm0uVki7FnC8xmVtd66P3SoXYpcfiW/3NQUYuzDYqgTJf+aWG9mRLkUwqZXX0bXXw9hgqAh/kTY1bR5lm3PZFb9NVoCZeL9HPUBMhmNrnlqsMGIo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=KoNu/PZB; arc=none smtp.client-ip=148.251.105.195
+	s=arc-20240116; t=1757073129; c=relaxed/simple;
+	bh=nGCQcq61aKBRf0b7FK8UVUHa2H+P8YyeOd1I16hGvAs=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=ZwNpE3vH//crjbUkdIm8rK2vfGOiv+hdufPPCXTwOIKD+VHBQLBPm449/R9SYYKGbCJg+TSJyHZQVw+s0WV1i+l6VCs5XDuuhZX4HW8yCrd1jb2gyoe3xLjdEnjXK0twIM7Od1bZ88hOERUxFWjtfsBBSPtIDjDxIv2kZHRwEyQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=Ka30bxE/; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1757073124;
-	bh=dST/8xVStC32ekP6gB7vITv41T5xV6Hei4eA5fX+3yk=;
-	h=From:Subject:Date:To:Cc:From;
-	b=KoNu/PZBVwQxyJw4U588Dtr1MZVIUtmtJ0zC3OZg2rcIFGvpNpdECWp7wcJgYpP9k
-	 e2Pd8w1XmR//tjpTp+D8wHXDsB/ox+1DfSB1VJm01fgXWxdS30Cfaz7SXIZcjoU8/a
-	 dlD3vb/uPlMB+pL0/eFx5ocaDodu0Z0VzRR4jOC8a7J76x62xAC220tmVssnkqC4NE
-	 UwAgInY549BINS5QjwXywrc7GdGqkCXrHBSNhCXR64TofvGvpwqHA2loICcu1K2RDQ
-	 YMYb2rOxGmHqECW3b7bKlno5gKINxEBOp0o/6rRaFBa8BM434PCAQTeY6lpSse2Osl
-	 9Egf+jiNiGQaA==
+	s=mail; t=1757073125;
+	bh=nGCQcq61aKBRf0b7FK8UVUHa2H+P8YyeOd1I16hGvAs=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=Ka30bxE/Hc2F9cak9VvSldw3iz5FIERcNisml9glefat2t87MRZXYic3aowp3CZZX
+	 Y27XoFU1d0MpumDaskc4UX8Iyv5kCKq+bDwtlNwZDPsab7EmrRg+QBw1qYbE9XNCm8
+	 4p7au7KfEpSnTjKXOsNAPoCLVURld3vDndgRNBLsf2Da09gkLHKNUt/iLMazMb6xqb
+	 s7NC/iJap3WDwUevCweXxsyezYv/7GkFrsj9eUsVfhG3rI+hYsmMczkMz8N2930ZSB
+	 PPjvwry9XqXqHWdE0bG8Zcq6IZ6lHwFWOFQJUSjAFRn4RYDA3YiAKeUycujuYB4zEk
+	 l5vsQJ3Q9gH5A==
 Received: from localhost-live.home (2a01cb0892F2D600c8F85cf092D4Af51.ipv6.abo.wanadoo.fr [IPv6:2a01:cb08:92f2:d600:c8f8:5cf0:92d4:af51])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: jmassot)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 25A8417E0100;
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id EEDC817E0237;
 	Fri,  5 Sep 2025 13:52:04 +0200 (CEST)
 From: Julien Massot <julien.massot@collabora.com>
-Subject: [PATCH v3 0/3] Radxa NIO 12L: Add GPIO keys and LED support
-Date: Fri, 05 Sep 2025 13:51:57 +0200
-Message-Id: <20250905-radxa-nio-12-l-gpio-v3-0-40f11377fb55@collabora.com>
+Date: Fri, 05 Sep 2025 13:51:58 +0200
+Subject: [PATCH v3 1/3] Input: mtk-pmic-keys - MT6359 has a specific
+ release irq
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -59,11 +60,9 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAN3OumgC/33NSwrCMBCA4auUrB1JJo0GV95DXKR5tIHalERCp
- eTupl0Jirv5B+ablSQbvU3k0qwk2uyTD1MNfmiIHtTUW/CmNkGKgkrKICqzKJh8AIYwQj/XSbQ
- OqdQoOOekXs7ROr/s6u1ee/DpGeJrf5LZtv3vZQYUDJUtdVIY1PKqwziqLkR11OFBNjPjh4On3
- w5W5+yYdIq7zn07pZQ3mAz0zwIBAAA=
-X-Change-ID: 20250801-radxa-nio-12-l-gpio-54f208c25333
+Message-Id: <20250905-radxa-nio-12-l-gpio-v3-1-40f11377fb55@collabora.com>
+References: <20250905-radxa-nio-12-l-gpio-v3-0-40f11377fb55@collabora.com>
+In-Reply-To: <20250905-radxa-nio-12-l-gpio-v3-0-40f11377fb55@collabora.com>
 To: kernel@collabora.com, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
  Matthias Brugger <matthias.bgg@gmail.com>, 
  AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
@@ -75,41 +74,63 @@ Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
  devicetree@vger.kernel.org, Julien Massot <julien.massot@collabora.com>
 X-Mailer: b4 0.14.2
 
-This patchset adds support for the GPIO-connected red and blue LEDs,
-as well as the various hardware buttons present on the Radxa NIO 12L
-board.
+Support for MT6359 PMIC keys has been added recently.
+However, the key release event is not properly handled:
+only key press events are generated, leaving key states
+stuck in "pressed".
 
-It also includes a fix for the missing release (key-up) interrupt
-handling for PMIC-managed GPIO keys.
+This patch ensures that both key press and key release events
+are properly emitted by handling the release logic correctly.
 
+Introduce a 'key_release_irq' member to the 'mtk_pmic_regs',
+to identify the devices that have a separate irq for the
+release event.
+
+Fixes: bc25e6bf032e ("Input: mtk-pmic-keys - add support for MT6359 PMIC keys")
 Signed-off-by: Julien Massot <julien.massot@collabora.com>
 ---
-Changes in v3:
-Patch 3/3: drop the deprecated LEDs label property
-- Link to v2: https://lore.kernel.org/r/20250826-radxa-nio-12-l-gpio-v2-0-7f18fa3fbfc8@collabora.com
+ drivers/input/keyboard/mtk-pmic-keys.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-Changes in v2:
-PATCH 1/3
-- Add Fixes tag
-- Drop Angelo's Reviewed-By since I'm now introducing the
-'key_release_irq' member that was missing in v1.
-- Link to v1: https://lore.kernel.org/r/20250801-radxa-nio-12-l-gpio-v1-0-d0840f85d2c8@collabora.com
+diff --git a/drivers/input/keyboard/mtk-pmic-keys.c b/drivers/input/keyboard/mtk-pmic-keys.c
+index 50e2e792c91d2626d3f282d04a1db60845827ef2..c78d9f6d97c4f7a77b4c44cee3b93e4712a19aec 100644
+--- a/drivers/input/keyboard/mtk-pmic-keys.c
++++ b/drivers/input/keyboard/mtk-pmic-keys.c
+@@ -55,6 +55,7 @@ struct mtk_pmic_regs {
+ 	const struct mtk_pmic_keys_regs keys_regs[MTK_PMIC_MAX_KEY_COUNT];
+ 	u32 pmic_rst_reg;
+ 	u32 rst_lprst_mask; /* Long-press reset timeout bitmask */
++	bool key_release_irq;
+ };
+ 
+ static const struct mtk_pmic_regs mt6397_regs = {
+@@ -116,6 +117,7 @@ static const struct mtk_pmic_regs mt6358_regs = {
+ 				   MTK_PMIC_HOMEKEY_RST),
+ 	.pmic_rst_reg = MT6358_TOP_RST_MISC,
+ 	.rst_lprst_mask = MTK_PMIC_RST_DU_MASK,
++	.key_release_irq = true,
+ };
+ 
+ static const struct mtk_pmic_regs mt6359_regs = {
+@@ -129,6 +131,7 @@ static const struct mtk_pmic_regs mt6359_regs = {
+ 				   MTK_PMIC_HOMEKEY_RST),
+ 	.pmic_rst_reg = MT6359_TOP_RST_MISC,
+ 	.rst_lprst_mask = MTK_PMIC_RST_DU_MASK,
++	.key_release_irq = true,
+ };
+ 
+ struct mtk_pmic_keys_info {
+@@ -368,7 +371,7 @@ static int mtk_pmic_keys_probe(struct platform_device *pdev)
+ 		if (keys->keys[index].irq < 0)
+ 			return keys->keys[index].irq;
+ 
+-		if (of_device_is_compatible(node, "mediatek,mt6358-keys")) {
++		if (mtk_pmic_regs->key_release_irq) {
+ 			keys->keys[index].irq_r = platform_get_irq_byname(pdev,
+ 									  irqnames_r[index]);
+ 
 
----
-Julien Massot (3):
-      Input: mtk-pmic-keys - MT6359 has a specific release irq
-      arm64: dts: mediatek: mt8395-nio-12l: add PMIC and GPIO keys support
-      arm64: dts: mediatek: mt8395-nio-12l: add support for blue and red LEDs
-
- .../boot/dts/mediatek/mt8395-radxa-nio-12l.dts     | 65 ++++++++++++++++++++++
- drivers/input/keyboard/mtk-pmic-keys.c             |  5 +-
- 2 files changed, 69 insertions(+), 1 deletion(-)
----
-base-commit: 6c68f4c0a147c025ae0b25fab688c7c47964a02f
-change-id: 20250801-radxa-nio-12-l-gpio-54f208c25333
-
-Best regards,
 -- 
-Julien Massot <julien.massot@collabora.com>
+2.51.0
 
 
