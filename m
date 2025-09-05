@@ -1,279 +1,110 @@
-Return-Path: <linux-input+bounces-14501-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14502-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BA54B44BE7
-	for <lists+linux-input@lfdr.de>; Fri,  5 Sep 2025 04:52:39 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 39319B4508D
+	for <lists+linux-input@lfdr.de>; Fri,  5 Sep 2025 09:57:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id AD652189D26B
-	for <lists+linux-input@lfdr.de>; Fri,  5 Sep 2025 02:52:59 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 02F4E540E02
+	for <lists+linux-input@lfdr.de>; Fri,  5 Sep 2025 07:57:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F6641DE89A;
-	Fri,  5 Sep 2025 02:52:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="brUkuW/U"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4E7B52F7442;
+	Fri,  5 Sep 2025 07:57:49 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f169.google.com (mail-vk1-f169.google.com [209.85.221.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38A9D7FBA1;
-	Fri,  5 Sep 2025 02:52:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1A0E25B1FF;
+	Fri,  5 Sep 2025 07:57:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757040754; cv=none; b=DM+5kKzGLi7KyqnzRmIOpaq9niVSR0AOV6VVoEeIF9wqSB1JM7IEPfA99kofwI7ru2udedmCYpWqra4ifspCITSpINSut8YPl4kZI3ZZBQ9VfL25QRksg1GyoAaHZnT96RoXWDCtaFqvCNKHOZEhcOOkxaPnd9znT1+OIeMAO9g=
+	t=1757059069; cv=none; b=Tyr8tkf4Y1LENNJKEtj4sTbotm3eTujpHzN+PnBByYI6EcCI7MbGU2Ge1mD1Yb3edIrHrmiDV2oegLWabUK+O6fdsx0/oa26qAkhl2p+qdFlQaTkrJmedYyuI7UV7SPCxJ60X1z5IZwryfXMmBNGQhb14xauJIQrwftb8KVvfV4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757040754; c=relaxed/simple;
-	bh=Qw8lFrrwAIMrp6pijQTLAWkAiH0l7fTpk2w47qaYv9Y=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=B3Y9cQ3H19yDluqbxe4FqWyxpJRnJi0x9DU+hwABwuYLyBlKzKCjN9I05YSwZGNCZ4faNCJT6wFyLnGsb2MOcN3hUfxHp2r+1evs7As/dscZj00pJfVAVVUCrRc9zIHQmfMfbaF//Jj5rAAfVXRgkB0Yzn39pXw+WVWwO9hyHCY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=brUkuW/U; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757040753; x=1788576753;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=Qw8lFrrwAIMrp6pijQTLAWkAiH0l7fTpk2w47qaYv9Y=;
-  b=brUkuW/UPQHdHnVhd73Q7t5pFgh0WghfE5JGwwoYwDWlosL+fm7Y5Fx9
-   EP6RnuzfIXGagMd9uk5JwJnccYyj/3PdysXtBfEySLD/EdXFZRan8g4JR
-   RscXCUezY8uIunDmoWr65cJgsM3aN1H9XFpbjPYYmuASNBHvMTbmsS6ne
-   cIjfF75ugvmXSbbqbYEsaU88uGcSNMX0M1a3JgIaSOCMq8pvfmf5mT5Dh
-   9cpy0iv984fQeaAT37uavqi7gNYxd0LcA2NGZLY987U9PYSlBpKPVYDeF
-   SJ9YHX/w2fXVS6HeoHA3J1jmY7tUHyTivHcY4sYnsiXj9l+e+5+ElEQEE
-   w==;
-X-CSE-ConnectionGUID: rhhxeJecS5adCY0Nt+B7+A==
-X-CSE-MsgGUID: RmAHx27dR5qGN/rMiAEzqA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11543"; a="70769902"
-X-IronPort-AV: E=Sophos;i="6.18,240,1751266800"; 
-   d="scan'208";a="70769902"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2025 19:52:32 -0700
-X-CSE-ConnectionGUID: UyVjQjNhQjOMnh4X7lEpGQ==
-X-CSE-MsgGUID: IOZ9qkX5Q+yz0PCs1x2YjQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,240,1751266800"; 
-   d="scan'208";a="177304808"
-Received: from shsensorbuild.sh.intel.com ([10.239.132.250])
-  by orviesa005.jf.intel.com with ESMTP; 04 Sep 2025 19:52:30 -0700
-From: Even Xu <even.xu@intel.com>
-To: xinpeng.sun@intel.com
-Cc: bentiss@kernel.org,
-	jikos@kernel.org,
-	linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	rui1.zhang@intel.com,
-	srinivas.pandruvada@linux.intel.com,
-	Even Xu <even.xu@intel.com>
-Subject: Re: [PATCH RESEND v2] hid: intel-thc-hid: intel-quicki2c: support ACPI config for advanced features
-Date: Fri,  5 Sep 2025 10:52:22 +0800
-Message-Id: <20250905025222.1421870-1-even.xu@intel.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20250905013935.1356008-1-xinpeng.sun@intel.com>
-References: <20250905013935.1356008-1-xinpeng.sun@intel.com>
+	s=arc-20240116; t=1757059069; c=relaxed/simple;
+	bh=DAubCHcXcP/MDA4gDcViJapkOOeGhI9rKCdWgQ/LVfA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=tlZXrb8zDoj6ONclp/qoKRmEk5wtW6DGXUfDPWK/ZPSgIVq9CH/uy2RSXb+ysxckl3vrInnPmjRqBaspyfWcf2npSV4zMMGBPQbVHirUEYzHLcxJUBFnkWP0+m3p75KStUfCNKxpRaST6zI5wQ0WBqmMDnkjCGOBqzr+VErASOw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f169.google.com with SMTP id 71dfb90a1353d-544ba28ae58so1278884e0c.1;
+        Fri, 05 Sep 2025 00:57:46 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757059065; x=1757663865;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=GAOcXlAx6DPgP9UtLfIGxuYVjzOl0tNzCcNLPQpFRRo=;
+        b=EJfYp2lfOY4N6ZusnzY4LheFggr+NQGY12OximvuFdk+tldOQirezM0rkbYIlBI7gU
+         /Np5JZ1QzCPAf+pGJ84loU/JnN3Ho+7q1oytOj+WSZugLjqflaiLyCJqodLO8z0i29Ca
+         KFoKLi3IYx1jcQugrF3CDEJpr3zQiFX0Fip12ZF5Mp3BV9ZfvU7lyzLB0fLkZBBmKlz0
+         eGuC1zQsDPmSSck8sRaz3NnA6eP8XNOsZEUu+xSfB1kpmB6mwYIYCZ/5xdy+XU97s95K
+         swSYZ87G1b3nwV9dH6GHWRPBwIsItp2ZHZgrZhk/o3QOJT5c9koL6kMpXYvL0G7RiPhd
+         7KRw==
+X-Forwarded-Encrypted: i=1; AJvYcCW66o2eePnXWsBSHeCUpjBMbkmmCurSosBazc5bw+2SFvHy/MkaDkJuNxK7O4iWcVwLzHbhZaoccc/j6aph9wQ3Y0k=@vger.kernel.org, AJvYcCXI/XQq9FBPhlfPTYBDx9LrxeojqaYW0pQuii1sQvKRZ1EgRgQRvOvHjWGD9u47d8fDgQBMPonwQLQ+@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw+mWXy/fPKcMt1XspzIFVIgJWe3cnEj3LSdVFkm3vEH6mS22OQ
+	uSyHDU3pk2glywYPHN9VlRPhC24FMT80Alar4ntN6CYaM5rsHY2lOb6WWrspBr/Y
+X-Gm-Gg: ASbGnctKRh37z4Q/SqfPg7UWML1gjoyWMrqs/8vT/8oZFXgevfN549+1Xh1OEJDWtAv
+	a87L4L1ZPJt33I7Zoumzr25/wpTp51KpHTI9lVbmBXD2P3a/Z1ZHvB3O5dxgxivRqYsobWLJrjL
+	JSR3mpIgF7/QXiBTD4VfLNiKAxAaF9j/k02v2FFOXAWMZj1W02Ss9A3F4lIdOQ2ItzjqIr3Cxmm
+	6c7mRSLbArujbip5Bnw1mtcBOy+bECM71R+dfUj317X/tgHmsnuxgQ19wXkU3iRv2ERupdVoxAD
+	KAfSa9N5Ti/0C7zhf6FRU3e6nHMg5SOqUPaQKRVUkFjENnOHYFGW2pQPxoCWHOgYsn9btT33SMP
+	T132+HMlq3OhlgoY54jgCA8+mcnxdJP/qPoPORQ0P7XY0HzfTM5vEUpCIkKek
+X-Google-Smtp-Source: AGHT+IEarSLR0Vjh2ZnJ+yWp4cb4RC4L2pnm5/tg/66sLN8ePCrnueVi0F1fKMlAZrXxf6mdcjuh6w==
+X-Received: by 2002:a05:6122:a1f:b0:539:5cff:8070 with SMTP id 71dfb90a1353d-544a0254443mr7868913e0c.9.1757059065598;
+        Fri, 05 Sep 2025 00:57:45 -0700 (PDT)
+Received: from mail-vs1-f50.google.com (mail-vs1-f50.google.com. [209.85.217.50])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-544afcfe32dsm6642533e0c.23.2025.09.05.00.57.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 05 Sep 2025 00:57:45 -0700 (PDT)
+Received: by mail-vs1-f50.google.com with SMTP id ada2fe7eead31-53042807be7so1408876137.3;
+        Fri, 05 Sep 2025 00:57:45 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUVcYW7MCE633bwa2XU6vs955yEZW3GOnclRMdBuhBd4mSVBDI5x7v8YNDqMzWwVXr2qdqATN96P/lu@vger.kernel.org, AJvYcCUsokMLD9J0p7BSXcmBV8NOhUthnyEXYapKxRDmpNc4QePXRbjgcqEAxtc9yA/arvvxAPFsiOoDrWi91g+wTEAFz20=@vger.kernel.org
+X-Received: by 2002:a05:6102:b09:b0:527:8b63:78fb with SMTP id
+ ada2fe7eead31-52b1c353160mr8528081137.34.1757059065276; Fri, 05 Sep 2025
+ 00:57:45 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250904195727.168152-1-marek.vasut+renesas@mailbox.org>
+In-Reply-To: <20250904195727.168152-1-marek.vasut+renesas@mailbox.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 5 Sep 2025 09:57:34 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdU7CNfXVNZqAq+_uZG0gxYSumYj8hO1H2dRw1jYJS4-0g@mail.gmail.com>
+X-Gm-Features: Ac12FXw_Ku-KRzX3YE4QLpzkx8QtNsTO6NA18d43MEyq2rfpjgEI02y8lXhUxNw
+Message-ID: <CAMuHMdU7CNfXVNZqAq+_uZG0gxYSumYj8hO1H2dRw1jYJS4-0g@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: input: touchscreen: goodix: Drop
+ 'interrupts' requirement
+To: Marek Vasut <marek.vasut+renesas@mailbox.org>
+Cc: linux-input@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, 
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Add comment inline.
+On Fri, 5 Sept 2025 at 02:44, Marek Vasut
+<marek.vasut+renesas@mailbox.org> wrote:
+> Since commit 409fe0cea366 ("Input: goodix - add support for polling mode")
+> the interrupts property is optional, since at least the Linux kernel driver
+> supports also polling mode.
+>
+> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
 
-> From: Xinpeng Sun <xinpeng.sun@intel.com>
-> To: jikos@kernel.org, bentiss@kernel.org
-> Cc: srinivas.pandruvada@linux.intel.com, linux-input@vger.kernel.org,
-> 	linux-kernel@vger.kernel.org, Xinpeng Sun <xinpeng.sun@intel.com>,
-> 	Rui Zhang <rui1.zhang@intel.com>
-> Subject: [PATCH RESEND v2] hid: intel-thc-hid: intel-quicki2c: support ACPI config for advanced features
-> Date: Fri,  5 Sep 2025 09:39:35 +0800	[thread overview]
-> Message-ID: <20250905013935.1356008-1-xinpeng.sun@intel.com> (raw)
-> 
-> There is a new BIOS enhancement that adds the capability to configure the
-> following two features of I2C subsystem introduced in commit 1ed0b48
-> ("Intel-thc: Introduce max input size control") and commit 3f2a921
-> ("Intel-thc: Introduce interrupt delay control"):
-> - Max input size control
-> - Interrupt delay control
-> 
-> As BIOS is used for the configuration of these two features, change driver
-> data usage to indicate hardware capability, and add corresponding ACPI
-> configuration support in QuickI2C driver.
-> 
-> Signed-off-by: Xinpeng Sun <xinpeng.sun@intel.com>
-> Tested-by: Rui Zhang <rui1.zhang@intel.com>
-> ---
->  .../intel-quicki2c/pci-quicki2c.c             | 43 ++++++++++++++-----
->  .../intel-quicki2c/quicki2c-dev.h             | 24 ++++++++++-
->  2 files changed, 55 insertions(+), 12 deletions(-)
-> 
-> diff --git a/drivers/hid/intel-thc-hid/intel-quicki2c/pci-quicki2c.c b/drivers/hid/intel-thc-hid/intel-quicki2c/pci-quicki2c.c
-> index 854926b3cfd4..787c32557d24 100644
-> --- a/drivers/hid/intel-thc-hid/intel-quicki2c/pci-quicki2c.c
-> +++ b/drivers/hid/intel-thc-hid/intel-quicki2c/pci-quicki2c.c
-> @@ -23,6 +23,7 @@
->  
->  static struct quicki2c_ddata ptl_ddata = {
->  	.max_detect_size = MAX_RX_DETECT_SIZE_PTL,
-> +	.max_interrupt_delay = MAX_RX_INTERRUPT_DELAY,
->  };
->  
->  /* THC QuickI2C ACPI method to get device properties */
-> @@ -123,8 +124,8 @@ static int quicki2c_acpi_get_dsd_property(struct acpi_device *adev, acpi_string
->  static int quicki2c_get_acpi_resources(struct quicki2c_device *qcdev)
->  {
->  	struct acpi_device *adev = ACPI_COMPANION(qcdev->dev);
-> -	struct quicki2c_subip_acpi_parameter i2c_param;
-> -	struct quicki2c_subip_acpi_config i2c_config;
-> +	struct quicki2c_subip_acpi_parameter i2c_param = {0};
-> +	struct quicki2c_subip_acpi_config i2c_config = {0};
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Remove the initialization {0}, it's unnecessary.
+Gr{oetje,eeting}s,
 
->  	u32 hid_desc_addr;
->  	int ret = -EINVAL;
->  
-> @@ -200,6 +201,21 @@ static int quicki2c_get_acpi_resources(struct quicki2c_device *qcdev)
->  		return -EOPNOTSUPP;
->  	}
->  
-> +	if (qcdev->ddata) {
-> +		qcdev->i2c_max_frame_size_enable = i2c_config.FSEN;
-> +		qcdev->i2c_int_delay_enable = i2c_config.INDE;
-> +
-> +		if (i2c_config.FSVL <= qcdev->ddata->max_detect_size)
-> +			qcdev->i2c_max_frame_size = i2c_config.FSVL;
-> +		else
-> +			qcdev->i2c_max_frame_size = qcdev->ddata->max_detect_size;
-> +
-> +		if (i2c_config.INDV <= qcdev->ddata->max_interrupt_delay)
-> +			qcdev->i2c_int_delay = i2c_config.INDV;
-> +		else
-> +			qcdev->i2c_int_delay = qcdev->ddata->max_interrupt_delay;
-> +	}
-> +
->  	return 0;
->  }
->  
-> @@ -441,17 +457,24 @@ static void quicki2c_dma_adv_enable(struct quicki2c_device *qcdev)
->  	 * max input length <= THC detect capability, enable the feature with device
->  	 * max input length.
->  	 */
-> -	if (qcdev->ddata->max_detect_size >=
-> -	    le16_to_cpu(qcdev->dev_desc.max_input_len)) {
-> -		thc_i2c_set_rx_max_size(qcdev->thc_hw,
-> -					le16_to_cpu(qcdev->dev_desc.max_input_len));
-> +	if (qcdev->i2c_max_frame_size_enable) {
-> +		if (qcdev->i2c_max_frame_size >=
-> +		    le16_to_cpu(qcdev->dev_desc.max_input_len)) {
-> +			thc_i2c_set_rx_max_size(qcdev->thc_hw,
-> +						le16_to_cpu(qcdev->dev_desc.max_input_len));
-> +		} else {
-> +			dev_warn(qcdev->dev,
-> +				 "Max frame size is smaller than hid max input length!");
-> +			thc_i2c_set_rx_max_size(qcdev->thc_hw,
-> +						le16_to_cpu(qcdev->i2c_max_frame_size));
-> +		}
->  		thc_i2c_rx_max_size_enable(qcdev->thc_hw, true);
->  	}
->  
->  	/* If platform supports interrupt delay feature, enable it with given delay */
-> -	if (qcdev->ddata->interrupt_delay) {
-> +	if (qcdev->i2c_int_delay_enable) {
->  		thc_i2c_set_rx_int_delay(qcdev->thc_hw,
-> -					 qcdev->ddata->interrupt_delay);
-> +					 qcdev->i2c_int_delay * 10);
->  		thc_i2c_rx_int_delay_enable(qcdev->thc_hw, true);
->  	}
->  }
-> @@ -464,10 +487,10 @@ static void quicki2c_dma_adv_enable(struct quicki2c_device *qcdev)
->   */
->  static void quicki2c_dma_adv_disable(struct quicki2c_device *qcdev)
->  {
-> -	if (qcdev->ddata->max_detect_size)
-> +	if (qcdev->i2c_max_frame_size_enable)
->  		thc_i2c_rx_max_size_enable(qcdev->thc_hw, false);
->  
-> -	if (qcdev->ddata->interrupt_delay)
-> +	if (qcdev->i2c_int_delay_enable)
->  		thc_i2c_rx_int_delay_enable(qcdev->thc_hw, false);
->  }
->  
-> diff --git a/drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-dev.h b/drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-dev.h
-> index d412eafcf9ea..0d423d5dd7a7 100644
-> --- a/drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-dev.h
-> +++ b/drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-dev.h
-> @@ -38,6 +38,8 @@
->  
->  /* PTL Max packet size detection capability is 255 Bytes */
->  #define MAX_RX_DETECT_SIZE_PTL			255
-> +/* Max interrupt delay capability is 2.56ms */
-> +#define MAX_RX_INTERRUPT_DELAY			256
->  
->  /* Default interrupt delay is 1ms, suitable for most devices */
->  #define DEFAULT_INTERRUPT_DELAY_US		(1 * USEC_PER_MSEC)
-> @@ -101,6 +103,10 @@ struct quicki2c_subip_acpi_parameter {
->   * @HMTD: High Speed Mode Plus (3.4Mbits/sec) Serial Data Line Transmit HOLD Period
->   * @HMRD: High Speed Mode Plus (3.4Mbits/sec) Serial Data Line Receive HOLD Period
->   * @HMSL: Maximum length (in ic_clk_cycles) of suppressed spikes in High Speed Mode
-> + * @FSEN: Maximum Frame Size Feature Enable Control
-> + * @FSVL: Maximum Frame Size Value (unit in Bytes)
-> + * @INDE: Interrupt Delay Feature Enable Control
-> + * @INDV: Interrupt Delay Value (unit in 10 us)
->   *
->   * Those properties get from QUICKI2C_ACPI_METHOD_NAME_ISUB method, used for
->   * I2C timing configure.
-> @@ -127,17 +133,22 @@ struct quicki2c_subip_acpi_config {
->  	u64 HMTD;
->  	u64 HMRD;
->  	u64 HMSL;
-> +
-> +	u64 FSEN;
-> +	u64 FSVL;
-> +	u64 INDE;
-> +	u64 INDV;
->  	u8 reserved;
->  };
->  
->  /**
->   * struct quicki2c_ddata - Driver specific data for quicki2c device
->   * @max_detect_size: Identify max packet size detect for rx
-> - * @interrupt_delay: Identify interrupt detect delay for rx
-> + * @interrupt_delay: Identify max interrupt detect delay for rx
->   */
->  struct quicki2c_ddata {
->  	u32 max_detect_size;
-> -	u32 interrupt_delay;
-> +	u32 max_interrupt_delay;
->  };
->  
->  struct device;
-> @@ -170,6 +181,10 @@ struct acpi_device;
->   * @report_len: The length of input/output report packet
->   * @reset_ack_wq: Workqueue for waiting reset response from device
->   * @reset_ack: Indicate reset response received or not
-> + * @i2c_max_frame_size_enable: Indicate max frame size feature enabled or not
-> + * @i2c_max_frame_size: Max RX frame size (unit in Bytes)
-> + * @i2c_int_delay_enable: Indicate interrupt delay feature enabled or not
-> + * @i2c_int_delay: Interrupt detection delay value (unit in 10 us)
->   */
->  struct quicki2c_device {
->  	struct device *dev;
-> @@ -200,6 +215,11 @@ struct quicki2c_device {
->  
->  	wait_queue_head_t reset_ack_wq;
->  	bool reset_ack;
-> +
-> +	u32 i2c_max_frame_size_enable;
-> +	u32 i2c_max_frame_size;
-> +	u32 i2c_int_delay_enable;
-> +	u32 i2c_int_delay;
->  };
->  
->  #endif /* _QUICKI2C_DEV_H_ */
-> -- 
-> 2.40.1
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
