@@ -1,104 +1,207 @@
-Return-Path: <linux-input+bounces-14518-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14519-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7516AB46378
-	for <lists+linux-input@lfdr.de>; Fri,  5 Sep 2025 21:19:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16F01B4645B
+	for <lists+linux-input@lfdr.de>; Fri,  5 Sep 2025 22:08:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 73B31A65CCE
-	for <lists+linux-input@lfdr.de>; Fri,  5 Sep 2025 19:18:20 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A90EB3A9575
+	for <lists+linux-input@lfdr.de>; Fri,  5 Sep 2025 20:08:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F121727A114;
-	Fri,  5 Sep 2025 19:17:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DC234286D72;
+	Fri,  5 Sep 2025 20:08:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RImwbbs/"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="bsZ+Tv9v"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 337E62AD2F;
-	Fri,  5 Sep 2025 19:17:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 34184280A5F;
+	Fri,  5 Sep 2025 20:08:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757099866; cv=none; b=jy8q8WGQXti9QYUVYgq1jJdA0/prf3+SBQrPYaV4CZlvvsHwg3A7HWrRzlJwgwmeEv1XL7L7E3mS4mFIca22/S6zZfhD3FwZeneAGoeGkm1yVGKdlDUDtJ+Sc/w6uTehfwtvqpVx2Qty4pjc/v4P9jSYK0+k44FgxwzufAm80LY=
+	t=1757102884; cv=none; b=esA16IQtJunG5a/yJlCxqpuHOTonFUMzxg8Cho092RblnRaQJs+A/xWdfhapuaemdUf6VJB3grEGd5/QmCZ8LHFMR+hYxF7ckA4XSXnQA7t2cyqTiAZgZLvfvxBeYby7n9ctEb1AGOi3Vio3OYLNdllXTe4KK0IixudKBpblwWE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757099866; c=relaxed/simple;
-	bh=d9riUk8d4MeIl+PcvKeh50CTyzrEM8TlhBq2jX/imDQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=QUjvUmEkz87nIrnigx0XysQXyHS9gmm7xkZmRCfaFE1Qb3VM50IuQ6PDgJcMrttlJR4jOuyLYRLCFlwohfyjdvzbyf0klFFlcLSPlHr9y6QAINxsNcBBRT0LbWwXJiKKjTdMqKiiLSt93pj3lI5hHNg4SU9aoqyPKpcYdzRsu8o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RImwbbs/; arc=none smtp.client-ip=209.85.167.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-55f6bdcc195so3072020e87.0;
-        Fri, 05 Sep 2025 12:17:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757099863; x=1757704663; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=d9riUk8d4MeIl+PcvKeh50CTyzrEM8TlhBq2jX/imDQ=;
-        b=RImwbbs/pZJJNpYgZP10EBQEHSAykK5D8YVGb7j+F8TCkpdSeQJL6URS2POWEeno7s
-         FJqMyrg5KTtKgOANynRXjEGyDYMMNG5t9kvB0pEnK6uD1zDmxNl9zCObq0NyNjF1SWiE
-         4FKBUVzhZd91Zt3H8MmwHAA8EqUOca7bapIBjLooYmOAFaLV7l3JkotbUW/G8QzUs0v/
-         8mzLK4MdFKnmILJdz+zcv9U0NcvBHdiP5aAbeFEMlcMF/MpCF23r1sr5EJdLQ83QYMdP
-         vaXYTSQAnepdhqpk0j9d4XV4DLrthbHbnvXeygcsGA6pJ55cYSIXI6NsQD+t+nfZ/V1p
-         jyNw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757099863; x=1757704663;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=d9riUk8d4MeIl+PcvKeh50CTyzrEM8TlhBq2jX/imDQ=;
-        b=pAx7WttwS6hN73dy9dXZhLbNrnRFTJwOW4gVltu4Hn3Wt/AqTBQ3DI4CqqixSJoTeb
-         TBi+Ks3ZpyPAtadKISC47AXxjt/towFs84OcpCAmNRgbA21JiTrWhRSDGewdtvZp2KlZ
-         bwGf55UCOco6PEwvDN+dzZIC0Ts85Vz5N6j4tU6Am2T+jRVbtTyc3MZuIJMVhmATF9Vu
-         dsurlIVs5j7wcwvTyASf1On8QvHgE8J9azaDu2MSfb83rMH7nhokPKzE5e4j1mwA0/YG
-         9YbL7MHN5bFFlIjd2SDI7cZ44Tcxe8ifFm/yWvlwLRYYqOfyUsfQllwN5+2d5/N6f5Oa
-         jgiw==
-X-Forwarded-Encrypted: i=1; AJvYcCUDn2bikHiC5X9/ZjR0REbwql1vZ9ryuTmZYVTgFOpIH8vgtjFfwQQ/1tq3qDf6fhGXgtunai1SZoE7IAI=@vger.kernel.org, AJvYcCW7K63nmlF43blA0DLtTpuSSYKuz0urZBNi8uZRD/RMhr06AwQcf8J7kGImuFSanEwLL2nD5+eR6myq@vger.kernel.org, AJvYcCWCo51wpd4SExm6iEZsNc1GHqeivI8XY1gssSAHCKSbmXKu8xRdDFA/xU4aVM1ROEJWoM3wygn2ONmOd/xZ@vger.kernel.org
-X-Gm-Message-State: AOJu0YwuzAld8UOjLLeUfDchj6iEducrhHI/JR0lTKfp/1x3I+iceixn
-	rTo0HLb59vZhMB4jNDtyk510C3Lxud3uN4kLT1IfUZgY8sQfulYOCmLMUhd4hfnk/osDB9cEIMH
-	1RvlY8sFohNxBw4rweytRI5HWUQ/aH7c=
-X-Gm-Gg: ASbGncu56l9MgdWRi1YnTC46msi3nK818TPHjVV76BFS6Xw8hm3771dk9SiWsawTDaD
-	zf43HJGM6oVOQWvtdZqYt98f6LOoWfbjHH/dwmhLmUfqMwcqHYeF1A3xAVbnxmQhSbCtV601pbP
-	p3rg2/trZo6aHiIEr1foZuEAF7/NKcPDLtn9uGaB7eRCgJoPGVB/GQcsI+zCSj1FPj1htKe1wTJ
-	+a0K4kBXd0dBr/7S4M+ZmWlfXS28LSQQnWMvfa0c7LYMptGIw==
-X-Google-Smtp-Source: AGHT+IExNr7E9rD7sUYs1T/yf3koGRYXu/DH4f4r9pUApNVPygT+m2pxQCLbRRRJxgQIeFsJGBe+CsQwzmlorjCUV5s=
-X-Received: by 2002:a05:6512:144e:10b0:560:a641:6499 with SMTP id
- 2adb3069b0e04-560a6416d00mr1270504e87.9.1757099862969; Fri, 05 Sep 2025
- 12:17:42 -0700 (PDT)
+	s=arc-20240116; t=1757102884; c=relaxed/simple;
+	bh=2m6fPzkCRC92qTFZavMPj/0W9huhFTFWzZEWQiM0e+Y=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=XHkWP3iDOcjvFbJHx4muxFHr7g4fXfk81u3/MHI+YSg72AqwIglilC0FypKhl+1OanhWhH+U1qG/f8bzr7/WRGgS4cfuZKeNrjkQvqDgsSsE8bZqa08UVVeWVgeK443OLjG8LY89tUgG3QaCLNZlLMJsPE6TqsvI9oI9XolngIY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=bsZ+Tv9v; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+Received: from [10.0.0.114] (c-67-182-156-199.hsd1.wa.comcast.net [67.182.156.199])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 98B5220171C4;
+	Fri,  5 Sep 2025 13:08:01 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 98B5220171C4
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1757102882;
+	bh=uotTTD65zan8TmCm5oKAbPiE7QB78kRP80SKbUy3768=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=bsZ+Tv9vlFvx3FSsyyJQ00ypVCg071rBzhVBQzQ/LnPzkj/syqiM8BQWw8v4Czew8
+	 +mS7K/hwRDMDO3GD3r5fPtl8h2fOvZArSQGq0dxtTszR8YTrcw26eytE3rGQ7MMIqk
+	 vnwEKn2ou0NMnA2ymmTpNmSgop+6sZ4I9ED+9giU=
+Message-ID: <231f05cb-4f33-48ac-bb2e-1359ed52e606@linux.microsoft.com>
+Date: Fri, 5 Sep 2025 13:08:00 -0700
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250905190645.609762-1-Frank.Li@nxp.com>
-In-Reply-To: <20250905190645.609762-1-Frank.Li@nxp.com>
-From: Fabio Estevam <festevam@gmail.com>
-Date: Fri, 5 Sep 2025 16:17:31 -0300
-X-Gm-Features: Ac12FXz9svkM5bN90I8Wbp08WUFjnKgc2W1OxAbDeHh4SU05q4l2K1Kn6ku9BL4
-Message-ID: <CAOMZO5AKcNHvRpjhmGpGfPRaonU+quT=dDJQwLpDjBxTCXkTXQ@mail.gmail.com>
-Subject: Re: [PATCH 1/1] dt-bindings: input: convert tca8418_keypad.txt to
- yaml format
-To: Frank Li <Frank.Li@nxp.com>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	"open list:INPUT (KEYBOARD, MOUSE, JOYSTICK, TOUCHSCREEN)..." <linux-input@vger.kernel.org>, 
-	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>, 
-	imx@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH V0 0/2] Fix CONFIG_HYPERV and vmbus related anamoly
+To: Mukesh R <mrathor@linux.microsoft.com>,
+ Michael Kelley <mhklinux@outlook.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+ "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+ "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+ "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+ "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
+ "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
+ "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+ "virtualization@lists.linux.dev" <virtualization@lists.linux.dev>
+Cc: "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+ "mripard@kernel.org" <mripard@kernel.org>,
+ "tzimmermann@suse.de" <tzimmermann@suse.de>,
+ "airlied@gmail.com" <airlied@gmail.com>, "simona@ffwll.ch"
+ <simona@ffwll.ch>, "jikos@kernel.org" <jikos@kernel.org>,
+ "bentiss@kernel.org" <bentiss@kernel.org>,
+ "kys@microsoft.com" <kys@microsoft.com>,
+ "haiyangz@microsoft.com" <haiyangz@microsoft.com>,
+ "wei.liu@kernel.org" <wei.liu@kernel.org>,
+ "decui@microsoft.com" <decui@microsoft.com>,
+ "dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>,
+ "andrew+netdev@lunn.ch" <andrew+netdev@lunn.ch>,
+ "davem@davemloft.net" <davem@davemloft.net>,
+ "edumazet@google.com" <edumazet@google.com>,
+ "kuba@kernel.org" <kuba@kernel.org>, "pabeni@redhat.com"
+ <pabeni@redhat.com>, "bhelgaas@google.com" <bhelgaas@google.com>,
+ "James.Bottomley@HansenPartnership.com"
+ <James.Bottomley@HansenPartnership.com>,
+ "martin.petersen@oracle.com" <martin.petersen@oracle.com>,
+ "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+ "deller@gmx.de" <deller@gmx.de>, "arnd@arndb.de" <arnd@arndb.de>,
+ "sgarzare@redhat.com" <sgarzare@redhat.com>,
+ "horms@kernel.org" <horms@kernel.org>
+References: <20250828005952.884343-1-mrathor@linux.microsoft.com>
+ <SN6PR02MB4157917D84D00DBDAF54BD69D406A@SN6PR02MB4157.namprd02.prod.outlook.com>
+ <ff4c58f1-564d-ddfa-bdff-48ffee6e0d72@linux.microsoft.com>
+ <SN6PR02MB41573C5451F21286667C5441D400A@SN6PR02MB4157.namprd02.prod.outlook.com>
+ <4f38c613-255c-eaf6-0d50-28f8ffc02fff@linux.microsoft.com>
+Content-Language: en-US
+From: Nuno Das Neves <nunodasneves@linux.microsoft.com>
+In-Reply-To: <4f38c613-255c-eaf6-0d50-28f8ffc02fff@linux.microsoft.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Fri, Sep 5, 2025 at 4:08=E2=80=AFPM Frank Li <Frank.Li@nxp.com> wrote:
+On 9/4/2025 11:18 AM, Mukesh R wrote:
+> On 9/4/25 09:26, Michael Kelley wrote:
+>> From: Mukesh R <mrathor@linux.microsoft.com> Sent: Wednesday, September 3, 2025 7:17 PM
+>>>
+>>> On 9/2/25 07:42, Michael Kelley wrote:
+>>>> From: Mukesh Rathor <mrathor@linux.microsoft.com> Sent: Wednesday, August 27, 2025 6:00 PM
+>>>>>
+>>>>> At present, drivers/Makefile will subst =m to =y for CONFIG_HYPERV for hv
+>>>>> subdir. Also, drivers/hv/Makefile replaces =m to =y to build in
+>>>>> hv_common.c that is needed for the drivers. Moreover, vmbus driver is
+>>>>> built if CONFIG_HYPER is set, either loadable or builtin.
+>>>>>
+>>>>> This is not a good approach. CONFIG_HYPERV is really an umbrella config that
+>>>>> encompasses builtin code and various other things and not a dedicated config
+>>>>> option for VMBUS. Vmbus should really have a config option just like
+>>>>> CONFIG_HYPERV_BALLOON etc. This small series introduces CONFIG_HYPERV_VMBUS
+>>>>> to build VMBUS driver and make that distinction explicit. With that
+>>>>> CONFIG_HYPERV could be changed to bool.
+>>>>
+>>>> Separating the core hypervisor support (CONFIG_HYPERV) from the VMBus
+>>>> support (CONFIG_HYPERV_VMBUS) makes sense to me. Overall the code
+>>>> is already mostly in separate source files code, though there's some
+>>>> entanglement in the handling of VMBus interrupts, which could be
+>>>> improved later.
+>>>>
+>>>> However, I have a compatibility concern. Consider this scenario:
+>>>>
+>>>> 1) Assume running in a Hyper-V VM with a current Linux kernel version
+>>>>     built with CONFIG_HYPERV=m.
+>>>> 2) Grab a new version of kernel source code that contains this patch set.
+>>>> 3) Run 'make olddefconfig' to create the .config file for the new kernel.
+>>>> 4) Build the new kernel. This succeeds.
+>>>> 5) Install and run the new kernel in the Hyper-V VM. This fails.
+>>>>
+>>>> The failure occurs because CONFIG_HYPERV=m is no longer legal,
+>>>> so the .config file created in Step 3 has CONFIG_HYPERV=n. The
+>>>> newly built kernel has no Hyper-V support and won't run in a
+>>>> Hyper-V VM.
 
-> +title: I2C/SMBus keypad scanner
+It surprises me a little that =m doesn't get 'fixed up' to =y in this case.
+I guess any invalid value turns to =n, which makes sense most of the time.
 
-This title is too generic.
+>>>>
+>>>> As a second issue, if in Step 1 the current kernel was built with
+>>>> CONFIG_HYPERV=y, then the .config file for the new kernel will have
+>>>> CONFIG_HYPERV=y, which is better. But CONFIG_HYPERV_VMBUS
+>>>> defaults to 'n', so the new kernel doesn't have any VMBus drivers
+>>>> and won't run in a typical Hyper-V VM.
+>>>>
+>>>> The second issue could be fixed by assigning CONFIG_HYPERV_VMBUS
+>>>> a default value, such as whatever CONFIG_HYPERV is set to. But
+>>>> I'm not sure how to fix the first issue, except by continuing to
+>>>> allow CONFIG_HYPERV=m.
 
-You should include the part number:
+I'm wondering, is there a path for this change, then? Are there some
+intermediate step/s we could take to minimize the problem?
 
-title: TCA8418 I2C/SMBus keypad scanner
+>>>
+>>> To certain extent, imo, users are expected to check config files
+>>> for changes when moving to new versions/releases, so it would be a
+>>> one time burden. 
+>>
+>> I'm not so sanguine about the impact. For those of us who work with
+>> Hyper-V frequently, yes, it's probably not that big of an issue -- we can
+>> figure it out. But a lot of Azure/Hyper-V users aren't that familiar with
+>> the details of how the Kconfig files are put together. And the issue occurs
+>> with no error messages that something has gone wrong in building
+>> the kernel, except that it won't boot. Just running "make olddefconfig"
+>> has worked in the past, so some users will be befuddled and end up
+>> generating Azure support incidents. I also wonder about breaking
+>> automated test suites for new kernels, as they are likely to be running
+>> "make olddefconfig" or something similar as part of the automation.
+>>
+>>> CONFIG_HYPERV=m is just broken imo as one sees that
+>>> in .config but magically symbols in drivers/hv are in kerenel.
+>>>
+>>
+>> I agree that's not ideal. But note that some Hyper-V code and symbols
+>> like ms_hyperv_init_platform() and related functions show up when
+>> CONFIG_HYPERVISOR_GUEST=y, even if CONFIG_HYPERV=n. That's
+>> the code in arch/x86/kernel/cpu/mshyperv.c and it's because Hyper-V
+>> is one of the recognized and somewhat hardwired hypervisors (like
+>> VMware, for example).
+>>
+>> Finally, there are about a dozen other places in the kernel that use
+>> the same Makefile construct to make some code built-in even though
+>> the CONFIG option is set to "m". That may not be enough occurrences
+>> to make it standard practice, but Hyper-V guests are certainly not the
+>> only case.
+>>
+>> In my mind, this is judgment call with no absolute right answer. What
+>> do others think about the tradeoffs?
+> 
+> Wei had said in private message that he agrees this is a good idea. Nuno
+> said earlier above: 
+> 
+> "FWIW I think it's a good idea, interested to hear what others think."
+> 
+That was before Michael pointed out the potential issues which I was
+unaware of. Let's see if there's a path that is smoother for all the
+downstream users who may be compiling with CONFIG_HYPERV=m.
+
+Nuno
+
+> Thanks,> -Mukesh
+> 
+> 
+
 
