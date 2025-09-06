@@ -1,88 +1,90 @@
-Return-Path: <linux-input+bounces-14531-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14532-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id D83DAB47411
-	for <lists+linux-input@lfdr.de>; Sat,  6 Sep 2025 18:21:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDA61B4741F
+	for <lists+linux-input@lfdr.de>; Sat,  6 Sep 2025 18:25:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 995C63A79E1
-	for <lists+linux-input@lfdr.de>; Sat,  6 Sep 2025 16:21:17 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8A66C3BB235
+	for <lists+linux-input@lfdr.de>; Sat,  6 Sep 2025 16:25:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AE00D2737E7;
-	Sat,  6 Sep 2025 16:21:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0962524A04A;
+	Sat,  6 Sep 2025 16:25:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RGmgZ59T"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="P5g1FXfT"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DDFD1C5F23;
-	Sat,  6 Sep 2025 16:21:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ED1D315D35;
+	Sat,  6 Sep 2025 16:25:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757175673; cv=none; b=GKRW1KxDjwq2ql7bbmwZjiWBUcrBb51eJgScPZnc6BkWqmnubRLxi2fXgvjKqXd3F6pRATAiEYB1oYAq9ozfNsBBpXALFLvqM/9Rwtar/SsGfIzbJULgvAOh15fbBoFPZytmtj5Xqgn2GYcgj8C0HC8k18YFk85G5pIjfs3co4I=
+	t=1757175935; cv=none; b=R841NzrVdvEpg8OVbIMqD2twQ4ldAzDw3Y0evhWNBcrs08VNZepexXws2HL7ywZrExpW4EULyaJVvH7vnUXVn+2XSSW8oDn89C3e28tmyxFkHgKwt6UR3h7YW34Fzps8XLp2iSUquf68C2Howi0Ks+sBYQiIZxEJw3m5z2hSdO4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757175673; c=relaxed/simple;
-	bh=2ynDdE05Uu0V18utDLJe6rKmpr1DVZ5MyG+kWtdhmbQ=;
+	s=arc-20240116; t=1757175935; c=relaxed/simple;
+	bh=Q44JJ8i5w8fm7QK7oPy2WmRG51Dv69ZVsJb6cMqF4I4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hSqM7MVFdAa1tDaAWxu0qCw/wOpubmFQ8LUnNNEBBlTnkFEwbiWTOVbIVqD1ySp1f1E325yz/fIu9q4mTwNa5RnOSJNC6IEHQ3pDNlnUrSmd7L1NZOsDudP385mpNCMaODNH0vrApMufsFPzzvkZpEzAxmT3o7yF027Gf2k359k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RGmgZ59T; arc=none smtp.client-ip=209.85.214.171
+	 Content-Type:Content-Disposition:In-Reply-To; b=deFWdvzPRKMfRhX7y6plXyxZGUgpIRGkIsyf4j1OMwKnwarRZ5fBDIdOqSg0R6Nhk676zB7TC9Zaic4b0EmM5E9qJOrh1D+WTkcwrN7BakmSa0XIAGbn7Ekz0jocsc92VXmg6+ayS1peUecgNOFvakMhn0kOxCXs8VVcOv86ldk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=P5g1FXfT; arc=none smtp.client-ip=209.85.215.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-24c7848519bso30187295ad.1;
-        Sat, 06 Sep 2025 09:21:12 -0700 (PDT)
+Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-b4d118e13a1so2055138a12.3;
+        Sat, 06 Sep 2025 09:25:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757175672; x=1757780472; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1757175934; x=1757780734; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=WbBN/bObO6Jlu4fh+8gK6wcT0StMIG2MNueU6l6qv7s=;
-        b=RGmgZ59TAPZDQMzgkHBy0oCwqLZb9zS+Sbhd0CKHKaIJ4VeGgOPiyP7lh0Ei3Ytzop
-         rYw/2yiCOmvjr+U7N9DDdp27810ecxGj8/f4BqzKEGvI+5Er4ma09kDq1Sg0nyGGpFBf
-         jxQggRZ2Aa0bUDIiwoMLaXBrU7aDmnXcflyjOp6HC1lOy9enWwMSOj7c+k0rMIDmWrKV
-         hahZ6NcreUtLLMXjSt5GJUDgUmJM3/IOgoqDkdyR6Y9ZAkNcf5tYZ2rhQk3ptn1is1Fx
-         3V2ex7oiixBoNcRfQvhxg3lc85JB3AA8yiEldwy5u0Lz5GhEgEewYoGfEj+FOuxkUZhu
-         K9dA==
+        bh=gEnwrOV3MXxfnmmoGy1WCr0zVelqqHdj4W6eSVNaxZs=;
+        b=P5g1FXfT2jfUyl/yT/WCDyJs792MCbFBidlcHqPYUxp0zlDIYnW9YTCBv4py4POVX/
+         +Y+nypDUFTETblyWiDN00oujvJGsZ8RUM7sGUSinGgZpk3+fZbzLdFe6A+YhbIPQHqzJ
+         0D82iRvM7he6vZOd6fW1fRQF7Ufw79og2NcG/8qDojLii0q4mHBgEt8u/m4AdRA47zeq
+         jJbX6+d2Adi2dx34lxH37SCuZAbSNwwZW1Vrd7FotLlY7XMaerA2MCWJsR4h92boo0fc
+         No8yhffFz5HNjMqQBnUoGbgGnx/FPbXJ5IJTBTi4RcDz9fE4LvGkAlNrG6fqvLhXctwU
+         FaeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757175672; x=1757780472;
+        d=1e100.net; s=20230601; t=1757175934; x=1757780734;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=WbBN/bObO6Jlu4fh+8gK6wcT0StMIG2MNueU6l6qv7s=;
-        b=KlKkXBwWU+ePJ622y7S2ndBr+fwPxXARe+4MPPSYbpZCWyFJcpD2YLYqDK0zCz1dHQ
-         f3Z+V2ynQCTwiu9erQKU4Vjb1kGnJxRczvzm0WTuxNyrRXL7Tu3fO/0VBugg5NPFSIoU
-         jVzOwinOBpmzKu09PVbTy9b9cnGkhKtDBsUYMsyLqPimO2UZm+Mkb+sPr0bP9LJNuurC
-         bFB2XINig7JRnpDKC6T66uEw8x1cbJVzik3gtGxe4Ar9ZA2ciCknxbGS3k1KOyAQM+Ti
-         KvAeu58kW8D59C5o8U53DV5l/h8G2f//xlGGg0pmK8TO0+op2hzvtsWkpsedAhs1et/O
-         P64g==
-X-Forwarded-Encrypted: i=1; AJvYcCUfy3c3i0ZanB7KONtV6J8GHg4UtwuHc7JQUIKSu5uXxKjuUqAXJ5QPP/mj0UGFlFJPYRFIbvsK5fZ79aQ=@vger.kernel.org, AJvYcCUnCimkoufiRqJUKfCGP8UuwJavwR9I0M9D9UPxnR757NsL6/s9T9rY0bkg7YLC69DunLU7z28IH372PhTV@vger.kernel.org, AJvYcCVhfVYT0C2w2oRmACVbK9UL4nxtod7QVPIrlqLqcxmnZVhlekpHNAT6Vdte4JJGPJg1UEv9V3YbEo9L@vger.kernel.org
-X-Gm-Message-State: AOJu0YzxRtyI+SPkPGqxRik2pZmBk8DfCTo4/EbwlKPhAzAg/h8KQyCD
-	NOUxXzanpLUfMqYoH7i3r8blgIhZkpSkBnLS0XeOA1jMDI9ym1ICQ0Mi
-X-Gm-Gg: ASbGncvYP3U1L06Nj47ZCwngaVCW4kfOhNTic75yBJVmiygruvMJnIv0YJHC/47i8+7
-	c5ieN8Zrpr2bZG9Wck+mVbQwoXAB42oHPGay2Q0Xb4h+/9p73Elup87Sv2hHS8uswbB3DWsNk67
-	oIg18A3l21cdtaADeywjsCKMUKRZq4EAnR1cn7urml3CYa0uXDkDd3qShdjn4JTzVxPp8bG6BL3
-	Cyqxe0t/awmgR+ZVT1jyCMxGG0imJdfkHPKRXrVeuQNJRqiJr03SGyb6O3fvKixBQL+hqajWJP+
-	jwOiWRnLzSekp4XvN1a1xYLAHZb7cjA/NtZ+xXiykhpHCnE1w+BQJJSxrLq/d1eGqfjCzAsLuTo
-	Nnr4Ob2G72Zn0HdCip0ni5tIvwGitxSWtrRzpKd9JiGqr
-X-Google-Smtp-Source: AGHT+IH1qZN+DQ27OCHB1U/5HTdy1mERA+wXWrNPxb8O95OI/s6qBCOSDD0GIZe2PFFDC6b2c2Q/Sg==
-X-Received: by 2002:a17:902:f711:b0:248:96af:51e with SMTP id d9443c01a7336-251751e5bc1mr38642315ad.45.1757175671543;
-        Sat, 06 Sep 2025 09:21:11 -0700 (PDT)
+        bh=gEnwrOV3MXxfnmmoGy1WCr0zVelqqHdj4W6eSVNaxZs=;
+        b=L0SUAO4ISvrI7e3KV0ZKA2NSEutV6scMf1vR5dmr0PJEolmsn8erfJDqPfLE9hDCJO
+         T3czt8yRM5kLtUW4wmYs13QKDPkuxEPuh614X2vHenSKwUnBuZyr/oyBl12mKfD8cCdb
+         0p+AAwVTAsvp44blISP5gNwDgGlG6mpYymkNED7By5kid+wzO67/FrVuEBMVfapYExcv
+         fSQwW5WglRrCtwzOl9Hd8/1VZPSjNz5DI4Gf3IKvv3aRYiCQtvqzzDvz8MA0YWcv240z
+         RMkavDNjNdiOfZVY5lf1Vb/4ztSY4nLmTyCy6VDvsgxMWiKdI4n0oSDDNsqq+UT3VZw1
+         MPlg==
+X-Forwarded-Encrypted: i=1; AJvYcCUKnib+/L2My6r+vEbhGMcKbDi1iOBXr8P9gmJRQzXH0jXUFmnGsm+EkrrygKB3g9UYkEERskuAaA4OU5E=@vger.kernel.org, AJvYcCUsCc36/diQjX2tTQhdHwYUutu0KdyyAkeaSCCYqL2tjOV4t97EgTCkn2tma4Lcsnqrrp5fp18C4rbiWviE@vger.kernel.org, AJvYcCW59s2vEav4Knt2LCq1Cgf6ra/Z43JJw9NV8DPrTfgtc/6gDF41uD3o7gzx38INte58Hks4t9KvVVrV@vger.kernel.org
+X-Gm-Message-State: AOJu0YzUm1C+vYoYdH9wFPppXWAaV8qvvqc1Pg3mQBoMg8m+hV+csfmJ
+	Q39qa1XHUpx46p1GchXUg3jSHG8OCV22/bX50axY9M8yn3DrMjFX6znB7HN6rkMV
+X-Gm-Gg: ASbGncv0qp5Pu5O+Tg8Q9nVVMAViZFRQDn0oVHIh1i55yKqi3Q9nEGxcIETT5qZePJ8
+	FLB610Mv3Rwpmv/ILi35oIVIUzRLXltTk9vMAzlSaE1Qi2vfHsYWENi/gHY5isDeMVkNv1hbRYx
+	vXD9YkJXwpSlqudIosEq0NomhOzR0ZP7CBij+a+fu0zD+Ux8VmNGPCPKKqDg39qpsketrUrl1Xb
+	PH9MDbdYpDYGvVs5D7qHJWp/NCDfyfwKMmXze3/fb9VcKJmqLjYhDYf30th3WIrAgUjZ2BIxkq0
+	QS9KhgnoDtrwJHjZJu9JN2QnKOh9TGDI47URy7jf95R+jN832E/vvyerJOoqR0MzWHRjmt6j8l8
+	4BaWkIaSwis4GqDyukQczu8VNtgFkt5oKe2rIrP0fwBJI
+X-Google-Smtp-Source: AGHT+IGUGHGUXwC+KGN4jPZ3eUoPjDhKK1q5TM0NAklHLJQagkflBBhklqliToGCEeYKq03hd3Y0tA==
+X-Received: by 2002:a17:903:2b05:b0:24c:a617:1185 with SMTP id d9443c01a7336-25170c477e7mr36953315ad.29.1757175933847;
+        Sat, 06 Sep 2025 09:25:33 -0700 (PDT)
 Received: from google.com ([2620:15c:9d:2:e08d:5959:e7ec:1beb])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-24cac2f24fdsm87369115ad.46.2025.09.06.09.21.10
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-24ccfc7f988sm67193645ad.144.2025.09.06.09.25.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 06 Sep 2025 09:21:11 -0700 (PDT)
-Date: Sat, 6 Sep 2025 09:21:08 -0700
+        Sat, 06 Sep 2025 09:25:33 -0700 (PDT)
+Date: Sat, 6 Sep 2025 09:25:30 -0700
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Frank Li <Frank.Li@nxp.com>
-Cc: Rob Herring <robh@kernel.org>, 
+To: Julien Massot <julien.massot@collabora.com>
+Cc: kernel@collabora.com, Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Rob Herring <robh@kernel.org>, 
 	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	"open list:INPUT (KEYBOARD, MOUSE, JOYSTICK, TOUCHSCREEN)..." <linux-input@vger.kernel.org>, 
-	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>, imx@lists.linux.dev
-Subject: Re: [PATCH 1/1] dt-bindings: input: convert max11801-ts to yaml
- format
-Message-ID: <32bvq4uuwb6zvmk7cd26rahoz4vaz257thlxtsat5atpmlszxa@ppdpssfesz77>
-References: <20250904200641.531897-1-Frank.Li@nxp.com>
+	Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>, linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH v3 1/3] Input: mtk-pmic-keys - MT6359 has a specific
+ release irq
+Message-ID: <odrofximcdjjwwowzlpheug5t4pwx5gylfyzr6mqcb5gz3vtud@c2hcoac3svyx>
+References: <20250905-radxa-nio-12-l-gpio-v3-0-40f11377fb55@collabora.com>
+ <20250905-radxa-nio-12-l-gpio-v3-1-40f11377fb55@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -91,12 +93,23 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250904200641.531897-1-Frank.Li@nxp.com>
+In-Reply-To: <20250905-radxa-nio-12-l-gpio-v3-1-40f11377fb55@collabora.com>
 
-On Thu, Sep 04, 2025 at 04:06:37PM -0400, Frank Li wrote:
-> Convert max11801-ts to yaml format.
+On Fri, Sep 05, 2025 at 01:51:58PM +0200, Julien Massot wrote:
+> Support for MT6359 PMIC keys has been added recently.
+> However, the key release event is not properly handled:
+> only key press events are generated, leaving key states
+> stuck in "pressed".
 > 
-> Signed-off-by: Frank Li <Frank.Li@nxp.com>
+> This patch ensures that both key press and key release events
+> are properly emitted by handling the release logic correctly.
+> 
+> Introduce a 'key_release_irq' member to the 'mtk_pmic_regs',
+> to identify the devices that have a separate irq for the
+> release event.
+> 
+> Fixes: bc25e6bf032e ("Input: mtk-pmic-keys - add support for MT6359 PMIC keys")
+> Signed-off-by: Julien Massot <julien.massot@collabora.com>
 
 Applied, thank you.
 
