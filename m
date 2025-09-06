@@ -1,148 +1,193 @@
-Return-Path: <linux-input+bounces-14525-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14526-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E038B467D1
-	for <lists+linux-input@lfdr.de>; Sat,  6 Sep 2025 03:11:04 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A26CB4680D
+	for <lists+linux-input@lfdr.de>; Sat,  6 Sep 2025 03:45:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3B24AAC04FA
-	for <lists+linux-input@lfdr.de>; Sat,  6 Sep 2025 01:10:58 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6F6367B6D26
+	for <lists+linux-input@lfdr.de>; Sat,  6 Sep 2025 01:44:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4392A1DE3DF;
-	Sat,  6 Sep 2025 01:10:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9FA0027456;
+	Sat,  6 Sep 2025 01:45:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="BX9NEf/X"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XR/hBVRL"
 X-Original-To: linux-input@vger.kernel.org
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9286B145B16;
-	Sat,  6 Sep 2025 01:10:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59C2A1DA23
+	for <linux-input@vger.kernel.org>; Sat,  6 Sep 2025 01:45:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757121008; cv=none; b=es+VMxo9rCetYxd+Pc2rs7SKCS2p0zwvjPG+KmOf9lT+A3vOmdoJ/u82U8vztLC/+gckNTP2Y35cC7Sedkyu/wIqesAcY9ko/aczLfceQdXSi1ug8aFojWb8twg8z6Sd3/rRTxRKzIZ/jFyKg2S/myoZqZQ/97Fl6V1xkHkBW+U=
+	t=1757123142; cv=none; b=uuV7OptvFHdTCDyperokpmeNJYBBSDH7SOPNVvD6yVkV5NmETESHpfodP0wNLxRDGfBtF8StKSvmh/lg++doSTEDcFfPzi5gME3gJ8BQLDOhInQmRFKdjS6sk8y196Arl+f0zjfwgEvPWY7vrbLbMfBCD39kDE4Mvg0mT6y3EPc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757121008; c=relaxed/simple;
-	bh=D3d4EEm9KfZVZrOZRrxKFOPjUiMwSN5Ik0Y3pM8gFgg=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=hTu2qd7RthnHw2dMcQaTHwGa9iEbxCp2wtHY1mFbiOCYocZmqJB/X8lzAfIjCFQXILdBkvw2bs9ivj8WyHVj+14Krff5yyZOe4q8b18E2iOu+hyUfRDf4e0uA+EQgG3ncE2IPE4OtUitG4cOgYeFptZ+umL2Wr1PVMxCgTD4otw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=BX9NEf/X; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
-Received: from mrdev.corp.microsoft.com (192-184-212-33.fiber.dynamic.sonic.net [192.184.212.33])
-	by linux.microsoft.com (Postfix) with ESMTPSA id CA22720171A1;
-	Fri,  5 Sep 2025 18:10:04 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com CA22720171A1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1757121005;
-	bh=+CCS9We1Ij6uOlVmGq9+uq+1zOrHP0OdRaRPzrFp1GA=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=BX9NEf/X1VneNtjEYWoIbC4svFLWsPr6TE+eGFC7ATnibEAF5CZhHO4BkQA3huB1H
-	 G+vqfIWfbg5hEOs2bwIui5RjjStP2xdsiq/mMkkajOrdNM34AIT7Bqid50NJZSBjcZ
-	 DoYg+VV6O+/ka1HcE7xVbEhJmP4lFjkaKOTv7a2k=
-From: Mukesh Rathor <mrathor@linux.microsoft.com>
-To: dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org,
-	linux-input@vger.kernel.org,
-	linux-hyperv@vger.kernel.org,
-	netdev@vger.kernel.org,
-	linux-pci@vger.kernel.org,
-	linux-scsi@vger.kernel.org,
-	linux-fbdev@vger.kernel.org,
-	linux-arch@vger.kernel.org,
-	virtualization@lists.linux.dev
-Cc: maarten.lankhorst@linux.intel.com,
-	mripard@kernel.org,
-	tzimmermann@suse.de,
-	airlied@gmail.com,
-	simona@ffwll.ch,
-	jikos@kernel.org,
-	bentiss@kernel.org,
-	kys@microsoft.com,
-	haiyangz@microsoft.com,
-	wei.liu@kernel.org,
-	decui@microsoft.com,
-	dmitry.torokhov@gmail.com,
-	andrew+netdev@lunn.ch,
-	davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	bhelgaas@google.com,
-	James.Bottomley@HansenPartnership.com,
-	martin.petersen@oracle.com,
-	gregkh@linuxfoundation.org,
-	deller@gmx.de,
-	arnd@arndb.de,
-	sgarzare@redhat.com,
-	horms@kernel.org
-Subject: [PATCH v1 2/2] Drivers: hv: Make CONFIG_HYPERV bool
-Date: Fri,  5 Sep 2025 18:09:52 -0700
-Message-Id: <20250906010952.2145389-3-mrathor@linux.microsoft.com>
-X-Mailer: git-send-email 2.36.1.vfs.0.0
-In-Reply-To: <20250906010952.2145389-1-mrathor@linux.microsoft.com>
-References: <20250906010952.2145389-1-mrathor@linux.microsoft.com>
+	s=arc-20240116; t=1757123142; c=relaxed/simple;
+	bh=aUHlFoO01w96YpTEcj4eICfOQVYwnaifOIIbV68jycU=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=gk27uh+TVoHvKaknKmA0B3A0B5jopN6IU1PLJmllykpm+sBjkcSNDpgMxDhVSsQ2zR/c3Dve/We/8wlPpS3mJf0NQBDyMnrG1DLTS15COhg8MMiNWTWNPkmbKw2kXBwQwEHsW3hXsX6I7u9k+AI21wwjhG0oEyEtbp8EZ6XLmzo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XR/hBVRL; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1757123140; x=1788659140;
+  h=date:from:to:cc:subject:message-id;
+  bh=aUHlFoO01w96YpTEcj4eICfOQVYwnaifOIIbV68jycU=;
+  b=XR/hBVRLVB6EoB2zrjTNSsifxSlYj0Sadl2WUeCY96AHbwTWScbohT1e
+   ONLsddhX1ADSzBn1QIWcu278VF3Jm7QOdrPmAzI50soPSgyLzeViI+xlV
+   wwiHqmZXK0JZa9iot/5lOB1gvZTgcdjsjwpwMjg0ksOdcLHYTlLZcJrqJ
+   YbE3FIuKSGA5VrHxnOWC6urDlslmT27quUPe2oJ8tpYcz9s4Prl8eRcmn
+   agq+XaKMlqS9GLbKeoSkuxQWG318g8e78U36d/bwi8s+KNNk128pGpNQ9
+   Wi90nzQJOtVolvFzvRG/fAiSQe9nbfkG7KEO6SAmbW+9aOAhYBXhnFB14
+   g==;
+X-CSE-ConnectionGUID: 7cPIUENPSUevohDSxH01gQ==
+X-CSE-MsgGUID: 0wDwvrgwT+mZzr98d/unxg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11544"; a="69733208"
+X-IronPort-AV: E=Sophos;i="6.18,242,1751266800"; 
+   d="scan'208";a="69733208"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2025 18:45:40 -0700
+X-CSE-ConnectionGUID: x0CdVy8fT2eopXRR2FHjOw==
+X-CSE-MsgGUID: pdvYcIlZQ3ia2oMTQrXnEA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,242,1751266800"; 
+   d="scan'208";a="195961022"
+Received: from lkp-server01.sh.intel.com (HELO 114d98da2b6c) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 05 Sep 2025 18:45:38 -0700
+Received: from kbuild by 114d98da2b6c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uuhzk-00017H-1f;
+	Sat, 06 Sep 2025 01:45:36 +0000
+Date: Sat, 06 Sep 2025 09:45:20 +0800
+From: kernel test robot <lkp@intel.com>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: linux-input@vger.kernel.org
+Subject: [dtor-input:next] BUILD SUCCESS
+ 0fec357ad073e555e7553dbc0d32278b0aaa2179
+Message-ID: <202509060914.m3ARmOvH-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-With CONFIG_HYPERV and CONFIG_HYPERV_VMBUS separated, change CONFIG_HYPERV
-to bool from tristate. CONFIG_HYPERV now becomes the core Hyper-V
-hypervisor support, such as hypercalls, clocks/timers, Confidential
-Computing setup, PCI passthru, etc. that doesn't involve VMBus or VMBus
-devices.
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
+branch HEAD: 0fec357ad073e555e7553dbc0d32278b0aaa2179  dt-bindings: input: touchscreen: imagis: add missing minItems
 
-Signed-off-by: Mukesh Rathor <mrathor@linux.microsoft.com>
----
- drivers/Makefile    | 2 +-
- drivers/hv/Kconfig  | 2 +-
- drivers/hv/Makefile | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+elapsed time: 2055m
 
-diff --git a/drivers/Makefile b/drivers/Makefile
-index b5749cf67044..7ad5744db0b6 100644
---- a/drivers/Makefile
-+++ b/drivers/Makefile
-@@ -161,7 +161,7 @@ obj-$(CONFIG_SOUNDWIRE)		+= soundwire/
- 
- # Virtualization drivers
- obj-$(CONFIG_VIRT_DRIVERS)	+= virt/
--obj-$(subst m,y,$(CONFIG_HYPERV))	+= hv/
-+obj-$(CONFIG_HYPERV)		+= hv/
- 
- obj-$(CONFIG_PM_DEVFREQ)	+= devfreq/
- obj-$(CONFIG_EXTCON)		+= extcon/
-diff --git a/drivers/hv/Kconfig b/drivers/hv/Kconfig
-index fe29f8dca2b5..7e56c51c5080 100644
---- a/drivers/hv/Kconfig
-+++ b/drivers/hv/Kconfig
-@@ -3,7 +3,7 @@
- menu "Microsoft Hyper-V guest support"
- 
- config HYPERV
--	tristate "Microsoft Hyper-V client drivers"
-+	bool "Microsoft Hyper-V core hypervisor support"
- 	depends on (X86 && X86_LOCAL_APIC && HYPERVISOR_GUEST) \
- 		|| (ARM64 && !CPU_BIG_ENDIAN)
- 	select PARAVIRT
-diff --git a/drivers/hv/Makefile b/drivers/hv/Makefile
-index 050517756a82..8b04a33e4dd8 100644
---- a/drivers/hv/Makefile
-+++ b/drivers/hv/Makefile
-@@ -18,7 +18,7 @@ mshv_root-y := mshv_root_main.o mshv_synic.o mshv_eventfd.o mshv_irq.o \
- mshv_vtl-y := mshv_vtl_main.o
- 
- # Code that must be built-in
--obj-$(subst m,y,$(CONFIG_HYPERV)) += hv_common.o
-+obj-$(CONFIG_HYPERV) += hv_common.o
- obj-$(subst m,y,$(CONFIG_MSHV_ROOT)) += hv_proc.o
- ifneq ($(CONFIG_MSHV_ROOT) $(CONFIG_MSHV_VTL),)
-     obj-y += mshv_common.o
--- 
-2.36.1.vfs.0.0
+configs tested: 100
+configs skipped: 1
 
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+tested configs:
+alpha                             allnoconfig    gcc-15.1.0
+alpha                            allyesconfig    gcc-15.1.0
+arc                              allmodconfig    gcc-15.1.0
+arc                               allnoconfig    gcc-15.1.0
+arc                              allyesconfig    gcc-15.1.0
+arc                   randconfig-001-20250905    gcc-11.5.0
+arc                   randconfig-002-20250905    gcc-13.4.0
+arm                              allmodconfig    gcc-15.1.0
+arm                               allnoconfig    clang-22
+arm                              allyesconfig    gcc-15.1.0
+arm                   randconfig-001-20250905    clang-22
+arm                   randconfig-002-20250905    clang-22
+arm                   randconfig-003-20250905    clang-16
+arm                   randconfig-004-20250905    gcc-14.3.0
+arm64                            allmodconfig    clang-19
+arm64                             allnoconfig    gcc-15.1.0
+arm64                 randconfig-001-20250905    clang-22
+arm64                 randconfig-002-20250905    clang-17
+arm64                 randconfig-003-20250905    clang-17
+arm64                 randconfig-004-20250905    clang-22
+csky                              allnoconfig    gcc-15.1.0
+csky                  randconfig-001-20250905    gcc-15.1.0
+csky                  randconfig-002-20250905    gcc-13.4.0
+hexagon                          allmodconfig    clang-17
+hexagon                           allnoconfig    clang-22
+hexagon                          allyesconfig    clang-22
+hexagon               randconfig-001-20250905    clang-22
+hexagon               randconfig-002-20250905    clang-22
+i386                             allmodconfig    gcc-13
+i386                              allnoconfig    gcc-13
+i386                             allyesconfig    gcc-13
+i386        buildonly-randconfig-001-20250905    clang-20
+i386        buildonly-randconfig-002-20250905    clang-20
+i386        buildonly-randconfig-003-20250905    clang-20
+i386        buildonly-randconfig-004-20250905    gcc-13
+i386        buildonly-randconfig-005-20250905    clang-20
+i386        buildonly-randconfig-006-20250905    clang-20
+i386                                defconfig    clang-20
+loongarch                        allmodconfig    clang-19
+loongarch                         allnoconfig    clang-22
+loongarch             randconfig-001-20250905    clang-18
+loongarch             randconfig-002-20250905    clang-18
+m68k                             allmodconfig    gcc-15.1.0
+m68k                              allnoconfig    gcc-15.1.0
+m68k                             allyesconfig    gcc-15.1.0
+microblaze                       allmodconfig    gcc-15.1.0
+microblaze                        allnoconfig    gcc-15.1.0
+microblaze                       allyesconfig    gcc-15.1.0
+mips                              allnoconfig    gcc-15.1.0
+nios2                             allnoconfig    gcc-11.5.0
+nios2                 randconfig-001-20250905    gcc-10.5.0
+nios2                 randconfig-002-20250905    gcc-11.5.0
+openrisc                          allnoconfig    gcc-15.1.0
+parisc                            allnoconfig    gcc-15.1.0
+parisc                randconfig-001-20250905    gcc-15.1.0
+parisc                randconfig-002-20250905    gcc-8.5.0
+powerpc                           allnoconfig    gcc-15.1.0
+powerpc               randconfig-001-20250905    gcc-8.5.0
+powerpc               randconfig-002-20250905    clang-22
+powerpc               randconfig-003-20250905    gcc-8.5.0
+powerpc64             randconfig-001-20250905    clang-22
+powerpc64             randconfig-002-20250905    clang-22
+powerpc64             randconfig-003-20250905    gcc-14.3.0
+riscv                             allnoconfig    gcc-15.1.0
+riscv                 randconfig-001-20250905    gcc-14.3.0
+riscv                 randconfig-002-20250905    clang-22
+s390                             allmodconfig    clang-18
+s390                              allnoconfig    clang-22
+s390                             allyesconfig    gcc-15.1.0
+s390                  randconfig-001-20250905    gcc-9.5.0
+s390                  randconfig-002-20250905    clang-22
+sh                               allmodconfig    gcc-15.1.0
+sh                                allnoconfig    gcc-15.1.0
+sh                               allyesconfig    gcc-15.1.0
+sh                    randconfig-001-20250905    gcc-15.1.0
+sh                    randconfig-002-20250905    gcc-15.1.0
+sparc                            allmodconfig    gcc-15.1.0
+sparc                             allnoconfig    gcc-15.1.0
+sparc                 randconfig-001-20250905    gcc-8.5.0
+sparc                 randconfig-002-20250905    gcc-15.1.0
+sparc64               randconfig-001-20250905    gcc-8.5.0
+sparc64               randconfig-002-20250905    clang-22
+um                               allmodconfig    clang-19
+um                                allnoconfig    clang-22
+um                               allyesconfig    gcc-13
+um                    randconfig-001-20250905    clang-22
+um                    randconfig-002-20250905    gcc-13
+x86_64                            allnoconfig    clang-20
+x86_64                           allyesconfig    clang-20
+x86_64      buildonly-randconfig-001-20250905    clang-20
+x86_64      buildonly-randconfig-002-20250905    clang-20
+x86_64      buildonly-randconfig-003-20250905    gcc-13
+x86_64      buildonly-randconfig-004-20250905    clang-20
+x86_64      buildonly-randconfig-005-20250905    clang-20
+x86_64      buildonly-randconfig-006-20250905    gcc-13
+x86_64                              defconfig    gcc-11
+x86_64                          rhel-9.4-rust    clang-20
+xtensa                            allnoconfig    gcc-15.1.0
+xtensa                randconfig-001-20250905    gcc-8.5.0
+xtensa                randconfig-002-20250905    gcc-8.5.0
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
