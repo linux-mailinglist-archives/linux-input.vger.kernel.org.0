@@ -1,133 +1,113 @@
-Return-Path: <linux-input+bounces-14539-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14540-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8DC4B482F4
-	for <lists+linux-input@lfdr.de>; Mon,  8 Sep 2025 05:42:39 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id E501CB4833B
+	for <lists+linux-input@lfdr.de>; Mon,  8 Sep 2025 06:18:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B2BA717C00A
-	for <lists+linux-input@lfdr.de>; Mon,  8 Sep 2025 03:42:32 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A37E97A3DBD
+	for <lists+linux-input@lfdr.de>; Mon,  8 Sep 2025 04:16:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D3F22218ADD;
-	Mon,  8 Sep 2025 03:42:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a6oYDmKr"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7A45F1FF1B5;
+	Mon,  8 Sep 2025 04:18:07 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from cosmicgizmosystems.com (cosgizsys.com [63.249.102.155])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18931218827;
-	Mon,  8 Sep 2025 03:42:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBFCC20B22;
+	Mon,  8 Sep 2025 04:18:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=63.249.102.155
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757302939; cv=none; b=Z5UJCzDaSRQCaGG0qmwIvhTYLzZj7Sbzr5Cq8MSlvCAlcERXKGn1ejfxeW0O//QXvFNFEX90Y/MRzEydnJvsUf/AQqzY+SSM6OoRcHB4huuAo9mHAp/xxuLdUu8j9FhwKT14VUhrAkjdgzGUG04a8FebcRTU8X6/UnKwKC343Vk=
+	t=1757305087; cv=none; b=nQVlKLYh8srHa0nUi1+F4nFsDM+PuaeSC1QXZhBFvQkql78ZEgYU7hASuC1G+6bIuqWlGIwGUZmA5SS1q2qk+DDobmcv6jAL3iL687K8IIWqJQRyIQCInv42QOrTR1DI6FEFJoEEntVG+M+JtueJ6bGIwym1wSDpAYVLCF+rhS4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757302939; c=relaxed/simple;
-	bh=MBX710NxvGm0v3LEfyFhHX7kzobujGNsorQ1LrWFIZM=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=i9JzkB8XWj+D8EN7IfNrvfJZ9uKb5xArOAnsAxTVAt6Kb5ynfYolApmIGH4rza92y9g6zOaCzi27s2roNV6UA06SsS2PsAZpbAk483NcYLG4SWbURIptdApUVecxJAXC9xXZ66bFVNHeSQ0omlbnErcnTvWffntLT/CXAj0zRcU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a6oYDmKr; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757302938; x=1788838938;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=MBX710NxvGm0v3LEfyFhHX7kzobujGNsorQ1LrWFIZM=;
-  b=a6oYDmKrinoZHvEEFr9TuIAVSf1uy2X4CgVZGlHjDXJqzyPdilYJ6H4M
-   /ddM6tKTnyWpvujEwbBDGW280Yas3FXA4iVPXLZjE05oouXt+T6qaBvNJ
-   z33KG2JwDSMbBfLnsBAyQQXuAJExawJsSiyxZ4xS5BzhwNWyDTMMSPl4K
-   gRRgIrwfdUD5yk+ycs/krSN+42FNHTJackUeo7UiSV3dUlh2f+XFalmhD
-   3UN52/+aNDkLtuPGni2W+fzfkNeYrEijWvF+d2SrHEN+Nqw53RrgD+0Xi
-   LVJJKpg9V3jPxDjx8MFYtCVmb0kS8WpROXwRJMgixqdg7iZRQjMuSGFEm
-   Q==;
-X-CSE-ConnectionGUID: y7eAGGKOTCyP/Joiw0R99w==
-X-CSE-MsgGUID: nDz3OXHTTPGjo9q5g62HCg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11546"; a="47126580"
-X-IronPort-AV: E=Sophos;i="6.18,247,1751266800"; 
-   d="scan'208";a="47126580"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2025 20:42:14 -0700
-X-CSE-ConnectionGUID: VeeHUBRMSyKHN74DVTYbUA==
-X-CSE-MsgGUID: 3wFllgK2Sp++NlPrwb3t7g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,247,1751266800"; 
-   d="scan'208";a="172244680"
-Received: from shsensorbuild.sh.intel.com ([10.239.132.250])
-  by orviesa009.jf.intel.com with ESMTP; 07 Sep 2025 20:42:12 -0700
-From: Even Xu <even.xu@intel.com>
-To: xinpeng.sun@intel.com
-Cc: bentiss@kernel.org,
-	jikos@kernel.org,
-	linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	srinivas.pandruvada@linux.intel.com,
-	Even Xu <even.xu@intel.com>
-Subject: Re: [PATCH v2 2/2] hid: intel-thc-hid: intel-quickspi: Add WCL Device IDs
-Date: Mon,  8 Sep 2025 11:42:05 +0800
-Message-Id: <20250908034205.1157182-1-even.xu@intel.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20250828021000.3299377-2-xinpeng.sun@intel.com>
-References: <20250828021000.3299377-2-xinpeng.sun@intel.com>
+	s=arc-20240116; t=1757305087; c=relaxed/simple;
+	bh=ou0gE7+TsdyUBbyMu7e+ekHhAilR/umQ1iDwnhJpy/A=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=LQ2nTZM+dBO1WmNqLABjQQh1AGJYwpFWbA9vu+qk5rQ9ukBfkgdibK8ptyzzr0ve9iAdvwr/me2aNFzpidYJWBoFoE4glFJe5byOZtLdyU2NBlqel3jcppaXiczUHNMv1wI+m30UP8VmoALtgpxYvqRuR1xhehO9YA2z/C3CFHg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cosmicgizmosystems.com; spf=pass smtp.mailfrom=cosmicgizmosystems.com; arc=none smtp.client-ip=63.249.102.155
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cosmicgizmosystems.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cosmicgizmosystems.com
+Received: from [10.0.0.100] (c-71-193-224-155.hsd1.wa.comcast.net [71.193.224.155])
+	by host11.cruzio.com (Postfix) with ESMTPSA id 6D4761D4966A;
+	Sun,  7 Sep 2025 21:10:30 -0700 (PDT)
+Message-ID: <36f58d1b-8afe-4895-bef6-59edc791ef0d@cosmicgizmosystems.com>
+Date: Sun, 7 Sep 2025 21:10:28 -0700
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [regression] 1a8953f4f774 ("HID: Add IGNORE quirk for
+ SMARTLINKTECHNOLOGY") causes issue with ID 4c4a:4155 Jieli Technology USB
+ Composite Device
+To: Salvatore Bonaccorso <carnil@debian.org>,
+ Zhang Heng <zhangheng@kylinos.cn>, Jiri Kosina <jkosina@suse.com>,
+ Staffan Melin <staffan.melin@oscillator.se>
+Cc: Benjamin Tissoires <bentiss@kernel.org>, linux-input@vger.kernel.org,
+ linux-kernel@vger.kernel.org, regressions@lists.linux.dev,
+ stable@vger.kernel.org, 1114557@bugs.debian.org
+References: <aL2gYJaXoB6p_oyM@eldamar.lan>
+Content-Language: en-US
+From: Terry Junge <linuxhid@cosmicgizmosystems.com>
+In-Reply-To: <aL2gYJaXoB6p_oyM@eldamar.lan>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-> From: Xinpeng Sun <xinpeng.sun@intel.com>
-> To: jikos@kernel.org, bentiss@kernel.org
-> Cc: srinivas.pandruvada@linux.intel.com, linux-input@vger.kernel.org,
-> 	linux-kernel@vger.kernel.org, Xinpeng Sun <xinpeng.sun@intel.com>
-> Subject: [PATCH v2 2/2] hid: intel-thc-hid: intel-quickspi: Add WCL Device IDs
-> Date: Thu, 28 Aug 2025 10:09:59 +0800	[thread overview]
-> Message-ID: <20250828021000.3299377-2-xinpeng.sun@intel.com> (raw)
-> In-Reply-To: <20250828021000.3299377-1-xinpeng.sun@intel.com>
+
+
+On 9/7/25 8:10 AM, Salvatore Bonaccorso wrote:
+> Hi Zhang, hi Jiri,
 > 
-> Add THC SPI WildcatLake device IDs.
+> In Debian Staffan Melin reported that after an update containing the
+> commit 1a8953f4f774 ("HID: Add IGNORE quirk for SMARTLINKTECHNOLOGY"),
+> the input device with same idVendor and idProduct, the Jieli
+> Technology USB Composite Device, does not get recognized anymore.
 > 
-> Signed-off-by: Xinpeng Sun <xinpeng.sun@intel.com>
-
-LGTM, thanks for the patch!
-
-Reviewed-by: Even Xu <even.xu@intel.com>
-
-> ---
->  drivers/hid/intel-thc-hid/intel-quickspi/pci-quickspi.c | 2 ++
->  drivers/hid/intel-thc-hid/intel-quickspi/quickspi-dev.h | 2 ++
->  2 files changed, 4 insertions(+)
+> The full Debian report is at: https://bugs.debian.org/1114557
 > 
-> diff --git a/drivers/hid/intel-thc-hid/intel-quickspi/pci-quickspi.c b/drivers/hid/intel-thc-hid/intel-quickspi/pci-quickspi.c
-> index 5e5f179dd113..84314989dc53 100644
-> --- a/drivers/hid/intel-thc-hid/intel-quickspi/pci-quickspi.c
-> +++ b/drivers/hid/intel-thc-hid/intel-quickspi/pci-quickspi.c
-> @@ -976,6 +976,8 @@ static const struct pci_device_id quickspi_pci_tbl[] = {
->  	{PCI_DEVICE_DATA(INTEL, THC_PTL_H_DEVICE_ID_SPI_PORT2, &ptl), },
->  	{PCI_DEVICE_DATA(INTEL, THC_PTL_U_DEVICE_ID_SPI_PORT1, &ptl), },
->  	{PCI_DEVICE_DATA(INTEL, THC_PTL_U_DEVICE_ID_SPI_PORT2, &ptl), },
-> +	{PCI_DEVICE_DATA(INTEL, THC_WCL_DEVICE_ID_SPI_PORT1, &ptl), },
-> +	{PCI_DEVICE_DATA(INTEL, THC_WCL_DEVICE_ID_SPI_PORT2, &ptl), },
->  	{}
->  };
->  MODULE_DEVICE_TABLE(pci, quickspi_pci_tbl);
-> diff --git a/drivers/hid/intel-thc-hid/intel-quickspi/quickspi-dev.h b/drivers/hid/intel-thc-hid/intel-quickspi/quickspi-dev.h
-> index 6fdf674b21c5..f3532d866749 100644
-> --- a/drivers/hid/intel-thc-hid/intel-quickspi/quickspi-dev.h
-> +++ b/drivers/hid/intel-thc-hid/intel-quickspi/quickspi-dev.h
-> @@ -19,6 +19,8 @@
->  #define PCI_DEVICE_ID_INTEL_THC_PTL_H_DEVICE_ID_SPI_PORT2	0xE34B
->  #define PCI_DEVICE_ID_INTEL_THC_PTL_U_DEVICE_ID_SPI_PORT1	0xE449
->  #define PCI_DEVICE_ID_INTEL_THC_PTL_U_DEVICE_ID_SPI_PORT2	0xE44B
-> +#define PCI_DEVICE_ID_INTEL_THC_WCL_DEVICE_ID_SPI_PORT1 	0x4D49
-> +#define PCI_DEVICE_ID_INTEL_THC_WCL_DEVICE_ID_SPI_PORT2 	0x4D4B
->  
->  /* HIDSPI special ACPI parameters DSM methods */
->  #define ACPI_QUICKSPI_REVISION_NUM			2
-> -- 
-> 2.40.1
+
+The root of the issue here is that two devices have bootlegged the same VID:PID.
+
+0x4c4a is not a valid VID that has been assigned according to the latest list from USBIF (vendor_ids072325_1.pdf) so conflicts like this could surface at any time.
+
+[   10.188336] usb 3-3: device descriptor read/64, error -71
+[   10.439533] usb 3-3: config 1 interface 0 altsetting 0 has 2 endpoint descriptors, different from the interface descriptor's value: 1
+[   10.451534] usb 3-3: New USB device found, idVendor=4c4a, idProduct=4155, bcdDevice= 1.00
+[   10.451540] usb 3-3: New USB device strings: Mfr=1, Product=2, SerialNumber=3
+[   10.451543] usb 3-3: Product: USB Composite Device
+[   10.451545] usb 3-3: Manufacturer: Jieli Technology
+[   10.451546] usb 3-3: SerialNumber: FFFFFFFFFFFFFFFF
+
+Can anyone supply the Jieli descriptors, including the Report Descriptor? It clearly has problems but not bad enough to fail enumeration.
+
+The commit 1a8953f4f774 should be reverted and SMARTLINKTECHNOLOGY should either bootleg a different PID, get a valid VID, or fix their device so a quirk is never required.
+
+Thanks,
+Terry
+
+> The issue is not specific to the 6.12.y series and confirmed in 6.16.3
+> as well.
+> 
+> Staffan Melin did bisect the kernels between 6.12.38 (which was still
+> working) and 6.1.41 (which was not), confirming by bisection that the
+> offending commit is 
+> 
+> 1a8953f4f774 ("HID: Add IGNORE quirk for SMARTLINKTECHNOLOGY")
+> 
+> #regzbot introduced: 1a8953f4f774
+> #regzbot monitor: https://bugs.debian.org/1114557
+> 
+> So it looks that the quirk applied is unfortunately affecting
+> negatively as well Staffan Melin case.
+> 
+> Can you have a look?
+> 
+> Regards,
+> Salvatore
+> 
+
 
