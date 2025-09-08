@@ -1,55 +1,58 @@
-Return-Path: <linux-input+bounces-14542-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14543-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04390B48C51
-	for <lists+linux-input@lfdr.de>; Mon,  8 Sep 2025 13:37:05 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id AA227B497A7
+	for <lists+linux-input@lfdr.de>; Mon,  8 Sep 2025 19:56:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B91523A433B
-	for <lists+linux-input@lfdr.de>; Mon,  8 Sep 2025 11:37:03 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C93817B5260
+	for <lists+linux-input@lfdr.de>; Mon,  8 Sep 2025 17:53:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EE3FA2EAD19;
-	Mon,  8 Sep 2025 11:36:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B4763176E4;
+	Mon,  8 Sep 2025 17:53:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="JNQqV+Vn"
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=ariel.dalessandro@collabora.com header.b="eVpN7Xxa"
 X-Original-To: linux-input@vger.kernel.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9010C2E9757;
-	Mon,  8 Sep 2025 11:36:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757331418; cv=none; b=HsQyE9gS54OeP6LG2x8+wakdhSlCWZuWL4+e1cGatPAixoNA4cjs9cx3G3/XBoDPoQOYEQDtdsrmNupwgjNJoMUtbeO0ShQIYf6Qe+J0ibu2SigHtcK1HGT2M4O1IsUC4QU7KdPKA5WPPh0vJQ0uHdk0pfxqHNEE9jZuhDSRr/c=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757331418; c=relaxed/simple;
-	bh=I6Ct7QSfsb2a9mw4d/2CXNoZn43ncDeWvUzisVJqmmQ=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 240323164A1;
+	Mon,  8 Sep 2025 17:53:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1757354029; cv=pass; b=kRMP2hP8YK4CPKtuWGPvnbKoMZKrNZiPB0I0xutMdmBoA9Gsj8t5wxIfbKdpEp6BVe3GgeSr5f9zVEpMsBkmwUQ/nXF64LRHLgICbRoQP5n95lG6NU0Cm/jnrQYmulxQil1L0nZmXbbVfp95CA0XC6YWiii3/90cPIrgWYQUit0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1757354029; c=relaxed/simple;
+	bh=OwdRsR4Z/3cQRq3276yVLRfEIjsQhJZfigcO//zTXpM=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=IovWtYn+T/citni0sWLg0YwdcoyInNhFNY041LEAshgTG/F/YIo238LU6U+Ji+iwqVTuqdxZSTEih6dvNz5E+Rt8/TL/J4baNsJ8VMjGDbTmGag2DXY70T93lHMBqZa93Oci581VjT5gEvyPrCxTB4q9TOcgwO9reictCi9t7qk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=JNQqV+Vn; arc=none smtp.client-ip=148.251.105.195
+	 In-Reply-To:Content-Type; b=pqfSPWGqUpqnCc9QYYvOXeb1pXOsly/g8WLyGDHPRgbP2dkx4/Y6VkSaKmP2U/7BBFSemdZtbGjCaYFW4Wxy1XZdIdK/Q09a8rUNIFNDpwPifatbS722J7J4mLq2kGSw1tr3e5u+hTTc2D41RRzrAWHb105aUBSr9KPz9i18Eyk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=ariel.dalessandro@collabora.com header.b=eVpN7Xxa; arc=pass smtp.client-ip=136.143.188.112
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1757331414;
-	bh=I6Ct7QSfsb2a9mw4d/2CXNoZn43ncDeWvUzisVJqmmQ=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=JNQqV+Vnjs1Dxd1EtX4PPTlKmtQwxCDb/AQgr8shMEFalu8USKWWhlJsPwZsVd4tK
-	 gAiFpxVnuYm7yRt0XtVeHIbJAWTLopQRL2GYFWTHlJ8ouEriWtaZKvkR04T0QmCPBw
-	 CR1usZ2oOFpAfkxZOgJ+IDXpPg1+aqMbVEsnOk+WfDg/cnXIugkfalEh/Et4NRGmud
-	 rDuVIVRrxJtTdR1kBrS63nW2H/YRw7PNQOrF7xhCf5eMLPcwifMBAfLsmWEfaNaJ+T
-	 C0ZyXXat54wei7+pXSgw3VcLeSemvIfVVyv7JG3eeuBJwr/XcbPiPGuUi67C8ftwRm
-	 DPbUAegLYxVFw==
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
-	(No client certificate requested)
-	(Authenticated sender: kholk11)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 4787517E0DD7;
-	Mon,  8 Sep 2025 13:36:54 +0200 (CEST)
-Message-ID: <104d8128-26fb-4eb6-ac3f-3abbb35245b2@collabora.com>
-Date: Mon, 8 Sep 2025 13:36:53 +0200
+ARC-Seal: i=1; a=rsa-sha256; t=1757353964; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=B4Mf6hX3bTYR3a7xiqiYtVcengOCYMtJ4uJlkCgsH8CHDfIpfPDn9QFXXw2JTXPIXbPjoVEoqmDlJ6+//kQSKYrl74uNirNimliuVIRmMSaqO/i326YtwRB2KLadoFMiMx/dZb9nrPGLCt0tlj96LCoXSGBmxLY/tHo2jPRkQ7o=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1757353964; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=naMSKwdItJDOVEut1clldy6rzfJ23gNVWfzo/NG/EPk=; 
+	b=mKNy732zMOeES4VFouY2+RdFC7btgwlztF00TDru9mn+yIv54ZdfAz8e39jQq4oiLF3IRxkBk0qG800GVy3RMMg6HIi+SOu16q91R8tjFTDKRMMEYw8qpMBfCCXqnL97P/1Xj46QZu3zXFHh2SqXEGGh//Hs+ErONriwiN8purw=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=ariel.dalessandro@collabora.com;
+	dmarc=pass header.from=<ariel.dalessandro@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1757353963;
+	s=zohomail; d=collabora.com; i=ariel.dalessandro@collabora.com;
+	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=naMSKwdItJDOVEut1clldy6rzfJ23gNVWfzo/NG/EPk=;
+	b=eVpN7XxaqwQUND+7FTzrATUGruIrEV/dnqxKdmazR6+iYVeul/IphtNTHtGsv/+L
+	kSzW1wYYT7hhzaaRz6IIPqgwHQp/4hshW+ePcAIsT0Bbv+tXe5d9KCs4aIW4JcYdeo4
+	yCZAuQEIoq/b/D9UUwXMI99G0aw05EuN8qyh0Jzo=
+Received: by mx.zohomail.com with SMTPS id 1757353961706173.12105076966714;
+	Mon, 8 Sep 2025 10:52:41 -0700 (PDT)
+Message-ID: <d286ec0b-c8dc-4103-9aa3-2f40e0ade4a3@collabora.com>
+Date: Mon, 8 Sep 2025 14:52:23 -0300
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -57,50 +60,246 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/3] Input: mtk-pmic-keys - MT6359 has a specific
- release irq
-To: Julien Massot <julien.massot@collabora.com>, kernel@collabora.com,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Matthias Brugger <matthias.bgg@gmail.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>
-Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- devicetree@vger.kernel.org
-References: <20250905-radxa-nio-12-l-gpio-v3-0-40f11377fb55@collabora.com>
- <20250905-radxa-nio-12-l-gpio-v3-1-40f11377fb55@collabora.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Subject: Re: [PATCH v1 01/14] media: dt-bindings: Convert MediaTek mt8173-mdp
+ bindings to YAML
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: airlied@gmail.com, amergnat@baylibre.com, andrew+netdev@lunn.ch,
+ andrew-ct.chen@mediatek.com, angelogioacchino.delregno@collabora.com,
+ broonie@kernel.org, chunkuang.hu@kernel.org, ck.hu@mediatek.com,
+ conor+dt@kernel.org, davem@davemloft.net, dmitry.torokhov@gmail.com,
+ edumazet@google.com, flora.fu@mediatek.com, houlong.wei@mediatek.com,
+ jeesw@melfas.com, jmassot@collabora.com, kernel@collabora.com,
+ krzk+dt@kernel.org, kuba@kernel.org,
+ kyrie.wu@mediatek.corp-partner.google.com, lgirdwood@gmail.com,
+ linus.walleij@linaro.org, louisalexis.eyraud@collabora.com,
+ maarten.lankhorst@linux.intel.com, matthias.bgg@gmail.com,
+ mchehab@kernel.org, minghsiu.tsai@mediatek.com, mripard@kernel.org,
+ p.zabel@pengutronix.de, pabeni@redhat.com, robh@kernel.org,
+ sean.wang@kernel.org, simona@ffwll.ch, support.opensource@diasemi.com,
+ tiffany.lin@mediatek.com, tzimmermann@suse.de, yunfei.dong@mediatek.com,
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
+ linux-gpio@vger.kernel.org, linux-input@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-mediatek@lists.infradead.org, linux-sound@vger.kernel.org,
+ netdev@vger.kernel.org
+References: <20250820171302.324142-1-ariel.dalessandro@collabora.com>
+ <20250820171302.324142-2-ariel.dalessandro@collabora.com>
+ <20250821-silky-slug-of-novelty-e4bb64@kuoka>
 Content-Language: en-US
-In-Reply-To: <20250905-radxa-nio-12-l-gpio-v3-1-40f11377fb55@collabora.com>
+From: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+In-Reply-To: <20250821-silky-slug-of-novelty-e4bb64@kuoka>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-ZohoMailClient: External
 
-Il 05/09/25 13:51, Julien Massot ha scritto:
-> Support for MT6359 PMIC keys has been added recently.
-> However, the key release event is not properly handled:
-> only key press events are generated, leaving key states
-> stuck in "pressed".
+Krzysztof,
+
+On 8/21/25 3:46 AM, Krzysztof Kozlowski wrote:
+> On Wed, Aug 20, 2025 at 02:12:49PM -0300, Ariel D'Alessandro wrote:
+>> Convert the existing text-based DT bindings for MediaTek MT8173 Media Data Path
+>> to a YAML schema.
 > 
-> This patch ensures that both key press and key release events
-> are properly emitted by handling the release logic correctly.
+> Please wrap commit message according to Linux coding style / submission
+> process (neither too early nor over the limit):
+> https://elixir.bootlin.com/linux/v6.4-rc1/source/Documentation/process/submitting-patches.rst#L597
+
+Thanks. Looks like my editor was misconfigured, sorry. Will fix in v2.
+
 > 
-> Introduce a 'key_release_irq' member to the 'mtk_pmic_regs',
-> to identify the devices that have a separate irq for the
-> release event.
+>>
+>> Signed-off-by: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+>> ---
+>>   .../bindings/media/mediatek,mt8173-mdp.yaml   | 174 ++++++++++++++++++
+>>   .../bindings/media/mediatek-mdp.txt           |  95 ----------
+>>   2 files changed, 174 insertions(+), 95 deletions(-)
+>>   create mode 100644 Documentation/devicetree/bindings/media/mediatek,mt8173-mdp.yaml
+>>   delete mode 100644 Documentation/devicetree/bindings/media/mediatek-mdp.txt
+>>
+>> diff --git a/Documentation/devicetree/bindings/media/mediatek,mt8173-mdp.yaml b/Documentation/devicetree/bindings/media/mediatek,mt8173-mdp.yaml
+>> new file mode 100644
+>> index 0000000000000..f3a08afc305b1
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/media/mediatek,mt8173-mdp.yaml
+>> @@ -0,0 +1,174 @@
+>> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+>> +%YAML 1.2
+>> +---
+>> +$id: http://devicetree.org/schemas/media/mediatek,mt8173-mdp.yaml#
+>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>> +
+>> +title: MediaTek MT8173 Media Data Path
+>> +
+>> +maintainers:
+>> +  - Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+>> +
+>> +description:
+>> +  Media Data Path is used for scaling and color space conversion.
+>> +
+>> +properties:
+>> +  compatible:
+>> +    oneOf:
+>> +      - items:
 > 
-> Fixes: bc25e6bf032e ("Input: mtk-pmic-keys - add support for MT6359 PMIC keys")
-> Signed-off-by: Julien Massot <julien.massot@collabora.com>
+> Just enum, no items here
 
-Please clarify the commit title.
+See below.
 
-Input: mtk-pmic-keys - Use platform data for release irq support
+> 
+> 
+>> +          - enum:
+>> +              - mediatek,mt8173-mdp-rdma
+>> +              - mediatek,mt8173-mdp-rsz
+>> +              - mediatek,mt8173-mdp-wdma
+>> +              - mediatek,mt8173-mdp-wrot
+>> +      - items:
+>> +          - enum:
+>> +              - mediatek,mt8173-mdp-rdma
+>> +              - mediatek,mt8173-mdp-rsz
+>> +              - mediatek,mt8173-mdp-wdma
+>> +              - mediatek,mt8173-mdp-wrot
+>> +          - const: mediatek,mt8173-mdp
+> 
+> This makes no sense. How devices can be compatible and can not be
+> compatible.
 
-...or something like that.
+According to the driver source code (and the previous txt mt8173-mdp 
+bindings), there must be a "controller node" with compatible 
+`mediatek,mt8173-mdp`. Then its sibling nodes (including itself) should 
+be one of the component node ids, listed in `struct of_device_id 
+mtk_mdp_comp_dt_ids[]`.
 
-After which:
+Is there a proper/different way to describe this compatible binding in 
+the yaml? Or you're saying the driver doesn't make sense here?
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+[0] drivers/media/platform/mediatek/mdp/mtk_mdp_core.c
 
-Cheers,
-Angelo
+> 
+>> +
+>> +  reg:
+>> +    maxItems: 1
+>> +
+>> +  clocks: true
+> 
+> No, there's no such syntax. Look at other bindings.
+
+Ack.
+
+> 
+> 
+>> +
+>> +  power-domains:
+>> +    maxItems: 1
+>> +
+>> +  iommus:
+>> +    description: |
+> 
+> Drop |
+
+Ack.
+
+> 
+>> +      This property should point to the respective IOMMU block with master port as argument,
+>> +      see Documentation/devicetree/bindings/iommu/mediatek,iommu.yaml for details.
+> 
+> Drop entire description, completely redundant. I don't know why my patch
+> fixing this was not applied, so you keep repeating same mistakes...
+
+Ack.
+
+> 
+>> +    maxItems: 1
+>> +
+>> +  mediatek,vpu:
+>> +    $ref: /schemas/types.yaml#/definitions/phandle
+>> +    description:
+>> +      Describes point to vpu.
+> 
+> Useless description. We see that from the property name. Explain the
+> purpose in the hardware.
+
+Ack.
+
+> 
+>> +
+>> +required:
+>> +  - compatible
+>> +  - reg
+>> +  - clocks
+>> +  - power-domains
+>> +
+>> +allOf:
+>> +  - if:
+>> +      properties:
+>> +        compatible:
+>> +          contains:
+>> +            const: mediatek,mt8173-mdp-rdma
+>> +    then:
+>> +      properties:
+>> +        clocks:
+>> +          items:
+>> +            - description: Main clock
+>> +            - description: Mutex clock
+>> +    else:
+>> +      properties:
+>> +        clocks:
+>> +          items:
+>> +            - description: Main clock
+>> +
+>> +  - if:
+>> +      properties:
+>> +        compatible:
+>> +          contains:
+>> +            enum:
+>> +              - mediatek,mt8173-mdp-rdma
+>> +              - mediatek,mt8173-mdp-wdma
+>> +              - mediatek,mt8173-mdp-wrot
+>> +    then:
+>> +      required:
+>> +        - iommus
+>> +
+>> +  - if:
+>> +      properties:
+>> +        compatible:
+>> +          contains:
+>> +            const: mediatek,mt8173-mdp
+> 
+> This makes no sense either.
+
+Same question above about compatibles.
+
+> 
+>> +    then:
+>> +      required:
+>> +        - mediatek,vpu
+>> +
+>> +additionalProperties: false
+>> +
+>> +examples:
+>> +  - |
+>> +    #include <dt-bindings/clock/mt8173-clk.h>
+>> +    #include <dt-bindings/memory/mt8173-larb-port.h>
+>> +    #include <dt-bindings/power/mt8173-power.h>
+>> +
+>> +    soc {
+>> +        #address-cells = <2>;
+>> +        #size-cells = <2>;
+>> +
+>> +        mdp_rdma0: rdma@14001000 {
+> 
+> One example is enough. Two could be fine if they differ significantly.
+
+Sounds good. Will keep just a single example, including a node for the 
+controller node and one for each of the components.
+
+Thanks a lot for the feedback!
+
+-- 
+Ariel D'Alessandro
+Software Engineer
+
+Collabora Ltd.
+Platinum Building, St John's Innovation Park, Cambridge CB4 0DS, UK 
+Registered in England & Wales, no. 5513718
+
 
