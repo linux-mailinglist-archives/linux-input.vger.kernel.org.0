@@ -1,137 +1,108 @@
-Return-Path: <linux-input+bounces-14570-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14571-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18D81B4FF7C
-	for <lists+linux-input@lfdr.de>; Tue,  9 Sep 2025 16:33:13 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 85AD7B4FFB4
+	for <lists+linux-input@lfdr.de>; Tue,  9 Sep 2025 16:41:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id E5D2E4E2FE1
-	for <lists+linux-input@lfdr.de>; Tue,  9 Sep 2025 14:33:11 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A63DF188874C
+	for <lists+linux-input@lfdr.de>; Tue,  9 Sep 2025 14:41:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 78DE134A32C;
-	Tue,  9 Sep 2025 14:33:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 67F48343217;
+	Tue,  9 Sep 2025 14:41:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qyP3yMol"
+	dkim=pass (1024-bit key) header.d=lucaweiss.eu header.i=@lucaweiss.eu header.b="G+TRLIk/"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from ahti.lucaweiss.eu (ahti.lucaweiss.eu [128.199.32.197])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45A957081E;
-	Tue,  9 Sep 2025 14:33:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6828D322DBA;
+	Tue,  9 Sep 2025 14:41:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=128.199.32.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757428387; cv=none; b=A8mZYga0BOb088hoDYp32Y/uBMup2MdFu6DTSgGoFeqdSWblRYH2EI64D5P0zP/ys0dXAxAOTyTCywDCkvtVD604vUzTzA0jRzu1nw/C2GXpF6Iw0riizOrxDuLLFDEYcW+eACnPsi7X++XGiZ1J7knSspu1SoygCR2ESjGeu98=
+	t=1757428890; cv=none; b=at5PBucH/nvCAsqJgS6P6R3CkOufX+RPOU81cW+cxH0IoUoHytBTy8a2tLC0RFXuws0u+vzgr2pvcg0Ch67zxm1pPRJp3v0DUxxARG6MxLejEMt7mk5bcmtqKRBXnF+ELP7AzN3KIxu0aqgJwAvtTioXjdRfBtOmWCH6F/ABY9U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757428387; c=relaxed/simple;
-	bh=/kGPxwkVLDkpt7Ify6seFX+v933lZCK1sEibaNa1vGg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=k09MZ97ifJqc24JOhPCWEBi1qAy90GZx6jHa17xOZI8z8CGTrkDtNcj3j5G7xWB5chTgOIgUx7eWTdYXK27NhcG2td4VaBbyZMpf/5WNO+RzUDOLQnWJKS/Qbjnb5XMr9D9oIHmbzNnh7hiRf8ae2JpZsl+eKIxFxUlvDCe6xx8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qyP3yMol; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A06BFC4CEF4;
-	Tue,  9 Sep 2025 14:33:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757428386;
-	bh=/kGPxwkVLDkpt7Ify6seFX+v933lZCK1sEibaNa1vGg=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=qyP3yMolHiwaFFCcZSZQR/+0aYr+0+888CmeaYC6UNOUYiG0qfvyYGq1moY9ZT+IA
-	 l+ZOz/UlBKGyo3HEY+x5RXjAcvP3whYopDfgtp06YSUET4fBP2P0BQa56Dlf5PNymy
-	 Z3oTmXfxgcQkslXJF+WOlNM549Rss7skaKiP2fEXEUlhI99Bo7+uJ0EGAgw3P4Ru8o
-	 TBfaQqxhP6UVvW9NaiHwPvvmX5y/IQbFb1VrthpPB97QffagBFZA+LSyK9e91MWe6j
-	 TAnvZVoQCubGOmALg84L33G08Yp7QXZeT/gIjvTb6EV/pKIZAM9dZcXw0vaLZqJ7ZW
-	 KANRyiaulyWlA==
-Message-ID: <9e39f1b4-63b2-4c6a-8b31-6360be1952e6@kernel.org>
-Date: Tue, 9 Sep 2025 16:33:01 +0200
+	s=arc-20240116; t=1757428890; c=relaxed/simple;
+	bh=d7Pz/yjrt/tNNpQPMW+9CxclgrWORNrhLXdA1kRna+A=;
+	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
+	 Message-ID:Content-Type; b=HI7dYd76AMorPcFJU2XuFJUuYDCOXyb7eMWff+uXsuCa0IiEpBsmQz9BVM+4kykzPK8RMKYxVkVRtlJXSamgjWTFOc959znZn4JwGAofYzpLF/IbX+KVjU/aQnE4UpgEUMHTX8fUIKSlhWtnKr3aDT6nQlqiuFlc86Z3q/Vi4kQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=lucaweiss.eu; spf=pass smtp.mailfrom=lucaweiss.eu; dkim=pass (1024-bit key) header.d=lucaweiss.eu header.i=@lucaweiss.eu header.b=G+TRLIk/; arc=none smtp.client-ip=128.199.32.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=lucaweiss.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lucaweiss.eu
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=lucaweiss.eu; s=s1;
+	t=1757428886; bh=d7Pz/yjrt/tNNpQPMW+9CxclgrWORNrhLXdA1kRna+A=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=G+TRLIk/nPV0lXA8LXXdLf0O+/zIfOnYlz9qkda0YylidJIm4TFtz2ziFg4079FMn
+	 W+51shb8OkjPZnW9l/VARK6xuTAzae1TiIqBhJh1t4XCcYCFxFSVAurDn1UXxJkUir
+	 714d8AVYEc/MzIzUiEpot6VJnWHxpyH8bLvmqv7k=
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
+Date: Tue, 09 Sep 2025 16:41:26 +0200
+From: Luca Weiss <luca@lucaweiss.eu>
+To: Krzysztof Kozlowski <krzk@kernel.org>, Dmitry Torokhov
+ <dmitry.torokhov@gmail.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Courtney Cavin
+ <courtney.cavin@sonymobile.com>, Vinod Koul <vkoul@kernel.org>, Bhushan Shah
+ <bshah@kde.org>, ~postmarketos/upstreaming@lists.sr.ht,
+ phone-devel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
 Subject: Re: [PATCH 1/2] dt-bindings: input: pm8941-pwrkey: Document
  wakeup-source property
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Luca Weiss <luca@lucaweiss.eu>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Courtney Cavin <courtney.cavin@sonymobile.com>,
- Vinod Koul <vkoul@kernel.org>, Bhushan Shah <bshah@kde.org>,
- ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-input@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <9e39f1b4-63b2-4c6a-8b31-6360be1952e6@kernel.org>
 References: <20250909-resin-wakeup-v1-0-46159940e02b@lucaweiss.eu>
  <20250909-resin-wakeup-v1-1-46159940e02b@lucaweiss.eu>
  <efb03993-0481-45ed-8f7e-8b65519a55cb@kernel.org>
  <phctwoxml7hscwcgaipl233lotnrkgcpe7rxvhm5syoiadu3lv@ibgeib4kjyhs>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <phctwoxml7hscwcgaipl233lotnrkgcpe7rxvhm5syoiadu3lv@ibgeib4kjyhs>
-Content-Type: text/plain; charset=UTF-8
+ <9e39f1b4-63b2-4c6a-8b31-6360be1952e6@kernel.org>
+Message-ID: <dcdbc6424db6953dfc39fc05e0e050ab@lucaweiss.eu>
+X-Sender: luca@lucaweiss.eu
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 09/09/2025 16:08, Dmitry Torokhov wrote:
->>>    compatible:
->>>      enum:
->>> @@ -36,6 +33,11 @@ properties:
->>>             pin should be configured for pull up.
->>>      $ref: /schemas/types.yaml#/definitions/flag
->>>  
->>> +  wakeup-source:
->>> +    description: |
->>> +           Button can wake-up the system. Only applicable for 'resin',
->>> +           'pwrkey' always wakes the system by default.
->>
->>
->> I'll fix existing code, so don't repeat that style.
+On 2025-09-09 16:33, Krzysztof Kozlowski wrote:
+> On 09/09/2025 16:08, Dmitry Torokhov wrote:
+>>>>    compatible:
+>>>>      enum:
+>>>> @@ -36,6 +33,11 @@ properties:
+>>>>             pin should be configured for pull up.
+>>>>      $ref: /schemas/types.yaml#/definitions/flag
+>>>> 
+>>>> +  wakeup-source:
+>>>> +    description: |
+>>>> +           Button can wake-up the system. Only applicable for 
+>>>> 'resin',
+>>>> +           'pwrkey' always wakes the system by default.
+>>> 
+>>> 
+>>> I'll fix existing code, so don't repeat that style.
+>> 
+>> If you ack I can reformat on my side to match the patch you just sent.
 > 
-> If you ack I can reformat on my side to match the patch you just sent.
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Thanks for fixing that up Krzysztof! I noticed but didn't want to 
+deviate
+from the style just for this description. Of course better to fix the
+formatting in the first place.
 
-Best regards,
-Krzysztof
+@Dmitry: Maybe give this patch some time (1-2 weeks?) to gather more 
+feedback,
+given the reasons outlined in the cover letter. Also on the driver 
+patch.
+
+Regards
+Luca
+
+> 
+> Best regards,
+> Krzysztof
 
