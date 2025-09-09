@@ -1,78 +1,78 @@
-Return-Path: <linux-input+bounces-14554-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14555-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90059B4A187
-	for <lists+linux-input@lfdr.de>; Tue,  9 Sep 2025 07:49:39 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 91E87B4A18A
+	for <lists+linux-input@lfdr.de>; Tue,  9 Sep 2025 07:49:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 50C264E0E55
-	for <lists+linux-input@lfdr.de>; Tue,  9 Sep 2025 05:49:38 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3FBDF4E5783
+	for <lists+linux-input@lfdr.de>; Tue,  9 Sep 2025 05:49:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9AFE52FCBFD;
-	Tue,  9 Sep 2025 05:49:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 75C362FF147;
+	Tue,  9 Sep 2025 05:49:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QJZeJDM/"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XLaGt75c"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D60DE2F0689;
-	Tue,  9 Sep 2025 05:49:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF21B2FB08E;
+	Tue,  9 Sep 2025 05:49:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757396969; cv=none; b=eic8mSAF/Riv9+59XiB7YK0Tto9RTIGCac0tVHCpPzjrPfk3ZFLi7cFLbGx7716hY1GVQuZ+c3InVUYxjA95RU1V9gaVVsj4DkD+kfQRTonjMulgMgHEWEYCGVUuHyw7xYFQ2O47X/wxB4g0BznHJrdiC7Wcb3qNG9L5+nTazRI=
+	t=1757396970; cv=none; b=FWn8Ctf8VVu7wg5pHe9aX0uimbRrSCABFxIRKtDo76jAt7uGbPWiE1snjEKv9msfP/RDpvEd2Gnwqry+3uoRguzMmjlql9+mJt18+MhHCMJ8f1mg0GkBmq38rHhku/pFL7I+tWLzdDGXGvxwV6sbVvwnHR6ncrHOKehe9v8vpEg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757396969; c=relaxed/simple;
-	bh=V4jn/bnwUga4D+MIY2bgmBw6U0giOdi9Se/Tm4UCgpk=;
+	s=arc-20240116; t=1757396970; c=relaxed/simple;
+	bh=TJ5lxHVYWBSBJTcjNqsWmR5Ye/X+58ulc0qIwXZUCB4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=tnJxm6oiObAp130EsjDE9nppICrc98u6XVOWD41f6hQyBodW7o2CKExPNcX0ObpYQwYLPuLrVCQgAVmic1owdQ63stxQ9bW98M+RZ/qs9rejiCkd/p8NFhcmxQmHIC5UAEzTiXcASEJwQlOtUBqKonBtyqKN6q1F6o1SIe0Bfpc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QJZeJDM/; arc=none smtp.client-ip=209.85.167.42
+	 MIME-Version; b=NuvLbEFolcnJ0viiclOXXs+qGPVNHrmRTI8be1hbHQ+16LUXbj/HgcsP6089axcBCJ4m/58f76QORoR4PLfLl2ZXC6OtXOXR340at+ksMbDy6o1m0tc9NUbl8g3Ap1Y6FKcDX051bJftoD2QqmyudAkj5j81N2uEOOkA4z1nOL8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XLaGt75c; arc=none smtp.client-ip=209.85.167.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-55f7cd8ec2cso6519787e87.2;
-        Mon, 08 Sep 2025 22:49:27 -0700 (PDT)
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-560888dc903so3128790e87.2;
+        Mon, 08 Sep 2025 22:49:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757396966; x=1758001766; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1757396967; x=1758001767; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=B0YyD3RevEZdoa7SIRzvNddkfWFMvskAUEdKz1BOuvo=;
-        b=QJZeJDM/uMCbA0sFA60Puj11nRySsO0nN7jmEGBkEseJq1oUAo42RtYjQeA8tgQKTp
-         ENIlwQNVrAKAnymouTDuCY4/1LRL6ZGdCsrtIcWG2bezSQFOoJR59xQqu3OrEnLr4iHs
-         VcQVWTcZmctTw4BAZ73CWxe2NG2FuelJGYH9S5e2d87oZ9jUpQ2/Z22U1NY48b/icnwJ
-         uoZqQ8nxBx+6j3KiIM+0IFPYnd0pa2bx0DN0bjKBwETr7ZhslMTtmt9FjTcCZdWUSO2B
-         I/lmR9aiN6vo7rHF2GzjPqgrbqnfQmi4VcELkgM8t49PXwUN6xnA07hJ3kpwPrTe06bp
-         JNpQ==
+        bh=O708xsZOBgWwFjnWY+qzmKxcC8D6pc1i2hZ7VtZjolY=;
+        b=XLaGt75cRocNlp9Vk28Cpi8DcgbUs8BmlS6mhUiEmxKadSag3TK6akdjCI02YXljd0
+         /2UfCcCQzxCyToDBr6xSR9AUyFmDcH2XjC7/Gx6UvHh3q4JiASiA8JFEdzdHdwsNXbI+
+         r9eYp4KE2YWLDp/8sB2k36iHcI3mtHnAed6KjnplpqLpMzRmSAYVaBlNSgcPaNmPd0of
+         MfQUKuK7z34xJ2M6CeJeESibI6FfY1m9+IpdRYl7mOKH/4Moq2fKd5/x0z2uLEB4GvdY
+         t3OYxiHT0v8CczT7llJkgxJd8Q822fVIQEXDjFBjaYpf4d89IW7mmoWCwd4GEMDYGeE8
+         0I3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757396966; x=1758001766;
+        d=1e100.net; s=20230601; t=1757396967; x=1758001767;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=B0YyD3RevEZdoa7SIRzvNddkfWFMvskAUEdKz1BOuvo=;
-        b=hgjZnUZTSQd7ZZIvJY05X3lbVqR6e1ZLMHYqGnS9m8x/9WXL5yTKVYDS69A00Xx6qd
-         dD+Lj8ZchJu4z4VSEewZxLHtLiIQHlqt/GDUp96sDOdj+fxoZe5hfLnRuL+6+PYQgVeo
-         dF/DeXPykI4K934rdw24KhE+vy3Hu6rfUwskIMk8PItdF6D9AfaeXkuQfuczlNEHDjU8
-         xI1Y90QalwkMaoPT0Ez1pM1cniQ2tW3IZY37WVdbJztdSdDIRxU06ROvsC2os86bPao9
-         Qaljw2XU9f9Bi6jPPVqaCCGOKvTm41nSJIbOzv/RnwSq4J1liYu0CdRbyuQUmXOrUcrL
-         QD7A==
-X-Forwarded-Encrypted: i=1; AJvYcCUg7qHfx/g0BSVKsjhUIQFQfKye1FYbgbjRDL9mWzZLxcZ5Ojf+UWKXBCzsxtVCnCRTY1hOJ0ltLacY@vger.kernel.org, AJvYcCV5faKfACgjwaNCDHuYESZOIHP4laJAbbXQiIc03wrE6+JGLDgdpeiaKNshU6ZLfZfkh5SCQUv83kPewXLO@vger.kernel.org
-X-Gm-Message-State: AOJu0YxWe8cTvipoQGkGmCf5qulBpMG4te5oL8D/Rc7TpT+9eRmLfhM4
-	WajulEo+mMeRlrskTmebYqR06Oi2M4vN+5T+nNrmMeNMDoW4qI67g9EI
-X-Gm-Gg: ASbGnctmDNoye1NOuDYXiZ82UFU5dSWgvVU4MV/N3ieO8DdBVAW/AvFqDCwUXcy357p
-	NJDIYamGinPTmflqBUglHEPcr74EgM2uSXHPYq/aAWtNKN69qdrROkVEwGYdZknIjR7u1kv70vC
-	xKbd1g/FTBLBwuju2rGR5RwsNj1caPusAPV2sCsWHufqdv9yFB2aVBkuazrOQb2ef7x6/gEbBWC
-	5gOY4Lp9E4vEJ/XtOe+d0XCa9MO4rxC4243SfBXjuhLQObZPXKcH5MLItJunNcdRTV4lu98lrj4
-	ByWdJ68xnV4/knE7vn7KaHz/5wgc845IMx6ISHji53LtBVgRnBG9VEJLgAhMZXDlh8NLMFPLr3B
-	S6DqC2MPtoy3mKa+YkkGIAu2J
-X-Google-Smtp-Source: AGHT+IG3PVQKNfUUYu2n5iMUtUoe9vG9pkUGVS/6QYtuxXztKJcL5/X4HlwQAP00Yq3PZhxxXhgLew==
-X-Received: by 2002:a05:6512:3c99:b0:55f:4953:ae91 with SMTP id 2adb3069b0e04-5625eb95887mr3384025e87.5.1757396965687;
-        Mon, 08 Sep 2025 22:49:25 -0700 (PDT)
+        bh=O708xsZOBgWwFjnWY+qzmKxcC8D6pc1i2hZ7VtZjolY=;
+        b=uKGc5pWjx697DvccGHCkR6PDVVWOJJL2svCOzPRj1HRX4gE+6+O6vRqR/WLsYZwv+Y
+         Jigj9JxhLs2iQwgQl5pKdKafeD7sItXcbR1NnQiRMrWos+Pj6fOD4a/nCKqaL4g0mjwy
+         tWrVJmfF52oSuSnOu+FBVAL2jPr+zkhJKZfE2R367rDm9qRsOFLrx7aLHvjY3eMqn06e
+         1tAuUsE7rkhuG/G60L4D5OeunB1HubW8ZYQQT/7dA6HrQO2gbU2Q4ojylLSQ/v4y3K/C
+         TH3tBqAeZv3/wkTmZrohnEp0qhw0nTozR9YjJiEOkZpd8KK7oavyQo9bMYApgjWg2YEt
+         Fh6w==
+X-Forwarded-Encrypted: i=1; AJvYcCVnyokYFfUpORC0Cmf2HWpiRvUIuzkaJvL6PqOFLu3ImTut1GKAjV5ZImC0MlmrqMEuZpyOwelt9Pn/@vger.kernel.org, AJvYcCXWzHiDs/UkXorAqcc4Ly9XbXwdq5uznLYZd8z53mVjW07eA388QVzboCLu5M3bMRYv2/a8dy/TI7SUjr1V@vger.kernel.org
+X-Gm-Message-State: AOJu0YxS8ZNwPTytMPhrYnnuDBvZognWqn0IgTNUUFgbI2CvCfirNyx1
+	JtdT7uBPv6ZRJl6RZMVPnfMo2SEJXH3hHgsY65lg3RwIM+stUJNKRf7n
+X-Gm-Gg: ASbGnctjV2bmRv8IbwznK96xRaqdISuVEyg4qIfcSI9TLtbbF3gxbvJ1glMqQ1OmKTL
+	6j8LI+HgM/LdzVqOUhZ7W+8RCgtY1GQ8J4JIPtAlutJAtTsCHAvWxFIzSBMbe83O99CHaipQWy/
+	n5L2qOxe5zQQMHtq4z70QERoCuREFLT8mJaulKRGKMKKFPWpZgUZTjjy7cfoz0zCIJpT/t0UYc1
+	ByM1nCrCcmGFl1zdMcSHCAQHrbw2CHRaJ7jVHudfvtnFnSUuxAt2QN+SC5i6ZY2Ex8rmjFInaor
+	3cfm1Z/HN4pq307OUpoGIdiDm1gClJg2NvrmfuGtBkPaMcDeSU3xK9I7mZ+7dr1Xn8ixGVcGkpu
+	SVdQy/ytxVpJjoA==
+X-Google-Smtp-Source: AGHT+IHecHO2xPhzrJIeLz2v8/7ReBgk/mWsEMMAwzRCz1+7h/xAITyrMXhn/4A96LuLtvug+daQFA==
+X-Received: by 2002:a05:6512:a92:b0:55f:4423:f52 with SMTP id 2adb3069b0e04-562636d7a39mr3712088e87.37.1757396966818;
+        Mon, 08 Sep 2025 22:49:26 -0700 (PDT)
 Received: from xeon.. ([188.163.112.70])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5680c4246e6sm277329e87.14.2025.09.08.22.49.24
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5680c4246e6sm277329e87.14.2025.09.08.22.49.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Sep 2025 22:49:25 -0700 (PDT)
+        Mon, 08 Sep 2025 22:49:26 -0700 (PDT)
 From: Svyatoslav Ryhel <clamor95@gmail.com>
 To: Nick Dyer <nick@shmanahar.org>,
 	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
@@ -85,9 +85,9 @@ To: Nick Dyer <nick@shmanahar.org>,
 Cc: linux-input@vger.kernel.org,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 1/2] dt-bindings: input: maxtouch: add common touchscreen properties
-Date: Tue,  9 Sep 2025 08:49:02 +0300
-Message-ID: <20250909054903.11519-2-clamor95@gmail.com>
+Subject: [PATCH v2 2/2] input: touchscreen: atmel_mxt_ts: add support for generic touchscreen configurations
+Date: Tue,  9 Sep 2025 08:49:03 +0300
+Message-ID: <20250909054903.11519-3-clamor95@gmail.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250909054903.11519-1-clamor95@gmail.com>
 References: <20250909054903.11519-1-clamor95@gmail.com>
@@ -99,35 +99,64 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Since atmel,maxtouch describes touchscreens too, it should include common
-touchscreen properties.
+This provides support for generic touchscreen configuration options like
+swapped-x-y, min-x, min-y, size-x, size-y, etc.
 
 Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
 ---
- Documentation/devicetree/bindings/input/atmel,maxtouch.yaml | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/input/touchscreen/atmel_mxt_ts.c | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/input/atmel,maxtouch.yaml b/Documentation/devicetree/bindings/input/atmel,maxtouch.yaml
-index c40799355ed7..d79b254f1cde 100644
---- a/Documentation/devicetree/bindings/input/atmel,maxtouch.yaml
-+++ b/Documentation/devicetree/bindings/input/atmel,maxtouch.yaml
-@@ -16,6 +16,7 @@ description: |
+diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
+index 322d5a3d40a0..fc624101147e 100644
+--- a/drivers/input/touchscreen/atmel_mxt_ts.c
++++ b/drivers/input/touchscreen/atmel_mxt_ts.c
+@@ -19,6 +19,7 @@
+ #include <linux/firmware.h>
+ #include <linux/i2c.h>
+ #include <linux/input/mt.h>
++#include <linux/input/touchscreen.h>
+ #include <linux/interrupt.h>
+ #include <linux/irq.h>
+ #include <linux/of.h>
+@@ -355,6 +356,8 @@ struct mxt_data {
+ 	enum mxt_suspend_mode suspend_mode;
  
- allOf:
-   - $ref: input.yaml#
-+  - $ref: touchscreen/touchscreen.yaml#
+ 	u32 wakeup_method;
++
++	struct touchscreen_properties prop;
+ };
  
- properties:
-   compatible:
-@@ -95,7 +96,7 @@ required:
-   - reg
-   - interrupts
+ struct mxt_vb2_buffer {
+@@ -888,8 +891,7 @@ static void mxt_proc_t9_message(struct mxt_data *data, u8 *message)
  
--additionalProperties: false
-+unevaluatedProperties: false
+ 		/* Touch active */
+ 		input_mt_report_slot_state(input_dev, MT_TOOL_FINGER, 1);
+-		input_report_abs(input_dev, ABS_MT_POSITION_X, x);
+-		input_report_abs(input_dev, ABS_MT_POSITION_Y, y);
++		touchscreen_report_pos(input_dev, &data->prop, x, y, true);
+ 		input_report_abs(input_dev, ABS_MT_PRESSURE, amplitude);
+ 		input_report_abs(input_dev, ABS_MT_TOUCH_MAJOR, area);
+ 	} else {
+@@ -1010,8 +1012,7 @@ static void mxt_proc_t100_message(struct mxt_data *data, u8 *message)
+ 			id, type, x, y, major, pressure, orientation);
  
- examples:
-   - |
+ 		input_mt_report_slot_state(input_dev, tool, 1);
+-		input_report_abs(input_dev, ABS_MT_POSITION_X, x);
+-		input_report_abs(input_dev, ABS_MT_POSITION_Y, y);
++		touchscreen_report_pos(input_dev, &data->prop, x, y, true);
+ 		input_report_abs(input_dev, ABS_MT_TOUCH_MAJOR, major);
+ 		input_report_abs(input_dev, ABS_MT_PRESSURE, pressure);
+ 		input_report_abs(input_dev, ABS_MT_DISTANCE, distance);
+@@ -2212,6 +2213,8 @@ static int mxt_initialize_input_device(struct mxt_data *data)
+ 				     0, 255, 0, 0);
+ 	}
+ 
++	touchscreen_parse_properties(input_dev, true, &data->prop);
++
+ 	/* For T15 and T97 Key Array */
+ 	if (data->T15_reportid_min || data->T97_reportid_min) {
+ 		for (i = 0; i < data->t15_num_keys; i++)
 -- 
 2.48.1
 
