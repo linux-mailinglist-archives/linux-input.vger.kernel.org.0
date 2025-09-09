@@ -1,170 +1,157 @@
-Return-Path: <linux-input+bounces-14565-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14566-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27CF0B4FD5F
-	for <lists+linux-input@lfdr.de>; Tue,  9 Sep 2025 15:37:22 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EF71B4FE9D
+	for <lists+linux-input@lfdr.de>; Tue,  9 Sep 2025 16:03:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5727D16B0FC
-	for <lists+linux-input@lfdr.de>; Tue,  9 Sep 2025 13:34:46 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id ACD797B9BA6
+	for <lists+linux-input@lfdr.de>; Tue,  9 Sep 2025 14:01:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6997A35209C;
-	Tue,  9 Sep 2025 13:31:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 030FA236437;
+	Tue,  9 Sep 2025 14:02:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lucaweiss.eu header.i=@lucaweiss.eu header.b="aMJvw+AE"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="itM5weoH"
 X-Original-To: linux-input@vger.kernel.org
-Received: from ahti.lucaweiss.eu (ahti.lucaweiss.eu [128.199.32.197])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D4003314C1;
-	Tue,  9 Sep 2025 13:31:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=128.199.32.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1F8F178372;
+	Tue,  9 Sep 2025 14:02:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757424709; cv=none; b=RSxA0lgjV3YkXkRgaKpSxRT/FNLbEpuB7rbUDwMbDYU+69pVsDNtwTAOnVOjnwfRtIceTK2JBs/MnO1upXcJm6S18+dEF6BcIlKNbKfXI8BFjN8StM5CLr+0dVKoeL4qEPBj9gnFjkHMwtzPCdaLdnhIQ9+IKQL+Ub/VZxCjBYc=
+	t=1757426572; cv=none; b=arQOYt9A1yWAxONeMc9fth8Fr9mIRnjsiwlyWJiaTSCT+0lIds3qAncDDlOD606tWcYTVfHC07UPMSHFXhgPH7Wk2B6gOUvKlYAsRJlyxltVA9H8+DU2o1PAG1+4NZEl3WUAQbCYgk3sKMW7MQfym/Pp/co8d0up8UekVarPHbA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757424709; c=relaxed/simple;
-	bh=FlT7W0/J3zxEIOtm/dP6L7RmnHSRfjzVbrAlelngAlc=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=chJqwnONRApVLDwsaDYdW271OpR8eiqVRPKeTJ1y54dD9m9hbckI+vn6kezqFK0p+ewbUimpSUX6X73kvtNW92B2j245IDLKC5ca90fFm5pDTSfKYUgfVg8ZibZ50q5TjQOo3HzczuwqlF8aPErFxujYwiYxjB9hzwIheNdLX44=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=lucaweiss.eu; spf=pass smtp.mailfrom=lucaweiss.eu; dkim=pass (1024-bit key) header.d=lucaweiss.eu header.i=@lucaweiss.eu header.b=aMJvw+AE; arc=none smtp.client-ip=128.199.32.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=lucaweiss.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lucaweiss.eu
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=lucaweiss.eu; s=s1;
-	t=1757424244; bh=FlT7W0/J3zxEIOtm/dP6L7RmnHSRfjzVbrAlelngAlc=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=aMJvw+AECLnus3QgnTXgdFILMEaryvHTcJR4K+tYFTAX3CW42a+/y+9mEuwV5HDo2
-	 cotkXRo9pff6+XQkfmg1g7cHptfMjzmdpuEifKGtNWyO7V/IzLLNHRgjJoB+5/R8DC
-	 d9WXpMW0PDllnmk5gITqq37ewujZKhDIHr3k2nAg=
-From: Luca Weiss <luca@lucaweiss.eu>
-Date: Tue, 09 Sep 2025 15:23:08 +0200
-Subject: [PATCH 2/2] Input: pm8941-pwrkey - Disable wakeup for resin by
- default
+	s=arc-20240116; t=1757426572; c=relaxed/simple;
+	bh=pBU7jH62C2atBXLeaW2/l4lqD789Nv3gmafXTSS6Sik=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=LalJfsconXg3PcUFxsMJl+8xgMVeiuaj4g+UDGOg2sIHSGsS5E0hSiiqzH0TX988ajxnRxJ87c/fcFBiaNpChTXOzegkuKMR6uMZZz4D0KnUJpmas8U3a6zMb3Ky6OlM1wtkavrZHm11m9mI3yDqP7MOatnohxTlUZsougptGzc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=itM5weoH; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28D27C4CEF4;
+	Tue,  9 Sep 2025 14:02:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1757426572;
+	bh=pBU7jH62C2atBXLeaW2/l4lqD789Nv3gmafXTSS6Sik=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=itM5weoHVj04B3V3WiqmzaG7I0ol2d1tgjfVlW8/SBG0EMd9zwrfAg1aoFTp0S8CV
+	 hq/QrxJY6kH1uABKysE+WXQzU1ZDLanvQ+uA3+YgVgOCSixqpJVFSEweiQ7ZI0kaLt
+	 vUUFO4NzZN2copGXwG3FH4VUcqC/yS4FCwACQjYM296+gPyFdfJbkOYGSn37ghQtbD
+	 LcP3v4/akS44QfbHcvrravvtjqkNRpD05gKnMMg12pgblSAbA7K/gSU0xwlx7CmWMy
+	 Esal668pzNJlL3pGb1ZHtx/hNTydXdl+f0MUZo2SXX/4MgINegENaFZz0H7SznYPcT
+	 ThU+Dfj8LjS0A==
+Message-ID: <efb03993-0481-45ed-8f7e-8b65519a55cb@kernel.org>
+Date: Tue, 9 Sep 2025 16:02:47 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250909-resin-wakeup-v1-2-46159940e02b@lucaweiss.eu>
-References: <20250909-resin-wakeup-v1-0-46159940e02b@lucaweiss.eu>
-In-Reply-To: <20250909-resin-wakeup-v1-0-46159940e02b@lucaweiss.eu>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Courtney Cavin <courtney.cavin@sonymobile.com>, 
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] dt-bindings: input: pm8941-pwrkey: Document
+ wakeup-source property
+To: Luca Weiss <luca@lucaweiss.eu>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Courtney Cavin <courtney.cavin@sonymobile.com>,
  Vinod Koul <vkoul@kernel.org>
-Cc: Bhushan Shah <bshah@kde.org>, ~postmarketos/upstreaming@lists.sr.ht, 
- phone-devel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- linux-input@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Luca Weiss <luca@lucaweiss.eu>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3014; i=luca@lucaweiss.eu;
- h=from:subject:message-id; bh=FlT7W0/J3zxEIOtm/dP6L7RmnHSRfjzVbrAlelngAlc=;
- b=owEBbQKS/ZANAwAKAXLYQ7idTddWAcsmYgBowCpxYxRNRMVNMYjmF7ir7BZ+PIuD6035dlrlv
- CCR3+yGisGJAjMEAAEKAB0WIQQ5utIvCCzakboVj/py2EO4nU3XVgUCaMAqcQAKCRBy2EO4nU3X
- VqfsD/9V9Tt7r5/HwTQYc6+73mp8hxTu4Hbv1L6FEle9aTIzUk6k0NDx86Q+g3IzKIQYqSJjuzh
- vueJF35iYxl/n6QYT+rgfy+18oBH4crDp++9QNaMKeo7LDAWApvPgZvaiasyyNOQ+Wd3wSw/2xG
- Rm7gN96lg5d4Q+tbqUhqxY6RajFrcYtjwMaej4lGIcjdfjCCs3l8uKTG1PZQjybU21wawNhbmBr
- hKhoLK36lqRurYEPUUsWZfzfK3Kjhz/nQS6wzLgCyupX9x0Es4LJk2a66FNJQZaDmUACisSsr5g
- ZM9wNexpj5UqUrCdJsCmtmITRKBYRVMkXzXQxlIRE1WkecFFC9iFPvQERExrf2nhREwm3wqWEXn
- UY7fsbe050eeB3mqd31V3KM5DN+zIA2kVv7ypeIm6KxeSboL0o5iZ3S6YtfTJcauJBCpG4x0Zid
- 2Fw+2opAmNhwzGTGV30gNtgMC8MZHpNMw4ijjQj6PKBnRmRRr1I//tQlqEH7sMGHN5wPFvGZUD8
- SISTXrHFjvpXsX7QKCsfLRidBW7v5aWkE2QmDvj+o1waos8D/dnvqGvZIzdfk/aMgDKAVNcZvve
- qvkxTTaghGqDRo+60AESnC+8jN6vZFQMcR9kbZRyz6qZgMgsO9U0VoGwBof6dpeEyNV6edvzjtc
- qWtxDx4VYSbSIYQ==
-X-Developer-Key: i=luca@lucaweiss.eu; a=openpgp;
- fpr=BD04DA24C971B8D587B2B8D7FAF69CF6CD2D02CD
+Cc: Bhushan Shah <bshah@kde.org>, ~postmarketos/upstreaming@lists.sr.ht,
+ phone-devel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20250909-resin-wakeup-v1-0-46159940e02b@lucaweiss.eu>
+ <20250909-resin-wakeup-v1-1-46159940e02b@lucaweiss.eu>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <20250909-resin-wakeup-v1-1-46159940e02b@lucaweiss.eu>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-'Resin' (*Res*et *In*put) is usually connected to a volume down button
-on devices, which is usually not expected to wake up the device from
-suspend.
+On 09/09/2025 15:23, Luca Weiss wrote:
+> The 'resin' keys (usually connected to a volume-down button) are
+> generally not supposed to wake up the device from suspend, so explicitly
+> document a wakeup-source property to enable this wakeup behavior.
+> 
+> For 'pwrkey' the default stays that pressing the button does wake up the
+> device from suspend.
+> 
+> Signed-off-by: Luca Weiss <luca@lucaweiss.eu>
+> ---
+>  .../bindings/input/qcom,pm8941-pwrkey.yaml          | 21 ++++++++++++++++++---
+>  1 file changed, 18 insertions(+), 3 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/input/qcom,pm8941-pwrkey.yaml b/Documentation/devicetree/bindings/input/qcom,pm8941-pwrkey.yaml
+> index 62314a5fdce59bb00d1e8b86d6a29a091128aa50..62a08e675ef9511e0ae9ed9fbab5694ab7242c35 100644
+> --- a/Documentation/devicetree/bindings/input/qcom,pm8941-pwrkey.yaml
+> +++ b/Documentation/devicetree/bindings/input/qcom,pm8941-pwrkey.yaml
+> @@ -10,9 +10,6 @@ maintainers:
+>    - Courtney Cavin <courtney.cavin@sonymobile.com>
+>    - Vinod Koul <vkoul@kernel.org>
+>  
+> -allOf:
+> -  - $ref: input.yaml#
+> -
+>  properties:
+>    compatible:
+>      enum:
+> @@ -36,6 +33,11 @@ properties:
+>             pin should be configured for pull up.
+>      $ref: /schemas/types.yaml#/definitions/flag
+>  
+> +  wakeup-source:
+> +    description: |
+> +           Button can wake-up the system. Only applicable for 'resin',
+> +           'pwrkey' always wakes the system by default.
 
-On the other hand, pwrkey should keep wakeup on. So do not enable wakeup
-for resin unless the "wakeup-source" property is specified in
-devicetree.
 
-Note, that this does change behavior by turning off wakeup by default
-for 'resin' and requiring a new dt property to be added to turn it on
-again. But since this is not expected behavior in the first place, and
-most users will not expect this, I'd argue this change is acceptable.
+I'll fix existing code, so don't repeat that style.
 
-Signed-off-by: Luca Weiss <luca@lucaweiss.eu>
----
- drivers/input/misc/pm8941-pwrkey.c | 12 ++++++++++--
- 1 file changed, 10 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/input/misc/pm8941-pwrkey.c b/drivers/input/misc/pm8941-pwrkey.c
-index d952c16f24582bfc792e335a1fc954919561fa87..53249d2c081fba8b8235393e14736494bf9b238b 100644
---- a/drivers/input/misc/pm8941-pwrkey.c
-+++ b/drivers/input/misc/pm8941-pwrkey.c
-@@ -60,6 +60,7 @@ struct pm8941_data {
- 	bool		supports_ps_hold_poff_config;
- 	bool		supports_debounce_config;
- 	bool		has_pon_pbs;
-+	bool		wakeup_source_default;
- 	const char	*name;
- 	const char	*phys;
- };
-@@ -245,7 +246,7 @@ static DEFINE_SIMPLE_DEV_PM_OPS(pm8941_pwr_key_pm_ops,
- static int pm8941_pwrkey_probe(struct platform_device *pdev)
- {
- 	struct pm8941_pwrkey *pwrkey;
--	bool pull_up;
-+	bool pull_up, wakeup;
- 	struct device *parent;
- 	struct device_node *regmap_node;
- 	const __be32 *addr;
-@@ -402,8 +403,11 @@ static int pm8941_pwrkey_probe(struct platform_device *pdev)
- 		}
- 	}
- 
-+	wakeup = pwrkey->data->wakeup_source_default ||
-+		of_property_read_bool(pdev->dev.of_node, "wakeup-source");
-+
- 	platform_set_drvdata(pdev, pwrkey);
--	device_init_wakeup(&pdev->dev, 1);
-+	device_init_wakeup(&pdev->dev, wakeup);
- 
- 	return 0;
- }
-@@ -424,6 +428,7 @@ static const struct pm8941_data pwrkey_data = {
- 	.supports_ps_hold_poff_config = true,
- 	.supports_debounce_config = true,
- 	.has_pon_pbs = false,
-+	.wakeup_source_default = true,
- };
- 
- static const struct pm8941_data resin_data = {
-@@ -434,6 +439,7 @@ static const struct pm8941_data resin_data = {
- 	.supports_ps_hold_poff_config = true,
- 	.supports_debounce_config = true,
- 	.has_pon_pbs = false,
-+	.wakeup_source_default = false,
- };
- 
- static const struct pm8941_data pon_gen3_pwrkey_data = {
-@@ -443,6 +449,7 @@ static const struct pm8941_data pon_gen3_pwrkey_data = {
- 	.supports_ps_hold_poff_config = false,
- 	.supports_debounce_config = false,
- 	.has_pon_pbs = true,
-+	.wakeup_source_default = true,
- };
- 
- static const struct pm8941_data pon_gen3_resin_data = {
-@@ -452,6 +459,7 @@ static const struct pm8941_data pon_gen3_resin_data = {
- 	.supports_ps_hold_poff_config = false,
- 	.supports_debounce_config = false,
- 	.has_pon_pbs = true,
-+	.wakeup_source_default = false,
- };
- 
- static const struct of_device_id pm8941_pwr_key_id_table[] = {
-
--- 
-2.51.0
-
+Best regards,
+Krzysztof
 
