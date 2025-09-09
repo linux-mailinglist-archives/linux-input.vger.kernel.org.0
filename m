@@ -1,222 +1,134 @@
-Return-Path: <linux-input+bounces-14573-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14574-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BAFCB5005B
-	for <lists+linux-input@lfdr.de>; Tue,  9 Sep 2025 16:56:34 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 34A6EB508D6
+	for <lists+linux-input@lfdr.de>; Wed, 10 Sep 2025 00:24:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id BB0237B61DB
-	for <lists+linux-input@lfdr.de>; Tue,  9 Sep 2025 14:54:29 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E2D344E7D43
+	for <lists+linux-input@lfdr.de>; Tue,  9 Sep 2025 22:23:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 52F2D350D5B;
-	Tue,  9 Sep 2025 14:55:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CB26726F299;
+	Tue,  9 Sep 2025 22:23:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="UIRRQXuL"
+	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="H0KM1Mr5"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-4322.protonmail.ch (mail-4322.protonmail.ch [185.70.43.22])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24CF534AB11
-	for <linux-input@vger.kernel.org>; Tue,  9 Sep 2025 14:55:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52731263F44
+	for <linux-input@vger.kernel.org>; Tue,  9 Sep 2025 22:23:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757429723; cv=none; b=iwEIBOLKL3RVvaSGymRamHcGPM/bLkpkRM2HD89faSO0Z8OeLxaPrUi8R8+fufOS4WH2vwErhhcPvsJw7cie0CBuHmCCwqWg5p+jsGbQxRXMKY9IzA04Abdjy/PIy0dYKUM42lNlZ27TNech8HAJWgo9rkVzBRWC9P6kGnBogG4=
+	t=1757456628; cv=none; b=IN8TKDVMUXL++ybC9vvUXQ5HY1gO7R1bXhgyd05f3CqfH+zGe1MvQ1RgfQFvWy0pmzjFarn3GrFz3bMpRQFQ0GIvwoqNafT4yMafrAJgiyK2ZkzSWPIaSHG/7nDLB2j2R5FVerVqBC7Sw0+gl2rLmzQii2KOQ21cBfN2tstgmLI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757429723; c=relaxed/simple;
-	bh=bsgY7rh+gKwr5R/hRyfwd6HenoPcPxCKRtCRo0sUJEA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=R8xtEkeKaKgrzDGpLRJV1jctF1WvQ2EwDE0lua6nlVCdo85RkxsFo+qsILiOgc3LF4WKf580VMS2I/W1VtaywzDeiK97YS1FNylQNp/Hr86INP0Z/+lYK4i8f9B4qnZX67JRByOxhtUclVAi59sNroU56redTQaGBTubUy2KnSc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=UIRRQXuL; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-45b9853e630so53010265e9.0
-        for <linux-input@vger.kernel.org>; Tue, 09 Sep 2025 07:55:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1757429719; x=1758034519; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:from:references:cc:to:subject:reply-to:user-agent
-         :mime-version:date:message-id:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=kh6sICtpOni7pPHKwy0WScwpr7pBDIpBX8GW9PQZ/sU=;
-        b=UIRRQXuL9wQLBGLSUR+My4eFSRU/6nlGfVjTZYzPi4kBt5Z1/IF3+2hrIek/QmqIqY
-         Ie4dOcjzFXDHQz+7pWXdaq+ooNgRSb4qp7K9eOI55/cfanrAifPPJFK62XmJUG+MY0Zx
-         VNZnlcp18wD41JGADESJ9Hd3CPr1ldMAHKEab3Mirht2mbBFPqQHIuXa9wOjwKwFPdKN
-         BADYACdeHnj2DkKhfswutgQtPaQTV/hftPSDZihCML9YnYU6cnqK6Q5HFCdxqH2Nim2k
-         MAc/yEpVXGZ84T0ZpWvi6JrUb7eQvwwqNkoz54UokePwilmB1Vh1lzL/ltKoopFw9zlD
-         DJ4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757429719; x=1758034519;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:from:references:cc:to:subject:reply-to:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=kh6sICtpOni7pPHKwy0WScwpr7pBDIpBX8GW9PQZ/sU=;
-        b=KW0DK92+9BY+lSpY1/yRFd4AjWv5sqOEQUhvxB8tuOG51noNBFQalpUY4y5TESa0bC
-         wCOTt/YmJKAtJd5Krs+X3I11rOt46JtZGeB9jGBnllXDfc/ce/igbL5UEpMd0DAo2cJU
-         32n0zssNshB+93B7/OHjUi4Sj0jsYrU9qHTkwP6NFEpmmick6EsYLjP5JFnqGrrxh7m1
-         5ORr9iyLkskJQJcZzffxmRK4qe1grXAwN1YW7OpxCILymUBm4gSByIlb+7arWFMgpklk
-         ySwMy/ypmiuDmIo3s1ZUs/zSx9xR0OTdsyYfy30B8K/EXA5amH+rFNXebjOuPwkQaoqX
-         Mr8Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWPGu1Xk6pblF+Utb0usAVtV6S0l4f3kds6zoftiCSaxlKkSOMliNXhYAazFqNe8vr8B+ZtL7sfeghhDQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyZ2g0UA/d/4Gwt6oXuQ/K4Jf4ThfppSF4F8O9akwBEWBgSk3YG
-	ZjVsskwxfnaQpM04YobWss3rBab+s+x+pzeUk0LQ3WiCJwyIGitr9Kv9ha1aypZy/Sg=
-X-Gm-Gg: ASbGncudB6eOsDoud0p5LMO58OzRzDnS8lr+mvAlgP5P1exZwHX4XKc4PrIy1r4hO+h
-	ZGnU2S0NPaWGq6WwGdGAF5oT1Tufv7YK6rd3X8RJN9fU3E1echFHr4B/JPza54E1OSJJZRyAuA4
-	K/DO8Yt1XKAr+QGr9Bxfti+niYrphKl3TCU9i9InRYOX5etObYVSODSCqF/RGks/0UBqao5s7Tf
-	UNk9+eKmrlHmIF+diGi/wXWtU4AneR+ewlXlgml67sOAJA29EHeXQup4dP55XEBlRLxQL4rKtRb
-	EUAuIvIp++h+H+ZY6Z45cPZDot3oRBhoGcRub05VwwwYVZJRVkk4XkhEOpFbcYjoyAZcDs+Ukc7
-	e4TKuhbFvmx+ellVL6cvu7NQukbLZYWbEGarhf7h65KIX7ArXppwcMUgQdAXlhN0Ymf0NrtmQ
-X-Google-Smtp-Source: AGHT+IHF//r0eZuOxdds4J0jqsyuvOe+I50SRonaJrToZTRbRRX30MnSgC/CHqLYpSg+fAK78OdeXg==
-X-Received: by 2002:a05:600c:6289:b0:45d:d1b0:5fa2 with SMTP id 5b1f17b1804b1-45dddecf665mr106302705e9.19.1757429719382;
-        Tue, 09 Sep 2025 07:55:19 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:3d9:2080:25ab:4e12:265b:4b6? ([2a01:e0a:3d9:2080:25ab:4e12:265b:4b6])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45deff68b43sm12681405e9.2.2025.09.09.07.55.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 09 Sep 2025 07:55:19 -0700 (PDT)
-Message-ID: <f865aee6-b9c9-432f-9db1-1ee9576ced98@linaro.org>
-Date: Tue, 9 Sep 2025 16:55:17 +0200
+	s=arc-20240116; t=1757456628; c=relaxed/simple;
+	bh=AHI2DhsoWhw5e+hheRckgEVJS7ZKwtGu19y/nsU0NPI=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=HRceuVDJ2+70ms5KNrNTpRkItwDxgGnAD8pSHP+KSvKIDRXllteJlP8hzxbKC8HXAoVrg/ZB4NqFovUwkLL+B1EzQWw+rAwf8/pWZGXH4aAwSVJ5LF7Rz+62XVlv095VoKDBguheT0VZPyMFB61GlZ7rBfAl+QowPyN2W6bMG2I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com; spf=pass smtp.mailfrom=protonmail.com; dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b=H0KM1Mr5; arc=none smtp.client-ip=185.70.43.22
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonmail.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
+	s=protonmail3; t=1757456624; x=1757715824;
+	bh=0bVk7lVxrH4dY/IaAvQnWMgUbAA6DzhY6yfzh+EgDPs=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=H0KM1Mr51cjny2aoFhz+iumpIM6INreUpUQZoCI0hURCnjUUuRuJxcPylMqJdVV5a
+	 K7vUUbTIhk77YMbW8KemRueb+Ye/y4+VOQvuxSbFlsf1Lj08prWbD8lS+ubPjEPMiC
+	 +sdBpGgfolTvsH8OgjNBNWZfBIn+SHG2T8q324BO8PSC9Zcd0D5sZ3ucfDQwMPsUmX
+	 l1Azg7qgQqbW3hUTtCNGjjvZ3yt63dqBY3gS9oJ0LerNQD0oQmGlxH94RZIkGBvsZI
+	 e2fPthJKd1lmurDYZ5rikp+JD31z1vTJ3yuDXIfUJe4ZKMmMl4l4qlY69v0M7cmv5r
+	 hjnWU7mpoetOw==
+Date: Tue, 09 Sep 2025 22:23:40 +0000
+To: Stuart <stuart.a.hayhurst@gmail.com>
+From: Mavroudis Chatzilazaridis <mavchatz@protonmail.com>
+Cc: jikos@kernel.org, linux-input@vger.kernel.org, benjamin.tissoires@redhat.com, hadess@hadess.net, lains@riseup.net
+Subject: Re: [PATCH v4] HID: logitech-dj: Add support for a new lightspeed receiver iteration
+Message-ID: <cc2e6e2d-1b42-444a-9f8e-153fa898be44@protonmail.com>
+In-Reply-To: <CALTg27mj+XcOmnMcH8vo5Bos+HxoWes-XW1eqfKDjnj5uqCc5w@mail.gmail.com>
+References: <20250902184128.4100275-1-mavchatz@protonmail.com> <CALTg27=fZ+_2b2AXmKk5UcZG_2-zm2XP3+xzbSUrWdahD7ShaA@mail.gmail.com> <20d3b05b-dbe0-4802-b724-fe4ab5e279d6@protonmail.com> <CALTg27=Q6a2yJK6y3MUSzngsbnpXhv6vwtS_Y-t0LaKg1kK7Ag@mail.gmail.com> <f92cda21-12d2-4e4d-ae84-666c6f8dce77@protonmail.com> <CALTg27=vaZK6ksriDDoN71pqr0VEbvxAz7Dp1w1toG+tO71Ldg@mail.gmail.com> <12899c24-a16f-4d64-bc40-a06b4c5c3e6f@protonmail.com> <CALTg27=uP+jCU7oog41GiZrw7LX_mSfrQtKbDW+xpAHzN7_6cQ@mail.gmail.com> <93bf9cfc-29ca-40e4-baef-47c5bd0e9cee@protonmail.com> <CALTg27mj+XcOmnMcH8vo5Bos+HxoWes-XW1eqfKDjnj5uqCc5w@mail.gmail.com>
+Feedback-ID: 20039310:user:proton
+X-Pm-Message-ID: 65e404b6906c6563c627f71f87e479cd0131aec8
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH 2/2] Input: pm8941-pwrkey - Disable wakeup for resin by
- default
-To: Luca Weiss <luca@lucaweiss.eu>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Courtney Cavin <courtney.cavin@sonymobile.com>,
- Vinod Koul <vkoul@kernel.org>
-Cc: Bhushan Shah <bshah@kde.org>, ~postmarketos/upstreaming@lists.sr.ht,
- phone-devel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-input@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20250909-resin-wakeup-v1-0-46159940e02b@lucaweiss.eu>
- <20250909-resin-wakeup-v1-2-46159940e02b@lucaweiss.eu>
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <20250909-resin-wakeup-v1-2-46159940e02b@lucaweiss.eu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On 09/09/2025 15:23, Luca Weiss wrote:
-> 'Resin' (*Res*et *In*put) is usually connected to a volume down button
-> on devices, which is usually not expected to wake up the device from
-> suspend.
-> 
-> On the other hand, pwrkey should keep wakeup on. So do not enable wakeup
-> for resin unless the "wakeup-source" property is specified in
-> devicetree.
-> 
-> Note, that this does change behavior by turning off wakeup by default
-> for 'resin' and requiring a new dt property to be added to turn it on
-> again. But since this is not expected behavior in the first place, and
-> most users will not expect this, I'd argue this change is acceptable.
-> 
-> Signed-off-by: Luca Weiss <luca@lucaweiss.eu>
-> ---
->   drivers/input/misc/pm8941-pwrkey.c | 12 ++++++++++--
->   1 file changed, 10 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/input/misc/pm8941-pwrkey.c b/drivers/input/misc/pm8941-pwrkey.c
-> index d952c16f24582bfc792e335a1fc954919561fa87..53249d2c081fba8b8235393e14736494bf9b238b 100644
-> --- a/drivers/input/misc/pm8941-pwrkey.c
-> +++ b/drivers/input/misc/pm8941-pwrkey.c
-> @@ -60,6 +60,7 @@ struct pm8941_data {
->   	bool		supports_ps_hold_poff_config;
->   	bool		supports_debounce_config;
->   	bool		has_pon_pbs;
-> +	bool		wakeup_source_default;
->   	const char	*name;
->   	const char	*phys;
->   };
-> @@ -245,7 +246,7 @@ static DEFINE_SIMPLE_DEV_PM_OPS(pm8941_pwr_key_pm_ops,
->   static int pm8941_pwrkey_probe(struct platform_device *pdev)
->   {
->   	struct pm8941_pwrkey *pwrkey;
-> -	bool pull_up;
-> +	bool pull_up, wakeup;
->   	struct device *parent;
->   	struct device_node *regmap_node;
->   	const __be32 *addr;
-> @@ -402,8 +403,11 @@ static int pm8941_pwrkey_probe(struct platform_device *pdev)
->   		}
->   	}
->   
-> +	wakeup = pwrkey->data->wakeup_source_default ||
-> +		of_property_read_bool(pdev->dev.of_node, "wakeup-source");
-> +
->   	platform_set_drvdata(pdev, pwrkey);
-> -	device_init_wakeup(&pdev->dev, 1);
-> +	device_init_wakeup(&pdev->dev, wakeup);
->   
->   	return 0;
->   }
-> @@ -424,6 +428,7 @@ static const struct pm8941_data pwrkey_data = {
->   	.supports_ps_hold_poff_config = true,
->   	.supports_debounce_config = true,
->   	.has_pon_pbs = false,
-> +	.wakeup_source_default = true,
->   };
->   
->   static const struct pm8941_data resin_data = {
-> @@ -434,6 +439,7 @@ static const struct pm8941_data resin_data = {
->   	.supports_ps_hold_poff_config = true,
->   	.supports_debounce_config = true,
->   	.has_pon_pbs = false,
-> +	.wakeup_source_default = false,
->   };
->   
->   static const struct pm8941_data pon_gen3_pwrkey_data = {
-> @@ -443,6 +449,7 @@ static const struct pm8941_data pon_gen3_pwrkey_data = {
->   	.supports_ps_hold_poff_config = false,
->   	.supports_debounce_config = false,
->   	.has_pon_pbs = true,
-> +	.wakeup_source_default = true,
->   };
->   
->   static const struct pm8941_data pon_gen3_resin_data = {
-> @@ -452,6 +459,7 @@ static const struct pm8941_data pon_gen3_resin_data = {
->   	.supports_ps_hold_poff_config = false,
->   	.supports_debounce_config = false,
->   	.has_pon_pbs = true,
-> +	.wakeup_source_default = false,
->   };
->   
->   static const struct of_device_id pm8941_pwr_key_id_table[] = {
-> 
+On 2025-09-09 02.59, Stuart wrote:
+> What does logitech-dj do differently to the generic HID driver around the=
+ LEDs?
+> The caps lock LED works perfectly fine with the generic driver.
+>=20
+> If that goes nowhere, surely I could do a packet capture from Linux, with=
+ and
+> without the logitech-dj driver active?
+>=20
+> Stuart
 
-Thanks !
+Since the first diff you tested was supposed to send the exact same=20
+report as the generic hid driver, I incorrectly came to the conclusion=20
+that the Logitech kernel driver must be doing something different.
 
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+Turns out the report ID was being forced to 0 when it should have been 1.
+
+Can you try applying the following?
+
+diff --git a/drivers/hid/hid-logitech-dj.c b/drivers/hid/hid-logitech-dj.c
+index 00a975b70f59..9b3b00d69079 100644
+--- a/drivers/hid/hid-logitech-dj.c
++++ b/drivers/hid/hid-logitech-dj.c
+@@ -78,6 +78,7 @@
+ #define REPORT_TYPE_SYSTEM_CONTROL=09=090x04
+ #define REPORT_TYPE_MEDIA_CENTER=09=090x08
+ #define REPORT_TYPE_LEDS=09=09=090x0E
++#define REPORT_TYPE_LEDS_LIGHTSPEED=09=090x01
+=20
+ /* RF Report types bitfield */
+ #define STD_KEYBOARD=09=09=09=09BIT(1)
+@@ -1455,16 +1456,28 @@ static int logi_dj_ll_raw_request(struct hid_device=
+ *hid,
+ =09=09=09=09count, report_type, reqtype);
+ =09}
+=20
+-=09if (buf[0] !=3D REPORT_TYPE_LEDS)
+-=09=09return -EINVAL;
++=09/* This Lightspeed receiver type uses a different LED report ID */
++=09if (djrcv_dev->type =3D=3D recvr_type_gaming_hidpp_ls_1_3) {
++=09=09if (buf[0] !=3D REPORT_TYPE_LEDS_LIGHTSPEED)
++=09=09=09return -EINVAL;
++=09} else {
++=09=09if (buf[0] !=3D REPORT_TYPE_LEDS)
++=09=09=09return -EINVAL;
++=09}
+=20
+ =09if (djrcv_dev->type !=3D recvr_type_dj && count >=3D 2) {
++=09=09unsigned char reportnum_led =3D 0;
+ =09=09if (!djrcv_dev->keyboard) {
+ =09=09=09hid_warn(hid, "Received REPORT_TYPE_LEDS request before the keybo=
+ard interface was enumerated\n");
+ =09=09=09return 0;
+ =09=09}
++
++=09=09/* This Lightspeed receiver expects LED reports with the ID defined =
+in the HID descriptor */
++=09=09if (djrcv_dev->type =3D=3D recvr_type_gaming_hidpp_ls_1_3)
++=09=09=09reportnum_led =3D reportnum;
++
+ =09=09/* usbhid overrides the report ID and ignores the first byte */
+-=09=09return hid_hw_raw_request(djrcv_dev->keyboard, 0, buf, count,
++=09=09return hid_hw_raw_request(djrcv_dev->keyboard, reportnum_led, buf, c=
+ount,
+ =09=09=09=09=09  report_type, reqtype);
+ =09}
+=20
+
+
 
