@@ -1,99 +1,160 @@
-Return-Path: <linux-input+bounces-14577-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14578-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id C85A3B50BAA
-	for <lists+linux-input@lfdr.de>; Wed, 10 Sep 2025 04:49:01 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id D51C5B50D8F
+	for <lists+linux-input@lfdr.de>; Wed, 10 Sep 2025 07:53:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D19911C6406C
-	for <lists+linux-input@lfdr.de>; Wed, 10 Sep 2025 02:48:59 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 86DAF5E0C90
+	for <lists+linux-input@lfdr.de>; Wed, 10 Sep 2025 05:53:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A170D29D275;
-	Wed, 10 Sep 2025 02:44:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD73A26C3BD;
+	Wed, 10 Sep 2025 05:53:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Z0Dn8VaB"
+	dkim=pass (2048-bit key) header.d=ewhac.org header.i=@ewhac.org header.b="XfhtR+JW"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from crocodile.elm.relay.mailchannels.net (crocodile.elm.relay.mailchannels.net [23.83.212.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02CCF29BDB9
-	for <linux-input@vger.kernel.org>; Wed, 10 Sep 2025 02:44:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757472259; cv=none; b=nE/gA252Amot0TXr4EsCmy0INHyWNBkzKCCdlwtEwHpDvW3GspnF0+wEOke+CUVkPgxW8AxV8t7mLfGJ91Qvh0KkTyhzFvTbtoAbjAbUKYzkhotBaGWXHoIkcoCwk5Md7W+mjRxehRvfTrZJn3bNKT0+db2QmAZcw7fn5YO8IHk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757472259; c=relaxed/simple;
-	bh=6OcQVYeGOU4WgFTRHis1wqwEDWB+0SczE+BppMdgfBY=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=KZQD4XVi5e0L+zfn1aBYe1j7Be3zhQT1rj80BEV/lnpBJCMBJ6WjaxoHowF/VCzf7maJb/o16HVRb1PZpBEuCWec4NRKgL7TUnkPjuaD0rLpjl1P3wwgl5lvAeGwcMMQnrhrEyFNePJXi3QBBD5Xe4W6kB4/aYWBh6vIOreOzL8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Z0Dn8VaB; arc=none smtp.client-ip=209.85.218.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-b07883a5feeso44540666b.1
-        for <linux-input@vger.kernel.org>; Tue, 09 Sep 2025 19:44:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757472255; x=1758077055; darn=vger.kernel.org;
-        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=6OcQVYeGOU4WgFTRHis1wqwEDWB+0SczE+BppMdgfBY=;
-        b=Z0Dn8VaB04C5exkSI2u2OBcbM37wA282UyO4pzuUeEzoiutfG8yMmIthRg5IpHi+p7
-         l/ILwO8+7sn0WE0qamfA3tXkBY8mA4d7kKnKRc+tX5eivsifO7KX6UBrV2fQiXTfUi3E
-         LO8Wqn5yyLBl6SkskN2HoW5bOoIhKMaslWUBvgOaj8+uoV73F2WzAMZjMBUQNlc4iWmM
-         aZ9bKhdmQX0CI8xCaHRR8M7HiCtuEFRWM2mUm/LqiowV2Q60zXQffpEK3yKN3NL5TB9U
-         gmHu3twzcuMbZdE26msJ8/768UyFr/Rdu3NJmfWXGmUQx8UKFXEKXIWjHI9p1Rv8009a
-         8pnA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757472255; x=1758077055;
-        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=6OcQVYeGOU4WgFTRHis1wqwEDWB+0SczE+BppMdgfBY=;
-        b=fDP2d0W+msp3Sd0KjL64itnWI4Po86I/oYsxMbDjF8Nk/qBNyoiFUpTk2jz0C5Jioj
-         NDfbV11DxkpoOCc0rpqg/4ovh5sLdU2/GeWh6eGDt7x/WCmZbuc2fMuSh0iJ9cDZCD8K
-         NPleduoCNU5b3DYhwGeTREk+kYtuGBirfOhMbbv6iMuRBaa8ekRYySEQPTBXJWJah3Fk
-         GqyBSUAuIObcsM1Pmd/2QNC/VCMxOiECeyCey04adiAPZ6JKReCXvkpn6RRJVlRtZ7AG
-         lB1s9IyR8NcckbdpI2ISsOGA/YT7IeO60ywz6+ZpHrHFvod5ma1GH9xNq+5ok/XCQF6r
-         pn8A==
-X-Forwarded-Encrypted: i=1; AJvYcCULYheSUT6eIOHkTe1q3bWsHJEhgIXgHFrpAqDMVALcS+6Iq9b+5C96DjJGMeEDc/54QjY7nS+C1In8rA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxseVi2uTKr3Kgsi8J5hsrNRgR/8V/H828hmh5YvdhWF2A3f9lH
-	mFzaK/uS2C4uOCb6DYiGhHdXrdgDabKKVjvVMudzD5TyvFor2rD1qXdOIQbUveNSikA7O2MtQOU
-	R0TVo9jRAKkQBoawMbHwfqNmHPDEkVRm2my/l
-X-Gm-Gg: ASbGncsP4NgGqlWyvVMsNSvmgZfgNraAy1uaCyQt02/IP/tilpG8yYH7ztwx87nOk/0
-	cYLXLewTFq2YvLEVIqbj7y3kEOeRyz8RGyQk78UUWs7Esy4rUy5gfv4JN+QF9xcgsQwUGYzaNT3
-	0mO/AEKV1UA26M1jLyh7pOo2X/Ox3TL5HmZISRItiarBwR6DIOJ7pT/giM9F41NvSrqhzcjcWbf
-	r5ln1lQA5b2CCJh9d6mB+yr5WbTWiKFYdjOTb4D
-X-Google-Smtp-Source: AGHT+IF6fAD/rV9wjx9Mj5C2ks8qonhKxbMkOy2fbxMNjmT3YDgwelZhmuL0MOYN70gg2y71L6BGXAJ+7erUrUcEjU0=
-X-Received: by 2002:a17:906:fe0c:b0:b04:7708:ee36 with SMTP id
- a640c23a62f3a-b04b13c8c2dmr1344320366b.9.1757472255246; Tue, 09 Sep 2025
- 19:44:15 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62FDC3C0C;
+	Wed, 10 Sep 2025 05:52:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=23.83.212.45
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1757483580; cv=pass; b=sfMxR37R8PjRCm4n1vOOIWzyhZ/EnwcvCSVcgVFDC283NwLAkaleKfPoCkLEaDWMqT6d9hMrBg5l+3lyHcaDHfo/9i3bSL+3RFz4LH644lRj5UyMoPAzi0GYLtfBuhlQubVjmTh2Z5NR/LABvK+Ci3eP9B/z0T0fZ71vfPS08+Q=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1757483580; c=relaxed/simple;
+	bh=RGl+S4e3Sf59k/NMAVgiuE27wL1Jbzn+nFNQSJFWRi4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LvFuoxGrW5e5+iGQJJNSKh4dmALlfFlAiZ+ua+B5+sp8zD0rFV8hHPBwvdHe0MU7vTht3jD9BrZVtEdKEIbJQ8mkYbNYjP2xHHG3yP6decWwj6bOmv1UG8zCBLfWwIShRBq5bfD/2EDPstosyIsfF0jiDfNTYq0LvPi2v2mqgL4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ewhac.org; spf=pass smtp.mailfrom=ewhac.org; dkim=pass (2048-bit key) header.d=ewhac.org header.i=@ewhac.org header.b=XfhtR+JW; arc=pass smtp.client-ip=23.83.212.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ewhac.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ewhac.org
+X-Sender-Id: dreamhost|x-authsender|ewhac@ewhac.org
+Received: from relay.mailchannels.net (localhost [127.0.0.1])
+	by relay.mailchannels.net (Postfix) with ESMTP id 358888323B;
+	Wed, 10 Sep 2025 05:52:51 +0000 (UTC)
+Received: from pdx1-sub0-mail-a248.dreamhost.com (100-107-18-138.trex-nlb.outbound.svc.cluster.local [100.107.18.138])
+	(Authenticated sender: dreamhost)
+	by relay.mailchannels.net (Postfix) with ESMTPA id B7187830D4;
+	Wed, 10 Sep 2025 05:52:50 +0000 (UTC)
+ARC-Seal: i=1; s=arc-2022; d=mailchannels.net; t=1757483570; a=rsa-sha256;
+	cv=none;
+	b=ELTnCaWECI08UinxZrhEIqktqbe0zHi6frVPpCWEYbv1ioNTfdBuTJu8whHH8T+SrFs8kR
+	EhJG73aeBEudw7VbUyxIpuKX5cIa71bod4ExQEZQypSyWOmngQAyadmgvzMeXyVgqQWEnO
+	j92YZT3Y2qBryb9tCEo40q8oEJJiD7h1SQ/IS1PgvdhNHRKA+uTL6reN7EUAmwgXeJlKWl
+	WAJj2Yo4jh/g6fiSoj6bhoNb5j6uMs4I6GvEHIe/E3AlLAZyJgPNxlnGFHEbcPF3ltmQij
+	PLH9D75YwmLYu06FPbGpHO+6Y/GPoj7mNIWOQjbjpk1OzvJxTKdLc/kXMhyjkQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mailchannels.net;
+	s=arc-2022; t=1757483570;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references:dkim-signature;
+	bh=JjwWwiTcFv0mCbP4562f/VlNggPq6mIy4JQda6A9OR4=;
+	b=KV4q07gev/bLycWz7IcEhHSfueQjrXMFiFxoW10e7O2W/OEpbOf/3PAVl5tRlPzsOG6kmU
+	gNzEAh70I4NtlnlLjKWNGQ7bose+oEKNnWM5lB4HS5H/dVRA4sRNouw/Y2N9PPKKOx5TKW
+	uKfDqsUexNy8H2BXc4IzjkhHftyx2q2HhrN02YYeWj/fVFVVHldPdHY+SeAQ3dOxGz+oS4
+	om8TKms1Lhofv7LLGDB9/QGFFxc2r+lzsZC2NknoZIMwD/hBzl0NdnlWHVQ3LnSa/kT+Yw
+	ombsXp2A2Eg3t+fWPQwSYpxQVXRbjkLFrtqZPBha5qQUyGgz3hoYCUtGR2LhTA==
+ARC-Authentication-Results: i=1;
+	rspamd-54bcd779b6-5vnl9;
+	auth=pass smtp.auth=dreamhost smtp.mailfrom=ewhac@ewhac.org
+X-Sender-Id: dreamhost|x-authsender|ewhac@ewhac.org
+X-MC-Relay: Neutral
+X-MailChannels-SenderId: dreamhost|x-authsender|ewhac@ewhac.org
+X-MailChannels-Auth-Id: dreamhost
+X-Exultant-Tart: 6f629f33048cc96a_1757483571021_433849618
+X-MC-Loop-Signature: 1757483571021:2091576281
+X-MC-Ingress-Time: 1757483571021
+Received: from pdx1-sub0-mail-a248.dreamhost.com (pop.dreamhost.com
+ [64.90.62.162])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
+	by 100.107.18.138 (trex/7.1.3);
+	Wed, 10 Sep 2025 05:52:51 +0000
+Received: from ewhac.org (unknown [135.180.175.143])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: ewhac@ewhac.org)
+	by pdx1-sub0-mail-a248.dreamhost.com (Postfix) with ESMTPSA id 4cM8wy3wRZzGs;
+	Tue,  9 Sep 2025 22:52:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ewhac.org;
+	s=dreamhost; t=1757483570;
+	bh=JjwWwiTcFv0mCbP4562f/VlNggPq6mIy4JQda6A9OR4=;
+	h=Date:From:To:Cc:Subject:Content-Type;
+	b=XfhtR+JWZn8I3zjg3HA1OGmVy5/FJZ3h4tQAjfe234RQl0KaivJUCh4FjrVgz5Jyb
+	 j+dnFKfQoYIkostF4To6hylvyAhvA3jAf31+sDcNxkI6YeJ02Wj3iO2aUPwwsNnkTU
+	 q8yO2ebQuxhVy0bOtKTNcA5O2sMp3IxTyAMmG8qz3btPclT5xaEoXCyCDrfC/mw5Fn
+	 aBQizNfaqglertrbUfMLqO07hvzJnPRkn/cL8TU1Q+360hS5bXzsFOcHevox+r23MG
+	 WG1jJbMGpMuE65FahonUbmlZjg+/BLcSu45JarQA2KJP+tRsLddTvebjPT9uVSPAF1
+	 KenW1bOSMsgxg==
+Received: from ewhac by walkies with local (Exim 4.98.2)
+	(envelope-from <ewhac@ewhac.org>)
+	id 1uwDlB-00000001T2X-3yO5;
+	Tue, 09 Sep 2025 22:52:49 -0700
+Date: Tue, 9 Sep 2025 22:52:49 -0700
+From: "Leo L. Schwab" <ewhac@ewhac.org>
+To: Hans de Goede <hansg@kernel.org>
+Cc: Kate Hsuan <hpa@redhat.com>, Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] HID: lg-g15 - Add support for Logitech G13.
+Message-ID: <aMESMcFLrzqrCdbq@ewhac.org>
+References: <20250814212641.197573-2-ewhac@ewhac.org>
+ <7d356834-5795-4979-9f51-0ffcec52ae1d@kernel.org>
+ <aLSntMknSv3lMarZ@ewhac.org>
+ <8ae2cc92-5dfe-466d-95fd-da74309d7244@kernel.org>
+ <2de88077-eb8d-44ad-a96a-5db889913cba@kernel.org>
+ <aLiZbkKgIC8jIqE9@ewhac.org>
+ <c12adb45-fa6d-4bb8-afd2-a02e3026d646@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: "Raf D'Halleweyn" <noduck@gmail.com>
-Date: Tue, 9 Sep 2025 22:44:03 -0400
-X-Gm-Features: Ac12FXxv2Appcsh3B37TH74ZVi_2Eth1EkUuiyekWRwvJKtAlj5j77hDVy7YLlo
-Message-ID: <CAHXQQi+6hS+8knAmQH0Trsbym_t9z-qiJTEEVh6Z8O8pCK7fGA@mail.gmail.com>
-Subject: 
-To: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, linux-input@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <c12adb45-fa6d-4bb8-afd2-a02e3026d646@kernel.org>
 
-Hi,
+On Mon, Sep 08, 2025 at 11:08:29PM +0200, Hans de Goede wrote:
+> There are 2 improvements which I would like to see:
+> 
+> 1. When the backlight is turned on through the button, you
+> should pass g15_led->brightness to the notify() call rather
+> then LED_FULL. GNOME will show an OSD with the new brightness
+> value shown as a mini progress bar similar to how it shows
+> speaker volume when doing mute/unmute. This mini progress
+> bar should show the actual brightness being restored, not
+> always full brightness.
+>
+	If g15_led->brightness is subsequently changed, should a new
+notify() call also be made with that new brightness, i.e. should
+`hw_brightness_changed` be made to track `brightness`?  Indeed, it looks
+like you do this in `lg_g15_leds_changed_work()`.
 
-I think there may be a bug in the 6.17 RC versions of hid_multitouch
-when used for the touchpad on a Dell XPS 9310. The touchpad will
-frequently get stuck in scroll mode. The touchpad works normal on
-6.16.
+> 2. ATM if the backlight is turned off on the G13 when
+> the driver loads and then one of the buttons gets pressed
+> then a notify() will happen because the led_cdev.hw_brightness_changed
+> value of -1 will be different from the value of 0 in the
+> input-report. This notify will lead to an unwanted OSD
+> notification in GNOME, so this needs to be fixed.
+> IMHO the best fix would be to use:
+> 
+> 	hid_hw_raw_request(..., HID_INPUT_REPORT, HID_REQ_GET_REPORT);
+> 
+> at probe to get the input-report so that the driver will
+> actually now the backlight state at probe() time without
+> needing to wait for the first time the input-report is send.
+>
+	Will give this a try.
 
-I don't see anything in the kernel logs to suggest any malfunction. I
-reviewed the RC changes for hid_multitouch and did not see anything
-obvious (maybe the bug is somewhere else?).
+> I'll wait for your G13 support to land first and then
+> rebase the G510 patch on top.
+> 
+	Roger that.
 
-Let me know what information I can provide, or test to perform.
-
-Thanks,
-
-Raf
+					Schwab
 
