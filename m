@@ -1,157 +1,173 @@
-Return-Path: <linux-input+bounces-14597-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14598-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37B65B51CE3
-	for <lists+linux-input@lfdr.de>; Wed, 10 Sep 2025 18:04:27 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 066DAB51FF0
+	for <lists+linux-input@lfdr.de>; Wed, 10 Sep 2025 20:10:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 67D7B1C8736C
-	for <lists+linux-input@lfdr.de>; Wed, 10 Sep 2025 16:04:48 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2D4FD17366E
+	for <lists+linux-input@lfdr.de>; Wed, 10 Sep 2025 18:10:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E7A12335BB8;
-	Wed, 10 Sep 2025 16:02:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 37B0A33CEB5;
+	Wed, 10 Sep 2025 18:10:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=ariel.dalessandro@collabora.com header.b="NNi7LZBV"
+	dkim=pass (2048-bit key) header.d=ewhac.org header.i=@ewhac.org header.b="gjbdhntV"
 X-Original-To: linux-input@vger.kernel.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+Received: from buffalo.tulip.relay.mailchannels.net (buffalo.tulip.relay.mailchannels.net [23.83.218.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D14EE321F3B;
-	Wed, 10 Sep 2025 16:02:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D101433CE8F;
+	Wed, 10 Sep 2025 18:10:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=23.83.218.24
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757520152; cv=pass; b=pniU4QJiKCp8YIL5pb8RETbUPaYx7fRMNxoEqfBfoKR2wtKWkPb9l4w5daxJt3j9vjBEMtG+438KbVCbGZwSyclJ/dGP7Tpt94SxCRXirJwX5iVfd9/N1pOg5HMArQczlZcwDe28w+zmtXzb3NBZLZySvrYoFeRrtNOv6VuFuUw=
+	t=1757527806; cv=pass; b=a7lPO2MjvdMqweZ1aj9ieptK0VpXXlOdZuzMLNhfAhwumlVBFh/n4P33rJtI/mUfjBd6RkPwR3YrtsHiUSlyvYMlOJTXP1afjEica/BHZ12YvkdSxbouuWj32yC1SYhKlS/PHQHoNJHJHeUCJ6aYyUOBWysrBZKncLlcdLV1tjo=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757520152; c=relaxed/simple;
-	bh=VBGasfSXDfmNknPuWb239zD2FB/oTXbNwUswyjyWCcg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=u00B4tX+ycayT6qOVnzzWHlPE89lIJ3vBQyvYIcsNw3IpaIV8AZ4hlMWPCmdVaW5fXpJ2u60sD+n46/ae1OADd4+apSnJnpgvT0IFUvqfc+yC/Hzz/gC8HFDjTKd9R6xs3i403vvVjVrItj3sO+w5H2WPuir0j8NqtrxeYKABFI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=ariel.dalessandro@collabora.com header.b=NNi7LZBV; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1757520086; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=R5DDqmabhsADtMQCa2PEdFT6F6wXS9UD/gGmpLywYcPrMKfhq88xNdBkGb8waBzjsKLkauIkTZ7z1RrkRmx77yxGkMbmt4pn6EQY273AbNRYhBkKrWQsQCCodV5fCFt+Cj1jRCQZhj/po422gXn04MM32CEJaiiCea5eXeOEiD0=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1757520086; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=VwPPYJTQ/XXwyamtgAxlZ1NzteBcBgnI+IIDSuPw/fU=; 
-	b=R1Oct9/K0pgrsE6ekil11c92iYphWLbg1NfznTSVdecOiUThXFJD1HAwSAGsj1jCTP4WnUmmCJzdJmNTcxwzCvtPBuwMVx9tq3arn6K65HuQ6uowbNLYIFAbsWPnMc5xk99S9/1Prfjkr5wM34P6crUTigUGLLtUVHH32uXx5Zw=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=ariel.dalessandro@collabora.com;
-	dmarc=pass header.from=<ariel.dalessandro@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1757520085;
-	s=zohomail; d=collabora.com; i=ariel.dalessandro@collabora.com;
-	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=VwPPYJTQ/XXwyamtgAxlZ1NzteBcBgnI+IIDSuPw/fU=;
-	b=NNi7LZBVPN/l/xAW+MYrNHuVhd3P5biETVJMrjrMGhoO7Szh7a/eXWCGKVyejaWg
-	AUU46rWM9rcHy4fqDfkLmO5jQ3oCB1ppq9L7YS+VbG/zh9hiHS+HkbgMig99r/4Z2TX
-	wYz1HTF4q2uewOLrLqy2+D5+3paLJyIyf7EEXJJk=
-Received: by mx.zohomail.com with SMTPS id 1757520082828908.8305273727573;
-	Wed, 10 Sep 2025 09:01:22 -0700 (PDT)
-Message-ID: <7523752e-eb7b-4211-84f2-33916c39ee2b@collabora.com>
-Date: Wed, 10 Sep 2025 13:01:07 -0300
+	s=arc-20240116; t=1757527806; c=relaxed/simple;
+	bh=NpmxoZsUwey0OacjJGuugIkas5EOtRdIQDdkfaKqVL4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OQnvtKILHp+2lqQzyJRdjIMFczw15Ag3rJROa1UX5VfObiX+eXCsen6KYc0c/GFd7nS8k0j5w4q7/oKA0DQHnSFp3lVedUwqibS/9/MNFda6zZYBzCxw4mrrNi9LwnoXvz3kh/er6fM8XhXIQDI9kKuTrMTj12X4+tf1Y8YMjCo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ewhac.org; spf=pass smtp.mailfrom=ewhac.org; dkim=pass (2048-bit key) header.d=ewhac.org header.i=@ewhac.org header.b=gjbdhntV; arc=pass smtp.client-ip=23.83.218.24
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ewhac.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ewhac.org
+X-Sender-Id: dreamhost|x-authsender|ewhac@ewhac.org
+Received: from relay.mailchannels.net (localhost [127.0.0.1])
+	by relay.mailchannels.net (Postfix) with ESMTP id DF7F41A5F7C;
+	Wed, 10 Sep 2025 18:02:39 +0000 (UTC)
+Received: from pdx1-sub0-mail-a266.dreamhost.com (trex-blue-6.trex.outbound.svc.cluster.local [100.106.206.222])
+	(Authenticated sender: dreamhost)
+	by relay.mailchannels.net (Postfix) with ESMTPA id E82C31A3C3E;
+	Wed, 10 Sep 2025 18:02:24 +0000 (UTC)
+ARC-Seal: i=1; s=arc-2022; d=mailchannels.net; t=1757527345; a=rsa-sha256;
+	cv=none;
+	b=3na/udicWEp5gUKpNLgTkPRpmOpC8hjQWoF0ql/Z5B+HaGevIk9OOSbATvMgxVoH4uBQpw
+	SW7k8SnoiNUgBBx5hsNFUz1Z0JqALCdyzSRaTkIw6nucFGFjRNYL+wYe59y1IjtH4XxBrT
+	jYOvZSjeTyCAk86HdTZKtg4Ma8wQRIY3INlw1b+EflTFCpBOOTaHOPcFh1sOJnB7LjGrUp
+	NIXLoiF/L+NuEsqvtMLAH4A+T+BdIdb9Y6c8g6ceu/nPX+Ag817l08hentemeMZykqyFcd
+	U0zyHfb0jL3tsYmXnIDe0EEtR1+ZBOaAku7inUHPcnQgmS5TTWb4THMF6AT8Vg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mailchannels.net;
+	s=arc-2022; t=1757527345;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references:dkim-signature;
+	bh=rdO//gZh/FqnBQSLIPJENj9jxfiss6UL2XJZMP1gSY4=;
+	b=0FWg7aJ5SJSPMjodub1v1wqmGv2JhFB1gjztmcBuGb0E+ACWnyyv7leGD0r/vt9CqjJSQQ
+	UG7miislgUR18idAVq9CmVrmKDCBL8+gLtNeRXA9jQlgNDHy6eCCJF5Bh2xAzWB/DH9bWW
+	gXHAKaQdoH3sgIcyXGgEhPwgC9GDTWQ/l1FGgq4stIx0HqdSmYX3Bpiq6zSxH9oYbiJmlD
+	tiYyT2jsGrxMneOU0adEUmaifTcLR7egIxlQop66v2bnFFo88n+60CLd20C7t1cmifz0oF
+	Nju+jI/9bB3B77Y2k0s8qZfgzYB2CAEZq+ME7pKoXy9oOjLyBC+HOCTGKqIrAg==
+ARC-Authentication-Results: i=1;
+	rspamd-7b5fd646f8-v4t85;
+	auth=pass smtp.auth=dreamhost smtp.mailfrom=ewhac@ewhac.org
+X-Sender-Id: dreamhost|x-authsender|ewhac@ewhac.org
+X-MC-Relay: Neutral
+X-MailChannels-SenderId: dreamhost|x-authsender|ewhac@ewhac.org
+X-MailChannels-Auth-Id: dreamhost
+X-Cooperative-Belong: 46441c3237a646d2_1757527345215_3103298589
+X-MC-Loop-Signature: 1757527345215:1549808334
+X-MC-Ingress-Time: 1757527345215
+Received: from pdx1-sub0-mail-a266.dreamhost.com (pop.dreamhost.com
+ [64.90.62.162])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
+	by 100.106.206.222 (trex/7.1.3);
+	Wed, 10 Sep 2025 18:02:25 +0000
+Received: from ewhac.org (unknown [135.180.175.143])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: ewhac@ewhac.org)
+	by pdx1-sub0-mail-a266.dreamhost.com (Postfix) with ESMTPSA id 4cMT6m0RGkz6G;
+	Wed, 10 Sep 2025 11:02:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ewhac.org;
+	s=dreamhost; t=1757527344;
+	bh=rdO//gZh/FqnBQSLIPJENj9jxfiss6UL2XJZMP1gSY4=;
+	h=Date:From:To:Cc:Subject:Content-Type;
+	b=gjbdhntV3M2h5vhT86Bn0eqFmcf2LKDznLqCrSH3XHcsMI+ojQII/ipO6jcFg/ZrV
+	 OafFtj4kh1mRbkRM+V0WEyXS05GcJRIWiOvTMZ1P0mC6gDUTnfwJWBT+bbKMTlag1x
+	 QHseaicJfQw41i2rp3+l0TZjHdhg6kiZvZNmk1ZYI/vKBU/eqaV9WRw6WVw+fcc8VX
+	 Egg80JoQ3uzrqX2m0MGS3PwlQHfldV4BU4wbSShMCjcTIZ5DdSGdk0AelxtPrx7TVs
+	 ikfDkQ2N5b6tQpXXJAgtKD9Sz1bTcB3PI/FA2S3ZOkR1BtjI9of23X9JrtwoGnbTWG
+	 SlgRjyJ6qQJmA==
+Received: from ewhac by walkies with local (Exim 4.98.2)
+	(envelope-from <ewhac@ewhac.org>)
+	id 1uwP9D-00000001WeT-1boW;
+	Wed, 10 Sep 2025 11:02:23 -0700
+Date: Wed, 10 Sep 2025 11:02:23 -0700
+From: "Leo L. Schwab" <ewhac@ewhac.org>
+To: Hans de Goede <hansg@kernel.org>
+Cc: Kate Hsuan <hpa@redhat.com>, Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] HID: lg-g15 - Add support for Logitech G13.
+Message-ID: <aMG9L2566Hh6b0Kf@ewhac.org>
+References: <20250814212641.197573-2-ewhac@ewhac.org>
+ <7d356834-5795-4979-9f51-0ffcec52ae1d@kernel.org>
+ <aLSntMknSv3lMarZ@ewhac.org>
+ <8ae2cc92-5dfe-466d-95fd-da74309d7244@kernel.org>
+ <2de88077-eb8d-44ad-a96a-5db889913cba@kernel.org>
+ <aLiZbkKgIC8jIqE9@ewhac.org>
+ <c12adb45-fa6d-4bb8-afd2-a02e3026d646@kernel.org>
+ <aMESMcFLrzqrCdbq@ewhac.org>
+ <a6ea0b5d-7586-4529-bf91-d8b966aa986e@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 13/14] dt-bindings: input/touchscreen: Convert MELFAS
- MIP4 Touchscreen to YAML
-To: Krzysztof Kozlowski <krzk@kernel.org>,
- Linus Walleij <linus.walleij@linaro.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: airlied@gmail.com, amergnat@baylibre.com, andrew+netdev@lunn.ch,
- andrew-ct.chen@mediatek.com, angelogioacchino.delregno@collabora.com,
- broonie@kernel.org, chunkuang.hu@kernel.org, ck.hu@mediatek.com,
- conor+dt@kernel.org, davem@davemloft.net, edumazet@google.com,
- flora.fu@mediatek.com, houlong.wei@mediatek.com, jeesw@melfas.com,
- jmassot@collabora.com, kernel@collabora.com, krzk+dt@kernel.org,
- kuba@kernel.org, kyrie.wu@mediatek.corp-partner.google.com,
- lgirdwood@gmail.com, louisalexis.eyraud@collabora.com,
- maarten.lankhorst@linux.intel.com, matthias.bgg@gmail.com,
- mchehab@kernel.org, minghsiu.tsai@mediatek.com, mripard@kernel.org,
- p.zabel@pengutronix.de, pabeni@redhat.com, robh@kernel.org,
- sean.wang@kernel.org, simona@ffwll.ch, support.opensource@diasemi.com,
- tiffany.lin@mediatek.com, tzimmermann@suse.de, yunfei.dong@mediatek.com,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
- linux-gpio@vger.kernel.org, linux-input@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-mediatek@lists.infradead.org, linux-sound@vger.kernel.org,
- netdev@vger.kernel.org
-References: <20250820171302.324142-1-ariel.dalessandro@collabora.com>
- <20250820171302.324142-14-ariel.dalessandro@collabora.com>
- <CACRpkdbpKqKyebADj0xPFq3g0biPh-vm4d6C3sd8r0URyfyYRg@mail.gmail.com>
- <caguo7ud4dapb4yupeq2x4ocwoh4dt5nedwjsyuqsaratugcgz@ozajhsqwfzq6>
- <CACRpkdZRHQ6vuchN8x8d0uPCVMPPHOdBVWiUhzFJNs2paHGbYw@mail.gmail.com>
- <f199fc0b-20c0-4c22-b0ed-c508514b60c6@kernel.org>
-Content-Language: en-US
-From: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
-In-Reply-To: <f199fc0b-20c0-4c22-b0ed-c508514b60c6@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a6ea0b5d-7586-4529-bf91-d8b966aa986e@kernel.org>
 
-Krzysztof, all,
-
-On 9/9/25 3:56 AM, Krzysztof Kozlowski wrote:
-> On 05/09/2025 13:33, Linus Walleij wrote:
->> On Fri, Sep 5, 2025 at 12:02 PM Dmitry Torokhov
->> <dmitry.torokhov@gmail.com> wrote:
->>> On Thu, Aug 21, 2025 at 01:56:24PM +0200, Linus Walleij wrote:
->>>> Hi Ariel,
->>>>
->>>> thanks for your patch!
->>>>
->>>> On Wed, Aug 20, 2025 at 7:17 PM Ariel D'Alessandro
->>>> <ariel.dalessandro@collabora.com> wrote:
->>>>
->>>>> +  ce-gpios:
->>>>> +    description: GPIO connected to the CE (chip enable) pin of the chip
->>>>> +    maxItems: 1
->>>>
->>>> Mention that this should always have the flag GPIO_ACTIVE_HIGH
->>>> as this is required by the hardware.
->>>>
->>>> Unfortunately we have no YAML syntax for enforcing flags :/
->>>
->>> Theoretically there can be an inverter on the line, so from the AP point
->>> of view the line is active low while from the peripheral POV the pin is
->>> active high...
->>
->> Yes, I think someone even proposed adding inverters to the
->> device tree and was nixed.
+On Wed, Sep 10, 2025 at 01:09:10PM +0200, Hans de Goede wrote:
+> On 10-Sep-25 7:52 AM, Leo L. Schwab wrote:
+> > On Mon, Sep 08, 2025 at 11:08:29PM +0200, Hans de Goede wrote:
+> >> There are 2 improvements which I would like to see:
+> >>
+> >> 1. When the backlight is turned on through the button, you
+> >> should pass g15_led->brightness to the notify() call rather
+> >> then LED_FULL. GNOME will show an OSD with the new brightness
+> >> value shown as a mini progress bar similar to how it shows
+> >> speaker volume when doing mute/unmute. This mini progress
+> >> bar should show the actual brightness being restored, not
+> >> always full brightness.
+> >>
+> > 	If g15_led->brightness is subsequently changed, should a new
+> > notify() call also be made with that new brightness, i.e. should
+> > `hw_brightness_changed` be made to track `brightness`?
 > 
-> It's not about DT, it's about board design - you can (almost?) always
-> invert the logical signal, so this should match what hardware requires
-> plus any inverter on the board.
-> 
-> 
->>
->> It's a matter of phrasing I would say:
->>
->> "Mention that this should nominally have the flag GPIO_ACTIVE_HIGH
-> 
-> No, please do not, it is wrong. If hardware requires active high, then
-> just say this is active high. But the actual GPIO flag depends on the
-> board design if signal is inverted.
+> No, hw_brightness_changed only track changes done independently
+> by the hw. sysfs writes should not call notify().
+>
+	Erm...  So brightness_hw_changed should only sample
+g15_led->brightness on first probe?
 
-After the discussion from this thread, will mark it a "active high" in 
-the property description for v2.
+	What should happen in this case:
 
-Thanks,
+	* Driver loads, probes G13 backlight's current color, calculates
+	  brightness to be 50, sets both `brightness` and
+	  `brightness_hw_changed` sysfs values to 50.
+	* User presses toggle key; backlight is now off.
+	  `brightness_hw_changed` now set to 0.
+	  `brightness` and RGB values remain unchanged.
+	* User writes to `brightness` sysfs value, setting it to 255.  This
+	  does *not* turn the backlight back on; `hw_brightness_changed`
+	  remains unchanged.
+	* User presses toggle key; backlight is back on, showing the
+	  original color, but brighter.
 
--- 
-Ariel D'Alessandro
-Software Engineer
+	What should brightness_hw_changed be updated to, if anything?
 
-Collabora Ltd.
-Platinum Building, St John's Innovation Park, Cambridge CB4 0DS, UK 
-Registered in England & Wales, no. 5513718
+> >> IMHO the best fix would be to use:
+> >>
+> >> 	hid_hw_raw_request(..., HID_INPUT_REPORT, HID_REQ_GET_REPORT);
+> >> [ ... ]
+> > 
+> > 	Will give this a try.
+> > 
+	Got this part working.
 
+					Schwab
 
