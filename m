@@ -1,136 +1,257 @@
-Return-Path: <linux-input+bounces-14588-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14589-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E242B51941
-	for <lists+linux-input@lfdr.de>; Wed, 10 Sep 2025 16:25:45 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 85216B51AC4
+	for <lists+linux-input@lfdr.de>; Wed, 10 Sep 2025 17:04:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 257993BA152
-	for <lists+linux-input@lfdr.de>; Wed, 10 Sep 2025 14:25:44 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4DECC7BD67E
+	for <lists+linux-input@lfdr.de>; Wed, 10 Sep 2025 14:58:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EA1E31E9B35;
-	Wed, 10 Sep 2025 14:25:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3A63723D7C5;
+	Wed, 10 Sep 2025 14:55:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="RuGxusdt"
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=ariel.dalessandro@collabora.com header.b="KQCrzMj7"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BF08315765
-	for <linux-input@vger.kernel.org>; Wed, 10 Sep 2025 14:25:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757514340; cv=none; b=KrTbOVtKyQYo8QtvhYLtzAqTv48nbtfkDPKTrXYOn931mkqTz0RA7e2QKUk3RDmtrw1n2yeKF2ZYtjB1silAQTrqvqxzvz2bKoXJrGTAlB1eJgPLgSXJI23FhxZdzMZq2a4eRyROivlnwX3UiRjrSCaLiLn0jc8/Nd/bpw54UCM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757514340; c=relaxed/simple;
-	bh=sz91Zloakcli8G5vFjtjjdi2c1ro9ghZGDytEBUH0iw=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version; b=Jm3pJ/Uqt6qOrtOaAHePYNgVT9QOA5gHTU5f6MCEqTYIoXGJL+LJQtv/DvUjjfKlvRBanNdVem+eDLOytdB4dWynHnEViyiNZcdbzlJMvNcnLr6qXAtNrnfMaVFyUywcELC2kLLDBu17JEoYwIOoyDclfUlTVh2XZdqNTOj9SUk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=RuGxusdt; arc=none smtp.client-ip=209.85.218.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-b017e4330c9so78385166b.0
-        for <linux-input@vger.kernel.org>; Wed, 10 Sep 2025 07:25:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1757514337; x=1758119137; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=fiwaU6FIAzKELv4o/QafaY+UUTlkSVnAGn1VPDhP6ws=;
-        b=RuGxusdtOyD5oiZMmhhrbMnQ6/k6KcUou5tyEQeyPAmYn+t0Ut/mt0fO22Ez0dmzrK
-         R9WBGrPMntOwIy2DkAWGKalQt8sdy30Yj+N94jaR50LQjXojwO5A6tVgeetpc/OL+Ilb
-         VVUWSeqH0/rPDGh8XJSDlofkI6F0uwFzXWaGS72k4c1rEOGckiTNphh5AMpgKb/Z8PTy
-         95txuZ+MOORiEIbL9edcvzNG18ncGFELBnTgEdMsIZTK8G3cJTEcS7s8StqISi3ui79C
-         pdqEE7kEl8e2Bm7Cs5KdO1V7I3+huFJOAMzBV+08C99tv2hGZjg4RY9KnLcMiUYdwdiI
-         uvwA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757514337; x=1758119137;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=fiwaU6FIAzKELv4o/QafaY+UUTlkSVnAGn1VPDhP6ws=;
-        b=aGvCWc0HishyosnRZlwKr6Sadvp4tnD7r6MsvSnjnrvAZYobeT7T0idIEhh5EjfYr2
-         tjqLxbXuIu6cvO+9iWekTiv2IPZTxfWiL5L8v9e5KLUnfayBj7GXMnZkxgvNwc+t7z2v
-         EdbeO5/nxsDKmtwvtjKlaH3URiqlc3vlzFtXPTPj1CuP7tuBlxe1NhpKO54aklBnEzWz
-         l+plmFV2Xnr15H5t+MQ2Sbd7TAGpaW9cnXX5zup/eran3kv1CitG7XFHn++2a8oa5BPP
-         tb4qmC3m5EvzjsFr271AwVj/K92zC8ikiiPrqpn20xMkd+KKvCKKwGrgOkfss06gB4tp
-         +WCA==
-X-Forwarded-Encrypted: i=1; AJvYcCUEhW1oxlEMYaTTj2ep7/E8H1nUMROmVU0uMAYIAmwbXB6noLHz6kL+E+dUJhs8JMTJncl/lyrfSvwp7w==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyf8m2umis0BW/BkufJdPACevQPDwzjhPnQiMO89fnM6TWCzQ8X
-	wpzbMZKNf5Uk4mgkeGKHVAhQ6ZL0IacpLjA7Hz8neCM1xH5QDy2GuyqDCWUlQM+L608=
-X-Gm-Gg: ASbGncvwoCcyLIaFQoXs5vSTjAeqVs2u8ZFy9bA1bMP5dVbSVKvj2W5mlacoQMK8t33
-	brw3/Jbk8pQLPwGx5L0fy2yCSxfAG1qbZ8/8+peP367+QRcoSnV0Rejrw1j5BH0TVUfnecG6/NE
-	kzdvlNE8ABCQXGDzT68AUSHxbzyTFdB1GVXcGE48VviybqXIHz1WYrMOGa4DvkuZE5MxSR8qqIf
-	LljspbtxRdKDAQDmyVxo6zaDEsG1F8G9jA/QLIbXQAb0WxbsTD/tT9QvSdkCtn/m7DDW2+JEXdd
-	OtAfI3HTpWVDx5pqI7wSdKgc4S1l+3VoRGBWEDPZOlYfzKqwoa6CVvnvZDT7sZZwrGuofmHKHpv
-	Y1LTPhCb9VK66bq5IW8aCnxBn9qZmtI5UDg==
-X-Google-Smtp-Source: AGHT+IGv1poiX6XMu2CzWbLyyhv3D9ziTLRppA3CCyTGGSqNkx0aCEoiq5MhBrRwBYrVTHIVFPc3GQ==
-X-Received: by 2002:a17:907:3e0f:b0:ad8:a2b3:66fb with SMTP id a640c23a62f3a-b04b140d1b9mr813384066b.3.1757514337318;
-        Wed, 10 Sep 2025 07:25:37 -0700 (PDT)
-Received: from kuoka.. ([178.197.219.123])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b07833a0c94sm179071266b.72.2025.09.10.07.25.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Sep 2025 07:25:36 -0700 (PDT)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] MAINTAINERS: Input: Drop melfas-mip4 section
-Date: Wed, 10 Sep 2025 16:25:27 +0200
-Message-ID: <20250910142526.105286-2-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.48.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3A3819F111;
+	Wed, 10 Sep 2025 14:54:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1757516100; cv=pass; b=M03aX0t+gbDW1bDScqAmlr+cu0HL7OyC7rO2pzt1y8xVD8X670zlGWTxywQ85mVzkbf2YpOGfbnMVd69D2vSgZLpeTyR8Z9gu3X8UekfCm8pk52+S+9sCjIeR5oJU42s4O9MSis/+vifZ+sBOn0Zjgmo8x1JFlICVwzM7KMNO+Y=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1757516100; c=relaxed/simple;
+	bh=b/OUs0/4Iwh0jTReAkuIvxGUsbn/C0Y7jBJ4MpQIXu8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Jlew4KjRszcTIabA/HB/SJkuQLzd25q/q5rWOtPu5NMglEtQm6HyhT4aE5cxrU0tNqfb/by4MzV09qOK2TrpZfPNLFhwuW4J8uFKoGJiZuksUsKnTUFYVZMNte0cqgJV6S5uGsizXur1CVQoFX4+I6nrcDeNK1CoFZ1SufpRSJ8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=ariel.dalessandro@collabora.com header.b=KQCrzMj7; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+ARC-Seal: i=1; a=rsa-sha256; t=1757516039; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=cySHIIHGOlRlLmI8Clj9g4NASUZop+O9QrS+8MOF2YLNmTcuhHKZlqj6Jv8rUd2DuPbZb/YnffF5+QJ4f9ciYW/817EXyvVP3nbo8tGdFmPCnz1Yjgh2NH3vVd+C0iWhqk2KQERVyMmeaBEadFVJiMupazVtaK2g0m5BXD5P4aU=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1757516039; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=zpHcWl3XpbxmTQtYZyhIFwBgYhnEXqkN76+ct9zQsic=; 
+	b=DWzQmQB9i923kc1wLtRSs0mJXECc9DTGPGje4vPcj3T90fTHT6l1WSITKn3EfaNeRiJE2o1zU8RI3+wVBOfGlRKlDouWdwnJnoxUD+1qyVOGSXiQQN62ul4GqExzm3w5WTCukE/ToKRcxU4WAEXfDz4t0HR6y1wxyOUtZ6Jdr0M=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=ariel.dalessandro@collabora.com;
+	dmarc=pass header.from=<ariel.dalessandro@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1757516039;
+	s=zohomail; d=collabora.com; i=ariel.dalessandro@collabora.com;
+	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=zpHcWl3XpbxmTQtYZyhIFwBgYhnEXqkN76+ct9zQsic=;
+	b=KQCrzMj7lQrIfPdvvl5BB41ka4CcnVgyULhxZ7WNqKbdb0jn99L8NCW8TUJ27Z8l
+	RY98XcwJdO3A1TuA/2LA8lxWZbFr+ptDydjCvY1bLkyc8nGHq30FVZOf2ZM2ws7Gl85
+	5UGX5u6XAwxqoc/MvOcVFWQmB7AkhYJkjlWawpgE=
+Received: by mx.zohomail.com with SMTPS id 1757516037104680.5102248497525;
+	Wed, 10 Sep 2025 07:53:57 -0700 (PDT)
+Message-ID: <be01559a-ab26-4631-8b99-07c8cb82e555@collabora.com>
+Date: Wed, 10 Sep 2025 11:53:43 -0300
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=908; i=krzysztof.kozlowski@linaro.org;
- h=from:subject; bh=sz91Zloakcli8G5vFjtjjdi2c1ro9ghZGDytEBUH0iw=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBowYpWVU3H7O6NA0Zkp93/4ehpEU4f7p6wxmOj7
- jsjqHuP9MuJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCaMGKVgAKCRDBN2bmhouD
- 1zQGD/wLvY5yHmTOdi95WNhJOVjmiYcAhRFWok4FRDccCVEp04HTtCTEzf1WENRVPHmOshFW2M3
- GFlPWg9G0JVV8BUgX/joysTtWKf6dHI128M4fSp63JuchwxDdBqTopAnLoFiC1nfoZGz47cvlQD
- GtmY/Zli3725ym8rw41PSVV8KSyVk+seqmQLwtbVpDeVEbkUcopmsYAvETLhvyL+GdanzMj9Plq
- OrJO98Biddq1A9VukCGFvD1eFXsdU0ZXqZYFGa2RGpZ3Hv+qKM3oQ4AruU5ekRCBuS5K1NoTvHA
- 4h1kEtOjfp/A1zVdTxsHOSDAG9AeDCKQbWenExW9euOlmqpcgKm5IwaN6E1IWV38zrK9ZZ5ihpm
- /pLvKShD5Edjqwv3w1WALyyMUIq5l4eMQSLZRdo0Wk1yCFWudewyCAM5v8U+MM5+mitnaWrHSxo
- BD3NwBWCWHcYt1rXWXR31t3GiDC8Xzd5f0AmAYbkHd2t+qGYBjLlDo42cP6x/sMoGUc9OsLdF/Y
- qBQWPlWcBtVlP3+eD45qW9+sQPyFzS0w7Ive6kHb44UBscs7wlNhLEwXMbXAedozPI2hdil+6DE
- H54ZpAVDs7E84OdGgVH63v6kIFoP6jrimVlxsoctyReUHHGRRUMthmdAHoJaXx6r8HV/8a+y0It 62t5pDp/ChnarJg==
-X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp; fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 10/14] regulator: dt-bindings: Convert Dialog
+ Semiconductor DA9211 Regulators to YAML
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: airlied@gmail.com, amergnat@baylibre.com, andrew+netdev@lunn.ch,
+ andrew-ct.chen@mediatek.com, angelogioacchino.delregno@collabora.com,
+ broonie@kernel.org, chunkuang.hu@kernel.org, ck.hu@mediatek.com,
+ conor+dt@kernel.org, davem@davemloft.net, dmitry.torokhov@gmail.com,
+ edumazet@google.com, flora.fu@mediatek.com, houlong.wei@mediatek.com,
+ jeesw@melfas.com, jmassot@collabora.com, kernel@collabora.com,
+ krzk+dt@kernel.org, kuba@kernel.org,
+ kyrie.wu@mediatek.corp-partner.google.com, lgirdwood@gmail.com,
+ linus.walleij@linaro.org, louisalexis.eyraud@collabora.com,
+ maarten.lankhorst@linux.intel.com, matthias.bgg@gmail.com,
+ mchehab@kernel.org, minghsiu.tsai@mediatek.com, mripard@kernel.org,
+ p.zabel@pengutronix.de, pabeni@redhat.com, robh@kernel.org,
+ sean.wang@kernel.org, simona@ffwll.ch, support.opensource@diasemi.com,
+ tiffany.lin@mediatek.com, tzimmermann@suse.de, yunfei.dong@mediatek.com,
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
+ linux-gpio@vger.kernel.org, linux-input@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-mediatek@lists.infradead.org, linux-sound@vger.kernel.org,
+ netdev@vger.kernel.org
+References: <20250820171302.324142-1-ariel.dalessandro@collabora.com>
+ <20250820171302.324142-11-ariel.dalessandro@collabora.com>
+ <20250821-practical-coyote-of-hail-d2fddb@kuoka>
+Content-Language: en-US
+From: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+In-Reply-To: <20250821-practical-coyote-of-hail-d2fddb@kuoka>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ZohoMailClient: External
 
-Emails to the sole melfas-mip4 driver maintainer bounce:
+Krzysztof,
 
-  550 <jeesw@melfas.com> No such user here (connected from melfas.com)
+On 8/21/25 3:53 AM, Krzysztof Kozlowski wrote:
+> On Wed, Aug 20, 2025 at 02:12:58PM -0300, Ariel D'Alessandro wrote:
+>> Convert the existing text-based DT bindings for Dialog Semiconductor DA9211
+>> Voltage Regulators family to a YAML schema. Examples are simplified, as
+>> these are all equal.
+> 
+> Also not wrapped... fix your editor to recognize how commits are
+> written.
 
-so clearly this is not a supported driver anymore.
+Ack.
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
----
- MAINTAINERS | 7 -------
- 1 file changed, 7 deletions(-)
+> 
+>>
+>> Signed-off-by: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+>> ---
+> 
+> ...
+> 
+>> +---
+>> +$id: http://devicetree.org/schemas/regulator/dlg,da9211.yaml#
+>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>> +
+>> +title: |
+> 
+> Drop |
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 135c03ac1bb0..f8e45e0ad5e4 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -15863,13 +15863,6 @@ S:	Supported
- W:	http://www.melexis.com
- F:	drivers/iio/temperature/mlx90635.c
- 
--MELFAS MIP4 TOUCHSCREEN DRIVER
--M:	Sangwon Jee <jeesw@melfas.com>
--S:	Supported
--W:	http://www.melfas.com
--F:	Documentation/devicetree/bindings/input/touchscreen/melfas_mip4.txt
--F:	drivers/input/touchscreen/melfas_mip4.c
--
- MELLANOX BLUEFIELD I2C DRIVER
- M:	Khalil Blaiech <kblaiech@nvidia.com>
- M:	Asmaa Mnebhi <asmaa@nvidia.com>
+Ack.
+
+> 
+>> +  Dialog Semiconductor DA9211/DA9212/DA9213/DA9223/DA9214/DA9224/DA9215/DA9225
+>> +  Voltage Regulator
+>> +
+>> +maintainers:
+>> +  - Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+>> +
+>> +properties:
+>> +  compatible:
+>> +    enum:
+>> +      - "dlg,da9211"
+>> +      - "dlg,da9212"
+>> +      - "dlg,da9213"
+>> +      - "dlg,da9223"
+>> +      - "dlg,da9214"
+>> +      - "dlg,da9224"
+>> +      - "dlg,da9215"
+>> +      - "dlg,da9225"
+> 
+> No quotes. I don't think this was ever tested.
+
+Ack.
+
+> 
+> Also, keep it properly ordered
+
+Good catch, thanks.
+
+> 
+> 
+>> +
+>> +  reg:
+>> +    maxItems: 1
+>> +
+>> +  interrupts:
+>> +    maxItems: 1
+>> +
+>> +  regulators:
+>> +    type: object
+>> +    additionalProperties: false
+>> +    description: |
+> 
+> Drop |
+
+Ack.
+
+> 
+>> +      List of regulators provided by the device
+>> +
+>> +    patternProperties:
+>> +      "^BUCK([A-B])$":
+> 
+> [AB]
+
+Ack.
+
+> 
+>> +        type: object
+>> +        $ref: regulator.yaml#
+>> +        description: |
+>> +          Properties for a single BUCK regulator
+>> +
+>> +        properties:
+>> +          regulator-initial-mode:
+>> +            items:
+>> +              enum: [ 1, 2, 3 ]
+>> +            description: Defined in include/dt-bindings/regulator/dlg,da9211-regulator.h
+>> +
+>> +          regulator-allowed-modes:
+>> +            items:
+>> +              enum: [ 1, 2, 3 ]
+>> +            description: Defined in include/dt-bindings/regulator/dlg,da9211-regulator.h
+>> +
+>> +          enable-gpios:
+>> +            maxItems: 1
+>> +            description: Specify a valid GPIO for platform control of the regulator
+> 
+> Drop description, obvious.
+
+Ack.
+
+> 
+>> +
+>> +        unevaluatedProperties: false
+> 
+> For nested blocks this goes after $ref: regulator.
+
+Ack.
+
+> 
+>> +
+>> +required:
+>> +  - compatible
+>> +  - reg
+>> +  - interrupts
+>> +  - regulators
+>> +
+>> +additionalProperties: false
+>> +
+>> +examples:
+>> +  - |
+>> +    #include <dt-bindings/regulator/dlg,da9211-regulator.h>
+>> +
+>> +    i2c1 {
+> 
+> i2c
+
+Ack.
+
+> 
+>> +        #address-cells = <1>;
+>> +        #size-cells = <0>;
+>> +
+>> +        da9212: da9212@68 {
+> 
+> Node names should be generic. See also an explanation and list of
+> examples (not exhaustive) in DT specification:
+> https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
+
+Ack, thanks a lot for your help.
+
+Regards,
+
 -- 
-2.48.1
+Ariel D'Alessandro
+Software Engineer
+
+Collabora Ltd.
+Platinum Building, St John's Innovation Park, Cambridge CB4 0DS, UK 
+Registered in England & Wales, no. 5513718
 
 
