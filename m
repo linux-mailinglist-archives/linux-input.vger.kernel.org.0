@@ -1,223 +1,109 @@
-Return-Path: <linux-input+bounces-14622-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14613-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id F19A2B53783
-	for <lists+linux-input@lfdr.de>; Thu, 11 Sep 2025 17:21:32 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EC06B53738
+	for <lists+linux-input@lfdr.de>; Thu, 11 Sep 2025 17:15:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 74C565C12C5
-	for <lists+linux-input@lfdr.de>; Thu, 11 Sep 2025 15:19:41 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 76925188803F
+	for <lists+linux-input@lfdr.de>; Thu, 11 Sep 2025 15:15:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D5AB3570DC;
-	Thu, 11 Sep 2025 15:16:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E50B4352FFC;
+	Thu, 11 Sep 2025 15:14:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=ariel.dalessandro@collabora.com header.b="H9jOcS9S"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J4xvhmHO"
 X-Original-To: linux-input@vger.kernel.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 968E33570D9;
-	Thu, 11 Sep 2025 15:16:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757603768; cv=pass; b=IFs3LHMEYprVkz9Tt50hKjYdx5J+Qqu+PAcHFAgrQyZpFw8MFCKii//qspsN4dYx+oDxm5vWX9eXzaEN4rho84bYUHeIEALEb8+4kzM4ibI9Zf5hpkI0ylMJdC1HWtXrdZx2kjfm4GM3QdGY31MiCZ12KPOy1CocIwmjkA6EwLo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757603768; c=relaxed/simple;
-	bh=8m+L9EuCiB2kd+H+6i0/olJjoUQfOiV+U9l4XmnkecM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=O8sxg1crDxLfeTODI7/MG9tYdLYJB3ntOFIhUQprfx1HA4pST7FZa2dfnbahKqJNxdVLNgn84cS2zqLp7dkWob3keICLP3iTjCvqgn9WZEsz7nScVfzlFX0yyAsV7a2MXHrXPFrVmFqHodDba/WSM+x0H3SVfe3P9kdDaJAOQAA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=ariel.dalessandro@collabora.com header.b=H9jOcS9S; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1757603713; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=XdFivKCZ1zSV2DL8A2apCZSVhyGEctH5ibbsN5jnFp92ih8VPPHUt1cYWhfClmon7J3wdT8XMj835fnw3QSHdTqDIxOx9aCzGLYJA3MrC1PM35mhAw9g4XRSaMvjWn0Ebda4XdnOLXWLtITXwA+ZSUO3MG9s0cd845vDoG9CAYo=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1757603713; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=5GbnEMgGDcefdIhwqbOGABlaP4C+kCbcjuGMBFPW0FU=; 
-	b=AJrDS76FnZIW0jLOYXGptiWpzTsBY+npeA8L7BwDefMBU9NbrNHLq5zshxQ6M9UrIsvXqA9LyHtkTCul0qwIFQh2RuSjtHZnC0VBqs5hohXvNancIOHVZC2uroKOXNJxEcmbfsCm1bodh69SN+uOvAnD+aTfYV6zKMe8pJ4GNiI=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=ariel.dalessandro@collabora.com;
-	dmarc=pass header.from=<ariel.dalessandro@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1757603713;
-	s=zohomail; d=collabora.com; i=ariel.dalessandro@collabora.com;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=5GbnEMgGDcefdIhwqbOGABlaP4C+kCbcjuGMBFPW0FU=;
-	b=H9jOcS9Sf+b45wYgJY5wui9mLzHAFv/8dEF8qzkXIwmkNeLdBo+3737VQFbvZ329
-	cmuyy3V5VCxxklt+8rkDs/4GE0lvqHaocm3GFfgriUVQNIxO+SuJiePrxoKtuMAXu3C
-	ptx0CFAAXKTJtBC4k5JxeWR+Itv5KV3s+U4F5ous=
-Received: by mx.zohomail.com with SMTPS id 1757603711035627.8749849505076;
-	Thu, 11 Sep 2025 08:15:11 -0700 (PDT)
-From: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
-To: airlied@gmail.com,
-	amergnat@baylibre.com,
-	andrew+netdev@lunn.ch,
-	andrew-ct.chen@mediatek.com,
-	angelogioacchino.delregno@collabora.com,
-	ariel.dalessandro@collabora.com,
-	broonie@kernel.org,
-	chunkuang.hu@kernel.org,
-	conor+dt@kernel.org,
-	davem@davemloft.net,
-	dmitry.torokhov@gmail.com,
-	edumazet@google.com,
-	flora.fu@mediatek.com,
-	heiko@sntech.de,
-	houlong.wei@mediatek.com,
-	jeesw@melfas.com,
-	kernel@collabora.com,
-	krzk+dt@kernel.org,
-	kuba@kernel.org,
-	lgirdwood@gmail.com,
-	linus.walleij@linaro.org,
-	louisalexis.eyraud@collabora.com,
-	luiz.dentz@gmail.com,
-	maarten.lankhorst@linux.intel.com,
-	marcel@holtmann.org,
-	matthias.bgg@gmail.com,
-	mchehab@kernel.org,
-	minghsiu.tsai@mediatek.com,
-	mripard@kernel.org,
-	p.zabel@pengutronix.de,
-	pabeni@redhat.com,
-	robh@kernel.org,
-	sean.wang@kernel.org,
-	simona@ffwll.ch,
-	support.opensource@diasemi.com,
-	tiffany.lin@mediatek.com,
-	tzimmermann@suse.de,
-	yunfei.dong@mediatek.com
-Cc: devicetree@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-bluetooth@vger.kernel.org,
-	linux-gpio@vger.kernel.org,
-	linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-mediatek@lists.infradead.org,
-	linux-rockchip@lists.infradead.org,
-	linux-sound@vger.kernel.org,
-	netdev@vger.kernel.org
-Subject: [PATCH v2 12/12] dt-bindings: input: Convert MELFAS MIP4 Touchscreen to DT schema
-Date: Thu, 11 Sep 2025 12:10:01 -0300
-Message-ID: <20250911151001.108744-13-ariel.dalessandro@collabora.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20250911151001.108744-1-ariel.dalessandro@collabora.com>
-References: <20250911151001.108744-1-ariel.dalessandro@collabora.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB71F350835;
+	Thu, 11 Sep 2025 15:14:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1757603644; cv=none; b=gnFOwdzvHoAPNbC/o3IoVezjKg0+Zeuc77g35o4dkG0EkflsC+7oNwcz9GTUp4Ri+lbu4YBeqopUgxyQtMp1uxlrZbnRMcTWobUOkR6dusHFc3E+Pqo7rJ9uBf+z/HXgs91/9ssUBIJ/0eCN5qeLKxuPUHJm5CexyRg35nAVhgI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1757603644; c=relaxed/simple;
+	bh=XBnEBB90OcOXKmWP2giYQ6rYXI4N+81XE3LHFRw6NVg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DUr/ag2GmcmeIQtMx0wchKILpj9JJcCktHn/Y0sbvVIQmcfBUjWpN9C/m3m5fbgjQ4XSuZ8keO8xlmgE6sS4Y6+3VvaqKzbqpshLkKQnkChx1ksSkQcfwgp5stJ2Kz1JRMFhJEv3c325nj6fOi6xREnGo027uaKKTAz4Doif0Lk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J4xvhmHO; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11BDCC4CEF0;
+	Thu, 11 Sep 2025 15:14:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1757603644;
+	bh=XBnEBB90OcOXKmWP2giYQ6rYXI4N+81XE3LHFRw6NVg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=J4xvhmHOFYX2agkANpI9Y+NhgTgkzS3WODQQMpflnaGZZqA2mJR1ALkkuPq9CVBh8
+	 9rzo6WtNPP1ZsjIsl9HBOE6vxDz4/PsTHfzTBiuXSJZSb57vsPKz0nTJJ2z7U+iHR/
+	 FZbbyYGQuVzTyGItMAUQzoSIm9vqQQKy4leV6xRWJUTzPaxLEM0Wwf0LJoD3jmNRXK
+	 mOc4W/5kBn/a4ucPDYYvkiHwoMgzKVVzg/IXhO9TaSMPgO+XiZYfTvT3hxVNvUeths
+	 vq23ggWWCqC7VE1J4w1Eukfd6qwEQDAn99rirX2TsZT+qoesYNrihvhMMuodcScJ89
+	 43hmD2VBv5szg==
+Date: Thu, 11 Sep 2025 16:14:00 +0100
+From: Lee Jones <lee@kernel.org>
+To: Michael Walle <mwalle@kernel.org>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>, jcormier@criticallink.com,
+	Job Sava <jsava@criticallink.com>, linux-kernel@vger.kernel.org,
+	linux-input@vger.kernel.org, Nathan Chancellor <nathan@kernel.org>
+Subject: [GIT PULL v2] Immutable branch between MFD and Input due for the
+ v6.18 merge window
+Message-ID: <20250911151400.GR9224@google.com>
+References: <20250826134631.1499936-1-mwalle@kernel.org>
+ <20250903113255.GK2163762@google.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
+In-Reply-To: <20250903113255.GK2163762@google.com>
 
-Convert the existing text-based DT bindings for MELFAS MIP4 Touchscreen
-controller to a DT schema.
+Here is an updated PR containing a recent fix:
 
-Signed-off-by: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
-Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
----
- .../input/touchscreen/melfas,mip4_ts.yaml     | 56 +++++++++++++++++++
- .../input/touchscreen/melfas_mip4.txt         | 20 -------
- 2 files changed, 56 insertions(+), 20 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/input/touchscreen/melfas,mip4_ts.yaml
- delete mode 100644 Documentation/devicetree/bindings/input/touchscreen/melfas_mip4.txt
+a377b1be3a0e ("mfd: tps6594: Explicitly include bitfield.h")
 
-diff --git a/Documentation/devicetree/bindings/input/touchscreen/melfas,mip4_ts.yaml b/Documentation/devicetree/bindings/input/touchscreen/melfas,mip4_ts.yaml
-new file mode 100644
-index 0000000000000..314be65c56caa
---- /dev/null
-+++ b/Documentation/devicetree/bindings/input/touchscreen/melfas,mip4_ts.yaml
-@@ -0,0 +1,56 @@
-+# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/input/touchscreen/melfas,mip4_ts.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: MELFAS MIP4 Touchscreen
-+
-+maintainers:
-+  - Ariel D'Alessandro <ariel.dalessandro@collabora.com>
-+
-+properties:
-+  compatible:
-+    const: melfas,mip4_ts
-+
-+  reg:
-+    description: I2C address of the chip (0x48 or 0x34)
-+    maxItems: 1
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  ce-gpios:
-+    description:
-+      GPIO connected to the CE (chip enable) pin of the chip (active high)
-+    maxItems: 1
-+
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/gpio/gpio.h>
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+
-+    i2c {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        touchscreen@34 {
-+            compatible = "melfas,mip4_ts";
-+            reg = <0x34>;
-+
-+            interrupts-extended = <&tlmm 13 IRQ_TYPE_EDGE_FALLING>;
-+            ce-gpios = <&tlmm 12 GPIO_ACTIVE_HIGH>;
-+
-+            pinctrl-0 = <&touchscreen_default>;
-+            pinctrl-names = "default";
-+        };
-+    };
-+
-+...
-diff --git a/Documentation/devicetree/bindings/input/touchscreen/melfas_mip4.txt b/Documentation/devicetree/bindings/input/touchscreen/melfas_mip4.txt
-deleted file mode 100644
-index b2ab5498e5190..0000000000000
---- a/Documentation/devicetree/bindings/input/touchscreen/melfas_mip4.txt
-+++ /dev/null
-@@ -1,20 +0,0 @@
--* MELFAS MIP4 Touchscreen
--
--Required properties:
--- compatible: must be "melfas,mip4_ts"
--- reg: I2C slave address of the chip (0x48 or 0x34)
--- interrupts: interrupt to which the chip is connected
--
--Optional properties:
--- ce-gpios: GPIO connected to the CE (chip enable) pin of the chip
--
--Example:
--	i2c@00000000 {
--		touchscreen: melfas_mip4@48 {
--			compatible = "melfas,mip4_ts";
--			reg = <0x48>;
--			interrupt-parent = <&gpio>;
--			interrupts = <0 IRQ_TYPE_EDGE_FALLING>;
--			ce-gpios = <&gpio 0 GPIO_ACTIVE_HIGH>;
--		};
--	};
+LINK: https://lore.kernel.org/all/DCKNRRN0Q2I7.WFT5U4QKA9XS@kernel.org/
+
+-----
+
+The following changes since commit 8f5ae30d69d7543eee0d70083daf4de8fe15d585:
+
+  Linux 6.17-rc1 (2025-08-10 19:41:16 +0300)
+
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git tags/ib-mfd-input-v6.18-1
+
+for you to fetch changes up to a377b1be3a0ed51ccabfe22908ebde065848313c:
+
+  mfd: tps6594: Explicitly include bitfield.h (2025-09-11 16:06:02 +0100)
+
+----------------------------------------------------------------
+[UPDATED] Immutable branch between MFD and Input due for the v6.18 merge window
+
+----------------------------------------------------------------
+Job Sava (1):
+      input: tps6594-pwrbutton: Add power button functionality
+
+Michael Walle (2):
+      mfd: tps6594: Add power button functionality
+      mfd: tps6594: Add board power-off support
+
+Nathan Chancellor (1):
+      mfd: tps6594: Explicitly include bitfield.h
+
+ drivers/input/misc/Kconfig             |  10 +++
+ drivers/input/misc/Makefile            |   1 +
+ drivers/input/misc/tps6594-pwrbutton.c | 126 +++++++++++++++++++++++++++++++++
+ drivers/mfd/tps6594-core.c             |  59 ++++++++++++++-
+ 4 files changed, 194 insertions(+), 2 deletions(-)
+ create mode 100644 drivers/input/misc/tps6594-pwrbutton.c
+
 -- 
-2.50.1
-
+Lee Jones [李琼斯]
 
