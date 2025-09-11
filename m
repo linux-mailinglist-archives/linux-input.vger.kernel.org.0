@@ -1,78 +1,78 @@
-Return-Path: <linux-input+bounces-14625-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14626-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBB9EB53D92
-	for <lists+linux-input@lfdr.de>; Thu, 11 Sep 2025 23:20:13 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 513EAB53D96
+	for <lists+linux-input@lfdr.de>; Thu, 11 Sep 2025 23:20:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 24FC63A8945
-	for <lists+linux-input@lfdr.de>; Thu, 11 Sep 2025 21:20:11 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D8ADC18950F0
+	for <lists+linux-input@lfdr.de>; Thu, 11 Sep 2025 21:20:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 120032DEA7A;
-	Thu, 11 Sep 2025 21:20:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9670E2DE717;
+	Thu, 11 Sep 2025 21:20:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CKOMaMqx"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="M0iO82UA"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B10824A066
-	for <linux-input@vger.kernel.org>; Thu, 11 Sep 2025 21:19:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7AFF229B18
+	for <linux-input@vger.kernel.org>; Thu, 11 Sep 2025 21:20:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757625600; cv=none; b=KWDQwyPMm5VbXnCcJxxc7QIFMCvQp2dqacv9xrPjTMoZuO+x7g84FVNJYgx4mD5TO30PjDaNADc6aaP5738Ije4Rl9GmulH8GPq9GW75kE78xgA7+5cSzeEA6HN8lu2+VKO7mU7TB/GqWapWT1tdxINeuTY8kE5ZDNUf/zZDOlg=
+	t=1757625606; cv=none; b=Yfy0XmJ29O4uQ+lljyFQLjSoSLLr6hr+8sbZilQ8v345LAVVV1yex7XNuHPtkg72c67A5Pnt4T/hUMRErzIhprCQx07ksdVUFU3hVWJxsaaDSs3V6fxGTXft0skoV46U4aHMmHEJgQETyrskKP00eLp8GAKk2UIMFq1Ja9lZCjc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757625600; c=relaxed/simple;
-	bh=2L+fSa+PA432zDUt5H/Hau7R0lcNqW58ONINBFxp+Bk=;
+	s=arc-20240116; t=1757625606; c=relaxed/simple;
+	bh=yerASv8llwk7nfBz/IRboPAwThc6WU1plfW2t44+nzY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ooPkspQC7CNxg/hPf5QsN2FoR9mtEjObM+oWJ3JqA5Pr7R4sn7kyGOfhFP5M5NqwW0OvVxXoGk2TEjS7AMGCeZ3rWn7vbKtcHN3h8oniu7x/zzK0hp/Tfe6J/eCQLeq0OfZF1d1RL6bn7cQXkJeecn6BFxyD7oSiV8hUGjgWqQk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CKOMaMqx; arc=none smtp.client-ip=209.85.214.177
+	 MIME-Version:Content-Type; b=A7560BZvXB8609kAFr2PPrOprAsxgNFDkWtk8kxKrwUpyOwVxCdhWGzetxPm5/Y9GJ2Fgx+oiFyUhIG3jOPN2gZlQ4ozkbnQhqgN6fHGCf2JsEe3WAAf58yE6WtOwPdBd32Y+Pup75lZeDBPmwd/tPL7RMv+0qf0ltw79zTn4EQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=M0iO82UA; arc=none smtp.client-ip=209.85.214.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-24b28de798cso8636185ad.0
-        for <linux-input@vger.kernel.org>; Thu, 11 Sep 2025 14:19:58 -0700 (PDT)
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-24cde6c65d1so10079985ad.3
+        for <linux-input@vger.kernel.org>; Thu, 11 Sep 2025 14:20:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757625598; x=1758230398; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1757625603; x=1758230403; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=1mxio7D4lH3PMkSvuoADG5CMond9DDQMBys3+vGlQ/Q=;
-        b=CKOMaMqxaOD1e6Cw/EvPg+bw7f4iPMVpIdG90bAPhp4FDoFeJGdZyHuUbnY0h8WQyt
-         lZne2yaa+O7aAnNYvZciZ7eg+CSpACbeaq0GeHsQp2Xx+U1QnclpuE6MKH0HuK3VmOno
-         rD5HrJ0v0lgJOFen5DxLWxvTROy07Uo0AHF6in4UEFwKtZ36nuR6Syn7kl2INszfjttt
-         3UGHM7q02sQzomvOLtSqZn++Ih4EGk1pSGQSNJL1XhHPYrVo2pXgHC7wfFvUq8OtaVb2
-         mEk4YmeShlWJudwiWYcYyKLmdoY7oLG+k4BFRWm5D6BaOws5VDLQEGnMzoLCCDNQpbht
-         PGAA==
+        bh=XaoHHj/dtuV2QsIygi49dhZfnqRkcoeVI2NypiA4XRc=;
+        b=M0iO82UAX2RUY3P9BidsuP6DAzlm+I7aqqHXBSbJlQwIAQberwlIpS5wIljarFOx/F
+         Hr303txCiKZEai83Upwhk+4mF7EjFK27ygBDEF/AbPi2Xa0zCGYmb5wNYj43HxMs9E/B
+         Dk4sM1v1HGTIH4EmKR8GcmBuNqziS+n0QbbzuhnEo0dKLuDzV5GnbYE+hnJEoGDs6j6v
+         8367BCEd3cn1OhURUYTM+Gqzep9/1qfKhyLH99ByXP7av4V+Y4K5usX4eZk6OcOhmjIt
+         oBi1jg7OQuPp94UJhGk1T3jM52NSRbAchjEd7QsMakVoSbVQ2LJR5ytkvhhgKyizOQ3O
+         7Kkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757625598; x=1758230398;
+        d=1e100.net; s=20230601; t=1757625603; x=1758230403;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=1mxio7D4lH3PMkSvuoADG5CMond9DDQMBys3+vGlQ/Q=;
-        b=FOcTYksvUVY4eChEZWpVwTE7+hKGE6TkL2akTcW6GcgFddDT8bWoVNx9zk4cUFwa/M
-         WH4Q6xgRmU0gQcUXxCfxqpmSMxKEAs7yWVD6ULDEIVqaJOpEs/wBiKlVqrbntDbS2SXN
-         9cdinz5Laolm84XDjkxaCyIOLbSJHCx5Sfo1w2XGz9FfEor8ACuPEPam1j7XfV0lTp8n
-         ol4k+jwrcDu4ifcGXH2Tw6ey/Pm6Z3z6srPz1rBUl91y8YxarJduv0ZN4EnI4DFD4aQI
-         y43MCgN8rzHOa8vPK3x+05BtA9z1cppd5Rf3hDOgBkgywOPULRI3guZvChsiYlpnJIBI
-         NtAQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUK+4JtbpnVe90hCd22lgeC1t5Lpn3PYW5eWGDx7WATA7jpz6smnMYKPsLkUTQj51E6MpMQIcn6OszUzQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwFgaYL2vY0Ay/OFQgGZgzCiIWHSUf1VrADaSdu0zzDdpYsFHfj
-	2n8riOiSsUcHR7icbEp5upIps3ze9uUDtIXeoGJPD9dSCt3VBHRzRCcY
-X-Gm-Gg: ASbGncvTHB4rFs+lDYYKFgGAzU4EdoqYz7xmNg6TGT7fe/KqqkdPHe3o3VLswLmgRos
-	oGkzf+9RndCZin+N53kt5bv6/YhDmO/mtlltQECDQvRC+uayN3O0danfAluhM+dr22U+XO16oGj
-	urWC5TgoiaPb0r8GoS3PR0SvSBhd5Xb/Dwrin+8ShRHuOCL9r4yheS+HAL4Zv7UTC8BC5TnFBXA
-	+HmLVuKCX7awgLBvkjMoDbI+sb2WD8f3k9sN8ax/+Z6uJzU+vsJSBUreKL+mH5DA8iAIkqedk6B
-	fsw9mmesSVn6jnVlYP3wmM7m300flpWJ0bhV2hZUpiR/jpkPncYqXsnNidGrhQJTp8vv2ZMihyi
-	ZNZ28phqDwj8j5M/aHKIFwqI3ElCOjQ==
-X-Google-Smtp-Source: AGHT+IHJ0YQITOH1cO+OS2gCc3deW3ojCo0Hw4piYT18eYlxrwjAwVB/YDz0ez1UkvorsCLsmq8WMw==
-X-Received: by 2002:a17:902:fc47:b0:25c:cfe2:a0f1 with SMTP id d9443c01a7336-25d243eff84mr9799115ad.2.1757625597678;
-        Thu, 11 Sep 2025 14:19:57 -0700 (PDT)
+        bh=XaoHHj/dtuV2QsIygi49dhZfnqRkcoeVI2NypiA4XRc=;
+        b=SrPpghAoBEMxYu76SfDqoeoGAQtqLdmTJfbsnGjpCtF174UfleMPaVWYI2+NY7JpQp
+         fF3RJD/heTi5Rh4O83uW5kcglYVZSuz5FPNKYFEHy13MIurGjbHFIGRIklBeKpg9C3wz
+         b3RmulYuE5xvGtPx1AlJKLUGjbpAKunT9K44GesChelTIDHH2NVTHOXjlYCXgGswcEzP
+         4yMREZr67BaU8c/ZBlzcwQaHky7oLskJnS+/45r4E59auxFAgwFO4ajnbDnAna418Dnu
+         mqXiBDWmxXcr0spcv5z7fcrNjsvaVj5okZaUZtbe+54rLB5qcBB6GGBgt2pAH9mn++Ee
+         PaSQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUBaEN0HfiynL/AINRpIfMM8aT3Q2R1gAml7Y+hhZDL8eyhUFrmhAKG+9qDUsuKWpABq00IKTH74WX2gw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyVm+6yeVy6KwHVzxe4ApxCJe0X8Tm4jaDEIGUanX+cl8zPzBGr
+	DKVtvbtwDsw4I0Q3w4F5DDlcfWTpzDTyHdBCrEEnCfwatCAxKfs6w5Bi
+X-Gm-Gg: ASbGncsWuRdxxpj9pnweBEo4mDbm9Koj1Rh4Rrj3WXz+MN8fezt/gp6BkRN+bkRHqa7
+	xlQhXcYFSMbqm965ukDtXtLs5FUfy88FWqc88dU4dbohRWpzDkXt0m5121Oi54G6QK6wk8XF6BC
+	QmP01A6i1cmDK8P6ZPcf7OCjcKgYy+Gi+ZWFHnrNum68uzy+4SyZ4ZACxoSUI4xLLFN6sNV+NRA
+	5B9Tsz1NTR3xnBZStMDfaMG3mpaB55jQc70DEoNPSABugJsHMFk6qLFnRDE2rLDCupUs9+hm0Mj
+	89JjGNuFke4cfvjNs+a5ggPiHavNlWJdJQCjlAN28lykGi/YNomNDlcv5Wte7RubuxShkkbe2IP
+	WkwS555qMzpUATORoZ3I=
+X-Google-Smtp-Source: AGHT+IGwkt+vLc6KgE8wjNKkONh4wFeppiY2BztnXnboWt9dqSzgg5KymrPwRARsNkXasUwwOZpe1w==
+X-Received: by 2002:a17:903:4b47:b0:246:7711:87e with SMTP id d9443c01a7336-25d24da3f27mr8190985ad.21.1757625603015;
+        Thu, 11 Sep 2025 14:20:03 -0700 (PDT)
 Received: from archlinux ([152.245.61.23])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-25c36dbb159sm28705045ad.13.2025.09.11.14.19.54
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-25c36dbb159sm28705045ad.13.2025.09.11.14.20.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Sep 2025 14:19:57 -0700 (PDT)
+        Thu, 11 Sep 2025 14:20:02 -0700 (PDT)
 From: =?UTF-8?q?Eric=20Gon=C3=A7alves?= <ghatto404@gmail.com>
 To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
 	Henrik Rydberg <rydberg@bitmath.org>,
@@ -84,9 +84,9 @@ Cc: Ivaylo Ivanov <ivo.ivanov.ivanov1@gmail.com>,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	=?UTF-8?q?Eric=20Gon=C3=A7alves?= <ghatto404@gmail.com>
-Subject: [RFC PATCH 1/2] dt-bindings: input: add ST-Microelectronics FTS2BA61Y touchscreen binding
-Date: Thu, 11 Sep 2025 21:19:09 +0000
-Message-ID: <20250911211910.45903-2-ghatto404@gmail.com>
+Subject: [RFC PATCH 2/2] Input: add support for the STM FTS2BA61Y touchscreen
+Date: Thu, 11 Sep 2025 21:19:10 +0000
+Message-ID: <20250911211910.45903-3-ghatto404@gmail.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250911211910.45903-1-ghatto404@gmail.com>
 References: <20250911211910.45903-1-ghatto404@gmail.com>
@@ -99,72 +99,650 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Add the bindings for ST-Microelectronics FTS2BA61Y capacitive touchscreen.
+The ST-Microelectronics FTS2BA61Y touchscreen is a capacitive multi-touch
+controller connected through SPI at 0x0, the touchscreen is typically
+used in mobile devices (like the Galaxy S22 series)
 
+Signed-off-by: Ivaylo Ivanov <ivo.ivanov.ivanov1@gmail.com>
 Signed-off-by: Eric Gonçalves <ghatto404@gmail.com>
 ---
- .../input/touchscreen/st,fts2ba61y.yaml       | 52 +++++++++++++++++++
- 1 file changed, 52 insertions(+)
- create mode 100755 Documentation/devicetree/bindings/input/touchscreen/st,fts2ba61y.yaml
+Ivaylo Ivanov originally wrote the FTS2BA61Y driver, I am upstreaming it
+on his behalf.
+---
+ drivers/input/touchscreen/Kconfig     |  11 +
+ drivers/input/touchscreen/Makefile    |   1 +
+ drivers/input/touchscreen/fts2ba61y.c | 588 ++++++++++++++++++++++++++
+ 3 files changed, 600 insertions(+)
+ create mode 100644 drivers/input/touchscreen/fts2ba61y.c
 
-diff --git a/Documentation/devicetree/bindings/input/touchscreen/st,fts2ba61y.yaml b/Documentation/devicetree/bindings/input/touchscreen/st,fts2ba61y.yaml
+diff --git a/drivers/input/touchscreen/Kconfig b/drivers/input/touchscreen/Kconfig
+index 196905162945..1e199191f527 100644
+--- a/drivers/input/touchscreen/Kconfig
++++ b/drivers/input/touchscreen/Kconfig
+@@ -370,6 +370,17 @@ config TOUCHSCREEN_EXC3000
+ 	  To compile this driver as a module, choose M here: the
+ 	  module will be called exc3000.
+ 
++config TOUCHSCREEN_FTS2BA61Y
++	tristate "ST-Microelectronics FTS2BA61Y touchscreen"
++	depends on SPI
++	help
++	  Say Y here if you have the ST-Microelectronics FTS2BA61Y touchscreen
++
++	  If unsure, say N.
++
++	  To compile this driver as a module, choose M here: the
++	  module will be called fts2ba61y.
++
+ config TOUCHSCREEN_FUJITSU
+ 	tristate "Fujitsu serial touchscreen"
+ 	select SERIO
+diff --git a/drivers/input/touchscreen/Makefile b/drivers/input/touchscreen/Makefile
+index 97a025c6a377..408a9fd5bd35 100644
+--- a/drivers/input/touchscreen/Makefile
++++ b/drivers/input/touchscreen/Makefile
+@@ -43,6 +43,7 @@ obj-$(CONFIG_TOUCHSCREEN_ELO)		+= elo.o
+ obj-$(CONFIG_TOUCHSCREEN_EGALAX)	+= egalax_ts.o
+ obj-$(CONFIG_TOUCHSCREEN_EGALAX_SERIAL)	+= egalax_ts_serial.o
+ obj-$(CONFIG_TOUCHSCREEN_EXC3000)	+= exc3000.o
++obj-$(CONFIG_TOUCHSCREEN_FTS2BA61Y)	+= fts2ba61y.o
+ obj-$(CONFIG_TOUCHSCREEN_FUJITSU)	+= fujitsu_ts.o
+ obj-$(CONFIG_TOUCHSCREEN_GOODIX)	+= goodix_ts.o
+ obj-$(CONFIG_TOUCHSCREEN_GOODIX_BERLIN_CORE)	+= goodix_berlin_core.o
+diff --git a/drivers/input/touchscreen/fts2ba61y.c b/drivers/input/touchscreen/fts2ba61y.c
 new file mode 100644
-index 000000000000..e4d076bc7bcd
+index 000000000000..b3b3abca5404
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/input/touchscreen/st,fts2ba61y.yaml
-@@ -0,0 +1,52 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/input/touchscreen/st,fts2ba61y.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
++++ b/drivers/input/touchscreen/fts2ba61y.c
+@@ -0,0 +1,588 @@
++// SPDX-License-Identifier: GPL-2.0
++// Based loosely on s6sy761.c
 +
-+title: ST-Microelectronics FTS2BA61Y touchscreen controller
++#include <linux/delay.h>
++#include <linux/input.h>
++#include <linux/interrupt.h>
++#include <linux/module.h>
++#include <linux/of.h>
++#include <linux/input/mt.h>
++#include <linux/spi/spi.h>
++#include <linux/input/touchscreen.h>
++#include <linux/unaligned.h>
++#include <linux/regulator/consumer.h>
 +
-+maintainers:
-+  - Ivaylo Ivanov <ivo.ivanov.ivanov1@gmail.com>
++/* commands */
++#define FTS2BA61Y_CMD_SENSE_ON			0x10
++#define FTS2BA61Y_CMD_SENSE_OFF			0x11
++#define FTS2BA61Y_CMD_READ_PANEL_INFO		0x23
++#define FTS2BA61Y_CMD_READ_FW_VER		0x24
++#define FTS2BA61Y_CMD_TOUCHTYPE			0x30 /* R/W for get/set */
++#define FTS2BA61Y_CMD_CLEAR_EVENTS		0x62
++#define FTS2BA61Y_CMD_READ_EVENT		0x87
++#define FTS2BA61Y_CMD_CUSTOM_W			0xC0
++#define FTS2BA61Y_CMD_CUSTOM_R			0xD1
++#define FTS2BA61Y_CMD_REG_W			0xFA
++#define FTS2BA61Y_CMD_REG_R			0xFB
 +
-+allOf:
-+  - $ref: touchscreen.yaml#
++/* touch type masks */
++#define FTS2BA61Y_MASK_TOUCH			BIT(0)
++#define FTS2BA61Y_MASK_HOVER			BIT(1)
++#define FTS2BA61Y_MASK_COVER			BIT(2)
++#define FTS2BA61Y_MASK_GLOVE			BIT(3)
++#define FTS2BA61Y_MASK_STYLUS			BIT(4)
++#define FTS2BA61Y_MASK_PALM			BIT(5)
++#define FTS2BA61Y_MASK_WET			BIT(6)
++#define FTS2BA61Y_TOUCHTYPE_DEFAULT		(FTS2BA61Y_MASK_TOUCH | \
++						 FTS2BA61Y_MASK_PALM | \
++						 FTS2BA61Y_MASK_WET)
 +
-+properties:
-+  compatible:
-+    const: st,fts2ba61y
++/* event status masks */
++#define FTS2BA61Y_MASK_STYPE			GENMASK(5, 2)
++#define FTS2BA61Y_MASK_EVENT_ID			GENMASK(1, 0)
 +
-+  reg:
-+    maxItems: 1
++/* event coordinate masks */
++#define FTS2BA61Y_MASK_TCHSTA			GENMASK(7, 6)
++#define FTS2BA61Y_MASK_TID			GENMASK(5, 2)
++#define FTS2BA61Y_MASK_X_3_0			GENMASK(7, 4)
++#define FTS2BA61Y_MASK_Y_3_0			GENMASK(3, 0)
++#define FTS2BA61Y_MASK_Z			GENMASK(5, 0)
++#define FTS2BA61Y_MASK_TTYPE_3_2		GENMASK(7, 6)
++#define FTS2BA61Y_MASK_TTYPE_1_0		GENMASK(1, 0)
++#define FTS2BA61Y_MASK_LEFT_EVENTS		GENMASK(4, 0)
 +
-+  interrupts:
-+    maxItems: 1
++/* event error status */
++#define FTS2BA61Y_EVENT_STATUSTYPE_INFO		0x2
 +
-+  avdd-supply: true
-+  vdd-supply: true
++/* information report */
++#define FTS2BA61Y_INFO_READY_STATUS		0x0
 +
-+unevaluatedProperties: false
++/* event status */
++#define FTS2BA61Y_COORDINATE_EVENT		0x0
 +
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
-+  - avdd-supply
-+  - vdd-supply
++/* touch types */
++#define FTS2BA61Y_TOUCHTYPE_NORMAL		0x0
++#define FTS2BA61Y_TOUCHTYPE_HOVER		0x1
++#define FTS2BA61Y_TOUCHTYPE_FLIPCOVER		0x2
++#define FTS2BA61Y_TOUCHTYPE_GLOVE		0x3
++#define FTS2BA61Y_TOUCHTYPE_STYLUS		0x4
++#define FTS2BA61Y_TOUCHTYPE_PALM		0x5
++#define FTS2BA61Y_TOUCHTYPE_WET			0x6
++#define FTS2BA61Y_TOUCHTYPE_PROXIMITY		0x7
++#define FTS2BA61Y_TOUCHTYPE_JIG			0x8
 +
-+examples:
-+  - |
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+    spi {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
++#define FTS2BA61Y_COORDINATE_ACTION_NONE	0x0
++#define FTS2BA61Y_COORDINATE_ACTION_PRESS	0x1
++#define FTS2BA61Y_COORDINATE_ACTION_MOVE	0x2
++#define FTS2BA61Y_COORDINATE_ACTION_RELEASE	0x3
 +
-+        touchscreen@0 {
-+            compatible = "st,fts2ba61y";
-+            reg = <0x0>;
-+            interrupt-parent = <&gpa2>;
-+            interrupts = <2 IRQ_TYPE_LEVEL_HIGH>;
-+            avdd-supply = <&ldo17_reg>;
-+            vdd-supply = <&ldo28_reg>;
-+        };
-+    };
++#define FTS2BA61Y_DEV_NAME			"fts2ba61y"
++#define FTS2BA61Y_EVENT_BUFF_SIZE		16
++#define FTS2BA61Y_PANEL_INFO_SIZE		11
++#define FTS2BA61Y_RESET_CMD_SIZE		5
++#define FTS2BA61Y_EVENT_COUNT			31
++#define MAX_TRANSFER_SIZE			256
++
++enum fts2ba61y_regulators {
++	FTS2BA61Y_REGULATOR_VDD,
++	FTS2BA61Y_REGULATOR_AVDD,
++};
++
++struct fts2ba61y_data {
++	struct spi_device *spi;
++	struct regulator_bulk_data regulators[2];
++	struct input_dev *input_dev;
++	struct mutex mutex;
++	struct touchscreen_properties prop;
++
++	u8 tx_count;
++
++	unsigned int max_x;
++	unsigned int max_y;
++};
++
++static int fts2ba61y_write(struct fts2ba61y_data *ts,
++			   u8 *reg, int cmd_len, u8 *data, int data_len)
++{
++	struct spi_message msg;
++	struct spi_transfer xfers;
++	char *tx_buf;
++	int len;
++	int ret;
++
++	tx_buf = kzalloc(cmd_len + data_len + 1, GFP_KERNEL);
++	if (!tx_buf) {
++		ret = -ENOMEM;
++		goto out;
++	}
++
++	memset(&xfers, 0, sizeof(xfers));
++	spi_message_init(&msg);
++
++	memcpy(&tx_buf[0], reg, cmd_len);
++	if (data_len && data)
++		memcpy(&tx_buf[cmd_len], data, data_len);
++
++	len = cmd_len + data_len;
++
++	/* custom write cmd */
++	if (reg[0] != FTS2BA61Y_CMD_REG_W &&
++	    reg[0] != FTS2BA61Y_CMD_REG_R) {
++		memmove(tx_buf + 1, tx_buf, len);
++		tx_buf[0] = FTS2BA61Y_CMD_CUSTOM_W;
++		len++;
++	}
++
++	xfers.len = len;
++	xfers.tx_buf = tx_buf;
++
++	spi_message_add_tail(&xfers, &msg);
++
++	mutex_lock(&ts->mutex);
++	ret = spi_sync(ts->spi, &msg);
++	if (ret)
++		dev_err(&ts->spi->dev, "spi transfer error, %d", ret);
++	mutex_unlock(&ts->mutex);
++
++out:
++	kfree(tx_buf);
++	return ret;
++}
++
++static int fts2ba61y_spi_raw_read(struct fts2ba61y_data *ts,
++				  u8 *tx_buf, u8 *rx_buf, int len)
++{
++	struct spi_message msg;
++	struct spi_transfer xfer;
++	int ret;
++
++	memset(&xfer, 0, sizeof(xfer));
++	spi_message_init(&msg);
++
++	xfer.len = len;
++	xfer.tx_buf = tx_buf;
++	xfer.rx_buf = rx_buf;
++	spi_message_add_tail(&xfer, &msg);
++
++	mutex_lock(&ts->mutex);
++	ret = spi_sync(ts->spi, &msg);
++	if (ret)
++		dev_err(&ts->spi->dev, "spi transfer error, %d", ret);
++	mutex_unlock(&ts->mutex);
++
++	return ret;
++}
++
++/*
++ * higher-level wrapper that prepares the buffers for a read.
++ */
++static int fts2ba61y_read(struct fts2ba61y_data *ts,
++			  u8 reg[], int tx_len, u8 buf[], int rx_len)
++{
++	char *tx_buf, *rx_buf;
++	int ret, mem_len;
++	u16 reg_val;
++
++	if (tx_len > 3)
++		mem_len = rx_len + 1 + tx_len;
++	else
++		mem_len = rx_len + 4;
++
++	tx_buf = kzalloc(mem_len, GFP_KERNEL);
++	rx_buf = kzalloc(mem_len, GFP_KERNEL);
++	if (!tx_buf || !rx_buf) {
++		ret = -ENOMEM;
++		goto out;
++	}
++
++	switch (reg[0]) {
++	case FTS2BA61Y_CMD_READ_EVENT:
++	case FTS2BA61Y_CMD_REG_W:
++	case FTS2BA61Y_CMD_REG_R:
++		memcpy(tx_buf, reg, tx_len);
++		break;
++
++	default:
++		tx_buf[0] = FTS2BA61Y_CMD_CUSTOM_R;
++
++		if (tx_len == 1)
++			reg_val = 0;
++		else if (tx_len == 2)
++			reg_val = reg[0];
++		else if (tx_len == 3)
++			reg_val = reg[0] | (reg[1] << 8);
++		else {
++			ret = -EINVAL;
++			goto out;
++		}
++
++		tx_len = 3;
++		put_unaligned_be16(reg_val, &tx_buf[1]);
++
++		ret = fts2ba61y_write(ts, reg, 1, NULL, 0);
++		if (ret < 0)
++			goto out;
++		break;
++	}
++
++	ret = fts2ba61y_spi_raw_read(ts, tx_buf, rx_buf, rx_len + 1 + tx_len);
++	if (ret < 0)
++		goto out;
++
++	memcpy(buf, &rx_buf[1 + tx_len], rx_len);
++
++out:
++	kfree(tx_buf);
++	kfree(rx_buf);
++	return ret;
++}
++
++static int fts2ba61y_wait_for_ready(struct fts2ba61y_data *ts)
++{
++	u8 buffer[FTS2BA61Y_EVENT_BUFF_SIZE];
++	u8 cmd = FTS2BA61Y_CMD_READ_EVENT;
++	u8 status_id, stype;
++	int ret;
++
++	for (int retries = 5; retries > 0; retries--) {
++		ret = fts2ba61y_read(ts, &cmd, 1, buffer, FTS2BA61Y_EVENT_BUFF_SIZE);
++
++		stype = FIELD_GET(FTS2BA61Y_MASK_STYPE, buffer[0]);
++		status_id = buffer[1];
++
++		if (stype == FTS2BA61Y_EVENT_STATUSTYPE_INFO &&
++		    status_id == FTS2BA61Y_INFO_READY_STATUS) {
++			ret = 0;
++			break;
++		} else
++			ret = -ENODEV;
++
++		msleep(20);
++	}
++
++	return ret;
++}
++
++static int fts2ba61y_reset(struct fts2ba61y_data *ts)
++{
++	u8 cmd = FTS2BA61Y_CMD_REG_W;
++	/* the following sequence is undocumented */
++	u8 reset[FTS2BA61Y_RESET_CMD_SIZE] = { 0x20, 0x00,
++					       0x00, 0x24, 0x81 };
++	int ret;
++
++	disable_irq(ts->spi->irq);
++
++	ret = fts2ba61y_write(ts, &cmd, 1, &reset[0], FTS2BA61Y_RESET_CMD_SIZE);
++	if (ret)
++		return ret;
++	msleep(30);
++
++	ret = fts2ba61y_wait_for_ready(ts);
++	if (ret)
++		return ret;
++
++	enable_irq(ts->spi->irq);
++
++	return 0;
++}
++
++static int fts2ba61y_set_channels(struct fts2ba61y_data *ts)
++{
++	int ret;
++	u8 cmd = FTS2BA61Y_CMD_READ_PANEL_INFO;
++	u8 data[FTS2BA61Y_PANEL_INFO_SIZE];
++
++	ret = fts2ba61y_read(ts, &cmd, 1, data, FTS2BA61Y_PANEL_INFO_SIZE);
++	if (ret)
++		return ret;
++
++	ts->max_x = get_unaligned_be16(data);
++	ts->max_y = get_unaligned_be16(data + 2);
++
++	/* if no tx channels defined, at least keep one */
++	ts->tx_count = max_t(u8, data[8], 1);
++
++	return 0;
++}
++
++static int fts2ba61y_set_touch_func(struct fts2ba61y_data *ts)
++{
++	u8 cmd = FTS2BA61Y_CMD_TOUCHTYPE;
++	u16 touchtype = cpu_to_le16(FTS2BA61Y_TOUCHTYPE_DEFAULT);
++
++	return fts2ba61y_write(ts, &cmd, 1, (u8 *)&touchtype, 2);
++}
++
++static int fts2ba61y_hw_init(struct fts2ba61y_data *ts)
++{
++	int ret;
++
++	ret = regulator_bulk_enable(ARRAY_SIZE(ts->regulators),
++								ts->regulators);
++	if (ret)
++		return ret;
++
++	msleep(140);
++
++	ret = fts2ba61y_reset(ts);
++	if (ret)
++		return ret;
++
++	ret = fts2ba61y_set_channels(ts);
++	if (ret)
++		return ret;
++
++	return fts2ba61y_set_touch_func(ts);
++}
++
++static int fts2ba61y_get_event(struct fts2ba61y_data *ts, u8 *data, int *n_events)
++{
++	int ret;
++	u8 cmd = FTS2BA61Y_CMD_READ_EVENT;
++
++	ret = fts2ba61y_read(ts, &cmd, 1, data, FTS2BA61Y_EVENT_BUFF_SIZE);
++	if (ret < 0)
++		return ret;
++
++	if (!data[0]) {
++		*n_events = 0;
++		return 0;
++	}
++
++	*n_events = FIELD_GET(FTS2BA61Y_MASK_LEFT_EVENTS, data[7]);
++	if (unlikely(*n_events >= FTS2BA61Y_EVENT_COUNT)) {
++		cmd = FTS2BA61Y_CMD_CLEAR_EVENTS;
++		fts2ba61y_write(ts, &cmd, 1, NULL, 0);
++		*n_events = 0;
++		return -EINVAL;
++	}
++
++	if (*n_events > 0) {
++		ret = fts2ba61y_read(ts, &cmd, 1,
++				     &data[1 * FTS2BA61Y_EVENT_BUFF_SIZE],
++				     FTS2BA61Y_EVENT_BUFF_SIZE * (*n_events));
++		if (ret)
++			return ret;
++	}
++
++	return 0;
++}
++
++static void fts2ba61y_report_coordinates(struct fts2ba61y_data *ts,
++					 u8 *event, u8 tid)
++{
++	u8 major = event[4];
++	u8 minor = event[5];
++	u8 z = FIELD_GET(FTS2BA61Y_MASK_Z, event[6]);
++
++	u16 x = (event[1] << 4) |
++		FIELD_GET(FTS2BA61Y_MASK_X_3_0, event[3]);
++	u16 y = (event[2] << 4) |
++		FIELD_GET(FTS2BA61Y_MASK_Y_3_0, event[3]);
++	u16 ttype = (FIELD_GET(FTS2BA61Y_MASK_TTYPE_3_2, event[6]) << 2) |
++		    (FIELD_GET(FTS2BA61Y_MASK_TTYPE_1_0, event[7]) << 0);
++
++	if (ttype != FTS2BA61Y_TOUCHTYPE_NORMAL &&
++	    ttype != FTS2BA61Y_TOUCHTYPE_PALM &&
++	    ttype != FTS2BA61Y_TOUCHTYPE_WET &&
++	    ttype != FTS2BA61Y_TOUCHTYPE_GLOVE)
++		return;
++
++	input_mt_slot(ts->input_dev, tid);
++	input_mt_report_slot_state(ts->input_dev, MT_TOOL_FINGER, true);
++	input_report_abs(ts->input_dev, ABS_MT_POSITION_X, x);
++	input_report_abs(ts->input_dev, ABS_MT_POSITION_Y, y);
++	input_report_abs(ts->input_dev, ABS_MT_TOUCH_MAJOR, major);
++	input_report_abs(ts->input_dev, ABS_MT_TOUCH_MINOR, minor);
++	input_report_abs(ts->input_dev, ABS_MT_PRESSURE, z);
++
++	input_mt_sync_frame(ts->input_dev);
++	input_sync(ts->input_dev);
++}
++
++static void fts2ba61y_report_release(struct fts2ba61y_data *ts, u8 tid)
++{
++	input_mt_slot(ts->input_dev, tid);
++	input_mt_report_slot_state(ts->input_dev, MT_TOOL_FINGER, false);
++
++	input_mt_sync_frame(ts->input_dev);
++	input_sync(ts->input_dev);
++}
++
++static void fts2ba61y_handle_coordinates(struct fts2ba61y_data *ts, u8 *event)
++{
++	u8 t_id = FIELD_GET(FTS2BA61Y_MASK_TID, event[0]);
++	u8 action = FIELD_GET(FTS2BA61Y_MASK_TCHSTA, event[0]);
++
++	if (t_id > ts->tx_count)
++		return;
++
++	switch (action) {
++	case FTS2BA61Y_COORDINATE_ACTION_PRESS:
++	case FTS2BA61Y_COORDINATE_ACTION_MOVE:
++		fts2ba61y_report_coordinates(ts, event, t_id);
++		break;
++
++	case FTS2BA61Y_COORDINATE_ACTION_RELEASE:
++		fts2ba61y_report_release(ts, t_id);
++		break;
++	}
++}
++
++static irqreturn_t fts2ba61y_irq_handler(int irq, void *handle)
++{
++	struct fts2ba61y_data *ts = handle;
++	u8 buffer[FTS2BA61Y_EVENT_COUNT * FTS2BA61Y_EVENT_BUFF_SIZE];
++	u8 *event;
++	u8 event_id;
++	int n_events = 0;
++	int ret;
++
++	usleep(1);
++
++	ret = fts2ba61y_get_event(ts, buffer, &n_events);
++	if (ret < 0) {
++		dev_dbg(&ts->spi->dev, "failed to get event: %d", ret);
++		return IRQ_HANDLED;
++	}
++
++	for (int i = 0; i <= n_events; i++) {
++		event = &buffer[i * FTS2BA61Y_EVENT_BUFF_SIZE];
++		event_id = FIELD_GET(FTS2BA61Y_MASK_EVENT_ID, event[0]);
++
++		if (event_id == FTS2BA61Y_COORDINATE_EVENT)
++			fts2ba61y_handle_coordinates(ts, event);
++	}
++
++	return IRQ_HANDLED;
++}
++
++static int fts2ba61y_input_open(struct input_dev *dev)
++{
++	struct fts2ba61y_data *ts = input_get_drvdata(dev);
++	u8 cmd = FTS2BA61Y_CMD_SENSE_ON;
++
++	return fts2ba61y_write(ts, &cmd, 1, NULL, 0);
++}
++
++static void fts2ba61y_input_close(struct input_dev *dev)
++{
++	struct fts2ba61y_data *ts = input_get_drvdata(dev);
++	int ret;
++	u8 cmd = FTS2BA61Y_CMD_SENSE_OFF;
++
++	ret = fts2ba61y_write(ts, &cmd, 1, NULL, 0);
++	if (ret)
++		dev_err(&ts->spi->dev, "failed to turn off sensing\n");
++}
++
++static void fts2ba61y_power_off(void *data)
++{
++	struct fts2ba61y_data *ts = data;
++
++	disable_irq(ts->spi->irq);
++	regulator_bulk_disable(ARRAY_SIZE(ts->regulators),
++						   ts->regulators);
++}
++
++static int fts2ba61y_probe(struct spi_device *spi) {
++	struct fts2ba61y_data *ts;
++	struct input_dev *input_dev;
++	int error;
++
++	ts = devm_kzalloc(&spi->dev, sizeof(*ts), GFP_KERNEL);
++	if (!ts)
++		return -ENOMEM;
++
++	ts->spi = spi;
++	mutex_init(&ts->mutex);
++
++	spi->mode = SPI_MODE_0;
++	spi->bits_per_word = 8;
++
++	error = spi_setup(spi);
++	if (error)
++		return error;
++
++	ts->regulators[FTS2BA61Y_REGULATOR_VDD].supply = "vdd";
++	ts->regulators[FTS2BA61Y_REGULATOR_AVDD].supply = "avdd";
++	error = devm_regulator_bulk_get(&spi->dev,
++									ARRAY_SIZE(ts->regulators),
++									ts->regulators);
++	if (error)
++		return error;
++
++	error = fts2ba61y_hw_init(ts);
++	if (error)
++		return error;
++
++	error = devm_add_action_or_reset(&ts->spi->dev, fts2ba61y_power_off, ts);
++	if (error)
++		return error;
++
++	input_dev = devm_input_allocate_device(&spi->dev);
++	if (!input_dev)
++		return -ENOMEM;
++
++	ts->input_dev = input_dev;
++
++	input_dev->name = FTS2BA61Y_DEV_NAME;
++	input_dev->id.bustype = BUS_SPI;
++	input_dev->open = fts2ba61y_input_open;
++	input_dev->close = fts2ba61y_input_close;
++
++	input_set_abs_params(input_dev, ABS_MT_POSITION_X, 0, ts->max_x, 0, 0);
++	input_set_abs_params(input_dev, ABS_MT_POSITION_Y, 0, ts->max_y, 0, 0);
++	input_set_abs_params(input_dev, ABS_MT_TOUCH_MAJOR, 0, 255, 0, 0);
++	input_set_abs_params(input_dev, ABS_MT_TOUCH_MINOR, 0, 255, 0, 0);
++	input_set_abs_params(input_dev, ABS_MT_PRESSURE, 0, 255, 0, 0);
++
++	touchscreen_parse_properties(input_dev, true, &ts->prop);
++
++	spi_set_drvdata(spi, ts);
++	input_set_drvdata(input_dev, ts);
++
++	error = input_mt_init_slots(input_dev, ts->tx_count, INPUT_MT_DIRECT);
++	if (error)
++		return error;
++
++	error = input_register_device(input_dev);
++	if (error)
++		return error;
++
++	error = devm_request_threaded_irq(&spi->dev, spi->irq, NULL,
++					  fts2ba61y_irq_handler,
++					  IRQF_TRIGGER_LOW | IRQF_ONESHOT,
++					  "fts2ba61y_irq", ts);
++	return error;
++}
++
++#ifdef CONFIG_OF
++static const struct of_device_id spi_touchscreen_dt_ids[] = {
++	{ .compatible = "st,fts2ba61y" },
++	{},
++};
++MODULE_DEVICE_TABLE(of, spi_touchscreen_dt_ids);
++#endif
++
++static const struct spi_device_id fts2ba61y_spi_ids[] = {
++	{ "fts2ba61y" },
++	{ },
++};
++MODULE_DEVICE_TABLE(spi, fts2ba61y_spi_ids);
++
++static struct spi_driver spi_touchscreen_driver = {
++	.driver = {
++		.name = FTS2BA61Y_DEV_NAME,
++		.of_match_table = of_match_ptr(spi_touchscreen_dt_ids),
++	},
++	.probe = fts2ba61y_probe,
++	.id_table = fts2ba61y_spi_ids,
++};
++
++module_spi_driver(spi_touchscreen_driver);
++
++MODULE_AUTHOR("Ivaylo Ivanov <ivo.ivanov.ivanov1@gmail.com>");
++MODULE_DESCRIPTION("ST-Microelectronics FTS2BA61Y Touch Screen");
++MODULE_LICENSE("GPL");
 -- 
 2.50.1
 
