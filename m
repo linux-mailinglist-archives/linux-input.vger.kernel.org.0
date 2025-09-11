@@ -1,138 +1,209 @@
-Return-Path: <linux-input+bounces-14604-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14605-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22102B53419
-	for <lists+linux-input@lfdr.de>; Thu, 11 Sep 2025 15:44:08 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id AA188B53463
+	for <lists+linux-input@lfdr.de>; Thu, 11 Sep 2025 15:51:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A90403B508D
-	for <lists+linux-input@lfdr.de>; Thu, 11 Sep 2025 13:44:05 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 57C7E166389
+	for <lists+linux-input@lfdr.de>; Thu, 11 Sep 2025 13:51:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 005CD32F741;
-	Thu, 11 Sep 2025 13:42:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1517D33A02A;
+	Thu, 11 Sep 2025 13:50:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=ariel.dalessandro@collabora.com header.b="NsRlRzli"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DcgmRet0"
 X-Original-To: linux-input@vger.kernel.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD42C32CF87;
-	Thu, 11 Sep 2025 13:42:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757598125; cv=pass; b=O7S7Ls6tDoSkl/0IzZOUjn5TDtk4mWkVnOx/Pxh/V8ieknVDFpEdoIqBKyimAhTheEJAbliKFRkR70kqvsh+gqVqz19/Cb/o3gasNqFFW35ZaLVjU+PT+ZxH9QFMh95eMkvCNrVWDBR7EMGrFny3yCImNCf/tz3XlQ3i3H5W+5c=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757598125; c=relaxed/simple;
-	bh=+j7wH6J9TwHPLevUCUsfv49hVVIfmnnJ50vL4o03eGs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=g0NQbJJa1PT1tE3smNzd6Aj6LIXqEGnI6zLKCb3QguR6IkOinaKLdQsgYv4M3GNOfIvJGWzIDj5A+C5yzlaeNkM1VcGDZFyONDqSbkoG8MXGGvX9n6Lq1YCtEHVHggIV6TRMuBaXW21ckdvvDEqZn9gd+7QAoPKKC9ch+qO96RI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=ariel.dalessandro@collabora.com header.b=NsRlRzli; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1757598055; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=Wd4WA6Er9cB9s6Hkt5aT6OBU5Qo5bfiy5l1P+Xa+5VFE3pcj0EYC1irYclVw44xfA/LGEE1P3H5NoyDRj8g5aYL5DO6LFfOSdTi8Xo68/Y7PYyTuxxfNdOv2I+XK48iy/vJy4GjAsgOcqTkVjb0ACFfdnqJgaw2FRauP6e/Vqb0=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1757598055; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=akxgWnU52qi2aW5V4nycRXC1MA1p0XXtUX8b0SkdlHI=; 
-	b=LfUX1aQVAVFdHj8+y0//AJhf1fsHBn+VlpRO4LG22OXZv6/dMLXEYKunDdZoe364LrK8PnREgYhBB/fWBvWDinro5SWb85l1HU8gYCD9V+RoB8cvwAKdJEOq+hDpLHGB00DB6JJkrLd/THhPkaxSJdT3eQR6r8MibvY/ip2bat8=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=ariel.dalessandro@collabora.com;
-	dmarc=pass header.from=<ariel.dalessandro@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1757598055;
-	s=zohomail; d=collabora.com; i=ariel.dalessandro@collabora.com;
-	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=akxgWnU52qi2aW5V4nycRXC1MA1p0XXtUX8b0SkdlHI=;
-	b=NsRlRzlifXvTvvkDhLOg2YrB9VbwSR8DvKqJVdp8u4HzCFR5KM3LbVsfzq9vFNLv
-	HWBTS+duRr9SPP50E7s5ev8uzaDXlk5sQhS7q0jMxjng1FJa7tsWMU7IDEw8Cg44Nka
-	20rr30YjpaoW+uxdoNzBf0ZcDiNq8aysDR0/skEo=
-Received: by mx.zohomail.com with SMTPS id 1757598052583569.5590919976829;
-	Thu, 11 Sep 2025 06:40:52 -0700 (PDT)
-Message-ID: <c473c6ff-856a-4950-9c75-7bace41886ca@collabora.com>
-Date: Thu, 11 Sep 2025 10:40:36 -0300
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1B9433A020
+	for <linux-input@vger.kernel.org>; Thu, 11 Sep 2025 13:50:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1757598601; cv=none; b=oGozVv6YPIYuc/ELI9nvmr55vCQs+R7PHH9tvr+X39PcKus/8OZMuhg6vLyVD16E97fuSmjg7oSjUZ+3HekX/2sWh+UUPvLmn5dsvcbEBe5S9V4ruA12QbCPxtjL7WKIFEbhfNycB1O02uqQ9n6rI404nYPO5NQXHXihz87hf6o=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1757598601; c=relaxed/simple;
+	bh=StHHFOn33HsOIHhEZ4tHJYP6NC4xiLSax436m7rxlKY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gC1gqnubYFw7U29LE/XWwLLwXw7iGCPJSOcyxPzBJD6k+zz14asNuLQf15llls12x9XtKYoHeHONJh4Osc0kP2Y9Ifms/eQjF1cn7b8wdawjX6V7jHfLbzCD3KWzu56H+N15yizuej0o9z0DHkkPgKva3ePTMaghiPQuTeV/d5Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DcgmRet0; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65320C4CEF1;
+	Thu, 11 Sep 2025 13:49:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1757598600;
+	bh=StHHFOn33HsOIHhEZ4tHJYP6NC4xiLSax436m7rxlKY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=DcgmRet0QyJxJpLecrh7JAYODzrx/czWgcz3/PYL4rHXbftGGMplApxisCDs4+6DI
+	 gqQm5gWSnkIluFdp58GqXAXBgiz6I8jfjd8flHG1zr2PyX9LjmrM9oGzSZ6RBrskPC
+	 VDY0CA1NZMV04jpW3EZBu5MGJuRTIFjyF7RBqK4i0c0eEXzgkt7DMM/UGFW+/xVzY8
+	 Xm+BpM71Wnod+AaShJ40oKbSQb5IRzcIMKDXBZ6UvviS/0UsUQ3tk/U9u4z6pPDAcc
+	 MCQQr8EGC78liLpvtoQd/fDbj8VWSbDGQQcW9OcA2I4hmrviXzdvGFgjWP83Bd0c6K
+	 gBgRq9GKGMrGQ==
+Date: Thu, 11 Sep 2025 15:49:56 +0200
+From: Benjamin Tissoires <bentiss@kernel.org>
+To: "Mario Limonciello (AMD)" <superm1@kernel.org>
+Cc: mario.limonciello@amd.com, jikos@kernel.org, 
+	linux-input@vger.kernel.org
+Subject: Re: [PATCH] HID: i2c-hid: Resolve touchpad issues on Dell systems
+ during S4
+Message-ID: <vy4g5xpppfy3wy6c6ncjeqiywumuv2al5lowwbt3x4qtc3rpwv@2mvzwivdhhlc>
+References: <20250909110012.1218226-1-superm1@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 03/14] dt-bindings: arm: mediatek: mmsys: Add
- assigned-clocks/rates properties
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: airlied@gmail.com, amergnat@baylibre.com, andrew+netdev@lunn.ch,
- andrew-ct.chen@mediatek.com, angelogioacchino.delregno@collabora.com,
- broonie@kernel.org, chunkuang.hu@kernel.org, ck.hu@mediatek.com,
- conor+dt@kernel.org, davem@davemloft.net, dmitry.torokhov@gmail.com,
- edumazet@google.com, flora.fu@mediatek.com, houlong.wei@mediatek.com,
- jeesw@melfas.com, jmassot@collabora.com, kernel@collabora.com,
- krzk+dt@kernel.org, kuba@kernel.org,
- kyrie.wu@mediatek.corp-partner.google.com, lgirdwood@gmail.com,
- linus.walleij@linaro.org, louisalexis.eyraud@collabora.com,
- maarten.lankhorst@linux.intel.com, matthias.bgg@gmail.com,
- mchehab@kernel.org, minghsiu.tsai@mediatek.com, mripard@kernel.org,
- p.zabel@pengutronix.de, pabeni@redhat.com, robh@kernel.org,
- sean.wang@kernel.org, simona@ffwll.ch, support.opensource@diasemi.com,
- tiffany.lin@mediatek.com, tzimmermann@suse.de, yunfei.dong@mediatek.com,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
- linux-gpio@vger.kernel.org, linux-input@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-mediatek@lists.infradead.org, linux-sound@vger.kernel.org,
- netdev@vger.kernel.org
-References: <20250820171302.324142-1-ariel.dalessandro@collabora.com>
- <20250820171302.324142-4-ariel.dalessandro@collabora.com>
- <20250821-electric-kestrel-of-awe-cb89dc@kuoka>
- <1cf0b296-adaa-4c80-864c-9b78f09cd3e3@collabora.com>
- <898bf39e-1b34-40e9-bdfa-ec4eca1c3f7d@kernel.org>
-Content-Language: en-US
-From: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
-In-Reply-To: <898bf39e-1b34-40e9-bdfa-ec4eca1c3f7d@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ZohoMailClient: External
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250909110012.1218226-1-superm1@kernel.org>
 
-Krzysztof,
+Hi Mario,
 
-On 9/9/25 3:29 AM, Krzysztof Kozlowski wrote:
-> On 08/09/2025 21:19, Ariel D'Alessandro wrote:
->> Krzysztof,
->>
->> On 8/21/25 3:43 AM, Krzysztof Kozlowski wrote:
->>> On Wed, Aug 20, 2025 at 02:12:51PM -0300, Ariel D'Alessandro wrote:
->>>> Current, the DT bindings for MediaTek mmsys controller is missing the
->>>> assigned-clocks and assigned-clocks-rates properties. Add these and
->>>
->>> No, they do not miss them. I don't understand why you are adding these.
->>
->> The reason I added these is due to the following check error:
->>
->> $ make -j$(nproc) CHECK_DTBS=y mediatek/mt8173-elm.dtb
->>     DTC [C] arch/arm64/boot/dts/mediatek/mt8173-elm.dtb
->> [...]
->> arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: syscon@14000000
->> (mediatek,mt8173-mmsys): 'assigned-clock-rates', 'assigned-clocks' do
->> not match any of the regexes: '^pinctrl-[0-9]+$'
->> 	from schema $id:
->> http://devicetree.org/schemas/arm/mediatek/mediatek,mmsys.yaml#
+On Sep 09 2025, Mario Limonciello (AMD) wrote:
+> Dell systems utilize an EC-based touchpad emulation when the ACPI
+> touchpad _DSM is not invoked. This emulation acts as a secondary
+> master on the I2C bus, designed for scenarios where the I2C touchpad
+> driver is absent, such as in BIOS menus. Typically, loading the
+> i2c-hid module triggers the _DSM at initialization, disabling the
+> EC-based emulation.
 > 
-> This is looking like missing clocks or other unevaluated property by the
-> binding.
+> However, if the i2c-hid module is missing from the boot kernel
+> used for hibernation snapshot restoration, the _DSM remains
+> uncalled, resulting in dual masters on the I2C bus and
+> subsequent arbitration errors. This issue arises when i2c-hid
+> resides in the rootfs instead of the kernel or initramfs.
 
-Agreed, the rate assignment has to be moved in other DT nodes, it's not 
-a binding issue.
+In the downstream Red Hat bug it was mentioned that the kernel
+configuration had an impact though. But as I understand it now that I'm
+re-reading it for the 4th time:
+- on stock fedora kernel (i2c-hid in initramfs): works
+- on stock RHEL kernel (i2c-hid in initramfs): bug but config issue
+- on vanilla kernel without i2c-hid in initramfs: bug fixed by that
+		patch
+- on vanilla kernel with i2c-hid in initramfs: works
 
-Thanks,
+So that patch is needed no matter the config bug we have there and it
+will also fix that config bug. Am I correct?
 
--- 
-Ariel D'Alessandro
-Software Engineer
+> 
+> To address this, switch from using the SYSTEM_SLEEP_PM_OPS()
+> macro to dedicated callbacks, introducing a specific
+> callback for restoring the S4 image. This callback ensures
+> the _DSM is invoked.
 
-Collabora Ltd.
-Platinum Building, St John's Innovation Park, Cambridge CB4 0DS, UK 
-Registered in England & Wales, no. 5513718
+I'm a little bit hesitant to include this patch without proper testing.
+Did you run this through a wider range of laptops than just the
+problematic one?
 
+Other than that, patch looks good to me, but I would have liked to have
+another opinion on it.
+
+Cheers,
+Benjamin
+
+> 
+> Signed-off-by: Mario Limonciello (AMD) <superm1@kernel.org>
+> ---
+>  drivers/hid/i2c-hid/i2c-hid-acpi.c |  8 ++++++++
+>  drivers/hid/i2c-hid/i2c-hid-core.c | 28 +++++++++++++++++++++++++++-
+>  drivers/hid/i2c-hid/i2c-hid.h      |  2 ++
+>  3 files changed, 37 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/hid/i2c-hid/i2c-hid-acpi.c b/drivers/hid/i2c-hid/i2c-hid-acpi.c
+> index 1b49243adb16a..abd700a101f46 100644
+> --- a/drivers/hid/i2c-hid/i2c-hid-acpi.c
+> +++ b/drivers/hid/i2c-hid/i2c-hid-acpi.c
+> @@ -76,6 +76,13 @@ static int i2c_hid_acpi_get_descriptor(struct i2c_hid_acpi *ihid_acpi)
+>  	return hid_descriptor_address;
+>  }
+>  
+> +static void i2c_hid_acpi_restore_sequence(struct i2chid_ops *ops)
+> +{
+> +	struct i2c_hid_acpi *ihid_acpi = container_of(ops, struct i2c_hid_acpi, ops);
+> +
+> +	i2c_hid_acpi_get_descriptor(ihid_acpi);
+> +}
+> +
+>  static void i2c_hid_acpi_shutdown_tail(struct i2chid_ops *ops)
+>  {
+>  	struct i2c_hid_acpi *ihid_acpi = container_of(ops, struct i2c_hid_acpi, ops);
+> @@ -96,6 +103,7 @@ static int i2c_hid_acpi_probe(struct i2c_client *client)
+>  
+>  	ihid_acpi->adev = ACPI_COMPANION(dev);
+>  	ihid_acpi->ops.shutdown_tail = i2c_hid_acpi_shutdown_tail;
+> +	ihid_acpi->ops.restore_sequence = i2c_hid_acpi_restore_sequence;
+>  
+>  	ret = i2c_hid_acpi_get_descriptor(ihid_acpi);
+>  	if (ret < 0)
+> diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid/i2c-hid-core.c
+> index d3912e3f2f13a..3257aa87be898 100644
+> --- a/drivers/hid/i2c-hid/i2c-hid-core.c
+> +++ b/drivers/hid/i2c-hid/i2c-hid-core.c
+> @@ -961,6 +961,14 @@ static void i2c_hid_core_shutdown_tail(struct i2c_hid *ihid)
+>  	ihid->ops->shutdown_tail(ihid->ops);
+>  }
+>  
+> +static void i2c_hid_core_restore_sequence(struct i2c_hid *ihid)
+> +{
+> +	if (!ihid->ops->restore_sequence)
+> +		return;
+> +
+> +	ihid->ops->restore_sequence(ihid->ops);
+> +}
+> +
+>  static int i2c_hid_core_suspend(struct i2c_hid *ihid, bool force_poweroff)
+>  {
+>  	struct i2c_client *client = ihid->client;
+> @@ -1360,8 +1368,26 @@ static int i2c_hid_core_pm_resume(struct device *dev)
+>  	return i2c_hid_core_resume(ihid);
+>  }
+>  
+> +static int i2c_hid_core_pm_restore(struct device *dev)
+> +{
+> +	struct i2c_client *client = to_i2c_client(dev);
+> +	struct i2c_hid *ihid = i2c_get_clientdata(client);
+> +
+> +	if (ihid->is_panel_follower)
+> +		return 0;
+> +
+> +	i2c_hid_core_restore_sequence(ihid);
+> +
+> +	return i2c_hid_core_resume(ihid);
+> +}
+> +
+>  const struct dev_pm_ops i2c_hid_core_pm = {
+> -	SYSTEM_SLEEP_PM_OPS(i2c_hid_core_pm_suspend, i2c_hid_core_pm_resume)
+> +	.suspend = pm_sleep_ptr(i2c_hid_core_pm_suspend),
+> +	.resume = pm_sleep_ptr(i2c_hid_core_pm_resume),
+> +	.freeze = pm_sleep_ptr(i2c_hid_core_pm_suspend),
+> +	.thaw = pm_sleep_ptr(i2c_hid_core_pm_resume),
+> +	.poweroff = pm_sleep_ptr(i2c_hid_core_pm_suspend),
+> +	.restore = pm_sleep_ptr(i2c_hid_core_pm_restore),
+>  };
+>  EXPORT_SYMBOL_GPL(i2c_hid_core_pm);
+>  
+> diff --git a/drivers/hid/i2c-hid/i2c-hid.h b/drivers/hid/i2c-hid/i2c-hid.h
+> index 2c7b66d5caa0f..1724a435c783a 100644
+> --- a/drivers/hid/i2c-hid/i2c-hid.h
+> +++ b/drivers/hid/i2c-hid/i2c-hid.h
+> @@ -27,11 +27,13 @@ static inline u32 i2c_hid_get_dmi_quirks(const u16 vendor, const u16 product)
+>   * @power_up: do sequencing to power up the device.
+>   * @power_down: do sequencing to power down the device.
+>   * @shutdown_tail: called at the end of shutdown.
+> + * @restore_sequence: hibernation restore sequence.
+>   */
+>  struct i2chid_ops {
+>  	int (*power_up)(struct i2chid_ops *ops);
+>  	void (*power_down)(struct i2chid_ops *ops);
+>  	void (*shutdown_tail)(struct i2chid_ops *ops);
+> +	void (*restore_sequence)(struct i2chid_ops *ops);
+>  };
+>  
+>  int i2c_hid_core_probe(struct i2c_client *client, struct i2chid_ops *ops,
+> -- 
+> 2.43.0
+> 
 
