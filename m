@@ -1,148 +1,113 @@
-Return-Path: <linux-input+bounces-14669-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14670-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B458B55749
-	for <lists+linux-input@lfdr.de>; Fri, 12 Sep 2025 21:58:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6597AB55880
+	for <lists+linux-input@lfdr.de>; Fri, 12 Sep 2025 23:38:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 27C9C3BA011
-	for <lists+linux-input@lfdr.de>; Fri, 12 Sep 2025 19:58:34 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1EB453BC1E9
+	for <lists+linux-input@lfdr.de>; Fri, 12 Sep 2025 21:38:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 76B3D2BE7B1;
-	Fri, 12 Sep 2025 19:57:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D4466273D6D;
+	Fri, 12 Sep 2025 21:37:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=oscillator.se header.i=@oscillator.se header.b="Dji0bKfm"
+	dkim=pass (2048-bit key) header.d=endrift.com header.i=@endrift.com header.b="qwoVily+"
 X-Original-To: linux-input@vger.kernel.org
-Received: from sv9.manufrog.com (sv9.manufrog.com [46.246.119.84])
+Received: from endrift.com (endrift.com [173.255.198.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54C012848B0;
-	Fri, 12 Sep 2025 19:57:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.246.119.84
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D808721E097
+	for <linux-input@vger.kernel.org>; Fri, 12 Sep 2025 21:37:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=173.255.198.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757707038; cv=none; b=Be0gLfL4lQ18TwxaS1C6i8PMc8qu5uGLL/fGbHk982cY0FDIsOZ8zdx71ECcZNyE/lSLr282IqHemKGs7tWRZ1RyDzeSynUcinHQ0Subiei9Dpl4rphX9wl1bLg8MEDLfe+3vUOH+1mPffOOJ2uREWIqIglugNfx2+v82ugWvYg=
+	t=1757713077; cv=none; b=vFN6r4sOxty0yuUkS1z0sF+LVDladRe6uuuVWjsJWyHTnfZFRyKh7WNUM/iy0JH9E8Zd9HO3kst1mAhJdlQJuVFd00DcT3IzfVrJ+LxoojsSfTa4TEtExHQtZO6y7v0gURih4sSNj17KA1i+vaQ+uVLhVL3EJE/v5I719LMZl7o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757707038; c=relaxed/simple;
-	bh=RuV43at9oIUzSJcsK485G4uQ64nYxSvVDGjhkRb7P5A=;
-	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
-	 Message-ID:Content-Type; b=Oq4Ie1Rp9U5uc/RhUjCv+wpz6PBrpxSbHv+NScSZnUbICJcLxe1Q1V2drpQMnonmAFpZB+GZAhH9lJp7mvdCCPoWYsMPAE8oMKveRbv/oZvo/VJutMsreWVBQrponxCGtcZZn+xPoP9rPunG5eckjiIlpZV8DzYxKCf4OYB1SMw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=oscillator.se; spf=pass smtp.mailfrom=oscillator.se; dkim=pass (2048-bit key) header.d=oscillator.se header.i=@oscillator.se header.b=Dji0bKfm; arc=none smtp.client-ip=46.246.119.84
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=oscillator.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oscillator.se
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=oscillator.se; s=default; h=Content-Transfer-Encoding:Content-Type:
-	Message-ID:References:In-Reply-To:Subject:Cc:To:From:Date:MIME-Version:Sender
-	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=9g4tINQ3Nuz9BImuzc0dqyBpOKAEGiLicPpQhPXc8pk=; b=Dji0bKfmqJiUkwVgBmJmsWAB/L
-	tffBxTLVA5K2FGhBefgPhkphycN/gKjMZyv73ZA9EVqF8Mxl+O/72ZlrVVkzQ0prW/nuXIzv9Fo+m
-	u6CZAc7AoqFRMBmUbfmuGCUfDfPD6waroHkYNoEHW2SZjKa0ttcimM5RYimQJxuPGuouqsXPOXFor
-	IIlSfMvzAJ5Mf1V9rlKQRL3amtWWMjREakspeL764lE/Ix7fhdK6oSZR7CTxnYkkD3gi7H+JqOi90
-	DYiYzuzwunAcGHGiddd4T4UK1jDvX40p7Rfob6hWDGLg4J7pPL72y8kj3DCR/XgkrRwc110PIGyYf
-	4WJbqYWg==;
-Received: from [::1] (port=51882 helo=sv9.manufrog.com)
-	by sv9.manufrog.com with esmtpa (Exim 4.98.2)
-	(envelope-from <staffan.melin@oscillator.se>)
-	id 1ux9tP-0000000AD8S-1vEg;
-	Fri, 12 Sep 2025 21:57:06 +0200
+	s=arc-20240116; t=1757713077; c=relaxed/simple;
+	bh=nSxbWu7+O4U/A/c4snJs8VIMkbPUJLsjD5m7j9QcKeE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=uA8/Ucl/+J7tyVDTwx/WgwgbYEo2+zPF6lXMg6sOWeKqyAg9FGAJ0sYOojPYvAHVgJStM0CMGcmF5PNzkJH98NSyXVuemLroBfW07GgaEaa/OaMNX8im9qv5l8aCqk7CVOIJVhAdjAU85I9IOm6u/z4ds+nvrYNpDk9d/NEuFDE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=endrift.com; spf=pass smtp.mailfrom=endrift.com; dkim=pass (2048-bit key) header.d=endrift.com header.i=@endrift.com header.b=qwoVily+; arc=none smtp.client-ip=173.255.198.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=endrift.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=endrift.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=endrift.com; s=2020;
+	t=1757712716; bh=nSxbWu7+O4U/A/c4snJs8VIMkbPUJLsjD5m7j9QcKeE=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=qwoVily+47KuNxNXXe/8JI8eQ9m4HHp1LCYj3sLXXriEdhpkwxJa36qPo/uUxUv5c
+	 smi4CZ0s0d8eROEI8PAfN5BU1CqwNdBXYqK/VaSpUHyEshtcga5jRO6BhXyIGXg6hO
+	 rvycHCTMk+n71giFp6BcIiQ2OowFz+cVdl+M2hyBW1p/8Mri8eindxlbI2tcY8MhwY
+	 rCWDC6Aguw8PCRzZ3FzSrAeJS4EsnGRp4F8/Ke4BuPYIiM850QdX41w86CG1yP/LQ/
+	 7an1YyrUJek9nUjdJUwzzkMYSivpYM+sWdTSEb+5COAVNS+SCNCIJg31QO6tMLs1AK
+	 VDfvytWHGAykA==
+Received: from [192.168.0.22] (71-212-74-234.tukw.qwest.net [71.212.74.234])
+	by endrift.com (Postfix) with ESMTPSA id 34D16A08B;
+	Fri, 12 Sep 2025 14:31:56 -0700 (PDT)
+Message-ID: <338cb599-8131-4bca-89b1-414f74db7d3e@endrift.com>
+Date: Fri, 12 Sep 2025 14:31:55 -0700
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Fri, 12 Sep 2025 21:57:04 +0200
-From: Staffan Melin <staffan.melin@oscillator.se>
-To: zhangheng <zhangheng@kylinos.cn>
-Cc: Salvatore Bonaccorso <carnil@debian.org>, Jiri Kosina
- <jkosina@suse.com>, Benjamin Tissoires <bentiss@kernel.org>,
- linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
- regressions@lists.linux.dev, stable@vger.kernel.org, 1114557@bugs.debian.org
-Subject: Re: [regression] 1a8953f4f774 ("HID: Add IGNORE quirk for
- SMARTLINKTECHNOLOGY") causes issue with ID 4c4a:4155 Jieli Technology USB
- Composite Device
-In-Reply-To: <c8f3d402-e0ec-4767-b925-d7764aec3d93@kylinos.cn>
-References: <aL2gYJaXoB6p_oyM@eldamar.lan>
- <c8f3d402-e0ec-4767-b925-d7764aec3d93@kylinos.cn>
-User-Agent: Roundcube Webmail/1.6.11
-Message-ID: <e81e8d68cb33c7de7b0e353791e21e53@oscillator.se>
-X-Sender: staffan.melin@oscillator.se
-Organization: Oscillator
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
-Content-Transfer-Encoding: 8bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - sv9.manufrog.com
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - oscillator.se
-X-Get-Message-Sender-Via: sv9.manufrog.com: authenticated_id: staffan.melin@oscillator.se
-X-Authenticated-Sender: sv9.manufrog.com: staffan.melin@oscillator.se
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+User-Agent: Mozilla Thunderbird
+Subject: Re: Adding Kernel xpad support for Flydigi Apex 5
+To: Jiri Kosina <jikos@kernel.org>, brandon <brandon@emergence.ltd>
+Cc: linux-input <linux-input@vger.kernel.org>
+References: <198f7064b23.1194b1b9d477339.120973386817363979@emergence.ltd>
+ <75r4880n-on78-7010-2q64-so6pp5qsos82@xreary.bet>
+ <r856p96o-850o-47sn-rsps-04n94875o975@xreary.bet>
+Content-Language: en-US
+From: Vicki Pfau <vi@endrift.com>
+In-Reply-To: <r856p96o-850o-47sn-rsps-04n94875o975@xreary.bet>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Thank you,
+Hi Jiri and Brandon,
 
-I tried to apply this patch to 6.12.39, the first problematic kernel, as 
-well as 6.12.41, the first bad I tried, and on both I got an error 
-message:
-
-Applying: HID: quirks: Add device descriptor for 4c4a:4155
-error: patch failed: drivers/hid/hid-quirks.c:1068
-error: drivers/hid/hid-quirks.c: patch does not apply
-Patch failed at 0001 HID: quirks: Add device descriptor for 4c4a:4155
-
-To which kernel version should I apply the patch?
-
-I used the command
-git am < <file>
-
-Best regards,
-
-Staffan
-
-
-On 2025-09-12 14:49, zhangheng wrote:
-> I am currently working on resolving this issue by limiting the original 
-> patch
+On 9/12/25 7:14 AM, Jiri Kosina wrote:
+> On Fri, 12 Sep 2025, Jiri Kosina wrote:
 > 
-> based on the information in the device descriptor to avoid affecting 
-> your device,
+>> On Fri, 29 Aug 2025, brandon wrote:
+>>
+>>> Hello,
+>>>
+>>> This adds support for the Flydigi Apex 5 controller to the xpad kernel module. This has been tested as part of: https://github.com/paroj/xpad/pull/328
+>>>
+>>> This patch is very small and simple, it simply white lists the controller so it can be used. The trigger and stick mappings are none standard, but SDL has the correct mappings already shipped so it's not a problem in Steam or games I've tried.
+>>>
+>>> Here is the patch:
+>>>
+>>> --- linux/drivers/input/joystick/xpad.c.orig 2025-08-29 18:20:56.157442704 +0100
+>>> +++ linux/drivers/input/joystick/xpad.c 2025-08-29 18:19:29.539174760 +0100
+>>> @@ -422,6 +422,7 @@ static const struct xpad_device {
+>>> { 0x3537, 0x1010, "GameSir G7 SE", 0, XTYPE_XBOXONE },
+>>> { 0x366c, 0x0005, "ByoWave Proteus Controller", MAP_SHARE_BUTTON, XTYPE_XBOXONE, FLAG_DELAY_INIT },
+>>> { 0x3767, 0x0101, "Fanatec Speedster 3 Forceshock Wheel", 0, XTYPE_XBOX },
+>>> +	{ 0x37d7, 0x2501, "Flydigi Apex 5", 0, XTYPE_XBOX },
+>>> { 0x413d, 0x2104, "Black Shark Green Ghost Gamepad", 0, XTYPE_XBOX360 },
+>>> { 0xffff, 0xffff, "Chinese-made Xbox Controller", 0, XTYPE_XBOX },
+>>> { 0x0000, 0x0000, "Generic X-Box pad", 0, XTYPE_UNKNOWN }
+>>> @@ -578,6 +579,7 @@ static const struct usb_device_id xpad_t
+>>> XPAD_XBOX360_VENDOR(0x3537),		/* GameSir Controllers */
+>>> XPAD_XBOXONE_VENDOR(0x3537),		/* GameSir Controllers */
+>>> XPAD_XBOXONE_VENDOR(0x366c),		/* ByoWave controllers */
+>>> +	XPAD_XBOXONE_VENDOR(0x37d7),		/* Flydigi Controllers */
+>>> XPAD_XBOX360_VENDOR(0x413d),		/* Black Shark Green Ghost Controller */
+>>> { }
+>>> };
+>>
+>> Thanks for the patch.
+>>
+>> It's however whitespace-damaged, and also is missing a signoff. Could you 
+>> please fix that and resubmit, so that I could merge it?
 > 
-> You can try this patch and look forward to your reply.
+> (sorry, it's not me who should be merging it, but Dmitry Torokhov as an 
+> input maintainer -- please CC him as well on the next iteration)
 > 
-> 
-> 在 2025/9/7 23:10, Salvatore Bonaccorso 写道:
->> Hi Zhang, hi Jiri,
->> 
->> In Debian Staffan Melin reported that after an update containing the
->> commit 1a8953f4f774 ("HID: Add IGNORE quirk for SMARTLINKTECHNOLOGY"),
->> the input device with same idVendor and idProduct, the Jieli
->> Technology USB Composite Device, does not get recognized anymore.
->> 
->> The full Debian report is at: https://bugs.debian.org/1114557
->> 
->> The issue is not specific to the 6.12.y series and confirmed in 6.16.3
->> as well.
->> 
->> Staffan Melin did bisect the kernels between 6.12.38 (which was still
->> working) and 6.1.41 (which was not), confirming by bisection that the
->> offending commit is
->> 
->> 1a8953f4f774 ("HID: Add IGNORE quirk for SMARTLINKTECHNOLOGY")
->> 
->> #regzbot introduced: 1a8953f4f774
->> #regzbot monitor: https://bugs.debian.org/1114557
->> 
->> So it looks that the quirk applied is unfortunately affecting
->> negatively as well Staffan Melin case.
->> 
->> Can you have a look?
->> 
->> Regards,
->> Salvatore
+
+A corrected patch was already submitted by someone else: https://lore.kernel.org/linux-input/20250903165114.2987905-1-lkml@antheas.dev/
+
+Vicki
 
