@@ -1,148 +1,148 @@
-Return-Path: <linux-input+bounces-14668-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14669-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE232B555DE
-	for <lists+linux-input@lfdr.de>; Fri, 12 Sep 2025 20:10:17 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B458B55749
+	for <lists+linux-input@lfdr.de>; Fri, 12 Sep 2025 21:58:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 676FD5C52CC
-	for <lists+linux-input@lfdr.de>; Fri, 12 Sep 2025 18:10:17 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 27C9C3BA011
+	for <lists+linux-input@lfdr.de>; Fri, 12 Sep 2025 19:58:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EC95932A823;
-	Fri, 12 Sep 2025 18:10:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 76B3D2BE7B1;
+	Fri, 12 Sep 2025 19:57:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="LQ3BgZpe"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=oscillator.se header.i=@oscillator.se header.b="Dji0bKfm"
 X-Original-To: linux-input@vger.kernel.org
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 51810302CB2;
-	Fri, 12 Sep 2025 18:10:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from sv9.manufrog.com (sv9.manufrog.com [46.246.119.84])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54C012848B0;
+	Fri, 12 Sep 2025 19:57:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.246.119.84
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757700609; cv=none; b=JxqUS9OQDGgaAyDAAMKec8QM684ZH6xZQwlJnymGck3XTl4lCq6qylYrbvG0jxl+EF6LL/BYS9BQi8VCPovP3V2DomvnuD/n4q1yYJRl9l/41AiPZ1nQuLCa8LlQ6DZkVTRTFUuBhm51kS4MPcR0m97ZZBW9DLY1ah/972CM0pE=
+	t=1757707038; cv=none; b=Be0gLfL4lQ18TwxaS1C6i8PMc8qu5uGLL/fGbHk982cY0FDIsOZ8zdx71ECcZNyE/lSLr282IqHemKGs7tWRZ1RyDzeSynUcinHQ0Subiei9Dpl4rphX9wl1bLg8MEDLfe+3vUOH+1mPffOOJ2uREWIqIglugNfx2+v82ugWvYg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757700609; c=relaxed/simple;
-	bh=yPJqLt8S5WWM4BObvCnuZSDbc1t/tgpd5gl4wkceEGg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=X3c+crgGM9/fJ1XVtzaq2C74CVkrhehomByFYYJ3536xoME/bMOoI+eCfaFN+QpLEeXimyjuMh1mHTFgsWFMP0cunydtYHzj6hzrZoeg6QfcYcDom9jPyqzvP0axGR48m3M6LnNbhmhdWwc3I8hVBhZEFcjUksr1tpZ8m7qj9EM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=LQ3BgZpe; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
-Received: from [192.168.0.88] (192-184-212-33.fiber.dynamic.sonic.net [192.184.212.33])
-	by linux.microsoft.com (Postfix) with ESMTPSA id ED2B42119CBF;
-	Fri, 12 Sep 2025 11:10:00 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com ED2B42119CBF
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1757700602;
-	bh=HXYJgEfXFwo/OPKrYhrveFvpXwC44rrX+LkCZApziY4=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=LQ3BgZpeMJGwjTLRudlWpMa8SX8RO+j/34vsQaL4PkTvTkI/qkWK/wElTFG4ma7bq
-	 8NM3LoJh5HhkcNK+KwwYAoh01/HqKWzw8IdRL8lUGd7y0lqldMU83UUu/URfbdFHiD
-	 X8LZ8UBwGVc2sHYIuNq4iAAYSpEmzqL/34I8VDGk=
-Message-ID: <a8c8305c-b518-c840-fc64-50bcba302725@linux.microsoft.com>
-Date: Fri, 12 Sep 2025 11:10:00 -0700
+	s=arc-20240116; t=1757707038; c=relaxed/simple;
+	bh=RuV43at9oIUzSJcsK485G4uQ64nYxSvVDGjhkRb7P5A=;
+	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
+	 Message-ID:Content-Type; b=Oq4Ie1Rp9U5uc/RhUjCv+wpz6PBrpxSbHv+NScSZnUbICJcLxe1Q1V2drpQMnonmAFpZB+GZAhH9lJp7mvdCCPoWYsMPAE8oMKveRbv/oZvo/VJutMsreWVBQrponxCGtcZZn+xPoP9rPunG5eckjiIlpZV8DzYxKCf4OYB1SMw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=oscillator.se; spf=pass smtp.mailfrom=oscillator.se; dkim=pass (2048-bit key) header.d=oscillator.se header.i=@oscillator.se header.b=Dji0bKfm; arc=none smtp.client-ip=46.246.119.84
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=oscillator.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oscillator.se
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=oscillator.se; s=default; h=Content-Transfer-Encoding:Content-Type:
+	Message-ID:References:In-Reply-To:Subject:Cc:To:From:Date:MIME-Version:Sender
+	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=9g4tINQ3Nuz9BImuzc0dqyBpOKAEGiLicPpQhPXc8pk=; b=Dji0bKfmqJiUkwVgBmJmsWAB/L
+	tffBxTLVA5K2FGhBefgPhkphycN/gKjMZyv73ZA9EVqF8Mxl+O/72ZlrVVkzQ0prW/nuXIzv9Fo+m
+	u6CZAc7AoqFRMBmUbfmuGCUfDfPD6waroHkYNoEHW2SZjKa0ttcimM5RYimQJxuPGuouqsXPOXFor
+	IIlSfMvzAJ5Mf1V9rlKQRL3amtWWMjREakspeL764lE/Ix7fhdK6oSZR7CTxnYkkD3gi7H+JqOi90
+	DYiYzuzwunAcGHGiddd4T4UK1jDvX40p7Rfob6hWDGLg4J7pPL72y8kj3DCR/XgkrRwc110PIGyYf
+	4WJbqYWg==;
+Received: from [::1] (port=51882 helo=sv9.manufrog.com)
+	by sv9.manufrog.com with esmtpa (Exim 4.98.2)
+	(envelope-from <staffan.melin@oscillator.se>)
+	id 1ux9tP-0000000AD8S-1vEg;
+	Fri, 12 Sep 2025 21:57:06 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.1
-Subject: Re: [PATCH v1 2/2] Drivers: hv: Make CONFIG_HYPERV bool
-Content-Language: en-US
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-input@vger.kernel.org, linux-hyperv@vger.kernel.org,
- netdev@vger.kernel.org, linux-pci@vger.kernel.org,
- linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org,
- linux-arch@vger.kernel.org, virtualization@lists.linux.dev,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch, jikos@kernel.org, bentiss@kernel.org,
- kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
- decui@microsoft.com, dmitry.torokhov@gmail.com, andrew+netdev@lunn.ch,
- davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
- pabeni@redhat.com, bhelgaas@google.com,
- James.Bottomley@hansenpartnership.com, martin.petersen@oracle.com,
- deller@gmx.de, arnd@arndb.de, sgarzare@redhat.com, horms@kernel.org
-References: <20250906010952.2145389-1-mrathor@linux.microsoft.com>
- <20250906010952.2145389-3-mrathor@linux.microsoft.com>
- <2025090621-rumble-cost-2c0d@gregkh>
- <d7d7b23f-eaea-2dbc-9c9d-4bee082f6fe7@linux.microsoft.com>
- <2025091253-overwrite-carol-b197@gregkh>
-From: Mukesh R <mrathor@linux.microsoft.com>
-In-Reply-To: <2025091253-overwrite-carol-b197@gregkh>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Date: Fri, 12 Sep 2025 21:57:04 +0200
+From: Staffan Melin <staffan.melin@oscillator.se>
+To: zhangheng <zhangheng@kylinos.cn>
+Cc: Salvatore Bonaccorso <carnil@debian.org>, Jiri Kosina
+ <jkosina@suse.com>, Benjamin Tissoires <bentiss@kernel.org>,
+ linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+ regressions@lists.linux.dev, stable@vger.kernel.org, 1114557@bugs.debian.org
+Subject: Re: [regression] 1a8953f4f774 ("HID: Add IGNORE quirk for
+ SMARTLINKTECHNOLOGY") causes issue with ID 4c4a:4155 Jieli Technology USB
+ Composite Device
+In-Reply-To: <c8f3d402-e0ec-4767-b925-d7764aec3d93@kylinos.cn>
+References: <aL2gYJaXoB6p_oyM@eldamar.lan>
+ <c8f3d402-e0ec-4767-b925-d7764aec3d93@kylinos.cn>
+User-Agent: Roundcube Webmail/1.6.11
+Message-ID: <e81e8d68cb33c7de7b0e353791e21e53@oscillator.se>
+X-Sender: staffan.melin@oscillator.se
+Organization: Oscillator
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Content-Transfer-Encoding: 8bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - sv9.manufrog.com
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - oscillator.se
+X-Get-Message-Sender-Via: sv9.manufrog.com: authenticated_id: staffan.melin@oscillator.se
+X-Authenticated-Sender: sv9.manufrog.com: staffan.melin@oscillator.se
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 
-On 9/12/25 04:43, Greg KH wrote:
-> On Mon, Sep 08, 2025 at 02:01:34PM -0700, Mukesh R wrote:
->> On 9/6/25 04:36, Greg KH wrote:
->>> On Fri, Sep 05, 2025 at 06:09:52PM -0700, Mukesh Rathor wrote:
->>>> With CONFIG_HYPERV and CONFIG_HYPERV_VMBUS separated, change CONFIG_HYPERV
->>>> to bool from tristate. CONFIG_HYPERV now becomes the core Hyper-V
->>>> hypervisor support, such as hypercalls, clocks/timers, Confidential
->>>> Computing setup, PCI passthru, etc. that doesn't involve VMBus or VMBus
->>>> devices.
->>>
->>> But why are you making it so that this can not be a module anymore?  You
->>> are now forcing ALL Linux distro users to always have this code in their
->>> system, despite not ever using the feature.  That feels like a waste to
->>> me.
->>>
->>> What is preventing this from staying as a module?  Why must you always
->>> have this code loaded at all times for everyone?
->>
->> This is currently not a module. I assume it was at the beginning. In
->> drivers/Makefile today:
->>
->> obj-$(subst m,y,$(CONFIG_HYPERV))       += hv/
->>
->>
->> More context: CONFIG_HYPERV doesn't really reflect one module. It is
->> both for kernel built in code and building of stuff in drivers/hv.
->>
->> drivers/hv then builds 4 modules:
->>
->> obj-$(CONFIG_HYPERV)            += hv_vmbus.o
->> obj-$(CONFIG_HYPERV_UTILS)      += hv_utils.o
->> obj-$(CONFIG_HYPERV_BALLOON)    += hv_balloon.o
->> obj-$(CONFIG_MSHV_ROOT)         += mshv_root.o
->>
->> Notice vmbus is using CONFIG_HYPERV because there is no 
->> CONFIG_HYPERV_VMBUS. We are trying to fix that here.
+Thank you,
+
+I tried to apply this patch to 6.12.39, the first problematic kernel, as 
+well as 6.12.41, the first bad I tried, and on both I got an error 
+message:
+
+Applying: HID: quirks: Add device descriptor for 4c4a:4155
+error: patch failed: drivers/hid/hid-quirks.c:1068
+error: drivers/hid/hid-quirks.c: patch does not apply
+Patch failed at 0001 HID: quirks: Add device descriptor for 4c4a:4155
+
+To which kernel version should I apply the patch?
+
+I used the command
+git am < <file>
+
+Best regards,
+
+Staffan
+
+
+On 2025-09-12 14:49, zhangheng wrote:
+> I am currently working on resolving this issue by limiting the original 
+> patch
 > 
-> This series does not apply to my tree:
+> based on the information in the device descriptor to avoid affecting 
+> your device,
 > 
-> checking file drivers/gpu/drm/Kconfig
-> checking file drivers/hid/Kconfig
-> checking file drivers/hv/Kconfig
-> Hunk #2 FAILED at 82.
-> 1 out of 2 hunks FAILED
-> checking file drivers/hv/Makefile
-> checking file drivers/input/serio/Kconfig
-> checking file drivers/net/hyperv/Kconfig
-> checking file drivers/pci/Kconfig
-> checking file drivers/scsi/Kconfig
-> checking file drivers/uio/Kconfig
-> checking file drivers/video/fbdev/Kconfig
-> checking file include/asm-generic/mshyperv.h
-> Hunk #1 succeeded at 162 with fuzz 2 (offset -3 lines).
-> Hunk #2 succeeded at 198 (offset -3 lines).
-> Hunk #3 succeeded at 215 (offset -3 lines).
-> checking file net/vmw_vsock/Kconfig
+> You can try this patch and look forward to your reply.
 > 
-> What was it made against?
 > 
-
-Sorry to hear that. It was built against hyper-next, but perhaps I 
-accidentally used our internal mirror. Let me rebase and send V2
-right away.
-
-Thanks,
--Mukesh
-
-
-
+> 在 2025/9/7 23:10, Salvatore Bonaccorso 写道:
+>> Hi Zhang, hi Jiri,
+>> 
+>> In Debian Staffan Melin reported that after an update containing the
+>> commit 1a8953f4f774 ("HID: Add IGNORE quirk for SMARTLINKTECHNOLOGY"),
+>> the input device with same idVendor and idProduct, the Jieli
+>> Technology USB Composite Device, does not get recognized anymore.
+>> 
+>> The full Debian report is at: https://bugs.debian.org/1114557
+>> 
+>> The issue is not specific to the 6.12.y series and confirmed in 6.16.3
+>> as well.
+>> 
+>> Staffan Melin did bisect the kernels between 6.12.38 (which was still
+>> working) and 6.1.41 (which was not), confirming by bisection that the
+>> offending commit is
+>> 
+>> 1a8953f4f774 ("HID: Add IGNORE quirk for SMARTLINKTECHNOLOGY")
+>> 
+>> #regzbot introduced: 1a8953f4f774
+>> #regzbot monitor: https://bugs.debian.org/1114557
+>> 
+>> So it looks that the quirk applied is unfortunately affecting
+>> negatively as well Staffan Melin case.
+>> 
+>> Can you have a look?
+>> 
+>> Regards,
+>> Salvatore
 
