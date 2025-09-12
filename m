@@ -1,138 +1,135 @@
-Return-Path: <linux-input+bounces-14642-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14643-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCBDDB54620
-	for <lists+linux-input@lfdr.de>; Fri, 12 Sep 2025 10:57:19 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id B8607B54B48
+	for <lists+linux-input@lfdr.de>; Fri, 12 Sep 2025 13:43:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8BDA4168F81
-	for <lists+linux-input@lfdr.de>; Fri, 12 Sep 2025 08:57:19 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 77AAC171BB4
+	for <lists+linux-input@lfdr.de>; Fri, 12 Sep 2025 11:43:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B28852727F4;
-	Fri, 12 Sep 2025 08:57:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C0FD6274FDB;
+	Fri, 12 Sep 2025 11:43:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="arYteBou"
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="0TCwjyZx"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D62C26CE02;
-	Fri, 12 Sep 2025 08:57:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6877641C62;
+	Fri, 12 Sep 2025 11:43:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757667434; cv=none; b=hP31MERxCG51i+atVnT3c/mWyiv89DyxXAOm5sYozwPn6SdBk6JmyLKAB5vbFILwM0PSLV9Ayjyk83/icpzpzCywnXyz1jM87Sk9NjLh6FbKZMilfrJgJVTx5XKqzRC1PH0s4UJF1OX4ozhEf0EaMTd23wPFy65etdjPrJYy2fE=
+	t=1757677406; cv=none; b=LqxhO0/hEm2CBiuRf2QSIZfrs1QADxDxXNs9KqooStFKWzUl2txum2r9uL7PH641ezl3Esgj3pwuJJxDmhf76yaZtrZ7qhFpmGAiJcCSdYL/1vH8W6OpWOjkfwr0zG6W3yCq3Lhh689Iuq9HvGW84gxLsOqDSmcQ6bxHUIFsLpo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757667434; c=relaxed/simple;
-	bh=R8pmvXYNXPv61cZrkXJEOoL+DzfW39pQ/TW92VuM7fE=;
+	s=arc-20240116; t=1757677406; c=relaxed/simple;
+	bh=vQZw18LyMNiHBfayqqKazzYbl6hyR7y4CM3GzrQTcKo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fHfuFb3PZl8AP9xuI4yXCd71lkX8US8O1if2cgSAWOYM61VX5jCtJyHOtbkLwEEtlGsHz10Ylch89B4QrZpC1lCVpfxdaj8A7C/hZSaxj5erA+nF4Jh3xMCG28na5pXDwfOCL8msPVN2YbgvZQbPCWQ3o5X984P7+RiXhRHt9yE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=arYteBou; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2C2BC4CEF1;
-	Fri, 12 Sep 2025 08:57:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757667434;
-	bh=R8pmvXYNXPv61cZrkXJEOoL+DzfW39pQ/TW92VuM7fE=;
+	 Content-Type:Content-Disposition:In-Reply-To; b=RyT9RI2j6qOlTnaYw0KIyVEqiCQewLMLd/nvCUsYpul/nevb3VCawDMMznzTt3QXW27xUIh4k04hjXrPzAaaw8HDSnnQ6fKvlkpQgzxNMzYIEVkbBae5QY+dpEWx5Gx7uILyul80jYkayGann837FbrbbgrtfJUJam7XhYXjr6A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=0TCwjyZx; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2916DC4CEF1;
+	Fri, 12 Sep 2025 11:43:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1757677405;
+	bh=vQZw18LyMNiHBfayqqKazzYbl6hyR7y4CM3GzrQTcKo=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=arYteBouvfqqM6gDSA4wvJgLUhXAvtn96LDHoRs7LHgcQxrHIrYp/G+P9iNdCx8nE
-	 TjVhBiiS02odIDB7zH1HJiK3YtSes7kCsS0hgF6JbFbBKOvafblIMyrMw3rS1RUqDo
-	 cmu8MaOMAjSbocLMxg85MlpO8tgz9TRQLdkx61P4G2x0N/r1+jsKrvFUoqmjfqLf8+
-	 y5xUX6vd5FEXQyQ0MuDvzKXj8i6EIrAL8hQIPreGxwdztxdxN7PphvoY5v14PVG5E2
-	 AbWxiTf0/jNt5pr5oqFzmXsvgoUTY93nczQClI1ukCEGlm6nk05ou2gzyFiSQykNen
-	 3TTqM2Piv78yQ==
-Date: Fri, 12 Sep 2025 10:57:11 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
-To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Kamel Bouhara <kamel.bouhara@bootlin.com>, Linus Walleij <linus.walleij@linaro.org>, 
-	Bartosz Golaszewski <brgl@bgdev.pl>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
-	Michael Walle <mwalle@kernel.org>, Mark Brown <broonie@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, linux-input@vger.kernel.org, linux-pwm@vger.kernel.org, 
-	andriy.shevchenko@intel.com, =?utf-8?Q?Gr=C3=A9gory?= Clement <gregory.clement@bootlin.com>, 
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: Re: [PATCH v14 04/10] pwm: max7360: Add MAX7360 PWM support
-Message-ID: <7jytyub4v7tn6vbwh4drusaagnskl2dsfg2xr6eqp4leqpfq3y@a7g3de5echs4>
-References: <20250824-mdb-max7360-support-v14-0-435cfda2b1ea@bootlin.com>
- <20250824-mdb-max7360-support-v14-4-435cfda2b1ea@bootlin.com>
+	b=0TCwjyZxwiSPrLtFZN+IyniMywN3vL/LlOWbuAxsnEsOVAbzmqup0WIsjoDHMFsp4
+	 CZHsmzwRAvDxfPp9R9I5o3dTd0LaONRXa7YSjy5cAsJmZrkkOk9zpdlsnFkevQaLH4
+	 NT9opWe3xXbfYZRU1UCBvRT6dZZUiedrQxIwCvto=
+Date: Fri, 12 Sep 2025 13:43:22 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Mukesh R <mrathor@linux.microsoft.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	linux-input@vger.kernel.org, linux-hyperv@vger.kernel.org,
+	netdev@vger.kernel.org, linux-pci@vger.kernel.org,
+	linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org,
+	linux-arch@vger.kernel.org, virtualization@lists.linux.dev,
+	maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+	tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+	jikos@kernel.org, bentiss@kernel.org, kys@microsoft.com,
+	haiyangz@microsoft.com, wei.liu@kernel.org, decui@microsoft.com,
+	dmitry.torokhov@gmail.com, andrew+netdev@lunn.ch,
+	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com, bhelgaas@google.com,
+	James.Bottomley@hansenpartnership.com, martin.petersen@oracle.com,
+	deller@gmx.de, arnd@arndb.de, sgarzare@redhat.com, horms@kernel.org
+Subject: Re: [PATCH v1 2/2] Drivers: hv: Make CONFIG_HYPERV bool
+Message-ID: <2025091253-overwrite-carol-b197@gregkh>
+References: <20250906010952.2145389-1-mrathor@linux.microsoft.com>
+ <20250906010952.2145389-3-mrathor@linux.microsoft.com>
+ <2025090621-rumble-cost-2c0d@gregkh>
+ <d7d7b23f-eaea-2dbc-9c9d-4bee082f6fe7@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="zmberailqlfhseth"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250824-mdb-max7360-support-v14-4-435cfda2b1ea@bootlin.com>
+In-Reply-To: <d7d7b23f-eaea-2dbc-9c9d-4bee082f6fe7@linux.microsoft.com>
 
+On Mon, Sep 08, 2025 at 02:01:34PM -0700, Mukesh R wrote:
+> On 9/6/25 04:36, Greg KH wrote:
+> > On Fri, Sep 05, 2025 at 06:09:52PM -0700, Mukesh Rathor wrote:
+> >> With CONFIG_HYPERV and CONFIG_HYPERV_VMBUS separated, change CONFIG_HYPERV
+> >> to bool from tristate. CONFIG_HYPERV now becomes the core Hyper-V
+> >> hypervisor support, such as hypercalls, clocks/timers, Confidential
+> >> Computing setup, PCI passthru, etc. that doesn't involve VMBus or VMBus
+> >> devices.
+> > 
+> > But why are you making it so that this can not be a module anymore?  You
+> > are now forcing ALL Linux distro users to always have this code in their
+> > system, despite not ever using the feature.  That feels like a waste to
+> > me.
+> > 
+> > What is preventing this from staying as a module?  Why must you always
+> > have this code loaded at all times for everyone?
+> 
+> This is currently not a module. I assume it was at the beginning. In
+> drivers/Makefile today:
+> 
+> obj-$(subst m,y,$(CONFIG_HYPERV))       += hv/
+> 
+> 
+> More context: CONFIG_HYPERV doesn't really reflect one module. It is
+> both for kernel built in code and building of stuff in drivers/hv.
+> 
+> drivers/hv then builds 4 modules:
+> 
+> obj-$(CONFIG_HYPERV)            += hv_vmbus.o
+> obj-$(CONFIG_HYPERV_UTILS)      += hv_utils.o
+> obj-$(CONFIG_HYPERV_BALLOON)    += hv_balloon.o
+> obj-$(CONFIG_MSHV_ROOT)         += mshv_root.o
+> 
+> Notice vmbus is using CONFIG_HYPERV because there is no 
+> CONFIG_HYPERV_VMBUS. We are trying to fix that here.
 
---zmberailqlfhseth
-Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v14 04/10] pwm: max7360: Add MAX7360 PWM support
-MIME-Version: 1.0
+This series does not apply to my tree:
 
-On Sun, Aug 24, 2025 at 01:57:23PM +0200, Mathieu Dubois-Briand wrote:
-> +static int max7360_pwm_round_waveform_tohw(struct pwm_chip *chip,
-> +					   struct pwm_device *pwm,
-> +					   const struct pwm_waveform *wf,
-> +					   void *_wfhw)
-> +{
-> +	struct max7360_pwm_waveform *wfhw =3D _wfhw;
-> +	u64 duty_steps;
-> +
-> +	/*
-> +	 * Ignore user provided values for period_length_ns and duty_offset_ns:
-> +	 * we only support fixed period of MAX7360_PWM_PERIOD_NS and offset of =
-0.
-> +	 * Values from 0 to 254 as duty_steps will provide duty cycles of 0/256
-> +	 * to 254/256, while value 255 will provide a duty cycle of 100%.
-> +	 */
-> +	if (wf->duty_length_ns >=3D MAX7360_PWM_PERIOD_NS) {
-> +		duty_steps =3D MAX7360_PWM_MAX;
-> +	} else {
-> +		duty_steps =3D (u32)wf->duty_length_ns * MAX7360_PWM_STEPS / MAX7360_P=
-WM_PERIOD_NS;
-> +		if (duty_steps =3D=3D MAX7360_PWM_MAX)
-> +			duty_steps =3D MAX7360_PWM_MAX - 1;
-> +	}
-> +
-> +	wfhw->duty_steps =3D min(MAX7360_PWM_MAX, duty_steps);
+checking file drivers/gpu/drm/Kconfig
+checking file drivers/hid/Kconfig
+checking file drivers/hv/Kconfig
+Hunk #2 FAILED at 82.
+1 out of 2 hunks FAILED
+checking file drivers/hv/Makefile
+checking file drivers/input/serio/Kconfig
+checking file drivers/net/hyperv/Kconfig
+checking file drivers/pci/Kconfig
+checking file drivers/scsi/Kconfig
+checking file drivers/uio/Kconfig
+checking file drivers/video/fbdev/Kconfig
+checking file include/asm-generic/mshyperv.h
+Hunk #1 succeeded at 162 with fuzz 2 (offset -3 lines).
+Hunk #2 succeeded at 198 (offset -3 lines).
+Hunk #3 succeeded at 215 (offset -3 lines).
+checking file net/vmw_vsock/Kconfig
 
-duty_steps is never bigger than MAX7360_PWM_MAX, isn't it? Then this can
-be simplified to just
+What was it made against?
 
-	wfhw->duty_steps =3D duty_steps;
+thanks,
 
-Otherwise looks fine to me.
-
-To get this series forward, it's OK for me to apply the series as is via
-Lee's MFD tree and cope for this minor optimisation later. So:
-
-Acked-by: Uwe Kleine-K=F6nig <ukleinek@kernel.org>
-
-Best regards
-Uwe
-
---zmberailqlfhseth
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmjD4GUACgkQj4D7WH0S
-/k77QAgAjjqIqisX0gZEMvfEUJ6b5oMEE4/wjU5NBKRDyva0lOmPR4y0eg8XCSd6
-WXBNjxsQ+zdzk8ATPVz2GaWl6It3jsTIIjXEeBZM5dcrsh7U3OD+KoFdkDfeZhgH
-Fgs8dVGvrPW4+7hruZqoGiOBScRMgV3OezDHZ0bfIAQRzg9cAZcMJVsa+JMFy60V
-0HZ1oE4lm65SKpKO5OVEsQ7/tUPAXFiqvCGr8KJNTGGM8vmg+ds62Y53JcojWjZs
-Vvdk2rtpKRDklrjoJjDcfIfgZVZcZrM7QReEGl7rOnYEG3vFLQRJVJjDVziqcpt0
-BgFP8Hj3a6dMWoMjgm4kQrJ14qT5kg==
-=ruZV
------END PGP SIGNATURE-----
-
---zmberailqlfhseth--
+greg k-h
 
