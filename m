@@ -1,135 +1,142 @@
-Return-Path: <linux-input+bounces-14643-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14644-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8607B54B48
-	for <lists+linux-input@lfdr.de>; Fri, 12 Sep 2025 13:43:31 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 177E9B54D12
+	for <lists+linux-input@lfdr.de>; Fri, 12 Sep 2025 14:17:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 77AAC171BB4
-	for <lists+linux-input@lfdr.de>; Fri, 12 Sep 2025 11:43:31 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0DC14A037E2
+	for <lists+linux-input@lfdr.de>; Fri, 12 Sep 2025 12:13:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C0FD6274FDB;
-	Fri, 12 Sep 2025 11:43:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 699A13164C8;
+	Fri, 12 Sep 2025 12:05:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="0TCwjyZx"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="OE3gEZ6X"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6877641C62;
-	Fri, 12 Sep 2025 11:43:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD77B314A8E
+	for <linux-input@vger.kernel.org>; Fri, 12 Sep 2025 12:05:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757677406; cv=none; b=LqxhO0/hEm2CBiuRf2QSIZfrs1QADxDxXNs9KqooStFKWzUl2txum2r9uL7PH641ezl3Esgj3pwuJJxDmhf76yaZtrZ7qhFpmGAiJcCSdYL/1vH8W6OpWOjkfwr0zG6W3yCq3Lhh689Iuq9HvGW84gxLsOqDSmcQ6bxHUIFsLpo=
+	t=1757678745; cv=none; b=NVE+fFXCTV8ttYD7RwpX1wt9uJ0fKwITKa24Y4BMaZvNrtwy3W9a5drkcOByopB6GegFPlDIPv+aemZ/mWKg/30gi0RBAqT702dKa+oGeGq6/UXkuRwMqwz3WwWZvzzk8buUFPH97ZfiIW9u8h2E2FYxqz5nU+LMVLvnB1oCKkU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757677406; c=relaxed/simple;
-	bh=vQZw18LyMNiHBfayqqKazzYbl6hyR7y4CM3GzrQTcKo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RyT9RI2j6qOlTnaYw0KIyVEqiCQewLMLd/nvCUsYpul/nevb3VCawDMMznzTt3QXW27xUIh4k04hjXrPzAaaw8HDSnnQ6fKvlkpQgzxNMzYIEVkbBae5QY+dpEWx5Gx7uILyul80jYkayGann837FbrbbgrtfJUJam7XhYXjr6A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=0TCwjyZx; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2916DC4CEF1;
-	Fri, 12 Sep 2025 11:43:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1757677405;
-	bh=vQZw18LyMNiHBfayqqKazzYbl6hyR7y4CM3GzrQTcKo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=0TCwjyZxwiSPrLtFZN+IyniMywN3vL/LlOWbuAxsnEsOVAbzmqup0WIsjoDHMFsp4
-	 CZHsmzwRAvDxfPp9R9I5o3dTd0LaONRXa7YSjy5cAsJmZrkkOk9zpdlsnFkevQaLH4
-	 NT9opWe3xXbfYZRU1UCBvRT6dZZUiedrQxIwCvto=
-Date: Fri, 12 Sep 2025 13:43:22 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Mukesh R <mrathor@linux.microsoft.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-	linux-input@vger.kernel.org, linux-hyperv@vger.kernel.org,
-	netdev@vger.kernel.org, linux-pci@vger.kernel.org,
-	linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org,
-	linux-arch@vger.kernel.org, virtualization@lists.linux.dev,
-	maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-	tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
-	jikos@kernel.org, bentiss@kernel.org, kys@microsoft.com,
-	haiyangz@microsoft.com, wei.liu@kernel.org, decui@microsoft.com,
-	dmitry.torokhov@gmail.com, andrew+netdev@lunn.ch,
-	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, bhelgaas@google.com,
-	James.Bottomley@hansenpartnership.com, martin.petersen@oracle.com,
-	deller@gmx.de, arnd@arndb.de, sgarzare@redhat.com, horms@kernel.org
-Subject: Re: [PATCH v1 2/2] Drivers: hv: Make CONFIG_HYPERV bool
-Message-ID: <2025091253-overwrite-carol-b197@gregkh>
-References: <20250906010952.2145389-1-mrathor@linux.microsoft.com>
- <20250906010952.2145389-3-mrathor@linux.microsoft.com>
- <2025090621-rumble-cost-2c0d@gregkh>
- <d7d7b23f-eaea-2dbc-9c9d-4bee082f6fe7@linux.microsoft.com>
+	s=arc-20240116; t=1757678745; c=relaxed/simple;
+	bh=6kXTvgsEt4hrAQkTdQrB5UQT/65SaHckvtwi0km/o5Q=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:From:To:
+	 References:In-Reply-To; b=P6fSZf2pVdgdd8ADY4rrqF9H/15gj1B4DqUWfRumZeirPbF+L2JTiXjtiebKmt7zVtba5WdHBcsDKyYderj5GfoOreqx0UNDRcxE9+1uvxMANr63V7T4Qh9LvhR2BFSjRzG+nypjMDRv7i4pWt1gulNxdD5EG4pSt+QNcImrAUI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=OE3gEZ6X; arc=none smtp.client-ip=185.246.85.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 6C3C34E40CA2;
+	Fri, 12 Sep 2025 12:05:35 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 28A6160638;
+	Fri, 12 Sep 2025 12:05:35 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 8F324102F2999;
+	Fri, 12 Sep 2025 14:05:24 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1757678734; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=Os+OidjTl+c1dT3HL1cuaSdhlkiI53JVGWAi5cjuG5g=;
+	b=OE3gEZ6X44PjnQgyrjxBYK80kz9SpzxFU5P6SwdMm81+KP5hIFW7PNtGVIDrgqmh5Cex8C
+	INo3PxGEWtzFW/10tnhbx+Eo0zQKV/+KXZ6zVxN5eHDVaHYkno9fatGG4GcYDlt6kf7OkL
+	/GdcTD6y8s6vhEcjeBrVkUI1zVI6gjwotmc4itWYm3MIoPm0TtO34qMmP350zAF59XnhYA
+	cJfCNZaMvrMaWqJTpyXsPaj8D1Rx7zLJFGqp5VVaxcjH4YqdLYUtK8LNCFCLUIU2iNdoMW
+	eEj7/g6Y47SUTvkRFrQTlFODlOP4c7iItOnrjsMUPlgWokcnxM+locoSf1pMrA==
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d7d7b23f-eaea-2dbc-9c9d-4bee082f6fe7@linux.microsoft.com>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 12 Sep 2025 14:05:24 +0200
+Message-Id: <DCQT3UNG2Y41.2V411GFLLDVEP@bootlin.com>
+Subject: Re: [PATCH v14 04/10] pwm: max7360: Add MAX7360 PWM support
+Cc: "Lee Jones" <lee@kernel.org>, "Rob Herring" <robh@kernel.org>,
+ "Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Conor Dooley"
+ <conor+dt@kernel.org>, "Kamel Bouhara" <kamel.bouhara@bootlin.com>, "Linus
+ Walleij" <linus.walleij@linaro.org>, "Bartosz Golaszewski" <brgl@bgdev.pl>,
+ "Dmitry Torokhov" <dmitry.torokhov@gmail.com>, "Michael Walle"
+ <mwalle@kernel.org>, "Mark Brown" <broonie@kernel.org>, "Greg
+ Kroah-Hartman" <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
+ <rafael@kernel.org>, "Danilo Krummrich" <dakr@kernel.org>,
+ <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-gpio@vger.kernel.org>, <linux-input@vger.kernel.org>,
+ <linux-pwm@vger.kernel.org>, <andriy.shevchenko@intel.com>,
+ =?utf-8?q?Gr=C3=A9gory_Clement?= <gregory.clement@bootlin.com>, "Thomas
+ Petazzoni" <thomas.petazzoni@bootlin.com>, "Andy Shevchenko"
+ <andriy.shevchenko@linux.intel.com>
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
+X-Mailer: aerc 0.19.0-0-gadd9e15e475d
+References: <20250824-mdb-max7360-support-v14-0-435cfda2b1ea@bootlin.com>
+ <20250824-mdb-max7360-support-v14-4-435cfda2b1ea@bootlin.com>
+ <7jytyub4v7tn6vbwh4drusaagnskl2dsfg2xr6eqp4leqpfq3y@a7g3de5echs4>
+In-Reply-To: <7jytyub4v7tn6vbwh4drusaagnskl2dsfg2xr6eqp4leqpfq3y@a7g3de5echs4>
+X-Last-TLS-Session-Version: TLSv1.3
 
-On Mon, Sep 08, 2025 at 02:01:34PM -0700, Mukesh R wrote:
-> On 9/6/25 04:36, Greg KH wrote:
-> > On Fri, Sep 05, 2025 at 06:09:52PM -0700, Mukesh Rathor wrote:
-> >> With CONFIG_HYPERV and CONFIG_HYPERV_VMBUS separated, change CONFIG_HYPERV
-> >> to bool from tristate. CONFIG_HYPERV now becomes the core Hyper-V
-> >> hypervisor support, such as hypercalls, clocks/timers, Confidential
-> >> Computing setup, PCI passthru, etc. that doesn't involve VMBus or VMBus
-> >> devices.
-> > 
-> > But why are you making it so that this can not be a module anymore?  You
-> > are now forcing ALL Linux distro users to always have this code in their
-> > system, despite not ever using the feature.  That feels like a waste to
-> > me.
-> > 
-> > What is preventing this from staying as a module?  Why must you always
-> > have this code loaded at all times for everyone?
-> 
-> This is currently not a module. I assume it was at the beginning. In
-> drivers/Makefile today:
-> 
-> obj-$(subst m,y,$(CONFIG_HYPERV))       += hv/
-> 
-> 
-> More context: CONFIG_HYPERV doesn't really reflect one module. It is
-> both for kernel built in code and building of stuff in drivers/hv.
-> 
-> drivers/hv then builds 4 modules:
-> 
-> obj-$(CONFIG_HYPERV)            += hv_vmbus.o
-> obj-$(CONFIG_HYPERV_UTILS)      += hv_utils.o
-> obj-$(CONFIG_HYPERV_BALLOON)    += hv_balloon.o
-> obj-$(CONFIG_MSHV_ROOT)         += mshv_root.o
-> 
-> Notice vmbus is using CONFIG_HYPERV because there is no 
-> CONFIG_HYPERV_VMBUS. We are trying to fix that here.
+On Fri Sep 12, 2025 at 10:57 AM CEST, Uwe Kleine-K=C3=B6nig wrote:
+> On Sun, Aug 24, 2025 at 01:57:23PM +0200, Mathieu Dubois-Briand wrote:
+>> +static int max7360_pwm_round_waveform_tohw(struct pwm_chip *chip,
+>> +					   struct pwm_device *pwm,
+>> +					   const struct pwm_waveform *wf,
+>> +					   void *_wfhw)
+>> +{
+>> +	struct max7360_pwm_waveform *wfhw =3D _wfhw;
+>> +	u64 duty_steps;
+>> +
+>> +	/*
+>> +	 * Ignore user provided values for period_length_ns and duty_offset_ns=
+:
+>> +	 * we only support fixed period of MAX7360_PWM_PERIOD_NS and offset of=
+ 0.
+>> +	 * Values from 0 to 254 as duty_steps will provide duty cycles of 0/25=
+6
+>> +	 * to 254/256, while value 255 will provide a duty cycle of 100%.
+>> +	 */
+>> +	if (wf->duty_length_ns >=3D MAX7360_PWM_PERIOD_NS) {
+>> +		duty_steps =3D MAX7360_PWM_MAX;
+>> +	} else {
+>> +		duty_steps =3D (u32)wf->duty_length_ns * MAX7360_PWM_STEPS / MAX7360_=
+PWM_PERIOD_NS;
+>> +		if (duty_steps =3D=3D MAX7360_PWM_MAX)
+>> +			duty_steps =3D MAX7360_PWM_MAX - 1;
+>> +	}
+>> +
+>> +	wfhw->duty_steps =3D min(MAX7360_PWM_MAX, duty_steps);
+>
+> duty_steps is never bigger than MAX7360_PWM_MAX, isn't it? Then this can
+> be simplified to just
+>
+> 	wfhw->duty_steps =3D duty_steps;
+>
 
-This series does not apply to my tree:
+Ok, I reviewed this section and I do agree with you. I will prepare a
+new patch to fix this line and will send it separately.
 
-checking file drivers/gpu/drm/Kconfig
-checking file drivers/hid/Kconfig
-checking file drivers/hv/Kconfig
-Hunk #2 FAILED at 82.
-1 out of 2 hunks FAILED
-checking file drivers/hv/Makefile
-checking file drivers/input/serio/Kconfig
-checking file drivers/net/hyperv/Kconfig
-checking file drivers/pci/Kconfig
-checking file drivers/scsi/Kconfig
-checking file drivers/uio/Kconfig
-checking file drivers/video/fbdev/Kconfig
-checking file include/asm-generic/mshyperv.h
-Hunk #1 succeeded at 162 with fuzz 2 (offset -3 lines).
-Hunk #2 succeeded at 198 (offset -3 lines).
-Hunk #3 succeeded at 215 (offset -3 lines).
-checking file net/vmw_vsock/Kconfig
+> Otherwise looks fine to me.
+>
+> To get this series forward, it's OK for me to apply the series as is via
+> Lee's MFD tree and cope for this minor optimisation later. So:
+>
+> Acked-by: Uwe Kleine-K=C3=B6nig <ukleinek@kernel.org>
+>
+> Best regards
+> Uwe
 
-What was it made against?
+Thanks,
+Mathieu
 
-thanks,
+--=20
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
-greg k-h
 
