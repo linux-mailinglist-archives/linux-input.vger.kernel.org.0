@@ -1,104 +1,148 @@
-Return-Path: <linux-input+bounces-14667-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14668-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92D02B55550
-	for <lists+linux-input@lfdr.de>; Fri, 12 Sep 2025 19:05:01 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id CE232B555DE
+	for <lists+linux-input@lfdr.de>; Fri, 12 Sep 2025 20:10:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B4837AC42E6
-	for <lists+linux-input@lfdr.de>; Fri, 12 Sep 2025 17:04:56 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 676FD5C52CC
+	for <lists+linux-input@lfdr.de>; Fri, 12 Sep 2025 18:10:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CA9E93112CF;
-	Fri, 12 Sep 2025 17:04:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EC95932A823;
+	Fri, 12 Sep 2025 18:10:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uiHOQnR6"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="LQ3BgZpe"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0C31258ED9;
-	Fri, 12 Sep 2025 17:04:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 51810302CB2;
+	Fri, 12 Sep 2025 18:10:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757696684; cv=none; b=RnVBvp3MmI4OYEmUnUWVS/Z+X5PTx2DgSdtzZOlu03BWEJ3anhO7LX1y3QVFrD+INvLRJUD2a8O0wKjiU1DAQKoVNkOd8bsEoNFovHDc8y5taKl37nvwKpxqQMiUA/l9mQQvtq9/pYQPwY7KQq1/MWckBCNbtHfbe4EImtjXboo=
+	t=1757700609; cv=none; b=JxqUS9OQDGgaAyDAAMKec8QM684ZH6xZQwlJnymGck3XTl4lCq6qylYrbvG0jxl+EF6LL/BYS9BQi8VCPovP3V2DomvnuD/n4q1yYJRl9l/41AiPZ1nQuLCa8LlQ6DZkVTRTFUuBhm51kS4MPcR0m97ZZBW9DLY1ah/972CM0pE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757696684; c=relaxed/simple;
-	bh=o/2riuH6Vl3CWoq2pt1e4/nCTOT1wbTb7SSUZSgH3Ig=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=riVNpRRQP2DFKefrCgM8NAX5CdQPWLtp9XfBWcecp1MQPFDPx2BvZQgwFuFiQDNgoWVaDAtQorOAaEeFFvSGWiZPMrPnrOGpV0eFUHWkd449g99S98LQQymC36s21ZuGpg0/H5aRDVOg1uAatLCdTt3EMhRTFTCCXaVmi3xdaoU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uiHOQnR6; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C772C4CEF1;
-	Fri, 12 Sep 2025 17:04:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757696684;
-	bh=o/2riuH6Vl3CWoq2pt1e4/nCTOT1wbTb7SSUZSgH3Ig=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=uiHOQnR6jtwNSiM7Zgds4T97jwn0xtaOY0I9LZbHyMiOIHh1hJmzPUsrkoiZeTxia
-	 UFwpINRFCpk+Ssgo9toZtf6Fdcn6sgDHaiUPp3Bsr9wR2UrLzbEI2zWSfGiGJqlESy
-	 piJZqYUzM0CQXuvRN57AOUFvIQvxGgbzAZeauZ/dM7zR2uZH91PI3K4pLFHJuQz8b2
-	 QjR3TC73StyV+07d1eP6cuiJoDZifFJOolBnwstZQAJ0MfXBq26x5qFXBgfhtH0ZuJ
-	 7Rnv8fBMk2U+xhyJ3ulhbMngGGHULv15GVEKAT4MmOhvOEEGpopbkn0+TrP/SPsHET
-	 pOCklBmRHASOA==
-Date: Fri, 12 Sep 2025 19:04:39 +0200
-From: Benjamin Tissoires <bentiss@kernel.org>
-To: Jiri Kosina <jikos@kernel.org>
-Cc: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>, 
-	Roderick Colenbrander <thunderbird2k@gmail.com>, Roderick Colenbrander <roderick.colenbrander@sony.com>, 
-	Henrik Rydberg <rydberg@bitmath.org>, kernel@collabora.com, linux-input@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 00/11] HID: playstation: Add support for audio jack
- handling on DualSense
-Message-ID: <4yeyp7a2vn67qeclcn3kbzdaxltg4roct3wjvt4fsarjseuidf@zxzt6nftohtl>
-References: <74d4675d-d6f5-41ed-b715-f62fb569df5d@collabora.com>
- <CAEc3jaAFV_PXdFAX9th4-hhKNAhBKdVCNP+Qf8nH=g8FwoCabQ@mail.gmail.com>
- <CAEc3jaAGP3HV_+tGLHWZXA-baD4HkA2nYWGxpmox4cuZMh+ksw@mail.gmail.com>
- <CAEc3jaD8tUNW6hkPHDp=iGmdwD5m3uKg0vNtyZr-u1mmPSAkVQ@mail.gmail.com>
- <ab1c06b1-9b79-426a-a43b-cf5a89688770@collabora.com>
- <CAEc3jaDsX8OSVskO6-Rsvn12BbV2-8ZjhV+tPaRpu9Nai3czEg@mail.gmail.com>
- <8f7242f0-c217-47e4-ad88-fc1481ca936f@collabora.com>
- <c6a16e71-e431-47dd-a3d1-6a79fd7e4a37@collabora.com>
- <r8qr0nrn-0n5r-6r96-7p26-q22ns73484np@xreary.bet>
- <s3tus6usbokl5hpwlbzbxfqdqwnyxqqnjiwhzdbd5obvfxavvf@cwopa6fpjctb>
+	s=arc-20240116; t=1757700609; c=relaxed/simple;
+	bh=yPJqLt8S5WWM4BObvCnuZSDbc1t/tgpd5gl4wkceEGg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=X3c+crgGM9/fJ1XVtzaq2C74CVkrhehomByFYYJ3536xoME/bMOoI+eCfaFN+QpLEeXimyjuMh1mHTFgsWFMP0cunydtYHzj6hzrZoeg6QfcYcDom9jPyqzvP0axGR48m3M6LnNbhmhdWwc3I8hVBhZEFcjUksr1tpZ8m7qj9EM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=LQ3BgZpe; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+Received: from [192.168.0.88] (192-184-212-33.fiber.dynamic.sonic.net [192.184.212.33])
+	by linux.microsoft.com (Postfix) with ESMTPSA id ED2B42119CBF;
+	Fri, 12 Sep 2025 11:10:00 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com ED2B42119CBF
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1757700602;
+	bh=HXYJgEfXFwo/OPKrYhrveFvpXwC44rrX+LkCZApziY4=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=LQ3BgZpeMJGwjTLRudlWpMa8SX8RO+j/34vsQaL4PkTvTkI/qkWK/wElTFG4ma7bq
+	 8NM3LoJh5HhkcNK+KwwYAoh01/HqKWzw8IdRL8lUGd7y0lqldMU83UUu/URfbdFHiD
+	 X8LZ8UBwGVc2sHYIuNq4iAAYSpEmzqL/34I8VDGk=
+Message-ID: <a8c8305c-b518-c840-fc64-50bcba302725@linux.microsoft.com>
+Date: Fri, 12 Sep 2025 11:10:00 -0700
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <s3tus6usbokl5hpwlbzbxfqdqwnyxqqnjiwhzdbd5obvfxavvf@cwopa6fpjctb>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.1
+Subject: Re: [PATCH v1 2/2] Drivers: hv: Make CONFIG_HYPERV bool
+Content-Language: en-US
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-input@vger.kernel.org, linux-hyperv@vger.kernel.org,
+ netdev@vger.kernel.org, linux-pci@vger.kernel.org,
+ linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ linux-arch@vger.kernel.org, virtualization@lists.linux.dev,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch, jikos@kernel.org, bentiss@kernel.org,
+ kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
+ decui@microsoft.com, dmitry.torokhov@gmail.com, andrew+netdev@lunn.ch,
+ davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+ pabeni@redhat.com, bhelgaas@google.com,
+ James.Bottomley@hansenpartnership.com, martin.petersen@oracle.com,
+ deller@gmx.de, arnd@arndb.de, sgarzare@redhat.com, horms@kernel.org
+References: <20250906010952.2145389-1-mrathor@linux.microsoft.com>
+ <20250906010952.2145389-3-mrathor@linux.microsoft.com>
+ <2025090621-rumble-cost-2c0d@gregkh>
+ <d7d7b23f-eaea-2dbc-9c9d-4bee082f6fe7@linux.microsoft.com>
+ <2025091253-overwrite-carol-b197@gregkh>
+From: Mukesh R <mrathor@linux.microsoft.com>
+In-Reply-To: <2025091253-overwrite-carol-b197@gregkh>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Sep 12 2025, Benjamin Tissoires wrote:
-> On Sep 12 2025, Jiri Kosina wrote:
-> > On Wed, 27 Aug 2025, Cristian Ciocaltea wrote:
-> > 
-> > > It's been over a month now since this was kind of blocked without any clear
-> > > reason, and by the end of next week I'll be on leave, which means we're
-> > > close to missing the merge window once again.
-> > > 
-> > > Considering the counterpart quirk in the generic USB audio driver has been
-> > > already merged since v6.17, I kindly ask for your support in getting this
-> > > into v6.18.
-> > 
-> > Roderick, do you have any word on this, please?
+On 9/12/25 04:43, Greg KH wrote:
+> On Mon, Sep 08, 2025 at 02:01:34PM -0700, Mukesh R wrote:
+>> On 9/6/25 04:36, Greg KH wrote:
+>>> On Fri, Sep 05, 2025 at 06:09:52PM -0700, Mukesh Rathor wrote:
+>>>> With CONFIG_HYPERV and CONFIG_HYPERV_VMBUS separated, change CONFIG_HYPERV
+>>>> to bool from tristate. CONFIG_HYPERV now becomes the core Hyper-V
+>>>> hypervisor support, such as hypercalls, clocks/timers, Confidential
+>>>> Computing setup, PCI passthru, etc. that doesn't involve VMBus or VMBus
+>>>> devices.
+>>>
+>>> But why are you making it so that this can not be a module anymore?  You
+>>> are now forcing ALL Linux distro users to always have this code in their
+>>> system, despite not ever using the feature.  That feels like a waste to
+>>> me.
+>>>
+>>> What is preventing this from staying as a module?  Why must you always
+>>> have this code loaded at all times for everyone?
+>>
+>> This is currently not a module. I assume it was at the beginning. In
+>> drivers/Makefile today:
+>>
+>> obj-$(subst m,y,$(CONFIG_HYPERV))       += hv/
+>>
+>>
+>> More context: CONFIG_HYPERV doesn't really reflect one module. It is
+>> both for kernel built in code and building of stuff in drivers/hv.
+>>
+>> drivers/hv then builds 4 modules:
+>>
+>> obj-$(CONFIG_HYPERV)            += hv_vmbus.o
+>> obj-$(CONFIG_HYPERV_UTILS)      += hv_utils.o
+>> obj-$(CONFIG_HYPERV_BALLOON)    += hv_balloon.o
+>> obj-$(CONFIG_MSHV_ROOT)         += mshv_root.o
+>>
+>> Notice vmbus is using CONFIG_HYPERV because there is no 
+>> CONFIG_HYPERV_VMBUS. We are trying to fix that here.
 > 
-> If this can help moving forward:
-> Patches 1-9 are:
-> Reviewed-by: Benjamin Tissoires <bentiss@kernel.org>
-> and can be merged right away
+> This series does not apply to my tree:
+> 
+> checking file drivers/gpu/drm/Kconfig
+> checking file drivers/hid/Kconfig
+> checking file drivers/hv/Kconfig
+> Hunk #2 FAILED at 82.
+> 1 out of 2 hunks FAILED
+> checking file drivers/hv/Makefile
+> checking file drivers/input/serio/Kconfig
+> checking file drivers/net/hyperv/Kconfig
+> checking file drivers/pci/Kconfig
+> checking file drivers/scsi/Kconfig
+> checking file drivers/uio/Kconfig
+> checking file drivers/video/fbdev/Kconfig
+> checking file include/asm-generic/mshyperv.h
+> Hunk #1 succeeded at 162 with fuzz 2 (offset -3 lines).
+> Hunk #2 succeeded at 198 (offset -3 lines).
+> Hunk #3 succeeded at 215 (offset -3 lines).
+> checking file net/vmw_vsock/Kconfig
+> 
+> What was it made against?
+> 
 
-Also, to add a little bit more of confidence, I've just ran the
-test_sony.py regression tests on the full series and no regressions have
-been detected. (those will be run anyway after the series is accepted)
+Sorry to hear that. It was built against hyper-next, but perhaps I 
+accidentally used our internal mirror. Let me rebase and send V2
+right away.
 
-It would be nice to have new tests for this feature but I'm not sure
-it'll be easy to add given that we are talking about new interaction
-with other parts of the kernel.
+Thanks,
+-Mukesh
 
 
-Cheers,
-Benjamin
+
 
