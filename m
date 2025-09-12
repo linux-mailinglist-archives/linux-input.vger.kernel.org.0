@@ -1,100 +1,113 @@
-Return-Path: <linux-input+bounces-14662-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14663-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 561EFB55486
-	for <lists+linux-input@lfdr.de>; Fri, 12 Sep 2025 18:15:01 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id CA4ADB55531
+	for <lists+linux-input@lfdr.de>; Fri, 12 Sep 2025 18:59:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D164417B7AA
-	for <lists+linux-input@lfdr.de>; Fri, 12 Sep 2025 16:14:59 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 275581D66231
+	for <lists+linux-input@lfdr.de>; Fri, 12 Sep 2025 16:59:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 779BC3168EA;
-	Fri, 12 Sep 2025 16:14:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7980D3218BF;
+	Fri, 12 Sep 2025 16:58:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eCtNvQzt"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="f4ZaR96j"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DEA73164DC;
-	Fri, 12 Sep 2025 16:14:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D0DA1FCCF8;
+	Fri, 12 Sep 2025 16:58:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757693694; cv=none; b=i9YE6R7uCfD2/UZ3d2aG9bA8takl52AMzFZSEThXNomMKODlYewbdb2E0q3oR0Tac7ht2cCdRs+Xg0h/CkoKM19NiiFpXSzyvK9sKUknc8yX40xQ2LQYQTXJ8JenNZKQSYPiNt/xt5o1k32RpRanqEBA4dNZYmX5KW6kKrA6Zq4=
+	t=1757696337; cv=none; b=jVPaEnIhn3p4YUEmImj3v4/mftmRtLUfbnV+9kpUw6DnwoH+kUPfB+Knp25obBph8wckhO/zagVjEIDgtvl8FovVrNBKOI2jpE9gPSiOvdKUHpas47kKfDl5sGhP+LjYatIosNTyO9s4NP4zWp6Y38hr5mmQpLZUE8fAlaYIN4s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757693694; c=relaxed/simple;
-	bh=apN7Uzrx30Vskl1nvqSzwHB00iLTqqOAeKmaDGKp/d4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GnywymrJHs5Vj+DGraY9ornnSkbBxdtq1NKHGdi/QvGmzH91HngUX9ifkNfAGdsA6aiSEQ+3XDj/E/rFrUcW0JbOtzQP5Yv65xIIDojpA3LWxDNoY7AFxoVnkqKj53ph+7z8MvqrGPZ3T2pWBxS8oCFy/IoJzWwCEeHAwHXA6vs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eCtNvQzt; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27B84C4CEF1;
-	Fri, 12 Sep 2025 16:14:51 +0000 (UTC)
+	s=arc-20240116; t=1757696337; c=relaxed/simple;
+	bh=gtfvdfI+H0ACLSjUJUR2tLLcJx+U29SK+JJDuNQ7ox8=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=JK74nUHqmhdW17Tmj4ryYGG5vljE8D6p+UMiUkhul/XROmE3T88MXBvPeyq2s+eJ3WVRhqkKEhKQLS/JscwSopZmCmykfAQiK5C5qChB76ds2zAavmf0D5RtsarO8SYzqPj/WOE4RMhokkjrUutkr3M9w14DmJyuaknbTk56GF4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=f4ZaR96j; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61234C4CEF1;
+	Fri, 12 Sep 2025 16:58:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757693693;
-	bh=apN7Uzrx30Vskl1nvqSzwHB00iLTqqOAeKmaDGKp/d4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=eCtNvQztn9Dzg3IMUrjoWjTpNpfkMnjgSIgxmjmqRrcuvbe+zO2O0WfJVn93AWcif
-	 AfJfrR91ft0gevSBETp1kC8pIiz38ot+d3VE+qLBEFjd0iESw4cfE7cKZjkhqvDY+8
-	 p41ImxjnB/5VnG5MYicxKgJyObmd520w8J32USc2JILPPaUM6glRjJXJQMGVJSKL1w
-	 uA5HgdvWK1we/YZV/iCqM9/TQexRh55YGsO5zmxsifDdc6roZfylIaI5VqwdRnFvnd
-	 1D3YWlETgjUIu4Nkn94GmqbLZSLJ5mLF0BV/pJGsotomfkA/bllYbvmIJMhYA9j7Ll
-	 Fja+zjyZ1SaMQ==
-Date: Fri, 12 Sep 2025 18:14:49 +0200
+	s=k20201202; t=1757696336;
+	bh=gtfvdfI+H0ACLSjUJUR2tLLcJx+U29SK+JJDuNQ7ox8=;
+	h=From:Subject:Date:To:Cc:From;
+	b=f4ZaR96j9y4Fv5BDp+3cD7er4v0fcdLgYSL8Iv6eBUrcgDCxoCc6kPkEwHyqfpmoG
+	 Wcqf7jK79M4mn80aGGGjXIRk+9rSUI51Sqz6dOJ1jCOtVFwqCiG/4SDoxhxOyzQzwY
+	 YXO99uuwxX7AmbjdKQxrQgOA7o6wYROVT+DzYKTg6eAXxbE7dSc61Wr7yvBp5Ow3wi
+	 owL7QJadoG5ELCdNdwiIynbxhz6+ehKFLOfz/JbQCVpR2zd9qbXwrsFen/adADHur+
+	 4vpdkTZafAsKMjUPRjN2bPGDBxKjdkWbDOioPqWAp7+Y4ziMdye7MjdN9fD5gAWKQM
+	 bdIv+TXQWP+kA==
 From: Benjamin Tissoires <bentiss@kernel.org>
-To: Jiri Kosina <jikos@kernel.org>
-Cc: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>, 
-	Roderick Colenbrander <thunderbird2k@gmail.com>, Roderick Colenbrander <roderick.colenbrander@sony.com>, 
-	Henrik Rydberg <rydberg@bitmath.org>, kernel@collabora.com, linux-input@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 00/11] HID: playstation: Add support for audio jack
- handling on DualSense
-Message-ID: <s3tus6usbokl5hpwlbzbxfqdqwnyxqqnjiwhzdbd5obvfxavvf@cwopa6fpjctb>
-References: <s4596421-sr43-893r-o90r-86nr588sp32q@xreary.bet>
- <74d4675d-d6f5-41ed-b715-f62fb569df5d@collabora.com>
- <CAEc3jaAFV_PXdFAX9th4-hhKNAhBKdVCNP+Qf8nH=g8FwoCabQ@mail.gmail.com>
- <CAEc3jaAGP3HV_+tGLHWZXA-baD4HkA2nYWGxpmox4cuZMh+ksw@mail.gmail.com>
- <CAEc3jaD8tUNW6hkPHDp=iGmdwD5m3uKg0vNtyZr-u1mmPSAkVQ@mail.gmail.com>
- <ab1c06b1-9b79-426a-a43b-cf5a89688770@collabora.com>
- <CAEc3jaDsX8OSVskO6-Rsvn12BbV2-8ZjhV+tPaRpu9Nai3czEg@mail.gmail.com>
- <8f7242f0-c217-47e4-ad88-fc1481ca936f@collabora.com>
- <c6a16e71-e431-47dd-a3d1-6a79fd7e4a37@collabora.com>
- <r8qr0nrn-0n5r-6r96-7p26-q22ns73484np@xreary.bet>
+Subject: [PATCH v3 0/3] HID: hidraw: rework ioctls
+Date: Fri, 12 Sep 2025 18:58:48 +0200
+Message-Id: <20250912-b4-hidraw-ioctls-v3-0-cd2c6efd8c20@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <r8qr0nrn-0n5r-6r96-7p26-q22ns73484np@xreary.bet>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAEhRxGgC/2XOQQ6CMBCF4auQrh1SptCCK+9hWBQotFFbMyWoI
+ dxdIDGauPwX78ubWTTkTGTHZGZkJhdd8GuIQ8Jaq/1gwHVrM+RY8BILaHKwriP9ABfa8RpByl7
+ kWCkuULN1difTu+dOnuu1ewo3GC0Z/YVUlnGFZa5SLIWsJEIGmnx3uhjy5poGGjbKujgGeu3nJ
+ tzAzw/5/2NC4NAqhbJBIVVW/WL1sixvmJDOfewAAAA=
+X-Change-ID: 20250825-b4-hidraw-ioctls-66f34297032a
+To: Jiri Kosina <jikos@kernel.org>, Shuah Khan <shuah@kernel.org>, 
+ Arnd Bergmann <arnd@kernel.org>
+Cc: linux-input@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Benjamin Tissoires <bentiss@kernel.org>, 
+ Arnd Bergmann <arnd@arndb.de>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1757696335; l=1534;
+ i=bentiss@kernel.org; s=20230215; h=from:subject:message-id;
+ bh=gtfvdfI+H0ACLSjUJUR2tLLcJx+U29SK+JJDuNQ7ox8=;
+ b=Ge/420ffPrqyxuns74cDDV0Rzuf5zWMRe4nIq/DbhZh85ai6UUD1mgEeZf8HLly0V4IMJgK8U
+ Y07ZmMzWIdsBXq4a2/Bh0mAqQj4DEk9dQW7aer/6ya+KE3b7p1/eKUr
+X-Developer-Key: i=bentiss@kernel.org; a=ed25519;
+ pk=7D1DyAVh6ajCkuUTudt/chMuXWIJHlv2qCsRkIizvFw=
 
-On Sep 12 2025, Jiri Kosina wrote:
-> On Wed, 27 Aug 2025, Cristian Ciocaltea wrote:
-> 
-> > It's been over a month now since this was kind of blocked without any clear
-> > reason, and by the end of next week I'll be on leave, which means we're
-> > close to missing the merge window once again.
-> > 
-> > Considering the counterpart quirk in the generic USB audio driver has been
-> > already merged since v6.17, I kindly ask for your support in getting this
-> > into v6.18.
-> 
-> Roderick, do you have any word on this, please?
+Arnd sent the v1 of the series in July, and it was bogus. So with a
+little help from claude-sonnet I built up the missing ioctls tests and
+tried to figure out a way to apply Arnd's logic without breaking the
+existing ioctls.
 
-If this can help moving forward:
-Patches 1-9 are:
-Reviewed-by: Benjamin Tissoires <bentiss@kernel.org>
-and can be merged right away
+The end result is in patch 3/3, which makes use of subfunctions to keep
+the main ioctl code path clean.
 
-Cheers,
-Benjamin
+Signed-off-by: Benjamin Tissoires <bentiss@kernel.org>
+---
+Changes in v3:
+- dropped the co-developed-by tag and put a blurb instead
+- change the attribution of patch 3/3 to me as requested by Arnd.
+- Link to v2: https://lore.kernel.org/r/20250826-b4-hidraw-ioctls-v2-0-c7726b236719@kernel.org
 
-> 
-> -- 
-> Jiri Kosina
-> SUSE Labs
-> 
+changes in v2:
+- add new hidraw ioctls tests
+- refactor Arnd's patch to keep the existing error path logic
+- link to v1: https://lore.kernel.org/linux-input/20250711072847.2836962-1-arnd@kernel.org/
+
+---
+Benjamin Tissoires (3):
+      selftests/hid: hidraw: add more coverage for hidraw ioctls
+      selftests/hid: hidraw: forge wrong ioctls and tests them
+      HID: hidraw: tighten ioctl command parsing
+
+ drivers/hid/hidraw.c                     | 224 ++++++++-------
+ include/uapi/linux/hidraw.h              |   2 +
+ tools/testing/selftests/hid/hid_common.h |   6 +
+ tools/testing/selftests/hid/hidraw.c     | 473 +++++++++++++++++++++++++++++++
+ 4 files changed, 603 insertions(+), 102 deletions(-)
+---
+base-commit: 02d6eeedbc36d4b309d5518778071a749ef79c4e
+change-id: 20250825-b4-hidraw-ioctls-66f34297032a
+
+Best regards,
+-- 
+Benjamin Tissoires <bentiss@kernel.org>
+
 
