@@ -1,113 +1,115 @@
-Return-Path: <linux-input+bounces-14670-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14671-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6597AB55880
-	for <lists+linux-input@lfdr.de>; Fri, 12 Sep 2025 23:38:01 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id C5958B55951
+	for <lists+linux-input@lfdr.de>; Sat, 13 Sep 2025 00:37:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1EB453BC1E9
-	for <lists+linux-input@lfdr.de>; Fri, 12 Sep 2025 21:38:00 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2FCBF1D61EDC
+	for <lists+linux-input@lfdr.de>; Fri, 12 Sep 2025 22:38:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D4466273D6D;
-	Fri, 12 Sep 2025 21:37:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0BB30254B09;
+	Fri, 12 Sep 2025 22:37:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=endrift.com header.i=@endrift.com header.b="qwoVily+"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TrVcwliJ"
 X-Original-To: linux-input@vger.kernel.org
-Received: from endrift.com (endrift.com [173.255.198.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D808721E097
-	for <linux-input@vger.kernel.org>; Fri, 12 Sep 2025 21:37:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=173.255.198.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C10A41E5219;
+	Fri, 12 Sep 2025 22:37:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757713077; cv=none; b=vFN6r4sOxty0yuUkS1z0sF+LVDladRe6uuuVWjsJWyHTnfZFRyKh7WNUM/iy0JH9E8Zd9HO3kst1mAhJdlQJuVFd00DcT3IzfVrJ+LxoojsSfTa4TEtExHQtZO6y7v0gURih4sSNj17KA1i+vaQ+uVLhVL3EJE/v5I719LMZl7o=
+	t=1757716673; cv=none; b=H0YReYSobK1Xoqz1WQhH7ecxu90OW2naYnkKWlLsMV76R8LDU7RefhXRpbUEoc8BGoBrAR3Owub3gbUCKEpDHjurPaonrawl0ZYJC/pB2RKOhz46ILOjSkUhinLCqrE1ZAV4SMPRdlbQ3eQ0Zp0HLM2HWzu5aQxT5MWK+IupSCA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757713077; c=relaxed/simple;
-	bh=nSxbWu7+O4U/A/c4snJs8VIMkbPUJLsjD5m7j9QcKeE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=uA8/Ucl/+J7tyVDTwx/WgwgbYEo2+zPF6lXMg6sOWeKqyAg9FGAJ0sYOojPYvAHVgJStM0CMGcmF5PNzkJH98NSyXVuemLroBfW07GgaEaa/OaMNX8im9qv5l8aCqk7CVOIJVhAdjAU85I9IOm6u/z4ds+nvrYNpDk9d/NEuFDE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=endrift.com; spf=pass smtp.mailfrom=endrift.com; dkim=pass (2048-bit key) header.d=endrift.com header.i=@endrift.com header.b=qwoVily+; arc=none smtp.client-ip=173.255.198.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=endrift.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=endrift.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=endrift.com; s=2020;
-	t=1757712716; bh=nSxbWu7+O4U/A/c4snJs8VIMkbPUJLsjD5m7j9QcKeE=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=qwoVily+47KuNxNXXe/8JI8eQ9m4HHp1LCYj3sLXXriEdhpkwxJa36qPo/uUxUv5c
-	 smi4CZ0s0d8eROEI8PAfN5BU1CqwNdBXYqK/VaSpUHyEshtcga5jRO6BhXyIGXg6hO
-	 rvycHCTMk+n71giFp6BcIiQ2OowFz+cVdl+M2hyBW1p/8Mri8eindxlbI2tcY8MhwY
-	 rCWDC6Aguw8PCRzZ3FzSrAeJS4EsnGRp4F8/Ke4BuPYIiM850QdX41w86CG1yP/LQ/
-	 7an1YyrUJek9nUjdJUwzzkMYSivpYM+sWdTSEb+5COAVNS+SCNCIJg31QO6tMLs1AK
-	 VDfvytWHGAykA==
-Received: from [192.168.0.22] (71-212-74-234.tukw.qwest.net [71.212.74.234])
-	by endrift.com (Postfix) with ESMTPSA id 34D16A08B;
-	Fri, 12 Sep 2025 14:31:56 -0700 (PDT)
-Message-ID: <338cb599-8131-4bca-89b1-414f74db7d3e@endrift.com>
-Date: Fri, 12 Sep 2025 14:31:55 -0700
+	s=arc-20240116; t=1757716673; c=relaxed/simple;
+	bh=B9UWbZGKGjcmdpBpJTHq4Bvu86HEtGMURBUQlAh+wng=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JmetdA+kRB5A/O39+6elgPq7XC4XLb5Mnuhznvf9du/0T8FBZoECP6brGFt4rhrJLmA9Omz3S93c1oA2BA8eVICwOMMmm+3B+EQn1rj867BBg8zb3VrtIaPs4wvv+D7+xltRjhTvGEgDZFsDYky/Cz80pchu8ri2Wh/YAoNgWG8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TrVcwliJ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2214AC4CEF1;
+	Fri, 12 Sep 2025 22:37:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1757716673;
+	bh=B9UWbZGKGjcmdpBpJTHq4Bvu86HEtGMURBUQlAh+wng=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=TrVcwliJdziWcvEcLi0TVBaYRU0cqz+P0LkYP18PS4V8it1ba7cZ92zsa5Y3dzWLc
+	 YrEuOyNwShq0RR+1+3s/CzKz/FvAj8Dg2ILyM9zKHc+GxAcTbJRbF9zrHAxYtHAtWS
+	 nowrg87C3Mhu7Ma9MVTSiKPANaSzfmKeaaI+jiwqqKI/eFzfgCVIsx0GyGgRpB5mC/
+	 E1FV/bHUfiM/xWBXFUvAkeBLYpdn5iD18PAOpqzc3WdYh8uHA0QJpTs+ikEAG/Jg8A
+	 LroectmFESH23Jvjk8Jl5nAs0sIu7GliX4k4LL9XE6Kb1IBSFNtgZdkeRG9oO5IQJw
+	 v2hGeBjsKFJvA==
+Date: Fri, 12 Sep 2025 17:37:52 -0500
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+Cc: luiz.dentz@gmail.com, kuba@kernel.org, airlied@gmail.com,
+	mripard@kernel.org, angelogioacchino.delregno@collabora.com,
+	linux-arm-kernel@lists.infradead.org,
+	maarten.lankhorst@linux.intel.com, tiffany.lin@mediatek.com,
+	houlong.wei@mediatek.com, minghsiu.tsai@mediatek.com,
+	lgirdwood@gmail.com, louisalexis.eyraud@collabora.com,
+	linus.walleij@linaro.org, devicetree@vger.kernel.org,
+	linux-input@vger.kernel.org, yunfei.dong@mediatek.com,
+	edumazet@google.com, linux-bluetooth@vger.kernel.org,
+	tzimmermann@suse.de, broonie@kernel.org, andrew+netdev@lunn.ch,
+	kernel@collabora.com, chunkuang.hu@kernel.org,
+	amergnat@baylibre.com, conor+dt@kernel.org, matthias.bgg@gmail.com,
+	support.opensource@diasemi.com, linux-rockchip@lists.infradead.org,
+	davem@davemloft.net, andrew-ct.chen@mediatek.com,
+	krzk+dt@kernel.org, p.zabel@pengutronix.de, sean.wang@kernel.org,
+	linux-kernel@vger.kernel.org, simona@ffwll.ch,
+	linux-mediatek@lists.infradead.org, marcel@holtmann.org,
+	dmitry.torokhov@gmail.com, dri-devel@lists.freedesktop.org,
+	pabeni@redhat.com, jeesw@melfas.com, mchehab@kernel.org,
+	linux-media@vger.kernel.org, flora.fu@mediatek.com,
+	linux-gpio@vger.kernel.org, heiko@sntech.de,
+	linux-sound@vger.kernel.org, netdev@vger.kernel.org
+Subject: Re: [PATCH v2 05/12] dt-bindings: display: mediatek,od: Add
+ mediatek,gce-client-reg property
+Message-ID: <175771595983.1528737.3645378655142592974.robh@kernel.org>
+References: <20250911151001.108744-1-ariel.dalessandro@collabora.com>
+ <20250911151001.108744-6-ariel.dalessandro@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Adding Kernel xpad support for Flydigi Apex 5
-To: Jiri Kosina <jikos@kernel.org>, brandon <brandon@emergence.ltd>
-Cc: linux-input <linux-input@vger.kernel.org>
-References: <198f7064b23.1194b1b9d477339.120973386817363979@emergence.ltd>
- <75r4880n-on78-7010-2q64-so6pp5qsos82@xreary.bet>
- <r856p96o-850o-47sn-rsps-04n94875o975@xreary.bet>
-Content-Language: en-US
-From: Vicki Pfau <vi@endrift.com>
-In-Reply-To: <r856p96o-850o-47sn-rsps-04n94875o975@xreary.bet>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250911151001.108744-6-ariel.dalessandro@collabora.com>
 
-Hi Jiri and Brandon,
 
-On 9/12/25 7:14 AM, Jiri Kosina wrote:
-> On Fri, 12 Sep 2025, Jiri Kosina wrote:
+On Thu, 11 Sep 2025 12:09:54 -0300, Ariel D'Alessandro wrote:
+> Currently, users of Mediatek OD (display overdrive) DT bindings set
+> mediatek,gce-client-reg node property, which is missing from the DT schema.
 > 
->> On Fri, 29 Aug 2025, brandon wrote:
->>
->>> Hello,
->>>
->>> This adds support for the Flydigi Apex 5 controller to the xpad kernel module. This has been tested as part of: https://github.com/paroj/xpad/pull/328
->>>
->>> This patch is very small and simple, it simply white lists the controller so it can be used. The trigger and stick mappings are none standard, but SDL has the correct mappings already shipped so it's not a problem in Steam or games I've tried.
->>>
->>> Here is the patch:
->>>
->>> --- linux/drivers/input/joystick/xpad.c.orig 2025-08-29 18:20:56.157442704 +0100
->>> +++ linux/drivers/input/joystick/xpad.c 2025-08-29 18:19:29.539174760 +0100
->>> @@ -422,6 +422,7 @@ static const struct xpad_device {
->>> { 0x3537, 0x1010, "GameSir G7 SE", 0, XTYPE_XBOXONE },
->>> { 0x366c, 0x0005, "ByoWave Proteus Controller", MAP_SHARE_BUTTON, XTYPE_XBOXONE, FLAG_DELAY_INIT },
->>> { 0x3767, 0x0101, "Fanatec Speedster 3 Forceshock Wheel", 0, XTYPE_XBOX },
->>> +	{ 0x37d7, 0x2501, "Flydigi Apex 5", 0, XTYPE_XBOX },
->>> { 0x413d, 0x2104, "Black Shark Green Ghost Gamepad", 0, XTYPE_XBOX360 },
->>> { 0xffff, 0xffff, "Chinese-made Xbox Controller", 0, XTYPE_XBOX },
->>> { 0x0000, 0x0000, "Generic X-Box pad", 0, XTYPE_UNKNOWN }
->>> @@ -578,6 +579,7 @@ static const struct usb_device_id xpad_t
->>> XPAD_XBOX360_VENDOR(0x3537),		/* GameSir Controllers */
->>> XPAD_XBOXONE_VENDOR(0x3537),		/* GameSir Controllers */
->>> XPAD_XBOXONE_VENDOR(0x366c),		/* ByoWave controllers */
->>> +	XPAD_XBOXONE_VENDOR(0x37d7),		/* Flydigi Controllers */
->>> XPAD_XBOX360_VENDOR(0x413d),		/* Black Shark Green Ghost Controller */
->>> { }
->>> };
->>
->> Thanks for the patch.
->>
->> It's however whitespace-damaged, and also is missing a signoff. Could you 
->> please fix that and resubmit, so that I could merge it?
+> For example, device tree arch/arm64/boot/dts/mediatek/mt8173.dtsi is
+> causing the following dtb check error:
 > 
-> (sorry, it's not me who should be merging it, but Dmitry Torokhov as an 
-> input maintainer -- please CC him as well on the next iteration)
+> ```
+> $ make CHECK_DTBS=y mediatek/mt8173-elm.dtb
+>    SCHEMA  Documentation/devicetree/bindings/processed-schema.json
+>    DTC [C] arch/arm64/boot/dts/mediatek/mt8173-elm.dtb
+> [...]
+> arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: od@14023000
+> (mediatek,mt8173-disp-od): 'mediatek,gce-client-reg' does not match
+> any of the regexes: '^pinctrl-[0-9]+$'
+> ```
+> 
+> This commit adds the missing node property in the DT schema and updates the
+> example as well.
+> 
+> Signed-off-by: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+> ---
+>  .../bindings/display/mediatek/mediatek,od.yaml     | 14 ++++++++++++++
+>  1 file changed, 14 insertions(+)
 > 
 
-A corrected patch was already submitted by someone else: https://lore.kernel.org/linux-input/20250903165114.2987905-1-lkml@antheas.dev/
+I fixed up the commit msg with Krzysztof's comments and applied both 
+display patches. Thanks!
 
-Vicki
+Rob
 
