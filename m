@@ -1,134 +1,137 @@
-Return-Path: <linux-input+bounces-14678-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14680-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6D6BB55FE6
-	for <lists+linux-input@lfdr.de>; Sat, 13 Sep 2025 11:27:50 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5936AB5610D
+	for <lists+linux-input@lfdr.de>; Sat, 13 Sep 2025 15:11:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 919E9A080E1
-	for <lists+linux-input@lfdr.de>; Sat, 13 Sep 2025 09:27:48 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B366E165C95
+	for <lists+linux-input@lfdr.de>; Sat, 13 Sep 2025 13:11:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E07022EB5CE;
-	Sat, 13 Sep 2025 09:27:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 293BC2ED14B;
+	Sat, 13 Sep 2025 13:11:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b="lzeFdCuD"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=oscillator.se header.i=@oscillator.se header.b="S1GReF/J"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sv9.manufrog.com (sv9.manufrog.com [46.246.119.84])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C1C82EAB6C
-	for <linux-input@vger.kernel.org>; Sat, 13 Sep 2025 09:27:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 062342EC570;
+	Sat, 13 Sep 2025 13:11:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.246.119.84
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757755638; cv=none; b=b1uHFGMEzbzKcqRPqntDAW2ARmte1yfSFJbdhMIi7gVvX80isFwKe51FgMqxrX6zXHLttxWGJYn+69z4NFDscfh81OePUvq28ksP+jpV3xwqhMWC//YFc8UKHkM9m3a0AiksWYYn74kuBGlpnNwr0a7EpRz115kCErpSrjFhCtA=
+	t=1757769085; cv=none; b=VO25nFMjHtIv/E05XRHa0349fGjj1VUtW9AkLmeM4G246yA2pKZWRpZCYlKnGjuDiTuSU8mAEjAeLJasib9qzc+PQyFv4qsYSwldzyiS8gTSoo991d/Y/ZTgxBrehuDoGNw5mPmL1nS8+wKGqYp/6Pwqc5hQsAlWNerVvkqEGAE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757755638; c=relaxed/simple;
-	bh=yrpiAloBhI4p4ZhNenjc/ytnMmXyltlftqvFi3+CYcA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=TOmgQE86aTtTyOy2Ip6Nar3MYh3xoUVMEg1wGBp1e3kr2ZBLdjkO6jWKqOnxicdP4UQ+QpH3bQKKaYGoSv9wkzXJQtI1wNbBQD9FE2UqaLFVb8b0XR3/sxXBrSIG4GqMsEXaLDnY3SwgfaKWOBDkoytKLBDgcV4tTwXXx4Ch2vg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=amarulasolutions.com; spf=pass smtp.mailfrom=amarulasolutions.com; dkim=pass (1024-bit key) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b=lzeFdCuD; arc=none smtp.client-ip=209.85.208.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=amarulasolutions.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amarulasolutions.com
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-62ee43b5e96so1907892a12.1
-        for <linux-input@vger.kernel.org>; Sat, 13 Sep 2025 02:27:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amarulasolutions.com; s=google; t=1757755635; x=1758360435; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZN4beYZHw/m6widRTHsuro02Y0QudB0qsvA1rFXjFHs=;
-        b=lzeFdCuDsgEbKjIVR98zhARXXwYK/iplkNXgoRMed4pemjP2Gh04mmEdpMgHxlR1Jp
-         A4uKxckus2VcJ+iwaqOMNv3/37VWQ9GrooWr2q8ijihdM+ar8kI6rrsdrkdsM55B2014
-         aoHvkos6C8PT21/tx1O/d/8TJcNOI+CaqltLc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757755635; x=1758360435;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ZN4beYZHw/m6widRTHsuro02Y0QudB0qsvA1rFXjFHs=;
-        b=DuLfrqWIFFT5P2YPApPPBUFLG/wCeBEyvhQ3CRZl70bKXAnZKiGO8Nj582JSSzmu0F
-         QRyppFF4q03bVDhqcxTTTmXrJsGoNvFnkX5D3of+KZH1nD2Bu5YdDFf/uWUblP11PhXS
-         GcZX47YoNR1nHyEp28UOYx+l7nnlSTi0JbDsY9j0EzpW+ItBtpgR7kHyWHqKXorrhv6z
-         EABaCoLYvn7YokTjPVAxMMf8BQlJ2vr5Bax9Juvn37V1Cwqqo9+CjLTu4U+F0qcgjMGk
-         reCe9VV3N5ciKkzLTQx6zsrOnXpVk4bvTarVGGzmaxYYFhnlfMhW02fxauxnGkiAiy0a
-         PWaw==
-X-Forwarded-Encrypted: i=1; AJvYcCVFr5lTEJ5Hfv6dNrb/gMxys3KWB8a1EDud7LnDSUwJvjU2Z0fJWmFOxkyBSEeDld1emvFHWowhRASMgw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwALkQMEK2nH6bePEU41Y7G8zKOwSBRpWQuET7MrYTEcb0lIm1g
-	GysNtTvOWP8bcps6WD0FoYVE/Foh8a1Wog2E8ALILcHyaGjh8GCqjcVVUlk2+chy/RI=
-X-Gm-Gg: ASbGncvLV0LHAMGIQlO0WxdBUgfVF2pqxgxcHv1xUHRwawBnmjXRXGO/C3GsLzgQi22
-	YRlrY2uAQZMBRcwL2ITbUrskTmaauWvSHhDDP22dF+6Ru+T2BIZMpQupi1rv6mLpXlC2KYGs6qh
-	oiLgTYN4EDvihBMSA1L9okSAq4mPKW/2n6JZkl1tieHUcZxmwyyfOzx2jape8bH2AuIf5T0YrCn
-	z6kWpLs/rfTAiMud5LDxcbYnJdwqbbCG1ygOpyPhtapAeSWyjt1YgjksmL+7h0j/5IXKPbl7cOV
-	i7QlmeT/qB6M9pu1NPnVUOycYPO8dSCWXpAjBGQg+MZKL4Is90WJoQWNTGvVOBGoM+VJXarVVS2
-	ZMViWHDrP6IKLSL+TxkI1qAUUalzCwcMyLsTUPqsuXA2RmoK0K/M0nvQmAIh029uPIisBnP9shk
-	FF6WW4OvlWk6ZPdGLjT9WF7COrBJA6QLpwEMeGRz5sulwZRRzQGTsqlnSRJoS5TBVUM3dFOhOiL
-	7I=
-X-Google-Smtp-Source: AGHT+IHv7bNkL/Bm3DVHJJzKvLokKqToRNVyhlC2S70s85D3t3Bilce6lDaE7bZNFEYk4zHC7lh/yg==
-X-Received: by 2002:a17:907:2d2c:b0:b07:9c13:153e with SMTP id a640c23a62f3a-b07c353e3f8mr586848266b.2.1757755635504;
-        Sat, 13 Sep 2025 02:27:15 -0700 (PDT)
-Received: from dario-ThinkPad-T14s-Gen-2i.homenet.telecomitalia.it (host-82-56-38-125.retail.telecomitalia.it. [82.56.38.125])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b07b33478besm551705766b.99.2025.09.13.02.27.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 13 Sep 2025 02:27:15 -0700 (PDT)
-From: Dario Binacchi <dario.binacchi@amarulasolutions.com>
-To: linux-kernel@vger.kernel.org
-Cc: linux-amarula@amarulasolutions.com,
-	Dario Binacchi <dario.binacchi@amarulasolutions.com>,
-	Rob Herring <robh@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	devicetree@vger.kernel.org,
-	linux-input@vger.kernel.org
-Subject: [PATCH v2 5/5] dt-bindings: touchscreen: remove touchscreen.txt
-Date: Sat, 13 Sep 2025 11:26:55 +0200
-Message-ID: <20250913092707.1005616-5-dario.binacchi@amarulasolutions.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250913092707.1005616-1-dario.binacchi@amarulasolutions.com>
-References: <20250913092707.1005616-1-dario.binacchi@amarulasolutions.com>
+	s=arc-20240116; t=1757769085; c=relaxed/simple;
+	bh=v0BBL64UmOk+e62Q4T1pCcqVThxT3xZi5jSjhI5lYy0=;
+	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
+	 Message-ID:Content-Type; b=FK4uTRgORU5kTBp20Wg+eaB6ce7Rc4mJtKQvpMNSmKBFlmmd/XXMBLKyLm1j4F8mVWnC16cxf8PEwBWRPtEiLoSO3HK1vky9yeRJ6nouE7MTeb/XzBWqwybnlNLW5rrCFrZcrqpMEfEmKVGsWOLMzLbiI600kanz+zmHaTF3Ljk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=oscillator.se; spf=pass smtp.mailfrom=oscillator.se; dkim=pass (2048-bit key) header.d=oscillator.se header.i=@oscillator.se header.b=S1GReF/J; arc=none smtp.client-ip=46.246.119.84
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=oscillator.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oscillator.se
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=oscillator.se; s=default; h=Content-Transfer-Encoding:Content-Type:
+	Message-ID:References:In-Reply-To:Subject:Cc:To:From:Date:MIME-Version:Sender
+	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=ImRo0mF6q6nENrBTd4EI8p/Zv5nZZbTSLKettAexwII=; b=S1GReF/JGBFsi0MdL5iOwVTOpw
+	FZyfgj8fepG8l5gsLdVTiDGH5uMdpBHuQcDS5sI4/NSbzVfsABzwshJncYKq3suPDjRURABnxlq1f
+	O1rKWeFSDfTQSV8OH5LGIzXo5iBdOEH8TxNOFxxjtpNGWSkmDetttLi3dmz6wiYTKyENXtZQlJUk/
+	lTZJfsHMi/mevRXSZyL833yNsCsQuIZh0xrCT55biRo/+QFwG2zS+B/C65YDYw5JXNebGeEisTieO
+	AjdNPQWeGd87h3rFRFHaXPEsRT+ly6GFccRa0jTYimouT1t5tzNFtCCvJG9cu4Kal1kxj1yjTJqaF
+	A0a8j0nw==;
+Received: from [::1] (port=55148 helo=sv9.manufrog.com)
+	by sv9.manufrog.com with esmtpa (Exim 4.98.2)
+	(envelope-from <staffan.melin@oscillator.se>)
+	id 1uxQ2F-00000001cTy-1N03;
+	Sat, 13 Sep 2025 15:11:18 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Date: Sat, 13 Sep 2025 15:11:16 +0200
+From: Staffan Melin <staffan.melin@oscillator.se>
+To: Salvatore Bonaccorso <carnil@debian.org>
+Cc: zhangheng <zhangheng@kylinos.cn>, Jiri Kosina <jkosina@suse.com>,
+ Benjamin Tissoires <bentiss@kernel.org>, linux-input@vger.kernel.org,
+ linux-kernel@vger.kernel.org, regressions@lists.linux.dev,
+ stable@vger.kernel.org, 1114557@bugs.debian.org
+Subject: Re: [regression] 1a8953f4f774 ("HID: Add IGNORE quirk for
+ SMARTLINKTECHNOLOGY") causes issue with ID 4c4a:4155 Jieli Technology USB
+ Composite Device
+In-Reply-To: <aMUxg6FLqDetwiGu@eldamar.lan>
+References: <aL2gYJaXoB6p_oyM@eldamar.lan>
+ <c8f3d402-e0ec-4767-b925-d7764aec3d93@kylinos.cn>
+ <e81e8d68cb33c7de7b0e353791e21e53@oscillator.se>
+ <aMUxHZF-7p7--1qS@eldamar.lan> <aMUxg6FLqDetwiGu@eldamar.lan>
+User-Agent: Roundcube Webmail/1.6.11
+Message-ID: <f08669ec112d6ab2f62e35c0c96d1f06@oscillator.se>
+X-Sender: staffan.melin@oscillator.se
+Organization: Oscillator
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - sv9.manufrog.com
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - oscillator.se
+X-Get-Message-Sender-Via: sv9.manufrog.com: authenticated_id: staffan.melin@oscillator.se
+X-Authenticated-Sender: sv9.manufrog.com: staffan.melin@oscillator.se
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 
-With commit 1d6204e2f51f ("dt-bindings: touchscreen: Add touchscreen
-schema") touchscreen.txt is no longer needed, and since no other file
-refers to it, it can be safely removed.
+Ah, thanks, I get it now :)
 
-Signed-off-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
-Acked-by: Rob Herring (Arm) <robh@kernel.org>
+So I got 6.16.7, and the patch applied without problems.
 
----
+But no luck, the same results as before: touchscreen not working, xinput 
+--list not showing the Jieli touchscreen. dmesg shows the same as 
+before, too.
 
-Changes in v2:
-- Update the commit message
-- Add Acked-by tag of Rob Herring
-- Add patches:
-  - 1/5 dt-bindings: touchscreen: convert bu21013 bindings to json schema
-  - 2/5 dt-bindings: touchscreen: convert eeti bindings to json schema
-  - 3/5 dt-bindings: touchscreen: convert raspberrypi,firmware-ts bindings
-    to json schema
-  - 4/5 dt-bindings: touchscreen: convert zet6223 bindings to json schema
+Best regards,
 
- .../devicetree/bindings/input/touchscreen/touchscreen.txt        | 1 -
- 1 file changed, 1 deletion(-)
- delete mode 100644 Documentation/devicetree/bindings/input/touchscreen/touchscreen.txt
+Staffan
 
-diff --git a/Documentation/devicetree/bindings/input/touchscreen/touchscreen.txt b/Documentation/devicetree/bindings/input/touchscreen/touchscreen.txt
-deleted file mode 100644
-index e1adb902d503..000000000000
---- a/Documentation/devicetree/bindings/input/touchscreen/touchscreen.txt
-+++ /dev/null
-@@ -1 +0,0 @@
--See touchscreen.yaml
--- 
-2.43.0
 
-base-commit: 22f20375f5b71f30c0d6896583b93b6e4bba7279
-branch: drop-touchscreen.txt
+On 2025-09-13 10:55, Salvatore Bonaccorso wrote:
+> Hi Staffan,
+> 
+> chiming in hopefully it is of help.
+> 
+> Now really with the patch ...
+> 
+> On Fri, Sep 12, 2025 at 09:57:04PM +0200, Staffan Melin wrote:
+>> Thank you,
+>> 
+>> I tried to apply this patch to 6.12.39, the first problematic kernel, 
+>> as
+>> well as 6.12.41, the first bad I tried, and on both I got an error 
+>> message:
+>> 
+>> Applying: HID: quirks: Add device descriptor for 4c4a:4155
+>> error: patch failed: drivers/hid/hid-quirks.c:1068
+>> error: drivers/hid/hid-quirks.c: patch does not apply
+>> Patch failed at 0001 HID: quirks: Add device descriptor for 4c4a:4155
+>> 
+>> To which kernel version should I apply the patch?
+> 
+> As the deveopment goes from mainline then down to stable series, the
+> fix needs to be developed first for mainline. So the patch is targeted
+> there.
+> 
+> But please find attached an updated patch which hopefully should work
+> which resolved the context changes on top of 6.12.47.
+> 
+> But ideally you can provide a Tested-by on zhangheng's mainline patch
+> to get things rolling as needed.
+> 
+> Regards,
+> Salvatore
 
