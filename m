@@ -1,115 +1,95 @@
-Return-Path: <linux-input+bounces-14671-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14672-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5958B55951
-	for <lists+linux-input@lfdr.de>; Sat, 13 Sep 2025 00:37:59 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 37D81B55EAF
+	for <lists+linux-input@lfdr.de>; Sat, 13 Sep 2025 07:52:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2FCBF1D61EDC
-	for <lists+linux-input@lfdr.de>; Fri, 12 Sep 2025 22:38:21 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BCF0D5A5E0C
+	for <lists+linux-input@lfdr.de>; Sat, 13 Sep 2025 05:52:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0BB30254B09;
-	Fri, 12 Sep 2025 22:37:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TrVcwliJ"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE7BB2D877C;
+	Sat, 13 Sep 2025 05:52:04 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f199.google.com (mail-il1-f199.google.com [209.85.166.199])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C10A41E5219;
-	Fri, 12 Sep 2025 22:37:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C57C15A8
+	for <linux-input@vger.kernel.org>; Sat, 13 Sep 2025 05:52:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757716673; cv=none; b=H0YReYSobK1Xoqz1WQhH7ecxu90OW2naYnkKWlLsMV76R8LDU7RefhXRpbUEoc8BGoBrAR3Owub3gbUCKEpDHjurPaonrawl0ZYJC/pB2RKOhz46ILOjSkUhinLCqrE1ZAV4SMPRdlbQ3eQ0Zp0HLM2HWzu5aQxT5MWK+IupSCA=
+	t=1757742724; cv=none; b=HaGL+NqtFI4eIXNN9VxmPuVtIzek36nXAvnK6YFQyF5ox3cjvQRNltFZenHMc+Io1yvJkEA1gL1OSoNy/AzK837vc9JD5+SqWQaitHVAzD6FQ3MbDcufqTwiLeZmV2jnX84hMG2Ejh6MzVJLf12TnlMlKMXsrklguoKMWLal/Ow=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757716673; c=relaxed/simple;
-	bh=B9UWbZGKGjcmdpBpJTHq4Bvu86HEtGMURBUQlAh+wng=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JmetdA+kRB5A/O39+6elgPq7XC4XLb5Mnuhznvf9du/0T8FBZoECP6brGFt4rhrJLmA9Omz3S93c1oA2BA8eVICwOMMmm+3B+EQn1rj867BBg8zb3VrtIaPs4wvv+D7+xltRjhTvGEgDZFsDYky/Cz80pchu8ri2Wh/YAoNgWG8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TrVcwliJ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2214AC4CEF1;
-	Fri, 12 Sep 2025 22:37:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757716673;
-	bh=B9UWbZGKGjcmdpBpJTHq4Bvu86HEtGMURBUQlAh+wng=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=TrVcwliJdziWcvEcLi0TVBaYRU0cqz+P0LkYP18PS4V8it1ba7cZ92zsa5Y3dzWLc
-	 YrEuOyNwShq0RR+1+3s/CzKz/FvAj8Dg2ILyM9zKHc+GxAcTbJRbF9zrHAxYtHAtWS
-	 nowrg87C3Mhu7Ma9MVTSiKPANaSzfmKeaaI+jiwqqKI/eFzfgCVIsx0GyGgRpB5mC/
-	 E1FV/bHUfiM/xWBXFUvAkeBLYpdn5iD18PAOpqzc3WdYh8uHA0QJpTs+ikEAG/Jg8A
-	 LroectmFESH23Jvjk8Jl5nAs0sIu7GliX4k4LL9XE6Kb1IBSFNtgZdkeRG9oO5IQJw
-	 v2hGeBjsKFJvA==
-Date: Fri, 12 Sep 2025 17:37:52 -0500
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
-Cc: luiz.dentz@gmail.com, kuba@kernel.org, airlied@gmail.com,
-	mripard@kernel.org, angelogioacchino.delregno@collabora.com,
-	linux-arm-kernel@lists.infradead.org,
-	maarten.lankhorst@linux.intel.com, tiffany.lin@mediatek.com,
-	houlong.wei@mediatek.com, minghsiu.tsai@mediatek.com,
-	lgirdwood@gmail.com, louisalexis.eyraud@collabora.com,
-	linus.walleij@linaro.org, devicetree@vger.kernel.org,
-	linux-input@vger.kernel.org, yunfei.dong@mediatek.com,
-	edumazet@google.com, linux-bluetooth@vger.kernel.org,
-	tzimmermann@suse.de, broonie@kernel.org, andrew+netdev@lunn.ch,
-	kernel@collabora.com, chunkuang.hu@kernel.org,
-	amergnat@baylibre.com, conor+dt@kernel.org, matthias.bgg@gmail.com,
-	support.opensource@diasemi.com, linux-rockchip@lists.infradead.org,
-	davem@davemloft.net, andrew-ct.chen@mediatek.com,
-	krzk+dt@kernel.org, p.zabel@pengutronix.de, sean.wang@kernel.org,
-	linux-kernel@vger.kernel.org, simona@ffwll.ch,
-	linux-mediatek@lists.infradead.org, marcel@holtmann.org,
-	dmitry.torokhov@gmail.com, dri-devel@lists.freedesktop.org,
-	pabeni@redhat.com, jeesw@melfas.com, mchehab@kernel.org,
-	linux-media@vger.kernel.org, flora.fu@mediatek.com,
-	linux-gpio@vger.kernel.org, heiko@sntech.de,
-	linux-sound@vger.kernel.org, netdev@vger.kernel.org
-Subject: Re: [PATCH v2 05/12] dt-bindings: display: mediatek,od: Add
- mediatek,gce-client-reg property
-Message-ID: <175771595983.1528737.3645378655142592974.robh@kernel.org>
-References: <20250911151001.108744-1-ariel.dalessandro@collabora.com>
- <20250911151001.108744-6-ariel.dalessandro@collabora.com>
+	s=arc-20240116; t=1757742724; c=relaxed/simple;
+	bh=xGPegRzuNLv3LRNKDrzS2ewnzTSM2mX5OE4KUOhzgPQ=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
+	 Content-Type; b=O6skrdm9iBWDKtqZC2FWwj9TzvKZkbHKdNTNbKqzHZ9KlAnqLThkLtpeCXFUev5f/lH1ERqWV5kFdMGW97AqUaDRz2cogUNV5Y8m3xV+sq7i5Cl4yAXj/XOYTAqsVLTfSJ+w3RBFtpdfH41KPRsFNaArU1PqZtYlaxKDLWDKPPc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-il1-f199.google.com with SMTP id e9e14a558f8ab-3f31ac5bd9cso35254015ab.3
+        for <linux-input@vger.kernel.org>; Fri, 12 Sep 2025 22:52:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757742722; x=1758347522;
+        h=to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=3q4GDTDTfVbRvI3gWdPHWafppZWRiyes43kmSXWWR0Y=;
+        b=LMPgWttmNRZABFmz09+5wTyIOeOAe51nCYPm0cZ3kaO6AR4+i+Qn38Y60QUn1YOaLt
+         xOO0Q/FBjhwuM/1AxRij9jQzKrGZT8dGeaQG0igTvYmp11bJ+3UXpmISH8djiyY0lWWB
+         yoOHRJbdoOTJRivRUkwcoNcAnFHRSOOhyeVsTktvKDMCBUBmg7WpM/2H+TF6bBK+KNXy
+         nUrZXURHFkWqQmUvOUBD+3vfRJR3H+ZJcXCH5XqFa4VE91rI5As7OC9MfzkNnhIXsR4x
+         N2om5KOrBHpL7SAngT7v7Ldu5zsmunKXd35zOFNs5Wz/dcwqlF8nXr8jVujPhC3TrJUg
+         POxQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUhDqfh9WecVWJ/VGXGeOvxAxyWvmmaWwqIQfl4U2qbNbTddnDV2Az8Q13mxGVOVT7cZAWH8tWiKN7yaQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyPp/6BK9kLGD8cegKr2IjoaJUXAEOn0UCraEiWGWTGdQfrwk0B
+	dJA0N5tEYja1sBznIPAiOYzAzJovak+q79OcXyID+cXXaRmoZOwXvfFAUKQyLyRZSjVrd6S7Jcb
+	qCdOyNy317jgFVGolY6SxTL5jXNuPzP+L0ZjPuNyR0swLleSQTh0wxUKZJfQ=
+X-Google-Smtp-Source: AGHT+IH75E6b9SBa8LhFDw80zMp/sVQyJhrQJ58ghpl6NDTYgceCwekJEwE/vEy7D+gF3MhvzY5EAEzAw6NXmtYe2GbT3nXJsMIj
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250911151001.108744-6-ariel.dalessandro@collabora.com>
+X-Received: by 2002:a05:6e02:1527:b0:419:b24f:30b with SMTP id
+ e9e14a558f8ab-4209e64b589mr73259745ab.9.1757742722379; Fri, 12 Sep 2025
+ 22:52:02 -0700 (PDT)
+Date: Fri, 12 Sep 2025 22:52:02 -0700
+In-Reply-To: <0000000000008acb1e061618e68e@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <68c50682.050a0220.2ff435.036c.GAE@google.com>
+Subject: Re: [syzbot] [usb?] [input?] WARNING in bcm5974_start_traffic/usb_submit_urb
+ (2)
+From: syzbot <syzbot+b064b5599f18f7ebb1e1@syzkaller.appspotmail.com>
+To: dmitry.torokhov@gmail.com, gregkh@linuxfoundation.org, 
+	javier.carrasco@wolfvision.net, linux-input@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
+	mukattreyee@gmail.com, oneukum@suse.com, rydberg@bitmath.org, 
+	stern@rowland.harvard.edu, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
+syzbot suspects this issue was fixed by commit:
 
-On Thu, 11 Sep 2025 12:09:54 -0300, Ariel D'Alessandro wrote:
-> Currently, users of Mediatek OD (display overdrive) DT bindings set
-> mediatek,gce-client-reg node property, which is missing from the DT schema.
-> 
-> For example, device tree arch/arm64/boot/dts/mediatek/mt8173.dtsi is
-> causing the following dtb check error:
-> 
-> ```
-> $ make CHECK_DTBS=y mediatek/mt8173-elm.dtb
->    SCHEMA  Documentation/devicetree/bindings/processed-schema.json
->    DTC [C] arch/arm64/boot/dts/mediatek/mt8173-elm.dtb
-> [...]
-> arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: od@14023000
-> (mediatek,mt8173-disp-od): 'mediatek,gce-client-reg' does not match
-> any of the regexes: '^pinctrl-[0-9]+$'
-> ```
-> 
-> This commit adds the missing node property in the DT schema and updates the
-> example as well.
-> 
-> Signed-off-by: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
-> ---
->  .../bindings/display/mediatek/mediatek,od.yaml     | 14 ++++++++++++++
->  1 file changed, 14 insertions(+)
-> 
+commit 503bbde34cc3dd2acd231f277ba70c3f9ed22e59
+Author: Oliver Neukum <oneukum@suse.com>
+Date:   Thu Jun 12 12:20:25 2025 +0000
 
-I fixed up the commit msg with Krzysztof's comments and applied both 
-display patches. Thanks!
+    usb: core: usb_submit_urb: downgrade type check
 
-Rob
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=16c6eb62580000
+start commit:   e8ab83e34bdc Merge tag 'arm64-fixes' of git://git.kernel.o..
+git tree:       upstream
+kernel config:  https://syzkaller.appspot.com/x/.config?x=a9a25b7a36123454
+dashboard link: https://syzkaller.appspot.com/bug?extid=b064b5599f18f7ebb1e1
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1514f0f4580000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=11699a70580000
+
+If the result looks correct, please mark the issue as fixed by replying with:
+
+#syz fix: usb: core: usb_submit_urb: downgrade type check
+
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
 
