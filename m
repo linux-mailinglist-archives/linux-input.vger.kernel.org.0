@@ -1,39 +1,39 @@
-Return-Path: <linux-input+bounces-14713-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14712-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABDE2B56BBB
-	for <lists+linux-input@lfdr.de>; Sun, 14 Sep 2025 21:36:02 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 747E9B56BB8
+	for <lists+linux-input@lfdr.de>; Sun, 14 Sep 2025 21:35:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 502E13B04A2
-	for <lists+linux-input@lfdr.de>; Sun, 14 Sep 2025 19:36:00 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 20B1118912E0
+	for <lists+linux-input@lfdr.de>; Sun, 14 Sep 2025 19:36:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD11C2E03E8;
-	Sun, 14 Sep 2025 19:35:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 98B7C2DE6F8;
+	Sun, 14 Sep 2025 19:35:43 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
 Received: from vs81.iboxed.net (vs10.datenmanufaktur-hosting.net [213.160.73.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17B4A2DF137;
-	Sun, 14 Sep 2025 19:35:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC1021ADFFB;
+	Sun, 14 Sep 2025 19:35:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.160.73.65
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757878545; cv=none; b=OY0e84iHOiwgDRGEu90OaLJo2440TGdZVk/jFxwwWOAZ8I2MOIkznrlgmL7LRwd3dHa2UDOwdstRSTAWBH0ogxC52Y47yF/a0F87yVegfHYdvl6bfsvedQLgfBZX5jHiVtyB2RZybE4x7EmlXE8PG1/pI6dxwJw7fqjhxTSLHBk=
+	t=1757878543; cv=none; b=PMKm7Jok4o3Fy/4xndGZ4D2XPgRZkt6gA7jXldj+9cq0LVkQQNrOfsNF6uFSIK/+fmA1PNOQQ386Ou+/PHA/h87RXCe1ggWvaO1U/cv3M5uh5eKyKm6UVl5QaoaLR+SZmRlQO3ka48D4hKCh10gGm8rKmS0wyLLGmdJ38UdxQPc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757878545; c=relaxed/simple;
-	bh=G0xQgQyrwSJHVmBE1CSnLN/FrJeKs1BASiMsyj5D/lo=;
+	s=arc-20240116; t=1757878543; c=relaxed/simple;
+	bh=T7S3tGDSkRkjUCD68dVv+kgTO8r6VOa4JBA80JkSbJY=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=nwObLPGPZPuubfYMGcRaKkTFg1wVI3rRvUGNRErLEgGwmqkwnbmSz30A0eICUEFQpT5Xu6SxTSXDzNzPewICjNv6h7IC4V+UkGjgmdZ+JO9KM7psUJcvh/IjlvdeEqVH5L4WJ6rLqfD5B5uLFkjJxxsEHR3VCmzBPp1u6txBR8s=
+	 MIME-Version; b=RiTucy7PSFoJ9YHS6nShCTeMNto4kKScbZerdW15qO69bf00eB7wMg5UYJpuIk0P5h5RiCkmWmuzVvLv1kIz+ZvD8saHhHXiFPIeB0fTo985x92rbaW6xPXpX6a5G80WTXepIHq4K5fz1DwSK8hl1CCujfD2bfYtlSDq2qEhwvs=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=blala.de; spf=pass smtp.mailfrom=blala.de; arc=none smtp.client-ip=213.160.73.65
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=blala.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=blala.de
 Received: from blala.de (localhost [127.0.0.1])
-	by vs81.iboxed.net (8.15.2/8.15.2/Debian-14~deb10u1) with ESMTP id 58EJbPD0010611;
+	by vs81.iboxed.net (8.15.2/8.15.2/Debian-14~deb10u1) with ESMTP id 58EJbPdE010619;
 	Sun, 14 Sep 2025 19:37:25 GMT
 Received: (from akurz@localhost)
-	by blala.de (8.15.2/8.15.2/Submit) id 58EJbPuQ010606;
+	by blala.de (8.15.2/8.15.2/Submit) id 58EJbPMS010614;
 	Sun, 14 Sep 2025 19:37:25 GMT
 From: Alexander Kurz <akurz@blala.de>
 To: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
@@ -46,9 +46,9 @@ To: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
         =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
         devicetree@vger.kernel.org, linux-input@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org, Alexander Kurz <akurz@blala.de>
-Subject: [PATCH v4 3/8] Input: mc13783-pwrbutton: use managed resources
-Date: Sun, 14 Sep 2025 19:37:18 +0000
-Message-Id: <20250914193723.10544-4-akurz@blala.de>
+Subject: [PATCH v4 4/8] mfd: mc13xxx: Use devm_mfd_add_devices and devm_regmap_add_irq_chip
+Date: Sun, 14 Sep 2025 19:37:19 +0000
+Message-Id: <20250914193723.10544-5-akurz@blala.de>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20250914193723.10544-1-akurz@blala.de>
 References: <20250914193723.10544-1-akurz@blala.de>
@@ -60,91 +60,50 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Use devres functionality to simplify resource freeing, dev.parent will
-be set by devm_input_allocate_device().
+Use devm_mfd_add_devices() for adding MFD child devices and
+devm_regmap_add_irq_chip() for IRQ chip registration.
+
+This reduces the amount of required cleanup.
 
 Signed-off-by: Alexander Kurz <akurz@blala.de>
 ---
- drivers/input/misc/mc13783-pwrbutton.c | 28 ++++++++------------------
- 1 file changed, 8 insertions(+), 20 deletions(-)
+ drivers/mfd/mc13xxx-core.c | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/input/misc/mc13783-pwrbutton.c b/drivers/input/misc/mc13783-pwrbutton.c
-index b83d762ae2e9..82434ea9cca5 100644
---- a/drivers/input/misc/mc13783-pwrbutton.c
-+++ b/drivers/input/misc/mc13783-pwrbutton.c
-@@ -21,6 +21,7 @@
- 
- #include <linux/module.h>
- #include <linux/kernel.h>
-+#include <linux/device.h>
- #include <linux/errno.h>
- #include <linux/input.h>
- #include <linux/interrupt.h>
-@@ -102,18 +103,13 @@ static int mc13783_pwrbutton_probe(struct platform_device *pdev)
- 		return -ENODEV;
- 	}
- 
--	pwr = input_allocate_device();
--	if (!pwr) {
--		dev_dbg(&pdev->dev, "Can't allocate power button\n");
-+	pwr = devm_input_allocate_device(&pdev->dev);
-+	if (!pwr)
+diff --git a/drivers/mfd/mc13xxx-core.c b/drivers/mfd/mc13xxx-core.c
+index 920797b806ce..091c9171b2b7 100644
+--- a/drivers/mfd/mc13xxx-core.c
++++ b/drivers/mfd/mc13xxx-core.c
+@@ -381,7 +381,7 @@ static int mc13xxx_add_subdevice_pdata(struct mc13xxx *mc13xxx,
+ 	if (!cell.name)
  		return -ENOMEM;
--	}
  
--	priv = kzalloc(sizeof(*priv), GFP_KERNEL);
--	if (!priv) {
--		err = -ENOMEM;
--		dev_dbg(&pdev->dev, "Can't allocate power button\n");
--		goto free_input_dev;
--	}
-+	priv = devm_kzalloc(&pdev->dev, sizeof(*priv), GFP_KERNEL);
-+	if (!priv)
-+		return -ENOMEM;
- 
- 	reg |= (pdata->b1on_flags & 0x3) << MC13783_POWER_CONTROL_2_ON1BDBNC;
- 	reg |= (pdata->b2on_flags & 0x3) << MC13783_POWER_CONTROL_2_ON2BDBNC;
-@@ -139,7 +135,7 @@ static int mc13783_pwrbutton_probe(struct platform_device *pdev)
- 					  button_irq, "b1on", priv);
- 		if (err) {
- 			dev_dbg(&pdev->dev, "Can't request irq\n");
--			goto free_priv;
-+			goto free_mc13xxx_lock;
- 		}
- 	}
- 
-@@ -187,7 +183,6 @@ static int mc13783_pwrbutton_probe(struct platform_device *pdev)
- 
- 	pwr->name = "mc13783_pwrbutton";
- 	pwr->phys = "mc13783_pwrbutton/input0";
--	pwr->dev.parent = &pdev->dev;
- 
- 	pwr->keycode = priv->keymap;
- 	pwr->keycodemax = ARRAY_SIZE(priv->keymap);
-@@ -218,12 +213,8 @@ static int mc13783_pwrbutton_probe(struct platform_device *pdev)
- 	if (pdata->b1on_flags & MC13783_BUTTON_ENABLE)
- 		mc13xxx_irq_free(mc13783, MC13783_IRQ_ONOFD1, priv);
- 
--free_priv:
-+free_mc13xxx_lock:
- 	mc13xxx_unlock(mc13783);
--	kfree(priv);
--
--free_input_dev:
--	input_free_device(pwr);
- 
- 	return err;
- }
-@@ -245,9 +236,6 @@ static void mc13783_pwrbutton_remove(struct platform_device *pdev)
- 		mc13xxx_irq_free(priv->mc13783, MC13783_IRQ_ONOFD1, priv);
- 
- 	mc13xxx_unlock(priv->mc13783);
--
--	input_unregister_device(priv->pwr);
--	kfree(priv);
+-	return mfd_add_devices(mc13xxx->dev, -1, &cell, 1, NULL, 0,
++	return devm_mfd_add_devices(mc13xxx->dev, -1, &cell, 1, NULL, 0,
+ 			       regmap_irq_get_domain(mc13xxx->irq_data));
  }
  
- static struct platform_driver mc13783_pwrbutton_driver = {
+@@ -455,8 +455,9 @@ int mc13xxx_common_init(struct device *dev)
+ 	mc13xxx->irq_chip.irqs = mc13xxx->irqs;
+ 	mc13xxx->irq_chip.num_irqs = ARRAY_SIZE(mc13xxx->irqs);
+ 
+-	ret = regmap_add_irq_chip(mc13xxx->regmap, mc13xxx->irq, IRQF_ONESHOT,
+-				  0, &mc13xxx->irq_chip, &mc13xxx->irq_data);
++	ret = devm_regmap_add_irq_chip(dev, mc13xxx->regmap, mc13xxx->irq,
++				       IRQF_ONESHOT, 0, &mc13xxx->irq_chip,
++				       &mc13xxx->irq_data);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -502,8 +503,6 @@ void mc13xxx_common_exit(struct device *dev)
+ {
+ 	struct mc13xxx *mc13xxx = dev_get_drvdata(dev);
+ 
+-	mfd_remove_devices(dev);
+-	regmap_del_irq_chip(mc13xxx->irq, mc13xxx->irq_data);
+ 	mutex_destroy(&mc13xxx->lock);
+ }
+ EXPORT_SYMBOL_GPL(mc13xxx_common_exit);
 -- 
 2.39.5
 
