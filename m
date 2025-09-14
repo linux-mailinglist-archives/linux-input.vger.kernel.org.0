@@ -1,48 +1,80 @@
-Return-Path: <linux-input+bounces-14701-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14702-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3BF8B569D4
-	for <lists+linux-input@lfdr.de>; Sun, 14 Sep 2025 16:48:58 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AF1AB569D7
+	for <lists+linux-input@lfdr.de>; Sun, 14 Sep 2025 16:53:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 99A8C17AD9E
-	for <lists+linux-input@lfdr.de>; Sun, 14 Sep 2025 14:48:58 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0D1621899B39
+	for <lists+linux-input@lfdr.de>; Sun, 14 Sep 2025 14:53:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3973A229B2E;
-	Sun, 14 Sep 2025 14:48:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CFAC62522B5;
+	Sun, 14 Sep 2025 14:53:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i1aSqGOu"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dh7Vtmgp"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A4811DED4C;
-	Sun, 14 Sep 2025 14:48:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E12F2494F8
+	for <linux-input@vger.kernel.org>; Sun, 14 Sep 2025 14:53:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757861334; cv=none; b=WMxpVRePm6bafsoWbWuwFdwyzO4Q5+iT4vQCPUQU3m0s7oN1ve9H6csdDpze2Jqqe4nxrKTPV3YgRDDPjClLErOOEPxGclffNlnuMj/oEleX25xJPRNoNXUDI0GGrO4VzIl3OWj7UgiMZQUd6YekLZvUHSmaS2KK+MMAvZJasrs=
+	t=1757861598; cv=none; b=OCu/fgX+GRmmJQ+71Ef6fg9/M+gb5DLHkmdFS4f1cx9+1vu46Qvx1zJhh150Gb3DEWhS80hOj9yahlMxha+dcMpsQHN8PwGOPxNqM5s+4hZIH5Y5GE7/z+Ox6JWnnN4/net3YYtxu/5NIWfY/8jlzUy6f+3Ystkmu82U8mdHgsA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757861334; c=relaxed/simple;
-	bh=A3DqbfH85ApdUqc/nT+yRXDnl6a/OnG+Mb5W9g2EwxA=;
+	s=arc-20240116; t=1757861598; c=relaxed/simple;
+	bh=tL6wlBCFB4vOJw5IWTJwcLT6dkp65j1Nm3PGC1bWiPI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=cguaAIVo0qfJSwKNXuGd9+QoXT9of2VoffpNCaV0GCtajyQRHOI6TwUZTeGA0iUgexDXXOqmZgch5NWGrppFNmiuDS35ktKB9Ym9JIRFy2bxYy7QPiprVPPDLGPiC5MUYKXXeBM9gwRwzl4WaxYETq9UU+wDyaP+oI/8qh/syME=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i1aSqGOu; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C45FC4CEF0;
-	Sun, 14 Sep 2025 14:48:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757861333;
-	bh=A3DqbfH85ApdUqc/nT+yRXDnl6a/OnG+Mb5W9g2EwxA=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=i1aSqGOuMC2YFjPEJq4xyWkuu8CN3bOluKHH1KaNf9D59w46Klb2K0VQmu5eXAkee
-	 n0usC8ZGUZ54Pi7URhkLrS+Nqm/NLdoyEh06DTUDSYN212EdzboStxeR/chr6UWTqn
-	 syvrehWZFWkG4gMgoZp6VRXnYOlMBiKXux5WBTqct8kTHviUYl1461Ifrd1CUbOGSw
-	 /TqIixq4Gn2Q8nXgpnqw9Htr/W9XnJzgswDKHYtYYC3tFjBMdTiPIOeNEmkipfDHB/
-	 Nh04bcUFlNAk82nCgHgzeARGjsYTNd7G/2fHwIoXrw+h3h4qOJH4kYpWvlbwUNO7Yz
-	 +N7bcgmM37Bfw==
-Message-ID: <716da762-3aa8-4c39-b9fe-8e923b20a0d5@kernel.org>
-Date: Sun, 14 Sep 2025 16:48:49 +0200
+	 In-Reply-To:Content-Type; b=gDtS7d+48Dx2ZsSrymSeMqXOTvEOzxJfCppWZYrYKSyySXkn6YnD2RDERHOj6LTJRe8/VDUPqA9bVlQvUrXOvVvtqn+yi2jdz4aS1VpK/Jzf33vO/s9ht/JRKGj2HrBGGYni5xf8+8WKcXaPHCfltEF9eRkgYaw8cCKF99+zYuE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dh7Vtmgp; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-45dd513f4ecso20557325e9.3
+        for <linux-input@vger.kernel.org>; Sun, 14 Sep 2025 07:53:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1757861595; x=1758466395; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=tL6wlBCFB4vOJw5IWTJwcLT6dkp65j1Nm3PGC1bWiPI=;
+        b=dh7Vtmgp+nK4i/tMWmjBis28r4+GBo2spOyzcwtoKwcGthF+Dzix6hBNf1dUrjxopn
+         daM9b+0ElFf68roOn9qQOSjMvpQXWS3s4n1p7FUSdPFglgZky9XHPhbeZexaNf8NWIi1
+         z3aPGS2Fu8o9WEgHjAsOaawP7glfwVzG1NBlcLt77RQ7InmkWaI+jeeZg4TL5Wc3fEER
+         Z20f7+iKJBKWCFxBvcz8zQg+7qTItXU4/qHodU7sgcexnNlcDnvBsjY4+xKy7VBC+Mzd
+         jw8HcpX43Cb2gYJ8Xglyi6Ojw9g2D6R3FYIkHX63/N4EswKwcwFbqF9kkCqPrz1pT1hI
+         jnGw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757861595; x=1758466395;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=tL6wlBCFB4vOJw5IWTJwcLT6dkp65j1Nm3PGC1bWiPI=;
+        b=rUpqPY6XNTmbpwY+SGCPq3i/DWYCuL7408QbKlhJXq2JSn8h3JIZqiD00jZzchUE6y
+         SjEKBdz8w4+LXIQo/6ve8J0WwmpCi3yo6lUXGXI7ifTr7YcfaxuCBPNsMuR7VKGZaeqP
+         f2RfJlKMvqloDWPiKviGDZzTRnmgYd12yFzdWiB7rwr+a09azJz/cNXCxPJrcfsvlk7r
+         Qgck1AODc3CP97EDLkoxQU/mF1y1YyhsGb692BmmCsLNuHXaS9KfGR4QmCAbnxKR3eIh
+         k8dGMAuzJYrLTzBnd3A7+nIowF/VCpWeMgmaoPg+lRuZjd4AJDUrtbGW/2c8i1dIVNFf
+         62hw==
+X-Gm-Message-State: AOJu0YwEowA0J3Chkv+gmPnGk7XFZkiicXylreqRXeOcYFx/TqEQNoCd
+	4dVrrDDQJvtHBUcCfSNnddfEbok17M+4bF+pDIaTPnc0IXdbCFYKW6wk
+X-Gm-Gg: ASbGnct7ewtiaQSAS4gQ3xavQkzg7+aguUq2Tw18KuFp6rvHV0iQhN/hkzRzMjh1fGI
+	0Md2HPPIeokqy3XzCfAGYkiNc1tOMcnyQEWvFmRBkOP/c+S5gxcCJiWJMfguTCYi1Y59qG9DnKO
+	uyeDRPTVjS/ZtxvOy4mJBYlQeUFjCrUVdADyNvkOvSKqw03nTvXhGrH5ibCblS4Ile3Z6jrIyK9
+	iwhzDA3tZq2cDmHnd9Ru5GZMYUYi9wTXuV3W5eYT8HQ9lRfSznmV/H4LUr5mUAy6qsb6nZ+GnsJ
+	Os5Vr1OXipdTLNqfGddWJolIWfEE34hxM74EBhC6mc08OXiSRZ++ZjDfuIm5iDBoFgJKb2ZSNh+
+	iUmpd9NKOPq31U2c/NK27o9F9Jp7y5QEMEr2JXsAuxRRRNMUQsFx5hYJVpS114CXDFJIuf9ulbl
+	MSlnaLfUaovbo=
+X-Google-Smtp-Source: AGHT+IHu+SHSikTbZPFSm6HoLGcMUpOh+jIhu5e1VvPHaiwyPzzxrrYzsmlOktlqxwgi0m1GZNbZug==
+X-Received: by 2002:a05:600c:a45:b0:45b:47e1:ef72 with SMTP id 5b1f17b1804b1-45f21221d5bmr84887375e9.37.1757861595203;
+        Sun, 14 Sep 2025 07:53:15 -0700 (PDT)
+Received: from [192.168.1.103] (91-139-201-119.stz.ddns.bulsat.com. [91.139.201.119])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45e03719235sm137436685e9.1.2025.09.14.07.53.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 14 Sep 2025 07:53:14 -0700 (PDT)
+Message-ID: <a7d4d219-9f10-4c46-bf89-f0105fcb4bcf@gmail.com>
+Date: Sun, 14 Sep 2025 17:53:13 +0300
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -50,104 +82,45 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 1/2] dt-bindings: input: add ST-Microelectronics
- FTS2BA61Y touchscreen binding
-To: =?UTF-8?Q?Eric_Gon=C3=A7alves?= <ghatto404@gmail.com>,
+Subject: Re: [RFC PATCH 0/2] Input: add fts2ba61y touchscreen driver
+To: Krzysztof Kozlowski <krzk@kernel.org>,
+ =?UTF-8?Q?Eric_Gon=C3=A7alves?= <ghatto404@gmail.com>,
  Dmitry Torokhov <dmitry.torokhov@gmail.com>,
  Henrik Rydberg <rydberg@bitmath.org>, Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
-Cc: Ivaylo Ivanov <ivo.ivanov.ivanov1@gmail.com>,
- linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+Cc: linux-input@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org
 References: <20250911211910.45903-1-ghatto404@gmail.com>
- <20250911211910.45903-2-ghatto404@gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+ <a700b0c4-cfaa-42a5-ac87-c2bec8d9bf2a@kernel.org>
 Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
- cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
- JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
- gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
- J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
- NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
- BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
- vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
- Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
- TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
- S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGVBBMBCgA/AhsDBgsJCAcDAgYVCAIJCgsE
- FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJoF1BKBQkWlnSaAAoJEBuTQ307
- QWKbHukP/3t4tRp/bvDnxJfmNdNVn0gv9ep3L39IntPalBFwRKytqeQkzAju0whYWg+R/rwp
- +r2I1Fzwt7+PTjsnMFlh1AZxGDmP5MFkzVsMnfX1lGiXhYSOMP97XL6R1QSXxaWOpGNCDaUl
- ajorB0lJDcC0q3xAdwzRConxYVhlgmTrRiD8oLlSCD5baEAt5Zw17UTNDnDGmZQKR0fqLpWy
- 786Lm5OScb7DjEgcA2PRm17st4UQ1kF0rQHokVaotxRM74PPDB8bCsunlghJl1DRK9s1aSuN
- hL1Pv9VD8b4dFNvCo7b4hfAANPU67W40AaaGZ3UAfmw+1MYyo4QuAZGKzaP2ukbdCD/DYnqi
- tJy88XqWtyb4UQWKNoQqGKzlYXdKsldYqrLHGoMvj1UN9XcRtXHST/IaLn72o7j7/h/Ac5EL
- 8lSUVIG4TYn59NyxxAXa07Wi6zjVL1U11fTnFmE29ALYQEXKBI3KUO1A3p4sQWzU7uRmbuxn
- naUmm8RbpMcOfa9JjlXCLmQ5IP7Rr5tYZUCkZz08LIfF8UMXwH7OOEX87Y++EkAB+pzKZNNd
- hwoXulTAgjSy+OiaLtuCys9VdXLZ3Zy314azaCU3BoWgaMV0eAW/+gprWMXQM1lrlzvwlD/k
- whyy9wGf0AEPpLssLVt9VVxNjo6BIkt6d1pMg6mHsUEVzsFNBFVDXDQBEADNkrQYSREUL4D3
- Gws46JEoZ9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLue
- MNsWLJBvBaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6ei
- OMheesVS5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wA
- GldWsRxbf3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA
- 6z6lBZn0WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9
- YegxWKvXXHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt
- 91pFzBSOIpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gU
- BLHFTg2hYnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/
- JoFzZ4B0p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu
- 4vXVFBYIGmpyNPYzRm0QPwARAQABwsF8BBgBCgAmAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtB
- YpsFAmgXUF8FCRaWWyoACgkQG5NDfTtBYptO0w//dlXJs5/42hAXKsk+PDg3wyEFb4NpyA1v
- qmx7SfAzk9Hf6lWwU1O6AbqNMbh6PjEwadKUk1m04S7EjdQLsj/MBSgoQtCT3MDmWUUtHZd5
- RYIPnPq3WVB47GtuO6/u375tsxhtf7vt95QSYJwCB+ZUgo4T+FV4hquZ4AsRkbgavtIzQisg
- Dgv76tnEv3YHV8Jn9mi/Bu0FURF+5kpdMfgo1sq6RXNQ//TVf8yFgRtTUdXxW/qHjlYURrm2
- H4kutobVEIxiyu6m05q3e9eZB/TaMMNVORx+1kM3j7f0rwtEYUFzY1ygQfpcMDPl7pRYoJjB
- dSsm0ZuzDaCwaxg2t8hqQJBzJCezTOIkjHUsWAK+tEbU4Z4SnNpCyM3fBqsgYdJxjyC/tWVT
- AQ18NRLtPw7tK1rdcwCl0GFQHwSwk5pDpz1NH40e6lU+NcXSeiqkDDRkHlftKPV/dV+lQXiu
- jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
- zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
- XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20250911211910.45903-2-ghatto404@gmail.com>
+From: Ivaylo Ivanov <ivo.ivanov.ivanov1@gmail.com>
+In-Reply-To: <a700b0c4-cfaa-42a5-ac87-c2bec8d9bf2a@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 11/09/2025 23:19, Eric Gonçalves wrote:
-> Add the bindings for ST-Microelectronics FTS2BA61Y capacitive touchscreen.
+On 9/14/25 17:47, Krzysztof Kozlowski wrote:
+> On 11/09/2025 23:19, Eric Gonçalves wrote:
+>> This patchset adds support for the ST-Microelectronics FTS2BA61Y,
+>> a capacitive multi-touch touchscreen controller. this touchscreen
+>> is used in many mobile devices, like ones from the Galaxy S22 series
+>> and the Z Fold 5. Ivaylo Ivanov wrote the driver originally,
+>> and I'm upstreaming it on his behalf.
+>>
+> RFC means patchset is not ready, so please always mention why it is not
+> ready or what you expect here.
 
-Please wrap commit message according to Linux coding style / submission
-process (neither too early nor over the limit):
-https://elixir.bootlin.com/linux/v6.4-rc1/source/Documentation/process/submitting-patches.rst#L597
-
-A nit, subject: drop second/last, redundant "bindings". The
-"dt-bindings" prefix is already stating that these are bindings.
-See also:
-https://elixir.bootlin.com/linux/v6.17-rc3/source/Documentation/devicetree/bindings/submitting-patches.rst#L18
-
-> 
-> Signed-off-by: Eric Gonçalves <ghatto404@gmail.com>
-
-
-
-> +
-> +properties:
-> +  compatible:
-> +    const: st,fts2ba61y
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  avdd-supply: true
-> +  vdd-supply: true
-> +
-> +unevaluatedProperties: false
-
-This goes after required: field.
-
-Other than that - why isn't this finished (non RFC)? Code looks ok, but
-I also did not look that thorough.
+I'm not sure if naming the compatible as it is currently is correct.
+The specific thing about this IC seems to be that it's flashed with
+samsung-made firmware, so I need to confirm that:
+- we don't want to match compatible with the IC name (the same IC may
+be shipped with different fw on other devices)
+- maintainers wouldn't want us to merge it with some other driver
 
 Best regards,
-Krzysztof
+Ivaylo
+
+>
+> Best regards,
+> Krzysztof
+
 
