@@ -1,136 +1,223 @@
-Return-Path: <linux-input+bounces-14725-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14726-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6488CB56C3A
-	for <lists+linux-input@lfdr.de>; Sun, 14 Sep 2025 22:39:17 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FD97B56CDB
+	for <lists+linux-input@lfdr.de>; Mon, 15 Sep 2025 00:13:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 18E7417AC37
-	for <lists+linux-input@lfdr.de>; Sun, 14 Sep 2025 20:39:17 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id EBC891893666
+	for <lists+linux-input@lfdr.de>; Sun, 14 Sep 2025 22:13:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 29D162E8B70;
-	Sun, 14 Sep 2025 20:38:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 29EE12586CE;
+	Sun, 14 Sep 2025 22:12:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b="AUEv+5RM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g4GKL+es"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 643462E888C
-	for <linux-input@vger.kernel.org>; Sun, 14 Sep 2025 20:38:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E22CC1E515
+	for <linux-input@vger.kernel.org>; Sun, 14 Sep 2025 22:12:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757882316; cv=none; b=exAwEw1//iU48AIUIPey9zwlT22elC02VQgmpK5X7UTv65MWGke3u2JVOiJHB7R3wwl/sU9GzgA1tckqvdZZ9BVy1tETuneSNhNP6fyfUQCd/dJQSLjovExPdgPdIoaB79W6yMnmMMC3830EvEDqeg7UdAfA5Rjmf8spQCtuGnY=
+	t=1757887979; cv=none; b=OfO8btjSikF9rAUz+gOMMOJjoh0p07dEZ6nyUtekSfmbMrjmMYKSbJVW7O+BUXh7Nn3+NNRIXPVVUMQUqOrfCSpIZ4BkIxr96JbPixok30rSsYkABRA7DVR2BU3h8OEe3GAP6KRuhOw07AfI32O2vVX4dyGr7mHHW7RQ/4qs7Mg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757882316; c=relaxed/simple;
-	bh=/oqsdERk1dOnIz7pgCq78P2/eMnzdLETqpsc7c8e0Qc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=dbslFGAPiU4BUuhdkJRMu/ue/uCwPcSywaRFmMccQcjdpAQxWRzH6BT0XdIBY06ZarTwVzPhir9egDDhAuXzitO0wVNAUKiOC4FmpVUGVJNafLP3XIBnsZUNfAo0vxHpjzQ7AxyS352Q8lSSgm3TNw7pk+CssCG17mTe3PQTWyU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=amarulasolutions.com; spf=pass smtp.mailfrom=amarulasolutions.com; dkim=pass (1024-bit key) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b=AUEv+5RM; arc=none smtp.client-ip=209.85.208.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=amarulasolutions.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amarulasolutions.com
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-62f277546abso1542357a12.3
-        for <linux-input@vger.kernel.org>; Sun, 14 Sep 2025 13:38:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amarulasolutions.com; s=google; t=1757882313; x=1758487113; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=WRNP/ea+IMU+WtlCpH1FQlK5+aG3ehZbfYI0GGMGE9E=;
-        b=AUEv+5RMQRhL0H3Xl4vvaCxpsYA97T0AUZxLK2E3rtq/Vmz+qWJ5G3w6mBAalpePcx
-         3mOozxtcmp71efraIK1sebaI1Xb6GeMQV8Ra6b0h+ZYJycIE+bNGiHyCNMtf1wWCek5c
-         utnz3Znd8hOSnx8/jnmC1g04rC/ow/YgPKHHQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757882313; x=1758487113;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=WRNP/ea+IMU+WtlCpH1FQlK5+aG3ehZbfYI0GGMGE9E=;
-        b=mnYU+rAwr81YFiNRnwcBp2lQhPIKyzJIwgLzdfF+P1h5EF/EI/wr8DYOXr83Cx/AP1
-         Zk+zrB2AaZoTOrLLprWR0ya0GAUrozTusvGGrndoFOsZ8CUl3dLywU4oC+3fLyjqU2Vk
-         5gfBNEB74RbZAbGe3s5CFllsaRPN5VP+rVOVgU6ih3sqm8WuPeUtjxzWvwsEPr67e60G
-         CsKIIh0L6vWBlye21z153EXkiRaTM+5V8vs/crs0HHiFuh8eWZq5E5nEk79sGd/3haoS
-         7/L3QqD0G3io4kjC912FLouWIh4z7AP4K6LHGAxzo+jasOaTPSq/aciNtavGpA7pEL/B
-         /W3Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUEhw3+RHDpB+KgfERtfOn0JeyaB29xfn/OlnF9aZTemvhePWk8AZ7TgLUoIQmhQepJSpsCy59xrNlK6g==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzDkFLoQc+0q2WK+Ivms5b0Zd7huiX0ZuMIzf/lyx34gNOuOVpY
-	HWazpM5XpEuZbdQas7Jal89gIRgFyVSN6OiZxG+YpNLQqv6pkq0xdixKgKlSF5A8PgQ=
-X-Gm-Gg: ASbGncueQgw4oFX3zELLMCYpQymjIJTfcj5Nxglb5XG/0bNd8RpPJBbbjqq+YTHZtrp
-	AB8xP1dNRqu2gKynVKzTF0aKcfeYwbElFFBGJad+eTa8hcCeD/7l87WJHK34V4V2XQIG67CUyal
-	kW2koCGUbxAkSUbQ6gdGQBaDoAwaXYYu3ugOdlUFuONYYZR0SdTRIVJVf4Udicn0Q0WrReIJ1nW
-	tM67ywJl6YUGsversC/It2ysPXPpD60b8bSUHia5jfBcR2aPtavPOG5VPxxEuyxb/mKethd3Dr1
-	EGw5mzxjuk9Qq8B+SCozXNv2/eReVndWD0nvtD1IGH146cG/Y0EZ3p7Kc+EgldF14LCzdWqMcTT
-	C2O51cGNOz5O36EHSblpuIy9DpQhsUxPOO0lEv+XYkGzjQi4/swbHro9E/heBv15favMqSc8c1e
-	G3CiiHyoBifl42E6b5P7V5mdFmb+Ly1HE2GYeLaISEypY+xpxaahWrH8/inBV0Tpbkuo+XO+GB8
-	dA=
-X-Google-Smtp-Source: AGHT+IFmx1iKDCMnVdGgKnBLwcjUK2UHcFgx/Uomcucd/BtDSvIuEp4t1zmwRoy2VyM0EaarmQA9Uw==
-X-Received: by 2002:a05:6402:2348:b0:620:d826:b4c9 with SMTP id 4fb4d7f45d1cf-62ed69ab473mr9494870a12.0.1757882312803;
-        Sun, 14 Sep 2025 13:38:32 -0700 (PDT)
-Received: from dario-ThinkPad-T14s-Gen-2i.homenet.telecomitalia.it (host-82-56-38-125.retail.telecomitalia.it. [82.56.38.125])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-62ec33ad242sm7803739a12.17.2025.09.14.13.38.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 14 Sep 2025 13:38:31 -0700 (PDT)
-From: Dario Binacchi <dario.binacchi@amarulasolutions.com>
-To: linux-kernel@vger.kernel.org
-Cc: linux-amarula@amarulasolutions.com,
-	Dario Binacchi <dario.binacchi@amarulasolutions.com>,
-	Rob Herring <robh@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	devicetree@vger.kernel.org,
-	linux-input@vger.kernel.org
-Subject: [PATCH v3 5/5] dt-bindings: touchscreen: remove touchscreen.txt
-Date: Sun, 14 Sep 2025 22:37:56 +0200
-Message-ID: <20250914203812.1055696-5-dario.binacchi@amarulasolutions.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250914203812.1055696-1-dario.binacchi@amarulasolutions.com>
-References: <20250914203812.1055696-1-dario.binacchi@amarulasolutions.com>
+	s=arc-20240116; t=1757887979; c=relaxed/simple;
+	bh=oUdkAmedMqdxZtOvQlCaAA16wJsoXx/i86XktOfMsO4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=F6wt762zBpIlb3CTQBY3X7b3B7nu22qZWmwnmdukCnQpJ4s4Lgj118a8NCHfyDdDRMf1J2K2Vd16Y9voRZEQhEmKDnTRaZrrKoCTY7rM9DaL0lFlVWA+312SYJP6aKJqiYqQ3wZv52rOtYxZ5dKGN9yaSK3a8tk/2OdRxXmFPGU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g4GKL+es; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1757887977; x=1789423977;
+  h=date:from:to:cc:subject:message-id;
+  bh=oUdkAmedMqdxZtOvQlCaAA16wJsoXx/i86XktOfMsO4=;
+  b=g4GKL+es56SjH9PlkqjikQO/zACVlW1Qg6G+ngr9wUrcDwtDd2XTrH/O
+   k4VDza05AkKoFmvu/y0xO+OTDX+04A+WounaybqpOcC0WKaqD/sUtsxut
+   U2cTOusD3viu9uLfuHLRuQTc5YgZXhAmvl58/AICoe+QICy0cL5FHN3bd
+   l+cTSP9YmYzCGWa5pYfXqZBP+rOu9EcknB8bXhKJ96kb4DU2h3ge9psr4
+   96YKP4SsGCyxX00lYxmx6+9ZC7TkKbzsVqibxNKucFUIcKRDJslexS3My
+   qGuUSMQxg66d5bFS4HzvQeeopK9+Q7oUmtigiwaHO1iZvSX714RDByxtQ
+   w==;
+X-CSE-ConnectionGUID: vZGQSczYQOqjPjlSkGPcfg==
+X-CSE-MsgGUID: XVqurYE7Qcq0Ck2II+5Fag==
+X-IronPort-AV: E=McAfee;i="6800,10657,11553"; a="71515546"
+X-IronPort-AV: E=Sophos;i="6.18,264,1751266800"; 
+   d="scan'208";a="71515546"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2025 15:12:56 -0700
+X-CSE-ConnectionGUID: 3mURVfD+T7WFOmzYzLbUBg==
+X-CSE-MsgGUID: +6Q8jA0tT6OuLgY4SjI6Hw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,264,1751266800"; 
+   d="scan'208";a="173750809"
+Received: from lkp-server02.sh.intel.com (HELO eb5fdfb2a9b7) ([10.239.97.151])
+  by orviesa010.jf.intel.com with ESMTP; 14 Sep 2025 15:12:55 -0700
+Received: from kbuild by eb5fdfb2a9b7 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uxuxg-0002ku-0b;
+	Sun, 14 Sep 2025 22:12:46 +0000
+Date: Mon, 15 Sep 2025 06:12:41 +0800
+From: kernel test robot <lkp@intel.com>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: linux-input@vger.kernel.org
+Subject: [dtor-input:for-linus] BUILD SUCCESS
+ 30989f67650cbf8dc763f7c22e3a210f70a8d7d0
+Message-ID: <202509150631.sVCiqb9f-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-With commit 1d6204e2f51f ("dt-bindings: touchscreen: Add touchscreen
-schema") touchscreen.txt is no longer needed, and since no other file
-refers to it, it can be safely removed.
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git for-linus
+branch HEAD: 30989f67650cbf8dc763f7c22e3a210f70a8d7d0  MAINTAINERS: Input: Drop melfas-mip4 section
 
-Signed-off-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
-Acked-by: Rob Herring (Arm) <robh@kernel.org>
+elapsed time: 1211m
 
----
+configs tested: 130
+configs skipped: 4
 
-(no changes since v2)
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-Changes in v2:
-- Update the commit message
-- Add Acked-by tag of Rob Herring
-- Add patches:
-  - 1/5 dt-bindings: touchscreen: convert bu21013 bindings to json schema
-  - 2/5 dt-bindings: touchscreen: convert eeti bindings to json schema
-  - 3/5 dt-bindings: touchscreen: convert raspberrypi,firmware-ts bindings
-    to json schema
-  - 4/5 dt-bindings: touchscreen: convert zet6223 bindings to json schema
+tested configs:
+alpha                             allnoconfig    gcc-15.1.0
+alpha                            allyesconfig    gcc-15.1.0
+alpha                               defconfig    gcc-15.1.0
+arc                              allmodconfig    gcc-15.1.0
+arc                               allnoconfig    gcc-15.1.0
+arc                              allyesconfig    gcc-15.1.0
+arc                                 defconfig    gcc-15.1.0
+arc                   randconfig-001-20250914    gcc-9.5.0
+arc                   randconfig-002-20250914    gcc-10.5.0
+arm                              allmodconfig    gcc-15.1.0
+arm                               allnoconfig    clang-22
+arm                              allyesconfig    gcc-15.1.0
+arm                                 defconfig    clang-22
+arm                   randconfig-001-20250914    clang-22
+arm                   randconfig-002-20250914    clang-19
+arm                   randconfig-003-20250914    gcc-14.3.0
+arm                   randconfig-004-20250914    gcc-12.5.0
+arm64                            allmodconfig    clang-19
+arm64                             allnoconfig    gcc-15.1.0
+arm64                               defconfig    gcc-15.1.0
+arm64                 randconfig-001-20250914    gcc-9.5.0
+arm64                 randconfig-002-20250914    clang-22
+arm64                 randconfig-003-20250914    clang-17
+arm64                 randconfig-004-20250914    gcc-8.5.0
+csky                              allnoconfig    gcc-15.1.0
+csky                  randconfig-001-20250914    gcc-15.1.0
+csky                  randconfig-002-20250914    gcc-13.4.0
+hexagon                          allmodconfig    clang-17
+hexagon                           allnoconfig    clang-22
+hexagon                          allyesconfig    clang-22
+hexagon               randconfig-001-20250914    clang-22
+hexagon               randconfig-002-20250914    clang-22
+i386                             allmodconfig    gcc-14
+i386                              allnoconfig    gcc-14
+i386                             allyesconfig    gcc-14
+i386        buildonly-randconfig-001-20250914    gcc-13
+i386        buildonly-randconfig-002-20250914    gcc-14
+i386        buildonly-randconfig-003-20250914    gcc-14
+i386        buildonly-randconfig-004-20250914    gcc-14
+i386        buildonly-randconfig-005-20250914    clang-20
+i386        buildonly-randconfig-006-20250914    gcc-14
+i386                                defconfig    clang-20
+loongarch                        allmodconfig    clang-19
+loongarch                         allnoconfig    clang-22
+loongarch             randconfig-001-20250914    clang-22
+loongarch             randconfig-002-20250914    gcc-15.1.0
+m68k                             allmodconfig    gcc-15.1.0
+m68k                              allnoconfig    gcc-15.1.0
+m68k                             allyesconfig    gcc-15.1.0
+m68k                         apollo_defconfig    gcc-15.1.0
+m68k                          atari_defconfig    gcc-15.1.0
+microblaze                       allmodconfig    gcc-15.1.0
+microblaze                        allnoconfig    gcc-15.1.0
+microblaze                       allyesconfig    gcc-15.1.0
+microblaze                          defconfig    gcc-15.1.0
+mips                              allnoconfig    gcc-15.1.0
+mips                       rbtx49xx_defconfig    gcc-15.1.0
+nios2                             allnoconfig    gcc-11.5.0
+nios2                               defconfig    gcc-11.5.0
+nios2                 randconfig-001-20250914    gcc-10.5.0
+nios2                 randconfig-002-20250914    gcc-11.5.0
+openrisc                          allnoconfig    gcc-15.1.0
+openrisc                         allyesconfig    gcc-15.1.0
+openrisc                            defconfig    gcc-15.1.0
+parisc                           allmodconfig    gcc-15.1.0
+parisc                            allnoconfig    gcc-15.1.0
+parisc                           allyesconfig    gcc-15.1.0
+parisc                              defconfig    gcc-15.1.0
+parisc                randconfig-001-20250914    gcc-8.5.0
+parisc                randconfig-002-20250914    gcc-10.5.0
+parisc64                            defconfig    gcc-15.1.0
+powerpc                          allmodconfig    gcc-15.1.0
+powerpc                           allnoconfig    gcc-15.1.0
+powerpc                          allyesconfig    clang-22
+powerpc                      bamboo_defconfig    clang-22
+powerpc                        fsp2_defconfig    gcc-15.1.0
+powerpc               randconfig-001-20250914    clang-22
+powerpc               randconfig-002-20250914    clang-22
+powerpc               randconfig-003-20250914    clang-22
+powerpc64             randconfig-001-20250914    clang-22
+powerpc64             randconfig-002-20250914    clang-22
+powerpc64             randconfig-003-20250914    gcc-13.4.0
+riscv                            allmodconfig    clang-22
+riscv                             allnoconfig    gcc-15.1.0
+riscv                            allyesconfig    clang-16
+riscv                               defconfig    clang-22
+riscv                 randconfig-001-20250914    clang-22
+riscv                 randconfig-002-20250914    gcc-12.5.0
+s390                              allnoconfig    clang-22
+s390                             allyesconfig    gcc-15.1.0
+s390                                defconfig    clang-22
+s390                  randconfig-001-20250914    gcc-10.5.0
+s390                  randconfig-002-20250914    gcc-15.1.0
+sh                               allmodconfig    gcc-15.1.0
+sh                                allnoconfig    gcc-15.1.0
+sh                               allyesconfig    gcc-15.1.0
+sh                                  defconfig    gcc-15.1.0
+sh                    randconfig-001-20250914    gcc-15.1.0
+sh                    randconfig-002-20250914    gcc-10.5.0
+sh                   sh7724_generic_defconfig    gcc-15.1.0
+sh                              ul2_defconfig    gcc-15.1.0
+sparc                            allmodconfig    gcc-15.1.0
+sparc                             allnoconfig    gcc-15.1.0
+sparc                               defconfig    gcc-15.1.0
+sparc                 randconfig-001-20250914    gcc-11.5.0
+sparc                 randconfig-002-20250914    gcc-14.3.0
+sparc64                             defconfig    clang-20
+sparc64               randconfig-001-20250914    gcc-8.5.0
+sparc64               randconfig-002-20250914    clang-22
+um                               allmodconfig    clang-19
+um                                allnoconfig    clang-22
+um                               allyesconfig    gcc-14
+um                                  defconfig    clang-22
+um                             i386_defconfig    gcc-14
+um                    randconfig-001-20250914    clang-22
+um                    randconfig-002-20250914    clang-18
+um                           x86_64_defconfig    clang-22
+x86_64                            allnoconfig    clang-20
+x86_64                           allyesconfig    clang-20
+x86_64      buildonly-randconfig-001-20250914    clang-20
+x86_64      buildonly-randconfig-002-20250914    clang-20
+x86_64      buildonly-randconfig-003-20250914    clang-20
+x86_64      buildonly-randconfig-004-20250914    clang-20
+x86_64      buildonly-randconfig-005-20250914    gcc-14
+x86_64      buildonly-randconfig-006-20250914    clang-20
+x86_64                              defconfig    gcc-14
+x86_64                          rhel-9.4-rust    clang-20
+xtensa                            allnoconfig    gcc-15.1.0
+xtensa                randconfig-001-20250914    gcc-14.3.0
+xtensa                randconfig-002-20250914    gcc-8.5.0
 
- .../devicetree/bindings/input/touchscreen/touchscreen.txt        | 1 -
- 1 file changed, 1 deletion(-)
- delete mode 100644 Documentation/devicetree/bindings/input/touchscreen/touchscreen.txt
-
-diff --git a/Documentation/devicetree/bindings/input/touchscreen/touchscreen.txt b/Documentation/devicetree/bindings/input/touchscreen/touchscreen.txt
-deleted file mode 100644
-index e1adb902d503..000000000000
---- a/Documentation/devicetree/bindings/input/touchscreen/touchscreen.txt
-+++ /dev/null
-@@ -1 +0,0 @@
--See touchscreen.yaml
--- 
-2.43.0
-
-base-commit: df86f912b45c20e236060321c85fe35437e9325d
-branch: drop-touchscreen.txt
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
