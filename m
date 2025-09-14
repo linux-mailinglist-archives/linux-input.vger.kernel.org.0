@@ -1,48 +1,48 @@
-Return-Path: <linux-input+bounces-14700-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14701-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id A40F8B569D1
-	for <lists+linux-input@lfdr.de>; Sun, 14 Sep 2025 16:47:45 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D3BF8B569D4
+	for <lists+linux-input@lfdr.de>; Sun, 14 Sep 2025 16:48:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id DC219189DE2D
-	for <lists+linux-input@lfdr.de>; Sun, 14 Sep 2025 14:48:06 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 99A8C17AD9E
+	for <lists+linux-input@lfdr.de>; Sun, 14 Sep 2025 14:48:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7DA96246BC7;
-	Sun, 14 Sep 2025 14:47:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3973A229B2E;
+	Sun, 14 Sep 2025 14:48:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pSZQuL44"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i1aSqGOu"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F0B11B6D06;
-	Sun, 14 Sep 2025 14:47:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A4811DED4C;
+	Sun, 14 Sep 2025 14:48:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757861260; cv=none; b=ae3C5LRK0iXMLwhB7YgBwdNCcSUoIz8HZasW0Jg/i8589h/iY1LSoWhHFJ2dh90sDHDdfyUO3X5fuhPu72/7SArLlAMcSyFBiJmpbC19vJ1T0nO3unzaLkkZyudI+LZaQuuyY8xLfTf3uOnf1z8EcjNomtw5k6y5/DxMDaaEFBo=
+	t=1757861334; cv=none; b=WMxpVRePm6bafsoWbWuwFdwyzO4Q5+iT4vQCPUQU3m0s7oN1ve9H6csdDpze2Jqqe4nxrKTPV3YgRDDPjClLErOOEPxGclffNlnuMj/oEleX25xJPRNoNXUDI0GGrO4VzIl3OWj7UgiMZQUd6YekLZvUHSmaS2KK+MMAvZJasrs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757861260; c=relaxed/simple;
-	bh=pgC7mSwcUJutOwFND1r5q2qUnXbqP16wKsfZquVs2zA=;
+	s=arc-20240116; t=1757861334; c=relaxed/simple;
+	bh=A3DqbfH85ApdUqc/nT+yRXDnl6a/OnG+Mb5W9g2EwxA=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Q26zZTk2Uhfp6WcmIWShOtLmaIU8JYH7iEr4lG26UyWlDvHQhDZxLe4Yds1cZmCCdsX13WYnPh3sQZwiY1P+V2tDhqdn9lCvFIvpfvz2F22a4hJMWMQ6rz47dQRxuBbKz0UQP+6l3G/IsxmTghVX8lkAQQtdOhy49ToR+MJNLQ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pSZQuL44; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A998AC4CEF0;
-	Sun, 14 Sep 2025 14:47:37 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=cguaAIVo0qfJSwKNXuGd9+QoXT9of2VoffpNCaV0GCtajyQRHOI6TwUZTeGA0iUgexDXXOqmZgch5NWGrppFNmiuDS35ktKB9Ym9JIRFy2bxYy7QPiprVPPDLGPiC5MUYKXXeBM9gwRwzl4WaxYETq9UU+wDyaP+oI/8qh/syME=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i1aSqGOu; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C45FC4CEF0;
+	Sun, 14 Sep 2025 14:48:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757861260;
-	bh=pgC7mSwcUJutOwFND1r5q2qUnXbqP16wKsfZquVs2zA=;
+	s=k20201202; t=1757861333;
+	bh=A3DqbfH85ApdUqc/nT+yRXDnl6a/OnG+Mb5W9g2EwxA=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=pSZQuL44vtRK+fYYBr+g2a8LTKeCyM3RDi9q78HGKkATJrE7mlYZ/CmaXwxn9QdIE
-	 cJiLsSccNeyCuV2Rrg9BZ/3vtNxZNM5XGve/Eqe/diw09bY4uEr8DhtvsHfYPhX8xT
-	 G6CLVvLZS8ajVwGQ7yva3Yx3dsFnCKFvOb5woeL9puaLS++xd6pBWw11UEH/9917yr
-	 LEfKg5/nN1uiPclDmrbZRUu4nJy+aUZKOowk1N9AzhiSf3GG1M7EHDUWriLBVXoxF9
-	 Rpmp6jqDb7zFnoF06gpZCrP5lZ2f/dVJ/3WsEmSjnR01vqMA9qLvnvnVL3XRfERcTh
-	 PsbU0rrtHrgOQ==
-Message-ID: <a700b0c4-cfaa-42a5-ac87-c2bec8d9bf2a@kernel.org>
-Date: Sun, 14 Sep 2025 16:47:35 +0200
+	b=i1aSqGOuMC2YFjPEJq4xyWkuu8CN3bOluKHH1KaNf9D59w46Klb2K0VQmu5eXAkee
+	 n0usC8ZGUZ54Pi7URhkLrS+Nqm/NLdoyEh06DTUDSYN212EdzboStxeR/chr6UWTqn
+	 syvrehWZFWkG4gMgoZp6VRXnYOlMBiKXux5WBTqct8kTHviUYl1461Ifrd1CUbOGSw
+	 /TqIixq4Gn2Q8nXgpnqw9Htr/W9XnJzgswDKHYtYYC3tFjBMdTiPIOeNEmkipfDHB/
+	 Nh04bcUFlNAk82nCgHgzeARGjsYTNd7G/2fHwIoXrw+h3h4qOJH4kYpWvlbwUNO7Yz
+	 +N7bcgmM37Bfw==
+Message-ID: <716da762-3aa8-4c39-b9fe-8e923b20a0d5@kernel.org>
+Date: Sun, 14 Sep 2025 16:48:49 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -50,7 +50,8 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 0/2] Input: add fts2ba61y touchscreen driver
+Subject: Re: [RFC PATCH 1/2] dt-bindings: input: add ST-Microelectronics
+ FTS2BA61Y touchscreen binding
 To: =?UTF-8?Q?Eric_Gon=C3=A7alves?= <ghatto404@gmail.com>,
  Dmitry Torokhov <dmitry.torokhov@gmail.com>,
  Henrik Rydberg <rydberg@bitmath.org>, Rob Herring <robh@kernel.org>,
@@ -59,6 +60,7 @@ Cc: Ivaylo Ivanov <ivo.ivanov.ivanov1@gmail.com>,
  linux-input@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org
 References: <20250911211910.45903-1-ghatto404@gmail.com>
+ <20250911211910.45903-2-ghatto404@gmail.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -104,19 +106,47 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20250911211910.45903-1-ghatto404@gmail.com>
+In-Reply-To: <20250911211910.45903-2-ghatto404@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 On 11/09/2025 23:19, Eric Gonçalves wrote:
-> This patchset adds support for the ST-Microelectronics FTS2BA61Y,
-> a capacitive multi-touch touchscreen controller. this touchscreen
-> is used in many mobile devices, like ones from the Galaxy S22 series
-> and the Z Fold 5. Ivaylo Ivanov wrote the driver originally,
-> and I'm upstreaming it on his behalf.
+> Add the bindings for ST-Microelectronics FTS2BA61Y capacitive touchscreen.
+
+Please wrap commit message according to Linux coding style / submission
+process (neither too early nor over the limit):
+https://elixir.bootlin.com/linux/v6.4-rc1/source/Documentation/process/submitting-patches.rst#L597
+
+A nit, subject: drop second/last, redundant "bindings". The
+"dt-bindings" prefix is already stating that these are bindings.
+See also:
+https://elixir.bootlin.com/linux/v6.17-rc3/source/Documentation/devicetree/bindings/submitting-patches.rst#L18
+
 > 
-RFC means patchset is not ready, so please always mention why it is not
-ready or what you expect here.
+> Signed-off-by: Eric Gonçalves <ghatto404@gmail.com>
+
+
+
+> +
+> +properties:
+> +  compatible:
+> +    const: st,fts2ba61y
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  avdd-supply: true
+> +  vdd-supply: true
+> +
+> +unevaluatedProperties: false
+
+This goes after required: field.
+
+Other than that - why isn't this finished (non RFC)? Code looks ok, but
+I also did not look that thorough.
 
 Best regards,
 Krzysztof
