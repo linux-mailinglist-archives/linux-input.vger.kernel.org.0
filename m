@@ -1,144 +1,143 @@
-Return-Path: <linux-input+bounces-14706-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14707-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59DA8B56AC7
-	for <lists+linux-input@lfdr.de>; Sun, 14 Sep 2025 19:16:28 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id D26ADB56AC8
+	for <lists+linux-input@lfdr.de>; Sun, 14 Sep 2025 19:16:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EE16016116C
-	for <lists+linux-input@lfdr.de>; Sun, 14 Sep 2025 17:16:26 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3FBF3189CF17
+	for <lists+linux-input@lfdr.de>; Sun, 14 Sep 2025 17:16:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 461A425F973;
-	Sun, 14 Sep 2025 17:16:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AEE7F2DE71C;
+	Sun, 14 Sep 2025 17:16:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b="aYG61GA9"
+	dkim=pass (1024-bit key) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b="Nw5Jg+jb"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6320126B747
-	for <linux-input@vger.kernel.org>; Sun, 14 Sep 2025 17:16:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E258E2DCF46
+	for <linux-input@vger.kernel.org>; Sun, 14 Sep 2025 17:16:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757870180; cv=none; b=EcTQC5+tI8Vt64ATVawjyHBpLhUTaNp6xhseyey06BAnMSknnB2YLOaTyUW7qnZygbSQ2Y1ChXYn2UKRZc6uhScyh58WNtLOUP3gfVOnnNXNkIPnud3uW78bcAHsZLh0IDyOAVCvQp5n4w4ArMeAsDdMkY1xkRMNoHJFHJgfsPA=
+	t=1757870181; cv=none; b=P3UCWZwoqvOxrxNkwbgR/P11bBklfpHPD2BTVE7AybKD+PQ9CYeXItPNzvjqODUWBCwrK39L8obCFjXym9jH2QIOArmmXhhf2WKyNLBHSyPlgekc6CNB55j35gq9hmlAbOpgTGbfJPC8u5mh9ZiOCU3gHCvQZUmhP5NUrzWZ6WM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757870180; c=relaxed/simple;
-	bh=nftBCL6M74z8HHTn4ctuVWkq8xVvp0KWzD6g/yIisLQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Rx+Vl/cZRktTmMyjjW1C4cMElS7xVITOe9LEmeLf+AsnjuPT2XXShb+9l+mHsttJXPOjaTYAt2hcSVW+MRhSwKjWp1g5X3gMK+o7PGlW2Ic7prMYO28y4TNkgieJQrd4yI3hSWHytMBLFgMwDa4St6HI/lb9wty5sEgZ2Db1ttk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=amarulasolutions.com; spf=pass smtp.mailfrom=amarulasolutions.com; dkim=pass (1024-bit key) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b=aYG61GA9; arc=none smtp.client-ip=209.85.208.49
+	s=arc-20240116; t=1757870181; c=relaxed/simple;
+	bh=ipys+sa9gnvK/DvJjMtWh3ebWZIbOPBtZHEYTv7XZLI=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=VnhI/q1z+cNJ62VpulR+NOxbA34E6UmwW2sgDCmXpyABVhVkUIfu6f2dZ40LZJEbfqwZ44mQBripwX/Aer4H3hdrz84m1MquElnQDhMwlTykmIWA4tsgqTNaBMD0iGmIKX3IG70Z4C6cydV1m41u1/w2wS1x3QxKrA/Vb/tXC5U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=amarulasolutions.com; spf=pass smtp.mailfrom=amarulasolutions.com; dkim=pass (1024-bit key) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b=Nw5Jg+jb; arc=none smtp.client-ip=209.85.208.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=amarulasolutions.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amarulasolutions.com
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-6228de280a4so5467396a12.2
-        for <linux-input@vger.kernel.org>; Sun, 14 Sep 2025 10:16:17 -0700 (PDT)
+Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-62f4273a404so127754a12.0
+        for <linux-input@vger.kernel.org>; Sun, 14 Sep 2025 10:16:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amarulasolutions.com; s=google; t=1757870176; x=1758474976; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=0BZMewSeCcTTiC1gUbhDF3UKkouTbS+YRMuO2NhSHUs=;
-        b=aYG61GA9jSF96772jvHJL5h1+/73vwV5/VfeWiFpC+4jPSsJ0ZkiF2ixfJ5mVZA7BW
-         iLF7BTmWLVLrhmpU/Odjakpcdw8nI17P3qpESWPWd9M+ICjMVholkokMLz3r9EWHfY8y
-         HbKd6VCyCrDgG4QQ9DlYpsOUePoUbGvXoZ2dA=
+        d=amarulasolutions.com; s=google; t=1757870177; x=1758474977; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=v0a/vjTQEtX+/yGwy3GQfrzKjZgyz27Pw8rW7Pi3j2A=;
+        b=Nw5Jg+jbOFbWUksSwkY0mb6B6Q038Q5TZhYDW3v5l2psvaMLMN6unRyWC2LJNrxogc
+         nznuaSqQAPkjfdGprabEvMHN0w1nXzuDdPgfqw0Cd9Uc5VPM7SdvaPVhXXJ2XNgt19co
+         iq0FuX8HesrhSjhTP0GYm+ar7ToHiEALl5/zo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757870176; x=1758474976;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=0BZMewSeCcTTiC1gUbhDF3UKkouTbS+YRMuO2NhSHUs=;
-        b=IR08/85P6R4TYQVmftXrMUGUKHZRa8Yk0JbtQgyU2U0tBvbyCfqdbSHNBMK97dtIB1
-         gS67z/teU/wfKKE/29TKwBti+FYKkxHP/cji4757cHYY/wP2hm6iueL8zrrpN8tVXfq3
-         eik1lj4ll6sXx13+6wQWJk5WrWT4RDzIySM/r4j8MUgAkQR/6yJfCcOHZmvwP6fBTuP4
-         +3FBArfLIjTR+vfIxdEQPOFArs8XbqYsWD6jc5uS/EtMdLziH9Bv2JC22TBO2q9QpmeU
-         rQgEqd517c94kqC8EkDhh3+c54qa+hIRm7ZkJB+YOo9rckxc4tNe2dt9PjtFY5DP+v/Q
-         6khg==
-X-Forwarded-Encrypted: i=1; AJvYcCVsCS0Vqr3TgJISuSP37zRMByA64VdQwmlJ3JUh7mzqpa6E2NBjb82v76wn2ed/OB6Z0qPID3OHw0J5YQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxUZa2Di2F/DQX34VKkEzogL2l5tkGArJ9r7aWIFF7INPPgbB3G
-	QMvQPk35n2R5gCTvriEIgTRK++FI/PgMLCCn7Iv7eW96Lf+K5ZpaHC0Jh0Rj7lNraPw=
-X-Gm-Gg: ASbGncuTDxGxgq7RFvqhBLgbi1HdA3lcNcWR/Duaie50HCmsVaSrrqhQlw/UeZvfSoo
-	nVQL2sf113iDv9Dtc7QLTVO1EesWTQSn/nL83rxeycya6mgW8l6TaVrHXefoowD+5nZlOV0RV4x
-	MkdOh0w7UzwwIVR3G6o/xX3YzVWG3c7/ixcK617fyg/8TR1daqyMM7dB3tgeSUoU9K4O1I4EFoE
-	nI2PgqYcFLt7gW8a/q6QtTNXSVmE7wj5RVB1UWCeiGFMRlC0Glgf/lFhcvFPcSiz9W0Dfh+CPj3
-	2iv5nj5qCeRuoDbNUbURD0uKdCZAmP3auJPOQc3cBF1NZAZ3ydBCDaNZoVUSYINRyfvOBc/Nq16
-	U1vpWfhT5cwx9gXbl7Pd07brQL7tvu5aodtR9oDmiPDJ6mkFNc13DK5DxbbjZCjw27g+BTeRAWX
-	8bX77m8tduRaloeZsrJcqP2n5hTqNPmT6Hx94EmnZcgAtwv6QEsqFxLXrzXI8r+tdhoz0F9HBC1
-	tQ=
-X-Google-Smtp-Source: AGHT+IFNtfhow60LKf3kFnxnyjXUZ4Oc4lyoGvrn1vqt8LXeEwCDevETYH1mO/LwuhCnJBRIxMl4VA==
-X-Received: by 2002:a17:907:1b08:b0:b04:5b0a:5850 with SMTP id a640c23a62f3a-b07c35fb999mr990822466b.40.1757870175496;
-        Sun, 14 Sep 2025 10:16:15 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1757870177; x=1758474977;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=v0a/vjTQEtX+/yGwy3GQfrzKjZgyz27Pw8rW7Pi3j2A=;
+        b=b1EmxWefSU36v3thQwy3utZVry5/AMegaiKY/t4kk+5HIpLCWz51pPsDkhBCiJrh/R
+         lAv+nQ9hC5hmZh8buwBSmXXNcUTDtUUTzRvZB8q3dbfuEAYzOS6OtcCb/01g6rS1dHF5
+         ukyJV/1L+P/XuIacJ2+Vy0q3FBnDN4PD1BRI/4k8fIf5MLgA+cfpFgFibpQqZCVPsZGy
+         VOD+zl8fdw6sszDF6po/NaooR70Mb1+2cK5qO83bxKbsqL59td77Os/kikqUvDLdjZtY
+         32+DDWYzpmJHErjuFmQ8Lq52GZuStgLHkaqAK/xXEoW3HR2Z8IoFUWNnaACNkdN3bt+j
+         awYQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVLJLKulK1uOkLZeMMnW/2IYOHl929kBsHELofjC6JnyJ+bEEeTEReHTpkQxbO78paOG0+jmSeWE5t1Yw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YweMYYzKm1Z+rdmcCggUx067uVfyePNwyOwdAUfef/bwg8ZSdJ+
+	6/Hu5JxHgypcpsD3rznICnE2JcJsRejdWA6sqV808+9rjvg+j+igSm1nP/RqZywllxU=
+X-Gm-Gg: ASbGncspA+ioPAhR1fZGt+C/OSGTFalqBRPPz32jHjE1uOcWOfGQr4u/bnA5I1uPIZS
+	D6c/3McXas1uGbUcMFHjMoZyR+Dbuc4EdFkLnfKjEui6hbw/F5nOw436sMAJGGDSusonZ2EvX6l
+	bluyZR3ybLU0TDvAWIvIF7Ti+omBDnirrzb024VtpW+t3baZp/BMPI0GPgsmW+7mhqCNrMklbPu
+	4xea8QKZIUfzIXX2ixmFdIkHR6Oq0ifFxXU3gTQtguX/AK9DkgK78eR7nTB7T6TALVgs5yEv95a
+	8N1+8OYrGlECHvc5BUIdKeXe8AZFYy5xsfjpEVuV7nbB70zgs76ZDfAJJBLC5CJ8z19WQxCd5bt
+	N3VEUnnF5rf9MsnJZNvUe4kC7/BVQ2pxBYwOLtZNdCvS2muX82BU5bjwOUAisVqNDBGGpxydeKK
+	KkN3G8AvsnDImIpEUwLKygEyfoXd3LdtiBYzQcKnKTLF+Ec9VBuMIMrZFiARKpS6PE
+X-Google-Smtp-Source: AGHT+IEvX+quO6ICKhJRdf8NKT/j6OYJ6Pe+ZtB6ww1NFEvD0skqRYkw1DUilScz0LuELvehDfDMmw==
+X-Received: by 2002:a17:907:971d:b0:b0c:7269:8459 with SMTP id a640c23a62f3a-b0c726986afmr363002766b.7.1757870177023;
+        Sun, 14 Sep 2025 10:16:17 -0700 (PDT)
 Received: from dario-ThinkPad-T14s-Gen-2i.homenet.telecomitalia.it (host-82-56-38-125.retail.telecomitalia.it. [82.56.38.125])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b07b334e76dsm776980466b.102.2025.09.14.10.16.13
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b07b334e76dsm776980466b.102.2025.09.14.10.16.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 14 Sep 2025 10:16:14 -0700 (PDT)
+        Sun, 14 Sep 2025 10:16:16 -0700 (PDT)
 From: Dario Binacchi <dario.binacchi@amarulasolutions.com>
 To: linux-kernel@vger.kernel.org
 Cc: Frank Li <Frank.Li@nxp.com>,
 	linux-amarula@amarulasolutions.com,
+	Michael Trimarchi <michael@amarulasolutions.com>,
 	Dario Binacchi <dario.binacchi@amarulasolutions.com>,
-	Conor Dooley <conor+dt@kernel.org>,
 	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
 	Fabio Estevam <festevam@gmail.com>,
-	Haibo Chen <haibo.chen@nxp.com>,
-	Javier Carrasco <javier.carrasco@wolfvision.net>,
-	Jeff LaBundy <jeff@labundy.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Michael Trimarchi <michael@amarulasolutions.com>,
 	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Rob Herring <robh@kernel.org>,
 	Sascha Hauer <s.hauer@pengutronix.de>,
 	Shawn Guo <shawnguo@kernel.org>,
-	devicetree@vger.kernel.org,
 	imx@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org,
 	linux-input@vger.kernel.org
-Subject: [PATCH v2 0/6] Input: imx6ul_tsc - set glitch threshold by dts property
-Date: Sun, 14 Sep 2025 19:15:57 +0200
-Message-ID: <20250914171608.1050401-1-dario.binacchi@amarulasolutions.com>
+Subject: [PATCH v2 1/6] Input: imx6ul_tsc - fix typo in register name
+Date: Sun, 14 Sep 2025 19:15:58 +0200
+Message-ID: <20250914171608.1050401-2-dario.binacchi@amarulasolutions.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20250914171608.1050401-1-dario.binacchi@amarulasolutions.com>
+References: <20250914171608.1050401-1-dario.binacchi@amarulasolutions.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The series allows setting the glitch threshold for the detected signal
-from a DTS property instead of a hardcoded value.
-In addition, I applied a patch that replaces opencoded masking and
-shifting, with BIT(), GENMASK(), FIELD_GET() and FIELD_PREP() macros.
+From: Michael Trimarchi <michael@amarulasolutions.com>
+
+Replace 'SETING' with 'SETTING'.
+
+Signed-off-by: Michael Trimarchi <michael@amarulasolutions.com>
+Signed-off-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
+Reviewed-by: Frank Li <Frank.Li@nxp.com>
+
+---
 
 Changes in v2:
-- Replace patch ("dt-bindings: input: touchscreen: fsl,imx6ul-tsc: add
-  fsl,glitch-threshold") with ("dt-bindings: touchscreen: add
-  touchscreen-glitch-threshold-ns property"), making the previous property
-  general by moving it to touchscreen.yaml.
-- Rework "Input: imx6ul_tsc - set glitch threshold by DTS property" patch
-  to match changes made to the DTS property.
-- Move "Input: imx6ul_tsc - use BIT, FIELD_{GET,PREP} and GENMASK macros"
-  patch right after the patch fixing the typo.
+- Add Reviewed-by tag of Frank Li.
 
-Dario Binacchi (5):
-  Input: imx6ul_tsc - use BIT, FIELD_{GET,PREP} and GENMASK macros
-  dt-bindings: touchscreen: add touchscreen-glitch-threshold-ns property
-  dt-bindings: touchscreen: fsl,imx6ul-tsc: support glitch thresold
-  ARM: dts: imx6ull-engicam-microgea-bmm: set touchscreen glitch
-    threshold
-  Input: imx6ul_tsc - set glitch threshold by DTS property
+ drivers/input/touchscreen/imx6ul_tsc.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Michael Trimarchi (1):
-  Input: imx6ul_tsc - fix typo in register name
-
- .../input/touchscreen/fsl,imx6ul-tsc.yaml     |  15 +++
- .../input/touchscreen/touchscreen.yaml        |   4 +
- .../nxp/imx/imx6ull-engicam-microgea-bmm.dts  |   1 +
- drivers/input/touchscreen/imx6ul_tsc.c        | 122 +++++++++++-------
- 4 files changed, 98 insertions(+), 44 deletions(-)
-
+diff --git a/drivers/input/touchscreen/imx6ul_tsc.c b/drivers/input/touchscreen/imx6ul_tsc.c
+index 6ac8fa84ed9f..c2c6e50efc54 100644
+--- a/drivers/input/touchscreen/imx6ul_tsc.c
++++ b/drivers/input/touchscreen/imx6ul_tsc.c
+@@ -55,7 +55,7 @@
+ #define ADC_TIMEOUT		msecs_to_jiffies(100)
+ 
+ /* TSC registers */
+-#define REG_TSC_BASIC_SETING	0x00
++#define REG_TSC_BASIC_SETTING	0x00
+ #define REG_TSC_PRE_CHARGE_TIME	0x10
+ #define REG_TSC_FLOW_CONTROL	0x20
+ #define REG_TSC_MEASURE_VALUE	0x30
+@@ -192,7 +192,7 @@ static void imx6ul_tsc_set(struct imx6ul_tsc *tsc)
+ 
+ 	basic_setting |= tsc->measure_delay_time << 8;
+ 	basic_setting |= DETECT_4_WIRE_MODE | AUTO_MEASURE;
+-	writel(basic_setting, tsc->tsc_regs + REG_TSC_BASIC_SETING);
++	writel(basic_setting, tsc->tsc_regs + REG_TSC_BASIC_SETTING);
+ 
+ 	writel(DE_GLITCH_2, tsc->tsc_regs + REG_TSC_DEBUG_MODE2);
+ 
 -- 
 2.43.0
 
-base-commit: df86f912b45c20e236060321c85fe35437e9325d
-branch: tsc_de_glitch
 
