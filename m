@@ -1,145 +1,139 @@
-Return-Path: <linux-input+bounces-14750-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14751-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B818B58816
-	for <lists+linux-input@lfdr.de>; Tue, 16 Sep 2025 01:16:01 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C451B5886D
+	for <lists+linux-input@lfdr.de>; Tue, 16 Sep 2025 01:46:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 53E31581A2F
-	for <lists+linux-input@lfdr.de>; Mon, 15 Sep 2025 23:15:41 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 763617B1379
+	for <lists+linux-input@lfdr.de>; Mon, 15 Sep 2025 23:44:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF5022D8783;
-	Mon, 15 Sep 2025 23:15:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 015602DAFAA;
+	Mon, 15 Sep 2025 23:46:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="jtyIs3jT"
 X-Original-To: linux-input@vger.kernel.org
-Received: from cosmicgizmosystems.com (beyond-windows.com [63.249.102.155])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E63CF1DF723;
-	Mon, 15 Sep 2025 23:15:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=63.249.102.155
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6417829617D;
+	Mon, 15 Sep 2025 23:46:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757978139; cv=none; b=ObW60ppOXRj0QrYCLsbAOgfwd5DI+avufkBcY6Xs8bFBUzFd8DHY4/+R28TtBzJMUt1xmvsiU+yAhsBNoyFyFX/HpNe+ppdigkrQauuxgEMxjQKOaQBYpkQlfNu23sojM85mT0odukSRn61Vez7cD5htJ9y2vaPqmslwrqPTLfc=
+	t=1757979981; cv=none; b=WVkQIUoGGyb5DvFQ/Q35ufqgKy62bZUxyNrU+AENH4Bf+9f8oPqGcLdiGrZxq/ZGqTr/wnbFRMjeaRNj4mlDl2e/RbEC6ZCrC1DB5HGn4zK2fRPrzuIyqJ1GIqhgO0g0S1PxtMHhnro7T1nmm/2Oei9nzGs+T2mDaQM2Titr9qc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757978139; c=relaxed/simple;
-	bh=0+yASABHD1oLRJxQ4j3zNau+abec8VVEFlh79vv6Gy8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=U4uDGw3sbo22LJU1pahIvEMpZxTtiH9dWAgMV7L5yuMIYqOMt+e6AOvkZwoQdjMgmYknRx/3Qvyo6Fw79fAyN7h3Jnd6XEv700vPM4qxWAeO327NWIn2ajnCAoznEP81GVJHliIORjhznzOWknaf3JRKiKqAYYZsEZOTs05Ufnc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cosmicgizmosystems.com; spf=pass smtp.mailfrom=cosmicgizmosystems.com; arc=none smtp.client-ip=63.249.102.155
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cosmicgizmosystems.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cosmicgizmosystems.com
-Received: from [10.0.0.100] (c-71-193-224-155.hsd1.wa.comcast.net [71.193.224.155])
-	by host11.cruzio.com (Postfix) with ESMTPSA id CD3301E7ACA9;
-	Mon, 15 Sep 2025 16:06:43 -0700 (PDT)
-Message-ID: <735c20da-c052-4528-ad91-185a835ca40c@cosmicgizmosystems.com>
-Date: Mon, 15 Sep 2025 16:06:39 -0700
+	s=arc-20240116; t=1757979981; c=relaxed/simple;
+	bh=lW3xNWJvBeUd78+N4Yyo06/B2znJyfp8Mxfc+3/obNA=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Ej/C3FtzONFg6Uy0Sk7eN1qqR9fPu8tGF1XNjF5F4qU4EDzqPa13nhsduFM9/Z4zGzI12vylxaSZm3wFLkTW6xB34bPw22OxmmOAanYfH/6jKE46ckq5Y2Dy42XqAlBGMl53PFkspv5RHEMfnnXNJc5AWT3qJmVuy3N+hzMsAN4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=jtyIs3jT; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+Received: from mrdev.corp.microsoft.com (192-184-212-33.fiber.dynamic.sonic.net [192.184.212.33])
+	by linux.microsoft.com (Postfix) with ESMTPSA id A6840212329C;
+	Mon, 15 Sep 2025 16:46:18 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com A6840212329C
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1757979979;
+	bh=7luzChTMUszkb9nUQYYy7F6No80YdK2nCBJEz1e/6Zs=;
+	h=From:To:Cc:Subject:Date:From;
+	b=jtyIs3jTrdwZXnDw9vxxokbXUXOLvwgRveEkFIwYiy+pMrWiva5ENlTdDcwoZTzmu
+	 FBJ51hSc8k8vMU9Fiwr1q8p1aQUcRRLs2BkWEZHNAsahuKe/NddZwgTT7E21RFLNJR
+	 5fJJ1WTPMe2vBTDNUjFz+vcGC294CxqRnKvMTVqE=
+From: Mukesh Rathor <mrathor@linux.microsoft.com>
+To: dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org,
+	linux-input@vger.kernel.org,
+	linux-hyperv@vger.kernel.org,
+	netdev@vger.kernel.org,
+	linux-pci@vger.kernel.org,
+	linux-scsi@vger.kernel.org,
+	linux-fbdev@vger.kernel.org,
+	linux-arch@vger.kernel.org,
+	virtualization@lists.linux.dev
+Cc: maarten.lankhorst@linux.intel.com,
+	mripard@kernel.org,
+	tzimmermann@suse.de,
+	airlied@gmail.com,
+	simona@ffwll.ch,
+	jikos@kernel.org,
+	bentiss@kernel.org,
+	kys@microsoft.com,
+	haiyangz@microsoft.com,
+	wei.liu@kernel.org,
+	decui@microsoft.com,
+	dmitry.torokhov@gmail.com,
+	andrew+netdev@lunn.ch,
+	davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	bhelgaas@google.com,
+	James.Bottomley@HansenPartnership.com,
+	martin.petersen@oracle.com,
+	gregkh@linuxfoundation.org,
+	deller@gmx.de,
+	arnd@arndb.de,
+	sgarzare@redhat.com,
+	horms@kernel.org
+Subject: [PATCH v2 0/2] Fix CONFIG_HYPERV and vmbus related anamoly
+Date: Mon, 15 Sep 2025 16:46:02 -0700
+Message-Id: <20250915234604.3256611-1-mrathor@linux.microsoft.com>
+X-Mailer: git-send-email 2.36.1.vfs.0.0
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [regression] 1a8953f4f774 ("HID: Add IGNORE quirk for
- SMARTLINKTECHNOLOGY") causes issue with ID 4c4a:4155 Jieli Technology USB
- Composite Device
-To: zhangheng <zhangheng@kylinos.cn>,
- Staffan Melin <staffan.melin@oscillator.se>,
- Salvatore Bonaccorso <carnil@debian.org>
-Cc: Jiri Kosina <jkosina@suse.com>, Benjamin Tissoires <bentiss@kernel.org>,
- linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
- regressions@lists.linux.dev, stable@vger.kernel.org, 1114557@bugs.debian.org
-References: <aL2gYJaXoB6p_oyM@eldamar.lan>
- <c8f3d402-e0ec-4767-b925-d7764aec3d93@kylinos.cn>
- <e81e8d68cb33c7de7b0e353791e21e53@oscillator.se>
- <aMUxHZF-7p7--1qS@eldamar.lan> <aMUxg6FLqDetwiGu@eldamar.lan>
- <f08669ec112d6ab2f62e35c0c96d1f06@oscillator.se>
- <94520aac-2a68-40d2-b188-80f9e361d6de@kylinos.cn>
-Content-Language: en-US
-From: Terry Junge <linuxhid@cosmicgizmosystems.com>
-In-Reply-To: <94520aac-2a68-40d2-b188-80f9e361d6de@kylinos.cn>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
+At present, drivers/Makefile will subst =m to =y for CONFIG_HYPERV
+for hv subdir. Also, drivers/hv/Makefile replaces =m to =y to build in
+hv_common.c that is needed for the drivers. Moreover, vmbus driver is
+built if CONFIG_HYPER is set, either loadable or builtin.
 
+This is not a good approach. CONFIG_HYPERV is really an umbrella
+config that encompasses builtin code and various other things and not
+a dedicated config option for VMBus. VMBus should really have a config
+option just like CONFIG_HYPERV_BALLOON etc. This small series introduces
+CONFIG_HYPERV_VMBUS to build VMBus driver and make that distinction
+explicit. With that CONFIG_HYPERV could be changed to bool.
 
-On 9/15/25 1:37 AM, zhangheng wrote:
-> Apply this new patch and test the kernel again. I don't have the original mic device in my hands, which means I have to wait for a response for testing now.
-> 
-> You can test it first, and the other mic device also needs to be retested
+For now, hv_common.c is left as is to reduce conflicts for upcoming
+patches, but once merges are mostly done, that and some others should
+be moved to virt/hyperv directory.
 
-Your patch will not work as you expect for two reasons.
+V2:
+ o rebased on hyper-next: commit 553d825fb2f0 
+        ("x86/hyperv: Switch to msi_create_parent_irq_domain()")
 
-	if (hid_match_id(hdev, hid_ignore_list) ||
-	   (hid_match_id(hdev, hid_ignore_mic) && (hdev->version > 1.1)))
- 		quirks |= HID_QUIRK_IGNORE;
+V1:
+ o Change subject from hyper-v to "Drivers: hv:"
+ o Rewrite commit messages paying attention to VMBus and not vmbus
+ o Change some wordings in Kconfig
+ o Make new VMBUS config option default to HYPERV option for a smoother
+   transition
 
-hdev->version is U32 not float. Version (bcdDevice) 1.00 would be 0x0100. The value 1.1 is probably cast to 0x0001.
+Mukesh Rathor (2):
+  Driver: hv: Add CONFIG_HYPERV_VMBUS option
+  Drivers: hv: Make CONFIG_HYPERV bool
 
-Second, both devices have identical VID, PID, bcdDevice, and Product names.
+ drivers/Makefile               |  2 +-
+ drivers/gpu/drm/Kconfig        |  2 +-
+ drivers/hid/Kconfig            |  2 +-
+ drivers/hv/Kconfig             | 13 ++++++++++---
+ drivers/hv/Makefile            |  4 ++--
+ drivers/input/serio/Kconfig    |  4 ++--
+ drivers/net/hyperv/Kconfig     |  2 +-
+ drivers/pci/Kconfig            |  2 +-
+ drivers/scsi/Kconfig           |  2 +-
+ drivers/uio/Kconfig            |  2 +-
+ drivers/video/fbdev/Kconfig    |  2 +-
+ include/asm-generic/mshyperv.h |  8 +++++---
+ net/vmw_vsock/Kconfig          |  2 +-
+ 13 files changed, 28 insertions(+), 19 deletions(-)
 
-[  563.104908] usb 1-1.4.1.2: New USB device found, idVendor=4c4a, idProduct=4155, bcdDevice= 1.00
-[  563.104910] usb 1-1.4.1.2: New USB device strings: Mfr=1, Product=2, SerialNumber=3
-[  563.104911] usb 1-1.4.1.2: Product: USB Composite Device
-[  563.104912] usb 1-1.4.1.2: Manufacturer: SmartlinkTechnology
-[  563.104913] usb 1-1.4.1.2: SerialNumber: 20201111000001
-
-[   10.451534] usb 3-3: New USB device found, idVendor=4c4a, idProduct=4155, bcdDevice= 1.00
-[   10.451540] usb 3-3: New USB device strings: Mfr=1, Product=2, SerialNumber=3
-[   10.451543] usb 3-3: Product: USB Composite Device
-[   10.451545] usb 3-3: Manufacturer: Jieli Technology
-[   10.451546] usb 3-3: SerialNumber: FFFFFFFFFFFFFFFF
-
-If you could get the descriptors for the microphone device, it would be helpful.
-
-Thanks,
-Terry
-
-> 
-> 在 2025/9/13 21:11, Staffan Melin 写道:
->> Ah, thanks, I get it now :)
->>
->> So I got 6.16.7, and the patch applied without problems.
->>
->> But no luck, the same results as before: touchscreen not working, xinput --list not showing the Jieli touchscreen. dmesg shows the same as before, too.
->>
->> Best regards,
->>
->> Staffan
->>
->>
->> On 2025-09-13 10:55, Salvatore Bonaccorso wrote:
->>> Hi Staffan,
->>>
->>> chiming in hopefully it is of help.
->>>
->>> Now really with the patch ...
->>>
->>> On Fri, Sep 12, 2025 at 09:57:04PM +0200, Staffan Melin wrote:
->>>> Thank you,
->>>>
->>>> I tried to apply this patch to 6.12.39, the first problematic kernel, as
->>>> well as 6.12.41, the first bad I tried, and on both I got an error message:
->>>>
->>>> Applying: HID: quirks: Add device descriptor for 4c4a:4155
->>>> error: patch failed: drivers/hid/hid-quirks.c:1068
->>>> error: drivers/hid/hid-quirks.c: patch does not apply
->>>> Patch failed at 0001 HID: quirks: Add device descriptor for 4c4a:4155
->>>>
->>>> To which kernel version should I apply the patch?
->>>
->>> As the deveopment goes from mainline then down to stable series, the
->>> fix needs to be developed first for mainline. So the patch is targeted
->>> there.
->>>
->>> But please find attached an updated patch which hopefully should work
->>> which resolved the context changes on top of 6.12.47.
->>>
->>> But ideally you can provide a Tested-by on zhangheng's mainline patch
->>> to get things rolling as needed.
->>>
->>> Regards,
->>> Salvatore
+-- 
+2.36.1.vfs.0.0
 
 
