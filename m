@@ -1,102 +1,119 @@
-Return-Path: <linux-input+bounces-14763-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14764-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5F0EB598F3
-	for <lists+linux-input@lfdr.de>; Tue, 16 Sep 2025 16:11:44 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id B8041B59A72
+	for <lists+linux-input@lfdr.de>; Tue, 16 Sep 2025 16:39:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7188C5211D3
-	for <lists+linux-input@lfdr.de>; Tue, 16 Sep 2025 14:09:46 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0557018857AC
+	for <lists+linux-input@lfdr.de>; Tue, 16 Sep 2025 14:35:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 781911EA7C9;
-	Tue, 16 Sep 2025 14:05:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4B54E31B808;
+	Tue, 16 Sep 2025 14:34:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="Iiv8Wr6J"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qfJbw1SS"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-24418.protonmail.ch (mail-24418.protonmail.ch [109.224.244.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DF621078F
-	for <linux-input@vger.kernel.org>; Tue, 16 Sep 2025 14:05:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.224.244.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A2B22C15AA;
+	Tue, 16 Sep 2025 14:34:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758031555; cv=none; b=V9O9AkzLIAMfiNLk7gigGwvJR/XOMTBMigbeHE5+iJ6+vu+flMMza7Y9VfRtaXLoNnvB+XPyT1mhWMNyr7Id/LXTJhWEAiVTHtL7soY2k1lcw2gqfFzUfBylmSeC7IrhmhqIY45TLdmHYbBrCIqyAVpPr0CkVSh9wkPsuPAk3e4=
+	t=1758033296; cv=none; b=TkyuWRiXFeCMKG3+L/An3oipx5GZubALENQVJCMP3ButdZ+IoRO2XAyPCPrcleL5G+/z85r+zv5VbukKhJkcVjxFGA1K8lw4mkeX4ju2q3K1cCRZSA7kNL0I6ebFDU8WfGnKfedq+kBVvCTKIrFX/GzFM3eO4BAE6vVxGgi8QiA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758031555; c=relaxed/simple;
-	bh=Ixs3zqxwvhBoquOWZBAZq9H7U+yTV1SqSDMf8FreR/M=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=vEGoiMfnsYnTkxAQfB5ufklBlqojBWQ39iLpnUeWGECOH58VCNxgaWu9VG4l712W4w2Zmahtd3E57t2Qjj3zStHuMGLG3UCCVLqnsiwp9Exsism31bd7NDVlfaE5Nq+DNGFkgdpppGhEv6MLPM4pm3XP2sXwCoU7w3+gtN2SUO8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com; spf=pass smtp.mailfrom=protonmail.com; dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b=Iiv8Wr6J; arc=none smtp.client-ip=109.224.244.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonmail.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-	s=protonmail3; t=1758031545; x=1758290745;
-	bh=Ixs3zqxwvhBoquOWZBAZq9H7U+yTV1SqSDMf8FreR/M=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=Iiv8Wr6JPIRczq5zr9uOdEVSN5U+RTNHnV4vgeYPhIdSXoxgSDALs9zs0SjZCJEKC
-	 73MtagMcVMsjFkOoYruPoLRZMjasfK5L8S4vdDeEPPpLIMjqkA9bIkeyJNv2U06R7n
-	 LInr+QSp1dNhKn1ORKxpTUy5U35/i9UoB9Lr9b1x4o7/IrQWjds/v8HYiXH707aT2z
-	 tLvA4Qzr46HQOYt1+TTtBW04o0TJOy7dC8WgSI/yXMOd0pbKkGioq3/Pu95MD3xgU0
-	 lBdKsIlLkuVbaR4H0DfpVHxVa9Wlm0wgdeWpWW6fIsPfXIXxZGmVF0e8WAGYsl3kXw
-	 YZkzjOfmG3aVw==
-Date: Tue, 16 Sep 2025 14:05:42 +0000
-To: Stuart <stuart.a.hayhurst@gmail.com>
-From: Mavroudis Chatzilazaridis <mavchatz@protonmail.com>
-Cc: jikos@kernel.org, linux-input@vger.kernel.org, hadess@hadess.net, lains@riseup.net, benjamin.tissoires@redhat.com
-Subject: Re: [PATCH v4] HID: logitech-dj: Add support for a new lightspeed receiver iteration
-Message-ID: <848a3c8d-5f0b-409c-b394-1cce6a4c1e62@protonmail.com>
-In-Reply-To: <CALTg27kat6CReAvU8nXsVzqKEtzytT+_wf9dZ07OFSke=ipYLQ@mail.gmail.com>
-References: <20250902184128.4100275-1-mavchatz@protonmail.com> <12899c24-a16f-4d64-bc40-a06b4c5c3e6f@protonmail.com> <CALTg27=uP+jCU7oog41GiZrw7LX_mSfrQtKbDW+xpAHzN7_6cQ@mail.gmail.com> <93bf9cfc-29ca-40e4-baef-47c5bd0e9cee@protonmail.com> <CALTg27mj+XcOmnMcH8vo5Bos+HxoWes-XW1eqfKDjnj5uqCc5w@mail.gmail.com> <cc2e6e2d-1b42-444a-9f8e-153fa898be44@protonmail.com> <CALTg27mH1rzyaNXEq7SowZcVYMiWUgejQCFgdDCHACUm9j+3SQ@mail.gmail.com> <7a4c4678-bb75-4aa7-8f4f-706deba7e72b@protonmail.com> <CALTg27kat6CReAvU8nXsVzqKEtzytT+_wf9dZ07OFSke=ipYLQ@mail.gmail.com>
-Feedback-ID: 20039310:user:proton
-X-Pm-Message-ID: a8e55ebffef24890596d8d0508d1418c577f2866
+	s=arc-20240116; t=1758033296; c=relaxed/simple;
+	bh=E7bATN9G95lxsMIscr5CR3AgS3iZbRXC94zT1FqKkco=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=cdSqpyZ/ke+Hle6g+LnsNQblAo+gsSR/wGgX3MmLXOByEALgHeR9gOyvnoXMtIlMKIbYq0J+dLrenuYrqHf8eG/TyVXjr2dSUZE7ZTTcxqEP+o1QBQglf4fZAgvyFxYROMS4l97gl8BMR0rCAadVVgreUDNKW5Cz20vrpbM8Jkk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qfJbw1SS; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EBF7DC4CEFB;
+	Tue, 16 Sep 2025 14:34:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1758033295;
+	bh=E7bATN9G95lxsMIscr5CR3AgS3iZbRXC94zT1FqKkco=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=qfJbw1SSMhRTOFhtklfkqYwNyMsVkgO6RLUbzmCqhU/+Grz6ndApZd9GoR0LsfXJT
+	 HNLudIegbN10afHnwlUEjXXlvIvL7E8BBpiG2S29qzKn5d6ApfJHGX0KNQcu7nCWy0
+	 fMpgPProKpcrkkcntG999fMxCHMd2ad4nWhMLB4GQCcTo+62WR+euBuO/R1BcRM8+o
+	 3UbLylFWMO8XzXVbBwdYXhHFlMjU5DAiKFKEp20rC2IA51//+ANJrYC5ji7lKQadHZ
+	 ZUUL06RU1ZH5Z+o0Hfp0lMRiC9F4sIxPFr1Y5tQldI4Clb2kGgBlJCwQGUICjLIlKY
+	 dBrL7T1T8764g==
+From: Lee Jones <lee@kernel.org>
+To: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Kamel Bouhara <kamel.bouhara@bootlin.com>, 
+ Linus Walleij <linus.walleij@linaro.org>, 
+ Bartosz Golaszewski <brgl@bgdev.pl>, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+ =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, 
+ Michael Walle <mwalle@kernel.org>, Mark Brown <broonie@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
+ Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-gpio@vger.kernel.org, linux-input@vger.kernel.org, 
+ linux-pwm@vger.kernel.org, andriy.shevchenko@intel.com, 
+ =?utf-8?q?Gr=C3=A9gory_Clement?= <gregory.clement@bootlin.com>, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+ Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+In-Reply-To: <20250824-mdb-max7360-support-v14-0-435cfda2b1ea@bootlin.com>
+References: <20250824-mdb-max7360-support-v14-0-435cfda2b1ea@bootlin.com>
+Subject: Re: [PATCH v14 00/10] Add support for MAX7360
+Message-Id: <175803329065.3832522.18087850599111439891.b4-ty@kernel.org>
+Date: Tue, 16 Sep 2025 15:34:50 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.15-dev-c81fc
 
-On 2025-09-16 15:30, Stuart wrote:
->> Can you also try the following on top of v4?
->=20
-> Working just as well as the previous patch, compiled on top of the
-> latest hid.git
+On Sun, 24 Aug 2025 13:57:19 +0200, Mathieu Dubois-Briand wrote:
+> This series implements a set of drivers allowing to support the Maxim
+> Integrated MAX7360 device.
+> 
+> The MAX7360 is an I2C key-switch and led controller, with following
+> functionalities:
+> - Keypad controller for a key matrix of up to 8 rows and 8 columns.
+> - Rotary encoder support, for a single rotary encoder.
+> - Up to 8 PWM outputs.
+> - Up to 8 GPIOs with support for interrupts and 6 GPOs.
+> 
+> [...]
 
-Great!
+Applied, thanks!
 
->> Please test this one thoroughly (modifiers, lock keys, ISO backslash/
->> Intl keys) as I've modified the keyboard report descriptor.
->=20
-> Tested every key and alternate key shown, modifier keys, function keys,
-> media keys, lock keys. All working, including the battery reporting.
-> I don't really know what you mean by ISO backslash or international keys,
-> but the backslash on my UK layout works just fine.
+[01/10] dt-bindings: mfd: gpio: Add MAX7360
+        commit: aee814458fb98819876442f0261fad0bb9842224
+[02/10] mfd: Add max7360 support
+        commit: a22ddeef55c4df847d9ac862b6192da774948fe1
+[03/10] pinctrl: Add MAX7360 pinctrl driver
+        commit: b4b993c0e39436ffb3a9b21cabf62b5df085b2e1
+[04/10] pwm: max7360: Add MAX7360 PWM support
+        commit: d93a75d94b79ba3e664f7236ee05790e8b1d0e4b
+[05/10] gpio: regmap: Allow to allocate regmap-irq device
+        commit: 553b75d4bfe9264f631d459fe9996744e0672b0e
+[06/10] gpio: regmap: Allow to provide init_valid_mask callback
+        commit: 0627b71fa5508ab605b6e9fd74baed40805cfdda
+[07/10] gpio: max7360: Add MAX7360 gpio support
+        commit: b1a7433d857edb14b993161af9ed1ee98d4c9cee
+[08/10] input: keyboard: Add support for MAX7360 keypad
+        commit: fa6a23f1c59c67de9160b4acc5a8651ad2106fa8
+[09/10] input: misc: Add support for MAX7360 rotary
+        commit: 229c15e9a69cb3d6a303a9e20b10fb991b66895d
+[10/10] MAINTAINERS: Add entry on MAX7360 driver
+        commit: 32d4cedd24ed346edbe063323ed495d685e033df
 
-Yes, the UK slash key is what I had in mind. It is only present on ISO
-layout keyboards, the UK layout being ISO. I wasn't sure what layout
-your keyboard was.
-
->> If this works as well, I will submit a v5, and you can send a Tested-by
->> on that one.
->=20
-> Sure
->=20
-> I'm heading back to uni in a few days, so I might not be able to test
-> revisions as quickly, but I'm still happy to test anything that's require=
-d.
-
-Thanks a lot, I appreciate all the help. Good luck with your studies!
-
->=20
-> Thanks,
-> Stuart
-
-
+--
+Lee Jones [李琼斯]
 
 
