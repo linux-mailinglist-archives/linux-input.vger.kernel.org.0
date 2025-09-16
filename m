@@ -1,189 +1,154 @@
-Return-Path: <linux-input+bounces-14758-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14759-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F34BB58E24
-	for <lists+linux-input@lfdr.de>; Tue, 16 Sep 2025 07:54:32 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id EB5D0B58ED4
+	for <lists+linux-input@lfdr.de>; Tue, 16 Sep 2025 09:09:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1C8207A3C61
-	for <lists+linux-input@lfdr.de>; Tue, 16 Sep 2025 05:52:52 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A3E5E2A4394
+	for <lists+linux-input@lfdr.de>; Tue, 16 Sep 2025 07:09:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0E0252C11F9;
-	Tue, 16 Sep 2025 05:54:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B9A42E3B03;
+	Tue, 16 Sep 2025 07:09:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=unitedcomputing.tech header.i=@unitedcomputing.tech header.b="f3SGBDlR"
+	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="afb80hAA"
 X-Original-To: linux-input@vger.kernel.org
-Received: from shrimp.cherry.relay.mailchannels.net (shrimp.cherry.relay.mailchannels.net [23.83.223.164])
+Received: from mail-10631.protonmail.ch (mail-10631.protonmail.ch [79.135.106.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D9D5AD2C;
-	Tue, 16 Sep 2025 05:54:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=23.83.223.164
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758002065; cv=pass; b=ROa0bWIEmkEhTtJyfA3W5KUa3P4kk5tO9GgxZcaE5DJCt0M98seqjQaA0CUIbm1vRvejlwexZ7khF6cdABBbRu+rMJe7a133S4SktEM9xp1kYF9AvYSgqBfsK5Xy0aD5KyEOSsmOEtGUW/psfRX/cU9C8Sc/iizr2IJPe0ycnUM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758002065; c=relaxed/simple;
-	bh=S+/mHISu1pOWcV1Pv7DxDjhsyVy84JWKgHUZUbawgzQ=;
-	h=MIME-Version:From:To:Subject:In-Reply-To:References:Message-ID:
-	 Content-Type:Date; b=N1XH3FRZ9jYZa97AXxIJ3d92ft5Xm9gQAt/MSrm2bFk4epgv4ioUMwNhFmxuNLpqj0TG4t4ENV/5ivcejz8CIrH4REzd+MnL8f7o35/dOw8yjO3/R5lEdU/0xi3frXF5Alcp23l588o2DlbkC6VMp5wUImhFofttP5Q3R3v9ZcQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=unitedcomputing.tech; spf=pass smtp.mailfrom=unitedcomputing.tech; dkim=pass (2048-bit key) header.d=unitedcomputing.tech header.i=@unitedcomputing.tech header.b=f3SGBDlR; arc=pass smtp.client-ip=23.83.223.164
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=unitedcomputing.tech
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=unitedcomputing.tech
-X-Sender-Id: hostingeremailsmtpin|x-authuser|info@unitedcomputing.tech
-Received: from relay.mailchannels.net (localhost [127.0.0.1])
-	by relay.mailchannels.net (Postfix) with ESMTP id CF2ED1012E4;
-	Tue, 16 Sep 2025 05:15:27 +0000 (UTC)
-Received: from fr-int-smtpout30.hostinger.io (100-109-34-141.trex-nlb.outbound.svc.cluster.local [100.109.34.141])
-	(Authenticated sender: hostingeremailsmtpin)
-	by relay.mailchannels.net (Postfix) with ESMTPA id 6A52210085C;
-	Tue, 16 Sep 2025 05:15:25 +0000 (UTC)
-ARC-Seal: i=1; s=arc-2022; d=mailchannels.net; t=1757999726; a=rsa-sha256;
-	cv=none;
-	b=Vb3TdYsjN58/jA+dWkkXJomBUI/6tfbT8hfG+diEFIjPMyyTGbN7Qno4DW6rawBmrStDNH
-	0t6FU/B5058jaAnVHrhJK4GVH0sim8G7pXXZUy4VpL0sajlV2+JwNFI9v49nLq5tW2U/oY
-	IYh5wyLXcX6ycI4q+2TgsV+6GGpu5mTM7CyRxKSgKUlmKFUGYjK7jal8PfLwxd1lQRTgYN
-	iYeKTYAx2uUq54e+RXGOO0VUULaC6OgFjjaqYkYqFh5/6ElIVaf9uYu2/vjxKKFhE/Zd9x
-	SnxcYHQh4GOqjplx+GSKCg/A9jMZuc21vM5l2vlEeywy7/NNxZYTYePyGPXpQw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mailchannels.net;
-	s=arc-2022; t=1757999726;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:dkim-signature;
-	bh=qvD9wXA63pKiMKoJOAFFKMbijhWcrK9PmVFaGylHtEs=;
-	b=NzLlV4PbAInWrotNCLqWnYn6y68MtdmiWjhHcpTj3Rzok53DEvVOcM5pnkQd05GrFsW/GF
-	a2dDxYdyrmCHhFZ2J9vS0Chx6RPNMbfWRg4qE2cseaQlGcLhAEkdtOhM5Ypp6lChsWNhgk
-	bHyGJMG2xycofLBu9uvEjH1w61spdiSuGo+UuedKuVZ3NlgGz+aCaoq7fpYj+p4BBTCwyN
-	Er4o6VHl93hYh4iyqklrdAyOa8KSHBjmYZuOtwzB3L3kcpkHdHjaCSc+TiBLFKIe/+XdyH
-	pX8fhXMzdKsjEDOIm3qjmGIHX3WzowtayF0FKejWt8wMwuXrZwyEYcsAOjT9jw==
-ARC-Authentication-Results: i=1;
-	rspamd-76d5d85dd7-gchpr;
-	auth=pass smtp.auth=hostingeremailsmtpin
- smtp.mailfrom=info@unitedcomputing.tech
-X-Sender-Id: hostingeremailsmtpin|x-authuser|info@unitedcomputing.tech
-X-MC-Relay: Neutral
-X-MailChannels-SenderId:
- hostingeremailsmtpin|x-authuser|info@unitedcomputing.tech
-X-MailChannels-Auth-Id: hostingeremailsmtpin
-X-White-Society: 7f9b92df2b11f86c_1757999726424_3000046865
-X-MC-Loop-Signature: 1757999726424:2956769062
-X-MC-Ingress-Time: 1757999726424
-Received: from fr-int-smtpout30.hostinger.io ([UNAVAILABLE]. [148.222.54.7])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
-	by 100.109.34.141 (trex/7.1.3);
-	Tue, 16 Sep 2025 05:15:26 +0000
-Received: from mail.hostinger.com (17.131.242.35.bc.googleusercontent.com [12.238.52.246])
-	(Authenticated sender: info@unitedcomputing.tech)
-	by smtp.hostinger.com (smtp.hostinger.com) with SMTP id 4cQqpz4c6Nz2xB3;
-	Tue, 16 Sep 2025 05:15:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=unitedcomputing.tech;
-	s=hostingermail-a; t=1757999723;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qvD9wXA63pKiMKoJOAFFKMbijhWcrK9PmVFaGylHtEs=;
-	b=f3SGBDlRJbNumaCLlwGvS2cX46JzBkF8ztuGa6MHLLXF30NRVTzmoP6Sh77D00la+NQ1Es
-	ZRQD36dhLqHkmlUbVJL9yJlnecWnrX2SwHNb1z2yYAcl1jkiv3fBoAe8Ma6XHV8LkRshun
-	MoKlIGwoSISuNxBFJCHDDFzoRbqC9HOCPI7RtUV/QyFmmzPorxU2gcofrDZioCNHSE/uPm
-	aCH6K7NhMkiWprIt7Ggk8mzEWOaVxjYlY7SyS3QZb8L7+ROPbN67qZmCpDieKVyWtcOli1
-	r7SMSYPBbwwhur/+DYPsE3jhuHBvOko1huRVAprUSqUeEgme2RMdhP8m33EaEQ==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EDCD2E6125
+	for <linux-input@vger.kernel.org>; Tue, 16 Sep 2025 07:09:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=79.135.106.31
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1758006572; cv=none; b=Wz/GhLmRS1I41Eadmkl6Fx8Nmp0uqQBzeWMumzmFur1y2rkcAFVhQkR/cv2O1WVAtzR4z0rUW+FYKEvZc2MBW1hgYjJl8TqGs09ZHq1dEinef9kbUywAaqMFdPHFabkdZXHLWkicKEUUMWEVjawvshViNzaJj+AuiWip77T4Xck=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1758006572; c=relaxed/simple;
+	bh=XQaaPD7oTmMkKQNVVn+Y52KiWP63QE6g5Rn+XULUbS4=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Ply0KyvOkOsaoyyStAsmQpBrRdpJw2CYNfqkFwK4Pykv9Owti4OYKzBgxTu7HjLfeTmxJ5h6u1S8RiUeAtr/wf0uxu9LXqCd1C62dIOC+Csz3I5N3UV/5epWEPw0gVzL/yKqNJmN7rpbZHp1KTOx+68f6O9E0+IR/x9zzZnnB6E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com; spf=pass smtp.mailfrom=protonmail.com; dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b=afb80hAA; arc=none smtp.client-ip=79.135.106.31
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonmail.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
+	s=protonmail3; t=1758006561; x=1758265761;
+	bh=4g9CaIFh+8nLsBuGclZnD7/w7TvUis5E87PwMMJ8k6Y=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=afb80hAAYM6gWDBjy5hzhC6Y18RadujaUg10LFKKJOa61zfrt6UcVWMSA5rx8ll9y
+	 rJtdol/JO3W2wDbQVdGhD2K0C1D90xyALnerQepscO56CjpqsbeRLoy3tJsA8QI42B
+	 9905518kZR0heHkeqFYrNiu2hZ5gKtcq0AwILLBiaLz5Rq4NfxnLVY2r/R9eZN7VL2
+	 cQPBaSsWYZAwJeXWLLUasjH2HOzrUZ//4tAnK5dszPrASJ5p54aH/wHlU3oFJoGCWP
+	 6XkV3WZc9vsniyn6Pcrp7aSGHYR/LeDs2MVS6Tg02hf/PGx9o2JsUNOXq/fQa9WQ5F
+	 N1b3ArTg9Ae9Q==
+Date: Tue, 16 Sep 2025 07:09:14 +0000
+To: Stuart <stuart.a.hayhurst@gmail.com>
+From: Mavroudis Chatzilazaridis <mavchatz@protonmail.com>
+Cc: jikos@kernel.org, linux-input@vger.kernel.org, hadess@hadess.net, lains@riseup.net, benjamin.tissoires@redhat.com
+Subject: Re: [PATCH v4] HID: logitech-dj: Add support for a new lightspeed receiver iteration
+Message-ID: <7a4c4678-bb75-4aa7-8f4f-706deba7e72b@protonmail.com>
+In-Reply-To: <CALTg27mH1rzyaNXEq7SowZcVYMiWUgejQCFgdDCHACUm9j+3SQ@mail.gmail.com>
+References: <20250902184128.4100275-1-mavchatz@protonmail.com> <f92cda21-12d2-4e4d-ae84-666c6f8dce77@protonmail.com> <CALTg27=vaZK6ksriDDoN71pqr0VEbvxAz7Dp1w1toG+tO71Ldg@mail.gmail.com> <12899c24-a16f-4d64-bc40-a06b4c5c3e6f@protonmail.com> <CALTg27=uP+jCU7oog41GiZrw7LX_mSfrQtKbDW+xpAHzN7_6cQ@mail.gmail.com> <93bf9cfc-29ca-40e4-baef-47c5bd0e9cee@protonmail.com> <CALTg27mj+XcOmnMcH8vo5Bos+HxoWes-XW1eqfKDjnj5uqCc5w@mail.gmail.com> <cc2e6e2d-1b42-444a-9f8e-153fa898be44@protonmail.com> <CALTg27mH1rzyaNXEq7SowZcVYMiWUgejQCFgdDCHACUm9j+3SQ@mail.gmail.com>
+Feedback-ID: 20039310:user:proton
+X-Pm-Message-ID: ef374659ba9a53da50259e0e1cb427b8d2ebce5a
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: info@unitedcomputing.tech
-To: linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-input@vger.kernel.org, linux-hotplug@vger.kernel.org
-Subject: Hiring Linux Gurus for Next Microsoft/Apple Now!
-In-Reply-To: <ec28ecc24919963b2e5f9edd77e55262@unitedcomputing.tech>
-References: <ec28ecc24919963b2e5f9edd77e55262@unitedcomputing.tech>
-Message-ID: <bccc84833ac7eb06243a0e388603ceeb@unitedcomputing.tech>
-X-Sender: info@unitedcomputing.tech
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date: Tue, 16 Sep 2025 05:15:23 +0000 (UTC)
-X-CM-Envelope: MS4xfOHgPdWcvJ1xWUS6IZyKZ6Thk7l+4+QpzcELymOEN1D4GEqkYrXcb0Pz7EkAgnQBi+adizfObtFZZxix/yKfl516qdxjYDh9B02cmKIbmFVAkEvhjvDU 2jOEwB0kXM3qaV+hxUuzjz68MO0Q61RjdjEH83DSZsJX1eR6xDQD9nz6rvhEcYIkQQJNBCfHB1yU21/Bm5v/gIS2x7FKKB9jrePb5jqIQPyxQFzgNbtW1Fma uaLzb8Bq6GbxQ/R4GAxxp9QF5kKqt2qcqw7XjhNJsBXIkPJw/USF4PoRXWApViZcDoCXADfyG0uRlUO+YYh3GBhoSh3GNg45kXPC0iYmAU0=
-X-CM-Analysis: v=2.4 cv=DJTd4DNb c=1 sm=1 tr=0 ts=68c8f26b a=5DGB/U2t+3lQspTewFC4tA==:117 a=5DGB/U2t+3lQspTewFC4tA==:17 a=kj9zAlcOel0A:10 a=MKtGQD3n3ToA:10 a=1oJP67jkp3AA:10 a=u2SczSXuAAAA:8 a=3j4BkbkPAAAA:8 a=B4Kxj6afAAAA:8 a=l8dv_oVvmM6u8NXH5EsA:9 a=CjuIK1q_8ugA:10 a=-FEs8UIgK8oA:10 a=LSWMWZc9k2mpw2hSllJK:22 a=Od7JGMy6ZR1BIU0N1PMV:22 a=_lWAYq_yoc5DiIG9FTxF:22
-X-AuthUser: info@unitedcomputing.tech
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Dear Linux experts/developers,
+On 2025-09-10 02:24, Stuart wrote:
+> Yep, this on top of the v4 patch works as expected.
 
-We are AGGRESSIVELY HIRING a team of Linux gurus for our business United 
-Computing Inc., most promising like next Microsoft/Apple, to own and 
-build our Linux platforms like ZorinOS & Ubuntu and dominate 
-mobile/desktop/embedded/workstation/server/cloud or all computing 
-domains with Linux existing domination over all domains except for 
-shrinking Windows desktop computing, and our LinuxAll innovations for 
-work & play in any pose/time/place and replacing today's 
-phones/tablets/PCs/gaming/AR/VR devices. LinuxAll includes XR glasses 
-for multiple virtual screens/windows, physical or virtual 
-keyboards/multi-touch/3D inputs, Linux gaming computer tablet phones, 
-and optional power banks, etc. These addictive products will hit the 
-market like iPhone 1+ for sure. We own this top tech innovation since 
-mid 2008 out of our AR/VR research and the disrupted PC industry by the 
-release of iPhone with small screen and limited OS/inputs. Tech giants 
-built their XR products but all failed, and can't steal them from us due 
-to cross competitions, let alone others. LinuxAll Gen 1/2 products, 
-especially many Birdbath and Waveguide AR glasses, are on sale at 
-https://www.unitedcomputing.org/shop.
+I'm glad to hear it.
 
-Below is a list of our LinuxAll components and products:
-1) Birdbath XR Glasses: Legion Glasses 2, Rayneo Air 3s Pro, Viture Luma 
-XR, Xreal One Pro/Air 2 Ultra/Pro, Rokid AR Lite, StarV View, InAir 2 
-Pro
-2) Waveguide XR Glasses: Inmo Air 3, Rayneo X3 Pro, Oppo Air Glass 3, 
-Rokid Glasses, Orion AR, Myvu Discovery, Lumus Optical, Cellid, PVG, 
-JioGlass, Mirza AR, StarV Air2
-3) Mini Gaming PCs: Legion Go, Ling Long Foldable Keyboard PC, Khadas 
-Mind 2, Rog Ally, Steam Deck, OneXPlayer 2 Pro, GPD WIN4, Ayaneo, Mini 
-PCs, etc.
-4) Computer Phones: 5.5'/6'/6.5'/7'/8' rugged gaming phone tablet PCs 
-from Sincoole, rugged-pda, njynwei, and MactronGroup
-5) Physical/virtual Inputs: Foldable/mini/projection keyboards, TapXR 
-wearable keyboard, and Leap Motion or XR cameras based virtual inputs
-6) Laptop Power Banks: Psooo 65w 5/80k power bank, Zkpilse 65w 50k power 
-bank, offgrid power products, etc.
+> Thank you for getting this working.
 
-It's critical and necessary for our business to own and build our OS 
-platforms, otherwise there will be endless US/world crisis and huge 
-fights over this matter that must be settled ASAP. As the WinAll deal 
-with Microsoft and $1 billion for ZorinOS & Ubuntu acquisition aren't 
-there, we are contacting Linux developer communities to own and build 
-our Linux platforms together instead. Our Linux developers will match 
-employees building Ubuntu & ZorinOS with various job functions. They 
-will add the HCI and system components/features for 
-phone/tablet/PC/gaming/AR/VR convergence, new XR/AI features matching 
-new hardware/devices, and our Linux platforms to dominate all computing 
-domains. They will build core apps, tools, frameworks, etc. for our 
-Linux platforms too. OS businesses are quite mature and crowded so we 
-shall be able to absorb abundant Linux resources soon. By leveraging 
-abundant PC/mobile hardware/chip vendor resources, we don't need to 
-invest a lot in our Linux & LinuxAll ownership and development as well.
+Thank you for taking the time to test all this.
 
-Interested candidates please email us their resumes and roles at 
-info@unitedcomputing.tech ASAP or contact us for any question. This is 
-really a great opportunity for Linux to defeat Windows/MacOS/Android/iOS 
-and dominate/shine for ever. The sooner you join us, the sooner we go 
-big together!
+> Tested-by: Stuart Hayhurst <stuart.a.hayhurst@gmail.com>
+>=20
+> Thanks,
+> Stuart
 
-More information:
-https://www.facebook.com/marketplace/profile/100095444238325/
-https://www.unitedcomputing.org/linuxall > UCPitchDeck.pdf
-https://b23.tv/9h73RDV
+I thought about it a bit more and came up with another solution that I
+believe is the correct way of approaching this. Can you also try the
+following on top of v4?
 
-Thanks & Regards,
-Shirley Zhou
-Founder & CEO
-United Computing Inc.
-https://www.unitedcomputing.org
-Phone/WhatsApp: +1 9096309408
-Email: info@unitedcomputing.tech
-Address: 6203 San Ignacio Ave Ste 110, San Jose, CA, USA, 95119
+Please test this one thoroughly (modifiers, lock keys, ISO backslash/
+Intl keys) as I've modified the keyboard report descriptor.
+
+If this works as well, I will submit a v5, and you can send a Tested-by
+on that one.
+
+diff --git a/drivers/hid/hid-logitech-dj.c b/drivers/hid/hid-logitech-dj.c
+index 00a975b70f59..6d3733dde1e8 100644
+--- a/drivers/hid/hid-logitech-dj.c
++++ b/drivers/hid/hid-logitech-dj.c
+@@ -226,17 +226,7 @@ static const char kbd_lightspeed_1_3_descriptor[] =3D =
+{
+ =090x75, 0x01,=09=09/*   Report Size (1)            */
+ =090x95, 0x08,=09=09/*   Report Count (8)           */
+ =090x81, 0x02,=09=09/*   Input (Data,Var)           */
+-=090x95, 0x05,=09=09/*   Report Count (5)           */
+-=090x05, 0x08,=09=09/*   Usage Page (LEDs)          */
+-=090x19, 0x01,=09=09/*   Usage Minimum (Num Lock)   */
+-=090x29, 0x05,=09=09/*   Usage Maximum (Kana)       */
+-=090x91, 0x02,=09=09/*   Output (Data,Var,Abs)      */
+-=090x95, 0x01,=09=09/*   Report Count (1)           */
+-=090x75, 0x03,=09=09/*   Report Size (3)            */
+-=090x91, 0x03,=09=09/*   Output (Const,Var,Abs)     */
+ =090x95, 0x70,=09=09/*   Report Count (112)         */
+-=090x75, 0x01,=09=09/*   Report Size (1)            */
+-=090x05, 0x07,=09=09/*   Usage Page (Kbrd/Keypad)   */
+ =090x19, 0x04,=09=09/*   Usage Minimum (0x04)       */
+ =090x29, 0x73,=09=09/*   Usage Maximum (0x73)       */
+ =090x81, 0x02,=09=09/*   Input (Data,Var,Abs)       */
+@@ -248,6 +238,15 @@ static const char kbd_lightspeed_1_3_descriptor[] =3D =
+{
+ =090x19, 0x90,=09=09/*   Usage Minimum (0x90)       */
+ =090x29, 0x92,=09=09/*   Usage Maximum (0x92)       */
+ =090x81, 0x02,=09=09/*   Input (Data,Var,Abs)       */
++=090x95, 0x05,=09=09/*   Report Count (5)           */
++=090x85, 0x0E,=09=09/*   Report ID (14)             */
++=090x05, 0x08,=09=09/*   Usage Page (LEDs)          */
++=090x19, 0x01,=09=09/*   Usage Minimum (Num Lock)   */
++=090x29, 0x05,=09=09/*   Usage Maximum (Kana)       */
++=090x91, 0x02,=09=09/*   Output (Data,Var,Abs)      */
++=090x95, 0x01,=09=09/*   Report Count (1)           */
++=090x75, 0x03,=09=09/*   Report Size (3)            */
++=090x91, 0x03,=09=09/*   Output (Const,Var,Abs)     */
+ =090xC0,=09=09=09/* End Collection               */
+ };
+=20
+@@ -1459,12 +1458,19 @@ static int logi_dj_ll_raw_request(struct hid_device=
+ *hid,
+ =09=09return -EINVAL;
+=20
+ =09if (djrcv_dev->type !=3D recvr_type_dj && count >=3D 2) {
++=09=09unsigned char led_report_id =3D 0;
++
+ =09=09if (!djrcv_dev->keyboard) {
+ =09=09=09hid_warn(hid, "Received REPORT_TYPE_LEDS request before the keybo=
+ard interface was enumerated\n");
+ =09=09=09return 0;
+ =09=09}
++
++=09=09/* This Lightspeed receiver expects LED reports with report ID 1 */
++=09=09if (djrcv_dev->type =3D=3D recvr_type_gaming_hidpp_ls_1_3)
++=09=09=09led_report_id =3D 1;
++
+ =09=09/* usbhid overrides the report ID and ignores the first byte */
+-=09=09return hid_hw_raw_request(djrcv_dev->keyboard, 0, buf, count,
++=09=09return hid_hw_raw_request(djrcv_dev->keyboard, led_report_id, buf, c=
+ount,
+ =09=09=09=09=09  report_type, reqtype);
+ =09}
+=20
+
 
