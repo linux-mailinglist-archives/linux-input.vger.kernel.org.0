@@ -1,171 +1,118 @@
-Return-Path: <linux-input+bounces-14761-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14762-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AB00B59233
-	for <lists+linux-input@lfdr.de>; Tue, 16 Sep 2025 11:30:00 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id DDD2DB5963A
+	for <lists+linux-input@lfdr.de>; Tue, 16 Sep 2025 14:31:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3CB4F7A5109
-	for <lists+linux-input@lfdr.de>; Tue, 16 Sep 2025 09:28:20 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 98FE71688EE
+	for <lists+linux-input@lfdr.de>; Tue, 16 Sep 2025 12:31:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 95AD0286426;
-	Tue, 16 Sep 2025 09:29:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D45613A1D2;
+	Tue, 16 Sep 2025 12:31:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="GzKxFp5r"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="E6jejKYQ"
 X-Original-To: linux-input@vger.kernel.org
-Received: from ixit.cz (ip-94-112-25-9.bb.vodafone.cz [94.112.25.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BFEB28467B;
-	Tue, 16 Sep 2025 09:29:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=94.112.25.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A9B0298991
+	for <linux-input@vger.kernel.org>; Tue, 16 Sep 2025 12:31:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758014992; cv=none; b=KBoHvTqkvq7Yg6Y8sc+m53Fbh+Mu4pCkbrAoP+ugqHfHlfPJXGFY+BJv3Kc598poCfvqT3AFyJUI6teMYeMI0pDww8nNbX2C2xPmEwz0R+jmKkpXCUfrq6CaR1zubgYrbv9+vDFhMcJiZI1Ft/4Fir1XI78bdYIOLTpbQG7QxBs=
+	t=1758025862; cv=none; b=sXxBatnHvWvich1yE+5f5d941YvyMXkh/gcsopInYDpwDT6KreoUyxHapEU51kkCpjnm5YSWdHP9nv4NURBoGLf35xXWU56vhXg8OKzwYqkwlpd/tBD6rrS2sVakkRYQVqd0AFTtBFoobh8CuV+ptGIZzU0Z6HCceOrTylz3zd0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758014992; c=relaxed/simple;
-	bh=pN3BP6YuPc8dinCC142EZnQ6btd+OPo8nyHYWbARw3Y=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fbZ8bNVB/+KDdytKvB4XKXbvBssvyA0DrfMlMHVlKLitSSua7Pj9RvcocKy2ikAKSHCARruMInilbisC7EI7813rt1qig6OKGCjU8clQpEkAo2pP0RQBW7h4VznPp7UTSWlXG/SbtdVWbpKC1B2eh/XdEjhCePiJxdncQ7aGcao=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=GzKxFp5r; arc=none smtp.client-ip=94.112.25.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ixit.cz
-Received: from [10.0.0.200] (unknown [10.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ixit.cz (Postfix) with ESMTPSA id D5E15534076E;
-	Tue, 16 Sep 2025 11:29:45 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
-	t=1758014985;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=nImdRmsvWqLFfWBLK4h18lVd6Gvsyn5jqNa6GLW2IIM=;
-	b=GzKxFp5rNVxZL6RFWLGzNiRy4EFM9lxYUOd4J2Z54J4m0bvmNcn2sPHXBi7MI/L6E/j6lC
-	Xvzaxr1XXlwj7W5GjzzTqeb2MU3lGSwol3sre/DbAI32ElGSgeu4qXTMfASvuqFaLT5tgW
-	ADpw/ohIh4dU5BL5beMY3CZv4BWzbRg=
-Message-ID: <b223a48e-952c-4825-bf82-e8922434e3c1@ixit.cz>
-Date: Tue, 16 Sep 2025 11:29:45 +0200
+	s=arc-20240116; t=1758025862; c=relaxed/simple;
+	bh=lvW9nfQdoxpD42EsZB3J3TjaQcRdFwDTNQW681sk0V8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=eD0sTF3bH5Lq4Fq6Dqe8BzuBsBtf2NqYGux/eOgPxQhLY9W/uhJg70UR3wXn7eQ62YIqAREerBYMTIhXXCHGw+6AdDNiuUoO9gbMoP99U/H6+U5KmiUdhyCyh5aJGFTMqIAvpnrAq/9D8WBYZft+qET0F5LxyR9/TRMRij0G9OU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=E6jejKYQ; arc=none smtp.client-ip=209.85.221.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-3ea3d3ae48fso1516313f8f.1
+        for <linux-input@vger.kernel.org>; Tue, 16 Sep 2025 05:31:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1758025859; x=1758630659; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=lvW9nfQdoxpD42EsZB3J3TjaQcRdFwDTNQW681sk0V8=;
+        b=E6jejKYQw9UGua/I5/nD98a3PhpSq7z4ohJkcu0i/OFSSkCcs/70UEfnhnuhWiInYw
+         jKoJr1IriXcxFX1+JHUEfq5QRyP63iHjmjhsbX94uNkCpoBBwjPeelzjgIkSLr05yrVg
+         aX1Del/RdN4Ripah3h7Pf+JrGd+W0affFlGf7oEMkYWA+Ft5y2CRn+AJKqesu62cBAig
+         O9WZ5Fm5my7sZHpKUy/llL0S/Vs7Mj3BDL+12qIGaw1qGYCRcrPnVYvgtm8L0/fhaT7C
+         zO0NwJzqS3vOmjPUzNLnn1AQ2//T91FSJvX+4947C92OjmjufPFE7UhxG9ZG64gpO2In
+         Th9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758025859; x=1758630659;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=lvW9nfQdoxpD42EsZB3J3TjaQcRdFwDTNQW681sk0V8=;
+        b=Y+Ag9FzeN4KZrSEqFXpcdoeCrmVcj9nxL1AO5FjARY8sKhHfvRuL7tZ0Gx9iH+oCWE
+         1YUHr+rJg/+0N9ZqMNS621ihWVhn5BBSaJaBlS2+JPJ5JQCcKpLmZX9h9rjM1fhPKNG1
+         zsQ8AjE5YdurYjiiiCtJ3qlAjiujh/ouK8a8VKcxJ7JdKal/XwCIOgdNkU+oNQ5UMudP
+         XJ37T3U6575qv8JqkTn6b4mNnat/XQ1l974Aqjj7c9sHYnq0TWLtlm9Lh/K9wsMwKQHY
+         2Ew/6ZItFXdsU//AcZ0ekYlc+nbr+/vI158QX79m+OCBBF8yC7xYg05+wsHVKQy8KFFy
+         p18w==
+X-Forwarded-Encrypted: i=1; AJvYcCX3Ojh2y0QuBMkJVzF6xNbr5dlyzG2uti2oc6NJpwucoQFCHOnrub+NzkVCa0wiaU72X3Lfc6YknunOHA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyZRzOSfH/+6rM1u1yynQ2NxmI2PFykVN/hJKIZXJXgKcg4ZLCM
+	CGkuLd4aWyzPvUZ1CJiPIxn766EBypSbRLBTYdfagly4U+6em47HHpFCdEVjFapseFkURiUHhSt
+	dXHnZMbtih+UTF272xY0JFxDKCS3Ujz0=
+X-Gm-Gg: ASbGncuD7PTEwITc46/q/lL81cVhEb4aQ4muK2Cdx4znVpz6uzhXeXmmkPx16NacOp3
+	cF0R44lZp94ZCd15E35ws7b1gpEiWIzZlMHYrtR/tDXhkny/m5uXjuDCFYXlzGtINtuMzz1dpuc
+	6cwEm4IRwEVgONP+IP0AkEJTAGZd83uont5BTJP5qpguHVgXtzOo9pyYZc84+x6Ssq2frsxzTkv
+	ST9fTfGaqQwdNh9zLUyIEIG0kbMgeoeakzq7MOCMA==
+X-Google-Smtp-Source: AGHT+IEy/uz82P6qIrFjsmpII3X2RPVqg5+HVwB8Eq7uM3pSbf86P5Uq0LA2nF+DZAWDaPoEcVvWUmV3gthMN2OLRw8=
+X-Received: by 2002:a05:6000:290e:b0:3bd:13d6:6c21 with SMTP id
+ ffacd0b85a97d-3ec9a7f9713mr2099450f8f.0.1758025859149; Tue, 16 Sep 2025
+ 05:30:59 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RESEND v5 0/7] Input: synaptics-rmi4 - add quirks for
- third party touchscreen controllers
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Kaustabh Chakraborty <kauschluss@disroot.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, "Jason A. Donenfeld" <Jason@zx2c4.com>,
- Matthias Schiffer <matthias.schiffer@ew.tq-group.com>,
- Vincent Huang <vincent.huang@tw.synaptics.com>, linux-input@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
- Casey Connolly <casey.connolly@linaro.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-References: <20250731-synaptics-rmi4-v5-0-cd0d87d34afa@ixit.cz>
- <aggtzmlxvj4so6t7trlo5ianjcbq2jrsodv6hlkhtrvgl2qpqj@gflvqocxjckb>
-Content-Language: en-US
-From: David Heidelberg <david@ixit.cz>
-Autocrypt: addr=david@ixit.cz; keydata=
- xsFNBF5v1x4BEADS3EddwsNsvVAI1XF8uQKbdYPY/GhjaSLziwVnbwv5BGwqB1tfXoHnccoA
- 9kTgKAbiXG/CiZFhD6l4WCIskQDKzyQN3JhCUIxh16Xyw0lECI7iqoW9LmMoN1dNKcUmCO9g
- lZxQaOl+1bY/7ttd7DapLh9rmBXJ2lKiMEaIpUwb/Nw0d7Enp4Jy2TpkhPywIpUn8CoJCv3/
- 61qbvI9y5utB/UhfMAUXsaAgwEJyGPAqHlC0YZjaTwOu+YQUE3AFzhCbksq95CwDz4U4gdls
- dmv9tkATfu2OmzERZQ6vJTehK0Pu4l5KmCAzYg42I9Dy4E6b17x6NncKbcByQFOXMtG0qVUk
- F1yeeOQUHwu+8t3ZDMBUhCkRL/juuoqLmyDWKMc0hKNNeZ9BNXgB8fXkRLWEUfgDXsFyEkKp
- NxUy5bDRlivf6XfExnikk5kj9l2gGlNQwqROti/46bfbmlmc/a2GM4k8ZyalHNEAdwtXYSpP
- 8JJmlbQ7hNTLkc3HQLRsIocN5th/ur7pPMz1Beyp0gbE9GcOceqmdZQB80vJ01XDyCAihf6l
- AMnzwpXZsjqIqH9r7T7tM6tVEVbPSwPt4eZYXSoJijEBC/43TBbmxDX+5+3txRaSCRQrG9dY
- k3mMGM3xJLCps2KnaqMcgUnvb1KdTgEFUZQaItw7HyRd6RppewARAQABzSBEYXZpZCBIZWlk
- ZWxiZXJnIDxkYXZpZEBpeGl0LmN6PsLBlAQTAQgAPgIbAwULCQgHAgYVCgkICwIEFgIDAQIe
- AQIXgBYhBNd6Cc/u3Cu9U6cEdGACP8TTSSByBQJl+KksBQkPDaAOAAoJEGACP8TTSSBy6IAQ
- AMqFqVi9LLxCEcUWBn82ssQGiVSDniKpFE/tp7lMXflwhjD5xoftoWOmMYkiWE86t5x5Fsp7
- afALx7SEDz599F1K1bLnaga+budu55JEAYGudD2WwpLJ0kPzRhqBwGFIx8k6F+goZJzxPDsf
- loAtXQE62UvEKa4KRRcZmF0GGoRsgA7vE7OnV8LMeocdD3eb2CuXLzauHAfdvqF50IfPH/sE
- jbzROiAZU+WgrwU946aOzrN8jVU+Cy8XAccGAZxsmPBfhTY5f2VN1IqvfaRdkKKlmWVJWGw+
- ycFpAEJKFRdfcc5PSjUJcALn5C+hxzL2hBpIZJdfdfStn+DWHXNgBeRDiZj1x6vvyaC43RAb
- VXvRzOQfG4EaMVMIOvBjBA/FtIpb1gtXA42ewhvPnd5RVCqD9YYUxsVpJ9d+XsAy7uib3BsV
- W2idAEsPtoqhVhq8bCUs/G4sC2DdyGZK8MRFDJqciJSUbqA+5z1ZCuE8UOPDpZKiW6H/OuOM
- zDcjh0lOzr4p+/1TSg1PbUh7fQ+nbMuiT044sC1lLtJK0+Zyn0GwhR82oNM4fldNsaHRW42w
- QGD35+eNo5Pvb3We5XRMlBdhFnj7Siggp4J8/PJ6MJvRyC+RIJPGtbdMB2/RxWunFLn87e5w
- UgwR9jPMHAstuTR1yR23c4SIYoQ2fzkrRzuazsFNBF5v1x4BEADnlrbta2WL87BlEOotZUh0
- zXANMrNV15WxexsirLetfqbs0AGCaTRNj+uWlTUDJRXOVIwzmF76Us3I2796+Od2ocNpLheZ
- 7EIkq8budtLVd1c06qJ+GMraz51zfgSIazVInNMPk9T6fz0lembji5yEcNPNNBA4sHiFmXfo
- IhepHFOBApjS0CiOPqowYxSTPe/DLcJ/LDwWpTi37doKPhBwlHev1BwVCbrLEIFjY0MLM0aT
- jiBBlyLJaTqvE48gblonu2SGaNmGtkC3VoQUQFcVYDXtlL9CVbNo7BAt5gwPcNqEqkUL60Jh
- FtvVSKyQh6gn7HHsyMtgltjZ3NKjv8S3yQd7zxvCn79tCKwoeNevsvoMq/bzlKxc9QiKaRPO
- aDj3FtW7R/3XoKJBY8Hckyug6uc2qYWRpnuXc0as6S0wfek6gauExUttBKrtSbPPHiuTeNHt
- NsT4+dyvaJtQKPBTbPHkXpTO8e1+YAg7kPj3aKFToE/dakIh8iqUHLNxywDAamRVn8Ha67WO
- AEAA3iklJ49QQk2ZyS1RJ2Ul28ePFDZ3QSr9LoJiOBZv9XkbhXS164iRB7rBZk6ZRVgCz3V6
- hhhjkipYvpJ/fpjXNsVL8jvel1mYNf0a46T4QQDQx4KQj0zXJbC2fFikAtu1AULktF4iEXEI
- rSjFoqhd4euZ+QARAQABwsF8BBgBCAAmAhsMFiEE13oJz+7cK71TpwR0YAI/xNNJIHIFAmX4
- qVAFCQ8NoDIACgkQYAI/xNNJIHKN4A/+Ine2Ii7JiuGITjJkcV6pgKlfwYdEs4eFD1pTRb/K
- 5dprUz3QSLP41u9OJQ23HnESMvn31UENk9ffebNoW7WxZ/8cTQY0JY/cgTTrlNXtyAlGbR3/
- 3Q/VBJptf04Er7I6TaKAmqWzdVeKTw33LljpkHp02vrbOdylb4JQG/SginLV9purGAFptYRO
- 8JNa2J4FAQtQTrfOUjulOWMxy7XRkqK3QqLcPW79/CFn7q1yxamPkpoXUJq9/fVjlhk7P+da
- NYQpe4WQQnktBY29SkFnvfIAwqIVU8ix5Oz8rghuCcAdR7lEJ7hCX9bR0EE05FOXdZy5FWL9
- GHvFa/Opkq3DPmFl/0nt4HJqq1Nwrr+WR6d0414oo1n2hPEllge/6iD3ZYwptTvOFKEw/v0A
- yqOoYSiKX9F7Ko7QO+VnYeVDsDDevKic2T/4GDpcSVd9ipiKxCQvUAzKUH7RUpqDTa+rYurm
- zRKcgRumz2Tc1ouHj6qINlzEe3a5ldctIn/dvR1l2Ko7GBTG+VGp9U5NOAEkGpxHG9yg6eeY
- fFYnMme51H/HKiyUlFiE3yd5LSmv8Dhbf+vsI4x6BOOOq4Iyop/Exavj1owGxW0hpdUGcCl1
- ovlwVPO/6l/XLAmSGwdnGqok5eGZQzSst0tj9RC9O0dXO1TZocOsf0tJ8dR2egX4kxM=
-In-Reply-To: <aggtzmlxvj4so6t7trlo5ianjcbq2jrsodv6hlkhtrvgl2qpqj@gflvqocxjckb>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20250902184128.4100275-1-mavchatz@protonmail.com>
+ <f92cda21-12d2-4e4d-ae84-666c6f8dce77@protonmail.com> <CALTg27=vaZK6ksriDDoN71pqr0VEbvxAz7Dp1w1toG+tO71Ldg@mail.gmail.com>
+ <12899c24-a16f-4d64-bc40-a06b4c5c3e6f@protonmail.com> <CALTg27=uP+jCU7oog41GiZrw7LX_mSfrQtKbDW+xpAHzN7_6cQ@mail.gmail.com>
+ <93bf9cfc-29ca-40e4-baef-47c5bd0e9cee@protonmail.com> <CALTg27mj+XcOmnMcH8vo5Bos+HxoWes-XW1eqfKDjnj5uqCc5w@mail.gmail.com>
+ <cc2e6e2d-1b42-444a-9f8e-153fa898be44@protonmail.com> <CALTg27mH1rzyaNXEq7SowZcVYMiWUgejQCFgdDCHACUm9j+3SQ@mail.gmail.com>
+ <7a4c4678-bb75-4aa7-8f4f-706deba7e72b@protonmail.com>
+In-Reply-To: <7a4c4678-bb75-4aa7-8f4f-706deba7e72b@protonmail.com>
+From: Stuart <stuart.a.hayhurst@gmail.com>
+Date: Tue, 16 Sep 2025 13:30:46 +0100
+X-Gm-Features: AS18NWAfsj40_HwIKhP5SatmQheR4yU63tIXESzU7aebx_grHG7U6qtjzLeXh0s
+Message-ID: <CALTg27kat6CReAvU8nXsVzqKEtzytT+_wf9dZ07OFSke=ipYLQ@mail.gmail.com>
+Subject: Re: [PATCH v4] HID: logitech-dj: Add support for a new lightspeed
+ receiver iteration
+To: Mavroudis Chatzilazaridis <mavchatz@protonmail.com>
+Cc: jikos@kernel.org, linux-input@vger.kernel.org, hadess@hadess.net, 
+	lains@riseup.net, benjamin.tissoires@redhat.com
+Content-Type: text/plain; charset="UTF-8"
 
-On 07/08/2025 06:29, Dmitry Torokhov wrote:
-> Hi David,
-> 
-> On Thu, Jul 31, 2025 at 11:06:50PM +0200, David Heidelberg via B4 Relay wrote:
->> With the growing popularity of running upstream Linux on mobile devices,
->> we're beginning to run into more and more edgecases. The OnePlus 6 is a
->> fairly well supported 2018 era smartphone, selling over a million units
->> in it's first 22 days. With this level of popularity, it's almost
->> inevitable that we get third party replacement displays, and as a
->> result, replacement touchscreen controllers.
->>
->> The OnePlus 6 shipped with an extremely usecase specific touchscreen
->> driver, it implemented only the bare minimum parts of the highly generic
->> rmi4 protocol, instead hardcoding most of the register addresses.
->>
->> As a result, the third party touchscreen controllers that are often
->> found in replacement screens, implement only the registers that the
->> downstream driver reads from. They additionally have other restrictions
->> such as heavy penalties on unaligned reads.
->>
->> This series attempts to implement the necessary workaround to support
->> some of these chips with the rmi4 driver. Although it's worth noting
->> that at the time of writing there are other unofficial controllers in
->> the wild that don't work even with these patches.
->>
->> We have been shipping these patches in postmarketOS for the last several
->> years, and they are known to not cause any regressions on the OnePlus
->> 6/6T (with the official Synaptics controller), however I don't own any
->> other rmi4 hardware to further validate this.
-> 
-> Sorry for not handling the patches in the last few submissions. I am
-> planning on addressing them once merge window opens.
+> Can you also try the following on top of v4?
 
-Hello Dmitry, kind reminder about the patch series as the window is open.
+Working just as well as the previous patch, compiled on top of the
+latest hid.git
 
-If you'll find a time, there is also one small, but important patchset 
-improving the Linux phones/tablets experience here:
+> Please test this one thoroughly (modifiers, lock keys, ISO backslash/
+> Intl keys) as I've modified the keyboard report descriptor.
 
-https://patchwork.kernel.org/project/linux-input/list/?series=987495&state=*&archive=both
+Tested every key and alternate key shown, modifier keys, function keys,
+media keys, lock keys. All working, including the battery reporting.
+I don't really know what you mean by ISO backslash or international keys,
+but the backslash on my UK layout works just fine.
 
-David
+> If this works as well, I will submit a v5, and you can send a Tested-by
+> on that one.
 
-> 
-> Thanks.
-> 
+Sure
 
--- 
-David Heidelberg
+I'm heading back to uni in a few days, so I might not be able to test
+revisions as quickly, but I'm still happy to test anything that's required.
 
+Thanks,
+Stuart
 
