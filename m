@@ -1,93 +1,181 @@
-Return-Path: <linux-input+bounces-14801-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14802-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76C6EB7EB6A
-	for <lists+linux-input@lfdr.de>; Wed, 17 Sep 2025 14:58:15 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7646CB7DFA1
+	for <lists+linux-input@lfdr.de>; Wed, 17 Sep 2025 14:39:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6A7FA1C00F29
-	for <lists+linux-input@lfdr.de>; Wed, 17 Sep 2025 10:26:04 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id AD13F7A3374
+	for <lists+linux-input@lfdr.de>; Wed, 17 Sep 2025 10:32:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 438A42EFDAF;
-	Wed, 17 Sep 2025 10:25:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 822052820DA;
+	Wed, 17 Sep 2025 10:33:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mkNpn9Vu"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N2ttTBwW"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1794522B584;
-	Wed, 17 Sep 2025 10:25:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58F1427875C;
+	Wed, 17 Sep 2025 10:33:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758104737; cv=none; b=lM6BK0iUt3HfoWODMFvgJBbRBTJL6C//iRvVys3S0leTK86F/PsalTXUPN8iTisvyCcdhZwcVuoj+IV6y3dQJ9bq2/fY0eblFeQpWqa9LvrQ4p4a9nmiXB6118A63kKkyIQFjHsUzf7l85Pt59fFnRzw7BXf2mPxbvOBFSckm40=
+	t=1758105222; cv=none; b=qnQtefL3L/k156H++ApaqCSP4i7bFcamOxs1+F2gyX2GIu1bbGDAv7ZIXmNO08Aby5xG1qZpugS/hIwkTkyRrapBgo9HIM9ffJWcUaNv1Nr43RaCcSrCGRuWRh+gNf22LLrYr0wZHphjpgTOCVEMDcP0c3nndezDkMJcknEXLXA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758104737; c=relaxed/simple;
-	bh=WImgDiFakTd1yqEXanaauXiIi7dUaP3ktNhX61rPnDI=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=U9p7vzJSXuKlFwyoXhArRCLj511xcFyokNEbubAppL1shEpsLQjvrr5cd8DFiW7t22D5yd1kBG2tlikOwNVdhtvqygVvYHct6Qn5jpkAQBFJE0xnPNPa1xZ7Y79nvuvm2ZU+qAvE9TrlBZJ5ubVQyKs67WDadSF5sysP1UcF6JI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mkNpn9Vu; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D4ADC4CEF0;
-	Wed, 17 Sep 2025 10:25:33 +0000 (UTC)
+	s=arc-20240116; t=1758105222; c=relaxed/simple;
+	bh=zR8e5ODVjSrwzVSSVXLPmLraedCt8Ylf7vaGoQG0OA0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=k9XcgTQVXZkGJTprroUnHD2Aavj/+Qiuia5IdruWFh+VbZfl9gQT1YoBrazuAyd+4Dc/hReBpY7PdxU8nn2VOoPoczVJmd6aO2lH5KEzUOCSWNTQVFkuaQoHcObxPBsefra1D9PTuaQO50HqrmK+FX0WU7XaLl6AL3jRyyof4IU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N2ttTBwW; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50AC8C4CEF0;
+	Wed, 17 Sep 2025 10:33:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758104736;
-	bh=WImgDiFakTd1yqEXanaauXiIi7dUaP3ktNhX61rPnDI=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=mkNpn9VutUC5/Ny6TpKFY1cuNzXgoWtAef4xysDKAp2acGbKiQMfLV9iszh5x1y8y
-	 O3t+a7Nc16YvQ1XtHM0gv2eJ/oHvUC70nVwTtVdv8C1GUYxVckyB0yvKe5amPwsqbT
-	 57qGuZqMd/9jAmUUYn0hXAJjKwsaKUV6YONeEBWS7vdBDU4+nmCAZiX42IsyRmabKe
-	 iWFQxbWeIh759H3+5lawGEhN/3Y/vMGnVs5Gp+hivVMKF2hvds4hMoTfgB66vQmzk3
-	 oDIgkvQbA1faZxCVF2yOydjKExWycpOotrGas06sczF5aztGy9RDQXVueGbARkPkcL
-	 enOEu93OylDAA==
-From: Benjamin Tissoires <bentiss@kernel.org>
-To: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
- rust-for-linux@vger.kernel.org, 
- Rahul Rameshbabu <sergeantsagara@protonmail.com>
-Cc: Jiri Kosina <jikos@kernel.org>, a.hindborg@kernel.org, 
- alex.gaynor@gmail.com, aliceryhl@google.com, bjorn3_gh@protonmail.com, 
- boqun.feng@gmail.com, dakr@kernel.org, db48x@db48x.net, gary@garyguo.net, 
- ojeda@kernel.org, tmgross@umich.edu, peter.hutterer@who-t.net, 
- Benno Lossin <lossin@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>
-In-Reply-To: <20250913161222.3889-1-sergeantsagara@protonmail.com>
-References: <20250913161222.3889-1-sergeantsagara@protonmail.com>
-Subject: Re: (subset) [PATCH v3 RESEND RESEND 0/3] Initial work for Rust
- abstraction for HID device driver development
-Message-Id: <175810473311.3076338.14309101339951114135.b4-ty@kernel.org>
-Date: Wed, 17 Sep 2025 12:25:33 +0200
+	s=k20201202; t=1758105221;
+	bh=zR8e5ODVjSrwzVSSVXLPmLraedCt8Ylf7vaGoQG0OA0=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=N2ttTBwWWFlIjwbrOMe7mhW6e8zw60BNGJXPhrKxmLY7OxbePmWFFTOXKrNzUps5p
+	 J1B9vDAovgN4oKZ5CxFoz4Sn+61kq+LEaQG/Ure6HNkdoSnRm6tKdZ3pYlDVIKdac7
+	 n8yM0w79IVoPcHVO8cP0V+W1rTYHTz9kPTfoA4T7uaC+Ho2nc7HWfaoeC6DVXBmBdf
+	 Jix+GTPnWkyK0BdxTOrnWAIIS4hzT1f2RfIbNHFnyC/osWPGgDdrPe4WUseop88tBp
+	 Nj1EgyuN560nkQcEP4ATjRcv87kVMFFEoXL36wk7SQmJ3vhYiKxwU2lBoJQsI/VXU/
+	 0riuvvyP26PlQ==
+Message-ID: <8e2c3560-6cba-4808-8207-ba3e1dd0e661@kernel.org>
+Date: Wed, 17 Sep 2025 12:33:36 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] HID: lg-g15 - Add support for Logitech G13.
+To: "Leo L. Schwab" <ewhac@ewhac.org>
+Cc: Kate Hsuan <hpa@redhat.com>, Jiri Kosina <jikos@kernel.org>,
+ Benjamin Tissoires <bentiss@kernel.org>, linux-input@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <7d356834-5795-4979-9f51-0ffcec52ae1d@kernel.org>
+ <aLSntMknSv3lMarZ@ewhac.org>
+ <8ae2cc92-5dfe-466d-95fd-da74309d7244@kernel.org>
+ <2de88077-eb8d-44ad-a96a-5db889913cba@kernel.org>
+ <aLiZbkKgIC8jIqE9@ewhac.org>
+ <c12adb45-fa6d-4bb8-afd2-a02e3026d646@kernel.org>
+ <aMESMcFLrzqrCdbq@ewhac.org>
+ <a6ea0b5d-7586-4529-bf91-d8b966aa986e@kernel.org>
+ <aMG9L2566Hh6b0Kf@ewhac.org>
+ <64b1c076-f1f7-45a3-900a-dd52ab50cd4e@kernel.org>
+ <aMiQsMtyX9POrXof@ewhac.org>
+Content-Language: en-US, nl
+From: Hans de Goede <hansg@kernel.org>
+In-Reply-To: <aMiQsMtyX9POrXof@ewhac.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.2
 
-On Sat, 13 Sep 2025 16:12:43 +0000, Rahul Rameshbabu wrote:
-> I am doing another resend. Let me know if it makes sense to start sending out
-> work I have on top of these changes. I wanted to wait till these changes got
-> merged first but maybe that is not the right strategy?
-> 
-> https://lore.kernel.org/rust-for-linux/20250721020211.196394-2-sergeantsagara@protonmail.com/
-> 
-> I incorporated Danilo's and Miguel's feedback from my v2. Additionally, I
-> noticed I had basic formatting issues when running scripts/checkpatch.pl.
-> I made sure to check the generated rustdocs and that the Rust examples
-> compile as part of the kunit infrastructure. I dropped the kref bindings
-> as they are no longer needed for this series.
-> 
-> [...]
+Hi Leo,
 
-Applied to hid/hid.git (for-6.18/core), thanks!
+On 16-Sep-25 00:18, Leo L. Schwab wrote:
+> On Wed, Sep 10, 2025 at 09:16:45PM +0200, Hans de Goede wrote:
+>> Since the driver writes any new values to the G13 and the G13 accepts
+>> those and remembers them even when the backlight is off,
+>> the notify() should be passed g15_led->brightness when an
+>> off -> on transition happens (and 0 or LED_OFF for the on -> off
+>> transition).
+>>
+>> Since g15_led->brightness gets initialized by reading the actual
+>> setting from the G13 at probe time and then gets updated on
+>> any successful completion if writing a new brightness value
+>> to the G13, it should always reflect the value which the backlight
+>> will be set at by the G13 after an off -> on transition.
+>>
+>> Or am I missing something ?
+>>
+> 	If I'm understanding you correctly:
 
-[1/3] HID: core: Change hid_driver to use a const char* for name
-      https://git.kernel.org/hid/hid/c/d1dd75c6500c
 
-Cheers,
--- 
-Benjamin Tissoires <bentiss@kernel.org>
+> 	You want `brightness` to be copied to `brightness_hw_changed` on
+> probe, and on every backlight off->on transition (cool so far).
+
+Just to clarify, there are 2 things here
+
+1: brightness as in the actual rgb/brightness values the backlight will
+   be lit with when it is on
+2. A backlight_disabled flag to indicate if the backlight is disabled
+   in hw by the button on the G13
+
+I would suggest to track those separately by adding a backlight_disabled
+(or backlight_enabled) flag to struct lg_g15_data like I do in the
+g510 patch I send earlier in the thread.
+
+So wrt copying things on probe() I would copy both the brightness
+to g15_led->brightness which is already done in v3 as well as 
+use something like:
+
+        ret = hid_hw_raw_request(g15->hdev, LG_G510_INPUT_KBD_BACKLIGHT,
+                                 g15->transfer_buf, 2,
+                                 HID_INPUT_REPORT, HID_REQ_GET_REPORT);
+
+to get the input-report with the backlight_enabled/disabled flag and
+initialize backlight_disabled based on that.
+
+I would not touch mcled.cdev.brightness_hw_changed directly,
+not touching this will also avoid the build issues when
+support for it is disabled.
+
+Ack to on detecting a backlight off->on transition based on comparing
+the input-report bit to the cached backlight_disabled flag pass
+the cached g15_led->brightness to notify()
+
+> 	What do you want to happen to `brightness_hw_changed` when
+> `brightness` is changed in sysfs while the backlight is on?  As it stands,
+> the current behavior is:
+> 	* Driver loads and probes; `brightness` and `brightness_hw_changed`
+> 	  both set to 255.
+
+Ack, except that as mentioned above I would not touch brightness_hw_changed
+and just leave it at -1.
+
+> 	* sysfs `brightness` changed to 128.  `brightness_hw_changed`
+> 	  remains at 255.
+> 	* Toggle backilght off.  `brightness_hw_changed` changed to 0.
+> 	  `brightness` remains at 128.
+> 	* Toggle backlight back on.  `brightness_hw_changed` gets a copy of
+> 	  `brightness`, and both are now 128.
+
+Ack this is all correct.
+
+> 	This seems inconsistent to me.
+
+This is working as intended / how the API was designed as
+Documentation/ABI/testing/sysfs-class-led says:
+
+                Reading this file will return the last brightness level set
+                by the hardware, this may be different from the current
+                brightness. Reading this file when no hw brightness change
+                event has happened will return an ENODATA error.
+
+>  Hence my earlier suggestion that
+> `brightness_hw_changed` should track all changes to `brightness`, except
+> when the backlight is toggled off.
+
+Then it also would be reporting values coming from sysfs writes,
+which it explicitly should not do.
+
+Summarizing in my view the following changes are necessary on v4:
+
+1. Add backlight_disabled (or backlight_enabled) flag to struct lg_g15_data
+2. Init that flag from prope()
+3. Use that flag on receiving input reports to see if notify()
+   should be called
+4. Replace the LED_FULL passed to notify() (for off->on)
+   with g15_led->brightness
+
+and that is it, with those changes I believe that we should be
+good to go.
+
+Regards,
+
+Hans
+
 
 
