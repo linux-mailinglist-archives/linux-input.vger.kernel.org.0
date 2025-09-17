@@ -1,90 +1,105 @@
-Return-Path: <linux-input+bounces-14796-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14797-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FEBCB7C857
-	for <lists+linux-input@lfdr.de>; Wed, 17 Sep 2025 14:05:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC28BB7D216
+	for <lists+linux-input@lfdr.de>; Wed, 17 Sep 2025 14:20:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A9E143B879B
-	for <lists+linux-input@lfdr.de>; Wed, 17 Sep 2025 09:38:10 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4D3523BB0F1
+	for <lists+linux-input@lfdr.de>; Wed, 17 Sep 2025 09:51:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 280CB3074BA;
-	Wed, 17 Sep 2025 09:38:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 63EDD30C341;
+	Wed, 17 Sep 2025 09:51:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gQdhRnia"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="so7XiTxO"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F213E306B06;
-	Wed, 17 Sep 2025 09:38:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38E28EEBD;
+	Wed, 17 Sep 2025 09:51:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758101888; cv=none; b=RyrnWdbA1+OPylVvFu552Ft9wpbSWmgkgLEjD18P3DiQT1+RXfMdeU6yrb25sfqjWfP87bU9hboz2hNGSwCCuPULzTgTjn/2Q9VgsSxZwo5D0D3MUj243hhi+TRVHtLrY6QZDBA12PuyRn2n7V7W1nHpxNbmfa5ICF6S74syYZM=
+	t=1758102703; cv=none; b=eW0a/2ogpzr/Guxr2KGkfqS/hX+NdMvwaEjxsvFHWVkNGrsfjgp4lNXBaKq0+S7/C5wk4PD6RxbZmW8cB5b84HJLjqtOdqJu4hBCMJSRiczbry7Olt160I3LU5InLGNDJqkw1soRc/Y4TiqSWkvSaDnIaHp4ao5rGh/gSSgJUBk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758101888; c=relaxed/simple;
-	bh=g6ox8okuU/GzLNmZU+zyA1i4cDtybsxCyJ5PXmVcXz0=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=VFvbAsXaq1LP/fkoe3MpT3YMxr45FOYeW4NUY0sg3CuCsPZpLmOWevvofqcHU+O06/PkccJfdUObKqCGpn5/+B+aAW/2Nd6IrsJ98PfIy/J+LpEh1O2PvWb/+26NDmS08/wMp6P/fuZaPSvEWbQL8jfpy05v7B6Q8c3gCKfr55A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gQdhRnia; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 258CEC4CEF0;
-	Wed, 17 Sep 2025 09:38:06 +0000 (UTC)
+	s=arc-20240116; t=1758102703; c=relaxed/simple;
+	bh=8J4tD3WezGFvLQ7eQ6sV1btWqMNPBtvPGxyAHuy2lV8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qTJm9nLx+n6EnJVEOQMaQZZT3N4ALzVgnHlppFr7GQU25zsqfuybqoWl+ZkEBdXsDD9dKu+nPUs88oXP401OfjuX+JmSlHU7qz1aMhGGgbIu3pCQI0MXfHfT5t9UARbS8+y8vzJhQFUrZwmBv4pBS3iG3JIxKNqOZqTGGyjZyQw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=so7XiTxO; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 689CDC4CEF0;
+	Wed, 17 Sep 2025 09:51:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758101887;
-	bh=g6ox8okuU/GzLNmZU+zyA1i4cDtybsxCyJ5PXmVcXz0=;
-	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=gQdhRnia76QDRyKpcClJlcEmA3GK+RAg8GYEv84CWhIf7RJqt11qlcYIhhovF8s5x
-	 Rfqc+cMl+6Y3Iu04KrJYZnAyt2MdEfR/VNJt9s4MaNhDJHFq34eYo74n+uz5jvwSy/
-	 H60zIVjUvI9kniKiYim6aCu/oSZGBgRHoITnkdkKO0FN2tcsAxnRJmmSVshDp5RY7t
-	 hjPhkcbUUMveBBcsqbmppVmDf2NFTNv0Hmegh3MFsMe/9SpAwhx8znraIsU7vnhQAv
-	 F5Dsx/ssig1hAr6YpAlbCh9A7U0FLw5hUV6EruNg91Fbkb0pefCxgm2DKeZ8Qbzii0
-	 Q4wl4diSzpd6Q==
-Date: Wed, 17 Sep 2025 11:38:04 +0200 (CEST)
-From: Jiri Kosina <jikos@kernel.org>
-To: Benjamin Tissoires <bentiss@kernel.org>
-cc: Shuah Khan <shuah@kernel.org>, Arnd Bergmann <arnd@kernel.org>, 
-    linux-input@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-    linux-kernel@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>
-Subject: Re: [PATCH v3 0/3] HID: hidraw: rework ioctls
-In-Reply-To: <20250912-b4-hidraw-ioctls-v3-0-cd2c6efd8c20@kernel.org>
-Message-ID: <6oo5opr2-30o4-s826-941n-n42179005p61@xreary.bet>
-References: <20250912-b4-hidraw-ioctls-v3-0-cd2c6efd8c20@kernel.org>
+	s=k20201202; t=1758102702;
+	bh=8J4tD3WezGFvLQ7eQ6sV1btWqMNPBtvPGxyAHuy2lV8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=so7XiTxOuNnP08p1xd/GOooo+aWnvf5FqzZ7dajH2KA5f87cYwP8ht1kjoVhoZEdK
+	 3yS7VgByF9zDTPjQtukrNGqS2cEFyv06NAmPfqjLNUc7Jmo8otSfYep0EHwGQ7i5N/
+	 p9ge+zoKlXLQGd9bP7iZTsOhJsMxny8CElajcyRnmQpON5UmBJeqgbvLxTNl9AFQNu
+	 KrDww3omSjbr0M7cDMEd4VD1w8j11fJzgJztGsVx/V7cFZNAnh5N8JcvpDm9CPLH2l
+	 HUHdHKUWuxlAFggIQjPH9NbSJQJT0u8wkaosghYQDy9W0oi9vMHFw8ipFGcBPHCpLz
+	 y9rv9Xdz7gzRA==
+Date: Wed, 17 Sep 2025 11:51:36 +0200
+From: Benjamin Tissoires <bentiss@kernel.org>
+To: Rahul Rameshbabu <sergeantsagara@protonmail.com>
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	rust-for-linux@vger.kernel.org, Jiri Kosina <jikos@kernel.org>, a.hindborg@kernel.org, 
+	alex.gaynor@gmail.com, aliceryhl@google.com, benno.lossin@proton.me, 
+	Benjamin Tissoires <benjamin.tissoires@redhat.com>, bjorn3_gh@protonmail.com, boqun.feng@gmail.com, dakr@kernel.org, 
+	db48x@db48x.net, gary@garyguo.net, ojeda@kernel.org, tmgross@umich.edu, 
+	peter.hutterer@who-t.net
+Subject: Re: [PATCH v3 RESEND RESEND 1/3] HID: core: Change hid_driver to use
+ a const char* for name
+Message-ID: <bk7rp5zyw6n4txhgbyq4gi3cegi6fkwhvkk7gdvtqp3en7uidu@wgaohfzkp4i2>
+References: <20250913161222.3889-1-sergeantsagara@protonmail.com>
+ <20250913161222.3889-2-sergeantsagara@protonmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250913161222.3889-2-sergeantsagara@protonmail.com>
 
-On Fri, 12 Sep 2025, Benjamin Tissoires wrote:
+On Sep 13 2025, Rahul Rameshbabu wrote:
+> name is never mutated by the core HID stack. Making name a const char*
+> simplifies passing the string from Rust to C. Otherwise, it becomes
+> difficult to pass a 'static lifetime CStr from Rust to a char*, rather than
+> a const char*, due to lack of guarantee that the underlying data of the
+> CStr will not be mutated by the C code.
+> 
+> Signed-off-by: Rahul Rameshbabu <sergeantsagara@protonmail.com>
 
-> Arnd sent the v1 of the series in July, and it was bogus. So with a
-> little help from claude-sonnet I built up the missing ioctls tests and
-> tried to figure out a way to apply Arnd's logic without breaking the
-> existing ioctls.
-> 
-> The end result is in patch 3/3, which makes use of subfunctions to keep
-> the main ioctl code path clean.
-> 
-> Signed-off-by: Benjamin Tissoires <bentiss@kernel.org>
+While we figure out the rest, I'm queueing this one patch in my test
+setup and will probably merge it for 6.18. This way, the rest of the
+series is purely rust and doesn't depend on anything on the HID tree.
+
+Cheers,
+Benjamin
+
 > ---
-> Changes in v3:
-> - dropped the co-developed-by tag and put a blurb instead
-> - change the attribution of patch 3/3 to me as requested by Arnd.
-> - Link to v2: https://lore.kernel.org/r/20250826-b4-hidraw-ioctls-v2-0-c7726b236719@kernel.org
+>  include/linux/hid.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> changes in v2:
-> - add new hidraw ioctls tests
-> - refactor Arnd's patch to keep the existing error path logic
-> - link to v1: https://lore.kernel.org/linux-input/20250711072847.2836962-1-arnd@kernel.org/
-
-Now queued in hid.git#for-6.18/hidraw, thanks a lot Arnd and Benjamin!
-
--- 
-Jiri Kosina
-SUSE Labs
-
+> diff --git a/include/linux/hid.h b/include/linux/hid.h
+> index 568a9d8c749b..d65c202783da 100644
+> --- a/include/linux/hid.h
+> +++ b/include/linux/hid.h
+> @@ -816,7 +816,7 @@ struct hid_usage_id {
+>   * zero from them.
+>   */
+>  struct hid_driver {
+> -	char *name;
+> +	const char *name;
+>  	const struct hid_device_id *id_table;
+>  
+>  	struct list_head dyn_list;
+> -- 
+> 2.47.2
+> 
+> 
 
