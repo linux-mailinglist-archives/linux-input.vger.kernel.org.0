@@ -1,317 +1,99 @@
-Return-Path: <linux-input+bounces-14821-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14822-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB38FB81B77
-	for <lists+linux-input@lfdr.de>; Wed, 17 Sep 2025 22:07:05 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 486CFB8231F
+	for <lists+linux-input@lfdr.de>; Thu, 18 Sep 2025 00:54:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A26717ABC02
-	for <lists+linux-input@lfdr.de>; Wed, 17 Sep 2025 20:05:25 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D5874488832
+	for <lists+linux-input@lfdr.de>; Wed, 17 Sep 2025 22:54:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4273A278170;
-	Wed, 17 Sep 2025 20:06:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D0A330F803;
+	Wed, 17 Sep 2025 22:54:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BzJBJu0s"
+	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="gJS0AlDu"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-10631.protonmail.ch (mail-10631.protonmail.ch [79.135.106.31])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2DEA1FCF41
-	for <linux-input@vger.kernel.org>; Wed, 17 Sep 2025 20:06:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EF5030C0ED
+	for <linux-input@vger.kernel.org>; Wed, 17 Sep 2025 22:54:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=79.135.106.31
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758139619; cv=none; b=RvrifVs3GXXFfsDV2gUnrzDgBgun2XU8xMkq9dusniY1rJJI2O3vLox4SszS+IYfBdr/f9le148C8SBo/5PQoF9qpFbP7muLiGt75RWoW6zWWGvkM5cy9MEjGSdyFWOHvyXvBzNlohuVAOaDjA117iO87pkMp2u8ppP48q67s04=
+	t=1758149645; cv=none; b=hOs4kX1so/qLBeksuJF1dPbA7mmjjdFt3re86edBlsMRNk/+BXX1rhSBvjjsl4/9hEPojBDGYzBiOIgvSBfnBNQvlo8Rl1Sn6ePKQcWsupIu0pMb4+zn8+w2O+9e2jvFGyPG1ngjf2kIzY+F7+TYtpz+3hedC/cHXjGSdmGC2wM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758139619; c=relaxed/simple;
-	bh=uk0f/jb3Tj9XsJt8rx5PWMAF8eB/0DbZGV6iarNBAyc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mMRAEAWOz9VVceWPBDheoPt01yVGiSY7IFrGPyCSZWWq1bCHVvEwU28MJPBzy0ttRbAkQUlwBY/uYkG6s7pknhgCSNDcit5v8c/o0s2OOVknSjGMKikDLl2O2UyTNYzf/PSNRUx31yiN9+9e9HAOMYw8FE1vS/P7wOGpabVM9Hs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BzJBJu0s; arc=none smtp.client-ip=209.85.214.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2445824dc27so1894265ad.3
-        for <linux-input@vger.kernel.org>; Wed, 17 Sep 2025 13:06:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758139617; x=1758744417; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=nAoo4cL1dIYweQDzrk/O9/maigv0J12ua5s1T9IZZIQ=;
-        b=BzJBJu0sl7Ot/aa/y4ipoWenR7W1XYwuHfYqZRntlmHYFhwX1d1n5ISbGLOWg6MV9J
-         ILKXZL/dPEKBh6CN5osdjky9h7ZpWdH2CPtjJu29hjBfa9FjlFWneM3HN2jGlDB2lwQI
-         n6DfCO7u/99Od3MOivDB5HvXA58ZJahlptoVCxXm++yAb0A5jWNiity/l1nqYd+pL0rO
-         dhrYmt0yX+s70ypiurlJvni+34oWFTJpXZ16Pv64CMWx5aLkZL434OnfD4Acb/3j+c9+
-         RMP1bBIcny77PNWmtMUbinZfpMaU54hdMc7w3Q0dorKq8bLqF3KEVanjvMPRSXPjf/aA
-         smwA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758139617; x=1758744417;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nAoo4cL1dIYweQDzrk/O9/maigv0J12ua5s1T9IZZIQ=;
-        b=jd03wBzORsApSVALsobiTOh94rmu5YMGfutKjyz8zfzkTG1YynJt30DJZVtvc93roh
-         1tL9G3Ps5ZEEAngd0Y3SePGlQAK8gk2qh5oFCPIxsEpNpzF+k//lea1AWx58guiHtQLc
-         TpfNUgT2qpObO5tvzT1HjYCcm4dexGVvGRlpIVIeoEIKsBzcsX/zFvNCmCnCWV0b/j3o
-         SM+5anKis5n67DQiPuZnE2haigVEZvNNW5DT2SkPFkhG07BaCvUvWNzhzy4Oi83WM0Xf
-         JthWNM8uw/xV37vJIfb37AhIIa1fHmlg10oafa9B02WZD03f35PpB5GRO5WhOvQw1cas
-         KFFQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUFJ2d0V6lI+0sqYTuHULfxSSLBAHuATm21ZsP4xOzUBZtu00SmL9hnA9oTkUSxsTrJ6I56AfyxktM+Ig==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzo26ijuPeh10v90Y8hS/MyW0PY/TzQTYaazDscqCl4VS4IdNY3
-	s/JrAZZeX+I+cYN0d/CMLFi301gM65OU4MB/wiAS+e9KKqXqFpqXB0kt
-X-Gm-Gg: ASbGncttqR9m9pZZYoL/ucCepb+2gFATm/oUMVhzVUBBhIMpIIHxA9tunft/U0V7Bym
-	YHUWWpJ1wMhN+M1bD1DJWEIZ74Oh4qwt2Fbx1N1A03CT5R8ARYTwuHkIBKmDjbFbjc4f6aJWTlC
-	qUjcG9ceaVjinURtRmEqRalDRxroOdyDYHfUPvVOR03i37ekr6xDe97gH1bYVH4kaLwXTNcMvaw
-	kES77mIzHPREKpItivJm6gpBlGclAEYQry5U9yg6n7I3OOP+owFlDfvpTVBrrTS0CaUrgKzYhlQ
-	H1moevZ6sa+O3O8leTvqlbw6xC8VrNEksyJ+hN49gMHNX2XhIRlKKXsWUhqFyPJyD8hFaDONhLC
-	1kE/B4YNnXngluQMZJ+mGxLlaYrF2A4rhbb1PBwOb7Q==
-X-Google-Smtp-Source: AGHT+IH4ljt2vti7NSBWoLRl1Y3YBR7ak2BF6N3DsrRX2rCMF4AUdMIoGbFRGc1NosrFKmMz+WdEHw==
-X-Received: by 2002:a17:903:2c7:b0:264:567b:dd92 with SMTP id d9443c01a7336-26813e02d08mr43177195ad.52.1758139616771;
-        Wed, 17 Sep 2025 13:06:56 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:c3d9:b11c:3856:2d3a])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2698035cd39sm3762225ad.146.2025.09.17.13.06.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Sep 2025 13:06:56 -0700 (PDT)
-Date: Wed, 17 Sep 2025 13:06:53 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Ivaylo Ivanov <ivo.ivanov.ivanov1@gmail.com>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Henrik Rydberg <rydberg@bitmath.org>, 
-	linux-samsung-soc@vger.kernel.org, linux-input@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 2/2] Input: s6sa552 - add a driver for the Samsung
- A552 touchscreen controller
-Message-ID: <zh2cvvhvdklwnrnhmzsgajk5ryk7gwd5sayde656ddysi53d7b@frw2ph3opmoe>
-References: <20250914134458.2624176-1-ivo.ivanov.ivanov1@gmail.com>
- <20250914134458.2624176-3-ivo.ivanov.ivanov1@gmail.com>
+	s=arc-20240116; t=1758149645; c=relaxed/simple;
+	bh=9+UVCe8WmKGioJeaplfY53Xsed6BsgXW5/+2Oh90GM4=;
+	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=jJk1PqiKePLb9X+BOJX8UMlaDHF8GeVtR+PkANJSR86jx6jo8yF5AzL5QWCRXJDknjQDkqKLTCts0tHpaG4dCD9J0RicQZXhHNKXUn3n3RbIjR60mlcPH7ILqJ0dXaj97tswlvV5n2BpASFTiz1CBcNLtXOKnz5YwHpK+Hf6bVU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com; spf=pass smtp.mailfrom=protonmail.com; dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b=gJS0AlDu; arc=none smtp.client-ip=79.135.106.31
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonmail.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
+	s=protonmail3; t=1758149634; x=1758408834;
+	bh=Q5qspVNMpGUU2rhqy5PZwY/xTyF1BTlCFiE44W6OA/s=;
+	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=gJS0AlDu2FoIRjt0GneK57JwdDA9zWH5vOjD/w85QJI2uEjvqFeR3M8jjjTng9Rke
+	 ivdBoEKbKJmTrSvyS9XWbcdPIdchRNRm8B/nQYMbFoU7bGZDotQaMzKrj2OhVP+5Sv
+	 cRweDAsgqDN/7m5LtAGMJ5m1qNYuU4998mhHzEUf4qbHvrqI1YKd7Mj93HpKmOPCkY
+	 WKGvv1JnWU1PGLYpR+LKWyJ3odOFduyAgQVVrlb3+tKI2ll7us66HyVdiDAPc6bzU1
+	 jK3l6/QlVapqA+Rer0wlfIJyQn5K9eAOXO6QlziG3N0wExvoAGB9PBQLrhyDx8gg5X
+	 kV2guZRNWWRZQ==
+Date: Wed, 17 Sep 2025 22:53:50 +0000
+To: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
+From: Rahul Rameshbabu <sergeantsagara@protonmail.com>
+Cc: a.hindborg@kernel.org, alex.gaynor@gmail.com, aliceryhl@google.com, benjamin.tissoires@redhat.com, benno.lossin@proton.me, bjorn3_gh@protonmail.com, boqun.feng@gmail.com, dakr@kernel.org, db48x@db48x.net, gary@garyguo.net, jikos@kernel.org, ojeda@kernel.org, peter.hutterer@who-t.net, tmgross@umich.edu, Rahul Rameshbabu <sergeantsagara@protonmail.com>
+Subject: [PATCH v4 0/2] Initial work for Rust abstraction for HID device driver development
+Message-ID: <20250917225341.4572-1-sergeantsagara@protonmail.com>
+Feedback-ID: 26003777:user:proton
+X-Pm-Message-ID: d35ade03161af96fc0b4b9812fe140c177dc2f37
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250914134458.2624176-3-ivo.ivanov.ivanov1@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Hi Ivaylo,
+I wanted to thank Benjamin for his response on the previous v3 RESEND.
+Greatly appreciated. I have gone ahead with some minor logistically changes
+in the series, based on his response. I have dropped the C patch since he
+also took that patch into the hid tree in v3.
 
-On Sun, Sep 14, 2025 at 04:44:57PM +0300, Ivaylo Ivanov wrote:
-> The S6SA552 touchscreen is a capacitive multi-touch controller for
-> mobile use. It connects via i2c at the address 0x48.
-> 
-> Introduce a basic driver, which can handle initialization, touch events
-> and power states.
-> 
-> At least the firmware for this IC on Galaxy S7 differs from S6SY761
-> in register layout and bits, as well as some missing registers/functions,
-> for example for retrieving the max X/Y coordinates and the amount
-> of TX/RX channels.
+Link: https://lore.kernel.org/rust-for-linux/wjfjzjc626n55zvhksiyldobwubr2i=
+mbvfavqej333lvnka2wn@r4zfcjqtanvu/
+Link: https://lore.kernel.org/rust-for-linux/175810473311.3076338.143091013=
+39951114135.b4-ty@kernel.org/
 
-I am not sure why you are using runtime PM in the driver, given that you
-enable it on probe and disable it in remove and otherwise do not touch.
+Rahul Rameshbabu (2):
+  rust: core abstractions for HID drivers
+  rust: hid: Glorious PC Gaming Race Model O and O- mice reference
+    driver
 
-If you want to use it then you should probably call runtime_pm_get() and
-runtime_pm_put() from open()/close() methods instead of toggling power
-directly.
+ MAINTAINERS                           |  14 +
+ drivers/hid/Kconfig                   |   2 +
+ drivers/hid/hid-glorious.c            |   2 +
+ drivers/hid/hid_glorious_rust.rs      |  60 ++++
+ drivers/hid/rust/Kconfig              |  28 ++
+ drivers/hid/rust/Makefile             |   6 +
+ drivers/hid/rust/hid_glorious_rust.rs |  60 ++++
+ rust/bindings/bindings_helper.h       |   3 +
+ rust/kernel/hid.rs                    | 497 ++++++++++++++++++++++++++
+ rust/kernel/lib.rs                    |   2 +
+ 10 files changed, 674 insertions(+)
+ create mode 100644 drivers/hid/hid_glorious_rust.rs
+ create mode 100644 drivers/hid/rust/Kconfig
+ create mode 100644 drivers/hid/rust/Makefile
+ create mode 100644 drivers/hid/rust/hid_glorious_rust.rs
+ create mode 100644 rust/kernel/hid.rs
 
-[...]
 
-> +
-> +static void s6sa552_input_close(struct input_dev *dev)
-> +{
-> +	struct s6sa552_data *sdata = input_get_drvdata(dev);
-> +	int ret;
+base-commit: 657403637f7d343352efb29b53d9f92dcf86aebb
+--=20
+2.51.0
 
-	int error;
 
-> +
-> +	ret = i2c_smbus_write_byte(sdata->client, S6SA552_SENSE_OFF);
-> +	if (ret)
-> +		dev_err(&sdata->client->dev, "failed to turn off sensing\n");
-> +}
-> +
-> +static ssize_t s6sa552_sysfs_devid(struct device *dev,
-> +				   struct device_attribute *attr, char *buf)
-> +{
-> +	struct s6sa552_data *sdata = dev_get_drvdata(dev);
-> +
-> +	return sprintf(buf, "%#x\n", sdata->devid);
-> +}
-> +
-> +static DEVICE_ATTR(devid, 0444, s6sa552_sysfs_devid, NULL);
-> +
-> +static struct attribute *s6sa552_sysfs_attrs[] = {
-> +	&dev_attr_devid.attr,
-> +	NULL
-> +};
-> +ATTRIBUTE_GROUPS(s6sa552_sysfs);
-> +
-> +static int s6sa552_power_on(struct s6sa552_data *sdata)
-> +{
-> +	u8 buffer[S6SA552_EVENT_SIZE];
-> +	int ret;
-
-	int error;
-
-Use "error" for storing error values from APIs that return negative or
-0. For APIs that also return real values "ret" is fine.
-
-> +
-> +	ret = regulator_bulk_enable(ARRAY_SIZE(sdata->regulators),
-> +				    sdata->regulators);
-> +	if (ret)
-> +		return ret;
-> +
-> +	msleep(140);
-> +
-> +	/* double check whether the touch is functional */
-> +	ret = i2c_smbus_read_i2c_block_data(sdata->client,
-> +					    S6SA552_READ_ONE_EVENT,
-> +					    S6SA552_EVENT_SIZE,
-> +					    buffer);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	if (buffer[0] != S6SA552_EVENT_TYPE_ACK ||
-> +	    buffer[1] != S6SA552_EVENT_ACK_BOOT) {
-> +		return -ENODEV;
-> +	}
-> +
-> +	ret = i2c_smbus_read_byte_data(sdata->client, S6SA552_BOOT_STATUS);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	/* for some reasons the device might be stuck in the bootloader */
-> +	if (ret != S6SA552_BS_APPLICATION)
-> +		return -ENODEV;
-> +
-> +	/* enable touch functionality */
-> +	ret = i2c_smbus_write_byte_data(sdata->client,
-> +					S6SA552_TOUCH_FUNCTION, 0x01);
-> +	if (ret)
-> +		return ret;
-> +
-> +	mdelay(20); /* make sure everything is up */
-> +
-> +	return 0;
-> +}
-> +
-> +static int s6sa552_hw_init(struct s6sa552_data *sdata)
-> +{
-> +	u8 buffer[S6SA552_DEVID_SIZE];
-> +	int ret;
-> +
-> +	ret = s6sa552_power_on(sdata);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = i2c_smbus_read_i2c_block_data(sdata->client,
-> +					    S6SA552_DEVICE_ID,
-> +					    S6SA552_DEVID_SIZE,
-> +					    buffer);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	sdata->devid = get_unaligned_be16(buffer + 1);
-> +
-> +	return 0;
-> +}
-> +
-> +static void s6sa552_power_off(void *data)
-> +{
-> +	struct s6sa552_data *sdata = data;
-> +
-> +	disable_irq(sdata->client->irq);
-> +	regulator_bulk_disable(ARRAY_SIZE(sdata->regulators),
-> +			       sdata->regulators);
-> +}
-> +
-> +static int s6sa552_probe(struct i2c_client *client)
-> +{
-> +	struct s6sa552_data *sdata;
-> +	int err;
-> +
-> +	if (!i2c_check_functionality(client->adapter, I2C_FUNC_I2C |
-> +						I2C_FUNC_SMBUS_BYTE_DATA |
-> +						I2C_FUNC_SMBUS_I2C_BLOCK))
-> +		return -ENODEV;
-> +
-> +	sdata = devm_kzalloc(&client->dev, sizeof(*sdata), GFP_KERNEL);
-> +	if (!sdata)
-> +		return -ENOMEM;
-> +
-> +	i2c_set_clientdata(client, sdata);
-> +	sdata->client = client;
-> +
-> +	sdata->regulators[S6SA552_REGULATOR_VDD].supply = "vdd";
-> +	sdata->regulators[S6SA552_REGULATOR_AVDD].supply = "avdd";
-> +	err = devm_regulator_bulk_get(&client->dev,
-> +				      ARRAY_SIZE(sdata->regulators),
-> +				      sdata->regulators);
-> +	if (err)
-> +		return err;
-> +
-> +	err = devm_add_action_or_reset(&client->dev, s6sa552_power_off, sdata);
-> +	if (err)
-> +		return err;
-> +
-> +	err = s6sa552_hw_init(sdata);
-> +	if (err)
-> +		return err;
-> +
-> +	sdata->input = devm_input_allocate_device(&client->dev);
-> +	if (!sdata->input)
-> +		return -ENOMEM;
-> +
-> +	sdata->input->name = S6SA552_DEV_NAME;
-> +	sdata->input->id.bustype = BUS_I2C;
-> +	sdata->input->open = s6sa552_input_open;
-> +	sdata->input->close = s6sa552_input_close;
-> +
-> +	input_set_abs_params(sdata->input, ABS_MT_POSITION_X, 0, S6SA552_MAX_X,
-> +			     0, 0);
-> +	input_set_abs_params(sdata->input, ABS_MT_POSITION_Y, 0, S6SA552_MAX_Y,
-> +			     0, 0);
-> +	input_set_abs_params(sdata->input, ABS_MT_TOUCH_MAJOR, 0, 255, 0, 0);
-> +	input_set_abs_params(sdata->input, ABS_MT_TOUCH_MINOR, 0, 255, 0, 0);
-> +	input_set_abs_params(sdata->input, ABS_MT_PRESSURE, 0, 255, 0, 0);
-> +
-> +	touchscreen_parse_properties(sdata->input, true, &sdata->prop);
-> +
-> +	if (!input_abs_get_max(sdata->input, ABS_X) ||
-> +	    !input_abs_get_max(sdata->input, ABS_Y)) {
-> +		dev_warn(&client->dev, "the axis have not been set\n");
-> +	}
-> +
-> +	err = input_mt_init_slots(sdata->input, S6SA552_TX_CHANNELS,
-> +				  INPUT_MT_DIRECT);
-> +	if (err)
-> +		return err;
-> +
-> +	input_set_drvdata(sdata->input, sdata);
-> +
-> +	err = input_register_device(sdata->input);
-> +	if (err)
-> +		return err;
-> +
-> +	err = devm_request_threaded_irq(&client->dev, client->irq, NULL,
-> +					s6sa552_irq_handler,
-> +					IRQF_TRIGGER_LOW | IRQF_ONESHOT,
-
-Do not hardcode trigger type, just use IRQF_ONESHOT.
-
-> +					"s6sa552_irq", sdata);
-> +	if (err)
-> +		return err;
-> +
-> +	pm_runtime_enable(&client->dev);
-> +
-> +	return 0;
-> +}
-
-Thanks.
-
--- 
-Dmitry
 
