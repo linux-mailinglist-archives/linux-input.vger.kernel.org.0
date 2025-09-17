@@ -1,126 +1,331 @@
-Return-Path: <linux-input+bounces-14785-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14786-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11F9DB7C621
-	for <lists+linux-input@lfdr.de>; Wed, 17 Sep 2025 14:00:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CB02B7CECD
+	for <lists+linux-input@lfdr.de>; Wed, 17 Sep 2025 14:14:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B52A31B27F6F
-	for <lists+linux-input@lfdr.de>; Wed, 17 Sep 2025 04:52:01 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id CF6511B25227
+	for <lists+linux-input@lfdr.de>; Wed, 17 Sep 2025 05:09:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C05F521CC4F;
-	Wed, 17 Sep 2025 04:51:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D51D2620E5;
+	Wed, 17 Sep 2025 05:09:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ai2ca+kJ"
+	dkim=pass (1024-bit key) header.d=altimeter.info header.i=@altimeter.info header.b="dFOdj7h4"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from hognose1.porkbun.com (hognose1.porkbun.com [35.82.102.206])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AA8142A99
-	for <linux-input@vger.kernel.org>; Wed, 17 Sep 2025 04:51:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71C619443;
+	Wed, 17 Sep 2025 05:09:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.82.102.206
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758084697; cv=none; b=TPWyrINn2TcRDtUKIskyWWa7hNOcU/YcaZeQ4wGQhaJp76hSkby0A4wNWqoGrUFgq5Sjmt8NVXsR6PZjb9XD8Y5k+HD1/dkoRqiEkIwIh9RA+ALnFwP0VsstNakSoB0B53AO73jKsSzKcS9wsXnzsi3nAPHKooRsYd1cPO+44d8=
+	t=1758085769; cv=none; b=S9jvG97mF69tYcS1kFfpCGADTG2EgtgJr13KHZxWQtDCAPS4yLx3C4rkBeYUJ1VimsTrVH/jjHf62K8uPyuTdcSYqfyQCkSZsVDGDPk3gYak/6Fw64yLoCSnz/yDOZLi9r7IhkwTfO2fosp6Q1Ct36oF0h4+Yn1/WfQww+9YpIQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758084697; c=relaxed/simple;
-	bh=eBq9H4xIjBRAwKo2tBIMXWyZBxSf+01NnPWwxBCPU+A=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=gQdE4/Fmc6TXm6WlZGlgicFIm8IPhtlQVUbu4T4Lwhw1g76Rz+58dEbn+793EQ1ExQbIze4FBbEQ7TkvS9mJKC5GTwPkXSE8aT3JlnQ5aE2HvVgDJiVGiYP/xmDr3OVd8SBpko2uL74QCLDA/Lx/0yALMxyk+K7z2cKgeR+kbhE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ai2ca+kJ; arc=none smtp.client-ip=209.85.214.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-251fc032d1fso70119175ad.3
-        for <linux-input@vger.kernel.org>; Tue, 16 Sep 2025 21:51:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758084696; x=1758689496; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=l12+SyVuQT2nnjzs7oO7aJYiEciTeGoUNepyZVbe8Qg=;
-        b=Ai2ca+kJU6nbYup7u8KSgxoE4Go7SN8uRrIhtidwGhgMl2YBbcRVJMLw5sYptsuTPQ
-         8Rk0fO744+uCNbVUg/bPGGrZtdoE+foyHXZiZZmhkSXl2SLvMuNfvcKop1IKPm29i6zm
-         EX1TgrxJgdsbLJ28ZHf+p2qL4ayOu/XcLajk5Ks8W1edaRb03A21GdOWUWMg7HBizhxQ
-         KUr9vDbNU0opJImnTL4Di0uy6hamPvo76Ou4bu22zVVqvCHvqOrtTq3jMAr0F7TNIM/g
-         mdA0yxIzJa8PnIvz6DJkmbJroade4ZZvlIRylUlDHidfRa3AQRdLdh16S0aAHfM/cBAV
-         l6/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758084696; x=1758689496;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=l12+SyVuQT2nnjzs7oO7aJYiEciTeGoUNepyZVbe8Qg=;
-        b=NOi2oV0qltkYmMu2jwDzme0Qy5ZWFsMU+mMVgKzlmYfkWf2h6lPwY6GsymQEv4o0WJ
-         9YvUUUHZ4xm4g+NXbknr82uTbS5gYeTyzedSfQt7u3eBPYili2P4BOLbjyzQhE4HBcJ7
-         Nd3c7xYhKVfyg5jzVGg+H1tzKtPcMcRItoEJ99YeGdgl+yuDGMra9Wyk5IhOIXVUQU2j
-         SsgW0gKj8fFYa90D6K2NmP+cjiFxX5utdtWABIHoxXYOHma7R34F8/Vdq+J5e5xRR+mC
-         i/Aq31i0vGqQUMLxBlb0FXU6BUKgjdkkA/PwtYDp/bCLWau9hlIIeU1ESDMopFbKRSVT
-         JJNQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXMA6MpJT8FF4v0Qty/0s55DqQWIM9OqSlEu2mZIUmouSWTKaxQbuEI/73cP97zNWBCQvp/J7OaExikMg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzAdAJURWnogSwJZv7uQEeVcLAl7Z7CPm3DJeRYshbb5bRlzUVB
-	OsnYvXl2OWhnB30u8ZLHjpvlEEX04z0Y1z/bhKTsRCxtha35vxt33Lqe
-X-Gm-Gg: ASbGnctnD5Dvd2irm6O6GeaflNoAEwW+Gb43oq/6nedCi6xnidO4ssxd+lzwA7vfJ92
-	e1P6ab0b9J1R1QzI0UO8cAs0Ruzo1iGT2VRRw2pXm3+mtHdYD7Y3gLKX680d+8a4sUXjHl6fK0v
-	pO5EcXxYKbXn4YPyC3N8KP4z11LyK2fcDrPcXIFxz97HPh9YdbIY6FZknDsFWCjYLxRzcPU4XL/
-	4DHwN9miMsG7M5ot1+0ZQiZ+EInqlS4W+eMMiTwWuMytjpCeBHk/uyych3NztKEp0e9hWTRA4Yp
-	i6SrAropH3DcBQ8a+lC4BoQHd6ULkdVG1Ya5/xOzMvZo5P5orjmDsS9p+JzZuXUFowVia2HS2sW
-	lWzBoUCikEeqs+SfPawywKd2ccKm6TCDGxlHXm2maVPHTKsWf
-X-Google-Smtp-Source: AGHT+IGBaqGx7H5M1H4Flxyge/OwlLNw429tAgTEgBqOR1oXLDwpAnqBx8u0wVLxKgw7Vyy11rlyMg==
-X-Received: by 2002:a17:902:e888:b0:246:4077:4563 with SMTP id d9443c01a7336-268137f242bmr7098995ad.34.1758084695547;
-        Tue, 16 Sep 2025 21:51:35 -0700 (PDT)
-Received: from orion (FL1-125-194-6-184.tky.mesh.ad.jp. [125.194.6.184])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-267c19bf68esm40176265ad.111.2025.09.16.21.51.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Sep 2025 21:51:35 -0700 (PDT)
-From: Masami Ichikawa <masami256@gmail.com>
-To: jikos@kernel.org,
-	bentiss@kernel.org
-Cc: minbell.kim@samsung.com,
-	linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Masami Ichikawa <masami256@gmail.com>
-Subject: [PATCH] HID: hid-ntrig: Fix potential memory leak in ntrig_report_version()
-Date: Wed, 17 Sep 2025 13:50:26 +0900
-Message-ID: <20250917045026.601848-1-masami256@gmail.com>
-X-Mailer: git-send-email 2.51.0
+	s=arc-20240116; t=1758085769; c=relaxed/simple;
+	bh=ZxTj+y+PIu37Uvtv1sRl3nHOxE3F82InxdiD2zWfO1M=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=n8Rf5JUYkjD/T3Juqt0s5YdjOUP+SKusZ+ac6a2UasyI+ICCb/bm1VuKRY/IyoQqyOKzAXMenzsz+8EuWvDuYzwklmkF8gE3Yjm5bYRD/ESHsf8+BferfZjjny1o9QFFGYSFP53EhFYuSGupul5LewtKGv8yL3SQNTaMAoMREX0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=altimeter.info; spf=pass smtp.mailfrom=altimeter.info; dkim=pass (1024-bit key) header.d=altimeter.info header.i=@altimeter.info header.b=dFOdj7h4; arc=none smtp.client-ip=35.82.102.206
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=altimeter.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=altimeter.info
+Received: from altimeter-info (unknown [45.55.225.183])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(Client did not present a certificate)
+	(Authenticated sender: linux-kernel@altimeter.info)
+	by hognose1.porkbun.com (Postfix) with ESMTPSA id B5C044435B;
+	Wed, 17 Sep 2025 05:01:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=altimeter.info;
+	s=default; t=1758085298;
+	bh=EtKe6WUI+dvtW8g94XWp3BXKh3kh2r0WYa3MHlvBQ2o=;
+	h=Date:From:To:Cc:Subject;
+	b=dFOdj7h45H7FXzuuTMFw1ceXuu9rHvjzzBB8oPhPHm1mY2qOuGxkOzgz95XQ+MreM
+	 qzV/FlISuw0bj9yfFZvRNcw2T5HiK4O/XgWQwMUVKyjiMbd+ZfGyu4Csq5Nssd3T8d
+	 m8W8mezlxSJ2cxJA/0IwQ3mzyA9pIojeUgGhl/68=
+Date: Wed, 17 Sep 2025 05:01:34 +0000
+From: Ivan Gorinov <linux-kernel@altimeter.info>
+To: Jiri Kosina <jikos@kernel.org>
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v3] Input: Improve WinWing Orion2 throttle support
+Message-ID: <20250917050134.GA24761@altimeter-info>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.5.24 (2015-08-30)
 
-The kmalloc() was called before checking hid_is_usb(hdev). If hid_is_usb()
-returned false, the function would return early and leak the allocated
-memory.
-It is safe to move the kmalloc() call after the hid_is_usb() check to avoid
-unnecessary allocation and potential memory leak.
+Add support for Orion2 throttle configurations with more than 32 buttons
+on the grip handle (this means the device reports more than 80 buttons).
 
-Fixes: 185c926283da ("HID: hid-ntrig: fix unable to handle page fault in ntrig_report_version()")
-Signed-off-by: Masami Ichikawa <masami256@gmail.com>
+Map additional button codes to KEY_MACRO1 .. KEY_MACRO28.
+
+Make the module simpler, removing report descriptor fixup.
+
+Changes since v2:
+   - Add more comments about button mapping
+
+Changes since v1:
+   - Correct trivial coding style violations
+
+Signed-off-by: Ivan Gorinov <linux-kernel@altimeter.info>
 ---
- drivers/hid/hid-ntrig.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/hid/Kconfig       |   2 +
+ drivers/hid/hid-winwing.c | 169 +++++++++++++++++++++++---------------
+ 2 files changed, 106 insertions(+), 65 deletions(-)
 
-diff --git a/drivers/hid/hid-ntrig.c b/drivers/hid/hid-ntrig.c
-index 0f76e241e0af..52e8e7fe9681 100644
---- a/drivers/hid/hid-ntrig.c
-+++ b/drivers/hid/hid-ntrig.c
-@@ -142,11 +142,12 @@ static void ntrig_report_version(struct hid_device *hdev)
+diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
+index a57901203aeb..3317981e65dc 100644
+--- a/drivers/hid/Kconfig
++++ b/drivers/hid/Kconfig
+@@ -1309,6 +1309,8 @@ config HID_WINWING
+ 	help
+ 	  Support for WinWing Orion2 throttle base with the following grips:
+ 
++	    * TGRIP-15E
++	    * TGRIP-15EX
+ 	    * TGRIP-16EX
+ 	    * TGRIP-18
+ 
+diff --git a/drivers/hid/hid-winwing.c b/drivers/hid/hid-winwing.c
+index d4afbbd27807..775609d0e35a 100644
+--- a/drivers/hid/hid-winwing.c
++++ b/drivers/hid/hid-winwing.c
+@@ -37,6 +37,7 @@ struct winwing_drv_data {
+ 	struct hid_device *hdev;
+ 	__u8 *report_buf;
+ 	struct mutex lock;
++	int map_more_buttons;
+ 	unsigned int num_leds;
+ 	struct winwing_led leds[];
+ };
+@@ -81,12 +82,10 @@ static int winwing_init_led(struct hid_device *hdev,
  	int ret;
- 	char buf[20];
- 	struct usb_device *usb_dev = hid_to_usb_dev(hdev);
--	unsigned char *data = kmalloc(8, GFP_KERNEL);
-+	unsigned char *data = NULL;
+ 	int i;
  
- 	if (!hid_is_usb(hdev))
- 		return;
+-	size_t data_size = struct_size(data, leds, 3);
+-
+-	data = devm_kzalloc(&hdev->dev, data_size, GFP_KERNEL);
++	data = hid_get_drvdata(hdev);
  
-+	data = kmalloc(8, GFP_KERNEL);
  	if (!data)
- 		goto err_free;
+-		return -ENOMEM;
++		return -EINVAL;
+ 
+ 	data->report_buf = devm_kmalloc(&hdev->dev, MAX_REPORT, GFP_KERNEL);
+ 
+@@ -106,6 +105,7 @@ static int winwing_init_led(struct hid_device *hdev,
+ 						"%s::%s",
+ 						dev_name(&input->dev),
+ 						info->led_name);
++
+ 		if (!led->cdev.name)
+ 			return -ENOMEM;
+ 
+@@ -114,14 +114,98 @@ static int winwing_init_led(struct hid_device *hdev,
+ 			return ret;
+ 	}
+ 
+-	hid_set_drvdata(hdev, data);
+-
+ 	return ret;
+ }
+ 
++static int winwing_map_button(int button, int map_more_buttons)
++{
++	if (button < 1)
++		return KEY_RESERVED;
++
++	if (button > 112)
++		return KEY_RESERVED;
++
++	if (button <= 16) {
++		/*
++		 * Grip buttons [1 .. 16] are mapped to
++		 * key codes BTN_TRIGGER .. BTN_DEAD
++		 */
++		return (button - 1) + BTN_JOYSTICK;
++	}
++
++	if (button >= 65) {
++		/*
++		 * Base buttons [65 .. 112] are mapped to
++		 * key codes BTN_TRIGGER_HAPPY17 .. KEY_MAX
++		 */
++		return (button - 65) + BTN_TRIGGER_HAPPY17;
++	}
++
++	if (!map_more_buttons) {
++		/*
++		 * Not mapping numbers [33 .. 64] which
++		 * are not assigned to any real buttons
++		 */
++		if (button >= 33)
++			return KEY_RESERVED;
++		/*
++		 * Grip buttons [17 .. 32] are mapped to
++		 * BTN_TRIGGER_HAPPY1 .. BTN_TRIGGER_HAPPY16
++		 */
++		return (button - 17) + BTN_TRIGGER_HAPPY1;
++	}
++
++	if (button >= 49) {
++		/*
++		 * Grip buttons [49 .. 64] are mapped to
++		 * BTN_TRIGGER_HAPPY1 .. BTN_TRIGGER_HAPPY16
++		 */
++		return (button - 49) + BTN_TRIGGER_HAPPY1;
++	}
++
++	/*
++	 * Grip buttons [17 .. 44] are mapped to
++	 * key codes KEY_MACRO1 .. KEY_MACRO28;
++	 * also mapping numbers [45 .. 48] which
++	 * are not assigned to any real buttons.
++	 */
++	return (button - 17) + KEY_MACRO1;
++}
++
++static int winwing_input_mapping(struct hid_device *hdev,
++	struct hid_input *hi, struct hid_field *field, struct hid_usage *usage,
++	unsigned long **bit, int *max)
++{
++	struct winwing_drv_data *data;
++	int code = KEY_RESERVED;
++	int button = 0;
++
++	data = hid_get_drvdata(hdev);
++
++	if (!data)
++		return -EINVAL;
++
++	if ((usage->hid & HID_USAGE_PAGE) != HID_UP_BUTTON)
++		return 0;
++
++	if (field->application != HID_GD_JOYSTICK)
++		return 0;
++
++	/* Button numbers start with 1 */
++	button = usage->hid & HID_USAGE;
++
++	code = winwing_map_button(button, data->map_more_buttons);
++
++	hid_map_usage(hi, usage, bit, max, EV_KEY, code);
++
++	return 1;
++}
++
+ static int winwing_probe(struct hid_device *hdev,
+ 		const struct hid_device_id *id)
+ {
++	struct winwing_drv_data *data;
++	size_t data_size = struct_size(data, leds, 3);
+ 	int ret;
+ 
+ 	ret = hid_parse(hdev);
+@@ -130,6 +214,15 @@ static int winwing_probe(struct hid_device *hdev,
+ 		return ret;
+ 	}
+ 
++	data = devm_kzalloc(&hdev->dev, data_size, GFP_KERNEL);
++
++	if (!data)
++		return -ENOMEM;
++
++	data->map_more_buttons = id->driver_data;
++
++	hid_set_drvdata(hdev, data);
++
+ 	ret = hid_hw_start(hdev, HID_CONNECT_DEFAULT);
+ 	if (ret) {
+ 		hid_err(hdev, "hw start failed\n");
+@@ -152,64 +245,11 @@ static int winwing_input_configured(struct hid_device *hdev,
+ 	return ret;
+ }
+ 
+-static const __u8 original_rdesc_buttons[] = {
+-	0x05, 0x09, 0x19, 0x01, 0x29, 0x6F,
+-	0x15, 0x00, 0x25, 0x01, 0x35, 0x00,
+-	0x45, 0x01, 0x75, 0x01, 0x95, 0x6F,
+-	0x81, 0x02, 0x75, 0x01, 0x95, 0x01,
+-	0x81, 0x01
+-};
+-
+-/*
+- * HID report descriptor shows 111 buttons, which exceeds maximum
+- * number of buttons (80) supported by Linux kernel HID subsystem.
+- *
+- * This module skips numbers 32-63, unused on some throttle grips.
+- */
+-
+-static const __u8 *winwing_report_fixup(struct hid_device *hdev, __u8 *rdesc,
+-		unsigned int *rsize)
+-{
+-	int sig_length = sizeof(original_rdesc_buttons);
+-	int unused_button_numbers = 32;
+-
+-	if (*rsize < 34)
+-		return rdesc;
+-
+-	if (memcmp(rdesc + 8, original_rdesc_buttons, sig_length) == 0) {
+-
+-		/* Usage Maximum */
+-		rdesc[13] -= unused_button_numbers;
+-
+-		/*  Report Count for buttons */
+-		rdesc[25] -= unused_button_numbers;
+-
+-		/*  Report Count for padding [HID1_11, 6.2.2.9] */
+-		rdesc[31] += unused_button_numbers;
+-
+-		hid_info(hdev, "winwing descriptor fixed\n");
+-	}
+-
+-	return rdesc;
+-}
+-
+-static int winwing_raw_event(struct hid_device *hdev,
+-		struct hid_report *report, u8 *raw_data, int size)
+-{
+-	if (size >= 15) {
+-		/* Skip buttons 32 .. 63 */
+-		memmove(raw_data + 5, raw_data + 9, 6);
+-
+-		/* Clear the padding */
+-		memset(raw_data + 11, 0, 4);
+-	}
+-
+-	return 0;
+-}
+-
+ static const struct hid_device_id winwing_devices[] = {
+-	{ HID_USB_DEVICE(0x4098, 0xbe62) },  /* TGRIP-18 */
+-	{ HID_USB_DEVICE(0x4098, 0xbe68) },  /* TGRIP-16EX */
++	{ HID_USB_DEVICE(0x4098, 0xbd65), .driver_data = 1 },  /* TGRIP-15E  */
++	{ HID_USB_DEVICE(0x4098, 0xbd64), .driver_data = 1 },  /* TGRIP-15EX */
++	{ HID_USB_DEVICE(0x4098, 0xbe68), .driver_data = 0 },  /* TGRIP-16EX */
++	{ HID_USB_DEVICE(0x4098, 0xbe62), .driver_data = 0 },  /* TGRIP-18   */
+ 	{}
+ };
+ 
+@@ -218,10 +258,9 @@ MODULE_DEVICE_TABLE(hid, winwing_devices);
+ static struct hid_driver winwing_driver = {
+ 	.name = "winwing",
+ 	.id_table = winwing_devices,
++	.input_mapping = winwing_input_mapping,
+ 	.probe = winwing_probe,
+ 	.input_configured = winwing_input_configured,
+-	.report_fixup = winwing_report_fixup,
+-	.raw_event = winwing_raw_event,
+ };
+ module_hid_driver(winwing_driver);
  
 -- 
-2.51.0
+2.34.1
 
 
