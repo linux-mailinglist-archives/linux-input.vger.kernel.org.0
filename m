@@ -1,850 +1,530 @@
-Return-Path: <linux-input+bounces-14804-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14805-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7E5FB7CD3E
-	for <lists+linux-input@lfdr.de>; Wed, 17 Sep 2025 14:10:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 199E7B7F9CA
+	for <lists+linux-input@lfdr.de>; Wed, 17 Sep 2025 15:56:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7AB723A41ED
-	for <lists+linux-input@lfdr.de>; Wed, 17 Sep 2025 12:10:11 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C6FF8621F8F
+	for <lists+linux-input@lfdr.de>; Wed, 17 Sep 2025 13:55:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 20DC732BC1B;
-	Wed, 17 Sep 2025 12:08:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CE4692F25F3;
+	Wed, 17 Sep 2025 13:50:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="KzZm60fN"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Xvu6r6zB"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-24417.protonmail.ch (mail-24417.protonmail.ch [109.224.244.17])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D79AF32BC0C
-	for <linux-input@vger.kernel.org>; Wed, 17 Sep 2025 12:08:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.224.244.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6B571607AC;
+	Wed, 17 Sep 2025 13:50:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758110925; cv=none; b=sH4G+cIitLAtqxUPDLnbmVxmh9V/rs/kwKoskCPCxf62e+Oo/VRRGXW96cX3QaQw8yodkVoj31T8dTz3+tH3oUl3Q0HGb6JNg5DGrUEt+mIiVBilJcZkUSKgf4AW0bHRwHcJuKnWzitmxg4X3Saq/yaPCEYHUBmuH0kop9P+Sy0=
+	t=1758117022; cv=none; b=EiYzqQHkDt6RI065Z1/tC6aLWo5HmWGzm9MLRd6REC02p0siLsKIafaxUWILL9W7JuirYjeDF+5+dIKFjjwWKN4bO2NXSqdsktNh5zRoa5XqhiuHkEIznZ6CmXH1opYh/UnJI3wY6EdkkDmLw4/ZgvN6vwdYlzzAmAaWctuGCrA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758110925; c=relaxed/simple;
-	bh=535L7YKcKU6rQTDARlL923g9qoZ1jGWxJtYl2A0wXzg=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=uR6LDPJzMsXnJIRBDy2yGbpSX5LA7lDZWozTAJEBp470F958sOghRTJ0K7pni7a1dwhnE/fe4oun+lHJZRdfy5HZgUuPBe+MPmEd24HYOdfXaSN0vzYOMUfA8VjSDcYdgUBWXm/NZB11rMFn/c9SQAp17s32IW0M7lofd+qnVw0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com; spf=pass smtp.mailfrom=protonmail.com; dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b=KzZm60fN; arc=none smtp.client-ip=109.224.244.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonmail.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-	s=protonmail3; t=1758110918; x=1758370118;
-	bh=M0GHI6/eNUcqlJHg3JpLjGYacvQy6AUErbY3hv6KNHI=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=KzZm60fNWXzzJQGWWGdIlOUTcmNe0Vgs26cgCLTtZrKHqmx8tNnaT/bDUqghSAcZI
-	 HO2hjvrM1Lukvwzvwes9QLS+OyTUlRN9RNKAa7OTC+XWamS9Q1pkpkJ5i6PH+e4ssU
-	 7GzvEx8fT7xuA2PL7/Wt1c9n9tOVBpSQmx7i+cVjcAeGajpJzAxaQXXZxBtTMpFa3S
-	 8kl4FEnymfWPS9zJc39jgIwKgKls8mFWELLltiel9tr19yBY/BOxUEdFpb4fYgx7EV
-	 +V2AYUZ7WkMJi6tfky5MM3/7EXBPpX9zZgsQB4DRcetIwnNGHlskgxJDdD35LBp5an
-	 +srv2PZgTHrZg==
-Date: Wed, 17 Sep 2025 12:08:33 +0000
-To: Benjamin Tissoires <bentiss@kernel.org>
-From: Rahul Rameshbabu <sergeantsagara@protonmail.com>
-Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, Jiri Kosina <jikos@kernel.org>, a.hindborg@kernel.org, alex.gaynor@gmail.com, aliceryhl@google.com, benno.lossin@proton.me, Benjamin Tissoires <benjamin.tissoires@redhat.com>, bjorn3_gh@protonmail.com, boqun.feng@gmail.com, dakr@kernel.org, db48x@db48x.net, gary@garyguo.net, ojeda@kernel.org, tmgross@umich.edu, peter.hutterer@who-t.net
-Subject: Re: [PATCH v3 RESEND RESEND 2/3] rust: core abstractions for HID drivers
-Message-ID: <87ms6tjn7n.fsf@protonmail.com>
-In-Reply-To: <wjfjzjc626n55zvhksiyldobwubr2imbvfavqej333lvnka2wn@r4zfcjqtanvu>
-References: <20250913161222.3889-1-sergeantsagara@protonmail.com> <20250913161222.3889-3-sergeantsagara@protonmail.com> <wjfjzjc626n55zvhksiyldobwubr2imbvfavqej333lvnka2wn@r4zfcjqtanvu>
-Feedback-ID: 26003777:user:proton
-X-Pm-Message-ID: 90ebe386a194a7a0d4886862dfc37495c90263b3
+	s=arc-20240116; t=1758117022; c=relaxed/simple;
+	bh=G3+GGKsqSvkauLB76fpYYc3vc/9bpSni8eIo0sKFWyw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TKW+EuyX9XtzrUeb7GHccprftUGi50/loZ7dfF7Zw0hRN34vBLAL/nOoBajWvMgLli8cubDTmzHcofOfyRypIUMz+zt7cOMOmPotL97J4WyMn2ds+dHfYbUmGDT3dB6vHJ8gMkOuiFH1lP2GqE9Vyb/iPBpTetmpWMx21KpoGbA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Xvu6r6zB; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81FFBC4CEE7;
+	Wed, 17 Sep 2025 13:50:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1758117021;
+	bh=G3+GGKsqSvkauLB76fpYYc3vc/9bpSni8eIo0sKFWyw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Xvu6r6zBIVthYPajjxtLN3gNaL9ExMAnu//U7TM3uqmkODEmY1ETD+oYTINaY/T9A
+	 ltrRWt2WlLa09bC5BXvWZqK/qeONVxCr+xUfSWI3crTZ9yH62xGVG0S3eTwXcM+8+C
+	 IShxVQ0PIFluVB/WebEm9V+SukEyhNcXGJbsYuaZDT/VR2Jn0DFJT08EgJQBz6YIQR
+	 F8C2Ly2BVCJ0otdHRIoIeqpafoy3fiehtJjI6tD9ZJkuy51A970VZ/v0mUT8Vx6q1W
+	 USCfWWuVtzq71vaju2kv35azy/NoHPQf1rvowrkUslbjOkkPGvCBlf6qYPWyPgd/ph
+	 mJeT6/XVUzdQQ==
+Date: Wed, 17 Sep 2025 15:50:16 +0200
+From: Benjamin Tissoires <bentiss@kernel.org>
+To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Cc: Roderick Colenbrander <roderick.colenbrander@sony.com>, 
+	Jiri Kosina <jikos@kernel.org>, Henrik Rydberg <rydberg@bitmath.org>, kernel@collabora.com, 
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 03/11] HID: playstation: Simplify locking with guard()
+ and scoped_guard()
+Message-ID: <dor5e2ugnp4k5iava3uwxltttrfopkqoo23uex6xdu5rcz6rqt@7ett6gqco32m>
+References: <20250625-dualsense-hid-jack-v2-0-596c0db14128@collabora.com>
+ <20250625-dualsense-hid-jack-v2-3-596c0db14128@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250625-dualsense-hid-jack-v2-3-596c0db14128@collabora.com>
 
-On Wed, 17 Sep, 2025 12:04:30 +0200 "Benjamin Tissoires" <bentiss@kernel.or=
-g> wrote:
-> On Sep 13 2025, Rahul Rameshbabu wrote:
->> These abstractions enable the development of HID drivers in Rust by bind=
-ing
->> with the HID core C API. They provide Rust types that map to the
->> equivalents in C. In this initial draft, only hid_device and hid_device_=
-id
->> are provided direct Rust type equivalents. hid_driver is specially wrapp=
-ed
->> with a custom Driver type. The module_hid_driver! macro provides analogo=
-us
->> functionality to its C equivalent. Only the .report_fixup callback is
->> binded to Rust so far.
->>
->> Future work for these abstractions would include more bindings for commo=
-n
->> HID-related types, such as hid_field, hid_report_enum, and hid_report as
->> well as more bus callbacks. Providing Rust equivalents to useful core HI=
-D
->> functions will also be necessary for HID driver development in Rust.
->>
->> Signed-off-by: Rahul Rameshbabu <sergeantsagara@protonmail.com>
->> ---
->>
->> Notes:
->>     Some points I did not address from the last review cycle:
->>
->>         * I did not look into autogenerating all the getter functions fo=
-r various
->>           fields exported from the binded C structures.
->>           - I would be interested in hearing opinions from folks activel=
-y involved
->>             with Rust for Linux on this topic.
->>
->>     Changelog:
->>
->>         v2->v3:
->>           * Implemented AlwaysRefCounted trait using embedded struct dev=
-ice's
->>             reference counts instead of the separate reference counter i=
-n struct
->>             hid_device
->>           * Used &raw mut as appropriate
->>           * Binded include/linux/device.h for get_device and put_device
->>           * Cleaned up various comment related formatting
->>           * Minified dev_err! format string
->>           * Updated Group enum to be repr(u16)
->>           * Implemented From<u16> trait for Group
->>           * Added TODO comment when const_trait_impl stabilizes
->>           * Made group getter functions return a Group variant instead o=
-f a raw
->>             number
->>           * Made sure example code builds
->>         v1->v2:
->>           * Binded drivers/hid/hid-ids.h for use in Rust drivers
->>           * Remove pre-emptive referencing of a C HID driver instance be=
-fore
->>             it is fully initialized in the driver registration path
->>           * Moved static getters to generic Device trait implementation,=
- so
->>             they can be used by all device::DeviceContext
->>           * Use core macros for supporting DeviceContext transitions
->>           * Implemented the AlwaysRefCounted and AsRef traits
->>           * Make use for dev_err! as appropriate
->>         RFC->v1:
->>           * Use Danilo's core infrastructure
->>           * Account for HID device groups
->>           * Remove probe and remove callbacks
->>           * Implement report_fixup support
->>           * Properly comment code including SAFETY comments
->>
->>  MAINTAINERS                     |   9 +
->>  drivers/hid/Kconfig             |   8 +
->>  rust/bindings/bindings_helper.h |   3 +
->>  rust/kernel/hid.rs              | 503 ++++++++++++++++++++++++++++++++
->>  rust/kernel/lib.rs              |   2 +
->>  5 files changed, 525 insertions(+)
->>  create mode 100644 rust/kernel/hid.rs
->>
->> diff --git a/MAINTAINERS b/MAINTAINERS
->> index dd810da5261b..6c60765f2aaa 100644
->> --- a/MAINTAINERS
->> +++ b/MAINTAINERS
->> @@ -10686,6 +10686,15 @@ F:=09include/uapi/linux/hid*
->>  F:=09samples/hid/
->>  F:=09tools/testing/selftests/hid/
->>
->> +HID CORE LAYER [RUST]
->> +M:=09Rahul Rameshbabu <sergeantsagara@protonmail.com>
->> +R:=09Benjamin Tissoires <bentiss@kernel.org>
->> +L:=09linux-input@vger.kernel.org
->> +S:=09Maintained
->> +T:=09git git://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git rust
->
-> FWIW, we (HID maintainers) are still undecided on how to handle that,
-> and so it's a little bit postponed for now
+On Jun 25 2025, Cristian Ciocaltea wrote:
+> Use guard() and scoped_guard() infrastructure instead of explicitly
+> acquiring and releasing spinlocks and mutexes to simplify the code and
+> ensure that all locks are released properly.
+> 
+> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 
-Sure, understandable. I am going to send v4 without updating the
-MAINTAINERS file, so we are aligned that this is still up for
-discussion. My only concern is that I have been holding off patches for
-a more complex HID driver in Rust. I am wondering if it would be good to
-send out those changes as a separate series that builds on top of this
-one while this discussion occurs. Ideally, I do not want to end up in
-the situation where I'll have to maintain too many patches out of tree
-long term (6+ months). I think starting out of tree and documenting this
-on the rust-for-linux project page might be viable. Maybe some input on
-the rust-for-linux side would help.
+It looks like the patch is now creating sparse errors:
 
->
->> +F:=09drivers/hid/*.rs
->
-> Could you instead make it really independant by relying on
-> drivers/hid/rust instead?
-> We already have drivers/hid/bpf for HID-BPF related stuff, so it doesn't
-> seem to be that much of an issue to have a separate rust dir.
->
-> This should allow for a cleaner separation without tinkering in Makefile
-> or Kconfig if the HID rust tree is handled separately.
+https://gitlab.freedesktop.org/bentiss/hid/-/jobs/84636162
 
-Yeah, having the drivers live in drivers/hid/rust should not be a
-problem. Let me send out a v4 to handle this as well as another minor
-cleanup in the reference driver I implemented (using hex integer
-constants instead of decimal).
+with:
 
->
-> Cheers,
-> Benjamin
->
->> +F:=09rust/kernel/hid.rs
->> +
->>  HID LOGITECH DRIVERS
->>  R:=09Filipe La=C3=ADns <lains@riseup.net>
->>  L:=09linux-input@vger.kernel.org
->> diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
->> index 43859fc75747..922e76e18af2 100644
->> --- a/drivers/hid/Kconfig
->> +++ b/drivers/hid/Kconfig
->> @@ -744,6 +744,14 @@ config HID_MEGAWORLD_FF
->>  =09Say Y here if you have a Mega World based game controller and want
->>  =09to have force feedback support for it.
->>
->> +config RUST_HID_ABSTRACTIONS
->> +=09bool "Rust HID abstractions support"
->> +=09depends on RUST
->> +=09depends on HID=3Dy
->> +=09help
->> +=09  Adds support needed for HID drivers written in Rust. It provides a
->> +=09  wrapper around the C hid core.
->> +
->>  config HID_REDRAGON
->>  =09tristate "Redragon keyboards"
->>  =09default !EXPERT
->> diff --git a/rust/bindings/bindings_helper.h b/rust/bindings/bindings_he=
-lper.h
->> index 8cbb660e2ec2..7145fb1cdff1 100644
->> --- a/rust/bindings/bindings_helper.h
->> +++ b/rust/bindings/bindings_helper.h
->> @@ -45,6 +45,7 @@
->>  #include <linux/cpufreq.h>
->>  #include <linux/cpumask.h>
->>  #include <linux/cred.h>
->> +#include <linux/device.h>
->>  #include <linux/device/faux.h>
->>  #include <linux/dma-mapping.h>
->>  #include <linux/errname.h>
->> @@ -52,6 +53,8 @@
->>  #include <linux/file.h>
->>  #include <linux/firmware.h>
->>  #include <linux/fs.h>
->> +#include <linux/hid.h>
->> +#include "../../drivers/hid/hid-ids.h"
->>  #include <linux/jiffies.h>
->>  #include <linux/jump_label.h>
->>  #include <linux/mdio.h>
->> diff --git a/rust/kernel/hid.rs b/rust/kernel/hid.rs
->> new file mode 100644
->> index 000000000000..a93804af8b78
->> --- /dev/null
->> +++ b/rust/kernel/hid.rs
->> @@ -0,0 +1,503 @@
->> +// SPDX-License-Identifier: GPL-2.0
->> +
->> +// Copyright (C) 2025 Rahul Rameshbabu <sergeantsagara@protonmail.com>
->> +
->> +//! Abstractions for the HID interface.
->> +//!
->> +//! C header: [`include/linux/hid.h`](srctree/include/linux/hid.h)
->> +
->> +use crate::{device, device_id::RawDeviceId, driver, error::*, prelude::=
-*, types::Opaque};
->> +use core::{
->> +    marker::PhantomData,
->> +    ptr::{addr_of_mut, NonNull},
->> +};
->> +
->> +/// Indicates the item is static read-only.
->> +///
->> +/// Refer to [Device Class Definition for HID 1.11]
->> +/// Section 6.2.2.5 Input, Output, and Feature Items.
->> +///
->> +/// [Device Class Definition for HID 1.11]: https://www.usb.org/sites/d=
-efault/files/hid1_11.pdf
->> +pub const MAIN_ITEM_CONSTANT: u8 =3D bindings::HID_MAIN_ITEM_CONSTANT a=
-s u8;
->> +
->> +/// Indicates the item represents data from a physical control.
->> +///
->> +/// Refer to [Device Class Definition for HID 1.11]
->> +/// Section 6.2.2.5 Input, Output, and Feature Items.
->> +///
->> +/// [Device Class Definition for HID 1.11]: https://www.usb.org/sites/d=
-efault/files/hid1_11.pdf
->> +pub const MAIN_ITEM_VARIABLE: u8 =3D bindings::HID_MAIN_ITEM_VARIABLE a=
-s u8;
->> +
->> +/// Indicates the item should be treated as a relative change from the =
-previous
->> +/// report.
->> +///
->> +/// Refer to [Device Class Definition for HID 1.11]
->> +/// Section 6.2.2.5 Input, Output, and Feature Items.
->> +///
->> +/// [Device Class Definition for HID 1.11]: https://www.usb.org/sites/d=
-efault/files/hid1_11.pdf
->> +pub const MAIN_ITEM_RELATIVE: u8 =3D bindings::HID_MAIN_ITEM_RELATIVE a=
-s u8;
->> +
->> +/// Indicates the item should wrap around when reaching the extreme hig=
-h or
->> +/// extreme low values.
->> +///
->> +/// Refer to [Device Class Definition for HID 1.11]
->> +/// Section 6.2.2.5 Input, Output, and Feature Items.
->> +///
->> +/// [Device Class Definition for HID 1.11]: https://www.usb.org/sites/d=
-efault/files/hid1_11.pdf
->> +pub const MAIN_ITEM_WRAP: u8 =3D bindings::HID_MAIN_ITEM_WRAP as u8;
->> +
->> +/// Indicates the item should wrap around when reaching the extreme hig=
-h or
->> +/// extreme low values.
->> +///
->> +/// Refer to [Device Class Definition for HID 1.11]
->> +/// Section 6.2.2.5 Input, Output, and Feature Items.
->> +///
->> +/// [Device Class Definition for HID 1.11]: https://www.usb.org/sites/d=
-efault/files/hid1_11.pdf
->> +pub const MAIN_ITEM_NONLINEAR: u8 =3D bindings::HID_MAIN_ITEM_NONLINEAR=
- as u8;
->> +
->> +/// Indicates whether the control has a preferred state it will physica=
-lly
->> +/// return to without user intervention.
->> +///
->> +/// Refer to [Device Class Definition for HID 1.11]
->> +/// Section 6.2.2.5 Input, Output, and Feature Items.
->> +///
->> +/// [Device Class Definition for HID 1.11]: https://www.usb.org/sites/d=
-efault/files/hid1_11.pdf
->> +pub const MAIN_ITEM_NO_PREFERRED: u8 =3D bindings::HID_MAIN_ITEM_NO_PRE=
-FERRED as u8;
->> +
->> +/// Indicates whether the control has a physical state where it will no=
-t send
->> +/// any reports.
->> +///
->> +/// Refer to [Device Class Definition for HID 1.11]
->> +/// Section 6.2.2.5 Input, Output, and Feature Items.
->> +///
->> +/// [Device Class Definition for HID 1.11]: https://www.usb.org/sites/d=
-efault/files/hid1_11.pdf
->> +pub const MAIN_ITEM_NULL_STATE: u8 =3D bindings::HID_MAIN_ITEM_NULL_STA=
-TE as u8;
->> +
->> +/// Indicates whether the control requires host system logic to change =
-state.
->> +///
->> +/// Refer to [Device Class Definition for HID 1.11]
->> +/// Section 6.2.2.5 Input, Output, and Feature Items.
->> +///
->> +/// [Device Class Definition for HID 1.11]: https://www.usb.org/sites/d=
-efault/files/hid1_11.pdf
->> +pub const MAIN_ITEM_VOLATILE: u8 =3D bindings::HID_MAIN_ITEM_VOLATILE a=
-s u8;
->> +
->> +/// Indicates whether the item is fixed size or a variable buffer of by=
-tes.
->> +///
->> +/// Refer to [Device Class Definition for HID 1.11]
->> +/// Section 6.2.2.5 Input, Output, and Feature Items.
->> +///
->> +/// [Device Class Definition for HID 1.11]: https://www.usb.org/sites/d=
-efault/files/hid1_11.pdf
->> +pub const MAIN_ITEM_BUFFERED_BYTE: u8 =3D bindings::HID_MAIN_ITEM_BUFFE=
-RED_BYTE as u8;
->> +
->> +/// HID device groups are intended to help categories HID devices based=
- on a set
->> +/// of common quirks and logic that they will require to function corre=
-ctly.
->> +#[repr(u16)]
->> +pub enum Group {
->> +    /// Used to match a device against any group when probing.
->> +    Any =3D bindings::HID_GROUP_ANY as u16,
->> +
->> +    /// Indicates a generic device that should need no custom logic fro=
-m the
->> +    /// core HID stack.
->> +    Generic =3D bindings::HID_GROUP_GENERIC as u16,
->> +
->> +    /// Maps multitouch devices to hid-multitouch instead of hid-generi=
-c.
->> +    Multitouch =3D bindings::HID_GROUP_MULTITOUCH as u16,
->> +
->> +    /// Used for autodetecing and mapping of HID sensor hubs to
->> +    /// hid-sensor-hub.
->> +    SensorHub =3D bindings::HID_GROUP_SENSOR_HUB as u16,
->> +
->> +    /// Used for autodetecing and mapping Win 8 multitouch devices to s=
-et the
->> +    /// needed quirks.
->> +    MultitouchWin8 =3D bindings::HID_GROUP_MULTITOUCH_WIN_8 as u16,
->> +
->> +    // Vendor-specific device groups.
->> +    /// Used to distinguish Synpatics touchscreens from other products.=
- The
->> +    /// touchscreens will be handled by hid-multitouch instead, while e=
-verything
->> +    /// else will be managed by hid-rmi.
->> +    RMI =3D bindings::HID_GROUP_RMI as u16,
->> +
->> +    /// Used for hid-core handling to automatically identify Wacom devi=
-ces and
->> +    /// have them probed by hid-wacom.
->> +    Wacom =3D bindings::HID_GROUP_WACOM as u16,
->> +
->> +    /// Used by logitech-djreceiver and logitech-djdevice to autodetect=
- if
->> +    /// devices paied to the DJ receivers are DJ devices and handle the=
-m with
->> +    /// the device driver.
->> +    LogitechDJDevice =3D bindings::HID_GROUP_LOGITECH_DJ_DEVICE as u16,
->> +
->> +    /// Since the Valve Steam Controller only has vendor-specific usage=
-s,
->> +    /// prevent hid-generic from parsing its reports since there would =
-be
->> +    /// nothing hid-generic could do for the device.
->> +    Steam =3D bindings::HID_GROUP_STEAM as u16,
->> +
->> +    /// Used to differentiate 27 Mhz frequency Logitech DJ devices from=
- other
->> +    /// Logitech DJ devices.
->> +    Logitech27MHzDevice =3D bindings::HID_GROUP_LOGITECH_27MHZ_DEVICE a=
-s u16,
->> +
->> +    /// Used for autodetecting and mapping Vivaldi devices to hid-vival=
-di.
->> +    Vivaldi =3D bindings::HID_GROUP_VIVALDI as u16,
->> +}
->> +
->> +// TODO: use `const_trait_impl` once stabilized:
->> +//
->> +// ```
->> +// impl const From<Group> for u16 {
->> +//     /// [`Group`] variants are represented by [`u16`] values.
->> +//     fn from(value: Group) -> Self {
->> +//         value as Self
->> +//     }
->> +// }
->> +// ```
->> +impl Group {
->> +    /// Internal function used to convert [`Group`] variants into [`u16=
-`].
->> +    const fn into(self) -> u16 {
->> +        self as u16
->> +    }
->> +}
->> +
->> +impl From<u16> for Group {
->> +    /// [`u16`] values can be safely converted to [`Group`] variants.
->> +    fn from(value: u16) -> Self {
->> +        match value.into() {
->> +            bindings::HID_GROUP_GENERIC =3D> Group::Generic,
->> +            bindings::HID_GROUP_MULTITOUCH =3D> Group::Multitouch,
->> +            bindings::HID_GROUP_SENSOR_HUB =3D> Group::SensorHub,
->> +            bindings::HID_GROUP_MULTITOUCH_WIN_8 =3D> Group::Multitouch=
-Win8,
->> +            bindings::HID_GROUP_RMI =3D> Group::RMI,
->> +            bindings::HID_GROUP_WACOM =3D> Group::Wacom,
->> +            bindings::HID_GROUP_LOGITECH_DJ_DEVICE =3D> Group::Logitech=
-DJDevice,
->> +            bindings::HID_GROUP_STEAM =3D> Group::Steam,
->> +            bindings::HID_GROUP_LOGITECH_27MHZ_DEVICE =3D> Group::Logit=
-ech27MHzDevice,
->> +            bindings::HID_GROUP_VIVALDI =3D> Group::Vivaldi,
->> +            _ =3D> Group::Any,
->> +        }
->> +    }
->> +}
->> +
->> +/// The HID device representation.
->> +///
->> +/// This structure represents the Rust abstraction for a C `struct hid_=
-device`.
->> +/// The implementation abstracts the usage of an already existing C `st=
-ruct
->> +/// hid_device` within Rust code that we get passed from the C side.
->> +///
->> +/// # Invariants
->> +///
->> +/// A [`Device`] instance represents a valid `struct hid_device` create=
-d by the
->> +/// C portion of the kernel.
->> +#[repr(transparent)]
->> +pub struct Device<Ctx: device::DeviceContext =3D device::Normal>(
->> +    Opaque<bindings::hid_device>,
->> +    PhantomData<Ctx>,
->> +);
->> +
->> +impl<Ctx: device::DeviceContext> Device<Ctx> {
->> +    fn as_raw(&self) -> *mut bindings::hid_device {
->> +        self.0.get()
->> +    }
->> +
->> +    /// Returns the HID transport bus ID.
->> +    pub fn bus(&self) -> u16 {
->> +        // SAFETY: `self.as_raw` is a valid pointer to a `struct hid_de=
-vice`
->> +        unsafe { *self.as_raw() }.bus
->> +    }
->> +
->> +    /// Returns the HID report group.
->> +    pub fn group(&self) -> Group {
->> +        // SAFETY: `self.as_raw` is a valid pointer to a `struct hid_de=
-vice`
->> +        unsafe { *self.as_raw() }.group.into()
->> +    }
->> +
->> +    /// Returns the HID vendor ID.
->> +    pub fn vendor(&self) -> u32 {
->> +        // SAFETY: `self.as_raw` is a valid pointer to a `struct hid_de=
-vice`
->> +        unsafe { *self.as_raw() }.vendor
->> +    }
->> +
->> +    /// Returns the HID product ID.
->> +    pub fn product(&self) -> u32 {
->> +        // SAFETY: `self.as_raw` is a valid pointer to a `struct hid_de=
-vice`
->> +        unsafe { *self.as_raw() }.product
->> +    }
->> +}
->> +
->> +// SAFETY: `Device` is a transparent wrapper of a type that doesn't dep=
-end on `Device`'s generic
->> +// argument.
->> +kernel::impl_device_context_deref!(unsafe { Device });
->> +kernel::impl_device_context_into_aref!(Device);
->> +
->> +// SAFETY: Instances of `Device` are always reference-counted.
->> +unsafe impl crate::types::AlwaysRefCounted for Device {
->> +    fn inc_ref(&self) {
->> +        // SAFETY: The existence of a shared reference guarantees that =
-the refcount is non-zero.
->> +        unsafe { bindings::get_device(&raw mut (*self.as_raw()).dev) };
->> +    }
->> +
->> +    unsafe fn dec_ref(obj: NonNull<Self>) {
->> +        // SAFETY: The safety requirements guarantee that the refcount =
-is non-zero.
->> +        unsafe { bindings::put_device(&raw mut (*obj.cast::<bindings::h=
-id_device>().as_ptr()).dev) }
->> +    }
->> +}
->> +
->> +impl<Ctx: device::DeviceContext> AsRef<device::Device<Ctx>> for Device<=
-Ctx> {
->> +    fn as_ref(&self) -> &device::Device<Ctx> {
->> +        // SAFETY: By the type invariant of `Self`, `self.as_raw()` is =
-a pointer to a valid
->> +        // `struct hid_device`.
->> +        let dev =3D unsafe { addr_of_mut!((*self.as_raw()).dev) };
->> +
->> +        // SAFETY: `dev` points to a valid `struct device`.
->> +        unsafe { device::Device::as_ref(dev) }
->> +    }
->> +}
->> +
->> +/// Abstraction for the HID device ID structure `struct hid_device_id`.
->> +#[repr(transparent)]
->> +#[derive(Clone, Copy)]
->> +pub struct DeviceId(bindings::hid_device_id);
->> +
->> +impl DeviceId {
->> +    /// Equivalent to C's `HID_USB_DEVICE` macro.
->> +    ///
->> +    /// Create a new `hid::DeviceId` from a group, vendor ID, and devic=
-e ID
->> +    /// number.
->> +    pub const fn new_usb(group: Group, vendor: u32, product: u32) -> Se=
-lf {
->> +        Self(bindings::hid_device_id {
->> +            bus: 0x3, // BUS_USB
->> +            group: group.into(),
->> +            vendor,
->> +            product,
->> +            driver_data: 0,
->> +        })
->> +    }
->> +
->> +    /// Returns the HID transport bus ID.
->> +    pub fn bus(&self) -> u16 {
->> +        self.0.bus
->> +    }
->> +
->> +    /// Returns the HID report group.
->> +    pub fn group(&self) -> Group {
->> +        self.0.group.into()
->> +    }
->> +
->> +    /// Returns the HID vendor ID.
->> +    pub fn vendor(&self) -> u32 {
->> +        self.0.vendor
->> +    }
->> +
->> +    /// Returns the HID product ID.
->> +    pub fn product(&self) -> u32 {
->> +        self.0.product
->> +    }
->> +}
->> +
->> +// SAFETY:
->> +// * `DeviceId` is a `#[repr(transparent)` wrapper of `hid_device_id` a=
-nd does not add
->> +//   additional invariants, so it's safe to transmute to `RawType`.
->> +// * `DRIVER_DATA_OFFSET` is the offset to the `driver_data` field.
->> +unsafe impl RawDeviceId for DeviceId {
->> +    type RawType =3D bindings::hid_device_id;
->> +
->> +    const DRIVER_DATA_OFFSET: usize =3D core::mem::offset_of!(bindings:=
-:hid_device_id, driver_data);
->> +
->> +    fn index(&self) -> usize {
->> +        self.0.driver_data
->> +    }
->> +}
->> +
->> +/// [`IdTable`] type for HID.
->> +pub type IdTable<T> =3D &'static dyn kernel::device_id::IdTable<DeviceI=
-d, T>;
->> +
->> +/// Create a HID [`IdTable`] with its alias for modpost.
->> +#[macro_export]
->> +macro_rules! hid_device_table {
->> +    ($table_name:ident, $module_table_name:ident, $id_info_type: ty, $t=
-able_data: expr) =3D> {
->> +        const $table_name: $crate::device_id::IdArray<
->> +            $crate::hid::DeviceId,
->> +            $id_info_type,
->> +            { $table_data.len() },
->> +        > =3D $crate::device_id::IdArray::new($table_data);
->> +
->> +        $crate::module_device_table!("hid", $module_table_name, $table_=
-name);
->> +    };
->> +}
->> +
->> +/// The HID driver trait.
->> +///
->> +/// # Examples
->> +///
->> +/// ```
->> +/// use kernel::{bindings, device, hid};
->> +///
->> +/// struct MyDriver;
->> +///
->> +/// kernel::hid_device_table!(
->> +///     HID_TABLE,
->> +///     MODULE_HID_TABLE,
->> +///     <MyDriver as hid::Driver>::IdInfo,
->> +///     [(
->> +///         hid::DeviceId::new_usb(
->> +///             hid::Group::Steam,
->> +///             bindings::USB_VENDOR_ID_VALVE,
->> +///             bindings::USB_DEVICE_ID_STEAM_DECK,
->> +///         ),
->> +///         (),
->> +///     )]
->> +/// );
->> +///
->> +/// #[vtable]
->> +/// impl hid::Driver for MyDriver {
->> +///     type IdInfo =3D ();
->> +///     const ID_TABLE: hid::IdTable<Self::IdInfo> =3D &HID_TABLE;
->> +///
->> +///     /// This function is optional to implement.
->> +///     fn report_fixup<'a, 'b: 'a>(_hdev: &hid::Device<device::Core>, =
-rdesc: &'b mut [u8]) -> &'a [u8] {
->> +///         // Perform some report descriptor fixup.
->> +///         rdesc
->> +///     }
->> +/// }
->> +/// ```
->> +/// Drivers must implement this trait in order to get a HID driver regi=
-stered.
->> +/// Please refer to the `Adapter` documentation for an example.
->> +#[vtable]
->> +pub trait Driver: Send {
->> +    /// The type holding information about each device id supported by =
-the driver.
->> +    // TODO: Use `associated_type_defaults` once stabilized:
->> +    //
->> +    // ```
->> +    // type IdInfo: 'static =3D ();
->> +    // ```
->> +    type IdInfo: 'static;
->> +
->> +    /// The table of device ids supported by the driver.
->> +    const ID_TABLE: IdTable<Self::IdInfo>;
->> +
->> +    /// Called before report descriptor parsing. Can be used to mutate =
-the
->> +    /// report descriptor before the core HID logic processes the descr=
-iptor.
->> +    /// Useful for problematic report descriptors that prevent HID devi=
-ces from
->> +    /// functioning correctly.
->> +    ///
->> +    /// Optional to implement.
->> +    fn report_fixup<'a, 'b: 'a>(_hdev: &Device<device::Core>, _rdesc: &=
-'b mut [u8]) -> &'a [u8] {
->> +        build_error!(VTABLE_DEFAULT_ERROR)
->> +    }
->> +}
->> +
->> +/// An adapter for the registration of HID drivers.
->> +pub struct Adapter<T: Driver>(T);
->> +
->> +// SAFETY: A call to `unregister` for a given instance of `RegType` is =
-guaranteed to be valid if
->> +// a preceding call to `register` has been successful.
->> +unsafe impl<T: Driver + 'static> driver::RegistrationOps for Adapter<T>=
- {
->> +    type RegType =3D bindings::hid_driver;
->> +
->> +    unsafe fn register(
->> +        hdrv: &Opaque<Self::RegType>,
->> +        name: &'static CStr,
->> +        module: &'static ThisModule,
->> +    ) -> Result {
->> +        // SAFETY: It's safe to set the fields of `struct hid_driver` o=
-n initialization.
->> +        unsafe {
->> +            (*hdrv.get()).name =3D name.as_char_ptr();
->> +            (*hdrv.get()).id_table =3D T::ID_TABLE.as_ptr();
->> +            (*hdrv.get()).report_fixup =3D if T::HAS_REPORT_FIXUP {
->> +                Some(Self::report_fixup_callback)
->> +            } else {
->> +                None
->> +            };
->> +        }
->> +
->> +        // SAFETY: `hdrv` is guaranteed to be a valid `RegType`
->> +        to_result(unsafe {
->> +            bindings::__hid_register_driver(hdrv.get(), module.0, name.=
-as_char_ptr())
->> +        })
->> +    }
->> +
->> +    unsafe fn unregister(hdrv: &Opaque<Self::RegType>) {
->> +        // SAFETY: `hdrv` is guaranteed to be a valid `RegType`
->> +        unsafe { bindings::hid_unregister_driver(hdrv.get()) }
->> +    }
->> +}
->> +
->> +impl<T: Driver + 'static> Adapter<T> {
->> +    extern "C" fn report_fixup_callback(
->> +        hdev: *mut bindings::hid_device,
->> +        buf: *mut u8,
->> +        size: *mut kernel::ffi::c_uint,
->> +    ) -> *const u8 {
->> +        // SAFETY: The HID subsystem only ever calls the report_fixup c=
-allback
->> +        // with a valid pointer to a `struct hid_device`.
->> +        //
->> +        // INVARIANT: `hdev` is valid for the duration of
->> +        // `report_fixup_callback()`.
->> +        let hdev =3D unsafe { &*hdev.cast::<Device<device::Core>>() };
->> +
->> +        // SAFETY: The HID subsystem only ever calls the report_fixup c=
-allback
->> +        // with a valid pointer to a `kernel::ffi::c_uint`.
->> +        //
->> +        // INVARIANT: `size` is valid for the duration of
->> +        // `report_fixup_callback()`.
->> +        let buf_len: usize =3D match unsafe { *size }.try_into() {
->> +            Ok(len) =3D> len,
->> +            Err(e) =3D> {
->> +                dev_err!(
->> +                    hdev.as_ref(),
->> +                    "Cannot fix report description due to {}!\n",
->> +                    e
->> +                );
->> +
->> +                return buf;
->> +            }
->> +        };
->> +
->> +        // Build a mutable Rust slice from `buf` and `size`.
->> +        //
->> +        // SAFETY: The HID subsystem only ever calls the `report_fixup =
-callback`
->> +        // with a valid pointer to a `u8` buffer.
->> +        //
->> +        // INVARIANT: `buf` is valid for the duration of
->> +        // `report_fixup_callback()`.
->> +        let rdesc_slice =3D unsafe { core::slice::from_raw_parts_mut(bu=
-f, buf_len) };
->> +        let rdesc_slice =3D T::report_fixup(hdev, rdesc_slice);
->> +
->> +        match rdesc_slice.len().try_into() {
->> +            // SAFETY: The HID subsystem only ever calls the report_fix=
-up
->> +            // callback with a valid pointer to a `kernel::ffi::c_uint`=
-.
->> +            //
->> +            // INVARIANT: `size` is valid for the duration of
->> +            // `report_fixup_callback()`.
->> +            Ok(len) =3D> unsafe { *size =3D len },
->> +            Err(e) =3D> {
->> +                dev_err!(
->> +                    hdev.as_ref(),
->> +                    "Fixed report description will not be used due to {=
-}!\n",
->> +                    e
->> +                );
->> +
->> +                return buf;
->> +            }
->> +        }
->> +
->> +        rdesc_slice.as_ptr()
->> +    }
->> +}
->> +
->> +/// Declares a kernel module that exposes a single HID driver.
->> +///
->> +/// # Examples
->> +///
->> +/// ```ignore
->> +/// kernel::module_hid_driver! {
->> +///     type: MyDriver,
->> +///     name: "Module name",
->> +///     authors: ["Author name"],
->> +///     description: "Description",
->> +///     license: "GPL",
->> +/// }
->> +/// ```
->> +#[macro_export]
->> +macro_rules! module_hid_driver {
->> +    ($($f:tt)*) =3D> {
->> +        $crate::module_driver!(<T>, $crate::hid::Adapter<T>, { $($f)* }=
-);
->> +    };
->> +}
->> diff --git a/rust/kernel/lib.rs b/rust/kernel/lib.rs
->> index e88bc4b27d6e..44c107f20174 100644
->> --- a/rust/kernel/lib.rs
->> +++ b/rust/kernel/lib.rs
->> @@ -80,6 +80,8 @@
->>  pub mod firmware;
->>  pub mod fmt;
->>  pub mod fs;
->> +#[cfg(CONFIG_RUST_HID_ABSTRACTIONS)]
->> +pub mod hid;
->>  pub mod init;
->>  pub mod io;
->>  pub mod ioctl;
->> --
->> 2.47.2
->>
->>
+drivers/hid/hid-playstation.c:1187:32: warning: context imbalance in 'dualsense_player_led_set_brightness' - wrong count at exit
+drivers/hid/hid-playstation.c:1403:9: warning: context imbalance in 'dualsense_parse_report' - different lock contexts for basic block
+drivers/hid/hid-playstation.c:1499:12: warning: context imbalance in 'dualsense_play_effect' - different lock contexts for basic block
+drivers/hid/hid-playstation.c:1552:13: warning: context imbalance in 'dualsense_set_lightbar' - wrong count at exit
+drivers/hid/hid-playstation.c:1564:13: warning: context imbalance in 'dualsense_set_player_leds' - wrong count at exit
+drivers/hid/hid-playstation.c:2054:33: warning: context imbalance in 'dualshock4_led_set_blink' - wrong count at exit
+drivers/hid/hid-playstation.c:2095:33: warning: context imbalance in 'dualshock4_led_set_brightness' - wrong count at exit
+drivers/hid/hid-playstation.c:2463:12: warning: context imbalance in 'dualshock4_play_effect' - different lock contexts for basic block
+drivers/hid/hid-playstation.c:2501:13: warning: context imbalance in 'dualshock4_set_bt_poll_interval' - wrong count at exit
+drivers/hid/hid-playstation.c:2509:13: warning: context imbalance in 'dualshock4_set_default_lightbar_colors' - wrong count at exit
 
+(the artifacts are going to be removed in 4 hours, so better document
+the line numbers here).
+
+I am under the impression that it's because the 2 *_output_worker
+functions are not using scoped guarding, but it could very well be
+something entirely different. Do you mind taking a look as well?
+
+Cheers,
+Benjamin
+
+> ---
+>  drivers/hid/hid-playstation.c | 216 ++++++++++++++++++------------------------
+>  1 file changed, 93 insertions(+), 123 deletions(-)
+> 
+> diff --git a/drivers/hid/hid-playstation.c b/drivers/hid/hid-playstation.c
+> index 799b47cdfe034c2b78ec589ac19e3c7a764dc784..ab3a0c505c4db9110ae4d528ba70b32d9f90b81b 100644
+> --- a/drivers/hid/hid-playstation.c
+> +++ b/drivers/hid/hid-playstation.c
+> @@ -7,6 +7,7 @@
+>  
+>  #include <linux/bitfield.h>
+>  #include <linux/bits.h>
+> +#include <linux/cleanup.h>
+>  #include <linux/crc32.h>
+>  #include <linux/device.h>
+>  #include <linux/hid.h>
+> @@ -566,26 +567,25 @@ static int ps_devices_list_add(struct ps_device *dev)
+>  {
+>  	struct ps_device *entry;
+>  
+> -	mutex_lock(&ps_devices_lock);
+> +	guard(mutex)(&ps_devices_lock);
+> +
+>  	list_for_each_entry(entry, &ps_devices_list, list) {
+>  		if (!memcmp(entry->mac_address, dev->mac_address, sizeof(dev->mac_address))) {
+>  			hid_err(dev->hdev, "Duplicate device found for MAC address %pMR.\n",
+>  					dev->mac_address);
+> -			mutex_unlock(&ps_devices_lock);
+>  			return -EEXIST;
+>  		}
+>  	}
+>  
+>  	list_add_tail(&dev->list, &ps_devices_list);
+> -	mutex_unlock(&ps_devices_lock);
+>  	return 0;
+>  }
+>  
+>  static int ps_devices_list_remove(struct ps_device *dev)
+>  {
+> -	mutex_lock(&ps_devices_lock);
+> +	guard(mutex)(&ps_devices_lock);
+> +
+>  	list_del(&dev->list);
+> -	mutex_unlock(&ps_devices_lock);
+>  	return 0;
+>  }
+>  
+> @@ -649,13 +649,12 @@ static int ps_battery_get_property(struct power_supply *psy,
+>  	struct ps_device *dev = power_supply_get_drvdata(psy);
+>  	uint8_t battery_capacity;
+>  	int battery_status;
+> -	unsigned long flags;
+>  	int ret = 0;
+>  
+> -	spin_lock_irqsave(&dev->lock, flags);
+> -	battery_capacity = dev->battery_capacity;
+> -	battery_status = dev->battery_status;
+> -	spin_unlock_irqrestore(&dev->lock, flags);
+> +	scoped_guard(spinlock_irqsave, &dev->lock) {
+> +		battery_capacity = dev->battery_capacity;
+> +		battery_status = dev->battery_status;
+> +	}
+>  
+>  	switch (psp) {
+>  	case POWER_SUPPLY_PROP_STATUS:
+> @@ -1173,19 +1172,17 @@ static int dualsense_player_led_set_brightness(struct led_classdev *led, enum le
+>  {
+>  	struct hid_device *hdev = to_hid_device(led->dev->parent);
+>  	struct dualsense *ds = hid_get_drvdata(hdev);
+> -	unsigned long flags;
+>  	unsigned int led_index;
+>  
+> -	spin_lock_irqsave(&ds->base.lock, flags);
+> -
+> -	led_index = led - ds->player_leds;
+> -	if (value == LED_OFF)
+> -		ds->player_leds_state &= ~BIT(led_index);
+> -	else
+> -		ds->player_leds_state |= BIT(led_index);
+> +	scoped_guard(spinlock_irqsave, &ds->base.lock) {
+> +		led_index = led - ds->player_leds;
+> +		if (value == LED_OFF)
+> +			ds->player_leds_state &= ~BIT(led_index);
+> +		else
+> +			ds->player_leds_state |= BIT(led_index);
+>  
+> -	ds->update_player_leds = true;
+> -	spin_unlock_irqrestore(&ds->base.lock, flags);
+> +		ds->update_player_leds = true;
+> +	}
+>  
+>  	dualsense_schedule_work(ds);
+>  
+> @@ -1234,12 +1231,9 @@ static void dualsense_init_output_report(struct dualsense *ds, struct dualsense_
+>  
+>  static inline void dualsense_schedule_work(struct dualsense *ds)
+>  {
+> -	unsigned long flags;
+> -
+> -	spin_lock_irqsave(&ds->base.lock, flags);
+> +	guard(spinlock_irqsave)(&ds->base.lock);
+>  	if (ds->output_worker_initialized)
+>  		schedule_work(&ds->output_worker);
+> -	spin_unlock_irqrestore(&ds->base.lock, flags);
+>  }
+>  
+>  /*
+> @@ -1337,7 +1331,6 @@ static int dualsense_parse_report(struct ps_device *ps_dev, struct hid_report *r
+>  	int battery_status;
+>  	uint32_t sensor_timestamp;
+>  	bool btn_mic_state;
+> -	unsigned long flags;
+>  	int i;
+>  
+>  	/*
+> @@ -1399,10 +1392,10 @@ static int dualsense_parse_report(struct ps_device *ps_dev, struct hid_report *r
+>  	 */
+>  	btn_mic_state = !!(ds_report->buttons[2] & DS_BUTTONS2_MIC_MUTE);
+>  	if (btn_mic_state && !ds->last_btn_mic_state) {
+> -		spin_lock_irqsave(&ps_dev->lock, flags);
+> -		ds->update_mic_mute = true;
+> -		ds->mic_muted = !ds->mic_muted; /* toggle */
+> -		spin_unlock_irqrestore(&ps_dev->lock, flags);
+> +		scoped_guard(spinlock_irqsave, &ps_dev->lock) {
+> +			ds->update_mic_mute = true;
+> +			ds->mic_muted = !ds->mic_muted; /* toggle */
+> +		}
+>  
+>  		/* Schedule updating of microphone state at hardware level. */
+>  		dualsense_schedule_work(ds);
+> @@ -1495,10 +1488,10 @@ static int dualsense_parse_report(struct ps_device *ps_dev, struct hid_report *r
+>  		battery_status = POWER_SUPPLY_STATUS_UNKNOWN;
+>  	}
+>  
+> -	spin_lock_irqsave(&ps_dev->lock, flags);
+> -	ps_dev->battery_capacity = battery_capacity;
+> -	ps_dev->battery_status = battery_status;
+> -	spin_unlock_irqrestore(&ps_dev->lock, flags);
+> +	scoped_guard(spinlock_irqsave, &ps_dev->lock) {
+> +		ps_dev->battery_capacity = battery_capacity;
+> +		ps_dev->battery_status = battery_status;
+> +	}
+>  
+>  	return 0;
+>  }
+> @@ -1507,16 +1500,15 @@ static int dualsense_play_effect(struct input_dev *dev, void *data, struct ff_ef
+>  {
+>  	struct hid_device *hdev = input_get_drvdata(dev);
+>  	struct dualsense *ds = hid_get_drvdata(hdev);
+> -	unsigned long flags;
+>  
+>  	if (effect->type != FF_RUMBLE)
+>  		return 0;
+>  
+> -	spin_lock_irqsave(&ds->base.lock, flags);
+> -	ds->update_rumble = true;
+> -	ds->motor_left = effect->u.rumble.strong_magnitude / 256;
+> -	ds->motor_right = effect->u.rumble.weak_magnitude / 256;
+> -	spin_unlock_irqrestore(&ds->base.lock, flags);
+> +	scoped_guard(spinlock_irqsave, &ds->base.lock) {
+> +		ds->update_rumble = true;
+> +		ds->motor_left = effect->u.rumble.strong_magnitude / 256;
+> +		ds->motor_right = effect->u.rumble.weak_magnitude / 256;
+> +	}
+>  
+>  	dualsense_schedule_work(ds);
+>  	return 0;
+> @@ -1525,11 +1517,9 @@ static int dualsense_play_effect(struct input_dev *dev, void *data, struct ff_ef
+>  static void dualsense_remove(struct ps_device *ps_dev)
+>  {
+>  	struct dualsense *ds = container_of(ps_dev, struct dualsense, base);
+> -	unsigned long flags;
+>  
+> -	spin_lock_irqsave(&ds->base.lock, flags);
+> -	ds->output_worker_initialized = false;
+> -	spin_unlock_irqrestore(&ds->base.lock, flags);
+> +	scoped_guard(spinlock_irqsave, &ds->base.lock)
+> +		ds->output_worker_initialized = false;
+>  
+>  	cancel_work_sync(&ds->output_worker);
+>  }
+> @@ -1561,14 +1551,12 @@ static int dualsense_reset_leds(struct dualsense *ds)
+>  
+>  static void dualsense_set_lightbar(struct dualsense *ds, uint8_t red, uint8_t green, uint8_t blue)
+>  {
+> -	unsigned long flags;
+> -
+> -	spin_lock_irqsave(&ds->base.lock, flags);
+> -	ds->update_lightbar = true;
+> -	ds->lightbar_red = red;
+> -	ds->lightbar_green = green;
+> -	ds->lightbar_blue = blue;
+> -	spin_unlock_irqrestore(&ds->base.lock, flags);
+> +	scoped_guard(spinlock_irqsave, &ds->base.lock) {
+> +		ds->update_lightbar = true;
+> +		ds->lightbar_red = red;
+> +		ds->lightbar_green = green;
+> +		ds->lightbar_blue = blue;
+> +	}
+>  
+>  	dualsense_schedule_work(ds);
+>  }
+> @@ -1755,7 +1743,6 @@ static struct ps_device *dualsense_create(struct hid_device *hdev)
+>  static void dualshock4_dongle_calibration_work(struct work_struct *work)
+>  {
+>  	struct dualshock4 *ds4 = container_of(work, struct dualshock4, dongle_hotplug_worker);
+> -	unsigned long flags;
+>  	enum dualshock4_dongle_state dongle_state;
+>  	int ret;
+>  
+> @@ -1774,9 +1761,8 @@ static void dualshock4_dongle_calibration_work(struct work_struct *work)
+>  		dongle_state = DONGLE_CONNECTED;
+>  	}
+>  
+> -	spin_lock_irqsave(&ds4->base.lock, flags);
+> -	ds4->dongle_state = dongle_state;
+> -	spin_unlock_irqrestore(&ds4->base.lock, flags);
+> +	scoped_guard(spinlock_irqsave, &ds4->base.lock)
+> +		ds4->dongle_state = dongle_state;
+>  }
+>  
+>  static int dualshock4_get_calibration_data(struct dualshock4 *ds4)
+> @@ -2048,26 +2034,23 @@ static int dualshock4_led_set_blink(struct led_classdev *led, unsigned long *del
+>  {
+>  	struct hid_device *hdev = to_hid_device(led->dev->parent);
+>  	struct dualshock4 *ds4 = hid_get_drvdata(hdev);
+> -	unsigned long flags;
+>  
+> -	spin_lock_irqsave(&ds4->base.lock, flags);
+> +	scoped_guard(spinlock_irqsave, &ds4->base.lock) {
+> +		if (!*delay_on && !*delay_off) {
+> +			/* Default to 1 Hz (50 centiseconds on, 50 centiseconds off). */
+> +			ds4->lightbar_blink_on = 50;
+> +			ds4->lightbar_blink_off = 50;
+> +		} else {
+> +			/* Blink delays in centiseconds. */
+> +			ds4->lightbar_blink_on = min_t(unsigned long, *delay_on / 10,
+> +						       DS4_LIGHTBAR_MAX_BLINK);
+> +			ds4->lightbar_blink_off = min_t(unsigned long, *delay_off / 10,
+> +							DS4_LIGHTBAR_MAX_BLINK);
+> +		}
+>  
+> -	if (!*delay_on && !*delay_off) {
+> -		/* Default to 1 Hz (50 centiseconds on, 50 centiseconds off). */
+> -		ds4->lightbar_blink_on = 50;
+> -		ds4->lightbar_blink_off = 50;
+> -	} else {
+> -		/* Blink delays in centiseconds. */
+> -		ds4->lightbar_blink_on = min_t(unsigned long, *delay_on / 10,
+> -					       DS4_LIGHTBAR_MAX_BLINK);
+> -		ds4->lightbar_blink_off = min_t(unsigned long, *delay_off / 10,
+> -						DS4_LIGHTBAR_MAX_BLINK);
+> +		ds4->update_lightbar_blink = true;
+>  	}
+>  
+> -	ds4->update_lightbar_blink = true;
+> -
+> -	spin_unlock_irqrestore(&ds4->base.lock, flags);
+> -
+>  	dualshock4_schedule_work(ds4);
+>  
+>  	/* Report scaled values back to LED subsystem */
+> @@ -2081,36 +2064,33 @@ static int dualshock4_led_set_brightness(struct led_classdev *led, enum led_brig
+>  {
+>  	struct hid_device *hdev = to_hid_device(led->dev->parent);
+>  	struct dualshock4 *ds4 = hid_get_drvdata(hdev);
+> -	unsigned long flags;
+>  	unsigned int led_index;
+>  
+> -	spin_lock_irqsave(&ds4->base.lock, flags);
+> -
+> -	led_index = led - ds4->lightbar_leds;
+> -	switch (led_index) {
+> -	case 0:
+> -		ds4->lightbar_red = value;
+> -		break;
+> -	case 1:
+> -		ds4->lightbar_green = value;
+> -		break;
+> -	case 2:
+> -		ds4->lightbar_blue = value;
+> -		break;
+> -	case 3:
+> -		ds4->lightbar_enabled = !!value;
+> -
+> -		/* brightness = 0 also cancels blinking in Linux. */
+> -		if (!ds4->lightbar_enabled) {
+> -			ds4->lightbar_blink_off = 0;
+> -			ds4->lightbar_blink_on = 0;
+> -			ds4->update_lightbar_blink = true;
+> +	scoped_guard(spinlock_irqsave, &ds4->base.lock) {
+> +		led_index = led - ds4->lightbar_leds;
+> +		switch (led_index) {
+> +		case 0:
+> +			ds4->lightbar_red = value;
+> +			break;
+> +		case 1:
+> +			ds4->lightbar_green = value;
+> +			break;
+> +		case 2:
+> +			ds4->lightbar_blue = value;
+> +			break;
+> +		case 3:
+> +			ds4->lightbar_enabled = !!value;
+> +
+> +			/* brightness = 0 also cancels blinking in Linux. */
+> +			if (!ds4->lightbar_enabled) {
+> +				ds4->lightbar_blink_off = 0;
+> +				ds4->lightbar_blink_on = 0;
+> +				ds4->update_lightbar_blink = true;
+> +			}
+>  		}
+> -	}
+> -
+> -	ds4->update_lightbar = true;
+>  
+> -	spin_unlock_irqrestore(&ds4->base.lock, flags);
+> +		ds4->update_lightbar = true;
+> +	}
+>  
+>  	dualshock4_schedule_work(ds4);
+>  
+> @@ -2242,7 +2222,6 @@ static int dualshock4_parse_report(struct ps_device *ps_dev, struct hid_report *
+>  	uint8_t battery_capacity, num_touch_reports, value;
+>  	int battery_status, i, j;
+>  	uint16_t sensor_timestamp;
+> -	unsigned long flags;
+>  	bool is_minimal = false;
+>  
+>  	/*
+> @@ -2420,10 +2399,10 @@ static int dualshock4_parse_report(struct ps_device *ps_dev, struct hid_report *
+>  		battery_status = POWER_SUPPLY_STATUS_DISCHARGING;
+>  	}
+>  
+> -	spin_lock_irqsave(&ps_dev->lock, flags);
+> -	ps_dev->battery_capacity = battery_capacity;
+> -	ps_dev->battery_status = battery_status;
+> -	spin_unlock_irqrestore(&ps_dev->lock, flags);
+> +	scoped_guard(spinlock_irqsave, &ps_dev->lock) {
+> +		ps_dev->battery_capacity = battery_capacity;
+> +		ps_dev->battery_status = battery_status;
+> +	}
+>  
+>  	return 0;
+>  }
+> @@ -2441,7 +2420,6 @@ static int dualshock4_dongle_parse_report(struct ps_device *ps_dev, struct hid_r
+>  	 */
+>  	if (data[0] == DS4_INPUT_REPORT_USB && size == DS4_INPUT_REPORT_USB_SIZE) {
+>  		struct dualshock4_input_report_common *ds4_report = (struct dualshock4_input_report_common *)&data[1];
+> -		unsigned long flags;
+>  
+>  		connected = ds4_report->status[1] & DS4_STATUS1_DONGLE_STATE ? false : true;
+>  
+> @@ -2450,9 +2428,8 @@ static int dualshock4_dongle_parse_report(struct ps_device *ps_dev, struct hid_r
+>  
+>  			dualshock4_set_default_lightbar_colors(ds4);
+>  
+> -			spin_lock_irqsave(&ps_dev->lock, flags);
+> -			ds4->dongle_state = DONGLE_CALIBRATING;
+> -			spin_unlock_irqrestore(&ps_dev->lock, flags);
+> +			scoped_guard(spinlock_irqsave, &ps_dev->lock)
+> +				ds4->dongle_state = DONGLE_CALIBRATING;
+>  
+>  			schedule_work(&ds4->dongle_hotplug_worker);
+>  
+> @@ -2464,9 +2441,8 @@ static int dualshock4_dongle_parse_report(struct ps_device *ps_dev, struct hid_r
+>  			    ds4->dongle_state == DONGLE_DISABLED) && !connected) {
+>  			hid_info(ps_dev->hdev, "DualShock 4 USB dongle: controller disconnected\n");
+>  
+> -			spin_lock_irqsave(&ps_dev->lock, flags);
+> -			ds4->dongle_state = DONGLE_DISCONNECTED;
+> -			spin_unlock_irqrestore(&ps_dev->lock, flags);
+> +			scoped_guard(spinlock_irqsave, &ps_dev->lock)
+> +				ds4->dongle_state = DONGLE_DISCONNECTED;
+>  
+>  			/* Return 0, so hidraw can get the report. */
+>  			return 0;
+> @@ -2488,16 +2464,15 @@ static int dualshock4_play_effect(struct input_dev *dev, void *data, struct ff_e
+>  {
+>  	struct hid_device *hdev = input_get_drvdata(dev);
+>  	struct dualshock4 *ds4 = hid_get_drvdata(hdev);
+> -	unsigned long flags;
+>  
+>  	if (effect->type != FF_RUMBLE)
+>  		return 0;
+>  
+> -	spin_lock_irqsave(&ds4->base.lock, flags);
+> -	ds4->update_rumble = true;
+> -	ds4->motor_left = effect->u.rumble.strong_magnitude / 256;
+> -	ds4->motor_right = effect->u.rumble.weak_magnitude / 256;
+> -	spin_unlock_irqrestore(&ds4->base.lock, flags);
+> +	scoped_guard(spinlock_irqsave, &ds4->base.lock) {
+> +		ds4->update_rumble = true;
+> +		ds4->motor_left = effect->u.rumble.strong_magnitude / 256;
+> +		ds4->motor_right = effect->u.rumble.weak_magnitude / 256;
+> +	}
+>  
+>  	dualshock4_schedule_work(ds4);
+>  	return 0;
+> @@ -2506,11 +2481,9 @@ static int dualshock4_play_effect(struct input_dev *dev, void *data, struct ff_e
+>  static void dualshock4_remove(struct ps_device *ps_dev)
+>  {
+>  	struct dualshock4 *ds4 = container_of(ps_dev, struct dualshock4, base);
+> -	unsigned long flags;
+>  
+> -	spin_lock_irqsave(&ds4->base.lock, flags);
+> -	ds4->output_worker_initialized = false;
+> -	spin_unlock_irqrestore(&ds4->base.lock, flags);
+> +	scoped_guard(spinlock_irqsave, &ds4->base.lock)
+> +		ds4->output_worker_initialized = false;
+>  
+>  	cancel_work_sync(&ds4->output_worker);
+>  
+> @@ -2520,12 +2493,9 @@ static void dualshock4_remove(struct ps_device *ps_dev)
+>  
+>  static inline void dualshock4_schedule_work(struct dualshock4 *ds4)
+>  {
+> -	unsigned long flags;
+> -
+> -	spin_lock_irqsave(&ds4->base.lock, flags);
+> +	guard(spinlock_irqsave)(&ds4->base.lock);
+>  	if (ds4->output_worker_initialized)
+>  		schedule_work(&ds4->output_worker);
+> -	spin_unlock_irqrestore(&ds4->base.lock, flags);
+>  }
+>  
+>  static void dualshock4_set_bt_poll_interval(struct dualshock4 *ds4, uint8_t interval)
+> 
+> -- 
+> 2.49.0
+> 
 
