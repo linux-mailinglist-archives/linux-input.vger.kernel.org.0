@@ -1,117 +1,89 @@
-Return-Path: <linux-input+bounces-14820-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14821-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50EBDB81AF6
-	for <lists+linux-input@lfdr.de>; Wed, 17 Sep 2025 21:50:20 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id EB38FB81B77
+	for <lists+linux-input@lfdr.de>; Wed, 17 Sep 2025 22:07:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E366D1894DEB
-	for <lists+linux-input@lfdr.de>; Wed, 17 Sep 2025 19:50:41 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A26717ABC02
+	for <lists+linux-input@lfdr.de>; Wed, 17 Sep 2025 20:05:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D1BB821C194;
-	Wed, 17 Sep 2025 19:50:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4273A278170;
+	Wed, 17 Sep 2025 20:06:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ewhac.org header.i=@ewhac.org header.b="I1kIrN/j"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BzJBJu0s"
 X-Original-To: linux-input@vger.kernel.org
-Received: from seahorse.cherry.relay.mailchannels.net (seahorse.cherry.relay.mailchannels.net [23.83.223.161])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9AAE8BEE;
-	Wed, 17 Sep 2025 19:50:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=23.83.223.161
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758138615; cv=pass; b=aoxi9cfi8A9whAjol4zGT0idhxgWx1kTA908HMGH0lGe4tZvc6FT1CsotlLtKaMG0QGMtma2oL5Yi4jEzTGXYR4nfAKXn1tevRhi56Gzfgz4lyRJgfjSqsCMZxWIm6SJeXZKAnPj2Cpug2UekvBRvnUhgf+uDPMsSQoFEiu15FQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758138615; c=relaxed/simple;
-	bh=OPBtjuECZg3uxpC0LLvIT0G5nRV07fTiaDqxfhEnLQg=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2DEA1FCF41
+	for <linux-input@vger.kernel.org>; Wed, 17 Sep 2025 20:06:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1758139619; cv=none; b=RvrifVs3GXXFfsDV2gUnrzDgBgun2XU8xMkq9dusniY1rJJI2O3vLox4SszS+IYfBdr/f9le148C8SBo/5PQoF9qpFbP7muLiGt75RWoW6zWWGvkM5cy9MEjGSdyFWOHvyXvBzNlohuVAOaDjA117iO87pkMp2u8ppP48q67s04=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1758139619; c=relaxed/simple;
+	bh=uk0f/jb3Tj9XsJt8rx5PWMAF8eB/0DbZGV6iarNBAyc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hYQTSP7ft9YUVaFwBqSbM4onuTBOYRL0X6D8WqdVzzhL7k5MkGR8wsKUbmMUi2HKj8/0Drk5FvT8usHm4UcTTGmoQKUgEC4S8FizkEhfOHsOK+gMt7XjtCAM5W0OkDEKwT5nGYFhA3IkIWTWyOQt/b+sBdLwho3H0mgYbT6J/R0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ewhac.org; spf=pass smtp.mailfrom=ewhac.org; dkim=pass (2048-bit key) header.d=ewhac.org header.i=@ewhac.org header.b=I1kIrN/j; arc=pass smtp.client-ip=23.83.223.161
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ewhac.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ewhac.org
-X-Sender-Id: dreamhost|x-authsender|ewhac@ewhac.org
-Received: from relay.mailchannels.net (localhost [127.0.0.1])
-	by relay.mailchannels.net (Postfix) with ESMTP id 04331863873;
-	Wed, 17 Sep 2025 19:50:07 +0000 (UTC)
-Received: from pdx1-sub0-mail-a237.dreamhost.com (100-106-206-65.trex-nlb.outbound.svc.cluster.local [100.106.206.65])
-	(Authenticated sender: dreamhost)
-	by relay.mailchannels.net (Postfix) with ESMTPA id 59B94863634;
-	Wed, 17 Sep 2025 19:50:06 +0000 (UTC)
-ARC-Seal: i=1; s=arc-2022; d=mailchannels.net; t=1758138606; a=rsa-sha256;
-	cv=none;
-	b=zQAYJ0FASi7Gw1ybqpgJB+VL1cQz0hrlxgfANYpjPLRE2ACCon9k9t4Yo/+ICebVD0nDqk
-	WwVyxkuCFDozA+Naa1ZO58/BJ1fUu0cE6Jq5c11Lzq/c4dp65zVDU0NUJGXxhMXdoSUOqY
-	KFE3C262yVKJui4hz02qBuktrldKlWS1MVB7t4dkZf/Cimij3FgWS+JJ/0Sllbs1Qo7a5n
-	nXf+HYSUTBEMpDdtum6FfdPPmPnO8DgKyfhI0hnheEv8eUDQLuTpnI2Cc0ZbNGREyScv1b
-	iCnehIT6QGHXlwCUU2YEpbKAKvwV/Aua8OZWdnW7jdiLcFIw8Rzi4xXlSbYaVA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mailchannels.net;
-	s=arc-2022; t=1758138606;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references:dkim-signature;
-	bh=QR8h4trdEJjxl7YHEhgieYLK6DcncYNCR6sVg12kusg=;
-	b=KvhBwxsi7k+YQEN2j7H+pGkKTp6yMdkEj9S3rHD+2ExT7OpHoy59Vx8aZeu83BCAFtP3EI
-	B67grENit2ygeQtpPiXM/IHgKJQMrPQZ08DZTudC/y6X/ss9u2DwUeFDAzciYx9Uk257b3
-	0aFJtL8RVr0sHvGSBp7Fp+8yhJfVSdcCce4bP99RtD+UdGS+4DY6kP58u77krbCu5GL0kX
-	Y/yYPv08FRhX0jTnDrGJN8ORE5sfR98Wv5ayG9X31RL6gnK3Nt5xFD+bdTQPD17qWimwnI
-	AFQpSWiykk735di9Fa0/E3ejaKRu24qWc4svel6aBARgCAbnl0w3wW9BxrGL9Q==
-ARC-Authentication-Results: i=1;
-	rspamd-7c7bd86f7-rxkpx;
-	auth=pass smtp.auth=dreamhost smtp.mailfrom=ewhac@ewhac.org
-X-Sender-Id: dreamhost|x-authsender|ewhac@ewhac.org
-X-MC-Relay: Neutral
-X-MailChannels-SenderId: dreamhost|x-authsender|ewhac@ewhac.org
-X-MailChannels-Auth-Id: dreamhost
-X-Hysterical-Skirt: 4b73acc84715a5e4_1758138606615_2153499060
-X-MC-Loop-Signature: 1758138606615:2407148932
-X-MC-Ingress-Time: 1758138606615
-Received: from pdx1-sub0-mail-a237.dreamhost.com (pop.dreamhost.com
- [64.90.62.162])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
-	by 100.106.206.65 (trex/7.1.3);
-	Wed, 17 Sep 2025 19:50:06 +0000
-Received: from ewhac.org (unknown [135.180.175.143])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: ewhac@ewhac.org)
-	by pdx1-sub0-mail-a237.dreamhost.com (Postfix) with ESMTPSA id 4cRq9p12HfzB1;
-	Wed, 17 Sep 2025 12:50:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ewhac.org;
-	s=dreamhost; t=1758138606;
-	bh=QR8h4trdEJjxl7YHEhgieYLK6DcncYNCR6sVg12kusg=;
-	h=Date:From:To:Cc:Subject:Content-Type;
-	b=I1kIrN/jA0DXeMVm2HOvo9q3YddsSLBKKMYuzYcmZSnzdr9WgzvPq0FaDUMSAgNzV
-	 ofpvFKQ3NomYp0AgZhc5dwN7dekE//Sp2EGWRBwD45PMGWA8P5+vPpDzeP0GzRPtZX
-	 PjzbZ7il2Dxo0IyX8GxokKyPzyyikXG1V8YzpWbsK4BJUEETiOxh5ADDKTU7YUI2OE
-	 HVAvMBr0YYqGyg7LHPu3NUs4oFkn1+LR9N+hIoeHh3Hy88xkTBbWYOrkCaIlSZW5KV
-	 fZlJBm2xhIxaq0kZhSMGeSdO3wifQ0Ns+f92bvL2nDRB+B3U3PtZ4JKUagcglhD4YS
-	 mOAMfsS/rft6g==
-Received: from ewhac by walkies with local (Exim 4.98.2)
-	(envelope-from <ewhac@ewhac.org>)
-	id 1uyyAH-00000000O92-2UjG;
-	Wed, 17 Sep 2025 12:50:05 -0700
-Date: Wed, 17 Sep 2025 12:50:05 -0700
-From: "Leo L. Schwab" <ewhac@ewhac.org>
-To: Hans de Goede <hansg@kernel.org>
-Cc: Kate Hsuan <hpa@redhat.com>, Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <bentiss@kernel.org>,
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] HID: lg-g15 - Add support for Logitech G13.
-Message-ID: <aMsQ7dBJrwpWbdJk@ewhac.org>
-References: <8ae2cc92-5dfe-466d-95fd-da74309d7244@kernel.org>
- <2de88077-eb8d-44ad-a96a-5db889913cba@kernel.org>
- <aLiZbkKgIC8jIqE9@ewhac.org>
- <c12adb45-fa6d-4bb8-afd2-a02e3026d646@kernel.org>
- <aMESMcFLrzqrCdbq@ewhac.org>
- <a6ea0b5d-7586-4529-bf91-d8b966aa986e@kernel.org>
- <aMG9L2566Hh6b0Kf@ewhac.org>
- <64b1c076-f1f7-45a3-900a-dd52ab50cd4e@kernel.org>
- <aMiQsMtyX9POrXof@ewhac.org>
- <8e2c3560-6cba-4808-8207-ba3e1dd0e661@kernel.org>
+	 Content-Type:Content-Disposition:In-Reply-To; b=mMRAEAWOz9VVceWPBDheoPt01yVGiSY7IFrGPyCSZWWq1bCHVvEwU28MJPBzy0ttRbAkQUlwBY/uYkG6s7pknhgCSNDcit5v8c/o0s2OOVknSjGMKikDLl2O2UyTNYzf/PSNRUx31yiN9+9e9HAOMYw8FE1vS/P7wOGpabVM9Hs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BzJBJu0s; arc=none smtp.client-ip=209.85.214.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2445824dc27so1894265ad.3
+        for <linux-input@vger.kernel.org>; Wed, 17 Sep 2025 13:06:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1758139617; x=1758744417; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=nAoo4cL1dIYweQDzrk/O9/maigv0J12ua5s1T9IZZIQ=;
+        b=BzJBJu0sl7Ot/aa/y4ipoWenR7W1XYwuHfYqZRntlmHYFhwX1d1n5ISbGLOWg6MV9J
+         ILKXZL/dPEKBh6CN5osdjky9h7ZpWdH2CPtjJu29hjBfa9FjlFWneM3HN2jGlDB2lwQI
+         n6DfCO7u/99Od3MOivDB5HvXA58ZJahlptoVCxXm++yAb0A5jWNiity/l1nqYd+pL0rO
+         dhrYmt0yX+s70ypiurlJvni+34oWFTJpXZ16Pv64CMWx5aLkZL434OnfD4Acb/3j+c9+
+         RMP1bBIcny77PNWmtMUbinZfpMaU54hdMc7w3Q0dorKq8bLqF3KEVanjvMPRSXPjf/aA
+         smwA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758139617; x=1758744417;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nAoo4cL1dIYweQDzrk/O9/maigv0J12ua5s1T9IZZIQ=;
+        b=jd03wBzORsApSVALsobiTOh94rmu5YMGfutKjyz8zfzkTG1YynJt30DJZVtvc93roh
+         1tL9G3Ps5ZEEAngd0Y3SePGlQAK8gk2qh5oFCPIxsEpNpzF+k//lea1AWx58guiHtQLc
+         TpfNUgT2qpObO5tvzT1HjYCcm4dexGVvGRlpIVIeoEIKsBzcsX/zFvNCmCnCWV0b/j3o
+         SM+5anKis5n67DQiPuZnE2haigVEZvNNW5DT2SkPFkhG07BaCvUvWNzhzy4Oi83WM0Xf
+         JthWNM8uw/xV37vJIfb37AhIIa1fHmlg10oafa9B02WZD03f35PpB5GRO5WhOvQw1cas
+         KFFQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUFJ2d0V6lI+0sqYTuHULfxSSLBAHuATm21ZsP4xOzUBZtu00SmL9hnA9oTkUSxsTrJ6I56AfyxktM+Ig==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzo26ijuPeh10v90Y8hS/MyW0PY/TzQTYaazDscqCl4VS4IdNY3
+	s/JrAZZeX+I+cYN0d/CMLFi301gM65OU4MB/wiAS+e9KKqXqFpqXB0kt
+X-Gm-Gg: ASbGncttqR9m9pZZYoL/ucCepb+2gFATm/oUMVhzVUBBhIMpIIHxA9tunft/U0V7Bym
+	YHUWWpJ1wMhN+M1bD1DJWEIZ74Oh4qwt2Fbx1N1A03CT5R8ARYTwuHkIBKmDjbFbjc4f6aJWTlC
+	qUjcG9ceaVjinURtRmEqRalDRxroOdyDYHfUPvVOR03i37ekr6xDe97gH1bYVH4kaLwXTNcMvaw
+	kES77mIzHPREKpItivJm6gpBlGclAEYQry5U9yg6n7I3OOP+owFlDfvpTVBrrTS0CaUrgKzYhlQ
+	H1moevZ6sa+O3O8leTvqlbw6xC8VrNEksyJ+hN49gMHNX2XhIRlKKXsWUhqFyPJyD8hFaDONhLC
+	1kE/B4YNnXngluQMZJ+mGxLlaYrF2A4rhbb1PBwOb7Q==
+X-Google-Smtp-Source: AGHT+IH4ljt2vti7NSBWoLRl1Y3YBR7ak2BF6N3DsrRX2rCMF4AUdMIoGbFRGc1NosrFKmMz+WdEHw==
+X-Received: by 2002:a17:903:2c7:b0:264:567b:dd92 with SMTP id d9443c01a7336-26813e02d08mr43177195ad.52.1758139616771;
+        Wed, 17 Sep 2025 13:06:56 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:c3d9:b11c:3856:2d3a])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2698035cd39sm3762225ad.146.2025.09.17.13.06.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 17 Sep 2025 13:06:56 -0700 (PDT)
+Date: Wed, 17 Sep 2025 13:06:53 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Ivaylo Ivanov <ivo.ivanov.ivanov1@gmail.com>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Henrik Rydberg <rydberg@bitmath.org>, 
+	linux-samsung-soc@vger.kernel.org, linux-input@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 2/2] Input: s6sa552 - add a driver for the Samsung
+ A552 touchscreen controller
+Message-ID: <zh2cvvhvdklwnrnhmzsgajk5ryk7gwd5sayde656ddysi53d7b@frw2ph3opmoe>
+References: <20250914134458.2624176-1-ivo.ivanov.ivanov1@gmail.com>
+ <20250914134458.2624176-3-ivo.ivanov.ivanov1@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -120,72 +92,226 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <8e2c3560-6cba-4808-8207-ba3e1dd0e661@kernel.org>
+In-Reply-To: <20250914134458.2624176-3-ivo.ivanov.ivanov1@gmail.com>
 
-On Wed, Sep 17, 2025 at 12:33:36PM +0200, Hans de Goede wrote:
-> On 16-Sep-25 00:18, Leo L. Schwab wrote:
-> > 	What do you want to happen to `brightness_hw_changed` when
-> > `brightness` is changed in sysfs while the backlight is on?  As it stands,
-> > the current behavior is:
-> > 	* Driver loads and probes; `brightness` and `brightness_hw_changed`
-> > 	  both set to 255.
-> 
-> Ack, except that as mentioned above I would not touch brightness_hw_changed
-> and just leave it at -1.
-> 
-> > 	* sysfs `brightness` changed to 128.  `brightness_hw_changed`
-> > 	  remains at 255.
-> > 	* Toggle backilght off.  `brightness_hw_changed` changed to 0.
-> > 	  `brightness` remains at 128.
-> > 	* Toggle backlight back on.  `brightness_hw_changed` gets a copy of
-> > 	  `brightness`, and both are now 128.
-> 
-> Ack this is all correct.
->
-	...Oy.
+Hi Ivaylo,
 
-	Okay, I can give you that.
-
-> > 	This seems inconsistent to me.
+On Sun, Sep 14, 2025 at 04:44:57PM +0300, Ivaylo Ivanov wrote:
+> The S6SA552 touchscreen is a capacitive multi-touch controller for
+> mobile use. It connects via i2c at the address 0x48.
 > 
-> This is working as intended / how the API was designed as
-> Documentation/ABI/testing/sysfs-class-led says:
+> Introduce a basic driver, which can handle initialization, touch events
+> and power states.
 > 
->                 Reading this file will return the last brightness level set
->                 by the hardware, this may be different from the current
->                 brightness. Reading this file when no hw brightness change
->                 event has happened will return an ENODATA error.
->
-	First: Why isn't this mentioned in Documentation/leds/leds_class.rst?
+> At least the firmware for this IC on Galaxy S7 differs from S6SY761
+> in register layout and bits, as well as some missing registers/functions,
+> for example for retrieving the max X/Y coordinates and the amount
+> of TX/RX channels.
 
-	And second: This doesn't really clarify anything.  That paragraph
-may be legitimately interpreted to mean that `brightness_hw_changed` is
-completely independent of `brightness`, as it was in my original
-implementation.
+I am not sure why you are using runtime PM in the driver, given that you
+enable it on probe and disable it in remove and otherwise do not touch.
 
-> >  Hence my earlier suggestion that
-> > `brightness_hw_changed` should track all changes to `brightness`, except
-> > when the backlight is toggled off.
-> 
-> Then it also would be reporting values coming from sysfs writes,
-> which it explicitly should not do.
->
-	Okay, fair, but having `brightness_hw_changed` read as 255, then
-later as 128 after hitting the toggle button a couple of times strikes me as
-inconsistent behavior.
+If you want to use it then you should probably call runtime_pm_get() and
+runtime_pm_put() from open()/close() methods instead of toggling power
+directly.
 
-> Summarizing in my view the following changes are necessary on v4:
-> 
-> 1. Add backlight_disabled (or backlight_enabled) flag to struct lg_g15_data
-> 2. Init that flag from prope()
-> 3. Use that flag on receiving input reports to see if notify()
->    should be called
-> 4. Replace the LED_FULL passed to notify() (for off->on)
->    with g15_led->brightness
-> 
-	Will do; will post v6 shortly.  And someone should update the docs
-describing the expected interaction between `brightness` and
-`brightness_hw_changed`.
+[...]
 
-					Schwab
+> +
+> +static void s6sa552_input_close(struct input_dev *dev)
+> +{
+> +	struct s6sa552_data *sdata = input_get_drvdata(dev);
+> +	int ret;
+
+	int error;
+
+> +
+> +	ret = i2c_smbus_write_byte(sdata->client, S6SA552_SENSE_OFF);
+> +	if (ret)
+> +		dev_err(&sdata->client->dev, "failed to turn off sensing\n");
+> +}
+> +
+> +static ssize_t s6sa552_sysfs_devid(struct device *dev,
+> +				   struct device_attribute *attr, char *buf)
+> +{
+> +	struct s6sa552_data *sdata = dev_get_drvdata(dev);
+> +
+> +	return sprintf(buf, "%#x\n", sdata->devid);
+> +}
+> +
+> +static DEVICE_ATTR(devid, 0444, s6sa552_sysfs_devid, NULL);
+> +
+> +static struct attribute *s6sa552_sysfs_attrs[] = {
+> +	&dev_attr_devid.attr,
+> +	NULL
+> +};
+> +ATTRIBUTE_GROUPS(s6sa552_sysfs);
+> +
+> +static int s6sa552_power_on(struct s6sa552_data *sdata)
+> +{
+> +	u8 buffer[S6SA552_EVENT_SIZE];
+> +	int ret;
+
+	int error;
+
+Use "error" for storing error values from APIs that return negative or
+0. For APIs that also return real values "ret" is fine.
+
+> +
+> +	ret = regulator_bulk_enable(ARRAY_SIZE(sdata->regulators),
+> +				    sdata->regulators);
+> +	if (ret)
+> +		return ret;
+> +
+> +	msleep(140);
+> +
+> +	/* double check whether the touch is functional */
+> +	ret = i2c_smbus_read_i2c_block_data(sdata->client,
+> +					    S6SA552_READ_ONE_EVENT,
+> +					    S6SA552_EVENT_SIZE,
+> +					    buffer);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	if (buffer[0] != S6SA552_EVENT_TYPE_ACK ||
+> +	    buffer[1] != S6SA552_EVENT_ACK_BOOT) {
+> +		return -ENODEV;
+> +	}
+> +
+> +	ret = i2c_smbus_read_byte_data(sdata->client, S6SA552_BOOT_STATUS);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	/* for some reasons the device might be stuck in the bootloader */
+> +	if (ret != S6SA552_BS_APPLICATION)
+> +		return -ENODEV;
+> +
+> +	/* enable touch functionality */
+> +	ret = i2c_smbus_write_byte_data(sdata->client,
+> +					S6SA552_TOUCH_FUNCTION, 0x01);
+> +	if (ret)
+> +		return ret;
+> +
+> +	mdelay(20); /* make sure everything is up */
+> +
+> +	return 0;
+> +}
+> +
+> +static int s6sa552_hw_init(struct s6sa552_data *sdata)
+> +{
+> +	u8 buffer[S6SA552_DEVID_SIZE];
+> +	int ret;
+> +
+> +	ret = s6sa552_power_on(sdata);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = i2c_smbus_read_i2c_block_data(sdata->client,
+> +					    S6SA552_DEVICE_ID,
+> +					    S6SA552_DEVID_SIZE,
+> +					    buffer);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	sdata->devid = get_unaligned_be16(buffer + 1);
+> +
+> +	return 0;
+> +}
+> +
+> +static void s6sa552_power_off(void *data)
+> +{
+> +	struct s6sa552_data *sdata = data;
+> +
+> +	disable_irq(sdata->client->irq);
+> +	regulator_bulk_disable(ARRAY_SIZE(sdata->regulators),
+> +			       sdata->regulators);
+> +}
+> +
+> +static int s6sa552_probe(struct i2c_client *client)
+> +{
+> +	struct s6sa552_data *sdata;
+> +	int err;
+> +
+> +	if (!i2c_check_functionality(client->adapter, I2C_FUNC_I2C |
+> +						I2C_FUNC_SMBUS_BYTE_DATA |
+> +						I2C_FUNC_SMBUS_I2C_BLOCK))
+> +		return -ENODEV;
+> +
+> +	sdata = devm_kzalloc(&client->dev, sizeof(*sdata), GFP_KERNEL);
+> +	if (!sdata)
+> +		return -ENOMEM;
+> +
+> +	i2c_set_clientdata(client, sdata);
+> +	sdata->client = client;
+> +
+> +	sdata->regulators[S6SA552_REGULATOR_VDD].supply = "vdd";
+> +	sdata->regulators[S6SA552_REGULATOR_AVDD].supply = "avdd";
+> +	err = devm_regulator_bulk_get(&client->dev,
+> +				      ARRAY_SIZE(sdata->regulators),
+> +				      sdata->regulators);
+> +	if (err)
+> +		return err;
+> +
+> +	err = devm_add_action_or_reset(&client->dev, s6sa552_power_off, sdata);
+> +	if (err)
+> +		return err;
+> +
+> +	err = s6sa552_hw_init(sdata);
+> +	if (err)
+> +		return err;
+> +
+> +	sdata->input = devm_input_allocate_device(&client->dev);
+> +	if (!sdata->input)
+> +		return -ENOMEM;
+> +
+> +	sdata->input->name = S6SA552_DEV_NAME;
+> +	sdata->input->id.bustype = BUS_I2C;
+> +	sdata->input->open = s6sa552_input_open;
+> +	sdata->input->close = s6sa552_input_close;
+> +
+> +	input_set_abs_params(sdata->input, ABS_MT_POSITION_X, 0, S6SA552_MAX_X,
+> +			     0, 0);
+> +	input_set_abs_params(sdata->input, ABS_MT_POSITION_Y, 0, S6SA552_MAX_Y,
+> +			     0, 0);
+> +	input_set_abs_params(sdata->input, ABS_MT_TOUCH_MAJOR, 0, 255, 0, 0);
+> +	input_set_abs_params(sdata->input, ABS_MT_TOUCH_MINOR, 0, 255, 0, 0);
+> +	input_set_abs_params(sdata->input, ABS_MT_PRESSURE, 0, 255, 0, 0);
+> +
+> +	touchscreen_parse_properties(sdata->input, true, &sdata->prop);
+> +
+> +	if (!input_abs_get_max(sdata->input, ABS_X) ||
+> +	    !input_abs_get_max(sdata->input, ABS_Y)) {
+> +		dev_warn(&client->dev, "the axis have not been set\n");
+> +	}
+> +
+> +	err = input_mt_init_slots(sdata->input, S6SA552_TX_CHANNELS,
+> +				  INPUT_MT_DIRECT);
+> +	if (err)
+> +		return err;
+> +
+> +	input_set_drvdata(sdata->input, sdata);
+> +
+> +	err = input_register_device(sdata->input);
+> +	if (err)
+> +		return err;
+> +
+> +	err = devm_request_threaded_irq(&client->dev, client->irq, NULL,
+> +					s6sa552_irq_handler,
+> +					IRQF_TRIGGER_LOW | IRQF_ONESHOT,
+
+Do not hardcode trigger type, just use IRQF_ONESHOT.
+
+> +					"s6sa552_irq", sdata);
+> +	if (err)
+> +		return err;
+> +
+> +	pm_runtime_enable(&client->dev);
+> +
+> +	return 0;
+> +}
+
+Thanks.
+
+-- 
+Dmitry
 
