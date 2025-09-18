@@ -1,178 +1,251 @@
-Return-Path: <linux-input+bounces-14865-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14866-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 779D2B86ABD
-	for <lists+linux-input@lfdr.de>; Thu, 18 Sep 2025 21:27:18 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id E1363B86C92
+	for <lists+linux-input@lfdr.de>; Thu, 18 Sep 2025 21:56:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 111EC1C882A3
-	for <lists+linux-input@lfdr.de>; Thu, 18 Sep 2025 19:27:40 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 95DCA3AAB7B
+	for <lists+linux-input@lfdr.de>; Thu, 18 Sep 2025 19:56:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA64F1DDC2B;
-	Thu, 18 Sep 2025 19:27:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8BDA6304994;
+	Thu, 18 Sep 2025 19:56:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TIuk9/Eo"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=oscillator.se header.i=@oscillator.se header.b="IDdu7ovv"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from sv9.manufrog.com (sv9.manufrog.com [46.246.119.84])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86B1935947
-	for <linux-input@vger.kernel.org>; Thu, 18 Sep 2025 19:27:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32EDA2D77E2;
+	Thu, 18 Sep 2025 19:56:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.246.119.84
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758223633; cv=none; b=lJjc4cy5lMqF0N4UtyXgG31cUY3/PY5cY6UbocDLMB5ITSfrissRoFmcTUbd+84tyvunLicGrjd+r98TZgxJ0hMftv1YTGRKkVP2eNab1F/DJVTOysXUxejUp4SJRk0F0rgfnlUiPukupREMqn0gnnOmxUWKJf11mgWbf3YwMC0=
+	t=1758225413; cv=none; b=equMMsywfGGCYhKr/3/lUuOUs28ZporEX7t3QD9xCm475zWVu7gwUADcQskFiwQLmEubZ10gcqhbM+3oEW6kXSlByU5umUEtNOe916mme5UqLayTrhg9g77bg5WEGlkQsfplF+TOAn/xheOPDFT0m+hM47HDhFRndT0BMfGTuys=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758223633; c=relaxed/simple;
-	bh=Z5KB1DtG0F8xBTY8ig6GaF3uuFBfewpKbjU1oHisSHI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=H8y3WedLc+uy7+9eyZZVEFfg54zixu/V//xgifdqs+Ltn9ounbqflXXFAWfJtipvmH9LKsYj6K496XCaFMqMp//04lnwtQn2GPMcFT3pk/Y0wghmSHyLe3TouwR+PXbFqV2Yd4dQipnuG4p5Gaz8yJlI9vOcGQQb0o5mx2z5X60=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TIuk9/Eo; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37DE4C4CEE7;
-	Thu, 18 Sep 2025 19:27:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758223633;
-	bh=Z5KB1DtG0F8xBTY8ig6GaF3uuFBfewpKbjU1oHisSHI=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=TIuk9/Eok7DPkMADWq1sp+VWBQXrTqN8Z6PKIY/cpxthEI1jDyvaSzMPcMhJflqL7
-	 tPlDM9JyK4SxLr9F51lFtc+Lim+VqxXtSjbH4IGVgV11wFgk2upKKWfFfci3cftK7w
-	 J2hFCQe7/Mde+am69UAhfsnZUgaWt6+DToMF6nVob17QSYTcddWjq0gRPxx4GJcxwj
-	 xxSi/B4PptCKJS323p1tkUZ/aoAHhSPM/fSdFGh5NJjQhhqVFypEH3eWkfb8LdJbSc
-	 udIjrja6pLmOVI8uDJM0wliMIGv8sFY65LvIviwgoUeaF5konSHO0MT7o1cTKafay5
-	 ydaUfA4EfqYzQ==
-Message-ID: <b5f4a1e5-1561-4554-8de4-0416bca0c75f@kernel.org>
-Date: Thu, 18 Sep 2025 14:27:10 -0500
+	s=arc-20240116; t=1758225413; c=relaxed/simple;
+	bh=r7WAXRduQEHoix8J0gLBB9Wc6pQciyeE5NKHP7MstB4=;
+	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
+	 Message-ID:Content-Type; b=Jw/fhTZ1m3N/DurdGiHRcYfz7qplMCMB4Ejxu0YaT1i4d+e2s/NltldRk0VuUtPmEKtSJbepTcaKK1Rdq3LeC9M29hc1j8p5vUQKNEHaI6EBbICOXQA8h9vgZjB+giOJrLJ6rU4VI2wFCOXXB0NKJyZ5IIOsiW0q+D/5buhPRm4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=oscillator.se; spf=pass smtp.mailfrom=oscillator.se; dkim=pass (2048-bit key) header.d=oscillator.se header.i=@oscillator.se header.b=IDdu7ovv; arc=none smtp.client-ip=46.246.119.84
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=oscillator.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oscillator.se
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=oscillator.se; s=default; h=Content-Transfer-Encoding:Content-Type:
+	Message-ID:References:In-Reply-To:Subject:Cc:To:From:Date:MIME-Version:Sender
+	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=pceG8WN/hVwIKwsmqxsfKdZEBJJDbsw7zIFKIJ+0JIY=; b=IDdu7ovvSe8Apv0r0tTzMJzUPo
+	BL1inegAcsrsA2yj2XKF1FSj1CLdANPGhPjx1ytm8Wjc1UyBnEGzUGjNCNF+rfSW40rR0YqFyZOfJ
+	vrrUnjwTu8CrPzLz2Rbk+Ehv00cCdaGf4xvDND0GeVzvoDS9hyGCVkKvg39+YBd4g0nlI6qFhWSju
+	96vILA2vvEyAoUInfU5Rr1LpABqsiFcWrWEaAx1jue5gczTGTEv/ZEHrmX6AiUR2C1Rv2ubcfomYh
+	/3WC6P3m9lzX+oLeu48yAwsKnSik1EnsvEnsbsQK+BSh0VHFfab3Ywq29YCDFrRZxCLISkp837WAj
+	A7ibMTzA==;
+Received: from [::1] (port=55482 helo=sv9.manufrog.com)
+	by sv9.manufrog.com with esmtpa (Exim 4.98.2)
+	(envelope-from <staffan.melin@oscillator.se>)
+	id 1uzKkF-0000000GIW5-1oZ6;
+	Thu, 18 Sep 2025 21:56:40 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] HID: amd_sfh: Add sync across amd sfh work functions
-To: Basavaraj Natikar <Basavaraj.Natikar@amd.com>, jikos@kernel.org,
- bentiss@kernel.org, linux-input@vger.kernel.org
-Cc: Matthew Schwartz <matthew.schwartz@linux.dev>,
- Prakruthi SP <Prakruthi.SP@amd.com>,
- Akshata MukundShetty <akshata.mukundshetty@amd.com>
-References: <20250918123202.1076393-1-Basavaraj.Natikar@amd.com>
-Content-Language: en-US
-From: "Mario Limonciello (AMD) (kernel.org)" <superm1@kernel.org>
-In-Reply-To: <20250918123202.1076393-1-Basavaraj.Natikar@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Date: Thu, 18 Sep 2025 21:56:38 +0200
+From: Staffan Melin <staffan.melin@oscillator.se>
+To: zhangheng <zhangheng@kylinos.cn>
+Cc: Terry Junge <linuxhid@cosmicgizmosystems.com>, Salvatore Bonaccorso
+ <carnil@debian.org>, Jiri Kosina <jkosina@suse.com>, Benjamin Tissoires
+ <bentiss@kernel.org>, linux-input@vger.kernel.org,
+ linux-kernel@vger.kernel.org, regressions@lists.linux.dev,
+ stable@vger.kernel.org, 1114557@bugs.debian.org
+Subject: Re: [regression] 1a8953f4f774 ("HID: Add IGNORE quirk for
+ SMARTLINKTECHNOLOGY") causes issue with ID 4c4a:4155 Jieli Technology USB
+ Composite Device
+In-Reply-To: <54b4b55c-ef29-40ae-a576-0c0b35ea9625@kylinos.cn>
+References: <aL2gYJaXoB6p_oyM@eldamar.lan>
+ <c8f3d402-e0ec-4767-b925-d7764aec3d93@kylinos.cn>
+ <e81e8d68cb33c7de7b0e353791e21e53@oscillator.se>
+ <aMUxHZF-7p7--1qS@eldamar.lan> <aMUxg6FLqDetwiGu@eldamar.lan>
+ <f08669ec112d6ab2f62e35c0c96d1f06@oscillator.se>
+ <94520aac-2a68-40d2-b188-80f9e361d6de@kylinos.cn>
+ <735c20da-c052-4528-ad91-185a835ca40c@cosmicgizmosystems.com>
+ <54b4b55c-ef29-40ae-a576-0c0b35ea9625@kylinos.cn>
+User-Agent: Roundcube Webmail/1.6.11
+Message-ID: <3c299b65351c489fea95ec8b93518b6b@oscillator.se>
+X-Sender: staffan.melin@oscillator.se
+Organization: Oscillator
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Content-Transfer-Encoding: 8bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - sv9.manufrog.com
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - oscillator.se
+X-Get-Message-Sender-Via: sv9.manufrog.com: authenticated_id: staffan.melin@oscillator.se
+X-Authenticated-Sender: sv9.manufrog.com: staffan.melin@oscillator.se
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 
-On 9/18/2025 7:32 AM, Basavaraj Natikar wrote:
-> The process of the report is delegated across different work functions.
-> Hence, add a sync mechanism to protect SFH work data across functions.
+Thank you for the patches!
+
+Unfortunately I could not apply v3, I got an error message.
+
+While I could apply patch v4 and compile and test it, same result as 
+before -- no working touchscreen, and touchscreen not visible on xinput 
+--list. This was on 6.16.7.
+
+Best regards,
+
+Staffan
+
+
+On 2025-09-18 16:05, zhangheng wrote:
+> It's interesting that I found another USB device with the same ID, but
+> it's a USB headphone, device descriptors in headphone.txt
 > 
-> Fixes: 4b2c53d93a4b ("SFH:Transport Driver to add support of AMD Sensor Fusion Hub (SFH)")
-> Reported-by: Matthew Schwartz <matthew.schwartz@linux.dev>
-> Closes: https://lore.kernel.org/all/a21abca5-4268-449d-95f1-bdd7a25894a5@linux.dev/
-> Tested-by: Prakruthi SP <Prakruthi.SP@amd.com>
-> Co-developed-by: Akshata MukundShetty <akshata.mukundshetty@amd.com>
-> Signed-off-by: Akshata MukundShetty <akshata.mukundshetty@amd.com>
-> Signed-off-by: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
-
-Reviewed-by: Mario Limonciello (AMD) <superm1@kernel.org>
-
-> ---
->   drivers/hid/amd-sfh-hid/amd_sfh_client.c | 12 ++++++++++--
->   drivers/hid/amd-sfh-hid/amd_sfh_common.h |  3 +++
->   drivers/hid/amd-sfh-hid/amd_sfh_pcie.c   |  4 ++++
->   3 files changed, 17 insertions(+), 2 deletions(-)
+> Microphone.txt is the device descriptor for SMARTLINKTechnology.
 > 
-> diff --git a/drivers/hid/amd-sfh-hid/amd_sfh_client.c b/drivers/hid/amd-sfh-hid/amd_sfh_client.c
-> index 0f2cbae39b2b..7017bfa59093 100644
-> --- a/drivers/hid/amd-sfh-hid/amd_sfh_client.c
-> +++ b/drivers/hid/amd-sfh-hid/amd_sfh_client.c
-> @@ -39,8 +39,12 @@ int amd_sfh_get_report(struct hid_device *hid, int report_id, int report_type)
->   	struct amdtp_hid_data *hid_data = hid->driver_data;
->   	struct amdtp_cl_data *cli_data = hid_data->cli_data;
->   	struct request_list *req_list = &cli_data->req_list;
-> +	struct amd_input_data *in_data = cli_data->in_data;
-> +	struct amd_mp2_dev *mp2;
->   	int i;
->   
-> +	mp2 = container_of(in_data, struct amd_mp2_dev, in_data);
-> +	guard(mutex)(&mp2->lock);
->   	for (i = 0; i < cli_data->num_hid_devices; i++) {
->   		if (cli_data->hid_sensor_hubs[i] == hid) {
->   			struct request_list *new = kzalloc(sizeof(*new), GFP_KERNEL);
-> @@ -75,6 +79,8 @@ void amd_sfh_work(struct work_struct *work)
->   	u8 report_id, node_type;
->   	u8 report_size = 0;
->   
-> +	mp2 = container_of(in_data, struct amd_mp2_dev, in_data);
-> +	guard(mutex)(&mp2->lock);
->   	req_node = list_last_entry(&req_list->list, struct request_list, list);
->   	list_del(&req_node->list);
->   	current_index = req_node->current_index;
-> @@ -83,7 +89,6 @@ void amd_sfh_work(struct work_struct *work)
->   	node_type = req_node->report_type;
->   	kfree(req_node);
->   
-> -	mp2 = container_of(in_data, struct amd_mp2_dev, in_data);
->   	mp2_ops = mp2->mp2_ops;
->   	if (node_type == HID_FEATURE_REPORT) {
->   		report_size = mp2_ops->get_feat_rep(sensor_index, report_id,
-> @@ -107,6 +112,8 @@ void amd_sfh_work(struct work_struct *work)
->   	cli_data->cur_hid_dev = current_index;
->   	cli_data->sensor_requested_cnt[current_index] = 0;
->   	amdtp_hid_wakeup(cli_data->hid_sensor_hubs[current_index]);
-> +	if (!list_empty(&req_list->list))
-> +		schedule_delayed_work(&cli_data->work, 0);
->   }
->   
->   void amd_sfh_work_buffer(struct work_struct *work)
-> @@ -117,9 +124,10 @@ void amd_sfh_work_buffer(struct work_struct *work)
->   	u8 report_size;
->   	int i;
->   
-> +	mp2 = container_of(in_data, struct amd_mp2_dev, in_data);
-> +	guard(mutex)(&mp2->lock);
->   	for (i = 0; i < cli_data->num_hid_devices; i++) {
->   		if (cli_data->sensor_sts[i] == SENSOR_ENABLED) {
-> -			mp2 = container_of(in_data, struct amd_mp2_dev, in_data);
->   			report_size = mp2->mp2_ops->get_in_rep(i, cli_data->sensor_idx[i],
->   							       cli_data->report_id[i], in_data);
->   			hid_input_report(cli_data->hid_sensor_hubs[i], HID_INPUT_REPORT,
-> diff --git a/drivers/hid/amd-sfh-hid/amd_sfh_common.h b/drivers/hid/amd-sfh-hid/amd_sfh_common.h
-> index f44a3bb2fbd4..78f830c133e5 100644
-> --- a/drivers/hid/amd-sfh-hid/amd_sfh_common.h
-> +++ b/drivers/hid/amd-sfh-hid/amd_sfh_common.h
-> @@ -10,6 +10,7 @@
->   #ifndef AMD_SFH_COMMON_H
->   #define AMD_SFH_COMMON_H
->   
-> +#include <linux/mutex.h>
->   #include <linux/pci.h>
->   #include "amd_sfh_hid.h"
->   
-> @@ -59,6 +60,8 @@ struct amd_mp2_dev {
->   	u32 mp2_acs;
->   	struct sfh_dev_status dev_en;
->   	struct work_struct work;
-> +	/* mp2 to protect data */
-> +	struct mutex lock;
->   	u8 init_done;
->   	u8 rver;
->   };
-> diff --git a/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c b/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c
-> index 2983af969579..1d9f955573aa 100644
-> --- a/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c
-> +++ b/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c
-> @@ -466,6 +466,10 @@ static int amd_mp2_pci_probe(struct pci_dev *pdev, const struct pci_device_id *i
->   	if (!privdata->cl_data)
->   		return -ENOMEM;
->   
-> +	rc = devm_mutex_init(&pdev->dev, &privdata->lock);
-> +	if (rc)
-> +		return rc;
-> +
->   	privdata->sfh1_1_ops = (const struct amd_sfh1_1_ops *)id->driver_data;
->   	if (privdata->sfh1_1_ops) {
->   		if (boot_cpu_data.x86 >= 0x1A)
-
+> I was originally planning to differentiate according to bcdHID, but
+> there is hdev ->version=0x100, therefore, I created the v3 patch.
+> 
+> The microphone device is normal, but I'm not sure if your touchscreen
+> function is working properly.
+> 
+> [   67.417805] usb 1-3.4.2: new full-speed USB device number 11 using
+> xhci_hcd
+> [   67.566700] usb 1-3.4.2: New USB device found, idVendor=4c4a,
+> idProduct=4155, bcdDevice= 1.00
+> [   67.566707] usb 1-3.4.2: New USB device strings: Mfr=1, Product=2,
+> SerialNumber=3
+> [   67.566712] usb 1-3.4.2: Product: USB Composite Device
+> [   67.566717] usb 1-3.4.2: Manufacturer: SmartlinkTechnology
+> [   67.566721] usb 1-3.4.2: SerialNumber: 20201111000001
+> [   67.568816] DEBUG: drivers/hid/hid-quirks.c 1227 hid_gets_squirk
+> hdev->version = 0x100
+> [   67.568827] DEBUG: drivers/hid/hid-quirks.c 1025 hid_ignore
+> hdev->version = 0x100
+> [   67.568832] DEBUG: drivers/hid/hid-quirks.c 1227 hid_gets_squirk
+> hdev->version = 0x100
+> [   67.569256] DEBUG: drivers/hid/hid-quirks.c 1227 hid_gets_squirk
+> hdev->version = 0x201
+> 
+> [   39.692821] DEBUG: drivers/hid/usbhid/hid-core.c 985 usbhid_parse
+> dev->serial = 20201111000001
+> 
+>  Later, I thought of using a serial number, Later, I thought of using
+> a serial number, but the headphone serial number was NULL,
+> 
+> and printing it directly would trigger OOPs, at present, I can only
+> consider distinguishing between manufacturers, this is v4 patch.
+> 
+> If there are better ideas or patches, they can also be provided. The
+> microphone device will arrive in a few days, and I will verify it
+> then.
+> 
+> 在 2025/9/16 7:06, Terry Junge 写道:
+> 
+>> On 9/15/25 1:37 AM, zhangheng wrote:
+>> 
+>>> Apply this new patch and test the kernel again. I don't have the
+>>> original mic device in my hands, which means I have to wait for a
+>>> response for testing now.
+>>> 
+>>> You can test it first, and the other mic device also needs to be
+>>> retested
+>> 
+>> Your patch will not work as you expect for two reasons.
+>> 
+>> if (hid_match_id(hdev, hid_ignore_list) ||
+>> (hid_match_id(hdev, hid_ignore_mic) && (hdev->version >
+>> 1.1)))
+>> quirks |= HID_QUIRK_IGNORE;
+>> 
+>> hdev->version is U32 not float. Version (bcdDevice) 1.00 would be
+>> 0x0100. The value 1.1 is probably cast to 0x0001.
+>> 
+>> Second, both devices have identical VID, PID, bcdDevice, and Product
+>> names.
+>> 
+>> [  563.104908] usb 1-1.4.1.2: New USB device found, idVendor=4c4a,
+>> idProduct=4155, bcdDevice= 1.00
+>> [  563.104910] usb 1-1.4.1.2: New USB device strings: Mfr=1,
+>> Product=2, SerialNumber=3
+>> [  563.104911] usb 1-1.4.1.2: Product: USB Composite Device
+>> [  563.104912] usb 1-1.4.1.2: Manufacturer: SmartlinkTechnology
+>> [  563.104913] usb 1-1.4.1.2: SerialNumber: 20201111000001
+>> 
+>> [   10.451534] usb 3-3: New USB device found, idVendor=4c4a,
+>> idProduct=4155, bcdDevice= 1.00
+>> [   10.451540] usb 3-3: New USB device strings: Mfr=1, Product=2,
+>> SerialNumber=3
+>> [   10.451543] usb 3-3: Product: USB Composite Device
+>> [   10.451545] usb 3-3: Manufacturer: Jieli Technology
+>> [   10.451546] usb 3-3: SerialNumber: FFFFFFFFFFFFFFFF
+>> 
+>> If you could get the descriptors for the microphone device, it would
+>> be helpful.
+>> 
+>> Thanks,
+>> Terry
+>> 
+>> 在 2025/9/13 21:11, Staffan Melin 写道:
+>> 
+>> Ah, thanks, I get it now :)
+>> 
+>> So I got 6.16.7, and the patch applied without problems.
+>> 
+>> But no luck, the same results as before: touchscreen not working,
+>> xinput --list not showing the Jieli touchscreen. dmesg shows the
+>> same as before, too.
+>> 
+>> Best regards,
+>> 
+>> Staffan
+>> 
+>> On 2025-09-13 10:55, Salvatore Bonaccorso wrote:
+>> 
+>> Hi Staffan,
+>> 
+>> chiming in hopefully it is of help.
+>> 
+>> Now really with the patch ...
+>> 
+>> On Fri, Sep 12, 2025 at 09:57:04PM +0200, Staffan Melin wrote:
+>> 
+>> Thank you,
+>> 
+>> I tried to apply this patch to 6.12.39, the first problematic
+>> kernel, as
+>> well as 6.12.41, the first bad I tried, and on both I got an error
+>> message:
+>> 
+>> Applying: HID: quirks: Add device descriptor for 4c4a:4155
+>> error: patch failed: drivers/hid/hid-quirks.c:1068
+>> error: drivers/hid/hid-quirks.c: patch does not apply
+>> Patch failed at 0001 HID: quirks: Add device descriptor for
+>> 4c4a:4155
+>> 
+>> To which kernel version should I apply the patch?
+>> 
+>> As the deveopment goes from mainline then down to stable series, the
+>> fix needs to be developed first for mainline. So the patch is
+>> targeted
+>> there.
+>> 
+>> But please find attached an updated patch which hopefully should
+>> work
+>> which resolved the context changes on top of 6.12.47.
+>> 
+>> But ideally you can provide a Tested-by on zhangheng's mainline
+>> patch
+>> to get things rolling as needed.
+>> 
+>> Regards,
+>> Salvatore
 
