@@ -1,104 +1,129 @@
-Return-Path: <linux-input+bounces-14826-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14827-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28167B825BA
-	for <lists+linux-input@lfdr.de>; Thu, 18 Sep 2025 02:15:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F28FFB828C4
+	for <lists+linux-input@lfdr.de>; Thu, 18 Sep 2025 03:46:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BA9732A67F8
-	for <lists+linux-input@lfdr.de>; Thu, 18 Sep 2025 00:15:44 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B280F325C23
+	for <lists+linux-input@lfdr.de>; Thu, 18 Sep 2025 01:46:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D2B531917ED;
-	Thu, 18 Sep 2025 00:15:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3568B188734;
+	Thu, 18 Sep 2025 01:46:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="lElWtNb+"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FZ79K9ds"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-10697.protonmail.ch (mail-10697.protonmail.ch [79.135.106.97])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com [209.85.219.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 703A334BA3B
-	for <linux-input@vger.kernel.org>; Thu, 18 Sep 2025 00:15:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=79.135.106.97
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B463212CD96
+	for <linux-input@vger.kernel.org>; Thu, 18 Sep 2025 01:46:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758154538; cv=none; b=q3Yp/2rbltAFuGL4i6TqULiehGN99ElOiyXjb2d8pbCua49+iIdhjrQxbN82YyDmY1IJGHpPGYLkcj1Ji9gbsX4EMzk54HUbTecZkIl3zqeQo0pYCXsN5wiNuILZ8i+b+GDtmCxf9HgpQBaIsaH/ZeIdV2bziOEyD58IqhhuV8M=
+	t=1758160006; cv=none; b=ZNSg0lNb3AG8MpZxpyZu1p8nDvvcKht1LgcrCimzZMPsW5dSUuwuw5Qhjo+epmmwgvMcfHuicsPRnREWvFsJrve8JrCXxgobfhm6otfGE1USTPnnEti7nigRsx3ouIoYXtkRURQ3f587GtJ6aaj8A0LRN2JxpKgKIcTtcZaSEUo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758154538; c=relaxed/simple;
-	bh=CCJTdml2C078GoaCiwVI6vSDHAvVPnkQCJTTyWdAmSw=;
-	h=Date:To:From:Subject:Message-ID:MIME-Version:Content-Type; b=MZrzvIqonEeNcQoVXklgvShbnypVRE3schVCPQxiUWreCLk8KaGGWdjhnKDkGR8iAu6P6mBFhW0ytdSaEX3r7rpJB+RfTt2gYlRnivSqQfR9vfdgXyjTaKWb+uLSK6eCjwoO+GH4BEHO/2/kBG+pnP48fvp7XyrWJddrGlDNBxc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com; spf=pass smtp.mailfrom=protonmail.com; dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b=lElWtNb+; arc=none smtp.client-ip=79.135.106.97
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonmail.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-	s=protonmail3; t=1758154528; x=1758413728;
-	bh=HB4HgSm59Y5YdVau0roDmeEckS/aWB/v03CpTzC2vrk=;
-	h=Date:To:From:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
-	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-	b=lElWtNb+ofeMev9ApXXliUcg5Pd8ZCkx1oBpfXTBEuPzgBMyFUFs4xjU7Q48daDw4
-	 e8icDWdQGzTRPyvLvZEv3/tzyUvwUths3RncuVRdjQpaJMqiaZODiT63fUK98Kcl+C
-	 OS3oPAAXdQ+AQiWgyKLhmsvq1KT512wrVFyC2dCkLxHYPbbMimQSxzxgCjxnucmO10
-	 X8+v5W4Kh0MKv547q3/hl2Lr+lHpFJ8x+99Hi0uATx30i4tE1cSkgOD1BZMg6f8F4C
-	 xUK756JDiyqoBvGsr7YLswpoJ9vzItKIyLyCcEqI/ewyXte468uspKkhytonrAgYsc
-	 pH/z2tKen4iZA==
-Date: Thu, 18 Sep 2025 00:15:24 +0000
-To: "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>
-From: Vladimir Staykov <vladimir.staykov@protonmail.com>
-Subject: [BUG] FTSC1000:00 2808:5662 touchscreen not working until HID modules reloaded (Huawei MateBook 14 2024)
-Message-ID: <vJUVkk6_M54HXNNmIcoVnjZo8obRscF0F5cAJO23KT14xFUWeYHAdhUaZb7xgdN5WaK39EDtXU3y92nnVtapXDvyWM7-Bg2tQZmYHcotyNI=@protonmail.com>
-Feedback-ID: 3705988:user:proton
-X-Pm-Message-ID: 2d0c2370c4c65bc93b35f22bd8386b8722ddf6d1
+	s=arc-20240116; t=1758160006; c=relaxed/simple;
+	bh=Y1L1HO2ER0yGATtMeo6457ei3YCrxJF9T8bAgNAYWB8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=hY6CNqxkp7SNb2dVjfhoSb52vdG2gyCNFc6neafGNi+j6PZBKDHltnJa5/pbJWq7uSqhLz3W83RH6T3FYV6u1F1ZAp8wQxen5reUN9YcDWe2/QObHHy+UxFixVUdtCrA9/Lhmhp8nM6L/NRDNfSW0Jv9i3/O+lpREuJtgt3/Wuc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FZ79K9ds; arc=none smtp.client-ip=209.85.219.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yb1-f178.google.com with SMTP id 3f1490d57ef6-ea5c8833b15so372387276.1
+        for <linux-input@vger.kernel.org>; Wed, 17 Sep 2025 18:46:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1758160003; x=1758764803; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Ztic0itTb092Cg8phgOMtBzjG5miAwDaU95tKvoCG9o=;
+        b=FZ79K9ds5qUX61monNgpC9K7AIGv9kPI9wToWjXcByaQVeElBM2cb7ojaDCoj/APp9
+         0Vm8UkpoAs9XG7BxOyRHTUZeYOYCv2UVkGpNV2I47sGtrEZPNydgQek1gJ/lOa/Esup5
+         LIY+O+wJb8MPIF5yWDJpGPRE2gy8JqRlK+K2GRPXf21KvVDO7g8YWF78+omy+jrpa9nV
+         ibUuFVBiU65eTBNkR2A+7NmjG/JtXosPI+JYQVNfFCGINs5jgeWATAAsZk8DBvAzbGP8
+         Cak5+Nzu7fM9rad3XujZw34DKf4EWn7/PouNj8hFNIsb4N2uUUaUA9q6gO/peYxlPI78
+         LTBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758160003; x=1758764803;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Ztic0itTb092Cg8phgOMtBzjG5miAwDaU95tKvoCG9o=;
+        b=dwMk6Rkxa2Q0+wP3f9DBpxvEym46KbJCrHnauNDK4hpFkLKtzBaQ2BRPkAJFGRR22O
+         lWH4hCvR1i9esZLKM8B15rxYeFrqKNZ534d+rowvkniru2zehqCfxn/mXDWdRc6wE1qf
+         mdzSSw6uONJ9fjCaOo0ieRYdAq751BDWv5nxAZEdHxGwej571EfxpPLyTPufR2RzVZAM
+         EDErM/bwsid0Xjkpj8kBMkouv+rdUWXIcqNHZ5dfzvHQBSOub8jRUCrPywhfIMFDSZzw
+         UhKoFdjHIdZY84k+7jiLO2o6BS9Myby5fkdpNrwcu6tnYvxP0tUBq7eFz5lAC7xO1img
+         9Gvw==
+X-Gm-Message-State: AOJu0YyM2H7W8B/bklMTvRm5RXjGrHqWtmibJmZ+c8P4RIh4Hy9Mo4GT
+	sSiUTScjSJg6iM1JYMKh7tCxaNl9uRFloIUaYNSZD47vRyOHtEtVyxsra8pQ7KIftOaQrW2lDrg
+	BuduphBcZ1wDoKTwUejZyqYdJ+yXfqIM=
+X-Gm-Gg: ASbGncu4PcPgSWBzZ4r42uK+zkGC+HI3rs+S1WNxKvhklhVtDmA9G99zLra1L6TyM1v
+	7gdVzYhDlp5cPXnqY1zAoIa0wEXM2YC7bAhZc59CxJ/r+qPIs0ZoWeEvxq77eSTS5M/OG0Y8Fdw
+	9VD3OhApddepOrCmBl9g+3kcgba03A5wa8bMe85CusBbFelW997O1br7OG+0x3GNrqGtLPF1D2m
+	g0uWjrwqX6CdAFBTACuXNOueg==
+X-Google-Smtp-Source: AGHT+IEoShjhtx9jFDawsjFMigqup5ul3VPAlqdVHAkcLniGQ0utQpaOOKabV6yB8aQ4BG4JD2NxCioJ3jgbCw7hSWM=
+X-Received: by 2002:a05:6902:4a0e:b0:ea5:af77:e48e with SMTP id
+ 3f1490d57ef6-ea5c034f6d6mr3244542276.3.1758160003479; Wed, 17 Sep 2025
+ 18:46:43 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <20250917045026.601848-1-masami256@gmail.com> <34b16512-b098-470a-afff-bc8321e2499a@web.de>
+In-Reply-To: <34b16512-b098-470a-afff-bc8321e2499a@web.de>
+From: Masami Ichikawa <masami256@gmail.com>
+Date: Thu, 18 Sep 2025 10:46:32 +0900
+X-Gm-Features: AS18NWCQDzJTwegu8k4De9r1ttP9WvpSRtNldMNb7nT_bgORV0G8wPu0xNyaVTk
+Message-ID: <CACOXgS-VN6CDZE2NMtM0TuoRT1UZD1LR0JbY5XOQ6vsVmsTUKw@mail.gmail.com>
+Subject: Re: [PATCH] HID: hid-ntrig: Fix potential memory leak in ntrig_report_version()
+To: Markus Elfring <Markus.Elfring@web.de>
+Cc: linux-input@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>, 
+	Benjamin Tissoires <bentiss@kernel.org>, Jiri Kosina <jikos@kernel.org>, 
+	Minjong Kim <minbell.kim@samsung.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hello,
+Thank you for the review.
 
-On a Huawei MateBook 14 (2024) with Arch Linux and kernel 6.16.7, the built=
--in OLED touchscreen
-(FTSC1000:00 2808:5662) is detected but does not generate any touch or pen =
-events until HID modules
-are reloaded.
+On Wed, Sep 17, 2025 at 4:46=E2=80=AFPM Markus Elfring <Markus.Elfring@web.=
+de> wrote:
+>
+> =E2=80=A6
+> > It is safe to move the kmalloc() call after the hid_is_usb() check to a=
+void
+> > unnecessary allocation and potential memory leak.
+>
+> * See also:
+>   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree=
+/Documentation/process/submitting-patches.rst?h=3Dv6.17-rc6#n94
+>
+> * How do you think about to increase the application of scope-based resou=
+rce management?
+>   https://elixir.bootlin.com/linux/v6.17-rc6/source/include/linux/slab.h#=
+L476
+>
 
-Steps to reproduce:
-1. Boot kernel 6.16.7 (vanilla Arch package).
-2. Touchscreen appears as /dev/input/event5, stylus as /dev/input/event6.
-3. dmesg shows:
-   i2c_hid_acpi i2c-FTSC1000:00: failed to get a report from device: -11
-   hid-multitouch 0018:2808:5662.0002: failed to fetch feature 5
-   hid-multitouch 0018:2808:5662.0002: failed to fetch feature 12
-4. evtest shows ABS ranges but no events when touching.
-5. After running:
-   modprobe -r i2c_hid_acpi i2c_hid hid_multitouch
-   modprobe i2c_hid_acpi hid_multitouch
-   touchscreen and stylus work normally and produce multitouch + pen events=
-.
+I think using the DEFINE_FREE macro simplifies cleanup, especially
+when an error occurs.
 
-Hardware:
-- Huawei MateBook 14 (2024), 14.2" 2880x1920 OLED touchscreen
-- Touch controller: FTSC1000:00 2808:5662
+> * Can a summary phrase like =E2=80=9CPrevent memory leak in ntrig_report_=
+version()=E2=80=9D
+>   be nicer?
+>
 
-Kernel: 6.16.7-arch1-1
-Firmware: linux-firmware up to date (Sep 2025)
+I see. I will rewrite commit log.
 
-It seems this FTSC1000 variant may need a quirk in hid-multitouch or i2c_hi=
-d_acpi.
-
-Please advise if more logs are needed. I can provide full dmesg, libinput l=
-ist-devices,
-and evtest output before and after module reload.
-
-Best regards,
-Vladimir Staykov
+>
+> Regards,
+> Markus
 
 
-
-
-
-Sent with Proton Mail secure email.
+Regards,
+--=20
+Masami Ichikawa
 
