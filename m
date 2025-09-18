@@ -1,144 +1,233 @@
-Return-Path: <linux-input+bounces-14872-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14873-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9360FB86ED9
-	for <lists+linux-input@lfdr.de>; Thu, 18 Sep 2025 22:37:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 165B1B86FCA
+	for <lists+linux-input@lfdr.de>; Thu, 18 Sep 2025 23:00:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5C4C9566A71
-	for <lists+linux-input@lfdr.de>; Thu, 18 Sep 2025 20:37:54 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2DE7D58175B
+	for <lists+linux-input@lfdr.de>; Thu, 18 Sep 2025 21:00:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AE5B52EFDB1;
-	Thu, 18 Sep 2025 20:37:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DC5CB26C3A7;
+	Thu, 18 Sep 2025 21:00:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b="dGITqn4J"
+	dkim=pass (1024-bit key) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b="MFPGL+0F"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com [209.85.219.179])
+Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com [209.85.219.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1189F29E0ED
-	for <linux-input@vger.kernel.org>; Thu, 18 Sep 2025 20:37:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CC621C6FE8
+	for <linux-input@vger.kernel.org>; Thu, 18 Sep 2025 21:00:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758227870; cv=none; b=T61lX99iiL7DaMehiGqX2wCmQbun0/JN3QH/H1Px8bvjWr3GPud2XQrTOeTrQd5pyDkUmWE8TnIfHSnk25Mv60/PiKtm9xm+w6/MKh5yCgJQCKR4f/15cmK62+w4iJg9RVBKMpg04vqKuCZDGNgY/yyFm9PH7EBJ2BBqu/S4ZRI=
+	t=1758229237; cv=none; b=mqlRsS5xTisGE/xVRyJa3HByJoQP24Eko0e1FXgBlz3bZ3ZHAeVU4d8MiOaoBKiPW9b8319naLww8PspDCuNTwLbp9bw9O6GUBx87Ib7HTvLtXIaDXPt7tsDJJDL3eBkMKbYyVQeDhLa7wSxzwbM6sV5/jytvsIgKvEd3qnL4G0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758227870; c=relaxed/simple;
-	bh=+0R/2T7Tg9D4YiaoqRiplwCZvbPjlzXYv47AHkbl7dM=;
+	s=arc-20240116; t=1758229237; c=relaxed/simple;
+	bh=OfUXqLDDkS545GzfXO0iJxOO/Yluws5JSCW+LfxKucs=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fkJ5r/lC76tULuCCaHpR5Te84Gr8YAvb5cb62TBAiZ5i8DmYN8lbsbdAzhREswbQxet3UCebdetfWTHBp/KgbLS4N4YIe7tmqbfLdNZqgd6Wjb4I5Kgk9s6cLjZVGs390fvboWFNC5Xi2WcX4iEwVkU8nzXGI+Dpjguedklh6/M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=amarulasolutions.com; spf=pass smtp.mailfrom=amarulasolutions.com; dkim=pass (1024-bit key) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b=dGITqn4J; arc=none smtp.client-ip=209.85.219.179
+	 To:Cc:Content-Type; b=BjDTH10m32T+lDStWqLeaFngc0QzN3H41vD2LF5UDYIg2jJnHw+G3kcKl+uj7egVijZGcs1qMDfNhf6M3Rp9xQz+9+DD4FHY5q2LmgeTG9BJBDlB62AIQqGdZsk3qRR9da1eHc9VZiON3ZDT1TDkxz7se2j6yadXl2yeBvIiSyU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=amarulasolutions.com; spf=pass smtp.mailfrom=amarulasolutions.com; dkim=pass (1024-bit key) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b=MFPGL+0F; arc=none smtp.client-ip=209.85.219.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=amarulasolutions.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amarulasolutions.com
-Received: by mail-yb1-f179.google.com with SMTP id 3f1490d57ef6-e96c48e7101so1266634276.2
-        for <linux-input@vger.kernel.org>; Thu, 18 Sep 2025 13:37:48 -0700 (PDT)
+Received: by mail-yb1-f173.google.com with SMTP id 3f1490d57ef6-ea5c612297bso1084874276.3
+        for <linux-input@vger.kernel.org>; Thu, 18 Sep 2025 14:00:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amarulasolutions.com; s=google; t=1758227868; x=1758832668; darn=vger.kernel.org;
+        d=amarulasolutions.com; s=google; t=1758229235; x=1758834035; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=vPqblTFKrLAe0mzsDyY6YySHuY6Q2kBBLw78NU0KIeg=;
-        b=dGITqn4JwTmj5KwN35OD6/w5on0Ky8BtXx72gnPAkmp+/tXztRoUxlrBVs4ZSLAQFl
-         0WJTdsR4LIGjuEl1QwUmqXU1ZbKWotDZBJG6uz0fcDJu+Pde2OpvjBLV6Wcgt7ebZaGE
-         3IiA0rQaf+FOGwRk4LF2MySoeTtdmVC5ogGWw=
+        bh=Xa5OIKUu0Ca3IINo/LGf7w71t2tXTJFyE2lgg6vz7B0=;
+        b=MFPGL+0FHDPbWs/ygIeidMVhI5Cdq6jQi8gVFLKAasHVHjN00pm4iJnSYwqaZJcY/6
+         2TJNwD1YlvnB+Ntz0YBw+IvSsKbC3rJF7qdsDAavg1esPzTYdmlaM5yqqrf/oynqplTG
+         PSOU5DH3PBUmbyfD525Fnkxs+O34/04QaqILY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758227868; x=1758832668;
+        d=1e100.net; s=20230601; t=1758229235; x=1758834035;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=vPqblTFKrLAe0mzsDyY6YySHuY6Q2kBBLw78NU0KIeg=;
-        b=P/j9RQLOiD39m+/ySr8ZqjSH8n+LIDu13jRitQ0Zq7bL2FGpeM8P1vZUvDAKtBOcB+
-         8giDt8dFFVeLqGhws/gi8Rh8nJIqbnQGPW5epHv9aJlLFVWm/z4PO2S2NkpHDIxZT4lT
-         skvV7jmH1Zz2Ws6cMMxjD6JaHNB2QouH1n3Ar8JaebCdPfYXggb52y5AMWlpS2IyyESv
-         mH8p6SNk2lZpKUfdTU559LpAZ/i62h56H010cwausaZeAf/0fmKoEEPmd+5ppWTfvyZe
-         uQxJx/Vh4Qwy9OzfPCpi3+SlVPWIgiAvMa2kE+I+4Y3gHK+QdgZGGubXGtye/KGe+FPH
-         2lSA==
-X-Forwarded-Encrypted: i=1; AJvYcCU14HqKnxVhgm6FEfhaeFMDOs0n52HSCHj1qYeDdg/G9SZTZrtlqmErVbWR9Nkt0P3P+/FmPICmpRIIgQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxNGOIvEFH34/zw+ZcHHGT8UbLoZ3kAOoSpsyww1K35zVBwWYQL
-	QGfEjIgX48MpavqldsHd0GKjMSgHFpTHNcoG7SaONklaTogjHzAmHDyjzGi+vzMEd6XmrM40+qz
-	ca4+kzmiimKxxxafctngd+qK5AolwQTkDzHf/Loc36Q==
-X-Gm-Gg: ASbGncuSHX54pnBHrFHtZWOnSorKNs2WJxvxXr8GqRHQ12hz2u+XHIMIIKjuQKLOP+o
-	6s/hdA/QCTQ73ismeFWLDjhp3/oxsY3W4nuWj9Sya1ulE5LKkPWKewuwzMUVg2QZfKq9uCcrxEZ
-	NAqSvsdDZ18G/+bXO0+NzT+fpzSXWq2tEBLtOoKmChBl7S8XIBjOfWPeS7iSW4e3KvDYhjEq8lt
-	G9pr5a3Lged/Hu3HIQa/X2d
-X-Google-Smtp-Source: AGHT+IH14ML5OeTgfNCjZ+eLR5D0BkEN/X8W7UZQcrAQKu6xXP5etxnsRLfqJ5tS5GUlUf2xOTL9iOYN03VgHVRvQJU=
-X-Received: by 2002:a05:6902:c04:b0:ea4:f3f:5498 with SMTP id
- 3f1490d57ef6-ea8aa09f336mr791364276.36.1758227867928; Thu, 18 Sep 2025
- 13:37:47 -0700 (PDT)
+        bh=Xa5OIKUu0Ca3IINo/LGf7w71t2tXTJFyE2lgg6vz7B0=;
+        b=eQZtTFNG4bP4qri1ijLxLwY3bP2TIt2wZ+reSEtSA3Ge/0BCNoD+8mPssuX4YCn5jy
+         I4gviUBBwEOnuohzT+sGYyAEx7Di6ObyShyI++OwWw0DuF1YO9Jz8T9eonJp8mtrcDdm
+         OSHG8cIE6VMEDJaUyTIA9L3G10441+/1t9JPgQvGqDf7wRDfO2ppS8t7n36dAzC9DGGW
+         l3H3Q8PNuAvNpERxpaUadM7Lk2+JUwy+f+0lHuICKfYrhEjkYWromg+/9efVb1f5H0ai
+         oHJfAVPdTcaD9NsmyFdfRxXLKlx5QIOH3MxelwQNXOONQtZ1OBIRJgRLTnlCj9fcazj8
+         +vhA==
+X-Forwarded-Encrypted: i=1; AJvYcCWPGRZkH7s0ZyXPib3GDVtXGG43bezRlwtQFqln5saY/VPMQBAmCvr+wDC1NU+GQ6/COFFKYIJUANbmbQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzLoXXyIrfAQp1ZgQZG6zz4cfGyejG4M+r2/aY47nq6b12k3R8d
+	JjGg2QemCrdTJklaOR3o6IH5eaPKu588BbqeF+0L/3mQMjsO10FVc4TV4AhSSpWwFS71fDvhlW/
+	QdYJkcGP6QepQzR6Wcq05NpJWUANtjUqzPwcQdSgZzg==
+X-Gm-Gg: ASbGncvLcQQav1fOFAMbunchxOC6AK7JbkbNBNtzavdp8/BKb2s1hjCT/trYRLxH3AU
+	wKdt2Eta8gDPjsNsZUS2h9Q+39rhUF6sxym9VqeBJVmWRAt95srEnCJgX/HXb3JOVJbo8AmGl8G
+	yaCB4xaXw93yQO5Xsrgrk8+r9x/VwYSIAXCfjNXuCIGPQ+b4v7xzLg9N/v8hFDYctnjJnSy7nGs
+	oH+ksJ8xfRH8ZDR6kd8Kk5yPMnF/zdxUW8=
+X-Google-Smtp-Source: AGHT+IGp28b3RtzB09/vCQSod/GaXBm+1LaU+/ZwEenKAZ82Ogxy8gcysNIceSHCo4CO5jfnfEMY8Yfg89rinFTkagQ=
+X-Received: by 2002:a05:6902:610f:b0:e98:517a:d058 with SMTP id
+ 3f1490d57ef6-ea89d1e9730mr930412276.19.1758229234832; Thu, 18 Sep 2025
+ 14:00:34 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250918155240.2536852-1-dario.binacchi@amarulasolutions.com>
- <20250918155240.2536852-4-dario.binacchi@amarulasolutions.com> <20250918200445.GA2529753-robh@kernel.org>
-In-Reply-To: <20250918200445.GA2529753-robh@kernel.org>
+References: <20250918153630.2535208-1-dario.binacchi@amarulasolutions.com>
+ <20250918153630.2535208-3-dario.binacchi@amarulasolutions.com> <20250918201027.GA2547040-robh@kernel.org>
+In-Reply-To: <20250918201027.GA2547040-robh@kernel.org>
 From: Dario Binacchi <dario.binacchi@amarulasolutions.com>
-Date: Thu, 18 Sep 2025 22:37:37 +0200
-X-Gm-Features: AS18NWBqzx_QCJLvM1ZupXjBE082LYlK02aLhStfsrL_kkHbqntwv2U3qqpvFFU
-Message-ID: <CABGWkvqX9aCxam6UMYsUBkwnMJrMNKjVKrqi5Ca7O5Jk8xRTAA@mail.gmail.com>
-Subject: Re: [PATCH v5 3/6] dt-bindings: touchscreen: add touchscreen-glitch-threshold-ns
- property
+Date: Thu, 18 Sep 2025 23:00:24 +0200
+X-Gm-Features: AS18NWBVm6SiQea3xV3X5Izj9IWvwA2EVM6sgJdzxnP17KY04QnqWViQQGH1JFU
+Message-ID: <CABGWkvoxALJgbmaiBe7+1EidtnX2aVE9M9S=QS_Z=hOTh03dRA@mail.gmail.com>
+Subject: Re: [PATCH v4 3/5] dt-bindings: touchscreen: convert
+ raspberrypi,firmware-ts bindings to json schema
 To: Rob Herring <robh@kernel.org>
-Cc: linux-kernel@vger.kernel.org, Frank Li <Frank.Li@nxp.com>, 
-	linux-amarula@amarulasolutions.com, Conor Dooley <conor.dooley@microchip.com>, 
-	Conor Dooley <conor+dt@kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
-	Javier Carrasco <javier.carrasco@wolfvision.net>, Jeff LaBundy <jeff@labundy.com>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, devicetree@vger.kernel.org, 
-	linux-input@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, linux-amarula@amarulasolutions.com, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Conor Dooley <conor+dt@kernel.org>, 
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+	Florian Fainelli <florian.fainelli@broadcom.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-input@vger.kernel.org, linux-rpi-kernel@lists.infradead.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Sep 18, 2025 at 10:04=E2=80=AFPM Rob Herring <robh@kernel.org> wrot=
+On Thu, Sep 18, 2025 at 10:10=E2=80=AFPM Rob Herring <robh@kernel.org> wrot=
 e:
 >
-> On Thu, Sep 18, 2025 at 05:52:31PM +0200, Dario Binacchi wrote:
-> > Add support for glitch threshold configuration. A detected signal is va=
-lid
-> > only if it lasts longer than the set threshold; otherwise, it is regard=
-ed
-> > as a glitch.
+> On Thu, Sep 18, 2025 at 05:36:08PM +0200, Dario Binacchi wrote:
+> > Convert Raspberry Pi firmware 7" touchscreen controller device tree
+> > binding to json-schema.
 > >
 > > Signed-off-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
-> > Acked-by: Conor Dooley <conor.dooley@microchip.com>
 > >
 > > ---
 > >
-> > Changes in v5:
-> > - Add Acked-by tag of Conor Dooley
+> > (no changes since v3)
+> >
+> > Changes in v3:
+> > - Drop firmware-rpi node and use only touchscreen node to fix warnings
+> >   you can see in
+> >   https://patchwork.ozlabs.org/project/devicetree-bindings/patch/202509=
+13092707.1005616-3-dario.binacchi@amarulasolutions.com/
 > >
 > > Changes in v2:
-> > - Added in v2.
+> > - Added in v2
 > >
-> >  .../devicetree/bindings/input/touchscreen/touchscreen.yaml    | 4 ++++
-> >  1 file changed, 4 insertions(+)
+> >  .../touchscreen/raspberrypi,firmware-ts.txt   | 26 ------------
+> >  .../touchscreen/raspberrypi,firmware-ts.yaml  | 40 +++++++++++++++++++
+> >  2 files changed, 40 insertions(+), 26 deletions(-)
+> >  delete mode 100644 Documentation/devicetree/bindings/input/touchscreen=
+/raspberrypi,firmware-ts.txt
+> >  create mode 100644 Documentation/devicetree/bindings/input/touchscreen=
+/raspberrypi,firmware-ts.yaml
 > >
-> > diff --git a/Documentation/devicetree/bindings/input/touchscreen/touchs=
-creen.yaml b/Documentation/devicetree/bindings/input/touchscreen/touchscree=
-n.yaml
-> > index 3e3572aa483a..a60b4d08620d 100644
-> > --- a/Documentation/devicetree/bindings/input/touchscreen/touchscreen.y=
-aml
-> > +++ b/Documentation/devicetree/bindings/input/touchscreen/touchscreen.y=
-aml
-> > @@ -206,6 +206,10 @@ properties:
-> >
-> >          unevaluatedProperties: false
-> >
-> > +  touchscreen-glitch-threshold-ns:
-> > +    description: Minimum duration in nanoseconds a signal must remain =
-stable
-> > +      to be considered valid.
+> > diff --git a/Documentation/devicetree/bindings/input/touchscreen/raspbe=
+rrypi,firmware-ts.txt b/Documentation/devicetree/bindings/input/touchscreen=
+/raspberrypi,firmware-ts.txt
+> > deleted file mode 100644
+> > index 2a1af240ccc3..000000000000
+> > --- a/Documentation/devicetree/bindings/input/touchscreen/raspberrypi,f=
+irmware-ts.txt
+> > +++ /dev/null
+> > @@ -1,26 +0,0 @@
+> > -Raspberry Pi firmware based 7" touchscreen
+> > -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > -
+> > -Required properties:
+> > - - compatible: "raspberrypi,firmware-ts"
+> > -
+> > -Optional properties:
+> > - - firmware: Reference to RPi's firmware device node
+> > - - touchscreen-size-x: See touchscreen.txt
+> > - - touchscreen-size-y: See touchscreen.txt
+> > - - touchscreen-inverted-x: See touchscreen.txt
+> > - - touchscreen-inverted-y: See touchscreen.txt
+> > - - touchscreen-swapped-x-y: See touchscreen.txt
+> > -
+> > -Example:
+> > -
+> > -firmware: firmware-rpi {
+> > -     compatible =3D "raspberrypi,bcm2835-firmware";
+> > -     mboxes =3D <&mailbox>;
+> > -
+> > -     ts: touchscreen {
+> > -             compatible =3D "raspberrypi,firmware-ts";
+> > -             touchscreen-size-x =3D <800>;
+> > -             touchscreen-size-y =3D <480>;
+> > -     };
+> > -};
+> > diff --git a/Documentation/devicetree/bindings/input/touchscreen/raspbe=
+rrypi,firmware-ts.yaml b/Documentation/devicetree/bindings/input/touchscree=
+n/raspberrypi,firmware-ts.yaml
+> > new file mode 100644
+> > index 000000000000..697c508326b3
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/input/touchscreen/raspberrypi,f=
+irmware-ts.yaml
+> > @@ -0,0 +1,40 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/input/touchscreen/raspberrypi,firmw=
+are-ts.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Raspberry Pi firmware based 7" touchscreen
+> > +
+> > +maintainers:
+> > +  - Dario Binacchi <dario.binacchi@amarulasolutions.com>
+> > +
+> > +allOf:
+> > +  - $ref: touchscreen.yaml#
+> > +
+> > +properties:
+> > +  compatible:
+> > +    enum:
+> > +      - raspberrypi,firmware-ts
+> > +
+> > +  firmware:
+> > +    description: Phandle to RPi's firmware device node.
 >
-> What's wrong with debounce-delay-ms?
+>        deprecated: true
+>
+> It should be a child node.
 
-Do you mean that I should rename touchscreen-glitch-threshold-ns to
-debounce-delay-ms?
+Should I add the touchscreen node to
+Documentation/devicetree/bindings/arm/bcm/raspberrypi,bcm2835-firmware.yaml
+and remove Documentation/devicetree/bindings/input/touchscreen/raspberrypi,=
+firmware-ts.yaml
+from this patch?
 
 Thanks and regards,
 Dario
+>
+> > +
+> > +  touchscreen-size-x: true
+> > +  touchscreen-size-y: true
+> > +  touchscreen-inverted-x: true
+> > +  touchscreen-inverted-y: true
+> > +  touchscreen-swapped-x-y: true
+> > +
+> > +additionalProperties: false
+> > +
+> > +required:
+> > +  - compatible
+> > +
+> > +examples:
+> > +  - |
+> > +    touchscreen {
+> > +        compatible =3D "raspberrypi,firmware-ts";
+> > +        touchscreen-size-x =3D <800>;
+> > +        touchscreen-size-y =3D <480>;
+> > +    };
+> > --
+> > 2.43.0
+> >
+> > base-commit: 8b789f2b7602a818e7c7488c74414fae21392b63
+> > branch: drop-touchscreen.txt
+
+
 
 --=20
 
