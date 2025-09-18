@@ -1,91 +1,89 @@
-Return-Path: <linux-input+bounces-14833-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14834-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id F350AB82FEC
-	for <lists+linux-input@lfdr.de>; Thu, 18 Sep 2025 07:21:23 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id AB0A7B8306A
+	for <lists+linux-input@lfdr.de>; Thu, 18 Sep 2025 07:39:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 241484A400A
-	for <lists+linux-input@lfdr.de>; Thu, 18 Sep 2025 05:21:21 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6BF317AC7DE
+	for <lists+linux-input@lfdr.de>; Thu, 18 Sep 2025 05:38:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4CD972853F7;
-	Thu, 18 Sep 2025 05:21:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D53742D543A;
+	Thu, 18 Sep 2025 05:39:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jz4Ugklq"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HxAooJFS"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAA1727FB3E
-	for <linux-input@vger.kernel.org>; Thu, 18 Sep 2025 05:21:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 415CE2BE7DB
+	for <linux-input@vger.kernel.org>; Thu, 18 Sep 2025 05:39:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758172865; cv=none; b=IdwzLAR5O512sIedkT0Z541wKbSdk6zJ08cEamb2eBJ+pMpuGkkwhjzD9lp576DCRrvsJ39y3GzBBP4Zzh0gVcgPIAKWh+GEAujnlRwnXJ9hMRzlmkgejPoXRDrM5v0HdT+BerJSxZiQbqwYAIvSf1D0iofdNB0Mgx3wSfU09nc=
+	t=1758173972; cv=none; b=ZnT8XTfVtdAXsgpRn7R2jeGCu6Xontgkn1IL6S5KTOTkEARcGvhaePQvn+3gUNmxoSarjSTZRfN5+0+CGY6W11L2FUEuJ0FbSaUDum4XmHk1BhmO+KCHuJb3bsPaGgoq9+lrh0cGa2dlh+OrW6B5h7IylgraOq2ph0kzHeEwEc8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758172865; c=relaxed/simple;
-	bh=VlZfdXR3lsbR1JersIgSGwrbA24V8Egn83KZp1071Y0=;
+	s=arc-20240116; t=1758173972; c=relaxed/simple;
+	bh=SaZFIVOdd7T13NXyX4efJUKeQRYQgGhTx3tG1HJaIQ8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oYk/ywGMyVHMob80CHod4ho4V9g8VUZTyNtlgZiEeXq0OI7+f6jQ69FH3yEi/m++qiSi7ZqIYxuYSUbehrznQ+28CJpxWBP3pu+f3L6EYPEcUKeEZ82c51qWxR7HtkrwTqITxFNfG6OMpfHJTrs+LPlpJqGNZRx6sDAnMDz3BGk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jz4Ugklq; arc=none smtp.client-ip=209.85.210.175
+	 Content-Type:Content-Disposition:In-Reply-To; b=a61p6WMYT4L0bSGNuyjUuYSkfDMIHh9XujgMnR4PN9TT9UqEmYxQ8Seyi3J3ApLtvkw63PI9WWBlAyMMh3XJKTZsKtXrP6uwZh5WYHJCZ7AOC3s/ixCDFW6Dadl8EpmPqmDanCvsIT69fOBIGcnVfcyxnnMhHoTtajuftQvx3cA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HxAooJFS; arc=none smtp.client-ip=209.85.216.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-7761578340dso829683b3a.3
-        for <linux-input@vger.kernel.org>; Wed, 17 Sep 2025 22:21:03 -0700 (PDT)
+Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-32e372c413aso594332a91.0
+        for <linux-input@vger.kernel.org>; Wed, 17 Sep 2025 22:39:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758172863; x=1758777663; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1758173970; x=1758778770; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=U8q+skG1jvZaT2QTqM1Ble+WKtm67jvJs09CSnVBwRY=;
-        b=jz4UgklqcyQnzlj4IlYqnVv9+fw1GzJ3RSmpRrXaLAP18ZBkF3YtO93z4NIUl5zSx5
-         TBGSl6b+vnx4ZtbNKHf1Ovg39RfjTK8WGL2Mb1Mb+DN7Xk9guw7mfJ2CakQzMUaD59Nr
-         L7QHyUaJ+GnUlIDNKs2aiS/W58zdWXfH/N6TH0GE61Ayy/0kGtXhszpaztAkOOSEi2WM
-         58MQsgYxSzhPPR86JGMU+mUGkrVtCP9L7MTt8S3nwkc42AuXgFdoLhE+hEqGEPcX6hgH
-         xcG0CH68bWq/4hTl6h2V7F06FD8a1AJIs+g+xmwQ7wHaGJ02EAF1FB81ebfQ9PaIo53E
-         0ncQ==
+        bh=XoyqBQApAmmnvu4zkoApx4U/8ormdVXAKsPBgbJPU3k=;
+        b=HxAooJFSifNaIZ7NuxlJxEjtHTqWCE+dKl+xuMb30iNwdM3eJbozKquQEWSKDB96EY
+         qmffl0NL/w+cIB5hGyQrGxNoOwp2daQXjoEleHZ9DXi5DU8uvykBLdJ1/pjwdbrAl0Lb
+         Cy0d7zNgBMI/JizBVFnM3XfUfi9fWlU+XT98+0+ET6cIGuBiE2XMINPcllvbmIUJgEfA
+         ndejEnkn3NHDDysou4ov85ufesFJJTgj7NM927idZAGSebuk4KLxdPs4payENDiah5Sg
+         flnjxrDOQDLqngm5oA26jSOuo5Z0RuPywbU6SraqWOdr5GDXXmTIIAPBkX+EKxY9CSof
+         /eKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758172863; x=1758777663;
+        d=1e100.net; s=20230601; t=1758173970; x=1758778770;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=U8q+skG1jvZaT2QTqM1Ble+WKtm67jvJs09CSnVBwRY=;
-        b=jeUBK+/wcFI2nsw8Zb0VRxffeppX74CNpGOAEth51D9cCu3iOxaOZUtOORKLYqbBLa
-         dqVUo0j3uLKQs/Bbin9s3IW7TUJgYtbQEefYnjdsF8UBxNym8/0QKzzZjGRJz7+GzQKf
-         mXXc7PMz+C+GY5RN0A7i9bKNbvQC2yQ/QQkw7pfvezkruVGnR7zlzaBlHidTx58zVoNY
-         ArMmr1KGIR6/yqoFahTSHFfpTHQckuqByE5x+dVGyvBqTx1wFWcKFy0GXMBH9ixVod2r
-         EWzOJ0znM0WcoAX0atpma6J8pO4jOCKZnG2zW1STe3DJCU23OLpuO2VGnsctvzuQmrvS
-         QGsg==
-X-Forwarded-Encrypted: i=1; AJvYcCWHdhDSHytiaZzVybGJZzPyHIJxzM53kgEubMp48b5ala+edD8KAaaJpfUmoyPwS8uRklCCgRWb/5c0KA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyZHbfKa2QERbiW8yCyJrqe3SlbJO5Q8mTkQAirgyeqHCRtYwF8
-	cxZnvYanIOxUENLepP1zANk2nB0JLFNDS6DV5MNvIXJshWe2lGZs6r8w
-X-Gm-Gg: ASbGncukfKStnhld4YLbFNh7mpSYwEy3BtHacvwlg2My2miVR8/CsfIFe/hoGsN5VRA
-	jgzVMVpE8DDMl9B+eqA9VsPTiaRgvOkhzaQeiEszGVZA7y62hMoFhkekiVWhsyeR8nEDwtL5kr8
-	9pW+75jWJ9LAchdQ9s02DA58FxAUpusdzw/PC60Tb34FtWLeDNhvxB/pZjBkOjZqxPAuE1T2L6D
-	w2JtHhgg1+kQt9lU1AgpvPnDJKYZPo4CIzs2IKRjnRF0FdEO+2WStnWQoUEmgLHBjbx6qrXO+45
-	k66VlkgmlOwNvY7qY4NDRjHZWIC9nTg6dKyWe87Y+RxL2ipBGxJRVXcvhe7y7M/Jv/sEeymRlxS
-	gOBByE2LLxK3YkfdgNd/yNSk8AeRcVxQqpAMzZdF0YA==
-X-Google-Smtp-Source: AGHT+IEBYyvA8VdywrJsd3FrdqyZ25PYHSWs7BjlEmKHmEFqYnGfRKq6cyGT6cEhnOjNhj98tzeGCg==
-X-Received: by 2002:a05:6a20:9146:b0:248:7a71:55e with SMTP id adf61e73a8af0-27ab34e8621mr6472268637.42.1758172862769;
-        Wed, 17 Sep 2025 22:21:02 -0700 (PDT)
+        bh=XoyqBQApAmmnvu4zkoApx4U/8ormdVXAKsPBgbJPU3k=;
+        b=iZUbg7ZmAXitVnwVy962zhlpflY5hg+Vrqu3A8roac7MgPxrzLuPlDfPDAqPjcZuc7
+         rKLncdejagc3IMa4pYRxbfZiUfFUultgeKLFWxvLQl9AFrAc+hv87zweLDpERF5Pn03h
+         NeIg/pp2MfiFrHqHVlvUd0i2bEf6U/BpUrKSxXoCSKLSQJ/ZMGliDs3HB0Bc118Yi7HC
+         TKnyRYkLgxDQNZ8xY12MJEwAeMnGu8lsn4G4cu+5PFpoHdblj6dDdVfZ9a2f99CJ0r5+
+         hwDzpXVGkg74ZLuZrRBgnG21bQgVADr+scepv6aG9R51Xig9Zc+ljjX/DT0VKk1jbkgW
+         Pb/A==
+X-Forwarded-Encrypted: i=1; AJvYcCVhKQrqv8sf8ivnU0SCmpkEQIiV/yRvTyUapTS4GFRb/bSpcgCiurX6LzVsfvxfFv+l7FJ2HJp7IioSvA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxkOlL6wWOLbgCVpZJlR/P1e8keees/vmzFHozBYMJ0Lopkz3YK
+	NW+DX3yTSV0NGd808LzJkyV/kRMGpUTbnXkaV37jeJstbcSbsRFd2vuG
+X-Gm-Gg: ASbGncuYOVGlc3KWaXWKWx6F1H4s16fvYSl1dNpdQhJ2gcEHQynYkhZD3HRZT3KqZru
+	ERGJEkb5FzNzs9lIoGGVhn6py+2w4tSJM+/KSK3K8aS87nRkQgubYSn5BOJ3KvcOzrmBcHvD8US
+	u0wwN4YQWYxAsxEuWAQOpwFqb7Nvz9l7Y3sHWZi6ZU0mYE6M/Dn98UCVamlMPVxtcg+3VaIcPw1
+	C3oadmvC/fj2esX7B336VYCreKIn1CMREV/drWjKDdu7lQWXfGrR7q54AntJM7k1wdomSWzXj2V
+	MI5GsmuPZZ5lLvvQsi9B7ENyS7N7OyFPB4FmuqHB2WHVkgquGiLGY7KejCfaSMPGz5xsUdXcE1G
+	1TtqIPZCEwmj2MhNFq0LpYRcHoTFCJ+T8wed2hxwwtg==
+X-Google-Smtp-Source: AGHT+IGxd0JzuVVJrw68h5tXFHmcZpcwVF2x8DkVRvbM3jhAsZwEYZxEhWmJuR/xbYRB7Jc2BkkC4w==
+X-Received: by 2002:a17:90b:3b49:b0:32b:8b8d:c2c6 with SMTP id 98e67ed59e1d1-32ee3f008ddmr5384286a91.14.1758173970420;
+        Wed, 17 Sep 2025 22:39:30 -0700 (PDT)
 Received: from google.com ([2620:15c:9d:2:194b:8358:5c91:3d3d])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b54ff3726f6sm1147193a12.12.2025.09.17.22.21.01
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-77cfec3db38sm1130199b3a.73.2025.09.17.22.39.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Sep 2025 22:21:02 -0700 (PDT)
-Date: Wed, 17 Sep 2025 22:21:00 -0700
+        Wed, 17 Sep 2025 22:39:29 -0700 (PDT)
+Date: Wed, 17 Sep 2025 22:39:27 -0700
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Stephan Gerhold <stephan.gerhold@linaro.org>
-Cc: Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Henrik Rydberg <rydberg@bitmath.org>, Jeff LaBundy <jeff@labundy.com>, 
-	Jonathan Albrieux <jonathan.albrieux@gmail.com>, linux-input@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Stephan Gerhold <stephan@gerhold.net>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH v5 1/2] dt-bindings: input: touchscreen: document Himax
- HX852x(ES)
-Message-ID: <otcdtgsrl4g43hl4hgajulzyij4glao4ou5ptpw2jw6pxu7vr4@ob7mtq54jv2r>
-References: <20250915-hx852x-v5-0-b938182f1056@linaro.org>
- <20250915-hx852x-v5-1-b938182f1056@linaro.org>
+To: Dario Binacchi <dario.binacchi@amarulasolutions.com>
+Cc: linux-kernel@vger.kernel.org, linux-amarula@amarulasolutions.com, 
+	Frank Li <Frank.Li@nxp.com>, Michael Trimarchi <michael@amarulasolutions.com>, 
+	Fabio Estevam <festevam@gmail.com>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>, imx@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-input@vger.kernel.org
+Subject: Re: [PATCH v4 1/6] Input: imx6ul_tsc - fix typo in register name
+Message-ID: <z2kbkmqnvux2ys2mdghfbdwts5je4zkmmk3ctjaisno3kafqoh@xynqe4exjqzm>
+References: <20250917080534.1772202-1-dario.binacchi@amarulasolutions.com>
+ <20250917080534.1772202-2-dario.binacchi@amarulasolutions.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -94,27 +92,17 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250915-hx852x-v5-1-b938182f1056@linaro.org>
+In-Reply-To: <20250917080534.1772202-2-dario.binacchi@amarulasolutions.com>
 
-On Mon, Sep 15, 2025 at 04:19:56PM +0200, Stephan Gerhold wrote:
-> From: Stephan Gerhold <stephan@gerhold.net>
+On Wed, Sep 17, 2025 at 10:05:06AM +0200, Dario Binacchi wrote:
+> From: Michael Trimarchi <michael@amarulasolutions.com>
 > 
-> Himax HX852x(ES) is a touch panel controller with optional support
-> for capacitive touch keys.
+> Replace 'SETING' with 'SETTING'.
 > 
-> Unfortunately, the model naming is quite unclear and confusing. There
-> seems to be a distinction between models (e.g. HX8526) and the "series"
-> suffix (e.g. -A, -B, -C, -D, -E, -ES). But this doesn't seem to be
-> applied very consistently because e.g. HX8527-E(44) actually seems to
-> belong to the -ES series.
+> Signed-off-by: Michael Trimarchi <michael@amarulasolutions.com>
+> Signed-off-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
+> Reviewed-by: Frank Li <Frank.Li@nxp.com>
 > 
-> The compatible consists of the actual part number followed by the
-> "series" as fallback compatible. Typically only the latter will be
-> interesting for drivers as there is no relevant difference on the
-> driver side.
-> 
-> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> Signed-off-by: Stephan Gerhold <stephan@gerhold.net>
 
 Applied, thank you.
 
