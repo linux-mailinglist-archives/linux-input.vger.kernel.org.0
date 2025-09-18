@@ -1,129 +1,127 @@
-Return-Path: <linux-input+bounces-14827-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14828-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id F28FFB828C4
-	for <lists+linux-input@lfdr.de>; Thu, 18 Sep 2025 03:46:49 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E147B829F9
+	for <lists+linux-input@lfdr.de>; Thu, 18 Sep 2025 04:13:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B280F325C23
-	for <lists+linux-input@lfdr.de>; Thu, 18 Sep 2025 01:46:49 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4DC582A7DEB
+	for <lists+linux-input@lfdr.de>; Thu, 18 Sep 2025 02:13:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3568B188734;
-	Thu, 18 Sep 2025 01:46:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 848E821255A;
+	Thu, 18 Sep 2025 02:13:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FZ79K9ds"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NVywYqx4"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com [209.85.219.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B463212CD96
-	for <linux-input@vger.kernel.org>; Thu, 18 Sep 2025 01:46:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AFFC2629D;
+	Thu, 18 Sep 2025 02:13:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758160006; cv=none; b=ZNSg0lNb3AG8MpZxpyZu1p8nDvvcKht1LgcrCimzZMPsW5dSUuwuw5Qhjo+epmmwgvMcfHuicsPRnREWvFsJrve8JrCXxgobfhm6otfGE1USTPnnEti7nigRsx3ouIoYXtkRURQ3f587GtJ6aaj8A0LRN2JxpKgKIcTtcZaSEUo=
+	t=1758161580; cv=none; b=K0mz5kUFTQJ9Nz4TL5wxtMeO3vfcZfhiZ2652klmqCYoKP4LDT+WTULQraIzvRUsy42XPQoEC0gDBuYIztT8tRyc9OJrCRRixzWTlUOjFy5TNsAYTB9UoWj9R8wHfSuDhok37XAo/qSQEpyRAhePG/hFHwGdAhgHiIUyBrHmVCE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758160006; c=relaxed/simple;
-	bh=Y1L1HO2ER0yGATtMeo6457ei3YCrxJF9T8bAgNAYWB8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=hY6CNqxkp7SNb2dVjfhoSb52vdG2gyCNFc6neafGNi+j6PZBKDHltnJa5/pbJWq7uSqhLz3W83RH6T3FYV6u1F1ZAp8wQxen5reUN9YcDWe2/QObHHy+UxFixVUdtCrA9/Lhmhp8nM6L/NRDNfSW0Jv9i3/O+lpREuJtgt3/Wuc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FZ79K9ds; arc=none smtp.client-ip=209.85.219.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yb1-f178.google.com with SMTP id 3f1490d57ef6-ea5c8833b15so372387276.1
-        for <linux-input@vger.kernel.org>; Wed, 17 Sep 2025 18:46:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758160003; x=1758764803; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Ztic0itTb092Cg8phgOMtBzjG5miAwDaU95tKvoCG9o=;
-        b=FZ79K9ds5qUX61monNgpC9K7AIGv9kPI9wToWjXcByaQVeElBM2cb7ojaDCoj/APp9
-         0Vm8UkpoAs9XG7BxOyRHTUZeYOYCv2UVkGpNV2I47sGtrEZPNydgQek1gJ/lOa/Esup5
-         LIY+O+wJb8MPIF5yWDJpGPRE2gy8JqRlK+K2GRPXf21KvVDO7g8YWF78+omy+jrpa9nV
-         ibUuFVBiU65eTBNkR2A+7NmjG/JtXosPI+JYQVNfFCGINs5jgeWATAAsZk8DBvAzbGP8
-         Cak5+Nzu7fM9rad3XujZw34DKf4EWn7/PouNj8hFNIsb4N2uUUaUA9q6gO/peYxlPI78
-         LTBg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758160003; x=1758764803;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Ztic0itTb092Cg8phgOMtBzjG5miAwDaU95tKvoCG9o=;
-        b=dwMk6Rkxa2Q0+wP3f9DBpxvEym46KbJCrHnauNDK4hpFkLKtzBaQ2BRPkAJFGRR22O
-         lWH4hCvR1i9esZLKM8B15rxYeFrqKNZ534d+rowvkniru2zehqCfxn/mXDWdRc6wE1qf
-         mdzSSw6uONJ9fjCaOo0ieRYdAq751BDWv5nxAZEdHxGwej571EfxpPLyTPufR2RzVZAM
-         EDErM/bwsid0Xjkpj8kBMkouv+rdUWXIcqNHZ5dfzvHQBSOub8jRUCrPywhfIMFDSZzw
-         UhKoFdjHIdZY84k+7jiLO2o6BS9Myby5fkdpNrwcu6tnYvxP0tUBq7eFz5lAC7xO1img
-         9Gvw==
-X-Gm-Message-State: AOJu0YyM2H7W8B/bklMTvRm5RXjGrHqWtmibJmZ+c8P4RIh4Hy9Mo4GT
-	sSiUTScjSJg6iM1JYMKh7tCxaNl9uRFloIUaYNSZD47vRyOHtEtVyxsra8pQ7KIftOaQrW2lDrg
-	BuduphBcZ1wDoKTwUejZyqYdJ+yXfqIM=
-X-Gm-Gg: ASbGncu4PcPgSWBzZ4r42uK+zkGC+HI3rs+S1WNxKvhklhVtDmA9G99zLra1L6TyM1v
-	7gdVzYhDlp5cPXnqY1zAoIa0wEXM2YC7bAhZc59CxJ/r+qPIs0ZoWeEvxq77eSTS5M/OG0Y8Fdw
-	9VD3OhApddepOrCmBl9g+3kcgba03A5wa8bMe85CusBbFelW997O1br7OG+0x3GNrqGtLPF1D2m
-	g0uWjrwqX6CdAFBTACuXNOueg==
-X-Google-Smtp-Source: AGHT+IEoShjhtx9jFDawsjFMigqup5ul3VPAlqdVHAkcLniGQ0utQpaOOKabV6yB8aQ4BG4JD2NxCioJ3jgbCw7hSWM=
-X-Received: by 2002:a05:6902:4a0e:b0:ea5:af77:e48e with SMTP id
- 3f1490d57ef6-ea5c034f6d6mr3244542276.3.1758160003479; Wed, 17 Sep 2025
- 18:46:43 -0700 (PDT)
+	s=arc-20240116; t=1758161580; c=relaxed/simple;
+	bh=RmTmszHy29/IYyE8hO8RdzIEpogaX5vISAAq3PM6OJw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=P42kynysPmZ0OLFPaXVhccO4xhTMS8dhKc/hn81bNRYv9eoZB4Ht4y5HLymN9hv0HnivuBc88iNNPHj2s2HKOf+JD5WLXoXxjFQ4xAnyOlhv3H/bEtx6pE3Y68rB9C4q92JJjwr3q4u1E2ioNxUMH8HkRsSHJX2dulxm3ZDJRQA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NVywYqx4; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85620C4CEE7;
+	Thu, 18 Sep 2025 02:12:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1758161579;
+	bh=RmTmszHy29/IYyE8hO8RdzIEpogaX5vISAAq3PM6OJw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=NVywYqx45ZFQAmZ3lqtf9zoVMbbJu80Ydr+/B+L7X9S9MkA3YPyEfbe0daz4taGAf
+	 dJrettLKjUgStBsqUXMpZh26C4h5OW23BK7vKrdGKOu1r5RIGLtHPxr5qE65Ohyp/X
+	 Mdu8zvfWTN8yCvkc3rjp/od6Au2TlwWToewpNLWJuyAl3Z7lvdpuEYxpMcS7Iq4kgJ
+	 pHdiz52f68dQ4RKnOHjZyRcHmvMX0osguMIp5MB2Ec6Z1YmHEWyf46Fzos324fW7ro
+	 zIN5TiaTjAkaF+h29N4hpSvC7d7E9z7I8HKFWzIaCf93Rbq4YelIt43Halj+79tloE
+	 SwKwedynV0SZg==
+Date: Thu, 18 Sep 2025 11:12:58 +0900
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Dario Binacchi <dario.binacchi@amarulasolutions.com>
+Cc: linux-kernel@vger.kernel.org, linux-amarula@amarulasolutions.com, 
+	Conor Dooley <conor+dt@kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org, 
+	linux-input@vger.kernel.org
+Subject: Re: [PATCH v3 1/5] dt-bindings: touchscreen: convert bu21013
+ bindings to json schema
+Message-ID: <20250918-turkey-of-inescapable-freedom-1a1b1c@kuoka>
+References: <20250914203812.1055696-1-dario.binacchi@amarulasolutions.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250917045026.601848-1-masami256@gmail.com> <34b16512-b098-470a-afff-bc8321e2499a@web.de>
-In-Reply-To: <34b16512-b098-470a-afff-bc8321e2499a@web.de>
-From: Masami Ichikawa <masami256@gmail.com>
-Date: Thu, 18 Sep 2025 10:46:32 +0900
-X-Gm-Features: AS18NWCQDzJTwegu8k4De9r1ttP9WvpSRtNldMNb7nT_bgORV0G8wPu0xNyaVTk
-Message-ID: <CACOXgS-VN6CDZE2NMtM0TuoRT1UZD1LR0JbY5XOQ6vsVmsTUKw@mail.gmail.com>
-Subject: Re: [PATCH] HID: hid-ntrig: Fix potential memory leak in ntrig_report_version()
-To: Markus Elfring <Markus.Elfring@web.de>
-Cc: linux-input@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>, 
-	Benjamin Tissoires <bentiss@kernel.org>, Jiri Kosina <jikos@kernel.org>, 
-	Minjong Kim <minbell.kim@samsung.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250914203812.1055696-1-dario.binacchi@amarulasolutions.com>
 
-Thank you for the review.
+On Sun, Sep 14, 2025 at 10:37:52PM +0200, Dario Binacchi wrote:
+> diff --git a/Documentation/devicetree/bindings/input/touchscreen/bu21013.yaml b/Documentation/devicetree/bindings/input/touchscreen/bu21013.yaml
+> new file mode 100644
+> index 000000000000..aeb581fcaf29
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/input/touchscreen/bu21013.yaml
 
-On Wed, Sep 17, 2025 at 4:46=E2=80=AFPM Markus Elfring <Markus.Elfring@web.=
-de> wrote:
->
-> =E2=80=A6
-> > It is safe to move the kmalloc() call after the hid_is_usb() check to a=
-void
-> > unnecessary allocation and potential memory leak.
->
-> * See also:
->   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree=
-/Documentation/process/submitting-patches.rst?h=3Dv6.17-rc6#n94
->
-> * How do you think about to increase the application of scope-based resou=
-rce management?
->   https://elixir.bootlin.com/linux/v6.17-rc6/source/include/linux/slab.h#=
-L476
->
+Filename based on compatible, so rohm,bu21013.yaml
 
-I think using the DEFINE_FREE macro simplifies cleanup, especially
-when an error occurs.
+> @@ -0,0 +1,96 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/input/touchscreen/bu21013.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Rohm BU21013 touchscreen
+> +
+> +description:
+> +  Rohm BU21013 I2C driven touchscreen controller.
+> +
+> +maintainers:
+> +  - Dario Binacchi <dario.binacchi@amarulasolutions.com>
+> +
+> +allOf:
+> +  - $ref: touchscreen.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - rohm,bu21013_tp
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  reset-gpios:
+> +    maxItems: 1
+> +    description: GPIO resetting the chip
 
-> * Can a summary phrase like =E2=80=9CPrevent memory leak in ntrig_report_=
-version()=E2=80=9D
->   be nicer?
->
+Drop description, obvious.
 
-I see. I will rewrite commit log.
+> +
+> +  touch-gpios:
+> +    maxItems: 1
+> +    description: GPIO registering a touch event.
+> +
+> +  avdd-supply:
+> +    description: Phandle to the regulator supplying the analog circuit.
 
->
-> Regards,
-> Markus
+Analog circuit supply.
+(rest is redundant, it cannot be something else than phandle)
 
+With these fixed:
 
-Regards,
---=20
-Masami Ichikawa
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+
+Best regards,
+Krzysztof
+
 
