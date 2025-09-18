@@ -1,140 +1,178 @@
-Return-Path: <linux-input+bounces-14864-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14865-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65B69B85E82
-	for <lists+linux-input@lfdr.de>; Thu, 18 Sep 2025 18:09:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 779D2B86ABD
+	for <lists+linux-input@lfdr.de>; Thu, 18 Sep 2025 21:27:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3FCB4189F992
-	for <lists+linux-input@lfdr.de>; Thu, 18 Sep 2025 16:05:47 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 111EC1C882A3
+	for <lists+linux-input@lfdr.de>; Thu, 18 Sep 2025 19:27:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E15BE314D32;
-	Thu, 18 Sep 2025 16:05:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA64F1DDC2B;
+	Thu, 18 Sep 2025 19:27:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b="eAJjOX8A"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TIuk9/Eo"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com [209.85.219.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C897314D29
-	for <linux-input@vger.kernel.org>; Thu, 18 Sep 2025 16:05:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86B1935947
+	for <linux-input@vger.kernel.org>; Thu, 18 Sep 2025 19:27:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758211503; cv=none; b=ZJVbr8q7b3D7fbWA3W6JJCqrjQZPMR/d7I/smGiNdFj5EhPo3lWC68uzDRmCyaGTvhG/2HpphX0fWkDrRaawagHbpWh+rDe4bpqoLHfTgkwqQV4VxgW2lQyurzt3i7UzryIeUnoPmGUZJ48rz8osFGVkmM1tew6SX86DS0y9jLM=
+	t=1758223633; cv=none; b=lJjc4cy5lMqF0N4UtyXgG31cUY3/PY5cY6UbocDLMB5ITSfrissRoFmcTUbd+84tyvunLicGrjd+r98TZgxJ0hMftv1YTGRKkVP2eNab1F/DJVTOysXUxejUp4SJRk0F0rgfnlUiPukupREMqn0gnnOmxUWKJf11mgWbf3YwMC0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758211503; c=relaxed/simple;
-	bh=lYuuVq2c2mGG8GtYZXdwpj1TRV+Txzn06Yn/v4INq2g=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=g8g8MUFKJqoJ6cSt2vvsHY5WGkro0+dl1j6K4XVCVpo+yn+VCHSnGSlEw2WON9ABYqxwdoZ6xMR2ZI1eVFsGjsdb63/h2/NqtmsNImA5FW0AhNHfCI46mS13aPOBi44og+UC2LeQREiOD5uFvnhNlUQCQavQ1TpJEYsV65NWPDk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=amarulasolutions.com; spf=pass smtp.mailfrom=amarulasolutions.com; dkim=pass (1024-bit key) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b=eAJjOX8A; arc=none smtp.client-ip=209.85.219.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=amarulasolutions.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amarulasolutions.com
-Received: by mail-yb1-f176.google.com with SMTP id 3f1490d57ef6-e94d678e116so1321612276.2
-        for <linux-input@vger.kernel.org>; Thu, 18 Sep 2025 09:05:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amarulasolutions.com; s=google; t=1758211501; x=1758816301; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=lYuuVq2c2mGG8GtYZXdwpj1TRV+Txzn06Yn/v4INq2g=;
-        b=eAJjOX8AF59/ZpXGVlfT16sY2yKrbCPC7b5J65pxo70lTaezz/flLtxH442lRmPsvR
-         n3pMr9EbW9GiXPLsylDjCtn+08Q4b7LndpI1kCUzZ8i3d3VBIV+gJIusELLoBwVIA2vL
-         aFLgLbuPZtLAiPccFvek02I5TOPj07TPtxCb4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758211501; x=1758816301;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=lYuuVq2c2mGG8GtYZXdwpj1TRV+Txzn06Yn/v4INq2g=;
-        b=SHkTlLW+teg71CPukNtwLHQMXnIjXs5xvGyBG8retmEz3mKHicmp4QgfwyYOZ6T5B+
-         xPUIY7Hcr6sHQTjVnc5u/PIfCTfJOQqp7qJxyR/iKiz5Rfrqwq81cZskXr+tgT8iMaL1
-         NNtV7lMIkvcCddMJt37Btazv+rLC0ZOqGk/TOmYCW+/Uvi+AJ6JON8+eolzAbTqaLrxn
-         g/lda56g9wM3SjDhdSqVM9EKfw5U11AA2awCgZzXTEvTLLgwX3GlE83K4y02ZqUv+J2a
-         ZvZdTe+juKF1MNhjdDmXatdtj3WSpAuZPhKONOy2sqGqzZpH6Eq0+Rbewrh1u4UIJy5g
-         OTdg==
-X-Forwarded-Encrypted: i=1; AJvYcCVEUW6oyj660A5UV7p2UxffIQrI1GiZRdBaBjQabo8QWbg7tOjtL2A52JGPsl+FesuVJ4bMIoF0d8NgiQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzLwG4eCo4cVy3D2qTRc4pAi8GguuuawWT91YXsZSL4Ewgjy7mV
-	C9nQt5nLF/Vay7z7sBoaNGYD6Kl9uBQQ1hsiNjBpSceHgXkhbDU0AW7RaQGOlo86IAVIQQR5sgJ
-	2GIsaScv3FizwbpPftC/eXwqmQbk3seSEZ1GF4TSymchIpPyerOcrJdE=
-X-Gm-Gg: ASbGncsIGuXDNTnMge1XbhfAfrg+RZw+G0bu96IXE+nUOLR6hgw0tyjHi7fvtxzBu8u
-	/gu4AISSn6Rx98AwH/nriONLK+8ywfXfEridw/rxmdcKaaJq37jCcLqMD0UpzK1Mq1ItC0H2wsP
-	vGrlvVG/GdpFkcfkcUyPpC3hGixnYLbUs3Och5SavJjm1zXXnNJRVvq9BbnceO5AMitVe9jpa5u
-	QVU+h/rSIDMcMRfHVQzt9pG
-X-Google-Smtp-Source: AGHT+IHxSXi29UFW2nfj2WCiCTSiNTNZ0K9Fav6RAJFsRCcIQzCBj3yv1u6H5MOa6iU2eN8pItlTROtG4gg/yGYd8sQ=
-X-Received: by 2002:a05:6902:e07:b0:ea3:f6c9:ad6b with SMTP id
- 3f1490d57ef6-ea5c057dd64mr5394869276.43.1758211500339; Thu, 18 Sep 2025
- 09:05:00 -0700 (PDT)
+	s=arc-20240116; t=1758223633; c=relaxed/simple;
+	bh=Z5KB1DtG0F8xBTY8ig6GaF3uuFBfewpKbjU1oHisSHI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=H8y3WedLc+uy7+9eyZZVEFfg54zixu/V//xgifdqs+Ltn9ounbqflXXFAWfJtipvmH9LKsYj6K496XCaFMqMp//04lnwtQn2GPMcFT3pk/Y0wghmSHyLe3TouwR+PXbFqV2Yd4dQipnuG4p5Gaz8yJlI9vOcGQQb0o5mx2z5X60=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TIuk9/Eo; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37DE4C4CEE7;
+	Thu, 18 Sep 2025 19:27:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1758223633;
+	bh=Z5KB1DtG0F8xBTY8ig6GaF3uuFBfewpKbjU1oHisSHI=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=TIuk9/Eok7DPkMADWq1sp+VWBQXrTqN8Z6PKIY/cpxthEI1jDyvaSzMPcMhJflqL7
+	 tPlDM9JyK4SxLr9F51lFtc+Lim+VqxXtSjbH4IGVgV11wFgk2upKKWfFfci3cftK7w
+	 J2hFCQe7/Mde+am69UAhfsnZUgaWt6+DToMF6nVob17QSYTcddWjq0gRPxx4GJcxwj
+	 xxSi/B4PptCKJS323p1tkUZ/aoAHhSPM/fSdFGh5NJjQhhqVFypEH3eWkfb8LdJbSc
+	 udIjrja6pLmOVI8uDJM0wliMIGv8sFY65LvIviwgoUeaF5konSHO0MT7o1cTKafay5
+	 ydaUfA4EfqYzQ==
+Message-ID: <b5f4a1e5-1561-4554-8de4-0416bca0c75f@kernel.org>
+Date: Thu, 18 Sep 2025 14:27:10 -0500
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250915201748.1712822-1-dario.binacchi@amarulasolutions.com>
- <20250915201748.1712822-2-dario.binacchi@amarulasolutions.com> <it26gfh7qwemksyqw3btcqyr4obbviwaywmyptsjedil2v52vi@rylzlifvans5>
-In-Reply-To: <it26gfh7qwemksyqw3btcqyr4obbviwaywmyptsjedil2v52vi@rylzlifvans5>
-From: Dario Binacchi <dario.binacchi@amarulasolutions.com>
-Date: Thu, 18 Sep 2025 18:04:49 +0200
-X-Gm-Features: AS18NWClBmtV3TGuBJja7IxKTv258z-H9vTIrPPB1rYqlA078YmgINmcyYbNvFo
-Message-ID: <CABGWkvpPesDoz_-X-rMjA567eX3DQEQ8mpSsp=ShpoKjTWWhjg@mail.gmail.com>
-Subject: Re: [PATCH 2/2] Input: edt-ft5x06 - rename sysfs attribute
- report_rate to report_rate_hz
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: linux-kernel@vger.kernel.org, linux-amarula@amarulasolutions.com, 
-	Al Viro <viro@zeniv.linux.org.uk>, Oliver Graute <oliver.graute@kococonnector.com>, 
-	Wolfram Sang <wsa+renesas@sang-engineering.com>, Yu Jiaoliang <yujiaoliang@vivo.com>, 
-	linux-input@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] HID: amd_sfh: Add sync across amd sfh work functions
+To: Basavaraj Natikar <Basavaraj.Natikar@amd.com>, jikos@kernel.org,
+ bentiss@kernel.org, linux-input@vger.kernel.org
+Cc: Matthew Schwartz <matthew.schwartz@linux.dev>,
+ Prakruthi SP <Prakruthi.SP@amd.com>,
+ Akshata MukundShetty <akshata.mukundshetty@amd.com>
+References: <20250918123202.1076393-1-Basavaraj.Natikar@amd.com>
+Content-Language: en-US
+From: "Mario Limonciello (AMD) (kernel.org)" <superm1@kernel.org>
+In-Reply-To: <20250918123202.1076393-1-Basavaraj.Natikar@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hello Dmitry,
+On 9/18/2025 7:32 AM, Basavaraj Natikar wrote:
+> The process of the report is delegated across different work functions.
+> Hence, add a sync mechanism to protect SFH work data across functions.
+> 
+> Fixes: 4b2c53d93a4b ("SFH:Transport Driver to add support of AMD Sensor Fusion Hub (SFH)")
+> Reported-by: Matthew Schwartz <matthew.schwartz@linux.dev>
+> Closes: https://lore.kernel.org/all/a21abca5-4268-449d-95f1-bdd7a25894a5@linux.dev/
+> Tested-by: Prakruthi SP <Prakruthi.SP@amd.com>
+> Co-developed-by: Akshata MukundShetty <akshata.mukundshetty@amd.com>
+> Signed-off-by: Akshata MukundShetty <akshata.mukundshetty@amd.com>
+> Signed-off-by: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
 
-On Tue, Sep 16, 2025 at 2:38=E2=80=AFAM Dmitry Torokhov
-<dmitry.torokhov@gmail.com> wrote:
->
-> Hi Dario,
->
-> On Mon, Sep 15, 2025 at 10:16:32PM +0200, Dario Binacchi wrote:
-> > The sysfs attribute has been renamed to report_rate_hz to match the
-> > report-rate-hz property from device tree, making it clear that the same
-> > parameter can be set via sysfs or device tree and behaves identically.
->
-> No, this attribute was defined since forever and we should avoid
-> gratuitous renames: they will break existing users.
+Reviewed-by: Mario Limonciello (AMD) <superm1@kernel.org>
 
-OK, I understand.
-Do you think patch 1/2 is correct?
+> ---
+>   drivers/hid/amd-sfh-hid/amd_sfh_client.c | 12 ++++++++++--
+>   drivers/hid/amd-sfh-hid/amd_sfh_common.h |  3 +++
+>   drivers/hid/amd-sfh-hid/amd_sfh_pcie.c   |  4 ++++
+>   3 files changed, 17 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/hid/amd-sfh-hid/amd_sfh_client.c b/drivers/hid/amd-sfh-hid/amd_sfh_client.c
+> index 0f2cbae39b2b..7017bfa59093 100644
+> --- a/drivers/hid/amd-sfh-hid/amd_sfh_client.c
+> +++ b/drivers/hid/amd-sfh-hid/amd_sfh_client.c
+> @@ -39,8 +39,12 @@ int amd_sfh_get_report(struct hid_device *hid, int report_id, int report_type)
+>   	struct amdtp_hid_data *hid_data = hid->driver_data;
+>   	struct amdtp_cl_data *cli_data = hid_data->cli_data;
+>   	struct request_list *req_list = &cli_data->req_list;
+> +	struct amd_input_data *in_data = cli_data->in_data;
+> +	struct amd_mp2_dev *mp2;
+>   	int i;
+>   
+> +	mp2 = container_of(in_data, struct amd_mp2_dev, in_data);
+> +	guard(mutex)(&mp2->lock);
+>   	for (i = 0; i < cli_data->num_hid_devices; i++) {
+>   		if (cli_data->hid_sensor_hubs[i] == hid) {
+>   			struct request_list *new = kzalloc(sizeof(*new), GFP_KERNEL);
+> @@ -75,6 +79,8 @@ void amd_sfh_work(struct work_struct *work)
+>   	u8 report_id, node_type;
+>   	u8 report_size = 0;
+>   
+> +	mp2 = container_of(in_data, struct amd_mp2_dev, in_data);
+> +	guard(mutex)(&mp2->lock);
+>   	req_node = list_last_entry(&req_list->list, struct request_list, list);
+>   	list_del(&req_node->list);
+>   	current_index = req_node->current_index;
+> @@ -83,7 +89,6 @@ void amd_sfh_work(struct work_struct *work)
+>   	node_type = req_node->report_type;
+>   	kfree(req_node);
+>   
+> -	mp2 = container_of(in_data, struct amd_mp2_dev, in_data);
+>   	mp2_ops = mp2->mp2_ops;
+>   	if (node_type == HID_FEATURE_REPORT) {
+>   		report_size = mp2_ops->get_feat_rep(sensor_index, report_id,
+> @@ -107,6 +112,8 @@ void amd_sfh_work(struct work_struct *work)
+>   	cli_data->cur_hid_dev = current_index;
+>   	cli_data->sensor_requested_cnt[current_index] = 0;
+>   	amdtp_hid_wakeup(cli_data->hid_sensor_hubs[current_index]);
+> +	if (!list_empty(&req_list->list))
+> +		schedule_delayed_work(&cli_data->work, 0);
+>   }
+>   
+>   void amd_sfh_work_buffer(struct work_struct *work)
+> @@ -117,9 +124,10 @@ void amd_sfh_work_buffer(struct work_struct *work)
+>   	u8 report_size;
+>   	int i;
+>   
+> +	mp2 = container_of(in_data, struct amd_mp2_dev, in_data);
+> +	guard(mutex)(&mp2->lock);
+>   	for (i = 0; i < cli_data->num_hid_devices; i++) {
+>   		if (cli_data->sensor_sts[i] == SENSOR_ENABLED) {
+> -			mp2 = container_of(in_data, struct amd_mp2_dev, in_data);
+>   			report_size = mp2->mp2_ops->get_in_rep(i, cli_data->sensor_idx[i],
+>   							       cli_data->report_id[i], in_data);
+>   			hid_input_report(cli_data->hid_sensor_hubs[i], HID_INPUT_REPORT,
+> diff --git a/drivers/hid/amd-sfh-hid/amd_sfh_common.h b/drivers/hid/amd-sfh-hid/amd_sfh_common.h
+> index f44a3bb2fbd4..78f830c133e5 100644
+> --- a/drivers/hid/amd-sfh-hid/amd_sfh_common.h
+> +++ b/drivers/hid/amd-sfh-hid/amd_sfh_common.h
+> @@ -10,6 +10,7 @@
+>   #ifndef AMD_SFH_COMMON_H
+>   #define AMD_SFH_COMMON_H
+>   
+> +#include <linux/mutex.h>
+>   #include <linux/pci.h>
+>   #include "amd_sfh_hid.h"
+>   
+> @@ -59,6 +60,8 @@ struct amd_mp2_dev {
+>   	u32 mp2_acs;
+>   	struct sfh_dev_status dev_en;
+>   	struct work_struct work;
+> +	/* mp2 to protect data */
+> +	struct mutex lock;
+>   	u8 init_done;
+>   	u8 rver;
+>   };
+> diff --git a/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c b/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c
+> index 2983af969579..1d9f955573aa 100644
+> --- a/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c
+> +++ b/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c
+> @@ -466,6 +466,10 @@ static int amd_mp2_pci_probe(struct pci_dev *pdev, const struct pci_device_id *i
+>   	if (!privdata->cl_data)
+>   		return -ENOMEM;
+>   
+> +	rc = devm_mutex_init(&pdev->dev, &privdata->lock);
+> +	if (rc)
+> +		return rc;
+> +
+>   	privdata->sfh1_1_ops = (const struct amd_sfh1_1_ops *)id->driver_data;
+>   	if (privdata->sfh1_1_ops) {
+>   		if (boot_cpu_data.x86 >= 0x1A)
 
-Thanks and regards,
-Dario
-
->
-> Thanks.
->
-> --
-> Dmitry
-
-
-
---=20
-
-Dario Binacchi
-
-Senior Embedded Linux Developer
-
-dario.binacchi@amarulasolutions.com
-
-__________________________________
-
-
-Amarula Solutions SRL
-
-Via Le Canevare 30, 31100 Treviso, Veneto, IT
-
-T. +39 042 243 5310
-info@amarulasolutions.com
-
-www.amarulasolutions.com
 
