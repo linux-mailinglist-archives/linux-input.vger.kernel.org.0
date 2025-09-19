@@ -1,57 +1,57 @@
-Return-Path: <linux-input+bounces-14931-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14932-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7190B8A3B5
-	for <lists+linux-input@lfdr.de>; Fri, 19 Sep 2025 17:16:46 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id D173AB8A4E3
+	for <lists+linux-input@lfdr.de>; Fri, 19 Sep 2025 17:32:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 116F716238B
-	for <lists+linux-input@lfdr.de>; Fri, 19 Sep 2025 15:13:56 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 086CEB61350
+	for <lists+linux-input@lfdr.de>; Fri, 19 Sep 2025 15:29:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 482C1314B6F;
-	Fri, 19 Sep 2025 15:13:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C9EA831BC80;
+	Fri, 19 Sep 2025 15:30:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cL9WEOos"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EVSzdPLp"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20CBF253B64;
-	Fri, 19 Sep 2025 15:13:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3CCF31B83F
+	for <linux-input@vger.kernel.org>; Fri, 19 Sep 2025 15:30:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758294833; cv=none; b=aKzOHm/y7EESb8/5P7VnOk9sRBtHuY8/qaq4qtDQ+3CVXDdbD+PJy0xqW9yeS1Xd9THixLcBOyW35Gs+KSNMEVJh0Jn+xmvYnz5GLHiMBV6+jeL+U7abwyIYNZuHbNewmyrflvsXlgjygdVc2nxOTM8Ov/0wpN6/5HCz4EufXgY=
+	t=1758295835; cv=none; b=Z0dlWkngS7JvsaKiHAyXjcw4BKMxlfkDAyu3zR9wrRxBVWpmbN268BIPkYv/BpaTziY540iMdkN1k3yk4/iWhotA8wgMftHTZEubV6OAd05aQrgf2GyU9+GzzdAgrz1Mqg1YHMg0GAA1rr7FAuvzO6obT+tKnLYzcWmyol6jK9U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758294833; c=relaxed/simple;
-	bh=+wr4CPQRQ1uUsxZbkeXx2slfuJ5+/S1Tnmm3Y0GcxdE=;
+	s=arc-20240116; t=1758295835; c=relaxed/simple;
+	bh=wm/fDnvxmrxbmc7D1Suk5dUoeM3pCf3caAtFNZyrH8A=;
 	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=fikdATU+PukPjFr4EENhs7+mo035+rZ4yCoGbl1MEl4ErRP2g97SGX/umNmp5phj6YOpFA5TGpvq7DikQqu7C0cks+siew73BMYxcfcM46szUsxMswz9DufRMi3vyv1p6ROqrq9GtKjmiXaNXRyuJR3b940F2msaQM7Um7WSDls=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cL9WEOos; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 19911C4CEF0;
-	Fri, 19 Sep 2025 15:13:51 +0000 (UTC)
+	 MIME-Version:Content-Type; b=Pd9P4Fph+zdKhVZrkHM8RCTLWIOMe9MvbzW2nlliFSNMAw2x6wlzRBnTRAIBZzbODpY1y0OG5toh14IbxxwnhVfNZBYn8kHdUauTxllbQ+9FnIWEjbjFP/mXC4C2z7qGqJCqN30Goy1uj/VrU7u25Ll2f9p/P91XY4ZybMSx+yY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EVSzdPLp; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 306B1C4CEF0;
+	Fri, 19 Sep 2025 15:30:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758294832;
-	bh=+wr4CPQRQ1uUsxZbkeXx2slfuJ5+/S1Tnmm3Y0GcxdE=;
+	s=k20201202; t=1758295835;
+	bh=wm/fDnvxmrxbmc7D1Suk5dUoeM3pCf3caAtFNZyrH8A=;
 	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=cL9WEOosZCSYJdUoekqdg8rH5z6JToUgRf9xQBTroq8Xus1Vp8vjA8ZMHFVpXFGut
-	 ydUEC7Efe4QPqQ/5f2JBmpRw8TfXrcu3pmjSl0c9B7kugSTY1p4HcSVl8YtKUn+3g2
-	 JLvl/aVxwtN5qQN/rcWSRxSPd2wTXNQdN4MnNuV1VrKgzoGljltfVe5x4HEm18tehL
-	 KHBA9gQPqlAZjWbOLz1VfZZ4LBuvtM87mliQVY1ExacGA1WunkPdrXSQHYl1ZY01Dl
-	 TkJqmU5QunWCIaaXnkIllY4Ejd+SPE4zUPe62xUNwpfczqj18r0UYsHukxGYt0JFjF
-	 5ziJM4ufPV8BQ==
-Date: Fri, 19 Sep 2025 17:13:49 +0200 (CEST)
+	b=EVSzdPLpsX3zyzWt9Coefnrds595fKRvPXNAvnmegQKkmp0+LrqPpDYkKrHe31l7Z
+	 NJIGdG2QJCtVGiOHLFOm+wA3iX6plOlrWZW2n0wCM6bwB0O/+AE5QV1FaxU+eaZoWl
+	 xZP86pGlWJYVmTzj9i/MGDo6T2K4sDyuyLGvU+eWso3OFprIy1S3HLw4eg+1PJZ3wc
+	 G+01+P4hq1lsOxJi9d7/M30wl+ZYIB3rxcPZ1HYBzGytCtT5GIlF+jjYHf+gbaOB3e
+	 saukEfeNchad0QerEb1vnS349eHcLu4zqs1VEloKOfKQCciWWb1MF/Ie5uxlRjBZeH
+	 RegXICJLDBwIA==
+Date: Fri, 19 Sep 2025 17:30:32 +0200 (CEST)
 From: Jiri Kosina <jikos@kernel.org>
-To: Xinpeng Sun <xinpeng.sun@intel.com>
-cc: bentiss@kernel.org, srinivas.pandruvada@linux.intel.com, 
-    linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
-    even.xu@intel.com, Rui Zhang <rui1.zhang@intel.com>
-Subject: Re: [PATCH v3 RESEND] hid: intel-thc-hid: intel-quicki2c: support
- ACPI config for advanced features
-In-Reply-To: <20250917015344.1169412-1-xinpeng.sun@intel.com>
-Message-ID: <n1sp453o-968r-39r0-621q-556r025587s5@xreary.bet>
-References: <20250917015344.1169412-1-xinpeng.sun@intel.com>
+To: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
+cc: bentiss@kernel.org, linux-input@vger.kernel.org, 
+    Matthew Schwartz <matthew.schwartz@linux.dev>, 
+    Prakruthi SP <Prakruthi.SP@amd.com>, 
+    Akshata MukundShetty <akshata.mukundshetty@amd.com>
+Subject: Re: [PATCH] HID: amd_sfh: Add sync across amd sfh work functions
+In-Reply-To: <20250918123202.1076393-1-Basavaraj.Natikar@amd.com>
+Message-ID: <38q44q50-rs57-s930-072q-qp98848243qr@xreary.bet>
+References: <20250918123202.1076393-1-Basavaraj.Natikar@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -60,20 +60,20 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 
-On Wed, 17 Sep 2025, Xinpeng Sun wrote:
+On Thu, 18 Sep 2025, Basavaraj Natikar wrote:
 
-> There is a new BIOS enhancement that adds the capability to configure the
-> following two features of I2C subsystem introduced in commit 1ed0b48
-> ("Intel-thc: Introduce max input size control") and commit 3f2a921
-> ("Intel-thc: Introduce interrupt delay control"):
-> - Max input size control
-> - Interrupt delay control
+> The process of the report is delegated across different work functions.
+> Hence, add a sync mechanism to protect SFH work data across functions.
 > 
-> As BIOS is used for the configuration of these two features, change driver
-> data usage to indicate hardware capability, and add corresponding ACPI
-> configuration support in QuickI2C driver.
+> Fixes: 4b2c53d93a4b ("SFH:Transport Driver to add support of AMD Sensor Fusion Hub (SFH)")
+> Reported-by: Matthew Schwartz <matthew.schwartz@linux.dev>
+> Closes: https://lore.kernel.org/all/a21abca5-4268-449d-95f1-bdd7a25894a5@linux.dev/
+> Tested-by: Prakruthi SP <Prakruthi.SP@amd.com>
+> Co-developed-by: Akshata MukundShetty <akshata.mukundshetty@amd.com>
+> Signed-off-by: Akshata MukundShetty <akshata.mukundshetty@amd.com>
+> Signed-off-by: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
 
-Applied to hid.git#for-6.18/intel-thc-hid, thanks.
+Applied, thanks.
 
 -- 
 Jiri Kosina
