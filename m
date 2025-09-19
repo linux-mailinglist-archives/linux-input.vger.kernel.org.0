@@ -1,193 +1,207 @@
-Return-Path: <linux-input+bounces-14929-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14930-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98C5BB8A2A7
-	for <lists+linux-input@lfdr.de>; Fri, 19 Sep 2025 17:05:03 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DB0A3B8A38C
+	for <lists+linux-input@lfdr.de>; Fri, 19 Sep 2025 17:15:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4581A1893AAC
-	for <lists+linux-input@lfdr.de>; Fri, 19 Sep 2025 15:05:25 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2DD4F17E618
+	for <lists+linux-input@lfdr.de>; Fri, 19 Sep 2025 15:13:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9FA49253B64;
-	Fri, 19 Sep 2025 15:04:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2D1D9314B89;
+	Fri, 19 Sep 2025 15:12:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BeskXYlD"
+	dkim=pass (1024-bit key) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b="iaQzmEpB"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com [209.85.219.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CA481C862E
-	for <linux-input@vger.kernel.org>; Fri, 19 Sep 2025 15:04:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3ADDC2F83BA
+	for <linux-input@vger.kernel.org>; Fri, 19 Sep 2025 15:12:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758294299; cv=none; b=AAe+lXAeahgHh9G+RFAPBE+4PQ9hwFeaoSEVHge9mREJEfnWO7GeWWtY2qaI0XZUtMjyt3hPWM3TVWGU9v6oeEyH5VGS0XePTAcTczfjsindmEAP4wwSWz04vlDN95Q7zqk4AxwcOuO9oEdR92ANDPB1/WaIsM+4GE732RtIixY=
+	t=1758294776; cv=none; b=lzeuS5wKIrd5J6VCnXZledRCcIAoG/UFMo+MSB0mSvm1XAM6W6d2R3+DiCFjXD2D9yOKofKG/Ml1AgT9SX2ttsqVrovfhYlLKbQqORKAA7DRPm2rqxDxy18IQIdE9dsf5mpr/HrKsXkgyGS0x7Mj/apIen3sMcd8Y6vtZjhi5bw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758294299; c=relaxed/simple;
-	bh=FjiAFTxi8jODCJ+bHLXvv3TSer1xCrhWr1iU5kYCg4M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RAc5uoTsZ3KDjfwVSy2IwM1MmLw3EOqKEcOP2M1Ema92cARVVdiL8yV3BMgx0dycKImTn64e/5RaMsACdOb2jlTyXUDmvyERA/U8PPLhELo++Y/EAkNav+RNVwBpOwpZieviCg0WLg4CO8hnPosqpQdI8obmBCFI45hNdFaVChk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BeskXYlD; arc=none smtp.client-ip=209.85.210.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-7761578340dso2942467b3a.3
-        for <linux-input@vger.kernel.org>; Fri, 19 Sep 2025 08:04:57 -0700 (PDT)
+	s=arc-20240116; t=1758294776; c=relaxed/simple;
+	bh=BMBx1xHgOcLMiwulqoEU2IVGNnkq/sLpD6FdVgmu+5I=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Ug614bTUe8nclqkyhOA2Jiryw1qGHWjIdVjFhKC/VXmVTPzcWnhbuAs+BbVEa4BbyiOKaJKhtbNILq+BXvab1ODnTA92oft/tGLuBIMsttgCEki790M49eSD65v3jg8UkSGHslDMwREs3b/da1f3iQb7AE5byIXYWLCN0qClKQE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=amarulasolutions.com; spf=pass smtp.mailfrom=amarulasolutions.com; dkim=pass (1024-bit key) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b=iaQzmEpB; arc=none smtp.client-ip=209.85.219.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=amarulasolutions.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amarulasolutions.com
+Received: by mail-yb1-f182.google.com with SMTP id 3f1490d57ef6-eabe0d02398so487117276.0
+        for <linux-input@vger.kernel.org>; Fri, 19 Sep 2025 08:12:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758294297; x=1758899097; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=sGq779JduiMFVPFNRcpvBXJsIWGjn1vuBo47AZWt1KU=;
-        b=BeskXYlDOmQ6BCHi0nKmLFlKmb1AsAVOE1aV2Nbwst7up85x6XO8FHZ/hSMQ5l+JmT
-         JzxeqGjU+q0wWyucvOwHSwV1Z1PblYKbdyiy8V81Mz5zHjdyH/khHTEyd2yzv1YKDvRO
-         STZaIptn4hq82WjaE5SULmwApqRk/VysvFro9q+x9UIWnhO89avhaO55/nv5e7i2jJdu
-         jsWmyTLInO7cKCVBlSKovrT/mSghm9RbdPsyGTDigSK19DGkZvZGB9n5cR5/u7OnvSB4
-         JSXz9seAle711v5i2eZ9HrgIUfDPIU1uX25TkXn3aaG4fZ4OTJ6pwWArsor4vYGJVVBT
-         uZcA==
+        d=amarulasolutions.com; s=google; t=1758294773; x=1758899573; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=xDR2hBx94HH9iDGXNQ3ANzEfWRisNoMXPj4b5y7WrJ8=;
+        b=iaQzmEpBXqesi1cHzB4VZJ94iKEFL7Uwl3ssxfcK3v/4d9eFdzwFrHsjgPe7by10Eo
+         OYqAtHTrEJkBBniuYBZKCgTDbOYPnXu5jIOuFpOryuaXyzFl55IQf9yMZ7XsUcx+0F1W
+         l1SFFCJQrCyokcNjkVfVksYPpUUu5SlwRi2Ks=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758294297; x=1758899097;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=sGq779JduiMFVPFNRcpvBXJsIWGjn1vuBo47AZWt1KU=;
-        b=kU0ltQPhBHF2elpOIoe2X/A9lUpeUERjlUGm6bY/fn0BHUgQd1jAKowO3NcuRO8ksD
-         v0rUQkhSwi7bd9ZlCJQhqCuZ2NnXLStN9AFdPzVHQiRhIFBdxyakl15rc2enebDTE7YZ
-         YBSQWL1MCK1PEoSKWeZkByhGe71JaGxhfCk0rmdxBcSIMYqjdocE6QBoa87247GpYEpk
-         zUmII3dH3odkd73akkLAGbozrlLtf8+HOxu+oKQg8dcktZjJSjmSk62riHzH4aMmBu5b
-         vXECmtKpVXo6eTwVSRB4ZZOuvRESjxUNSOO4c3YftI+okXkXE07Vmd7zjlmwyTNN38hm
-         qgrw==
-X-Forwarded-Encrypted: i=1; AJvYcCVR/KlDRPbh3+SmnhbjBzI/QLDsjWAP9auDc/wdr5aRqK/E5HqYlXw5lxBKhddpZJqB75LxpOnHGCMQwg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwD3+NcvzCNhH9iqXNnEGStFuRp5/X5ycsnN6xwJG0xd8Z44HXR
-	bg1Wn/pM0aNK9Ko1SyKf1C4KB24lP1YvS6Gc0L9CxOhQksBAv9KadJXzUa2SJA==
-X-Gm-Gg: ASbGncu7i2wyPTEmIn/mrzfaBv+XGDdsv5/v17BJYgZvhfQYT69z/NPtdKYpYvOaWDa
-	+Hw/v+8ZgTH+zqjLlkRA4FGYe+X9sIfCE8hosh/hqfXJntfkyFJm70xo+RIBKBI2yqkpUyG60VK
-	3iDOD7DgTiOvCPcJ8FlFmtfFDceX1lLnaETPf6GGq4fiat+AJMv9Gn0pAE0698b/wOncyy7c+i0
-	J22NewqereiKN+C27ikDEaKh3YFkMlUI3gQs0U/8cJricxLJtUjhwb1rpwdhBOAYBB/+q7R+Pl1
-	pQnVGSHeFYlDhxViGtZFoGqTPCw/7trrZBkzztzy4N562sdW2TXBDsOcBggmZFLgHWCl/qJFbL8
-	biaqzdem6ahrpgSZrkxHrXQg=
-X-Google-Smtp-Source: AGHT+IHHcMV2N/II71EljOa9GN5fNQJq+YIm51L7Ojo0UiWzA7YiSqKriRoWdVdGhiCgc1jxrgbZUA==
-X-Received: by 2002:a05:6a21:9984:b0:252:525c:2c2c with SMTP id adf61e73a8af0-292605d38cemr5694626637.14.1758294297086;
-        Fri, 19 Sep 2025 08:04:57 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:8e3e:e1c9:1151:50c3])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b55156734a4sm2968810a12.4.2025.09.19.08.04.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Sep 2025 08:04:56 -0700 (PDT)
-Date: Fri, 19 Sep 2025 08:04:53 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: =?utf-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
-Cc: =?utf-8?B?5Y2i5Zu95a6P?= <luguohong@xiaomi.com>, 
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, jikos@kernel.org, 
-	bentiss@kernel.org, =?utf-8?B?5p2O6bmP?= <lipeng43@xiaomi.com>, 
-	Fei1 Jiang =?utf-8?B?6JKL6aOe?= <jiangfei1@xiaomi.com>, =?utf-8?B?5a6L5a+G5a+G?= <songmimi@xiaomi.com>
-Subject: Re: The zero power level of the HID device in kernel 6.12 is not
- reported from the kernel to the upper layer.
-Message-ID: <px5t2iedrrqhcrpdvmu5pznp53d3e5jp55dm72phlsti2rmt4j@rj2pajkavuir>
-References: <d2cada7efe8d4436b6e638fa1e0aaefb@xiaomi.com>
- <aM0XBudxlXuzALbg@fedora>
+        d=1e100.net; s=20230601; t=1758294773; x=1758899573;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=xDR2hBx94HH9iDGXNQ3ANzEfWRisNoMXPj4b5y7WrJ8=;
+        b=b4q4zJOV6HnXgZUwyK0C90k3tBUJxgREda+q19RiKmYJrtXZHzRaYfzuuKLwO7M7Zk
+         i3KOMrfcyEagZ1RdfU3X4qrBjJWakoarHbj5X/JNh+Nf+1QjHIegmCJof3eu0/Cnc2zf
+         I3iwHs3L5D7YP5hvc+yyJoJcyexoafGp6EGpH2FslkQrIQVFPfEX1A8G2x2eibBcMw3y
+         sJR5tVfKO77I48W3rEkddcnDjtZ+ylruwOEe+q8nIz1yD1jrSr7siBRGb+74TScZF2di
+         qyLrQoS9YQtYjiKAu+6o/JFd546CdtHmKOPFWz87MKpZ95bp8TA1v00yWrg1Fs+AtoQb
+         dp/w==
+X-Forwarded-Encrypted: i=1; AJvYcCUEPNsmvbs2Kfc/d+VaPZf9L9AEOD5zjJ5zab10PjX24kpC02g03vArdkC96+B9lotieihQNX+q8wji4g==@vger.kernel.org
+X-Gm-Message-State: AOJu0YytMfYI6wRRmhQCVOvWJRLe5o+ySYiohqX7L4lJQ/ZptfZ5GFgH
+	9uVktGtqiiEDbExgvPyCzlhuhqUEvqjNyrfQgFeFZCKHScrGkiTdI2Y85mKbX2yoptoYwXy7QQQ
+	9TYTCWnZAyeZSSNweEm1O+UwL+nFQdbp6rYoS2cIyJg==
+X-Gm-Gg: ASbGncu45gUGtboBYQtN6PgQwPZdlLyXJD8qSyL7moEHC6kumPoBHPmN0L1ymuUr9WJ
+	PT6VIkrj6edX/xalc7UJmWMzOC5c0hS/vK7NHKXFrz3ehuZPp0vZiuq9iBAsLpLazqfeHlus6aP
+	rhKpCWzp5/fCfMatj0WZ7zokWaTodbNIjiOjJ4McoBB0hs7vKYCTYThdv1PZ3TRAQh/EHCHWwJo
+	OPSpg==
+X-Google-Smtp-Source: AGHT+IFCsX/Yr77baAfQUzezWX3UUJwL6EO1cZJPaD7zTXu7veCWD1vzn6Rs4eZ4FAte4CZNbi3qEmlpHq2WjLd8WuQ=
+X-Received: by 2002:a05:6902:488f:b0:ea7:c75f:2691 with SMTP id
+ 3f1490d57ef6-ea867ca9423mr4048090276.19.1758294772969; Fri, 19 Sep 2025
+ 08:12:52 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <aM0XBudxlXuzALbg@fedora>
+References: <20250918155240.2536852-1-dario.binacchi@amarulasolutions.com>
+ <20250918155240.2536852-4-dario.binacchi@amarulasolutions.com>
+ <20250918200445.GA2529753-robh@kernel.org> <CABGWkvqX9aCxam6UMYsUBkwnMJrMNKjVKrqi5Ca7O5Jk8xRTAA@mail.gmail.com>
+ <20250919143831.GA862818-robh@kernel.org>
+In-Reply-To: <20250919143831.GA862818-robh@kernel.org>
+From: Dario Binacchi <dario.binacchi@amarulasolutions.com>
+Date: Fri, 19 Sep 2025 17:12:42 +0200
+X-Gm-Features: AS18NWBbtmYlxVQg7JWp-61dA1-iw7AN6sdR1Y0K8dgfLvdbAOOkJOlZL9jpOaA
+Message-ID: <CABGWkvrxOTzAcqWHLvuqk_7WFxybheSZFnMkqnksfkPi6wXcpQ@mail.gmail.com>
+Subject: Re: [PATCH v5 3/6] dt-bindings: touchscreen: add touchscreen-glitch-threshold-ns
+ property
+To: Rob Herring <robh@kernel.org>
+Cc: linux-kernel@vger.kernel.org, Frank Li <Frank.Li@nxp.com>, 
+	linux-amarula@amarulasolutions.com, Conor Dooley <conor.dooley@microchip.com>, 
+	Conor Dooley <conor+dt@kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+	Javier Carrasco <javier.carrasco@wolfvision.net>, Jeff LaBundy <jeff@labundy.com>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, devicetree@vger.kernel.org, 
+	linux-input@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi,
-
-On Fri, Sep 19, 2025 at 10:40:38AM +0200, José Expósito wrote:
-> Hi 卢国宏,
-> 
-> Thanks for reporting this issue.
-> 
-> In the furure, when reporting bugs, it is prefered to send them to the
-> mailing list (linux-input@vger.kernel.org and linux-kernel@vger.kernel.org)
-> to discuss them in public.
-> 
-> Let me forward your email to the mailing list and also CC Dmitry, the
-> author of that code, who might help us understand the problem.
-> 
-> On Tue, Sep 16, 2025 at 12:29:32PM +0000, 卢国宏 wrote:
-> > Hi, jose!
+On Fri, Sep 19, 2025 at 4:38=E2=80=AFPM Rob Herring <robh@kernel.org> wrote=
+:
+>
+> On Thu, Sep 18, 2025 at 10:37:37PM +0200, Dario Binacchi wrote:
+> > On Thu, Sep 18, 2025 at 10:04=E2=80=AFPM Rob Herring <robh@kernel.org> =
+wrote:
+> > >
+> > > On Thu, Sep 18, 2025 at 05:52:31PM +0200, Dario Binacchi wrote:
+> > > > Add support for glitch threshold configuration. A detected signal i=
+s valid
+> > > > only if it lasts longer than the set threshold; otherwise, it is re=
+garded
+> > > > as a glitch.
+> > > >
+> > > > Signed-off-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
+> > > > Acked-by: Conor Dooley <conor.dooley@microchip.com>
+> > > >
+> > > > ---
+> > > >
+> > > > Changes in v5:
+> > > > - Add Acked-by tag of Conor Dooley
+> > > >
+> > > > Changes in v2:
+> > > > - Added in v2.
+> > > >
+> > > >  .../devicetree/bindings/input/touchscreen/touchscreen.yaml    | 4 =
+++++
+> > > >  1 file changed, 4 insertions(+)
+> > > >
+> > > > diff --git a/Documentation/devicetree/bindings/input/touchscreen/to=
+uchscreen.yaml b/Documentation/devicetree/bindings/input/touchscreen/touchs=
+creen.yaml
+> > > > index 3e3572aa483a..a60b4d08620d 100644
+> > > > --- a/Documentation/devicetree/bindings/input/touchscreen/touchscre=
+en.yaml
+> > > > +++ b/Documentation/devicetree/bindings/input/touchscreen/touchscre=
+en.yaml
+> > > > @@ -206,6 +206,10 @@ properties:
+> > > >
+> > > >          unevaluatedProperties: false
+> > > >
+> > > > +  touchscreen-glitch-threshold-ns:
+> > > > +    description: Minimum duration in nanoseconds a signal must rem=
+ain stable
+> > > > +      to be considered valid.
+> > >
+> > > What's wrong with debounce-delay-ms?
 > >
-> > We encountered a problem where the zero battery level of the HID device
-> > in kernel 6.12 was not reported from the kernel to the upper layer.
-> > I checked the HID protocol and it doesn't say that there is no need to
-> > report the zero power of the HID device. For details, see page 381 of
-> > the HID protocol, 31.4 Battery Measures. "Absolute State Of Charge DV
-> > The predicted remaining battery capacity expressed as a percentage of
-> > design capacity. (Units are %. The value may be greater than 100%.)".
-> > However, in the file hid-input.c in kernel 6.12, the following code：
-> > 
-> > static void hidinput_update_battery(struct hid_device *dev, unsigned int usage,
-> >                                     int value)
-> > {
-> >         int capacity;
-> > 
-> >         if (!dev->battery)
-> >                 return;
-> > 
-> >         if (hidinput_update_battery_charge_status(dev, usage, value)) {
-> >                 power_supply_changed(dev->battery);
-> >                 return;
-> >         }
-> > 
-> >         if (value == 0 || value < dev->battery_min || value > dev->battery_max)
-> >                 return;
-> > 
-> >         capacity = hidinput_scale_battery_capacity(dev, value);
-> > 
-> >          ......
-> > 
-> > }
-> > 
-> > The parameter value is the power level. When the value is 0, the above code
-> > returns without reporting.
-> > Is this a problem?
-> > We're currently experiencing this issue on Android 16. The upper layer of
-> > Android needs to receive a zero battery level before it can take appropriate
-> > action.
+> > Do you mean that I should rename touchscreen-glitch-threshold-ns to
+> > debounce-delay-ms?
+>
+> I mean that's the common property we already have, so use it or explain
+> why you aren't using it. I suppose the definition is technically a bit
+> different if it's purely a s/w delay vs. h/w monitoring of the signal
+> state. I don't think it matters if the interpretation by each driver is
+> a bit different.
+>
+> Maybe msec is not enough resolution for you could be another reason?
 
-What kind of action are we talking about? Section 31 of the HID
-specification defines events for "Smart Battery" ("To comply with the
-Smart Battery Specification, the Battery System must support the
-functions defined in the Battery and Charger usage tables. For details,
-see Section 4.2, “Battery System Page (x85).”) and is typically used for
-"battery pack for cellular phones (principal source), the battery
-pack(s) for notebook computers (auxiliary source), and the sealed
-batteries in uninterruptible power supplies (auxiliary source)."
+Yes, this is the main reason. As specified in the following patch:
+  v5 4/6 dt-bindings: touchscreen: fsl,imx6ul-tsc: support glitch threshold
 
-Is your use case main battery or battery in a stylus or some other
-peripheral?
+Drivers must convert this value to IPG clock cycles and map
+it to one of the four discrete thresholds exposed by the
+TSC_DEBUG_MODE2 register:
 
-> > Could you please help me evaluate whether we should remove the behavior of
-> > returning to zero battery?
-> >
-> > Thanks!
-> > #/******本邮件及其附件含有小米公司的保密信息，仅限于发送给上面地址中列出的个人或群组。禁止任何其他人以任何形式使用（包括但不限于全部或部分地泄露、复制、或散发）本邮件中的信息。如果您错收了本邮件，请您立即电话或邮件通知发件人并删除本邮件！ This e-mail and its attachments contain confidential information from XIAOMI, which is intended only for the person or entity whose address is listed above. Any use of the information contained herein in any way (including, but not limited to, total or partial disclosure, reproduction, or dissemination) by persons other than the intended recipient(s) is prohibited. If you receive this e-mail in error, please notify the sender by phone or email immediately and delete it!******/#
-> 
-> It indeed looks like it could be problematic.
-> 
-> Values are allowed ot be grater than 100, however, I didn't find
-> any references to negative values. Since it is a percentage, it
-> make sense to limit it to 0%, i.e., not allowing negative values.
-> 
-> I think that removing the "value == 0" check, or replacing it with
-> "value < 0" should fix the issue.
+  0: 8191 IPG cycles
+  1: 4095 IPG cycles
+  2: 2047 IPG cycles
+  3: 1023 IPG cycles
 
-If we are dealing with peripherals (stylus for example) - for which this
-piece of code was written - how a battery powered peripheral that is
-fully discharged can communicate it's battery state of 0?
+In my case, the IPG clock runs at 66 MHz, which corresponds to:
 
-I think we have observed bogus reports with 0 values (IIRC trying to
-query battery strength when stylus is not in proximity would yield
-responses with 0 strength).
+124 =C2=B5s for 0
+62 =C2=B5s for 1
+31 us for 2
+15 us for 3
 
-Thanks.
+So using milliseconds would not fit my use case. A possible trade-off
+could be to use debounce-delay-us. Would that be acceptable?
 
--- 
-Dmitry
+Thanks and regards
+Dario
+
+> Looks like your h/w supports that assuming the clock frequency is 10s
+> of MHz. But are touchscreen glitches really in sub msec times? Not in my
+> experience, but that's 20 years ago on resistive touchscreens...
+>
+> Rob
+
+
+
+--=20
+
+Dario Binacchi
+
+Senior Embedded Linux Developer
+
+dario.binacchi@amarulasolutions.com
+
+__________________________________
+
+
+Amarula Solutions SRL
+
+Via Le Canevare 30, 31100 Treviso, Veneto, IT
+
+T. +39 042 243 5310
+info@amarulasolutions.com
+
+www.amarulasolutions.com
 
