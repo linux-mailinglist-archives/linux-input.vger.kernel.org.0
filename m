@@ -1,107 +1,114 @@
-Return-Path: <linux-input+bounces-14876-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14877-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB581B8724C
-	for <lists+linux-input@lfdr.de>; Thu, 18 Sep 2025 23:29:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE015B878F9
+	for <lists+linux-input@lfdr.de>; Fri, 19 Sep 2025 03:03:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B42535832BB
-	for <lists+linux-input@lfdr.de>; Thu, 18 Sep 2025 21:29:40 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AEF38167BE4
+	for <lists+linux-input@lfdr.de>; Fri, 19 Sep 2025 01:03:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 066FD2F9DAE;
-	Thu, 18 Sep 2025 21:29:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 143B31A4E70;
+	Fri, 19 Sep 2025 01:03:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ItzNtb+Y"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Gpf/rliR"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9116E2853F7
-	for <linux-input@vger.kernel.org>; Thu, 18 Sep 2025 21:29:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83ED4139D
+	for <linux-input@vger.kernel.org>; Fri, 19 Sep 2025 01:02:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758230974; cv=none; b=qgW69cckeSekk5CPy/nAcfL4cocGYntsiE76UzXZrKCu/9e8e2HTbbufXusz6yixpEeUKRIRywTqLe3eun6V6vkWKisRK2n+dCrYfUf3dLzyfC+RCNKgGhK55d7AEkRHAY+HPA3BW+zY62Q+8z/A0mmww+frpjpBvSY8ANeZhG4=
+	t=1758243780; cv=none; b=bTbkpeEwWGp5a38hDmEp0thzOCPFzyxeH4fFN/dWbGP2iROlHF+CJrgCWuCCA3Dyabf0fkXy5fUijLfpZxjpfY9R1/aGj189SD55VuDYpexqsuV+poATarsrv87mQBT/UWRBGYFF4KyGdtR6qVbJU54mxZsAyaltBr7MVjxa/ys=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758230974; c=relaxed/simple;
-	bh=Y/g7MH1bz5uUTekQcW8JYQMQ93odnK04liGdY8dwB+0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eVp8ffQKd7U5zZ5tR0EyWJfYT9pZ+v549RUaKglXg0OFKlom+EBJOMBCT+Wjzisw3MoWSjCAsc5/sEGanHd2EcmgbdtzsaNpHfA5S5NU6D/2LdIeA5b9Pjqi5W4XLXivUluOS+t3NgVk8dywHbLhoVN4SU/PMGi7pP0jdhH37DY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ItzNtb+Y; arc=none smtp.client-ip=209.85.214.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-24b13313b1bso10495745ad.2
-        for <linux-input@vger.kernel.org>; Thu, 18 Sep 2025 14:29:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758230973; x=1758835773; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=OuOfn5BynYjHyfO8hnZOpVSeujXtYV70hxGYV5OTCNY=;
-        b=ItzNtb+YeeFoSQlDfyJ+4n14NdYaJbAqRXompb1OYGEJ6WmMjVltaIU4n0c09vLiQN
-         MxlOSzVmfiu6C3Oave+ZpvVqDXZnZl7xEQ2n1yceIjHyheHAo/ziO2CJYhzdAhDN3Can
-         bjH+pMtZjP9B5V5CvsjulXnHnqWPdsb5tXu7yl5gwMapEqTY9JoBHRYmlTBe9uaAfXdP
-         8hfYUUVuKAh0Sj1u9LkGCGShS3PhEjD+x9bzVNssJVSV1Tu7KXgu/4FuDyeow10xQ/Ou
-         +xvITm6pG0TAV7ksdtTLHe2XDj4bgHDd+qAWCO2pFNLRAoY/KA4U0v0B39Jca1T04PxV
-         l1kQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758230973; x=1758835773;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OuOfn5BynYjHyfO8hnZOpVSeujXtYV70hxGYV5OTCNY=;
-        b=W+wKARtP2H5sLVndhdkpE/W2kKRE9UzC2ZbrYUWBInabnUx6tusHOV64Xajxg/FP4u
-         2TwJ5sc0dLHBs6z75Q7qOdtdd97I8iAZ6TPC0As3Ivcldl5kdUT3N7umk6D6DyJfWveF
-         yMTB61pQsTEq71AVSiCxcA3EK72Z9C3p1G+Xqr1/C49MdTtrOVxtXo3rnPUz+6rB9jws
-         jodTdhb3N72/TRg5XauKdclAGTBJzBMzs2bLjLeTci6VITfEm0sEK0hGJbl1cGK0pA+e
-         eSDsAgQUKNb4wa55En3k2dX3//LPEh8x0JWzLHC5Mkn/DQE+Fw/Qc0jAXL0aU0JMZ7DU
-         OcqQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVu62xPAGDO3UFV5FQoscpxxKIr7iR+0jTJKgaf1ly3ulYP4e+RPWAJtqW6K6IjWZV6+ceHEADQ2FxEmw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwR5EkKpfo40zfmUfY+3+KzX2dgxf9Wi9Awya4teP6IHr51/arF
-	B+Jq+nzQO2FQBNVZ89BDGVghsjHEHPsSgBBdIFiAJYWRoU9zRxPgLjv6
-X-Gm-Gg: ASbGncutLgxp8L1xom30zqO7WpA7vAQt4TQ70nosSUCVvQkjEcfkJiGGPAEFZwerDsM
-	ismHPVuYiiQe7etNBUYluczGw67WcgB9/71txCqjCV1njgmyCzDu2uXslc1enmojUo2+Etny4KI
-	BW+WYXyoqP8G9akcgAyO5Icw0l1QSRUN60vO0pWdcdiCioRR2P+lB7AwE83EUqYDH4cqV18qovl
-	VDI0UVys2M4KcVf3NKbY2rld0fdPYUmESIJJ8iS1tFORvu/dHRZxWmgjdBj5SPp5Q/QsfbCYbub
-	Rg+APjb0tiabOSF5k2rAQAFQ63pWkCE9IPKKOos6115Htqrj894Sp5mlqaaiU2IRCTZTPAFhPMD
-	xho2mqCNs8YiK8WAOc2bB2vojYptDOKoi8U7WFaiwbpUbJcMr3g5i
-X-Google-Smtp-Source: AGHT+IGJVCoAx599ArMTaqWmQd71Ibkb5sXiglq6XEMSs2fJiAQc2hYEh1dHQTNHwRyHuT99FrXNmw==
-X-Received: by 2002:a17:903:3387:b0:260:c48c:3fba with SMTP id d9443c01a7336-269ba53b148mr9460685ad.47.1758230972743;
-        Thu, 18 Sep 2025 14:29:32 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:8e3e:e1c9:1151:50c3])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-269a7dcafb6sm15559465ad.83.2025.09.18.14.29.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Sep 2025 14:29:32 -0700 (PDT)
-Date: Thu, 18 Sep 2025 14:29:30 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Dario Binacchi <dario.binacchi@amarulasolutions.com>
-Cc: linux-kernel@vger.kernel.org, linux-amarula@amarulasolutions.com, 
-	Conor Dooley <conor+dt@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org, linux-input@vger.kernel.org
-Subject: Re: [PATCH v4 4/5] dt-bindings: touchscreen: convert zet6223
- bindings to json schema
-Message-ID: <jlncvy4jmxwcuryvrto4jxudnohw4berxa67avjqzrxsdakbvj@tlpf54cr3acf>
-References: <20250918153630.2535208-1-dario.binacchi@amarulasolutions.com>
- <20250918153630.2535208-4-dario.binacchi@amarulasolutions.com>
+	s=arc-20240116; t=1758243780; c=relaxed/simple;
+	bh=vaSvymG+1ibplhCRe8y8n8gprJXBtl2c2jkDgIMM24I=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=gCH/s5j7Iuo1Jho50SQONornffWArpIpMuKpD+p4Zjn5oiCepF6T+/PWfh5KnSWECon0PPKB1lMzyCvhQA6ns2WxqwaVRmFjD6/KhOdNUBMQfIPYIUUvrD/QMj0bSgykvHD6jeD1S7M4wZwKgkKMwgMup4SVfSi+FY3qaBptxSU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Gpf/rliR; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1758243778; x=1789779778;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=vaSvymG+1ibplhCRe8y8n8gprJXBtl2c2jkDgIMM24I=;
+  b=Gpf/rliRE9VdxS7UW6aZ3UEVpxSWkX4rr7NISnfKunWGUdthZaKhU8Ik
+   1BGjXi9gO/qGd1/2BAp/GoCl/Sy6g1ykrCgiEN5Okt5A3ONBVg8Zxn936
+   OlRkd6cgnIlDMO5qZajd40qTydUXhhfIJiHdIM1hGAIym+ttoAcfBB/9+
+   f1D2NWSM13i52sxAw9vhACYa1UVeVMAWMMGbywjJpGrY9OEW/OkzOrwgF
+   IAt9KANyWEMOMNiZrcaaGNu7AETw73Tjf7bGoc9AyMhDpdr7nu1vNk6CG
+   fUuwnWAzoOdTYlOLSvSJa3c6D49CtcEtcf8yT2SV/caR+R933JNmqjyXL
+   Q==;
+X-CSE-ConnectionGUID: 7dNKjzfjRa6Aaq4aGhz+yg==
+X-CSE-MsgGUID: WY31J7/LSyC0eOp/izJAmQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="60535406"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="60535406"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2025 18:02:58 -0700
+X-CSE-ConnectionGUID: Dp0Qj4ZzTp6GxEFv0ut9tQ==
+X-CSE-MsgGUID: uV/pXHs9T8q3FIs/LfkyUg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,276,1751266800"; 
+   d="scan'208";a="180815143"
+Received: from iscp-l-lixuzha.sh.intel.com ([10.239.153.157])
+  by orviesa005.jf.intel.com with ESMTP; 18 Sep 2025 18:02:57 -0700
+From: Zhang Lixu <lixu.zhang@intel.com>
+To: linux-input@vger.kernel.org,
+	srinivas.pandruvada@linux.intel.com,
+	jikos@kernel.org,
+	benjamin.tissoires@redhat.com
+Cc: lixu.zhang@intel.com
+Subject: [PATCH 0/6] HID: intel-ish-hid: Various power management improvements for hibernation
+Date: Fri, 19 Sep 2025 09:05:53 +0800
+Message-ID: <20250919010559.165076-1-lixu.zhang@intel.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250918153630.2535208-4-dario.binacchi@amarulasolutions.com>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Sep 18, 2025 at 05:36:09PM +0200, Dario Binacchi wrote:
-> Convert Zeitec ZET6223 touchscreen controller device tree binding to
-> json-schema.
-> 
-> Signed-off-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
-> 
+This patch series introduces several improvements to the power management and hibernation
+handling in the intel-ish-hid driver. Key changes include:
 
-Applied, thank you.
+- Separating hibernate callbacks in dev_pm_ops for clearer power state transitions
+- Using IPC RESET in ish_wakeup() to ensure reliable device wakeup
+- Scheduling firmware reset work on RESET_NOTIFY/ACK for robust recovery
+- Resetting client state on resume from D3 to maintain consistency
+- Enhancing resume logic in ishtp-hid-client for better stability
 
+These patches enhance reliability, improve power management flow. All changes
+have been validated on TwinLake (ISH 5.4), ArrowLake (ISH 5.6), and PantherLake
+(ISH 5.8) platforms.
+
+Zhang Lixu (6):
+  HID: intel-ish-hid: Add ishtp_get_connection_state() interface
+  HID: intel-ishtp-hid: Clear suspended flag only after connected on
+    resume
+  HID: intel-ish-ipc: Reset clients state on resume from D3
+  HID: intel-ish-hid: ipc: Always schedule FW reset work on
+    RESET_NOTIFY/ACK
+  HID: intel-ish-hid: Use IPC RESET instead of void message in
+    ish_wakeup()
+  HID: intel-ish-hid: ipc: Separate hibernate callbacks in dev_pm_ops
+
+ drivers/hid/intel-ish-hid/ipc/ipc.c          | 73 +++++++++-----------
+ drivers/hid/intel-ish-hid/ipc/pci-ish.c      | 29 ++++++--
+ drivers/hid/intel-ish-hid/ishtp-hid-client.c | 11 ++-
+ drivers/hid/intel-ish-hid/ishtp/client.c     |  6 ++
+ include/linux/intel-ish-client-if.h          |  1 +
+ 5 files changed, 72 insertions(+), 48 deletions(-)
+
+
+base-commit: 8f7f8b1b3f4c613dd886f53f768f82816b41eaa3
 -- 
-Dmitry
+2.43.0
+
 
