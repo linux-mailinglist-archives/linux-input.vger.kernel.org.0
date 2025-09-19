@@ -1,132 +1,157 @@
-Return-Path: <linux-input+bounces-14883-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14884-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 555DAB87908
-	for <lists+linux-input@lfdr.de>; Fri, 19 Sep 2025 03:03:12 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id E41B5B8792D
+	for <lists+linux-input@lfdr.de>; Fri, 19 Sep 2025 03:12:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 4874E4E03AA
-	for <lists+linux-input@lfdr.de>; Fri, 19 Sep 2025 01:03:11 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A81E31B224C6
+	for <lists+linux-input@lfdr.de>; Fri, 19 Sep 2025 01:12:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 281371369B4;
-	Fri, 19 Sep 2025 01:03:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E21E61F151C;
+	Fri, 19 Sep 2025 01:12:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ParSTaH9"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WmWAhIhx"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BE9F192B90
-	for <linux-input@vger.kernel.org>; Fri, 19 Sep 2025 01:03:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C87A17A31E
+	for <linux-input@vger.kernel.org>; Fri, 19 Sep 2025 01:12:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758243790; cv=none; b=SuwTOYNl2TO6YAZcHIJ7fkyUvG0XfqWrJ2LiQmJMXkHIXyEbELP1dxAHp3vfMwfBo+3e0fWMtedlp/QNUgVDTLyfyBc7f3CGl8ygbV6G0cAjWP7/bL9x8SUOl9RrFhseOydNuO9XnKn1Ctzj0geUO4EkqwdJ4+L68w9Z814Daf0=
+	t=1758244352; cv=none; b=ZscaHlU/Vj2gxFX5knsto51y02LGuC41mDAv6U8uIbPQRl6yLIcyLkMZKq7JBFW8GboQJCGxloOzTZE/qnTmBrOGvc9/LkLEdBrYfyD5EgM0NdvtodDUe+JXZ2J0SJ8fr/d0a8tcU/2oknTR/AOcs0A3Mvh23ZU+kuLOU7lxzeI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758243790; c=relaxed/simple;
-	bh=NMaV9Wv4KJ1p3zTFk3Omgw6+0HreS3Oc7ZLqKkC/V8c=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=c4GHJFU5jz7LMKRV1+SYJDG2zpUl+FeOa0dyWl0acIUnlLQKmNpuf9BU7Icg1JRRKX5FaCTotcYlnFpHDBx2ry3L5w1lNl4kgaE/xmpw6sixasied5Yx2iRt9EKN3Eo/5kL/vRc1wtKGlbxUB7KUgyt4P6jahC8wdUKkoNPphdE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ParSTaH9; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758243788; x=1789779788;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=NMaV9Wv4KJ1p3zTFk3Omgw6+0HreS3Oc7ZLqKkC/V8c=;
-  b=ParSTaH963xIWz/hTecXqh0lafgjhpJcyk9ts1mZGrahdn+ndSkIW5sL
-   /ONnT82hp53lg2FtIm29IcTbOzhAuffCUOcRj7lkj5RQpLhK5TX1AZY6G
-   x6jujX9cysZfaSfeZUr+QNZKTWak/hjimOqHLU8QvTPLvEr11grrTAcIx
-   1HP9CNH6QIeLK0g58LTO8CKxkpcB1BM+NGLJoNQ3munhU6vOMiZ65em+Y
-   qyFpYaYyyR1yVk5kkB7S7mAx8Al2Lnu3toDtLFVpFo97RgSBnoJpqWCWa
-   mH+LJTgsGFZKpKmQdin5aovqk+T1FIlAGjvMEneaxLIqTJNTRKClkdTXC
-   Q==;
-X-CSE-ConnectionGUID: B/A53a/xRP2iCBp6yBD8EA==
-X-CSE-MsgGUID: H+X6YGPOThq3Y3g6Twp8Kg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="60535451"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="60535451"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2025 18:03:08 -0700
-X-CSE-ConnectionGUID: DnRsQB5BRCqhSqBa+8Iy4A==
-X-CSE-MsgGUID: UoUD/hjoRbqmy9nMHG0kdg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,276,1751266800"; 
-   d="scan'208";a="180815184"
-Received: from iscp-l-lixuzha.sh.intel.com ([10.239.153.157])
-  by orviesa005.jf.intel.com with ESMTP; 18 Sep 2025 18:03:07 -0700
-From: Zhang Lixu <lixu.zhang@intel.com>
-To: linux-input@vger.kernel.org,
-	srinivas.pandruvada@linux.intel.com,
-	jikos@kernel.org,
-	benjamin.tissoires@redhat.com
-Cc: lixu.zhang@intel.com
-Subject: [PATCH 6/6] HID: intel-ish-hid: ipc: Separate hibernate callbacks in dev_pm_ops
-Date: Fri, 19 Sep 2025 09:05:59 +0800
-Message-ID: <20250919010559.165076-7-lixu.zhang@intel.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250919010559.165076-1-lixu.zhang@intel.com>
-References: <20250919010559.165076-1-lixu.zhang@intel.com>
+	s=arc-20240116; t=1758244352; c=relaxed/simple;
+	bh=NG9G6qkcd55l7sxI5pzc5l+YODe2sfMn5viC5nVCsbg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ezNVN4kYC6nWhbapySIgt3yDVY77CSvCj8KcsUVC8qCju6W+UiYJ3O17XDv/ZnawcF4kLyXcb8B0rAFbZKKXiieeQ/mlqwJ/p3OjkV2BpKW3cXnymeS4ODHcz3uizfKMHf/12viMvPcXXfLdQx9DSHWVjD1YxPQPziDOwPrgf0A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WmWAhIhx; arc=none smtp.client-ip=209.85.214.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-26058a9e3b5so11499615ad.2
+        for <linux-input@vger.kernel.org>; Thu, 18 Sep 2025 18:12:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1758244351; x=1758849151; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=A48yMdinMY4TsMoA5WhtjSNisYijRwjFPVTZOj60lQ0=;
+        b=WmWAhIhx1udw9SygcsB/pxfIw/Uw1Bv5PgEROxlmI4wIaaOmsQaoyZFx5oKJZbHKd/
+         ZLQLcIrGPqM1OWRCN0T7e2cOBiHrzSB3kQa6kITUV4+cxlQkv0tebCVlQO4CcGqzVhcR
+         2U5SjB1+ynG9DewR20KhFrn1vrcL2pu9PFZv+Wktz0lWmrRRpgx+9u4aHE+P75FsCZh3
+         TyWpSS5qI5pYg2mibIYv6mSmx6uSxKAIrFz0u8+qy+Yqe/iY+FAjtAlYQ9aJxHpsD7Up
+         1dMRsZR6xI7oEydr+nZCV1ZJfCy12qOM4BZcili7DJnokWUrzrsp/4TjmjfHrvrHXMVT
+         3Ivg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758244351; x=1758849151;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=A48yMdinMY4TsMoA5WhtjSNisYijRwjFPVTZOj60lQ0=;
+        b=HP6fC2Q24rJHyxgZBLwclrIN8XY8kzgI+6bx3kULxUnU7u1kCCsZFr/47kvfae6oTU
+         hqtKM4NdnIP6C7ytNzfqkGbkJBTcHYoW1xki5/cGTWKZ7lTc2sSVM2W2rqbi42pdilNg
+         pUxzTc7Rv2jKb/jqPY+Z6I/f8u2Y77btB6veg4ddWG8KplJS5puiHF1oxOljoiHqHyF+
+         S5Z/CC6A1FegOcox1iy7qYOeY8xSUkdjO/J8wkEIMzY3WddVcObP97waHp9x5/njv0+5
+         8qnyqcDTzqVIJbeG5xYy8y4scLqxJ+ATeeCl/NduUOIVC4Og5xbYQ6sfg7Cr6zioO2aW
+         mtOg==
+X-Forwarded-Encrypted: i=1; AJvYcCVLb/CXvudYrTq1S/xJWhm96w6pqP4dDYndHr0jmSnKIUmtr3ei9Ik4Qrir7MVsq2WCgO5zzeC+rR9QEg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzkGHsqzd0tvcFqCYPkTYd20yOpAHGF6gtbVxzmw8920PzM7ZYK
+	HGI82H685DtF7hbFUhzZ2O3junoUyq6YAGTOBG+NIzXhbVoZTWOxKpA9KlZgcw==
+X-Gm-Gg: ASbGncvhcvhN0J3U3rGPwJe6kkHu0DdXfkX30x3GivhX7hfSSLpmqixcw3Mm9/wimle
+	jE2IOb+PPFgAZh8zjtiWW2SXvEXh1/Rw4sJE891E9notE/UpGcbSMLvXNyPEVsU02OPomDPLaxe
+	VlVt4TTdYbdkDeHl64uzI0+2IJQcKzo7ANht0hJvQ3MwM5VNvMxB/2LckpcN1S/CHRBOjkslyx6
+	a1tEx7begjZvjyaIa3XQs/17Cbaj/zN1Cu1zwnFoP+Z9Zx7T2VDtz+1a5VjbcDSUZk+cckjelSG
+	VLNAANSgmZC/ZDfBfqJJgcb3bt4uUKOmZBSWVJn1KiNUQaHVU9oNVV4kdjUSFI3yAc2YEJGAlz8
+	wA8oBVmC00uBIue/WjkBZDhk=
+X-Google-Smtp-Source: AGHT+IGjYX11oCrTtfxdx4vWRKTaE6PAVgpbO6Y8EQGn0PtwNPXtesJFTQwPRO+jaBSBsmPP7H+GGQ==
+X-Received: by 2002:a17:903:944:b0:24c:b39f:baaa with SMTP id d9443c01a7336-269ba579989mr18144535ad.49.1758244350465;
+        Thu, 18 Sep 2025 18:12:30 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:8e3e:e1c9:1151:50c3])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b55199e08f1sm402995a12.24.2025.09.18.18.12.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 18 Sep 2025 18:12:29 -0700 (PDT)
+Date: Thu, 18 Sep 2025 18:12:27 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Hans de Goede <hansg@kernel.org>
+Cc: Vishnu Sankar <vishnuocv@gmail.com>, hmh@hmh.eng.br, 
+	ilpo.jarvinen@linux.intel.com, derekjohn.clark@gmail.com, mpearson-lenovo@squebb.ca, 
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	ibm-acpi-devel@lists.sourceforge.net, platform-driver-x86@vger.kernel.org, vsankar@lenovo.com
+Subject: Re: [PATCH v3 1/3] input: mouse: trackpoint: Add doubletap
+ enable/disable support
+Message-ID: <fgizjuhcnl6rfawrqnabkhijf5uzbczen6k5zp6z44hycjqylx@6qzi54baxivx>
+References: <20250901135308.52340-1-vishnuocv@gmail.com>
+ <CABxCQKtEcFozTtuV3sutU3OyobTbpA82Uy=MyU0FQePPT7S2Wg@mail.gmail.com>
+ <6e834cb7-565b-4a4b-bf90-4765f5fc9cc9@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <6e834cb7-565b-4a4b-bf90-4765f5fc9cc9@kernel.org>
 
-The same suspend and resume callbacks are used for both suspend-to-RAM/idle
-and hibernation. These callbacks invoke pm_suspend_via_firmware() and
-pm_resume_via_firmware(), respectively. In the .freeze() of hibernation,
-pm_suspend_via_firmware() returns false, causing the driver to put ISH into
-D0i3. However, during the .thaw(), pm_resume_via_firmware() returns true,
-leading the driver to treat ISH as resuming from D3 instead of D0i3. The
-asymmetric behavior between .freeze() and .thaw() during hibernation can
-cause the client connection states on the firmware side and the driver side
-to become inconsistent.
+On Thu, Sep 18, 2025 at 09:31:47AM +0200, Hans de Goede wrote:
+> Hi Vishnu,
+> 
+> On 18-Sep-25 4:37 AM, Vishnu Sankar wrote:
+> > Hello all,
+> > 
+> > Do we have any questions or concerns?
+> > Thanks in advance!
+> > 
+> > On Mon, Sep 1, 2025 at 10:53 PM Vishnu Sankar <vishnuocv@gmail.com> wrote:
+> >>
+> >> Add support for enabling and disabling doubletap on TrackPoint devices
+> >> that support this functionality. The feature is detected using firmware
+> >> ID and exposed via sysfs as `doubletap_enabled`.
+> 
+> Hmm, you seem to be using a firmware ID prefix match, combined with
+> a deny list of some firmware IDs with that prefix which do not support
+> this. How do we know this deny list is complete?
+> 
+> Also as Dmitry says you really should use the is_visible() callback
+> to not show the attribute at all on unsupported systems.
+> 
+> >> The feature is only available on newer ThinkPads (2023 and later).The driver
+> >> exposes this capability via a new sysfs attribute:
+> >> "/sys/bus/serio/devices/seriox/doubletap_enabled".
+> >>
+> >> The attribute is only created if the device is detected to be capable of
+> >> doubletap via firmware and variant ID checks. This functionality will be
+> >> used by platform drivers such as thinkpad_acpi to expose and control doubletap
+> >> via user interfaces.
+> 
+> Hmm, you refer to thinkpad_acpi as a possible consumer of this
+> functionality. But you only add a sysfs interface.
+> 
+> thinkpad_acpi will need some in kernel interface to use this.
+> 
+> Which brings me to my main question: thinkpad_acpi is the driver
+> receiving the doubletap events since these are send out-of-bound
+> and not through the ps/2 trackpoint protocol.
+> 
+> thinkpad_acpi already has the capability to filter out these doubletap
+> events and report nothing. Why is it necessary / better to disable
+> the doubletap at the trackpoint fw-level, rather then just filtering
+> it at the thinkpad_acpi level ?
+> 
+> I don't really see a big advantage in filtering these events at
+> the fw-level rather then in the kernel and we already have the
+> in kernel filtering.
 
-To address the inconsistent client connection states issue, separate
-hibernate-related callbacks (freeze, thaw) in dev_pm_ops. Since ISH does
-not need to save any firmware-related state when entering hibernation, it
-is sufficient to call pci_save_state() in .freeze() to prevent the PCI bus
-from changing the ISH power state. No actions are required in .thaw().
+That is an excellent observation, thank you Hans. The frequency of these
+events should be extremely low, so cost of simply ignoring events should
+be miniscule...
 
-Signed-off-by: Zhang Lixu <lixu.zhang@intel.com>
-Acked-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
----
- drivers/hid/intel-ish-hid/ipc/pci-ish.c | 15 ++++++++++++++-
- 1 file changed, 14 insertions(+), 1 deletion(-)
+Thanks.
 
-diff --git a/drivers/hid/intel-ish-hid/ipc/pci-ish.c b/drivers/hid/intel-ish-hid/ipc/pci-ish.c
-index ccd195adbbd6..36445d2bb927 100644
---- a/drivers/hid/intel-ish-hid/ipc/pci-ish.c
-+++ b/drivers/hid/intel-ish-hid/ipc/pci-ish.c
-@@ -397,7 +397,20 @@ static int __maybe_unused ish_resume(struct device *device)
- 	return 0;
- }
- 
--static SIMPLE_DEV_PM_OPS(ish_pm_ops, ish_suspend, ish_resume);
-+static int __maybe_unused ish_freeze(struct device *device)
-+{
-+	struct pci_dev *pdev = to_pci_dev(device);
-+
-+	return pci_save_state(pdev);
-+}
-+
-+static const struct dev_pm_ops __maybe_unused ish_pm_ops = {
-+	.suspend = pm_sleep_ptr(ish_suspend),
-+	.resume = pm_sleep_ptr(ish_resume),
-+	.freeze = pm_sleep_ptr(ish_freeze),
-+	.restore = pm_sleep_ptr(ish_resume),
-+	.poweroff = pm_sleep_ptr(ish_suspend),
-+};
- 
- static ssize_t base_version_show(struct device *cdev,
- 				 struct device_attribute *attr, char *buf)
 -- 
-2.43.0
-
+Dmitry
 
