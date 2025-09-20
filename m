@@ -1,76 +1,78 @@
-Return-Path: <linux-input+bounces-14935-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14936-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F599B8BCCD
-	for <lists+linux-input@lfdr.de>; Sat, 20 Sep 2025 03:45:26 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E54CB8BCD9
+	for <lists+linux-input@lfdr.de>; Sat, 20 Sep 2025 03:45:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2C38A1BC71EC
-	for <lists+linux-input@lfdr.de>; Sat, 20 Sep 2025 01:45:48 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5C7E6A05C60
+	for <lists+linux-input@lfdr.de>; Sat, 20 Sep 2025 01:45:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB3161D7E5C;
-	Sat, 20 Sep 2025 01:45:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0DE4F1F4281;
+	Sat, 20 Sep 2025 01:45:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DaSofThA"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="g1mcR9M1"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D0892AE99
-	for <linux-input@vger.kernel.org>; Sat, 20 Sep 2025 01:45:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E30713C3CD
+	for <linux-input@vger.kernel.org>; Sat, 20 Sep 2025 01:45:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758332722; cv=none; b=nLd3msZQ8oTpGyfShoTnFeaOKD+wJzllilAadD+GmfW1HKEm+fk8LsubhhvglnhxONW4e+YBHdm3+5q5CxbNDih+neH8OP/KL6kb2Sc7+4oL3j+kbFyrIBSC6NfLBTwYq9iC13SwW5t7AyzSXQdKP2GY1nL5xPVbR849wVfFTwY=
+	t=1758332728; cv=none; b=o+xX/9KBb/pG+ZGVhavONjPkpmCB1l3d6AEQ9U4p69a/8Umhy/HZMzQVbRzukszaiUpz135r62dv+2kmWOQGIy6ogRwjxBTHJa2o/aoa3e2GlWlHlFXmHW3Zy8P9pYjWNnCsKCVMh9y+PA80zo86kKxMO4tg0kRIzlq0wCpVYjE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758332722; c=relaxed/simple;
-	bh=n+pJatxQUxiLkmZBL2NjODakscY9/Sz9q1h/+tJ3Wq0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=rCCWJcf9/KQDt1DJTaYetviAwRN1MfAMFBzki5ESR2RjE304eAn+UTdvwk0IAo7D/KNhLrkRxIPnMJDFRyHz2Z19k3AaWrMjHbMWAbNnp1lD6siBTKsYQ+QlGQGeERfKhZd4kKhVZB9+A7tG84if/fhbFFONzzM5fUPViRn/8HM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DaSofThA; arc=none smtp.client-ip=209.85.210.180
+	s=arc-20240116; t=1758332728; c=relaxed/simple;
+	bh=pBL+gVGPk5Oe6pgI0u7TV5kZR7rId+e7XFYkDX4Yyd8=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=U7zHl8p6t+mJmyCOvslzSs1RShvM1XEAp2Ywdv3+PJlPwLQTsvJHL5rBz8o/dm4f17Mx/odpaSPK8iDb2RBkkliURm31vfnRfyxHlxzaNYHFc4p17aiCuhg3+s1wnFOIlTPFMM2uVUEZ9PiSYIH1hu2DUq9LRF/XB3TTPnmpZC8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=g1mcR9M1; arc=none smtp.client-ip=209.85.210.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-77b0a93e067so2384315b3a.2
-        for <linux-input@vger.kernel.org>; Fri, 19 Sep 2025 18:45:20 -0700 (PDT)
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-76e4fc419a9so2758575b3a.0
+        for <linux-input@vger.kernel.org>; Fri, 19 Sep 2025 18:45:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758332720; x=1758937520; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=MaDslKzWOATYzqYJokHZic8iJI/8ZjqbD74gr3V2Ay8=;
-        b=DaSofThABZx1DnmKMd2GiFYQqiUoz98TzmKSnYvRsfjcGHHeANASV7h+Y4Q6ipec+A
-         AWnFsJudlXVvDyWSAOtGgETOpFUNBDUYZU+CX8cf3H2sv0S9bTXF0HmN05u6z94EOtcW
-         Qt2zIVC3wRqcU0CoA4JwuxjC0Ub7L/2KYNUnr5SG4kvK2gu1AdrRnIqWhIsuhwIL0OsH
-         r/UDvMTOMMeTyYBB3qWI24cGpLLKpAWR+xLoCiu58KbUoMiT7qsViJPQy6UIeX5bu94H
-         SLlph1WIKG4ZirgbrO3lww/sXaVwpF9LvCzp/Zs9+oe1KeEDTBx6NiQSRc3sxFANeVEB
-         CEew==
+        d=gmail.com; s=20230601; t=1758332727; x=1758937527; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0g3X7itFcaYd0uyiDe5Igj71JtDo3enYD8GOD7zyyH0=;
+        b=g1mcR9M1H4OE/tqDUPn/KWIVoO7KDOIq7A+byt4N6uy/nsEuqGzOsAhDGuP3n2rFXm
+         DOzRgfGiTezHK8VMmjK2TZz3cRROnk8Znv1Zt5XppCmnXC5lT8Nw0TQ3vZl64uLTdkzq
+         gtyEeqY0upuagPp/Lt9hFD2nFGFn99ouzdQIIGbM4+K89MsCKPfBMw8T6Ggx0R5pmdTY
+         Ifye1nDJqxyYTXxGjcJVJ5P3/uAW6j4SSft/oDeaYpsmu8wMi0/M8Z4ASDG5OTasl/6R
+         gW/lNrtq1RA8hfave17gt5IEEnFiJybPcWIvgKJHDJ8cRzJMgh2nZpG2HcdxK8bAuPjs
+         M9MA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758332720; x=1758937520;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=MaDslKzWOATYzqYJokHZic8iJI/8ZjqbD74gr3V2Ay8=;
-        b=m85G9DqqK4wEWsHbNoSDnMMByyN8jbnyvWac7iVzrn5duufHFm8hZ4kWyw8GPNf954
-         g37ga8vvZyZiPWZyo+gd0cfXTyENfJT4I1WUSvPotQxZOSbRo+u0BNc8QakEbKy7sRAU
-         rrXwh51toNpkwBZl0UHRid+SzoI4ZIUK/Lyy/jQd2f9Xfet42U2rgScbubxDSFs47lRl
-         xUrw9q5C3LuOAhJ/PQKzAymbmLnmerp5J8zsFLYIE0fKxWR/yZx8H2izt94c7PpsF5q8
-         /DrcaFkR+4VxHb9e315RW5ZQJtcpb/JQ5t7aIHeG/RM1o6wgtknkicWabMixHse1Ous8
-         Y1jA==
-X-Forwarded-Encrypted: i=1; AJvYcCXoJPUr6bY85tYEJjqcmbazq2QY7ZaGlxlIW1kGItxWoZvY2REHU33K1NrCBFrfliWhJxV7WX8TsPgrvw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx1ApMtU0xkjkLArUON8KQ2USqMUHAk16of8D/eUBMFZWjAJONr
-	ZufAQtfufK7OBxtTISxl2eokVfmgdiQVnLHdKdwzNvN6Vonj0wObSMtO
-X-Gm-Gg: ASbGnctU6O4zm5ZdweUXI8RUobvlkTnpqvCIfQ9tSbzWAmdrMyu0s/ypdt/+oXZfmW3
-	IZQbMTpxYCeSgFO6MM8znBW+WcsipMXw27vXNM1yvcPmLWg26fxJL6giqnz0CF92Ow6tAARrl+A
-	CcRTgR8rbSYteWWYH5ZKntF9uY/u5HSgbDkX114eT4zEiVvK1ZnmE7wpuThB/6N1hDF4AoWsvyz
-	CElFhgdQk6+zS1aiMr6SMc/bVVOlAxkYXWGuhhUsNGnx0zWzTr3F6HHDRUBWvRJM76MBky82dUa
-	2VGkchkS8FDXE7K+OGKa1jdzjvGFOraQ8DDmHYPX6M9BgU0RaoCtr4E4wzlkS3DMSDNunlrmgNT
-	BuYFflwy8MmyeuIs8HxNI
-X-Google-Smtp-Source: AGHT+IHy1IWqfKaCBizs/nvSOu8RxjFT+9KB6OWZv1nW+R2uVqWiQSnwNDGFXduas9VczYkbNIveNw==
-X-Received: by 2002:a05:6a00:cc7:b0:776:1804:6fe with SMTP id d2e1a72fcca58-77e4cc3c5e1mr5540071b3a.7.1758332720446;
-        Fri, 19 Sep 2025 18:45:20 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1758332727; x=1758937527;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=0g3X7itFcaYd0uyiDe5Igj71JtDo3enYD8GOD7zyyH0=;
+        b=nNqfSpCbH0zTskxOyeU5ZxUUvTZ7NCDSUBJ1UwPm6mOsFaSQFhlSjBc4z/BG0AVBjX
+         q7y7zgH1hwlzjYs2aaI+SJNVooDK5h3gDUin/b2sFONm9y5XwMcATkEoSz1w2Jifw52q
+         /n5Qe6LD1wyGfXhqtXumVsAEdSSAxbQesu07EIJMNmYqeiGL5qUvDIniAO9NdKMolMvj
+         e3tkd3Iimwsi/LfbS21wqv7I1AVl0f1+F9Hv2G+7r1Y0enIysJ8seyTVyQcx4IPdX+Bf
+         LOuzYjqeI1FXzkmSjHFZG6GUbvrj1GE9I775pu8C3qqOrh6JCUAxdtx8edomU2XsTXZs
+         mrUQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX8lrMMMfwQBeUr5zjyE2UosKiQrt1FX14XbkYWoQDV9ejtc2iI48EW+2OV950bYZVRn8qHrbncgDwXVA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwM673RNoWoOpddDkIs5m4JNifiH/luRX1Uy1ozMWK8bRpRFvLM
+	MpnVAni6CehesfOysra4BpPgtrJRxrPqklLb5O+BUHcuwfKR2WFPgi3C
+X-Gm-Gg: ASbGncu04P36NISGMxdseQ/McT0gI6b+/i2kxLRzVV+lXySLA//zBUKt+NfZi9zyCxV
+	qEinTvO3/EUoo2V2KUfSprxzyPOc7kmpeVaQpM5QSW2m8O6GXFemZC03p+FgxLxAWIuGkLHYRz7
+	7uZhUkmZtmg70t6Wse/xgArgU+Fd0WSIizl17CbMPVFVSN7G6QmW+KhTsokDQ9CTdoZSdYJ9ffZ
+	H19H9IKCUu6ESYcvhyDVXKxM0iynrQWxgMpUVT/Ci7o1l82mNQMlxcxXixZWHDGJnE5zBhlmgrL
+	Z5Q2lYloT0FlWMjxjdh4hYohe6VuL+Fa550f6LUlliSF6dzYZhncHmip2O+c1Ei6ShSUFisH7mv
+	qcXBgjujrB+p2kJkMmqDc
+X-Google-Smtp-Source: AGHT+IH46WKyw6dARtEBBxsg7fBtDAYRS7xjAqSCeJOf6ViP/DWyFWnfqtCB+n4K1vLBS6bTt8oifA==
+X-Received: by 2002:a05:6a00:b86:b0:76b:d869:43fd with SMTP id d2e1a72fcca58-77e4e5c39eemr6702571b3a.18.1758332726883;
+        Fri, 19 Sep 2025 18:45:26 -0700 (PDT)
 Received: from archlinux ([191.193.70.152])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-77f1a72e7afsm529395b3a.92.2025.09.19.18.45.17
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-77f1a72e7afsm529395b3a.92.2025.09.19.18.45.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Sep 2025 18:45:19 -0700 (PDT)
+        Fri, 19 Sep 2025 18:45:26 -0700 (PDT)
 From: =?UTF-8?q?Eric=20Gon=C3=A7alves?= <ghatto404@gmail.com>
 To: Henrik Rydberg <rydberg@bitmath.org>,
 	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
@@ -81,10 +83,12 @@ Cc: Ivaylo Ivanov <ivo.ivanov.ivanov1@gmail.com>,
 	devicetree@vger.kernel.org,
 	linux-input@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v1 0/2] Input: add fts2ba61y touchscreen driver
-Date: Sat, 20 Sep 2025 01:44:48 +0000
-Message-ID: <20250920014450.37787-1-ghatto404@gmail.com>
+Subject: [PATCH v1 1/2] dt-bindings: input: Add ST-Microelectronics FTS2BA61Y touchscreen
+Date: Sat, 20 Sep 2025 01:44:49 +0000
+Message-ID: <20250920014450.37787-2-ghatto404@gmail.com>
 X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20250920014450.37787-1-ghatto404@gmail.com>
+References: <20250920014450.37787-1-ghatto404@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -94,35 +98,72 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-This patchset adds support for the ST-Microelectronics FTS2BA61Y,
-a capacitive multi-touch touchscreen controller. this touchscreen
-is used in many mobile devices, like ones from the Galaxy S22 series
-and the Z Fold 5. Ivaylo Ivanov wrote the driver originally,
-and I'm upstreaming it on his behalf.
+Add the bindings for ST-Microelectronics FTS2BA61Y capacitive touchscreen.
 
-Shortly after this patchset, I'll be sending another one that
-enables touchscreen on the Galaxy S22 (r0q) board.
-
-Thanks!
-
-Changes from RFC->v1:
-- move unevaluatedProperties to after the required: field
-- set Ivaylo as the author of driver commit
-
-Eric Gonçalves (1):
-  dt-bindings: input: Add ST-Microelectronics FTS2BA61Y touchscreen
-
-Ivaylo Ivanov (1):
-  Input: add support for the STM FTS2BA61Y touchscreen
-
- .../input/touchscreen/st,fts2ba61y.yaml       |  52 ++
- drivers/input/touchscreen/Kconfig             |  11 +
- drivers/input/touchscreen/Makefile            |   1 +
- drivers/input/touchscreen/fts2ba61y.c         | 588 ++++++++++++++++++
- 4 files changed, 652 insertions(+)
+Signed-off-by: Eric Gonçalves <ghatto404@gmail.com>
+---
+ .../input/touchscreen/st,fts2ba61y.yaml       | 52 +++++++++++++++++++
+ 1 file changed, 52 insertions(+)
  create mode 100755 Documentation/devicetree/bindings/input/touchscreen/st,fts2ba61y.yaml
- create mode 100644 drivers/input/touchscreen/fts2ba61y.c
 
+diff --git a/Documentation/devicetree/bindings/input/touchscreen/st,fts2ba61y.yaml b/Documentation/devicetree/bindings/input/touchscreen/st,fts2ba61y.yaml
+new file mode 100644
+index 000000000000..d5565b5360fc
+--- /dev/null
++++ b/Documentation/devicetree/bindings/input/touchscreen/st,fts2ba61y.yaml
+@@ -0,0 +1,52 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/input/touchscreen/st,fts2ba61y.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: ST-Microelectronics FTS2BA61Y touchscreen controller
++
++maintainers:
++  - Ivaylo Ivanov <ivo.ivanov.ivanov1@gmail.com>
++
++allOf:
++  - $ref: touchscreen.yaml#
++
++properties:
++  compatible:
++    const: st,fts2ba61y
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  avdd-supply: true
++  vdd-supply: true
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - avdd-supply
++  - vdd-supply
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/irq.h>
++    spi {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        touchscreen@0 {
++            compatible = "st,fts2ba61y";
++            reg = <0x0>;
++            interrupt-parent = <&gpa2>;
++            interrupts = <2 IRQ_TYPE_LEVEL_HIGH>;
++            avdd-supply = <&ldo17_reg>;
++            vdd-supply = <&ldo28_reg>;
++        };
++    };
 -- 
 2.51.0
 
