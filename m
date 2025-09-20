@@ -1,234 +1,317 @@
-Return-Path: <linux-input+bounces-14938-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14939-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2D75B8C4C3
-	for <lists+linux-input@lfdr.de>; Sat, 20 Sep 2025 11:40:18 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 106D0B8C553
+	for <lists+linux-input@lfdr.de>; Sat, 20 Sep 2025 12:21:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 633FB4673E6
-	for <lists+linux-input@lfdr.de>; Sat, 20 Sep 2025 09:40:18 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id AF7F11B26B54
+	for <lists+linux-input@lfdr.de>; Sat, 20 Sep 2025 10:21:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 84AC1288C25;
-	Sat, 20 Sep 2025 09:40:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6A9F32F6196;
+	Sat, 20 Sep 2025 10:21:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b="F3Dg3qEJ"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R/7euhNL"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7C60283128
-	for <linux-input@vger.kernel.org>; Sat, 20 Sep 2025 09:40:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75EE42D47F9
+	for <linux-input@vger.kernel.org>; Sat, 20 Sep 2025 10:21:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758361213; cv=none; b=oTEmiXtIEjs6n14PKqavUdBSRbvWkw9Hq4Xo+YEDEBbdQOjIAkzhTeE2RrjIRGV2k5ObrIl8xMyyG18mxOsJ+bXmYXYY1NVY3PAu38cIkYwKX2yr/ldnIa6+eMJ0wrsavKmLl9uQlCu5FhTkENqkLoKILV3lVQjQTRV4h+73ogo=
+	t=1758363690; cv=none; b=fezQ8R+swclU/3Bq00Pq8EkOtHyt+cHJeJgc+ssn8160WBIJlFv6nU45NaIZXQl8UOWIWwEa1CrLh6c0blehrOfOoAwwZ2xA8u47lGTQoCcjEPciQmqe8Ztm+xdoC1uImP5d9o46Xo5Pe2rHkTRs2PMCr0HvBJ9aNF33M4f02vE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758361213; c=relaxed/simple;
-	bh=Agn7APdbyMftIUbKtaGM92mZicr4jzMovNNhtGLzuto=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=kocag3pgG0TQ/DUZk70o051JCVIRBXKSau6KQ3G8fhpjiUiVjBRM/4qWrJ1T2OtUNUK1LmZAKhHAZSfL9V3PGqVC8IiOfLRtQ7gMd1ZK7ei7uMu/RsEA3r3ts5YWsSb7A+bDQt+IkJb/AggSvu5f/XOISVBQCSH50slaWC0nF0A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=amarulasolutions.com; spf=pass smtp.mailfrom=amarulasolutions.com; dkim=pass (1024-bit key) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b=F3Dg3qEJ; arc=none smtp.client-ip=209.85.128.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=amarulasolutions.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amarulasolutions.com
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-71d603a269cso19789737b3.1
-        for <linux-input@vger.kernel.org>; Sat, 20 Sep 2025 02:40:11 -0700 (PDT)
+	s=arc-20240116; t=1758363690; c=relaxed/simple;
+	bh=NeUWLUvwC6kW9VyfKYx42FFXe0IA1wZCOhU/BXYAKwI=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=eXdYkhOf3YmGH4qBFgAR/Twy2tnF+CzcxujJgIlIVDpxqRaWCWfDUntnCNZZBl+pGTwwigol+OnPfrCAaJvodjCCFVUc8t9Cfy5VcC8MJoP28tO5wqnk1j4DVIeh46Nc5Js3cQKgZMiKHojmHXpwa8EQzdC3JcsyfGrbDH2mYQs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=R/7euhNL; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-45f2313dd86so25142335e9.2
+        for <linux-input@vger.kernel.org>; Sat, 20 Sep 2025 03:21:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amarulasolutions.com; s=google; t=1758361210; x=1758966010; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1758363686; x=1758968486; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=NaDnghTXUn1bVSOceTjgt47F5y7FKqMUoIUfRqhx4Dw=;
-        b=F3Dg3qEJq1XA4wD773jYJDR7KUe5oqO6/VKBNU2J+F0BnHhwmrRsv26BKQr60mG+mN
-         Daf3eOeggDgxxehchzOEqG6+ihvt3xCuRdBWB1ywX5BhBdQelM2qg49xcH8FjLQ/h4uP
-         qg0C5jJFg0htnwdh7LAauDXZNv/nSD1EP1dBU=
+        bh=P0vYXtUQVOuP2mhoWd4ropfz+61/nK8dVG+VKmZf9qg=;
+        b=R/7euhNLFeNlzmaUZ+Phoi0Q88Um1/yPfSkGC3G2sFF8md/oqJcr43+2FV+9UmZ2Dk
+         SUnKvAzbGiMrGaYgJR97ThDsbv3pKQfcEILZgylruuHbwAgK1ibJB3U9tn1aPxbYXcK1
+         MyRhovHH6tj9EMTzJqrblnvCmVfWpPYmKtlRwrM4k2sJZEX5nejonCqSjRQvEZ+qH5zA
+         DZ8wgDnOm8GaSljL3BUhgkod1l54KOPFjRhr/NVlywP8mhfKqtfasB/gPB/yUR4l9gOU
+         cdSyKg0V831oaRBDwypFkfc9dJHAFm8Nx1QoZlRSq09uBR4nwN02T4sdmyv+CMFSoURH
+         KYog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758361210; x=1758966010;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1758363686; x=1758968486;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=NaDnghTXUn1bVSOceTjgt47F5y7FKqMUoIUfRqhx4Dw=;
-        b=gqOP2l85CtuTIJR04LAFkJFwzllEKcUExjflDw3d7GEw13XbDuwMhMWSJIbBH0ZgDm
-         drTIyx/XEy7lcCYWSDkMJrqMaxEDjzASN/WYyRWTpPeER2WJbOhXYeD1DakgWiu7ME93
-         k1G8Lc9pPOadBiUxeqFtN6V5WC/DZ8TUbg5fqD2b3anGeoj+2BM/TZ4JFTbwy7rrXaUa
-         rJRs1eBhNXHRgW7PpAxUIQtOfrSOfMak7QUbYPBhju0LNRqZPbFqv1WXQxMGgJOqxexQ
-         ra9MoTZwjBc0LD1FvDxR61c18IxGQWLqPSVdSHPyF6YuEhXz/H8q4A1zR2xGAlq9Jcmx
-         ECjg==
-X-Forwarded-Encrypted: i=1; AJvYcCWfOIGrNDI0s0sYIc16dVjSJGOkNACZ4+H5X1c04Pw81wnE/V5oC/zp6a6FlKdusBO8zyH1bbLYywGMvw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxS76E1egbxhOojf7xTyyhhqk/JnSL0g1FWkAybdge2AypBV7ax
-	uDOYEbKgle0cALqgfJ3mJsiYFIXVkiu4VmUcZR5DQW8SssZOLERR6Nec760dz4BEF8ltU3pNyd1
-	iP/urelypARs//EH7UdgZ63YE89ClKJ8lzdcBPKbe3A==
-X-Gm-Gg: ASbGncu5TPq714u7lnCqY7EyDWqbZNSw8GLBuO2u/76lBDLHBmKk3K+q28Wq3nB+wUy
-	QOZl9Y3d6VUDGefh6HkwwT75caxxmHAgr307t5decV8jMy3X2RTfeaIEqVAgzxokLLjrp4vTp3h
-	Zz/7EEswBRZHWLLyzCloWxDsuoGBNoSmYUf1dKVIRzeul5R2SrGAbUF1iw5iOaZpQoFwDSw7LjR
-	y2Lfg==
-X-Google-Smtp-Source: AGHT+IEPzdUNUNS8RORST6IBN7ohD/O7mRgh2fZsz71PA+MZD892Wsiz/RFPoXNGMYe0EdjdagsopXhExq5cyI8G3W4=
-X-Received: by 2002:a05:690c:6203:b0:749:36fd:abf0 with SMTP id
- 00721157ae682-74936fdafb5mr1084097b3.54.1758361210580; Sat, 20 Sep 2025
- 02:40:10 -0700 (PDT)
+        bh=P0vYXtUQVOuP2mhoWd4ropfz+61/nK8dVG+VKmZf9qg=;
+        b=KSNNCyivvuyew1Gli/f2COwcc5OBcuu9TWJOeUqoDQYIQwHQ1GPtcHcQugbh8+biQI
+         puq7qyBTy1Egtm2YFuDzDN3Mz9WJd0JOr92jPOrkQ3b21kTJ5DAzc2C+wZGsAb6NQuG6
+         CWwf+MN6EONfeNlbcwstm5wzkcODbnW5Q6+q516FVVkFBSWeVEbgV0NXhNzFq6+2Mu3c
+         Tikvpw00bOFLUbksRR13FNo+4mEnwtZVM1dHkNnzneohM2v8vqABZal5Jm+L0XkHYRlq
+         i0phkb5sUiGrN0RGQq8JjC1e2s8bPYj4+bYFjbh9X8HLzKYKPw+gCtimd6rm2i3eQM/Y
+         Iffg==
+X-Forwarded-Encrypted: i=1; AJvYcCW5ZXu7BzxkMAFT/9y298MbYGqtbG0KWuIfzuiN+2hi//UXuMJqZEmHloL9u887WNz7cX/HdmdOUh6w6w==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyW6pRDewFhpcOTzADUGUU/QK1kZZt+52SjOKmuvjwKdayH6qIW
+	3/Lso+1/Z9cikqzX6cgs9un1QU/X5Kmh3VsNNGpqPAdBSO5htwV05C2Q
+X-Gm-Gg: ASbGncts3UF7//RgZrBiwoMYCuvw8YIlnWUaVaUoLrHF8TCJM1wRpmLGXEm+N0Xgjan
+	69mW0a2NGLTveQVzKCCr8zQH/etw/GxRh4tRJReqA96fVXfgcPRj8jXLQHm1XN9x7nU3Y835FeZ
+	h1/sEDRPP6UUlhKCx7PKi/UCjfMiqOyEkRNW1JkRI26d0wo6q33JGoEG/VrMCkMBoN8xJyBGpO/
+	7l4GU9qmJk+9gYDB8sDD5hAHjY53NILHPFLZVTjNStaoHnDbgZhRPq8v3NjJhHE2Csi14nTgs9D
+	IsRmZUVTKSrzQT8QJSOQuU9LdHosDBl2HTm8YJkyO2oOedoJvwXTFGcJJV+uKS7vS/qn90BefcA
+	yE/eVpi/7rIguEixq2h/N393G2nxZEAVITtP+Ort5BySNIKj/6iZu1Ku8Gh+u
+X-Google-Smtp-Source: AGHT+IFiz+7GSgFF/mIUUp0ndfipkNQ39jr+2XK+PXUAveDTslyL1Wu67txaLfdop4/qCEdAg/m1vQ==
+X-Received: by 2002:a05:600c:c8f:b0:45f:2919:5e6c with SMTP id 5b1f17b1804b1-467e6f37d8dmr76782405e9.16.1758363685327;
+        Sat, 20 Sep 2025 03:21:25 -0700 (PDT)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3f0e28c83d6sm5624389f8f.56.2025.09.20.03.21.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 20 Sep 2025 03:21:25 -0700 (PDT)
+Date: Sat, 20 Sep 2025 11:21:22 +0100
+From: David Laight <david.laight.linux@gmail.com>
+To: Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Cc: linux@armlinux.org.uk, jdike@addtoit.com,
+ anton.ivanov@cambridgegreys.com, dave.hansen@linux.intel.com,
+ peterz@infradead.org, tglx@linutronix.de, x86@kernel.org, hpa@zytor.com,
+ tony.luck@intel.com, qiuxu.zhuo@intel.com, mchehab@kernel.org,
+ james.morse@arm.com, rric@kernel.org, harry.wentland@amd.com,
+ sunpeng.li@amd.com, alexander.deucher@amd.com, airlied@linux.ie,
+ daniel@ffwll.ch, evan.quan@amd.com, james.qian.wang@arm.com,
+ liviu.dudau@arm.com, mihail.atanassov@arm.com, brian.starkey@arm.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ robdclark@gmail.com, sean@poorly.run, dmitry.torokhov@gmail.com,
+ agk@redhat.com, snitzer@redhat.com, dm-devel@redhat.com, rajur@chelsio.com,
+ davem@davemloft.net, kuba@kernel.org, peppe.cavallaro@st.com,
+ alexandre.torgue@st.com, joabreu@synopsys.com, mcoquelin.stm32@gmail.com,
+ malattia@linux.it, hdegoede@redhat.com, mgross@linux.intel.com,
+ intel-linux-scu@intel.com, artur.paszkiewicz@intel.com, jejb@linux.ibm.com,
+ martin.petersen@oracle.com, sakari.ailus@linux.intel.com,
+ gregkh@linuxfoundation.org, dushistov@mail.ru, luc.vanoostenryck@gmail.com,
+ rostedt@goodmis.org, pmladek@suse.com, sergey.senozhatsky@gmail.com,
+ andriy.shevchenko@linux.intel.com, linux@rasmusvillemoes.dk,
+ akpm@linux-foundation.org, kuznet@ms2.inr.ac.ru, yoshfuji@linux-ipv6.org,
+ pablo@netfilter.org, kadlec@netfilter.org, jmaloy@redhat.com,
+ ying.xue@windriver.com, willy@infradead.org, sashal@kernel.org,
+ ruanjinjie@huawei.com, David.Laight@ACULAB.COM, herve.codina@bootlin.com,
+ Jason@zx2c4.com, bvanassche@acm.org, keescook@chromium.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-um@lists.infradead.org, linux-edac@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ linux-hwmon@vger.kernel.org, linux-input@vger.kernel.org,
+ linux-media@vger.kernel.org, netdev@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com,
+ platform-driver-x86@vger.kernel.org, linux-scsi@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-btrfs@vger.kernel.org,
+ linux-ext4@vger.kernel.org, linux-sparse@vger.kernel.org,
+ linux-mm@kvack.org, netfilter-devel@vger.kernel.org,
+ coreteam@netfilter.org, tipc-discussion@lists.sourceforge.net,
+ stable@vger.kernel.org, jonnyc@amazon.com
+Subject: Re: [PATCH 00/27 5.10.y] Backport minmax.h updates from v6.17-rc6
+Message-ID: <20250920111904.6d9ecb17@pumpkin>
+In-Reply-To: <184ce83f-0063-43a0-a1c8-da23c5d03cf7@amd.com>
+References: <20250919101727.16152-1-farbere@amazon.com>
+	<184ce83f-0063-43a0-a1c8-da23c5d03cf7@amd.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250918155240.2536852-1-dario.binacchi@amarulasolutions.com>
- <20250918155240.2536852-4-dario.binacchi@amarulasolutions.com>
- <20250918200445.GA2529753-robh@kernel.org> <CABGWkvqX9aCxam6UMYsUBkwnMJrMNKjVKrqi5Ca7O5Jk8xRTAA@mail.gmail.com>
- <20250919143831.GA862818-robh@kernel.org> <CABGWkvrxOTzAcqWHLvuqk_7WFxybheSZFnMkqnksfkPi6wXcpQ@mail.gmail.com>
- <20250919204436.GA2176045-robh@kernel.org>
-In-Reply-To: <20250919204436.GA2176045-robh@kernel.org>
-From: Dario Binacchi <dario.binacchi@amarulasolutions.com>
-Date: Sat, 20 Sep 2025 11:39:59 +0200
-X-Gm-Features: AS18NWCRsqQle93KcCsQB12JjSzQRdG4BDO3bzqtWjUIXPoU75kmVb0GdVk6IVA
-Message-ID: <CABGWkvr8X5a0ezeu6HDCMfjh+xbg-bQq4cLwzRD2BvoJsvH_BA@mail.gmail.com>
-Subject: Re: [PATCH v5 3/6] dt-bindings: touchscreen: add touchscreen-glitch-threshold-ns
- property
-To: Rob Herring <robh@kernel.org>
-Cc: linux-kernel@vger.kernel.org, Frank Li <Frank.Li@nxp.com>, 
-	linux-amarula@amarulasolutions.com, Conor Dooley <conor.dooley@microchip.com>, 
-	Conor Dooley <conor+dt@kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
-	Javier Carrasco <javier.carrasco@wolfvision.net>, Jeff LaBundy <jeff@labundy.com>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, devicetree@vger.kernel.org, 
-	linux-input@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Sep 19, 2025 at 10:44=E2=80=AFPM Rob Herring <robh@kernel.org> wrot=
-e:
->
-> On Fri, Sep 19, 2025 at 05:12:42PM +0200, Dario Binacchi wrote:
-> > On Fri, Sep 19, 2025 at 4:38=E2=80=AFPM Rob Herring <robh@kernel.org> w=
-rote:
-> > >
-> > > On Thu, Sep 18, 2025 at 10:37:37PM +0200, Dario Binacchi wrote:
-> > > > On Thu, Sep 18, 2025 at 10:04=E2=80=AFPM Rob Herring <robh@kernel.o=
-rg> wrote:
-> > > > >
-> > > > > On Thu, Sep 18, 2025 at 05:52:31PM +0200, Dario Binacchi wrote:
-> > > > > > Add support for glitch threshold configuration. A detected sign=
-al is valid
-> > > > > > only if it lasts longer than the set threshold; otherwise, it i=
-s regarded
-> > > > > > as a glitch.
-> > > > > >
-> > > > > > Signed-off-by: Dario Binacchi <dario.binacchi@amarulasolutions.=
-com>
-> > > > > > Acked-by: Conor Dooley <conor.dooley@microchip.com>
-> > > > > >
-> > > > > > ---
-> > > > > >
-> > > > > > Changes in v5:
-> > > > > > - Add Acked-by tag of Conor Dooley
-> > > > > >
-> > > > > > Changes in v2:
-> > > > > > - Added in v2.
-> > > > > >
-> > > > > >  .../devicetree/bindings/input/touchscreen/touchscreen.yaml    =
-| 4 ++++
-> > > > > >  1 file changed, 4 insertions(+)
-> > > > > >
-> > > > > > diff --git a/Documentation/devicetree/bindings/input/touchscree=
-n/touchscreen.yaml b/Documentation/devicetree/bindings/input/touchscreen/to=
-uchscreen.yaml
-> > > > > > index 3e3572aa483a..a60b4d08620d 100644
-> > > > > > --- a/Documentation/devicetree/bindings/input/touchscreen/touch=
-screen.yaml
-> > > > > > +++ b/Documentation/devicetree/bindings/input/touchscreen/touch=
-screen.yaml
-> > > > > > @@ -206,6 +206,10 @@ properties:
-> > > > > >
-> > > > > >          unevaluatedProperties: false
-> > > > > >
-> > > > > > +  touchscreen-glitch-threshold-ns:
-> > > > > > +    description: Minimum duration in nanoseconds a signal must=
- remain stable
-> > > > > > +      to be considered valid.
-> > > > >
-> > > > > What's wrong with debounce-delay-ms?
-> > > >
-> > > > Do you mean that I should rename touchscreen-glitch-threshold-ns to
-> > > > debounce-delay-ms?
-> > >
-> > > I mean that's the common property we already have, so use it or expla=
-in
-> > > why you aren't using it. I suppose the definition is technically a bi=
-t
-> > > different if it's purely a s/w delay vs. h/w monitoring of the signal
-> > > state. I don't think it matters if the interpretation by each driver =
-is
-> > > a bit different.
-> > >
-> > > Maybe msec is not enough resolution for you could be another reason?
-> >
-> > Yes, this is the main reason. As specified in the following patch:
-> >   v5 4/6 dt-bindings: touchscreen: fsl,imx6ul-tsc: support glitch thres=
-hold
-> >
-> > Drivers must convert this value to IPG clock cycles and map
-> > it to one of the four discrete thresholds exposed by the
-> > TSC_DEBUG_MODE2 register:
-> >
-> >   0: 8191 IPG cycles
-> >   1: 4095 IPG cycles
-> >   2: 2047 IPG cycles
-> >   3: 1023 IPG cycles
-> >
-> > In my case, the IPG clock runs at 66 MHz, which corresponds to:
-> >
-> > 124 =C2=B5s for 0
-> > 62 =C2=B5s for 1
-> > 31 us for 2
-> > 15 us for 3
-> >
-> > So using milliseconds would not fit my use case. A possible trade-off
-> > could be to use debounce-delay-us. Would that be acceptable?
->
-> I agree it wouldn't map to what the h/w provides, but is what the h/w
-> provides actually useful? There's plenty of h/w designed that's not
-> useful. 15us is quite short for a glitch. Do you have an actual cases
-> where the different values above are needed?
+On Fri, 19 Sep 2025 14:11:37 +0200
+Christian K=C3=B6nig <christian.koenig@amd.com> wrote:
 
-Considering an IPG clock at 66 MHz, currently at reset the deglitch
-filter is set to 124 =C2=B5s,
-the driver sets it to 31 =C2=B5s with a hardcoded value, and in my use case
-I need to set it to 62 =C2=B5s,
-as you can see in the patch:
-https://lore.kernel.org/all/20250918155240.2536852-6-dario.binacchi@amarula=
-solutions.com/
-and its handling in
-https://lore.kernel.org/all/20250918155240.2536852-7-dario.binacchi@amarula=
-solutions.com/
+> On 19.09.25 12:17, Eliav Farber wrote:
+> > This series includes a total of 27 patches, to align minmax.h of
+> > v5.15.y with v6.17-rc6.
+> >=20
+> > The set consists of 24 commits that directly update minmax.h:
+> > 1) 92d23c6e9415 ("overflow, tracing: Define the is_signed_type() macro
+> >    once")
+> > 2) 5efcecd9a3b1 ("minmax: sanity check constant bounds when clamping")
+> > 3) 2122e2a4efc2 ("minmax: clamp more efficiently by avoiding extra
+> >    comparison")
+> > 4) f9bff0e31881 ("minmax: add in_range() macro")
+> > 5) c952c748c7a9 ("minmax: Introduce {min,max}_array()")
+> > 6) 5e57418a2031 ("minmax: deduplicate __unconst_integer_typeof()")
+> > 7) f6e9d38f8eb0 ("minmax: fix header inclusions")
+> > 8) d03eba99f5bf ("minmax: allow min()/max()/clamp() if the arguments
+> >    have the same signedness.")
+> > 9) f4b84b2ff851 ("minmax: fix indentation of __cmp_once() and
+> >    __clamp_once()")
+> > 10) 4ead534fba42 ("minmax: allow comparisons of 'int' against 'unsigned
+> >     char/short'")
+> > 11) 867046cc7027 ("minmax: relax check to allow comparison between
+> >     unsigned arguments and signed constants")
+> > 12) 3a7e02c040b1 ("minmax: avoid overly complicated constant
+> >     expressions in VM code")
+> > 14) 017fa3e89187 ("minmax: simplify and clarify min_t()/max_t()
+> >     implementation")
+> > 15) 1a251f52cfdc ("minmax: make generic MIN() and MAX() macros
+> >     available everywhere")
+> > 18) dc1c8034e31b ("minmax: simplify min()/max()/clamp()
+> >     implementation")
+> > 19) 22f546873149 ("minmax: improve macro expansion and type
+> >     checking")
+> > 20) 21b136cc63d2 ("minmax: fix up min3() and max3() too")
+> > 21) 71ee9b16251e ("minmax.h: add whitespace around operators and after
+> >     commas")
+> > 22) 10666e992048 ("minmax.h: update some comments")
+> > 23) b280bb27a9f7 ("minmax.h: reduce the #define expansion of min(),
+> >     max() and clamp()")
+> > 24) a5743f32baec ("minmax.h: use BUILD_BUG_ON_MSG() for the lo < hi
+> >     test in clamp()")
+> > 25) c3939872ee4a ("minmax.h: move all the clamp() definitions after the
+> >     min/max() ones")
+> > 26) 495bba17cdf9 ("minmax.h: simplify the variants of clamp()")
+> > 27) 2b97aaf74ed5 ("minmax.h: remove some #defines that are only
+> >     expanded once")
+> >=20
+> > 2 prerequisite commits that adjust users of MIN and MAX macros (to
+> > prevent compilation issues):
+> > 13) 4477b39c32fd ("minmax: add a few more MIN_T/MAX_T users")
+> > 17) cb04e8b1d2f2 ("minmax: don't use max() in situations that want a C
+> >     constant expression")
+> >=20
+> > 1 additional commit introduced to resolve a build failures during the
+> > backport:
+> > 16) lib: zstd: drop local MIN/MAX macros in favor of generic ones
+> >=20
+> > The primary motivation is to bring in commit (8).
+> > In mainline, this change allows min()/max()/clamp() to accept mixed
+> > argument types when both share the same signedness.
+> > Backported patches to v5.10.y that use such forms trigger compiler
+> > warnings, which in turn cause build failures when -Werror is enabled.
+> >=20
+> > Originaly I aligned 5.10.y to 5.15.y, but David Laight commented that I
+> > need to pick up the later changes (from Linus) as well.
+> >=20
+> > Andy Shevchenko (2):
+> >   minmax: deduplicate __unconst_integer_typeof()
+> >   minmax: fix header inclusions
+> >=20
+> > Bart Van Assche (1):
+> >   overflow, tracing: Define the is_signed_type() macro once
+> >=20
+> > David Laight (11):
+> >   minmax: allow min()/max()/clamp() if the arguments have the same
+> >     signedness.
+> >   minmax: fix indentation of __cmp_once() and __clamp_once()
+> >   minmax: allow comparisons of 'int' against 'unsigned char/short'
+> >   minmax: relax check to allow comparison between unsigned arguments and
+> >     signed constants
+> >   minmax.h: add whitespace around operators and after commas
+> >   minmax.h: update some comments
+> >   minmax.h: reduce the #define expansion of min(), max() and clamp()
+> >   minmax.h: use BUILD_BUG_ON_MSG() for the lo < hi test in clamp()
+> >   minmax.h: move all the clamp() definitions after the min/max() ones
+> >   minmax.h: simplify the variants of clamp()
+> >   minmax.h: remove some #defines that are only expanded once
+> >=20
+> > Eliav Farber (1):
+> >   lib: zstd: drop local MIN/MAX macros in favor of generic ones
+> >=20
+> > Herve Codina (1):
+> >   minmax: Introduce {min,max}_array()
+> >=20
+> > Jason A. Donenfeld (2):
+> >   minmax: sanity check constant bounds when clamping
+> >   minmax: clamp more efficiently by avoiding extra comparison
+> >=20
+> > Linus Torvalds (8):
+> >   minmax: avoid overly complicated constant expressions in VM code
+> >   minmax: add a few more MIN_T/MAX_T users
+> >   minmax: simplify and clarify min_t()/max_t() implementation
+> >   minmax: make generic MIN() and MAX() macros available everywhere
+> >   minmax: don't use max() in situations that want a C constant
+> >     expression
+> >   minmax: simplify min()/max()/clamp() implementation
+> >   minmax: improve macro expansion and type checking
+> >   minmax: fix up min3() and max3() too
+> >=20
+> > Matthew Wilcox (Oracle) (1):
+> >   minmax: add in_range() macro
+> >=20
+> >  arch/arm/mm/pageattr.c                        |   6 +-
+> >  arch/um/drivers/mconsole_user.c               |   2 +
+> >  arch/x86/mm/pgtable.c                         |   2 +- =20
+>=20
+> >  drivers/edac/sb_edac.c                        |   4 +-
+> >  drivers/edac/skx_common.h                     |   1 -
+> >  .../drm/amd/display/modules/hdcp/hdcp_ddc.c   |   2 +
+> >  .../drm/amd/pm/powerplay/hwmgr/ppevvmath.h    |  14 +-
+> >  .../drm/arm/display/include/malidp_utils.h    |   2 +-
+> >  .../display/komeda/komeda_pipeline_state.c    |  24 +-
+> >  drivers/gpu/drm/drm_color_mgmt.c              |   2 +-
+> >  drivers/gpu/drm/msm/adreno/a6xx_gmu.c         |   6 -
+> >  drivers/gpu/drm/radeon/evergreen_cs.c         |   2 +
+> >  drivers/hwmon/adt7475.c                       |  24 +-
+> >  drivers/input/touchscreen/cyttsp4_core.c      |   2 +-
+> >  drivers/md/dm-integrity.c                     |   2 +-
+> >  drivers/media/dvb-frontends/stv0367_priv.h    |   3 +
+> >  .../net/ethernet/chelsio/cxgb3/cxgb3_main.c   |  18 +-
+> >  .../net/ethernet/stmicro/stmmac/stmmac_main.c |   2 +-
+> >  drivers/net/fjes/fjes_main.c                  |   4 +-
+> >  drivers/nfc/pn544/i2c.c                       |   2 -
+> >  drivers/platform/x86/sony-laptop.c            |   1 -
+> >  drivers/scsi/isci/init.c                      |   6 +- =20
+>=20
+> I do see the value to backport the infrastructure, but why are driver spe=
+cific changes backported as well?
 
-Another option could be to use a specific binding for the
-fsl,imx6ul-tsc controller, as I did in the
-earlier versions of the series.
+They will be about removing local definitions of MIN() and MAX() freeing
+them up for simple implementations (usable as constant initialisers) and th=
+en
+using them in places where the compound statements in min() and max() can't
+be used.
 
-Thanks and regards,
-Dario
+Linus did all those changes - so he didn't have to wait for the maintainers
+to apply the changes (etc).
 
->
-> Rob
+	David
+=20
+>=20
+> I mean the changes are most likely correct but also not valuable in anywa=
+y as bug fix.
+>=20
+> Regards,
+> Christian.
+>=20
+> >  .../pci/hive_isp_css_include/math_support.h   |   5 -
+> >  fs/btrfs/misc.h                               |   2 -
+> >  fs/btrfs/tree-checker.c                       |   2 +-
+> >  fs/ext2/balloc.c                              |   2 -
+> >  fs/ext4/ext4.h                                |   2 -
+> >  fs/ufs/util.h                                 |   6 -
+> >  include/linux/compiler.h                      |  15 +
+> >  include/linux/minmax.h                        | 267 ++++++++++++++----
+> >  include/linux/overflow.h                      |   1 -
+> >  include/linux/trace_events.h                  |   2 -
+> >  kernel/trace/preemptirq_delay_test.c          |   2 -
+> >  lib/btree.c                                   |   1 -
+> >  lib/decompress_unlzma.c                       |   2 +
+> >  lib/logic_pio.c                               |   3 -
+> >  lib/vsprintf.c                                |   2 +-
+> >  lib/zstd/zstd_internal.h                      |   2 -
+> >  mm/zsmalloc.c                                 |   1 -
+> >  net/ipv4/proc.c                               |   2 +-
+> >  net/ipv6/proc.c                               |   2 +-
+> >  net/netfilter/nf_nat_core.c                   |   6 +-
+> >  net/tipc/core.h                               |   2 +-
+> >  net/tipc/link.c                               |  10 +-
+> >  44 files changed, 306 insertions(+), 164 deletions(-)
+> >  =20
+>=20
+>=20
 
-
-
---=20
-
-Dario Binacchi
-
-Senior Embedded Linux Developer
-
-dario.binacchi@amarulasolutions.com
-
-__________________________________
-
-
-Amarula Solutions SRL
-
-Via Le Canevare 30, 31100 Treviso, Veneto, IT
-
-T. +39 042 243 5310
-info@amarulasolutions.com
-
-www.amarulasolutions.com
 
