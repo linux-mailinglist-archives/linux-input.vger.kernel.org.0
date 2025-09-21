@@ -1,121 +1,95 @@
-Return-Path: <linux-input+bounces-14946-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14947-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A980B8D3C8
-	for <lists+linux-input@lfdr.de>; Sun, 21 Sep 2025 04:51:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68E37B8D456
+	for <lists+linux-input@lfdr.de>; Sun, 21 Sep 2025 05:29:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D2B093B450A
-	for <lists+linux-input@lfdr.de>; Sun, 21 Sep 2025 02:51:39 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 16121443C02
+	for <lists+linux-input@lfdr.de>; Sun, 21 Sep 2025 03:29:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 464A219992C;
-	Sun, 21 Sep 2025 02:51:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="c34fqZ4A"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 42A61239099;
+	Sun, 21 Sep 2025 03:29:05 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+Received: from mail-il1-f197.google.com (mail-il1-f197.google.com [209.85.166.197])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C905329405
-	for <linux-input@vger.kernel.org>; Sun, 21 Sep 2025 02:51:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FDAF2AF1B
+	for <linux-input@vger.kernel.org>; Sun, 21 Sep 2025 03:29:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758423097; cv=none; b=DZN3liYT+GwuA6M8rWcXpPvgYIQYYflwnYQSgd5aswVw5G3RWej58/NLu/9t9CCdEH8Dmus03ynDG/9ZALiZ49JoieI9YerMdSgT1QrVVQJqUUUCE0wRyY81AnOAzcz/Y0lE3nQrhqIC69I7FYOGtkozAg0VXaPTypIn3uOfZy8=
+	t=1758425345; cv=none; b=E/U8mMyf3cuNJuS80HCLvpvMEfzfwbdP0Nj9uSkV6TolmCCsyMNZL8wzttILPN2bDOiA23OABrgZVNKBL9VNeRY0wX6gjPte//saMZFAc42FZ1iVuEpEHMjxzPbAbqYLfszxD31rwaweufhTbcnFwl7eRm8e04laTxbYw4Iqz6g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758423097; c=relaxed/simple;
-	bh=lBKwjGlD2sl3HW/InUD61SetLUkGpSZmLWIOs3WO++0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hVJ5937W5sIcKwBbbbv39OB6deyQ35gt9kZVhNksBps8Z3JS+Z9unHexOIdoW5Vmus8bl7pLzBmodvwy2us7gMmDhz3SDhZarm58WZ9+ZAkiNf6KMmq736rY1Ub/NQ/UncMJ9KOHaYahI3RJTkAdFgWHlfKkDleHDFL3Mid8h5w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=c34fqZ4A; arc=none smtp.client-ip=209.85.210.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-77f2e621ef8so169810b3a.0
-        for <linux-input@vger.kernel.org>; Sat, 20 Sep 2025 19:51:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758423095; x=1759027895; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=uNUurTQ+hy6CY4Cjol5+Pld9O12FSqVbj7oLrH9uB4M=;
-        b=c34fqZ4ALdicuB0rvpf7UTTZav8oKwjvwDLljjOCh+9QFOyGJsTCnuTbRnK8w1jwrp
-         4pcM49o5An3ayeRaiM7MjB3sOCcFubvcv6TA2JT9v126egfj2fZXPaqifXyRGHOujvlf
-         8brHNqjWyBGQFk3o11FifRq5cC5lIrtmONe9mX+4078r/yB+oD6clyv5/TjGBKTU/TVt
-         v7CEzmtbF3Vz0Q6bjP4YzZY/HIxSJ0jdCMokw23FLA+Nv+Dux6dlkuJBMw4SsLxDMn7r
-         hBFK+bosIqwrw2m7XiQQqIgW7dolitXCZAZsETdSis3yS/OKb3GiWqY2Vi9b82SPtHaN
-         PvSg==
+	s=arc-20240116; t=1758425345; c=relaxed/simple;
+	bh=NP2CNLbtWXVOuY0EJY6YK0n38qZXqxhvRvf8VykAuwM=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
+	 Content-Type; b=kvR7ulKU4d4OH6PfSj4CUSNWDRDwnSgR6Hj8NaFJKMAqFe6655ADw0FpnCuFECnHMjxyeh75Z3MWe9iCl9nzxct7QwM364BBJGvlhOzo6O1sv/e0KsTcm+I8LwTvEM3hvJmMb/mW/GcHb1gVJt3dMIrTBzlXwbH00Bqr+dB0oYA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-il1-f197.google.com with SMTP id e9e14a558f8ab-42571803464so6925875ab.3
+        for <linux-input@vger.kernel.org>; Sat, 20 Sep 2025 20:29:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758423095; x=1759027895;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=uNUurTQ+hy6CY4Cjol5+Pld9O12FSqVbj7oLrH9uB4M=;
-        b=CPYarbBnkXoI+zp/iULXiMIMZO9vKpDJ33bvfm/g7HTxsSNzT66ciP3ViaI46/nEda
-         s/bPyi/Mc7jP4jfVv8ovu44Ib19GRm6IVInajvXQoJai5l+9D6RZySNwaN3boNnkQsJ7
-         /qGlpulMQWtat+8WZAlYCKfVJpQqqfbzwnujogAHYKZ3+VJDP+YFs6EohtdN5Dg3tWGe
-         GXYaG3aBPQieAmpggulHEf9I3uAOjXBpvFaPx5fRaWHH9tASapLft1OvhGGjsIi5O6Pk
-         44LsqOrOPw+y/UL7m6GI3RZM+HELzwejSs4i8TPXGzOTBWp2PNtkvxbqVIOFIyFYsvel
-         NPeA==
-X-Forwarded-Encrypted: i=1; AJvYcCV2EFQgi6TVZSDV3XSvbuhLOkEnOtJ9uB+M4Dn+F+CkyvqlvD0+PZCOTx/KXD9c+Pc/7h2zxC1LdXTDBA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxuYkMjd5k49fnhKXG7WsLzA/l0DFAqRSWz+HIHXYiqd844GmHY
-	Fj/ReUjRGdJ/9bB2Fm/OfTOYK3YQim/8K8olzXD52gdCJxRDGz2e2Zn4
-X-Gm-Gg: ASbGncuB+YZIS1x8cGrich0AqZhqRu7e6Xx9k3q4LGc3paw7U4OzhZaIXSXbvrevbrS
-	Fzf0JyCPUMbAD4QI6niz6TGhEP8XhuZESXgc92t3ho10kHmGDodaMu0gs+IJW/dvHticmnUube9
-	y1ktkZYzbvdaVGMyI1iUHPJFd8OLR979g5Pm9K5Mlb35JPFhV3FI92Svh6uNjpsepeOsj7MQzrc
-	lrubfAsOlzN1dycxWlmjj98R1S++wQ+Hv6wgFf65eiM8eWrhjEDTvYhWLm6ZTQxIx2PXk0zgL/f
-	SSteswApyNv0RXv2Q1PKh632KPJNKoua5WAbQJCOgFXjuLYDVhIku9brOE3pdXEXC26qrojHryN
-	KdK16auMpfu8hFwTLsoGzsmsaTJzyBt1rfw==
-X-Google-Smtp-Source: AGHT+IESujOc+8Y6ELJdqssqI+rnI6S3xwgji1KMFUZchDD3lbjMYc3GMQ6PK1vBR+/eIGQAQZ2CkQ==
-X-Received: by 2002:a05:6a00:3e0a:b0:776:14f1:492c with SMTP id d2e1a72fcca58-77e4d327e41mr10079127b3a.12.1758423095044;
-        Sat, 20 Sep 2025 19:51:35 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:fdae:ef9f:3050:cdfb])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-77e70c06ba1sm6029313b3a.67.2025.09.20.19.51.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 20 Sep 2025 19:51:34 -0700 (PDT)
-Date: Sat, 20 Sep 2025 19:51:31 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Russ Weight <russ.weight@linux.dev>
-Cc: Marco Felsch <m.felsch@pengutronix.de>, 
-	Luis Chamberlain <mcgrof@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Kamel Bouhara <kamel.bouhara@bootlin.com>, 
-	Marco Felsch <kernel@pengutronix.de>, Henrik Rydberg <rydberg@bitmath.org>, 
-	Danilo Krummrich <dakr@kernel.org>, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-input@vger.kernel.org
-Subject: Re: [PATCH v3 1/4] firmware_loader: expand firmware error codes with
- up-to-date error
-Message-ID: <5tlhy2jl77etqxsna42ksdmvu3x3bsp5c44poshkt45agldfsj@bkzlvbfoshsl>
-References: <20250821-v6-10-topic-touchscreen-axiom-v3-0-940ccee6dba3@pengutronix.de>
- <20250821-v6-10-topic-touchscreen-axiom-v3-1-940ccee6dba3@pengutronix.de>
- <ifdhjgo6wchlsztqvgkaawpbnh3zahb76vmyzlomokfrqt6tjp@qjcdvcdqviag>
+        d=1e100.net; s=20230601; t=1758425343; x=1759030143;
+        h=to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=NzF9pQGL/dSDAqCYnD120ecB6ltl87b2sRC/9WMhcnI=;
+        b=BzAHdbwJiCTo53etOKYJjibhinqcV43yc/H06oWjwO9JZQhdf9Kjk4BYWmrfcO7qVb
+         VYUw9sJVDG99ep9z8hLDqt7GdeadQkF3XOlkAdEGeUExh6FOwC+FBVKiS0LtOF1TZkTb
+         x84etf5O0ExaRoYpagZ/UX3buQdOQxCFKTMAEJcgM+Jty26gyA47X/BqQt0jye6qVsfq
+         GfhIKXnJpu8efAv4gcz9YpBdaSsOEHMowRf1hCtCIt4JyCzPF5glCxlxMRmaKCgojofp
+         +Zu4EDqHskeIoaBWUBdjjqviDRZmvuu3VX76UaARkJ2EIkdhFshY0qP+9/ENOVbmwXT8
+         mfgw==
+X-Forwarded-Encrypted: i=1; AJvYcCVhX8ZoKLXqFptIGQqwM+A+8d3VX1ZN2HvOqj3JTC6rPOFWvZJapgA+5AHUym9OAfsK/aQ4FAXcS/oViA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzXTH7xKbS9g6wsY0s55J6ENIC/izyt2HK/+fMx8ZU5mB9WrWq+
+	i5AHeI9kCU0SsXC0o35RLueNFAwuy9n39Zk4n+MDjRwBLQRyq1hvPFfEChmtNLychDWa4ClSwST
+	mbj4KtiuTdGKrBTVfLOmCuzjpFOXMSn8I7YqpwtnnorcPpBKDCR+GY4sCLJA=
+X-Google-Smtp-Source: AGHT+IFkbZf6NnLB56PjPsarlMgw5ur3nyd8v8uoe1Uy3ZR9q/UhrMEzpRBwhJQLT8Mm57Q5itblFJYMc+FgtP3NG6C51KUQP5Sy
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ifdhjgo6wchlsztqvgkaawpbnh3zahb76vmyzlomokfrqt6tjp@qjcdvcdqviag>
+X-Received: by 2002:a05:6e02:1d8d:b0:423:fb73:315f with SMTP id
+ e9e14a558f8ab-424818f7ff9mr137978605ab.6.1758425342754; Sat, 20 Sep 2025
+ 20:29:02 -0700 (PDT)
+Date: Sat, 20 Sep 2025 20:29:02 -0700
+In-Reply-To: <000000000000c329d505fed78c74@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <68cf70fe.a00a0220.37dadf.0036.GAE@google.com>
+Subject: Re: [syzbot] [kernel?] INFO: task hung in uhid_char_release
+From: syzbot <syzbot+8fe2d362af0e1cba8735@syzkaller.appspotmail.com>
+To: agordeev@linux.ibm.com, akrowiak@linux.ibm.com, anna-maria@linutronix.de, 
+	benjamin.tissoires@redhat.com, chenl311@chinatelecom.cn, clg@redhat.com, 
+	davem@davemloft.net, david.rheinsberg@gmail.com, edumazet@google.com, 
+	frederic@kernel.org, jikos@kernel.org, jkosina@suse.com, kuba@kernel.org, 
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	mjrosato@linux.ibm.com, netdev@vger.kernel.org, pabeni@redhat.com, 
+	syzkaller-bugs@googlegroups.com, tglx@linutronix.de
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Aug 27, 2025 at 03:29:33PM -0600, Russ Weight wrote:
-> 
-> On Thu, Aug 21, 2025 at 07:26:36PM +0200, Marco Felsch wrote:
-> > Add FW_UPLOAD_ERR_DUPLICATE to allow drivers to inform the firmware_loader
-> > framework that the update is not required. This can be the case if the
-> > user provided firmware matches the current running firmware.
-> > 
-> > Sync lib/test_firmware.c accordingly.
-> > 
-> > Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
-> 
-> Reviewed-by: Russ Weight <russ.weight@linux.dev>
+syzbot suspects this issue was fixed by commit:
 
-Does this mean I should merge this through input tree?
+commit 4051ead99888f101be92c7ce90d2de09aac6fd1c
+Author: Li Chen <chenl311@chinatelecom.cn>
+Date:   Fri Jun 20 12:02:31 2025 +0000
 
-Thanks.
+    HID: rate-limit hid_warn to prevent log flooding
 
--- 
-Dmitry
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=12071534580000
+start commit:   fb4d33ab452e Merge tag '6.16-rc2-ksmbd-server-fixes' of gi..
+git tree:       upstream
+kernel config:  https://syzkaller.appspot.com/x/.config?x=6a237c32900fc479
+dashboard link: https://syzkaller.appspot.com/bug?extid=8fe2d362af0e1cba8735
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=13d7ed0c580000
+
+If the result looks correct, please mark the issue as fixed by replying with:
+
+#syz fix: HID: rate-limit hid_warn to prevent log flooding
+
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
 
