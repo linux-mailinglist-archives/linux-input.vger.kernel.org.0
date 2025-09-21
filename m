@@ -1,166 +1,242 @@
-Return-Path: <linux-input+bounces-14951-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14952-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCFF2B8E1D9
-	for <lists+linux-input@lfdr.de>; Sun, 21 Sep 2025 19:28:55 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C56FB8E22A
+	for <lists+linux-input@lfdr.de>; Sun, 21 Sep 2025 19:34:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DAC8E7A2287
-	for <lists+linux-input@lfdr.de>; Sun, 21 Sep 2025 17:27:14 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C676A4402EC
+	for <lists+linux-input@lfdr.de>; Sun, 21 Sep 2025 17:34:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C0D9F26D4DA;
-	Sun, 21 Sep 2025 17:28:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 57957242D87;
+	Sun, 21 Sep 2025 17:34:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="oNji14LK"
+	dkim=pass (1024-bit key) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b="rWdiQ7zE"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62AB918EB0;
-	Sun, 21 Sep 2025 17:28:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6363B261595
+	for <linux-input@vger.kernel.org>; Sun, 21 Sep 2025 17:33:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758475727; cv=none; b=sOJy37ZvvJF/rleRS3I9lBsWgsAGi53Q3oecgGwlPpWKNDLb5yHMuzKhG/TjnU7nrN6PDBmu96r/NQmb/MCI1BaDmdKaaN1K2VGoeapNHb0Nhj92zm2Ybtoe32gaVf9U9Ynse7RykB0RwTEDQKQ+x0tNivJ6qVIuHb4Hir4mlsc=
+	t=1758476040; cv=none; b=Kd2kKtNkggYc3cv3WPYKYfYpJnnSy0JIk1KvWqXXg6AQYYW7GVTTkANopKgmEMnnYVe3EPJoISY6Ch6or9Dfq2FYxymG4jHHbCL4WFNoBdPk2u46sAqgQziGrqZQSGtGMhj5Ud+pO9GuzMNfa2Pfy3PrPB0IpbGHH+40p/ytQdg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758475727; c=relaxed/simple;
-	bh=OhAKhAi+AnzI3Qc3qjl3chOvflGQ1Z6G7nQKCQgIA6k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JuPr5dIW1ixZuyWe44ZzOdSr41wfxfYgGXFy7a7pxwkDbkKRnRPNgsnZ0o4s8njNs/JgwyQiuLityq6PZVdZVBpcf9DMX1bw9BJr6PThPXIjlJcYu3m+6BryRzjSPCuFGL9MI2ZqDmdbwG97mDa9bsddGcdpuCbPDxCOgxre/mM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=oNji14LK; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22692C4CEE7;
-	Sun, 21 Sep 2025 17:28:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1758475727;
-	bh=OhAKhAi+AnzI3Qc3qjl3chOvflGQ1Z6G7nQKCQgIA6k=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=oNji14LKsaN74d6/6VxXQLAaEWqiMK1odhhlWG54PmdesR086HbzOQPsvLp4l8W8h
-	 erd/geKCs7blyB1imhKlNfDZtIHl2vwbNw8z3TSYAfWxPI4STRspwkbfLQuyq+0pRc
-	 wfxpVS7OtRaNl868jtRKMkgfZDW20Ck1f7t2BQsw=
-Date: Sun, 21 Sep 2025 19:28:44 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Eliav Farber <farbere@amazon.com>
-Cc: linux@armlinux.org.uk, jdike@addtoit.com, richard@nod.at,
-	anton.ivanov@cambridgegreys.com, dave.hansen@linux.intel.com,
-	luto@kernel.org, peterz@infradead.org, tglx@linutronix.de,
-	mingo@redhat.com, bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-	tony.luck@intel.com, qiuxu.zhuo@intel.com, mchehab@kernel.org,
-	james.morse@arm.com, rric@kernel.org, harry.wentland@amd.com,
-	sunpeng.li@amd.com, alexander.deucher@amd.com,
-	christian.koenig@amd.com, airlied@linux.ie, daniel@ffwll.ch,
-	evan.quan@amd.com, james.qian.wang@arm.com, liviu.dudau@arm.com,
-	mihail.atanassov@arm.com, brian.starkey@arm.com,
-	maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-	tzimmermann@suse.de, robdclark@gmail.com, sean@poorly.run,
-	jdelvare@suse.com, linux@roeck-us.net, fery@cypress.com,
-	dmitry.torokhov@gmail.com, agk@redhat.com, snitzer@redhat.com,
-	dm-devel@redhat.com, rajur@chelsio.com, davem@davemloft.net,
-	kuba@kernel.org, peppe.cavallaro@st.com, alexandre.torgue@st.com,
-	joabreu@synopsys.com, mcoquelin.stm32@gmail.com, malattia@linux.it,
-	hdegoede@redhat.com, mgross@linux.intel.com,
-	intel-linux-scu@intel.com, artur.paszkiewicz@intel.com,
-	jejb@linux.ibm.com, martin.petersen@oracle.com,
-	sakari.ailus@linux.intel.com, clm@fb.com, josef@toxicpanda.com,
-	dsterba@suse.com, jack@suse.com, tytso@mit.edu,
-	adilger.kernel@dilger.ca, dushistov@mail.ru,
-	luc.vanoostenryck@gmail.com, rostedt@goodmis.org, pmladek@suse.com,
-	sergey.senozhatsky@gmail.com, andriy.shevchenko@linux.intel.com,
-	linux@rasmusvillemoes.dk, minchan@kernel.org, ngupta@vflare.org,
-	akpm@linux-foundation.org, kuznet@ms2.inr.ac.ru,
-	yoshfuji@linux-ipv6.org, pablo@netfilter.org, kadlec@netfilter.org,
-	fw@strlen.de, jmaloy@redhat.com, ying.xue@windriver.com,
-	willy@infradead.org, sashal@kernel.org, ruanjinjie@huawei.com,
-	David.Laight@aculab.com, herve.codina@bootlin.com, Jason@zx2c4.com,
-	bvanassche@acm.org, keescook@chromium.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-um@lists.infradead.org, linux-edac@vger.kernel.org,
-	amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-	linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
-	linux-hwmon@vger.kernel.org, linux-input@vger.kernel.org,
-	linux-media@vger.kernel.org, netdev@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	platform-driver-x86@vger.kernel.org, linux-scsi@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-btrfs@vger.kernel.org,
-	linux-ext4@vger.kernel.org, linux-sparse@vger.kernel.org,
-	linux-mm@kvack.org, netfilter-devel@vger.kernel.org,
-	coreteam@netfilter.org, tipc-discussion@lists.sourceforge.net,
-	stable@vger.kernel.org, jonnyc@amazon.com
-Subject: Re: [PATCH 00/27 5.10.y] Backport minmax.h updates from v6.17-rc6
-Message-ID: <2025092136-unelected-skirt-d91d@gregkh>
-References: <20250919101727.16152-1-farbere@amazon.com>
+	s=arc-20240116; t=1758476040; c=relaxed/simple;
+	bh=s0wtb16+WYtZYmqbQuhwOOKqXNOpQ/C9gSRHXahTcjo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GhN/E6hLP5Cx1nifWjkzkIWlqWzKsFaxrjL5+NZIS8ZENiXR+defKwMe/mgO0mgQli/5NpmZV/AxitAtPKMSFjrqNGHM1tQhpW3P6I9Kk2vDXBtXsnueP2UX1dzb6wjMzS+UJbnKYN8yGyxRJOkBpkA6wGiO73DZJQib679FR2Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=amarulasolutions.com; spf=pass smtp.mailfrom=amarulasolutions.com; dkim=pass (1024-bit key) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b=rWdiQ7zE; arc=none smtp.client-ip=209.85.218.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=amarulasolutions.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amarulasolutions.com
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-b07d4d24d09so610055966b.2
+        for <linux-input@vger.kernel.org>; Sun, 21 Sep 2025 10:33:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=amarulasolutions.com; s=google; t=1758476036; x=1759080836; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=VlMcTg6rrPiR0yGZcHHVwQeIzN9BkasZ+MFuim5ZowE=;
+        b=rWdiQ7zEHhlmglpEAtyeyqXk5E30jLzwySonWdlo+smYdaGi5IsTP46UJSyqfEh/4R
+         CCo32hun4jgPmL6qKY2B6olEC97StMsd6m1AFKc4/Ve5gjc9gEl3iNcjKAqlOb86NCvv
+         0+MGMs+QE+NUs4uR9NZdj89wZIyxsRDTnBEVQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758476036; x=1759080836;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=VlMcTg6rrPiR0yGZcHHVwQeIzN9BkasZ+MFuim5ZowE=;
+        b=tro39o182+2ut5H4EpchS8j6Yp5FeZKEjgHqAnhnf7wkwfEq7K+shaEO5WNW54rWP0
+         MRG1n8rZEvNGKys9YK5Why3aRy0/lBq8sH4V2gpNHF+MHkUdKyM2wzr+9TcmFPdjwhOc
+         Dgd0XwqBgvlxiPcADaH5mWKTiE+KYtlDiq4qFFlMih4S7sqbFJh+vdAuHa4j/DDavqzo
+         11onplr5etEwHqM39wSVfYue0UALWmScDxGWjfAAxfJbiKzMXHV6mO3pcYZ0FXs54d9m
+         5lxIsbZ3Lv4eC23s/EBQqIKfTaXTfFcZGZtnlU/XlWC8n65z3pCsCe40MHf7TTasHL1p
+         moDA==
+X-Forwarded-Encrypted: i=1; AJvYcCXWQtU+m8AH3hRqns1dLnJHZdxw5/deEcQh4OSP47ByaCZWF3pTw+om/fB/Etwcwhpw9DM1sJG0Ahp9HQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxqQhPpf+5htHLTMLf1ptw5YxiXG+AbtuITtR1kZKN5cSKWshIt
+	beCptb0fwLutvDFSFH4IPii4vV1IUc7PJ3IV17kZyYkkrvC4h9ffKOVcB8GwBY0bDNE=
+X-Gm-Gg: ASbGnctSpb70v5XtzKWZTB58tTJ8+hH2adrxUqpY+SDY7P9uLkn2+rtk/lEioGNQEPW
+	K8H0FM9Nn9+DgZQdfAY9EmjFZUfzBgg68uguQtr/D+kqi+LDtp+amkWXn4yMclq++moubzUiyQK
+	YUuUnOH0UtqHo1Vy221qxsPY5K2b3LWmI4Gzl4JCKqoaClqhZd6dCMv5JPfNKVAUKRoe3u/LzSK
+	VngLj0bM2c8gL0dTAYRJZCWxBVQTZ5pHHrYrGBdX8JSavpfE1jRNY9Jxee1GiJou7lop5I39h7b
+	n2orqtHl3WbAQa4+bFf/IOpN2aLQ3TFtV0kOXEx0PV/ZRkppGc5tkxwLoGuNJTw6axUjYEtGGY0
+	frobM02uPfKhUs1wGrgRN4Nhowne8iiFO67TlDr+d0/JmJJACRMHfBAtgmKcewVI7nBVZwWFxzP
+	LMhhu3RAMcrJPs9vwnjkvebZlzn5kqMBI2GbMAu1xrntZqqIAtRBd2luVzZimuqP7WUYlErLf4k
+	iM=
+X-Google-Smtp-Source: AGHT+IHxamUkl30RF3owHcmhG83KfUakWGC62WX2ylNqw9YsGCV4aiWsbPmH7Wal0ci05bSxKrJ0Nw==
+X-Received: by 2002:a17:906:a99:b0:b27:95f9:e20b with SMTP id a640c23a62f3a-b2795f9e3camr589661166b.33.1758476036375;
+        Sun, 21 Sep 2025 10:33:56 -0700 (PDT)
+Received: from dario-ThinkPad-T14s-Gen-2i.homenet.telecomitalia.it (host-82-56-38-125.retail.telecomitalia.it. [82.56.38.125])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b2928cd31a6sm324347266b.102.2025.09.21.10.33.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 21 Sep 2025 10:33:55 -0700 (PDT)
+From: Dario Binacchi <dario.binacchi@amarulasolutions.com>
+To: linux-kernel@vger.kernel.org
+Cc: linux-amarula@amarulasolutions.com,
+	sebastian.reichel@collabora.com,
+	Dario Binacchi <dario.binacchi@amarulasolutions.com>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	devicetree@vger.kernel.org,
+	linux-input@vger.kernel.org
+Subject: [PATCH v6 1/3] dt-bindings: touchscreen: convert eeti bindings to json schema
+Date: Sun, 21 Sep 2025 19:33:42 +0200
+Message-ID: <20250921173353.2641438-1-dario.binacchi@amarulasolutions.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250919101727.16152-1-farbere@amazon.com>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Sep 19, 2025 at 10:17:00AM +0000, Eliav Farber wrote:
-> This series includes a total of 27 patches, to align minmax.h of
-> v5.15.y with v6.17-rc6.
-> 
-> The set consists of 24 commits that directly update minmax.h:
-> 1) 92d23c6e9415 ("overflow, tracing: Define the is_signed_type() macro
->    once")
+Convert EETI touchscreen controller device tree binding to json-schema.
 
-But this isn't in 5.15.y, so how is this syncing things up?
+Signed-off-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
 
-I'm all for this, but I got confused here, at the first commit :)
+---
 
-> 2) 5efcecd9a3b1 ("minmax: sanity check constant bounds when clamping")
+Changes in v6:
+- Add deprected to the compatible string and attn-gpios
+  property
+- Put const 0x2a i2c address for reg property only in case
+  of not eeti,exc3000-i2c.
+- Put false the attn-gpios property in case of not
+  eeti,exc3000-i2c..
+- Drop example for eeti,exc3000-i2c.
 
+Changes in v5:
+- Move bindings into eeti,exc3000.yaml
+- Remove eeti.yaml
 
+Changes in v2:
+- Added in v2
 
-> 3) 2122e2a4efc2 ("minmax: clamp more efficiently by avoiding extra
->    comparison")
-> 4) f9bff0e31881 ("minmax: add in_range() macro")
-> 5) c952c748c7a9 ("minmax: Introduce {min,max}_array()")
-> 6) 5e57418a2031 ("minmax: deduplicate __unconst_integer_typeof()")
-> 7) f6e9d38f8eb0 ("minmax: fix header inclusions")
-> 8) d03eba99f5bf ("minmax: allow min()/max()/clamp() if the arguments
->    have the same signedness.")
-> 9) f4b84b2ff851 ("minmax: fix indentation of __cmp_once() and
->    __clamp_once()")
-> 10) 4ead534fba42 ("minmax: allow comparisons of 'int' against 'unsigned
->     char/short'")
-> 11) 867046cc7027 ("minmax: relax check to allow comparison between
->     unsigned arguments and signed constants")
-> 12) 3a7e02c040b1 ("minmax: avoid overly complicated constant
->     expressions in VM code")
-> 14) 017fa3e89187 ("minmax: simplify and clarify min_t()/max_t()
->     implementation")
-> 15) 1a251f52cfdc ("minmax: make generic MIN() and MAX() macros
->     available everywhere")
-> 18) dc1c8034e31b ("minmax: simplify min()/max()/clamp()
->     implementation")
-> 19) 22f546873149 ("minmax: improve macro expansion and type
->     checking")
-> 20) 21b136cc63d2 ("minmax: fix up min3() and max3() too")
-> 21) 71ee9b16251e ("minmax.h: add whitespace around operators and after
->     commas")
-> 22) 10666e992048 ("minmax.h: update some comments")
-> 23) b280bb27a9f7 ("minmax.h: reduce the #define expansion of min(),
->     max() and clamp()")
-> 24) a5743f32baec ("minmax.h: use BUILD_BUG_ON_MSG() for the lo < hi
->     test in clamp()")
-> 25) c3939872ee4a ("minmax.h: move all the clamp() definitions after the
->     min/max() ones")
-> 26) 495bba17cdf9 ("minmax.h: simplify the variants of clamp()")
-> 27) 2b97aaf74ed5 ("minmax.h: remove some #defines that are only
->     expanded once")
+ .../input/touchscreen/eeti,exc3000.yaml       | 33 +++++++++++++++----
+ .../bindings/input/touchscreen/eeti.txt       | 30 -----------------
+ 2 files changed, 27 insertions(+), 36 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/input/touchscreen/eeti.txt
 
-Some of these are also only in newer kernels, which, as you know, is
-generally a bad thing (i.e. I can't take patches only for older
-kernels.)
+diff --git a/Documentation/devicetree/bindings/input/touchscreen/eeti,exc3000.yaml b/Documentation/devicetree/bindings/input/touchscreen/eeti,exc3000.yaml
+index 1c7ae05a8c15..517ec721e724 100644
+--- a/Documentation/devicetree/bindings/input/touchscreen/eeti,exc3000.yaml
++++ b/Documentation/devicetree/bindings/input/touchscreen/eeti,exc3000.yaml
+@@ -9,39 +9,59 @@ title: EETI EXC3000 series touchscreen controller
+ maintainers:
+   - Dmitry Torokhov <dmitry.torokhov@gmail.com>
+ 
+-allOf:
+-  - $ref: touchscreen.yaml#
+-
+ properties:
+   compatible:
+     oneOf:
+       - const: eeti,exc3000
+       - const: eeti,exc80h60
+       - const: eeti,exc80h84
++      - const: eeti,exc3000-i2c
++        deprecated: true
+       - items:
+           - enum:
+               - eeti,exc81w32
+           - const: eeti,exc80h84
+   reg:
+-    const: 0x2a
++    maxItems: 1
+   interrupts:
+     maxItems: 1
+   reset-gpios:
+     maxItems: 1
+   vdd-supply:
+     description: Power supply regulator for the chip
++  attn-gpios:
++    deprecated: true
++    maxItems: 1
++    description: Phandle to a GPIO to check whether interrupt is still
++                 latched. This is necessary for platforms that lack
++                 support for level-triggered IRQs.
+   touchscreen-size-x: true
+   touchscreen-size-y: true
+   touchscreen-inverted-x: true
+   touchscreen-inverted-y: true
+   touchscreen-swapped-x-y: true
+ 
++allOf:
++  - $ref: touchscreen.yaml#
++  - if:
++      not:
++        properties:
++          compatible:
++            contains:
++              const: eeti,exc3000-i2c
++    then:
++      properties:
++        attn-gpios: false
++        reg:
++          const: 0x2a
++      required:
++        - touchscreen-size-x
++        - touchscreen-size-y
++
+ required:
+   - compatible
+   - reg
+   - interrupts
+-  - touchscreen-size-x
+-  - touchscreen-size-y
+ 
+ additionalProperties: false
+ 
+@@ -51,6 +71,7 @@ examples:
+     i2c {
+         #address-cells = <1>;
+         #size-cells = <0>;
++
+         touchscreen@2a {
+                 compatible = "eeti,exc3000";
+                 reg = <0x2a>;
+diff --git a/Documentation/devicetree/bindings/input/touchscreen/eeti.txt b/Documentation/devicetree/bindings/input/touchscreen/eeti.txt
+deleted file mode 100644
+index 32b3712c916e..000000000000
+--- a/Documentation/devicetree/bindings/input/touchscreen/eeti.txt
++++ /dev/null
+@@ -1,30 +0,0 @@
+-Bindings for EETI touchscreen controller
+-
+-Required properties:
+-- compatible:	should be "eeti,exc3000-i2c"
+-- reg:		I2C address of the chip. Should be set to <0xa>
+-- interrupts:	interrupt to which the chip is connected
+-
+-Optional properties:
+-- attn-gpios:	A handle to a GPIO to check whether interrupt is still
+-		latched. This is necessary for platforms that lack
+-		support for level-triggered IRQs.
+-
+-The following optional properties described in touchscreen.txt are
+-also supported:
+-
+-- touchscreen-inverted-x
+-- touchscreen-inverted-y
+-- touchscreen-swapped-x-y
+-
+-Example:
+-
+-i2c-master {
+-	touchscreen@a {
+-		compatible = "eeti,exc3000-i2c";
+-		reg = <0xa>;
+-		interrupt-parent = <&gpio>;
+-		interrupts = <123 IRQ_TYPE_EDGE_RISING>;
+-		attn-gpios = <&gpio 123 GPIO_ACTIVE_HIGH>;
+-	};
+-};
+-- 
+2.43.0
 
-I want these changes, as they are great, but can you perhaps provide
-patch series for newer kernels first so that I can then take these?
-
-thanks,
-
-greg k-h
+base-commit: f975f08c2e899ae2484407d7bba6bb7f8b6d9d40
+branch: drop-touchscreen.txt
 
