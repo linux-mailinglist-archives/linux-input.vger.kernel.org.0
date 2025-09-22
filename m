@@ -1,184 +1,196 @@
-Return-Path: <linux-input+bounces-14962-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14963-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA90BB8FC09
-	for <lists+linux-input@lfdr.de>; Mon, 22 Sep 2025 11:29:36 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CA386B90060
+	for <lists+linux-input@lfdr.de>; Mon, 22 Sep 2025 12:33:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D2C84189DA97
-	for <lists+linux-input@lfdr.de>; Mon, 22 Sep 2025 09:29:58 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 83BFE17E7DE
+	for <lists+linux-input@lfdr.de>; Mon, 22 Sep 2025 10:33:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 10FBA283FDB;
-	Mon, 22 Sep 2025 09:29:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A89982FF175;
+	Mon, 22 Sep 2025 10:33:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b="HZ8j1fpf"
 X-Original-To: linux-input@vger.kernel.org
-Received: from outboundhk.mxmail.xiaomi.com (outboundhk.mxmail.xiaomi.com [207.226.244.123])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 06D3C281530;
-	Mon, 22 Sep 2025 09:29:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=207.226.244.123
+Received: from fra-out-008.esa.eu-central-1.outbound.mail-perimeter.amazon.com (fra-out-008.esa.eu-central-1.outbound.mail-perimeter.amazon.com [35.158.23.94])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70E8A296BA2;
+	Mon, 22 Sep 2025 10:33:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.158.23.94
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758533371; cv=none; b=mkDUtoBZdwuOaD0YtsXQ8nPMJf5K+7/pp27BEIdKJpdFOJ4u8AxtmRaR9TVgS1THKXf72f6pkdAKfgyAa3Id16xul1W2lgtHFD82/LdbT0d+WAiFb4j3SMDyx/MDI6iDuYGo2ef29Kikni865HyOxbPScTkCgUM6Gq1Y/ym/BtQ=
+	t=1758537200; cv=none; b=WcNmYeeiBf2QH4klzwLPh/Z0Zf6W3RvVI43XGYhGdlqRCf3pzPa94FeF65//3B/2kzKBbx9IKX68w9i1nEV5gpZJC4DqOz4TwcGWJ9z3bcqzl03Q8a9t2hQ+vkE3+3Ro8jMGy2+VsATrLPH4CuY66Ez6/6XvK8sQXt1qYoQ4Yq0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758533371; c=relaxed/simple;
-	bh=3cOdjSA9Ghm+vMuul4Z8lPBu10fzV1WvwAUCYs+IWDw=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=UWyQM9zKljibmoJYyPT38KMJOzmZ3lyJ62umcyH1JXIHpZ2STHDacgnmYQzNueqTVjRGdGdI7N7wfpsqk3lOv/+1MDIrVp9RDesFaoPnnyrZx6ayMMZASkJPbfPlvZRwwPPs1Pm4hldfllpCvzbTJHDHpi1Vi30ce8LzdM+CTbE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=xiaomi.com; spf=pass smtp.mailfrom=xiaomi.com; arc=none smtp.client-ip=207.226.244.123
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=xiaomi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xiaomi.com
-X-CSE-ConnectionGUID: qQDnj/FcQCKLLb8aNgwxjg==
-X-CSE-MsgGUID: hcCNWKfLSAuFv2oXu1Xjeg==
-X-IronPort-AV: E=Sophos;i="6.18,284,1751212800"; 
-   d="scan'208";a="153170649"
-From: =?gb2312?B?wqy5+rrq?= <luguohong@xiaomi.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	=?gb2312?B?Sm9zqKYgRXhwqK5zaXRv?= <jose.exposito89@gmail.com>
-CC: "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"jikos@kernel.org" <jikos@kernel.org>, "bentiss@kernel.org"
-	<bentiss@kernel.org>, =?gb2312?B?wO7F9A==?= <lipeng43@xiaomi.com>,
-	=?gb2312?B?RmVpMSBKaWFuZyC9r7fJ?= <jiangfei1@xiaomi.com>,
-	=?gb2312?B?y87D3MPc?= <songmimi@xiaomi.com>, =?gb2312?B?wqy5+rrq?=
-	<luguohong@xiaomi.com>
-Subject: =?gb2312?B?tPC4tDogW0V4dGVybmFsIE1haWxdUmU6IFRoZSB6ZXJvIHBvd2VyIGxldmVs?=
- =?gb2312?B?IG9mIHRoZSBISUQgZGV2aWNlIGluIGtlcm5lbCA2LjEyIGlzIG5vdCByZXBv?=
- =?gb2312?Q?rted_from_the_kernel_to_the_upper_layer.?=
-Thread-Topic: [External Mail]Re: The zero power level of the HID device in
- kernel 6.12 is not reported from the kernel to the upper layer.
-Thread-Index: AQHcJwWA1Pv1UPoVhEyxSk6qnb4viLSZrf4AgABrXICABNg0/g==
-Date: Mon, 22 Sep 2025 09:29:20 +0000
-Message-ID: <91e0d952fd774e769e2d24ce2165df18@xiaomi.com>
-References: <d2cada7efe8d4436b6e638fa1e0aaefb@xiaomi.com>
- <aM0XBudxlXuzALbg@fedora>,<px5t2iedrrqhcrpdvmu5pznp53d3e5jp55dm72phlsti2rmt4j@rj2pajkavuir>
-In-Reply-To: <px5t2iedrrqhcrpdvmu5pznp53d3e5jp55dm72phlsti2rmt4j@rj2pajkavuir>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-Content-Type: text/plain; charset="gb2312"
-Content-Transfer-Encoding: base64
+	s=arc-20240116; t=1758537200; c=relaxed/simple;
+	bh=PixZFZmWcKwq1euE7Zl54sLIl2MpNNci4XMpny8p56I=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Dbll3C/6sB+F8s9awBYBVHf1wumV620DbPw0qNjZ6QAqgrFYkVD3wWUGdGtEkkCMRUtzy4JJDHEeSFX4KJfSRpzpV55ZxA9Z8WJKKEcYX+fiScuruph2mOkqylAE3zvf2oPatYgoOCiNbw2SHyCkVlW08Hsm/A4jJxr1F3RG/UU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.com; dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b=HZ8j1fpf; arc=none smtp.client-ip=35.158.23.94
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
+  t=1758537198; x=1790073198;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=zVSnvTXkXiuh+OW/uVNUL4x1ADt15TY9E6leiyfAL50=;
+  b=HZ8j1fpfp/NtePMdMaW0FcYOCEYlQQp0vb3mDknGOZpJnZIPkI5bE+TV
+   fRzVPNGgZ2WU2PgI9wUgC136V/fTJTxHh4EOuRhKg3CJzo7t7FV1nIPZO
+   F6hVzIw41izSt/kSYjXqBxBzX5wRRf9MIzOzM+j/QWSbwWS12XeiT4CYe
+   Og0hpgkknNDbR6ZsmvhBz5/uovypzqA/wwGS6y3+JjW/7M/twEREgeuip
+   +f3oN6Y/kPEBCPVCLDTSBHdosI1RdpKd9QnWw+x2o+CFSJargqxrCTsKv
+   2JRLXxSOGxEr2xvROnRI14veGIhsUpdHbL00gDjgdi4xS1qFLW3BVazNS
+   g==;
+X-CSE-ConnectionGUID: SA7Bpc9VQgG1HmOijFiFuw==
+X-CSE-MsgGUID: 7eapTz9/SuG/x2ufntC2mg==
+X-IronPort-AV: E=Sophos;i="6.18,284,1751241600"; 
+   d="scan'208";a="2478632"
+Received: from ip-10-6-6-97.eu-central-1.compute.internal (HELO smtpout.naws.eu-central-1.prod.farcaster.email.amazon.dev) ([10.6.6.97])
+  by internal-fra-out-008.esa.eu-central-1.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2025 10:33:14 +0000
+Received: from EX19MTAEUA002.ant.amazon.com [54.240.197.232:4640]
+ by smtpin.naws.eu-central-1.prod.farcaster.email.amazon.dev [10.0.10.226:2525] with esmtp (Farcaster)
+ id c0c65c16-13cf-4fa2-a5a8-1f23642ff95a; Mon, 22 Sep 2025 10:33:14 +0000 (UTC)
+X-Farcaster-Flow-ID: c0c65c16-13cf-4fa2-a5a8-1f23642ff95a
+Received: from EX19D018EUA004.ant.amazon.com (10.252.50.85) by
+ EX19MTAEUA002.ant.amazon.com (10.252.50.126) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.20;
+ Mon, 22 Sep 2025 10:33:13 +0000
+Received: from dev-dsk-farbere-1a-46ecabed.eu-west-1.amazon.com
+ (172.19.116.181) by EX19D018EUA004.ant.amazon.com (10.252.50.85) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.20; Mon, 22 Sep 2025
+ 10:32:49 +0000
+From: Eliav Farber <farbere@amazon.com>
+To: <richard@nod.at>, <anton.ivanov@cambridgegreys.com>,
+	<johannes@sipsolutions.net>, <dave.hansen@linux.intel.com>,
+	<luto@kernel.org>, <peterz@infradead.org>, <tglx@linutronix.de>,
+	<mingo@redhat.com>, <bp@alien8.de>, <x86@kernel.org>, <hpa@zytor.com>,
+	<tony.luck@intel.com>, <qiuxu.zhuo@intel.com>, <james.morse@arm.com>,
+	<mchehab@kernel.org>, <rric@kernel.org>, <harry.wentland@amd.com>,
+	<sunpeng.li@amd.com>, <Rodrigo.Siqueira@amd.com>,
+	<alexander.deucher@amd.com>, <christian.koenig@amd.com>,
+	<Xinhui.Pan@amd.com>, <airlied@gmail.com>, <daniel@ffwll.ch>,
+	<evan.quan@amd.com>, <maarten.lankhorst@linux.intel.com>,
+	<mripard@kernel.org>, <tzimmermann@suse.de>, <jdelvare@suse.com>,
+	<linux@roeck-us.net>, <linus.walleij@linaro.org>,
+	<dmitry.torokhov@gmail.com>, <wens@csie.org>, <jernej.skrabec@gmail.com>,
+	<samuel@sholland.org>, <agk@redhat.com>, <snitzer@kernel.org>,
+	<dm-devel@lists.linux.dev>, <mailhol.vincent@wanadoo.fr>,
+	<wg@grandegger.com>, <mkl@pengutronix.de>, <davem@davemloft.net>,
+	<edumazet@google.com>, <kuba@kernel.org>, <pabeni@redhat.com>,
+	<alexandre.torgue@foss.st.com>, <joabreu@synopsys.com>,
+	<mcoquelin.stm32@gmail.com>, <krzysztof.kozlowski@linaro.org>,
+	<malattia@linux.it>, <hdegoede@redhat.com>, <ilpo.jarvinen@linux.intel.com>,
+	<markgross@kernel.org>, <artur.paszkiewicz@intel.com>, <jejb@linux.ibm.com>,
+	<martin.petersen@oracle.com>, <sakari.ailus@linux.intel.com>,
+	<gregkh@linuxfoundation.org>, <clm@fb.com>, <josef@toxicpanda.com>,
+	<dsterba@suse.com>, <luc.vanoostenryck@gmail.com>, <rostedt@goodmis.org>,
+	<mhiramat@kernel.org>, <pmladek@suse.com>,
+	<andriy.shevchenko@linux.intel.com>, <linux@rasmusvillemoes.dk>,
+	<senozhatsky@chromium.org>, <minchan@kernel.org>,
+	<akpm@linux-foundation.org>, <dsahern@kernel.org>, <shuah@kernel.org>,
+	<keescook@chromium.org>, <wad@chromium.org>, <farbere@amazon.com>,
+	<David.Laight@ACULAB.COM>, <arnd@kernel.org>, <linux-um@lists.infradead.org>,
+	<linux-kernel@vger.kernel.org>, <linux-edac@vger.kernel.org>,
+	<amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+	<linux-hwmon@vger.kernel.org>, <linux-input@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-sunxi@lists.linux.dev>,
+	<linux-media@vger.kernel.org>, <linux-can@vger.kernel.org>,
+	<netdev@vger.kernel.org>, <linux-stm32@st-md-mailman.stormreply.com>,
+	<platform-driver-x86@vger.kernel.org>, <linux-scsi@vger.kernel.org>,
+	<linux-staging@lists.linux.dev>, <linux-btrfs@vger.kernel.org>,
+	<linux-sparse@vger.kernel.org>, <linux-trace-kernel@vger.kernel.org>,
+	<linux-mm@kvack.org>, <linux-kselftest@vger.kernel.org>,
+	<bpf@vger.kernel.org>, <stable@vger.kernel.org>
+Subject: [PATCH 00/15 v6.6.y] Backport minmax.h updates from v6.17-rc7
+Date: Mon, 22 Sep 2025 10:32:26 +0000
+Message-ID: <20250922103241.16213-1-farbere@amazon.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: EX19D039UWB002.ant.amazon.com (10.13.138.79) To
+ EX19D018EUA004.ant.amazon.com (10.252.50.85)
 
-SGksIGpvc2UhDQpJIGRvbid0IHNlZSBhbnkgQW5kcm9pZCBoYW5kbGluZyBvZiAiIkZ1bGx5IERp
-c2NoYXJnZWQiIHZhbHVlICgweDAwODUwMDQ3KSwgc2VjdGlvbiAzMS4zLjEiIi4NCg0KX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXw0Kt6K8/sjLOiBEbWl0cnkgVG9yb2to
-b3YgPGRtaXRyeS50b3Jva2hvdkBnbWFpbC5jb20+DQq3osvNyrG85DogMjAyNcTqOdTCMTnI1SAy
-MzowNA0KytW8/sjLOiBKb3OopiBFeHCornNpdG8NCrOty806IMKsufq66jsgbGludXgtaW5wdXRA
-dmdlci5rZXJuZWwub3JnOyBsaW51eC1rZXJuZWxAdmdlci5rZXJuZWwub3JnOyBqaWtvc0BrZXJu
-ZWwub3JnOyBiZW50aXNzQGtlcm5lbC5vcmc7IMDuxfQ7IEZlaTEgSmlhbmcgva+3yTsgy87D3MPc
-DQrW98ziOiBbRXh0ZXJuYWwgTWFpbF1SZTogVGhlIHplcm8gcG93ZXIgbGV2ZWwgb2YgdGhlIEhJ
-RCBkZXZpY2UgaW4ga2VybmVsIDYuMTIgaXMgbm90IHJlcG9ydGVkIGZyb20gdGhlIGtlcm5lbCB0
-byB0aGUgdXBwZXIgbGF5ZXIuDQoNClvN4rK/08q8/l0gtMvTyrz+wLTUtNPa0KHD17mry77N4rK/
-o6zH6733yfe0psDtoaPI9LbU08q8/rCyyKvQ1LTm0smjrMfrvavTyrz+16q3orj4bWlzZWNAeGlh
-b21pLmNvbb340NC3tMChDQoNCkhpLA0KDQpPbiBGcmksIFNlcCAxOSwgMjAyNSBhdCAxMDo0MDoz
-OEFNICswMjAwLCBKb3OopiBFeHCornNpdG8gd3JvdGU6DQo+IEhpIMKsufq66iwNCj4NCj4gVGhh
-bmtzIGZvciByZXBvcnRpbmcgdGhpcyBpc3N1ZS4NCj4NCj4gSW4gdGhlIGZ1cnVyZSwgd2hlbiBy
-ZXBvcnRpbmcgYnVncywgaXQgaXMgcHJlZmVyZWQgdG8gc2VuZCB0aGVtIHRvIHRoZQ0KPiBtYWls
-aW5nIGxpc3QgKGxpbnV4LWlucHV0QHZnZXIua2VybmVsLm9yZyBhbmQgbGludXgta2VybmVsQHZn
-ZXIua2VybmVsLm9yZykNCj4gdG8gZGlzY3VzcyB0aGVtIGluIHB1YmxpYy4NCj4NCj4gTGV0IG1l
-IGZvcndhcmQgeW91ciBlbWFpbCB0byB0aGUgbWFpbGluZyBsaXN0IGFuZCBhbHNvIENDIERtaXRy
-eSwgdGhlDQo+IGF1dGhvciBvZiB0aGF0IGNvZGUsIHdobyBtaWdodCBoZWxwIHVzIHVuZGVyc3Rh
-bmQgdGhlIHByb2JsZW0uDQo+DQo+IE9uIFR1ZSwgU2VwIDE2LCAyMDI1IGF0IDEyOjI5OjMyUE0g
-KzAwMDAsIMKsufq66iB3cm90ZToNCj4gPiBIaSwgam9zZSENCj4gPg0KPiA+IFdlIGVuY291bnRl
-cmVkIGEgcHJvYmxlbSB3aGVyZSB0aGUgemVybyBiYXR0ZXJ5IGxldmVsIG9mIHRoZSBISUQgZGV2
-aWNlDQo+ID4gaW4ga2VybmVsIDYuMTIgd2FzIG5vdCByZXBvcnRlZCBmcm9tIHRoZSBrZXJuZWwg
-dG8gdGhlIHVwcGVyIGxheWVyLg0KPiA+IEkgY2hlY2tlZCB0aGUgSElEIHByb3RvY29sIGFuZCBp
-dCBkb2Vzbid0IHNheSB0aGF0IHRoZXJlIGlzIG5vIG5lZWQgdG8NCj4gPiByZXBvcnQgdGhlIHpl
-cm8gcG93ZXIgb2YgdGhlIEhJRCBkZXZpY2UuIEZvciBkZXRhaWxzLCBzZWUgcGFnZSAzODEgb2YN
-Cj4gPiB0aGUgSElEIHByb3RvY29sLCAzMS40IEJhdHRlcnkgTWVhc3VyZXMuICJBYnNvbHV0ZSBT
-dGF0ZSBPZiBDaGFyZ2UgRFYNCj4gPiBUaGUgcHJlZGljdGVkIHJlbWFpbmluZyBiYXR0ZXJ5IGNh
-cGFjaXR5IGV4cHJlc3NlZCBhcyBhIHBlcmNlbnRhZ2Ugb2YNCj4gPiBkZXNpZ24gY2FwYWNpdHku
-IChVbml0cyBhcmUgJS4gVGhlIHZhbHVlIG1heSBiZSBncmVhdGVyIHRoYW4gMTAwJS4pIi4NCj4g
-PiBIb3dldmVyLCBpbiB0aGUgZmlsZSBoaWQtaW5wdXQuYyBpbiBrZXJuZWwgNi4xMiwgdGhlIGZv
-bGxvd2luZyBjb2Rlo7oNCj4gPg0KPiA+IHN0YXRpYyB2b2lkIGhpZGlucHV0X3VwZGF0ZV9iYXR0
-ZXJ5KHN0cnVjdCBoaWRfZGV2aWNlICpkZXYsIHVuc2lnbmVkIGludCB1c2FnZSwNCj4gPiAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBpbnQgdmFsdWUpDQo+ID4gew0KPiA+ICAg
-ICAgICAgaW50IGNhcGFjaXR5Ow0KPiA+DQo+ID4gICAgICAgICBpZiAoIWRldi0+YmF0dGVyeSkN
-Cj4gPiAgICAgICAgICAgICAgICAgcmV0dXJuOw0KPiA+DQo+ID4gICAgICAgICBpZiAoaGlkaW5w
-dXRfdXBkYXRlX2JhdHRlcnlfY2hhcmdlX3N0YXR1cyhkZXYsIHVzYWdlLCB2YWx1ZSkpIHsNCj4g
-PiAgICAgICAgICAgICAgICAgcG93ZXJfc3VwcGx5X2NoYW5nZWQoZGV2LT5iYXR0ZXJ5KTsNCj4g
-PiAgICAgICAgICAgICAgICAgcmV0dXJuOw0KPiA+ICAgICAgICAgfQ0KPiA+DQo+ID4gICAgICAg
-ICBpZiAodmFsdWUgPT0gMCB8fCB2YWx1ZSA8IGRldi0+YmF0dGVyeV9taW4gfHwgdmFsdWUgPiBk
-ZXYtPmJhdHRlcnlfbWF4KQ0KPiA+ICAgICAgICAgICAgICAgICByZXR1cm47DQo+ID4NCj4gPiAg
-ICAgICAgIGNhcGFjaXR5ID0gaGlkaW5wdXRfc2NhbGVfYmF0dGVyeV9jYXBhY2l0eShkZXYsIHZh
-bHVlKTsNCj4gPg0KPiA+ICAgICAgICAgIC4uLi4uLg0KPiA+DQo+ID4gfQ0KPiA+DQo+ID4gVGhl
-IHBhcmFtZXRlciB2YWx1ZSBpcyB0aGUgcG93ZXIgbGV2ZWwuIFdoZW4gdGhlIHZhbHVlIGlzIDAs
-IHRoZSBhYm92ZSBjb2RlDQo+ID4gcmV0dXJucyB3aXRob3V0IHJlcG9ydGluZy4NCj4gPiBJcyB0
-aGlzIGEgcHJvYmxlbT8NCj4gPiBXZSdyZSBjdXJyZW50bHkgZXhwZXJpZW5jaW5nIHRoaXMgaXNz
-dWUgb24gQW5kcm9pZCAxNi4gVGhlIHVwcGVyIGxheWVyIG9mDQo+ID4gQW5kcm9pZCBuZWVkcyB0
-byByZWNlaXZlIGEgemVybyBiYXR0ZXJ5IGxldmVsIGJlZm9yZSBpdCBjYW4gdGFrZSBhcHByb3By
-aWF0ZQ0KPiA+IGFjdGlvbi4NCg0KV2hhdCBraW5kIG9mIGFjdGlvbiBhcmUgd2UgdGFsa2luZyBh
-Ym91dD8gU2VjdGlvbiAzMSBvZiB0aGUgSElEDQpzcGVjaWZpY2F0aW9uIGRlZmluZXMgZXZlbnRz
-IGZvciAiU21hcnQgQmF0dGVyeSIgKCJUbyBjb21wbHkgd2l0aCB0aGUNClNtYXJ0IEJhdHRlcnkg
-U3BlY2lmaWNhdGlvbiwgdGhlIEJhdHRlcnkgU3lzdGVtIG11c3Qgc3VwcG9ydCB0aGUNCmZ1bmN0
-aW9ucyBkZWZpbmVkIGluIHRoZSBCYXR0ZXJ5IGFuZCBDaGFyZ2VyIHVzYWdlIHRhYmxlcy4gRm9y
-IGRldGFpbHMsDQpzZWUgU2VjdGlvbiA0LjIsIKGwQmF0dGVyeSBTeXN0ZW0gUGFnZSAoeDg1KS6h
-sSkgYW5kIGlzIHR5cGljYWxseSB1c2VkIGZvcg0KImJhdHRlcnkgcGFjayBmb3IgY2VsbHVsYXIg
-cGhvbmVzIChwcmluY2lwYWwgc291cmNlKSwgdGhlIGJhdHRlcnkNCnBhY2socykgZm9yIG5vdGVi
-b29rIGNvbXB1dGVycyAoYXV4aWxpYXJ5IHNvdXJjZSksIGFuZCB0aGUgc2VhbGVkDQpiYXR0ZXJp
-ZXMgaW4gdW5pbnRlcnJ1cHRpYmxlIHBvd2VyIHN1cHBsaWVzIChhdXhpbGlhcnkgc291cmNlKS4i
-DQoNCklzIHlvdXIgdXNlIGNhc2UgbWFpbiBiYXR0ZXJ5IG9yIGJhdHRlcnkgaW4gYSBzdHlsdXMg
-b3Igc29tZSBvdGhlcg0KcGVyaXBoZXJhbD8NCg0KDQotLS0+Pj4NCldoYXQgd2UgYXJlIGRpc2N1
-c3NpbmcgaXMgdGhlIGNvZGUgaW1wbGVtZW50YXRpb24gb2YgU2VjdGlvbiAzMSBvZiB0aGUgSElE
-IHByb3RvY29sOiAzMSBCYXR0ZXJ5IFN5c3RlbSBQYWdlICgweDg1KS4NCk91ciBzY2VuYXJpbyBp
-czogYW4gQW5kcm9pZCBwaG9uZSBpcyBjb25uZWN0ZWQgdG8gYSBoYW5kbGUgdmlhIFVTQi4gVGhl
-IGhhbmRsZSBpcyBhIEhJRCBkZXZpY2Ugd2l0aCBhIGJhdHRlcnkuIFRoZSBwb3dlciBvZiB0aGUg
-YmF0dGVyeSBpbiB0aGUgaGFuZGxlIGlzIHNlbnQgdG8gdGhlIGJvdHRvbSBsYXllciAoa2VybmVs
-KSBvZiB0aGUgcGhvbmUgdmlhIFVTQi4gVGhlIGJvdHRvbSBsYXllciBvZiB0aGUgcGhvbmUgdGhl
-biByZXBvcnRzIHRoaXMgcG93ZXIgdG8gdGhlIHVwcGVyIGxheWVyIG9mIEFuZHJvaWQgdGhyb3Vn
-aCB0aGUgSElEIGRyaXZlci4NCg0KDQo+ID4gQ291bGQgeW91IHBsZWFzZSBoZWxwIG1lIGV2YWx1
-YXRlIHdoZXRoZXIgd2Ugc2hvdWxkIHJlbW92ZSB0aGUgYmVoYXZpb3Igb2YNCj4gPiByZXR1cm5p
-bmcgdG8gemVybyBiYXR0ZXJ5Pw0KPiA+DQo+ID4gVGhhbmtzIQ0KPiA+ICMvKioqKioqsb7Tyrz+
-vLDG5Li9vP66rNPQ0KHD17mry761xLGjw9zQxc+io6y99s/e09q3osvNuPjJz8PmtdjWt9bQwdCz
-9rXEuPbIy7vyyLrX6aGjvfvWucjOus7G5Mv7yMvS1MjOus7Qzsq9yrnTw6OosPzAqLWrsrvP3tPa
-yKuyv7vysr+31rXY0LnCtqGiuLTWxqGiu/LJoreio6mxvtPKvP7W0LXE0MXPoqGjyOe5+8T6tO3K
-1cHLsb7Tyrz+o6zH68T6waK8tLXnu7C78tPKvP7NqNaqt6K8/sjLsqLJvrP9sb7Tyrz+o6EgVGhp
-cyBlLW1haWwgYW5kIGl0cyBhdHRhY2htZW50cyBjb250YWluIGNvbmZpZGVudGlhbCBpbmZvcm1h
-dGlvbiBmcm9tIFhJQU9NSSwgd2hpY2ggaXMgaW50ZW5kZWQgb25seSBmb3IgdGhlIHBlcnNvbiBv
-ciBlbnRpdHkgd2hvc2UgYWRkcmVzcyBpcyBsaXN0ZWQgYWJvdmUuIEFueSB1c2Ugb2YgdGhlIGlu
-Zm9ybWF0aW9uIGNvbnRhaW5lZCBoZXJlaW4gaW4gYW55IHdheSAoaW5jbHVkaW5nLCBidXQgbm90
-IGxpbWl0ZWQgdG8sIHRvdGFsIG9yIHBhcnRpYWwgZGlzY2xvc3VyZSwgcmVwcm9kdWN0aW9uLCBv
-ciBkaXNzZW1pbmF0aW9uKSBieSBwZXJzb25zIG90aGVyIHRoYW4gdGhlIGludGVuZGVkIHJlY2lw
-aWVudChzKSBpcyBwcm9oaWJpdGVkLiBJZiB5b3UgcmVjZWl2ZSB0aGlzIGUtbWFpbCBpbiBlcnJv
-ciwgcGxlYXNlIG5vdGlmeSB0aGUgc2VuZGVyIGJ5IHBob25lIG9yIGVtYWlsIGltbWVkaWF0ZWx5
-IGFuZCBkZWxldGUgaXQhKioqKioqLyMNCj4NCj4gSXQgaW5kZWVkIGxvb2tzIGxpa2UgaXQgY291
-bGQgYmUgcHJvYmxlbWF0aWMuDQo+DQo+IFZhbHVlcyBhcmUgYWxsb3dlZCBvdCBiZSBncmF0ZXIg
-dGhhbiAxMDAsIGhvd2V2ZXIsIEkgZGlkbid0IGZpbmQNCj4gYW55IHJlZmVyZW5jZXMgdG8gbmVn
-YXRpdmUgdmFsdWVzLiBTaW5jZSBpdCBpcyBhIHBlcmNlbnRhZ2UsIGl0DQo+IG1ha2Ugc2Vuc2Ug
-dG8gbGltaXQgaXQgdG8gMCUsIGkuZS4sIG5vdCBhbGxvd2luZyBuZWdhdGl2ZSB2YWx1ZXMuDQo+
-DQo+IEkgdGhpbmsgdGhhdCByZW1vdmluZyB0aGUgInZhbHVlID09IDAiIGNoZWNrLCBvciByZXBs
-YWNpbmcgaXQgd2l0aA0KPiAidmFsdWUgPCAwIiBzaG91bGQgZml4IHRoZSBpc3N1ZS4NCg0KSWYg
-d2UgYXJlIGRlYWxpbmcgd2l0aCBwZXJpcGhlcmFscyAoc3R5bHVzIGZvciBleGFtcGxlKSAtIGZv
-ciB3aGljaCB0aGlzDQpwaWVjZSBvZiBjb2RlIHdhcyB3cml0dGVuIC0gaG93IGEgYmF0dGVyeSBw
-b3dlcmVkIHBlcmlwaGVyYWwgdGhhdCBpcw0KZnVsbHkgZGlzY2hhcmdlZCBjYW4gY29tbXVuaWNh
-dGUgaXQncyBiYXR0ZXJ5IHN0YXRlIG9mIDA/DQoNCg0KLS0tPj4+DQpPdXIgY29udHJvbGxlciBp
-cyBsaWtlIGEgcG93ZXIgYmFuay4gV2hlbiB0aGUgYmF0dGVyeSBsZXZlbCBpcyBhYm92ZSAwLCBp
-dCB3aWxsIGNoYXJnZSB0aGUgcGhvbmUuIFdoZW4gdGhlIGJhdHRlcnkgbGV2ZWwgcmVhY2hlcyAw
-LCBpdCB3aWxsIHN0b3AgY2hhcmdpbmcgdGhlIHBob25lLiBCZWNhdXNlIHRoZSBjb250cm9sbGVy
-IGNvbnN1bWVzIHZlcnkgbGl0dGxlIHBvd2VyLCBpdCBjYW4gc3RpbGwgd29yayBmb3IgYSB3aGls
-ZS4gSG93ZXZlciwgeW91IG5lZWQgdG8gaW5mb3JtIHRoZSBwaG9uZSBvZiB0aGUgMCBiYXR0ZXJ5
-IGxldmVsIHNvIHRoYXQgdGhlIHBob25lIHdpbGwgZGlzcGxheSBhIHJlbGV2YW50IHByb21wdC4N
-Cg0KDQpJIHRoaW5rIHdlIGhhdmUgb2JzZXJ2ZWQgYm9ndXMgcmVwb3J0cyB3aXRoIDAgdmFsdWVz
-IChJSVJDIHRyeWluZyB0bw0KcXVlcnkgYmF0dGVyeSBzdHJlbmd0aCB3aGVuIHN0eWx1cyBpcyBu
-b3QgaW4gcHJveGltaXR5IHdvdWxkIHlpZWxkDQpyZXNwb25zZXMgd2l0aCAwIHN0cmVuZ3RoKS4N
-Cg0KVGhhbmtzLg0KDQotLQ0KRG1pdHJ5DQojLyoqKioqKrG+08q8/rywxuS4vbz+uqzT0NChw9e5
-q8u+tcSxo8Pc0MXPoqOsvfbP3tPat6LLzbj4yc/D5rXY1rfW0MHQs/a1xLj2yMu78si61+mho737
-1rnIzrrOxuTL+8jL0tTIzrrO0M7Kvcq508OjqLD8wKi1q7K7z97T2sirsr+78rK/t9a12NC5wrah
-ori01sahorvyyaK3oqOpsb7Tyrz+1tC1xNDFz6Kho8jnufvE+rTtytXBy7G+08q8/qOsx+vE+sGi
-vLS157uwu/LTyrz+zajWqreivP7Iy7Kiyb6z/bG+08q8/qOhIFRoaXMgZS1tYWlsIGFuZCBpdHMg
-YXR0YWNobWVudHMgY29udGFpbiBjb25maWRlbnRpYWwgaW5mb3JtYXRpb24gZnJvbSBYSUFPTUks
-IHdoaWNoIGlzIGludGVuZGVkIG9ubHkgZm9yIHRoZSBwZXJzb24gb3IgZW50aXR5IHdob3NlIGFk
-ZHJlc3MgaXMgbGlzdGVkIGFib3ZlLiBBbnkgdXNlIG9mIHRoZSBpbmZvcm1hdGlvbiBjb250YWlu
-ZWQgaGVyZWluIGluIGFueSB3YXkgKGluY2x1ZGluZywgYnV0IG5vdCBsaW1pdGVkIHRvLCB0b3Rh
-bCBvciBwYXJ0aWFsIGRpc2Nsb3N1cmUsIHJlcHJvZHVjdGlvbiwgb3IgZGlzc2VtaW5hdGlvbikg
-YnkgcGVyc29ucyBvdGhlciB0aGFuIHRoZSBpbnRlbmRlZCByZWNpcGllbnQocykgaXMgcHJvaGli
-aXRlZC4gSWYgeW91IHJlY2VpdmUgdGhpcyBlLW1haWwgaW4gZXJyb3IsIHBsZWFzZSBub3RpZnkg
-dGhlIHNlbmRlciBieSBwaG9uZSBvciBlbWFpbCBpbW1lZGlhdGVseSBhbmQgZGVsZXRlIGl0ISoq
-KioqKi8jDQo=
+This series backports 15 patches to update minmax.h in the 6.6.y branch,
+aligning it with v6.17-rc7.
+
+The ultimate goal is to synchronize all longterm branches so that they
+include the full set of minmax.h changes.
+
+The key motivation is to bring in commit d03eba99f5bf ("minmax: allow
+min()/max()/clamp() if the arguments have the same signedness"), which
+is missing in older kernels.
+
+In mainline, this change enables min()/max()/clamp() to accept mixed
+argument types, provided both have the same signedness. Without it,
+backported patches that use these forms may trigger compiler warnings,
+which escalate to build failures when -Werror is enabled.
+
+David Laight (7):
+  minmax.h: add whitespace around operators and after commas
+  minmax.h: update some comments
+  minmax.h: reduce the #define expansion of min(), max() and clamp()
+  minmax.h: use BUILD_BUG_ON_MSG() for the lo < hi test in clamp()
+  minmax.h: move all the clamp() definitions after the min/max() ones
+  minmax.h: simplify the variants of clamp()
+  minmax.h: remove some #defines that are only expanded once
+
+Linus Torvalds (8):
+  minmax: avoid overly complicated constant expressions in VM code
+  minmax: simplify and clarify min_t()/max_t() implementation
+  minmax: add a few more MIN_T/MAX_T users
+  minmax: make generic MIN() and MAX() macros available everywhere
+  minmax: simplify min()/max()/clamp() implementation
+  minmax: don't use max() in situations that want a C constant
+    expression
+  minmax: improve macro expansion and type checking
+  minmax: fix up min3() and max3() too
+
+ arch/um/drivers/mconsole_user.c               |   2 +
+ arch/x86/mm/pgtable.c                         |   2 +-
+ drivers/edac/sb_edac.c                        |   4 +-
+ drivers/edac/skx_common.h                     |   1 -
+ .../drm/amd/display/modules/hdcp/hdcp_ddc.c   |   2 +
+ .../drm/amd/pm/powerplay/hwmgr/ppevvmath.h    |  14 +-
+ drivers/gpu/drm/amd/pm/swsmu/smu_cmn.c        |   2 +-
+ drivers/gpu/drm/drm_color_mgmt.c              |   2 +-
+ drivers/gpu/drm/radeon/evergreen_cs.c         |   2 +
+ drivers/hwmon/adt7475.c                       |  24 +-
+ drivers/input/touchscreen/cyttsp4_core.c      |   2 +-
+ drivers/irqchip/irq-sun6i-r.c                 |   2 +-
+ drivers/md/dm-integrity.c                     |   6 +-
+ drivers/media/dvb-frontends/stv0367_priv.h    |   3 +
+ .../net/can/usb/etas_es58x/es58x_devlink.c    |   2 +-
+ .../net/ethernet/stmicro/stmmac/stmmac_main.c |   2 +-
+ drivers/net/fjes/fjes_main.c                  |   4 +-
+ drivers/nfc/pn544/i2c.c                       |   2 -
+ drivers/platform/x86/sony-laptop.c            |   1 -
+ drivers/scsi/isci/init.c                      |   6 +-
+ .../pci/hive_isp_css_include/math_support.h   |   5 -
+ fs/btrfs/tree-checker.c                       |   2 +-
+ include/linux/compiler.h                      |   9 +
+ include/linux/minmax.h                        | 228 +++++++++++-------
+ include/linux/pageblock-flags.h               |   2 +-
+ kernel/trace/preemptirq_delay_test.c          |   2 -
+ lib/btree.c                                   |   1 -
+ lib/decompress_unlzma.c                       |   2 +
+ lib/vsprintf.c                                |   2 +-
+ mm/zsmalloc.c                                 |   2 -
+ net/ipv4/proc.c                               |   2 +-
+ net/ipv6/proc.c                               |   2 +-
+ tools/testing/selftests/mm/mremap_test.c      |   2 +
+ tools/testing/selftests/seccomp/seccomp_bpf.c |   2 +
+ 34 files changed, 202 insertions(+), 146 deletions(-)
+
+-- 
+2.47.3
+
 
