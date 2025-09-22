@@ -1,160 +1,93 @@
-Return-Path: <linux-input+bounces-14958-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14959-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BB95B8EF99
-	for <lists+linux-input@lfdr.de>; Mon, 22 Sep 2025 07:02:21 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 42852B8F24F
+	for <lists+linux-input@lfdr.de>; Mon, 22 Sep 2025 08:30:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 77A9B1794EC
-	for <lists+linux-input@lfdr.de>; Mon, 22 Sep 2025 05:02:19 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id ECCAC3A929D
+	for <lists+linux-input@lfdr.de>; Mon, 22 Sep 2025 06:30:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 00A4021C186;
-	Mon, 22 Sep 2025 05:02:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 59DFA254AFF;
+	Mon, 22 Sep 2025 06:30:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="BcNVWZn6"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N0JKCLHd"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70552C148;
-	Mon, 22 Sep 2025 05:02:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C13AF21D596
+	for <linux-input@vger.kernel.org>; Mon, 22 Sep 2025 06:30:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758517333; cv=none; b=WBECRCx1R8F7kTNTcagnzxArnF43MW479u8HGGAMhlZvlB/VjgsqF2ErA6pgUWstKhBs7OqMnqvO6tDR8Zjr/anfAd+C4HygXS9ZnJSXP1zkSn8SuZVmOY1m0qawGdyoLE0DPNl78xR/3St2OGg3xOEO3aqQ8H/w7CORuBTSuXc=
+	t=1758522628; cv=none; b=bOuE7Flj6WyiGG4gaciaS4YxfLjPmBI7nsbgM1MHHwhF7UFJ6ej07DSdZEC7Pqdmnks+pbzETRJvZghkh/yVLrGO4ETk1G+N4CAVuzP5NCz4oXxXLy/VrxTRmI5g6m+4ctTfNJIoZt5tuNIc3mvCD5eK1hHVuPLNMa1g3GnNGsI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758517333; c=relaxed/simple;
-	bh=/nk8xPLOsGXuSw5wS41Jy4q570vGloBiPOCZp2/irX0=;
+	s=arc-20240116; t=1758522628; c=relaxed/simple;
+	bh=LNhTlnBiDZt2lVpQ7PMmnZIkpHHdCtz2DcozfcDgh9s=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WWoTP1eV0IW5JcNDQIZ3a0JzZCn0kPAtsTpcGxzybql9nw2ENzifIuqgGz2ODAmDzW+iz+kjm83zZHvvV/iuSWlKt/bpuTlt3TA0Ex9esZ0dtq15QIiwr7kRfTCrBCfFZHOVvQJ6dSesO4iJruzIc5OKsPjhYFBO5CKYivzF2mk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=BcNVWZn6; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A858C4CEF5;
-	Mon, 22 Sep 2025 05:02:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1758517333;
-	bh=/nk8xPLOsGXuSw5wS41Jy4q570vGloBiPOCZp2/irX0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=BcNVWZn6zT4Gv/IUZ2C0NZn/XQ5pAMMpsZzcS58NBPYxD2oFH/k4xQ1OcYygH2JDO
-	 qM8XphYZH6pOzc+c2uakvnfuiVmB28vwfNolajwWxIrag0Gc1iZ0LiKuoKaX4EXv7U
-	 h1tGLKcFUdBrn8iKhoSlB6ijAzBdHBAHMrirLbcw=
-Date: Mon, 22 Sep 2025 07:02:08 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: "Farber, Eliav" <farbere@amazon.com>
-Cc: "linux@armlinux.org.uk" <linux@armlinux.org.uk>,
-	"jdike@addtoit.com" <jdike@addtoit.com>,
-	"richard@nod.at" <richard@nod.at>,
-	"anton.ivanov@cambridgegreys.com" <anton.ivanov@cambridgegreys.com>,
-	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-	"luto@kernel.org" <luto@kernel.org>,
-	"peterz@infradead.org" <peterz@infradead.org>,
-	"tglx@linutronix.de" <tglx@linutronix.de>,
-	"mingo@redhat.com" <mingo@redhat.com>,
-	"bp@alien8.de" <bp@alien8.de>, "x86@kernel.org" <x86@kernel.org>,
-	"hpa@zytor.com" <hpa@zytor.com>,
-	"tony.luck@intel.com" <tony.luck@intel.com>,
-	"qiuxu.zhuo@intel.com" <qiuxu.zhuo@intel.com>,
-	"mchehab@kernel.org" <mchehab@kernel.org>,
-	"james.morse@arm.com" <james.morse@arm.com>,
-	"rric@kernel.org" <rric@kernel.org>,
-	"harry.wentland@amd.com" <harry.wentland@amd.com>,
-	"sunpeng.li@amd.com" <sunpeng.li@amd.com>,
-	"alexander.deucher@amd.com" <alexander.deucher@amd.com>,
-	"christian.koenig@amd.com" <christian.koenig@amd.com>,
-	"airlied@linux.ie" <airlied@linux.ie>,
-	"daniel@ffwll.ch" <daniel@ffwll.ch>,
-	"evan.quan@amd.com" <evan.quan@amd.com>,
-	"james.qian.wang@arm.com" <james.qian.wang@arm.com>,
-	"liviu.dudau@arm.com" <liviu.dudau@arm.com>,
-	"mihail.atanassov@arm.com" <mihail.atanassov@arm.com>,
-	"brian.starkey@arm.com" <brian.starkey@arm.com>,
-	"maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
-	"mripard@kernel.org" <mripard@kernel.org>,
-	"tzimmermann@suse.de" <tzimmermann@suse.de>,
-	"robdclark@gmail.com" <robdclark@gmail.com>,
-	"sean@poorly.run" <sean@poorly.run>,
-	"jdelvare@suse.com" <jdelvare@suse.com>,
-	"linux@roeck-us.net" <linux@roeck-us.net>,
-	"fery@cypress.com" <fery@cypress.com>,
-	"dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>,
-	"agk@redhat.com" <agk@redhat.com>,
-	"snitzer@redhat.com" <snitzer@redhat.com>,
-	"dm-devel@redhat.com" <dm-devel@redhat.com>,
-	"rajur@chelsio.com" <rajur@chelsio.com>,
-	"davem@davemloft.net" <davem@davemloft.net>,
-	"kuba@kernel.org" <kuba@kernel.org>,
-	"peppe.cavallaro@st.com" <peppe.cavallaro@st.com>,
-	"alexandre.torgue@st.com" <alexandre.torgue@st.com>,
-	"joabreu@synopsys.com" <joabreu@synopsys.com>,
-	"mcoquelin.stm32@gmail.com" <mcoquelin.stm32@gmail.com>,
-	"malattia@linux.it" <malattia@linux.it>,
-	"hdegoede@redhat.com" <hdegoede@redhat.com>,
-	"mgross@linux.intel.com" <mgross@linux.intel.com>,
-	"intel-linux-scu@intel.com" <intel-linux-scu@intel.com>,
-	"artur.paszkiewicz@intel.com" <artur.paszkiewicz@intel.com>,
-	"jejb@linux.ibm.com" <jejb@linux.ibm.com>,
-	"martin.petersen@oracle.com" <martin.petersen@oracle.com>,
-	"sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>,
-	"clm@fb.com" <clm@fb.com>,
-	"josef@toxicpanda.com" <josef@toxicpanda.com>,
-	"dsterba@suse.com" <dsterba@suse.com>,
-	"jack@suse.com" <jack@suse.com>, "tytso@mit.edu" <tytso@mit.edu>,
-	"adilger.kernel@dilger.ca" <adilger.kernel@dilger.ca>,
-	"dushistov@mail.ru" <dushistov@mail.ru>,
-	"luc.vanoostenryck@gmail.com" <luc.vanoostenryck@gmail.com>,
-	"rostedt@goodmis.org" <rostedt@goodmis.org>,
-	"pmladek@suse.com" <pmladek@suse.com>,
-	"sergey.senozhatsky@gmail.com" <sergey.senozhatsky@gmail.com>,
-	"andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>,
-	"linux@rasmusvillemoes.dk" <linux@rasmusvillemoes.dk>,
-	"minchan@kernel.org" <minchan@kernel.org>,
-	"ngupta@vflare.org" <ngupta@vflare.org>,
-	"akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-	"kuznet@ms2.inr.ac.ru" <kuznet@ms2.inr.ac.ru>,
-	"yoshfuji@linux-ipv6.org" <yoshfuji@linux-ipv6.org>,
-	"pablo@netfilter.org" <pablo@netfilter.org>,
-	"kadlec@netfilter.org" <kadlec@netfilter.org>,
-	"fw@strlen.de" <fw@strlen.de>,
-	"jmaloy@redhat.com" <jmaloy@redhat.com>,
-	"ying.xue@windriver.com" <ying.xue@windriver.com>,
-	"willy@infradead.org" <willy@infradead.org>,
-	"sashal@kernel.org" <sashal@kernel.org>,
-	"ruanjinjie@huawei.com" <ruanjinjie@huawei.com>,
-	"David.Laight@aculab.com" <David.Laight@aculab.com>,
-	"herve.codina@bootlin.com" <herve.codina@bootlin.com>,
-	"Jason@zx2c4.com" <Jason@zx2c4.com>,
-	"bvanassche@acm.org" <bvanassche@acm.org>,
-	"keescook@chromium.org" <keescook@chromium.org>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-um@lists.infradead.org" <linux-um@lists.infradead.org>,
-	"linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
-	"amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
-	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-	"linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
-	"freedreno@lists.freedesktop.org" <freedreno@lists.freedesktop.org>,
-	"linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
-	"linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-	"linux-stm32@st-md-mailman.stormreply.com" <linux-stm32@st-md-mailman.stormreply.com>,
-	"platform-driver-x86@vger.kernel.org" <platform-driver-x86@vger.kernel.org>,
-	"linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
-	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
-	"linux-btrfs@vger.kernel.org" <linux-btrfs@vger.kernel.org>,
-	"linux-ext4@vger.kernel.org" <linux-ext4@vger.kernel.org>,
-	"linux-sparse@vger.kernel.org" <linux-sparse@vger.kernel.org>,
-	"linux-mm@kvack.org" <linux-mm@kvack.org>,
-	"netfilter-devel@vger.kernel.org" <netfilter-devel@vger.kernel.org>,
-	"coreteam@netfilter.org" <coreteam@netfilter.org>,
-	"tipc-discussion@lists.sourceforge.net" <tipc-discussion@lists.sourceforge.net>,
-	"stable@vger.kernel.org" <stable@vger.kernel.org>,
-	"Chocron, Jonathan" <jonnyc@amazon.com>
-Subject: Re: [PATCH 00/27 5.10.y] Backport minmax.h updates from v6.17-rc6
-Message-ID: <2025092203-untreated-sloppily-23b5@gregkh>
-References: <20250919101727.16152-1-farbere@amazon.com>
- <2025092136-unelected-skirt-d91d@gregkh>
- <4f497306c58240a88c0bb001786c3ad2@amazon.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=hW/IIhEDz6EjgVVP7vNV/EBp6Co0WH0BRMt37BPQZZbv1HixJLEieah46+D/sjLvFavS5HSQn2Svzcm5lvyl4ClTqeeR2nLbXV5JoDEH1skipK8ltKXbfwLJrgcRASnx+mHWQhiEq0dgJ2i6EKSMa5P7qIQ4TSnwI/WmOC1eDcU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=N0JKCLHd; arc=none smtp.client-ip=209.85.210.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-77f3580ab80so756092b3a.2
+        for <linux-input@vger.kernel.org>; Sun, 21 Sep 2025 23:30:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1758522626; x=1759127426; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=EWPs0O+PpJeDxSEciw3RIzwQywDcizw1sWF+i7zbwU0=;
+        b=N0JKCLHdSknj/V96nEbrltNDlqeIMmWO8zMEL+4WHow3wsh1lQ5Hevzt0aMOc+sq7D
+         Hrhj8fjmgJoPK89o6qshbSuYn4PPItSXXzK6g2/yfYX1Sx3SBReu56tpiAyWjp4xdQj9
+         1XQK5smuWuGTwY1OqiGgYcorRAU/QUuC/3vBYNjkX2WpHvFJRozVi83uB6mU+yyRG/OM
+         lli9XvTEv89VKoHJaHUbHStyLVQnN3NxbnsyicFGE+PMk5ma0nChFioJgB+SHb+0IUj2
+         uohGQlfHIyZCV633ERjcD6dGPu9baKvRV+ly5mJ5w9Mhts3uGYLRTGz8VY5MPU8On+Cn
+         4yZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758522626; x=1759127426;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=EWPs0O+PpJeDxSEciw3RIzwQywDcizw1sWF+i7zbwU0=;
+        b=fdaPzkOBMlP3MMu2hnWSXTREHm1yrKM0AdfFQ2iDAkkx8OhB1pE2a0tNlK94S78RHz
+         X2zLu+SGVd3ms/dv6oQ0PYo8Sg+TBTSl0KFNNiMy+dIyt8S/55Gn7fTxNMFRbuHVdMuQ
+         driX8VJ3BzEVttuI7Ftt2SoUVctLYJr5K0MrlvOBMuVt8296M8CKBmtIySvnmxeM18hR
+         Jjku9SnwB/sL1DQRK/n/hvg8x+V1mNb8ugrTz5OfNYiyPP7uRTT2Kg2DyVyIhXC0g7gm
+         +yCGo/H1K4Swz4T6wgbyBwpsHn3J6sXRx9JxemMskWXwQvXjuhX9UeH/YqNPHtyhJyph
+         prlA==
+X-Forwarded-Encrypted: i=1; AJvYcCWB0brQ4kcfiw5HxxnGCJFlLq2wYBHryj9mGQZVKDI3WSgk2MlMpCjyzcRBtWRDFEhSerLXRZaqLESjhw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyuZkpc8a7QvnflBNSrIRyeO7SLtmknNsRzDq8r87Rr4N58QMjD
+	fDM7rinrGAZJ2fzEAnAHaGvyFC46L6GTobd0FMnljoT1RE6ZfYIqG9+2
+X-Gm-Gg: ASbGncsr0sLet1J6wU6APQkhY3rfC+cj83Zyb7sy/BuslhNeY+FPC5OBaHKoajARawR
+	Q+I9ePD2CbxtS7TirdosNsuRyTOzwB5MP0UZvgWwqaV7Iibn1+ZqpE6l1xTZkz7BT0gaVUmsaNb
+	85Lv+uvqsNKo01DA0XJ6Lbgiei2kxrytyjhD7D0Lb+pA1Y45zdF2sNBgO5w2vBVLbd2nTpmy6HD
+	aD/MmGhu2DtrxSm/2VbxbLET9HinknXao2AeZefxIIPfYeNIEIB0hzP+FZvO/sMZkBgEm7R1ehg
+	hoTfYqA883cINmu2ZjHmWDoGCTWaR1qLr5zypave71VQFIK9+B2af4ihqi7PAUxKqCy5/kn/YDC
+	ruS+khn4PRejdKV6fNEujWmE=
+X-Google-Smtp-Source: AGHT+IHCr80+p0HUXpiN0kUWu6aXyizO6B94WEmeGsdFME4p+j/Pv5y4cgnsVE/m2JUndDzORffBIw==
+X-Received: by 2002:a05:6a00:3c91:b0:772:59d2:3a49 with SMTP id d2e1a72fcca58-77e4d31f18emr14939602b3a.13.1758522626022;
+        Sun, 21 Sep 2025 23:30:26 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:e948:4db8:6798:ed8c])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-77f2d414457sm3324170b3a.30.2025.09.21.23.30.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 21 Sep 2025 23:30:25 -0700 (PDT)
+Date: Sun, 21 Sep 2025 23:30:22 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: David Heidelberg <david@ixit.cz>
+Cc: Kaustabh Chakraborty <kauschluss@disroot.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, "Jason A. Donenfeld" <Jason@zx2c4.com>, 
+	Matthias Schiffer <matthias.schiffer@ew.tq-group.com>, Vincent Huang <vincent.huang@tw.synaptics.com>, 
+	linux-input@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht, 
+	Casey Connolly <casey.connolly@linaro.org>, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH RESEND v5 0/7] Input: synaptics-rmi4 - add quirks for
+ third party touchscreen controllers
+Message-ID: <5gcq5xsurdp24o7wndo2fm7pjsc3khco52ji34jjmeet2nidl4@rkbh4a2c4d3q>
+References: <20250731-synaptics-rmi4-v5-0-cd0d87d34afa@ixit.cz>
+ <aggtzmlxvj4so6t7trlo5ianjcbq2jrsodv6hlkhtrvgl2qpqj@gflvqocxjckb>
+ <b223a48e-952c-4825-bf82-e8922434e3c1@ixit.cz>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -163,35 +96,56 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <4f497306c58240a88c0bb001786c3ad2@amazon.com>
+In-Reply-To: <b223a48e-952c-4825-bf82-e8922434e3c1@ixit.cz>
 
-On Sun, Sep 21, 2025 at 09:37:02PM +0000, Farber, Eliav wrote:
-> > On Fri, Sep 19, 2025 at 10:17:00AM +0000, Eliav Farber wrote:
-> > > This series includes a total of 27 patches, to align minmax.h of
-> > > v5.15.y with v6.17-rc6.
-> > >
-> > > The set consists of 24 commits that directly update minmax.h:
-> > > 1) 92d23c6e9415 ("overflow, tracing: Define the is_signed_type() macro
-> > >    once")
-> >
-> > But this isn't in 5.15.y, so how is this syncing things up?
-> >
-> > I'm all for this, but I got confused here, at the first commit :)
-> 
-> It's a typo.
-> It should be 5.10.y and not 5.15.y.
-> 
-> > Some of these are also only in newer kernels, which, as you know, is
-> > generally a bad thing (i.e. I can't take patches only for older
-> > kernels.)
-> >
-> > I want these changes, as they are great, but can you perhaps provide
-> > patch series for newer kernels first so that I can then take these?
-> 
-> So you'd first like first to align 6.16 with 6.17, then 6.15 with 6.16,
-> then 6.12 with 6.15, then 6.6 with 6.12, and so on until we eventually
-> align 5.10 and even 5.4?
+Hi David,
 
-Yes please!
+On Tue, Sep 16, 2025 at 11:29:45AM +0200, David Heidelberg wrote:
+> On 07/08/2025 06:29, Dmitry Torokhov wrote:
+> > Hi David,
+> > 
+> > On Thu, Jul 31, 2025 at 11:06:50PM +0200, David Heidelberg via B4 Relay wrote:
+> > > With the growing popularity of running upstream Linux on mobile devices,
+> > > we're beginning to run into more and more edgecases. The OnePlus 6 is a
+> > > fairly well supported 2018 era smartphone, selling over a million units
+> > > in it's first 22 days. With this level of popularity, it's almost
+> > > inevitable that we get third party replacement displays, and as a
+> > > result, replacement touchscreen controllers.
+> > > 
+> > > The OnePlus 6 shipped with an extremely usecase specific touchscreen
+> > > driver, it implemented only the bare minimum parts of the highly generic
+> > > rmi4 protocol, instead hardcoding most of the register addresses.
+> > > 
+> > > As a result, the third party touchscreen controllers that are often
+> > > found in replacement screens, implement only the registers that the
+> > > downstream driver reads from. They additionally have other restrictions
+> > > such as heavy penalties on unaligned reads.
+> > > 
+> > > This series attempts to implement the necessary workaround to support
+> > > some of these chips with the rmi4 driver. Although it's worth noting
+> > > that at the time of writing there are other unofficial controllers in
+> > > the wild that don't work even with these patches.
+> > > 
+> > > We have been shipping these patches in postmarketOS for the last several
+> > > years, and they are known to not cause any regressions on the OnePlus
+> > > 6/6T (with the official Synaptics controller), however I don't own any
+> > > other rmi4 hardware to further validate this.
+> > 
+> > Sorry for not handling the patches in the last few submissions. I am
+> > planning on addressing them once merge window opens.
+> 
+> Hello Dmitry, kind reminder about the patch series as the window is open.
 
+I was looking at the patch series again and with the exception of patch
+#5 they make little sense for sensors other than ones used in OnePlus 6.
+
+I wonder if we could key it off of something, maybe a distinct
+compatible or a property? Rob, Krzysztof, any suggestions on how to deal
+with devices that do not properly implement the protocol for which they
+claim compatible?
+
+Thanks.
+
+-- 
+Dmitry
 
