@@ -1,392 +1,402 @@
-Return-Path: <linux-input+bounces-14996-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14997-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 648BAB93607
-	for <lists+linux-input@lfdr.de>; Mon, 22 Sep 2025 23:31:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92DA7B93652
+	for <lists+linux-input@lfdr.de>; Mon, 22 Sep 2025 23:39:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8A316160985
-	for <lists+linux-input@lfdr.de>; Mon, 22 Sep 2025 21:31:32 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 47CF4164323
+	for <lists+linux-input@lfdr.de>; Mon, 22 Sep 2025 21:39:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5152831354B;
-	Mon, 22 Sep 2025 21:31:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4136C219A7D;
+	Mon, 22 Sep 2025 21:39:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="RvXtD3z+"
+	dkim=pass (1024-bit key) header.d=redstrate.com header.i=@redstrate.com header.b="MyLWzpBj"
 X-Original-To: linux-input@vger.kernel.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 243C02F6587;
-	Mon, 22 Sep 2025 21:31:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+Received: from ryne.moe (ryne.moe [157.90.134.234])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D5FFF19994F;
+	Mon, 22 Sep 2025 21:39:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.134.234
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758576664; cv=none; b=pOmLg+9p6BPtxRkCmhGE2MWtdr/nZSYHGhJCbmNvTtknRlnqfcSwvONiLZYh5xesd4xRZh55vrUtIsGM/AK3y4gWwQobGVlU/wxoS7FAPCqhqsMo9810Bia1GTX2wyrpB0eAyoSAWzs5DhcWyuxrkA+6dDdPpsjbtXb9RxWdlsg=
+	t=1758577151; cv=none; b=jyUesXKH+FujLuMAlEEEhXV7s1iqqqDrsDPanliBcBiqbnDPN62kOYzvSmC8Q1p6vINAv+2qXLU8gX6ryek0dctw2dW8Llqt4CUGzCr/PyU/fL4RqqK6RcOTpn+AtZmfxLOhgnicertmdtSYl/aiYvVvP0kxww8ABNKXcFrCt0Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758576664; c=relaxed/simple;
-	bh=WvIs+scmNhRFPjzD8+VFafd8InaoaA8XRwVjTYApbHI=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=XNtpDtpbEcO8rXVm1rk7aVc55rM7btYVQ4hT+c12DC94DWRygv2PWWQePfwCAyiu7wS2oh1Zl+V+ibjNka2GYGmImjPv2HIEJmUKH6s0UQ8+Zortc/n0kYjrdKfyJ8QFI/DOcPr7b0IC6O3tnd+TtYCbrfxAh/xHx5m9OSr0m6M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=RvXtD3z+; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1758576660;
-	bh=WvIs+scmNhRFPjzD8+VFafd8InaoaA8XRwVjTYApbHI=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=RvXtD3z+rz1dZOYKsT1rS/tXjlKy1y2EwQJgvOOskDY2Ch4gErUZhJEAxo9uvPkqJ
-	 x4dq+5U3OP546JcQG4rzMIXHMWGWjUUhATE47D6Mu8k3Uc4myeB5XAxdDtvPc5y2Th
-	 nqWdo6Rs5z90QQN4wdPB49/We/pjpC5aNsh5kU0ws4/wVzyRHo3060U3WOuLt2N5x9
-	 xTTqqRo5qBz7yUcnXm97rpH2LPUXl4RA6QGXLQbn2eowykZUp5wbJSB0+h5U4ZdGx1
-	 b144ppnbQlxlT496vz3ygp1KA/QQVvs2tA31C0ROio2solWUc3hB55rbLjw6VznYfk
-	 3R3ayDeY2VSKQ==
-Received: from localhost (unknown [82.79.138.60])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: cristicc)
-	by bali.collaboradmins.com (Postfix) with UTF8SMTPSA id 15B6117E12D4;
-	Mon, 22 Sep 2025 23:31:00 +0200 (CEST)
-From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Date: Tue, 23 Sep 2025 00:29:42 +0300
-Subject: [PATCH 3/3] HID: playstation: Switch to scoped_guard() in
- {dualsense|dualshock4}_output_worker()
+	s=arc-20240116; t=1758577151; c=relaxed/simple;
+	bh=xHLuZkXlKH0zpcXXTlQAt8n84r+Ap5K2/jcgYDvJXPk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GTIIvu1kNghoX9B1VPL9ooc5+EPv778PkyFLOQavOSGrHgTRLDUMT+Z4awmgevTiGV0gdxtnzpBVVCbjTGbVXsrxr2QmrkxCd30idMvWRzuuN8qi52sKpbX66zBxj116nL05sxWvbMae43tGjd2WSmJN2uX9FtioIjGhGyLp1v4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=redstrate.com; spf=pass smtp.mailfrom=redstrate.com; dkim=pass (1024-bit key) header.d=redstrate.com header.i=@redstrate.com header.b=MyLWzpBj; arc=none smtp.client-ip=157.90.134.234
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=redstrate.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redstrate.com
+Received: from adrastea (c-73-35-115-196.hsd1.fl.comcast.net [73.35.115.196])
+	by ryne.moe (Postfix) with ESMTPSA id E5C4F19056B6;
+	Mon, 22 Sep 2025 21:32:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=redstrate.com;
+	s=default; t=1758576741;
+	bh=xHLuZkXlKH0zpcXXTlQAt8n84r+Ap5K2/jcgYDvJXPk=;
+	h=From:To:Cc:Subject:Date;
+	b=MyLWzpBjN1I9XNIAmdzCU0x97WLhnPlLL39fItHodUsg03NAmf5DNNma3n3QFXJzD
+	 8HzKVXiR/tPdjm2pqxDXJY0K8VIiiZ0G1pFVyn8EJJUG3qogIZPgy/UaAYLSmVKP2h
+	 QvlYPKIWtTv47CEFZftATb413HPK+FgC7hRFM3zA=
+From: Joshua Goins <josh@redstrate.com>
+To: linux-input@vger.kernel.org
+Cc: josh@redstrate.com,
+	Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] HID: uclogic: Add support for the XP-PEN Artist 24 Pro
+Date: Mon, 22 Sep 2025 17:32:03 -0400
+Message-ID: <20250922213207.9224-1-josh@redstrate.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250923-ps5-hid-fixes-v1-3-4b994c54e512@collabora.com>
-References: <20250923-ps5-hid-fixes-v1-0-4b994c54e512@collabora.com>
-In-Reply-To: <20250923-ps5-hid-fixes-v1-0-4b994c54e512@collabora.com>
-To: Roderick Colenbrander <roderick.colenbrander@sony.com>, 
- Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>
-Cc: kernel@collabora.com, linux-input@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-X-Mailer: b4 0.14.2
+Content-Transfer-Encoding: 8bit
 
-Those functions were initially excepted from using the scoped_guard()
-infrastructure as they contain too many long statements, while adding
-yet another level of indentation seemed to lower readability without
-bringing an immediate benefit.
+The tablet is similar to the 22R Pro, but with a few annoying
+differences. Its descriptors are bigger because of the tablet's split
+coordinate system, I guess it's just that large. Thankfully, this is
+easy enough to support as all we have to do is shift bytes around.
 
-However, consistency should be more important, hence do the switch and
-get rid of the remaining explicit acquires & releases of the spinlocks.
+To help code re-use, I changed the signature of
+uclogic_params_init_ugee_xppen_pro to accept a pen descriptor so we
+didn't create yet-another initialization function.
 
-Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+I have been testing this locally for a month or so and it works great,
+and also corroborated this with a few other testers. Since this touches
+my 22R Pro code, I have tested and checked that it didn't regress that
+device.
+
+Signed-off-by: Joshua Goins <josh@redstrate.com>
 ---
- drivers/hid/hid-playstation.c | 256 +++++++++++++++++++++---------------------
- 1 file changed, 129 insertions(+), 127 deletions(-)
+ drivers/hid/hid-ids.h            |   1 +
+ drivers/hid/hid-uclogic-core.c   |  19 +++++
+ drivers/hid/hid-uclogic-params.c |  47 +++++++++---
+ drivers/hid/hid-uclogic-params.h |   5 ++
+ drivers/hid/hid-uclogic-rdesc.c  | 125 +++++++++++++++++++++++++++++++
+ drivers/hid/hid-uclogic-rdesc.h  |   8 ++
+ 6 files changed, 194 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/hid/hid-playstation.c b/drivers/hid/hid-playstation.c
-index 87038dacebe7bae72621e3a14dfc39693a316782..63f6eb9030d13cb9d0253022a1f1c195676e34e8 100644
---- a/drivers/hid/hid-playstation.c
-+++ b/drivers/hid/hid-playstation.c
-@@ -1308,107 +1308,112 @@ static void dualsense_output_worker(struct work_struct *work)
- 	struct dualsense *ds = container_of(work, struct dualsense, output_worker);
- 	struct dualsense_output_report report;
- 	struct dualsense_output_report_common *common;
--	unsigned long flags;
- 
- 	dualsense_init_output_report(ds, &report, ds->output_report_dmabuf);
- 	common = report.common;
- 
--	spin_lock_irqsave(&ds->base.lock, flags);
--
--	if (ds->update_rumble) {
--		/* Select classic rumble style haptics and enable it. */
--		common->valid_flag0 |= DS_OUTPUT_VALID_FLAG0_HAPTICS_SELECT;
--		if (ds->use_vibration_v2)
--			common->valid_flag2 |= DS_OUTPUT_VALID_FLAG2_COMPATIBLE_VIBRATION2;
--		else
--			common->valid_flag0 |= DS_OUTPUT_VALID_FLAG0_COMPATIBLE_VIBRATION;
--		common->motor_left = ds->motor_left;
--		common->motor_right = ds->motor_right;
--		ds->update_rumble = false;
--	}
-+	scoped_guard(spinlock_irqsave, &ds->base.lock) {
-+		if (ds->update_rumble) {
-+			/* Select classic rumble style haptics and enable it. */
-+			common->valid_flag0 |= DS_OUTPUT_VALID_FLAG0_HAPTICS_SELECT;
-+			if (ds->use_vibration_v2)
-+				common->valid_flag2 |= DS_OUTPUT_VALID_FLAG2_COMPATIBLE_VIBRATION2;
-+			else
-+				common->valid_flag0 |= DS_OUTPUT_VALID_FLAG0_COMPATIBLE_VIBRATION;
-+			common->motor_left = ds->motor_left;
-+			common->motor_right = ds->motor_right;
-+			ds->update_rumble = false;
-+		}
- 
--	if (ds->update_lightbar) {
--		common->valid_flag1 |= DS_OUTPUT_VALID_FLAG1_LIGHTBAR_CONTROL_ENABLE;
--		common->lightbar_red = ds->lightbar_red;
--		common->lightbar_green = ds->lightbar_green;
--		common->lightbar_blue = ds->lightbar_blue;
-+		if (ds->update_lightbar) {
-+			common->valid_flag1 |= DS_OUTPUT_VALID_FLAG1_LIGHTBAR_CONTROL_ENABLE;
-+			common->lightbar_red = ds->lightbar_red;
-+			common->lightbar_green = ds->lightbar_green;
-+			common->lightbar_blue = ds->lightbar_blue;
- 
--		ds->update_lightbar = false;
--	}
-+			ds->update_lightbar = false;
-+		}
- 
--	if (ds->update_player_leds) {
--		common->valid_flag1 |= DS_OUTPUT_VALID_FLAG1_PLAYER_INDICATOR_CONTROL_ENABLE;
--		common->player_leds = ds->player_leds_state;
-+		if (ds->update_player_leds) {
-+			common->valid_flag1 |=
-+				DS_OUTPUT_VALID_FLAG1_PLAYER_INDICATOR_CONTROL_ENABLE;
-+			common->player_leds = ds->player_leds_state;
- 
--		ds->update_player_leds = false;
--	}
-+			ds->update_player_leds = false;
-+		}
- 
--	if (ds->plugged_state != ds->prev_plugged_state) {
--		u8 val = ds->plugged_state & DS_STATUS1_HP_DETECT;
-+		if (ds->plugged_state != ds->prev_plugged_state) {
-+			u8 val = ds->plugged_state & DS_STATUS1_HP_DETECT;
- 
--		if (val != (ds->prev_plugged_state & DS_STATUS1_HP_DETECT)) {
--			common->valid_flag0 = DS_OUTPUT_VALID_FLAG0_AUDIO_CONTROL_ENABLE;
--			/*
--			 *  _--------> Output path setup in audio_flag0
--			 * /  _------> Headphone (HP) Left channel sink
--			 * | /  _----> Headphone (HP) Right channel sink
--			 * | | /  _--> Internal Speaker (SP) sink
--			 * | | | /
--			 * | | | |     L/R - Left/Right channel source
--			 * 0 L-R X       X - Unrouted (muted) channel source
--			 * 1 L-L X
--			 * 2 L-L R
--			 * 3 X-X R
--			 */
--			if (val) {
--				/* Mute SP and route L+R channels to HP */
--				common->audio_control = 0;
--			} else {
--				/* Mute HP and route R channel to SP */
--				common->audio_control =
--					FIELD_PREP(DS_OUTPUT_AUDIO_FLAGS_OUTPUT_PATH_SEL, 0x3);
-+			if (val != (ds->prev_plugged_state & DS_STATUS1_HP_DETECT)) {
-+				common->valid_flag0 = DS_OUTPUT_VALID_FLAG0_AUDIO_CONTROL_ENABLE;
- 				/*
--				 * Set SP hardware volume to 100%.
--				 * Note the accepted range seems to be [0x3d..0x64]
-+				 *  _--------> Output path setup in audio_flag0
-+				 * /  _------> Headphone (HP) Left channel sink
-+				 * | /  _----> Headphone (HP) Right channel sink
-+				 * | | /  _--> Internal Speaker (SP) sink
-+				 * | | | /
-+				 * | | | |     L/R - Left/Right channel source
-+				 * 0 L-R X       X - Unrouted (muted) channel source
-+				 * 1 L-L X
-+				 * 2 L-L R
-+				 * 3 X-X R
- 				 */
--				common->valid_flag0 |= DS_OUTPUT_VALID_FLAG0_SPEAKER_VOLUME_ENABLE;
--				common->speaker_volume = 0x64;
--				/* Set SP preamp gain to +6dB */
--				common->valid_flag1 = DS_OUTPUT_VALID_FLAG1_AUDIO_CONTROL2_ENABLE;
--				common->audio_control2 =
--					FIELD_PREP(DS_OUTPUT_AUDIO_FLAGS2_SP_PREAMP_GAIN, 0x2);
-+				if (val) {
-+					/* Mute SP and route L+R channels to HP */
-+					common->audio_control = 0;
-+				} else {
-+					/* Mute HP and route R channel to SP */
-+					common->audio_control =
-+						FIELD_PREP(DS_OUTPUT_AUDIO_FLAGS_OUTPUT_PATH_SEL,
-+							   0x3);
-+					/*
-+					 * Set SP hardware volume to 100%.
-+					 * Note the accepted range seems to be [0x3d..0x64]
-+					 */
-+					common->valid_flag0 |=
-+						DS_OUTPUT_VALID_FLAG0_SPEAKER_VOLUME_ENABLE;
-+					common->speaker_volume = 0x64;
-+					/* Set SP preamp gain to +6dB */
-+					common->valid_flag1 =
-+						DS_OUTPUT_VALID_FLAG1_AUDIO_CONTROL2_ENABLE;
-+					common->audio_control2 =
-+						FIELD_PREP(DS_OUTPUT_AUDIO_FLAGS2_SP_PREAMP_GAIN,
-+							   0x2);
-+				}
-+
-+				input_report_switch(ds->jack, SW_HEADPHONE_INSERT, val);
- 			}
- 
--			input_report_switch(ds->jack, SW_HEADPHONE_INSERT, val);
-+			val = ds->plugged_state & DS_STATUS1_MIC_DETECT;
-+			if (val != (ds->prev_plugged_state & DS_STATUS1_MIC_DETECT))
-+				input_report_switch(ds->jack, SW_MICROPHONE_INSERT, val);
-+
-+			input_sync(ds->jack);
-+			ds->prev_plugged_state = ds->plugged_state;
- 		}
- 
--		val = ds->plugged_state & DS_STATUS1_MIC_DETECT;
--		if (val != (ds->prev_plugged_state & DS_STATUS1_MIC_DETECT))
--			input_report_switch(ds->jack, SW_MICROPHONE_INSERT, val);
-+		if (ds->update_mic_mute) {
-+			common->valid_flag1 |= DS_OUTPUT_VALID_FLAG1_MIC_MUTE_LED_CONTROL_ENABLE;
-+			common->mute_button_led = ds->mic_muted;
- 
--		input_sync(ds->jack);
--		ds->prev_plugged_state = ds->plugged_state;
--	}
--
--	if (ds->update_mic_mute) {
--		common->valid_flag1 |= DS_OUTPUT_VALID_FLAG1_MIC_MUTE_LED_CONTROL_ENABLE;
--		common->mute_button_led = ds->mic_muted;
-+			if (ds->mic_muted) {
-+				/* Disable microphone */
-+				common->valid_flag1 |=
-+					DS_OUTPUT_VALID_FLAG1_POWER_SAVE_CONTROL_ENABLE;
-+				common->power_save_control |= DS_OUTPUT_POWER_SAVE_CONTROL_MIC_MUTE;
-+			} else {
-+				/* Enable microphone */
-+				common->valid_flag1 |=
-+					DS_OUTPUT_VALID_FLAG1_POWER_SAVE_CONTROL_ENABLE;
-+				common->power_save_control &=
-+					~DS_OUTPUT_POWER_SAVE_CONTROL_MIC_MUTE;
-+			}
- 
--		if (ds->mic_muted) {
--			/* Disable microphone */
--			common->valid_flag1 |= DS_OUTPUT_VALID_FLAG1_POWER_SAVE_CONTROL_ENABLE;
--			common->power_save_control |= DS_OUTPUT_POWER_SAVE_CONTROL_MIC_MUTE;
--		} else {
--			/* Enable microphone */
--			common->valid_flag1 |= DS_OUTPUT_VALID_FLAG1_POWER_SAVE_CONTROL_ENABLE;
--			common->power_save_control &= ~DS_OUTPUT_POWER_SAVE_CONTROL_MIC_MUTE;
-+			ds->update_mic_mute = false;
- 		}
--
--		ds->update_mic_mute = false;
+diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+index 149798754570..7f11ba71783a 100644
+--- a/drivers/hid/hid-ids.h
++++ b/drivers/hid/hid-ids.h
+@@ -1414,6 +1414,7 @@
+ #define USB_DEVICE_ID_UGEE_XPPEN_TABLET_DECO_PRO_SW	0x0933
+ #define USB_DEVICE_ID_UGEE_XPPEN_TABLET_STAR06	0x0078
+ #define USB_DEVICE_ID_UGEE_XPPEN_TABLET_22R_PRO	0x091b
++#define USB_DEVICE_ID_UGEE_XPPEN_TABLET_24_PRO	0x092d
+ #define USB_DEVICE_ID_UGEE_TABLET_G5		0x0074
+ #define USB_DEVICE_ID_UGEE_TABLET_EX07S		0x0071
+ #define USB_DEVICE_ID_UGEE_TABLET_RAINBOW_CV720	0x0055
+diff --git a/drivers/hid/hid-uclogic-core.c b/drivers/hid/hid-uclogic-core.c
+index 34fb03ae8ee2..90ebb81041ea 100644
+--- a/drivers/hid/hid-uclogic-core.c
++++ b/drivers/hid/hid-uclogic-core.c
+@@ -362,6 +362,23 @@ static int uclogic_raw_event_pen(struct uclogic_drvdata *drvdata,
+ 		data[8] = pressure_low_byte;
+ 		data[9] = pressure_high_byte;
  	}
++	if (size == 12 && pen->fragmented_hires2) {
++		// 00 00 when on the left side, 01 00 in the right
++		// we move these to the end of the x coord (u16) to create a correct x coord (u32)
++		u8 lsb_low_byte = data[10];
++		u8 lsb_high_byte = data[11];
++
++		// shift everything right by 2 bytes, to make space for the moved lsb
++		data[11] = data[9];
++		data[10] = data[8];
++		data[9] = data[7];
++		data[8] = data[6];
++		data[7] = data[5];
++		data[6] = data[4];
++
++		data[4] = lsb_low_byte;
++		data[5] = lsb_high_byte;
++	}
+ 	/* If we need to emulate in-range detection */
+ 	if (pen->inrange == UCLOGIC_PARAMS_PEN_INRANGE_NONE) {
+ 		/* Set in-range bit */
+@@ -604,6 +621,8 @@ static const struct hid_device_id uclogic_devices[] = {
+ 				USB_DEVICE_ID_UGEE_XPPEN_TABLET_STAR06) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_UGEE,
+ 				USB_DEVICE_ID_UGEE_XPPEN_TABLET_22R_PRO) },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_UGEE,
++				USB_DEVICE_ID_UGEE_XPPEN_TABLET_24_PRO) },
+ 	{ }
+ };
+ MODULE_DEVICE_TABLE(hid, uclogic_devices);
+diff --git a/drivers/hid/hid-uclogic-params.c b/drivers/hid/hid-uclogic-params.c
+index 4a17f7332c3f..d49fe701f8e4 100644
+--- a/drivers/hid/hid-uclogic-params.c
++++ b/drivers/hid/hid-uclogic-params.c
+@@ -1123,6 +1123,9 @@ static int uclogic_params_parse_ugee_v2_desc(const __u8 *str_desc,
+ 		return -EINVAL;
  
--	spin_unlock_irqrestore(&ds->base.lock, flags);
--
- 	dualsense_send_output_report(ds, &report);
+ 	pen_x_lm = get_unaligned_le16(str_desc + 2);
++	if (str_desc_size > 12)
++		pen_x_lm += (u8)str_desc[12] << 16;
++
+ 	pen_y_lm = get_unaligned_le16(str_desc + 4);
+ 	frame_num_buttons = str_desc[6];
+ 	*frame_type = str_desc[7];
+@@ -1532,7 +1535,7 @@ static int uclogic_params_ugee_v2_init(struct uclogic_params *params,
  }
  
-@@ -2264,62 +2269,59 @@ static void dualshock4_output_worker(struct work_struct *work)
- 	struct dualshock4 *ds4 = container_of(work, struct dualshock4, output_worker);
- 	struct dualshock4_output_report report;
- 	struct dualshock4_output_report_common *common;
--	unsigned long flags;
+ /*
+- * uclogic_params_init_ugee_xppen_pro_22r() - Initializes a UGEE XP-Pen Pro 22R tablet device.
++ * uclogic_params_init_ugee_xppen_pro() - Initializes a UGEE XP-Pen Pro tablet device.
+  *
+  * @hdev:	The HID device of the tablet interface to initialize and get
+  *		parameters from. Cannot be NULL.
+@@ -1543,15 +1546,17 @@ static int uclogic_params_ugee_v2_init(struct uclogic_params *params,
+  * Returns:
+  *	Zero, if successful. A negative errno code on error.
+  */
+-static int uclogic_params_init_ugee_xppen_pro_22r(struct uclogic_params *params,
+-						  struct hid_device *hdev,
+-						  const u8 rdesc_frame_arr[],
+-						  const size_t rdesc_frame_size)
++static int uclogic_params_init_ugee_xppen_pro(struct uclogic_params *params,
++					     struct hid_device *hdev,
++					     const u8 rdesc_pen_arr[],
++					     const size_t rdesc_pen_size,
++					     const u8 rdesc_frame_arr[],
++					     const size_t rdesc_frame_size,
++					     size_t str_desc_len)
+ {
+ 	int rc = 0;
+ 	struct usb_interface *iface;
+ 	__u8 bInterfaceNumber;
+-	const int str_desc_len = 12;
+ 	u8 *str_desc = NULL;
+ 	__u8 *rdesc_pen = NULL;
+ 	s32 desc_params[UCLOGIC_RDESC_PH_ID_NUM];
+@@ -1614,8 +1619,8 @@ static int uclogic_params_init_ugee_xppen_pro_22r(struct uclogic_params *params,
  
- 	dualshock4_init_output_report(ds4, &report, ds4->output_report_dmabuf);
- 	common = report.common;
- 
--	spin_lock_irqsave(&ds4->base.lock, flags);
--
--	/*
--	 * Some 3rd party gamepads expect updates to rumble and lightbar
--	 * together, and setting one may cancel the other.
--	 *
--	 * Let's maximise compatibility by always sending rumble and lightbar
--	 * updates together, even when only one has been scheduled, resulting
--	 * in:
--	 *
--	 *   ds4->valid_flag0 >= 0x03
--	 *
--	 * Hopefully this will maximise compatibility with third-party pads.
--	 *
--	 * Any further update bits, such as 0x04 for lightbar blinking, will
--	 * be or'd on top of this like before.
--	 */
--	if (ds4->update_rumble || ds4->update_lightbar) {
--		ds4->update_rumble = true; /* 0x01 */
--		ds4->update_lightbar = true; /* 0x02 */
--	}
-+	scoped_guard(spinlock_irqsave, &ds4->base.lock) {
-+		/*
-+		 * Some 3rd party gamepads expect updates to rumble and lightbar
-+		 * together, and setting one may cancel the other.
-+		 *
-+		 * Let's maximise compatibility by always sending rumble and lightbar
-+		 * updates together, even when only one has been scheduled, resulting
-+		 * in:
-+		 *
-+		 *   ds4->valid_flag0 >= 0x03
-+		 *
-+		 * Hopefully this will maximise compatibility with third-party pads.
-+		 *
-+		 * Any further update bits, such as 0x04 for lightbar blinking, will
-+		 * be or'd on top of this like before.
-+		 */
-+		if (ds4->update_rumble || ds4->update_lightbar) {
-+			ds4->update_rumble = true; /* 0x01 */
-+			ds4->update_lightbar = true; /* 0x02 */
-+		}
- 
--	if (ds4->update_rumble) {
--		/* Select classic rumble style haptics and enable it. */
--		common->valid_flag0 |= DS4_OUTPUT_VALID_FLAG0_MOTOR;
--		common->motor_left = ds4->motor_left;
--		common->motor_right = ds4->motor_right;
--		ds4->update_rumble = false;
--	}
-+		if (ds4->update_rumble) {
-+			/* Select classic rumble style haptics and enable it. */
-+			common->valid_flag0 |= DS4_OUTPUT_VALID_FLAG0_MOTOR;
-+			common->motor_left = ds4->motor_left;
-+			common->motor_right = ds4->motor_right;
-+			ds4->update_rumble = false;
-+		}
- 
--	if (ds4->update_lightbar) {
--		common->valid_flag0 |= DS4_OUTPUT_VALID_FLAG0_LED;
--		/* Compatible behavior with hid-sony, which used a dummy global LED to
--		 * allow enabling/disabling the lightbar. The global LED maps to
--		 * lightbar_enabled.
--		 */
--		common->lightbar_red = ds4->lightbar_enabled ? ds4->lightbar_red : 0;
--		common->lightbar_green = ds4->lightbar_enabled ? ds4->lightbar_green : 0;
--		common->lightbar_blue = ds4->lightbar_enabled ? ds4->lightbar_blue : 0;
--		ds4->update_lightbar = false;
--	}
-+		if (ds4->update_lightbar) {
-+			common->valid_flag0 |= DS4_OUTPUT_VALID_FLAG0_LED;
-+			/* Compatible behavior with hid-sony, which used a dummy global LED to
-+			 * allow enabling/disabling the lightbar. The global LED maps to
-+			 * lightbar_enabled.
-+			 */
-+			common->lightbar_red = ds4->lightbar_enabled ? ds4->lightbar_red : 0;
-+			common->lightbar_green = ds4->lightbar_enabled ? ds4->lightbar_green : 0;
-+			common->lightbar_blue = ds4->lightbar_enabled ? ds4->lightbar_blue : 0;
-+			ds4->update_lightbar = false;
-+		}
- 
--	if (ds4->update_lightbar_blink) {
--		common->valid_flag0 |= DS4_OUTPUT_VALID_FLAG0_LED_BLINK;
--		common->lightbar_blink_on = ds4->lightbar_blink_on;
--		common->lightbar_blink_off = ds4->lightbar_blink_off;
--		ds4->update_lightbar_blink = false;
-+		if (ds4->update_lightbar_blink) {
-+			common->valid_flag0 |= DS4_OUTPUT_VALID_FLAG0_LED_BLINK;
-+			common->lightbar_blink_on = ds4->lightbar_blink_on;
-+			common->lightbar_blink_off = ds4->lightbar_blink_off;
-+			ds4->update_lightbar_blink = false;
-+		}
+ 	/* Initialize the pen interface */
+ 	rdesc_pen = uclogic_rdesc_template_apply(
+-				uclogic_rdesc_ugee_v2_pen_template_arr,
+-				uclogic_rdesc_ugee_v2_pen_template_size,
++				rdesc_pen_arr,
++				rdesc_pen_size,
+ 				desc_params, ARRAY_SIZE(desc_params));
+ 	if (!rdesc_pen) {
+ 		rc = -ENOMEM;
+@@ -1623,7 +1628,7 @@ static int uclogic_params_init_ugee_xppen_pro_22r(struct uclogic_params *params,
  	}
  
--	spin_unlock_irqrestore(&ds4->base.lock, flags);
--
- 	/* Bluetooth packets need additional flags as well as a CRC in the last 4 bytes. */
- 	if (report.bt) {
- 		u32 crc;
-
+ 	p.pen.desc_ptr = rdesc_pen;
+-	p.pen.desc_size = uclogic_rdesc_ugee_v2_pen_template_size;
++	p.pen.desc_size = rdesc_pen_size;
+ 	p.pen.id = 0x02;
+ 	p.pen.subreport_list[0].value = 0xf0;
+ 	p.pen.subreport_list[0].id = UCLOGIC_RDESC_V1_FRAME_ID;
+@@ -1970,10 +1975,30 @@ int uclogic_params_init(struct uclogic_params *params,
+ 		break;
+ 	case VID_PID(USB_VENDOR_ID_UGEE,
+ 			USB_DEVICE_ID_UGEE_XPPEN_TABLET_22R_PRO):
+-		rc = uclogic_params_init_ugee_xppen_pro_22r(&p,
++		rc = uclogic_params_init_ugee_xppen_pro(&p,
+ 			hdev,
++			uclogic_rdesc_ugee_v2_pen_template_arr,
++			uclogic_rdesc_ugee_v2_pen_template_size,
+ 			uclogic_rdesc_xppen_artist_22r_pro_frame_arr,
+-			uclogic_rdesc_xppen_artist_22r_pro_frame_size);
++			uclogic_rdesc_xppen_artist_22r_pro_frame_size,
++			12);
++		if (rc != 0)
++			goto cleanup;
++
++		break;
++	case VID_PID(USB_VENDOR_ID_UGEE,
++			USB_DEVICE_ID_UGEE_XPPEN_TABLET_24_PRO):
++		rc = uclogic_params_init_ugee_xppen_pro(&p,
++			hdev,
++			uclogic_rdesc_xppen_artist_24_pro_pen_template_arr,
++			uclogic_rdesc_xppen_artist_24_pro_pen_template_size,
++			uclogic_rdesc_xppen_artist_24_pro_frame_arr,
++			uclogic_rdesc_xppen_artist_24_pro_frame_size,
++			14);
++
++		// The 24 Pro has a fragmented X Coord.
++		p.pen.fragmented_hires2 = true;
++
+ 		if (rc != 0)
+ 			goto cleanup;
+ 
+diff --git a/drivers/hid/hid-uclogic-params.h b/drivers/hid/hid-uclogic-params.h
+index 6ec8643d2ee5..c84ff17fb5d5 100644
+--- a/drivers/hid/hid-uclogic-params.h
++++ b/drivers/hid/hid-uclogic-params.h
+@@ -103,6 +103,11 @@ struct uclogic_params_pen {
+ 	 * Only valid if "id" is not zero.
+ 	 */
+ 	bool tilt_y_flipped;
++	/*
++	 * True, if reports include fragmented high resolution X coords.
++	 * This moves bytes 10-11 to the LSB of the X coordinate.
++	 */
++	bool fragmented_hires2;
+ };
+ 
+ /*
+diff --git a/drivers/hid/hid-uclogic-rdesc.c b/drivers/hid/hid-uclogic-rdesc.c
+index 08a89c6aae3b..a1b31511b625 100644
+--- a/drivers/hid/hid-uclogic-rdesc.c
++++ b/drivers/hid/hid-uclogic-rdesc.c
+@@ -1237,6 +1237,131 @@ const __u8 uclogic_rdesc_xppen_artist_22r_pro_frame_arr[] = {
+ const size_t uclogic_rdesc_xppen_artist_22r_pro_frame_size =
+ 				sizeof(uclogic_rdesc_xppen_artist_22r_pro_frame_arr);
+ 
++/* Fixed report descriptor template for XP-PEN 24 Pro reports
++ * Mostly identical to uclogic_rdesc_ugee_v2_pen_template_arr except that the X coordinate has to be
++ * 32-bits instead of 16-bits.
++ */
++const __u8 uclogic_rdesc_xppen_artist_24_pro_pen_template_arr[] = {
++	0x05, 0x0d,         /*  Usage Page (Digitizers),                */
++	0x09, 0x01,         /*  Usage (Digitizer),                      */
++	0xa1, 0x01,         /*  Collection (Application),               */
++	0x85, 0x02,         /*      Report ID (2),                      */
++	0x09, 0x20,         /*      Usage (Stylus),                     */
++	0xa1, 0x00,         /*      Collection (Physical),              */
++	0x09, 0x42,         /*          Usage (Tip Switch),             */
++	0x09, 0x44,         /*          Usage (Barrel Switch),          */
++	0x09, 0x46,         /*          Usage (Tablet Pick),            */
++	0x75, 0x01,         /*          Report Size (1),                */
++	0x95, 0x03,         /*          Report Count (3),               */
++	0x14,               /*          Logical Minimum (0),            */
++	0x25, 0x01,         /*          Logical Maximum (1),            */
++	0x81, 0x02,         /*          Input (Variable),               */
++	0x95, 0x02,         /*          Report Count (2),               */
++	0x81, 0x03,         /*          Input (Constant, Variable),     */
++	0x09, 0x32,         /*          Usage (In Range),               */
++	0x95, 0x01,         /*          Report Count (1),               */
++	0x81, 0x02,         /*          Input (Variable),               */
++	0x95, 0x02,         /*          Report Count (2),               */
++	0x81, 0x03,         /*          Input (Constant, Variable),     */
++	0x75, 0x10,         /*          Report Size (16),               */
++	0x95, 0x01,         /*          Report Count (1),               */
++	0x35, 0x00,         /*          Physical Minimum (0),           */
++	0xa4,               /*          Push,                           */
++	0x05, 0x01,         /*          Usage Page (Desktop),           */
++	0x09, 0x30,         /*          Usage (X),                      */
++	0x65, 0x13,         /*          Unit (Inch),                    */
++	0x55, 0x0d,         /*          Unit Exponent (-3),             */
++	0x27, UCLOGIC_RDESC_PEN_PH(X_LM),
++			    /*          Logical Maximum (PLACEHOLDER),  */
++	0x47, UCLOGIC_RDESC_PEN_PH(X_PM),
++			    /*          Physical Maximum (PLACEHOLDER), */
++	0x75, 0x20,         /*          Report Size (32),               */
++	0x81, 0x02,         /*          Input (Variable),               */
++	0x75, 0x10,         /*          Report Size (16),               */
++	0x09, 0x31,         /*          Usage (Y),                      */
++	0x27, UCLOGIC_RDESC_PEN_PH(Y_LM),
++			    /*          Logical Maximum (PLACEHOLDER),  */
++	0x47, UCLOGIC_RDESC_PEN_PH(Y_PM),
++			    /*          Physical Maximum (PLACEHOLDER), */
++	0x81, 0x02,         /*          Input (Variable),               */
++	0xb4,               /*          Pop,                            */
++	0x09, 0x30,         /*          Usage (Tip Pressure),           */
++	0x45, 0x00,         /*          Physical Maximum (0),           */
++	0x27, UCLOGIC_RDESC_PEN_PH(PRESSURE_LM),
++			    /*          Logical Maximum (PLACEHOLDER),  */
++	0x75, 0x0D,         /*          Report Size (13),               */
++	0x95, 0x01,         /*          Report Count (1),               */
++	0x81, 0x02,         /*          Input (Variable),               */
++	0x75, 0x01,         /*          Report Size (1),                */
++	0x95, 0x03,         /*          Report Count (3),               */
++	0x81, 0x01,         /*          Input (Constant),               */
++	0x09, 0x3d,         /*          Usage (X Tilt),                 */
++	0x35, 0xC3,         /*          Physical Minimum (-61),         */
++	0x45, 0x3C,         /*          Physical Maximum (60),          */
++	0x15, 0xC3,         /*          Logical Minimum (-61),          */
++	0x25, 0x3C,         /*          Logical Maximum (60),           */
++	0x75, 0x08,         /*          Report Size (8),                */
++	0x95, 0x01,         /*          Report Count (1),               */
++	0x81, 0x02,         /*          Input (Variable),               */
++	0x09, 0x3e,         /*          Usage (Y Tilt),                 */
++	0x35, 0xC3,         /*          Physical Minimum (-61),         */
++	0x45, 0x3C,         /*          Physical Maximum (60),          */
++	0x15, 0xC3,         /*          Logical Minimum (-61),          */
++	0x25, 0x3C,         /*          Logical Maximum (60),           */
++	0x81, 0x02,         /*          Input (Variable),               */
++	0xc0,               /*      End Collection,                     */
++	0xc0,               /*  End Collection                          */
++};
++const size_t uclogic_rdesc_xppen_artist_24_pro_pen_template_size =
++			sizeof(uclogic_rdesc_xppen_artist_24_pro_pen_template_arr);
++
++/* Fixed report descriptor for XP-Pen Arist 24 Pro frame */
++const __u8 uclogic_rdesc_xppen_artist_24_pro_frame_arr[] = {
++	0x05, 0x01,         /*  Usage Page (Desktop),                       */
++	0x09, 0x07,         /*  Usage (Keypad),                             */
++	0xA1, 0x01,         /*  Collection (Application),                   */
++	0x85, UCLOGIC_RDESC_V1_FRAME_ID,
++	/*      Report ID (Virtual report),             */
++	0x05, 0x0D,         /*     Usage Page (Digitizer),                  */
++	0x09, 0x39,         /*      Usage (Tablet Function Keys),           */
++	0xA0,               /*      Collection (Physical),                  */
++	0x14,               /*          Logical Minimum (0),                */
++	0x25, 0x01,         /*          Logical Maximum (1),                */
++	0x75, 0x01,         /*          Report Size (1),                    */
++	0x95, 0x08,         /*          Report Count (8),                   */
++	0x81, 0x01,         /*          Input (Constant),                   */
++	0x05, 0x09,         /*          Usage Page (Button),                */
++	0x19, 0x01,         /*          Usage Minimum (01h),                */
++	0x29, 0x14,         /*          Usage Maximum (14h),                */
++	0x95, 0x14,         /*          Report Count (20),                  */
++	0x81, 0x02,         /*          Input (Variable),                   */
++	0x95, 0x14,         /*          Report Count (20),                  */
++	0x81, 0x01,         /*          Input (Constant),                   */
++	0x05, 0x01,         /*          Usage Page (Desktop),               */
++	0x09, 0x38,         /*          Usage (Wheel),                      */
++	0x75, 0x08,         /*          Report Size (8),                    */
++	0x95, 0x01,         /*          Report Count (1),                   */
++	0x15, 0xFF,         /*          Logical Minimum (-1),               */
++	0x25, 0x08,         /*          Logical Maximum (8),                */
++	0x81, 0x06,         /*          Input (Variable, Relative),         */
++	0x05, 0x0C,         /*          Usage Page (Consumer Devices),      */
++	0x0A, 0x38, 0x02,   /*          Usage (AC PAN),                     */
++	0x95, 0x01,         /*          Report Count (1),                   */
++	0x81, 0x06,         /*          Input (Variable, Relative),         */
++	0x26, 0xFF, 0x00,   /*          Logical Maximum (255),              */
++	0x75, 0x08,         /*          Report Size (8),                    */
++	0x95, 0x01,         /*          Report Count (1),                   */
++	0x81, 0x02,         /*          Input (Variable),                   */
++	0x75, 0x01,         /*          Report Size (1),                    */
++	0x95, 16,           /*          Report Count (16),                  */
++	0x81, 0x01,         /*          Input (Constant),                   */
++	0xC0,               /*      End Collection                          */
++	0xC0,               /*  End Collection                              */
++};
++
++const size_t uclogic_rdesc_xppen_artist_24_pro_frame_size =
++				sizeof(uclogic_rdesc_xppen_artist_24_pro_frame_arr);
++
+ /**
+  * uclogic_rdesc_template_apply() - apply report descriptor parameters to a
+  * report descriptor template, creating a report descriptor. Copies the
+diff --git a/drivers/hid/hid-uclogic-rdesc.h b/drivers/hid/hid-uclogic-rdesc.h
+index 644a35ff12f2..0619daa6849d 100644
+--- a/drivers/hid/hid-uclogic-rdesc.h
++++ b/drivers/hid/hid-uclogic-rdesc.h
+@@ -214,4 +214,12 @@ extern const size_t uclogic_rdesc_ugee_g5_frame_size;
+ extern const __u8 uclogic_rdesc_xppen_artist_22r_pro_frame_arr[];
+ extern const size_t uclogic_rdesc_xppen_artist_22r_pro_frame_size;
+ 
++/* Fixed report descriptor for XP-Pen Arist 24 Pro frame */
++extern const __u8 uclogic_rdesc_xppen_artist_24_pro_pen_template_arr[];
++extern const size_t uclogic_rdesc_xppen_artist_24_pro_pen_template_size;
++
++/* Fixed report descriptor for XP-Pen Arist 24 Pro frame */
++extern const __u8 uclogic_rdesc_xppen_artist_24_pro_frame_arr[];
++extern const size_t uclogic_rdesc_xppen_artist_24_pro_frame_size;
++
+ #endif /* _HID_UCLOGIC_RDESC_H */
 -- 
 2.51.0
 
