@@ -1,84 +1,110 @@
-Return-Path: <linux-input+bounces-14986-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-14987-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C24EB9273F
-	for <lists+linux-input@lfdr.de>; Mon, 22 Sep 2025 19:35:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 489CCB9299F
+	for <lists+linux-input@lfdr.de>; Mon, 22 Sep 2025 20:33:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1F7951903203
-	for <lists+linux-input@lfdr.de>; Mon, 22 Sep 2025 17:36:00 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4C46F1904CBA
+	for <lists+linux-input@lfdr.de>; Mon, 22 Sep 2025 18:33:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7888E315786;
-	Mon, 22 Sep 2025 17:35:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 070972E1C5C;
+	Mon, 22 Sep 2025 18:33:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Cvxuy2Od"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=oscillator.se header.i=@oscillator.se header.b="emwnlFtY"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from sv9.manufrog.com (sv9.manufrog.com [46.246.119.84])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47578310779;
-	Mon, 22 Sep 2025 17:35:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5A24548EE;
+	Mon, 22 Sep 2025 18:33:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.246.119.84
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758562533; cv=none; b=Gd8eYA6jUiKdDQLIs369+a4YtUl68EyHSLMnjvqZ3iBkPv0fXsmBxY1zVv0OLZ1OSQcK8OsHfmSatExmTVZuaTEj/KD1CjmjnyvQ+l39uctNFDgf/8O8sY0aivrdYR6eltHGewrVRbHvFpeC4DpG3uU+tmz+wiNKrwDxfyow/98=
+	t=1758565997; cv=none; b=sktD6Blj+7g4h5T1xpPYUv5vslRt/NeFcBO+/31l6sVSBbubzOS4DOxdQCR9fsPBtuqCDR7uUPUBpfOEiEaSigjUCeIu+5JGqF8rMvNkzd4k+xvBmASYccN4eCKesUmn2qxPv3dxCtzbejqy2SrPpyll6SiqdboDOoTx5OBSmU4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758562533; c=relaxed/simple;
-	bh=SjLMRdgFLtjEhMZhVwZ+8di8xB9TzPTbN6TSdIpLCTk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=m8yXZWVXQnKiyZMZ9gPrSWXXxC+tdphN6/ziNHFImvN9DLqaUeKaFDWuWlgoB3hmVOMRhxTR4MTFARxzc6wBT1wsJrrKKlUTlYOvs07WZ6ZA+ZACJSUaMpYeMNGXXgu76zyo7BwC1y9TnCcJE6VqxB+d21VVYukWNqq6wIXgkgI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Cvxuy2Od; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95E1AC4CEF0;
-	Mon, 22 Sep 2025 17:35:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758562532;
-	bh=SjLMRdgFLtjEhMZhVwZ+8di8xB9TzPTbN6TSdIpLCTk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Cvxuy2Odkf2OfzoH9IYRfasU6uRmJPYkGcgSs3m4jB1USAVSQ/rAUiV0oI2CCA9Uq
-	 oi0lYVhfEobvVfedpOX0y/8wFWXrjdNvyNvrbQW4/M9XzNJCvqTecFnCXn4jO+joZQ
-	 nYCm8vjGGqWv64zMooed457CfOuRew8yqgPvjjvCraCOpYMq3+k6B2Jpno1qQctqoJ
-	 dD0eojmtR37FhLQxPXpS2GYophr43FHe5OMfiQotjJ40mDuSupLfH48iSlPNbXuECa
-	 gcbqK4srue3RDwlG/hX0IX0LmCeqBblyTTLYY4pOdR2YWrB0c1RrlxOXmISlsfIHue
-	 5p2X4ytw6fy1w==
-Date: Mon, 22 Sep 2025 12:35:31 -0500
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Jens Reidel <adrian@mainlining.org>
-Cc: Hans de Goede <hansg@kernel.org>, Henrik Rydberg <rydberg@bitmath.org>,
-	devicetree@vger.kernel.org,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	phone-devel@vger.kernel.org,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-	~postmarketos/upstreaming@lists.sr.ht, linux@mainlining.org,
-	Conor Dooley <conor+dt@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Subject: Re: [PATCH RFC 1/3] dt-bindings: input: document Goodix GTX8
- Touchscreen ICs
-Message-ID: <175856252870.514028.9418085581607326906.robh@kernel.org>
-References: <20250918-gtx8-v1-0-cba879c84775@mainlining.org>
- <20250918-gtx8-v1-1-cba879c84775@mainlining.org>
+	s=arc-20240116; t=1758565997; c=relaxed/simple;
+	bh=XdGBiNg8TBwn4eBBkY16k9IX+wOVuGrJsvgd296IEp8=;
+	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
+	 Message-ID:Content-Type; b=dXm1YsLUgHopWzt7nSpAgHU3xZXSwk2em2TD0u1nwuSnqIKUAK3Hl9kFCKsIhvvVSKbMpipmz7CcpMHpKYCegWzC2zTSwPkPhYbonheuWgWq0r2aOd2hXjKDR6UUobgOpM6PuORVf7JOKlDWBBbU2cZ24626SdeOiA+HZEE827Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=oscillator.se; spf=pass smtp.mailfrom=oscillator.se; dkim=pass (2048-bit key) header.d=oscillator.se header.i=@oscillator.se header.b=emwnlFtY; arc=none smtp.client-ip=46.246.119.84
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=oscillator.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oscillator.se
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=oscillator.se; s=default; h=Content-Transfer-Encoding:Content-Type:
+	Message-ID:References:In-Reply-To:Subject:Cc:To:From:Date:MIME-Version:Sender
+	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=mnzsiREZ105BZTytHd/QqUUYjLw2IRFwIKQqvFV4GsA=; b=emwnlFtYuRakkFf38X7qRmohb4
+	ODirxNiPJiYboox4HRMekGJqUZaDEHeZOoBQLemRvcwGQMfkfBj11I2vL+w1MFJU+/ooVWtkggFqp
+	MjTM6qQYonEU52HlaYKJ2FyDzHvNa+kZuyCrxtLqZbm9dj2kvUGv5LMsFASqV/w4Ot/f+VWSIgsvX
+	gixowmT8Iwm0IIzeRSEC0faIWItvRb8ABZ9cL5u44RUie7RI5Ik77zguScr6NY0H81O+j/5V2OEVt
+	RTrA1U27JWVyBkwQQqmdTrBYSprDojMQPRJ9Q3caD3r9kduB9iefn45WF7gLST2TShgp3y4+aJYX6
+	+8kHE8qw==;
+Received: from [::1] (port=50132 helo=sv9.manufrog.com)
+	by sv9.manufrog.com with esmtpa (Exim 4.98.2)
+	(envelope-from <staffan.melin@oscillator.se>)
+	id 1v0lLU-0000000ABge-0Yjq;
+	Mon, 22 Sep 2025 20:33:03 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250918-gtx8-v1-1-cba879c84775@mainlining.org>
+Date: Mon, 22 Sep 2025 20:33:00 +0200
+From: Staffan Melin <staffan.melin@oscillator.se>
+To: zhangheng <zhangheng@kylinos.cn>
+Cc: Terry Junge <linuxhid@cosmicgizmosystems.com>, Salvatore Bonaccorso
+ <carnil@debian.org>, Jiri Kosina <jkosina@suse.com>, Benjamin Tissoires
+ <bentiss@kernel.org>, linux-input@vger.kernel.org,
+ linux-kernel@vger.kernel.org, regressions@lists.linux.dev,
+ stable@vger.kernel.org, 1114557@bugs.debian.org
+Subject: Re: [regression] 1a8953f4f774 ("HID: Add IGNORE quirk for
+ SMARTLINKTECHNOLOGY") causes issue with ID 4c4a:4155 Jieli Technology USB
+ Composite Device
+In-Reply-To: <01ce8d55-6054-4efa-bed5-ce4c6c6bc0e6@kylinos.cn>
+References: <aL2gYJaXoB6p_oyM@eldamar.lan>
+ <c8f3d402-e0ec-4767-b925-d7764aec3d93@kylinos.cn>
+ <e81e8d68cb33c7de7b0e353791e21e53@oscillator.se>
+ <aMUxHZF-7p7--1qS@eldamar.lan> <aMUxg6FLqDetwiGu@eldamar.lan>
+ <f08669ec112d6ab2f62e35c0c96d1f06@oscillator.se>
+ <94520aac-2a68-40d2-b188-80f9e361d6de@kylinos.cn>
+ <735c20da-c052-4528-ad91-185a835ca40c@cosmicgizmosystems.com>
+ <54b4b55c-ef29-40ae-a576-0c0b35ea9625@kylinos.cn>
+ <3c299b65351c489fea95ec8b93518b6b@oscillator.se>
+ <01ce8d55-6054-4efa-bed5-ce4c6c6bc0e6@kylinos.cn>
+User-Agent: Roundcube Webmail/1.6.11
+Message-ID: <11f1363dcdec98f4275e4df3145e4f24@oscillator.se>
+X-Sender: staffan.melin@oscillator.se
+Organization: Oscillator
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - sv9.manufrog.com
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - oscillator.se
+X-Get-Message-Sender-Via: sv9.manufrog.com: authenticated_id: staffan.melin@oscillator.se
+X-Authenticated-Sender: sv9.manufrog.com: staffan.melin@oscillator.se
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 
+Thank you,
 
-On Thu, 18 Sep 2025 16:02:48 +0200, Jens Reidel wrote:
-> Document the Goodix GT9886 and GT9896 which are part of the GTX8 series
-> of Touchscreen controller ICs from Goodix.
-> 
-> Signed-off-by: Jens Reidel <adrian@mainlining.org>
-> ---
->  .../bindings/input/touchscreen/goodix,gt9886.yaml  | 71 ++++++++++++++++++++++
->  1 file changed, 71 insertions(+)
-> 
+I can confirm that this patch fixes the touchscreen issue on my GPD DUO.
 
-Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+Tested-by: staffan.melin@oscillator.se
 
+Thank you for your work!
+
+Staffan
+
+On 2025-09-22 11:21, zhangheng wrote:
+> Please help test this patch, I will push it to the kernel community. 
+> Currently, the microphone device is functioning normally
 
