@@ -1,146 +1,93 @@
-Return-Path: <linux-input+bounces-15000-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-15001-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48D4FB942A8
-	for <lists+linux-input@lfdr.de>; Tue, 23 Sep 2025 06:03:15 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 49DB4B95B79
+	for <lists+linux-input@lfdr.de>; Tue, 23 Sep 2025 13:44:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id BCB337B1515
-	for <lists+linux-input@lfdr.de>; Tue, 23 Sep 2025 04:01:33 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0B394160DFB
+	for <lists+linux-input@lfdr.de>; Tue, 23 Sep 2025 11:44:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 12BFE22A1C5;
-	Tue, 23 Sep 2025 04:03:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ltm/nIBi"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6CDEF32126D;
+	Tue, 23 Sep 2025 11:44:05 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+Received: from mail-il1-f200.google.com (mail-il1-f200.google.com [209.85.166.200])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E26D78F43
-	for <linux-input@vger.kernel.org>; Tue, 23 Sep 2025 04:03:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9829212D7C
+	for <linux-input@vger.kernel.org>; Tue, 23 Sep 2025 11:44:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.200
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758600188; cv=none; b=LB+RYt9nMC4Cs7acGskWC3UoVibKvV58JEWXV6DKHY0Ei9SW3i0VXjG+2ab26+5D2KjyNtHAmrIqVAlJLZQR8WVtn1+MmuEGWklGluHhz16hg+uQL4ygrMLn9HHGviP8CKTnouwUu6m8hIZCfPYJtoMd7STV4juW0mdv3BQYG7M=
+	t=1758627845; cv=none; b=M4e4rygf2KYSoQD3+90q2CDNfnjJWB0DD7jL9DRokikoAJdyiOUObZbmfTmIizYBIYiEUn1KXYW1UfEa7wa3s9TcSUlKcsW40HdiuwE48/5ix1INarUWf72Zv0H+XNrBwYTAWFONXBprA4O5SZnvZLscHtwWyHa3ZyuYIshMWug=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758600188; c=relaxed/simple;
-	bh=CjypHTonfU2PuKnjzfba4IZNkvtM3Pi4QkFQXRJ9I6U=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Nd/7SHgKauP4HDe83jWuqqKSCC6O1zN55N3mtm/WN09SBpixpn6vSeJhIYqFpBQnQ9k1iU6OQRAwmfoR5qMc9nCV1HZqOHhHCdfiZhuhPO/wHSEW+ry9UpNkO36wwlsmlYJr3Cta53S2EmojwTLls+CfQn4CtZ5YeBXMlr7dFtQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ltm/nIBi; arc=none smtp.client-ip=209.85.214.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-279e2554c8fso16809345ad.2
-        for <linux-input@vger.kernel.org>; Mon, 22 Sep 2025 21:03:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758600186; x=1759204986; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=K9+aPj+lnXE4gCiejoLjoYIeVsmkQRlhBmkDWv3AzlU=;
-        b=ltm/nIBiOhTX+jSQbMp4nsatxbVrfwdH1v1KVdAfE0n1W62NC2s2Hp4NS1g9jvroft
-         TafNonWTX2kG/zYEQrB+OI8a1K0eTrGZYXQzg9AlmPVuTQR4dAsZRVO+o/ifdRxFx1KP
-         ihecXKpkkArDrcAZrk2o6BWfNNsTtpH2Vd2MV33hg1pbLDeogTDDbi/G3VNZKWQQ/wFw
-         Jyxg4JeQtggrOMuaQKYqQEL8G6c9KX5pv1pzrleA2KsHXYqI81djg0UtnJJdT84qwO5w
-         /qHiu+tN7F4JDNfrPw5Y+RSbDt+e41I9Fp9ey8H/z+iv7Wol6+SNO2DW5G83wFiwFbfJ
-         7VdA==
+	s=arc-20240116; t=1758627845; c=relaxed/simple;
+	bh=MjgUiv1hiBVmGYAWbKukWHwYzxXC3U5WUKEUQFe8mHw=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
+	 Content-Type; b=Lb1VGSOsolRLamNV+Oo12eSfPNvQB3DRTkLm2iBTYO8qnWcYPF8wEh7ji9EXBogaFU9jTOeb4lWfUorD5SxkIraLJmEMjhnDdRVi3ecoF8Iio6ZBymYNMGNGpgpMjzQ+lLeDyy6zERNbDxfS8hU9WfBXIxvo0snHX7jU2/vRtGE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.200
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-il1-f200.google.com with SMTP id e9e14a558f8ab-42574804553so66628805ab.0
+        for <linux-input@vger.kernel.org>; Tue, 23 Sep 2025 04:44:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758600186; x=1759204986;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=K9+aPj+lnXE4gCiejoLjoYIeVsmkQRlhBmkDWv3AzlU=;
-        b=PV+LMIiJ2aeFQeTbgT3uPzeyqLIDQCjk+EFz9/QOcqo3bcz+nnpFlAx1tTiLYahK8Y
-         d4qrOHLGylpogJLGmZTXslejVUFq6Y3SiEYkRnAHirhUtPThIRXlBuMW4D1sbp/++R4o
-         3ZwuanPmAt11Oh+U+xlamA5Aq6S/Dw6mhneju61FrzbTY/76E0CHBd9l7SxS0K43xCmF
-         9dU2HXj9nTKCuEJSoNVgXChU/J0nakC6gfJhlnSQhYGr6/GHJ8FOMR/XYxHkK1X2QmZE
-         U2vhX8imOSbPXIYs6wD9spry7u7IbaFszmS8e/vHuToi0E7ybY9sVG9MSlkwZiCGA5n2
-         wN1w==
-X-Forwarded-Encrypted: i=1; AJvYcCVZLciyXjZUcFxkXdFoDuBtb/ueU/fLXRUXbxxcJeqqY0eqqsdTkqoeLTHAoaFCN00i4Yqej2/okX0KGg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzokbJHWU26/z9O2/spJyl0agRH0+PjXkZay7uQutijOzLDb89y
-	a/iUPXpeK6hJopo2wBPkbkF0xOLzdMLb0VMz31vudoHNRfcbi/6qWrLY
-X-Gm-Gg: ASbGncsjM09wv8X/K5g9h+W13jVgUSTB6f6TvgTvRoD+hOEf881c7kfhGDwLneyzsoO
-	B7ZqiQw4RtYTdMpITJXpkkQNgqvVvzfRVVZaf1N0Q/0X3eAAtF7824OXpRtBwnDH+rbd/QSgTB1
-	j3SSwJ9Pmvlq374c04jt13762Xf6eKPnCb7rma6U/Oxy6FVgQnpJ1F3QpVxjLeKwve3rjkKcTUd
-	wa8Ym+wAPAX3HBUwHU2CfkfbXWaxzTsdFZQ0HtrX2CcPA16Xa3q0wGvc4NPB+N007/6+p3RKipo
-	ir6Y94bQBxqkVcEEkBNsmOOzTr/xcDFdsdbE2MbMaSZ2z51bFngBCPHD153c6MWawWfgzANW3BC
-	wZ1DM8k3MTYUKIW0yzRNSY0Y/MjE03epXEA==
-X-Google-Smtp-Source: AGHT+IEixYpSxdSU4oB1lU9rbuUjobE4QlV/b4m6Br+aZmOnIABcgsaB2MYHx2Hinnp9uAOkJ10dAA==
-X-Received: by 2002:a17:902:db03:b0:266:ddd:772f with SMTP id d9443c01a7336-27cc28bef39mr14459835ad.9.1758600185700;
-        Mon, 22 Sep 2025 21:03:05 -0700 (PDT)
-Received: from embed-PC.. ([2401:4900:4e22:682f:9daa:270e:a331:7be2])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-32ed273e8fasm17765485a91.18.2025.09.22.21.02.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Sep 2025 21:03:05 -0700 (PDT)
-From: Abhishek Tamboli <abhishektamboli9@gmail.com>
-To: even.xu@intel.com,
-	xinpeng.sun@intel.com,
-	jikos@kernel.org,
-	bentiss@kernel.org
-Cc: mpearson-lenovo@squebb.ca,
-	srinivas.pandruvada@linux.intel.com,
-	linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] HID: intel-thc-hid: intel-quickspi: Add ARL PCI Device Id's
-Date: Tue, 23 Sep 2025 09:32:54 +0530
-Message-Id: <20250923040254.7547-1-abhishektamboli9@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        d=1e100.net; s=20230601; t=1758627843; x=1759232643;
+        h=to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=WQVvBj5uZq6uuQ1nu4UWRVsR/gDk+9EG2enfLEYGBRo=;
+        b=TUF5zKzuhg5F11Pl0xjIBZznc7n4bwG3PQczUaU76pESW+8a1pLV27Cg/Oqb7E0ht8
+         M94mBYx6wwoe6rjGoZOUyIa8iebHrYSdtjgRn2rlUxG6buKc2XIeK1IkpHlMHeqdRRC9
+         /8bsd8eGTlzvjpSy9CyC4eyaEjC7JlCF6RZouAkNk4OBODBBbTOLyZ8NmZzlcg06N0Nh
+         GyLDuAaod6vR8oLGZHvgS7nYPQs5Yqg1PjQ0g+N/mBGnHDjvbkI8G75SedAsJHoaSKCD
+         d4JqD7IOAsrQSBT16lbFzGJDijm8fofMnmF1iMPjkEf3eeAF7HaoiyIVu6mmHs15nhP1
+         Zjrw==
+X-Forwarded-Encrypted: i=1; AJvYcCXL7inIYJDVhaD7XX52QBaBwLd2OXT5nzX1W0n0xD2DRMIRZ7H9RCjjY2MXTcAaFZU8Ou3f1YmMW82LSQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxpjVV8twBuzFKqQ3U29/rvOqk/e99s+q9XqBvUk4C8eYY8Pfyg
+	6C8k1TUrX9SUUY1qDBjNFT87IpHdakHOu0bWKJ9CJI5+T8FuKm5/tQuyR3wHs+h4I36Dk4/bXAE
+	71on1D8OLvt2eDQToZW2Sspr8GB2UxzcUiycNxPltjVSMQ7IsRAgrSTUqY+4=
+X-Google-Smtp-Source: AGHT+IFvOJRcG5WosHB0HMKe1uFAe6PQYbdY3i4QCDRSAtKAc7Sh8RXeNxUbnOUCvmi0umdlPKZnG7LEi2yQoCd/aYVeiM8/3Lnq
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Received: by 2002:a05:6e02:1c23:b0:424:7d35:bce8 with SMTP id
+ e9e14a558f8ab-42581eae244mr39857525ab.25.1758627843063; Tue, 23 Sep 2025
+ 04:44:03 -0700 (PDT)
+Date: Tue, 23 Sep 2025 04:44:03 -0700
+In-Reply-To: <67d30ef2.050a0220.14e108.003a.GAE@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <68d28803.a70a0220.4f78.0006.GAE@google.com>
+Subject: Re: [syzbot] [usb?] [input?] WARNING in hanwang_open/usb_submit_urb
+From: syzbot <syzbot+9fe8f6caeb5661802ca2@syzkaller.appspotmail.com>
+To: dmitry.torokhov@gmail.com, gregkh@linuxfoundation.org, 
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-usb@vger.kernel.org, oneukum@suse.com, stern@rowland.harvard.edu, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-Add the missing PCI ID for the quickspi device used on
-the Lenovo Yoga Pro 9i 16IAH10.
+syzbot suspects this issue was fixed by commit:
 
-Buglink: https://bugzilla.kernel.org/show_bug.cgi?id=220567
+commit 503bbde34cc3dd2acd231f277ba70c3f9ed22e59
+Author: Oliver Neukum <oneukum@suse.com>
+Date:   Thu Jun 12 12:20:25 2025 +0000
 
-Signed-off-by: Abhishek Tamboli <abhishektamboli9@gmail.com>
----
- drivers/hid/intel-thc-hid/intel-quickspi/pci-quickspi.c | 6 ++++++
- drivers/hid/intel-thc-hid/intel-quickspi/quickspi-dev.h | 2 ++
- 2 files changed, 8 insertions(+)
+    usb: core: usb_submit_urb: downgrade type check
 
-diff --git a/drivers/hid/intel-thc-hid/intel-quickspi/pci-quickspi.c b/drivers/hid/intel-thc-hid/intel-quickspi/pci-quickspi.c
-index 84314989dc53..49c8458f0118 100644
---- a/drivers/hid/intel-thc-hid/intel-quickspi/pci-quickspi.c
-+++ b/drivers/hid/intel-thc-hid/intel-quickspi/pci-quickspi.c
-@@ -33,6 +33,10 @@ struct quickspi_driver_data ptl = {
- 	.max_packet_size_value = MAX_PACKET_SIZE_VALUE_LNL,
- };
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=1066627c580000
+start commit:   038d61fd6422 Linux 6.16
+git tree:       upstream
+kernel config:  https://syzkaller.appspot.com/x/.config?x=515ec0b49771bcd1
+dashboard link: https://syzkaller.appspot.com/bug?extid=9fe8f6caeb5661802ca2
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=109ab1a2580000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=136cf2f0580000
 
-+struct quickspi_driver_data arl = {
-+	.max_packet_size_value = MAX_PACKET_SIZE_VALUE_LNL,
-+};
-+
- /* THC QuickSPI ACPI method to get device properties */
- /* HIDSPI Method: {6e2ac436-0fcf-41af-a265-b32a220dcfab} */
- static guid_t hidspi_guid =
-@@ -978,6 +982,8 @@ static const struct pci_device_id quickspi_pci_tbl[] = {
- 	{PCI_DEVICE_DATA(INTEL, THC_PTL_U_DEVICE_ID_SPI_PORT2, &ptl), },
- 	{PCI_DEVICE_DATA(INTEL, THC_WCL_DEVICE_ID_SPI_PORT1, &ptl), },
- 	{PCI_DEVICE_DATA(INTEL, THC_WCL_DEVICE_ID_SPI_PORT2, &ptl), },
-+	{PCI_DEVICE_DATA(INTEL, THC_ARL_DEVICE_ID_SPI_PORT1, &arl), },
-+	{PCI_DEVICE_DATA(INTEL, THC_ARL_DEVICE_ID_SPI_PORT2, &arl), },
- 	{}
- };
- MODULE_DEVICE_TABLE(pci, quickspi_pci_tbl);
-diff --git a/drivers/hid/intel-thc-hid/intel-quickspi/quickspi-dev.h b/drivers/hid/intel-thc-hid/intel-quickspi/quickspi-dev.h
-index f3532d866749..7f0fb0056244 100644
---- a/drivers/hid/intel-thc-hid/intel-quickspi/quickspi-dev.h
-+++ b/drivers/hid/intel-thc-hid/intel-quickspi/quickspi-dev.h
-@@ -21,6 +21,8 @@
- #define PCI_DEVICE_ID_INTEL_THC_PTL_U_DEVICE_ID_SPI_PORT2	0xE44B
- #define PCI_DEVICE_ID_INTEL_THC_WCL_DEVICE_ID_SPI_PORT1 	0x4D49
- #define PCI_DEVICE_ID_INTEL_THC_WCL_DEVICE_ID_SPI_PORT2 	0x4D4B
-+#define PCI_DEVICE_ID_INTEL_THC_ARL_DEVICE_ID_SPI_PORT1		0x7749
-+#define PCI_DEVICE_ID_INTEL_THC_ARL_DEVICE_ID_SPI_PORT2		0x774B
+If the result looks correct, please mark the issue as fixed by replying with:
 
- /* HIDSPI special ACPI parameters DSM methods */
- #define ACPI_QUICKSPI_REVISION_NUM			2
---
-2.34.1
+#syz fix: usb: core: usb_submit_urb: downgrade type check
 
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
 
