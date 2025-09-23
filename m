@@ -1,93 +1,245 @@
-Return-Path: <linux-input+bounces-15001-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-15002-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49DB4B95B79
-	for <lists+linux-input@lfdr.de>; Tue, 23 Sep 2025 13:44:10 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 85D2FB95E77
+	for <lists+linux-input@lfdr.de>; Tue, 23 Sep 2025 14:57:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0B394160DFB
-	for <lists+linux-input@lfdr.de>; Tue, 23 Sep 2025 11:44:10 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D71D51794F9
+	for <lists+linux-input@lfdr.de>; Tue, 23 Sep 2025 12:57:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6CDEF32126D;
-	Tue, 23 Sep 2025 11:44:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9CB37323F71;
+	Tue, 23 Sep 2025 12:57:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b="jcBS/4Hk"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-il1-f200.google.com (mail-il1-f200.google.com [209.85.166.200])
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9829212D7C
-	for <linux-input@vger.kernel.org>; Tue, 23 Sep 2025 11:44:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BD7F321448
+	for <linux-input@vger.kernel.org>; Tue, 23 Sep 2025 12:57:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758627845; cv=none; b=M4e4rygf2KYSoQD3+90q2CDNfnjJWB0DD7jL9DRokikoAJdyiOUObZbmfTmIizYBIYiEUn1KXYW1UfEa7wa3s9TcSUlKcsW40HdiuwE48/5ix1INarUWf72Zv0H+XNrBwYTAWFONXBprA4O5SZnvZLscHtwWyHa3ZyuYIshMWug=
+	t=1758632270; cv=none; b=JlcghrPNiEp5lpRwIoqB4IdfgT3O1K6lW3JYkHs7fqo1ZLhf91IaX4Dy2PgHalEg39cMmzPZ620l17bcSvQI0gNV+qr+pLSw1GxLeyavNYmVMWS6PqfHmum4y5ycaq3zU/y6VMRYfqzo2gYYAJQfszmDBhJhEIsfYdp+V+67TtY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758627845; c=relaxed/simple;
-	bh=MjgUiv1hiBVmGYAWbKukWHwYzxXC3U5WUKEUQFe8mHw=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
-	 Content-Type; b=Lb1VGSOsolRLamNV+Oo12eSfPNvQB3DRTkLm2iBTYO8qnWcYPF8wEh7ji9EXBogaFU9jTOeb4lWfUorD5SxkIraLJmEMjhnDdRVi3ecoF8Iio6ZBymYNMGNGpgpMjzQ+lLeDyy6zERNbDxfS8hU9WfBXIxvo0snHX7jU2/vRtGE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.200
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-il1-f200.google.com with SMTP id e9e14a558f8ab-42574804553so66628805ab.0
-        for <linux-input@vger.kernel.org>; Tue, 23 Sep 2025 04:44:03 -0700 (PDT)
+	s=arc-20240116; t=1758632270; c=relaxed/simple;
+	bh=bOH2KSQNcX9pxUCnDxahcsBi5ylbxqRTqqjLR9+z0oE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=oM1ggafH0hUSk/pQymd8iiwFwbIQIXBFBxhb/J16hlnOYRWyOkLUi5aud4xezgpvxY7xjakbFctfAWJ1Tk0S+/bMFsEionpZwwWKCy8REVmatK7h3QQaJGhMVAg8XRSI/J3cZVzU3LdGkE+s21PQbN2Df8tUfviTyAOnUInbAuM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=amarulasolutions.com; spf=pass smtp.mailfrom=amarulasolutions.com; dkim=pass (1024-bit key) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b=jcBS/4Hk; arc=none smtp.client-ip=209.85.208.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=amarulasolutions.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amarulasolutions.com
+Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-62fc89cd630so6198044a12.2
+        for <linux-input@vger.kernel.org>; Tue, 23 Sep 2025 05:57:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=amarulasolutions.com; s=google; t=1758632265; x=1759237065; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=8T5mtAenpRdsXTm6asG89Yn/1GY5YZzwi6jOzAE42aU=;
+        b=jcBS/4HkYSA5+DsvpvTTOVHXf9JVyjhPlkEIVgmPdN7J/kefRpkyXkSQfkkYD5HPgw
+         ukvQCERxvJjjhdyeXJ5N3w4AbQlWilyahrDKMhhaULWWY2EojUk5ggByn/lG9EAhRaI4
+         oHzq9ch9ncEdDXCv0DVxj2PP751JimYxuCnDk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758627843; x=1759232643;
-        h=to:from:subject:message-id:in-reply-to:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=WQVvBj5uZq6uuQ1nu4UWRVsR/gDk+9EG2enfLEYGBRo=;
-        b=TUF5zKzuhg5F11Pl0xjIBZznc7n4bwG3PQczUaU76pESW+8a1pLV27Cg/Oqb7E0ht8
-         M94mBYx6wwoe6rjGoZOUyIa8iebHrYSdtjgRn2rlUxG6buKc2XIeK1IkpHlMHeqdRRC9
-         /8bsd8eGTlzvjpSy9CyC4eyaEjC7JlCF6RZouAkNk4OBODBBbTOLyZ8NmZzlcg06N0Nh
-         GyLDuAaod6vR8oLGZHvgS7nYPQs5Yqg1PjQ0g+N/mBGnHDjvbkI8G75SedAsJHoaSKCD
-         d4JqD7IOAsrQSBT16lbFzGJDijm8fofMnmF1iMPjkEf3eeAF7HaoiyIVu6mmHs15nhP1
-         Zjrw==
-X-Forwarded-Encrypted: i=1; AJvYcCXL7inIYJDVhaD7XX52QBaBwLd2OXT5nzX1W0n0xD2DRMIRZ7H9RCjjY2MXTcAaFZU8Ou3f1YmMW82LSQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxpjVV8twBuzFKqQ3U29/rvOqk/e99s+q9XqBvUk4C8eYY8Pfyg
-	6C8k1TUrX9SUUY1qDBjNFT87IpHdakHOu0bWKJ9CJI5+T8FuKm5/tQuyR3wHs+h4I36Dk4/bXAE
-	71on1D8OLvt2eDQToZW2Sspr8GB2UxzcUiycNxPltjVSMQ7IsRAgrSTUqY+4=
-X-Google-Smtp-Source: AGHT+IFvOJRcG5WosHB0HMKe1uFAe6PQYbdY3i4QCDRSAtKAc7Sh8RXeNxUbnOUCvmi0umdlPKZnG7LEi2yQoCd/aYVeiM8/3Lnq
+        d=1e100.net; s=20230601; t=1758632265; x=1759237065;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=8T5mtAenpRdsXTm6asG89Yn/1GY5YZzwi6jOzAE42aU=;
+        b=V0db+qJsy32rtEeKPovncg4hrzOlEy6XZK6TJZb0hf+XD3K6ricrH1Znrh8WBa9SqK
+         GcBTDmudTKyEmYdZOKiEbVKpMYYIF52x/1qTOh8n8zWEfeWBfkgKQAp9CDF6HzCnftPB
+         jUv+3SHXIoOwuN48uESFTFXMpXY7kc0z+Kb+9Pf2e3OugTGtSMiy0hE3aBoKuUUxoo5X
+         hEzEdfct+xp3Y7bhnuUrgO3DDCddvVrr8nAufLB2C3J26k7kpa9NYPBRW2AFMlADpaib
+         p4bsGjen22+MawxIxJClZeZKSmYDoGMoIsRmLsLDkFVzVo4ImiTlY06NNyfWyWe0tgq0
+         BXRg==
+X-Forwarded-Encrypted: i=1; AJvYcCXe1UgLmAvuAGIg8yXFKKEsqiN6XevNn80jG6xCJd2VHwLVXGM+AM/vgk7iGqZ3ORdlnXIWE9A2rmwjeA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzIAESpUVxhRl1PxlEIjVv4t+gZSGCOgKGEv6777J7gXZWvSeWz
+	xXOn8bDxX0f4dkGeRSdsIqVDZasWLhmX0+tWkJYe3vIMsPNmAPQO6DC5MVC/9KrLjgw=
+X-Gm-Gg: ASbGncs8v/SNnk1IqhM9sbgpbrnMtkCz138aiu2I//FRA03E9V4lQJ8UPniR6vYNziZ
+	cmIRCMV1HsdybcnvbzbWRNflgNEIWSq0qB7tMxnxHl3RCjW4FDk0rBIgL2+xyy8ScWH/oxzDPAu
+	VfrxZb8o7k+/W/qG9ayiEvBJneVNqdHVtR3XzYywBVVq/XbO4L1YNhCGRVSQIKVnEeHK51bflLC
+	JOxykFOm43XoXZ4CInHSOrJteleXDzVPp1Ht1DZsqh+rp64S5q91eKQaKGZc1JN6qShO15CJfK4
+	C/sj58CZcfZ7F3SR2dmUf9G1qQyaWQSyQUI1+GeTMFieQvQ2P1anDI+aKOlirirAm1ht7Q55OQE
+	TDk5oeEITJPALnlAsNLiKbUCxnREIgUiOmOvVmE14hAOnjrYAhYEJLXysgiL26ty0gnS8fGlMDk
+	uZGjFg9zqo6wFu5AhWLDmnNdezWvgL5HPCXZfPKzLQY2EEPuWc0qFbN0g3jOafiQ70
+X-Google-Smtp-Source: AGHT+IE9dyXEU+4sIzb37ntgKzEhl/etTTX5O55ZjUK0LUKrfPAew1cNaQhAvZiNPHRN1ou00+1d9w==
+X-Received: by 2002:a17:906:6a1e:b0:b2b:f498:e2f7 with SMTP id a640c23a62f3a-b302b80a6f0mr239115866b.47.1758632265504;
+        Tue, 23 Sep 2025 05:57:45 -0700 (PDT)
+Received: from dario-ThinkPad-T14s-Gen-2i.homenet.telecomitalia.it (host-82-56-38-125.retail.telecomitalia.it. [82.56.38.125])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b2761cb532esm872331166b.67.2025.09.23.05.57.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 23 Sep 2025 05:57:45 -0700 (PDT)
+From: Dario Binacchi <dario.binacchi@amarulasolutions.com>
+To: linux-kernel@vger.kernel.org
+Cc: linux-amarula@amarulasolutions.com,
+	sebastian.reichel@collabora.com,
+	Dario Binacchi <dario.binacchi@amarulasolutions.com>,
+	Rob Herring <robh@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	devicetree@vger.kernel.org,
+	linux-input@vger.kernel.org
+Subject: [PATCH v7 1/3] dt-bindings: touchscreen: convert eeti bindings to json schema
+Date: Tue, 23 Sep 2025 14:57:10 +0200
+Message-ID: <20250923125741.2705551-1-dario.binacchi@amarulasolutions.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:1c23:b0:424:7d35:bce8 with SMTP id
- e9e14a558f8ab-42581eae244mr39857525ab.25.1758627843063; Tue, 23 Sep 2025
- 04:44:03 -0700 (PDT)
-Date: Tue, 23 Sep 2025 04:44:03 -0700
-In-Reply-To: <67d30ef2.050a0220.14e108.003a.GAE@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <68d28803.a70a0220.4f78.0006.GAE@google.com>
-Subject: Re: [syzbot] [usb?] [input?] WARNING in hanwang_open/usb_submit_urb
-From: syzbot <syzbot+9fe8f6caeb5661802ca2@syzkaller.appspotmail.com>
-To: dmitry.torokhov@gmail.com, gregkh@linuxfoundation.org, 
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-usb@vger.kernel.org, oneukum@suse.com, stern@rowland.harvard.edu, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-syzbot suspects this issue was fixed by commit:
+Convert EETI touchscreen controller device tree binding to json-schema.
 
-commit 503bbde34cc3dd2acd231f277ba70c3f9ed22e59
-Author: Oliver Neukum <oneukum@suse.com>
-Date:   Thu Jun 12 12:20:25 2025 +0000
+Signed-off-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 
-    usb: core: usb_submit_urb: downgrade type check
+---
 
-bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=1066627c580000
-start commit:   038d61fd6422 Linux 6.16
-git tree:       upstream
-kernel config:  https://syzkaller.appspot.com/x/.config?x=515ec0b49771bcd1
-dashboard link: https://syzkaller.appspot.com/bug?extid=9fe8f6caeb5661802ca2
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=109ab1a2580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=136cf2f0580000
+Changes in v7:
+- Add Reviewed-by tag of Rob Herring
 
-If the result looks correct, please mark the issue as fixed by replying with:
+Changes in v6:
+- Add deprected to the compatible string and attn-gpios
+  property
+- Put const 0x2a i2c address for reg property only in case
+  of not eeti,exc3000-i2c.
+- Put false the attn-gpios property in case of not
+  eeti,exc3000-i2c..
+- Drop example for eeti,exc3000-i2c.
 
-#syz fix: usb: core: usb_submit_urb: downgrade type check
+Changes in v5:
+- Move bindings into eeti,exc3000.yaml
+- Remove eeti.yaml
 
-For information about bisection process see: https://goo.gl/tpsmEJ#bisection
+Changes in v2:
+- Added in v2
+
+ .../input/touchscreen/eeti,exc3000.yaml       | 33 +++++++++++++++----
+ .../bindings/input/touchscreen/eeti.txt       | 30 -----------------
+ 2 files changed, 27 insertions(+), 36 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/input/touchscreen/eeti.txt
+
+diff --git a/Documentation/devicetree/bindings/input/touchscreen/eeti,exc3000.yaml b/Documentation/devicetree/bindings/input/touchscreen/eeti,exc3000.yaml
+index 1c7ae05a8c15..517ec721e724 100644
+--- a/Documentation/devicetree/bindings/input/touchscreen/eeti,exc3000.yaml
++++ b/Documentation/devicetree/bindings/input/touchscreen/eeti,exc3000.yaml
+@@ -9,39 +9,59 @@ title: EETI EXC3000 series touchscreen controller
+ maintainers:
+   - Dmitry Torokhov <dmitry.torokhov@gmail.com>
+ 
+-allOf:
+-  - $ref: touchscreen.yaml#
+-
+ properties:
+   compatible:
+     oneOf:
+       - const: eeti,exc3000
+       - const: eeti,exc80h60
+       - const: eeti,exc80h84
++      - const: eeti,exc3000-i2c
++        deprecated: true
+       - items:
+           - enum:
+               - eeti,exc81w32
+           - const: eeti,exc80h84
+   reg:
+-    const: 0x2a
++    maxItems: 1
+   interrupts:
+     maxItems: 1
+   reset-gpios:
+     maxItems: 1
+   vdd-supply:
+     description: Power supply regulator for the chip
++  attn-gpios:
++    deprecated: true
++    maxItems: 1
++    description: Phandle to a GPIO to check whether interrupt is still
++                 latched. This is necessary for platforms that lack
++                 support for level-triggered IRQs.
+   touchscreen-size-x: true
+   touchscreen-size-y: true
+   touchscreen-inverted-x: true
+   touchscreen-inverted-y: true
+   touchscreen-swapped-x-y: true
+ 
++allOf:
++  - $ref: touchscreen.yaml#
++  - if:
++      not:
++        properties:
++          compatible:
++            contains:
++              const: eeti,exc3000-i2c
++    then:
++      properties:
++        attn-gpios: false
++        reg:
++          const: 0x2a
++      required:
++        - touchscreen-size-x
++        - touchscreen-size-y
++
+ required:
+   - compatible
+   - reg
+   - interrupts
+-  - touchscreen-size-x
+-  - touchscreen-size-y
+ 
+ additionalProperties: false
+ 
+@@ -51,6 +71,7 @@ examples:
+     i2c {
+         #address-cells = <1>;
+         #size-cells = <0>;
++
+         touchscreen@2a {
+                 compatible = "eeti,exc3000";
+                 reg = <0x2a>;
+diff --git a/Documentation/devicetree/bindings/input/touchscreen/eeti.txt b/Documentation/devicetree/bindings/input/touchscreen/eeti.txt
+deleted file mode 100644
+index 32b3712c916e..000000000000
+--- a/Documentation/devicetree/bindings/input/touchscreen/eeti.txt
++++ /dev/null
+@@ -1,30 +0,0 @@
+-Bindings for EETI touchscreen controller
+-
+-Required properties:
+-- compatible:	should be "eeti,exc3000-i2c"
+-- reg:		I2C address of the chip. Should be set to <0xa>
+-- interrupts:	interrupt to which the chip is connected
+-
+-Optional properties:
+-- attn-gpios:	A handle to a GPIO to check whether interrupt is still
+-		latched. This is necessary for platforms that lack
+-		support for level-triggered IRQs.
+-
+-The following optional properties described in touchscreen.txt are
+-also supported:
+-
+-- touchscreen-inverted-x
+-- touchscreen-inverted-y
+-- touchscreen-swapped-x-y
+-
+-Example:
+-
+-i2c-master {
+-	touchscreen@a {
+-		compatible = "eeti,exc3000-i2c";
+-		reg = <0xa>;
+-		interrupt-parent = <&gpio>;
+-		interrupts = <123 IRQ_TYPE_EDGE_RISING>;
+-		attn-gpios = <&gpio 123 GPIO_ACTIVE_HIGH>;
+-	};
+-};
+-- 
+2.43.0
+
+base-commit: cec1e6e5d1ab33403b809f79cd20d6aff124ccfe
+branch: drop-touchscreen.txt
 
