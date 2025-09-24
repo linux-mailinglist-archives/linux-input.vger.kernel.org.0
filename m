@@ -1,123 +1,110 @@
-Return-Path: <linux-input+bounces-15091-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-15092-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A064B9C37D
-	for <lists+linux-input@lfdr.de>; Wed, 24 Sep 2025 22:59:45 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 646FAB9C3E3
+	for <lists+linux-input@lfdr.de>; Wed, 24 Sep 2025 23:14:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 156D84C398D
-	for <lists+linux-input@lfdr.de>; Wed, 24 Sep 2025 20:59:44 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 25F394C7ECC
+	for <lists+linux-input@lfdr.de>; Wed, 24 Sep 2025 21:14:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A246D27EFE9;
-	Wed, 24 Sep 2025 20:59:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 34E9F286412;
+	Wed, 24 Sep 2025 21:14:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Mi1ntqAV"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="csGWOB/H"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23CAD274670
-	for <linux-input@vger.kernel.org>; Wed, 24 Sep 2025 20:59:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4370285C89
+	for <linux-input@vger.kernel.org>; Wed, 24 Sep 2025 21:14:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758747581; cv=none; b=OizDk9ZqVmlekNq0MMP9/tABTR/7sJ3EOA6y+QgaAOSYpTDkunjsvot2IMECdWsB0fv3SzbAr5sn4zPMZ8hm5mmy2Pvg08hnXqzqDxQKtI7SJ8JUvn571r2ECmEvlVAe5mz0SROS5tjaH3gXw7KA9r1qXRMAJgozVNYYQL0Tp7k=
+	t=1758748449; cv=none; b=JVexzzdHKHMSgEGzjojUWVzpnladRQ8DlVzJsQxc8zUvOFWRUrzrwUSrKvPR2R+MyXeug3lvkjWJa1Rc50XcH6q+9FBWwafca/Zi5jEI44GKYSv4XRD5vYTPD9hqLXICTXQcmBX23/GtvLsRE36Un6BP8ph2w1pxvoF8aPS2f0Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758747581; c=relaxed/simple;
-	bh=WWUhycMgvhzyeaLAv3HRCxsWk3YeZlwvEpXzRathUBg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=JcHibW8ieqjGgglrDczX1GrdWNJmZ9L9vK/7pwZ8gsU5L8axmgqbwPjm29+nea6NFFO0YmaRbjUJfTGFYNDhYbep4V4BqJVaUDKASSvPYEeBYFNtEd/FfoYaNoaWsMp7JqX8fpFWxm+X6IGaJJG93X/zfJb7vVmsMypg3kTuH94=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Mi1ntqAV; arc=none smtp.client-ip=209.85.215.172
+	s=arc-20240116; t=1758748449; c=relaxed/simple;
+	bh=tWPoT8hXA8bqdaHaLzPDAH+YrWSf3vmYsx1qgBZ34/o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tJEPCBIsPa5ofkDKRrMVaHsSdMJDn/zrTaPPhdUJ/0PPj3CfHcrEX0k8HEkhyrQIg9Td3n5pOoaodTF7tVaJoTTBPIictPlIXrLFisn9/ClZR2dhZ7aK2sVboctwgSQO+ZNor4FnZD9qlMkuUQMRYWGiALxDxhSN1jp+RslBNa0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=csGWOB/H; arc=none smtp.client-ip=209.85.215.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-b555b0fb839so203412a12.3
-        for <linux-input@vger.kernel.org>; Wed, 24 Sep 2025 13:59:39 -0700 (PDT)
+Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-b5507d3ccd8so272555a12.0
+        for <linux-input@vger.kernel.org>; Wed, 24 Sep 2025 14:14:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758747579; x=1759352379; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=bRuDgtKnLQenDF5rrcxOy2nEN1e01GeSQLdOvaR9vtc=;
-        b=Mi1ntqAVuTfkVvNFGerOBgft6kEpumvmgdr53jBOh7CtJQVqwCu9jF4b8oz1nHWbP1
-         wvlu7l3Y+kKnT+L+nNMpxRXnzghtyRdWpTtJdniZ1j/yHqKKHN4L+Pg14TUU1W/KY4rm
-         SeSGrN0Zoqtp0xwkSf0AulOhJU1rqEp4564jmxXbaqodbuWpjyKFZqLEmTBW67igJJkq
-         3lw+jJy4+ZMwX3BEFdHImXFpwRD5zhS1FdKK/V4CgxSKciFPOBy3ASOKlAj3jcAEvMgE
-         UxBZiqX6TzaZLcriE3g4YZTtwnpSveut+pASlhWkZfO1zVMby1aOw/xQYwzkmvRTCzX9
-         ezQw==
+        d=gmail.com; s=20230601; t=1758748447; x=1759353247; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=qtI+Xxsd8rE3fuveLCvU/MdyjxsiyhC9uH9cXSeRvHU=;
+        b=csGWOB/HzJADn0swCXqj9R56mgoUOI0Pin4QmIaWC/74MHyRR3MQIBx1iQ9OgneAfd
+         WoEjdvhmSwIunGvKEPvLT1a44KqkX1448zPIKM8NuX+eosNyxTCUF+ZbtmHhMaCaYyed
+         RPWFHlkp3iZ6z7P3JjMI307Iki5nTpNOmlsob8rIM6a8e9DwvMTwUsQTT7pr3BONDUTj
+         kuGeMrLTh+q6GOq5R4tX3bvZCo8i+WJFDLDziTGpwAzjXYR7Rk9Sv0joOLGkAhs/DMLH
+         7MY600cPu1RcDC+Ez1J5Z3L8Bwxqcyhier7x5j26c04FUXkAZoRFolSscdyYHcgxrdnb
+         N0vw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758747579; x=1759352379;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=bRuDgtKnLQenDF5rrcxOy2nEN1e01GeSQLdOvaR9vtc=;
-        b=k5NqCYnoye5TvYKlpm9vJHydWLQ90/d8axzkiOwpQAPIIU5uSMviM4WrK46svQoBxW
-         7EoxAGIwkGYw+x9wuDmZ1kbTdZKb1EdEwlJiSrjhnfZoWo9VJfi7b80bHCtmWJD26tIG
-         LtZiqmVKoi9b+JaMx+MnHJir317TenvJ1A8Hym8tjXbYtLmSNV5+6Z7+89sUU8UFJDyW
-         ccEAzfpIi9PuM/eL0s4MjmQWUzQTIlq9B3tXcYAWiMFS4smPlIKNoWydeNCW6KESsihr
-         T1252pg6E4DeKyffvq0ZaUvBl1AkUA1LjlkEXA+bHgIXj5+oJUpD/xegu/wuxfWTx+ay
-         Qybw==
-X-Forwarded-Encrypted: i=1; AJvYcCUHZrKVwc7u8eBfh4VZi20754SzXZN/uxQOfuEbFGTNEaJEKt4NKbsR0BANp8N1NDOIwVSw28y2cCaL9w==@vger.kernel.org
-X-Gm-Message-State: AOJu0YziFOponx+ueCT+gvUcOol1Wi+daADtJ5JGY/Q2o4jq9JQ01QHm
-	IciG4RkeCrA3qI81q9Z67lX3fqYNknj9UE+4v923IFZkFo5gt0y1Ackt
-X-Gm-Gg: ASbGncsv7gDM0/7UrZVEcjOQPG3G5yI8d9J/F/RvbIAasagvBI5jWJLmAMqouMt5tEG
-	mVpWztleE/8B/+HVLLzAgU7U8y8QJya5bTm7+Tkboc3S7nztx4ooxAkFe14jtgllUSp/qR0gBPR
-	rBRVLKXIO0t52384cHR4G7Vbkny7DMs4k4iXQHcQ9sHrPsxJopjDrpyvYmHCLv/QaRoMgwpPCTt
-	4gKRwnCHNX2BLMmMki00Pj9T2mN9DY1Pqz7gIszkntX7Bd38nCs40Q4pKsBetlaTsClgX/DrX4A
-	t/cxGXUx67o49IcqQkBqkCDIBReDNYdIGYERodn4iJwPkYjmZJHvFutXmPlo2widlFFnQVE6JFl
-	s0fMC6G1a0Yji/7w+sIItX+g2P4QBvzsE0PmrhBcN7tNxy81IRpZjfY6LWRCF+Fu0twSHkU9jKS
-	yw56DNW2qTbizfOCvpIuRN9ro=
-X-Google-Smtp-Source: AGHT+IFTfcwzlqAQ3hKxw5FC7Jv4ja7YwXZXX4kygX+5Zsmi5Hhkd3KRdxGLAj7nmPNA59hYiV1jxw==
-X-Received: by 2002:a17:903:3c26:b0:264:ede2:683d with SMTP id d9443c01a7336-27ed4adb732mr10341995ad.56.1758747579257;
-        Wed, 24 Sep 2025 13:59:39 -0700 (PDT)
-Received: from sanjays-pc.govzhome.govindz.co.nz ([27.252.49.97])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3341bd8fa0asm3375248a91.3.2025.09.24.13.59.36
+        d=1e100.net; s=20230601; t=1758748447; x=1759353247;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qtI+Xxsd8rE3fuveLCvU/MdyjxsiyhC9uH9cXSeRvHU=;
+        b=JLV1KkFIbrCh2MdGkodTPYWAgtekcMDn9sFi54yI7Nrrw1PjYeVa8WjCGHZHUE0bI8
+         gWBW8CVoN2vSXm3zF5xtIy1B0CsajY+lfak4bL6awo8upo4rD7yO1CAFez1xn+5UcJoy
+         rQZV/rhuGKBXSUbwi64+vRJOAT9eh1FQ4XgKM/mFiZBAfjpa8lBFl2W7Mxyf3rT4c+ma
+         FtLoZy2lSLCJ1xs+W2ldcq1CejWRdP7nOYzojOtNG4I5oqEZqmcejZzOPe9T4nhofvg5
+         tS/W0N8YZNnHWM4y6VlxVZoFK40h/N08fm4vRM/srVlJw5Fq3X7zN7GEnMSpcr7lCF+j
+         kxdg==
+X-Forwarded-Encrypted: i=1; AJvYcCUIlV+NKE5zA6Tp7Uc6331PY+bOXbKYeH9cHEqjheuwdBAkfHVBrNZGDT4E8DTAmHp15MNusZ+B5mMwvQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy40wzDW+/WfFKmQjYnrFQHJlVbAuUmSjrciWfHWfxJwcOueO6u
+	FLrUGSH73j5eaMKyEikT5MxBDRsFLniBeYOUvinGP/kqEbvi3fLaxWqR
+X-Gm-Gg: ASbGncvpRhNZfwqh+nz56yqO6Uqt5LnHAZIMdZf7wCNEtOVhe7bHp5/16mRq0IlRI+t
+	3lm+sbND49FDp2MHIRnhsWan5RVLL4jsDjqdoD5bM++25wOyapNM1dYzYn7TqRhjo/jf9RBilp2
+	iNpN9zaT0uqOOoaQ8/8LB5fjxp4s5bYBMVp94kSbLqy7yIqBcfBENol0UVDk7akFh9ltH1r8+LL
+	i3Q8+eCFBv6DlvzMcUyGEF0vxis5TkV6b59nJAiesMHahlzyRWS/QO/5KOoIvs9BSI04sVpu61+
+	Eoa+wQTmTia/RtVYADBurMb37W4TGnIj85plCJ+b++dyC4agbW02F9aLNY5RIIieq3jc2W9iS39
+	zGo+oOk9xIcqPEN8MHbCDmw==
+X-Google-Smtp-Source: AGHT+IHchnbtWrdhaWeshGUQo0IHCW+W1jq7tB9DCwBzgUE/TOXYECiLeyb7fq0Zi9TPW9Z78gDzfw==
+X-Received: by 2002:a17:903:b8f:b0:271:7eba:a49 with SMTP id d9443c01a7336-27ed49dd8bcmr11592285ad.19.1758748446942;
+        Wed, 24 Sep 2025 14:14:06 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:5a97:14cb:a5e:6c78])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b57c53cbe6dsm206917a12.21.2025.09.24.14.14.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Sep 2025 13:59:38 -0700 (PDT)
-From: Sanjay Govind <sanjay.govind9@gmail.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Sanjay Govind <sanjay.govind9@gmail.com>
-Subject: [PATCH] Input: xpad - Add support for CRKD LP Guitars
-Date: Thu, 25 Sep 2025 08:58:38 +1200
-Message-ID: <20250924205912.29793-1-sanjay.govind9@gmail.com>
-X-Mailer: git-send-email 2.51.0
+        Wed, 24 Sep 2025 14:14:06 -0700 (PDT)
+Date: Wed, 24 Sep 2025 14:14:03 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Dario Binacchi <dario.binacchi@amarulasolutions.com>
+Cc: linux-kernel@vger.kernel.org, linux-amarula@amarulasolutions.com, 
+	sebastian.reichel@collabora.com, Conor Dooley <conor+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org, 
+	linux-input@vger.kernel.org
+Subject: Re: [PATCH v6 1/3] dt-bindings: touchscreen: convert eeti bindings
+ to json schema
+Message-ID: <xugkxduy7thmh3x373rcsacfdslnvscdfii23acx3qq2jp73l6@ymxf7g5earka>
+References: <20250921173353.2641438-1-dario.binacchi@amarulasolutions.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250921173353.2641438-1-dario.binacchi@amarulasolutions.com>
 
-This commit adds support for CRKD LP Guitar Controllers
+Hi Dario,
 
-Signed-off-by: Sanjay Govind <sanjay.govind9@gmail.com>
----
- drivers/input/joystick/xpad.c | 3 +++
- 1 file changed, 3 insertions(+)
+On Sun, Sep 21, 2025 at 07:33:42PM +0200, Dario Binacchi wrote:
+> Convert EETI touchscreen controller device tree binding to json-schema.
+> 
+> Signed-off-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
 
-diff --git a/drivers/input/joystick/xpad.c b/drivers/input/joystick/xpad.c
-index d72e89c25e50..33b0ad041247 100644
---- a/drivers/input/joystick/xpad.c
-+++ b/drivers/input/joystick/xpad.c
-@@ -133,6 +133,8 @@ static const struct xpad_device {
- } xpad_device[] = {
- 	/* Please keep this list sorted by vendor and product ID. */
- 	{ 0x0079, 0x18d4, "GPD Win 2 X-Box Controller", 0, XTYPE_XBOX360 },
-+	{ 0x0351, 0x1000, "CRKD LP Blueberry Burst Pro Edition (Xbox)", 0, XTYPE_XBOX360 },
-+	{ 0x0351, 0x2000, "CRKD LP Black Tribal Edition (Xbox) ", 0, XTYPE_XBOX360 },
- 	{ 0x03eb, 0xff01, "Wooting One (Legacy)", 0, XTYPE_XBOX360 },
- 	{ 0x03eb, 0xff02, "Wooting Two (Legacy)", 0, XTYPE_XBOX360 },
- 	{ 0x03f0, 0x038D, "HyperX Clutch", 0, XTYPE_XBOX360 },			/* wired */
-@@ -518,6 +520,7 @@ static const struct usb_device_id xpad_table[] = {
- 	 */
- 	{ USB_INTERFACE_INFO('X', 'B', 0) },	/* Xbox USB-IF not-approved class */
- 	XPAD_XBOX360_VENDOR(0x0079),		/* GPD Win 2 controller */
-+	XPAD_XBOX360_VENDOR(0x0351),		/* CRKD Controllers */
- 	XPAD_XBOX360_VENDOR(0x03eb),		/* Wooting Keyboards (Legacy) */
- 	XPAD_XBOX360_VENDOR(0x03f0),		/* HP HyperX Xbox 360 controllers */
- 	XPAD_XBOXONE_VENDOR(0x03f0),		/* HP HyperX Xbox One controllers */
+This conflicts with my tree, could you please rebase against my
+"next"branch (or against linux-next)?
+
+Thanks.
+
 -- 
-2.51.0
-
+Dmitry
 
