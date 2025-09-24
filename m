@@ -1,119 +1,181 @@
-Return-Path: <linux-input+bounces-15045-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-15046-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0C7BB98ED8
-	for <lists+linux-input@lfdr.de>; Wed, 24 Sep 2025 10:38:24 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C3383B98F34
+	for <lists+linux-input@lfdr.de>; Wed, 24 Sep 2025 10:44:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E580E1889966
-	for <lists+linux-input@lfdr.de>; Wed, 24 Sep 2025 08:38:43 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8A9292A3601
+	for <lists+linux-input@lfdr.de>; Wed, 24 Sep 2025 08:44:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D1D02877F6;
-	Wed, 24 Sep 2025 08:38:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BFFE62900A8;
+	Wed, 24 Sep 2025 08:44:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MrjEEQrB"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hU6y3XHl"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2836A285C89;
-	Wed, 24 Sep 2025 08:38:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9892F283FF8;
+	Wed, 24 Sep 2025 08:44:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758703094; cv=none; b=WQi1iKjTwSEh86eckp5ejKL14aoDgZ+kGCjal8Nx53vMeTzpqSJDVKYzi5ubsx2BrEkZONyhW5s27dd6ob0K8dHPOiPyNUszWywIWg952+Zszsmubx3ElXYWPBq71Xr22J67KKaWxNfNnaJDFItss7Gttp9GS3kLW0gY0PWCf7c=
+	t=1758703453; cv=none; b=cIgIZeo305YWgXjkrGXYoWHX3bfiwsldoTIRKPnHX85spGsqEIV3R6VZkpy2GRmakvT7cffhFHwaVWdZTG3lwMy9IYVy+C5FqmLib9/kDkIBruWmCs9ql5woTHOUn3RyYSG/79BKHr0w9W+XBFl/EibPX28oTpDu4BreC0yhMns=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758703094; c=relaxed/simple;
-	bh=LYuHbf3X6DV3fONWB8529ftaJPFravWwKtEHngOaLxU=;
+	s=arc-20240116; t=1758703453; c=relaxed/simple;
+	bh=UVMmbVL0WOh/a0kk7Cv/hmAq6hMueEkR3KeH2vwY07A=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TxVB26/J4+MzCjPocUM8qcnfs/Lscs8me5LcaGTM9tBncUMGGkJ1d9WpxKN8+7ktm0GO3avdZY397U57I5j7yJE/rhuAtA+u7qXHg1CsujWBf9wN/r+kzAWNWkXdhI1uA2JZsRERMzCA8/Gpmb/hbXZc7p6BoBdRwlASVcCXuP8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MrjEEQrB; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26D96C4CEE7;
-	Wed, 24 Sep 2025 08:38:13 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=czwSS1mkwfgA8XkB9cz/r5txeP02zrmNrYIUlj/J/PzjRBvF6j1jTcVtOGi1Bg8w2Ri7KPWMbjKr47crG1xnc8n4sRYUZ5TLxAItqZdmxsvP7GGYCKeZsnK0FwpRRQB0q74XEsPTakZyIGOvDXNO2lI1dxGKR3w1dw2YFLk2FKM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hU6y3XHl; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40FC6C4CEE7;
+	Wed, 24 Sep 2025 08:44:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758703093;
-	bh=LYuHbf3X6DV3fONWB8529ftaJPFravWwKtEHngOaLxU=;
+	s=k20201202; t=1758703453;
+	bh=UVMmbVL0WOh/a0kk7Cv/hmAq6hMueEkR3KeH2vwY07A=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=MrjEEQrB4G7GzDNEh5LtRJOjh7un59kTXyKDwoD8G/JqFQC2TjSUNE060w1Rxd1rB
-	 mf0rMb7ori0QWz+PYLDTWRw2u5W1QzMuGyC1lXiAOyStu2XZW9wQkwLPkNmaVjGaSU
-	 yAmzGJvK38hf20bKRWSOiZ4HXj21wL3awJH4wbITpGB/vQT2AAwEA/bwanlKX7MgSj
-	 9fOe124PO7nF0NriS1jjMNbNLONnUk+ZwUsgEg0jsIvUtidWu3v+elat5CNQOztmFD
-	 XvFnR79h9BGlZNi69mpgestifqXGh+zulwnx7mj5e0tl/34z01kj1a5TNLt3to4sDB
-	 c4yw5krKgvtug==
-Date: Wed, 24 Sep 2025 10:38:09 +0200
-From: Mark Brown <broonie@kernel.org>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
-	linux-media@vger.kernel.org, netdev@vger.kernel.org,
-	linux-spi@vger.kernel.org, "Rafael J. Wysocki" <rafael@kernel.org>,
-	Len Brown <lenb@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Daniel Scally <djrscally@gmail.com>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Javier Carrasco <javier.carrasco@wolfvision.net>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
-	Matthias Fend <matthias.fend@emfend.at>,
-	Chanwoo Choi <cw00.choi@samsung.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Paul Elder <paul.elder@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Horatiu Vultur <horatiu.vultur@microchip.com>,
-	UNGLinuxDriver@microchip.com, Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@kernel.org>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: Re: [PATCH v2 16/16] spi: cadence: Remove explicit device node
- availability check
-Message-ID: <aNOt8VS8l1qr_Zbx@finisterre.sirena.org.uk>
-References: <20250924074602.266292-1-sakari.ailus@linux.intel.com>
- <20250924074602.266292-17-sakari.ailus@linux.intel.com>
+	b=hU6y3XHlEzyTRC+38ejejQrXg+oKTfc3iLFAjnqG6VHjwhG3yAJx1bclVTgbzEIwu
+	 My3FhxvM4x+5mKjYyP8J55OCJzwQpdjNL1vuKMUoNEIdeNjqaH8hn02WwErz06i+da
+	 QjW8RyayDYcSoQMDiTRxrJ4vyVozMK2qoxcP29fAgg31LLNcL5zJrNwAzmsWKQsoDy
+	 CjFobIsje9+KTBEFxIM1Oh9nUA39uhXWFqVIH5LDgKc3XdoIXzofcFP5+RmCP9BQqd
+	 MA5fbaZV34Ug0FIAYX6woe+/UJnIrMmT2tDss+cHEHAJFnqN8KvIEb2mhuLKlxmZAZ
+	 dzjlqXDRae6AA==
+Date: Wed, 24 Sep 2025 10:44:09 +0200
+From: Benjamin Tissoires <bentiss@kernel.org>
+To: Yinon Burgansky <yinonburgansky@gmail.com>
+Cc: jikos@kernel.org, linux-input@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: Touchpad multitouch leaves ghost fingers
+Message-ID: <jm3z5dcgw66lzh5bbhnitnchbvgnvuvrzxltghrsmwtmbg76jw@rcvcyjevjrmq>
+References: <CAEU-x4=Zs22b5LX_rsBVMu4BxvDfO+CZkkuWuVNaxv8mqvh9Gw@mail.gmail.com>
+ <bjtev7sgmcafoysd53xrxih4nawn2dbq4odylwdglbub6td2a3@nhoxenprhjvy>
+ <CAEU-x4kL45DAddmNahjR2C97+43jchpmXep++LbeP8cXLEWN-w@mail.gmail.com>
+ <CAEU-x4nv3XnXchevtwN5mkVcxqnpgBobhavxZc7BjS7EgYG8Ng@mail.gmail.com>
+ <c3plpgl2zsx4do2odwdeowodkkdnfqpexlwqg5a5mckyibxlge@qai35f5yeswy>
+ <CAEU-x4mJiBM_zKg1DaeJkKB3W3Ay08bUTc-D3QjFjDxNiZGd0g@mail.gmail.com>
+ <iav7hzeaarxifwxk7zlfnt6vipqkp4h4ldt634exlvcswz62gj@a7ongaeduylz>
+ <CAEU-x4k_56w17y0DOKG2TRtegGvzVKS9USAERMa1MtO+3wZivA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="HNWgzN9p1fTapGgI"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250924074602.266292-17-sakari.ailus@linux.intel.com>
-X-Cookie: Filmed before a live audience.
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAEU-x4k_56w17y0DOKG2TRtegGvzVKS9USAERMa1MtO+3wZivA@mail.gmail.com>
+
+On Sep 24 2025, Yinon Burgansky wrote:
+> On Tue, Sep 23, 2025 at 7:30 PM Benjamin Tissoires <bentiss@kernel.org> wrote:
+> > Got something out with https://gitlab.freedesktop.org/libevdev/udev-hid-bpf/-/merge_requests/204
+> > that seems to solve your case on the hid-recorder you provided.
+> 
+> Thank you so much!
+> The install command didn't work properly for me:
+> ```
+> $ ./install.sh "*DLL0945*"
+> $ tree /usr/local/lib/firmware
+> /usr/local/lib/firmware
+> └── hid
+>     └── bpf
+>         └── 0011-Synaptics__DLL0945.bpf.o
+> $ reboot
+> $ sudo tree /sys/fs/bpf
+> /sys/fs/bpf
+> 0 directories, 0 files
+> ```
+
+oops, yes, my bad. I forgot to put the correct group on the device
+(multitouch_win_8 instead of generic). I've force pushed a new version,
+so please redownload and reinstall it.
 
 
---HNWgzN9p1fTapGgI
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+> I tried to add it manually and it seems to work now :)
+> ```
+> $ sudo udev-hid-bpf add /sys/bus/hid/devices/0018:06CB:CE26.0005
+> /usr/local/lib/firmware/hid/bpf/0011-Synaptics__DLL0945.bpf.o
+> $ sudo tree /sys/fs/bpf
+> /sys/fs/bpf
+> └── hid
+>     └── 0018_06CB_CE26_0005
+>         └── 0011-Synaptics__DLL0945_bpf
+>             └── synaptics_dll0945
+> 
+> 4 directories, 1 file
+> ```
+> But I have to do it manually every time.
+> Not sure what's wrong, maybe the added udev rule:
+> ```
+> $ cat /etc/udev/rules.d/81-hid-bpf.rules
+> ACTION!="add|remove|bind", GOTO="hid_bpf_end"
+> SUBSYSTEM!="hid", GOTO="hid_bpf_end"
+> 
+> # We lookup the hwdb during bind to set the property, but we don't do
+> anything else
+> IMPORT{builtin}="hwdb --subsystem=hid --lookup-prefix=hid-bpf:"
+> #ACTION=="add", ENV{.HID_BPF}=="1",
+> RUN{program}+="@@BINDIR@@/udev-hid-bpf add $sys$devpath"
+> #MARKER
+> ACTION=="add", ENV{.HID_BPF}=="1",
+> RUN{program}+="/usr/local/bin/udev-hid-bpf add $sys$devpath"
+> #ACTION=="remove", ENV{.HID_BPF}=="1",
+> RUN{program}+="@@BINDIR@@/udev-hid-bpf remove $sys$devpath"
+> #MARKER
+> ACTION=="remove", ENV{.HID_BPF}=="1",
+> RUN{program}+="/usr/local/bin/udev-hid-bpf remove $sys$devpath"
+> 
+> LABEL="hid_bpf_end"
+> ```
 
-On Wed, Sep 24, 2025 at 10:46:02AM +0300, Sakari Ailus wrote:
+The udev rule is fine, the hwdb is not. If you look at
+/etc/udev/hwdb.d/81-hid-bpf-testing.hwdb you'll see that it shows:
 
-> Don't check the availability of child device nodes explicitly as this is
-> now embedded in device_for_each_child_node().
+hid-bpf:hid:b0018g0001v000006CBp0000CE26
+  HID_BPF_T_002=0011-Synaptics__DLL0945.bpf.o
+  .HID_BPF=1
 
-Acked-by: Mark Brown <broonie@kernel.org>
+But if you run `cat /sys/bus/hid/devices/0018:06CB:CE26.*/modalias`
+you'll see that you have something like:
 
---HNWgzN9p1fTapGgI
-Content-Type: application/pgp-signature; name="signature.asc"
+hid:b0018g0004v000006CBp0000CE26
 
------BEGIN PGP SIGNATURE-----
+the 'g0004' is not correct and therefore the qutobinding doesn't work :(
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmjTrfAACgkQJNaLcl1U
-h9DioAgAg3JKw09AiYKmuLbspKZcE/HivhJWWFKV+GD9Cu/js/nAmm+xpTqcCVFm
-BYFM2Ubt9T51fNWCbLsyYLa1VJiE5a05gj4l2c4MHWJZ8QVx7/cMsHN+Tt8+Vueh
-Ha1j9aCK8iPH08dIR81XdsFFOcEBcoqelRUCCHf4XEUyJPUp1F2OVdfPy5h+KwKp
-Eo14XaYCdvkkk+Ei6zQDqrFnK2fBXXkfYN0hcYtinQI7G2cugNnr6QIUnnQrbhFi
-uLwJe8MocnI7Yclco6XZ7kSaOC7GdaA+1BOXJxfnQIB2mi4p3xW2WwvhVylkfdxl
-jaQBBbBuMhVGt0LKNWqCH4Tmkzr63w==
-=/Mvr
------END PGP SIGNATURE-----
+> this is the udevadm info (after reboot, it is sometimes hidraw3
+> sometimes hidraw4):
+> ```
+> $  udevadm info --query=all --name=/dev/hidraw4
+> P: /devices/pci0000:00/0000:00:15.1/i2c_designware.1/i2c-1/i2c-DLL0945:00/0018:06CB:CE26.0005/hidraw/hidraw4
+> M: hidraw4
+> R: 4
+> J: c242:4
+> U: hidraw
+> D: c 242:4
+> N: hidraw4
+> L: 0
+> E: DEVPATH=/devices/pci0000:00/0000:00:15.1/i2c_designware.1/i2c-1/i2c-DLL0945:00/0018:06CB:CE26.0005/hidraw/hidraw4
+> E: DEVNAME=/dev/hidraw4
+> E: MAJOR=242
+> E: MINOR=4
+> E: SUBSYSTEM=hidraw
+> E: USEC_INITIALIZED=3980846
+> E: ID_VENDOR_FROM_DATABASE=Dell Inc
+> E: ID_PATH=pci-0000:00:15.1-platform-i2c_designware.1
+> E: ID_PATH_TAG=pci-0000_00_15_1-platform-i2c_designware_1
+> E: ID_FOR_SEAT=hidraw-pci-0000_00_15_1-platform-i2c_designware_1
+> E: TAGS=:seat:
+> E: CURRENT_TAGS=:seat:
+> ```
+> 
+> Thank you for the quick fix, it seems to work great so far!
 
---HNWgzN9p1fTapGgI--
+\o/.
+
+Now I need to make the kernel patch. Ideally I'd like you to test it,
+but worse case I can just replay the recording as it seems to be enough.
+
+Cheers,
+Benjamin
 
