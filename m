@@ -1,180 +1,86 @@
-Return-Path: <linux-input+bounces-15065-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-15066-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A5D6B997E8
-	for <lists+linux-input@lfdr.de>; Wed, 24 Sep 2025 12:52:32 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B383B99831
+	for <lists+linux-input@lfdr.de>; Wed, 24 Sep 2025 12:56:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0219619C6654
-	for <lists+linux-input@lfdr.de>; Wed, 24 Sep 2025 10:52:54 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D01F23B9F53
+	for <lists+linux-input@lfdr.de>; Wed, 24 Sep 2025 10:56:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 821E72E11D7;
-	Wed, 24 Sep 2025 10:52:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B73E32E1C65;
+	Wed, 24 Sep 2025 10:56:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dG8VUQLE"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YpMNKkal"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CB7C1E8342
-	for <linux-input@vger.kernel.org>; Wed, 24 Sep 2025 10:52:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F7ED2E1746;
+	Wed, 24 Sep 2025 10:56:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758711146; cv=none; b=ogw/NUyQhRqFLEnG7QiR22K8K6Qqmw9mRhYTdwtYw8x7YgUDsd9fgWgHkt5IoNIxsH8R2hbXbYA+3tqfNJXdU8KDfIcApNwDAfzpUliDt7qDYGgCYogPIv3XmQ9dsL/F0UEJ8sDFu1r1WmnbFAMW+8oGq/hVKrAuDjhvH93R6aI=
+	t=1758711380; cv=none; b=aSxyMuDv3JwnsDCk1ia6XUiXoKOBBYhp0tf8YZ3XbVccDFmH1r+xpSEFx7k+Uzqj5zkAUpmE/qj8SBOsjYst/cLlFO2uEx2WPXzs3iBmqB8RhaA7u7IT/BWGzREmoKI0iqbCqMiJCpiIU6tm3xF95n9puKTox6yc4wAKGneoREo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758711146; c=relaxed/simple;
-	bh=xCDPc5y7d7WCp3lQou1gJLzgPsjIpA8s9dbP+kcvNIg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=eP2PwyZXXr5GbBr1Gdle0p+DC6amqz80bhsZHrN2l8w7D1kqPHHuvwW23o8/4RV8nAO7mk73hCd/GvJlJOtLvuuSjp/fzAX1rKzt0rl6aYLQu0hPI/Ht3LZRjxMB5TfwcJZjSmimkWvrUcU+8wXJBFsefDmI5mHgDUwq4Cv/gow=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dG8VUQLE; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F11A6C116C6
-	for <linux-input@vger.kernel.org>; Wed, 24 Sep 2025 10:52:25 +0000 (UTC)
+	s=arc-20240116; t=1758711380; c=relaxed/simple;
+	bh=76i0+329ATIkj0i3cFoTgQOCp61nFyqRSdjigAjCKdM=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=MCqXfa5DvNmwMkFVfmOoZLGgUSLekjxb4eAHYDZWjHJ4ariTyB0E83IfZJwn5Yoa62UWxWgmx/0P8b9T5sWaT5eNJ6b65J1jX7PI2EY54qneF7j5D42NwZKeCqAIfnz4SWseZnKfaaw8jpmYDn2p8Rc/2diLvM2pvu6nTnMemaA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YpMNKkal; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73575C4CEF0;
+	Wed, 24 Sep 2025 10:56:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758711146;
-	bh=xCDPc5y7d7WCp3lQou1gJLzgPsjIpA8s9dbP+kcvNIg=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=dG8VUQLEQO6rumXUWPyuJMbAWM35Bj7FP4hq3VC6xyhrgmfldUcvL3iGQJbeF6q7l
-	 9xFhsmEJ3RUeZyCOnMIofh4uneMMaAIRZjh9gO30VdH73LsYfmVCYujLqm/C0p7t5G
-	 NjSWwgRC/7BEliaM1n5JKfEPzDHaHwpMIYpz6Jy5AaIUyWb3f5540+I1OjGVpi0+eF
-	 LntdgaY81sDWTrir4C5kEe6qPIHYy33EzYCtlGC0sBTtVqOENfYREQpK1CTRHcgbhj
-	 4obidwdHgVuT1qQqDyHPWG2VHg4F6yALwIKdb2ay4gGBkpmVTSISzAV5d5s9SwOF9E
-	 LxKMTw1mtDcPA==
-Received: by mail-oa1-f53.google.com with SMTP id 586e51a60fabf-35acca93e00so314613fac.2
-        for <linux-input@vger.kernel.org>; Wed, 24 Sep 2025 03:52:25 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVonXdZ7gTdbvbbPI6WSI7Y+MNtxyQ2bXmTAHxSSl+Qolk+xKKdlH8RK565X3oICYwdrFr7l/LTLjg/YQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YycXLqumO2N7CQJXvqb7nGIgbB+fbUUl9cyYoTyWXXvq7yYw1pu
-	PiFiVPIjMdA4o0cpPqiBdb9OqzJ8P7z0qwUjy8EGtF9E7jsBFF4T6I3kFezUG+HrGuZuXcXjbvg
-	EGGJEcdnnx9oer1a4PTsV/VoLyk1oacM=
-X-Google-Smtp-Source: AGHT+IGEgSAb7PwthMT480H5j0SYdHpLlRhlrtZ+iuewQGA9Jkcl/bfStgYc/Gc6s4+VwKbrFzCE17TX9oVZJW6wMhs=
-X-Received: by 2002:a05:6871:758a:b0:314:b6a6:6894 with SMTP id
- 586e51a60fabf-34c835413d5mr3060169fac.40.1758711145254; Wed, 24 Sep 2025
- 03:52:25 -0700 (PDT)
+	s=k20201202; t=1758711380;
+	bh=76i0+329ATIkj0i3cFoTgQOCp61nFyqRSdjigAjCKdM=;
+	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+	b=YpMNKkalaEMaddYhnw7BYgLUjstgVDkzWvSC/Phase/Xb3ytaMJmcj45zYUx7j5P+
+	 /l+AV0kjH6MpHBAuSJo/eFhrZVvpH6bkOzV5aBPqiiEBegYbrQqbVnINthbPG4pvMT
+	 +pTlhY//PohkQiAjg3cx01tu0yOwGWv3J4IHsujJQCtLKODcdDW/w0OgOYI7MxxzIe
+	 F6ZRGGWyDahaftgc9F5hcQjI05JcUwPMizergsHr2VvCV7Nwr9gj1HULAi9XM+5Qgb
+	 AqZzgCX62hIOIdD78vBZAjV9uwAl0u8Fk+LGUfupqRKvKEt27P8PXQGHKjt065/vhI
+	 vlBb2Ep5cxQWA==
+Date: Wed, 24 Sep 2025 12:56:16 +0200 (CEST)
+From: Jiri Kosina <jikos@kernel.org>
+To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+cc: Roderick Colenbrander <roderick.colenbrander@sony.com>, 
+    Benjamin Tissoires <bentiss@kernel.org>, kernel@collabora.com, 
+    linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/3] Trivial fixes for recent HID playstation changes
+In-Reply-To: <20250923-ps5-hid-fixes-v1-0-4b994c54e512@collabora.com>
+Message-ID: <184776rp-o981-7p6o-41nr-3p1394q31p98@xreary.bet>
+References: <20250923-ps5-hid-fixes-v1-0-4b994c54e512@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250924074602.266292-1-sakari.ailus@linux.intel.com>
-In-Reply-To: <20250924074602.266292-1-sakari.ailus@linux.intel.com>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Wed, 24 Sep 2025 12:52:12 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0hSy9zQd6cP9B4QPSZi-6ughmkW=VoEBV-0MbUr2xcaAQ@mail.gmail.com>
-X-Gm-Features: AS18NWB0nF3M_Qh13bpf9jNMtOHP6GaQKliTE12EO3NKN8SlzbsSaUYuu04ZXT8
-Message-ID: <CAJZ5v0hSy9zQd6cP9B4QPSZi-6ughmkW=VoEBV-0MbUr2xcaAQ@mail.gmail.com>
-Subject: Re: [PATCH v2 00/16] Align availability checks on fwnode child node enumeration
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-input@vger.kernel.org, linux-leds@vger.kernel.org, 
-	linux-media@vger.kernel.org, netdev@vger.kernel.org, 
-	linux-spi@vger.kernel.org, "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Danilo Krummrich <dakr@kernel.org>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	Javier Carrasco <javier.carrasco@wolfvision.net>, 
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Lee Jones <lee@kernel.org>, 
-	Pavel Machek <pavel@kernel.org>, Matthias Fend <matthias.fend@emfend.at>, 
-	Chanwoo Choi <cw00.choi@samsung.com>, Krzysztof Kozlowski <krzk@kernel.org>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Paul Elder <paul.elder@ideasonboard.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Horatiu Vultur <horatiu.vultur@microchip.com>, UNGLinuxDriver@microchip.com, 
-	Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Mark Brown <broonie@kernel.org>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@kernel.org>, 
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
 
-Hi Sakari,
+On Tue, 23 Sep 2025, Cristian Ciocaltea wrote:
 
-On Wed, Sep 24, 2025 at 9:46=E2=80=AFAM Sakari Ailus
-<sakari.ailus@linux.intel.com> wrote:
->
-> Hello everyone,
->
-> Historically the fwnode property API has enumerated only available device
-> nodes on OF whereas on ACPI, also nodes that haven't been present in the
-> system have been provided. Both OF and ACPI have similar concepts of node
-> availbility, on OF it's the "status" property present on device nodes and
-> on ACPI the _STA object evaluates to device present, enabled and
-> functional bits, of which the present and functional bits are currently
-> being used to determine whether to enumerate a device.
->
-> Two additional functions, fwnode_get_next_available_child_node() and
-> fwnode_for_each_available_child_node(), have been provided to enumerate
-> the available nodes only on ACPI, whereas on OF the implementation has
-> been the same on the non-available variants. The motivation for providing
-> these has very likely been to provide fwnode variants of the similarly
-> named functions but the difference isn't justifiable from API consistency
-> viewpoint.
->
-> This set switches the users away from the "available" fwnode API function=
-s
-> and later on removes them, aligning the functionality on all fwnode
-> backends.
->
-> since v1:
->
-> - Move patch "ACPI: property: Make acpi_get_next_subnode() static" as
->   first.
->
-> - Add missing parentheses and kernel-doc Return: section in
->   acpi_get_next_present_subnode() documentation and move the Return
->   section: of fwnode_graph_get_endpoint_by_id() to the end of the
->   documentation section (new patch for the latter).
->
-> - Use device_get_next_child_node() instead of fwnode_get_next_child_node(=
-)
->   in flash LED driver drivers.
->
-> - Rework iterating port nodes in acpi_graph_get_next_endpoint() as
->   suggested by Andy (new patch).
+> This patchset aims to address a few trivial issues reported on the
+> recently queued series [1] which added support for audio jack handling
+> on DualSense PS5.
+> 
+> [1] https://lore.kernel.org/all/20250625-dualsense-hid-jack-v2-0-596c0db14128@collabora.com/
+> 
+> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+> ---
+> Cristian Ciocaltea (3):
+>       HID: playstation: Update SP preamp gain comment line
+>       HID: playstation: Silence sparse warnings for locking context imbalances
+>       HID: playstation: Switch to scoped_guard() in {dualsense|dualshock4}_output_worker()
+> 
+>  drivers/hid/hid-playstation.c | 270 +++++++++++++++++++++---------------------
+>  1 file changed, 137 insertions(+), 133 deletions(-)
 
-I think that you really have four series here, or rather two series, a
-collection of patches depending on them, and a follow-up cleanup.
+Applied on top of hid.git#for-6.18/playstation. Thanks,
 
-> Sakari Ailus (16):
->   ACPI: property: Make acpi_get_next_subnode() static
->   ACPI: property: Use ACPI functions in acpi_graph_get_next_endpoint()
->     only
->   ACPI: property: Rework acpi_graph_get_next_endpoint()
->   ACPI: property: Return present device nodes only on fwnode interface
+-- 
+Jiri Kosina
+SUSE Labs
 
-So the above is one series, focused on ACPI property changes.
-
-They can go in via ACPI as soon as everyone is happy with them.  I
-think I can push them for 6.18 if that helps to process the other
-patches.
-
->   property: Move Return: section of fwnode_graph_get_endpoint_by_id()
->     down
->   property: Drop DEVICE_DISABLED flag in
->     fwnode_graph_get_endpoint_by_id()
->   property: Drop DEVICE_DISABLED flag in
->     fwnode_graph_get_endpoint_count()
-
-The above patches are another series that doesn't depend on the first
-one AFAICS and can go in via driver core.
-
->   property: Document that fwnode API returns available nodes
->   driver core: Use fwnode_for_each_child_node() instead
->   net: lan966x: Use fwnode_for_each_child_node() instead
->   Input: touch-overlay - Use fwnode_for_each_child_node() instead
->   media: thp7312: Use fwnode_for_each_child_node() instead
->   leds: Use fwnode_for_each_child_node() instead
->   leds: Use fwnode_get_next_child_node() instead
-
-The above can go in via respective subsystem trees when the ACPI
-property series gets in (I'm not sure if/how they depend on the second
-series).
-
-And the following one is a follow-up cleanup getting rid of code that
-would be redundant going forward.
-
->   property: Drop functions operating on "available" child nodes
->   spi: cadence: Remove explicit device node availability check
-
-Does the spi change depend on the previous patch?
 
