@@ -1,134 +1,150 @@
-Return-Path: <linux-input+bounces-15023-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-15024-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72170B982B8
-	for <lists+linux-input@lfdr.de>; Wed, 24 Sep 2025 06:10:12 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 729A8B98375
+	for <lists+linux-input@lfdr.de>; Wed, 24 Sep 2025 06:37:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 93A8618997FD
-	for <lists+linux-input@lfdr.de>; Wed, 24 Sep 2025 04:10:34 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2611C4C1257
+	for <lists+linux-input@lfdr.de>; Wed, 24 Sep 2025 04:37:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8E08E13DDAE;
-	Wed, 24 Sep 2025 04:10:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DEF781DE892;
+	Wed, 24 Sep 2025 04:37:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R+FwMZtf"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FDPmJuQ+"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 111841F4625
-	for <linux-input@vger.kernel.org>; Wed, 24 Sep 2025 04:10:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44D713AC15
+	for <linux-input@vger.kernel.org>; Wed, 24 Sep 2025 04:37:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758687008; cv=none; b=q0GEzxFJruH9VPX9dyqHUfKmjZAkkHFfkfxWdE1hMSvv3uZToSWboMDVyuxTOvE+4f38XurturJaoJyCYeMSiDGpFNMQWS3kljeZib9Td1v/wzSyU9EA+t4obyme7PHQLwnfBBWHFAZtnPQSaCJcwlOMJ75yK5o0SpBNeJFJN2Q=
+	t=1758688655; cv=none; b=BAo/PEALYeugUI6jqkd9uqhVvjeHJpK5MxBm/FQ4kirYFoxkDQxWXu5H8rpon8j0EXvE0seEBSi7t54TS9DdyfcbbX8X0SoIQWw6uBmuOOlHlUZbtOhQbg4OjTEyoaBuzWR/MejZCGcaegv1qd6JzEivEc/dteN4gHKkZpdpIgs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758687008; c=relaxed/simple;
-	bh=3cI83+kMvCnvPKEAmgUH8Iw4iz9w4uzn9IGXgv7zKWY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=P6uDW2IL6Uf51D+gKesFbN8TWFwaQndHljkKwuEhpCl3XVcL6uMKXHhzCmo5GRVqxf1FpCV+6vkXifqFpq4KqqFqdXb9JTU35rZh2WaLmUJa4GlOJtcHeMQ/5CDfWHv56UVKuzRURk6Ww0HTJdyW1A/MmrrzFEeM0BlRtDMM9D0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=R+FwMZtf; arc=none smtp.client-ip=209.85.210.175
+	s=arc-20240116; t=1758688655; c=relaxed/simple;
+	bh=RRDPP8ixAZkfYkD+0XWsW143p6YSMBD1DDMJaAaF9t8=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=psFYd9Qq7zHveA7Cn1iQ7xUPfiggHq14epsrbKORCQSTQajkS+rOf/zzIDxEvQqB22JrkmFiytYn9rI92ngok5954xr8VpMIVXenebQaJdX5QfyPQ4M9vQttDUM1CJ0SqH027jiclFalOVanEGVgpGLefhvB0FXQ8o7llSx4xpM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FDPmJuQ+; arc=none smtp.client-ip=209.85.210.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-77f7da24397so180708b3a.2
-        for <linux-input@vger.kernel.org>; Tue, 23 Sep 2025 21:10:06 -0700 (PDT)
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-77f22902b46so3802265b3a.0
+        for <linux-input@vger.kernel.org>; Tue, 23 Sep 2025 21:37:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758687006; x=1759291806; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=upnQzhj0lASnjo/ISsvGDWKyy8Ak/c4h5JmJhqwTbLY=;
-        b=R+FwMZtf9G2+cvOWY76Pk7Nf2plieKy+SO7KrI2VOqcwF8auZ8+F5lXk+dARd8ir3H
-         vIVdWnjwdNc8DTeKO0bqsKDQSkiJYYTJwfqfkw92zbVHxADUvPe9azuxR1jk8cKHkjXf
-         +8f4iICl3/RUqkjHwl/wvXjbAi/4k/dR4cmS/xissZmrArP7CZN3CKo9JSZHGKfyrY76
-         GujOulMlZdyr5zcRpRMBmpOC51Bgslnrc672pA5gIrYoOytL2nUToNgcqsr2LaQxFZhL
-         aMNwStQaYARGnzqFOyiAi4rcGeSH9aBS40Z42kPix87oimzUpdf2gpQ13DK1U6cMXubM
-         iZfA==
+        d=gmail.com; s=20230601; t=1758688653; x=1759293453; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=V2AtE3wb9Esvjdk98Ay0zc20hm41uPjRxNV/m1l3tfU=;
+        b=FDPmJuQ+BWsfiGxlPG+z73LuLzo4Wo1eLPCrwRh6AphmmSi6IpidqE61hptb/75X7J
+         zPd/F5UvhCuUnrGKlrYkS8MkPk0u5dFxRcKE4aHYRrdQdnbrG3cQQzEHHWAc9XTJqnzU
+         xPHHPOl3cO8AUKptrczWetLHIoqQfhkFXQy22T1yccCmvnukYdZStJyWOpcnMhpFarqP
+         XdEJFtadJ9KiyA+mpm5NRTHkOfuGoujNFOuhGdirzBSUgw8OIIO37nvn0Aiir4mf2ws8
+         uewPHlO2RBxEOPsOOknNTU8bSmppFDNH5WNLc5cxrGuWdPBVxYAIGNZeyESTfnEdSfQl
+         bN0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758687006; x=1759291806;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=upnQzhj0lASnjo/ISsvGDWKyy8Ak/c4h5JmJhqwTbLY=;
-        b=XQYsTqUoEbK8M2aAgs2Q5aukbvrjsgRRn/uqZ8LNFIM1JpVgjgK4pauembIPZ7PG1G
-         S84rO9ySr/JpVXlIkzz2uMFEc8r4j4ZEzKoXXQbazCihKnB8AiKWHtoR1ucm/5LrRRu9
-         4aCUgWFAbAiYAnJMQyTjUPrZGnNNkopa9jZIrZecl/QmZVLb6W76CXQiz9Dr651Dw7eV
-         DPWIlZQdcQWzzTcG38Psx84bJ1z08k/EI/0flKd9ZIWPQG+apvD7KkkfiMMT9QkwxTJH
-         EIEyRaa0H2qp5Cab+wJmOhZNX6U3b+VrzesgfMdClRmaQZ8jRXU0dodIr3kqMvO7YDWe
-         RqzQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWMIL72p6gVUIv7GHGvXMSPIhQwIILIwH3C1NUzYF9SyEnrOqcYzqpsAJj5z0QDVm7Zfga/xZ4sV0rIXA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxn+pOj/TI2SApqU9BlpwxV8kJ3e8nR+obVdzHZxzorNHV3dJrd
-	BDe4s67R+G4dcyxPhy8qu5W+rUY13zDUn3RmvpmbH0vb+bhnrrRqYzOF
-X-Gm-Gg: ASbGncvtb/L7WgVYKO80RmX56cb+fMQpM7sfu88Ojp6pI81wjvjaXZDLQr6WNQ/kYj/
-	gTtMHr+Ddf7RwCEd5hFs+x2tKNCDnKoebU19tYXPAGWYhQe83ftPE9hIgMGBJwbtcqDdeN652SV
-	/U3+duFmORZTfj5ItaUvchX9afkFPCGFShSZVVHjOYUk7D3G/Ar4aLTjdOSRANfW2tFRWs+YRbc
-	n+xIm6sretDUVo+s0ec96iGPav6e2TbjArw5OHaEN2u5ZlKDhmDAemrJNh1Sbcf6utCmDipdOPb
-	3pauygOrXfzrxGq2tikyvNUzu6GhP9S3ogoZM2rhwpQRQaqn33zdaMu3aBa2x9Z0sdGkV8RV8M+
-	2rl/bBrnbceo1aCs0D/mW/lhIC+0KNEE=
-X-Google-Smtp-Source: AGHT+IFKx9ZNpDWUckunWS3L3Xe/z9wMW+hxpJY2tt8sPMBwy0PfYxAWN4p6TwNVD/MuXmdW/7jLKQ==
-X-Received: by 2002:a05:6a20:7f95:b0:244:aefe:71fa with SMTP id adf61e73a8af0-2cff367ed2cmr7084776637.37.1758687006169;
-        Tue, 23 Sep 2025 21:10:06 -0700 (PDT)
-Received: from embed-PC ([2401:4900:60e0:7677:7e66:bbb0:5e83:be39])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b551905bb4csm13048369a12.29.2025.09.23.21.10.00
+        d=1e100.net; s=20230601; t=1758688653; x=1759293453;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=V2AtE3wb9Esvjdk98Ay0zc20hm41uPjRxNV/m1l3tfU=;
+        b=J7bqxI9cRctQsbJzvHtRplga47VQjm1nGWn2ej3zPNFoVsTP5bsDyNf1/iwlF5dgpD
+         +3AK80zz3Mg4KD664jwqXdp95cH2TkdVpgZoUYtCXXOVywmiH7OOq4tFjpFQ8qZ6yVss
+         9eZl19/s5lBZ/kqDYw/1i6ZYcX5pVGMDVBdDA0Qf9eOilLcIgWQutVcFr6NL7b1sTQAD
+         F53tDy6Hr5UqQNgCKVIbRjCs01Tg8lV+SmxqyVoqXyN+g7tJhlQkc7Exu0+zqum4uijj
+         j6ZhXUSGrER1Zj6j4kuvwfbGleT6ylSge8APVJvWLofmaKR77keRuCR6ecsI2pRh5lIX
+         CWvA==
+X-Forwarded-Encrypted: i=1; AJvYcCWb0F2ml7Nc6ZBTu28ofPuK4lXSIFuIKFkEwQLNIyUFYW/u7XxRyeAmJuysAw3f16IuPFBxbZ7l8t+JSw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy2jRz2Jt+wb3w2lK5EgiHK1R0uDmlRjFfgiLmgKT1obRuKGUd6
+	NskC72ap2Cc8GXlIWxryePYFzi5D46LU+Fa9mSy5t38ykwJFT5G7dNl9
+X-Gm-Gg: ASbGncty4M3a47frWfDIgf4mOoprjwj+oOXDLU2J56fZbRJHaXZbneQjfHfLHTfmc5Y
+	N4yMIUUKzD7xns8+4JinWXEEjwWAlWuQO3blL8O5JejypY4OXrhkbYdxQuB3Y5YK3OsMo0dKlR4
+	LQCo5HJb6zJLP9YpWe9/NoiQ9bXr3wTvnSP5FVuxm3mqMngjrL5qz0DkyJR3u9yaLIYbbLsCwJ/
+	OQxLHUdhwgQSvidZ9tWIEmWZGJ2coCUdHJFiK8jGtA0/i8NJfJoSi00FOGm1+9CO2xsTdeVz8Zy
+	SMc9TLy9IGlhTicvBBAhQjqrjyTEPfa8u5EFJD55Hoc/cXvs7YX3z7Pa6qxbWSaZWOkioLYSmPX
+	lnmowte2tev2fXri9w+vGM62Sl4OLFTGy/Q==
+X-Google-Smtp-Source: AGHT+IELiGCDwK/3N8AD/xB8vMByTAfUuiT/2C6BA80wtfiX+6BqvaDzI/YKAnY9RJbUWABNVlvMBg==
+X-Received: by 2002:a05:6a20:bc89:b0:2d9:b2ee:784a with SMTP id adf61e73a8af0-2d9b2ee9d54mr2716962637.20.1758688653537;
+        Tue, 23 Sep 2025 21:37:33 -0700 (PDT)
+Received: from embed-PC.. ([2401:4900:60e0:7677:7e66:bbb0:5e83:be39])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b552882b177sm12122235a12.11.2025.09.23.21.37.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Sep 2025 21:10:05 -0700 (PDT)
-Date: Wed, 24 Sep 2025 09:39:55 +0530
+        Tue, 23 Sep 2025 21:37:33 -0700 (PDT)
 From: Abhishek Tamboli <abhishektamboli9@gmail.com>
-To: "Xu, Even" <even.xu@intel.com>
-Cc: xinpeng.sun@intel.com, jikos@kernel.org, bentiss@kernel.org,
-	mpearson-lenovo@squebb.ca, srinivas.pandruvada@linux.intel.com,
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] HID: intel-thc-hid: intel-quickspi: Add ARL PCI Device
- Id's
-Message-ID: <aNNvE9Bx7M6iMzTX@embed-PC>
-References: <20250923040254.7547-1-abhishektamboli9@gmail.com>
- <IA1PR11MB609835ED0230AC6D60C54906F41CA@IA1PR11MB6098.namprd11.prod.outlook.com>
+To: even.xu@intel.com,
+	xinpeng.sun@intel.com,
+	jikos@kernel.org,
+	bentiss@kernel.org
+Cc: mpearson-lenovo@squebb.ca,
+	srinivas.pandruvada@linux.intel.com,
+	linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2] HID: intel-thc-hid: intel-quickspi: Add ARL PCI Device Id's
+Date: Wed, 24 Sep 2025 10:07:20 +0530
+Message-Id: <20250924043720.5545-1-abhishektamboli9@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <IA1PR11MB609835ED0230AC6D60C54906F41CA@IA1PR11MB6098.namprd11.prod.outlook.com>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Sep 24, 2025 at 03:31:33AM +0000, Xu, Even wrote:
-> 
-> 
-> > -----Original Message-----
-> > From: Abhishek Tamboli <abhishektamboli9@gmail.com>
-> > Sent: Tuesday, September 23, 2025 12:03 PM
-> > To: Xu, Even <even.xu@intel.com>; Sun, Xinpeng <xinpeng.sun@intel.com>;
-> > jikos@kernel.org; bentiss@kernel.org
-> > Cc: mpearson-lenovo@squebb.ca; srinivas.pandruvada@linux.intel.com; linux-
-> > input@vger.kernel.org; linux-kernel@vger.kernel.org
-> > Subject: [PATCH] HID: intel-thc-hid: intel-quickspi: Add ARL PCI Device Id's
-> > 
-> > Add the missing PCI ID for the quickspi device used on the Lenovo Yoga Pro 9i
-> > 16IAH10.
-> > 
-> > Buglink: https://bugzilla.kernel.org/show_bug.cgi?id=220567
-> > 
-> > Signed-off-by: Abhishek Tamboli <abhishektamboli9@gmail.com>
-> > ---
-> >  drivers/hid/intel-thc-hid/intel-quickspi/pci-quickspi.c | 6 ++++++
-> > drivers/hid/intel-thc-hid/intel-quickspi/quickspi-dev.h | 2 ++
-> >  2 files changed, 8 insertions(+)
-> > 
-> > diff --git a/drivers/hid/intel-thc-hid/intel-quickspi/pci-quickspi.c
-> > b/drivers/hid/intel-thc-hid/intel-quickspi/pci-quickspi.c
-> > index 84314989dc53..49c8458f0118 100644
-> > --- a/drivers/hid/intel-thc-hid/intel-quickspi/pci-quickspi.c
-> > +++ b/drivers/hid/intel-thc-hid/intel-quickspi/pci-quickspi.c
-> > @@ -33,6 +33,10 @@ struct quickspi_driver_data ptl = {
-> >  	.max_packet_size_value = MAX_PACKET_SIZE_VALUE_LNL,  };
-> > 
-> > +struct quickspi_driver_data arl = {
-> > +	.max_packet_size_value = MAX_PACKET_SIZE_VALUE_LNL, };
-> > +
-> 
-> As I know the THC IP in ARL is the same with in MTL, can you change this max_packet_size_value to align with MAX_PACKET_SIZE_VALUE_MTL?
-Sure, I will do it.
-Thanks, for the review.
+Add the missing PCI ID for the quickspi device used on
+the Lenovo Yoga Pro 9i 16IAH10.
+
+Buglink: https://bugzilla.kernel.org/show_bug.cgi?id=220567
+
+Signed-off-by: Abhishek Tamboli <abhishektamboli9@gmail.com>
+---
+Changes in v2:
+- Change the max_packet_size_value to align
+with MAX_PACKET_SIZE_VALUE_MTL
+
+ drivers/hid/intel-thc-hid/intel-quickspi/pci-quickspi.c | 6 ++++++
+ drivers/hid/intel-thc-hid/intel-quickspi/quickspi-dev.h | 2 ++
+ 2 files changed, 8 insertions(+)
+
+diff --git a/drivers/hid/intel-thc-hid/intel-quickspi/pci-quickspi.c b/drivers/hid/intel-thc-hid/intel-quickspi/pci-quickspi.c
+index 84314989dc53..14cabd5dc6dd 100644
+--- a/drivers/hid/intel-thc-hid/intel-quickspi/pci-quickspi.c
++++ b/drivers/hid/intel-thc-hid/intel-quickspi/pci-quickspi.c
+@@ -33,6 +33,10 @@ struct quickspi_driver_data ptl = {
+ 	.max_packet_size_value = MAX_PACKET_SIZE_VALUE_LNL,
+ };
+
++struct quickspi_driver_data arl = {
++	.max_packet_size_value = MAX_PACKET_SIZE_VALUE_MTL,
++};
++
+ /* THC QuickSPI ACPI method to get device properties */
+ /* HIDSPI Method: {6e2ac436-0fcf-41af-a265-b32a220dcfab} */
+ static guid_t hidspi_guid =
+@@ -978,6 +982,8 @@ static const struct pci_device_id quickspi_pci_tbl[] = {
+ 	{PCI_DEVICE_DATA(INTEL, THC_PTL_U_DEVICE_ID_SPI_PORT2, &ptl), },
+ 	{PCI_DEVICE_DATA(INTEL, THC_WCL_DEVICE_ID_SPI_PORT1, &ptl), },
+ 	{PCI_DEVICE_DATA(INTEL, THC_WCL_DEVICE_ID_SPI_PORT2, &ptl), },
++	{PCI_DEVICE_DATA(INTEL, THC_ARL_DEVICE_ID_SPI_PORT1, &arl), },
++	{PCI_DEVICE_DATA(INTEL, THC_ARL_DEVICE_ID_SPI_PORT2, &arl), },
+ 	{}
+ };
+ MODULE_DEVICE_TABLE(pci, quickspi_pci_tbl);
+diff --git a/drivers/hid/intel-thc-hid/intel-quickspi/quickspi-dev.h b/drivers/hid/intel-thc-hid/intel-quickspi/quickspi-dev.h
+index f3532d866749..c30e1a42eb09 100644
+--- a/drivers/hid/intel-thc-hid/intel-quickspi/quickspi-dev.h
++++ b/drivers/hid/intel-thc-hid/intel-quickspi/quickspi-dev.h
+@@ -21,6 +21,8 @@
+ #define PCI_DEVICE_ID_INTEL_THC_PTL_U_DEVICE_ID_SPI_PORT2	0xE44B
+ #define PCI_DEVICE_ID_INTEL_THC_WCL_DEVICE_ID_SPI_PORT1 	0x4D49
+ #define PCI_DEVICE_ID_INTEL_THC_WCL_DEVICE_ID_SPI_PORT2 	0x4D4B
++#define PCI_DEVICE_ID_INTEL_THC_ARL_DEVICE_ID_SPI_PORT1 	0x7749
++#define PCI_DEVICE_ID_INTEL_THC_ARL_DEVICE_ID_SPI_PORT2 	0x774B
+
+ /* HIDSPI special ACPI parameters DSM methods */
+ #define ACPI_QUICKSPI_REVISION_NUM			2
+--
+2.34.1
+
 
