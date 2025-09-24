@@ -1,140 +1,240 @@
-Return-Path: <linux-input+bounces-15069-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-15070-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id F034FB9B802
-	for <lists+linux-input@lfdr.de>; Wed, 24 Sep 2025 20:36:18 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3131BB9BD9E
+	for <lists+linux-input@lfdr.de>; Wed, 24 Sep 2025 22:24:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B306532279E
-	for <lists+linux-input@lfdr.de>; Wed, 24 Sep 2025 18:36:18 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 67D001BC2929
+	for <lists+linux-input@lfdr.de>; Wed, 24 Sep 2025 20:24:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B108E31353C;
-	Wed, 24 Sep 2025 18:36:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 61A67328592;
+	Wed, 24 Sep 2025 20:24:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FtBmNeMB"
+	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b="oZwIe67O"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fra-out-011.esa.eu-central-1.outbound.mail-perimeter.amazon.com (fra-out-011.esa.eu-central-1.outbound.mail-perimeter.amazon.com [52.28.197.132])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 286E02D9EE1
-	for <linux-input@vger.kernel.org>; Wed, 24 Sep 2025 18:36:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AB382701BB;
+	Wed, 24 Sep 2025 20:24:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.28.197.132
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758738973; cv=none; b=iI4/3b8woAU2LcvSLijNeuBarnJXybSvsqNd7mCH7IWkQBwoTbnUpPvEu8SnOaur8SGziMGL2tpfMmVOQ/jLlwU7kRsnT/C/XoEhojsAgeznygN7HR5lZhvQUBHZFCjz+k02uBUvCZSR0isRgHH9TejGm8RetdqI1LGSOn2mIQs=
+	t=1758745456; cv=none; b=FgWqJX3FTq/kdmGaGzNNzMpV8BrkvtG3sL4Ip3OpddkblM+34C2XcLFY6kelViHO2z3GrAqNirursEhZyZ3/O9dk21uHARt5Pmd9CUpQsP+5mnM2HbSOwfeRwkpTegM4li0RMe2zbkqfC5I+ue/0ZlyFzh6MWPFttHB6M8fmjic=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758738973; c=relaxed/simple;
-	bh=2aLfX7a8qrLe04EEuCsSWXOjT7NO0ExrjFnQIBlHj04=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TcFyAN2+1dMzti2uSybEgpCnhcDPzoMdRJCX0BkT7+PUX8CJeILcQpKMS3VC40yNqtIzgkUOT14R4VfnEFiQBbPA9a88Llf/PoLYSIpYg3OSsJ8ffoXU7zfAtDSkelc2FPumy42FhbBmKIYZm591dMEvNJwBtBHI4ZKa+kUwB1A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FtBmNeMB; arc=none smtp.client-ip=209.85.214.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-279e2554b6fso1004975ad.2
-        for <linux-input@vger.kernel.org>; Wed, 24 Sep 2025 11:36:11 -0700 (PDT)
+	s=arc-20240116; t=1758745456; c=relaxed/simple;
+	bh=bJ2FSaaKMPkQa5IN2Pe/chyVzGb8Ref4DvUThRMU4z0=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=DcsJo+K0MlYzqIIfC6ZSmg8GT9CnmeregiTc0mTfSQD1dYCXFR2poRwKDdAyn1cDtoKUzc/ndMvIelSAW9ddsLc9uXUn3D282D6qczUMPtLA85d0RG8MA+IIbYa9KuvMqRvm/oqJglKjjGAFZjETva1/9q7NNPaNzlsYDHlRoU0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.com; dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b=oZwIe67O; arc=none smtp.client-ip=52.28.197.132
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758738971; x=1759343771; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=RuMDAryKyhqMDr6B+XSq4gaOR0tjLhHQ+hf5EwbyoXs=;
-        b=FtBmNeMB04FY3JGB6PNvtOFMiiWfAj4garK3jVjddYu+aBCpnKJv62bLvq1W//T70a
-         y4kpNyp7rAle3Axx60PHhi6UEdug4mVpmTWaiXKH7HrgfEK/PWpxCcW0GSz76SJe4Dr9
-         occhHLHIxPq0kTA95Jz5yBEygNFimb1rEmkA1gh+VV5Pqlk8iMz81SJJZ0+AJISXUxZt
-         wdtaeEH1wwkn7kSP5ttEoRqBmeHlsXKKhB8JQMcokPHbGgOVheMDGjqihXZULw08wYio
-         ZlNFk+yeDUGN96q/XFWEIvy11lkr81KqELV2YRixghqOF9U1I8bvBJ6ZhOrkKSss3XPz
-         GONQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758738971; x=1759343771;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RuMDAryKyhqMDr6B+XSq4gaOR0tjLhHQ+hf5EwbyoXs=;
-        b=m9wW00qnHFGf8zCJ3pJmYWxtxCnlznoMEbxEnwTKIlWM5g556j94+jEdRLKxLUgqGQ
-         BbKb5B+ML+t66CUAliIGKnvsanNll3Ks5SSf8CIbR2M7aH3sa3tt4N6uQffD1gHgQC+s
-         QFUAb5WP3tCdS8Pd33cCf24Nwjm8vHaNQVhsx3X3BkIcIshWCFbB/ZP4phbcd31RFMot
-         XPS/0s1IFsUCEEcakfaxHdOIZiqjLTlpeIZiNVb6hyEpuEmgX1q20tx+i6IPbRiMfgXl
-         MMDt6KGlJf/1JfSA9bHqnAIFZ7X3AwQOW2Jp9a/kKKRLPx8J9DGXZJRQbuvTXj9B2gCQ
-         aBcQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXSC7ptEmWW5OvsAGB3LxWQX46sJhoz29LIi8ahP0dDt88gA1ASSatKo65Rycbx9lk5yq6uHM61iPAkWg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwDrrDGxjuGhpNgGQFDsto00M+eAuz4K14PTfCe9f346t31ihSZ
-	TAOEpDjwPLI21ITOSajeNf8uTR513RkZQZSVMSY00+0ukEpXY35JXctb
-X-Gm-Gg: ASbGncv1YkgISBtkYL3UnpEfBoMIcdtEq5p+M76g9YFw+NBvcsI9p9ELzPXTnRtu3V1
-	elGt5MmUm7hmrNGkY991hctuOIYfiQfHeYsoOEXqLWqtHwA+S6Xc+t+AKWgZpplgJmZCEIiEfRd
-	TjSjUv98KTnnQQt8zvJ+gCdt6jKHkRaZRlzE7ycMXcOpUaLhoJdpAeUbateR7bE19f3slsIDV5S
-	C4Q0ed6rhFxLgJ0TZAXcZXGxexRiBeAi4zTSN2pdvkc/wHxTYweSKvh6xM2pYWksqI9QiOEFERF
-	9e/3/6Yf/CMijONfBpbSKXWmghzDa7oSE6Etic1lIhz6cTyWBMnHKuUa7KPlt/HZBDxu/r3WFDc
-	TsU7R0i4c7bJS3lkmSztkxQs=
-X-Google-Smtp-Source: AGHT+IFpCuPX+NdIWL+u5IkcBx4+VbKV/4827jy+s9/WEKKxG/dZ2BXBXewNNRlOFgtg+akJrLG03A==
-X-Received: by 2002:a17:902:dac5:b0:27a:6c30:49c with SMTP id d9443c01a7336-27ed4a56ba4mr5732905ad.27.1758738971104;
-        Wed, 24 Sep 2025 11:36:11 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:f4c4:bad6:f33e:ddc9])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3341bd90367sm3096304a91.5.2025.09.24.11.36.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Sep 2025 11:36:10 -0700 (PDT)
-Date: Wed, 24 Sep 2025 11:36:07 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-input@vger.kernel.org, linux-leds@vger.kernel.org, linux-media@vger.kernel.org, 
-	netdev@vger.kernel.org, linux-spi@vger.kernel.org, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Danilo Krummrich <dakr@kernel.org>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, Javier Carrasco <javier.carrasco@wolfvision.net>, 
-	Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
-	Matthias Fend <matthias.fend@emfend.at>, Chanwoo Choi <cw00.choi@samsung.com>, 
-	Krzysztof Kozlowski <krzk@kernel.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Paul Elder <paul.elder@ideasonboard.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Horatiu Vultur <horatiu.vultur@microchip.com>, UNGLinuxDriver@microchip.com, 
-	Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
-	Paolo Abeni <pabeni@redhat.com>, Mark Brown <broonie@kernel.org>, 
-	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@kernel.org>, 
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: Re: [PATCH v2 11/16] Input: touch-overlay - Use
- fwnode_for_each_child_node() instead
-Message-ID: <amnjiro7qhreys4upoh6ggqurom6gudk2gw5ayrfjhj243wqwh@o4hf6txhsm62>
-References: <20250924074602.266292-1-sakari.ailus@linux.intel.com>
- <20250924074602.266292-12-sakari.ailus@linux.intel.com>
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
+  t=1758745454; x=1790281454;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=KzVc5pQt1xJae1laTHwFTkgfsVttwXUFIKNqt4L9XFg=;
+  b=oZwIe67OE5bMEyCf6zFBgNYQ9NkmNjhwafRX0/3Pmth1VrhSiftq//sk
+   oDPzaTNQ1fKX9ui+k8xlvtGpx8UHcLc7OUNdiYnA+ltAd+Zx+Inof0Mgq
+   r9T3fVBLGl4KzH4FcyBioCDqy6cuuz143FqVMZn6XkoNozPhPrLWWBmvP
+   Ho5mXz7ZIX/KgPDVvcMTsakbAGlf7LiLi/5lCit/8dJ6vjy1eYVkKn/7R
+   8wqWaz73Z9bfSvJDPlEigEy01VYFx0GIcOzEONlRAAmvkUCOoY0JpFAk1
+   tOxDLW63BKyuo6Jlvbg1vA9CJ1n/ZOP2gZ8fEifPIibiwPLi+3yfrsW/e
+   A==;
+X-CSE-ConnectionGUID: +bpb7ezGQtmV8E8VA8qXRA==
+X-CSE-MsgGUID: SFde7s01RFKi6zh/6W6ZSQ==
+X-IronPort-AV: E=Sophos;i="6.18,291,1751241600"; 
+   d="scan'208";a="2525915"
+Received: from ip-10-6-11-83.eu-central-1.compute.internal (HELO smtpout.naws.eu-central-1.prod.farcaster.email.amazon.dev) ([10.6.11.83])
+  by internal-fra-out-011.esa.eu-central-1.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2025 20:24:01 +0000
+Received: from EX19MTAEUB002.ant.amazon.com [54.240.197.232:12397]
+ by smtpin.naws.eu-central-1.prod.farcaster.email.amazon.dev [10.0.5.254:2525] with esmtp (Farcaster)
+ id d8c58b1d-ca7d-4c1f-a53d-72dcf5ba6a6f; Wed, 24 Sep 2025 20:24:01 +0000 (UTC)
+X-Farcaster-Flow-ID: d8c58b1d-ca7d-4c1f-a53d-72dcf5ba6a6f
+Received: from EX19D018EUA004.ant.amazon.com (10.252.50.85) by
+ EX19MTAEUB002.ant.amazon.com (10.252.51.59) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.20;
+ Wed, 24 Sep 2025 20:24:00 +0000
+Received: from dev-dsk-farbere-1a-46ecabed.eu-west-1.amazon.com
+ (172.19.116.181) by EX19D018EUA004.ant.amazon.com (10.252.50.85) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.20; Wed, 24 Sep 2025
+ 20:23:26 +0000
+From: Eliav Farber <farbere@amazon.com>
+To: <linux@armlinux.org.uk>, <richard@nod.at>,
+	<anton.ivanov@cambridgegreys.com>, <johannes@sipsolutions.net>,
+	<dave.hansen@linux.intel.com>, <luto@kernel.org>, <peterz@infradead.org>,
+	<tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>, <x86@kernel.org>,
+	<hpa@zytor.com>, <tony.luck@intel.com>, <qiuxu.zhuo@intel.com>,
+	<mchehab@kernel.org>, <james.morse@arm.com>, <rric@kernel.org>,
+	<harry.wentland@amd.com>, <sunpeng.li@amd.com>, <Rodrigo.Siqueira@amd.com>,
+	<alexander.deucher@amd.com>, <christian.koenig@amd.com>,
+	<Xinhui.Pan@amd.com>, <airlied@gmail.com>, <daniel@ffwll.ch>,
+	<evan.quan@amd.com>, <james.qian.wang@arm.com>, <liviu.dudau@arm.com>,
+	<mihail.atanassov@arm.com>, <brian.starkey@arm.com>,
+	<maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+	<tzimmermann@suse.de>, <robdclark@gmail.com>, <quic_abhinavk@quicinc.com>,
+	<dmitry.baryshkov@linaro.org>, <sean@poorly.run>, <jdelvare@suse.com>,
+	<linux@roeck-us.net>, <linus.walleij@linaro.org>,
+	<dmitry.torokhov@gmail.com>, <maz@kernel.org>, <wens@csie.org>,
+	<jernej.skrabec@gmail.com>, <samuel@sholland.org>, <agk@redhat.com>,
+	<snitzer@kernel.org>, <dm-devel@redhat.com>, <rajur@chelsio.com>,
+	<davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
+	<pabeni@redhat.com>, <peppe.cavallaro@st.com>,
+	<alexandre.torgue@foss.st.com>, <joabreu@synopsys.com>,
+	<mcoquelin.stm32@gmail.com>, <krzysztof.kozlowski@linaro.org>,
+	<malattia@linux.it>, <hdegoede@redhat.com>, <markgross@kernel.org>,
+	<artur.paszkiewicz@intel.com>, <jejb@linux.ibm.com>,
+	<martin.petersen@oracle.com>, <sakari.ailus@linux.intel.com>,
+	<gregkh@linuxfoundation.org>, <fei1.li@intel.com>, <clm@fb.com>,
+	<josef@toxicpanda.com>, <dsterba@suse.com>, <jack@suse.com>, <tytso@mit.edu>,
+	<adilger.kernel@dilger.ca>, <dushistov@mail.ru>,
+	<luc.vanoostenryck@gmail.com>, <rostedt@goodmis.org>, <mhiramat@kernel.org>,
+	<pmladek@suse.com>, <senozhatsky@chromium.org>,
+	<andriy.shevchenko@linux.intel.com>, <linux@rasmusvillemoes.dk>,
+	<minchan@kernel.org>, <ngupta@vflare.org>, <akpm@linux-foundation.org>,
+	<yoshfuji@linux-ipv6.org>, <dsahern@kernel.org>, <pablo@netfilter.org>,
+	<kadlec@netfilter.org>, <fw@strlen.de>, <jmaloy@redhat.com>,
+	<ying.xue@windriver.com>, <andrii@kernel.org>, <mykolal@fb.com>,
+	<ast@kernel.org>, <daniel@iogearbox.net>, <martin.lau@linux.dev>,
+	<song@kernel.org>, <yhs@fb.com>, <john.fastabend@gmail.com>,
+	<kpsingh@kernel.org>, <sdf@google.com>, <haoluo@google.com>,
+	<jolsa@kernel.org>, <shuah@kernel.org>, <keescook@chromium.org>,
+	<wad@chromium.org>, <willy@infradead.org>, <farbere@amazon.com>,
+	<sashal@kernel.org>, <ruanjinjie@huawei.com>, <quic_akhilpo@quicinc.com>,
+	<David.Laight@ACULAB.COM>, <herve.codina@bootlin.com>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+	<linux-um@lists.infradead.org>, <linux-edac@vger.kernel.org>,
+	<amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+	<linux-arm-msm@vger.kernel.org>, <freedreno@lists.freedesktop.org>,
+	<linux-hwmon@vger.kernel.org>, <linux-input@vger.kernel.org>,
+	<linux-sunxi@lists.linux.dev>, <linux-media@vger.kernel.org>,
+	<netdev@vger.kernel.org>, <linux-stm32@st-md-mailman.stormreply.com>,
+	<platform-driver-x86@vger.kernel.org>, <linux-scsi@vger.kernel.org>,
+	<linux-staging@lists.linux.dev>, <linux-btrfs@vger.kernel.org>,
+	<linux-ext4@vger.kernel.org>, <linux-sparse@vger.kernel.org>,
+	<linux-mm@kvack.org>, <netfilter-devel@vger.kernel.org>,
+	<coreteam@netfilter.org>, <tipc-discussion@lists.sourceforge.net>,
+	<bpf@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+	<stable@vger.kernel.org>
+Subject: [PATCH 00/19 v6.1.y] Backport minmax.h updates from v6.17-rc7
+Date: Wed, 24 Sep 2025 20:23:01 +0000
+Message-ID: <20250924202320.32333-1-farbere@amazon.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250924074602.266292-12-sakari.ailus@linux.intel.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: EX19D043UWC004.ant.amazon.com (10.13.139.206) To
+ EX19D018EUA004.ant.amazon.com (10.252.50.85)
 
-On Wed, Sep 24, 2025 at 10:45:57AM +0300, Sakari Ailus wrote:
-> fwnode_for_each_child_node() is now the same as
-> fwnode_for_each_available_child_node() on all backends (OF, ACPI and
-> swnode). In order to remove the available variants, switch the uses to
-> non-available variants.
-> 
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+This series backports 19 patches to update minmax.h in the 6.1.y branch,
+aligning it with v6.17-rc7.
 
-Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+The ultimate goal is to synchronize all longterm branches so that they
+include the full set of minmax.h changes.
 
-> ---
->  drivers/input/touch-overlay.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/input/touch-overlay.c b/drivers/input/touch-overlay.c
-> index b9fd82c4829d..7eaaaef1bd82 100644
-> --- a/drivers/input/touch-overlay.c
-> +++ b/drivers/input/touch-overlay.c
-> @@ -82,7 +82,7 @@ int touch_overlay_map(struct list_head *list, struct input_dev *input)
->  	if (!overlay)
->  		return 0;
->  
-> -	fwnode_for_each_available_child_node(overlay, fw_segment) {
-> +	fwnode_for_each_child_node(overlay, fw_segment) {
->  		segment = devm_kzalloc(dev, sizeof(*segment), GFP_KERNEL);
->  		if (!segment) {
->  			fwnode_handle_put(fw_segment);
+Previous work to update 6.12.48:
+https://lore.kernel.org/stable/20250922103123.14538-1-farbere@amazon.com/T/#t
+and 6.6.107:
+https://lore.kernel.org/stable/20250922103241.16213-1-farbere@amazon.com/T/#t
+
+The key motivation is to bring in commit d03eba99f5bf ("minmax: allow
+min()/max()/clamp() if the arguments have the same signedness"), which
+is missing in older kernels.
+
+In mainline, this change enables min()/max()/clamp() to accept mixed
+argument types, provided both have the same signedness. Without it,
+backported patches that use these forms may trigger compiler warnings,
+which escalate to build failures when -Werror is enabled.
+
+Andy Shevchenko (1):
+  minmax: deduplicate __unconst_integer_typeof()
+
+David Laight (8):
+  minmax: fix indentation of __cmp_once() and __clamp_once()
+  minmax.h: add whitespace around operators and after commas
+  minmax.h: update some comments
+  minmax.h: reduce the #define expansion of min(), max() and clamp()
+  minmax.h: use BUILD_BUG_ON_MSG() for the lo < hi test in clamp()
+  minmax.h: move all the clamp() definitions after the min/max() ones
+  minmax.h: simplify the variants of clamp()
+  minmax.h: remove some #defines that are only expanded once
+
+Herve Codina (1):
+  minmax: Introduce {min,max}_array()
+
+Linus Torvalds (8):
+  minmax: avoid overly complicated constant expressions in VM code
+  minmax: simplify and clarify min_t()/max_t() implementation
+  minmax: make generic MIN() and MAX() macros available everywhere
+  minmax: add a few more MIN_T/MAX_T users
+  minmax: simplify min()/max()/clamp() implementation
+  minmax: don't use max() in situations that want a C constant
+    expression
+  minmax: improve macro expansion and type checking
+  minmax: fix up min3() and max3() too
+
+Matthew Wilcox (Oracle) (1):
+  minmax: add in_range() macro
+
+ arch/arm/mm/pageattr.c                        |   6 +-
+ arch/um/drivers/mconsole_user.c               |   2 +
+ arch/x86/mm/pgtable.c                         |   2 +-
+ drivers/edac/sb_edac.c                        |   4 +-
+ drivers/edac/skx_common.h                     |   1 -
+ .../drm/amd/display/modules/hdcp/hdcp_ddc.c   |   2 +
+ .../drm/amd/pm/powerplay/hwmgr/ppevvmath.h    |  14 +-
+ drivers/gpu/drm/amd/pm/swsmu/smu_cmn.c        |   2 +-
+ .../drm/arm/display/include/malidp_utils.h    |   2 +-
+ .../display/komeda/komeda_pipeline_state.c    |  24 +-
+ drivers/gpu/drm/drm_color_mgmt.c              |   2 +-
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.c         |   6 -
+ drivers/gpu/drm/radeon/evergreen_cs.c         |   2 +
+ drivers/hwmon/adt7475.c                       |  24 +-
+ drivers/input/touchscreen/cyttsp4_core.c      |   2 +-
+ drivers/irqchip/irq-sun6i-r.c                 |   2 +-
+ drivers/md/dm-integrity.c                     |   2 +-
+ drivers/media/dvb-frontends/stv0367_priv.h    |   3 +
+ .../net/ethernet/chelsio/cxgb3/cxgb3_main.c   |  18 +-
+ .../net/ethernet/stmicro/stmmac/stmmac_main.c |   2 +-
+ drivers/net/fjes/fjes_main.c                  |   4 +-
+ drivers/nfc/pn544/i2c.c                       |   2 -
+ drivers/platform/x86/sony-laptop.c            |   1 -
+ drivers/scsi/isci/init.c                      |   6 +-
+ .../pci/hive_isp_css_include/math_support.h   |   5 -
+ drivers/virt/acrn/ioreq.c                     |   4 +-
+ fs/btrfs/misc.h                               |   2 -
+ fs/btrfs/tree-checker.c                       |   2 +-
+ fs/ext2/balloc.c                              |   2 -
+ fs/ext4/ext4.h                                |   2 -
+ fs/ufs/util.h                                 |   6 -
+ include/linux/compiler.h                      |   9 +
+ include/linux/minmax.h                        | 264 +++++++++++++-----
+ include/linux/pageblock-flags.h               |   2 +-
+ kernel/trace/preemptirq_delay_test.c          |   2 -
+ lib/btree.c                                   |   1 -
+ lib/decompress_unlzma.c                       |   2 +
+ lib/logic_pio.c                               |   3 -
+ lib/vsprintf.c                                |   2 +-
+ mm/zsmalloc.c                                 |   1 -
+ net/ipv4/proc.c                               |   2 +-
+ net/ipv6/proc.c                               |   2 +-
+ net/netfilter/nf_nat_core.c                   |   6 +-
+ net/tipc/core.h                               |   2 +-
+ net/tipc/link.c                               |  10 +-
+ .../selftests/bpf/progs/get_branch_snapshot.c |   4 +-
+ tools/testing/selftests/seccomp/seccomp_bpf.c |   2 +
+ tools/testing/selftests/vm/mremap_test.c      |   2 +
+ 48 files changed, 290 insertions(+), 184 deletions(-)
 
 -- 
-Dmitry
+2.47.3
+
 
