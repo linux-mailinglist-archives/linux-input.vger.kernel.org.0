@@ -1,223 +1,106 @@
-Return-Path: <linux-input+bounces-15089-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-15090-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D759B9C25C
-	for <lists+linux-input@lfdr.de>; Wed, 24 Sep 2025 22:39:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FEFAB9C2F8
+	for <lists+linux-input@lfdr.de>; Wed, 24 Sep 2025 22:47:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6D42F1BC38DD
-	for <lists+linux-input@lfdr.de>; Wed, 24 Sep 2025 20:39:44 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C66CA19C17FA
+	for <lists+linux-input@lfdr.de>; Wed, 24 Sep 2025 20:47:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DFCB232C301;
-	Wed, 24 Sep 2025 20:36:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B97A52AD25;
+	Wed, 24 Sep 2025 20:47:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b="e9gZP9CD"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iG/slZ7l"
 X-Original-To: linux-input@vger.kernel.org
-Received: from fra-out-005.esa.eu-central-1.outbound.mail-perimeter.amazon.com (fra-out-005.esa.eu-central-1.outbound.mail-perimeter.amazon.com [63.176.194.123])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64FFA32896F;
-	Wed, 24 Sep 2025 20:36:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=63.176.194.123
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D6D78F54
+	for <linux-input@vger.kernel.org>; Wed, 24 Sep 2025 20:47:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758746210; cv=none; b=gWXLRby7JOjdOQS8G+PWU+MpMxgLqlJV9NTxqqSKfQVGKmKQOKp85HMDk9VE7807/+ji795zzvwNX0WCcDTB2ah8uBE5xuRmgbHzPFtKmqc0oYtss+9bSYV7WL2ZQ2KFb0hT3qQRjb8a0NUkhEC00yKjW7GNS6/SlRrlUVZp61E=
+	t=1758746830; cv=none; b=nbsgXJMMA23J2mgtOH/n6PcDUAxLb/IC6Q6CJYAA2jArg3jVk2nVGQc385ELge4bERkc3cffD7YHCrdLJdZk1H85t0REYo+bRSTdiIG3r1H+vKYohz5ep1AuFE6XpXwbtAY1lzmHIIlOEU21+CHh876lAPF71nfIHQT4EEebqgQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758746210; c=relaxed/simple;
-	bh=V2L3IilwofpV6SrsfVTvut5ipDXkokIOm+dTBT4i7eQ=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=S2sOVUoiLJYSTwbwfrQ76fA/7nThFUsX1cA7OfOvJ4AW1Sl25cddmbVmG187xbnk1XQRh1JuUcjkc3w7NA2H0Uk0NuZV1TkKhAu3hrt+svGK0wn+Z1inCNhdrk55l+Gce6akCD6chfk1bcJIQmiXO0qgXCB5w8vnGh1SnkNdAic=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.com; dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b=e9gZP9CD; arc=none smtp.client-ip=63.176.194.123
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.com
+	s=arc-20240116; t=1758746830; c=relaxed/simple;
+	bh=/wubRCVudmsrBQ30JtUy96kLo/ANA1UJeqjl03QRQeM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=laYGF9S3CjWt3UHYNFr4ZhuJTMEkPd9JAM1Z5rCBwK5Td//55cfYQ1o95tV7uDvTpSfG9tt5ArGgrS4IdUUQEuLUIo4UOUL6iTsFUHgWz4p6/ApfS0tcHooZEvtagCz3FN6Hc40Xpdn6ML0B8R1P3yNK2WD2j8CgrCn1beaDxoc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iG/slZ7l; arc=none smtp.client-ip=209.85.210.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-77f68fae1a8so370950b3a.1
+        for <linux-input@vger.kernel.org>; Wed, 24 Sep 2025 13:47:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
-  t=1758746207; x=1790282207;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=k0dUe76w+6n5/NfsPbyefGVCom+xh3GGcFcV3Olhmks=;
-  b=e9gZP9CDwsoEks7TYDCOpHUpv9sfzKmhj35LTgsctRBQ72DKFtMnw2Ye
-   rncBz1/VxacJSyh3c+WnJNx3xCZ6WUMPDekfQHi/VkiImf40Ym9Mgzqot
-   gbHi1K/Yr5f8Z06j2imjL9GXkyKoBzwsxnHta+FgeyFH6lEF+N2v3t/hr
-   G0+XLf4aRWRfCzr7LA5R8344kE3LpQ1/XLOiVjbtk04Ks8KOjtU8PnfMg
-   fjSUcgJcr0AjewhUIbTjShznpIxAEGKh8iwfarCp6jxPvr5mzRFtirtT4
-   3smfQXLbIBEqEFIARc3S1otLPYCYJw370Vi7i2aYth61tuGO1uH/okY6+
-   Q==;
-X-CSE-ConnectionGUID: kb0ojWBxQquIo7b+A20p7Q==
-X-CSE-MsgGUID: 3HJY1uZTRPStEEbVVudamg==
-X-IronPort-AV: E=Sophos;i="6.18,291,1751241600"; 
-   d="scan'208";a="2631102"
-Received: from ip-10-6-6-97.eu-central-1.compute.internal (HELO smtpout.naws.eu-central-1.prod.farcaster.email.amazon.dev) ([10.6.6.97])
-  by internal-fra-out-005.esa.eu-central-1.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2025 20:36:42 +0000
-Received: from EX19MTAEUB001.ant.amazon.com [54.240.197.226:12645]
- by smtpin.naws.eu-central-1.prod.farcaster.email.amazon.dev [10.0.10.226:2525] with esmtp (Farcaster)
- id b27aa07b-d914-4c3d-9271-6483e848842d; Wed, 24 Sep 2025 20:36:42 +0000 (UTC)
-X-Farcaster-Flow-ID: b27aa07b-d914-4c3d-9271-6483e848842d
-Received: from EX19D018EUA004.ant.amazon.com (10.252.50.85) by
- EX19MTAEUB001.ant.amazon.com (10.252.51.26) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.20;
- Wed, 24 Sep 2025 20:36:29 +0000
-Received: from dev-dsk-farbere-1a-46ecabed.eu-west-1.amazon.com
- (172.19.116.181) by EX19D018EUA004.ant.amazon.com (10.252.50.85) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.20; Wed, 24 Sep 2025
- 20:35:53 +0000
-From: Eliav Farber <farbere@amazon.com>
-To: <linux@armlinux.org.uk>, <richard@nod.at>,
-	<anton.ivanov@cambridgegreys.com>, <johannes@sipsolutions.net>,
-	<dave.hansen@linux.intel.com>, <luto@kernel.org>, <peterz@infradead.org>,
-	<tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>, <x86@kernel.org>,
-	<hpa@zytor.com>, <tony.luck@intel.com>, <qiuxu.zhuo@intel.com>,
-	<mchehab@kernel.org>, <james.morse@arm.com>, <rric@kernel.org>,
-	<harry.wentland@amd.com>, <sunpeng.li@amd.com>, <Rodrigo.Siqueira@amd.com>,
-	<alexander.deucher@amd.com>, <christian.koenig@amd.com>,
-	<Xinhui.Pan@amd.com>, <airlied@gmail.com>, <daniel@ffwll.ch>,
-	<evan.quan@amd.com>, <james.qian.wang@arm.com>, <liviu.dudau@arm.com>,
-	<mihail.atanassov@arm.com>, <brian.starkey@arm.com>,
-	<maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
-	<tzimmermann@suse.de>, <robdclark@gmail.com>, <quic_abhinavk@quicinc.com>,
-	<dmitry.baryshkov@linaro.org>, <sean@poorly.run>, <jdelvare@suse.com>,
-	<linux@roeck-us.net>, <linus.walleij@linaro.org>,
-	<dmitry.torokhov@gmail.com>, <maz@kernel.org>, <wens@csie.org>,
-	<jernej.skrabec@gmail.com>, <samuel@sholland.org>, <agk@redhat.com>,
-	<snitzer@kernel.org>, <dm-devel@redhat.com>, <rajur@chelsio.com>,
-	<davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
-	<pabeni@redhat.com>, <peppe.cavallaro@st.com>,
-	<alexandre.torgue@foss.st.com>, <joabreu@synopsys.com>,
-	<mcoquelin.stm32@gmail.com>, <krzysztof.kozlowski@linaro.org>,
-	<malattia@linux.it>, <hdegoede@redhat.com>, <markgross@kernel.org>,
-	<artur.paszkiewicz@intel.com>, <jejb@linux.ibm.com>,
-	<martin.petersen@oracle.com>, <sakari.ailus@linux.intel.com>,
-	<gregkh@linuxfoundation.org>, <fei1.li@intel.com>, <clm@fb.com>,
-	<josef@toxicpanda.com>, <dsterba@suse.com>, <jack@suse.com>, <tytso@mit.edu>,
-	<adilger.kernel@dilger.ca>, <dushistov@mail.ru>,
-	<luc.vanoostenryck@gmail.com>, <rostedt@goodmis.org>, <mhiramat@kernel.org>,
-	<pmladek@suse.com>, <senozhatsky@chromium.org>,
-	<andriy.shevchenko@linux.intel.com>, <linux@rasmusvillemoes.dk>,
-	<minchan@kernel.org>, <ngupta@vflare.org>, <akpm@linux-foundation.org>,
-	<yoshfuji@linux-ipv6.org>, <dsahern@kernel.org>, <pablo@netfilter.org>,
-	<kadlec@netfilter.org>, <fw@strlen.de>, <jmaloy@redhat.com>,
-	<ying.xue@windriver.com>, <andrii@kernel.org>, <mykolal@fb.com>,
-	<ast@kernel.org>, <daniel@iogearbox.net>, <martin.lau@linux.dev>,
-	<song@kernel.org>, <yhs@fb.com>, <john.fastabend@gmail.com>,
-	<kpsingh@kernel.org>, <sdf@google.com>, <haoluo@google.com>,
-	<jolsa@kernel.org>, <shuah@kernel.org>, <keescook@chromium.org>,
-	<wad@chromium.org>, <willy@infradead.org>, <farbere@amazon.com>,
-	<sashal@kernel.org>, <ruanjinjie@huawei.com>, <quic_akhilpo@quicinc.com>,
-	<David.Laight@ACULAB.COM>, <herve.codina@bootlin.com>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-	<linux-um@lists.infradead.org>, <linux-edac@vger.kernel.org>,
-	<amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
-	<linux-arm-msm@vger.kernel.org>, <freedreno@lists.freedesktop.org>,
-	<linux-hwmon@vger.kernel.org>, <linux-input@vger.kernel.org>,
-	<linux-sunxi@lists.linux.dev>, <linux-media@vger.kernel.org>,
-	<netdev@vger.kernel.org>, <linux-stm32@st-md-mailman.stormreply.com>,
-	<platform-driver-x86@vger.kernel.org>, <linux-scsi@vger.kernel.org>,
-	<linux-staging@lists.linux.dev>, <linux-btrfs@vger.kernel.org>,
-	<linux-ext4@vger.kernel.org>, <linux-sparse@vger.kernel.org>,
-	<linux-mm@kvack.org>, <netfilter-devel@vger.kernel.org>,
-	<coreteam@netfilter.org>, <tipc-discussion@lists.sourceforge.net>,
-	<bpf@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
-	<stable@vger.kernel.org>
-CC: Arnd Bergmann <arnd@kernel.org>, Christoph Hellwig <hch@infradead.org>,
-	Dan Carpenter <dan.carpenter@linaro.org>, "Jason A. Donenfeld"
-	<Jason@zx2c4.com>, Jens Axboe <axboe@kernel.dk>, Lorenzo Stoakes
-	<lorenzo.stoakes@oracle.com>, Mateusz Guzik <mjguzik@gmail.com>, "Pedro
- Falcato" <pedro.falcato@gmail.com>
-Subject: [PATCH 19/19 v6.1.y] minmax.h: remove some #defines that are only expanded once
-Date: Wed, 24 Sep 2025 20:23:20 +0000
-Message-ID: <20250924202320.32333-20-farbere@amazon.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20250924202320.32333-1-farbere@amazon.com>
-References: <20250924202320.32333-1-farbere@amazon.com>
+        d=gmail.com; s=20230601; t=1758746828; x=1759351628; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=Uz5b/SWGJp4PVPnMnGvykn1mjKR+ltxumCbS3PwzZAA=;
+        b=iG/slZ7lkyXHk1VVZwD53ZP0ndSkryBkiAjhAYqWSIWQ0l+zBElACOmhDnryNF4Fmw
+         a40vvoti9EbK0JRogbKVq/8OWprzajvRbxj5TufMjkltTcsV/6ySitiwViOgKcTIuoUr
+         vx73XjTjxUYFuZVtVgTUoHcwmlWjtdbMT4CeHXNvGe3accqV5PbK9APlGFg6oegJZYRu
+         sf4xoUwhLxw4bvzYHC5rr4+kQh9ojYelDt6RsVcdz9LgMBdDocAZnd+6hRlvZzB+VX5B
+         YMPM1IJenBHowbGABA5EOBjDmCSDtxOi3Po7EE+iN/yTKQuB9eOYOS7gVBG6VoMW0eQQ
+         pBdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758746828; x=1759351628;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Uz5b/SWGJp4PVPnMnGvykn1mjKR+ltxumCbS3PwzZAA=;
+        b=X2n3NkMZ0sFLcw3GBRQk6rC6DfwUmrzIEJo0saMRQ/OUyoQvBc3wwrXXk5EfjYOypm
+         Q2Skjx/TsYKKkuMpZlnGKUzgwibqeuIx9xcXY6B2UsKOSM2Bkh6x/IyjyFnVQ8OUjMGT
+         C+djWuSOEf0c33nzk4QRs/jAo0WgdFmf+tj/6ubFhy0e/OwdAtlIswz/1KuReIWPsFm7
+         bYgWmEKv+LAPkzqSI7EXWkH6rW0fKcHo10tAqRtrR1ph0tU7AtfyiY4vi0l4qQn4gVkQ
+         /4RujwIpBh+23xU5Qwg00A5o22Os6/uri3MnBr5OyjjscYA6yAcNIbXbOTgD25HDNmzt
+         Vbgw==
+X-Gm-Message-State: AOJu0YxeoBEw2/4e8vfEfBIRW/sWjxej7NnFpOtZl6wBNTLzpZqDTWUr
+	hPnO5qfsAaGcZG+dPEcxSMEvXfnHWbAdA9YXEvp6tQHQmbrTBuDmNBajHeHrFA==
+X-Gm-Gg: ASbGncvNUPNW9OlduUaCt8YFaG1Edx9hXGf/Nq7t6Fm1Gllx5Bl9SkzRwtQa4/HADfv
+	revxm+auYJJm80c406Dvdi1vKt8I8Y3AhHMKSmgNRFtFIe2U2JIjbn9SmQ4/wzIK5zZPsy7zZhY
+	cUEn9SaACciAvpLAicRzsZFwG4vKTg3ZYIzC+NYNHgF6Rn1kJ3y7H7wFYbMMe3lFb2JxAZgFjOk
+	KIiU1vnKCmFJhjxBh0IQFU4S46L2/o+RI3bquNu1Qowod4IPPdBb7DpC9zY3vxHlFxVIFRt8m7x
+	ozy53s8tSGz4O8SzUy5+M2Lnt0d9bt74fkSURY1fgdh/dMsGE3myKLEb6KCJ3YfyR0vWgosTiKY
+	rDqUp13h3Z/KnOiTf/xaFNuJcM7vPZ984Mg==
+X-Google-Smtp-Source: AGHT+IFhtij1snqb5YmNiUxxhLFAlPngjUoBWbojYxm4jaQCU68Yvkxe8ZDdSxWBPwsKHM5RwYoZgQ==
+X-Received: by 2002:a05:6a20:6a27:b0:2df:37cb:6b7c with SMTP id adf61e73a8af0-2e7c42295fcmr1088119637.3.1758746828457;
+        Wed, 24 Sep 2025 13:47:08 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:f4c4:bad6:f33e:ddc9])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b57c52eee5fsm180456a12.0.2025.09.24.13.47.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 24 Sep 2025 13:47:07 -0700 (PDT)
+Date: Wed, 24 Sep 2025 13:47:05 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: j.ne@posteo.net
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Input: ps2-gpio - fix typo
+Message-ID: <bcv4wihu47ala7jtv4daczh7olarwdbdbsfpoj4l5yk2dj6vrq@5axihop6vn6w>
+References: <20250923-ps2-typo-v1-1-03d2468acc32@posteo.net>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: EX19D046UWA002.ant.amazon.com (10.13.139.39) To
- EX19D018EUA004.ant.amazon.com (10.252.50.85)
+In-Reply-To: <20250923-ps2-typo-v1-1-03d2468acc32@posteo.net>
 
-From: David Laight <David.Laight@ACULAB.COM>
+On Tue, Sep 23, 2025 at 02:14:50AM +0200, J. Neuschäfer via B4 Relay wrote:
+> From: "J. Neuschäfer" <j.ne@posteo.net>
+> 
+> "The data line must be sampled" makes much more sense than what was
+> previously written, and given that "s" and "d" are neighbors on the
+> QWERTY keybord, it was probably a typo.
+> 
+> Signed-off-by: J. Neuschäfer <j.ne@posteo.net>
 
-[ Upstream commit 2b97aaf74ed534fb838d09867d09a3ca5d795208 ]
+Applied, thank you.
 
-The bodies of __signed_type_use() and __unsigned_type_use() are much the
-same size as their names - so put the bodies in the only line that expands
-them.
-
-Similarly __signed_type() is defined separately for 64bit and then used
-exactly once just below.
-
-Change the test for __signed_type from CONFIG_64BIT to one based on gcc
-defined macros so that the code is valid if it gets used outside of a
-kernel build.
-
-Link: https://lkml.kernel.org/r/9386d1ebb8974fbabbed2635160c3975@AcuMS.aculab.com
-Signed-off-by: David Laight <david.laight@aculab.com>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Arnd Bergmann <arnd@kernel.org>
-Cc: Christoph Hellwig <hch@infradead.org>
-Cc: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Jason A. Donenfeld <Jason@zx2c4.com>
-Cc: Jens Axboe <axboe@kernel.dk>
-Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: Mateusz Guzik <mjguzik@gmail.com>
-Cc: Matthew Wilcox <willy@infradead.org>
-Cc: Pedro Falcato <pedro.falcato@gmail.com>
-Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
-Signed-off-by: Eliav Farber <farbere@amazon.com>
----
- include/linux/minmax.h | 14 ++++++--------
- 1 file changed, 6 insertions(+), 8 deletions(-)
-
-diff --git a/include/linux/minmax.h b/include/linux/minmax.h
-index 2bbdd5b5e07e..eaaf5c008e4d 100644
---- a/include/linux/minmax.h
-+++ b/include/linux/minmax.h
-@@ -46,10 +46,8 @@
-  * comparison, and these expressions only need to be careful to not cause
-  * warnings for pointer use.
-  */
--#define __signed_type_use(ux) (2 + __is_nonneg(ux))
--#define __unsigned_type_use(ux) (1 + 2 * (sizeof(ux) < 4))
- #define __sign_use(ux) (is_signed_type(typeof(ux)) ? \
--	__signed_type_use(ux) : __unsigned_type_use(ux))
-+	(2 + __is_nonneg(ux)) : (1 + 2 * (sizeof(ux) < 4)))
- 
- /*
-  * Check whether a signed value is always non-negative.
-@@ -57,7 +55,7 @@
-  * A cast is needed to avoid any warnings from values that aren't signed
-  * integer types (in which case the result doesn't matter).
-  *
-- * On 64-bit any integer or pointer type can safely be cast to 'long'.
-+ * On 64-bit any integer or pointer type can safely be cast to 'long long'.
-  * But on 32-bit we need to avoid warnings about casting pointers to integers
-  * of different sizes without truncating 64-bit values so 'long' or 'long long'
-  * must be used depending on the size of the value.
-@@ -66,12 +64,12 @@
-  * them, but we do not use s128 types in the kernel (we do use 'u128',
-  * but they are handled by the !is_signed_type() case).
-  */
--#ifdef CONFIG_64BIT
--  #define __signed_type(ux) long
-+#if __SIZEOF_POINTER__ == __SIZEOF_LONG_LONG__
-+#define __is_nonneg(ux) statically_true((long long)(ux) >= 0)
- #else
--  #define __signed_type(ux) typeof(__builtin_choose_expr(sizeof(ux) > 4, 1LL, 1L))
-+#define __is_nonneg(ux) statically_true( \
-+	(typeof(__builtin_choose_expr(sizeof(ux) > 4, 1LL, 1L)))(ux) >= 0)
- #endif
--#define __is_nonneg(ux) statically_true((__signed_type(ux))(ux) >= 0)
- 
- #define __types_ok(ux, uy) \
- 	(__sign_use(ux) & __sign_use(uy))
 -- 
-2.47.3
-
+Dmitry
 
