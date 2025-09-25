@@ -1,81 +1,82 @@
-Return-Path: <linux-input+bounces-15099-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-15101-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61E60B9E905
-	for <lists+linux-input@lfdr.de>; Thu, 25 Sep 2025 12:07:58 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 044A2B9E91B
+	for <lists+linux-input@lfdr.de>; Thu, 25 Sep 2025 12:08:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 12B663213BA
-	for <lists+linux-input@lfdr.de>; Thu, 25 Sep 2025 10:07:58 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0E0F41BC4BCE
+	for <lists+linux-input@lfdr.de>; Thu, 25 Sep 2025 10:08:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6C9DF2EA74A;
-	Thu, 25 Sep 2025 10:07:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6C9682EB5C1;
+	Thu, 25 Sep 2025 10:07:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b="glqlS/OL"
+	dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b="ijv48Tt7"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 538512E9EC9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AB022EA475
 	for <linux-input@vger.kernel.org>; Thu, 25 Sep 2025 10:07:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758794870; cv=none; b=iSa7ArbGU6IOcexylgyxXgPssfcGsTA6qA2y8v8gn1U1LrS7PZ0r7tpzUE6ICzhaba1jdUSKFeBg4Roqiq1QTVbGfq8zivrW5cNFlEy9JUgHHoIJ2TdfHgnj34UyPfCI+uYNab/iZLD8ahzNUJmOC6Jnjc/+7/GVfc7yQykdf5s=
+	t=1758794872; cv=none; b=rXmj6PjfcGEo/MjLRDPVCFF6ib2JZZVJllyhd4ngQhESSgrdxv4s+2sMCMw50t6RGPrcQckXpMPY7qDbWmnE8BIpAsSt4YL5M9cp7smeg34rWL+t1nUxRViIUUcDXbJaiJ9NQRdHL7AZxSjk6/17Xg9MzGbK/Q+L3jQuMMi5SB4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758794870; c=relaxed/simple;
-	bh=1QUK9jJoKqv/JFiexX45KtZUZbQgSKDFt0QiDPiytLQ=;
+	s=arc-20240116; t=1758794872; c=relaxed/simple;
+	bh=xJmrxaJF6qGMBkt3yyh84HY3lci8Oci8+nMwaEq80hE=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=DseFgWvtQ22CpmDADnYdS918lIpo4iMmltwntzIzBcEasnXBBhq1TJCDUSyIRG33Rb0nIn6Os5DPXRA3PvoD+fd2SIe4HcMDERxcatBWvt98Im7QOuTiVTWxwIZeUUswVy6VcB7iP/KIwTShJ3/aIhNBsTCeduzmE22LrOsF+CI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fairphone.com; spf=pass smtp.mailfrom=fairphone.com; dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b=glqlS/OL; arc=none smtp.client-ip=209.85.218.49
+	 In-Reply-To:To:Cc; b=taGtwGi5Al/7cq/5/Q8rIulzqdtnMBksVBOJ1ohA2936LwZpDAXw8KkdymPh2RH/gYSwALpQSZRvRFE4MwYxLiNyCFMHJBUCLNMyMbebk731DGbfHbZwuWEyE6OSh9xICauJ/0FGEazitSMo/6KIFOZiBlnEBNvpSXuKx5EmMmc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fairphone.com; spf=pass smtp.mailfrom=fairphone.com; dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b=ijv48Tt7; arc=none smtp.client-ip=209.85.218.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fairphone.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fairphone.com
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-b0787fdb137so128910966b.0
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-b346142c74aso140450366b.2
         for <linux-input@vger.kernel.org>; Thu, 25 Sep 2025 03:07:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=fairphone.com; s=fair; t=1758794867; x=1759399667; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=MlraT9aep0ygh9OC4i2N/udBlNlRXDYuFWD4+3zrjGg=;
-        b=glqlS/OLGMkYgPlfvz9L29E4za7zNYDA8P9oFLOyN4O8FTR3+Zcob0z8fbJRWgpN/L
-         4rp/ycWnS1DPDdzbQ7OiHXYFIkZI5PJchm/nWfRmYpl541J4niJRqH07zWqHQPK+6Kb1
-         J9YxvxCx5jjj3AA9tcLRryEC3F88Fm7FMsSh29wTMD969EbYtxkRM81Z4OFP5+yv6ks9
-         P97CorLvv8FRv2nkWz0qdht74Bz6ptj3OtJ45ire4p1FKxVM/25NMxlFQ/6AhDk4cyo7
-         C0zSkEdZLT3d3RgfCEk17JhHnFoDTamADQsvtazEOF3sUCb8MmIa/QxfMwOyTmp4v7/0
-         LAwA==
+        bh=MIuloTn7VbZzvMj8je0J/BW+v9+tSg061kRHq+m/b+o=;
+        b=ijv48Tt767Ob0Okh9fI9kMdDXY2GtAfTWkYd6BILah/Rtcbw0MvTaMEtMM2g0hQ1OG
+         1dlI3YztH90QBk4g9VKiFTf6u7RKjk3YpQYzgzTOw5Aef10iHGlJLtAr81Bk4q7hSED7
+         Qt4GBrjl3vyjbmd39o7Q//r6ZXKu34nVqV3j6avnmcYkUVqw48CzygmDwBbikG68dr3v
+         j7um5FXY9fwxeWjHjcy44nl+AMH97kATZhB2doxqFlnUFKYKKZYjIjnikQYaWFIE1BZg
+         vJCz8iqCJ/O24ay0uVULX8cf/ve8DEb4pw7W5qBcpFjSidsti9yhR4k97qkOQBZrOK1m
+         d78A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1758794867; x=1759399667;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=MlraT9aep0ygh9OC4i2N/udBlNlRXDYuFWD4+3zrjGg=;
-        b=Fg3Got7fRd1lrkvLgBOkogWTss2uV6qGJ+TsKqIXWnnL1EvLYXBIq3hQe+kvBTaJHJ
-         Ut255fvQI1/sa/dmDhJ/3BWlBjEYqNzz69vHMPlXAfY/Pn4zRVn8dv0Qr7+LEarrUTZN
-         RcPAbTJ+vmxrEBseFoaCEOkhhc0sNvYTP/zxjmk5EmXfc1AxvJQSAbB7A9y/rlLBZJ0f
-         9PdkGgB7EgFfcJx0l8wbVVPc+wfFKqKhgpyC9+5KQ/0T0YhNbfQbNdtkg1iXkbuTGPiy
-         slcYRaj4O2HDGbp4RCACIBMypvyCsvctDlMUKVB+tPFxU83KV5uANDN0sKVDpfve3jld
-         +Mow==
-X-Gm-Message-State: AOJu0YwHyURlleb+LQdRr6QJrO8D6L9cSt776QQ+ZvSZw17ueKInjLYi
-	PJ2E0EVFpgV4lAnbC26LhV2dJWFTCDGI4QzrvHSeEV8E6FwwYFEA3OPf5A+TN+WrPlc=
-X-Gm-Gg: ASbGncu1VCAGy1lnpPYFVdQyMMELs9hOy1vwGm8wqcbuwwQtTburas9bERCm/nrzdMb
-	P2z9Q97YU7fQFgbT2Ummc2fCDjD8XT/fescLO/qXUmAcq+g5KehixGPIMnAaN/o0Mc8f5p2Ju84
-	Lizg/FOpDUcyfimFmAFxepYVzWmPbmTOe2rjre4YUNF6+zQBDmU9otnfjO/Cmi16MeOhd9tYxHo
-	Bp7Jeg6j3BEjS9ec4+AispvrTL5K2C8pI8HWF0XGBvLy1lVfLE46BsvoWuaVCcz4Be8Llp8TlNe
-	QflN17EON58z9LdxwKCn2MPkoCmnmyt3b18sDr49AEXT/XMUZnm+FyzYvkviarMCTD5F6p4JrgE
-	I7y2fhTLNsAkDP8RPOjLWk4w0vCS07Ae/YAMK6CHbylGVzfsVbC6JZMlj85Igh8Yms3WKi1GuCg
-	ROVOQH
-X-Google-Smtp-Source: AGHT+IF6yachSnDBfrcZ3V0TzrsfeZbsh50wHUGTubUCMItVqZFVHiYHFhthgCJw93KVQb8DLdZCow==
-X-Received: by 2002:a17:907:d0a:b0:afd:d94b:830d with SMTP id a640c23a62f3a-b34bfa5c2ddmr346388166b.62.1758794866636;
-        Thu, 25 Sep 2025 03:07:46 -0700 (PDT)
+        bh=MIuloTn7VbZzvMj8je0J/BW+v9+tSg061kRHq+m/b+o=;
+        b=i8/7qECULHO9NJwu4Zgb0cXsMGh9XJjNRK9gt+Q7cOyIWOPLekymwKjzGpXovKuIdW
+         +zazsx++4TaG/kyUPwDFc+2iVIrOocG9MryBwWnAFIjRU0S4TNtlUSlmTGieHAd/5odt
+         hge5WHmrDJEy6ZTp6+Cp25GL4nm48qH2ECZAOdTxyxzcsKLCz4ntB9vV/7yXqzYYLxb+
+         CI3kUP0K80Q92f+D/mAosCDrctj7bxHhh9h8pnx/oW0LTeFftEdcVzE56cfOlmEp/Q0D
+         tsvxR45Gpg7xhQc9PpcRlLRcuj10ggHy0WA7RfE9LJFJNG32u0+huulRo8FBM46eTU+E
+         lphg==
+X-Gm-Message-State: AOJu0Yx7ZipFjWOd/RdxpW9XwMK1rkN+NgcAIjEG5veRANA2AtWUztbG
+	jYB+lOkVASRWg/49gimT/tXUj5jEYUesfKw421VUOL0LE5HRWLEMpsSWG+RoLXDiq44=
+X-Gm-Gg: ASbGncuI/Wb9xAKZH2sPXHvsccyioZ6IDPIKb0IlvFF2tr34XUx2rTatnSLN9eyAWyX
+	xFMIhWPi1xbotiyZBVvW6RaEEzLHHzvRpCjCZH4DrFqy5tZI5Jpui4b1EDjo05/Ams4kWEMWWeF
+	7L8Qnootyjf16bpm5wsGJYpaV5bWZmfQaMJhDlBkv58tDLZLZ0ytGdEPwzdnv2ThXWzSkgUGEQc
+	7p34NJpptJ63ceVVm5JmGxWEc+oe/5SYVZJBrDgKeb1Q75u14CNelWQI5JtZ/j9B8sP1xDshiIQ
+	O2sKjvBn9xeiyS9pnMfUwO02OxA6ODcRMdxuII7u4eVHfbvDiMKy020mVJAGSligTEMLI9VA4ID
+	qcmxmit54s/WAOVwdeOTceFP++MoinArPxvxtlBgRPuc5T4DWR5dmCHIhcBPEGFZPQ7Gj3eJ8D/
+	FbQZ1X
+X-Google-Smtp-Source: AGHT+IGpCWB5cwMRbOITN3Wg4iZUcnxjpzrvYL7fZtYR2jlgf7Zq8svjAqlDL79pQy6BeQRmvqLOHw==
+X-Received: by 2002:a17:907:6e8b:b0:afe:d62a:f04b with SMTP id a640c23a62f3a-b34b635381emr305295366b.3.1758794867219;
+        Thu, 25 Sep 2025 03:07:47 -0700 (PDT)
 Received: from [172.16.220.225] (144-178-202-139.static.ef-service.nl. [144.178.202.139])
         by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b35446f7746sm134270766b.59.2025.09.25.03.07.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Thu, 25 Sep 2025 03:07:46 -0700 (PDT)
 From: Griffin Kroah-Hartman <griffin.kroah@fairphone.com>
-Date: Thu, 25 Sep 2025 12:07:28 +0200
-Subject: [PATCH RESEND v3 1/3] dt-bindings: input: Add Awinic AW86927
+Date: Thu, 25 Sep 2025 12:07:29 +0200
+Subject: [PATCH RESEND v3 2/3] Input: aw86927 - add driver for Awinic
+ AW86927
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -84,7 +85,7 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250925-aw86927-v3-1-1fc6265b42de@fairphone.com>
+Message-Id: <20250925-aw86927-v3-2-1fc6265b42de@fairphone.com>
 References: <20250925-aw86927-v3-0-1fc6265b42de@fairphone.com>
 In-Reply-To: <20250925-aw86927-v3-0-1fc6265b42de@fairphone.com>
 To: Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
@@ -94,80 +95,924 @@ To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
  Luca Weiss <luca.weiss@fairphone.com>
 Cc: linux-input@vger.kernel.org, devicetree@vger.kernel.org, 
  linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- Griffin Kroah-Hartman <griffin.kroah@fairphone.com>, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+ Griffin Kroah-Hartman <griffin.kroah@fairphone.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1758794865; l=1746;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1758794865; l=27614;
  i=griffin.kroah@fairphone.com; s=20250804; h=from:subject:message-id;
- bh=1QUK9jJoKqv/JFiexX45KtZUZbQgSKDFt0QiDPiytLQ=;
- b=fsqcucISYV12YVSllE7SDA4gLAbgrvocKzurN7EjjzUKfL99HMpSbvtKf6IalaWBzxCDjwImf
- OHcWM3YxSn6Dr/itl+UN+LBAjCCjzWaWDdmOfrThQTxT/q+oH5dMAZZ
+ bh=xJmrxaJF6qGMBkt3yyh84HY3lci8Oci8+nMwaEq80hE=;
+ b=RSKWi/oNQAZK3A7I2KvRh1gz86fkic29CW7PVaehH1N3JYobCGag0GjxFjGwKCfnQR+MFqCuB
+ We7pnDOGZgiDtbmws8rzHSw2GrpVTbUavIFWzaMNPMw7ta9Y8CXFID2
 X-Developer-Key: i=griffin.kroah@fairphone.com; a=ed25519;
  pk=drSBvqKFiR+xucmLWONHSq/wGrW+YvcVtBXFYnYzn8U=
 
-Add bindings for the Awinic AW86927 haptic chip which can be found in
-smartphones.
+Add support for the I2C-connected Awinic AW86927 LRA haptic driver.
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+This driver includes a hardcoded sine waveform to be uploaded to the
+AW86927's SRAM for haptic playback.
+This driver does not currently support all the capabilities of the
+AW86927, such as F0 calibration, RTP mode, and CONT mode.
+
 Signed-off-by: Griffin Kroah-Hartman <griffin.kroah@fairphone.com>
 ---
- .../devicetree/bindings/input/awinic,aw86927.yaml  | 48 ++++++++++++++++++++++
- 1 file changed, 48 insertions(+)
+ drivers/input/misc/Kconfig   |  11 +
+ drivers/input/misc/Makefile  |   1 +
+ drivers/input/misc/aw86927.c | 854 +++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 866 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/input/awinic,aw86927.yaml b/Documentation/devicetree/bindings/input/awinic,aw86927.yaml
+diff --git a/drivers/input/misc/Kconfig b/drivers/input/misc/Kconfig
+index f5496ca0c0d2bfcb7968503ccd1844ff43bbc1c0..20a5f552d9f4c805a3d2010fb41d65c160ab33fe 100644
+--- a/drivers/input/misc/Kconfig
++++ b/drivers/input/misc/Kconfig
+@@ -126,6 +126,17 @@ config INPUT_ATMEL_CAPTOUCH
+ 	  To compile this driver as a module, choose M here: the
+ 	  module will be called atmel_captouch.
+ 
++config INPUT_AW86927
++	tristate "Awinic AW86927 Haptic Driver Support"
++	depends on I2C && INPUT
++	select INPUT_FF_MEMLESS
++	select REGMAP_I2C
++	help
++	  Say Y here if you have an Awinic AW86927 haptic chip.
++
++	  To compile this driver as a module, choose M here: the
++	  module will be called aw86927.
++
+ config INPUT_BBNSM_PWRKEY
+ 	tristate "NXP BBNSM Power Key Driver"
+ 	depends on ARCH_MXC || COMPILE_TEST
+diff --git a/drivers/input/misc/Makefile b/drivers/input/misc/Makefile
+index 6d91804d0a6f761a094e6c380f878f74c3054d63..a311a84d1b7047d4110be9642a679fe9d7f5e945 100644
+--- a/drivers/input/misc/Makefile
++++ b/drivers/input/misc/Makefile
+@@ -22,6 +22,7 @@ obj-$(CONFIG_INPUT_ATC260X_ONKEY)	+= atc260x-onkey.o
+ obj-$(CONFIG_INPUT_ATI_REMOTE2)		+= ati_remote2.o
+ obj-$(CONFIG_INPUT_ATLAS_BTNS)		+= atlas_btns.o
+ obj-$(CONFIG_INPUT_ATMEL_CAPTOUCH)	+= atmel_captouch.o
++obj-$(CONFIG_INPUT_AW86927)		+= aw86927.o
+ obj-$(CONFIG_INPUT_BBNSM_PWRKEY)	+= nxp-bbnsm-pwrkey.o
+ obj-$(CONFIG_INPUT_BMA150)		+= bma150.o
+ obj-$(CONFIG_INPUT_CM109)		+= cm109.o
+diff --git a/drivers/input/misc/aw86927.c b/drivers/input/misc/aw86927.c
 new file mode 100644
-index 0000000000000000000000000000000000000000..b7252916bd727486c1a98913d4ec3ef12422e4bd
+index 0000000000000000000000000000000000000000..bd1913b8fc566cb7bd5d9357e5930ce09143c131
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/input/awinic,aw86927.yaml
-@@ -0,0 +1,48 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/input/awinic,aw86927.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
++++ b/drivers/input/misc/aw86927.c
+@@ -0,0 +1,854 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * Copyright (C) 2025 Griffin Kroah-Hartman <griffin.kroah@fairphone.com>
++ *
++ * Partially based on vendor driver:
++ *	Copyright (c) 2021 AWINIC Technology CO., LTD
++ *
++ */
 +
-+title: Awinic AW86927 LRA Haptic IC
++#include <linux/delay.h>
++#include <linux/gpio/consumer.h>
++#include <linux/i2c.h>
++#include <linux/input.h>
++#include <linux/module.h>
++#include <linux/regmap.h>
++#include <linux/regulator/consumer.h>
++#include <linux/bitops.h>
 +
-+maintainers:
-+  - Griffin Kroah-Hartman <griffin.kroah@fairphone.com>
++#define AW86927_RSTCFG_REG			0x00
++#define AW86927_RSTCFG_SOFTRST			0xaa
 +
-+properties:
-+  compatible:
-+    const: awinic,aw86927
++#define AW86927_SYSINT_REG			0x02
++#define AW86927_SYSINT_BST_SCPI			BIT(7)
++#define AW86927_SYSINT_BST_OVPI			BIT(6)
++#define AW86927_SYSINT_UVLI			BIT(5)
++#define AW86927_SYSINT_FF_AEI			BIT(4)
++#define AW86927_SYSINT_FF_AFI			BIT(3)
++#define AW86927_SYSINT_OCDI			BIT(2)
++#define AW86927_SYSINT_OTI			BIT(1)
++#define AW86927_SYSINT_DONEI			BIT(0)
 +
-+  reg:
-+    maxItems: 1
++#define AW86927_SYSINTM_REG			0x03
++#define AW86927_SYSINTM_BST_OVPM		BIT(6)
++#define AW86927_SYSINTM_FF_AEM			BIT(4)
++#define AW86927_SYSINTM_FF_AFM			BIT(3)
++#define AW86927_SYSINTM_DONEM			BIT(0)
 +
-+  reset-gpios:
-+    maxItems: 1
++#define AW86927_PLAYCFG1_REG			0x06
++#define AW86927_PLAYCFG1_BST_MODE_MASK		GENMASK(7, 7)
++#define AW86927_PLAYCFG1_BST_MODE_BYPASS	0
++#define AW86927_PLAYCFG1_BST_VOUT_VREFSET_MASK	GENMASK(6, 0)
++#define AW86927_PLAYCFG1_BST_8500MV		0x50
 +
-+  interrupts:
-+    maxItems: 1
++#define AW86927_PLAYCFG2_REG			0x07
 +
-+required:
-+  - compatible
-+  - reg
-+  - reset-gpios
-+  - interrupts
++#define AW86927_PLAYCFG3_REG			0x08
++#define AW86927_PLAYCFG3_AUTO_BST_MASK		GENMASK(4, 4)
++#define AW86927_PLAYCFG3_AUTO_BST_ENABLE	1
++#define AW86927_PLAYCFG3_AUTO_BST_DISABLE	0
++#define AW86927_PLAYCFG3_PLAY_MODE_MASK		GENMASK(1, 0)
++#define AW86927_PLAYCFG3_PLAY_MODE_RAM		0
 +
-+additionalProperties: false
++#define AW86927_PLAYCFG4_REG			0x09
++#define AW86927_PLAYCFG4_STOP			BIT(1)
++#define AW86927_PLAYCFG4_GO			BIT(0)
 +
-+examples:
-+  - |
-+    #include <dt-bindings/gpio/gpio.h>
-+    #include <dt-bindings/interrupt-controller/irq.h>
++#define AW86927_WAVCFG1_REG			0x0a
++#define AW86927_WAVCFG1_WAVSEQ1_MASK		GENMASK(6, 0)
 +
-+    i2c {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
++#define AW86927_WAVCFG2_REG			0x0b
++#define AW86927_WAVCFG2_WAVSEQ2_MASK		GENMASK(6, 0)
 +
-+        vibrator@5a {
-+            compatible = "awinic,aw86927";
-+            reg = <0x5a>;
-+            interrupts-extended = <&tlmm 101 IRQ_TYPE_EDGE_FALLING>;
-+            reset-gpios = <&tlmm 100 GPIO_ACTIVE_LOW>;
-+        };
-+    };
++#define AW86927_WAVCFG9_REG			0x12
++#define AW86927_WAVCFG9_SEQ1LOOP_MASK		GENMASK(7, 4)
++#define AW86927_WAVCFG9_SEQ1LOOP_INFINITELY	0x0f
++
++#define AW86927_CONTCFG1_REG			0x18
++#define AW86927_CONTCFG1_BRK_BST_MD_MASK	GENMASK(6, 6)
++
++#define AW86927_CONTCFG5_REG			0x1c
++#define AW86927_CONTCFG5_BST_BRK_GAIN_MASK	GENMASK(7, 4)
++#define AW86927_CONTCFG5_BRK_GAIN_MASK		GENMASK(3, 0)
++
++#define AW86927_CONTCFG10_REG			0x21
++#define AW86927_CONTCFG10_BRK_TIME_MASK		GENMASK(7, 0)
++#define AW86927_CONTCFG10_BRK_TIME_DEFAULT	8
++
++#define AW86927_CONTCFG13_REG			0x24
++#define AW86927_CONTCFG13_TSET_MASK		GENMASK(7, 4)
++#define AW86927_CONTCFG13_BEME_SET_MASK		GENMASK(3, 0)
++
++#define AW86927_BASEADDRH_REG			0x2d
++#define AW86927_BASEADDRL_REG			0x2e
++
++#define AW86927_GLBRD5_REG			0x3f
++#define AW86927_GLBRD5_STATE_MASK		GENMASK(3, 0)
++#define AW86927_GLBRD5_STATE_STANDBY		0
++
++#define AW86927_RAMADDRH_REG			0x40
++
++#define AW86927_RAMADDRL_REG			0x41
++
++#define AW86927_RAMDATA_REG			0x42
++
++#define AW86927_SYSCTRL3_REG			0x45
++#define AW86927_SYSCTRL3_STANDBY_MASK           GENMASK(5, 5)
++#define AW86927_SYSCTRL3_STANDBY_ON             1
++#define AW86927_SYSCTRL3_STANDBY_OFF            0
++#define AW86927_SYSCTRL3_EN_RAMINIT_MASK        GENMASK(2, 2)
++#define AW86927_SYSCTRL3_EN_RAMINIT_ON          1
++#define AW86927_SYSCTRL3_EN_RAMINIT_OFF         0
++
++#define AW86927_SYSCTRL4_REG			0x46
++#define AW86927_SYSCTRL4_WAVDAT_MODE_MASK	GENMASK(6, 5)
++#define AW86927_SYSCTRL4_WAVDAT_24K		0
++#define AW86927_SYSCTRL4_INT_EDGE_MODE_MASK	GENMASK(4, 4)
++#define AW86927_SYSCTRL4_INT_EDGE_MODE_POS	0
++#define AW86927_SYSCTRL4_INT_MODE_MASK		GENMASK(3, 3)
++#define AW86927_SYSCTRL4_INT_MODE_EDGE		1
++#define AW86927_SYSCTRL4_GAIN_BYPASS_MASK	GENMASK(0, 0)
++
++#define AW86927_PWMCFG1_REG			0x48
++#define AW86927_PWMCFG1_PRC_EN_MASK		GENMASK(7, 7)
++#define AW86927_PWMCFG1_PRC_DISABLE		0
++
++#define AW86927_PWMCFG3_REG			0x4a
++#define AW86927_PWMCFG3_PR_EN_MASK		GENMASK(7, 7)
++#define AW86927_PWMCFG3_PRCTIME_MASK		GENMASK(6, 0)
++
++#define AW86927_PWMCFG4_REG			0x4b
++#define AW86927_PWMCFG4_PRTIME_MASK		GENMASK(7, 0)
++
++#define AW86927_VBATCTRL_REG			0x4c
++#define AW86927_VBATCTRL_VBAT_MODE_MASK		GENMASK(6, 6)
++#define AW86927_VBATCTRL_VBAT_MODE_SW		0
++
++#define AW86927_DETCFG1_REG			0x4d
++#define AW86927_DETCFG1_DET_GO_MASK		GENMASK(1, 0)
++#define AW86927_DETCFG1_DET_GO_DET_SEQ0		1
++#define AW86927_DETCFG1_DET_GO_NA		0
++
++#define AW86927_DETCFG2_REG			0x4e
++#define AW86927_DETCFG2_DET_SEQ0_MASK		GENMASK(6, 3)
++#define AW86927_DETCFG2_DET_SEQ0_VBAT		0
++#define AW86927_DETCFG2_D2S_GAIN_MASK		GENMASK(2, 0)
++#define AW86927_DETCFG2_D2S_GAIN_10		4
++
++#define AW86927_CHIPIDH_REG			0x57
++#define AW86927_CHIPIDL_REG			0x58
++#define AW86927_CHIPID				0x9270
++
++#define AW86927_TMCFG_REG			0x5b
++#define AW86927_TMCFG_UNLOCK			0x7d
++#define AW86927_TMCFG_LOCK			0x00
++
++#define AW86927_ANACFG11_REG			0x70
++
++#define AW86927_ANACFG12_REG			0x71
++#define AW86927_ANACFG12_BST_SKIP_MASK		GENMASK(7, 7)
++#define AW86927_ANACFG12_BST_SKIP_SHUTDOWN	1
++
++#define AW86927_ANACFG13_REG			0x72
++#define AW86927_ANACFG13_BST_PC_MASK		GENMASK(7, 4)
++#define AW86927_ANACFG13_BST_PEAKCUR_3P45A	6
++
++#define AW86927_ANACFG15_REG			0x74
++#define AW86927_ANACFG15_BST_PEAK_MODE_MASK	GENMASK(7, 7)
++#define AW86927_ANACFG15_BST_PEAK_BACK		1
++
++#define AW86927_ANACFG16_REG			0x75
++#define AW86927_ANACFG16_BST_SRC_MASK		GENMASK(4, 4)
++#define AW86927_ANACFG16_BST_SRC_3NS		0
++
++/* default value of base addr */
++#define AW86927_RAM_BASE_ADDR			0x800
++#define AW86927_BASEADDRH_VAL			0x08
++#define AW86927_BASEADDRL_VAL			0x00
++
++enum aw86927_work_mode {
++	AW86927_STANDBY_MODE,
++	AW86927_RAM_MODE,
++};
++
++struct aw86927_data {
++	struct work_struct play_work;
++	struct device *dev;
++	struct input_dev *input_dev;
++	struct i2c_client *client;
++	struct regmap *regmap;
++	struct gpio_desc *reset_gpio;
++	bool running;
++};
++
++static const struct regmap_config aw86927_regmap_config = {
++	.reg_bits = 8,
++	.val_bits = 8,
++	.cache_type = REGCACHE_NONE,
++	.max_register = 0x80,
++};
++
++/*
++ * Sine wave representing the magnitude of the drive to be used.
++ * Data is encoded in two's complement.
++ *   round(84 * sin(x / 16.25))
++ */
++static const uint8_t aw86927_waveform[] = {
++	0x00, 0x05, 0x0a, 0x0f, 0x14, 0x1a, 0x1f, 0x23, 0x28, 0x2d, 0x31, 0x35,
++	0x39, 0x3d, 0x41, 0x44, 0x47, 0x4a, 0x4c, 0x4f, 0x51, 0x52, 0x53, 0x54,
++	0x55, 0x55, 0x55, 0x55, 0x55, 0x54, 0x52, 0x51, 0x4f, 0x4d, 0x4a, 0x47,
++	0x44, 0x41, 0x3d, 0x3a, 0x36, 0x31, 0x2d, 0x28, 0x24, 0x1f, 0x1a, 0x15,
++	0x10, 0x0a, 0x05, 0x00, 0xfc, 0xf6, 0xf1, 0xec, 0xe7, 0xe2, 0xdd, 0xd8,
++	0xd4, 0xcf, 0xcb, 0xc7, 0xc3, 0xbf, 0xbc, 0xb9, 0xb6, 0xb4, 0xb1, 0xb0,
++	0xae, 0xad, 0xac, 0xab, 0xab, 0xab, 0xab, 0xab, 0xac, 0xae, 0xaf, 0xb1,
++	0xb3, 0xb6, 0xb8, 0xbc, 0xbf, 0xc2, 0xc6, 0xca, 0xce, 0xd3, 0xd7, 0xdc,
++	0xe1, 0xe6, 0xeb, 0xf0, 0xf5, 0xfb
++};
++
++struct aw86927_sram_waveform_header {
++	uint8_t version;
++	__be16 start_address;
++	__be16 end_address;
++} __packed;
++
++static const struct aw86927_sram_waveform_header sram_waveform_header = {
++	.version = 0x01,
++	.start_address = cpu_to_be16(AW86927_RAM_BASE_ADDR +
++			sizeof(struct aw86927_sram_waveform_header)),
++	.end_address = cpu_to_be16(AW86927_RAM_BASE_ADDR +
++			sizeof(struct aw86927_sram_waveform_header) +
++			ARRAY_SIZE(aw86927_waveform) - 1),
++};
++
++static int aw86927_wait_enter_standby(struct aw86927_data *haptics)
++{
++	unsigned int reg_val;
++	int err;
++
++	err = regmap_read_poll_timeout(haptics->regmap,
++			AW86927_GLBRD5_REG, reg_val,
++			(FIELD_GET(AW86927_GLBRD5_STATE_MASK, reg_val) == AW86927_GLBRD5_STATE_STANDBY),
++			2500, 2500 * 100);
++
++	if (err) {
++		dev_err(haptics->dev, "did not enter standby: %d\n", err);
++		return err;
++	}
++	return 0;
++}
++
++static int aw86927_play_mode(struct aw86927_data *haptics, uint8_t play_mode)
++{
++	int err;
++
++	switch (play_mode) {
++	case AW86927_STANDBY_MODE:
++		/* Briefly toggle standby, then toggle back to standby off */
++		err = regmap_update_bits(haptics->regmap,
++				AW86927_SYSCTRL3_REG,
++				AW86927_SYSCTRL3_STANDBY_MASK,
++				FIELD_PREP(AW86927_SYSCTRL3_STANDBY_MASK,
++					   AW86927_SYSCTRL3_STANDBY_ON));
++		if (err)
++			return err;
++
++		err = regmap_update_bits(haptics->regmap,
++				AW86927_SYSCTRL3_REG,
++				AW86927_SYSCTRL3_STANDBY_MASK,
++				FIELD_PREP(AW86927_SYSCTRL3_STANDBY_MASK,
++					   AW86927_SYSCTRL3_STANDBY_OFF));
++		if (err)
++			return err;
++		break;
++	case AW86927_RAM_MODE:
++		err = regmap_update_bits(haptics->regmap,
++				AW86927_PLAYCFG3_REG,
++				AW86927_PLAYCFG3_PLAY_MODE_MASK,
++				FIELD_PREP(AW86927_PLAYCFG3_PLAY_MODE_MASK,
++					   AW86927_PLAYCFG3_PLAY_MODE_RAM));
++		if (err)
++			return err;
++
++		err = regmap_update_bits(haptics->regmap,
++				AW86927_PLAYCFG1_REG,
++				AW86927_PLAYCFG1_BST_MODE_MASK,
++				FIELD_PREP(AW86927_PLAYCFG1_BST_MODE_MASK,
++					   AW86927_PLAYCFG1_BST_MODE_BYPASS));
++		if (err)
++			return err;
++
++		err = regmap_update_bits(haptics->regmap,
++				AW86927_VBATCTRL_REG,
++				AW86927_VBATCTRL_VBAT_MODE_MASK,
++				FIELD_PREP(AW86927_VBATCTRL_VBAT_MODE_MASK,
++					   AW86927_VBATCTRL_VBAT_MODE_SW));
++		if (err)
++			return err;
++		break;
++	}
++	return 0;
++}
++
++static int aw86927_stop(struct aw86927_data *haptics)
++{
++	int err;
++
++	err = regmap_write(haptics->regmap, AW86927_PLAYCFG4_REG, AW86927_PLAYCFG4_STOP);
++	if (err) {
++		dev_err(haptics->dev, "Failed to stop playback: %d\n", err);
++		return err;
++	}
++
++	err = aw86927_wait_enter_standby(haptics);
++	if (err) {
++		dev_err(haptics->dev, "Failed to enter standby, trying to force it\n");
++		err = aw86927_play_mode(haptics, AW86927_STANDBY_MODE);
++		if (err)
++			return err;
++	}
++	return 0;
++}
++
++static int aw86927_haptics_play(struct input_dev *dev, void *data, struct ff_effect *effect)
++{
++	struct aw86927_data *haptics = input_get_drvdata(dev);
++	int level;
++
++	level = effect->u.rumble.strong_magnitude;
++	if (!level)
++		level = effect->u.rumble.weak_magnitude;
++
++	/* If already running, don't restart playback */
++	if (haptics->running && level)
++		return 0;
++
++	haptics->running = level;
++	schedule_work(&haptics->play_work);
++
++	return 0;
++}
++
++static int aw86927_play_sine(struct aw86927_data *haptics)
++{
++	int err;
++
++	err = aw86927_stop(haptics);
++	if (err)
++		return err;
++
++	err = aw86927_play_mode(haptics, AW86927_RAM_MODE);
++	if (err)
++		return err;
++
++	err = regmap_update_bits(haptics->regmap, AW86927_PLAYCFG3_REG,
++			AW86927_PLAYCFG3_AUTO_BST_MASK,
++			FIELD_PREP(AW86927_PLAYCFG3_AUTO_BST_MASK,
++				   AW86927_PLAYCFG3_AUTO_BST_ENABLE));
++	if (err)
++		return err;
++
++	/* Set waveseq 1 to the first wave */
++	err = regmap_update_bits(haptics->regmap, AW86927_WAVCFG1_REG,
++			AW86927_WAVCFG1_WAVSEQ1_MASK,
++			FIELD_PREP(AW86927_WAVCFG1_WAVSEQ1_MASK,
++				   1));
++	if (err)
++		return err;
++
++	/* set wavseq 2 to zero */
++	err = regmap_update_bits(haptics->regmap, AW86927_WAVCFG2_REG,
++			AW86927_WAVCFG2_WAVSEQ2_MASK,
++			FIELD_PREP(AW86927_WAVCFG2_WAVSEQ2_MASK,
++				   0));
++	if (err)
++		return err;
++
++	err = regmap_update_bits(haptics->regmap,
++			AW86927_WAVCFG9_REG,
++			AW86927_WAVCFG9_SEQ1LOOP_MASK,
++			FIELD_PREP(AW86927_WAVCFG9_SEQ1LOOP_MASK,
++				   AW86927_WAVCFG9_SEQ1LOOP_INFINITELY));
++	if (err)
++		return err;
++
++	/* set gain to value lower than 0x80 to avoid distorted playback */
++	err = regmap_write(haptics->regmap, AW86927_PLAYCFG2_REG, 0x7c);
++	if (err)
++		return err;
++
++	/* Start playback */
++	err = regmap_write(haptics->regmap, AW86927_PLAYCFG4_REG, AW86927_PLAYCFG4_GO);
++	if (err)
++		return err;
++
++	return 0;
++}
++
++static void aw86927_close(struct input_dev *input)
++{
++	struct aw86927_data *haptics = input_get_drvdata(input);
++	struct device *dev = &haptics->client->dev;
++	int err;
++
++	cancel_work_sync(&haptics->play_work);
++
++	err = aw86927_stop(haptics);
++	if (err)
++		dev_err(dev, "Failed to close the Driver: %d\n", err);
++}
++
++static void aw86927_haptics_play_work(struct work_struct *work)
++{
++	struct aw86927_data *haptics =
++		container_of(work, struct aw86927_data, play_work);
++	struct device *dev = &haptics->client->dev;
++	int err;
++
++	if (haptics->running)
++		err = aw86927_play_sine(haptics);
++	else
++		err = aw86927_stop(haptics);
++
++	if (err)
++		dev_err(dev, "Failed to execute work command: %d\n", err);
++}
++
++static void aw86927_hw_reset(struct aw86927_data *haptics)
++{
++	/* Assert reset */
++	gpiod_set_value_cansleep(haptics->reset_gpio, 1);
++	/* Wait ~1ms */
++	usleep_range(1000, 2000);
++	/* Deassert reset */
++	gpiod_set_value_cansleep(haptics->reset_gpio, 0);
++	/* Wait ~8ms until I2C is accessible */
++	usleep_range(8000, 8500);
++}
++
++static int aw86927_haptic_init(struct aw86927_data *haptics)
++{
++	int err;
++
++	err = regmap_update_bits(haptics->regmap,
++			AW86927_SYSCTRL4_REG,
++			AW86927_SYSCTRL4_WAVDAT_MODE_MASK,
++			FIELD_PREP(AW86927_SYSCTRL4_WAVDAT_MODE_MASK,
++				   AW86927_SYSCTRL4_WAVDAT_24K));
++	if (err)
++		return err;
++
++	/* enable gain bypass */
++	err = regmap_update_bits(haptics->regmap,
++			AW86927_SYSCTRL4_REG,
++			AW86927_SYSCTRL4_GAIN_BYPASS_MASK,
++			FIELD_PREP(AW86927_SYSCTRL4_GAIN_BYPASS_MASK,
++				   0x01));
++	if (err)
++		return err;
++
++	err = regmap_write(haptics->regmap,
++			AW86927_TMCFG_REG,
++			AW86927_TMCFG_UNLOCK);
++	if (err)
++		return err;
++
++	err = regmap_write(haptics->regmap,
++			AW86927_ANACFG11_REG,
++			0x0f);
++	if (err)
++		return err;
++
++	err = regmap_update_bits(haptics->regmap,
++			AW86927_ANACFG12_REG,
++			AW86927_ANACFG12_BST_SKIP_MASK,
++			FIELD_PREP(AW86927_ANACFG12_BST_SKIP_MASK,
++				   AW86927_ANACFG12_BST_SKIP_SHUTDOWN));
++	if (err)
++		return err;
++
++	err = regmap_update_bits(haptics->regmap,
++			AW86927_ANACFG15_REG,
++			AW86927_ANACFG15_BST_PEAK_MODE_MASK,
++			FIELD_PREP(AW86927_ANACFG15_BST_PEAK_MODE_MASK,
++				   AW86927_ANACFG15_BST_PEAK_BACK));
++	if (err)
++		return err;
++
++	err = regmap_update_bits(haptics->regmap,
++			AW86927_ANACFG16_REG,
++			AW86927_ANACFG16_BST_SRC_MASK,
++			FIELD_PREP(AW86927_ANACFG16_BST_SRC_MASK,
++				   AW86927_ANACFG16_BST_SRC_3NS));
++	if (err)
++		return err;
++
++	err = regmap_write(haptics->regmap,
++			AW86927_TMCFG_REG,
++			AW86927_TMCFG_LOCK);
++	if (err)
++		return err;
++
++	err = regmap_update_bits(haptics->regmap,
++			AW86927_CONTCFG1_REG,
++			AW86927_CONTCFG1_BRK_BST_MD_MASK,
++			FIELD_PREP(AW86927_CONTCFG1_BRK_BST_MD_MASK,
++				   0x00));
++	if (err)
++		return err;
++
++	err = regmap_write(haptics->regmap,
++			AW86927_CONTCFG5_REG,
++			FIELD_PREP(AW86927_CONTCFG5_BST_BRK_GAIN_MASK, 0x05) |
++			FIELD_PREP(AW86927_CONTCFG5_BRK_GAIN_MASK, 0x08));
++	if (err)
++		return err;
++
++	err = regmap_update_bits(haptics->regmap, AW86927_CONTCFG10_REG,
++			AW86927_CONTCFG10_BRK_TIME_MASK,
++			FIELD_PREP(AW86927_CONTCFG10_BRK_TIME_MASK,
++				   AW86927_CONTCFG10_BRK_TIME_DEFAULT));
++	if (err)
++		return err;
++
++	err = regmap_write(haptics->regmap,
++			AW86927_CONTCFG13_REG,
++			FIELD_PREP(AW86927_CONTCFG13_TSET_MASK, 0x06) |
++			FIELD_PREP(AW86927_CONTCFG13_BEME_SET_MASK, 0x02));
++	if (err)
++		return err;
++
++	err = regmap_update_bits(haptics->regmap,
++			AW86927_DETCFG2_REG,
++			AW86927_DETCFG2_D2S_GAIN_MASK,
++			FIELD_PREP(AW86927_DETCFG2_D2S_GAIN_MASK,
++				   AW86927_DETCFG2_D2S_GAIN_10));
++	if (err)
++		return err;
++
++	err = regmap_update_bits(haptics->regmap,
++			AW86927_PWMCFG1_REG,
++			AW86927_PWMCFG1_PRC_EN_MASK,
++			FIELD_PREP(AW86927_PWMCFG1_PRC_EN_MASK,
++				   AW86927_PWMCFG1_PRC_DISABLE));
++	if (err)
++		return err;
++
++	err = regmap_write(haptics->regmap,
++			AW86927_PWMCFG3_REG,
++			FIELD_PREP(AW86927_PWMCFG3_PR_EN_MASK, 0x01) |
++			FIELD_PREP(AW86927_PWMCFG3_PRCTIME_MASK, 0x3f));
++	if (err)
++		return err;
++
++	err = regmap_update_bits(haptics->regmap,
++			AW86927_PWMCFG4_REG,
++			AW86927_PWMCFG4_PRTIME_MASK,
++			FIELD_PREP(AW86927_PWMCFG4_PRTIME_MASK,
++				   0x32));
++	if (err)
++		return err;
++
++	err = regmap_write(haptics->regmap,
++			AW86927_TMCFG_REG,
++			AW86927_TMCFG_UNLOCK);
++	if (err)
++		return err;
++
++	err = regmap_update_bits(haptics->regmap,
++			AW86927_ANACFG13_REG,
++			AW86927_ANACFG13_BST_PC_MASK,
++			FIELD_PREP(AW86927_ANACFG13_BST_PC_MASK,
++				   AW86927_ANACFG13_BST_PEAKCUR_3P45A));
++	if (err)
++		return err;
++
++	err = regmap_write(haptics->regmap,
++			AW86927_TMCFG_REG,
++			AW86927_TMCFG_LOCK);
++	if (err)
++		return err;
++
++	err = regmap_update_bits(haptics->regmap,
++			AW86927_PLAYCFG1_REG,
++			AW86927_PLAYCFG1_BST_VOUT_VREFSET_MASK,
++			FIELD_PREP(AW86927_PLAYCFG1_BST_VOUT_VREFSET_MASK,
++				   AW86927_PLAYCFG1_BST_8500MV));
++	if (err)
++		return err;
++
++	err = regmap_update_bits(haptics->regmap,
++			AW86927_PLAYCFG3_REG,
++			AW86927_PLAYCFG3_AUTO_BST_MASK,
++			FIELD_PREP(AW86927_PLAYCFG3_AUTO_BST_MASK,
++				   AW86927_PLAYCFG3_AUTO_BST_DISABLE));
++	if (err)
++		return err;
++
++	return 0;
++}
++
++static int aw86927_ram_init(struct aw86927_data *haptics)
++{
++	int err;
++
++	err = aw86927_wait_enter_standby(haptics);
++	if (err)
++		return err;
++
++	/* Enable SRAM init */
++	err = regmap_update_bits(haptics->regmap,
++			AW86927_SYSCTRL3_REG,
++			AW86927_SYSCTRL3_EN_RAMINIT_MASK,
++			FIELD_PREP(AW86927_SYSCTRL3_EN_RAMINIT_MASK,
++				   AW86927_SYSCTRL3_EN_RAMINIT_ON));
++
++	/* Set base address for the start of the SRAM waveforms */
++	err = regmap_write(haptics->regmap,
++			   AW86927_BASEADDRH_REG,
++			   AW86927_BASEADDRH_VAL);
++	if (err)
++		return err;
++
++	err = regmap_write(haptics->regmap,
++			   AW86927_BASEADDRL_REG,
++			   AW86927_BASEADDRL_VAL);
++	if (err)
++		return err;
++
++	/* Set start of SRAM, before the data is written it will be the same as the base */
++	err = regmap_write(haptics->regmap,
++			   AW86927_RAMADDRH_REG,
++			   AW86927_BASEADDRH_VAL);
++	if (err)
++		return err;
++
++	err = regmap_write(haptics->regmap,
++			   AW86927_RAMADDRL_REG,
++			   AW86927_BASEADDRL_VAL);
++	if (err)
++		return err;
++
++	/* Write waveform header to SRAM */
++	err = regmap_noinc_write(haptics->regmap, AW86927_RAMDATA_REG,
++				 &sram_waveform_header, sizeof(sram_waveform_header));
++	if (err)
++		return err;
++
++	/* Write waveform to SRAM */
++	err = regmap_noinc_write(haptics->regmap, AW86927_RAMDATA_REG,
++				 aw86927_waveform, ARRAY_SIZE(aw86927_waveform));
++	if (err)
++		return err;
++
++	err = regmap_update_bits(haptics->regmap,
++			AW86927_DETCFG2_REG,
++			AW86927_DETCFG2_DET_SEQ0_MASK,
++			FIELD_PREP(AW86927_DETCFG2_DET_SEQ0_MASK,
++				   AW86927_DETCFG2_DET_SEQ0_VBAT));
++	if (err)
++		return err;
++
++	err = regmap_update_bits(haptics->regmap,
++			AW86927_DETCFG1_REG,
++			AW86927_DETCFG1_DET_GO_MASK,
++			FIELD_PREP(AW86927_DETCFG1_DET_GO_MASK,
++				   AW86927_DETCFG1_DET_GO_DET_SEQ0));
++	if (err)
++		return err;
++
++	usleep_range(3000, 3500);
++
++	err = regmap_update_bits(haptics->regmap,
++			AW86927_DETCFG1_REG,
++			AW86927_DETCFG1_DET_GO_MASK,
++			FIELD_PREP(AW86927_DETCFG1_DET_GO_MASK,
++				   AW86927_DETCFG1_DET_GO_NA));
++	if (err)
++		return err;
++
++	/* Disable SRAM init */
++	err = regmap_update_bits(haptics->regmap,
++			AW86927_SYSCTRL3_REG,
++			AW86927_SYSCTRL3_EN_RAMINIT_MASK,
++			FIELD_PREP(AW86927_SYSCTRL3_EN_RAMINIT_MASK,
++				   AW86927_SYSCTRL3_EN_RAMINIT_OFF));
++	if (err)
++		return err;
++
++	return 0;
++}
++
++static irqreturn_t aw86927_irq(int irq, void *data)
++{
++	struct aw86927_data *haptics = data;
++	struct device *dev = &haptics->client->dev;
++	unsigned int reg_val;
++	int err;
++
++	err = regmap_read(haptics->regmap, AW86927_SYSINT_REG, &reg_val);
++	if (err) {
++		dev_err(dev, "Failed to read SYSINT register: %d\n", err);
++		return IRQ_NONE;
++	}
++
++	if (reg_val & AW86927_SYSINT_BST_SCPI)
++		dev_err(dev, "Received a Short Circuit Protection interrupt\n");
++	if (reg_val & AW86927_SYSINT_BST_OVPI)
++		dev_err(dev, "Received an Over Voltage Protection interrupt\n");
++	if (reg_val & AW86927_SYSINT_UVLI)
++		dev_err(dev, "Received an Under Voltage Lock Out interrupt\n");
++	if (reg_val & AW86927_SYSINT_OCDI)
++		dev_err(dev, "Received an Over Current interrupt\n");
++	if (reg_val & AW86927_SYSINT_OTI)
++		dev_err(dev, "Received an Over Temperature interrupt\n");
++
++	if (reg_val & AW86927_SYSINT_DONEI)
++		dev_dbg(dev, "Chip playback done!\n");
++	if (reg_val & AW86927_SYSINT_FF_AFI)
++		dev_dbg(dev, "The RTP mode FIFO is almost full!\n");
++	if (reg_val & AW86927_SYSINT_FF_AEI)
++		dev_dbg(dev, "The RTP mode FIFO is almost empty!\n");
++
++	return IRQ_HANDLED;
++}
++
++static int aw86927_detect(struct aw86927_data *haptics)
++{
++	__be16 read_buf;
++	u16 chip_id;
++	int err;
++
++	err = regmap_bulk_read(haptics->regmap, AW86927_CHIPIDH_REG, &read_buf, 2);
++	if (err)
++		return dev_err_probe(haptics->dev, err, "Failed to read CHIPID registers\n");
++
++	chip_id = be16_to_cpu(read_buf);
++
++	if (chip_id != AW86927_CHIPID) {
++		dev_err(haptics->dev, "Unexpected CHIPID value 0x%x\n", chip_id);
++		return -ENODEV;
++	}
++
++	return 0;
++}
++
++static int aw86927_probe(struct i2c_client *client)
++{
++	struct aw86927_data *haptics;
++	int err;
++
++	haptics = devm_kzalloc(&client->dev, sizeof(struct aw86927_data), GFP_KERNEL);
++	if (!haptics)
++		return -ENOMEM;
++
++	haptics->dev = &client->dev;
++	haptics->client = client;
++
++	i2c_set_clientdata(client, haptics);
++
++	haptics->regmap = devm_regmap_init_i2c(client, &aw86927_regmap_config);
++	if (IS_ERR(haptics->regmap))
++		return dev_err_probe(haptics->dev, PTR_ERR(haptics->regmap),
++					"Failed to allocate register map\n");
++
++	haptics->input_dev = devm_input_allocate_device(haptics->dev);
++	if (!haptics->input_dev)
++		return -ENOMEM;
++
++	haptics->reset_gpio = devm_gpiod_get(haptics->dev, "reset", GPIOD_OUT_HIGH);
++	if (IS_ERR(haptics->reset_gpio))
++		return dev_err_probe(haptics->dev, PTR_ERR(haptics->reset_gpio),
++				     "Failed to get reset gpio\n");
++
++	/* Hardware reset */
++	aw86927_hw_reset(haptics);
++
++	/* Software reset */
++	err = regmap_write(haptics->regmap, AW86927_RSTCFG_REG, AW86927_RSTCFG_SOFTRST);
++	if (err)
++		return dev_err_probe(haptics->dev, PTR_ERR(haptics->regmap),
++					"Failed Software reset\n");
++
++	/* Wait ~3ms until I2C is accessible */
++	usleep_range(3000, 3500);
++
++	err = aw86927_detect(haptics);
++	if (err)
++		return dev_err_probe(haptics->dev, err, "Failed to find chip\n");
++
++	/* IRQ config */
++	err = regmap_write(haptics->regmap, AW86927_SYSCTRL4_REG,
++			FIELD_PREP(AW86927_SYSCTRL4_INT_MODE_MASK,
++				   AW86927_SYSCTRL4_INT_MODE_EDGE) |
++			FIELD_PREP(AW86927_SYSCTRL4_INT_EDGE_MODE_MASK,
++				   AW86927_SYSCTRL4_INT_EDGE_MODE_POS));
++	if (err)
++		return dev_err_probe(haptics->dev, err, "Failed to configure interrupt modes\n");
++
++	err = regmap_write(haptics->regmap, AW86927_SYSINTM_REG,
++			AW86927_SYSINTM_BST_OVPM |
++			AW86927_SYSINTM_FF_AEM |
++			AW86927_SYSINTM_FF_AFM |
++			AW86927_SYSINTM_DONEM);
++	if (err)
++		return dev_err_probe(haptics->dev, err, "Failed to configure interrupt masks\n");
++
++	err = devm_request_threaded_irq(haptics->dev, client->irq, NULL,
++					aw86927_irq, IRQF_ONESHOT, NULL, haptics);
++	if (err)
++		return dev_err_probe(haptics->dev, err, "Failed to request threaded irq\n");
++
++	INIT_WORK(&haptics->play_work, aw86927_haptics_play_work);
++
++	haptics->input_dev->name = "aw86927-haptics";
++	haptics->input_dev->close = aw86927_close;
++
++	input_set_drvdata(haptics->input_dev, haptics);
++	input_set_capability(haptics->input_dev, EV_FF, FF_RUMBLE);
++
++	err = input_ff_create_memless(haptics->input_dev, NULL,
++			aw86927_haptics_play);
++	if (err)
++		return dev_err_probe(haptics->dev, err, "Failed to create FF dev\n");
++
++	/* Set up registers */
++	err = aw86927_play_mode(haptics, AW86927_STANDBY_MODE);
++	if (err)
++		return dev_err_probe(haptics->dev, err, "Failed to enter standby for Haptic init\n");
++
++	err = aw86927_haptic_init(haptics);
++	if (err)
++		return dev_err_probe(haptics->dev, err, "Haptic init failed\n");
++
++	/* RAM init, upload the waveform for playback */
++	err = aw86927_ram_init(haptics);
++	if (err)
++		return dev_err_probe(haptics->dev, err, "Failed to init aw86927 sram\n");
++
++	err = input_register_device(haptics->input_dev);
++	if (err)
++		return dev_err_probe(haptics->dev, err, "Failed to register input device\n");
++
++	return 0;
++}
++
++static const struct of_device_id aw86927_of_id[] = {
++	{ .compatible = "awinic,aw86927" },
++	{ /* sentinel */ }
++};
++
++MODULE_DEVICE_TABLE(of, aw86927_of_id);
++
++static struct i2c_driver aw86927_driver = {
++	.driver = {
++		.name = "aw86927-haptics",
++		.of_match_table = aw86927_of_id,
++	},
++	.probe = aw86927_probe,
++};
++
++module_i2c_driver(aw86927_driver);
++
++MODULE_AUTHOR("Griffin Kroah-Hartman <griffin.kroah@fairphone.com>");
++MODULE_DESCRIPTION("AWINIC AW86927 LRA Haptic Driver");
++MODULE_LICENSE("GPL");
 
 -- 
 2.43.0
