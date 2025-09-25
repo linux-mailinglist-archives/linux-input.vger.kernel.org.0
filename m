@@ -1,157 +1,94 @@
-Return-Path: <linux-input+bounces-15100-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-15102-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC0B0B9E919
-	for <lists+linux-input@lfdr.de>; Thu, 25 Sep 2025 12:08:14 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id DD209B9EC57
+	for <lists+linux-input@lfdr.de>; Thu, 25 Sep 2025 12:45:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7FA8E422510
-	for <lists+linux-input@lfdr.de>; Thu, 25 Sep 2025 10:08:07 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6AC64161E87
+	for <lists+linux-input@lfdr.de>; Thu, 25 Sep 2025 10:44:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0DC5E28134F;
-	Thu, 25 Sep 2025 10:07:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EBA772F068F;
+	Thu, 25 Sep 2025 10:40:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b="ARbZW2Ds"
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="vmfLlyw5"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8A372EA49C
-	for <linux-input@vger.kernel.org>; Thu, 25 Sep 2025 10:07:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7577C2EA159;
+	Thu, 25 Sep 2025 10:40:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758794871; cv=none; b=lymHjKzHaAUVfFj/cWJz6ngV4TnKKQX+h2aJ+ntTRIsDV0iHgeKOhmdkP0zl84Eo6fGXxjYWYT6vuh2uVuXlO4qhlB0kH7XaK0zUJwDID2Wdht1bck0EdpEXYVsZ5n6sB0ZAg/s4qnvuyx+CbB+P1PBG8SmvhaqcheCWu/FghFM=
+	t=1758796820; cv=none; b=idgO0Undvv+zMLET5rnulQKSJADp2rzxVQ1LGRH7PJksL8EYd9xn2rnQ96yjLT2lO9qj1EgfMhs/da0BBrzv7z+qGHN43poKuCc7baumAscVJA2hGEsYnzaIRT3dNjTwugRed4BCyJb8JxaQGSH/u4fhquRwyfHpxcfnhoK0zSI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758794871; c=relaxed/simple;
-	bh=LhKzzlkTCNl4IkWDMHZ1OAuhVnKTDiivlJgT2WmkiVk=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=h9zZasQk+NB5HrZjnIIAp6/2lDnIzkAy0LtxQ0hEC1AC8zPV0hvU/xWnGSXg3C6QRf6/9bk9I0XCvD9bpTUFTQMKdWGSUh+hpFe6ZaprbH2ZpL0ey2Udazf08vm70o/V/WJgaXE2W/jXI2YRg1lUSsQTrkSDjQorW7CuOFHGUxo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fairphone.com; spf=pass smtp.mailfrom=fairphone.com; dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b=ARbZW2Ds; arc=none smtp.client-ip=209.85.218.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fairphone.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fairphone.com
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-b0787fdb137so128913866b.0
-        for <linux-input@vger.kernel.org>; Thu, 25 Sep 2025 03:07:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fairphone.com; s=fair; t=1758794868; x=1759399668; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=903p68FO4P6xFpR2fJbxs0+vg6ytltVcymRFkkxQT9E=;
-        b=ARbZW2Dsa7h48FcBgS8Y87noqo0j6tF/GHZePIRsLQ1BLftnoe4/gWqNiwgodeOfFe
-         VMHQD6lnlp2WyX2yz/vN5qmuflLKRnupwqkCM7UXR+YSG0JlD9RNfqwqIdsv8Ekecxon
-         CyNP2jb5HFrN7A4bOWGpF0pbhqi9DOsemrzVGUnWINpyxx1V2tatKJ1ln675j6yb35Nu
-         aE7Hd25uEI1x5AA0E2y+Qc7Tgj3uDsgHge7rbU6uHMJDFYR/nKUvOUM310NIum6zqaM2
-         XqSvMklKeakEEre0aE5GHjFRYtqv+M3vDT5vtFSA6RtLlibzNeHJrfDzToAHXAoCNWFt
-         F8IQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758794868; x=1759399668;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=903p68FO4P6xFpR2fJbxs0+vg6ytltVcymRFkkxQT9E=;
-        b=J3HFcvgaUPH6G/zog8Nzs1sr8C2vxHzFdc/XewjGlu/UcQebqgOdgWhjPTC0VVaBp4
-         Qi+ZhCYAYxnfox+f+8ZmDJwXDwhCWobYbM7CJILynL9KCo4cOG3ireXCTeDFP7WsSB9U
-         2u6R/32U2r3YoEbWrpF1JKN60eTUq6rDi3cp1htb6njtLkGaJgMqWMS10XNANGe3xI5i
-         uH9MseReM5tRdM1nEFGrl7VnBKNQOkTEXfEGTd3CFWxzveQDpdx4/nNfiCKaxacfGK27
-         7TWaSZgmLV5WccK+siZKKDfQebPQ0Vl+CdqSGl6fxT3wC3zg84zXTHQUPbopUSMu1m0q
-         RPRg==
-X-Gm-Message-State: AOJu0YytKpNszhDGK97gPQtLSphT95b3+GgblxguH7450tioOCeHxge9
-	lsBHs17/jNYvrp6hdP89C8xxW4VZ/yX66nUl2QnujSVhAPyD8w0eoRzkYnzFWFJ/pYE=
-X-Gm-Gg: ASbGncshVNC93fsTi0hNEDPkO0ah6QPVsi9aIyvSLVFl6RVPQOCkDv8sLeTWtMraxwO
-	mrdkOQ1xFT+T5kDowjClBYEOY+ceYWpA7yYpWwZX9AWc30QKI7pyTOgpT63fWTlhVqst6TGyGv0
-	CKyOyLz5eTcJozklIEue/qWkYTDcas/pu6zwJNcPA9d5uEfV9jYBJ8n73bvOs22muJKgUElULFq
-	QCeyQSzCOnjn7e32K0z56JpK8pGSQc3oiUC+SVkysvLhF5r0qCO5sfhFbUb2xKlJSVQnRcA2Fom
-	MB6ufiweSSLOV7byNwGA62OE3M7GkQAa2qPzrXVk+LDrXSsKrXkjLCHXpZcxPSwtrLewFImbJdn
-	Xe5+az3t/efN+9HgF7hUiLAtIx9jiwHwE1jcHXQL09W6QWcUKF97hDVf4lCOKEdbqaxdqzK1TA8
-	4S0c2D
-X-Google-Smtp-Source: AGHT+IF+rhp1gxg0uR33r/iYlZ/H6zFSEFREOPZi/QkHkOOsdTv1r3hShr/lDkKFBiRpBVxjnCVhdw==
-X-Received: by 2002:a17:907:7f1f:b0:b04:1d07:40de with SMTP id a640c23a62f3a-b34bb32043emr296615366b.23.1758794867875;
-        Thu, 25 Sep 2025 03:07:47 -0700 (PDT)
-Received: from [172.16.220.225] (144-178-202-139.static.ef-service.nl. [144.178.202.139])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b35446f7746sm134270766b.59.2025.09.25.03.07.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Sep 2025 03:07:47 -0700 (PDT)
-From: Griffin Kroah-Hartman <griffin.kroah@fairphone.com>
-Date: Thu, 25 Sep 2025 12:07:30 +0200
-Subject: [PATCH RESEND v3 3/3] arm64: dts: qcom: qcm6490-fairphone-fp5: Add
- vibrator support
+	s=arc-20240116; t=1758796820; c=relaxed/simple;
+	bh=GJlcEOVBYWhi8mcXRsDpHS6MLH4rtPMp1tm5JWxnzNw=;
+	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
+	 To:Date:Message-ID; b=k/Bw3/+pK+xBco6NELltZj/L/mDTA1QuZMwLaeLFB7hl0S8h3mtFLy/8gF1/3oapQwjw9Tw3oC89iilJMUJZ/pf7RKkjeSmbwnmBJbS8Ccbrz8CV2AGbJMw+U/BV+QdftL39tyQZ2pagowcUud+fxKJtiAOh1An2shP5A8v0WJ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=fail (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=vmfLlyw5 reason="signature verification failed"; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from neptunite.rasen.tech (unknown [IPv6:2404:7a81:160:2100:d0b0:c301:99de:3de])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 5F02C1129;
+	Thu, 25 Sep 2025 12:38:50 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1758796731;
+	bh=GJlcEOVBYWhi8mcXRsDpHS6MLH4rtPMp1tm5JWxnzNw=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=vmfLlyw5cfAlTmCTTXK3oU9TUODg60prrMWKYKUO6GcZfa/fxr/PoT4aIda4cAhdt
+	 SSGDrPEmSPhJsS3S7+t84IG3Bs9O2u/YNcGO7ZzV3UB83Lr6M5MshP5LUaiNv6Uw9M
+	 6WcdWXNyafca7QOlxdo2tsiX3+XX0kaXA8PTz1WA=
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250925-aw86927-v3-3-1fc6265b42de@fairphone.com>
-References: <20250925-aw86927-v3-0-1fc6265b42de@fairphone.com>
-In-Reply-To: <20250925-aw86927-v3-0-1fc6265b42de@fairphone.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>, 
- Luca Weiss <luca.weiss@fairphone.com>
-Cc: linux-input@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- Griffin Kroah-Hartman <griffin.kroah@fairphone.com>, 
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1758794865; l=1348;
- i=griffin.kroah@fairphone.com; s=20250804; h=from:subject:message-id;
- bh=LhKzzlkTCNl4IkWDMHZ1OAuhVnKTDiivlJgT2WmkiVk=;
- b=HeTBl3q9SOYLzKQKn/q13ycWxEYizcLQXQkg7cffIeB26/YJEFy+IePzXMRYWra4/avx87cX2
- zjAzQHQoBoTCbjALCUOjSkFG8L0xlt893+/BK5/GDrVjRmfMDicC1Uk
-X-Developer-Key: i=griffin.kroah@fairphone.com; a=ed25519;
- pk=drSBvqKFiR+xucmLWONHSq/wGrW+YvcVtBXFYnYzn8U=
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20250924074602.266292-13-sakari.ailus@linux.intel.com>
+References: <20250924074602.266292-1-sakari.ailus@linux.intel.com> <20250924074602.266292-13-sakari.ailus@linux.intel.com>
+Subject: Re: [PATCH v2 12/16] media: thp7312: Use fwnode_for_each_child_node() instead
+From: Paul Elder <paul.elder@ideasonboard.com>
+Cc: linux-kernel@vger.kernel.org, linux-input@vger.kernel.org, linux-leds@vger.kernel.org, linux-media@vger.kernel.org, netdev@vger.kernel.org, linux-spi@vger.kernel.org, Rafael J. Wysocki <rafael@kernel.org>, Len Brown <lenb@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Danilo Krummrich <dakr@kernel.org>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>, Heikki Krogerus <heikki.krogerus@linux.intel.com>, Javier Carrasco <javier.carrasco@wolfvision.net>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, Matthias Fend <matthias.fend@emfend.at>, Chanwoo Choi <cw00.choi@samsung.com>, Krzysztof Kozlowski <krzk@kernel.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Horatiu Vultur <horatiu.vultur@microchip.com>, UNGLinuxDriver@microchip.com, Andrew Lunn <andrew+netdev@lunn.ch>, David S. Miller <davem@davemloft.net>, Eric Dum
+ azet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Mark Brown <broonie@kernel.org>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@kernel.org>, Jonathan Cameron <Jonathan.Cameron@huawei.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>, linux-acpi@vger.kernel.org
+Date: Thu, 25 Sep 2025 19:40:08 +0900
+Message-ID: <175879680823.2756121.480253963605736427@neptunite.rasen.tech>
+User-Agent: alot/0.0.0
 
-Add the required node for haptic playback (Awinic AW86927).
+Quoting Sakari Ailus (2025-09-24 16:45:58)
+> fwnode_for_each_child_node() is now the same as
+> fwnode_for_each_available_child_node() on all backends (OF, ACPI and
+> swnode). In order to remove the available variants, switch the uses to
+> non-available variants.
+>=20
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 
-Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Signed-off-by: Griffin Kroah-Hartman <griffin.kroah@fairphone.com>
----
- arch/arm64/boot/dts/qcom/qcm6490-fairphone-fp5.dts | 18 +++++++++++++++++-
- 1 file changed, 17 insertions(+), 1 deletion(-)
+Reviewed-by: Paul Elder <paul.elder@ideasonboard.com>
 
-diff --git a/arch/arm64/boot/dts/qcom/qcm6490-fairphone-fp5.dts b/arch/arm64/boot/dts/qcom/qcm6490-fairphone-fp5.dts
-index 4c6cb4a644e2a7a5ce6848283e8732b3dda1758c..9576efdf1e8ded31dd2babd40c377b2de9ae9c41 100644
---- a/arch/arm64/boot/dts/qcom/qcm6490-fairphone-fp5.dts
-+++ b/arch/arm64/boot/dts/qcom/qcm6490-fairphone-fp5.dts
-@@ -866,7 +866,16 @@ ocp96011_sbu_mux: endpoint {
- 		};
- 	};
- 
--	/* AW86927FCR haptics @ 5a */
-+	vibrator@5a {
-+		compatible = "awinic,aw86927";
-+		reg = <0x5a>;
-+
-+		interrupts-extended = <&tlmm 101 IRQ_TYPE_EDGE_FALLING>;
-+		reset-gpios = <&tlmm 100 GPIO_ACTIVE_LOW>;
-+
-+		pinctrl-0 = <&aw86927_int_default>;
-+		pinctrl-names = "default";
-+	};
- };
- 
- &i2c2 {
-@@ -1415,6 +1424,13 @@ usb_redrive_1v8_en_default: usb-redrive-1v8-en-default-state {
- 		bias-disable;
- 		output-high;
- 	};
-+
-+	aw86927_int_default: aw86927-int-default-state {
-+		pins = "gpio101";
-+		function = "gpio";
-+		drive-strength = <2>;
-+		bias-pull-up;
-+	};
- };
- 
- &uart5 {
-
--- 
-2.43.0
-
+> ---
+>  drivers/media/i2c/thp7312.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/media/i2c/thp7312.c b/drivers/media/i2c/thp7312.c
+> index 775cfba188d8..86208a47f472 100644
+> --- a/drivers/media/i2c/thp7312.c
+> +++ b/drivers/media/i2c/thp7312.c
+> @@ -2064,7 +2064,7 @@ static int thp7312_parse_dt(struct thp7312_device *=
+thp7312)
+>                 return -EINVAL;
+>         }
+> =20
+> -       fwnode_for_each_available_child_node(sensors, node) {
+> +       fwnode_for_each_child_node(sensors, node) {
+>                 if (fwnode_name_eq(node, "sensor")) {
+>                         if (!thp7312_sensor_parse_dt(thp7312, node))
+>                                 num_sensors++;
+> --=20
+> 2.47.3
+>
 
