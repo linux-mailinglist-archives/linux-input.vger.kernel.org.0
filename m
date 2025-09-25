@@ -1,171 +1,139 @@
-Return-Path: <linux-input+bounces-15095-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-15096-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28A34B9D61B
-	for <lists+linux-input@lfdr.de>; Thu, 25 Sep 2025 06:26:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C539B9D7D0
+	for <lists+linux-input@lfdr.de>; Thu, 25 Sep 2025 07:45:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3B9D5423DAF
-	for <lists+linux-input@lfdr.de>; Thu, 25 Sep 2025 04:26:34 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D0A133B4A66
+	for <lists+linux-input@lfdr.de>; Thu, 25 Sep 2025 05:45:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EC3B7157480;
-	Thu, 25 Sep 2025 04:26:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B57F62E7F05;
+	Thu, 25 Sep 2025 05:45:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gb3xX8bl"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D2g+S9br"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A8F22E62A4
-	for <linux-input@vger.kernel.org>; Thu, 25 Sep 2025 04:26:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06D2D24DFF4
+	for <linux-input@vger.kernel.org>; Thu, 25 Sep 2025 05:45:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758774389; cv=none; b=KfVzqP4+Hhjs7GdYB6JZoug6MvAYqRV3WH3S9TNDtKBeg76TZ27dNQVdB5DrN28K2p25+Hj6L7SE4s59xXAyJQhNfKU20BhIhBGCnJbjS8cXiRLCi4pKaenBFHahSL6GzfuiynAmCRumuELkYYTKQlLDGTiIVp0yHxrEtXpg9hI=
+	t=1758779143; cv=none; b=ki/Cbndhr3szH0f2Goh3HC3ANyJU+w4GJMU18Vdlrg0ic8qIU4UV7AMq2+EfzC2/nRoSDica62d1+xYnSVMH3AzdjtfF8nLaxnySugtmQDatxPz8DDzTsPyHGO2Oi9AYBSnLiBN091xW665zCskhNtK90rzxSyB1RzPOwZv6Pws=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758774389; c=relaxed/simple;
-	bh=TnwL3wW6ND4oXS5Mi9CT/bAi7SSOk03vjEo2r585Y8M=;
+	s=arc-20240116; t=1758779143; c=relaxed/simple;
+	bh=y91CveNU8o61qRzBPIlmeKWPSA+K8ejO5zowlYxLNPA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TUoqLzaBW+2+Y9G+H3Ty/AbHPdfeC/R5wO2MYvYA/LbanOXCtXKvTMnssjQuEwaLz8SoMs6bQ1pGZXgCcGJ+TaSJTfg92gatuXWKatSsyuw1b1lUOU7/1n8Zd6rHw4vKRRhgriafAsejZnOrZDxNYFLq1QznrLPXn3rbhJj2Xag=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gb3xX8bl; arc=none smtp.client-ip=209.85.215.178
+	 Content-Type:Content-Disposition:In-Reply-To; b=RhhCuog3SAK83c0AFlwFR4NGociW6uANTKImBcghB3b6YfDH6Kdi5oG3UDaO+AozH4ckHScuv64FsKefjOJ+bZKEfoQ9xuydgmkzEQE7/1dpSUr+xS/5evIYEJvFfM8onoMY9guFoum8fO9n4VUC7bWCNJ4DNk5uH/ty1R+LT3w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=D2g+S9br; arc=none smtp.client-ip=209.85.214.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-b4755f37c3eso507296a12.3
-        for <linux-input@vger.kernel.org>; Wed, 24 Sep 2025 21:26:28 -0700 (PDT)
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2445805aa2eso5798045ad.1
+        for <linux-input@vger.kernel.org>; Wed, 24 Sep 2025 22:45:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758774387; x=1759379187; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=dteHME797snk+vQ+oj+419/4Ny1lqVzO4IVh/XVnaDc=;
-        b=gb3xX8blc8W/YcpCQoFh6krYr53inmfIEiNDJUkZ8AO2rT8/I4UF7QG7Zc6bBmPjX+
-         p9DlzNbVmVGITVOnL2xGHsqKcQlesiGJNTVsmfjy6Yg6mFpM4KncJ2/72aOjd9nvz0ZK
-         crUMVL4dIoyzGF5kZM7ls5N3B2RzdPVB64mNiieah/JRcIp5Lm76Cd8Y8XnWqW/crCNN
-         IbzrZW4VFDnfLbf7nEqFk6ynjKxY3SG65iBCXYUP/+J/0j9bqWkr5o8Pxi8pTO9N4rMl
-         qJ9dgLDldzL6vWNk308B/IC3ceoa8jRgaLGEEB+36fNQRPi7vhyL/VY6Xu/qTx7uQjFP
-         O/EQ==
+        d=gmail.com; s=20230601; t=1758779141; x=1759383941; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=3Q6VyKRbOn4TYUtmAcOT7qWbJ+MHx1s5wBeVwgJ07ek=;
+        b=D2g+S9brKnGuc3tx2zqhfvgvLwLrlqIElr36sUgjOi2lXYO9iKupEG061yyBgpjEXE
+         iYYfg+Q04QFqAWqG0Seev3IcbNtm0hp2ePi3TIQX40lTVixf8M5ehqbHhpst28B+j6NF
+         ddfvCOIxD3dsbmiaR8L4D8h7Wc3smbzXwJ4V7uX6zj5g5QqbFzwE2Qjs3PqjiDIuWdH8
+         ygrxPsn7tMn/0l/yfSItt2BBEEW0WEO9D3pqG1Hzz38x4SLn/WATbRCvGJVIUCdNNjNn
+         OKIugOdp8wcnEEaWzl+WpECE0KTR2vu59zqiPn+V4UpaFEilHMKxnMosXUd2OTaE6EPk
+         BgUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758774387; x=1759379187;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=dteHME797snk+vQ+oj+419/4Ny1lqVzO4IVh/XVnaDc=;
-        b=EhvINzegbV+4uc6PlQN0xuH6bJfyzOdPbgVRRrWL2Eyb7gqaJ09ezXNARYP25zujhG
-         TyqdYqLpy7oexFSCpeZEF4blOeWtYEemAuXXZ8k2PRRqepFviIKYVIwZafcAu6tHZe5P
-         jCX+OBTyHC4udPB6XmDdE7QxPYzAV5emZMXhkTX6Zq5uAfFY77kghT7+4/K1844C/s2I
-         G3dN7CkCRjZbMKpbSAP9ayoSoo+u22Nz5bUu87W8/AXYHriW86IRvwNN/Ib2f0pHe6no
-         FGa74jJxavp8hy0g8WutQkaLjmL22e3++kg2YG1gqi48leuYTHm76RP5oUHSClLwnJ3V
-         rp3w==
-X-Forwarded-Encrypted: i=1; AJvYcCXwkxDor6uoL41rlO2rlpTMK91v1Ay1dYG6LvYBDG9Fn2pGDb20RlhF6Yi4IWt8CjIZmbbVhMAgqvVrVA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwLsrRnm76k8tF6Uxjt2jx3LwdI8BPUrA0XEyohe7W0zsvjumFg
-	SEBwl5S3qGEUul8twllNf/ix0atDV4617jjDuQ8JOa5Q2wYdSYBN39lG
-X-Gm-Gg: ASbGncu5LL6urH2M8ZtXg2+gWN7Boo5kYzOGrEBc+bnLSyM6Hw03vZlJkEnWEtuSjwh
-	VVdzJQ+J0qp88nrp/sUPP0HqAuV1w0b5SuvJ6LqPCy/aUy75MLkB5xKQXpFETKmW4Jbxm0P4A7C
-	20oLng91PlDb+qkhod2pFl2HKg+pgmfUnMkTlJ43Uo308KZNfynqlzpTvFYvhQVT0eWEm/sL5ke
-	tT09Q11uQvawdgad71BkYajp0+6jgbGgAGRPoXflHGtAO8NsI9jMRg+EaGnCT9KP3j7JlnUDxEa
-	lDdLmMRW90OTdvThCbg8gcltOKEYUkkquIMK2qQYgiXyCRDMpG1jldWSFviXtBL+SfSScjmEOPk
-	HEmGLW/1iaYq4qlXbM1wizg==
-X-Google-Smtp-Source: AGHT+IHd9AD0WUJe6lma/pk2ZJ7vMQmFnh30eaf4733oJA4ty+tQEiixSvr2w0wQzfGa4MLok2dpiQ==
-X-Received: by 2002:a17:903:298f:b0:269:91b2:e9d6 with SMTP id d9443c01a7336-27ed4a6f290mr21024385ad.46.1758774387456;
-        Wed, 24 Sep 2025 21:26:27 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1758779141; x=1759383941;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3Q6VyKRbOn4TYUtmAcOT7qWbJ+MHx1s5wBeVwgJ07ek=;
+        b=Wl+LXRj3/SbJd7QqgDhQVB07mHXZ/StRTbJuMhSvgAI8HPLHUj9US2xqJ4c/H7B90X
+         /hNucMCjXEn0YvAUvzV1Cvrxn+7RieAmqZ0XmG82minDJrI0iDpsuR3my0pIU8tJCOm6
+         bKB3SS0h8UrLCdwpABo3FvRHUGGnxgElxkXE5Ep/EuLp2H/uhTzXot8s8Fcr3fMZ9xo1
+         mgiAMkBzcwGxDI+aBDonvXFiK2X/JMZmbgwgdYNf4tXwoOMO14fNaQ2cjHKJOuAHswtP
+         baCSjI4WlhqdykOZhuHWk4/EtK3s4TwK1savYUbSTk8CUpzCc+FtGDmgleTpjDUv7XdV
+         u4Tw==
+X-Forwarded-Encrypted: i=1; AJvYcCWPE3zeoRYni5IenHhWtFrXWVpVG4oHpsrz5GpNtJbL/BgLTjgBD49E3ifUZKwie0eP+NjkU22rBNP9Pg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx5sX4UULINE0N1BA73jwsmx1eAPb8KpwQ3n79dQpTws/uANxk4
+	QJoR3f+szwhDN9un3c592odAHDwM86bxuGZ71yIj5NnqyZEm/UAWf/Lb
+X-Gm-Gg: ASbGncvaGYfSotE7Qr4CTz5pKyl3HJ43lKOgvzaJVW1jSo0LS356SzDPZVI0SVL57z1
+	wKMVS+PWiYThm2EiWBlQxKpEL1G2Z+r2X/O/Cyt3TNrgGrvmdUSTR27/+0HoH2z2zSFndm7k16H
+	ThGLgSHC+ikuDQbSxe4cyoLHxIqnHiU06sZkxovNe0Pr2THA9brP0FwLOZnsjZNTma108wgiwgT
+	Af/ZgBcVkZECTSRgLdy+5vLVFaag/me/DV534vadE+BIV5u7O4JTittsLA2ohjebmseOw43sV1k
+	oWlbvDXWGbBwMx3waFv2DqvLsrno+EOWptMgABDGzp4UelTEUeNe+11FcGWel2ntY6kArvqoEMj
+	0piEUD0478ekxOM+wKreIo8XASqflBF+3
+X-Google-Smtp-Source: AGHT+IFHyxcxK4Vd8sIGKGdSk7wQBBMmiacmoNUDPi5/Fxp6WTX1EZgpGu3p+r4H5CbHYpbKWFBz3w==
+X-Received: by 2002:a17:902:cf0d:b0:27d:69bd:cc65 with SMTP id d9443c01a7336-27ed4a96a83mr23489065ad.45.1758779141061;
+        Wed, 24 Sep 2025 22:45:41 -0700 (PDT)
 Received: from google.com ([2620:15c:9d:2:5a97:14cb:a5e:6c78])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-27ed66cdd76sm9734935ad.4.2025.09.24.21.26.26
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-27ed671d8bbsm11739105ad.59.2025.09.24.22.45.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Sep 2025 21:26:27 -0700 (PDT)
-Date: Wed, 24 Sep 2025 21:26:24 -0700
+        Wed, 24 Sep 2025 22:45:40 -0700 (PDT)
+Date: Wed, 24 Sep 2025 22:45:37 -0700
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: =?utf-8?B?5Y2i5Zu95a6P?= <luguohong@xiaomi.com>
-Cc: =?utf-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>, 
-	"linux-input@vger.kernel.org" <linux-input@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"jikos@kernel.org" <jikos@kernel.org>, "bentiss@kernel.org" <bentiss@kernel.org>, 
-	=?utf-8?B?5p2O6bmP?= <lipeng43@xiaomi.com>, Fei1 Jiang =?utf-8?B?6JKL6aOe?= <jiangfei1@xiaomi.com>, 
-	=?utf-8?B?5a6L5a+G5a+G?= <songmimi@xiaomi.com>
-Subject: Re: =?utf-8?B?562U5aSNOiBbRXh0ZXJuYWwgTWFpbF1SZTogVGhlIHplcm8g?=
- =?utf-8?Q?power_level_of_the_HID_device_in_kerne?= =?utf-8?Q?l?= 6.12 is not
- reported from the kernel to the upper layer.
-Message-ID: <vkm32giijggtzv7hudsvqg34utpqvw4nnccfi7d4txj5tlzstp@4bu2ox2lmtm5>
-References: <d2cada7efe8d4436b6e638fa1e0aaefb@xiaomi.com>
- <aM0XBudxlXuzALbg@fedora>
- <px5t2iedrrqhcrpdvmu5pznp53d3e5jp55dm72phlsti2rmt4j@rj2pajkavuir>
- <91e0d952fd774e769e2d24ce2165df18@xiaomi.com>
+To: Luca Weiss <luca@lucaweiss.eu>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Courtney Cavin <courtney.cavin@sonymobile.com>, Vinod Koul <vkoul@kernel.org>, Bhushan Shah <bshah@kde.org>, 
+	~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+	linux-input@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] dt-bindings: input: pm8941-pwrkey: Document
+ wakeup-source property
+Message-ID: <3kww5et2q2mqddpvtqzuj3jqzvfds66qrufawcmumamrqoaugk@tiq6zoe5psom>
+References: <20250909-resin-wakeup-v1-0-46159940e02b@lucaweiss.eu>
+ <20250909-resin-wakeup-v1-1-46159940e02b@lucaweiss.eu>
+ <efb03993-0481-45ed-8f7e-8b65519a55cb@kernel.org>
+ <phctwoxml7hscwcgaipl233lotnrkgcpe7rxvhm5syoiadu3lv@ibgeib4kjyhs>
+ <9e39f1b4-63b2-4c6a-8b31-6360be1952e6@kernel.org>
+ <dcdbc6424db6953dfc39fc05e0e050ab@lucaweiss.eu>
+ <kxgvebizxvlflu4qen3cb5v4lcuydmdixvi7624hrggo7f5u5f@zbengtjkekfj>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <91e0d952fd774e769e2d24ce2165df18@xiaomi.com>
+In-Reply-To: <kxgvebizxvlflu4qen3cb5v4lcuydmdixvi7624hrggo7f5u5f@zbengtjkekfj>
 
-On Mon, Sep 22, 2025 at 09:29:20AM +0000, 卢国宏 wrote:
+On Tue, Sep 09, 2025 at 07:54:33AM -0700, Dmitry Torokhov wrote:
+> On Tue, Sep 09, 2025 at 04:41:26PM +0200, Luca Weiss wrote:
+> > On 2025-09-09 16:33, Krzysztof Kozlowski wrote:
+> > > On 09/09/2025 16:08, Dmitry Torokhov wrote:
+> > > > > >    compatible:
+> > > > > >      enum:
+> > > > > > @@ -36,6 +33,11 @@ properties:
+> > > > > >             pin should be configured for pull up.
+> > > > > >      $ref: /schemas/types.yaml#/definitions/flag
+> > > > > > 
+> > > > > > +  wakeup-source:
+> > > > > > +    description: |
+> > > > > > +           Button can wake-up the system. Only applicable
+> > > > > > for 'resin',
+> > > > > > +           'pwrkey' always wakes the system by default.
+> > > > > 
+> > > > > 
+> > > > > I'll fix existing code, so don't repeat that style.
+> > > > 
+> > > > If you ack I can reformat on my side to match the patch you just sent.
+> > > 
+> > > Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> > 
+> > Thanks for fixing that up Krzysztof! I noticed but didn't want to deviate
+> > from the style just for this description. Of course better to fix the
+> > formatting in the first place.
+> > 
+> > @Dmitry: Maybe give this patch some time (1-2 weeks?) to gather more
+> > feedback,
+> > given the reasons outlined in the cover letter. Also on the driver patch.
 > 
-> What kind of action are we talking about? Section 31 of the HID
-> specification defines events for "Smart Battery" ("To comply with the
-> Smart Battery Specification, the Battery System must support the
-> functions defined in the Battery and Charger usage tables. For details,
-> see Section 4.2, “Battery System Page (x85).”) and is typically used for
-> "battery pack for cellular phones (principal source), the battery
-> pack(s) for notebook computers (auxiliary source), and the sealed
-> batteries in uninterruptible power supplies (auxiliary source)."
-> 
-> Is your use case main battery or battery in a stylus or some other
-> peripheral?
-> 
-> 
-> --->>>
-> What we are discussing is the code implementation of Section 31 of the
-> HID protocol: 31 Battery System Page (0x85). Our scenario is: an
-> Android phone is connected to a handle via USB. The handle is a HID
-> device with a battery. The power of the battery in the handle is sent
-> to the bottom layer (kernel) of the phone via USB. The bottom layer of
-> the phone then reports this power to the upper layer of Android
-> through the HID driver.
+> OK, I'll hold on to this for a couple of weeks.
 
-I see. I guess we can try only filtering out 0 reports for the
-digitizers, leaving other devices with batteries alone. Something like
-this:
-
-
-diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
-index ff1784b5c2a4..ba3f6655af9e 100644
---- a/drivers/hid/hid-input.c
-+++ b/drivers/hid/hid-input.c
-@@ -595,14 +595,18 @@ static void hidinput_cleanup_battery(struct hid_device *dev)
- 	dev->battery = NULL;
- }
- 
--static void hidinput_update_battery(struct hid_device *dev, int value)
-+static void hidinput_update_battery(struct hid_device *dev,
-+				    unsigned int usage, int value)
- {
- 	int capacity;
- 
- 	if (!dev->battery)
- 		return;
- 
--	if (value == 0 || value < dev->battery_min || value > dev->battery_max)
-+	if ((usage & HID_USAGE_PAGE) == HID_UP_DIGITIZER && value == 0)
-+		return;
-+
-+	if (value < dev->battery_min || value > dev->battery_max)
- 		return;
- 
- 	capacity = hidinput_scale_battery_capacity(dev, value);
-@@ -1518,7 +1522,7 @@ void hidinput_hid_event(struct hid_device *hid, struct hid_field *field, struct
- 		bool handled = hidinput_set_battery_charge_status(hid, usage->hid, value);
- 
- 		if (!handled)
--			hidinput_update_battery(hid, value);
-+			hidinput_update_battery(hid, usage->hid, value);
- 
- 		return;
- 	}
-
-
-Thanks.
+Nobody voiced any objections so far, so applied both.
 
 -- 
 Dmitry
