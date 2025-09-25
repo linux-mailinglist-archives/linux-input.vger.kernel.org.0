@@ -1,194 +1,226 @@
-Return-Path: <linux-input+bounces-15103-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-15104-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FC86B9F30B
-	for <lists+linux-input@lfdr.de>; Thu, 25 Sep 2025 14:20:41 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id B2166BA05F5
+	for <lists+linux-input@lfdr.de>; Thu, 25 Sep 2025 17:36:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3044C387E48
-	for <lists+linux-input@lfdr.de>; Thu, 25 Sep 2025 12:19:12 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C449418874D7
+	for <lists+linux-input@lfdr.de>; Thu, 25 Sep 2025 15:32:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DEBAA3054D3;
-	Thu, 25 Sep 2025 12:15:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6520B2E62BE;
+	Thu, 25 Sep 2025 15:31:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="cxmr+xaw"
+	dkim=pass (1024-bit key) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b="aws2QwIz"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3501F305078
-	for <linux-input@vger.kernel.org>; Thu, 25 Sep 2025 12:15:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 644B72E5439
+	for <linux-input@vger.kernel.org>; Thu, 25 Sep 2025 15:31:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758802549; cv=none; b=uZewexlKFmxqwQtnC6y0855W8hKAgT8TapdJ3nuh6x/OGp12+dnG/c/uvGwnoL/EIW9e6Rf2JN53LTOO3VuySeoZOeNoJ1SAJXr/8AoDHWWaPwY52lUq0jA5zqUC0gZh/o8MWNOiPiBZmVSEUjhHsLrUdkqsPeEVptF/vVFxoKY=
+	t=1758814312; cv=none; b=G6bvbLSUzMlMUkHXriFpwOHlfdpWhjCuHuCmr+4XjRP7wKrVtwm1LiIHWeQd7Q3mydb7/qZt1aqb2CsOceNiXDryJDRI/thx7XVWO6vduIbtGX8pqbgZW7IpO5OIxvWb89I+piLhQ5TiRQXYuCuaXSxm/GOMJfczsDc6xrVUx0w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758802549; c=relaxed/simple;
-	bh=HQloABzlnB8r/NiJ4QOXbc7ZT8TEzRbdNF3WianAing=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=FSqKKHNwiRkc5CHZfyyIuXbOW01wEQYYAEuC5rDRKLsmpzxb/ZldIdin025sObhRVx7xceVRYgTk27rVHJMRhheNlg6FWRkXuvYJlDIW7xV/gXYqNxUFu+v5chzbuQuLE0WiOKVQfWwJpcSOcC+jVHedXF4sY5mM+l61OD5xqT8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=cxmr+xaw; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58P9tCrq018069
-	for <linux-input@vger.kernel.org>; Thu, 25 Sep 2025 12:15:47 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	ouVUk6EkYRj6EqW6mxcCGA12lGdj8Q5EsB1YmAFNCoY=; b=cxmr+xawu7/OiGto
-	hKBFSxw1GOr7BwHSqh1fj6Wquo3GiKjmyDRK/yl1HXNPJD0jUKkKzqWMgH0CvLhX
-	krW8IHyL/ZDiyfzMasbn/tY1z/bp2JWwyzMOZ+SyyHAGQNXTUxO70LCU3R+iOrp3
-	PNGrN6HvL4o4+gdzd52P+WHgHlIQgDG2QJ6opnagCputPwiQVGJO6XqVVXwfUXgu
-	iCPELS33nVpciqC8CmeLbXdRiD96Fwp3oXdGJslWFYza7C92A/HnR+l23HbAbXBx
-	vRYM632IUoUHa4mQGfnS8TubLqshbozzT1UCkl5jW8JCL1C0JCT8iex4To2ozDJY
-	kHvJ1A==
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com [209.85.222.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49b3kkbyv0-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-input@vger.kernel.org>; Thu, 25 Sep 2025 12:15:47 +0000 (GMT)
-Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-82b15c1dca8so35235785a.1
-        for <linux-input@vger.kernel.org>; Thu, 25 Sep 2025 05:15:47 -0700 (PDT)
+	s=arc-20240116; t=1758814312; c=relaxed/simple;
+	bh=ZgX4ZPQJsepw4/oMrvoAOpLc8zKM+owbJQqU9DnA/q8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=T8bUOwRhgI2xop8eIMRootUvLrxHFCeV27x8Elvf+U1iFkS3Mhk5WJGOUCwgu/K9SHGx9VkZ62X9lptjmWzy4KnicIAu1DdnMSm43ASKB9PjQF+iBD9KP3GYYmSOICO9J2DqIWub5zqs23QGpKZsP8t85Ew9U0SSLXmxnJFdHcs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=amarulasolutions.com; spf=pass smtp.mailfrom=amarulasolutions.com; dkim=pass (1024-bit key) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b=aws2QwIz; arc=none smtp.client-ip=209.85.218.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=amarulasolutions.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amarulasolutions.com
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-b07d4d24d09so216490066b.2
+        for <linux-input@vger.kernel.org>; Thu, 25 Sep 2025 08:31:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=amarulasolutions.com; s=google; t=1758814308; x=1759419108; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=N6M+kRPZnfzew0Cma8s8KKEI2zbCAKgyLYpFhhR2kq4=;
+        b=aws2QwIzFM1yCKxP7y9/9Pz3i4H/aIbS1js3NV8YLMGJ77FPKZMRVfaKxMq4aQJizr
+         o9Ipb36RRgBw2m+scwbgmRUY9I9/nLw9dUjBS9cKh9BJvHWHm1Pf36m7/6DFj/9R96RB
+         YBeCBkElDhe31HCVU4mzMIADDdKrQ21kdbPsk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758802546; x=1759407346;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ouVUk6EkYRj6EqW6mxcCGA12lGdj8Q5EsB1YmAFNCoY=;
-        b=qKwAR2Zukp4YOQtDSe6fIDfKNiU5B7KTaND5/eYH5jYwCQlFCRvQTKyuRV/9H8zcbV
-         Bw7wnTOKZWZ7w7ihYPdX1PV6BjT2701RgbleZPL0EfBZXo3eS2nxnOjjiHtSJDvLhv+P
-         GI6yyPMlwFf7S16KKC7sgA8V69PAZu3Cg5p8E9svpZXQJEyBU0XO5YTVauqOe1SPxAQB
-         3CAzOYKYdMs7VcMfeRAGYgk2jme/Dyq2XWF0ogBxrq6ZprV8HOKdhkW2DBp5FLbdPr+y
-         +slWL55Us2MdXzWODdedSESwVbQ7N0zxfl6P87EJNKdkre8ONrZRTEBttKbSIBrzkaG+
-         oYFQ==
-X-Gm-Message-State: AOJu0YzEGsJRIec5o0uY72kXLRFPq/Zy36s9F5Gv3XgqAazludRwEsn6
-	jQaEvfEwTRwhjpNeVJdsFnEGuV7mE4aOXvLz0kkLApzQkPcb5tsBw9+wUA1LSgZdZFp/NhJySav
-	+6CAvfc1+ziqPw3KwioewbQcufiuPwKTcE06Vd3V5rZEWuND0D4C51VXmmRhP2WjVbDZfZ48gXA
-	==
-X-Gm-Gg: ASbGnctcPHC7aX3VLd/EMe7EIjl8C0fXBKBDuoS08x1sVy0hPprjsD7pyriP9ZNbsp4
-	22m1MVfYTD3+IgsN0BtT8hb7qp17kxgEa0bmCyNfZQDFEsF2L8P0LCMZTJD+92G4R/C4JwfE4fR
-	NrL+WdwC7FkCDg8mohLAzqI1yncWnABCkUH+ou2axzqGKSO1BOWcxNErWz3CESArU9DG1HoZRPV
-	+Wu6ZFYPGl8ZYf6cwHl3Vdz6/ZwlR8ju+iHvPhenR/ANrbNbd19wTYwEM62+fYer562k50Hhihj
-	a22E+KQz64Vs1qrrmXg5H9nNFuRzJ4KoBl+4Jh5s8FJ1K1J1T/ZPac0M424shmAj1BoCF8FLETI
-	Iy2DCwQBPniRmOLLieqNEeQ==
-X-Received: by 2002:ac8:5d92:0:b0:4b7:a9cf:91f with SMTP id d75a77b69052e-4da4b0490f1mr25219101cf.8.1758802545965;
-        Thu, 25 Sep 2025 05:15:45 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFKDTicP+At3tb6zBRvj+8JVoPm7W3lOGpEI+urWVr96LG5JzmbSw4XR7btbmuKOwHogSvf9A==
-X-Received: by 2002:ac8:5d92:0:b0:4b7:a9cf:91f with SMTP id d75a77b69052e-4da4b0490f1mr25218681cf.8.1758802545476;
-        Thu, 25 Sep 2025 05:15:45 -0700 (PDT)
-Received: from [192.168.149.223] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b3545899fc9sm153299966b.91.2025.09.25.05.15.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 25 Sep 2025 05:15:44 -0700 (PDT)
-Message-ID: <81822df8-1978-4f22-93e7-87b79e1fc9f3@oss.qualcomm.com>
-Date: Thu, 25 Sep 2025 14:15:42 +0200
+        d=1e100.net; s=20230601; t=1758814308; x=1759419108;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=N6M+kRPZnfzew0Cma8s8KKEI2zbCAKgyLYpFhhR2kq4=;
+        b=bT4pLWhuP/N0OjeQEVFMNJmntEm+M5Gc7jl3geVeRQD8BD4T2mYeldR180S+l9pEvQ
+         mw9yAaKgLMQ0bUKB08fVPqdsHNkyt09LSW4QCA3XIZ5wLT7roLZmkauiWpeQ2WU4CBVq
+         +d+r/HC1zoLKbDizuA2LTr1s9JxQqWD5Xb2/d3GbmyTPRqHzor9HO4munJzSrwzKDuQ4
+         LkmPkWD9ZYg5rP1O7IkScgfLCotcTCFHxYNPYI060UuLs0b/NcoQydP+9jpLbCZx9L+F
+         0eq4yw9c0SuBxBQ7y7JrBMrI8jSZDTfcQxVMyE9pn7hY5MRlNcrExCs/QHpjgz4M/9Tr
+         YBDQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW8zSZfTJyBC7x0WXgv5IosXZ/0L85S0OPg0S1csCLVw3o2FyGgfBEVDy9BEr15s+58Gnbc0XMinaY6Jw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw+z1TUAgQ2rzheZgUXrWG1+8408ynyK1k+TtNV6yp6j3FpSwSp
+	GpOn8JATUmOmHd4evaLFz13o/tooGbh2QR4YO2cYPxJUQvad+E1OK5ifMTCs4SpOExU=
+X-Gm-Gg: ASbGnctUvWMfd7PAwOKuGJ1Kg3InCbdB/nqjh/S0etMGhuenmjh88+WKxzmqgqjcaTZ
+	qwWkq9tiF+u5SMsTsYHxbvRxrqL9gsW53GAMOs5JfdqquNuzmYCp7XTarMEh7zHA2AmbCuYiXra
+	DtX79YIZdMlT3sEhPl/LRmiGwkt+FjTdnU4n4HRNX+gLYJIBoOR7LWKy3sGNkcFY0NwLwnWusxx
+	CF18mvT7yd1MySFFpqxMgmo9LUs6zM0D9js4dhsFgRgaXGMbsNKTeIMeHmstKH49d+HCVoe1iDz
+	R7eKi5PCXKW/2w7jO+bzhL0yFMZluGzYM6dojQwvWf3orCvbcZZe0yY/O1oWK9hC+ZY+kAXRszC
+	QDuJCSUI5lX0vHVUDFrAGxP4WqBmxvAAloTpAV3C4HuLninKePFpwZgi4j/mIJrTdvdohFOB5by
+	i3TTBzKvwP1HTJA8bp9awlFqfIB8aMzTv4JzO0NfN8c0J0Hua5uFYGZs0GK/HfAimR
+X-Google-Smtp-Source: AGHT+IFJ5RjszPrVn/momTP/VgXs6PvdsosumGKSnAuVSbcsK7vDz96xQNlT+VW8DiVuWKFGQ1fHPw==
+X-Received: by 2002:a17:907:2d8c:b0:b24:6396:c643 with SMTP id a640c23a62f3a-b34ba450628mr410897166b.23.1758814308519;
+        Thu, 25 Sep 2025 08:31:48 -0700 (PDT)
+Received: from dario-ThinkPad-T14s-Gen-2i.homenet.telecomitalia.it (host-82-56-38-125.retail.telecomitalia.it. [82.56.38.125])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b36f410e129sm43924766b.89.2025.09.25.08.31.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 25 Sep 2025 08:31:47 -0700 (PDT)
+From: Dario Binacchi <dario.binacchi@amarulasolutions.com>
+To: linux-kernel@vger.kernel.org
+Cc: sebastian.reichel@collabora.com,
+	linux-amarula@amarulasolutions.com,
+	Dario Binacchi <dario.binacchi@amarulasolutions.com>,
+	Rob Herring <robh@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Frank Li <Frank.Li@nxp.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	devicetree@vger.kernel.org,
+	linux-input@vger.kernel.org
+Subject: [linux-next PATCH v8 1/3] dt-bindings: touchscreen: convert eeti bindings to json schema
+Date: Thu, 25 Sep 2025 17:31:33 +0200
+Message-ID: <20250925153144.4082786-1-dario.binacchi@amarulasolutions.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RESEND v3 2/3] Input: aw86927 - add driver for Awinic
- AW86927
-To: Griffin Kroah-Hartman <griffin.kroah@fairphone.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley
- <conor+dt@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>,
-        Luca Weiss <luca.weiss@fairphone.com>
-Cc: linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org
-References: <20250925-aw86927-v3-0-1fc6265b42de@fairphone.com>
- <20250925-aw86927-v3-2-1fc6265b42de@fairphone.com>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20250925-aw86927-v3-2-1fc6265b42de@fairphone.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: q_Q1pQBJIJN4NfU6DU1Uwnhn8qkMolaJ
-X-Proofpoint-ORIG-GUID: q_Q1pQBJIJN4NfU6DU1Uwnhn8qkMolaJ
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTIyMDA4OSBTYWx0ZWRfX84WD/gVtUiRq
- mG7atYYKZ737zjv23qX8iDBXMGZOHWTa9z0dZbYYnehvoKn1e6Ch7FQ2c0FUwhd6lVgR3mYfcHJ
- rD2KNXtByDZLN8aYkipUVwN3NLBlGyFJSJOCM4s2Qf2JEZYUSvJGb0XZy2yMS7xFeIT/vabHUOZ
- qL4F58HhbcJLuyC/vOA68lsh5pgKIoA+jOgp3Fd21Lt9Foiv1Q1NAAHEnMkiuwpdRTVIxuFciAf
- XEJE1gzoIYJXNNZyfgpzju7g8nXSBZX+k4BMfRnfeGEOv6g+p+lyjMix7TegNpbkVE3v1m0SbfX
- Z9pT0F2IJ9C0/26YfDhNGyXwLDDv8rwHrk9tHbNX7GM1fQIdVM/rxmOrF+bMHYR+iJtmJVgsxgP
- vFkCoA/Q
-X-Authority-Analysis: v=2.4 cv=BabY0qt2 c=1 sm=1 tr=0 ts=68d53273 cx=c_pps
- a=50t2pK5VMbmlHzFWWp8p/g==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
- a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=6H0WHjuAAAAA:8 a=pLNEalJQesa3U4KxjPAA:9
- a=QEXdDO2ut3YA:10 a=IoWCM6iH3mJn3m4BftBB:22 a=Soq9LBFxuPC4vsCAQt-j:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-25_01,2025-09-24_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 clxscore=1015 phishscore=0 bulkscore=0 priorityscore=1501
- adultscore=0 malwarescore=0 spamscore=0 impostorscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509220089
+Content-Transfer-Encoding: 8bit
 
-On 9/25/25 12:07 PM, Griffin Kroah-Hartman wrote:
-> Add support for the I2C-connected Awinic AW86927 LRA haptic driver.
-> 
-> This driver includes a hardcoded sine waveform to be uploaded to the
-> AW86927's SRAM for haptic playback.
-> This driver does not currently support all the capabilities of the
-> AW86927, such as F0 calibration, RTP mode, and CONT mode.
-> 
-> Signed-off-by: Griffin Kroah-Hartman <griffin.kroah@fairphone.com>
-> ---
+Convert EETI touchscreen controller device tree binding to json-schema.
 
-I'll give you a couple of cosmetic comments, feel free to ignore
+Signed-off-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 
-uint8_t is abbreviated as u8 in the kernel
+---
 
-[...]
+Changes in v8:
+- fix conflicts after rebasing on linux-next where the patch
+  dt-bindings: input: exc3000: move eeti,egalax_ts from egalax-ts.txt to eeti,exc3000.yaml
+  has been merged.
 
-> +#define AW86927_PLAYCFG1_BST_MODE_MASK		GENMASK(7, 7)
+Changes in v7:
+- Add Reviewed-by tag of Rob Herring
 
-GENMASK(n, n) is BIT(n)
+Changes in v6:
+- Add deprected to the compatible string and attn-gpios
+  property
+- Put const 0x2a i2c address for reg property only in case
+  of not eeti,exc3000-i2c.
+- Put false the attn-gpios property in case of not
+  eeti,exc3000-i2c..
+- Drop example for eeti,exc3000-i2c.
 
-[...]
+Changes in v5:
+- Move bindings into eeti,exc3000.yaml
+- Remove eeti.yaml
 
-> +static int aw86927_wait_enter_standby(struct aw86927_data *haptics)
-> +{
-> +	unsigned int reg_val;
-> +	int err;
+Changes in v2:
+- Added in v2
 
-"ret" is more common (for "return value")
+ .../input/touchscreen/eeti,exc3000.yaml       | 16 ++++++++--
+ .../bindings/input/touchscreen/eeti.txt       | 30 -------------------
+ 2 files changed, 14 insertions(+), 32 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/input/touchscreen/eeti.txt
 
-[...]
+diff --git a/Documentation/devicetree/bindings/input/touchscreen/eeti,exc3000.yaml b/Documentation/devicetree/bindings/input/touchscreen/eeti,exc3000.yaml
+index d19b07d4cfd4..930c70104b3f 100644
+--- a/Documentation/devicetree/bindings/input/touchscreen/eeti,exc3000.yaml
++++ b/Documentation/devicetree/bindings/input/touchscreen/eeti,exc3000.yaml
+@@ -16,12 +16,14 @@ properties:
+       - const: eeti,exc80h60
+       - const: eeti,exc80h84
+       - const: eeti,egalax_ts # Do NOT use for new binding
++      - const: eeti,exc3000-i2c
++        deprecated: true
+       - items:
+           - enum:
+               - eeti,exc81w32
+           - const: eeti,exc80h84
+   reg:
+-    enum: [0x4, 0x2a]
++    enum: [0x4, 0xa, 0x2a]
+   interrupts:
+     maxItems: 1
+   reset-gpios:
+@@ -30,6 +32,12 @@ properties:
+     maxItems: 1
+   vdd-supply:
+     description: Power supply regulator for the chip
++  attn-gpios:
++    deprecated: true
++    maxItems: 1
++    description: Phandle to a GPIO to check whether interrupt is still
++                 latched. This is necessary for platforms that lack
++                 support for level-triggered IRQs.
+   touchscreen-size-x: true
+   touchscreen-size-y: true
+   touchscreen-inverted-x: true
+@@ -51,7 +59,9 @@ allOf:
+         compatible:
+           not:
+             contains:
+-              const: eeti,egalax_ts
++              enum:
++                - eeti,egalax_ts
++                - eeti,exc3000-i2c
+     then:
+       properties:
+         reg:
+@@ -59,6 +69,8 @@ allOf:
+ 
+         wakeup-gpios: false
+ 
++        attn-gpios: false
++
+       required:
+         - touchscreen-size-x
+         - touchscreen-size-y
+diff --git a/Documentation/devicetree/bindings/input/touchscreen/eeti.txt b/Documentation/devicetree/bindings/input/touchscreen/eeti.txt
+deleted file mode 100644
+index 32b3712c916e..000000000000
+--- a/Documentation/devicetree/bindings/input/touchscreen/eeti.txt
++++ /dev/null
+@@ -1,30 +0,0 @@
+-Bindings for EETI touchscreen controller
+-
+-Required properties:
+-- compatible:	should be "eeti,exc3000-i2c"
+-- reg:		I2C address of the chip. Should be set to <0xa>
+-- interrupts:	interrupt to which the chip is connected
+-
+-Optional properties:
+-- attn-gpios:	A handle to a GPIO to check whether interrupt is still
+-		latched. This is necessary for platforms that lack
+-		support for level-triggered IRQs.
+-
+-The following optional properties described in touchscreen.txt are
+-also supported:
+-
+-- touchscreen-inverted-x
+-- touchscreen-inverted-y
+-- touchscreen-swapped-x-y
+-
+-Example:
+-
+-i2c-master {
+-	touchscreen@a {
+-		compatible = "eeti,exc3000-i2c";
+-		reg = <0xa>;
+-		interrupt-parent = <&gpio>;
+-		interrupts = <123 IRQ_TYPE_EDGE_RISING>;
+-		attn-gpios = <&gpio 123 GPIO_ACTIVE_HIGH>;
+-	};
+-};
+-- 
+2.43.0
 
-> +	switch (play_mode) {
-> +	case AW86927_STANDBY_MODE:
-> +		/* Briefly toggle standby, then toggle back to standby off */
-> +		err = regmap_update_bits(haptics->regmap,
-> +				AW86927_SYSCTRL3_REG,
-> +				AW86927_SYSCTRL3_STANDBY_MASK,
-> +				FIELD_PREP(AW86927_SYSCTRL3_STANDBY_MASK,
-> +					   AW86927_SYSCTRL3_STANDBY_ON));
-
-this is regmap_set_bits(regmap, register, field), you can consider
-dropping the _MASK suffix too
-
-> +		if (err)
-> +			return err;
-> +
-> +		err = regmap_update_bits(haptics->regmap,
-> +				AW86927_SYSCTRL3_REG,
-> +				AW86927_SYSCTRL3_STANDBY_MASK,
-> +				FIELD_PREP(AW86927_SYSCTRL3_STANDBY_MASK,
-> +					   AW86927_SYSCTRL3_STANDBY_OFF));
-
-regmap_clear_bits()
-
-(also regmap_assign_bits() which is a conditional version of the two
-is a nice piece of syntax sugar)
-
-Konrad
+base-commit: b5a4da2c459f79a2c87c867398f1c0c315779781
+branch: drop-touchscreen
 
