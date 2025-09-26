@@ -1,187 +1,147 @@
-Return-Path: <linux-input+bounces-15123-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-15124-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id E69DABA38C5
-	for <lists+linux-input@lfdr.de>; Fri, 26 Sep 2025 13:50:09 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id A5934BA38FC
+	for <lists+linux-input@lfdr.de>; Fri, 26 Sep 2025 14:03:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id DFAEB1896F71
-	for <lists+linux-input@lfdr.de>; Fri, 26 Sep 2025 11:50:27 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D17387B4CD5
+	for <lists+linux-input@lfdr.de>; Fri, 26 Sep 2025 12:01:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6BC512E540D;
-	Fri, 26 Sep 2025 11:49:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ull+ZgZJ"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9443413B284;
+	Fri, 26 Sep 2025 12:03:30 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E1A02D0601;
-	Fri, 26 Sep 2025 11:49:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+Received: from outboundhk.mxmail.xiaomi.com (outboundhk.mxmail.xiaomi.com [118.143.206.90])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 11D5C10E3;
+	Fri, 26 Sep 2025 12:03:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=118.143.206.90
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758887397; cv=none; b=V5QG7ek+7iQFzLQ+1zgERl6+fC5zyWI/O6XYtqxRtsgqf2jhS5sdUn4luEMhMNmy6ZXngEagovgPBgLSHi9YQfGkN2SCuEAetxzlZ9dBQIfsHvkapYdf60Fpr5h7Snf4RjC1mwLO/6tCUiIvIG32LanH//WQd1xjRGHqlkB2Nfk=
+	t=1758888210; cv=none; b=ulEIzF0O4mKEm0daQPjaXhb1WGL8zA/EV1xPYbI+FnIm6iRMZd1x1Qmn9nDD+4Y5Gk9cukRQmC8ngDAZmxTDvFnva5Br50LUDHon2kkXaOFeeownI2ygpeJCSWpsnNi50tgX5bDG30J6I5olpup4Imyr7NHL0SnKx756iRzvM1U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758887397; c=relaxed/simple;
-	bh=F6vkmwXAj5jiqHJtsFmVLViWZqoBinpqAhY458odFy0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jY+ji8OfifwuxSboY+oT57fP5BEwl+b6El4lMbif2kQtmjRuBajjIGLfeBkWH4dkA6YoQwKvTT94P7P7IH0FpeSIY6uCjtqaAyb6zYwCcFs0LJtJbhz38lzsbQ/l2hyRZz7edMDa9KjxeH08rmIFwfl6v3dgw8VrAc7tfW6OtrI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ull+ZgZJ; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758887396; x=1790423396;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=F6vkmwXAj5jiqHJtsFmVLViWZqoBinpqAhY458odFy0=;
-  b=Ull+ZgZJcuwRRPTn/k58iCU/XmJZo1UofknAxDiprd4U3wYsNvOy7Jm0
-   FM0lv3E/tmah1dByMe31IPGSWvplGi0mvodqj4g+R9qfa7XBaqqUvsafP
-   5ymbsdeVQKzq1Z01kRKCW6e6egZjIj7ifgJQTQU3BGJtj70QFs8mGsTz0
-   dXxu8zxzgkzY2DIlwDQAy+ACDR3o4y7+LWybGa3Cou+yt/+UcotsVdbnt
-   FJawC8z6u4zjHlE10nbUxE0+TddC73TsFp7Os0ArpzwLseZQN03TNiUwf
-   f5WnPwJ3B7qIYKBrwxEa5XUSlkJi/sPMCMJ8qjpfsF8B6+2iyunSuGyeS
-   A==;
-X-CSE-ConnectionGUID: 9En9tj9+QaG0E8Jwen+qZg==
-X-CSE-MsgGUID: e4gqiS9uTs6Tff5O9ESFxw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="61132636"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="61132636"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2025 04:49:55 -0700
-X-CSE-ConnectionGUID: qm83rxGFQeq0pPV3J5K8sQ==
-X-CSE-MsgGUID: MnAYXKGgRJCuKU2ewW28mg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,295,1751266800"; 
-   d="scan'208";a="214727852"
-Received: from bergbenj-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.33])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2025 04:49:47 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id ADDAD1202BC;
-	Fri, 26 Sep 2025 14:49:42 +0300 (EEST)
-Date: Fri, 26 Sep 2025 14:49:42 +0300
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
-	linux-media@vger.kernel.org, netdev@vger.kernel.org,
-	linux-spi@vger.kernel.org, "Rafael J. Wysocki" <rafael@kernel.org>,
-	Len Brown <lenb@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Daniel Scally <djrscally@gmail.com>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Javier Carrasco <javier.carrasco@wolfvision.net>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
-	Matthias Fend <matthias.fend@emfend.at>,
-	Chanwoo Choi <cw00.choi@samsung.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Paul Elder <paul.elder@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Horatiu Vultur <horatiu.vultur@microchip.com>,
-	UNGLinuxDriver@microchip.com, Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Mark Brown <broonie@kernel.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@kernel.org>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: Re: [PATCH v2 03/16] ACPI: property: Rework
- acpi_graph_get_next_endpoint()
-Message-ID: <aNZ91lK7RvDku6li@kekkonen.localdomain>
-References: <20250924074602.266292-1-sakari.ailus@linux.intel.com>
- <20250924074602.266292-4-sakari.ailus@linux.intel.com>
- <20250924093934.GC28073@pendragon.ideasonboard.com>
+	s=arc-20240116; t=1758888210; c=relaxed/simple;
+	bh=WjCqIiFfZ75RdZ0O8KNeP5eb/Iq3S4nT4LUk9qeScVM=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=qZKECkF18cFo/QxHjur64h0yttYdMNY2gobo8OFroApATdjb8NH3pV8lhZXW73KMDFEAfxVKiUcbtosG/51vkytn+o/lA6oP6uwWXj40yYO2CND3WKuQ3AbVcdxJ9nzZLl6gL6hPi+dDC0DJsBxDcim18f4uAc8MLT4lklGczQg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=xiaomi.com; spf=pass smtp.mailfrom=xiaomi.com; arc=none smtp.client-ip=118.143.206.90
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=xiaomi.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xiaomi.com
+X-CSE-ConnectionGUID: JNgtOul1R5G7qDX6S5sh5w==
+X-CSE-MsgGUID: jL0ClaEQQ6+hcwRp3hxS1g==
+X-IronPort-AV: E=Sophos;i="6.18,295,1751212800"; 
+   d="scan'208";a="127915875"
+From: =?gb2312?B?wqy5+rrq?= <luguohong@xiaomi.com>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+CC: =?gb2312?B?Sm9zqKYgRXhwqK5zaXRv?= <jose.exposito89@gmail.com>,
+	"linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"jikos@kernel.org" <jikos@kernel.org>, "bentiss@kernel.org"
+	<bentiss@kernel.org>, =?gb2312?B?wO7F9A==?= <lipeng43@xiaomi.com>,
+	=?gb2312?B?RmVpMSBKaWFuZyC9r7fJ?= <jiangfei1@xiaomi.com>,
+	=?gb2312?B?y87D3MPc?= <songmimi@xiaomi.com>, =?gb2312?B?wqy5+rrq?=
+	<luguohong@xiaomi.com>
+Subject: =?gb2312?B?tPC4tDogtPC4tDogW0V4dGVybmFsIE1haWxdUmU6IFRoZSB6ZXJvIHBvd2Vy?=
+ =?gb2312?B?IGxldmVsIG9mIHRoZSBISUQgZGV2aWNlIGluIGtlcm5lbCA2LjEyIGlzIG5v?=
+ =?gb2312?Q?t_reported_from_the_kernel_to_the_upper_layer.?=
+Thread-Topic: =?gb2312?B?tPC4tDogW0V4dGVybmFsIE1haWxdUmU6IFRoZSB6ZXJvIHBvd2VyIGxldmVs?=
+ =?gb2312?B?IG9mIHRoZSBISUQgZGV2aWNlIGluIGtlcm5lbCA2LjEyIGlzIG5vdCByZXBv?=
+ =?gb2312?Q?rted_from_the_kernel_to_the_upper_layer.?=
+Thread-Index: AQHcJwWA1Pv1UPoVhEyxSk6qnb4viLSZrf4AgABrXICABNg0/oAD42UAgAKWVzk=
+Date: Fri, 26 Sep 2025 12:03:19 +0000
+Message-ID: <aada0917f31641c19ba7c48e3c6d3c53@xiaomi.com>
+References: <d2cada7efe8d4436b6e638fa1e0aaefb@xiaomi.com>
+ <aM0XBudxlXuzALbg@fedora>
+ <px5t2iedrrqhcrpdvmu5pznp53d3e5jp55dm72phlsti2rmt4j@rj2pajkavuir>
+ <91e0d952fd774e769e2d24ce2165df18@xiaomi.com>,<vkm32giijggtzv7hudsvqg34utpqvw4nnccfi7d4txj5tlzstp@4bu2ox2lmtm5>
+In-Reply-To: <vkm32giijggtzv7hudsvqg34utpqvw4nnccfi7d4txj5tlzstp@4bu2ox2lmtm5>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+Content-Type: text/plain; charset="gb2312"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250924093934.GC28073@pendragon.ideasonboard.com>
 
-Hi Laurent,
-
-Thank you for the review.
-
-On Wed, Sep 24, 2025 at 12:39:34PM +0300, Laurent Pinchart wrote:
-> Hi Sakari,
-> 
-> On Wed, Sep 24, 2025 at 10:45:49AM +0300, Sakari Ailus wrote:
-> > Rework the code obtaining the next endpoint in
-> > acpi_graph_get_next_endpoint(). The resulting code removes unnecessary
-> > contitionals and should be easier to follow.
-> > 
-> > Suggested-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > ---
-> >  drivers/acpi/property.c | 13 +++++++------
-> >  1 file changed, 7 insertions(+), 6 deletions(-)
-> > 
-> > diff --git a/drivers/acpi/property.c b/drivers/acpi/property.c
-> > index 3e85900080ac..5438592dc136 100644
-> > --- a/drivers/acpi/property.c
-> > +++ b/drivers/acpi/property.c
-> > @@ -1399,14 +1399,15 @@ static struct fwnode_handle *acpi_graph_get_next_endpoint(
-> >  	if (!port)
-> >  		return NULL;
-> >  
-> > -	endpoint = acpi_get_next_subnode(port, prev);
-> > -	while (!endpoint) {
-> > -		port = acpi_get_next_subnode(fwnode, port);
-> > -		if (!port)
-> > +	do {
-> > +		endpoint = acpi_get_next_subnode(port, prev);
-> > +		if (endpoint)
-> >  			break;
-> > +
-> > +		port = acpi_get_next_subnode(fwnode, port);
-> >  		if (is_acpi_graph_node(port, "port"))
-> > -			endpoint = acpi_get_next_subnode(port, NULL);
-> > -	}
-> > +			prev = NULL;
-> 
-> Isn't there an issue here ? If the next subnode of fwnode is not a port,
-> the next iteration of the do loop will attempt to get an endpoint from
-> that non-port node. Maybe the acpi_get_next_subnode() that will try to
-> get the endpoint from the non-port port will return NULL because prev
-> won't be a child of port, but that seems fragile.
-> 
-> I think the following would be easier to understand:
-> 
-> 	do {
-> 		endpoint = acpi_get_next_subnode(port, prev);
-> 		if (endpoint)
-> 			break;
-> 
-> 		prev = NULL;
-> 
-> 		do {
-> 			port = acpi_get_next_subnode(fwnode, port);
-> 		} while (port && !is_acpi_graph_node(port, "port"));
-> 	} while (port);
-
-Yes, this indeed ensures port will be a port node. I'll use this in the
-next version.
-
-> 
-> > +	} while (port);
-> >  
-> >  	/*
-> >  	 * The names of the endpoint nodes begin with "endpoint@" followed by
-> > 
-> 
-
--- 
-Regards,
-
-Sakari Ailus
+DQpIaSBEbWl0cnksDQpBZnRlciB0ZXN0aW5nLCB3ZSBmb3VuZCB0aGF0IHlvdXIgcHJvcG9zZWQg
+bWV0aG9kIGNhbiBzb2x2ZSBvdXIgcHJvYmxlbS4gUGxlYXNlIGhlbHAgbWVyZ2UgdGhpcyBtZXRo
+b2QgaW50byB0aGUgTGludXgga2VybmVsIGFzIHNvb24gYXMgcG9zc2libGUhIFBsZWFzZSByZW1l
+bWJlciB0byBzZW5kIHVzIHRoZSByZWxldmFudCBpbmZvcm1hdGlvbiBvZiB0aGUgbWVyZ2VkIGdp
+dCBzbyB0aGF0IHdlIGNhbiBjb250YWN0IEdvb2dsZSBhbmQgbWVyZ2UgdGhlaXIgQW5kcm9pZCBH
+S0kgYXMgd2VsbC4gT3VyIHByb2plY3QgaXMgbG9va2luZyBmb3J3YXJkIHRvIHVzaW5nIHRoaXMg
+ZmVhdHVyZS4gVGhhbmsgeW91IHZlcnkgbXVjaCENCg0KX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fXw0Kt6K8/sjLOiBEbWl0cnkgVG9yb2tob3YgPGRtaXRyeS50b3Jva2hv
+dkBnbWFpbC5jb20+DQq3osvNyrG85DogMjAyNcTqOdTCMjXI1SAxMjoyNg0KytW8/sjLOiDCrLn6
+uuoNCrOty806IEpvc6imIEV4cKiuc2l0bzsgbGludXgtaW5wdXRAdmdlci5rZXJuZWwub3JnOyBs
+aW51eC1rZXJuZWxAdmdlci5rZXJuZWwub3JnOyBqaWtvc0BrZXJuZWwub3JnOyBiZW50aXNzQGtl
+cm5lbC5vcmc7IMDuxfQ7IEZlaTEgSmlhbmcgva+3yTsgy87D3MPcDQrW98ziOiBSZTogtPC4tDog
+W0V4dGVybmFsIE1haWxdUmU6IFRoZSB6ZXJvIHBvd2VyIGxldmVsIG9mIHRoZSBISUQgZGV2aWNl
+IGluIGtlcm5lbCA2LjEyIGlzIG5vdCByZXBvcnRlZCBmcm9tIHRoZSBrZXJuZWwgdG8gdGhlIHVw
+cGVyIGxheWVyLg0KDQpbzeKyv9PKvP5dILTL08q8/sC01LTT2tChw9e5q8u+zeKyv6Osx+u998n3
+tKbA7aGjyPS21NPKvP6wssir0NS05tLJo6zH672r08q8/teqt6K4+G1pc2VjQHhpYW9taS5jb229
++NDQt7TAoQ0KDQpPbiBNb24sIFNlcCAyMiwgMjAyNSBhdCAwOToyOToyMEFNICswMDAwLCDCrLn6
+uuogd3JvdGU6DQo+DQo+IFdoYXQga2luZCBvZiBhY3Rpb24gYXJlIHdlIHRhbGtpbmcgYWJvdXQ/
+IFNlY3Rpb24gMzEgb2YgdGhlIEhJRA0KPiBzcGVjaWZpY2F0aW9uIGRlZmluZXMgZXZlbnRzIGZv
+ciAiU21hcnQgQmF0dGVyeSIgKCJUbyBjb21wbHkgd2l0aCB0aGUNCj4gU21hcnQgQmF0dGVyeSBT
+cGVjaWZpY2F0aW9uLCB0aGUgQmF0dGVyeSBTeXN0ZW0gbXVzdCBzdXBwb3J0IHRoZQ0KPiBmdW5j
+dGlvbnMgZGVmaW5lZCBpbiB0aGUgQmF0dGVyeSBhbmQgQ2hhcmdlciB1c2FnZSB0YWJsZXMuIEZv
+ciBkZXRhaWxzLA0KPiBzZWUgU2VjdGlvbiA0LjIsIKGwQmF0dGVyeSBTeXN0ZW0gUGFnZSAoeDg1
+KS6hsSkgYW5kIGlzIHR5cGljYWxseSB1c2VkIGZvcg0KPiAiYmF0dGVyeSBwYWNrIGZvciBjZWxs
+dWxhciBwaG9uZXMgKHByaW5jaXBhbCBzb3VyY2UpLCB0aGUgYmF0dGVyeQ0KPiBwYWNrKHMpIGZv
+ciBub3RlYm9vayBjb21wdXRlcnMgKGF1eGlsaWFyeSBzb3VyY2UpLCBhbmQgdGhlIHNlYWxlZA0K
+PiBiYXR0ZXJpZXMgaW4gdW5pbnRlcnJ1cHRpYmxlIHBvd2VyIHN1cHBsaWVzIChhdXhpbGlhcnkg
+c291cmNlKS4iDQo+DQo+IElzIHlvdXIgdXNlIGNhc2UgbWFpbiBiYXR0ZXJ5IG9yIGJhdHRlcnkg
+aW4gYSBzdHlsdXMgb3Igc29tZSBvdGhlcg0KPiBwZXJpcGhlcmFsPw0KPg0KPg0KPiAtLS0+Pj4N
+Cj4gV2hhdCB3ZSBhcmUgZGlzY3Vzc2luZyBpcyB0aGUgY29kZSBpbXBsZW1lbnRhdGlvbiBvZiBT
+ZWN0aW9uIDMxIG9mIHRoZQ0KPiBISUQgcHJvdG9jb2w6IDMxIEJhdHRlcnkgU3lzdGVtIFBhZ2Ug
+KDB4ODUpLiBPdXIgc2NlbmFyaW8gaXM6IGFuDQo+IEFuZHJvaWQgcGhvbmUgaXMgY29ubmVjdGVk
+IHRvIGEgaGFuZGxlIHZpYSBVU0IuIFRoZSBoYW5kbGUgaXMgYSBISUQNCj4gZGV2aWNlIHdpdGgg
+YSBiYXR0ZXJ5LiBUaGUgcG93ZXIgb2YgdGhlIGJhdHRlcnkgaW4gdGhlIGhhbmRsZSBpcyBzZW50
+DQo+IHRvIHRoZSBib3R0b20gbGF5ZXIgKGtlcm5lbCkgb2YgdGhlIHBob25lIHZpYSBVU0IuIFRo
+ZSBib3R0b20gbGF5ZXIgb2YNCj4gdGhlIHBob25lIHRoZW4gcmVwb3J0cyB0aGlzIHBvd2VyIHRv
+IHRoZSB1cHBlciBsYXllciBvZiBBbmRyb2lkDQo+IHRocm91Z2ggdGhlIEhJRCBkcml2ZXIuDQoN
+Ckkgc2VlLiBJIGd1ZXNzIHdlIGNhbiB0cnkgb25seSBmaWx0ZXJpbmcgb3V0IDAgcmVwb3J0cyBm
+b3IgdGhlDQpkaWdpdGl6ZXJzLCBsZWF2aW5nIG90aGVyIGRldmljZXMgd2l0aCBiYXR0ZXJpZXMg
+YWxvbmUuIFNvbWV0aGluZyBsaWtlDQp0aGlzOg0KDQoNCmRpZmYgLS1naXQgYS9kcml2ZXJzL2hp
+ZC9oaWQtaW5wdXQuYyBiL2RyaXZlcnMvaGlkL2hpZC1pbnB1dC5jDQppbmRleCBmZjE3ODRiNWMy
+YTQuLmJhM2Y2NjU1YWY5ZSAxMDA2NDQNCi0tLSBhL2RyaXZlcnMvaGlkL2hpZC1pbnB1dC5jDQor
+KysgYi9kcml2ZXJzL2hpZC9oaWQtaW5wdXQuYw0KQEAgLTU5NSwxNCArNTk1LDE4IEBAIHN0YXRp
+YyB2b2lkIGhpZGlucHV0X2NsZWFudXBfYmF0dGVyeShzdHJ1Y3QgaGlkX2RldmljZSAqZGV2KQ0K
+ICAgICAgICBkZXYtPmJhdHRlcnkgPSBOVUxMOw0KIH0NCg0KLXN0YXRpYyB2b2lkIGhpZGlucHV0
+X3VwZGF0ZV9iYXR0ZXJ5KHN0cnVjdCBoaWRfZGV2aWNlICpkZXYsIGludCB2YWx1ZSkNCitzdGF0
+aWMgdm9pZCBoaWRpbnB1dF91cGRhdGVfYmF0dGVyeShzdHJ1Y3QgaGlkX2RldmljZSAqZGV2LA0K
+KyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgdW5zaWduZWQgaW50IHVzYWdlLCBp
+bnQgdmFsdWUpDQogew0KICAgICAgICBpbnQgY2FwYWNpdHk7DQoNCiAgICAgICAgaWYgKCFkZXYt
+PmJhdHRlcnkpDQogICAgICAgICAgICAgICAgcmV0dXJuOw0KDQotICAgICAgIGlmICh2YWx1ZSA9
+PSAwIHx8IHZhbHVlIDwgZGV2LT5iYXR0ZXJ5X21pbiB8fCB2YWx1ZSA+IGRldi0+YmF0dGVyeV9t
+YXgpDQorICAgICAgIGlmICgodXNhZ2UgJiBISURfVVNBR0VfUEFHRSkgPT0gSElEX1VQX0RJR0lU
+SVpFUiAmJiB2YWx1ZSA9PSAwKQ0KKyAgICAgICAgICAgICAgIHJldHVybjsNCisNCisgICAgICAg
+aWYgKHZhbHVlIDwgZGV2LT5iYXR0ZXJ5X21pbiB8fCB2YWx1ZSA+IGRldi0+YmF0dGVyeV9tYXgp
+DQogICAgICAgICAgICAgICAgcmV0dXJuOw0KDQogICAgICAgIGNhcGFjaXR5ID0gaGlkaW5wdXRf
+c2NhbGVfYmF0dGVyeV9jYXBhY2l0eShkZXYsIHZhbHVlKTsNCkBAIC0xNTE4LDcgKzE1MjIsNyBA
+QCB2b2lkIGhpZGlucHV0X2hpZF9ldmVudChzdHJ1Y3QgaGlkX2RldmljZSAqaGlkLCBzdHJ1Y3Qg
+aGlkX2ZpZWxkICpmaWVsZCwgc3RydWN0DQogICAgICAgICAgICAgICAgYm9vbCBoYW5kbGVkID0g
+aGlkaW5wdXRfc2V0X2JhdHRlcnlfY2hhcmdlX3N0YXR1cyhoaWQsIHVzYWdlLT5oaWQsIHZhbHVl
+KTsNCg0KICAgICAgICAgICAgICAgIGlmICghaGFuZGxlZCkNCi0gICAgICAgICAgICAgICAgICAg
+ICAgIGhpZGlucHV0X3VwZGF0ZV9iYXR0ZXJ5KGhpZCwgdmFsdWUpOw0KKyAgICAgICAgICAgICAg
+ICAgICAgICAgaGlkaW5wdXRfdXBkYXRlX2JhdHRlcnkoaGlkLCB1c2FnZS0+aGlkLCB2YWx1ZSk7
+DQoNCiAgICAgICAgICAgICAgICByZXR1cm47DQogICAgICAgIH0NCg0KDQpUaGFua3MuDQoNCi0t
+DQpEbWl0cnkNCiMvKioqKioqsb7Tyrz+vLDG5Li9vP66rNPQ0KHD17mry761xLGjw9zQxc+io6y9
+9s/e09q3osvNuPjJz8PmtdjWt9bQwdCz9rXEuPbIy7vyyLrX6aGjvfvWucjOus7G5Mv7yMvS1MjO
+us7Qzsq9yrnTw6OosPzAqLWrsrvP3tPayKuyv7vysr+31rXY0LnCtqGiuLTWxqGiu/LJoreio6mx
+vtPKvP7W0LXE0MXPoqGjyOe5+8T6tO3K1cHLsb7Tyrz+o6zH68T6waK8tLXnu7C78tPKvP7NqNaq
+t6K8/sjLsqLJvrP9sb7Tyrz+o6EgVGhpcyBlLW1haWwgYW5kIGl0cyBhdHRhY2htZW50cyBjb250
+YWluIGNvbmZpZGVudGlhbCBpbmZvcm1hdGlvbiBmcm9tIFhJQU9NSSwgd2hpY2ggaXMgaW50ZW5k
+ZWQgb25seSBmb3IgdGhlIHBlcnNvbiBvciBlbnRpdHkgd2hvc2UgYWRkcmVzcyBpcyBsaXN0ZWQg
+YWJvdmUuIEFueSB1c2Ugb2YgdGhlIGluZm9ybWF0aW9uIGNvbnRhaW5lZCBoZXJlaW4gaW4gYW55
+IHdheSAoaW5jbHVkaW5nLCBidXQgbm90IGxpbWl0ZWQgdG8sIHRvdGFsIG9yIHBhcnRpYWwgZGlz
+Y2xvc3VyZSwgcmVwcm9kdWN0aW9uLCBvciBkaXNzZW1pbmF0aW9uKSBieSBwZXJzb25zIG90aGVy
+IHRoYW4gdGhlIGludGVuZGVkIHJlY2lwaWVudChzKSBpcyBwcm9oaWJpdGVkLiBJZiB5b3UgcmVj
+ZWl2ZSB0aGlzIGUtbWFpbCBpbiBlcnJvciwgcGxlYXNlIG5vdGlmeSB0aGUgc2VuZGVyIGJ5IHBo
+b25lIG9yIGVtYWlsIGltbWVkaWF0ZWx5IGFuZCBkZWxldGUgaXQhKioqKioqLyMNCg==
 
