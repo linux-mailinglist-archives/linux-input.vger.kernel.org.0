@@ -1,189 +1,175 @@
-Return-Path: <linux-input+bounces-15127-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-15128-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E8DFBA4236
-	for <lists+linux-input@lfdr.de>; Fri, 26 Sep 2025 16:23:39 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 386A8BA452F
+	for <lists+linux-input@lfdr.de>; Fri, 26 Sep 2025 17:01:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2DF203AF334
-	for <lists+linux-input@lfdr.de>; Fri, 26 Sep 2025 14:23:38 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D569F4A309C
+	for <lists+linux-input@lfdr.de>; Fri, 26 Sep 2025 15:00:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EEA192FBE15;
-	Fri, 26 Sep 2025 14:19:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7E0A038DE1;
+	Fri, 26 Sep 2025 15:00:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ci+mrXur"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cEw7wFL8"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7786E237172
-	for <linux-input@vger.kernel.org>; Fri, 26 Sep 2025 14:19:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFF971E51EC
+	for <linux-input@vger.kernel.org>; Fri, 26 Sep 2025 15:00:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758896371; cv=none; b=JZEdK2e5HHe9zdOG9Zk5oIaqLOKXogms7N83CBbTLGQ8meWaAFTv3NLY+4uaPycSVMUBf/FiE2/b8hmUoE06itdWUUXvi04Ubnsx5a/t8PueYuQ+kBxDuG+z8QS2IWcPbrqvvRQvagfNo/LK1lCOi4SVkhqXBIAfx28Rp5vxDxc=
+	t=1758898827; cv=none; b=iEOwvcWkdLTJBBISByTwIEjPrq0faDDar4gVZOwAw7ax8Zbhs1mVe7v76zETT02cupYNW8LfdQ0vTM+qeARrxq4caQAFu5BKQTxFgw56EOTJoI+8kidXDz+KAPe8Ub2XhKOZX7YQldInwIgU4Da5abPJq2d4tIaQeqtBKzXxz1g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758896371; c=relaxed/simple;
-	bh=7J0+HkTXYWDcEOw7KvlwDqgDhLnyM0IzRRcaqPCzpkc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Wpt5PPR8+i2Eyt6PXDRjrth90GD0/KfG2qeE6SQKHgpIqNXs/bYtUZfoh8M84z8Q1dMcBUG2wg/+bPyI3liuV8T3xZQw0tmT8N3+dYPICjwFAGVgiI0Eg052Wd7VY1vOzoaFCTE9my+MdW1yyGn41pmeXJve1PkpZxIwCsl4/hQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ci+mrXur; arc=none smtp.client-ip=209.85.208.171
+	s=arc-20240116; t=1758898827; c=relaxed/simple;
+	bh=9H4Iy5ZQioUbGAt3cq2QPsffBJRpfU6SmMhpX/U27b8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=OcSg+Ld1n1aGb8znU33U/V8iUTYd08dfgN7q7gRwg02pRNEdNh9hAJZGpdkA1kqYRyPXWI+thkuCDBSHtkRtIUAM2fElN3JWA8dX0pUGKq3BQydPqGL+YHRlT7PWtU7VO6ZJNkjBu9jDtEF+jAfx4CCVLP5SyONhsPNoUWfZAf0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cEw7wFL8; arc=none smtp.client-ip=209.85.210.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-36a6a3974fdso21983791fa.0
-        for <linux-input@vger.kernel.org>; Fri, 26 Sep 2025 07:19:29 -0700 (PDT)
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-77f605f22easo2072405b3a.2
+        for <linux-input@vger.kernel.org>; Fri, 26 Sep 2025 08:00:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758896367; x=1759501167; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/fpb7zplNlEXOl8DahnPV19OFE+HVfaJi7nHJwxF/NI=;
-        b=Ci+mrXurbmHDVn1DYV53syRmTofJksTN8U/kU0DbuxU01SS58g4hVa6fWI7yzD39UW
-         RUHcD31S9HtZk+3eo/POq0nqLPdA1FoQ85zbSpXgdJ6JszGnu6fsNK0B0yq0l66BfZpc
-         Cgsf2NjHK9vRSWWaE8KlKLxD1mKjOK9OSV6mIaraAbM5F6AnQRfXWj8uRDngRXqWhxH6
-         Kquz/4AuksZff8z8L6yPUsUyXN3MO9aYbQNFdfLoRvdWiqm/KG85XHPGbyCKC+QnLnGK
-         tFCUYXc/Dal5GMTeIeBcJE1kitCPpAjlWtQHx0UzZi5bCZPvyvHBpVJgTLc//C0DDSVn
-         BzaQ==
+        d=gmail.com; s=20230601; t=1758898825; x=1759503625; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=6D/jsLcW0Gr7inyVqcSEs7jW1/FD06YYHLSEbTVz1zU=;
+        b=cEw7wFL8+2j4xMfQ+E1CC3IDiOrfisilPHMZqnPAPxqD69kmWohV/If8RXAzMF5QgA
+         2Rpt1p+A2ikL5Bs3BpRongP0FYAY+106iaJ3FjU2IzXtamS9o7qOet2I4q7+21YLsocr
+         0nxcORBC0op0p/k5dBphwLg9PNFQ8I/kodwKZohlNoWz4GWiDgZBPH3jxejfGN78QBvH
+         +BLgs3opXYD9qi9CBpI+W25pF9aVyFTDnkP3cIxCayBFi3m9SQuWmkdU1ukgBkFLF2ns
+         MWSkS3kcJTRJDz+fDeZ3cYPD+61xIRAaODYkYM7EPodNvMctxxw2stVitD83aRt/sQdU
+         UgSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758896367; x=1759501167;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/fpb7zplNlEXOl8DahnPV19OFE+HVfaJi7nHJwxF/NI=;
-        b=umcfHjwALcTGN7y9Q+OIDm/BY0gl+Pv8G3LKIzP+Npg2+eMYb7+u4L3lv7T/nn3mlL
-         SRgZ++ahhdXH0jemv/gQ8rjBI61IWX7i4hnbHregT4BX0+7c8hTRW8Fk3ZYAqawvmL/e
-         DhlCTSwk5e5Ipry0w5Gp+jgF02KRpWvFgKgZRPeci2YspHavNLvxuKkSqeB63oD/g/Ou
-         heWA2LC2e6pHIUzcnh/eEOSgFPS7xl9vNiog2/c8shW21e7V/h1UIoshlT6DM+YsL17f
-         hhrZcdpvkIIfse1cgjd/zm4+dsWs/dRw8KXiEfRmXQ5mFkvfQlY/FtprZ5obY9vbd8TR
-         e2Yg==
-X-Gm-Message-State: AOJu0YwBfjO5H/ohvC2HsbfigFBhS38f9Pg6DB3qrVV2zCbgx2hq0KBb
-	5/jnkdUJW/uNsgSVITWtri8bJHtNASHwElhlwSm6v1XPY5bzB8knvJUohEo2kVsHHhSY+4p9yqS
-	ac5pNaMBQ/uY3FfTpe6BgVBc52I+irQU=
-X-Gm-Gg: ASbGncuz3Z0Xh9mZygPu3eJFoFHZqWjP6x6bnzJ4PN5hFbPsXWS98sHexqASt4AEGlr
-	LRxnPuuBaEJNGgs069f8kd5BvONkSNnxwWhd/rbYhcJmoNkyA5RzYHkljVDF5qHOO2Z4XtCAY/W
-	eIxQKHVOSUu+6DAoG+bVvrU6s8PuyN70OlKstD8JUwpJeSSAuExhrVOlwC4BHzUFgbU1tetBTxT
-	IoTJKXIpbht+odUizIVpiy1QErl+9pCEoUhlDn0mcFpfKsdBwI=
-X-Google-Smtp-Source: AGHT+IEg0+1QXoqdETbA8SDUMeNvDmPKly4QwcMuj46HgcIsQ+bdLFCRP4n9mvzwGVi+rGsRhftydsEC9n815inQwuc=
-X-Received: by 2002:a05:651c:549:b0:337:e0e1:d11e with SMTP id
- 38308e7fff4ca-36f7d9b746cmr22623801fa.18.1758896366780; Fri, 26 Sep 2025
- 07:19:26 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1758898825; x=1759503625;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=6D/jsLcW0Gr7inyVqcSEs7jW1/FD06YYHLSEbTVz1zU=;
+        b=S9gVOpjshCqsN5NPNqMpo/fR8QUkdZ6VMnIA3eFQQD9wXmNEosfbPGr+571Z219I0R
+         FNowbZYFwMIOMpdKpvZW8q3gtyucyRGwmEkdWzdwXXkpDFzhxw3Zq7SFDsWfFjLEBmHt
+         luDLqYCxJODdDLxgmxW5u8ERCOhW7U5bekQ1zRB5MWAsf9M2M264cUQO3g/ppdI4U8cK
+         OnUIKpRcumciqYsNvrrB28S0S3pTkJq/UH/Ms/U4MNzXArUDotlwdwVDkxsK9/juo24V
+         ZKH/HXrXMeE2dtuvK+GRGgpgLGx27mSn71PamrNty7fh16L1wdZbrnv9dtVjWwUfbPgp
+         lb6w==
+X-Gm-Message-State: AOJu0YylSjJH6gd4rn5fHQEutUS+j0G+ZIrO/fqSzE5RDh/VlygVpYla
+	K5P7kdVFlCtWuK+rabMZW0+EZfbSlUdYgcilg65NqCQfE9BwrcK9sw9h
+X-Gm-Gg: ASbGncvwkxc5CuwK2/Uz6DlP2tyD7GlaqbnYSaO1fWqbzdh1/yf0SxNUQCk3hG4XFKM
+	5UW7TtCOFjBW6g3aTZ6Gx3BJ7Mhex2kU8CTgbWz8mOBg2Vup7BZgeIKGHvHhNnguDrzeZgqAnod
+	5RipmcQfRSrHs+KPUJfYKW7HLRBxoD3FjiLETCDTeeiQMUc//EcGGjK9d+IEnnehyOiAIDLaxRD
+	Zi5S6vEjUdW6xWL+nIi4HQQ0Ywqd0dDPbM8vi1FIJajPx/+ZapM5lYSzCvf+zgD9JP7w4jHhshT
+	qy+7Hf15BdWdcOBfcp3nlWvpBQbfRvgkLhIgf7T80qUQ9y+qBn4mYPePPaFhPOJmTDwo8PgsJNI
+	EpTbeXQj84CASPTZfxv6U9xRLuSf/yIHcrQpvKDU=
+X-Google-Smtp-Source: AGHT+IE+iWzUhddIAroqnNSYAnKwkrlMRDpTbw935pYA9Du0mnB7k0yS2TSf6oe63ECHy0yPKHl+DA==
+X-Received: by 2002:a05:6a00:2d06:b0:772:301a:fbb6 with SMTP id d2e1a72fcca58-780fcea2dc8mr7639643b3a.19.1758898824647;
+        Fri, 26 Sep 2025 08:00:24 -0700 (PDT)
+Received: from cortexauth ([2401:4900:889b:7045:558:5033:2b7a:fd84])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-78102c06af6sm4586044b3a.88.2025.09.26.08.00.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 26 Sep 2025 08:00:23 -0700 (PDT)
+From: Deepak Sharma <deepak.sharma.472935@gmail.com>
+To: jikos@kernel.org,
+	bentiss@kernel.org
+Cc: linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev,
+	skhan@linuxfoundation.org,
+	david.hunter.linux@gmail.com,
+	Deepak Sharma <deepak.sharma.472935@gmail.com>,
+	syzbot+7617e19c8a59edfbd879@syzkaller.appspotmail.com
+Subject: [PATCH v3] HID: cp2112: Add parameter validation to data length
+Date: Fri, 26 Sep 2025 20:28:11 +0530
+Message-ID: <20250926145811.273174-1-deepak.sharma.472935@gmail.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250926140729.267766-1-deepak.sharma.472935@gmail.com>
-In-Reply-To: <20250926140729.267766-1-deepak.sharma.472935@gmail.com>
-From: Deepak Sharma <deepak.sharma.472935@gmail.com>
-Date: Fri, 26 Sep 2025 19:47:17 +0530
-X-Gm-Features: AS18NWD-8e8l1x8r5L3ZN8abjE-3HFmgFfenVF2L-34K18DJt4SNcxgE42HfByQ
-Message-ID: <CABbzaOUQ04seRWn3ik2fnoMddc5uNfzNVfOuNcC+i+dT43isYg@mail.gmail.com>
-Subject: Re: [PATCH RESEND v2] HID: cp2112: Add parameter validation to data length
-To: jikos@kernel.org, bentiss@kernel.org
-Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org, 
-	david.hunter.linux@gmail.com, 
-	syzbot+7617e19c8a59edfbd879@syzkaller.appspotmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Please ignore this patch. I did this patch quite a while ago and put
-the change log mistakenly into the commit message. Will send a v3
-fixing it. Sorry for being clumsy with that
+Syzkaller reported a stack OOB access in cp2112_write_req caused by lack
+of parameter validation for the user input in I2C SMBUS ioctl in cp2112
+driver
 
-Thanks,
-Deepak Sharma
+Add the parameter validation for the data->block[0] to be bounded by
+I2C_SMBUS_BLOCK_MAX + the additional compatibility padding
 
-On Fri, Sep 26, 2025 at 7:39=E2=80=AFPM Deepak Sharma
-<deepak.sharma.472935@gmail.com> wrote:
->
-> This is v2 for the earlier patch, where a few bounds check were
-> unnecessarily strict. This patch also removes the use of magic numbers
->
-> Syzkaller reported a stack OOB access in cp2112_write_req caused by lack
-> of parameter validation for the user input in I2C SMBUS ioctl codeflow
-> in the report
->
-> I2C device drivers are "responsible for checking all the parameters that
-> come from user-space for validity" as specified at Documentation/i2c/dev-=
-interface
->
-> Add the parameter validation for the data->block[0] to be bounded by
-> I2C_SMBUS_BLOCK_MAX + the additional compatibility padding
->
-> Reported-by: syzbot+7617e19c8a59edfbd879@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=3D7617e19c8a59edfbd879
-> Tested-by: syzbot+7617e19c8a59edfbd879@syzkaller.appspotmail.com
-> Signed-off-by: Deepak Sharma <deepak.sharma.472935@gmail.com>
-> ---
->  drivers/hid/hid-cp2112.c | 27 ++++++++++++++++++++++++---
->  1 file changed, 24 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/hid/hid-cp2112.c b/drivers/hid/hid-cp2112.c
-> index 482f62a78c41..13dcd2470d92 100644
-> --- a/drivers/hid/hid-cp2112.c
-> +++ b/drivers/hid/hid-cp2112.c
-> @@ -689,7 +689,14 @@ static int cp2112_xfer(struct i2c_adapter *adap, u16=
- addr,
->                         count =3D cp2112_write_read_req(buf, addr, read_l=
-ength,
->                                                       command, NULL, 0);
->                 } else {
-> -                       count =3D cp2112_write_req(buf, addr, command,
-> +                       /* Copy starts from data->block[1] so the length =
-can
-> +                        * be at max I2C_SMBUS_CLOCK_MAX + 1
-> +                        */
-> +
-> +                       if (data->block[0] > I2C_SMBUS_BLOCK_MAX + 1)
-> +                               count =3D -EINVAL;
-> +                       else
-> +                               count =3D cp2112_write_req(buf, addr, com=
-mand,
->                                                  data->block + 1,
->                                                  data->block[0]);
->                 }
-> @@ -700,7 +707,14 @@ static int cp2112_xfer(struct i2c_adapter *adap, u16=
- addr,
->                                                       I2C_SMBUS_BLOCK_MAX=
-,
->                                                       command, NULL, 0);
->                 } else {
-> -                       count =3D cp2112_write_req(buf, addr, command,
-> +                       /* data_length here is data->block[0] + 1
-> +                        * so make sure that the data->block[0] is
-> +                        * less than or equals I2C_SMBUS_BLOCK_MAX + 1
-> +                       */
-> +                       if (data->block[0] > I2C_SMBUS_BLOCK_MAX + 1)
-> +                               count =3D -EINVAL;
-> +                       else
-> +                               count =3D cp2112_write_req(buf, addr, com=
-mand,
->                                                  data->block,
->                                                  data->block[0] + 1);
->                 }
-> @@ -709,7 +723,14 @@ static int cp2112_xfer(struct i2c_adapter *adap, u16=
- addr,
->                 size =3D I2C_SMBUS_BLOCK_DATA;
->                 read_write =3D I2C_SMBUS_READ;
->
-> -               count =3D cp2112_write_read_req(buf, addr, I2C_SMBUS_BLOC=
-K_MAX,
-> +               /* data_length is data->block[0] + 1, so
-> +                * so data->block[0] should be less than or
-> +                * equal to the I2C_SMBUS_BLOCK_MAX + 1
-> +               */
-> +               if (data->block[0] > I2C_SMBUS_BLOCK_MAX + 1)
-> +                       count =3D -EINVAL;
-> +               else
-> +                       count =3D cp2112_write_read_req(buf, addr, I2C_SM=
-BUS_BLOCK_MAX,
->                                               command, data->block,
->                                               data->block[0] + 1);
->                 break;
-> --
-> 2.51.0
->
+Reported-by: syzbot+7617e19c8a59edfbd879@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=7617e19c8a59edfbd879
+Tested-by: syzbot+7617e19c8a59edfbd879@syzkaller.appspotmail.com
+Signed-off-by: Deepak Sharma <deepak.sharma.472935@gmail.com>
+---
+v3:
+ - Fix the commit message to not include the changelog
+
+v2:
+ - Get rid of magic numbers
+ - Improve the bounds check
+
+v1:
+ - Add bound checks on the input parameters at the driver
+
+ drivers/hid/hid-cp2112.c | 27 ++++++++++++++++++++++++---
+ 1 file changed, 24 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/hid/hid-cp2112.c b/drivers/hid/hid-cp2112.c
+index 482f62a78c41..13dcd2470d92 100644
+--- a/drivers/hid/hid-cp2112.c
++++ b/drivers/hid/hid-cp2112.c
+@@ -689,7 +689,14 @@ static int cp2112_xfer(struct i2c_adapter *adap, u16 addr,
+ 			count = cp2112_write_read_req(buf, addr, read_length,
+ 						      command, NULL, 0);
+ 		} else {
+-			count = cp2112_write_req(buf, addr, command,
++			/* Copy starts from data->block[1] so the length can
++			 * be at max I2C_SMBUS_CLOCK_MAX + 1
++			 */
++			
++			if (data->block[0] > I2C_SMBUS_BLOCK_MAX + 1)
++				count = -EINVAL;
++			else
++				count = cp2112_write_req(buf, addr, command,
+ 						 data->block + 1,
+ 						 data->block[0]);
+ 		}
+@@ -700,7 +707,14 @@ static int cp2112_xfer(struct i2c_adapter *adap, u16 addr,
+ 						      I2C_SMBUS_BLOCK_MAX,
+ 						      command, NULL, 0);
+ 		} else {
+-			count = cp2112_write_req(buf, addr, command,
++			/* data_length here is data->block[0] + 1
++			 * so make sure that the data->block[0] is
++			 * less than or equals I2C_SMBUS_BLOCK_MAX + 1
++			*/
++			if (data->block[0] > I2C_SMBUS_BLOCK_MAX + 1)
++				count = -EINVAL;
++			else
++				count = cp2112_write_req(buf, addr, command,
+ 						 data->block,
+ 						 data->block[0] + 1);
+ 		}
+@@ -709,7 +723,14 @@ static int cp2112_xfer(struct i2c_adapter *adap, u16 addr,
+ 		size = I2C_SMBUS_BLOCK_DATA;
+ 		read_write = I2C_SMBUS_READ;
+ 
+-		count = cp2112_write_read_req(buf, addr, I2C_SMBUS_BLOCK_MAX,
++		/* data_length is data->block[0] + 1, so 
++		 * so data->block[0] should be less than or
++		 * equal to the I2C_SMBUS_BLOCK_MAX + 1
++		*/
++		if (data->block[0] > I2C_SMBUS_BLOCK_MAX + 1)
++			count = -EINVAL;
++		else
++			count = cp2112_write_read_req(buf, addr, I2C_SMBUS_BLOCK_MAX,
+ 					      command, data->block,
+ 					      data->block[0] + 1);
+ 		break;
+-- 
+2.51.0
+
 
