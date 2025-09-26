@@ -1,147 +1,238 @@
-Return-Path: <linux-input+bounces-15124-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-15125-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5934BA38FC
-	for <lists+linux-input@lfdr.de>; Fri, 26 Sep 2025 14:03:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9823BA3B40
+	for <lists+linux-input@lfdr.de>; Fri, 26 Sep 2025 14:53:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D17387B4CD5
-	for <lists+linux-input@lfdr.de>; Fri, 26 Sep 2025 12:01:54 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9916C7B96EC
+	for <lists+linux-input@lfdr.de>; Fri, 26 Sep 2025 12:51:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9443413B284;
-	Fri, 26 Sep 2025 12:03:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 78E4A2F5A32;
+	Fri, 26 Sep 2025 12:52:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NBSfqMxl"
 X-Original-To: linux-input@vger.kernel.org
-Received: from outboundhk.mxmail.xiaomi.com (outboundhk.mxmail.xiaomi.com [118.143.206.90])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 11D5C10E3;
-	Fri, 26 Sep 2025 12:03:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=118.143.206.90
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5330E2F5A0F
+	for <linux-input@vger.kernel.org>; Fri, 26 Sep 2025 12:52:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758888210; cv=none; b=ulEIzF0O4mKEm0daQPjaXhb1WGL8zA/EV1xPYbI+FnIm6iRMZd1x1Qmn9nDD+4Y5Gk9cukRQmC8ngDAZmxTDvFnva5Br50LUDHon2kkXaOFeeownI2ygpeJCSWpsnNi50tgX5bDG30J6I5olpup4Imyr7NHL0SnKx756iRzvM1U=
+	t=1758891149; cv=none; b=VloikaOShsniAh2O9KDow8O1CNk5sHhqMPkf2j+6BR3oxVEiaXQzY4JIO2u0F6BbgAOQmWDTiBciXhXhwm4K6KoXVqw+TvIEUnQnJK4H64DK0RchGzav/DaKLHEcz5xoYkm48qZKMljtwahFo7h0td1seCfksQkMndfO7KhlVfo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758888210; c=relaxed/simple;
-	bh=WjCqIiFfZ75RdZ0O8KNeP5eb/Iq3S4nT4LUk9qeScVM=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=qZKECkF18cFo/QxHjur64h0yttYdMNY2gobo8OFroApATdjb8NH3pV8lhZXW73KMDFEAfxVKiUcbtosG/51vkytn+o/lA6oP6uwWXj40yYO2CND3WKuQ3AbVcdxJ9nzZLl6gL6hPi+dDC0DJsBxDcim18f4uAc8MLT4lklGczQg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=xiaomi.com; spf=pass smtp.mailfrom=xiaomi.com; arc=none smtp.client-ip=118.143.206.90
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=xiaomi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xiaomi.com
-X-CSE-ConnectionGUID: JNgtOul1R5G7qDX6S5sh5w==
-X-CSE-MsgGUID: jL0ClaEQQ6+hcwRp3hxS1g==
-X-IronPort-AV: E=Sophos;i="6.18,295,1751212800"; 
-   d="scan'208";a="127915875"
-From: =?gb2312?B?wqy5+rrq?= <luguohong@xiaomi.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-CC: =?gb2312?B?Sm9zqKYgRXhwqK5zaXRv?= <jose.exposito89@gmail.com>,
-	"linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"jikos@kernel.org" <jikos@kernel.org>, "bentiss@kernel.org"
-	<bentiss@kernel.org>, =?gb2312?B?wO7F9A==?= <lipeng43@xiaomi.com>,
-	=?gb2312?B?RmVpMSBKaWFuZyC9r7fJ?= <jiangfei1@xiaomi.com>,
-	=?gb2312?B?y87D3MPc?= <songmimi@xiaomi.com>, =?gb2312?B?wqy5+rrq?=
-	<luguohong@xiaomi.com>
-Subject: =?gb2312?B?tPC4tDogtPC4tDogW0V4dGVybmFsIE1haWxdUmU6IFRoZSB6ZXJvIHBvd2Vy?=
- =?gb2312?B?IGxldmVsIG9mIHRoZSBISUQgZGV2aWNlIGluIGtlcm5lbCA2LjEyIGlzIG5v?=
- =?gb2312?Q?t_reported_from_the_kernel_to_the_upper_layer.?=
-Thread-Topic: =?gb2312?B?tPC4tDogW0V4dGVybmFsIE1haWxdUmU6IFRoZSB6ZXJvIHBvd2VyIGxldmVs?=
- =?gb2312?B?IG9mIHRoZSBISUQgZGV2aWNlIGluIGtlcm5lbCA2LjEyIGlzIG5vdCByZXBv?=
- =?gb2312?Q?rted_from_the_kernel_to_the_upper_layer.?=
-Thread-Index: AQHcJwWA1Pv1UPoVhEyxSk6qnb4viLSZrf4AgABrXICABNg0/oAD42UAgAKWVzk=
-Date: Fri, 26 Sep 2025 12:03:19 +0000
-Message-ID: <aada0917f31641c19ba7c48e3c6d3c53@xiaomi.com>
-References: <d2cada7efe8d4436b6e638fa1e0aaefb@xiaomi.com>
- <aM0XBudxlXuzALbg@fedora>
- <px5t2iedrrqhcrpdvmu5pznp53d3e5jp55dm72phlsti2rmt4j@rj2pajkavuir>
- <91e0d952fd774e769e2d24ce2165df18@xiaomi.com>,<vkm32giijggtzv7hudsvqg34utpqvw4nnccfi7d4txj5tlzstp@4bu2ox2lmtm5>
-In-Reply-To: <vkm32giijggtzv7hudsvqg34utpqvw4nnccfi7d4txj5tlzstp@4bu2ox2lmtm5>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-Content-Type: text/plain; charset="gb2312"
-Content-Transfer-Encoding: base64
+	s=arc-20240116; t=1758891149; c=relaxed/simple;
+	bh=bgmghckL4Ny0c8O8U8NCksUJHOretkGWrQoDWo8CmCU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=dOGrc4H1U4mJB984SjEI559sHuUWA2LTqiWJQWuwMEOKV1g/OMLMIZpwprbYJgXDsAc+JRlYhI0RYPXDtbiS3pqWNeePjPzDjZ5kU0/mWvSZY6/Xlv2Xq9SS7CXB7/Gy6vmHelAc4edOPodfkLYACvwikpAb6y9WXJT7mCQ79rY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NBSfqMxl; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F40FDC19423
+	for <linux-input@vger.kernel.org>; Fri, 26 Sep 2025 12:52:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1758891149;
+	bh=bgmghckL4Ny0c8O8U8NCksUJHOretkGWrQoDWo8CmCU=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=NBSfqMxlqp0pSo5pRQWnbaLm910aDdvjl4H9jyOksmG9DqM1boAdmLu4uvK5/3joo
+	 A72K+YbLICgf/Z0MFLw3CqZ+MEap9smN1X9ZATw88CdfLDSAzr2qLM377UjCK9gXbW
+	 W/YEMzwg498V8XGmn8sA4uCUsO7FEKkk06hTqyOrf8+qGrPMiX6MlAjI6R7RplfZ3S
+	 NW4r4NaaTR1ipwPbZU0Ax9+AwPnA1qlFgN3iKviJN502VJvmxhRqYsN203JZwfmUZJ
+	 1cs86+x8oXT7+3lAUiOcAACVfVr6Z7P+hcbBtUbyucBHO5mQIklzIqigjc0wpDf6xb
+	 ifr7NUZtfzVig==
+Received: by mail-oa1-f52.google.com with SMTP id 586e51a60fabf-330d1565844so1537619fac.1
+        for <linux-input@vger.kernel.org>; Fri, 26 Sep 2025 05:52:28 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUbIiuo9UJeHz94LLQ5aY8Gw6zUzi2RECn3psoToNENeTLZ2mVAnr+yw6CWaD0yMsqgriS2XSZUxrLiaA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw+SuW8qJded9nniIkaA693ZAQVw9Yd6lUiyMjdOMU20IPvSzKe
+	NClkW6+gYOqo5GVAfo4JEOIvcvEcwBD40SVrY8l43EhACdBd2gCDqR7VlWvZEpU36XbqBm33a37
+	V1aYTDL6DLv91DPO4Ka15dquBLoF8Cpc=
+X-Google-Smtp-Source: AGHT+IFyJsbtEL/QZxEFMzNMFhjejHmQrKAGHJ2m+Cy67pO650FZ5XV0FAPVcpNkLn5AmmxpCHNcXhCPX9zROUcktt4=
+X-Received: by 2002:a05:6871:79a3:b0:35c:cfec:df79 with SMTP id
+ 586e51a60fabf-36c4698a0f9mr1307306fac.51.1758891148064; Fri, 26 Sep 2025
+ 05:52:28 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+References: <20250924074602.266292-1-sakari.ailus@linux.intel.com>
+ <CAJZ5v0hSy9zQd6cP9B4QPSZi-6ughmkW=VoEBV-0MbUr2xcaAQ@mail.gmail.com> <aNZ9fbh8eLiPAJzR@kekkonen.localdomain>
+In-Reply-To: <aNZ9fbh8eLiPAJzR@kekkonen.localdomain>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Fri, 26 Sep 2025 14:52:17 +0200
+X-Gmail-Original-Message-ID: <CAJZ5v0gQ9vnT+Z8zryEausp-2xX7HocoBgwmiptxg7BGiU9C8g@mail.gmail.com>
+X-Gm-Features: AS18NWDCqPA72v4-2y8V5lEmAid_UEthjaXRBCWFUzQ_Nsh-1l_6LWsoqBtdmRQ
+Message-ID: <CAJZ5v0gQ9vnT+Z8zryEausp-2xX7HocoBgwmiptxg7BGiU9C8g@mail.gmail.com>
+Subject: Re: [PATCH v2 00/16] Align availability checks on fwnode child node enumeration
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, linux-acpi@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-input@vger.kernel.org, 
+	linux-leds@vger.kernel.org, linux-media@vger.kernel.org, 
+	netdev@vger.kernel.org, linux-spi@vger.kernel.org, 
+	Len Brown <lenb@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+	Daniel Scally <djrscally@gmail.com>, Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Javier Carrasco <javier.carrasco@wolfvision.net>, 
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Lee Jones <lee@kernel.org>, 
+	Pavel Machek <pavel@kernel.org>, Matthias Fend <matthias.fend@emfend.at>, 
+	Chanwoo Choi <cw00.choi@samsung.com>, Krzysztof Kozlowski <krzk@kernel.org>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Paul Elder <paul.elder@ideasonboard.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Horatiu Vultur <horatiu.vultur@microchip.com>, UNGLinuxDriver@microchip.com, 
+	Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Mark Brown <broonie@kernel.org>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@kernel.org>, 
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-DQpIaSBEbWl0cnksDQpBZnRlciB0ZXN0aW5nLCB3ZSBmb3VuZCB0aGF0IHlvdXIgcHJvcG9zZWQg
-bWV0aG9kIGNhbiBzb2x2ZSBvdXIgcHJvYmxlbS4gUGxlYXNlIGhlbHAgbWVyZ2UgdGhpcyBtZXRo
-b2QgaW50byB0aGUgTGludXgga2VybmVsIGFzIHNvb24gYXMgcG9zc2libGUhIFBsZWFzZSByZW1l
-bWJlciB0byBzZW5kIHVzIHRoZSByZWxldmFudCBpbmZvcm1hdGlvbiBvZiB0aGUgbWVyZ2VkIGdp
-dCBzbyB0aGF0IHdlIGNhbiBjb250YWN0IEdvb2dsZSBhbmQgbWVyZ2UgdGhlaXIgQW5kcm9pZCBH
-S0kgYXMgd2VsbC4gT3VyIHByb2plY3QgaXMgbG9va2luZyBmb3J3YXJkIHRvIHVzaW5nIHRoaXMg
-ZmVhdHVyZS4gVGhhbmsgeW91IHZlcnkgbXVjaCENCg0KX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fXw0Kt6K8/sjLOiBEbWl0cnkgVG9yb2tob3YgPGRtaXRyeS50b3Jva2hv
-dkBnbWFpbC5jb20+DQq3osvNyrG85DogMjAyNcTqOdTCMjXI1SAxMjoyNg0KytW8/sjLOiDCrLn6
-uuoNCrOty806IEpvc6imIEV4cKiuc2l0bzsgbGludXgtaW5wdXRAdmdlci5rZXJuZWwub3JnOyBs
-aW51eC1rZXJuZWxAdmdlci5rZXJuZWwub3JnOyBqaWtvc0BrZXJuZWwub3JnOyBiZW50aXNzQGtl
-cm5lbC5vcmc7IMDuxfQ7IEZlaTEgSmlhbmcgva+3yTsgy87D3MPcDQrW98ziOiBSZTogtPC4tDog
-W0V4dGVybmFsIE1haWxdUmU6IFRoZSB6ZXJvIHBvd2VyIGxldmVsIG9mIHRoZSBISUQgZGV2aWNl
-IGluIGtlcm5lbCA2LjEyIGlzIG5vdCByZXBvcnRlZCBmcm9tIHRoZSBrZXJuZWwgdG8gdGhlIHVw
-cGVyIGxheWVyLg0KDQpbzeKyv9PKvP5dILTL08q8/sC01LTT2tChw9e5q8u+zeKyv6Osx+u998n3
-tKbA7aGjyPS21NPKvP6wssir0NS05tLJo6zH672r08q8/teqt6K4+G1pc2VjQHhpYW9taS5jb229
-+NDQt7TAoQ0KDQpPbiBNb24sIFNlcCAyMiwgMjAyNSBhdCAwOToyOToyMEFNICswMDAwLCDCrLn6
-uuogd3JvdGU6DQo+DQo+IFdoYXQga2luZCBvZiBhY3Rpb24gYXJlIHdlIHRhbGtpbmcgYWJvdXQ/
-IFNlY3Rpb24gMzEgb2YgdGhlIEhJRA0KPiBzcGVjaWZpY2F0aW9uIGRlZmluZXMgZXZlbnRzIGZv
-ciAiU21hcnQgQmF0dGVyeSIgKCJUbyBjb21wbHkgd2l0aCB0aGUNCj4gU21hcnQgQmF0dGVyeSBT
-cGVjaWZpY2F0aW9uLCB0aGUgQmF0dGVyeSBTeXN0ZW0gbXVzdCBzdXBwb3J0IHRoZQ0KPiBmdW5j
-dGlvbnMgZGVmaW5lZCBpbiB0aGUgQmF0dGVyeSBhbmQgQ2hhcmdlciB1c2FnZSB0YWJsZXMuIEZv
-ciBkZXRhaWxzLA0KPiBzZWUgU2VjdGlvbiA0LjIsIKGwQmF0dGVyeSBTeXN0ZW0gUGFnZSAoeDg1
-KS6hsSkgYW5kIGlzIHR5cGljYWxseSB1c2VkIGZvcg0KPiAiYmF0dGVyeSBwYWNrIGZvciBjZWxs
-dWxhciBwaG9uZXMgKHByaW5jaXBhbCBzb3VyY2UpLCB0aGUgYmF0dGVyeQ0KPiBwYWNrKHMpIGZv
-ciBub3RlYm9vayBjb21wdXRlcnMgKGF1eGlsaWFyeSBzb3VyY2UpLCBhbmQgdGhlIHNlYWxlZA0K
-PiBiYXR0ZXJpZXMgaW4gdW5pbnRlcnJ1cHRpYmxlIHBvd2VyIHN1cHBsaWVzIChhdXhpbGlhcnkg
-c291cmNlKS4iDQo+DQo+IElzIHlvdXIgdXNlIGNhc2UgbWFpbiBiYXR0ZXJ5IG9yIGJhdHRlcnkg
-aW4gYSBzdHlsdXMgb3Igc29tZSBvdGhlcg0KPiBwZXJpcGhlcmFsPw0KPg0KPg0KPiAtLS0+Pj4N
-Cj4gV2hhdCB3ZSBhcmUgZGlzY3Vzc2luZyBpcyB0aGUgY29kZSBpbXBsZW1lbnRhdGlvbiBvZiBT
-ZWN0aW9uIDMxIG9mIHRoZQ0KPiBISUQgcHJvdG9jb2w6IDMxIEJhdHRlcnkgU3lzdGVtIFBhZ2Ug
-KDB4ODUpLiBPdXIgc2NlbmFyaW8gaXM6IGFuDQo+IEFuZHJvaWQgcGhvbmUgaXMgY29ubmVjdGVk
-IHRvIGEgaGFuZGxlIHZpYSBVU0IuIFRoZSBoYW5kbGUgaXMgYSBISUQNCj4gZGV2aWNlIHdpdGgg
-YSBiYXR0ZXJ5LiBUaGUgcG93ZXIgb2YgdGhlIGJhdHRlcnkgaW4gdGhlIGhhbmRsZSBpcyBzZW50
-DQo+IHRvIHRoZSBib3R0b20gbGF5ZXIgKGtlcm5lbCkgb2YgdGhlIHBob25lIHZpYSBVU0IuIFRo
-ZSBib3R0b20gbGF5ZXIgb2YNCj4gdGhlIHBob25lIHRoZW4gcmVwb3J0cyB0aGlzIHBvd2VyIHRv
-IHRoZSB1cHBlciBsYXllciBvZiBBbmRyb2lkDQo+IHRocm91Z2ggdGhlIEhJRCBkcml2ZXIuDQoN
-Ckkgc2VlLiBJIGd1ZXNzIHdlIGNhbiB0cnkgb25seSBmaWx0ZXJpbmcgb3V0IDAgcmVwb3J0cyBm
-b3IgdGhlDQpkaWdpdGl6ZXJzLCBsZWF2aW5nIG90aGVyIGRldmljZXMgd2l0aCBiYXR0ZXJpZXMg
-YWxvbmUuIFNvbWV0aGluZyBsaWtlDQp0aGlzOg0KDQoNCmRpZmYgLS1naXQgYS9kcml2ZXJzL2hp
-ZC9oaWQtaW5wdXQuYyBiL2RyaXZlcnMvaGlkL2hpZC1pbnB1dC5jDQppbmRleCBmZjE3ODRiNWMy
-YTQuLmJhM2Y2NjU1YWY5ZSAxMDA2NDQNCi0tLSBhL2RyaXZlcnMvaGlkL2hpZC1pbnB1dC5jDQor
-KysgYi9kcml2ZXJzL2hpZC9oaWQtaW5wdXQuYw0KQEAgLTU5NSwxNCArNTk1LDE4IEBAIHN0YXRp
-YyB2b2lkIGhpZGlucHV0X2NsZWFudXBfYmF0dGVyeShzdHJ1Y3QgaGlkX2RldmljZSAqZGV2KQ0K
-ICAgICAgICBkZXYtPmJhdHRlcnkgPSBOVUxMOw0KIH0NCg0KLXN0YXRpYyB2b2lkIGhpZGlucHV0
-X3VwZGF0ZV9iYXR0ZXJ5KHN0cnVjdCBoaWRfZGV2aWNlICpkZXYsIGludCB2YWx1ZSkNCitzdGF0
-aWMgdm9pZCBoaWRpbnB1dF91cGRhdGVfYmF0dGVyeShzdHJ1Y3QgaGlkX2RldmljZSAqZGV2LA0K
-KyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgdW5zaWduZWQgaW50IHVzYWdlLCBp
-bnQgdmFsdWUpDQogew0KICAgICAgICBpbnQgY2FwYWNpdHk7DQoNCiAgICAgICAgaWYgKCFkZXYt
-PmJhdHRlcnkpDQogICAgICAgICAgICAgICAgcmV0dXJuOw0KDQotICAgICAgIGlmICh2YWx1ZSA9
-PSAwIHx8IHZhbHVlIDwgZGV2LT5iYXR0ZXJ5X21pbiB8fCB2YWx1ZSA+IGRldi0+YmF0dGVyeV9t
-YXgpDQorICAgICAgIGlmICgodXNhZ2UgJiBISURfVVNBR0VfUEFHRSkgPT0gSElEX1VQX0RJR0lU
-SVpFUiAmJiB2YWx1ZSA9PSAwKQ0KKyAgICAgICAgICAgICAgIHJldHVybjsNCisNCisgICAgICAg
-aWYgKHZhbHVlIDwgZGV2LT5iYXR0ZXJ5X21pbiB8fCB2YWx1ZSA+IGRldi0+YmF0dGVyeV9tYXgp
-DQogICAgICAgICAgICAgICAgcmV0dXJuOw0KDQogICAgICAgIGNhcGFjaXR5ID0gaGlkaW5wdXRf
-c2NhbGVfYmF0dGVyeV9jYXBhY2l0eShkZXYsIHZhbHVlKTsNCkBAIC0xNTE4LDcgKzE1MjIsNyBA
-QCB2b2lkIGhpZGlucHV0X2hpZF9ldmVudChzdHJ1Y3QgaGlkX2RldmljZSAqaGlkLCBzdHJ1Y3Qg
-aGlkX2ZpZWxkICpmaWVsZCwgc3RydWN0DQogICAgICAgICAgICAgICAgYm9vbCBoYW5kbGVkID0g
-aGlkaW5wdXRfc2V0X2JhdHRlcnlfY2hhcmdlX3N0YXR1cyhoaWQsIHVzYWdlLT5oaWQsIHZhbHVl
-KTsNCg0KICAgICAgICAgICAgICAgIGlmICghaGFuZGxlZCkNCi0gICAgICAgICAgICAgICAgICAg
-ICAgIGhpZGlucHV0X3VwZGF0ZV9iYXR0ZXJ5KGhpZCwgdmFsdWUpOw0KKyAgICAgICAgICAgICAg
-ICAgICAgICAgaGlkaW5wdXRfdXBkYXRlX2JhdHRlcnkoaGlkLCB1c2FnZS0+aGlkLCB2YWx1ZSk7
-DQoNCiAgICAgICAgICAgICAgICByZXR1cm47DQogICAgICAgIH0NCg0KDQpUaGFua3MuDQoNCi0t
-DQpEbWl0cnkNCiMvKioqKioqsb7Tyrz+vLDG5Li9vP66rNPQ0KHD17mry761xLGjw9zQxc+io6y9
-9s/e09q3osvNuPjJz8PmtdjWt9bQwdCz9rXEuPbIy7vyyLrX6aGjvfvWucjOus7G5Mv7yMvS1MjO
-us7Qzsq9yrnTw6OosPzAqLWrsrvP3tPayKuyv7vysr+31rXY0LnCtqGiuLTWxqGiu/LJoreio6mx
-vtPKvP7W0LXE0MXPoqGjyOe5+8T6tO3K1cHLsb7Tyrz+o6zH68T6waK8tLXnu7C78tPKvP7NqNaq
-t6K8/sjLsqLJvrP9sb7Tyrz+o6EgVGhpcyBlLW1haWwgYW5kIGl0cyBhdHRhY2htZW50cyBjb250
-YWluIGNvbmZpZGVudGlhbCBpbmZvcm1hdGlvbiBmcm9tIFhJQU9NSSwgd2hpY2ggaXMgaW50ZW5k
-ZWQgb25seSBmb3IgdGhlIHBlcnNvbiBvciBlbnRpdHkgd2hvc2UgYWRkcmVzcyBpcyBsaXN0ZWQg
-YWJvdmUuIEFueSB1c2Ugb2YgdGhlIGluZm9ybWF0aW9uIGNvbnRhaW5lZCBoZXJlaW4gaW4gYW55
-IHdheSAoaW5jbHVkaW5nLCBidXQgbm90IGxpbWl0ZWQgdG8sIHRvdGFsIG9yIHBhcnRpYWwgZGlz
-Y2xvc3VyZSwgcmVwcm9kdWN0aW9uLCBvciBkaXNzZW1pbmF0aW9uKSBieSBwZXJzb25zIG90aGVy
-IHRoYW4gdGhlIGludGVuZGVkIHJlY2lwaWVudChzKSBpcyBwcm9oaWJpdGVkLiBJZiB5b3UgcmVj
-ZWl2ZSB0aGlzIGUtbWFpbCBpbiBlcnJvciwgcGxlYXNlIG5vdGlmeSB0aGUgc2VuZGVyIGJ5IHBo
-b25lIG9yIGVtYWlsIGltbWVkaWF0ZWx5IGFuZCBkZWxldGUgaXQhKioqKioqLyMNCg==
+Hi Sakari,
+
+On Fri, Sep 26, 2025 at 1:48=E2=80=AFPM Sakari Ailus
+<sakari.ailus@linux.intel.com> wrote:
+>
+> Hi Rafael,
+>
+> On Wed, Sep 24, 2025 at 12:52:12PM +0200, Rafael J. Wysocki wrote:
+> > Hi Sakari,
+> >
+> > On Wed, Sep 24, 2025 at 9:46=E2=80=AFAM Sakari Ailus
+> > <sakari.ailus@linux.intel.com> wrote:
+> > >
+> > > Hello everyone,
+> > >
+> > > Historically the fwnode property API has enumerated only available de=
+vice
+> > > nodes on OF whereas on ACPI, also nodes that haven't been present in =
+the
+> > > system have been provided. Both OF and ACPI have similar concepts of =
+node
+> > > availbility, on OF it's the "status" property present on device nodes=
+ and
+> > > on ACPI the _STA object evaluates to device present, enabled and
+> > > functional bits, of which the present and functional bits are current=
+ly
+> > > being used to determine whether to enumerate a device.
+> > >
+> > > Two additional functions, fwnode_get_next_available_child_node() and
+> > > fwnode_for_each_available_child_node(), have been provided to enumera=
+te
+> > > the available nodes only on ACPI, whereas on OF the implementation ha=
+s
+> > > been the same on the non-available variants. The motivation for provi=
+ding
+> > > these has very likely been to provide fwnode variants of the similarl=
+y
+> > > named functions but the difference isn't justifiable from API consist=
+ency
+> > > viewpoint.
+> > >
+> > > This set switches the users away from the "available" fwnode API func=
+tions
+> > > and later on removes them, aligning the functionality on all fwnode
+> > > backends.
+> > >
+> > > since v1:
+> > >
+> > > - Move patch "ACPI: property: Make acpi_get_next_subnode() static" as
+> > >   first.
+> > >
+> > > - Add missing parentheses and kernel-doc Return: section in
+> > >   acpi_get_next_present_subnode() documentation and move the Return
+> > >   section: of fwnode_graph_get_endpoint_by_id() to the end of the
+> > >   documentation section (new patch for the latter).
+> > >
+> > > - Use device_get_next_child_node() instead of fwnode_get_next_child_n=
+ode()
+> > >   in flash LED driver drivers.
+> > >
+> > > - Rework iterating port nodes in acpi_graph_get_next_endpoint() as
+> > >   suggested by Andy (new patch).
+> >
+> > I think that you really have four series here, or rather two series, a
+> > collection of patches depending on them, and a follow-up cleanup.
+> >
+> > > Sakari Ailus (16):
+> > >   ACPI: property: Make acpi_get_next_subnode() static
+> > >   ACPI: property: Use ACPI functions in acpi_graph_get_next_endpoint(=
+)
+> > >     only
+> > >   ACPI: property: Rework acpi_graph_get_next_endpoint()
+> > >   ACPI: property: Return present device nodes only on fwnode interfac=
+e
+> >
+> > So the above is one series, focused on ACPI property changes.
+> >
+> > They can go in via ACPI as soon as everyone is happy with them.  I
+> > think I can push them for 6.18 if that helps to process the other
+> > patches.
+>
+> If it's an option, that would be nice. But see below.
+>
+> >
+> > >   property: Move Return: section of fwnode_graph_get_endpoint_by_id()
+> > >     down
+> > >   property: Drop DEVICE_DISABLED flag in
+> > >     fwnode_graph_get_endpoint_by_id()
+> > >   property: Drop DEVICE_DISABLED flag in
+> > >     fwnode_graph_get_endpoint_count()
+> >
+> > The above patches are another series that doesn't depend on the first
+> > one AFAICS and can go in via driver core.
+>
+> Agreed.
+>
+> >
+> > >   property: Document that fwnode API returns available nodes
+> > >   driver core: Use fwnode_for_each_child_node() instead
+> > >   net: lan966x: Use fwnode_for_each_child_node() instead
+> > >   Input: touch-overlay - Use fwnode_for_each_child_node() instead
+> > >   media: thp7312: Use fwnode_for_each_child_node() instead
+> > >   leds: Use fwnode_for_each_child_node() instead
+> > >   leds: Use fwnode_get_next_child_node() instead
+> >
+> > The above can go in via respective subsystem trees when the ACPI
+> > property series gets in (I'm not sure if/how they depend on the second
+> > series).
+> >
+> > And the following one is a follow-up cleanup getting rid of code that
+> > would be redundant going forward.
+> >
+> > >   property: Drop functions operating on "available" child nodes
+> > >   spi: cadence: Remove explicit device node availability check
+> >
+> > Does the spi change depend on the previous patch?
+>
+> There's really only one dependency, apart from the direct dependency of
+> fwnode_get_next_available_child_node() /
+> fwnode_for_each_available_child_node() definitions removed in the second
+> last patch: fwnode_get_next_child_node() and fwnode_for_each_child_node()
+> may still return non-available nodes before the last of the ACPI patches =
+in
+> the set. So if the ACPI patches aren't merged but the rest are,
+> non-available nodes could be returned.
+>
+> How about:
+>
+> 1. Merge the ACPI patches to 6.18.
+>
+> 2. Merge the rest, apart from the second last patch, for 6.19.
+>
+> 3. Once everything else is in, merge the last patch. Could wait for 6.20.
+
+Sounds good.
+
+> Perhaps I should split the series in three sets?
+
+That would help I think.
+
+> I'll send an update on the ACPI patches soon, to address a comment relate=
+d
+> to them.
+
+OK
+
+Thanks!
 
