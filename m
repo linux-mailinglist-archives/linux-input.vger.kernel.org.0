@@ -1,91 +1,91 @@
-Return-Path: <linux-input+bounces-15140-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-15141-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 110A6BA6814
-	for <lists+linux-input@lfdr.de>; Sun, 28 Sep 2025 07:02:03 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5ED1DBA6823
+	for <lists+linux-input@lfdr.de>; Sun, 28 Sep 2025 07:03:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 68CAB189A000
-	for <lists+linux-input@lfdr.de>; Sun, 28 Sep 2025 05:02:25 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 241F23BAD57
+	for <lists+linux-input@lfdr.de>; Sun, 28 Sep 2025 05:03:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 59C02293C44;
-	Sun, 28 Sep 2025 05:01:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF156298CC0;
+	Sun, 28 Sep 2025 05:03:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZhqbWGta"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TdRHcTbb"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E54A12848A5
-	for <linux-input@vger.kernel.org>; Sun, 28 Sep 2025 05:01:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6494F28C864
+	for <linux-input@vger.kernel.org>; Sun, 28 Sep 2025 05:03:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759035717; cv=none; b=GFkGuncq0r8w+8X5ZyQUaNxOeto0sC7nYjnQqmBGTiHysvDmpYRchvMdGRkQu+8Z+UltUqW0iM9Nogtm8jqs4/K4KUkr9JekMqXuOLsR9PR+OqIJMnhKZvjRjYiElkFdhjNi/qQvWTEPXmvR66665fSq2MX7amwj0QXqXCtD9io=
+	t=1759035798; cv=none; b=SUO94TbSvPYUZe/C4FnyJf8zrfbLgd/XNpiuUiieLZc7rG0rvqHdKldOUq5TdKdzwKvr8PFSYD95RottR2bETq+TkXJ2psnS9mtdFQfEcw/D0oKA2CnhHNyZ6ruoxxLqP3j3xyxNL82xX951QgU2Pw6QGskZNcKsmeKeuQElsow=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759035717; c=relaxed/simple;
-	bh=2KAdNtvOHAv0iPsSzF6JnRSyf3a/6LV1XFGg4SXH3dM=;
+	s=arc-20240116; t=1759035798; c=relaxed/simple;
+	bh=QMtV6OGFQw4H+Fr4qxLekLxCa2Qt7VL//D+5G2Q4PA4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SVT/AHK5bF73KLUqWly03mOOKt8bIpuNnNCqx93v8/yss/ymx6OeL/f7ZKmSg1ZCzLHk6GthgAVu8J0bepOldhF/nKww5FGyprazIIaFk3377GsIZL1lLpETovSjmWMYPQ0koepR2LmbYVEVGzlKPCZtO2/rLeSKEJW0OAngTg4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZhqbWGta; arc=none smtp.client-ip=209.85.215.173
+	 Content-Type:Content-Disposition:In-Reply-To; b=L1HENu3eEWJ03kz+hDDgGsa3JRD5KLdn7iw/dSC6Hh5OzbVLZfgnFSzWZgrdrqxa3YPMuawP1byKtxZwtVwtx4rZU/28Ben2MseJyKm1nW9AeMOvQvA3cK6dbt0FFecC3soYbym7WM8gJ5cnAhcvY5TT7+Q6OHiU76c0uxTnuw4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TdRHcTbb; arc=none smtp.client-ip=209.85.215.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-b55197907d1so2653086a12.0
-        for <linux-input@vger.kernel.org>; Sat, 27 Sep 2025 22:01:55 -0700 (PDT)
+Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-b57f08e88bcso1521811a12.0
+        for <linux-input@vger.kernel.org>; Sat, 27 Sep 2025 22:03:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759035715; x=1759640515; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1759035795; x=1759640595; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=0U89y2eMhj2iLIuruto3nVeAxA529zvX5Wm2O/HQL8Y=;
-        b=ZhqbWGtaxUckOZSo4F4tbV5mdHQNP93rvyc5CDtQc828TQYK1P/Fu6cwRu2T6IgQHj
-         1HRdfX7ogs82Z3WcwJeu64ibnmZb55Ls6GmwoIxNdQd9v1UmLxWCeCI+F4f81Fcm5XIQ
-         RB2T74MK8Junbjh4pJQ0tXhAFAGsEQ6U5FzGxiVVtS2wZ51i0lhVWEKNpd2g6IAuzyTu
-         EF7mUtmjeE8FbLpL+3OLTc3/Bzon/GuG+GViechN1RvOVvX7rhnAQGOEePa1KWez07CT
-         60itKa29/s6bevw60s3zK3n+a0+c4xc0xe9QP8YGbRdQDZtxgrM+tMrvpeFI6vKwt+BP
-         sDCg==
+        bh=Xm/OUWyFAO6MekzNliwFbpLwUdv2bsJ5HXnGJgKstlA=;
+        b=TdRHcTbb5LaW1+g2m1lt9ldBrNDJGsGIymDK4SnGNBrNSMjpTzwyl+fx6PFd196tda
+         vzJRSJ4i6MxfNzSh28mi6NeQ7pTD+4MxOKiqMZdi8ohM6hw/esAlq47ZwMK10Nkva2bK
+         /jN905kgffqE2BYeitRKEz7O0StMJ3enIxwZgmHEDfPAGUQKJ/tUjBQzQwqkRMGUYPZW
+         o0cSdm9w4dgHZ88NNWDgWFaDmjeCVbAk/GrjhR/l6cHQ37Ve2vp4jb9UXey9YVeP4OTG
+         TT2MMy5nLjyYjpgD/w8KjNNg8euIYhVrTYODvswpaNvsPyyNPiJGGziGzPVWAn3z/LXK
+         MTtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759035715; x=1759640515;
+        d=1e100.net; s=20230601; t=1759035795; x=1759640595;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=0U89y2eMhj2iLIuruto3nVeAxA529zvX5Wm2O/HQL8Y=;
-        b=lWmX7XkS6xNFs9Rhql040lkpBdlBZmOnwgxyneytV5XwbRm56CJTLNDLXfAGx+0sYc
-         xj3F8q40JuEyR/YHpCGsCLbhTK9jeSlHdzJkpSjl0F7Ynmz0K3dOWAT2GdEHcSsBfJ01
-         sxzdDgMaT2JiiM0SA6ENmZev3DmUEXpfgXwScW2qv0l6LSbyWHsJO2ER0HckMq3h+73x
-         85sKe18Gf9h41E0wq0s2zgjcJ8dLICnBRd7nCkD/OCgt618tr355Ab/Fpo9fWb6B4bx/
-         vHvD6CHwCqA5PP3mO9CPUOy+QMCRPJYKH/uzbUObuDV6J5ej4Kd5DNxmL7fyqSaSL/iV
-         3vjw==
-X-Forwarded-Encrypted: i=1; AJvYcCXjKFZUNs0YT+1twmN7tzEKPYgJOacXvppFjjPkS3Y0s14aWkghjwDQkNw4tbRGhauL0t7/ffH5uEvmGg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxQL21fhDayxIz+9gVBAf/sUsgIfTJuFa0UIdCDb6ZCB9u3FfO4
-	po2SPfe1nt7fYfVkArPhToAvEuQ4S9LpgT3MODZYJEcApoayMGo8w5qeTeG+/w==
-X-Gm-Gg: ASbGncu/G6JbqeNyqR9Hbn8h+EOF/I17ddP5OXy07UU6RgY+OF/zqj6+9Qd5oYOKSuI
-	D4WlDLfe95wAbGt2fhuIighndfO7624U/4Kh6l4Ypqv+M4xhJ6Z/FHuueseENcZp/auhByy6cGr
-	P+QblHDyYuh+kcixuopaCLunyKDvTlTanoVU1mdWYOyncNwXjtU2GbLCgLNWYXFWWB2Gv3uSUqf
-	7LFXkL3lz6NwUTQjuVaG760v6UtYDc//dONQODbq13hdj+tDHQX/I6HHMDU2ixLUrG2jK7HCoA7
-	A7s30yu5hGYeoaqDbzMASM2sQhp6YFyuwQslbTf/YkFLYQZbEmJcn0WoHAS3/7WCfT3d7Sk7Ce1
-	Js+dy1rEg5SgiC1lEznjdp91uWSXBM4WkPDl0pH5SMoLvO3wADMGjjcVV00UVDRo45dnentyc1W
-	AcP2jhgT68
-X-Google-Smtp-Source: AGHT+IF4gSMaafr65leHEt79++HLMxBmNFlxKbU0qyU/KcJdtn6/e0eUVQSCjElsKiida6VyLQveJA==
-X-Received: by 2002:a17:902:d2c1:b0:269:96db:94f with SMTP id d9443c01a7336-27ed4ac8880mr159569835ad.49.1759035715125;
-        Sat, 27 Sep 2025 22:01:55 -0700 (PDT)
+        bh=Xm/OUWyFAO6MekzNliwFbpLwUdv2bsJ5HXnGJgKstlA=;
+        b=qnQyYAqOzk4A4Z450DuxC+SLRRGp/Uy30FkY2IZwec+9HEdK/02dyT3HWiCB1LKSQw
+         3dzILc5odJKgf7P4zO8rQDaVfCaTPP8GG/SApZIu5P1LekwlzNynWnJBop+TW0Jw5/a0
+         Y+m9Pw+hJCzJrtCD1d2xYSXzbRc4GGrOocQfsHb0/3oI//q/a7BWnMoShhj9m+ulr79Z
+         MVLHfynmlOGeaxxIJ4S/XLMhRdvHRM23IhurU5Lu47VleCGhJcI1QXAU9wuVBbqtPgnQ
+         2kbsMdtSKijh3J4OA/+zUUEYmwYGxeJGrpvrRsWXk8vzfmsNWPVla9lUgG2Z1Bot+6rC
+         sCeA==
+X-Forwarded-Encrypted: i=1; AJvYcCUe3pdZxt3tq3JvX8Vjglbq8F98mj0N4M+pzHK7i5c5nNujNVODc+PZDZBEqEL0blsF2+Dh+PktaGJTbA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy2kLJ4Vm2+AQny6hCAQIl5t2qPCopVUBV631Z42GlpTv75490O
+	La5ecYaB1/siIDJibaOQ1FLelDP2FFVf5gSHMDN46atk7p2imZk2t6w+
+X-Gm-Gg: ASbGnctLylw1yMJ5fBJNyujHCSG4KptMvnTdWn8oxCwRRaJlwpcJ2kN2ri2+p4R0p3L
+	Oazsdrr5cWvprvlo2oHXTXgPMdiXNt4VUqwp1WOFs41Lv+V1kJYSMgQT+p+K/JyisbGICYRXt5/
+	hWiNXmJjYYZGaDZS4hgTvN9aqClpNLg1qr5n4hycQITQkPJDLF85R9vbVRwY0jn6xxGn2rmzN/G
+	WbhTGpiybQjiHid4PC/ieJuKlfVg+E7S05IRJbG6eHwgNxhZtJwOxKVaU6fB+UorOitrQAbjo6k
+	Kr17Ioal9gfRxrYzkcV8e5knKeq0QiTyi4pdm5Csbc/xWiAOHpJxJv6zzemjkDOI6wrzAzlL2O7
+	H6mQLtVFNqwdZoioFY6rxbhBAI+/DOPSxcyh5fB8uYH8jVPwAB7ExjmbebiYdlm73CBW2osNwkw
+	==
+X-Google-Smtp-Source: AGHT+IGM7HTl+rp2pt0cDMfA3KNGD3nZVxhzYLkjSlK2EgGIN6LujG//pIftIad7lmbGXj0A54imuQ==
+X-Received: by 2002:a17:902:e805:b0:267:b6f9:2ce with SMTP id d9443c01a7336-27ed4a465cbmr132772135ad.41.1759035794491;
+        Sat, 27 Sep 2025 22:03:14 -0700 (PDT)
 Received: from google.com ([2a00:79e0:2ebe:8:22dc:7b49:8c5d:38f6])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-27ed66d43ecsm96573425ad.24.2025.09.27.22.01.54
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-27ed69bf9bdsm95854355ad.127.2025.09.27.22.03.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 27 Sep 2025 22:01:54 -0700 (PDT)
-Date: Sat, 27 Sep 2025 22:01:51 -0700
+        Sat, 27 Sep 2025 22:03:14 -0700 (PDT)
+Date: Sat, 27 Sep 2025 22:03:11 -0700
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 To: Griffin Kroah-Hartman <griffin.kroah@fairphone.com>
 Cc: Rob Herring <robh@kernel.org>, 
 	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
 	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, 
 	Luca Weiss <luca.weiss@fairphone.com>, linux-input@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH RESEND v3 1/3] dt-bindings: input: Add Awinic AW86927
-Message-ID: <rudd5cgaft43bjllspx3cb7wmcqe35cirtwfuf4b3kcntpxjad@4un73z7omcwc>
+	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org
+Subject: Re: [PATCH RESEND v3 2/3] Input: aw86927 - add driver for Awinic
+ AW86927
+Message-ID: <gswz6zhukprs6q6mrv6pmzcitxrvzktubylhan7knjcs7tjbxf@325gvpk5cyt7>
 References: <20250925-aw86927-v3-0-1fc6265b42de@fairphone.com>
- <20250925-aw86927-v3-1-1fc6265b42de@fairphone.com>
+ <20250925-aw86927-v3-2-1fc6265b42de@fairphone.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -94,16 +94,22 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250925-aw86927-v3-1-1fc6265b42de@fairphone.com>
+In-Reply-To: <20250925-aw86927-v3-2-1fc6265b42de@fairphone.com>
 
-On Thu, Sep 25, 2025 at 12:07:28PM +0200, Griffin Kroah-Hartman wrote:
-> Add bindings for the Awinic AW86927 haptic chip which can be found in
-> smartphones.
+On Thu, Sep 25, 2025 at 12:07:29PM +0200, Griffin Kroah-Hartman wrote:
+> Add support for the I2C-connected Awinic AW86927 LRA haptic driver.
 > 
-> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> This driver includes a hardcoded sine waveform to be uploaded to the
+> AW86927's SRAM for haptic playback.
+> This driver does not currently support all the capabilities of the
+> AW86927, such as F0 calibration, RTP mode, and CONT mode.
+> 
 > Signed-off-by: Griffin Kroah-Hartman <griffin.kroah@fairphone.com>
 
-Applied, thank you.
+Added missing header, changed uint8_t to u8, changed some formatting and
+applied, thank you.
+
+Thanks.
 
 -- 
 Dmitry
