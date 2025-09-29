@@ -1,237 +1,119 @@
-Return-Path: <linux-input+bounces-15145-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-15147-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D264ABA792E
-	for <lists+linux-input@lfdr.de>; Mon, 29 Sep 2025 00:57:06 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 17CECBA7A2D
+	for <lists+linux-input@lfdr.de>; Mon, 29 Sep 2025 02:45:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 951583B5E7E
-	for <lists+linux-input@lfdr.de>; Sun, 28 Sep 2025 22:57:05 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B6B233AF025
+	for <lists+linux-input@lfdr.de>; Mon, 29 Sep 2025 00:45:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6CFC235950;
-	Sun, 28 Sep 2025 22:57:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cQiYOHZV"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F46B54763;
+	Mon, 29 Sep 2025 00:45:41 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from cosmicgizmosystems.com (cosmicgizmosystems.com [63.249.102.155])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90497226D02
-	for <linux-input@vger.kernel.org>; Sun, 28 Sep 2025 22:56:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65B643A1DB;
+	Mon, 29 Sep 2025 00:45:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=63.249.102.155
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759100223; cv=none; b=KqcWTlPhgAnvgoFnCt0N2JbUuNnMIKTGp7daA5rq7tzEnKmOm542fePbQi2atFmXpD1Vt+D1lFql240H2Pw2J1jJrRG8WEp514ZGPM/RfzUXp2l3zQYYDzZ0X4w5QqQ/cTeXPeZAS2BeLBxzWR/4RNn36ukvu1XNy/Ss/5YeIvY=
+	t=1759106741; cv=none; b=MCN1LwdBRlF4NymOupe0Saa8A/kiIY5xhlEMkPc2lPmZSAZe4CRAfnaplgrteEZtBxL+mqhezIJwtesznN3HRmHo1gD8LhhO+OXQ3/WRC5dKB5iGO6KXtSWqJdaMmq4qyucoOKmmq7e1ROBDLNmAltJRIwjL8B1GCuSOL7asfDs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759100223; c=relaxed/simple;
-	bh=AMSmPAnRk9LptaK6qctPK+nvmSK5PZQtZc9gMR0xno8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=TnTF2dECRWG9UalOZT11ihooPaATEXSDaMbkaQcLJ1+gjqsqpTsKGV9fhOM+kJVo7jLdFxJtwWBtHk7WKM3ZlDMEionDFjX4UVKlExNn2OM89wzssekSg5h58i4SkeBGjqk6jJC8vsbZQf4t7NuLBRPW5KODN8TopVwK+v/Vwpo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cQiYOHZV; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1759100213; x=1790636213;
-  h=date:from:to:cc:subject:message-id;
-  bh=AMSmPAnRk9LptaK6qctPK+nvmSK5PZQtZc9gMR0xno8=;
-  b=cQiYOHZVTkGlt6GuwjnjlDD2gyk41DvwI/MpNiEt0bXIGKIV9IX/vKsU
-   9EHgSw3derg0Y/UhZ6buTP0b+I40TFx6wM22G4pdiWK+BuzeQW59pWu11
-   ZRUjek/CTA9ISVmAZEUK1xq0abNL35jRsJDs0bTQr8VMo0sIUg68cYw/5
-   2R+4BEbZJ+5o5gRQPHMFY9po1qPshCUmNlIPvimmDolQKLpEj1I0n5P+r
-   JEbTyVzmkEASULoAzwrmSBGiEUtK1VPd27tpZ3ui4gLdK4nVPjyPUb7IX
-   V0FE2bxfaFLvN2Ifyp8u9HzfV+H5+JLa9Y2cHHDcrHStiKghEcaYNQj0H
-   g==;
-X-CSE-ConnectionGUID: ThTd57ffTACUbpsfd7wYwA==
-X-CSE-MsgGUID: KF/lW+C1STePZ5VQH1iXbQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11567"; a="72709084"
-X-IronPort-AV: E=Sophos;i="6.18,300,1751266800"; 
-   d="scan'208";a="72709084"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2025 15:56:52 -0700
-X-CSE-ConnectionGUID: iycjdluJS/SSt5D+5w0fWQ==
-X-CSE-MsgGUID: ME81hJw/S1SjY+R+6Kesqg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,300,1751266800"; 
-   d="scan'208";a="208803052"
-Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 28 Sep 2025 15:56:51 -0700
-Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1v30K0-00082F-1k;
-	Sun, 28 Sep 2025 22:56:48 +0000
-Date: Mon, 29 Sep 2025 06:56:30 +0800
-From: kernel test robot <lkp@intel.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: linux-input@vger.kernel.org
-Subject: [dtor-input:next] BUILD SUCCESS
- 52e06d564ce6a5f03177922b2fa5667781d5ff83
-Message-ID: <202509290619.PBmEBn6z-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	s=arc-20240116; t=1759106741; c=relaxed/simple;
+	bh=r0c7P7hrpmBxhUw6eaYfyfgvDlJGtgWC04dcqv6jzdQ=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=faXMqLjZ8D8SQ7lEne9uk0rc63ju/JdDFs2FwrAMnQCa+3RMA+Kgo4wNFuf2G92JLprUsQ9ibECuQf+OM77hPXzdmbfIKo8fPvd6afXzrMIVzcJgtrVoscOVkz5HjcAfvw8OnWOdhYSSswh2QGg93LcU9jjvkc87SUhh1+rP0SA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cosmicgizmosystems.com; spf=pass smtp.mailfrom=cosmicgizmosystems.com; arc=none smtp.client-ip=63.249.102.155
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cosmicgizmosystems.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cosmicgizmosystems.com
+Received: from [10.0.0.100] (c-71-193-224-155.hsd1.wa.comcast.net [71.193.224.155])
+	by host11.cruzio.com (Postfix) with ESMTPSA id 389CA1D4195A;
+	Sun, 28 Sep 2025 17:39:07 -0700 (PDT)
+Message-ID: <5101f30a-4f49-4480-9453-1984f6c5a086@cosmicgizmosystems.com>
+Date: Sun, 28 Sep 2025 17:39:05 -0700
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+From: Linux Hid <linuxhid@cosmicgizmosystems.com>
+Subject: Re: [regression] 1a8953f4f774 ("HID: Add IGNORE quirk for
+ SMARTLINKTECHNOLOGY") causes issue with ID 4c4a:4155 Jieli Technology USB
+ Composite Device
+To: Staffan Melin <staffan.melin@oscillator.se>,
+ zhangheng <zhangheng@kylinos.cn>
+Cc: Salvatore Bonaccorso <carnil@debian.org>, Jiri Kosina <jkosina@suse.com>,
+ Benjamin Tissoires <bentiss@kernel.org>, linux-input@vger.kernel.org,
+ linux-kernel@vger.kernel.org, regressions@lists.linux.dev,
+ stable@vger.kernel.org, 1114557@bugs.debian.org
+References: <aL2gYJaXoB6p_oyM@eldamar.lan>
+ <c8f3d402-e0ec-4767-b925-d7764aec3d93@kylinos.cn>
+ <e81e8d68cb33c7de7b0e353791e21e53@oscillator.se>
+ <aMUxHZF-7p7--1qS@eldamar.lan> <aMUxg6FLqDetwiGu@eldamar.lan>
+ <f08669ec112d6ab2f62e35c0c96d1f06@oscillator.se>
+ <94520aac-2a68-40d2-b188-80f9e361d6de@kylinos.cn>
+ <735c20da-c052-4528-ad91-185a835ca40c@cosmicgizmosystems.com>
+ <54b4b55c-ef29-40ae-a576-0c0b35ea9625@kylinos.cn>
+ <3c299b65351c489fea95ec8b93518b6b@oscillator.se>
+ <01ce8d55-6054-4efa-bed5-ce4c6c6bc0e6@kylinos.cn>
+ <11f1363dcdec98f4275e4df3145e4f24@oscillator.se>
+Content-Language: en-US
+In-Reply-To: <11f1363dcdec98f4275e4df3145e4f24@oscillator.se>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
-branch HEAD: 52e06d564ce6a5f03177922b2fa5667781d5ff83  Input: aw86927 - add driver for Awinic AW86927
+All,
 
-elapsed time: 1025m
+It's good a working solution has been found. I'll comment separately on 
+the patch submission.
 
-configs tested: 144
-configs skipped: 3
+I did some digging to find out why there were multiple devices in the 
+wild with the same VID:PID.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+It seems that Jieli does have a valid USB VID.
 
-tested configs:
-alpha                             allnoconfig    gcc-15.1.0
-alpha                            allyesconfig    gcc-15.1.0
-alpha                               defconfig    gcc-15.1.0
-arc                              allmodconfig    gcc-15.1.0
-arc                               allnoconfig    gcc-15.1.0
-arc                              allyesconfig    gcc-15.1.0
-arc                                 defconfig    gcc-15.1.0
-arc                   randconfig-001-20250928    gcc-8.5.0
-arc                   randconfig-002-20250928    gcc-8.5.0
-arm                              allmodconfig    gcc-15.1.0
-arm                               allnoconfig    clang-22
-arm                              allyesconfig    gcc-15.1.0
-arm                                 defconfig    clang-22
-arm                         nhk8815_defconfig    clang-22
-arm                           omap1_defconfig    gcc-15.1.0
-arm                   randconfig-001-20250928    clang-22
-arm                   randconfig-002-20250928    clang-22
-arm                   randconfig-003-20250928    clang-22
-arm                   randconfig-004-20250928    clang-22
-arm                           stm32_defconfig    gcc-15.1.0
-arm                    vt8500_v6_v7_defconfig    gcc-15.1.0
-arm64                            allmodconfig    clang-19
-arm64                             allnoconfig    gcc-15.1.0
-arm64                               defconfig    gcc-15.1.0
-arm64                 randconfig-001-20250928    gcc-15.1.0
-arm64                 randconfig-002-20250928    gcc-9.5.0
-arm64                 randconfig-003-20250928    clang-17
-arm64                 randconfig-004-20250928    clang-22
-csky                              allnoconfig    gcc-15.1.0
-csky                                defconfig    gcc-15.1.0
-csky                  randconfig-001-20250928    gcc-14.3.0
-csky                  randconfig-002-20250928    gcc-15.1.0
-hexagon                          allmodconfig    clang-17
-hexagon                           allnoconfig    clang-22
-hexagon                          allyesconfig    clang-22
-hexagon                             defconfig    clang-22
-hexagon               randconfig-001-20250928    clang-22
-hexagon               randconfig-002-20250928    clang-22
-i386                             allmodconfig    gcc-14
-i386                              allnoconfig    gcc-14
-i386                             allyesconfig    gcc-14
-i386        buildonly-randconfig-001-20250928    clang-20
-i386        buildonly-randconfig-002-20250928    clang-20
-i386        buildonly-randconfig-003-20250928    gcc-14
-i386        buildonly-randconfig-004-20250928    clang-20
-i386        buildonly-randconfig-005-20250928    clang-20
-i386        buildonly-randconfig-006-20250928    clang-20
-i386                                defconfig    clang-20
-loongarch                        alldefconfig    clang-20
-loongarch                        allmodconfig    clang-19
-loongarch                         allnoconfig    clang-22
-loongarch                           defconfig    clang-19
-loongarch                 loongson3_defconfig    clang-22
-loongarch             randconfig-001-20250928    gcc-15.1.0
-loongarch             randconfig-002-20250928    gcc-15.1.0
-m68k                             allmodconfig    gcc-15.1.0
-m68k                              allnoconfig    gcc-15.1.0
-m68k                             allyesconfig    gcc-15.1.0
-m68k                                defconfig    gcc-15.1.0
-microblaze                       allmodconfig    gcc-15.1.0
-microblaze                        allnoconfig    gcc-15.1.0
-microblaze                       allyesconfig    gcc-15.1.0
-microblaze                          defconfig    gcc-15.1.0
-mips                              allnoconfig    gcc-15.1.0
-mips                          eyeq5_defconfig    gcc-15.1.0
-mips                           ip30_defconfig    gcc-15.1.0
-mips                          rb532_defconfig    clang-18
-nios2                             allnoconfig    gcc-11.5.0
-nios2                               defconfig    gcc-11.5.0
-nios2                 randconfig-001-20250928    gcc-11.5.0
-nios2                 randconfig-002-20250928    gcc-8.5.0
-openrisc                          allnoconfig    gcc-15.1.0
-openrisc                         allyesconfig    gcc-15.1.0
-openrisc                            defconfig    gcc-15.1.0
-parisc                           allmodconfig    gcc-15.1.0
-parisc                            allnoconfig    gcc-15.1.0
-parisc                           allyesconfig    gcc-15.1.0
-parisc                              defconfig    gcc-15.1.0
-parisc                randconfig-001-20250928    gcc-14.3.0
-parisc                randconfig-002-20250928    gcc-15.1.0
-parisc64                            defconfig    gcc-15.1.0
-powerpc                    adder875_defconfig    gcc-15.1.0
-powerpc                          allmodconfig    gcc-15.1.0
-powerpc                           allnoconfig    gcc-15.1.0
-powerpc                          allyesconfig    clang-22
-powerpc                      bamboo_defconfig    clang-22
-powerpc               randconfig-001-20250928    gcc-8.5.0
-powerpc               randconfig-002-20250928    clang-22
-powerpc               randconfig-003-20250928    gcc-8.5.0
-powerpc                    socrates_defconfig    gcc-15.1.0
-powerpc                     tqm8555_defconfig    gcc-15.1.0
-powerpc64             randconfig-001-20250928    gcc-10.5.0
-powerpc64             randconfig-002-20250928    clang-20
-powerpc64             randconfig-003-20250928    clang-22
-riscv                            allmodconfig    clang-22
-riscv                             allnoconfig    gcc-15.1.0
-riscv                            allyesconfig    clang-16
-riscv                               defconfig    clang-22
-riscv                 randconfig-001-20250928    gcc-11.5.0
-riscv                 randconfig-002-20250928    gcc-13.4.0
-s390                             allmodconfig    clang-18
-s390                              allnoconfig    clang-22
-s390                             allyesconfig    gcc-15.1.0
-s390                                defconfig    clang-22
-s390                  randconfig-001-20250928    gcc-8.5.0
-s390                  randconfig-002-20250928    clang-18
-sh                               allmodconfig    gcc-15.1.0
-sh                                allnoconfig    gcc-15.1.0
-sh                               allyesconfig    gcc-15.1.0
-sh                         ap325rxa_defconfig    gcc-15.1.0
-sh                                  defconfig    gcc-15.1.0
-sh                    randconfig-001-20250928    gcc-15.1.0
-sh                    randconfig-002-20250928    gcc-11.5.0
-sh                     sh7710voipgw_defconfig    gcc-15.1.0
-sh                   sh7770_generic_defconfig    gcc-15.1.0
-sparc                            allmodconfig    gcc-15.1.0
-sparc                             allnoconfig    gcc-15.1.0
-sparc                               defconfig    gcc-15.1.0
-sparc                 randconfig-001-20250928    gcc-15.1.0
-sparc                 randconfig-002-20250928    gcc-15.1.0
-sparc64                             defconfig    clang-20
-sparc64               randconfig-001-20250928    gcc-8.5.0
-sparc64               randconfig-002-20250928    clang-22
-um                               allmodconfig    clang-19
-um                                allnoconfig    clang-22
-um                               allyesconfig    gcc-14
-um                                  defconfig    clang-22
-um                             i386_defconfig    gcc-14
-um                    randconfig-001-20250928    gcc-14
-um                    randconfig-002-20250928    clang-19
-um                           x86_64_defconfig    clang-22
-x86_64                            allnoconfig    clang-20
-x86_64                           allyesconfig    clang-20
-x86_64      buildonly-randconfig-001-20250928    gcc-14
-x86_64      buildonly-randconfig-002-20250928    gcc-14
-x86_64      buildonly-randconfig-003-20250928    gcc-14
-x86_64      buildonly-randconfig-004-20250928    gcc-14
-x86_64      buildonly-randconfig-005-20250928    clang-20
-x86_64      buildonly-randconfig-006-20250928    clang-20
-x86_64                              defconfig    gcc-14
-x86_64                          rhel-9.4-rust    clang-20
-xtensa                            allnoconfig    gcc-15.1.0
-xtensa                randconfig-001-20250928    gcc-8.5.0
-xtensa                randconfig-002-20250928    gcc-10.5.0
+Zhuhai Jieli Technology Co., LTD owns VID 13908 (0x3654)
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+However, in one of their public SDKs they populate the default device 
+descriptor with:
+
+    'J', 'L',     // idVendor: 0x4a4c - JL    (actually 0x4c4a)
+    0x55, 0x41,     // idProduct: chip id     ('U', 'A' 0x4155)
+
+So anyone developing a device using that chip's SDK who doesn't change 
+the default VID:PID will create a device with 4c4a:4155 VID:PID.
+
+In other SDKs I see a different PID but the same 0x4c4a VID
+
+    '5', '4',     // idProduct: chip id       (0x3435)
+
+So there are probably multiple devices in the wild with 4c4a:3435 
+VID:PIDs as well.
+
+Here's a link to the 4c4a:4155 SDK if you'd like to take a look.
+
+https://github.com/Jieli-Tech/AW30N/blob/main/sdk/apps/app/bsp/common/usb/device/descriptor.c#L31
+
+Regards,
+Terry
+
+On 9/22/2025 11:33 AM, Staffan Melin wrote:
+> Thank you,
+> 
+> I can confirm that this patch fixes the touchscreen issue on my GPD DUO.
+> 
+> Tested-by: staffan.melin@oscillator.se
+> 
+> Thank you for your work!
+> 
+> Staffan
+> 
+> On 2025-09-22 11:21, zhangheng wrote:
+>> Please help test this patch, I will push it to the kernel community. 
+>> Currently, the microphone device is functioning normally
 
