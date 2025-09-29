@@ -1,39 +1,39 @@
-Return-Path: <linux-input+bounces-15147-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-15146-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17CECBA7A2D
-	for <lists+linux-input@lfdr.de>; Mon, 29 Sep 2025 02:45:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B497FBA7A15
+	for <lists+linux-input@lfdr.de>; Mon, 29 Sep 2025 02:43:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B6B233AF025
-	for <lists+linux-input@lfdr.de>; Mon, 29 Sep 2025 00:45:44 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 70D8B3B0B66
+	for <lists+linux-input@lfdr.de>; Mon, 29 Sep 2025 00:43:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F46B54763;
-	Mon, 29 Sep 2025 00:45:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 90D97157487;
+	Mon, 29 Sep 2025 00:42:57 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
 Received: from cosmicgizmosystems.com (cosmicgizmosystems.com [63.249.102.155])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65B643A1DB;
-	Mon, 29 Sep 2025 00:45:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24B731A239A;
+	Mon, 29 Sep 2025 00:42:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=63.249.102.155
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759106741; cv=none; b=MCN1LwdBRlF4NymOupe0Saa8A/kiIY5xhlEMkPc2lPmZSAZe4CRAfnaplgrteEZtBxL+mqhezIJwtesznN3HRmHo1gD8LhhO+OXQ3/WRC5dKB5iGO6KXtSWqJdaMmq4qyucoOKmmq7e1ROBDLNmAltJRIwjL8B1GCuSOL7asfDs=
+	t=1759106577; cv=none; b=P1fTRYG/frybYzvNDXZVUlVj/X/uxKy3t4au6aBphkdNM5IvFscAHTseCoY6/H0sgTXJPFxMg0hwMq1lPJiqtN/U0ZMZco4szoCscD5RCPGoqZ1ewY2CDn3pn33E74HhZKC6SxkVjgpuALc31cnwUHYYP6qStikqGlq9YSXy4vc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759106741; c=relaxed/simple;
-	bh=r0c7P7hrpmBxhUw6eaYfyfgvDlJGtgWC04dcqv6jzdQ=;
+	s=arc-20240116; t=1759106577; c=relaxed/simple;
+	bh=Q0aTNUl9QWfi6VHFGUrjypxH1/y4Zs8osRxB9hSzNAo=;
 	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=faXMqLjZ8D8SQ7lEne9uk0rc63ju/JdDFs2FwrAMnQCa+3RMA+Kgo4wNFuf2G92JLprUsQ9ibECuQf+OM77hPXzdmbfIKo8fPvd6afXzrMIVzcJgtrVoscOVkz5HjcAfvw8OnWOdhYSSswh2QGg93LcU9jjvkc87SUhh1+rP0SA=
+	 In-Reply-To:Content-Type; b=MyAUPp8+cmLQzTkyZh6bvVl6VkahIeyi6l4B5qkld63tsWJuzNRamdSNJVnthW3yc9fKAndOkO209aYuJjtt5i+IoZEgWxfDJOL/l0SuvQQmGWi4EwdZR5Occ3exiuxvngs0lmlYikYXluuTsieMr6OYvoHiXAyd0EuiUUukfUg=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cosmicgizmosystems.com; spf=pass smtp.mailfrom=cosmicgizmosystems.com; arc=none smtp.client-ip=63.249.102.155
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cosmicgizmosystems.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cosmicgizmosystems.com
 Received: from [10.0.0.100] (c-71-193-224-155.hsd1.wa.comcast.net [71.193.224.155])
-	by host11.cruzio.com (Postfix) with ESMTPSA id 389CA1D4195A;
-	Sun, 28 Sep 2025 17:39:07 -0700 (PDT)
-Message-ID: <5101f30a-4f49-4480-9453-1984f6c5a086@cosmicgizmosystems.com>
-Date: Sun, 28 Sep 2025 17:39:05 -0700
+	by host11.cruzio.com (Postfix) with ESMTPSA id 8BD211D45E70;
+	Sun, 28 Sep 2025 17:42:52 -0700 (PDT)
+Message-ID: <e0dde746-3761-414e-8df1-eb8557cadbf8@cosmicgizmosystems.com>
+Date: Sun, 28 Sep 2025 17:42:51 -0700
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -42,78 +42,93 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Linux Hid <linuxhid@cosmicgizmosystems.com>
-Subject: Re: [regression] 1a8953f4f774 ("HID: Add IGNORE quirk for
- SMARTLINKTECHNOLOGY") causes issue with ID 4c4a:4155 Jieli Technology USB
- Composite Device
-To: Staffan Melin <staffan.melin@oscillator.se>,
- zhangheng <zhangheng@kylinos.cn>
-Cc: Salvatore Bonaccorso <carnil@debian.org>, Jiri Kosina <jkosina@suse.com>,
- Benjamin Tissoires <bentiss@kernel.org>, linux-input@vger.kernel.org,
- linux-kernel@vger.kernel.org, regressions@lists.linux.dev,
- stable@vger.kernel.org, 1114557@bugs.debian.org
-References: <aL2gYJaXoB6p_oyM@eldamar.lan>
- <c8f3d402-e0ec-4767-b925-d7764aec3d93@kylinos.cn>
- <e81e8d68cb33c7de7b0e353791e21e53@oscillator.se>
- <aMUxHZF-7p7--1qS@eldamar.lan> <aMUxg6FLqDetwiGu@eldamar.lan>
- <f08669ec112d6ab2f62e35c0c96d1f06@oscillator.se>
- <94520aac-2a68-40d2-b188-80f9e361d6de@kylinos.cn>
- <735c20da-c052-4528-ad91-185a835ca40c@cosmicgizmosystems.com>
- <54b4b55c-ef29-40ae-a576-0c0b35ea9625@kylinos.cn>
- <3c299b65351c489fea95ec8b93518b6b@oscillator.se>
- <01ce8d55-6054-4efa-bed5-ce4c6c6bc0e6@kylinos.cn>
- <11f1363dcdec98f4275e4df3145e4f24@oscillator.se>
+Subject: Re: [PATCH v2] HID: quirks: Add device descriptor for 4c4a:4155
+To: Zhang Heng <zhangheng@kylinos.cn>, jikos@kernel.org, bentiss@kernel.org,
+ staffan.melin@oscillator.se
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20250923022445.3276026-1-zhangheng@kylinos.cn>
 Content-Language: en-US
-In-Reply-To: <11f1363dcdec98f4275e4df3145e4f24@oscillator.se>
+In-Reply-To: <20250923022445.3276026-1-zhangheng@kylinos.cn>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-All,
+Hi Zhang,
 
-It's good a working solution has been found. I'll comment separately on 
-the patch submission.
+The subject doesn't reflect what the patch is doing. You are not adding 
+a device descriptor, you are fixing a regression.
 
-I did some digging to find out why there were multiple devices in the 
-wild with the same VID:PID.
-
-It seems that Jieli does have a valid USB VID.
-
-Zhuhai Jieli Technology Co., LTD owns VID 13908 (0x3654)
-
-However, in one of their public SDKs they populate the default device 
-descriptor with:
-
-    'J', 'L',     // idVendor: 0x4a4c - JL    (actually 0x4c4a)
-    0x55, 0x41,     // idProduct: chip id     ('U', 'A' 0x4155)
-
-So anyone developing a device using that chip's SDK who doesn't change 
-the default VID:PID will create a device with 4c4a:4155 VID:PID.
-
-In other SDKs I see a different PID but the same 0x4c4a VID
-
-    '5', '4',     // idProduct: chip id       (0x3435)
-
-So there are probably multiple devices in the wild with 4c4a:3435 
-VID:PIDs as well.
-
-Here's a link to the 4c4a:4155 SDK if you'd like to take a look.
-
-https://github.com/Jieli-Tech/AW30N/blob/main/sdk/apps/app/bsp/common/usb/device/descriptor.c#L31
-
-Regards,
-Terry
-
-On 9/22/2025 11:33 AM, Staffan Melin wrote:
-> Thank you,
+On 9/22/2025 7:24 PM, Zhang Heng wrote:
+> Multiple USB devices have the same ID;
+> add device descriptors to distinguish them.
 > 
-> I can confirm that this patch fixes the touchscreen issue on my GPD DUO.
-> 
+> Fixes: 1a8953f4f774 ("HID: Add IGNORE quirk for SMARTLINKTECHNOLOGY")
+
+Should have a Fixes: tag referencing the regression bug.
+Also a CC: tag for 1114557@bugs.debian.org
+Possibly a CC: tag for stable@vger.kernel.org as well?
+
 > Tested-by: staffan.melin@oscillator.se
+> Signed-off-by: Zhang Heng <zhangheng@kylinos.cn>
+> ---
+>   drivers/hid/hid-quirks.c | 12 +++++++++++-
+>   1 file changed, 11 insertions(+), 1 deletion(-)
 > 
-> Thank you for your work!
-> 
-> Staffan
-> 
-> On 2025-09-22 11:21, zhangheng wrote:
->> Please help test this patch, I will push it to the kernel community. 
->> Currently, the microphone device is functioning normally
+> diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
+> index ffd034566e2e..d28b180abd72 100644
+> --- a/drivers/hid/hid-quirks.c
+> +++ b/drivers/hid/hid-quirks.c
+> @@ -913,7 +913,6 @@ static const struct hid_device_id hid_ignore_list[] = {
+>   #endif
+>   	{ HID_USB_DEVICE(USB_VENDOR_ID_YEALINK, USB_DEVICE_ID_YEALINK_P1K_P4K_B2K) },
+>   	{ HID_USB_DEVICE(USB_VENDOR_ID_QUANTA, USB_DEVICE_ID_QUANTA_HP_5MP_CAMERA_5473) },
+> -	{ HID_USB_DEVICE(USB_VENDOR_ID_SMARTLINKTECHNOLOGY, USB_DEVICE_ID_SMARTLINKTECHNOLOGY_4155) },
+>   	{ }
+>   };
+
+Smartlink Technology does not own the 0x4c4a VID or the 0x4155 PID. They 
+are an artifact of the Jieli SDK they used in development so the 
+#defines should not imply ownership by Smartlink. VID 0x4c4a is 
+currently unassigned by the USBIF and is therefore 'reserved'.
+
+Maybe change
+USB_VENDOR_ID_SMARTLINKTECHNOLOGY to USB_VENDOR_ID_JIELI_SDK_DEFAULT
+and
+USB_DEVICE_ID_SMARTLINKTRCHNOLOGY_4155 to USB_DEVICE_ID_JIELI_SDK_4155?
+
+>   
+> @@ -1062,6 +1061,17 @@ bool hid_ignore(struct hid_device *hdev)
+>   					     strlen(elan_acpi_id[i].id)))
+>   					return true;
+>   		break;
+> +	case USB_VENDOR_ID_SMARTLINKTECHNOLOGY:
+> +		/* Multiple USB devices with identical IDs (mic & touchscreen).
+> +		 * The touch screen requires hid core processing, but the
+> +		 * microphone does not. They can be distinguished by manufacturer
+> +		 * and serial number.
+> +		 */
+> +		if (hdev->product == USB_DEVICE_ID_SMARTLINKTECHNOLOGY_4155 &&
+> +		    strncmp(hdev->name, "SmartlinkTechnology", 19) == 0 &&
+> +		    strncmp(hdev->uniq, "20201111000001", 14) == 0)
+
+Using the serial number as a device identifier is somewhat risky. The 
+serial number is optional for a USB device but if it is used then it's 
+supposed to be unique for each device. Given how horrible the 
+configuration and HID descriptors are for this device it's unlikely that 
+they went to the trouble to give each unit a unique serial number. But 
+you should check a few of the devices (if you have more than one) to 
+verify they all have the same 20201111000001 serial number.
+
+It's too bad the bcdHID version test for 0x0201 didn't work. The 
+hid->version field is filled by usbhid_probe with bcdDevice before both 
+hid_lookup_quirk and hid_ignore are called and then updated with bcdHID 
+by usbhid_parse after they have been called.
+
+> +			return true;
+> +		break;
+>   	}
+>   
+>   	if (hdev->type == HID_TYPE_USBMOUSE &&
+
+Thanks
+Terry
 
