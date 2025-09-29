@@ -1,218 +1,109 @@
-Return-Path: <linux-input+bounces-15166-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-15167-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14AA5BA9AD9
-	for <lists+linux-input@lfdr.de>; Mon, 29 Sep 2025 16:47:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E68D2BA9DF2
+	for <lists+linux-input@lfdr.de>; Mon, 29 Sep 2025 17:53:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 651701922051
-	for <lists+linux-input@lfdr.de>; Mon, 29 Sep 2025 14:48:05 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6BFE319213CB
+	for <lists+linux-input@lfdr.de>; Mon, 29 Sep 2025 15:53:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F1AA22ECD19;
-	Mon, 29 Sep 2025 14:47:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1232C30B520;
+	Mon, 29 Sep 2025 15:53:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Ixd7lGKj"
+	dkim=pass (1024-bit key) header.d=lucaweiss.eu header.i=@lucaweiss.eu header.b="Nk3rY9CJ"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from ahti.lucaweiss.eu (ahti.lucaweiss.eu [128.199.32.197])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56C851D88B4;
-	Mon, 29 Sep 2025 14:47:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D35B30B535;
+	Mon, 29 Sep 2025 15:53:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=128.199.32.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759157255; cv=none; b=t/bALcIQAuivsscwd8QegwVsEbSfiaVWAFBs9mW6r+JKQFFbpnnZYTMHsbR0JeSwVuEkTx7cjcZdUyu5bkKI9h7E4iMAv6FLbCoqsrpZMaUwJRwDh1o2SJHJK2244rzdw8TykTsTpYVzvMQnPQE+s4/bsFiwaf5Zktm/o2syBA0=
+	t=1759161186; cv=none; b=j9RK7s2f/jY1FJNGed/XmHKrId6lt+HI2WAn70FV5+1th/UfBFoEAnEKYReSaqVHtts48RHRFFvnrXG/f5hUjOvnB1rOWRrmM4bjTmhU916gxfiSzGR5ci3cmKxtly74edJy6KANP8vdDmptoaVUx/bmirEAReSK5JsNY5D1x8g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759157255; c=relaxed/simple;
-	bh=8W8Q+OA2dF6Ur3uVnm6arrgUauWJ5keNKgi5Rakv08M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fCI95pa9MUCDThxqKdqLHeJCa5zZUq3ftIqwJynDKOifK8hqI0CdJmpqHh1rL6rti1Ge65MPR5j8XyEUdUxC8lxdm+RWU8a2qn/ag67XP/VoNM5GW/3oX2Z5E4FC6xMKEKiY3j4XFIxtdVSek/Jlei2mKLD/50/17Az4Jaedo0E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Ixd7lGKj; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C51EEC4CEF4;
-	Mon, 29 Sep 2025 14:47:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1759157255;
-	bh=8W8Q+OA2dF6Ur3uVnm6arrgUauWJ5keNKgi5Rakv08M=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Ixd7lGKjU8rPs4OWaLyHTILBe27JWFNUeW7ErLrq5kAqdgQvDcohTydA9pilDkaVH
-	 z52PdLZ/6lQF/TxWojd21t/6vwpwNY0xwdJgToPIfkLHWKKVz+QIaSh4krNdfG/Qsg
-	 H3crXkWEyIu0mULyxpLF7vZzJx+xJCpRFqbsU2Dk=
-Date: Mon, 29 Sep 2025 16:47:31 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: "Farber, Eliav" <farbere@amazon.com>
-Cc: "linux@armlinux.org.uk" <linux@armlinux.org.uk>,
-	"richard@nod.at" <richard@nod.at>,
-	"anton.ivanov@cambridgegreys.com" <anton.ivanov@cambridgegreys.com>,
-	"johannes@sipsolutions.net" <johannes@sipsolutions.net>,
-	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-	"luto@kernel.org" <luto@kernel.org>,
-	"peterz@infradead.org" <peterz@infradead.org>,
-	"tglx@linutronix.de" <tglx@linutronix.de>,
-	"mingo@redhat.com" <mingo@redhat.com>,
-	"bp@alien8.de" <bp@alien8.de>, "x86@kernel.org" <x86@kernel.org>,
-	"hpa@zytor.com" <hpa@zytor.com>,
-	"tony.luck@intel.com" <tony.luck@intel.com>,
-	"qiuxu.zhuo@intel.com" <qiuxu.zhuo@intel.com>,
-	"mchehab@kernel.org" <mchehab@kernel.org>,
-	"james.morse@arm.com" <james.morse@arm.com>,
-	"rric@kernel.org" <rric@kernel.org>,
-	"harry.wentland@amd.com" <harry.wentland@amd.com>,
-	"sunpeng.li@amd.com" <sunpeng.li@amd.com>,
-	"Rodrigo.Siqueira@amd.com" <Rodrigo.Siqueira@amd.com>,
-	"alexander.deucher@amd.com" <alexander.deucher@amd.com>,
-	"christian.koenig@amd.com" <christian.koenig@amd.com>,
-	"Xinhui.Pan@amd.com" <Xinhui.Pan@amd.com>,
-	"airlied@gmail.com" <airlied@gmail.com>,
-	"daniel@ffwll.ch" <daniel@ffwll.ch>,
-	"evan.quan@amd.com" <evan.quan@amd.com>,
-	"james.qian.wang@arm.com" <james.qian.wang@arm.com>,
-	"liviu.dudau@arm.com" <liviu.dudau@arm.com>,
-	"mihail.atanassov@arm.com" <mihail.atanassov@arm.com>,
-	"brian.starkey@arm.com" <brian.starkey@arm.com>,
-	"maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
-	"mripard@kernel.org" <mripard@kernel.org>,
-	"tzimmermann@suse.de" <tzimmermann@suse.de>,
-	"robdclark@gmail.com" <robdclark@gmail.com>,
-	"quic_abhinavk@quicinc.com" <quic_abhinavk@quicinc.com>,
-	"dmitry.baryshkov@linaro.org" <dmitry.baryshkov@linaro.org>,
-	"sean@poorly.run" <sean@poorly.run>,
-	"jdelvare@suse.com" <jdelvare@suse.com>,
-	"linux@roeck-us.net" <linux@roeck-us.net>,
-	"linus.walleij@linaro.org" <linus.walleij@linaro.org>,
-	"dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>,
-	"maz@kernel.org" <maz@kernel.org>, "wens@csie.org" <wens@csie.org>,
-	"jernej.skrabec@gmail.com" <jernej.skrabec@gmail.com>,
-	"samuel@sholland.org" <samuel@sholland.org>,
-	"agk@redhat.com" <agk@redhat.com>,
-	"snitzer@kernel.org" <snitzer@kernel.org>,
-	"dm-devel@redhat.com" <dm-devel@redhat.com>,
-	"rajur@chelsio.com" <rajur@chelsio.com>,
-	"davem@davemloft.net" <davem@davemloft.net>,
-	"edumazet@google.com" <edumazet@google.com>,
-	"kuba@kernel.org" <kuba@kernel.org>,
-	"pabeni@redhat.com" <pabeni@redhat.com>,
-	"peppe.cavallaro@st.com" <peppe.cavallaro@st.com>,
-	"alexandre.torgue@foss.st.com" <alexandre.torgue@foss.st.com>,
-	"joabreu@synopsys.com" <joabreu@synopsys.com>,
-	"mcoquelin.stm32@gmail.com" <mcoquelin.stm32@gmail.com>,
-	"krzysztof.kozlowski@linaro.org" <krzysztof.kozlowski@linaro.org>,
-	"malattia@linux.it" <malattia@linux.it>,
-	"hdegoede@redhat.com" <hdegoede@redhat.com>,
-	"markgross@kernel.org" <markgross@kernel.org>,
-	"artur.paszkiewicz@intel.com" <artur.paszkiewicz@intel.com>,
-	"jejb@linux.ibm.com" <jejb@linux.ibm.com>,
-	"martin.petersen@oracle.com" <martin.petersen@oracle.com>,
-	"sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>,
-	"fei1.li@intel.com" <fei1.li@intel.com>, "clm@fb.com" <clm@fb.com>,
-	"josef@toxicpanda.com" <josef@toxicpanda.com>,
-	"dsterba@suse.com" <dsterba@suse.com>,
-	"jack@suse.com" <jack@suse.com>, "tytso@mit.edu" <tytso@mit.edu>,
-	"adilger.kernel@dilger.ca" <adilger.kernel@dilger.ca>,
-	"dushistov@mail.ru" <dushistov@mail.ru>,
-	"luc.vanoostenryck@gmail.com" <luc.vanoostenryck@gmail.com>,
-	"rostedt@goodmis.org" <rostedt@goodmis.org>,
-	"mhiramat@kernel.org" <mhiramat@kernel.org>,
-	"pmladek@suse.com" <pmladek@suse.com>,
-	"senozhatsky@chromium.org" <senozhatsky@chromium.org>,
-	"andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>,
-	"linux@rasmusvillemoes.dk" <linux@rasmusvillemoes.dk>,
-	"minchan@kernel.org" <minchan@kernel.org>,
-	"ngupta@vflare.org" <ngupta@vflare.org>,
-	"akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-	"yoshfuji@linux-ipv6.org" <yoshfuji@linux-ipv6.org>,
-	"dsahern@kernel.org" <dsahern@kernel.org>,
-	"pablo@netfilter.org" <pablo@netfilter.org>,
-	"kadlec@netfilter.org" <kadlec@netfilter.org>,
-	"fw@strlen.de" <fw@strlen.de>,
-	"jmaloy@redhat.com" <jmaloy@redhat.com>,
-	"ying.xue@windriver.com" <ying.xue@windriver.com>,
-	"andrii@kernel.org" <andrii@kernel.org>,
-	"mykolal@fb.com" <mykolal@fb.com>,
-	"ast@kernel.org" <ast@kernel.org>,
-	"daniel@iogearbox.net" <daniel@iogearbox.net>,
-	"martin.lau@linux.dev" <martin.lau@linux.dev>,
-	"song@kernel.org" <song@kernel.org>, "yhs@fb.com" <yhs@fb.com>,
-	"john.fastabend@gmail.com" <john.fastabend@gmail.com>,
-	"kpsingh@kernel.org" <kpsingh@kernel.org>,
-	"sdf@google.com" <sdf@google.com>,
-	"haoluo@google.com" <haoluo@google.com>,
-	"jolsa@kernel.org" <jolsa@kernel.org>,
-	"shuah@kernel.org" <shuah@kernel.org>,
-	"keescook@chromium.org" <keescook@chromium.org>,
-	"wad@chromium.org" <wad@chromium.org>,
-	"willy@infradead.org" <willy@infradead.org>,
-	"sashal@kernel.org" <sashal@kernel.org>,
-	"ruanjinjie@huawei.com" <ruanjinjie@huawei.com>,
-	"quic_akhilpo@quicinc.com" <quic_akhilpo@quicinc.com>,
-	"David.Laight@aculab.com" <David.Laight@aculab.com>,
-	"herve.codina@bootlin.com" <herve.codina@bootlin.com>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-um@lists.infradead.org" <linux-um@lists.infradead.org>,
-	"linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
-	"amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
-	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-	"linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
-	"freedreno@lists.freedesktop.org" <freedreno@lists.freedesktop.org>,
-	"linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
-	"linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-	"linux-sunxi@lists.linux.dev" <linux-sunxi@lists.linux.dev>,
-	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-	"linux-stm32@st-md-mailman.stormreply.com" <linux-stm32@st-md-mailman.stormreply.com>,
-	"platform-driver-x86@vger.kernel.org" <platform-driver-x86@vger.kernel.org>,
-	"linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
-	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
-	"linux-btrfs@vger.kernel.org" <linux-btrfs@vger.kernel.org>,
-	"linux-ext4@vger.kernel.org" <linux-ext4@vger.kernel.org>,
-	"linux-sparse@vger.kernel.org" <linux-sparse@vger.kernel.org>,
-	"linux-mm@kvack.org" <linux-mm@kvack.org>,
-	"netfilter-devel@vger.kernel.org" <netfilter-devel@vger.kernel.org>,
-	"coreteam@netfilter.org" <coreteam@netfilter.org>,
-	"tipc-discussion@lists.sourceforge.net" <tipc-discussion@lists.sourceforge.net>,
-	"bpf@vger.kernel.org" <bpf@vger.kernel.org>,
-	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
-	"stable@vger.kernel.org" <stable@vger.kernel.org>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Subject: Re: [PATCH 07/19 v6.1.y] minmax: make generic MIN() and MAX() macros
- available everywhere
-Message-ID: <2025092955-module-landfall-ed45@gregkh>
-References: <20250924202320.32333-1-farbere@amazon.com>
- <20250924202320.32333-8-farbere@amazon.com>
- <2025092923-stove-rule-a00f@gregkh>
- <85a995bb59474300aa3d5f973d279a13@amazon.com>
+	s=arc-20240116; t=1759161186; c=relaxed/simple;
+	bh=G8YzWykcN+7T3iq/TApLviOykadfZk2GMFlz7NLHNAM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=FRjeW+oTt3FTPgJ8RehoS/s3BZCf2gcfNkKtcS1dt9IYCDLbEJbpa01DdReq3da2xn8ksaEst9j3mU3CKqYfU9UYE2zdL42SmqmGscO9PVXMaNOl/Iz8Yus38IbWX9IBC4H4YZjwmUXojueHnN+aswUIEGmCeFmBFHi6JxP/5gU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=lucaweiss.eu; spf=pass smtp.mailfrom=lucaweiss.eu; dkim=pass (1024-bit key) header.d=lucaweiss.eu header.i=@lucaweiss.eu header.b=Nk3rY9CJ; arc=none smtp.client-ip=128.199.32.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=lucaweiss.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lucaweiss.eu
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=lucaweiss.eu; s=s1;
+	t=1759160696; bh=G8YzWykcN+7T3iq/TApLviOykadfZk2GMFlz7NLHNAM=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=Nk3rY9CJqqbOqA28siTjvRRJPZoK+Q/2666t0BH6DGvk2GussB1dqO7MLLsb0+rx/
+	 Kkkcej8mYS+fr8tXMylFLYkbjl5XmSZMzQerr8mOsA6OmftZRaL3bXc+Ri3Wym3Mw6
+	 Nh0zaYM9T+ovew8WBhJDB7WRL6kDYH2r4MDsvkSo=
+Message-ID: <f0539620-87f8-4efd-b27e-443100bc92cc@lucaweiss.eu>
+Date: Mon, 29 Sep 2025 17:44:55 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <85a995bb59474300aa3d5f973d279a13@amazon.com>
+Subject: Re: [PATCH 1/2] dt-bindings: input: pm8941-pwrkey: Document
+ wakeup-source property
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Courtney Cavin <courtney.cavin@sonymobile.com>,
+ Vinod Koul <vkoul@kernel.org>, Bhushan Shah <bshah@kde.org>,
+ ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-input@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20250909-resin-wakeup-v1-0-46159940e02b@lucaweiss.eu>
+ <20250909-resin-wakeup-v1-1-46159940e02b@lucaweiss.eu>
+ <efb03993-0481-45ed-8f7e-8b65519a55cb@kernel.org>
+ <phctwoxml7hscwcgaipl233lotnrkgcpe7rxvhm5syoiadu3lv@ibgeib4kjyhs>
+ <9e39f1b4-63b2-4c6a-8b31-6360be1952e6@kernel.org>
+ <dcdbc6424db6953dfc39fc05e0e050ab@lucaweiss.eu>
+ <kxgvebizxvlflu4qen3cb5v4lcuydmdixvi7624hrggo7f5u5f@zbengtjkekfj>
+ <3kww5et2q2mqddpvtqzuj3jqzvfds66qrufawcmumamrqoaugk@tiq6zoe5psom>
+Content-Language: en-US
+From: Luca Weiss <luca@lucaweiss.eu>
+In-Reply-To: <3kww5et2q2mqddpvtqzuj3jqzvfds66qrufawcmumamrqoaugk@tiq6zoe5psom>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Sep 29, 2025 at 02:39:26PM +0000, Farber, Eliav wrote:
-> > On Wed, Sep 24, 2025 at 08:23:08PM +0000, Eliav Farber wrote:
-> > > From: Linus Torvalds <torvalds@linux-foundation.org>
-> > >
-> > > [ Upstream commit 1a251f52cfdc417c84411a056bc142cbd77baef4 ]
-> >
-> > <snip>
-> >
-> > As this didn't go into 6.6.y yet, I'll stop here on this series for now.
-> > Please fix up for newer kernels first and then resend these.
+On 25-09-25 7:45 atm, Dmitry Torokhov wrote:
+> On Tue, Sep 09, 2025 at 07:54:33AM -0700, Dmitry Torokhov wrote:
+>> On Tue, Sep 09, 2025 at 04:41:26PM +0200, Luca Weiss wrote:
+>>> On 2025-09-09 16:33, Krzysztof Kozlowski wrote:
+>>>> On 09/09/2025 16:08, Dmitry Torokhov wrote:
+>>>>>>>     compatible:
+>>>>>>>       enum:
+>>>>>>> @@ -36,6 +33,11 @@ properties:
+>>>>>>>              pin should be configured for pull up.
+>>>>>>>       $ref: /schemas/types.yaml#/definitions/flag
+>>>>>>>
+>>>>>>> +  wakeup-source:
+>>>>>>> +    description: |
+>>>>>>> +           Button can wake-up the system. Only applicable
+>>>>>>> for 'resin',
+>>>>>>> +           'pwrkey' always wakes the system by default.
+>>>>>>
+>>>>>>
+>>>>>> I'll fix existing code, so don't repeat that style.
+>>>>>
+>>>>> If you ack I can reformat on my side to match the patch you just sent.
+>>>>
+>>>> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+>>>
+>>> Thanks for fixing that up Krzysztof! I noticed but didn't want to deviate
+>>> from the style just for this description. Of course better to fix the
+>>> formatting in the first place.
+>>>
+>>> @Dmitry: Maybe give this patch some time (1-2 weeks?) to gather more
+>>> feedback,
+>>> given the reasons outlined in the cover letter. Also on the driver patch.
+>>
+>> OK, I'll hold on to this for a couple of weeks.
 > 
-> For 6.6.y I backported 15 commits:
-> https://lore.kernel.org/stable/20250922103241.16213-1-farbere@amazon.com/T/#t
-> 
-> Why weren't all of them picked?
+> Nobody voiced any objections so far, so applied both.
 
-Because one of them broke the build, as I wrote a week ago here:
-	https://lore.kernel.org/all/2025092209-owl-whisking-03e3@gregkh/
-
-thanks,
-
-greg k-h
+Thanks Dmitry!
 
