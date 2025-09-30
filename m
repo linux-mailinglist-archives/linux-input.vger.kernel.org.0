@@ -1,107 +1,118 @@
-Return-Path: <linux-input+bounces-15173-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-15174-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE0C1BABFEA
-	for <lists+linux-input@lfdr.de>; Tue, 30 Sep 2025 10:22:14 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 718AEBACD0E
+	for <lists+linux-input@lfdr.de>; Tue, 30 Sep 2025 14:26:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 355FB1922656
-	for <lists+linux-input@lfdr.de>; Tue, 30 Sep 2025 08:22:37 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EB59216C3D4
+	for <lists+linux-input@lfdr.de>; Tue, 30 Sep 2025 12:25:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EE0CE2F39DD;
-	Tue, 30 Sep 2025 08:22:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 924A12FAC0E;
+	Tue, 30 Sep 2025 12:25:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="bM6ttSNo"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Hd0gzNx1"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C0192BE037
-	for <linux-input@vger.kernel.org>; Tue, 30 Sep 2025 08:22:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A95E827B331
+	for <linux-input@vger.kernel.org>; Tue, 30 Sep 2025 12:25:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759220530; cv=none; b=iUWzzNunacKaSRWK63ik5W2kni0vS6UKTjKg6W+OdPaxzbne161m8cF71vKkrpoHElkgXaxn6OscaducqvNZS+qjtS2FskUMNLgCHFKjfM9JN8Qa/1Eyg3Dx/5+GfLnga1cnb78DB+uutfBvX7BINwci7kkoPFu5YCgLY89T6NM=
+	t=1759235141; cv=none; b=DT4SHPR9uy3ursB9+PBNDLOgtGkqGigC5UQ0oJOvksu6LvnD6By9CMflc9XVJ16lcZoe7FaY7nsm6+ZA7YmSs53UjahsAe4CefaIFtorkc8FceffxzIcVrGP40mXPPxQkfQRFi1FwnS8Jx7eDPdzjtO4x7647/Bz/b5ipzOL2Uw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759220530; c=relaxed/simple;
-	bh=4pE3k2VBU5zrdsB3CR7FkZwhjoZcQukX7hsPH5UvQJE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=DXTu0kH88+zJ+ZISKiR6xGng+GADgDP8FKcxunL7NA8qEx4Zyn5rsnFQWKLcq3TUb5/Zbon/bJ9Js/+OZ8w0/kOUi/kbTq3RqRQRNRByOdT7qFabKYXOMXOQsh9bPDFmFhjDr0DorVfZNJwZrzWY2EgM1FbN2BNjGCrVXk7oH5s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=huaqin.corp-partner.google.com; spf=pass smtp.mailfrom=huaqin.corp-partner.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=bM6ttSNo; arc=none smtp.client-ip=209.85.222.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=huaqin.corp-partner.google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaqin.corp-partner.google.com
-Received: by mail-qk1-f174.google.com with SMTP id af79cd13be357-86278558d6fso289495085a.1
-        for <linux-input@vger.kernel.org>; Tue, 30 Sep 2025 01:22:09 -0700 (PDT)
+	s=arc-20240116; t=1759235141; c=relaxed/simple;
+	bh=heMBj5Se7D674ot+jB86uM824vbkgYvDDTYr2KtcYCU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=WSo08Is5GjVIb1tu4kr6q7AAssXNeQDs9kOKa2OIGpJYDsDt8B1sHjhleE5dDI1K20CHpvpseiT7ab+5tDhRvaSw2UhFW0yMJJIdIe+laPvFgmPx6pj54Z9XOgkLzJI7wb3t8TD5XmJYzIAOjaj5k7cno2zmfyqRsyusZM/nzR0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Hd0gzNx1; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-46e34bd8eb2so13244255e9.3
+        for <linux-input@vger.kernel.org>; Tue, 30 Sep 2025 05:25:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1759220528; x=1759825328; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=0MYOqdthezk2Y5aWzOzKpk43i1E5SPt8BTiExHKtReY=;
-        b=bM6ttSNo7otdGv4BLNxO4zMnBWW2WYdy6KSDTZKB/1BEq3d0PR70G6GJneitZdIHYy
-         aCP5mWEkxZb+CuEYPJ1vGlBizeawQQgo8g69L/w5lbsTccSWZ3YbXvgXBrrTDq9Qt16L
-         dmYthKXDpPm2+7dSnvZf/vlsNxxJVejrw9GTEZQ+kTuu3eKsEUkKI+kgfMGiswQWJdit
-         4GGsIHzJMFTnDD7ZisryVyJTj62d+DanYSpzhtvReMhMQaaHC0Rc5rZb7qY9WKtbDZIR
-         t2qhharnKWM2BGVsCAK0RiJzh0eCQkxjEPDP+I+9KX4ZBR48h3So8GbT9ACZz3jBPPxf
-         BeAQ==
+        d=linaro.org; s=google; t=1759235138; x=1759839938; darn=vger.kernel.org;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=1AXE3E4du7FCwUTXFpKPQhJu66seghaqwcG1g0MMZMA=;
+        b=Hd0gzNx1SK5r5C939TAWQwIJt/DaYSupEPAymjMLw305ZOwoHMkalatSRydfV56KnD
+         kKFtPEgR7HXNLhLHDW74pzu6OHDn9ne1nuRAQmPDowthoKF/FRcljrWBMB6xcIBXxgFW
+         PDWsUH6iC9mB1BlT4X4HlUqspE5vSmY+B4Ygw71Qg16MFpJ7l9yYW4Fi02bz3pKb97iH
+         en+t8ZvOx60Xt8S8wdFF5UTAlXTfTov91SjrVljDQ6JaYc+vneqxEDKvgqtN9QElaVn5
+         +A47MGK5t6Kl9jo5FqbIWEbmIpfpbom2Hzif3h3peHWr1SZ1X2EnzXFqg2Z4gPzp/X13
+         4Mpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759220528; x=1759825328;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=0MYOqdthezk2Y5aWzOzKpk43i1E5SPt8BTiExHKtReY=;
-        b=AQMx9yLnMHTpX7lNfWU+HNYUXbA9K4Q1aTYyROvfUXEcYY/ZVdnJ/+l0Ju6sjy0FFP
-         2P/CWFcZb5+ORmeAK7P6o37yLF5sD3Zb9Oidf6s3XGex2hCe0ONGafDTvZz8EqMdxu1y
-         /qnAHIBwleSYtJ0h4guhdj3f4Zv8/9CMTbToACPTQpeqi876T1sOuVF7QR36jFUT2DPP
-         Wtp3mgJzuT6qGUR5eyx9XZ8b7cK2CdXq7yS8Kscaxyk3FpJwd5o+yPDIGIcXBABPchwS
-         5aIKdp9WaNrbvSp9tr9vHMGSWbOClHYpGU8hh/Pv7FGbvO4jF2G75UBd1+UnWsuYciFv
-         fumA==
-X-Forwarded-Encrypted: i=1; AJvYcCU1Nh7sRcoGs9pihRVLecv84sEk93bsSYRD/oYK50jXQ21J9VKUECL1PicUfYMblLJ7HuX5Osr+LNOYHQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzRPNebixayAxK5/Pu0KD/8RHhv7WjW0B5aV4mKpuvkhRrMNRvr
-	105BbCT+RJIe9VxHOmcx7EOHrxzTZ+4bebjg3ve1LG+IhHQYSRkgwt8Q7FIyoJffUrH6+BnVJp7
-	op6krjrixkWqruZ4uI/JpgH4c2w5pMRVWKF4TAYVZoA==
-X-Gm-Gg: ASbGncvL5o2oIubbSsejdPMoRB+mOMiJ5wRz5BaYzTfCBdnFScTUu8xsc2CLn3XmFhX
-	HGMuC37HhIfyUCbssKfjUII/U+Eto0hRBxPzq1ne3qXq6AFxHz8c1+43lQO5gJtK8Z68xIQt9Oh
-	MwT4CrZ/OXqzDJ3IwMthvacUmmp+DhMn4ro+FTZNhW477l/2ubxjT9RtVRNYxw2+HuGJ1djwrGZ
-	UCkGxf5hTwtrAxMgM7pp6imJjnklNqs
-X-Google-Smtp-Source: AGHT+IFFpQTgFBa/WWGnT5QFcu4l0kS7gkEATk8JWkO6XxM3M12kz6g8Ct77aVC/3wWZvw3xXRdgjGXw0bvG4/9kIY0=
-X-Received: by 2002:ad4:5cc2:0:b0:81d:6f27:aff9 with SMTP id
- 6a1803df08f44-81d6f27b588mr167506256d6.56.1759220528215; Tue, 30 Sep 2025
- 01:22:08 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1759235138; x=1759839938;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=1AXE3E4du7FCwUTXFpKPQhJu66seghaqwcG1g0MMZMA=;
+        b=YX45JrY3Z2xAoH5oQ1r7seEKnhrCHZn1ttKFibs8kTKIrynD3NdGoo47NPnw4qveaV
+         KOF734JO6XbAf0SwlNo5t1+sOiZkt+ERnGwVr0A5jpFN+YJim30f0XA5jw7CpZdjWdy5
+         uf2bj7zkgZ00pa/sQtMwoi6HUOeteIybOcydrCjpvJMiqf5Psw3H8TxzzweGM2Kzrtju
+         1VC7zHU8v/Dr76yp9Q31T4KOAerhjBzwjj10/RD0NnK+dbk7OowexgLDofgyia3dInfG
+         mqmgTdZEjF5ubk09Xq282xPzN2vSLzuFBhTfhxwU+vKa5oXh7Kl4/eSeRYLXNpSgd3zp
+         9VQQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVfee52tawQDamdGLeqM6GT71l7BUPGulepGrjuFwSNmbAy1+rBCrNFBdyzQoUsmTx7BFBx5Bnt3XXK5Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyMANWVjdZwWxlYoc1/NvsmbkA5jmy9TRxbAW/KyjIPk6itJayC
+	JXkZIWknREnM0O7jYMeAQ0UPau9zZHmV8IkBdd+X3PuoXPhtjE4WcAC1N+oO/3zsj5w=
+X-Gm-Gg: ASbGncv24YYJZfmCkHnCt07ZNT8LnDDBXb53lnWx+BijpK33dvuYrz4jfWrgQF9+HJB
+	7/C1FHxYswg2/DB8U3cr6P6G7Iw4jPFjOp9Y/uAxxPz9nBMLQYWBjrnprtscandDQpWB43gM93i
+	HJk+j1CyvdJ+1RPMsqJXjLQX+fxMt6tqNtcevfP0m2e0BbJV0Iw3PGg/pGyZaLdrIBPvI6qpDNS
+	zo7xDn+YypeGWkDxY89ZDoPU9GtyOAmBB/E5u+s3j90MPgaMUAo6G1cMP633prfrXqdKu2qtZ/r
+	Ew2J4cFz8oZhQI9fymfyAG/zZ6dssMlqyLdK6xdKjrdRqII1lj5KYzzEM1CdIxOXmP/KM4usnZk
+	CzZkmmzDwIWORPgxPM6eLwEmcW4y/KVskfKi5GhiW9yO7n3fITMCW
+X-Google-Smtp-Source: AGHT+IGDWKfvS7xIHf+6vDs/q0NKQ2FRZkP9GQRKEpMrTz9/x83MNNzlklURhvJCRHqO6tBrQqt6Dw==
+X-Received: by 2002:a05:600c:3105:b0:46e:1fb9:5497 with SMTP id 5b1f17b1804b1-46e329e4d87mr203921765e9.18.1759235137830;
+        Tue, 30 Sep 2025 05:25:37 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-46e5b622f37sm13662115e9.1.2025.09.30.05.25.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 30 Sep 2025 05:25:37 -0700 (PDT)
+Date: Tue, 30 Sep 2025 15:25:33 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Griffin Kroah-Hartman <griffin.kroah@fairphone.com>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+	kernel-janitors@vger.kernel.org
+Subject: [PATCH next] Input: aw86927 - Fix error code in probe()
+Message-ID: <aNvMPTnOovdBitdP@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250821031514.49497-1-yelangyan@huaqin.corp-partner.google.com> <CA++9cvojHApEr0b5ZbRNVjYtWvCS8WmZ-mrGMDh5O9mp1fkT0w@mail.gmail.com>
-In-Reply-To: <CA++9cvojHApEr0b5ZbRNVjYtWvCS8WmZ-mrGMDh5O9mp1fkT0w@mail.gmail.com>
-From: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
-Date: Tue, 30 Sep 2025 16:21:56 +0800
-X-Gm-Features: AS18NWBUsQkpqXkip294ozPcJDVep0TBrUZwRk3B4uL8u_5nT6ff_J9AvEre7T4
-Message-ID: <CA++9cvrDRU4PStp82M0oz-ZtE-1fuPnMOEfMw4uv3wL1_DoYiQ@mail.gmail.com>
-Subject: Re: [PATCH v2 0/2] Add tc3408 bindings and timing
-To: dmitry.torokhov@gmail.com, robh@kernel.org, krzk+dt@kernel.org, 
-	conor+dt@kernel.org, jikos@kernel.org, bentiss@kernel.org
-Cc: dianders@chromium.org, linux-input@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Mailer: git-send-email haha only kidding
 
-Hi,
+Fix this copy and paste bug.  Return "err" instead of
+PTR_ERR(haptics->regmap).
 
-Just a gentle ping on this 2-patch series:
+Fixes: 52e06d564ce6 ("Input: aw86927 - add driver for Awinic AW86927")
+Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+---
+ drivers/input/misc/aw86927.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-  [1/2] https://patchwork.kernel.org/project/linux-input/patch/20250821031514.49497-2-yelangyan@huaqin.corp-partner.google.com/
-    Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+diff --git a/drivers/input/misc/aw86927.c b/drivers/input/misc/aw86927.c
+index a0c88a7e1e1c..8ad361239cfe 100644
+--- a/drivers/input/misc/aw86927.c
++++ b/drivers/input/misc/aw86927.c
+@@ -759,8 +759,7 @@ static int aw86927_probe(struct i2c_client *client)
+ 	/* Software reset */
+ 	err = regmap_write(haptics->regmap, AW86927_RSTCFG_REG, AW86927_RSTCFG_SOFTRST);
+ 	if (err)
+-		return dev_err_probe(haptics->dev, PTR_ERR(haptics->regmap),
+-					"Failed Software reset\n");
++		return dev_err_probe(haptics->dev, err,	"Failed Software reset\n");
+ 
+ 	/* Wait ~3ms until I2C is accessible */
+ 	usleep_range(3000, 3500);
+-- 
+2.51.0
 
-  [2/2] https://patchwork.kernel.org/project/linux-input/patch/20250821031514.49497-3-yelangyan@huaqin.corp-partner.google.com/
-    Reviewed-by: Douglas Anderson <dianders@chromium.org>
-
-Both patches have been reviewed.
-Is there anything else I should do to help get this series landed?
-
-Thanks a lot!
-
-Best regards,
-Langyan
 
