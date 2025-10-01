@@ -1,136 +1,163 @@
-Return-Path: <linux-input+bounces-15186-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-15188-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55B9CBB1247
-	for <lists+linux-input@lfdr.de>; Wed, 01 Oct 2025 17:43:12 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 137F6BB1580
+	for <lists+linux-input@lfdr.de>; Wed, 01 Oct 2025 19:18:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6B5B37A73F7
-	for <lists+linux-input@lfdr.de>; Wed,  1 Oct 2025 15:41:29 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B8C4C2A5AE0
+	for <lists+linux-input@lfdr.de>; Wed,  1 Oct 2025 17:18:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E6DBD285047;
-	Wed,  1 Oct 2025 15:42:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D8DE32D3231;
+	Wed,  1 Oct 2025 17:18:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ikGAzP3l"
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=ariel.dalessandro@collabora.com header.b="ksINNn9R"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADE6C283FDD;
-	Wed,  1 Oct 2025 15:42:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759333362; cv=none; b=qW4rVGmXOajfSp7rvF305P0LZ3kQzPzt3tMleNdcabURz77aPtlM6kftlyZSqQMXYOsEYC/WQeXeF4DGHqGMIcOFrQq+VUyjW3gFJPHi9mKmV6807NVEu3uTCcCHD71ySn8kTjPg3yEow6CuKeI8BV5n88iD80yVlYBX9US1F3k=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759333362; c=relaxed/simple;
-	bh=aLMjkI0N9pKIbUT9f12rSPBR9IjP2dlhRR4XDWQ8FHM=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=NCz4jgeOKq9sOt2LEDMBRIIgMKySxCi+a98AeCarsiYqzWsZfgLu54PXYDP5p1uOHfJQUIOeqqz6xicFUVB12FnrLbbGj6xLUTMcQs/ciGbKRGXx+DZokKNwMDphywjmWDNImvn8POpxHp+QIvjexKfY5tg1fxbsA/TtuJSklBo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ikGAzP3l; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 86349C2BC87;
-	Wed,  1 Oct 2025 15:42:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1759333362;
-	bh=aLMjkI0N9pKIbUT9f12rSPBR9IjP2dlhRR4XDWQ8FHM=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=ikGAzP3lLY/kWgzOTHmFXvaei2ZAA6DjqrGY8DNR/jVj6NC0f+ABiEHEDmJLH9qIG
-	 cIOipNxxNQ5WOmV5wvSICj7a/+6eHnjLi+cxetoHtmHGLAyZKYsAfcGErl+mIVWTh+
-	 FNurO18Y6S+79UCxOqorBjeS7OzrvE5Nx4CQyXUmrtyzsxJX9mW6ovG2rFfSFYJu+X
-	 qqFwF+KY9EAEFbOAZ7nE7c+LcmpbkpFlLpbIgQA5/E5Bp+cZDqOJSOXgDjdfbSTVIF
-	 /bg9esHont9y+fyUoKfDSkzNJfB/Mt+7Igk2DRqwPS0jEgD7UeYmEP8ffZnbjgbSmh
-	 7VmBvm95pObbw==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 72261CCA470;
-	Wed,  1 Oct 2025 15:42:42 +0000 (UTC)
-From: Samuel Kayode via B4 Relay <devnull+samuel.kayode.savoirfairelinux.com@kernel.org>
-Date: Wed, 01 Oct 2025 11:42:42 -0400
-Subject: [PATCH v12 6/6] MAINTAINERS: add an entry for pf1550 mfd driver
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 790A81F4CBF;
+	Wed,  1 Oct 2025 17:18:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1759339123; cv=pass; b=nhEonpOXuMYnJ5rwzrqCTmuErMMFVMOy4sm9VL1MjkGVOL7s5PGp/HkEdCu0DvVhrUxXIMsUxXMwQjGG//LX6HPCf+JpghbsWV+3edShCT84KjA8dw8e+em7FI0VDLtb2KBcoHllpRvYfE+Cyw7rQ4mCgMU2yIGW6KJNhgqaLMU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1759339123; c=relaxed/simple;
+	bh=5oopaJWCCa9McYN/u5FuVWHmY0aTOrreGFImxV+XzOY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ed8srSPMl49HtS3J9EpFfnuofjw73Flr3YxlCMhunBg3amQ0+Rdx4B6bYK77Bxn0RXB9lSdJ0TPO6Xdix+YCtwMc0pQmxze6T6BVoYtyTycvCEWwTyQOrRN6D42NCLVROEggL/8xbe+P2i5KgZHlxQOsRsBcRCj21lcKh2w2ilA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=ariel.dalessandro@collabora.com header.b=ksINNn9R; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+ARC-Seal: i=1; a=rsa-sha256; t=1759339054; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=g6eeKVe8q5UYu/Zyv+4f8spD2OVynk46aIqjrhPwvud4pg/yFU6GJ8m/Y+1A38QxhJIyMHo9XvP2zVwJvaf/koqQdRI7iWsrnIYH03ufiggiwoc8wIKBaqBtmNuHNS3TWVaLJgEmt6Fefs8/PbI5VQDaVTNFQ38gfghwAncUdSI=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1759339054; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=SkWCXVZn9oQwr9fOneaWYc16aLwPTVni5B0m5Fk1lXU=; 
+	b=PXCmVyZKF60Fi3lkeBl8zsfau5T0mvo/+YUBztmCZGuI3hDgh8QllEmRMfQbbgGMoKMd6NpZArnRZfrbBQ6qU0VMrSsDFscLsUkiHKPlNfxm2mHOvEE/MuGlBOc92dOt6bAR2SQCSepwaMg2H0rHrr1SVIUaN7fmLbAM2i5Vss8=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=ariel.dalessandro@collabora.com;
+	dmarc=pass header.from=<ariel.dalessandro@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1759339053;
+	s=zohomail; d=collabora.com; i=ariel.dalessandro@collabora.com;
+	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=SkWCXVZn9oQwr9fOneaWYc16aLwPTVni5B0m5Fk1lXU=;
+	b=ksINNn9Ry5kbkov/RYjCPthrjeR/B3ir8QZC1VLMfigTV/SQeRC/9naX5P5o+oQt
+	gcY1Xc/8D9yh670ZLUBONiSf31YNccaNSXJ9MVf3Ct2t0tT28Smz/yZBpoLObK3k8S4
+	J9608xI9dzJLMBP3t+Ok40Iuj+DdtKnf3vUZ3udU=
+Received: by mx.zohomail.com with SMTPS id 175933905208321.77046877084581;
+	Wed, 1 Oct 2025 10:17:32 -0700 (PDT)
+Message-ID: <a3b54ec9-e4d7-4d56-8493-f40be81f803e@collabora.com>
+Date: Wed, 1 Oct 2025 14:17:16 -0300
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 00/12] MediaTek dt-bindings sanitization (MT8173)
+To: Rob Herring <robh@kernel.org>
+Cc: airlied@gmail.com, amergnat@baylibre.com, andrew+netdev@lunn.ch,
+ andrew-ct.chen@mediatek.com, angelogioacchino.delregno@collabora.com,
+ broonie@kernel.org, chunkuang.hu@kernel.org, conor+dt@kernel.org,
+ davem@davemloft.net, dmitry.torokhov@gmail.com, edumazet@google.com,
+ flora.fu@mediatek.com, heiko@sntech.de, houlong.wei@mediatek.com,
+ jeesw@melfas.com, kernel@collabora.com, krzk+dt@kernel.org, kuba@kernel.org,
+ lgirdwood@gmail.com, linus.walleij@linaro.org,
+ louisalexis.eyraud@collabora.com, luiz.dentz@gmail.com,
+ maarten.lankhorst@linux.intel.com, marcel@holtmann.org,
+ matthias.bgg@gmail.com, mchehab@kernel.org, minghsiu.tsai@mediatek.com,
+ mripard@kernel.org, p.zabel@pengutronix.de, pabeni@redhat.com,
+ sean.wang@kernel.org, simona@ffwll.ch, support.opensource@diasemi.com,
+ tiffany.lin@mediatek.com, tzimmermann@suse.de, yunfei.dong@mediatek.com,
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-bluetooth@vger.kernel.org,
+ linux-gpio@vger.kernel.org, linux-input@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-mediatek@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-sound@vger.kernel.org, netdev@vger.kernel.org
+References: <20250911151001.108744-1-ariel.dalessandro@collabora.com>
+ <20250923214834.GC91441-robh@kernel.org>
+Content-Language: en-US
+From: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+In-Reply-To: <20250923214834.GC91441-robh@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251001-pf1550-v12-6-a3302aa41687@savoirfairelinux.com>
-References: <20251001-pf1550-v12-0-a3302aa41687@savoirfairelinux.com>
-In-Reply-To: <20251001-pf1550-v12-0-a3302aa41687@savoirfairelinux.com>
-To: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
- Mark Brown <broonie@kernel.org>, 
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
- Sebastian Reichel <sre@kernel.org>, Frank Li <Frank.li@nxp.com>
-Cc: imx@lists.linux.dev, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-input@vger.kernel.org, 
- linux-pm@vger.kernel.org, Abel Vesa <abelvesa@kernel.org>, 
- Abel Vesa <abelvesa@linux.com>, Robin Gong <b38343@freescale.com>, 
- Robin Gong <yibin.gong@nxp.com>, 
- Enric Balletbo i Serra <eballetbo@gmail.com>, 
- Sean Nyekjaer <sean@geanix.com>, 
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>, 
- Samuel Kayode <samuel.kayode@savoirfairelinux.com>, 
- Abel Vesa <abelvesa@kernel.org>, Frank Li <Frank.Li@nxp.com>, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1759333360; l=1229;
- i=samuel.kayode@savoirfairelinux.com; s=20250527;
- h=from:subject:message-id;
- bh=GUpwedwZ6iTM/9T8xwTWsw5t21VrPDOJAhQDVkmdBtI=;
- b=2WpW9lNVxnpyGsfvRtsbtDpNK6l2vH8C+8r+KLHpzefyxsWELgNa2VO1R6dhsXCuawvudv3dg
- wpUIgtg1lJKBm+N7Z+21QXTnU0Y4Ff2vUKhqfFEczjiZU9ln+KhAtiV
-X-Developer-Key: i=samuel.kayode@savoirfairelinux.com; a=ed25519;
- pk=TPSQGQ5kywnnPyGs0EQqLajLFbdDu17ahXz8/gxMfio=
-X-Endpoint-Received: by B4 Relay for
- samuel.kayode@savoirfairelinux.com/20250527 with auth_id=412
-X-Original-From: Samuel Kayode <samuel.kayode@savoirfairelinux.com>
-Reply-To: samuel.kayode@savoirfairelinux.com
+X-ZohoMailClient: External
 
-From: Samuel Kayode <samuel.kayode@savoirfairelinux.com>
+Rob,
 
-Add MAINTAINERS entry for pf1550 PMIC.
+On 9/23/25 6:48 PM, Rob Herring wrote:
+> On Thu, Sep 11, 2025 at 12:09:49PM -0300, Ariel D'Alessandro wrote:
+>> This patch series continues the effort to address Device Tree validation
+>> warnings for MediaTek platforms, with a focus on MT8173. It follows the
+>> initial cleanup series by Angelo [0].
+>>
+>> Similarly to the ongoing MT8183 work done by Julien Massot, this patchset
+>> eliminates several of the remaining warnings by improving or converting DT
+>> bindings to YAML, adding missing properties, and updating device tree files
+>> accordingly.
+>>
+>> [0] https://www.spinics.net/lists/kernel/msg5780177.html
+>>
+>> Changes in v2:
+>> * Wrapped commit messages to 75 columns line wrap.
+>> * Replaced "YAML" by "DT schema" in patches subject and content.
+>> * mt8173-mdp: Fixed properties: compatible, clocks, iommus and
+>>    mediatek,vpu.
+>> * mt8173-vpu: Fixed line wrap. Dropped memory-region property description.
+>> * mediatek,mmsys: Dropped patch as it's not a binding issue.
+>> * mediatek,od: Rewrote commit log with details on DT schema users missing
+>>    the related property. Rewrote mediatek,gce-client-reg property.
+>> * mediatek,ufoe: Rewrote commit log with details on DT schema users missing
+>>    the related property. Rewrote mediatek,gce-client-reg property.
+>> * marvell,sd8897-bt: Moved to net/bluetooth/. Added missing ref to
+>>    bluetooth-controller.yaml. Dropped example. Updated reference in another
+>>    file. Minor fixes in properties.
+>> * mediatek,mt8173-rt5650: Dropped unnecessary quotes and unused label.
+>> * dlg,da9211: Dropped enable-gpios description. Rewrote generic example
+>>    node names. Minor fixes in properties.
+>> * melfas,mip4_ts: Dropped unnecessary quotes. Added "active high" to
+>>    ce-gpios property description.
+>> * mediatek,jpeg: Dropped patch as it doesn't apply.
+>>
+>> Signed-off-by: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+>>
+>> Ariel D'Alessandro (12):
+>>    dt-bindings: media: Convert MediaTek mt8173-mdp bindings to DT schema
+>>    dt-bindings: media: Convert MediaTek mt8173-vpu bindings to DT schema
+>>    dt-bindings: net: Convert Marvell 8897/8997 bindings to DT schema
+>>    dt-bindings: ASoC: Convert MediaTek RT5650 codecs bindings to DT
+>>      schema
+>>    dt-bindings: display: mediatek,od: Add mediatek,gce-client-reg
+>>      property
+>>    dt-bindings: display: mediatek,ufoe: Add mediatek,gce-client-reg
+>>      property
+>>    arm64: dts: mediatek: mt8173: Fix mt8173-pinctrl node names
+>>    dt-bindings: pinctrl: mt65xx: Allow gpio-line-names
+>>    dt-bindings: regulator: Convert Dialog DA9211 Regulators to DT schema
+>>    arm64: dts: mediatek: mt8173-elm: Drop unused bank supply
+>>    dt-bindings: soc: mediatek: pwrap: Add power-domains property
+>>    dt-bindings: input: Convert MELFAS MIP4 Touchscreen to DT schema
+> 
+> As we're close to the merge window, I applied patches 2, 8, and 11.
 
-Reviewed-by: Frank Li <Frank.Li@nxp.com>
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Tested-by: Sean Nyekjaer <sean@geanix.com>
-Signed-off-by: Samuel Kayode <samuel.kayode@savoirfairelinux.com>
----
-v9:
- - Pick up Frank's `Reviewed-by` tag
-v6:
- - Add imx mailing list
----
- MAINTAINERS | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+Great, I can see that patches 5 and 6 were also applied (with small 
+modifications).
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 97d958c945e4ffa3031590823f7a2867f577ebf3..5cc042b7ffe31a79bbbcbfd1fec7831b3546054d 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -18293,6 +18293,17 @@ F:	Documentation/devicetree/bindings/clock/*imx*
- F:	drivers/clk/imx/
- F:	include/dt-bindings/clock/*imx*
- 
-+NXP PF1550 PMIC MFD DRIVER
-+M:	Samuel Kayode <samuel.kayode@savoirfairelinux.com>
-+L:	imx@lists.linux.dev
-+S:	Maintained
-+F:	Documentation/devicetree/bindings/mfd/nxp,pf1550.yaml
-+F:	drivers/input/misc/pf1550-onkey.c
-+F:	drivers/mfd/pf1550.c
-+F:	drivers/power/supply/pf1550-charger.c
-+F:	drivers/regulator/pf1550-regulator.c
-+F:	include/linux/mfd/pfd1550.h
-+
- NXP PF8100/PF8121A/PF8200 PMIC REGULATOR DEVICE DRIVER
- M:	Jagan Teki <jagan@amarulasolutions.com>
- S:	Maintained
+Thanks!
 
 -- 
-2.50.1
+Ariel D'Alessandro
+Software Engineer
 
+Collabora Ltd.
+Platinum Building, St John's Innovation Park, Cambridge CB4 0DS, UK 
+Registered in England & Wales, no. 5513718
 
 
