@@ -1,54 +1,54 @@
-Return-Path: <linux-input+bounces-15211-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-15212-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 394EDBB4FC5
-	for <lists+linux-input@lfdr.de>; Thu, 02 Oct 2025 21:25:08 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E2C0BB5028
+	for <lists+linux-input@lfdr.de>; Thu, 02 Oct 2025 21:31:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C4FE119E0889
-	for <lists+linux-input@lfdr.de>; Thu,  2 Oct 2025 19:25:30 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9D7A13BB7D4
+	for <lists+linux-input@lfdr.de>; Thu,  2 Oct 2025 19:31:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5DC90280332;
-	Thu,  2 Oct 2025 19:25:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 322F2267AF1;
+	Thu,  2 Oct 2025 19:31:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="l++hd/Qp"
+	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="C7mxTJry"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-06.mail-europe.com (mail-06.mail-europe.com [85.9.210.45])
+Received: from mail-10631.protonmail.ch (mail-10631.protonmail.ch [79.135.106.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC4F52367B5
-	for <linux-input@vger.kernel.org>; Thu,  2 Oct 2025 19:25:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.9.210.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2AB9A93D
+	for <linux-input@vger.kernel.org>; Thu,  2 Oct 2025 19:31:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=79.135.106.31
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759433104; cv=none; b=CDdChqW51lnt0rzijk6pEIm81Y39+F2y5eqgaO2hRkUv+wxa9Oq2jV44pgtxP+YwAdg+OSCStO3PfdFYL7GsyrvZzwl4ztNA6KvyB9HA9xUtPGmeOLLSZ3DeM4N9eaFoaAAqlLBKkLHx4O06Iu3u1YqhgNYWyIR8HtGoa9c73xY=
+	t=1759433470; cv=none; b=K0yDaaehHr0c47qSoOpf8f/Yh8nK6XimK4LOsGzo2V6yEXki0YtKFZV9HYNsXYkGUm6SrsV3hVH/+QKSiWZr8g3LpVr0KIr7g+LC3ZuWwlNqsytRVKBUVYOY0o5dj4KBtTdYVO68oSRIokX5G3FMXFA1UaJtdBqB5cewcQ9Q+CM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759433104; c=relaxed/simple;
-	bh=FwCB5IJnEG0PSVtFwYxTC8uoOtzZEg6gEkKzh3IAsfE=;
-	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=UxknwhfyEay2Ar2D2bApK3j4ptu4R34cgIxAHOJPEDsv2B/SSSP7MrJ1F7MchpdGAdgwvjRCwhCB6/yIhXbDCi9jLotHkcSXO5hXJ6O/XqA4AhZMJr9gmbmPY7tPD1i36Jnns/Y0SQ3w1Rq+LSKZKcsG+BtZ++S3PLdhbNQ94aQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com; spf=pass smtp.mailfrom=protonmail.com; dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b=l++hd/Qp; arc=none smtp.client-ip=85.9.210.45
+	s=arc-20240116; t=1759433470; c=relaxed/simple;
+	bh=591lrtQQxWESA8MyP7UauFFOOg7tL8peh400Qf+3nWg=;
+	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=NSfTcLzzeWeIu9P3roXOI+HghsDFrFLkMdioUcCW2dI9qxkNsOWaln5Qg+U2Nyn+3tqQea+oTeQOyUtJelk4CMkxJz5B6vXBM0mAYyCNC2AndgnjFfFaYXuTmPRSls8dI9qO31JF6yslVwDvrvd5Jg8jtqXS4zArSLrPSqA3bqY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com; spf=pass smtp.mailfrom=protonmail.com; dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b=C7mxTJry; arc=none smtp.client-ip=79.135.106.31
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonmail.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-	s=protonmail3; t=1759433085; x=1759692285;
-	bh=2mPWG/kAOAMYASdhirng+n31WFQ8Pt+J3XT8jlfwhpI=;
+	s=protonmail3; t=1759433465; x=1759692665;
+	bh=FxuuanLVOOcyI0swMrAM1++ap6VLQXhS6ewUOsargc8=;
 	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
 	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-	b=l++hd/QpdbSMubdZ6RbzTu0WDomQ73W393Rrkd0/h+AWxSlsZDNc/Jy7hdSy6g3eK
-	 uB8qch70kc+E2wPi/sW6abhYaxYPiTeUtkFBEmWuhY0wT49d44brWW9nueAeIsC3BK
-	 n5B/Fr9lZGZc7j5CEoWQCdRq0pL0RtyWJXdos8FLEdrNOwonQZZmJqMKgQNIHrJFvA
-	 K751xJKX1OVna2VGl4Bi80l/sltcALnfOCw5VKjA0Afd+mmtnWfDhTifvjBt27f1Ma
-	 58XqxNkM5jXZgu2aBkkdUYPWfPK0Q3tvyg2o4SLedRobUaVyiUSMHOuu13yMwqhud3
-	 mtuPiuYPV1rLA==
-Date: Thu, 02 Oct 2025 19:24:37 +0000
-To: jikos@kernel.org, stuart.a.hayhurst@gmail.com
+	b=C7mxTJry4m6w4yNaNGxN+OpdXbfbMKS1OZ/F2PPQfOAoCpT3ZQ8NlSibNWPJf7jVF
+	 JBWBiCjGt1JbONC/f5W1CJlUeCoqpYxmfrqMMSXoEPtYoywXbPuNjsXC8Dn/5CFipz
+	 qUQhIkVI7GceTnKNQJ59LsI6q4nx8YQTEnh8oe9pjJzNt+bv8MEeStfbWHvMog07KK
+	 miOqwc7woXGdUHxuMfLgOUrfe0MVwUnUyG54gD5vuaJCyjf/3Zw7oBfPybPmV797b7
+	 uQ5qylqd022IKC55DoEHQ3hSrKtNYqjwfK6m3esMyp9z00kheDUeT6lyAQK8TtFaMX
+	 z8gbs/qtle3PA==
+Date: Thu, 02 Oct 2025 19:30:58 +0000
+To: jikos@kernel.org
 From: Mavroudis Chatzilazaridis <mavchatz@protonmail.com>
-Cc: linux-input@vger.kernel.org, bentiss@kernel.org, hadess@hadess.net, lains@riseup.net, mavchatz@protonmail.com
-Subject: [PATCH] HID: logitech-hidpp: Silence protocol errors on newer lightspeed receivers
-Message-ID: <20251002192324.1991349-1-mavchatz@protonmail.com>
+Cc: stuart.a.hayhurst@gmail.com, linux-input@vger.kernel.org, bentiss@kernel.org, hadess@hadess.net, lains@riseup.net, mavchatz@protonmail.com
+Subject: [PATCH] HID: logitech-hidpp: Do not assume FAP in hidpp_send_message_sync()
+Message-ID: <20251002193025.2066319-1-mavchatz@protonmail.com>
 Feedback-ID: 20039310:user:proton
-X-Pm-Message-ID: e43c7fb972a887798cffced87381faef4d40b67b
+X-Pm-Message-ID: a5d210cd9c88b383569bdd3eea678c6dc78320e9
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -58,45 +58,54 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-When logitech-hidpp tries to communicate with an unreachable device paired
-to a 046d:c547 lightspeed receiver, the following message is printed to the
-console:
+Currently, hidpp_send_message_sync() retries sending the message when the
+device returns a busy error code, specifically HIDPP20_ERROR_BUSY, which
+has a different meaning under RAP. This ends up being a problem because
+this function is used for both FAP and RAP messages.
 
-hidpp_root_get_protocol_version: received protocol error 0x08
+This issue is not noticeable on older receivers with unreachable devices
+since they return HIDPP_ERROR_RESOURCE_ERROR (0x09), which is not equal to
+HIDPP20_ERROR_BUSY (0x08).
 
-This occurs because this receiver returns 0x08 (HIDPP_ERROR_UNKNOWN_DEVICE)
-when a device is unreachable, compared to 0x09 (HIDPP_ERROR_RESOURCE_ERROR)
-that the older receivers return.
+However, newer receivers return HIDPP_ERROR_UNKNOWN_DEVICE (0x08) which
+happens to equal to HIDPP20_ERROR_BUSY, causing unnecessary retries when
+the device is not actually busy.
 
-This patch silences this harmless error by treating
-HIDPP_ERROR_UNKNOWN_DEVICE the same as HIDPP_ERROR_RESOURCE_ERROR
-in hidpp_root_get_protocol_version().
+This is resolved by checking if the error response is FAP or RAP and
+picking the respective ERROR_BUSY code.
 
-There are other checks for HIDPP_ERROR_RESOURCE_ERROR found in
-battery-related functions, however this receiver does not trigger them when
-the device is disconnected.
-
+Fixes: 60165ab774cb ("HID: logitech-hidpp: rework one more time the retries=
+ attempts")
 Signed-off-by: Mavroudis Chatzilazaridis <mavchatz@protonmail.com>
 ---
- drivers/hid/hid-logitech-hidpp.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/hid/hid-logitech-hidpp.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hi=
 dpp.c
-index aaef405a717e..1d46783384ed 100644
+index aaef405a717e..524afc797917 100644
 --- a/drivers/hid/hid-logitech-hidpp.c
 +++ b/drivers/hid/hid-logitech-hidpp.c
-@@ -969,7 +969,8 @@ static int hidpp_root_get_protocol_version(struct hidpp=
-_device *hidpp)
- =09}
+@@ -350,10 +350,15 @@ static int hidpp_send_message_sync(struct hidpp_devic=
+e *hidpp,
 =20
- =09/* the device might not be connected */
--=09if (ret =3D=3D HIDPP_ERROR_RESOURCE_ERROR)
-+=09if (ret =3D=3D HIDPP_ERROR_RESOURCE_ERROR ||
-+=09    ret =3D=3D HIDPP_ERROR_UNKNOWN_DEVICE)
- =09=09return -EIO;
+ =09do {
+ =09=09ret =3D __do_hidpp_send_message_sync(hidpp, message, response);
+-=09=09if (ret !=3D HIDPP20_ERROR_BUSY)
++=09=09if (response->report_id =3D=3D REPORT_ID_HIDPP_SHORT &&
++=09=09    ret !=3D HIDPP_ERROR_BUSY)
++=09=09=09break;
++=09=09if ((response->report_id =3D=3D REPORT_ID_HIDPP_LONG ||
++=09=09     response->report_id =3D=3D REPORT_ID_HIDPP_VERY_LONG) &&
++=09=09    ret !=3D HIDPP20_ERROR_BUSY)
+ =09=09=09break;
 =20
- =09if (ret > 0) {
+-=09=09dbg_hid("%s:got busy hidpp 2.0 error %02X, retrying\n", __func__, re=
+t);
++=09=09dbg_hid("%s:got busy hidpp error %02X, retrying\n", __func__, ret);
+ =09} while (--max_retries);
+=20
+ =09mutex_unlock(&hidpp->send_mutex);
 --=20
 2.43.0
 
