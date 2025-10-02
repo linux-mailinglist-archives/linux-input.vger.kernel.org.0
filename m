@@ -1,183 +1,104 @@
-Return-Path: <linux-input+bounces-15210-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-15211-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7D40BB4D55
-	for <lists+linux-input@lfdr.de>; Thu, 02 Oct 2025 20:06:35 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 394EDBB4FC5
+	for <lists+linux-input@lfdr.de>; Thu, 02 Oct 2025 21:25:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 85556165494
-	for <lists+linux-input@lfdr.de>; Thu,  2 Oct 2025 18:06:15 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C4FE119E0889
+	for <lists+linux-input@lfdr.de>; Thu,  2 Oct 2025 19:25:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C75A3283FE2;
-	Thu,  2 Oct 2025 18:04:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5DC90280332;
+	Thu,  2 Oct 2025 19:25:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b="iZzhB/fo"
+	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="l++hd/Qp"
 X-Original-To: linux-input@vger.kernel.org
-Received: from fra-out-013.esa.eu-central-1.outbound.mail-perimeter.amazon.com (fra-out-013.esa.eu-central-1.outbound.mail-perimeter.amazon.com [63.178.132.221])
+Received: from mail-06.mail-europe.com (mail-06.mail-europe.com [85.9.210.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 272B628368A;
-	Thu,  2 Oct 2025 18:04:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=63.178.132.221
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC4F52367B5
+	for <linux-input@vger.kernel.org>; Thu,  2 Oct 2025 19:25:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.9.210.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759428267; cv=none; b=KZzd/okgcof5v1nAtnePsSNLkk5WeuPfZtIUanDz8Y+wYpvFUvlZ7JPaSO3gIvIFYvn3S5NdIpgFl1ILZZcNyqj7fubYk//tSzrq6YAp7qp7pE0hWQAU9YiuQx3tNW5s99ETj18YZNgPdchXr7Jn9XHBhD2wpfgC1J6wRj/xBAU=
+	t=1759433104; cv=none; b=CDdChqW51lnt0rzijk6pEIm81Y39+F2y5eqgaO2hRkUv+wxa9Oq2jV44pgtxP+YwAdg+OSCStO3PfdFYL7GsyrvZzwl4ztNA6KvyB9HA9xUtPGmeOLLSZ3DeM4N9eaFoaAAqlLBKkLHx4O06Iu3u1YqhgNYWyIR8HtGoa9c73xY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759428267; c=relaxed/simple;
-	bh=V2L3IilwofpV6SrsfVTvut5ipDXkokIOm+dTBT4i7eQ=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Yc/WX9BOR5s80PDHHJWORcOc2MZ9h6tbS+kT0YTw9pJNWRDRXNAUrQAszw60LYdElCe+HqAv1rTnGfIyS35Oy0bQIM1PoA7WLESeGaSp0R8J6uxChMRKaAHrMCiuz/JkVn86G/TkhhkkF7kkiIZZzlEWdwOlptl+6ymHqwXcWTI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.com; dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b=iZzhB/fo; arc=none smtp.client-ip=63.178.132.221
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
-  t=1759428266; x=1790964266;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=k0dUe76w+6n5/NfsPbyefGVCom+xh3GGcFcV3Olhmks=;
-  b=iZzhB/foyKosKk4jiCGauA1qJdpICwRbF11rgOn/rcQX9MrvoJABrDPF
-   60nOSCBdm/bu32yH49iUO4733GCoN0WcRiWMWkoz/DKScq8UxovYMA2rb
-   ThKJ/BI/fEpet+erAFS8FmFcEr9FMHcurDHa9piu90yEhmmEeSI1Qp4r9
-   Alipc5XORn+1sj92pOrFzQXR+YwJfO/6lWHwp8uw95gCiRi8UECZy0PzN
-   JZ+jeWLDyorw4vuNUowiBzDNyR9KNKl3f60oo+SveUDYcDPLFqF8fl7RB
-   CmXCT/5rm5a879Oi3v7L7qpvLSQjbmBymYLS6XuJGXPKPUwzcokH6AV4c
-   g==;
-X-CSE-ConnectionGUID: KYP+mIxcS+qh8swRIg8aqg==
-X-CSE-MsgGUID: 3iUG7CuKRNa+UdIi4LLhFw==
-X-IronPort-AV: E=Sophos;i="6.18,310,1751241600"; 
-   d="scan'208";a="2924326"
-Received: from ip-10-6-6-97.eu-central-1.compute.internal (HELO smtpout.naws.eu-central-1.prod.farcaster.email.amazon.dev) ([10.6.6.97])
-  by internal-fra-out-013.esa.eu-central-1.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2025 18:04:23 +0000
-Received: from EX19MTAEUC001.ant.amazon.com [54.240.197.225:28750]
- by smtpin.naws.eu-central-1.prod.farcaster.email.amazon.dev [10.0.1.16:2525] with esmtp (Farcaster)
- id 50a0473f-3493-43fb-a202-fb586031f523; Thu, 2 Oct 2025 18:04:23 +0000 (UTC)
-X-Farcaster-Flow-ID: 50a0473f-3493-43fb-a202-fb586031f523
-Received: from EX19D018EUA004.ant.amazon.com (10.252.50.85) by
- EX19MTAEUC001.ant.amazon.com (10.252.51.193) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.20;
- Thu, 2 Oct 2025 18:04:23 +0000
-Received: from dev-dsk-farbere-1a-46ecabed.eu-west-1.amazon.com
- (172.19.116.181) by EX19D018EUA004.ant.amazon.com (10.252.50.85) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.20; Thu, 2 Oct 2025
- 18:04:10 +0000
-From: Eliav Farber <farbere@amazon.com>
-To: <gregkh@linuxfoundation.org>, <kenneth.feng@amd.com>,
-	<alexander.deucher@amd.com>, <christian.koenig@amd.com>, <airlied@gmail.com>,
-	<simona@ffwll.ch>, <linus.walleij@linaro.org>, <dmitry.torokhov@gmail.com>,
-	<tglx@linutronix.de>, <wens@csie.org>, <jernej.skrabec@gmail.com>,
-	<samuel@sholland.org>, <agk@redhat.com>, <snitzer@kernel.org>,
-	<mpatocka@redhat.com>, <clm@fb.com>, <dsterba@suse.com>,
-	<luc.vanoostenryck@gmail.com>, <pmladek@suse.com>, <rostedt@goodmis.org>,
-	<andriy.shevchenko@linux.intel.com>, <linux@rasmusvillemoes.dk>,
-	<senozhatsky@chromium.org>, <akpm@linux-foundation.org>,
-	<lijo.lazar@amd.com>, <asad.kamal@amd.com>, <kevinyang.wang@amd.com>,
-	<David.Laight@ACULAB.COM>, <amd-gfx@lists.freedesktop.org>,
-	<dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
-	<linux-input@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-sunxi@lists.linux.dev>, <dm-devel@lists.linux.dev>,
-	<linux-btrfs@vger.kernel.org>, <linux-sparse@vger.kernel.org>,
-	<stable@vger.kernel.org>, <farbere@amazon.com>
-CC: Arnd Bergmann <arnd@kernel.org>, Christoph Hellwig <hch@infradead.org>,
-	Dan Carpenter <dan.carpenter@linaro.org>, "Jason A. Donenfeld"
-	<Jason@zx2c4.com>, Jens Axboe <axboe@kernel.dk>, Lorenzo Stoakes
-	<lorenzo.stoakes@oracle.com>, Mateusz Guzik <mjguzik@gmail.com>, "Matthew
- Wilcox" <willy@infradead.org>, Pedro Falcato <pedro.falcato@gmail.com>
-Subject: [PATCH v3 11/11 6.1.y] minmax.h: remove some #defines that are only expanded once
-Date: Thu, 2 Oct 2025 18:00:29 +0000
-Message-ID: <20251002180036.33738-12-farbere@amazon.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20251002180036.33738-1-farbere@amazon.com>
-References: <20251002180036.33738-1-farbere@amazon.com>
+	s=arc-20240116; t=1759433104; c=relaxed/simple;
+	bh=FwCB5IJnEG0PSVtFwYxTC8uoOtzZEg6gEkKzh3IAsfE=;
+	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=UxknwhfyEay2Ar2D2bApK3j4ptu4R34cgIxAHOJPEDsv2B/SSSP7MrJ1F7MchpdGAdgwvjRCwhCB6/yIhXbDCi9jLotHkcSXO5hXJ6O/XqA4AhZMJr9gmbmPY7tPD1i36Jnns/Y0SQ3w1Rq+LSKZKcsG+BtZ++S3PLdhbNQ94aQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com; spf=pass smtp.mailfrom=protonmail.com; dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b=l++hd/Qp; arc=none smtp.client-ip=85.9.210.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonmail.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
+	s=protonmail3; t=1759433085; x=1759692285;
+	bh=2mPWG/kAOAMYASdhirng+n31WFQ8Pt+J3XT8jlfwhpI=;
+	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=l++hd/QpdbSMubdZ6RbzTu0WDomQ73W393Rrkd0/h+AWxSlsZDNc/Jy7hdSy6g3eK
+	 uB8qch70kc+E2wPi/sW6abhYaxYPiTeUtkFBEmWuhY0wT49d44brWW9nueAeIsC3BK
+	 n5B/Fr9lZGZc7j5CEoWQCdRq0pL0RtyWJXdos8FLEdrNOwonQZZmJqMKgQNIHrJFvA
+	 K751xJKX1OVna2VGl4Bi80l/sltcALnfOCw5VKjA0Afd+mmtnWfDhTifvjBt27f1Ma
+	 58XqxNkM5jXZgu2aBkkdUYPWfPK0Q3tvyg2o4SLedRobUaVyiUSMHOuu13yMwqhud3
+	 mtuPiuYPV1rLA==
+Date: Thu, 02 Oct 2025 19:24:37 +0000
+To: jikos@kernel.org, stuart.a.hayhurst@gmail.com
+From: Mavroudis Chatzilazaridis <mavchatz@protonmail.com>
+Cc: linux-input@vger.kernel.org, bentiss@kernel.org, hadess@hadess.net, lains@riseup.net, mavchatz@protonmail.com
+Subject: [PATCH] HID: logitech-hidpp: Silence protocol errors on newer lightspeed receivers
+Message-ID: <20251002192324.1991349-1-mavchatz@protonmail.com>
+Feedback-ID: 20039310:user:proton
+X-Pm-Message-ID: e43c7fb972a887798cffced87381faef4d40b67b
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: EX19D040UWA001.ant.amazon.com (10.13.139.22) To
- EX19D018EUA004.ant.amazon.com (10.252.50.85)
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-From: David Laight <David.Laight@ACULAB.COM>
+When logitech-hidpp tries to communicate with an unreachable device paired
+to a 046d:c547 lightspeed receiver, the following message is printed to the
+console:
 
-[ Upstream commit 2b97aaf74ed534fb838d09867d09a3ca5d795208 ]
+hidpp_root_get_protocol_version: received protocol error 0x08
 
-The bodies of __signed_type_use() and __unsigned_type_use() are much the
-same size as their names - so put the bodies in the only line that expands
-them.
+This occurs because this receiver returns 0x08 (HIDPP_ERROR_UNKNOWN_DEVICE)
+when a device is unreachable, compared to 0x09 (HIDPP_ERROR_RESOURCE_ERROR)
+that the older receivers return.
 
-Similarly __signed_type() is defined separately for 64bit and then used
-exactly once just below.
+This patch silences this harmless error by treating
+HIDPP_ERROR_UNKNOWN_DEVICE the same as HIDPP_ERROR_RESOURCE_ERROR
+in hidpp_root_get_protocol_version().
 
-Change the test for __signed_type from CONFIG_64BIT to one based on gcc
-defined macros so that the code is valid if it gets used outside of a
-kernel build.
+There are other checks for HIDPP_ERROR_RESOURCE_ERROR found in
+battery-related functions, however this receiver does not trigger them when
+the device is disconnected.
 
-Link: https://lkml.kernel.org/r/9386d1ebb8974fbabbed2635160c3975@AcuMS.aculab.com
-Signed-off-by: David Laight <david.laight@aculab.com>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Arnd Bergmann <arnd@kernel.org>
-Cc: Christoph Hellwig <hch@infradead.org>
-Cc: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Jason A. Donenfeld <Jason@zx2c4.com>
-Cc: Jens Axboe <axboe@kernel.dk>
-Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: Mateusz Guzik <mjguzik@gmail.com>
-Cc: Matthew Wilcox <willy@infradead.org>
-Cc: Pedro Falcato <pedro.falcato@gmail.com>
-Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
-Signed-off-by: Eliav Farber <farbere@amazon.com>
+Signed-off-by: Mavroudis Chatzilazaridis <mavchatz@protonmail.com>
 ---
- include/linux/minmax.h | 14 ++++++--------
- 1 file changed, 6 insertions(+), 8 deletions(-)
+ drivers/hid/hid-logitech-hidpp.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/include/linux/minmax.h b/include/linux/minmax.h
-index 2bbdd5b5e07e..eaaf5c008e4d 100644
---- a/include/linux/minmax.h
-+++ b/include/linux/minmax.h
-@@ -46,10 +46,8 @@
-  * comparison, and these expressions only need to be careful to not cause
-  * warnings for pointer use.
-  */
--#define __signed_type_use(ux) (2 + __is_nonneg(ux))
--#define __unsigned_type_use(ux) (1 + 2 * (sizeof(ux) < 4))
- #define __sign_use(ux) (is_signed_type(typeof(ux)) ? \
--	__signed_type_use(ux) : __unsigned_type_use(ux))
-+	(2 + __is_nonneg(ux)) : (1 + 2 * (sizeof(ux) < 4)))
- 
- /*
-  * Check whether a signed value is always non-negative.
-@@ -57,7 +55,7 @@
-  * A cast is needed to avoid any warnings from values that aren't signed
-  * integer types (in which case the result doesn't matter).
-  *
-- * On 64-bit any integer or pointer type can safely be cast to 'long'.
-+ * On 64-bit any integer or pointer type can safely be cast to 'long long'.
-  * But on 32-bit we need to avoid warnings about casting pointers to integers
-  * of different sizes without truncating 64-bit values so 'long' or 'long long'
-  * must be used depending on the size of the value.
-@@ -66,12 +64,12 @@
-  * them, but we do not use s128 types in the kernel (we do use 'u128',
-  * but they are handled by the !is_signed_type() case).
-  */
--#ifdef CONFIG_64BIT
--  #define __signed_type(ux) long
-+#if __SIZEOF_POINTER__ == __SIZEOF_LONG_LONG__
-+#define __is_nonneg(ux) statically_true((long long)(ux) >= 0)
- #else
--  #define __signed_type(ux) typeof(__builtin_choose_expr(sizeof(ux) > 4, 1LL, 1L))
-+#define __is_nonneg(ux) statically_true( \
-+	(typeof(__builtin_choose_expr(sizeof(ux) > 4, 1LL, 1L)))(ux) >= 0)
- #endif
--#define __is_nonneg(ux) statically_true((__signed_type(ux))(ux) >= 0)
- 
- #define __types_ok(ux, uy) \
- 	(__sign_use(ux) & __sign_use(uy))
--- 
-2.47.3
+diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hi=
+dpp.c
+index aaef405a717e..1d46783384ed 100644
+--- a/drivers/hid/hid-logitech-hidpp.c
++++ b/drivers/hid/hid-logitech-hidpp.c
+@@ -969,7 +969,8 @@ static int hidpp_root_get_protocol_version(struct hidpp=
+_device *hidpp)
+ =09}
+=20
+ =09/* the device might not be connected */
+-=09if (ret =3D=3D HIDPP_ERROR_RESOURCE_ERROR)
++=09if (ret =3D=3D HIDPP_ERROR_RESOURCE_ERROR ||
++=09    ret =3D=3D HIDPP_ERROR_UNKNOWN_DEVICE)
+ =09=09return -EIO;
+=20
+ =09if (ret > 0) {
+--=20
+2.43.0
+
 
 
