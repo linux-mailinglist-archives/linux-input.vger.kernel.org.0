@@ -1,286 +1,142 @@
-Return-Path: <linux-input+bounces-15292-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-15293-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36F8EBC12D0
-	for <lists+linux-input@lfdr.de>; Tue, 07 Oct 2025 13:20:33 +0200 (CEST)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C78CBC1A35
+	for <lists+linux-input@lfdr.de>; Tue, 07 Oct 2025 16:06:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id B24E534E592
-	for <lists+linux-input@lfdr.de>; Tue,  7 Oct 2025 11:20:32 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 86A8C34F81B
+	for <lists+linux-input@lfdr.de>; Tue,  7 Oct 2025 14:06:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7BF2F2DFF33;
-	Tue,  7 Oct 2025 11:18:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 36FDF2DC76B;
+	Tue,  7 Oct 2025 14:06:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="asc6xbGE"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gMDDoGEl"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7513E2DFA54
-	for <linux-input@vger.kernel.org>; Tue,  7 Oct 2025 11:18:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B2982D9EF0;
+	Tue,  7 Oct 2025 14:06:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759835939; cv=none; b=CsyRAUr92+JQWR+9Zb2R40P1He580aGYKbaqO+KSCjsPqOFlv/qblLV8l/fvXiTwxFB5KTbZu5SPcKfeNk14Cirqu9ZbSHOYIO2x9vjX/G/+s62BK03p3Lz5xNhRc3jmQdQaK5LWnhpwt0TZ7T0MfLo8Xmql8DpkFUw1m/P1Ogw=
+	t=1759845973; cv=none; b=QGWpAlUhhuN9s9n2rIgl6l2nsVJaikXXgnMAB1S3S7ogWsuWP8JXGaG0J7MO2nysUqVLQzluPlo2zOSeqzpGbO+syNN9E+MF3CcFAvxS7SoPyAjgvI3QaPCQf3myq0+UAfhjEqVeOtkNadNMTAFq/0tJJCbVaxuZ2LGQv//nAEw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759835939; c=relaxed/simple;
-	bh=dMA8ghWVekTunsVu7XOstdzBbwszG1Yq/dFfXRCf/bk=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=kvYikquy7zY+rTYHEsY/cPxrRUsBOcSiG8N+PA3k+jgP6gemKjo9KDRuEHzchqVDmzg2x7cAn3+8bse/+WCntNfgx9K0tk+Hu1pWRCPE++8VxaU40wdClolprJGpuPFYI2igmHi3NLkZh/e+YW9JdCTcWo++Ik8m9iUXreFxTZc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=asc6xbGE; arc=none smtp.client-ip=209.85.214.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-27ee41e074dso66422135ad.1
-        for <linux-input@vger.kernel.org>; Tue, 07 Oct 2025 04:18:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759835937; x=1760440737; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Dw9cqHmtj+JTcT9542JQD/91O64sVk3+jyfqTVqzQ4Y=;
-        b=asc6xbGEOXI2vrbwGk2VCUH6HD60XmuUffxJQK3ChlrcazaNsDv8fJEyq8osKWgkG7
-         Y5GWBSJq7V4LhpjixQSpvXePbo5o1un6icvPvapWn4VCgYaZQ700ZnNR9YZtBl/+xrWf
-         K7IujnBO4/+vo1+YVcTyaVEMegk4jGpsBf/FDy8iTLzs9DWnIQTCvHrva/ee7tkCdnmJ
-         o0b4Y5+LQYyKx41j6qzI2kgecNf5mQ92Yr+gkJiMOMvugFLFL7dg4R8BhnvoGpY4UKWv
-         +ExdogmbZtuDPw394mC66mwZdVaGPCM66f44I3dh/sULRV9PlwzARIITnUgLPTomi4NU
-         ACEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759835937; x=1760440737;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Dw9cqHmtj+JTcT9542JQD/91O64sVk3+jyfqTVqzQ4Y=;
-        b=J6c4/uPyXz5LRmfX6IRuDKYj+jfsrsrmhtS+FIoL5E0FQpoGW6oNOth1TlQm7eLSZk
-         A8hRbeHsLkju6OfI4kUADKIAe9N3KX3FD7kGVehsUR8bwUKv6kSFilVtPdT26YHtSHEB
-         P0zmCQ7vf122gjCuPbWuS+eCrNsgXMrEcdgWtPOWPX8HiVKXUf3j9EMC6u2kccILh5z0
-         EsKD+hhngHWZ1NDP+rhXIBqLyaC6s1dv4H5UVeJbn3axk1HP6PbMadKNwQHrk0hCn+yh
-         Ep/y5CLlctgN/4Al9bhWkb4Yjx0euYxeY0Bpe80ko9Q7ng/mzATakYayxeKiLb9+Ufn0
-         HkXA==
-X-Forwarded-Encrypted: i=1; AJvYcCVOlcWCNQ/yVPqhK+OrvGIVNmunNBoVUTpqZ/7RSkeK2hxNey2F9N6Z544cza4BgJAs0w8XZ3YMTQwUww==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyy8/X2T9U/LzEKRWI4suRBW+PKN+3dhZSFjhcYsKgdooxeKLr/
-	jeiCg6aJpk2Jb2nusDps1BaXFiofHLxXelPgRuwe6fRvQxTfB7VWBNUI
-X-Gm-Gg: ASbGnct5AACKvSAtiLFlcHHWbWkwzA09O+xlJ4fcJzgi37crqbngdGqdiDDbIeeH7IC
-	v/yRE/uIShyV7TS6sCHwvnGSAc5hMk/QlB+aOR8aJAfecp5zXAaRGgQV3ARtJ0CrgI6ROGNtX8n
-	dhS6miEJ9pUJYOKmDuRqhX0y/TiZGEzKFI/sUpl/VgD0Rj7FJL3yOEq5NPSrpvj3WSFj5Df83p4
-	w1+Zfh9m/vhdVCpjYgf5drN6jS2z+Pw2JR6rJNcLoqhoNgE3o2ogMw0FYryb9T7ubQUUb5WArFL
-	yWtRSxPI+Fp46pAlA7nowrO8Z/va3fXTIVN7Jq/+pN+PzOOLqZL4Q8hVqXZkwEBGDCYsCnniEjE
-	mvp5jjGQOz0YBYuCVea1rD69luXocc70s6cHbZ9ExungfEppkmrcuVB1pfcrUJVHsL2FU/BDIZ1
-	kwUEbRAYMSQkJZp94I45hiLXxir7wtrooRsy3tW+C9RA==
-X-Google-Smtp-Source: AGHT+IHC2LNmC/xUFVcWeK3yLywWA7GD9fZRA7+m31c3Vn2k7x7olct3JnOgC1orGXTqxPOFEWB82w==
-X-Received: by 2002:a17:902:ccc8:b0:28e:80bc:46b4 with SMTP id d9443c01a7336-28e9a664f0dmr175025365ad.55.1759835936684;
-        Tue, 07 Oct 2025 04:18:56 -0700 (PDT)
-Received: from [192.168.2.3] (2403-580a-80ed-0-4835-5a07-49e7-f115.ip6.aussiebb.net. [2403:580a:80ed:0:4835:5a07:49e7:f115])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-28e8d1d31bdsm162509045ad.94.2025.10.07.04.18.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Oct 2025 04:18:56 -0700 (PDT)
-From: James Calligeros <jcalligeros99@gmail.com>
-Date: Tue, 07 Oct 2025 21:16:54 +1000
-Subject: [PATCH v3 13/13] arm64: dts: apple: t8103, t60xx, t8112: Add
- common hwmon nodes to devices
+	s=arc-20240116; t=1759845973; c=relaxed/simple;
+	bh=f9/XdWc2gdvf9dcNLZMzDgJHYiw7rNBIO9depuTpaEg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=l1vaxObTOAu85jXm0njgl8kVJwMmzdrRSD96DH8awHfMZdt5vjt3ibqlEcpCqflbxxqsFcl72HQ5qHD+XOaPlb5APeopZcVpxqRcb6a1M99zzSmdsweL9b6zHk9fFlAh4P5d6OJTrxii42pV4hclJ7z8kB/PbX8iCWOH3I4neUI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gMDDoGEl; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 640B2C4CEF1;
+	Tue,  7 Oct 2025 14:06:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1759845972;
+	bh=f9/XdWc2gdvf9dcNLZMzDgJHYiw7rNBIO9depuTpaEg=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=gMDDoGElph6Dt4IoBa1mTzRis0+FfJqdzfcuq9sSq4fnIF7GmTeZNx3GrGFSEHfVA
+	 /pI+vX+cvLWJqVdPSDWvY3mbzKcoBVAFytgCbMoKzSMNu705OdpXaYlDulJRxgO4Kv
+	 2XWRDeR0an2l3IraMQAtEeb4P1DU2ZLDenaexG4VViQKAMfJtH3RlKT2f8Eu2kc1pz
+	 g+tpOX+uNZkiefDk3EAhSReDqwkxgOc8bcvlS/80AcMytUo3zY8PZWXE58R9+pRuUB
+	 ODCQgAoY97GbbzPqzLpl9Bvtpdd5tnAiPsMR9+78A+B/Hw1e9tdeDSdH40T9vVCp9m
+	 6tkpOtBso4fTw==
+Message-ID: <0596944a-4c34-467c-ba3f-e2bbb10081f1@kernel.org>
+Date: Tue, 7 Oct 2025 16:06:08 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] input: goodix: Remove setting of RST pin to input
+To: Martyn Welch <martyn.welch@collabora.com>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: kernel@collabora.com, linux-input@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20251007102305.445515-1-martyn.welch@collabora.com>
+From: Hans de Goede <hansg@kernel.org>
+Content-Language: en-US, nl
+In-Reply-To: <20251007102305.445515-1-martyn.welch@collabora.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251007-macsmc-subdevs-v3-13-d7d3bfd7ae02@gmail.com>
-References: <20251007-macsmc-subdevs-v3-0-d7d3bfd7ae02@gmail.com>
-In-Reply-To: <20251007-macsmc-subdevs-v3-0-d7d3bfd7ae02@gmail.com>
-To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, Neal Gompa <neal@gompa.dev>, 
- Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Alexandre Belloni <alexandre.belloni@bootlin.com>, 
- Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>, 
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
- Jonathan Corbet <corbet@lwn.net>, 
- James Calligeros <jcalligeros99@gmail.com>
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-rtc@vger.kernel.org, linux-hwmon@vger.kernel.org, 
- linux-input@vger.kernel.org, linux-doc@vger.kernel.org
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6022;
- i=jcalligeros99@gmail.com; h=from:subject:message-id;
- bh=dMA8ghWVekTunsVu7XOstdzBbwszG1Yq/dFfXRCf/bk=;
- b=owGbwMvMwCV2xczoYuD3ygTG02pJDBlPvm3jY15w+v9irk9rkrp+zvDZ//DCl5UBk87+iv7aZ
- ZqqumjV+Y5SFgYxLgZZMUWWDU1CHrON2G72i1TuhZnDygQyhIGLUwAmcm0Cwz+bGSzX5RgmqjHo
- y5znt+T57zzd66/K5hWSYuwTrSqWRDsyMrzjnabz55ZC+PGlEjuNczkDOffPrNJIyZ3CKOV6Kfp
- fGy8A
-X-Developer-Key: i=jcalligeros99@gmail.com; a=openpgp;
- fpr=B08212489B3206D98F1479BDD43632D151F77960
 
-Add the known, common hwmon-related SMC keys to the DTs for the devices
-they pertain to.
+Hi Martyn,
 
-Reviewed-by: Neal Gompa <neal@gompa.dev>
-Co-developed-by: Janne Grunau <j@jannau.net>
-Signed-off-by: Janne Grunau <j@jannau.net>
-Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
----
- .../arm64/boot/dts/apple/t6001-j375c.dts | 2 ++
- arch/arm64/boot/dts/apple/t6001.dtsi     | 2 ++
- .../arm64/boot/dts/apple/t6002-j375d.dts | 2 ++
- .../boot/dts/apple/t600x-j314-j316.dtsi  | 3 +++
- arch/arm64/boot/dts/apple/t8103-j274.dts | 2 ++
- arch/arm64/boot/dts/apple/t8103-j293.dts | 3 +++
- arch/arm64/boot/dts/apple/t8103-j313.dts | 2 ++
- arch/arm64/boot/dts/apple/t8103-j456.dts | 2 ++
- arch/arm64/boot/dts/apple/t8103-j457.dts | 2 ++
- arch/arm64/boot/dts/apple/t8103.dtsi     | 1 +
- arch/arm64/boot/dts/apple/t8112-j413.dts | 2 ++
- arch/arm64/boot/dts/apple/t8112-j473.dts | 2 ++
- arch/arm64/boot/dts/apple/t8112-j493.dts | 3 +++
- arch/arm64/boot/dts/apple/t8112.dtsi     | 1 +
- 14 files changed, 29 insertions(+)
+On 7-Oct-25 12:23, Martyn Welch wrote:
+> The reset line is being set to input on non-ACPI devices apparently to
+> save power. This isn't being done on ACPI devices as it's been found
+> that some ACPI devices don't have a pull-up resistor fitted. This can
+> also be the case for non-ACPI devices, resulting in:
+> 
+> [  941.672207] Goodix-TS 1-0014: Error reading 10 bytes from 0x814e: -110
+> [  942.696168] Goodix-TS 1-0014: Error reading 10 bytes from 0x814e: -110
+> [  945.832208] Goodix-TS 1-0014: Error reading 10 bytes from 0x814e: -110
+> 
+> This behaviour appears to have been initially introduced in ec6e1b4082d9.
+> This doesn't seem to be based on information in either the GT911 or GT9271
+> datasheets cited as sources of information for this change. Thus it seems
+> likely that it is based on functionality in the Android driver which it
+> also lists. This behaviour may be viable in very specific instances where
+> the hardware is known to have a pull-up fitted, but seems unwise in the
+> upstream kernel where such hardware requirements can't be guaranteed.
+> 
+> Remove this over optimisation to improve reliability on non-ACPI
+> devices.
+> 
+> Signed-off-by: Martyn Welch <martyn.welch@collabora.com>
 
-diff --git a/arch/arm64/boot/dts/apple/t6001-j375c.dts b/arch/arm64/boot/dts/apple/t6001-j375c.dts
-index 2e7c23714d4d..08276114c1d8 100644
---- a/arch/arm64/boot/dts/apple/t6001-j375c.dts
-+++ b/arch/arm64/boot/dts/apple/t6001-j375c.dts
-@@ -24,3 +24,5 @@ &wifi0 {
- &bluetooth0 {
- 	brcm,board-type = "apple,okinawa";
- };
-+
-+#include "hwmon-fan-dual.dtsi"
-diff --git a/arch/arm64/boot/dts/apple/t6001.dtsi b/arch/arm64/boot/dts/apple/t6001.dtsi
-index ffbe823b71bc..264df90f07d8 100644
---- a/arch/arm64/boot/dts/apple/t6001.dtsi
-+++ b/arch/arm64/boot/dts/apple/t6001.dtsi
-@@ -66,3 +66,5 @@ p-core-pmu-affinity {
- &gpu {
- 	compatible = "apple,agx-g13c", "apple,agx-g13s";
- };
-+
-+#include "hwmon-common.dtsi"
-diff --git a/arch/arm64/boot/dts/apple/t6002-j375d.dts b/arch/arm64/boot/dts/apple/t6002-j375d.dts
-index 2b7f80119618..d12c0ae418f7 100644
---- a/arch/arm64/boot/dts/apple/t6002-j375d.dts
-+++ b/arch/arm64/boot/dts/apple/t6002-j375d.dts
-@@ -56,3 +56,5 @@ &bluetooth0 {
- 
- /delete-node/ &ps_disp0_cpu0_die1;
- /delete-node/ &ps_disp0_fe_die1;
-+
-+#include "hwmon-fan-dual.dtsi"
-diff --git a/arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi b/arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi
-index c0aac59a6fae..127814a9dfa4 100644
---- a/arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi
-+++ b/arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi
-@@ -131,3 +131,6 @@ &fpwm0 {
- };
- 
- #include "spi1-nvram.dtsi"
-+
-+#include "hwmon-laptop.dtsi"
-+#include "hwmon-fan-dual.dtsi"
-diff --git a/arch/arm64/boot/dts/apple/t8103-j274.dts b/arch/arm64/boot/dts/apple/t8103-j274.dts
-index 1c3e37f86d46..f5b8cc087882 100644
---- a/arch/arm64/boot/dts/apple/t8103-j274.dts
-+++ b/arch/arm64/boot/dts/apple/t8103-j274.dts
-@@ -61,3 +61,5 @@ &pcie0_dart_2 {
- &i2c2 {
- 	status = "okay";
- };
-+
-+#include "hwmon-mac-mini.dtsi"
-diff --git a/arch/arm64/boot/dts/apple/t8103-j293.dts b/arch/arm64/boot/dts/apple/t8103-j293.dts
-index 5b3c42e9f0e6..abb88391635f 100644
---- a/arch/arm64/boot/dts/apple/t8103-j293.dts
-+++ b/arch/arm64/boot/dts/apple/t8103-j293.dts
-@@ -119,3 +119,6 @@ dfr_panel_in: endpoint {
- &displaydfr_dart {
- 	status = "okay";
- };
-+
-+#include "hwmon-laptop.dtsi"
-+#include "hwmon-fan.dtsi"
-diff --git a/arch/arm64/boot/dts/apple/t8103-j313.dts b/arch/arm64/boot/dts/apple/t8103-j313.dts
-index 97a4344d8dca..491ead016b21 100644
---- a/arch/arm64/boot/dts/apple/t8103-j313.dts
-+++ b/arch/arm64/boot/dts/apple/t8103-j313.dts
-@@ -41,3 +41,5 @@ &wifi0 {
- &fpwm1 {
- 	status = "okay";
- };
-+
-+#include "hwmon-laptop.dtsi"
-diff --git a/arch/arm64/boot/dts/apple/t8103-j456.dts b/arch/arm64/boot/dts/apple/t8103-j456.dts
-index 58c8e43789b4..c2ec6fbb633c 100644
---- a/arch/arm64/boot/dts/apple/t8103-j456.dts
-+++ b/arch/arm64/boot/dts/apple/t8103-j456.dts
-@@ -75,3 +75,5 @@ &pcie0_dart_1 {
- &pcie0_dart_2 {
- 	status = "okay";
- };
-+
-+#include "hwmon-fan-dual.dtsi"
-diff --git a/arch/arm64/boot/dts/apple/t8103-j457.dts b/arch/arm64/boot/dts/apple/t8103-j457.dts
-index 7089ccf3ce55..aeaab2482d54 100644
---- a/arch/arm64/boot/dts/apple/t8103-j457.dts
-+++ b/arch/arm64/boot/dts/apple/t8103-j457.dts
-@@ -56,3 +56,5 @@ ethernet0: ethernet@0,0 {
- &pcie0_dart_2 {
- 	status = "okay";
- };
-+
-+#include "hwmon-fan.dtsi"
-diff --git a/arch/arm64/boot/dts/apple/t8103.dtsi b/arch/arm64/boot/dts/apple/t8103.dtsi
-index 78eb931d6fb7..f1820bdc0910 100644
---- a/arch/arm64/boot/dts/apple/t8103.dtsi
-+++ b/arch/arm64/boot/dts/apple/t8103.dtsi
-@@ -1145,3 +1145,4 @@ port02: pci@2,0 {
- };
- 
- #include "t8103-pmgr.dtsi"
-+#include "hwmon-common.dtsi"
-diff --git a/arch/arm64/boot/dts/apple/t8112-j413.dts b/arch/arm64/boot/dts/apple/t8112-j413.dts
-index 6f69658623bf..500dcdf2d4b5 100644
---- a/arch/arm64/boot/dts/apple/t8112-j413.dts
-+++ b/arch/arm64/boot/dts/apple/t8112-j413.dts
-@@ -78,3 +78,5 @@ &i2c4 {
- &fpwm1 {
- 	status = "okay";
- };
-+
-+#include "hwmon-laptop.dtsi"
-diff --git a/arch/arm64/boot/dts/apple/t8112-j473.dts b/arch/arm64/boot/dts/apple/t8112-j473.dts
-index 06fe257f08be..11db6a92493f 100644
---- a/arch/arm64/boot/dts/apple/t8112-j473.dts
-+++ b/arch/arm64/boot/dts/apple/t8112-j473.dts
-@@ -52,3 +52,5 @@ &pcie1_dart {
- &pcie2_dart {
- 	status = "okay";
- };
-+
-+#include "hwmon-mac-mini.dtsi"
-diff --git a/arch/arm64/boot/dts/apple/t8112-j493.dts b/arch/arm64/boot/dts/apple/t8112-j493.dts
-index fb8ad7d4c65a..a0da02c00f15 100644
---- a/arch/arm64/boot/dts/apple/t8112-j493.dts
-+++ b/arch/arm64/boot/dts/apple/t8112-j493.dts
-@@ -133,3 +133,6 @@ touchbar0: touchbar@0 {
- 		touchscreen-inverted-y;
- 	};
- };
-+
-+#include "hwmon-laptop.dtsi"
-+#include "hwmon-fan.dtsi"
-diff --git a/arch/arm64/boot/dts/apple/t8112.dtsi b/arch/arm64/boot/dts/apple/t8112.dtsi
-index 5a8fa6daa00a..c4d1e5ffaee9 100644
---- a/arch/arm64/boot/dts/apple/t8112.dtsi
-+++ b/arch/arm64/boot/dts/apple/t8112.dtsi
-@@ -1184,3 +1184,4 @@ port03: pci@3,0 {
- };
- 
- #include "t8112-pmgr.dtsi"
-+#include "hwmon-common.dtsi"
+I have no objection against this simplification of the code, but the reset
+pin will still be set to input mode when requested after this change,
+see the use of gpiod_rst_flags in the driver.
 
--- 
-2.51.0
+For v2 it would be best to drop gpiod_rst_flags and directly pass
+GPIOD_ASIS when requesting the reset pin.
+
+Note for ACPI we want GPIOD_ASIS because there the driver only resets
+the chip if it is non-responsive since typically it has already been
+reset by the BIOS.
+
+For non ACPI goodix_reset() will immediately call:
+
+	gpiod_direction_output(ts->gpiod_rst, 0)
+
+followed by a msleep(20) so there using GPIOD_ASIS does not matter
+as the direction + value will get set immediately after requesting it.
+
+Regards,
+
+Hans
+
+
+
+> 
+> ---
+>  drivers/input/touchscreen/goodix.c | 11 -----------
+>  1 file changed, 11 deletions(-)
+> 
+> diff --git a/drivers/input/touchscreen/goodix.c b/drivers/input/touchscreen/goodix.c
+> index 252dcae039f8..e7ef744011ad 100644
+> --- a/drivers/input/touchscreen/goodix.c
+> +++ b/drivers/input/touchscreen/goodix.c
+> @@ -796,17 +796,6 @@ int goodix_reset_no_int_sync(struct goodix_ts_data *ts)
+>  
+>  	usleep_range(6000, 10000);		/* T4: > 5ms */
+>  
+> -	/*
+> -	 * Put the reset pin back in to input / high-impedance mode to save
+> -	 * power. Only do this in the non ACPI case since some ACPI boards
+> -	 * don't have a pull-up, so there the reset pin must stay active-high.
+> -	 */
+> -	if (ts->irq_pin_access_method == IRQ_PIN_ACCESS_GPIO) {
+> -		error = gpiod_direction_input(ts->gpiod_rst);
+> -		if (error)
+> -			goto error;
+> -	}
+> -
+>  	return 0;
+>  
+>  error:
 
 
