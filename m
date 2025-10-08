@@ -1,39 +1,40 @@
-Return-Path: <linux-input+bounces-15300-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-15299-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AC35BC37ED
-	for <lists+linux-input@lfdr.de>; Wed, 08 Oct 2025 08:45:51 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id A1194BC37E4
+	for <lists+linux-input@lfdr.de>; Wed, 08 Oct 2025 08:45:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 352634E6450
-	for <lists+linux-input@lfdr.de>; Wed,  8 Oct 2025 06:45:50 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 875804E44B0
+	for <lists+linux-input@lfdr.de>; Wed,  8 Oct 2025 06:45:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A6BBE2E8E0E;
-	Wed,  8 Oct 2025 06:45:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 136C01DE3B7;
+	Wed,  8 Oct 2025 06:45:33 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
 Received: from vs81.iboxed.net (vs10.datenmanufaktur-hosting.net [213.160.73.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8616E2BF017;
-	Wed,  8 Oct 2025 06:45:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AE3F19DF62;
+	Wed,  8 Oct 2025 06:45:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.160.73.65
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759905935; cv=none; b=cpuUB465rtkCRaHrHL5q1/etTL6eCXncKPMOEOvIQfki3B4/FfL64QWjaLTxlwJ8TwQTVR3Cjv8ZmQ1GokZMcJHZEgM4+FUBMTIb4UgD6Q96QUbwDpBTKGy/xoIXN1kpv0WMj9fB4MlfiIo86A/otVGUAUwRtwnaXhKRiMheUfo=
+	t=1759905933; cv=none; b=cZclw+elGCozFEG5yEhKtR+l2wgLuVRnSKomHxgBxbF+KPkTHnOuS+SqNA5tSid7hZ07M5W1PH9OwVaJGFHj8gCW1/x4PjUQlbdzBg/YHhypLYgDn7DRFotnCtE0Kvjx+Xv7WhGsBPPlImbcV/+g0nUzorXQ8O3IpnvShnhTJxo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759905935; c=relaxed/simple;
-	bh=1PBcx97QcA6OXN0v6RXHNk2Bipq2hx6B8aZ8M0Ghlvc=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=QVKHKhNFqM/8qkD0KdFxvMxz7Gnho/ryUZ8o3CSM2GIGqRVcO0fjxj1cEC63nzxIXXhUnNEdNI2RAiAURIGWRdOazixwMVcCcmGXyLaMkxf249fMrJ5pN00MNSrOlys5XZQWJixW6P1XFgUT4spNsA7ZaByF2DUgmwsIYJktIdA=
+	s=arc-20240116; t=1759905933; c=relaxed/simple;
+	bh=G0xQgQyrwSJHVmBE1CSnLN/FrJeKs1BASiMsyj5D/lo=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=eH97TFbVjp7lkwpLUwUwazZ5CwzbHWEhvq9KIZnBdosaplE9L+546yox0QTwgob6bPrTuiX5ey/XU6n0AA6yT4LNqbT4CYYgdgkHLyP6U7Z/le3I+H7pn3tgPu3UHGcL3hCLSQOE1bUtovtQjTI+HCgUtPlQqVMH76ZEHJ1hX7k=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=blala.de; spf=pass smtp.mailfrom=blala.de; arc=none smtp.client-ip=213.160.73.65
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=blala.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=blala.de
 Received: from blala.de (localhost [127.0.0.1])
-	by vs81.iboxed.net (8.15.2/8.15.2/Debian-14~deb10u1) with ESMTP id 5986i27V013906;
-	Wed, 8 Oct 2025 06:44:02 GMT
+	by vs81.iboxed.net (8.15.2/8.15.2/Debian-14~deb10u1) with ESMTP id 5986i3Vv013914;
+	Wed, 8 Oct 2025 06:44:03 GMT
 Received: (from akurz@localhost)
-	by blala.de (8.15.2/8.15.2/Submit) id 5986i25D013905;
-	Wed, 8 Oct 2025 06:44:02 GMT
+	by blala.de (8.15.2/8.15.2/Submit) id 5986i3b3013909;
+	Wed, 8 Oct 2025 06:44:03 GMT
 From: Alexander Kurz <akurz@blala.de>
 To: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
         Krzysztof Kozlowski <krzk+dt@kernel.org>,
@@ -45,10 +46,12 @@ To: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
         =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
         devicetree@vger.kernel.org, linux-input@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org, Alexander Kurz <akurz@blala.de>
-Subject: [PATCH v5 0/5] Fix, extend and support OF to mc13xxx pwrbutton
-Date: Wed,  8 Oct 2025 06:43:56 +0000
-Message-Id: <20251008064401.13863-1-akurz@blala.de>
+Subject: [PATCH v5 1/5] Input: mc13783-pwrbutton: use managed resources
+Date: Wed,  8 Oct 2025 06:43:57 +0000
+Message-Id: <20251008064401.13863-2-akurz@blala.de>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20251008064401.13863-1-akurz@blala.de>
+References: <20251008064401.13863-1-akurz@blala.de>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -57,72 +60,91 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Goal of this patch series is to make the mc13892 PWRON1 button usable,
-found e.g. on amazon kindle D01100/D01200/EY21 readers.
-A ten-year-old IRQ issue needed a fix, mc13783-pwrbutton had to be
-extended to the other to mc13xxx PMIC as well and adding OF support.
-The implementation has been tested only with PWRON1 on an mc13892.
+Use devres functionality to simplify resource freeing, dev.parent will
+be set by devm_input_allocate_device().
 
-Changes in v5:
-- Link to v4: https://lore.kernel.org/linux-input/20250914193723.10544-1-akurz@blala.de/
-- Rebase to current to include already merged dt-schema patches and
-  a different mc13xxx related patch.
-- Drop patch to use devm_mfd_add_devices and devm_regmap_add_irq_chip -
-  won't like to do the proposed mutex-cleanup now.
-- While adding OF support, remove the platform_data configuration
-  interface as proposed by Dmitry Torokhov. Also drop the change
-  to use module_platform_driver_probe.
+Signed-off-by: Alexander Kurz <akurz@blala.de>
+---
+ drivers/input/misc/mc13783-pwrbutton.c | 28 ++++++++------------------
+ 1 file changed, 8 insertions(+), 20 deletions(-)
 
-Changes in v4:
-- Link to v3: https://lore.kernel.org/linux-input/20250829201517.15374-1-akurz@blala.de/
-- Rebase to git://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git
-  tags/ib-mfd-input-rtc-v6.18 in order to include a different mc13xxx
-  related patch (sorry for that).
-- Re-ordered commits since dt-bindings changes already go reviewes by
-  Rob Herring.
-- Following Dmitrys suggestions, resources for irq are now passed from
-  mfd to input allowing a more simple implementation. Work on other mfd
-  cells with irq usage might still be a future project.
-- Input-related differences between the mc13xxx variants are encoded
-  in data structures, making the implementation of mc13892 PWRON3 a
-  simple task.
-
-Changes in v3:
-- Link to v2: https://lore.kernel.org/linux-input/20250823144441.12654-1-akurz@blala.de/
-- Undo all changes to led-control (rename to fsl,led-control), thanks Rob
-- Restructured the new buttons node for unevaluatedProperties: false
-- Various other remarks from Rob
-- Rebase to current state
-
-Changes in v2:
-- Link to v1: https://lore.kernel.org/linux-input/20250817102751.29709-1-akurz@blala.de/
-- Convert dt-bindings from txt to fsl,mc13xxx.yaml and add vendor prefix
-  to led-control property, causing changes in dts and driver.
-- Change node name from pwrbuttons to buttons
-- Change property debounce-delay-value to debounce-delay-ms
-- Fixed a section mismatch error
-- Fixed https://lore.kernel.org/r/202508210551.VzAtE5re-lkp@intel.com/
-  (wrong index used when converting to array access)
-- Usage of generic device properties API in mc13783-pwrbutton.c
-- Provide chip-specific max button id via platform_device_id, therefore
-  swap patches 3 and 4.
-
-Alexander Kurz (5):
-  Input: mc13783-pwrbutton: use managed resources
-  Input: mc13783-pwrbutton: fix irq mixup and use resources
-  Input: mc13783-pwrbutton: convert pdata members to array
-  Input: mc13783-pwrbutton: enable other mc13xxx PMIC
-  Input: mc13783-pwrbutton: add OF support and drop platform_data
-
- drivers/input/misc/Kconfig             |   4 +-
- drivers/input/misc/mc13783-pwrbutton.c | 278 ++++++++++++++-----------
- drivers/mfd/mc13xxx-core.c             |  49 ++++-
- drivers/mfd/mc13xxx.h                  |   2 +
- include/linux/mfd/mc13783.h            |   4 +-
- include/linux/mfd/mc13892.h            |   1 +
- include/linux/mfd/mc13xxx.h            |  20 +-
- 7 files changed, 207 insertions(+), 151 deletions(-)
-
+diff --git a/drivers/input/misc/mc13783-pwrbutton.c b/drivers/input/misc/mc13783-pwrbutton.c
+index b83d762ae2e9..82434ea9cca5 100644
+--- a/drivers/input/misc/mc13783-pwrbutton.c
++++ b/drivers/input/misc/mc13783-pwrbutton.c
+@@ -21,6 +21,7 @@
+ 
+ #include <linux/module.h>
+ #include <linux/kernel.h>
++#include <linux/device.h>
+ #include <linux/errno.h>
+ #include <linux/input.h>
+ #include <linux/interrupt.h>
+@@ -102,18 +103,13 @@ static int mc13783_pwrbutton_probe(struct platform_device *pdev)
+ 		return -ENODEV;
+ 	}
+ 
+-	pwr = input_allocate_device();
+-	if (!pwr) {
+-		dev_dbg(&pdev->dev, "Can't allocate power button\n");
++	pwr = devm_input_allocate_device(&pdev->dev);
++	if (!pwr)
+ 		return -ENOMEM;
+-	}
+ 
+-	priv = kzalloc(sizeof(*priv), GFP_KERNEL);
+-	if (!priv) {
+-		err = -ENOMEM;
+-		dev_dbg(&pdev->dev, "Can't allocate power button\n");
+-		goto free_input_dev;
+-	}
++	priv = devm_kzalloc(&pdev->dev, sizeof(*priv), GFP_KERNEL);
++	if (!priv)
++		return -ENOMEM;
+ 
+ 	reg |= (pdata->b1on_flags & 0x3) << MC13783_POWER_CONTROL_2_ON1BDBNC;
+ 	reg |= (pdata->b2on_flags & 0x3) << MC13783_POWER_CONTROL_2_ON2BDBNC;
+@@ -139,7 +135,7 @@ static int mc13783_pwrbutton_probe(struct platform_device *pdev)
+ 					  button_irq, "b1on", priv);
+ 		if (err) {
+ 			dev_dbg(&pdev->dev, "Can't request irq\n");
+-			goto free_priv;
++			goto free_mc13xxx_lock;
+ 		}
+ 	}
+ 
+@@ -187,7 +183,6 @@ static int mc13783_pwrbutton_probe(struct platform_device *pdev)
+ 
+ 	pwr->name = "mc13783_pwrbutton";
+ 	pwr->phys = "mc13783_pwrbutton/input0";
+-	pwr->dev.parent = &pdev->dev;
+ 
+ 	pwr->keycode = priv->keymap;
+ 	pwr->keycodemax = ARRAY_SIZE(priv->keymap);
+@@ -218,12 +213,8 @@ static int mc13783_pwrbutton_probe(struct platform_device *pdev)
+ 	if (pdata->b1on_flags & MC13783_BUTTON_ENABLE)
+ 		mc13xxx_irq_free(mc13783, MC13783_IRQ_ONOFD1, priv);
+ 
+-free_priv:
++free_mc13xxx_lock:
+ 	mc13xxx_unlock(mc13783);
+-	kfree(priv);
+-
+-free_input_dev:
+-	input_free_device(pwr);
+ 
+ 	return err;
+ }
+@@ -245,9 +236,6 @@ static void mc13783_pwrbutton_remove(struct platform_device *pdev)
+ 		mc13xxx_irq_free(priv->mc13783, MC13783_IRQ_ONOFD1, priv);
+ 
+ 	mc13xxx_unlock(priv->mc13783);
+-
+-	input_unregister_device(priv->pwr);
+-	kfree(priv);
+ }
+ 
+ static struct platform_driver mc13783_pwrbutton_driver = {
 -- 
 2.39.5
 
