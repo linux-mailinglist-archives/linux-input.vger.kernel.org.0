@@ -1,288 +1,117 @@
-Return-Path: <linux-input+bounces-15302-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-15305-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08458BC37FC
-	for <lists+linux-input@lfdr.de>; Wed, 08 Oct 2025 08:46:17 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 71B31BC4E32
+	for <lists+linux-input@lfdr.de>; Wed, 08 Oct 2025 14:41:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id A996D351E5F
-	for <lists+linux-input@lfdr.de>; Wed,  8 Oct 2025 06:46:16 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7F6DF19E2306
+	for <lists+linux-input@lfdr.de>; Wed,  8 Oct 2025 12:41:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D835821D3E2;
-	Wed,  8 Oct 2025 06:45:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 32CE625228C;
+	Wed,  8 Oct 2025 12:40:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="STWmbkQk"
 X-Original-To: linux-input@vger.kernel.org
-Received: from vs81.iboxed.net (vs10.datenmanufaktur-hosting.net [213.160.73.65])
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E09EB2E9722;
-	Wed,  8 Oct 2025 06:45:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.160.73.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A14EE24E4B4;
+	Wed,  8 Oct 2025 12:40:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759905940; cv=none; b=PnEyD7RKR5AWUf/wDT4Nzcx3awaSG6tfgiTwdBw+rvTsXjKE/cSasg0YMLEsrQ23G39MQcvtWUxVvY14GCD+b5BMdkeH3h7LCiRmVkSNcUNB+UYWXx82oACBBlUjSTmKsFNIECLu92t/weAqP7JHiNBeVFrXmNExeRBHc7cJb3o=
+	t=1759927255; cv=none; b=pZ7B6Cen9bz2bLLeUbdfQcA2skQjAk3weEs6pgICehi+Pm/W5Q0PQmKNNnUegVO29gyeswMcq9ZE4E0vRQV7xStYep77N6mRH/rEY7aby5Jqxm2nHfdAkQakcZ48miNrh3WKjwVnAg7LJv0tuWhM8ybbDBz8jb0SD4TZxV9Ve3s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759905940; c=relaxed/simple;
-	bh=r+b3tjTeJV3KjwgBwxOoZF/b85zoSUZhDlvxxf/bruY=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=mEsf/VQZ7lrCi++PEpilFdgZGDB9C2Ca39eqLCyeusn/4s6JOYHIY4MPuiHmGvlN4pLH+W3F5TV6EGTJ1oBa5fa8c10AMtR6rUN65ntiqtEv6H4qmF7kPOdbJVJ2inpb8r2nf+a4fc4szIMoeKz+eZgysJjyPok7qPw7y+VdGYY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=blala.de; spf=pass smtp.mailfrom=blala.de; arc=none smtp.client-ip=213.160.73.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=blala.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=blala.de
-Received: from blala.de (localhost [127.0.0.1])
-	by vs81.iboxed.net (8.15.2/8.15.2/Debian-14~deb10u1) with ESMTP id 5986i3HT013946;
-	Wed, 8 Oct 2025 06:44:03 GMT
-Received: (from akurz@localhost)
-	by blala.de (8.15.2/8.15.2/Submit) id 5986i3Nj013941;
-	Wed, 8 Oct 2025 06:44:03 GMT
-From: Alexander Kurz <akurz@blala.de>
-To: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Dzmitry Sankouski <dsankouski@gmail.com>,
-        "Dr. David Alan Gilbert" <linux@treblig.org>,
-        Heiko Stuebner <heiko@sntech.de>,
-        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
-        devicetree@vger.kernel.org, linux-input@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, Alexander Kurz <akurz@blala.de>
-Subject: [PATCH v5 5/5] Input: mc13783-pwrbutton: add OF support and drop platform_data
-Date: Wed,  8 Oct 2025 06:44:01 +0000
-Message-Id: <20251008064401.13863-6-akurz@blala.de>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20251008064401.13863-1-akurz@blala.de>
-References: <20251008064401.13863-1-akurz@blala.de>
+	s=arc-20240116; t=1759927255; c=relaxed/simple;
+	bh=JxsTUsRxY6Wa1+x7XkX8xQLLNK836teI0hMoTFv2HKk=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=fbzUSyPwcUchXW6gFpbEVoH5eYNQu/dV9kWeCOBDCekBFcAqfOMXWmfQerp+d3UPHQuei0t0ESliA1RGFGXWNF1WffkjUuurYp1GidF97aQLnpANBOiyPvhLkFaFYAInKXW9P55GEdo7NWAfgBRYywghiCMkHip2P8fos+U9YFU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=STWmbkQk; arc=none smtp.client-ip=213.97.179.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Cc:To:Message-Id:Content-Transfer-Encoding:Content-Type:
+	MIME-Version:Subject:Date:From:Sender:Reply-To:Content-ID:Content-Description
+	:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=9j2/gvEKR6ojvQsMyeXBkyts1QoK+RWdYdrNdt8GnS8=; b=STWmbkQkOtk+fvyTx6qYPE0m8o
+	P+V2/fNIo+fDA91ftTOlB8zrCNT4AVD0LH75s8/+KZgex1ysccjw7x7lDvRUUXhT8AiOnTMZ/VDfy
+	qAQ3OQWG6Syqm2uf/iSmA+YS1C26WiVWpxnmpNIDzC69ukVRji8TYCoqzmjZa9uCkvwdph+0MU7PQ
+	V9uWpmgCYzldoaKIpKhLYLdkQjQJp0ug9i901GwEtNA/uyzoQGUZ280DdoRuOq7kS1LYypALli7qK
+	Ypicz/6wypPLDr03OadvlARGCl7kPBr3mQgfuHEwEHNyG9XvU4NKtx1gR/b8gTeSy2C5WFbwEnB89
+	5IfnQU9A==;
+Received: from [191.39.132.223] (helo=[127.0.0.1])
+	by fanzine2.igalia.com with esmtpsa 
+	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+	id 1v6TTL-006dj5-PP; Wed, 08 Oct 2025 14:40:48 +0200
+From: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
+Date: Wed, 08 Oct 2025 09:40:33 -0300
+Subject: [PATCH] HID: multitouch: fix name of Stylus input devices
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20251008-hid_multitouch_stylus-v1-1-9f43f7e79195@igalia.com>
+X-B4-Tracking: v=1; b=H4sIAMBb5mgC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI1NDAwML3YzMlPjc0pySzJL80uSM+OKSypzSYl3LFKMUI4MUCzNDAwsloN6
+ CotS0zAqwudGxtbUAimIqpmcAAAA=
+X-Change-ID: 20251008-hid_multitouch_stylus-9d2d20d86108
+To: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, 
+ Mika Westerberg <mika.westerberg@linux.intel.com>, 
+ Tero Kristo <tero.kristo@linux.intel.com>
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ kernel-dev@igalia.com, Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
+X-Mailer: b4 0.14.2
 
-Add OF support for the mc13783-pwrbutton so that it can be used with
-modern DT based systems, dropping support for platform_data.
+HID_DG_PEN devices should have a suffix of "Stylus", as pointed out by
+commit c0ee1d571626 ("HID: hid-input: Add suffix also for HID_DG_PEN").
+However, on multitouch devices, these suffixes may be overridden. Before
+that commit, HID_DG_PEN devices would get the "Stylus" suffix, but after
+that, multitouch would override them to have an "UNKNOWN" suffix. Just add
+HID_DG_PEN to the list of non-overriden suffixes in multitouch.
 
-Signed-off-by: Alexander Kurz <akurz@blala.de>
+Before this fix:
+
+[    0.470981] input: ELAN9008:00 04F3:2E14 UNKNOWN as /devices/pci0000:00/0000:00:15.1/i2c_designware.1/i2c-16/i2c-ELAN9008:00/0018:04F3:2E14.0001/input/input8
+ELAN9008:00 04F3:2E14 UNKNOWN
+
+After this fix:
+
+[    0.474332] input: ELAN9008:00 04F3:2E14 Stylus as /devices/pci0000:00/0000:00:15.1/i2c_designware.1/i2c-16/i2c-ELAN9008:00/0018:04F3:2E14.0001/input/input8
+
+ELAN9008:00 04F3:2E14 Stylus
+
+Fixes: c0ee1d571626 ("HID: hid-input: Add suffix also for HID_DG_PEN")
+Signed-off-by: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
 ---
- drivers/input/misc/mc13783-pwrbutton.c | 104 +++++++++++++++++++++----
- drivers/mfd/mc13xxx-core.c             |   4 -
- include/linux/mfd/mc13xxx.h            |  14 ----
- 3 files changed, 88 insertions(+), 34 deletions(-)
+ drivers/hid/hid-multitouch.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/input/misc/mc13783-pwrbutton.c b/drivers/input/misc/mc13783-pwrbutton.c
-index 08618c59197f..0fa630adff19 100644
---- a/drivers/input/misc/mc13783-pwrbutton.c
-+++ b/drivers/input/misc/mc13783-pwrbutton.c
-@@ -27,6 +27,7 @@
- #include <linux/interrupt.h>
- #include <linux/platform_device.h>
- #include <linux/mfd/mc13783.h>
-+#include <linux/property.h>
- #include <linux/sched.h>
- #include <linux/slab.h>
- 
-@@ -41,10 +42,20 @@ struct mc13783_pwrb {
- 	struct mc13xxx *mc13783;
- 	const struct mc13xxx_button_devtype *devtype;
- 	int flags;
-+	int b_on_flags[3];
-+	unsigned int b_on_key[3];
- 	unsigned short keymap[3];
- 	int irq[3];
- };
- 
-+#define MC13783_BUTTON_DBNC_0MS         0
-+#define MC13783_BUTTON_DBNC_30MS        1
-+#define MC13783_BUTTON_DBNC_150MS       2
-+#define MC13783_BUTTON_DBNC_750MS       3
-+#define MC13783_BUTTON_ENABLE           (1 << 2)
-+#define MC13783_BUTTON_POL_INVERT       (1 << 3)
-+#define MC13783_BUTTON_RESET_EN         (1 << 4)
-+
- #define MC13783_PWRB_B1_POL_INVERT	(1 << 0)
- #define MC13783_PWRB_B2_POL_INVERT	(1 << 1)
- #define MC13783_PWRB_B3_POL_INVERT	(1 << 2)
-@@ -88,9 +99,69 @@ static irqreturn_t button_irq(int irq, void *_priv)
- 	return IRQ_HANDLED;
- }
- 
-+static int mc13xxx_pwrbutton_parse_properties(struct platform_device *pdev,
-+					      struct mc13783_pwrb *priv)
-+{
-+	struct fwnode_handle *child;
-+	struct device *dev = &pdev->dev;
-+	struct mc13xxx_button_devtype *devtype =
-+		(struct mc13xxx_button_devtype *)platform_get_device_id(pdev)->driver_data;
-+
-+	struct fwnode_handle *parent __free(fwnode_handle) =
-+		device_get_named_child_node(dev->parent, "buttons");
-+	if (!parent)
-+		return -ENODATA;
-+
-+	fwnode_for_each_named_child_node(parent, child, "onkey") {
-+		u32 idx;
-+		u8 dbnc = MC13783_BUTTON_DBNC_30MS;
-+		u16 dbnc_ms;
-+
-+		if (fwnode_property_read_u32(child, "reg", &idx))
-+			continue;
-+
-+		if (idx > devtype->button_id_max) {
-+			dev_warn(dev, "reg out of range\n");
-+			continue;
-+		}
-+
-+		fwnode_property_read_u16(child, "debounce-delay-ms", &dbnc_ms);
-+		switch (dbnc_ms) {
-+		case 0:
-+			dbnc = MC13783_BUTTON_DBNC_0MS;
-+			break;
-+		case 30:
-+			dbnc = MC13783_BUTTON_DBNC_30MS;
-+			break;
-+		case 150:
-+			dbnc = MC13783_BUTTON_DBNC_150MS;
-+			break;
-+		case 750:
-+			dbnc = MC13783_BUTTON_DBNC_750MS;
-+			break;
-+		default:
-+			dev_warn(dev, "invalid debounce-delay-ms value\n");
-+			continue;
-+		}
-+
-+		if (fwnode_property_read_u32(child, "linux,code", &priv->b_on_key[idx]))
-+			continue;
-+
-+		if (fwnode_property_read_bool(child, "active-low"))
-+			priv->b_on_flags[idx] |= MC13783_BUTTON_POL_INVERT;
-+
-+		if (fwnode_property_read_bool(child, "fsl,enable-reset"))
-+			priv->b_on_flags[idx] |= MC13783_BUTTON_RESET_EN;
-+
-+		priv->b_on_flags[idx] |= MC13783_BUTTON_ENABLE | dbnc;
-+	}
-+
-+	return 0;
-+}
-+
- static int mc13783_pwrbutton_probe(struct platform_device *pdev)
- {
--	const struct mc13xxx_buttons_platform_data *pdata;
-+	struct device *dev = &pdev->dev;
- 	struct mc13xxx *mc13783 = dev_get_drvdata(pdev->dev.parent);
- 	struct mc13xxx_button_devtype *devtype =
- 		(struct mc13xxx_button_devtype *)pdev->id_entry->driver_data;
-@@ -100,11 +171,8 @@ static int mc13783_pwrbutton_probe(struct platform_device *pdev)
- 	int reg = 0;
- 	int irq = 0;
- 
--	pdata = dev_get_platdata(&pdev->dev);
--	if (!pdata) {
--		dev_err(&pdev->dev, "missing platform data\n");
--		return -ENODEV;
--	}
-+	if (!dev->parent->of_node)
-+		return -ENODATA;
- 
- 	pwr = devm_input_allocate_device(&pdev->dev);
- 	if (!pwr)
-@@ -114,14 +182,18 @@ static int mc13783_pwrbutton_probe(struct platform_device *pdev)
- 	if (!priv)
- 		return -ENOMEM;
- 
--	if (devtype->button_id_max < 2 && pdata->b_on_flags[2] & 0x3) {
-+	err = mc13xxx_pwrbutton_parse_properties(pdev, priv);
-+	if (err)
-+		return err;
-+
-+	if (devtype->button_id_max < 2 && priv->b_on_flags[2] & 0x3) {
- 		dev_err(&pdev->dev, "button not supported\n");
- 		return -ENODEV;
- 	}
- 
--	reg |= (pdata->b_on_flags[0] & 0x3) << MC13783_POWER_CONTROL_2_ON1BDBNC;
--	reg |= (pdata->b_on_flags[1] & 0x3) << MC13783_POWER_CONTROL_2_ON2BDBNC;
--	reg |= (pdata->b_on_flags[2] & 0x3) << MC13783_POWER_CONTROL_2_ON3BDBNC;
-+	reg |= (priv->b_on_flags[0] & 0x3) << MC13783_POWER_CONTROL_2_ON1BDBNC;
-+	reg |= (priv->b_on_flags[1] & 0x3) << MC13783_POWER_CONTROL_2_ON2BDBNC;
-+	reg |= (priv->b_on_flags[2] & 0x3) << MC13783_POWER_CONTROL_2_ON3BDBNC;
- 
- 	priv->pwr = pwr;
- 	priv->mc13783 = mc13783;
-@@ -130,17 +202,17 @@ static int mc13783_pwrbutton_probe(struct platform_device *pdev)
- 	mc13xxx_lock(mc13783);
- 
- 	for (int i = 0; i < devtype->button_id_max; i++) {
--		if ((pdata->b_on_flags[i] & MC13783_BUTTON_ENABLE) == 0)
-+		if ((priv->b_on_flags[i] & MC13783_BUTTON_ENABLE) == 0)
- 			continue;
- 
--		priv->keymap[i] = pdata->b_on_key[i];
--		if (pdata->b_on_key[i] != KEY_RESERVED)
--			__set_bit(pdata->b_on_key[i], pwr->keybit);
-+		priv->keymap[i] = priv->b_on_key[i];
-+		if (priv->b_on_key[i] != KEY_RESERVED)
-+			__set_bit(priv->b_on_key[i], pwr->keybit);
- 
--		if (pdata->b_on_flags[i] & MC13783_BUTTON_POL_INVERT)
-+		if (priv->b_on_flags[i] & MC13783_BUTTON_POL_INVERT)
- 			priv->flags |= (MC13783_PWRB_B1_POL_INVERT << i);
- 
--		if (pdata->b_on_flags[i] & MC13783_BUTTON_RESET_EN)
-+		if (priv->b_on_flags[i] & MC13783_BUTTON_RESET_EN)
- 			reg |= (MC13783_POWER_CONTROL_2_ON1BRSTEN << i);
- 
- 		irq = platform_get_irq_byname(pdev, devtype->irq_name[i]);
-diff --git a/drivers/mfd/mc13xxx-core.c b/drivers/mfd/mc13xxx-core.c
-index c29974722704..9512136e821b 100644
---- a/drivers/mfd/mc13xxx-core.c
-+++ b/drivers/mfd/mc13xxx-core.c
-@@ -504,10 +504,6 @@ int mc13xxx_common_init(struct device *dev)
- 			&pdata->regulators, sizeof(pdata->regulators));
- 		mc13xxx_add_subdevice_pdata(mc13xxx, "%s-led",
- 				pdata->leds, sizeof(*pdata->leds));
--		mc13xxx_add_subdevice_pdata_res(mc13xxx, "%s-pwrbutton",
--				pdata->buttons, sizeof(*pdata->buttons),
--				mc13xxx->variant->button_resources,
--				mc13xxx->variant->button_resources_size);
- 		if (mc13xxx->flags & MC13XXX_USE_CODEC)
- 			mc13xxx_add_subdevice_pdata(mc13xxx, "%s-codec",
- 				pdata->codec, sizeof(*pdata->codec));
-diff --git a/include/linux/mfd/mc13xxx.h b/include/linux/mfd/mc13xxx.h
-index 71c7d3614d4c..ac3765df341d 100644
---- a/include/linux/mfd/mc13xxx.h
-+++ b/include/linux/mfd/mc13xxx.h
-@@ -174,19 +174,6 @@ struct mc13xxx_leds_platform_data {
- 	u32 led_control[MAX_LED_CONTROL_REGS];
- };
- 
--#define MC13783_BUTTON_DBNC_0MS		0
--#define MC13783_BUTTON_DBNC_30MS	1
--#define MC13783_BUTTON_DBNC_150MS	2
--#define MC13783_BUTTON_DBNC_750MS	3
--#define MC13783_BUTTON_ENABLE		(1 << 2)
--#define MC13783_BUTTON_POL_INVERT	(1 << 3)
--#define MC13783_BUTTON_RESET_EN		(1 << 4)
--
--struct mc13xxx_buttons_platform_data {
--	int b_on_flags[3];
--	unsigned int b_on_key[3];
--};
--
- #define MC13783_TS_ATO_FIRST	false
- #define MC13783_TS_ATO_EACH	true
- 
-@@ -219,7 +206,6 @@ struct mc13xxx_platform_data {
- 
- 	struct mc13xxx_regulator_platform_data regulators;
- 	struct mc13xxx_leds_platform_data *leds;
--	struct mc13xxx_buttons_platform_data *buttons;
- 	struct mc13xxx_ts_platform_data touch;
- 	struct mc13xxx_codec_platform_data *codec;
- };
+diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
+index 2879e65cf303b1456311ac06115adda5a78a2600..513b8673ad8dd7ad135652f787812072d45e6c1a 100644
+--- a/drivers/hid/hid-multitouch.c
++++ b/drivers/hid/hid-multitouch.c
+@@ -1742,6 +1742,7 @@ static int mt_input_configured(struct hid_device *hdev, struct hid_input *hi)
+ 	case HID_CP_CONSUMER_CONTROL:
+ 	case HID_GD_WIRELESS_RADIO_CTLS:
+ 	case HID_GD_SYSTEM_MULTIAXIS:
++	case HID_DG_PEN:
+ 		/* already handled by hid core */
+ 		break;
+ 	case HID_DG_TOUCHSCREEN:
+
+---
+base-commit: c746c3b5169831d7fb032a1051d8b45592ae8d78
+change-id: 20251008-hid_multitouch_stylus-9d2d20d86108
+
+Best regards,
 -- 
-2.39.5
+Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
 
 
