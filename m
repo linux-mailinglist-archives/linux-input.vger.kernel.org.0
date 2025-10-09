@@ -1,86 +1,176 @@
-Return-Path: <linux-input+bounces-15341-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-15342-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDADDBC91F4
-	for <lists+linux-input@lfdr.de>; Thu, 09 Oct 2025 14:52:06 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 99101BC9582
+	for <lists+linux-input@lfdr.de>; Thu, 09 Oct 2025 15:41:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CABF0188EE91
-	for <lists+linux-input@lfdr.de>; Thu,  9 Oct 2025 12:52:29 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 643924E23AE
+	for <lists+linux-input@lfdr.de>; Thu,  9 Oct 2025 13:41:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB7612E2F14;
-	Thu,  9 Oct 2025 12:52:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C69282E6CC4;
+	Thu,  9 Oct 2025 13:41:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XBbbOCLu"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="h/FKHxxY"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75A5423C505;
-	Thu,  9 Oct 2025 12:52:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FCCB29405;
+	Thu,  9 Oct 2025 13:41:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760014322; cv=none; b=FewtsYwEVf+lB22kCCIPsLXgnfKwsFFvSWvbMJYV+Lmviuv/8+SRL5p9+FH7OUz+7JSQWEHm/liVhFPjAvyX+ZbuzvcX/3DmNWZeT2yAEhAP+/Nz9I28+CHcMMH6guafwORczWi8WWlUmKd1KZ55t/1xJIRKtM8h240WKiS9bis=
+	t=1760017314; cv=none; b=WGyas4E5g+X2WLyvK2XLo+m8Fx8FcsI6X3rDsjn77CXU05hD1fj2BoaENRSm4vflks3TTxt5HpfZLsMUMuKZoyWko0EK86QybUEuDFnXCfLNW+k/WVTUMaTgpj6KprelNWcisidzl3fJpuB0W6zXmQpJAnV7FI7zf/eW1qfFy3w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760014322; c=relaxed/simple;
-	bh=AVIp+jMYzxaeQL2X5j0m3um+EbwGIdcZQgDXBd6gbp4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XlBhdWgRTvHcOST7HOIo8ADiLHeUD2e5M11eDfgQ9TrITerjCfP2jCcKzKoHyA9eULXbZXMvnFKT+UqfFEFCypGOs8L/pPMUQUic7+x3VgQw7xJR/dwE5mhI7oxgyVBVyUkFAe0GJLW6zishwlpt2rijhF6SacSFaYhElWRLg5k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XBbbOCLu; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A780BC4CEE7;
-	Thu,  9 Oct 2025 12:51:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760014322;
-	bh=AVIp+jMYzxaeQL2X5j0m3um+EbwGIdcZQgDXBd6gbp4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=XBbbOCLu3oW5xZbEYzEgu1/eoKRz0rV9BnC8X45E7wZOwC2bKbYf708BuxKK/CIJY
-	 eHXlQ3jC+erSYmS8wIIGVnsYhcx0BoS4oc245XXU6f67/sLgDODcix1xHCZip2WMEh
-	 UNsLGabGTJw9vVZEH6EojIII3RvMHBuwV4m6XTvbKOWrxMw+K43j3Jj/lrOcXg1rqH
-	 BqDbuV9PhoOunbbGVHZzDIgSowJkpDvYynk7dTCG8ixK4+wkj7xjO3Gckmjv6YXjkB
-	 bCZaXeFm9VRU6PPIcrhghm0z0v0jc0Vl2uigBWXQGo7oC0fO3H0c0v7sJY25me4vGr
-	 aQZ4+6bolRPCA==
-Date: Thu, 9 Oct 2025 13:51:55 +0100
-From: Lee Jones <lee@kernel.org>
-To: samuel.kayode@savoirfairelinux.com
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Sebastian Reichel <sre@kernel.org>, Frank Li <Frank.li@nxp.com>,
-	imx@lists.linux.dev, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-	linux-pm@vger.kernel.org, Abel Vesa <abelvesa@kernel.org>,
-	Abel Vesa <abelvesa@linux.com>, Robin Gong <b38343@freescale.com>,
-	Robin Gong <yibin.gong@nxp.com>,
-	Enric Balletbo i Serra <eballetbo@gmail.com>,
-	Sean Nyekjaer <sean@geanix.com>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Sebastian Reichel <sebastian.reichel@collabora.com>
-Subject: Re: [PATCH v12 0/6] add support for pf1550 PMIC MFD-based drivers
-Message-ID: <20251009125155.GE2796410@google.com>
-References: <20251001-pf1550-v12-0-a3302aa41687@savoirfairelinux.com>
+	s=arc-20240116; t=1760017314; c=relaxed/simple;
+	bh=LRYISGwz2vUgw6k8AJXgIt6PtG7IrGhrW6OoAOHaZOY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=sF3Lq7mb6Dodu8c+JqR3MMxGWvt9cPNEnxR+og/9gB0hj35pqRT/Xug4QTCNAj62pAcKtNbDJN2k8aXVfMYLU1y191w+a0FYY7oc0URULovp+SlUfYopHvfExlA1tcPJOh4URmJGit3t3RBoQiykh11rvAFUAFrxyWG5eLFPGdM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=h/FKHxxY; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1760017310;
+	bh=LRYISGwz2vUgw6k8AJXgIt6PtG7IrGhrW6OoAOHaZOY=;
+	h=From:To:Cc:Subject:Date:From;
+	b=h/FKHxxYYapkgJ2usEyWgF3lVSecgUtFYljZkL4+ySoS4mSlLdxdnR5HEbyHvfGyc
+	 Epo7I1jKxL3sJNgeuwCsNHJY8lLWmtBT+/xWIXDHDox+HajCHcoVR4VVBuNawMXkii
+	 Osf0/9deR71s1k2pLP00k+cpjaMFz8joNHcXfO2bO9Ot95A6XtHgimS+X/SXLljF+Y
+	 duZuzq1VqXk7xbe131Ev9dk0GV0IyLqDcm0Wk889SdseUURdke3vtSI99oeA/qpoeA
+	 Pa7S0C7MgJzG98WRIPZLeHk0cFc00CVYKe53LyU7FTVqrZHtjoii9jK0GUfizVfMj1
+	 t3ppwqE2VjN3w==
+Received: from pan.localdomain (unknown [IPv6:2a00:23c6:c338:be00:61ad:9488:9583:2010])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: martyn)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 8004B17E0CF8;
+	Thu,  9 Oct 2025 15:41:50 +0200 (CEST)
+From: Martyn Welch <martyn.welch@collabora.com>
+To: Hans de Goede <hansg@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: kernel@collabora.com,
+	Martyn Welch <martyn.welch@collabora.com>,
+	linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2] input: goodix: Remove setting of RST pin to input
+Date: Thu,  9 Oct 2025 14:41:32 +0100
+Message-ID: <20251009134138.686215-1-martyn.welch@collabora.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251001-pf1550-v12-0-a3302aa41687@savoirfairelinux.com>
 
-On Wed, 01 Oct 2025, Samuel Kayode via B4 Relay wrote:
+The reset line is being set to input on non-ACPI devices apparently to
+save power. This isn't being done on ACPI devices as it's been found
+that some ACPI devices don't have a pull-up resistor fitted. This can
+also be the case for non-ACPI devices, resulting in:
 
-> This series adds support for pf1550 PMIC. It provides the core driver and
-> sub-drivers for the regulator, power supply and input subsystems.
+[  941.672207] Goodix-TS 1-0014: Error reading 10 bytes from 0x814e: -110
+[  942.696168] Goodix-TS 1-0014: Error reading 10 bytes from 0x814e: -110
+[  945.832208] Goodix-TS 1-0014: Error reading 10 bytes from 0x814e: -110
 
-Note to self: Everything is in order.  Apply to an IB once -rc1 is out.
+This behaviour appears to have been initialing introduced in
+ec6e1b4082d9. This doesn't seem to be based on information in either the
+GT911 or GT9271 datasheets cited as sources of information for this
+change. Thus it seems likely that it is based on functionality in the
+Android driver which it also lists. This behaviour may be viable in very
+specific instances where the hardware is well known, but seems unwise in
+the upstream kernel where such hardware requirements can't be
+guaranteed.
 
+Remove this over optimisation to improve reliability on non-ACPI
+devices.
+
+Signed-off-by: Martyn Welch <martyn.welch@collabora.com>
+
+---
+
+Changes since v1:
+ - Dropping gpiod_rst_flags and directly passing GPIOD_ASIS when
+   requesting the reset pin.
+
+ drivers/input/touchscreen/goodix.c | 27 +--------------------------
+ drivers/input/touchscreen/goodix.h |  1 -
+ 2 files changed, 1 insertion(+), 27 deletions(-)
+
+diff --git a/drivers/input/touchscreen/goodix.c b/drivers/input/touchscreen/goodix.c
+index 252dcae039f8..f838f92100c2 100644
+--- a/drivers/input/touchscreen/goodix.c
++++ b/drivers/input/touchscreen/goodix.c
+@@ -796,17 +796,6 @@ int goodix_reset_no_int_sync(struct goodix_ts_data *ts)
+ 
+ 	usleep_range(6000, 10000);		/* T4: > 5ms */
+ 
+-	/*
+-	 * Put the reset pin back in to input / high-impedance mode to save
+-	 * power. Only do this in the non ACPI case since some ACPI boards
+-	 * don't have a pull-up, so there the reset pin must stay active-high.
+-	 */
+-	if (ts->irq_pin_access_method == IRQ_PIN_ACCESS_GPIO) {
+-		error = gpiod_direction_input(ts->gpiod_rst);
+-		if (error)
+-			goto error;
+-	}
+-
+ 	return 0;
+ 
+ error:
+@@ -957,14 +946,6 @@ static int goodix_add_acpi_gpio_mappings(struct goodix_ts_data *ts)
+ 		return -EINVAL;
+ 	}
+ 
+-	/*
+-	 * Normally we put the reset pin in input / high-impedance mode to save
+-	 * power. But some x86/ACPI boards don't have a pull-up, so for the ACPI
+-	 * case, leave the pin as is. This results in the pin not being touched
+-	 * at all on x86/ACPI boards, except when needed for error-recover.
+-	 */
+-	ts->gpiod_rst_flags = GPIOD_ASIS;
+-
+ 	return devm_acpi_dev_add_driver_gpios(dev, gpio_mapping);
+ }
+ #else
+@@ -989,12 +970,6 @@ static int goodix_get_gpio_config(struct goodix_ts_data *ts)
+ 		return -EINVAL;
+ 	dev = &ts->client->dev;
+ 
+-	/*
+-	 * By default we request the reset pin as input, leaving it in
+-	 * high-impedance when not resetting the controller to save power.
+-	 */
+-	ts->gpiod_rst_flags = GPIOD_IN;
+-
+ 	ts->avdd28 = devm_regulator_get(dev, "AVDD28");
+ 	if (IS_ERR(ts->avdd28))
+ 		return dev_err_probe(dev, PTR_ERR(ts->avdd28), "Failed to get AVDD28 regulator\n");
+@@ -1019,7 +994,7 @@ static int goodix_get_gpio_config(struct goodix_ts_data *ts)
+ 	ts->gpiod_int = gpiod;
+ 
+ 	/* Get the reset line GPIO pin number */
+-	gpiod = devm_gpiod_get_optional(dev, GOODIX_GPIO_RST_NAME, ts->gpiod_rst_flags);
++	gpiod = devm_gpiod_get_optional(dev, GOODIX_GPIO_RST_NAME, GPIOD_ASIS);
+ 	if (IS_ERR(gpiod))
+ 		return dev_err_probe(dev, PTR_ERR(gpiod), "Failed to get %s GPIO\n",
+ 				     GOODIX_GPIO_RST_NAME);
+diff --git a/drivers/input/touchscreen/goodix.h b/drivers/input/touchscreen/goodix.h
+index 87797cc88b32..0d1e8a8d2cba 100644
+--- a/drivers/input/touchscreen/goodix.h
++++ b/drivers/input/touchscreen/goodix.h
+@@ -88,7 +88,6 @@ struct goodix_ts_data {
+ 	struct gpio_desc *gpiod_rst;
+ 	int gpio_count;
+ 	int gpio_int_idx;
+-	enum gpiod_flags gpiod_rst_flags;
+ 	char id[GOODIX_ID_MAX_LEN + 1];
+ 	char cfg_name[64];
+ 	u16 version;
 -- 
-Lee Jones [李琼斯]
+2.39.5
+
 
