@@ -1,106 +1,86 @@
-Return-Path: <linux-input+bounces-15340-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-15341-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 723B8BC9135
-	for <lists+linux-input@lfdr.de>; Thu, 09 Oct 2025 14:40:24 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id BDADDBC91F4
+	for <lists+linux-input@lfdr.de>; Thu, 09 Oct 2025 14:52:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D11803E4549
-	for <lists+linux-input@lfdr.de>; Thu,  9 Oct 2025 12:39:04 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id CABF0188EE91
+	for <lists+linux-input@lfdr.de>; Thu,  9 Oct 2025 12:52:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E49E22E1F1F;
-	Thu,  9 Oct 2025 12:39:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB7612E2F14;
+	Thu,  9 Oct 2025 12:52:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g8UQjOrD"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XBbbOCLu"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4AAC2DC346;
-	Thu,  9 Oct 2025 12:39:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75A5423C505;
+	Thu,  9 Oct 2025 12:52:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760013542; cv=none; b=fpGS+okPQEFks2Q13tzHH118s13I38MBMU9XWqfXKJjDBuLTglvYZcg28prm6B3QoEgDrgVpTog/S4MTctot3DewYB/SxmcSkG8gJfWa8CwqSFhy62uyRnhTosmlqnkqdpBWT7lKDeMCjeCuPPA79cOgjHGQHAgySwkUfiLeAQA=
+	t=1760014322; cv=none; b=FewtsYwEVf+lB22kCCIPsLXgnfKwsFFvSWvbMJYV+Lmviuv/8+SRL5p9+FH7OUz+7JSQWEHm/liVhFPjAvyX+ZbuzvcX/3DmNWZeT2yAEhAP+/Nz9I28+CHcMMH6guafwORczWi8WWlUmKd1KZ55t/1xJIRKtM8h240WKiS9bis=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760013542; c=relaxed/simple;
-	bh=nCBWCQaxhZrktABfUp1S7UxjtEc626ybANk2Wgzh3PY=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=bQ8TxkfzFHersz/qHEwTjwmAwT/BpJsq15ZwEFoWLA+w5pxrtRtU1ZxTXQCPRvEqLpEDVoncabksyzDefbyO1lZ2owv5bKNTaBoCW4VBGMSXVyu25MTqmWF9sy0yMl3D0Bf9x6HpsxJL/+6qpHmUHJxU5vI6CNGOfcVo/ALlaaE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g8UQjOrD; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C069CC4CEE7;
-	Thu,  9 Oct 2025 12:38:55 +0000 (UTC)
+	s=arc-20240116; t=1760014322; c=relaxed/simple;
+	bh=AVIp+jMYzxaeQL2X5j0m3um+EbwGIdcZQgDXBd6gbp4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XlBhdWgRTvHcOST7HOIo8ADiLHeUD2e5M11eDfgQ9TrITerjCfP2jCcKzKoHyA9eULXbZXMvnFKT+UqfFEFCypGOs8L/pPMUQUic7+x3VgQw7xJR/dwE5mhI7oxgyVBVyUkFAe0GJLW6zishwlpt2rijhF6SacSFaYhElWRLg5k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XBbbOCLu; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A780BC4CEE7;
+	Thu,  9 Oct 2025 12:51:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760013542;
-	bh=nCBWCQaxhZrktABfUp1S7UxjtEc626ybANk2Wgzh3PY=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=g8UQjOrDuh+uJpia5t3++o9Q9C+62GHBeFw1wpvEx4tssNFTmPz5hJHes/tlPQlZX
-	 THOJyFI51pi45GkxW7juDhfeOKoS96lr8V8dEYIOfOFnDT3zGnLG/sjqDgaSjWFOBb
-	 lfKK+bWYkeEyoh0MzEUGRYfCC8rYvBlj0ojxz09HSlxSTcGy4vVkFin/vzClbzpCYJ
-	 0vmbRNg5MTL8s5DQDuP4+tdm7sOSGW3NsR9fGiCMoTBhgzGSENNzbrlD+Yvb8LKiHj
-	 7GiKEsORGdPt9maGTV5y/c9l1/xXTVtUFTrjS1U1tTDrmfMixnc6xDqJ9K1sJ4+O7K
-	 lYj0AEas4cS9A==
+	s=k20201202; t=1760014322;
+	bh=AVIp+jMYzxaeQL2X5j0m3um+EbwGIdcZQgDXBd6gbp4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=XBbbOCLu3oW5xZbEYzEgu1/eoKRz0rV9BnC8X45E7wZOwC2bKbYf708BuxKK/CIJY
+	 eHXlQ3jC+erSYmS8wIIGVnsYhcx0BoS4oc245XXU6f67/sLgDODcix1xHCZip2WMEh
+	 UNsLGabGTJw9vVZEH6EojIII3RvMHBuwV4m6XTvbKOWrxMw+K43j3Jj/lrOcXg1rqH
+	 BqDbuV9PhoOunbbGVHZzDIgSowJkpDvYynk7dTCG8ixK4+wkj7xjO3Gckmjv6YXjkB
+	 bCZaXeFm9VRU6PPIcrhghm0z0v0jc0Vl2uigBWXQGo7oC0fO3H0c0v7sJY25me4vGr
+	 aQZ4+6bolRPCA==
+Date: Thu, 9 Oct 2025 13:51:55 +0100
 From: Lee Jones <lee@kernel.org>
-To: linux-acpi@vger.kernel.org, Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-kernel@vger.kernel.org, linux-input@vger.kernel.org, 
- linux-leds@vger.kernel.org, linux-media@vger.kernel.org, 
- netdev@vger.kernel.org, linux-spi@vger.kernel.org, 
- "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Danilo Krummrich <dakr@kernel.org>, 
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
- Daniel Scally <djrscally@gmail.com>, 
- Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
- Javier Carrasco <javier.carrasco@wolfvision.net>, 
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, Lee Jones <lee@kernel.org>, 
- Pavel Machek <pavel@kernel.org>, Matthias Fend <matthias.fend@emfend.at>, 
- Chanwoo Choi <cw00.choi@samsung.com>, Krzysztof Kozlowski <krzk@kernel.org>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Paul Elder <paul.elder@ideasonboard.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Horatiu Vultur <horatiu.vultur@microchip.com>, UNGLinuxDriver@microchip.com, 
- Andrew Lunn <andrew+netdev@lunn.ch>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
- Mark Brown <broonie@kernel.org>, Thomas Gleixner <tglx@linutronix.de>, 
- Ingo Molnar <mingo@kernel.org>, 
- Jonathan Cameron <Jonathan.Cameron@huawei.com>
-In-Reply-To: <20250924074602.266292-1-sakari.ailus@linux.intel.com>
-References: <20250924074602.266292-1-sakari.ailus@linux.intel.com>
-Subject: Re: (subset) [PATCH v2 00/16] Align availability checks on fwnode
- child node enumeration
-Message-Id: <176001353550.2818310.2373416266769760233.b4-ty@kernel.org>
-Date: Thu, 09 Oct 2025 13:38:55 +0100
+To: samuel.kayode@savoirfairelinux.com
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Sebastian Reichel <sre@kernel.org>, Frank Li <Frank.li@nxp.com>,
+	imx@lists.linux.dev, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+	linux-pm@vger.kernel.org, Abel Vesa <abelvesa@kernel.org>,
+	Abel Vesa <abelvesa@linux.com>, Robin Gong <b38343@freescale.com>,
+	Robin Gong <yibin.gong@nxp.com>,
+	Enric Balletbo i Serra <eballetbo@gmail.com>,
+	Sean Nyekjaer <sean@geanix.com>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Sebastian Reichel <sebastian.reichel@collabora.com>
+Subject: Re: [PATCH v12 0/6] add support for pf1550 PMIC MFD-based drivers
+Message-ID: <20251009125155.GE2796410@google.com>
+References: <20251001-pf1550-v12-0-a3302aa41687@savoirfairelinux.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.15-dev-b87af
+In-Reply-To: <20251001-pf1550-v12-0-a3302aa41687@savoirfairelinux.com>
 
-On Wed, 24 Sep 2025 10:45:46 +0300, Sakari Ailus wrote:
-> Historically the fwnode property API has enumerated only available device
-> nodes on OF whereas on ACPI, also nodes that haven't been present in the
-> system have been provided. Both OF and ACPI have similar concepts of node
-> availbility, on OF it's the "status" property present on device nodes and
-> on ACPI the _STA object evaluates to device present, enabled and
-> functional bits, of which the present and functional bits are currently
-> being used to determine whether to enumerate a device.
-> 
-> [...]
+On Wed, 01 Oct 2025, Samuel Kayode via B4 Relay wrote:
 
-Applied, thanks!
+> This series adds support for pf1550 PMIC. It provides the core driver and
+> sub-drivers for the regulator, power supply and input subsystems.
 
-[13/16] leds: Use fwnode_for_each_child_node() instead
-        commit: 34dbf5b458193b120a4a00777f2045f40c3db974
-[14/16] leds: Use fwnode_get_next_child_node() instead
-        commit: 93ecfb549059e3c77da16364c0f6fbddb42b147b
+Note to self: Everything is in order.  Apply to an IB once -rc1 is out.
 
---
+-- 
 Lee Jones [李琼斯]
-
 
