@@ -1,120 +1,210 @@
-Return-Path: <linux-input+bounces-15359-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-15360-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAA0FBCBC27
-	for <lists+linux-input@lfdr.de>; Fri, 10 Oct 2025 08:14:08 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BA26BCBCEE
+	for <lists+linux-input@lfdr.de>; Fri, 10 Oct 2025 08:48:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 055471A61DD0
-	for <lists+linux-input@lfdr.de>; Fri, 10 Oct 2025 06:14:32 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D4B413AEBD6
+	for <lists+linux-input@lfdr.de>; Fri, 10 Oct 2025 06:48:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B2FB523816C;
-	Fri, 10 Oct 2025 06:14:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 673B31EE02F;
+	Fri, 10 Oct 2025 06:48:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kHYKV4do"
+	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="V0US8huO"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F5731DF26E
-	for <linux-input@vger.kernel.org>; Fri, 10 Oct 2025 06:14:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5670C14286;
+	Fri, 10 Oct 2025 06:48:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.237.130.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760076842; cv=none; b=sNac7aHgPd3f/W+jVCIWwe4EFAfkFLbt+XmWsR2Qyy1xXBMuc84yb9ljdfQ0/K4ZVaN1rAyhlmS/TOxKQSXFctsTijRM7rU8C2GcLWctxhJh82hDFar/i4dlnMk3B05YKOUQ1JXaPM2Q4y1WZ0s6Pf8L7aYrmGHvwTqCqO07OoQ=
+	t=1760078906; cv=none; b=GL4FoycC3IKhrN7OHbHi9o5lVlyw8IiVk7vHwqNwzSI5jCG+ZFGv3LZI0lxVhdFW0f4/ZWZzwedVMF4I3ov+icQCIpuTzdxOtxdAa0/Lcdxorz9qQ8ScocqNgc4d1nM6yV50aa4lMpcHeLsC/Ogj9334ooQHvFcCuaoqOxgsTFg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760076842; c=relaxed/simple;
-	bh=1v5NcS0vxoaVrNiPNGl8QcRfrGJ70C36+++6hlNjRMY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZDywXmJFQgLdN8/cTrBxX2ZlqFZMLhvsf31fybzxOin/tdFDVLOeisVjs6sgf3JFjcIS8ZeMaRygojg64wi9HCmDwZWi98O1tqltpIFtVSBsPYuwonx8/bjDfff9d6xTWLSH6DSMwwGB7yuuVwwlgJBd6Bcn2gIhLffOtHpVDk4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kHYKV4do; arc=none smtp.client-ip=209.85.214.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-267f0fe72a1so12313805ad.2
-        for <linux-input@vger.kernel.org>; Thu, 09 Oct 2025 23:14:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760076840; x=1760681640; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=ZeZgHpNxoLpmShnYhfUU1prae6Lh9wrT/tWekhyimpo=;
-        b=kHYKV4doabezjMieFY34F/w5R6MkrINaeIl35ZggTwRSU+mdNicvMd289A2GWv5wrd
-         XkCrJ5HXu0dSopMjMEg87lX7TPcdLvt6gXHsLfoIehQINZs9H0IGVbvpDa6wzFWZ8Xv2
-         LTfDi2dO2KROjucUN98okwsItFkxqCnVwQQi9i3MiDhWLsrP3kaEPTA2PbOVlI5bMhlL
-         wNedJxESfrWrG/+bd0p22F9YZ4dmC4u/+2UuLqU9f5fFSGJvo+mnzz0/7VL7LgBUDQVQ
-         GSsi8hx6LLdb1WZDJ59mpNwuUMWPXHwa8YsYqvr1Qgk81Zxce8+FKZFjqGY9yBRQsZa0
-         851A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760076840; x=1760681640;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZeZgHpNxoLpmShnYhfUU1prae6Lh9wrT/tWekhyimpo=;
-        b=Vf4+p19mMgozgKRuLHRb2lX7DxbkpFlimjRIiGxlg0RKZUwGAh8+TmkbamitAA6ZDG
-         JJ3HUsQE+kEb6xtEfR0UD6zXcvkYwhcssG+qT0gG3FgIZ8BqVnnk/IoWkOqiq+NYkRQB
-         a49x7YMog8V64t8XhRtaVh4/CANg+MWRE+/gycoSZ/3FPs+6/bJPInHU+5qgzUwTp70C
-         G9ngh0u8dL7fEgwxczLuCk5y5gOjcDZ9Y2pSPWsjOYs+eXgSPlqNQSxOOEIGnVsXjHpU
-         XoG0b2/CSXCHerz2mxtUZ/m3KSOuRC92m/X7EkXp9tI6VnOkO4ibCQNIBKfc85LLPCdd
-         I7TA==
-X-Forwarded-Encrypted: i=1; AJvYcCVBYi7FGZtH3K2kiRfm43Ukt6iC20x55E/FS9PDGTfoJ9Waql6Z0uqrcydvQ+OXK4rP82k/skwAaBLQhg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxN5Qc7AmX9YRmkopNmBUcxUqtqecTvz7MZyleqoRtFWNGDma93
-	WNL0zmXY5V9biuRjrOhAk0jtTEoiwzyNUl73VQUK9JIALw7KDMkLzttM
-X-Gm-Gg: ASbGncvMGx86byeiF6YB2NjUptu64IRCUz9qO33ATsIiIV4lHkuxrz1s9n5PUFplbz3
-	hmXZPIBRMIJf3fhZ2R9fBAKttJjmzHGaLQRzQ+dtW/oMDkhqCtMqym1Cxoz6IEA5c3MA7u76OGt
-	JQ71TpTSN2EQ/Lx+gYU60ovGL0oIAEWCpvjXHSwVILH/ek2kpBdS9eacW686QHh3IYoIJYUad10
-	woviGyMlS0RMnfzcBE3dZNSF93K7RBnztU9aw4+UzgAx6pUKet5fhDKwZlGU3cvk3jILRpkcUzm
-	ztc/0jvJan9nQTs4n+6WxXyyxasP2ykYQucBNTmQrupssopap8BaZDsDTjoTp6sj++R4rBZPi7B
-	46TTmjpEcpKp7RGiDwNrNkS2UfnOzdesZKZoic9LAZ85DyeeITleOh9X+rKEDYUBgdGRBDIDt9T
-	cMVLAg
-X-Google-Smtp-Source: AGHT+IGhZo9EHJGeyJ7Hv8uoiFml8F5FMqKr/vrLQTWePNVXfivw4o/tTOUhOD4QMWgfGle0YhWxww==
-X-Received: by 2002:a17:902:f785:b0:27d:69cc:9a6 with SMTP id d9443c01a7336-290273959b8mr122074805ad.53.1760076840512;
-        Thu, 09 Oct 2025 23:14:00 -0700 (PDT)
-Received: from google.com ([2a00:79e0:2ebe:8:c593:2dc:16de:acd1])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29034f070ecsm46772125ad.60.2025.10.09.23.13.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Oct 2025 23:13:59 -0700 (PDT)
-Date: Thu, 9 Oct 2025 23:13:57 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: =?utf-8?B?5Y2i5Zu95a6P?= <luguohong@xiaomi.com>
-Cc: =?utf-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>, 
-	"linux-input@vger.kernel.org" <linux-input@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"jikos@kernel.org" <jikos@kernel.org>, "bentiss@kernel.org" <bentiss@kernel.org>, 
-	=?utf-8?B?5p2O6bmP?= <lipeng43@xiaomi.com>, Fei1 Jiang =?utf-8?B?6JKL6aOe?= <jiangfei1@xiaomi.com>, 
-	=?utf-8?B?5a6L5a+G5a+G?= <songmimi@xiaomi.com>
-Subject: Re: =?utf-8?B?562U5aSNOiDnrZTlpI06IFtFeHRlcm5hbCBNYWlsXVJlOiBU?=
- =?utf-8?Q?he_zero_power_level_of_the_HID_device_in_kerne?= =?utf-8?Q?l?=
- 6.12 is not reported from the kernel to the upper layer.
-Message-ID: <lel67fl7rgv7j6eyaf2xbblcwijuuqqoqs77ahbfmdu7ra5bei@zjvzeuyckjlb>
-References: <d2cada7efe8d4436b6e638fa1e0aaefb@xiaomi.com>
- <aM0XBudxlXuzALbg@fedora>
- <px5t2iedrrqhcrpdvmu5pznp53d3e5jp55dm72phlsti2rmt4j@rj2pajkavuir>
- <91e0d952fd774e769e2d24ce2165df18@xiaomi.com>
- <vkm32giijggtzv7hudsvqg34utpqvw4nnccfi7d4txj5tlzstp@4bu2ox2lmtm5>
- <aada0917f31641c19ba7c48e3c6d3c53@xiaomi.com>
- <39809571f1b7439abd754279fac7e702@xiaomi.com>
- <80a4f9e6416944d3919c63a392325d3b@xiaomi.com>
+	s=arc-20240116; t=1760078906; c=relaxed/simple;
+	bh=ld9KHF8hp5h2wDwV7ZSXjTTQYoQED6UBU5bjhe+/WH4=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=OYjKs70rfWaMPh+ofT0BJHoRatlObbg7gpWrEBzrJrxz0KAIC1WrCzsCUXiaxjgTl8n1h4miXaKgRnrAXQSzEyl4hOAgPpA2s3stMzFrki7q1b9D48+nVcfh2wkY4lKAwzo5lizf96ZJQ6Jp1bp0RuzdUhmQyrIb3QErMHkh2R4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=V0US8huO; arc=none smtp.client-ip=80.237.130.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=leemhuis.info; s=he214686; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:References:Cc:To:Subject:From:MIME-Version:Date:Message-ID:From:
+	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
+	Content-Transfer-Encoding:Content-ID:Content-Description:In-Reply-To:
+	References; bh=PEXFZhEo4Y2ButrlZIrBpEPRoqX0qYk7QFEJhw4k2RY=; t=1760078904;
+	x=1760510904; b=V0US8huOADa0OQQG5yw37jO8LLmXRIN7Ez8F+cAQhI6bnb4DhxV4hokoTj7Gc
+	0BYgnI2rMUtNwu4WsnJfoE9/Z1UAsmYBMgbqklm07PBRzFNUvcOw1X4PKB2e7tVOQC2feN5SBwrL0
+	1tW76nc+NUa8pqflkCGr3j7UMmorsgADMpBXHkC0p+s8an9I0JwZPVRDEUB0KgOYq9oraEI2+ykTO
+	dk1iV7Imdss3YIeypIEI6ywsmAiApGoMh3mNYvOrGYFNUl9m2+tshkZy/mZ04xOxDCI39XURKlQPv
+	XWUur2eHTTQn0iwpd46tskyqec5sxOOZF3+I+291Kyh1n21zGA==;
+Received: from [2a02:8108:8984:1d00:a0cf:1912:4be:477f]; authenticated
+	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128)
+	id 1v76vG-006iXc-1P;
+	Fri, 10 Oct 2025 08:48:14 +0200
+Message-ID: <1cd7fb11-0569-4032-905c-f887f3e0dd4c@leemhuis.info>
+Date: Fri, 10 Oct 2025 08:48:11 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <80a4f9e6416944d3919c63a392325d3b@xiaomi.com>
+User-Agent: Mozilla Thunderbird
+From: Thorsten Leemhuis <linux@leemhuis.info>
+Subject: Re: [PATCH v3 04/11] HID: haptic: introduce hid_haptic_device
+To: Randy Dunlap <rdunlap@infradead.org>, Jonathan Denose
+ <jdenose@google.com>, Jiri Kosina <jikos@kernel.org>,
+ Benjamin Tissoires <bentiss@kernel.org>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, Jonathan Corbet
+ <corbet@lwn.net>, Henrik Rydberg <rydberg@bitmath.org>
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, Angela Czubak <aczubak@google.com>,
+ Sean O'Brien <seobrien@google.com>, Lucas GISSOT <lucas.gissot.pro@gmail.com>
+References: <20250818-support-forcepads-v3-0-e4f9ab0add84@google.com>
+ <20250818-support-forcepads-v3-4-e4f9ab0add84@google.com>
+ <2b377001-7ee8-449c-b107-1c0164fa54f0@leemhuis.info>
+ <3184c648-661b-4cf4-b7cf-bd44c381611d@infradead.org>
+Content-Language: de-DE, en-US
+Autocrypt: addr=linux@leemhuis.info; keydata=
+ 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 MEK4
+In-Reply-To: <3184c648-661b-4cf4-b7cf-bd44c381611d@infradead.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1760078904;3fe0ece1;
+X-HE-SMSGID: 1v76vG-006iXc-1P
 
-Hi,
+[Top-Posting for easier consumption]
 
-On Fri, Oct 10, 2025 at 02:25:55AM +0000, 卢国宏 wrote:
-> Hi Dmitry,
-> Please let us know whether you plan to merge this solution into the kernel or not! Thanks!
+Mainly writing this mail to bring Lucas GISSOT in here, who reported the
+same error yesterday here:
+https://lore.kernel.org/all/aOgvA8Jiofcnk2xb@ARSENIURE.localdomain/
 
-I just sent the patch to HID maintainers. You were CCed on it.
+Lucas there suggested:
+"""but it seems to me that the #if IS_ENABLED(CONFIG_HID_HAPTIC) in
+hid-haptic.h should be replaced by IS_BUILTIN(CONFIG_HID_HAPTIC) and
+Kconfig updated."""
 
-Thanks.
+And Randy: Thx for the closer investigation! It explains some of the
+"that feels odd, am I holding this wrong" feeling I had when reporting this.
 
--- 
-Dmitry
+Ciao, Thorsten
+
+On 10/10/25 06:50, Randy Dunlap wrote:
+> On 10/9/25 7:43 AM, Thorsten Leemhuis wrote:
+>> On 8/19/25 01:08, Jonathan Denose wrote:
+>>> From: Angela Czubak <aczubak@google.com>
+>>>
+>>> Define a new structure that contains simple haptic device configuration
+>>> as well as current state.
+>>> Add functions that recognize auto trigger and manual trigger reports
+>>> as well as save their addresses.Hi,
+>>> Verify that the pressure unit is either grams or newtons.
+>>> Mark the input device as a haptic touchpad if the unit is correct and
+>>> the reports are found.
+>>>  [...]
+>>> +config HID_HAPTIC
+>>> +	tristate "Haptic touchpad support"
+>>> +	default n
+>>> +	help
+>>> +	Support for touchpads with force sensors and haptic actuators instead of a
+>>> +	traditional button.
+>>> +	Adds extra parsing and FF device for the hid multitouch driver.
+>>> +	It can be used for Elan 2703 haptic touchpad.
+>>> +
+>>> +	If unsure, say N.
+>>> +
+>>>  menu "Special HID drivers"
+>>
+>> I suspect this change is related to a build error I ran into today:
+>>
+>>   MODPOST Module.symvers
+>> ERROR: modpost: "hid_haptic_init" [drivers/hid/hid-multitouch.ko] undefined!
+>> ERROR: modpost: "hid_haptic_pressure_increase" [drivers/hid/hid-multitouch.ko] undefined!
+>> ERROR: modpost: "hid_haptic_check_pressure_unit" [drivers/hid/hid-multitouch.ko] undefined!
+>> ERROR: modpost: "hid_haptic_input_configured" [drivers/hid/hid-multitouch.ko] undefined!
+>> ERROR: modpost: "hid_haptic_input_mapping" [drivers/hid/hid-multitouch.ko] undefined!
+>> ERROR: modpost: "hid_haptic_feature_mapping" [drivers/hid/hid-multitouch.ko] undefined!
+>> ERROR: modpost: "hid_haptic_pressure_reset" [drivers/hid/hid-multitouch.ko] undefined!
+>> make[3]: *** [/home/thl/var/linux.dev/scripts/Makefile.modpost:147: Module.symvers] Error 1
+>>
+>> The config where this occurred had this:
+>>
+>> CONFIG_HID=y
+>> CONFIG_HID_MULTITOUCH=m
+>> CONFIG_HID_HAPTIC=m
+>>
+>> Changing the latter to "CONFIG_HID_HAPTIC=y" fixed the problem for me.
+> 
+> Sure, but that's just covering up the problem.
+>> First, I get this build error:
+> 
+> ERROR: modpost: missing MODULE_LICENSE() in drivers/hid/hid-haptic.o
+> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-haptic.o
+> 
+> so I added those to hid-haptic.c.... and I still get that same build error.
+> 
+> So I looked at the hid-haptic.o file, in the .modinfo section,
+> and saw this:
+> 
+> Disassembly of section .modinfo:
+> 
+> 0000000000000000 <__UNIQUE_ID_modinfo569>:
+>    0:	68 69 64 2e 6c       	push   $0x6c2e6469
+>    5:	69 63 65 6e 73 65 3d 	imul   $0x3d65736e,0x65(%rbx),%esp
+>    c:	47 50                	rex.RXB push %r8
+>    e:	4c 00            	rex.WR add %r13b,0x69(%rax)
+> 
+> which is ASCII " h  i  d  .  l  i  c  e  n  s  e  =  G  P  L".
+> 
+> so the license string is there.
+> 
+> Maybe something is modpost is having a problem.
+> Unless someone who has modified modpost recently has any ideas,
+> this needs a git bisect, I expect.
 
