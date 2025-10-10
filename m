@@ -1,193 +1,110 @@
-Return-Path: <linux-input+bounces-15364-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-15365-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C61DABCD5C5
-	for <lists+linux-input@lfdr.de>; Fri, 10 Oct 2025 15:55:29 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CD12BCDA0F
+	for <lists+linux-input@lfdr.de>; Fri, 10 Oct 2025 16:55:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 689B242829D
-	for <lists+linux-input@lfdr.de>; Fri, 10 Oct 2025 13:55:09 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 8570B4EBBC7
+	for <lists+linux-input@lfdr.de>; Fri, 10 Oct 2025 14:55:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C0F731C5D44;
-	Fri, 10 Oct 2025 13:54:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BD2032F6585;
+	Fri, 10 Oct 2025 14:55:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BH+cOTIT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mD9MOdGJ"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0661F2F39BC
-	for <linux-input@vger.kernel.org>; Fri, 10 Oct 2025 13:54:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE7B52F6573;
+	Fri, 10 Oct 2025 14:55:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760104493; cv=none; b=UvB7s8qioAj2Zj41t+qKuNzUdqS7Pb1X9LrTTadoqzDTZpDtL4xCr4qfWPGy1n+8zqhLvZF6oFfn3inLFfRpsPJP0M0/j3/P+CUZF6I736PTwMVfIaKunbnqiAFBlRK801wxw+CmQtfjLpvKxokdkPJ3UirG3W9cgc3ZGBk/TLo=
+	t=1760108110; cv=none; b=YV0iVpe55TtFnX3gmTnKughrKDam9ykADo90As5G3DFL1LodGrNklOEXr4TjBPFgIM4ZDMtii9T3Q1EXah4tg+g6W26GLgFCCMwsNdNqaC7yW+CtSE5aAs0HLoQnROIYOnrp0P5HQsE0mELD1RfBktrGlACHN7pJn9BD/fWD4mg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760104493; c=relaxed/simple;
-	bh=PPK7TEQDYfFw0/nfl/MP3mtP6E7a735O1zcZZfARrCA=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=tRNvgkDZvRktYrIfBOXc57jn8vGlFiHnHP2tQxQ98bd6jJtKspKN+ikR08b0ux83ScHMlrytZ3qeu/rNUmzkvGJJU8swKOf1Ba04eRPmgHEvzuuO5bsqERPO2hmKIiTYbIaeFL5Q3kU14fGTpQXqYpXEBUd6jsUSoQ4pXAYtuWc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BH+cOTIT; arc=none smtp.client-ip=209.85.222.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qk1-f172.google.com with SMTP id af79cd13be357-8571a0947d1so249478885a.0
-        for <linux-input@vger.kernel.org>; Fri, 10 Oct 2025 06:54:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760104491; x=1760709291; darn=vger.kernel.org;
-        h=content-transfer-encoding:subject:references:in-reply-to:message-id
-         :cc:to:from:date:mime-version:feedback-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=PPK7TEQDYfFw0/nfl/MP3mtP6E7a735O1zcZZfARrCA=;
-        b=BH+cOTIT0/0t4+wuRj4tCP1fMJfcbtph9YA3/0+HMig00L0vvA4erEISAGeBs+cMXx
-         sbK1D7WHIiOzEYSdHzmG6QDLjB1GWSyT/M5VUZltwgKUUpi9pDhH96rYkgUtuCM1dO+1
-         6KUYeIAKDKHBMRtHrSd68yxLe69Xba2oizIAvtGb0eo/Ots/uI8PSYvi/GSonUAIT3nN
-         xfia/kfc2WEiWP0Cbfz8j6jcMVveQKXBj2+UMjHEm9GvSht98kS4Y0wC0JdeNbgQWwvQ
-         q5Xxb2tHfJLvnUNld2fcez9+FNW9GA642jVDABoeMi+AunWPNjwknab0fFUBZeLJcPOx
-         DORg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760104491; x=1760709291;
-        h=content-transfer-encoding:subject:references:in-reply-to:message-id
-         :cc:to:from:date:mime-version:feedback-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=PPK7TEQDYfFw0/nfl/MP3mtP6E7a735O1zcZZfARrCA=;
-        b=f+JXs9ifZFTlFvTRYpYwHYWTzwphW6xXVAdp5ise4iv9XWZ/7aTYF3R3mN4hGwLTJT
-         bdeTSKrVFq8qmhpQp7FJEZMH2pgKqRyj/yB40RN/luk53EKdT22FgdAPQ6iOecvzGGX2
-         4LTTabgkOsY4AObEDNLlJ+IEaBraz53o9cPtmkWCwuRpFSxG/8upv9SXjBMZ27mFxPyV
-         8v6qD6AKaadKrO758wtZQXfjMR+rX3ml0XtS0GT6b96Sh031J+v1TShqkOQ724wiV1Lf
-         Nh0fKTLT/AbCHefjPN8p4akytVUCXGg9qkkiCA7ghN/XI8aLnqGEKQLlBbNKzuKrIyIw
-         QPxg==
-X-Forwarded-Encrypted: i=1; AJvYcCWIEdVbzb4r5OLQNNDvAWLQHDJ70ViTC2jkdBV1EK5LEIf3azwgFar1PTc/gtqVODr3botFAbFYmO3m8w==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwPYCXG4DE5VUEpcfkk/eeb/VZV93LudmR93IX9ly7UMY1Xidcj
-	kOGKAE0ziMEQ1sK6ZVE4bqZNQGKIwB/K4ReBwFqDiLcV6MKchNkwj6GB
-X-Gm-Gg: ASbGncukh2sTNxRqwukzf9lzYiAKk0wIabZ08hlhiyNj6IY24Cm/d1xYLycpuLYo7sk
-	/tKJO8K7svEJKl2F/k80H/rWlN8Yslv0d78CA4byHWwogqsC+hMTyk498qdJp/eUEgvLL8j/vgE
-	Tb+lk+BLairR3JiADQeGOtZlU7tZjnlYOgGiw+4L8zInmiT/vCu5cy/jTCSAzBTaZMzk6+Mfav8
-	VPnDhdiTtiTMfrKX2pSt8kZ96OlI2EuPrBtreeU7/76keClakl06lbNO++FWeH24OIKw3G+mbeK
-	bGHfVYphacRv1qq3InXxkYNQ7Yv4DWL1N1OoQrhmlB7/iNOdQv8aEOo/e5IUQiZJJCn6xZMgj3C
-	sKIqec/056w5LlLRm0/XkRFE0WwFdhkurfbquU4BBkegcUJEl3qkyZNNflu/W4QBmZKZVZ2TdO3
-	A+LTU5VgoJNA/a0qseuFKz0q3srIeaQBefybzrdqH3ow==
-X-Google-Smtp-Source: AGHT+IEgxrke54HjalSwfztvMb1tCCD5P4ICxuAhsGxg2c8gYHUsCjGdNBRjZNJfEipJWPNjoYQ/TA==
-X-Received: by 2002:a05:620a:410c:b0:829:d0e9:bc1b with SMTP id af79cd13be357-8836d74323amr1419606085a.7.1760104490701;
-        Fri, 10 Oct 2025 06:54:50 -0700 (PDT)
-Received: from fauth-a1-smtp.messagingengine.com (fauth-a1-smtp.messagingengine.com. [103.168.172.200])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8849f3d8883sm412042385a.2.2025.10.10.06.54.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Oct 2025 06:54:50 -0700 (PDT)
-Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
-	by mailfauth.phl.internal (Postfix) with ESMTP id 6D944F40066;
-	Fri, 10 Oct 2025 09:54:49 -0400 (EDT)
-Received: from phl-imap-17 ([10.202.2.105])
-  by phl-compute-01.internal (MEProxy); Fri, 10 Oct 2025 09:54:49 -0400
-X-ME-Sender: <xms:KRDpaBaqHqUHtAD5VfU3blrsekhnPWTM7fll5vDpWGy94QCEkGh3MA>
-    <xme:KRDpaDMDtZbkAHjRNUm1yrS8-1laiYG_TP7Nn16S0DHrFQ601Ppg28RQSFHPEBdEl
-    5s4VpGDOGgCrp24rtuMAvDRGdczCgA3_yQWpdBAYv3M65EvwUb8rNo>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggddutdelvdefucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepofggfffhvfevkfgjfhfutgfgsehtqhertdertdejnecuhfhrohhmpedfuegvnhhj
-    rghmihhnucfvihhsshhoihhrvghsfdcuoegsvghnjhgrmhhinhdrthhishhsohhirhgvsh
-    esghhmrghilhdrtghomheqnecuggftrfgrthhtvghrnhepveffveffvddtgeeikeeikeef
-    tefhfffhuefhudfhhedvkeevgeelveekffffjefhnecuffhomhgrihhnpehkvghrnhgvlh
-    drohhrghdpfhhrvggvuggvshhkthhophdrohhrghdptghrtgdrihgurdgruhenucevlhhu
-    shhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegsvghnjhgrmhhinh
-    domhgvshhmthhprghuthhhphgvrhhsohhnrghlihhthidqudefjeeftddtfeeitddqvdel
-    kedtjeejkeegqdgsvghnjhgrmhhinhdrthhishhsohhirhgvsheppehgmhgrihhlrdgtoh
-    hmsegsrghnqhhuihhsvgdrvghupdhnsggprhgtphhtthhopeegpdhmohguvgepshhmthhp
-    ohhuthdprhgtphhtthhopehnvghtfihiiiestghrtgdrihgurdgruhdprhgtphhtthhope
-    gthhgrthhthiesvghnrggtrdhfrhdprhgtphhtthhopehlihhnuhigqdhinhhpuhhtsehv
-    ghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepphgvthgvrhdrhhhuthhtvghrvg
-    hrseifhhhoqdhtrdhnvght
-X-ME-Proxy: <xmx:KRDpaECYDkg38zIfy3cWwJ0ZfxXjVdZeMyjol-meLjLzSUjyAMDtDw>
-    <xmx:KRDpaB-hlvRQ0J1G3JB_B_ShSJFftHiT5GDbYImmhONUEa6aLbarzg>
-    <xmx:KRDpaLGHY2vE5KaOmicCrjnJpXEQPYoGRTybrEf7wvvyCid_wKsFxw>
-    <xmx:KRDpaPOyotVF2_3K_hMUfoiU-ApaiYoqc0CpBzEMuN7lqjF-LRUr8A>
-    <xmx:KRDpaFcWI3hFAIj4WXLMWy-ZwXIR-UnuigxHJ6vIL1_ZywKEIy5nMQGp>
-Feedback-ID: i3c514981:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 3EB44C40054; Fri, 10 Oct 2025 09:54:49 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	s=arc-20240116; t=1760108110; c=relaxed/simple;
+	bh=Yvb8aVJVis9QZMfOYEDqkWf00tU51I0d/lWVnt9mK/A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=vGasEZRfPTl9rWtDLX9BDjk+DvxHXQEyoJ0PmvUsrTgLypII5G+4W1k8zva7AJtCkAL2vieTdy3k1iM7R7uF1tO4lKdUjFsMzhMCm8uGmRvRVbTJ3gpvqlcl/7C7iUC5Cc0t+qD2zvcNy2xGdlNKOw6gxABMnkX3ry/Cv5DEOeQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mD9MOdGJ; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1760108108; x=1791644108;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Yvb8aVJVis9QZMfOYEDqkWf00tU51I0d/lWVnt9mK/A=;
+  b=mD9MOdGJdNvo35QXAEHK6GP73kgABC0Mjqwta+LVHvTzP1Arp8UjzN+9
+   WDLha5jbiCfFsWVKNNviqcLxMdGqlUECEQEyM6Qo/XROM+WHNk+egpsbl
+   zXSRYwRiAY3MoMldNFaUPvOng+XXEtrQPCyRs0pKxSopJNuILGujN+66K
+   fePnng7iE4QtwQl6wKwvkurI1SGhAN0hDoNonHAJhKpdJWZ8IrnkIM4Wb
+   EAegZdjo0LLHLUn4MzRN1CekF4U9LuSSgECHX0LrQhvFCKmyp0GypEv2p
+   P5/KUkxCBxv8ls6teX2Qa1UOocfs67/1mWhMBks6H4uHWSGPEzBKMMCPn
+   A==;
+X-CSE-ConnectionGUID: YbGc9nvHT4uUXiejo7Nawg==
+X-CSE-MsgGUID: 1VDMKJvuReuJm8SzTsHbbA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11578"; a="79971676"
+X-IronPort-AV: E=Sophos;i="6.19,219,1754982000"; 
+   d="scan'208";a="79971676"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2025 07:55:08 -0700
+X-CSE-ConnectionGUID: UqSbxBVxQbKlVIxFfwpojg==
+X-CSE-MsgGUID: WKpQExJZQnqrmGk3I6IobQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,219,1754982000"; 
+   d="scan'208";a="180250212"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by orviesa010.jf.intel.com with ESMTP; 10 Oct 2025 07:55:06 -0700
+Received: by black.igk.intel.com (Postfix, from userid 1001)
+	id 86D8E96; Fri, 10 Oct 2025 16:55:04 +0200 (CEST)
+Date: Fri, 10 Oct 2025 16:55:04 +0200
+From: Mika Westerberg <mika.westerberg@linux.intel.com>
+To: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
+Cc: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>,
+	Tero Kristo <tero.kristo@linux.intel.com>,
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+	kernel-dev@igalia.com
+Subject: Re: [PATCH] HID: multitouch: fix name of Stylus input devices
+Message-ID: <20251010145504.GI2912318@black.igk.intel.com>
+References: <20251008-hid_multitouch_stylus-v1-1-9f43f7e79195@igalia.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ThreadId: AuksZPTF120c
-Date: Fri, 10 Oct 2025 15:54:28 +0200
-From: "Benjamin Tissoires" <benjamin.tissoires@gmail.com>
-To: "Steven Haigh" <netwiz@crc.id.au>
-Cc: =?UTF-8?Q?St=C3=A9phane_Chatty?= <chatty@enac.fr>,
- "Peter Hutterer" <peter.hutterer@who-t.net>, linux-input@vger.kernel.org
-Message-Id: <ed69f310-8a4d-4023-b1ce-72b78e512177@app.fastmail.com>
-In-Reply-To: <26b03bc2-b824-4948-9803-5a0b5f08e394@crc.id.au>
-References: <2a878c8a-0289-4378-9c32-6eaf57e7dbfc@crc.id.au>
- <d058871a-a2c6-4197-a77c-08edb0ce70b4@app.fastmail.com>
- <fd7e0577-a992-4761-823b-b5fe41a7ee74@crc.id.au>
- <8720ac11-2b1d-4b42-84c8-52407dbda7e7@app.fastmail.com>
- <26b03bc2-b824-4948-9803-5a0b5f08e394@crc.id.au>
-Subject: Re: hid_multitouch - random non-responsive, multitouch, scrolling and zooming
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+In-Reply-To: <20251008-hid_multitouch_stylus-v1-1-9f43f7e79195@igalia.com>
 
+Hi,
 
+On Wed, Oct 08, 2025 at 09:40:33AM -0300, Thadeu Lima de Souza Cascardo wrote:
+> HID_DG_PEN devices should have a suffix of "Stylus", as pointed out by
+> commit c0ee1d571626 ("HID: hid-input: Add suffix also for HID_DG_PEN").
+> However, on multitouch devices, these suffixes may be overridden. Before
+> that commit, HID_DG_PEN devices would get the "Stylus" suffix, but after
+> that, multitouch would override them to have an "UNKNOWN" suffix. Just add
+> HID_DG_PEN to the list of non-overriden suffixes in multitouch.
+> 
+> Before this fix:
+> 
+> [    0.470981] input: ELAN9008:00 04F3:2E14 UNKNOWN as /devices/pci0000:00/0000:00:15.1/i2c_designware.1/i2c-16/i2c-ELAN9008:00/0018:04F3:2E14.0001/input/input8
+> ELAN9008:00 04F3:2E14 UNKNOWN
+> 
+> After this fix:
+> 
+> [    0.474332] input: ELAN9008:00 04F3:2E14 Stylus as /devices/pci0000:00/0000:00:15.1/i2c_designware.1/i2c-16/i2c-ELAN9008:00/0018:04F3:2E14.0001/input/input8
+> 
+> ELAN9008:00 04F3:2E14 Stylus
+> 
+> Fixes: c0ee1d571626 ("HID: hid-input: Add suffix also for HID_DG_PEN")
+> Signed-off-by: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
 
-On Fri, Oct 10, 2025, at 2:21 PM, Steven Haigh wrote:
-> On 7/10/25 20:10, Benjamin Tissoires wrote:
->> On Tue, Oct 7, 2025, at 3:42 AM, Steven Haigh wrote:
->>> I ran `libinput record -o recording.yml /dev/event/input6` and have
->>> attached the compressed output. Annoyingly, it seems like the touchp=
-ad
->>> is working fine at the moment - so it may confirm the hardware
->>> information, but not a recording of the problem right now.
->>=20
->> Yeah, same on one of the Dell laptops I have here. I know it has the =
-bug, but whenever I try to reproduce it it never shows meaning I was nev=
-er able to pin point the issue :(
->
-> So, "good" news is that I managed to grab a recording today when the=20
-> touchpad started to play up. When using two-fingers to scroll, I ended=20
-> up zooming etc.
+Looks good to me,
 
-Unfortunately, this is a recording after the kernel processing, so all I=
- can do is check that we have ghost fingers (and even that is trciky bec=
-ause I'm not sure if what we see are the expected events or not).
-
->
-> I tried to make the recording as short as possible, but still include=20
-> examples of clicking, scrolling etc.
->
-> Attached for reference.
->
-> As for which way to approach a fix - I'm happy for you to suggest what=20
-> path we take - a BPF, kernel patch backport, or something else.
-
-Great, thanks!
-
->
-> You tell me which one gives the most value and is likely to help more=20
-> people in the long run.
-
-Right now the most valuable would be to test the series at
-https://lore.kernel.org/linux-input/20251008-fix-sticky-fingers-v1-0-760=
-f1f26fce3@kernel.org/T/#m0fba507cbd43acd36bef28151ecb90b7077606a4
-
-If this work and you want a quick and dirty fix you can then return to t=
-he default kernel, and use the BPF from https://gitlab.freedesktop.org/l=
-ibevdev/udev-hid-bpf/-/merge_requests/204, the latest version should be =
-compatible with your device, just re-download and install it again.
-
-But definitely a tested-by on the kernel patch would be appreciated :)
-
-Cheers,
-Benjamin
-
->
-> --=20
-> Steven Haigh
->
-> =F0=9F=93=A7 netwiz@crc.id.au
-> =F0=9F=92=BB https://crc.id.au
-> Attachments:
-> * recording.yml.xz
+Reviewed-by: Mika Westerberg <mika.westerberg@linux.intel.com>
 
