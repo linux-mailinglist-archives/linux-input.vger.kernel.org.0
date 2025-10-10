@@ -1,288 +1,259 @@
-Return-Path: <linux-input+bounces-15356-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-15357-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59EA2BCBBD4
-	for <lists+linux-input@lfdr.de>; Fri, 10 Oct 2025 07:50:07 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 76841BCBBE3
+	for <lists+linux-input@lfdr.de>; Fri, 10 Oct 2025 07:54:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 62E6D189AAC2
-	for <lists+linux-input@lfdr.de>; Fri, 10 Oct 2025 05:50:30 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 68C4219E660F
+	for <lists+linux-input@lfdr.de>; Fri, 10 Oct 2025 05:55:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C7DDF1DD543;
-	Fri, 10 Oct 2025 05:50:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E66B91F2B88;
+	Fri, 10 Oct 2025 05:54:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XpEFPDim"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="inBwjisb"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9553F635
-	for <linux-input@vger.kernel.org>; Fri, 10 Oct 2025 05:50:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760075403; cv=none; b=O4cjDxu3Yf/t24rjIBxIApmqmQm4PRGKSU1khfdPwE04eNYOYi3qAJytt9djWPrqpC4Hd0/M8tE8Le+2aC+48qzl15k7RUlwP9C09qtfLNHuC7Weuara4YsGP/tbhSoQqWtqZ+KjbJxc5zJ3AkQydGTT0AS5DXZVeRoPB5e69CQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760075403; c=relaxed/simple;
-	bh=DkUuSk+qGMvhs4Vt3gttPK5cFQEPc5oNmNN/O6Jfmbs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dLbJbGiwFCW0Zw7ZLtGdRI2UuLn3lakrCdKlwCR6OAFTJhEcxC56KkTYHwVZx9zTafTPWwYVZXCfYQZv7gc6qElY8LzvXa/+lxXwclQVcIhBW5zq+Jw2xijkUp2dniql5ulXIJ0TLZx5PNfN4Q0RPseSIM4zPJPLIfk4Sa3enPc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XpEFPDim; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42FB1635;
+	Fri, 10 Oct 2025 05:54:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.17
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1760075682; cv=fail; b=gKfQSxvGE6I9HHlXCwJcqEADsqKnZ6HqGyk5yROgkCDW1ol5iiLiRT5+FEFeBi7bJt05TaC3U3CmLq3F9+RNK/XNRDnYQZai63TOm6QVZFsp+1Fnt4PKZkLINDXxURi2adyxXEqDiZxJt8qk73MIq0b2TkrlyIR+DGWRmJLUYbU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1760075682; c=relaxed/simple;
+	bh=JzKjmGI6HsRJ3gNtP3vmGs0l/3VRlaqrY8HVnYEnq9k=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=K5jT25b6nfj5cTvYAkxG3JtWQtNBCV4WD3uz9WKkJcROeteA/Be7R7gtN8LJMYxMnizzbOpqLQIL5j4Y8gHXwYHJH+jhj1cRYXxhNrqmodpclxr0kshK7osCQ6NYkf/AYSKdxLJOH2jqsJyV4eJRGZsEEpG+fI1SB1msVxgeV6g=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=inBwjisb; arc=fail smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760075401; x=1791611401;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=DkUuSk+qGMvhs4Vt3gttPK5cFQEPc5oNmNN/O6Jfmbs=;
-  b=XpEFPDimiHtLYQDbqD5NuMuTohbnl6pTB1yEpf3rf0V1aVSpMk2b5V0a
-   /gwUSoKTJ6dQzM+sM7wMWf5sbwbEBB46idIBpkiuAcbwJxWBT5/3FyD+5
-   +1OWOcJFUJqJ6onkhAOhTOmAKD7YH4LSRFqxtJ2/nCWzBO+Hqu5dUv3DH
-   ceYXwqnRjh5aewtqwbq3KxfnGl0+2W3IVhSxHp0FdDdVsm71cqf3+Ud2T
-   k0cDtWOOupaiu1aqfBVqWmnzpy7clrsyX1mw20ab4KY+fLnmeHPTapUQw
-   EA5kAfkkMXM57oa7au71JJ1ayfY8C8J5vdAisW0QsXuNpg0CNfJmnsc6F
+  t=1760075681; x=1791611681;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=JzKjmGI6HsRJ3gNtP3vmGs0l/3VRlaqrY8HVnYEnq9k=;
+  b=inBwjisbhaE6p6dFDl9uWRKW5AEyy+TlXnEUzfQdFW0i6ETY6BV9hz3M
+   xSkryC/lcPiyclS0m8ZqGei3/lElD5g8j8W9tTiuAg9ILqJ2oCyznUUTG
+   XzC5GairC3015qZI+dp3yszhHB+Bgy+9Ni58P1GECahjBhbAU//be9Jsz
+   KDosrVZ7+yNJYpOF8xBOaUbm4fUwYnuE6p7gCiXgiM8mYiwviqFxeXvS6
+   b0V7t8fviUD6T0Ly2UgqAq0Q53/BxyD+T7Fu+WcbyV5jTipr7l84ONHEX
+   Fcg4UzueXNdeAN743LDyD5to/rqUoZUTOlxgODmY1wLtiDLx36WdvRCkM
    A==;
-X-CSE-ConnectionGUID: O4d0Lx67T2W/aCqD+7yxug==
-X-CSE-MsgGUID: cBp6Og5wSRSFb25KSofCsA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11577"; a="66148908"
+X-CSE-ConnectionGUID: olv564KCTZW0xCFYBbkZEg==
+X-CSE-MsgGUID: YGPiVbj+Sy6aHjQWa2edPg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11577"; a="62194231"
 X-IronPort-AV: E=Sophos;i="6.19,218,1754982000"; 
-   d="scan'208";a="66148908"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2025 22:50:01 -0700
-X-CSE-ConnectionGUID: argZpvoqTKyCMBvQYrWlJQ==
-X-CSE-MsgGUID: pP8hDIyJRsKTfb8hWj1hfA==
+   d="scan'208";a="62194231"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2025 22:54:40 -0700
+X-CSE-ConnectionGUID: TNgOcwpCQZimdvmz7rEWsg==
+X-CSE-MsgGUID: CSS7U3gXReWMiJ1Xhp49sg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,218,1754982000"; 
-   d="scan'208";a="181320999"
-Received: from iscp-l-lixuzha.sh.intel.com ([10.239.153.157])
-  by fmviesa008.fm.intel.com with ESMTP; 09 Oct 2025 22:49:59 -0700
-From: Zhang Lixu <lixu.zhang@intel.com>
-To: linux-input@vger.kernel.org,
-	srinivas.pandruvada@linux.intel.com,
-	jikos@kernel.org,
-	benjamin.tissoires@redhat.com
-Cc: lixu.zhang@intel.com,
-	selina.wang@intel.com
-Subject: [PATCH] HID: intel-ish-hid: Use dedicated unbound workqueues to prevent resume blocking
-Date: Fri, 10 Oct 2025 13:52:54 +0800
-Message-ID: <20251010055254.532925-1-lixu.zhang@intel.com>
-X-Mailer: git-send-email 2.43.0
+Received: from fmsmsx903.amr.corp.intel.com ([10.18.126.92])
+  by fmviesa003.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2025 22:54:40 -0700
+Received: from FMSMSX902.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Thu, 9 Oct 2025 22:54:40 -0700
+Received: from fmsedg903.ED.cps.intel.com (10.1.192.145) by
+ FMSMSX902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27 via Frontend Transport; Thu, 9 Oct 2025 22:54:40 -0700
+Received: from DM5PR21CU001.outbound.protection.outlook.com (52.101.62.68) by
+ edgegateway.intel.com (192.55.55.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Thu, 9 Oct 2025 22:54:40 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=oqBRvIOc0IhKdCee3zNXu9Pb63gv59kV7BoYArr1xgrWLy3aNkfqdCt8iJs+7xDWE9nORIl4jhTpvi4huo6ihlpiJovw+XpGrNiKUrvNv0rG4xAJEl2XNN95VluxlGbEe86LPBaS52JOMUC8YofqoVMYdlYXe8S8U6ibc7wiYD6zP3hCN5WDI/6SWx2Nc6okFIqb+h2onfYxiLdHFG1CBJSwkdx96GPSFnxchf1OtZnmpe9sRPsevEPF/3j9iiiLfkIVSlK9d6vHzrOoALxDZWvCQlkPMtwcXspPpoC/XkQj6nj/r8PhkvVv1hFvoxntJ1AuXZvfYaJRaS2bruKrSg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ddvoToaR8S5HDxhu3B/itWTPcFsEiRih0y0XZveiiXk=;
+ b=vfxoXR2Q7Pgf4O8abN2pef1u+G9j2daKH3/eWo7H05KEN+oIfULl/5dIbR0MtqEOGniUbN0IcqAoTW/2G//pmjU1G+gdhotlKEscwfaD1v6HYrQM2hJLBCgpb+w6bKL4brXeB3FmO/s7KhTxYithifiBkUkMv8u0RooMOa56ED7MniRmzGHOhZmL2ob5+7Bt3EglrM846svXkWDlOexve+kI3CMWUlBnOxjZvjhf9e+BH8n18lpkZfLyl57SU6P3KrK6T9ncp/SsXmGk51AtdOhh9GJpmkUMCTY5bi2r/OzBXjOGKUgb1b/D/SmDGtb6x8XOjWeC5L+kmEdcy9ogxA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from IA1PR11MB6098.namprd11.prod.outlook.com (2603:10b6:208:3d6::20)
+ by LV8PR11MB8697.namprd11.prod.outlook.com (2603:10b6:408:1fe::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9203.9; Fri, 10 Oct
+ 2025 05:54:32 +0000
+Received: from IA1PR11MB6098.namprd11.prod.outlook.com
+ ([fe80::b1d9:3282:7e31:3799]) by IA1PR11MB6098.namprd11.prod.outlook.com
+ ([fe80::b1d9:3282:7e31:3799%4]) with mapi id 15.20.9203.009; Fri, 10 Oct 2025
+ 05:54:32 +0000
+From: "Xu, Even" <even.xu@intel.com>
+To: "jikos@kernel.org" <jikos@kernel.org>, "bentiss@kernel.org"
+	<bentiss@kernel.org>, "srinivas.pandruvada@linux.intel.com"
+	<srinivas.pandruvada@linux.intel.com>
+CC: "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "Zhang, Rui1"
+	<rui1.zhang@intel.com>
+Subject: RE: [PATCH] Hid: Intel-thc-hid: Intel-quickspi: switch first
+ interrupt from level to edge detection
+Thread-Topic: [PATCH] Hid: Intel-thc-hid: Intel-quickspi: switch first
+ interrupt from level to edge detection
+Thread-Index: AQHcKTRknzMjmEefFUCBps0dqYivFrS7AYkA
+Date: Fri, 10 Oct 2025 05:54:32 +0000
+Message-ID: <IA1PR11MB6098BBA07A3E02D141AAA0C8F4EFA@IA1PR11MB6098.namprd11.prod.outlook.com>
+References: <20250919070939.223954-1-even.xu@intel.com>
+In-Reply-To: <20250919070939.223954-1-even.xu@intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: IA1PR11MB6098:EE_|LV8PR11MB8697:EE_
+x-ms-office365-filtering-correlation-id: 1070066b-ef48-472b-5193-08de07c17c1c
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|366016|376014|1800799024|7053199007|38070700021;
+x-microsoft-antispam-message-info: =?us-ascii?Q?bks4EqmYMA+ibBZdlCaGC1kwQkVHt8ZMsW860F4YWWgCwCtcMVMF5sZ/kJSo?=
+ =?us-ascii?Q?DwYtUFprLbTsVfOSra+OxQAJ2vDlGn8znG7vW5dDxFcw10ONFfK2yJ0tw/SW?=
+ =?us-ascii?Q?wY8tldik6hsfsMfl/dXjdIQioylzFx6onZUKejp2zO6aZQ+nOO9sgT30wBzm?=
+ =?us-ascii?Q?NT/0yH/LbQyclgsDw3nwR5oBL1WM9LNXibBoU6M4m4nKZIacFjiJikLSg6pV?=
+ =?us-ascii?Q?XGNFwwupu5ELSfz7vuKCKDyv34SetfZBWLfUnztjZ9sCgxvr23+nZzqyvLz+?=
+ =?us-ascii?Q?2TM01E+xZepwsY/qNRCLoTULjqczQCGo7QXWEIx1fB+13neRkDbL+UNo+tbF?=
+ =?us-ascii?Q?gAKLXID1Q2+LdO1pZAawK+wLRNz7ndLduGOuYRCHB+SydvNLh77C38WX6IB4?=
+ =?us-ascii?Q?kEhgIiqEkFr1Mj/o3eT0a9RIEd0VV7c7/e2m3MGTfmVXP+dpy6bPxsNCER4Q?=
+ =?us-ascii?Q?csBaiLza4+aXrdXimxY6kVAVZ5A6V7C+NrDzbvaZhAST3vbzLet3ZjGRbfzJ?=
+ =?us-ascii?Q?558CXwgimzibjFn2/E0hZm2H9jaYM3LdxCNj42Sz7v48PJ7szPwuHcYJrpaV?=
+ =?us-ascii?Q?vE3F8ndRzZG4g+/2F/XFtM6m/0aO/V+msWI2u9MqwSeZayr+Tjg2tCTvh3u9?=
+ =?us-ascii?Q?4h4as5UXoSC8ZTPbHNilyrGqi++ZWFsxVjlDALWPLVcw/lIu2PvPvGwYYW7c?=
+ =?us-ascii?Q?N6k9lwODV8IYL7uGswtdqmlQzfJyQV8SvK5Qv2gtP3sK+h2k4GIw0BWR2/9U?=
+ =?us-ascii?Q?SG6vtEhFFvZbBVhYVe11rlwESXK+il+JyG3oU1yFk+evoHg+pnEi0msigOiU?=
+ =?us-ascii?Q?TKFcg/O7XRCAGdCQ8gVC8PLFYOgV+kzeXt3uYOd2h5H7TLua2ajuL/MOtyly?=
+ =?us-ascii?Q?0aR3XQUg7c1sjSF6Or6v3SxTzgUw2tJuAsONjTyo7vkuZiSOkVJiDmJ84D6g?=
+ =?us-ascii?Q?WfNkF5s2NhNImJ1oBNfF43PtWrDDdCMIw3HeEThM/hbqNw4TKB8vtFIuz6C/?=
+ =?us-ascii?Q?RhLZ/zAKr5LxNvInvMJN6CugqJDKvPk7uZMFJ0HPMALU6mG5JjVcxM8MbuMu?=
+ =?us-ascii?Q?ePIPkLeziGQqrA/H7I91NUvc5IPJafl/koBeHaVVeOo37hlcCt26gtH45OWh?=
+ =?us-ascii?Q?z7wpy13rKNc1HQ6+dSQtZe0Vj69+Y3AFM4yAUVHpB4FiY+PxsBY0P5o5gSCH?=
+ =?us-ascii?Q?r6OkEJFGVgtCfMEpisJ+mgvGwQOwDs0Y5c/NOfWGKOtr9/Negjaoc5aR/+lc?=
+ =?us-ascii?Q?x6mabi0/3Yu4cFREKbuXyQ+ofGaQ4UDkav1YQ8/8M7u900fQghpj2B4PC09r?=
+ =?us-ascii?Q?japU1qMhcSIBYx/41crNOUpvDgdIyNlX7xtflY7oINsUBzPaNbTa/MqWBh6F?=
+ =?us-ascii?Q?g6G6cAlyqwfi5DNNhlNncb+MDCRgHsanz+WNAmZ1+hfMGJpZRiN7rU41JclL?=
+ =?us-ascii?Q?nlp3AXbZvWTsgchr9AND7T1Kp9Z5LRoqC3HKPJn3gsdqAjaQGBk6xp2cABIP?=
+ =?us-ascii?Q?Pal3WGGinIruwC/gEmQ2zNWHXEzlje5Ukzak?=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA1PR11MB6098.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(7053199007)(38070700021);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?19bENYzlS0TZ7e8LndEhLw185OJUkf+0km6QxDXSsPFFdkZmdovFwczLnH+6?=
+ =?us-ascii?Q?RRMMDRvf6a8xTJWRARaym7VRidRGlDsJ19mPkI3BMEBFAPeJ1UG3inno4Kt8?=
+ =?us-ascii?Q?ay8oS57PAPbBkAtbK9s5YrpTXyEgOJ2gsAQgW92pDDH5c7u+0c2bgoB8R4LL?=
+ =?us-ascii?Q?FG3Lm2boaQ6TNpJtIqLfHEB1hsCO/3nYB/lTaxUTnkBYDjZi2ZnSEhAY8SJb?=
+ =?us-ascii?Q?kk+U9Zcc7vBR/o+B8+9NxpQTuXL3n3s1CzMMkXVFOhBuE15IU8xaLJeFFhRQ?=
+ =?us-ascii?Q?tVRm3jjaKGrQmA3mgyNtnYvH7r0KzGkEUmtdtszWRdVc1eQ0Ez5PwLksbC4M?=
+ =?us-ascii?Q?3LD2Lm+hmibahxvNfzCMcOgoEpHi/eJpoAiiFxck0pPyNCVcJIZc32NlsWXL?=
+ =?us-ascii?Q?onW9qMz4ywp81plWr6mIgluue3ER718Fx0kpiDrCY0ZSNxK9gWYuMHt4gTdy?=
+ =?us-ascii?Q?nBCVMdm5ULUMty2Way3eCrr62u94q35JKbohgRAUQLoE9kwIfPPKQdwG/sRM?=
+ =?us-ascii?Q?Q+co4bBpUxWJsWGJJKijba2aQQGdUBdvZuBUkqRCOz8jEGxtZUuXc4y44Hfm?=
+ =?us-ascii?Q?adk+HtJB4AxgXs8UFMTxwro0E0LLoO34vH21rJ1N3e9ZS4U8WFaClKC8urVl?=
+ =?us-ascii?Q?d1hnfqr+M068Ui8xnaDR4NyHXzrxzI75AC6oiOrRYTWmvsbVa4RMhWZ5qiqd?=
+ =?us-ascii?Q?au3pqrlX1ireXUCaXDPmbPju3vOYTIcXHrRzIWfqt1b/LCAiqFGV+mJKWwlh?=
+ =?us-ascii?Q?Dgn41wSzbUHJ/SYRFjZTfsu/Qq6cdUmDNstGOze0eJSFW9RXZtc0+AbJC/ts?=
+ =?us-ascii?Q?NsS6vGtnCmExJ17J6I10tgXIxuFduLFNkcuo+0pPFF2Zy2jxrzZUQgT2S95N?=
+ =?us-ascii?Q?elyMjuJqotbkzI+Yx689HlPHuI7QsYgm/hzbkttyzdYdVB3KTZbMqiBfkNLv?=
+ =?us-ascii?Q?EGHJ+4bhgADFBYSbpoxFH3/d7IouUvPbAf/Vhw8ZHmrz6hOWmPc9lLCRgk60?=
+ =?us-ascii?Q?jNt3d9k86BskugNgHR82IfRjBfzf/+Lij/ee0E24TEHt0vKYQS/o2wrQjulV?=
+ =?us-ascii?Q?oN3Y8u4ciWYVD0gML1HxyUakPb8pwWsI3grhZG00n/4FzlXkTz8m8pYSm/9q?=
+ =?us-ascii?Q?6Vwv0B80ycRwHbcBkEialICqJRtoFnL6xb3bOPaOsCkyUcKnZoiZ9QpIBklT?=
+ =?us-ascii?Q?Ax7MPZ2JmEEd9zkyBEbyNTaL5SgUdsySqwlqvCq+55WqcA/marRq7nmnLs6V?=
+ =?us-ascii?Q?cGlJjNKDSxQ/3AeF1tA6zWPa64hvX63IZY7wyNMnxz659+UzAsZKkASXLDIs?=
+ =?us-ascii?Q?sv4M5T76YELfEwR12BUvBbMj+KPdVGlPqaVFEBODvyCw/NCeSU/w77OEO/Gx?=
+ =?us-ascii?Q?k0pViQcEpuWePNQaZ53soapJcwF/sTYnDi6Ll0fwZ75BhykOB88WlPCbZX9/?=
+ =?us-ascii?Q?7DA3pU8Pn+e0d8vS8Pyotk3/lkUf4IV63zQy57BYihqVx7iBNst+U+sLyAeK?=
+ =?us-ascii?Q?HG0J+wr7ist7Tj082SCENrzWT7jOtg63r4kbr102mxqN3t81dbSanRFFlt/h?=
+ =?us-ascii?Q?tX0BZtxFGZjEKc0yUcQ=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: IA1PR11MB6098.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1070066b-ef48-472b-5193-08de07c17c1c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Oct 2025 05:54:32.4896
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: +xe6+CNJsH6SXtKxwobivdpl+e/lg2K/EvJQ8XSnkFI1qXmQCu2iySc2MerdE4lL+1hoSpKkdNaw5s+ozjklDQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV8PR11MB8697
+X-OriginatorOrg: intel.com
 
-During suspend/resume tests with S2IDLE, some ISH functional failures were
-observed because of delay in executing ISH resume handler. Here
-schedule_work() is used from resume handler to do actual work.
-schedule_work() uses system_wq, which is a per CPU work queue. Although
-the queuing is not bound to a CPU, but it prefers local CPU of the caller,
-unless prohibited.
+Hi, Jiri,
 
-Users of this work queue are not supposed to queue long running work.
-But in practice, there are scenarios where long running work items are
-queued on other unbound workqueues, occupying the CPU. As a result, the
-ISH resume handler may not get a chance to execute in a timely manner.
+This patch was in review list for 3 weeks without any review comments, woul=
+d you help merge it?
+Thanks!
 
-In one scenario, one of the ish_resume_handler() executions was delayed
-nearly 1 second because another work item on an unbound workqueue occupied
-the same CPU. This delay causes ISH functionality failures.
+Best Regards,
+Even Xu
 
-A similar issue was previously observed where the ISH HID driver timed out
-while getting the HID descriptor during S4 resume in the recovery kernel,
-likely caused by the same workqueue contention problem.
-
-Create dedicated unbound workqueues for all ISH operations to allow work
-items to execute on any available CPU, eliminating CPU-specific bottlenecks
-and improving resume reliability under varying system loads. Also ISH has
-three different components, a bus driver which implements ISH protocols, a
-PCI interface layer and HID interface. Use one dedicated work queue for all
-of them.
-
-Signed-off-by: Zhang Lixu <lixu.zhang@intel.com>
----
- drivers/hid/intel-ish-hid/ipc/ipc.c          | 21 +++++++++++++++++++-
- drivers/hid/intel-ish-hid/ipc/pci-ish.c      |  2 +-
- drivers/hid/intel-ish-hid/ishtp-hid-client.c |  4 ++--
- drivers/hid/intel-ish-hid/ishtp/bus.c        | 18 ++++++++++++++++-
- drivers/hid/intel-ish-hid/ishtp/hbm.c        |  4 ++--
- drivers/hid/intel-ish-hid/ishtp/ishtp-dev.h  |  3 +++
- include/linux/intel-ish-client-if.h          |  2 ++
- 7 files changed, 47 insertions(+), 7 deletions(-)
-
-diff --git a/drivers/hid/intel-ish-hid/ipc/ipc.c b/drivers/hid/intel-ish-hid/ipc/ipc.c
-index 3ddaa2cd39d5..9958f2968c4f 100644
---- a/drivers/hid/intel-ish-hid/ipc/ipc.c
-+++ b/drivers/hid/intel-ish-hid/ipc/ipc.c
-@@ -628,7 +628,7 @@ static void	recv_ipc(struct ishtp_device *dev, uint32_t doorbell_val)
- 		if (!ishtp_dev) {
- 			ishtp_dev = dev;
- 		}
--		schedule_work(&fw_reset_work);
-+		queue_work(dev->unbound_wq, &fw_reset_work);
- 		break;
- 
- 	case MNG_RESET_NOTIFY_ACK:
-@@ -933,6 +933,21 @@ static const struct ishtp_hw_ops ish_hw_ops = {
- 	.dma_no_cache_snooping = _dma_no_cache_snooping
- };
- 
-+static struct workqueue_struct *devm_ishtp_alloc_workqueue(struct device *dev)
-+{
-+	struct workqueue_struct *wq;
-+
-+	wq = alloc_workqueue("ishtp_unbound_%d", WQ_UNBOUND, 0, dev->id);
-+	if (!wq)
-+		return NULL;
-+
-+	if (devm_add_action_or_reset(dev, (void (*)(void *))destroy_workqueue,
-+				     wq))
-+		return NULL;
-+
-+	return wq;
-+}
-+
- /**
-  * ish_dev_init() -Initialize ISH devoce
-  * @pdev: PCI device
-@@ -953,6 +968,10 @@ struct ishtp_device *ish_dev_init(struct pci_dev *pdev)
- 	if (!dev)
- 		return NULL;
- 
-+	dev->unbound_wq = devm_ishtp_alloc_workqueue(&pdev->dev);
-+	if (!dev->unbound_wq)
-+		return NULL;
-+
- 	dev->devc = &pdev->dev;
- 	ishtp_device_init(dev);
- 
-diff --git a/drivers/hid/intel-ish-hid/ipc/pci-ish.c b/drivers/hid/intel-ish-hid/ipc/pci-ish.c
-index 9d150ce234f2..b748ac6fbfdc 100644
---- a/drivers/hid/intel-ish-hid/ipc/pci-ish.c
-+++ b/drivers/hid/intel-ish-hid/ipc/pci-ish.c
-@@ -384,7 +384,7 @@ static int __maybe_unused ish_resume(struct device *device)
- 	ish_resume_device = device;
- 	dev->resume_flag = 1;
- 
--	schedule_work(&resume_work);
-+	queue_work(dev->unbound_wq, &resume_work);
- 
- 	return 0;
- }
-diff --git a/drivers/hid/intel-ish-hid/ishtp-hid-client.c b/drivers/hid/intel-ish-hid/ishtp-hid-client.c
-index d8c3c54a8c0f..f61add862b6b 100644
---- a/drivers/hid/intel-ish-hid/ishtp-hid-client.c
-+++ b/drivers/hid/intel-ish-hid/ishtp-hid-client.c
-@@ -860,7 +860,7 @@ static int hid_ishtp_cl_reset(struct ishtp_cl_device *cl_device)
- 	hid_ishtp_trace(client_data, "%s hid_ishtp_cl %p\n", __func__,
- 			hid_ishtp_cl);
- 
--	schedule_work(&client_data->work);
-+	queue_work(ishtp_get_workqueue(cl_device), &client_data->work);
- 
- 	return 0;
- }
-@@ -902,7 +902,7 @@ static int hid_ishtp_cl_resume(struct device *device)
- 
- 	hid_ishtp_trace(client_data, "%s hid_ishtp_cl %p\n", __func__,
- 			hid_ishtp_cl);
--	schedule_work(&client_data->resume_work);
-+	queue_work(ishtp_get_workqueue(cl_device), &client_data->resume_work);
- 	return 0;
- }
- 
-diff --git a/drivers/hid/intel-ish-hid/ishtp/bus.c b/drivers/hid/intel-ish-hid/ishtp/bus.c
-index 93a0432e7058..c6ce37244e49 100644
---- a/drivers/hid/intel-ish-hid/ishtp/bus.c
-+++ b/drivers/hid/intel-ish-hid/ishtp/bus.c
-@@ -541,7 +541,7 @@ void ishtp_cl_bus_rx_event(struct ishtp_cl_device *device)
- 		return;
- 
- 	if (device->event_cb)
--		schedule_work(&device->event_work);
-+		queue_work(device->ishtp_dev->unbound_wq, &device->event_work);
- }
- 
- /**
-@@ -876,6 +876,22 @@ struct device *ishtp_get_pci_device(struct ishtp_cl_device *device)
- }
- EXPORT_SYMBOL(ishtp_get_pci_device);
- 
-+/**
-+ * ishtp_get_workqueue - Retrieve the workqueue associated with an ISHTP device
-+ * @cl_device: Pointer to the ISHTP client device structure
-+ *
-+ * Returns the workqueue_struct pointer (unbound_wq) associated with the given
-+ * ISHTP client device. This workqueue is typically used for scheduling work
-+ * related to the device.
-+ *
-+ * Return: Pointer to struct workqueue_struct.
-+ */
-+struct workqueue_struct *ishtp_get_workqueue(struct ishtp_cl_device *cl_device)
-+{
-+	return cl_device->ishtp_dev->unbound_wq;
-+}
-+EXPORT_SYMBOL(ishtp_get_workqueue);
-+
- /**
-  * ishtp_trace_callback() - Return trace callback
-  * @cl_device: ISH-TP client device instance
-diff --git a/drivers/hid/intel-ish-hid/ishtp/hbm.c b/drivers/hid/intel-ish-hid/ishtp/hbm.c
-index 8ee5467127d8..97c4fcd9e3c6 100644
---- a/drivers/hid/intel-ish-hid/ishtp/hbm.c
-+++ b/drivers/hid/intel-ish-hid/ishtp/hbm.c
-@@ -573,7 +573,7 @@ void ishtp_hbm_dispatch(struct ishtp_device *dev,
- 
- 		/* Start firmware loading process if it has loader capability */
- 		if (version_res->host_version_supported & ISHTP_SUPPORT_CAP_LOADER)
--			schedule_work(&dev->work_fw_loader);
-+			queue_work(dev->unbound_wq, &dev->work_fw_loader);
- 
- 		dev->version.major_version = HBM_MAJOR_VERSION;
- 		dev->version.minor_version = HBM_MINOR_VERSION;
-@@ -864,7 +864,7 @@ void	recv_hbm(struct ishtp_device *dev, struct ishtp_msg_hdr *ishtp_hdr)
- 	dev->rd_msg_fifo_tail = (dev->rd_msg_fifo_tail + IPC_PAYLOAD_SIZE) %
- 		(RD_INT_FIFO_SIZE * IPC_PAYLOAD_SIZE);
- 	spin_unlock_irqrestore(&dev->rd_msg_spinlock, flags);
--	schedule_work(&dev->bh_hbm_work);
-+	queue_work(dev->unbound_wq, &dev->bh_hbm_work);
- eoi:
- 	return;
- }
-diff --git a/drivers/hid/intel-ish-hid/ishtp/ishtp-dev.h b/drivers/hid/intel-ish-hid/ishtp/ishtp-dev.h
-index 23db97ecf21c..4b0596eadf1c 100644
---- a/drivers/hid/intel-ish-hid/ishtp/ishtp-dev.h
-+++ b/drivers/hid/intel-ish-hid/ishtp/ishtp-dev.h
-@@ -175,6 +175,9 @@ struct ishtp_device {
- 	struct hbm_version version;
- 	int transfer_path; /* Choice of transfer path: IPC or DMA */
- 
-+	/* Alloc a dedicated unbound workqueue for ishtp device */
-+	struct workqueue_struct *unbound_wq;
-+
- 	/* work structure for scheduling firmware loading tasks */
- 	struct work_struct work_fw_loader;
- 	/* waitq for waiting for command response from the firmware loader */
-diff --git a/include/linux/intel-ish-client-if.h b/include/linux/intel-ish-client-if.h
-index dfbf7d9d7bb5..b235fd84f478 100644
---- a/include/linux/intel-ish-client-if.h
-+++ b/include/linux/intel-ish-client-if.h
-@@ -87,6 +87,8 @@ bool ishtp_wait_resume(struct ishtp_device *dev);
- ishtp_print_log ishtp_trace_callback(struct ishtp_cl_device *cl_device);
- /* Get device pointer of PCI device for DMA acces */
- struct device *ishtp_get_pci_device(struct ishtp_cl_device *cl_device);
-+/* Get the ISHTP workqueue */
-+struct workqueue_struct *ishtp_get_workqueue(struct ishtp_cl_device *cl_device);
- 
- struct ishtp_cl *ishtp_cl_allocate(struct ishtp_cl_device *cl_device);
- void ishtp_cl_free(struct ishtp_cl *cl);
-
-base-commit: 0b2f041c47acb45db82b4e847af6e17eb66cd32d
--- 
-2.43.0
+> -----Original Message-----
+> From: Xu, Even <even.xu@intel.com>
+> Sent: Friday, September 19, 2025 3:10 PM
+> To: jikos@kernel.org; bentiss@kernel.org; srinivas.pandruvada@linux.intel=
+.com
+> Cc: linux-input@vger.kernel.org; linux-kernel@vger.kernel.org; Xu, Even
+> <even.xu@intel.com>; Zhang, Rui1 <rui1.zhang@intel.com>
+> Subject: [PATCH] Hid: Intel-thc-hid: Intel-quickspi: switch first interru=
+pt from level
+> to edge detection
+>=20
+> The original implementation used level detection for the first interrupt =
+after
+> device reset to avoid potential interrupt line noise and missed interrupt=
+s during
+> the initialization phase. However, this approach introduced unintended si=
+de
+> effects when tested with certain touch panels,
+> including:
+>  - Delayed hardware interrupt response
+>  - Multiple spurious interrupt triggers
+>=20
+> Switching back to edge detection for the first interrupt resolves these i=
+ssues while
+> maintaining reliable interrupt handling.
+>=20
+> Extensive testing across multiple platforms with touch panels from variou=
+s
+> vendors confirms this change introduces no regressions.
+>=20
+> Fixes: 9d8d51735a3a ("HID: intel-thc-hid: intel-quickspi: Add HIDSPI prot=
+ocol
+> implementation")
+> Tested-by: Rui Zhang <rui1.zhang@intel.com>
+> Signed-off-by: Even Xu <even.xu@intel.com>
+> ---
+>  drivers/hid/intel-thc-hid/intel-quickspi/quickspi-protocol.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+>=20
+> diff --git a/drivers/hid/intel-thc-hid/intel-quickspi/quickspi-protocol.c
+> b/drivers/hid/intel-thc-hid/intel-quickspi/quickspi-protocol.c
+> index e6ba2ddcc9cb..16f780bc879b 100644
+> --- a/drivers/hid/intel-thc-hid/intel-quickspi/quickspi-protocol.c
+> +++ b/drivers/hid/intel-thc-hid/intel-quickspi/quickspi-protocol.c
+> @@ -280,8 +280,7 @@ int reset_tic(struct quickspi_device *qsdev)
+>=20
+>  	qsdev->reset_ack =3D false;
+>=20
+> -	/* First interrupt uses level trigger to avoid missing interrupt */
+> -	thc_int_trigger_type_select(qsdev->thc_hw, false);
+> +	thc_int_trigger_type_select(qsdev->thc_hw, true);
+>=20
+>  	ret =3D acpi_tic_reset(qsdev);
+>  	if (ret)
+> --
+> 2.40.1
 
 
