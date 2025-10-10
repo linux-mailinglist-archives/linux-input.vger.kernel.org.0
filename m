@@ -1,153 +1,193 @@
-Return-Path: <linux-input+bounces-15363-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-15364-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FCBFBCD4C9
-	for <lists+linux-input@lfdr.de>; Fri, 10 Oct 2025 15:36:47 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C61DABCD5C5
+	for <lists+linux-input@lfdr.de>; Fri, 10 Oct 2025 15:55:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id C78983544E1
-	for <lists+linux-input@lfdr.de>; Fri, 10 Oct 2025 13:36:46 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 689B242829D
+	for <lists+linux-input@lfdr.de>; Fri, 10 Oct 2025 13:55:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E64B0287271;
-	Fri, 10 Oct 2025 13:36:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C0F731C5D44;
+	Fri, 10 Oct 2025 13:54:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=axis.com header.i=@axis.com header.b="C0CxyRTm"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BH+cOTIT"
 X-Original-To: linux-input@vger.kernel.org
-Received: from DU2PR03CU002.outbound.protection.outlook.com (mail-northeuropeazon11011066.outbound.protection.outlook.com [52.101.65.66])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EDBC26A1BE;
-	Fri, 10 Oct 2025 13:36:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.65.66
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760103401; cv=fail; b=ZzYoHEPIwHre7nn1wmVF0i5i+FJ6Kgz+c9yuKAzNqZlgMGd9uJpcfWdHUPT/29zaq93ca/F5Ps+jfrNxCMwXKpi/Y30m+R0jYksxgk/s9yYRz6CqHwfMB5ul1AHLjNr/5c7JXzEgVMk0/x53o/eRHYJfOJQlXzxVxDU3NKNKpZY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760103401; c=relaxed/simple;
-	bh=OM/Z/Db4w2vZA4wn/pSiwNdowgqblpIpBYy9aTQN5jU=;
-	h=From:To:CC:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=f4Peiv8q545mD4yhxya/BuL2Wj7kOTy4sWtN1pEhDrQq+8c21lWXhHD/KDyCidQB6XyFAheur8jpusSgHwpF1zpJ5dLforQqJ9i3f3knc+hpz7U1ELgZKmK+WgW8qaOVzT2TjwHCNLjvjtUCsDjQx9gCjYDtgLOGLcUpuKmE9Lw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=axis.com; spf=pass smtp.mailfrom=axis.com; dkim=pass (1024-bit key) header.d=axis.com header.i=@axis.com header.b=C0CxyRTm; arc=fail smtp.client-ip=52.101.65.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=axis.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=axis.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ATN8y8AJAnuyZEPjHbLGWOr2Nkb5OAt3R1xjEMbpK5fVpbgp3KXeuADy233DcgdxGNoRDEmnE8Sp0MFBkpvHa/PRcVk/4ypxeVcZBpNOj9tmMhjntYSZQdLDa15oxsavoa9bd/MJh+veaNadmLy3fedBByqn9qCryI1NkmNKM+n1U2pkd/Zh+4J5Nr+qZ0eDpIWGw1CI1zB6jk6z899HEi88Q//RhEMdZUjmRYJ7tDu1bQMDLEvsWQICRPYQYqwfSMWpBpUn2KYr8bJX/In2++Puztex38Zn83iJ7DplaB375FcAzsQS1sxxKV1I4sDARPC7F8Blqyvzaj6HAGP7LQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=OM/Z/Db4w2vZA4wn/pSiwNdowgqblpIpBYy9aTQN5jU=;
- b=capW4F4gzIZzWXj4Mtq2q1gEu0OelPFtO/+HCwuwHEOR7LTq9hs2WXDuebeGtfqO2Pfl0JjIGL5skmYaGw05zwGae0smZSrKDpwKjjwTaYgVPm567PRXi1kM7AptChFan2PTbx7AiWi5rNFxSp7bWmYGhO6J09PuGF2z6ZkSI6GjOn8mXDbPvshLjfyf5Sbb8ftm+/XG8m0ZzAQ61NTjyWhEz9hVvsts/IBFvzEG6B2J3wGOY1ESNx57dd2xXhPMVDS1VVr7GqHyKyFLwBConaQSKcccxAjNCAhakV8OqMCna2dLM/bxiiUymw6wWTz5eA1uqcF2f0smLkshyTacXQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 195.60.68.100) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=axis.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=axis.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OM/Z/Db4w2vZA4wn/pSiwNdowgqblpIpBYy9aTQN5jU=;
- b=C0CxyRTmvT/7n68oRAMmN1jf/9IjQbLS7SeAbfAnbkneRRlo0XZKudeXjf8LvU/OvMxygKBqN42258UEnodEE8182FzB+BtvxgmjG517Mm+A7WITBLVRus3dcOnBeRJD/M7LXLlG34zzSwpOQk1NHvZNLAYXgHKej/7ai7aI/Gg=
-Received: from DB7PR05CA0020.eurprd05.prod.outlook.com (2603:10a6:10:36::33)
- by AS5PR02MB11269.eurprd02.prod.outlook.com (2603:10a6:20b:6c1::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9203.10; Fri, 10 Oct
- 2025 13:36:35 +0000
-Received: from DU6PEPF0000B61C.eurprd02.prod.outlook.com
- (2603:10a6:10:36:cafe::71) by DB7PR05CA0020.outlook.office365.com
- (2603:10a6:10:36::33) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9203.9 via Frontend Transport; Fri,
- 10 Oct 2025 13:36:36 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 195.60.68.100)
- smtp.mailfrom=axis.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=axis.com;
-Received-SPF: Pass (protection.outlook.com: domain of axis.com designates
- 195.60.68.100 as permitted sender) receiver=protection.outlook.com;
- client-ip=195.60.68.100; helo=mail.axis.com; pr=C
-Received: from mail.axis.com (195.60.68.100) by
- DU6PEPF0000B61C.mail.protection.outlook.com (10.167.8.135) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.9203.9 via Frontend Transport; Fri, 10 Oct 2025 13:36:35 +0000
-Received: from pc52311-2249 (10.4.0.13) by se-mail01w.axis.com (10.20.40.7)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.58; Fri, 10 Oct
- 2025 15:36:34 +0200
-From: Waqar Hameed <waqar.hameed@axis.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-CC: <kernel@axis.com>, <linux-input@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2] input: zforce_ts: Remove error print for
- devm_add_action_or_reset()
-In-Reply-To: <pndbjoum7td.a.out@axis.com> (Waqar Hameed's message of "Tue, 5
-	Aug 2025 11:33:34 +0200")
-References: <pndbjoum7td.a.out@axis.com>
-User-Agent: a.out
-Date: Fri, 10 Oct 2025 15:36:33 +0200
-Message-ID: <pndfrbqj2u6.a.out@axis.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0661F2F39BC
+	for <linux-input@vger.kernel.org>; Fri, 10 Oct 2025 13:54:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.172
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1760104493; cv=none; b=UvB7s8qioAj2Zj41t+qKuNzUdqS7Pb1X9LrTTadoqzDTZpDtL4xCr4qfWPGy1n+8zqhLvZF6oFfn3inLFfRpsPJP0M0/j3/P+CUZF6I736PTwMVfIaKunbnqiAFBlRK801wxw+CmQtfjLpvKxokdkPJ3UirG3W9cgc3ZGBk/TLo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1760104493; c=relaxed/simple;
+	bh=PPK7TEQDYfFw0/nfl/MP3mtP6E7a735O1zcZZfARrCA=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=tRNvgkDZvRktYrIfBOXc57jn8vGlFiHnHP2tQxQ98bd6jJtKspKN+ikR08b0ux83ScHMlrytZ3qeu/rNUmzkvGJJU8swKOf1Ba04eRPmgHEvzuuO5bsqERPO2hmKIiTYbIaeFL5Q3kU14fGTpQXqYpXEBUd6jsUSoQ4pXAYtuWc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BH+cOTIT; arc=none smtp.client-ip=209.85.222.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-qk1-f172.google.com with SMTP id af79cd13be357-8571a0947d1so249478885a.0
+        for <linux-input@vger.kernel.org>; Fri, 10 Oct 2025 06:54:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1760104491; x=1760709291; darn=vger.kernel.org;
+        h=content-transfer-encoding:subject:references:in-reply-to:message-id
+         :cc:to:from:date:mime-version:feedback-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=PPK7TEQDYfFw0/nfl/MP3mtP6E7a735O1zcZZfARrCA=;
+        b=BH+cOTIT0/0t4+wuRj4tCP1fMJfcbtph9YA3/0+HMig00L0vvA4erEISAGeBs+cMXx
+         sbK1D7WHIiOzEYSdHzmG6QDLjB1GWSyT/M5VUZltwgKUUpi9pDhH96rYkgUtuCM1dO+1
+         6KUYeIAKDKHBMRtHrSd68yxLe69Xba2oizIAvtGb0eo/Ots/uI8PSYvi/GSonUAIT3nN
+         xfia/kfc2WEiWP0Cbfz8j6jcMVveQKXBj2+UMjHEm9GvSht98kS4Y0wC0JdeNbgQWwvQ
+         q5Xxb2tHfJLvnUNld2fcez9+FNW9GA642jVDABoeMi+AunWPNjwknab0fFUBZeLJcPOx
+         DORg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760104491; x=1760709291;
+        h=content-transfer-encoding:subject:references:in-reply-to:message-id
+         :cc:to:from:date:mime-version:feedback-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=PPK7TEQDYfFw0/nfl/MP3mtP6E7a735O1zcZZfARrCA=;
+        b=f+JXs9ifZFTlFvTRYpYwHYWTzwphW6xXVAdp5ise4iv9XWZ/7aTYF3R3mN4hGwLTJT
+         bdeTSKrVFq8qmhpQp7FJEZMH2pgKqRyj/yB40RN/luk53EKdT22FgdAPQ6iOecvzGGX2
+         4LTTabgkOsY4AObEDNLlJ+IEaBraz53o9cPtmkWCwuRpFSxG/8upv9SXjBMZ27mFxPyV
+         8v6qD6AKaadKrO758wtZQXfjMR+rX3ml0XtS0GT6b96Sh031J+v1TShqkOQ724wiV1Lf
+         Nh0fKTLT/AbCHefjPN8p4akytVUCXGg9qkkiCA7ghN/XI8aLnqGEKQLlBbNKzuKrIyIw
+         QPxg==
+X-Forwarded-Encrypted: i=1; AJvYcCWIEdVbzb4r5OLQNNDvAWLQHDJ70ViTC2jkdBV1EK5LEIf3azwgFar1PTc/gtqVODr3botFAbFYmO3m8w==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwPYCXG4DE5VUEpcfkk/eeb/VZV93LudmR93IX9ly7UMY1Xidcj
+	kOGKAE0ziMEQ1sK6ZVE4bqZNQGKIwB/K4ReBwFqDiLcV6MKchNkwj6GB
+X-Gm-Gg: ASbGncukh2sTNxRqwukzf9lzYiAKk0wIabZ08hlhiyNj6IY24Cm/d1xYLycpuLYo7sk
+	/tKJO8K7svEJKl2F/k80H/rWlN8Yslv0d78CA4byHWwogqsC+hMTyk498qdJp/eUEgvLL8j/vgE
+	Tb+lk+BLairR3JiADQeGOtZlU7tZjnlYOgGiw+4L8zInmiT/vCu5cy/jTCSAzBTaZMzk6+Mfav8
+	VPnDhdiTtiTMfrKX2pSt8kZ96OlI2EuPrBtreeU7/76keClakl06lbNO++FWeH24OIKw3G+mbeK
+	bGHfVYphacRv1qq3InXxkYNQ7Yv4DWL1N1OoQrhmlB7/iNOdQv8aEOo/e5IUQiZJJCn6xZMgj3C
+	sKIqec/056w5LlLRm0/XkRFE0WwFdhkurfbquU4BBkegcUJEl3qkyZNNflu/W4QBmZKZVZ2TdO3
+	A+LTU5VgoJNA/a0qseuFKz0q3srIeaQBefybzrdqH3ow==
+X-Google-Smtp-Source: AGHT+IEgxrke54HjalSwfztvMb1tCCD5P4ICxuAhsGxg2c8gYHUsCjGdNBRjZNJfEipJWPNjoYQ/TA==
+X-Received: by 2002:a05:620a:410c:b0:829:d0e9:bc1b with SMTP id af79cd13be357-8836d74323amr1419606085a.7.1760104490701;
+        Fri, 10 Oct 2025 06:54:50 -0700 (PDT)
+Received: from fauth-a1-smtp.messagingengine.com (fauth-a1-smtp.messagingengine.com. [103.168.172.200])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8849f3d8883sm412042385a.2.2025.10.10.06.54.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 10 Oct 2025 06:54:50 -0700 (PDT)
+Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
+	by mailfauth.phl.internal (Postfix) with ESMTP id 6D944F40066;
+	Fri, 10 Oct 2025 09:54:49 -0400 (EDT)
+Received: from phl-imap-17 ([10.202.2.105])
+  by phl-compute-01.internal (MEProxy); Fri, 10 Oct 2025 09:54:49 -0400
+X-ME-Sender: <xms:KRDpaBaqHqUHtAD5VfU3blrsekhnPWTM7fll5vDpWGy94QCEkGh3MA>
+    <xme:KRDpaDMDtZbkAHjRNUm1yrS8-1laiYG_TP7Nn16S0DHrFQ601Ppg28RQSFHPEBdEl
+    5s4VpGDOGgCrp24rtuMAvDRGdczCgA3_yQWpdBAYv3M65EvwUb8rNo>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggddutdelvdefucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepofggfffhvfevkfgjfhfutgfgsehtqhertdertdejnecuhfhrohhmpedfuegvnhhj
+    rghmihhnucfvihhsshhoihhrvghsfdcuoegsvghnjhgrmhhinhdrthhishhsohhirhgvsh
+    esghhmrghilhdrtghomheqnecuggftrfgrthhtvghrnhepveffveffvddtgeeikeeikeef
+    tefhfffhuefhudfhhedvkeevgeelveekffffjefhnecuffhomhgrihhnpehkvghrnhgvlh
+    drohhrghdpfhhrvggvuggvshhkthhophdrohhrghdptghrtgdrihgurdgruhenucevlhhu
+    shhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegsvghnjhgrmhhinh
+    domhgvshhmthhprghuthhhphgvrhhsohhnrghlihhthidqudefjeeftddtfeeitddqvdel
+    kedtjeejkeegqdgsvghnjhgrmhhinhdrthhishhsohhirhgvsheppehgmhgrihhlrdgtoh
+    hmsegsrghnqhhuihhsvgdrvghupdhnsggprhgtphhtthhopeegpdhmohguvgepshhmthhp
+    ohhuthdprhgtphhtthhopehnvghtfihiiiestghrtgdrihgurdgruhdprhgtphhtthhope
+    gthhgrthhthiesvghnrggtrdhfrhdprhgtphhtthhopehlihhnuhigqdhinhhpuhhtsehv
+    ghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepphgvthgvrhdrhhhuthhtvghrvg
+    hrseifhhhoqdhtrdhnvght
+X-ME-Proxy: <xmx:KRDpaECYDkg38zIfy3cWwJ0ZfxXjVdZeMyjol-meLjLzSUjyAMDtDw>
+    <xmx:KRDpaB-hlvRQ0J1G3JB_B_ShSJFftHiT5GDbYImmhONUEa6aLbarzg>
+    <xmx:KRDpaLGHY2vE5KaOmicCrjnJpXEQPYoGRTybrEf7wvvyCid_wKsFxw>
+    <xmx:KRDpaPOyotVF2_3K_hMUfoiU-ApaiYoqc0CpBzEMuN7lqjF-LRUr8A>
+    <xmx:KRDpaFcWI3hFAIj4WXLMWy-ZwXIR-UnuigxHJ6vIL1_ZywKEIy5nMQGp>
+Feedback-ID: i3c514981:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 3EB44C40054; Fri, 10 Oct 2025 09:54:49 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-ClientProxiedBy: se-mail02w.axis.com (10.20.40.8) To se-mail01w.axis.com
- (10.20.40.7)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DU6PEPF0000B61C:EE_|AS5PR02MB11269:EE_
-X-MS-Office365-Filtering-Correlation-Id: db229a59-113b-4fec-94ff-08de08020850
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|82310400026|376014|36860700013;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?6eCd7NkHhJXcGdCH+jrVo9dzzONGt/4uXOFfBgBwrgxkYNhuOpdSoBA9GQuB?=
- =?us-ascii?Q?BYfYONlaUkeMKp2O+wt+aMfTYFUk+zAGsoq0K6HUTU+l9fQdW1KkkYQkpepB?=
- =?us-ascii?Q?0yPIpf2GE+wxWHzq/9jguZETDQgywGUhDBDLzinSaV2qNITHIh5sfR9qMKKw?=
- =?us-ascii?Q?ZsMBVRsGobIW6Im4v3+y3SV+3W4pj42M4ywYWkGAni+dbcFv07fcmFXQRB/g?=
- =?us-ascii?Q?M0IRjfY9vPbFQZJhae6SPFkZNYzJU5/Zgq69Rtvi+OVqNPxdbHRqf5XIUAO0?=
- =?us-ascii?Q?7gyuqlwMivoHYNoEwiG3yVpFwjZhc9HGJBhjM7BTPMwrY7D2ChAD383r+Fto?=
- =?us-ascii?Q?gf1ayglrz91W5XUXO7h87GADoNT+yVKAIM6nXYh8dl9zOTkTrNOxSuoysJme?=
- =?us-ascii?Q?quPZrV610LRpVYF7/JcXiF+dgsgHwod8NcTKFaiL+ZoHpTKhVbP5deA1vZzV?=
- =?us-ascii?Q?OV1c4uSPkatxlqEKCCLm70y5NXYUDlhZOTEst7F1EyM7FHNjegSblMdBlCms?=
- =?us-ascii?Q?LCZJP4NPcCMtMuPUN5F1GcL/r1fn85nW6si5B2kkTDD4i2/rOf2RSjJ4SHsO?=
- =?us-ascii?Q?+Of/vH3elm6OrfqYOyBFsvGZvgtkpqcSH45mSp0ITmJOiFmPX9zJ7jFZmT9q?=
- =?us-ascii?Q?tbpTonWnAV5lo9aSTwdfy+CToKJfxSDg1fRc7g91NdVp6nz2p/ubWAJHEk8m?=
- =?us-ascii?Q?ax5+nC2VzrpJgtmvHyHHz+3eS5AjSYejBS8UgVsK1xDEFUb213u5zEnUtG/P?=
- =?us-ascii?Q?AgMJuY1C7SgwqPPk1S0CJbuStCdiiMggZrJ8abBE0nNDzUO7Sq/edxahaZHI?=
- =?us-ascii?Q?a9ScEcU/RnFkTGiuO3jtXF4mFrH9tueNHptPYjoyPCT9KKfXSYNvqXjgB+yH?=
- =?us-ascii?Q?PBflTmVotfic7XwyBtz+gbE9NH4bmO1sEp1xpQZvxhQ5x4sWVW8kp4v2g3WF?=
- =?us-ascii?Q?CLuHdhzMXg1mxyOdJjOv4OhscEEosNtHQElsIYrhNAzO8O1V/3rJ9DultbFT?=
- =?us-ascii?Q?YqaI2D3GYc39DHtgdN6nQpsvrPS7bygi1jqux00vEIjAAanmckQAfL+dqWxN?=
- =?us-ascii?Q?Jr9FMfFQcf8gKZDvowNl6ICRpBUDtHFK+LI4PenrFWtrmIQgWsB3S1F0Lc0t?=
- =?us-ascii?Q?S7SV3iL/xhIXHJKn7JWSWkGS5OeRAsoyMe43fgLKyBjl0u8VpdM7A70XFO4+?=
- =?us-ascii?Q?i225bUt+a/nwD0nTg+9kRIu9SiweOyo9OcPTvA7sP4o+bn08D46XbaMQUWqG?=
- =?us-ascii?Q?/HRhIORL4IVFlV90pr7BKNYCQfNT1IheOsFTRxWRJ4oTN9bRoHDs2uPySbGu?=
- =?us-ascii?Q?2nwAxZD4yILWj/6LNbRUPt5zriRqD6BCjTkfJr2ylF3ifx4yzUkGk0W9TO2k?=
- =?us-ascii?Q?yaCrbz+Hhim53ups+iy5YMLvTwnifqZd1B33ibgYLbPNwOYzL45WroFLKwbP?=
- =?us-ascii?Q?/foMTqmHyjQUTDSQxK/TTwHOHVlKors6KWbcc3FDFWx98lbpBeT7i9AOUyNd?=
- =?us-ascii?Q?gykonpoqGtA2myZmUrN0qjHKYxM/SDkjNLlKniLe0Un6qNEpSKi1lOTQrZKi?=
- =?us-ascii?Q?raTbYyLYKHl7uIB/PZc=3D?=
-X-Forefront-Antispam-Report:
-	CIP:195.60.68.100;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.axis.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(82310400026)(376014)(36860700013);DIR:OUT;SFP:1101;
-X-OriginatorOrg: axis.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Oct 2025 13:36:35.4452
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: db229a59-113b-4fec-94ff-08de08020850
-X-MS-Exchange-CrossTenant-Id: 78703d3c-b907-432f-b066-88f7af9ca3af
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=78703d3c-b907-432f-b066-88f7af9ca3af;Ip=[195.60.68.100];Helo=[mail.axis.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	DU6PEPF0000B61C.eurprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS5PR02MB11269
+X-ThreadId: AuksZPTF120c
+Date: Fri, 10 Oct 2025 15:54:28 +0200
+From: "Benjamin Tissoires" <benjamin.tissoires@gmail.com>
+To: "Steven Haigh" <netwiz@crc.id.au>
+Cc: =?UTF-8?Q?St=C3=A9phane_Chatty?= <chatty@enac.fr>,
+ "Peter Hutterer" <peter.hutterer@who-t.net>, linux-input@vger.kernel.org
+Message-Id: <ed69f310-8a4d-4023-b1ce-72b78e512177@app.fastmail.com>
+In-Reply-To: <26b03bc2-b824-4948-9803-5a0b5f08e394@crc.id.au>
+References: <2a878c8a-0289-4378-9c32-6eaf57e7dbfc@crc.id.au>
+ <d058871a-a2c6-4197-a77c-08edb0ce70b4@app.fastmail.com>
+ <fd7e0577-a992-4761-823b-b5fe41a7ee74@crc.id.au>
+ <8720ac11-2b1d-4b42-84c8-52407dbda7e7@app.fastmail.com>
+ <26b03bc2-b824-4948-9803-5a0b5f08e394@crc.id.au>
+Subject: Re: hid_multitouch - random non-responsive, multitouch, scrolling and zooming
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Aug 05, 2025 at 11:33 +0200 Waqar Hameed <waqar.hameed@axis.com> wrote:
 
-> When `devm_add_action_or_reset()` fails, it is due to a failed memory
-> allocation and will thus return `-ENOMEM`. `dev_err_probe()` doesn't do
-> anything when error is `-ENOMEM`. Therefore, remove the useless call to
-> `dev_err_probe()` when `devm_add_action_or_reset()` fails, and just
-> return the value instead.
 
-Friendly ping incoming!
+On Fri, Oct 10, 2025, at 2:21 PM, Steven Haigh wrote:
+> On 7/10/25 20:10, Benjamin Tissoires wrote:
+>> On Tue, Oct 7, 2025, at 3:42 AM, Steven Haigh wrote:
+>>> I ran `libinput record -o recording.yml /dev/event/input6` and have
+>>> attached the compressed output. Annoyingly, it seems like the touchp=
+ad
+>>> is working fine at the moment - so it may confirm the hardware
+>>> information, but not a recording of the problem right now.
+>>=20
+>> Yeah, same on one of the Dell laptops I have here. I know it has the =
+bug, but whenever I try to reproduce it it never shows meaning I was nev=
+er able to pin point the issue :(
+>
+> So, "good" news is that I managed to grab a recording today when the=20
+> touchpad started to play up. When using two-fingers to scroll, I ended=20
+> up zooming etc.
+
+Unfortunately, this is a recording after the kernel processing, so all I=
+ can do is check that we have ghost fingers (and even that is trciky bec=
+ause I'm not sure if what we see are the expected events or not).
+
+>
+> I tried to make the recording as short as possible, but still include=20
+> examples of clicking, scrolling etc.
+>
+> Attached for reference.
+>
+> As for which way to approach a fix - I'm happy for you to suggest what=20
+> path we take - a BPF, kernel patch backport, or something else.
+
+Great, thanks!
+
+>
+> You tell me which one gives the most value and is likely to help more=20
+> people in the long run.
+
+Right now the most valuable would be to test the series at
+https://lore.kernel.org/linux-input/20251008-fix-sticky-fingers-v1-0-760=
+f1f26fce3@kernel.org/T/#m0fba507cbd43acd36bef28151ecb90b7077606a4
+
+If this work and you want a quick and dirty fix you can then return to t=
+he default kernel, and use the BPF from https://gitlab.freedesktop.org/l=
+ibevdev/udev-hid-bpf/-/merge_requests/204, the latest version should be =
+compatible with your device, just re-download and install it again.
+
+But definitely a tested-by on the kernel patch would be appreciated :)
+
+Cheers,
+Benjamin
+
+>
+> --=20
+> Steven Haigh
+>
+> =F0=9F=93=A7 netwiz@crc.id.au
+> =F0=9F=92=BB https://crc.id.au
+> Attachments:
+> * recording.yml.xz
 
