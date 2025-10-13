@@ -1,83 +1,83 @@
-Return-Path: <linux-input+bounces-15421-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-15422-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CB90BD4D97
-	for <lists+linux-input@lfdr.de>; Mon, 13 Oct 2025 18:14:38 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CD60BD5377
+	for <lists+linux-input@lfdr.de>; Mon, 13 Oct 2025 18:50:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 029D3348623
-	for <lists+linux-input@lfdr.de>; Mon, 13 Oct 2025 16:14:38 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 1CA89546417
+	for <lists+linux-input@lfdr.de>; Mon, 13 Oct 2025 16:16:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EBBF230FF28;
-	Mon, 13 Oct 2025 15:56:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8EDD130C35C;
+	Mon, 13 Oct 2025 16:01:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="UcUEJhcC"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="NSTFADP3"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E1C026FD84
-	for <linux-input@vger.kernel.org>; Mon, 13 Oct 2025 15:56:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7C7A309DC5
+	for <linux-input@vger.kernel.org>; Mon, 13 Oct 2025 16:01:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760370972; cv=none; b=ZP8J+tSquOv3LUSBKGbgh5y2h+KVNZ0Tmt57PiZZmfKCv/baetXDNf5S/PDCq01AN9QWgdcp9NGE4lAdEikTyROmdVXj54xKgCKD7Qd7LVQ8b0Tm03O6C6c98qzg1Nbo7pQryr2ZyqxDatmeXiANXMbpalvL8G+ie/ArtEy9ah4=
+	t=1760371286; cv=none; b=qlFedH8Uw1Mt6ES6eHsQMTwE9uCs3Mldj2XBZE5b+wF2TmmpHJRKZlNw56oSWvSOrLY1YjEHuF6KXxi8yS6b9B/7O6abHmy7svRpA4kQW8BpDaCMOCy165zE1s+3uzUSX0Tk9SvSBdDeEurtJxoV5ZewAoS+goGGebiPhqzgKe8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760370972; c=relaxed/simple;
-	bh=cAB0kIpqj20tM7yHpaFoe3xcfA2AB5cxFaYcvZmpAuc=;
+	s=arc-20240116; t=1760371286; c=relaxed/simple;
+	bh=7pmScWeJxb/SA9LfgnIE+RSHfO7kt+ZDsVcv07zsRtU=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fzKWGXnfstDlF8UmkGgd40cfVDooguDLYpbC5b/6YUsRhGV/h6fxaPc8sb1DpLsGyGM2s/ecnI4+JGDlCNZARZ2+ykd0WiSDFher9nQkb/CE6fNiys2Uxe+4cSPYgOiA3/3m0TgtH337wmVkkNoRyGwxHTIO9T20xNCjQN/2HU4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=UcUEJhcC; arc=none smtp.client-ip=209.85.208.41
+	 To:Cc:Content-Type; b=qCX8snQtCkcxEL5zcNyJe70PwehA18ee73c1YfiKIVlpc7IVJbTWD7kvdz/lqlr2XFyC2ig/1EKBWhPhuEb8feWc1A2vtfQxta+eum6W8mK0oDf+YPdlvihwHG+qbGYtPEkbasCTYUi3uzkiAMeTr9/uYfi74Ctd+ZMp9nxSM/c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=NSTFADP3; arc=none smtp.client-ip=209.85.218.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-637dbabdb32so8607613a12.2
-        for <linux-input@vger.kernel.org>; Mon, 13 Oct 2025 08:56:10 -0700 (PDT)
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-b40f11a1027so785235566b.2
+        for <linux-input@vger.kernel.org>; Mon, 13 Oct 2025 09:01:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1760370969; x=1760975769; darn=vger.kernel.org;
+        d=chromium.org; s=google; t=1760371283; x=1760976083; darn=vger.kernel.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=LK0kBaNkf30iNo8Y7sNwo/F78yA794Ns47GaxpHfRwE=;
-        b=UcUEJhcCgZbc+qvln5Mi5muZ31gAWmbGEHc5V/JUlHKiMcY/Y2kqhcaFQy/VZsjYta
-         ZFn/DpDe9JaDLGo6D0DiJEic0b2UDdF6/VcDIyV0hhgil5O3xSLrh314mWxRSLs7qm39
-         4gOGDqPEUoOsbfm5oVhL9pa2igkzACBCm9LOA=
+        bh=85zW8eAa0UUuhYK13qFSD0pz0Cqd0sUrz3cG+0d4BSc=;
+        b=NSTFADP3+2QyrhZwcvohG92A/fLKzgvINVGFEnh4vPePuOdHgVMTmEi9uaGzspZfQE
+         ZRz705MBgQ3gClcB5e2pVOeYeUmyveixVdSSzLNpjBvALmMzthfvVs6TC8rOEgYFQXRk
+         gPkjVJ0GmI+vkQzoVvpNXmsoRmKOhupMbdV/c=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760370969; x=1760975769;
+        d=1e100.net; s=20230601; t=1760371283; x=1760976083;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=LK0kBaNkf30iNo8Y7sNwo/F78yA794Ns47GaxpHfRwE=;
-        b=DkJ0TgOp/PER/VCub2rCQctusCFWQ5TDibh3stqbGsVUGJj2zCvoJ3w5GEvO9Rfn8I
-         XIZ+3nAS2GnzxuV2Txjv89Nwr2GjWkz1AkoOZ7LxiV1a+qDKOY6WkJDsW6namlB0Afy4
-         FGSajmRP6EPJ/RUVAgkIKj29d12O0JcE1NJYYC6N5q0xI4msdqJPizC4S1NcWpeL2lEa
-         kevckYK9NKJGQSx4O1aubt8dr6CEofCv8Hy2UoocaTiv+s9dEthu3pZe4CltpR3vC04C
-         aNpa8dh4NLsCPk6oqhea32t5xMPMBwQPryAJe/OEuZj+zWWe6BMyiaB+ZaIrO20T+F4O
-         76rg==
-X-Forwarded-Encrypted: i=1; AJvYcCVY80O15lr5DnAbuZGlsEPQ8sHBu79DXB/AfZLclGkOnWOw8fxrCgH5lCA5Wpx4jKTXtx60wGXk59gR/A==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxl0tLAaTQz5IxFXdArVuNI+gjzsmPQNEowKVPHHlo9kjPPgYqo
-	Ba0yWFH/ARoBdrwpPEfgQETCW2YIen4/eKqMryNRmInff6goQ3gfOOpYPzGDbVgnb9k0yGLPNdj
-	HMN0j+L+T
-X-Gm-Gg: ASbGnctkdcKweKKbZKYyOnia2QWO4E7UlYgEDtBNKq8G5eH3yzcJ7n9N7M6neBUZNyu
-	Qw+jBWpgQhfAl3BMBl1qDUrB4RUz3TuPpW7Ebydclkvxep/S/2v/JCAQGxsF5vKCg+NfwTotpqH
-	97AvbzvabsvTQMSwAeRppaYUzgSzlRtVD+EpPfTr/0Flpnl0EiskV+yTcHjKM/RpIasjXZ4dpxg
-	+b3d28UbGBTnvTGNkdplU6u4IEIynyeUwTJ1hVcPpG6qfZoK49pUOB1GFs9IezvoFROlxExgZC3
-	xax5kfSpjEz1T1jeXPF4/InUWuVnATsI8c2Ui0dccSCEUmc1OGpeLb4v6Be0acNHUwB3GLR6pzy
-	zb4BPwaPkRF5bNhIH0tmZ3hlT3t+VDfys5Qnc+pqYjMembA8BRNzgDfWGDbbQPlqxYjp3+hBevp
-	DSSPU=
-X-Google-Smtp-Source: AGHT+IEaMdKquFnGBVzrGkQdoajDDGo5xQcHvkaz5reNnlMeSMFNRwrVjYhZ/6lOvPC3AJqddFZTxA==
-X-Received: by 2002:a05:6402:34c8:b0:638:afd9:e96d with SMTP id 4fb4d7f45d1cf-639d5b43b2cmr19141317a12.1.1760370969311;
-        Mon, 13 Oct 2025 08:56:09 -0700 (PDT)
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com. [209.85.208.41])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-63a5c323693sm9299173a12.43.2025.10.13.08.56.08
+        bh=85zW8eAa0UUuhYK13qFSD0pz0Cqd0sUrz3cG+0d4BSc=;
+        b=CLDDNud56V+AZKhDnFaoi3SoWsZ87m2WLx5/ClDpD+osIiSkNCGHC0AclLUs9WMEDl
+         u+6O8ZSRKWhS40FjrPEUGr8Q5EXtHlBL1XRhQQKfFcgaJJ1XOIAuzv0vGIDAhkyqoPsP
+         ZMxigVhIhuqmwONiaMglTSUYg0O0jpr1UHzlrC5wdbPFF4bnFdYS6v10em5by+bRCUOk
+         kxWPKNGIFgnOzmput0mWYKShsV1xuWrsxFaObFvWxSBXaSK89/oCJ/eE9ei+WsK8JV9A
+         tF61zQfQcnpo9AbcrumYRlM6ryrRFcCGvJb9J5PhLjiqtF+ozlUcQTObGBG7dU1Uq4+/
+         Rn+A==
+X-Forwarded-Encrypted: i=1; AJvYcCX24gWagXyoZhsn7lGq/Orx2MTvQJ0BLNpxGejD2khuybBhL9JTTnoCZLCIth+vgUE1vIOIrDtgatN2nQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YybSNtFJb6x9GYdY1Gq9R7Dc8sWFI9K4WtaT/7thVG4N7VM1Wt2
+	l0g7a5vxVN1//FGduLQUqFMqZXeePa+HwuKnx+6FFFag6U/Z7p4hsRaM57leggEyju0B5vyIIIL
+	cWeDTz1El
+X-Gm-Gg: ASbGncvfixNwgXA5J0nOhrWnoe0fp4dGYEmw0iumoU4zYrC4vj+E29I1ba+zN4BNGvw
+	oJr7KHsxJwPb91/zSzdN8DmdlzOSO5iwEEnecKssEAmYao15PMLrirTrEb0F33kspMqG5dNyk7g
+	9629GLxdifNCDLRdfOgNXIW0R9+qL0WczrN1ZNdotuDqYLA2P42PoztIfEBp1MSojeDJb4R0/Tw
+	9uP/JKDMtBgkUY8rXxbWytAONaegvfOM57B/CTcjdSO9Z+81vIii1u+4r/KId9Dn4VVq8HCTAEG
+	hbftPn8nllIz0272nU7a9WM8IA5uZHig6kZhI3+Z2FodnGcziDmZl7rfhOZcoGG2ZdDjA2lpnwR
+	U3PjVlm5+vgXkfkuhqmLUpXFo1LA5OTDXdlxHE5DLmrrlTlxH2zCMdugu3KCYP3K2dj0Fzd8D3S
+	cyY5w=
+X-Google-Smtp-Source: AGHT+IElSiclBG0a+YUZsp8bo3UmAsTyvZpgzkstlzaZZdC5Nu3v/hP6yBc6XQTF/az/EhG8jOTwHw==
+X-Received: by 2002:a17:907:809:b0:b45:b078:c534 with SMTP id a640c23a62f3a-b50ac5cf768mr2330537266b.45.1760371283126;
+        Mon, 13 Oct 2025 09:01:23 -0700 (PDT)
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com. [209.85.218.44])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b55d65d6994sm955722266b.28.2025.10.13.09.01.22
         for <linux-input@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 13 Oct 2025 08:56:09 -0700 (PDT)
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-639df8d869fso8231256a12.0
-        for <linux-input@vger.kernel.org>; Mon, 13 Oct 2025 08:56:08 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVIqfKgOkzJCkeEdEcb6bSd939dZ0PVf0gUQRtHDPYaQEhS63zlImeTwey7zN65guyX2wLH6JgmDS/AXw==@vger.kernel.org
-X-Received: by 2002:a05:6512:1095:b0:58b:75:8fbc with SMTP id
- 2adb3069b0e04-5906dd8ef00mr6030162e87.50.1760370658194; Mon, 13 Oct 2025
- 08:50:58 -0700 (PDT)
+        Mon, 13 Oct 2025 09:01:22 -0700 (PDT)
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-b3e7cc84b82so815881966b.0
+        for <linux-input@vger.kernel.org>; Mon, 13 Oct 2025 09:01:22 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXYomVpPiSGlHeDdqaE9a7y5ujwbffmOVMTEFJry78ehHaUFj69pz0qTR1gJlpsGjfgKQy5+C5Xjj63Tg==@vger.kernel.org
+X-Received: by 2002:ac2:4c50:0:b0:55f:4ac2:a58c with SMTP id
+ 2adb3069b0e04-5906dc0ff30mr6173104e87.22.1760370964286; Mon, 13 Oct 2025
+ 08:56:04 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -85,88 +85,96 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20251013-ptr_err-v1-0-2c5efbd82952@chromium.org>
- <20251013-ptr_err-v1-1-2c5efbd82952@chromium.org> <aO0cXYeGLwwDABP6@lizhi-Precision-Tower-5810>
-In-Reply-To: <aO0cXYeGLwwDABP6@lizhi-Precision-Tower-5810>
+ <20251013-ptr_err-v1-10-2c5efbd82952@chromium.org> <176036780330.559803.287308146210017676@ping.linuxembedded.co.uk>
+In-Reply-To: <176036780330.559803.287308146210017676@ping.linuxembedded.co.uk>
 From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Mon, 13 Oct 2025 17:50:44 +0200
-X-Gmail-Original-Message-ID: <CANiDSCtxnR-ydCquhH1=g-XwZ9DN=eeJNxRBOGiqufS_DMYzUg@mail.gmail.com>
-X-Gm-Features: AS18NWAjEedfD0tRDHHy9p2HIYCpNxcTQpn_Xf2f0oNW4TLvTJ881tcLSkxWDmQ
-Message-ID: <CANiDSCtxnR-ydCquhH1=g-XwZ9DN=eeJNxRBOGiqufS_DMYzUg@mail.gmail.com>
-Subject: Re: [PATCH 01/32] Input: cyttsp5 - Use %pe format specifier
-To: Frank Li <Frank.li@nxp.com>
-Cc: Linus Walleij <linus.walleij@linaro.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil <hverkuil@kernel.org>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, =?UTF-8?Q?Krzysztof_Ha=C5=82asa?= <khalasa@piap.pl>, 
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Leon Luo <leonl@leopardimaging.com>, 
-	Kieran Bingham <kieran.bingham@ideasonboard.com>, Jacopo Mondi <jacopo+renesas@jmondi.org>, 
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
-	=?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>, 
-	Julien Massot <julien.massot@collabora.com>, Jacopo Mondi <jacopo@jmondi.org>, 
-	Daniel Scally <djrscally@gmail.com>, Dave Stevenson <dave.stevenson@raspberrypi.com>, 
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>, 
-	Sylvain Petinot <sylvain.petinot@foss.st.com>, Yong Zhi <yong.zhi@intel.com>, 
-	Bingbu Cao <bingbu.cao@intel.com>, Tianshu Qiu <tian.shu.qiu@intel.com>, 
-	Tiffany Lin <tiffany.lin@mediatek.com>, Andrew-CT Chen <andrew-ct.chen@mediatek.com>, 
-	Yunfei Dong <yunfei.dong@mediatek.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
+Date: Mon, 13 Oct 2025 17:55:51 +0200
+X-Gmail-Original-Message-ID: <CANiDSCsuPkdz0=U2b_mNh4TWTNztAd9qEwJaiMRdGy1sf3UEbA@mail.gmail.com>
+X-Gm-Features: AS18NWCmgLaH0rMvCIhheSPVtWPGKkpbEBd_aB_kzUyM4RaB_yHSiy8sRs-muw0
+Message-ID: <CANiDSCsuPkdz0=U2b_mNh4TWTNztAd9qEwJaiMRdGy1sf3UEbA@mail.gmail.com>
+Subject: Re: [PATCH 10/32] media: i2c: imx335: Use %pe format specifier
+To: Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc: Alim Akhtar <alim.akhtar@samsung.com>, Andrew-CT Chen <andrew-ct.chen@mediatek.com>, 
 	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Rui Miguel Silva <rmfrfs@gmail.com>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Martin Kepplinger <martink@posteo.de>, Purism Kernel Team <kernel@puri.sm>, Shawn Guo <shawnguo@kernel.org>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, Dafna Hirschfeld <dafna@fastmail.com>, 
-	Heiko Stuebner <heiko@sntech.de>, Sylwester Nawrocki <s.nawrocki@samsung.com>, 
-	Krzysztof Kozlowski <krzk@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
-	Yemike Abhilash Chandra <y-abhilashchandra@ti.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-mediatek@lists.infradead.org, imx@lists.linux.dev, 
-	linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org, 
-	linux-samsung-soc@vger.kernel.org, linux-staging@lists.linux.dev
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>, Bingbu Cao <bingbu.cao@intel.com>, 
+	Dafna Hirschfeld <dafna@fastmail.com>, Daniel Scally <djrscally@gmail.com>, 
+	Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Fabio Estevam <festevam@gmail.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Hans Verkuil <hverkuil@kernel.org>, 
+	Heiko Stuebner <heiko@sntech.de>, Jacopo Mondi <jacopo+renesas@jmondi.org>, 
+	Jacopo Mondi <jacopo@jmondi.org>, Julien Massot <julien.massot@collabora.com>, 
+	=?UTF-8?Q?Krzysztof_Ha=C5=82asa?= <khalasa@piap.pl>, 
+	Krzysztof Kozlowski <krzk@kernel.org>, 
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Leon Luo <leonl@leopardimaging.com>, 
+	Linus Walleij <linus.walleij@linaro.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	=?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Purism Kernel Team <kernel@puri.sm>, 
+	Rui Miguel Silva <rmfrfs@gmail.com>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>, 
+	Sylvain Petinot <sylvain.petinot@foss.st.com>, Sylwester Nawrocki <s.nawrocki@samsung.com>, 
+	Tianshu Qiu <tian.shu.qiu@intel.com>, Tiffany Lin <tiffany.lin@mediatek.com>, 
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
+	Yemike Abhilash Chandra <y-abhilashchandra@ti.com>, Yong Zhi <yong.zhi@intel.com>, 
+	Yunfei Dong <yunfei.dong@mediatek.com>, linux-input@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+	imx@lists.linux.dev, linux-renesas-soc@vger.kernel.org, 
+	linux-rockchip@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
+	linux-staging@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 
-Hi Frank
+Hi Kieran
 
-On Mon, 13 Oct 2025 at 17:36, Frank Li <Frank.li@nxp.com> wrote:
+On Mon, 13 Oct 2025 at 17:03, Kieran Bingham
+<kieran.bingham@ideasonboard.com> wrote:
 >
-> On Mon, Oct 13, 2025 at 02:14:41PM +0000, Ricardo Ribalda wrote:
+> Quoting Ricardo Ribalda (2025-10-13 15:14:50)
 > > The %pe format specifier is designed to print error pointers. It prints
 > > a symbolic error name (eg. -EINVAL) and it makes the code simpler by
-> > omitting PTR_ERR()
+> > omitting PTR_ERR().
 > >
 > > This patch fixes this cocci report:
-> > ./cyttsp5.c:927:3-10: WARNING: Consider using %pe to print PTR_ERR()
-> >
+> > ./i2c/imx335.c:1013:3-10: WARNING: Consider using %pe to print PTR_ERR()
+>
+> Ohhh nice. Is this new ? First I've come across it.
+
+It is actually from 2019:
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=57f5677e535ba24b8926a7125be2ef8d7f09323c
+
+I just learned about it because there is a new check in coccinelle :).
+
+It is pretty cool, but you need to be careful to check IS_ERR(ptr)
+before doing the printk, otherwise %pe will print the pointer value.
+
+Regards!
+
+>
+>
+>
 > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 > > ---
-> >  drivers/input/touchscreen/cyttsp5.c | 4 ++--
+> >  drivers/media/i2c/imx335.c | 4 ++--
 > >  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> Suppose it will go though input subsystem intead of media.
-> Need post seperated at difference thread?
-
-Indeed, it belongs to input. if there is a v2 I will move it to a
-different thread.
-
-Thanks!
-
->
-> Frank
->
 > >
-> > diff --git a/drivers/input/touchscreen/cyttsp5.c b/drivers/input/touchscreen/cyttsp5.c
-> > index 071b7c9bf566eb0b58e302a941ec085be1eb5683..47f4271395a69b8350f9be7266b57fe11d442ee3 100644
-> > --- a/drivers/input/touchscreen/cyttsp5.c
-> > +++ b/drivers/input/touchscreen/cyttsp5.c
-> > @@ -923,8 +923,8 @@ static int cyttsp5_i2c_probe(struct i2c_client *client)
-> >
-> >       regmap = devm_regmap_init_i2c(client, &config);
-> >       if (IS_ERR(regmap)) {
-> > -             dev_err(&client->dev, "regmap allocation failed: %ld\n",
-> > -                     PTR_ERR(regmap));
-> > +             dev_err(&client->dev, "regmap allocation failed: %pe\n",
-> > +                     regmap);
-> >               return PTR_ERR(regmap);
-> >       }
+> > diff --git a/drivers/media/i2c/imx335.c b/drivers/media/i2c/imx335.c
+> > index c043df2f15fb25b3a56422092f99a1fd9a508fa9..71ed9a0d84a252ee362621c4d38001508fb86d28 100644
+> > --- a/drivers/media/i2c/imx335.c
+> > +++ b/drivers/media/i2c/imx335.c
+> > @@ -1009,8 +1009,8 @@ static int imx335_parse_hw_config(struct imx335 *imx335)
+> >         imx335->reset_gpio = devm_gpiod_get_optional(imx335->dev, "reset",
+> >                                                      GPIOD_OUT_HIGH);
+> >         if (IS_ERR(imx335->reset_gpio)) {
+> > -               dev_err(imx335->dev, "failed to get reset gpio %ld\n",
+> > -                       PTR_ERR(imx335->reset_gpio));
+> > +               dev_err(imx335->dev, "failed to get reset gpio %pe\n",
+> > +                       imx335->reset_gpio);
+>
+> Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
+>
+> >                 return PTR_ERR(imx335->reset_gpio);
+> >         }
 > >
 > >
 > > --
