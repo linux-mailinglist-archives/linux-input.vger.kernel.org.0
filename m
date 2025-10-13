@@ -1,280 +1,241 @@
-Return-Path: <linux-input+bounces-15420-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-15419-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8774CBD53DD
-	for <lists+linux-input@lfdr.de>; Mon, 13 Oct 2025 18:52:36 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id AD80BBD528D
+	for <lists+linux-input@lfdr.de>; Mon, 13 Oct 2025 18:44:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 99C3E545BFD
-	for <lists+linux-input@lfdr.de>; Mon, 13 Oct 2025 16:03:19 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 23F8850631B
+	for <lists+linux-input@lfdr.de>; Mon, 13 Oct 2025 15:56:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B07F31280A;
-	Mon, 13 Oct 2025 15:41:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 64D7B31B132;
+	Mon, 13 Oct 2025 15:36:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=garmin.com header.i=@garmin.com header.b="h4qxQ6ce";
-	dkim=pass (2048-bit key) header.d=garmin.com header.i=@garmin.com header.b="dYrF5O+e"
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="kHe81I4Y"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mx0b-000eb902.pphosted.com (mx0b-000eb902.pphosted.com [205.220.177.212])
+Received: from DB3PR0202CU003.outbound.protection.outlook.com (mail-northeuropeazon11010031.outbound.protection.outlook.com [52.101.84.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA184309DB1;
-	Mon, 13 Oct 2025 15:41:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.212
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D75343101C7;
+	Mon, 13 Oct 2025 15:36:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.84.31
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760370067; cv=fail; b=mIdl6uNKSXjruC6JKIWChRUcG3LjRxoh5cCqYJGNNnPKeK9UwRseJ1WbTbuEIl16gbk86kR1k9lGanGs75yDLjWRM56vQy8pPnUb61ZF5h4Rh6/EHYrUzLUNCHIqknyDxE4yUWO85rxs1dzuAFckSLAiIfyJnTFcGecWBtIedgA=
+	t=1760369786; cv=fail; b=cjL/GYcOxnYJp4pTiFhe1z9+SQxqom8NWM0YxcUZtWaUavq1xXc1zn829gxwOL5yPqmWmzY8CZPCioWWITUXdt9ZrFopAVLIKvjyAts4q9Fpli+VzDY4QEyeRJSLFgQI2Mou+bVFF69se8zkl/8A3KUjzhysLRnAn7TisIMAuho=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760370067; c=relaxed/simple;
-	bh=HyzoZqLvWURTLk37YKcQ0kSP3UoVEpa6FhN/Tgo1ETE=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=oaxeUxSwcGCuOIBnVdAzV7I7lOI1eS+LSPQmHN+M+KAPCeOk0818cTUwBQfHnzCCcVIf/Vfqw6xm5/6UGqtxugpf3W8jwFGtt3zss0wNvbiz5D/PovcbVkM5Ll5HUA9a7mcA/7XR0IsjCOVVyeb8FstQNdAksUail3dQQjkLAzg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=garmin.com; spf=pass smtp.mailfrom=garmin.com; dkim=pass (2048-bit key) header.d=garmin.com header.i=@garmin.com header.b=h4qxQ6ce; dkim=pass (2048-bit key) header.d=garmin.com header.i=@garmin.com header.b=dYrF5O+e; arc=fail smtp.client-ip=205.220.177.212
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=garmin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garmin.com
-Received: from pps.filterd (m0220297.ppops.net [127.0.0.1])
-	by mx0a-000eb902.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59D7qF31022159;
-	Mon, 13 Oct 2025 10:23:52 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garmin.com; h=cc
-	:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=pps1; bh=rycCxfyjGo//UGNSnYjH9ywB5xC
-	t91xZrNKHdjaZGUk=; b=h4qxQ6ceT60eieRYk/zfIblKAVIr17eEamcTXxNpBZ2
-	+V2ZNwt1EA0IitBOFV+Fu0JSkVNzGIN70SyyWp5ircx/wk6CKBdamddLYqjCCmeg
-	nsvZ4TQlHG7CnYpcnURzmyNcxaBaHJWn+7enMQeklAaC2UrcdoJdZtdV8Rrsl9Ml
-	RR4y/5TRc5SM4dD2Y6WtdFQiFFiOuJfjxTACSrFJoH7hZqOJMEjLGIW3gZBekW24
-	WrVHb7XdUSw1Q0/e/v66yXzKAyg45q6WAHzP4Fj4ZsYCc/7pYscdUz3uoanvq84t
-	8EaxhIj4sZkBNOu42G4qZWTPXvVrnLQ6y45Z31zr1VA==
-Received: from sj2pr03cu001.outbound.protection.outlook.com (mail-westusazon11022132.outbound.protection.outlook.com [52.101.43.132])
-	by mx0a-000eb902.pphosted.com (PPS) with ESMTPS id 49rwdc0yan-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 13 Oct 2025 10:23:52 -0500 (CDT)
+	s=arc-20240116; t=1760369786; c=relaxed/simple;
+	bh=GYYQ0IYHEhGSuiQjZsh7xZCw7uMS9dWiGan/41/QH4s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=saMFJDkypRjSMcJok2auVJl4aa/HaYQ4PigsO53jqC+BYHU8alurIO7qv29uQj+dRDIdomGtqpruE8JQjdnCMomwaQBgFGxDt2rS8Ba+SwgqzERb5I4ys3aIQJc3Re07t4Vt//6FdPwh00xwrX/BrlXHl6RvxFeRGmbgElhymWU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=kHe81I4Y; arc=fail smtp.client-ip=52.101.84.31
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=VbiOky4/PaYvCSvjNBp9t5BLvteXMeM7QHUFXiZ8QSKLTn7ALRK0Ls/K/iovF7irqcFk0MSO1D3N6dqFEFMxilXSVvPItP4zcj3PYUIGVawynDscCrHbWEP2LiG6LhqMjqlv28ZhjunkCzmuwe22iEa8AT47Ji+SAqxyJzNISvCobeIJlvn4rEiqNc3PQCA+ct6pikP6j8NNlci4rUCJcfxBf/QW29msNuKgtAPiLd3XIgf+0RQPIF0dxzYSaW/cHqyVhGqNdIy1BN+qKIoFSJHRWHW0tR1TxutT7yCiVgwIaOauupYwf++345bQYK+Kwr7MfNNeVKtUiickcnBjIg==
+ b=OvFbMS0G1RgYH2o4BqDC144TgwGfPI7KYzq81ttQXiIIIbzySnPnOSkqOv7m9IDeGSEz5QNdsWklJcRIlEfyD3XgAPIAbA99rpmEDvZxpU+QJn4H0is8/XOePDYXYBAawKKx2trV+g1zeZOst7XV6XMtypg8qaCZL+aYbG5/f3U7Fmaety3ETyWSuBUByPCxoIQB+V86wmlO1YdqBNIBKFv0iJUT+l3rthr5KUqPYPoa3Z+irgag+gglzUU/61YUqdQrYLFfOZMwC/pp/qbrCzyU6qehH2LQe7UobKEX+YPVSLWqDkBH+Sqs8jxrkMHTzLlEKH5yh9Fqj3D3i2Mn8g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rycCxfyjGo//UGNSnYjH9ywB5xCt91xZrNKHdjaZGUk=;
- b=xZMhrnRnuhlBsfUpW2aZm7AmSbYCU3bKkT5PQGetUUDbg1sWIMU7f+VHFg45KN6EsJ+Ve3zvMtJOL4r2j+XSWFWF226q2TCTk1+aUi3bBNhZhKclSJiThwyfBQ2+L8ZwLizJUEpZYALbUrCWTaQ30wLmNmccANitDz0OPgDbBnW/QZuqcci1TBMrwBNFGN1CLfkTEDTxWugqtxzM74Z2LsKlBj0/rWMvnNmCU6qtVLCxhpge+vVJQ3sTJjbeVagUSPRoIAAqTZFyXiJ5GkCzQuugVl9pVAvYs0En07Kd2kD+wQ8HlB0aRCsJOYtV+lb4kk9Sm/FqNDoP8x8tRvuPgg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 204.77.163.244) smtp.rcpttodomain=gmail.com smtp.mailfrom=garmin.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=garmin.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garmin.com;
- s=selector2;
+ bh=PBENrIHmIHt95N2pwdrDNGTpnC/htu9Q4US9FUAtQ/k=;
+ b=mQSnTQp8IlNPRrYgO3vMryLOt7Cpoth8EQDYHgn/QztSQAVNntCW5oVcqDdHHJj+LkxpAkdQI81NP2+hyb+M0xQB36EgLf+Tbmp0Zp25OcWY5UIl39FxQnJr3Xw7JkdDSvuXo2nfEsQ7dDHaDhsQH1kiRwnkUxAz048k9o+LftdkPqnFihwAQ9/3k0IIlyftIideqfLndgW6TOsRD0kYGzUH/xiZpOuLPRvGbn1mNYiUBp704J7AprLs0cgWnEIhxjmSHN4ANUZmHopEVZS8um7wITc9MaCiyIszUZA2q/ex7IqbLt3y7xySIrahBBbCeL7edNeczQpVsp+dOd9+sg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rycCxfyjGo//UGNSnYjH9ywB5xCt91xZrNKHdjaZGUk=;
- b=dYrF5O+eUWc/qGe6GBaaRNKAQgS/yC/2GM4OMXWyQ+l/pr/VbpqZecV9Qj/f0rYoyC9OGTUXqHrKdhtVf7qaOnqZxR02UTI4W8IMMl3MLelwAYThz4m5O5K+9UbYJsau/uDzwj2geSLjwyZoQbFqP19ETle7TVLj3dlWkNRTvvZxwSwy3g/VV1k42f/gOHNIkmQrm614u9ZvGIwKZnRxxrx5jH68fEHhbS5ZiYWCFi+BsA+dnqtozoBTJS4Sn2xtrE0A7C7h0pJ6CKxcsECsO3uXJmZvmyM4P/84YsyL+oPgtl7tHSp2+jY3d1CuHw/EsrjJlboBISkONwzUIORVGA==
-Received: from BN9P221CA0020.NAMP221.PROD.OUTLOOK.COM (2603:10b6:408:10a::32)
- by PH0PR04MB7574.namprd04.prod.outlook.com (2603:10b6:510:52::5) with
+ bh=PBENrIHmIHt95N2pwdrDNGTpnC/htu9Q4US9FUAtQ/k=;
+ b=kHe81I4Ya09QfLcjIRkuXEz183YDEmphDoK+G2rmARRyq9EFuAOwKgvFtIgSNaHvm/2z2qRXTVBelq+yCU74P6bObzVxoQkVoUJ9FBdFQwiYB01FXGuqih553FpTfYi5y5cUw22G/KtcpKUTKQshGkE3VF4TiV54tiDj0KYchfrJ/x4YOjDXL2sP4kLS/2GAHxMU6uHRRNM1ag0VysrDDghDV2iieaDXfEOXZLeGpyqF9yCjTDF2rlSTDJOU9QrKqJ9k7UZwd8kJzd6VeJQ+xkhJBLkUm6FmHssIKuVZgjfr8IHeVv8bfE6agap81g6csqsRSEZ54WCWE19WNuYiUA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AS4PR04MB9621.eurprd04.prod.outlook.com (2603:10a6:20b:4ff::22)
+ by GV2PR04MB11375.eurprd04.prod.outlook.com (2603:10a6:150:2b2::8) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9203.13; Mon, 13 Oct
- 2025 15:23:50 +0000
-Received: from BL6PEPF00020E64.namprd04.prod.outlook.com
- (2603:10b6:408:10a:cafe::99) by BN9P221CA0020.outlook.office365.com
- (2603:10b6:408:10a::32) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9203.12 via Frontend Transport; Mon,
- 13 Oct 2025 15:23:49 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 204.77.163.244)
- smtp.mailfrom=garmin.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=garmin.com;
-Received-SPF: Pass (protection.outlook.com: domain of garmin.com designates
- 204.77.163.244 as permitted sender) receiver=protection.outlook.com;
- client-ip=204.77.163.244; helo=edgetransport.garmin.com; pr=C
-Received: from edgetransport.garmin.com (204.77.163.244) by
- BL6PEPF00020E64.mail.protection.outlook.com (10.167.249.25) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9228.7 via Frontend Transport; Mon, 13 Oct 2025 15:23:49 +0000
-Received: from KC3WPA-EXSE02.ad.garmin.com (10.65.32.85) by cv1wpa-edge1
- (10.60.4.255) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Mon, 13 Oct
- 2025 10:23:47 -0500
-Received: from cv1wpa-exmb1.ad.garmin.com (10.5.144.71) by
- KC3WPA-EXSE02.ad.garmin.com (10.65.32.85) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.2562.17; Mon, 13 Oct 2025 10:23:48 -0500
-Received: from cv1wpa-exmb1.ad.garmin.com (10.5.144.71) by
- CV1WPA-EXMB1.ad.garmin.com (10.5.144.71) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.57; Mon, 13 Oct 2025 10:23:48 -0500
-Received: from OLA-7VZWMW3.ad.garmin.com (10.5.209.17) by smtp.garmin.com
- (10.5.144.71) with Microsoft SMTP Server id 15.1.2507.57 via Frontend
- Transport; Mon, 13 Oct 2025 10:23:48 -0500
-From: Hunter Moore <Hunter.Moore@garmin.com>
-To: <dmitry.torokhov@gmail.com>
-CC: <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        "Hunter
- Moore" <hunter.moore@garmin.com>,
-        Hunter Moore <Hunter.Moore@garmin.com>
-Subject: [PATCH] input: Add marine keycodes for radar control.
-Date: Mon, 13 Oct 2025 10:23:09 -0500
-Message-ID: <20251013152309.880-1-Hunter.Moore@garmin.com>
-X-Mailer: git-send-email 2.43.0
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9203.12; Mon, 13 Oct
+ 2025 15:36:16 +0000
+Received: from AS4PR04MB9621.eurprd04.prod.outlook.com
+ ([fe80::a84d:82bf:a9ff:171e]) by AS4PR04MB9621.eurprd04.prod.outlook.com
+ ([fe80::a84d:82bf:a9ff:171e%4]) with mapi id 15.20.9203.009; Mon, 13 Oct 2025
+ 15:36:16 +0000
+Date: Mon, 13 Oct 2025 11:35:57 -0400
+From: Frank Li <Frank.li@nxp.com>
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: Linus Walleij <linus.walleij@linaro.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Leon Luo <leonl@leopardimaging.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Jacopo Mondi <jacopo+renesas@jmondi.org>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+	Julien Massot <julien.massot@collabora.com>,
+	Jacopo Mondi <jacopo@jmondi.org>,
+	Daniel Scally <djrscally@gmail.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Sylvain Petinot <sylvain.petinot@foss.st.com>,
+	Yong Zhi <yong.zhi@intel.com>, Bingbu Cao <bingbu.cao@intel.com>,
+	Tianshu Qiu <tian.shu.qiu@intel.com>,
+	Tiffany Lin <tiffany.lin@mediatek.com>,
+	Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+	Yunfei Dong <yunfei.dong@mediatek.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Rui Miguel Silva <rmfrfs@gmail.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Martin Kepplinger <martink@posteo.de>,
+	Purism Kernel Team <kernel@puri.sm>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Dafna Hirschfeld <dafna@fastmail.com>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Sylwester Nawrocki <s.nawrocki@samsung.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Yemike Abhilash Chandra <y-abhilashchandra@ti.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, imx@lists.linux.dev,
+	linux-renesas-soc@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH 01/32] Input: cyttsp5 - Use %pe format specifier
+Message-ID: <aO0cXYeGLwwDABP6@lizhi-Precision-Tower-5810>
+References: <20251013-ptr_err-v1-0-2c5efbd82952@chromium.org>
+ <20251013-ptr_err-v1-1-2c5efbd82952@chromium.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251013-ptr_err-v1-1-2c5efbd82952@chromium.org>
+X-ClientProxiedBy: BYAPR06CA0060.namprd06.prod.outlook.com
+ (2603:10b6:a03:14b::37) To AS4PR04MB9621.eurprd04.prod.outlook.com
+ (2603:10a6:20b:4ff::22)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL6PEPF00020E64:EE_|PH0PR04MB7574:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6f4511b2-31e0-4dcb-53a6-08de0a6c8282
+X-MS-TrafficTypeDiagnostic: AS4PR04MB9621:EE_|GV2PR04MB11375:EE_
+X-MS-Office365-Filtering-Correlation-Id: d7953d7b-1796-4b60-4f5e-08de0a6e3fd0
+X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|376014|36860700013|1800799024;
+ BCL:0;ARA:13230040|1800799024|366016|19092799006|52116014|376014|7416014|7053199007|38350700014;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?6UnDnchGcWfcBWFlQjEScPobRLcT7WvPz4mew/fx7u/LITCuN+TbYcYeuFNe?=
- =?us-ascii?Q?UgFJtN7sMoQOX+BHGiANEIUGZ/qdOPuEPIlSRtxphzFEmXlD1lVVJe87eJOj?=
- =?us-ascii?Q?/Gjl61OLAR9G5TqQsyw/tTzNsuh4zSq18yTWVaLAZcSoLmaZKR704RTNDaVD?=
- =?us-ascii?Q?v+qzmCUK9chaZbb2OKgeXQ0sKe9UwuFeTcUgu4RFIrm/jZ5mMnVL8vu25KkC?=
- =?us-ascii?Q?wj0RGyVToOeuF67yUUlKa7tsX8Av0QuqaByTfOEJcLTAsDgJXZijbbTwo6pv?=
- =?us-ascii?Q?MS3ZMhq8Z0R+xwqxfzH9lK4KD2lf61GHO+Wl2snpzvSVr+Iv4ab1vZ0Zk5bA?=
- =?us-ascii?Q?EXsTECTNuDjFtwiXl7pSRzmgLGJJbE8QEgYEimOVcvhfrMH9jFjyXX0W1ZBi?=
- =?us-ascii?Q?v1Y1BmrEfpVhVDqEBArUfV9zD1oMZqplaC38q30IcsLds+3mB19pcD6XCxAt?=
- =?us-ascii?Q?C7tc8APk9X2Isp5/llRqT+9u8725cpedW/p+aJZfDoyBwsSjNbZ9yyl6GlUg?=
- =?us-ascii?Q?ibp7PjgrVB9f/hFQD9t1LqLACT2IrdyKPpni+WVPdZklOb5QC16BW3qu4k/V?=
- =?us-ascii?Q?I3F68JsVtYtXjoUoAiQ4FvSIhSa3/Rf7WGOvXWjrHtt3sKEeBzo6wGW3m5UH?=
- =?us-ascii?Q?Habr3I+RtAvZs2GJv6LGn7J04c8qkVnc6kHVJWWU+vBICponaIStNvkG2plQ?=
- =?us-ascii?Q?94FgvKShGYmkvKh26zfzJC+bKvQgPmEFGsJu+cFSkpDxiXbbZ10OHGEnS4FJ?=
- =?us-ascii?Q?6XskcOjhY7QHGGZUgdFu/SdQ9u6VMBmmrtVfzyZoli6gJSuCd1iS9DvL7NYQ?=
- =?us-ascii?Q?sBPAvv9KyPhvdu+VGE9hTzMqZPg6cRywNB6Hp9exBanPMhAhGHwO19xO1rRH?=
- =?us-ascii?Q?ACxJZ5c1gHlSDwt/izqUO7vnnl6rxkOPmp7/MX++KlQL/qjWs9Oo3x1Ktro/?=
- =?us-ascii?Q?vrRRUmdTUezC51wLLLvofUij4nPFFE/GtbG+BK8g+mTEvL10qs+4003QB7wQ?=
- =?us-ascii?Q?WwGZWXowsdnnyoQW7D50q1ciuF9gZs31DYvobhLw6J8iZtx7UXiJj3UWyl9l?=
- =?us-ascii?Q?3GyL8WIJ2k5SEaM3ezHNj7KM2eWcZvx9wuN7ju56abJv89agJdw3t+S7s05Q?=
- =?us-ascii?Q?JZbIrJrQt/7gz2V6ncl4jOzD0NXBKfXkpD6/WH2dMHzudCUaTFhyW5AyWPv0?=
- =?us-ascii?Q?EP5hsfApxxCdskQjgEyBb2qPbkaCf9EKB7c037rA/eYTksRsu+EzdyxQt4lY?=
- =?us-ascii?Q?LORWXBfhyg7BGcPUVZAr14TTjSH5ktIJON452lT+cZ7KWV7ULiL7r0+dQ+4F?=
- =?us-ascii?Q?xgYs4srGvEADj7fznch6mKLtDbau0kTf8Tb0hVg1G7eLQWCSEQg/X30fPR4e?=
- =?us-ascii?Q?4Q0KZh4t6QI8nhYGM3g95YBqvh8nrqEG2H3a3xc1SrBs+Vhgy1/SItvqLg8S?=
- =?us-ascii?Q?CA+EVPfYcBJdlrW/uqwa+mVy+e5ercsz+4sxvuzaoFWTj8RRxjc7pvznkncC?=
- =?us-ascii?Q?OAP9GOXqiCPWOI8xm98rQeC4ELRVwVf8NxEvOyYGBgfcmdx1fZUPjI+HmJZF?=
- =?us-ascii?Q?MZKJg5xXBJDR0FfcbNQ=3D?=
+ =?us-ascii?Q?ia6W8a3Ozr+m4W9WupCmEbLavJhV3zayvWSi3rKzpTnT//9KPREd4fKqOTFq?=
+ =?us-ascii?Q?Z9Nz6akrA63QktegdjMw4eRWSJIcQOprkPx9WUaRkQIYsMvSqzqZ61db0W2B?=
+ =?us-ascii?Q?5lgxDepKOk40lX76bf1G9WefiT3AsKrsma6I+zKCuxTp/IMZCnbS8g9JpyPx?=
+ =?us-ascii?Q?pVa6XToPhTXMnTtCk9hMO5UXymP6Jqov61LYTQj+QjIwfinHTrrfMM570+ST?=
+ =?us-ascii?Q?HGjNEvfnsjsPqLHejgnQX3YilqsPr2RSUvXovMFL6LVGQZyk5DR5seIKhPNU?=
+ =?us-ascii?Q?kVSjwG1culdP/ZpSrCUUOhcQsoYSsVJ7PBzWsPO09M0XJdA/mY/2OG9CIQMQ?=
+ =?us-ascii?Q?ncYVkcSlt2aUs/KVPv8zAGPoNgUcnWd8XvRr+XOiV2J+qFYNSfNIJckkaB3+?=
+ =?us-ascii?Q?zb+cd1AFd48GbwPB+9wYSTB9kINarGqUomhAJkzafH6zsn+4G9zMJuJ+wnYn?=
+ =?us-ascii?Q?IgcK+7o43SG4fro3vRKku1oGenRW+nJ9ZXx7uda+qpa+2uvAQmowL/jJkNAL?=
+ =?us-ascii?Q?2pddu+SCCmKUXvn7VBqRG6Dhfz598K8fDiia7mhcwsNKLO/uT/qk4dRop81P?=
+ =?us-ascii?Q?RWYSEwq9GYN9zzOrhXhZNLNOHZ3u5maTnBy5DPbxTSoFfxA+3USOUR5+Magk?=
+ =?us-ascii?Q?zX1qEICBmJCN56tPk0ieq472eJjfvte75k7MZP/4ZCQjw/UGArvr85oTbuO9?=
+ =?us-ascii?Q?I//6qCJA2uZzWfYErCU1rgaK7sd8r9bBW5tvAgyC/e0QBktC6W1WyUv2bCf2?=
+ =?us-ascii?Q?PqNAjqYGXAw2crSstXhy23Wuoba5X2pDc8lC/3zjDkgjyMfamzsqtCfUnGe1?=
+ =?us-ascii?Q?KpZ5qzYhSn2UfLALYvZSAb8OxRyCmkcSLBktNPVNxCOXDOyrjtyXjdqLuzOL?=
+ =?us-ascii?Q?ADxKZOPgDQ5rzw8XDMWdWhDjop1zUfbfnISDEK2VrW5PWDcJ3KErdYWsUYyC?=
+ =?us-ascii?Q?3ioFSViHTwIGCb1y3lQglzNmeUUl70c+H9/cWve4X5AIOdVBHjpGlwr/hexx?=
+ =?us-ascii?Q?oDlgQAY12+/ky1SNwGO+JSET70yf7VWp+FkVNJCf+VafWZnF1JajDWQsgwSD?=
+ =?us-ascii?Q?x4d1FJvLp0H4S5aCnKWag1yzL6zEKjReMC91g8uhC/d1apXZBNeMooKJeRDg?=
+ =?us-ascii?Q?N+hptILcnGP26YLRGgcVhamkpjJtzOmdD+ltIb1fxUON4dezjdnqXh+LVdM4?=
+ =?us-ascii?Q?WyYOUEKH46wNAWPhrrOMsDl2h5iFFEApjyiEjpaZH86hU6EyggAySf413Qqp?=
+ =?us-ascii?Q?kuCYrSLelNeuXMsklKCgwe5OiQOIhV30FeoBXmbDg0xbwv5R0QRpBYaDCStT?=
+ =?us-ascii?Q?FOV0PPDvRjN4HGyDLya5w9mJxYbT7V6LvsMDOew3jKuFfzeLdhAXItOCs/1M?=
+ =?us-ascii?Q?Q4mhOSsf4+kWzFphqjxQTAUPSCGQltesy8qKhMUQ0q916hkNIWS/DiVubonH?=
+ =?us-ascii?Q?sa30tKG5AJiW6aVqZ4ZVZ4j5zoAhri5q7EgNmi9alvg4iiuZQ7rvaLDoNbm7?=
+ =?us-ascii?Q?qAcJ91mkSHcVz++48TKRJGe2vCdasnJ+Pfez?=
 X-Forefront-Antispam-Report:
-	CIP:204.77.163.244;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:edgetransport.garmin.com;PTR:extedge.garmin.com;CAT:NONE;SFS:(13230040)(82310400026)(376014)(36860700013)(1800799024);DIR:OUT;SFP:1102;
-X-OriginatorOrg: garmin.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Oct 2025 15:23:49.4422
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS4PR04MB9621.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(19092799006)(52116014)(376014)(7416014)(7053199007)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+ =?us-ascii?Q?LSaCJHGtdYoafO+artHRlfOjJkj3g02QuNc4h/UF7Vs060354+BEkyWpE8wa?=
+ =?us-ascii?Q?Q/z0EXXddMo64wTPXz8io5OYTQMViDuBrac4mTE+J3/y1CvJx0RxiR4xyBuP?=
+ =?us-ascii?Q?AqcSwUSg3Yaxj9B7GuN4fDKs9TD8amsmloz/j15aqh/mbHOUssh0VN2sMcA2?=
+ =?us-ascii?Q?ECXPhL+P9HOD1l/JJsh2Iu0CQvdrLGBzZ+HA9jbeQN96omk8oCRcEubJSLWJ?=
+ =?us-ascii?Q?R88nSrMku10JI0m1qE1RRpJ5bBL6Wo5f7mfYlSs2mDJ1xSzv70cTx2N8hivn?=
+ =?us-ascii?Q?zq9E28U7tCADdrwXdsplolYhY2tazl2EYIhK7rq/Mn3TGaFLStn2JUfWJqwg?=
+ =?us-ascii?Q?xr4vAlz7bHWPAFshFpwXYFYURBKkb9PfgsU7bmLcYVFJxA/RKDbLvFokuinD?=
+ =?us-ascii?Q?egT2elGTy144oAODMmeCphCyhF79xVXLo86Mhbtb1LEMyziKI/y9sW3xtmH2?=
+ =?us-ascii?Q?MHkzSjWcl1cGenE6C6SK2ZHev+X5ZUq6LV2Wqh/3yK13RZOhK+Y+XxBm81Wb?=
+ =?us-ascii?Q?oZtMb8qJ0zNi1x9xgrciPs+09RN3uwpMTFrLY/x7qosqm3NvAI6cQyweZ6j/?=
+ =?us-ascii?Q?ADCSlzTF3Li/2Q+/k691As6l1XpDpb6ifzH9qQ0iu66gOTWOnwvXTltDDdHM?=
+ =?us-ascii?Q?54RINW+aR3WnhDE6MRiEDSYpFuAFUNfQx9qYL5a9eif5Jh0hqroRLDMN4viH?=
+ =?us-ascii?Q?Vnx/PhyxJxu7jQPcKhEF/FlUojnx+AFY6vUieook+2etxoZ/V2HaIG63fF8h?=
+ =?us-ascii?Q?/Cy4bgsXImEGJXbxbOzg6YrQ5dbrg1Yc0T2NRfDdhEfumpdXlJHFHSBUJe6t?=
+ =?us-ascii?Q?cKuERws2u+z+5+iW/stgXZIWUx5emSHTryZATtrkexMIRjr0iFcccc7w55yD?=
+ =?us-ascii?Q?dNQzMgaJic69rZrMSwzwYMczjSHOXR9Rg6pSj+Zn8AB3SJsNvcnX5tlhC4/K?=
+ =?us-ascii?Q?+/b7Av0/4sKFHd1ugzAcJMRK/A+R15pS+N5RR5zKnANCTAN5niwP8l+qmjiG?=
+ =?us-ascii?Q?kC9XHF9DwxP4FW+VHWxDyP79NGPPeu77/yc9w3GEhCrspG4DuEAJ3k26XIwN?=
+ =?us-ascii?Q?MJ6sYfO0wF3G/w0gY0tUQLqDc+ZlRdomCP/D770GfdNlknWi6gK2e4F5Vrz6?=
+ =?us-ascii?Q?3liSYJ49JtCuB+2HBJM6u/n0QMvNJG9XSLGPOM1yc8ZOe2vjAZ7b9y1F559U?=
+ =?us-ascii?Q?ytHRfNtJgGS7/GeKDP1qVH0pbBPPPklB5LlX3TyxPRph/vzjJAjnVp20BG7C?=
+ =?us-ascii?Q?9tqk/mZiaVisJfFCHdq7l56FUadi+p1/djT/9BJD8lMcu7cLs107CdIXVuXj?=
+ =?us-ascii?Q?aWiAI8wY8/u/aVmwNT8xgB/klvRQtrFVZ73QTVkG7NVx4DOBxnRRmNN+ho0R?=
+ =?us-ascii?Q?CFsNnRIQHRwGDIlU4AwKbAwf3cmB7BvbbkLWcW8XToCj+2J2MHL7/mibFlu+?=
+ =?us-ascii?Q?hP65n4lgw8PEXDYTbopoTkXcycMydIPjk1Csh8jzi5rELien0t2acoLb6m+s?=
+ =?us-ascii?Q?aYvXoHLNpyD7LPNIlnNy2tyA/+jau+uX4IEZqncuIq2ln26I7hOEe7+ZfO2w?=
+ =?us-ascii?Q?muPuOI2EXr8ZJX5MoKg=3D?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d7953d7b-1796-4b60-4f5e-08de0a6e3fd0
+X-MS-Exchange-CrossTenant-AuthSource: AS4PR04MB9621.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Oct 2025 15:36:16.8280
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6f4511b2-31e0-4dcb-53a6-08de0a6c8282
-X-MS-Exchange-CrossTenant-Id: 38d0d425-ba52-4c0a-a03e-2a65c8e82e2d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=38d0d425-ba52-4c0a-a03e-2a65c8e82e2d;Ip=[204.77.163.244];Helo=[edgetransport.garmin.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	BL6PEPF00020E64.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR04MB7574
-X-Authority-Analysis: v=2.4 cv=ZpXg6t7G c=1 sm=1 tr=0 ts=68ed1988 cx=c_pps a=T6DPE/DVwP9kL+SBve89ug==:117 a=YA0UzX50FYCGjWi3QxTvkg==:17 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=x6icFKpwvdMA:10 a=qm69fr9Wx_0A:10 a=NbHB2C0EAAAA:8 a=DoN9cN5wUoVrpapQZuoA:9 cc=ntf
-X-Proofpoint-ORIG-GUID: h6YYfrPoLf9SHXiY6J2cLTNInn5goUaA
-X-Proofpoint-GUID: h6YYfrPoLf9SHXiY6J2cLTNInn5goUaA
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDEzMDAzOCBTYWx0ZWRfX8KaKcQEpdHoq bc6votDKHm0Y3cFohN4lDDb/w7SA6JJlsYDz7zqHomfSXbKS27s+YX6l5vhEqetuo43/I9jsJGP j+rsij0dThhogyNYF5uBVGBVP1Uv+tBDkscGAl2oejFs0NQgTQYi0xLhMokHp9qwlU2j1O5Py79
- mYH0cm9eLZS9DJuJC3t6l0Lc2b6P/w93LCnUjbVcKVRR/qSg3GG4cIVRyInMImxZ+l+TU5DA6vy MwQ53ywHVoUm40Hoc2DCANYV526waD+f0Va6fS4VAXjjf0O3peU3IGIet8Pfqe5o0nVjTEMEhk+ K8eznIClnUe3jh4JEq4SQHfaeMpIDOxDH5SOkYFfqIuL2R6UDoyz1u44eAaEbhcuLS46gt4ggyl
- VoazcvhEeLo21u5a/hSYeImR3x9yPR1iEAuUUZAnYVECbdS3iBc=
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-13_05,2025-10-06_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- spamscore=0 adultscore=0 phishscore=0 lowpriorityscore=0 bulkscore=0
- malwarescore=0 clxscore=1011 impostorscore=0 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc=notification
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.21.0-2510020000
- definitions=main-2510130038
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: UcMBGOMpHemRBPMDZ46SFhhar0pauNNAID4ajRxmutNQJZPvQL6Lh327dNeUeS1gpMM+ACX8PaJeyA7DNRoZuQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV2PR04MB11375
 
-From: Hunter Moore <hunter.moore@garmin.com>
+On Mon, Oct 13, 2025 at 02:14:41PM +0000, Ricardo Ribalda wrote:
+> The %pe format specifier is designed to print error pointers. It prints
+> a symbolic error name (eg. -EINVAL) and it makes the code simpler by
+> omitting PTR_ERR()
+>
+> This patch fixes this cocci report:
+> ./cyttsp5.c:927:3-10: WARNING: Consider using %pe to print PTR_ERR()
+>
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> ---
+>  drivers/input/touchscreen/cyttsp5.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 
-We are looking into adding some additional keycodes to add support for
-radar control. In total we are adding 29 keycodes which seems to
-exceed the KEY_MAX limit set, so we have also bumped this value to
-0x3ff to double the available keycodes.
+Suppose it will go though input subsystem intead of media.
+Need post seperated at difference thread?
 
-Signed-off-by: Hunter Moore <Hunter.Moore@garmin.com>
----
- include/linux/mod_devicetable.h        |  2 +-
- include/uapi/linux/input-event-codes.h | 32 +++++++++++++++++++++++++-
- 2 files changed, 32 insertions(+), 2 deletions(-)
+Frank
 
-diff --git a/include/linux/mod_devicetable.h b/include/linux/mod_devicetabl=
-e.h
-index 6077972e8b45..97f8867955de 100644
---- a/include/linux/mod_devicetable.h
-+++ b/include/linux/mod_devicetable.h
-@@ -333,7 +333,7 @@ struct pcmcia_device_id {
- /* Input */
- #define INPUT_DEVICE_ID_EV_MAX         0x1f
- #define INPUT_DEVICE_ID_KEY_MIN_INTERESTING    0x71
--#define INPUT_DEVICE_ID_KEY_MAX                0x2ff
-+#define INPUT_DEVICE_ID_KEY_MAX                0x3ff
- #define INPUT_DEVICE_ID_REL_MAX                0x0f
- #define INPUT_DEVICE_ID_ABS_MAX                0x3f
- #define INPUT_DEVICE_ID_MSC_MAX                0x07
-diff --git a/include/uapi/linux/input-event-codes.h b/include/uapi/linux/in=
-put-event-codes.h
-index ca5851e97fac..49a7fd7c0e23 100644
---- a/include/uapi/linux/input-event-codes.h
-+++ b/include/uapi/linux/input-event-codes.h
-@@ -815,9 +815,39 @@
- #define BTN_TRIGGER_HAPPY39            0x2e6
- #define BTN_TRIGGER_HAPPY40            0x2e7
-
-+#define KEY_RADAR_TRANSMIT             0x2e8
-+#define KEY_RADAR_RANGE_UP             0x2e9
-+#define KEY_RADAR_RANGE_DOWN           0x2ea
-+#define KEY_RADAR_GAIN_UP              0x2eb
-+#define KEY_RADAR_GAIN_DOWN            0x2ec
-+#define KEY_RADAR_SEA_UP               0x2ed
-+#define KEY_RADAR_SEA_DOWN             0x2ee
-+#define KEY_RADAR_RAIN_UP              0x2ef
-+#define KEY_RADAR_RAIN_DOWN            0x2f0
-+#define KEY_RADAR_VRM1_UP              0x2f1
-+#define KEY_RADAR_VRM1_DOWN            0x2f2
-+#define KEY_RADAR_VRM2_UP              0x2f3
-+#define KEY_RADAR_VRM2_DOWN            0x2f4
-+#define KEY_RADAR_EBL1_UP              0x2f5
-+#define KEY_RADAR_EBL1_DOWN            0x2f6
-+#define KEY_RADAR_EBL2_UP              0x2f7
-+#define KEY_RADAR_EBL2_DOWN            0x2f8
-+#define KEY_RADAR_VRM_TOGGLE           0x2f9
-+#define KEY_RADAR_VRM_UP               0x2fa
-+#define KEY_RADAR_VRM_DOWN             0x2fb
-+#define KEY_RADAR_EBL_TOGGLE           0x2fc
-+#define KEY_RADAR_EBL_UP               0x2fd
-+#define KEY_RADAR_EBL_DOWN             0x2fe
-+#define KEY_RADAR_SCANNER_TOGGLE       0x2ff
-+#define KEY_RADAR_SCANNER1             0x300
-+#define KEY_RADAR_SCANNER2             0x301
-+#define KEY_RADAR_CHANNEL_TOGGLE       0x302
-+#define KEY_RADAR_CHANNEL_A            0x303
-+#define KEY_RADAR_CHANNEL_B            0x304
-+
- /* We avoid low common keys in module aliases so they don't get huge. */
- #define KEY_MIN_INTERESTING    KEY_MUTE
--#define KEY_MAX                        0x2ff
-+#define KEY_MAX                        0x3ff
- #define KEY_CNT                        (KEY_MAX+1)
-
- /*
---
-2.43.0
-
-
-________________________________
-
-CONFIDENTIALITY NOTICE: This email and any attachments are for the sole use=
- of the intended recipient(s) and contain information that may be Garmin co=
-nfidential and/or Garmin legally privileged. If you have received this emai=
-l in error, please notify the sender by reply email and delete the message.=
- Any disclosure, copying, distribution or use of this communication (includ=
-ing attachments) by someone other than the intended recipient is prohibited=
-. Thank you.
-
-________________________________
-
-CONFIDENTIALITY NOTICE: This email and any attachments are for the sole use=
- of the intended recipient(s) and contain information that may be Garmin co=
-nfidential and/or Garmin legally privileged. If you have received this emai=
-l in error, please notify the sender by reply email and delete the message.=
- Any disclosure, copying, distribution or use of this communication (includ=
-ing attachments) by someone other than the intended recipient is prohibited=
-. Thank you.
+>
+> diff --git a/drivers/input/touchscreen/cyttsp5.c b/drivers/input/touchscreen/cyttsp5.c
+> index 071b7c9bf566eb0b58e302a941ec085be1eb5683..47f4271395a69b8350f9be7266b57fe11d442ee3 100644
+> --- a/drivers/input/touchscreen/cyttsp5.c
+> +++ b/drivers/input/touchscreen/cyttsp5.c
+> @@ -923,8 +923,8 @@ static int cyttsp5_i2c_probe(struct i2c_client *client)
+>
+>  	regmap = devm_regmap_init_i2c(client, &config);
+>  	if (IS_ERR(regmap)) {
+> -		dev_err(&client->dev, "regmap allocation failed: %ld\n",
+> -			PTR_ERR(regmap));
+> +		dev_err(&client->dev, "regmap allocation failed: %pe\n",
+> +			regmap);
+>  		return PTR_ERR(regmap);
+>  	}
+>
+>
+> --
+> 2.51.0.760.g7b8bcc2412-goog
+>
 
