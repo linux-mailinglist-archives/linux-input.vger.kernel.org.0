@@ -1,78 +1,78 @@
-Return-Path: <linux-input+bounces-15386-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-15385-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38FB1BD361A
-	for <lists+linux-input@lfdr.de>; Mon, 13 Oct 2025 16:15:24 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 40CB1BD3620
+	for <lists+linux-input@lfdr.de>; Mon, 13 Oct 2025 16:15:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5CA0A189E829
-	for <lists+linux-input@lfdr.de>; Mon, 13 Oct 2025 14:15:47 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6E93B189E8F6
+	for <lists+linux-input@lfdr.de>; Mon, 13 Oct 2025 14:15:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 02FF53081B2;
-	Mon, 13 Oct 2025 14:14:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A9B83081B4;
+	Mon, 13 Oct 2025 14:15:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="NgAZ0gvM"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="cdr1hIq2"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A200D26562D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58121279DAE
 	for <linux-input@vger.kernel.org>; Mon, 13 Oct 2025 14:14:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760364899; cv=none; b=RJUjwUHMFTd0/cEka1zT+6RL2WJYuCzFX0sPxghhjVwAHI6PU35db/9TaR2Wpr/ibE9p/z11ciZILf0Hx3hFRNFPNw3gF4eUfjV7hyCrfAivo9ip0EWouM2aHvbV+JAlHpJAhbiXMC+f5TEAXpzb7DS+pEaDpv5j7vAZB7Dpvog=
+	t=1760364899; cv=none; b=ID8wn0PMltckuy3WNuZ08OpNFrDhC6Q9HceOKy9ezHoPH5XPDO0PRqYUV9wwVsHWpBcp/mswbZZ3II4FLtnfds9dz+UPX0toShd2rJuNCR0C+eCeFSn9edS/uztUeu/d8j1p0eGWSgJASTxoU/TXOffV/t0aWuK3ApO1s3tfk80=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1760364899; c=relaxed/simple;
-	bh=L4Qw/JWLTT0dmHppUcAHgP693zq94oqrBxXz4v7GMl0=;
+	bh=XGq0AYT0RAu45DkehU73efZ+CKhGLsp22KsMW3sZ7KM=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=pzc9UaCSgoRmSOBEWW3fj37NfVEz3pL5HWnhF9U4lVP+LspKmJVOWsSBKg/7A6220GdxaMk1q0UDGtnCzVQLux1pNqB4HTF8c9I6Jnq1aB6SqpMdk4pe/FMPBAhMMjL/eZbcX//2OHWI1TIf5gPsbShCDmfb/u23oOpGjEpjel0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=NgAZ0gvM; arc=none smtp.client-ip=209.85.167.50
+	 In-Reply-To:To:Cc; b=gsrRRDFAuCnL0e26+tyUuVipmRGT5nj7pOXASAVtWEIUIQ/X3DcToNtLJkp1UvgYeMpNVt9hK42QNdjyviwJ5FhBEZnw43iUBHb4jiccKGigs81wPBxcni6hQhe/QKW5ST8qh6dLu582vqhUdeH8Q20mgXR4M7mrpFc9iLwDCEA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=cdr1hIq2; arc=none smtp.client-ip=209.85.167.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-59052926cf9so4496496e87.1
-        for <linux-input@vger.kernel.org>; Mon, 13 Oct 2025 07:14:52 -0700 (PDT)
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-58affa66f2bso4585016e87.1
+        for <linux-input@vger.kernel.org>; Mon, 13 Oct 2025 07:14:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1760364891; x=1760969691; darn=vger.kernel.org;
+        d=chromium.org; s=google; t=1760364892; x=1760969692; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=9K2/B5MPGejpyktnrayd2M4OnjFiC4FIJq+++ipUzUw=;
-        b=NgAZ0gvMQr7mfoyTPzzReUMoF0Hpjr5XCfsqa+JU8aYmztaJMLVui81N9rOUW23l9d
-         h6JpM/j3VkWEgHBHtLrDMbWDsu9g4FNTZIqymAwAKHsXWiDQidcZcK+6uJAuMdhL3Hxv
-         LUxkyp+FPtZLXrLeSP4s8EVkp6W2QBqC4rwLo=
+        bh=cw6YFePVdJ/w0HUJNx+YTiAEhWK3QpB9xmEBqnhTSDQ=;
+        b=cdr1hIq2jUiqlyHGLSraYFrMIEgscJ0C3ydDRuFlZqjZJ0QmjNxOHzRpUarGhnONZd
+         T2dVSrsiuzxzW2E+F5lvJ/ymxtYRYlPh6mixBVDiXF8lG4jP6uStRtyY/LWNKWk8jApG
+         wMspUiD0gImABlPWlgz6zQlaao1am/6ZcmJpY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760364891; x=1760969691;
+        d=1e100.net; s=20230601; t=1760364892; x=1760969692;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=9K2/B5MPGejpyktnrayd2M4OnjFiC4FIJq+++ipUzUw=;
-        b=r4vKmeQ4Hi1Km90NubxhKpX9Wz0bGC7rvmjRBXCfkQE74qpEh3W7IJWfuXtPd4iQbk
-         jwIkvyy+aZbQ9qFSSxec5Vw/0o/IFci+I9jYTVXXoeutYy0/EEnyow1MWGIZAAiMpJux
-         p0Gr3D5DsyffXbomRxTbhTpu7miGFcFSTfx+WfgixDCx/q+F9Q6aQD3dZfbtFRuhcejf
-         t4ab07C1PFrSPzqFGs1sZ+/KExEblGM+RvSDiJ17FEYrw78LhxsVcZoffD+EbDQlXkYN
-         yBHfxVCjkSAVUxXBYMPPnIxRpM5QQ8xMPhgpWqVDz3BK/6jz9PuleovTDioWT4AuqZL4
-         aZ3Q==
-X-Gm-Message-State: AOJu0YzAIkZkpFjggMQ8ttl8WBOxCx837TegeBD4Aab/HpAoMfUwB7Z0
-	d3C6e4Xjij3o6G875Kz/NUDG6ElS+dsrf0S+5a/2ockHk6SmXVJjGsEhPUWamXeMRA==
-X-Gm-Gg: ASbGncs0A4xLBvpiXdHM1Ukn8k05de/RhmG46xO3Wykz6RAAZFZhb+1fhwZrI80eGtZ
-	Va6YakV9TpqdWRyT8ppcQjatrtHmqq7BZ3opfHBUb2JRmp2YP03YWog1fwgYa3V+b+CeW/F88Q/
-	vNoqlGRknXrI09jmgQe6gTckUSZAMP54OPMh0CuqMkMG4rkZLTIU2kycej4dHGSBA6CRDQlxP2c
-	kjekm5yYachqOzibTymmSOzlnN2TavjUfTdUc+p+mHGVL72ihTucCuaUFuLcHcf5Y7Ufyf2G70Y
-	Q3D34IIBoMTDoglVyQhxzSsEXZFQpitS1mWebVFIX6UP8B8TBceXGMB0H/u6AM3sM/VTKox/tVm
-	nWBdJkeWng9uw5G6uLRU6/XSzBbWQHCoC5Pk9M9tPiKOOpKZ0g243ObCFlW6McDLqucZu2ik0+D
-	bzcmwWecQnREiKPv6yTdTCvNp/xCgn
-X-Google-Smtp-Source: AGHT+IG5qmXDx4UbLHB42EHlB1t6C5RYlcWqyFNneQm/x2WKvXaXI+FP3no4d6C9H/LUJRdom0BMRw==
-X-Received: by 2002:a05:6512:12c9:b0:57b:c798:9edf with SMTP id 2adb3069b0e04-5906dfa81aemr5323251e87.56.1760364891242;
+        bh=cw6YFePVdJ/w0HUJNx+YTiAEhWK3QpB9xmEBqnhTSDQ=;
+        b=Kz/h+gRCpJRY+K81ueaS2sS0fS42/Bb5HlZKVJySpHayNsM9iYWFw9le9toHAPH6Gz
+         2730oSNNdfHhcPEvm4C+LxA4Wt7efV8YQLJ5UclVMTFSuCiAnmGBl0VMGp12xtGqW+7n
+         CHZAI/eZ3yWB7e/Frhbz1MoPA9wf89kb/3okxzinEJ+Uo+yu7+PX+z38aHMf2hwCPbLh
+         EvSJwe2by1RM6nxgJ2S0mM27x52mEYMHYStRoSuQ/69jTUg2QukX3u6FVhMioP84DwMR
+         b4G9zx3EhtvTLXFsfMAG9zogqdYoWhnW0eZT2+gWzmWTysb4XXIoQXyTQHLJM40cxEdP
+         qMvQ==
+X-Gm-Message-State: AOJu0YwxpWq8798bskm7sDTkD9+bQsr54SpJSAjY6cxht4QldG6W+bub
+	60Z/aRLbXwZEiEzj0ZQXLrDZfkwBn3fDzN3KockO/4Xq5NypWBCU1t17ZfxJorKQBw==
+X-Gm-Gg: ASbGncvHS1IxTWz2qjXndMXieEf4nUzIDdd4MorJnz4mtU39LTtatM+pBuH9ARYob/B
+	8gDwck0eTUS4q4v4CfM9eP64rUugFQ+T4SDtOUZVdKCA8P21CLvUic6R6A/E8FrpZru+gUYKbKy
+	2hrqTViMzgjoi0GzT+oRrgxp4e5UJxzUniuVsJMAbLQMqTWgzfZE7MzUfVkacPaFeKHu1zMR3Cl
+	OBM0q0Olv6y0bLKJxfOL6tEhB8K+KB+7DytSdZROu1c1jptcBLm+Md061LbBBV0aXjYK5eILWVA
+	ageZqJYvz1TEJBeRA1z43qF0UzlPgxKXy6QD0r8IIKd/AmIMNBWwyCGN17fB/Oy9m5T2yC+5NeD
+	pE3SNf/NJxit63o+CUcGCs+i8r0e5AuPge1JZ9e2SqFamcLHCIZ7wwGl5G2pERFcteSimWKdWCa
+	VXmXpnIzyT5qoim/7mSQ==
+X-Google-Smtp-Source: AGHT+IEKVe60oXFEuaV/5sAfkl2vR8IvNhsEsPje9O6F0QVcXOQ4CmYWAzNOjArzbT4yXoFh7KUNeA==
+X-Received: by 2002:a05:6512:2309:b0:57a:baaa:394 with SMTP id 2adb3069b0e04-5906dd51898mr4676162e87.27.1760364891849;
         Mon, 13 Oct 2025 07:14:51 -0700 (PDT)
 Received: from ribalda.c.googlers.com (56.213.88.34.bc.googleusercontent.com. [34.88.213.56])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-590881e4e58sm4165256e87.25.2025.10.13.07.14.50
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-590881e4e58sm4165256e87.25.2025.10.13.07.14.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Oct 2025 07:14:50 -0700 (PDT)
+        Mon, 13 Oct 2025 07:14:51 -0700 (PDT)
 From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Mon, 13 Oct 2025 14:14:42 +0000
-Subject: [PATCH 02/32] media: dvbdev: Use %pe format specifier
+Date: Mon, 13 Oct 2025 14:14:43 +0000
+Subject: [PATCH 03/32] media: mn88443x: Use %pe format specifier
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -81,7 +81,7 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251013-ptr_err-v1-2-2c5efbd82952@chromium.org>
+Message-Id: <20251013-ptr_err-v1-3-2c5efbd82952@chromium.org>
 References: <20251013-ptr_err-v1-0-2c5efbd82952@chromium.org>
 In-Reply-To: <20251013-ptr_err-v1-0-2c5efbd82952@chromium.org>
 To: Linus Walleij <linus.walleij@linaro.org>, 
@@ -134,28 +134,39 @@ a symbolic error name (eg. -EINVAL) and it makes the code simpler by
 omitting PTR_ERR()
 
 This patch fixes this cocci report:
-./dvb-core/dvbdev.c:575:48-55: WARNING: Consider using %pe to print PTR_ERR()
+./dvb-frontends/mn88443x.c:698:3-10: WARNING: Consider using %pe to print PTR_ERR()
+./dvb-frontends/mn88443x.c:713:3-10: WARNING: Consider using %pe to print PTR_ERR()
 
 Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- drivers/media/dvb-core/dvbdev.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/media/dvb-frontends/mn88443x.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/media/dvb-core/dvbdev.c b/drivers/media/dvb-core/dvbdev.c
-index 9df7c213716aec54bab7fde2c94ac030696fe25f..8b980d371a45e4fec5368a7e90d4c42518b72e72 100644
---- a/drivers/media/dvb-core/dvbdev.c
-+++ b/drivers/media/dvb-core/dvbdev.c
-@@ -571,8 +571,8 @@ int dvb_register_device(struct dvb_adapter *adap, struct dvb_device **pdvbdev,
- 			       MKDEV(DVB_MAJOR, minor),
- 			       dvbdev, "dvb%d.%s%d", adap->num, dnames[type], id);
- 	if (IS_ERR(clsdev)) {
--		pr_err("%s: failed to create device dvb%d.%s%d (%ld)\n",
--		       __func__, adap->num, dnames[type], id, PTR_ERR(clsdev));
-+		pr_err("%s: failed to create device dvb%d.%s%d (%pe)\n",
-+		       __func__, adap->num, dnames[type], id, clsdev);
- 		if (new_node) {
- 			list_del(&new_node->list_head);
- 			kfree(dvbdevfops);
+diff --git a/drivers/media/dvb-frontends/mn88443x.c b/drivers/media/dvb-frontends/mn88443x.c
+index 7a58f53ab9996031e319711a21b1a8f1c13abed4..818c4e67364c7c6ec2bfc17f21e2cac360f6bfb3 100644
+--- a/drivers/media/dvb-frontends/mn88443x.c
++++ b/drivers/media/dvb-frontends/mn88443x.c
+@@ -694,8 +694,7 @@ static int mn88443x_probe(struct i2c_client *client)
+ 
+ 	chip->mclk = devm_clk_get(dev, "mclk");
+ 	if (IS_ERR(chip->mclk) && !conf) {
+-		dev_err(dev, "Failed to request mclk: %ld\n",
+-			PTR_ERR(chip->mclk));
++		dev_err(dev, "Failed to request mclk: %pe\n", chip->mclk);
+ 		return PTR_ERR(chip->mclk);
+ 	}
+ 
+@@ -709,8 +708,8 @@ static int mn88443x_probe(struct i2c_client *client)
+ 	chip->reset_gpio = devm_gpiod_get_optional(dev, "reset",
+ 						   GPIOD_OUT_HIGH);
+ 	if (IS_ERR(chip->reset_gpio)) {
+-		dev_err(dev, "Failed to request reset_gpio: %ld\n",
+-			PTR_ERR(chip->reset_gpio));
++		dev_err(dev, "Failed to request reset_gpio: %pe\n",
++			chip->reset_gpio);
+ 		return PTR_ERR(chip->reset_gpio);
+ 	}
+ 
 
 -- 
 2.51.0.760.g7b8bcc2412-goog
