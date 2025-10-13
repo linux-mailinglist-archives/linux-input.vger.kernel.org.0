@@ -1,86 +1,86 @@
-Return-Path: <linux-input+bounces-15424-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-15425-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93094BD5167
-	for <lists+linux-input@lfdr.de>; Mon, 13 Oct 2025 18:35:23 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 43719BD565C
+	for <lists+linux-input@lfdr.de>; Mon, 13 Oct 2025 19:12:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 3E68434C393
-	for <lists+linux-input@lfdr.de>; Mon, 13 Oct 2025 16:35:23 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9C4A640479D
+	for <lists+linux-input@lfdr.de>; Mon, 13 Oct 2025 16:38:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C8F93268C42;
-	Mon, 13 Oct 2025 16:35:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF4E0284665;
+	Mon, 13 Oct 2025 16:38:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fUiGKMj0"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EO1redT1"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 543E9280037
-	for <linux-input@vger.kernel.org>; Mon, 13 Oct 2025 16:35:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50D8927979A
+	for <linux-input@vger.kernel.org>; Mon, 13 Oct 2025 16:38:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760373313; cv=none; b=Gd2fGg0RwAFfTGkCQiNkUdxevJsyh5Js1cI1v7bwV3Ke1jY+FTAIWX3EWSxr60e0+yAQLNSnxsem/9dMdBpAaC2kFz6VO/MCCObHVsJv4MERl8frlNghrzhnaCXEyRCY9z/eA4R+g0I3u4AYzzP7w7a7dexIzAnRv7zupWVBacU=
+	t=1760373518; cv=none; b=WSKchSFCI0kF6Xiw3tkPwrT4NryGk2qYXAx8Yo1fCf1RA5ezSSKXWxcZsf/AJOBUeYoNoydTnQP3Erf4jGpDiVhDoKdqz/1qNohcmDCuJ1WzTMADvH5EP7+Ac73MGmADpnnTugUu8tVAMX+g0AOTcQcLXLuRqA3KtP++C7lGN+w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760373313; c=relaxed/simple;
-	bh=+cYO9F+BBGqM2L7Qmc5LzRmTRFnLknC/E7j3QJzFclE=;
+	s=arc-20240116; t=1760373518; c=relaxed/simple;
+	bh=BmCQy3oliPeWLRO6I4CCTOEAGIzf80nL8hlwN71HeHw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qmVQzaOcF/jo/VqDZPkEhYqBRLgSh4zPwODiFnnuwOdxaAspfBbLP9qc3KXKt/toWeVh/ab5F2w/ZQ1SV5hPB3oDdUerOKOsp6jRrO/YppRW5K+2cd75VYDYRF613CQuIAOGv6xKmbQC8LAK90mWecNyQnEEzVMGYVvoM9HTExc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fUiGKMj0; arc=none smtp.client-ip=209.85.216.52
+	 Content-Type:Content-Disposition:In-Reply-To; b=E6CQZlVnvMxnhXNoyjb+wmObeZiz3QUIyS1iy+VF6CgjZrsulOm+Q1Cx/2dhSi7cManGX4tRfVoR52bO04/u2e0MvD6CObBsbRu7bgAUppGvrdcqf/0674xLQKCkSsEZekFFPeNPVAajWpHBvETPZwXfgLinneBBDrmlxhFfIjI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EO1redT1; arc=none smtp.client-ip=209.85.216.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-339c9bf3492so5700742a91.2
-        for <linux-input@vger.kernel.org>; Mon, 13 Oct 2025 09:35:12 -0700 (PDT)
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-339e71ccf48so6251502a91.3
+        for <linux-input@vger.kernel.org>; Mon, 13 Oct 2025 09:38:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760373311; x=1760978111; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1760373516; x=1760978316; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=gViHWXBMsp9Ox/uTXGivgkxef5vck7upcLtn4B8aPC0=;
-        b=fUiGKMj0/9F3pWKybWDCmBqw/uryPoO5BPnUCH41zgCLshasCoaq2SB2XXZMu9t6ib
-         yr3SRyrZJqG7yVdulxIqhPXW9jihFARKQPck+1Hh2ovxEZb1QKyKgyLmxT0Oh7PPMLMV
-         AOUhk2zn6TxTYIug3adAXCYrLu89CoTqz6uZtXeTqWttsk98QOfS8cSLJnCJbkFJJ89S
-         WPrdtetfa5yx0rdF9/OE0JUUOjmDgsGlafPty4ED+MTvPLanyY1Zq5RxLBjPcr867+LM
-         5PKTt+VnqTFcHkkQj8wlK6Fecz7x0qOFjm/X3819wy2fXYmNr/iycKsK61rnhkvH42HB
-         2FCw==
+        bh=k9JYYdDpgeV66ek4YeGNXX7QwZ2biW325zvZ3DiYUsY=;
+        b=EO1redT1ooRHr1ycAUG/9ZY7dPjz2GyesDQNHweaXIcttXbQCihM6fEHc9kUTYxMqY
+         odF3iVQL8aNOrFZ3mNsLE+hxz0hMPqOgNcE8gSNBo5njj22seBzZsI/ehswJrx11cPFo
+         KXUalWm6mZrSS1n05mIbvPYJn3Cvtbk6l2/zkutYqRqMlGfdvOaoGMV7sktrcLkY6ABH
+         SVWC6kowYM6G85xPJkjXvSeyHj1w1UlLONMIn9PAJ55SHqwMcCJ5lPlpX3dBeH1/CSbe
+         N0sLlLRniitsMQwNZJoOPE4IcHEhSJCK0r02M8iIokqNSpA+jzDlaXfrV4tc4BjEn11p
+         LxuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760373311; x=1760978111;
+        d=1e100.net; s=20230601; t=1760373516; x=1760978316;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=gViHWXBMsp9Ox/uTXGivgkxef5vck7upcLtn4B8aPC0=;
-        b=wLBn6mWGgwVcypnm2Qf/Evs9UlZkl6zxKjjrqNkgm+pIOkV6U3EOq0/s3JKnESu9vW
-         NbVAQeX8khPDGiKJeOvxc8TAOigQzTCqs+umCOWV2Pl3yzwQyII9ytPJtcRnZ9RAH0NX
-         bBmfgAM2lL+1wBV1a9/J6n/g7Udzs18LCzwj4TjnFRqA6CGTZKns/4/pfg9h/e4JoKzP
-         SmFa/j6whotOEggkEwRAw/0sS77OrmAy+c6sSTvMnla8wsybzZXOMheI6mPQBQ308pv6
-         XuhLhELsXdv4XN57oDt0UaYW9hc54CeGvTFMqZfeWRe05pYJjqHvPrQADLYoO+7XRE8Y
-         3heA==
-X-Forwarded-Encrypted: i=1; AJvYcCXh4Nm2vLamU8FWmlok1/ITfWCQrPzS1YE2c6+wnuyiLKxe4t/ncYsqR1O+v+qo/1n2e/oWMR5tQlJh8g==@vger.kernel.org
-X-Gm-Message-State: AOJu0YybeFqEYbrrHMDhSevibduB/Nt19+klT0wZnxhvQO3TA7wNMAJj
-	w9e2s/4iT91Pv8j36rxUkiTRtZKRvwFMkDxVfoJLylqZNDyYRZP8nhGiNXPhfQ==
-X-Gm-Gg: ASbGncvmeC23z28FZ9kpjdDBFsEneMoN6WEKTmtMEFe3c/hjqH8yT2AjXd6qzLTHYbJ
-	Bth27wiOr9jpQK/2h3k/zzUxlHhoH8tD5ZPBIrR9GQ59l1OzreyXvfhQLLdlvhqkVSGSCasE1Km
-	pdDbDMg6eEuE7C9wRowm9VsBqfFpeRnRVYfd+33Cz8WGtOAX2gyygTVTW8GFFIXm9ODFyugfTr6
-	Yfcv1tWxB1z+35DOfMNJkuDjmTNpzQ1Dr+hxxjsbLTDKVNfVzTaKyhb44Bi9zNQXmtQR/OExSkI
-	wJJavgiSoiZPitlUDcF+Aw+QPOz+IvUs4heNIZ9lKczU2N/3fiMXL6xHBcPLZc8sJZ5/eI5PzNZ
-	dgkl1CGS3muHOFYamYI+l5piMpohhwWqZf6V3OjMJffvXDddQL6lgn6ORe6vvDd/BA4g708ex+h
-	jMXJtEiIQTPpJ+/qU2
-X-Google-Smtp-Source: AGHT+IGFP/fF6YnGv6Nk6A8q6vU7tu1gcffETQGoKEaFIuhqMBs5IMDspTmqa0wmGgj2LUKVaKB38A==
-X-Received: by 2002:a17:90b:1b04:b0:32b:cb05:849a with SMTP id 98e67ed59e1d1-33b513861cdmr28406055a91.29.1760373311440;
-        Mon, 13 Oct 2025 09:35:11 -0700 (PDT)
+        bh=k9JYYdDpgeV66ek4YeGNXX7QwZ2biW325zvZ3DiYUsY=;
+        b=nDU4RfjPNZ+n1CeKIRTVJstGVkI0aFUEUZXdXmorKVUA385yUHf+6sA+KhAT4pr6RX
+         QsIZz5YDZNP+VkzI/51ZhxwfSUdk4YuMRAQZhJdPa8B26S0srsJSS9qMt39mAkGKDPNT
+         p7vwvlSg9UBiQM0WNCCCV5vf6Ho8pTJWPZbqQUi4ibrsRv2hbFiVOLuVipn4f0n+9cbD
+         cowzF/5nVkIuYk1ZlMfC31DhRPys1ETLG1M1pMPEnK+gz2cnmSdiBaVxo5oFNLrtDzNz
+         olkHJi4Su3m0SoDPAvde8sEFDY+9fT6bT+/KOQb0x7CZ1F5nnYuOh+3/bi6sTXsEavMn
+         ZdIw==
+X-Forwarded-Encrypted: i=1; AJvYcCUuiReLVGZucda54TwDHHakAEQ2ZL+44tKaR6AJHzUAURRCj5N8sX2bvKHKmiElTYounP43r32g2YO7mA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwZNmDRnVFv6bKkCyBi9iOLtmwLmsdJszPWBZx/C8JvfG62jkft
+	CT23PCiQO+x1WNEBEVTmxmjoWnx20+9gx49JP2kaUunfYgsWtn+T1Lcq
+X-Gm-Gg: ASbGncvmnEwWNKlITYBTUmYWJfE8Ga2vxPiFVfAWxusnsCBVlc1rHd56R0bBn3nAbN3
+	pkyVWOvmnKX/xd6ZULs3mhsAMXRh2LSqoEbgcmkKvuXYYYj9zPdh3Us5c1ssXqCt727YPsQp3FB
+	VJYTgFP5ZcNHPZ8+Alt115fgP0+Wl5vb6QkR22YeWREQt/IwgnRoWNQ4w/ZU2DVtKYW3Qhsyt6O
+	vdbgBD7B2sjezpPGmH1gxT/pjIeZOXlbOgifOqJ2oiJ2rcniAkN9W8kEiWIKazpx1Qb2OLlX0uq
+	3wnVkCEvbUuRpgdp+tZR3lvT9fQdOXaR7aDWwVeXpoujztHnte9bExw/ykxWCnGRBr6WdBWk1eS
+	iOp+HfT4ipTSE3ArtLCQnP1cabQ5OxZKkIxvvjK2jG+kYrjt5TnMArT++wBqAUJggiJMpJA0Jnm
+	SPmtLFNw==
+X-Google-Smtp-Source: AGHT+IFxRS2UcQqMiskIECF4/ssW11b7nfNNRQ82YATASIt1Dk+EkKRi/gf5PQqVV/QcP9D8QIq3Fw==
+X-Received: by 2002:a17:90b:1c88:b0:330:a454:c31a with SMTP id 98e67ed59e1d1-33b51386573mr29764371a91.32.1760373516376;
+        Mon, 13 Oct 2025 09:38:36 -0700 (PDT)
 Received: from google.com ([2a00:79e0:2ebe:8:2811:1686:ffe6:64d0])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-33b61b0ed20sm12996232a91.23.2025.10.13.09.35.10
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-33b61b11ca9sm12836091a91.24.2025.10.13.09.38.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Oct 2025 09:35:11 -0700 (PDT)
-Date: Mon, 13 Oct 2025 09:35:08 -0700
+        Mon, 13 Oct 2025 09:38:36 -0700 (PDT)
+Date: Mon, 13 Oct 2025 09:38:33 -0700
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Hans de Goede <hansg@kernel.org>
-Cc: Bastien Nocera <hadess@hadess.net>, linux-input@vger.kernel.org, 
-	Hans de Goede <hdegoede@redhat.com>, Weikang Guo <guoweikang.kernel@gmail.com>
-Subject: Re: [PATCH resend] Input: goodix - add support for ACPI ID GDIX1003
-Message-ID: <kuxyyl2lw7iublotoouoj45zwdlmeetqldudbye3mmi53etusq@diwl4v442bf5>
-References: <20251013121022.44333-1-hansg@kernel.org>
+To: Martyn Welch <martyn.welch@collabora.com>
+Cc: Hans de Goede <hansg@kernel.org>, kernel@collabora.com, 
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] input: goodix: Remove setting of RST pin to input
+Message-ID: <6etmibzrkv5kh33xxyjde2p3ppp65rc2ojfgxt6lwevhtff3hi@hpuz5uzwtwlz>
+References: <20251009134138.686215-1-martyn.welch@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -89,19 +89,32 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251013121022.44333-1-hansg@kernel.org>
+In-Reply-To: <20251009134138.686215-1-martyn.welch@collabora.com>
 
-On Mon, Oct 13, 2025 at 02:10:22PM +0200, Hans de Goede wrote:
-> From: Hans de Goede <hdegoede@redhat.com>
+On Thu, Oct 09, 2025 at 02:41:32PM +0100, Martyn Welch wrote:
+> The reset line is being set to input on non-ACPI devices apparently to
+> save power. This isn't being done on ACPI devices as it's been found
+> that some ACPI devices don't have a pull-up resistor fitted. This can
+> also be the case for non-ACPI devices, resulting in:
 > 
-> Some newer devices use an ACPI hardware ID of GDIX1003 for their Goodix
-> touchscreen controller, instead of GDIX1001 / GDIX1002. Add GDIX1003
-> to the goodix_acpi_match[] table.
+> [  941.672207] Goodix-TS 1-0014: Error reading 10 bytes from 0x814e: -110
+> [  942.696168] Goodix-TS 1-0014: Error reading 10 bytes from 0x814e: -110
+> [  945.832208] Goodix-TS 1-0014: Error reading 10 bytes from 0x814e: -110
 > 
-> Reported-by: Weikang Guo <guoweikang.kernel@gmail.com>
-> Closes: https://lore.kernel.org/linux-input/20250225024409.1467040-1-guoweikang.kernel@gmail.com/
-> Tested-by: Weikang Guo <guoweikang.kernel@gmail.com>
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> This behaviour appears to have been initialing introduced in
+> ec6e1b4082d9. This doesn't seem to be based on information in either the
+> GT911 or GT9271 datasheets cited as sources of information for this
+> change. Thus it seems likely that it is based on functionality in the
+> Android driver which it also lists. This behaviour may be viable in very
+> specific instances where the hardware is well known, but seems unwise in
+> the upstream kernel where such hardware requirements can't be
+> guaranteed.
+> 
+> Remove this over optimisation to improve reliability on non-ACPI
+> devices.
+> 
+> Signed-off-by: Martyn Welch <martyn.welch@collabora.com>
+> 
 
 Applied, thank you.
 
