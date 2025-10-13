@@ -1,127 +1,144 @@
-Return-Path: <linux-input+bounces-15432-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-15434-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58F6DBD60F8
-	for <lists+linux-input@lfdr.de>; Mon, 13 Oct 2025 22:19:15 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F789BD64B4
+	for <lists+linux-input@lfdr.de>; Mon, 13 Oct 2025 22:55:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 6F7B74EF1CB
-	for <lists+linux-input@lfdr.de>; Mon, 13 Oct 2025 20:19:11 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 22287406BCB
+	for <lists+linux-input@lfdr.de>; Mon, 13 Oct 2025 20:55:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9C1D62E8E08;
-	Mon, 13 Oct 2025 20:18:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9350F2C11F0;
+	Mon, 13 Oct 2025 20:55:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=temperror (0-bit key) header.d=antheas.dev header.i=@antheas.dev header.b="avtxVXlf"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="gvuPO2Re"
 X-Original-To: linux-input@vger.kernel.org
-Received: from relay11.grserver.gr (relay11.grserver.gr [78.46.171.57])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f202.google.com (mail-il1-f202.google.com [209.85.166.202])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9745A2E7F0B;
-	Mon, 13 Oct 2025 20:17:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.46.171.57
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0C462C11D1
+	for <linux-input@vger.kernel.org>; Mon, 13 Oct 2025 20:55:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760386680; cv=none; b=mF+dkqtZZ4U41wnxzPDBR9F0q/s61SzJxvDpx4CYuPPgmlgRUvh9++R/N/vjLwqwwrniWaWoxCUZYAezVVurhrLpKy2FVMUi2JZw1aMR+YPjGQ2gipy39O03N8PF83yrzB7taWUrOM8s/f/NzDXqQLHQ6jx8dqK/sgthIcLBXTo=
+	t=1760388943; cv=none; b=pI5JgIhfrrdYemOvAqe0KAgmxna9oykJdpfXU8sgqd3IFrAnUmc0L+LSlbrOK1yQTLMU46eaPY2n/4V3TieBuyQj+Ys/JXbhqU3FI8trWiMDN7SFzZbUsX6yuUNO5ABPAW7sDTxOGbi9cUec/Av4rEyR0205w+CnjIWTZGy04VQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760386680; c=relaxed/simple;
-	bh=0RooEeR2UKkdIrkm8tnD/PBHi/7wqKpn+sUQnp/RuFI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=CqDTDBLgDr1gqi1QGxplk4IHYS/qKUhW2HydVL46LL1/iYxGW8LDgy98KxxTuLSmIyOPMfkO1jbV0DJ0uDYxBQAkCo+lyWXMJDpg3i4kOna1v0BVKwjNdeig2QUqEIdTm+XuKvj0ixANW6P6qj3xxEvVG73pGD8s1cnpopIK72U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev; spf=pass smtp.mailfrom=antheas.dev; dkim=temperror (0-bit key) header.d=antheas.dev header.i=@antheas.dev header.b=avtxVXlf; arc=none smtp.client-ip=78.46.171.57
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=antheas.dev
-Received: from relay11 (localhost.localdomain [127.0.0.1])
-	by relay11.grserver.gr (Proxmox) with ESMTP id A92F0C4CAD;
-	Mon, 13 Oct 2025 23:17:56 +0300 (EEST)
-Received: from linux3247.grserver.gr (linux3247.grserver.gr [213.158.90.240])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by relay11.grserver.gr (Proxmox) with ESMTPS id 45797C4CA6;
-	Mon, 13 Oct 2025 23:17:56 +0300 (EEST)
-Received: from antheas-z13 (x5996a8de.customers.hiper-net.dk [89.150.168.222])
-	by linux3247.grserver.gr (Postfix) with ESMTPSA id F31141FDC0B;
-	Mon, 13 Oct 2025 23:17:53 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
-	s=default; t=1760386676;
-	bh=ObihDIJgc+e3sV164qzQ96xxkTKUky9SvhxpNXrsWIc=; h=From:To:Subject;
-	b=avtxVXlflyJbNr3+Ip6zdFxpT4n3ldDsyH2gpOjTM29pg4tBDdDkz5Dfgh6WuuVca
-	 QT2W1PIgKCgEEPv7Ebg+Qv55jVGRyxaYcLtoFdDM6/P+QD961aslw86GvaFY+Ax4vL
-	 O2vxVzzp/PPnP1sRZtAHonLcS+S48dtXVGSA+ytuj7FWZ9pQ+oWK8G1HbU/HywET5t
-	 CsivZY3oCCUzOuHFejaV+eQg0jEeV9EojxpjAl2yi99XjAK4Xtf6M5gHf6DVHWBlf2
-	 SyJyr43w1iwl9uvSRJQtTj0zkB6ksDFIv8xEhRi24IlB30ShCZNP+YwtO/AKmIrvJo
-	 AseT7WkwAhXgA==
-Authentication-Results: linux3247.grserver.gr;
-	spf=pass (sender IP is 89.150.168.222) smtp.mailfrom=lkml@antheas.dev smtp.helo=antheas-z13
-Received-SPF: pass (linux3247.grserver.gr: connection is authenticated)
-From: Antheas Kapenekakis <lkml@antheas.dev>
-To: platform-driver-x86@vger.kernel.org,
-	linux-input@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <bentiss@kernel.org>,
-	Corentin Chary <corentin.chary@gmail.com>,
-	"Luke D . Jones" <luke@ljones.dev>,
-	Hans de Goede <hdegoede@redhat.com>,
-	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Denis Benato <benato.denis96@gmail.com>,
-	Antheas Kapenekakis <lkml@antheas.dev>
-Subject: [PATCH v6 7/7] HID: asus: add support for the asus-wmi brightness
- handler
-Date: Mon, 13 Oct 2025 22:15:35 +0200
-Message-ID: <20251013201535.6737-8-lkml@antheas.dev>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20251013201535.6737-1-lkml@antheas.dev>
-References: <20251013201535.6737-1-lkml@antheas.dev>
+	s=arc-20240116; t=1760388943; c=relaxed/simple;
+	bh=g5aeWjEsyrEgtXYmT9bLZgoNYfmNd7RVniAPQYIhaqU=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=TMi3sb4KHJLLjwiGEU8/YLDRAFtDt0Tuv72o6RBXut0jSlYpM2bcWOnZOclba15hDdqkL3SwDOvxHIg9bSSNdXAi1l3E5xhwUcRJx6CaBKCZLzKbvBj1KWnkiytI1+yginQI9HKN0HA/69YcHf53QS09tOEPCHzNSaUJbHJuAF8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jdenose.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=gvuPO2Re; arc=none smtp.client-ip=209.85.166.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jdenose.bounces.google.com
+Received: by mail-il1-f202.google.com with SMTP id e9e14a558f8ab-42f9f48ee30so7112845ab.2
+        for <linux-input@vger.kernel.org>; Mon, 13 Oct 2025 13:55:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1760388941; x=1760993741; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=n2VkMZvVeagPungxdvXSEeNR4Y/36U6V3Y2qAoJc2LE=;
+        b=gvuPO2ReOeqXobhJqHkJWoAeoB/mIK2uPhtqm0v34xB24+1yxOTSnqiKR7/EzJtJ5p
+         ucFUC0plDsS/dpGNEBoFdgUkynR1EIVJy6xdDF943wLqu6sU2naKrwI3CYLfPUbw+zYT
+         qpwiowL74I4aiY/L1lzdd7X2VdGQT2e6wMtI6oqRZn2EQNZtSIxAtkvJ1WC5egwmllPR
+         V+6PUANBQOnOL9PP3IzXIcaHLEpz6DK3c7YQSXjmhlwZ+Cqr+SZVkGnForXqo6XXtQJP
+         +3vXnUASREQbLBKhsizBLeU9GgGbkeWWxdyjXuGC7KdOBZsOu4AVD49oprRviY5b/Hun
+         14Ig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760388941; x=1760993741;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=n2VkMZvVeagPungxdvXSEeNR4Y/36U6V3Y2qAoJc2LE=;
+        b=nvmSNf86SJAsFhd519viGGuZD90l8tQaEsaZy22qFbsCij4dQHrqlsI6jji8f1AHLo
+         anIR3++Nbo6NCvuhwr86R2ioF+EbLTneS69LPYFZh4TlLx8+bEcA28sA6ZITLZLTBIJJ
+         Bxi3So3xA7Fixw8Q18xM9iL9sodSmEwuFr9kQtHefeapRB10oSpDv22PsxYeUnQhr+g1
+         ZpaCySsccVIZ+KR6lcWxCy1GmIfyC9DQLikrhffwVj5JQiyCZ1Sn6WXVkcPqX2C+oXhj
+         AdHKyjzPnKnyjEi/iA6KHYxv9Zf61IGxpl4MHkyKqWAUKJ8q4T0Ue99pJncBAU+tR0aL
+         KWbA==
+X-Forwarded-Encrypted: i=1; AJvYcCVXjEoDC5k1GXWMvfOe3Bi3HJOrA5ATFXOlF7xkut9GH4hg93ITeahgUJ0sd1yhfRk5rokMRje5U3c8MA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzFGfg1KhR26Hrj9oUF1y1dvzYDOwYlmB6Qe0drPkzKsp6mMvrf
+	eKK21STXLJBTumW/NiYZ2fUcK3lOUp/qc29CoLBg/BSlQG//7A7fqGEWnsV+jBvNfw3YXri5t8v
+	Z68E464ti1g==
+X-Google-Smtp-Source: AGHT+IFzT35HVcIiSr0TCH6YF669Y1WMCSqZlPkuDacbU/ha+9HSwmUUwPGAawwWvCgwzzHXwduN3fJZgkT3
+X-Received: from ilvk5.prod.google.com ([2002:a05:6e02:1a85:b0:425:c6a0:25a8])
+ (user=jdenose job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6e02:4509:20b0:42f:9b79:f8cd
+ with SMTP id e9e14a558f8ab-42f9b79fcebmr135607215ab.16.1760388941161; Mon, 13
+ Oct 2025 13:55:41 -0700 (PDT)
+Date: Mon, 13 Oct 2025 20:54:57 +0000
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-PPP-Message-ID: 
- <176038667592.3397732.5599229002252934598@linux3247.grserver.gr>
-X-PPP-Vhost: antheas.dev
-X-Virus-Scanned: clamav-milter 1.4.3 at linux3247.grserver.gr
-X-Virus-Status: Clean
+Mime-Version: 1.0
+X-B4-Tracking: v=1; b=H4sIACBn7WgC/x2MywqAIBAAfyX23ILa49CvRAdzV10CC40Ion9PO
+ s7AzAOFs3CBqXkg8yVF9lRBtw24aFNgFKoMRplBK91hFMJoj1Mcbm5PXgJ6uXHsevJmJes0QY2 PzFX/43l53w8+vguDaAAAAA==
+X-Change-Id: 20251013-hid-haptic-kconfig-fix-634df2bdac1d
+X-Mailer: b4 0.14.2
+Message-ID: <20251013-hid-haptic-kconfig-fix-v1-1-b1ad90732625@google.com>
+Subject: [PATCH] HID: Kconfig: Fix build error from CONFIG_HID_HAPTIC
+From: Jonathan Denose <jdenose@google.com>
+To: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>
+Cc: Thorsten Leemhuis <linux@leemhuis.info>, Randy Dunlap <rdunlap@infradead.org>, 
+	Lucas GISSOT <lucas.gissot.pro@gmail.com>, linux-input@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Jonathan Denose <jdenose@google.com>
+Content-Type: text/plain; charset="utf-8"
 
-If the asus-wmi brightness handler is available, send the
-keyboard brightness events to it instead of passing them
-to userspace. If it is not, fall back to sending them to it.
+Temporarily change CONFIG_HID_HAPTIC to be bool instead of tristate, until
+we implement a permanent solution.
 
-Reviewed-by: Luke D. Jones <luke@ljones.dev>
-Tested-by: Luke D. Jones <luke@ljones.dev>
-Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
 ---
- drivers/hid/hid-asus.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+Recently the CONFIG_HID_HAPTIC Kconfig option was reported as causing
+the following build errors:
 
-diff --git a/drivers/hid/hid-asus.c b/drivers/hid/hid-asus.c
-index 0af19c8ef035..1f904bb66396 100644
---- a/drivers/hid/hid-asus.c
-+++ b/drivers/hid/hid-asus.c
-@@ -324,6 +324,17 @@ static int asus_event(struct hid_device *hdev, struct hid_field *field,
- 			 usage->hid & HID_USAGE);
- 	}
+  MODPOST Module.symvers
+ERROR: modpost: "hid_haptic_init" [drivers/hid/hid-multitouch.ko] undefined!
+ERROR: modpost: "hid_haptic_pressure_increase" [drivers/hid/hid-multitouch.ko] undefined!
+ERROR: modpost: "hid_haptic_check_pressure_unit" [drivers/hid/hid-multitouch.ko] undefined!
+ERROR: modpost: "hid_haptic_input_configured" [drivers/hid/hid-multitouch.ko] undefined!
+ERROR: modpost: "hid_haptic_input_mapping" [drivers/hid/hid-multitouch.ko] undefined!
+ERROR: modpost: "hid_haptic_feature_mapping" [drivers/hid/hid-multitouch.ko] undefined!
+ERROR: modpost: "hid_haptic_pressure_reset" [drivers/hid/hid-multitouch.ko] undefined!
+make[3]: *** [/home/thl/var/linux.dev/scripts/Makefile.modpost:147: Module.symvers] Error 1
+
+when the kernel is compiled with the following configuration:
+
+CONFIG_HID=y
+CONFIG_HID_MULTITOUCH=m
+CONFIG_HID_HAPTIC=m
+
+To resolve this, temporarily change the CONFIG_HID_HAPTIC option to be
+bool, until we arrive at a permanent solution to enable CONFIG_HID_HAPTIC
+to be tristate.
+
+For a more detailed discussion, see [1].
+
+[1]: https://lore.kernel.org/linux-input/auypydfkhx2eg7vp764way4batdilzc35inqda3exwzs3tk3ff@oagat6g46zto/
+
+Signed-off-by: Jonathan Denose <jdenose@google.com>
+---
+ drivers/hid/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
+index 5341aa79f387bd0e5a76266b5928d2c978dd81cf..04420a713be085c8871b4d35255fde4cafd8de0f 100644
+--- a/drivers/hid/Kconfig
++++ b/drivers/hid/Kconfig
+@@ -93,7 +93,7 @@ config HID_GENERIC
+ 	If unsure, say Y.
  
-+	if (usage->type == EV_KEY && value) {
-+		switch (usage->code) {
-+		case KEY_KBDILLUMUP:
-+			return !asus_hid_event(ASUS_EV_BRTUP);
-+		case KEY_KBDILLUMDOWN:
-+			return !asus_hid_event(ASUS_EV_BRTDOWN);
-+		case KEY_KBDILLUMTOGGLE:
-+			return !asus_hid_event(ASUS_EV_BRTTOGGLE);
-+		}
-+	}
-+
- 	return 0;
- }
- 
+ config HID_HAPTIC
+-	tristate "Haptic touchpad support"
++	bool "Haptic touchpad support"
+ 	default n
+ 	help
+ 	Support for touchpads with force sensors and haptic actuators instead of a
+
+---
+base-commit: 3a8660878839faadb4f1a6dd72c3179c1df56787
+change-id: 20251013-hid-haptic-kconfig-fix-634df2bdac1d
+
+Best regards,
 -- 
-2.51.0
-
+Jonathan Denose <jdenose@google.com>
 
 
