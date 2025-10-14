@@ -1,126 +1,144 @@
-Return-Path: <linux-input+bounces-15450-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-15451-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53779BD73C6
-	for <lists+linux-input@lfdr.de>; Tue, 14 Oct 2025 06:25:00 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id F02A9BD7CEB
+	for <lists+linux-input@lfdr.de>; Tue, 14 Oct 2025 09:07:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0E72B3B5D65
-	for <lists+linux-input@lfdr.de>; Tue, 14 Oct 2025 04:24:59 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A91323BF807
+	for <lists+linux-input@lfdr.de>; Tue, 14 Oct 2025 07:07:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7472530AAD8;
-	Tue, 14 Oct 2025 04:24:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 46F5430DEB7;
+	Tue, 14 Oct 2025 07:07:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b="qs/anXn2"
 X-Original-To: linux-input@vger.kernel.org
-Received: from ni.piap.pl (ni.piap.pl [195.187.100.5])
+Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 413E930AAC8;
-	Tue, 14 Oct 2025 04:24:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.187.100.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59E4E30DEA6
+	for <linux-input@vger.kernel.org>; Tue, 14 Oct 2025 07:07:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.67.36.65
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760415898; cv=none; b=dE6NsryDXIM3K6XMWXWQcrqPiIRtcXYUnwaveLuM/RpJWozuC+MRVE0rr3fE90KIQag12k+fxDMwUvFhBcoZoPMOHo5IwqqB2y7rfB65mdUTbv4hTpdMnnV95I1CqKsan0gWlOudHyA+qsz/Wo7wi+oHGUCE1aMsdCQXu0kVA7o=
+	t=1760425636; cv=none; b=pKFiCVPN1PGg6dhhLlzcVwFyG4/+xHyZbPLk/XJDnzX07Ed6La4Rfw1UzgHDeVYTG89R+2rksohkb7VwFyQ1qY1NMucjMuw8Og8PNrpw6frk9GOcmpQTguJsEBQtQzDVIWwNNp4pCSLMRFXiasNVRxQNJbR2PmOLd39wCnwK068=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760415898; c=relaxed/simple;
-	bh=NkEIvHvSMBdftwCCgim71nKU1aLS5jLHCWC9aM4TShQ=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=KfujT17SU1ghYIEVNdTGfm3YfXDJmdD8n6OV+ijf5Duzmbw6ih1iknFUDxyX+p9zkUMUViof3QjxzgP2dUpWqM4nvllV9NY2DbkoNN9GdSqac8DWw0Ab8xqTpiAVbhMZdbkGgAO0cNYsb4OxQiKif4ai8gSpvgjlgtYqDwJj6os=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=piap.pl; spf=pass smtp.mailfrom=piap.pl; arc=none smtp.client-ip=195.187.100.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=piap.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=piap.pl
-Received: from t19.piap.pl (OSB1819.piap.pl [10.0.9.19])
-	by ni.piap.pl (Postfix) with ESMTPS id 13FA2C3EEAC9;
-	Tue, 14 Oct 2025 06:24:44 +0200 (CEST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ni.piap.pl 13FA2C3EEAC9
-From: =?utf-8?Q?Krzysztof_Ha=C5=82asa?= <khalasa@piap.pl>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Linus Walleij <linus.walleij@linaro.org>,  Dmitry Torokhov
- <dmitry.torokhov@gmail.com>,  Mauro Carvalho Chehab <mchehab@kernel.org>,
-  Hans Verkuil <hverkuil@kernel.org>,  Sakari Ailus
- <sakari.ailus@linux.intel.com>,  Tomi Valkeinen
- <tomi.valkeinen@ideasonboard.com>,  Leon Luo <leonl@leopardimaging.com>,
-  Kieran Bingham <kieran.bingham@ideasonboard.com>,  Jacopo Mondi
- <jacopo+renesas@jmondi.org>,  Kieran Bingham
+	s=arc-20240116; t=1760425636; c=relaxed/simple;
+	bh=AE6o9rBchXM9ButRAfqsiHwvFzmlHsuVVU5dxOZZtd8=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=nn9YHwoD9+RV3TOkJrUG4wV9cHM3csQYIwHNxblJQpkRokZJIMENgKfm6GvgBUcAc4PeFkkus7eOt4YO3OsAEDHb1in2C/Vuqpjk5OfN3dbzsFYCC0zxFYfGpodmRPYM/o4m5RZeEn5D9U6b3PsJANW0lu0/cDs5a+cTPDkcxCg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de; spf=pass smtp.mailfrom=posteo.de; dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b=qs/anXn2; arc=none smtp.client-ip=185.67.36.65
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.de
+Received: from submission (posteo.de [185.67.36.169]) 
+	by mout01.posteo.de (Postfix) with ESMTPS id 7D88B240028
+	for <linux-input@vger.kernel.org>; Tue, 14 Oct 2025 09:07:07 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=posteo.de; s=2017;
+	t=1760425627; bh=m2ao7yOlmXtTR+gAWOXEYdjwi7rdtHCkxzZCJ5XFR9E=;
+	h=Message-ID:Subject:From:To:Cc:Date:Content-Type:
+	 Content-Transfer-Encoding:MIME-Version:From;
+	b=qs/anXn2TVnJ3gfmAMlt/gZ6fHeZdmw8nlor261Uc6AaFBIEbGJq4MC7QA5reFK0w
+	 0/PJKEyhUqqbCtiyOMuFuopxx0xkpGCfrUsi0RtgLsMTpGKpkkmIc5xTD1b3ZZozXO
+	 IxdgnISemS2GtLR1dbxwe5PSfug/pF+yzodMP8MImM7aIJAwZgpis5h48v6PNA9ti8
+	 ML+17oz4AzLX/16JGZiUQrkqTmUqxcr0GvmHM+qDCwxzO3hxCnv4WAEavaC2RU5W2I
+	 GWdSCeK7fMSy/OHfVFz7/E76HREqG687Nkt2HYjZqhcPW+h7juEPOAhhJjtMPxTiVz
+	 TywBmW4HlmzbA==
+Received: from customer (localhost [127.0.0.1])
+	by submission (posteo.de) with ESMTPSA id 4cm4yp6z2Tz9rxR;
+	Tue, 14 Oct 2025 09:06:58 +0200 (CEST)
+Message-ID: <f30b137685be9148e69f18065d811d011bfe3409.camel@posteo.de>
+Subject: Re: [PATCH 25/32] media: imx8mq-mipi-csi2: Use %pe format specifier
+From: Martin Kepplinger-Novakovic <martink@posteo.de>
+To: Ricardo Ribalda <ribalda@chromium.org>, Linus Walleij	
+ <linus.walleij@linaro.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+ Mauro Carvalho Chehab	 <mchehab@kernel.org>, Hans Verkuil
+ <hverkuil@kernel.org>, Sakari Ailus	 <sakari.ailus@linux.intel.com>,
+ Krzysztof =?UTF-8?Q?Ha=C5=82asa?=	 <khalasa@piap.pl>, Tomi Valkeinen
+ <tomi.valkeinen@ideasonboard.com>, Leon Luo	 <leonl@leopardimaging.com>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,  Jacopo Mondi
+ <jacopo+renesas@jmondi.org>, Kieran Bingham
  <kieran.bingham+renesas@ideasonboard.com>,  Laurent Pinchart
- <laurent.pinchart+renesas@ideasonboard.com>,  Niklas =?utf-8?Q?S=C3=B6der?=
- =?utf-8?Q?lund?=
- <niklas.soderlund+renesas@ragnatech.se>,  Julien Massot
- <julien.massot@collabora.com>,  Jacopo Mondi <jacopo@jmondi.org>,  Daniel
- Scally <djrscally@gmail.com>,  Dave Stevenson
+ <laurent.pinchart+renesas@ideasonboard.com>, Niklas
+ =?ISO-8859-1?Q?S=F6derlund?=	 <niklas.soderlund+renesas@ragnatech.se>,
+ Julien Massot	 <julien.massot@collabora.com>, Jacopo Mondi
+ <jacopo@jmondi.org>, Daniel Scally	 <djrscally@gmail.com>, Dave Stevenson
  <dave.stevenson@raspberrypi.com>,  Benjamin Mugnier
- <benjamin.mugnier@foss.st.com>,  Sylvain Petinot
- <sylvain.petinot@foss.st.com>,  Yong Zhi <yong.zhi@intel.com>,  Bingbu Cao
- <bingbu.cao@intel.com>,  Tianshu Qiu <tian.shu.qiu@intel.com>,  Tiffany
- Lin <tiffany.lin@mediatek.com>,  Andrew-CT Chen
- <andrew-ct.chen@mediatek.com>,  Yunfei Dong <yunfei.dong@mediatek.com>,
-  Matthias Brugger <matthias.bgg@gmail.com>,  AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>,  Rui Miguel Silva
+ <benjamin.mugnier@foss.st.com>, Sylvain Petinot
+ <sylvain.petinot@foss.st.com>, Yong Zhi	 <yong.zhi@intel.com>, Bingbu Cao
+ <bingbu.cao@intel.com>, Tianshu Qiu	 <tian.shu.qiu@intel.com>, Tiffany Lin
+ <tiffany.lin@mediatek.com>, Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+ Yunfei Dong <yunfei.dong@mediatek.com>, Matthias Brugger
+ <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno	
+ <angelogioacchino.delregno@collabora.com>, Rui Miguel Silva
  <rmfrfs@gmail.com>,  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-  Martin Kepplinger <martink@posteo.de>,  Purism Kernel Team
- <kernel@puri.sm>,  Shawn Guo <shawnguo@kernel.org>,  Sascha Hauer
- <s.hauer@pengutronix.de>,  Pengutronix Kernel Team
- <kernel@pengutronix.de>,  Fabio Estevam <festevam@gmail.com>,  Dafna
- Hirschfeld <dafna@fastmail.com>,  Heiko Stuebner <heiko@sntech.de>,
-  Sylwester Nawrocki <s.nawrocki@samsung.com>,  Krzysztof Kozlowski
- <krzk@kernel.org>,  Alim Akhtar <alim.akhtar@samsung.com>,  Yemike
- Abhilash Chandra <y-abhilashchandra@ti.com>,  Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>,  linux-input@vger.kernel.org,
-  linux-kernel@vger.kernel.org,  linux-media@vger.kernel.org,
-  linux-arm-kernel@lists.infradead.org,
-  linux-mediatek@lists.infradead.org,  imx@lists.linux.dev,
-  linux-renesas-soc@vger.kernel.org,  linux-rockchip@lists.infradead.org,
-  linux-samsung-soc@vger.kernel.org,  linux-staging@lists.linux.dev
-Subject: Re: [PATCH 05/32] media: ar0521: Use %pe format specifier
-In-Reply-To: <20251013-ptr_err-v1-5-2c5efbd82952@chromium.org> (Ricardo
-	Ribalda's message of "Mon, 13 Oct 2025 14:14:45 +0000")
+ Purism Kernel Team <kernel@puri.sm>, Shawn Guo	 <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team
+ <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, Dafna
+ Hirschfeld	 <dafna@fastmail.com>, Heiko Stuebner <heiko@sntech.de>,
+ Sylwester Nawrocki	 <s.nawrocki@samsung.com>, Krzysztof Kozlowski
+ <krzk@kernel.org>, Alim Akhtar	 <alim.akhtar@samsung.com>, Yemike Abhilash
+ Chandra <y-abhilashchandra@ti.com>,  Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-mediatek@lists.infradead.org, imx@lists.linux.dev, 
+	linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+	linux-samsung-soc@vger.kernel.org, linux-staging@lists.linux.dev
+Date: Tue, 14 Oct 2025 07:07:05 +0000
+In-Reply-To: <20251013-ptr_err-v1-25-2c5efbd82952@chromium.org>
 References: <20251013-ptr_err-v1-0-2c5efbd82952@chromium.org>
-	<20251013-ptr_err-v1-5-2c5efbd82952@chromium.org>
-Sender: khalasa@piap.pl
-Date: Tue, 14 Oct 2025 06:24:43 +0200
-Message-ID: <m3ldlertys.fsf@t19.piap.pl>
+	 <20251013-ptr_err-v1-25-2c5efbd82952@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
 
-Ricardo Ribalda <ribalda@chromium.org> writes:
-
-> The %pe format specifier is designed to print error pointers. It prints
+Am Montag, dem 13.10.2025 um 14:15 +0000 schrieb Ricardo Ribalda:
+> The %pe format specifier is designed to print error pointers. It
+> prints
 > a symbolic error name (eg. -EINVAL) and it makes the code simpler by
-> omitting PTR_ERR()
->
+> omitting PTR_ERR().
+>=20
 > This patch fixes this cocci report:
-> ./i2c/ar0521.c:1113:31-38: WARNING: Consider using %pe to print PTR_ERR()
->
+> ./platform/nxp/imx8mq-mipi-csi2.c:422:23-30: WARNING: Consider using
+> %pe to print PTR_ERR()
+>=20
 > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> ---
+> =C2=A0drivers/media/platform/nxp/imx8mq-mipi-csi2.c | 4 ++--
+> =C2=A01 file changed, 2 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/drivers/media/platform/nxp/imx8mq-mipi-csi2.c
+> b/drivers/media/platform/nxp/imx8mq-mipi-csi2.c
+> index
+> 3a4645f59a44028fdca82a4d8393e1a0a6ba88f0..d333ff43539f061b8b9cf88af2c
+> da8c44b3ec2a9 100644
+> --- a/drivers/media/platform/nxp/imx8mq-mipi-csi2.c
+> +++ b/drivers/media/platform/nxp/imx8mq-mipi-csi2.c
+> @@ -418,8 +418,8 @@ static int imx8mq_mipi_csi_calc_hs_settle(struct
+> csi_state *state,
+> =C2=A0
+> =C2=A0	src_pad =3D media_entity_remote_source_pad_unique(&sd_state-
+> >sd->entity);
+> =C2=A0	if (IS_ERR(src_pad)) {
+> -		dev_err(state->dev, "can't get source pad of %s
+> (%ld)\n",
+> -			sd_state->sd->name, PTR_ERR(src_pad));
+> +		dev_err(state->dev, "can't get source pad of %s
+> (%pe)\n",
+> +			sd_state->sd->name, src_pad);
+> =C2=A0		return PTR_ERR(src_pad);
+> =C2=A0	}
+> =C2=A0
 
-Thanks,
-Acked-by: Krzysztof Ha=C5=82asa <khalasa@piap.pl>
+Reviewed-by: Martin Kepplinger-Novakovic <martink@posteo.de>
 
-> --- a/drivers/media/i2c/ar0521.c
-> +++ b/drivers/media/i2c/ar0521.c
-> @@ -1109,8 +1109,8 @@ static int ar0521_probe(struct i2c_client *client)
->                                                 ar0521_supply_names[cnt]);
->
->                 if (IS_ERR(supply)) {
-> -                       dev_info(dev, "no %s regulator found: %li\n",
-> -                                ar0521_supply_names[cnt], PTR_ERR(supply=
-));
-> +                       dev_info(dev, "no %s regulator found: %pe\n",
-> +                                ar0521_supply_names[cnt], supply);
->                         return PTR_ERR(supply);
->                 }
->                 sensor->supplies[cnt] =3D supply;
+thanks you,
 
---=20
-Krzysztof "Chris" Ha=C5=82asa
-
-Sie=C4=87 Badawcza =C5=81ukasiewicz
-Przemys=C5=82owy Instytut Automatyki i Pomiar=C3=B3w PIAP
-Al. Jerozolimskie 202, 02-486 Warszawa
+                             martin
 
