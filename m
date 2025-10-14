@@ -1,112 +1,126 @@
-Return-Path: <linux-input+bounces-15448-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-15450-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE42ABD6FA7
-	for <lists+linux-input@lfdr.de>; Tue, 14 Oct 2025 03:25:00 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 53779BD73C6
+	for <lists+linux-input@lfdr.de>; Tue, 14 Oct 2025 06:25:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 9CC0F4E5DB6
-	for <lists+linux-input@lfdr.de>; Tue, 14 Oct 2025 01:24:59 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0E72B3B5D65
+	for <lists+linux-input@lfdr.de>; Tue, 14 Oct 2025 04:24:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 75AAA13DDAA;
-	Tue, 14 Oct 2025 01:24:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="tw3Xi3hr"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7472530AAD8;
+	Tue, 14 Oct 2025 04:24:58 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from ni.piap.pl (ni.piap.pl [195.187.100.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78EC62BCF5;
-	Tue, 14 Oct 2025 01:24:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 413E930AAC8;
+	Tue, 14 Oct 2025 04:24:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.187.100.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760405097; cv=none; b=leCQSe6VFRiFsEvGiqEj4MNbW3W2QsUde/wX05monKyXPPUShuULnYUbzehdxYMWmhvDz7pK6ksYyWga5gfGPsYKIqqlrvfjaWe6hm2U/juBYT08HNJJz1YyG22qHQbev1fNvn9LBSRGHcM/UQV0o0w9gmuoxsUQr6MLtrQ5NVs=
+	t=1760415898; cv=none; b=dE6NsryDXIM3K6XMWXWQcrqPiIRtcXYUnwaveLuM/RpJWozuC+MRVE0rr3fE90KIQag12k+fxDMwUvFhBcoZoPMOHo5IwqqB2y7rfB65mdUTbv4hTpdMnnV95I1CqKsan0gWlOudHyA+qsz/Wo7wi+oHGUCE1aMsdCQXu0kVA7o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760405097; c=relaxed/simple;
-	bh=dwDNYzLtZek3emqqOnmqEDMBCYxOGSmi01Td2aUQlBI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XAx6UbLqFjqRwtVIrChf/5IgXfimBgvhcVNU3fi/dVknViSpu0msGrMf930mFLWzS3xLKQe/YFxTvZoZ0uecEG4RPr3zW3/Qf1bUY50vU9yK3DqUftWAMRx3TV8al+uUpRLnhgvudtcnnVcglIFghrDPy1z+TsbBCiuD7h0D024=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=tw3Xi3hr; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=dFuiWkTQSqkPPmvEk4s9u5Zjw6QgEpQYW1CmmcwGTPo=; b=tw3Xi3hrcRc8ChTfKdoB9hA3aO
-	rSYWjh1lNDrGHcaIJMdpphw52G1r1a9sqeTlUE3H70I2NbcDHqE/Q+i7+p1tBf0bT5qtvhP8sSjLG
-	1ZvrD3BUnj3JiB14kB/zdTfS+9lXsYRPzGWmtxwApTmIUj6W0XmhZBfQCFVcy9Sx19FcHPbZz097K
-	0JVXCx+U+QqvOORB5giaEYgY0Y2SxuYiSWwYJxh1JinzIaIrzXKgemWn6pb32xPcR4R3dPW8LzFyd
-	oL6nMD1LvIWK41g/msWXrGWn81IZJ42t5CulDamgsrxOl57uA9bpSxxX0PVeTJBcj6itF2DY46tzN
-	FaNRLHNQ==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v8TmY-0000000Eth2-1oZa;
-	Tue, 14 Oct 2025 01:24:54 +0000
-Message-ID: <3c94c8b1-b53d-4dc5-86b4-70c89b91fa15@infradead.org>
-Date: Mon, 13 Oct 2025 18:24:53 -0700
+	s=arc-20240116; t=1760415898; c=relaxed/simple;
+	bh=NkEIvHvSMBdftwCCgim71nKU1aLS5jLHCWC9aM4TShQ=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=KfujT17SU1ghYIEVNdTGfm3YfXDJmdD8n6OV+ijf5Duzmbw6ih1iknFUDxyX+p9zkUMUViof3QjxzgP2dUpWqM4nvllV9NY2DbkoNN9GdSqac8DWw0Ab8xqTpiAVbhMZdbkGgAO0cNYsb4OxQiKif4ai8gSpvgjlgtYqDwJj6os=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=piap.pl; spf=pass smtp.mailfrom=piap.pl; arc=none smtp.client-ip=195.187.100.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=piap.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=piap.pl
+Received: from t19.piap.pl (OSB1819.piap.pl [10.0.9.19])
+	by ni.piap.pl (Postfix) with ESMTPS id 13FA2C3EEAC9;
+	Tue, 14 Oct 2025 06:24:44 +0200 (CEST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ni.piap.pl 13FA2C3EEAC9
+From: =?utf-8?Q?Krzysztof_Ha=C5=82asa?= <khalasa@piap.pl>
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: Linus Walleij <linus.walleij@linaro.org>,  Dmitry Torokhov
+ <dmitry.torokhov@gmail.com>,  Mauro Carvalho Chehab <mchehab@kernel.org>,
+  Hans Verkuil <hverkuil@kernel.org>,  Sakari Ailus
+ <sakari.ailus@linux.intel.com>,  Tomi Valkeinen
+ <tomi.valkeinen@ideasonboard.com>,  Leon Luo <leonl@leopardimaging.com>,
+  Kieran Bingham <kieran.bingham@ideasonboard.com>,  Jacopo Mondi
+ <jacopo+renesas@jmondi.org>,  Kieran Bingham
+ <kieran.bingham+renesas@ideasonboard.com>,  Laurent Pinchart
+ <laurent.pinchart+renesas@ideasonboard.com>,  Niklas =?utf-8?Q?S=C3=B6der?=
+ =?utf-8?Q?lund?=
+ <niklas.soderlund+renesas@ragnatech.se>,  Julien Massot
+ <julien.massot@collabora.com>,  Jacopo Mondi <jacopo@jmondi.org>,  Daniel
+ Scally <djrscally@gmail.com>,  Dave Stevenson
+ <dave.stevenson@raspberrypi.com>,  Benjamin Mugnier
+ <benjamin.mugnier@foss.st.com>,  Sylvain Petinot
+ <sylvain.petinot@foss.st.com>,  Yong Zhi <yong.zhi@intel.com>,  Bingbu Cao
+ <bingbu.cao@intel.com>,  Tianshu Qiu <tian.shu.qiu@intel.com>,  Tiffany
+ Lin <tiffany.lin@mediatek.com>,  Andrew-CT Chen
+ <andrew-ct.chen@mediatek.com>,  Yunfei Dong <yunfei.dong@mediatek.com>,
+  Matthias Brugger <matthias.bgg@gmail.com>,  AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>,  Rui Miguel Silva
+ <rmfrfs@gmail.com>,  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+  Martin Kepplinger <martink@posteo.de>,  Purism Kernel Team
+ <kernel@puri.sm>,  Shawn Guo <shawnguo@kernel.org>,  Sascha Hauer
+ <s.hauer@pengutronix.de>,  Pengutronix Kernel Team
+ <kernel@pengutronix.de>,  Fabio Estevam <festevam@gmail.com>,  Dafna
+ Hirschfeld <dafna@fastmail.com>,  Heiko Stuebner <heiko@sntech.de>,
+  Sylwester Nawrocki <s.nawrocki@samsung.com>,  Krzysztof Kozlowski
+ <krzk@kernel.org>,  Alim Akhtar <alim.akhtar@samsung.com>,  Yemike
+ Abhilash Chandra <y-abhilashchandra@ti.com>,  Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>,  linux-input@vger.kernel.org,
+  linux-kernel@vger.kernel.org,  linux-media@vger.kernel.org,
+  linux-arm-kernel@lists.infradead.org,
+  linux-mediatek@lists.infradead.org,  imx@lists.linux.dev,
+  linux-renesas-soc@vger.kernel.org,  linux-rockchip@lists.infradead.org,
+  linux-samsung-soc@vger.kernel.org,  linux-staging@lists.linux.dev
+Subject: Re: [PATCH 05/32] media: ar0521: Use %pe format specifier
+In-Reply-To: <20251013-ptr_err-v1-5-2c5efbd82952@chromium.org> (Ricardo
+	Ribalda's message of "Mon, 13 Oct 2025 14:14:45 +0000")
+References: <20251013-ptr_err-v1-0-2c5efbd82952@chromium.org>
+	<20251013-ptr_err-v1-5-2c5efbd82952@chromium.org>
+Sender: khalasa@piap.pl
+Date: Tue, 14 Oct 2025 06:24:43 +0200
+Message-ID: <m3ldlertys.fsf@t19.piap.pl>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] HID: Kconfig: Fix build error from CONFIG_HID_HAPTIC
-To: Kuan-Wei Chiu <visitorckw@gmail.com>, Jonathan Denose <jdenose@google.com>
-Cc: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>,
- Thorsten Leemhuis <linux@leemhuis.info>,
- Lucas GISSOT <lucas.gissot.pro@gmail.com>, linux-input@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20251013-hid-haptic-kconfig-fix-v1-1-b1ad90732625@google.com>
- <aO1q4coXPqU/K6KI@visitorckw-System-Product-Name>
- <CAMCVhVNLr+2ivRo9T4rVt4mkncwbOfXEL9bE=pDGRp=Qjy1c9A@mail.gmail.com>
- <aO1vQYCKU7fA0Fxm@visitorckw-System-Product-Name>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <aO1vQYCKU7fA0Fxm@visitorckw-System-Product-Name>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
+Ricardo Ribalda <ribalda@chromium.org> writes:
 
+> The %pe format specifier is designed to print error pointers. It prints
+> a symbolic error name (eg. -EINVAL) and it makes the code simpler by
+> omitting PTR_ERR()
+>
+> This patch fixes this cocci report:
+> ./i2c/ar0521.c:1113:31-38: WARNING: Consider using %pe to print PTR_ERR()
+>
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 
-On 10/13/25 2:29 PM, Kuan-Wei Chiu wrote:
-> On Mon, Oct 13, 2025 at 04:23:36PM -0500, Jonathan Denose wrote:
->> On Mon, Oct 13, 2025 at 4:11 PM Kuan-Wei Chiu <visitorckw@gmail.com> wrote:
->>>
->>> On Mon, Oct 13, 2025 at 08:54:57PM +0000, Jonathan Denose wrote:
->>>> Temporarily change CONFIG_HID_HAPTIC to be bool instead of tristate, until
->>>> we implement a permanent solution.
->>>>
->>>> ---
->>>
->>> The "---" line here will cause many tools used for applying patches,
->>> like git am, to discard the content below it [1].
->>>
->>> Please don't add this line unless you don't want the following content
->>> to appear in the commit message.
->>>
->>> [1]: https://www.kernel.org/doc/html/v6.17/process/submitting-patches.html#commentary
->>>
->>> Regards,
->>> Kuan-Wei
->>
->> Yes, that was intentional, the information below the '---' was
->> included as additional information and not for the commit message. The
->> error messages were too long, as was the link to the longer
->> discussion, and this caused errors in checkpatch.pl.
->>
+Thanks,
+Acked-by: Krzysztof Ha=C5=82asa <khalasa@piap.pl>
 
-checkpatch is just a dumb script. Don't let it determine what goes
-into a patch description. It can (easily) be wrong.
+> --- a/drivers/media/i2c/ar0521.c
+> +++ b/drivers/media/i2c/ar0521.c
+> @@ -1109,8 +1109,8 @@ static int ar0521_probe(struct i2c_client *client)
+>                                                 ar0521_supply_names[cnt]);
+>
+>                 if (IS_ERR(supply)) {
+> -                       dev_info(dev, "no %s regulator found: %li\n",
+> -                                ar0521_supply_names[cnt], PTR_ERR(supply=
+));
+> +                       dev_info(dev, "no %s regulator found: %pe\n",
+> +                                ar0521_supply_names[cnt], supply);
+>                         return PTR_ERR(supply);
+>                 }
+>                 sensor->supplies[cnt] =3D supply;
 
-> Then at least your Signed-off-by tag needs to be above the --- line?
+--=20
+Krzysztof "Chris" Ha=C5=82asa
 
-Right.
-
--- 
-~Randy
-
+Sie=C4=87 Badawcza =C5=81ukasiewicz
+Przemys=C5=82owy Instytut Automatyki i Pomiar=C3=B3w PIAP
+Al. Jerozolimskie 202, 02-486 Warszawa
 
