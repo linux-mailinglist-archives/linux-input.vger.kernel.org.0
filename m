@@ -1,152 +1,186 @@
-Return-Path: <linux-input+bounces-15482-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-15483-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87105BDAB7C
-	for <lists+linux-input@lfdr.de>; Tue, 14 Oct 2025 18:54:56 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 60CD2BDAF75
+	for <lists+linux-input@lfdr.de>; Tue, 14 Oct 2025 20:45:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 373CE4EF332
-	for <lists+linux-input@lfdr.de>; Tue, 14 Oct 2025 16:54:55 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 93D71192662F
+	for <lists+linux-input@lfdr.de>; Tue, 14 Oct 2025 18:46:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AE8D9304BC1;
-	Tue, 14 Oct 2025 16:54:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7953A2153E7;
+	Tue, 14 Oct 2025 18:45:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="0GuveuNr"
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="M8xvBnmf"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from AS8PR04CU009.outbound.protection.outlook.com (mail-westeuropeazon11011010.outbound.protection.outlook.com [52.101.70.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7548226863
-	for <linux-input@vger.kernel.org>; Tue, 14 Oct 2025 16:54:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.172
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760460889; cv=none; b=iYHLdGfcgXf9lKZboMMF/1N04QptltrEdq2XtS4/ktdCvpUymNXH7jgxJ2im8DuFY4vIE4zDZuGxOvEZbWBhqI78MS7FiLGO2u9B/Zf4kK/r+GEQgxZ65hjInIFIFh8fvF7OfoHfAh5d/URCezMeqJd92Agla3VYYrjzcuFdS/s=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760460889; c=relaxed/simple;
-	bh=D1GVedUb0QFmnIZwIdVK+2uGHdnzIPnIAYaUHpZc5aE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fuCTd7W4Dx+GK8Ih9d7TYFK/swFkQ9tV7c71DBx60mGlX8A9kMhv3BZcCSS/+GhVZiLD95EIk66Rd4FccxGwxxcVBfYYB9YtDHqV2UcnicOXiIPzewpYAAr/WsozYmJYmDp/srYvmBUFq5WJHUmY0o147N7Dup3E83M2NWxWw2s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=0GuveuNr; arc=none smtp.client-ip=209.85.222.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-qk1-f172.google.com with SMTP id af79cd13be357-856222505eeso742069185a.1
-        for <linux-input@vger.kernel.org>; Tue, 14 Oct 2025 09:54:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1760460886; x=1761065686; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Df6BZCUDqmZYWW1/Q3uV+enf2JbWxA8H5BbOTsXwypM=;
-        b=0GuveuNrXbRIWw9zzbfBrq9TW6LOEVF0X+jY0nOuROJlQ5GrCBaof4EbKh9k5PvJMM
-         BtjVNLbKeUlrR+3m0u6sAkedHAySFWE+4EdbOEaBlGtHChx+p9ThRGWkX2Vxz74PaB/U
-         juug/H8fPCLlfTEnXlWhGnIkCWqlRJY01wKfGIt5DI//9qM+IlvW4d8y9JMr8Oz7k/kZ
-         StdoCViotFves1YqMBB7uNEF9kOyVCsNgWPvCq5aHd0vSJC4LY5k4+aO/RvtIaVyZxYB
-         f1sP3f1Aow41Qcu3VO2kz91ClOLr7h/a+cFfe5spn4cq+gfyhVZVoKd7PC72FkC5Fc8T
-         JN9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760460886; x=1761065686;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Df6BZCUDqmZYWW1/Q3uV+enf2JbWxA8H5BbOTsXwypM=;
-        b=KYl4DYB4f3CYyJMZYz3E+H5H5mnMbttjHSi3xdG+ZWRtcuPKJxy2IjCBnkNAoxoAct
-         Tv+WJF1LDbe/gnPVuDyYCnw9XfVWd/EZFuKJfNdA1X/YCa82AlDNqKSG4xiBUyjY3x6I
-         CGHlOBWcQ1Evrv0vlH/cg7WBXAmCL/cgFzrGK8WuaEL8V87LcTtQGrbO3LMrbBwXcCWw
-         cBI0budRrkVIVL/cdy1MNxn9YCQXhPw64NwZrFmoB2OrTWBjURZwQM8J5RkGWsKr55eC
-         LlKEvqJebhiPQKaueBBH7EHAvoZs9GCnEXipWSC/iHI74KYJuFnYaH1pylvLKAjqW01G
-         2/cA==
-X-Forwarded-Encrypted: i=1; AJvYcCXi/HF+YlENAAPuZJgEx29dLBxp6yRT2dVqkko/+SZFqx9u1hg1SMUgIsN9NY0sJXjy1+D5o2B59lGQIg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxCkG6uCEqhDi9lBs9lVH3tlG3HSF4HaKH8NnYHxasIlKtQJSPD
-	qN+wdjhrym7wREICYsYRJtf6ycU4qc8Sj7lxaOPhjuUFSiMA7qz2zoI24JwPyg7fWgyZWpShlnJ
-	gjOQOZKXII2thJFNYpYcyXimDZifdsTZH73bEs7WG
-X-Gm-Gg: ASbGncsH2OkyD6rRF3FXZHTuCDzKFrgAtNb6fT1YmLBLi54HziL4G6oVy8bz6HtEly4
-	+QABgY2oe4SvMv4zpr2KTAcmQcNjau11zQ6e98QS9XKLFhXYcEBmycMHjnfDxDtraczfSNgIqs5
-	o93PU+88kI+WbZQg9bBP5bR30ehtdOkyMFH8bxrXNwYU0VHiqKPSr5gF9iWWW74Rh31gv3CN4yL
-	VKKqBaFUt/wvv5EQkR88e0km23MIvTAnLKyQVipXFmaWFPMYDeMqHUhZr/VlKelng==
-X-Google-Smtp-Source: AGHT+IFs2gFYcfCXCnaHheGv1p/wPFAHpEAPy0np+u6INKD1CEWs2Qe2zsnL7aytVH5aO6wPXE69vW94D3oxAHQrrSM=
-X-Received: by 2002:a05:622a:190c:b0:4e8:8202:a358 with SMTP id
- d75a77b69052e-4e88228caa4mr1291541cf.28.1760460885501; Tue, 14 Oct 2025
- 09:54:45 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65EAE18A956;
+	Tue, 14 Oct 2025 18:45:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.70.10
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1760467550; cv=fail; b=f3xIVafB6EWICco9I3g1xqM+sLjplu7nsg4xu29nwT1P8f0uFfIMNlX1kho1cPmxzC+zWItV4lo8pBqj5aLqvJS8LRtMmD8HbStCFzUF6f5z+MFpCwR9fG59sC5GnkoIRv6jsW0nAQAbeGmp0GCXMeGAZZL+GewQJ2RqNZWnR4U=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1760467550; c=relaxed/simple;
+	bh=UXrHshifozNNBCvEZV0Ki/W1Kh62nu29OpS9gN0FdDQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=aAL5CsUuNmmFZYL/jBH+V7Ou0hD337aFVYmLe0aIsqIB6h2yMyUElMmvBHWvFwnTcy1YEvh3qceHHjwBgItUJABlqhgXjtJ+mDqFZP1t7DNCECUZTdYx6bc+AGDvf2cjDId7dbZ1poRMx0Fw1n/xGw5D8U+zDkfZZwc/9fz4MNk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=M8xvBnmf; arc=fail smtp.client-ip=52.101.70.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=PQMCeysssRXHTCy9QD/95pm+PTFKp9Z3w8SGPkN6aL3Sk0/7skZpZWsiT9Xy/qgMXHKrQZ4IoNunqBmBvSAjundQN2A7O8rOda9nLzhXpqM3dXEFNxBZx5yuycBboAu2CYP3mPG8Z3NkvwT9Q96nnaI6cNTTItpANetUIX2o4DlSdK1BYNTQMUoKeJ0ayoG6VU9ep8ao5M+WPmFgbd4qlB+vUX/BzsV3q6CsrbdmtpAkq3hM/21zLpzz1OVPUJlVWS8L3Zn8WoUOpqiVTBY81VguJo4fQnpqUmbsHU8aK3NVzqyZpIhBomduVA+U29r4dNzHMV/kKb5tjvRTPYO94w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=xQ/FZaMKtMwSRjzDE0m63ZjNEIuYbIjHQzmwXrmWVVM=;
+ b=P90Xlt5nx/SsfSNCZYj3JfOqfbllKJGUHClmLEfpn6qcieJlIje2ijH55ooD/T74VuOf2OP8g4PH1BDRulxEaDaFC4YJUpj4M7hcpuSg6yJMEUptn6QdswjrFv4TC4M0Md0Albc6qpkm8gxHYHpj1evyT9Qljb1EHqwNLIwqbaEglc1ESQ3Rjg/GlI3Zdy2B8FlKJYxekEexaO4CkBmNSMCEfVlFCEFOV4ZNzdhs3YVDlnDZGskKrltzM1gWh6VB/MQGe2XEWI9y6kbDGdjHqpVy14hhdoWlnuXU8bVMsiXscFacpICTfXz0fwPARUhFccBrOER+lduRXYxscBVtjA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=xQ/FZaMKtMwSRjzDE0m63ZjNEIuYbIjHQzmwXrmWVVM=;
+ b=M8xvBnmflmAb2durzIJpSxAM2tl5G1DPkLdzzVUEgNoLTwYzZsTR82P9baHJBxwU9odaWK/oWMBubEAmU4UqrvIt1BWzbYnp00Tf5aGJCFMmH3+Q9UCWR7bnisGzPKwt/9jO4cvL7Pi7oqge2vUHnYv8+vo8xN1sbKWNkLNpDPHaXmqdJCYMKPEnhms2dsg6jxY2BC8etp7FGbFzbpNwiXz0Aw/RPrygMGMDao4zcntNWMiXszlsN+gZu7JHii4Vzlurk+3p+N8wy8MP3cRmouPiRxVyGiFVEHgTR/E6PK31skW4eR8mPrtXxEOrt0kUDHBmTu2xhQgUOdgHx3eCNA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from PAXSPRMB0053.eurprd04.prod.outlook.com (2603:10a6:102:23f::21)
+ by DU2PR04MB8616.eurprd04.prod.outlook.com (2603:10a6:10:2db::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9203.13; Tue, 14 Oct
+ 2025 18:45:45 +0000
+Received: from PAXSPRMB0053.eurprd04.prod.outlook.com
+ ([fe80::504f:2a06:4579:5f15]) by PAXSPRMB0053.eurprd04.prod.outlook.com
+ ([fe80::504f:2a06:4579:5f15%6]) with mapi id 15.20.9203.009; Tue, 14 Oct 2025
+ 18:45:44 +0000
+From: Frank Li <Frank.Li@nxp.com>
+To: Support Opensource <support.opensource@diasemi.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	linux-input@vger.kernel.org (open list:INPUT (KEYBOARD, MOUSE, JOYSTICK, TOUCHSCREEN)...),
+	devicetree@vger.kernel.org (open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS),
+	linux-kernel@vger.kernel.org (open list)
+Cc: imx@lists.linux.dev
+Subject: [PATCH 1/1] dt-bindings: mfd: dlg,da9063: Allow wakeup-source property
+Date: Tue, 14 Oct 2025 14:45:31 -0400
+Message-Id: <20251014184531.2353879-1-Frank.Li@nxp.com>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SJ0PR03CA0133.namprd03.prod.outlook.com
+ (2603:10b6:a03:33c::18) To PAXSPRMB0053.eurprd04.prod.outlook.com
+ (2603:10a6:102:23f::21)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251013-hid-haptic-kconfig-fix-v1-1-b1ad90732625@google.com> <r8116qrr-5n80-01s8-92o0-88n8q14007s9@xreary.bet>
-In-Reply-To: <r8116qrr-5n80-01s8-92o0-88n8q14007s9@xreary.bet>
-From: Jonathan Denose <jdenose@google.com>
-Date: Tue, 14 Oct 2025 11:54:34 -0500
-X-Gm-Features: AS18NWDw2ZPqBXsxEa-0ouLmF3Mps0Fed2-Rbg-wZNaFmSdlqE2JyI1Mab_Akis
-Message-ID: <CAMCVhVOXm88TZ1VV2TcMEO9qUn4A=+MWroGOzF+oJOFcxChQFA@mail.gmail.com>
-Subject: Re: [PATCH] HID: Kconfig: Fix build error from CONFIG_HID_HAPTIC
-To: Jiri Kosina <jikos@kernel.org>
-Cc: Benjamin Tissoires <bentiss@kernel.org>, Thorsten Leemhuis <linux@leemhuis.info>, 
-	Randy Dunlap <rdunlap@infradead.org>, Lucas GISSOT <lucas.gissot.pro@gmail.com>, 
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PAXSPRMB0053:EE_|DU2PR04MB8616:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9dde452e-4d1a-44b1-7660-08de0b51e1a4
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|19092799006|376014|366016|7416014|52116014|1800799024|38350700014|921020;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?8hiQSDyKhIG6J207P9cMxdwvJQQExN+ds+zNSIw5wU44F+fUrHcrA9bgXUBk?=
+ =?us-ascii?Q?c15EIDfBVsiur8zp7N+ie8YSIPma6rLiomqhJAS9bSYPLFNH+r00vNPljJGc?=
+ =?us-ascii?Q?gxoHN7INPTVNLQlPwgIC634ejfj4h6pR+dvfrctXqeiDMIr8wc4t5q3Ya9lx?=
+ =?us-ascii?Q?FhgAQto7kcC05EAsZVL9jqb7RcnAIJCFhtaTkbo5vH/MIKsCMRqVKOTIOcNu?=
+ =?us-ascii?Q?lD0vYzNp0ucZXfN5Zbmf2HgkAOk2xXbvsiKW7Tbm9DEePk8wQsuvZJp7e1Sl?=
+ =?us-ascii?Q?6cI/j0aWzeQZBHWfx+9kd0gie/nP2DlSz6isUpY2GWkMXIWa0MoJYx0JbYZ2?=
+ =?us-ascii?Q?uU4cX9/gGKEiqNF2GHaiGQvV9h9/BuNkf9/w/HqzZC0wgm6Ea4RS52Dffm2D?=
+ =?us-ascii?Q?jFc1mmZIlRtqoirqzTXxN558LN3/YQGCcROU28THPR7zTyy9fBcB1luNrecN?=
+ =?us-ascii?Q?uDNS9tINFjw3KQQl/n9w9DEfQWIfEPvWf5VSUWxL86yfg8WW9oXxs68jFTaI?=
+ =?us-ascii?Q?SFSTb+T3Zx/SdYAhaWCfg0kxBRPbJYhLD7JZn3Q7Jn72OTO4wEDkpQrAA5qh?=
+ =?us-ascii?Q?+TLZKNQ2f4IN09e+5JiGRNudt8Sq6x8llm74XS8BmW98mv2AEizMj0mEAWGz?=
+ =?us-ascii?Q?/9JgCsMJGYf55U5nDwME9oILFY2NViso7rrYKexpwBePEC0kV4jLU+dFT6mD?=
+ =?us-ascii?Q?lyfphzqfEcZJKOtlnGYDgYamG5RRULBMi1xCpL5VfylkIJwsbq/Uy6JuW2Jr?=
+ =?us-ascii?Q?h2tgKWGD3kAY49uIYhE1vq89dlRPDU45zsB28Ag216iJYHJ+8SSWEFz9QY8E?=
+ =?us-ascii?Q?mzHepy6FTHn2tLnfx/prG/HZl6PPtmh9DiVGukoOSk145kvNNHVhWp85mmgS?=
+ =?us-ascii?Q?TNPc+1XnnjhmBP1Ak3uwOb30UIIQP2TS7uCt5h8veoeLrPeKD9Z7gldA65o8?=
+ =?us-ascii?Q?6O4b5QpuMaIdkwDQIC9ycbCpzT59C0Pnf4jPj8jIkgUuuzit0oiH/nC647LB?=
+ =?us-ascii?Q?HOSM1dQwZhF5b44bdGiC+024JhbBnjp89bDhQHXGJuFgxVjwZ4//lloItR5O?=
+ =?us-ascii?Q?rDSLVplhMV3szy8/yaj2MWRj+HgFeRGKTOpFguCthJ+xk3UTutnF5MbeNdyU?=
+ =?us-ascii?Q?5rSsiDcugBsUaY40e/Sg2S3tkbQ79vIKzdNG5zEc+9aVCdgrc3d8LTpvNAd0?=
+ =?us-ascii?Q?8/TwZyy+DqfBF0Cl/YEI+kh7UxDpCD/UYkGUKSUFxIYSLlc1c+C1p+NlK0bZ?=
+ =?us-ascii?Q?QPAvAmXW/oaxX7+PU/VgLK4iTAXikfg2U+yfX+JHWoAzd2nn87Vip08xShlA?=
+ =?us-ascii?Q?wGGhfTC6Zjfb6U/kTrP2zHQQhR5JUkc7hE7QRjTIfkLLA1HjNxZndq2yMbRM?=
+ =?us-ascii?Q?hlZyWOjZJcYevzV7mmzOF/icx3exfk7plcy0yNqrt08gRkTHtzjFqBGQGlCH?=
+ =?us-ascii?Q?ilieOl9GJDJ0rTjYFFqnOPlXn1mgRVU0QJrqvxy9RSGE+beQ5/9vYAMAG5Fj?=
+ =?us-ascii?Q?s2bcq92jCBNJXWQ+KRqmvkcn5ec5bD6aHiaWnGxSpPKcn1kalfrl0WbBgw?=
+ =?us-ascii?Q?=3D=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXSPRMB0053.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(19092799006)(376014)(366016)(7416014)(52116014)(1800799024)(38350700014)(921020);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?mg8eN5STIOylv3eZbXf0tsOYHTs1AQXdaFLvM02r9AAQs5d9zJQbDQxAO2cu?=
+ =?us-ascii?Q?TT7QNIzfVL+VaiR9KhC5eRgmUet/m4AtOLblhgfDuCSagAMiFlBKv+w2P6o8?=
+ =?us-ascii?Q?VgXE3xeNt5pkW9pMW7PVMZl7Qjuq22B0O9DtBpRbbNK9TzNetfssyNygTwYG?=
+ =?us-ascii?Q?9VLT9gmf471zuf9gp1AZ0RdvV6Irk6xlhxsNUTCBqjchodELra642bYKK9EB?=
+ =?us-ascii?Q?I+e1ewFcM0MRRrSE0B5eOzhc0e07U8A1no0s3k9AGE8z4iiOH4xEUsL5tSG9?=
+ =?us-ascii?Q?+7Q87WR5d3lEyaGA5Z/oWm0RmrKL8ezbxIMPTHPqdHnVA8ZMklMvkjnfJpNs?=
+ =?us-ascii?Q?kHFI1aTl5IcZ1lg8mY1k6esoVlIPVu2ohbyn1KL11xaiu2nG4D1TPtwWuHwO?=
+ =?us-ascii?Q?bH35XPxN6GYP2eJRhjdVHXU9uNCoIkfTiRF6eayCqDRHjWmbyMrDEB5bCZkT?=
+ =?us-ascii?Q?zEnuO4f/6wv8+b9MFStKWSVpbFeEZJzf+e6+9w1aXWgRI+Ws/pKrB0SLA+4j?=
+ =?us-ascii?Q?z2zIHx3qxMWns0drjKmK2JXBq1wnv1QzZo6IeOCXhj1WHq7mLMDorRMU0wN/?=
+ =?us-ascii?Q?gkKjpiqiW4HKmuY0GCQLQHaVn1zujBn/JDnzhkrUx7zMo42OnBLOY6Ki27xf?=
+ =?us-ascii?Q?3e6TIWa997b0zTCJ3KhRKO/pfpZaBrgTtTFxax1184/AcLI03eGkz9N7EJbc?=
+ =?us-ascii?Q?m6y9p7/n8bAgCeAGxwOMwQqnYu/+++TvxJT7WFvsDXFdwi+QFbWmw61Tgnpx?=
+ =?us-ascii?Q?Sl2e3o9px/g7Zf4T3wyyS//+NJerPU2lQVc//kDx+W2QrnDvtAagvaTYUY+K?=
+ =?us-ascii?Q?n2HPZTgNqbJ930ZUP2zvgb+jeFVSAsyiQIqb3d24blAm8RlTC0nphlxCEpml?=
+ =?us-ascii?Q?EfZe0mq/pPi4f9Kvy2WOTsxhWpHFn9UGcUjUCuyz/a6TmAnR/dB7USEzrmA7?=
+ =?us-ascii?Q?bivGZBNZtz2MG1F4oqR+w2DpoGo0mH5ZfAg0RnD3eFSX1/awH3vJauyIY4WC?=
+ =?us-ascii?Q?pe3Uaj8f7TVGOvMWhWOz0YFE8MuLlUOTm5Y06cYj1J8tlvzAF+Yj3xFNLMH4?=
+ =?us-ascii?Q?V2xJa/rOUFoZf3sdIBQTNkpvAxxE+ULxPORFXf1PyNHynsth51rABGmGzg/j?=
+ =?us-ascii?Q?IY/1O5aCd2Jsir7vl+Yktdm7AznVq+gyvljS/Ymxh90uzG6KTEXDQnukMrRj?=
+ =?us-ascii?Q?RwUo7juB6EpU4D9E/MJ8qdDwHDtPqHCmRG9Zc1TuRGhA/D1cY+9IsaXQi8hv?=
+ =?us-ascii?Q?dBNJa42jzWD/ayyFhBrP+tKCmqn5FHGxCFJXckixIzwU0xk80flMh23tXERV?=
+ =?us-ascii?Q?KTC6V4zIGSbs1qxfkwfCnVTZtcOI42ThYtiZUd81Qf+Lkoa+Yi46wVlbybkW?=
+ =?us-ascii?Q?IkY6IbKfdNaSPxXlfZ4irhh0wsDi2Xk3iU/humulha0w2fmiPfMX/ylJxpWz?=
+ =?us-ascii?Q?o0JhwKiRADs8et0gZhjjN81KH4NqxXajoP9/3QG9/4l+hWVimSp1988xpqZn?=
+ =?us-ascii?Q?oUe0EdlZF6Dy5u72MPW19KLpDgcs5EYqOUSfQHQiIowln7noFyqz4rJSd6bX?=
+ =?us-ascii?Q?Vg0SWaz28AQjy/lUx2o=3D?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9dde452e-4d1a-44b1-7660-08de0b51e1a4
+X-MS-Exchange-CrossTenant-AuthSource: PAXSPRMB0053.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Oct 2025 18:45:44.3032
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: KnTVJ7/U/ndc3Ntfxm474DGMuMtDss5AZuug8+6KB07UnQ1ScQ0k4aJ1YzVYwqhnuwJjBwhXlAngM3mwNJX/yw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU2PR04MB8616
 
-On Tue, Oct 14, 2025 at 5:09=E2=80=AFAM Jiri Kosina <jikos@kernel.org> wrot=
-e:
->
-> On Mon, 13 Oct 2025, Jonathan Denose wrote:
->
-> > Temporarily change CONFIG_HID_HAPTIC to be bool instead of tristate, un=
-til
-> > we implement a permanent solution.
-> >
-> > ---
-> > Recently the CONFIG_HID_HAPTIC Kconfig option was reported as causing
-> > the following build errors:
-> >
-> >   MODPOST Module.symvers
-> > ERROR: modpost: "hid_haptic_init" [drivers/hid/hid-multitouch.ko] undef=
-ined!
-> > ERROR: modpost: "hid_haptic_pressure_increase" [drivers/hid/hid-multito=
-uch.ko] undefined!
-> > ERROR: modpost: "hid_haptic_check_pressure_unit" [drivers/hid/hid-multi=
-touch.ko] undefined!
-> > ERROR: modpost: "hid_haptic_input_configured" [drivers/hid/hid-multitou=
-ch.ko] undefined!
-> > ERROR: modpost: "hid_haptic_input_mapping" [drivers/hid/hid-multitouch.=
-ko] undefined!
-> > ERROR: modpost: "hid_haptic_feature_mapping" [drivers/hid/hid-multitouc=
-h.ko] undefined!
-> > ERROR: modpost: "hid_haptic_pressure_reset" [drivers/hid/hid-multitouch=
-.ko] undefined!
-> > make[3]: *** [/home/thl/var/linux.dev/scripts/Makefile.modpost:147: Mod=
-ule.symvers] Error 1
-> >
-> > when the kernel is compiled with the following configuration:
-> >
-> > CONFIG_HID=3Dy
-> > CONFIG_HID_MULTITOUCH=3Dm
-> > CONFIG_HID_HAPTIC=3Dm
-> >
-> > To resolve this, temporarily change the CONFIG_HID_HAPTIC option to be
-> > bool, until we arrive at a permanent solution to enable CONFIG_HID_HAPT=
-IC
-> > to be tristate.
-> >
-> > For a more detailed discussion, see [1].
-> >
-> > [1]: https://lore.kernel.org/linux-input/auypydfkhx2eg7vp764way4batdilz=
-c35inqda3exwzs3tk3ff@oagat6g46zto/
-> >
-> > Signed-off-by: Jonathan Denose <jdenose@google.com>
->
-> I've moved this whole block above the --- line and applied.
->
-> Thanks,
->
-> --
-> Jiri Kosina
-> SUSE Labs
->
-Ok, I understand now. Thank you all for the feedback and fixing/applying.
---
-Jonathan
+Allow wakeup-source property to fix below CHECK_DTBS warnings:
+  arch/arm/boot/dts/nxp/imx/imx6dl-emcon-avari.dtb: onkey (dlg,da9063-onkey): 'wakeup-source' does not match any of the regexes: 'pinctrl-[0-9]+'
+
+Signed-off-by: Frank Li <Frank.Li@nxp.com>
+---
+ Documentation/devicetree/bindings/input/dlg,da9062-onkey.yaml | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/Documentation/devicetree/bindings/input/dlg,da9062-onkey.yaml b/Documentation/devicetree/bindings/input/dlg,da9062-onkey.yaml
+index 1480d95421e18..29ff8fc0d02ec 100644
+--- a/Documentation/devicetree/bindings/input/dlg,da9062-onkey.yaml
++++ b/Documentation/devicetree/bindings/input/dlg,da9062-onkey.yaml
+@@ -32,6 +32,8 @@ properties:
+       the OnKey driver will remove support for the KEY_POWER key press
+       when triggered using a long press of the OnKey.
+ 
++  wakeup-source: true
++
+ required:
+   - compatible
+ 
+-- 
+2.34.1
+
 
