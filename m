@@ -1,106 +1,142 @@
-Return-Path: <linux-input+bounces-15473-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-15474-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63A2DBD8AF4
-	for <lists+linux-input@lfdr.de>; Tue, 14 Oct 2025 12:13:17 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 42C59BD8C0C
+	for <lists+linux-input@lfdr.de>; Tue, 14 Oct 2025 12:25:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A84783A16C2
-	for <lists+linux-input@lfdr.de>; Tue, 14 Oct 2025 10:09:26 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 97BF919247D2
+	for <lists+linux-input@lfdr.de>; Tue, 14 Oct 2025 10:26:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F3AFD2ECD14;
-	Tue, 14 Oct 2025 10:09:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0BAE72E3715;
+	Tue, 14 Oct 2025 10:25:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="j+JCb+i7"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dVSMVPkO"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C94E916F265;
-	Tue, 14 Oct 2025 10:09:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D73EB239562;
+	Tue, 14 Oct 2025 10:25:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760436563; cv=none; b=Tht7IfS8ox9HRr26neWSNKGlz8lN3/CxULMYcn09mSSI77jVZIq/1S4uUypkZjEuxLp4ARy6Gdx9vBxStQqwnNZpTdqL8eqYIfFIIx+huoZ0PBk+fepg0G6g0sC3s4mT1VtQqvUwMmpWXcI1HhPwP/htbXB3HjP/LhD0gSksOwU=
+	t=1760437528; cv=none; b=k2/SF7/OQnpSmhS+ZyiM5aqQSvJTAxQ6EAE/itwlshmjC85mdr4b9G7OIo4X9q+JB3NIWU5Wc2db38RTqVw1nMaoJHsFhMIl8MAWpXrGPdqnQ3Dl/cHnFZe94YNav3iGKi6Q8FbmrBwVWm90rVeTK45cieCO2NwNOgLSPkCbYUA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760436563; c=relaxed/simple;
-	bh=W37S352CfKeea2CBnBHGkpGg8QHm8dDfVCIMfTKxZP4=;
+	s=arc-20240116; t=1760437528; c=relaxed/simple;
+	bh=ZpoQrSfuQP8h9b3hV3ueq96PbCj741asi9e4ABj02RI=;
 	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=VS6bwYLhCekWpqTFFHr1ixhCbtqFoAKEZY/IQM4oLomh7sPp1jB20ZM0kwrBU3P2bGuh8w2NUTarp3qMei1Ji4iJfBWvl296lBaSPOl0a+LF0P61Zl47UwwsaSgSEOLIXmxeVckPiHT4VsVZ8L/uSsxLbuCiJPCRCCrEHnkaIIk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=j+JCb+i7; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6E59C116D0;
-	Tue, 14 Oct 2025 10:09:22 +0000 (UTC)
+	 MIME-Version:Content-Type; b=aOnRw4WbrJ0HE/Gn1RJRaUxNOdiJ5Zg1V4JRlseVEZL9mxFZtW68IjnKmWX4aVblppT8yr+w+aryHRfZRKG/8s9sqKL6QGUBmvACcoCvRxQ5Z1vNfzQYPT9c5kRWgj1mibUjV+Ki090zs9QFXcn8cP8SZSGwa0GQSwe85UCufGQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dVSMVPkO; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5A7FC4CEE7;
+	Tue, 14 Oct 2025 10:25:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760436563;
-	bh=W37S352CfKeea2CBnBHGkpGg8QHm8dDfVCIMfTKxZP4=;
+	s=k20201202; t=1760437528;
+	bh=ZpoQrSfuQP8h9b3hV3ueq96PbCj741asi9e4ABj02RI=;
 	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=j+JCb+i7/wZREOWrhm+/OceAwL4X0jFDOzFaG/0pESmYUwnzACPWyw+2BA7sOwwyj
-	 wbUBAqaOAoTM91FVF5deM3ALiWPV5jKiB5xFQQyDKIlT022USXftWjJcXjTzPTQOFp
-	 QDQ7CcBPiNTKGllpTsgrzUGnDXxdmWXFPp4757dA+hPLZxabEc9FhapiPh04i/CprX
-	 YgJvc3wTlCxN+zFxu0TeuWTU1riQUFIsPCLlenzQK9oE71STqMdyVaaIXs9Bf2C24K
-	 zfZjDTUjh3IPS/yHUix+lRvFwCz5YZRnKH54nzsecaRm8VTK16jNy2XSK7ZahDNhmw
-	 S4l4FjqOgPjKg==
-Date: Tue, 14 Oct 2025 12:09:20 +0200 (CEST)
+	b=dVSMVPkO6QGhwrAJNNpHfcN/dK343leQ3/KHjZS6iXI3L6lL4ayujMOjhr2YNJ0w/
+	 ffr4jAeSAw6EYhuuA+6NzYd5PQ0ubYJr0PH9bqSxzKRvmbo4v35IM8jzSj31i/rU/S
+	 QciKv9VD+OdYhsYLshOdd7WMkZ+KuB8I1kL1hMnURC3r5myknKOmLWyI4jIHMTm32x
+	 Dz/n/x8yPX/WYSd9zw1/+7iBGRbiBNwZFEuS+iAveEA3+Ycio4xj6gOhxGrUdms3DY
+	 6iEfA32zoeq3cbrMvTH25YhfMmwZCwibxoK5I7txySyBk+ZDB1gH8Oi4U1razE3qlZ
+	 7IfsBYFtUHjoQ==
+Date: Tue, 14 Oct 2025 12:25:25 +0200 (CEST)
 From: Jiri Kosina <jikos@kernel.org>
-To: Jonathan Denose <jdenose@google.com>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 cc: Benjamin Tissoires <bentiss@kernel.org>, 
-    Thorsten Leemhuis <linux@leemhuis.info>, 
-    Randy Dunlap <rdunlap@infradead.org>, 
-    Lucas GISSOT <lucas.gissot.pro@gmail.com>, linux-input@vger.kernel.org, 
-    linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] HID: Kconfig: Fix build error from CONFIG_HID_HAPTIC
-In-Reply-To: <20251013-hid-haptic-kconfig-fix-v1-1-b1ad90732625@google.com>
-Message-ID: <r8116qrr-5n80-01s8-92o0-88n8q14007s9@xreary.bet>
-References: <20251013-hid-haptic-kconfig-fix-v1-1-b1ad90732625@google.com>
+    =?GB2312?B?wqy5+rrq?= <luguohong@xiaomi.com>, kenalba@google.com, 
+    linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] HID: hid-input: only ignore 0 battery events for
+ digitizers
+In-Reply-To: <of5qjeij72wduee3zyf26drfcwhpsl4sjs3v6tfjv3tgl3xsol@sss7zcyawwaz>
+Message-ID: <r20q42n6-n65r-3151-s194-10222o3o6s6s@xreary.bet>
+References: <of5qjeij72wduee3zyf26drfcwhpsl4sjs3v6tfjv3tgl3xsol@sss7zcyawwaz>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 
-On Mon, 13 Oct 2025, Jonathan Denose wrote:
+On Thu, 9 Oct 2025, Dmitry Torokhov wrote:
 
-> Temporarily change CONFIG_HID_HAPTIC to be bool instead of tristate, until
-> we implement a permanent solution.
-> 
+> Commit 581c4484769e ("HID: input: map digitizer battery usage") added
+> handling of battery events for digitizers (typically for batteries
+> presented in styli). Digitizers typically report correct battery levels
+> only when stylus is actively touching the surface, and in other cases
+> they may report battery level of 0. To avoid confusing consumers of the
+> battery information the code was added to filer out reports with 0
+> battery levels.
+>=20
+> However there exist other kinds of devices that may legitimately report
+> 0 battery levels. Fix this by filtering out 0-level reports only for
+> digitizer usages, and continue reporting them for other kinds of devices
+> (Smart Batteries, etc).
+>=20
+> Reported-by: =E5=8D=A2=E5=9B=BD=E5=AE=8F <luguohong@xiaomi.com>
+> Tested-by: =E5=8D=A2=E5=9B=BD=E5=AE=8F <luguohong@xiaomi.com>
+> Fixes: 581c4484769e ("HID: input: map digitizer battery usage")
+> Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 > ---
-> Recently the CONFIG_HID_HAPTIC Kconfig option was reported as causing
-> the following build errors:
-> 
->   MODPOST Module.symvers
-> ERROR: modpost: "hid_haptic_init" [drivers/hid/hid-multitouch.ko] undefined!
-> ERROR: modpost: "hid_haptic_pressure_increase" [drivers/hid/hid-multitouch.ko] undefined!
-> ERROR: modpost: "hid_haptic_check_pressure_unit" [drivers/hid/hid-multitouch.ko] undefined!
-> ERROR: modpost: "hid_haptic_input_configured" [drivers/hid/hid-multitouch.ko] undefined!
-> ERROR: modpost: "hid_haptic_input_mapping" [drivers/hid/hid-multitouch.ko] undefined!
-> ERROR: modpost: "hid_haptic_feature_mapping" [drivers/hid/hid-multitouch.ko] undefined!
-> ERROR: modpost: "hid_haptic_pressure_reset" [drivers/hid/hid-multitouch.ko] undefined!
-> make[3]: *** [/home/thl/var/linux.dev/scripts/Makefile.modpost:147: Module.symvers] Error 1
-> 
-> when the kernel is compiled with the following configuration:
-> 
-> CONFIG_HID=y
-> CONFIG_HID_MULTITOUCH=m
-> CONFIG_HID_HAPTIC=m
-> 
-> To resolve this, temporarily change the CONFIG_HID_HAPTIC option to be
-> bool, until we arrive at a permanent solution to enable CONFIG_HID_HAPTIC
-> to be tristate.
-> 
-> For a more detailed discussion, see [1].
-> 
-> [1]: https://lore.kernel.org/linux-input/auypydfkhx2eg7vp764way4batdilzc35inqda3exwzs3tk3ff@oagat6g46zto/
-> 
-> Signed-off-by: Jonathan Denose <jdenose@google.com>
+>  drivers/hid/hid-input.c | 10 +++++++---
+>  1 file changed, 7 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
+> index ff1784b5c2a4..ba3f6655af9e 100644
+> --- a/drivers/hid/hid-input.c
+> +++ b/drivers/hid/hid-input.c
+> @@ -595,14 +595,18 @@ static void hidinput_cleanup_battery(struct hid_dev=
+ice *dev)
+>  =09dev->battery =3D NULL;
+>  }
+> =20
+> -static void hidinput_update_battery(struct hid_device *dev, int value)
+> +static void hidinput_update_battery(struct hid_device *dev,
+> +=09=09=09=09    unsigned int usage, int value)
+>  {
+>  =09int capacity;
+> =20
+>  =09if (!dev->battery)
+>  =09=09return;
+> =20
+> -=09if (value =3D=3D 0 || value < dev->battery_min || value > dev->batter=
+y_max)
+> +=09if ((usage & HID_USAGE_PAGE) =3D=3D HID_UP_DIGITIZER && value =3D=3D =
+0)
+> +=09=09return;
+> +
+> +=09if (value < dev->battery_min || value > dev->battery_max)
+>  =09=09return;
+> =20
+>  =09capacity =3D hidinput_scale_battery_capacity(dev, value);
+> @@ -1518,7 +1522,7 @@ void hidinput_hid_event(struct hid_device *hid, str=
+uct hid_field *field, struct
+>  =09=09bool handled =3D hidinput_set_battery_charge_status(hid, usage->hi=
+d, value);
+> =20
+>  =09=09if (!handled)
+> -=09=09=09hidinput_update_battery(hid, value);
+> +=09=09=09hidinput_update_battery(hid, usage->hid, value);
+> =20
+>  =09=09return;
 
-I've moved this whole block above the --- line and applied.
+Hi Dmitry,
+
+thanks for the fix. It doesn't apply cleanly on a reasonably recent tree=20
+though, as since e94536e1d1818b09 we're already propagating usage to=20
+hidinput_update_battery(), and we're issuing explicit call to=20
+power_supply_changed() as well.
+
+Could you please refresh on a more recent codebase and resubmit? I could=20
+do that myself, but I guess you also have a way to test the patch with=20
+your use-case ... ?
 
 Thanks,
 
--- 
+--=20
 Jiri Kosina
 SUSE Labs
 
