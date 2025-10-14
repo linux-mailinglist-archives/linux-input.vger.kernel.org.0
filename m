@@ -1,138 +1,112 @@
-Return-Path: <linux-input+bounces-15449-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-15448-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C748BD6FAD
-	for <lists+linux-input@lfdr.de>; Tue, 14 Oct 2025 03:25:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE42ABD6FA7
+	for <lists+linux-input@lfdr.de>; Tue, 14 Oct 2025 03:25:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id CEA244ECE15
-	for <lists+linux-input@lfdr.de>; Tue, 14 Oct 2025 01:25:05 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 9CC0F4E5DB6
+	for <lists+linux-input@lfdr.de>; Tue, 14 Oct 2025 01:24:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C1C813DDAA;
-	Tue, 14 Oct 2025 01:25:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 75AAA13DDAA;
+	Tue, 14 Oct 2025 01:24:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="tw3Xi3hr"
 X-Original-To: linux-input@vger.kernel.org
-Received: from outboundhk.mxmail.xiaomi.com (outboundhk.mxmail.xiaomi.com [118.143.206.90])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB98322068B;
-	Tue, 14 Oct 2025 01:24:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=118.143.206.90
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78EC62BCF5;
+	Tue, 14 Oct 2025 01:24:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760405101; cv=none; b=nL1OBBusTR1QonQC1HTXp3/7HAlTDm72IScz6qxn3reGQygT8kez/s49b8irsbzrH0KQ6Sy9t2iXzeYuUKU+MDTMLaKs3mD0+q9rlgvxMPa4VNpo0K7B7TTafcaefd6Ssjw/B7dLWjgY9Pm7VasNJYeSStQyJOLN0WExDs1Wm9g=
+	t=1760405097; cv=none; b=leCQSe6VFRiFsEvGiqEj4MNbW3W2QsUde/wX05monKyXPPUShuULnYUbzehdxYMWmhvDz7pK6ksYyWga5gfGPsYKIqqlrvfjaWe6hm2U/juBYT08HNJJz1YyG22qHQbev1fNvn9LBSRGHcM/UQV0o0w9gmuoxsUQr6MLtrQ5NVs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760405101; c=relaxed/simple;
-	bh=0lfUdQvdldCrhXHTQGEwLkzKT6LKbQZFh3o+ySPk2Ys=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=jPBuLACv1imzFI4ptvCTj28HMAbms8aL0oMAJvUZcOSINesT624KYHHMgxepIgHdJNqjMyynxnzlC5IRJXxCstYrKgp/RJKDMJrMq82LJSCCEUZkRI7hzRPWp78Jr2JQwr6yp68qbBrnHGX5vz+sKZDA4+zcGJrygx9NsvRPjdY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=xiaomi.com; spf=pass smtp.mailfrom=xiaomi.com; arc=none smtp.client-ip=118.143.206.90
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=xiaomi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xiaomi.com
-X-CSE-ConnectionGUID: C+0glNcCT8Ce9uHwqMr7HA==
-X-CSE-MsgGUID: B+8Fn7WmT2WfgafvMNs5Rg==
-X-IronPort-AV: E=Sophos;i="6.19,226,1754928000"; 
-   d="scan'208";a="129376162"
-From: =?gb2312?B?wqy5+rrq?= <luguohong@xiaomi.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>, Jiri Kosina
-	<jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>
-CC: "kenalba@google.com" <kenalba@google.com>, "linux-input@vger.kernel.org"
-	<linux-input@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, =?gb2312?B?wO7F9A==?= <lipeng43@xiaomi.com>,
-	=?gb2312?B?y87D3MPc?= <songmimi@xiaomi.com>, =?gb2312?B?wqy5+rrq?=
-	<luguohong@xiaomi.com>
-Subject: =?gb2312?B?tPC4tDogW0V4dGVybmFsIE1haWxdW1BBVENIXSBISUQ6IGhpZC1pbnB1dDog?=
- =?gb2312?Q?only_ignore_0_battery_events_for_digitizers?=
-Thread-Topic: [External Mail][PATCH] HID: hid-input: only ignore 0 battery
- events for digitizers
-Thread-Index: AQHcOazZHRANaD7djkOKShmNHYh1F7S7MO8bgAWtdUM=
-Date: Tue, 14 Oct 2025 01:24:51 +0000
-Message-ID: <0af10be7ca044b2f981bc6dabaee2df5@xiaomi.com>
-References: <of5qjeij72wduee3zyf26drfcwhpsl4sjs3v6tfjv3tgl3xsol@sss7zcyawwaz>,<6ec0ba2fd4ba42bf91fa8c5dbfb5e1c0@xiaomi.com>
-In-Reply-To: <6ec0ba2fd4ba42bf91fa8c5dbfb5e1c0@xiaomi.com>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-Content-Type: text/plain; charset="gb2312"
-Content-Transfer-Encoding: base64
+	s=arc-20240116; t=1760405097; c=relaxed/simple;
+	bh=dwDNYzLtZek3emqqOnmqEDMBCYxOGSmi01Td2aUQlBI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=XAx6UbLqFjqRwtVIrChf/5IgXfimBgvhcVNU3fi/dVknViSpu0msGrMf930mFLWzS3xLKQe/YFxTvZoZ0uecEG4RPr3zW3/Qf1bUY50vU9yK3DqUftWAMRx3TV8al+uUpRLnhgvudtcnnVcglIFghrDPy1z+TsbBCiuD7h0D024=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=tw3Xi3hr; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=dFuiWkTQSqkPPmvEk4s9u5Zjw6QgEpQYW1CmmcwGTPo=; b=tw3Xi3hrcRc8ChTfKdoB9hA3aO
+	rSYWjh1lNDrGHcaIJMdpphw52G1r1a9sqeTlUE3H70I2NbcDHqE/Q+i7+p1tBf0bT5qtvhP8sSjLG
+	1ZvrD3BUnj3JiB14kB/zdTfS+9lXsYRPzGWmtxwApTmIUj6W0XmhZBfQCFVcy9Sx19FcHPbZz097K
+	0JVXCx+U+QqvOORB5giaEYgY0Y2SxuYiSWwYJxh1JinzIaIrzXKgemWn6pb32xPcR4R3dPW8LzFyd
+	oL6nMD1LvIWK41g/msWXrGWn81IZJ42t5CulDamgsrxOl57uA9bpSxxX0PVeTJBcj6itF2DY46tzN
+	FaNRLHNQ==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1v8TmY-0000000Eth2-1oZa;
+	Tue, 14 Oct 2025 01:24:54 +0000
+Message-ID: <3c94c8b1-b53d-4dc5-86b4-70c89b91fa15@infradead.org>
+Date: Mon, 13 Oct 2025 18:24:53 -0700
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] HID: Kconfig: Fix build error from CONFIG_HID_HAPTIC
+To: Kuan-Wei Chiu <visitorckw@gmail.com>, Jonathan Denose <jdenose@google.com>
+Cc: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>,
+ Thorsten Leemhuis <linux@leemhuis.info>,
+ Lucas GISSOT <lucas.gissot.pro@gmail.com>, linux-input@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20251013-hid-haptic-kconfig-fix-v1-1-b1ad90732625@google.com>
+ <aO1q4coXPqU/K6KI@visitorckw-System-Product-Name>
+ <CAMCVhVNLr+2ivRo9T4rVt4mkncwbOfXEL9bE=pDGRp=Qjy1c9A@mail.gmail.com>
+ <aO1vQYCKU7fA0Fxm@visitorckw-System-Product-Name>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <aO1vQYCKU7fA0Fxm@visitorckw-System-Product-Name>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-DQpIaSBKaXJpIEtvc2luYSBhbmQgQmVuamFtaW4gVGlzc29pcmVzISBJcyB0aGVyZSBhbnkgbmV3
-IHByb2dyZXNzIG9uIGdldHRpbmcgdGhpcyBwYXRjaCBpbnRvIHRoZSBrZXJuZWw/IEkgbG9vayBm
-b3J3YXJkIHRvIGhlYXJpbmcgZnJvbSB5b3UuIFRoYW5rIHlvdSB2ZXJ5IG11Y2ghDQoNCl9fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18NCreivP7Iyzogwqy5+rrqDQq3osvN
-yrG85DogMjAyNcTqMTDUwjEwyNUgMTg6NDMNCsrVvP7IyzogRG1pdHJ5IFRvcm9raG92OyBKaXJp
-IEtvc2luYTsgQmVuamFtaW4gVGlzc29pcmVzDQqzrcvNOiBrZW5hbGJhQGdvb2dsZS5jb207IGxp
-bnV4LWlucHV0QHZnZXIua2VybmVsLm9yZzsgbGludXgta2VybmVsQHZnZXIua2VybmVsLm9yZzsg
-wO7F9Dsgy87D3MPcOyDCrLn6uuoNCtb3zOI6ILTwuLQ6IFtFeHRlcm5hbCBNYWlsXVtQQVRDSF0g
-SElEOiBoaWQtaW5wdXQ6IG9ubHkgaWdub3JlIDAgYmF0dGVyeSBldmVudHMgZm9yIGRpZ2l0aXpl
-cnMNCg0KVGhhbmtzLCBEbWl0cnkuDQoNCkhpIEppcmkgS29zaW5hLCBCZW5qYW1pbiBUaXNzb2ly
-ZXMsIHBsZWFzZSBsZXQgbWUga25vdyBvbmNlIHlvdSd2ZSBtZXJnZWQgdGhpcyBwYXRjaCBpbnRv
-IHRoZSBrZXJuZWwuIFRoYW5rcyENCg0KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fXw0Kt6K8/sjLOiBEbWl0cnkgVG9yb2tob3YgPGRtaXRyeS50b3Jva2hvdkBnbWFpbC5j
-b20+DQq3osvNyrG85DogMjAyNcTqMTDUwjEwyNUgMTQ6MTINCsrVvP7IyzogSmlyaSBLb3NpbmE7
-IEJlbmphbWluIFRpc3NvaXJlcw0Ks63LzTogwqy5+rrqOyBrZW5hbGJhQGdvb2dsZS5jb207IGxp
-bnV4LWlucHV0QHZnZXIua2VybmVsLm9yZzsgbGludXgta2VybmVsQHZnZXIua2VybmVsLm9yZw0K
-1vfM4jogW0V4dGVybmFsIE1haWxdW1BBVENIXSBISUQ6IGhpZC1pbnB1dDogb25seSBpZ25vcmUg
-MCBiYXR0ZXJ5IGV2ZW50cyBmb3IgZGlnaXRpemVycw0KDQpbzeKyv9PKvP5dILTL08q8/sC01LTT
-2tChw9e5q8u+zeKyv6Osx+u998n3tKbA7aGjyPS21NPKvP6wssir0NS05tLJo6zH672r08q8/teq
-t6K4+G1pc2VjQHhpYW9taS5jb229+NDQt7TAoQ0KDQpDb21taXQgNTgxYzQ0ODQ3NjllICgiSElE
-OiBpbnB1dDogbWFwIGRpZ2l0aXplciBiYXR0ZXJ5IHVzYWdlIikgYWRkZWQNCmhhbmRsaW5nIG9m
-IGJhdHRlcnkgZXZlbnRzIGZvciBkaWdpdGl6ZXJzICh0eXBpY2FsbHkgZm9yIGJhdHRlcmllcw0K
-cHJlc2VudGVkIGluIHN0eWxpKS4gRGlnaXRpemVycyB0eXBpY2FsbHkgcmVwb3J0IGNvcnJlY3Qg
-YmF0dGVyeSBsZXZlbHMNCm9ubHkgd2hlbiBzdHlsdXMgaXMgYWN0aXZlbHkgdG91Y2hpbmcgdGhl
-IHN1cmZhY2UsIGFuZCBpbiBvdGhlciBjYXNlcw0KdGhleSBtYXkgcmVwb3J0IGJhdHRlcnkgbGV2
-ZWwgb2YgMC4gVG8gYXZvaWQgY29uZnVzaW5nIGNvbnN1bWVycyBvZiB0aGUNCmJhdHRlcnkgaW5m
-b3JtYXRpb24gdGhlIGNvZGUgd2FzIGFkZGVkIHRvIGZpbGVyIG91dCByZXBvcnRzIHdpdGggMA0K
-YmF0dGVyeSBsZXZlbHMuDQoNCkhvd2V2ZXIgdGhlcmUgZXhpc3Qgb3RoZXIga2luZHMgb2YgZGV2
-aWNlcyB0aGF0IG1heSBsZWdpdGltYXRlbHkgcmVwb3J0DQowIGJhdHRlcnkgbGV2ZWxzLiBGaXgg
-dGhpcyBieSBmaWx0ZXJpbmcgb3V0IDAtbGV2ZWwgcmVwb3J0cyBvbmx5IGZvcg0KZGlnaXRpemVy
-IHVzYWdlcywgYW5kIGNvbnRpbnVlIHJlcG9ydGluZyB0aGVtIGZvciBvdGhlciBraW5kcyBvZiBk
-ZXZpY2VzDQooU21hcnQgQmF0dGVyaWVzLCBldGMpLg0KDQpSZXBvcnRlZC1ieTogwqy5+rrqIDxs
-dWd1b2hvbmdAeGlhb21pLmNvbT4NClRlc3RlZC1ieTogwqy5+rrqIDxsdWd1b2hvbmdAeGlhb21p
-LmNvbT4NCkZpeGVzOiA1ODFjNDQ4NDc2OWUgKCJISUQ6IGlucHV0OiBtYXAgZGlnaXRpemVyIGJh
-dHRlcnkgdXNhZ2UiKQ0KU2lnbmVkLW9mZi1ieTogRG1pdHJ5IFRvcm9raG92IDxkbWl0cnkudG9y
-b2tob3ZAZ21haWwuY29tPg0KLS0tDQogZHJpdmVycy9oaWQvaGlkLWlucHV0LmMgfCAxMCArKysr
-KysrLS0tDQogMSBmaWxlIGNoYW5nZWQsIDcgaW5zZXJ0aW9ucygrKSwgMyBkZWxldGlvbnMoLSkN
-Cg0KZGlmZiAtLWdpdCBhL2RyaXZlcnMvaGlkL2hpZC1pbnB1dC5jIGIvZHJpdmVycy9oaWQvaGlk
-LWlucHV0LmMNCmluZGV4IGZmMTc4NGI1YzJhNC4uYmEzZjY2NTVhZjllIDEwMDY0NA0KLS0tIGEv
-ZHJpdmVycy9oaWQvaGlkLWlucHV0LmMNCisrKyBiL2RyaXZlcnMvaGlkL2hpZC1pbnB1dC5jDQpA
-QCAtNTk1LDE0ICs1OTUsMTggQEAgc3RhdGljIHZvaWQgaGlkaW5wdXRfY2xlYW51cF9iYXR0ZXJ5
-KHN0cnVjdCBoaWRfZGV2aWNlICpkZXYpDQogICAgICAgIGRldi0+YmF0dGVyeSA9IE5VTEw7DQog
-fQ0KDQotc3RhdGljIHZvaWQgaGlkaW5wdXRfdXBkYXRlX2JhdHRlcnkoc3RydWN0IGhpZF9kZXZp
-Y2UgKmRldiwgaW50IHZhbHVlKQ0KK3N0YXRpYyB2b2lkIGhpZGlucHV0X3VwZGF0ZV9iYXR0ZXJ5
-KHN0cnVjdCBoaWRfZGV2aWNlICpkZXYsDQorICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICB1bnNpZ25lZCBpbnQgdXNhZ2UsIGludCB2YWx1ZSkNCiB7DQogICAgICAgIGludCBjYXBh
-Y2l0eTsNCg0KICAgICAgICBpZiAoIWRldi0+YmF0dGVyeSkNCiAgICAgICAgICAgICAgICByZXR1
-cm47DQoNCi0gICAgICAgaWYgKHZhbHVlID09IDAgfHwgdmFsdWUgPCBkZXYtPmJhdHRlcnlfbWlu
-IHx8IHZhbHVlID4gZGV2LT5iYXR0ZXJ5X21heCkNCisgICAgICAgaWYgKCh1c2FnZSAmIEhJRF9V
-U0FHRV9QQUdFKSA9PSBISURfVVBfRElHSVRJWkVSICYmIHZhbHVlID09IDApDQorICAgICAgICAg
-ICAgICAgcmV0dXJuOw0KKw0KKyAgICAgICBpZiAodmFsdWUgPCBkZXYtPmJhdHRlcnlfbWluIHx8
-IHZhbHVlID4gZGV2LT5iYXR0ZXJ5X21heCkNCiAgICAgICAgICAgICAgICByZXR1cm47DQoNCiAg
-ICAgICAgY2FwYWNpdHkgPSBoaWRpbnB1dF9zY2FsZV9iYXR0ZXJ5X2NhcGFjaXR5KGRldiwgdmFs
-dWUpOw0KQEAgLTE1MTgsNyArMTUyMiw3IEBAIHZvaWQgaGlkaW5wdXRfaGlkX2V2ZW50KHN0cnVj
-dCBoaWRfZGV2aWNlICpoaWQsIHN0cnVjdCBoaWRfZmllbGQgKmZpZWxkLCBzdHJ1Y3QNCiAgICAg
-ICAgICAgICAgICBib29sIGhhbmRsZWQgPSBoaWRpbnB1dF9zZXRfYmF0dGVyeV9jaGFyZ2Vfc3Rh
-dHVzKGhpZCwgdXNhZ2UtPmhpZCwgdmFsdWUpOw0KDQogICAgICAgICAgICAgICAgaWYgKCFoYW5k
-bGVkKQ0KLSAgICAgICAgICAgICAgICAgICAgICAgaGlkaW5wdXRfdXBkYXRlX2JhdHRlcnkoaGlk
-LCB2YWx1ZSk7DQorICAgICAgICAgICAgICAgICAgICAgICBoaWRpbnB1dF91cGRhdGVfYmF0dGVy
-eShoaWQsIHVzYWdlLT5oaWQsIHZhbHVlKTsNCg0KICAgICAgICAgICAgICAgIHJldHVybjsNCiAg
-ICAgICAgfQ0KLS0NCjIuNTEuMC43NDAuZzZhZGIwNTRkMTItZ29vZw0KDQoNCi0tDQpEbWl0cnkN
-CiMvKioqKioqsb7Tyrz+vLDG5Li9vP66rNPQ0KHD17mry761xLGjw9zQxc+io6y99s/e09q3osvN
-uPjJz8PmtdjWt9bQwdCz9rXEuPbIy7vyyLrX6aGjvfvWucjOus7G5Mv7yMvS1MjOus7Qzsq9yrnT
-w6OosPzAqLWrsrvP3tPayKuyv7vysr+31rXY0LnCtqGiuLTWxqGiu/LJoreio6mxvtPKvP7W0LXE
-0MXPoqGjyOe5+8T6tO3K1cHLsb7Tyrz+o6zH68T6waK8tLXnu7C78tPKvP7NqNaqt6K8/sjLsqLJ
-vrP9sb7Tyrz+o6EgVGhpcyBlLW1haWwgYW5kIGl0cyBhdHRhY2htZW50cyBjb250YWluIGNvbmZp
-ZGVudGlhbCBpbmZvcm1hdGlvbiBmcm9tIFhJQU9NSSwgd2hpY2ggaXMgaW50ZW5kZWQgb25seSBm
-b3IgdGhlIHBlcnNvbiBvciBlbnRpdHkgd2hvc2UgYWRkcmVzcyBpcyBsaXN0ZWQgYWJvdmUuIEFu
-eSB1c2Ugb2YgdGhlIGluZm9ybWF0aW9uIGNvbnRhaW5lZCBoZXJlaW4gaW4gYW55IHdheSAoaW5j
-bHVkaW5nLCBidXQgbm90IGxpbWl0ZWQgdG8sIHRvdGFsIG9yIHBhcnRpYWwgZGlzY2xvc3VyZSwg
-cmVwcm9kdWN0aW9uLCBvciBkaXNzZW1pbmF0aW9uKSBieSBwZXJzb25zIG90aGVyIHRoYW4gdGhl
-IGludGVuZGVkIHJlY2lwaWVudChzKSBpcyBwcm9oaWJpdGVkLiBJZiB5b3UgcmVjZWl2ZSB0aGlz
-IGUtbWFpbCBpbiBlcnJvciwgcGxlYXNlIG5vdGlmeSB0aGUgc2VuZGVyIGJ5IHBob25lIG9yIGVt
-YWlsIGltbWVkaWF0ZWx5IGFuZCBkZWxldGUgaXQhKioqKioqLyMNCg==
+
+
+On 10/13/25 2:29 PM, Kuan-Wei Chiu wrote:
+> On Mon, Oct 13, 2025 at 04:23:36PM -0500, Jonathan Denose wrote:
+>> On Mon, Oct 13, 2025 at 4:11 PM Kuan-Wei Chiu <visitorckw@gmail.com> wrote:
+>>>
+>>> On Mon, Oct 13, 2025 at 08:54:57PM +0000, Jonathan Denose wrote:
+>>>> Temporarily change CONFIG_HID_HAPTIC to be bool instead of tristate, until
+>>>> we implement a permanent solution.
+>>>>
+>>>> ---
+>>>
+>>> The "---" line here will cause many tools used for applying patches,
+>>> like git am, to discard the content below it [1].
+>>>
+>>> Please don't add this line unless you don't want the following content
+>>> to appear in the commit message.
+>>>
+>>> [1]: https://www.kernel.org/doc/html/v6.17/process/submitting-patches.html#commentary
+>>>
+>>> Regards,
+>>> Kuan-Wei
+>>
+>> Yes, that was intentional, the information below the '---' was
+>> included as additional information and not for the commit message. The
+>> error messages were too long, as was the link to the longer
+>> discussion, and this caused errors in checkpatch.pl.
+>>
+
+checkpatch is just a dumb script. Don't let it determine what goes
+into a patch description. It can (easily) be wrong.
+
+> Then at least your Signed-off-by tag needs to be above the --- line?
+
+Right.
+
+-- 
+~Randy
+
 
