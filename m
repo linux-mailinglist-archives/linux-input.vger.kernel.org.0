@@ -1,88 +1,122 @@
-Return-Path: <linux-input+bounces-15476-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-15477-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 876C1BD8DE9
-	for <lists+linux-input@lfdr.de>; Tue, 14 Oct 2025 13:01:14 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D36EBD907B
+	for <lists+linux-input@lfdr.de>; Tue, 14 Oct 2025 13:30:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 414C53A5427
-	for <lists+linux-input@lfdr.de>; Tue, 14 Oct 2025 11:01:13 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 893DC4F35D2
+	for <lists+linux-input@lfdr.de>; Tue, 14 Oct 2025 11:29:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D1FC52F533E;
-	Tue, 14 Oct 2025 11:01:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 998083081B8;
+	Tue, 14 Oct 2025 11:29:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LVwQkTK4"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="K7jAIQBA"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A64A714D283;
-	Tue, 14 Oct 2025 11:01:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F5E02FD7DD;
+	Tue, 14 Oct 2025 11:29:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760439670; cv=none; b=JEnPXARN7JGucEoPEpqqUTOre06Uw3HIQvF2Ty+edgENFyxeujZt8kOtMpksQ+fWyUH6W6uQ+q3vFyq+TDi54Iq0zdi1rCngubgtf9vbuguDsCwxUi6jbr89BICOIBp+CjQ7q6ktTNhK/siIwrptTspBn9hVDik3Y+EhIKak8Bg=
+	t=1760441381; cv=none; b=qtyMHt3hXX9Ng3CSvrWZh0IB8YxxA6tDsGaJK0xbGn+tXM7uzJUt5w1+S69huCYMV0crW15FwyvbExk9PN9KK5fRW99Y+MjbHVd6J3pplXNydKQM17biv7kwYZYYXbZPt80s6fkZvqgdzm3MEwoe7gYSFhsJpllUMiz2sFnxz+c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760439670; c=relaxed/simple;
-	bh=WMqBbQl9s5Jj9CTT6nWXC7tDoaUroeT1OyiwJIijtJM=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=NmQALR4wdKFN6O2PK2GRHe1xbA+0cJ4i7j+Y4BczYSydl6u7ggRZJTphbIkD2TuTbA73Jql4y7iHuoAZjt+AOqtlgiWBzjzNx+5PeqNlXgblNS1gfR1TDNRydtK3fni3YBUKyCtVHkN9xoqyPJTBNisTkySndsGoFr8KtygZX9Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LVwQkTK4; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0994C4CEE7;
-	Tue, 14 Oct 2025 11:01:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760439669;
-	bh=WMqBbQl9s5Jj9CTT6nWXC7tDoaUroeT1OyiwJIijtJM=;
-	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=LVwQkTK4T6D12ynOPOM58DRuoAApiQf3GfPA+qkZ9LhTYPR/XK7J+SH+4Tu5dQWts
-	 VIqamdj6daT/i+Lr7YJ46j1CL/WzRlskT27SQAef0dq3p8iPht3uE/svcvSO0RzBfh
-	 OzmJATkzqoArxvaFquNYFP/6hOJrcEZIRM0llNkNY9WRPqN9ouhfuTD8stRCFYnciV
-	 JqXqqNMGeIcg7tSX3y0Y8HqLYaT1fYxAM/1++tCM3nSt7Fp0clCM2IQE85dmui/iqE
-	 PTQaReHFKfLzaFqmnTb+xPoEHo4IJ3/j6IWNX7Jr3YHgHMgJaxlSLg4HVqYHhzG3pf
-	 2zH5Sjj4DCDMw==
-Date: Tue, 14 Oct 2025 13:01:06 +0200 (CEST)
-From: Jiri Kosina <jikos@kernel.org>
-To: Matt Roberts <robertsmattb@gmail.com>
-cc: linux-input@vger.kernel.org, bentiss@kernel.org, 
-    linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] HID: multitouch: add IGNORE_DUPLICATES quirk for ELAN1206
- (04f3:30f1)
-In-Reply-To: <CALy8NDYVkOnRbzrO37BhX0cf4MHDwxv1LbV=JW3QOCg1+-kOqQ@mail.gmail.com>
-Message-ID: <70s5106n-7qo4-4sr1-18qs-o30n143p49o9@xreary.bet>
-References: <CALy8NDYVkOnRbzrO37BhX0cf4MHDwxv1LbV=JW3QOCg1+-kOqQ@mail.gmail.com>
+	s=arc-20240116; t=1760441381; c=relaxed/simple;
+	bh=1GfZigKl8BK6ItvIvHiHwUmP9apgJNQtcjLeOH0Fo9w=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=pASI8TM04qlVzFiUl7wZaSoV70mydYoe4bHMOb5HyFQqUKudmM8YEvKEKnhmRE/SucRFHk0BVzm3GrvMpoaQhIpGIOIj/oJolff9/URpCyby6FTa+/Hp9sivF1JbEsKUzntqUI611rLeQMU1K9dduDI7cEEX5EhZJ/i1Rv78MMQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=K7jAIQBA; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1760441377;
+	bh=1GfZigKl8BK6ItvIvHiHwUmP9apgJNQtcjLeOH0Fo9w=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=K7jAIQBADMt3OIAdrE5ksGeiSSHn+ISFhMcWzPAkpAwTKDDKt1+rpCu0J1r1kxoIm
+	 zNE1qxXvfwjh7+J1vFhd+CXwaCDeTCBRPYI1e2Y7bRQ2yYeUial1kg5IXqPHmqGaol
+	 gNuazANough8dB0l1ZoB4bOQEMjfaMH4tTYj++IBGNQym4nZU8eDT5rUBZMuL3ahg5
+	 gE9qgUqEkQHVwdmMl74AovVLF8DX+jhSJVJorUEvN8fOWQOGImf9FMfeK7S3diHVfW
+	 w4w/90WAi+UBH348POXLwJPK18r2KfgdyNNcXSuy3mtUqBmQc1ZFuoIhho81lJrW6M
+	 OO3IAjcJ+77kA==
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: kholk11)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id CEE8617E0456;
+	Tue, 14 Oct 2025 13:29:35 +0200 (CEST)
+Message-ID: <15d26478-89e5-4815-8e20-7f34778d077a@collabora.com>
+Date: Tue, 14 Oct 2025 13:29:35 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 24/32] media: mediatek: vcodec: Use %pe format specifier
+To: Ricardo Ribalda <ribalda@chromium.org>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Hans Verkuil <hverkuil@kernel.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ =?UTF-8?Q?Krzysztof_Ha=C5=82asa?= <khalasa@piap.pl>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Leon Luo <leonl@leopardimaging.com>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Jacopo Mondi <jacopo+renesas@jmondi.org>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+ Julien Massot <julien.massot@collabora.com>, Jacopo Mondi
+ <jacopo@jmondi.org>, Daniel Scally <djrscally@gmail.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+ Sylvain Petinot <sylvain.petinot@foss.st.com>, Yong Zhi
+ <yong.zhi@intel.com>, Bingbu Cao <bingbu.cao@intel.com>,
+ Tianshu Qiu <tian.shu.qiu@intel.com>, Tiffany Lin
+ <tiffany.lin@mediatek.com>, Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+ Yunfei Dong <yunfei.dong@mediatek.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Rui Miguel Silva <rmfrfs@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Martin Kepplinger <martink@posteo.de>, Purism Kernel Team <kernel@puri.sm>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, Dafna Hirschfeld <dafna@fastmail.com>,
+ Heiko Stuebner <heiko@sntech.de>, Sylwester Nawrocki
+ <s.nawrocki@samsung.com>, Krzysztof Kozlowski <krzk@kernel.org>,
+ Alim Akhtar <alim.akhtar@samsung.com>,
+ Yemike Abhilash Chandra <y-abhilashchandra@ti.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, imx@lists.linux.dev,
+ linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ linux-samsung-soc@vger.kernel.org, linux-staging@lists.linux.dev
+References: <20251013-ptr_err-v1-0-2c5efbd82952@chromium.org>
+ <20251013-ptr_err-v1-24-2c5efbd82952@chromium.org>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+In-Reply-To: <20251013-ptr_err-v1-24-2c5efbd82952@chromium.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Sun, 5 Oct 2025, Matt Roberts wrote:
-
-> diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
-> index 2879e65cf..ed318c80e 100644
-> --- a/drivers/hid/hid-multitouch.c
-> +++ b/drivers/hid/hid-multitouch.c
-> @@ -2150,6 +2150,10 @@ static const struct hid_device_id mt_devices[] = {
->                 HID_DEVICE(BUS_I2C, HID_GROUP_MULTITOUCH_WIN_8,
->                         USB_VENDOR_ID_ELAN, 0x32ae) },
+Il 13/10/25 16:15, Ricardo Ribalda ha scritto:
+> The %pe format specifier is designed to print error pointers. It prints
+> a symbolic error name (eg. -EINVAL) and it makes the code simpler by
+> omitting PTR_ERR().
 > 
-> +        /* ELAN1206 touchpad: duplicate tracking IDs cause hold/click storms */
-> +        { .driver_data = MT_QUIRK_IGNORE_DUPLICATES,
-> +          HID_DEVICE(BUS_I2C, HID_GROUP_MULTITOUCH, 0x04f3, 0x30f1) },
+> This patch fixes this cocci report:
+> ./platform/mediatek/vcodec/common/mtk_vcodec_dbgfs.c:187:3-10: WARNING: Consider using %pe to print PTR_ERR()
+> 
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 
-Is there a reason not to use USB_VENDOR_ID_ELAN here, instead of 
-open-coding 0x04f3?
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
-Also, the patch has been whitespace-corrupted, so it can't be applied. 
-Could you please look into fixing that, and resubmit?
-
-Thanks!
-
--- 
-Jiri Kosina
-SUSE Labs
 
 
