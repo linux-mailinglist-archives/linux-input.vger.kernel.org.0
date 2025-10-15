@@ -1,88 +1,90 @@
-Return-Path: <linux-input+bounces-15489-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-15490-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id C76D0BDC75D
-	for <lists+linux-input@lfdr.de>; Wed, 15 Oct 2025 06:28:53 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id D9302BDC78D
+	for <lists+linux-input@lfdr.de>; Wed, 15 Oct 2025 06:31:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id A03674E9B61
-	for <lists+linux-input@lfdr.de>; Wed, 15 Oct 2025 04:28:52 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 900563BD5AC
+	for <lists+linux-input@lfdr.de>; Wed, 15 Oct 2025 04:31:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A8332F4A00;
-	Wed, 15 Oct 2025 04:28:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D144258EC8;
+	Wed, 15 Oct 2025 04:31:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Qyr8CwjN"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fYcvpLs4"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 779472E9EDF
-	for <linux-input@vger.kernel.org>; Wed, 15 Oct 2025 04:28:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3E251D8DFB
+	for <linux-input@vger.kernel.org>; Wed, 15 Oct 2025 04:31:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760502529; cv=none; b=Ek1IT/igXmQ8iGgQPgKvAAUBJGo5l3kKQbtWt+hijRwv0PgjWE8wnwELzEvOG45d7tOGAJHJtrYYGymD39fAKMqenBCofB6mVQAIYR+jmXyya0AutKStfyS8lByZHIOulVbvB5uIM7SUkFJpKLy4nTD3RsA7n9mx5oh+eG7nvxE=
+	t=1760502675; cv=none; b=BbXwSaNSQeqSWbjPghgOfCfBghTIjJVsR5W9EVgUPlKucK33XEDf5DytdK6PA/e9AtAsOe2oDUenprdMSi/v1sZ/nayL+5Pym9XN0o8SXNqbq6hG7fAtSTbx7PgGFMnXLWNiBH1RLThmJH4K9YNeT/zDBpTRGBU1q/gYGJHC7f4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760502529; c=relaxed/simple;
-	bh=7wfAMnESvRVrcUxGm70UpqypFTY1iKeOAV6XurtA0Xw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=TpeehkcLxMOEMvCx1juBWDL8zpb8DmLK03Z0sDRDY7eiU0EjlLZFTVyayxDAjyiWcPwAjzyx8hzy11dP7MtVTleuWoNZaTOTantMbn9jIAW3JApRWyliP3uQxrGbwcNxYT6bl6FrzOWlcGdPuT3ZtVU2CK8nqm22sW8wxL9wgCI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Qyr8CwjN; arc=none smtp.client-ip=209.85.216.46
+	s=arc-20240116; t=1760502675; c=relaxed/simple;
+	bh=WZDuYxIjoxmC+VGiYmi0zZZTyaYsaSjEDxMqtDZo/e4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gpSHSIkddRST1MqKYJnUAT9Z0BocyJYXbN79dRpmQ/gDjI4AdupAmfD8DUKOIrXq3nwXtqlrurCTKL5DIql4Lt2yVHWh5D/2y6n4bVxJxDGhT7aiwYwE3TpThdcyJF8KMoaoyirIsp+uExPd5auCvmcmVTJKVBNwtGNmC3w+Tik=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fYcvpLs4; arc=none smtp.client-ip=209.85.210.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-3324fdfd54cso6490487a91.0
-        for <linux-input@vger.kernel.org>; Tue, 14 Oct 2025 21:28:48 -0700 (PDT)
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-78af3fe5b17so4801742b3a.2
+        for <linux-input@vger.kernel.org>; Tue, 14 Oct 2025 21:31:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760502528; x=1761107328; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wlH0cGjIB/p6Xp9aiuKUvkG4AK7l2RitPxC5XPops8s=;
-        b=Qyr8CwjN3MWAP2TbGkPi/kxVritlsj2ORvjmauQFX2nWZrncOY2n+PWiSTaHaWWTUU
-         98SLlvMwLMWe4Yvh0gQ8RHyYSKIiiPtwz4MdSZJohRSBEVFkAsOOyhIyR+R6enXTFxJk
-         vCg5cZdwJpIjLeS/BDn+VfiXs613a5qqaLckCfajcrQN7s54t6tEWM1ZIHj1gocIbjy5
-         4fitLYBKIP8fY+YgBr7B3jiShHe9xuColP+9+wN64eXWacS+HXV4BogEsbf+5gimtsVV
-         7vuzKeK5c2HvEGeGfpDztTpkFPrGPRTecP6t1uDt3pDw80zohq4RScPVd/VWzQBnD7xi
-         2wHA==
+        d=gmail.com; s=20230601; t=1760502673; x=1761107473; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=zts79kuN/IJCAMCcBE3kS6G0VPd2KnMSc2XzegRhv7w=;
+        b=fYcvpLs43kZ+bmg0oKnOUyfFzXpYH/WsqPVXSkr69oPcjfm4+Imj8wEsdkLd5fTcOA
+         pQBfPYGUPRksA1b30j/zS7ouw00KuxIBmSCwtuOsnyE5IECU5woH4kEuTY+db6PZnRtH
+         flS1MPWN0J7X7Jk6i03KnqiUXSpqHrFhpGI2944bfCFWsD20+rX6ZyygrOpKQP9v8X5D
+         lHcPr20gVibgFUxI2v632xbNDI+bK5Rv3O1sF3KXMZwmJixKb4cpErZSmMMnrASyGDFI
+         0eNHSWfNc7KC5sHZN/rvX4+E02evq+vUhG552saKUUNyutRwnaZNRUbHuGOJ3DLl3f8Y
+         kxxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760502528; x=1761107328;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=wlH0cGjIB/p6Xp9aiuKUvkG4AK7l2RitPxC5XPops8s=;
-        b=pmoG1rAMqhd6WQsRN0C2YdBAIDTxl2/HEuRZM8QY83FO040SQw7q42KqMP+sArkFQO
-         Az68y8Wi+umrzNPEhBPKw7jpLV0OYNUfMYgUgzmXZZWO/X3XqhNvhultu4+/v1dq407n
-         mQOQfe/XPKnJGuJBQNbbEsw4wKJq68TOQqU+CqnpNmlzMzIUPGZ4cMmNxiaRRMUXaEiG
-         7YbG5JkhshmNfbcBEM7s1qn/QHsMAxKc23SUmsLB41M0YoOOwrryNAR43Qq1ZN8cbx6K
-         etnTY3YBFp1r06KtI6l+MiAZziHuWfOt8qyTRSFsU1pNJv3xWeFG5kc+/bbucON/JeTD
-         uyjQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV3BfKZgKgxHWVK6DzF5BlNFPbp+Jhuf3P305yE5S2pcdLiLVZnSK/gWXlPYrmrpHr1aPfCYKXAS9uvdg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzIO7xmKPaKuarrrOdIfgt6EXa5KOErtpHNpKa0TQ2meLTfYl/s
-	R6eiSYczQPvXV10Nu5a3v6kzs8d35IIia3x6+N7nM/JW4WInjEBS1mb/
-X-Gm-Gg: ASbGncsMT/t5gk5a27cK7JAP6+FImhaSOtxKdqQqndPWru/2vd6ueUAhcytDGqG77uL
-	hrZpP8GQEenlj6jowLyXw1SO+CvEtJ0wY4EjFiS4Xd8LG5eg97yiAQ+1CCvxNIUfjBDvQEUUuJH
-	kATfIBDM965vAuRrAd+rW0xlG6zQSKnVUsugEBIkv/wBw/07RiHmusxwEacYi1DR6F4V3ld+1a9
-	s1Y9jhzKn1TUqISmRKuIqaEt0oqCuc4/mrs6neSzFS7shG9Tb5wwvbDrGnYABB+fOIgY0VX4O8u
-	EnmbzjpJUoo14L8sPxU9irVWL9Fo+BwNV/YjdvWTUFEAcw1Tt6L0A+Lxi7HpCdddLyKfoeze5TK
-	PVdfHKpwSc6MmpB3Ir4EcpqmeT8XNkEL8zX5OgpR34gDPJ2DqWpEnzNGjVhzk80uX5lTDFPPbrN
-	SlKIuGTw==
-X-Google-Smtp-Source: AGHT+IE+Deb2FV+DtdpOThkIj5o2+mjtlGjIWhQkTWNRouhVEAGo+cWfvB8mD05/8Zm7cLUB7Rvd4Q==
-X-Received: by 2002:a17:90b:4ac9:b0:32b:9774:d340 with SMTP id 98e67ed59e1d1-33b513ea07emr39765138a91.33.1760502527651;
-        Tue, 14 Oct 2025 21:28:47 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1760502673; x=1761107473;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=zts79kuN/IJCAMCcBE3kS6G0VPd2KnMSc2XzegRhv7w=;
+        b=GoVDoMzapC25Q411Oo/Sf6uE9vpfwVU8fTT5SIdiJYxNVu9zbmVieuBjeeutEzgFg+
+         uHzd51/rMkJLgapnPM0xcNJJDa707+M08hmlDIMwac4R6L91nIy5Kwg35pZjOJP6XByC
+         3MX3y/4Rm7ecA3r6fx4LBZKFCuVeR/SEi+f+qNbixTuWd6KqcFo4zRYBvOXjIfzQM0bL
+         zFpmt1+/3day8XGga1kNcGXKhF0+bdBkDbjahxZxNWqt0yFYMWNjqJ8wjEEdpJRT9wa0
+         jv15dDXjp7Osz2bpWxU1YZqxObsp01OQQrtiU0TB3smtYPUTgwMo+x5HE2IOYM7lqA4O
+         Fepw==
+X-Forwarded-Encrypted: i=1; AJvYcCVShOtyQp9Mqrk02ggk8Mr2+2u7frIhVjacEodGW0FOk/wTtcfSl1pe9QEI5mapqY3LIdbLKzXV9Fqy7g==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwCUbZUEMHunvF6Ux/F5LIerujuPGa4XKMHd0o+KgL/1rFne0M8
+	zlVk5fn9nNSzHUL0Dy929NfAdLTA7uhUrr65g9anvWgO7uXmIHsJCKm3BThLsw==
+X-Gm-Gg: ASbGncvFejkv2xg1a9DSIUQvebN1U/dtBs6wHu+imQ7CjkZT2HtvLkZVipODZxy95tM
+	scK0YiB7uKKKfGJVGP0EmNwZAFOJ2lC4Bkpz7dWXB11evw6n3xKCsGwaqXF/dj3Wi9PQd/Q4/lS
+	Pxz7cB2bqYZPIUSYiVcMgOGvqN2YyRYL1kC0PkRaXYwrxYbEWXv/Wqjn4I4z6746r9j2dsXqwEA
+	8eyRxecOFMpiKeNxt2oXUDyiZ3y3AqaDqU0kNS+l9pQJ2c/mzmIVzOJHy4Crn3yFsGD283vA9sp
+	ceByUY7QuLqki96s7HxlgJJFUBVc5vgKvBKp9/6NHonNEiG5jIu+F1sUQW4aYjSXMGuiLIC5Qqx
+	C+K1uR7qBLxoMrwPbc4F9TJQqEIf6Swv62eE+aLywE6xwrifwHgH/UtbleNusp2woVDFiRiGjW5
+	GY4SVoJg==
+X-Google-Smtp-Source: AGHT+IG6FhMTeWkEH9QZHgmRQ8kee57qbcSb2Gok0oXxXlAmHWNH0ugczjyMBwNxwo17qCCsOZtnkw==
+X-Received: by 2002:a05:6a00:8c8:b0:781:27a7:dd0e with SMTP id d2e1a72fcca58-79385ed5786mr27588710b3a.9.1760502673174;
+        Tue, 14 Oct 2025 21:31:13 -0700 (PDT)
 Received: from google.com ([2a00:79e0:2ebe:8:729e:7380:f286:50df])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-33b9786f659sm680988a91.13.2025.10.14.21.28.46
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7992d993853sm16835038b3a.74.2025.10.14.21.31.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Oct 2025 21:28:47 -0700 (PDT)
-Date: Tue, 14 Oct 2025 21:28:44 -0700
+        Tue, 14 Oct 2025 21:31:12 -0700 (PDT)
+Date: Tue, 14 Oct 2025 21:31:10 -0700
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Jiri Kosina <jikos@kernel.org>, 
-	Benjamin Tissoires <bentiss@kernel.org>
-Cc: =?utf-8?B?5Y2i5Zu95a6P?= <luguohong@xiaomi.com>, kenalba@google.com, 
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2] HID: hid-input: only ignore 0 battery events for
+To: Jiri Kosina <jikos@kernel.org>
+Cc: Benjamin Tissoires <bentiss@kernel.org>, 
+	=?utf-8?B?5Y2i5Zu95a6P?= <luguohong@xiaomi.com>, kenalba@google.com, linux-input@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] HID: hid-input: only ignore 0 battery events for
  digitizers
-Message-ID: <c5b52grvciabpcgavhjqximqqq6fczowgvmckke6aflq72mzyv@gzzkyt25xygc>
+Message-ID: <nsz6llo4nsg4zuiogmewuccl76nzjjijgkjzqeazzs33lj4phc@k5rskuabbsz2>
+References: <of5qjeij72wduee3zyf26drfcwhpsl4sjs3v6tfjv3tgl3xsol@sss7zcyawwaz>
+ <r20q42n6-n65r-3151-s194-10222o3o6s6s@xreary.bet>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -92,49 +94,30 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <r20q42n6-n65r-3151-s194-10222o3o6s6s@xreary.bet>
 
-Commit 581c4484769e ("HID: input: map digitizer battery usage") added
-handling of battery events for digitizers (typically for batteries
-presented in stylii). Digitizers typically report correct battery levels
-only when stylus is actively touching the surface, and in other cases
-they may report battery level of 0. To avoid confusing consumers of the
-battery information the code was added to filer out reports with 0
-battery levels.
+Hi Jiri,
 
-However there exist other kinds of devices that may legitimately report
-0 battery levels. Fix this by filtering out 0-level reports only for
-digitizer usages, and continue reporting them for other kinds of devices
-(Smart Batteries, etc).
+On Tue, Oct 14, 2025 at 12:25:25PM +0200, Jiri Kosina wrote:
+> 
+> Hi Dmitry,
+> 
+> thanks for the fix. It doesn't apply cleanly on a reasonably recent tree 
+> though, as since e94536e1d1818b09 we're already propagating usage to 
+> hidinput_update_battery(), and we're issuing explicit call to 
+> power_supply_changed() as well.
+> 
+> Could you please refresh on a more recent codebase and resubmit? I could 
+> do that myself, but I guess you also have a way to test the patch with 
+> your use-case ... ?
 
-Reported-by: 卢国宏 <luguohong@xiaomi.com>
-Fixes: 581c4484769e ("HID: input: map digitizer battery usage")
-Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
----
+Sorry about that, I made the patch on top of my tree which lags behind.
+I just sent a v2 rebased on top of linux-next.
 
-v2: rebased on top of linux-next, dropped Tested-by: tag
+I actually do not have the hardware to test, we have to rely on 卢国宏
+to do it for us.
 
- drivers/hid/hid-input.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
-index 5d7532d79d21..e56e7de53279 100644
---- a/drivers/hid/hid-input.c
-+++ b/drivers/hid/hid-input.c
-@@ -635,7 +635,10 @@ static void hidinput_update_battery(struct hid_device *dev, unsigned int usage,
- 		return;
- 	}
- 
--	if (value == 0 || value < dev->battery_min || value > dev->battery_max)
-+	if ((usage & HID_USAGE_PAGE) == HID_UP_DIGITIZER && value == 0)
-+		return;
-+
-+	if (value < dev->battery_min || value > dev->battery_max)
- 		return;
- 
- 	capacity = hidinput_scale_battery_capacity(dev, value);
--- 
-2.51.0.858.gf9c4a03a3a-goog
-
+Thanks.
 
 -- 
 Dmitry
