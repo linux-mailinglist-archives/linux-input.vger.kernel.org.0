@@ -1,387 +1,468 @@
-Return-Path: <linux-input+bounces-15496-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-15497-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBFE7BDE5C2
-	for <lists+linux-input@lfdr.de>; Wed, 15 Oct 2025 13:59:48 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 24DE8BDE64A
+	for <lists+linux-input@lfdr.de>; Wed, 15 Oct 2025 14:06:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id BC4654E650C
-	for <lists+linux-input@lfdr.de>; Wed, 15 Oct 2025 11:59:47 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CD2DB406BF7
+	for <lists+linux-input@lfdr.de>; Wed, 15 Oct 2025 12:06:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BCA10324B0B;
-	Wed, 15 Oct 2025 11:59:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD5EE326D46;
+	Wed, 15 Oct 2025 12:06:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QSoNpJ7Y"
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="FoOwwmfA"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 849182C3256;
-	Wed, 15 Oct 2025 11:59:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46D9C31CA7B
+	for <linux-input@vger.kernel.org>; Wed, 15 Oct 2025 12:06:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760529583; cv=none; b=ri22WW8UkzZk+levdBTlHtiYtE56Mf0kvIKBVLQHl8IEQh/iIlxqCL6c+lVSFY8nakjoPNCLvGvdS0oRQSlzWkoeKiv+7YLKS6XXZYDR77kLZ2Gp2uYinEwlyqKSVZFMsqfDOqMbZq7r96fQOhrxbhRMo5aQKyE9wftwr6DJg+4=
+	t=1760529992; cv=none; b=QPa0Ju8TO2V/711Fwm9UL1swAUqwTuSYg5+hA4tj+JMUwN9mYcdF1kvbXeI5zucAOJCQHN+wByhIrPP7wMjkIS+dy4t75kCgTvH9eZCj3wL8ZBtrRzHUHxspx0INNfCjlJ+PhZG4kGBsrp9W+QkRRZB8GlmcHjOxl9xIHZj6ClI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760529583; c=relaxed/simple;
-	bh=V1paHuyoPURFQ/q5JVWlFQMLlRBDylfzq4XBnMe7aac=;
-	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=WuqzqA3+RpdTsduHCQR+AQwwHfC0z8vRpDlaDlqFuEj7mfxt5XPVl3nrgRgBBmh03TV6iL13hK4L7iAk7hDCqkPwKnM8ccfr37mZLkmot9lBSfbLn/ErYVnL0kNnCp43bV9of6G8uApPBoPM+bVntY9QhUn9hrWLefc0VMGZMWU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QSoNpJ7Y; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760529582; x=1792065582;
-  h=from:date:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=V1paHuyoPURFQ/q5JVWlFQMLlRBDylfzq4XBnMe7aac=;
-  b=QSoNpJ7Y+PHkM3SM+S7Z4rD96BDI4z+PdrsSIYx+9j6MMGJZr49NkhrP
-   3bO426luJ/peNfUfqWBVvjkTltNYYkJjfNg9y9QaHim8sXm80DSHK0uFn
-   ocrbnQZ9L0SI3gZN/CTQPvis8yfade85H4IF9BmV9dy5D1bYHSuw7MiqK
-   pJWdSj3fLX44tGs9Qt3MbAo62ISQoJxkBFH6bpZvbPVNTZ45IrylqSqSi
-   GsFIBBBSjmuREbUD+9KfTScvckPmw+SvXa9Qc/kGdKZv+OjoV8UpLe0tg
-   2A6/vXxEIQJJx8Q6Qm/mq8DHD/fCXkiDlSnh+b7/UAk9f9wHky2TfSSk5
-   w==;
-X-CSE-ConnectionGUID: d8inqn9fT5yHTX20GgGYuA==
-X-CSE-MsgGUID: uOfqSN3dSbKgwI7/FrOC+w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11582"; a="62797470"
-X-IronPort-AV: E=Sophos;i="6.19,231,1754982000"; 
-   d="scan'208";a="62797470"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2025 04:59:41 -0700
-X-CSE-ConnectionGUID: CWi2LZGvStCDV1qGWw1f2g==
-X-CSE-MsgGUID: ECxWnicZSESI/KJ30HHrkw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,231,1754982000"; 
-   d="scan'208";a="205859020"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.75])
-  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2025 04:59:37 -0700
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Wed, 15 Oct 2025 14:59:33 +0300 (EEST)
-To: Antheas Kapenekakis <lkml@antheas.dev>
-cc: platform-driver-x86@vger.kernel.org, linux-input@vger.kernel.org, 
-    LKML <linux-kernel@vger.kernel.org>, Jiri Kosina <jikos@kernel.org>, 
-    Benjamin Tissoires <bentiss@kernel.org>, 
-    Corentin Chary <corentin.chary@gmail.com>, 
-    "Luke D . Jones" <luke@ljones.dev>, Hans de Goede <hdegoede@redhat.com>, 
-    Denis Benato <benato.denis96@gmail.com>
-Subject: Re: [PATCH v6 3/7] platform/x86: asus-wmi: Add support for multiple
- kbd RGB handlers
-In-Reply-To: <20251013201535.6737-4-lkml@antheas.dev>
-Message-ID: <cf0ca840-6e0d-2d99-cb23-eabf0ac5263b@linux.intel.com>
-References: <20251013201535.6737-1-lkml@antheas.dev> <20251013201535.6737-4-lkml@antheas.dev>
+	s=arc-20240116; t=1760529992; c=relaxed/simple;
+	bh=sqBlr062TfCc10yUx/2RFDAnUWUtyeYGKW8x9NQfqQY=;
+	h=Content-Type:Message-ID:Date:MIME-Version:Subject:To:References:
+	 From:In-Reply-To; b=NhW8SgdwYY6kvVi51HbT2q0AwBO9HMD5uY3OMLWt9MG9prLWDUAMRmQHKl1JedEnfY92SGIKGlVB97vZOubeBfwfyvK0tYlMXl9tz1rmS2nR6NezZ62iOX2RJ8FOt7fR9uVvip8abhvw6FYGJSQ29r5HJenUhXdPc/36s98W3nE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=FoOwwmfA; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-46fc5e54cceso21090735e9.0
+        for <linux-input@vger.kernel.org>; Wed, 15 Oct 2025 05:06:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1760529987; x=1761134787; darn=vger.kernel.org;
+        h=in-reply-to:from:content-language:references:to:subject:user-agent
+         :mime-version:date:message-id:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=OrJP4ti6W2LrrNBU28jVt8zYHwualZ1CGOgqArv+dpo=;
+        b=FoOwwmfAHR5wgZArh/15OWl1bFndTZQGxVjU6Z1Fe32oxLZOMU+hgO7BDT4iqr7RWv
+         VbPBxJ7iewzE3K2ZAbq7Rf+1fWwKE7oCghcZPTfktU7q9LZjrbDAXAA2JsQ/duX3SFFq
+         uqrbOqrxhgNzXHJ6+L5HR82wCaJAwFe8gZ9XVW/8kV6qNMBtv3gNtISztrnW3kS/Zdj8
+         Dp6f+Ee9xzLY2Nsr9Tpl8DuEJ6eI4InYb7soeMw1+WGT80ggYU9SywoXO7JiY4ViN9Qf
+         HoGD5gyyt5R8pxmrLUNP0Fv4uSCGnY2H/nnRfuNE+CwLcUoKBu6JAzuZaj/THScb1+Z6
+         S2rw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760529987; x=1761134787;
+        h=in-reply-to:from:content-language:references:to:subject:user-agent
+         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=OrJP4ti6W2LrrNBU28jVt8zYHwualZ1CGOgqArv+dpo=;
+        b=UljFfNzZBl0z8i2YYEaedQ1NTm9QLx3CDT5vBvxhPVBwHK2WxjbfZL2MM7Z0XcBvGF
+         NjsvxQRANKwNAqdXKVzh6ZlJaGWJcZ4UNJzz2JTk6Xci3E0ySPVrzffJfMhU5n7ixbGW
+         J46ct5Z8vVIH40p5J6G1GLMkdFAYkFASYl4hhE2mbyYt0E3df4thpudInxf/yXDnbzyN
+         WRbHm96A61f479GbUj5n1f9g/nLYRj75ST2dge4aQqmoatHN7UL4oQPQQgk4PcLu4lBC
+         cgjF0atb6hf7QOqDQ8oQ9J0LqHnEE4CaOatZMk9oHWk6CsR3bwmGfBnlsK0ij26GhOfy
+         Kmqw==
+X-Forwarded-Encrypted: i=1; AJvYcCW/aEaxSDS24KRMt2CiyuPfPpOzCc0ll9yR8GRjmpfPrIBfwhAbgxVto03sZxF7iRfN4m5xP/yD3VzRqA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywt5hbk7Iox56xr5uRPDq5ZmlzESCRBbCVBf/ptlJAa/AEvc9rq
+	pB7xSYFncYkrt0eQWHlOrM0/RhC0ka5CR8FLzR+4wAUi4xfKKttpmbnX02CVYQoPsIc=
+X-Gm-Gg: ASbGnctZ774qHCgJG1OXw11yEpq/Kep7KA84dsx1jl29g4RQ98pt4YUi2fV5h2KJKan
+	bG9dWtjqH7dmEmRGHoey4clGzwf0Yerd7i3sewWv3o9S4K2JnX9NqCXw7DSEYWbybbf1fBxz84i
+	9QuvFP/i6VAFMfXeGv2ixCl75pQsmdzRKXO8oZw7W6ZWsZBTqqnrhL4kxHn8pJLAPLp/++4W5Wt
+	sqyK+vJf5cnG+rTFGnG4Cte9/xt/ZFhJIvxch3ZqDmf/G8cIbNSzr+oAb2xbyfuRemh2aZExPA/
+	vFmkm0S/dwzRg0YiTc7+NqZhtXPnviaQxkMgPv6pV2Kp5vAP9OJrrtvcYaGcIhGcKcPiF9JvALj
+	ceh3NA5GjlnDtl4a6s3n0MPO/gs3VcYNzWDLIBPcaoG94uO6yWU8rzTx2jgC8CaSy4UXH1zEDGp
+	ylIWzuKHoysok8MCWP
+X-Google-Smtp-Source: AGHT+IFmDVtXjxP51zymPnHbu9NLStWIGDpGbwQ6PfOtUnJoRI8u4KYo0SBBCAZPrPHZyrB3kd0dqw==
+X-Received: by 2002:a05:600c:8409:b0:46e:442c:f5e1 with SMTP id 5b1f17b1804b1-46fa9b1a048mr209867015e9.35.1760529987431;
+        Wed, 15 Oct 2025 05:06:27 -0700 (PDT)
+Received: from ?IPV6:2001:a61:1331:5701:bd02:72b8:f4d3:91c? ([2001:a61:1331:5701:bd02:72b8:f4d3:91c])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-46fb482ba41sm291290125e9.4.2025.10.15.05.06.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 15 Oct 2025 05:06:26 -0700 (PDT)
+Content-Type: multipart/mixed; boundary="------------gBcD4TAcW7MTx1Y1qLNDcawz"
+Message-ID: <f945f2a0-c694-4874-a7b2-59cee4cb76c3@suse.com>
+Date: Wed, 15 Oct 2025 14:06:25 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [syzbot] [input?] [usb?] KASAN: slab-out-of-bounds Read in
+ mcp2221_raw_event (2)
+To: syzbot <syzbot+1018672fe70298606e5f@syzkaller.appspotmail.com>,
+ bentiss@kernel.org, jikos@kernel.org, linux-input@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+ syzkaller-bugs@googlegroups.com
+References: <68ee6a3f.050a0220.91a22.021b.GAE@google.com>
+Content-Language: en-US
+From: Oliver Neukum <oneukum@suse.com>
+In-Reply-To: <68ee6a3f.050a0220.91a22.021b.GAE@google.com>
 
-On Mon, 13 Oct 2025, Antheas Kapenekakis wrote:
+This is a multi-part message in MIME format.
+--------------gBcD4TAcW7MTx1Y1qLNDcawz
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-> Some devices, such as the Z13 have multiple AURA devices connected
-> to them by USB. In addition, they might have a WMI interface for
-> RGB. In Windows, Armoury Crate exposes a unified brightness slider
-> for all of them, with 3 brightness levels.
+#syz test: git://repo/address.git 3a8660878839
+
+On 14.10.25 17:20, syzbot wrote:
+> syzbot has found a reproducer for the following issue on:
 > 
-> Therefore, to be synergistic in Linux, and support existing tooling
-> such as UPower, allow adding listeners to the RGB device of the WMI
-> interface. If WMI does not exist, lazy initialize the interface.
+> HEAD commit:    3a8660878839 Linux 6.18-rc1
+> git tree:       upstream
+> console output: https://syzkaller.appspot.com/x/log.txt?x=12a705e2580000
+> kernel config:  https://syzkaller.appspot.com/x/.config?x=f3e7b5a3627a90dd
+> dashboard link: https://syzkaller.appspot.com/bug?extid=1018672fe70298606e5f
+> compiler:       gcc (Debian 12.2.0-14+deb12u1) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40
+> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=132ebb34580000
+> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=140fe52f980000
 > 
-> Reviewed-by: Luke D. Jones <luke@ljones.dev>
-> Tested-by: Luke D. Jones <luke@ljones.dev>
-> Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
+> Downloadable assets:
+> disk image: https://storage.googleapis.com/syzbot-assets/e767e8931970/disk-3a866087.raw.xz
+> vmlinux: https://storage.googleapis.com/syzbot-assets/4cb12bdcfcea/vmlinux-3a866087.xz
+> kernel image: https://storage.googleapis.com/syzbot-assets/b08acfae954d/bzImage-3a866087.xz
+> 
+> IMPORTANT: if you fix the issue, please add the following tag to the commit:
+> Reported-by: syzbot+1018672fe70298606e5f@syzkaller.appspotmail.com
+> 
+> ==================================================================
+> BUG: KASAN: slab-out-of-bounds in mcp2221_raw_event+0x1070/0x10a0 drivers/hid/hid-mcp2221.c:948
+> Read of size 1 at addr ffff8880721cbfff by task kworker/0:7/6094
+> 
+> CPU: 0 UID: 0 PID: 6094 Comm: kworker/0:7 Not tainted syzkaller #0 PREEMPT(full)
+> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 10/02/2025
+> Workqueue: usb_hub_wq hub_event
+> Call Trace:
+>   <IRQ>
+>   __dump_stack lib/dump_stack.c:94 [inline]
+>   dump_stack_lvl+0x116/0x1f0 lib/dump_stack.c:120
+>   print_address_description mm/kasan/report.c:378 [inline]
+>   print_report+0xcd/0x630 mm/kasan/report.c:482
+>   kasan_report+0xe0/0x110 mm/kasan/report.c:595
+>   mcp2221_raw_event+0x1070/0x10a0 drivers/hid/hid-mcp2221.c:948
+>   __hid_input_report.constprop.0+0x314/0x450 drivers/hid/hid-core.c:2139
+>   hid_irq_in+0x35e/0x870 drivers/hid/usbhid/hid-core.c:286
+>   __usb_hcd_giveback_urb+0x38b/0x610 drivers/usb/core/hcd.c:1661
+>   usb_hcd_giveback_urb+0x39b/0x450 drivers/usb/core/hcd.c:1745
+>   dummy_timer+0x1809/0x3a00 drivers/usb/gadget/udc/dummy_hcd.c:1995
+>   __run_hrtimer kernel/time/hrtimer.c:1777 [inline]
+>   __hrtimer_run_queues+0x202/0xad0 kernel/time/hrtimer.c:1841
+>   hrtimer_run_softirq+0x17d/0x350 kernel/time/hrtimer.c:1858
+>   handle_softirqs+0x219/0x8e0 kernel/softirq.c:622
+>   __do_softirq kernel/softirq.c:656 [inline]
+>   invoke_softirq kernel/softirq.c:496 [inline]
+>   __irq_exit_rcu+0x109/0x170 kernel/softirq.c:723
+>   irq_exit_rcu+0x9/0x30 kernel/softirq.c:739
+>   instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1052 [inline]
+>   sysvec_apic_timer_interrupt+0xa4/0xc0 arch/x86/kernel/apic/apic.c:1052
+>   </IRQ>
+>   <TASK>
+>   asm_sysvec_apic_timer_interrupt+0x1a/0x20 arch/x86/include/asm/idtentry.h:697
+> RIP: 0010:kasan_check_range+0x12/0x1b0 mm/kasan/generic.c:199
+> Code: 00 00 00 00 0f 1f 40 00 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 0f 1f 40 d6 48 85 f6 0f 84 64 01 00 00 48 89 f8 41 54 <44> 0f b6 c2 48 01 f0 55 53 0f 82 d7 00 00 00 eb 0f cc cc cc 48 b8
+> RSP: 0018:ffffc900037b6b60 EFLAGS: 00000202
+> RAX: ffff888077da86b0 RBX: ffff888077da8668 RCX: ffffffff819803ae
+> RDX: 0000000000000001 RSI: 0000000000000004 RDI: ffff888077da86b0
+> RBP: ffff888077da86b0 R08: 0000000000000002 R09: 0000000000000000
+> R10: ffff888077da866f R11: 0000000000000000 R12: ffffffff8c6df2a0
+> R13: ffffffff9ae57620 R14: 0000000000000000 R15: ffff888026709978
+>   instrument_atomic_write include/linux/instrumented.h:82 [inline]
+>   atomic_set include/linux/atomic/atomic-instrumented.h:67 [inline]
+>   osq_lock_init include/linux/osq_lock.h:25 [inline]
+>   __mutex_init+0xae/0x120 kernel/locking/mutex.c:53
+>   i2c_register_adapter+0x15d/0x1370 drivers/i2c/i2c-core-base.c:1544
+>   i2c_add_adapter drivers/i2c/i2c-core-base.c:1673 [inline]
+>   i2c_add_adapter+0x10a/0x1b0 drivers/i2c/i2c-core-base.c:1653
+>   devm_i2c_add_adapter+0x1b/0x90 drivers/i2c/i2c-core-base.c:1845
+>   mcp2221_probe+0x5f1/0xc50 drivers/hid/hid-mcp2221.c:1289
+>   __hid_device_probe drivers/hid/hid-core.c:2775 [inline]
+>   hid_device_probe+0x5ba/0x8d0 drivers/hid/hid-core.c:2812
+>   call_driver_probe drivers/base/dd.c:581 [inline]
+>   really_probe+0x241/0xa90 drivers/base/dd.c:659
+>   __driver_probe_device+0x1de/0x440 drivers/base/dd.c:801
+>   driver_probe_device+0x4c/0x1b0 drivers/base/dd.c:831
+>   __device_attach_driver+0x1df/0x310 drivers/base/dd.c:959
+>   bus_for_each_drv+0x159/0x1e0 drivers/base/bus.c:462
+>   __device_attach+0x1e4/0x4b0 drivers/base/dd.c:1031
+>   bus_probe_device+0x17f/0x1c0 drivers/base/bus.c:537
+>   device_add+0x1148/0x1aa0 drivers/base/core.c:3689
+>   hid_add_device+0x31b/0x5c0 drivers/hid/hid-core.c:2951
+>   usbhid_probe+0xd38/0x13f0 drivers/hid/usbhid/hid-core.c:1435
+>   usb_probe_interface+0x303/0xa40 drivers/usb/core/driver.c:396
+>   call_driver_probe drivers/base/dd.c:581 [inline]
+>   really_probe+0x241/0xa90 drivers/base/dd.c:659
+>   __driver_probe_device+0x1de/0x440 drivers/base/dd.c:801
+>   driver_probe_device+0x4c/0x1b0 drivers/base/dd.c:831
+>   __device_attach_driver+0x1df/0x310 drivers/base/dd.c:959
+>   bus_for_each_drv+0x159/0x1e0 drivers/base/bus.c:462
+>   __device_attach+0x1e4/0x4b0 drivers/base/dd.c:1031
+>   bus_probe_device+0x17f/0x1c0 drivers/base/bus.c:537
+>   device_add+0x1148/0x1aa0 drivers/base/core.c:3689
+>   usb_set_configuration+0x1187/0x1e20 drivers/usb/core/message.c:2210
+>   usb_generic_driver_probe+0xb1/0x110 drivers/usb/core/generic.c:250
+>   usb_probe_device+0xef/0x3e0 drivers/usb/core/driver.c:291
+>   call_driver_probe drivers/base/dd.c:581 [inline]
+>   really_probe+0x241/0xa90 drivers/base/dd.c:659
+>   __driver_probe_device+0x1de/0x440 drivers/base/dd.c:801
+>   driver_probe_device+0x4c/0x1b0 drivers/base/dd.c:831
+>   __device_attach_driver+0x1df/0x310 drivers/base/dd.c:959
+>   bus_for_each_drv+0x159/0x1e0 drivers/base/bus.c:462
+>   __device_attach+0x1e4/0x4b0 drivers/base/dd.c:1031
+>   bus_probe_device+0x17f/0x1c0 drivers/base/bus.c:537
+>   device_add+0x1148/0x1aa0 drivers/base/core.c:3689
+>   usb_new_device+0xd07/0x1a60 drivers/usb/core/hub.c:2694
+>   hub_port_connect drivers/usb/core/hub.c:5566 [inline]
+>   hub_port_connect_change drivers/usb/core/hub.c:5706 [inline]
+>   port_event drivers/usb/core/hub.c:5870 [inline]
+>   hub_event+0x2f34/0x4fe0 drivers/usb/core/hub.c:5952
+>   process_one_work+0x9cf/0x1b70 kernel/workqueue.c:3263
+>   process_scheduled_works kernel/workqueue.c:3346 [inline]
+>   worker_thread+0x6c8/0xf10 kernel/workqueue.c:3427
+>   kthread+0x3c5/0x780 kernel/kthread.c:463
+>   ret_from_fork+0x675/0x7d0 arch/x86/kernel/process.c:158
+>   ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+>   </TASK>
+> 
+> Allocated by task 5918:
+>   kasan_save_stack+0x33/0x60 mm/kasan/common.c:56
+>   kasan_save_track+0x14/0x30 mm/kasan/common.c:77
+>   poison_kmalloc_redzone mm/kasan/common.c:400 [inline]
+>   __kasan_kmalloc+0xaa/0xb0 mm/kasan/common.c:417
+>   kmalloc_noprof include/linux/slab.h:957 [inline]
+>   kzalloc_noprof include/linux/slab.h:1094 [inline]
+>   ipv6_add_addr+0x4e3/0x1fe0 net/ipv6/addrconf.c:1120
+>   add_addr+0xde/0x350 net/ipv6/addrconf.c:3201
+>   add_v4_addrs+0x642/0x980 net/ipv6/addrconf.c:3263
+>   addrconf_gre_config net/ipv6/addrconf.c:3545 [inline]
+>   addrconf_init_auto_addrs+0x51a/0x810 net/ipv6/addrconf.c:3559
+>   addrconf_notify+0xe93/0x19e0 net/ipv6/addrconf.c:3740
+>   notifier_call_chain+0xbc/0x410 kernel/notifier.c:85
+>   call_netdevice_notifiers_info+0xbe/0x140 net/core/dev.c:2229
+>   call_netdevice_notifiers_extack net/core/dev.c:2267 [inline]
+>   call_netdevice_notifiers net/core/dev.c:2281 [inline]
+>   __dev_notify_flags+0x12c/0x2e0 net/core/dev.c:9676
+>   netif_change_flags+0x108/0x160 net/core/dev.c:9705
+>   do_setlink.constprop.0+0xb53/0x4380 net/core/rtnetlink.c:3151
+>   rtnl_changelink net/core/rtnetlink.c:3769 [inline]
+>   __rtnl_newlink net/core/rtnetlink.c:3928 [inline]
+>   rtnl_newlink+0x1446/0x2000 net/core/rtnetlink.c:4065
+>   rtnetlink_rcv_msg+0x95e/0xe90 net/core/rtnetlink.c:6954
+>   netlink_rcv_skb+0x158/0x420 net/netlink/af_netlink.c:2552
+>   netlink_unicast_kernel net/netlink/af_netlink.c:1320 [inline]
+>   netlink_unicast+0x5aa/0x870 net/netlink/af_netlink.c:1346
+>   netlink_sendmsg+0x8c8/0xdd0 net/netlink/af_netlink.c:1896
+>   sock_sendmsg_nosec net/socket.c:727 [inline]
+>   __sock_sendmsg net/socket.c:742 [inline]
+>   __sys_sendto+0x4a3/0x520 net/socket.c:2244
+>   __do_sys_sendto net/socket.c:2251 [inline]
+>   __se_sys_sendto net/socket.c:2247 [inline]
+>   __x64_sys_sendto+0xe0/0x1c0 net/socket.c:2247
+>   do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+>   do_syscall_64+0xcd/0xfa0 arch/x86/entry/syscall_64.c:94
+>   entry_SYSCALL_64_after_hwframe+0x77/0x7f
+> 
+> The buggy address belongs to the object at ffff8880721cbc00
+>   which belongs to the cache kmalloc-cg-512 of size 512
+> The buggy address is located 583 bytes to the right of
+>   allocated 440-byte region [ffff8880721cbc00, ffff8880721cbdb8)
+> 
+> The buggy address belongs to the physical page:
+> page: refcount:0 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x721c8
+> head: order:2 mapcount:0 entire_mapcount:0 nr_pages_mapped:0 pincount:0
+> flags: 0xfff00000000040(head|node=0|zone=1|lastcpupid=0x7ff)
+> page_type: f5(slab)
+> raw: 00fff00000000040 ffff88813ff30140 ffffea0001e68c00 dead000000000002
+> raw: 0000000000000000 0000000000100010 00000000f5000000 0000000000000000
+> head: 00fff00000000040 ffff88813ff30140 ffffea0001e68c00 dead000000000002
+> head: 0000000000000000 0000000000100010 00000000f5000000 0000000000000000
+> head: 00fff00000000002 ffffea0001c87201 00000000ffffffff 00000000ffffffff
+> head: ffffffffffffffff 0000000000000000 00000000ffffffff 0000000000000004
+> page dumped because: kasan: bad access detected
+> page_owner tracks the page as allocated
+> page last allocated via order 2, migratetype Unmovable, gfp_mask 0xd20c0(__GFP_IO|__GFP_FS|__GFP_NOWARN|__GFP_NORETRY|__GFP_COMP|__GFP_NOMEMALLOC), pid 5796, tgid 5796 (sshd-session), ts 52056965840, free_ts 15121629475
+>   set_page_owner include/linux/page_owner.h:32 [inline]
+>   post_alloc_hook+0x1c0/0x230 mm/page_alloc.c:1850
+>   prep_new_page mm/page_alloc.c:1858 [inline]
+>   get_page_from_freelist+0x10a3/0x3a30 mm/page_alloc.c:3884
+>   __alloc_frozen_pages_noprof+0x25f/0x2470 mm/page_alloc.c:5183
+>   alloc_pages_mpol+0x1fb/0x550 mm/mempolicy.c:2416
+>   alloc_slab_page mm/slub.c:3039 [inline]
+>   allocate_slab mm/slub.c:3212 [inline]
+>   new_slab+0x24a/0x360 mm/slub.c:3266
+>   ___slab_alloc+0xdc4/0x1ae0 mm/slub.c:4636
+>   __slab_alloc.constprop.0+0x63/0x110 mm/slub.c:4755
+>   __slab_alloc_node mm/slub.c:4831 [inline]
+>   slab_alloc_node mm/slub.c:5253 [inline]
+>   __do_kmalloc_node mm/slub.c:5626 [inline]
+>   __kmalloc_node_track_caller_noprof+0x4db/0x8a0 mm/slub.c:5736
+>   kmalloc_reserve+0xef/0x2c0 net/core/skbuff.c:601
+>   __alloc_skb+0x166/0x380 net/core/skbuff.c:670
+>   alloc_skb include/linux/skbuff.h:1383 [inline]
+>   alloc_skb_with_frags+0xe0/0x860 net/core/skbuff.c:6671
+>   sock_alloc_send_pskb+0x7f9/0x980 net/core/sock.c:2965
+>   unix_stream_sendmsg+0x39f/0x1340 net/unix/af_unix.c:2455
+>   sock_sendmsg_nosec net/socket.c:727 [inline]
+>   __sock_sendmsg net/socket.c:742 [inline]
+>   sock_write_iter+0x566/0x610 net/socket.c:1195
+>   new_sync_write fs/read_write.c:593 [inline]
+>   vfs_write+0x7d3/0x11d0 fs/read_write.c:686
+>   ksys_write+0x1f8/0x250 fs/read_write.c:738
+> page last free pid 1 tgid 1 stack trace:
+>   reset_page_owner include/linux/page_owner.h:25 [inline]
+>   free_pages_prepare mm/page_alloc.c:1394 [inline]
+>   __free_frozen_pages+0x7df/0x1160 mm/page_alloc.c:2906
+>   __free_pages mm/page_alloc.c:5302 [inline]
+>   free_contig_range+0x183/0x4b0 mm/page_alloc.c:7146
+>   destroy_args+0xb69/0x12e0 mm/debug_vm_pgtable.c:958
+>   debug_vm_pgtable+0x1a32/0x3640 mm/debug_vm_pgtable.c:1345
+>   do_one_initcall+0x123/0x6e0 init/main.c:1283
+>   do_initcall_level init/main.c:1345 [inline]
+>   do_initcalls init/main.c:1361 [inline]
+>   do_basic_setup init/main.c:1380 [inline]
+>   kernel_init_freeable+0x5c8/0x920 init/main.c:1593
+>   kernel_init+0x1c/0x2b0 init/main.c:1483
+>   ret_from_fork+0x675/0x7d0 arch/x86/kernel/process.c:158
+>   ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+> 
+> Memory state around the buggy address:
+>   ffff8880721cbe80: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+>   ffff8880721cbf00: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+>> ffff8880721cbf80: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+>                                                                  ^
+>   ffff8880721cc000: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+>   ffff8880721cc080: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> ==================================================================
+> ----------------
+> Code disassembly (best guess):
+>     0:	00 00                	add    %al,(%rax)
+>     2:	00 00                	add    %al,(%rax)
+>     4:	0f 1f 40 00          	nopl   0x0(%rax)
+>     8:	90                   	nop
+>     9:	90                   	nop
+>     a:	90                   	nop
+>     b:	90                   	nop
+>     c:	90                   	nop
+>     d:	90                   	nop
+>     e:	90                   	nop
+>     f:	90                   	nop
+>    10:	90                   	nop
+>    11:	90                   	nop
+>    12:	90                   	nop
+>    13:	90                   	nop
+>    14:	90                   	nop
+>    15:	90                   	nop
+>    16:	90                   	nop
+>    17:	90                   	nop
+>    18:	0f 1f 40 d6          	nopl   -0x2a(%rax)
+>    1c:	48 85 f6             	test   %rsi,%rsi
+>    1f:	0f 84 64 01 00 00    	je     0x189
+>    25:	48 89 f8             	mov    %rdi,%rax
+>    28:	41 54                	push   %r12
+> * 2a:	44 0f b6 c2          	movzbl %dl,%r8d <-- trapping instruction
+>    2e:	48 01 f0             	add    %rsi,%rax
+>    31:	55                   	push   %rbp
+>    32:	53                   	push   %rbx
+>    33:	0f 82 d7 00 00 00    	jb     0x110
+>    39:	eb 0f                	jmp    0x4a
+>    3b:	cc                   	int3
+>    3c:	cc                   	int3
+>    3d:	cc                   	int3
+>    3e:	48                   	rex.W
+>    3f:	b8                   	.byte 0xb8
+> 
+> 
 > ---
->  drivers/platform/x86/asus-wmi.c            | 118 ++++++++++++++++++---
->  include/linux/platform_data/x86/asus-wmi.h |  16 +++
->  2 files changed, 121 insertions(+), 13 deletions(-)
-> 
-> diff --git a/drivers/platform/x86/asus-wmi.c b/drivers/platform/x86/asus-wmi.c
-> index e72a2b5d158e..a2a7cd61fd59 100644
-> --- a/drivers/platform/x86/asus-wmi.c
-> +++ b/drivers/platform/x86/asus-wmi.c
-> @@ -258,6 +258,8 @@ struct asus_wmi {
->  	int tpd_led_wk;
->  	struct led_classdev kbd_led;
->  	int kbd_led_wk;
-> +	bool kbd_led_avail;
-> +	bool kbd_led_registered;
->  	struct led_classdev lightbar_led;
->  	int lightbar_led_wk;
->  	struct led_classdev micmute_led;
-> @@ -1530,6 +1532,53 @@ static void asus_wmi_battery_exit(struct asus_wmi *asus)
->  
->  /* LEDs ***********************************************************************/
->  
-> +struct asus_hid_ref {
-> +	struct list_head listeners;
-> +	struct asus_wmi *asus;
-> +	spinlock_t lock;
-
-Please always document what a lock protects.
-
-I started wonder why it needs to be spinlock?
-
-It would seem rwsem is more natural for it as write is only needed at 
-probe/remove time (if there's no good reason for using a spinlock).
-
-You're also missing include.
-
-> +};
-> +
-> +struct asus_hid_ref asus_ref = {
-
-Should be static ?
-
-> +	.listeners = LIST_HEAD_INIT(asus_ref.listeners),
-> +	.asus = NULL,
-> +	.lock = __SPIN_LOCK_UNLOCKED(asus_ref.lock),
-> +};
-> +
-> +int asus_hid_register_listener(struct asus_hid_listener *bdev)
-> +{
-> +	unsigned long flags;
-> +	int ret = 0;
-> +
-> +	spin_lock_irqsave(&asus_ref.lock, flags);
-> +	list_add_tail(&bdev->list, &asus_ref.listeners);
-> +	if (asus_ref.asus) {
-> +		if (asus_ref.asus->kbd_led_registered && asus_ref.asus->kbd_led_wk >= 0)
-> +			bdev->brightness_set(bdev, asus_ref.asus->kbd_led_wk);
-> +
-> +		if (!asus_ref.asus->kbd_led_registered) {
-> +			ret = led_classdev_register(
-> +				&asus_ref.asus->platform_device->dev,
-> +				&asus_ref.asus->kbd_led);
-> +			if (!ret)
-> +				asus_ref.asus->kbd_led_registered = true;
-
-I suggest you use guard() for the spinlock and return early where possible.
-
-With guard() in use, you can do normal error handling here with return ret
-immediately.
-
-Please also add a local var for asus_ref.asus.
-
-> +		}
-> +	}
-> +	spin_unlock_irqrestore(&asus_ref.lock, flags);
-> +
-> +	return ret;
-> +}
-> +EXPORT_SYMBOL_GPL(asus_hid_register_listener);
-> +
-> +void asus_hid_unregister_listener(struct asus_hid_listener *bdev)
-> +{
-> +	unsigned long flags;
-> +
-> +	spin_lock_irqsave(&asus_ref.lock, flags);
-> +	list_del(&bdev->list);
-> +	spin_unlock_irqrestore(&asus_ref.lock, flags);
-> +}
-> +EXPORT_SYMBOL_GPL(asus_hid_unregister_listener);
-> +
->  /*
->   * These functions actually update the LED's, and are called from a
->   * workqueue. By doing this as separate work rather than when the LED
-> @@ -1609,6 +1658,7 @@ static int kbd_led_read(struct asus_wmi *asus, int *level, int *env)
->  
->  static void do_kbd_led_set(struct led_classdev *led_cdev, int value)
->  {
-> +	struct asus_hid_listener *listener;
->  	struct asus_wmi *asus;
->  	int max_level;
->  
-> @@ -1616,25 +1666,39 @@ static void do_kbd_led_set(struct led_classdev *led_cdev, int value)
->  	max_level = asus->kbd_led.max_brightness;
->  
->  	asus->kbd_led_wk = clamp_val(value, 0, max_level);
-> -	kbd_led_update(asus);
-> +
-> +	if (asus->kbd_led_avail)
-> +		kbd_led_update(asus);
-> +
-> +	list_for_each_entry(listener, &asus_ref.listeners, list)
-> +		listener->brightness_set(listener, asus->kbd_led_wk);
->  }
->  
->  static void kbd_led_set(struct led_classdev *led_cdev,
->  			enum led_brightness value)
->  {
-> +	unsigned long flags;
-> +
->  	/* Prevent disabling keyboard backlight on module unregister */
->  	if (led_cdev->flags & LED_UNREGISTERING)
->  		return;
->
-> +	spin_lock_irqsave(&asus_ref.lock, flags);
->  	do_kbd_led_set(led_cdev, value);
-> +	spin_unlock_irqrestore(&asus_ref.lock, flags);
->  }
->  
->  static void kbd_led_set_by_kbd(struct asus_wmi *asus, enum led_brightness value)
->  {
-> -	struct led_classdev *led_cdev = &asus->kbd_led;
-> +	struct led_classdev *led_cdev;
-> +	unsigned long flags;
-> +
-> +	spin_lock_irqsave(&asus_ref.lock, flags);
-> +	led_cdev = &asus->kbd_led;
->  
-
-I'd remove the empty line from the critical section.
-
-I think you should mention the locking in the changelog too as it clearly 
-impacts not only the new code.
-
->  	do_kbd_led_set(led_cdev, value);
->  	led_classdev_notify_brightness_hw_changed(led_cdev, asus->kbd_led_wk);
-> +	spin_unlock_irqrestore(&asus_ref.lock, flags);
->  }
->  
->  static enum led_brightness kbd_led_get(struct led_classdev *led_cdev)
-> @@ -1644,6 +1708,9 @@ static enum led_brightness kbd_led_get(struct led_classdev *led_cdev)
->  
->  	asus = container_of(led_cdev, struct asus_wmi, kbd_led);
->  
-> +	if (!asus->kbd_led_avail)
-> +		return asus->kbd_led_wk;
-> +
->  	retval = kbd_led_read(asus, &value, NULL);
->  	if (retval < 0)
->  		return retval;
-> @@ -1759,7 +1826,15 @@ static int camera_led_set(struct led_classdev *led_cdev,
->  
->  static void asus_wmi_led_exit(struct asus_wmi *asus)
->  {
-> -	led_classdev_unregister(&asus->kbd_led);
-> +	unsigned long flags;
-> +
-> +	spin_lock_irqsave(&asus_ref.lock, flags);
-> +	asus_ref.asus = NULL;
-> +	spin_unlock_irqrestore(&asus_ref.lock, flags);
-> +
-> +	if (asus->kbd_led_registered)
-> +		led_classdev_unregister(&asus->kbd_led);
-> +
->  	led_classdev_unregister(&asus->tpd_led);
->  	led_classdev_unregister(&asus->wlan_led);
->  	led_classdev_unregister(&asus->lightbar_led);
-> @@ -1773,6 +1848,8 @@ static void asus_wmi_led_exit(struct asus_wmi *asus)
->  static int asus_wmi_led_init(struct asus_wmi *asus)
->  {
->  	int rv = 0, num_rgb_groups = 0, led_val;
-> +	struct asus_hid_listener *listener;
-> +	unsigned long flags;
->  
->  	if (asus->kbd_rgb_dev)
->  		kbd_rgb_mode_groups[num_rgb_groups++] = &kbd_rgb_mode_group;
-> @@ -1797,23 +1874,38 @@ static int asus_wmi_led_init(struct asus_wmi *asus)
->  			goto error;
->  	}
->  
-> -	if (!kbd_led_read(asus, &led_val, NULL) && !dmi_check_system(asus_use_hid_led_dmi_ids)) {
-> -		pr_info("using asus-wmi for asus::kbd_backlight\n");
-> +	asus->kbd_led.name = "asus::kbd_backlight";
-> +	asus->kbd_led.flags = LED_BRIGHT_HW_CHANGED;
-> +	asus->kbd_led.brightness_set = kbd_led_set;
-> +	asus->kbd_led.brightness_get = kbd_led_get;
-> +	asus->kbd_led.max_brightness = 3;
-> +	asus->kbd_led_avail = !kbd_led_read(asus, &led_val, NULL);
-> +
-> +	if (asus->kbd_led_avail)
->  		asus->kbd_led_wk = led_val;
-> -		asus->kbd_led.name = "asus::kbd_backlight";
-> -		asus->kbd_led.flags = LED_BRIGHT_HW_CHANGED;
-> -		asus->kbd_led.brightness_set = kbd_led_set;
-> -		asus->kbd_led.brightness_get = kbd_led_get;
-> -		asus->kbd_led.max_brightness = 3;
-> +	else
-> +		asus->kbd_led_wk = -1;
->  
-> -		if (num_rgb_groups != 0)
-> -			asus->kbd_led.groups = kbd_rgb_mode_groups;
-> +	if (asus->kbd_led_avail && num_rgb_groups != 0)
-> +		asus->kbd_led.groups = kbd_rgb_mode_groups;
-
-Can't this be placed into the block above?
-
->  
-> +	spin_lock_irqsave(&asus_ref.lock, flags);
-> +	if (asus->kbd_led_avail || !list_empty(&asus_ref.listeners)) {
->  		rv = led_classdev_register(&asus->platform_device->dev,
->  					   &asus->kbd_led);
-> -		if (rv)
-> +		if (rv) {
-> +			spin_unlock_irqrestore(&asus_ref.lock, flags);
-
-Please use scoped_guard() so you don't need to call unlock yourself.
-
-Unrelated to this patch, I'd also simplify error label by adding return 0 
-before it so the code after the label doesn't need if (rv) check.
-
->  			goto error;
-> +		}
-> +		asus->kbd_led_registered = true;
-> +
-> +		if (asus->kbd_led_wk >= 0) {
-> +			list_for_each_entry(listener, &asus_ref.listeners, list)
-> +				listener->brightness_set(listener, asus->kbd_led_wk);
-> +		}
->  	}
-> +	asus_ref.asus = asus;
-> +	spin_unlock_irqrestore(&asus_ref.lock, flags);
->  
->  	if (asus_wmi_dev_is_present(asus, ASUS_WMI_DEVID_WIRELESS_LED)
->  			&& (asus->driver->quirks->wapf > 0)) {
-> diff --git a/include/linux/platform_data/x86/asus-wmi.h b/include/linux/platform_data/x86/asus-wmi.h
-> index 8a515179113d..f13a701f47a8 100644
-> --- a/include/linux/platform_data/x86/asus-wmi.h
-> +++ b/include/linux/platform_data/x86/asus-wmi.h
-> @@ -163,11 +163,19 @@ enum asus_ally_mcu_hack {
->  	ASUS_WMI_ALLY_MCU_HACK_DISABLED,
->  };
->  
-> +struct asus_hid_listener {
-> +	struct list_head list;
-> +	void (*brightness_set)(struct asus_hid_listener *listener, int brightness);
-> +};
-
-Please add kerneldoc to this struct and the exported functions.
-
-> +
->  #if IS_REACHABLE(CONFIG_ASUS_WMI)
->  void set_ally_mcu_hack(enum asus_ally_mcu_hack status);
->  void set_ally_mcu_powersave(bool enabled);
->  int asus_wmi_set_devstate(u32 dev_id, u32 ctrl_param, u32 *retval);
->  int asus_wmi_evaluate_method(u32 method_id, u32 arg0, u32 arg1, u32 *retval);
-> +
-> +int asus_hid_register_listener(struct asus_hid_listener *cdev);
-> +void asus_hid_unregister_listener(struct asus_hid_listener *cdev);
->  #else
->  static inline void set_ally_mcu_hack(enum asus_ally_mcu_hack status)
->  {
-> @@ -184,6 +192,14 @@ static inline int asus_wmi_evaluate_method(u32 method_id, u32 arg0, u32 arg1,
->  {
->  	return -ENODEV;
->  }
-> +
-> +static inline int asus_hid_register_listener(struct asus_hid_listener *bdev)
-> +{
-> +	return -ENODEV;
-> +}
-> +static inline void asus_hid_unregister_listener(struct asus_hid_listener *bdev)
-> +{
-> +}
->  #endif
->  
->  /* To be used by both hid-asus and asus-wmi to determine which controls kbd_brightness */
+> If you want syzbot to run the reproducer, reply with:
+> #syz test: git://repo/address.git branch-or-commit-hash
+> If you attach or paste a git patch, syzbot will apply it before testing.
 > 
 
--- 
- i.
+--------------gBcD4TAcW7MTx1Y1qLNDcawz
+Content-Type: text/x-patch; charset=UTF-8;
+ name="0001-hid-mcp2221-validate-message-length.patch"
+Content-Disposition: attachment;
+ filename="0001-hid-mcp2221-validate-message-length.patch"
+Content-Transfer-Encoding: base64
 
+RnJvbSA0MTIxNmEwMzg1YjlkMmZmMWY0MmE4NjAxMDliYmEyODZmZTlkMjhiIE1vbiBTZXAg
+MTcgMDA6MDA6MDAgMjAwMQpGcm9tOiBPbGl2ZXIgTmV1a3VtIDxvbmV1a3VtQHN1c2UuY29t
+PgpEYXRlOiBXZWQsIDE1IE9jdCAyMDI1IDEzOjQ5OjA1ICswMjAwClN1YmplY3Q6IFtQQVRD
+SF0gaGlkLW1jcDIyMjE6IHZhbGlkYXRlIG1lc3NhZ2UgbGVuZ3RoCgpUaGUgbWVzc2FnZSBw
+YXNzZWQgdG8gcmF3X2V2ZW50IGlzIG9mIGluZGV0ZXJtaW5hdGUgbGVuZ3RoLgpDaGVjayBm
+b3IgbGVuZ3RoIGJlZm9yZSBhY2Nlc3NpbmcgbWVtYmVycy4KClNpZ25lZC1vZmYtYnk6IE9s
+aXZlciBOZXVrdW0gPG9uZXVrdW1Ac3VzZS5jb20+Ci0tLQogZHJpdmVycy9oaWQvaGlkLW1j
+cDIyMjEuYyB8IDQ0ICsrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrLQog
+MSBmaWxlIGNoYW5nZWQsIDQzIGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkKCmRpZmYg
+LS1naXQgYS9kcml2ZXJzL2hpZC9oaWQtbWNwMjIyMS5jIGIvZHJpdmVycy9oaWQvaGlkLW1j
+cDIyMjEuYwppbmRleCAzMzYwM2IwMTlmOTcuLmQ1ZTlmN2VmOGJhOCAxMDA2NDQKLS0tIGEv
+ZHJpdmVycy9oaWQvaGlkLW1jcDIyMjEuYworKysgYi9kcml2ZXJzL2hpZC9oaWQtbWNwMjIy
+MS5jCkBAIC04NDksMTIgKzg0OSwxOCBAQCBzdGF0aWMgaW50IG1jcDIyMjFfcmF3X2V2ZW50
+KHN0cnVjdCBoaWRfZGV2aWNlICpoZGV2LAogCXU4ICpidWY7CiAJc3RydWN0IG1jcDIyMjEg
+Km1jcCA9IGhpZF9nZXRfZHJ2ZGF0YShoZGV2KTsKIAorCWlmIChzaXplIDw9IDApCisJCWdv
+dG8gYmFpbDsKKwogCXN3aXRjaCAoZGF0YVswXSkgewogCiAJY2FzZSBNQ1AyMjIxX0kyQ19X
+Ul9EQVRBOgogCWNhc2UgTUNQMjIyMV9JMkNfV1JfTk9fU1RPUDoKIAljYXNlIE1DUDIyMjFf
+STJDX1JEX0RBVEE6CiAJY2FzZSBNQ1AyMjIxX0kyQ19SRF9SUFRfU1RBUlQ6CisJCWlmIChz
+aXplIDwgMikKKwkJCWdvdG8gYmFpbDsKKwogCQlzd2l0Y2ggKGRhdGFbMV0pIHsKIAkJY2Fz
+ZSBNQ1AyMjIxX1NVQ0NFU1M6CiAJCQltY3AtPnN0YXR1cyA9IDA7CkBAIC04NjYsNiArODcy
+LDggQEAgc3RhdGljIGludCBtY3AyMjIxX3Jhd19ldmVudChzdHJ1Y3QgaGlkX2RldmljZSAq
+aGRldiwKIAkJYnJlYWs7CiAKIAljYXNlIE1DUDIyMjFfSTJDX1BBUkFNX09SX1NUQVRVUzoK
+KwkJaWYgKHNpemUgPCA0KQorCQkJZ290byBiYWlsOwogCQlzd2l0Y2ggKGRhdGFbMV0pIHsK
+IAkJY2FzZSBNQ1AyMjIxX1NVQ0NFU1M6CiAJCQlpZiAoKG1jcC0+dHhidWZbM10gPT0gTUNQ
+MjIyMV9JMkNfU0VUX1NQRUVEKSAmJgpAQCAtODczLDYgKzg4MSw4IEBAIHN0YXRpYyBpbnQg
+bWNwMjIyMV9yYXdfZXZlbnQoc3RydWN0IGhpZF9kZXZpY2UgKmhkZXYsCiAJCQkJbWNwLT5z
+dGF0dXMgPSAtRUFHQUlOOwogCQkJCWJyZWFrOwogCQkJfQorCQkJaWYgKHNpemUgPCAyMSkK
+KwkJCQlnb3RvIGJhaWw7CiAJCQlpZiAoZGF0YVsyMF0gJiBNQ1AyMjIxX0kyQ19NQVNLX0FE
+RFJfTkFDSykgewogCQkJCW1jcC0+c3RhdHVzID0gLUVOWElPOwogCQkJCWJyZWFrOwpAQCAt
+ODg5LDEyICs4OTksMTkgQEAgc3RhdGljIGludCBtY3AyMjIxX3Jhd19ldmVudChzdHJ1Y3Qg
+aGlkX2RldmljZSAqaGRldiwKIAkJYnJlYWs7CiAKIAljYXNlIE1DUDIyMjFfSTJDX0dFVF9E
+QVRBOgorCQlpZiAoc2l6ZSA8IDIpCisJCQlnb3RvIGJhaWw7CisKIAkJc3dpdGNoIChkYXRh
+WzFdKSB7CiAJCWNhc2UgTUNQMjIyMV9TVUNDRVNTOgorCQkJaWYgKHNpemUgPCAzKQorCQkJ
+CWdvdG8gYmFpbDsKIAkJCWlmIChkYXRhWzJdID09IE1DUDIyMjFfSTJDX0FERFJfTkFDSykg
+ewogCQkJCW1jcC0+c3RhdHVzID0gLUVOWElPOwogCQkJCWJyZWFrOwogCQkJfQorCQkJaWYg
+KHNpemUgPCA0KQorCQkJCWdvdG8gYmFpbDsKIAkJCWlmICghbWNwX2dldF9pMmNfZW5nX3N0
+YXRlKG1jcCwgZGF0YSwgMikKIAkJCQkmJiAoZGF0YVszXSA9PSAwKSkgewogCQkJCW1jcC0+
+c3RhdHVzID0gMDsKQEAgLTkwNiw3ICs5MjMsOSBAQCBzdGF0aWMgaW50IG1jcDIyMjFfcmF3
+X2V2ZW50KHN0cnVjdCBoaWRfZGV2aWNlICpoZGV2LAogCQkJfQogCQkJaWYgKGRhdGFbMl0g
+PT0gTUNQMjIyMV9JMkNfUkVBRF9DT01QTCB8fAogCQkJICAgIGRhdGFbMl0gPT0gTUNQMjIy
+MV9JMkNfUkVBRF9QQVJUSUFMKSB7Ci0JCQkJaWYgKCFtY3AtPnJ4YnVmIHx8IG1jcC0+cnhi
+dWZfaWR4IDwgMCB8fCBkYXRhWzNdID4gNjApIHsKKwkJCQlpZiAoIW1jcC0+cnhidWYgfHwK
+KwkJCQkgICAgbWNwLT5yeGJ1Zl9pZHggPCAwIHx8IGRhdGFbM10gPiA2MCB8fAorCQkJCSAg
+ICBkYXRhWzNdID4gc2l6ZSAtIDQgKSB7CiAJCQkJCW1jcC0+c3RhdHVzID0gLUVJTlZBTDsK
+IAkJCQkJYnJlYWs7CiAJCQkJfQpAQCAtOTI1LDggKzk0NCwxMyBAQCBzdGF0aWMgaW50IG1j
+cDIyMjFfcmF3X2V2ZW50KHN0cnVjdCBoaWRfZGV2aWNlICpoZGV2LAogCQlicmVhazsKIAog
+CWNhc2UgTUNQMjIyMV9HUElPX0dFVDoKKwkJaWYgKHNpemUgPCAyKQorCQkJZ290byBiYWls
+OworCiAJCXN3aXRjaCAoZGF0YVsxXSkgewogCQljYXNlIE1DUDIyMjFfU1VDQ0VTUzoKKwkJ
+CWlmIChtY3AtPmdwX2lkeCA8IHNpemUpCisJCQkJZ290byBiYWlsOwogCQkJaWYgKChkYXRh
+W21jcC0+Z3BfaWR4XSA9PSBNQ1AyMjIxX0FMVF9GX05PVF9HUElPVikgfHwKIAkJCQkoZGF0
+YVttY3AtPmdwX2lkeCArIDFdID09IE1DUDIyMjFfQUxUX0ZfTk9UX0dQSU9EKSkgewogCQkJ
+CW1jcC0+c3RhdHVzID0gLUVOT0VOVDsKQEAgLTk0Miw4ICs5NjYsMTMgQEAgc3RhdGljIGlu
+dCBtY3AyMjIxX3Jhd19ldmVudChzdHJ1Y3QgaGlkX2RldmljZSAqaGRldiwKIAkJYnJlYWs7
+CiAKIAljYXNlIE1DUDIyMjFfR1BJT19TRVQ6CisJCWlmIChzaXplIDwgMikKKwkJCWdvdG8g
+YmFpbDsKKwogCQlzd2l0Y2ggKGRhdGFbMV0pIHsKIAkJY2FzZSBNQ1AyMjIxX1NVQ0NFU1M6
+CisJCQlpZiAoc2l6ZSA8IG1jcC0+Z3BfaWR4KQorCQkJCWdvdG8gYmFpbDsKIAkJCWlmICgo
+ZGF0YVttY3AtPmdwX2lkeF0gPT0gTUNQMjIyMV9BTFRfRl9OT1RfR1BJT1YpIHx8CiAJCQkJ
+KGRhdGFbbWNwLT5ncF9pZHggLSAxXSA9PSBNQ1AyMjIxX0FMVF9GX05PVF9HUElPVikpIHsK
+IAkJCQltY3AtPnN0YXR1cyA9IC1FTk9FTlQ7CkBAIC05NTgsNiArOTg3LDkgQEAgc3RhdGlj
+IGludCBtY3AyMjIxX3Jhd19ldmVudChzdHJ1Y3QgaGlkX2RldmljZSAqaGRldiwKIAkJYnJl
+YWs7CiAKIAljYXNlIE1DUDIyMjFfU0VUX1NSQU1fU0VUVElOR1M6CisJCWlmIChzaXplIDwg
+MikKKwkJCWdvdG8gYmFpbDsKKwogCQlzd2l0Y2ggKGRhdGFbMV0pIHsKIAkJY2FzZSBNQ1Ay
+MjIxX1NVQ0NFU1M6CiAJCQltY3AtPnN0YXR1cyA9IDA7CkBAIC05NjksOCArMTAwMSwxMyBA
+QCBzdGF0aWMgaW50IG1jcDIyMjFfcmF3X2V2ZW50KHN0cnVjdCBoaWRfZGV2aWNlICpoZGV2
+LAogCQlicmVhazsKIAogCWNhc2UgTUNQMjIyMV9HRVRfU1JBTV9TRVRUSU5HUzoKKwkJaWYg
+KHNpemUgPCAyKQorCQkJZ290byBiYWlsOworCiAJCXN3aXRjaCAoZGF0YVsxXSkgewogCQlj
+YXNlIE1DUDIyMjFfU1VDQ0VTUzoKKwkJCWlmIChzaXplIDwgMjIgKyA0KQorCQkJCWdvdG8g
+YmFpbDsKIAkJCW1lbWNweSgmbWNwLT5tb2RlLCAmZGF0YVsyMl0sIDQpOwogI2lmIElTX1JF
+QUNIQUJMRShDT05GSUdfSUlPKQogCQkJbWNwLT5kYWNfdmFsdWUgPSBkYXRhWzZdICYgR0VO
+TUFTSyg0LCAwKTsKQEAgLTk4NCw2ICsxMDIxLDggQEAgc3RhdGljIGludCBtY3AyMjIxX3Jh
+d19ldmVudChzdHJ1Y3QgaGlkX2RldmljZSAqaGRldiwKIAkJYnJlYWs7CiAKIAljYXNlIE1D
+UDIyMjFfUkVBRF9GTEFTSF9EQVRBOgorCQlpZiAoc2l6ZSA8IDIpCisJCQlnb3RvIGJhaWw7
+CiAJCXN3aXRjaCAoZGF0YVsxXSkgewogCQljYXNlIE1DUDIyMjFfU1VDQ0VTUzoKIAkJCW1j
+cC0+c3RhdHVzID0gMDsKQEAgLTk5Nyw2ICsxMDM2LDggQEAgc3RhdGljIGludCBtY3AyMjIx
+X3Jhd19ldmVudChzdHJ1Y3QgaGlkX2RldmljZSAqaGRldiwKICNpZiBJU19SRUFDSEFCTEUo
+Q09ORklHX0lJTykKIAkJCXsKIAkJCQl1OCB0bXA7CisJCQkJaWYgKHNpemUgPCA4KQorCQkJ
+CQlnb3RvIGJhaWw7CiAJCQkJLyogREFDIHNjYWxlIHZhbHVlICovCiAJCQkJdG1wID0gRklF
+TERfR0VUKEdFTk1BU0soNywgNiksIGRhdGFbNl0pOwogCQkJCWlmICgoZGF0YVs2XSAmIEJJ
+VCg1KSkgJiYgdG1wKQpAQCAtMTAyMSw2ICsxMDYyLDcgQEAgc3RhdGljIGludCBtY3AyMjIx
+X3Jhd19ldmVudChzdHJ1Y3QgaGlkX2RldmljZSAqaGRldiwKIAkJYnJlYWs7CiAKIAlkZWZh
+dWx0OgorYmFpbDoKIAkJbWNwLT5zdGF0dXMgPSAtRUlPOwogCQljb21wbGV0ZSgmbWNwLT53
+YWl0X2luX3JlcG9ydCk7CiAJfQotLSAKMi41MS4wCgo=
+
+--------------gBcD4TAcW7MTx1Y1qLNDcawz--
 
