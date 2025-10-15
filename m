@@ -1,57 +1,56 @@
-Return-Path: <linux-input+bounces-15504-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-15505-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 341F7BDF4F8
-	for <lists+linux-input@lfdr.de>; Wed, 15 Oct 2025 17:19:06 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id AA5A0BDF573
+	for <lists+linux-input@lfdr.de>; Wed, 15 Oct 2025 17:27:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id DFA24505C1A
-	for <lists+linux-input@lfdr.de>; Wed, 15 Oct 2025 15:18:00 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1AAD2189AF7A
+	for <lists+linux-input@lfdr.de>; Wed, 15 Oct 2025 15:28:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 53FB92FB62D;
-	Wed, 15 Oct 2025 15:17:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A136F2D3ECA;
+	Wed, 15 Oct 2025 15:27:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dc3Lg5EQ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DXr5fnfO"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27ACA2FB0B7;
-	Wed, 15 Oct 2025 15:17:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B0A424395C;
+	Wed, 15 Oct 2025 15:27:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760541477; cv=none; b=dcwdyNPDR3P+uEVrzuZw513enLpP17oy4O3YabiumIXrD3W3Nl87RsIBcHidkyQgd/5gobK4Rn9gKOIe9SN3S7sgqvR7LlR0N1PBL1E1Xmefq5lGEOHroaBO4lN+pc3k+hvw/q/LW0mo60k5E6zZnHJWJ9+reokqtgbYc62IClw=
+	t=1760542055; cv=none; b=TimOhUdmJS2JLAEsTxh+59L22EP0FbK/fMS/3BZf57ZyiWsyIYghw6kpDNix5ygQGcM/T3sISO/0mQWz9TfOIcfcQ3Z/WotShQvoWi9F5C6NG5kQF2fyVyzLLUX2fRNBBVdqfxH1SAJfWoxkMM8ut9Ub45ypanMuCofhdmUFTL8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760541477; c=relaxed/simple;
-	bh=v92RAT4Xz9qvTX+waPKnsiJB/HoT0A1NhS1028kNez0=;
+	s=arc-20240116; t=1760542055; c=relaxed/simple;
+	bh=pXjv/FZhWR4n2Yfb++gguKHpAI6OOMdbZJ7zMRvXI5M=;
 	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=CX+qXCyJ8V6XZswHOBxr+VxAPeTeZVLjcoMRDlrQv1lWCeZ7WGRGKCpucgor6CEv24eky6UvfSXHhwvsotgGe+y8zR/a61O8SFsN2wWjuQFS8sqdCIoPTj+G5coOAgEydmqANrn/IKXwavIJckwJ6MVnOJ1TvksZ/XIvRFDNhAk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dc3Lg5EQ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C9FDC4CEF8;
-	Wed, 15 Oct 2025 15:17:56 +0000 (UTC)
+	 MIME-Version:Content-Type; b=E2kHjvni7yPQFJ3dCEx6wWXIv6grN3z4WIQj5+2gnS/Tn+PJKPqDlCtXtGiMjcZbUCd+hEEjjgsPJ0R+iWP4YQQdvttaF5LIml5UcaWUSAWBC/iXwEgOQYay4JveAu6BWY5Vgw8G5U/J9Q/yZpTdJFvyW8MGQsvpC7lc+mTUzOI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DXr5fnfO; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B054C4CEFB;
+	Wed, 15 Oct 2025 15:27:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760541476;
-	bh=v92RAT4Xz9qvTX+waPKnsiJB/HoT0A1NhS1028kNez0=;
+	s=k20201202; t=1760542054;
+	bh=pXjv/FZhWR4n2Yfb++gguKHpAI6OOMdbZJ7zMRvXI5M=;
 	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=dc3Lg5EQpQthohDWIJ7BI87zd/rLwi4K3xLHuYy8ppYtbEYwAnPD2swWtWQx54DJD
-	 htxYFEXz1DYurPcndwVsjUNNJy4Na2GAFegZdaiciFG7Z5B0o4v739K8NPzwaT+bwH
-	 rQ23FadtmrMMvGA1eLYbQ2mJ15CT2iwKMaCTlf29LLDypbRRkMxP1mjcVIASOQUOUy
-	 ksYlpYvUaNOERyziptUZPjKT6bFX18jd3o+PQ1zxX5ecwhGbDW5c7X+h0zdFx884Lw
-	 BKcnBE6REbTtYobR2vAN8HHW/5FAQZFNpgAoHDyvRLXW6UMzSsNCyEVebXJP2eKs39
-	 q8ZTiK4HsI+fA==
-Date: Wed, 15 Oct 2025 17:17:53 +0200 (CEST)
+	b=DXr5fnfOS82QY9401usex4XLXhOxaEBt0eXgzFtuTDlXb4PqipMiNIiPu053lQNr/
+	 7Zi2w2nJbyQ4tWVeZzYIHtkbFFTbS42y6FO1O/AA1lL0KWQ1mI9F2SpR4axFishxRw
+	 y7StUCjfoja7lfmPUlKTWeKlH59FlxsS80NV33uMWP8k8c2MRbjwn6ZU2Kp1LlSj8W
+	 DBVol0Cp9OzVx12FkiUV7OKkU4ZVf1k5XcwDqSVR085YL9LZ0AuuKURtZQhyAQB2vJ
+	 4DfR9uUTKTUwxrYmn4nlNtrwNPtzwZJFeHVapsJaK8WUE3dSf5HKZLsSkixsb5XNNd
+	 xepTZGDxDRV9A==
+Date: Wed, 15 Oct 2025 17:27:32 +0200 (CEST)
 From: Jiri Kosina <jikos@kernel.org>
-To: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
-cc: Benjamin Tissoires <bentiss@kernel.org>, 
-    Mika Westerberg <mika.westerberg@linux.intel.com>, 
-    Tero Kristo <tero.kristo@linux.intel.com>, linux-input@vger.kernel.org, 
-    linux-kernel@vger.kernel.org, kernel-dev@igalia.com
-Subject: Re: [PATCH] HID: multitouch: fix name of Stylus input devices
-In-Reply-To: <20251008-hid_multitouch_stylus-v1-1-9f43f7e79195@igalia.com>
-Message-ID: <pq18q556-n54p-0ro6-7no8-8q0rp0237on3@xreary.bet>
-References: <20251008-hid_multitouch_stylus-v1-1-9f43f7e79195@igalia.com>
+To: Benjamin Tissoires <bentiss@kernel.org>
+cc: Shuah Khan <shuah@kernel.org>, Peter Hutterer <peter.hutterer@who-t.net>, 
+    linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
+    linux-kselftest@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH 0/2] HID: multitouch: fix sticky-fingers quirks
+In-Reply-To: <20251008-fix-sticky-fingers-v1-0-760f1f26fce3@kernel.org>
+Message-ID: <41s6pp01-1947-n4pq-1866-820n84so4op1@xreary.bet>
+References: <20251008-fix-sticky-fingers-v1-0-760f1f26fce3@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -60,30 +59,37 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 
-On Wed, 8 Oct 2025, Thadeu Lima de Souza Cascardo wrote:
+On Wed, 8 Oct 2025, Benjamin Tissoires wrote:
 
-> HID_DG_PEN devices should have a suffix of "Stylus", as pointed out by
-> commit c0ee1d571626 ("HID: hid-input: Add suffix also for HID_DG_PEN").
-> However, on multitouch devices, these suffixes may be overridden. Before
-> that commit, HID_DG_PEN devices would get the "Stylus" suffix, but after
-> that, multitouch would override them to have an "UNKNOWN" suffix. Just add
-> HID_DG_PEN to the list of non-overriden suffixes in multitouch.
+> According to Peter, we've had for a very long time an issue on some
+> mutltiouch touchpads where the fingers were stuck in a scrolling mode,
+> or 3 fingers gesture mode. I was unable to debug it because it was
+> rather hard to reproduce.
 > 
-> Before this fix:
+> Recently, some people raised the issue again on libinput, and this time
+> added a recording of the actual bug.
 > 
-> [    0.470981] input: ELAN9008:00 04F3:2E14 UNKNOWN as /devices/pci0000:00/0000:00:15.1/i2c_designware.1/i2c-16/i2c-ELAN9008:00/0018:04F3:2E14.0001/input/input8
-> ELAN9008:00 04F3:2E14 UNKNOWN
+> It turns out that the sticky finger quirk that was introduced back in
+> 2017 was only checking the last report, and that those missing releases
+> also happen when moving from 3 to 1 finger (only 1 is released instead
+> of 2).
 > 
-> After this fix:
+> This solution seems to me to be the most sensible, because we could also
+> add the NSMU quirk to win8 multitouch touchpads, but this would involve
+> a lot more computations at each report for rather annoying corner cases.
 > 
-> [    0.474332] input: ELAN9008:00 04F3:2E14 Stylus as /devices/pci0000:00/0000:00:15.1/i2c_designware.1/i2c-16/i2c-ELAN9008:00/0018:04F3:2E14.0001/input/input8
+> Link: https://gitlab.freedesktop.org/libinput/libinput/-/issues/1194
+> Signed-off-by: Benjamin Tissoires <bentiss@kernel.org>
+> ---
+> Benjamin Tissoires (2):
+>       HID: multitouch: fix sticky fingers
+>       selftests/hid: add tests for missing release on the Dell Synaptics
 > 
-> ELAN9008:00 04F3:2E14 Stylus
-> 
-> Fixes: c0ee1d571626 ("HID: hid-input: Add suffix also for HID_DG_PEN")
-> Signed-off-by: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
+>  drivers/hid/hid-multitouch.c                       | 27 ++++++-----
+>  .../testing/selftests/hid/tests/test_multitouch.py | 55 ++++++++++++++++++++++
+>  2 files changed, 69 insertions(+), 13 deletions(-)
 
-Applied, thanks.
+Now queued in for-6.18/upstream-fixes. Thanks,
 
 -- 
 Jiri Kosina
