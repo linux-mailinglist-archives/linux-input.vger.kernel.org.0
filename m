@@ -1,88 +1,147 @@
-Return-Path: <linux-input+bounces-15527-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-15528-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9753EBE48F6
-	for <lists+linux-input@lfdr.de>; Thu, 16 Oct 2025 18:24:43 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B3D5BE5382
+	for <lists+linux-input@lfdr.de>; Thu, 16 Oct 2025 21:22:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id D948C507566
-	for <lists+linux-input@lfdr.de>; Thu, 16 Oct 2025 16:20:57 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 293C01897551
+	for <lists+linux-input@lfdr.de>; Thu, 16 Oct 2025 19:22:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D530E2E54D6;
-	Thu, 16 Oct 2025 16:20:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 135CD2D97BA;
+	Thu, 16 Oct 2025 19:22:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lcHK45yR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cyb8JVmt"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD4A823EAB5;
-	Thu, 16 Oct 2025 16:20:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41FE12D97B0;
+	Thu, 16 Oct 2025 19:22:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760631655; cv=none; b=ZUZ6nmmWMOD2dstT75vsEZfimfwh5oqTxttPW8BUVNAZRqvgNC2OA4Q5jchYQ7SlcFKKrzIVUHQ6XtnG0e3e5TB1JshIHXumjzX8nkmjZAlyypDJxD8DCkesguppGl1C4S14uSU4W12eHDBnbj3lPdVcPCpn5U95cfphvcnVqqU=
+	t=1760642542; cv=none; b=XWrPow2q31mPAq5Ei7R0TA1erCbFYpwqYjmHKLBhfday0PCoJVO2Kn5UJW5Y0y+zd+pLI6IiYa+I5QfC5hCT2eHK+eXHeZmIoz1wrX5qVcnF3nocrXouXk16ImLWhnBuhzeaVI/UBTBnrDRZtOJvA/HkKBN+WQ4kwd3LwYRHiiI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760631655; c=relaxed/simple;
-	bh=BEu9qaRzk35340E/96dwUIzN9WPKSPh9nRuOEb2g2gE=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=luCz/ISGp7HQiZkmnbz1+562UECKrrNCcX0I7mE/XtuvhhfYoECPLnohWzNwFJeyr6jvqgntROuwLonBJTL+e5J6c+HklZ+X9isPd6Gef8cQqWMO7lpTgLVLeNZ2RVOMO7K2MPU1qqR89JdX4etZtmO4qn2FHR72HeepNo5/iC0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lcHK45yR; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D068EC4CEF1;
-	Thu, 16 Oct 2025 16:20:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760631655;
-	bh=BEu9qaRzk35340E/96dwUIzN9WPKSPh9nRuOEb2g2gE=;
-	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=lcHK45yRniJFxnBn73icMlpa6vj4BEUpjOB/t68h9di+dUoyq53q3gg2c+Jfn2s4+
-	 EUVVzjl/qkNyjJiTsu2/ZSHHAFtKWGI5iZqd4WSY1068hE8guOR2LJbq+ZLAb9lkAa
-	 KXYQzcDz2nDxRujGIQKRpiESTuv72dDHNLdA1NREFKrjjAZyUm/v7fYRgrg62/dMnU
-	 YwVi0RlnJVDeMf6kOj/WUA8PWJd1GrHlaqmK8w89AaE5MoZcpYQUAFUWHrVnfXA74v
-	 VjLesI254N/ygbXuLtDZqJoSXEGJDXk64ykRKQws2sYXBr63SE/KNokPANV3KYzjJJ
-	 ZgfWNPba3m/yA==
-Date: Thu, 16 Oct 2025 18:20:52 +0200 (CEST)
-From: Jiri Kosina <jikos@kernel.org>
-To: Stuart Hayhurst <stuart.a.hayhurst@gmail.com>
-cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
-    Benjamin Tissoires <bentiss@kernel.org>, 
-    Bastien Nocera <hadess@hadess.net>, 
-    =?ISO-8859-15?Q?Filipe_La=EDns?= <lains@riseup.net>
-Subject: Re: [PATCH] HID: logitech-hidpp: Add
- HIDPP_QUIRK_RESET_HI_RES_SCROLL
-In-Reply-To: <20251006010726.189197-2-stuart.a.hayhurst@gmail.com>
-Message-ID: <s208042q-64pp-99sp-49qs-10640n7opn0o@xreary.bet>
-References: <20251006010726.189197-2-stuart.a.hayhurst@gmail.com>
+	s=arc-20240116; t=1760642542; c=relaxed/simple;
+	bh=70CHvEmZWEz+900ZJiNa3jXRD54PcFWARg2uD+iSNUs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YJtOZT/fFYYrqscrIOk4g6PkJGIwOAaWwnoKx9ONRc2u6wiBB9hsycAFLs1vlhH2WgHe77PWTH9No2rN1Hkc2eVAm9LJFqc7vIAkPJvCBXfHL68lqa1PrWt9zYqO3+Qc0m+PBvdOLPsMq+dyYJ2uii6bE6oFIkUAsd+dzEpYBhQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cyb8JVmt; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1760642540; x=1792178540;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=70CHvEmZWEz+900ZJiNa3jXRD54PcFWARg2uD+iSNUs=;
+  b=cyb8JVmt3NwaLYDvAzzimo0CrYhYUeWK2u6MRT4kPN50LWLjSB1u2qFz
+   P7WdllRxJgUTqE+5JqCMUt34g/0teawQEl1KD2aJJG42USV4Y0zK/5//5
+   +RHNszWMaeQtRPfuH4S3jg1tKrn3Xausxb8y2453XxI0QUQvXjqZxNfS9
+   XtSVkb4IGBuayOZuNAi221oy6K3/LkZ+P7I8yt7WDVYfhA7eXJxKr8YDb
+   h2+wZS1ZexTbLEJi8UphPhbxJq1EHa/xkVy8tLgmhHqdETOz7SVucf1om
+   5kI9BIN6cIP8EpqQRMj/5b6YCaj81gIzvRCAugMm1yrOOV+YhqK9olOSM
+   A==;
+X-CSE-ConnectionGUID: qBNRNJYmSfm2iZEQQi8gOg==
+X-CSE-MsgGUID: Qh5FJ4xnRc2fbNW1UUAF0A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11584"; a="66714841"
+X-IronPort-AV: E=Sophos;i="6.19,234,1754982000"; 
+   d="scan'208";a="66714841"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2025 12:22:19 -0700
+X-CSE-ConnectionGUID: bRDS3vRKR4SjOvpt8TyPXQ==
+X-CSE-MsgGUID: 6oARni81RACAlb0elSOKpQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,234,1754982000"; 
+   d="scan'208";a="187816556"
+Received: from klitkey1-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.31])
+  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2025 12:22:09 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 936D312023C;
+	Thu, 16 Oct 2025 22:22:06 +0300 (EEST)
+Date: Thu, 16 Oct 2025 22:22:06 +0300
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: Linus Walleij <linus.walleij@linaro.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil@kernel.org>,
+	Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Leon Luo <leonl@leopardimaging.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Jacopo Mondi <jacopo+renesas@jmondi.org>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+	Julien Massot <julien.massot@collabora.com>,
+	Jacopo Mondi <jacopo@jmondi.org>,
+	Daniel Scally <djrscally@gmail.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Sylvain Petinot <sylvain.petinot@foss.st.com>,
+	Yong Zhi <yong.zhi@intel.com>, Bingbu Cao <bingbu.cao@intel.com>,
+	Tianshu Qiu <tian.shu.qiu@intel.com>,
+	Tiffany Lin <tiffany.lin@mediatek.com>,
+	Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+	Yunfei Dong <yunfei.dong@mediatek.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Rui Miguel Silva <rmfrfs@gmail.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Martin Kepplinger <martink@posteo.de>,
+	Purism Kernel Team <kernel@puri.sm>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Dafna Hirschfeld <dafna@fastmail.com>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Sylwester Nawrocki <s.nawrocki@samsung.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Yemike Abhilash Chandra <y-abhilashchandra@ti.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, imx@lists.linux.dev,
+	linux-renesas-soc@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH 00/32] media: Use %pe format specifier
+Message-ID: <aPFF3n-e7pAUDH5x@kekkonen.localdomain>
+References: <20251013-ptr_err-v1-0-2c5efbd82952@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251013-ptr_err-v1-0-2c5efbd82952@chromium.org>
 
-On Mon, 6 Oct 2025, Stuart Hayhurst wrote:
+Hi Ricardo,
 
-> The Logitech G502 Hero Wireless's high resolution scrolling resets after
-> being unplugged without notifying the driver, causing extremely slow
-> scrolling.
+On Mon, Oct 13, 2025 at 02:14:40PM +0000, Ricardo Ribalda wrote:
+> The %pe format specifier is designed to print error pointers. It prints
+> a symbolic error name (eg. -EINVAL) and it makes the code simpler by
+> omitting PTR_ERR().
 > 
-> The only indication of this is a battery update packet, so add a quirk to
-> detect when the device is unplugged and re-enable the scrolling.
+> The recently introduced test scripts/coccinelle/misc/ptr_err_to_pe.cocci
+> checks that we use %pe. Let's make it happy.
 > 
-> Link: https://bugzilla.kernel.org/show_bug.cgi?id=218037
-> Signed-off-by: Stuart Hayhurst <stuart.a.hayhurst@gmail.com>
-> ---
-> 
-> I assume this affects more than just my mouse, but I don't have the hardware
-> to find out which other mice need this too.
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 
-We will find out about more devices later for sure.
+Thanks for the set.
 
-Thanks, now applied to hid.git#for-6.18/upstream-fixes.
+Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 
 -- 
-Jiri Kosina
-SUSE Labs
+Kind regards,
 
+Sakari Ailus
 
