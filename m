@@ -1,56 +1,56 @@
-Return-Path: <linux-input+bounces-15578-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-15579-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B63BBEA4FD
-	for <lists+linux-input@lfdr.de>; Fri, 17 Oct 2025 17:56:45 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 62C45BEA59C
+	for <lists+linux-input@lfdr.de>; Fri, 17 Oct 2025 17:58:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D199C745533
-	for <lists+linux-input@lfdr.de>; Fri, 17 Oct 2025 15:47:32 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 4DA495A1A82
+	for <lists+linux-input@lfdr.de>; Fri, 17 Oct 2025 15:48:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 86265330B0D;
-	Fri, 17 Oct 2025 15:47:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0089D231C9F;
+	Fri, 17 Oct 2025 15:48:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="esEOk0jE"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c8RsJBIv"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 618A2330B00
-	for <linux-input@vger.kernel.org>; Fri, 17 Oct 2025 15:47:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D120E330B3A
+	for <linux-input@vger.kernel.org>; Fri, 17 Oct 2025 15:48:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760716051; cv=none; b=i71wrodf6wVb40NyEwg18gYlZgjlgV5CkH8BWSYciAs/OLeFzbLwZhGnnMECTdFcDEXDDFdL90O0q76TOodopTqW4dENhihQljbRbkIYLlgZSvBB/UaAf2cU/Q+i6Rb+x5Y4rA3GwLe+RR+Gl3RtowuhlSD/a8ZR479IX7Z2qFQ=
+	t=1760716097; cv=none; b=ri637LzoN2hMTzWOqD402q0v8oqjlrWWLdMKCwFPKpR+8rd5VHCRs7QxKdxQPf97aZ1698VWlcak+0LPmo8s5LrKdd7QVwvAjKggHbAAZHFz++ci2B69KCHmcItxn+JGJ2Bj3H0MSqli/q5S4iR1rgqwX0M3uyYH0dlM2ZuKBVk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760716051; c=relaxed/simple;
-	bh=OR+W4KFYahnrdqrd1rRLQvTpoyzVOiQr/lbtuKXbcsQ=;
+	s=arc-20240116; t=1760716097; c=relaxed/simple;
+	bh=HYaDchW1eTI5q8adOk/HLFuf7X8xRJJyZIMJJRhRDNA=;
 	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=F+5uH4rfqDSTZZf4Az5PtPBp8h9RUwSk5HCWc288FMZ98pG9HLzg9yIQfHZ063NOSYg30KyUQQ2nes9OGq2OrE1q0t/vB1g9INLTnCHjF1SjKOgdxpbhJsucSfs2viI5ZFsl6a2dO2XMQVklhhZrHZKbqA0kEMeiTPR/tcypILs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=esEOk0jE; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE3C1C113D0;
-	Fri, 17 Oct 2025 15:47:30 +0000 (UTC)
+	 MIME-Version:Content-Type; b=QlzuaciHCntOBPzJnfmeEK0ivAEeoWQ8B71L2XY3bXDkogfHyqqN1SW95i04M5wPsAusIpAXSaDxG4PSkxgLvd2fc2Fjjh7wZeRtvgX7rf6xI47BiRx1xdLnyqTpMaWoZwLpOGR8kgWOJKgsU1RXNWYAuTO01Nn0abANEVS76tg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c8RsJBIv; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40119C4CEFE;
+	Fri, 17 Oct 2025 15:48:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760716051;
-	bh=OR+W4KFYahnrdqrd1rRLQvTpoyzVOiQr/lbtuKXbcsQ=;
+	s=k20201202; t=1760716097;
+	bh=HYaDchW1eTI5q8adOk/HLFuf7X8xRJJyZIMJJRhRDNA=;
 	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=esEOk0jEdqpdkkNVsTN6W0YzHXnRbWA1iJ4dJ4lvc2xbicUI514uYZESgpFnWIBxx
-	 T06bl34SQ1tyfbYAhlkQ7aciHFvRi6v2IdUqNCksVmRkQVCGoRYkz1gH/Nmd9BAKUv
-	 uk6CaiPWu3GpUxYkn8RslOLaBPeGc9q/em7ko7skKT0epTNw95Gy1Lh9RLKmdzOpQy
-	 gVG0BOug3H5WGaqMJqtipoF9RUabVdaOHugUOkj/v6QUqf+jGra4OhQIEZi8c9y5rH
-	 QP19wJQQTtOExK3QjYwUdaXRsKiP427xID2zlvG8XdmXZeurPzPWr1YlEwnLdhBA1u
-	 jSbFLCgiGIhPQ==
-Date: Fri, 17 Oct 2025 17:47:28 +0200 (CEST)
+	b=c8RsJBIv9FMs1zPBxI5oi/oZ3aJyaet97E7sR1CZ4qaYZ9yRSex6Lkgg3zpjHLjPm
+	 vRO5iLDqBOrxtfwy51FT1UKrjuT+NEGC7JCqNOERWDyFG+zFxrZlt0q5oDFHuvYeiM
+	 EuON5nAlRIH9BhDanMch0/YeSoSJ0UcQakWyTc9g2EKa3DdcrHAQJBX8c+LRmilh24
+	 Ssn0uvzAJ+Kn019Z7oZQDpPWrJPLlYvQ7Mdke6EW1yPLDBukcR4NX5uIJ99B0GVy6u
+	 9zI0DTJQdsxlMRf+uc7rKQFpUFPAN+Q2NEJ21suSMVGhj4WBpNqWrc2LGnzniZDVgE
+	 v4Q4MflAWuUvw==
+Date: Fri, 17 Oct 2025 17:48:14 +0200 (CEST)
 From: Jiri Kosina <jikos@kernel.org>
 To: Zhang Lixu <lixu.zhang@intel.com>
 cc: linux-input@vger.kernel.org, srinivas.pandruvada@linux.intel.com, 
-    benjamin.tissoires@redhat.com, selina.wang@intel.com
-Subject: Re: [PATCH] HID: intel-ish-hid: Use dedicated unbound workqueues to
- prevent resume blocking
-In-Reply-To: <20251010055254.532925-1-lixu.zhang@intel.com>
-Message-ID: <36041o9s-7o74-0925-op71-83q3052rn4p3@xreary.bet>
-References: <20251010055254.532925-1-lixu.zhang@intel.com>
+    benjamin.tissoires@redhat.com
+Subject: Re: [PATCH v2 0/6] HID: intel-ish-hid: Various power management
+ improvements for hibernation
+In-Reply-To: <20251017022218.1292451-1-lixu.zhang@intel.com>
+Message-ID: <8qq29396-s74s-077n-220p-n8p6psn1qq64@xreary.bet>
+References: <20251017022218.1292451-1-lixu.zhang@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -59,36 +59,26 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 
-On Fri, 10 Oct 2025, Zhang Lixu wrote:
+On Fri, 17 Oct 2025, Zhang Lixu wrote:
 
-> During suspend/resume tests with S2IDLE, some ISH functional failures were
-> observed because of delay in executing ISH resume handler. Here
-> schedule_work() is used from resume handler to do actual work.
-> schedule_work() uses system_wq, which is a per CPU work queue. Although
-> the queuing is not bound to a CPU, but it prefers local CPU of the caller,
-> unless prohibited.
+> - Separating hibernate callbacks in dev_pm_ops for clearer power state transitions
+> - Using IPC RESET in ish_wakeup() to ensure reliable device wakeup
+> - Scheduling firmware reset work on RESET_NOTIFY/ACK for robust recovery
+> - Resetting client state on resume from D3 to maintain consistency
+> - Enhancing resume logic in ishtp-hid-client for better stability
 > 
-> Users of this work queue are not supposed to queue long running work.
-> But in practice, there are scenarios where long running work items are
-> queued on other unbound workqueues, occupying the CPU. As a result, the
-> ISH resume handler may not get a chance to execute in a timely manner.
+> These patches enhance reliability, improve power management flow. All changes
+> have been validated on TwinLake (ISH 5.4), ArrowLake (ISH 5.6), and PantherLake
+> (ISH 5.8) platforms.
 > 
-> In one scenario, one of the ish_resume_handler() executions was delayed
-> nearly 1 second because another work item on an unbound workqueue occupied
-> the same CPU. This delay causes ISH functionality failures.
-> 
-> A similar issue was previously observed where the ISH HID driver timed out
-> while getting the HID descriptor during S4 resume in the recovery kernel,
-> likely caused by the same workqueue contention problem.
-> 
-> Create dedicated unbound workqueues for all ISH operations to allow work
-> items to execute on any available CPU, eliminating CPU-specific bottlenecks
-> and improving resume reliability under varying system loads. Also ISH has
-> three different components, a bus driver which implements ISH protocols, a
-> PCI interface layer and HID interface. Use one dedicated work queue for all
-> of them.
-> 
-> Signed-off-by: Zhang Lixu <lixu.zhang@intel.com>
+> v2:
+>   - Rebased on top of [PATCH] HID: intel-ish-hid: Use dedicated unbound workqueues to prevent resume blocking
+>   - Changes in [PATCH v2 5/6] HID: intel-ish-hid: Use IPC RESET instead of void message in ish_wakeup()
+>     * Set the HW ready timeout to 10 seconds, matching the original timeout
+>       value used in ish_wakeup(), to prevent timeout issues on devices like
+>       the Lenovo ThinkPad X1 Titanium Gen 1 that require approximately 4
+>       seconds to become ready after wakeup.
+>     * Added RECVD_HW_READY_TIMEOUT macro for better code maintainability.
 
 Applied to hid.git#for-6.19/intel-ish-v2, thanks.
 
