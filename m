@@ -1,340 +1,269 @@
-Return-Path: <linux-input+bounces-15542-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-15543-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56C39BE7040
-	for <lists+linux-input@lfdr.de>; Fri, 17 Oct 2025 09:54:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0AE8BE75B9
+	for <lists+linux-input@lfdr.de>; Fri, 17 Oct 2025 11:05:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A6FF0188A0C8
-	for <lists+linux-input@lfdr.de>; Fri, 17 Oct 2025 07:55:22 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2070E189410E
+	for <lists+linux-input@lfdr.de>; Fri, 17 Oct 2025 09:06:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5038C25BF14;
-	Fri, 17 Oct 2025 07:54:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 18E782D592A;
+	Fri, 17 Oct 2025 09:05:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=temperror (0-bit key) header.d=antheas.dev header.i=@antheas.dev header.b="Df4SeFcs"
+	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b="GtOnZaic"
 X-Original-To: linux-input@vger.kernel.org
-Received: from relay11.grserver.gr (relay11.grserver.gr [78.46.171.57])
+Received: from pdx-out-012.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-012.esa.us-west-2.outbound.mail-perimeter.amazon.com [35.162.73.231])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 340581DC9B1
-	for <linux-input@vger.kernel.org>; Fri, 17 Oct 2025 07:54:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.46.171.57
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46D8026CE36;
+	Fri, 17 Oct 2025 09:05:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.162.73.231
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760687695; cv=none; b=pVRH4f1aoTmY+vViZQdXHhVqfKKfTTbL4+huTftI23BZAP0ngMeX5OVr7UUnyhkle7DO2GJ5Y94/WhuNsljKmY9bOoIzaKcP5UJCR4bMckxVXAIbFk3gSh2KJ9Uc+/3FltRq5Q8tC6MG+lCJKEDgm4nGJl4kW0+qjxJBkzlHCho=
+	t=1760691948; cv=none; b=NfDPIDBQudI5qMZwCpp3G/XeqWgS+mXzDJqgWX+8yaYLpc/gzrcDX5R/jxdhi07Cgzk2E31JhTapYewWUOQKdQIgzevlsjy95ql+TxeITBW509j/ythRag75cQuJSrUE3tFNHSBiXvELxBzxSDXX2O/HAuHtVW5aWYP3JlRvoW0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760687695; c=relaxed/simple;
-	bh=LLSGTDDpMdaPw2AY1q/tryOB06iCvFxNdHq9h6MR3Bk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=YRK45AxulCA/qryZN6mr95zjxAC3n/T1leY6p+qwFtpjxMrKW2n9YaBUAu6Qj8RBVsguKweBsVvM+trV384f04TZulBLcZvWuj99vIC2D7TFYcZx3Vill0tKeNM++zJ6Ep0VlJrGzJZOSjXfeIuTmQhoMbPZlG4cjwOPGC0oShc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev; spf=pass smtp.mailfrom=antheas.dev; dkim=temperror (0-bit key) header.d=antheas.dev header.i=@antheas.dev header.b=Df4SeFcs; arc=none smtp.client-ip=78.46.171.57
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=antheas.dev
-Received: from relay11 (localhost.localdomain [127.0.0.1])
-	by relay11.grserver.gr (Proxmox) with ESMTP id 5EA6BC30BD
-	for <linux-input@vger.kernel.org>; Fri, 17 Oct 2025 10:54:50 +0300 (EEST)
-Received: from linux3247.grserver.gr (linux3247.grserver.gr [213.158.90.240])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by relay11.grserver.gr (Proxmox) with ESMTPS id 16724C2EC0
-	for <linux-input@vger.kernel.org>; Fri, 17 Oct 2025 10:54:49 +0300 (EEST)
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
-	by linux3247.grserver.gr (Postfix) with ESMTPSA id 746FD1FD51D
-	for <linux-input@vger.kernel.org>; Fri, 17 Oct 2025 10:54:48 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
-	s=default; t=1760687688;
-	bh=qjqXT1Gnn58O+Bbs8lKe43lBmBOc/sCLpY4L/VLFJqI=;
-	h=Received:From:Subject:To;
-	b=Df4SeFcsxW1rB9Ey+1BrhCYkVR8+fTEP3Z19GOFJ5aBQVUdqL7c4iuPzKQPPRy1Fn
-	 yLDzraJTDmHpPNyFPQvqA4XJACyx6R6meZCzrc9aEUauMvnWV5Kw8fGA/kjaW5lTGv
-	 iDiITA4H/JoYL5G23YfHOMxCkEGRrXjSDVmDZ5z64g+eI5V3PV2ETGaRPjg2ayljoG
-	 2D7yMgZYwG+emKG3vRJEUk3Ezo+rWCXwPsinhVHRjqgMAbEqZatwczVD3sdnmZ3jy8
-	 NQx3ylmMzVfjb8itKrz22bfucwV653iAAW3ZxyQTCn7AKWrtmPhx0B/gMsg7jOQr7K
-	 ssU3//cewzMJA==
-Authentication-Results: linux3247.grserver.gr;
-        spf=pass (sender IP is 209.85.208.171) smtp.mailfrom=lkml@antheas.dev smtp.helo=mail-lj1-f171.google.com
-Received-SPF: pass (linux3247.grserver.gr: connection is authenticated)
-Received: by mail-lj1-f171.google.com with SMTP id
- 38308e7fff4ca-36639c30bb7so12116561fa.3
-        for <linux-input@vger.kernel.org>;
- Fri, 17 Oct 2025 00:54:48 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCUEr3LovG9X+kubzH5c53OjbbXaFRwWOahvbqIj0il2sMgjYouWDSJUDcUCGdqv7zzhRjOysWt8GVHguQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxbXEowVPUhdXvvEx19NeyVJJfEvCu54JDa/u9rvH6T4n7Vb78/
-	yN/l7EtDEp7iJkD1TXwZkTJ4pDtFgNFT0RZv+9ATx9xlilnpzX0VGO+fU6sj2+l81qB6pt8E/bM
-	xxjVKz+lHTqqbRp9bh2Z9WCFQdsTx3qw=
-X-Google-Smtp-Source: 
- AGHT+IFyf5WmwJHYyOEMwRqnRF1xHLH7SADW3THIPeFiDi5+/7P1lrGa7v48wWBuTZlIvRnGzUFAGt4uxmoOOBDKW0M=
-X-Received: by 2002:a2e:a99d:0:b0:372:80ac:a33a with SMTP id
- 38308e7fff4ca-37797a3b204mr10208551fa.28.1760687687885; Fri, 17 Oct 2025
- 00:54:47 -0700 (PDT)
+	s=arc-20240116; t=1760691948; c=relaxed/simple;
+	bh=r3aRMRxLlDgna5pGqlhOhcl+QTURmPg1ODwkm06HnuM=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=XlZ8P735Fu5sFuXNfGLa5eZHpZfKs6pT6x1Or0dvCetv9rkzSiFBMlHthIEfHu9bKVcJJNO2nmJxdVVBnYp2RjlISi5JJFMjQ1vYhH6h2pPF35P4HbOE2zZSr891OXY7VDKK5eAYcuKEfYFXYue2WZhDyJks+a15Ss1eLJDcPr0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.com; dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b=GtOnZaic; arc=none smtp.client-ip=35.162.73.231
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
+  t=1760691946; x=1792227946;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=zbj2mTisKzioKQVYABevmwS3PD+KbTl4NbCfwfEx+Qc=;
+  b=GtOnZaicVGt0CAIJVQ+xp3gaWEamEukP3V98oU7vj6IcDxNdslbM4uCi
+   nBRS83dgbraDB4b0qfoyn3/j/Cez3ZZrF4gRgPzIrv6ENq+RCTIHVbsKl
+   RiVaNBf9VMSksFotLgDR9qGIf2EkQpAHYInScRWhEUzqaFSHJze+IKpMu
+   vh/wKCuGiF6ktSd7y621h48VURBklFvJ2vS2yHqVrUT4UxOWdmr2EyPK3
+   0WcdJICH4jxmJq9bJdsaQte6sv3ZNc1ranA1Uii4ZUxlEgJXHm2NXK2NV
+   7gHCCYWot5IJSa/r7smvYEtdFP5QoMU7hJS/HsP+jbPuWS9VjWFfwHlp4
+   g==;
+X-CSE-ConnectionGUID: sSNJqLpZTHKHoAwfMM8Y6A==
+X-CSE-MsgGUID: BK1WnszkRHiFffu8t9LkpA==
+X-IronPort-AV: E=Sophos;i="6.19,236,1754956800"; 
+   d="scan'208";a="4877932"
+Received: from ip-10-5-12-219.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.12.219])
+  by internal-pdx-out-012.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2025 09:05:44 +0000
+Received: from EX19MTAUWB002.ant.amazon.com [205.251.233.111:26941]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.17.61:2525] with esmtp (Farcaster)
+ id 74f44794-e502-4348-a685-c94d2b887051; Fri, 17 Oct 2025 09:05:44 +0000 (UTC)
+X-Farcaster-Flow-ID: 74f44794-e502-4348-a685-c94d2b887051
+Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
+ EX19MTAUWB002.ant.amazon.com (10.250.64.231) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.20;
+ Fri, 17 Oct 2025 09:05:38 +0000
+Received: from dev-dsk-farbere-1a-46ecabed.eu-west-1.amazon.com
+ (172.19.116.181) by EX19D001UWA001.ant.amazon.com (10.13.138.214) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.20; Fri, 17 Oct 2025
+ 09:05:23 +0000
+From: Eliav Farber <farbere@amazon.com>
+To: <gregkh@linuxfoundation.org>, <stable@vger.kernel.org>,
+	<linux@armlinux.org.uk>, <jdike@addtoit.com>, <richard@nod.at>,
+	<anton.ivanov@cambridgegreys.com>, <dave.hansen@linux.intel.com>,
+	<luto@kernel.org>, <peterz@infradead.org>, <tglx@linutronix.de>,
+	<mingo@redhat.com>, <bp@alien8.de>, <x86@kernel.org>, <hpa@zytor.com>,
+	<tony.luck@intel.com>, <qiuxu.zhuo@intel.com>, <mchehab@kernel.org>,
+	<james.morse@arm.com>, <rric@kernel.org>, <harry.wentland@amd.com>,
+	<sunpeng.li@amd.com>, <alexander.deucher@amd.com>,
+	<christian.koenig@amd.com>, <airlied@linux.ie>, <daniel@ffwll.ch>,
+	<evan.quan@amd.com>, <james.qian.wang@arm.com>, <liviu.dudau@arm.com>,
+	<mihail.atanassov@arm.com>, <brian.starkey@arm.com>,
+	<maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+	<tzimmermann@suse.de>, <robdclark@gmail.com>, <sean@poorly.run>,
+	<jdelvare@suse.com>, <linux@roeck-us.net>, <fery@cypress.com>,
+	<dmitry.torokhov@gmail.com>, <agk@redhat.com>, <snitzer@redhat.com>,
+	<dm-devel@redhat.com>, <rajur@chelsio.com>, <davem@davemloft.net>,
+	<kuba@kernel.org>, <peppe.cavallaro@st.com>, <alexandre.torgue@st.com>,
+	<joabreu@synopsys.com>, <mcoquelin.stm32@gmail.com>, <malattia@linux.it>,
+	<hdegoede@redhat.com>, <mgross@linux.intel.com>, <intel-linux-scu@intel.com>,
+	<artur.paszkiewicz@intel.com>, <jejb@linux.ibm.com>,
+	<martin.petersen@oracle.com>, <sakari.ailus@linux.intel.com>, <clm@fb.com>,
+	<josef@toxicpanda.com>, <dsterba@suse.com>, <xiang@kernel.org>,
+	<chao@kernel.org>, <jack@suse.com>, <tytso@mit.edu>,
+	<adilger.kernel@dilger.ca>, <dushistov@mail.ru>,
+	<luc.vanoostenryck@gmail.com>, <rostedt@goodmis.org>, <pmladek@suse.com>,
+	<sergey.senozhatsky@gmail.com>, <andriy.shevchenko@linux.intel.com>,
+	<linux@rasmusvillemoes.dk>, <minchan@kernel.org>, <ngupta@vflare.org>,
+	<akpm@linux-foundation.org>, <kuznet@ms2.inr.ac.ru>,
+	<yoshfuji@linux-ipv6.org>, <pablo@netfilter.org>, <kadlec@netfilter.org>,
+	<fw@strlen.de>, <jmaloy@redhat.com>, <ying.xue@windriver.com>,
+	<willy@infradead.org>, <farbere@amazon.com>, <sashal@kernel.org>,
+	<ruanjinjie@huawei.com>, <David.Laight@ACULAB.COM>,
+	<herve.codina@bootlin.com>, <Jason@zx2c4.com>, <keescook@chromium.org>,
+	<kbusch@kernel.org>, <nathan@kernel.org>, <bvanassche@acm.org>,
+	<ndesaulniers@google.com>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-kernel@vger.kernel.org>, <linux-um@lists.infradead.org>,
+	<linux-edac@vger.kernel.org>, <amd-gfx@lists.freedesktop.org>,
+	<dri-devel@lists.freedesktop.org>, <linux-arm-msm@vger.kernel.org>,
+	<freedreno@lists.freedesktop.org>, <linux-hwmon@vger.kernel.org>,
+	<linux-input@vger.kernel.org>, <linux-media@vger.kernel.org>,
+	<netdev@vger.kernel.org>, <linux-stm32@st-md-mailman.stormreply.com>,
+	<platform-driver-x86@vger.kernel.org>, <linux-scsi@vger.kernel.org>,
+	<linux-staging@lists.linux.dev>, <linux-btrfs@vger.kernel.org>,
+	<linux-erofs@lists.ozlabs.org>, <linux-ext4@vger.kernel.org>,
+	<linux-sparse@vger.kernel.org>, <linux-mm@kvack.org>,
+	<netfilter-devel@vger.kernel.org>, <coreteam@netfilter.org>,
+	<tipc-discussion@lists.sourceforge.net>
+Subject: [PATCH v2 00/27 5.10.y] Backport minmax.h updates from v6.17-rc7
+Date: Fri, 17 Oct 2025 09:04:52 +0000
+Message-ID: <20251017090519.46992-1-farbere@amazon.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251013201535.6737-1-lkml@antheas.dev>
- <160c3adf-9333-4486-ba4c-d3359ea73337@gmail.com>
- <CAGwozwGzOQ-LCk6B202-CuKq=gepn6Mt4LitJJZ7dfMLaDVs7Q@mail.gmail.com>
- <c075a9f4-8103-dbcc-a1e7-4eaec5e90597@linux.intel.com>
- <CAGwozwH3VnTsx8p5N6S1yp4Z9mFfPUdZ4frrnPAveLH2a00K6g@mail.gmail.com>
-In-Reply-To: 
- <CAGwozwH3VnTsx8p5N6S1yp4Z9mFfPUdZ4frrnPAveLH2a00K6g@mail.gmail.com>
-From: Antheas Kapenekakis <lkml@antheas.dev>
-Date: Fri, 17 Oct 2025 09:54:36 +0200
-X-Gmail-Original-Message-ID: 
- <CAGwozwGqZ_yuNQ+TgtW4R79g4JWxZg-Q-vA7thKy_vSdpbY_yA@mail.gmail.com>
-X-Gm-Features: AS18NWC7wJQcBBP8f_8qfaO8FI-Ep2M33ZNdSAlX-mIhYsQFXVaCju_8woer5f0
-Message-ID: 
- <CAGwozwGqZ_yuNQ+TgtW4R79g4JWxZg-Q-vA7thKy_vSdpbY_yA@mail.gmail.com>
-Subject: Re: [PATCH v6 0/7] HID: asus: Fix ASUS ROG Laptop's Keyboard
- backlight handling
-To: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Cc: Denis Benato <benato.denis96@gmail.com>,
- platform-driver-x86@vger.kernel.org,
-	linux-input@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-	Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>,
-	Corentin Chary <corentin.chary@gmail.com>,
- "Luke D . Jones" <luke@ljones.dev>,
-	Hans de Goede <hdegoede@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-PPP-Message-ID: 
- <176068768871.3460170.15482120581743737368@linux3247.grserver.gr>
-X-PPP-Vhost: antheas.dev
-X-Virus-Scanned: clamav-milter 1.4.3 at linux3247.grserver.gr
-X-Virus-Status: Clean
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: EX19D045UWA003.ant.amazon.com (10.13.139.46) To
+ EX19D001UWA001.ant.amazon.com (10.13.138.214)
 
-On Thu, 16 Oct 2025 at 18:16, Antheas Kapenekakis <lkml@antheas.dev> wrote:
->
-> On Thu, 16 Oct 2025 at 17:09, Ilpo J=C3=A4rvinen
-> <ilpo.jarvinen@linux.intel.com> wrote:
-> >
-> > On Thu, 16 Oct 2025, Antheas Kapenekakis wrote:
-> > > On Thu, 16 Oct 2025 at 13:57, Denis Benato <benato.denis96@gmail.com>=
- wrote:
-> > > > On 10/13/25 22:15, Antheas Kapenekakis wrote:
-> > > > > This is a two part series which does the following:
-> > > > >   - Clean-up init sequence
-> > > > >   - Unify backlight handling to happen under asus-wmi so that all=
- Aura
-> > > > >     devices have synced brightness controls and the backlight but=
-ton works
-> > > > >     properly when it is on a USB laptop keyboard instead of one w=
-/ WMI.
-> > > > >
-> > > > > For more context, see cover letter of V1. Since V5, I removed som=
-e patches
-> > > > > to make this easier to merge.
-> > > > >
-> > > > > All comments with these patches had been addressed since V4.
-> > > > I have loaded this patchset for users of asus-linux project to try =
-out.
-> > > >
-> > > > One of them opened a bug report about a kernel bug that happens
-> > > > consistently when closing the lid of his laptop [1].
-> > > >
-> > > > He also sent another piece of kernel log, but didn't specify anythi=
-ng more
-> > > > about this [2].
-> > > >
-> > > > [1] https://pastebin.com/akZx1w10
-> > > > [2] https://pastebin.com/sKdczPgf
-> > >
-> > > Can you provide a link to the bug report? [2] seems unrelated.
-> > >
-> > > As for [1], it looks like a trace that stems from a sysfs write to
-> > > brightness stemming from userspace that follows the same chain it
-> > > would on a stock kernel and times out. Is it present on a stock
-> > > kernel?
-> > >
-> > > Ilpo should know more about this, could the spinlock be interfering?
-> >
-> > [1] certainly seems to do schedule() from do_kbd_led_set() so it's not
-> > possible to use spinlock there.
-> >
-> > So we're back to what requires the spinlock? And what the spinlock
-> > protects?
->
-> For that invocation, since it is coming from the cdev device owned by
-> asus_wmi, it protects asus_ref.listeners under do_kbd_led_set.
-> asus_wmi is protected by the fact it is owned by that device. Spinlock
-> is not required in this invocation due to not being an IRQ.
->
-> Under asus_hid_event (second to last patch), which is called from an
-> IRQ, a spinlock is required for protecting both listeners and the
-> asus_ref.asus, and I suspect that scheduling from an IRQ is not
-> allowed either. Is that correct?
+This series backports 27 patches to update minmax.h in the 5.10.y
+branch, aligning it with v6.17-rc7.
 
-So it is a bit tricky here. When the IRQ fires, it needs to know
-whether asus-wmi will handle the keyboard brightness event so that it
-falls back to emitting it.
+The ultimate goal is to synchronize all long-term branches so that they
+include the full set of minmax.h changes.
 
-If we want it to know for sure, it needs to access asus_wmi, so it
-needs a spinlock or an IRQ friendly lock. This way, currently,
-asus_hid_event will return -EBUSY if there is no led device so the
-event propagates through hid.
+- 6.12.y has already been backported; the changes are included in
+  v6.12.49.
+- 6.6.y has already been backported; the changes are included in
+  v6.6.109.
+- 6.1.y has already been backported; the changes are currently in the
+  6.1-stable tree.
+- 5.15.y has already been backported; the changes are currently in the
+  5.15-stable tree.
 
-If we say that it is good enough to know that it was compiled with
-IS_REACHABLE(CONFIG_ASUS_WMI), ie the actual implementation of
-asus_hid_event in asus-wmi will never return an error, then,
-asus_hid_event can schedule a task to fire the event without a lock,
-and that task can use a normal locking primitive.
+The key motivation is to bring in commit d03eba99f5bf ("minmax: allow
+min()/max()/clamp() if the arguments have the same signedness"), which
+is missing in kernel 5.10.y.
 
-If the task needs to be assigned to a device or have a handle,
-asus_hid_listener can be provided to asus_hid_event, so that it is
-owned by the calling device.
+In mainline, this change enables min()/max()/clamp() to accept mixed
+argument types, provided both have the same signedness. Without it,
+backported patches that use these forms may trigger compiler warnings,
+which escalate to build failures when -Werror is enabled.
 
-What would the appropriate locking primitive be in this case?
+The first two patches in this series were added to prevent build
+failures caused by changes introduced later in minmax.h.
 
-> Antheas
-> >
-> > Not related to this particular email in this thread, if the users are
-> > testing something with different kernels, it's also important to make s=
-ure
-> > that the lockdep configs are enabled in both. As it could be that in on=
-e
-> > kernel lockdep is not enabled and thus it won't do the splat.
-> >
-> > --
-> >  i.
-> >
-> >
-> > > My testing on devices that have WMI led controls is a bit limited
-> > > unfortunately. However, most of our asus users have been happy with
-> > > this series for around half a year now.
-> > >
-> > > > > ---
-> > > > > V5: https://lore.kernel.org/all/20250325184601.10990-1-lkml@anthe=
-as.dev/
-> > > > > V4: https://lore.kernel.org/lkml/20250324210151.6042-1-lkml@anthe=
-as.dev/
-> > > > > V3: https://lore.kernel.org/lkml/20250322102804.418000-1-lkml@ant=
-heas.dev/
-> > > > > V2: https://lore.kernel.org/all/20250320220924.5023-1-lkml@anthea=
-s.dev/
-> > > > > V1: https://lore.kernel.org/all/20250319191320.10092-1-lkml@anthe=
-as.dev/
-> > > > >
-> > > > > Changes since V5:
-> > > > >   - It's been a long time
-> > > > >   - Remove addition of RGB as that had some comments I need to wo=
-rk on
-> > > > >   - Remove folio patch (already merged)
-> > > > >   - Remove legacy fix patch 11 from V4. There is a small chance t=
-hat
-> > > > >     without this patch, some old NKEY keyboards might not respond=
- to
-> > > > >     RGB commands according to Luke, but the kernel driver does no=
-t do
-> > > > >     RGB currently. The 0x5d init is done by Armoury crate softwar=
-e in
-> > > > >     Windows. If an issue is found, we can re-add it or just remov=
-e patches
-> > > > >     1/2 before merging. However, init could use the cleanup.
-> > > > >
-> > > > > Changes since V4:
-> > > > >   - Fix KConfig (reported by kernel robot)
-> > > > >   - Fix Ilpo's nits, if I missed anything lmk
-> > > > >
-> > > > > Changes since V3:
-> > > > >   - Add initializer for 0x5d for old NKEY keyboards until it is v=
-erified
-> > > > >     that it is not needed for their media keys to function.
-> > > > >   - Cover init in asus-wmi with spinlock as per Hans
-> > > > >   - If asus-wmi registers WMI handler with brightness, init the b=
-rightness
-> > > > >     in USB Asus keyboards, per Hans.
-> > > > >   - Change hid handler name to asus-UNIQ:rgb:peripheral to match =
-led class
-> > > > >   - Fix oops when unregistering asus-wmi by moving unregister out=
-side of
-> > > > >     the spin lock (but after the asus reference is set to null)
-> > > > >
-> > > > > Changes since V2:
-> > > > >   - Check lazy init succeds in asus-wmi before setting register v=
-ariable
-> > > > >   - make explicit check in asus_hid_register_listener for listene=
-r existing
-> > > > >     to avoid re-init
-> > > > >   - rename asus_brt to asus_hid in most places and harmonize ever=
-ything
-> > > > >   - switch to a spinlock instead of a mutex to avoid kernel ooops
-> > > > >   - fixup hid device quirks to avoid multiple RGB devices while s=
-till exposing
-> > > > >     all input vendor devices. This includes moving rgb init to pr=
-obe
-> > > > >     instead of the input_configured callbacks.
-> > > > >   - Remove fan key (during retest it appears to be 0xae that is a=
-lready
-> > > > >     supported by hid-asus)
-> > > > >   - Never unregister asus::kbd_backlight while asus-wmi is active=
-, as that
-> > > > >   - removes fds from userspace and breaks backlight functionality=
-. All
-> > > > >   - current mainline drivers do not support backlight hotplugging=
-, so most
-> > > > >     userspace software (e.g., KDE, UPower) is built with that ass=
-umption.
-> > > > >     For the Ally, since it disconnects its controller during slee=
-p, this
-> > > > >     caused the backlight slider to not work in KDE.
-> > > > >
-> > > > > Changes since V1:
-> > > > >   - Add basic RGB support on hid-asus, (Z13/Ally) tested in KDE/Z=
-13
-> > > > >   - Fix ifdef else having an invalid signature (reported by kerne=
-l robot)
-> > > > >   - Restore input arguments to init and keyboard function so they=
- can
-> > > > >     be re-used for RGB controls.
-> > > > >   - Remove Z13 delay (it did not work to fix the touchpad) and re=
-place it
-> > > > >     with a HID_GROUP_GENERIC quirk to allow hid-multitouch to loa=
-d. Squash
-> > > > >     keyboard rename into it.
-> > > > >   - Unregister brightness listener before removing work queue to =
-avoid
-> > > > >     a race condition causing corruption
-> > > > >   - Remove spurious mutex unlock in asus_brt_event
-> > > > >   - Place mutex lock in kbd_led_set after LED_UNREGISTERING check=
- to avoid
-> > > > >     relocking the mutex and causing a deadlock when unregistering=
- leds
-> > > > >   - Add extra check during unregistering to avoid calling unregis=
-ter when
-> > > > >     no led device is registered.
-> > > > >   - Temporarily HID_QUIRK_INPUT_PER_APP from the ROG endpoint as =
-it causes
-> > > > >     the driver to create 4 RGB handlers per device. I also suspec=
-t some
-> > > > >     extra events sneak through (KDE had the @@@@@@).
-> > > > >
-> > > > > Antheas Kapenekakis (7):
-> > > > >   HID: asus: refactor init sequence per spec
-> > > > >   HID: asus: prevent binding to all HID devices on ROG
-> > > > >   platform/x86: asus-wmi: Add support for multiple kbd RGB handle=
-rs
-> > > > >   HID: asus: listen to the asus-wmi brightness device instead of
-> > > > >     creating one
-> > > > >   platform/x86: asus-wmi: remove unused keyboard backlight quirk
-> > > > >   platform/x86: asus-wmi: add keyboard brightness event handler
-> > > > >   HID: asus: add support for the asus-wmi brightness handler
-> > > > >
-> > > > >  drivers/hid/hid-asus.c                     | 235 +++++++++++----=
-------
-> > > > >  drivers/platform/x86/asus-wmi.c            | 157 ++++++++++++--
-> > > > >  include/linux/platform_data/x86/asus-wmi.h |  69 +++---
-> > > > >  3 files changed, 291 insertions(+), 170 deletions(-)
-> > > > >
-> > > > >
-> > > > > base-commit: 3a8660878839faadb4f1a6dd72c3179c1df56787
-> > > >
-> > >
-> >
-> >
+ - Commit 92d23c6e9415 ("overflow, tracing: Define the is_signed_type()
+   macro once") is needed for commit 75ca38c1960f ("minmax: allow
+   min()/max()/clamp()").
+
+ - Commit cea628008fc8 ("btrfs: remove duplicated in_range() macro") is
+   needed for commit f9bff0e31881 ("minmax: add in_range() macro").
+
+The changes were tested using `make allyesconfig` and
+`make allmodconfig` for arm64, arm, x86_64 and i386 architectures.
+
+Changes in v2:
+The series was updated after initially backporting and approving the
+newer long-term branches.
+
+Andy Shevchenko (2):
+  minmax: deduplicate __unconst_integer_typeof()
+  minmax: fix header inclusions
+
+Bart Van Assche (1):
+  overflow, tracing: Define the is_signed_type() macro once
+
+David Laight (11):
+  minmax: allow min()/max()/clamp() if the arguments have the same
+    signedness.
+  minmax: fix indentation of __cmp_once() and __clamp_once()
+  minmax: allow comparisons of 'int' against 'unsigned char/short'
+  minmax: relax check to allow comparison between unsigned arguments and
+    signed constants
+  minmax.h: add whitespace around operators and after commas
+  minmax.h: update some comments
+  minmax.h: reduce the #define expansion of min(), max() and clamp()
+  minmax.h: use BUILD_BUG_ON_MSG() for the lo < hi test in clamp()
+  minmax.h: move all the clamp() definitions after the min/max() ones
+  minmax.h: simplify the variants of clamp()
+  minmax.h: remove some #defines that are only expanded once
+
+Herve Codina (1):
+  minmax: Introduce {min,max}_array()
+
+Jason A. Donenfeld (2):
+  minmax: sanity check constant bounds when clamping
+  minmax: clamp more efficiently by avoiding extra comparison
+
+Johannes Thumshirn (1):
+  btrfs: remove duplicated in_range() macro
+
+Linus Torvalds (8):
+  minmax: avoid overly complicated constant expressions in VM code
+  minmax: add a few more MIN_T/MAX_T users
+  minmax: simplify and clarify min_t()/max_t() implementation
+  minmax: make generic MIN() and MAX() macros available everywhere
+  minmax: don't use max() in situations that want a C constant
+    expression
+  minmax: simplify min()/max()/clamp() implementation
+  minmax: improve macro expansion and type checking
+  minmax: fix up min3() and max3() too
+
+Matthew Wilcox (Oracle) (1):
+  minmax: add in_range() macro
+
+ arch/arm/mm/pageattr.c                        |   6 +-
+ arch/um/drivers/mconsole_user.c               |   2 +
+ arch/x86/mm/pgtable.c                         |   2 +-
+ drivers/edac/sb_edac.c                        |   4 +-
+ drivers/edac/skx_common.h                     |   1 -
+ .../drm/amd/display/modules/hdcp/hdcp_ddc.c   |   2 +
+ .../drm/amd/pm/powerplay/hwmgr/ppevvmath.h    |  14 +-
+ .../drm/arm/display/include/malidp_utils.h    |   2 +-
+ .../display/komeda/komeda_pipeline_state.c    |  24 +-
+ drivers/gpu/drm/drm_color_mgmt.c              |   2 +-
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.c         |   6 -
+ drivers/gpu/drm/radeon/evergreen_cs.c         |   2 +
+ drivers/hwmon/adt7475.c                       |  24 +-
+ drivers/input/touchscreen/cyttsp4_core.c      |   2 +-
+ drivers/md/dm-integrity.c                     |   6 +-
+ drivers/media/dvb-frontends/stv0367_priv.h    |   3 +
+ .../net/ethernet/chelsio/cxgb3/cxgb3_main.c   |  18 +-
+ .../net/ethernet/stmicro/stmmac/stmmac_main.c |   2 +-
+ drivers/net/fjes/fjes_main.c                  |   4 +-
+ drivers/nfc/pn544/i2c.c                       |   2 -
+ drivers/platform/x86/sony-laptop.c            |   1 -
+ drivers/scsi/isci/init.c                      |   6 +-
+ .../pci/hive_isp_css_include/math_support.h   |   5 -
+ fs/btrfs/ctree.h                              |   2 -
+ fs/btrfs/extent_io.c                          |   1 +
+ fs/btrfs/file-item.c                          |   1 +
+ fs/btrfs/misc.h                               |   2 -
+ fs/btrfs/raid56.c                             |   1 +
+ fs/btrfs/tree-checker.c                       |   2 +-
+ fs/erofs/zdata.h                              |   2 +-
+ fs/ext2/balloc.c                              |   2 -
+ fs/ext4/ext4.h                                |   2 -
+ fs/ufs/util.h                                 |   6 -
+ include/linux/compiler.h                      |  15 +
+ include/linux/minmax.h                        | 267 ++++++++++++++----
+ include/linux/overflow.h                      |   1 -
+ include/linux/trace_events.h                  |   2 -
+ kernel/trace/preemptirq_delay_test.c          |   2 -
+ lib/btree.c                                   |   1 -
+ lib/decompress_unlzma.c                       |   2 +
+ lib/logic_pio.c                               |   3 -
+ lib/vsprintf.c                                |   2 +-
+ lib/zstd/zstd_internal.h                      |   2 -
+ mm/zsmalloc.c                                 |   1 -
+ net/ipv4/proc.c                               |   2 +-
+ net/ipv6/proc.c                               |   2 +-
+ net/netfilter/nf_nat_core.c                   |   6 +-
+ net/tipc/core.h                               |   2 +-
+ net/tipc/link.c                               |  10 +-
+ 49 files changed, 312 insertions(+), 169 deletions(-)
+
+-- 
+2.47.3
 
 
