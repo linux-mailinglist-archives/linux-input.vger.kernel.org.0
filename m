@@ -1,72 +1,72 @@
-Return-Path: <linux-input+bounces-15536-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-15537-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEF71BE6188
-	for <lists+linux-input@lfdr.de>; Fri, 17 Oct 2025 04:19:33 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id A5D16BE618B
+	for <lists+linux-input@lfdr.de>; Fri, 17 Oct 2025 04:19:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 89B734E4029
-	for <lists+linux-input@lfdr.de>; Fri, 17 Oct 2025 02:19:32 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 6F3F84E77E3
+	for <lists+linux-input@lfdr.de>; Fri, 17 Oct 2025 02:19:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 351202253EE;
-	Fri, 17 Oct 2025 02:19:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 92BFA201004;
+	Fri, 17 Oct 2025 02:19:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HPo+YPGd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HzFAu09g"
 X-Original-To: linux-input@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95525219A7A
-	for <linux-input@vger.kernel.org>; Fri, 17 Oct 2025 02:19:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 084B31F4CB3
+	for <linux-input@vger.kernel.org>; Fri, 17 Oct 2025 02:19:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760667571; cv=none; b=AZX1E0/hHSnBPiQdPNLfRpvVCV1jhdWOLhPat5sHjOoUEX6VlDtkyzcqshH87/26rBNsJGSZqCEyoUCTWSq2XYFpHE5osumQRam/7CbwSBTOhFhij6j2jl+oK7oMKJephUfIs6Omfxufl48S3gRuOn6SKxS5n4GO25MDJNrwOG4=
+	t=1760667572; cv=none; b=KluFQf8T8rvY1F8xhvYOLOxk85qrOrMa6QJb93w7eJn1d8WczWb5oi7VdcHEbD87hVOv/Q6TbzmDTkOBPYUxKumkOGxNsOmw5pN3V6cAuE/Vz2Ec1cpRJZqSKmWWLDaAKTN50SlE1oSNFYDFBepl91qfLPCA4Gqd7p1DSPfOxd8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760667571; c=relaxed/simple;
-	bh=93NrzllzjdcQXSEeJNJo0CAOcOhFLAK7jZGWdBeTTRg=;
+	s=arc-20240116; t=1760667572; c=relaxed/simple;
+	bh=3eZ/1aA7hzGzL4iRMS+2MxpV5sxOzK3XX8X5EfBnjsw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=AwueKaNYefsQ5nLkxk4UEXKRzb9xSAtE5I5371L9d94ZzuTuLNbIj0pr48X37HVyr8k1CSNzemocrI0HIvwqBubZPEtLGqiJnwtpKcmyCuaZyEqCnWWoV3XsZBBwwx9V1LEG+ob4jaC//OB5FXsMTxYEKh8wA/b8+O4Nc1h7MwM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HPo+YPGd; arc=none smtp.client-ip=192.198.163.12
+	 MIME-Version; b=nU4zo9sLm+aA/GSxLF4o9nL5qA10YWnKTC+cZtyDIhEtkN3/VsxyCJ/nfTbQHWzJ+TvEtCJFZl+05aAGzJMBbGoPKAOHC1wmEFjDtO80Fwfa7umxC/+eQPyLwnWo7r3Jv8+QxStkauHOCAJ5ulRaTpdCYcsxa3otH+RwURq+YA4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HzFAu09g; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760667570; x=1792203570;
+  t=1760667571; x=1792203571;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=93NrzllzjdcQXSEeJNJo0CAOcOhFLAK7jZGWdBeTTRg=;
-  b=HPo+YPGd/3MJmSZ7PLs6kLSg30LmA/gvI7qNnWVKfxC735bKQMzwk0Ot
-   v3FRhgbLjLjNgxdA0Gx8iHtikAYotwNPWBZpRqDzlWRc/HOTGG40o2D+H
-   6GlKAq4Ea9zgxxX58OSMoFG4lFcWP7Mj088gUW2JwfxuXS3ZRLCdPMSz5
-   0qAzVlsuHm+bDbQrUB5DQIL29VIANbxBJqO1a+GNo9OfGkFOAKTjPUiCI
-   KFBYgimA06PQ3GOzWEio4YjASVZ5Fq54hP+5nLWtZ235/iFddmsA2QQ9U
-   DajaXjVRp7qHJZbYTS27/lxIIBRMYDoYhVNgrZ5MNuuW4WX4iW4VMmq6V
-   g==;
-X-CSE-ConnectionGUID: AWqk0d34QTyR0jIJ6vUPxA==
-X-CSE-MsgGUID: paVFuKUASZOG+JVNiYHRJQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11584"; a="66738708"
+  bh=3eZ/1aA7hzGzL4iRMS+2MxpV5sxOzK3XX8X5EfBnjsw=;
+  b=HzFAu09gF2JqJuLRT5Suqr0ILBYF26hSJHt4Ozf+8565YKIQVTlZOwFY
+   BEsNo52D7Z+XMJr5Jylj9GPSH8bClqgZhluiL6aBx0zzMWWj8zvPyRGBZ
+   wLxSZ01zD5n/I1J/sD9NulO1xMm4lX/oPQRA2vxEPA1smE2nJQtcNBkMc
+   Mv0GZifSU6yecYcj4Vh1Wu2AOxMJVfkQvX9BdjRz700RBJH4DSDOgnium
+   MsENVKhBa/uJwXStY4qOmmE7jH5VOZ/h+/iGhfllY4UvY42Ge3Z5oVPV2
+   2X1AJ6qpPU3JPF7YGwgPvhpwuQbGFPc7Mq2TB4i6sL45V+X2+uJVvczHZ
+   w==;
+X-CSE-ConnectionGUID: 4JyekmyRSsShnPVY61BWFw==
+X-CSE-MsgGUID: zmjqECaZQ9SCKg+PWR9pXw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11584"; a="66738711"
 X-IronPort-AV: E=Sophos;i="6.19,234,1754982000"; 
-   d="scan'208";a="66738708"
+   d="scan'208";a="66738711"
 Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2025 19:19:30 -0700
-X-CSE-ConnectionGUID: gnF0lobeQaWoEzyK3LwqUw==
-X-CSE-MsgGUID: BdT1GgnfQ/OPEUHVta7q2g==
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2025 19:19:31 -0700
+X-CSE-ConnectionGUID: ZsnGIEQ5RPCmQm67goPV4A==
+X-CSE-MsgGUID: Qs3LHkT/QNadfjAI5oUlkA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,234,1754982000"; 
-   d="scan'208";a="213586355"
+   d="scan'208";a="213586360"
 Received: from iscp-l-lixuzha.sh.intel.com ([10.239.153.157])
-  by fmviesa001.fm.intel.com with ESMTP; 16 Oct 2025 19:19:28 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 16 Oct 2025 19:19:29 -0700
 From: Zhang Lixu <lixu.zhang@intel.com>
 To: linux-input@vger.kernel.org,
 	srinivas.pandruvada@linux.intel.com,
 	jikos@kernel.org,
 	benjamin.tissoires@redhat.com
 Cc: lixu.zhang@intel.com
-Subject: [PATCH v2 2/6] HID: intel-ishtp-hid: Clear suspended flag only after connected on resume
-Date: Fri, 17 Oct 2025 10:22:14 +0800
-Message-ID: <20251017022218.1292451-3-lixu.zhang@intel.com>
+Subject: [PATCH v2 3/6] HID: intel-ish-ipc: Reset clients state on resume from D3
+Date: Fri, 17 Oct 2025 10:22:15 +0800
+Message-ID: <20251017022218.1292451-4-lixu.zhang@intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20251017022218.1292451-1-lixu.zhang@intel.com>
 References: <20251017022218.1292451-1-lixu.zhang@intel.com>
@@ -78,46 +78,63 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-When resuming from suspend-to-RAM or hibernate, the ISH firmware is powered
-on from D3, causing all previous client connections between the firmware
-and driver to be lost. Although the underlying ishtp bus driver initiates a
-client reconnection flow, this process is asynchronous. As a result, when
-hid_ishtp_cl_resume_handler() is executed, the connection may not have been
-re-established yet. Clearing the suspended flag prematurely in this
-scenario can lead to a timeout when the upper-layer HID sensor driver set
-feature during resume.
+When ISH resumes from D3, the connection between ishtp clients and firmware
+is lost. The ish_resume() function schedules resume_work asynchronously to
+re-initiate the connection and then returns immediately. This can cause a
+race where the upper-layer ishtp client driver's .resume() may execute
+before the connection is fully restored, leaving the client in a stale
+connected state. If the client sends messages during this window, the
+firmware cannot respond.
 
-To prevent such timeouts, only clear the suspended flag after confirming
-that the connection state is ISHTP_CL_CONNECTED.
+To avoid this, reset the ishtp clients' state before returning from
+ish_resume() if ISH is resuming from D3.
 
 Signed-off-by: Zhang Lixu <lixu.zhang@intel.com>
 Acked-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
 ---
- drivers/hid/intel-ish-hid/ishtp-hid-client.c | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+ drivers/hid/intel-ish-hid/ipc/pci-ish.c | 14 +++++++++++---
+ 1 file changed, 11 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/hid/intel-ish-hid/ishtp-hid-client.c b/drivers/hid/intel-ish-hid/ishtp-hid-client.c
-index f61add862b6b..f37b3bc2bb7d 100644
---- a/drivers/hid/intel-ish-hid/ishtp-hid-client.c
-+++ b/drivers/hid/intel-ish-hid/ishtp-hid-client.c
-@@ -757,8 +757,15 @@ static void hid_ishtp_cl_resume_handler(struct work_struct *work)
- 	struct ishtp_cl *hid_ishtp_cl = client_data->hid_ishtp_cl;
+diff --git a/drivers/hid/intel-ish-hid/ipc/pci-ish.c b/drivers/hid/intel-ish-hid/ipc/pci-ish.c
+index b748ac6fbfdc..e4499c83c62e 100644
+--- a/drivers/hid/intel-ish-hid/ipc/pci-ish.c
++++ b/drivers/hid/intel-ish-hid/ipc/pci-ish.c
+@@ -147,6 +147,12 @@ static inline bool ish_should_enter_d0i3(struct pci_dev *pdev)
  
- 	if (ishtp_wait_resume(ishtp_get_ishtp_device(hid_ishtp_cl))) {
--		client_data->suspended = false;
--		wake_up_interruptible(&client_data->ishtp_resume_wait);
-+		/*
-+		 * Clear the suspended flag only when the connection is established.
-+		 * If the connection is not established, the suspended flag will be cleared after
-+		 * the connection is made.
-+		 */
-+		if (ishtp_get_connection_state(hid_ishtp_cl) == ISHTP_CL_CONNECTED) {
-+			client_data->suspended = false;
-+			wake_up_interruptible(&client_data->ishtp_resume_wait);
-+		}
- 	} else {
- 		hid_ishtp_trace(client_data, "hid client: wait for resume timed out");
- 		dev_err(cl_data_to_dev(client_data), "wait for resume timed out");
+ static inline bool ish_should_leave_d0i3(struct pci_dev *pdev)
+ {
++	struct ishtp_device *dev = pci_get_drvdata(pdev);
++	u32 fwsts = dev->ops->get_fw_status(dev);
++
++	if (dev->suspend_flag || !IPC_IS_ISH_ILUP(fwsts))
++		return false;
++
+ 	return !pm_resume_via_firmware() || pdev->device == PCI_DEVICE_ID_INTEL_ISH_CHV;
+ }
+ 
+@@ -277,10 +283,8 @@ static void __maybe_unused ish_resume_handler(struct work_struct *work)
+ {
+ 	struct pci_dev *pdev = to_pci_dev(ish_resume_device);
+ 	struct ishtp_device *dev = pci_get_drvdata(pdev);
+-	uint32_t fwsts = dev->ops->get_fw_status(dev);
+ 
+-	if (ish_should_leave_d0i3(pdev) && !dev->suspend_flag
+-			&& IPC_IS_ISH_ILUP(fwsts)) {
++	if (ish_should_leave_d0i3(pdev)) {
+ 		if (device_may_wakeup(&pdev->dev))
+ 			disable_irq_wake(pdev->irq);
+ 
+@@ -384,6 +388,10 @@ static int __maybe_unused ish_resume(struct device *device)
+ 	ish_resume_device = device;
+ 	dev->resume_flag = 1;
+ 
++	/* If ISH resume from D3, reset ishtp clients before return */
++	if (!ish_should_leave_d0i3(pdev))
++		ishtp_reset_handler(dev);
++
+ 	queue_work(dev->unbound_wq, &resume_work);
+ 
+ 	return 0;
 -- 
 2.43.0
 
