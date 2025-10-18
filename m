@@ -1,165 +1,128 @@
-Return-Path: <linux-input+bounces-15605-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-15606-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE854BED180
-	for <lists+linux-input@lfdr.de>; Sat, 18 Oct 2025 16:23:59 +0200 (CEST)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id C9785BED6C4
+	for <lists+linux-input@lfdr.de>; Sat, 18 Oct 2025 19:50:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2F0B019C0E16
-	for <lists+linux-input@lfdr.de>; Sat, 18 Oct 2025 14:24:23 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 7571A34D8A4
+	for <lists+linux-input@lfdr.de>; Sat, 18 Oct 2025 17:50:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B935E2FFDFF;
-	Sat, 18 Oct 2025 14:22:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 03C1325EFBE;
+	Sat, 18 Oct 2025 17:50:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="HVOXcCeC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EWkSlmsv"
 X-Original-To: linux-input@vger.kernel.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E02C2FBE04;
-	Sat, 18 Oct 2025 14:22:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0040125FA05
+	for <linux-input@vger.kernel.org>; Sat, 18 Oct 2025 17:50:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760797333; cv=none; b=PRe48qgidWTbWX3tqn6flp2/Z8gk+sAijEOBefxP4hMmadMfn8EmwEfPG4xBt8l5xqesu6bNTMJtJCnnsJj8HjwRlp5Igq215QqYOwLUPcUziiZodThr5z5T3PO6IcaDSQbd7F+V8OER0K7/190RVRNq2SSpXdWeqeZF7X1G2oY=
+	t=1760809836; cv=none; b=CpvwAgH6d2vobvX3w0VE7ZSW8K9WEkQtU7+FIASpJA4gAaC/lf4T91LRY8Z2GMeZ77BxskcgNC4oj/tr9TVSHZQHHrw/DZ1UZoTYYbrppRjOHOAZziS/4e6Ycy0K09R3Vq9RYnvqaK3p/WMxBAshwj5FaJwBoNITRKjUA1/Lqjk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760797333; c=relaxed/simple;
-	bh=t/dFdhvyuz66Bza7SgTKVPfg4WTopgWxJbZsaxCOTOg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=WhsjhItCyin0NZeB8+gsIpABLrIonvdKNSQeWRriq6MoMLdbLT05APCf1CWWdddZvz3WxZsVo1S2+iBZ8Kd70BqUT1CbJApkMskz8Rg0msrPr3CdV8gCJVkSrVhOXT1AgCeOc/i/gHEv5karyDgwarRDat0XMh7W6O9KZmYWdrY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=HVOXcCeC; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1760797329;
-	bh=t/dFdhvyuz66Bza7SgTKVPfg4WTopgWxJbZsaxCOTOg=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=HVOXcCeC6R/8O24N4CWmc9cPxh/HOTY8T1lEZ56rfwNuZNV6qkVt4g5QkcXOYOu13
-	 m3ZEBuNIinO/as+SRtiGyRaV6hnWp00IVPUiolKC1so4lJX4eHNkQHQnrtXn41Ef+s
-	 SPcH5K/tEEs9Rl+8UWFzCfWzfv7Av0JRwMUs5+ymv2hzn4Wc0ASK1sbfJnuhg26QSi
-	 rYhIyLIjYHVWkWoJBg7a1XVBYJC4TybxeSBZmr1nro2QZuGNN/HQtk8F74s6Yxyckw
-	 GfpocVSnk3Hzp4DxqSmG6wQIl+8H7+x390IT05vW9omPPUHPsTHrRVzXVAGwbdKfdB
-	 YiZiy1/E87TZA==
-Received: from mt.tail9873f4.ts.net (unknown [144.48.130.189])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: usama.anjum)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 3786A17E13F2;
-	Sat, 18 Oct 2025 16:22:07 +0200 (CEST)
-From: Muhammad Usama Anjum <usama.anjum@collabora.com>
-To: "Rafael J. Wysocki" <rafael@kernel.org>,
-	Len Brown <lenb@kernel.org>,
-	Pavel Machek <pavel@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Peter Zijlstra <peterz@infradead.org>,
-	linux-acpi@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-pm@vger.kernel.org,
-	linux-input@vger.kernel.org
-Cc: Muhammad Usama Anjum <usama.anjum@collabora.com>,
-	kernel@collabora.com,
-	superm1@kernel.org
-Subject: [RFC 4/4] PM: sleep: clear pm_abort_suspend at suspend
-Date: Sat, 18 Oct 2025 19:21:07 +0500
-Message-ID: <20251018142114.897445-5-usama.anjum@collabora.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20251018142114.897445-1-usama.anjum@collabora.com>
-References: <20251018142114.897445-1-usama.anjum@collabora.com>
+	s=arc-20240116; t=1760809836; c=relaxed/simple;
+	bh=T9T0aGwGpJFomYrCr761NWwRCsx+l6USp6yiGsw6wtQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=dyCez83hB72jFgyhTdxVJPVvHri4kbQ9V48+lNLoh++iHp52bmD+orG/e3gONhdurbNgPaRGuF7MORe1P/ERZbTB/8nr4aSKi8QHAErBkevoDnsUfIHOx5r/sb4EG4M6tgE3R4otjIwAs1OWq1lc7qOOqSc+YBziyPNP5ara4aI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EWkSlmsv; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1760809835; x=1792345835;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=T9T0aGwGpJFomYrCr761NWwRCsx+l6USp6yiGsw6wtQ=;
+  b=EWkSlmsvOyUgG8s+U8rGyrvKfwMbX8fK8B2dL3xZuG5FSKl7cflcYC4k
+   AtUvXkgvnhAjCy6xblVFM2FYmGk8VNugJpw5EDa0uxTei6Z7QZfUFIZoY
+   bfXm/vIxGWx3VIzOpAEyOT4S4TK2IGvNPZRWgmtlyUzifYJgFp+NLvW1m
+   SCazdOUCj4eCZsbCxcjgz4PozCebAShH4jgyN+UNVbi3RhmXPoGScUk3i
+   scpNZco/tOe+Z/YEvfMbBWHK1GRvtO6vSQSR9zREEFcx0YME98DKgOyXG
+   z/48Kpgpd0JNKb7D+xWeWLz5rcKa4ZmvKeYUHsy0dsau4vcLW/C8lCS6Y
+   g==;
+X-CSE-ConnectionGUID: 5oZxAf4dRjuC7deFHvp9Tg==
+X-CSE-MsgGUID: vjXAcMSiQca9H5zH+u7BIA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="80434227"
+X-IronPort-AV: E=Sophos;i="6.19,239,1754982000"; 
+   d="scan'208";a="80434227"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2025 10:50:34 -0700
+X-CSE-ConnectionGUID: LsH4BTCFQeKO6WsViGmWLQ==
+X-CSE-MsgGUID: JYnQOR9XTOiqoIjTI4krOQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,239,1754982000"; 
+   d="scan'208";a="182180327"
+Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
+  by orviesa010.jf.intel.com with ESMTP; 18 Oct 2025 10:50:33 -0700
+Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1vAB4Y-0008U9-22;
+	Sat, 18 Oct 2025 17:50:30 +0000
+Date: Sun, 19 Oct 2025 01:50:29 +0800
+From: kernel test robot <lkp@intel.com>
+To: Zhang Lixu <lixu.zhang@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-input@vger.kernel.org, Jiri Kosina <jikos@kernel.org>
+Subject: [hid:for-6.19/intel-ish-v2 1/7]
+ drivers/hid/intel-ish-hid/ipc/ipc.c:944:36: warning: cast from 'void
+ (*)(struct workqueue_struct *)' to 'void (*)(void *)' converts to
+ incompatible function type
+Message-ID: <202510190103.qTZvfdjj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Clear pm_abort_suspend counter in case a wakeup is detected during
-hibernation process. If this counter isn't reset, it'll affect the
-next hibernation cycle and next time hibernation will not happen as
-pm_abort_suspend is still positive.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-6.19/intel-ish-v2
+head:   5677aa6a08c1df8bc1ec71516fe1ced9b7cb545f
+commit: 0d30dae38fe01cd1de358c6039a0b1184689fe51 [1/7] HID: intel-ish-hid: Use dedicated unbound workqueues to prevent resume blocking
+config: x86_64-randconfig-002-20251018 (https://download.01.org/0day-ci/archive/20251019/202510190103.qTZvfdjj-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251019/202510190103.qTZvfdjj-lkp@intel.com/reproduce)
 
-Signed-off-by: Muhammad Usama Anjum <usama.anjum@collabora.com>
----
- drivers/base/power/main.c | 2 ++
- kernel/cpu.c              | 1 +
- kernel/power/hibernate.c  | 5 ++++-
- kernel/power/process.c    | 1 +
- 4 files changed, 8 insertions(+), 1 deletion(-)
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510190103.qTZvfdjj-lkp@intel.com/
 
-diff --git a/drivers/base/power/main.c b/drivers/base/power/main.c
-index bcfb170baca63..481744e7d9688 100644
---- a/drivers/base/power/main.c
-+++ b/drivers/base/power/main.c
-@@ -1627,6 +1627,7 @@ static void device_suspend_late(struct device *dev, pm_message_t state, bool asy
- 		goto Complete;
- 
- 	if (pm_wakeup_pending()) {
-+		pm_wakeup_clear(0);
- 		WRITE_ONCE(async_error, -EBUSY);
- 		goto Complete;
- 	}
-@@ -1872,6 +1873,7 @@ static void device_suspend(struct device *dev, pm_message_t state, bool async)
- 
- 	if (pm_wakeup_pending()) {
- 		dev->power.direct_complete = false;
-+		pm_wakeup_clear(0);
- 		WRITE_ONCE(async_error, -EBUSY);
- 		goto Complete;
- 	}
-diff --git a/kernel/cpu.c b/kernel/cpu.c
-index db9f6c539b28c..74c9f6b4947dd 100644
---- a/kernel/cpu.c
-+++ b/kernel/cpu.c
-@@ -1921,6 +1921,7 @@ int freeze_secondary_cpus(int primary)
- 
- 		if (pm_wakeup_pending()) {
- 			pr_info("Wakeup pending. Abort CPU freeze\n");
-+			pm_wakeup_clear(0);
- 			error = -EBUSY;
- 			break;
- 		}
-diff --git a/kernel/power/hibernate.c b/kernel/power/hibernate.c
-index aadf82f57e868..1a4a5c3c64970 100644
---- a/kernel/power/hibernate.c
-+++ b/kernel/power/hibernate.c
-@@ -350,8 +350,10 @@ static int create_image(int platform_mode)
- 		goto Enable_irqs;
- 	}
- 
--	if (hibernation_test(TEST_CORE) || pm_wakeup_pending())
-+	if (hibernation_test(TEST_CORE) || pm_wakeup_pending()) {
-+		pm_wakeup_clear(0);
- 		goto Power_up;
-+	}
- 
- 	in_suspend = 1;
- 	save_processor_state();
-@@ -661,6 +663,7 @@ int hibernation_platform_enter(void)
- 		goto Enable_irqs;
- 
- 	if (pm_wakeup_pending()) {
-+		pm_wakeup_clear(0);
- 		error = -EAGAIN;
- 		goto Power_up;
- 	}
-diff --git a/kernel/power/process.c b/kernel/power/process.c
-index 8ff68ebaa1e08..7a278e049940c 100644
---- a/kernel/power/process.c
-+++ b/kernel/power/process.c
-@@ -67,6 +67,7 @@ static int try_to_freeze_tasks(bool user_only)
- 			break;
- 
- 		if (pm_wakeup_pending()) {
-+			pm_wakeup_clear(0);
- 			wakeup = true;
- 			break;
- 		}
+All warnings (new ones prefixed by >>):
+
+>> drivers/hid/intel-ish-hid/ipc/ipc.c:944:36: warning: cast from 'void (*)(struct workqueue_struct *)' to 'void (*)(void *)' converts to incompatible function type [-Wcast-function-type-strict]
+     944 |         if (devm_add_action_or_reset(dev, (void (*)(void *))destroy_workqueue,
+         |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/device/devres.h:168:34: note: expanded from macro 'devm_add_action_or_reset'
+     168 |         __devm_add_action_or_reset(dev, action, data, #action)
+         |                                         ^~~~~~
+   1 warning generated.
+
+
+vim +944 drivers/hid/intel-ish-hid/ipc/ipc.c
+
+   935	
+   936	static struct workqueue_struct *devm_ishtp_alloc_workqueue(struct device *dev)
+   937	{
+   938		struct workqueue_struct *wq;
+   939	
+   940		wq = alloc_workqueue("ishtp_unbound_%d", WQ_UNBOUND, 0, dev->id);
+   941		if (!wq)
+   942			return NULL;
+   943	
+ > 944		if (devm_add_action_or_reset(dev, (void (*)(void *))destroy_workqueue,
+   945					     wq))
+   946			return NULL;
+   947	
+   948		return wq;
+   949	}
+   950	
+
 -- 
-2.47.3
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
