@@ -1,170 +1,136 @@
-Return-Path: <linux-input+bounces-15582-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-15583-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B2C1BEACF8
-	for <lists+linux-input@lfdr.de>; Fri, 17 Oct 2025 18:41:55 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id D3F63BEC34D
+	for <lists+linux-input@lfdr.de>; Sat, 18 Oct 2025 03:09:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 36E517451D4
-	for <lists+linux-input@lfdr.de>; Fri, 17 Oct 2025 16:09:57 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id C893E4F30B0
+	for <lists+linux-input@lfdr.de>; Sat, 18 Oct 2025 01:09:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BA774277007;
-	Fri, 17 Oct 2025 16:09:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B09FF1B425C;
+	Sat, 18 Oct 2025 01:09:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YtSviiKK"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="f8XmRHQo"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 616DD26B0A9;
-	Fri, 17 Oct 2025 16:09:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3461F189906
+	for <linux-input@vger.kernel.org>; Sat, 18 Oct 2025 01:09:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760717391; cv=none; b=qREF5xZYfz8j4tTdwHuxw+ZYqRQqN55rRX3y6OgPoYTZgs0hzvEcE6nq0yyUG+iDC24kUbfUs2Ia5BaxpplYzpi8qPIwBN4ZfU6L+ylVXc4BC+9yPQ3xRO4oXaBDYJVH0pTKa78mxyLZnYHpt1LwJuYCg8Dj1bgYz3vF8k+KuHg=
+	t=1760749744; cv=none; b=PPnKtiso2mjRydLPTRzUgP1UaKiqIZkh17UMsYzJZ8KoDcpFkPkNnQx1W8PsNYOhHbqScd78a3XUm3F91/rBJq0p7HNYCRGGXRempIAUIPmf3B4055G7DldNqcgmvrvkkuPR657BhYFXXYGfnACgABc23mvRhvqf3qulqTeSKW4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760717391; c=relaxed/simple;
-	bh=BOrYC+tXjLjRqJyXcD4crvrBNK2lkUpKkjfEmyc87bI=;
+	s=arc-20240116; t=1760749744; c=relaxed/simple;
+	bh=e3j0tM594BEHtaLmHhl6ldltnFaSOezHubsVppH21NE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iWy895WajwE+h8mx6Pi2PYix+/PvfztRajECItZdikbvNHHv5lhxGisse8tPX4JO0xzFRLKewC9ErT44yMIAJY6utZePsszk7mX8ag/vyKI5fjBwAIjLZZ0djNPioX/lMqLB9MPuNZuqA7eF0yZakSVaCNBXaDxWk6Q/EwtNQFw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YtSviiKK; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EBE17C4CEE7;
-	Fri, 17 Oct 2025 16:09:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760717391;
-	bh=BOrYC+tXjLjRqJyXcD4crvrBNK2lkUpKkjfEmyc87bI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YtSviiKK7XhOypmn1B0JMTFJNg+aK9xkicr5kleBJoGLQsIHX6oRtRnPJgXbXWtLH
-	 cVrvwZYIhcft0nkxK/ZQBpXxxHeWHw5/VEilYnGTD4lEZyzXP8wqDKjbklEc7PQZxX
-	 jrw7mNWuagcjs3SnKes4mzFKMKH2tiSDMTY+zRgHS/b+KVlZKnLK4gb6spqja1+1F5
-	 LtRKkkOtABvH8jmUIF+maywb5ma9DVPFdB4So5FQ7XdD3Y3FN97CNzQWMZICjSRgyi
-	 XbXdYmBkEWUiq556ItdRa+tvmxGUk+V9ozsqtDgWFGhyHQtvMVM573eif+FMsCQ1J7
-	 ilRe5q/VN9eDQ==
-Date: Fri, 17 Oct 2025 17:09:24 +0100
-From: Nathan Chancellor <nathan@kernel.org>
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Eliav Farber <farbere@amazon.com>, stable@vger.kernel.org,
-	linux@armlinux.org.uk, jdike@addtoit.com, richard@nod.at,
-	anton.ivanov@cambridgegreys.com, dave.hansen@linux.intel.com,
-	luto@kernel.org, peterz@infradead.org, tglx@linutronix.de,
-	mingo@redhat.com, bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-	tony.luck@intel.com, qiuxu.zhuo@intel.com, mchehab@kernel.org,
-	james.morse@arm.com, rric@kernel.org, harry.wentland@amd.com,
-	sunpeng.li@amd.com, alexander.deucher@amd.com,
-	christian.koenig@amd.com, airlied@linux.ie, daniel@ffwll.ch,
-	evan.quan@amd.com, james.qian.wang@arm.com, liviu.dudau@arm.com,
-	mihail.atanassov@arm.com, brian.starkey@arm.com,
-	maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-	tzimmermann@suse.de, robdclark@gmail.com, sean@poorly.run,
-	jdelvare@suse.com, linux@roeck-us.net, fery@cypress.com,
-	dmitry.torokhov@gmail.com, agk@redhat.com, snitzer@redhat.com,
-	dm-devel@redhat.com, rajur@chelsio.com, davem@davemloft.net,
-	kuba@kernel.org, peppe.cavallaro@st.com, alexandre.torgue@st.com,
-	joabreu@synopsys.com, mcoquelin.stm32@gmail.com, malattia@linux.it,
-	hdegoede@redhat.com, mgross@linux.intel.com,
-	intel-linux-scu@intel.com, artur.paszkiewicz@intel.com,
-	jejb@linux.ibm.com, martin.petersen@oracle.com,
-	sakari.ailus@linux.intel.com, clm@fb.com, josef@toxicpanda.com,
-	dsterba@suse.com, xiang@kernel.org, chao@kernel.org, jack@suse.com,
-	tytso@mit.edu, adilger.kernel@dilger.ca, dushistov@mail.ru,
-	luc.vanoostenryck@gmail.com, rostedt@goodmis.org, pmladek@suse.com,
-	sergey.senozhatsky@gmail.com, andriy.shevchenko@linux.intel.com,
-	linux@rasmusvillemoes.dk, minchan@kernel.org, ngupta@vflare.org,
-	akpm@linux-foundation.org, kuznet@ms2.inr.ac.ru,
-	yoshfuji@linux-ipv6.org, pablo@netfilter.org, kadlec@netfilter.org,
-	fw@strlen.de, jmaloy@redhat.com, ying.xue@windriver.com,
-	willy@infradead.org, sashal@kernel.org, ruanjinjie@huawei.com,
-	David.Laight@aculab.com, herve.codina@bootlin.com, Jason@zx2c4.com,
-	keescook@chromium.org, kbusch@kernel.org, bvanassche@acm.org,
-	ndesaulniers@google.com, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, linux-um@lists.infradead.org,
-	linux-edac@vger.kernel.org, amd-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
-	freedreno@lists.freedesktop.org, linux-hwmon@vger.kernel.org,
-	linux-input@vger.kernel.org, linux-media@vger.kernel.org,
-	netdev@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
-	platform-driver-x86@vger.kernel.org, linux-scsi@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-btrfs@vger.kernel.org,
-	linux-erofs@lists.ozlabs.org, linux-ext4@vger.kernel.org,
-	linux-sparse@vger.kernel.org, linux-mm@kvack.org,
-	netfilter-devel@vger.kernel.org, coreteam@netfilter.org,
-	tipc-discussion@lists.sourceforge.net
-Subject: Re: [PATCH v2 00/27 5.10.y] Backport minmax.h updates from v6.17-rc7
-Message-ID: <20251017160924.GA2728735@ax162>
-References: <20251017090519.46992-1-farbere@amazon.com>
- <2025101704-rumble-chatroom-60b5@gregkh>
+	 Content-Type:Content-Disposition:In-Reply-To; b=rZAmWJtVu0Q6zNrkYw+nJNOVMqabL8EczD8T7M1f2/khho43kptqwnox8s/vh6LFbUyjqKazdlP6LYkZ0TcYiobJ9pIzvVZ37PymG9ZGbVcoSzsaGBpHwKj44PGHHx8YYtVQCaveNChiyccFfXEee0mVLvg7lOyM7HGO5Quejr8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=f8XmRHQo; arc=none smtp.client-ip=209.85.210.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-782e93932ffso2304482b3a.3
+        for <linux-input@vger.kernel.org>; Fri, 17 Oct 2025 18:09:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1760749741; x=1761354541; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=LvZsZ7oS0CM+3Jpc3uOT/QYGpqH5xVAqjmhfBxS7UXc=;
+        b=f8XmRHQoialr6hHO75SR9y6KXIDBpZrz5wiTFqXhooWvtNBYO9XDc7YxLHqwGJb8cf
+         zEQifro+pgRp1+5J4KRZNL0dFK7Hzvu1JXFL1g8qlP7+2UAnuQwcTXtnimZAXngUJQU3
+         NELLzLTgbhxbunMav54TgFuNoVFYKinpQoS8xkw5YKxhT3bJGlR4dY8/AoHpXTD4+CYU
+         IXUSEiVJGUO45zP2WmUUTNLE6lKHQgw0mRQYm2GWl26xrH65si3fYJH0vnIPVVitsW1I
+         X4RPaKWQpWtrt0BMOiaG7yOG5xFqz1ZilpmclLMhd503Ro34sJv9b9eab/YEOFWA8SXl
+         /F4Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760749741; x=1761354541;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=LvZsZ7oS0CM+3Jpc3uOT/QYGpqH5xVAqjmhfBxS7UXc=;
+        b=RhjKIz7bV4ZaRV6Xh3RZe7mMcB74jtXbbVQKMa8S3ROez1Kh7JgV5WToAPPdx6R3zo
+         HW3Ikz9PWTq3mNyjFcEfattTwJKExoGLILIKJWAPzdY1FmpCQFSE0EajYyNj8j+JR6N+
+         HVX4zIKTH4f+W+P6ZxUO11M1Vx2HA73ShDKKb/pk3aOYKYpzdJdA+7Eq6a5xVh4iuk3O
+         i1S4ehjnsHrI6cCAfrqWxb2bVJO/IfA/qZmGiQlHABP763fLKEK5OCnsxKRiTekDLVg7
+         XA5AD5CuXWNCVTnKqOQOJmHRSJHZRdUWaVc5sLWoiIT74KC20DysVSxka40ygzZfT0vC
+         ER1g==
+X-Forwarded-Encrypted: i=1; AJvYcCWjwTtxT0+Z0uGC6edr1s1V0SeBDc6/vrp65TwZJsLIiv6aDO8Hb0hIKshEn6yrQ+BKXv5mjN2cm+K31w==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxEt51OnxwmC57Qn88zYnl0j6PppWgnnQst0Hly+D9bQIZ0jvH2
+	+bWGDgNjOTBAJ5Jd37X+xDyAQnG0GpqUjStsCiHlW5A9u39aEltppr0f
+X-Gm-Gg: ASbGncu9EWvqyGYKpMfEvm566FVou7IqNEnQidv/pKuBaYVaGLsmFpe8K+QMDMqqpyn
+	jomDB6z9GcWuzOjjpmxV0SrQWeLjqX0u5puRxaEyeR7wMmHsVoYnXj1sQ2imJw74vFGRefie+nk
+	Qmm81ainjTUSqxSM1mbyoLTlck5j7NlkEu2j2nbLDxbookmV/SuXf9Feu8J3cUUyHUU7tn6vVpg
+	/znX4BkrI415syZND72nbhfJvFWtC66DiBudlhpbfOPIhtqVip7NcTOt04vmWjiMBJ8gYQu7jka
+	7sx+zBs9TX6wDvlOoP0OSXB2Pqwit8hXZaGSEUcUa8VycfID3yRfsRJNF7kso5AYtjFvvoEC8Yu
+	ItIH7YYs4XeHk9GTqhx2Cp+7w8jVy3PsPnh+LUuOmn0UgljohhtEXmANgkphvJEMZ3IUUtBDPln
+	IAG3FewguHYWAI9Az6u7D4x2JrOoxC44BGdTB7QArAIzmEmCjZA30=
+X-Google-Smtp-Source: AGHT+IHiiFYtC9umsD49rAB9MiYKz9Jivl0/Pq/GslEpRRno7xqWZQr46WIide/BgT2Kw79Lw4OfOA==
+X-Received: by 2002:a05:6a20:6a1a:b0:334:87c2:445 with SMTP id adf61e73a8af0-334a8610a11mr8025098637.36.1760749741445;
+        Fri, 17 Oct 2025 18:09:01 -0700 (PDT)
+Received: from google.com ([2a00:79e0:2ebe:8:5e2d:c6df:afce:809b])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-33d5de30555sm756087a91.12.2025.10.17.18.09.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Oct 2025 18:09:01 -0700 (PDT)
+Date: Fri, 17 Oct 2025 18:08:58 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: pip-izony <eeodqql09@gmail.com>
+Cc: Kyungtae Kim <Kyungtae.Kim@dartmouth.edu>, linux-input@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH] Input: pegasus-notetaker - fix out-of-bounds access
+ vulnerability in pegasus_parse_packet() function of the pegasus driver
+Message-ID: <ekkelgdcm3ovrix3ktmzhlmc2bgchui4g7ogunut5k3dafhwri@y7fyt3uycxgr>
+References: <20251007214131.3737115-2-eeodqql09@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <2025101704-rumble-chatroom-60b5@gregkh>
+In-Reply-To: <20251007214131.3737115-2-eeodqql09@gmail.com>
 
-On Fri, Oct 17, 2025 at 05:03:02PM +0200, Greg KH wrote:
-> On Fri, Oct 17, 2025 at 09:04:52AM +0000, Eliav Farber wrote:
-> > This series backports 27 patches to update minmax.h in the 5.10.y
-> > branch, aligning it with v6.17-rc7.
-> > 
-> > The ultimate goal is to synchronize all long-term branches so that they
-> > include the full set of minmax.h changes.
-> > 
-> > - 6.12.y has already been backported; the changes are included in
-> >   v6.12.49.
-> > - 6.6.y has already been backported; the changes are included in
-> >   v6.6.109.
-> > - 6.1.y has already been backported; the changes are currently in the
-> >   6.1-stable tree.
-> > - 5.15.y has already been backported; the changes are currently in the
-> >   5.15-stable tree.
-> 
-> With this series applied, on an arm64 server, building 'allmodconfig', I
-> get the following build error.
-> 
-> Oddly I don't see it on my x86 server, perhaps due to different compiler
-> versions?
-> 
-> Any ideas?
-> 
-> thanks,
-> 
-> greg k-h
-> 
-> ------------------------
-> 
-> In function ‘rt2800_txpower_to_dev’,
->     inlined from ‘rt2800_config_channel’ at ../drivers/net/wireless/ralink/rt2x00/rt2800lib.c:4022:25:
-> ./../include/linux/compiler_types.h:309:45: error: call to ‘__compiletime_assert_1168’ declared with attribute error: clamp() low limit -7 greater than high limit 15
->   309 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
->       |                                             ^
-> ./../include/linux/compiler_types.h:290:25: note: in definition of macro ‘__compiletime_assert’
->   290 |                         prefix ## suffix();                             \
->       |                         ^~~~~~
-> ./../include/linux/compiler_types.h:309:9: note: in expansion of macro ‘_compiletime_assert’
->   309 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
->       |         ^~~~~~~~~~~~~~~~~~~
-> ../include/linux/build_bug.h:39:37: note: in expansion of macro ‘compiletime_assert’
->    39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
->       |                                     ^~~~~~~~~~~~~~~~~~
-> ../include/linux/minmax.h:188:9: note: in expansion of macro ‘BUILD_BUG_ON_MSG’
->   188 |         BUILD_BUG_ON_MSG(statically_true(ulo > uhi),                            \
->       |         ^~~~~~~~~~~~~~~~
-> ../include/linux/minmax.h:195:9: note: in expansion of macro ‘__clamp_once’
->   195 |         __clamp_once(type, val, lo, hi, __UNIQUE_ID(v_), __UNIQUE_ID(l_), __UNIQUE_ID(h_))
->       |         ^~~~~~~~~~~~
-> ../include/linux/minmax.h:218:36: note: in expansion of macro ‘__careful_clamp’
->   218 | #define clamp_t(type, val, lo, hi) __careful_clamp(type, val, lo, hi)
->       |                                    ^~~~~~~~~~~~~~~
-> ../drivers/net/wireless/ralink/rt2x00/rt2800lib.c:3980:24: note: in expansion of macro ‘clamp_t’
->  3980 |                 return clamp_t(char, txpower, MIN_A_TXPOWER, MAX_A_TXPOWER);
->       |                        ^~~~~~~
+Hi,
 
-Missing commit 3bc753c06dd0 ("kbuild: treat char as always unsigned")?
+On Tue, Oct 07, 2025 at 05:41:32PM -0400, pip-izony wrote:
+> From: Seungjin Bae <eeodqql09@gmail.com>
+> 
+> In the pegasus_notetaker driver, the pegasus_probe() function allocates
+> the URB transfer buffer using the wMaxPacketSize value from
+> the endpoint descriptor. An attacker can use a malicious USB descriptor
+> to force the allocation of a very small buffer.
+> 
+> Subsequently, if the device sends an interrupt packet with a specific
+> pattern (e.g., where the first byte is 0x80 or 0x42),
+> the pegasus_parse_packet() function parses the packet without checking
+> the allocated buffer size. This leads to an out-of-bounds memory access,
+> which could result in a system panic.
+> 
+> Fixes: 948bf18 ("Input: remove third argument of usb_maxpacket()")
+> Signed-off-by: Seungjin Bae <eeodqql09@gmail.com>
+> ---
+>  drivers/input/tablet/pegasus_notetaker.c | 5 +++++
+>  1 file changed, 5 insertions(+)
+> 
+> diff --git a/drivers/input/tablet/pegasus_notetaker.c b/drivers/input/tablet/pegasus_notetaker.c
+> index 8d6b71d59793..6c4199712a4e 100644
+> --- a/drivers/input/tablet/pegasus_notetaker.c
+> +++ b/drivers/input/tablet/pegasus_notetaker.c
+> @@ -311,6 +311,11 @@ static int pegasus_probe(struct usb_interface *intf,
+>  	}
+>  
+>  	pegasus->data_len = usb_maxpacket(dev, pipe);
+> +    if (pegasus->data_len < 5) {
 
-Cheers,
-Nathan
+The packet size is actually 6 (status + color + 2-byte X coordinate +
+2-byte Y coordinate) so there's still off-by-one error.
+
+I fixed it up and applied.
+
+Thanks.
+
+-- 
+Dmitry
 
