@@ -1,158 +1,213 @@
-Return-Path: <linux-input+bounces-15590-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-15592-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 426F7BEC8A3
-	for <lists+linux-input@lfdr.de>; Sat, 18 Oct 2025 08:35:40 +0200 (CEST)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id 16B25BECD1B
+	for <lists+linux-input@lfdr.de>; Sat, 18 Oct 2025 12:20:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id E67E94E2425
-	for <lists+linux-input@lfdr.de>; Sat, 18 Oct 2025 06:35:38 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id AFE6034F042
+	for <lists+linux-input@lfdr.de>; Sat, 18 Oct 2025 10:20:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0C9A72144D7;
-	Sat, 18 Oct 2025 06:35:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB4412D46C0;
+	Sat, 18 Oct 2025 10:20:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=hacktheplanet.fi header.i=@hacktheplanet.fi header.b="g8NDmmo8";
-	dkim=pass (2048-bit key) header.d=hacktheplanet.fi header.i=@hacktheplanet.fi header.b="MdtVma45"
+	dkim=temperror (0-bit key) header.d=antheas.dev header.i=@antheas.dev header.b="MOfi9nGj"
 X-Original-To: linux-input@vger.kernel.org
-Received: from out-184.mta0.migadu.com (out-184.mta0.migadu.com [91.218.175.184])
+Received: from relay11.grserver.gr (relay11.grserver.gr [78.46.171.57])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5F1B823DD
-	for <linux-input@vger.kernel.org>; Sat, 18 Oct 2025 06:35:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.184
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28C281C84A1;
+	Sat, 18 Oct 2025 10:20:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.46.171.57
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760769335; cv=none; b=EHtgPfECEyZWJ3e0PwOdo01ms1O/qLacgoPQA9Ya5X/LgVj1nB1Vgsd7oH39Avq+bqZFEkfIqkvscPRguGoiLJ6SajnjQTNUv7VNHHAww4sN9BJRySbbqJ4sHR9cKN/whj/y7HFVO24nEOlbA4mi0GhtoiI0LkoEWYNd9aYV6u8=
+	t=1760782816; cv=none; b=Ip+GRbahAvDxtF3rFvhx4UzptDPhHBc/8d+2IbjBA4rmPyVwD2/S6D20HiIbUqPcsYnfRwlQ36GoOXYoiUVrjZDNlHl5Kp0auUM1vSrIY4g705O0UMSzWL06bov1ZSOCydvalCRjQozAdboCpA76axZejd9S6GpW2IRrF2OPq+M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760769335; c=relaxed/simple;
-	bh=0WSIwkhDzl90fzjsIQh7p5mOPgDHHhX5nI0HoeyynIw=;
-	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ZJB69U8ytKzyV/KiEU2cjotyypKNUcKYquyW9RKdhYnzNVBwKPKrzyLkzSrceFFCPBtdt86PMWGZDqGcj8HuYOsprpiEE/PlaRiRpAeKJ24kJ4rjS291O6knzhBESxUPZVL6QAXGyHgX40w5z2bxpgHmB3RYr2vDEK+i4uUWIs0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=hacktheplanet.fi; spf=pass smtp.mailfrom=hacktheplanet.fi; dkim=pass (2048-bit key) header.d=hacktheplanet.fi header.i=@hacktheplanet.fi header.b=g8NDmmo8; dkim=pass (2048-bit key) header.d=hacktheplanet.fi header.i=@hacktheplanet.fi header.b=MdtVma45; arc=none smtp.client-ip=91.218.175.184
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=hacktheplanet.fi
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hacktheplanet.fi
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; s=gibson; bh=0WSIwkhDzl90f
-	zjsIQh7p5mOPgDHHhX5nI0HoeyynIw=; h=subject:to:from:date;
-	d=hacktheplanet.fi; b=g8NDmmo8KeF7WjJEH1V9blKY0bq3+ld0/c2w0Y17AX1LVlnC
-	MO/j99lQ0OZFVzoLPLpaheZ5El4sy2t4qxOBj8iZHWnZMWFIRDHqEpOPHr2lEizOnDWutO
-	+Ckk8tVou5iz9cJN7Tu1H+KUhFmUQ9PEW6+70ul8dQiASST95Mc8IyNujOpO4CGO1SKVpU
-	buSufEynFyt09Z1KhHWcU5mTsiGBWW/JXqKbGgiBCvtnUmdDVpEOvekTf7V3AJ7jxbXMbN
-	bnii/oGJoVENFj/NY67B3+s1j2onbN1w14xHXy+oVmCMRzE4UaHcnLOAlNcJHBI8AHcL5L
-	6egrQO5MkGFLQQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hacktheplanet.fi;
-	s=key1; t=1760769325;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type;
-	bh=9dZkwS80zv7CMH5OCsPxKdu5R7UnIbLoEA4hUq6Nbx0=;
-	b=MdtVma459tFHBxjJBmfn/3jSyVSIlpWAJW9ZPquIJFmErRWvYt0t1Q7t3jexf2zKwtCOMG
-	EIlWcwcdLEOKHwBGWJrUBPam14HkGScQL76bdj82vMLozzAe+nNkxb4en6Do9Aj/qIJFIO
-	Vj7TWuNFESa2eLRzQtQ/4wF2QjNxjEsHLDknEN7tN2R+Pmt1JThTHVpMoQ3h5Z4N8XFEn1
-	ja9XHnDCDlmF2Oxg1N+TKaJZ9MAcuWXURWZT1nUfSkZoFsLCIWQJCR5nstfSbSNAxCL9Q4
-	srs6B50iuwod66gbFpqtlCm/UhaD4t6giLO2zfR3WyC6hKma8/Ekh84ff5vx9A==
-Date: Sat, 18 Oct 2025 15:35:15 +0900
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Lauri Tirkkonen <lauri@hacktheplanet.fi>
-To: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>,
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2] HID: lenovo: fixup Lenovo Yoga Slim 7x Keyboard rdesc
-Message-ID: <aPM1I35YXWlabuKQ@mail.hacktheplanet.fi>
+	s=arc-20240116; t=1760782816; c=relaxed/simple;
+	bh=eeuPP/YIVN+jb8lQwuTlUpQU9Q0jplpX9ezHVO7IU84=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=pA1zo6NjtxGuO6I4cfq941BBiDgh9IQjuWkcW3F25evjR238JhWd+aNG7BxFche5dM4HzgzaCmQn6WWXhELzlW8T7dIkJcyTvE72QECvFDQAShDvhfOl5o7SlG5FKo3sRndhWcI9+mGflC1Y32DOZuqKNKiXi+rVgEaTPvsL1ek=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev; spf=pass smtp.mailfrom=antheas.dev; dkim=temperror (0-bit key) header.d=antheas.dev header.i=@antheas.dev header.b=MOfi9nGj; arc=none smtp.client-ip=78.46.171.57
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=antheas.dev
+Received: from relay11 (localhost.localdomain [127.0.0.1])
+	by relay11.grserver.gr (Proxmox) with ESMTP id C0B19C1DBA;
+	Sat, 18 Oct 2025 13:20:04 +0300 (EEST)
+Received: from linux3247.grserver.gr (linux3247.grserver.gr [213.158.90.240])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by relay11.grserver.gr (Proxmox) with ESMTPS id CAFD6C1CDF;
+	Sat, 18 Oct 2025 13:20:03 +0300 (EEST)
+Received: from antheas-z13 (x5996a8de.customers.hiper-net.dk [89.150.168.222])
+	by linux3247.grserver.gr (Postfix) with ESMTPSA id 82BAC1FE7ED;
+	Sat, 18 Oct 2025 13:20:01 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
+	s=default; t=1760782803;
+	bh=g5DuRXlUfInziU2yzJmrD3WF5r65Ep0vgbJExEInLsI=; h=From:To:Subject;
+	b=MOfi9nGjDyYHN7G73ZherTgxWhHRa6eCBX9ba3kMIH2Mu7oZXwaN/5baGxHY+K0S9
+	 fo0q7vAplzhAuNshBBnZ0a4y0PMliXKWv5zkSk3zMn/JV+HOfZR8FNiSQtLShBroWl
+	 YQdFsjU6yBrAIPIqrwLrcc949FsfpCOg7+TWgJ6n9heaYZ3mpIrm2SNIp+0DR6mG83
+	 gWWh57bri8Qc5noA5xB+FQqt6RC1H1mJxisuQyoa6/5ZYzg6A0rjuh6ut9sY6cZN6b
+	 T37Bo8HajZcWQa5SIoUgPMRsSTpfYB12ouNh6yU+dw/t2HKm/suaR7gJ9YEywYu+WX
+	 axXGMIhCo4VIA==
+Authentication-Results: linux3247.grserver.gr;
+	spf=pass (sender IP is 89.150.168.222) smtp.mailfrom=lkml@antheas.dev smtp.helo=antheas-z13
+Received-SPF: pass (linux3247.grserver.gr: connection is authenticated)
+From: Antheas Kapenekakis <lkml@antheas.dev>
+To: platform-driver-x86@vger.kernel.org,
+	linux-input@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	Corentin Chary <corentin.chary@gmail.com>,
+	"Luke D . Jones" <luke@ljones.dev>,
+	Hans de Goede <hdegoede@redhat.com>,
+	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Denis Benato <benato.denis96@gmail.com>,
+	Antheas Kapenekakis <lkml@antheas.dev>
+Subject: [PATCH v7 0/9] HID: asus: Fix ASUS ROG Laptop's Keyboard backlight
+ handling
+Date: Sat, 18 Oct 2025 12:17:50 +0200
+Message-ID: <20251018101759.4089-1-lkml@antheas.dev>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: 8bit
+X-PPP-Message-ID: 
+ <176078280346.1196952.8118807654851595704@linux3247.grserver.gr>
+X-PPP-Vhost: antheas.dev
+X-Virus-Scanned: clamav-milter 1.4.3 at linux3247.grserver.gr
+X-Virus-Status: Clean
 
-The keyboard of this device has the following in its report description
-for Usage (Keyboard) in Collection (Application):
+This is a two part series which does the following:
+  - Clean-up init sequence
+  - Unify backlight handling to happen under asus-wmi so that all Aura
+    devices have synced brightness controls and the backlight button works
+    properly when it is on a USB laptop keyboard instead of one w/ WMI.
 
-	# 0x15, 0x00,                    //  Logical Minimum (0)                52
-	# 0x25, 0x65,                    //  Logical Maximum (101)              54
-	# 0x05, 0x07,                    //  Usage Page (Keyboard)              56
-	# 0x19, 0x00,                    //  Usage Minimum (0)                  58
-	# 0x29, 0xdd,                    //  Usage Maximum (221)                60
-	# 0x81, 0x00,                    //  Input (Data,Arr,Abs)               62
+For more context, see cover letter of V1. Since V5, I removed some patches
+to make this easier to merge.
 
-Since the Usage Min/Max range exceeds the Logical Min/Max range,
-keypresses outside the Logical range are not recognized. This includes,
-for example, the Japanese language keyboard variant's keys for |, _ and
-\.
-
-Fixup the report description to make the Logical range match the Usage
-range, fixing the interpretation of keypresses above 101 on this device.
-
-Signed-off-by: Lauri Tirkkonen <lauri@hacktheplanet.fi>
 ---
-v1 -> v2: moved to hid-lenovo from hid-i2c, renamed hid-ids macro to
-clarify the device only refers to the keyboard
 
-v1: https://lore.kernel.org/all/aOdLxAEYQpV2zp77@mail.hacktheplanet.fi/
+V6: https://lore.kernel.org/all/20251013201535.6737-1-lkml@antheas.dev/
+V5: https://lore.kernel.org/all/20250325184601.10990-1-lkml@antheas.dev/
+V4: https://lore.kernel.org/lkml/20250324210151.6042-1-lkml@antheas.dev/
+V3: https://lore.kernel.org/lkml/20250322102804.418000-1-lkml@antheas.dev/
+V2: https://lore.kernel.org/all/20250320220924.5023-1-lkml@antheas.dev/
+V1: https://lore.kernel.org/all/20250319191320.10092-1-lkml@antheas.dev/
 
- drivers/hid/hid-ids.h    |  1 +
- drivers/hid/hid-lenovo.c | 17 +++++++++++++++++
- 2 files changed, 18 insertions(+)
+Changes since V6:
+  - Split initialization refactor into three patches, update commit text
+    to be clearer in what it does
+  - Replace spinlock accesses with guard and scoped guard in all patches
+  - Add missing includes mentioned by Ilpo
+  - Reflow, tweak comment in prevent binding to all HID devices on ROG
+  - Replace asus_ref.asus with local reference in all patches
+  - Add missing kernel doc comments
+  - Other minor nits from Ilpo
+  - User reported warning due to scheduling work while holding a spinlock.
+    Restructure patch for multiple handlers to limit when spinlock is held to
+    variable access only. In parallel, setup a workqueue to handle registration
+    of led device and setting brightness. This is required as registering the
+    led device triggers kbd_led_get which needs to hold the spinlock to
+    protect the led_wk value. The workqueue is also required for the hid
+    event passthrough to avoid scheduling work while holding the spinlock.
+    Apply the workqueue to wmi brightness buttons as well, as that was
+    omitted before this series and WMI access was performed.
+  - On "HID: asus: prevent binding to all HID devices on ROG", rename
+    quirk HANDLE_GENERIC to SKIP_REPORT_FIXUP and only skip report fixup.
+    This allows other quirks to apply (applies quirk that fixes keyboard
+    being named as a pointer device).
 
-diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index 5721b8414bbd..4b1946eb4e7f 100644
---- a/drivers/hid/hid-ids.h
-+++ b/drivers/hid/hid-ids.h
-@@ -715,6 +715,7 @@
- #define USB_DEVICE_ID_ITE_LENOVO_YOGA2  0x8350
- #define I2C_DEVICE_ID_ITE_LENOVO_LEGION_Y720	0x837a
- #define USB_DEVICE_ID_ITE_LENOVO_YOGA900	0x8396
-+#define I2C_DEVICE_ID_ITE_LENOVO_YOGA_SLIM_7X_KEYBOARD	0x8987
- #define USB_DEVICE_ID_ITE8595		0x8595
- #define USB_DEVICE_ID_ITE_MEDION_E1239T	0xce50
- 
-diff --git a/drivers/hid/hid-lenovo.c b/drivers/hid/hid-lenovo.c
-index 654879814f97..9cc3e029e9f6 100644
---- a/drivers/hid/hid-lenovo.c
-+++ b/drivers/hid/hid-lenovo.c
-@@ -148,6 +148,14 @@ static const __u8 lenovo_tpIIbtkbd_need_fixup_collection[] = {
- 	0x81, 0x01,		/*   Input (Const,Array,Abs,No Wrap,Linear,Preferred State,No Null Position) */
- };
- 
-+static const __u8 lenovo_yoga7x_kbd_need_fixup_collection[] = {
-+	0x15, 0x00,	// Logical Minimum (0)
-+	0x25, 0x65,	// Logical Maximum (101)
-+	0x05, 0x07,	// Usage Page (Keyboard)
-+	0x19, 0x00,	// Usage Minimum (0)
-+	0x29, 0xDD,	// Usage Maximum (221)
-+};
-+
- static const __u8 *lenovo_report_fixup(struct hid_device *hdev, __u8 *rdesc,
- 		unsigned int *rsize)
- {
-@@ -177,6 +185,13 @@ static const __u8 *lenovo_report_fixup(struct hid_device *hdev, __u8 *rdesc,
- 			rdesc[260] = 0x01; /* report count (2) = 0x01 */
- 		}
- 		break;
-+	case I2C_DEVICE_ID_ITE_LENOVO_YOGA_SLIM_7X_KEYBOARD:
-+		if (*rsize == 176 &&
-+		    memcmp(&rdesc[52], lenovo_yoga7x_kbd_need_fixup_collection,
-+			  sizeof(lenovo_yoga7x_kbd_need_fixup_collection)) == 0) {
-+			rdesc[55] = rdesc[61]; // logical maximum = usage maximum
-+		}
-+		break;
- 	}
- 	return rdesc;
- }
-@@ -1538,6 +1553,8 @@ static const struct hid_device_id lenovo_devices[] = {
- 		     USB_VENDOR_ID_LENOVO, USB_DEVICE_ID_LENOVO_X12_TAB) },
- 	{ HID_DEVICE(BUS_USB, HID_GROUP_GENERIC,
- 		     USB_VENDOR_ID_LENOVO, USB_DEVICE_ID_LENOVO_X12_TAB2) },
-+	{ HID_DEVICE(BUS_I2C, HID_GROUP_GENERIC,
-+		     USB_VENDOR_ID_ITE, I2C_DEVICE_ID_ITE_LENOVO_YOGA_SLIM_7X_KEYBOARD) },
- 	{ }
- };
- 
+Changes since V5:
+  - It's been a long time
+  - Remove addition of RGB as that had some comments I need to work on
+  - Remove folio patch (already merged)
+  - Remove legacy fix patch 11 from V4. There is a small chance that
+    without this patch, some old NKEY keyboards might not respond to
+    RGB commands according to Luke, but the kernel driver does not do
+    RGB currently. The 0x5d init is done by Armoury crate software in
+    Windows. If an issue is found, we can re-add it or just remove patches
+    1/2 before merging. However, init could use the cleanup.
+
+Changes since V4:
+  - Fix KConfig (reported by kernel robot)
+  - Fix Ilpo's nits, if I missed anything lmk
+
+Changes since V3:
+  - Add initializer for 0x5d for old NKEY keyboards until it is verified
+    that it is not needed for their media keys to function.
+  - Cover init in asus-wmi with spinlock as per Hans
+  - If asus-wmi registers WMI handler with brightness, init the brightness
+    in USB Asus keyboards, per Hans.
+  - Change hid handler name to asus-UNIQ:rgb:peripheral to match led class
+  - Fix oops when unregistering asus-wmi by moving unregister outside of
+    the spin lock (but after the asus reference is set to null)
+
+Changes since V2:
+  - Check lazy init succeds in asus-wmi before setting register variable
+  - make explicit check in asus_hid_register_listener for listener existing
+    to avoid re-init
+  - rename asus_brt to asus_hid in most places and harmonize everything
+  - switch to a spinlock instead of a mutex to avoid kernel ooops
+  - fixup hid device quirks to avoid multiple RGB devices while still exposing
+    all input vendor devices. This includes moving rgb init to probe
+    instead of the input_configured callbacks.
+  - Remove fan key (during retest it appears to be 0xae that is already
+    supported by hid-asus)
+  - Never unregister asus::kbd_backlight while asus-wmi is active, as that
+  - removes fds from userspace and breaks backlight functionality. All
+  - current mainline drivers do not support backlight hotplugging, so most
+    userspace software (e.g., KDE, UPower) is built with that assumption.
+    For the Ally, since it disconnects its controller during sleep, this
+    caused the backlight slider to not work in KDE.
+
+Changes since V1:
+  - Add basic RGB support on hid-asus, (Z13/Ally) tested in KDE/Z13
+  - Fix ifdef else having an invalid signature (reported by kernel robot)
+  - Restore input arguments to init and keyboard function so they can
+    be re-used for RGB controls.
+  - Remove Z13 delay (it did not work to fix the touchpad) and replace it
+    with a HID_GROUP_GENERIC quirk to allow hid-multitouch to load. Squash
+    keyboard rename into it.
+  - Unregister brightness listener before removing work queue to avoid
+    a race condition causing corruption
+  - Remove spurious mutex unlock in asus_brt_event
+  - Place mutex lock in kbd_led_set after LED_UNREGISTERING check to avoid
+    relocking the mutex and causing a deadlock when unregistering leds
+  - Add extra check during unregistering to avoid calling unregister when
+    no led device is registered.
+  - Temporarily HID_QUIRK_INPUT_PER_APP from the ROG endpoint as it causes
+    the driver to create 4 RGB handlers per device. I also suspect some
+    extra events sneak through (KDE had the @@@@@@).
+
+Antheas Kapenekakis (9):
+  HID: asus: simplify RGB init sequence
+  HID: asus: use same report_id in response
+  HID: asus: fortify keyboard handshake
+  HID: asus: prevent binding to all HID devices on ROG
+  platform/x86: asus-wmi: Add support for multiple kbd led handlers
+  HID: asus: listen to the asus-wmi brightness device instead of
+    creating one
+  platform/x86: asus-wmi: remove unused keyboard backlight quirk
+  platform/x86: asus-wmi: add keyboard brightness event handler
+  HID: asus: add support for the asus-wmi brightness handler
+
+ drivers/hid/hid-asus.c                     | 222 ++++++++++-----------
+ drivers/platform/x86/asus-wmi.c            | 215 +++++++++++++++++---
+ include/linux/platform_data/x86/asus-wmi.h |  70 +++----
+ 3 files changed, 326 insertions(+), 181 deletions(-)
+
+
+base-commit: 3a8660878839faadb4f1a6dd72c3179c1df56787
 -- 
-2.51.1
+2.51.0
 
--- 
-Lauri Tirkkonen | lotheac @ IRCnet
+
 
