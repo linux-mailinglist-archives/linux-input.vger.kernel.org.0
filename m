@@ -1,90 +1,88 @@
-Return-Path: <linux-input+bounces-15585-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-15586-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97326BEC71C
-	for <lists+linux-input@lfdr.de>; Sat, 18 Oct 2025 06:23:06 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 23450BEC73B
+	for <lists+linux-input@lfdr.de>; Sat, 18 Oct 2025 06:35:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id CFB6C4E9EA2
-	for <lists+linux-input@lfdr.de>; Sat, 18 Oct 2025 04:23:03 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C1AE16E1AF2
+	for <lists+linux-input@lfdr.de>; Sat, 18 Oct 2025 04:34:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3ABD1287517;
-	Sat, 18 Oct 2025 04:23:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4AF41251795;
+	Sat, 18 Oct 2025 04:34:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FFrG/yRL"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Te+kOhnY"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68CFD283C9D
-	for <linux-input@vger.kernel.org>; Sat, 18 Oct 2025 04:22:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D14121632DD
+	for <linux-input@vger.kernel.org>; Sat, 18 Oct 2025 04:34:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760761381; cv=none; b=GhHMNrfgsmEFEQJSvpwtWnEJhIVtEjyv5Ra+IQz7jlpKmnvJwsZeGrr8Ddytbbp1KCq30SdeQWy10s3pSe51KR7TsGm8ZeSdbaEQOajCdAEDqCvBvo0Xwjkx7v6VmmEr/qow563AzRazPg1zFK4xS4XMXYVMEtRONhrNJmL7hVI=
+	t=1760762094; cv=none; b=ZUgAaIwJiqFwNQsI3bpo6ngZ8VPXCqce+7FWtgMyZUSZm1A8uecCtRVIVqB9Cfk/jiu3AtD2ePRBzlSXWiiVXpCFqyk/UcGrn6XJeD7ORuf0LPKuYk/7W9AArAbd/W83zdDUWV/bR0Qz7j/HhJEYTAgU8mIbY3p1o3LRIvFngGE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760761381; c=relaxed/simple;
-	bh=twucSrQ5gBaSxq5bHh4w/uiMfTGTQSSYFbLCd3U7t1s=;
+	s=arc-20240116; t=1760762094; c=relaxed/simple;
+	bh=GxR14wtXNDXoVG4QYMZdHFm6watYk/xR3Ph2wB/HFgQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=biQyuU4G2T2IQYQ7CrBQimNVFjmTOYH+k50Rb+1SGnR4ku2mpELhuC157SMYBquVClDjXMiHF1c26/iKS+cOGkvHjZlfbaZ+Tjps+NAn31jxj7noT1YFFfU+BRAn4HOacPsh5E1l+ys50QnIXbsh/qGi32NlHDYdOP7ZNlc8XZo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FFrG/yRL; arc=none smtp.client-ip=209.85.210.172
+	 Content-Type:Content-Disposition:In-Reply-To; b=mXXW/exV/1GS96n/RQj4exVnnNH1OK7ABzc/XxQptWUi+YVUleg7C8HQAzC7Hv0+p539YZ8P+t3ctDI7S3gABNU9jluXczrpmvDs+R8lzBGknawzTpHkcSgKU3ZuFRDP+9Hzj0WYC52pUSqZhZnaV+7XuD+melDujUVrzuxOSDc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Te+kOhnY; arc=none smtp.client-ip=209.85.215.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-781db5068b8so2145138b3a.0
-        for <linux-input@vger.kernel.org>; Fri, 17 Oct 2025 21:22:59 -0700 (PDT)
+Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-b60971c17acso2122269a12.3
+        for <linux-input@vger.kernel.org>; Fri, 17 Oct 2025 21:34:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760761379; x=1761366179; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1760762091; x=1761366891; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=9sLob+FuMRhc3oCQLkxbSCKuBsggj1HN+/JP5OBcKrA=;
-        b=FFrG/yRLejUwgHhCLt3PdErv354g7VQQgIlnFWEdFotO6bYVjzdCUMio53YpEOwLwN
-         UbfTiwPA8hXRV8sJdkbvdiXNzSxjruImeLRWeUc6KyVdQPTxs2w2vS99o7mg3rAkeE98
-         z+Adt+XqEumh8b3RqTTHGwDQiixkqa36jP1b0Oz2RLwMeMysI5wdg7WSsZLPR7WUeNAs
-         L3M4h8ahUy4DCXF3oQH40OrKZcFEx9+sM4HfRfAlpH2lAoKjWc+BdHYExsiX+0GqLdjs
-         q7Q0nwFI50m+i7cpXq6+gfmrWsHio93yIc9RUrRH2p91y4dp+d6rJ17xJyPzxJT0YLwA
-         UHVA==
+        bh=MvkiGnJycOUUb9mLccpGWZ9e0R42gUUGVNQEgcKUgVk=;
+        b=Te+kOhnYivh5nlVMIqnn2sAClZL71svnEaGQx9q0BUedVrLtFuTITJrA4njAzfOh1b
+         GDcaG8Fwzo+tCBgfJ17KsuAJhqNFDA8gAjqXGzLO2/LQsY7DKZosKLeoYkLjW3bCsaJM
+         6++KONnE3gCsDrLcINpyGAXZ4AEGQS5pXKHdwIGNNgi3hxvNV6mLhZ/1UUPYUvMZOHGp
+         yq1YFYleS7756PSxeJd9vSLFqDeAQJSMlGNeWQ8HBfLZaeCsvwdxTuqeyXnwX8v3ePn0
+         CxjKLWOFISHi6Sikez0ftDbTSPm904xFA9S13vJU0vdIll9pGaofa/4eq7WfZb4nlZjg
+         eLFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760761379; x=1761366179;
+        d=1e100.net; s=20230601; t=1760762091; x=1761366891;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=9sLob+FuMRhc3oCQLkxbSCKuBsggj1HN+/JP5OBcKrA=;
-        b=tHcMKutulmOhegKZR88k+IT5kbLFATYYEbDqLTFVo7Fz267fRE4InVkcZoQZQMZ6pH
-         KQxUSSG2rlz+xCRly0BFcVT8z1Na/ZFrM7B22ON2xZFYuXBMJRzPP8WtBTnobQY9+9Bw
-         WHZYpr7dclxjxyenX3nvx6wQ2d1aVUeXGEoNX0kAz6h4z8uSNFm5jx1up4qq52oamyNd
-         Eqh9JVqLC0Un50bZXBMWN3lYEe2jhX+7dz1V5sfbtf7j/IrC755Dk/lBFAQkdewdyz6C
-         D6fwu8UQsbVLkb1mVpZ7FeZYLswCSSG+5ThSx5XUCS8/+OmmJr4EvZKip65sTJvI/6wA
-         m9jA==
-X-Forwarded-Encrypted: i=1; AJvYcCXNlEqZEpQyVrfo1IRTCz+R3snpxml2W1ex2X/iWJ94mFfggKV8p1tNN1Vfgq7uSvmnppLYjxQ31NZE8g==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx/h1Q/O3PHGTZOgiyhESkZDqfqOR15F9Hv5XFFxySTX/DnEeZF
-	jQ1zwUAfKlqlL6Zh4yIDJHoJOL0l/fIpu9EhvniK4MtGgKyClLLHHXliwX12Eg==
-X-Gm-Gg: ASbGncvNiqEkAt6sCrpriOjmTSn/fWP+hue9vHC6SpIk/7XjacIDqhmgR6DbD3QP5Ov
-	spJMYqdHYabJXGEFmbfP7s1WhLjj2NQCfXhXUi3klNLmtlEYLUzOm0fwxCnkE2jKfbrN9QTP/g4
-	aX7xnZFbIc5lPaNrTwnTO7rQrquTZCrgEz/LMXtb78OtaPTTukkY1RjyJMQOjfZIb5YKzMmUiCu
-	lOXLynYMPQ0U4Aq9LSHQcQMdhtxzxQU/tUuz2uVV+ok9CUj/ZET/YpRkuJDFtLSMxUMvCbaggNJ
-	WSxExsRaxpB09ob3BwSy4NcrxiiWc3JUQ35WnTZkev40OrRzkZrIT95648YL3ySoGCbua4ThLHX
-	hhp7smXjS8UmYVxrgt8gvPXOlcNOs/d9GKaafGvPZDZe8VftX3V/NzyYahuunskQTOpr+68NT2x
-	pkZYiD/XTyBFNORG5qVGMFX/B0sapQd2q34U02iY2bYQE7g8Q5IdI=
-X-Google-Smtp-Source: AGHT+IEhKFhi3mFcny1EeYAjFFvibCPRFlOFAaD2YdcMmlpvQjgeW53Ajd4FqG8YZ9mvVIB5YeafcQ==
-X-Received: by 2002:a05:6a00:4288:b0:7a2:2100:1d4b with SMTP id d2e1a72fcca58-7a221001d8cmr7669202b3a.14.1760761378534;
-        Fri, 17 Oct 2025 21:22:58 -0700 (PDT)
+        bh=MvkiGnJycOUUb9mLccpGWZ9e0R42gUUGVNQEgcKUgVk=;
+        b=XTBjM1Y90XTcmEoEbDs8tZ7h974f/nKjY+CLKnthU9t/QA0BfvyVWiUpMuOrQymVEC
+         DizeozFzqrVd31KrLjGeDiuXtk59U9XdalOjQZeE7HM4ONVnFSAkKuFLyaRCU7hm0xP1
+         6m0QtAB+3PVbN0580CHIk/jeNMfEr2iL+bAxjVfK+YOEaQpWsodlz63+dydriZZE+wf2
+         bQCXhiLdp59RnqoWyIvVX5MYu/J56w4kq8JYL2nBfCAQRLJXDhVpe5aUyhtAzRRaZFwr
+         Fnji7GkVynhk3wnK+9eOBx7kpzjeXt1EdE8Mnbkgml5/vD/ZCcsGC6l8hFnWWQJ6PBOH
+         tO2g==
+X-Forwarded-Encrypted: i=1; AJvYcCUdqX+52X6QAq7bA1Hjss6/inVVXRzyLjqLnrGt0hofdmkvCna2LrcsRVleogUSS8lpRwPqblZENduqlQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyMNOuyBt1f96wZ4jLtM/Gi0cNjBzbCnma07TPCppEmCoav/bcK
+	ALbdcb9zognGvBMESJOGMPkUvCoiczOshKBglG9NN+M6wta1DoxeN2ogtb3xmA==
+X-Gm-Gg: ASbGncsL/E35HAgwk64vRIJ8WDXJ1vBJY1cmb4UPpTmPzhWy+B89R8RPThW+KiJJflr
+	i6by5IJ7cggLYr8MgVb3pgQH2WqmC5CQBkP7TbhmUfccyniaaIFq9j9WIGvmrwsNN177SMVPFht
+	vXG9ZSw3EAITEYbZPHt2tcLhDCYBZlnOr5eojhi4foaLOZ22pBIIHZcvpgWc8ymlnoaGByNmKtb
+	gJbLwNHU9CBLiiXVQIDIS3G7ccT8VWQV3YxEes+rmWi5qyZo3/Y6RE7gooxFNlsinFNvKgm+6ZO
+	6oh9I22BYBotgQnOJ4GomPk2gzv3EWdb+LqHS0bRvZZdJcu7Sm6GtKIhqsHYBb25U9cINUImJd8
+	m55p3YFGKkcES1Hpih7DCIIz3MYfpk5blr10Adt/pWiDAVNJet8Yd6RXU7rcbWn//bdJzKeEAC3
+	vFF5mpIPMC4MvHXYGITlT7HuHoXrNPnnNXWV7T53GIvCOgsKjxmHQ=
+X-Google-Smtp-Source: AGHT+IFuzxQOBI65vs3bpYxRhSg0TCMcUgkWO67CR9Y3kZQOPuLiNCx2YD5UCXS09TDtIujDvVhhEg==
+X-Received: by 2002:a17:903:46c8:b0:27e:e77f:57f3 with SMTP id d9443c01a7336-290c9cb613bmr76175445ad.14.1760762091145;
+        Fri, 17 Oct 2025 21:34:51 -0700 (PDT)
 Received: from google.com ([2a00:79e0:2ebe:8:5e2d:c6df:afce:809b])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7a22ff34e98sm1318508b3a.26.2025.10.17.21.22.57
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2924700a883sm12500915ad.49.2025.10.17.21.34.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Oct 2025 21:22:58 -0700 (PDT)
-Date: Fri, 17 Oct 2025 21:22:55 -0700
+        Fri, 17 Oct 2025 21:34:50 -0700 (PDT)
+Date: Fri, 17 Oct 2025 21:34:48 -0700
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Frank Li <Frank.Li@nxp.com>
-Cc: Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	"open list:INPUT (KEYBOARD, MOUSE, JOYSTICK, TOUCHSCREEN)..." <linux-input@vger.kernel.org>, 
-	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>, imx@lists.linux.dev
-Subject: Re: [PATCH v2 2/2] dt-bindings: touchscreen: move ar1021.txt to
- trivial-touch.yaml
-Message-ID: <jxtqhq7u5obj6em7p6hnzqjkmr7svomeptqy5bgvmqr75pbbnq@d5didfx4qqvl>
-References: <20250926184720.391335-1-Frank.Li@nxp.com>
- <20250926184720.391335-2-Frank.Li@nxp.com>
+To: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+Cc: angelogioacchino.delregno@collabora.com, conor+dt@kernel.org, 
+	krzk+dt@kernel.org, robh@kernel.org, devicetree@vger.kernel.org, 
+	kernel@collabora.com, linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] dt-bindings: input: Convert MELFAS MIP4 Touchscreen
+ to DT schema
+Message-ID: <fxbpnzrxbmp3j3urthrvaws2cffjlbt76poareemwbsx4z6oro@tp7dy6qhinlb>
+References: <20251001183809.83472-1-ariel.dalessandro@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -93,13 +91,15 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250926184720.391335-2-Frank.Li@nxp.com>
+In-Reply-To: <20251001183809.83472-1-ariel.dalessandro@collabora.com>
 
-On Fri, Sep 26, 2025 at 02:47:12PM -0400, Frank Li wrote:
-> ar1021 have only reg and interrupts property beside touch common
-> properties. So move context of ar1021.txt into trivial-touch.yaml.
+On Wed, Oct 01, 2025 at 03:38:09PM -0300, Ariel D'Alessandro wrote:
+> Convert the existing text-based DT bindings for MELFAS MIP4 Touchscreen
+> controller to a DT schema.
 > 
-> Signed-off-by: Frank Li <Frank.Li@nxp.com>
+> Signed-off-by: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+> Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
 Applied, thank you.
 
