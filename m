@@ -1,79 +1,72 @@
-Return-Path: <linux-input+bounces-15600-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-15601-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C67BBECD60
-	for <lists+linux-input@lfdr.de>; Sat, 18 Oct 2025 12:22:02 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E1E9BED147
+	for <lists+linux-input@lfdr.de>; Sat, 18 Oct 2025 16:22:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id BE1F04ECD3E
-	for <lists+linux-input@lfdr.de>; Sat, 18 Oct 2025 10:21:58 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id F091A4E2C80
+	for <lists+linux-input@lfdr.de>; Sat, 18 Oct 2025 14:22:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 349F72EE5FD;
-	Sat, 18 Oct 2025 10:20:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC8FE2E427C;
+	Sat, 18 Oct 2025 14:22:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=temperror (0-bit key) header.d=antheas.dev header.i=@antheas.dev header.b="NnkaYQSV"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="ERKKpJZB"
 X-Original-To: linux-input@vger.kernel.org
-Received: from relay12.grserver.gr (relay12.grserver.gr [88.99.38.195])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 755112F12B5;
-	Sat, 18 Oct 2025 10:20:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=88.99.38.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 945D51C28E;
+	Sat, 18 Oct 2025 14:22:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760782834; cv=none; b=MJpoC8m5QPGhilpbfy4YUAldMH1zAlYupBtNUoXySGMGTaEIoKqlG8Z0yQRydKxV+tUj6IWgHgBcJw5bmt7dKIrQVKqn7eMpk1QGtHgWWHtiOEirl0ueVNQWJSeJaT8qBi0hn8q/Z7pUZqf/YReD/jf/Iw42S0fhfyO75YnGaxo=
+	t=1760797329; cv=none; b=eMbwOk7GYbYVIhKt6WpG+D4uWa6ubt7X5mUaZxXHAyXW2YbNFa4zF6MRFLfGfFjYLaL2MinQxGCsL7tEoe2lfgaQZ/GAXEKwhu34y5OcKPU/249uYBw78sF70xCGAv/Ph+PCR4dCIkjBGiv15xTPzc82rVDC36wM9m5y5ozVK2k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760782834; c=relaxed/simple;
-	bh=vfkNCxmZ3FfbFVLnGdM0fIjyjQ/J2HoPeEIo/zeXWkg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=O9Y8PY00xaGFVoJFiIAe3AC5HItkWJnawCyXBEAMdlVOAvbL/tm2d/VJHHR22scz69Lo+LavVSHIRxvLp8N7FmJVc4Tm3LX95pVkqVmnzpzJbdoGOMQRIsFqgA+kPci5NsLsjfD+BVvOVGBA6LVphGHqIcWarytEqAvweSnX+Ws=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev; spf=pass smtp.mailfrom=antheas.dev; dkim=temperror (0-bit key) header.d=antheas.dev header.i=@antheas.dev header.b=NnkaYQSV; arc=none smtp.client-ip=88.99.38.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=antheas.dev
-Received: from relay12 (localhost [127.0.0.1])
-	by relay12.grserver.gr (Proxmox) with ESMTP id 51488BDFB8;
-	Sat, 18 Oct 2025 13:20:25 +0300 (EEST)
-Received: from linux3247.grserver.gr (linux3247.grserver.gr [213.158.90.240])
+	s=arc-20240116; t=1760797329; c=relaxed/simple;
+	bh=bNCDySUX0gZ9HE/gahHp0G1wmgAlm4IYidL20MOKk7I=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=IK2po3//9jh0BppQ6dKpYaGEV20Ts7Oy8t6whKZQBDYpR7MlJnAFPQRPOBdTVIO/8+NwbfFW5k1ki/w4xmYTzMbzpFYapExUYitClQkPhXdtJns+Ww+pf4Wp/ChVSGe3IfA+g8d2OauZ7JZH7NIX7kEYPhbey4y0O6TMIsQeJ8U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=ERKKpJZB; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1760797318;
+	bh=bNCDySUX0gZ9HE/gahHp0G1wmgAlm4IYidL20MOKk7I=;
+	h=From:To:Cc:Subject:Date:From;
+	b=ERKKpJZBAH3rK1Dd56cHB1lbuRiXRpNRdWseOd9tN156YhrfHe9TUSJ8iuA6SPeWO
+	 u/3Zfj2a1f9FcrTZ82yiHGbIZqIWB4zdm180vhyCBCoo5iTj9u9CunGEI6Ib4bVsE2
+	 rHt9GpudFaKLhGYg7RM/29qCjMV5SKCf+hQi+5LCJ6MlJGySwpl+XV8tkTLrGC/5mE
+	 OT2s2buH1BKDOj43y02aE4U3MX1pmjKlX+LLKo6DW8tMVPxUvOdz6hQnhwCOogiUfK
+	 aRleBSk+LZBP0tbBc4kMw57VQqZJNqCRSFC27JqjC7x4nG+4mF0aoRHnZGroAh80Ef
+	 vFWEeXHm2Cqlw==
+Received: from mt.tail9873f4.ts.net (unknown [144.48.130.189])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by relay12.grserver.gr (Proxmox) with ESMTPS id DB904BDDC7;
-	Sat, 18 Oct 2025 13:20:24 +0300 (EEST)
-Received: from antheas-z13 (x5996a8de.customers.hiper-net.dk [89.150.168.222])
-	by linux3247.grserver.gr (Postfix) with ESMTPSA id B59D91FC4B1;
-	Sat, 18 Oct 2025 13:20:22 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
-	s=default; t=1760782824;
-	bh=QiRO9WlHDWgo9VPXQOmXp8+aYWrSrjdksndf9lPZtzA=; h=From:To:Subject;
-	b=NnkaYQSVPdE3vLg2B01zDdZky8SModwLJZyIgEw7sr30B8v7sgxlihFS3CnMnvf9Z
-	 uvaSoxOVGrC4HXZnsdnbCqg2sVte5ANjm+vWZPmNEw+/dy2RaXGwLyhmfZ+Va9tBGu
-	 Lv5vVv/mAJeE5CiiCJz25/Z1FE0l4YsVgct/xXc924SuDU/e2nLK5TNKdmsMRsNpAR
-	 gS2/IxJsLmJxcLDN+LYLkOISXS4O6weWGdcY+euU7ebV7kbezfbg9BUB1/gtXDg57L
-	 BCZ9NzU8IYgWl4W3rCe54hpF7OJohiwhLWPFTSHPdomEwlw31AetVVEoFOeDWyXASZ
-	 OhyCaTvKeGtlQ==
-Authentication-Results: linux3247.grserver.gr;
-	spf=pass (sender IP is 89.150.168.222) smtp.mailfrom=lkml@antheas.dev smtp.helo=antheas-z13
-Received-SPF: pass (linux3247.grserver.gr: connection is authenticated)
-From: Antheas Kapenekakis <lkml@antheas.dev>
-To: platform-driver-x86@vger.kernel.org,
+	(Authenticated sender: usama.anjum)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 03B5617E0CF8;
+	Sat, 18 Oct 2025 16:21:55 +0200 (CEST)
+From: Muhammad Usama Anjum <usama.anjum@collabora.com>
+To: "Rafael J. Wysocki" <rafael@kernel.org>,
+	Len Brown <lenb@kernel.org>,
+	Pavel Machek <pavel@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Peter Zijlstra <peterz@infradead.org>,
+	linux-acpi@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-pm@vger.kernel.org,
 	linux-input@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <bentiss@kernel.org>,
-	Corentin Chary <corentin.chary@gmail.com>,
-	"Luke D . Jones" <luke@ljones.dev>,
-	Hans de Goede <hdegoede@redhat.com>,
-	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Denis Benato <benato.denis96@gmail.com>,
-	Antheas Kapenekakis <lkml@antheas.dev>
-Subject: [PATCH v7 9/9] HID: asus: add support for the asus-wmi brightness
- handler
-Date: Sat, 18 Oct 2025 12:17:59 +0200
-Message-ID: <20251018101759.4089-10-lkml@antheas.dev>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20251018101759.4089-1-lkml@antheas.dev>
-References: <20251018101759.4089-1-lkml@antheas.dev>
+Cc: Muhammad Usama Anjum <usama.anjum@collabora.com>,
+	kernel@collabora.com,
+	superm1@kernel.org
+Subject: [RFC 0/4] PM: Hibernate: Add hibernation cancellation support
+Date: Sat, 18 Oct 2025 19:21:03 +0500
+Message-ID: <20251018142114.897445-1-usama.anjum@collabora.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -81,47 +74,44 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-PPP-Message-ID: 
- <176078282453.1199146.7999947917705390951@linux3247.grserver.gr>
-X-PPP-Vhost: antheas.dev
-X-Virus-Scanned: clamav-milter 1.4.3 at linux3247.grserver.gr
-X-Virus-Status: Clean
 
-If the asus-wmi brightness handler is available, send the
-keyboard brightness events to it instead of passing them
-to userspace. If it is not, fall back to sending them to it.
+On a normal laptop/PC, the hibernation takes 15-20 seconds which is
+considerable time. Once hibernation is triggered from command line or by
+some GUI option, the hibernation cannot be cancelled until completed.
+Its not a blocker, but poor user experience.
 
-Reviewed-by: Luke D. Jones <luke@ljones.dev>
-Tested-by: Luke D. Jones <luke@ljones.dev>
-Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
----
- drivers/hid/hid-asus.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+When power button is pressed during hibernation, it generates interrupt
+and then the event is routed to userspace. If systemd is being used, the
+logind handles these events and performs the specific action.
 
-diff --git a/drivers/hid/hid-asus.c b/drivers/hid/hid-asus.c
-index 96cff7690987..c2c25825cb42 100644
---- a/drivers/hid/hid-asus.c
-+++ b/drivers/hid/hid-asus.c
-@@ -324,6 +324,17 @@ static int asus_event(struct hid_device *hdev, struct hid_field *field,
- 			 usage->hid & HID_USAGE);
- 	}
- 
-+	if (usage->type == EV_KEY && value) {
-+		switch (usage->code) {
-+		case KEY_KBDILLUMUP:
-+			return !asus_hid_event(ASUS_EV_BRTUP);
-+		case KEY_KBDILLUMDOWN:
-+			return !asus_hid_event(ASUS_EV_BRTDOWN);
-+		case KEY_KBDILLUMTOGGLE:
-+			return !asus_hid_event(ASUS_EV_BRTTOGGLE);
-+		}
-+	}
-+
- 	return 0;
- }
- 
+During hibernation, the first stage is to freeze the userspace. Hence
+even if the power button is pressed, it doesn't aborts the hibernation
+as user space daemon is frozen.
+
+My device takes ~19 seconds to hibernate. When I was testing hibernation
+using rtcwake with timeout of 10 seconds, I found out that hibernation
+gets canceled around 10 seconds mark when the interrupt fires.
+
+In this series, the idea is to find a way to cancel the hibernation.
+With this series applied, the hibernation gets cancelled gracefully.
+
+Muhammad Usama Anjum (4):
+  PM: hibernate: export hibernation_in_progress()
+  ACPI: button: Cancel hibernation if button is pressed during
+    hibernation
+  Input: Ignore the KEY_POWER events if hibernation is in progress
+  PM: sleep: clear pm_abort_suspend at suspend
+
+ drivers/acpi/button.c     | 12 +++++++++---
+ drivers/base/power/main.c |  2 ++
+ drivers/input/input.c     |  6 ++++++
+ include/linux/suspend.h   |  2 ++
+ kernel/cpu.c              |  1 +
+ kernel/power/hibernate.c  |  6 +++++-
+ kernel/power/process.c    |  1 +
+ 7 files changed, 26 insertions(+), 4 deletions(-)
+
 -- 
-2.51.0
-
+2.47.3
 
 
