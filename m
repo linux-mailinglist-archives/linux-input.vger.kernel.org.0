@@ -1,100 +1,101 @@
-Return-Path: <linux-input+bounces-15612-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-15613-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8906BEEEEA
-	for <lists+linux-input@lfdr.de>; Mon, 20 Oct 2025 02:41:17 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id BBD32BF13A7
+	for <lists+linux-input@lfdr.de>; Mon, 20 Oct 2025 14:36:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id AA2F24E142A
-	for <lists+linux-input@lfdr.de>; Mon, 20 Oct 2025 00:41:16 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 06A6D18A5652
+	for <lists+linux-input@lfdr.de>; Mon, 20 Oct 2025 12:36:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 366B656B81;
-	Mon, 20 Oct 2025 00:41:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D9DFB314D00;
+	Mon, 20 Oct 2025 12:32:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="avbEM8yu"
 X-Original-To: linux-input@vger.kernel.org
-Received: from outboundhk.mxmail.xiaomi.com (outboundhk.mxmail.xiaomi.com [207.226.244.123])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 17CEDB652;
-	Mon, 20 Oct 2025 00:41:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=207.226.244.123
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA6162F9D8C;
+	Mon, 20 Oct 2025 12:32:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760920872; cv=none; b=NpL6NcQUlcfUVyt/eoSujl+ZY8BW7oGLUqhAYBK6kOVXZ27B24aTY2ASZ9jKDDDNo6ar1P+sO0/4ephjbBhKmyDO1NgxHaiPx5QJ3tvMh7fgxjfKlAavPI5y7UF/1vUC9htm5kN4BOe9r+1UV7wO7Ra2DtFXPRaeYeToP0LgfOc=
+	t=1760963531; cv=none; b=ln+AY3HvYQlulk+0iXAACdEoLoD4lcGS5NGioDMs+mxH+R9FFRuPyqfvwNdYmE5p1RwhqHyUqJwD4z0mt6q8FJy32DRsDOcWGzP+wEa3bCz5znKHkCyaII0/hehfQwFHSFBY/TU4qZkglnbPxWEHs2VYWydTc+rUcIWDdaBvtpw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760920872; c=relaxed/simple;
-	bh=np4+VdCIYjoDgWkrRURQxL7azM8oS7+Nph68KFVuIhU=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=PkwOG/3O9WDVU6Vz+l3fEbW5sVOJuHXoYebioROckjUUlua9CcFnuaMSTvUpvO/+L6lwUgHvipCXgu1ZBBePeLhOZhoki+zAvdk+Atkhb7g0kfZhuZkmY6HN2sxmc7tXuQC8fPfxZgbksHw/toZY7mVJq0GebZazUjMIMnsxCak=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=xiaomi.com; spf=pass smtp.mailfrom=xiaomi.com; arc=none smtp.client-ip=207.226.244.123
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=xiaomi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xiaomi.com
-X-CSE-ConnectionGUID: YC6X55iFRL6o4pHcGmm1VA==
-X-CSE-MsgGUID: P+78NqPvTcyp1OLC12hHdA==
-X-IronPort-AV: E=Sophos;i="6.19,241,1754928000"; 
-   d="scan'208";a="155764876"
-From: =?gb2312?B?wqy5+rrq?= <luguohong@xiaomi.com>
-To: Jiri Kosina <jikos@kernel.org>
-CC: Dmitry Torokhov <dmitry.torokhov@gmail.com>, Benjamin Tissoires
-	<bentiss@kernel.org>, "kenalba@google.com" <kenalba@google.com>,
-	"linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	=?gb2312?B?wO7F9A==?= <lipeng43@xiaomi.com>, =?gb2312?B?wqy5+rrq?=
-	<luguohong@xiaomi.com>
-Subject: =?gb2312?B?tPC4tDogtPC4tDogW0V4dGVybmFsIE1haWxdUmU6IFtQQVRDSCB2Ml0gSElE?=
- =?gb2312?B?OiBoaWQtaW5wdXQ6IG9ubHkgaWdub3JlIDAgYmF0dGVyeSBldmVudHMgZm9y?=
- =?gb2312?Q?_digitizers?=
-Thread-Topic: =?gb2312?B?tPC4tDogW0V4dGVybmFsIE1haWxdUmU6IFtQQVRDSCB2Ml0gSElEOiBoaWQt?=
- =?gb2312?B?aW5wdXQ6IG9ubHkgaWdub3JlIDAgYmF0dGVyeSBldmVudHMgZm9yIGRpZ2l0?=
- =?gb2312?Q?izers?=
-Thread-Index: AQHcPeaJlgoeOuC85U+13WxtbainmbTFgLmngAB5O4CABD5tZQ==
-Date: Mon, 20 Oct 2025 00:40:59 +0000
-Message-ID: <4b7b5b7a13fc4191a0d7c99233984e45@xiaomi.com>
-References: <c5b52grvciabpcgavhjqximqqq6fczowgvmckke6aflq72mzyv@gzzkyt25xygc>,<p7675qor-q8qp-spr8-3o6r-pp3qp42qp4q4@xreary.bet>
- <c717d9d1483f4436a9ba6e4266ea4e55@xiaomi.com>,<pp809797-55r9-0os0-0n21-6990q620q788@xreary.bet>
-In-Reply-To: <pp809797-55r9-0os0-0n21-6990q620q788@xreary.bet>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-Content-Type: text/plain; charset="gb2312"
-Content-Transfer-Encoding: base64
+	s=arc-20240116; t=1760963531; c=relaxed/simple;
+	bh=CDNpDbcsYFXA8RLzXkq1i9eCnbB+NSrW8FFCmAAvGY8=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=fpSY79sULXFFyH12Dbq7Z/zROj1c5sIuKZEXWRj9WFFwAR1/ctWtp3CJvna7qbJYQx5QlTISDDSdFD34RCKGqPW0/qVo4xldUMe5uBc6xGot1vQw0hrZiTR3Ia3ck2B9+ztaQ1Y5XjmCf10JaPW2JPnylObKcZ+eoGscObV68aY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=avbEM8yu; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84DA6C116B1;
+	Mon, 20 Oct 2025 12:32:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1760963530;
+	bh=CDNpDbcsYFXA8RLzXkq1i9eCnbB+NSrW8FFCmAAvGY8=;
+	h=From:Subject:Date:To:Cc:From;
+	b=avbEM8yunoWU+PzAJnmS+AOCdV4GxHE29CWzDsvpiyTZ403Vczw7+9j2kKpRJ7+FT
+	 j/NvqZymORxfM/JSMq8tONlgSpPXU25+2GsBrbpQ/MACcOWAuVJYoOgDU2m4Np8up9
+	 15HtodkBsGXjLEbaO/BtMXcguWOBvqLWjNk4HFO/YdXkTJo58XFb9xlhuaWvgAHDnd
+	 zQfOCWA4BO7keHvZhWo+grd4WQuw36JkVo8pt2u1LvWFOtQhF56BhMWDEe7ZmPywOx
+	 ez+t6K7tgDMha0UOs7veoivz0FzHY60eqOalk5c86V2GSX9bz0BO7CQesv6d7hg8qs
+	 Lae06yS1iiHXw==
+From: akemnade@kernel.org
+Subject: [PATCH 0/3] mfd: twl603x: add power button
+Date: Mon, 20 Oct 2025 14:31:57 +0200
+Message-Id: <20251020-twl6030-button-v1-0-93e4644ac974@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAL0r9mgC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI1NDAyMD3ZLyHDMDYwPdpNKSkvw8XQvjFHNTyyQDM4NUMyWgpoKi1LTMCrC
+ B0bG1tQCW8v/AYAAAAA==
+X-Change-ID: 20251020-twl6030-button-83d759b060e6
+To: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Andreas Kemnade <andreas@kemnade.info>, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+ Tony Lindgren <tony@atomide.com>, Kevin Hilman <khilman@kernel.org>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-input@vger.kernel.org, linux-omap@vger.kernel.org, 
+ Andreas Kemnade <akemnade@kernel.org>
+X-Mailer: b4 0.15-dev-50721
+X-Developer-Signature: v=1; a=openpgp-sha256; l=896; i=akemnade@kernel.org;
+ h=from:subject:message-id; bh=CDNpDbcsYFXA8RLzXkq1i9eCnbB+NSrW8FFCmAAvGY8=;
+ b=owGbwMvMwCUm/rzkS6lq2x3G02pJDBnftA+9N0r++/yY/YTIhc3H7zhtzGriWOL0RP93zwfWG
+ XH2LgJlHaUsDGJcDLJiiiy/rBXcPqk8yw2eGmEPM4eVCWQIAxenAEzktSnDb5a6t5omrH4Oaw7O
+ Z76S9UiT5ZzKzPtiM9WNDiR0c1hl6jIyLDui1t69WaLxttTrj8Uyu2JPxfO6Pq29G7H/orHTrlQ
+ zNgA=
+X-Developer-Key: i=akemnade@kernel.org; a=openpgp;
+ fpr=EEC0DB858E66C0DA70620AC07DBD6AC74DE29324
 
-DQpUaGFuayB5b3Ugc28gbXVjaKOhDQpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fDQq3orz+yMs6IEppcmkgS29zaW5hIDxqaWtvc0BrZXJuZWwub3JnPg0Kt6LLzcqxvOQ6
-IDIwMjXE6jEw1MIxN8jVIDIzOjUxOjQzDQrK1bz+yMs6IMKsufq66g0Ks63LzTogRG1pdHJ5IFRv
-cm9raG92OyBCZW5qYW1pbiBUaXNzb2lyZXM7IGtlbmFsYmFAZ29vZ2xlLmNvbTsgbGludXgtaW5w
-dXRAdmdlci5rZXJuZWwub3JnOyBsaW51eC1rZXJuZWxAdmdlci5rZXJuZWwub3JnOyDA7sX0DQrW
-98ziOiBSZTogtPC4tDogW0V4dGVybmFsIE1haWxdUmU6IFtQQVRDSCB2Ml0gSElEOiBoaWQtaW5w
-dXQ6IG9ubHkgaWdub3JlIDAgYmF0dGVyeSBldmVudHMgZm9yIGRpZ2l0aXplcnMNCg0KW83isr/T
-yrz+XSC0y9PKvP7AtNS009rQocPXuavLvs3isr+jrMfrvffJ97SmwO2ho8j0ttTTyrz+sLLIq9DU
-tObSyaOsx+u9q9PKvP7XqreiuPhtaXNlY0B4aWFvbWkuY29tvfjQ0Le0wKENCg0KT24gRnJpLCAx
-NyBPY3QgMjAyNSwgwqy5+rrqIHdyb3RlOg0KDQo+IFdoZXJlIGNhbiBJIGZpbmQgaW5mb3JtYXRp
-b24gYWJvdXQgeW91ciBjb21taXRzPyBJcyBpdA0KPiAiaHR0cHM6Ly93ZWIuZ2l0Lmtlcm5lbC5v
-cmcvcHViL3NjbS9saW51eC9rZXJuZWwvZ2l0L2hpZC9oaWQuZ2l0L2xvZy8/aD1mb3ItNi4xNy91
-cHN0cmVhbS1maXhlcyI/DQo+IFNvIGZhciwgSSBoYXZlbid0IHNlZW4gYW55IGluZm9ybWF0aW9u
-IGFib3V0IHRoaXMgY29tbWl0LiBJJ2xsIG5lZWQgdGhpcw0KPiBpbmZvcm1hdGlvbiB3aGVuIEkg
-c3VibWl0IHRoaXMgY29kZSB0byBHb29nbGUncyBHS0kuIFRoYW5rIHlvdSENCg0KVGhlIHF1ZXVl
-IG9mIGZpeGVzIGZvciA2LjE4IGlzIGF0DQoNCiAgICAgICAgaHR0cHM6Ly9naXQua2VybmVsLm9y
-Zy9wdWIvc2NtL2xpbnV4L2tlcm5lbC9naXQvaGlkL2hpZC5naXQvbG9nLz9oPWZvci02LjE4L3Vw
-c3RyZWFtLWZpeGVzDQoNCmFuZCBpdCdzIGp1c3Qgbm93IG9uIGl0cyB3YXkgdG8gTGludXMnIHRy
-ZWU6DQoNCiAgICAgICAgaHR0cHM6Ly9naXQua2VybmVsLm9yZy9wdWIvc2NtL2xpbnV4L2tlcm5l
-bC9naXQvaGlkL2hpZC5naXQvbG9nLz9oPWZvci1saW51cw0KDQotLQ0KSmlyaSBLb3NpbmENClNV
-U0UgTGFicw0KDQojLyoqKioqKrG+08q8/rywxuS4vbz+uqzT0NChw9e5q8u+tcSxo8Pc0MXPoqOs
-vfbP3tPat6LLzbj4yc/D5rXY1rfW0MHQs/a1xLj2yMu78si61+mho7371rnIzrrOxuTL+8jL0tTI
-zrrO0M7Kvcq508OjqLD8wKi1q7K7z97T2sirsr+78rK/t9a12NC5wrahori01sahorvyyaK3oqOp
-sb7Tyrz+1tC1xNDFz6Kho8jnufvE+rTtytXBy7G+08q8/qOsx+vE+sGivLS157uwu/LTyrz+zajW
-qreivP7Iy7Kiyb6z/bG+08q8/qOhIFRoaXMgZS1tYWlsIGFuZCBpdHMgYXR0YWNobWVudHMgY29u
-dGFpbiBjb25maWRlbnRpYWwgaW5mb3JtYXRpb24gZnJvbSBYSUFPTUksIHdoaWNoIGlzIGludGVu
-ZGVkIG9ubHkgZm9yIHRoZSBwZXJzb24gb3IgZW50aXR5IHdob3NlIGFkZHJlc3MgaXMgbGlzdGVk
-IGFib3ZlLiBBbnkgdXNlIG9mIHRoZSBpbmZvcm1hdGlvbiBjb250YWluZWQgaGVyZWluIGluIGFu
-eSB3YXkgKGluY2x1ZGluZywgYnV0IG5vdCBsaW1pdGVkIHRvLCB0b3RhbCBvciBwYXJ0aWFsIGRp
-c2Nsb3N1cmUsIHJlcHJvZHVjdGlvbiwgb3IgZGlzc2VtaW5hdGlvbikgYnkgcGVyc29ucyBvdGhl
-ciB0aGFuIHRoZSBpbnRlbmRlZCByZWNpcGllbnQocykgaXMgcHJvaGliaXRlZC4gSWYgeW91IHJl
-Y2VpdmUgdGhpcyBlLW1haWwgaW4gZXJyb3IsIHBsZWFzZSBub3RpZnkgdGhlIHNlbmRlciBieSBw
-aG9uZSBvciBlbWFpbCBpbW1lZGlhdGVseSBhbmQgZGVsZXRlIGl0ISoqKioqKi8jDQo=
+Like the TWL4030, the TWL603x also has a power button feature, so add
+a driver for it.
+
+Signed-off-by: Andreas Kemnade <akemnade@kernel.org>
+---
+Andreas Kemnade (3):
+      dt-bindings: mfd: twl: enable power button also for twl603x
+      Input: add TWL603x power button
+      ARM: dts: ti/omap: omap4-epson-embt2ws: add powerbutton
+
+ Documentation/devicetree/bindings/mfd/ti,twl.yaml |  40 ++++++--
+ arch/arm/boot/dts/ti/omap/omap4-epson-embt2ws.dts |   5 +
+ drivers/input/misc/Kconfig                        |  10 ++
+ drivers/input/misc/Makefile                       |   1 +
+ drivers/input/misc/twl6030-pwrbutton.c            | 111 ++++++++++++++++++++++
+ 5 files changed, 159 insertions(+), 8 deletions(-)
+---
+base-commit: 3a8660878839faadb4f1a6dd72c3179c1df56787
+change-id: 20251020-twl6030-button-83d759b060e6
+
+Best regards,
+--  
+Andreas Kemnade <akemnade@kernel.org>
+
 
