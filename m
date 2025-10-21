@@ -1,108 +1,152 @@
-Return-Path: <linux-input+bounces-15632-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-15633-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 125FFBF7A7C
-	for <lists+linux-input@lfdr.de>; Tue, 21 Oct 2025 18:28:13 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 66FE1BF7BD5
+	for <lists+linux-input@lfdr.de>; Tue, 21 Oct 2025 18:41:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 22ED3504F2B
-	for <lists+linux-input@lfdr.de>; Tue, 21 Oct 2025 16:27:45 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id D60304F4611
+	for <lists+linux-input@lfdr.de>; Tue, 21 Oct 2025 16:37:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 12E203491EA;
-	Tue, 21 Oct 2025 16:27:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 87258347BC4;
+	Tue, 21 Oct 2025 16:36:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EuurpcqY"
+	dkim=pass (2048-bit key) header.d=kemnade.info header.i=@kemnade.info header.b="TBNxILAZ"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.andi.de1.cc (mail.andi.de1.cc [178.238.236.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2B523491DA;
-	Tue, 21 Oct 2025 16:27:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AF9A347BBC;
+	Tue, 21 Oct 2025 16:36:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.238.236.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761064060; cv=none; b=W9RwmAGUHaIZjsRHtSPmsiq1MNVRwBJHj/xYgxDwaajvtIDdKsu5PDAb0p9S3rENP9D5fCoJ0CBJs0ZcaNlFzDPmcE9bvp33R4OnmyzSb/JWwud7GOBbFZbNSRygiUKteJ4P3gRDrRF3vpy817UTD/PibrlS6cIEEdxW0vXDCHw=
+	t=1761064601; cv=none; b=tR909rv6n6Wq672lGq4MB+NlGLMeX2W1H7tl7CPmKeil280RKC0S0SNOS0jjeJZZ661xI+6k1vhoyIQOE3B+vTkX91C7iRMlxOgdHpfqg9nz+l7+Q88lgwYozYmwHsTc7yPfgXNLhbxlFN0K/+8yrkVcGEWOdMbdEnnm2PYQZT8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761064060; c=relaxed/simple;
-	bh=kd69N002vmpOtiEZ/bz+Dv6wfmuq9EEiUSEIIPlzC/A=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=KmbU3XIgGJ9jad9Rf2qbStn8/X1pde+F0aNhgrwrBTZshuljZJNXtRXBdhh25stO7RZ0coHfvAhsCfIzPsp9U5ahpHJBpQA1qk94C/BYUcxM49NcsukyDVKrOADobmU+SeEVH5RnnYg0ejhlRGSizz3ua9d5WD95lpXCi8ScPzc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EuurpcqY; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C56A6C4CEF1;
-	Tue, 21 Oct 2025 16:27:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761064059;
-	bh=kd69N002vmpOtiEZ/bz+Dv6wfmuq9EEiUSEIIPlzC/A=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=EuurpcqYQ6t3c0RJHYtFpQ96qi9D2nhzD1mshw+97vGzJVzXqT3Fsjsw4kuea/pFC
-	 4FL/5K7Db5TAWO8uRVOV8krL+nCPHc2xcKgEyRqWD0vgVqLGU5+napMl0uNycBMDoT
-	 Zq65JHxannPosBC+9KsBi62bLqZQd7zMftRtJJZP5lF1MeJ+QVlmPKMiEG+6DAt696
-	 XF7Ovh9rEzQq5ipuBedftxSHfQ+hTltnAX7YexgtqfH11aNYd4m4/5W/yghImzKHFR
-	 2UjONgnl1YQIyDTnGzdzukB/6vidtTkc+cuZn9q08xseXzVfzNeGrv4kNTR/uxLpFQ
-	 MeM4Ah23DvYUA==
-From: Lee Jones <lee@kernel.org>
-To: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
- Mark Brown <broonie@kernel.org>, 
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
- Sebastian Reichel <sre@kernel.org>, Frank Li <Frank.li@nxp.com>, 
- Samuel Kayode <samuel.kayode@savoirfairelinux.com>
-Cc: imx@lists.linux.dev, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-input@vger.kernel.org, 
- linux-pm@vger.kernel.org, Abel Vesa <abelvesa@kernel.org>, 
- Abel Vesa <abelvesa@linux.com>, Robin Gong <b38343@freescale.com>, 
- Robin Gong <yibin.gong@nxp.com>, 
- Enric Balletbo i Serra <eballetbo@gmail.com>, 
- Sean Nyekjaer <sean@geanix.com>, 
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>, 
- Abel Vesa <abelvesa@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
- Frank Li <Frank.Li@nxp.com>, 
- Sebastian Reichel <sebastian.reichel@collabora.com>
-In-Reply-To: <20251001-pf1550-v12-0-a3302aa41687@savoirfairelinux.com>
-References: <20251001-pf1550-v12-0-a3302aa41687@savoirfairelinux.com>
-Subject: Re: [PATCH v12 0/6] add support for pf1550 PMIC MFD-based drivers
-Message-Id: <176106405453.1328165.3892656646740462467.b4-ty@kernel.org>
-Date: Tue, 21 Oct 2025 17:27:34 +0100
+	s=arc-20240116; t=1761064601; c=relaxed/simple;
+	bh=DVrwumkkr5SZ61R+aJi6TAQQwRK3yb6x0kw2lkyk8uI=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=cz1DXXanPyxjH3LDaexMlpGckJskQ+TVn6VrGfRLAhOXl13EtyZnJrw1lxmVJzglxQax/yAfiarSiQd9u9q2NN5R1RyLoYATiFrdKrxgmeOc0I2hqEhq0ibgVH6vfrpIc5p7cueBq2CShVYXZ/w521Wvtgq7N+rGwGG5PgYK458=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kemnade.info; spf=pass smtp.mailfrom=kemnade.info; dkim=pass (2048-bit key) header.d=kemnade.info header.i=@kemnade.info header.b=TBNxILAZ; arc=none smtp.client-ip=178.238.236.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kemnade.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kemnade.info
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=kemnade.info; s=20220719; h=References:In-Reply-To:Cc:From:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID;
+	bh=f+3XfcfI7PAxJh75DtOxQWWY3IPGdxhd0iLpj5h8rgU=; b=TBNxILAZZ5NJT3FqILwfu+4JPp
+	AcvLYpdWMkyrVp0gesCWxqqDlkyyuD8sABnCaANaOg9eNK048kU08D44e5XXbBM7x3vncvUE0Ie8P
+	XU+SmuaMganm0TCf50E7EkYmSt1Zs7XeK2Iyuo71hW5U68IEG8AQNBc24EIOsw1RjruRferk3QhFJ
+	ZoV+XjJzvhsSf9Hor/oduxKBQIwaR0fmq3/L9F4TVBvNCUNXQuxgo9YZHL2t2D6m6iJIuXjrLYbPw
+	N0TmE63JAOQV+ajgRDHyG3GXNUkZnMQhOrIqIeipg+bGaNDu9TzhmSpHXY+4kdvPvUzoj0PqBf4LS
+	Uo+32VyQ==;
+Date: Tue, 21 Oct 2025 18:36:24 +0200
+From: Andreas Kemnade <andreas@kemnade.info>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Dmitry
+ Torokhov <dmitry.torokhov@gmail.com>, Tony Lindgren <tony@atomide.com>,
+ Kevin Hilman <khilman@kernel.org>, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+ linux-omap@vger.kernel.org
+Subject: Re: [PATCH 1/3] dt-bindings: mfd: twl: enable power button also for
+ twl603x
+Message-ID: <20251021183624.6fde0a15@kemnade.info>
+In-Reply-To: <beabb9f7-fcf4-4c1d-a259-6c48e82fbcf5@kernel.org>
+References: <20251020-twl6030-button-v1-0-93e4644ac974@kernel.org>
+	<20251020-twl6030-button-v1-1-93e4644ac974@kernel.org>
+	<5fd43d2c-3a08-4a51-abb6-38883ee86bf2@kernel.org>
+	<20251021104515.5e25bec1@kemnade.info>
+	<beabb9f7-fcf4-4c1d-a259-6c48e82fbcf5@kernel.org>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; aarch64-unknown-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.15-dev-52d38
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Wed, 01 Oct 2025 11:42:36 -0400, Samuel Kayode wrote:
-> This series adds support for pf1550 PMIC. It provides the core driver and
-> sub-drivers for the regulator, power supply and input subsystems.
+On Tue, 21 Oct 2025 11:58:49 +0200
+Krzysztof Kozlowski <krzk@kernel.org> wrote:
+
+> On 21/10/2025 10:45, Andreas Kemnade wrote:
+> > On Tue, 21 Oct 2025 09:10:28 +0200
+> > Krzysztof Kozlowski <krzk@kernel.org> wrote:
+> >   
+> >> On 20/10/2025 14:31, akemnade@kernel.org wrote:  
+> >>> From: Andreas Kemnade <andreas@kemnade.info>
+> >>>
+> >>> TWL603x has also a power button, so add the corresponding subnode.    
+> >>
+> >> No, we don't add subnodes just because there is a power button. This
+> >> needs broader explanation, see also my further comment.
+> >>  
+> > Hmm, what is the general pattern to follow if a mfd device has some
+> > functionality which depends on some optional external components?  
 > 
-> Patch 1 adds the DT binding document for the PMIC. Patches 2-5 adds the
-> pertinent drivers. Last patch adds a MAINTAINERS entry for the drivers.
+> Please describe it better - how these nodes depend on external
+> component? The power button logic/IC is in this device always. It is not
+> optional.
+>
+The power button logic is always there, yes, but it depends on an optional
+actual mechanical button connected to a pad of this device, which is
+not always there. The logic will not work if I just put my finger on the PMIC,
+but it will work if there is a mechanical button which I can press connected to
+the PMIC.
+
+> > The might be a power button connected to it or not. I find it ugly
+> > to have non-existent stuff in the system.
+> > In general, yes I understand the argument against the subnode.
+> >   
+> >>>
+> >>> Signed-off-by: Andreas Kemnade <andreas@kemnade.info>
+> >>> ---
+> >>>  Documentation/devicetree/bindings/mfd/ti,twl.yaml | 40 ++++++++++++++++++-----
+> >>>  1 file changed, 32 insertions(+), 8 deletions(-)
+> >>>
+> >>> diff --git a/Documentation/devicetree/bindings/mfd/ti,twl.yaml b/Documentation/devicetree/bindings/mfd/ti,twl.yaml
+> >>> index 776b04e182cb2..3527fee32cb07 100644
+> >>> --- a/Documentation/devicetree/bindings/mfd/ti,twl.yaml
+> >>> +++ b/Documentation/devicetree/bindings/mfd/ti,twl.yaml
+> >>> @@ -55,6 +55,15 @@ allOf:
+> >>>  
+> >>>          gpadc: false
+> >>>  
+> >>> +        pwrbutton:
+> >>> +          properties:
+> >>> +            compatible:
+> >>> +              const: ti,twl4030-pwrbutton
+> >>> +            interrupts:
+> >>> +              items:
+> >>> +                - items:
+> >>> +                    const: 8    
+> >>
+> >> What is the point of defining const interrupts? If they are const, then
+> >> it is implied by compatible and defined in the driver.
+> >>
+> >> Anyway, double items does not look right here. This is an odd syntax.
+> >>  
+> > Quoting Rob:
+> > As 'interrupts' is a matrix, this needs to be:
+> > 
+> > interrupts:
+> >   items:
+> >     - items:
+> >         - const: 8
+> > 
+> > https://lore.kernel.org/linux-omap/20240318150750.GA4000895-robh@kernel.org/  
 > 
-> The patches 3-5 depend on the core driver provided in patch 2.
 > 
-> [...]
+> OK, this answers second part but I don't understand why even having this
+> in DT. If this is fixed, should be implied by the compatible?
+> 
+correct, they do not need to come from DT. The same is true for all
+subnodes of the twl[46]03X. I just followed the usual
+pattern there, which is of course not recommended for new designs.
 
-Applied, thanks!
-
-[1/6] dt-bindings: mfd: add pf1550
-      commit: 2391e1377e39a7ca8592257d6b17126bffd58d48
-[2/6] mfd: pf1550: add core driver
-      commit: ebaec90ec0b5850ab80ca017e7b63183adcca131
-[3/6] regulator: pf1550: add support for regulator
-      commit: 7320d41c29bbd80144bb89112b8bf0c8223b94a1
-[4/6] input: pf1550: add onkey support
-      commit: 9acb215cbebdce721af2219e2859ad17342c9084
-[5/6] power: supply: pf1550: add battery charger support
-      commit: 4b6b6433a97d5863b5340fc87f866d784fdf0783
-[6/6] MAINTAINERS: add an entry for pf1550 mfd driver
-      commit: a7d6255a0bf302c028ac680564633a6aac5f611d
-
---
-Lee Jones [李琼斯]
-
+Regards,
+Andreas
 
