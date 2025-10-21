@@ -1,81 +1,108 @@
-Return-Path: <linux-input+bounces-15631-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-15632-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02882BF6C97
-	for <lists+linux-input@lfdr.de>; Tue, 21 Oct 2025 15:32:40 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 125FFBF7A7C
+	for <lists+linux-input@lfdr.de>; Tue, 21 Oct 2025 18:28:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5E225541E48
-	for <lists+linux-input@lfdr.de>; Tue, 21 Oct 2025 13:30:57 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 22ED3504F2B
+	for <lists+linux-input@lfdr.de>; Tue, 21 Oct 2025 16:27:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E88F6337B81;
-	Tue, 21 Oct 2025 13:30:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 12E203491EA;
+	Tue, 21 Oct 2025 16:27:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="M7Ebn+76"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EuurpcqY"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80BFC1494A8;
-	Tue, 21 Oct 2025 13:30:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2B523491DA;
+	Tue, 21 Oct 2025 16:27:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761053454; cv=none; b=qeZ6fXhqaZgzm37JRgPbCj0CxiwJ5ZQpx3jL226kJvu6WlOOiLS/Ipz5jnnFTf2Ho3INzJsTb3fgbmQu8X5sPPknMHhsJTMEKWYvpj4xFkEY6XMLY/+kS4I6Up+lFuiCdLv697o0jWUsRZjhhg1Or+cx61JYwvhHF5rSzLY6Lzo=
+	t=1761064060; cv=none; b=W9RwmAGUHaIZjsRHtSPmsiq1MNVRwBJHj/xYgxDwaajvtIDdKsu5PDAb0p9S3rENP9D5fCoJ0CBJs0ZcaNlFzDPmcE9bvp33R4OnmyzSb/JWwud7GOBbFZbNSRygiUKteJ4P3gRDrRF3vpy817UTD/PibrlS6cIEEdxW0vXDCHw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761053454; c=relaxed/simple;
-	bh=hriMGMMC3RvKp1nHkklwY4nn4L/Il49ifIsSMYBa0Eg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XNhnWicLp5bMTH98TwlvmsLehrLN9x/a8yY5qiMBpCX2OffRkNSyYdfn1f96pEhXtRYIBktucIYc+aCVn3woJBg8su2uWUMNvdL8kDdof5OmRz/jE1oxlUBRjoPfAPJ6knwV/uknS44PNQQkXN1ZqhUrcylqV3V0g3rCiiSnZgY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=M7Ebn+76; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5CD4EC4CEF1;
-	Tue, 21 Oct 2025 13:30:53 +0000 (UTC)
+	s=arc-20240116; t=1761064060; c=relaxed/simple;
+	bh=kd69N002vmpOtiEZ/bz+Dv6wfmuq9EEiUSEIIPlzC/A=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=KmbU3XIgGJ9jad9Rf2qbStn8/X1pde+F0aNhgrwrBTZshuljZJNXtRXBdhh25stO7RZ0coHfvAhsCfIzPsp9U5ahpHJBpQA1qk94C/BYUcxM49NcsukyDVKrOADobmU+SeEVH5RnnYg0ejhlRGSizz3ua9d5WD95lpXCi8ScPzc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EuurpcqY; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C56A6C4CEF1;
+	Tue, 21 Oct 2025 16:27:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761053453;
-	bh=hriMGMMC3RvKp1nHkklwY4nn4L/Il49ifIsSMYBa0Eg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=M7Ebn+766/nJF4hc97qZmJNwX6GMK+R5MgeSt+6Ci4qXPtAu4D60iXZWIANcEoswt
-	 hhzPYH71zFcwWsOd5nAyh9zk96iHKmDdtYWqD7+zIeNXYJcKGi/9/o14/2Pleyh8u+
-	 mbjp4fpY/qP2QNjQqs20NQ6pRt9NswYIhiY45/w/3SJdsiD3y+VrtQglyC0hKVvgPS
-	 FQufaXtvRm+81kxopFSZ9OPwAyL9qUUtFI4pi0eyBpBkrh6Dhc4afHmnaYtyye7JXs
-	 wj/2jE1L+bTSPGUlJu+HVkC4X/yxwCKEOvhADz3RT38gQdIirU+Bk8K/tgLuL98gPW
-	 k4jK0GJVqnsyg==
-Date: Tue, 21 Oct 2025 08:30:51 -0500
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Frank Li <Frank.Li@nxp.com>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Support Opensource <support.opensource@diasemi.com>,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	imx@lists.linux.dev, Conor Dooley <conor+dt@kernel.org>,
-	linux-input@vger.kernel.org,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>
-Subject: Re: [PATCH 1/1] dt-bindings: mfd: dlg,da9063: Allow wakeup-source
- property
-Message-ID: <176105345091.18369.608771207114804594.robh@kernel.org>
-References: <20251014184531.2353879-1-Frank.Li@nxp.com>
+	s=k20201202; t=1761064059;
+	bh=kd69N002vmpOtiEZ/bz+Dv6wfmuq9EEiUSEIIPlzC/A=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=EuurpcqYQ6t3c0RJHYtFpQ96qi9D2nhzD1mshw+97vGzJVzXqT3Fsjsw4kuea/pFC
+	 4FL/5K7Db5TAWO8uRVOV8krL+nCPHc2xcKgEyRqWD0vgVqLGU5+napMl0uNycBMDoT
+	 Zq65JHxannPosBC+9KsBi62bLqZQd7zMftRtJJZP5lF1MeJ+QVlmPKMiEG+6DAt696
+	 XF7Ovh9rEzQq5ipuBedftxSHfQ+hTltnAX7YexgtqfH11aNYd4m4/5W/yghImzKHFR
+	 2UjONgnl1YQIyDTnGzdzukB/6vidtTkc+cuZn9q08xseXzVfzNeGrv4kNTR/uxLpFQ
+	 MeM4Ah23DvYUA==
+From: Lee Jones <lee@kernel.org>
+To: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Mark Brown <broonie@kernel.org>, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+ Sebastian Reichel <sre@kernel.org>, Frank Li <Frank.li@nxp.com>, 
+ Samuel Kayode <samuel.kayode@savoirfairelinux.com>
+Cc: imx@lists.linux.dev, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-input@vger.kernel.org, 
+ linux-pm@vger.kernel.org, Abel Vesa <abelvesa@kernel.org>, 
+ Abel Vesa <abelvesa@linux.com>, Robin Gong <b38343@freescale.com>, 
+ Robin Gong <yibin.gong@nxp.com>, 
+ Enric Balletbo i Serra <eballetbo@gmail.com>, 
+ Sean Nyekjaer <sean@geanix.com>, 
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>, 
+ Abel Vesa <abelvesa@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+ Frank Li <Frank.Li@nxp.com>, 
+ Sebastian Reichel <sebastian.reichel@collabora.com>
+In-Reply-To: <20251001-pf1550-v12-0-a3302aa41687@savoirfairelinux.com>
+References: <20251001-pf1550-v12-0-a3302aa41687@savoirfairelinux.com>
+Subject: Re: [PATCH v12 0/6] add support for pf1550 PMIC MFD-based drivers
+Message-Id: <176106405453.1328165.3892656646740462467.b4-ty@kernel.org>
+Date: Tue, 21 Oct 2025 17:27:34 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251014184531.2353879-1-Frank.Li@nxp.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.15-dev-52d38
 
-
-On Tue, 14 Oct 2025 14:45:31 -0400, Frank Li wrote:
-> Allow wakeup-source property to fix below CHECK_DTBS warnings:
->   arch/arm/boot/dts/nxp/imx/imx6dl-emcon-avari.dtb: onkey (dlg,da9063-onkey): 'wakeup-source' does not match any of the regexes: 'pinctrl-[0-9]+'
+On Wed, 01 Oct 2025 11:42:36 -0400, Samuel Kayode wrote:
+> This series adds support for pf1550 PMIC. It provides the core driver and
+> sub-drivers for the regulator, power supply and input subsystems.
 > 
-> Signed-off-by: Frank Li <Frank.Li@nxp.com>
-> ---
->  Documentation/devicetree/bindings/input/dlg,da9062-onkey.yaml | 2 ++
->  1 file changed, 2 insertions(+)
+> Patch 1 adds the DT binding document for the PMIC. Patches 2-5 adds the
+> pertinent drivers. Last patch adds a MAINTAINERS entry for the drivers.
 > 
+> The patches 3-5 depend on the core driver provided in patch 2.
+> 
+> [...]
 
-Acked-by: Rob Herring (Arm) <robh@kernel.org>
+Applied, thanks!
+
+[1/6] dt-bindings: mfd: add pf1550
+      commit: 2391e1377e39a7ca8592257d6b17126bffd58d48
+[2/6] mfd: pf1550: add core driver
+      commit: ebaec90ec0b5850ab80ca017e7b63183adcca131
+[3/6] regulator: pf1550: add support for regulator
+      commit: 7320d41c29bbd80144bb89112b8bf0c8223b94a1
+[4/6] input: pf1550: add onkey support
+      commit: 9acb215cbebdce721af2219e2859ad17342c9084
+[5/6] power: supply: pf1550: add battery charger support
+      commit: 4b6b6433a97d5863b5340fc87f866d784fdf0783
+[6/6] MAINTAINERS: add an entry for pf1550 mfd driver
+      commit: a7d6255a0bf302c028ac680564633a6aac5f611d
+
+--
+Lee Jones [李琼斯]
 
 
