@@ -1,208 +1,181 @@
-Return-Path: <linux-input+bounces-15634-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-15636-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3D31BF7D74
-	for <lists+linux-input@lfdr.de>; Tue, 21 Oct 2025 19:18:36 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E261BF7F8C
+	for <lists+linux-input@lfdr.de>; Tue, 21 Oct 2025 19:52:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E339818C851F
-	for <lists+linux-input@lfdr.de>; Tue, 21 Oct 2025 17:18:59 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 049E34E7564
+	for <lists+linux-input@lfdr.de>; Tue, 21 Oct 2025 17:52:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8BB932594BD;
-	Tue, 21 Oct 2025 17:18:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 854DC34C149;
+	Tue, 21 Oct 2025 17:51:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tLFyB1hK"
+	dkim=pass (2048-bit key) header.d=yahoo.es header.i=@yahoo.es header.b="o2PiCeBX"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from sonic313-21.consmr.mail.ir2.yahoo.com (sonic313-21.consmr.mail.ir2.yahoo.com [77.238.179.188])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 571B734B180;
-	Tue, 21 Oct 2025 17:18:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E21B3557F1
+	for <linux-input@vger.kernel.org>; Tue, 21 Oct 2025 17:51:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.238.179.188
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761067110; cv=none; b=TeztIVlLmhadMg11PVFvyQFKm3a6BcaAM4TDEpiDqtVXZm/L9f02nIFUmANIiX+Y1PIgttDLbgOOZyx7OPQYI0UNj5c8M0IwWDKfg39VU162MdwO+I/83zpwxtzyPZBr1irBPqgQcaekHjEixdpSRPDjQXIZLb01xIBBgj4oIqw=
+	t=1761069119; cv=none; b=hVYasjIMYnAZ+wYkrrptkfssEgo+P4adenz82pnVZcgzjU1mBAFsg/bvnxYJg/OfrX8PB8RYDG9SXuCUNM7B3VdbpuR9AIrWU3x4pYtBEpRrICJMiSn3imhR4U7edjXHf9gnYgnU6cFvGifU4ZVALYGpV8rrpUa0S3cJ/M4Diho=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761067110; c=relaxed/simple;
-	bh=QtLXS3rzu85GPfiyQyWFtuvBX2K+zVl2eqhHbxp7VYc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=t9vsjQZgcoclsJQH8itFoE+QQyATD91D3wMWdtISHOspVLYI/Vlw1mLGtF8nuXS7tv4gcYPhbB3cToCL4UAaYodBgt25ZBm6jbUFb3B6H86uHDbU5le/fL4usrs8dQG/akPKX2hslmCmKe6NoDsh1trKZuzjsRDsHNlk7w4bu4c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tLFyB1hK; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2101C4CEF1;
-	Tue, 21 Oct 2025 17:18:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761067109;
-	bh=QtLXS3rzu85GPfiyQyWFtuvBX2K+zVl2eqhHbxp7VYc=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=tLFyB1hKmQyILba52G5QPz0hWIrOzggT5rxoOzZqq7ZoR+eRBNGGZrjcdOWAGcQga
-	 rNHX+CSDcSL4YMcZ+OO8a2m42NZgFgVmSoyqjhOR2cUNL3k4nNq+KwBGp9YuvyfV3t
-	 JNeY5ZDJAY6nRuJwNRaGmQVdFfHVI6s4PklmUH5+ae8Xlkb9mXq0dFXmco496qqXYH
-	 +QkgxK/6c8vF4a5RB7VCSWDcwVlsvc43O70bBSY8UDAAgEOE3h0/Ao4JjtgMg1lAd6
-	 Wo4oxiBfX+uaJHpV+JFhCZHHWnBC/jByJQclgtU3EEEWrT9zNnguXO6Pkaf/3WJlcZ
-	 tI/s+XSGpbnxw==
-Message-ID: <7702e4f6-4913-4d9e-bbc4-1fb849507e4c@kernel.org>
-Date: Tue, 21 Oct 2025 19:18:25 +0200
+	s=arc-20240116; t=1761069119; c=relaxed/simple;
+	bh=c+HScNeQrKbmkWTDX98J4xfkTgy0u4Xybmf/j8HugsY=;
+	h=Message-ID:Date:From:MIME-Version:To:CC:Subject:Content-Type:
+	 References; b=Zz5VqC0i7ybRmm990qK/YcEEu8lBE0pU0DBVMI/ZYLnwq+1xHOXsKVgluukHSzMRj81Ylbc/HA7PkNn6dH+2NplknNTRV4rZI5VTkgeU+qKPDIeneQC/Y+BylGtxnxY/Z3Zxrefc4+BBJYQbLWyl3HtQwG0obrSm8t7oGtdkALQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.es; spf=pass smtp.mailfrom=yahoo.es; dkim=pass (2048-bit key) header.d=yahoo.es header.i=@yahoo.es header.b=o2PiCeBX; arc=none smtp.client-ip=77.238.179.188
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.es
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.es
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.es; s=s2048; t=1761069115; bh=p3x5k4Sry8UPbWz7NfPvbhB5J9+j0/KIaCbBO8Xx8TQ=; h=Date:From:Reply-To:To:CC:Subject:References:From:Subject:Reply-To; b=o2PiCeBXMryafiqkmsCgo0JvloWAWhAmEKKgxPXVBl0zhSjvsbaEjKcwLY32s8ek/WC252Ulxegx5+LcjU6+BgnDJ/VZOJVFWAfpjd+Yr6cGLTDSf6GF6AWAJXkw5rK0zL8poD0Ria/JcLUArvzV/Vr50zqKkAC0SDbnVhBwk2Om/24G5rEa99aAbzzQJne6FJwaYekqWXBqRJ3VYLe1ul6WRJ+/rT4lS+vZ5NOfUHL2DmoHL8ZqzYq8zN6kaXnrOPTH+bNGGzFbGvRfGeLomE8sKtFlRkvWqE1ium6RFc2n6C76/B0j4oWfHbAjYlJBbqgm15exqVn7HRlvx8g1QQ==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1761069115; bh=pDTy2q4cJFYT9FvgwP56FOcX/etavNsrfjvS5X0JHAo=; h=X-Sonic-MF:Date:From:To:Subject:From:Subject; b=ZdYpoMcJbTv69V0mMkp2OV+bw6dXRoyDhiX5LZ01ZK1EegHO8JhJfuH0qQtIGDQVrYAUbAV0HO+au869yQbsq8nU4fMQ27IKW+mzDqxVLuBrB4SgsBaPgPqteeB31GRvFPTmxEBBVIpv6BZXi8IFyLguRW1+9D1Nhn1/UDG59N/bCs+St3C/NGb8RQto6L9bTbHF1V3KtOa61tj6XKqD/CvttY+X0TRdHgWzs14TL0hf5gcfktjdk5L2vz7DUmXwG6ojvxwXiGTe68p7fgDf62paaw4VaORfIJ9w+o3OyjvxzuME5Cy3n/BH0s0iNBpriK3iGeBStxz/zf4K7Jn7EQ==
+X-YMail-OSG: CHy9nWkVM1nkKzFV0KQyAhjhB_XUidrow6AJEQoEd5sU9TKMwlBmf16jFJ4LI4x
+ kbIUNiK141kfrD9Va3omKXyW_jFvTLvRPd3veWF.DOJOPHSu.EgO9i28N443syaifdsJQYVI.CbU
+ C_k_8cnDX9C98QqxR2hDAsfjCZLng7F3HoqTdXttB_ExmAyTwiKEIluscBa6vsiPOZybjB48E1Z1
+ P7doT12l3m7T7PEqdfaG7L4ZKLGn6W_HGQ5Ob3sDOu8FY2yHiufWsNSTAg4XeUQH3CQ2Uwy.Lpd1
+ Q0iPASa72YmL8A1swLj72dPnlNyabCS5Rllq6DzAtwhLMqx4kmOb1QaUYnbYBlkQoKSGRl7Nxy1_
+ lHa2KuWwFX9aZNu.jbZj1n1U6DhT9Ysc0VnEbL_cXM7W.JVi_pCobsckS.7qqq09hXEZkEwuwXVj
+ jSOka9jmx0hSMAZmTVdv59yBXVL97jr.NkDusHFHw_aG8FHtz8GaEIA7HuIyGK97s7VZk2X2V2w_
+ neIVxRNAHpjZd5GcR_WEWNQwGa2eWC6.kdv5WfBZek126I_oJAmsqVDfSJRwmAbv8B5vd8p5nu3y
+ z.SpXz8X8zYi5dmUWR4kpSbSE5fYUDmyyuImyDcCxz6Jr76UXkse9LnJOQl3sqwBjkkO1UzJz5VH
+ FpnHzo0clxngWzFzoRs53O6JZlEgohzHhQRVUzmF4KQ465Vxkbin3uLRgqrwhzr6gXX_XxHB1J2Z
+ 1VB7FZM70zxh2SJGtmjwvER8HhBP6oDOW0GdV9Zb75iSBOIumDR4D_6cmPNKGuHL1Tj_gmIkJPLA
+ 2FGse11EduDamMdN4ojQPdOUqbmwn_enU30eYlpb9uv0qpOZGRdnw5sUAQ7eXHPIyq0qJv2QHI4W
+ hP4e0U_fyg24gGd10Laxo7DoURwTiIXIFH3trc8ysx3FDilIPZ.FTIsq7ZWZZYI.aDVTDwWCCPE7
+ RnL5RwZ7KWCsGFsax6lOzkBdsupRU8rGoS6p0oKYWjyCIdxjAjejWe4TNddgEBgFazTxwgi4fq4m
+ 0VqYymssb.0MrrjwBY5N3FyjgIpQCMHCUFqme.tolctvzMJ66nkFvTvSxDinTMw0jeIFaCmTh5bX
+ uLHBcutLkPs_jOLxSMmQxPC4OMvW4vuVZJToHTD0DxsLLYHcpyrg5p4NKDNyp1Y4h2gpnoaWckJC
+ m0IOAecZElDyZyLHPJEbUhyp7AGl2zPquQjs9chzFOZsbnjER1YPcYti20zRhGGTVSqLreUV3dj0
+ zNNU1DF_qwjERu7Hqyb4Q0E6_Drf0hUQ5J9sP6Mjt2xMqFUIb1YqOMOGNyQ2k9bj49eoi0.NCiyU
+ nTwc5mfKDcGkbq2pClkvfVtO4pEIbwwO4rQxMmeSOUYK7UW8UvGIU6btiQWjgpUwkSgkbSTzverv
+ PEmbxvVskb95nKR2lYFtc2tP544pkL0z7hy272ADwcC_JaYXQGEi9DnvxWNknZVyH1FDCcJ7Ajdn
+ WTF0eg2YbQNqNcpwgZczpHF8tFw31vB.KCGrelhtzGhJ2yU3_JrT8jwxBpul7RyU8EbHbx9NZBNg
+ kM0pPNbSUt1A3Ow0Ln0w0SM4mvtj39QcSyXZQNlendH7hUcP7CQ8AQKEHiWpW0AdyomQcSccxCJe
+ PmgLPIWCc6e8neh32BtGjYLb0gxcmLj5AunqKbYiD0VZdV.Qiy43yXdYYSkl1TIQojqZ3MJkZZq5
+ .LPVC0Mz2bT.vH0wKwOaT3VpTlqp3YdoE1XfDZpLkNNZfv93zqtTFgBQ7dOZEJCGnYR2xscGQrP1
+ hLfRiVb8V2I809eiWcTdv5Rm7KQKB8_p_XOoIvxzblPaoPF7GU.y4iPfRRRjtS2_0du38.7Lj9me
+ 85NwlrR9J9B10wlzggUUEhXvNUvyLV_HOvVya001FJ52lhDZ7drANUi5v6RKCGRiSa3XNLK6xFI4
+ zWZ6NUQn2EtlWR4HFryIRnfv.CkoCiA8xgId91qO242gggpuF6iGHhkZlbkD4bmz43muDEn4sh3i
+ H9cfsVxMluPRdrFxp6y_st02bwJI3bDfcpTR9uzXtXIPnD8S1rMvzld5pGb0BxES_ekckvO9EEpO
+ iJ9sZ2ebxOM8UOlwkyv.DR4ggl4T9CgzfXI94KFzvbcfI96hsr8IrrrJgznaa1V8g1iUqrb4dxWS
+ Ewe99bJeku2Gak4I3zxrKeuHG6z0ftCSlUZpVqJTzLiGfdPzXLLsLWxPiM.jDPB4x5tL7DElG8.y
+ NLcfnjXXI2JSyPK2y4FFGMQ0UYdbeP70i8UwVr4MmeOIGBgKZOPkzX6B2x3.kcQnr37309pcQyw9
+ cu01bslwdg0G6roh8Vim46ZyCIB1k5J95LA--
+X-Sonic-MF: <melus0@yahoo.es>
+X-Sonic-ID: 120b8b36-341b-4291-b086-42bf262d4224
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic313.consmr.mail.ir2.yahoo.com with HTTP; Tue, 21 Oct 2025 17:51:55 +0000
+Received: by hermes--production-ir2-cdb597784-5nnrf (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 3104a9fd11f08fd80492248de79ef4ed;
+          Tue, 21 Oct 2025 17:21:31 +0000 (UTC)
+Received: from luis2 (luis2.eb7gwl.ampr.org [192.168.1.252])
+	by sirius.eb7gwl.ampr.org (8.13.1/8.12.8) with SMTP id 59LHLSVS005280;
+	Tue, 21 Oct 2025 19:21:28 +0200
+Message-ID: <68F7C063.5049@yahoo.es>
+Date: Tue, 21 Oct 2025 19:18:27 +0200
+From: Luis Yanes <melus0@yahoo.es>
+Reply-To: melus0@yahoo.es
+X-Mailer: Mozilla 3.04Gold (WinNT; U)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] dt-bindings: mfd: twl: enable power button also for
- twl603x
-To: Andreas Kemnade <andreas@kemnade.info>
-Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Tony Lindgren <tony@atomide.com>, Kevin Hilman <khilman@kernel.org>,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-input@vger.kernel.org, linux-omap@vger.kernel.org
-References: <20251020-twl6030-button-v1-0-93e4644ac974@kernel.org>
- <20251020-twl6030-button-v1-1-93e4644ac974@kernel.org>
- <5fd43d2c-3a08-4a51-abb6-38883ee86bf2@kernel.org>
- <20251021104515.5e25bec1@kemnade.info>
- <beabb9f7-fcf4-4c1d-a259-6c48e82fbcf5@kernel.org>
- <20251021183624.6fde0a15@kemnade.info>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20251021183624.6fde0a15@kemnade.info>
-Content-Type: text/plain; charset=UTF-8
+To: linux-input@vger.kernel.org
+CC: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>
+Subject: [PATCH] Off-by-one error in CP2112 HID driver affecting SMBus block read output
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
+References: <68F7C063.5049.ref@yahoo.es>
 
-On 21/10/2025 18:36, Andreas Kemnade wrote:
-> On Tue, 21 Oct 2025 11:58:49 +0200
-> Krzysztof Kozlowski <krzk@kernel.org> wrote:
-> 
->> On 21/10/2025 10:45, Andreas Kemnade wrote:
->>> On Tue, 21 Oct 2025 09:10:28 +0200
->>> Krzysztof Kozlowski <krzk@kernel.org> wrote:
->>>   
->>>> On 20/10/2025 14:31, akemnade@kernel.org wrote:  
->>>>> From: Andreas Kemnade <andreas@kemnade.info>
->>>>>
->>>>> TWL603x has also a power button, so add the corresponding subnode.    
->>>>
->>>> No, we don't add subnodes just because there is a power button. This
->>>> needs broader explanation, see also my further comment.
->>>>  
->>> Hmm, what is the general pattern to follow if a mfd device has some
->>> functionality which depends on some optional external components?  
->>
->> Please describe it better - how these nodes depend on external
->> component? The power button logic/IC is in this device always. It is not
->> optional.
->>
-> The power button logic is always there, yes, but it depends on an optional
-> actual mechanical button connected to a pad of this device, which is
-> not always there. The logic will not work if I just put my finger on the PMIC,
-> but it will work if there is a mechanical button which I can press connected to
-> the PMIC.
+Affected file: drivers/hid/hid-cp2112.c
+Kernel version: v5.15.195 (verified) - master (suspected)
+Tool used: i2cget -y 8 0xb 0x78 s <-- reading a battery gauge chip
 
+Observed behavior:
+Incorrect trailing last byte in 32 bytes SMBus block read response.
 
-Hm... how do you represent this logic now? By adding status=disabled to
-the pwrbutton node?
+Expected output:
+0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xaa
+0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xff 0x55
 
+Actual SMBus block data read output:
+0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xaa
+0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xff 0x00
 
-> 
->>> The might be a power button connected to it or not. I find it ugly
->>> to have non-existent stuff in the system.
->>> In general, yes I understand the argument against the subnode.
->>>   
->>>>>
->>>>> Signed-off-by: Andreas Kemnade <andreas@kemnade.info>
->>>>> ---
->>>>>  Documentation/devicetree/bindings/mfd/ti,twl.yaml | 40 ++++++++++++++++++-----
->>>>>  1 file changed, 32 insertions(+), 8 deletions(-)
->>>>>
->>>>> diff --git a/Documentation/devicetree/bindings/mfd/ti,twl.yaml b/Documentation/devicetree/bindings/mfd/ti,twl.yaml
->>>>> index 776b04e182cb2..3527fee32cb07 100644
->>>>> --- a/Documentation/devicetree/bindings/mfd/ti,twl.yaml
->>>>> +++ b/Documentation/devicetree/bindings/mfd/ti,twl.yaml
->>>>> @@ -55,6 +55,15 @@ allOf:
->>>>>  
->>>>>          gpadc: false
->>>>>  
->>>>> +        pwrbutton:
->>>>> +          properties:
->>>>> +            compatible:
->>>>> +              const: ti,twl4030-pwrbutton
->>>>> +            interrupts:
->>>>> +              items:
->>>>> +                - items:
->>>>> +                    const: 8    
->>>>
->>>> What is the point of defining const interrupts? If they are const, then
->>>> it is implied by compatible and defined in the driver.
->>>>
->>>> Anyway, double items does not look right here. This is an odd syntax.
->>>>  
->>> Quoting Rob:
->>> As 'interrupts' is a matrix, this needs to be:
->>>
->>> interrupts:
->>>   items:
->>>     - items:
->>>         - const: 8
->>>
->>> https://lore.kernel.org/linux-omap/20240318150750.GA4000895-robh@kernel.org/  
->>
->>
->> OK, this answers second part but I don't understand why even having this
->> in DT. If this is fixed, should be implied by the compatible?
->>
-> correct, they do not need to come from DT. The same is true for all
-> subnodes of the twl[46]03X. I just followed the usual
-> pattern there, which is of course not recommended for new designs.
+I2C block data read output (from i2cget -y 8 0xb 0x78 i):
+0x20 0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xff
+0xaa 0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xff
 
+Description:
+When performing an SMBus block read using the CP2112 HID USB-to-SMBus
+bridge with the i2cget utility, the last byte of the response for a
+32 bytes block read is, in this case, always 0x00 instead of the actual
+value. In this sample case shown above the actual last byte is 0x55 but
+the driver returns 0x00 (uninitialized value).
+This happens consistently for any 32 bytes block read on any register.
+Shorter than 32 bytes block transfers are unaffected.
 
-OK, please mention the reasons (so following established pattern for
-this legacy device) in commit msg.
+Suspected cause:
+For what I could understand checking the source code this seems an
+off-by-one error in the read request and buffer handling, limited by the
+I2C_SMBUS_BLOCK_MAX 32 bytes read value and the response parsing logic
+within the CP2112 driver since that with a custom hacked module
+(see patch below) I could read that last byte.
 
-Best regards,
-Krzysztof
+Steps to reproduce:
+1. Connect a CP2112 device and a proper slave device to read from.
+2. Use i2cget to perform a known 32 bytes block read with this device:
+   i.e: i2cget -y 8 0xb 0x78 s
+3. Compare the output against the expected data from the target
+   SMBus device. The last byte probably could appear as any other
+   uninitialized buffer value, I guess.
+   From 'i2cget -y 8 0xb 0x78 i' the initial 0x20 is the block
+   length and the last 32th byte is completely missing.
+
+Impact:
+This bug produces incorrect output and will lead to data corruption
+or data misinterpretation when reading from SMBus devices using this
+driver.
+
+Suggested fix:
+Review the buffer handling and read length in the CP2112 driver SMBus
+and I2C block read and write implementations.
+I have not checked if write operations are affected, but probably would
+be a good idea to verify that the 32 bytes block transfers are handled
+properly.
+
+Additional info:
+The issue is reproducible with different CP2112 devices (silicon rev F04)
+and v5.15.x stock kernel builds. Probably also affects newer versions
+since for what I could understand, despite the additional checking
+changes added to the driver the logic seems basically the same.
+
+Patch: https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/plain/drivers/hid/hid-cp2112.c?h=v5.15.195
+--- a/drivers/hid/hid-cp2112.c
++++ b/drivers/hid/hid-cp2112.c
+@@ -703,7 +703,7 @@
+ 	case I2C_SMBUS_BLOCK_DATA:
+ 		if (I2C_SMBUS_READ == read_write) {
+ 			count = cp2112_write_read_req(buf, addr,
+-						      I2C_SMBUS_BLOCK_MAX,
++						      I2C_SMBUS_BLOCK_MAX + 1,
+ 						      command, NULL, 0);
+ 		} else {
+ 			count = cp2112_write_req(buf, addr, command,
+@@ -796,7 +796,7 @@
+ 		memcpy(data->block + 1, buf, read_length);
+ 		break;
+ 	case I2C_SMBUS_BLOCK_DATA:
+-		if (read_length > I2C_SMBUS_BLOCK_MAX) {
++		if (read_length > I2C_SMBUS_BLOCK_MAX + 1) {
+ 			ret = -EPROTO;
+ 			goto power_normal;
+ 		}
+
+--
+
 
