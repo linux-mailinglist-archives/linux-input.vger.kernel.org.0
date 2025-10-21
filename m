@@ -1,73 +1,77 @@
-Return-Path: <linux-input+bounces-15639-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-15640-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0607ABF8B2B
-	for <lists+linux-input@lfdr.de>; Tue, 21 Oct 2025 22:19:51 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 14305BF8B34
+	for <lists+linux-input@lfdr.de>; Tue, 21 Oct 2025 22:20:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B3CBC3ADB1B
-	for <lists+linux-input@lfdr.de>; Tue, 21 Oct 2025 20:19:49 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id B854C4ECDBB
+	for <lists+linux-input@lfdr.de>; Tue, 21 Oct 2025 20:20:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7E85A26B75B;
-	Tue, 21 Oct 2025 20:19:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2991C2773D4;
+	Tue, 21 Oct 2025 20:19:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="Efa9oVra"
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="ZjnMKK6g"
 X-Original-To: linux-input@vger.kernel.org
-Received: from AS8PR04CU009.outbound.protection.outlook.com (mail-westeuropeazon11011019.outbound.protection.outlook.com [52.101.70.19])
+Received: from AM0PR83CU005.outbound.protection.outlook.com (mail-westeuropeazon11010012.outbound.protection.outlook.com [52.101.69.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E63281BFE00;
-	Tue, 21 Oct 2025 20:19:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.70.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AB7C27381E;
+	Tue, 21 Oct 2025 20:19:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.69.12
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761077986; cv=fail; b=U7rOdMqr9PQf6UOOqUZ7KT8Mld33FGvVFbBYuQVcCeCmttXqOzMqaykLkCkMcQsZtXy9/5eW0Td3PTtJTe3LpFJPKhd05/RaRqzXKgs8CcxUFrW/QgHQZIb/eMpwww9ScmBhG+vh6yBzgPHu68VWOPZhgibBcU/S6BuKCuh/p7c=
+	t=1761077997; cv=fail; b=KNOcVlr3m7l5ef5aXdDyxBFgeTXN8tgmwRqe5qiWpLQ4gmTA77FIi4S/uS1/hG8DECz+hrCHLq0clGXjlAqFkx7dREJxW804XuCALbHf71eoS01o8szkeWyxOj5DUafWmBhRNrcuKuKksW65dck4thf6IlcShKrda2l+eiQEL7M=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761077986; c=relaxed/simple;
-	bh=mVzvHDUy0iundIOD+Izp0ey76KFRQFgZjuCZccLVVCE=;
-	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=aJr40s5W7Qsm2syw9gpr3tpZypYRx0lvnhpwrljdNQpenKju0j1cdWCvMIUFClOYDD95jsfBBrUF1tAiXOVzpei7uX4lUgCBTsPP9hEG1/6yMAKP1b3UmAA9HwhZxjbqgdG/3ZgQfD1fiZ9ylvqwTLHix7V7YWoWAniBhVZ2zCM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=Efa9oVra; arc=fail smtp.client-ip=52.101.70.19
+	s=arc-20240116; t=1761077997; c=relaxed/simple;
+	bh=x5yv9yCCn0FBXTohxg0QJWSpE3Oc0yTjNuaeukC1gCM=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=nHlZ6SZSugJU9XcUXkOQF5dWp3My170ISOAdOBdst5ZhbVbIB/POM+FY9WKdvSxmeOo0j3gm5VLwI1rHFNTNIzS7CnArkrx9mcy9TotlUxr5Dc+WaaAOS96mmgPJ2mUw80C17ViHj0jg8Tn71Y+CRSauikw/GKlHd9Tvk4aPqG4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=ZjnMKK6g; arc=fail smtp.client-ip=52.101.69.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=WIBvCGPzoKI6ufrOvNtaD1nSD9MbfWUZLoG/u2QGk2nDjjmcw64hlCBN4Ywhk/ZPiwsB9IqMtSLoLhsf67s604pLR7g/RP0pvArluCmhM54AEb7LTm/SYZiszEXO5kAzKVLbLAMXkXiVUz/lPgF40MX3ApAbD0+pdjQnRrKuo6DHZE3nq4dt3EL9mgQaZ1O7ujRVdTfmc4BOLffdaoialYq5BhNRAQ5z33Z44qskC1/aXDjtZ6JhY+6n4O8nHZtCB9Xg86grl8tb7GolMpdh/S+Hm30Yw+3g1/mfzPBf4Rj4u2r241S/MyB20QA8NimAvE3+XUfsJomJZ4WA+POaDg==
+ b=Bzx7HZ4bQunZ9GCSC0B033AfJWksZ1kX1M2AP7AR6xad9tYYZZZfCxRg7zeSXAGqKslcF2XSmR295AAU994+J8XbhJl6lmaPhp3belryEndMNMHKyEOuQHV+qsYndBHGXi08emTngxa76wb/RYQ5otp39aNkSHzeBReNPN6Kgmw8e0KI4VLP3kMpL2YXbU2HcPBANwdckYh40NP0A22OexdXa2lUYS5cID9mmaOzZFY5/TTqhp0XLJ1TQr+Bd8XddPcPmG7YUzng4VIfKx1/peRqmlv4CxZK571rpw6GHUSEiGXMzDd4LyaNnjHWYmoLbfccWeUu1cpyLA8iuePeQg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=OMyMkscfhr5ZMmlk+PVDDAYeJZ9wGqFsifdw3UMe9gc=;
- b=x0o7RZKrRxaPy35+6Et6EJNoIO7sqbytY9bBfLxEybhEmOztUcRUeK407fLo4gGY9oxmjO45mfbBY+rgOmXkKC4o426vA6OZDYJfdQoUp24hhxCMgn52ReVs+CEt9zMc7r/8b17yPDFQskwRnbFLnX9C9JsLLOp5QLLhZzXxRs9hhaOkiATZrmOncU5ogvxJMxBKisxWXIfWfHK1U7woK9rW6Ly4F2EWoyGm4l9ZsHhp4DFgucgl2C2e0ZFTRkqOceosE93Cnhs+hptFPVcKO0dHo4w4kArphRr5BlFDfERoA+IEj3i3efo6poHkCEwQZl6294LO//5p8r+RNnnafQ==
+ bh=S94hvKnAaF+BUMi+/zn2RO9xFZYwuq4g2Y6pGJ+5xRk=;
+ b=fVSP+7e9t9DDG7MhwUBisf3XlSfwrIBwJTE36gWTAPatauYjnG9xoO6mzyeILutcks7W3JOy6vEZsdJRIkvN6ujYazRC15CTF62lY3CFvybCJDJJNSh/D9SMOGEAG/2uLbfDxkHeXw2V0uvaJO+j91rH4RmFCAru/YOF/Jcf9kg25pYF9wkWyYVOrWW8quYnIKBg09sWY/zIGdtMBTYZFsvPdxDxBmow9/X/IXa9/2AHPhtaBMJwb0XU+KJ47RHmMTYnnKAaAJj6bmJzfhUxIWRBt1kttKSmE9PzSDFsCCVmyMoQbBjw7YYbPLlbdCjjDZ3RcE6g67/V6yPVXjGArw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OMyMkscfhr5ZMmlk+PVDDAYeJZ9wGqFsifdw3UMe9gc=;
- b=Efa9oVra6XfHO30w9x8BrcrWPPMx4EppBi3KcO+h3SGiASZgltPdxNLHNgQmqyi/bH139hSIYF49Ha/rU/TdF6pu4IhvtwZ5oEoT21y1B0DVB9AGuVDyPxgZeYj+rrs4TeMa5XqouGyLFZwNMNyLXwP/1iGYQDdmAhuKryFg5rPpg9DvN4ZJYV0YEFQq9h994E15GvCvhWj22JX4f4bTls2I6abwFq8XsGmzRmwW3HQidAmbVSNedvITwaiEtFNsX/KZBqtMqjrR+XWUOxdoRY7FH9Cb3TnhWeAG13ubX84WbHDpt8tF8F9xfQRPQF1+NrdLQPXfTnBIiwTBqO8dWQ==
+ bh=S94hvKnAaF+BUMi+/zn2RO9xFZYwuq4g2Y6pGJ+5xRk=;
+ b=ZjnMKK6gJEXlfi61RxrqIheb1PDGJmKYj8OyXY+uJqY/q8WYik0JDXueA0nHNHCCoz/gSnxKJURwL6M0p1mw+E53xxk7AiNUYapnTqTXUi7XiTG8t0ks2TTmEH2ARS2POEppe2x1o/KOpJzQMQChRUuFmeUkkh63zEI+RgwRx6YZKI6XwTYhmQXrq7trY8Vk5FM2xPLTQVwTZ4EBVz8+dBFKzVcn93gS3MnL9TFRYnp0sSYbX8oxzJ9bJQB4XQRAYJhe4CjC79ets15wTkDgr3KazyFAPvH4Y/rRoHGzjXUKV43z/XamUAhdQHHzTIgN/tfwoedpHXG+ZorVV4H0KA==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nxp.com;
 Received: from PAXSPRMB0053.eurprd04.prod.outlook.com (2603:10a6:102:23f::21)
  by AM0PR04MB6995.eurprd04.prod.outlook.com (2603:10a6:208:18e::15) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9228.11; Tue, 21 Oct
- 2025 20:19:40 +0000
+ 2025 20:19:51 +0000
 Received: from PAXSPRMB0053.eurprd04.prod.outlook.com
  ([fe80::504f:2a06:4579:5f15]) by PAXSPRMB0053.eurprd04.prod.outlook.com
  ([fe80::504f:2a06:4579:5f15%6]) with mapi id 15.20.9253.011; Tue, 21 Oct 2025
- 20:19:40 +0000
+ 20:19:51 +0000
 From: Frank Li <Frank.Li@nxp.com>
 To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
 	Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
+	Job Noorman <job@noorman.info>,
 	linux-input@vger.kernel.org (open list:INPUT (KEYBOARD, MOUSE, JOYSTICK, TOUCHSCREEN)...),
 	devicetree@vger.kernel.org (open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS),
 	linux-kernel@vger.kernel.org (open list)
 Cc: imx@lists.linux.dev
-Subject: [PATCH v4 1/2] dt-bindings: touchscreen: trivial-touch: add reset-gpios and wakeup-source
-Date: Tue, 21 Oct 2025 16:19:17 -0400
-Message-Id: <20251021201924.2881098-1-Frank.Li@nxp.com>
+Subject: [PATCH v4 2/2] dt-bindings: touchscreen: consolidate simple touch controller to trivial-touch.yaml
+Date: Tue, 21 Oct 2025 16:19:18 -0400
+Message-Id: <20251021201924.2881098-2-Frank.Li@nxp.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20251021201924.2881098-1-Frank.Li@nxp.com>
+References: <20251021201924.2881098-1-Frank.Li@nxp.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-ClientProxiedBy: PH8P223CA0008.NAMP223.PROD.OUTLOOK.COM
@@ -81,119 +85,523 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: PAXSPRMB0053:EE_|AM0PR04MB6995:EE_
-X-MS-Office365-Filtering-Correlation-Id: bd49fca5-8410-4f6b-25b9-08de10df29c7
+X-MS-Office365-Filtering-Correlation-Id: 7708d7f1-9f4f-47da-75cb-08de10df305a
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|366016|376014|19092799006|52116014|921020|38350700014;
+	BCL:0;ARA:13230040|1800799024|366016|376014|19092799006|52116014|13003099007|921020|38350700014;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?0fI73uWa3Hc4apMAVLyJoYcqLaQGRzAWbCXFqn2HchAQ7+WXT+ai1OipBSXI?=
- =?us-ascii?Q?m2bC2wzkqoqITzVG49wOTExqJ8WXewFV0KEtsIs8GzVoeOlkCow3Kk1++FG0?=
- =?us-ascii?Q?UwW333EJzTUF9GjTdUbqBLyHtpWreVIy10xTGt+VHc6RiSPjiYajMlkFp0A6?=
- =?us-ascii?Q?a31yxCOghHKTYRO2RQFQKvP6qSUWrwRhaSpucoKbGKAmMq4gqKV8glbg452V?=
- =?us-ascii?Q?kd2jNdFK+7mJT8ivWAqlAqFnnyUEKpKZyONqQlvnhIkMnbNXvCRJfxD+dzj1?=
- =?us-ascii?Q?Z06HoxWvZziICmYMN0Y7h0X8X27CtRkMI2HxkKegKfftpBR+wX5oqVxBiv9Y?=
- =?us-ascii?Q?+RhMDMtUOqt17ezysIHfogBFsLTofUfRJW1MS25xHFtowe/SLgm5GyCgGaFD?=
- =?us-ascii?Q?vq55qG99HFQuxguTihM2M9Zw+qUN1nXI8RuMF6ceUGgMjsGfIF4IK4CXZJLz?=
- =?us-ascii?Q?RHDrpUIIQg/USwCnbMJ1A4/luCLmi7faKANyTXuuN0naNmrB9CJwsSIwtmWd?=
- =?us-ascii?Q?O0Ncokx7KFYxqfRCjdZ6GM5qz+I4NrromnNFIa3sIqGTJaG6paoOsy9Oaezj?=
- =?us-ascii?Q?ISggatI5AymOc3HqJs0XgeMlA8iMS6I2iROLeIqCFes6elIiVVvwS8lFSFfV?=
- =?us-ascii?Q?0uq6rnqvZr/oZ9cnqFx6879Jo1V74GLFm6ifO/iPTZ2W8BI0surQkuqwo5wP?=
- =?us-ascii?Q?1B/dAZ3VOKKARTtETmsyvMkMhLhVZTWhjR+Ilu/BL7dzwV/KVns/ot0WPLTg?=
- =?us-ascii?Q?nQAnuRzmM0XoqBj/hr9JbhZL4JW5yQpmug4npgz+X9R0dYgjSuRQNJatsOUq?=
- =?us-ascii?Q?4nDuFeYXZ1RGqOifl0rtmZY0CAPTMyu38vFB0yWHwvA635u7/9NBvxMDj8Op?=
- =?us-ascii?Q?zq5zV81NTPVR0a8iblc+rT1quQuxOoEyVh3ilyIEtZt0mSn0BTkid6Zh1Zz4?=
- =?us-ascii?Q?9n2gSAhhUCoJGEU5HEuJ7DxFpP4Sdv1mCP4LnRqn3RnCyoGCJoqN4Up9xVBH?=
- =?us-ascii?Q?jIRLNLa0PmAA5bw3OsME+wob9ve2ot5v2mYrlaSvQy5Dn7X5e3wvBuPChycB?=
- =?us-ascii?Q?/H4uu2PVTQaKM8gnzodE3qntF1jqVs5lGh4hEFL/X8v5A5pngjguYyrssp+T?=
- =?us-ascii?Q?1JjGhSsXolC44F9JMIEBIb9ScW3ZYHstV5Kejvu6G7F7flKw1j/z6Qd8mSN2?=
- =?us-ascii?Q?nTUKOughjzov5t4QXVUSKu/Uwrop0KX+BTF/xRK93PRQPiF/f8P8ghqAufu2?=
- =?us-ascii?Q?F/cHCs8DgSf1I2dzkcOP+2of9G1JK/C+47jOiZfHaSQjbnfWB2EfEbNmPga4?=
- =?us-ascii?Q?/algbaOB2k5eTuTLEaLkpq8unJzUaVtSfoYok8aEgcjGrvbHOQM6SB0eUbQZ?=
- =?us-ascii?Q?K5lX2tS8NuLNfNBOsA00fUEDRSdoh9gxEmatZ1EyoND51fDZ3huYU9u9Phea?=
- =?us-ascii?Q?4JiOJd/54GCA7A5297YciJ64LtN8Ct9Ybg3G+5Fy79UYo9kIz3guoZUMnnr6?=
- =?us-ascii?Q?qxurxPkNddAgnz8Sl5hhkkWi+TcBlwAsjoZJARltxkNw8pZhfG02hgcfXQ?=
- =?us-ascii?Q?=3D=3D?=
+	=?us-ascii?Q?hTUOBF/0VGI4Ya+kAv1zT/Lm/WHQZ1i3HEyBEhSs1kwT4r8L1j304dLLFRqX?=
+ =?us-ascii?Q?KO5/yDi++lZu64/7R0dqoAI+JHvtJ9gKXeGrYkn26gwNGJ/URDbA636qmM/x?=
+ =?us-ascii?Q?+QkuPx21EBtisOecLiTHEt5QW1uNdk2nik2s1BMC/dJdxddl3cbi9STWm0of?=
+ =?us-ascii?Q?wNewBrlZaCh8bLxK4RreImygp/90R7FjBX+NEgERMZzfBE8Z6iYpiFC4ZyJa?=
+ =?us-ascii?Q?habrMECVKD20GTNp9xYRzBELF4/sOs9fFj9esTyyIrYjhgINx0RXQxrKoJue?=
+ =?us-ascii?Q?Vzzx1aYTcsuyLwgOXluwqhZiEE6V6WarKe0nk18sNDLv09UFPL2oKQbrlTiM?=
+ =?us-ascii?Q?/6PF8iejKnT7X7TtriUYkeq65Gl5zddNoarJg3VrORenLGiXlqcV0BiEyCNr?=
+ =?us-ascii?Q?+ymTvMtykHG5T22sg+cT5+qBYV/cnVSvXf1wC4M1d1V2UsWN7/HlUjr3XZ75?=
+ =?us-ascii?Q?bRHlgItgETINcoPE+foEOhuxhWfI2QEd4MnswOwkh/OUWdJtfg6Q0PPbwcS5?=
+ =?us-ascii?Q?LEvE/RW77a0cwoylevJ/tyuxq3aNq1jjcekBbK8Qxm1ZrSBhlAGLeSye9Oaz?=
+ =?us-ascii?Q?Dc9LrKfpxT6Sn4NSMQTq2Lx9XjAJ2UU7Sq5Jyi+5rgqPOrCk2WXnuWQQo3+O?=
+ =?us-ascii?Q?31OASys0dV0Dx/wx2pRRe6JNE4qRMAb7Ds0LR0ZEXp/MezLw3AK+FZzRyN6o?=
+ =?us-ascii?Q?Q+xCA60KGvb0zmziUgf8ZJrI73gG3LdF7AsmROD+d2NNcoVvARNfHfuOOK74?=
+ =?us-ascii?Q?CXdQabsZPdodKKDKMQR6OYM8lUkHDcmUVwRZ5fDffu28DdldwJGUvN6nbE2m?=
+ =?us-ascii?Q?SAvJGh6+p0/YjKQgyENPucTU0fKO6k1QFOW57Bss7xYOCdTmU43CX/lOrUAM?=
+ =?us-ascii?Q?BfZBtW9JCd92mcwlT73noPXcpBR07FxcANFMxA6tYsBCmXKPeDLd3GdhswsD?=
+ =?us-ascii?Q?8LjaAHd33Pwfb4mNf8ptx923Iharqlubb5iANOVkE1DCcUEQMMEWcE9RNzpp?=
+ =?us-ascii?Q?0jeM5rKYkSgFCOw1Z3rZuGdOdTci2A/IAK9z/IGFb7xuS9670A06qFyQvdZJ?=
+ =?us-ascii?Q?GN9P2BSHhxspY/YpMuuXxDW1+BRWYzhzkpM9DZYpXuNCIyi3i6QNH3yNpAKp?=
+ =?us-ascii?Q?Wk/nCy50P/dt7VEl1yfSFTXLwRKb8uofThBglAH+4o7EsSjmCCkBoOgF/D84?=
+ =?us-ascii?Q?mA1OCH8mbVsxK4kZOTFxc06xzkgkJ/53hzsWSgc1otyvZEfLn6FeUiu5pr+Q?=
+ =?us-ascii?Q?9XaHiRF3dc1Mmpk6y2kGFTiLd8pE87JiUiZc98UsknADIYDxZiF4rRyq6Iiw?=
+ =?us-ascii?Q?ktcuSZbkZ+4eJJi3u+wR2dWBUOXPgFEGrEnpBle3rNVqcJvva+Q9tzHbJElC?=
+ =?us-ascii?Q?dwcZ/Sc/jZdnRxmM7G20oIZondwYqpzon8rFh8qdOly3JmDm0XS9gT8MZkYv?=
+ =?us-ascii?Q?Jx2lcqRdznptl1AiqYBb/8vaD1j61sTQFopVW09wuSvT0dM4oXmZnmLxYhRy?=
+ =?us-ascii?Q?74sDTQTUro+j5u8=3D?=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXSPRMB0053.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(19092799006)(52116014)(921020)(38350700014);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXSPRMB0053.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(19092799006)(52116014)(13003099007)(921020)(38350700014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?OIQf5um+vnSA8SqPIFf+nH71Vbd8bbetoP6UA6csZpZc4X7gDtnSWsCz9jXq?=
- =?us-ascii?Q?VN80raQkqx/M1lVXfq4IU/MekTkb+XNB6zIjaTny2prqdZqAOocmTSCXAqaD?=
- =?us-ascii?Q?SlMCyc5Cd9ikFnlu3995Z6moVE1H9qtffAezCG1Vtq6ZR6XvDH9I1ztoLWM9?=
- =?us-ascii?Q?xQWWYdvFgI6E5qaRoTbLi3h2QraDpOSLsB3y3c6zbNKX0Q5NWr4hrME7163s?=
- =?us-ascii?Q?cTNifYWiQeDJUyNYSsRvN25G1lV4BWshOtvyKG+3NYgqngQ/2/J3zo940LL+?=
- =?us-ascii?Q?s55fPTnSKESir/OhlBmqbNR4IXa7XuUOK5v1pr/PWoHNczBV/+z5EESZushV?=
- =?us-ascii?Q?YmcdosTnnQvttKq7su+e5+NikgFtDFBXPY7/4fNW6LueBrNQqGHAuZTTRFRz?=
- =?us-ascii?Q?9UJKQqBFLvy4H/BxivpcIwxnFARvU6fA4eXhFZDamWNMagP4y1sOpJpr4Sob?=
- =?us-ascii?Q?UH34CneDYwzo92CYY8ehtgL72ddZ97g4tvEKd/fBqw1w/aPOXyomqaHR3Cy9?=
- =?us-ascii?Q?29YReBK/VeYld5nEIO+SEaKJmxJJfr+5GdLs0UYyoyngmMYQbhMybfCu7XDB?=
- =?us-ascii?Q?ndLjzFEs85ehjGvEW2U+kZgPpUrHPfOr6WGnHjEQrFSz9IS3EctStAZBI3BO?=
- =?us-ascii?Q?v7ZXrCpGqallfPRNeZ8Unn01NEWyws2Qq03tUQYMc6NcbRTu8v4GDCNq5GtS?=
- =?us-ascii?Q?2B9bPxo3NYBMU/GznzReREXeDvGX8LitYd/l2XvrVvGy4WM4dkUO9pdfLygK?=
- =?us-ascii?Q?xozH7wbl0oNef4Sx+xEXexritPBjowWX5o1AxWGNOHzFdstS9yJyzwd4fbFK?=
- =?us-ascii?Q?GRuR0zTtYkSgcwleq22DRm5zVUsiyo7fFkX+C0m48K4FMmStnvxiiqUGQhQY?=
- =?us-ascii?Q?hi+FcUr5K0dP3LoQTzqE+Qlk5+KMR5Ao+qfu2OFwbcqIvzXwJPp0NDq0TUcM?=
- =?us-ascii?Q?SnBKvAuS2kwI7JVteSaqOPac+LqSwdms2tfLXezSKUp0vj52hIczcSmvYI7T?=
- =?us-ascii?Q?xP7vUTow9CHosuq19wYiEJFj319fA1bQIxpQZ4AWZjXxO9AmccHJSAPuTPVm?=
- =?us-ascii?Q?RqldXae0Hm/f35jwPQ85hWG54E0VZjMKekNlN0uy27DXw4Y7z1bddnkck69T?=
- =?us-ascii?Q?3AFTbKa57gDS688m6fzN3Gnboxub02/Wn0zpgzkXBJ8Vf5IPVqkCITVN32nb?=
- =?us-ascii?Q?NOv1I5vWk3lC4zATa5Y9erOb8i8hyIyJoX/85cRmxdU8N0h9fS7oR1sFgKAL?=
- =?us-ascii?Q?KFtuzfrJKzWzogZf1XRYU0RyDJ/k3aOQTZA+YOoF0PZTSCbx4KAZFNdGd1tJ?=
- =?us-ascii?Q?t9Nbs1a3l0zHlpnbMmcp+/JoiuXL2nOOneD7kcVlFc/YZj4cPAr/0yCYBePJ?=
- =?us-ascii?Q?KwEZw5wmj2Nc9RQRi8JcZPK3gUvX4/09nOK2XsQALv59yg3fEICBhgn4Rv2q?=
- =?us-ascii?Q?mblBCrc+y7JqDbjy/r1cuaRWU0JFyg8sMyuy8hZhIxeX7lHv21zO82PkqS/H?=
- =?us-ascii?Q?GdlLIsYZoRKJz/kL0gscUDoj8+FbQ2OvgOgMl1sSV4+DbwbVIx3yGyYU6BRa?=
- =?us-ascii?Q?MXydN5IC5/Um26f0r1Y=3D?=
+	=?us-ascii?Q?6drbPpHIclXSIQ58fK08lM2SOEpOWO0MNTysssGdwcPTM3Nk7uWKs7oNfIup?=
+ =?us-ascii?Q?42f1f+z7wvroAD0tX6/JERrVG/GDPUMW/968/eHbI+BGBDLzYkhdi4v4vkZC?=
+ =?us-ascii?Q?jJ9BZkzY/reb47kHfWIZzeC4GMb4z4LQcir7ovaR6fTxoBjt42RVLjOT+HIo?=
+ =?us-ascii?Q?w2so9O80hruzKU7+atKAsQktYUOT842KLRN9MrXVDTUeOI9HNNp2lv8y7C3v?=
+ =?us-ascii?Q?rXxjZqLUhQgo3FiICPm1UpqWId+1fM2Wlr/w2deC+BAEvkFq5zRs6Zr/qwUB?=
+ =?us-ascii?Q?B3MrzQEBM7R6UiWEnZq9l+Kzp3y0vANnH7vZQJouEpGCxzhLEyW8zEB1Jmbd?=
+ =?us-ascii?Q?D48Ex2Da3ncjZSxJ7blKTupAWn8jSXW/UoAb9XvTyFgosXHXtIlE+lG7OCP8?=
+ =?us-ascii?Q?wcHU6tPy9LQrsaonSH+cy2T6gVxpvA8RuPso+EjnTjgeKSnTBwBQ+eI6JZ7Z?=
+ =?us-ascii?Q?dsyBZhzptHxJXYJNq156k8C8Cx50Ik7iauyliMCdVbxz+p6vjpqPpLinVJbe?=
+ =?us-ascii?Q?HlGpB8pGXns45zUPv4OX8GK1SZ0rhDTcHnEeSYFh8uIpdSCtsfFntb//sed+?=
+ =?us-ascii?Q?J33SAjuTt1CXwToO28Bs27Z/WtA5bWlq8RfApYORcSoFsGK2cc9M5NN50+IC?=
+ =?us-ascii?Q?2aRAZZTuf0UzGoY7YRZ6nKsIIc7L9riv4C73u6uSzXeeahTQbPEcmj3Q2KoI?=
+ =?us-ascii?Q?6knZx1npilY5Opa0T1RH9hgm9zgZ6AsSnDWp7w1ojqBJuQLJk8OGeqcKdKX4?=
+ =?us-ascii?Q?Y7n7j1yfzr3w1sq3I9Mi9WmZEJY12f3/NFS4swG3de6UrXor3F3+qVo61j+V?=
+ =?us-ascii?Q?5VVmUXyMalM7bX9iryMoMJ0GqIBRlwlnAZTVX/2iBMoHLehKYchEWbjrsrA1?=
+ =?us-ascii?Q?Ymp8OA1vJVULA7W9w9KPZWUqLxx0axvNIIpKNEbkbu2QkiksbH+gqUt/r3dT?=
+ =?us-ascii?Q?/sZl8cU8QYdFoxX1QncTD9ipLygUucJz7ATe7bbA6GZYSp0374+CANu0bWN0?=
+ =?us-ascii?Q?JX/3h29wN/AN5Yqo3YLAsh7kDJaq87vf/KQXlk16yRZy6Dolw6iME5bMy3eQ?=
+ =?us-ascii?Q?ULPx61DhoxIJlhp284QeaubG9dO7I7k7KQX/dl0dSbZor6ElooUgazgaC9jI?=
+ =?us-ascii?Q?qbIwb/PMuCXXmhCTB1MxxPW9xazHJz/OZi052XdM80QOd/L0buigbz+sx0OU?=
+ =?us-ascii?Q?hgJDpFTlSKLRkW9jaxBfFC42RZ5KrMvPLYvfHCA23XOznklHwI8nFxiOr2//?=
+ =?us-ascii?Q?7ie81lT0Q6lQ4AqjHiXOpxWHL50/bdXsDpspjPdmxRaMA+3DVnLwDp+nbHXZ?=
+ =?us-ascii?Q?tN5C/+t3zxCeFZl6tYsuBQjghI+ct19CeIfG2wqxNfrNiuaRX6Om65IYT19J?=
+ =?us-ascii?Q?YWwKWazdikLOw5ESd2yPPDrggk9CXRl88Gd5Qq5hQQvT3QFWJ4NxoVmPA0oa?=
+ =?us-ascii?Q?jRa8fykXKRtxSsXfXSVt1HPXk7Yr6saGvbc+1XoEhFNX0wB+ymNS2TcaLYLk?=
+ =?us-ascii?Q?LN+3xXTk+Hvv7oXsuIDMQcJFI1NPOkLW/hF9Fgg3sYCCisXXhMF2Qdk4ummE?=
+ =?us-ascii?Q?1D3lIyIwda5qewV6GKQKLIiRUQjM7JCtzmoAMilr?=
 X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bd49fca5-8410-4f6b-25b9-08de10df29c7
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7708d7f1-9f4f-47da-75cb-08de10df305a
 X-MS-Exchange-CrossTenant-AuthSource: PAXSPRMB0053.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Oct 2025 20:19:40.1676
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Oct 2025 20:19:51.0813
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: lKvp+D9Xtd2GMtTScxSceqYlME77d0FC/i/sia8+klOp9b7ICrVUMzw1I9OV/MULrKRus3eM+F+FtdOIErGExw==
+X-MS-Exchange-CrossTenant-UserPrincipalName: b4jKNdZNC7R0wyl2i0LR4KAQQN5k1meRJo1o4FEoFknixHzuuW669rqh21siU6TNglgPY0r2oe/V/7yfSfRC4Q==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR04MB6995
 
-Add optional reset-gpios and wakeup-source properties.
+Move azoteq,iqs5xx.yaml, himax,hx83112b.yaml, hynitron,cstxxx.yaml,
+ilitek_ts_i2c.yaml, semtech,sx8654.yaml, ar1021.txt to trivial-touch.yaml
+to consolidate simple touch yaml binding to one file.
 
 Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 Signed-off-by: Frank Li <Frank.Li@nxp.com>
 ---
 change in v4
-- rebase to next since v2 already pick up
-- pick rob review tags
+ - add Reviewed-by: Rob Herring review tags
+ - rebase to next since v2 already pickup.
 
 change in v3
-- add wakeup-source and reset-gpios optional properties
+ move more files into trivial-touch.yaml
+ don't add rob's review by because big change
+ prevous discussion at
+ https://lore.kernel.org/imx/175937443731.2982292.3723741722041625819.robh@kernel.org/T/#m35cfaaee8239b7a9aad3354b80de5f44d267c2e9
 
 change in v2
-new patch
+ move to trivial-touch.yaml
 
 previous discussion
-https://lore.kernel.org/imx/20250925-swimming-overspend-ddf7ab4a252c@spud/T/#t
+    https://lore.kernel.org/imx/20250925-swimming-overspend-ddf7ab4a252c@spud/T/#t
 ---
- .../devicetree/bindings/input/touchscreen/trivial-touch.yaml | 5 +++++
- 1 file changed, 5 insertions(+)
+ .../input/touchscreen/azoteq,iqs5xx.yaml      | 75 ------------------
+ .../input/touchscreen/himax,hx83112b.yaml     | 64 ----------------
+ .../input/touchscreen/hynitron,cstxxx.yaml    | 65 ----------------
+ .../input/touchscreen/ilitek_ts_i2c.yaml      | 76 -------------------
+ .../input/touchscreen/semtech,sx8654.yaml     | 52 -------------
+ .../input/touchscreen/trivial-touch.yaml      | 29 +++++++
+ 6 files changed, 29 insertions(+), 332 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/input/touchscreen/azoteq,iqs5xx.yaml
+ delete mode 100644 Documentation/devicetree/bindings/input/touchscreen/himax,hx83112b.yaml
+ delete mode 100644 Documentation/devicetree/bindings/input/touchscreen/hynitron,cstxxx.yaml
+ delete mode 100644 Documentation/devicetree/bindings/input/touchscreen/ilitek_ts_i2c.yaml
+ delete mode 100644 Documentation/devicetree/bindings/input/touchscreen/semtech,sx8654.yaml
 
+diff --git a/Documentation/devicetree/bindings/input/touchscreen/azoteq,iqs5xx.yaml b/Documentation/devicetree/bindings/input/touchscreen/azoteq,iqs5xx.yaml
+deleted file mode 100644
+index b5f377215c098..0000000000000
+--- a/Documentation/devicetree/bindings/input/touchscreen/azoteq,iqs5xx.yaml
++++ /dev/null
+@@ -1,75 +0,0 @@
+-# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+-%YAML 1.2
+----
+-$id: http://devicetree.org/schemas/input/touchscreen/azoteq,iqs5xx.yaml#
+-$schema: http://devicetree.org/meta-schemas/core.yaml#
+-
+-title: Azoteq IQS550/572/525 Trackpad/Touchscreen Controller
+-
+-maintainers:
+-  - Jeff LaBundy <jeff@labundy.com>
+-
+-description: |
+-  The Azoteq IQS550, IQS572 and IQS525 trackpad and touchscreen controllers
+-  employ projected-capacitance sensing and can track up to five independent
+-  contacts.
+-
+-  Link to datasheet: https://www.azoteq.com/
+-
+-allOf:
+-  - $ref: touchscreen.yaml#
+-
+-properties:
+-  compatible:
+-    enum:
+-      - azoteq,iqs550
+-      - azoteq,iqs572
+-      - azoteq,iqs525
+-
+-  reg:
+-    maxItems: 1
+-
+-  interrupts:
+-    maxItems: 1
+-
+-  reset-gpios:
+-    maxItems: 1
+-
+-  wakeup-source: true
+-
+-  touchscreen-size-x: true
+-  touchscreen-size-y: true
+-  touchscreen-inverted-x: true
+-  touchscreen-inverted-y: true
+-  touchscreen-swapped-x-y: true
+-
+-required:
+-  - compatible
+-  - reg
+-  - interrupts
+-
+-additionalProperties: false
+-
+-examples:
+-  - |
+-    #include <dt-bindings/gpio/gpio.h>
+-    #include <dt-bindings/interrupt-controller/irq.h>
+-
+-    i2c {
+-            #address-cells = <1>;
+-            #size-cells = <0>;
+-
+-            touchscreen@74 {
+-                    compatible = "azoteq,iqs550";
+-                    reg = <0x74>;
+-                    interrupt-parent = <&gpio>;
+-                    interrupts = <27 IRQ_TYPE_LEVEL_HIGH>;
+-                    reset-gpios = <&gpio 22 (GPIO_ACTIVE_LOW |
+-                                             GPIO_PUSH_PULL)>;
+-
+-                    touchscreen-size-x = <800>;
+-                    touchscreen-size-y = <480>;
+-            };
+-    };
+-
+-...
+diff --git a/Documentation/devicetree/bindings/input/touchscreen/himax,hx83112b.yaml b/Documentation/devicetree/bindings/input/touchscreen/himax,hx83112b.yaml
+deleted file mode 100644
+index f5cfacb5e966d..0000000000000
+--- a/Documentation/devicetree/bindings/input/touchscreen/himax,hx83112b.yaml
++++ /dev/null
+@@ -1,64 +0,0 @@
+-# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+-%YAML 1.2
+----
+-$id: http://devicetree.org/schemas/input/touchscreen/himax,hx83112b.yaml#
+-$schema: http://devicetree.org/meta-schemas/core.yaml#
+-
+-title: Himax hx83112b touchscreen controller
+-
+-maintainers:
+-  - Job Noorman <job@noorman.info>
+-
+-allOf:
+-  - $ref: touchscreen.yaml#
+-
+-properties:
+-  compatible:
+-    enum:
+-      - himax,hx83100a
+-      - himax,hx83112b
+-
+-  reg:
+-    maxItems: 1
+-
+-  interrupts:
+-    maxItems: 1
+-
+-  reset-gpios:
+-    maxItems: 1
+-
+-  touchscreen-inverted-x: true
+-  touchscreen-inverted-y: true
+-  touchscreen-size-x: true
+-  touchscreen-size-y: true
+-  touchscreen-swapped-x-y: true
+-
+-additionalProperties: false
+-
+-required:
+-  - compatible
+-  - reg
+-  - interrupts
+-  - reset-gpios
+-  - touchscreen-size-x
+-  - touchscreen-size-y
+-
+-examples:
+-  - |
+-    #include <dt-bindings/interrupt-controller/irq.h>
+-    #include <dt-bindings/gpio/gpio.h>
+-    i2c {
+-      #address-cells = <1>;
+-      #size-cells = <0>;
+-      touchscreen@48 {
+-        compatible = "himax,hx83112b";
+-        reg = <0x48>;
+-        interrupt-parent = <&tlmm>;
+-        interrupts = <65 IRQ_TYPE_LEVEL_LOW>;
+-        touchscreen-size-x = <1080>;
+-        touchscreen-size-y = <2160>;
+-        reset-gpios = <&tlmm 64 GPIO_ACTIVE_LOW>;
+-      };
+-    };
+-
+-...
+diff --git a/Documentation/devicetree/bindings/input/touchscreen/hynitron,cstxxx.yaml b/Documentation/devicetree/bindings/input/touchscreen/hynitron,cstxxx.yaml
+deleted file mode 100644
+index 9cb5d4af00f75..0000000000000
+--- a/Documentation/devicetree/bindings/input/touchscreen/hynitron,cstxxx.yaml
++++ /dev/null
+@@ -1,65 +0,0 @@
+-# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+-%YAML 1.2
+----
+-$id: http://devicetree.org/schemas/input/touchscreen/hynitron,cstxxx.yaml#
+-$schema: http://devicetree.org/meta-schemas/core.yaml#
+-
+-title: Hynitron cstxxx series touchscreen controller
+-
+-description: |
+-  Bindings for Hynitron cstxxx series multi-touch touchscreen
+-  controllers.
+-
+-maintainers:
+-  - Chris Morgan <macromorgan@hotmail.com>
+-
+-allOf:
+-  - $ref: touchscreen.yaml#
+-
+-properties:
+-  compatible:
+-    enum:
+-      - hynitron,cst340
+-
+-  reg:
+-    maxItems: 1
+-
+-  interrupts:
+-    maxItems: 1
+-
+-  reset-gpios:
+-    maxItems: 1
+-
+-  touchscreen-size-x: true
+-  touchscreen-size-y: true
+-  touchscreen-inverted-x: true
+-  touchscreen-inverted-y: true
+-  touchscreen-swapped-x-y: true
+-
+-additionalProperties: false
+-
+-required:
+-  - compatible
+-  - reg
+-  - interrupts
+-  - reset-gpios
+-
+-examples:
+-  - |
+-    #include <dt-bindings/gpio/gpio.h>
+-    #include <dt-bindings/interrupt-controller/arm-gic.h>
+-    i2c {
+-      #address-cells = <1>;
+-      #size-cells = <0>;
+-      touchscreen@1a {
+-        compatible = "hynitron,cst340";
+-        reg = <0x1a>;
+-        interrupt-parent = <&gpio4>;
+-        interrupts = <9 IRQ_TYPE_EDGE_FALLING>;
+-        reset-gpios = <&gpio4 6 GPIO_ACTIVE_LOW>;
+-        touchscreen-size-x = <640>;
+-        touchscreen-size-y = <480>;
+-      };
+-    };
+-
+-...
+diff --git a/Documentation/devicetree/bindings/input/touchscreen/ilitek_ts_i2c.yaml b/Documentation/devicetree/bindings/input/touchscreen/ilitek_ts_i2c.yaml
+deleted file mode 100644
+index 9f73289997568..0000000000000
+--- a/Documentation/devicetree/bindings/input/touchscreen/ilitek_ts_i2c.yaml
++++ /dev/null
+@@ -1,76 +0,0 @@
+-# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+-%YAML 1.2
+----
+-$id: http://devicetree.org/schemas/input/touchscreen/ilitek_ts_i2c.yaml#
+-$schema: http://devicetree.org/meta-schemas/core.yaml#
+-
+-title: Ilitek I2C Touchscreen Controller
+-
+-maintainers:
+-  - Dmitry Torokhov <dmitry.torokhov@gmail.com>
+-
+-allOf:
+-  - $ref: touchscreen.yaml#
+-
+-properties:
+-  compatible:
+-    enum:
+-      - ilitek,ili210x
+-      - ilitek,ili2117
+-      - ilitek,ili2120
+-      - ilitek,ili2130
+-      - ilitek,ili2131
+-      - ilitek,ili2132
+-      - ilitek,ili2316
+-      - ilitek,ili2322
+-      - ilitek,ili2323
+-      - ilitek,ili2326
+-      - ilitek,ili251x
+-      - ilitek,ili2520
+-      - ilitek,ili2521
+-
+-  reg:
+-    maxItems: 1
+-
+-  interrupts:
+-    maxItems: 1
+-
+-  reset-gpios:
+-    maxItems: 1
+-
+-  wakeup-source:
+-    type: boolean
+-    description: touchscreen can be used as a wakeup source.
+-
+-  touchscreen-size-x: true
+-  touchscreen-size-y: true
+-  touchscreen-inverted-x: true
+-  touchscreen-inverted-y: true
+-  touchscreen-swapped-x-y: true
+-
+-additionalProperties: false
+-
+-required:
+-  - compatible
+-  - reg
+-  - interrupts
+-
+-examples:
+-  - |
+-    #include <dt-bindings/interrupt-controller/irq.h>
+-    #include <dt-bindings/gpio/gpio.h>
+-    i2c {
+-        #address-cells = <1>;
+-        #size-cells = <0>;
+-
+-        touchscreen@41 {
+-            compatible = "ilitek,ili2520";
+-            reg = <0x41>;
+-
+-            interrupt-parent = <&gpio1>;
+-            interrupts = <7 IRQ_TYPE_LEVEL_LOW>;
+-            reset-gpios = <&gpio1 8 GPIO_ACTIVE_LOW>;
+-            touchscreen-inverted-y;
+-            wakeup-source;
+-        };
+-    };
+diff --git a/Documentation/devicetree/bindings/input/touchscreen/semtech,sx8654.yaml b/Documentation/devicetree/bindings/input/touchscreen/semtech,sx8654.yaml
+deleted file mode 100644
+index b2554064b6888..0000000000000
+--- a/Documentation/devicetree/bindings/input/touchscreen/semtech,sx8654.yaml
++++ /dev/null
+@@ -1,52 +0,0 @@
+-# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+-%YAML 1.2
+----
+-$id: http://devicetree.org/schemas/input/touchscreen/semtech,sx8654.yaml#
+-$schema: http://devicetree.org/meta-schemas/core.yaml#
+-
+-title: Semtech SX8654 I2C Touchscreen Controller
+-
+-maintainers:
+-  - Frank Li <Frank.Li@nxp.com>
+-
+-properties:
+-  compatible:
+-    enum:
+-      - semtech,sx8650
+-      - semtech,sx8654
+-      - semtech,sx8655
+-      - semtech,sx8656
+-
+-  reg:
+-    maxItems: 1
+-
+-  interrupts:
+-    maxItems: 1
+-
+-  reset-gpios:
+-    maxItems: 1
+-
+-required:
+-  - compatible
+-  - reg
+-  - interrupts
+-
+-additionalProperties: false
+-
+-examples:
+-  - |
+-    #include <dt-bindings/gpio/gpio.h>
+-    #include <dt-bindings/interrupt-controller/irq.h>
+-
+-    i2c {
+-        #address-cells = <1>;
+-        #size-cells = <0>;
+-
+-        touchscreen@48 {
+-            compatible = "semtech,sx8654";
+-            reg = <0x48>;
+-            interrupt-parent = <&gpio6>;
+-            interrupts = <3 IRQ_TYPE_EDGE_FALLING>;
+-            reset-gpios = <&gpio4 2 GPIO_ACTIVE_LOW>;
+-        };
+-    };
 diff --git a/Documentation/devicetree/bindings/input/touchscreen/trivial-touch.yaml b/Documentation/devicetree/bindings/input/touchscreen/trivial-touch.yaml
-index d6aed3afd4acb..46cf833344b11 100644
+index 46cf833344b11..fa27c6754ca4e 100644
 --- a/Documentation/devicetree/bindings/input/touchscreen/trivial-touch.yaml
 +++ b/Documentation/devicetree/bindings/input/touchscreen/trivial-touch.yaml
-@@ -23,6 +23,11 @@ properties:
-   interrupts:
+@@ -12,10 +12,39 @@ maintainers:
+ properties:
+   compatible:
+     enum:
++      # The Azoteq IQS550, IQS572 and IQS525 trackpad and touchscreen controllers
++      - azoteq,iqs550
++      - azoteq,iqs572
++      - azoteq,iqs525
++      # Himax hx83100a touchscreen controller
++      - himax,hx83100a
++      # Himax hx83112b touchscreen controller
++      - himax,hx83112b
++      # Hynitron cstxxx series touchscreen controller
++      - hynitron,cst340
++      # Ilitek I2C Touchscreen Controller
++      - ilitek,ili210x
++      - ilitek,ili2117
++      - ilitek,ili2120
++      - ilitek,ili2130
++      - ilitek,ili2131
++      - ilitek,ili2132
++      - ilitek,ili2316
++      - ilitek,ili2322
++      - ilitek,ili2323
++      - ilitek,ili2326
++      - ilitek,ili251x
++      - ilitek,ili2520
++      - ilitek,ili2521
+       # MAXI MAX11801 Resistive touch screen controller with i2c interface
+       - maxim,max11801
+       # Microchip AR1020 and AR1021 touchscreen interface (I2C)
+       - microchip,ar1021-i2c
++      # Trivial touch screen controller with i2c interface
++      - semtech,sx8650
++      - semtech,sx8654
++      - semtech,sx8655
++      - semtech,sx8656
+ 
+   reg:
      maxItems: 1
- 
-+  reset-gpios:
-+    maxItems: 1
-+
-+  wakeup-source: true
-+
- allOf:
-   - $ref: touchscreen.yaml
- 
 -- 
 2.34.1
 
