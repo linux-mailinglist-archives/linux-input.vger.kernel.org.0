@@ -1,159 +1,136 @@
-Return-Path: <linux-input+bounces-15644-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-15645-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06DBCBF8F2A
-	for <lists+linux-input@lfdr.de>; Tue, 21 Oct 2025 23:35:32 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1685ABF9253
+	for <lists+linux-input@lfdr.de>; Wed, 22 Oct 2025 00:51:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9AF6E18A44DE
-	for <lists+linux-input@lfdr.de>; Tue, 21 Oct 2025 21:35:55 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B389940250D
+	for <lists+linux-input@lfdr.de>; Tue, 21 Oct 2025 22:51:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E37EE28CF52;
-	Tue, 21 Oct 2025 21:35:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 804B92BE05B;
+	Tue, 21 Oct 2025 22:49:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="LDDwlNL/";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="trU68A4Y"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Lb+Ydi/k"
 X-Original-To: linux-input@vger.kernel.org
-Received: from fhigh-a6-smtp.messagingengine.com (fhigh-a6-smtp.messagingengine.com [103.168.172.157])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9774127FD71;
-	Tue, 21 Oct 2025 21:35:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52523299AAC;
+	Tue, 21 Oct 2025 22:49:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761082526; cv=none; b=eL89Dr4EkaFAkL1BbC0XNCrzn363i1sz1pP0t0OZIJjGvo8KghsXrGKs4NqlD4LNnRsNDyy1wEADEpmuKXvGlk/r7k0xJy7TOH5u8Q4DdjaeK8QF2xzXWBjD0Ylc1dbERNOh3CwU2Iim+MsRAj6uCBYGbl9iNbfTne73Z1jmG0g=
+	t=1761086958; cv=none; b=qvGa3i1SSNg1DcVMokT2ny5R4u6VMe14y0/NSlTSkTqhbj4T3CAlIYzFAhq2uhuz1StpEmFjiAM//8cnZxmrAuX42xPMynZhRTQq052wmJIXwOUq1OnN0oP1jGXDJaGmVFJPuhNEJYwrE4AOuMjSkCs+Q9dnsJUVo0uX1ZTLD9I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761082526; c=relaxed/simple;
-	bh=YOmO0aTYC7u74cdNwBX4yqTPJteWYgGn+TnC9SPFm5c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JIJO2DYjUyeYA/LzfFd5dzOcij03UIPftgx1RSBBzSOYwWGTioNA5rVvRYLKT9kpyCU3yp20r3JnFtzVYhDG3gZKD6I2bHKhQ1LuYiuO3rDap+bFGbEWNTZ9yDBAg6daQ8ETVeVBXIT/uMyEXWas3tGNH1wkxWia4cxIoUf92sI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=LDDwlNL/; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=trU68A4Y; arc=none smtp.client-ip=103.168.172.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
-Received: from phl-compute-07.internal (phl-compute-07.internal [10.202.2.47])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id C07911400152;
-	Tue, 21 Oct 2025 17:35:23 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-07.internal (MEProxy); Tue, 21 Oct 2025 17:35:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm1; t=1761082523; x=1761168923; bh=SSmc773k1o
-	hUjKBtXPg8Ooubnfa2H2zZUHk2E3oNqks=; b=LDDwlNL/Civ8KvUV+4wSIqn9Fp
-	dC6gnUKVTULSO8HojwWFrG0YZyvJvkw047KbdqBA7pfC00sxISkseQmGwM8ejAOE
-	99UrKxGX2dVr3c3gC+DjTGIx7gUjwczI48oyUPRmuP6bFpRZS4oWtedTLRd6IALo
-	1NhTCrbJvbY4KxFA0AJWSHCdhJHb1JW1Vm64AgpwnRzV6gpxaH1eLNqkyUmFz3N0
-	f8GCTKCEaLeOLmz1SEjBIrPUGjcg2MUHuMOPyRBv+S335R3kR441Ij5gQhh+aTvZ
-	9kSHQTNM8/8s8x5ZMPB3nmz5rpEKs9sh7GU+H9oXK2lB7VTeFTthCfJeHJ3Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
-	1761082523; x=1761168923; bh=SSmc773k1ohUjKBtXPg8Ooubnfa2H2zZUHk
-	2E3oNqks=; b=trU68A4YzeRx8nSBoXV7wr6rGsygStp9hhqPoTrWvrwH7020yWy
-	LbwZZQTk1JTQFfsyu7YxbX8GIQDPk4hF8h/qLr8e1zhJpVDaCn0gd+jvvHc/St8U
-	PfTGJ7mUgGZQ5LLORJQiWSHFwv97yTDg8ML1SY5Ehe4Z8JJyFs5kp8VGijgdW12w
-	H+q6zOyeZWpERBinzuxMlrx4mvf/1P20p36MaDEI1FyWT+5HWJGykX2U17KDxH63
-	iuZk4CH7K6ZGiBXNSbr/Te3xOiAL2H0nqorV6bVY4LYcmqrCVlBbeh3pTiWs087G
-	fIURyiYh/cVImYO19CBb9EWzpskuQ3u70GA==
-X-ME-Sender: <xms:mvz3aH6CC7ccxitepgQOV4dRf5ycIb3MyGp5fup00yTr9aRmZcxk8w>
-    <xme:mvz3aNR3WqFDe4caBONWo_J67I3zv6_Kgwz3EemEAqUyQhrxbPcQqCmnF4S39S-wp
-    PzKQ_6NQAcYn3zqdXJ_tGN-swiq389HUvU72M0EfweI5HMXfgcT9pc>
-X-ME-Received: <xmr:mvz3aPmKV8lSi3JXACietOeMwXek-wkDaW7hS6ij3kVUWd7Fu3q5gI9k3nMzzl27h7VZ18xiElJUB3-Q2apck-1pizG1VUQUTK2WKBWCyrun-YkCsA1vAkLbbQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggddugedujeelucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepfffhvfevuffkfhggtggujgesthdtredttddtjeenucfhrhhomheplfgrnhhnvgcu
-    ifhruhhnrghuuceojhesjhgrnhhnrghurdhnvghtqeenucggtffrrghtthgvrhhnpefgvd
-    ffveelgedujeeffeehheekheelheefgfejffeftedugeethfeuudefheefteenucevlhhu
-    shhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehjsehjrghnnhgruh
-    drnhgvthdpnhgspghrtghpthhtohepvddtpdhmohguvgepshhmthhpohhuthdprhgtphht
-    thhopegumhhithhrhidrthhorhhokhhhohhvsehgmhgrihhlrdgtohhmpdhrtghpthhtoh
-    epjhgtrghllhhighgvrhhoshelleesghhmrghilhdrtghomhdprhgtphhtthhopehsvhgv
-    nheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprghlhihsshgrsehrohhsvghniiifvg
-    highdrihhopdhrtghpthhtohepnhgvrghlsehgohhmphgrrdguvghvpdhrtghpthhtohep
-    lhgvvgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprhhosghhsehkvghrnhgvlhdroh
-    hrghdprhgtphhtthhopehkrhiikhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthho
-    pegtohhnohhrodgutheskhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:mvz3aEKTfwowrvGhnvf4-EXiYQ8vvIQIVEZ1iWF8JuUJEl7pOxPTwQ>
-    <xmx:mvz3aKQDpq6pdomkmnXR8DESBXdjiu6JkQoLsyLelbx_7tE1yw2-gg>
-    <xmx:mvz3aKSM4MHm3ClKfeaqTHWz-nMYXtQafAIa1bNW_e28Sx97dtMPEg>
-    <xmx:mvz3aEzXTHBa5YFFaUthIK9hhDlQyKhib1n9PXB56vtmvPVKipSSUA>
-    <xmx:m_z3aIN6XjMCVaeHimR80BQvfCuR37CLmoygwdxALuTo15O-_yFWnP9x>
-Feedback-ID: i47b949f6:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 21 Oct 2025 17:35:21 -0400 (EDT)
-Date: Tue, 21 Oct 2025 23:35:20 +0200
-From: Janne Grunau <j@jannau.net>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: James Calligeros <jcalligeros99@gmail.com>,
-	Sven Peter <sven@kernel.org>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Neal Gompa <neal@gompa.dev>, Lee Jones <lee@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>, asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-rtc@vger.kernel.org,
-	linux-hwmon@vger.kernel.org, linux-input@vger.kernel.org,
-	Hector Martin <marcan@marcan.st>
-Subject: Re: [PATCH v2 07/11] input: macsmc-hid: New driver to handle the
- Apple Mac SMC buttons/lid
-Message-ID: <20251021213520.GA2546203@robin.jannau.net>
-References: <20250827-macsmc-subdevs-v2-0-ce5e99d54c28@gmail.com>
- <20250827-macsmc-subdevs-v2-7-ce5e99d54c28@gmail.com>
- <qffp7kadq3xojla5k6f5pr37irgytqfsqvabr6ydvulxnkcgnn@bv5mrraxrhhe>
+	s=arc-20240116; t=1761086958; c=relaxed/simple;
+	bh=afMwNk4H6CfXYhM/Mntmd/AwB1P/ReKaPUkcX6yAGC4=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=CsT3sS0xmpkt1vuECdeorXL6fiBQBHtWernP3bbvrkKoiGQtSTyAxagbgKFN3DHTocwmvHbkkMjFitO7HE4XK1lSK/5XDNyapfmFUa258o/R83qsQS5MizpKZkpxDcc2BfJKOwV9ERnQVnkMYWcIWwqD4fZlUmIyMRk0+pbKYNk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Lb+Ydi/k; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2EDEFC4CEF1;
+	Tue, 21 Oct 2025 22:49:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1761086957;
+	bh=afMwNk4H6CfXYhM/Mntmd/AwB1P/ReKaPUkcX6yAGC4=;
+	h=From:Date:Subject:To:Cc:From;
+	b=Lb+Ydi/k4eFirtXg0sLErurW+5I5z1gomh+64L+pggWY9L94GPaXhxYRS1TXjnm63
+	 AgD88ohUxzSKGOnaBR6LK7vLBYSnTaI1xxXMMUgbclTDTu8xUCAVJ/j9ke6HX9I3y4
+	 ytRLv20JcbPt2nCOcqMpniD1SQxYRYAQtiCsSDiieR+wkaM43hSQ++GJyPX1N4YNxc
+	 G9cfpW6FdCt9Wq0mA3JrGgsezdrS7UaRuDKw13DsbDdzYO2p+2qmLHiL1TFxAOXGK+
+	 mGoIVrCEaHI7CckzBCmw8lcBlDEoQs+XNxIdYsalgDHBhhnC29pukxgC3LRyt7qilK
+	 5g4Hf7PqF2Npg==
+From: Nathan Chancellor <nathan@kernel.org>
+Date: Wed, 22 Oct 2025 00:49:08 +0200
+Subject: [PATCH] HID: intel-ish-hid: Fix -Wcast-function-type-strict in
+ devm_ishtp_alloc_workqueue()
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <qffp7kadq3xojla5k6f5pr37irgytqfsqvabr6ydvulxnkcgnn@bv5mrraxrhhe>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20251022-ishtp-fix-function-cast-warn-v1-1-bfb06464f8ca@kernel.org>
+X-B4-Tracking: v=1; b=H4sIAOMN+GgC/x3MwQqDMAyA4VeRnBdo6ybiq8gOoU1nLlWa6gbiu
+ xt2/OHjP0G5CitM3QmVD1FZi4V/dBAXKh9GSdYQXHh5FzyKLm3DLD/Me4nNOEbShl+qBYfBpT4
+ Rj5SfYIutssn/fn5f1w0EQ+ADbgAAAA==
+X-Change-ID: 20251021-ishtp-fix-function-cast-warn-660d3dae8af4
+To: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>, 
+ Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, 
+ Zhang Lixu <lixu.zhang@intel.com>
+Cc: Kees Cook <kees@kernel.org>, linux-input@vger.kernel.org, 
+ llvm@lists.linux.dev, patches@lists.linux.dev, 
+ Nathan Chancellor <nathan@kernel.org>
+X-Mailer: b4 0.15-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2468; i=nathan@kernel.org;
+ h=from:subject:message-id; bh=afMwNk4H6CfXYhM/Mntmd/AwB1P/ReKaPUkcX6yAGC4=;
+ b=owGbwMvMwCUmm602sfCA1DTG02pJDBk/eF/fY42+UnHrbh5D8mFr62nhGhtVEz6ttBIOW755c
+ X7m2g9WHaUsDGJcDLJiiizVj1WPGxrOOct449QkmDmsTCBDGLg4BWAiZ2Yw/I9U/9y0xvnNo1SZ
+ LazZP0vSnxT+CC+VEeoxmhf6/PCKI/MZGd7omLw6/fLw6slBh+wkHEumPDx+hm1hW6Fm7ifDHzu
+ kp/AAAA==
+X-Developer-Key: i=nathan@kernel.org; a=openpgp;
+ fpr=2437CB76E544CB6AB3D9DFD399739260CB6CB716
 
-On Fri, Aug 29, 2025 at 11:11:22AM +0000, Dmitry Torokhov wrote:
-> Hi James,
-> 
-> On Wed, Aug 27, 2025 at 09:22:41PM +1000, James Calligeros wrote:
-> > +static void macsmc_hid_event_button(struct macsmc_hid *smchid, unsigned long event)
-> > +{
-> > +	u8 button = (event >> 8) & 0xff;
-> > +	u8 state = !!(event & 0xff);
-> > +
-> > +	switch (button) {
-> > +	case BTN_POWER:
-> > +	case BTN_TOUCHID:
-> > +		if (smchid->wakeup_mode) {
-> > +			if (state)
-> > +				pm_wakeup_hard_event(smchid->dev);
-> > +		} else {
-> > +			input_report_key(smchid->input, KEY_POWER, state);
-> > +			input_sync(smchid->input);
-> > +		}
-> 
-> I believe you should be using pm_wakeup_event() in all cases so that
-> pressing power would interrupt suspend even if resume() handler has not
-> been run yet.
+Clang warns (or errors with CONFIG_WERROR=y / W=e):
 
-pm_wakeup_event() does not wake from s2idle. pm_wakeup_dev_event()'s
-`hard` parameter is explicitily documented to wake from s2idle. So using
-pm_wakeup_dev_event and use `smchid->wakeup_mode && state` as hard
-parameter seems the correct thing to do.
+  drivers/hid/intel-ish-hid/ipc/ipc.c:935:36: error: cast from 'void (*)(struct workqueue_struct *)' to 'void (*)(void *)' converts to incompatible function type [-Werror,-Wcast-function-type-strict]
+    935 |         if (devm_add_action_or_reset(dev, (void (*)(void *))destroy_workqueue,
+        |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  include/linux/device/devres.h:168:34: note: expanded from macro 'devm_add_action_or_reset'
+    168 |         __devm_add_action_or_ireset(dev, action, data, #action)
+        |                                         ^~~~~~
 
-> Also I do not think suppressing KEY_POWER is needed.
-> Userspace should be smart and decide whether to shutdown the system or
-> not when receiving KEY_POWER depending on the overall system state.
+This warning is pointing out a kernel control flow integrity (kCFI /
+CONFIG_CFI=y) violation will occur due to this function cast when the
+destroy_workqueue() is indirectly called via devm_action_release()
+because the prototype of destroy_workqueue() does not match the
+prototype of (*action)().
 
-Not all user space. Using the power button to wake from s2idle while
-showing agetty's login prompt on a tty results in an immediate shutdown.
+Use a local function with the correct prototype to wrap
+destroy_workqueue() to resolve the warning and CFI violation.
 
-Janne
+Closes: https://github.com/ClangBuiltLinux/linux/issues/2139
+Fixes: 0d30dae38fe0 ("HID: intel-ish-hid: Use dedicated unbound workqueues to prevent resume blocking")
+Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+---
+ drivers/hid/intel-ish-hid/ipc/ipc.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/hid/intel-ish-hid/ipc/ipc.c b/drivers/hid/intel-ish-hid/ipc/ipc.c
+index 59355e4a61f8..abf9c9a31c39 100644
+--- a/drivers/hid/intel-ish-hid/ipc/ipc.c
++++ b/drivers/hid/intel-ish-hid/ipc/ipc.c
+@@ -924,6 +924,11 @@ static const struct ishtp_hw_ops ish_hw_ops = {
+ 	.dma_no_cache_snooping = _dma_no_cache_snooping
+ };
+ 
++static void ishtp_free_workqueue(void *wq)
++{
++	destroy_workqueue(wq);
++}
++
+ static struct workqueue_struct *devm_ishtp_alloc_workqueue(struct device *dev)
+ {
+ 	struct workqueue_struct *wq;
+@@ -932,8 +937,7 @@ static struct workqueue_struct *devm_ishtp_alloc_workqueue(struct device *dev)
+ 	if (!wq)
+ 		return NULL;
+ 
+-	if (devm_add_action_or_reset(dev, (void (*)(void *))destroy_workqueue,
+-				     wq))
++	if (devm_add_action_or_reset(dev, ishtp_free_workqueue, wq))
+ 		return NULL;
+ 
+ 	return wq;
+
+---
+base-commit: 828aeac92901c1f31b51ae0b9d792b9af5bd3e27
+change-id: 20251021-ishtp-fix-function-cast-warn-660d3dae8af4
+
+Best regards,
+--  
+Nathan Chancellor <nathan@kernel.org>
+
 
