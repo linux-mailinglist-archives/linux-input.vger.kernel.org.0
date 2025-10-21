@@ -1,176 +1,147 @@
-Return-Path: <linux-input+bounces-15626-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-15627-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFF6ABF4A23
-	for <lists+linux-input@lfdr.de>; Tue, 21 Oct 2025 07:22:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB5B5BF4D22
+	for <lists+linux-input@lfdr.de>; Tue, 21 Oct 2025 09:08:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 681BC4E18CB
-	for <lists+linux-input@lfdr.de>; Tue, 21 Oct 2025 05:22:57 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 39AAD4EF120
+	for <lists+linux-input@lfdr.de>; Tue, 21 Oct 2025 07:07:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 33DBB148850;
-	Tue, 21 Oct 2025 05:22:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 31F1026A1D9;
+	Tue, 21 Oct 2025 07:07:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IJpMKNqF"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ouR3sGLV"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-vs1-f51.google.com (mail-vs1-f51.google.com [209.85.217.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 829D38460
-	for <linux-input@vger.kernel.org>; Tue, 21 Oct 2025 05:22:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0E0D1A3166;
+	Tue, 21 Oct 2025 07:07:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761024174; cv=none; b=M0nc+jN953HkZz6XhU7ZzsPo+C10kwnJk4bhDsG8bJlTviUqRpYwHyz2ed1LyIyAo36VIC55hiSAvW/4Azs+Avtva5tufOjtBb3N/vjeyj1ZXWOfqLCWOgDYZIo1bBCw09O/vSOjsSjyw8VxO+i0tMzV3CSwAJphO+OR65CQw2M=
+	t=1761030473; cv=none; b=qe02Vxqq+qli/UEYCM4tmux8QzbBlguBStYQVnwYJS/j8R6IrZY3KW+FNN4+C/J2hemHdVkOMC9UfrS26KJyeMXYv3M7eVM5YAhDQt8ODcN0H/CsjyhQa+AHeW7MOBOSm5VqQeV5P/X8+sh5bcgDHeojc27JhA5BvpfODweXnaY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761024174; c=relaxed/simple;
-	bh=gQz4hFOJioXy0VprA2p0cDxzWin7j/k/IjErKLa0jak=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=NJPMumwo6bjHxo9IBsEj/sRZtI7wQOKmoafktYKokEyyBnp7IxF/rZih72f/R14kHIjMyHPBKvSpa0ffNf1yIwsv//U7IH80a6EKQgJc0yWJ91RKJ+0rMX/kJq0ex2cd22aqpRkoFb+t1wG93J/PX73MqXLcjc0SZ2q6Vb1TGMc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IJpMKNqF; arc=none smtp.client-ip=209.85.217.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vs1-f51.google.com with SMTP id ada2fe7eead31-59d576379b9so1727735137.1
-        for <linux-input@vger.kernel.org>; Mon, 20 Oct 2025 22:22:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761024171; x=1761628971; darn=vger.kernel.org;
-        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=P16EwMxd1xvCSnX9bsol2JQHTl27LT5Gi63dav7i+Cw=;
-        b=IJpMKNqF1FVK6XhJQg1MmNKTt07eNNlRgY9BBuWQ9geOStPH3CkXF2n9Uzy8u8I0G/
-         orGUU0Z9ni73D50YhYJKSvJUPUFeU003Qb/2B/o5wWpwZhByB4HyC52+bp8FoTOV4viP
-         Sibo4ikNT2cxiHC1Zi2Flz7XGph7d+5YP9MUoNO932RJ0V0K8PToq72INH/OtI5U+kIN
-         9HbJC/21olopuSJ3C7/2kZSyBhOSWcOqfBgLpbpIfSM1lTxnA8na/djZqQ6es/LDOaCv
-         lPRU7GGOtyp0uToodwrG3AqhUlulk+Rn8ALc76tb8/VgCYODfN3YqJg6476u40vRJ0kU
-         1VUQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761024171; x=1761628971;
-        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=P16EwMxd1xvCSnX9bsol2JQHTl27LT5Gi63dav7i+Cw=;
-        b=hqbSx9otKtqzl4CFaENyGHkKmKRZ1ntJXsmwejmY+NaVzsc85Dn0H22sqi15Rwvm2x
-         dsb7QUGkKgyjtZ0xJZZVlAuIbHX16mYMFOQOGwGl9Wfxv+U5iZlkH4fR95KL6cf2WR4N
-         +oeFfF6SeGcBW984oFm6ByllzFAqrbm2rz/RAxGTrcuBZMKlb/79LW8YN3dTJ01f0KKx
-         OvBmI+qdAHVKLSDEPo8z2PDVIDte+lol+TQar8BpnGTCjr1RmtvbUwz+5I2/UwQeU0lI
-         Xoc9xNFv5ZqurDaYp8DMNFVaO8mcaSEmFHk0EFrM+bnQm3VCfqh+eKtfC8KfnCgaKnPG
-         1tIA==
-X-Gm-Message-State: AOJu0YyVCTv9Y4kcJ+P/ACXl6TOPRWM7r7rv/fkCBeQ+RkfELERd5aP4
-	bU0n7xVPj33bWPBIJZ/zdyGnStNXSKm/+HIAwyOpTfArHYIDUw9s53aULHgXgZfacA+n/uUwibH
-	uaquIu5moZ4mU8yytXiyCPn64/4lJNpqQIMd9
-X-Gm-Gg: ASbGncuGOYcZWw3cOqHM4Y1/N6lwvj27H4oq2ut4mofu8ErPzseifcW/l439qUuDZwW
-	Z448klNCKeDkwjQLp9mECj9TmPoDMcDhMuaFzZ07TWL04olH0vuywxVaUnkdDEhGclUvRXQVhnL
-	nDqOpFF13udah3P4manMffXnyjvlvVwlc3m0mzliULTdj63A7tt2/kbTPyBrbrSr4WiNivKT+un
-	un7qF/S9849mw9YMD1HzrYwmmjGBI9izf6lG8XorhCWQvx1fpgbDlz0SdOEhAnpyOoRdKHWsYMG
-	Lghe
-X-Google-Smtp-Source: AGHT+IEOOrb+q+ERVmGolPWi0przvpuxHQ7h9wYz1fEhvLouDiqsp0VN/ssrquzt4jqB5WkR1WevIFAMQGR+D+W6ML8=
-X-Received: by 2002:a05:6102:3909:b0:523:712d:44a1 with SMTP id
- ada2fe7eead31-5d7dd4b254emr4590708137.19.1761024171183; Mon, 20 Oct 2025
- 22:22:51 -0700 (PDT)
+	s=arc-20240116; t=1761030473; c=relaxed/simple;
+	bh=s1K4Ls6o27DPdNTDdt+xPD5GiT0t0JCDpQyybGPS+VU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=OQKCs9LfUfhcxIH4PGoANDicREN7t7lT6e/gjec0+d44n/LWSAI8NMsmSJXIoKpQ5g+GJLCUCeKLcB9K/wtm3oSyW41m0hgMCK8i9qIAH4RI6HLemM7TwiFRkYRrexRJG097y4Bn2BEP1L/zy75AgnvxxXB6aBjkASXxl60yZbE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ouR3sGLV; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9CAA2C4CEF1;
+	Tue, 21 Oct 2025 07:07:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1761030472;
+	bh=s1K4Ls6o27DPdNTDdt+xPD5GiT0t0JCDpQyybGPS+VU=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=ouR3sGLVmejtPlxj5NwaeX9L9f+AXZdWsjbaFZ/Gg9ywnEI+zpTGd/OyTuNl/BO7v
+	 lJQpeOKntmG5gutoTuyUb/cgo9G7poST+hh0pe0umlTc7roOtmL6yG3DWWkCjRrKUa
+	 Uz8bXXbRPUIe+xQ94SGvzA48xtVdShMUj5o3qfzuRZ0D0SETrJ/7uEDz2kpi4PAscz
+	 b2C/eA6Obiuvx0yiJs6Nv09gaP8R/oK6L872GvCP9MqcoSbNIuMQKz5aJvkIZ4xZnW
+	 zM9YLf1NF/gHfo60md/PAkyGMKXeIxJtrvhRTElhICBrlKaoiXbfSk4guKR47OY1IY
+	 Q9A2t1KTX961w==
+Message-ID: <7a21fb48-0795-4f2f-bb66-8c6c31e71e5d@kernel.org>
+Date: Tue, 21 Oct 2025 09:07:47 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Glenn Alexander <glenalec0@gmail.com>
-Date: Tue, 21 Oct 2025 16:22:40 +1100
-X-Gm-Features: AS18NWDJRbHqgmK6HKE8MyWkRbeHLhQ5zV_WH-QT5z9nqTzHQlFIB4M0VtnlRhI
-Message-ID: <CAPT-+AQp_FPAYEYeA4+3-Mj6X8NaU0Rh7T_4sAPjA0aN+2TNBA@mail.gmail.com>
-Subject: Specialist keyboard (Infogrip BAT) stopped working as of kernel 6.12.35
-To: linux-input@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/3] Input: add TWL603x power button
+To: akemnade@kernel.org, Lee Jones <lee@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Andreas Kemnade <andreas@kemnade.info>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, Tony Lindgren
+ <tony@atomide.com>, Kevin Hilman <khilman@kernel.org>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-input@vger.kernel.org, linux-omap@vger.kernel.org
+References: <20251020-twl6030-button-v1-0-93e4644ac974@kernel.org>
+ <20251020-twl6030-button-v1-2-93e4644ac974@kernel.org>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <20251020-twl6030-button-v1-2-93e4644ac974@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-(Hoping I got this right - First kernal mailing list post!)
+On 20/10/2025 14:31, akemnade@kernel.org wrote:
+> +static const struct of_device_id twl6030_pwrbutton_dt_match_table[] = {
+> +	{ .compatible = "ti,twl6030-pwrbutton" },
+> +	{},
+> +};
+> +MODULE_DEVICE_TABLE(of, twl6030_pwrbutton_dt_match_table);
+> +
+> +static struct platform_driver twl6030_pwrbutton_driver = {
+> +	.probe		= twl6030_pwrbutton_probe,
+> +	.remove		= twl6030_pwrbutton_remove,
+> +	.driver		= {
+> +		.name	= "twl6030_pwrbutton",
+> +		.of_match_table = of_match_ptr(twl6030_pwrbutton_dt_match_table),
 
-Hi. I primarily use an Infogrip BAT chord keyboard (USB device) for text entry.
+Drop of match ptr, you have a warning here.
 
-As of kernel 6.12.35 it no longer works beyond the GRUB bootloader
-(where it does still function).
+> +	},
+> +};
+> +module_platform_driver(twl6030_pwrbutton_driver);
+> +
+> +MODULE_ALIAS("platform:twl6030_pwrbutton");
 
-This issue has exhibited for me on Debian/Testing x86_64. and
-Raspberry Pi OS AArch64.
-
-Reverting back to boot to kernel 6.12.33 fixes the issue.
-
-The BAT is a USB device that largely emulates a regular PC USB
-keyboard from the computer's perspective (allowing it to work with a
-standard BIOS, GRUB, various OSes, etc. without special drivers) but
-there is presumably some differences presented to the system that the
-latest Kernel is unhappy with. A regular USB QWERTY keyboard still
-works with the newer kernel.
-
-I don't expect any devs to have this device for testing purposes but I
-am, of course, happy to assist in providing any information that is
-useful to solve this issue for me.
-
-I am not a programmer myself, but am reasonably comfortable on the command line.
-
-Thanks.
-
-...
-
-As far as I can get on my own, KDE/InfoCenter reports the USB device
-profile, under both kernels, as:
-
-BAT Personal Keyboard v1.6
-Manufacturer: InfoGrip
-Class 0 ((Defined at Interface level))
-Subclass 0
-Protocol 0
-USB Version 1.10
-Vendor ID 0x04d8 (Microchip Technology, Inc.)
-Product ID 0xfdd0
-Speed 1.5 Mbit/s
-Channels 0
-Max. Packet Size 8
-
-So the device is showing up as connected and query-able under both Kernels.
-
-Comparing the boot logs (extracted from journalctl) I can see a
-difference around the problem device ID between each kernel:
-
-Kernel 6.12.33:
-
-kernel: usb 1-9.4.4: new low-speed USB device number 15 using xhci_hcd
-kernel: usb 1-9.4.4: New USB device found, idVendor=04d8,
-idProduct=fdd0, bcdDevice= 1.00
-kernel: usb 1-9.4.4: New USB device strings: Mfr=1, Product=2, SerialNumber=0
-kernel: usb 1-9.4.4: Product: BAT Personal Keyboard v1.6
-kernel: usb 1-9.4.4: Manufacturer: InfoGrip
-kernel: input: InfoGrip BAT Personal Keyboard v1.6 as
-/devices/pci0000:00/0000:00:14.0/usb1/1-9/1-9.4/1-9.4.4/1-9.4.4:1.0/0003:04D8:FDD0.0005/input/input11
-kernel: usb 1-9.4.2.3: new full-speed USB device number 16 using xhci_hcd
-kernel: audit: type=1400 audit(1752227462.248:128): apparmor="ALLOWED"
-operation="capable" class="cap" profile="Xorg" pid=1247 comm="Xorg"
-capability=12  capname="net_admin"
-kernel: hid-generic 0003:04D8:FDD0.0005: input,hidraw4: USB HID v1.00
-Keyboard [InfoGrip BAT Personal Keyboard v1.6] on
-usb-0000:00:14.0-9.4.4/input0
+You should not need MODULE_ALIAS() in normal cases. If you need it,
+usually it means your device ID table is wrong (e.g. misses either
+entries or MODULE_DEVICE_TABLE()). MODULE_ALIAS() is not a substitute
+for incomplete ID table.
 
 
-Kernel 6.12.35:
+> +MODULE_DESCRIPTION("Phoenix Power Button");
+> +MODULE_LICENSE("GPL");
+> 
 
-kernel: usb 1-9.4.4: new low-speed USB device number 15 using xhci_hcd
-kernel: usb 1-9.4.4: New USB device found, idVendor=04d8,
-idProduct=fdd0, bcdDevice= 1.00
-kernel: usb 1-9.4.4: New USB device strings: Mfr=1, Product=2, SerialNumber=0
-kernel: usb 1-9.4.4: Product: BAT Personal Keyboard v1.6
-kernel: usb 1-9.4.4: Manufacturer: InfoGrip
-kernel: usbhid 1-9.4.4:1.0: can't add hid device: -22
-kernel: usbhid 1-9.4.4:1.0: probe with driver usbhid failed with error -22
 
-Poking through code online, error code -22 in the second log seems to
-resolve to "Invalid argument" or "can't add hid device".
-
-Which is about as far as my own knowledge/ability goes here.
-
-If there is anything further I can do to provide information to assist
-in resolving this issue, please don't hesitate to contact me. I am
-more than happy to run extra commands and report output towards
-narrowing down the issue. Though keep in mind I may need a little
-guidance as while I am able to do basic things from a command line, I
-am not an expert.
-
-Regards,
-Glenn Alexander.
+Best regards,
+Krzysztof
 
