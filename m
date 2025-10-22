@@ -1,96 +1,116 @@
-Return-Path: <linux-input+bounces-15648-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-15649-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6C04BFA41E
-	for <lists+linux-input@lfdr.de>; Wed, 22 Oct 2025 08:37:19 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AA0FBFAFFD
+	for <lists+linux-input@lfdr.de>; Wed, 22 Oct 2025 10:55:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 8F3934E1A8E
-	for <lists+linux-input@lfdr.de>; Wed, 22 Oct 2025 06:37:18 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BE5BC585644
+	for <lists+linux-input@lfdr.de>; Wed, 22 Oct 2025 08:55:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 61DD72EE263;
-	Wed, 22 Oct 2025 06:37:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD4A630C621;
+	Wed, 22 Oct 2025 08:55:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="dQSsE+um"
+	dkim=pass (2048-bit key) header.d=kemnade.info header.i=@kemnade.info header.b="1KaWRcOO"
 X-Original-To: linux-input@vger.kernel.org
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
+Received: from mail.andi.de1.cc (mail.andi.de1.cc [178.238.236.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8761723BD01;
-	Wed, 22 Oct 2025 06:37:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19787309EF4;
+	Wed, 22 Oct 2025 08:55:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.238.236.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761115033; cv=none; b=QDiHL/XcRBj+n+lf5O1jwPQCYosDsduPhhRsb2nYiokUp4r6pyk/hiOqGb1fupmTqs7aFMgr3CLQkRYn3Bb2RO1qJugOzUQyNMfrfllGjxoiRxYzXgARY2G38TvrnYTcz1yUqSEX9dJZHIWwkC/GD81aTZHGjgG62GxynEEHsMU=
+	t=1761123323; cv=none; b=DE2jc0Y23A9eMJjvIUWhJiGKNQh2O+gKwqGgrDXnSpj0CaPnhOsTY9NC4/kAPJvB0sM0wIT5CKoVXg5eUpEqEg3v2yosS88edzRlP//2QBrFqfQqpQx32se1LDtLcA5hywYRo5+RXioDixK9y/boTXK4jIqZxSi2Dz1lqFRhHAQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761115033; c=relaxed/simple;
-	bh=OzAEORfzHoNn8pD9aVd4weKw60QOxSKY+z6zfXNRlw4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=an2sSNLMdodWxq0GCBuQCyEIlFQRyo8/RuP4UWdpqpaNSBRAY3wBEtD/648hr7RQ2sHZZaQt3jGWpc5olL/pp2//smcl/OyqWhcKn1L1uEbV1cdcD3UTkZIVO/Qjph3g3GX8DVahnaP+QGlDdkBEo2Frbbwl7AJGxfJ9pI5GxuA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=none smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=dQSsE+um; arc=none smtp.client-ip=82.195.75.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=debian.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=rhn4FhOs6gCpkc5XDX70aSILx2mEcUnwnt/38g3JO/I=; b=dQSsE+umHZR/wE2zO4mXaW1EAE
-	YPbvcfIeBeXHSgyWoGjWt44fc0prDaDZ8acUgpn57DZwL1/OKce3qsFx47mKwa3j3FqnsTD2g4i72
-	T9s1q5fjdsJiJeR48snT+3dF3CNxZV2C1TfpvZhkP9pPDEO4wHz4SIVwrHj4Z3vK65WUhyKMsf+11
-	Vkp0MC4B0dzGowJ/0Scd1AiXDed/JqyIpyTbA2WfWrHD9YX67l6Sb8FCFJ9WzHA1ZfBGIfZjViUT1
-	n8F7Wr1jMLCtWVI8L7ZJZ4xZkcgRSUOI74XQ4OtNM6hp7gXW8nFpftykpxCK19IAYP2qf6Z/yhKxL
-	ViKAhWsg==;
-Received: from authenticated user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.94.2)
-	(envelope-from <carnil@debian.org>)
-	id 1vBRxN-007Ay9-HR; Wed, 22 Oct 2025 06:04:21 +0000
-Received: by eldamar.lan (Postfix, from userid 1000)
-	id 8E4A3BE2EE7; Wed, 22 Oct 2025 08:04:20 +0200 (CEST)
-Date: Wed, 22 Oct 2025 08:04:20 +0200
-From: Salvatore Bonaccorso <carnil@debian.org>
-To: zhangheng <zhangheng@kylinos.cn>, 1114557@bugs.debian.org
-Cc: Linux Hid <linuxhid@cosmicgizmosystems.com>, jikos@kernel.org,
-	bentiss@kernel.org, staffan.melin@oscillator.se,
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: Bug#1114557: [PATCH v2] HID: quirks: Add device descriptor for
- 4c4a:4155
-Message-ID: <aPhz5L-ECc8CzA0a@eldamar.lan>
-References: <20250923022445.3276026-1-zhangheng@kylinos.cn>
- <e0dde746-3761-414e-8df1-eb8557cadbf8@cosmicgizmosystems.com>
- <175716941557.2355.4359402692624340645.reportbug@debianduo>
- <e605f642-c967-4d41-8145-a10e8f48fb1b@kylinos.cn>
+	s=arc-20240116; t=1761123323; c=relaxed/simple;
+	bh=LxySeUIScT7NWfE61hz2tNtsBcPsmPf5b4Rc3nNLoQI=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=EH5JX/n7V5EJEV3B1f1zwtro4A1FSMQlhUQfnIpwZ5u+wqvkCj1IpX9Chdh856NWZ58KdN3G1UNbkvrFk+dIjc0du2ikFMw321Wly4g4Kc5THegz5vf8/CKU5St1eSvmHx4sMNcgRv08Twg2ZT8S1f9bugGoPMopdsyAIODPMZQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kemnade.info; spf=pass smtp.mailfrom=kemnade.info; dkim=pass (2048-bit key) header.d=kemnade.info header.i=@kemnade.info header.b=1KaWRcOO; arc=none smtp.client-ip=178.238.236.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kemnade.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kemnade.info
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=kemnade.info; s=20220719; h=References:In-Reply-To:Cc:From:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID;
+	bh=oHvZB4NwUXXPrGHOyAB04zW2NhfaHBxub/V9ezZt/vs=; b=1KaWRcOOBm9ve1gG5wAFhu0uPP
+	eXKaMPZ9KidhNXk+56C1MtoDgyLaPTyyf1EqOnaJPyvE/R7MDzBQdQTd1i0Wj/7tZhCbZK2ougha4
+	VSomg2cEoGiS/Rn684+DUoup0rsT9jFcano4bsvDdjGAcJDYu8k+Zr0SEcwIpDShsuHoPB4YZUvtp
+	Fw+7vgvNso+J8ZrKhU6w2/4hiU4RARWR5R0KwzHviggxcEgRla82xLaY1DVGfAuecMDdi2/tkWZ10
+	13ShfYCZRx6qoanodjflVQh+Fp8ANTBlpSD3Rg4chji6KZPANDomZnIDKUbVwhqq2M0LDslLBDqHU
+	XmohzhDw==;
+Date: Wed, 22 Oct 2025 10:55:16 +0200
+From: Andreas Kemnade <andreas@kemnade.info>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Dmitry
+ Torokhov <dmitry.torokhov@gmail.com>, Tony Lindgren <tony@atomide.com>,
+ Kevin Hilman <khilman@kernel.org>, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+ linux-omap@vger.kernel.org
+Subject: Re: [PATCH 1/3] dt-bindings: mfd: twl: enable power button also for
+ twl603x
+Message-ID: <20251022105516.2ffea183@kemnade.info>
+In-Reply-To: <7702e4f6-4913-4d9e-bbc4-1fb849507e4c@kernel.org>
+References: <20251020-twl6030-button-v1-0-93e4644ac974@kernel.org>
+	<20251020-twl6030-button-v1-1-93e4644ac974@kernel.org>
+	<5fd43d2c-3a08-4a51-abb6-38883ee86bf2@kernel.org>
+	<20251021104515.5e25bec1@kemnade.info>
+	<beabb9f7-fcf4-4c1d-a259-6c48e82fbcf5@kernel.org>
+	<20251021183624.6fde0a15@kemnade.info>
+	<7702e4f6-4913-4d9e-bbc4-1fb849507e4c@kernel.org>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; aarch64-unknown-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e605f642-c967-4d41-8145-a10e8f48fb1b@kylinos.cn>
-X-Debian-User: carnil
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi,
+On Tue, 21 Oct 2025 19:18:25 +0200
+Krzysztof Kozlowski <krzk@kernel.org> wrote:
 
-On Mon, Oct 13, 2025 at 04:32:39PM +0800, zhangheng wrote:
-> It happened to be the holiday, so communication was a bit troublesome.
+> On 21/10/2025 18:36, Andreas Kemnade wrote:
+> > On Tue, 21 Oct 2025 11:58:49 +0200
+> > Krzysztof Kozlowski <krzk@kernel.org> wrote:
+> >   
+> >> On 21/10/2025 10:45, Andreas Kemnade wrote:  
+> >>> On Tue, 21 Oct 2025 09:10:28 +0200
+> >>> Krzysztof Kozlowski <krzk@kernel.org> wrote:
+> >>>     
+> >>>> On 20/10/2025 14:31, akemnade@kernel.org wrote:    
+> >>>>> From: Andreas Kemnade <andreas@kemnade.info>
+> >>>>>
+> >>>>> TWL603x has also a power button, so add the corresponding subnode.      
+> >>>>
+> >>>> No, we don't add subnodes just because there is a power button. This
+> >>>> needs broader explanation, see also my further comment.
+> >>>>    
+> >>> Hmm, what is the general pattern to follow if a mfd device has some
+> >>> functionality which depends on some optional external components?    
+> >>
+> >> Please describe it better - how these nodes depend on external
+> >> component? The power button logic/IC is in this device always. It is not
+> >> optional.
+> >>  
+> > The power button logic is always there, yes, but it depends on an optional
+> > actual mechanical button connected to a pad of this device, which is
+> > not always there. The logic will not work if I just put my finger on the PMIC,
+> > but it will work if there is a mechanical button which I can press connected to
+> > the PMIC.  
 > 
-> However, after a brief discussion with the microphone manufacturer,
 > 
-> it was found that the serial number was still 20201111000001 on another
+> Hm... how do you represent this logic now? By adding status=disabled to
+> the pwrbutton node?
 > 
-> microphone device. So, should we add it?
+Yes, or by simply not adding tho pwrbutton node at all. Well, if we break
+the legacy pattern here, we can probably add a property for this.
 
-As this issue still affects one of our users in Debian, is there
-anything which can be done to unblock the situation? Does that mean
-that the proposed patch is not good for the microphone device?
-
-My understanding is that it fixes at least Staffan's case which
-regressed from 1a8953f4f774 ("HID: Add IGNORE quirk for
-SMARTLINKTECHNOLOGY").
 
 Regards,
-Salvatore
+Andreas
 
