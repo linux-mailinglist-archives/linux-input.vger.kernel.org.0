@@ -1,145 +1,126 @@
-Return-Path: <linux-input+bounces-15657-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-15659-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA1A6BFD74C
-	for <lists+linux-input@lfdr.de>; Wed, 22 Oct 2025 19:06:53 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id C233FBFDB8B
+	for <lists+linux-input@lfdr.de>; Wed, 22 Oct 2025 19:54:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 92F343AFDFB
-	for <lists+linux-input@lfdr.de>; Wed, 22 Oct 2025 16:47:04 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id A5D8A4ED11E
+	for <lists+linux-input@lfdr.de>; Wed, 22 Oct 2025 17:54:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6208B2E7F03;
-	Wed, 22 Oct 2025 16:40:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 58EB52E11B9;
+	Wed, 22 Oct 2025 17:54:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dErpl+Zk"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e6GFqhoo"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2ED43261B8C;
-	Wed, 22 Oct 2025 16:40:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC2822DAFDE
+	for <linux-input@vger.kernel.org>; Wed, 22 Oct 2025 17:54:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761151217; cv=none; b=g/lq9xeP09Mo2kmqJpPGsF02sey/y+EPrIIe6TrvqnBe3edxiKkH1akk1bEyFQgg9NvtTRFFLIZudDPv8TQj97HBwWJnco0a70I9MViV66GyL/DruQ5YtDNLrPVuqhe3h/2e5i9wCRVdlL/bHOCVgLGttA/39GcnvPPl1UauKIo=
+	t=1761155683; cv=none; b=BK6zpqN4lH43krMbHccTFoIns3OtOSLzZQj8AqXbJb4Kuy000TgR7HAQ8P8HH3bJLf1e9YzcCsl312fTxt0UXeTfHPNAqhJn0HXQL/iaZQo0ZBMHHY1KjTNfPJjykVUnNPTfcegnp+No1rske4D5thlTZz+ADCpkh8clLiAiYqw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761151217; c=relaxed/simple;
-	bh=ciJehXq5o5SwrU5CynADR0fWhxlriyXPU9lvhu3zrXg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=FURb8U89W7tk9i2Jz8rj/KusmRx8X0kb7oOnD+BH+BlqXEoL9IwzuSCo+OF9HXuUF9d+9LJAbxaEhraK+eRIfyPq63+5Jkk2WCyPfraFivUAqa+zK5khosY9ILOlbhlu5mhz7IVYgcbP+DPi2u4c/bRfRL41e/Rw5vsI7cG7v28=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dErpl+Zk; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C20EFC4CEE7;
-	Wed, 22 Oct 2025 16:40:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761151215;
-	bh=ciJehXq5o5SwrU5CynADR0fWhxlriyXPU9lvhu3zrXg=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=dErpl+ZkBRoHcXn+Pddc/PVH5zpXwmDyAtzGwiG4eOKLlr6LG6z6YvF/t9Yq4sO+F
-	 9t5LJIBFvxjOqVKS2/e5At80pLtLOFtNJ+Oex20uATqBkhRO/Evf6MlN8flGwb9AsN
-	 QqgLQ4YHqkME8uxKQmFYa5xVFIcDklN3sqrVucSRJWFWw628eBv8UyqMqm7s/P1vXY
-	 Px0kKOKrjHvbMH58ECW9TFFRYHSNxcOkxBk82MZXThVdVw7KxlEKq0AM9zvnXqR+LE
-	 fYXQ1JJill9aC/EJwlKh+yaPoBXkGaTYJD0DlmYuITk6feRxWqG4Sq2WG0gt21H4Mn
-	 sz9zjch0zSjxQ==
-Message-ID: <552ba489-a876-4ef1-b23f-93cbe8ef6c93@kernel.org>
-Date: Wed, 22 Oct 2025 11:40:13 -0500
+	s=arc-20240116; t=1761155683; c=relaxed/simple;
+	bh=B1AUVikLodwQzq7iTiyB+43RNcbtAThA47OKW3pcpus=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PKsmerjlyfI3BBs6zvgxlGmS5yMi9x2Nzte1YQFiv9qH4ODn+mr+OxLnaqp5WQmVdlv6qmGzKg7SGPMclHgL0l9TynPcpP/0EiYOiJY0huLQnBoYYeo/kesh9iZSF/eFnuhcilNXQuR4fouSeeuOHz/nqNvV89LIAyojyeHo3Yc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=e6GFqhoo; arc=none smtp.client-ip=209.85.215.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-b6ce806af3eso676224a12.0
+        for <linux-input@vger.kernel.org>; Wed, 22 Oct 2025 10:54:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1761155681; x=1761760481; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=x478lQk2DxPizTI77gXgyAfctUUWFoIyeH8cqYHygmA=;
+        b=e6GFqhooWSHA8JPt+KCn7IXb0ra9KZAqHkmGtruuXFUXBbZYC4Ko1SBH4X9ydLqnxa
+         3ptSr0OxNCN5cIOsa64E/thsMB3f3yMCzcLCzBdJY4XpPF+NfNVmcycmbO8C4hva/i25
+         3jRAF0XsfcdEoTurYpbWxOFOUTUnPquCmpoPfhXZo8XryRT6x0sQdrMncxbKff7bRQPx
+         Z4l8IByosoeEr5w95+uRoAysGlZVzq117ZjfNzRE0VyuiwdkXVw7IQVsOYClWq2bkMz6
+         v26PbTOY2z1xsZDbOnUssOxpJJq9mP1BxcGxvIy47cFEVEVh4SgQ5ERe26S7Jo6tzKnI
+         2W+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761155681; x=1761760481;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=x478lQk2DxPizTI77gXgyAfctUUWFoIyeH8cqYHygmA=;
+        b=aMUXMwcaL/pLoWKa6BeFuQQf34bU/qYhnN2B4GV2OTMR1pGgDU81BuaTRQkiMp+Rls
+         bPbZRKzXQtQwF+j/MNaP+TWou2CPJBHYz0QVhzxBMY8DsYJlCmEwzVuvAeq6gjTxX1ha
+         JPbrZHRDcfcG4Hn1x2lkPNo1NjSmUGeG+CxSoLIGT5mF4V0Wre29nN+YJbd8Qgam7SD/
+         X7WludmVbZ6cnXZd7Gz/8DDmZE9A4gWQ76ONbjyYI6z9RDyc7PiuX3FIZrClHsWsSyTx
+         Js5JvcR8zdQe7awkv/p+z/F8tmJNna6xMu8Bum44caZIVXfDCe3OJwyg6em1ybpjaJ1l
+         m0tg==
+X-Forwarded-Encrypted: i=1; AJvYcCWnrSCVLqxRC3DTn2B/ldOwGLDjGkMrhfOeUrpS6+aerWKHGQYdyRuDVKTr07t7lky4oc2AGRVTs4TvSg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwBP3K1y65ZmFLjLZxnuRdujmiorNk/T339SYYFjkOtFsm5A5gp
+	BpEtS5dZdaaSa3tZ5MXNMBXXxsexivDBWy/wcGnkygRskJ0oeiVr2AdA
+X-Gm-Gg: ASbGncvdCfLOP5TYFZy5TyT+h8tgs7vqdWYpaDu/Chvh/7wBkHLNPaiDcdXMyKENOO0
+	ZLNzCZ1flL2s+CBDrZ6m9vdNjag3a6zP0E+kzxCKYTsQ7uOrgAyczIe2cYbkCCAydGknXogATIE
+	Ymyoy/QoiiCiKJ3eeRtPtVMiZpeSZYEaZNP9G5SCg5tFWb47JMI0n9kP1c9WFk4Bo9HZNM/tkfA
+	jBuAJNbi9gJZtCZx+hIxvROr19pIBPajB6QHHFKfnsFkzTjglx36+CLTDTopkTmGBEdiBjRvxTI
+	M7KM1mTo9iSTR52d2IGzsKvlch6EuHiLwpP1nR7gRx2dHtfEr+Uwm6LNZLxNpeyPzoEQch9+Tnl
+	LQAXJcjIKGZOX8X8nbWsq45CLGWIb/iFKcHNYM6wgok5M/X8NcwrQP67EWJZ7nMjKkAWhISro02
+	pGDkR/9E5EzAr6OvU3z9Ctwg22WdbaEmL7NwwD4xClM592LyCGpw==
+X-Google-Smtp-Source: AGHT+IFzOHo/RMYqhcqswj+hl6niGwcGNYYYyzF2qwE5VOSZ6yskOvLvhqKzp4jJuFDjqUzcg0pA5g==
+X-Received: by 2002:a17:902:f64c:b0:28e:cb51:1232 with SMTP id d9443c01a7336-290c9cf8a6amr285299295ad.3.1761155680885;
+        Wed, 22 Oct 2025 10:54:40 -0700 (PDT)
+Received: from google.com ([2a00:79e0:2ebe:8:53a9:459c:bdc:6273])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29246ec0847sm144704115ad.22.2025.10.22.10.54.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Oct 2025 10:54:40 -0700 (PDT)
+Date: Wed, 22 Oct 2025 10:54:37 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Hans de Goede <hansg@kernel.org>
+Cc: Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>, 
+	Andy Shevchenko <andy@kernel.org>, linux-input@vger.kernel.org, platform-driver-x86@vger.kernel.org
+Subject: Re: [PATCH 0/2] Input: Add keycodes for electronic privacy screen
+ on/off an use these in dell-wmi
+Message-ID: <wcrbaqheqhzpjcg3au2c5xshwwed5bjyvl5u5pske6ru7lggjs@yjpnfdbkogba>
+References: <20251020152331.52870-1-hansg@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC 3/4] Input: Ignore the KEY_POWER events if hibernation is in
- progress
-To: Muhammad Usama Anjum <usama.anjum@collabora.com>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>,
- Pavel Machek <pavel@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Danilo Krummrich <dakr@kernel.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Thomas Gleixner <tglx@linutronix.de>, Peter Zijlstra <peterz@infradead.org>,
- linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-input@vger.kernel.org
-Cc: kernel@collabora.com
-References: <20251018142114.897445-1-usama.anjum@collabora.com>
- <20251018142114.897445-4-usama.anjum@collabora.com>
- <7308c2c0-3881-445d-9771-fad5c3259518@kernel.org>
- <bd186145-c85c-41e3-bdc6-c2aaba4e874f@collabora.com>
-Content-Language: en-US
-From: Mario Limonciello <superm1@kernel.org>
-In-Reply-To: <bd186145-c85c-41e3-bdc6-c2aaba4e874f@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251020152331.52870-1-hansg@kernel.org>
 
-On 10/22/25 11:33 AM, Muhammad Usama Anjum wrote:
-> On 10/22/25 2:14 AM, Mario Limonciello (AMD) (kernel.org) wrote:
->>
->>
->> On 10/18/2025 9:21 AM, Muhammad Usama Anjum wrote:
->>> Serio drivers call input_handle_event(). Although the serio drivers have
->>> duplicate events, they have separate code path and call
->>> input_handle_event(). Ignore the KEY_POWER such that this event isn't
->>> sent to the userspace if hibernation is in progress.
->>>
->>> Abort the hibernation by calling pm awake API as well.
->>
->> So do you observe events both from ACPI and from input?  Or was this patch based upon an earlier version of the ACPI patch?
-> Yes, I observe events from both ACPI and input driver when power button is pressed.
-> AFAIU this happens because of historic reasons of button wired through keyboard
-> controller.
+Hi Hans,
+
+On Mon, Oct 20, 2025 at 05:23:29PM +0200, Hans de Goede wrote:
+> Hi All,
 > 
-> The call to pm_wakeup_dev_event() can be removed. But I've added it for non-ACPI
-> devices. Maybe those devices handle only input events through this path. Do you
-> think this can be the case?
-
-Well my point was if both are coming through - it's probably better to 
-just have pm_wakeup_dev_event() in input and pass the input event from ACPI.
-
->   >
->> Because it feels like to me perhaps another way to solve this would be for patch 2 to to send the input event and just keep pm_wakeup_dev_event() here instead of both places.
-> I was sending input event in patch 2 earlier. I was having difficulty in managing
-> so many dependencies in acpi_button_notify(). It suspends the button events. I'll
-> reiterate and see if I can achieve this in next series because this would be most
-> clean solution.
-
-OK!
-
+> Here is a patch series for adding support for the electronic privacy screen
+> on/off events send on e.g. Dell Latitude 7300 models.
 > 
->>
->>>
->>> Without this, the event is sent to the userspace and it suspends the
->>> device after hibernation cancellation.
->>>
->>> Signed-off-by: Muhammad Usama Anjum <usama.anjum@collabora.com>
->>> ---
->>>    drivers/input/input.c | 6 ++++++
->>>    1 file changed, 6 insertions(+)
->>>
->>> diff --git a/drivers/input/input.c b/drivers/input/input.c
->>> index a500e1e276c21..0979f18aae6a2 100644
->>> --- a/drivers/input/input.c
->>> +++ b/drivers/input/input.c
->>> @@ -26,6 +26,7 @@
->>>    #include <linux/kstrtox.h>
->>>    #include <linux/mutex.h>
->>>    #include <linux/rcupdate.h>
->>> +#include <linux/suspend.h>
->>>    #include "input-compat.h"
->>>    #include "input-core-private.h"
->>>    #include "input-poller.h"
->>> @@ -362,6 +363,11 @@ void input_handle_event(struct input_dev *dev,
->>>          lockdep_assert_held(&dev->event_lock);
->>>    +    if (code == KEY_POWER && hibernation_in_progress()) {
->>> +        pm_wakeup_dev_event(&dev->dev, 0, true);
->>> +        return;
->>> +    }
->>> +
->>>        disposition = input_get_disposition(dev, type, code, &value);
->>>        if (disposition != INPUT_IGNORE_EVENT) {
->>>            if (type != EV_SYN)
->>
+> On these laptops the firmware does not allow querying the presence nor
+> the status of the eprivacy screen at boot. This makes it impossible to
+> implement the drm connector eprivacy properties API (1) since drm objects
+> do not allow adding new properties after creation and the presence of
+> the eprivacy cannot be detected at boot.
 > 
+> So instead this series adds 2 evdev keycodes for eprivacy screen on + off
+> and modifies the dell-wmi driver to use these, so that we can still
+> propagate these events to userspace for e.g. a DE to show an OSD.
 > 
+> Dmitry, can we get your ack for the addition of the 2 new keycodes?
+> I think it will be easiest if Ilpo merges the entire series through
+> the pdx86 tree with your ack for the keycodes.
 
+Yes, that should be fine, although I wonder if this is best modeled as a
+pair of keys or a single switch? I know we have touchpad on/off but I
+wonder if it was the best option... Probably more convenient at some
+point if it was done through the atkbd.
+
+Thanks.
+
+-- 
+Dmitry
 
