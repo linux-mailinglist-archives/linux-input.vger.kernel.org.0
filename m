@@ -1,111 +1,199 @@
-Return-Path: <linux-input+bounces-15666-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-15667-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 682F3BFE29B
-	for <lists+linux-input@lfdr.de>; Wed, 22 Oct 2025 22:26:34 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id CA957BFF6E8
+	for <lists+linux-input@lfdr.de>; Thu, 23 Oct 2025 08:57:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 56E564EFCF8
-	for <lists+linux-input@lfdr.de>; Wed, 22 Oct 2025 20:26:33 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B8C363AA146
+	for <lists+linux-input@lfdr.de>; Thu, 23 Oct 2025 06:57:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A92D2FA0EE;
-	Wed, 22 Oct 2025 20:26:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 60B97278754;
+	Thu, 23 Oct 2025 06:57:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="a6GhyydI"
+	dkim=temperror (0-bit key) header.d=antheas.dev header.i=@antheas.dev header.b="kx/A3zdd"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay10.grserver.gr (relay10.grserver.gr [37.27.248.198])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3AAD2FB635
-	for <linux-input@vger.kernel.org>; Wed, 22 Oct 2025 20:26:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD0601B7F4
+	for <linux-input@vger.kernel.org>; Thu, 23 Oct 2025 06:57:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=37.27.248.198
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761164783; cv=none; b=AQmXVrVn6+R5HScCwls+MvNP+S4MHHpYe7fsv2hhjH4SZ2TQD1diuYLoixd1i2KJQMCUEWlsjklaXFW84aN0M9DQn6lvoKhB9k0vw4q/kuaYgYMs6R9ajV44YFPHdKQbFTAwyvI3LSmd25MkEpjHWyCXs5CzLtyt4exH8R2/6XQ=
+	t=1761202623; cv=none; b=G+D1f549xaYhzEbd4YoZPwAGPLd2WBs1XnFiKTUQCGFdD6dxzAwugF+1m+Y7ooHeGcVzWgr9WWqedPpslIeVP9ltI95tjKqX3C3cZUqEcPAa/q4Jzcc1rtmxdKCtPDtADbDGAC3hiMdM6iyYBvtLD4Z+hjmCSoYJhRFi0G4DtmY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761164783; c=relaxed/simple;
-	bh=DN8wIHw8L2THEi4S5dHy5jflBlp+QDhGYC86piH+GyA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qh8bb6ib4YIoD1K3ckaDvspjX4kcEPRRdC9joGfntbErEVsfZjH1UUFoF1ugUURHWVEFL0oVCoQ5g8EI7gFAWG+9V+TIHQ6EqR3ZjYNHbM2CRqWQd58NkctDgWL9GWYWlnubQRl4dGs5L6wKXtDYl11+v/PXEU6Bh16ABu6RoQw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=a6GhyydI; arc=none smtp.client-ip=209.85.210.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-7a27053843bso80168b3a.1
-        for <linux-input@vger.kernel.org>; Wed, 22 Oct 2025 13:26:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761164781; x=1761769581; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=8hAf3HpEiT48jV3m4EHRH16LKqqSsX+cW74wRjoqq3Y=;
-        b=a6GhyydI27nchsOK3XzmQMxvgdrwjht6IYms4fXsm5Rou6wqUAUou3UxDDgWVcaMTe
-         c8YHY+MXac52rT/giDlKOghlIXA2zHL6i7ydzQbQEjUxxk1jfp8W33CraOyQFwT73FPT
-         y60oFTrbwMiHz/QtNW53RFxCNoJMhmhGvA8AZmKgqLIkgqxi5iW69oPqrTe94O0dIYmX
-         RfGGg1fktM9XdWzVZiFnizEAbLvCyh7oHWRwotMdf5OvK2WydGKvIGc/OKI4oslXlSox
-         Dui1yspkwGXPLNN1xpzz7Lg/e1oNO5NMmM5CkSkF/gSQpnzDnYvW7bmm1mv7ek+rHKFs
-         S2LQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761164781; x=1761769581;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8hAf3HpEiT48jV3m4EHRH16LKqqSsX+cW74wRjoqq3Y=;
-        b=hKm1ZsdGLb1DGTzcG/oZkttbr5lKHOOPG7AHP/U5KEoqI6SRrFZX+O80cwLdURCSGw
-         2CwmB9omfddKoR6+WZm9YBWsIYIVNCuKLYuAjX9sKDD7hwY2TV3lUPFUnGUKOHSWZzf4
-         BsOXMxnRqLgBFnWqo7mi42/cZq7qyyG2gRp/qYmlLpjLelK4DOZ0YDP7l04lPT11Oc2t
-         kLZX6gRtUFcF6eV83W6juzMEyKMpW8CPsa83f9R2HX/qVH3hNDaOQ3S/MN6GLFgTNE8o
-         Wwvv+RUGgX9OfpdyoubEnHJB8OnNFY3VdbX/bgEF7F4G6VZwTnXMEJeUSCG5ieG7pMtL
-         LW/g==
-X-Forwarded-Encrypted: i=1; AJvYcCXYLcnJHH6zOb7n+J7DhW4S9GTTqiJnzia7BqbNAja7EMzRK2F5AMbaLJ8QGYu6mgsfztgXs98qY3Ri/A==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyIGbAE2dC4fHYRzsEiW59kzLB6I7kb4DlX//IKsCG/AFG9SZcb
-	ZZ2KcbrUpDLANEjNE4KS/LHwU/ljUi+3K+yU2fKtbOJgqK/dBmY26Y12
-X-Gm-Gg: ASbGncsNxExoQlH44Sbz7juz7n4+v4voVl26sOT8+AC6HBrv6z9Rg1SB2SE6PEQetFj
-	qt+25t+MYNV28g0ZG8ct2DeYatHUJFPLMczrwm9PMKidrDjdhf25ZRU7wepW5Fww1fvxwAQcYAY
-	Bgk7Pj9sNPN0ImmvSYSEOZn+vszmXBalCMLNVm3Zp64wiB9aaI4ZBRoMaiXHbnGmd6/smn57/ZF
-	agsN5BO1a46gMZcbxerhz4AJ13auu9VxxoAF0Q+BSBp/xDDGh/MLJSvHSyjteF0xSE7astUnaPh
-	tzJ1EYMxcJqS/GPUNw/14Az7CvkzRvFZIY/PWthAifG2x8XXl/ABAYzRSMdmMECJniYdO4lUTRr
-	0z97DNPrDrIOCDZ0SwdJV8KUj+KGt6qUyK4jc79JVwSaKs4Wx+RyQEcyP1AR2VupCfx3m47IWmF
-	byMBlJd+JE5bYXW9gHWyjGu19u57s+1CYJCmDL6vc=
-X-Google-Smtp-Source: AGHT+IEUWrw1/NIF6k2oNyNi5aIySqQPjcH563349gLGnf1V8S0/R+EqsrCwP+l1wUXaJawvs0BBZQ==
-X-Received: by 2002:a05:6a20:72a0:b0:300:5f0:a4bc with SMTP id adf61e73a8af0-334a85bb055mr31514224637.45.1761164780878;
-        Wed, 22 Oct 2025 13:26:20 -0700 (PDT)
-Received: from google.com ([2a00:79e0:2ebe:8:53a9:459c:bdc:6273])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7a274bb37dbsm101523b3a.57.2025.10.22.13.26.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Oct 2025 13:26:20 -0700 (PDT)
-Date: Wed, 22 Oct 2025 13:26:18 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Frank Li <Frank.Li@nxp.com>
-Cc: Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Job Noorman <job@noorman.info>, 
-	"open list:INPUT (KEYBOARD, MOUSE, JOYSTICK, TOUCHSCREEN)..." <linux-input@vger.kernel.org>, 
-	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>, imx@lists.linux.dev
-Subject: Re: [PATCH v4 2/2] dt-bindings: touchscreen: consolidate simple
- touch controller to trivial-touch.yaml
-Message-ID: <vv3bpf4t2fgj2iz3hbevw3u33phqitfd2x7mk3ow6iqrjownbs@gab34yb6o2ee>
-References: <20251021201924.2881098-1-Frank.Li@nxp.com>
- <20251021201924.2881098-2-Frank.Li@nxp.com>
+	s=arc-20240116; t=1761202623; c=relaxed/simple;
+	bh=gSjnScR02V4S8DYfAOXlQG7AHQ0VZOuy0vgD6CF7/Wc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=PIgLb0xKEaVCvGnmRVNlgY/A1M/arxE7U0/vAt4GNJc1V7es0trwzUxZwGhdsRSlgbZYZra0KgYOg8+nO/v0qYpcX3HLszcHoFewSb/5lL8ldlFZt1Y55xXgkxIUf78DzWnFORhWaxDlYP5CzUHLy6L6wFSVwm3Pqko8Cwa53zw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev; spf=pass smtp.mailfrom=antheas.dev; dkim=temperror (0-bit key) header.d=antheas.dev header.i=@antheas.dev header.b=kx/A3zdd; arc=none smtp.client-ip=37.27.248.198
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=antheas.dev
+Received: from relay10 (localhost.localdomain [127.0.0.1])
+	by relay10.grserver.gr (Proxmox) with ESMTP id E83B93F941
+	for <linux-input@vger.kernel.org>; Thu, 23 Oct 2025 09:56:52 +0300 (EEST)
+Received: from linux3247.grserver.gr (linux3247.grserver.gr [213.158.90.240])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by relay10.grserver.gr (Proxmox) with ESMTPS id C5CAE3F91D
+	for <linux-input@vger.kernel.org>; Thu, 23 Oct 2025 09:56:51 +0300 (EEST)
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
+	by linux3247.grserver.gr (Postfix) with ESMTPSA id D103A201B89
+	for <linux-input@vger.kernel.org>; Thu, 23 Oct 2025 09:56:50 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
+	s=default; t=1761202611;
+	bh=778AAfPAeLmP3Ine3jLlCZ7+L5aBSPJLRaC3Bdozzpg=;
+	h=Received:From:Subject:To;
+	b=kx/A3zddMMEVmUkM3usO/71vvjTIfDJUWOEK9lz/uDlsSQUDW7ShO0Yz6TCNfkpp4
+	 tW4H6kyR5wj0wbwbvPi3zmnOV1kd37+1t+vWlPHHtVIQwqOJkuN8xU6DQn4VarF+BP
+	 i8bA6vjOO9etT5nyGywoeimvirZjMP2nXCI4OkK0lxIz1qJ5C4auCdHEILv7K4MRym
+	 6/Srd1G5+mOJtrY8gRv5wQXLCvcsLC3ZW3rBj0jYlrcGAUUBUhjGSMrFJRY7509NRm
+	 SGn6/TN9QK461GV7Dw9be+6s/wl9brClZJVlznT/8f5sXI/rgL9yDp+pFnDIc/7Lyh
+	 MhsoyGRSL6NRg==
+Authentication-Results: linux3247.grserver.gr;
+        spf=pass (sender IP is 209.85.208.180) smtp.mailfrom=lkml@antheas.dev smtp.helo=mail-lj1-f180.google.com
+Received-SPF: pass (linux3247.grserver.gr: connection is authenticated)
+Received: by mail-lj1-f180.google.com with SMTP id
+ 38308e7fff4ca-378d6fa5aebso3980641fa.2
+        for <linux-input@vger.kernel.org>;
+ Wed, 22 Oct 2025 23:56:50 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXPpTfKbEm/JUmty89aCscJa1fB3OKAZ/OtgmFTVUWMQC/JN+G8UyKdWecElAFkJD98yMeXajKvTyzJag==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzAhd6V/JH8yFAu0t5r2mzLNiySMw3BwA9QeRfhmUC/TX7jihET
+	Pl5FmLjP2qYVv9LW4I4b7+qB839UmsHohrU/Ysb6o24YEZZwIX12Kubz6dfCnJh5yZeLtPGeeaR
+	fcv4gI9XeaPpwUWNpM8mL1HRZ5K0HYzw=
+X-Google-Smtp-Source: 
+ AGHT+IFO/7PZLoDhDWs+FcqHXfC/yTXf9/+SGznP7sA2dRey8Da8zaXRQEhBHak9pTbVneTzKO0CtYnoUah1FtRNe3U=
+X-Received: by 2002:a05:651c:507:b0:372:9d94:8697 with SMTP id
+ 38308e7fff4ca-378d6f8729bmr3510971fa.44.1761202610101; Wed, 22 Oct 2025
+ 23:56:50 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251021201924.2881098-2-Frank.Li@nxp.com>
+References: <20251018101759.4089-6-lkml@antheas.dev>
+ <202510222013.EBLC609m-lkp@intel.com>
+In-Reply-To: <202510222013.EBLC609m-lkp@intel.com>
+From: Antheas Kapenekakis <lkml@antheas.dev>
+Date: Thu, 23 Oct 2025 08:56:37 +0200
+X-Gmail-Original-Message-ID: 
+ <CAGwozwGDBj2e83JBW71G_z6hMD5PsOXTQLqFVdPKZ6sU54tsGw@mail.gmail.com>
+X-Gm-Features: AS18NWDd23NLIOTVOY058aR91_4SrQH2cNUKcz3swTq1pi3O6MGGrLrEkyO9gzg
+Message-ID: 
+ <CAGwozwGDBj2e83JBW71G_z6hMD5PsOXTQLqFVdPKZ6sU54tsGw@mail.gmail.com>
+Subject: Re: [PATCH v7 5/9] platform/x86: asus-wmi: Add support for multiple
+ kbd led handlers
+To: kernel test robot <lkp@intel.com>
+Cc: platform-driver-x86@vger.kernel.org, linux-input@vger.kernel.org,
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>,
+	Corentin Chary <corentin.chary@gmail.com>,
+ "Luke D . Jones" <luke@ljones.dev>,
+	Hans de Goede <hdegoede@redhat.com>,
+ =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Denis Benato <benato.denis96@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-PPP-Message-ID: 
+ <176120261122.2781023.1860615135932509666@linux3247.grserver.gr>
+X-PPP-Vhost: antheas.dev
+X-Virus-Scanned: clamav-milter 1.4.3 at linux3247.grserver.gr
+X-Virus-Status: Clean
 
-On Tue, Oct 21, 2025 at 04:19:18PM -0400, Frank Li wrote:
-> Move azoteq,iqs5xx.yaml, himax,hx83112b.yaml, hynitron,cstxxx.yaml,
-> ilitek_ts_i2c.yaml, semtech,sx8654.yaml, ar1021.txt to trivial-touch.yaml
-> to consolidate simple touch yaml binding to one file.
-> 
-> Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
-> Signed-off-by: Frank Li <Frank.Li@nxp.com>
+On Wed, 22 Oct 2025 at 15:38, kernel test robot <lkp@intel.com> wrote:
+>
+> Hi Antheas,
+>
+> kernel test robot noticed the following build warnings:
+>
+> [auto build test WARNING on 3a8660878839faadb4f1a6dd72c3179c1df56787]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Antheas-Kapenekakis/HID-asus-simplify-RGB-init-sequence/20251018-182410
+> base:   3a8660878839faadb4f1a6dd72c3179c1df56787
+> patch link:    https://lore.kernel.org/r/20251018101759.4089-6-lkml%40antheas.dev
+> patch subject: [PATCH v7 5/9] platform/x86: asus-wmi: Add support for multiple kbd led handlers
+> config: i386-randconfig-141-20251020 (https://download.01.org/0day-ci/archive/20251022/202510222013.EBLC609m-lkp@intel.com/config)
+> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202510222013.EBLC609m-lkp@intel.com/
+>
+> New smatch warnings:
+> drivers/platform/x86/asus-wmi.c:1623 kbd_led_update_all() warn: always true condition '(value >= 0) => (0-u32max >= 0)'
+>
+> Old smatch warnings:
+> drivers/platform/x86/asus-wmi.c:2288 asus_new_rfkill() warn: '*rfkill' is an error pointer or valid
+>
+> vim +1623 drivers/platform/x86/asus-wmi.c
+>
+>   1589
+>   1590  static void kbd_led_update_all(struct work_struct *work)
+>   1591  {
+>   1592          enum led_brightness value;
+>   1593          struct asus_wmi *asus;
+>   1594          bool registered, notify;
+>   1595          int ret;
+                              /\ value should have been an int and
+placed here. It can take the value -1 hence the check
 
-Applied, thank you.
+Are there any other comments on the series?
 
--- 
-Dmitry
+The only issue I am aware of is that Denis identified a bug in asusd
+(asusctl userspace program daemon) in certain Asus G14/G16 laptops
+that cause laptop keys to become sticky, I have had users also report
+that bug in previous versions of the series. WIthout asusd running,
+keyboards work fine incl. with brightness control (did not work
+before). Given it will take two months for this to reach mainline, I
+think it is a fair amount of time to address the bug.
+
+Antheas
+
+>   1596
+>   1597          asus = container_of(work, struct asus_wmi, kbd_led_work);
+>   1598
+>   1599          scoped_guard(spinlock_irqsave, &asus_ref.lock) {
+>   1600                  registered = asus->kbd_led_registered;
+>   1601                  value = asus->kbd_led_wk;
+>   1602                  notify = asus->kbd_led_notify;
+>   1603          }
+>   1604
+>   1605          if (!registered) {
+>   1606                  /*
+>   1607                   * This workqueue runs under asus-wmi, which means probe has
+>   1608                   * completed and asus-wmi will keep running until it finishes.
+>   1609                   * Therefore, we can safely register the LED without holding
+>   1610                   * a spinlock.
+>   1611                   */
+>   1612                  ret = devm_led_classdev_register(&asus->platform_device->dev,
+>   1613                                              &asus->kbd_led);
+>   1614                  if (!ret) {
+>   1615                          scoped_guard(spinlock_irqsave, &asus_ref.lock)
+>   1616                                  asus->kbd_led_registered = true;
+>   1617                  } else {
+>   1618                          pr_warn("Failed to register keyboard backlight LED: %d\n", ret);
+>   1619                          return;
+>   1620                  }
+>   1621          }
+>   1622
+> > 1623          if (value >= 0)
+>   1624                  do_kbd_led_set(&asus->kbd_led, value);
+>   1625          if (notify) {
+>   1626                  scoped_guard(spinlock_irqsave, &asus_ref.lock)
+>   1627                          asus->kbd_led_notify = false;
+>   1628                  led_classdev_notify_brightness_hw_changed(&asus->kbd_led, value);
+>   1629          }
+>   1630  }
+>   1631
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
+>
+
 
