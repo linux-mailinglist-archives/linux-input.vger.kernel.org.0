@@ -1,104 +1,118 @@
-Return-Path: <linux-input+bounces-15692-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-15694-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48041C059A6
-	for <lists+linux-input@lfdr.de>; Fri, 24 Oct 2025 12:36:36 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id AD710C05A31
+	for <lists+linux-input@lfdr.de>; Fri, 24 Oct 2025 12:41:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0B9833A2F09
-	for <lists+linux-input@lfdr.de>; Fri, 24 Oct 2025 10:30:49 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id C631E565EA6
+	for <lists+linux-input@lfdr.de>; Fri, 24 Oct 2025 10:40:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 68C8E30FF28;
-	Fri, 24 Oct 2025 10:30:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 232B2311C27;
+	Fri, 24 Oct 2025 10:39:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="l/d2Y+U8"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q7yi6jXF"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D65A72C08C5;
-	Fri, 24 Oct 2025 10:30:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55FBF3101C0
+	for <linux-input@vger.kernel.org>; Fri, 24 Oct 2025 10:39:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761301843; cv=none; b=WqszXQ8Y1GDhUpTUg/4Blg8h60kIOww2lHd7bdc1E5ECjLi8LEM9hShjyATOBDbKwo7ObuBo6lNVlH1Pn3aHzwn3zx3999FjBRwTzxlOKoFCew6LNvvc7Y5CQrPHfPO6S83gYCcNTy9zDD3g3bN1XJDkiBR0yyOz3t4GtdNYIOY=
+	t=1761302387; cv=none; b=YvOmmLerr0fk/XDSc3ajFCEU+myJKQnWHDosPVLyMTRCn06Y2Y4zu1gNkxlYt159nXruUC5AQCbbH0ank+imxkv1AQccR/N7h7HaYQsLLjARvD2olX2eQEd4i08w6mXXLe+ySNJdytGe8FXcgFqaavdjYR5K14KgTanWFG4Onhk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761301843; c=relaxed/simple;
-	bh=xjBMkmI+qsDoGp9ZiRzBUp/jILZSgk47twlvE8podR4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=V3tLwzIjbKeEYPSi2uB1jC8xElcJElsFUQBW+bL3lag82L5dWdGogO0j2ND7PJNmpxax1BRahWTKnVW+FwatlmBO0j0TZaCR8rUzoFUPWoMS+UDuM5Akun5De4LI/orJEy7f4PX/+EC41MlB1w3ZYxwADrK6fwIjDdmBSK+BABM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=l/d2Y+U8; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E75CC4CEF1;
-	Fri, 24 Oct 2025 10:30:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761301842;
-	bh=xjBMkmI+qsDoGp9ZiRzBUp/jILZSgk47twlvE8podR4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=l/d2Y+U8bQs8VF+XsPwC/lo+bxBE0j4eWS6VDHNCD/dOyGEFM7pOVi7s1xB8wyT1F
-	 jv0kcNfIyneAU7DFc2XMuu8oHJ2C93dqlydWRrXYT3RCBqDbolkiQ18EsFfqCwzdIT
-	 F0FJ+u2jbBRNARJVywQ0ZMr1PM6LZQ50TTD9W4llmkHp0cxkQM8R7YTAZNZuhKj472
-	 K02nhKLn9f/Q1d19EUPlbhQT59235yFCKn8XDWmWaJOjbnUv34C0E0GbdT7yY2B8c1
-	 q4jVSAnw+7Qfl9JCs14YGXOOwUUitTY/lsolUgoznKOAtNMsr23PjYx6i1nIOnN4f/
-	 YsZZGbsmS20jw==
-Date: Fri, 24 Oct 2025 12:30:37 +0200
-From: Andi Shyti <andi.shyti@kernel.org>
-To: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Stephen Boyd <sboyd@kernel.org>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>, Vinod Koul <vkoul@kernel.org>, 
-	Moritz Fischer <mdf@kernel.org>, Xu Yilun <yilun.xu@intel.com>, 
-	Bartosz Golaszewski <brgl@bgdev.pl>, Guenter Roeck <linux@roeck-us.net>, 
-	Jonathan Cameron <jic23@kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
-	Georgi Djakov <djakov@kernel.org>, Thomas Gleixner <tglx@linutronix.de>, 
-	Joerg Roedel <joro@8bytes.org>, Jassi Brar <jassisinghbrar@gmail.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Lee Jones <lee@kernel.org>, 
-	Miquel Raynal <miquel.raynal@bootlin.com>, Richard Weinberger <richard@nod.at>, 
-	Vignesh Raghavendra <vigneshr@ti.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Johannes Berg <johannes@sipsolutions.net>, Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
-	Manivannan Sadhasivam <mani@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
-	Kishon Vijay Abraham I <kishon@kernel.org>, Sebastian Reichel <sre@kernel.org>, 
-	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, Mark Brown <broonie@kernel.org>, 
-	Mathieu Poirier <mathieu.poirier@linaro.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
-	Olivia Mackall <olivia@selenic.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
-	Daniel Lezcano <daniel.lezcano@linaro.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org, dmaengine@vger.kernel.org, 
-	linux-fpga@vger.kernel.org, linux-gpio@vger.kernel.org, linux-hwmon@vger.kernel.org, 
-	linux-i2c@vger.kernel.org, linux-iio@vger.kernel.org, linux-input@vger.kernel.org, 
-	linux-pm@vger.kernel.org, iommu@lists.linux.dev, linux-media@vger.kernel.org, 
-	linux-mtd@lists.infradead.org, netdev@vger.kernel.org, linux-wireless@vger.kernel.org, 
-	linux-pci@vger.kernel.org, linux-phy@lists.infradead.org, linux-pwm@vger.kernel.org, 
-	linux-remoteproc@vger.kernel.org, linux-crypto@vger.kernel.org, linux-sound@vger.kernel.org, 
-	linux-usb@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: Remove extra blank lines
-Message-ID: <fncqrwr6pi3ttxkf44hncy35ogxqdvql52hdcycq4yakbkeose@gv6lxr6a4uri>
-References: <20251023143957.2899600-1-robh@kernel.org>
+	s=arc-20240116; t=1761302387; c=relaxed/simple;
+	bh=uyiLO+LNkEVTknh5PCD2nlZig9mEvwEHQFhgoM6Efq8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=L3pBetb9fih5QV1Ykyk67tICvbd3SzAg+RrFNfOW3/LNMTlGcYXZbQA9UNkuSzREQc9NBdlHZ/E0hfSeP/ThWwuXMhA4uxExKWU5i0qCKm0WOtxJTUOnIbRrn+JvvJLe7aBjfyIGcI5hhVeKd4TfkEdek7VVDcyLgQBNbP4Xyuc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Q7yi6jXF; arc=none smtp.client-ip=209.85.215.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-b550a522a49so1506638a12.2
+        for <linux-input@vger.kernel.org>; Fri, 24 Oct 2025 03:39:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1761302384; x=1761907184; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=qLzt3nHwXvYmUXaWuT5xx9MwPLoAGs/1Oa1T6U/Qgwk=;
+        b=Q7yi6jXFphbw4ew7tGhMrHo76Zi5fbGktMvFTMQQEo0qO8HmPZhd+N39g3T60LuXwb
+         2oCS4WyJYsG6Sy4oNQfhSiSVRyxyfgiRbsoZ9blRRcYzuqzu+WhzPP6jlzVaNYU07hWa
+         n3G0veYa4vschtn220bjCkzfkAxAgAU/j7UeffUBltIm/TjYipDCQNkkFw73fQkCJugD
+         I1t0GqlzbXctB+uCvo/6scKrHtVSBvuc1LwjxWsMmO1/8mOzulg5SbJtIiNSRp5nvfen
+         pwy20839BsmgTow1VmUP75UpnWB/AVdYBq0r1+eG56FEgZifGW3UV8EiOg0cAO5akYbg
+         hYfw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761302384; x=1761907184;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=qLzt3nHwXvYmUXaWuT5xx9MwPLoAGs/1Oa1T6U/Qgwk=;
+        b=Di7uubwRoyXAS2rqHofh7+0MmuOdz6T6lXMBQI/qcAfQPCyc29NlZXT4ETEtiJobbC
+         N/YjH4uYnDkP+7EPNunRdhIrB/uuI9xIrS0kbj3LOb06h4m9YHiUwu8bMzfWmAmnCazG
+         5lfQ4+kQejPw2CwJ9Oq5SNy2FTyhza3852AodHZDy1mvhYEGAYV3pylXU4wV6urfhns+
+         OKhRw6af7l1kR68fBWVxSxHNNnAMf69gVagyj8Gz8jkTOw5hVYsQJtIUb6Bf6nA+ZNXR
+         a/KmQJARagMfIcNJvLlCsVOjbIfztT40eZwCdICYU5ghrXvPx72jXlvzMH7YmGoJPnv8
+         1UcQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUqBq23bdUfeWiB/8Znvb8LM8Wh/9LAnzXd2Xx1U5LugJwU+VtsOH3fQizxohKLOrYUQGxj7RM8Pmyzmg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyTNCeOl7fiXcR3pWhpRdUT+2xH/dWduL3NN5ROe3J+0h/T6A0/
+	tsdUBfbrv9wx+Dc5Qnae3d1b87tzOXQlITENdSOIAZnsJotGImMK8D40
+X-Gm-Gg: ASbGncs02gmQLGik6jV+CAHlOzDa28CtFJBCr3IMaKuW4CZcpOke/PIJqtgKhcO6euo
+	HeKLgs5lg+sbYF9rQw0zktpn/jZvWJXEzF+KUI/5dWL8mlXNWrqNP36GUBpS1DInE83U65K7DSF
+	SR9HluASvLXlVIEE55SQN9MXtPq+gEfRWXHSzCbGislkPkAAnjAvJCn27uQJHwPVKsiv8ticUsp
+	POy2FVUMSsIV4MXaoE+UZ1IvHLNUO8r/Lwt1ueNATQ+XbT+ULARa00l0m2nsSOxGhCPc8yIerIv
+	/Jiha3z+HRJZL28qNzkf8ZCrlbh1dauQrCikaDUlJjZEDhM1Lv9gMFmCQ1BAFguVLbAv6S4oagw
+	57yBT08Y9YcTLNwEPebVhRtiO9wqemCLMnwGprQ2SlfBFRREUJ6Z7R5PMVcCxwXQNOlQxpnh01E
+	BzkBD/jEAuW2E=
+X-Google-Smtp-Source: AGHT+IE7bXnfWQJON3TLaojyE2i4thoKnt7jmM3h/3l0Kl0M5gviToItxxqZWN4WOizVmxSBsRm+Gw==
+X-Received: by 2002:a17:903:2b06:b0:25c:b543:2da7 with SMTP id d9443c01a7336-290c9c93a96mr323148085ad.9.1761302384388;
+        Fri, 24 Oct 2025 03:39:44 -0700 (PDT)
+Received: from archie.me ([210.87.74.117])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2946de0fdc1sm51738365ad.48.2025.10.24.03.39.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 Oct 2025 03:39:43 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id 737A64206924; Fri, 24 Oct 2025 17:39:36 +0700 (WIB)
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	Linux Input Devices <linux-input@vger.kernel.org>
+Cc: Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Masaki Ota <masaki.ota@jp.alps.com>,
+	George Anthony Vernon <contact@gvernon.com>,
+	Bagas Sanjaya <bagasdotme@gmail.com>
+Subject: [PATCH 0/2] hid-alps docs heading cleanup
+Date: Fri, 24 Oct 2025 17:39:32 +0700
+Message-ID: <20251024103934.20019-1-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.51.1.dirty
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251023143957.2899600-1-robh@kernel.org>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=457; i=bagasdotme@gmail.com; h=from:subject; bh=uyiLO+LNkEVTknh5PCD2nlZig9mEvwEHQFhgoM6Efq8=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDBm/ww7t3HvO+itrZPcHkfXXX7POv5J7Ivt/t3dNXtw95 cbLikZCHaUsDGJcDLJiiiyTEvmaTu8yErnQvtYRZg4rE8gQBi5OAZjIh2xGhgmngiZOvbv778Mf qt+c6xktz/Pc7ijtvij5rZxfJeSmLAcjw3xj+Vsf/t/RK96vft34pM2JBH3ug1OZyy742Blr3mf TZAAA
+X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
+Content-Transfer-Encoding: 8bit
 
-Hi Rob,
+Hi,
 
-On Thu, Oct 23, 2025 at 09:37:56AM -0500, Rob Herring (Arm) wrote:
-> Generally at most 1 blank line is the standard style for DT schema
-> files. Remove the few cases with more than 1 so that the yamllint check
-> for this can be enabled.
-> 
-> Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
+Here are two section headings cleanup patches for Alps HID documentation.
+Enjoy!
 
-Acked-by: Andi Shyti <andi.shyti@kernel.org>
+Bagas Sanjaya (2):
+  Documentation: hid-alps: Fix packet format section headings
+  Documentation: hid-alps: Format DataByte* subsection headings
 
-Thanks,
-Andi
+ Documentation/hid/hid-alps.rst | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
+
+
+base-commit: 828aeac92901c1f31b51ae0b9d792b9af5bd3e27
+-- 
+An old man doll... just what I always wanted! - Clara
+
 
