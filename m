@@ -1,245 +1,320 @@
-Return-Path: <linux-input+bounces-15703-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-15704-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8791C07321
-	for <lists+linux-input@lfdr.de>; Fri, 24 Oct 2025 18:09:19 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id A647AC07484
+	for <lists+linux-input@lfdr.de>; Fri, 24 Oct 2025 18:24:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8D1083AC4B5
-	for <lists+linux-input@lfdr.de>; Fri, 24 Oct 2025 16:08:55 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 5D5034F5AC4
+	for <lists+linux-input@lfdr.de>; Fri, 24 Oct 2025 16:20:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 448DE334397;
-	Fri, 24 Oct 2025 16:08:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 38B2B1E9B37;
+	Fri, 24 Oct 2025 16:20:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Bum+Sa70"
+	dkim=temperror (0-bit key) header.d=antheas.dev header.i=@antheas.dev header.b="Mds1g+dd"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay10.grserver.gr (relay10.grserver.gr [37.27.248.198])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0E86202F71;
-	Fri, 24 Oct 2025 16:08:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08A27271A9D
+	for <linux-input@vger.kernel.org>; Fri, 24 Oct 2025 16:20:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=37.27.248.198
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761322130; cv=none; b=GPbo437U8SZzSddePYquvffGZGteugIAI58dFpsFo9LcJ/emTs8MEt7T4U9AAhe45IdXp9pglKCfdgMK7gXQka8u6JEyxJOaMdXzf7WOLlbhCp0GYoZEJYPWXTheW1tNXxQ4RB7mYI1o8qkNb1p9xYldCDvRnMnN5onwKO3+2yI=
+	t=1761322833; cv=none; b=DKQbTjnrjbafDypqIMdEeb/DSyDozB+es0iHo1TA8wVHBt8+t14kidld6cq4FZz7+r2FtS1GksqhEWXB8G4DON7XgBSNlA2uvHoooVMzE1bWqVhTirSS9t3wAbNV2Z3emHo2LJG6xxbPBG6KtwzeYlOS9IjcvCSxjHIiQTLv7+I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761322130; c=relaxed/simple;
-	bh=RFdw0+g6o/ZVSkbk/hwDX8wPQGif0Krg/jbYleduRas=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=M+X8hQqyLscNlawcaqzLxsbIvLA37wcTBJheEz8S/W4L6Ou3JX9XxHolC1F7x5CqqYp4JIwgQ6myPDA9TSu2ZEQHc7fQ54v4h66bF4bJW7I+aEajrkKcNmu0fAuv2a/yW/6pMmuyauawR25T9pIF1MJFpGsJgy2Off8kZfdbovQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Bum+Sa70; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E711C4CEF7;
-	Fri, 24 Oct 2025 16:08:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761322129;
-	bh=RFdw0+g6o/ZVSkbk/hwDX8wPQGif0Krg/jbYleduRas=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Bum+Sa70whSA6rVYrWsUq1W2SBcB00ABYF6MmaIX4jt6NOXRn/VO3LPrKPlp7tEQn
-	 LVUQs76cq1kcY5lcEgs19PwSpo8oMyYiTW9xOrqCaaIDEzkJqDB1PqdnTBb5Ys/EWM
-	 6XbYRBQVNVE8LiT5V16yg8m5t0XgBNBHOMepDM45CWpDyC1mSQWpBw6xP95b0axo8K
-	 NA2cP7b8OvsKFfe5pUP4/dgDUVuWlpDpwJQlSEI9Y1omjCjAndFoO7zt9q4pnUf7Vb
-	 YBP70aa0aEBdRs0SJ/0M137EcX6L4g5ukiFt2B+Bis0rPOx3aCxiC3p0zFoJ1dW+Dq
-	 Acucw6uwnLosQ==
-Date: Fri, 24 Oct 2025 17:08:33 +0100
-From: Lee Jones <lee@kernel.org>
-To: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Andrzej Hajda <andrzej.hajda@intel.com>,
-	Robert Foss <rfoss@kernel.org>, Vinod Koul <vkoul@kernel.org>,
-	Moritz Fischer <mdf@kernel.org>, Xu Yilun <yilun.xu@intel.com>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Andi Shyti <andi.shyti@kernel.org>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Georgi Djakov <djakov@kernel.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Joerg Roedel <joro@8bytes.org>,
-	Jassi Brar <jassisinghbrar@gmail.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Richard Weinberger <richard@nod.at>,
-	Vignesh Raghavendra <vigneshr@ti.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Sebastian Reichel <sre@kernel.org>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
-	Mark Brown <broonie@kernel.org>,
-	Mathieu Poirier <mathieu.poirier@linaro.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Olivia Mackall <olivia@selenic.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linux-fbdev@vger.kernel.org, dmaengine@vger.kernel.org,
-	linux-fpga@vger.kernel.org, linux-gpio@vger.kernel.org,
-	linux-hwmon@vger.kernel.org, linux-i2c@vger.kernel.org,
-	linux-iio@vger.kernel.org, linux-input@vger.kernel.org,
-	linux-pm@vger.kernel.org, iommu@lists.linux.dev,
-	linux-media@vger.kernel.org, linux-mtd@lists.infradead.org,
-	netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
-	linux-pci@vger.kernel.org, linux-phy@lists.infradead.org,
-	linux-pwm@vger.kernel.org, linux-remoteproc@vger.kernel.org,
-	linux-crypto@vger.kernel.org, linux-sound@vger.kernel.org,
-	linux-usb@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: Remove extra blank lines
-Message-ID: <20251024160833.GA2202059@google.com>
-References: <20251023143957.2899600-1-robh@kernel.org>
+	s=arc-20240116; t=1761322833; c=relaxed/simple;
+	bh=Uz61FD/DKMX/OkatTg2k7SbA1EKWO/0kfbVwwjsgNBo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=QDZQ7b9Y7AhGPVOm6E1y2D9PyylYLZOgVMhYOANUfm/RCwgWiThP9P88Na1cRt6pDVXwcip+teXslcKv1Pw45Bf3RL4nDi98dNdgGuf2aNqHixA+SPhSpO8/xfP3QAT+TNV5ySegXFCNU+jV3AYTHqFuIYsEmqjuDs3iBDGvvk8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev; spf=pass smtp.mailfrom=antheas.dev; dkim=temperror (0-bit key) header.d=antheas.dev header.i=@antheas.dev header.b=Mds1g+dd; arc=none smtp.client-ip=37.27.248.198
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=antheas.dev
+Received: from relay10 (localhost.localdomain [127.0.0.1])
+	by relay10.grserver.gr (Proxmox) with ESMTP id 53FB246389
+	for <linux-input@vger.kernel.org>; Fri, 24 Oct 2025 19:20:28 +0300 (EEST)
+Received: from linux3247.grserver.gr (linux3247.grserver.gr [213.158.90.240])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by relay10.grserver.gr (Proxmox) with ESMTPS id 6CB4846384
+	for <linux-input@vger.kernel.org>; Fri, 24 Oct 2025 19:20:27 +0300 (EEST)
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
+	by linux3247.grserver.gr (Postfix) with ESMTPSA id B45631FF72E
+	for <linux-input@vger.kernel.org>; Fri, 24 Oct 2025 19:20:26 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
+	s=default; t=1761322827;
+	bh=zXBoRPa7llDLOBOBmhwdAtXRgCm90e/W0j9vQSGI+10=;
+	h=Received:From:Subject:To;
+	b=Mds1g+ddgug6zcudaUWq4siunvg2jlOLpZ6p37OoXW+10DauhUqICcL5gDQS+r7/Q
+	 K3qB8yaB421MJJpLnTdcGN1ofwoxHdgtDeNggQ6MPkhOY2Qwa77h0iRUSImfrzwSSl
+	 b6tDJ5xbAMKeCAXcI9TAngOoSm7xMEvag0Jr1zLox163NQU9vyDezvCxKr81WmoKlO
+	 UAsHu8CNeH9cJ+JANNKN+SjAZVkRnR+c00Qfgnu67mM0K8c/yuQGLCWpI+0f2oZ01D
+	 Mj8AmcSEDMeTH3D5F23lvphfA+wh8wTZHMEtjTlA8Oy+jDiISIgaJIrP9iEp2wNbj/
+	 mRnIM6lGNm9cw==
+Authentication-Results: linux3247.grserver.gr;
+        spf=pass (sender IP is 209.85.208.172) smtp.mailfrom=lkml@antheas.dev smtp.helo=mail-lj1-f172.google.com
+Received-SPF: pass (linux3247.grserver.gr: connection is authenticated)
+Received: by mail-lj1-f172.google.com with SMTP id
+ 38308e7fff4ca-36d77de259bso15269001fa.3
+        for <linux-input@vger.kernel.org>;
+ Fri, 24 Oct 2025 09:20:26 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUWa/mELXc6LYLqD8TzVOtIOPNhjUyO9nEJSl81q+5rp8hZvpRPIBrLsEVlnAu/kY3BnLeNu3BXMBnOhQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxwgdVcLF6OgOrRwjKmwPllePusJUQpj+J1EH2pp0TlIdgZCfEh
+	exBGYgx9hBYB78bNd8zEsLkr+ADWMM+2eLEoRiekuDszf8tb6p91BPrpnqpOvNodX0PCUUhLYVq
+	1pW4lGSa5+TsCjjduKO+2koJonhgX1fw=
+X-Google-Smtp-Source: 
+ AGHT+IEQzAWb4Yb3tHKwSmhSGDhJwsNtHZb5B8TJ1yCHCfA7ki1ikULJDDSb8mLZL+TbWRz6Uc+bg57LbSfPnVJhEXg=
+X-Received: by 2002:a2e:a984:0:b0:378:e30b:d1e1 with SMTP id
+ 38308e7fff4ca-378e30beee3mr11329641fa.40.1761322825940; Fri, 24 Oct 2025
+ 09:20:25 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251023143957.2899600-1-robh@kernel.org>
+References: <20251018101759.4089-1-lkml@antheas.dev>
+ <20251018101759.4089-2-lkml@antheas.dev>
+ <e6328da3-8099-4540-9cb0-4fc28b359ee7@gmail.com>
+ <CAGwozwG+gf09PQf9o9YkKFYVgVn-1w5CDVrpOe4uFavVYCNijQ@mail.gmail.com>
+ <3947f772-691b-46a2-af68-15825e7f4939@gmail.com>
+ <CAGwozwFbQWyuQB6EwLMLon5muff2WudR+oVL62DqP_MXGW+p-Q@mail.gmail.com>
+ <b91de7c7-74b8-4cf5-82a4-f3d4eaf418d4@gmail.com>
+ <CAGwozwGj-yXHXBan38_NV7G5T66bnjm7om2bz_Bha35AHhtCJQ@mail.gmail.com>
+In-Reply-To: 
+ <CAGwozwGj-yXHXBan38_NV7G5T66bnjm7om2bz_Bha35AHhtCJQ@mail.gmail.com>
+From: Antheas Kapenekakis <lkml@antheas.dev>
+Date: Fri, 24 Oct 2025 18:20:13 +0200
+X-Gmail-Original-Message-ID: 
+ <CAGwozwEh32XMcGJPKMRBWd63ybYOxW1Wx4QjU-QErjQgLHwX2g@mail.gmail.com>
+X-Gm-Features: AWmQ_bm7gzn18HWBJWKWicaU2Mf9cOLIcXHnKxvTqgAOu5hFzzHrG57eskCdmpQ
+Message-ID: 
+ <CAGwozwEh32XMcGJPKMRBWd63ybYOxW1Wx4QjU-QErjQgLHwX2g@mail.gmail.com>
+Subject: Re: [PATCH v7 1/9] HID: asus: simplify RGB init sequence
+To: Denis Benato <benato.denis96@gmail.com>
+Cc: platform-driver-x86@vger.kernel.org, linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+ Corentin Chary <corentin.chary@gmail.com>,
+	"Luke D . Jones" <luke@ljones.dev>, Hans de Goede <hdegoede@redhat.com>,
+	=?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+X-PPP-Message-ID: 
+ <176132282701.2564868.17820695313241744322@linux3247.grserver.gr>
+X-PPP-Vhost: antheas.dev
+X-Virus-Scanned: clamav-milter 1.4.3 at linux3247.grserver.gr
+X-Virus-Status: Clean
 
-On Thu, 23 Oct 2025, Rob Herring (Arm) wrote:
+On Fri, 24 Oct 2025 at 01:25, Antheas Kapenekakis <lkml@antheas.dev> wrote:
+>
+> On Fri, 24 Oct 2025 at 00:53, Denis Benato <benato.denis96@gmail.com> wrote:
+> >
+> >
+> > On 10/23/25 23:30, Antheas Kapenekakis wrote:
+> > > On Thu, 23 Oct 2025 at 22:05, Denis Benato <benato.denis96@gmail.com> wrote:
+> > >>
+> > >> On 10/23/25 20:06, Antheas Kapenekakis wrote:
+> > >>> On Thu, 23 Oct 2025 at 19:38, Denis Benato <benato.denis96@gmail.com> wrote:
+> > >>>> On 10/18/25 12:17, Antheas Kapenekakis wrote:
+> > >>>>> Currently, RGB initialization forks depending on whether a device is
+> > >>>>> NKEY. Then, NKEY devices are initialized using 0x5a, 0x5d, 0x5e
+> > >>>>> endpoints, and non-NKEY devices with 0x5a and then a
+> > >>>>> backlight check, which is omitted for NKEY devices.
+> > >>>>>
+> > >>>>> Remove the fork, using a common initialization sequence for both,
+> > >>>>> where they are both only initialized with 0x5a, then checked for
+> > >>>>> backlight support. This patch should not affect existing functionality.
+> > >>>>>
+> > >>>>> 0x5d and 0x5e endpoint initializations are performed by Windows
+> > >>>>> userspace programs associated with different usages that reside under
+> > >>>>> the vendor HID. Specifically, 0x5d is used by Armoury Crate, which
+> > >>>>> controls RGB and 0x5e by an animation program for certain Asus laptops.
+> > >>>>> Neither is used currently in the driver.
+> > >>>> What benefits do we get from removing the unused initialization?
+> > >>>>
+> > >>>> If this has never caused any troubles I don't see the reason for removing
+> > >>>> them. Moreover the lighting protocol is known and I might as well add
+> > >>>> support for it in the near future,
+> > >>> I already have a patch that adds RGB and delay inits that endpoint. It
+> > >>> got removed to make this easier to merge. See [1].
+> > >>>
+> > >>> [1] https://lore.kernel.org/lkml/20250324210151.6042-10-lkml@antheas.dev/
+> > >> I have to main concerns about this:
+> > >>
+> > >> 1. taking away initialization commands in one patchset to make it
+> > >> easier to merge another unrelated patch doesn't seem the right thing
+> > >> to do if the other patch it's not in the same series.
+> > >>
+> > >> I can see [1] has been removed from the set for a later moment in time,
+> > >> it's fine if it needs more work, just send something that function in the
+> > >> same way and do not remove initialization commands when unnecessary,
+> > >> especially since there will be for sure future development.
+> > > The initialization was removed as part of general cleanup. Not to make
+> > > it easier to merge the RGB patch. In addition, the RGB patch only runs
+> > > the init in a lazy fashion, so if nobody uses the RGB sysfs the init
+> > > does not run and the behavior is the same.
+> > There are a few problems here:
+> > 1. sope creep: either do a cleanup or solve bugs. The fact that your flow z13
+> > doesn't load hid-asus correctly has nothing to do with the initialization of anime.
+> > The fact that hid-asus is driving leds instead of asus-wmi has nothing to do with
+> > anime matrix initialization either.
+> > 2. not sending the initialization can get hardware misbehave because it
+> > is left in an uninitialized state.
+> > 3. there are absolutely zero reasons to do that. There are even less reasons
+> > as to do it as part of this patchset.
+> >
+> > >> 2. Your patchset resolves around keyboard backlight control and how
+> > >> the keyboard device is exposed to userspace: it's fine but I do not see
+> > >> the point in removing initialization commands that has nothing to do
+> > >> with the issue we are trying to solve here.
+> > >>
+> > >> Please leave 0x5E and 0x5D initialization commands where they are now.
+> > > I mean the second part of the patchset does that. The first part is a
+> > > cleanup. What would be the reason for keeping 0x5E and 0x5D? They are
+> > > only used when initializing those endpoints to write further commands
+> > > to them and for identification. The current driver does not write
+> > > commands to those endpoints and identifies itself over 0x5A.
+> > There are no bugs opened that ties initialization of devices to bugs.
+> > Quite the opposite: I can guarantee you that removing part of the
+> > init will introduce regressions.
+> >
+> > The onus is on you to provide strong evidence that the removal is
+> > a necessary act.
+> >
+> > Regardless it is not in the scope of this patchset: remove it.
+> > > I do get that it is a bit risky as some laptops might be hardcoded to
+> > > wait for 0x5D to turn on RGB. Which is why we had the last patch until
+> > > V4. But we have yet to find a laptop that has this problem, so I find
+> > > it difficult to justify keeping the init.
+> > Yes it's risky to remove initialization sequences for a device that is
+> > in every modern ASUS laptop and is tied to the EC.
+> > > Do note that you might need to add the 0x5D init to your userspace
+> > > program for certain laptops if you haven't already. But that is ok,
+> > > since in doing so you are also validating you are speaking to an Asus
+> > > device, which is important.
+> > This doesn't make much sense: why would anyone remove
+> > a command from the kernel, that can be very well essential to some models
+> > (sleep can break, for example) just to add it back in a userspace program?
+> >
+> > What does it mean I have to validate I am speaking to an asus device?
+> > Software selects devices by known attribute, one of them is the vid:pid....
+> > Beside what does this have to do with the removal of initialization commands
+> > from the kernel?
+> >
+> > Even late initializing devices can lead to problems. Windows doesn't do that:
+> > as soon as asus drivers are loaded all relevant initialization sequences are
+> > sent; Windows is the only officially supported OS: do not introduce commands
+> > flow divergence without strong reasons backing it up.
+>
+> If you think keeping 0x5D init is that important, I can spin patch [1]
+> into this series. But then this quirk will stay in the kernel forever.
+> I can even add 0x5E since that does not affect newer devices, which I
+> care for simplifying the sequence.
+>
+> Luke said these two pairs are the important ones to keep.
+>
+> I'm not sure what to do.
 
-> Generally at most 1 blank line is the standard style for DT schema
-> files. Remove the few cases with more than 1 so that the yamllint check
-> for this can be enabled.
-> 
-> Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
-> ---
->  Documentation/devicetree/bindings/.yamllint                  | 2 +-
->  Documentation/devicetree/bindings/arm/psci.yaml              | 1 -
->  .../bindings/clock/allwinner,sun4i-a10-gates-clk.yaml        | 1 -
->  .../devicetree/bindings/clock/renesas,cpg-mssr.yaml          | 1 -
->  .../devicetree/bindings/clock/xlnx,clocking-wizard.yaml      | 1 -
->  .../display/allwinner,sun4i-a10-display-frontend.yaml        | 1 -
->  .../devicetree/bindings/display/allwinner,sun6i-a31-drc.yaml | 1 -
->  .../bindings/display/allwinner,sun8i-a83t-dw-hdmi.yaml       | 1 -
->  .../devicetree/bindings/display/amlogic,meson-vpu.yaml       | 1 -
->  .../devicetree/bindings/display/bridge/adi,adv7511.yaml      | 1 -
->  .../devicetree/bindings/display/bridge/lvds-codec.yaml       | 1 -
->  .../devicetree/bindings/display/bridge/toshiba,tc358767.yaml | 1 -
->  .../devicetree/bindings/display/ilitek,ili9486.yaml          | 1 -
->  Documentation/devicetree/bindings/display/msm/gpu.yaml       | 1 -
->  .../devicetree/bindings/display/panel/panel-timing.yaml      | 1 -
->  .../devicetree/bindings/display/panel/tpo,tpg110.yaml        | 1 -
->  .../devicetree/bindings/display/rockchip/rockchip,dw-dp.yaml | 1 -
->  .../devicetree/bindings/display/simple-framebuffer.yaml      | 1 -
->  .../devicetree/bindings/dma/snps,dma-spear1340.yaml          | 1 -
->  Documentation/devicetree/bindings/dma/stericsson,dma40.yaml  | 1 -
->  .../devicetree/bindings/dma/stm32/st,stm32-dma.yaml          | 1 -
->  Documentation/devicetree/bindings/edac/apm,xgene-edac.yaml   | 1 -
->  .../devicetree/bindings/firmware/qemu,fw-cfg-mmio.yaml       | 1 -
->  Documentation/devicetree/bindings/fpga/fpga-region.yaml      | 5 -----
->  .../devicetree/bindings/gpio/brcm,xgs-iproc-gpio.yaml        | 1 -
->  .../devicetree/bindings/gpio/fairchild,74hc595.yaml          | 1 -
->  Documentation/devicetree/bindings/hwmon/adi,ltc2947.yaml     | 1 -
->  Documentation/devicetree/bindings/hwmon/adi,max31827.yaml    | 1 -
->  Documentation/devicetree/bindings/hwmon/national,lm90.yaml   | 1 -
->  Documentation/devicetree/bindings/hwmon/ti,tmp513.yaml       | 1 -
->  Documentation/devicetree/bindings/hwmon/ti,tps23861.yaml     | 1 -
->  Documentation/devicetree/bindings/i2c/i2c-mux-gpmux.yaml     | 1 -
->  .../devicetree/bindings/i2c/realtek,rtl9301-i2c.yaml         | 1 -
->  Documentation/devicetree/bindings/i2c/tsd,mule-i2c-mux.yaml  | 2 --
->  Documentation/devicetree/bindings/iio/adc/adi,ad7380.yaml    | 1 -
->  Documentation/devicetree/bindings/iio/adc/adi,ad7606.yaml    | 1 -
->  Documentation/devicetree/bindings/iio/adc/adi,ad7949.yaml    | 1 -
->  Documentation/devicetree/bindings/iio/adc/adi,ade9000.yaml   | 1 -
->  .../devicetree/bindings/iio/adc/cosmic,10001-adc.yaml        | 1 -
->  Documentation/devicetree/bindings/iio/adc/st,stm32-adc.yaml  | 1 -
->  .../devicetree/bindings/iio/adc/x-powers,axp209-adc.yaml     | 1 -
->  .../devicetree/bindings/iio/afe/voltage-divider.yaml         | 1 -
->  .../devicetree/bindings/iio/frequency/adi,admv4420.yaml      | 1 -
->  .../devicetree/bindings/iio/pressure/murata,zpa2326.yaml     | 1 -
->  .../devicetree/bindings/iio/proximity/semtech,sx9324.yaml    | 1 -
->  .../devicetree/bindings/iio/temperature/adi,ltc2983.yaml     | 1 -
->  Documentation/devicetree/bindings/input/ti,drv266x.yaml      | 1 -
->  .../devicetree/bindings/interconnect/qcom,rpmh.yaml          | 1 -
->  .../devicetree/bindings/interrupt-controller/arm,gic-v3.yaml | 1 -
->  .../bindings/interrupt-controller/aspeed,ast2700-intc.yaml   | 1 -
->  .../bindings/interrupt-controller/fsl,vf610-mscm-ir.yaml     | 1 -
->  .../bindings/interrupt-controller/loongson,liointc.yaml      | 1 -
->  .../bindings/interrupt-controller/mediatek,mtk-cirq.yaml     | 1 -
->  .../bindings/interrupt-controller/mscc,ocelot-icpu-intr.yaml | 1 -
->  Documentation/devicetree/bindings/iommu/arm,smmu.yaml        | 4 ----
->  Documentation/devicetree/bindings/mailbox/arm,mhu.yaml       | 1 -
->  Documentation/devicetree/bindings/mailbox/arm,mhuv2.yaml     | 1 -
->  Documentation/devicetree/bindings/mailbox/mtk,adsp-mbox.yaml | 1 -
->  Documentation/devicetree/bindings/media/amphion,vpu.yaml     | 1 -
->  Documentation/devicetree/bindings/media/i2c/adi,adv7604.yaml | 2 --
->  .../devicetree/bindings/media/i2c/techwell,tw9900.yaml       | 1 -
->  Documentation/devicetree/bindings/media/nxp,imx8-jpeg.yaml   | 1 -
->  .../devicetree/bindings/media/qcom,sc8280xp-camss.yaml       | 1 -
->  .../bindings/media/samsung,exynos4212-fimc-is.yaml           | 1 -
->  .../devicetree/bindings/media/samsung,s5pv210-jpeg.yaml      | 1 -
->  Documentation/devicetree/bindings/media/st,stm32-dma2d.yaml  | 1 -
->  .../devicetree/bindings/media/video-interface-devices.yaml   | 4 ----
->  .../memory-controllers/qcom,ebi2-peripheral-props.yaml       | 1 -
+I was asked by a 2025 Asus Zenbook Duo user to add his IDs in [1]. In
+doing so, I updated the rgb and legacy init patches for the new series
+and added a quirk for early init of the duo keyboards.
 
->  Documentation/devicetree/bindings/mfd/stericsson,ab8500.yaml | 1 -
+The series is 14 patches long, I don't think my email can take it :(
 
-Acked-by: Lee Jones <lee@kernel.org>
+Should we merge the first part of this series with the legacy init,
+then do the backlight refactor, and finally the new Duo stuff + rgb?
 
->  .../devicetree/bindings/mtd/amlogic,meson-nand.yaml          | 1 -
->  .../devicetree/bindings/mtd/marvell,nand-controller.yaml     | 1 -
->  Documentation/devicetree/bindings/mux/mux-controller.yaml    | 1 -
->  .../devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml   | 2 --
->  Documentation/devicetree/bindings/net/brcm,bcmgenet.yaml     | 1 -
->  .../devicetree/bindings/net/brcm,mdio-mux-iproc.yaml         | 1 -
->  .../devicetree/bindings/net/cortina,gemini-ethernet.yaml     | 1 -
->  Documentation/devicetree/bindings/net/fsl,gianfar.yaml       | 2 --
->  .../devicetree/bindings/net/mdio-mux-multiplexer.yaml        | 1 -
->  Documentation/devicetree/bindings/net/qcom,ipa.yaml          | 1 -
->  Documentation/devicetree/bindings/net/ti,cpsw-switch.yaml    | 1 -
->  .../devicetree/bindings/net/wireless/ti,wlcore.yaml          | 1 -
->  .../devicetree/bindings/pci/altr,pcie-root-port.yaml         | 1 -
->  Documentation/devicetree/bindings/pci/loongson.yaml          | 1 -
->  Documentation/devicetree/bindings/pci/rockchip-dw-pcie.yaml  | 1 -
->  .../devicetree/bindings/pci/starfive,jh7110-pcie.yaml        | 1 -
->  Documentation/devicetree/bindings/pci/versatile.yaml         | 1 -
->  .../bindings/phy/qcom,sc8280xp-qmp-usb3-uni-phy.yaml         | 1 -
->  .../devicetree/bindings/pinctrl/brcm,bcm21664-pinctrl.yaml   | 1 -
->  .../devicetree/bindings/pinctrl/fsl,imx9-pinctrl.yaml        | 1 -
->  .../devicetree/bindings/pinctrl/qcom,qcs404-pinctrl.yaml     | 1 -
->  .../bindings/pinctrl/qcom,sm6115-lpass-lpi-pinctrl.yaml      | 1 -
->  .../devicetree/bindings/pinctrl/qcom,sm6125-tlmm.yaml        | 1 -
->  .../devicetree/bindings/pinctrl/renesas,rza1-ports.yaml      | 3 ---
->  .../devicetree/bindings/pinctrl/starfive,jh7100-pinctrl.yaml | 1 -
->  .../devicetree/bindings/power/supply/mt6360_charger.yaml     | 1 -
->  .../bindings/power/supply/stericsson,ab8500-charger.yaml     | 1 -
->  .../devicetree/bindings/pwm/allwinner,sun4i-a10-pwm.yaml     | 1 -
->  .../bindings/regulator/richtek,rt6245-regulator.yaml         | 1 -
->  .../devicetree/bindings/remoteproc/ti,k3-r5f-rproc.yaml      | 2 --
->  Documentation/devicetree/bindings/reset/ti,sci-reset.yaml    | 1 -
->  .../bindings/rng/inside-secure,safexcel-eip76.yaml           | 2 --
->  .../devicetree/bindings/soc/fsl/cpm_qe/fsl,qe-muram.yaml     | 1 -
->  .../devicetree/bindings/soc/mediatek/mediatek,mutex.yaml     | 1 -
->  .../bindings/soc/microchip/atmel,at91rm9200-tcb.yaml         | 1 -
->  Documentation/devicetree/bindings/soc/rockchip/grf.yaml      | 1 -
->  Documentation/devicetree/bindings/soc/ti/ti,pruss.yaml       | 3 ---
->  Documentation/devicetree/bindings/sound/adi,adau1372.yaml    | 1 -
->  Documentation/devicetree/bindings/sound/adi,adau7118.yaml    | 1 -
->  .../devicetree/bindings/sound/rockchip,i2s-tdm.yaml          | 1 -
->  .../devicetree/bindings/sound/rockchip,rk3328-codec.yaml     | 2 +-
->  Documentation/devicetree/bindings/sound/samsung,tm2.yaml     | 1 -
->  .../devicetree/bindings/sound/ti,tlv320dac3100.yaml          | 1 -
->  Documentation/devicetree/bindings/sound/wlf,wm8903.yaml      | 1 -
->  .../devicetree/bindings/timer/nvidia,tegra-timer.yaml        | 1 -
->  .../devicetree/bindings/timer/nvidia,tegra186-timer.yaml     | 1 -
->  Documentation/devicetree/bindings/usb/qcom,pmic-typec.yaml   | 1 -
->  116 files changed, 2 insertions(+), 136 deletions(-)
+Antheas
 
--- 
-Lee Jones [李琼斯]
+> Antheas
+>
+> [1] https://lore.kernel.org/all/20250325184601.10990-12-lkml@antheas.dev/
+>
+> > > Antheas
+> > >
+> > Denis
+> > >>>>> Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
+> > >>>>> ---
+> > >>>>>  drivers/hid/hid-asus.c | 56 ++++++++++++++----------------------------
+> > >>>>>  1 file changed, 19 insertions(+), 37 deletions(-)
+> > >>>>>
+> > >>>>> diff --git a/drivers/hid/hid-asus.c b/drivers/hid/hid-asus.c
+> > >>>>> index a444d41e53b6..7ea1037c3979 100644
+> > >>>>> --- a/drivers/hid/hid-asus.c
+> > >>>>> +++ b/drivers/hid/hid-asus.c
+> > >>>>> @@ -638,50 +638,32 @@ static int asus_kbd_register_leds(struct hid_device *hdev)
+> > >>>>>       unsigned char kbd_func;
+> > >>>>>       int ret;
+> > >>>>>
+> > >>>>> -     if (drvdata->quirks & QUIRK_ROG_NKEY_KEYBOARD) {
+> > >>>>> -             /* Initialize keyboard */
+> > >>>>> -             ret = asus_kbd_init(hdev, FEATURE_KBD_REPORT_ID);
+> > >>>>> -             if (ret < 0)
+> > >>>>> -                     return ret;
+> > >>>>> -
+> > >>>>> -             /* The LED endpoint is initialised in two HID */
+> > >>>>> -             ret = asus_kbd_init(hdev, FEATURE_KBD_LED_REPORT_ID1);
+> > >>>>> -             if (ret < 0)
+> > >>>>> -                     return ret;
+> > >>>>> -
+> > >>>>> -             ret = asus_kbd_init(hdev, FEATURE_KBD_LED_REPORT_ID2);
+> > >>>>> -             if (ret < 0)
+> > >>>>> -                     return ret;
+> > >>>>> -
+> > >>>>> -             if (dmi_match(DMI_PRODUCT_FAMILY, "ProArt P16")) {
+> > >>>>> -                     ret = asus_kbd_disable_oobe(hdev);
+> > >>>>> -                     if (ret < 0)
+> > >>>>> -                             return ret;
+> > >>>>> -             }
+> > >>>>> -
+> > >>>>> -             if (drvdata->quirks & QUIRK_ROG_ALLY_XPAD) {
+> > >>>>> -                     intf = to_usb_interface(hdev->dev.parent);
+> > >>>>> -                     udev = interface_to_usbdev(intf);
+> > >>>>> -                     validate_mcu_fw_version(hdev,
+> > >>>>> -                             le16_to_cpu(udev->descriptor.idProduct));
+> > >>>>> -             }
+> > >>>>> +     ret = asus_kbd_init(hdev, FEATURE_KBD_REPORT_ID);
+> > >>>>> +     if (ret < 0)
+> > >>>>> +             return ret;
+> > >>>>>
+> > >>>>> -     } else {
+> > >>>>> -             /* Initialize keyboard */
+> > >>>>> -             ret = asus_kbd_init(hdev, FEATURE_KBD_REPORT_ID);
+> > >>>>> -             if (ret < 0)
+> > >>>>> -                     return ret;
+> > >>>>> +     /* Get keyboard functions */
+> > >>>>> +     ret = asus_kbd_get_functions(hdev, &kbd_func, FEATURE_KBD_REPORT_ID);
+> > >>>>> +     if (ret < 0)
+> > >>>>> +             return ret;
+> > >>>>>
+> > >>>>> -             /* Get keyboard functions */
+> > >>>>> -             ret = asus_kbd_get_functions(hdev, &kbd_func, FEATURE_KBD_REPORT_ID);
+> > >>>>> +     if (dmi_match(DMI_PRODUCT_FAMILY, "ProArt P16")) {
+> > >>>>> +             ret = asus_kbd_disable_oobe(hdev);
+> > >>>>>               if (ret < 0)
+> > >>>>>                       return ret;
+> > >>>>> +     }
+> > >>>>>
+> > >>>>> -             /* Check for backlight support */
+> > >>>>> -             if (!(kbd_func & SUPPORT_KBD_BACKLIGHT))
+> > >>>>> -                     return -ENODEV;
+> > >>>>> +     if (drvdata->quirks & QUIRK_ROG_ALLY_XPAD) {
+> > >>>>> +             intf = to_usb_interface(hdev->dev.parent);
+> > >>>>> +             udev = interface_to_usbdev(intf);
+> > >>>>> +             validate_mcu_fw_version(
+> > >>>>> +                     hdev, le16_to_cpu(udev->descriptor.idProduct));
+> > >>>>>       }
+> > >>>>>
+> > >>>>> +     /* Check for backlight support */
+> > >>>>> +     if (!(kbd_func & SUPPORT_KBD_BACKLIGHT))
+> > >>>>> +             return -ENODEV;
+> > >>>>> +
+> > >>>>>       drvdata->kbd_backlight = devm_kzalloc(&hdev->dev,
+> > >>>>>                                             sizeof(struct asus_kbd_leds),
+> > >>>>>                                             GFP_KERNEL);
+> >
+
 
