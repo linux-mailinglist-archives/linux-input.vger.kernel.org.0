@@ -1,498 +1,373 @@
-Return-Path: <linux-input+bounces-15720-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-15721-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DC71C086EC
-	for <lists+linux-input@lfdr.de>; Sat, 25 Oct 2025 02:27:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DC9CC08808
+	for <lists+linux-input@lfdr.de>; Sat, 25 Oct 2025 03:25:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 221341CC0242
-	for <lists+linux-input@lfdr.de>; Sat, 25 Oct 2025 00:27:50 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1B41B1C28062
+	for <lists+linux-input@lfdr.de>; Sat, 25 Oct 2025 01:26:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 74A681D7995;
-	Sat, 25 Oct 2025 00:26:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A0CD421C176;
+	Sat, 25 Oct 2025 01:25:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ScnbX1N7"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cBFXUcK4"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89F9119D8A8
-	for <linux-input@vger.kernel.org>; Sat, 25 Oct 2025 00:26:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57A3C21CA13
+	for <linux-input@vger.kernel.org>; Sat, 25 Oct 2025 01:25:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761351981; cv=none; b=ntIRviCjlVmc+ShWZsE7CJJOFNR9IxSsqSC9xUnoQ3AAdGQiECPMZAOKPiiwuu1W45KiNpZ2cK715JxfVUJ/L13VC/F55tzewd3aB2M33gvUR8tQG7oeKhTDeAobpWtSXFrbg2x1RdZo6axPqwt5zeG76NA7sHy23HYSg6bkC1o=
+	t=1761355555; cv=none; b=mOB2+KThOJVe9N1ZeBS7Vm8jzfz/LpipMncTHBFI+pDwhQg6wDp+Ol1DJmUotqk3fk3Iiz24/kISajDkPfq74W9cZ1CfUinljlS4BbAbbzwsbNFqaj+tjA+w/qo2DybQP7eNIHulLfT6vi0Nz45FG6iboNglmV5BGPEn6QkZChw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761351981; c=relaxed/simple;
-	bh=blO0jMZ91jZxBecLz4sUiPaIn/+wJXxedrkceCauWAw=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=rX2lumvlzmljkGvxMvDf2SatbUTft7neJ1jT0r7+AmoIkWTJ9C4MqJeLZxCiMw852jHymEw3yaodzKz2epab6rx5zz245YmUUCSuPWA6KxciF5EnsJsqDq7885lFZ5ADDa1/qr2NVq1GQmLtnrkENl/yiKK29Ir7aU5zSWmo7Ik=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ScnbX1N7; arc=none smtp.client-ip=209.85.215.173
+	s=arc-20240116; t=1761355555; c=relaxed/simple;
+	bh=7yzFKDqdyVSYxjiMpdHMhjgPX3Yh8sLzmTUPlzd27b8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=rAajpxdvvAzuSrI2yPazjjh4XyUwIPGGCPuFvQ0j3FcgagBPoDzUDMrSDB1sbjM21fMEBTPoj1o3J5IonNqsU7Oph/azwLI18AX4Eg6nCL8bWIAAm1Fi8AP83fAoESV0ASB6xnMSm2rYrhRfoNmbyelCBu4nXjc0k/HQn+KoaOY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cBFXUcK4; arc=none smtp.client-ip=209.85.128.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-b593def09e3so1661570a12.2
-        for <linux-input@vger.kernel.org>; Fri, 24 Oct 2025 17:26:18 -0700 (PDT)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4711b95226dso30048905e9.0
+        for <linux-input@vger.kernel.org>; Fri, 24 Oct 2025 18:25:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761351978; x=1761956778; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=kkS8UOCQav//ZpV9v8yuH2eqFYmItpXNJVXoQev0J2A=;
-        b=ScnbX1N7cF76T6D3KuBeL5GPQoSTGfajw/rAoiK2uR+t6bSb74us8dPedJOxY60MqM
-         QzWh91AavTTY4YLF/r1wfoeqv8Tn0cnN5RHH4sM1pB9Kz+1mE4TDOv7Mfwb35+6ni1aj
-         Kq27m55Gy56GHIPMuGfmeWt8S/SR+r8XRWHQYQF7lVs8F+ZKl2mk8qRt1Ela/iQNvndq
-         h8bkToyIbW9W9fa7Kn+rtucY+hHFgnI+b+YwCCD6Y8dz5AXLjx2ni3xsqDRUFhsSXQIL
-         QwCTLgPsNv5zPrrufi7oH1dOTU/OezVOeb/qv9IC2WblGFCh45Ni/quD2UGdaFdVC4bq
-         hYMg==
+        d=gmail.com; s=20230601; t=1761355551; x=1761960351; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=I4ZDs3Ak41rLq2qMyCq9YixpOI99V+Jr3pKEsYI3VkM=;
+        b=cBFXUcK4kk6vEwmqqGFgt2U8sbYDyXSkZsEBU607C+FVO8zdaIFo+OitBa92pp1zi9
+         qotjx/xgiT3Gugh+z83jT26x0kQOpUW+6eRWzf+OdoOgr1STWOiH6sR+o/8REjgQ1uFE
+         0SfxadmaaDoTj13Dj/kyA6EWuGLGK5b3W+C6+/x9lBkYnIndi+1rtHReCMNyw9HJ4N/q
+         3f9Z+Gw+fd0bTjtKaTDejs8ROEokxZyKNmf2ozcdUcHYWOTyl2EDfq3ICVDsE0WsRdQo
+         zR4lKnayGC82O7kI5cjwGbNF0TpMSnF8PEWkk93PoKm3KVy1mz/41ZDzmbb6aRMEDW+z
+         ABFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761351978; x=1761956778;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=kkS8UOCQav//ZpV9v8yuH2eqFYmItpXNJVXoQev0J2A=;
-        b=liK0RxXatgJhF7EEKGZPF2eTocy8GFYfaEj1CMDk8YP7qSVIoaTlaI+bqv3uvEijzj
-         0VLE3NBLl904d66prWHFSgY+ityCOHC9MFxWCHo/qOXTyx0hzr6qIEDp8iGGYGIHPcr8
-         XW0y64eMYm8m3Rc4mssK0nxOx89Bqn2avcQTJIRUWyrUJJO8+a8MVu6F4mQZcky3i1f1
-         f+vIKQ4QbmMo8LRJ0bzwlu7FaACHcoHhRSy6yCM36JWioEGYfC5gYPxAL6PmtIemtoj7
-         gx1VX6o+C0KrGOKBRGQy46DbneeUrirxoqyDyjMV8ovLWW8D3D9CKRAKERvjbCzEf2X2
-         NQeQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXxbcw1rn8eCM2++zYyj7vRyBbIJAmDqABROXj6CklBPoe5QwlHvuFCXoaKErMcosTjVzyn6npkeXe7nQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz2zj6qAg095bsd9+yx8STcFuPyh+tPG/qdRrTM49SPhyR/xgS0
-	5JaDWyqOLthuPP2l81+b6nTm7mUy1Hof+VfV1NKSrYMvNRZrjtEcUSwS
-X-Gm-Gg: ASbGncvnVadJEwyzISTSHjbBd22KAc1Lh/ixZ6zQjdrys0SXnjLldJ83aqZh7evva2b
-	tyOv7hrS6zf7s06CWYNyCVajULU3tgAol8ZKMvRgfhi6AmkwqMGhNgTD4/4QTqGrZukL8I47VNm
-	4kQLflN2OkUH9dNVp5J2G4MtxcK1GUgQ2RyMizLm7ReIWqoOgsVgCvuCiDUjqcDwgBgEDp3wg4V
-	3nUFAP/DdFl2heffnVg4MCpkPTQjs+mT/J4ZK76FAi0iZO1GPt6nrlc5LwSbWu5Sv8DTC8PMca0
-	IaehWSYDAzfgSvCLTRbtAwHQMPpPMz2vAnM3cdUfEle0OLJFyRSJJyVYns5pfRU1P3g48ZlurEL
-	0TycEdYNCwsmU56FStiBtIHCt6jGRBPNebT60FEewugZzwNVbCXue3ZeGVHoCj5tim1JwQsizf4
-	vQnz9qm+vECwBV/Mk6snP+5nEHmTFZpejQ0FqVdA1470CZbbBipm+wiSkaD1dnX924owChwGAe3
-	jKyTKvPSAogp8jZYoz9z+XEhioh6jvrBcGIXowYrKi67AR+zACT0sIfNacpAXpD
-X-Google-Smtp-Source: AGHT+IGOu3EpUwvujctPCXvjEmK+q3G8/dQmcFYBpX4Ta2DfxH67IAV2pAsu3KGnKv40D5KuTb8qCg==
-X-Received: by 2002:a17:902:ef4c:b0:290:7803:9e8 with SMTP id d9443c01a7336-290cb659d58mr388130335ad.48.1761351977650;
-        Fri, 24 Oct 2025 17:26:17 -0700 (PDT)
-Received: from [192.168.2.3] (2403-580a-80ed-0-4835-5a07-49e7-f115.ip6.aussiebb.net. [2403:580a:80ed:0:4835:5a07:49e7:f115])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29498cf3f4asm4728885ad.11.2025.10.24.17.26.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Oct 2025 17:26:17 -0700 (PDT)
-From: James Calligeros <jcalligeros99@gmail.com>
-Date: Sat, 25 Oct 2025 10:24:42 +1000
-Subject: [PATCH v4 11/11] arm64: dts: apple: t8103, t8112, t60xx: Add hwmon
- SMC subdevice
+        d=1e100.net; s=20230601; t=1761355551; x=1761960351;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=I4ZDs3Ak41rLq2qMyCq9YixpOI99V+Jr3pKEsYI3VkM=;
+        b=QVOK84bVVD5Z+q6Aadk2gkpjoNWFbpwfQK0xXYsOuazLGeCt4rufmo45igog0ERuS8
+         Ne5XfgFDkwAB6crGAbUY0UdAZGeT+1bXlBEubA13c9FV/J2aqaM4Eb2LVBl6+tP0LDYU
+         YEfBVMcb6XNVRspzdSs76jymdt2lD6ZzTmJz3vy1dZ3UDmS2T3kcKc+j8Q8+FwHUV0MS
+         ZvA3qagDf5twZdGHuo68MWPrcXN1lUw5M9frcnnXlSmr6WiZR4PXMTLDCVHoFxD1Ygki
+         XPYPDDm/GSUP2HC+/jSMLlfEl6PdTZznnKjjM3lLLElvusGCB9XoG22UNL4byVD3Xti3
+         9fzQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXMVYhoMMVT0GbLi5I9iHzxwGMMzAAWVE1LwhAUzJLFj1QzkWmbNta+xg68vwqJ2+2uYR0nOxsAAdsPYw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YymTzdjaBtuB861HyajV70vA744hejZRZSw4mJr/SMc3QUVGm6W
+	1n/FZPGgey7tYaYx42tPZ6nXp0ya0Dc0APtwAu0v99bQ80nOehHeKOt3
+X-Gm-Gg: ASbGncugHBsR9GZeLjvN7KTr7Cd7EcABc8bWMOuH3GaqDZR5qk1X4e4mrQsOzKPlk4d
+	G96s8fiTlpqTGCvpsdfqXdu5R0erF3Hqq4Q0tptLPWi6UOyv2UaEruThSYmvWbfBV/xzGG/tqLP
+	bE9Pk0nfqVR5Pxf1bGVcDfhsh23Qi0SIXk7R7PuiAowjWyORVAGvRIq1X3CRDkIGItVT6bkEZ0X
+	442PI1+zlo/URgBxiLTVNyx8D/vb1YpVfAmxRZTmY6eyAAIGqxnXxfRXHsBB8jioxDkhb4xsNrP
+	D4euAqHiv4kJzg9DG80a6+0oM32r6j0/BnYh17TQ4UIXXD5cRB++aK5bGqt5g8s2ELM99KnFjeC
+	TH28ql8k2WzuRx8D6VFXTIptBNIEI1p2IRi1ROVh3lFXJnmqkKpEaVoOSXeFIUye/DQ01+h15/w
+	zwXCr81dDyDrwGxgdp4fjJXw==
+X-Google-Smtp-Source: AGHT+IGHdwTHv2GMpyPV3QhnOQtco0wDeS8+CcxzYd04JpZRu0ULX38B0onSMa9y+7d1nZ/j/sSwRA==
+X-Received: by 2002:a05:600c:3509:b0:475:dd8d:2f52 with SMTP id 5b1f17b1804b1-475dd8d30d2mr2921345e9.32.1761355551297;
+        Fri, 24 Oct 2025 18:25:51 -0700 (PDT)
+Received: from [192.168.1.121] ([151.61.20.236])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-475dd4cc596sm8724075e9.15.2025.10.24.18.25.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 24 Oct 2025 18:25:50 -0700 (PDT)
+Message-ID: <ee179dc9-e7ac-4b64-a58c-93da5f7f4057@gmail.com>
+Date: Sat, 25 Oct 2025 03:25:50 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251025-macsmc-subdevs-v4-11-374d5c9eba0e@gmail.com>
-References: <20251025-macsmc-subdevs-v4-0-374d5c9eba0e@gmail.com>
-In-Reply-To: <20251025-macsmc-subdevs-v4-0-374d5c9eba0e@gmail.com>
-To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, Neal Gompa <neal@gompa.dev>, 
- Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Alexandre Belloni <alexandre.belloni@bootlin.com>, 
- Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>, 
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
- Jonathan Corbet <corbet@lwn.net>, 
- James Calligeros <jcalligeros99@gmail.com>
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-rtc@vger.kernel.org, linux-hwmon@vger.kernel.org, 
- linux-input@vger.kernel.org, linux-doc@vger.kernel.org
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=12033;
- i=jcalligeros99@gmail.com; h=from:subject:message-id;
- bh=blO0jMZ91jZxBecLz4sUiPaIn/+wJXxedrkceCauWAw=;
- b=owGbwMvMwCV2xczoYuD3ygTG02pJDBl/JM7NX7i5PnQpE4sAq9oPDuOE1l/XbP6dn/B1U/bBH
- qYJFspeHRNZGMS4GCzFFFk2NAl5zDZiu9kvUrkXZg4rE8gQaZEGBiBgYeDLTcwrNdIx0jPVNtQz
- NNQx1jFi4OIUgKl+cI/hf8T+bF3hducsiyCFlicxltXrln188HLj1C/uGeJV04KzaxgZptyILJ5
- 8W2X6G7aizNq7Mse6E9e9cS2cvcb/fE6QeXcvIwA=
-X-Developer-Key: i=jcalligeros99@gmail.com; a=openpgp;
- fpr=B08212489B3206D98F1479BDD43632D151F77960
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 1/9] HID: asus: simplify RGB init sequence
+To: Antheas Kapenekakis <lkml@antheas.dev>
+Cc: platform-driver-x86@vger.kernel.org, linux-input@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
+ Benjamin Tissoires <bentiss@kernel.org>,
+ Corentin Chary <corentin.chary@gmail.com>, "Luke D . Jones"
+ <luke@ljones.dev>, Hans de Goede <hdegoede@redhat.com>,
+ =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+References: <20251018101759.4089-1-lkml@antheas.dev>
+ <20251018101759.4089-2-lkml@antheas.dev>
+ <e6328da3-8099-4540-9cb0-4fc28b359ee7@gmail.com>
+ <CAGwozwG+gf09PQf9o9YkKFYVgVn-1w5CDVrpOe4uFavVYCNijQ@mail.gmail.com>
+ <3947f772-691b-46a2-af68-15825e7f4939@gmail.com>
+ <CAGwozwFbQWyuQB6EwLMLon5muff2WudR+oVL62DqP_MXGW+p-Q@mail.gmail.com>
+ <b91de7c7-74b8-4cf5-82a4-f3d4eaf418d4@gmail.com>
+ <CAGwozwGj-yXHXBan38_NV7G5T66bnjm7om2bz_Bha35AHhtCJQ@mail.gmail.com>
+ <CAGwozwEh32XMcGJPKMRBWd63ybYOxW1Wx4QjU-QErjQgLHwX2g@mail.gmail.com>
+ <0d18666a-78e1-4e69-8fd2-f15052db0cee@gmail.com>
+ <CAGwozwHyC8P4KzZFY7t=WF3ANiJ4q6HgbiAMUNAGHE899Jd6rQ@mail.gmail.com>
+Content-Language: en-US, it-IT, en-US-large
+From: Denis Benato <benato.denis96@gmail.com>
+In-Reply-To: <CAGwozwHyC8P4KzZFY7t=WF3ANiJ4q6HgbiAMUNAGHE899Jd6rQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Apple's System Management Controller integrates numerous sensors
-that can be exposed via hwmon. Add the subdevice, compatible,
-and some common sensors that are exposed on every currently
-supported device as a starting point.
 
-Reviewed-by: Neal Gompa <neal@gompa.dev>
-Co-developed-by: Janne Grunau <j@jannau.net>
-Signed-off-by: Janne Grunau <j@jannau.net>
-Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
----
- .../boot/dts/apple/hwmon-common.dtsi     | 33 +++++++++++++++++++++++++
- .../boot/dts/apple/hwmon-fan-dual.dtsi   | 22 +++++++++++++++++
- arch/arm64/boot/dts/apple/hwmon-fan.dtsi | 17 +++++++++++++
- .../boot/dts/apple/hwmon-laptop.dtsi     | 33 +++++++++++++++++++++++++
- .../boot/dts/apple/hwmon-mac-mini.dtsi   | 15 +++++++++++
- .../arm64/boot/dts/apple/t6001-j375c.dts |  2 ++
- arch/arm64/boot/dts/apple/t6001.dtsi     |  2 ++
- .../arm64/boot/dts/apple/t6002-j375d.dts |  2 ++
- .../arm64/boot/dts/apple/t600x-die0.dtsi |  4 +++
- .../boot/dts/apple/t600x-j314-j316.dtsi  |  3 +++
- .../arm64/boot/dts/apple/t602x-die0.dtsi |  4 +++
- arch/arm64/boot/dts/apple/t8103-j274.dts |  2 ++
- arch/arm64/boot/dts/apple/t8103-j293.dts |  3 +++
- arch/arm64/boot/dts/apple/t8103-j313.dts |  2 ++
- arch/arm64/boot/dts/apple/t8103-j456.dts |  2 ++
- arch/arm64/boot/dts/apple/t8103-j457.dts |  2 ++
- arch/arm64/boot/dts/apple/t8103.dtsi     |  5 ++++
- arch/arm64/boot/dts/apple/t8112-j413.dts |  2 ++
- arch/arm64/boot/dts/apple/t8112-j473.dts |  2 ++
- arch/arm64/boot/dts/apple/t8112-j493.dts |  3 +++
- arch/arm64/boot/dts/apple/t8112.dtsi     |  5 ++++
- 21 files changed, 165 insertions(+)
+On 10/24/25 23:20, Antheas Kapenekakis wrote:
+> On Fri, 24 Oct 2025 at 20:53, Denis Benato <benato.denis96@gmail.com> wrote:
+>>
+>> On 10/24/25 18:20, Antheas Kapenekakis wrote:
+>>> On Fri, 24 Oct 2025 at 01:25, Antheas Kapenekakis <lkml@antheas.dev> wrote:
+>>>> On Fri, 24 Oct 2025 at 00:53, Denis Benato <benato.denis96@gmail.com> wrote:
+>>>>> On 10/23/25 23:30, Antheas Kapenekakis wrote:
+>>>>>> On Thu, 23 Oct 2025 at 22:05, Denis Benato <benato.denis96@gmail.com> wrote:
+>>>>>>> On 10/23/25 20:06, Antheas Kapenekakis wrote:
+>>>>>>>> On Thu, 23 Oct 2025 at 19:38, Denis Benato <benato.denis96@gmail.com> wrote:
+>>>>>>>>> On 10/18/25 12:17, Antheas Kapenekakis wrote:
+>>>>>>>>>> Currently, RGB initialization forks depending on whether a device is
+>>>>>>>>>> NKEY. Then, NKEY devices are initialized using 0x5a, 0x5d, 0x5e
+>>>>>>>>>> endpoints, and non-NKEY devices with 0x5a and then a
+>>>>>>>>>> backlight check, which is omitted for NKEY devices.
+>>>>>>>>>>
+>>>>>>>>>> Remove the fork, using a common initialization sequence for both,
+>>>>>>>>>> where they are both only initialized with 0x5a, then checked for
+>>>>>>>>>> backlight support. This patch should not affect existing functionality.
+>>>>>>>>>>
+>>>>>>>>>> 0x5d and 0x5e endpoint initializations are performed by Windows
+>>>>>>>>>> userspace programs associated with different usages that reside under
+>>>>>>>>>> the vendor HID. Specifically, 0x5d is used by Armoury Crate, which
+>>>>>>>>>> controls RGB and 0x5e by an animation program for certain Asus laptops.
+>>>>>>>>>> Neither is used currently in the driver.
+>>>>>>>>> What benefits do we get from removing the unused initialization?
+>>>>>>>>>
+>>>>>>>>> If this has never caused any troubles I don't see the reason for removing
+>>>>>>>>> them. Moreover the lighting protocol is known and I might as well add
+>>>>>>>>> support for it in the near future,
+>>>>>>>> I already have a patch that adds RGB and delay inits that endpoint. It
+>>>>>>>> got removed to make this easier to merge. See [1].
+>>>>>>>>
+>>>>>>>> [1] https://lore.kernel.org/lkml/20250324210151.6042-10-lkml@antheas.dev/
+>>>>>>> I have to main concerns about this:
+>>>>>>>
+>>>>>>> 1. taking away initialization commands in one patchset to make it
+>>>>>>> easier to merge another unrelated patch doesn't seem the right thing
+>>>>>>> to do if the other patch it's not in the same series.
+>>>>>>>
+>>>>>>> I can see [1] has been removed from the set for a later moment in time,
+>>>>>>> it's fine if it needs more work, just send something that function in the
+>>>>>>> same way and do not remove initialization commands when unnecessary,
+>>>>>>> especially since there will be for sure future development.
+>>>>>> The initialization was removed as part of general cleanup. Not to make
+>>>>>> it easier to merge the RGB patch. In addition, the RGB patch only runs
+>>>>>> the init in a lazy fashion, so if nobody uses the RGB sysfs the init
+>>>>>> does not run and the behavior is the same.
+>>>>> There are a few problems here:
+>>>>> 1. sope creep: either do a cleanup or solve bugs. The fact that your flow z13
+>>>>> doesn't load hid-asus correctly has nothing to do with the initialization of anime.
+>>>>> The fact that hid-asus is driving leds instead of asus-wmi has nothing to do with
+>>>>> anime matrix initialization either.
+>>>>> 2. not sending the initialization can get hardware misbehave because it
+>>>>> is left in an uninitialized state.
+>>>>> 3. there are absolutely zero reasons to do that. There are even less reasons
+>>>>> as to do it as part of this patchset.
+>>>>>
+>>>>>>> 2. Your patchset resolves around keyboard backlight control and how
+>>>>>>> the keyboard device is exposed to userspace: it's fine but I do not see
+>>>>>>> the point in removing initialization commands that has nothing to do
+>>>>>>> with the issue we are trying to solve here.
+>>>>>>>
+>>>>>>> Please leave 0x5E and 0x5D initialization commands where they are now.
+>>>>>> I mean the second part of the patchset does that. The first part is a
+>>>>>> cleanup. What would be the reason for keeping 0x5E and 0x5D? They are
+>>>>>> only used when initializing those endpoints to write further commands
+>>>>>> to them and for identification. The current driver does not write
+>>>>>> commands to those endpoints and identifies itself over 0x5A.
+>>>>> There are no bugs opened that ties initialization of devices to bugs.
+>>>>> Quite the opposite: I can guarantee you that removing part of the
+>>>>> init will introduce regressions.
+>>>>>
+>>>>> The onus is on you to provide strong evidence that the removal is
+>>>>> a necessary act.
+>>>>>
+>>>>> Regardless it is not in the scope of this patchset: remove it.
+>>>>>> I do get that it is a bit risky as some laptops might be hardcoded to
+>>>>>> wait for 0x5D to turn on RGB. Which is why we had the last patch until
+>>>>>> V4. But we have yet to find a laptop that has this problem, so I find
+>>>>>> it difficult to justify keeping the init.
+>>>>> Yes it's risky to remove initialization sequences for a device that is
+>>>>> in every modern ASUS laptop and is tied to the EC.
+>>>>>> Do note that you might need to add the 0x5D init to your userspace
+>>>>>> program for certain laptops if you haven't already. But that is ok,
+>>>>>> since in doing so you are also validating you are speaking to an Asus
+>>>>>> device, which is important.
+>>>>> This doesn't make much sense: why would anyone remove
+>>>>> a command from the kernel, that can be very well essential to some models
+>>>>> (sleep can break, for example) just to add it back in a userspace program?
+>>>>>
+>>>>> What does it mean I have to validate I am speaking to an asus device?
+>>>>> Software selects devices by known attribute, one of them is the vid:pid....
+>>>>> Beside what does this have to do with the removal of initialization commands
+>>>>> from the kernel?
+>>>>>
+>>>>> Even late initializing devices can lead to problems. Windows doesn't do that:
+>>>>> as soon as asus drivers are loaded all relevant initialization sequences are
+>>>>> sent; Windows is the only officially supported OS: do not introduce commands
+>>>>> flow divergence without strong reasons backing it up.
+>>>> If you think keeping 0x5D init is that important, I can spin patch [1]
+>>>> into this series. But then this quirk will stay in the kernel forever.
+>>>> I can even add 0x5E since that does not affect newer devices, which I
+>>>> care for simplifying the sequence.
+>> Fully initializing the device tied to the EC in the same windows does
+>> is not a "quirk". Please stop calling it that.
+>>
+>> It will stay on the kernel until we have strong evidence that it is causing
+>> problems, at that point we simply avoid doing it for problematic laptops.
+>>
+>> If adding other commands doesn't introduce regressions or are otherwise
+>> easy to bisect and makes more hardware working please do.
+> It is not an init sequence. It is a handshake with the userspace
+> program that proves to the program it is talking with a genuine asus
+> device and to the device with the correct program. For all devices
+> that I have tested it seems to NOOP.
+The MCU doesn't distinguish between userspace or kernel space:
+"it is a handshake" => yeah handshakes are part of initialization procedures.
+"with the userspace program [...]" => MCU does not care where data is coming from.
 
-diff --git a/arch/arm64/boot/dts/apple/hwmon-common.dtsi b/arch/arm64/boot/dts/apple/hwmon-common.dtsi
-new file mode 100644
-index 000000000000..b87021855fdf
---- /dev/null
-+++ b/arch/arm64/boot/dts/apple/hwmon-common.dtsi
-@@ -0,0 +1,33 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later OR MIT
-+/*
-+ * Hardware monitoring sensors expected to be found on all Apple Silicon devices
-+ *
-+ * Copyright The Asahi Linux Contributors
-+ */
-+
-+&smc_hwmon {
-+	current-ID0R {
-+		apple,key-id = "ID0R";
-+		label = "AC Input Current";
-+	};
-+	power-PSTR {
-+		apple,key-id = "PSTR";
-+		label = "Total System Power";
-+	};
-+	power-PDTR {
-+		apple,key-id = "PDTR";
-+		label = "AC Input Power";
-+	};
-+	power-PMVR {
-+		apple,key-id = "PMVR";
-+		label = "3.8 V Rail Power";
-+	};
-+	temperature-TH0x {
-+		apple,key-id = "TH0x";
-+		label = "NAND Flash Temperature";
-+	};
-+	voltage-VD0R {
-+		apple,key-id = "VD0R";
-+		label = "AC Input Voltage";
-+	};
-+};
-diff --git a/arch/arm64/boot/dts/apple/hwmon-fan-dual.dtsi b/arch/arm64/boot/dts/apple/hwmon-fan-dual.dtsi
-new file mode 100644
-index 000000000000..3eef0721bcca
---- /dev/null
-+++ b/arch/arm64/boot/dts/apple/hwmon-fan-dual.dtsi
-@@ -0,0 +1,22 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later OR MIT
-+/*
-+ * SMC hwmon fan keys for Apple Silicon desktops/laptops with two fans
-+ *
-+ * Copyright The Asahi Linux Contributors
-+ */
-+
-+#include "hwmon-fan.dtsi"
-+
-+&smc_hwmon {
-+	fan-F0Ac {
-+		label = "Fan 1";
-+	};
-+	fan-F1Ac {
-+		apple,key-id = "F1Ac";
-+		label = "Fan 2";
-+		apple,fan-minimum = "F1Mn";
-+		apple,fan-maximum = "F1Mx";
-+		apple,fan-target = "F1Tg";
-+		apple,fan-mode = "F1Md";
-+	};
-+};
-diff --git a/arch/arm64/boot/dts/apple/hwmon-fan.dtsi b/arch/arm64/boot/dts/apple/hwmon-fan.dtsi
-new file mode 100644
-index 000000000000..fba9faf38f4b
---- /dev/null
-+++ b/arch/arm64/boot/dts/apple/hwmon-fan.dtsi
-@@ -0,0 +1,17 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later OR MIT
-+/*
-+ * hwmon fan keys for Apple Silicon desktops/laptops with a single fan.
-+ *
-+ *  Copyright The Asahi Linux Contributors
-+ */
-+
-+&smc_hwmon {
-+	fan-F0Ac {
-+		apple,key-id = "F0Ac";
-+		label = "Fan";
-+		apple,fan-minimum = "F0Mn";
-+		apple,fan-maximum = "F0Mx";
-+		apple,fan-target = "F0Tg";
-+		apple,fan-mode = "F0Md";
-+	};
-+};
-diff --git a/arch/arm64/boot/dts/apple/hwmon-laptop.dtsi b/arch/arm64/boot/dts/apple/hwmon-laptop.dtsi
-new file mode 100644
-index 000000000000..0c4666282a5c
---- /dev/null
-+++ b/arch/arm64/boot/dts/apple/hwmon-laptop.dtsi
-@@ -0,0 +1,33 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later OR MIT
-+/*
-+ * Hardware monitoring sensors expected on all Apple Silicon laptops
-+ *
-+ * Copyright The Asahi Linux Contributors
-+ */
-+
-+&smc_hwmon {
-+	power-PHPC {
-+		apple,key-id = "PHPC";
-+		label = "Heatpipe Power";
-+	};
-+	temperature-TB0T {
-+		apple,key-id = "TB0T";
-+		label = "Battery Hotspot Temperature";
-+	};
-+	temperature-TCHP {
-+		apple,key-id = "TCHP";
-+		label = "Charge Regulator Temperature";
-+	};
-+	temperature-TW0P {
-+		apple,key-id = "TW0P";
-+		label = "WiFi/BT Module Temperature";
-+	};
-+	voltage-SBAV {
-+		apple,key-id = "SBAV";
-+		label = "Battery Voltage";
-+	};
-+	voltage-VD0R {
-+		apple,key-id = "VD0R";
-+		label = "Charger Input Voltage";
-+	};
-+};
-diff --git a/arch/arm64/boot/dts/apple/hwmon-mac-mini.dtsi b/arch/arm64/boot/dts/apple/hwmon-mac-mini.dtsi
-new file mode 100644
-index 000000000000..f32627336ae7
---- /dev/null
-+++ b/arch/arm64/boot/dts/apple/hwmon-mac-mini.dtsi
-@@ -0,0 +1,15 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later OR MIT
-+/*
-+ * hwmon sensors expected on all Mac mini models
-+ *
-+ * Copyright The Asahi Linux Contributors
-+ */
-+
-+#include "hwmon-fan.dtsi"
-+
-+&smc_hwmon {
-+	temperature-TW0P {
-+		apple,key-id = "TW0P";
-+		label = "WiFi/BT Module Temperature";
-+	};
-+};
-diff --git a/arch/arm64/boot/dts/apple/t6001-j375c.dts b/arch/arm64/boot/dts/apple/t6001-j375c.dts
-index 2e7c23714d4d..08276114c1d8 100644
---- a/arch/arm64/boot/dts/apple/t6001-j375c.dts
-+++ b/arch/arm64/boot/dts/apple/t6001-j375c.dts
-@@ -24,3 +24,5 @@ &wifi0 {
- &bluetooth0 {
- 	brcm,board-type = "apple,okinawa";
- };
-+
-+#include "hwmon-fan-dual.dtsi"
-diff --git a/arch/arm64/boot/dts/apple/t6001.dtsi b/arch/arm64/boot/dts/apple/t6001.dtsi
-index ffbe823b71bc..264df90f07d8 100644
---- a/arch/arm64/boot/dts/apple/t6001.dtsi
-+++ b/arch/arm64/boot/dts/apple/t6001.dtsi
-@@ -66,3 +66,5 @@ p-core-pmu-affinity {
- &gpu {
- 	compatible = "apple,agx-g13c", "apple,agx-g13s";
- };
-+
-+#include "hwmon-common.dtsi"
-diff --git a/arch/arm64/boot/dts/apple/t6002-j375d.dts b/arch/arm64/boot/dts/apple/t6002-j375d.dts
-index 2b7f80119618..d12c0ae418f7 100644
---- a/arch/arm64/boot/dts/apple/t6002-j375d.dts
-+++ b/arch/arm64/boot/dts/apple/t6002-j375d.dts
-@@ -56,3 +56,5 @@ &bluetooth0 {
- 
- /delete-node/ &ps_disp0_cpu0_die1;
- /delete-node/ &ps_disp0_fe_die1;
-+
-+#include "hwmon-fan-dual.dtsi"
-diff --git a/arch/arm64/boot/dts/apple/t600x-die0.dtsi b/arch/arm64/boot/dts/apple/t600x-die0.dtsi
-index f715b19efd16..e6647c1a9173 100644
---- a/arch/arm64/boot/dts/apple/t600x-die0.dtsi
-+++ b/arch/arm64/boot/dts/apple/t600x-die0.dtsi
-@@ -37,6 +37,10 @@ smc_gpio: gpio {
- 			#gpio-cells = <2>;
- 		};
- 
-+		smc_hwmon: hwmon {
-+			compatible = "apple,smc-hwmon";
-+		};
-+
- 		smc_reboot: reboot {
- 			compatible = "apple,smc-reboot";
- 			nvmem-cells = <&shutdown_flag>, <&boot_stage>,
-diff --git a/arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi b/arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi
-index c0aac59a6fae..127814a9dfa4 100644
---- a/arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi
-+++ b/arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi
-@@ -131,3 +131,6 @@ &fpwm0 {
- };
- 
- #include "spi1-nvram.dtsi"
-+
-+#include "hwmon-laptop.dtsi"
-+#include "hwmon-fan-dual.dtsi"
-diff --git a/arch/arm64/boot/dts/apple/t602x-die0.dtsi b/arch/arm64/boot/dts/apple/t602x-die0.dtsi
-index 8622ddea7b44..680c103c1c0f 100644
---- a/arch/arm64/boot/dts/apple/t602x-die0.dtsi
-+++ b/arch/arm64/boot/dts/apple/t602x-die0.dtsi
-@@ -114,6 +114,10 @@ smc_gpio: gpio {
- 			#gpio-cells = <2>;
- 		};
- 
-+		smc_hwmon: hwmon {
-+			compatible = "apple,smc-hwmon";
-+		};
-+
- 		smc_reboot: reboot {
- 			compatible = "apple,smc-reboot";
- 			nvmem-cells = <&shutdown_flag>, <&boot_stage>,
-diff --git a/arch/arm64/boot/dts/apple/t8103-j274.dts b/arch/arm64/boot/dts/apple/t8103-j274.dts
-index 1c3e37f86d46..f5b8cc087882 100644
---- a/arch/arm64/boot/dts/apple/t8103-j274.dts
-+++ b/arch/arm64/boot/dts/apple/t8103-j274.dts
-@@ -61,3 +61,5 @@ &pcie0_dart_2 {
- &i2c2 {
- 	status = "okay";
- };
-+
-+#include "hwmon-mac-mini.dtsi"
-diff --git a/arch/arm64/boot/dts/apple/t8103-j293.dts b/arch/arm64/boot/dts/apple/t8103-j293.dts
-index 5b3c42e9f0e6..abb88391635f 100644
---- a/arch/arm64/boot/dts/apple/t8103-j293.dts
-+++ b/arch/arm64/boot/dts/apple/t8103-j293.dts
-@@ -119,3 +119,6 @@ dfr_panel_in: endpoint {
- &displaydfr_dart {
- 	status = "okay";
- };
-+
-+#include "hwmon-laptop.dtsi"
-+#include "hwmon-fan.dtsi"
-diff --git a/arch/arm64/boot/dts/apple/t8103-j313.dts b/arch/arm64/boot/dts/apple/t8103-j313.dts
-index 97a4344d8dca..491ead016b21 100644
---- a/arch/arm64/boot/dts/apple/t8103-j313.dts
-+++ b/arch/arm64/boot/dts/apple/t8103-j313.dts
-@@ -41,3 +41,5 @@ &wifi0 {
- &fpwm1 {
- 	status = "okay";
- };
-+
-+#include "hwmon-laptop.dtsi"
-diff --git a/arch/arm64/boot/dts/apple/t8103-j456.dts b/arch/arm64/boot/dts/apple/t8103-j456.dts
-index 58c8e43789b4..c2ec6fbb633c 100644
---- a/arch/arm64/boot/dts/apple/t8103-j456.dts
-+++ b/arch/arm64/boot/dts/apple/t8103-j456.dts
-@@ -75,3 +75,5 @@ &pcie0_dart_1 {
- &pcie0_dart_2 {
- 	status = "okay";
- };
-+
-+#include "hwmon-fan-dual.dtsi"
-diff --git a/arch/arm64/boot/dts/apple/t8103-j457.dts b/arch/arm64/boot/dts/apple/t8103-j457.dts
-index 7089ccf3ce55..aeaab2482d54 100644
---- a/arch/arm64/boot/dts/apple/t8103-j457.dts
-+++ b/arch/arm64/boot/dts/apple/t8103-j457.dts
-@@ -56,3 +56,5 @@ ethernet0: ethernet@0,0 {
- &pcie0_dart_2 {
- 	status = "okay";
- };
-+
-+#include "hwmon-fan.dtsi"
-diff --git a/arch/arm64/boot/dts/apple/t8103.dtsi b/arch/arm64/boot/dts/apple/t8103.dtsi
-index 59f2678639cf..f1820bdc0910 100644
---- a/arch/arm64/boot/dts/apple/t8103.dtsi
-+++ b/arch/arm64/boot/dts/apple/t8103.dtsi
-@@ -909,6 +909,10 @@ smc_gpio: gpio {
- 				#gpio-cells = <2>;
- 			};
- 
-+			smc_hwmon: hwmon {
-+				compatible = "apple,smc-hwmon";
-+			};
-+
- 			smc_reboot: reboot {
- 				compatible = "apple,smc-reboot";
- 				nvmem-cells = <&shutdown_flag>, <&boot_stage>,
-@@ -1141,3 +1145,4 @@ port02: pci@2,0 {
- };
- 
- #include "t8103-pmgr.dtsi"
-+#include "hwmon-common.dtsi"
-diff --git a/arch/arm64/boot/dts/apple/t8112-j413.dts b/arch/arm64/boot/dts/apple/t8112-j413.dts
-index 6f69658623bf..500dcdf2d4b5 100644
---- a/arch/arm64/boot/dts/apple/t8112-j413.dts
-+++ b/arch/arm64/boot/dts/apple/t8112-j413.dts
-@@ -78,3 +78,5 @@ &i2c4 {
- &fpwm1 {
- 	status = "okay";
- };
-+
-+#include "hwmon-laptop.dtsi"
-diff --git a/arch/arm64/boot/dts/apple/t8112-j473.dts b/arch/arm64/boot/dts/apple/t8112-j473.dts
-index 06fe257f08be..11db6a92493f 100644
---- a/arch/arm64/boot/dts/apple/t8112-j473.dts
-+++ b/arch/arm64/boot/dts/apple/t8112-j473.dts
-@@ -52,3 +52,5 @@ &pcie1_dart {
- &pcie2_dart {
- 	status = "okay";
- };
-+
-+#include "hwmon-mac-mini.dtsi"
-diff --git a/arch/arm64/boot/dts/apple/t8112-j493.dts b/arch/arm64/boot/dts/apple/t8112-j493.dts
-index fb8ad7d4c65a..a0da02c00f15 100644
---- a/arch/arm64/boot/dts/apple/t8112-j493.dts
-+++ b/arch/arm64/boot/dts/apple/t8112-j493.dts
-@@ -133,3 +133,6 @@ touchbar0: touchbar@0 {
- 		touchscreen-inverted-y;
- 	};
- };
-+
-+#include "hwmon-laptop.dtsi"
-+#include "hwmon-fan.dtsi"
-diff --git a/arch/arm64/boot/dts/apple/t8112.dtsi b/arch/arm64/boot/dts/apple/t8112.dtsi
-index 6bc3f58b06f7..c4d1e5ffaee9 100644
---- a/arch/arm64/boot/dts/apple/t8112.dtsi
-+++ b/arch/arm64/boot/dts/apple/t8112.dtsi
-@@ -912,6 +912,10 @@ smc_gpio: gpio {
- 				#gpio-cells = <2>;
- 			};
- 
-+			smc_hwmon: hwmon {
-+				compatible = "apple,smc-hwmon";
-+			};
-+
- 			smc_reboot: reboot {
- 				compatible = "apple,smc-reboot";
- 				nvmem-cells = <&shutdown_flag>, <&boot_stage>,
-@@ -1180,3 +1184,4 @@ port03: pci@3,0 {
- };
- 
- #include "t8112-pmgr.dtsi"
-+#include "hwmon-common.dtsi"
+Anyway further discussion is useless. We understood you are against
+keeping commands that that you believe  are useless, but sometimes
+software is like life: you have to accept compromises.
+> 0x5a is the only one used for a driver and it does brightness control.
+> 0x5d/0x5e are used with userspace Windows programs. 0x5d does RGB.
+> Moreover, the application 0xff310076 only has a single report ID under
+> it, 0x5a. 0x5d and 0x5e belong to different hid applications that are
+> not currently checked by the driver (but when they exist they reside
+> under the same hid endpoint, with a multi-application collection that
+> bifurcates in Windows to multiple hid devices).
+The MCU works as a state machine where the status is updated
+on sleep, power on and power off: not sending initialization commands
+will confuse (some) hardware. If not now in a few years when some user will
+migrate away from whatever debian 12 they are running.
 
--- 
-2.51.0
+Those commands are not simple commands to "just init the device" as you
+are depicting here. Stop doing that.
+> So it makes sense to remove the redundant handshakes. If some laptops
+> require 0x5d to enable shortcuts as Luke said, I have a patch that
+> does that and is straightforward to do. But since the shortcut
+> response comes from the 0x5a endpoint, I find it unlikely for it to
+> require a handshake over a different endpoint to init.
+So you want to remove some code, that has caused no troubles, on
+the assumption that such removal won't have any visible consequence,
+but you have a patch ready to restore the previous behavior in case
+something goes wrong? It doesn't matter if you find it unlikely or not:
+either there is a strong reason to remove it or there is not: you finding
+such removal "unlikely" to break anything down the line is not a strong
+reason to remove it. The fact that you don't like some code is not a strong
+reason to remove it either.
 
+Antheas... your flow z13 isn't loading correctly. Focus on the issue
+at hands. Please.
+
+
+>>>> Luke said these two pairs are the important ones to keep.
+>>>>
+>>>> I'm not sure what to do.
+>>> I was asked by a 2025 Asus Zenbook Duo user to add his IDs in [1]. In
+>>> doing so, I updated the rgb and legacy init patches for the new series
+>>> and added a quirk for early init of the duo keyboards.
+>> I will take a look when I can, but if you haven't removed anything
+>> that shouldn't pose any risk. None that I can think of at the moment anyway.
+>>> The series is 14 patches long, I don't think my email can take it :(
+>> linux.dev accounts for maintainers are provided free of charge
+>> and I had to ask for an account too. I suggest you do the same.
+>>> Should we merge the first part of this series with the legacy init,
+>>> then do the backlight refactor, and finally the new Duo stuff + rgb?
+>> I think so. My only doubt is about the per_app quirk. Other than
+>> that looks good and solves one problem while also better representing
+>> the hardware, so I can't think of any blockers.
+>>> Antheas
+>>>
+>> Thanks,
+>> Denis
+>>>> Antheas
+>>>>
+>>>> [1] https://lore.kernel.org/all/20250325184601.10990-12-lkml@antheas.dev/
+>>>>
+>>>>>> Antheas
+>>>>>>
+>>>>> Denis
+>>>>>>>>>> Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
+>>>>>>>>>> ---
+>>>>>>>>>>  drivers/hid/hid-asus.c | 56 ++++++++++++++----------------------------
+>>>>>>>>>>  1 file changed, 19 insertions(+), 37 deletions(-)
+>>>>>>>>>>
+>>>>>>>>>> diff --git a/drivers/hid/hid-asus.c b/drivers/hid/hid-asus.c
+>>>>>>>>>> index a444d41e53b6..7ea1037c3979 100644
+>>>>>>>>>> --- a/drivers/hid/hid-asus.c
+>>>>>>>>>> +++ b/drivers/hid/hid-asus.c
+>>>>>>>>>> @@ -638,50 +638,32 @@ static int asus_kbd_register_leds(struct hid_device *hdev)
+>>>>>>>>>>       unsigned char kbd_func;
+>>>>>>>>>>       int ret;
+>>>>>>>>>>
+>>>>>>>>>> -     if (drvdata->quirks & QUIRK_ROG_NKEY_KEYBOARD) {
+>>>>>>>>>> -             /* Initialize keyboard */
+>>>>>>>>>> -             ret = asus_kbd_init(hdev, FEATURE_KBD_REPORT_ID);
+>>>>>>>>>> -             if (ret < 0)
+>>>>>>>>>> -                     return ret;
+>>>>>>>>>> -
+>>>>>>>>>> -             /* The LED endpoint is initialised in two HID */
+>>>>>>>>>> -             ret = asus_kbd_init(hdev, FEATURE_KBD_LED_REPORT_ID1);
+>>>>>>>>>> -             if (ret < 0)
+>>>>>>>>>> -                     return ret;
+>>>>>>>>>> -
+>>>>>>>>>> -             ret = asus_kbd_init(hdev, FEATURE_KBD_LED_REPORT_ID2);
+>>>>>>>>>> -             if (ret < 0)
+>>>>>>>>>> -                     return ret;
+>>>>>>>>>> -
+>>>>>>>>>> -             if (dmi_match(DMI_PRODUCT_FAMILY, "ProArt P16")) {
+>>>>>>>>>> -                     ret = asus_kbd_disable_oobe(hdev);
+>>>>>>>>>> -                     if (ret < 0)
+>>>>>>>>>> -                             return ret;
+>>>>>>>>>> -             }
+>>>>>>>>>> -
+>>>>>>>>>> -             if (drvdata->quirks & QUIRK_ROG_ALLY_XPAD) {
+>>>>>>>>>> -                     intf = to_usb_interface(hdev->dev.parent);
+>>>>>>>>>> -                     udev = interface_to_usbdev(intf);
+>>>>>>>>>> -                     validate_mcu_fw_version(hdev,
+>>>>>>>>>> -                             le16_to_cpu(udev->descriptor.idProduct));
+>>>>>>>>>> -             }
+>>>>>>>>>> +     ret = asus_kbd_init(hdev, FEATURE_KBD_REPORT_ID);
+>>>>>>>>>> +     if (ret < 0)
+>>>>>>>>>> +             return ret;
+>>>>>>>>>>
+>>>>>>>>>> -     } else {
+>>>>>>>>>> -             /* Initialize keyboard */
+>>>>>>>>>> -             ret = asus_kbd_init(hdev, FEATURE_KBD_REPORT_ID);
+>>>>>>>>>> -             if (ret < 0)
+>>>>>>>>>> -                     return ret;
+>>>>>>>>>> +     /* Get keyboard functions */
+>>>>>>>>>> +     ret = asus_kbd_get_functions(hdev, &kbd_func, FEATURE_KBD_REPORT_ID);
+>>>>>>>>>> +     if (ret < 0)
+>>>>>>>>>> +             return ret;
+>>>>>>>>>>
+>>>>>>>>>> -             /* Get keyboard functions */
+>>>>>>>>>> -             ret = asus_kbd_get_functions(hdev, &kbd_func, FEATURE_KBD_REPORT_ID);
+>>>>>>>>>> +     if (dmi_match(DMI_PRODUCT_FAMILY, "ProArt P16")) {
+>>>>>>>>>> +             ret = asus_kbd_disable_oobe(hdev);
+>>>>>>>>>>               if (ret < 0)
+>>>>>>>>>>                       return ret;
+>>>>>>>>>> +     }
+>>>>>>>>>>
+>>>>>>>>>> -             /* Check for backlight support */
+>>>>>>>>>> -             if (!(kbd_func & SUPPORT_KBD_BACKLIGHT))
+>>>>>>>>>> -                     return -ENODEV;
+>>>>>>>>>> +     if (drvdata->quirks & QUIRK_ROG_ALLY_XPAD) {
+>>>>>>>>>> +             intf = to_usb_interface(hdev->dev.parent);
+>>>>>>>>>> +             udev = interface_to_usbdev(intf);
+>>>>>>>>>> +             validate_mcu_fw_version(
+>>>>>>>>>> +                     hdev, le16_to_cpu(udev->descriptor.idProduct));
+>>>>>>>>>>       }
+>>>>>>>>>>
+>>>>>>>>>> +     /* Check for backlight support */
+>>>>>>>>>> +     if (!(kbd_func & SUPPORT_KBD_BACKLIGHT))
+>>>>>>>>>> +             return -ENODEV;
+>>>>>>>>>> +
+>>>>>>>>>>       drvdata->kbd_backlight = devm_kzalloc(&hdev->dev,
+>>>>>>>>>>                                             sizeof(struct asus_kbd_leds),
+>>>>>>>>>>                                             GFP_KERNEL);
 
