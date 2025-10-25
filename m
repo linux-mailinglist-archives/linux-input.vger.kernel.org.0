@@ -1,383 +1,285 @@
-Return-Path: <linux-input+bounces-15723-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-15724-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D08AC08D54
-	for <lists+linux-input@lfdr.de>; Sat, 25 Oct 2025 09:21:17 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F0ACC0960B
+	for <lists+linux-input@lfdr.de>; Sat, 25 Oct 2025 18:23:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id EB90E1C66406
-	for <lists+linux-input@lfdr.de>; Sat, 25 Oct 2025 07:21:40 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 76908401BC7
+	for <lists+linux-input@lfdr.de>; Sat, 25 Oct 2025 16:20:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 537FE2D3EDD;
-	Sat, 25 Oct 2025 07:21:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 441C5305E24;
+	Sat, 25 Oct 2025 16:17:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=temperror (0-bit key) header.d=antheas.dev header.i=@antheas.dev header.b="LswuqSoq"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ATsb0VnH"
 X-Original-To: linux-input@vger.kernel.org
-Received: from relay12.grserver.gr (relay12.grserver.gr [88.99.38.195])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 267E43BB4A
-	for <linux-input@vger.kernel.org>; Sat, 25 Oct 2025 07:21:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=88.99.38.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 195FC30171D;
+	Sat, 25 Oct 2025 16:17:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761376872; cv=none; b=PLQtZpr6MmCfraurh/l6V6XvnzeEZKYM77Vmmsv30pBXiIcbU/97BKHqSiseNEKfG/3TdufoLfcMAY50sxiSaYX0KiTdNgPzGNG+Gxghmz9G7C/lGdgi3NovM/pBXAntBuZXrqXjEPMDgtc0MSF8eBL+B7lW8YDXCezPuMMUY04=
+	t=1761409029; cv=none; b=YndKo9O4NTlmogsGHpZPrmQc415BaqG++xr5+OszrCFYUHrnCpjk+iaNsLApyYGD435bOeQAi1OV90BstnpcVo4EmVHoFtv27neZR6UCnfMLHzvsCT4VcGSwNVWJamoK7ZTB4WxeDhsWixoLyDNVK6hCHMi0bI2YlA3oX4v73wI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761376872; c=relaxed/simple;
-	bh=pwdhPPhvKbz0V738IUqB7hjR3lvtvn4qqpzuR8UYO/I=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Zzovlb1D/xcy1hh4WeYpTuQcc331XwkhUmXRm9MRoiT5I96cMFOQcPTkjMiyJC/v1nm1arB5b/qtPvtdhJ1bn67zctZtxZCDArP69hYJJJGETfNBrQ2V+T3LLGTrNzeRMUHQHckGUdPmiOzLIsOtigmRwnmhLh5eTAMVRY7Mpd4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev; spf=pass smtp.mailfrom=antheas.dev; dkim=temperror (0-bit key) header.d=antheas.dev header.i=@antheas.dev header.b=LswuqSoq; arc=none smtp.client-ip=88.99.38.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=antheas.dev
-Received: from relay12 (localhost [127.0.0.1])
-	by relay12.grserver.gr (Proxmox) with ESMTP id 2A6BDBDCAA
-	for <linux-input@vger.kernel.org>; Sat, 25 Oct 2025 10:21:07 +0300 (EEST)
-Received: from linux3247.grserver.gr (linux3247.grserver.gr [213.158.90.240])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by relay12.grserver.gr (Proxmox) with ESMTPS id 5E31FBDFDD
-	for <linux-input@vger.kernel.org>; Sat, 25 Oct 2025 10:21:03 +0300 (EEST)
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
-	by linux3247.grserver.gr (Postfix) with ESMTPSA id 95DCA200CC4
-	for <linux-input@vger.kernel.org>; Sat, 25 Oct 2025 10:21:02 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
-	s=default; t=1761376863;
-	bh=9MUl27cO2Ei8YeDg730+/6CR+6BK14eULrrNspxGizU=;
-	h=Received:From:Subject:To;
-	b=LswuqSoqUt/wzfXcKHDJM4P11kiGdAxUHHlg59yfhkMT7qk57wMRcdOLUDpphW5Ak
-	 2uACeoK8VGx96S3Tooh3jIhbJNDnqzxkROdEHkCDKMOVNZzjcNsZAaYDGT4tbgDpU4
-	 bjmBIiqj/wxkBPXuYJCW5wYe852UCIyhKuDufFeBIegwqxBCygqVYuw8AJke2zXQs/
-	 sdOvAA6tSKHnYPAmPK5UOHMQm5mSHNmIAH1nAoOCH+GjdOKSAtc3fvSZAc1S+blJGO
-	 bwZYUwLzFb1O/ZQFnYr8JI36BP4gOu6iRzPJx3abXcbZfxVVJgDA+EYykHT49ln0Kf
-	 EGUdVyCiW2oww==
-Authentication-Results: linux3247.grserver.gr;
-        spf=pass (sender IP is 209.85.208.176) smtp.mailfrom=lkml@antheas.dev smtp.helo=mail-lj1-f176.google.com
-Received-SPF: pass (linux3247.grserver.gr: connection is authenticated)
-Received: by mail-lj1-f176.google.com with SMTP id
- 38308e7fff4ca-378d50e1cccso31529661fa.0
-        for <linux-input@vger.kernel.org>;
- Sat, 25 Oct 2025 00:21:02 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCULY6Wk6/xoiLMb/93wfigIxOrJBqJXCXMz6gZwcqxWMoY3mWoeIBeoWqIr5qNVVQIvsVRrNpwAnL2i9Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzdOo7fDlNHPWU5BvBsDrtj2YbAeMcBwzXG2AMIur+7SeVO6k6Q
-	zOWtVs5TN5aPMPkDH9D5hLNpWr73aWCWjR8+8J05y6opG7XKKaQmzzzsnhNrb53b9JqeTo+h9Nx
-	cfzgQgHqmEWuvv2GKE4lV/xrx7TAndaU=
-X-Google-Smtp-Source: 
- AGHT+IEW4LlQ1v+uLQvZDipQIO4SZSe1WPbzjQCR+anQew6Mq+O7WD/iW877zNG6d2qsrO0cs2jlCGCfEMZzJdTfycI=
-X-Received: by 2002:a05:651c:1595:b0:375:f6b9:c962 with SMTP id
- 38308e7fff4ca-377978263edmr92266791fa.3.1761376861512; Sat, 25 Oct 2025
- 00:21:01 -0700 (PDT)
+	s=arc-20240116; t=1761409029; c=relaxed/simple;
+	bh=7k3v/DaDCG2/zDCymQG5MnzL+6f2oZRTaDFIdf7yPEY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=XNu0tq4fV6c1as/yvzpUFuPA69AOF00t40uGP4GuC9sxv17m/w28p7Je6/NPpQPgC9gS/vYhbGlNseEVJ38wzDWe5veIvOFGooA5jY1k5cediJQIwKFGY9rEMV2fcjJ6HBtL8vfyUTG3oIVBBKDbx3RROiUF3eeXcn3pEfnPbJw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ATsb0VnH; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B982C4CEF5;
+	Sat, 25 Oct 2025 16:17:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1761409027;
+	bh=7k3v/DaDCG2/zDCymQG5MnzL+6f2oZRTaDFIdf7yPEY=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=ATsb0VnHidwGki5g81o/KSf23EiqscGwWtSd/iSCBciO5ukmetNEkgTM17+H0mlh6
+	 71QEfW8iNq/AUg21bqESP0VDW+YG4drnQNc3+BIrkQDs4Dt+lDjXDYv9mIxFxFDnR2
+	 uSv2rIefpEaKOPBRmWAXwWOI0cYe2A31pxfr9VhZ174C4J/tEXes2B4UDzWYZht29v
+	 TNvQargZpZRFUj686VRQU336kNoUzDkGymuUKp9iDYr/7G67VdVk//gfoQKLrQEgOb
+	 VIkztsps3SJT/+XhUjhVFLMdB1/pGzqVcHDzTii62l30KRwl6KdPl7STdB4674VGux
+	 vV6kSd6hs0SQg==
+From: Sasha Levin <sashal@kernel.org>
+To: patches@lists.linux.dev,
+	stable@vger.kernel.org
+Cc: =?UTF-8?q?Tomasz=20Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>,
+	Oleg Makarenko <oleg@makarenk.ooo>,
+	Jiri Kosina <jkosina@suse.com>,
+	Sasha Levin <sashal@kernel.org>,
+	jikos@kernel.org,
+	bentiss@kernel.org,
+	linux-input@vger.kernel.org,
+	linux-usb@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.17-6.12] HID: pidff: Use direction fix only for conditional effects
+Date: Sat, 25 Oct 2025 11:56:46 -0400
+Message-ID: <20251025160905.3857885-175-sashal@kernel.org>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20251025160905.3857885-1-sashal@kernel.org>
+References: <20251025160905.3857885-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251018101759.4089-1-lkml@antheas.dev>
- <20251018101759.4089-2-lkml@antheas.dev>
- <e6328da3-8099-4540-9cb0-4fc28b359ee7@gmail.com>
- <CAGwozwG+gf09PQf9o9YkKFYVgVn-1w5CDVrpOe4uFavVYCNijQ@mail.gmail.com>
- <3947f772-691b-46a2-af68-15825e7f4939@gmail.com>
- <CAGwozwFbQWyuQB6EwLMLon5muff2WudR+oVL62DqP_MXGW+p-Q@mail.gmail.com>
- <b91de7c7-74b8-4cf5-82a4-f3d4eaf418d4@gmail.com>
- <CAGwozwGj-yXHXBan38_NV7G5T66bnjm7om2bz_Bha35AHhtCJQ@mail.gmail.com>
- <CAGwozwEh32XMcGJPKMRBWd63ybYOxW1Wx4QjU-QErjQgLHwX2g@mail.gmail.com>
- <0d18666a-78e1-4e69-8fd2-f15052db0cee@gmail.com>
- <CAGwozwHyC8P4KzZFY7t=WF3ANiJ4q6HgbiAMUNAGHE899Jd6rQ@mail.gmail.com>
- <ee179dc9-e7ac-4b64-a58c-93da5f7f4057@gmail.com>
-In-Reply-To: <ee179dc9-e7ac-4b64-a58c-93da5f7f4057@gmail.com>
-From: Antheas Kapenekakis <lkml@antheas.dev>
-Date: Sat, 25 Oct 2025 09:20:50 +0200
-X-Gmail-Original-Message-ID: 
- <CAGwozwG3kk3z+7Ev4p21VsB8jChRPqSZmu5Cxu1RhRRtr3bnuA@mail.gmail.com>
-X-Gm-Features: AWmQ_bnGzzPP3dpoJD1W6gEj3wJbCOfiLBKj6MGe1qbs4_FJhYJgc8Yk6mMDi3k
-Message-ID: 
- <CAGwozwG3kk3z+7Ev4p21VsB8jChRPqSZmu5Cxu1RhRRtr3bnuA@mail.gmail.com>
-Subject: Re: [PATCH v7 1/9] HID: asus: simplify RGB init sequence
-To: Denis Benato <benato.denis96@gmail.com>
-Cc: platform-driver-x86@vger.kernel.org, linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <bentiss@kernel.org>,
- Corentin Chary <corentin.chary@gmail.com>,
-	"Luke D . Jones" <luke@ljones.dev>, Hans de Goede <hdegoede@redhat.com>,
-	=?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-X-PPP-Message-ID: 
- <176137686299.1917905.17419415257182354429@linux3247.grserver.gr>
-X-PPP-Vhost: antheas.dev
-X-Virus-Scanned: clamav-milter 1.4.3 at linux3247.grserver.gr
-X-Virus-Status: Clean
+Content-Type: text/plain; charset=UTF-8
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.17.5
+Content-Transfer-Encoding: 8bit
 
-On Sat, 25 Oct 2025 at 03:25, Denis Benato <benato.denis96@gmail.com> wrote:
->
->
-> On 10/24/25 23:20, Antheas Kapenekakis wrote:
-> > On Fri, 24 Oct 2025 at 20:53, Denis Benato <benato.denis96@gmail.com> wrote:
-> >>
-> >> On 10/24/25 18:20, Antheas Kapenekakis wrote:
-> >>> On Fri, 24 Oct 2025 at 01:25, Antheas Kapenekakis <lkml@antheas.dev> wrote:
-> >>>> On Fri, 24 Oct 2025 at 00:53, Denis Benato <benato.denis96@gmail.com> wrote:
-> >>>>> On 10/23/25 23:30, Antheas Kapenekakis wrote:
-> >>>>>> On Thu, 23 Oct 2025 at 22:05, Denis Benato <benato.denis96@gmail.com> wrote:
-> >>>>>>> On 10/23/25 20:06, Antheas Kapenekakis wrote:
-> >>>>>>>> On Thu, 23 Oct 2025 at 19:38, Denis Benato <benato.denis96@gmail.com> wrote:
-> >>>>>>>>> On 10/18/25 12:17, Antheas Kapenekakis wrote:
-> >>>>>>>>>> Currently, RGB initialization forks depending on whether a device is
-> >>>>>>>>>> NKEY. Then, NKEY devices are initialized using 0x5a, 0x5d, 0x5e
-> >>>>>>>>>> endpoints, and non-NKEY devices with 0x5a and then a
-> >>>>>>>>>> backlight check, which is omitted for NKEY devices.
-> >>>>>>>>>>
-> >>>>>>>>>> Remove the fork, using a common initialization sequence for both,
-> >>>>>>>>>> where they are both only initialized with 0x5a, then checked for
-> >>>>>>>>>> backlight support. This patch should not affect existing functionality.
-> >>>>>>>>>>
-> >>>>>>>>>> 0x5d and 0x5e endpoint initializations are performed by Windows
-> >>>>>>>>>> userspace programs associated with different usages that reside under
-> >>>>>>>>>> the vendor HID. Specifically, 0x5d is used by Armoury Crate, which
-> >>>>>>>>>> controls RGB and 0x5e by an animation program for certain Asus laptops.
-> >>>>>>>>>> Neither is used currently in the driver.
-> >>>>>>>>> What benefits do we get from removing the unused initialization?
-> >>>>>>>>>
-> >>>>>>>>> If this has never caused any troubles I don't see the reason for removing
-> >>>>>>>>> them. Moreover the lighting protocol is known and I might as well add
-> >>>>>>>>> support for it in the near future,
-> >>>>>>>> I already have a patch that adds RGB and delay inits that endpoint. It
-> >>>>>>>> got removed to make this easier to merge. See [1].
-> >>>>>>>>
-> >>>>>>>> [1] https://lore.kernel.org/lkml/20250324210151.6042-10-lkml@antheas.dev/
-> >>>>>>> I have to main concerns about this:
-> >>>>>>>
-> >>>>>>> 1. taking away initialization commands in one patchset to make it
-> >>>>>>> easier to merge another unrelated patch doesn't seem the right thing
-> >>>>>>> to do if the other patch it's not in the same series.
-> >>>>>>>
-> >>>>>>> I can see [1] has been removed from the set for a later moment in time,
-> >>>>>>> it's fine if it needs more work, just send something that function in the
-> >>>>>>> same way and do not remove initialization commands when unnecessary,
-> >>>>>>> especially since there will be for sure future development.
-> >>>>>> The initialization was removed as part of general cleanup. Not to make
-> >>>>>> it easier to merge the RGB patch. In addition, the RGB patch only runs
-> >>>>>> the init in a lazy fashion, so if nobody uses the RGB sysfs the init
-> >>>>>> does not run and the behavior is the same.
-> >>>>> There are a few problems here:
-> >>>>> 1. sope creep: either do a cleanup or solve bugs. The fact that your flow z13
-> >>>>> doesn't load hid-asus correctly has nothing to do with the initialization of anime.
-> >>>>> The fact that hid-asus is driving leds instead of asus-wmi has nothing to do with
-> >>>>> anime matrix initialization either.
-> >>>>> 2. not sending the initialization can get hardware misbehave because it
-> >>>>> is left in an uninitialized state.
-> >>>>> 3. there are absolutely zero reasons to do that. There are even less reasons
-> >>>>> as to do it as part of this patchset.
-> >>>>>
-> >>>>>>> 2. Your patchset resolves around keyboard backlight control and how
-> >>>>>>> the keyboard device is exposed to userspace: it's fine but I do not see
-> >>>>>>> the point in removing initialization commands that has nothing to do
-> >>>>>>> with the issue we are trying to solve here.
-> >>>>>>>
-> >>>>>>> Please leave 0x5E and 0x5D initialization commands where they are now.
-> >>>>>> I mean the second part of the patchset does that. The first part is a
-> >>>>>> cleanup. What would be the reason for keeping 0x5E and 0x5D? They are
-> >>>>>> only used when initializing those endpoints to write further commands
-> >>>>>> to them and for identification. The current driver does not write
-> >>>>>> commands to those endpoints and identifies itself over 0x5A.
-> >>>>> There are no bugs opened that ties initialization of devices to bugs.
-> >>>>> Quite the opposite: I can guarantee you that removing part of the
-> >>>>> init will introduce regressions.
-> >>>>>
-> >>>>> The onus is on you to provide strong evidence that the removal is
-> >>>>> a necessary act.
-> >>>>>
-> >>>>> Regardless it is not in the scope of this patchset: remove it.
-> >>>>>> I do get that it is a bit risky as some laptops might be hardcoded to
-> >>>>>> wait for 0x5D to turn on RGB. Which is why we had the last patch until
-> >>>>>> V4. But we have yet to find a laptop that has this problem, so I find
-> >>>>>> it difficult to justify keeping the init.
-> >>>>> Yes it's risky to remove initialization sequences for a device that is
-> >>>>> in every modern ASUS laptop and is tied to the EC.
-> >>>>>> Do note that you might need to add the 0x5D init to your userspace
-> >>>>>> program for certain laptops if you haven't already. But that is ok,
-> >>>>>> since in doing so you are also validating you are speaking to an Asus
-> >>>>>> device, which is important.
-> >>>>> This doesn't make much sense: why would anyone remove
-> >>>>> a command from the kernel, that can be very well essential to some models
-> >>>>> (sleep can break, for example) just to add it back in a userspace program?
-> >>>>>
-> >>>>> What does it mean I have to validate I am speaking to an asus device?
-> >>>>> Software selects devices by known attribute, one of them is the vid:pid....
-> >>>>> Beside what does this have to do with the removal of initialization commands
-> >>>>> from the kernel?
-> >>>>>
-> >>>>> Even late initializing devices can lead to problems. Windows doesn't do that:
-> >>>>> as soon as asus drivers are loaded all relevant initialization sequences are
-> >>>>> sent; Windows is the only officially supported OS: do not introduce commands
-> >>>>> flow divergence without strong reasons backing it up.
-> >>>> If you think keeping 0x5D init is that important, I can spin patch [1]
-> >>>> into this series. But then this quirk will stay in the kernel forever.
-> >>>> I can even add 0x5E since that does not affect newer devices, which I
-> >>>> care for simplifying the sequence.
-> >> Fully initializing the device tied to the EC in the same windows does
-> >> is not a "quirk". Please stop calling it that.
-> >>
-> >> It will stay on the kernel until we have strong evidence that it is causing
-> >> problems, at that point we simply avoid doing it for problematic laptops.
-> >>
-> >> If adding other commands doesn't introduce regressions or are otherwise
-> >> easy to bisect and makes more hardware working please do.
-> > It is not an init sequence. It is a handshake with the userspace
-> > program that proves to the program it is talking with a genuine asus
-> > device and to the device with the correct program. For all devices
-> > that I have tested it seems to NOOP.
-> The MCU doesn't distinguish between userspace or kernel space:
-> "it is a handshake" => yeah handshakes are part of initialization procedures.
-> "with the userspace program [...]" => MCU does not care where data is coming from.
->
-> Anyway further discussion is useless. We understood you are against
-> keeping commands that that you believe  are useless, but sometimes
-> software is like life: you have to accept compromises.
-> > 0x5a is the only one used for a driver and it does brightness control.
-> > 0x5d/0x5e are used with userspace Windows programs. 0x5d does RGB.
-> > Moreover, the application 0xff310076 only has a single report ID under
-> > it, 0x5a. 0x5d and 0x5e belong to different hid applications that are
-> > not currently checked by the driver (but when they exist they reside
-> > under the same hid endpoint, with a multi-application collection that
-> > bifurcates in Windows to multiple hid devices).
-> The MCU works as a state machine where the status is updated
-> on sleep, power on and power off: not sending initialization commands
-> will confuse (some) hardware. If not now in a few years when some user will
-> migrate away from whatever debian 12 they are running.
->
-> Those commands are not simple commands to "just init the device" as you
-> are depicting here. Stop doing that.
-> > So it makes sense to remove the redundant handshakes. If some laptops
-> > require 0x5d to enable shortcuts as Luke said, I have a patch that
-> > does that and is straightforward to do. But since the shortcut
-> > response comes from the 0x5a endpoint, I find it unlikely for it to
-> > require a handshake over a different endpoint to init.
-> So you want to remove some code, that has caused no troubles, on
-> the assumption that such removal won't have any visible consequence,
-> but you have a patch ready to restore the previous behavior in case
-> something goes wrong? It doesn't matter if you find it unlikely or not:
-> either there is a strong reason to remove it or there is not: you finding
-> such removal "unlikely" to break anything down the line is not a strong
-> reason to remove it. The fact that you don't like some code is not a strong
-> reason to remove it either.
->
-> Antheas... your flow z13 isn't loading correctly. Focus on the issue
-> at hands. Please.
->
+From: Tomasz Pakuła <tomasz.pakula.oficjalny@gmail.com>
 
-If that initialization means that much to you I will re-add the patch
-that runs it on old laptops. No need to crash out
+[ Upstream commit f345a4798dab800159b09d088e7bdae0f16076c3 ]
 
-> >>>> Luke said these two pairs are the important ones to keep.
-> >>>>
-> >>>> I'm not sure what to do.
-> >>> I was asked by a 2025 Asus Zenbook Duo user to add his IDs in [1]. In
-> >>> doing so, I updated the rgb and legacy init patches for the new series
-> >>> and added a quirk for early init of the duo keyboards.
-> >> I will take a look when I can, but if you haven't removed anything
-> >> that shouldn't pose any risk. None that I can think of at the moment anyway.
-> >>> The series is 14 patches long, I don't think my email can take it :(
-> >> linux.dev accounts for maintainers are provided free of charge
-> >> and I had to ask for an account too. I suggest you do the same.
-> >>> Should we merge the first part of this series with the legacy init,
-> >>> then do the backlight refactor, and finally the new Duo stuff + rgb?
-> >> I think so. My only doubt is about the per_app quirk. Other than
-> >> that looks good and solves one problem while also better representing
-> >> the hardware, so I can't think of any blockers.
-> >>> Antheas
-> >>>
-> >> Thanks,
-> >> Denis
-> >>>> Antheas
-> >>>>
-> >>>> [1] https://lore.kernel.org/all/20250325184601.10990-12-lkml@antheas.dev/
-> >>>>
-> >>>>>> Antheas
-> >>>>>>
-> >>>>> Denis
-> >>>>>>>>>> Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
-> >>>>>>>>>> ---
-> >>>>>>>>>>  drivers/hid/hid-asus.c | 56 ++++++++++++++----------------------------
-> >>>>>>>>>>  1 file changed, 19 insertions(+), 37 deletions(-)
-> >>>>>>>>>>
-> >>>>>>>>>> diff --git a/drivers/hid/hid-asus.c b/drivers/hid/hid-asus.c
-> >>>>>>>>>> index a444d41e53b6..7ea1037c3979 100644
-> >>>>>>>>>> --- a/drivers/hid/hid-asus.c
-> >>>>>>>>>> +++ b/drivers/hid/hid-asus.c
-> >>>>>>>>>> @@ -638,50 +638,32 @@ static int asus_kbd_register_leds(struct hid_device *hdev)
-> >>>>>>>>>>       unsigned char kbd_func;
-> >>>>>>>>>>       int ret;
-> >>>>>>>>>>
-> >>>>>>>>>> -     if (drvdata->quirks & QUIRK_ROG_NKEY_KEYBOARD) {
-> >>>>>>>>>> -             /* Initialize keyboard */
-> >>>>>>>>>> -             ret = asus_kbd_init(hdev, FEATURE_KBD_REPORT_ID);
-> >>>>>>>>>> -             if (ret < 0)
-> >>>>>>>>>> -                     return ret;
-> >>>>>>>>>> -
-> >>>>>>>>>> -             /* The LED endpoint is initialised in two HID */
-> >>>>>>>>>> -             ret = asus_kbd_init(hdev, FEATURE_KBD_LED_REPORT_ID1);
-> >>>>>>>>>> -             if (ret < 0)
-> >>>>>>>>>> -                     return ret;
-> >>>>>>>>>> -
-> >>>>>>>>>> -             ret = asus_kbd_init(hdev, FEATURE_KBD_LED_REPORT_ID2);
-> >>>>>>>>>> -             if (ret < 0)
-> >>>>>>>>>> -                     return ret;
-> >>>>>>>>>> -
-> >>>>>>>>>> -             if (dmi_match(DMI_PRODUCT_FAMILY, "ProArt P16")) {
-> >>>>>>>>>> -                     ret = asus_kbd_disable_oobe(hdev);
-> >>>>>>>>>> -                     if (ret < 0)
-> >>>>>>>>>> -                             return ret;
-> >>>>>>>>>> -             }
-> >>>>>>>>>> -
-> >>>>>>>>>> -             if (drvdata->quirks & QUIRK_ROG_ALLY_XPAD) {
-> >>>>>>>>>> -                     intf = to_usb_interface(hdev->dev.parent);
-> >>>>>>>>>> -                     udev = interface_to_usbdev(intf);
-> >>>>>>>>>> -                     validate_mcu_fw_version(hdev,
-> >>>>>>>>>> -                             le16_to_cpu(udev->descriptor.idProduct));
-> >>>>>>>>>> -             }
-> >>>>>>>>>> +     ret = asus_kbd_init(hdev, FEATURE_KBD_REPORT_ID);
-> >>>>>>>>>> +     if (ret < 0)
-> >>>>>>>>>> +             return ret;
-> >>>>>>>>>>
-> >>>>>>>>>> -     } else {
-> >>>>>>>>>> -             /* Initialize keyboard */
-> >>>>>>>>>> -             ret = asus_kbd_init(hdev, FEATURE_KBD_REPORT_ID);
-> >>>>>>>>>> -             if (ret < 0)
-> >>>>>>>>>> -                     return ret;
-> >>>>>>>>>> +     /* Get keyboard functions */
-> >>>>>>>>>> +     ret = asus_kbd_get_functions(hdev, &kbd_func, FEATURE_KBD_REPORT_ID);
-> >>>>>>>>>> +     if (ret < 0)
-> >>>>>>>>>> +             return ret;
-> >>>>>>>>>>
-> >>>>>>>>>> -             /* Get keyboard functions */
-> >>>>>>>>>> -             ret = asus_kbd_get_functions(hdev, &kbd_func, FEATURE_KBD_REPORT_ID);
-> >>>>>>>>>> +     if (dmi_match(DMI_PRODUCT_FAMILY, "ProArt P16")) {
-> >>>>>>>>>> +             ret = asus_kbd_disable_oobe(hdev);
-> >>>>>>>>>>               if (ret < 0)
-> >>>>>>>>>>                       return ret;
-> >>>>>>>>>> +     }
-> >>>>>>>>>>
-> >>>>>>>>>> -             /* Check for backlight support */
-> >>>>>>>>>> -             if (!(kbd_func & SUPPORT_KBD_BACKLIGHT))
-> >>>>>>>>>> -                     return -ENODEV;
-> >>>>>>>>>> +     if (drvdata->quirks & QUIRK_ROG_ALLY_XPAD) {
-> >>>>>>>>>> +             intf = to_usb_interface(hdev->dev.parent);
-> >>>>>>>>>> +             udev = interface_to_usbdev(intf);
-> >>>>>>>>>> +             validate_mcu_fw_version(
-> >>>>>>>>>> +                     hdev, le16_to_cpu(udev->descriptor.idProduct));
-> >>>>>>>>>>       }
-> >>>>>>>>>>
-> >>>>>>>>>> +     /* Check for backlight support */
-> >>>>>>>>>> +     if (!(kbd_func & SUPPORT_KBD_BACKLIGHT))
-> >>>>>>>>>> +             return -ENODEV;
-> >>>>>>>>>> +
-> >>>>>>>>>>       drvdata->kbd_backlight = devm_kzalloc(&hdev->dev,
-> >>>>>>>>>>                                             sizeof(struct asus_kbd_leds),
-> >>>>>>>>>>                                             GFP_KERNEL);
->
+The already fixed bug in SDL only affected conditional effects. This
+should fix FFB in Forza Horizion 4/5 on Moza Devices as Forza Horizon
+flips the constant force direction instead of using negative magnitude
+values.
+
+Changing the direction in the effect directly in pidff_upload_effect()
+would affect it's value in further operations like comparing to the old
+effect and/or just reading the effect values in the user application.
+
+This, in turn, would lead to constant PID_SET_EFFECT spam as the effect
+direction would constantly not match the value that's set by the
+application.
+
+This way, it's still transparent to any software/API.
+
+Only affects conditional effects now so it's better for it to explicitly
+state that in the name. If any HW ever needs fixed direction for other
+effects, we'll add more quirks.
+
+Signed-off-by: Tomasz Pakuła <tomasz.pakula.oficjalny@gmail.com>
+Reviewed-by: Oleg Makarenko <oleg@makarenk.ooo>
+Signed-off-by: Jiri Kosina <jkosina@suse.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+
+LLM Generated explanations, may be completely bogus:
+
+YES
+
+- What it fixes
+  - The earlier quirk forced a fixed direction (0x4000) for all effect
+    types on specific wheelbases to work around mis-set PID directions
+    in some user stacks (dinput → wine → SDL). That broad forcing breaks
+    games that legitimately use the direction field for non-conditional
+    effects (e.g., Forza Horizon 4/5 uses direction flips for constant
+    force instead of negative magnitudes). This patch narrows the quirk
+    to conditional effects only (spring, damper, inertia, friction),
+    matching where the SDL-side bug actually applied.
+
+- How it changes behavior
+  - Adds a helper to detect conditional effects and a wrapper to set the
+    direction only when appropriate:
+    - New logic: pidff_is_effect_conditional() and
+      pidff_set_effect_direction() in drivers/hid/usbhid/hid-pidff.c
+      (replaces unconditional forcing in Set Effect).
+    - Set Effect now calls the helper instead of unconditionally forcing
+      direction for all effects.
+  - Renames the quirk to reflect scope:
+    HID_PIDFF_QUIRK_FIX_WHEEL_DIRECTION →
+    HID_PIDFF_QUIRK_FIX_CONDITIONAL_DIRECTION, still using the same bit
+    (BIT(3)).
+  - Updates device ID table entries to use the new quirk name for Moza
+    devices in drivers/hid/hid-universal-pidff.c.
+
+- Why it’s appropriate for stable
+  - User-visible bug/regression: Fixes incorrect or missing FFB in Forza
+    Horizon 4/5 on Moza devices when the kernel overrode constant-force
+    directions. The message explicitly states this resolves that case.
+  - Small and contained: Limited to HID PID force-feedback code and
+    quirk tables; no architectural changes.
+  - Minimal risk: Only affects devices already marked with the quirk
+    bit. Behavior is narrowed (less intrusive) by applying the fixed
+    direction only to conditional effects; other effect types now honor
+    the application-provided direction as intended.
+  - No side effects on unrelated subsystems: Touches only HID FFB code
+    paths.
+  - Clear lineage: It logically corrects the earlier
+    “FIX_WHEEL_DIRECTION” quirk (drivers/hid/usbhid/hid-pidff.c:397)
+    that forced direction for all effect types.
+
+- Specific code references
+  - Current unconditional forcing (to be replaced by helper call):
+    drivers/hid/usbhid/hid-pidff.c:397
+  - Quirk bit definition that’s renamed but remains BIT(3):
+    drivers/hid/usbhid/hid-pidff.h:20
+  - Fixed direction constant (still used, but now applied
+    conditionally): drivers/hid/usbhid/hid-pidff.c:151
+  - Device entries using the quirk (updated to new name):
+    drivers/hid/hid-universal-pidff.c:6
+
+- Additional considerations
+  - The commit avoids mutating effect->direction in
+    pidff_upload_effect(), preventing mismatches with the application’s
+    state and avoiding needless PID_SET_EFFECT churn. It keeps behavior
+    transparent to user space.
+  - If any future hardware requires fixed direction for non-conditional
+    effects, the commit message notes that more targeted quirks will be
+    added, which further limits regression risk.
+
+Given it’s a targeted regression fix for a real-world breakage, small in
+scope, and reduces the quirk’s blast radius, it’s a strong candidate for
+stable backport (especially on branches that already carry the earlier
+FIX_WHEEL_DIRECTION quirk).
+
+ drivers/hid/hid-universal-pidff.c | 20 ++++++++++----------
+ drivers/hid/usbhid/hid-pidff.c    | 28 +++++++++++++++++++++++-----
+ drivers/hid/usbhid/hid-pidff.h    |  2 +-
+ 3 files changed, 34 insertions(+), 16 deletions(-)
+
+diff --git a/drivers/hid/hid-universal-pidff.c b/drivers/hid/hid-universal-pidff.c
+index 554a6559aeb73..70fce0f88e825 100644
+--- a/drivers/hid/hid-universal-pidff.c
++++ b/drivers/hid/hid-universal-pidff.c
+@@ -144,25 +144,25 @@ static int universal_pidff_input_configured(struct hid_device *hdev,
+ 
+ static const struct hid_device_id universal_pidff_devices[] = {
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_MOZA, USB_DEVICE_ID_MOZA_R3),
+-		.driver_data = HID_PIDFF_QUIRK_FIX_WHEEL_DIRECTION },
++		.driver_data = HID_PIDFF_QUIRK_FIX_CONDITIONAL_DIRECTION },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_MOZA, USB_DEVICE_ID_MOZA_R3_2),
+-		.driver_data = HID_PIDFF_QUIRK_FIX_WHEEL_DIRECTION },
++		.driver_data = HID_PIDFF_QUIRK_FIX_CONDITIONAL_DIRECTION },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_MOZA, USB_DEVICE_ID_MOZA_R5),
+-		.driver_data = HID_PIDFF_QUIRK_FIX_WHEEL_DIRECTION },
++		.driver_data = HID_PIDFF_QUIRK_FIX_CONDITIONAL_DIRECTION },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_MOZA, USB_DEVICE_ID_MOZA_R5_2),
+-		.driver_data = HID_PIDFF_QUIRK_FIX_WHEEL_DIRECTION },
++		.driver_data = HID_PIDFF_QUIRK_FIX_CONDITIONAL_DIRECTION },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_MOZA, USB_DEVICE_ID_MOZA_R9),
+-		.driver_data = HID_PIDFF_QUIRK_FIX_WHEEL_DIRECTION },
++		.driver_data = HID_PIDFF_QUIRK_FIX_CONDITIONAL_DIRECTION },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_MOZA, USB_DEVICE_ID_MOZA_R9_2),
+-		.driver_data = HID_PIDFF_QUIRK_FIX_WHEEL_DIRECTION },
++		.driver_data = HID_PIDFF_QUIRK_FIX_CONDITIONAL_DIRECTION },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_MOZA, USB_DEVICE_ID_MOZA_R12),
+-		.driver_data = HID_PIDFF_QUIRK_FIX_WHEEL_DIRECTION },
++		.driver_data = HID_PIDFF_QUIRK_FIX_CONDITIONAL_DIRECTION },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_MOZA, USB_DEVICE_ID_MOZA_R12_2),
+-		.driver_data = HID_PIDFF_QUIRK_FIX_WHEEL_DIRECTION },
++		.driver_data = HID_PIDFF_QUIRK_FIX_CONDITIONAL_DIRECTION },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_MOZA, USB_DEVICE_ID_MOZA_R16_R21),
+-		.driver_data = HID_PIDFF_QUIRK_FIX_WHEEL_DIRECTION },
++		.driver_data = HID_PIDFF_QUIRK_FIX_CONDITIONAL_DIRECTION },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_MOZA, USB_DEVICE_ID_MOZA_R16_R21_2),
+-		.driver_data = HID_PIDFF_QUIRK_FIX_WHEEL_DIRECTION },
++		.driver_data = HID_PIDFF_QUIRK_FIX_CONDITIONAL_DIRECTION },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_CAMMUS, USB_DEVICE_ID_CAMMUS_C5) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_CAMMUS, USB_DEVICE_ID_CAMMUS_C12) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_VRS, USB_DEVICE_ID_VRS_DFP),
+diff --git a/drivers/hid/usbhid/hid-pidff.c b/drivers/hid/usbhid/hid-pidff.c
+index 614a20b620231..c6b4f61e535d5 100644
+--- a/drivers/hid/usbhid/hid-pidff.c
++++ b/drivers/hid/usbhid/hid-pidff.c
+@@ -205,6 +205,14 @@ struct pidff_device {
+ 	u8 effect_count;
+ };
+ 
++static int pidff_is_effect_conditional(struct ff_effect *effect)
++{
++	return effect->type == FF_SPRING  ||
++	       effect->type == FF_DAMPER  ||
++	       effect->type == FF_INERTIA ||
++	       effect->type == FF_FRICTION;
++}
++
+ /*
+  * Clamp value for a given field
+  */
+@@ -294,6 +302,20 @@ static void pidff_set_duration(struct pidff_usage *usage, u16 duration)
+ 	pidff_set_time(usage, duration);
+ }
+ 
++static void pidff_set_effect_direction(struct pidff_device *pidff,
++				       struct ff_effect *effect)
++{
++	u16 direction = effect->direction;
++
++	/* Use fixed direction if needed */
++	if (pidff->quirks & HID_PIDFF_QUIRK_FIX_CONDITIONAL_DIRECTION &&
++	    pidff_is_effect_conditional(effect))
++		direction = PIDFF_FIXED_WHEEL_DIRECTION;
++
++	pidff->effect_direction->value[0] =
++		pidff_rescale(direction, U16_MAX, pidff->effect_direction);
++}
++
+ /*
+  * Send envelope report to the device
+  */
+@@ -395,11 +417,7 @@ static void pidff_set_effect_report(struct pidff_device *pidff,
+ 		pidff->set_effect[PID_GAIN].field->logical_maximum;
+ 	pidff->set_effect[PID_DIRECTION_ENABLE].value[0] = 1;
+ 
+-	/* Use fixed direction if needed */
+-	pidff->effect_direction->value[0] = pidff_rescale(
+-		pidff->quirks & HID_PIDFF_QUIRK_FIX_WHEEL_DIRECTION ?
+-		PIDFF_FIXED_WHEEL_DIRECTION : effect->direction,
+-		U16_MAX, pidff->effect_direction);
++	pidff_set_effect_direction(pidff, effect);
+ 
+ 	/* Omit setting delay field if it's missing */
+ 	if (!(pidff->quirks & HID_PIDFF_QUIRK_MISSING_DELAY))
+diff --git a/drivers/hid/usbhid/hid-pidff.h b/drivers/hid/usbhid/hid-pidff.h
+index a53a8b436baa6..f321f675e1318 100644
+--- a/drivers/hid/usbhid/hid-pidff.h
++++ b/drivers/hid/usbhid/hid-pidff.h
+@@ -16,7 +16,7 @@
+ #define HID_PIDFF_QUIRK_PERMISSIVE_CONTROL	BIT(2)
+ 
+ /* Use fixed 0x4000 direction during SET_EFFECT report upload */
+-#define HID_PIDFF_QUIRK_FIX_WHEEL_DIRECTION	BIT(3)
++#define HID_PIDFF_QUIRK_FIX_CONDITIONAL_DIRECTION	BIT(3)
+ 
+ /* Force all periodic effects to be uploaded as SINE */
+ #define HID_PIDFF_QUIRK_PERIODIC_SINE_ONLY	BIT(4)
+-- 
+2.51.0
 
 
