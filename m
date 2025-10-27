@@ -1,50 +1,54 @@
-Return-Path: <linux-input+bounces-15740-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-15741-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BCA8C0EF85
-	for <lists+linux-input@lfdr.de>; Mon, 27 Oct 2025 16:32:06 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id A8A22C0F04E
+	for <lists+linux-input@lfdr.de>; Mon, 27 Oct 2025 16:43:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 00469189EE81
-	for <lists+linux-input@lfdr.de>; Mon, 27 Oct 2025 15:32:16 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 69EA63B91F5
+	for <lists+linux-input@lfdr.de>; Mon, 27 Oct 2025 15:39:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7C4E32D94BB;
-	Mon, 27 Oct 2025 15:31:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CDBFC30BBBF;
+	Mon, 27 Oct 2025 15:39:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="XE2hhZen";
-	dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="Qjrs3RpJ"
+	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="TQNoZsK6"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail.mainlining.org (mail.mainlining.org [5.75.144.95])
+Received: from ixit.cz (ip-94-112-25-9.bb.vodafone.cz [94.112.25.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00F86749C;
-	Mon, 27 Oct 2025 15:31:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=5.75.144.95
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 031DD261B67;
+	Mon, 27 Oct 2025 15:39:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=94.112.25.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761579108; cv=none; b=MZGtVn3dXUFak3sCO+O/Bmib9evc7SNEUmx+Hq+O0OYmnFgi5mb/dlpfgwhh0mNkVaMQi8+XV3VFw9RWanimHwYrQp+Jng2ERwIfHxI+ZshPU1XPjUw57HBGTIpgRIBSnyJI8fgvfxQOwk9NrSV2wt0QZCpZQ0gB2eBDaYSqrEI=
+	t=1761579573; cv=none; b=mkMMTob1d6zufGq/eD440vmDKYhsZhMj1+cnrEnEbusFMLQhlPKIEeD1ObJi8VtzVmifRD96/4O2qFR9LPj0aok8VNoJS0GhsJxVSYi9+COYJfpL6CLrhTfKtVA0QY5T1n71CiwPDn15FKlwODIFnLAcKWyqmhbilrV0utcz8o0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761579108; c=relaxed/simple;
-	bh=ApQXkGpy3deKSOQnzGaYJWckYKHxv04pVoEKfKOXXVc=;
+	s=arc-20240116; t=1761579573; c=relaxed/simple;
+	bh=Xn8b3bCIzYzuWQ8cWcCYwddcDVqJymBApr+78ba2bgg=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=eIyDH3rkr/8bsjuC1p8KA/oPdNdxP5ttvmD7lolvrByox5xtXnlhN39+el7CyZQwyU91ZwR2u90I2UWY1dCJbS7TmH3XASzzkG58Lf6X45OYB5KhKVBscG3Gnkrhu3/aQhwj+VFBGoZLPcILcEEVIvLfewobEFJ83gsrFgzHvt0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org; spf=pass smtp.mailfrom=mainlining.org; dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=XE2hhZen; dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=Qjrs3RpJ; arc=none smtp.client-ip=5.75.144.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mainlining.org
-DKIM-Signature: v=1; a=rsa-sha256; s=202507r; d=mainlining.org; c=relaxed/relaxed;
-	h=From:To:Subject:Date:Message-ID; t=1761579101; bh=Ma2tFaAXhGqYoaas5pzi1lq
-	xVN9PzjjFxzo60jRils4=; b=XE2hhZenokHhB5mitAMcs7rFqsWhPYWs8tLLDDb8FfSwx4dXPf
-	tn8iPbpCKQuNL9rC/1LRQpwDIMmrdAlVoMIjQhq2H055CsVZiozAQf3aC0anHrlGWhQIDmzzBVp
-	AKbFMlauBPHzJFTjRULfDp2wYAmYPN5TIfKXngPP4mYlzkPg9tDMRKMPdiVyTMfBHBp/4iqw/5Q
-	oxsLgPATazYkapYtqRt9D/PFcI7rehBTVfTbJwcyALap3QueLruuMVrC81ms+r1OpELhwwf38oi
-	RMzV/rDgIRphOU0OwmC3kPkGjHmhBB6ocevMOp002SvEN9Vyuf5CnBh/FDdr7q9A09w==;
-DKIM-Signature: v=1; a=ed25519-sha256; s=202507e; d=mainlining.org; c=relaxed/relaxed;
-	h=From:To:Subject:Date:Message-ID; t=1761579101; bh=Ma2tFaAXhGqYoaas5pzi1lq
-	xVN9PzjjFxzo60jRils4=; b=Qjrs3RpJZEP0hSm6zikOR4bbl7Qp0lj3TDSoopg31a4MThNCNb
-	KMdLN0+XGbrd1dvbaPHIzmawUTwAFMd2n6DA==;
-Message-ID: <3fb8a0d7-a135-41b8-9a40-24df02008dca@mainlining.org>
-Date: Mon, 27 Oct 2025 16:31:40 +0100
+	 In-Reply-To:Content-Type; b=BEBWUybcEpAmckmGx3gChdGK67h4fW2PqunQ7MApOHigNBjzqhozwKG72sNGY7lIu2qPd2ZJoidX8iLYxxjTKloRustlG7utYFajv6CjZ407o3ACm0C8I5m5Y/j8ItktAjZOYAxFeH94z69Y4129bYEvXvOpPXekEWUnlgBF+3Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=TQNoZsK6; arc=none smtp.client-ip=94.112.25.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ixit.cz
+Received: from [10.0.0.240] (unknown [10.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ixit.cz (Postfix) with ESMTPSA id C4C0E53400B6;
+	Mon, 27 Oct 2025 16:39:26 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
+	t=1761579566;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=cL315XW4pfdU0pTGrE/+2ByvMyxYlQl+i2+yeNFA/vY=;
+	b=TQNoZsK6AvuPXU256G/VnGE4pOFpESLQGSkr8PS67C/BmonjHuot+r8degA4oGNzjW7C8x
+	S0OAKJ9lqspCDaZUSd0CwDxja80AdpNdBYSi7FaQ8SjpTbN9ixvrLDNHdxzEzwkVJ4eeBz
+	NkhR6/b2MMuuDXXbjQjI/4A/Qa/FkrA=
+Message-ID: <c53477c2-7002-41b4-a4ba-46730bb465d3@ixit.cz>
+Date: Mon, 27 Oct 2025 16:39:26 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -52,119 +56,97 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC 0/3] Input: add initial support for Goodix GTX8
- touchscreen ICs
-To: Neil Armstrong <neil.armstrong@linaro.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring <robh@kernel.org>,
+Subject: Re: [PATCH v6 1/2] Input: add ABS_SND_PROFILE
+To: Bjorn Andersson <andersson@kernel.org>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Jonathan Corbet <corbet@lwn.net>, Jiri Kosina <jikos@kernel.org>,
+ Benjamin Tissoires <bentiss@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Hans de Goede <hansg@kernel.org>,
- Henrik Rydberg <rydberg@bitmath.org>
-Cc: linux-input@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux@mainlining.org,
- phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht
-References: <20250918-gtx8-v1-0-cba879c84775@mainlining.org>
- <4a22b05d-24f8-44dc-affa-5cc28201fb53@linaro.org>
+ <conor+dt@kernel.org>, linux-input@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ Gergo Koteles <soyer@irl.hu>
+References: <20250731-op6-tri-state-v6-0-569c25cbc8c2@ixit.cz>
+ <20250731-op6-tri-state-v6-1-569c25cbc8c2@ixit.cz>
+ <rdryhql5vrjckh2yvcgbdcnlu2f4aiq6hbokgfzvrtdu33lp5u@fctqxdftabsy>
 Content-Language: en-US
-From: Jens Reidel <adrian@mainlining.org>
-In-Reply-To: <4a22b05d-24f8-44dc-affa-5cc28201fb53@linaro.org>
+From: David Heidelberg <david@ixit.cz>
+Autocrypt: addr=david@ixit.cz; keydata=
+ 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
+In-Reply-To: <rdryhql5vrjckh2yvcgbdcnlu2f4aiq6hbokgfzvrtdu33lp5u@fctqxdftabsy>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On 10/27/25 15:59, Neil Armstrong wrote:
-> Hi,
+On 27/10/2025 15:52, Bjorn Andersson wrote:
+> On Thu, Jul 31, 2025 at 11:17:01PM +0200, David Heidelberg via B4 Relay wrote:
+>> From: Gergo Koteles <soyer@irl.hu>
+>>
+>> ABS_SND_PROFILE used to describe the state of a multi-value sound profile
+>> switch. This will be used for the alert-slider on OnePlus phones or other
+>> phones.
+>>
+>> Profile values added as SND_PROFLE_(SILENT|VIBRATE|RING) identifiers
+>> to input-event-codes.h so they can be used from DTS.
+>>
 > 
-> On 9/18/25 16:02, Jens Reidel wrote:
->> These ICs support SPI and I2C interfaces, up to 10 finger touch, stylus
->> and gesture events.
->>
->> This driver is derived from the Goodix gtx8_driver_linux available at
->> [1] and only supports the GT9886 and GT9896 ICs present in the Xiaomi
->> Mi 9T and Xiaomi Redmi Note 10 Pro smartphones.
->>
->> The current implementation only supports Normandy and Yellowstone type
->> ICs, aka only GT9886 and GT9896. It is also limited to I2C only, since I
->> don't have a device with GTX8 over SPI at hand. Adding support for SPI
->> should be fairly easy in the future, since the code uses a regmap.
+> Reviewed-by: Bjorn Andersson <andersson@kernel.org>
+
+There is already v7 [1], this patch is without a change in the series,
+so I assume your R-b applies there too! :)
+
+Thank you Bjorn.
+
+David
+
+[1] 
+https://patchwork.kernel.org/project/linux-input/patch/20251014-op6-tri-state-v7-1-938a6367197b@ixit.cz/> 
+
+> Regards,
+> Bjorn
 > 
-> You didn't explain why you didn't integrate with goodix_berlin or at least
-> try to reuse part of the code.
-> 
-> Neil
-> 
-
-Hi Neil,
-
-I've taken a lot of inspiration from the goodix_berlin driver, but the 
-Berlin and GTX8 series of touchscreen ICs differ quite a bit. The driver 
-architecture is the same overall, i.e. the power-up sequence and general 
-concepts are the mostly same, but it is very clear that they are 
-different generations when looking at it in more detail.
-
-Some of the differences:
-- There is no equivalent to the bootoption reg that I can find in the 
-public GTX8 drivers
-- Firmware version struct layout is different yet again
-- GTX8 does not expose IC information at runtime as far as I can tell
-- The checksum method differs yet again
-- The vendor driver reads only 1 touch upfront rather than 2
-- Register addresses are 16-bit on GTX8 and 32-bit on Berlin
-- Firmware requests don't appear to really exist on GTX8
-
- From what I can tell, the evolution seems to be:
-Normandy -> Yellowstone -> Berlin
-since Normandy and Yellowstone are already quite different (especially 
-with the way checksums work) and Yellowstone has a couple of things 
-(checksum, fw_version) that appear similar to Berlin series ICs.
-
-I've tried to make the Berlin driver work for GTX8 ICs before, but 
-they're so different (and I lack documentation for registers to perhaps 
-make some parts work on GTX8) that I'd rather support these ICs in a new 
-and tiny driver. I hope that makes sense. I took heavy inspiration from 
-the Berlin driver, but the only parts that are really common between 
-them are very trivial things like e.g. the input dev config or power on, 
-which I don't think are worth putting in a separate header.
-
-Best regards,
-Jens
->>
->> Support for advanced features like:
->> - Firmware updates
->> - Stylus events
->> - Gesture events
->> - Nanjing IC support
->> is not included in current version.
->>
->> The current support requires a previously flashed firmware to be
->> present.
->>
->> As I did not have access to datasheets for these ICs, I extracted the
->> addresses from a couple of config files using a small tool [2]. The
->> addresses are identical for the same IC families in all configs I
->> observed, however not all of them make sense and I stubbed out firmware
->> request support due to this.
->>
->> [1] https://github.com/goodix/gtx8_driver_linux
->> [2] https://github.com/sm7150-mainline/goodix-cfg-bin
->>
->> Signed-off-by: Jens Reidel <adrian@mainlining.org>
+>> Signed-off-by: Gergo Koteles <soyer@irl.hu>
+>> Signed-off-by: David Heidelberg <david@ixit.cz>
 >> ---
->> Jens Reidel (3):
->>        dt-bindings: input: document Goodix GTX8 Touchscreen ICs
->>        Input: add support for Goodix GTX8 Touchscreen ICs
->>        MAINTAINERS: add an entry for Goodix GTX8 Touchscreen driver
->>
->>   .../bindings/input/touchscreen/goodix,gt9886.yaml  |  71 +++
->>   MAINTAINERS                                        |   7 +
->>   drivers/input/touchscreen/Kconfig                  |  15 +
->>   drivers/input/touchscreen/Makefile                 |   1 +
->>   drivers/input/touchscreen/goodix_gtx8.c            | 562 +++++++++++ 
->> ++++++++++
->>   drivers/input/touchscreen/goodix_gtx8.h            | 137 +++++
->>   6 files changed, 793 insertions(+)
->> ---
->> base-commit: ae2d20002576d2893ecaff25db3d7ef9190ac0b6
->> change-id: 20250918-gtx8-59a50ccd78a5
->>
->> Best regards,
-> 
 
