@@ -1,231 +1,222 @@
-Return-Path: <linux-input+bounces-15792-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-15793-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCA6EC195B9
-	for <lists+linux-input@lfdr.de>; Wed, 29 Oct 2025 10:25:08 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0456BC1CAFD
+	for <lists+linux-input@lfdr.de>; Wed, 29 Oct 2025 19:09:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C84323B8775
-	for <lists+linux-input@lfdr.de>; Wed, 29 Oct 2025 09:23:43 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 76E9A4E0467
+	for <lists+linux-input@lfdr.de>; Wed, 29 Oct 2025 18:06:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 78D1C322774;
-	Wed, 29 Oct 2025 09:23:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C58882F83A7;
+	Wed, 29 Oct 2025 18:05:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=thorsis.com header.i=@thorsis.com header.b="CnysY0t4"
+	dkim=pass (2048-bit key) header.d=yahoo.es header.i=@yahoo.es header.b="m85wuHYH"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail.thorsis.com (mail.thorsis.com [217.92.40.78])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from sonic311-31.consmr.mail.ir2.yahoo.com (sonic311-31.consmr.mail.ir2.yahoo.com [77.238.176.163])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7684231D742;
-	Wed, 29 Oct 2025 09:23:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.92.40.78
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7802E304967
+	for <linux-input@vger.kernel.org>; Wed, 29 Oct 2025 18:05:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.238.176.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761729821; cv=none; b=C94uGvQPdckUC4qcQnyZAriKRsWCDVeewFGvMAhmOZyaiYPDoQtP94s8xpE+1t2xYlVpxOMqFNv6cEx021lLM6l/mPdtt77RFdSjzWItDHkD0j6+GkUpIZ/za+VCbw0ngUV55f8/ynBtT3xh7XybAhXGrniXmucbV6fuUT89KNA=
+	t=1761761159; cv=none; b=AsmCRsfrxAfIL/Kmfz/SoNZELkE/0/DJxOX2wDgZNcrBx0FyhwKsrFRRtxwhe2N463bvfDlQMrjbWtVDii2TWv6au0cm7pBX0GBJzX3Wog2FhY87LdzHq0flzyQJvh8eRiM3rzfJQqrJZHpmcSFZWSu8nxR4FlWJW/sH3/q7AiY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761729821; c=relaxed/simple;
-	bh=J7iqhTzrlj86EMcGRA7xb60awDEhM6qHMzLGoaUVXis=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tZqRILK72kdQFBQoPqy9o74y9EAbKanYfZ2ymQtXivvJBBH/uHXR3xxqSUGroVOcG8R+uYDn6tJ69eXb5kbM4gycZD3g1SSY3CAJs59vbQRGMFePSAVg2xgs67pb5O8es7UqxTMPcmYcqWulR0k3835OvHBWe12zgkRJFmbKEKo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=thorsis.com; spf=pass smtp.mailfrom=thorsis.com; dkim=pass (2048-bit key) header.d=thorsis.com header.i=@thorsis.com header.b=CnysY0t4; arc=none smtp.client-ip=217.92.40.78
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=thorsis.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=thorsis.com
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 43E2C1489CE9;
-	Wed, 29 Oct 2025 10:23:22 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=thorsis.com; s=dkim;
-	t=1761729808; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 in-reply-to:references; bh=1zLIEoaFBP4q/5p+hEtogKcFyzuImMfXPa+ST2olz9A=;
-	b=CnysY0t4pIjp6NlKEvBZFdi3Y3jdok7H4tpzujTzN0+P3Q4HSFSE0Wy8kEvWBNQQAx2qzi
-	Gz3vIodzUSWZfOwJXyKky1we/qFyzFFEECLnoANMVqvPJRrKhTjCVil567ApPhoHanQpkX
-	d6WjXx0eVDVzAI39NDFWAwabMtuDYWfgqfvELfVSfoBwFG/xN5OX1IYttnilLTIzf6iD1w
-	dt73CsRp67KCmTUmoVHsktfeOy90b5Sn1RurTuKEQ4t43brVGNuOXQRROd0137G/iQvl01
-	o+Pi0TWAVaSDNh5XtJTlA1X/yk5R/ZkpKnWplOnynXthsEoMxhutw1MmJgrXfw==
-Date: Wed, 29 Oct 2025 10:23:17 +0100
-From: Alexander Dahl <ada@thorsis.com>
-To: Josua Mayer <josua@solid-run.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Jon Nettleton <jon@solid-run.com>,
-	Mikhail Anikin <mikhail.anikin@solid-run.com>,
-	Yazan Shhady <yazan.shhady@solid-run.com>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-	"linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-	"imx@lists.linux.dev" <imx@lists.linux.dev>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
-	linux-leds@vger.kernel.org
-Subject: Re: [PATCH 08/10] arm64: dts: add description for solidrun imx8mp
- hummingboard-iiot
-Message-ID: <20251029-jittery-ambiguity-14e03ad2f0df@thorsis.com>
-Mail-Followup-To: Josua Mayer <josua@solid-run.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Jon Nettleton <jon@solid-run.com>,
-	Mikhail Anikin <mikhail.anikin@solid-run.com>,
-	Yazan Shhady <yazan.shhady@solid-run.com>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-	"linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-	"imx@lists.linux.dev" <imx@lists.linux.dev>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
-	linux-leds@vger.kernel.org
-References: <20251027-imx8mp-hb-iiot-v1-0-683f86357818@solid-run.com>
- <20251027-imx8mp-hb-iiot-v1-8-683f86357818@solid-run.com>
- <2c54b7b7-4eb4-44a0-8025-8da16a28efd4@solid-run.com>
+	s=arc-20240116; t=1761761159; c=relaxed/simple;
+	bh=/c1SKVT+/sqM24y7+5cf+duOQ9Kmzf+Gs+LYzXJnSr8=;
+	h=Message-ID:Date:From:MIME-Version:To:Subject:References:
+	 Content-Type; b=m4e+R0gDW2qW63Fm2rGIAuHrgdaLeKy4iQ7PD1FTv82hyvEpHt/wuVbkXKHD7E4OZcmVapFuBVbNfTDda3vbCfREXuSoVt7AVE+4X/23UIwyVu4m96oE2gVNRiWIL+xrxx+ySZNc63E1M0aQpuRiZ3cl1uk4l6DjC/PztQ36dsE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.es; spf=pass smtp.mailfrom=yahoo.es; dkim=pass (2048-bit key) header.d=yahoo.es header.i=@yahoo.es header.b=m85wuHYH; arc=none smtp.client-ip=77.238.176.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.es
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.es
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.es; s=s2048; t=1761761155; bh=oe0Kv1b4fjnOqql4FKQTzbzKXqF0dLoqMVE7IYGGkeo=; h=Date:From:Reply-To:To:Subject:References:From:Subject:Reply-To; b=m85wuHYHxk5lAeTcIr+h838sTQaQX6JlYHQS+2RXzJ+c8sCM56u68Z8QFhTCbcwOnJJ3PCMogP6ddFtVzixqLBAUyASx/ajJ57Wf3WYfQo55I47FYwxRDuFNTEcKQx62KLlLfUIKCVD1ov5E6DpAm9EYTn9NstxIgGzYAFeBvolNAHIKJcqIULAAeTW1891BNJAm70ccVtoSW7gBWGweKZlcXH1v4Maufj/wKSgscueCVe8EIuUITOQKfi6yJYNr9DLIPsPVkgyfXQuSmaoLK6YJC+WdIwPk8vZuq67JKOn7eOdwrd2Axg6HGy9qSbSr8QAXthn9QHb5+sWDDwQSYQ==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1761761155; bh=DzVNnecEQhYrjctOF+Z5wMUfeP7RhGEmqIUoBMxYq/r=; h=X-Sonic-MF:Date:From:To:Subject:From:Subject; b=YeOocdCG7x3DQfauY2jDht9xhhpzyEGbj+dgaaFjfjjJkWoEFb5AD85WAgQAV0TjuhT8HvxwNNeux843j3JisJTwdQrfao9pdK2rBVUD2HxQoNxeRGX54TQZtdmNgKeipH/OuAFMpzQfY9Jeh/6S64vt6grP1YwJ+7kJKORgMqAkxoLTw/m7/ChkuDaMTMmuHGYGRRt5jgRLts2toeXrkIUDniNTA6oVNLXX00uDg5I8/gdiE3OMUWuGu1P2ZvoTmpR4VE/7xynX8KqSBYetipJmEH7JaqlWVDGfYYV+RtXYHAwM6DS8dpfl7kDwWaOsRdLcwe1OKl821fGlUz6oaw==
+X-YMail-OSG: KaUStcwVM1kpCrpkWMF2a6Q44HqAxzDSx6VNwLaGPIvPe600NwrB.x3bVNYNcZg
+ 7qkN9guNrbBj2WwU1DgStMFerq.iNDabi4iPSpiqMFwvTRDBVyu6ptklt5zf2CKzuubZ4C8InxmD
+ 8d.B.czkfKBvJcf7V2c9kEcvMF3cDUkU8QcMZtzp0oxbMyJ4Q2wN0VVnA1NYWpm8VrZ53ueJVMSV
+ GeY80kgVHAT6AVzyP8WEEgM2yZk.QAFevnQtSu3XMSrw3sZY7g_df9AP3on8KrHuPFe_k_JLqyGR
+ ul3eJWCymxAeV1NazLsYzfSEy1vhFzePPV9kWNxtbUGxuCQquQGqYGxXyLM3tko3jKGYN73b9cCq
+ 8d8BpsuMlgrUTrTyV9p8C9nZhiSz7OxoXTrvlqDL23z6mIAzOHYAViw9YWtYYOdLxCMkeIWZ_wcD
+ Yo3xAMHtnXEBDdOPL05TnWyxO4q.s3oKfDxBovHnmQOr3ic1IAoArIZlrN8sCysCfb00tDYg2hOQ
+ m1tpSLzw3x0XGo0MSdLtRiNR8APFZuyl9zVUwwSqjNlzxAgYqCE8ZHeNd1rYZHbHUn_onl4FSPir
+ bjf1aM5TKPyWD62w2lNSHOeTjT6IZiKMSp1R.NwQOu3vFt8NK5xc7MLWfvdoFz6SHsywBcmPzwiI
+ k5Wcrvxp2mPGFNaS7iHZLFXvZOWjzqsPTcyUuKXYXslS9sw_MAtyhNCZwCGuzXqTejysKSeqtUxZ
+ AhgB7m6MX3UifCrgg8V9IGaiuJeSmW_8A_qydKoDcc22of3Pg1i4G_Js8pRX9GKOapMQr9LyzwoL
+ Q.vCP6Lt4eHuRUUCuS9XWdnXzPxQLI_6to5rI2MUE3bfNUZc8inN03_kzYKvcA4UKwnfnyeM7soK
+ cbo4wjX0b3OjEtFxp.Xj.2DcrwVND0Mfhf9KyRydzWmVA9sd.YO2qa6ZonPUJZYFH.bsLnvTqHKV
+ pYVj_xGJ2Lj_iZwK7ArWnQMz80FuNRbIa9lWy1GciSFSLLZftqIi33GwI_AaxRhikXvMQsFk3XgG
+ RvtgVsiXpYjFFGhh1aB8jTIn213KW8Md43P2giiJN3VJgArNd_W3i6bCfObRNXypOxR99UteJrOF
+ VRp5o1g4X5OErpYLjNmu8JI16cheDTCs51eKC_h0bbJ6AAWUvJk8PVA6FiyivV5hT.kzNeetBapM
+ czVMwwrLvYUGGOT3OD.jIuYO_COfpHUFerbRJDtGziyqMwEXF5xhmLAAOMBOTOIug97J1vT4Moo_
+ j7NTXThUQvGG8FkWcD6JHz87RcBL09ze6iI6CYn4pbTiCbZ__7dMQdsGKhjy0ERaejo8WJaRprsN
+ GwkLBjzUfz7KDhWVO7KE5z_16W3sOuSOLZf1byKKL6HT_TES9pcLQqZvVLvOL0_XUugxb3lhIs76
+ afkBxMPsTdLuyRyLxIASjY4L7s2Wl0UQVjP8TrNiyZqRCRxMWjHaReDRV5OydpyeZrgcvxreozT1
+ cvAnk1CME.CZan.quwEBA.fr39bSlMhf45zz4r_qImnRDpOayEYVyiWV65VksnmT8Je.T5KIVLuX
+ L52V4DlQq6v1LYXnBY_aPpF8vx61lWK7vwMi23IEnwsBpqYWRQLpU50Ro.LOfRhIedVB24BBmcio
+ NBgpAaZ5.f.rFFeLDksyyGUz8mFPL1xILK_E3fYvRe_EIpajZqib4ciOUDKIb0BCik1r12KwTz_P
+ .34Sys7RAR9GaHp_PlfcQgNUEiHxa83tDXsOX1_jYM1kYCq7RcyMYR.s9N5VN6sakIc4mlUzT4g7
+ aM.2Z9fahyPePU5IEYy7b7o_l0DWEp2dLPMM1Ycgo8kURfdSDRoe.3i2M6ChMudNaif5U9RTyzJ3
+ ZXvKhUhdDVX5wdlZ6uFktCdNW2ZjuJ8dyLq_5z8gnnSxtJC6nP91M_UAD_7nZUWq68b5J5aMv1nY
+ Qi7skvdwec94dfgaYO2_jNMZz4ZmXAyMpcKenj5LQjUXVrPxxFvTBAQHFepYurnQFEFiDR.GcUm8
+ 1vQYJApMjqtai2be89c1QBGmskWflETQ9BotaYXPDUXkqBb6T1XxyL5pG2zWzhvvstqbmoPmpbr.
+ udEHJOjgV0nHNJoSWHdf8STVnigtBdw63teEsTdvJgDVMu7gLOXiqkYsKgSM0KJuAbkcZr6FC9ln
+ ChnEVjj9u75uFBTU5XhRgyqj_SRiaHilL9Enc2py0rm8q37bHaHEU6hG3gqFn_anFQ38yjV8uyDu
+ 2raSeIs6aCyjw1AFIIyohAjbTo2PCccPqzKAYYbdHLMmj6eWqd6Es6rRCIMkwSXKFE23TXY8koLK
+ xQKcT77kiDWKIon21Y3OX
+X-Sonic-MF: <melus0@yahoo.es>
+X-Sonic-ID: 4c52ce29-fbc8-4ff2-8d03-e1e7cb5f0079
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic311.consmr.mail.ir2.yahoo.com with HTTP; Wed, 29 Oct 2025 18:05:55 +0000
+Received: by hermes--production-ir2-8c47c9895-t2gzg (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 7ba0c65d6b2a3ed0948e30debb1863e8;
+          Wed, 29 Oct 2025 17:15:12 +0000 (UTC)
+Received: from luis2 (luis2.eb7gwl.ampr.org [192.168.1.252])
+	by sirius.eb7gwl.ampr.org (8.13.1/8.12.8) with SMTP id 59THFAYe008521;
+	Wed, 29 Oct 2025 18:15:10 +0100
+Message-ID: <69024A1F.7275@yahoo.es>
+Date: Wed, 29 Oct 2025 18:08:47 +0100
+From: Luis Yanes <melus0@yahoo.es>
+Reply-To: melus0@yahoo.es
+X-Mailer: Mozilla 3.04Gold (WinNT; U)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+To: linux-input@vger.kernel.org
+Subject: [PATCH v2] HID: Off-by-one error in CP2112 HID driver affecting SMBus block read output
+References: <68F7C063.5049@yahoo.es>
 Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2c54b7b7-4eb4-44a0-8025-8da16a28efd4@solid-run.com>
-User-Agent: Mutt/2.2.12 (2023-09-09)
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Transfer-Encoding: 7bit
 
-Hello Josua,
+Just following up on this bug report and proposed fix. I would appreciate feedback on
+whether this approach is acceptable or if there is a preferred way to handle this quirk.
 
-Am Tue, Oct 28, 2025 at 12:24:36PM +0000 schrieb Josua Mayer:
-> Am 27.10.25 um 18:48 schrieb Josua Mayer:
-> 
-> > Add description for the SolidRun i.MX8MP HummingBoard IIoT.
-> > The board is a new design around the i.MX8MP System on Module, not
-> > sharing much with previous HummingBoards.
-> >
-> > It comes with some common features:
-> > - 3x USB-3.0 Type A connector
-> > - 2x 1Gbps RJ45 Ethernet
-> > - USB Type-C Console Port
-> > - microSD connector
-> > - RTC with backup battery
-> > - RGB Status LED
-> > - 1x M.2 M-Key connector with PCI-E Gen. 3 x1
-> > - 1x M.2 B-Key connector with USB-2.0/3.0 + SIM card holder
-> > - 1x LVDS Display Connector
-> > - 1x DSI Display Connector
-> > - GPIO header
-> > - 2x RS232/RS485 ports (configurable)
-> > - 2x CAN
-> >
-> > In addition there is a board-to-board expansion connector to support
-> > custom daughter boards with access to SPI, a range of GPIOs and -
-> > notably - CAN and UART. Both 2x CAN and 2x UART can be muxed either
-> > to this b2b connector, or a termianl block connector on the base board.
-> >
-> > The routing choice for UART and CAN is expressed through gpio
-> > mux-controllers in DT and can be changed by applying dtb addons.
-> >
-> > Four dtb addons are provided:
-> >
-> > - dsi panel Winstar WJ70N3TYJHMNG0
-> > - lvds panel Winstar WF70A8SYJHLNGA
-> > - RS485 on UART port "A" (default rs232)
-> > - RS485 on UART port "B" (default rs232)
-> >
-> > Signed-off-by: Josua Mayer <josua@solid-run.com>
-> > ---
-> >  arch/arm64/boot/dts/freescale/Makefile             |   6 +
-> >  ...hummingboard-iiot-panel-dsi-WJ70N3TYJHMNG0.dtso |  70 ++
-> >  ...ummingboard-iiot-panel-lvds-WF70A8SYJHLNGA.dtso | 105 +++
-> >  .../imx8mp-hummingboard-iiot-rs485-a.dtso          |  18 +
-> >  .../imx8mp-hummingboard-iiot-rs485-b.dtso          |  18 +
-> >  .../dts/freescale/imx8mp-hummingboard-iiot.dts     | 710 +++++++++++++++++++++
-> >  6 files changed, 927 insertions(+)
-> cut
-> > diff --git a/arch/arm64/boot/dts/freescale/imx8mp-hummingboard-iiot.dts b/arch/arm64/boot/dts/freescale/imx8mp-hummingboard-iiot.dts
-> > new file mode 100644
-> > index 0000000000000..2e4cb676bc9da
-> > --- /dev/null
-> > +++ b/arch/arm64/boot/dts/freescale/imx8mp-hummingboard-iiot.dts
-> cut
-> > +	led-controller@30 {
-> > +		compatible = "ti,lp5562";
-> > +		reg = <0x30>;
-> > +		/* use internal clock, could use external generated by rtc */
-> > +		clock-mode = /bits/ 8 <1>;
-> > +		#address-cells = <1>;
-> > +		#size-cells = <0>;
-> > +
-> > +		multi-led@0 {
-> > +			reg = <0x0>;
-> > +			color = <LED_COLOR_ID_RGB>;
-> > +			#address-cells = <1>;
-> > +			#size-cells = <0>;
-> > +
-> > +			led@0 {
-> > +				reg = <0x0>;
-> > +				color = <LED_COLOR_ID_RED>;
-> > +				led-cur = /bits/ 8 <0x32>;
-> > +				max-cur = /bits/ 8 <0x64>;
-> > +			};
-> > +
-> > +			led@1 {
-> > +				reg = <0x1>;
-> > +				color = <LED_COLOR_ID_GREEN>;
-> > +				led-cur = /bits/ 8 <0x19>;
-> > +				max-cur = /bits/ 8 <0x32>;
-> > +			};
-> > +
-> > +			led@2 {
-> > +				reg = <0x2>;
-> > +				color = <LED_COLOR_ID_BLUE>;
-> > +				led-cur = /bits/ 8 <0x19>;
-> > +				max-cur = /bits/ 8 <0x32>;
-> > +			};
-> > +		};
-> > +
-> > +		led@3 {
-> > +			reg = <3>;
-> > +			chan-name = "D8";
-> 
-> chan-name gives the led the name D6 in sysfs.
-> 
-> The bindings do not allow however setting chan-name on
-> the multi-led, and it has an auto-generated name in sysfs.
-> 
-> Am I missing something? Can multi-leds have a custom name?
+After thoroughly reviewing the driver code and rereading AN495 I still don't know why
+these chips (tried 5 of them so far) are showing the previously stated observed behaviour,
+because the driver logic seems compliant with the AN495 CP2112 interface specification.
 
-The sysfs names are auto-generated based on the attributes "color",
-"function", and "label" with the last being discouraged for new
-designs.  If the "ti,lp5562" driver does nothing special, you could
-add "function" to the multi-led node and see if that fits your needs.
+But performing an SMBus block read using the CP2112 HID USB-to-SMBus bridge with these
+chips the last byte of a 32-byte response is consistently incorrect unless an extra byte
+was requested.
 
-Adding linux-leds to Cc, because this is a LED related question.
+A flag could be added at driver load time to enable a quirk fix for affected chips but
+the end user first would need to notice or know that their adapter is affected.
 
-Greets
-Alex
+I have not been able to figure out a way to detect those affected chips that will produce
+corrupted output without notice or warning other than directly checking the serial number.
 
-> In v6.6 leds-lp5562 driver if I set in each multi-led led@[0-2] sub-node
-> chan-name to the same string "D7" - then the sysfs name becomes D7.
-> 
-> > +			color = <LED_COLOR_ID_GREEN>;
-> > +			led-cur = /bits/ 8 <0x19>;
-> > +			max-cur = /bits/ 8 <0x64>;
-> > +		};
-> > +	};
+So have written a quirks patch against v5.15.195 that applies to a given serial number
+range or device version and can be enabled for those known to be affected with minimal
+impact on the rest.
+
+Alternatively I think that at least some sort of warning notice always should be included.
+
+Signed-off-by: Luis Yanes <melus0@yahoo.es>
+--- a/drivers/hid-cp2112.c
++++ b/drivers/hid-cp2112.c
+@@ -26,6 +26,14 @@
+ #include <linux/nls.h>
+ #include <linux/usb/ch9.h>
+ #include "hid-ids.h"
++#include <linux/usb.h>
++
++#ifndef CP2112_QUIRKS
++#define CP2112_SN_RANGE_QUIRKS_START	"00670000"
++#define CP2112_SN_RANGE_QUIRKS_END	"00670FFF"
++#define CP2112_DEVICE_VERSION_QUIRK	2
++#define CP2112_QUIRK_SMBUS_BLOCK33 BIT(0)
++#endif
+ 
+ #define CP2112_REPORT_MAX_LENGTH		64
+ #define CP2112_GPIO_CONFIG_LENGTH		5
+@@ -170,6 +178,7 @@
+ 	struct delayed_work gpio_poll_worker;
+ 	unsigned long irq_mask;
+ 	u8 gpio_prev_state;
++	unsigned long quirks;
+ };
+ 
+ static int gpio_push_pull = 0xFF;
+@@ -642,6 +651,7 @@
+ 	__le16 word;
+ 	ssize_t count;
+ 	size_t read_length = 0;
++	size_t max_length;
+ 	unsigned int retries;
+ 	int ret;
+ 
+@@ -702,8 +712,14 @@
+ 		break;
+ 	case I2C_SMBUS_BLOCK_DATA:
+ 		if (I2C_SMBUS_READ == read_write) {
++			read_length = I2C_SMBUS_BLOCK_MAX ;
++			/* Apply quirk: allow one extra byte for CP2112 block read */
++			if (dev->quirks & CP2112_QUIRK_SMBUS_BLOCK33) {
++				read_length += 1;
++				hid_info(hdev, "Quirk: using block read size %lu\n", read_length);
++			}
+ 			count = cp2112_write_read_req(buf, addr,
+-						      I2C_SMBUS_BLOCK_MAX,
++						      read_length,
+ 						      command, NULL, 0);
+ 		} else {
+ 			count = cp2112_write_req(buf, addr, command,
+@@ -796,7 +812,14 @@
+ 		memcpy(data->block + 1, buf, read_length);
+ 		break;
+ 	case I2C_SMBUS_BLOCK_DATA:
+-		if (read_length > I2C_SMBUS_BLOCK_MAX) {
++		max_length = I2C_SMBUS_BLOCK_MAX;
++
++		if (dev->quirks & CP2112_QUIRK_SMBUS_BLOCK33) {
++			max_length += 1;
++			hid_info(hdev, "Quirk: allowing block read up to %lu bytes\n", max_length);
++		}
++
++		if (read_length > max_length) {
+ 			ret = -EPROTO;
+ 			goto power_normal;
+ 		}
+@@ -1235,6 +1258,9 @@
+ 	struct gpio_irq_chip *girq;
+ 	int ret;
+ 
++	struct usb_device *udev;
++	char serial[64] = {0};
++
+ 	dev = devm_kzalloc(&hdev->dev, sizeof(*dev), GFP_KERNEL);
+ 	if (!dev)
+ 		return -ENOMEM;
+@@ -1282,6 +1308,26 @@
+ 	hid_info(hdev, "Part Number: 0x%02X Device Version: 0x%02X\n",
+ 		 buf[1], buf[2]);
+ 
++	if (buf[2] == CP2112_DEVICE_VERSION_QUIRK) {
++		dev->quirks |= CP2112_QUIRK_SMBUS_BLOCK33;
++		hid_info(hdev, "Enabled SMBus block+1 quirk for device version 0x%02X\n", buf[2]);
++	}
++
++	udev = interface_to_usbdev(to_usb_interface(hdev->dev.parent));
++
++	if (udev->descriptor.iSerialNumber) {
++		ret = usb_string(udev, udev->descriptor.iSerialNumber, serial, sizeof(serial));
++		if (ret > 0)
++			hid_info(hdev, "CP2112 device serial number: %s\n", serial);
++	}
++
++	if (strlen(serial) == 8 &&
++		strncmp(serial, CP2112_SN_RANGE_QUIRKS_START, 8) >= 0 &&
++		strncmp(serial, CP2112_SN_RANGE_QUIRKS_END, 8) <= 0) {
++			dev->quirks |= CP2112_QUIRK_SMBUS_BLOCK33;
++			hid_info(hdev, "Enabled SMBus block+1 quirk for serial %s\n", serial);
++	}
++
+ 	ret = cp2112_hid_get(hdev, CP2112_SMBUS_CONFIG, (u8 *)&config,
+ 			     sizeof(config), HID_FEATURE_REPORT);
+ 	if (ret != sizeof(config)) {
+
+--
+
 
