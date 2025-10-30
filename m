@@ -1,107 +1,146 @@
-Return-Path: <linux-input+bounces-15814-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-15819-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70B50C21E15
-	for <lists+linux-input@lfdr.de>; Thu, 30 Oct 2025 20:11:38 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id E3E30C2215B
+	for <lists+linux-input@lfdr.de>; Thu, 30 Oct 2025 20:54:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id EC4424E5F7E
-	for <lists+linux-input@lfdr.de>; Thu, 30 Oct 2025 19:11:25 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4F1011A244B4
+	for <lists+linux-input@lfdr.de>; Thu, 30 Oct 2025 19:53:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5DB0837572D;
-	Thu, 30 Oct 2025 19:10:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g5e2tGMs"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E1BCC32F76B;
+	Thu, 30 Oct 2025 19:51:55 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from vs81.iboxed.net (vs10.datenmanufaktur-hosting.net [213.160.73.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BAA337572A;
-	Thu, 30 Oct 2025 19:10:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12EE23016F6;
+	Thu, 30 Oct 2025 19:51:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.160.73.65
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761851454; cv=none; b=Ntkaky6nqZza0PecRP99q8Byvf5LcdQ7nVYWM4OmTKxvUgzK+RWyKyA5aju4TyOM+ZWu5GiABufillsuVsaH+G7rgWxsarq4aPFI1S8abrGOOwREPSxjPloAr3cjcSechslzvV5rKL8Sb5Tr7qFPp71f4+uSVSz6qwB2YM4EJdo=
+	t=1761853915; cv=none; b=ppojtjcFXOxqKy8/TM8+r30VADJpE05lIRmzQetQGXH4IWnB6Zbbqq2alkf1oOHLD0/1AIRd7IogpjACLHYEtCl6lkrsXMg9qLYtGsw15AbJcfX6Z5GE7i6dAKMmU9hHc4qJ20Pq70DYLfjOrgC/Fbho8wxSw77acXKrYF0n5kY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761851454; c=relaxed/simple;
-	bh=adyXiT86E3/PnN/XVD2yWuOTXuTxM2aPkCYxiEEjduY=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=hF0L4FzUgelS+Hr+C8kDgQN5LaqbQbMlkQ/RKG5Dbyw3PosU2df/16JR6uAO+JuxPPrsYfuVB7gAr6u2FUlsmCLZDXqzpfurxCbqLw7VfEuAwKOTqldToCfGFiGRnT3dROK7JhHk8S5Gfn1vWKyyeuPOTSWrly1xsqxCkPB7cIc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g5e2tGMs; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2FD2AC4CEFD;
-	Thu, 30 Oct 2025 19:10:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761851453;
-	bh=adyXiT86E3/PnN/XVD2yWuOTXuTxM2aPkCYxiEEjduY=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=g5e2tGMsymwn+FJBI5n1hSvtBJs0RhOvxQjknbrX07WyiUzOsLS0uIuE2C9Hmao4L
-	 Gm0B3HaAw+egPQJaJu9zGagx+wq+ARareGR0iXjMpULLlRsZCRDcRHxh0Sw5oKQUlv
-	 50tD4SlGVSqJZ11l3T6UMlB3n9/a7D+V9DD4GKb8vPOEvSpqL7pViiwopbcQkNedV2
-	 JrG2OBYSk9YZ6FsTdjouV48hYMh9Y+Zz5wkVnBwQMdSGpE7cBbDf6sW9O5R10xnz6M
-	 mJQLdAzM579Oj3g6HC170GETub0SU4WqyYhklgluYBYDf8GZSm8wXewpUQbenM6tSV
-	 gSWEST+q3TMBQ==
-From: akemnade@kernel.org
-Date: Thu, 30 Oct 2025 20:10:36 +0100
-Subject: [PATCH v2 3/3] ARM: dts: ti/omap: omap4-epson-embt2ws: add
- powerbutton
+	s=arc-20240116; t=1761853915; c=relaxed/simple;
+	bh=5n07oj67Je80NH7aQ3GWzRhlJBRKFCiudjajpUFfZAI=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Dytma1noPWYppiPllktCf4HRmhnNEE4r3GJGeSe/n2PMS+WGlp1+30uBSqGBgDUHM6OIzjoJfbUdlzVXzdBa/ZetoYmghmZRBmbB8Kd6MNAtDWWSPLHmBbJW+zj7N5hxTnXks/6ez0cApEUHSgkg4f+/UCGurQgl4expHIRj4Ss=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=blala.de; spf=pass smtp.mailfrom=blala.de; arc=none smtp.client-ip=213.160.73.65
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=blala.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=blala.de
+Received: from blala.de (localhost [127.0.0.1])
+	by vs81.iboxed.net (8.15.2/8.15.2/Debian-14~deb10u1) with ESMTP id 59UJvB6B020191;
+	Thu, 30 Oct 2025 19:57:11 GMT
+Received: (from akurz@localhost)
+	by blala.de (8.15.2/8.15.2/Submit) id 59UJvBpT020190;
+	Thu, 30 Oct 2025 19:57:11 GMT
+From: Alexander Kurz <akurz@blala.de>
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Lee Jones <lee@kernel.org>, Dzmitry Sankouski <dsankouski@gmail.com>,
+        Griffin Kroah-Hartman <griffin.kroah@fairphone.com>,
+        Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
+        Heiko Stuebner <heiko@sntech.de>,
+        "Dr . David Alan Gilbert" <linux@treblig.org>,
+        Job Sava <jsava@criticallink.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+Cc: devicetree@vger.kernel.org, imx@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-input@vger.kernel.org, Alexander Kurz <akurz@blala.de>
+Subject: [PATCH v6 0/6] Fix, extend and support OF to mc13xxx pwrbutton
+Date: Thu, 30 Oct 2025 19:56:48 +0000
+Message-Id: <20251030195654.20142-1-akurz@blala.de>
+X-Mailer: git-send-email 2.20.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251030-twl6030-button-v2-3-09653d05a2b1@kernel.org>
-References: <20251030-twl6030-button-v2-0-09653d05a2b1@kernel.org>
-In-Reply-To: <20251030-twl6030-button-v2-0-09653d05a2b1@kernel.org>
-To: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Andreas Kemnade <andreas@kemnade.info>, 
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
- Tony Lindgren <tony@atomide.com>, Kevin Hilman <khilman@kernel.org>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-input@vger.kernel.org, linux-omap@vger.kernel.org, 
- Andreas Kemnade <akemnade@kernel.org>
-X-Mailer: b4 0.15-dev-50721
-X-Developer-Signature: v=1; a=openpgp-sha256; l=828; i=akemnade@kernel.org;
- h=from:subject:message-id; bh=kCywPpfG6XQhiUheZwu6EG6J7hIkcu/XRNjW/00c6gg=;
- b=owGbwMvMwCUm/rzkS6lq2x3G02pJDJnMOwwn8gmrlubETTjWsksq4ZzuSSPphL8zjpfdjOrfo
- nsyuXRhRykLgxgXg6yYIssvawW3TyrPcoOnRtjDzGFlAhnCwMUpABOJVGFkuGq027yq88/klKDj
- rBFPv07YwvUxqy1livmfso0Zyjd9WRj+Z+188rBn2t1cn40+IXMFtm3aJGq7QVyrPP3Jx/T4twn
- X+QA=
-X-Developer-Key: i=akemnade@kernel.org; a=openpgp;
- fpr=EEC0DB858E66C0DA70620AC07DBD6AC74DE29324
+Content-Transfer-Encoding: 8bit
 
-From: Andreas Kemnade <andreas@kemnade.info>
+Goal of this patch series is to make mx13xxx power buttons usable
+on DT based systems.
+A ten-year-old IRQ issue needed a fix, mc13783-pwrbutton had to be
+extended to the other to mc13xxx PMIC as well and adding OF support.
+The implementation has been tested with PWRON1 on mc13892 found e.g.
+in amazon kindle D01100/D01200/EY21 readers and also in on mc34708
+in the imx53-qsrb "i.MX53 Quick start board".
 
-There is a power button connected to the PMIC, so describe it to be able
-to power off the device in a convenient manner.
+Changes in v6:
+- Link to v5: https://lore.kernel.org/linux-input/20251008064401.13863-1-akurz@blala.de/
+- Rebase to v6.18-rc1
+- Add a imx53-qsrb dts patch to enable the "power" button on the
+  i.MX53 Quick start board.
 
-Signed-off-by: Andreas Kemnade <andreas@kemnade.info>
----
- arch/arm/boot/dts/ti/omap/omap4-epson-embt2ws.dts | 5 +++++
- 1 file changed, 5 insertions(+)
+Changes in v5:
+- Link to v4: https://lore.kernel.org/linux-input/20250914193723.10544-1-akurz@blala.de/
+- Rebase to current to include already merged dt-schema patches and
+  a different mc13xxx related patch.
+- Drop patch to use devm_mfd_add_devices and devm_regmap_add_irq_chip -
+  won't like to do the proposed mutex-cleanup now.
+- While adding OF support, remove the platform_data configuration
+  interface as proposed by Dmitry Torokhov. Also drop the change
+  to use module_platform_driver_probe.
 
-diff --git a/arch/arm/boot/dts/ti/omap/omap4-epson-embt2ws.dts b/arch/arm/boot/dts/ti/omap/omap4-epson-embt2ws.dts
-index c90f43cc2fae..673df1b693f2 100644
---- a/arch/arm/boot/dts/ti/omap/omap4-epson-embt2ws.dts
-+++ b/arch/arm/boot/dts/ti/omap/omap4-epson-embt2ws.dts
-@@ -229,6 +229,11 @@ rtc {
- 			interrupts = <11>;
- 		};
- 
-+		pwrbutton {
-+			compatible = "ti,twl6030-pwrbutton";
-+			interrupts = <0>;
-+		};
-+
- 		ldo2: regulator-ldo2 {
- 			compatible = "ti,twl6032-ldo2";
- 			regulator-min-microvolt = <1000000>;
+Changes in v4:
+- Link to v3: https://lore.kernel.org/linux-input/20250829201517.15374-1-akurz@blala.de/
+- Rebase to git://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git
+  tags/ib-mfd-input-rtc-v6.18 in order to include a different mc13xxx
+  related patch (sorry for that).
+- Re-ordered commits since dt-bindings changes already go reviewes by
+  Rob Herring.
+- Following Dmitrys suggestions, resources for irq are now passed from
+  mfd to input allowing a more simple implementation. Work on other mfd
+  cells with irq usage might still be a future project.
+- Input-related differences between the mc13xxx variants are encoded
+  in data structures, making the implementation of mc13892 PWRON3 a
+  simple task.
+
+Changes in v3:
+- Link to v2: https://lore.kernel.org/linux-input/20250823144441.12654-1-akurz@blala.de/
+- Undo all changes to led-control (rename to fsl,led-control), thanks Rob
+- Restructured the new buttons node for unevaluatedProperties: false
+- Various other remarks from Rob
+- Rebase to current state
+
+Changes in v2:
+- Link to v1: https://lore.kernel.org/linux-input/20250817102751.29709-1-akurz@blala.de/
+- Convert dt-bindings from txt to fsl,mc13xxx.yaml and add vendor prefix
+  to led-control property, causing changes in dts and driver.
+- Change node name from pwrbuttons to buttons
+- Change property debounce-delay-value to debounce-delay-ms
+- Fixed a section mismatch error
+- Fixed https://lore.kernel.org/r/202508210551.VzAtE5re-lkp@intel.com/
+  (wrong index used when converting to array access)
+- Usage of generic device properties API in mc13783-pwrbutton.c
+- Provide chip-specific max button id via platform_device_id, therefore
+  swap patches 3 and 4.
+
+Alexander Kurz (6):
+  Input: mc13783-pwrbutton: use managed resources
+  Input: mc13783-pwrbutton: fix irq mixup and use resources
+  Input: mc13783-pwrbutton: convert pdata members to array
+  Input: mc13783-pwrbutton: enable other mc13xxx PMIC
+  Input: mc13783-pwrbutton: add OF support and drop platform_data
+  ARM: dts: imx53: add imx53-qsrb PMIC power button
+
+ arch/arm/boot/dts/nxp/imx/imx53-qsrb.dts |  12 +
+ drivers/input/misc/Kconfig               |   4 +-
+ drivers/input/misc/mc13783-pwrbutton.c   | 278 +++++++++++++----------
+ drivers/mfd/mc13xxx-core.c               |  49 +++-
+ drivers/mfd/mc13xxx.h                    |   2 +
+ include/linux/mfd/mc13783.h              |   4 +-
+ include/linux/mfd/mc13892.h              |   1 +
+ include/linux/mfd/mc13xxx.h              |  20 +-
+ 8 files changed, 219 insertions(+), 151 deletions(-)
 
 -- 
-2.47.3
+2.39.5
 
 
