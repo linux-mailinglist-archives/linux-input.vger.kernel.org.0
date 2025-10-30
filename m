@@ -1,69 +1,69 @@
-Return-Path: <linux-input+bounces-15804-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-15805-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A35AC208B7
-	for <lists+linux-input@lfdr.de>; Thu, 30 Oct 2025 15:19:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE651C208AE
+	for <lists+linux-input@lfdr.de>; Thu, 30 Oct 2025 15:19:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id BC0D84EED9B
-	for <lists+linux-input@lfdr.de>; Thu, 30 Oct 2025 14:11:02 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 4198B4EF192
+	for <lists+linux-input@lfdr.de>; Thu, 30 Oct 2025 14:11:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1C87B258CE1;
-	Thu, 30 Oct 2025 14:10:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 21C0D25A2AE;
+	Thu, 30 Oct 2025 14:10:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="JB67kJya"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="kW4asABi"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-io1-f74.google.com (mail-io1-f74.google.com [209.85.166.74])
+Received: from mail-io1-f73.google.com (mail-io1-f73.google.com [209.85.166.73])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57DA024DD17
-	for <linux-input@vger.kernel.org>; Thu, 30 Oct 2025 14:10:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58DDF253F3A
+	for <linux-input@vger.kernel.org>; Thu, 30 Oct 2025 14:10:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761833445; cv=none; b=R4YiyOdOs7W5W9Ri4KKhVSJTWm4U4STsLlcp5kGZAfRtEiPMOFHVn/U8qCCUy3ADfm0B4nLHORK30QTUnPUw6qYJuK7quQC5N6dZhc7bxm2odb5E5bDli1Mnq6O8DTiDNKStrLNmL0qbnOZSj3936SIQPfyyjg5bwCBVkwAEuP8=
+	t=1761833446; cv=none; b=qLzH8OLUpeG/P43zrhNrFCazUDIfjW/oHgrmbOBiPxcw7OSQO2KksvTZiZYhKxpa86cX0wyL5/bmQXYFBnMIRoRd/rQNrI4AjQ6FD3yUU+Y3xRlYKJU97ORjRICaRseIt5r/pOSRd1YcrcTiFYej+sEREHKVNIhEYmtSZoFT3fE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761833445; c=relaxed/simple;
-	bh=1Rv+cNZUnHqjrlP4AuPv1UvjdUJGPgsu2fReIcVoAss=;
+	s=arc-20240116; t=1761833446; c=relaxed/simple;
+	bh=q3jHj61zXvz5MN2y9J6SalSvSDG9xMqxfmXbK044WsM=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=dvQL7WBbv1Wx/cw9FGcLl709XgFXER2b/nsFEwodQ2twy2stNWvSE8Wyjrh1IsFOncEUm7LLTn6lrjnXoo8dkWEcRHihUFs+0ulLEb34yE8283fC8dUcal1t2UulAxtHvygTI+DVWp1KYX7o/mWlb7p7xglEBHbo13nSYhCMJ3w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jdenose.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=JB67kJya; arc=none smtp.client-ip=209.85.166.74
+	 To:Cc:Content-Type; b=M0OMVf9QhJLC66VHGFFcn+WMGc/3TRV1mOXafhIS1Lsakn9tGT9I2YpfZgeIqcmH1bnvXl9uKe5d44M/dOK/CTsYP5r4UD2KXbvapAngnPgrGdDEOLUB2YykohWXaLzywn/71E+gcPbMUf7ys2XHb+bpDe/4RIGu7kcsJTQ9TDM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jdenose.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=kW4asABi; arc=none smtp.client-ip=209.85.166.73
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jdenose.bounces.google.com
-Received: by mail-io1-f74.google.com with SMTP id ca18e2360f4ac-9447edc234fso305901539f.2
-        for <linux-input@vger.kernel.org>; Thu, 30 Oct 2025 07:10:43 -0700 (PDT)
+Received: by mail-io1-f73.google.com with SMTP id ca18e2360f4ac-927b19c5023so103332339f.1
+        for <linux-input@vger.kernel.org>; Thu, 30 Oct 2025 07:10:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1761833442; x=1762438242; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1761833443; x=1762438243; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=uzx+TIGAHeWAdlRbvKzxCvCV+3aa2fiQ4ymntya7+7o=;
-        b=JB67kJyaAPmlahBeN0yC/NaYZyjgzoCJo5z6MKZdBgiMKJIsU6KGWIdK6zpb/qxkbj
-         F4mOtsNZTCtu8ZV9seE7+kpClrMSb4Y3OX+QL3RLvsw3gG/HPpNs1kggur4dXyMlv5G5
-         6NySnIVj+LC35ANVHc4uaO0Ii23KJNscZ/5Lw0sVjv3DsQ8j+Wbdxhb4oFbGXoHL7jfv
-         mZGjgwH5nsbtnCzYt31QCNXm59DDyOZXe2Ywf6g/tLuOZrQAov13X3fd46LLmCg/x0l7
-         BvFgsM6dUHFUJNEOFMlhRxuaUpwqoXVz7zs49/3a8wFbtBFZbRDfVkRfwhZCnzepURC7
-         N9SA==
+        bh=pmuXm6118pY2fmFrwM3cdE3k0F1cDt7ZnMWQFLJv4F8=;
+        b=kW4asABiElYUnaGo4ZZcTKPhygn+wuNmHWRMsd9kV+sKIDgCsSjd01yxDLQ/nCssUB
+         jEErut2YbI8BxKWWWPa5Kwcchy0pGW/ZKQzN9DxT8aOi4nlOpLp6Laix0FcAGjsTuo71
+         J0VuGsR+/UqGtjoZ0a5Tr1iWnmo2MhqtlQbMStsag+kEAsTn6Ju3Hb52md0lSltiP9Wv
+         94nq5fb9jeJgFC8E5y+TWduuPqeKO5bDnNDW0FMFE/gyjh/jiZvfxC6vr3//+I8lOK4d
+         OmpMy4B4DUW1xc6wplNkxjS5C8+EYm6XqnNoqH4BCfgke7VYFbSUpDNWMzTQQk5K+QHD
+         6LoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761833442; x=1762438242;
+        d=1e100.net; s=20230601; t=1761833443; x=1762438243;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=uzx+TIGAHeWAdlRbvKzxCvCV+3aa2fiQ4ymntya7+7o=;
-        b=BnXN2kwiNnfwJdFGUoqp+gQdDKP20UNiSLyzDhoH/z+6bu9K3RddqqVsW9RTwn80G4
-         y54HcC77U682qRCeXw3NGBkbbG9lW2jjho/9ZR/FyjvhVdl8wLEPV0deXruCp3h8l3Wg
-         LK4F1vK+4kjLMhKkj45kvZC6NZqLeOXfjEw17fozo4dI6xYFZNOWO2rLhYfUQdP0emii
-         IG0AND3lk7qTsrS6sC9HQDoOlxq5K9BQOmEi3MLiPyRX4W2Rz6MRMU2fcfzhWkHS7b7N
-         B1oXLd+JGJZhhQVUmtTQcYRmN8nqEhQZ89LE+zX59vNLWIujTfXWuuL5wURi3z0y0+4V
-         yzKA==
-X-Gm-Message-State: AOJu0YzfPsqW6GF+KdfBq/FW1sF0qvIPCxBr6GFDMDFB0br4AMtU+390
-	RWeF8cYmgf5hVz2Gy/wvlnTU+NbzxcYSg2q7+tp7hmB++YAONB4pdzcnKQgaM/MVaseNbcLDJuq
-	NznaVlpR/uw==
-X-Google-Smtp-Source: AGHT+IEwb0t0Qlisa1OGs7apQisuIV8c9QvZ3+m4D0xseH90T0W4voKqMOYGDhGhJCAdffYKjr4Z1nUlCfXn
-X-Received: from iobbe6.prod.google.com ([2002:a05:6602:3786:b0:943:5a50:ad49])
- (user=jdenose job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6e02:1609:b0:42d:b5d0:1930
- with SMTP id e9e14a558f8ab-4330154fb44mr46377195ab.23.1761833442501; Thu, 30
- Oct 2025 07:10:42 -0700 (PDT)
-Date: Thu, 30 Oct 2025 14:10:40 +0000
+        bh=pmuXm6118pY2fmFrwM3cdE3k0F1cDt7ZnMWQFLJv4F8=;
+        b=STqwNIe2h4eZwtb7jbqZHBhuVJBDc8tXMAtiDwpBmxsKkJyRHvxTXbpWtgxL4QrBC8
+         nile45aYR25ikXvBI4AyDFLPhQAMjori8eo8Nxsd/4rfwqXBxK++1uQjqJzxxcYzuQvM
+         F1XLlbQO+vxJYy0AdkjM7aTfHRrfKBn8EXVl6qfIwi8kMhY09dcGlyX8rrulKA9yms96
+         wGJV9tJSwci8sO0Fiz1lXKHusJrTTr02ujrlt4mFjPsP7R7g6QToqqm8yt3U7e7MMEnM
+         7cw5e6nx/lb8r9mHq7E73BgMgYqTLs/VSzm2NEb1lb51w/k4odg89oTv5je1vhNl7lNR
+         kOtQ==
+X-Gm-Message-State: AOJu0YwRcNbqn3zbfwoXXHVHmRn8Klz4YWstUEd9RcxXlmrgsQlvWkbp
+	7di5211ailH6Hp+I4ySoNbNy1jUWXJRsFjXAljvJL4Lh4je0gfCMZK9ZVgSMIap4W7EEOcBGFLg
+	4UDt3K9/OXw==
+X-Google-Smtp-Source: AGHT+IH6LnWqO+DOElFFG3eH7qSxiHTlugiupzsGZZ7UfXk5ZpCwRsS8lH2J52EOivUvNIfmz+2MU500c8LK
+X-Received: from iobjh5.prod.google.com ([2002:a05:6602:7185:b0:93e:8094:6993])
+ (user=jdenose job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6602:14c8:b0:945:c311:44e2
+ with SMTP id ca18e2360f4ac-945c97e558emr962817139f.13.1761833443503; Thu, 30
+ Oct 2025 07:10:43 -0700 (PDT)
+Date: Thu, 30 Oct 2025 14:10:41 +0000
 In-Reply-To: <20251030-lid-switch-notifier-v1-0-c58dc9b1439d@google.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
@@ -73,8 +73,9 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20251030-lid-switch-notifier-v1-0-c58dc9b1439d@google.com>
 X-Mailer: b4 0.14.2
-Message-ID: <20251030-lid-switch-notifier-v1-1-c58dc9b1439d@google.com>
-Subject: [PATCH 1/2] Input: Create input notifier chain in input.c
+Message-ID: <20251030-lid-switch-notifier-v1-2-c58dc9b1439d@google.com>
+Subject: [PATCH 2/2] HID: multitouch: Toggle touch surface on Elan touchpad on
+ lid event
 From: Jonathan Denose <jdenose@google.com>
 To: Dmitry Torokhov <dmitry.torokhov@gmail.com>, Jiri Kosina <jikos@kernel.org>, 
 	Benjamin Tissoires <bentiss@kernel.org>
@@ -82,87 +83,118 @@ Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
 	Jonathan Denose <jdenose@google.com>
 Content-Type: text/plain; charset="utf-8"
 
-To expose input events to other kernel modules, add a blocking notifier
-chain. Publish LID_SWITCH_OPEN/LID_SWITCH_CLOSE events through this
-notifier chain when input_handle_event detects events signaling the lid
-switch has opened or closed.
+Many touchpad modules have a pin which is expected to be connected to the
+lid angle sensor in laptops. The pin sends a signal to the touchpad module
+about the lid state and each touchpad vendor handles this notification in
+their firmware.
 
-Additionally, export a function which allows other kernel modules to
-register notifier_block structs against this notifier chain.
+The Elan touchpad with VID 323b does not always have this aforementioned
+pin, which then causes interference between the lid and the touchpad when
+the lid is closed. This interference causes a few seconds delay before the
+touchpad works again, or it causes it to be come completely unresponsive.
+To circumvent this hardware issue in software, implement a device quirk
+which will allow the hid-multitouch driver to register a notifier_block
+to listen for lid switch events and turn the touchpad surface on and off
+triggering a recalibration of the touchpad. This recalibration resolves
+interference issues when the lid is closed.
 
 Signed-off-by: Jonathan Denose <jdenose@google.com>
 ---
- drivers/input/input.c | 13 +++++++++++++
- include/linux/input.h |  7 +++++++
- 2 files changed, 20 insertions(+)
+ drivers/hid/hid-multitouch.c | 32 +++++++++++++++++++++++++++++++-
+ 1 file changed, 31 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/input/input.c b/drivers/input/input.c
-index a500e1e276c211d1146dbfea421a3402084007f8..b342b1ff138ccc58d4623edcf1152bd85d7054bf 100644
---- a/drivers/input/input.c
-+++ b/drivers/input/input.c
-@@ -26,6 +26,7 @@
- #include <linux/kstrtox.h>
- #include <linux/mutex.h>
- #include <linux/rcupdate.h>
+diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
+index 2879e65cf303b1456311ac06115adda5a78a2600..feb0a0b65b6355cc412fcf8ea88132dc5bdc6a26 100644
+--- a/drivers/hid/hid-multitouch.c
++++ b/drivers/hid/hid-multitouch.c
+@@ -35,6 +35,7 @@
+ #include <linux/device.h>
+ #include <linux/hid.h>
+ #include <linux/module.h>
 +#include <linux/notifier.h>
- #include "input-compat.h"
- #include "input-core-private.h"
- #include "input-poller.h"
-@@ -62,6 +63,8 @@ static const unsigned int input_max_code[EV_CNT] = {
- 	[EV_FF] = FF_MAX,
+ #include <linux/slab.h>
+ #include <linux/input/mt.h>
+ #include <linux/jiffies.h>
+@@ -76,6 +77,7 @@ MODULE_LICENSE("GPL");
+ #define MT_QUIRK_DISABLE_WAKEUP		BIT(21)
+ #define MT_QUIRK_ORIENTATION_INVERT	BIT(22)
+ #define MT_QUIRK_APPLE_TOUCHBAR		BIT(23)
++#define MT_QUIRK_REGISTER_INPUT_NOTIFIER BIT(24)
+ 
+ #define MT_INPUTMODE_TOUCHSCREEN	0x02
+ #define MT_INPUTMODE_TOUCHPAD		0x03
+@@ -183,6 +185,8 @@ struct mt_device {
+ 	struct list_head reports;
  };
  
-+static struct blocking_notifier_head input_notifier_head;
++static struct hid_device *lid_notify_hdev;
 +
- static inline int is_event_supported(unsigned int code,
- 				     unsigned long *bm, unsigned int max)
- {
-@@ -367,10 +370,20 @@ void input_handle_event(struct input_dev *dev,
- 		if (type != EV_SYN)
- 			add_input_randomness(type, code, value);
+ static void mt_post_parse_default_settings(struct mt_device *td,
+ 					   struct mt_application *app);
+ static void mt_post_parse(struct mt_device *td, struct mt_application *app);
+@@ -227,6 +231,7 @@ static void mt_post_parse(struct mt_device *td, struct mt_application *app);
+ #define MT_CLS_SMART_TECH			0x0113
+ #define MT_CLS_APPLE_TOUCHBAR			0x0114
+ #define MT_CLS_SIS				0x0457
++#define MT_CLS_REGISTER_INPUT_NOTIFIER 0x0115
  
-+		if (type == EV_SW && code == SW_LID && !value)
-+			blocking_notifier_call_chain(&input_notifier_head, value ?
-+				LID_SWITCH_CLOSE : LID_SWITCH_OPEN, dev);
-+
- 		input_event_dispose(dev, disposition, type, code, value);
- 	}
+ #define MT_DEFAULT_MAXCONTACT	10
+ #define MT_MAX_MAXCONTACT	250
+@@ -327,7 +332,9 @@ static const struct mt_class mt_classes[] = {
+ 			MT_QUIRK_CONTACT_CNT_ACCURATE |
+ 			MT_QUIRK_WIN8_PTP_BUTTONS,
+ 		.export_all_inputs = true },
+-
++	{ .name = MT_CLS_REGISTER_INPUT_NOTIFIER,
++		.quirks = MT_QUIRK_REGISTER_INPUT_NOTIFIER,
++		.export_all_inputs = true },
+ 	/*
+ 	 * vendor specific classes
+ 	 */
+@@ -1840,6 +1847,20 @@ static void mt_expired_timeout(struct timer_list *t)
+ 	clear_bit_unlock(MT_IO_FLAGS_RUNNING, &td->mt_io_flags);
  }
  
-+int register_input_notifier(struct notifier_block *notifier)
++static int mt_input_notifier(struct notifier_block *nb, unsigned long action, void *dev)
 +{
-+	return blocking_notifier_chain_register(&input_notifier_head, notifier);
-+}
-+EXPORT_SYMBOL(register_input_notifier);
++	if (action == LID_SWITCH_CLOSE)
++		mt_set_modes(lid_notify_hdev, HID_LATENCY_NORMAL, TOUCHPAD_REPORT_NONE);
++	else if (action == LID_SWITCH_OPEN)
++		mt_set_modes(lid_notify_hdev, HID_LATENCY_NORMAL, TOUCHPAD_REPORT_ALL);
 +
- /**
-  * input_event() - report new input event
-  * @dev: device that generated the event
-diff --git a/include/linux/input.h b/include/linux/input.h
-index 7d7cb0593a63e93c4906c49cde430188db2d1ab5..e940aff8843a0afc693c60a252d6b0dbcb3476c4 100644
---- a/include/linux/input.h
-+++ b/include/linux/input.h
-@@ -42,6 +42,11 @@ enum input_clock_type {
- 	INPUT_CLK_MAX
- };
- 
-+enum input_notify_event_type {
-+	LID_SWITCH_OPEN,
-+	LID_SWITCH_CLOSE
++	return 0;
++}
++
++static struct notifier_block mt_notifier_block = {
++	.notifier_call = mt_input_notifier
 +};
 +
- /**
-  * struct input_dev - represents an input device
-  * @name: name of the device
-@@ -431,6 +436,8 @@ int input_flush_device(struct input_handle *handle, struct file *file);
- void input_set_timestamp(struct input_dev *dev, ktime_t timestamp);
- ktime_t *input_get_timestamp(struct input_dev *dev);
+ static int mt_probe(struct hid_device *hdev, const struct hid_device_id *id)
+ {
+ 	int ret, i;
+@@ -1920,6 +1941,11 @@ static int mt_probe(struct hid_device *hdev, const struct hid_device_id *id)
+ 	if (hdev->vendor == USB_VENDOR_ID_SIS_TOUCH)
+ 		hdev->quirks |= HID_QUIRK_NOGET;
  
-+int register_input_notifier(struct notifier_block *notifier);
++	if (mtclass->quirks & MT_CLS_REGISTER_INPUT_NOTIFIER) {
++		lid_notify_hdev = hdev;
++		register_input_notifier(&mt_notifier_block);
++	}
 +
- void input_event(struct input_dev *dev, unsigned int type, unsigned int code, int value);
- void input_inject_event(struct input_handle *handle, unsigned int type, unsigned int code, int value);
+ 	ret = hid_hw_start(hdev, HID_CONNECT_DEFAULT);
+ 	if (ret)
+ 		return ret;
+@@ -2150,6 +2176,10 @@ static const struct hid_device_id mt_devices[] = {
+ 		HID_DEVICE(BUS_I2C, HID_GROUP_MULTITOUCH_WIN_8,
+ 			USB_VENDOR_ID_ELAN, 0x32ae) },
  
++	{ .driver_data = MT_CLS_REGISTER_INPUT_NOTIFIER,
++		HID_DEVICE(BUS_I2C, HID_GROUP_MULTITOUCH_WIN_8,
++			USB_VENDOR_ID_ELAN, 0x323b) },
++
+ 	/* Elitegroup panel */
+ 	{ .driver_data = MT_CLS_SERIAL,
+ 		MT_USB_DEVICE(USB_VENDOR_ID_ELITEGROUP,
 
 -- 
 2.51.1.851.g4ebd6896fd-goog
