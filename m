@@ -1,172 +1,111 @@
-Return-Path: <linux-input+bounces-15795-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-15796-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF0C2C1E083
-	for <lists+linux-input@lfdr.de>; Thu, 30 Oct 2025 02:35:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4285EC1E9A6
+	for <lists+linux-input@lfdr.de>; Thu, 30 Oct 2025 07:41:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id F15F8188CED5
-	for <lists+linux-input@lfdr.de>; Thu, 30 Oct 2025 01:36:02 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1322119C14BF
+	for <lists+linux-input@lfdr.de>; Thu, 30 Oct 2025 06:38:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4CB54287272;
-	Thu, 30 Oct 2025 01:35:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3CACD32572A;
+	Thu, 30 Oct 2025 06:37:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="VZnkMGZA"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ojLVIWMn"
 X-Original-To: linux-input@vger.kernel.org
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f73.google.com (mail-pj1-f73.google.com [209.85.216.73])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14758126BF1;
-	Thu, 30 Oct 2025 01:35:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A78362FB99F
+	for <linux-input@vger.kernel.org>; Thu, 30 Oct 2025 06:37:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761788135; cv=none; b=aEJMJ0A8geqfMvo2DWyU/3vz0Ec0MopXrt2EJ9FfkegBrbOcrJ0cT7Vkn8xrywRoI4VcNrARS99wjP3C7EE8Ldmk/h0A5eynj1/316YEIkcvEH/2gic50wNxkM7lsNMSgRSbIYUNWA/Kv5/qWj1Klb/sNg4uakWI2YV/c7taVOo=
+	t=1761806233; cv=none; b=eKWLpfOe9RaxsLzzdTB2SOxxXY9HloFLWSxufUzxkJnruT/v78KSaHa44DbJZeK3tgqxOKBLbxnJsfTqo6As6i3VfIKLsPfVtV12gKQTccMWbZ9PyndfbueiZnXN9pDz27x6na3wRNqxh/nMBMGbTnTucU3jNyKzRPxmzTgjvm0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761788135; c=relaxed/simple;
-	bh=3ZvXNTRQF9vLAa2yTsTcBzleKVLlMdappktmXpqMvQ0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=d2w4jEzWsiukOH4Gi+Dc0jwAir5cy/IpQaP4Gsin1MWmSQ/Ujfay3yj219apflR/ZoMw33XvvSnY2MVzaIyS2Qs2UAVOBYNOri3r2qk7w4qTvdTmNePZzAAKNPqUyz7iOVlhCdPjYUwXNENGY1nCblDn/+BSbsY4HRt6yvLW30c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=VZnkMGZA; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=I+p3nAqMLI/zIhtuMxwdpUBm1FGCJ5lAvlvbU+1uuPs=; b=VZnkMGZASX46dSzZ4+Aa2XTbnx
-	/OWYan8yk1buG1vgVHhr/TWJmxbT9qp2iybS9Py93MXZk8g+sf7wHNytAHoC+4CVR0TZW8NYjzbOZ
-	+VsdTTk2BxIgg4fy7F1akRJFj5Kf54X9likzxEizVlq1ihm8bnrHvSc0EMRULPhmvHkidLFcliBHh
-	8iuRB1wHwc9XeTrIkRPvTttjg25CdqGAOsVN0A3zRt/usjbfvyrgXEUdTxBd/qy/HF3ONspuN/W8f
-	ZNRt7UqVllZz5r6Pua4CpkoP/xVJDWxQVvcYjsgNs4qn8hYYplBUCzvdnIlaWvD/aOtLt993H5vH+
-	gnEUqhLg==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vEHZZ-00000003KxJ-20Gu;
-	Thu, 30 Oct 2025 01:35:29 +0000
-Message-ID: <01992fa4-c982-49e8-9152-e6a716552a3b@infradead.org>
-Date: Wed, 29 Oct 2025 18:35:28 -0700
+	s=arc-20240116; t=1761806233; c=relaxed/simple;
+	bh=z6RMcyk5XD0HE6+7NbYB8avXShQxig3SkzJmyzRO5I8=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=rZWiWQcjk5BnPyE09tr/pIweT1jla+zkE8mUm9aHGkj6ztbiWvSMy2j4RFr+xjCp5HwpuSI2pTXHm/ZcHwAYu1nlXHEQOtpamxUbGXvWXl4/hvtA5APgoqozfPjsWurYWOWyh4TlHXxmjcdocCSaQ+5HQeSD6l+aZSP8KnwDiZA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--willyhuang.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ojLVIWMn; arc=none smtp.client-ip=209.85.216.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--willyhuang.bounces.google.com
+Received: by mail-pj1-f73.google.com with SMTP id 98e67ed59e1d1-3324538ceb0so1230768a91.1
+        for <linux-input@vger.kernel.org>; Wed, 29 Oct 2025 23:37:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1761806230; x=1762411030; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=MoYlSypTMFSr6JglkBvey7GxaEYRPECj/uuYV5+iM1E=;
+        b=ojLVIWMnVhbze87l5K+Dc1z7HDAK3y/Oj4O2KD35TzcgA3eFmHRM+JU6wajxgz6D+n
+         v3Jfle6FpzwWqjxDb7piMxyXDig+rCR7zQSiHKkznyfXefvkQXSfl/qCTdDdWH7vnyZ1
+         oLrIQwYS/+Yc2acKrAFzRlaoM+EVOwl6tmFcjr84cH8CAAs0F6LODDk5VWR+jQafvXy6
+         jY8KbB7GDltE2s7WP6FbvbFZk9/H+f/J7sZzro3UdmAECz75/KUwQFnvsHo6IgiJTzpH
+         ECUqS2DMJSjBZVZsy3Hm0hXjrT0RmTB/Ta5lSVi0Hs96MdnEoIJB/RsaoWmcAGeypwtx
+         esUQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761806230; x=1762411030;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=MoYlSypTMFSr6JglkBvey7GxaEYRPECj/uuYV5+iM1E=;
+        b=W9mg0k38ckxYYzChVH6LsQXObvtsPbSSp8f8H+M8r3apzqBd4l0LS5j6RWQQYFh6Ck
+         U+I9g4prEOrM2+xq9VdBJQ/+UrExMDW1dIgYlDxW/tviBd+CIz03B6yrG6InJtJfcMJv
+         pfIW8znM8JUHaUmsQJz+wbKXo5DehfHtuWe+Evh75gZxalhgc9rbHLjID78tubsMXW/8
+         10clfB+wN1btNPq2LefIS6uNdX+2cqEnS7Ls4Qo5oFPVMievMRoolWLCPZ7yLJo4YJIk
+         CMDTUJuCByFHIsed4dDyQiQaC1/S2DRU3ltS50bqVG8GCQ9VZeykqx8CwzFfZW2saR/h
+         +wnw==
+X-Gm-Message-State: AOJu0YxZS+QRnGhBBL3+YUAhV6DQJIJW0RaRCPM7iLBbpDSs8ktg5HdE
+	CcgbqoKCHAUZMKec1AmY4Sow0uAEiuYwOwO4MvqAMfHYPI4bwZA3Q6ht7L7gNjkfsjj+64vRQyh
+	Zlg8F9KdQ2UxtF6Pp37N7NA==
+X-Google-Smtp-Source: AGHT+IHAGgw5s3hEmyfwxh0QyF6n/uwNh5Ln8ayUug972f15fOZ2MS+UtAFmFMuPISJpw6fLDTKNs63Tda82X+gP
+X-Received: from pjlm20.prod.google.com ([2002:a17:90a:7f94:b0:33e:32fc:fc4f])
+ (user=willyhuang job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a17:90b:5108:b0:31e:cc6b:320f with SMTP id 98e67ed59e1d1-3404c3e456amr2241897a91.5.1761806229967;
+ Wed, 29 Oct 2025 23:37:09 -0700 (PDT)
+Date: Thu, 30 Oct 2025 14:37:04 +0800
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Documentation: input: expand INPUT_PROP_HAPTIC_TOUCHPAD
- to all pressure pads
-To: Peter Hutterer <peter.hutterer@who-t.net>,
- Jonathan Denose <jdenose@google.com>, Jiri Kosina <jikos@kernel.org>,
- Benjamin Tissoires <bentiss@kernel.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, Jonathan Corbet
- <corbet@lwn.net>, Henrik Rydberg <rydberg@bitmath.org>
-Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, Angela Czubak <aczubak@google.com>,
- Sean O'Brien <seobrien@google.com>
-References: <20251030011735.GA969565@quokka>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20251030011735.GA969565@quokka>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.51.1.851.g4ebd6896fd-goog
+Message-ID: <20251030063704.903998-1-willyhuang@google.com>
+Subject: [PATCH] HID: nintendo: Reduce JC_SUBCMD_RATE_MAX_ATTEMPTS
+From: Willy Huang <willyhuang@google.com>
+To: "Daniel J . Ogorchock" <djogorchock@gmail.com>, Jiri Kosina <jikos@kernel.org>, 
+	Benjamin Tissoires <bentiss@kernel.org>
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Willy Huang <willyhuang@google.com>
+Content-Type: text/plain; charset="UTF-8"
 
-Hi,
+The JC_SUBCMD_RATE_MAX_ATTEMPTS constant is currently set to 500. 
+In a worst-case scenario where all attempts consistently fail, this could
+cause the loop to block for up to 60000 ms (500 * 60ms * 2, including the 
+additional retry after a timeout).
 
-On 10/29/25 6:17 PM, Peter Hutterer wrote:
-> Definition: "pressure pad" used here as all touchpads that use physical
-> pressure to convert to click without physical hinges. Also called haptic
-> touchpads in general parlance, Synaptics calls them ForcePads.
-> 
-> Most (all?) pressure pads are currently advertised as
-> INPUT_PROP_BUTTONPAD. The suggestion to identify them as pressure pads
-> by defining the resolution on ABS_MT_PRESSURE has been in the docs since
-> commit 20ccc8dd38a3 ("Documentation: input: define
-> ABS_PRESSURE/ABS_MT_PRESSURE resolution as grams") but few devices
-> provide this information.
-> 
-> In userspace it's thus impossible to determine whether a device is a
-> true pressure pad (pressure equals pressure) or a normal clickpad with
-> (pressure equals finger size).
-> 
-> Commit 7075ae4ac9db ("Input: add INPUT_PROP_HAPTIC_TOUCHPAD") introduces
-> INPUT_PROP_HAPTIC_TOUCHPAD but restricted it to those touchpads that
-> have support for userspace-controlled effects. Let's expand that
-> definition to include all haptic touchpads (pressure pads) since those
-> that do support FF effects can be identified by the presence of the
-> FF_HAPTIC bit.
-> 
-> This means:
-> - clickpad: INPUT_PROP_BUTTONPAD
-> - pressurepad: INPUT_PROP_BUTTONPAD + INPUT_PROP_HAPTIC_TOUCHPAD
-> - pressurepad with haptics:
->   INPUT_PROP_BUTTONPAD + INPUT_PROP_HAPTIC_TOUCHPAD + FF_HAPTIC
-> 
-> Signed-off-by: Peter Hutterer <peter.hutterer@who-t.net>
-> ---
-> 
-> Original patch series: https://lore.kernel.org/linux-input/20251024033045.GA48918@quokka/T/#m20ec992705f449f9d9758e0080622cfae1c90660
-> See my comment there: https://lore.kernel.org/linux-input/20251024033045.GA48918@quokka/T/#u
-> 
-> My motivation is that we need something to identify pressurepads that
-> do not expose actual haptic feedback configuration. Right now we're
-> adding quirks for each device in libinput but that doesn't scale and
-> HID defines Usage Page 0x0D Usage 0x55 [1] to tell us whether the form
-> factor is a pressurepad, we're just not using it (yet).
-> 
-> I don't think adding a separate INPUT_PROP_PRESSUREPAD is the right
-> thing to do - HAPTIC_TOUCHPAD is good enough since presence of the
-> FF_HAPTICS bit indicates that it is controllable.
-> 
-> [1] https://learn.microsoft.com/en-us/windows-hardware/design/component-guidelines/touchpad-windows-precision-touchpad-collection#device-capabilities-feature-report
-> 
-> 
->  Documentation/input/event-codes.rst | 19 ++++++++++++++-----
->  1 file changed, 14 insertions(+), 5 deletions(-)
-> 
-> diff --git ./Documentation/input/event-codes.rst ../Documentation/input/event-codes.rst
-> index 1ead9bb8d9c6..304d11297d3f 100644
-> --- a/Documentation/input/event-codes.rst
-> +++ b/Documentation/input/event-codes.rst
-> @@ -403,16 +403,25 @@ regular directional axes and accelerometer axes on the same event node.
->  INPUT_PROP_HAPTIC_TOUCHPAD
->  --------------------------
->  
-> -The INPUT_PROP_HAPTIC_TOUCHPAD property indicates that device:
-> -- supports simple haptic auto and manual triggering
-> +The INPUT_PROP_HAPTIC_TOUCHPAD property indicates that the device provides
-> +simulated haptic feedback (e.g. a vibrator motor situated below the surface)
-> +instead of physical haptic feedback (e.g. a hinge). This property is only set
-> +if the device:
->  - can differentiate between at least 5 fingers
->  - uses correct resolution for the X/Y (units and value)
-> -- reports correct force per touch, and correct units for them (newtons or grams)
->  - follows the MT protocol type B
+This change lowers the maximum potential blocking time to 3000 ms 
+(25 * 60ms * 2), improving system responsiveness and efficiency.
 
-Looks reasonable to me. But the list above and the one below
-are not rendered as lists in html. It would be nice to convert
-them to lists.
+Signed-off-by: Willy Huang <willyhuang@google.com>
+---
+ drivers/hid/hid-nintendo.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Tested-by: Randy Dunlap <rdunlap@infradead.org>
-
->  
-> +If the simulated haptic feedback is controllable by userspace the device must:
-> +- support simple haptic auto and manual triggering, and
-> +- report correct force per touch, and correct units for them (newtons or grams), and
-> +- provide the EV_FF FF_HAPTIC force feedback effect.
-> +
->  Summing up, such devices follow the MS spec for input devices in
-> -Win8 and Win8.1, and in addition support the Simple haptic controller HID table,
-> -and report correct units for the pressure.
-> +Win8 and Win8.1, and in addition may support the Simple haptic controller HID
-> +table, and report correct units for the pressure.
-> +
-> +Where applicable, this property is set in addition to INPUT_PROP_BUTTONPAD, it
-> +does not replace that property.
->  
->  Guidelines
->  ==========
-
+diff --git a/drivers/hid/hid-nintendo.c b/drivers/hid/hid-nintendo.c
+index c2849a541f65..342cd6893502 100644
+--- a/drivers/hid/hid-nintendo.c
++++ b/drivers/hid/hid-nintendo.c
+@@ -819,7 +819,7 @@ static void joycon_wait_for_input_report(struct joycon_ctlr *ctlr)
+ #define JC_INPUT_REPORT_MAX_DELTA	17
+ #define JC_SUBCMD_TX_OFFSET_MS		4
+ #define JC_SUBCMD_VALID_DELTA_REQ	3
+-#define JC_SUBCMD_RATE_MAX_ATTEMPTS	500
++#define JC_SUBCMD_RATE_MAX_ATTEMPTS	25
+ #define JC_SUBCMD_RATE_LIMITER_USB_MS	20
+ #define JC_SUBCMD_RATE_LIMITER_BT_MS	60
+ #define JC_SUBCMD_RATE_LIMITER_MS(ctlr)	((ctlr)->hdev->bus == BUS_USB ? JC_SUBCMD_RATE_LIMITER_USB_MS : JC_SUBCMD_RATE_LIMITER_BT_MS)
 -- 
-~Randy
+2.51.1.851.g4ebd6896fd-goog
+
 
