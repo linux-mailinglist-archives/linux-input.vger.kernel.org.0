@@ -1,111 +1,71 @@
-Return-Path: <linux-input+bounces-15796-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-15797-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4285EC1E9A6
-	for <lists+linux-input@lfdr.de>; Thu, 30 Oct 2025 07:41:00 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 06CAEC1F86B
+	for <lists+linux-input@lfdr.de>; Thu, 30 Oct 2025 11:27:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1322119C14BF
-	for <lists+linux-input@lfdr.de>; Thu, 30 Oct 2025 06:38:51 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8ECF3426A60
+	for <lists+linux-input@lfdr.de>; Thu, 30 Oct 2025 10:25:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3CACD32572A;
-	Thu, 30 Oct 2025 06:37:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 50710350D6A;
+	Thu, 30 Oct 2025 10:24:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ojLVIWMn"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qnafdktC"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pj1-f73.google.com (mail-pj1-f73.google.com [209.85.216.73])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A78362FB99F
-	for <linux-input@vger.kernel.org>; Thu, 30 Oct 2025 06:37:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21A5326B77B;
+	Thu, 30 Oct 2025 10:24:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761806233; cv=none; b=eKWLpfOe9RaxsLzzdTB2SOxxXY9HloFLWSxufUzxkJnruT/v78KSaHa44DbJZeK3tgqxOKBLbxnJsfTqo6As6i3VfIKLsPfVtV12gKQTccMWbZ9PyndfbueiZnXN9pDz27x6na3wRNqxh/nMBMGbTnTucU3jNyKzRPxmzTgjvm0=
+	t=1761819891; cv=none; b=PTfrSvrrphIDxvMPELQpLge+nbcQMraho5UXpFzqmMSnkj6MYwoIzEwRmrs3j3Qays7Dqd9hmtudp1+GTbtEGibCfqoIFCRQm5EO410n5Ysqkd7wSaxi08I704kuvndYOJW1CXevbKZd1LIxdfpwQARoNapfLwz0+caZYIcba1s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761806233; c=relaxed/simple;
-	bh=z6RMcyk5XD0HE6+7NbYB8avXShQxig3SkzJmyzRO5I8=;
-	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=rZWiWQcjk5BnPyE09tr/pIweT1jla+zkE8mUm9aHGkj6ztbiWvSMy2j4RFr+xjCp5HwpuSI2pTXHm/ZcHwAYu1nlXHEQOtpamxUbGXvWXl4/hvtA5APgoqozfPjsWurYWOWyh4TlHXxmjcdocCSaQ+5HQeSD6l+aZSP8KnwDiZA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--willyhuang.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ojLVIWMn; arc=none smtp.client-ip=209.85.216.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--willyhuang.bounces.google.com
-Received: by mail-pj1-f73.google.com with SMTP id 98e67ed59e1d1-3324538ceb0so1230768a91.1
-        for <linux-input@vger.kernel.org>; Wed, 29 Oct 2025 23:37:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1761806230; x=1762411030; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=MoYlSypTMFSr6JglkBvey7GxaEYRPECj/uuYV5+iM1E=;
-        b=ojLVIWMnVhbze87l5K+Dc1z7HDAK3y/Oj4O2KD35TzcgA3eFmHRM+JU6wajxgz6D+n
-         v3Jfle6FpzwWqjxDb7piMxyXDig+rCR7zQSiHKkznyfXefvkQXSfl/qCTdDdWH7vnyZ1
-         oLrIQwYS/+Yc2acKrAFzRlaoM+EVOwl6tmFcjr84cH8CAAs0F6LODDk5VWR+jQafvXy6
-         jY8KbB7GDltE2s7WP6FbvbFZk9/H+f/J7sZzro3UdmAECz75/KUwQFnvsHo6IgiJTzpH
-         ECUqS2DMJSjBZVZsy3Hm0hXjrT0RmTB/Ta5lSVi0Hs96MdnEoIJB/RsaoWmcAGeypwtx
-         esUQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761806230; x=1762411030;
-        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=MoYlSypTMFSr6JglkBvey7GxaEYRPECj/uuYV5+iM1E=;
-        b=W9mg0k38ckxYYzChVH6LsQXObvtsPbSSp8f8H+M8r3apzqBd4l0LS5j6RWQQYFh6Ck
-         U+I9g4prEOrM2+xq9VdBJQ/+UrExMDW1dIgYlDxW/tviBd+CIz03B6yrG6InJtJfcMJv
-         pfIW8znM8JUHaUmsQJz+wbKXo5DehfHtuWe+Evh75gZxalhgc9rbHLjID78tubsMXW/8
-         10clfB+wN1btNPq2LefIS6uNdX+2cqEnS7Ls4Qo5oFPVMievMRoolWLCPZ7yLJo4YJIk
-         CMDTUJuCByFHIsed4dDyQiQaC1/S2DRU3ltS50bqVG8GCQ9VZeykqx8CwzFfZW2saR/h
-         +wnw==
-X-Gm-Message-State: AOJu0YxZS+QRnGhBBL3+YUAhV6DQJIJW0RaRCPM7iLBbpDSs8ktg5HdE
-	CcgbqoKCHAUZMKec1AmY4Sow0uAEiuYwOwO4MvqAMfHYPI4bwZA3Q6ht7L7gNjkfsjj+64vRQyh
-	Zlg8F9KdQ2UxtF6Pp37N7NA==
-X-Google-Smtp-Source: AGHT+IHAGgw5s3hEmyfwxh0QyF6n/uwNh5Ln8ayUug972f15fOZ2MS+UtAFmFMuPISJpw6fLDTKNs63Tda82X+gP
-X-Received: from pjlm20.prod.google.com ([2002:a17:90a:7f94:b0:33e:32fc:fc4f])
- (user=willyhuang job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:90b:5108:b0:31e:cc6b:320f with SMTP id 98e67ed59e1d1-3404c3e456amr2241897a91.5.1761806229967;
- Wed, 29 Oct 2025 23:37:09 -0700 (PDT)
-Date: Thu, 30 Oct 2025 14:37:04 +0800
+	s=arc-20240116; t=1761819891; c=relaxed/simple;
+	bh=ETYSiml/z1HOmlp+he3h/ynUR9yvw1f1RZj4bLOXvBw=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=kHcjmi8eGqZy8wu/+uqATBaO1NDSfRzN/CKKByzMa01d7xCw3r7oj2OPi7i0TBvQ1SptyQsUDmXWdE5iswuj+xp3NdoRJkwzv5F4KZgIZnNJNL5mhf5qHsHq7mcSjo3xikkNkL/ih6h99VrslwXF71I34QQnwBWtVpj8/DfD4oo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qnafdktC; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62690C4CEFF;
+	Thu, 30 Oct 2025 10:24:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1761819890;
+	bh=ETYSiml/z1HOmlp+he3h/ynUR9yvw1f1RZj4bLOXvBw=;
+	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+	b=qnafdktC6D8rrnY+7I+f1TwJ3X/5Pl/B5eqWiislzPlOvVNo1wNeaNzMKkF6LnFNA
+	 NG++0MD75+1USuOadEzsjnFxyvQiHTp8hNshHXGh51cBGlQbDC0NLSvBR/wAfAQPK1
+	 lGNyb+8C2jfKFyU83am2rfmdgZFnavQQkf2qM9SY87G6mGd5dEAN1QK50iPyZIh4gc
+	 P/GPmM4zL8Vfiq44DimYolgWIUTVd346NU0ss2tqW3XJn3TPvb8VDulsFsGHzhBZ/Q
+	 9v2rLQqnbgWQpPS7UDI8yKpq1ZViBCYLH6exr6hneWsVhOJKv/dKjIPGJ4ZAqEjH3e
+	 RoKmS/Sfhv/dQ==
+Date: Thu, 30 Oct 2025 11:24:47 +0100 (CET)
+From: Jiri Kosina <jikos@kernel.org>
+To: zhangheng <zhangheng@kylinos.cn>
+cc: Terry Junge <linuxhid@cosmicgizmosystems.com>, bentiss@kernel.org, 
+    staffan.melin@oscillator.se, linux-input@vger.kernel.org, 
+    linux-kernel@vger.kernel.org, 1114557@bugs.debian.org, 
+    stable@vger.kernel.org
+Subject: Re: [PATCH v4] HID: quirks: Change manufacturer for 4c4a:4155
+In-Reply-To: <e765d91f-3c00-4dc5-ac24-68a5512a0c12@kylinos.cn>
+Message-ID: <r995o7q5-s2nq-9p8p-6r35-7491qs1584r7@xreary.bet>
+References: <20250923022445.3276026-1-zhangheng@kylinos.cn> <e0dde746-3761-414e-8df1-eb8557cadbf8@cosmicgizmosystems.com> <e605f642-c967-4d41-8145-a10e8f48fb1b@kylinos.cn> <365f9f8e-549e-42e1-ac8c-7ff1f42c6977@cosmicgizmosystems.com>
+ <8f0155d4-72a7-45ec-a272-7892e783bbed@kylinos.cn> <c7aab08b-52fa-41ef-a7fb-118298bb93aa@cosmicgizmosystems.com> <e765d91f-3c00-4dc5-ac24-68a5512a0c12@kylinos.cn>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.51.1.851.g4ebd6896fd-goog
-Message-ID: <20251030063704.903998-1-willyhuang@google.com>
-Subject: [PATCH] HID: nintendo: Reduce JC_SUBCMD_RATE_MAX_ATTEMPTS
-From: Willy Huang <willyhuang@google.com>
-To: "Daniel J . Ogorchock" <djogorchock@gmail.com>, Jiri Kosina <jikos@kernel.org>, 
-	Benjamin Tissoires <bentiss@kernel.org>
-Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Willy Huang <willyhuang@google.com>
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 
-The JC_SUBCMD_RATE_MAX_ATTEMPTS constant is currently set to 500. 
-In a worst-case scenario where all attempts consistently fail, this could
-cause the loop to block for up to 60000 ms (500 * 60ms * 2, including the 
-additional retry after a timeout).
+I have updated the shortlog to be a little bit more descriptive and 
+applied, thanks.
 
-This change lowers the maximum potential blocking time to 3000 ms 
-(25 * 60ms * 2), improving system responsiveness and efficiency.
-
-Signed-off-by: Willy Huang <willyhuang@google.com>
----
- drivers/hid/hid-nintendo.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/hid/hid-nintendo.c b/drivers/hid/hid-nintendo.c
-index c2849a541f65..342cd6893502 100644
---- a/drivers/hid/hid-nintendo.c
-+++ b/drivers/hid/hid-nintendo.c
-@@ -819,7 +819,7 @@ static void joycon_wait_for_input_report(struct joycon_ctlr *ctlr)
- #define JC_INPUT_REPORT_MAX_DELTA	17
- #define JC_SUBCMD_TX_OFFSET_MS		4
- #define JC_SUBCMD_VALID_DELTA_REQ	3
--#define JC_SUBCMD_RATE_MAX_ATTEMPTS	500
-+#define JC_SUBCMD_RATE_MAX_ATTEMPTS	25
- #define JC_SUBCMD_RATE_LIMITER_USB_MS	20
- #define JC_SUBCMD_RATE_LIMITER_BT_MS	60
- #define JC_SUBCMD_RATE_LIMITER_MS(ctlr)	((ctlr)->hdev->bus == BUS_USB ? JC_SUBCMD_RATE_LIMITER_USB_MS : JC_SUBCMD_RATE_LIMITER_BT_MS)
 -- 
-2.51.1.851.g4ebd6896fd-goog
+Jiri Kosina
+SUSE Labs
 
 
