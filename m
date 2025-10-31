@@ -1,80 +1,110 @@
-Return-Path: <linux-input+bounces-15831-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-15832-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA63EC241FC
-	for <lists+linux-input@lfdr.de>; Fri, 31 Oct 2025 10:24:01 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A1FBC241E6
+	for <lists+linux-input@lfdr.de>; Fri, 31 Oct 2025 10:23:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 059D658670A
-	for <lists+linux-input@lfdr.de>; Fri, 31 Oct 2025 09:13:01 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B14D53BEF07
+	for <lists+linux-input@lfdr.de>; Fri, 31 Oct 2025 09:13:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2745332E69F;
-	Fri, 31 Oct 2025 09:12:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B3E0632E139;
+	Fri, 31 Oct 2025 09:13:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MXDQOgms"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="REVspmW6"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F13D3313297;
-	Fri, 31 Oct 2025 09:12:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DE1832E136
+	for <linux-input@vger.kernel.org>; Fri, 31 Oct 2025 09:13:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761901945; cv=none; b=c0TW76q8g0tPkEqohz7kRzVsq0Ik1ahqi/r6bIyIuS4wNWrqio6+ZbNmWj0Pv8vXBOM/uCyduiNoLuax2HluaxgMneWYI/TM66/qdWr4GgKGVf6yc+aeKhIipDgkLOsZXEaFC/f93rNJI/HCzn7MCF3gDFicunJ3ZgyM2wr24yw=
+	t=1761902003; cv=none; b=XxLwU1DmdBpSayLHWFD5/UQKLYUKStldeg6hDt7tp/AHHpYwyMGrRXX9RCkOmnNl+EhTy8G3mrRhsZBcRcVezkDI6ZQSnGuOjtPXoHVvVa/wFex7PtJpQ7cRgs4LTYyZT8p9eutU7LFWG4q2/LtdhwCjB7OrTzsegzZXiJ52DD4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761901945; c=relaxed/simple;
-	bh=YxFWlobnh+pGA9POgtBySl8kFoJpOz8PjnuUH7Gk/9M=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=mqpwKY6+WHiJ+sqyDF5tL2Ssd0X8UjB+SPAyT6mp9FF9sLIiPYv27yOzQaWXpYlvq9458YcK1pupN9bae5f4gGoR5KL2WsaD1hY+KK4GR0ybt8PvTAkSdTZpQbB8Cc0ON5SgYiCcHnFgyNo1iMZ41I+jgD16g+BQZzPRr7CaSOI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MXDQOgms; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29BF6C4CEF8;
-	Fri, 31 Oct 2025 09:12:23 +0000 (UTC)
+	s=arc-20240116; t=1761902003; c=relaxed/simple;
+	bh=GI88zN4NEDPNU8eTmIzSgC/fbf1/QB2qlCE+pPgrL20=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=CUoiy2w/oB5uskYEq+oSuxXwBMeax/ndFuVQvfzV5Pt/g/2vGzeuFse30x6HrUqNOafqEtp/9PA85bG9e7kqBHS2X0bvGBwRF72eVii3sViju0BWbEk5sEMX5MMSEeTCr45wx+jRBTfXcZOwxEhUWFjimyJPBzlcRZRP+I5Z7jY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=REVspmW6; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DDE78C4CEE7;
+	Fri, 31 Oct 2025 09:13:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761901944;
-	bh=YxFWlobnh+pGA9POgtBySl8kFoJpOz8PjnuUH7Gk/9M=;
-	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=MXDQOgmsGQStzwwneM+Ow5dOEjkLTZ8F3beHtUaM/e/UVoCa2ZtF1252pI4PHAlWt
-	 GRHjm4lFkS5Or2wZKdlilHMsXS+1cuuPKhFNzKbuy1KuV9K0NmxiFH972csdwBKLn1
-	 t4NBn3fdePI5j/BEDpOVIU7R+NX2P9BZMUSN95ICNpW7Op2bl5PbLY3MMWOlBeMXx8
-	 /hrHFR4hctYwKPS60DQFcDbch5YsXE5ZDHyJKviY50hBhNQWEC3tq8SiOLLQt3j6Su
-	 vMG1spWEadWBmj5ySc34Y4NBbo/Sba8xQstPg+Ql5I6cFGFAWVhOVp3U+YeWX42kqX
-	 q87Qp5WmRRtZg==
-Date: Fri, 31 Oct 2025 10:12:21 +0100 (CET)
-From: Jiri Kosina <jikos@kernel.org>
-To: Willy Huang <willyhuang@google.com>
-cc: "Daniel J . Ogorchock" <djogorchock@gmail.com>, 
-    Benjamin Tissoires <bentiss@kernel.org>, linux-input@vger.kernel.org, 
-    linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] HID: nintendo: Reduce JC_SUBCMD_RATE_MAX_ATTEMPTS
-In-Reply-To: <20251030063704.903998-1-willyhuang@google.com>
-Message-ID: <0rsnq664-1318-nprn-oo15-0n5q1sr9nq62@xreary.bet>
-References: <20251030063704.903998-1-willyhuang@google.com>
+	s=k20201202; t=1761902003;
+	bh=GI88zN4NEDPNU8eTmIzSgC/fbf1/QB2qlCE+pPgrL20=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=REVspmW6zIOR+DHydOV6CcPTt2g42OcNzc7+AVwJ0W3c4qgX7QDTRWqiOiXHtLSU7
+	 Z7TO47CVSVYr3F76L9c1CLVsFTkTF47YRhmUDXmPwPY5gdCY6uzyL63oIZoZ+4UFem
+	 WLxyhby3Lvf3Fb4/RVBM41oBzZqoUKflVfh8uhGjDLkRa+l3NZAz8xvLDGM78niG25
+	 o+8GPI4j4IYnovieOebUYWL+KNlDmL+18+rFoWJhKwUbt+cN3WatrFrWXZnz+H/xTj
+	 rIpF3sh8MdAbz76EVQx+kp0hu0Y9xaAQG38jOvrp+UR+5W0Swt5ucOjSNMMQeFu1Qj
+	 EAgoMbokCoBxA==
+Message-ID: <17f02b01-c71e-4e2e-9e91-757731f3fc2e@kernel.org>
+Date: Fri, 31 Oct 2025 10:13:19 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] HID: hid-input: Extend Elan ignore battery quirk to USB
+To: Jiri Kosina <jikos@kernel.org>,
+ "Mario Limonciello (AMD)" <superm1@kernel.org>,
+ Dmitry Torokhov <dtor@google.com>
+Cc: mario.limonciello@amd.com, bentiss@kernel.org,
+ =?UTF-8?Q?Andr=C3=A9_Barata?= <andretiagob@protonmail.com>,
+ linux-input@vger.kernel.org
+References: <20251030160643.3775606-1-superm1@kernel.org>
+ <s0qn1098-s856-1942-48q7-n3691sn109qs@xreary.bet>
+From: Hans de Goede <hansg@kernel.org>
+Content-Language: en-US, nl
+In-Reply-To: <s0qn1098-s856-1942-48q7-n3691sn109qs@xreary.bet>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Thu, 30 Oct 2025, Willy Huang wrote:
+Hi Jiri,
 
-> The JC_SUBCMD_RATE_MAX_ATTEMPTS constant is currently set to 500. 
-> In a worst-case scenario where all attempts consistently fail, this could
-> cause the loop to block for up to 60000 ms (500 * 60ms * 2, including the 
-> additional retry after a timeout).
+On 31-Oct-25 10:07 AM, Jiri Kosina wrote:
+> On Thu, 30 Oct 2025, Mario Limonciello (AMD) wrote:
 > 
-> This change lowers the maximum potential blocking time to 3000 ms 
-> (25 * 60ms * 2), improving system responsiveness and efficiency.
+>> USB Elan devices have the same problem as the I2C ones with a fake
+>> battery device showing up.
+>>
+>> Reviewed-by: Hans de Goede <hansg@kernel.org>
+>> Reported-by: André Barata <andretiagob@protonmail.com>
+>> Closes: https://bugzilla.kernel.org/show_bug.cgi?id=220722
+>> Signed-off-by: Mario Limonciello (AMD) <superm1@kernel.org>
 > 
-> Signed-off-by: Willy Huang <willyhuang@google.com>
+> Now applied.
+> 
+> We'll have to come up with something more sophisticated once/if Elan ever 
+> starts producing devices with real battery ...
 
-Applied, thanks.
+Actually the provided HID battery is intended to be for
+when a stylus is used and to report the stylus battery
+values then.
 
--- 
-Jiri Kosina
-SUSE Labs
+There is an email thread somewhere with some of the ChromeOS folks
+talking about dropping the ELAN quirk for I2C touchscreens and
+indeed replacing it with something more sophisticated. IIRC
+the ChromeOS folks mentioned they would work on / provide patches.
+
++To: Dmitry, Dmitry do you have any input on the ChromeOs issue ?
+
+In the mean time I do believe these quirks are the lesser of
+2 evils. Most people don't have a stylus (which is typically not
+bundled with these devices) and even if people have a stylus
+not having battery reporting for that is less of a problem then
+the false positive low-battery *notifications* which e.g. GNOME
+shows due to the battery reporting 0% (rather then not present)
+when there is no stylus.
+
+Regards,
+
+Hans
+
 
 
