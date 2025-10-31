@@ -1,143 +1,130 @@
-Return-Path: <linux-input+bounces-15835-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-15836-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4526C25BF8
-	for <lists+linux-input@lfdr.de>; Fri, 31 Oct 2025 16:06:19 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id B7EC3C2643A
+	for <lists+linux-input@lfdr.de>; Fri, 31 Oct 2025 18:03:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 295E21B27423
-	for <lists+linux-input@lfdr.de>; Fri, 31 Oct 2025 14:58:33 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0D96D1885135
+	for <lists+linux-input@lfdr.de>; Fri, 31 Oct 2025 17:03:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 03D5F192D8A;
-	Fri, 31 Oct 2025 14:47:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D51830171A;
+	Fri, 31 Oct 2025 17:02:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="uiUw6zJg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Lma9lMk6"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25992191F92
-	for <linux-input@vger.kernel.org>; Fri, 31 Oct 2025 14:47:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAE462FD684;
+	Fri, 31 Oct 2025 17:02:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761922056; cv=none; b=D7Yh56DYPQYT+Xae4oDEBqRG4pn/0LRWtaCM+QE9wDO0FCNCJ7neWlt+nU6lGyzfmpaRs9hHfjV2bUBVjjAQa3WAyQlsy0qKwUmmNMbDzrKTmiPAZrKvCJAe3OTB1mbStiWKk2F1Fh5tlWVOvbIiBKixabLBwiqgPyWT8TI7DsI=
+	t=1761930156; cv=none; b=t9f6yoAQfatOFTT1X5TiUDSfW8RI+n1bHBpDZddnRmMMCv6psvjJKyJOKRgmaam9ojGdx6ls6XpEmbM+ARa1/AwmuQk+xP54R/tCrhiTN+TtiEac2V+Dlx7S88p82nb6CJDHZGv5qH5r7JeBR0gK7Vn7U8XX4qk2FGrPBHidq24=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761922056; c=relaxed/simple;
-	bh=keTDo4wd+uLXRZtLBDUeDszWDg5XfY4XiYj6Ff5ymUA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=K74xEz0WW0Zkn7SezCAOzyqqGZP5tE+3Qij8TPy775Q6tu7lauxCzx0cQERxLBmKIjmzYrN/h7cF3FYA3wjk0IzlSeVMAVkycsDFodoYHS6pQpyft48pt3lyDw/C6UHmzVmyfgWTs+DpGiYcKTVfkAAVkvlyazWjitl+Qs6jXLc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=uiUw6zJg; arc=none smtp.client-ip=209.85.208.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-63c44ea68f6so11564a12.0
-        for <linux-input@vger.kernel.org>; Fri, 31 Oct 2025 07:47:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1761922053; x=1762526853; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=keTDo4wd+uLXRZtLBDUeDszWDg5XfY4XiYj6Ff5ymUA=;
-        b=uiUw6zJgfElvtRVxUSmhcQBl3mtW4zVX7b2Op5S0RawmVrODx8GXZszcpvukVtgOUk
-         O5ObdIDxgPyMcdNGBCUR10IHOwYHo32TH7zmn1X+u9jqgJ+mkvW8CuCKh9GSVaC9mQHN
-         Wx0qO4gcBkfZRMkKZ+0gsXa5KUc97O5Z3LdtzvmFe3g20NlzCvy9RmuMmws0g5YFvWVF
-         tr5kcfC3CafKuQZKATX3kciOOnywHYq7jtTDydCCuPLm+d8x9UYLps2Kr1ozwu3i2rDZ
-         Om+W14T7yI+9ZpyLXzmSn3vx1JFJU10pmOg/w5EEXE/M63LbH6fpwrccplDd9Av9+OJo
-         mt+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761922053; x=1762526853;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=keTDo4wd+uLXRZtLBDUeDszWDg5XfY4XiYj6Ff5ymUA=;
-        b=MUwG1ASH+fKGMfHlIsqlElpI00P8iq1OFfebkkgNZlasVCrL1ub7p7kqkaf44VSk/w
-         9p1zQ49g2SmrHMoDFwaUfRp1uj4CoEx5PvHGUy1+DJvFSt16rUlujsWabDu4WvvswM/y
-         Phg8WrR+dfpPWWcau2j9BTzpKjwKREScKbVH9Ge20a/RGREKm8pdB4nWABivVBem+Xz8
-         5JeyLhqGVU+FVCCr4bd0K7vGquMm3Z4oIBHuRYplIGyj6+Kl21KAN7NwaAYqS9m4qR1k
-         bG8YMpWmnvuQPGvLhg8LGrh1HGyteltTaisvatxjw6TQmbTGmhbYCNymZymAjjtXlPin
-         AH8Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVkkmD3BATVI9WMN4CG/75Bl574tUPk18eS71B16XWJPWCPNUVhxZcIY9X8ZRtxzrqBfU06kIGm3Ss5Nw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyuaaqwRS1bHyS6EcYetQwbk6AMPHuElU6o5QHTROE8do1YwMlO
-	D7wFIukg2m3eIExDmtmJRov//8pV8dCR5nvWLe4VYFXtLbEEfHOOadNB4APHb4U57/UhWtGcWLV
-	ykUycvbMgXip3iDxsOnosi/LCgVSZGIpLCD7Xd12t
-X-Gm-Gg: ASbGnct/I0kGrtxEAykFAXA33VJ4vmLnd/TtY15OFQY24NKVEAaUkCIp9IdXSXB0To3
-	Hu4Ey6W9AzsVn0P6/wM8FYIl9cW0xQmf7w5a8xdooLF0CdG/9/mDsHkcAZx75nz+S/ZbuNWH9x2
-	HP5d/mIJPiPZKT8c5+UdZAbtT0m+0rs6UBtI66jkfetUnIPKeRFfATxEL9/lMelWQhqyE9bYfoK
-	/ORpQIBahjfCwfS7aM5LBDIKjVIRdKRUC04uy8vp+AFzAokgvg38Dh0ndzihGAkmdfqYV/jS9Zv
-	v7TKemuFcwOXkbtgYA==
-X-Google-Smtp-Source: AGHT+IERFvy90M7zxahE21txS8vs4Zs9t1PXMUeP7hYYZsfECtrYRnnAgJ9T+vAcxfTVPabKG9WE6J27TuWha4094VI=
-X-Received: by 2002:a05:6402:564a:b0:640:8f9c:af3a with SMTP id
- 4fb4d7f45d1cf-6408f9cc0e9mr5999a12.6.1761922053142; Fri, 31 Oct 2025 07:47:33
- -0700 (PDT)
+	s=arc-20240116; t=1761930156; c=relaxed/simple;
+	bh=xBrRg5gnKGkW3B8XP6rpJw1tbT54300fN3/BrYXoe+o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=j9uP0Tb9ydAUhrpd5VkvJFX0pmOK8wGKd7OnyzZsAURK/7NYyhN5urA4r+uKP0dBg7JMeI4mnm7B9pahuMcZp1XH7AfIpUJzdspOlxE1baemvDEHIQg5uE7R37bYutggobQMUoQ7OStqcMZSH3yNaVMsTc+7xQ9g7RxzJEzgq0E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Lma9lMk6; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1761930155; x=1793466155;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=xBrRg5gnKGkW3B8XP6rpJw1tbT54300fN3/BrYXoe+o=;
+  b=Lma9lMk6fwafyitW9KDq8JNZ+QtBtpMG1Mudzi0OedI1BwkSulAtjqws
+   iInP4luoD+J2Z66Ix8zJibqd1kC5GDripLfQUMaNVH/7d9YFXdPjkXqca
+   Auinpcf0ndLE1kxbJ7S705xPQGkIeryJ3UdpY0u1UbrvhUzCAX7W969mh
+   /w25EAWkKhJHHoPx3TQ69pMeksXtsZVmBvgvUzoktkHt54g3iPjEBTrkA
+   /Ge5FtyEsFHtdZ9bNos7PLWusXyXubxnsSGxhDxxGWO+vKMGIKC9HcAAP
+   MawvomwlTNtSKb/p4RsK7uxkm+VEO54i+n5Os19gXl9rqT7fbo4SSYrwN
+   A==;
+X-CSE-ConnectionGUID: LjTz6QYpQa+UzAfi1SSdUQ==
+X-CSE-MsgGUID: i0RO0dLlTh2ODri0JAsmyA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="64022383"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="64022383"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2025 10:02:35 -0700
+X-CSE-ConnectionGUID: x68roOhWTn6lqkp9QuvNGA==
+X-CSE-MsgGUID: ZjElhhxgQQ6EulK2irEIZQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,269,1754982000"; 
+   d="scan'208";a="190629319"
+Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
+  by orviesa004.jf.intel.com with ESMTP; 31 Oct 2025 10:02:32 -0700
+Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1vEsWC-000NUK-34;
+	Fri, 31 Oct 2025 17:02:28 +0000
+Date: Sat, 1 Nov 2025 01:02:26 +0800
+From: kernel test robot <lkp@intel.com>
+To: akemnade@kernel.org, Lee Jones <lee@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Andreas Kemnade <andreas@kemnade.info>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Tony Lindgren <tony@atomide.com>, Kevin Hilman <khilman@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+	linux-omap@vger.kernel.org
+Subject: Re: [PATCH v2 2/3] Input: twl4030 - add TWL603x power button
+Message-ID: <202511010024.4O4b58oK-lkp@intel.com>
+References: <20251030-twl6030-button-v2-2-09653d05a2b1@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251030160643.3775606-1-superm1@kernel.org> <s0qn1098-s856-1942-48q7-n3691sn109qs@xreary.bet>
- <17f02b01-c71e-4e2e-9e91-757731f3fc2e@kernel.org>
-In-Reply-To: <17f02b01-c71e-4e2e-9e91-757731f3fc2e@kernel.org>
-From: Dmitry Torokhov <dtor@google.com>
-Date: Fri, 31 Oct 2025 07:47:15 -0700
-X-Gm-Features: AWmQ_blj9DlgwLtyiHRBeXRDTVHk9MSbpZ7oivnrmPGrEjmn_nFYhaXj_VHoYdg
-Message-ID: <CAE_wzQ_YvCh8a83mm3QG7LwMWo2CKEAMvRS7+CpJcq1r7MEBZA@mail.gmail.com>
-Subject: Re: [PATCH] HID: hid-input: Extend Elan ignore battery quirk to USB
-To: Hans de Goede <hansg@kernel.org>
-Cc: Jiri Kosina <jikos@kernel.org>, "Mario Limonciello (AMD)" <superm1@kernel.org>, mario.limonciello@amd.com, 
-	bentiss@kernel.org, =?UTF-8?Q?Andr=C3=A9_Barata?= <andretiagob@protonmail.com>, 
-	linux-input@vger.kernel.org, Kenneth Albanowski <kenalba@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251030-twl6030-button-v2-2-09653d05a2b1@kernel.org>
 
-Hi Hans,
+Hi,
 
-On Fri, Oct 31, 2025 at 2:13=E2=80=AFAM Hans de Goede <hansg@kernel.org> wr=
-ote:
->
-> Hi Jiri,
->
-> On 31-Oct-25 10:07 AM, Jiri Kosina wrote:
-> > On Thu, 30 Oct 2025, Mario Limonciello (AMD) wrote:
-> >
-> >> USB Elan devices have the same problem as the I2C ones with a fake
-> >> battery device showing up.
-> >>
-> >> Reviewed-by: Hans de Goede <hansg@kernel.org>
-> >> Reported-by: Andr=C3=A9 Barata <andretiagob@protonmail.com>
-> >> Closes: https://bugzilla.kernel.org/show_bug.cgi?id=3D220722
-> >> Signed-off-by: Mario Limonciello (AMD) <superm1@kernel.org>
-> >
-> > Now applied.
-> >
-> > We'll have to come up with something more sophisticated once/if Elan ev=
-er
-> > starts producing devices with real battery ...
->
-> Actually the provided HID battery is intended to be for
-> when a stylus is used and to report the stylus battery
-> values then.
->
-> There is an email thread somewhere with some of the ChromeOS folks
-> talking about dropping the ELAN quirk for I2C touchscreens and
-> indeed replacing it with something more sophisticated. IIRC
-> the ChromeOS folks mentioned they would work on / provide patches.
->
-> +To: Dmitry, Dmitry do you have any input on the ChromeOs issue ?
+kernel test robot noticed the following build warnings:
 
-+Kenneth Albanowski has been wrangling with support of Elan and other
-vendor styli, I'll let him comment.
+[auto build test WARNING on 3a8660878839faadb4f1a6dd72c3179c1df56787]
 
->
-> In the mean time I do believe these quirks are the lesser of
-> 2 evils. Most people don't have a stylus (which is typically not
-> bundled with these devices) and even if people have a stylus
-> not having battery reporting for that is less of a problem then
-> the false positive low-battery *notifications* which e.g. GNOME
-> shows due to the battery reporting 0% (rather then not present)
-> when there is no stylus.
+url:    https://github.com/intel-lab-lkp/linux/commits/akemnade-kernel-org/dt-bindings-mfd-twl-enable-power-button-also-for-twl603x/20251031-031300
+base:   3a8660878839faadb4f1a6dd72c3179c1df56787
+patch link:    https://lore.kernel.org/r/20251030-twl6030-button-v2-2-09653d05a2b1%40kernel.org
+patch subject: [PATCH v2 2/3] Input: twl4030 - add TWL603x power button
+config: x86_64-randconfig-123-20251031 (https://download.01.org/0day-ci/archive/20251101/202511010024.4O4b58oK-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251101/202511010024.4O4b58oK-lkp@intel.com/reproduce)
 
-Thanks,
-Dmitry
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511010024.4O4b58oK-lkp@intel.com/
+
+sparse warnings: (new ones prefixed by >>)
+>> drivers/input/misc/twl4030-pwrbutton.c:44:31: sparse: sparse: symbol 'twl4030_chipdata' was not declared. Should it be static?
+>> drivers/input/misc/twl4030-pwrbutton.c:49:31: sparse: sparse: symbol 'twl6030_chipdata' was not declared. Should it be static?
+
+vim +/twl4030_chipdata +44 drivers/input/misc/twl4030-pwrbutton.c
+
+    43	
+  > 44	struct twl_pwrbutton_chipdata twl4030_chipdata = {
+    45		STS_HW_CONDITIONS_4030,
+    46		false,
+    47	};
+    48	
+  > 49	struct twl_pwrbutton_chipdata twl6030_chipdata = {
+    50		STS_HW_CONDITIONS_6030,
+    51		true,
+    52	};
+    53	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
