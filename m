@@ -1,291 +1,118 @@
-Return-Path: <linux-input+bounces-15878-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-15879-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52A02C307C0
-	for <lists+linux-input@lfdr.de>; Tue, 04 Nov 2025 11:24:34 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D8DBC310C8
+	for <lists+linux-input@lfdr.de>; Tue, 04 Nov 2025 13:49:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 4A5184E1FF5
-	for <lists+linux-input@lfdr.de>; Tue,  4 Nov 2025 10:24:33 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C8D181899770
+	for <lists+linux-input@lfdr.de>; Tue,  4 Nov 2025 12:49:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 45876314D08;
-	Tue,  4 Nov 2025 10:24:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7A8FF25F99B;
+	Tue,  4 Nov 2025 12:49:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=thorsis.com header.i=@thorsis.com header.b="gRF93W3l"
+	dkim=pass (4096-bit key) header.d=aegee.org header.i=dkim+MSA-tls@aegee.org header.b="rarn6MQw"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail.thorsis.com (mail.thorsis.com [217.92.40.78])
+Received: from mail.aegee.org (mail.aegee.org [144.76.142.78])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8F6152F88;
-	Tue,  4 Nov 2025 10:24:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.92.40.78
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 008F82EC0B7
+	for <linux-input@vger.kernel.org>; Tue,  4 Nov 2025 12:49:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=144.76.142.78
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762251869; cv=none; b=OcRRzaRXCjeK8nt/giMS7dxAmDy2AV1x6O2kkp4JFBd0JlXFEQ/BTewy3J1tU944AOnswYKq8Gu6JS73yij8miRrMKOImz6rwjRbhYAS/uGej9e+N2tR9hkm2iHD2+P5uqXXJC7nvgnC3r8Xcur/4A0C7OlbP8XVZw17CAYIiGc=
+	t=1762260561; cv=none; b=CB2HSMkFwhp3HJU+9w0wEf/Yy0mmGXgaQtuhYLXqDSJNLlgk11I7CNL7s6ruwBQfoV7qxH3EyVdeZ90nvpBitXTlDE+rc7h61Ycg1y5UBdX9gRf1FeJEZewb57j7qjTQk7QlNMo3zWFOlDGvftKmN8ERwLlo64+xGnPVmhdBf5s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762251869; c=relaxed/simple;
-	bh=lRdGiHbw4UD0ciFa8bbOF/H+kh0F6+4HpI8oB1t7WBI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tlg6Sm3ww1zzhlGh1qqnImF1kCEENzF5ybqm1M0kwoO3YIo6C1dFsZTDocdre5vjsW/FonOaIfz//9iWgnOkuJiofHvsIHpoQSUkAOUn1XD0bPQZT2uSsyaKF3WlBEuD8ebVWYyLscXviodDVCeb9xqNBKW2SuIRRCsiSyWxlOc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=thorsis.com; spf=pass smtp.mailfrom=thorsis.com; dkim=pass (2048-bit key) header.d=thorsis.com header.i=@thorsis.com header.b=gRF93W3l; arc=none smtp.client-ip=217.92.40.78
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=thorsis.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=thorsis.com
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 3228B14839C7;
-	Tue,  4 Nov 2025 11:24:09 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=thorsis.com; s=dkim;
-	t=1762251856; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=dBPVZv8ZAjPrctbt7IeOOktebaSybrHF8X5GDqBvhPw=;
-	b=gRF93W3lpRdwy25l5NWJ3tEGdnnvKife1be96721Lgu80iB8DwHlcXqZpFoeRsIh8V1Qrr
-	gfzismOMmeOhcydzxRLlUHHDSpRRyv1+2MvyDTQaDp4Pw5tQPBIAsaNeLpKbFvkRFi2sKE
-	zKdY+NgcIduDDOWphmLh+mFvo3RXLVSsa3yKbQd9eBExN622o+NyzK4ytb9rLp6L/ByE9Q
-	0I7hnZCZyU5oAOXb0uixzeS90BP36vcb30lb/cLcj61DyIQT7cZd7h6fp9GRD87+Eoqdgc
-	RMtkAMEgsy8igmm2iiUDNHjIK9z3EgtyR9lLhqwl/QaDxo6bJRuC0pQ8tKGa6w==
-Date: Tue, 4 Nov 2025 11:24:05 +0100
-From: Alexander Dahl <ada@thorsis.com>
-To: Josua Mayer <josua@solid-run.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Jon Nettleton <jon@solid-run.com>,
-	Mikhail Anikin <mikhail.anikin@solid-run.com>,
-	Yazan Shhady <yazan.shhady@solid-run.com>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-	"linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-	"imx@lists.linux.dev" <imx@lists.linux.dev>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
-	"linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>
-Subject: Re: [PATCH 08/10] arm64: dts: add description for solidrun imx8mp
- hummingboard-iiot
-Message-ID: <20251104-sandal-playset-6f4ad0665c7b@thorsis.com>
-Mail-Followup-To: Josua Mayer <josua@solid-run.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Jon Nettleton <jon@solid-run.com>,
-	Mikhail Anikin <mikhail.anikin@solid-run.com>,
-	Yazan Shhady <yazan.shhady@solid-run.com>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-	"linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-	"imx@lists.linux.dev" <imx@lists.linux.dev>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
-	"linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>
-References: <20251027-imx8mp-hb-iiot-v1-0-683f86357818@solid-run.com>
- <20251027-imx8mp-hb-iiot-v1-8-683f86357818@solid-run.com>
- <2c54b7b7-4eb4-44a0-8025-8da16a28efd4@solid-run.com>
- <20251029-jittery-ambiguity-14e03ad2f0df@thorsis.com>
- <054eecb5-1296-4c41-ae86-1779abe0360c@solid-run.com>
+	s=arc-20240116; t=1762260561; c=relaxed/simple;
+	bh=tCFJDQ2qbHgKGOTP00PczzKvCX0ehvtOki7u2G8sL18=;
+	h=Message-ID:Subject:From:To:Cc:Date:Content-Type:MIME-Version; b=qvmEJ0LxprGVFrWbtplQkHOOs/0Nt8DIEycWQ5QFXeTCz8+evE2qJUnG7Tj4K5XeoXtJWu/dEtu55nyNSSk9uxVnB0BzUaTivSAFlSCbscbtc1g1kUoecqEwEBFt8bOWq9z1iBsYOypQTPSHRjrDoXcRaBfGJ0qxEeogT/WxcYs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=aegee.org; spf=pass smtp.mailfrom=aegee.org; dkim=pass (4096-bit key) header.d=aegee.org header.i=dkim+MSA-tls@aegee.org header.b=rarn6MQw; arc=none smtp.client-ip=144.76.142.78
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=aegee.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aegee.org
+Authentication-Results: mail.aegee.org/5A4Cmttm1855554; auth=pass (PLAIN) smtp.auth=didopalauzov@aegee.org
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=aegee.org; s=k4096;
+	t=1762260535; i=dkim+MSA-tls@aegee.org;
+	bh=tCFJDQ2qbHgKGOTP00PczzKvCX0ehvtOki7u2G8sL18=;
+	h=Subject:From:To:Cc:Date;
+	b=rarn6MQwsDAuBpx31zhWHG67F4HmbCsusRJ+I2NNsK+i4Am5fEXq9zj+kqmuXG8u7
+	 NjQFAsJLmyxke5mNXOH4JmkK+x1/Q66vWnsE5ebpwoJg0nwJdPpS37zUSdcvVqdklg
+	 RlbCDBAdP31AiM8MrIA/6ZTPp1rc7kj/tsi1gIU3rk5UuDSaqYrSjtaTFlS1I5YLcu
+	 qEOn0kJkHqNa29LJ1VbDJDn41y6PQPSuQBGptjoodpc6ORmvDP4A7p4prs8jF2JXWM
+	 hNmWcwgP3+DKauVFm38RB/bFtE8Qhx+qdZhTrTpLaay9weR1i716uFz0MwvTbQlI6u
+	 8Lsz+tNSQkUGz6KlzbR0VEQS6mK4xsOEuQFBb5evJhA9NVPAUsz4cvyyyRx/ncqWZn
+	 uPwlTPrE5X2vn1o04zAsvHApgjty6Rk3IzUSZwcmMZ0pta8THXdmBsulL3geVnd1ej
+	 SNDps2dhFkpRNxKq4kX+2lvVftJSVhZFEVrq5ln8z6IgDgiCd/3OAYB7s5WGvSEIg/
+	 7YDUo91HlXXzsMRDcNmWTTukll7a2pIspBD8bsWlQTcWTkzeMFK3wdPqaVHpikfhti
+	 FJYvJ77H1X2zd7Wrm3PLp51+Y9det7ik+kxoohSFwFBDlnsMaU+Po0H2YA6qP4x/5t
+	 z0Ktmme7I/e79HLty4rcLOXA=
+Authentication-Results: mail.aegee.org/5A4Cmttm1855554; dkim=none
+Received: from [192.168.0.242] (95-43-114-153.ip.btc-net.bg [95.43.114.153])
+	(authenticated bits=0)
+	by mail.aegee.org (8.18.1/8.18.1) with ESMTPSA id 5A4Cmttm1855554
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO);
+	Tue, 4 Nov 2025 12:48:55 GMT
+Message-ID: <24eaed9105633d03eded13e11c5a994bd93a81aa.camel@aegee.org>
+Subject: ioctl handler of the hidraw driver should return ENOIOCTLCMD for
+ numbers it does not want to handle | tcgetattr() =?UTF-8?Q?=E2=87=94?=
+ ioctl(, TCGETS2, =?UTF-8?Q?=E2=80=A6=29?= sets errno to undocumented
+ EINVAL/22
+From: =?UTF-8?Q?=D0=94=D0=B8=D0=BB=D1=8F=D0=BD_?=
+ =?UTF-8?Q?=D0=9F=D0=B0=D0=BB=D0=B0=D1=83=D0=B7=D0=BE=D0=B2?=
+	 <dilyan.palauzov@aegee.org>
+To: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>
+Cc: linux-input@vger.kernel.org
+Date: Tue, 04 Nov 2025 14:48:54 +0200
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.59.1 
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <054eecb5-1296-4c41-ae86-1779abe0360c@solid-run.com>
-User-Agent: Mutt/2.2.12 (2023-09-09)
-X-Last-TLS-Session-Version: TLSv1.3
 
-Hello Josua,
+Hello,
 
-Am Thu, Oct 30, 2025 at 04:44:40PM +0000 schrieb Josua Mayer:
-> Hi Alex,
-> 
-> Am 29.10.25 um 10:23 schrieb Alexander Dahl:
-> > Hello Josua,
-> >
-> > Am Tue, Oct 28, 2025 at 12:24:36PM +0000 schrieb Josua Mayer:
-> >> Am 27.10.25 um 18:48 schrieb Josua Mayer:
-> >>
-> >>> Add description for the SolidRun i.MX8MP HummingBoard IIoT.
-> >>> The board is a new design around the i.MX8MP System on Module, not
-> >>> sharing much with previous HummingBoards.
-> >>>
-> >>> It comes with some common features:
-> >>> - 3x USB-3.0 Type A connector
-> >>> - 2x 1Gbps RJ45 Ethernet
-> >>> - USB Type-C Console Port
-> >>> - microSD connector
-> >>> - RTC with backup battery
-> >>> - RGB Status LED
-> >>> - 1x M.2 M-Key connector with PCI-E Gen. 3 x1
-> >>> - 1x M.2 B-Key connector with USB-2.0/3.0 + SIM card holder
-> >>> - 1x LVDS Display Connector
-> >>> - 1x DSI Display Connector
-> >>> - GPIO header
-> >>> - 2x RS232/RS485 ports (configurable)
-> >>> - 2x CAN
-> >>>
-> >>> In addition there is a board-to-board expansion connector to support
-> >>> custom daughter boards with access to SPI, a range of GPIOs and -
-> >>> notably - CAN and UART. Both 2x CAN and 2x UART can be muxed either
-> >>> to this b2b connector, or a termianl block connector on the base board.
-> >>>
-> >>> The routing choice for UART and CAN is expressed through gpio
-> >>> mux-controllers in DT and can be changed by applying dtb addons.
-> >>>
-> >>> Four dtb addons are provided:
-> >>>
-> >>> - dsi panel Winstar WJ70N3TYJHMNG0
-> >>> - lvds panel Winstar WF70A8SYJHLNGA
-> >>> - RS485 on UART port "A" (default rs232)
-> >>> - RS485 on UART port "B" (default rs232)
-> >>>
-> >>> Signed-off-by: Josua Mayer <josua@solid-run.com>
-> >>> ---
-> >>>  arch/arm64/boot/dts/freescale/Makefile             |   6 +
-> >>>  ...hummingboard-iiot-panel-dsi-WJ70N3TYJHMNG0.dtso |  70 ++
-> >>>  ...ummingboard-iiot-panel-lvds-WF70A8SYJHLNGA.dtso | 105 +++
-> >>>  .../imx8mp-hummingboard-iiot-rs485-a.dtso          |  18 +
-> >>>  .../imx8mp-hummingboard-iiot-rs485-b.dtso          |  18 +
-> >>>  .../dts/freescale/imx8mp-hummingboard-iiot.dts     | 710 +++++++++++++++++++++
-> >>>  6 files changed, 927 insertions(+)
-> >> cut
-> >>> diff --git a/arch/arm64/boot/dts/freescale/imx8mp-hummingboard-iiot.dts b/arch/arm64/boot/dts/freescale/imx8mp-hummingboard-iiot.dts
-> >>> new file mode 100644
-> >>> index 0000000000000..2e4cb676bc9da
-> >>> --- /dev/null
-> >>> +++ b/arch/arm64/boot/dts/freescale/imx8mp-hummingboard-iiot.dts
-> >> cut
-> >>> +	led-controller@30 {
-> >>> +		compatible = "ti,lp5562";
-> >>> +		reg = <0x30>;
-> >>> +		/* use internal clock, could use external generated by rtc */
-> >>> +		clock-mode = /bits/ 8 <1>;
-> >>> +		#address-cells = <1>;
-> >>> +		#size-cells = <0>;
-> >>> +
-> >>> +		multi-led@0 {
-> >>> +			reg = <0x0>;
-> >>> +			color = <LED_COLOR_ID_RGB>;
-> >>> +			#address-cells = <1>;
-> >>> +			#size-cells = <0>;
-> >>> +
-> >>> +			led@0 {
-> >>> +				reg = <0x0>;
-> >>> +				color = <LED_COLOR_ID_RED>;
-> >>> +				led-cur = /bits/ 8 <0x32>;
-> >>> +				max-cur = /bits/ 8 <0x64>;
-> >>> +			};
-> >>> +
-> >>> +			led@1 {
-> >>> +				reg = <0x1>;
-> >>> +				color = <LED_COLOR_ID_GREEN>;
-> >>> +				led-cur = /bits/ 8 <0x19>;
-> >>> +				max-cur = /bits/ 8 <0x32>;
-> >>> +			};
-> >>> +
-> >>> +			led@2 {
-> >>> +				reg = <0x2>;
-> >>> +				color = <LED_COLOR_ID_BLUE>;
-> >>> +				led-cur = /bits/ 8 <0x19>;
-> >>> +				max-cur = /bits/ 8 <0x32>;
-> >>> +			};
-> >>> +		};
-> >>> +
-> >>> +		led@3 {
-> >>> +			reg = <3>;
-> >>> +			chan-name = "D8";
-> >> chan-name gives the led the name D6 in sysfs.
-> >>
-> >> The bindings do not allow however setting chan-name on
-> >> the multi-led, and it has an auto-generated name in sysfs.
-> >>
-> >> Am I missing something? Can multi-leds have a custom name?
-> > The sysfs names are auto-generated based on the attributes "color",
-> > "function", and "label" with the last being discouraged for new
-> > designs.
-> Thank you for reminding me of this one!
-> > If the "ti,lp5562" driver does nothing special,you could
-> > add "function" to the multi-led node and see if that fits your needs.
-> The board is not a complete product by itself so we have not chosen
-> a specific function for each led.
-> Therefore only color and label are actually applicable.
+With kernel 6.17.6 on x86_64 and glibc 2.42 the below program substitutes t=
+cgetattr() with ioctl(=E2=80=A6, TCGETS2, =E2=80=A6) and sets errno to 22 /=
+ Invalid argument / EINVAL.  The only difference for kernel 6.6.60 on armv7=
+l 2.26 is that the substitution has no 2, tcgetattr() translates to ioctl(=
+=E2=80=A6, TCGETS, =E2=80=A6).
 
-In such cases I use a generic function and the enumerator,
-something like this (in this case for a different led driver):
+For tcgetattr() only errno EBADF and ENOTTY are documented at https://sourc=
+eware.org/glibc/manual/latest/html_mono/libc.html#index-tcgetattr , at http=
+s://man7.org/linux/man-pages/man3/tcgetattr.3p.html and at https://pubs.ope=
+ngroup.org/onlinepubs/9799919799/functions/tcgetattr.html (Open Group Base =
+Specifications Issue 8/year 2024).
 
-    led_11_red: led-0 {
-            function = LED_FUNCTION_INDICATOR;
-            function-enumerator = <0>;
-            color = <LED_COLOR_ID_RED>;
-            gpios = <&pioC 18 GPIO_ACTIVE_HIGH>;
-    };
+In this concrete case changes to the man7.org documentation must be trigger=
+ed by the Austin Group - https://lore.kernel.org/linux-man/dsb6oiv7q7ra3gbu=
+4bovy3gah522lgsf3d6h3wxwe4ieuka6fh@g6u5qzlyoxf5/ and but https://sourceware=
+.org/bugzilla/show_bug.cgi?id=3D33597 suggests this is a kernel bug.
 
-…
+For hidraw devices the possible ioctl commands are mentioned at https://doc=
+s.kernel.org/hid/hidraw.html#ioctl, TCGETS and TCGETS2 are not among them, =
+so I was expecting a ENOTTY error.  This problem might also happen for to t=
+csetattr() - I have not checked it.
 
-    led_13_red: led-2 {
-            function = LED_FUNCTION_INDICATOR;
-            function-enumerator = <1>;
-            color = <LED_COLOR_ID_RED>;
-            gpios = <&pioC 20 GPIO_ACTIVE_HIGH>;
-    };
+#include <errno.h>
+#include <fcntl.h>
+#include <stdio.h>
+#include <termios.h>
 
-This gives stable sysfs paths like this:
+void main() {
+  int fd =3D open("/dev/hidraw0", O_RDWR | O_NONBLOCK |O_NOCTTY);
+  struct termios s;
+  errno =3D 0;
+  int ret =3D tcgetattr(fd, &s);
+  printf("Returned fd is %i ret is %i errno is %i %m\n", fd, ret, errno);
+}
 
-  /sys/class/leds/red:indicator-0
-  /sys/class/leds/red:indicator-1
+The above produces:
 
-Of course only with a LED driver supporting that automatic naming
-scheme.
+Returned fd is 3 ret is -1 errno is 22 Invalid argument
 
-> After testing on v6.18-rc1 I can state that leds-lp5562 driver does
-> something special - function and label properties do not have any
-> impact on the names in sysfs.
-> 
-> However I could set label on both LEDs regardless?
-
-When using the 'label' attribute, color and function attributes are
-more or less informational only, because label determines the sysfs
-path.  Someone could change the leds-lp5562 driver to behave like the
-other drivers, but then I would advise to explicitly set label in this
-case, so you won't end up with changed sysfs paths after the driver is
-changed.
-
-Not sure if this helps you.  Sorry.
-
-Greets
-Alex
-
-> 
-> >
-> > Adding linux-leds to Cc, because this is a LED related question.
-> >
-> > Greets
-> > Alex
-> >
-> >> In v6.6 leds-lp5562 driver if I set in each multi-led led@[0-2] sub-node
-> >> chan-name to the same string "D7" - then the sysfs name becomes D7.
-> >>
-> >>> +			color = <LED_COLOR_ID_GREEN>;
-> >>> +			led-cur = /bits/ 8 <0x19>;
-> >>> +			max-cur = /bits/ 8 <0x64>;
-> >>> +		};
-> >>> +	};
+Kind regards // =D0=94=D0=B8=D0=BB=D1=8F=D0=BD
 
