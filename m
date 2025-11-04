@@ -1,118 +1,110 @@
-Return-Path: <linux-input+bounces-15879-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-15880-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D8DBC310C8
-	for <lists+linux-input@lfdr.de>; Tue, 04 Nov 2025 13:49:29 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id 390D4C32B72
+	for <lists+linux-input@lfdr.de>; Tue, 04 Nov 2025 19:58:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C8D181899770
-	for <lists+linux-input@lfdr.de>; Tue,  4 Nov 2025 12:49:53 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id C50A834BF10
+	for <lists+linux-input@lfdr.de>; Tue,  4 Nov 2025 18:58:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7A8FF25F99B;
-	Tue,  4 Nov 2025 12:49:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 14B2A33F8C7;
+	Tue,  4 Nov 2025 18:58:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=aegee.org header.i=dkim+MSA-tls@aegee.org header.b="rarn6MQw"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PFO5WWTk"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail.aegee.org (mail.aegee.org [144.76.142.78])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 008F82EC0B7
-	for <linux-input@vger.kernel.org>; Tue,  4 Nov 2025 12:49:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=144.76.142.78
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AAF12F7AD1
+	for <linux-input@vger.kernel.org>; Tue,  4 Nov 2025 18:58:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762260561; cv=none; b=CB2HSMkFwhp3HJU+9w0wEf/Yy0mmGXgaQtuhYLXqDSJNLlgk11I7CNL7s6ruwBQfoV7qxH3EyVdeZ90nvpBitXTlDE+rc7h61Ycg1y5UBdX9gRf1FeJEZewb57j7qjTQk7QlNMo3zWFOlDGvftKmN8ERwLlo64+xGnPVmhdBf5s=
+	t=1762282698; cv=none; b=KM6xPUzrUPL2LNtQnLPuarU75mqyM4aAeW6ZBWi9lZ32P7Cffm+POTPuMGPj/lNcpbkK+1AGkRZw8UGXRQibn7GJJDR57RQVCCLcqo4+OhosqOEsQ3SyHSYGZw3/rU62y2AmmpcO0N2LSxMGi2b3YFm23Fd3AmQnTXuNFctInbk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762260561; c=relaxed/simple;
-	bh=tCFJDQ2qbHgKGOTP00PczzKvCX0ehvtOki7u2G8sL18=;
-	h=Message-ID:Subject:From:To:Cc:Date:Content-Type:MIME-Version; b=qvmEJ0LxprGVFrWbtplQkHOOs/0Nt8DIEycWQ5QFXeTCz8+evE2qJUnG7Tj4K5XeoXtJWu/dEtu55nyNSSk9uxVnB0BzUaTivSAFlSCbscbtc1g1kUoecqEwEBFt8bOWq9z1iBsYOypQTPSHRjrDoXcRaBfGJ0qxEeogT/WxcYs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=aegee.org; spf=pass smtp.mailfrom=aegee.org; dkim=pass (4096-bit key) header.d=aegee.org header.i=dkim+MSA-tls@aegee.org header.b=rarn6MQw; arc=none smtp.client-ip=144.76.142.78
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=aegee.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aegee.org
-Authentication-Results: mail.aegee.org/5A4Cmttm1855554; auth=pass (PLAIN) smtp.auth=didopalauzov@aegee.org
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=aegee.org; s=k4096;
-	t=1762260535; i=dkim+MSA-tls@aegee.org;
-	bh=tCFJDQ2qbHgKGOTP00PczzKvCX0ehvtOki7u2G8sL18=;
-	h=Subject:From:To:Cc:Date;
-	b=rarn6MQwsDAuBpx31zhWHG67F4HmbCsusRJ+I2NNsK+i4Am5fEXq9zj+kqmuXG8u7
-	 NjQFAsJLmyxke5mNXOH4JmkK+x1/Q66vWnsE5ebpwoJg0nwJdPpS37zUSdcvVqdklg
-	 RlbCDBAdP31AiM8MrIA/6ZTPp1rc7kj/tsi1gIU3rk5UuDSaqYrSjtaTFlS1I5YLcu
-	 qEOn0kJkHqNa29LJ1VbDJDn41y6PQPSuQBGptjoodpc6ORmvDP4A7p4prs8jF2JXWM
-	 hNmWcwgP3+DKauVFm38RB/bFtE8Qhx+qdZhTrTpLaay9weR1i716uFz0MwvTbQlI6u
-	 8Lsz+tNSQkUGz6KlzbR0VEQS6mK4xsOEuQFBb5evJhA9NVPAUsz4cvyyyRx/ncqWZn
-	 uPwlTPrE5X2vn1o04zAsvHApgjty6Rk3IzUSZwcmMZ0pta8THXdmBsulL3geVnd1ej
-	 SNDps2dhFkpRNxKq4kX+2lvVftJSVhZFEVrq5ln8z6IgDgiCd/3OAYB7s5WGvSEIg/
-	 7YDUo91HlXXzsMRDcNmWTTukll7a2pIspBD8bsWlQTcWTkzeMFK3wdPqaVHpikfhti
-	 FJYvJ77H1X2zd7Wrm3PLp51+Y9det7ik+kxoohSFwFBDlnsMaU+Po0H2YA6qP4x/5t
-	 z0Ktmme7I/e79HLty4rcLOXA=
-Authentication-Results: mail.aegee.org/5A4Cmttm1855554; dkim=none
-Received: from [192.168.0.242] (95-43-114-153.ip.btc-net.bg [95.43.114.153])
-	(authenticated bits=0)
-	by mail.aegee.org (8.18.1/8.18.1) with ESMTPSA id 5A4Cmttm1855554
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO);
-	Tue, 4 Nov 2025 12:48:55 GMT
-Message-ID: <24eaed9105633d03eded13e11c5a994bd93a81aa.camel@aegee.org>
-Subject: ioctl handler of the hidraw driver should return ENOIOCTLCMD for
- numbers it does not want to handle | tcgetattr() =?UTF-8?Q?=E2=87=94?=
- ioctl(, TCGETS2, =?UTF-8?Q?=E2=80=A6=29?= sets errno to undocumented
- EINVAL/22
-From: =?UTF-8?Q?=D0=94=D0=B8=D0=BB=D1=8F=D0=BD_?=
- =?UTF-8?Q?=D0=9F=D0=B0=D0=BB=D0=B0=D1=83=D0=B7=D0=BE=D0=B2?=
-	 <dilyan.palauzov@aegee.org>
-To: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>
-Cc: linux-input@vger.kernel.org
-Date: Tue, 04 Nov 2025 14:48:54 +0200
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.59.1 
+	s=arc-20240116; t=1762282698; c=relaxed/simple;
+	bh=sXJ6oo046UdvVw+WZY0s1bpUrcjoT8rdWb7NkoJ1tDg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HoC5WpzFu9Vl4KhJn6jC4OIFYCjNviEc0KAw/x7slHpTAy6ZPStIffsl1r8lwrdY4BvTmlH6A/uORjqMaxC114WdcHzzVRGorj8qh+4KzorZH7ihuuhxNbR4uZAxl2f/JFyLN2JXOahCGK7wq9BAHPfkDvlR/N5FliPg331Eu7o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PFO5WWTk; arc=none smtp.client-ip=209.85.214.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2952048eb88so63541715ad.0
+        for <linux-input@vger.kernel.org>; Tue, 04 Nov 2025 10:58:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1762282695; x=1762887495; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=6B+aPmBbpdYFEZ5jj5U7gq6e1DRXMQ9PT8K+t5rVros=;
+        b=PFO5WWTkj4Wr49uMspyv2IJ6/mfwA8B0MrW1oowem9/90Lftns+R4fAJ0n/sccbfF/
+         iesuUKI2oiUOIMq7D8wJyX87ZP6cGXNg8E048BpBcT3/K6G/zA8/4/EomHdkzbDS89kl
+         SD8+PfwLZ/fY9XnKmnjzihts7/1Es4UU48tnRNu9oMKmwRJAiHD0uWkLqgpnX2Az1S/u
+         VN69udvM5nLwKm9vYNcmnHG7PYbY2vWbDkH2s/2eiuPjrJ2su3/In29DinL3JAEp99yZ
+         qbe6sasOwTY+9kQBaPpUNZ6zMpXnn6TcXLrW8eMwT2M4MFhJf9nRQwMaKD/fiXz8swbp
+         yYwA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762282695; x=1762887495;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6B+aPmBbpdYFEZ5jj5U7gq6e1DRXMQ9PT8K+t5rVros=;
+        b=BXNLgiZlKFzF7r1SKbIJR6yzwHyyEFgcMaXrAFDLmyV0hzXqKGwK5PaE53g44VLyIE
+         QGYXda2jmaOVqxhAT50Y7hrdxcJGmFTBEkpweM+o94x09ByJthAp63BOzqeDN2IpQG3a
+         sgaNqdYUTxT35U0+Rm1NJV8GCZ64wpAaArCc7TZfsDyqgx9kI5288bnj+C4OO4yFKbJi
+         5HBZaoRoucyUCPDlwiUAb7d5Wko6PjlLxYQcbGUoRw9nwunZNwSZFc8YT3VoU9SdMjb1
+         S8jWMR+uCaRPxZAEf2y1sahd0BtvbzcgjFNfvh7+65cwilU333dyCpsYC1hctKtZE3Bv
+         0kvw==
+X-Forwarded-Encrypted: i=1; AJvYcCVyozixfU85ErMJwKWe6wShdv/LtxNQG8lBJVo0TnBaoU5CqMG5/6eXkeOILnFnWU+UIvLCogc6hbVcXg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz72NczAIKjJaegXL8VlLEKMUxsGU1RqGj/9U/68JryS2KfxE/9
+	wk/scO9INOBaW3uvZaK5Dp0FI27B8XO5hyiIJckLMFj8ZmbNnPejxm2v
+X-Gm-Gg: ASbGnctP3yujjye8eUz9GhrXGxZIoLeO8W9zlJP7NUrREJxyyJaRi+PriKAn25nvmy9
+	qGsYdyR4wD4xdSMJ36Quw97O6rLPRDMMt/WCIp566AQc9MPIP9NPBtBaizhSM7V6NCowwxJgEyr
+	RxecCrFkCnnXXqlg7CWn5zqJmO5DZaHsVIHyGeahho0MBJVQGpQTm38KXnluiKYnh8dfZYb3lwo
+	EEUMpUtK8bBupGZsomdBGMJEHD3zPqBEIKOwqF3SWXa7HH7TaIlPLQBPh8wSg3+BpjujRoVodS5
+	qXeYKxc/56iBzRYiTgBw3C0o5No/AE+2YZE8TFdjs2kaiREAXxdQXnvISbri+AAsTOQu5DC9Ba7
+	IZkbr8DGqO+1hyHkt7vJ25BnMV4LLtj3czILFQUYysXBk8HYj5QrALe7UqQbEUXx31BFa+7pbSF
+	UXwUGVfce6NLJnItcFBKr6DqoYa9Xe+HrC/Z7hZ9PW0A==
+X-Google-Smtp-Source: AGHT+IFHo1RV7muJZAmmalRPgMc0IPBuau1lfoRTnOMDYdIJrPmtkFZaswgqqRuY7j3qYZj5YpoDdg==
+X-Received: by 2002:a17:902:d482:b0:295:425a:350e with SMTP id d9443c01a7336-2962ad0c176mr6981645ad.8.1762282694755;
+        Tue, 04 Nov 2025 10:58:14 -0800 (PST)
+Received: from google.com ([2a00:79e0:2ebe:8:1f2a:f7de:951a:621a])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29601998d4fsm35273745ad.43.2025.11.04.10.58.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 04 Nov 2025 10:58:14 -0800 (PST)
+Date: Tue, 4 Nov 2025 10:58:11 -0800
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Anson Huang <Anson.Huang@nxp.com>, Jiri Kosina <jikos@kernel.org>, 
+	Benjamin Tissoires <bentiss@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	kernel-janitors@vger.kernel.org
+Subject: Re: [PATCH] Input: imx_sc_key - Fix memory corruption on unload
+Message-ID: <uimkyxzdrcrcm6jmprcsnbl7pw6w3impm5dqam5q4gln3lrcwi@ngqtd5pbuywo>
+References: <aQYKR75r2VMFJutT@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aQYKR75r2VMFJutT@stanley.mountain>
 
-Hello,
+On Sat, Nov 01, 2025 at 04:25:27PM +0300, Dan Carpenter wrote:
+> This is supposed to be "priv" but we accidentally pass "&priv" which is
+> an address in the stack and so it will lead to memory corruption when
+> the imx_sc_key_action() function is called.  Remove the &.
+> 
+> Fixes: 768062fd1284 ("Input: imx_sc_key - use devm_add_action_or_reset() to handle all cleanups")
+> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
 
-With kernel 6.17.6 on x86_64 and glibc 2.42 the below program substitutes t=
-cgetattr() with ioctl(=E2=80=A6, TCGETS2, =E2=80=A6) and sets errno to 22 /=
- Invalid argument / EINVAL.  The only difference for kernel 6.6.60 on armv7=
-l 2.26 is that the substitution has no 2, tcgetattr() translates to ioctl(=
-=E2=80=A6, TCGETS, =E2=80=A6).
+Applied, thank you.
 
-For tcgetattr() only errno EBADF and ENOTTY are documented at https://sourc=
-eware.org/glibc/manual/latest/html_mono/libc.html#index-tcgetattr , at http=
-s://man7.org/linux/man-pages/man3/tcgetattr.3p.html and at https://pubs.ope=
-ngroup.org/onlinepubs/9799919799/functions/tcgetattr.html (Open Group Base =
-Specifications Issue 8/year 2024).
-
-In this concrete case changes to the man7.org documentation must be trigger=
-ed by the Austin Group - https://lore.kernel.org/linux-man/dsb6oiv7q7ra3gbu=
-4bovy3gah522lgsf3d6h3wxwe4ieuka6fh@g6u5qzlyoxf5/ and but https://sourceware=
-.org/bugzilla/show_bug.cgi?id=3D33597 suggests this is a kernel bug.
-
-For hidraw devices the possible ioctl commands are mentioned at https://doc=
-s.kernel.org/hid/hidraw.html#ioctl, TCGETS and TCGETS2 are not among them, =
-so I was expecting a ENOTTY error.  This problem might also happen for to t=
-csetattr() - I have not checked it.
-
-#include <errno.h>
-#include <fcntl.h>
-#include <stdio.h>
-#include <termios.h>
-
-void main() {
-  int fd =3D open("/dev/hidraw0", O_RDWR | O_NONBLOCK |O_NOCTTY);
-  struct termios s;
-  errno =3D 0;
-  int ret =3D tcgetattr(fd, &s);
-  printf("Returned fd is %i ret is %i errno is %i %m\n", fd, ret, errno);
-}
-
-The above produces:
-
-Returned fd is 3 ret is -1 errno is 22 Invalid argument
-
-Kind regards // =D0=94=D0=B8=D0=BB=D1=8F=D0=BD
+-- 
+Dmitry
 
