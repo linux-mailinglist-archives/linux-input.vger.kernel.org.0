@@ -1,162 +1,171 @@
-Return-Path: <linux-input+bounces-15894-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-15895-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBFE8C3829F
-	for <lists+linux-input@lfdr.de>; Wed, 05 Nov 2025 23:18:18 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D278C3836E
+	for <lists+linux-input@lfdr.de>; Wed, 05 Nov 2025 23:40:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7090E1A20161
-	for <lists+linux-input@lfdr.de>; Wed,  5 Nov 2025 22:18:43 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 27D0E3B877F
+	for <lists+linux-input@lfdr.de>; Wed,  5 Nov 2025 22:40:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 755A82F12B6;
-	Wed,  5 Nov 2025 22:18:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6ABAA2F12A5;
+	Wed,  5 Nov 2025 22:40:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ayjMRaPz"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="VxRa6ZtC"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED71C2F0686
-	for <linux-input@vger.kernel.org>; Wed,  5 Nov 2025 22:18:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE36B2EFD95
+	for <linux-input@vger.kernel.org>; Wed,  5 Nov 2025 22:40:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762381094; cv=none; b=EePZVKan2MaNr/DTEM5LjpMZZQ3CgYm1owPFTY8VxLTlvFxQLvKvsIECNaRiXwnuePYS3JJE/dSH1iHAjq46JPOU38TULUdP4pOnPnYf0haGEsmID4INxdjRZDbfOZNNYiEtUaSJ/RjwkzYVIVeYBXcNLWpGMmTX1GBqKXjrJKQ=
+	t=1762382443; cv=none; b=m1MUUjiXak3znHBlmrlUldNb9qiNjzBl6ZBq5ICf3WDB2VZeFJhSJOykyp0GjUWNUZDlUD8N025IPEi+4b+AuxYh/DiMtsqZKSZRdc+Vk/VbjenZU5A+nr3LgwKJNSuhM92xDzJbyYWQw5MDQJoTz9mrYmqXU/8HS/gPIYnMb7M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762381094; c=relaxed/simple;
-	bh=FgSHmdWK8fD86bwRD+NZMD0W0N6z+nayNo+9iUVv+Ak=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jqxYiz6Go8PtOmxIIUhmP0A923CoXvcJlPJGNxH361c0WU4t0Mm6wIZMpV3UUbyTwHK9v7Z5OO7TT/n4K3JQKdP7PUQn+UbE4n/jXMO/A2AtqYP6yYkaxKU2eR3RUNrElirhpjpfg3YYKRQ0ua5i7LoFkuK+9E3+8+sM8OLTLGo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ayjMRaPz; arc=none smtp.client-ip=209.85.216.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-34188ba567eso319439a91.1
-        for <linux-input@vger.kernel.org>; Wed, 05 Nov 2025 14:18:12 -0800 (PST)
+	s=arc-20240116; t=1762382443; c=relaxed/simple;
+	bh=3hkKug39+4TR4kkH+vcZdCG4VPG2upJqx/o/C7wpd00=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=MbVWQHG8I/wQkBdbDjoB3wsOAnpJAAH+j7wFs7Wzl8dsE6XoKJqznAaNCRR+jidf3TbX9n6/EatybvLZuYG40+ONDVeSfbgyS0f7VxJ1i2uUG1ZGC5F9ja8wZnqZRoAS24tELl2pZ+SxXgt7ikjgTxrSB8NmjFIhTTa8V0zkwy4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=VxRa6ZtC; arc=none smtp.client-ip=209.85.160.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-4ecef02647eso2977821cf.1
+        for <linux-input@vger.kernel.org>; Wed, 05 Nov 2025 14:40:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762381092; x=1762985892; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Im7C/yPVX9MxQ3wIFuOi8MGfdZ4IZni92LwvcWpKIGs=;
-        b=ayjMRaPzv1xu7dmY/OaJsI/1A7EsC3QCEOV7CGR0Bg6ZTRXjC7dBZa0y6B9KjqsQrU
-         1+2wZr+jYdfRCNMS+zbe1nRoorC9EztQ+ppXTe2gX0tkfhV1LaDZ4nTd0xAI5MPmro0R
-         4eiPeOOs1vNV23BdWGi9+Sd9OTX/ja7ja24wvfvquPmjXw0cvft5biFO1yAEpwZ1CLTs
-         LHoHKSBzNNRFmYXnJKfQOyFF9GVqpA6xpfGG/ZKGMdZaCOhdR5VWAgTHu262I7Zqu0S1
-         QkX93ekiQZyUe+h9akbySFOP2AXbRaLbF6CNBMOBSgUlyH2JSj4OOqimdEXf2kU3uP04
-         BFpg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762381092; x=1762985892;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=google.com; s=20230601; t=1762382441; x=1762987241; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Im7C/yPVX9MxQ3wIFuOi8MGfdZ4IZni92LwvcWpKIGs=;
-        b=h/cp1kofwMA0P6UUPxldJra8HVHDaiG4dz9wOW5zw8KnqioztHQhlY9f2f4ttMs/0L
-         dBJUqsmh/FYPbiBJ0UpjIGgQtWMPOHr4fcyP6pNQ0YwqDCwCZ6uV8QAZOgqz2GVudUd1
-         uBRMV0rmWXi1gZ/kllSmG2eGv0hsRDvH7kG+TYGH2Y1sUmA4w2duk/r6+WQQe/XE1N4+
-         UgCcyYfCfFc6uc9RavgB+bDjxyUrLrQTrGMWWM2CMc87lWhaucEWKFjI5aO/H1f9Pg0+
-         WVN+Rh4L7TrHkMntlZXC0eY7WdMx3btXUZ4zaTjh4ldkh9zOvvQey5fb0EoEgotXz5au
-         HesA==
-X-Forwarded-Encrypted: i=1; AJvYcCW5vt6nfp6a6elBUwGp+vIFxC0RPADZcXJ52wxv42qcOotStmEnPqi8+T4V3w+e0AHo3lSMmJXZOuJ3qg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzHBUaJhQ+A48QpzBg1BLfIoM/8FbPHv+aJ+snDK0i2ePyU5KEu
-	o+UFoe2BNKztzRdDfMeRstVpWQQNguc59AAKV/jnKXHHe7SwHv0ZPUYm
-X-Gm-Gg: ASbGncuOtE1LxMRy44SVqJvURC/tGEItllRLXtQcUV2aKA+KgP/QxSaz40WkURgjyXg
-	rGjUY5X/LqvF2tqPLoJpqHDl190em7ecwOy450EKDwvUf5wnt56ziM5gOnMhIkwidZ7zp4gEf8X
-	/bS9TuneD74y5KOjisIjfDSHNVMKuoImGZmaVD1oZwLXeDpR4H7GxbBwm/5uMGkSJImzCXzmSpe
-	Lmo1gzTyKPpmu8btFhmH2O6GNTQTM7r4IV5bUye+AUIwG4ua97aob6FS9WqAVhG3R3SfQyfghqo
-	tLruKBMTklDIp5IXtbtvtZsvxHm0FjR8VBTo866ppSgL9Lw6WUNqBUvrfZ0lPOOzuzutaiOgPEY
-	nqa/NhhKBnp9Ur1c0WQ+Uv39bOHvTWlEN+3t64/btVqRgrcjtnwzeAyvfsbCrhv+93Jk5YznWsU
-	5JMtuH/EX9Ej8Wc7yP2TqqRHHUc/DJ7eXaK53K57vOjjHshZo6odzL
-X-Google-Smtp-Source: AGHT+IGMYKxUc+yFWPCSR1IktVa+NNpsyxMZ4O/wnRPrxacZqCnZibSpr1AmWZE5WIphsK5cnjwcSA==
-X-Received: by 2002:a17:90b:5250:b0:340:c179:3666 with SMTP id 98e67ed59e1d1-341a6c1e314mr6059131a91.8.1762381092040;
-        Wed, 05 Nov 2025 14:18:12 -0800 (PST)
-Received: from google.com ([2a00:79e0:2ebe:8:35dd:7def:e1d1:adfe])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-341d05c982dsm238658a91.20.2025.11.05.14.18.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Nov 2025 14:18:11 -0800 (PST)
-Date: Wed, 5 Nov 2025 14:18:08 -0800
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: akemnade@kernel.org
-Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Andreas Kemnade <andreas@kemnade.info>, Tony Lindgren <tony@atomide.com>, 
-	Kevin Hilman <khilman@kernel.org>, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-input@vger.kernel.org, linux-omap@vger.kernel.org
-Subject: Re: [PATCH v3 2/3] Input: twl4030 - add TWL603x power button
-Message-ID: <tyx4vvapd4pca6e236rcjkbxecor5kderzoinbwyuecdclzcix@jgksmvfioc4x>
-References: <20251105-twl6030-button-v3-0-9b37eb2b0989@kernel.org>
- <20251105-twl6030-button-v3-2-9b37eb2b0989@kernel.org>
+        bh=21qXQLNolzTFs72n7I5BKiJh68f8xT8gJueGc1dJJD4=;
+        b=VxRa6ZtCzV+zt07vfnfPMV+vIf0aiHjWdM0Bc0Qxjfm9w/+vca4DDEXC4+RU92H83Z
+         97JoncfaGwE3Wboe29SFoxDJLJdJhS4HQo7cN+LQBGJJIp2NnqAyYbugFi02Ma3CYnhv
+         qXWfcHAib1C9vYm1bxIh8gleG81U5/hIUvXnmCqlzK6VCBYhwqUTHrQzKVTja72q49+W
+         Ljj8CSwwgNGzNh2vf9dEQ8ZZTVNMEdGSkmLioe0KklQyEWv0/WX7AKxKjT6HcwwzlIYw
+         LiqaruRrX6MXtkfA4oVWgM+VBIlUoPcDFbAlZupMMrL+JbHkPlzsLRsmAb79jbaQhkZY
+         szYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762382441; x=1762987241;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=21qXQLNolzTFs72n7I5BKiJh68f8xT8gJueGc1dJJD4=;
+        b=EP+lFuAWoUseWdobOzzs4OkebkrrMo5t5rdRiVx0lYpOYMbJBs2ZjNhDmLMEQL2dlM
+         KznAM7F3gAS7qc5C7bW6LlQdDbA5NbmMtb7Z9zfMgr1c+onXA9oh0re/bk+Vz0OrEvjB
+         l0qfiYVSMZLLVqfF/hneeD0C2h9vQ0Ltxo4lWwUvBSCiAT9wUNPxKriVKBaEZXznm22l
+         PMxOdP4HwTNUCNVE5UG5RWJFhFj9ZwOM6ZKE7HBA7C0IG+L8hZkYOhFTzFe6aSLSulE/
+         4MGxHQcFWWQ2UuNc10Qldo51EM4mbrCajHPepdaPlgtinHQ1aA5kQa9z1lPhP7bVWbZS
+         6j2Q==
+X-Forwarded-Encrypted: i=1; AJvYcCU1dCbSpizyvT0FALsZFDx+BCzmbtHeGe4YGYz8Wgu7wtHbjwDKny+nP3dBiXd801MYutE1AwS2xJS2bQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx2fpsEp+jpefBMOkS7/mb7fqs0ZEqWohB09325IOdwxY3dhJ8R
+	GLi1irHnvHHgomQjIaHw0jfhTxLyf4aWIWgD/xbVcUH1x/ScoR51qtnhGaQ0G9IJGQMjhOUycz/
+	EXz4cU/MtjbrPFW+FjrffkjubkHHpyu3xbjZ+cFRE
+X-Gm-Gg: ASbGncvT/I8t1PLxGKl1pVXJTsnNaxkT+CorWOuFO2lG+XN+5xjEzQVJ10iMf4B+CT8
+	Fo8DKE7gW+/fdf3WrtDpmvl6DhSkEe/4MTiqXHU43sN6h8W1ruA2vTJS/WK3RVycH+qKzT0fshS
+	sMZT25klPZrchOTKA9qgcyJZwwMFxpvwdXz5baiBarHftWOeiDqJjQdqlVwBBQOHLbAcYxTlFqB
+	hMTD/n4XnLr2TLBj4ug5bwp1yqW9m7BCmwUbeQyhbLnmPI73nKCKjGnkuxapUUDegEsfRGvIk4g
+	WXDQg3L6nc172iIh1A7Utrst7hzs
+X-Google-Smtp-Source: AGHT+IFg+F2Ata6x8dN1l6gIoGdg4pDHv2N8V5ZQ7hPdvjQ3qX8P61Yda6M7LKoKh7JHKEcIv79ez6Ma5pah8Xu0zFc=
+X-Received: by 2002:ac8:5ace:0:b0:4e8:aa15:c96d with SMTP id
+ d75a77b69052e-4ed7262dd8bmr60160061cf.55.1762382440446; Wed, 05 Nov 2025
+ 14:40:40 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251105-twl6030-button-v3-2-9b37eb2b0989@kernel.org>
+References: <20251030-lid-switch-notifier-v1-0-c58dc9b1439d@google.com>
+ <20251030-lid-switch-notifier-v1-1-c58dc9b1439d@google.com> <a4zd7uzo3aigyrhturbpgtcsm2slmtqefivky2bfhqiupcc5aj@iorbkwz6ief4>
+In-Reply-To: <a4zd7uzo3aigyrhturbpgtcsm2slmtqefivky2bfhqiupcc5aj@iorbkwz6ief4>
+From: Jonathan Denose <jdenose@google.com>
+Date: Wed, 5 Nov 2025 16:40:29 -0600
+X-Gm-Features: AWmQ_blBi6SaJ6LdIS9vwxJQp5_1zspGepznYlOnd7E2qDS8FYULJpsyRNqnRec
+Message-ID: <CAMCVhVP+LW27iLXttyFegRj_HMHheYrZtj4uuERLN0uqUjkR6Q@mail.gmail.com>
+Subject: Re: [PATCH 1/2] Input: Create input notifier chain in input.c
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, linux-input@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Andreas,
+Hi Dmitry,
 
-On Wed, Nov 05, 2025 at 08:52:36PM +0100, akemnade@kernel.org wrote:
-> From: Andreas Kemnade <andreas@kemnade.info>
-> 
-> Like the TWL4030, these PMICs also have a power button feature, so extend
-> the TWL4030 power button driver. As the irqchip of the TWL6030 mfd driver
-> does not provide mask, unmask finctions, do it manually.
-> 
-> Signed-off-by: Andreas Kemnade <andreas@kemnade.info>
-> ---
->  drivers/input/misc/twl4030-pwrbutton.c | 61 +++++++++++++++++++++++++++++++---
->  1 file changed, 57 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/input/misc/twl4030-pwrbutton.c b/drivers/input/misc/twl4030-pwrbutton.c
-> index f85cc289c053..b72fba9a1b2c 100644
-> --- a/drivers/input/misc/twl4030-pwrbutton.c
-> +++ b/drivers/input/misc/twl4030-pwrbutton.c
-> @@ -25,22 +25,40 @@
->  #include <linux/kernel.h>
->  #include <linux/errno.h>
->  #include <linux/input.h>
-> +#include <linux/bits.h>
+Thanks for your feedback.
 
-Move to the top of includes please.
+On Wed, Nov 5, 2025 at 3:55=E2=80=AFPM Dmitry Torokhov
+<dmitry.torokhov@gmail.com> wrote:
+>
+> Hi Jonathan,
+>
+> On Thu, Oct 30, 2025 at 02:10:40PM +0000, Jonathan Denose wrote:
+> > To expose input events to other kernel modules, add a blocking notifier
+> > chain. Publish LID_SWITCH_OPEN/LID_SWITCH_CLOSE events through this
+> > notifier chain when input_handle_event detects events signaling the lid
+> > switch has opened or closed.
+> >
+> > Additionally, export a function which allows other kernel modules to
+> > register notifier_block structs against this notifier chain.
+> >
+> > Signed-off-by: Jonathan Denose <jdenose@google.com>
+> > ---
+> >  drivers/input/input.c | 13 +++++++++++++
+> >  include/linux/input.h |  7 +++++++
+> >  2 files changed, 20 insertions(+)
+> >
+> > diff --git a/drivers/input/input.c b/drivers/input/input.c
+> > index a500e1e276c211d1146dbfea421a3402084007f8..b342b1ff138ccc58d4623ed=
+cf1152bd85d7054bf 100644
+> > --- a/drivers/input/input.c
+> > +++ b/drivers/input/input.c
+> > @@ -26,6 +26,7 @@
+> >  #include <linux/kstrtox.h>
+> >  #include <linux/mutex.h>
+> >  #include <linux/rcupdate.h>
+> > +#include <linux/notifier.h>
+> >  #include "input-compat.h"
+> >  #include "input-core-private.h"
+> >  #include "input-poller.h"
+> > @@ -62,6 +63,8 @@ static const unsigned int input_max_code[EV_CNT] =3D =
+{
+> >       [EV_FF] =3D FF_MAX,
+> >  };
+> >
+> > +static struct blocking_notifier_head input_notifier_head;
+> > +
+> >  static inline int is_event_supported(unsigned int code,
+> >                                    unsigned long *bm, unsigned int max)
+> >  {
+> > @@ -367,10 +370,20 @@ void input_handle_event(struct input_dev *dev,
+> >               if (type !=3D EV_SYN)
+> >                       add_input_randomness(type, code, value);
+> >
+> > +             if (type =3D=3D EV_SW && code =3D=3D SW_LID && !value)
+> > +                     blocking_notifier_call_chain(&input_notifier_head=
+, value ?
+> > +                             LID_SWITCH_CLOSE : LID_SWITCH_OPEN, dev);
+>
+> I would prefer not having this directly in the input core but rather
+> have a lid handler that can then use notifier chain to forward the
+> events further.
 
->  #include <linux/interrupt.h>
->  #include <linux/of.h>
->  #include <linux/platform_device.h>
->  #include <linux/mfd/twl.h>
->  
-> -#define PWR_PWRON_IRQ (1 << 0)
-> +#define PWR_PWRON_IRQ BIT(0)
->  
-> -#define STS_HW_CONDITIONS 0xf
-> +#define STS_HW_CONDITIONS_4030 0xf
-> +#define STS_HW_CONDITIONS_6030 0x2
+Ok, that makes sense to me. In that case, do you have a recommendation
+for where the lid handler should go?
 
-Probably no need for these defines, just use numbers in structure
-instances.
+It looks like drivers/acpi/button.c initializes and handles the lid switch,=
+ so
+would it make sense for it to go there?
 
-> +
-> +struct twl_pwrbutton_chipdata {
-> +	u8 status_reg;
-> +	bool need_manual_irq;
-> +};
-> +
-> +static const struct twl_pwrbutton_chipdata twl4030_chipdata = {
-> +	STS_HW_CONDITIONS_4030,
-> +	false,
+> Also, here you are running in atomic context, so you need atomic
+> notifier, not blocking (or you need to involve a workqueue).
 
-I am a big fan of named initializers, so maybe
+I'll use an atomic notifier in the next version.
 
-	.status_reg = 0x0f,
-	.need_manual_irq = false,
-
-?
-
-Otherwise looks good.
-
-Thanks.
-
--- 
-Dmitry
+> Thanks.
+>
+> --
+> Dmitry
+--=20
+Jonathan
 
