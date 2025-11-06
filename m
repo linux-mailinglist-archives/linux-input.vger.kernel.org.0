@@ -1,198 +1,234 @@
-Return-Path: <linux-input+bounces-15901-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-15902-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DB04C39F96
-	for <lists+linux-input@lfdr.de>; Thu, 06 Nov 2025 11:00:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F57BC3AB53
+	for <lists+linux-input@lfdr.de>; Thu, 06 Nov 2025 12:52:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E75C8423396
-	for <lists+linux-input@lfdr.de>; Thu,  6 Nov 2025 09:53:55 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 32171466D00
+	for <lists+linux-input@lfdr.de>; Thu,  6 Nov 2025 11:45:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E3FC530E831;
-	Thu,  6 Nov 2025 09:50:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 889A231327E;
+	Thu,  6 Nov 2025 11:45:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fAaS6ijC"
+	dkim=pass (2048-bit key) header.d=who-t.net header.i=@who-t.net header.b="FYEV5g/m";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="AHw05ijj"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from fhigh-a3-smtp.messagingengine.com (fhigh-a3-smtp.messagingengine.com [103.168.172.154])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE2602DF145
-	for <linux-input@vger.kernel.org>; Thu,  6 Nov 2025 09:50:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D497D30CDBD;
+	Thu,  6 Nov 2025 11:45:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.154
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762422611; cv=none; b=GJgDcxzP950C+BnaP0Z3mJEux8m8ObqqI8vOffv14kk42KbGBtHjkRgNdj/TGsHI7vUO7gkD/DeeNzLa0U1Mzql4v2rMMYFnx7GKpRaSWxy8mG5Mfg/crqpEs0hEi0v6KTqUtujlm/0f/MUSOkY1e5QgU1syHuj9WjMW9iiQY04=
+	t=1762429547; cv=none; b=XGKfqQWSd3uDteNjVmQZbeV2crf5J2OkzzNGMdabA4WJ6+HO6N6MrPFKpeBof3xnloRTVCK/q+yxPA/wJfEbGUMlA3DUgcXYr7f/r/EdKYp2LkBVIh+pSerNJ0aM1ncgVzWMAMnBtz45r3gW7Ns7uC2TJBM/xxEVahNS9IqR2tI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762422611; c=relaxed/simple;
-	bh=c2Ftn2kMTr+pYX+9QGTYbMkIuWogmnJw0IVbCxFIaDY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=CuqKgQXJmxOUUR1X5PaV8kjmnSBAP2oAo1cGQzCDdxUErMGtv0DkJ7JI2iBf0sXvE+ztYzHKMQ7p9CULLrMMMGrj8C/Lbcz5F6HokHvavUyjwmuQDjA+95B0MDUaEtsrkGigj3xfMDKRNc//4KXVeDbqsHgFUm+KeLLvqb6osSk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fAaS6ijC; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762422610; x=1793958610;
-  h=date:from:to:cc:subject:message-id;
-  bh=c2Ftn2kMTr+pYX+9QGTYbMkIuWogmnJw0IVbCxFIaDY=;
-  b=fAaS6ijCOITWLRd31OU9tIDi+nsj48hHcYUUqRg4Zc3SDKUvSbSMcgD3
-   DQCdPN67zx03uAFFuokzi6LvtTIFrHdsQqIiYPbyYaaJgMz7UEteX4Pz7
-   zDmZxhxyLn7U6aISXDm+k0QRUgJalY+SSgDWad/n5q/3ydYrE61IeSpGg
-   zY2IEFGE5/UQiAeGDgLwj0frw+oySANxctXri/SN4d7NByKBOBaU4k2eM
-   Oaz5DtK8DYBh7wXypZqY522xGa+eqSRNb3dac9LjwtrjP/JhgpSDwwdMM
-   7uWoH5i12Q5sd3H5SEISyu6hiZ6UkBwn3uVSGL4bXhV6CPPXzQEFerWkE
-   g==;
-X-CSE-ConnectionGUID: Nu0/j5IiS4mxNFciPjRBKg==
-X-CSE-MsgGUID: rH07ShDDQ+Kay1D2DmNRwQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11604"; a="74845354"
-X-IronPort-AV: E=Sophos;i="6.19,284,1754982000"; 
-   d="scan'208";a="74845354"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2025 01:50:09 -0800
-X-CSE-ConnectionGUID: fKTeqbAdRqKwbHE+DlQ07A==
-X-CSE-MsgGUID: L4oQlgHCQMKmgtEfQs5gqA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,284,1754982000"; 
-   d="scan'208";a="188161798"
-Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 06 Nov 2025 01:50:08 -0800
-Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vGwd1-000Tjg-1j;
-	Thu, 06 Nov 2025 09:50:04 +0000
-Date: Thu, 06 Nov 2025 17:49:24 +0800
-From: kernel test robot <lkp@intel.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: linux-input@vger.kernel.org
-Subject: [dtor-input:for-linus] BUILD SUCCESS
- e08969c4d65ac31297fcb4d31d4808c789152f68
-Message-ID: <202511061719.K6heE4Ht-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	s=arc-20240116; t=1762429547; c=relaxed/simple;
+	bh=lRYu+qLZL4qifVykWfCOuRwuIpfbS/rl12XbWnvSfcM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=MRd5HK/gZxkSJ+Ko0sfzxUfElyX1yzN5udJF5GK4v8zwdu9uR+8HWbCnJCbeN69jJrYk4B81popixCfDK9ZxlkBuCraWKzB52BuIDzoNoiBN/xCcNVvM/AZIVzLvOOGOeXswow8wfBqxO+z5198Wx6mGscZh7mXsqutXQQbg2jw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=who-t.net; spf=pass smtp.mailfrom=who-t.net; dkim=pass (2048-bit key) header.d=who-t.net header.i=@who-t.net header.b=FYEV5g/m; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=AHw05ijj; arc=none smtp.client-ip=103.168.172.154
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=who-t.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=who-t.net
+Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id C52FD14001EE;
+	Thu,  6 Nov 2025 06:45:43 -0500 (EST)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-10.internal (MEProxy); Thu, 06 Nov 2025 06:45:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=who-t.net; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to; s=fm2; t=1762429543; x=1762515943; bh=5k3gaOYj30dDfSaXFYGpf
+	fTJp8o5nXzOORcxkgidDlY=; b=FYEV5g/mCBf34duDLFuxYo/NshXE3UGd+cPhD
+	SmZPp+opVG7AdZFSuRopcOKyUv+Jr8vJ6hJX5El2MWWchqsCBQ30bPlyFgZ+evOo
+	GIFZ23+onrnQiiAK07vHOdoRf9Mufmw8E4sYgNWbOHiwMmLgZkQYQj19ChXkSoRA
+	FoHSpprkId53nO1ASVaUnpMPmDV7NxdaLF4RzWqY36Z94DqRXFh+nMYknTVMJXTL
+	NPhm0UzcGZ3w5K65agrQDmvN3kH6DeZ7d4c5edct6ddWlvRnY4aNdM8BIiCAFT/T
+	tH3L1X8sIcC/+oNBIhTmUDu8ntD5H6HZt22heXaVxMR9OCJaQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:reply-to:subject:subject:to:to
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+	1762429543; x=1762515943; bh=5k3gaOYj30dDfSaXFYGpffTJp8o5nXzOORc
+	xkgidDlY=; b=AHw05ijjthcuUW/Y4mRXDtouinbqbTItCo49SlVfohlLZyiUJjY
+	y6v+3d49rOfjqNZOCzvghhwx1kKkVC8MMD6J0ZWrSOrmz80sOwlOfV0dbcVRZ4Xd
+	Jx3iYLnAHyMLU4jemlpehwU6KYB5/nyFXpezOhwg/Dbz9D6UJb3+la/HuG3opjOE
+	tBhS+UDO0c9S0UqU/MT06jRglsHehn6TtmoSgPwkUQ6U/ykkUND3STpp1MGMezzj
+	SWSHZTnRMY+uIdd9qgqTn2auBA+4iukxNYTGlgeLv3nAtg4IR4s1TsREOVAmC0Yp
+	KZJ5Z8hwD8H7fY4+/zbxn3xn9BDbIU+xkXg==
+X-ME-Sender: <xms:Z4oMaVWa0xMAqjcsih5lcDOdf2-FIInIc-YWZKnoXgbE_hhLCqqBSg>
+    <xme:Z4oMadvlG7W19GzjpsSHdWLVFzNEg9kWNWPhEdx9vnbhX4AUqTtnlNz5HPtR5cs_9
+    -nOFBZhRsUxait2dJaTTqxeWv-xK3c5fazyiQYCyiFQNE_3o7-7Vf0>
+X-ME-Received: <xmr:Z4oMaQ6u4Ma1LlAcFCQWG_5yXMxoP88DIesLd6M6559-BLrSliaUWDF79AylIDuyxTdC_qx7pumk5fdvebleQuw7n_zKeGMvxw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggddukeeiieelucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepfffhvfevuffkgggtuggjsehttdertddttddvnecuhfhrohhmpefrvghtvghrucfj
+    uhhtthgvrhgvrhcuoehpvghtvghrrdhhuhhtthgvrhgvrhesfihhohdqthdrnhgvtheqne
+    cuggftrfgrthhtvghrnhepgfelteeufedtleevjeetvdejvdffleduveevtedugfefveev
+    tddtudevgfejveegnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvg
+    hrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehpvghtvghrrdhhuhhtthgv
+    rhgvrhesfihhohdqthdrnhgvthdpnhgspghrtghpthhtohepuddvpdhmohguvgepshhmth
+    hpohhuthdprhgtphhtthhopehjuggvnhhoshgvsehgohhoghhlvgdrtghomhdprhgtphht
+    thhopehjihhkohhssehkvghrnhgvlhdrohhrghdprhgtphhtthhopegsvghnthhishhsse
+    hkvghrnhgvlhdrohhrghdprhgtphhtthhopegumhhithhrhidrthhorhhokhhhohhvsehg
+    mhgrihhlrdgtohhmpdhrtghpthhtoheptghorhgsvghtsehlfihnrdhnvghtpdhrtghpth
+    htoheprhihuggsvghrghessghithhmrghthhdrohhrghdprhgtphhtthhopehlihhnuhig
+    qdhinhhpuhhtsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugi
+    dqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhu
+    gidqughotgesvhhgvghrrdhkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:Z4oMaYQuXXWMyE3RR1HRmjxZcuEw_9hrWPKjWnbbpCtbvdWwHX2Axg>
+    <xmx:Z4oMabuHF4d0fJEPCPhYUt5yLllHH_S6Rgz7DWVC8NxG4w1tZFWJKg>
+    <xmx:Z4oMaS9syFgBGPQLwhoachseBbNQnOgq0-Jqni4xqgON_F9M_4vM1Q>
+    <xmx:Z4oMacxUxvQddZMNnLWqOQkRzZRBsHPGqmqQXsA33ez5qORd0ILNEw>
+    <xmx:Z4oMaYp8_67n-CnA0Lou_ydctdKVaRzhXQJqorE7mQCEtaYnOjwgEfvs>
+Feedback-ID: i7ce144cd:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 6 Nov 2025 06:45:39 -0500 (EST)
+Date: Thu, 6 Nov 2025 21:45:34 +1000
+From: Peter Hutterer <peter.hutterer@who-t.net>
+To: Jonathan Denose <jdenose@google.com>, Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Henrik Rydberg <rydberg@bitmath.org>
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, Angela Czubak <aczubak@google.com>,
+	Sean O'Brien <seobrien@google.com>,
+	Randy Dunlap <rdunlap@infradead.org>
+Subject: [PATCH v3] Input: rename INPUT_PROP_HAPTIC_TOUCHPAD to
+ INPUT_PROP_PRESSUREPAD
+Message-ID: <20251106114534.GA405512@tassie>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251030011735.GA969565@quokka>
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git for-linus
-branch HEAD: e08969c4d65ac31297fcb4d31d4808c789152f68  Input: cros_ec_keyb - fix an invalid memory access
+And expand it to encompass all pressure pads.
 
-elapsed time: 1679m
+Definition: "pressure pad" as used here as includes all touchpads that
+use physical pressure to convert to click, without physical hinges. Also
+called haptic touchpads in general parlance, Synaptics calls them
+ForcePads.
 
-configs tested: 105
-configs skipped: 1
+Most (all?) pressure pads are currently advertised as
+INPUT_PROP_BUTTONPAD. The suggestion to identify them as pressure pads
+by defining the resolution on ABS_MT_PRESSURE has been in the docs since
+commit 20ccc8dd38a3 ("Documentation: input: define
+ABS_PRESSURE/ABS_MT_PRESSURE resolution as grams") but few devices
+provide this information.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+In userspace it's thus impossible to determine whether a device is a
+true pressure pad (pressure equals pressure) or a normal clickpad with
+(pressure equals finger size).
 
-tested configs:
-alpha                             allnoconfig    gcc-15.1.0
-alpha                            allyesconfig    clang-19
-arc                              allmodconfig    clang-19
-arc                               allnoconfig    gcc-15.1.0
-arc                              allyesconfig    clang-19
-arc                   randconfig-001-20251106    gcc-12.5.0
-arc                   randconfig-002-20251106    gcc-8.5.0
-arm                              allmodconfig    clang-19
-arm                               allnoconfig    clang-22
-arm                              allyesconfig    clang-19
-arm                   randconfig-001-20251106    gcc-11.5.0
-arm                   randconfig-002-20251106    clang-22
-arm                   randconfig-003-20251106    gcc-10.5.0
-arm                   randconfig-004-20251106    gcc-8.5.0
-arm64                            allmodconfig    clang-19
-arm64                             allnoconfig    gcc-15.1.0
-csky                              allnoconfig    gcc-15.1.0
-hexagon                          allmodconfig    clang-19
-hexagon                           allnoconfig    clang-22
-hexagon                          allyesconfig    clang-19
-hexagon               randconfig-001-20251105    clang-22
-hexagon               randconfig-002-20251105    clang-20
-i386                             allmodconfig    clang-20
-i386                              allnoconfig    gcc-14
-i386                             allyesconfig    clang-20
-loongarch                        allmodconfig    clang-19
-loongarch                         allnoconfig    clang-22
-loongarch             randconfig-001-20251105    clang-18
-loongarch             randconfig-002-20251105    clang-20
-m68k                             allmodconfig    clang-19
-m68k                              allnoconfig    gcc-15.1.0
-m68k                             allyesconfig    clang-19
-microblaze                       allmodconfig    clang-19
-microblaze                        allnoconfig    gcc-15.1.0
-microblaze                       allyesconfig    clang-19
-mips                              allnoconfig    gcc-15.1.0
-nios2                            allmodconfig    clang-22
-nios2                             allnoconfig    gcc-11.5.0
-nios2                            allyesconfig    clang-22
-nios2                 randconfig-001-20251105    gcc-9.5.0
-nios2                 randconfig-002-20251105    gcc-8.5.0
-openrisc                         allmodconfig    clang-22
-openrisc                          allnoconfig    gcc-15.1.0
-parisc                            allnoconfig    gcc-15.1.0
-parisc                randconfig-001-20251105    gcc-12.5.0
-parisc                randconfig-002-20251105    gcc-10.5.0
-powerpc                           allnoconfig    gcc-15.1.0
-powerpc               randconfig-001-20251105    gcc-14.3.0
-powerpc               randconfig-002-20251105    gcc-12.5.0
-powerpc64             randconfig-001-20251105    clang-22
-powerpc64             randconfig-002-20251105    clang-22
-riscv                             allnoconfig    gcc-15.1.0
-riscv                 randconfig-001-20251105    gcc-8.5.0
-riscv                 randconfig-002-20251105    clang-18
-s390                             allmodconfig    clang-18
-s390                              allnoconfig    clang-22
-s390                             allyesconfig    gcc-15.1.0
-s390                  randconfig-001-20251105    gcc-8.5.0
-s390                  randconfig-002-20251105    gcc-14.3.0
-sh                               allmodconfig    gcc-15.1.0
-sh                                allnoconfig    gcc-15.1.0
-sh                               allyesconfig    gcc-15.1.0
-sh                                  defconfig    gcc-15.1.0
-sh                    randconfig-001-20251105    gcc-10.5.0
-sh                    randconfig-002-20251105    gcc-11.5.0
-sparc                            allmodconfig    gcc-15.1.0
-sparc                             allnoconfig    gcc-15.1.0
-sparc                            allyesconfig    clang-22
-sparc                 randconfig-001-20251106    gcc-15.1.0
-sparc                 randconfig-002-20251106    gcc-15.1.0
-sparc64                          allmodconfig    clang-22
-sparc64                          allyesconfig    clang-22
-sparc64                             defconfig    clang-20
-sparc64               randconfig-001-20251106    gcc-13.4.0
-sparc64               randconfig-002-20251106    clang-20
-um                               allmodconfig    clang-19
-um                                allnoconfig    clang-22
-um                               allyesconfig    clang-19
-um                                  defconfig    clang-22
-um                             i386_defconfig    gcc-14
-um                    randconfig-001-20251106    gcc-14
-um                    randconfig-002-20251106    clang-22
-um                           x86_64_defconfig    clang-22
-x86_64                           allmodconfig    clang-20
-x86_64                            allnoconfig    clang-20
-x86_64                           allyesconfig    clang-20
-x86_64      buildonly-randconfig-001-20251105    clang-20
-x86_64      buildonly-randconfig-002-20251105    gcc-13
-x86_64      buildonly-randconfig-003-20251105    gcc-14
-x86_64      buildonly-randconfig-004-20251105    gcc-13
-x86_64      buildonly-randconfig-005-20251105    gcc-14
-x86_64      buildonly-randconfig-006-20251105    gcc-13
-x86_64                              defconfig    gcc-14
-x86_64                                  kexec    clang-20
-x86_64                               rhel-9.4    clang-20
-x86_64                           rhel-9.4-bpf    gcc-14
-x86_64                          rhel-9.4-func    clang-20
-x86_64                    rhel-9.4-kselftests    clang-20
-x86_64                         rhel-9.4-kunit    gcc-14
-x86_64                           rhel-9.4-ltp    gcc-14
-x86_64                          rhel-9.4-rust    clang-20
-xtensa                            allnoconfig    gcc-15.1.0
-xtensa                           allyesconfig    clang-22
-xtensa                randconfig-001-20251106    gcc-9.5.0
-xtensa                randconfig-002-20251106    gcc-8.5.0
+Commit 7075ae4ac9db ("Input: add INPUT_PROP_HAPTIC_TOUCHPAD") introduces
+INPUT_PROP_HAPTIC_TOUCHPAD but restricted it to those touchpads that
+have support for userspace-controlled effects. Let's expand and rename
+that definition to include all pressure pad touchpads since those that
+do support FF effects can be identified by the presence of the
+FF_HAPTIC bit.
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+This means:
+- clickpad: INPUT_PROP_BUTTONPAD
+- pressurepad: INPUT_PROP_BUTTONPAD + INPUT_PROP_PRESSUREPAD
+- pressurepad with configurable haptics:
+  INPUT_PROP_BUTTONPAD + INPUT_PROP_PRESSUREPAD + FF_HAPTIC
+
+Signed-off-by: Peter Hutterer <peter.hutterer@who-t.net>
+---
+ftr, I picked PRESSUREPAD over Dmitry's PRESSURE_TOUCHPAD suggestion
+because it matches better with the existing BUTTONPAD.
+
+Changes to v1: extra empty lines to render the lists as lists
+Changes to v2: rename to PRESSUREPAD and rename it in the instances
+  where it's used in the code
+
+v1: https://lore.kernel.org/linux-input/20251030011735.GA969565@quokka/T/#u
+v2: https://lore.kernel.org/linux-input/20251030011735.GA969565@quokka/T/#m9504de27b02d00a55d540fd9fec9aed3edd0133c
+
+ Documentation/input/event-codes.rst    | 25 ++++++++++++++++++-------
+ drivers/hid/hid-haptic.c               |  2 +-
+ include/uapi/linux/input-event-codes.h |  2 +-
+ 3 files changed, 20 insertions(+), 9 deletions(-)
+
+diff --git a/Documentation/input/event-codes.rst b/Documentation/input/event-codes.rst
+index 1ead9bb8d9c6..4424cbff251f 100644
+--- a/Documentation/input/event-codes.rst
++++ b/Documentation/input/event-codes.rst
+@@ -400,19 +400,30 @@ can report through the rotational axes (absolute and/or relative rx, ry, rz).
+ All other axes retain their meaning. A device must not mix
+ regular directional axes and accelerometer axes on the same event node.
+ 
+-INPUT_PROP_HAPTIC_TOUCHPAD
+---------------------------
++INPUT_PROP_PRESSUREPAD
++----------------------
++
++The INPUT_PROP_PRESSUREPAD property indicates that the device provides
++simulated haptic feedback (e.g. a vibrator motor situated below the surface)
++instead of physical haptic feedback (e.g. a hinge). This property is only set
++if the device:
+ 
+-The INPUT_PROP_HAPTIC_TOUCHPAD property indicates that device:
+-- supports simple haptic auto and manual triggering
+ - can differentiate between at least 5 fingers
+ - uses correct resolution for the X/Y (units and value)
+-- reports correct force per touch, and correct units for them (newtons or grams)
+ - follows the MT protocol type B
+ 
++If the simulated haptic feedback is controllable by userspace the device must:
++
++- support simple haptic auto and manual triggering, and
++- report correct force per touch, and correct units for them (newtons or grams), and
++- provide the EV_FF FF_HAPTIC force feedback effect.
++
+ Summing up, such devices follow the MS spec for input devices in
+-Win8 and Win8.1, and in addition support the Simple haptic controller HID table,
+-and report correct units for the pressure.
++Win8 and Win8.1, and in addition may support the Simple haptic controller HID
++table, and report correct units for the pressure.
++
++Where applicable, this property is set in addition to INPUT_PROP_BUTTONPAD, it
++does not replace that property.
+ 
+ Guidelines
+ ==========
+diff --git a/drivers/hid/hid-haptic.c b/drivers/hid/hid-haptic.c
+index aa090684c1f2..fc8a9997f815 100644
+--- a/drivers/hid/hid-haptic.c
++++ b/drivers/hid/hid-haptic.c
+@@ -86,7 +86,7 @@ int hid_haptic_input_configured(struct hid_device *hdev,
+ 	if (hi->application == HID_DG_TOUCHPAD) {
+ 		if (haptic->auto_trigger_report &&
+ 		    haptic->manual_trigger_report) {
+-			__set_bit(INPUT_PROP_HAPTIC_TOUCHPAD, hi->input->propbit);
++			__set_bit(INPUT_PROP_PRESSUREPAD, hi->input->propbit);
+ 			return 1;
+ 		}
+ 		return 0;
+diff --git a/include/uapi/linux/input-event-codes.h b/include/uapi/linux/input-event-codes.h
+index 8ba48590bd2c..d21172c6a266 100644
+--- a/include/uapi/linux/input-event-codes.h
++++ b/include/uapi/linux/input-event-codes.h
+@@ -27,7 +27,7 @@
+ #define INPUT_PROP_TOPBUTTONPAD		0x04	/* softbuttons at top of pad */
+ #define INPUT_PROP_POINTING_STICK	0x05	/* is a pointing stick */
+ #define INPUT_PROP_ACCELEROMETER	0x06	/* has accelerometer */
+-#define INPUT_PROP_HAPTIC_TOUCHPAD	0x07	/* is a haptic touchpad */
++#define INPUT_PROP_PRESSUREPAD		0x07	/* pressure triggers clicks */
+ 
+ #define INPUT_PROP_MAX			0x1f
+ #define INPUT_PROP_CNT			(INPUT_PROP_MAX + 1)
+-- 
+2.51.1
+
 
