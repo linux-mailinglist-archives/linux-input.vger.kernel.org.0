@@ -1,151 +1,147 @@
-Return-Path: <linux-input+bounces-15914-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-15915-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B14B6C3D33C
-	for <lists+linux-input@lfdr.de>; Thu, 06 Nov 2025 20:12:51 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id C566EC3D533
+	for <lists+linux-input@lfdr.de>; Thu, 06 Nov 2025 21:08:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 080F53B4E6A
-	for <lists+linux-input@lfdr.de>; Thu,  6 Nov 2025 19:12:20 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 1ADAF4E37F7
+	for <lists+linux-input@lfdr.de>; Thu,  6 Nov 2025 20:08:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CB6EB34FF74;
-	Thu,  6 Nov 2025 19:10:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 16AF534846A;
+	Thu,  6 Nov 2025 20:08:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="AWglvvoV"
+	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="b+nKE73g"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02060350D4E
-	for <linux-input@vger.kernel.org>; Thu,  6 Nov 2025 19:10:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B2EA2727E0;
+	Thu,  6 Nov 2025 20:07:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762456257; cv=none; b=hxBsy/U6PeT1LyjP9+xzat+akXcvEuDOZOpg8pvdjWfXIhRQLJJnrGxRFpTcCLpNl7rIFC+5453XssDhy+47+1CrZheeDNBSO+BS72aw/qCZh7+lPp6GZpmuZV75UXyDnE+WAU1+PM+T5A/9EfsNDJm+d/qiIm9Fhs6Ui5beut8=
+	t=1762459682; cv=none; b=qKYXr9mvIRL2jb+N2JgI2vS6AjPhSZjOKFhBwJoqyPjjYUGqKAMFbR8cYcKc8A5npjmtXZVa6wIqSvVkSbCJAQxFZpZhO7PY/3uwXyYCgWuaVfx80BCCxn0wKhMWKXTiuBZw34/Jjn8febby7IseH7EgV0PSh+nN1498+uQGIC0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762456257; c=relaxed/simple;
-	bh=PiE1JSiDJcStD2RHibggWsPF9a17+Lt2FO8XirCeh+U=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=IIp39dxFSi7B5J0NvrnTdEhJWmVL5PByUuIU2Nw+zwK+szhGou1Yu6NuummcuRxrh9EowuZiVZ+oYDmv/Zl6ubPhHnu1dUhWPTkIKKJ/topClc1DdB9/3V2rl0Sxayv5TLWTZEtg3KXz2k/iuyKxB4Neg0CeOTdTLMEF7s8TbJg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=AWglvvoV; arc=none smtp.client-ip=209.85.208.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-640b1d0496aso1582a12.0
-        for <linux-input@vger.kernel.org>; Thu, 06 Nov 2025 11:10:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1762456254; x=1763061054; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=PiE1JSiDJcStD2RHibggWsPF9a17+Lt2FO8XirCeh+U=;
-        b=AWglvvoVoVeIKCfrIEOovf9MlWz8mNcffqoQ3nZcJST9WjhlZmOwDWjkQxuBZG63Cf
-         Pwq1BojFwZThH4IwM6KgzvWVTumDB/m1uriPLvA6wRzXTibjN/8vqST2dBGwE1culyIp
-         xY5HU8FtLqrVmM51GNoZ3zIXHul5QlAnLMBIdBzZ6Q1WkN3ju6cmWW32xaJjlEtNFzAI
-         jG3xRpzES6Uno7LRwvoAQhMNgRA7isFgWKq3+J0VTojpZuGAtXMz/YDPbENXEbCC60aQ
-         DHu4DTjbU61BLRirmuDWFIA3Z65cjgIU5IYQTY3VySWTAKY/xU3KKP5xAxfit2oSBXOp
-         nHqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762456254; x=1763061054;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=PiE1JSiDJcStD2RHibggWsPF9a17+Lt2FO8XirCeh+U=;
-        b=OGFbJHSQ8+2rRS0cuC0XOJywZPfIy6kgpKR+tKSuFHbhwKcza6Hdu2IQiXodiSrnh4
-         QgTdU5N7Nc/L9+oxumNORXHQI5Bk4Ydk923SX04rGFxWexe+JOcz+iXtazYyOR6qo6GZ
-         K04dvJVk2WwvPRcMLDsEXIdSoNJqOtZrmtc0usH+YnGB+rfjtv3YdF9T+MvWt8psSKmG
-         bM+TAkb3vdqpEJFmP9NW+sCPR/S6HEpiFGG2Agg2fvqIEFCMc10a4rVTiPhLE+IJKRRJ
-         tPH3zA1tdK0E5YAVcXkkxr8EGWu5pK8A45Zrw1Kv8uRkD5R/Nzv+bUW4glxprUGjC+Qv
-         w9AQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVnoAzj8p2wZAa4GBadnYHxAlDkKXWUtuJVtHTJFnJewbZ+UjBe0LejU5ScxhmfpMOpb/mPhHRhE4Bu2Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwM4dFaIGDuR38dHrho4nub8OZz9+0bkAhCI1F6pokVnOmaVgU4
-	ZYirBwOErnIUyVuCB9mr/eaMB082BabhiacOUH2LlCrFgZOTUnbzdzObqqbM/uRQCMBUSI7wwe1
-	Q/7mE1seuaaZUBiA58i2Dbf6HrYKKKWOze5iZQ6ql
-X-Gm-Gg: ASbGnctbOiDBeXgoEDMAgCEfG6FQaidGZz7h8TAOhnKum5Kxfn3f/X2a50pY6HjpRlp
-	IByqFb18d0FGuWn5FVR9XnvMD/GXnrBElJlBab8ajg6lxu11lClYxxDelhPSC7uTfF83m6swnSH
-	SAoBRy+qsd6XaTbC2UVXALBuuOPT/bQd1SaHGnHNVyCIimlgJpJNnTwKfEoO9mcM3CzYI2j6/gA
-	xZbECzGw60DfHGe3DYU9/wC/t0NHp8fMpNKhGr9wSCx3qbTZYxdfCjN0qtXAuFrHyV6Ns9PgCh6
-	7zgEqVJqCsxnnHNPLci+3fTWsg==
-X-Google-Smtp-Source: AGHT+IESrQi4zDHvFSKZGD8SNhw5Go3/r7d3tFkShr/FCBXyRY3a4AWFaFCgegQDVZI3hGKzMyupQejYon8ZAVGwWLw=
-X-Received: by 2002:a05:6402:5356:20b0:63c:1167:3a96 with SMTP id
- 4fb4d7f45d1cf-6414094d3fcmr6748a12.5.1762456254141; Thu, 06 Nov 2025 11:10:54
- -0800 (PST)
+	s=arc-20240116; t=1762459682; c=relaxed/simple;
+	bh=KxB+63k4fM/J4OVDe9WCNOji+9JfZTtssEwVtG2MB60=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LYHwSfygfdgwU97Z6rVsyO6+2LPxfA/EGJ1sdTxOmazH6Fwyihh+zq+WuinyYVcVz8CpYxxbnMI2kdkH7d+SdVrOr+81GVrjP4OGvitjHA2VFuCyrH5u/2jURIS1n9FBUeMxCF75zqLVnrJUU5pVRHIc2AEamtTSWZAGKxGUtqI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=b+nKE73g; arc=none smtp.client-ip=157.90.84.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
+Received: from wse-pc.fritz.box (p50878061.dip0.t-ipconnect.de [80.135.128.97])
+	(Authenticated sender: wse@tuxedocomputers.com)
+	by mail.tuxedocomputers.com (Postfix) with ESMTPA id 52D8A2FC0057;
+	Thu,  6 Nov 2025 21:07:56 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
+	s=default; t=1762459676;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=s5K6G8eO8hwGCWN+eU1ibbTVp/+XevQMvA2PtAxJbBI=;
+	b=b+nKE73gZYroIjKaLqoxQrz/34sqz3bJ0vcoD9f+7bdwgHoAVo0miWqJLSxTpjHggmnK1b
+	Af+szUw6m6pg8tG+OBKveuocZbInKukVbFoekLjvPzCte+XUbv/YSuIPGlvcAsg1mB8HyF
+	anWwVWV0OthOVAk5X4gFcoja5wyL1Ec=
+Authentication-Results: mail.tuxedocomputers.com;
+	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
+From: Werner Sembach <wse@tuxedocomputers.com>
+To: Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>
+Cc: Werner Sembach <wse@tuxedocomputers.com>,
+	linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2] hid/hid-multitouch: Keep latency normal on deactivate for reactivation gesture
+Date: Thu,  6 Nov 2025 20:59:55 +0100
+Message-ID: <20251106200752.1523111-1-wse@tuxedocomputers.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251030160643.3775606-1-superm1@kernel.org> <s0qn1098-s856-1942-48q7-n3691sn109qs@xreary.bet>
- <17f02b01-c71e-4e2e-9e91-757731f3fc2e@kernel.org> <CAE_wzQ_YvCh8a83mm3QG7LwMWo2CKEAMvRS7+CpJcq1r7MEBZA@mail.gmail.com>
-In-Reply-To: <CAE_wzQ_YvCh8a83mm3QG7LwMWo2CKEAMvRS7+CpJcq1r7MEBZA@mail.gmail.com>
-From: Dmitry Torokhov <dtor@google.com>
-Date: Thu, 6 Nov 2025 11:10:38 -0800
-X-Gm-Features: AWmQ_bn_fHCNGopeTvxIgS00srGlULHbXcAAObDmo3uQDJPzpwTNSYOy0z6Pm7Q
-Message-ID: <CAE_wzQ8U5mKgWvquM7BZeKcb4VxORK6DSaUsxoAnfZ9qQgHoRw@mail.gmail.com>
-Subject: Re: [PATCH] HID: hid-input: Extend Elan ignore battery quirk to USB
-To: Hans de Goede <hansg@kernel.org>
-Cc: Jiri Kosina <jikos@kernel.org>, "Mario Limonciello (AMD)" <superm1@kernel.org>, mario.limonciello@amd.com, 
-	bentiss@kernel.org, =?UTF-8?Q?Andr=C3=A9_Barata?= <andretiagob@protonmail.com>, 
-	linux-input@vger.kernel.org, Kenneth Albanowski <kenalba@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Fri, Oct 31, 2025 at 7:47=E2=80=AFAM Dmitry Torokhov <dtor@google.com> w=
-rote:
->
-> Hi Hans,
->
-> On Fri, Oct 31, 2025 at 2:13=E2=80=AFAM Hans de Goede <hansg@kernel.org> =
-wrote:
-> >
-> > Hi Jiri,
-> >
-> > On 31-Oct-25 10:07 AM, Jiri Kosina wrote:
-> > > On Thu, 30 Oct 2025, Mario Limonciello (AMD) wrote:
-> > >
-> > >> USB Elan devices have the same problem as the I2C ones with a fake
-> > >> battery device showing up.
-> > >>
-> > >> Reviewed-by: Hans de Goede <hansg@kernel.org>
-> > >> Reported-by: Andr=C3=A9 Barata <andretiagob@protonmail.com>
-> > >> Closes: https://bugzilla.kernel.org/show_bug.cgi?id=3D220722
-> > >> Signed-off-by: Mario Limonciello (AMD) <superm1@kernel.org>
-> > >
-> > > Now applied.
-> > >
-> > > We'll have to come up with something more sophisticated once/if Elan =
-ever
-> > > starts producing devices with real battery ...
-> >
-> > Actually the provided HID battery is intended to be for
-> > when a stylus is used and to report the stylus battery
-> > values then.
-> >
-> > There is an email thread somewhere with some of the ChromeOS folks
-> > talking about dropping the ELAN quirk for I2C touchscreens and
-> > indeed replacing it with something more sophisticated. IIRC
-> > the ChromeOS folks mentioned they would work on / provide patches.
-> >
-> > +To: Dmitry, Dmitry do you have any input on the ChromeOs issue ?
->
-> +Kenneth Albanowski has been wrangling with support of Elan and other
-> vendor styli, I'll let him comment.
+Uniwill devices have a built in gesture in the touchpad to de- and
+reactivate it by double taping the upper left corner. This gesture stops
+working when latency is set to high, so this patch keeps the latency on
+normal.
 
-Kenneth is currently busy with some internal projects and asked me to
-pass the following:
+Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
+Cc: stable@vger.kernel.org
+---
+V1->V2: Use a quirk to narrow down the devices this is applied to.
 
-We recommend that userspace components do not generate alerts for
-power supplies that report "status" as "unknown". For a lot of styli
-we start with "unknown" and 0 level until after we get a first real
-report and update the state to "discharging" or "full" and only hen we
-may start showing the indicator.
+I have three Uniwill devices at hand right now that have at least two
+physically different touchpads, but same Vendor + Product ID combination.
+Maybe the vendor uses this product ID for all i2c connected touchpads, or
+it is used as some kind of subvendor ID to indicate Uniwill?
 
-On ChromeOS we also have tech for clarifying "1%" and other bad
-reports, currently specific to USI styluses using a S/N filter.
+To be able to really narrow it down to Uniwill only devices I would need to
+check DMI strings, but then I will probably narrow it down to much as I
+only know what we at TUXEDO use there.
 
-Kenneth will try to share more details next week hopefully.
+ drivers/hid/hid-multitouch.c | 17 ++++++++++++++++-
+ 1 file changed, 16 insertions(+), 1 deletion(-)
 
-Thanks,
-Dmitry
+diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
+index 179dc316b4b51..470f199148057 100644
+--- a/drivers/hid/hid-multitouch.c
++++ b/drivers/hid/hid-multitouch.c
+@@ -76,6 +76,7 @@ MODULE_LICENSE("GPL");
+ #define MT_QUIRK_DISABLE_WAKEUP		BIT(21)
+ #define MT_QUIRK_ORIENTATION_INVERT	BIT(22)
+ #define MT_QUIRK_APPLE_TOUCHBAR		BIT(23)
++#define MT_QUIRK_KEEP_LATENCY_ON_CLOSE	BIT(24)
+ 
+ #define MT_INPUTMODE_TOUCHSCREEN	0x02
+ #define MT_INPUTMODE_TOUCHPAD		0x03
+@@ -229,6 +230,7 @@ static void mt_post_parse(struct mt_device *td, struct mt_application *app);
+ #define MT_CLS_RAZER_BLADE_STEALTH		0x0112
+ #define MT_CLS_SMART_TECH			0x0113
+ #define MT_CLS_APPLE_TOUCHBAR			0x0114
++#define MT_CLS_UNIWILL_TOUCHPAD			0x0115
+ #define MT_CLS_SIS				0x0457
+ 
+ #define MT_DEFAULT_MAXCONTACT	10
+@@ -420,6 +422,9 @@ static const struct mt_class mt_classes[] = {
+ 			MT_QUIRK_APPLE_TOUCHBAR,
+ 		.maxcontacts = 11,
+ 	},
++	{ .name = MT_CLS_UNIWILL_TOUCHPAD,
++		.quirks = MT_QUIRK_KEEP_LATENCY_ON_CLOSE,
++	},
+ 	{ .name = MT_CLS_SIS,
+ 		.quirks = MT_QUIRK_NOT_SEEN_MEANS_UP |
+ 			MT_QUIRK_ALWAYS_VALID |
+@@ -1998,7 +2003,12 @@ static void mt_on_hid_hw_open(struct hid_device *hdev)
+ 
+ static void mt_on_hid_hw_close(struct hid_device *hdev)
+ {
+-	mt_set_modes(hdev, HID_LATENCY_HIGH, TOUCHPAD_REPORT_NONE);
++	struct mt_device *td = hid_get_drvdata(hdev);
++
++	if (td->mtclass.quirks & MT_QUIRK_KEEP_LATENCY_ON_CLOSE)
++		mt_set_modes(hdev, HID_LATENCY_NORMAL, TOUCHPAD_REPORT_NONE);
++	else
++		mt_set_modes(hdev, HID_LATENCY_HIGH, TOUCHPAD_REPORT_NONE);
+ }
+ 
+ /*
+@@ -2375,6 +2385,11 @@ static const struct hid_device_id mt_devices[] = {
+ 		MT_USB_DEVICE(USB_VENDOR_ID_UNITEC,
+ 			USB_DEVICE_ID_UNITEC_USB_TOUCH_0A19) },
+ 
++	/* Uniwill touchpads */
++	{ .driver_data = MT_CLS_UNIWILL_TOUCHPAD,
++		HID_DEVICE(BUS_I2C, HID_GROUP_MULTITOUCH_WIN_8,
++			   USB_VENDOR_ID_PIXART, 0x0255) },
++
+ 	/* VTL panels */
+ 	{ .driver_data = MT_CLS_VTL,
+ 		MT_USB_DEVICE(USB_VENDOR_ID_VTL,
+-- 
+2.43.0
+
 
