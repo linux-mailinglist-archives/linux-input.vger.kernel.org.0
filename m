@@ -1,234 +1,172 @@
-Return-Path: <linux-input+bounces-15902-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-15903-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F57BC3AB53
-	for <lists+linux-input@lfdr.de>; Thu, 06 Nov 2025 12:52:48 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 80A70C3B878
+	for <lists+linux-input@lfdr.de>; Thu, 06 Nov 2025 15:02:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 32171466D00
-	for <lists+linux-input@lfdr.de>; Thu,  6 Nov 2025 11:45:50 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 3A3F74FAA9E
+	for <lists+linux-input@lfdr.de>; Thu,  6 Nov 2025 13:53:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 889A231327E;
-	Thu,  6 Nov 2025 11:45:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B17C332904;
+	Thu,  6 Nov 2025 13:53:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=who-t.net header.i=@who-t.net header.b="FYEV5g/m";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="AHw05ijj"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U/B2+Gtc"
 X-Original-To: linux-input@vger.kernel.org
-Received: from fhigh-a3-smtp.messagingengine.com (fhigh-a3-smtp.messagingengine.com [103.168.172.154])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D497D30CDBD;
-	Thu,  6 Nov 2025 11:45:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.154
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 195E03321BC;
+	Thu,  6 Nov 2025 13:53:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762429547; cv=none; b=XGKfqQWSd3uDteNjVmQZbeV2crf5J2OkzzNGMdabA4WJ6+HO6N6MrPFKpeBof3xnloRTVCK/q+yxPA/wJfEbGUMlA3DUgcXYr7f/r/EdKYp2LkBVIh+pSerNJ0aM1ncgVzWMAMnBtz45r3gW7Ns7uC2TJBM/xxEVahNS9IqR2tI=
+	t=1762437219; cv=none; b=DX8sIMTCucO0XtnO2MPKDKjac/J1VCPGWRMcymP4j8LUms0n9E4vYjDIs/EM36Ao0SZ5AqcVJOX+MS6zRfDZspiiXxxuVH9Hh0pzQN1y/aqXFu7VLQsSzYPbVO3wgOSpM7aHPKu+LSg05nJ/Q2NAnmPP+K+tyNRMk1Hu77LFSPw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762429547; c=relaxed/simple;
-	bh=lRYu+qLZL4qifVykWfCOuRwuIpfbS/rl12XbWnvSfcM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=MRd5HK/gZxkSJ+Ko0sfzxUfElyX1yzN5udJF5GK4v8zwdu9uR+8HWbCnJCbeN69jJrYk4B81popixCfDK9ZxlkBuCraWKzB52BuIDzoNoiBN/xCcNVvM/AZIVzLvOOGOeXswow8wfBqxO+z5198Wx6mGscZh7mXsqutXQQbg2jw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=who-t.net; spf=pass smtp.mailfrom=who-t.net; dkim=pass (2048-bit key) header.d=who-t.net header.i=@who-t.net header.b=FYEV5g/m; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=AHw05ijj; arc=none smtp.client-ip=103.168.172.154
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=who-t.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=who-t.net
-Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id C52FD14001EE;
-	Thu,  6 Nov 2025 06:45:43 -0500 (EST)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-10.internal (MEProxy); Thu, 06 Nov 2025 06:45:43 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=who-t.net; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
-	:to; s=fm2; t=1762429543; x=1762515943; bh=5k3gaOYj30dDfSaXFYGpf
-	fTJp8o5nXzOORcxkgidDlY=; b=FYEV5g/mCBf34duDLFuxYo/NshXE3UGd+cPhD
-	SmZPp+opVG7AdZFSuRopcOKyUv+Jr8vJ6hJX5El2MWWchqsCBQ30bPlyFgZ+evOo
-	GIFZ23+onrnQiiAK07vHOdoRf9Mufmw8E4sYgNWbOHiwMmLgZkQYQj19ChXkSoRA
-	FoHSpprkId53nO1ASVaUnpMPmDV7NxdaLF4RzWqY36Z94DqRXFh+nMYknTVMJXTL
-	NPhm0UzcGZ3w5K65agrQDmvN3kH6DeZ7d4c5edct6ddWlvRnY4aNdM8BIiCAFT/T
-	tH3L1X8sIcC/+oNBIhTmUDu8ntD5H6HZt22heXaVxMR9OCJaQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:reply-to:subject:subject:to:to
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
-	1762429543; x=1762515943; bh=5k3gaOYj30dDfSaXFYGpffTJp8o5nXzOORc
-	xkgidDlY=; b=AHw05ijjthcuUW/Y4mRXDtouinbqbTItCo49SlVfohlLZyiUJjY
-	y6v+3d49rOfjqNZOCzvghhwx1kKkVC8MMD6J0ZWrSOrmz80sOwlOfV0dbcVRZ4Xd
-	Jx3iYLnAHyMLU4jemlpehwU6KYB5/nyFXpezOhwg/Dbz9D6UJb3+la/HuG3opjOE
-	tBhS+UDO0c9S0UqU/MT06jRglsHehn6TtmoSgPwkUQ6U/ykkUND3STpp1MGMezzj
-	SWSHZTnRMY+uIdd9qgqTn2auBA+4iukxNYTGlgeLv3nAtg4IR4s1TsREOVAmC0Yp
-	KZJ5Z8hwD8H7fY4+/zbxn3xn9BDbIU+xkXg==
-X-ME-Sender: <xms:Z4oMaVWa0xMAqjcsih5lcDOdf2-FIInIc-YWZKnoXgbE_hhLCqqBSg>
-    <xme:Z4oMadvlG7W19GzjpsSHdWLVFzNEg9kWNWPhEdx9vnbhX4AUqTtnlNz5HPtR5cs_9
-    -nOFBZhRsUxait2dJaTTqxeWv-xK3c5fazyiQYCyiFQNE_3o7-7Vf0>
-X-ME-Received: <xmr:Z4oMaQ6u4Ma1LlAcFCQWG_5yXMxoP88DIesLd6M6559-BLrSliaUWDF79AylIDuyxTdC_qx7pumk5fdvebleQuw7n_zKeGMvxw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggddukeeiieelucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepfffhvfevuffkgggtuggjsehttdertddttddvnecuhfhrohhmpefrvghtvghrucfj
-    uhhtthgvrhgvrhcuoehpvghtvghrrdhhuhhtthgvrhgvrhesfihhohdqthdrnhgvtheqne
-    cuggftrfgrthhtvghrnhepgfelteeufedtleevjeetvdejvdffleduveevtedugfefveev
-    tddtudevgfejveegnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvg
-    hrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehpvghtvghrrdhhuhhtthgv
-    rhgvrhesfihhohdqthdrnhgvthdpnhgspghrtghpthhtohepuddvpdhmohguvgepshhmth
-    hpohhuthdprhgtphhtthhopehjuggvnhhoshgvsehgohhoghhlvgdrtghomhdprhgtphht
-    thhopehjihhkohhssehkvghrnhgvlhdrohhrghdprhgtphhtthhopegsvghnthhishhsse
-    hkvghrnhgvlhdrohhrghdprhgtphhtthhopegumhhithhrhidrthhorhhokhhhohhvsehg
-    mhgrihhlrdgtohhmpdhrtghpthhtoheptghorhgsvghtsehlfihnrdhnvghtpdhrtghpth
-    htoheprhihuggsvghrghessghithhmrghthhdrohhrghdprhgtphhtthhopehlihhnuhig
-    qdhinhhpuhhtsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugi
-    dqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhu
-    gidqughotgesvhhgvghrrdhkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:Z4oMaYQuXXWMyE3RR1HRmjxZcuEw_9hrWPKjWnbbpCtbvdWwHX2Axg>
-    <xmx:Z4oMabuHF4d0fJEPCPhYUt5yLllHH_S6Rgz7DWVC8NxG4w1tZFWJKg>
-    <xmx:Z4oMaS9syFgBGPQLwhoachseBbNQnOgq0-Jqni4xqgON_F9M_4vM1Q>
-    <xmx:Z4oMacxUxvQddZMNnLWqOQkRzZRBsHPGqmqQXsA33ez5qORd0ILNEw>
-    <xmx:Z4oMaYp8_67n-CnA0Lou_ydctdKVaRzhXQJqorE7mQCEtaYnOjwgEfvs>
-Feedback-ID: i7ce144cd:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 6 Nov 2025 06:45:39 -0500 (EST)
-Date: Thu, 6 Nov 2025 21:45:34 +1000
-From: Peter Hutterer <peter.hutterer@who-t.net>
-To: Jonathan Denose <jdenose@google.com>, Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <bentiss@kernel.org>,
+	s=arc-20240116; t=1762437219; c=relaxed/simple;
+	bh=qcQmnaysazEGwAaCAXfwCY+ui93J1l78Y+j7goEWMJc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uk10FsmCzS/9cH4lnTykbaErpSgDo476lwwJhTgDW8BJ1clAH/jgw4twUu/SP9EdSbrcoY+cWGnHazpG34YGPC0ZpCT+qwl7codpK2Sg3pYMdmxWW+MsHhvuPqyYJ3lnI/jSRKOCRbIGB98sDrcjYyOreFoqAZ1yebDbvvYcfg0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U/B2+Gtc; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75C72C4CEFB;
+	Thu,  6 Nov 2025 13:53:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1762437218;
+	bh=qcQmnaysazEGwAaCAXfwCY+ui93J1l78Y+j7goEWMJc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=U/B2+GtcbfxHYrwm8y9iKwVHm3brmqcyvJtf4kiAdXrQDv1jwhYUcTEgaaUtro6s0
+	 o5VrpCW2Rju2WAsXureWRM+JhsrHxM+pBN4wLQVW2lonyMvfzgZJKiNHhifzSY7wt/
+	 PhIv8p4oNEq8+U8/zZ84jDmu5ataeLN4CvNqXhqpq/n0D95018PTYjFlsC8Tvt0iW6
+	 lFfWNyXVb8yhjgd0vYXnjOAHkfjdxK+aQkd1xrgZcclFjSbvvf3p8E5KrLg7FfboCg
+	 3dKl+jQSzofaYCalbwQFv8FKaevex9OtCiic+efn2dU9bPa8oJ3g+/IzfVFSU5/hmQ
+	 reEPNN+OZK3mQ==
+Date: Thu, 6 Nov 2025 13:53:31 +0000
+From: Lee Jones <lee@kernel.org>
+To: James Calligeros <jcalligeros99@gmail.com>
+Cc: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Neal Gompa <neal@gompa.dev>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
 	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Henrik Rydberg <rydberg@bitmath.org>
-Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, Angela Czubak <aczubak@google.com>,
-	Sean O'Brien <seobrien@google.com>,
-	Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH v3] Input: rename INPUT_PROP_HAPTIC_TOUCHPAD to
- INPUT_PROP_PRESSUREPAD
-Message-ID: <20251106114534.GA405512@tassie>
+	Jonathan Corbet <corbet@lwn.net>, asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-rtc@vger.kernel.org,
+	linux-hwmon@vger.kernel.org, linux-input@vger.kernel.org,
+	linux-doc@vger.kernel.org, Hector Martin <marcan@marcan.st>
+Subject: Re: [PATCH v4 08/11] input: macsmc-input: New driver to handle the
+ Apple Mac SMC buttons/lid
+Message-ID: <20251106135331.GN8064@google.com>
+References: <20251025-macsmc-subdevs-v4-0-374d5c9eba0e@gmail.com>
+ <20251025-macsmc-subdevs-v4-8-374d5c9eba0e@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20251030011735.GA969565@quokka>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20251025-macsmc-subdevs-v4-8-374d5c9eba0e@gmail.com>
 
-And expand it to encompass all pressure pads.
+On Sat, 25 Oct 2025, James Calligeros wrote:
 
-Definition: "pressure pad" as used here as includes all touchpads that
-use physical pressure to convert to click, without physical hinges. Also
-called haptic touchpads in general parlance, Synaptics calls them
-ForcePads.
+> From: Hector Martin <marcan@marcan.st>
+> 
+> This driver implements power button and lid switch support for Apple Mac
+> devices using SMC controllers driven by the macsmc driver.
+> 
+> In addition to basic input support, this also responds to the final
+> shutdown warning (when the power button is held down long enough) by
+> doing an emergency kernel poweroff. This allows the NVMe controller to
+> be cleanly shut down, which prevents data loss for in-cache data.
+> 
+> Reviewed-by: Neal Gompa <neal@gompa.dev>
+> Signed-off-by: Hector Martin <marcan@marcan.st>
+> Co-developed-by: Sven Peter <sven@kernel.org>
+> Signed-off-by: Sven Peter <sven@kernel.org>
+> Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
+> ---
+>  MAINTAINERS                       |   1 +
+>  drivers/input/misc/Kconfig        |  11 ++
+>  drivers/input/misc/Makefile       |   1 +
+>  drivers/input/misc/macsmc-input.c | 208 +++++++++++++++++++++++++
+>  4 files changed, 221 insertions(+)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 79b9f40224a9..e8283f127f11 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -2451,6 +2451,7 @@ F:	drivers/hwmon/macsmc-hwmon.c
+>  F:	drivers/pmdomain/apple/
+>  F:	drivers/i2c/busses/i2c-pasemi-core.c
+>  F:	drivers/i2c/busses/i2c-pasemi-platform.c
+> +F:	drivers/input/misc/macsmc-input.c
+>  F:	drivers/input/touchscreen/apple_z2.c
+>  F:	drivers/iommu/apple-dart.c
+>  F:	drivers/iommu/io-pgtable-dart.c
+> diff --git a/drivers/input/misc/Kconfig b/drivers/input/misc/Kconfig
+> index 0e6b49fb54bc..109660a1a5d2 100644
+> --- a/drivers/input/misc/Kconfig
+> +++ b/drivers/input/misc/Kconfig
+> @@ -981,4 +981,15 @@ config INPUT_STPMIC1_ONKEY
+>  	  To compile this driver as a module, choose M here: the
+>  	  module will be called stpmic1_onkey.
+>  
+> +config INPUT_MACSMC
+> +	tristate "Apple Mac SMC lid/buttons"
+> +	depends on MFD_MACSMC
+> +	help
+> +	  Say Y here if you want to use the input events delivered via the
+> +	  SMC controller on Apple Mac machines using the macsmc driver.
+> +	  This includes lid open/close and the power button.
+> +
+> +	  To compile this driver as a module, choose M here: the
+> +	  module will be called macsmc-input.
+> +
+>  endif
+> diff --git a/drivers/input/misc/Makefile b/drivers/input/misc/Makefile
+> index ae857c24f48e..480a0d08d4ae 100644
+> --- a/drivers/input/misc/Makefile
+> +++ b/drivers/input/misc/Makefile
+> @@ -51,6 +51,7 @@ obj-$(CONFIG_INPUT_IQS7222)		+= iqs7222.o
+>  obj-$(CONFIG_INPUT_KEYSPAN_REMOTE)	+= keyspan_remote.o
+>  obj-$(CONFIG_INPUT_KXTJ9)		+= kxtj9.o
+>  obj-$(CONFIG_INPUT_M68K_BEEP)		+= m68kspkr.o
+> +obj-$(CONFIG_INPUT_MACSMC_INPUT)	+= macsmc-input.o
+>  obj-$(CONFIG_INPUT_MAX7360_ROTARY)	+= max7360-rotary.o
+>  obj-$(CONFIG_INPUT_MAX77650_ONKEY)	+= max77650-onkey.o
+>  obj-$(CONFIG_INPUT_MAX77693_HAPTIC)	+= max77693-haptic.o
+> diff --git a/drivers/input/misc/macsmc-input.c b/drivers/input/misc/macsmc-input.c
+> new file mode 100644
+> index 000000000000..d35322856526
+> --- /dev/null
+> +++ b/drivers/input/misc/macsmc-input.c
+> @@ -0,0 +1,208 @@
+> +// SPDX-License-Identifier: GPL-2.0-only OR MIT
+> +/*
+> + * Apple SMC input event driver
+> + * Copyright The Asahi Linux Contributors
+> + *
+> + * This driver exposes certain events from the SMC as an input device.
+> + * This includes the lid open/close and power button notifications.
+> + */
+> +
+> +#include <linux/device.h>
+> +#include <linux/input.h>
+> +#include <linux/mfd/core.h>
 
-Most (all?) pressure pads are currently advertised as
-INPUT_PROP_BUTTONPAD. The suggestion to identify them as pressure pads
-by defining the resolution on ABS_MT_PRESSURE has been in the docs since
-commit 20ccc8dd38a3 ("Documentation: input: define
-ABS_PRESSURE/ABS_MT_PRESSURE resolution as grams") but few devices
-provide this information.
+This looks like it shouldn't be there.
 
-In userspace it's thus impossible to determine whether a device is a
-true pressure pad (pressure equals pressure) or a normal clickpad with
-(pressure equals finger size).
+> +#include <linux/mfd/macsmc.h>
+> +#include <linux/module.h>
+> +#include <linux/reboot.h>
 
-Commit 7075ae4ac9db ("Input: add INPUT_PROP_HAPTIC_TOUCHPAD") introduces
-INPUT_PROP_HAPTIC_TOUCHPAD but restricted it to those touchpads that
-have support for userspace-controlled effects. Let's expand and rename
-that definition to include all pressure pad touchpads since those that
-do support FF effects can be identified by the presence of the
-FF_HAPTIC bit.
-
-This means:
-- clickpad: INPUT_PROP_BUTTONPAD
-- pressurepad: INPUT_PROP_BUTTONPAD + INPUT_PROP_PRESSUREPAD
-- pressurepad with configurable haptics:
-  INPUT_PROP_BUTTONPAD + INPUT_PROP_PRESSUREPAD + FF_HAPTIC
-
-Signed-off-by: Peter Hutterer <peter.hutterer@who-t.net>
----
-ftr, I picked PRESSUREPAD over Dmitry's PRESSURE_TOUCHPAD suggestion
-because it matches better with the existing BUTTONPAD.
-
-Changes to v1: extra empty lines to render the lists as lists
-Changes to v2: rename to PRESSUREPAD and rename it in the instances
-  where it's used in the code
-
-v1: https://lore.kernel.org/linux-input/20251030011735.GA969565@quokka/T/#u
-v2: https://lore.kernel.org/linux-input/20251030011735.GA969565@quokka/T/#m9504de27b02d00a55d540fd9fec9aed3edd0133c
-
- Documentation/input/event-codes.rst    | 25 ++++++++++++++++++-------
- drivers/hid/hid-haptic.c               |  2 +-
- include/uapi/linux/input-event-codes.h |  2 +-
- 3 files changed, 20 insertions(+), 9 deletions(-)
-
-diff --git a/Documentation/input/event-codes.rst b/Documentation/input/event-codes.rst
-index 1ead9bb8d9c6..4424cbff251f 100644
---- a/Documentation/input/event-codes.rst
-+++ b/Documentation/input/event-codes.rst
-@@ -400,19 +400,30 @@ can report through the rotational axes (absolute and/or relative rx, ry, rz).
- All other axes retain their meaning. A device must not mix
- regular directional axes and accelerometer axes on the same event node.
- 
--INPUT_PROP_HAPTIC_TOUCHPAD
----------------------------
-+INPUT_PROP_PRESSUREPAD
-+----------------------
-+
-+The INPUT_PROP_PRESSUREPAD property indicates that the device provides
-+simulated haptic feedback (e.g. a vibrator motor situated below the surface)
-+instead of physical haptic feedback (e.g. a hinge). This property is only set
-+if the device:
- 
--The INPUT_PROP_HAPTIC_TOUCHPAD property indicates that device:
--- supports simple haptic auto and manual triggering
- - can differentiate between at least 5 fingers
- - uses correct resolution for the X/Y (units and value)
--- reports correct force per touch, and correct units for them (newtons or grams)
- - follows the MT protocol type B
- 
-+If the simulated haptic feedback is controllable by userspace the device must:
-+
-+- support simple haptic auto and manual triggering, and
-+- report correct force per touch, and correct units for them (newtons or grams), and
-+- provide the EV_FF FF_HAPTIC force feedback effect.
-+
- Summing up, such devices follow the MS spec for input devices in
--Win8 and Win8.1, and in addition support the Simple haptic controller HID table,
--and report correct units for the pressure.
-+Win8 and Win8.1, and in addition may support the Simple haptic controller HID
-+table, and report correct units for the pressure.
-+
-+Where applicable, this property is set in addition to INPUT_PROP_BUTTONPAD, it
-+does not replace that property.
- 
- Guidelines
- ==========
-diff --git a/drivers/hid/hid-haptic.c b/drivers/hid/hid-haptic.c
-index aa090684c1f2..fc8a9997f815 100644
---- a/drivers/hid/hid-haptic.c
-+++ b/drivers/hid/hid-haptic.c
-@@ -86,7 +86,7 @@ int hid_haptic_input_configured(struct hid_device *hdev,
- 	if (hi->application == HID_DG_TOUCHPAD) {
- 		if (haptic->auto_trigger_report &&
- 		    haptic->manual_trigger_report) {
--			__set_bit(INPUT_PROP_HAPTIC_TOUCHPAD, hi->input->propbit);
-+			__set_bit(INPUT_PROP_PRESSUREPAD, hi->input->propbit);
- 			return 1;
- 		}
- 		return 0;
-diff --git a/include/uapi/linux/input-event-codes.h b/include/uapi/linux/input-event-codes.h
-index 8ba48590bd2c..d21172c6a266 100644
---- a/include/uapi/linux/input-event-codes.h
-+++ b/include/uapi/linux/input-event-codes.h
-@@ -27,7 +27,7 @@
- #define INPUT_PROP_TOPBUTTONPAD		0x04	/* softbuttons at top of pad */
- #define INPUT_PROP_POINTING_STICK	0x05	/* is a pointing stick */
- #define INPUT_PROP_ACCELEROMETER	0x06	/* has accelerometer */
--#define INPUT_PROP_HAPTIC_TOUCHPAD	0x07	/* is a haptic touchpad */
-+#define INPUT_PROP_PRESSUREPAD		0x07	/* pressure triggers clicks */
- 
- #define INPUT_PROP_MAX			0x1f
- #define INPUT_PROP_CNT			(INPUT_PROP_MAX + 1)
 -- 
-2.51.1
-
+Lee Jones [李琼斯]
 
