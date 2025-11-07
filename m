@@ -1,108 +1,104 @@
-Return-Path: <linux-input+bounces-15932-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-15933-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E8E4C40FA1
-	for <lists+linux-input@lfdr.de>; Fri, 07 Nov 2025 18:04:25 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id AA004C41245
+	for <lists+linux-input@lfdr.de>; Fri, 07 Nov 2025 18:47:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 81DE01885404
-	for <lists+linux-input@lfdr.de>; Fri,  7 Nov 2025 17:04:49 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 73B4F4E37DD
+	for <lists+linux-input@lfdr.de>; Fri,  7 Nov 2025 17:47:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 75BAC2DF3DA;
-	Fri,  7 Nov 2025 17:04:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1280632E156;
+	Fri,  7 Nov 2025 17:47:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="FRuiTEgg"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ggrlbcpe"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 664232B9B9
-	for <linux-input@vger.kernel.org>; Fri,  7 Nov 2025 17:04:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2E50223DD0;
+	Fri,  7 Nov 2025 17:47:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762535061; cv=none; b=S1QFbNfNPa1weJBV1UF80hvPhnlS2DIm+dzYd1LrQGR66GLThlnOaP8ZlM/2tWlSEK+2uWT/yHkm3rW5cKPsMgbzt1iYb84JEuYOu7MLfFcE6CJByfZZ9fr2ZxGBKp8llFCokSqJ00Is0z8vApARuQcNZuHnPxaAmF3qKyvqbHA=
+	t=1762537641; cv=none; b=KouRodtupXNHi+nS/SW4q9xc9nTe4nRn2OqDNkhkrgWdVxVEJ7o8MHt6bFvlLH8AQXWOV0QYTAjaRJO60OwexJ8zu0cTIQS7YZ8wi+xqmO8jLjrFBQwcmVgz7mXWR75De/G7CUgW+Cof8MwtwtuVR6SeCTjF9giQMxwOpD/kTfA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762535061; c=relaxed/simple;
-	bh=jAXZwY1JFAlSau7Sh36qtfmk425lQGaaTTdIu/DKZnA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=HxOIdDUDbaxGzupM0ZE7O7Z4miQICk9N2BhQar6c1MUbrlV4I/v05BESIQ6zrTCvtUUlxgtXQMx0B6xJuOHatLjgJ3h5jpUDCe50Zocq6ra3FZ4M9V+1FGnuBagP4GKcHcCuIsTa7qyX8+ztks5KOkHBo0aKEGZjQXGIvEU4xL8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=FRuiTEgg; arc=none smtp.client-ip=209.85.167.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-5942bac322dso1005985e87.0
-        for <linux-input@vger.kernel.org>; Fri, 07 Nov 2025 09:04:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1762535057; x=1763139857; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jAXZwY1JFAlSau7Sh36qtfmk425lQGaaTTdIu/DKZnA=;
-        b=FRuiTEggRGAS7Vfo1Uagld0Lf18jRFnzxorwEG4ByBp6/oEbLGLvr35XYZm49IZt2v
-         O2aqnvp0W+uFG8/pyOSl8K31LpKFMOgvGw+YQpYgwM/iwiuXQiOcqbPVxV+IsOltV+jf
-         Nsn5u3IAKa2qCGCwh+/a1oKYKYY7s7A5aQGwCSkdQaQVPX52nQ4AGN7ROYY4l40uu0iI
-         eSfmAJq8W93JiOLnxDBTobKE4tF/E7UKkbJS7Vyw+m5JskPebMWujC1Qj6aMUWUhlUR0
-         2Y5VJZeu7Bh+uXBgl3TvtCSc3gkQx9cxojtd03G+O0xYt7wX/dIEas6mBjqDUC1WzYXI
-         eueA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762535057; x=1763139857;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=jAXZwY1JFAlSau7Sh36qtfmk425lQGaaTTdIu/DKZnA=;
-        b=SYvImujs2ajJa7tsLfbwSAX/Qm8dg7/Zd5bJKvhjzz/PxLh6NrGU/S5Z0igAggTBfy
-         kQbxB4jVGUK5e7/958yUtQoaZMM8fxIDGeeTmqYsho2t8NT9W/NcQ0SDW/t/pdbBeXKy
-         jhWAN0Zs2oT0HsZso/2oMpC8CdiOuiRy/KlNYuxq8VHackis+uemBIL1dXY+QoEf38xB
-         IkQSXWCNK/GZTuIc7kNNU1w1s5FrnbNmuVI4AG7sHPlkUMXdJ/crLWJg92lpCx4+1jSV
-         acQ11vJdxFVp/srNA3cTMGpjTX2Hb6mYdzSr4SGcQ/iv6HsR3Tmw9tvwfrcG1z59tzm5
-         ieiA==
-X-Forwarded-Encrypted: i=1; AJvYcCVBLlfuNwpB3N0onLvD/Px66NSObqxhgPuB7JKzVMbpr5IwmmsCBVhFClXF+wp/QCpeUK7ko54VUU9G7A==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy7OFemPQvTettxDK4QErqhEyIpr7gdF/zsmkpDkRAlQX100N+p
-	vAFJt1WbsmDt0LhTah2pcwf4NN+XFxq3Jm+4f4uAa0Xps0zUH2o/M5FQQzzOUTXigTnQ3ZSXlPe
-	0xygJ62pEw/Ru5El4BR4FizkkXBxdthog03iwduugKYxBFlcJWqrZ8bo=
-X-Gm-Gg: ASbGncsom1vSK4qkCo5b6vKKUPJ1UfANNfSYg+kVWOJJpnewOhJOQHVqvwOaeMdCZJT
-	76SmG/vkwQs3IeFOenrclk6lmC6D6KBAHXyYbLHzfUsD0D89JcHLhLVKcFgJ36w5wKc8uLtpubP
-	u9z1S2oRbOsQXb/E8WcaV6vmqHw+lhswjSvlrtwRgD4Zjb5MNj8qSlpcnlbUGnySsZA++R1cpee
-	ADiLTAYAeoqNVqaLcFKObLzky9MevdkS7el4PvvYiTkU5xBHUknxo+evG5CuvoyRWW5Pa5SiX4o
-	cmR8bjE7qgUH/eaoug==
-X-Google-Smtp-Source: AGHT+IEYqlVxvx1AEblNqiEQwOeS/KsDd3n8m7JMMGSQrBI5xG6zdz7o0UWJc+8B7rV9L/oXAJXTHffVLD7ZrMBGPJ4=
-X-Received: by 2002:a05:6512:3a86:b0:594:2c1f:75cf with SMTP id
- 2adb3069b0e04-59456cadbffmr1263195e87.57.1762535057489; Fri, 07 Nov 2025
- 09:04:17 -0800 (PST)
+	s=arc-20240116; t=1762537641; c=relaxed/simple;
+	bh=Jg+/cSmWZ3S0pISvENcp84Pxt0oIzICkqotwu2cofT4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WDq7rf12S5fIZt2dr4pipmjIhQxgNFNcfbGodoxSVjlIZb2vrGSIH8m/pNbcT9HCQZhYaYC2jqzkygY8/XP7N6bhIz2x3nvruNAaI4VUjIilxRx8Dk0i3rVQuINQaMB8zyMZ+IBhcZDKisrAMwCo0jygKOk9XwMkXXMn2SZ4PbY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ggrlbcpe; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64B71C4CEF7;
+	Fri,  7 Nov 2025 17:47:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1762537640;
+	bh=Jg+/cSmWZ3S0pISvENcp84Pxt0oIzICkqotwu2cofT4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=GgrlbcpeNMyuSBzVJ/24KfJakT1KJ5Rk75Ti6+p+3gxKmupwC9NqmAszXV3M+OlLk
+	 K0gOAHVOF9/FRq/f+M33yLVDGpP+SXUcC48KqI5OPCAFY5ygZahRT28Sn6r5kG/tI4
+	 51JhTBK50mO01g/+AgXzqfbeiJGrUyQ+KTBoWIy6W1TPXZ7O/CDYCfGlGeJUPEL+6F
+	 1S5dlvzkmxaLLaTE0ARraLJO0D3xo77z5OxRRViI3yz3z8xzc1ZFcqtUj4lH7fqB+B
+	 A50s21Br7ar3hlAIEN3xMo//nOVBKvIo7L77VzHtjm1hzf9SrJr2753heWG3R5Z6zU
+	 H03pYVM5nd92w==
+Date: Fri, 7 Nov 2025 17:47:13 +0000
+From: Conor Dooley <conor@kernel.org>
+To: Josua Mayer <josua@solid-run.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jon Nettleton <jon@solid-run.com>,
+	Mikhail Anikin <mikhail.anikin@solid-run.com>,
+	Yazan Shhady <yazan.shhady@solid-run.com>,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org,
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v2 03/11] dt-bindings: panel: lvds: add Winstar
+ WF70A8SYJHLNGA
+Message-ID: <20251107-cubbyhole-certified-2de627004084@spud>
+References: <20251107-imx8mp-hb-iiot-v2-0-d8233ded999e@solid-run.com>
+ <20251107-imx8mp-hb-iiot-v2-3-d8233ded999e@solid-run.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251107132443.180151-1-marco.crivellari@suse.com> <50rq8s8q-q098-rrs5-r1rp-p5p5r7929psq@xreary.bet>
-In-Reply-To: <50rq8s8q-q098-rrs5-r1rp-p5p5r7929psq@xreary.bet>
-From: Marco Crivellari <marco.crivellari@suse.com>
-Date: Fri, 7 Nov 2025 18:04:06 +0100
-X-Gm-Features: AWmQ_bl64GFB67e5z_8H7PGOfSgSCx7BB9bx-w6X3bq96IM3M1Sp-Wq2cLF8vi8
-Message-ID: <CAAofZF6OBZsD+3PA98dwWEAMmEhOzBTjisHt6daaW_hik2L60Q@mail.gmail.com>
-Subject: Re: [PATCH] HID: nintendo: add WQ_PERCPU to alloc_workqueue users
-To: Jiri Kosina <jikos@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-input@vger.kernel.org, 
-	Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>, 
-	Frederic Weisbecker <frederic@kernel.org>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
-	Michal Hocko <mhocko@suse.com>, "Daniel J . Ogorchock" <djogorchock@gmail.com>, 
-	Benjamin Tissoires <bentiss@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Fri, Nov 7, 2025 at 6:03=E2=80=AFPM Jiri Kosina <jikos@kernel.org> wrote=
-:
->[...]
-> Applied to hid.git#for-6.19/nintendo, thanks Marco.
-
-Many thanks, Jiri!
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="9f64Ubgv4dqrvjxG"
+Content-Disposition: inline
+In-Reply-To: <20251107-imx8mp-hb-iiot-v2-3-d8233ded999e@solid-run.com>
 
 
---=20
+--9f64Ubgv4dqrvjxG
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Marco Crivellari
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
+pw-bot: not-applicable
 
-L3 Support Engineer, Technology & Product
+--9f64Ubgv4dqrvjxG
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaQ4woQAKCRB4tDGHoIJi
+0lYNAP982+xPMTBA8hmMHUV0GMWimASaZ/P0l9HC8fXdcwGPNAD7BF9R7aUisARG
+9v0SFmVQrHfXao9nLlNa46MCEI3asgU=
+=tZOE
+-----END PGP SIGNATURE-----
+
+--9f64Ubgv4dqrvjxG--
 
