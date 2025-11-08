@@ -1,164 +1,139 @@
-Return-Path: <linux-input+bounces-15942-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-15943-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFB7DC4274F
-	for <lists+linux-input@lfdr.de>; Sat, 08 Nov 2025 05:56:48 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 65A76C427D7
+	for <lists+linux-input@lfdr.de>; Sat, 08 Nov 2025 06:43:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8CD3D3AC308
-	for <lists+linux-input@lfdr.de>; Sat,  8 Nov 2025 04:56:47 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 23E554E0EC4
+	for <lists+linux-input@lfdr.de>; Sat,  8 Nov 2025 05:43:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E212727EFE9;
-	Sat,  8 Nov 2025 04:56:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B6702777E0;
+	Sat,  8 Nov 2025 05:43:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AqaZG7gw"
 X-Original-To: linux-input@vger.kernel.org
-Received: from zg8tmja2lje4os43os4xodqa.icoremail.net (zg8tmja2lje4os43os4xodqa.icoremail.net [206.189.79.184])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6C52513D891;
-	Sat,  8 Nov 2025 04:56:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=206.189.79.184
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA219270542
+	for <linux-input@vger.kernel.org>; Sat,  8 Nov 2025 05:43:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762577802; cv=none; b=fIDDitCZBCMyotq4HiIkyFnLonEIobIXNHxtF7nnYqKjNS3xQn6wBAgLYNAJ2elH5730RO8UMHErQ8euqSKDXe1IorBuWwCH526UM4ziFKvi3UVcApDv5FjM78y5diHNX27xYN3848H75c8mTuuE9mI+gS/U9EwzLpGsZrHdgU4=
+	t=1762580623; cv=none; b=kHZgwPrInHkxJXL3qV+dIctsHSrnUnU1q/p/6TW4C/ZdkbYNQbg6e1ANPMAqiOb9qkScQ5SSObZxRLZj3IK5PGzZSwcYsFQtnYE8XoceKK/COvCUKyO/rFSbKPdaTSdSYVj5sRt8zhyL22uFlnDDR2FAipQzwehuRp8RACpR6PA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762577802; c=relaxed/simple;
-	bh=OVHuxDXTwefmHYv/OAP1V/VIP0pS9usVVc7y98xkcDc=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=iRA8mFibzS/nlGUWNYQxuzK8U4X5RalUS5VPTGGHE7unQBULgMsrc/E5WkHLQmW0CCSquC8Wef3SxGghU6zHKRaugmgwoEIyjMYI7CzvLgE0QKeQZ4YJSGh2Dek0JKiLeZqbL6eaT5Zaao+jNB+1AVWDxJhocxz5dUTE42WwcKE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn; spf=pass smtp.mailfrom=zju.edu.cn; arc=none smtp.client-ip=206.189.79.184
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zju.edu.cn
-Received: from zju.edu.cn (unknown [218.12.19.144])
-	by mtasvr (Coremail) with SMTP id _____wBnt7BzzQ5pTFx0Aw--.5560S3;
-	Sat, 08 Nov 2025 12:56:20 +0800 (CST)
-Received: from ubuntu.localdomain (unknown [218.12.19.144])
-	by mail-app4 (Coremail) with SMTP id zi_KCgD3239rzQ5ptYoeAw--.34379S2;
-	Sat, 08 Nov 2025 12:56:18 +0800 (CST)
-From: Duoming Zhou <duoming@zju.edu.cn>
-To: linux-input@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	dmitry.torokhov@gmail.com,
-	kuba@kernel.org,
-	alexander.deucher@amd.com,
-	pali@kernel.org,
-	hverkuil+cisco@kernel.org,
-	akpm@linux-foundation.org,
-	andriy.shevchenko@linux.intel.com,
-	tglx@linutronix.de,
-	mingo@kernel.org,
-	Jonathan.Cameron@huawei.com,
-	Duoming Zhou <duoming@zju.edu.cn>
-Subject: [PATCH] Input: psmouse - fix use-after-free bugs due to rescheduled delayed works
-Date: Sat,  8 Nov 2025 12:56:09 +0800
-Message-Id: <20251108045609.26338-1-duoming@zju.edu.cn>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1762580623; c=relaxed/simple;
+	bh=6+3QBIMUZuIBDI74CUWKSNU7+Vn+B+YyMwNW3K9c/8Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mTSKuwmYWLLT4zlfVK3VpVU0cRJpYgGcj+IWUP7+X9QgWougOxwuJtbPW6BkQXmzJ19l/GBIKk4/ZG9X3IntnqlUTWu6zNP37kjHzgBnthAJnog4YfSolXPlbCef7qVYgAE0Iv+24XOIO8WjjOwJn0NxPEzx/r8b4ghsM4myqac=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AqaZG7gw; arc=none smtp.client-ip=209.85.216.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-34372216275so185037a91.2
+        for <linux-input@vger.kernel.org>; Fri, 07 Nov 2025 21:43:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1762580621; x=1763185421; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=KgYVFt/5cKKkxw4z+MkcUXS/aRBQjVkrukAvQeR1s08=;
+        b=AqaZG7gwZRCLyQODFvlJSCsPqbpDNttnGMfg8/k3+F4THg6osuPwYx1Mp5ge/voQ9W
+         Qft2oS6/+AwMH/+UM2UGorqF/eSwp6l9a+QKSF5WDGh0+jvoCa1jFTSYfzzhePZhFIqR
+         G8BjsIUG5NSGH9HqAlgOuZd5Mx+AUlxVAwIbzuM0L0t5K4c3LnjUuBwjCj5FQzeyi+eE
+         e8BuDEznk7lJmzMQZARonvwK9dFB/ML/i6CbCIllMQqXa+b8URQCB+L8CV4LRf7g95/4
+         5ev4bRrDJB9v17/0ZFiOY30T6+6S1db7/ap+UwkMfynmL9p17aheUD8EPGMYiVfD0dM6
+         SLPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762580621; x=1763185421;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=KgYVFt/5cKKkxw4z+MkcUXS/aRBQjVkrukAvQeR1s08=;
+        b=HkjQHKFSnkIM6X5zqsQGvd3mGY/wIqjr22yTSbC9vu+sMeCkZdXOkkUUWWJ+lR+D9f
+         WZN1UaNJq3pMHkcP4O0nZWX5pPGS1Q8uUXB5uirHa0k5LKEYtajNaKxyO877wRzkrahw
+         PCVmMs/Ne7rlKD17z4mVVASfJINK3BXi3F2zGCtCbY8yoW26qJxsXL2BWnoFk0P3SXnC
+         sHowhlw8FK287gBSbhARFPOzI0rCBcn6fH4xPKM2GBaUzlaTfKAJUK1kCS+bNJU6PzYx
+         mDJqmzFrJpHqx+zg0v9+CDX2C+VzqUpHYCNoWygHsTkNmerhQbtOS/x454n+rGaAIEw8
+         waLQ==
+X-Gm-Message-State: AOJu0YybVGEVNqJr5sVvmXa9ZgRh+DT3YFlNoDADWR0jPEu+7TToxwpn
+	wtm44lk02KxMIDjLGC7IF7Y4hBZSysj6kqJkmUhI+xj2+NA8hSno46+L
+X-Gm-Gg: ASbGncvGLDRdMoovH39yYnGtM8N3WrzkQmyqyOYZYOr3JFL7z93hJI97gScYrmaqlaT
+	pNbyJSdB9OVmARP9rS2ItN7GsDTzRSOTQKftuxzTCrUcadiqJIMTW3CBURg2Xq0o1o4hB1jz84T
+	8+7WWnxdXdD3psOuJM+9+sfCBm8Q+RSz9uBP9q9EqMfCcZcgZRyXEmN5nja2wba8AZ6mcDCycwC
+	IG6i9wvDw7GnaWvntdsO+8ihWsaA8pHokrtqDBiDNh/oUkYcdpddvy5adc3LA5SNraaJYB9rTIS
+	Ft0OuaTzgrbh02pMp4cSeCQyXtDDYkgb6SAFCAS+2/Ea8VP55GPeP9l9/e5wHRAyeFPUlTu/Jf9
+	VKcO8Jy0t84KRf4poxwmEVg89h/BkKrDaOBUX4HiJ08c7Z5TYkECr+9GMKawbhstVLfaoqY5c9j
+	BroDj9DKlXdOK3vS7bvEJIbIoNbiR20bswYS1q7nlfvQ==
+X-Google-Smtp-Source: AGHT+IHMR7GPWAKEfw7ThuY13gPYohxp2j9WgbIuCb0ltB24qgokE8z/u2VYdWXRqW1JN2nKWRVA6g==
+X-Received: by 2002:a17:90b:3851:b0:340:be40:fe0c with SMTP id 98e67ed59e1d1-3436cbc935emr2201562a91.36.1762580620883;
+        Fri, 07 Nov 2025 21:43:40 -0800 (PST)
+Received: from google.com ([2a00:79e0:2ebe:8:57b9:b373:19a1:a072])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-341a68c822dsm11076670a91.8.2025.11.07.21.43.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 07 Nov 2025 21:43:40 -0800 (PST)
+Date: Fri, 7 Nov 2025 21:43:37 -0800
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Duoming Zhou <duoming@zju.edu.cn>
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	kuba@kernel.org, alexander.deucher@amd.com, pali@kernel.org, 
+	hverkuil+cisco@kernel.org, akpm@linux-foundation.org, andriy.shevchenko@linux.intel.com, 
+	tglx@linutronix.de, mingo@kernel.org, Jonathan.Cameron@huawei.com
+Subject: Re: [PATCH] Input: psmouse - fix use-after-free bugs due to
+ rescheduled delayed works
+Message-ID: <jbkzqczxnnf5el6xxyumeyoact7iw3js6reoand3clrpjyyblf@fhxvbg7fu6n5>
+References: <20251108045609.26338-1-duoming@zju.edu.cn>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:zi_KCgD3239rzQ5ptYoeAw--.34379S2
-X-CM-SenderInfo: qssqjiasttq6lmxovvfxof0/1tbiAwcDAWkOS38CbQA9sH
-X-CM-DELIVERINFO: =?B?v4doPgXKKxbFmtjJiESix3B1w3uoVhYI+vyen2ZzBEkOnu5chDpkB+ZdGnv/zQ0PbP
-	CR17dXL8s6MdNu/Tde0MMWLRQUvNHVNTd05oiz5MCe7bzlkSqSPrKjWjRpM3YLcvFi01GR
-	SGOvXSiWQ3/bg34b5fNXujbJihEPcjzCPZg/PhJIUq60caeTQNCcZNzcQkALWg==
-X-Coremail-Antispam: 1Uk129KBj93XoWxAFyftrWDWw15Aw45WF1UXFc_yoW5urWrpF
-	W5Xry5KrWkJw4Ut3yDJF4UZFySkwnFvry3Gr1kW343trn8GryYvr1ktFyFgFy8KryrAF47
-	Zw4DZwsxZF4kCagCm3ZEXasCq-sJn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7ZEXa
-	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
-	0xBIdaVrnRJUUU9Kb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2
-	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
-	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
-	0_Cr0_Gr1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v2
-	6rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx1l5I
-	8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AK
-	xVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lF7xvr2IYc2Ij64
-	vIr40E4x8a64kEw24lFIxGxcIEc7CjxVA2Y2ka0xkIwI1l42xK82IYc2Ij64vIr41l4I8I
-	3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxV
-	WUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAF
-	wI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcI
-	k0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j
-	6r4UJbIYCTnIWIevJa73UjIFyTuYvjxU7xwIDUUUU
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251108045609.26338-1-duoming@zju.edu.cn>
 
-The flush_workqueue() in psmouse_disconnect() only blocks and waits for
-work items that were already queued to the workqueue prior to its
-invocation. Any work items submitted after flush_workqueue() is called
-are not included in the set of tasks that the flush operation awaits.
-This means that after flush_workqueue() has finished executing, the
-resync_work and dev3_register_work could be rescheduled again, resulting
-in the following two use-after-free scenarios:
+Hi Duoming,
 
-1. The psmouse structure is deallocated in psmouse_disconnect(), while
-resync_work remains active and attempts to dereference the already
-freed psmouse in psmouse_resync().
+On Sat, Nov 08, 2025 at 12:56:09PM +0800, Duoming Zhou wrote:
+> The flush_workqueue() in psmouse_disconnect() only blocks and waits for
+> work items that were already queued to the workqueue prior to its
+> invocation. Any work items submitted after flush_workqueue() is called
+> are not included in the set of tasks that the flush operation awaits.
+> This means that after flush_workqueue() has finished executing, the
+> resync_work and dev3_register_work could be rescheduled again, resulting
+> in the following two use-after-free scenarios:
+> 
+> 1. The psmouse structure is deallocated in psmouse_disconnect(), while
+> resync_work remains active and attempts to dereference the already
+> freed psmouse in psmouse_resync().
+> 
+> CPU 0                   | CPU 1
+> psmouse_disconnect()    | psmouse_receive_byte()
+>                         |   if(psmouse->state == ...)
+>   psmouse_set_state()   |
+>   flush_workqueue()     |
+>                         |   psmouse_queue_work() //reschedule
+>   kfree(psmouse); //FREE|
+>                         | psmouse_resync()
+>                         |   psmouse = container_of(); //USE
+>                         |   psmouse-> //USE
 
-CPU 0                   | CPU 1
-psmouse_disconnect()    | psmouse_receive_byte()
-                        |   if(psmouse->state == ...)
-  psmouse_set_state()   |
-  flush_workqueue()     |
-                        |   psmouse_queue_work() //reschedule
-  kfree(psmouse); //FREE|
-                        | psmouse_resync()
-                        |   psmouse = container_of(); //USE
-                        |   psmouse-> //USE
+Before flushing the workqueue we set psmouse state to PSMOUSE_CMD_MODE,
+but psmouse_queue_work() is only called from psmouse_receive_byte() if
+the mouse is PSMOUSE_ACTIVE. Therefore there is no chance that work will
+be scheduled while psmouse instance is being freed.
 
-2. The alps_data structure is deallocated in alps_disconnect(), while
-dev3_register_work remains active and attempts to dereference the
-already freed alps_data inside alps_register_bare_ps2_mouse().
+For ALPS, the work is a "single shot", so will not get rescheduled.
 
-CPU 0                   | CPU 1
-psmouse_disconnect()    | alps_process_byte()
-  flush_workqueue()     |   alps_report_bare_ps2_packet()
-                        |   psmouse_queue_work() //reschedule
-  alps_disconnect()     |
-                        | alps_register_bare_ps2_mouse()
-    kfree(priv); //FREE |
-                        |   priv = container_of(); //USE
-                        |   priv-> //USE
+However I think that the changes are improvement to the code. Please
+split in 2 (for psmouse-base and alps separately) and drop mentions of
+UAF in psmouse but rather mention that disable_delayed_work_sync() is
+more robust and efficient. I think if we switch to it we should be able
+to get rid of kpsmoused workqueue and use default system workqueue.
 
-Replace flush_workqueue() with disable_delayed_work_sync(), and also
-add disable_delayed_work_sync() in alps_disconnect(). This ensures
-that both resync_work and dev3_register_work are properly canceled
-and prevented from being rescheduled before the psmouse and alps_data
-structures are deallocated.
+Thanks.
 
-These bugs are identified by static analysis.
-
-Fixes: f0d5c6f419d3 ("Input: psmouse - attempt to re-synchronize mouse every 5 seconds")
-Fixes: 04aae283ba6a ("Input: ALPS - do not mix trackstick and external PS/2 mouse data")
-Signed-off-by: Duoming Zhou <duoming@zju.edu.cn>
----
- drivers/input/mouse/alps.c         | 1 +
- drivers/input/mouse/psmouse-base.c | 2 +-
- 2 files changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/input/mouse/alps.c b/drivers/input/mouse/alps.c
-index d0cb9fb9482..df8953a5196 100644
---- a/drivers/input/mouse/alps.c
-+++ b/drivers/input/mouse/alps.c
-@@ -2975,6 +2975,7 @@ static void alps_disconnect(struct psmouse *psmouse)
- 
- 	psmouse_reset(psmouse);
- 	timer_shutdown_sync(&priv->timer);
-+	disable_delayed_work_sync(&priv->dev3_register_work);
- 	if (priv->dev2)
- 		input_unregister_device(priv->dev2);
- 	if (!IS_ERR_OR_NULL(priv->dev3))
-diff --git a/drivers/input/mouse/psmouse-base.c b/drivers/input/mouse/psmouse-base.c
-index 77ea7da3b1c..eb41c553e80 100644
---- a/drivers/input/mouse/psmouse-base.c
-+++ b/drivers/input/mouse/psmouse-base.c
-@@ -1484,7 +1484,7 @@ static void psmouse_disconnect(struct serio *serio)
- 
- 	/* make sure we don't have a resync in progress */
- 	mutex_unlock(&psmouse_mutex);
--	flush_workqueue(kpsmoused_wq);
-+	disable_delayed_work_sync(&psmouse->resync_work);
- 	mutex_lock(&psmouse_mutex);
- 
- 	if (serio->parent && serio->id.type == SERIO_PS_PSTHRU) {
 -- 
-2.34.1
-
+Dmitry
 
