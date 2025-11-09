@@ -1,256 +1,466 @@
-Return-Path: <linux-input+bounces-15953-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-15954-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D350C434BE
-	for <lists+linux-input@lfdr.de>; Sat, 08 Nov 2025 22:03:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37856C436B8
+	for <lists+linux-input@lfdr.de>; Sun, 09 Nov 2025 01:15:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 996F534876B
-	for <lists+linux-input@lfdr.de>; Sat,  8 Nov 2025 21:03:34 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id BBC5C34848F
+	for <lists+linux-input@lfdr.de>; Sun,  9 Nov 2025 00:15:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 23AC2171C9;
-	Sat,  8 Nov 2025 21:03:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CB42A2F872;
+	Sun,  9 Nov 2025 00:15:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="hoQ3HoMk";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="NresGyWB"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ITMFYDdH"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84752270542
-	for <linux-input@vger.kernel.org>; Sat,  8 Nov 2025 21:03:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9936A2AF00
+	for <linux-input@vger.kernel.org>; Sun,  9 Nov 2025 00:15:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762635808; cv=none; b=i8Kl4jY53rQ4uljXKyi67uypMYe5zgMxqIeLhCr3GC1xSkSfPyRzWncH4JEY20tRm8Wprlh3fkdN5T5xy5AmCbNX7ZKU/iEaJ8BLyWqH0NjH9zrF2YDbxFNHTio4CLyJymiUuTk39us8ncUMCJmN6N21K6UlvHcYLWTiX+yTSXo=
+	t=1762647324; cv=none; b=PjXfg4Azxa+wsGpH5Gj/XV39zT3QVVuU2ZdYcf3qFYQH7o6NfnAVxX6UCVecvWQgkdxUkEQJ9NMQ8MRMFHbvjp1YzmEE3c4jN0q2OuIzTZUUcN7T6LrW+KoIZSRUxMdmvAQeuR5jgRdVgg7X+C3/s4ylVoPC2lIQVOtz3ZXGumo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762635808; c=relaxed/simple;
-	bh=eceA4q0+8UWhjiAnR4gmchfDkq8DipIUUMQcZOMuDqU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=WM/SoVLqnzSGOW/qPhlTfpFsK9Ba2Kl7YvhOIXwaKqi6NmZcjUT4xOnxWTNrgKX3LuJUa46PMT0gjkyImDmpnAtuXGKxxUYZS7vBsBclzSEKKtrEQbv5ZiG4Xeyg2dzL1IZJtw2qS9/QnohqBLJ8Ri1XMSXnIUn8MfdJpVkKfaQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=hoQ3HoMk; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=NresGyWB; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5A8Fc8d92161277
-	for <linux-input@vger.kernel.org>; Sat, 8 Nov 2025 21:03:26 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=qcppdkim1; bh=YbDa+qttUI5
-	Hc6TJg8DCNSYOjvf1mBNLU1fiqiuNgnE=; b=hoQ3HoMkSF2XQcS1clcajFWbbXw
-	9ivr7mq7RXVSOC7XtTQFtXDcpaoEU4mLdTueyfCKMupJvpuWDRNLYMQR0c3gdtTY
-	xf7jugmySJ3CoWHppqHvWu/ttngulSioOEUhbKEdfVyJvVLpFhZYDl3Q2bquDIzD
-	jenkEbCTTPFqRw38K/v4ltRJ3RmEX5eP7MUzMhBGtCjgQn1NHiP31lH72a4yZB92
-	r68pY67HnZmRvVaMAr7/3zQhNdRYMBgadN/iUg81FDiDey9bG5R3jt0W04ul75bO
-	YPK6EE3Sxy1Wj5nZkO663ptaJ727/ukOXTqZa4A99zkGIPp+q94cBfWkpaA==
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com [209.85.219.69])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4a9xu9s5qa-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-input@vger.kernel.org>; Sat, 08 Nov 2025 21:03:25 +0000 (GMT)
-Received: by mail-qv1-f69.google.com with SMTP id 6a1803df08f44-8824292911cso9287756d6.1
-        for <linux-input@vger.kernel.org>; Sat, 08 Nov 2025 13:03:25 -0800 (PST)
+	s=arc-20240116; t=1762647324; c=relaxed/simple;
+	bh=DR6kyp9O7zelhfyMYKqgRJEko9OOpA09fnbjNNyhDJ4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=qzx8Pgw8qBt/i3tyaL05ivxYUX+cX6xIOGE9HBQVBBH7QcG3jp7MStBF+cXfzqu12ITN5Q5oYPPk2SJADLi4iq4UHxGBJWU/IdCfPYynxc8KV9a9j+rt8xILwrruaU+6SliGzinDgGN1jdtK8I0bdiar+N0l4GnVnGOU5RmhajE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ITMFYDdH; arc=none smtp.client-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4710a1f9e4cso14869035e9.0
+        for <linux-input@vger.kernel.org>; Sat, 08 Nov 2025 16:15:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1762635804; x=1763240604; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=YbDa+qttUI5Hc6TJg8DCNSYOjvf1mBNLU1fiqiuNgnE=;
-        b=NresGyWBAFnrrNQS5+cJ/vmQk0D+bpUQ/jYbzzUF+7dCVhleaYRvPgNV9Z4xfCs2uH
-         KwMOnf7Nkh/WL/6DotrBy+I1kB+Hinz0rd2BImIFhCneiY9PrY8dcnI2KukvrUSufKx8
-         o3zTUTDhf+eOF1CSnsSDi9w/6Pc4iMM6uCk35dUomJYFiZHilrnCuKSPLKBP3f4U7VV2
-         QmqhcSg/GqFeAuPM6I5lEjUipfvf9ply1zJDQ/XHnO8JSzzbfpi0Py1d1+bG2goWt26D
-         gTiw8TEv+2962+rt+iQ5b2NwLwu2r7gED+Z8AtYCo3vzJAZkdcoHV6Gem2Wsv/nDo7hG
-         1YWw==
+        d=gmail.com; s=20230601; t=1762647321; x=1763252121; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=k/TliDB0w6dcJUrj7wnoHs9SThe/e4l3MkGXTOBxkko=;
+        b=ITMFYDdHzg/lVOs5tJ7Zm4QxORyPbOwbwcghgtK92BvTkEii4JbBFKJ7WHuzP9iEyP
+         0bd5VtSFst+IghN7UnsCJGAVPpqYZ5N1zL7xEY9gNShVF8pU5O7BS8YaHFd6FX56T1XM
+         BhCzzjipRsZ5E5cteZtZ32T1+RYC3TOeWzjv6iH7CGUEhnL5aJRpN/436qiAtNxXco5c
+         yiicvB5V4e2yWKdcdw9PdEBeMCkKRuQLihWl7TxGqpOPK9KrDjgvpIMvUAEm7OvWPLa9
+         eiCiPJrHYmO8vRfc0WqsLtmMhYMtFbg5OMSak4GkmaOvePMr/DoIex9X6an3h5QWkqmu
+         4TVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762635804; x=1763240604;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=YbDa+qttUI5Hc6TJg8DCNSYOjvf1mBNLU1fiqiuNgnE=;
-        b=s7bb8fDkRH3CXOvitzC4mrvG+cCkukNY6FwywWBhFcAs9oNnNitBT2oqYQexGuZicQ
-         PS1sF8HrfZLiHZahNqE56HURchnrf73dCMrBq+wvLu4mwQFxhwS/cVTHFwDcg0mMsKaJ
-         lqscE4KFaAX9TGeyrHXfoOYBZZ2oe4dM559JGvsnzLaALtgs1XD8UlshNrzcQ5dIMTos
-         qmZLDkUG6yB9k0guIhZW9ZE+ttG1bo5ewXjh9TvFK8+acIMSUeasDEATEP15BiP8XJ3w
-         pYG8FMKbwh2z2AnQ9XEu2dWuLoIhKPIaZtae5OMlJbb+YsPVErWrh9Khn0Dv/yooVHmQ
-         wKgQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVY4W1ouBwWdgJGVApOmWfH7nlZcrTlCoi4JAcmpWPvKKfyx8twh8oXUHPslCANxvPR9sKoCcPYRsdETQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxMpHCOdVGYLmEHkDzxaP8JvF/tT5f+OHvd/EjuL2ro7G7TBl3/
-	12Lv1XdAs9yA9RA6DPRfNd0lq14WF/j6WhvFHU793Igr2OkMbZfBXVW0zZ0kXEHalQUuKLacqG9
-	i7z+Lmu+cUrfmUYd2HrD/+Am3eHPwBHIVaNa5355eZ+e/ZUimNaWA+/5BgBqox/Msjw==
-X-Gm-Gg: ASbGncvhp7RTnZrM4Jm/9Jh8mhpXzSJGfjPeTWMIBnwc0edR8e0Cd9oCimTzpPfIP+e
-	Sx1lG4hT0zMI0ViF+Q1dB0+D0o877n59tklUaOo4M+d0SNGZQJ5mpO307xJlYPfc3lXrzixadxu
-	bLgFxVei5YrEDCEZ+mtpuBB4Fooz1JUMhgL/gjlD+Tsx51EHwXwuLUxL5Zp+2YnIjhqKbf06Iji
-	sUqtmjUhdsvWg66JcJFgAvQijGWJuo7vssejd8WSu6pKR30NYq/mZkf8kBY+exuih/jOC7IVKMB
-	aZVqdgzqQd6itymdzV8Fq1XU7JJ99FCUiFMleQPoltvDmjy09FV7+YfC4tNaBkyaZDZN5FoPyc8
-	vqFEfcv5SoD2kpL7S/rFnXCvUfx7mZ1JB7wc8jUT6q9GQWTQpPPmTDo9C+mFCv8frGJqw1fLjgw
-	Q=
-X-Received: by 2002:ac8:521a:0:b0:4ed:9a2b:a906 with SMTP id d75a77b69052e-4ed9a2ba992mr50525961cf.5.1762635804451;
-        Sat, 08 Nov 2025 13:03:24 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGBlUNis28oSRgQR49mP/h7zkgeHwVHW5+coX+Dvuz7EvQJRTupd9aSl7Qxr6HyAqpaHN4kCQ==
-X-Received: by 2002:ac8:521a:0:b0:4ed:9a2b:a906 with SMTP id d75a77b69052e-4ed9a2ba992mr50525771cf.5.1762635804049;
-        Sat, 08 Nov 2025 13:03:24 -0800 (PST)
-Received: from shalem (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b72bf97d456sm643857366b.39.2025.11.08.13.03.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 08 Nov 2025 13:03:22 -0800 (PST)
-From: Hans de Goede <johannes.goede@oss.qualcomm.com>
-To: =?UTF-8?q?Filipe=20La=C3=ADns?= <lains@riseup.net>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <bentiss@kernel.org>
-Cc: Hans de Goede <johannes.goede@oss.qualcomm.com>,
-        linux-input@vger.kernel.org
-Subject: [PATCH 2/2] HID: logitech-dj: Fix probe failure when used with KVM
-Date: Sat,  8 Nov 2025 22:03:19 +0100
-Message-ID: <20251108210319.7125-2-johannes.goede@oss.qualcomm.com>
-X-Mailer: git-send-email 2.51.1
-In-Reply-To: <20251108210319.7125-1-johannes.goede@oss.qualcomm.com>
-References: <20251108210319.7125-1-johannes.goede@oss.qualcomm.com>
+        d=1e100.net; s=20230601; t=1762647321; x=1763252121;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=k/TliDB0w6dcJUrj7wnoHs9SThe/e4l3MkGXTOBxkko=;
+        b=eOA885wHB623NokA2eKDLIKTj+uLeN2sn0wkuleK3kl15pqaL9n0YODDrv3+YUauWn
+         blUrpoBrqpPGWfe2h3I7YNG+QCgLksbg/sjm4QQHTbIMDzkAebulWse4B1eNYwsmZteg
+         Gqrh6OyQm9sPZklD6lTM5KCMIbev/e46TOkkA3X96S0mv+M4Dev7nfUtv2Ne5IdSDihf
+         OxIdrH3UFOLp8AAYZ/e49kiHTJp7Az/I+QWaH54+HRFCkIfmXcn7o/1mvhpG8Q/HTjJ7
+         2AxASCdDZuQUm+4lWZWMm9vVUb9CoFsDiDUHvW9kouoIP+8l89YQfbsH29GkHZxwLpPf
+         ySaw==
+X-Forwarded-Encrypted: i=1; AJvYcCWyv5dsIO9eM3qWzKacWFd6fk2zCv461vuKZWIkSkau85qrZ1RNS+k1xChzjLDOoraATKofP4VrYT4scA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywrzh8kLeA/g5V83gpGhUP0FaogW/y0oxMqPziOMFFElSow2AzE
+	m/mTwEyTeioOvB/7fEGK4s3BMyhZNods2edP4ELLpef5mXyiufLsjjZQglvN2Uk+rAyZoeVLEa9
+	kT/4B7jsIq7fngpveDNRuU3anMEBht/Q=
+X-Gm-Gg: ASbGnctdvLUA2bzck0Yxvxu79n9oyqoHjlv2GWmg9txO76dsBf4PVEdy649OrCnVPAN
+	l5GKwDPrwThPLgshJiw1YGjsBHsKQyHzI3SdS+J6GqQF3Iudv82stL5r7GN4M7NfgeL4Y05Njsn
+	sL3xAa3DQBAy9RcIqstTfXrNc0ryOb+GzuC/urMrwgTzSmzAq+q/IBBj49qt77NNQHiGFlXuQVv
+	AfAuuL1f0M6lku+5FRukPailedqi+oTCeD7QnLMRcUkZMiPQxEqvD3J92g9dJC0zcx4IvUW01Vs
+	U63hI82FHi+mqPXkFoXWJDVva/4p+T3uVhX1CwM=
+X-Google-Smtp-Source: AGHT+IEC/EK65rB4jwDzer3q0fwRYShZnwEDIpIVvY/YYjfhR0htvF3S02Er2J/jzfffttUlvH+JBcTYmPVxEu/YGhQ=
+X-Received: by 2002:a05:600c:1d1c:b0:471:13fa:1b84 with SMTP id
+ 5b1f17b1804b1-47773230bb9mr31972765e9.12.1762647320703; Sat, 08 Nov 2025
+ 16:15:20 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-ORIG-GUID: 8iuxox6LejmH9BPFmpW-mc4OFTEgJlj_
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTA4MDE3MiBTYWx0ZWRfX7pjYf47EreuT
- UH3SuA+IhlLTdfRvoTaGDrdxiRe4sP8qWHMe1T1Rv4MTIGgZ3Q3/0e/TiavV3aY0xbi61eXpgs+
- X7ALYSjeocFU9SkRjB0AZGGECB0s4lmKQQXu0zyOWmy6hXlSmfWZeAqCqlp1hwEaTtxrF4rwzM7
- TIoZqPrRF4hTQNMjkqcN8LAELLpq+hLMTp8qInKj3LG2XNspZB0ycPqXUIY3YM8O4Q92x8HF452
- 1KA1Yk9YxHQ1j8DZUSwMe7nQY7MmZeCXJn9zS+1/VZuwdpi72YBxuQYf+rAeSocChDD9uMSSQnn
- kKzpS/2Pd1AqraRmZme39xv2BjJKx3bE3NEMOfpuvg1VyE75+ebuPjL6EbVlvNdaTMsRQSSr7u7
- CZrOBcv7yilW1wBVKVotoiOFznvwRw==
-X-Authority-Analysis: v=2.4 cv=ZPXaWH7b c=1 sm=1 tr=0 ts=690fb01d cx=c_pps
- a=wEM5vcRIz55oU/E2lInRtA==:117 a=xqWC_Br6kY4A:10 a=6UeiqGixMTsA:10
- a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8
- a=UrnqHec9oVvvnmx1FIgA:9 a=OIgjcC2v60KrkQgK7BGD:22
-X-Proofpoint-GUID: 8iuxox6LejmH9BPFmpW-mc4OFTEgJlj_
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-11-08_06,2025-11-06_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 lowpriorityscore=0 bulkscore=0 suspectscore=0 clxscore=1011
- priorityscore=1501 phishscore=0 spamscore=0 adultscore=0 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2511080172
+References: <CALvgqEAq8ZWgG4Dyg_oL7_+nUDy+LUoTXi+-6aceO-AKtBS3Mg@mail.gmail.com>
+ <3eb2564d-5008-434e-9698-99b0cbe4d1cc@cosmicgizmosystems.com>
+ <CALvgqECkMdntW2He8C7EcvOtCL-PpiXM9xNXWHzGtgimDxezHA@mail.gmail.com> <d7e888a6-6a65-40c1-84af-058b97ca0178@rowland.harvard.edu>
+In-Reply-To: <d7e888a6-6a65-40c1-84af-058b97ca0178@rowland.harvard.edu>
+From: The-Luga <lugathe2@gmail.com>
+Date: Sat, 8 Nov 2025 21:15:07 -0300
+X-Gm-Features: AWmQ_bmLnkTGadRnOo8IP8Kn9OmaS6eBVXbknWeDh8sEGGOHNfUwUBnciajVzgQ
+Message-ID: <CALvgqED=rBkNYGkFdOXjUi1g_vbLac5Z38Z9xCRfpF-Vmy4Mww@mail.gmail.com>
+Subject: Re: [BUG] Edifier QR30 (2d99:a101, Jieli Technology) reboots itself
+ when RGB brightness button is used under Linux
+To: Alan Stern <stern@rowland.harvard.edu>
+Cc: Terry Junge <linuxsound@cosmicgizmosystems.com>, linux-sound@vger.kernel.org, 
+	linux-usb@vger.kernel.org, linux-input@vger.kernel.org
+Content-Type: multipart/mixed; boundary="0000000000006a6eb306431e4f9e"
 
-Since commit 6f20d3261265 ("HID: logitech-dj: Fix error handling in
-logi_dj_recv_switch_to_dj_mode()") logi_dj_recv_switch_to_dj_mode()
-will return an error when the hid_hw_raw_request() call to enable
-[dis]connect events fails.
+--0000000000006a6eb306431e4f9e
+Content-Type: text/plain; charset="UTF-8"
 
-This can happen when used with a KVM like the Aten CS1784a and the PC
-does not have the KVM focus when probe() runs, which causes probe() to
-fail after which the receiver will simply not work.
+Here are the steps I followed to gather this data:
 
-The logi_dj_recv_query_paired_devices() call done at the end of probe()
-already ignores any errors for the KVM without focus case. When focus is
-restored and an input report is received this will trigger
-logi_dj_recv_queue_unknown_work() which retries the query_paired_devices()
-call from a workqueue.
+1. I ran my VM, with the speaker on the host.
+2. I ran USBPcap on the guest.
+3. I ran usbmon on the host.
+4. I passed the speaker through to the guest.
+5. I increased the brightness by 3 levels.
+6. I decreased the brightness by 3 levels.
+7. The speaker did not reboot.
+8. I stopped the USBPcap and usbmon logs.
 
-To fix the probe() failure let it ignore logi_dj_recv_switch_to_dj_mode()
-errors too, track if a successful logi_dj_recv_switch_to_dj_mode() was
-done and retry if necessary from logi_dj_recv_queue_unknown_work().
+Next, with the QR30 already connected to the guest, I ran USBPcap
+again and adjusted the brightness up 3 times and down 3 times.
 
-Queurying paired devices while not in dj-mode is not useful and this
-will be redone after the unknown work has retried setting dj-mode,
-so skip queurying paired devices when not in dj-mode yet.
+I hope this helps.
 
-The new bool to track successful setting of the dj-mode will also cause
-setting dj-mode to be retried from the unknown work, if setting dj-mode
-failed after a reset_resume.
+--0000000000006a6eb306431e4f9e
+Content-Type: text/x-log; charset="US-ASCII"; name="qr30_passthrough.log"
+Content-Disposition: attachment; filename="qr30_passthrough.log"
+Content-Transfer-Encoding: base64
+Content-ID: <f_mhqxout10>
+X-Attachment-Id: f_mhqxout10
 
-Signed-off-by: Hans de Goede <johannes.goede@oss.qualcomm.com>
----
- drivers/hid/hid-logitech-dj.c | 24 ++++++++++++++++--------
- 1 file changed, 16 insertions(+), 8 deletions(-)
+ZmZmZjhjOTYzZGMwNzIwMCAyNTI2NDc4OTI5IEMgSWk6MzowMTI6MiAtMTA4OjEgMApmZmZmOGM5
+ODM3ZDMwZjAwIDI1MjY1MDI1NzUgUyBDbzozOjAwMTowIHMgMjMgMDMgMDAwNCAwMDAyIDAwMDAg
+MApmZmZmOGM5ODM3ZDMwZjAwIDI1MjY1MDI1OTggQyBDbzozOjAwMTowIDAgMApmZmZmOGM5ODM3
+ZDMwZjAwIDI1MjY1NjMwMjcgUyBDaTozOjAwMTowIHMgYTMgMDAgMDAwMCAwMDAyIDAwMDQgNCA8
+CmZmZmY4Yzk4MzdkMzBmMDAgMjUyNjU2MzA0NSBDIENpOjM6MDAxOjAgMCA0ID0gMDMwMTEwMDAK
+ZmZmZjhjOTgzN2QzMGYwMCAyNTI2NTYzMDUxIFMgQ286MzowMDE6MCBzIDIzIDAxIDAwMTQgMDAw
+MiAwMDAwIDAKZmZmZjhjOTgzN2QzMGYwMCAyNTI2NTYzMDU4IEMgQ286MzowMDE6MCAwIDAKZmZm
+ZjhjOTY2NGMzZWE4MCAyNTI2NjE2OTE3IFMgQ2k6MzowMDA6MCBzIDgwIDA2IDAxMDAgMDAwMCAw
+MDQwIDY0IDwKZmZmZjhjOTY2NGMzZWE4MCAyNTI2NjE4ODQ4IEMgQ2k6MzowMDA6MCAwIDE4ID0g
+MTIwMTEwMDEgZWYwMjAxNDAgOTkyZDAxYTEgMDAwMTAxMDIgMDMwMQpmZmZmOGM5NjY0YzNlYTgw
+IDI1MjY2MTg4NzcgUyBDbzozOjAwMTowIHMgMjMgMDMgMDAwNCAwMDAyIDAwMDAgMApmZmZmOGM5
+NjY0YzNlYTgwIDI1MjY2MTg4OTAgQyBDbzozOjAwMTowIDAgMApmZmZmOGM5NjY0YzNlZmMwIDI1
+MjY2NzkwMTkgUyBDaTozOjAwMTowIHMgYTMgMDAgMDAwMCAwMDAyIDAwMDQgNCA8CmZmZmY4Yzk2
+NjRjM2VmYzAgMjUyNjY3OTAzMyBDIENpOjM6MDAxOjAgMCA0ID0gMDMwMTEwMDAKZmZmZjhjOTY2
+NGMzZWZjMCAyNTI2Njc5MDM3IFMgQ286MzowMDE6MCBzIDIzIDAxIDAwMTQgMDAwMiAwMDAwIDAK
+ZmZmZjhjOTY2NGMzZWZjMCAyNTI2Njc5MDQyIEMgQ286MzowMDE6MCAwIDAKZmZmZjhjOTY2NGMz
+ZTE4MCAyNTI2NzQxMDEyIFMgQ2k6MzowMTI6MCBzIDgwIDA2IDAxMDAgMDAwMCAwMDEyIDE4IDwK
+ZmZmZjhjOTY2NGMzZTE4MCAyNTI2NzQyODUyIEMgQ2k6MzowMTI6MCAwIDE4ID0gMTIwMTEwMDEg
+ZWYwMjAxNDAgOTkyZDAxYTEgMDAwMTAxMDIgMDMwMQpmZmZmOGM5NjY0YzNmMTQwIDI1MjY3NDI4
+NjEgUyBDaTozOjAxMjowIHMgODAgMDYgMDIwMCAwMDAwIDAwYjYgMTgyIDwKZmZmZjhjOTY2NGMz
+ZjE0MCAyNTI2NzQ1ODQ1IEMgQ2k6MzowMTI6MCAwIDE4MiA9IDA5MDJiNjAwIDA0MDEwMDgwIDMy
+MDgwYjAwIDAyMDEwMjAwIDA1MDkwNDAwIDAwMDAwMTAxIDAwMDUwOTI0IDAxMDAwMTJmCmZmZmY4
+Yzk2NjRjM2YxNDAgMjUyNjc0NTg1NCBTIENpOjM6MDEyOjAgcyA4MCAwNiAwMzAzIDA0MDkgMDBm
+ZiAyNTUgPApmZmZmOGM5NjY0YzNmMTQwIDI1MjY3NDg4NDggQyBDaTozOjAxMjowIDAgMzQgPSAy
+MjAzMzQwMCAzMjAwMzUwMCAzMDAwMzMwMCAzMTAwMzUwMCA0MTAwMzMwMCAzNDAwMzMwMCAzODAw
+MzMwMCAzNTAwMzAwMApmZmZmOGM5NjY0YzNlMTgwIDI1MjY3NTA4NjYgUyBDbzozOjAxMjowIHMg
+MDAgMDkgMDAwMSAwMDAwIDAwMDAgMApmZmZmOGM5NjY0YzNlMTgwIDI1MjY3NTE4NDEgQyBDbzoz
+OjAxMjowIDAgMApmZmZmOGM5NWY0ZWNmZWMwIDI1MjY4OTMyMjUgUyBDaTozOjAxMjowIHMgODAg
+MDYgMDEwMCAwMDAwIDAwNDAgNjQgPApmZmZmOGM5NWY0ZWNmZWMwIDI1MjY4OTQ4NTQgQyBDaToz
+OjAxMjowIDAgMTggPSAxMjAxMTAwMSBlZjAyMDE0MCA5OTJkMDFhMSAwMDAxMDEwMiAwMzAxCmZm
+ZmY4Yzk1YTU1MDBjMDAgMjUyNjg5NTE4NCBTIENvOjM6MDAxOjAgcyAyMyAwMyAwMDA0IDAwMDIg
+MDAwMCAwCmZmZmY4Yzk1YTU1MDBjMDAgMjUyNjg5NTIwNSBDIENvOjM6MDAxOjAgMCAwCmZmZmY4
+Yzk2NjRjM2U3ODAgMjUyNjk1NjAyNyBTIENpOjM6MDAxOjAgcyBhMyAwMCAwMDAwIDAwMDIgMDAw
+NCA0IDwKZmZmZjhjOTY2NGMzZTc4MCAyNTI2OTU2MDM4IEMgQ2k6MzowMDE6MCAwIDQgPSAwMzAx
+MTAwMApmZmZmOGM5NjY0YzNlNzgwIDI1MjY5NTYwNDMgUyBDbzozOjAwMTowIHMgMjMgMDEgMDAx
+NCAwMDAyIDAwMDAgMApmZmZmOGM5NjY0YzNlNzgwIDI1MjY5NTYwNDkgQyBDbzozOjAwMTowIDAg
+MApmZmZmOGM5NjY0YzNlNzgwIDI1MjcwMDg4OTAgUyBDaTozOjAwMDowIHMgODAgMDYgMDEwMCAw
+MDAwIDAwNDAgNjQgPApmZmZmOGM5NjY0YzNlNzgwIDI1MjcwMTA4NTggQyBDaTozOjAwMDowIDAg
+MTggPSAxMjAxMTAwMSBlZjAyMDE0MCA5OTJkMDFhMSAwMDAxMDEwMiAwMzAxCmZmZmY4Yzk2NjRj
+M2U3ODAgMjUyNzAxMDg2NiBTIENvOjM6MDAxOjAgcyAyMyAwMyAwMDA0IDAwMDIgMDAwMCAwCmZm
+ZmY4Yzk2NjRjM2U3ODAgMjUyNzAxMDg3NCBDIENvOjM6MDAxOjAgMCAwCmZmZmY4Yzk2NjRjM2U3
+ODAgMjUyNzA3MjAyNyBTIENpOjM6MDAxOjAgcyBhMyAwMCAwMDAwIDAwMDIgMDAwNCA0IDwKZmZm
+ZjhjOTY2NGMzZTc4MCAyNTI3MDcyMDM5IEMgQ2k6MzowMDE6MCAwIDQgPSAwMzAxMTAwMApmZmZm
+OGM5NjY0YzNlNzgwIDI1MjcwNzIwNDQgUyBDbzozOjAwMTowIHMgMjMgMDEgMDAxNCAwMDAyIDAw
+MDAgMApmZmZmOGM5NjY0YzNlNzgwIDI1MjcwNzIwNDkgQyBDbzozOjAwMTowIDAgMApmZmZmOGM5
+NjY0YzNlNzgwIDI1MjcxMzQwMjYgUyBDaTozOjAxMjowIHMgODAgMDYgMDEwMCAwMDAwIDAwMTIg
+MTggPApmZmZmOGM5NjY0YzNlNzgwIDI1MjcxMzQ4NzIgQyBDaTozOjAxMjowIDAgMTggPSAxMjAx
+MTAwMSBlZjAyMDE0MCA5OTJkMDFhMSAwMDAxMDEwMiAwMzAxCmZmZmY4Yzk2NjRjM2ZiYzAgMjUy
+NzEzNDg4NiBTIENpOjM6MDEyOjAgcyA4MCAwNiAwMjAwIDAwMDAgMDBiNiAxODIgPApmZmZmOGM5
+NjY0YzNmYmMwIDI1MjcxMzc4NTIgQyBDaTozOjAxMjowIDAgMTgyID0gMDkwMmI2MDAgMDQwMTAw
+ODAgMzIwODBiMDAgMDIwMTAyMDAgMDUwOTA0MDAgMDAwMDAxMDEgMDAwNTA5MjQgMDEwMDAxMmYK
+ZmZmZjhjOTY2NGMzZmJjMCAyNTI3MTM3ODYwIFMgQ2k6MzowMTI6MCBzIDgwIDA2IDAzMDMgMDQw
+OSAwMGZmIDI1NSA8CmZmZmY4Yzk2NjRjM2ZiYzAgMjUyNzEzOTg1MiBDIENpOjM6MDEyOjAgMCAz
+NCA9IDIyMDMzNDAwIDMyMDAzNTAwIDMwMDAzMzAwIDMxMDAzNTAwIDQxMDAzMzAwIDM0MDAzMzAw
+IDM4MDAzMzAwIDM1MDAzMDAwCmZmZmY4Yzk2NjRjM2U3ODAgMjUyNzE0Mjg3NSBTIENvOjM6MDEy
+OjAgcyAwMCAwOSAwMDAxIDAwMDAgMDAwMCAwCmZmZmY4Yzk2NjRjM2U3ODAgMjUyNzE0Mzg1NiBD
+IENvOjM6MDEyOjAgMCAwCmZmZmY4Yzk2NjRjM2U3ODAgMjUyNzE1MDkyMSBTIENpOjM6MDEyOjAg
+cyA4MCAwNiAwMTAwIDAwMDAgMDAxMiAxOCA8CmZmZmY4Yzk2NjRjM2U3ODAgMjUyNzE1Mjg2MSBD
+IENpOjM6MDEyOjAgMCAxOCA9IDEyMDExMDAxIGVmMDIwMTQwIDk5MmQwMWExIDAwMDEwMTAyIDAz
+MDEKZmZmZjhjOTY2NGMzZmJjMCAyNTI3MTU1Mjk2IFMgQ2k6MzowMTI6MCBzIDgwIDA2IDAyMDAg
+MDAwMCAwMGZmIDI1NSA8CmZmZmY4Yzk2NjRjM2ZiYzAgMjUyNzE1Njg2MSBDIENpOjM6MDEyOjAg
+MCAxODIgPSAwOTAyYjYwMCAwNDAxMDA4MCAzMjA4MGIwMCAwMjAxMDIwMCAwNTA5MDQwMCAwMDAw
+MDEwMSAwMDA1MDkyNCAwMTAwMDEyZgpmZmZmOGM5NjNkYzA3MzgwIDI1MjcxNTcwOTIgUyBDaToz
+OjAxMjowIHMgODAgMDYgMDMwMyAwNDA5IDAwZmYgMjU1IDwKZmZmZjhjOTYzZGMwNzM4MCAyNTI3
+MTU4ODg0IEMgQ2k6MzowMTI6MCAwIDM0ID0gMjIwMzM0MDAgMzIwMDM1MDAgMzAwMDMzMDAgMzEw
+MDM1MDAgNDEwMDMzMDAgMzQwMDMzMDAgMzgwMDMzMDAgMzUwMDMwMDAKZmZmZjhjOTYzZGMwN2Uw
+MCAyNTI3MTU5MDM3IFMgQ2k6MzowMTI6MCBzIDgwIDA2IDAzMDAgMDAwMCAwMGZmIDI1NSA8CmZm
+ZmY4Yzk2M2RjMDdlMDAgMjUyNzE2MDg2NCBDIENpOjM6MDEyOjAgMCA0ID0gMDQwMzA5MDQKZmZm
+ZjhjOTYzZGMwNmQ4MCAyNTI3MTYxMDE4IFMgQ2k6MzowMTI6MCBzIDgwIDA2IDAzMDIgMDQwOSAw
+MGZmIDI1NSA8CmZmZmY4Yzk2M2RjMDZkODAgMjUyNzE2Mjg4NyBDIENpOjM6MDEyOjAgMCA0MCA9
+IDI4MDM0NTAwIDQ0MDA0OTAwIDQ2MDA0OTAwIDQ1MDA1MjAwIDIwMDA0ODAwIDYxMDA2YzAwIDMw
+MDAyMDAwIDMyMDAyZTAwCmZmZmY4Yzk2NjRjM2ZjODAgMjUyNzIyODI3NiBTIENpOjM6MDEyOjAg
+cyA4MCAwNiAwMTAwIDAwMDAgMDAxMiAxOCA8CmZmZmY4Yzk2NjRjM2ZjODAgMjUyNzIyODg3OSBD
+IENpOjM6MDEyOjAgMCAxOCA9IDEyMDExMDAxIGVmMDIwMTQwIDk5MmQwMWExIDAwMDEwMTAyIDAz
+MDEKZmZmZjhjOTY2NGMzZjJjMCAyNTI3MjI5MDg2IFMgQ2k6MzowMTI6MCBzIDgwIDA2IDAyMDAg
+MDAwMCAwMDA5IDkgPApmZmZmOGM5NjY0YzNmMmMwIDI1MjcyMzA4NzAgQyBDaTozOjAxMjowIDAg
+OSA9IDA5MDJiNjAwIDA0MDEwMDgwIDMyCmZmZmY4Yzk2NjRjM2ZhNDAgMjUyNzIzMTA3NCBTIENp
+OjM6MDEyOjAgcyA4MCAwNiAwMjAwIDAwMDAgMDBiNiAxODIgPApmZmZmOGM5NjY0YzNmYTQwIDI1
+MjcyMzM4NTcgQyBDaTozOjAxMjowIDAgMTgyID0gMDkwMmI2MDAgMDQwMTAwODAgMzIwODBiMDAg
+MDIwMTAyMDAgMDUwOTA0MDAgMDAwMDAxMDEgMDAwNTA5MjQgMDEwMDAxMmYKZmZmZjhjOTY2NGMz
+Zjc0MCAyNTI3MjM1NDEwIFMgQ286MzowMTI6MCBzIDAxIDBiIDAwMDAgMDAwMSAwMDAwIDAKZmZm
+ZjhjOTY2NGMzZjc0MCAyNTI3MjM1ODU1IEMgQ286MzowMTI6MCAwIDAKZmZmZjhjOTY2NGMzZjc0
+MCAyNTI3MjM2NjA2IFMgQ2k6MzowMTI6MCBzIDgwIDA2IDAzMDUgMDQwOSAwMDA0IDQgPApmZmZm
+OGM5NjY0YzNmNzQwIDI1MjcyMzg4NjYgQyBDaTozOjAxMjowIDAgNCA9IDFhMDM0NTAwCmZmZmY4
+Yzk2NjRjM2U1NDAgMjUyNzIzOTA3MCBTIENpOjM6MDEyOjAgcyA4MCAwNiAwMzAwIDAwMDAgMDBm
+ZiAyNTUgPApmZmZmOGM5NjY0YzNlNTQwIDI1MjcyNDA4NjcgQyBDaTozOjAxMjowIDAgNCA9IDA0
+MDMwOTA0CmZmZmY4Yzk2NjRjM2UzYzAgMjUyNzI0MTAzNyBTIENpOjM6MDEyOjAgcyA4MCAwNiAw
+MzA1IDA0MDkgMDAxYSAyNiA8CmZmZmY4Yzk2NjRjM2UzYzAgMjUyNzI0Mjg4MCBDIENpOjM6MDEy
+OjAgMCAyNiA9IDFhMDM0NTAwIDQ0MDA0OTAwIDQ2MDA0OTAwIDQ1MDA1MjAwIDIwMDA1MTAwIDUy
+MDAzMzAwIDMwMDAKZmZmZjhjOTY2NGMzZWNjMCAyNTI3MjQzMDE3IFMgQ2k6MzowMTI6MCBzIDgw
+IDA2IDAzMDEgMDQwOSAwMGZmIDI1NSA8CmZmZmY4Yzk2NjRjM2VjYzAgMjUyNzI0NDg4OCBDIENp
+OjM6MDEyOjAgMCAzNCA9IDIyMDM0YTAwIDY5MDA2NTAwIDZjMDA2OTAwIDIwMDA1NDAwIDY1MDA2
+MzAwIDY4MDA2ZTAwIDZmMDA2YzAwIDZmMDA2NzAwCmZmZmY4Yzk2NjRjM2U0ODAgMjUyNzI0NTA4
+MSBTIENpOjM6MDEyOjAgcyA4MCAwNiAwMzAyIDA0MDkgMDBmZiAyNTUgPApmZmZmOGM5NjY0YzNl
+NDgwIDI1MjcyNDY4OTEgQyBDaTozOjAxMjowIDAgNDAgPSAyODAzNDUwMCA0NDAwNDkwMCA0NjAw
+NDkwMCA0NTAwNTIwMCAyMDAwNDgwMCA2MTAwNmMwMCAzMDAwMjAwMCAzMjAwMmUwMApmZmZmOGM5
+NjY0YzNlNDgwIDI1MjcyNDcwNDcgUyBDaTozOjAxMjowIHMgODAgMDYgMDMwMiAwNDA5IDAwMDQg
+NCA8CmZmZmY4Yzk2NjRjM2U0ODAgMjUyNzI0ODg2NSBDIENpOjM6MDEyOjAgMCA0ID0gMjgwMzQ1
+MDAKZmZmZjhjOTY2NGMzZWNjMCAyNTI3MjQ5MDE1IFMgQ2k6MzowMTI6MCBzIDgwIDA2IDAzMDIg
+MDQwOSAwMDI4IDQwIDwKZmZmZjhjOTY2NGMzZWNjMCAyNTI3MjUwODg5IEMgQ2k6MzowMTI6MCAw
+IDQwID0gMjgwMzQ1MDAgNDQwMDQ5MDAgNDYwMDQ5MDAgNDUwMDUyMDAgMjAwMDQ4MDAgNjEwMDZj
+MDAgMzAwMDIwMDAgMzIwMDJlMDAKZmZmZjhjOTY2NGMzZTNjMCAyNTI3MjUyMDUyIFMgQ2k6Mzow
+MTI6MCBzIDgwIDA2IDAzMDIgMDQwOSAwMDA0IDQgPApmZmZmOGM5NjY0YzNlM2MwIDI1MjcyNTI4
+NjcgQyBDaTozOjAxMjowIDAgNCA9IDI4MDM0NTAwCmZmZmY4Yzk1MTRlY2NkODAgMjUyNzI1MzA2
+NyBTIENpOjM6MDEyOjAgcyA4MCAwNiAwMzAyIDA0MDkgMDAyOCA0MCA8CmZmZmY4Yzk1MTRlY2Nk
+ODAgMjUyNzI1NDkxMCBDIENpOjM6MDEyOjAgMCA0MCA9IDI4MDM0NTAwIDQ0MDA0OTAwIDQ2MDA0
+OTAwIDQ1MDA1MjAwIDIwMDA0ODAwIDYxMDA2YzAwIDMwMDAyMDAwIDMyMDAyZTAwCmZmZmY4Yzk2
+NjRjM2U1NDAgMjUyNzI1NjMxMiBTIENpOjM6MDEyOjAgcyA4MCAwNiAwMzA1IDA0MDkgMDAwNCA0
+IDwKZmZmZjhjOTY2NGMzZTU0MCAyNTI3MjU2ODY3IEMgQ2k6MzowMTI6MCAwIDQgPSAxYTAzNDUw
+MApmZmZmOGM5NjNiZGMzMjAwIDI1MjcyNTcwMjUgUyBDaTozOjAxMjowIHMgODAgMDYgMDMwNSAw
+NDA5IDAwMWEgMjYgPApmZmZmOGM5NjNiZGMzMjAwIDI1MjcyNTg4ODIgQyBDaTozOjAxMjowIDAg
+MjYgPSAxYTAzNDUwMCA0NDAwNDkwMCA0NjAwNDkwMCA0NTAwNTIwMCAyMDAwNTEwMCA1MjAwMzMw
+MCAzMDAwCmZmZmY4Yzk2M2JkYzI0ODAgMjUyNzI1OTE2NCBTIENpOjM6MDEyOjAgcyBhMSA4MSAw
+MTAwIDAyMDAgMDAwMSAxIDwKZmZmZjhjOTYzYmRjMjQ4MCAyNTI3MjYwODY0IEMgQ2k6MzowMTI6
+MCAwIDEgPSAwMApmZmZmOGM5NjNiZGMyYjQwIDI1MjcyNjEwNTcgUyBDaTozOjAxMjowIHMgYTEg
+ODEgMDIwMCAwMjAwIDAwMDIgMiA8CmZmZmY4Yzk2M2JkYzJiNDAgMjUyNzI2Mjg2NSBDIENpOjM6
+MDEyOjAgMCAyID0gMTBmOApmZmZmOGM5NjNiZGMzYjAwIDI1MjcyNjMwMTggUyBDaTozOjAxMjow
+IHMgYTEgODIgMDIwMCAwMjAwIDAwMDIgMiA8CmZmZmY4Yzk2M2JkYzNiMDAgMjUyNzI2NDg2MiBD
+IENpOjM6MDEyOjAgMCAyID0gYTBlMwpmZmZmOGM5NjNiZGMyYzAwIDI1MjcyNjUwMzUgUyBDaToz
+OjAxMjowIHMgYTEgODMgMDIwMCAwMjAwIDAwMDIgMiA8CmZmZmY4Yzk2M2JkYzJjMDAgMjUyNzI2
+Njg2NCBDIENpOjM6MDEyOjAgMCAyID0gMGZmZgpmZmZmOGM5NjNiZGMzYzgwIDI1MjcyNjcwMTEg
+UyBDaTozOjAxMjowIHMgYTEgODQgMDIwMCAwMjAwIDAwMDIgMiA8CmZmZmY4Yzk2M2JkYzNjODAg
+MjUyNzI2ODg2MyBDIENpOjM6MDEyOjAgMCAyID0gMzAwMApmZmZmOGM5NjY0YzNmNzQwIDI1Mjcy
+NjkwODggUyBDbzozOjAxMjowIHMgMDEgMGIgMDAwMCAwMDAxIDAwMDAgMApmZmZmOGM5NjY0YzNm
+NzQwIDI1MjcyNzA4NjIgQyBDbzozOjAxMjowIDAgMApmZmZmOGM5NjNiZGMzNTAwIDI1MjcyNzIx
+MDQgUyBDbzozOjAxMjowIHMgMjEgMGEgMDAwMCAwMDAyIDAwMDAgMApmZmZmOGM5NjNiZGMzNTAw
+IDI1MjcyNzI4NjQgQyBDbzozOjAxMjowIDAgMApmZmZmOGM5NjNiZGMyYTgwIDI1MjcyNzMxOTUg
+UyBDaTozOjAxMjowIHMgODEgMDYgMjIwMCAwMDAyIDAwNjEgOTcgPApmZmZmOGM5NjNiZGMyYTgw
+IDI1MjcyNzQ4ODcgQyBDaTozOjAxMjowIDAgMzMgPSAwNTBjMDkwMSBhMTAxMTUwMCAyNTAxMDll
+OSAwOWVhMDllMiAwOWNkMDliNSAwOWI2MDliMyAwOWI3NzUwMSA5NTA4ODE0MgpmZmZmOGM5NjY0
+YzNmNzQwIDI1MjcyNzY0NzEgUyBJaTozOjAxMjoyIC0xMTU6MSAxNiA8CmZmZmY4Yzk2NjRjM2Zh
+NDAgMjUyNzI3NjQ4MCBTIElpOjM6MDEyOjIgLTExNToxIDE2IDwKZmZmZjhjOTY2NGMzZjUwMCAy
+NTI3Mjc2NDgzIFMgSWk6MzowMTI6MiAtMTE1OjEgMTYgPApmZmZmOGM5NjY0YzNmMmMwIDI1Mjcy
+NzY0ODcgUyBJaTozOjAxMjoyIC0xMTU6MSAxNiA8CmZmZmY4Yzk2NjRjM2ZjODAgMjUyNzI3NjQ5
+MCBTIElpOjM6MDEyOjIgLTExNToxIDE2IDwKZmZmZjhjOTY2NGMzZmJjMCAyNTI3Mjc3MzUyIFMg
+Q286MzowMTI6MCBzIDIxIDBhIDAwMDAgMDAwMyAwMDAwIDAKZmZmZjhjOTY2NGMzZmJjMCAyNTI3
+Mjc3ODY0IEMgQ286MzowMTI6MCAwIDAKZmZmZjhjOTYzYmRjMjE4MCAyNTI3Mjc4MTQyIFMgQ2k6
+MzowMTI6MCBzIDgxIDA2IDIyMDAgMDAwMyAwMDgyIDEzMCA8CmZmZmY4Yzk2M2JkYzIxODAgMjUy
+NzI3OTg2NSBDIENpOjM6MDEyOjAgMCA2NiA9IDA2MTNmZjA5IDAxYTEwMTE1IDAwMjZmZjAwIDg1
+MDYwOTAwIDc1MDg5NTNkIDkxMDI4NTA3IDA5MDA3NTA4IDk1M2Q4MTAyCmZmZmY4Yzk2M2JkYzI5
+MDAgMjUyNzI4MTU3MiBTIElpOjM6MDEyOjQgLTExNToxIDY0IDwKZmZmZjhjOTYzYmRjMjI0MCAy
+NTI3MjgxNTc4IFMgSWk6MzowMTI6NCAtMTE1OjEgNjQgPApmZmZmOGM5NjNiZGMzZWMwIDI1Mjcy
+ODE1ODIgUyBJaTozOjAxMjo0IC0xMTU6MSA2NCA8CmZmZmY4Yzk2M2JkYzIwMDAgMjUyNzI4MTU4
+NiBTIElpOjM6MDEyOjQgLTExNToxIDY0IDwKZmZmZjhjOTYzYmRjMzk4MCAyNTI3MjgxNTkyIFMg
+SWk6MzowMTI6NCAtMTE1OjEgNjQgPApmZmZmOGM5NjNiZGMyOTAwIDI1NDcyMzg0MTcgQyBJaToz
+OjAxMjo0IDA6MSA2NCA9IDJmYmJlY2UzIDAwMjgwMjAxIDBkMGIwMTAyIDAwMDAwYTAzIDAyZmZm
+ZmZmIDBhZmYwMzAyIDAwMDAwYWZmIDA0ZTIwMGZmCmZmZmY4Yzk1ODRjY2UzYzAgMjU0NzIzODQ1
+MyBTIElpOjM6MDEyOjQgLTExNToxIDY0IDwKZmZmZjhjOTYzYmRjMjI0MCAyNTQ3MjM5NDEzIEMg
+SWk6MzowMTI6NCAwOjEgNjQgPSAyZmJiZWNlMyAwMDI4MDIwMiAwZDBiMDcwMCAwMDAwMGFmZiAw
+OGZmMmYxNSAwYWZmMDlmZiBmZmZmMGFmZiAwYTMyZmY4MgpmZmZmOGM5NWE1NTAwOWMwIDI1NDcy
+Mzk0NjQgUyBJaTozOjAxMjo0IC0xMTU6MSA2NCA8CmZmZmY4Yzk2M2JkYzNlYzAgMjU0ODE2OTQ0
+MyBDIElpOjM6MDEyOjQgMDoxIDY0ID0gMmZiYmVjZTMgMDAyODAyMDEgMGQwYjAxMDIgMDAwMDE0
+MDMgMDJmZmZmZmYgMTRmZjAzMDIgMDAwMDE0ZmYgMDRlMjAwZmYKZmZmZjhjOTVhNTUwMTE0MCAy
+NTQ4MTY5NTA1IFMgSWk6MzowMTI6NCAtMTE1OjEgNjQgPApmZmZmOGM5NjNiZGMyMDAwIDI1NDgx
+NzA0MzQgQyBJaTozOjAxMjo0IDA6MSA2NCA9IDJmYmJlY2UzIDAwMjgwMjAyIDBkMGIwNzAwIDAw
+MDAxNGZmIDA4ZmYyZjE1IDE0ZmYwOWZmIGZmZmYxNGZmIDBhMzJmZjgyCmZmZmY4Yzk1YTU1MDAw
+MDAgMjU0ODE3MDQ4MiBTIElpOjM6MDEyOjQgLTExNToxIDY0IDwKZmZmZjhjOTYzYmRjMzk4MCAy
+NTQ5MjU0NDY0IEMgSWk6MzowMTI6NCAwOjEgNjQgPSAyZmJiZWNlMyAwMDI4MDIwMSAwZDBiMDEw
+MiAwMDAwMWUwMyAwMmZmZmZmZiAxZWZmMDMwMiAwMDAwMWVmZiAwNGUyMDBmZgpmZmZmOGM5NWE1
+NTAwY2MwIDI1NDkyNTQ0OTMgUyBJaTozOjAxMjo0IC0xMTU6MSA2NCA8CmZmZmY4Yzk1ODRjY2Uz
+YzAgMjU0OTI1NTQ1OSBDIElpOjM6MDEyOjQgMDoxIDY0ID0gMmZiYmVjZTMgMDAyODAyMDIgMGQw
+YjA3MDAgMDAwMDFlZmYgMDhmZjJmMTUgMWVmZjA5ZmYgZmZmZjFlZmYgMGEzMmZmODIKZmZmZjhj
+OTVhNTUwMTM4MCAyNTQ5MjU1NDc3IFMgSWk6MzowMTI6NCAtMTE1OjEgNjQgPApmZmZmOGM5NWE1
+NTAwOWMwIDI1NTA4NTM1MTAgQyBJaTozOjAxMjo0IDA6MSA2NCA9IDJmYmJlY2UzIDAwMjgwMjAx
+IDBkMGIwMTAyIDAwMDAxNDAzIDAyZmZmZmZmIDE0ZmYwMzAyIDAwMDAxNGZmIDA0ZTIwMGZmCmZm
+ZmY4Yzk1YTU1MDA5YzAgMjU1MDg1MzU3MyBTIElpOjM6MDEyOjQgLTExNToxIDY0IDwKZmZmZjhj
+OTVhNTUwMTE0MCAyNTUwODU0NTEyIEMgSWk6MzowMTI6NCAwOjEgNjQgPSAyZmJiZWNlMyAwMDI4
+MDIwMiAwZDBiMDcwMCAwMDAwMTRmZiAwOGZmMmYxNSAxNGZmMDlmZiBmZmZmMTRmZiAwYTMyZmY4
+MgpmZmZmOGM5NWE1NTAxMTQwIDI1NTA4NTQ1NjEgUyBJaTozOjAxMjo0IC0xMTU6MSA2NCA8CmZm
+ZmY4Yzk1YTU1MDAwMDAgMjU1MjA0NzUzOCBDIElpOjM6MDEyOjQgMDoxIDY0ID0gMmZiYmVjZTMg
+MDAyODAyMDEgMGQwYjAxMDIgMDAwMDBhMDMgMDJmZmZmZmYgMGFmZjAzMDIgMDAwMDBhZmYgMDRl
+MjAwZmYKZmZmZjhjOTVhNTUwMDAwMCAyNTUyMDQ3NTk3IFMgSWk6MzowMTI6NCAtMTE1OjEgNjQg
+PApmZmZmOGM5NWE1NTAwY2MwIDI1NTIwNDg1MzEgQyBJaTozOjAxMjo0IDA6MSA2NCA9IDJmYmJl
+Y2UzIDAwMjgwMjAyIDBkMGIwNzAwIDAwMDAwYWZmIDA4ZmYyZjE1IDBhZmYwOWZmIGZmZmYwYWZm
+IDBhMzJmZjgyCmZmZmY4Yzk1ODRjY2UxODAgMjU1MjA0ODU0OSBTIElpOjM6MDEyOjQgLTExNTox
+IDY0IDwKZmZmZjhjOTVhNTUwMTM4MCAyNTUzMzExNTY4IEMgSWk6MzowMTI6NCAwOjEgNjQgPSAy
+ZmJiZWNlMyAwMDI4MDIwMSAwZDBiMDEwMiAwMDAwMDAwMyAwMmZmZmZmZiAwMGZmMDMwMiAwMDAw
+MDBmZiAwNGUyMDBmZgpmZmZmOGM5NTg0Y2NlODQwIDI1NTMzMTE2MDYgUyBJaTozOjAxMjo0IC0x
+MTU6MSA2NCA8CmZmZmY4Yzk1YTU1MDA5YzAgMjU1MzMxMjU1OCBDIElpOjM6MDEyOjQgMDoxIDY0
+ID0gMmZiYmVjZTMgMDAyODAyMDIgMGQwYjA3MDAgMDAwMDAwZmYgMDhmZjJmMTUgMDBmZjA5ZmYg
+ZmZmZjAwZmYgMGEzMmZmODIKZmZmZjhjOTVhNTUwMDljMCAyNTUzMzEyNTg3IFMgSWk6MzowMTI6
+NCAtMTE1OjEgNjQgPAo=
+--0000000000006a6eb306431e4f9e
+Content-Type: application/vnd.tcpdump.pcap; 
+	name="QR30_3up3down_brightness_started_disconnected_usbmon_All_devices.pcap"
+Content-Disposition: attachment; 
+	filename="QR30_3up3down_brightness_started_disconnected_usbmon_All_devices.pcap"
+Content-Transfer-Encoding: base64
+Content-ID: <f_mhqyacwg1>
+X-Attachment-Id: f_mhqyacwg1
 
-diff --git a/drivers/hid/hid-logitech-dj.c b/drivers/hid/hid-logitech-dj.c
-index 58a848ed248d..16a97fae8c40 100644
---- a/drivers/hid/hid-logitech-dj.c
-+++ b/drivers/hid/hid-logitech-dj.c
-@@ -149,6 +149,7 @@ struct dj_receiver_dev {
- 	struct kfifo notif_fifo;
- 	unsigned long last_query; /* in jiffies */
- 	bool ready;
-+	bool dj_mode;
- 	enum recvr_type type;
- 	unsigned int unnumbered_application;
- 	spinlock_t lock;
-@@ -641,6 +642,8 @@ static const u8 hid_reportid_size_map[NUMBER_OF_HID_REPORTS] = {
- static const struct hid_ll_driver logi_dj_ll_driver;
- 
- static int logi_dj_recv_query_paired_devices(struct dj_receiver_dev *djrcv_dev);
-+static int logi_dj_recv_switch_to_dj_mode(struct dj_receiver_dev *djrcv_dev,
-+					  unsigned int timeout);
- static void delayedwork_callback(struct work_struct *work);
- 
- static LIST_HEAD(dj_hdev_list);
-@@ -925,6 +928,9 @@ static void delayedwork_callback(struct work_struct *work)
- 		logi_dj_recv_destroy_djhid_device(djrcv_dev, &workitem);
- 		break;
- 	case WORKITEM_TYPE_UNKNOWN:
-+		if (!djrcv_dev->dj_mode)
-+			logi_dj_recv_switch_to_dj_mode(djrcv_dev, 0);
-+
- 		logi_dj_recv_query_paired_devices(djrcv_dev);
- 		break;
- 	case WORKITEM_TYPE_EMPTY:
-@@ -1318,6 +1324,9 @@ static int logi_dj_recv_query_paired_devices(struct dj_receiver_dev *djrcv_dev)
- 
- 	djrcv_dev->last_query = jiffies;
- 
-+	if (!djrcv_dev->dj_mode)
-+		return 0;
-+
- 	if (djrcv_dev->type != recvr_type_dj) {
- 		retval = logi_dj_recv_query_hidpp_devices(djrcv_dev);
- 		goto out;
-@@ -1401,6 +1410,7 @@ static int logi_dj_recv_switch_to_dj_mode(struct dj_receiver_dev *djrcv_dev,
- 	if (retval < 0)
- 		hid_err(hdev, "%s error:%d\n", __func__, retval);
- 
-+	djrcv_dev->dj_mode = retval >= 0;
- 	return retval;
- }
- 
-@@ -1937,9 +1947,11 @@ static int logi_dj_probe(struct hid_device *hdev,
- 	}
- 
- 	if (has_hidpp) {
--		retval = logi_dj_recv_switch_to_dj_mode(djrcv_dev, 0);
--		if (retval < 0)
--			goto switch_to_dj_mode_fail;
-+		/*
-+		 * This can fail with a KVM. Ignore errors to let the probe
-+		 * succeed, logi_dj_recv_queue_unknown_work will retry later.
-+		 */
-+		logi_dj_recv_switch_to_dj_mode(djrcv_dev, 0);
- 	}
- 
- 	/* This is enabling the polling urb on the IN endpoint */
-@@ -1957,17 +1969,13 @@ static int logi_dj_probe(struct hid_device *hdev,
- 		spin_lock_irqsave(&djrcv_dev->lock, flags);
- 		djrcv_dev->ready = true;
- 		spin_unlock_irqrestore(&djrcv_dev->lock, flags);
--		/*
--		 * This can fail with a KVM. Ignore errors to let the probe
--		 * succeed, logi_dj_recv_queue_unknown_work will retry later.
--		 */
-+		/* This too can fail with a KVM, ignore errors. */
- 		logi_dj_recv_query_paired_devices(djrcv_dev);
- 	}
- 
- 	return 0;
- 
- llopen_failed:
--switch_to_dj_mode_fail:
- 	hid_hw_stop(hdev);
- 
- hid_hw_start_fail:
--- 
-2.51.1
+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
+--0000000000006a6eb306431e4f9e
+Content-Type: application/vnd.tcpdump.pcap; 
+	name="QR30_3up3down_brightness_started_connected_All_devices.pcap"
+Content-Disposition: attachment; 
+	filename="QR30_3up3down_brightness_started_connected_All_devices.pcap"
+Content-Transfer-Encoding: base64
+Content-ID: <f_mhqylyq22>
+X-Attachment-Id: f_mhqylyq22
 
+1MOyoQIABAAAAAAAAAAAAP//AAD5AAAA2c0PaY7ODQAkAAAAJAAAABwAAAAAAAAAAAAAAAAACwAA
+AQABAIACCAAAAACABgABAAASANnND2mOzg0ALgAAAC4AAAAcAAAAAAAAAAAAAAAAAAgAAQEAAQCA
+AhIAAAADEgEAAgAAAEAnBgEAAAABAwoB2c0PaY7ODQAkAAAAJAAAABwAAAAAAAAAAAAAAAAACwAA
+AQABAIACCAAAAACABgACAAAiANnND2mOzg0APgAAAD4AAAAcAAAAAAAAAAAAAAAAAAgAAQEAAQCA
+AiIAAAADCQIiAAEBB6AyCQQAAAEDAAAACSEBAAABIkoABwWBAwgABNnND2mOzg0AJAAAACQAAAAc
+AAAAAAAAAAAAAAAAAAAAAAEAAQAAAggAAAAAAAkBAAAAAADZzQ9pjs4NABwAAAAcAAAAHAAAAAAA
+AAAAAAAAAAAAAAEBAAEAAAIAAAAAA9nND2mOzg0AJAAAACQAAAAcAAAAAAAAAAAAAAAAAAsAAAEA
+AgCAAggAAAAAgAYAAQAAEgDZzQ9pjs4NAC4AAAAuAAAAHAAAAAAAAAAAAAAAAAAIAAEBAAIAgAIS
+AAAAAxIBEAHvAgFAmS0BoQABAQIDAdnND2mOzg0AJAAAACQAAAAcAAAAAAAAAAAAAAAAAAsAAAEA
+AgCAAggAAAAAgAYAAgAAtgDZzQ9pjs4NANIAAADSAAAAHAAAAAAAAAAAAAAAAAAIAAEBAAIAgAK2
+AAAAAwkCtgAEAQCAMggLAAIBAgAFCQQAAAABAQAFCSQBAAEvAAEBDCQCAQEBAAIDAAAACiQGAgEB
+AwAAAAckBQgBAgAJJAMDAQMAAgAJBAEAAAECAAAJBAEBAQECAAAHJAEBAQEACyQCAQIDGAGAuwAJ
+BQMJIAEBAAAHJQEAAAAACQQCAAEDAAAACSEAAQABIiEABwWCAxAAAQkEAwACAwAAAAkhAQIAASJC
+AAcFhANAAAEHBQQDQAAB2c0PaY7ODQAkAAAAJAAAABwAAAAAAAAAAAAAAAAAAAAAAQACAAACCAAA
+AAAACQEAAAAAANnND2mOzg0AHAAAABwAAAAcAAAAAAAAAAAAAAAAAAAAAQEAAgAAAgAAAAAD2c0P
+ae/kDQCfAAAAnwAAAJ8AoGSR/IHX//8AAAAACgABAQACAAMAAAAAAEsSFgAKAAAAAAAAAAAAAAAA
+AAAAAAAAACABAAAAAAAAAAAAAEACAAAAAAAAAAAAAGADAAAAAAAAAAAAAIAEAAAAAAAAAAAAAKAF
+AAAAAAAAAAAAAMAGAAAAAAAAAAAAAOAHAAAAAAAAAAAAAAAJAAAAAAAAAAAAACAKAAAAAAAAAAAA
+ANnND2mz6Q0AJAAAACQAAAAcAADnZgSC1///AAAAAAEAAAEAAgAAAggAAAAAAAsAAAEAAADZzQ9p
+0fYNABwAAAAcAAAAHAAA52YEgtf//wAAAAABAAEBAAIAAAIAAAAAA93ND2ntXQYAWwAAAFsAAAAb
+AJD6uQOC1///AAAAAAkAAQEAAgCEAUAAAAAvu+zjACgCAQ0LAQIAAAoDAv///wr/AwIAAAr/BOIA
+/wr/Bf///wr/BrR2/wr/JQAAAAAAAAAAAAAAAAAAAAAA3c0PaaJeBgAbAAAAGwAAABsAkPq5A4LX
+//8AAAAACQAAAQACAIQBAAAAAN3ND2nrXgYAWwAAAFsAAAAbAJA6Lv+B1///AAAAAAkAAQEAAgCE
+AUAAAAAvu+zjACgCAg0LBwAAAAr/CP8vFQr/Cf///wr/CjL/ggoGCwIAAAr/DAAAAAr/JQAAAAAA
+AAAAAAAAAAAAAAAA3c0PafReBgAbAAAAGwAAABsAkDou/4HX//8AAAAACQAAAQACAIQBAAAAAN7N
+D2nvhwoAWwAAAFsAAAAbAJD6uQOC1///AAAAAAkAAQEAAgCEAUAAAAAvu+zjACgCAQ0LAQIAABQD
+Av///xT/AwIAABT/BOIA/xT/Bf///xT/BrR2/xT/JQAAAAAAAAAAAAAAAAAAAAAA3s0PaYeICgAb
+AAAAGwAAABsAkPq5A4LX//8AAAAACQAAAQACAIQBAAAAAN7ND2nEiAoAWwAAAFsAAAAbAJA6Lv+B
+1///AAAAAAkAAQEAAgCEAUAAAAAvu+zjACgCAg0LBwAAABT/CP8vFRT/Cf///xT/CjL/ghQGCwIA
+ABT/DAAAABT/JQAAAAAAAAAAAAAAAAAAAAAA3s0PacmICgAbAAAAGwAAABsAkDou/4HX//8AAAAA
+CQAAAQACAIQBAAAAAOHND2neHAAAWwAAAFsAAAAbAJD6uQOC1///AAAAAAkAAQEAAgCEAUAAAAAv
+u+zjACgCAQ0LAQIAAB4DAv///x7/AwIAAB7/BOIA/x7/Bf///x7/BrR2/x7/AAAAAAAAAAAAAAAA
+AAAAAAAA4c0PaT0dAAAbAAAAGwAAABsAkPq5A4LX//8AAAAACQAAAQACAIQBAAAAAOHND2lyIAAA
+WwAAAFsAAAAbAJA6Lv+B1///AAAAAAkAAQEAAgCEAUAAAAAvu+zjACgCAg0LBwAAAB7/CP8vFR7/
+Cf///x7/CjL/gh4GCwIAAB7/DAAAAB7/AAAAAAAAAAAAAAAAAAAAAAAA4c0PaY4gAAAbAAAAGwAA
+ABsAkDou/4HX//8AAAAACQAAAQACAIQBAAAAAOPND2nbWQoAWwAAAFsAAAAbAJD6uQOC1///AAAA
+AAkAAQEAAgCEAUAAAAAvu+zjACgCAQ0LAQIAABQDAv///xT/AwIAABT/BOIA/xT/Bf///xT/BrR2
+/xT/JQAAAAAAAAAAAAAAAAAAAAAA480PaUVaCgAbAAAAGwAAABsAkPq5A4LX//8AAAAACQAAAQAC
+AIQBAAAAAOPND2mxXQoAWwAAAFsAAAAbAJA6Lv+B1///AAAAAAkAAQEAAgCEAUAAAAAvu+zjACgC
+Ag0LBwAAABT/CP8vFRT/Cf///xT/CjL/ghQGCwIAABT/DAAAABT/JQAAAAAAAAAAAAAAAAAAAAAA
+480Pad9dCgAbAAAAGwAAABsAkDou/4HX//8AAAAACQAAAQACAIQBAAAAAOfND2lRAAAAWwAAAFsA
+AAAbAJD6uQOC1///AAAAAAkAAQEAAgCEAUAAAAAvu+zjACgCAQ0LAQIAAAoDAv///wr/AwIAAAr/
+BOIA/wr/Bf///wr/BrR2/wr/JQAAAAAAAAAAAAAAAAAAAAAA580PadMAAAAbAAAAGwAAABsAkPq5
+A4LX//8AAAAACQAAAQACAIQBAAAAAOfND2mYAQAAWwAAAFsAAAAbAJA6Lv+B1///AAAAAAkAAQEA
+AgCEAUAAAAAvu+zjACgCAg0LBwAAAAr/CP8vFQr/Cf///wr/CjL/ggoGCwIAAAr/DAAAAAr/JQAA
+AAAAAAAAAAAAAAAAAAAA580PacMBAAAbAAAAGwAAABsAkDou/4HX//8AAAAACQAAAQACAIQBAAAA
+AOnND2kp/g0AWwAAAFsAAAAbAJD6uQOC1///AAAAAAkAAQEAAgCEAUAAAAAvu+zjACgCAQ0LAQIA
+AAADAv///wD/AwIAAAD/BOIA/wD/Bf///wD/BrR2/wD/JQAAAAAAAAAAAAAAAAAAAAAA6c0PacX+
+DQAbAAAAGwAAABsAkPq5A4LX//8AAAAACQAAAQACAIQBAAAAAOnND2my/w0AWwAAAFsAAAAbAJA6
+Lv+B1///AAAAAAkAAQEAAgCEAUAAAAAvu+zjACgCAg0LBwAAAAD/CP8vFQD/Cf///wD/CjL/ggAG
+CwIAAAD/DAAAAAD/JQAAAAAAAAAAAAAAAAAAAAAA6c0PafH/DQAbAAAAGwAAABsAkDou/4HX//8A
+AAAACQAAAQACAIQBAAAAAA==
+--0000000000006a6eb306431e4f9e--
 
