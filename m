@@ -1,178 +1,134 @@
-Return-Path: <linux-input+bounces-15962-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-15963-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98EFCC446C9
-	for <lists+linux-input@lfdr.de>; Sun, 09 Nov 2025 21:30:56 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id DA23FC448C6
+	for <lists+linux-input@lfdr.de>; Sun, 09 Nov 2025 23:12:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 52A5D3ACC2E
-	for <lists+linux-input@lfdr.de>; Sun,  9 Nov 2025 20:30:55 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A293E188BE4A
+	for <lists+linux-input@lfdr.de>; Sun,  9 Nov 2025 22:12:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0318921B9FD;
-	Sun,  9 Nov 2025 20:30:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EEB74233D9C;
+	Sun,  9 Nov 2025 22:12:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="j5rEQe4G"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N+F5H1cI"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5426319C556
-	for <linux-input@vger.kernel.org>; Sun,  9 Nov 2025 20:30:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 735E22E63C
+	for <linux-input@vger.kernel.org>; Sun,  9 Nov 2025 22:12:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762720252; cv=none; b=nK9HNxz2pjR8d4uXflqtYMU8GyMTDu7AwHfzHRn/foo+BwlZqdlulTlMO+YH33gI6B+ANl0ggfpl6cL0V99TT8xnr6BEMWqQTmCyyKrH37weklohXZzl+tREah01+M4AfPrrWNYVu2Xe7X4fJ0lE+EfxD7MNAADisympNxvBhg4=
+	t=1762726342; cv=none; b=U2VHPiRffUfvfmMsgHQ9iER89K/0c5ZIKbCiM6hRP+fvKMvV11rLMPnIqLQm/4ZEM+l4ZLsdUZvLTTzh26UiMekYlH9UWzeo+icPj0cUO86bcc3hq6SqH0nsYoxl/lI0HIM6Ojb7A1in4QtSsUPOU6R8aROEfZRlCDQynPHfxG0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762720252; c=relaxed/simple;
-	bh=Fon7bVBHqCWs7RZgnZ1+1vai0j+ZDPjfvC0UsNzMFyw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FsZpjHqbVYIZQ0srv/a1nrVUnhkV9zkd8ym/xH8yIxMzw9wWtt74xxm6JWHG0ZUtwNXv2c2evcGAKbDHe1ruKayJpVGpbW7EK1UBzMSbbxNIZWyRmYcDfH5AJIYMqbVZk9Dj/6etBIu3uMygpiBPFKwmIXGvo2AV+jq2ud8QV+s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=j5rEQe4G; arc=none smtp.client-ip=209.85.219.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
-Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-8804ca2a730so37722686d6.2
-        for <linux-input@vger.kernel.org>; Sun, 09 Nov 2025 12:30:51 -0800 (PST)
+	s=arc-20240116; t=1762726342; c=relaxed/simple;
+	bh=Rwa1HbPJN67eY6r6jVf/kR/CdGG6MPx1KlADWgCTY6A=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=AEMhDiEjUlSKPAwuDo5fOMzXGUoBIyCEkLTMrd2VgsjaRonrncUVHyDkh93ATmY3bqo/GezD2qWdiNTlTvHC6AtKrV1alul0qOCXo1hpGH+LgBp/qyILuJ2S7n2kkwSj10D1UwmX1J2BR/GKum1as7kSfdue9n1SKOBpvZCar+Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=N+F5H1cI; arc=none smtp.client-ip=209.85.216.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-3436d6ca17bso1417962a91.3
+        for <linux-input@vger.kernel.org>; Sun, 09 Nov 2025 14:12:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1762720250; x=1763325050; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=T+zoPi7ReVo4yKaMu58q1KOxz/re+Q4m5E7lC8bmcxI=;
-        b=j5rEQe4GcgXHW2Z+Ys9MM3TW3sOCHRDF+7byq+HVppjYW3WKJoGL8yFDvhO8N1d8KE
-         eI0tzspCNFt5NXJOH/dqQwqi5ZYu+SUPgoaMUmXc+YvSga/mrV8x3nw/vqJs+Zibt+XG
-         WXF9aJf7MSLPAn46IaYHxERA0Z5JvfLXaJoDSJtzIyDg521cJaqqr+FjaYBzhrWKRDJG
-         vly81TlwvRmxsrCRtCXJSGAlhYHQOP+KqkcdFxsGnnOrjby/TdHTxxSeYtG0Um9VJLOX
-         xtZpbKqvGgOZ42IB2LIZIYxw0jf6rWHom/+zXxv7Nl5Mp7/fmPmSKqu5e7rmtHsex7hW
-         nWRQ==
+        d=gmail.com; s=20230601; t=1762726341; x=1763331141; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=DFsBETvXgqZ1T0X5UFRVFW6GxEeHjVXbMpngsT8Lpzw=;
+        b=N+F5H1cIv3oKu5xKmHKFuVyeYTdrUYBi1t17y0JUBhhAw4q06RDbSKKLcE4SCmAbBe
+         epZk/ia9j4CQHnhdUy2ejFQJP/6OeO1nmgcXBidEiuJfdAuLt+j6Z0o2JENofMOd3XAq
+         eY3HNEEoDj8rH1PcSx9Z62byk0kznfE5xDHHsVRC52RjSvvH11IQ2O5wSujl//ojqU6i
+         IMDOCxyzf37G1rD7TbHJ0mXSpHOdSj0IlIGubkokbMbgB9ebfows5/riaqG1sq0xg9sG
+         kalMjeXEynsVcZ8TRM2+Ek+jPne+AEtUj9LnR9Vx06cyVq9uTuflWsR4oU2HJcugZJ5k
+         pTEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762720250; x=1763325050;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=T+zoPi7ReVo4yKaMu58q1KOxz/re+Q4m5E7lC8bmcxI=;
-        b=p+7deAqdBfP+0QJCIHTAnNdgAIV5hQGK7ncJuNtwTeP5yNnERsBkZzCT2myNdeq6KV
-         1psp3HjHSF1DVwly9Fkq2dDwzUKdnumqEmXIvcE/9RxrchIIGZkOahayP3PhXK1D143a
-         EFoDMUDMFKgx1mglGyakl7au+olQP/dxK2gY1I/E5xSNcl1oCI6Om99V6ANpCkvsOJ0w
-         EODUvKcA5DThIPyS9YZSoWx4hoymvZK0MOiymwYfGaZukoOqgJPb3APXrGbxdMQRH/Ja
-         34mpR4+V/cc2fgmJRIr6wT7Q7cQ4fHuH/L9YJZS0+XzxsTxxyKfchpuOecFFoWgLNv/K
-         jtPA==
-X-Forwarded-Encrypted: i=1; AJvYcCXzi7IAScs87O9h4KxNl9Ib623nz/7uC8Zr+9wI+3EGw0sC0cFGyyyCFtoqp7BGFd6wDpIoJHmPajKzhA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxkUng1StrWisAJ8/ZydUKXAvIJTl45t06rOz/UuFPnRFNsHGAA
-	YTsJ/LNfehPPXFAP0xO/DQRxHwiFcvvqKUrdXbJmKryfVh9YJ/VtmzG1zf7v3FxHHg==
-X-Gm-Gg: ASbGncvx/J0zPSyKfrg3VMrdmpe3msbOssZZaX2CuMBrgKjV+Dlc+nBxyzSxT29YoRw
-	/3N5qcw5vdthgnizzixZFBR5W3OCaOfOxUqiI0OV/05oZGKQD2o1SoiHj+2TKeS9s321GaTxb+x
-	TXlSxvIo2YJ5OT4lB+zZOgDWsg/rh99UDJBB31V1og2ciEM+BYw1X4Uq28Wywp9N1YidiQlhQrz
-	5NcNpE/Ln3Q/DBMRV6fc2dT+E7nhS5+r1jPtMiD0qZMuTnOeTM0p7SYIldsrnsnYdo5hPwHvrU4
-	iDBOAA+Hcl0igy9NmzWFxCIxnaCVLpd6GkdnsueiqxpXo8Y+vKye/eQ1TFwKipbFTMNzGQBqBOs
-	+OzaupS+xVqQuNAvUK9eLJcW4IVpUeuRxYNgxUYRDJ08g+i3Qupa26bJfJDxrY0TIVQg1AyoNSi
-	NorA==
-X-Google-Smtp-Source: AGHT+IHHifTVv9Ze79r9HQWDPss+Dk+gNK4gj+p2SjnA94jCI+5ReaBS6mbIyqbtvcOiDvcGREn9xw==
-X-Received: by 2002:ad4:5761:0:b0:880:46a7:b1c3 with SMTP id 6a1803df08f44-88238622d96mr90879136d6.28.1762720250249;
-        Sun, 09 Nov 2025 12:30:50 -0800 (PST)
-Received: from rowland.harvard.edu ([2601:19b:d03:1700::db9a])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8823892b84bsm38367086d6.10.2025.11.09.12.30.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 09 Nov 2025 12:30:49 -0800 (PST)
-Date: Sun, 9 Nov 2025 15:30:46 -0500
-From: Alan Stern <stern@rowland.harvard.edu>
-To: The-Luga <lugathe2@gmail.com>
-Cc: Michal Pecio <michal.pecio@gmail.com>,
-	Terry Junge <linuxsound@cosmicgizmosystems.com>,
-	linux-sound@vger.kernel.org, linux-usb@vger.kernel.org,
-	linux-input@vger.kernel.org
-Subject: Re: [BUG] Edifier QR30 (2d99:a101, Jieli Technology) reboots itself
- when RGB brightness button is used under Linux
-Message-ID: <6999b5b2-a242-432e-8100-5d8ee58bcae8@rowland.harvard.edu>
-References: <3eb2564d-5008-434e-9698-99b0cbe4d1cc@cosmicgizmosystems.com>
- <CALvgqECkMdntW2He8C7EcvOtCL-PpiXM9xNXWHzGtgimDxezHA@mail.gmail.com>
- <d7e888a6-6a65-40c1-84af-058b97ca0178@rowland.harvard.edu>
- <CALvgqED=rBkNYGkFdOXjUi1g_vbLac5Z38Z9xCRfpF-Vmy4Mww@mail.gmail.com>
- <c5c863f0-1c68-4d49-ba9b-b55c0f71d30c@rowland.harvard.edu>
- <CALvgqEAo8-MhE3ievoDkq4AOxRZ2E52kcko+GxYyf+WZE2H0=g@mail.gmail.com>
- <20251109092450.693bcbe5.michal.pecio@gmail.com>
- <CALvgqEC1EpJy58LhppgLYkCyaZL+qv34b8PmvTvJV8DYfp=gzA@mail.gmail.com>
- <25f2419a-ee91-41eb-9446-87d238b4c7c4@rowland.harvard.edu>
- <CALvgqEBu_RzQYRSJnbu58XZt5wHX6PRD8i-J7Tovh7+KuhOyag@mail.gmail.com>
+        d=1e100.net; s=20230601; t=1762726341; x=1763331141;
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=DFsBETvXgqZ1T0X5UFRVFW6GxEeHjVXbMpngsT8Lpzw=;
+        b=J37GezbVGDSq0VB70zdGultF5bAsQcwSKx1dmhXcEQigWBp4ze8zXm9Q6iSShegPpM
+         DSc9UJ8mh9cYuD3gRziLSun7nZpT1SD2Qe7jsDySBTFFd/0QCurFiQOvuHGm9IFecwaj
+         447OU8IOxavqCZqwVMhoMPrgc9NQcKEEVEOFbuh/mG2NjDqVvq4XXl7wZDPdgY0KfiQP
+         99tTiCDFoEUJGs5NHF86BFYkh69WjsPqZTKGQ6dGKdssFkHrpMxBFJ+0Uh3AecHTxK31
+         GH1uRKq/k2bT5BoKDRXzU3qgdtwTbTSOnni9l0ud6Twcbc4oR3bUs5YNg04gdhOSQNXi
+         kV5Q==
+X-Gm-Message-State: AOJu0Yxz43Ks9XkTRskY2CxL2PzEql9s7Nvjk+CHuvpY5yNNrHYvVFaH
+	2Zw+cmzpy9KwyxaLGUObLayeQr2uACrrvBCT/Ji+oMrHmfxnh3soQIzm7ixHJ4rczrYrVvlXbjR
+	ktBM/SICy8MSLFpdibgANISeo8MKtuIA=
+X-Gm-Gg: ASbGnctv5vDzSSx7GVSb8AGvDI/8BaAhPpnrQ5dSW18VUB/y4Qrk2EEOV90OwTie1fP
+	Nt0PwwcKRcwtioC33UHRuh+fTtwe0fqIrlgH+hNbJQbb52ag7XwNyD5ywhzYXrgNx3h3dnc5Nxd
+	XdBeNzvpPDZjVoyeXfC8q+22f2KD+/VwewXl3jiEFTpRlum8WilGc3NxhKqWgDS4q3dqCbljVIr
+	hfBY69kFQb+9X7TKWXamlExxoyItymFyhoHnnIm8XLkLXEFyKleoLYG+ApLxZv4CTht2A==
+X-Google-Smtp-Source: AGHT+IHYT1Y3l3e0CbliEMc6+JSmR3GV531okxpdpp1oZRz+jUr48EgzUXlwtBcN8j3fd9xawAVXm4vtI36efSsIUso=
+X-Received: by 2002:a17:90b:2d0d:b0:33b:c9b6:1cd with SMTP id
+ 98e67ed59e1d1-3436ccf9d96mr7997626a91.19.1762726340648; Sun, 09 Nov 2025
+ 14:12:20 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CALvgqEBu_RzQYRSJnbu58XZt5wHX6PRD8i-J7Tovh7+KuhOyag@mail.gmail.com>
+From: Jon Moeller <jmoeller@gmail.com>
+Date: Sun, 9 Nov 2025 14:12:09 -0800
+X-Gm-Features: AWmQ_blDm---tojiSSK-FZc63nLB6724nh5cUvbCzNbt4k8Cp9pn0N_VcZB-xBU
+Message-ID: <CABWf9sZuKy2=XjSo7WAB-9KanvDjhaXn-8P2J3_z2LgtcpwWDg@mail.gmail.com>
+Subject: [PATCH] HID: multitouch: Add palm rejection quirks to HP Spectre Trackpad.
+To: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>
+Cc: linux-input@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Sun, Nov 09, 2025 at 01:44:31PM -0300, The-Luga wrote:
-> Sure!
+This patch fixes an issue where palm rejection signals from the
+ELAN trackpad in HP Spectre laptops are ignored, causing lots of
+false touches.
 
-> >echo 0 | sudo tee /sys/bus/usb/devices/3-2/bConfigurationValue
-> 0
-> ```
-> Here the device is disconnected (unconfigured but still physically on
-> the usb port).
-> 
-> >cat /sys/bus/usb/devices/3-2/bConfigurationValue
-> 
-> has no output.
+Signed-off-by: Jon Moeller <jmoeller@gmail.com>
+---
+ drivers/hid/hid-multitouch.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-As it should.
+diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
+index 179dc316b4b5..cb5d80172131 100644
+--- a/drivers/hid/hid-multitouch.c
++++ b/drivers/hid/hid-multitouch.c
+@@ -229,6 +229,7 @@ static void mt_post_parse(struct mt_device *td,
+struct mt_application *app);
+ #define MT_CLS_RAZER_BLADE_STEALTH 0x0112
+ #define MT_CLS_SMART_TECH 0x0113
+ #define MT_CLS_APPLE_TOUCHBAR 0x0114
++#define MT_CLS_HP_SPECTRE_ELAN_HAPTIC 0x0115
+ #define MT_CLS_SIS 0x0457
 
-> ```
-> >sudo lsusb -v -d 2d99:a101
-...
-> >     Interface Descriptor:
->       bLength                 9
->       bDescriptorType         4
->       bInterfaceNumber        3
->       bAlternateSetting       0
->       bNumEndpoints           2
->       bInterfaceClass         3 Human Interface Device
->       bInterfaceSubClass      0 [unknown]
->       bInterfaceProtocol      0
->       iInterface              0
->         HID Device Descriptor:
->           bLength                 9
->           bDescriptorType        33
->           bcdHID               2.01
->           bCountryCode            0 Not supported
->           bNumDescriptors         1
->           bDescriptorType        34 Report
->           wDescriptorLength      66
->           Report Descriptors:
->             ** UNAVAILABLE **
->       Endpoint Descriptor:
->         bLength                 7
->         bDescriptorType         5
->         bEndpointAddress     0x84  EP 4 IN
->         bmAttributes            3
->           Transfer Type            Interrupt
->           Synch Type               None
->           Usage Type               Data
->         wMaxPacketSize     0x0040  1x 64 bytes
->         bInterval               1
->       Endpoint Descriptor:
->         bLength                 7
->         bDescriptorType         5
->         bEndpointAddress     0x04  EP 4 OUT
->         bmAttributes            3
->           Transfer Type            Interrupt
->           Synch Type               None
->           Usage Type               Data
->         wMaxPacketSize     0x0040  1x 64 bytes
->         bInterval               1
-> Device Status:     0x0000
->   (Bus Powered)
-> ```
-> It seems that the output of lsusb has not changed.
+ #define MT_DEFAULT_MAXCONTACT 10
+@@ -420,6 +421,13 @@ static const struct mt_class mt_classes[] = {
+  MT_QUIRK_APPLE_TOUCHBAR,
+  .maxcontacts = 11,
+  },
++ { .name = MT_CLS_HP_SPECTRE_ELAN_HAPTIC,
++ .quirks = MT_QUIRK_ALWAYS_VALID |
++ MT_QUIRK_SLOT_IS_CONTACTID |
++ MT_QUIRK_CONTACT_CNT_ACCURATE |
++ MT_QUIRK_CONFIDENCE |
++ MT_QUIRK_WIN8_PTP_BUTTONS,
++ },
+  { .name = MT_CLS_SIS,
+  .quirks = MT_QUIRK_NOT_SEEN_MEANS_UP |
+  MT_QUIRK_ALWAYS_VALID |
+@@ -2148,6 +2156,12 @@ static const struct hid_device_id mt_devices[] = {
+  HID_DEVICE(BUS_I2C, HID_GROUP_MULTITOUCH_WIN_8,
+  USB_VENDOR_ID_ELAN, 0x3148) },
 
-My mistake.  Unconfiguring the device prevents lsusb from accessing the 
-report descriptor.  What you really need to do is unbind the interface 
-first.
-
-But never mind that.  Try using the usbhid-dump program instead of 
-lsusb.  usbhid-dump does not require you to unbind anything or change 
-bConfigurationValue, so it's easier to use anyway.
-
-Alan Stern
++ { .driver_data = MT_CLS_HP_SPECTRE_ELAN_HAPTIC,
++ HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, 0x32c8) },
++
++ { .driver_data = MT_CLS_HP_SPECTRE_ELAN_HAPTIC,
++ HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, 0x310a) },
++
+  { .driver_data = MT_CLS_WIN_8_FORCE_MULTI_INPUT_NSMU,
+  HID_DEVICE(BUS_I2C, HID_GROUP_MULTITOUCH_WIN_8,
+  USB_VENDOR_ID_ELAN, 0x32ae) },
+-- 
+2.51.1
 
