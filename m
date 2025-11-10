@@ -1,111 +1,194 @@
-Return-Path: <linux-input+bounces-15967-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-15968-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8DB4C44BDA
-	for <lists+linux-input@lfdr.de>; Mon, 10 Nov 2025 02:40:10 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id C428BC44C3A
+	for <lists+linux-input@lfdr.de>; Mon, 10 Nov 2025 03:20:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 582A63A71D9
-	for <lists+linux-input@lfdr.de>; Mon, 10 Nov 2025 01:40:09 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 70C62188C37E
+	for <lists+linux-input@lfdr.de>; Mon, 10 Nov 2025 02:20:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1DA1C1FF61E;
-	Mon, 10 Nov 2025 01:40:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3DD9C22173D;
+	Mon, 10 Nov 2025 02:20:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="jJPHt+UR"
 X-Original-To: linux-input@vger.kernel.org
-Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [52.229.205.26])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EDC13194A73;
-	Mon, 10 Nov 2025 01:40:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.229.205.26
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 816C61A9FB3
+	for <linux-input@vger.kernel.org>; Mon, 10 Nov 2025 02:20:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762738807; cv=none; b=okf+emDZE8pOkTHv+M7gZT48+fRe3chcJT5m5PF4i7vpyGNWKIkZCaeZuk7mrZ6qzNGsx+kxh/nzhMv42TBUNSgav8s2xWiwafaeCZEoGAlci0RiimbF/xScA68qlDTbbjlC4SwCiODwPJS0mqtCxpvp84vWJv/ZMHe0FsqKPbw=
+	t=1762741222; cv=none; b=RmUGrGq6WPwHQwUhvztrtAksT2N8YKNKm1pXFwCcSzzT/076lGtFYTJa97t+uv8+EDm3DiZnG5H5ZzhR1fiyD1ZYYvOyENDx4r2rzQOyVzZJ0tiB88OIkuaTLcXqRtnsxCP5Q5C47ZxhWgqXovTn7UdofGrabUPBZILYeaQbFBo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762738807; c=relaxed/simple;
-	bh=uI2nNhEQ/GZqESjS3Ci8zByNzr42wVjplUtaVkmwfw4=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 MIME-Version:Message-ID; b=h0gxThEGHHwkRmyF160hmF3awcRQP6PCB6nEjU0daYoA8NIJfjPFsZOcpfpSFix/Gca21zWKZmUNwdwSJtStDFirnCqD1m8gj8Ohin00P4hk1Un8Kkfn71dT05jjlvzvammLjF9ZhhvGB+3uckXU5yJp7zYkA4/yvflXFW/o78o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn; spf=pass smtp.mailfrom=zju.edu.cn; arc=none smtp.client-ip=52.229.205.26
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zju.edu.cn
-Received: from zju.edu.cn (unknown [218.12.19.186])
-	by mtasvr (Coremail) with SMTP id _____wBnYGtYQhFpRvN9Aw--.1942S3;
-	Mon, 10 Nov 2025 09:39:37 +0800 (CST)
-Received: from duoming$zju.edu.cn ( [218.12.19.186] ) by
- ajax-webmail-mail-app4 (Coremail) ; Mon, 10 Nov 2025 09:39:35 +0800
- (GMT+08:00)
-Date: Mon, 10 Nov 2025 09:39:35 +0800 (GMT+08:00)
-X-CM-HeaderCharset: UTF-8
-From: duoming@zju.edu.cn
-To: "Andy Shevchenko" <andriy.shevchenko@linux.intel.com>
-Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-	dmitry.torokhov@gmail.com, kuba@kernel.org,
-	alexander.deucher@amd.com, pali@kernel.org,
-	hverkuil+cisco@kernel.org, akpm@linux-foundation.org,
-	tglx@linutronix.de, mingo@kernel.org, Jonathan.Cameron@huawei.com
-Subject: Re: [PATCH 0/2] Input: alps/psmouse: Fix UAF bugs and improve
- workqueue synchronization
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version 2024.3-cmXT6 build
- 20250620(94335109) Copyright (c) 2002-2025 www.mailtech.cn zju.edu.cn
-In-Reply-To: <aRC9spWVq43qJWRj@smile.fi.intel.com>
-References: <cover.1762604516.git.duoming@zju.edu.cn>
- <aRC9spWVq43qJWRj@smile.fi.intel.com>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+	s=arc-20240116; t=1762741222; c=relaxed/simple;
+	bh=7Pja3650GiAPvVsUOYd4tHJmk2Ih7XhAG5SdtB1zeQ8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZlZusAsuNMrdLga00JDz5HNwZhZ2BJEJWkqLw4bJfKIImxFN6ikcDNM5aWyLgRePIO/FsBEnciUzD6EI0Bq08wJGS7W/CBnVVW848QRg1ijfSZFirRTpoOtGz3vr5RGs88K5eGNrzJ3WpmXCGxSBqIR2PXrxjcg/qFgjIkf5Xgs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=jJPHt+UR; arc=none smtp.client-ip=209.85.160.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-4ed82ee9e57so38054671cf.0
+        for <linux-input@vger.kernel.org>; Sun, 09 Nov 2025 18:20:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rowland.harvard.edu; s=google; t=1762741219; x=1763346019; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=DMt06zAomplKqdeZIvWBTvQ6NVxA37OWYo/eottY/jI=;
+        b=jJPHt+URh/OA2rOV1qaKccqrXFBfSUMcrufGFeLoLMWiGpy/ugh6MxWV/GYeSJqSMf
+         PqF9rMpOuht2bg+aif/fEj49Uxe15Q+2w+n9QH7ZYxxhbseBcYaObOBi/N/Gt5P85hGX
+         JXC7KWhZ8h76N4xv5rfEuy/HhjrM6q/gd8YUnMTISOZMCpI9L61mSh3PaxbSA5KmGuqt
+         ed26xlJhlTAyt276APHdhBfJUc0+CcVN3/I6ZblqvcsTet88UxcuPHEC+/n1JjRTcz4g
+         m8vd3bJWZIMh90vliLMVFn6gfrNZ3xVJOUBlr/IaHFBpc9XiKagJ3BNENdKsJ8cc3X0E
+         ljdQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762741219; x=1763346019;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=DMt06zAomplKqdeZIvWBTvQ6NVxA37OWYo/eottY/jI=;
+        b=TB6bU2a8xdYcSe0RxllPMw5maBB+hpgq0hsXh/smiHqrt40lQQ+LPuC/9el14PIWZG
+         P31UmHFHOfBuBN0NcM/Ikvuinn+RXrq2NBSiy7wWBoj/V8/vMQL0a8iwiVc0asHxEBgu
+         oCpm5nGbRNOzvp8b2OKh8kh0N1TyTlslphW53rypil+Z1xhE7j/j+bn956letoJxqBun
+         LdAB+29XJsuUYXa3lS9xQz0rjKkBbuSrsE+B2jrkSdmN/iZ8h/eAx9CqAZJiGc3X2FTV
+         wJaHO94Db7OsSvdNy8Iu6MUp4RZ8WKWQ0qz8yrhznjQ+wLnoB8lKX83YDqrKexB6aAb/
+         sFSg==
+X-Forwarded-Encrypted: i=1; AJvYcCVwlsIw0KFs+Gh/nUWFjLmit21hCfPg8ealeXqYHdl/GZLocSWUSz9O2Bkuzxlt6KD1VOf/tDI5xImXhw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyk6X9TSYZIUS/pxpHq/cQqiGOaDiYQKKDg1COar2LbFEKNSV3x
+	3IaCUtJE4839V3rpMHBVg7JrDBOyjFYBT+Yn0qR1hE1sw3Br7xaZr3R+TtPhGd2/pQ==
+X-Gm-Gg: ASbGncuxczKxJ+cDpTSsZ0VnKp8/T5M/464MC2kbsXPidY12CD9lgI39pqhGIBgHC+t
+	jZGgcW5VcDWYAak7wLbmcEs4fzvp+tuchY4MP+bexCeUrfkdmDdOZezlLyAC1k8dpLQCrATmnlI
+	fKGuHtBtYYYasUkYZKP7B6/1o/dBPPdD3z2vAR2JcCCcpDn7Ep9HG+GXIwyIWKvQ6AQ7TRGXySy
+	IixgNgQoenAUMWMrzKJVZmkW09mbSxuvVwX8u/hlC1kgjPxJl2gcjLUuZfKVu0DkZ3Y9Ttj8MUj
+	BP4XaV2rZtLFwDk8xfUUPOhUARm4XMBg5rlv/ocaD9bVy8/zdeVoREnCoDE6srViiZ2mAk1MR27
+	N+fbYFAAmWmR0UgBPVCaNmNa+YpwLJtDOhaFGWMqmUh0H7pIEwgPGD+AdpgGOr8bxA48jupg2md
+	tLGcSjYAtNYkZp/bdRpJlqgfc=
+X-Google-Smtp-Source: AGHT+IERUJ5jFsOoCQARyH376JfWdQ9MhJaP9u4eNYQzRoidsnyeEWkydlLvDYSob3XPrfK34N5a4Q==
+X-Received: by 2002:a05:622a:1212:b0:4eb:9cf0:60a5 with SMTP id d75a77b69052e-4eda4ead572mr88572781cf.21.1762741219315;
+        Sun, 09 Nov 2025 18:20:19 -0800 (PST)
+Received: from rowland.harvard.edu ([2601:19b:d03:1700::db9a])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8823896a091sm44351606d6.19.2025.11.09.18.20.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 09 Nov 2025 18:20:18 -0800 (PST)
+Date: Sun, 9 Nov 2025 21:20:15 -0500
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Terry Junge <linuxhid@cosmicgizmosystems.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: The-Luga <lugathe2@gmail.com>, Michal Pecio <michal.pecio@gmail.com>,
+	Terry Junge <linuxsound@cosmicgizmosystems.com>,
+	linux-sound@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-input@vger.kernel.org
+Subject: Re: [BUG] Edifier QR30 (2d99:a101, Jieli Technology) reboots itself
+ when RGB brightness button is used under Linux
+Message-ID: <30528153-95f1-4ec7-a6bf-5da396441f86@rowland.harvard.edu>
+References: <CALvgqED=rBkNYGkFdOXjUi1g_vbLac5Z38Z9xCRfpF-Vmy4Mww@mail.gmail.com>
+ <c5c863f0-1c68-4d49-ba9b-b55c0f71d30c@rowland.harvard.edu>
+ <CALvgqEAo8-MhE3ievoDkq4AOxRZ2E52kcko+GxYyf+WZE2H0=g@mail.gmail.com>
+ <20251109092450.693bcbe5.michal.pecio@gmail.com>
+ <CALvgqEC1EpJy58LhppgLYkCyaZL+qv34b8PmvTvJV8DYfp=gzA@mail.gmail.com>
+ <25f2419a-ee91-41eb-9446-87d238b4c7c4@rowland.harvard.edu>
+ <CALvgqEBu_RzQYRSJnbu58XZt5wHX6PRD8i-J7Tovh7+KuhOyag@mail.gmail.com>
+ <6999b5b2-a242-432e-8100-5d8ee58bcae8@rowland.harvard.edu>
+ <CALvgqEBD05PwMpm00cAbFkpSWpCFP9jaBU0r-8+op+RGPtkktg@mail.gmail.com>
+ <7adc816d-169d-4213-bb67-9d070af3c4a7@cosmicgizmosystems.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Message-ID: <6e139646.22eff.19a6b6b24af.Coremail.duoming@zju.edu.cn>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID:zi_KCgCnXoVYQhFp4RgnAw--.10497W
-X-CM-SenderInfo: qssqjiasttq6lmxovvfxof0/1tbiAwQGAWkQ7n8DWgAAsx
-X-CM-DELIVERINFO: =?B?zhuWSQXKKxbFmtjJiESix3B1w3uoVhYI+vyen2ZzBEkOnu5chDpkB+ZdGnv/zQ0PbP
-	CR18AP1O1qE14oa8FDAjuhjbeRK0Kj2SFX44oHzyte4ZkH7QsSnvrFOrlAV4NCRAPS3vgx
-	uyY40kOhStlqexO5BiBLjkiNhKrdqOO0RLrZhKfBIMokf4o23YMr4YGifafL1g==
-X-Coremail-Antispam: 1Uk129KBj93XoW7WFykCFyDXF4ftw4kXr1DurX_yoW8JFWUpF
-	WrJFW7K3ykGa4UCr93Jw4xZFW8ArnxtryxtF45Gr43Cw15Xr98GrWfKrsY93W5Kr13G3W2
-	yFWqq393uFy5Z3gCm3ZEXasCq-sJn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7ZEXa
-	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
-	0xBIdaVrnRJUUUQEb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2
-	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
-	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
-	0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AK
-	xVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zVCFFI0UMc
-	02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAF
-	wI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JM4x0Y48IcxkI7V
-	AKI48G6xCjnVAKz4kxM4xvF2IEb7IF0Fy264kE64k0F24lFcxC0VAYjxAxZF0Ex2IqxwAC
-	I402YVCY1x02628vn2kIc2xKxwAKzVCY07xG64k0F24l42xK82IYc2Ij64vIr41l4I8I3I
-	0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWU
-	GVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI
-	0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0
-	rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r
-	4UJwCE64xvF2IEb7IF0Fy7YxBIdaVFxhVjvjDU0xZFpf9x07j8GYJUUUUU=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <7adc816d-169d-4213-bb67-9d070af3c4a7@cosmicgizmosystems.com>
 
-T24gU3VuLCAwOSBOb3YgMjAyNSAxODoxMzozOCArMDIwMCwgQW5keSBTaGV2Y2hlbmtvIHdyb3Rl
-Ogo+ID4gVGhpcyBwYXRjaCBzZXJpZXMgYWRkcmVzc2VzIHVzZS1hZnRlci1mcmVlIGJ1Z3MgaW4g
-dGhlIEFMUFMKPiA+IHRvdWNocGFkIGRyaXZlciBhbmQgZW5oYW5jZXMgd29ya3F1ZXVlIGhhbmRs
-aW5nIGVmZmljaWVuY3kKPiA+IGluIHRoZSBwc21vdXNlIHN1YnN5c3RlbS4KPiA+IAo+ID4gVGhl
-IGZpcnN0IHBhdGNoIGZpeGVzIGEgY3JpdGljYWwgdXNlLWFmdGVyLWZyZWUgcmFjZSBjb25kaXRp
-b24KPiA+IGluIHRoZSBBTFBTIGRyaXZlciB3aGVyZSBkZXYzX3JlZ2lzdGVyX3dvcmsgY291bGQg
-YmUgc2NoZWR1bGVkCj4gPiBhZnRlciB0aGUgYWxwc19kYXRhIHN0cnVjdHVyZSB3YXMgYWxyZWFk
-eSBmcmVlZC4gVGhpcyB3YXMgY2F1c2VkCj4gPiBieSBpbnN1ZmZpY2llbnQgc3luY2hyb25pemF0
-aW9uIGR1cmluZyBkZXZpY2UgZGlzY29ubmVjdGlvbiwKPiA+IHdoZXJlIGZsdXNoX3dvcmtxdWV1
-ZSgpIGNvdWxkbid0IHByZXZlbnQgc3Vic2VxdWVudCB3b3JrIGl0ZW0KPiA+IHN1Ym1pc3Npb25z
-Lgo+ID4gCj4gPiBUaGUgc2Vjb25kIHBhdGNoIG9wdGltaXplcyB0aGUgcHNtb3VzZSBkaXNjb25u
-ZWN0IHBhdGggYnkgcmVwbGFjaW5nCj4gPiBmbHVzaF93b3JrcXVldWUoKSB3aXRoIGRpc2FibGVf
-ZGVsYXllZF93b3JrX3N5bmMoKSBmb3IgYmV0dGVyCj4gPiBlZmZpY2llbmN5IGFuZCByb2J1c3Ru
-ZXNzLgo+IAo+IFlvdSBmb3Jnb3QgdHdvIHRoaW5nczoKPiAxKSBtYWtlIGl0IHYyIChydW4gYGdp
-dCBmb3JtYXQtcGF0Y2ggLXY8WD4gLi4uYCB3aGVyZSA8WD4gaXMgdGhlIHZlcnNpb24pOwo+IDIp
-IGNoYW5nZWxvZy4KPiAKPiBObyBuZWVkIHRvIHJlc2VuZCAodW5sZXNzIHJlcXVlc3RlZCBieSB0
-aGUgbWFpbnRhaW5lciksIGp1c3QgcmVwbHkgd2l0aCB0aGUKPiBtaXNzZWQgY2hhbmdlbG9nIGZv
-ciBub3cuCgpUaGUgY2hhbmdlcyBpbiB0aGlzIHZlcnNpb24gaW5jbHVkZSB0aGUgZm9sbG93aW5n
-OgoxKSBTcGxpdCB0aGUgb3JpZ2luYWwgcGF0Y2ggaW50byB0d28gc2VwYXJhdGUgcGF0Y2hlcyAo
-cHNtb3VzZS1iYXNlIGFuZCBhbHBzKS4KMikgRm9yIHRoZSBwc21vdXNlIHBhdGNoLCBmb2N1cyBv
-biB0aGUgcm9idXN0bmVzcyBhbmQgZWZmaWNpZW5jeSBpbXByb3ZlbWVudHMKICAgb2YgZGlzYWJs
-ZV9kZWxheWVkX3dvcmtfc3luYygpLMKgbm90IG9uwqB0aGUgVUFGIGFzcGVjdC4KCkJlc3QgUmVn
-YXJkcywKRHVvbWluZyBaaG91Cg==
+On Sun, Nov 09, 2025 at 02:49:23PM -0800, Terry Junge wrote:
+> 
+> 
+> On 11/9/2025 2:17 PM, The-Luga wrote:
+> >> But never mind that.  Try using the usbhid-dump program instead of
+> >> lsusb.  usbhid-dump does not require you to unbind anything or change
+> >> bConfigurationValue, so it's easier to use anyway.
+> > 
+> >> sudo usbhid-dump -d 2d99:a101
+> > 003:002:003:DESCRIPTOR         1762723663.045959
+> > 06 13 FF 09 01 A1 01 15 00 26 FF 00 85 06 09 00
+> > 75 08 95 3D 91 02 85 07 09 00 75 08 95 3D 81 02
+> > C0 06 14 FF 09 01 A1 01 15 00 26 FF 00 85 2E 09
+> > 00 75 08 95 3F 91 02 85 2F 09 00 75 08 95 3F 81
+> > 02 C0
+> 
+> Second HID Interface (Interface 3)
+> 
+> 06 13 ff Vendor Page ff13
+> 09 01    Usage 1
+> a1 01    Application Collection
+> 15 00    Logical Min 0
+> 26 ff 00 Logical Max 255
+> 85 06    Report ID 6
+> 09 00    Usage 0
+> 75 08    Report Size 8
+> 95 3d    Report Count 61
+> 91 02    Output
+> 85 07    Report ID 7
+> 09 00    Usage 0
+> 75 08    Report Size 8
+> 95 3d    Report Count 61
+> 81 02    Input
+> c0       End Collection
+> 06 14 ff Vendor Page ff14
+> 09 01    Usage 1
+> a1 01    Application Collection
+> 15 00    Logical Min 0
+> 26 ff 00 Logical Max 255
+> 85 2e    Report Id 2E
+> 09 00    Usage 0
+> 75 08    Report Size 8
+> 95 3f    Report Count 63
+> 91 02    Output
+> 85 2f    Report Id 2F
+> 09 00    Usage 0
+> 75 08    Report Size 8
+> 95 3f    Report Count 63
+> 81 02    Input
+> c0       End Collection
+> 
+> Two collections, both vendor unique.
+> Basically HID 'pipes' to transport vendor unique data.
+> We have only seen traces with input report ID 2F so far.
+> If we could get traces of output report ID 2E from Windows running the 
+> vendor's software (TempoHub) it might help.
+> 
+> I wonder if suspend/resume would be a problem. Maybe the device crashes 
+> when it attempts to resume?
+> Windows will not suspend this device because it has a Consumer Control
+> application collection.
+> 
+> Is there a USB quirk to stop the kernel from suspending the device?
 
+There is.  More simply, The-Luga can do:
+
+	echo on >/sys/bus/usb/devices/3-2/power/control
+
+to prevent the device from going into runtime suspend.
+
+However, I doubt that suspend/resume is the problem because the 
+disconnects occur whenever the brightness knob is moved, not at times 
+when the system might decide to suspend the device.
+
+Also, I suspect that the computer doesn't really have to do anything 
+with the HID report data from interface 3, just accept it.  At least, 
+that's what the packet capture from the Windows guest seemed to show.  
+By contrast, the usbmon trace under Linux showed no traffic on that 
+endpoint.  Without being able to send the data, the speaker's firmware 
+could just overflow an internal buffer and crash, who knows?
+
+It would be nice to get some suggestions from someone who is familiar 
+with the input subsystem.  Dmitry, can you offer anything?  For example, 
+is there a program the user can run to collect the report data that 
+currently isn't being requested?
+
+Alan Stern
 
