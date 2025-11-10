@@ -1,148 +1,159 @@
-Return-Path: <linux-input+bounces-15972-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-15973-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19CC6C45092
-	for <lists+linux-input@lfdr.de>; Mon, 10 Nov 2025 06:47:50 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B2CAC45219
+	for <lists+linux-input@lfdr.de>; Mon, 10 Nov 2025 07:54:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BE2C53ADDD4
-	for <lists+linux-input@lfdr.de>; Mon, 10 Nov 2025 05:47:48 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F087E3AE5BF
+	for <lists+linux-input@lfdr.de>; Mon, 10 Nov 2025 06:54:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0125F23B605;
-	Mon, 10 Nov 2025 05:47:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 50BD32E8E0E;
+	Mon, 10 Nov 2025 06:54:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="LacHBl70";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="IFXxq60y"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UHVMA1zO"
 X-Original-To: linux-input@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FFDB15A85A
-	for <linux-input@vger.kernel.org>; Mon, 10 Nov 2025 05:47:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7967526B760
+	for <linux-input@vger.kernel.org>; Mon, 10 Nov 2025 06:54:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762753665; cv=none; b=bc7qcxayAnVcJCee90hdEl63uBLFWKQtHQhvNbITppt/iY37tubjtCJAbqSKq4yWb8pLUIwdr5eGCB8oizmdxJNVe/y6H/q/wD+c66YzGAYddPWU/qgbgLAak/bq/83MzZQT0QQ+6qvYNTYwwZM1WJJ95OhgcHg4YLbjQJ4bDWs=
+	t=1762757661; cv=none; b=eMlr53wpVnngsoKQWXFll0/+6K3bo3QAqOCJFbnEiVX8WlSjqjeJEOTg9HUx+zoLUprHKu1jvgSecgQ/YlOSRhfgv8CFc+ZfS7YKFx7MxtCgi3BggHuwn6F3XWgt1ajZwk5avZ4+G9SAd54bhpMONrJtVbQp3WoK42XAPLfSy8s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762753665; c=relaxed/simple;
-	bh=YJ3BZTtfcw/RfpDQRx5abrEDF8mvR1AzdIWq9uO4+4o=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=sZ3POXXD7XUMI1yY+D/rd+itYo0KFOFQ4PIR240Qq6evgCLLlDM3TudHh30WsLUiruYzEf3d24dw5Hgc7Otng7YuD3pYLKBnu1/Iwn28rCMRi/ZZNgmtBMXkXuDbt9iD/kfbYZd09ttQBopXJwysjCf0geVLOvCjCrx8f0V+cH4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=LacHBl70; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=IFXxq60y; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1762753663;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=RQaAl37qZpJp8CXFfUzE16/w8LUDu3uajsmunq/iTJE=;
-	b=LacHBl70OVG3WFIAJUKmTg8r2AP9qgUX9zBjs/MCjNTOAcgZml2RR8b6uxaxgQA4AimuKY
-	Za9R73a/G6VVcSJw4340GKlZIaoj7VA24exgX9kLp1TC0PAZJHe/axtm495Xz00DDLd0iK
-	U/bmGMcMsYvvRZ2TVrGlEsXd/AYvPAY=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-114-sjTD2_hjMZmmz3nOIJWaRQ-1; Mon, 10 Nov 2025 00:47:42 -0500
-X-MC-Unique: sjTD2_hjMZmmz3nOIJWaRQ-1
-X-Mimecast-MFC-AGG-ID: sjTD2_hjMZmmz3nOIJWaRQ_1762753661
-Received: by mail-ed1-f71.google.com with SMTP id 4fb4d7f45d1cf-6416b2de86bso2126746a12.0
-        for <linux-input@vger.kernel.org>; Sun, 09 Nov 2025 21:47:41 -0800 (PST)
+	s=arc-20240116; t=1762757661; c=relaxed/simple;
+	bh=IGzhJR3ET+kJgytVpdYEBFo9n95/yM3ijudhx2ByC5s=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Jy5JPyDD9XTE/bm9bL6IoCxXxQL4MrvQCpE/sfEqU6t9RNCYbYzQH0Uvsk0N6ztO+/h1Mh/c4SECEjgF0tVcC4Lonpc0RCzB936M9gIWsmyN6eCAOPj7ENQyo9S4MzDK0/3iLw5tbmpQ595goZC835IyLvAQ3SoUxx45PVA42qQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UHVMA1zO; arc=none smtp.client-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-477770019e4so15363395e9.3
+        for <linux-input@vger.kernel.org>; Sun, 09 Nov 2025 22:54:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1762753660; x=1763358460; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=RQaAl37qZpJp8CXFfUzE16/w8LUDu3uajsmunq/iTJE=;
-        b=IFXxq60yn7NQQgsW6QAwSmGflQY5cR2p2r6Jevbmqipvf8iBKChXoDcokETmnxIJUC
-         b/KVytCo2vUHPIHqxy7b/+diIhXxZFpGWUgK4r3Uwu8bRHIuvMPk5vSfiRxxEtgaA2rI
-         hRVBB6wxg/I6vqRQtHvgsVlfLxjZfeBA0PM2vPaEnkKNLq+fFWa0jD7hbqw+1jdhpKmr
-         DC5zIf+aVp0lnP7h0WG2xZmBIf8Sz377xRBFoCXtlgodQknnbCchLZS1fF2S2O5qrf/t
-         mfXrVTUoQoXT4ro2ksyJQQkOFbRkwR5IUWHtYTBOf4iCxFuru7QLSP/L+iaaXpvn+DXX
-         kfrA==
+        d=gmail.com; s=20230601; t=1762757658; x=1763362458; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=IGzhJR3ET+kJgytVpdYEBFo9n95/yM3ijudhx2ByC5s=;
+        b=UHVMA1zOXkCqkAySe9f1V21jFbmbO4FJLuxYihOKQkivRmSP878dgmhnN5c85l5gts
+         F4T5i9Bet5LOZ6RTpe3RghRB1XCoBDTSJIDif+uYT+qK50yMTs0dbp59GDR1sWSCcT0i
+         K9iMOisrQ69LaJH0p+rElh0FPlk8uux67v7vhtZJtTNirHzcJQ+BANW9/nKsq1ZzEanO
+         P4wxpPfc03buYwCMcXMeGC3utb8qSerlSqaKiYQdQhrZj9l3XDZ9cSRXNjRYX2enPZ+r
+         tGZxkjfXKTKxxuhKifPFfU+JbxMh8+IwdTVlrGDoLJQNU+Sj6Jqw3UZ9ljJO+JwmF2Jp
+         AKRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762753660; x=1763358460;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20230601; t=1762757658; x=1763362458;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=RQaAl37qZpJp8CXFfUzE16/w8LUDu3uajsmunq/iTJE=;
-        b=lzQp+RmgkBf2FYKvFtKrVSsGcgV9DBzqNpqlk29z2sKJRqeJ1xF6LAEDDcnrHgZnJO
-         Eq0Z4sj8ADg+hgfjHmKgQbNl9d515IueAHpFbwBqCD+VzdAcKmCYHIwK+Ar66j0owt+0
-         zj95+LS2vy3PwPLRLV+Jg8GEAsg6IxX7Ny205amtgPr1nbwXuzxACRKR32AwzZhAjVc3
-         p9Z8Iat7lfeiddfqftmn5GzrK9+HxuHudLlqwgoXE7Uc1wJc43xGtyebr98+Um+47Fc3
-         dgMuFwL3cnACHB3NRgr6EbBgQCY+MS4tD9KKuC7fbqRIax0b/sLwRv9nTa2cDEevI8a/
-         Z6dw==
-X-Forwarded-Encrypted: i=1; AJvYcCUL8GXeKr+QrrAo9pVSSug3OzpWw6wE32cxgV/r9jmOuvurakz3zIki9S2mWyjtWCPi/6qSotDOLPiNIQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyQNQagGSpBaExWM/DqC6Zz1wv6zWlmOf7+gPGb2Svb2fyC4yuX
-	7C4h5jsmIv7oGFfZhH69tAEeF3RL3QIh73bd92vwuc3UNKeirwm5cf00pLmgfW/v4gxiGVhA+2S
-	utCFrJGkDdicTb7A/tqJelRKP6db1i4Odf2vBoj2uRtfVrslBFHfXbxmP8qCR0e5qARrJRfY8
-X-Gm-Gg: ASbGncteu9OFFD6B9qNDYdFb30Mf6etoos8cW9dLD8KilsihfTeR4NV1pJZX3qwOGVz
-	oyW4rHgx6Nh4lAIknWc6X6RK5a9A6RIo25leGevBsLWKThn3NQMIQDLmzUHL9M6mk5Mr9jW9eNo
-	m+6pP+9S5dfe7+e9Lh8TD0Y8ZoF5Kw0Y98A/YtobV3pjWjZ8uYbXeqHBya8tfKjTOZsTsAyq7vw
-	J5HI/LPs24gf39H7rSH7S15kgwoPUq6i2LZS+cZPVOga+Dgp4a8A1fT8wIffh4HG3ucWgTORErb
-	5IXKi/PQu9D9fJ38Rd1fDBOBrP5CW3EtmePxH3LaGmS+/S7JgWS4iDXTU2JHRSnEd9s7PTUubb9
-	Y/RBEbgiOnwIcboeNYQG6qVXEBXLl9UoLKa3hDuTatS0AtP0f
-X-Received: by 2002:a05:6402:1450:b0:640:7690:997e with SMTP id 4fb4d7f45d1cf-6415dbfba36mr5698082a12.3.1762753660472;
-        Sun, 09 Nov 2025 21:47:40 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFztFBKZhlPJh2YWtsA5qKNwBUxmLe/vKjcOZksHYngaDToN73r0z6KmaOZay6WJDpaRa9mmQ==
-X-Received: by 2002:a05:6402:1450:b0:640:7690:997e with SMTP id 4fb4d7f45d1cf-6415dbfba36mr5698062a12.3.1762753660148;
-        Sun, 09 Nov 2025 21:47:40 -0800 (PST)
-Received: from lbulwahn-thinkpadx1carbongen12.rmtde.csb ([2a02:810d:7e01:ef00:1622:5a48:afdc:799f])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6411f813eabsm10365924a12.11.2025.11.09.21.47.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 09 Nov 2025 21:47:38 -0800 (PST)
-From: Lukas Bulwahn <lbulwahn@redhat.com>
-X-Google-Original-From: Lukas Bulwahn <lukas.bulwahn@redhat.com>
-To: Job Noorman <job@noorman.info>,
-	Frank Li <Frank.Li@nxp.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	linux-input@vger.kernel.org
-Cc: Rob Herring <robh@kernel.org>,
-	kernel-janitors@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Lukas Bulwahn <lukas.bulwahn@redhat.com>
-Subject: [PATCH] MAINTAINERS: adjust file entry in HIMAX HX83112B TOUCHSCREEN SUPPORT
-Date: Mon, 10 Nov 2025 06:47:33 +0100
-Message-ID: <20251110054733.441893-1-lukas.bulwahn@redhat.com>
-X-Mailer: git-send-email 2.51.1
+        bh=IGzhJR3ET+kJgytVpdYEBFo9n95/yM3ijudhx2ByC5s=;
+        b=uwVijbteoBX3YrOUXdhh/UJbqQUIeiX4slPIuh3W5KKXFRVWxzL8jYXmndVPx7X5av
+         EZpU/+FsQKVr+QrEjns2fsd5eFfCfIf0kj1cxfT90tnWaw+gMeH7WIHWZR+vUZD3/Il5
+         RqRHVkJrRCfsi5MGK1OWz984bWYK2KlA40sd2xRVUwVxdDb2ltICeyJE+2v9fPaJjGFk
+         8dHbdAR7xZIzrgdcc9RHfzseQ7u+H52TpfHJPfEqEvebb0BGifhtftpdB+VT/wYk3XY3
+         M8KEVun3ON8BsgRKeV9v96Twvfrlc8OfndOotOoS+WkR+kTg1AGBVass9bPHMxedrCli
+         Tjvg==
+X-Forwarded-Encrypted: i=1; AJvYcCWlrYB9JSiAmRBwxYRek/4TuDFtlm7WrOr7ajv8httYOL11ieEQux0buVM21NAVf/1rdbE7EL8VDemzaA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyUZ5XuGn67rHSpQR78c5xrE+HNu8tuzAdKbAZiieifA5f3O96n
+	lAkK8HCFasw7JpVpjYiX1nhm1Mlyg+s/zNlP4G5wYiQoXumu6anXDvpbnHMPhcbJc3GzKfixQWq
+	qGOOZ+jYS4/vOMW8imBTX1KKY2Jtnnok=
+X-Gm-Gg: ASbGncubgEH7GJeM0KJSFZw2GLkmIGZpIdk/18AxO/fywjvLFKol8uUE8v+1ShdubTc
+	jtqWVZF7S6FbSb8l4/OtqHAtngpGOLjxZftnCGnH/ZMTK1/bACCvEaLK5z05BK9hMJY6npsyxdR
+	LjV6x8imMu2YMwMRz9ZWDNBQ+BwEn3H5IdV9oeFjnhk1G2fcmxanPDF8qRRQU9CasE4JphDfxhl
+	QLF2fqnN2H6QjzS7QsEG9Q87K+D5PrOJR/tLgQcJ7SbgXd9r9qBSP1DjHVD/6jIQWy2++aZm7Wa
+	fgJsYu1SBGttMzwjidPRD16Vm9V0rw4d+8Pdy1ou1cMcr/6XxQmx+XptX1xiITcb
+X-Google-Smtp-Source: AGHT+IFjOuzV7J5oUl4SknNn7zmTju1vL3jK2MgUqw01Xjh4yLtqmM5jA3P/0AT8jD67ZSS+rD6Scfsa6cZXnhkJYnA=
+X-Received: by 2002:a05:600c:820d:b0:477:7991:5d1e with SMTP id
+ 5b1f17b1804b1-47779915eb0mr28436985e9.25.1762757657595; Sun, 09 Nov 2025
+ 22:54:17 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <c5c863f0-1c68-4d49-ba9b-b55c0f71d30c@rowland.harvard.edu>
+ <CALvgqEAo8-MhE3ievoDkq4AOxRZ2E52kcko+GxYyf+WZE2H0=g@mail.gmail.com>
+ <20251109092450.693bcbe5.michal.pecio@gmail.com> <CALvgqEC1EpJy58LhppgLYkCyaZL+qv34b8PmvTvJV8DYfp=gzA@mail.gmail.com>
+ <25f2419a-ee91-41eb-9446-87d238b4c7c4@rowland.harvard.edu>
+ <CALvgqEBu_RzQYRSJnbu58XZt5wHX6PRD8i-J7Tovh7+KuhOyag@mail.gmail.com>
+ <6999b5b2-a242-432e-8100-5d8ee58bcae8@rowland.harvard.edu>
+ <CALvgqEBD05PwMpm00cAbFkpSWpCFP9jaBU0r-8+op+RGPtkktg@mail.gmail.com>
+ <7adc816d-169d-4213-bb67-9d070af3c4a7@cosmicgizmosystems.com>
+ <30528153-95f1-4ec7-a6bf-5da396441f86@rowland.harvard.edu>
+ <xrfmda5rohporc3bjax35fc7xjziai6cmdt5svjak5rps6y6jz@k6h4zlt3jgg2> <CALvgqEDZ=g+uvdSYqbD22sL_VP+n6Pda2xXuFAJyKkh3bjm6HQ@mail.gmail.com>
+In-Reply-To: <CALvgqEDZ=g+uvdSYqbD22sL_VP+n6Pda2xXuFAJyKkh3bjm6HQ@mail.gmail.com>
+From: The-Luga <lugathe2@gmail.com>
+Date: Mon, 10 Nov 2025 03:54:05 -0300
+X-Gm-Features: AWmQ_bnMi5f4xI3hauwUdiDvSmWZ0cfq3GyeyQNoDyoFUscGZuBD4yHULAKwCRQ
+Message-ID: <CALvgqEC6UW96NEYOCM5v0m4x8Si0A7AwPuMpwXt3PMqkO3eqww@mail.gmail.com>
+Subject: Re: [BUG] Edifier QR30 (2d99:a101, Jieli Technology) reboots itself
+ when RGB brightness button is used under Linux
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Alan Stern <stern@rowland.harvard.edu>, 
+	Terry Junge <linuxhid@cosmicgizmosystems.com>, Michal Pecio <michal.pecio@gmail.com>, 
+	Terry Junge <linuxsound@cosmicgizmosystems.com>, linux-sound@vger.kernel.org, 
+	linux-usb@vger.kernel.org, linux-input@vger.kernel.org, 
+	Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-From: Lukas Bulwahn <lukas.bulwahn@redhat.com>
+PROBLEM IDENTIFIED AND SOLVED (almost)
 
-Commit a311c777f298 ("dt-bindings: touchscreen: consolidate simple touch
-controller to trivial-touch.yaml") aggregates a few touchscreen yaml files
-into a common trivial-touch.yaml, but misses to adjust the reference in
-HIMAX HX83112B TOUCHSCREEN SUPPORT, which refers to the removed file
-himax,hx83112b.yaml.
+Reading this: https://docs.kernel.org/hid/hidintro.html
+and https://github.com/torvalds/linux/blob/master/drivers/hid/hid-quirks.c
 
-Make HIMAX HX83112B TOUCHSCREEN SUPPORT refer to trivial-touch.yaml, in
-order to inform the maintainer on changes to the device-tree binding
-relevant to that hardware driver.
+I decided to try the HID_QUIRK_NO_IGNORE:
 
-Signed-off-by: Lukas Bulwahn <lukas.bulwahn@redhat.com>
----
- MAINTAINERS | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I added to my kernel cmdline:
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 982998ec1134..2a881629003c 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -11213,7 +11213,7 @@ HIMAX HX83112B TOUCHSCREEN SUPPORT
- M:	Job Noorman <job@noorman.info>
- L:	linux-input@vger.kernel.org
- S:	Maintained
--F:	Documentation/devicetree/bindings/input/touchscreen/himax,hx83112b.yaml
-+F:	Documentation/devicetree/bindings/input/touchscreen/trivial-touch.yaml
- F:	drivers/input/touchscreen/himax_hx83112b.c
- 
- HIMAX HX852X TOUCHSCREEN DRIVER
--- 
-2.51.1
+usbhid.quirks=0x2d99:0xa101:0x400
 
+And everything works as it should.
+
+The usb bus is finally not silent and the speaker is not rebooting.
+
+I guess, this device just need to be included on the quirk list to
+close this bug?
+
+```
+>sudo cat /sys/kernel/debug/usb/usbmon/3u
+ffff8903020c1800 42570546 C Ii:3:002:4 0:1 64 = 2fbbec66 00021002
+21000000 00000000 00000000 00000000 00000000 00000000
+ffff8903020c1800 42570552 S Ii:3:002:4 -115:1 64 <
+ffff8903020c1800 44428557 C Ii:3:002:4 0:1 64 = 2fbbec66 00021001
+20000000 00000000 00000000 00000000 00000000 00000000
+ffff8903020c1800 44428560 S Ii:3:002:4 -115:1 64 <
+ffff8903020c1800 47318560 C Ii:3:002:4 0:1 64 = 2fbbece3 00280201
+0d020102 00001403 02000000 14ff0302 000014ff 04e200ff
+ffff8903020c1800 47318565 S Ii:3:002:4 -115:1 64 <
+ffff8903020c1800 47319560 C Ii:3:002:4 0:1 64 = 2fbbece3 00280202
+0d020700 000014ff 08ff2f15 14ff09ff ffff14ff 0a32ff82
+ffff8903020c1800 47319563 S Ii:3:002:4 -115:1 64 <
+ffff8903020c1800 47671570 C Ii:3:002:4 0:1 64 = 2fbbece3 00280201
+0d020102 00001e03 02000000 1eff0302 00001eff 04e200ff
+ffff8903020c1800 47671581 S Ii:3:002:4 -115:1 64 <
+ffff8903020c1800 47672558 C Ii:3:002:4 0:1 64 = 2fbbece3 00280202
+0d020700 00001eff 08ff2f15 1eff09ff ffff1eff 0a32ff82
+ffff8903020c1800 47672563 S Ii:3:002:4 -115:1 64 <
+ffff8903020c1800 52600567 C Ii:3:002:4 0:1 64 = 2fbbece3 00280201
+0d0b0102 00001e03 02000000 1eff0302 00001eff 04e200ff
+ffff8903020c1800 52600577 S Ii:3:002:4 -115:1 64 <
+ffff8903020c1800 52601562 C Ii:3:002:4 0:1 64 = 2fbbece3 00280202
+0d0b0700 00001eff 08ff2f15 1eff09ff ffff1eff 0a32ff82
+ffff8903020c1800 52601569 S Ii:3:002:4 -115:1 64 <
+ffff8903020c1800 54112562 C Ii:3:002:4 0:1 64 = 2fbbece3 00280201
+0d0b0102 00002803 02000000 28ff0302 000028ff 04e200ff
+ffff8903020c1800 54112569 S Ii:3:002:4 -115:1 64 <
+ffff8903020c1800 54113557 C Ii:3:002:4 0:1 64 = 2fbbece3 00280202
+0d0b0700 000028ff 08ff2f15 28ff09ff ffff28ff 0a32ff82
+ffff8903020c1800 54113562 S Ii:3:002:4 -115:1 64 <
+ffff8903020c1800 54316567 C Ii:3:002:4 0:1 64 = 2fbbece3 00280201
+0d0b0102 00003203 02000000 32ff0302 000032ff 04e200ff
+ffff8903020c1800 54316576 S Ii:3:002:4 -115:1 64 <
+ffff8903020c1800 54317559 C Ii:3:002:4 0:1 64 = 2fbbece3 00280202
+0d0b0700 000032ff 08ff2f15 32ff09ff ffff32ff 0a32ff82
+```
 
