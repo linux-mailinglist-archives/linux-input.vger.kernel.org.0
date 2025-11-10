@@ -1,204 +1,129 @@
-Return-Path: <linux-input+bounces-15975-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-15976-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id 779BCC4739A
-	for <lists+linux-input@lfdr.de>; Mon, 10 Nov 2025 15:34:46 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 93BD0C4848C
+	for <lists+linux-input@lfdr.de>; Mon, 10 Nov 2025 18:22:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id F0B01349932
-	for <lists+linux-input@lfdr.de>; Mon, 10 Nov 2025 14:34:45 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id F2C0D4F69E7
+	for <lists+linux-input@lfdr.de>; Mon, 10 Nov 2025 17:16:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F051931326F;
-	Mon, 10 Nov 2025 14:34:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF1FE2989BC;
+	Mon, 10 Nov 2025 17:16:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bVK12m3s"
+	dkim=pass (2048-bit key) header.d=cse-iitm-ac-in.20230601.gappssmtp.com header.i=@cse-iitm-ac-in.20230601.gappssmtp.com header.b="Zhf5Arc0"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDD4D3128BF;
-	Mon, 10 Nov 2025 14:34:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B34922957CD
+	for <linux-input@vger.kernel.org>; Mon, 10 Nov 2025 17:16:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762785272; cv=none; b=HUIqbR+0Vrx/d7Bz5KsADWZ9jy8J22VRO6EYbL2N+97QUpmUwga2uICZkHfCnWzID3mDtwexqX7v1v/woK5wDbrefRrBwktFNb/T/K1zXYxaEnFRWuXr+PpTafPYVNEXbIPB/bPLvJ2qdWV+lhCSRfoqfA/hoiY+D7mR8nTkygQ=
+	t=1762794975; cv=none; b=KAY9SqSgX03YuWhqwqMizj2XtAZLM2aVGX+1bt0/3bT0/hZQ6jk2BtJUY43uil0ANNQbDwZp1bbHWpduKiwUmkqp9yU17RQC3R9rkQ2HFliB+t1HQHx4hMSGVzoJjyWU/+QpKHKfvTnIvGOy9xc7UkjVyLtQ1eFLgX3/GXcoPNc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762785272; c=relaxed/simple;
-	bh=j2fpe8eJvApgn7cYpHzNxA3KOm/6F5GzlUkdK+ztIrg=;
-	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
-	 Message-Id:Subject; b=QEaIoSVU4IHHm63Mel0DyM7hge30MlwmLdnV8wT9IWMcuqrWheA7xtfgO6MSPFotHr4gnY4tPyDwYSKiBGBKTG32h0bKT8q7I9DKOLp8wKYDD4pGzpK4OYxgZ/NiAjjyXZjUryxnZmHn3PPSBKV0scU3zHNk4OSQ0ubEUAxznN8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bVK12m3s; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 140EDC19424;
-	Mon, 10 Nov 2025 14:34:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762785271;
-	bh=j2fpe8eJvApgn7cYpHzNxA3KOm/6F5GzlUkdK+ztIrg=;
-	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
-	b=bVK12m3sOJGDFFJAv7gcPUux0ZlsYHoz8PnH2HKGIBWWMecav0QArZACBn4ru6Zi7
-	 81FXrM/RxNg5UaJP+58ouJd/IAe9bT0UdbIrt3BGw+wvsuqGauYu/MdJv499XO1ymW
-	 OvlJ8WNaHJ5+nM5qMJlQC1T9p0sSju+KfQt+BZ797sGrupVW+xNeFqZJ11hNggGazj
-	 0EwZu3VofGPuIndZRHNGCaoH8uAwfS1rASsSCSnLIZbQVwd+DH6aiya+kryDtOBFFG
-	 hqHwEn55hpzNouM515HEJISFkEIZh5gILJl7r4NHoQANUD0kwSqasEu/KjQNYV/DfZ
-	 oeduGCVhBNhUg==
-Date: Mon, 10 Nov 2025 08:34:30 -0600
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	s=arc-20240116; t=1762794975; c=relaxed/simple;
+	bh=bbQpKVYp7X3/PiJvnTi8GcsVaQwcsDS13rMuUKdQLgg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Fmzmh0mg1IhLmpXEeZMiwLcJv1QIhLLpwr0OZ2tlRlKENJ6tZkr9xfZLhPzpOgp/qKuTZ36X8nGyumeDkWcfeqqxmW+NJo+LI55n3bjc7jGE8+kvakPAAMikC1aPn2oPlNNx4dVVeVFz4oy8/YJwKOvCSPUi2ciQ0Ylm6cI9uDY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cse.iitm.ac.in; spf=pass smtp.mailfrom=cse.iitm.ac.in; dkim=pass (2048-bit key) header.d=cse-iitm-ac-in.20230601.gappssmtp.com header.i=@cse-iitm-ac-in.20230601.gappssmtp.com header.b=Zhf5Arc0; arc=none smtp.client-ip=209.85.216.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cse.iitm.ac.in
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cse.iitm.ac.in
+Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-34182b1c64bso1980192a91.3
+        for <linux-input@vger.kernel.org>; Mon, 10 Nov 2025 09:16:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cse-iitm-ac-in.20230601.gappssmtp.com; s=20230601; t=1762794972; x=1763399772; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=OevTstuzEDUvJLGaVqEbCkP6tz6C+EDWu87XVAJ0E1w=;
+        b=Zhf5Arc0IehhU989ka9QToX87mez1z6C5lpdNaq1+RWgVZStXUALgVbW6qgLcC3xq2
+         9Rzt8ozXpg54MwnnNjrWFvwBPDa1cmNSMdNiHilZ4gvbmsU/McXdxHF5uYHfTYIevxdJ
+         ebpqGiebpPro6LyKTtGjj5Y2yUS1yDqItiIv+BXlj9IhPn4AcH0gPY6gm79sa/KMyHtz
+         I6dUniJkLCmDGqSUZfCl3sagr2hlU12gObaNZmq+8wRg1pyLnGCADExxMnaqjITMKPFx
+         KuOZtXdtpg8rB0jTNK60+80nyN0w8QLv4kvuz4dR2mA23liIOUz50RqL39C48XkDpXXQ
+         U31w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762794972; x=1763399772;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=OevTstuzEDUvJLGaVqEbCkP6tz6C+EDWu87XVAJ0E1w=;
+        b=Xlek0ScioNrLx2ZA3nl7HChQrKpxDASN62eG8lwAZFdf3QXp4fBSOp4JGdr67M5EQk
+         2hUtf+z1DslLUwyn4kVgomVJXPzEOFvB3uwU23uZPex1Le7ly5ujyTYRWwkNtJD+dIyL
+         Dz6sEKtzUl8NiaqXjY11SUV11j8txThuTne01Fsq+PN/sQdAgEr2ZqgAA90nQ8WN1r1O
+         FL/LhxANmtFpbrEv1zc52h/0ERrO5t4DOCCRbrVfDiiDFAIMK1sX2yhr5TEh8TNPRfuf
+         xuBC6vIKEEMrHOnRxJFh/7EbKag/APIf0bTLL1SJvistggad360BA9FHqEq9mFUupmCR
+         kIGw==
+X-Forwarded-Encrypted: i=1; AJvYcCUrsW7hFBwjAdhsmfd1k8nNbClMAs4nuM+mH/qS5V7wLGaYTxk7TNhllV684WFk4l7Tl7w46Vwx8E9fiQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwPEU7iYyJ+g0TbjsImNGrXotAEz6dFybuTC+ldHTP67yzI4Qtu
+	jMQDTcQd9aiOooZNOgbaKe9yIcZg1r2r7Ndrh6VRfx2IjeRF6oN75L2ZtlwiQXnoCpEdb5tRqYd
+	bE/AcGVY=
+X-Gm-Gg: ASbGncvyomSaG18rKOtfLChjPFnGaNCx5aqMAwIfc5j19gTQsCIj0YO5lStHRqwLDQZ
+	thih0+HdIn/vQhXgtIujGqwO0Qwof9hYatdl89oGw814fbn+HLO/CWO4yYbM02NCZbpTvPo4JGx
+	0pz+4sHvG6K9XX1PsOR5NuHnP+Bxb9TQJD4O2wMRMZOGB3ofxRqCmKqtZ1mxkoCXIILFT2fugev
+	aN+0fHb0hk4CIkY0qaJu+Y98XHsYhKocxRXitoUXY17jqeLJRw8HXEUi4b5gRAWrCE3JXSuxijB
+	Z4ut7nYlYAsYbrvjhbbA5H3YucYdB2OzXNAMa5iPU6TBDDQe9NgkjEa3BhIpqN7E998XPe1mqtL
+	ZHZPcikQOsvw4MnJWRxgXJSW6tBHPgYIObyAdOJkK5cE0XLomsRoLnA6UZKdOIHz9U4dCbgbHet
+	laZnU4kMfVhIPR8aczAZfuYtWS
+X-Google-Smtp-Source: AGHT+IEB2oBIa5nzIY4RXeZf3q6fmMvbRvpS0LMepjfTmdjnn56m//cKySPgfNyCyPbgC3K4kj+Fxw==
+X-Received: by 2002:a17:90b:3b84:b0:343:66e2:5fa8 with SMTP id 98e67ed59e1d1-3436cbf608emr10357651a91.21.1762794971385;
+        Mon, 10 Nov 2025 09:16:11 -0800 (PST)
+Received: from localhost.localdomain ([49.37.219.248])
+        by smtp.googlemail.com with ESMTPSA id 41be03b00d2f7-bb0b958af47sm7011717a12.22.2025.11.10.09.16.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 10 Nov 2025 09:16:10 -0800 (PST)
+From: Abdun Nihaal <nihaal@cse.iitm.ac.in>
+To: roderick.colenbrander@sony.com
+Cc: Abdun Nihaal <nihaal@cse.iitm.ac.in>,
+	jikos@kernel.org,
+	bentiss@kernel.org,
+	linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] HID: playstation: Fix memory leak in dualshock4_get_calibration_data()
+Date: Mon, 10 Nov 2025 22:45:50 +0530
+Message-ID: <20251110171552.95466-1-nihaal@cse.iitm.ac.in>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Sascha Hauer <s.hauer@pengutronix.de>, 
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
- Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org, 
- linux-arm-kernel@lists.infradead.org, linux-input@vger.kernel.org, 
- Mikhail Anikin <mikhail.anikin@solid-run.com>, 
- Fabio Estevam <festevam@gmail.com>, imx@lists.linux.dev, 
- Conor Dooley <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>, 
- Yazan Shhady <yazan.shhady@solid-run.com>, Shawn Guo <shawnguo@kernel.org>, 
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Simona Vetter <simona@ffwll.ch>, Neil Armstrong <neil.armstrong@linaro.org>, 
- Jon Nettleton <jon@solid-run.com>, devicetree@vger.kernel.org, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Maxime Ripard <mripard@kernel.org>, 
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- linux-kernel@vger.kernel.org, Krzysztof Kozlowski <krzk+dt@kernel.org>
-To: Josua Mayer <josua@solid-run.com>
-In-Reply-To: <20251107-imx8mp-hb-iiot-v2-0-d8233ded999e@solid-run.com>
-References: <20251107-imx8mp-hb-iiot-v2-0-d8233ded999e@solid-run.com>
-Message-Id: <176278493126.154536.17870405687578843628.robh@kernel.org>
-Subject: Re: [PATCH v2 00/11] arm64: dts: add description for solidrun
- imx8mp hummingboard-iiot
+Content-Transfer-Encoding: 8bit
 
+The memory allocated for buf is not freed in the error paths when
+ps_get_report() fails. Free buf before jumping to transfer_failed label
 
-On Fri, 07 Nov 2025 12:46:07 +0100, Josua Mayer wrote:
-> This patchset mainl adds description for 3 SolidRun boards:
-> - i.MX8MP Hummingboard IIoT
-> - SolidSense N8 Compact
-> - i.MX8MM Hummingboard Ripple
-> 
-> This includes dt bindings and a range of bug-fixes:
-> 
-> - dt bindings for the boards
-> - fix to dsi panel bindings referncing panel-common and adding port
->   property
-> - cosmetic fix to some  solidrun imx8mp boards for regulator gpio
->    polarity
-> - fix dsi hdmi bridge on hummingboard pulse
-> - compile dtbs with symbols to support overlays
-> - gpiod_set_value _can_sleep conversion for panel and touchscreen
->    drivers
-> 
-> Open Questions:
-> 
-> - How to describe HX3 USB-2.0/3.0 Hub placed on a USB-2.0-only Bus
->   (affects imx8mm-hummingboard-ripple.dts)
-> - Is "description for" implied not only on dt-bindings patches, but also
->   dts? E.g. is this commit subject acceptable?:
->   "arm64: dts: add solidrun solidsense-n8 board"
-> 
-> Signed-off-by: Josua Mayer <josua@solid-run.com>
-> ---
-> Changes in v2:
-> - fix spelling mistakes in commit descriptions.
-> - remove redundant "binding for" from subject:
->   https://elixir.bootlin.com/linux/v6.17-rc3/source/Documentation/devicetree/bindings/submitting-patches.rst
->   (Reported-by: Krzysztof Kozlowski <krzk@kernel.org>)
-> - remove one useless comment from imx8mm-sr-som.dtsi to fix long line
->   warning.
-> - change ronbo panel binding to inherit panel-common and switch
->   additionalProperties to unevaluatedProperties.
->   (Reported-by: Krzysztof Kozlowski <krzk@kernel.org>)
-> - add dt binding for winstar lvds panel
-> - fix dtbs_check for dsi & lvds panel addons
-> - change n8 board dts comment-style in header
-> - collected ack on solidrun boards bindings patch (patch 1 in the series)
->   (Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>)
-> - added standard led label property to hb-iiot multi-purpose leds
->   ensuring consistent names in case lp5562 driver starts using it.
-> - Link to v1: https://lore.kernel.org/r/20251027-imx8mp-hb-iiot-v1-0-683f86357818@solid-run.com
-> 
-> ---
-> Josua Mayer (11):
->       dt-bindings: arm: fsl: Add various solidrun i.mx8m boards
->       dt-bindings: display: panel: ronbo,rb070d30: panel-common ref
->       dt-bindings: panel: lvds: add Winstar WF70A8SYJHLNGA
->       Input: ilitek_ts_i2c: fix warning with gpio controllers that sleep
->       drm/panel: ronbo-rb070d30: fix warning with gpio controllers that sleep
->       arm64: dts: imx8mp-hummingboard-pulse/cubox-m: fix vmmc gpio polarity
->       arm64: dts: imx8mp-hummingboard-pulse: fix mini-hdmi dsi port reference
->       arm64: dts: imx8mp-sr-som: build dtbs with symbols for overlay support
->       arm64: dts: add description for solidrun imx8mp hummingboard-iiot
->       arm64: dts: add description for solidrun solidsense-n8 board
->       arm64: dts: add description for solidrun i.mx8mm som and evb
-> 
->  Documentation/devicetree/bindings/arm/fsl.yaml     |   9 +
->  .../bindings/display/panel/panel-lvds.yaml         |   2 +
->  .../bindings/display/panel/ronbo,rb070d30.yaml     |  14 +-
->  arch/arm64/boot/dts/freescale/Makefile             |  15 +
->  .../dts/freescale/imx8mm-hummingboard-ripple.dts   | 335 ++++++++
->  arch/arm64/boot/dts/freescale/imx8mm-sr-som.dtsi   | 395 ++++++++++
->  .../dts/freescale/imx8mn-solidsense-n8-compact.dts | 853 +++++++++++++++++++++
->  arch/arm64/boot/dts/freescale/imx8mp-cubox-m.dts   |   2 +-
->  ...hummingboard-iiot-panel-dsi-WJ70N3TYJHMNG0.dtso |  69 ++
->  ...ummingboard-iiot-panel-lvds-WF70A8SYJHLNGA.dtso | 105 +++
->  .../imx8mp-hummingboard-iiot-rs485-a.dtso          |  18 +
->  .../imx8mp-hummingboard-iiot-rs485-b.dtso          |  18 +
->  .../dts/freescale/imx8mp-hummingboard-iiot.dts     | 712 +++++++++++++++++
->  .../imx8mp-hummingboard-pulse-common.dtsi          |   2 +-
->  .../imx8mp-hummingboard-pulse-mini-hdmi.dtsi       |  11 +-
->  drivers/gpu/drm/panel/panel-ronbo-rb070d30.c       |   8 +-
->  drivers/input/touchscreen/ilitek_ts_i2c.c          |   4 +-
->  17 files changed, 2548 insertions(+), 24 deletions(-)
-> ---
-> base-commit: 607bcb1e539a7f2b2ba6832ba96fe3ad73b7401c
-> change-id: 20251026-imx8mp-hb-iiot-525b03beea62
-> 
-> Best regards,
-> --
-> Josua Mayer <josua@solid-run.com>
-> 
-> 
-> 
+Fixes: 947992c7fa9e ("HID: playstation: DS4: Fix calibration workaround for clone devices")
+Signed-off-by: Abdun Nihaal <nihaal@cse.iitm.ac.in>
+---
+Compile tested only. Found using static analysis.
 
+ drivers/hid/hid-playstation.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-My bot found new DTB warnings on the .dts files added or changed in this
-series.
-
-Some warnings may be from an existing SoC .dtsi. Or perhaps the warnings
-are fixed by another series. Ultimately, it is up to the platform
-maintainer whether these warnings are acceptable or not. No need to reply
-unless the platform maintainer has comments.
-
-If you already ran DT checks and didn't see these error(s), then
-make sure dt-schema is up to date:
-
-  pip3 install dtschema --upgrade
-
-
-This patch series was applied (using b4) to base:
- Base: base-commit 607bcb1e539a7f2b2ba6832ba96fe3ad73b7401c not known, ignoring
- Base: attempting to guess base-commit...
- Base: tags/v6.18-rc1 (exact match)
- Base: tags/v6.18-rc1 (use --merge-base to override)
-
-If this is not the correct base, please add 'base-commit' tag
-(or use b4 which does this automatically)
-
-New warnings running 'make CHECK_DTBS=y for arch/arm64/boot/dts/freescale/' for 20251107-imx8mp-hb-iiot-v2-0-d8233ded999e@solid-run.com:
-
-arch/arm64/boot/dts/freescale/imx8mp-hummingboard-iiot.dtb: accelerometer@53 (adi,adxl345): 'interrupt-names' is a dependency of 'interrupts-extended'
-	from schema $id: http://devicetree.org/schemas/iio/accel/adi,adxl345.yaml
-
-
-
-
+diff --git a/drivers/hid/hid-playstation.c b/drivers/hid/hid-playstation.c
+index 63f6eb9030d1..128aa6abd10b 100644
+--- a/drivers/hid/hid-playstation.c
++++ b/drivers/hid/hid-playstation.c
+@@ -1942,6 +1942,7 @@ static int dualshock4_get_calibration_data(struct dualshock4 *ds4)
+ 					 "Failed to retrieve DualShock4 calibration info: %d\n",
+ 					 ret);
+ 				ret = -EILSEQ;
++				kfree(buf);
+ 				goto transfer_failed;
+ 			} else {
+ 				break;
+@@ -1959,6 +1960,7 @@ static int dualshock4_get_calibration_data(struct dualshock4 *ds4)
+ 
+ 		if (ret) {
+ 			hid_warn(hdev, "Failed to retrieve DualShock4 calibration info: %d\n", ret);
++			kfree(buf);
+ 			goto transfer_failed;
+ 		}
+ 	}
+-- 
+2.43.0
 
 
