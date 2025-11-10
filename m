@@ -1,88 +1,86 @@
-Return-Path: <linux-input+bounces-15976-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-15977-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93BD0C4848C
-	for <lists+linux-input@lfdr.de>; Mon, 10 Nov 2025 18:22:25 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id CB75EC48561
+	for <lists+linux-input@lfdr.de>; Mon, 10 Nov 2025 18:30:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id F2C0D4F69E7
-	for <lists+linux-input@lfdr.de>; Mon, 10 Nov 2025 17:16:54 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 4F31634A98A
+	for <lists+linux-input@lfdr.de>; Mon, 10 Nov 2025 17:30:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF1FE2989BC;
-	Mon, 10 Nov 2025 17:16:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0192F2BEC3D;
+	Mon, 10 Nov 2025 17:29:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cse-iitm-ac-in.20230601.gappssmtp.com header.i=@cse-iitm-ac-in.20230601.gappssmtp.com header.b="Zhf5Arc0"
+	dkim=pass (2048-bit key) header.d=cse-iitm-ac-in.20230601.gappssmtp.com header.i=@cse-iitm-ac-in.20230601.gappssmtp.com header.b="qiuyIjfV"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B34922957CD
-	for <linux-input@vger.kernel.org>; Mon, 10 Nov 2025 17:16:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 397822C0262
+	for <linux-input@vger.kernel.org>; Mon, 10 Nov 2025 17:29:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762794975; cv=none; b=KAY9SqSgX03YuWhqwqMizj2XtAZLM2aVGX+1bt0/3bT0/hZQ6jk2BtJUY43uil0ANNQbDwZp1bbHWpduKiwUmkqp9yU17RQC3R9rkQ2HFliB+t1HQHx4hMSGVzoJjyWU/+QpKHKfvTnIvGOy9xc7UkjVyLtQ1eFLgX3/GXcoPNc=
+	t=1762795794; cv=none; b=JuJkcK+14i3E5RHHn4wCF3r5+19S1B5Yx91izOwI138qxbQts6odNfHnRBDywgV2PnMj+dGE7iSvkVKLW0sAnp4Q7WCok6RJDqJYXQWCcbkECsXLehFJkvTn1tqhhFbOhrL86wFn0A8OyrTkK+j9GJxJrvXoThop9P5GMeCUS/A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762794975; c=relaxed/simple;
-	bh=bbQpKVYp7X3/PiJvnTi8GcsVaQwcsDS13rMuUKdQLgg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Fmzmh0mg1IhLmpXEeZMiwLcJv1QIhLLpwr0OZ2tlRlKENJ6tZkr9xfZLhPzpOgp/qKuTZ36X8nGyumeDkWcfeqqxmW+NJo+LI55n3bjc7jGE8+kvakPAAMikC1aPn2oPlNNx4dVVeVFz4oy8/YJwKOvCSPUi2ciQ0Ylm6cI9uDY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cse.iitm.ac.in; spf=pass smtp.mailfrom=cse.iitm.ac.in; dkim=pass (2048-bit key) header.d=cse-iitm-ac-in.20230601.gappssmtp.com header.i=@cse-iitm-ac-in.20230601.gappssmtp.com header.b=Zhf5Arc0; arc=none smtp.client-ip=209.85.216.48
+	s=arc-20240116; t=1762795794; c=relaxed/simple;
+	bh=yivdRpurit05WrU2cZrJ+Ef2/cgeGJsEFkDdt6uHfcg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ezQ6GSiNcvR5ulXexcKx6iWiHlomYo9L3cnkmaer1D9NkzUdA+vx1zpMmVUj3jUR6hNgXIEkcB7oQKERLoXpbjMuFkwqeuczHmWanPgCTe14rrzsmp+dPOTVg3zmFZlqNcAQetF0PxzAqGriK2bWPRaciFzF0cLRGGbI3oZxsnI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cse.iitm.ac.in; spf=pass smtp.mailfrom=cse.iitm.ac.in; dkim=pass (2048-bit key) header.d=cse-iitm-ac-in.20230601.gappssmtp.com header.i=@cse-iitm-ac-in.20230601.gappssmtp.com header.b=qiuyIjfV; arc=none smtp.client-ip=209.85.210.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cse.iitm.ac.in
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cse.iitm.ac.in
-Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-34182b1c64bso1980192a91.3
-        for <linux-input@vger.kernel.org>; Mon, 10 Nov 2025 09:16:12 -0800 (PST)
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-78af3fe5b17so2540757b3a.2
+        for <linux-input@vger.kernel.org>; Mon, 10 Nov 2025 09:29:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cse-iitm-ac-in.20230601.gappssmtp.com; s=20230601; t=1762794972; x=1763399772; darn=vger.kernel.org;
+        d=cse-iitm-ac-in.20230601.gappssmtp.com; s=20230601; t=1762795792; x=1763400592; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=OevTstuzEDUvJLGaVqEbCkP6tz6C+EDWu87XVAJ0E1w=;
-        b=Zhf5Arc0IehhU989ka9QToX87mez1z6C5lpdNaq1+RWgVZStXUALgVbW6qgLcC3xq2
-         9Rzt8ozXpg54MwnnNjrWFvwBPDa1cmNSMdNiHilZ4gvbmsU/McXdxHF5uYHfTYIevxdJ
-         ebpqGiebpPro6LyKTtGjj5Y2yUS1yDqItiIv+BXlj9IhPn4AcH0gPY6gm79sa/KMyHtz
-         I6dUniJkLCmDGqSUZfCl3sagr2hlU12gObaNZmq+8wRg1pyLnGCADExxMnaqjITMKPFx
-         KuOZtXdtpg8rB0jTNK60+80nyN0w8QLv4kvuz4dR2mA23liIOUz50RqL39C48XkDpXXQ
-         U31w==
+        bh=5OL3Y3kmUNvDH8rRKkSC7um10A74MfKVea7Y92HY7Fo=;
+        b=qiuyIjfVaXwGW78FQF6Fb5PzPCf3XbUBqfkb3aHZUrZdF4zi3orXp9MEEhHcDOojzn
+         XZrP3OUZDps9VI/UEDC5Z1cYeN7tG0h4j69FCyT+guQ2wXXLVMnJpTKjNtF4wcFPtcsn
+         7+TtMxfxzM04EeN6WYdyvQTBPX/+RnwAQ15Lyn9sUveauekvP/CfllHuDeQontB0curl
+         4btUTe+jLYCH5r2+lS6J0YNyJcZAl2bwXbNPn5L3Do9MvAKPkcTjoc+fbQZrszqeoY5f
+         RHUBAPuIt7DrrnIjKxMrpMh3V5VW10bT/oXZAAltWHrlmM9s2pF/AiRxceppC/xkHvRl
+         NGHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762794972; x=1763399772;
+        d=1e100.net; s=20230601; t=1762795792; x=1763400592;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=OevTstuzEDUvJLGaVqEbCkP6tz6C+EDWu87XVAJ0E1w=;
-        b=Xlek0ScioNrLx2ZA3nl7HChQrKpxDASN62eG8lwAZFdf3QXp4fBSOp4JGdr67M5EQk
-         2hUtf+z1DslLUwyn4kVgomVJXPzEOFvB3uwU23uZPex1Le7ly5ujyTYRWwkNtJD+dIyL
-         Dz6sEKtzUl8NiaqXjY11SUV11j8txThuTne01Fsq+PN/sQdAgEr2ZqgAA90nQ8WN1r1O
-         FL/LhxANmtFpbrEv1zc52h/0ERrO5t4DOCCRbrVfDiiDFAIMK1sX2yhr5TEh8TNPRfuf
-         xuBC6vIKEEMrHOnRxJFh/7EbKag/APIf0bTLL1SJvistggad360BA9FHqEq9mFUupmCR
-         kIGw==
-X-Forwarded-Encrypted: i=1; AJvYcCUrsW7hFBwjAdhsmfd1k8nNbClMAs4nuM+mH/qS5V7wLGaYTxk7TNhllV684WFk4l7Tl7w46Vwx8E9fiQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwPEU7iYyJ+g0TbjsImNGrXotAEz6dFybuTC+ldHTP67yzI4Qtu
-	jMQDTcQd9aiOooZNOgbaKe9yIcZg1r2r7Ndrh6VRfx2IjeRF6oN75L2ZtlwiQXnoCpEdb5tRqYd
-	bE/AcGVY=
-X-Gm-Gg: ASbGncvyomSaG18rKOtfLChjPFnGaNCx5aqMAwIfc5j19gTQsCIj0YO5lStHRqwLDQZ
-	thih0+HdIn/vQhXgtIujGqwO0Qwof9hYatdl89oGw814fbn+HLO/CWO4yYbM02NCZbpTvPo4JGx
-	0pz+4sHvG6K9XX1PsOR5NuHnP+Bxb9TQJD4O2wMRMZOGB3ofxRqCmKqtZ1mxkoCXIILFT2fugev
-	aN+0fHb0hk4CIkY0qaJu+Y98XHsYhKocxRXitoUXY17jqeLJRw8HXEUi4b5gRAWrCE3JXSuxijB
-	Z4ut7nYlYAsYbrvjhbbA5H3YucYdB2OzXNAMa5iPU6TBDDQe9NgkjEa3BhIpqN7E998XPe1mqtL
-	ZHZPcikQOsvw4MnJWRxgXJSW6tBHPgYIObyAdOJkK5cE0XLomsRoLnA6UZKdOIHz9U4dCbgbHet
-	laZnU4kMfVhIPR8aczAZfuYtWS
-X-Google-Smtp-Source: AGHT+IEB2oBIa5nzIY4RXeZf3q6fmMvbRvpS0LMepjfTmdjnn56m//cKySPgfNyCyPbgC3K4kj+Fxw==
-X-Received: by 2002:a17:90b:3b84:b0:343:66e2:5fa8 with SMTP id 98e67ed59e1d1-3436cbf608emr10357651a91.21.1762794971385;
-        Mon, 10 Nov 2025 09:16:11 -0800 (PST)
+        bh=5OL3Y3kmUNvDH8rRKkSC7um10A74MfKVea7Y92HY7Fo=;
+        b=hb/cIeINK06QIVEbYXC7wrrdoVwmWwNUDWet7oye2tu8UBzDfD/Llg3x2M3JIUqLGn
+         8mZEHATB+Anfb33b7Fz9PMExAMalw0kRW+IyGb/p9MTNGc5UmwMNLgWHhHjvVHMRj68n
+         C/K/JQtljFfE95zzx3P3P5o6DUgoTbTAMoUZKSE/vO4tm/W7X80JSupFVB7jltucon1E
+         O/moQKRprNzqCX1NPrpxhlZIw3IXPyJN2GryRTqQuZlYYY+5l+ENre3aiq0AYRTP4xDs
+         6r4KvvzCgNCbEO6GF5OKYylgzxCyZOjD5vXAVFE+nAaL2RK8GiGB9vrlNj4POYDhJhnv
+         /DaQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWo7YJKG6RfskBg673wbTANAjlq8UjKZsm2B+qq34W3HXWhrTNeT0yPRswbrYob+V/5HxEfbcQmvHLEww==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyJOqWv8mxVN8kegwD5X79+JpMsiH6XXJOvFhoWpI4xSAu9p1fr
+	p7iJWwKsSaJ55UHmaFiwBdFVa4zK1SrjgF+Dr+ODlZfX0gjU+v+8EILCj54hAcDk22w=
+X-Gm-Gg: ASbGncu321XIFdLv6fhj0mL1IlhCxAjG/LXNZyqcLqsDNWca3PiWFQjiOc3VM+OKbry
+	vfqESGeRK0qbr182sYsXeBySmPr5LXbw1ls6CYJKba6Zq8SARW/Wtdg8TnnpqNfWjwGxAGejBH4
+	6oQpZLzpDttXe27T1cQJi7nrnyGYYa5FLR/yKYAnGsSSsa9Wf9i7qyHai8QDEARaUQ+ReuCh+zz
+	HUJuSBZ5IQ+O4rfwsL3S1fqay3mAD83Q5OL4+CVQIptnTssfFQEj2ZefWbrPbkpGN6lEjka/81a
+	6AqO4Fw2FtD/r+h1WlLkXJKm8B0loY+n02lbu00cI2SQYmserjxj90P8w4StKDkVeR2faqEGFLU
+	tGuMqQQLdCQ5sjNvA771vAfDNhaHj87bLgKrK3XzAFljNraVrSRA1gZ1XOF7PU9+xjN5Ev0+uH6
+	PuA6HRscWc87zwsA==
+X-Google-Smtp-Source: AGHT+IHBptCxQ+7XGOLeOR1X/58AtZt0orE0We0oyv3It40DgetpuVdWDUw0jLaNMWE6eOOOHMBwBg==
+X-Received: by 2002:a17:902:cf42:b0:295:8da4:6404 with SMTP id d9443c01a7336-297e56f9154mr118234675ad.40.1762795792464;
+        Mon, 10 Nov 2025 09:29:52 -0800 (PST)
 Received: from localhost.localdomain ([49.37.219.248])
-        by smtp.googlemail.com with ESMTPSA id 41be03b00d2f7-bb0b958af47sm7011717a12.22.2025.11.10.09.16.03
+        by smtp.googlemail.com with ESMTPSA id d9443c01a7336-29650c5eb35sm152495085ad.38.2025.11.10.09.29.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Nov 2025 09:16:10 -0800 (PST)
+        Mon, 10 Nov 2025 09:29:51 -0800 (PST)
 From: Abdun Nihaal <nihaal@cse.iitm.ac.in>
-To: roderick.colenbrander@sony.com
+To: jikos@kernel.org
 Cc: Abdun Nihaal <nihaal@cse.iitm.ac.in>,
-	jikos@kernel.org,
 	bentiss@kernel.org,
 	linux-input@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] HID: playstation: Fix memory leak in dualshock4_get_calibration_data()
-Date: Mon, 10 Nov 2025 22:45:50 +0530
-Message-ID: <20251110171552.95466-1-nihaal@cse.iitm.ac.in>
+Subject: [PATCH] HID: uclogic: Fix potential memory leak in error path
+Date: Mon, 10 Nov 2025 22:59:41 +0530
+Message-ID: <20251110172943.99887-1-nihaal@cse.iitm.ac.in>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
@@ -92,37 +90,33 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The memory allocated for buf is not freed in the error paths when
-ps_get_report() fails. Free buf before jumping to transfer_failed label
+In uclogic_params_ugee_v2_init_event_hooks(), the memory allocated for
+event_hook is not freed in the next error path. Fix that by freeing it.
 
-Fixes: 947992c7fa9e ("HID: playstation: DS4: Fix calibration workaround for clone devices")
+Fixes: a251d6576d2a ("HID: uclogic: Handle wireless device reconnection")
 Signed-off-by: Abdun Nihaal <nihaal@cse.iitm.ac.in>
 ---
 Compile tested only. Found using static analysis.
 
- drivers/hid/hid-playstation.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/hid/hid-uclogic-params.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/hid/hid-playstation.c b/drivers/hid/hid-playstation.c
-index 63f6eb9030d1..128aa6abd10b 100644
---- a/drivers/hid/hid-playstation.c
-+++ b/drivers/hid/hid-playstation.c
-@@ -1942,6 +1942,7 @@ static int dualshock4_get_calibration_data(struct dualshock4 *ds4)
- 					 "Failed to retrieve DualShock4 calibration info: %d\n",
- 					 ret);
- 				ret = -EILSEQ;
-+				kfree(buf);
- 				goto transfer_failed;
- 			} else {
- 				break;
-@@ -1959,6 +1960,7 @@ static int dualshock4_get_calibration_data(struct dualshock4 *ds4)
+diff --git a/drivers/hid/hid-uclogic-params.c b/drivers/hid/hid-uclogic-params.c
+index 59ea71299438..e28176d9d9c9 100644
+--- a/drivers/hid/hid-uclogic-params.c
++++ b/drivers/hid/hid-uclogic-params.c
+@@ -1372,8 +1372,10 @@ static int uclogic_params_ugee_v2_init_event_hooks(struct hid_device *hdev,
+ 	event_hook->hdev = hdev;
+ 	event_hook->size = ARRAY_SIZE(reconnect_event);
+ 	event_hook->event = kmemdup(reconnect_event, event_hook->size, GFP_KERNEL);
+-	if (!event_hook->event)
++	if (!event_hook->event) {
++		kfree(event_hook);
+ 		return -ENOMEM;
++	}
  
- 		if (ret) {
- 			hid_warn(hdev, "Failed to retrieve DualShock4 calibration info: %d\n", ret);
-+			kfree(buf);
- 			goto transfer_failed;
- 		}
- 	}
+ 	list_add_tail(&event_hook->list, &p->event_hooks->list);
+ 
 -- 
 2.43.0
 
