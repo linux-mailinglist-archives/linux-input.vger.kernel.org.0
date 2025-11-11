@@ -1,135 +1,120 @@
-Return-Path: <linux-input+bounces-16006-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16007-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A662C4FD37
-	for <lists+linux-input@lfdr.de>; Tue, 11 Nov 2025 22:18:26 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CCD0C4FDD3
+	for <lists+linux-input@lfdr.de>; Tue, 11 Nov 2025 22:34:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 369884E58E2
-	for <lists+linux-input@lfdr.de>; Tue, 11 Nov 2025 21:17:55 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id EB8B74E1B37
+	for <lists+linux-input@lfdr.de>; Tue, 11 Nov 2025 21:34:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8D14935CBB2;
-	Tue, 11 Nov 2025 21:17:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C9C5D326939;
+	Tue, 11 Nov 2025 21:34:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="RUcNKuYj"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="RTP36pAB"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+Received: from mail-io1-f74.google.com (mail-io1-f74.google.com [209.85.166.74])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C068535CBBA
-	for <linux-input@vger.kernel.org>; Tue, 11 Nov 2025 21:17:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C481281508
+	for <linux-input@vger.kernel.org>; Tue, 11 Nov 2025 21:34:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762895868; cv=none; b=cbDvl+x2EcGcgAVdSjlzTFZogRHGVp6AtqujznvCPVeW+qWat7KOY2FaioxwnFlOL0RmFWsJRfyAD6MiptlxrX8ti1ELsmpnxjh44EkodNKdmq+4MJCenZFvER4dgNKFdHEI1A/0bXG0oIrzMq8FmBsSyClxRoxO2O77/pfKyi0=
+	t=1762896855; cv=none; b=RxpJ09jLOr/Aes0bnmzNx1Qz09HuXbn5ndUgPK3oYM6i5+kmM0Wf6rZFBJ21SUhpjmM3oDkToflpFQU4thNvCqLgZCP+DORzBKNR3IPTmIJRGy7jBeZtd05UPc/WtQjgC+w7/uDm/1foLMU5XQHVf+lRSBHRI1cJzIKBXNtRoVM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762895868; c=relaxed/simple;
-	bh=EKUsdAwJdrxz602ZVyGp1qIPiRrAcjyZqiMA4kgBrW8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=YGRf4SDeuI6EMw5jlthApBlslKARYvK22cMUbwQuUqQ7cUxwlZeVKLkOu2D7nAYegZSTswO5cm6Quyq/MiXW91ed2o85029yHpGHzSmditcqF+E/gaKHlPoNFdOa0gNOZVgZz6kb0YmuGN+QH0tIvk+f72iwrVJ5xEyffFC3Szs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=RUcNKuYj; arc=none smtp.client-ip=209.85.218.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-b71397df721so33464166b.1
-        for <linux-input@vger.kernel.org>; Tue, 11 Nov 2025 13:17:46 -0800 (PST)
+	s=arc-20240116; t=1762896855; c=relaxed/simple;
+	bh=EpsHWbCPS9QBJDYgd2PMk6G793IhLD6U7GlG4xPdmcs=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=exXwILuO48EJnWeQbKTteoQ323xWchMFa46PDciMRbd/PAhM8yr4FqADtpe0q/PBiPbFgfhE48zycdb4zeYy5Gv8QMEQibekuJG5+6lCcvhG0LV3B1EH+Nnx+HZRXjQ3OgpTI2qxDSz0jhI6GmOF9TZnkXSsXtvBJUD2gSuGkqs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jdenose.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=RTP36pAB; arc=none smtp.client-ip=209.85.166.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jdenose.bounces.google.com
+Received: by mail-io1-f74.google.com with SMTP id ca18e2360f4ac-9489c833d89so16047039f.2
+        for <linux-input@vger.kernel.org>; Tue, 11 Nov 2025 13:34:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1762895864; x=1763500664; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EUTN1IPcVAO8kjorL9CBDMgcIux7FnelwiSriuq3hFI=;
-        b=RUcNKuYj+b2zzhU+F1qoYThc1unVCBrNw1UqjkDQbC2Iq5mdIPx73Ir1QrLlQaejh7
-         IXMHkDeAzfrBIspn1USkxkiA6CNuU+22KVXZaBX35JyOCpilbkMYSTE4bEea4edVgvtw
-         r3+W2IYPgiH+M7xJqXvE4duoJ2mJ9AT1ULHjU=
+        d=google.com; s=20230601; t=1762896853; x=1763501653; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=faoL/581sKLIsYsWqc2fTjhaZ/7dqlOr2SS7YQEysnk=;
+        b=RTP36pABvNesvLLaLW+q4Ft6in/TEzB+g25EuSsaawLo2+L8l9FnOTWJw0MfiRz+yk
+         QbYVKaWFcaMOO+AUEw7VKeGvaPqOG4h6lDSwfcObx+8o9vbCMnDS5Xm8CWDsu8evuciO
+         em78SWtKRIHTtIgGeYHzjWell0SJExtTHChQ8nN57K3y8olvpd0opN7oMn4Q9rCbERG/
+         FIwaP/i6X2zAV03PlPynPuXOWemBzkYpbOBvfWUqtpVQbxiZU9cgJn2O0EhMnDA2BHrS
+         +2/ltbDrkTvHriwA0SBu6cG948Zjslo+XC53tRu9nqjniZJhT8swOC/L4Tji4BRL4bLc
+         +5Tg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762895864; x=1763500664;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=EUTN1IPcVAO8kjorL9CBDMgcIux7FnelwiSriuq3hFI=;
-        b=mFicFxsJ0dnIl0sAaCwb54ox1RrMBokQ2hcswtAJ/OXXwlJoe3uH2uzgcvF3UMdksQ
-         gJhMDzOoRBGqpTjNEHrgSs/5AwqkSvTf914LxQVhJAvCi9TeTLkKu0gYalrZT93T4+EC
-         NOwr/lM5goLL1rWvFcihyd3ocYYVZxkopRwXVfaahtdBU6sRMT5mP7pEh5rTA0HbD6nO
-         3ABdyNW47Qk2LOa8kgFNmUghZ6Vc+ZXw2dG6Hmmax6+8WNMx0eSAuhiAn5yzGS4fV8OO
-         vNs1Q8oXtg7GdB/Ux5yrnttmmtv4PaazgA2yKjsUP0i6q0P7BBbSUsVvFbYm1OOBABWP
-         sUvA==
-X-Forwarded-Encrypted: i=1; AJvYcCWmCD6g5cEodPzuWPcAi9Nqys7hiklLOmxT0ZKCZ70VIUgcNVjL+hA4I5kEOXa18iZDcovvSmiITyZAZw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzm+NADTEbge2qC4jEz5tpeTaxuHwD8FtMsZhF2prVyXUC3otaJ
-	OtKlG6QLFeCkGIWSut1FnU9M7oNPzOmsEvqcAhUYYTmI+z0GLofUc7S/Rs/LnOH981O0anSqdtn
-	ZL+EfgQ==
-X-Gm-Gg: ASbGnctIXKwW3QdOv7/2IgCMj5plUA1NtW5JXLXVkS8IGbzyoSW6yTOrz63EJCb7WAo
-	7C+mcUQ9BGQdNE7yWzWHdAD5CsssYOcn+BvzLOjdj05Ax18D85rH7WigZEPVQ9tlrnFNLiWSIwR
-	xkabN1D/IeMNCOmTl5kUXkm6QxzqrRPe0XZdDqkoMM3INKrYupg3DMjgUXvpVGN7ICHTjP1HT0M
-	xppIEX1JaxCdp0Vh6o7pNFTO0Xqk9UX1Fogln9ywPATPRsIGZYtH719Zuueb7iXe44CrqdZdbHw
-	ua44QQwLyttu+3tvkFJoxE8+oY1NQ5ERwhaov0ZwJ6zYfMRIhtW00xC+t+DQUALB28SsaCSgnfZ
-	rDdJKcmqY2l8MBTzqr6R+niCvhbm9RncAGzE+hh0I19sy4Y7OrEFTSsLjvw4Zs/s2MTEo2222FR
-	QlKJt4ZK988O4g8ooYa9EbcQ7x7pukML4Mqr5CuVUYgJv0QgETY37gwhADxnVW
-X-Google-Smtp-Source: AGHT+IEHW2q9OjqEaq76FXMxATYoxBdNeKuLtY9E7e9u/u8+IaKX3GvOBSYTkUzIBfNH79vAfcbXiA==
-X-Received: by 2002:a17:906:c10f:b0:b70:ac7a:2a93 with SMTP id a640c23a62f3a-b7331aaa445mr46430166b.43.1762895864274;
-        Tue, 11 Nov 2025 13:17:44 -0800 (PST)
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com. [209.85.128.52])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b72bf4fbf3csm1426192066b.26.2025.11.11.13.17.43
-        for <linux-input@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 11 Nov 2025 13:17:43 -0800 (PST)
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-477770019e4so1888605e9.3
-        for <linux-input@vger.kernel.org>; Tue, 11 Nov 2025 13:17:43 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCV74AZiorO7LPQw2t0LqeMXxIlpeM5/qH1sldODKC43It1RsosKfcgTuiz2kkMwDibm1E/AQu5JdrZU3A==@vger.kernel.org
-X-Received: by 2002:a05:6000:3106:b0:42b:4267:83e9 with SMTP id
- ffacd0b85a97d-42b4bb8f146mr449246f8f.2.1762895862835; Tue, 11 Nov 2025
- 13:17:42 -0800 (PST)
+        d=1e100.net; s=20230601; t=1762896853; x=1763501653;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=faoL/581sKLIsYsWqc2fTjhaZ/7dqlOr2SS7YQEysnk=;
+        b=swLpwgijr+gA9DzmR3aCRa3ErEPrBng2QXM+AALspVz66ozHIfsmnv88GgOjrxxauk
+         Ks3PWkRaL5Be8n03CYTKIsUfS+Zk/dpska8vDHzyYfTXhEyvjiHz2/g7lSls88EP1m81
+         7WCsd+UGHoGmLq8RIliaZAOom4E4YxngInZ+1M8Vh81cqhwvgcrD+WQQEasjzMIvvnrY
+         ds/LzkvUUuYOxihjf3C8hwO4HtLqD/WHEIbqzBuwl4gthGgk2q8Tlbwr4ir/Zy2EnP9t
+         FawZwPuxe9iS4gTcm3DSNb/2V2GITYHsw3KoRVK6tpcSLRzgaPOhvVcvIzD2VA3eM/wO
+         OWng==
+X-Gm-Message-State: AOJu0YxyOTvpnEJ+wCZovOL7rRtWJiJSYnvH5/3jpG1sLGqNhMjtIoFd
+	czYmZIU0sv6DWrl9FwjMknKPXL3fjt2jpC/EBPUAF6FrPwpyBCzb+ozP4xxlxroyiJ1knQHNfya
+	RFN+HvA3y4g==
+X-Google-Smtp-Source: AGHT+IG/aZ9go7ZOrpCGgjTMFHeYQjMInmzwgOFE9yrvISrzaBcnwr39cpcFXvyVvz87vkDjNUO/YT25zrlI
+X-Received: from iota25.prod.google.com ([2002:a5d:8159:0:b0:945:a6dd:926f])
+ (user=jdenose job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6602:2770:b0:948:3f60:a625
+ with SMTP id ca18e2360f4ac-948c4551927mr87902539f.3.1762896853288; Tue, 11
+ Nov 2025 13:34:13 -0800 (PST)
+Date: Tue, 11 Nov 2025 21:34:05 +0000
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20251111093426.1.I76ee34ac45e1469dbeb11de0d1e47d794af7dc88@changeid>
- <20251111093426.2.I47e028c511ad8fc86a44467ae228ba4fc984f7fe@changeid>
-In-Reply-To: <20251111093426.2.I47e028c511ad8fc86a44467ae228ba4fc984f7fe@changeid>
-From: Doug Anderson <dianders@chromium.org>
-Date: Tue, 11 Nov 2025 13:17:31 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=XJ4G=wqiWQNWO+ho1oZ7AUB4k9Z+zuwUqwDS6W2TxwqQ@mail.gmail.com>
-X-Gm-Features: AWmQ_bmh-NdLykWBjDO55hn5GSOnuJolW6S6QQ2-UkYlwdUtYFi0NaIrEDSbp0Y
-Message-ID: <CAD=FV=XJ4G=wqiWQNWO+ho1oZ7AUB4k9Z+zuwUqwDS6W2TxwqQ@mail.gmail.com>
-Subject: Re: [PATCH 2/2] HID: i2c-hid: Add new FocalTech Touchscreen Chip
-To: daniel_peng@pegatron.corp-partner.google.com
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-input@vger.kernel.org, 
-	LKML <linux-kernel@vger.kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, 
-	Jiri Kosina <jikos@kernel.org>, Pin-yen Lin <treapking@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Mime-Version: 1.0
+X-B4-Tracking: v=1; b=H4sIAM2rE2kC/22Nyw6CMBBFf4XM2jEdHkpd+R+GhbQDTIKUtAQ1p
+ P9uJS5dnpPcczcI7IUDXLINPK8SxE0J8kMGZrhPPaPYxJCrvCJFJY5iMTxlMQNObpFO2COZVmu
+ q7elcWUjL2XMnr716axIPEhbn3/vJSl/76xXqb28lVGiq2hrdUlloe+2d60c+GveAJsb4AUwjq Di3AAAA
+X-Change-Id: 20251014-lid-switch-notifier-1cb9918d675d
+X-Mailer: b4 0.14.2
+Message-ID: <20251111-lid-switch-notifier-v2-0-789723d78d89@google.com>
+Subject: [PATCH v2 0/2] Implement lid-notifier for lid switch events
+From: Jonathan Denose <jdenose@google.com>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>, Jiri Kosina <jikos@kernel.org>, 
+	Benjamin Tissoires <bentiss@kernel.org>
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Jonathan Denose <jdenose@google.com>
+Content-Type: text/plain; charset="utf-8"
 
-Hi,
+To circumvent a hardware issue where the touchpad is not physically
+connected to the lid angle sensor, implement a notifier chain which
+broadcasts lid switch events and a notifier_block which can be enabled
+via a quirk to listen for those events turning the touchpad surface
+on or off based on if the lid is open or closed. This will prevent
+issues resulting from interference between the laptop lid and the
+touchpad.
 
-On Mon, Nov 10, 2025 at 5:35=E2=80=AFPM
-<daniel_peng@pegatron.corp-partner.google.com> wrote:
->
-> From: Daniel Peng <Daniel_Peng@pegatron.corp-partner.google.com>
->
-> Information for touchscreen model HKO/RB116AS01-2 as below:
-> - HID :FTSC1000
-> - slave address:0X38
-> - Interface:HID over I2C
-> - Touch control lC:FT8112
-> - I2C ID: PNP0C50
->
-> Signed-off-by: Daniel Peng <Daniel_Peng@pegatron.corp-partner.google.com>
-> ---
->
->  drivers/hid/i2c-hid/i2c-hid-of-elan.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
+Signed-off-by: Jonathan Denose <jdenose@google.com>
+---
+Changes in v2:
+- Remove notifier logic from input core and add lid-notifier module which exposes lid events
+- Kconfig: Add CONFIG_INPUT_LID_NOTIFIER option to include lid-notifier
+- Link to v1: https://lore.kernel.org/r/20251030-lid-switch-notifier-v1-0-c58dc9b1439d@google.com
 
-The subject of your patch should probably be a little less generic and
-include the ID of the chip you're adding support for. Like:
+---
+Jonathan Denose (2):
+      Input: Add lid switch notifier
+      HID: multitouch: Toggle touch surface on Elan touchpad on lid event
 
-HID: i2c-hid: Add Focaltech FT8112
+ drivers/hid/hid-multitouch.c | 32 ++++++++++++++-
+ drivers/input/Kconfig        | 11 +++++
+ drivers/input/Makefile       |  1 +
+ drivers/input/lid-notifier.c | 98 ++++++++++++++++++++++++++++++++++++++++++++
+ include/linux/input.h        |  2 +
+ 5 files changed, 143 insertions(+), 1 deletion(-)
+---
+base-commit: 3a8660878839faadb4f1a6dd72c3179c1df56787
+change-id: 20251014-lid-switch-notifier-1cb9918d675d
 
-Other than that, this patch looks fine to me assuming the problems
-with your bindings patch get worked out. You may also want to consider
-using a different email address for sending since your bindings patch
-showed up in my spam folder.
+Best regards,
+-- 
+Jonathan Denose <jdenose@google.com>
 
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
 
