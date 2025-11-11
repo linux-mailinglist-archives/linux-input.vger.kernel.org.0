@@ -1,221 +1,201 @@
-Return-Path: <linux-input+bounces-15987-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-15988-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBB56C4B80C
-	for <lists+linux-input@lfdr.de>; Tue, 11 Nov 2025 06:11:49 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E004C4BB15
+	for <lists+linux-input@lfdr.de>; Tue, 11 Nov 2025 07:39:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 90A2018845FE
-	for <lists+linux-input@lfdr.de>; Tue, 11 Nov 2025 05:12:07 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 7BC594E8E4E
+	for <lists+linux-input@lfdr.de>; Tue, 11 Nov 2025 06:39:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B756427C84B;
-	Tue, 11 Nov 2025 05:11:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1609A2DC331;
+	Tue, 11 Nov 2025 06:39:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=pegatron-corp-partner-google-com.20230601.gappssmtp.com header.i=@pegatron-corp-partner-google-com.20230601.gappssmtp.com header.b="KUE6pxN/"
 X-Original-To: linux-input@vger.kernel.org
-Received: from cosmicgizmosystems.com (cosmicgizmosystems.com [63.249.102.155])
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BE762609CC;
-	Tue, 11 Nov 2025 05:11:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=63.249.102.155
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A15B2DBF5E
+	for <linux-input@vger.kernel.org>; Tue, 11 Nov 2025 06:39:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762837896; cv=none; b=FBhe1uQT26OXOaJ3x8Fw8PuYDExDvJROEyL3mIS9IxGoahat2Sly/0Oj3NUJHR12rG2Ujgcexq/43zOwhLuQewF28ySkfkJQ81jz96NU+d87GIv2In4+odyMIWbP4bNLtc+nx4Bn90zOAkK4y+UCS+YEGtLR7eZ4WLrAubpBYu4=
+	t=1762843152; cv=none; b=D10xe5XHjHpMq7nTFnwsAWfL872R9r+5htt0qz/anJyvH4Dbd+hk/DUIn0Um8Waa82DsVRFOcM86fK3BTIYdmAz97PVShRwjIBoWgtq0usQ/toVwAWMZYNGYLRrfn6qu634OuFTDst+UPb3uGoxT1uzDrL+80YSBl+7pAvPf/r0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762837896; c=relaxed/simple;
-	bh=1XVk5MgQup43FaAJqBGIxhaX8aWKDK8Qp8UR3yvfBJA=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=Q+TLM1WMaLoTJvhw3Whji2EB6tG+zXcDi4qaSMMETDdGec5ge3foFrYhWd3fmy6w6RkdZlywo9O2haEp1KR3PvKRFEAYImgYTJZn8BYV6JEhIeJJ5sVg+5gV4Q+t9WHyuCrblDBTbbTkJUnY948bg2RdOT4gCIGD1t8BFoPrEZQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cosmicgizmosystems.com; spf=pass smtp.mailfrom=cosmicgizmosystems.com; arc=none smtp.client-ip=63.249.102.155
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cosmicgizmosystems.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cosmicgizmosystems.com
-Received: from [10.0.0.100] (c-71-193-224-155.hsd1.wa.comcast.net [71.193.224.155])
-	by host11.cruzio.com (Postfix) with ESMTPSA id 2BFEB205B370;
-	Mon, 10 Nov 2025 21:11:26 -0800 (PST)
-Message-ID: <c6d506f7-f13b-4d57-a522-a2ccd09e7a1f@cosmicgizmosystems.com>
-Date: Mon, 10 Nov 2025 21:11:25 -0800
+	s=arc-20240116; t=1762843152; c=relaxed/simple;
+	bh=76ABllftNutziPZMfTsAUOfZ4NSqPsrwSGo7hCu81bQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=OONtTXFx+tMAUa99qZAyHYI/vvi7I5sCJmO4gtqIiGiTP9mg9iEpfDuKDP8T/Ds0saAZ6TK0aAIWvT180Ogckn3YWcYGqJG3NIh+mndCRAHRVWtS3tXhGrCGxzalEc/UJTHDfAUBya+cCZCB0hoPWYz33eQeK/qA3a1t8UoYKX4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=pegatron.corp-partner.google.com; spf=pass smtp.mailfrom=pegatron.corp-partner.google.com; dkim=pass (2048-bit key) header.d=pegatron-corp-partner-google-com.20230601.gappssmtp.com header.i=@pegatron-corp-partner-google-com.20230601.gappssmtp.com header.b=KUE6pxN/; arc=none smtp.client-ip=209.85.210.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=pegatron.corp-partner.google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pegatron.corp-partner.google.com
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-7b0246b27b2so4112217b3a.0
+        for <linux-input@vger.kernel.org>; Mon, 10 Nov 2025 22:39:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=pegatron-corp-partner-google-com.20230601.gappssmtp.com; s=20230601; t=1762843148; x=1763447948; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=0TxzvcO8Ijul3ALJ59ZtrQlKnZ0E0zof1tiecvpAdh0=;
+        b=KUE6pxN/2usja5SEEKiQl6lYp4Fpb96ubwL9vmzDOsrK+mMCLhpvEdaB4q4NLcYIVn
+         lPZ+2K56pZ5uF/Djrg2BNaeolH4g9ZIjUZHJN2/SGoAv35yt8hnaVjMkCIR+zWk2mqtx
+         ZATxB/jeijnrQtCimMBkqPKhi5AFad6Q7kSdl+54BgmI/QtOAe/1d0TcL18bE2W96bRv
+         gm4wDUdmHLNiDYXKNkyUJBHUwder/JQuwQMq15FKi0UZDHfS8IjUFHTBgs7daEV6j/wM
+         X1WLjgIOKpt5qYnZjJ4GIVFxBBKbXPGayz0HYfV9N/php1w0YB47lkhhsnkJjFv2veSM
+         lTtA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762843148; x=1763447948;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0TxzvcO8Ijul3ALJ59ZtrQlKnZ0E0zof1tiecvpAdh0=;
+        b=vv7i2ZVfUfzFSc+cMW5Uq0KdhH+w2dQ7tQ1x8J2nul0jJrUwBRawStcytTUqfdaZCy
+         rfNVOj+nAY/s/uj6HmHTDkjPb/Jph/FJXcqNlZ73jh+UQcmOzsPrtqfJrsUKWo8Pw+Vs
+         gQG7Whviy8/Qgdzyh865tl8o4gnKP6P/5KuUja936TdJnqjNoEwjQY/MVUQjsoVlnuXs
+         ONE8RGgplrtqVHHxre5UUn6wgspI6XxF3S3XQ7eYS6zJvd/gJL/OvUUI/b6v84FhS1Td
+         srnQaXavkXdrERQOS1X70TcuW4X8xilESJh28aXaFdA092b7q9qiMoFQsUB79ASMj8lY
+         /EUw==
+X-Forwarded-Encrypted: i=1; AJvYcCWyQJqCk5x9nSkqFY98mcQQ4UdLBadmiol7xGrlldc8KwDGzyrjOAuih1YjAjWYbCI8JRrn6RGW892u2Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy/Grnfu74mth4BdJt49iLUIKhtOCI4DQ/qWgylMwOVQbgpVwzV
+	iCoS8Y4/qmG6M/LNoZYgiJLCsuEGhMuL+13ZxXaNX2SfbCCzD/fercq0uyPHwNvxaVjevQfLmJK
+	iQhw=
+X-Gm-Gg: ASbGncsTdOWqAfP1camrfGgefHnssNWDElMHdFUNO75epceE55sb2DxuXPhR2k7Az9l
+	fPYRRb+sOcgDEJmxg9v0urQ1Asbez2z0ZTnkU9l0yy5eK+bi66v/h9aUFGqeg2RqQzzrT0XS33W
+	RgE6L6dBWc0VYZWeVGZR1NF+UUKi/czZsaliGayroaepJEoBliW4tYgHoUIJPmNVkyp5+IsmIqJ
+	F24oKB5ODrFY8VLFX69Cg/rXOn4yKndeAlsICCr8fWcgWd/tOy/TgY4LB2Ep6WcWjL7qbpemaEj
+	mrLel5Hkg/6YIqlYEOQBJVFL7RVph3AM+rqpXmNJ3hYOWXza0V0UP7BcqrhEXbD05Y7Cn6+2tvg
+	LasZ/4SSWzimKEfqRktjzEDN2TG66Lg4/yWfHqZnng8OkqtLrZm5UaTdHR3CghdqCn5XgG5EB15
+	FySWYjOgWzw6FqsnxjnD3Ljf9FifK3B5IwXXVHlXvaypBPWTRnim++UCe4edWEGwjumAyM5Onym
+	Vhp4S5HkMGJgfjWo9jBqu3fg7W2yu8+R3IhRNoJx2wtKYGBu/C7yXguwawm8P0T7ACArYc=
+X-Google-Smtp-Source: AGHT+IG5KqPahXbbmibL5vikOZZx0fOqdq9+WZQW+1be30DeSfCc7ofE7W/ExoFor7vmsaV/es1lpA==
+X-Received: by 2002:a17:90b:4a4d:b0:340:dd2c:a3d9 with SMTP id 98e67ed59e1d1-3436cb29cafmr17037940a91.12.1762843148630;
+        Mon, 10 Nov 2025 22:39:08 -0800 (PST)
+Received: from sw-TUF-Gaming-FX505GU-FX505GU.. (2001-b400-e2ac-65d6-f177-1588-49fc-6b55.emome-ip6.hinet.net. [2001:b400:e2ac:65d6:f177:1588:49fc:6b55])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-ba8f9ed1e73sm15237243a12.12.2025.11.10.22.39.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 10 Nov 2025 22:39:08 -0800 (PST)
+From: daniel_peng@pegatron.corp-partner.google.com
+X-Google-Original-From: Daniel_Peng@pegatron.corp-partner.google.com
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	linux-input@vger.kernel.org
+Cc: LKML <linux-kernel@vger.kernel.org>,
+	Daniel Peng <Daniel_Peng@pegatron.corp-partner.google.com>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	devicetree@vger.kernel.org
+Subject: [PATCH 1/2] dt-bindings: input: i2c-hid: Introduce FocalTech FT8112
+Date: Tue, 11 Nov 2025 14:38:59 +0800
+Message-Id: <20251111143853.1.I76ee34ac45e1469dbeb11de0d1e47d794af7dc88@changeid>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Terry Junge <linuxhid@cosmicgizmosystems.com>
-Subject: Re: [BUG] Edifier QR30 (2d99:a101, Jieli Technology) reboots itself
- when RGB brightness button is used under Linux
-To: The-Luga <lugathe2@gmail.com>, Alan Stern <stern@rowland.harvard.edu>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Michal Pecio <michal.pecio@gmail.com>,
- Terry Junge <linuxsound@cosmicgizmosystems.com>,
- linux-sound@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-input@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
- Benjamin Tissoires <bentiss@kernel.org>
-References: <25f2419a-ee91-41eb-9446-87d238b4c7c4@rowland.harvard.edu>
- <CALvgqEBu_RzQYRSJnbu58XZt5wHX6PRD8i-J7Tovh7+KuhOyag@mail.gmail.com>
- <6999b5b2-a242-432e-8100-5d8ee58bcae8@rowland.harvard.edu>
- <CALvgqEBD05PwMpm00cAbFkpSWpCFP9jaBU0r-8+op+RGPtkktg@mail.gmail.com>
- <7adc816d-169d-4213-bb67-9d070af3c4a7@cosmicgizmosystems.com>
- <30528153-95f1-4ec7-a6bf-5da396441f86@rowland.harvard.edu>
- <xrfmda5rohporc3bjax35fc7xjziai6cmdt5svjak5rps6y6jz@k6h4zlt3jgg2>
- <CALvgqEDZ=g+uvdSYqbD22sL_VP+n6Pda2xXuFAJyKkh3bjm6HQ@mail.gmail.com>
- <CALvgqEC6UW96NEYOCM5v0m4x8Si0A7AwPuMpwXt3PMqkO3eqww@mail.gmail.com>
- <52fc4350-2930-44d3-b844-03f00806f142@cosmicgizmosystems.com>
- <1ac9d1dd-822a-487a-bd42-45c163dfbfe7@rowland.harvard.edu>
- <CALvgqED5NCNjrtv_YSfg9rzerK-xWAE5TaJjZtMBMcY=8MSk3g@mail.gmail.com>
-Content-Language: en-US
-In-Reply-To: <CALvgqED5NCNjrtv_YSfg9rzerK-xWAE5TaJjZtMBMcY=8MSk3g@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+From: Daniel Peng <Daniel_Peng@pegatron.corp-partner.google.com>
 
+The FocalTech FT8112 touch screen chip same as Ilitek ili2901 controller
+has a reset gpio. The difference is that they have different
+post_gpio_reset_on_delay_ms.
+FocalTech FT8112 also uses 3.3V power supply.
 
-On 11/10/2025 3:48 PM, The-Luga wrote:
->>> Are you sure?
->>>
->>> HID_QUIRK_ALWAYS_POLL = 0x400
->>> would stop suspending the device.
->>
->> Actually, it forces the kernel to poll the device's IN endpoints even
->> when no program is holding the device file open (see where
->> usbhid_start() calls hid_start_in() if the ALWAYS_POLL quirk is set).
->> This is exactly what the speaker seems to need.
->>
->> As a side effect, it prevents the device from being suspended.  But that
->> doesn't seem to be the important thing here.
+Signed-off-by: Daniel Peng <Daniel_Peng@pegatron.corp-partner.google.com>
+---
 
-Polling for input reports is handled by the hardware at the interval 
-requested by the device during enumeration. There is no intervention by 
-the kernel to poll for an input report. The only way the kernel can stop 
-polling a device for input reports is to suspend it.
+ .../bindings/input/focaltech,ft8112.yaml      | 66 +++++++++++++++++++
+ MAINTAINERS                                   |  1 +
+ 2 files changed, 67 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/input/focaltech,ft8112.yaml
 
-So ALWAYS_POLL means never suspend.
+diff --git a/Documentation/devicetree/bindings/input/focaltech,ft8112.yaml b/Documentation/devicetree/bindings/input/focaltech,ft8112.yaml
+new file mode 100644
+index 000000000000..114288787c98
+--- /dev/null
++++ b/Documentation/devicetree/bindings/input/focaltech,ft8112.yaml
+@@ -0,0 +1,66 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/input/focaltech,ft8112.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: FocalTech FT8112 touchscreen controller
++
++maintainers:
++  - Dmitry Torokhov <dmitry.torokhov@gmail.com>
++
++description:
++  Supports the FocalTech FT8112 touchscreen controller.
++  This touchscreen controller uses the i2c-hid protocol with a reset GPIO.
++
++allOf:
++  - $ref: /schemas/input/touchscreen/touchscreen.yaml#
++
++properties:
++  compatible:
++    enum:
++      - focaltech,ft8112
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  panel: true
++
++  reset-gpios:
++    maxItems: 1
++
++  vcc33-supply: true
++
++  vccio-supply: true
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - vcc33-supply
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++    #include <dt-bindings/interrupt-controller/irq.h>
++
++    i2c {
++      #address-cells = <1>;
++      #size-cells = <0>;
++
++      touchscreen@38 {
++        compatible = "focaltech,ft8112";
++        reg = <0x38>;
++
++        interrupt-parent = <&pio>;
++        interrupts = <15 IRQ_TYPE_LEVEL_LOW>;
++
++        reset-gpios = <&pio 126 GPIO_ACTIVE_LOW>;
++        vcc33-supply = <&pp3300_tchscr_x>;
++      };
++    };
+diff --git a/MAINTAINERS b/MAINTAINERS
+index ddecf1ef3bed..69f54515fe98 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -12326,6 +12326,7 @@ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git
+ F:	Documentation/devicetree/bindings/input/
+ F:	Documentation/devicetree/bindings/serio/
+ F:	Documentation/input/
++F:	drivers/hid/
+ F:	drivers/input/
+ F:	include/dt-bindings/input/
+ F:	include/linux/gameport.h
+-- 
+2.34.1
 
-> 
-> From: https://github.com/torvalds/linux/blob/master/include/linux/hid.h
-> 
-> #define HID_QUIRK_ALWAYS_POLL          BIT(10)    ->  2^10=1024=#400
-> #define HID_QUIRK_NO_IGNORE            BIT(30)    ->  2^30=1073741824=#40000000
-> 
-> Sorry about that. I'm still learning and the documentation was not
-> very clear on this.
-> 
-> Trying the 0x40000000: `usbhid.quirks=0x2d99:0xa101:0x40000000`  the
-> usbmon stays silent when changing volume/button and reboots when
-> changing brightness.
-> 
-> With HID_QUIRK_ALWAYS_POLL: `usbhid.quirks=0x2d99:0xa101:0x400`
-> (reboot does not happen).
-> 
-> Is there a different quirk to try?
-
-No, HID_QUIRK_ALWAYS_POLL is the one you want.
-
-Do you want to write the patch and submit it?
-
-> 
-> Off-topic:
-> I was trying to decode this protocol... and did it with volume control.
-> 
-> I can control my speaker directly with:
-> 
-> Full volume:
-> `echo \
->   "2eaaec670001100e000000000000000000000000000000000000000000000000" \
-> | xxd -r -p | dd bs=64 count=1 conv=sync | sudo tee /dev/hidraw1`
-> 
-> muted:
-> `echo \
-> "2eaaec67000100fe0000000000000000000000000000000000000000000000000" \
-> | xxd -r -p | dd bs=64 count=1 conv=sync | sudo tee /dev/hidraw1`
-> 
-> I renamed the steps to be similar to the audio stack where 0 is very
-> low but not muted.
-> 
-> ad it stays consistent on this full range. (tested)
-> 
-> volume muted
-> 2eaaec670001 00fe 00000000000000000000000000000000000000000000000000
-> volume 0
-> 2eaaec670001 01ff 00000000000000000000000000000000000000000000000000
-> volume 1
-> 2eaaec670001 0200 00000000000000000000000000000000000000000000000000
-> volume 2
-> 2eaaec670001 0301 00000000000000000000000000000000000000000000000000
-> volume 3
-> 2eaaec670001 0402 00000000000000000000000000000000000000000000000000
-> volume 4
-> 2eaaec670001 0503 00000000000000000000000000000000000000000000000000
-> volume 5
-> 2eaaec670001 0604 00000000000000000000000000000000000000000000000000
-> volume 6
-> ...
-> volume 14
-> 2eaaec670001 0f0d 00000000000000000000000000000000000000000000000000
-> Volume 15 (max)
-> 2eaaec670001 100e 00000000000000000000000000000000000000000000000000
-> 
-> 
-> 
-> And I also decoded the speaker volume it outputs by rotating the knob:
-> 
-> volume muted
-> 2fbbec660002 1000 1f00 00000000000000000000000000000000000000000000
-> volume 0
-> 2fbbec660002 1001 2000 00000000000000000000000000000000000000000000
-> volume 1
-> 2fbbec660002 1002 2100 00000000000000000000000000000000000000000000
-> volume 2
-> 2fbbec660002 1003 2200 00000000000000000000000000000000000000000000
-> volume 3
-> 2fbbec660002 1004 2300 00000000000000000000000000000000000000000000
-> ...
-> volume 14
-> 2fbbec660002 100f 2e00 00000000000000000000000000000000000000000000
-> Volume 15 (max)
-> 2fbbec660002 1010 2f00 00000000000000000000000000000000000000000000
-> 
-> When sending the volume change command to hidraw. The device outputs
-> the volume it was set to go like the knob on that value:
-> 
-> ffff8d49f36b3680 206654552 S Io:3:002:4 -115:1 64 = 2eaaec67 0001100e
-> 00000000 00000000 00000000 00000000 00000000 00000000
-> ffff8d49f36b3680 206654840 C Io:3:002:4 0:1 64 >
-> ffff8d494c8ee0c0 206655831 C Ii:3:002:4 0:1 64 = 2fbbec66 00021010
-> 2f000000 00000000 00000000 00000000 00000000 00000000
-> ffff8d494c8ee0c0 206655832 S Ii:3:002:4 -115:1 64 <
-> ffff8d494c8ee0c0 206656830 C Ii:3:002:4 0:1 64 = 2fbbec67 00010110
-> 00000000 00000000 00000000 00000000 00000000 00000000
-> ffff8d494c8ee0c0 206656831 S Ii:3:002:4 -115:1 64 <
-> 
-> If, I mean it's a very big IF. I wanted to have this device with
-> hardware volume control working with alsa/pipewire/wireplumber/etc.
-> What would be needed?
-
-ALSA and the rest are triggered to bump the volume up or down with the 
-Consumer Control Volume Up and Volume Down events. Those HID usages are 
-declared in the other HID interface but never fired as your testing shows.
-
-You would need a kernel driver and detect the volume change using the 
-vendor unique reports and then inject KEY_VOLUMEUP or KEY_VOLUMEDOWN 
-events as needed. It may or may not work...
-
-> 
-> Maybe this vendor uses the same method of communication for other devices?
-> 
-> Maybe related: https://mailman.alsa-project.org/hyperkitty/list/alsa-devel@alsa-project.org/thread/CYSG6A62JJID5N2V5YUDW43CELEZDF36/
-> 
-> The decibel range is bogus:
-> 
-> lugathe wireplumber[1231]: spa.alsa: The decibel volume range for
-> element 'PCM' (-2837 dB - -94 dB) has negative maximum. Disabling the
-> decibel range.
-> 
-> The RGB/Equalizer/profiles/etc. I don't think it's really important in
-> the kernel context except with the reboot apparently solved with
-> always poll quirk.
-> 
-> Before this I really *knew nothing* and I am having a really good time
-> and happy with this challenge. Thank you all for the wonderful work
-> and knowledge you are sharing.
 
