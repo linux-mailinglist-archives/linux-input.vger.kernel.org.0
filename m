@@ -1,116 +1,135 @@
-Return-Path: <linux-input+bounces-16005-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16006-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 250DCC4F9CB
-	for <lists+linux-input@lfdr.de>; Tue, 11 Nov 2025 20:34:02 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A662C4FD37
+	for <lists+linux-input@lfdr.de>; Tue, 11 Nov 2025 22:18:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BE35B3AA654
-	for <lists+linux-input@lfdr.de>; Tue, 11 Nov 2025 19:34:00 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 369884E58E2
+	for <lists+linux-input@lfdr.de>; Tue, 11 Nov 2025 21:17:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF067328B55;
-	Tue, 11 Nov 2025 19:33:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8D14935CBB2;
+	Tue, 11 Nov 2025 21:17:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RAjKBgPp"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="RUcNKuYj"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04EB72FE566
-	for <linux-input@vger.kernel.org>; Tue, 11 Nov 2025 19:33:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C068535CBBA
+	for <linux-input@vger.kernel.org>; Tue, 11 Nov 2025 21:17:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762889637; cv=none; b=jkxy/dBosGN7VB+sus7fZAvlHzfxj0fyFzQt2IaP5Giozuu1fdjvI9a4avHq8pPdbpuurV+XuK3xO8/DF9XsF4Kp4BZIzwxwrf8VSEssdRp5WFppIRuiL+F41yBAa+NvvfyNMZNQiwMuAfsVHhU3titcAVQmA6oMUaEMo30LipI=
+	t=1762895868; cv=none; b=cbDvl+x2EcGcgAVdSjlzTFZogRHGVp6AtqujznvCPVeW+qWat7KOY2FaioxwnFlOL0RmFWsJRfyAD6MiptlxrX8ti1ELsmpnxjh44EkodNKdmq+4MJCenZFvER4dgNKFdHEI1A/0bXG0oIrzMq8FmBsSyClxRoxO2O77/pfKyi0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762889637; c=relaxed/simple;
-	bh=iKW1tRsCgR0KVMBKgf6dS62cbBiXnxf4QwQ3NO3vz3U=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=TXY/wkqtOI/dBrdc+PocMza/AF3vrUjYykgSqDoWb8i36OxF31JQrtvBcVtESL0jZpVCgjGVkgJTEiTVGo6AgYwBcb3/lCeGBxgBAmowgNV62n4WgSDrtl2oUC5cAaab5VM3RPJF1lpg6BpB8MTiC79RLkR4DGUIIBpKy0dYo0U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RAjKBgPp; arc=none smtp.client-ip=209.85.218.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-b72b495aa81so17098766b.2
-        for <linux-input@vger.kernel.org>; Tue, 11 Nov 2025 11:33:55 -0800 (PST)
+	s=arc-20240116; t=1762895868; c=relaxed/simple;
+	bh=EKUsdAwJdrxz602ZVyGp1qIPiRrAcjyZqiMA4kgBrW8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=YGRf4SDeuI6EMw5jlthApBlslKARYvK22cMUbwQuUqQ7cUxwlZeVKLkOu2D7nAYegZSTswO5cm6Quyq/MiXW91ed2o85029yHpGHzSmditcqF+E/gaKHlPoNFdOa0gNOZVgZz6kb0YmuGN+QH0tIvk+f72iwrVJ5xEyffFC3Szs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=RUcNKuYj; arc=none smtp.client-ip=209.85.218.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-b71397df721so33464166b.1
+        for <linux-input@vger.kernel.org>; Tue, 11 Nov 2025 13:17:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762889634; x=1763494434; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+        d=chromium.org; s=google; t=1762895864; x=1763500664; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=iKW1tRsCgR0KVMBKgf6dS62cbBiXnxf4QwQ3NO3vz3U=;
-        b=RAjKBgPpRbyd5u34Ww4SKPkv3x9dCYSuyRAg3/JVhHzBMJot9xOKFkA57o9OQiJvgP
-         vJGQkBhFMHCiwxuBKoQxyQZkM+KScpg7SBC7oz3Y3BeZ2PcqsAwwmXbPgA4Gft1hazfM
-         3NrQ8t78oBkvXV/jLsAfmiHLycDe6F0Kz/QomLfqyqI+EQsLtXIA1n+/ESV6lqoM6Sea
-         4Wu6d2Dnw5luT8TGKOvTHeVrJVue6Wii0s3gQLmn9dEiurtAd+eTbnUW/GKLsT6DhSCY
-         XeQV0PJfzRnb9V9U28202GuAGMsqwL6u3zSiH4VJI7d9kn+fLGfXI0zxml5p+MZ5UBid
-         9d6Q==
+        bh=EUTN1IPcVAO8kjorL9CBDMgcIux7FnelwiSriuq3hFI=;
+        b=RUcNKuYj+b2zzhU+F1qoYThc1unVCBrNw1UqjkDQbC2Iq5mdIPx73Ir1QrLlQaejh7
+         IXMHkDeAzfrBIspn1USkxkiA6CNuU+22KVXZaBX35JyOCpilbkMYSTE4bEea4edVgvtw
+         r3+W2IYPgiH+M7xJqXvE4duoJ2mJ9AT1ULHjU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762889634; x=1763494434;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+        d=1e100.net; s=20230601; t=1762895864; x=1763500664;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=iKW1tRsCgR0KVMBKgf6dS62cbBiXnxf4QwQ3NO3vz3U=;
-        b=nFY3I7p1P/RFh0SMYZOo6h5vw6GJlxPn+sMAnw4r1g335tU861smZXtiGsw1hOkZIM
-         oMdapeX6asA+kI/24uPKjwfA9Qy2hj2somHyimsLDNV2hLQRV78aetPvdIDVtjMvau5y
-         BLuXxIj2fvytWg7acuRNihG0Kk/XyfgXsSA8Pj+ht736tSuONRxBMX7H0msXS/yGbSTi
-         chjOHHKBFlzgmCJoq31++HOU3EgM2V4c1Wnax8Za3zqCq2CyMVK49CtBemrhBjzDZD2J
-         E79ph/wHfJoqyWccYJvVu3SbN3M7mJgO8dt/SVYP5W2F4rAQFRnpqn7GETsNt+TeBM7Y
-         tTBg==
-X-Forwarded-Encrypted: i=1; AJvYcCVJudZo4Wy2c26BSq//V5Fto4UkrRE7Y9xF/eq/a+ZI8+dog7vCXsr2x6PdIm2ZB4ulm7mu81QBgWhlMw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy/NQJVTYf4QmwxUxR/2IvBScSx7x3KSUkVCKOVlWwLu7JU6c/r
-	tzlo6jw3uVIck3LttiLCdPhnuzL2th+1w/7IiS+J0poG7JZhismWKBaN
-X-Gm-Gg: ASbGncsB2IYIJ0nKUSdSFtRaDvnDgVHX/h7coXHgv2HkPiBImFJmgigeZuPkPu60ZtP
-	/EVzlbf0KY8IT83hPClB0chRcNKWtAsfuW0nD+w+9MY/oDKMHFIeDL0r082ySXFcDdqFa6CCYx8
-	eyitARo9wXDKpWucXiqE04xcpcgel4EreLGp4gHMOzXMOPIKt3JtfMgWtTXarADwgKJ2QXJcPo6
-	ntEWkSy2BUXZ5SLGQVkpbXKlqRD7FiCNL9/whMR188RV2nOx0w6jqjI+MQiO1TtEymZxg7uvKLA
-	ZSVK1v8l2jzwzfOKOUDOnKzIi3Qy0teAPewEMJKGeFlDT6AiALms8D+DNHmJiCizBIfYFAXX1rx
-	sRmY0R8OFwS4JQI5Ne/xDJEC5NRstcYM8KfysbtAp6bQklZ/zWBT66v0NNtUn/eQzkONfPTJQ2C
-	lkJzl2lNv2pA==
-X-Google-Smtp-Source: AGHT+IHDUjKUNAsSr1F3fZIpUNhiYNKUcUmB/BPrX2k8vNUcQxHLIIesAmw2W01qUzcV5/eYxTxFhQ==
-X-Received: by 2002:a17:906:fe44:b0:b6d:608c:838b with SMTP id a640c23a62f3a-b7331ace065mr28182666b.45.1762889634237;
-        Tue, 11 Nov 2025 11:33:54 -0800 (PST)
-Received: from foxbook (bfd52.neoplus.adsl.tpnet.pl. [83.28.41.52])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b72bf312240sm1428843266b.18.2025.11.11.11.33.52
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Tue, 11 Nov 2025 11:33:53 -0800 (PST)
-Date: Tue, 11 Nov 2025 20:33:50 +0100
-From: Michal Pecio <michal.pecio@gmail.com>
-To: Rodrigo Lugathe da =?UTF-8?B?Q29uY2Vpw6fDo28=?= Alves
- <lugathe2@gmail.com>
-Cc: linuxhid@cosmicgizmosystems.com, bentiss@kernel.org,
- dmitry.torokhov@gmail.com, jikos@kernel.org, linux-input@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-usb@vger.kernel.org,
- linuxsound@cosmicgizmosystems.com, stern@rowland.harvard.edu
-Subject: Re: [PATCH] The Edifier QR30 USB speaker, identified as: Jieli
- Technology EDIFIER Hal0 2.0 SE 2d99:a101, reports a HID interface that
- needs HID_QUIRK_ALWAYS_POLL to ensure it does not crash when changing the
- RGB brightness with the physical knob.
-Message-ID: <20251111203350.3c9a669e.michal.pecio@gmail.com>
-In-Reply-To: <20251111074205.1533558-1-lugathe2@gmail.com>
-References: <c6d506f7-f13b-4d57-a522-a2ccd09e7a1f@cosmicgizmosystems.com>
-	<20251111074205.1533558-1-lugathe2@gmail.com>
+        bh=EUTN1IPcVAO8kjorL9CBDMgcIux7FnelwiSriuq3hFI=;
+        b=mFicFxsJ0dnIl0sAaCwb54ox1RrMBokQ2hcswtAJ/OXXwlJoe3uH2uzgcvF3UMdksQ
+         gJhMDzOoRBGqpTjNEHrgSs/5AwqkSvTf914LxQVhJAvCi9TeTLkKu0gYalrZT93T4+EC
+         NOwr/lM5goLL1rWvFcihyd3ocYYVZxkopRwXVfaahtdBU6sRMT5mP7pEh5rTA0HbD6nO
+         3ABdyNW47Qk2LOa8kgFNmUghZ6Vc+ZXw2dG6Hmmax6+8WNMx0eSAuhiAn5yzGS4fV8OO
+         vNs1Q8oXtg7GdB/Ux5yrnttmmtv4PaazgA2yKjsUP0i6q0P7BBbSUsVvFbYm1OOBABWP
+         sUvA==
+X-Forwarded-Encrypted: i=1; AJvYcCWmCD6g5cEodPzuWPcAi9Nqys7hiklLOmxT0ZKCZ70VIUgcNVjL+hA4I5kEOXa18iZDcovvSmiITyZAZw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzm+NADTEbge2qC4jEz5tpeTaxuHwD8FtMsZhF2prVyXUC3otaJ
+	OtKlG6QLFeCkGIWSut1FnU9M7oNPzOmsEvqcAhUYYTmI+z0GLofUc7S/Rs/LnOH981O0anSqdtn
+	ZL+EfgQ==
+X-Gm-Gg: ASbGnctIXKwW3QdOv7/2IgCMj5plUA1NtW5JXLXVkS8IGbzyoSW6yTOrz63EJCb7WAo
+	7C+mcUQ9BGQdNE7yWzWHdAD5CsssYOcn+BvzLOjdj05Ax18D85rH7WigZEPVQ9tlrnFNLiWSIwR
+	xkabN1D/IeMNCOmTl5kUXkm6QxzqrRPe0XZdDqkoMM3INKrYupg3DMjgUXvpVGN7ICHTjP1HT0M
+	xppIEX1JaxCdp0Vh6o7pNFTO0Xqk9UX1Fogln9ywPATPRsIGZYtH719Zuueb7iXe44CrqdZdbHw
+	ua44QQwLyttu+3tvkFJoxE8+oY1NQ5ERwhaov0ZwJ6zYfMRIhtW00xC+t+DQUALB28SsaCSgnfZ
+	rDdJKcmqY2l8MBTzqr6R+niCvhbm9RncAGzE+hh0I19sy4Y7OrEFTSsLjvw4Zs/s2MTEo2222FR
+	QlKJt4ZK988O4g8ooYa9EbcQ7x7pukML4Mqr5CuVUYgJv0QgETY37gwhADxnVW
+X-Google-Smtp-Source: AGHT+IEHW2q9OjqEaq76FXMxATYoxBdNeKuLtY9E7e9u/u8+IaKX3GvOBSYTkUzIBfNH79vAfcbXiA==
+X-Received: by 2002:a17:906:c10f:b0:b70:ac7a:2a93 with SMTP id a640c23a62f3a-b7331aaa445mr46430166b.43.1762895864274;
+        Tue, 11 Nov 2025 13:17:44 -0800 (PST)
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com. [209.85.128.52])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b72bf4fbf3csm1426192066b.26.2025.11.11.13.17.43
+        for <linux-input@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 11 Nov 2025 13:17:43 -0800 (PST)
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-477770019e4so1888605e9.3
+        for <linux-input@vger.kernel.org>; Tue, 11 Nov 2025 13:17:43 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCV74AZiorO7LPQw2t0LqeMXxIlpeM5/qH1sldODKC43It1RsosKfcgTuiz2kkMwDibm1E/AQu5JdrZU3A==@vger.kernel.org
+X-Received: by 2002:a05:6000:3106:b0:42b:4267:83e9 with SMTP id
+ ffacd0b85a97d-42b4bb8f146mr449246f8f.2.1762895862835; Tue, 11 Nov 2025
+ 13:17:42 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+References: <20251111093426.1.I76ee34ac45e1469dbeb11de0d1e47d794af7dc88@changeid>
+ <20251111093426.2.I47e028c511ad8fc86a44467ae228ba4fc984f7fe@changeid>
+In-Reply-To: <20251111093426.2.I47e028c511ad8fc86a44467ae228ba4fc984f7fe@changeid>
+From: Doug Anderson <dianders@chromium.org>
+Date: Tue, 11 Nov 2025 13:17:31 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=XJ4G=wqiWQNWO+ho1oZ7AUB4k9Z+zuwUqwDS6W2TxwqQ@mail.gmail.com>
+X-Gm-Features: AWmQ_bmh-NdLykWBjDO55hn5GSOnuJolW6S6QQ2-UkYlwdUtYFi0NaIrEDSbp0Y
+Message-ID: <CAD=FV=XJ4G=wqiWQNWO+ho1oZ7AUB4k9Z+zuwUqwDS6W2TxwqQ@mail.gmail.com>
+Subject: Re: [PATCH 2/2] HID: i2c-hid: Add new FocalTech Touchscreen Chip
+To: daniel_peng@pegatron.corp-partner.google.com
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-input@vger.kernel.org, 
+	LKML <linux-kernel@vger.kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, 
+	Jiri Kosina <jikos@kernel.org>, Pin-yen Lin <treapking@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, 11 Nov 2025 04:42:05 -0300, Rodrigo Lugathe da Concei=C3=A7=C3=A3o =
-Alves
-wrote:
-> Add a new vendor and product ID entry in hid-ids.h and register
-> the corresponding device in hid-quirks.c with the required quirk.
->=20
-> Signed-off-by: Rodrigo Lugathe da Concei=C3=A7=C3=A3o Alves <lugathe2@gma=
-il.com>
+Hi,
 
-Usually one would use a shorter title like "Apply quirk X to device Y"
-and put explanation/justification in the longer commit message (above).
+On Mon, Nov 10, 2025 at 5:35=E2=80=AFPM
+<daniel_peng@pegatron.corp-partner.google.com> wrote:
+>
+> From: Daniel Peng <Daniel_Peng@pegatron.corp-partner.google.com>
+>
+> Information for touchscreen model HKO/RB116AS01-2 as below:
+> - HID :FTSC1000
+> - slave address:0X38
+> - Interface:HID over I2C
+> - Touch control lC:FT8112
+> - I2C ID: PNP0C50
+>
+> Signed-off-by: Daniel Peng <Daniel_Peng@pegatron.corp-partner.google.com>
+> ---
+>
+>  drivers/hid/i2c-hid/i2c-hid-of-elan.c | 8 ++++++++
+>  1 file changed, 8 insertions(+)
 
-Regards,
-Michal
+The subject of your patch should probably be a little less generic and
+include the ID of the chip you're adding support for. Like:
+
+HID: i2c-hid: Add Focaltech FT8112
+
+Other than that, this patch looks fine to me assuming the problems
+with your bindings patch get worked out. You may also want to consider
+using a different email address for sending since your bindings patch
+showed up in my spam folder.
+
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
 
