@@ -1,229 +1,200 @@
-Return-Path: <linux-input+bounces-15981-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-15982-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50BE9C49D04
-	for <lists+linux-input@lfdr.de>; Tue, 11 Nov 2025 00:49:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C988FC4ADB4
+	for <lists+linux-input@lfdr.de>; Tue, 11 Nov 2025 02:45:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id F1E7F188D0A8
-	for <lists+linux-input@lfdr.de>; Mon, 10 Nov 2025 23:49:41 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1D0FE1890494
+	for <lists+linux-input@lfdr.de>; Tue, 11 Nov 2025 01:40:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BEAF6303CA2;
-	Mon, 10 Nov 2025 23:49:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8CD642BE7B8;
+	Tue, 11 Nov 2025 01:35:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nDZw5qIv"
+	dkim=pass (2048-bit key) header.d=pegatron-corp-partner-google-com.20230601.gappssmtp.com header.i=@pegatron-corp-partner-google-com.20230601.gappssmtp.com header.b="XanAVJYj"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0168257AD1
-	for <linux-input@vger.kernel.org>; Mon, 10 Nov 2025 23:49:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6B2722301
+	for <linux-input@vger.kernel.org>; Tue, 11 Nov 2025 01:35:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762818552; cv=none; b=Yli9OeRSxCvoO4hZfwixIJZjvUiXZj/KUp421Dggjh+XMDe8YA82fDLRvqhFAPryWGZACV3MMccJKu3ekJ5EYdHF01nP3PA75k2VALhWPSqCXy2rCtxkDSW7cXQIIxvt7egi/sXawjJuJwxbGTcFWMAMgQJOVjsQa5QM0KlLKS0=
+	t=1762824908; cv=none; b=eFDxIQmU4HSxh26EJlrovj0dYBMgICPrN8/Z+/HtKWkmBRn38eXTxOSeEiYrK4mE1WrVL4UyJE1+8+YXSdedYM5vAq44cAwkxqHcBBSVPKebDQVNU2shPTPqfnEpViX6JHUe6Cz2EvRGZ0Onc3OZgWkVtgxUW6z1QjIhMQXl5ds=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762818552; c=relaxed/simple;
-	bh=Cpx1MBTp2b+ApnHx7tQ9af9hUs61tCdIGkVmUMS1ivg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=EDprcrA1cIpeKD1Z/aeVmPT1k2vU7kl3j6dvQXMLLF2noot3YPSyBQX8vuw0+LGAakSadOLO7r29Oz3SIStHcRI1co1c2yVrlIe+abz47zpReryMcGFAHqQkjqzRjJoUmcfITerxQDoKzZoI6GqnPqIKNxhIZNWS56OKthiiO3Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nDZw5qIv; arc=none smtp.client-ip=209.85.221.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-429c7f4f8a2so138803f8f.0
-        for <linux-input@vger.kernel.org>; Mon, 10 Nov 2025 15:49:10 -0800 (PST)
+	s=arc-20240116; t=1762824908; c=relaxed/simple;
+	bh=EEpirpK/l6Pxsdp58Zy1SYZgMnffAi4qGVL80OHpxDk=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=H0zqIckmJ9dN/5u3TfgV/cJIGvqpa2zVSJbhIkhs9LF4t7rm4017UUK3KNhc2Mu9n579Y4C6omYE4VYS6fNp1o0mgOZcSnWPPddZg6fmlDvgi68vbJppUVqwu31dP1AZSkJZEZt+1DWYILFIorrEmMyq9DyWt17e5e/Q8IcxANU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=pegatron.corp-partner.google.com; spf=pass smtp.mailfrom=pegatron.corp-partner.google.com; dkim=pass (2048-bit key) header.d=pegatron-corp-partner-google-com.20230601.gappssmtp.com header.i=@pegatron-corp-partner-google-com.20230601.gappssmtp.com header.b=XanAVJYj; arc=none smtp.client-ip=209.85.214.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=pegatron.corp-partner.google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pegatron.corp-partner.google.com
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2956d816c10so39337365ad.1
+        for <linux-input@vger.kernel.org>; Mon, 10 Nov 2025 17:35:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762818549; x=1763423349; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=bld/cS3EZkCvsE25mUIinwj/m0d1kI6qCYYge0fjmts=;
-        b=nDZw5qIvonLEa43CUfx3X1sQWQKb2c29UaB5JtGYol+3Oi65ap9oR5CbEjB1LstRkt
-         TIGhxc3sScUn40YZm7FmMdr4+mB7P50lXBf8mzXNejhKAM81dMrEnKRiRT6pTo0SII91
-         A44N6hDwaXPeASvWM1J755ajg2+cM2FddaA/Es5uG70AyJru1X9JLQ1j12dFXCpPS9wA
-         woA85Evv4tpCOYdKFWlbt0NfBosop1huj4vdcHIOEeEd3Ev4Pk/rM2rM+hspg2tVrTH0
-         C3BYZF5NL8VrwHi7Khbv2oF6OmMVSlk0QzWLDIhBhOdmBojg6B8/XjsB33glTyNNXMhk
-         8/Qg==
+        d=pegatron-corp-partner-google-com.20230601.gappssmtp.com; s=20230601; t=1762824906; x=1763429706; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=dCRUjyzQWysqM14npqbWdyxPUdu80BrwtIvFA0r4EOU=;
+        b=XanAVJYjW0gAdoRqJZEl7JyLoJ8O3xWmeDoZUS3vFWqAKbw5kBxjSelvaVWpCMozLR
+         H6nZeGIb4Tl/EIBvn/uyvTjCqKcwStzarji+NRokwfcJKMEcjV/Fggbrf6TLsjMNerFE
+         oPy/UoO3wfYQpw2JpagfJRqod9btzNR3C9UZ8rUVRk8/wo8ri4v3IcyOZew5EgPL+Lxj
+         4Q9Bbpq2chFF/hhBy1b9480EUGYrgzFb7fKHBTtHXlN9+umLtnXZ46oWagvC/FhBOO82
+         CUwoPAzpHR7xOJgXjrZ79RU+nyXivNRTFNz1tALpDBvWhC+QA5bv1PQVxhoUDSuYk3U5
+         XjOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762818549; x=1763423349;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20230601; t=1762824906; x=1763429706;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=bld/cS3EZkCvsE25mUIinwj/m0d1kI6qCYYge0fjmts=;
-        b=h1zI0mbyPFRrJLOxGccyiUmM9oJtjlf5DwkAY5IFBLYwzNVTcD7uKKJOsGBlYvukcb
-         hrHW6F1OVUswxICKEwBrMzdY3na1R+Z9MxuS7xishrf9iJdMJteiaswylrEfdfsiVb5I
-         l2BemaIqI0ZKIjZyaowwOz1oGKdefaCBDlokSPe9lISEyoGOd6mM0fwQXcvICJ7JO4/y
-         PXvZ1ys5r0MTRvATvXkUs1qs1jFhvz/jUlvbUlAqSAHDC7OcWl+JPS5aGfBChWEMOQut
-         CZ/hEF+EeZD0Bzcj2n1pEw9n4AnB9dLjogTPXIhEvzz4I8nPABSNvD5FzMy8RTKBFocF
-         eSPQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWvs49rpW3sGvo/PH8ORnxbF+SU0LwWg4jfgayR3EKlQGKpqsI95LhYsRif9qsaWezHOEfcTKwCgNoLhA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxQxQJUGmUFxSx0rrWyGHuzJMN1AYFtr2rV3j8e388rKv3mgIoQ
-	Q7oXJpMOsQnnO6LIX1zCBT4AAWy4ipX3v8w/Ri71pNQes+rG8t/DbmNaE6VdDfeoxW18ATiyHRG
-	7lpOvhTTL0j8N/gPv+H/90hj+aBVaZvw=
-X-Gm-Gg: ASbGncsnUKIzLtfuBnLBUkS6p9iuSwmH80nTJMLj6N8L8zV1rZaWoobqflXkDhpJidf
-	fxL1Ns1TF03p6tNt5xszT4nWgD7Dz5K/xUfHiUfaRC8KR7BRr9Ww5jrdAoOAo5yhEWtnXH7QP1/
-	u/R7J+baTSX2vQVJXX09pa88mPaAPARGMESa75jwZWwH5YWw+QccFIzauELXGX0qFIbAw+FrPRk
-	d25fhiWUABQ3AyYbzuBJTBvED7Pkzs9LrqYPzgsJyzVHCvkilKukzoDU2ewgEZ8DPw77hv1jCzl
-	dn1PdNYQzey5NRKTldLNA/iqguaHYfpFdrmxn+vuivx9GJsUFL345aPp17dh2Tw7W3oXAkJx00Q
-	=
-X-Google-Smtp-Source: AGHT+IEzBThrWGXENmMgnfJGSVkl96z0rB9jXWVpmuygiJqcdjoP9Vl7SCqN4zOwOzBFWDxE5eHzR3awFsu6f2AkRUU=
-X-Received: by 2002:a05:6000:2084:b0:42b:3dbe:3a37 with SMTP id
- ffacd0b85a97d-42b432b821dmr1129506f8f.10.1762818548948; Mon, 10 Nov 2025
- 15:49:08 -0800 (PST)
+        bh=dCRUjyzQWysqM14npqbWdyxPUdu80BrwtIvFA0r4EOU=;
+        b=cmkUvGcJq9Xid1GowMl9rGVpbbNRwgTawwdBrPryBcRz0r3D2h27nGFBSK66zdBRdQ
+         Z+5lVMIQ2OMk4+kkvNrzvTx8XxqUYI/hrmLr2hiDrelLxaPGZ+tgmhAFF0wxkwB+f8qD
+         HWKtXE3CZW4ymqJ6Wq7/TtbKC2KbYVScjShj1SAoAKpaK+ENromT40Z/r6420QAGhqFm
+         9ikqS1dnkZwAS7loKSHIhiqJSS38G1z4PU+8X+39MGuKsp3JlEX7sQv1mMbwUWca4Fb6
+         RP/5+ipNXQQou4UM1muqBmXfsek+Cb7cRhnKzPwa4A7p6CWiY0t6yKB67aqSnThklcti
+         48bg==
+X-Forwarded-Encrypted: i=1; AJvYcCV1CdVBYMboTojfnd8MHVsylhUnnyjUbGBfUsonaYqPvECOqVVoTLThnaUzjd/VUawkUkZoKpw2K+p4Cg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyEGpTtjLPxjI5NqLz/QOLAExH8w4f8bKyAy9xPwZVeUMMudHdh
+	QmOjfMje0a7mm6o7u8H02TgRWeWc08E7FeeDpBuTXn0kONEHY1P0DwD8pmIw/Er0ng==
+X-Gm-Gg: ASbGncvbO+/G1x1ieAb3Q3/ApRTK0N9AhMyxwyG6Gz0K1IfDTbDg6PaeWJ5XNvxZvrR
+	VfF5p9pzMp94ajSs6r106+Cyv3Y4Itq+VRhwmG/ms5Am0+RtTMqwVQtJhdbae/Om9jNyChfY1Wk
+	JeShTSC/6ySnUVqKefbaITSJphsHB0Xlwxund36BSFQmNbLJfnWVKCiYY3AOstudY4/C7GBRI+n
+	JI0iNgSpZgxCUPVw79pNsFtqOyxqMeiQGy71T0eHBiMx4hzrXB1MkXFGkiHxurUWzGWYLFOw/CL
+	hCtevEV0m4QrI/h0sAxMGVl4Nuq8KRw17YEPsM5LTgnXv+P9AKyoUV7oDg67IO4oJY7nIhHqF/j
+	6y8to2DxN800OefwqnRWNT53NkoNgaQoUEP8PpO6xcd0IGPlVVA3opYrfeNJLtiiWEe8lPEF2Gu
+	tpO4PXJ4XxmNfiVUZsKN0HKAc7slZr2+8Ny4qM4r2htUc82q4TGpYnQospnkou9yjy418AAORwO
+	VHhgYZdlWY5Nm1iSKiAEPIy0AwQw4bh2gIynVURHP6QOHyn5+IL7rn4K2pF/o6ORTX6EA==
+X-Google-Smtp-Source: AGHT+IGRoXVLZ7agvfhSDaP/AeheoEMsIJIdYyiaZZNnoHcNgq2mN8gZOGSrD/OnhlDdhDdOfevBZQ==
+X-Received: by 2002:a17:902:ec82:b0:295:4d62:61a9 with SMTP id d9443c01a7336-297e56aef0fmr135124385ad.38.1762824905979;
+        Mon, 10 Nov 2025 17:35:05 -0800 (PST)
+Received: from sw-TUF-Gaming-FX505GU-FX505GU.. (2001-b400-e2ac-65d6-0959-d540-843d-31d2.emome-ip6.hinet.net. [2001:b400:e2ac:65d6:959:d540:843d:31d2])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29651c740b5sm163666485ad.70.2025.11.10.17.35.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 10 Nov 2025 17:35:05 -0800 (PST)
+From: daniel_peng@pegatron.corp-partner.google.com
+X-Google-Original-From: Daniel_Peng@pegatron.corp-partner.google.com
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	linux-input@vger.kernel.org
+Cc: LKML <linux-kernel@vger.kernel.org>,
+	Daniel Peng <Daniel_Peng@pegatron.corp-partner.google.com>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	devicetree@vger.kernel.org
+Subject: [PATCH 1/2] dt-bindings: HID: i2c-hid: elan: Introduce FocalTech FT8112
+Date: Tue, 11 Nov 2025 09:34:57 +0800
+Message-Id: <20251111093426.1.I76ee34ac45e1469dbeb11de0d1e47d794af7dc88@changeid>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <25f2419a-ee91-41eb-9446-87d238b4c7c4@rowland.harvard.edu>
- <CALvgqEBu_RzQYRSJnbu58XZt5wHX6PRD8i-J7Tovh7+KuhOyag@mail.gmail.com>
- <6999b5b2-a242-432e-8100-5d8ee58bcae8@rowland.harvard.edu>
- <CALvgqEBD05PwMpm00cAbFkpSWpCFP9jaBU0r-8+op+RGPtkktg@mail.gmail.com>
- <7adc816d-169d-4213-bb67-9d070af3c4a7@cosmicgizmosystems.com>
- <30528153-95f1-4ec7-a6bf-5da396441f86@rowland.harvard.edu>
- <xrfmda5rohporc3bjax35fc7xjziai6cmdt5svjak5rps6y6jz@k6h4zlt3jgg2>
- <CALvgqEDZ=g+uvdSYqbD22sL_VP+n6Pda2xXuFAJyKkh3bjm6HQ@mail.gmail.com>
- <CALvgqEC6UW96NEYOCM5v0m4x8Si0A7AwPuMpwXt3PMqkO3eqww@mail.gmail.com>
- <52fc4350-2930-44d3-b844-03f00806f142@cosmicgizmosystems.com> <1ac9d1dd-822a-487a-bd42-45c163dfbfe7@rowland.harvard.edu>
-In-Reply-To: <1ac9d1dd-822a-487a-bd42-45c163dfbfe7@rowland.harvard.edu>
-From: The-Luga <lugathe2@gmail.com>
-Date: Mon, 10 Nov 2025 20:48:57 -0300
-X-Gm-Features: AWmQ_bnKj3OL9zFTHpNVhhmhojXeNUNSUjyqiacX0laSHqhRJXHE76Au8FS8WWs
-Message-ID: <CALvgqED5NCNjrtv_YSfg9rzerK-xWAE5TaJjZtMBMcY=8MSk3g@mail.gmail.com>
-Subject: Re: [BUG] Edifier QR30 (2d99:a101, Jieli Technology) reboots itself
- when RGB brightness button is used under Linux
-To: Alan Stern <stern@rowland.harvard.edu>
-Cc: Terry Junge <linuxhid@cosmicgizmosystems.com>, 
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Michal Pecio <michal.pecio@gmail.com>, 
-	Terry Junge <linuxsound@cosmicgizmosystems.com>, linux-sound@vger.kernel.org, 
-	linux-usb@vger.kernel.org, linux-input@vger.kernel.org, 
-	Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-> > Are you sure?
-> >
-> > HID_QUIRK_ALWAYS_POLL = 0x400
-> > would stop suspending the device.
->
-> Actually, it forces the kernel to poll the device's IN endpoints even
-> when no program is holding the device file open (see where
-> usbhid_start() calls hid_start_in() if the ALWAYS_POLL quirk is set).
-> This is exactly what the speaker seems to need.
->
-> As a side effect, it prevents the device from being suspended.  But that
-> doesn't seem to be the important thing here.
+From: Daniel Peng <Daniel_Peng@pegatron.corp-partner.google.com>
 
-From: https://github.com/torvalds/linux/blob/master/include/linux/hid.h
+The FocalTech FT8112 touch screen chip same as Ilitek ili2901 controller
+has a reset gpio. The difference is that they have different
+post_gpio_reset_on_delay_ms.
+FocalTech FT8112 also uses 3.3V power supply.
 
-#define HID_QUIRK_ALWAYS_POLL          BIT(10)    ->  2^10=1024=#400
-#define HID_QUIRK_NO_IGNORE            BIT(30)    ->  2^30=1073741824=#40000000
+Signed-off-by: Daniel Peng <Daniel_Peng@pegatron.corp-partner.google.com>
+---
 
-Sorry about that. I'm still learning and the documentation was not
-very clear on this.
+ .../bindings/input/focaltech,ft8112.yaml      | 66 +++++++++++++++++++
+ MAINTAINERS                                   |  1 +
+ 2 files changed, 67 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/input/focaltech,ft8112.yaml
 
-Trying the 0x40000000: `usbhid.quirks=0x2d99:0xa101:0x40000000`  the
-usbmon stays silent when changing volume/button and reboots when
-changing brightness.
+diff --git a/Documentation/devicetree/bindings/input/focaltech,ft8112.yaml b/Documentation/devicetree/bindings/input/focaltech,ft8112.yaml
+new file mode 100644
+index 000000000000..391825b24fcb
+--- /dev/null
++++ b/Documentation/devicetree/bindings/input/focaltech,ft8112.yaml
+@@ -0,0 +1,66 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/input/focaltech,ft8112.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: FocalTech FT8112 touchscreen controller
++
++maintainers:
++  - Dmitry Torokhov <dmitry.torokhov@gmail.com>
++
++description:
++  Supports the FocalTech FT8112 touchscreen controller.
++  This touchscreen controller uses the i2c-hid protocol with a reset GPIO.
++
++allOf:
++  - $ref: /schemas/input/touchscreen/touchscreen.yaml#
++
++properties:
++  compatible:
++    enum:
++      - focaltech,ft8112
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  panel: true
++
++  reset-gpios:
++    maxItems: 1
++
++  vcc33-supply: true
++
++  vccio-supply: true
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - vcc33-supply
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++    #include <dt-bindings/interrupt-controller/irq.h>
++
++    i2c {
++      #address-cells = <1>;
++      #size-cells = <0>;
++
++      touchscreen@38 {
++        compatible = "focaltech,ft8112";
++        reg = <0x38>;
++
++        interrupt-parent = <&pio>;
++        interrupts = <15 IRQ_TYPE_LEVEL_LOW>>;
++
++        reset-gpios = <&pio 126 GPIO_ACTIVE_LOW>;
++        vcc33-supply = <&pp3300_tchscr_x>;
++      };
++    };
+diff --git a/MAINTAINERS b/MAINTAINERS
+index ddecf1ef3bed..69f54515fe98 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -12326,6 +12326,7 @@ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git
+ F:	Documentation/devicetree/bindings/input/
+ F:	Documentation/devicetree/bindings/serio/
+ F:	Documentation/input/
++F:	drivers/hid/
+ F:	drivers/input/
+ F:	include/dt-bindings/input/
+ F:	include/linux/gameport.h
+-- 
+2.34.1
 
-With HID_QUIRK_ALWAYS_POLL: `usbhid.quirks=0x2d99:0xa101:0x400`
-(reboot does not happen).
-
-Is there a different quirk to try?
-
-Off-topic:
-I was trying to decode this protocol... and did it with volume control.
-
-I can control my speaker directly with:
-
-Full volume:
-`echo \
- "2eaaec670001100e000000000000000000000000000000000000000000000000" \
-| xxd -r -p | dd bs=64 count=1 conv=sync | sudo tee /dev/hidraw1`
-
-muted:
-`echo \
-"2eaaec67000100fe0000000000000000000000000000000000000000000000000" \
-| xxd -r -p | dd bs=64 count=1 conv=sync | sudo tee /dev/hidraw1`
-
-I renamed the steps to be similar to the audio stack where 0 is very
-low but not muted.
-
-ad it stays consistent on this full range. (tested)
-
-volume muted
-2eaaec670001 00fe 00000000000000000000000000000000000000000000000000
-volume 0
-2eaaec670001 01ff 00000000000000000000000000000000000000000000000000
-volume 1
-2eaaec670001 0200 00000000000000000000000000000000000000000000000000
-volume 2
-2eaaec670001 0301 00000000000000000000000000000000000000000000000000
-volume 3
-2eaaec670001 0402 00000000000000000000000000000000000000000000000000
-volume 4
-2eaaec670001 0503 00000000000000000000000000000000000000000000000000
-volume 5
-2eaaec670001 0604 00000000000000000000000000000000000000000000000000
-volume 6
-...
-volume 14
-2eaaec670001 0f0d 00000000000000000000000000000000000000000000000000
-Volume 15 (max)
-2eaaec670001 100e 00000000000000000000000000000000000000000000000000
-
-
-
-And I also decoded the speaker volume it outputs by rotating the knob:
-
-volume muted
-2fbbec660002 1000 1f00 00000000000000000000000000000000000000000000
-volume 0
-2fbbec660002 1001 2000 00000000000000000000000000000000000000000000
-volume 1
-2fbbec660002 1002 2100 00000000000000000000000000000000000000000000
-volume 2
-2fbbec660002 1003 2200 00000000000000000000000000000000000000000000
-volume 3
-2fbbec660002 1004 2300 00000000000000000000000000000000000000000000
-...
-volume 14
-2fbbec660002 100f 2e00 00000000000000000000000000000000000000000000
-Volume 15 (max)
-2fbbec660002 1010 2f00 00000000000000000000000000000000000000000000
-
-When sending the volume change command to hidraw. The device outputs
-the volume it was set to go like the knob on that value:
-
-ffff8d49f36b3680 206654552 S Io:3:002:4 -115:1 64 = 2eaaec67 0001100e
-00000000 00000000 00000000 00000000 00000000 00000000
-ffff8d49f36b3680 206654840 C Io:3:002:4 0:1 64 >
-ffff8d494c8ee0c0 206655831 C Ii:3:002:4 0:1 64 = 2fbbec66 00021010
-2f000000 00000000 00000000 00000000 00000000 00000000
-ffff8d494c8ee0c0 206655832 S Ii:3:002:4 -115:1 64 <
-ffff8d494c8ee0c0 206656830 C Ii:3:002:4 0:1 64 = 2fbbec67 00010110
-00000000 00000000 00000000 00000000 00000000 00000000
-ffff8d494c8ee0c0 206656831 S Ii:3:002:4 -115:1 64 <
-
-If, I mean it's a very big IF. I wanted to have this device with
-hardware volume control working with alsa/pipewire/wireplumber/etc.
-What would be needed?
-
-Maybe this vendor uses the same method of communication for other devices?
-
-Maybe related: https://mailman.alsa-project.org/hyperkitty/list/alsa-devel@alsa-project.org/thread/CYSG6A62JJID5N2V5YUDW43CELEZDF36/
-
-The decibel range is bogus:
-
-lugathe wireplumber[1231]: spa.alsa: The decibel volume range for
-element 'PCM' (-2837 dB - -94 dB) has negative maximum. Disabling the
-decibel range.
-
-The RGB/Equalizer/profiles/etc. I don't think it's really important in
-the kernel context except with the reboot apparently solved with
-always poll quirk.
-
-Before this I really *knew nothing* and I am having a really good time
-and happy with this challenge. Thank you all for the wonderful work
-and knowledge you are sharing.
 
