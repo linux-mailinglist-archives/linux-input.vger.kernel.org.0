@@ -1,357 +1,644 @@
-Return-Path: <linux-input+bounces-16053-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16054-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3278C5455E
-	for <lists+linux-input@lfdr.de>; Wed, 12 Nov 2025 21:05:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91FB9C54A1A
+	for <lists+linux-input@lfdr.de>; Wed, 12 Nov 2025 22:37:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id BCB6A4E2396
-	for <lists+linux-input@lfdr.de>; Wed, 12 Nov 2025 19:51:36 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 6B1EB4E10A5
+	for <lists+linux-input@lfdr.de>; Wed, 12 Nov 2025 21:37:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D48831917F1;
-	Wed, 12 Nov 2025 19:51:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6550327D782;
+	Wed, 12 Nov 2025 21:37:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Xj9vWThh"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="HMdal4UE";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="V20FzSVl"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 770AA27E07E
-	for <linux-input@vger.kernel.org>; Wed, 12 Nov 2025 19:51:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4CF22C21DB
+	for <linux-input@vger.kernel.org>; Wed, 12 Nov 2025 21:37:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762977094; cv=none; b=fwVPkC7qjGKFyaR2L2ciFVOJzPDTJjFXIO8YD2KRCiSXgQ2LoBlbLMe+Y2JduT5kSAciDfLxEAMqLy6EDqLUHSdVfa9ihsYn5SZLO1GDEpWg9n6xnxCgrbFYOdai4xQYPJ/eE33W3ILRB0NpNrovvcggmk3hYg52HMHMvaviTjQ=
+	t=1762983429; cv=none; b=c7QioHm86BGEEJX/oPuZiKMmcpvqS0rSyuYa3FsR3JY+yC2kDmAxyANZo7WCNef7cEDFtCmk9cprrlgHsnCUEK8v6lwvVtsUCRIYKyUFpFeRpdhAq5NsW+qiv1YvC1j9qy0h9POJ0xRvbnoGvWfJgVNh2SwEJLaggGXa31YiURE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762977094; c=relaxed/simple;
-	bh=d7YE5jWwJXiiBgZ3dZLfK33AUrpCZCGUh0ISnB6wXvU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qvQCDN/y696ZPqi+T5QnSY6nBktUnm5W/7qMvctYVBgB4/xwguarW5APaZNgnHBK+wt7hOWlZhFfWUlcLnBRZDiGUgMTYnSzFWvek+oUowIomM6n2np/rcjXcdhU9ZlcONI2FwD0h8Zlk1GHkfoncEAIVqI2/9jwfdU3Y0VVSdE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Xj9vWThh; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4777a9aeedaso749635e9.3
-        for <linux-input@vger.kernel.org>; Wed, 12 Nov 2025 11:51:31 -0800 (PST)
+	s=arc-20240116; t=1762983429; c=relaxed/simple;
+	bh=dKhBf552At/bF2QNHyOl05JIDSW6vZQi2tUcI5W2ts0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=eAP/sr36SU6s39fn6cwfCPO9JHoAvcBAbCLcmmBNeW0LxJfWm/e+C8CYE+2bUxsPhv6LAR60dK6PbsXs52StMwWGgqaxKrAcrZWi498f5upRpPhvC4AGbaCP8g1i9REF+2J8NrJQ9QiQA+kBuf3zwmPXuRh9hkGrownoCdRTzt8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=HMdal4UE; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=V20FzSVl; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1762983425;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=tYciv5xTheTRzllZ894SH6EgI4YNILIAz81lyocP4jQ=;
+	b=HMdal4UEBVRX1Q+plaUg143gIWt9piqUJTe3YBqPfTjkd7iJobE/zjW1tXsrb7OuDXB5Xc
+	7iMdUqOF7NGjcMBK9NHIKMIP95Rxk7PI+e+DTzysp0nf4p/2glnXxoEmT44KllwEufqME/
+	I/3DNLoEE3ti9HHiKdNLuO7SDzr8shY=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-152-J5FVO6FJP_iCoSizSmBbWA-1; Wed, 12 Nov 2025 16:37:04 -0500
+X-MC-Unique: J5FVO6FJP_iCoSizSmBbWA-1
+X-Mimecast-MFC-AGG-ID: J5FVO6FJP_iCoSizSmBbWA_1762983423
+Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-4776079ada3so1115145e9.1
+        for <linux-input@vger.kernel.org>; Wed, 12 Nov 2025 13:37:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762977090; x=1763581890; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=L78LaQDMvDi3z+MQkhTM0pyXoQQ32IYJk408/ne+O6w=;
-        b=Xj9vWThhoB+yKqH+VP+BVD+eRkIiBG5r/e8Mwmg+VgCCtSH0pQCvcOfZOC8lzTfI+b
-         /ZxB4Vcx3zmgs9PwOETi0R3K6qYyGTSPyHP0zYCD2lbwEQbndLq2ulP/ejPDHLl6fNjn
-         9NqzgqJo8oeb1nNETiOCX9sE6Qo6kwuyWM9qavgeD4zmUDNP3Yh6utszwgo2G1oV7xo3
-         mMg/Ey64+zxzCw+u+v4YrgYpB3Zw3NRDGx6O7fG5O8gaGGIv07SQ7dN1MQEVX1RjnC/b
-         qa9GGIEsFC3tLR00xrkO7xWTwdlTkHndoxhg1YTmVag+Nt54kuI5PGx3sQFz9/O/ed0f
-         Jc3g==
+        d=redhat.com; s=google; t=1762983423; x=1763588223; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tYciv5xTheTRzllZ894SH6EgI4YNILIAz81lyocP4jQ=;
+        b=V20FzSVloHuN8qGlsN5pn5GgmQlc//qEZqAtdpdc3PoWtnm2O85cbNfsds5AbVZgDI
+         0FJdGS1oe7gt/2OgpQrKPy/CQVKKX4u8tKULaGHk3MyzG1UYEzvBrqGXTMu3mlM1HN2v
+         MIKVfwUroMC5DnGzcqyaC2mtYY5csm5RO4yoXoY6ejV05aPpSrCK53Iqn7oVcx3z/neZ
+         9aepb2DQRj7QOd3BRNcj6jGm/iiXxrEb2ANrZsmKMfCScyQkS4u+AVviFdJ58adBCO9c
+         2VHGW9pWUxvAF8KQXG5Lbm5L4CUsPOHHWTe7CTQE1ESSk33xXXAPVEx/IiwNFu69Wg4c
+         dV4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762977090; x=1763581890;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=L78LaQDMvDi3z+MQkhTM0pyXoQQ32IYJk408/ne+O6w=;
-        b=ViUS1pebXeekmDtZcvkVIcNn0PkGqk8DAYXXgHCgNuB1Ed52MSEugObRvLF3iZ87Pw
-         C6CYVb1Hma37hjLCcEDksrovp7lVfNOOBMkYHsGa7sGgdPWNZEamKDigbR6XiB1seo17
-         7ccN4leT5NBbCOAt4Y+WIMFuRL1ePHUqnHh+CdrhubDQK/JFtfBSpZHBCXhZFCpOJOlk
-         z3rTc7xUXJFhXr8v2ydBJykYlg6b+VMvXr+sBZvHL7vwdNZc9O0t2qR2gWjJAQpSzZsZ
-         6lo3k3+fhcAqKJWXyfxxoLj99YSVJnv28xNzMNMsn23f98wqJZD1puYHmyJCXpGgfrXF
-         melQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUwcukxfCDn00yWDtSMIHkFh1HpVg1zPQdpYzQyHNZLFtkns/PCXUiDkzf2lghCQurdjA9TedBOJ/NeHA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzKhF5p2qtpbN8YGxd0hJwdhC/MehL+cc1GaqttUgjxnw8tq+x9
-	G8wwwRb0blVPmxDTxr/Cz1vFcq0a7U1cyVY5urGFdMmQfJ4jE6xw3F5S
-X-Gm-Gg: ASbGnctKziPNAjI228sSnFqwFDl9evHXrYegONQDukU4YBpezh+jbQroFjzh3Jlc3kI
-	c7GWQSMp6GV9K7qVrTva8nJUHqDxzK8j20RlGhTM7jVW8l+2uLt+POXruXnKO0tlhEClB66YzWu
-	lTWcevWTcRV68NIMCgfvkuscBhCBoIwLdkOi2s8HeA68KPmCB3l51Lhk1BrbAMPT4CV/V7/CLpV
-	ma4j6yyT/oNnl7gSV431fgtAu6dZ/lCO/ah6pLmyYYBb23SPeJGvfm71EyMSp9+wos5cF1QVwA9
-	8zS1jg31jpHRvOZKOYX1KSrDLd+3Wj3BOiVvRX3U8D00+IImiMFq1Mx0lWFvQ0wAVspUnqHGAgy
-	C9CEWemkmVky+x1ra45UtjPsgy7NRavMXKMVLrtfNxbKsrQ/qePwwfZQd0KK3GcwFZLLu7WECfT
-	3xv3AY30XCdEUc
-X-Google-Smtp-Source: AGHT+IFq2tch/thXW4nGgWqvY9HlY5yH+EPE2tLXG86TV1JZW7PGK1KWgNu1jEY2HwmFDyUV+j2KIA==
-X-Received: by 2002:a05:600c:3546:b0:475:dae5:d972 with SMTP id 5b1f17b1804b1-47787095cc8mr39145765e9.23.1762977089390;
-        Wed, 12 Nov 2025 11:51:29 -0800 (PST)
-Received: from [192.168.1.121] ([176.206.83.235])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4778bb30eacsm4357725e9.2.2025.11.12.11.51.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 12 Nov 2025 11:51:29 -0800 (PST)
-Message-ID: <74f91d3c-6494-4754-a10f-4d8c1d45f7ff@gmail.com>
-Date: Wed, 12 Nov 2025 20:51:27 +0100
+        d=1e100.net; s=20230601; t=1762983423; x=1763588223;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=tYciv5xTheTRzllZ894SH6EgI4YNILIAz81lyocP4jQ=;
+        b=HZEi6RGHly3yAA3w8Y+7AqPl2N2gejfUQRCPzifTFF46+D8juoSLUfC2n5gKwKfg4j
+         kOVInLc+jpBIhWV77yGCRaCbCTEjxaCTFxmVX7/Xa29zGui6n/b7C6i1iszqbSg1ZXLS
+         SKwBzu4quMIgzkXm7wZ2OAjkCqO2Wjwv6g0ApWWI+vktG+Zz2h+bzkcBQoz7N8QJWpEz
+         NlCcyy/IzXtQW//QymyQ8suiAZGjxouudxTvCyMsAqj/E6VuGjU3/PUMJARs+1HKDXUI
+         1ILj0B7QzfICVCIQE8ADFHgT1VmAyyxsuWSw+8TXnGMX0lblrMfw73LQGKYdjDR2hTOa
+         /7eQ==
+X-Gm-Message-State: AOJu0Yzk8npz0Kfjn9UqbII3tdpqFPmJXUKlvRZQ11BjA5yladvcrjCb
+	ppqrvSkrjyArtc3AJvrnVTobgQmS+nrwWGdPIeLB79IEVvfRymQXQYMgzGyElU7QVXCSNgHtwp4
+	fUbQLjgVAU6FWATMUJ32ME7N9G5D1cjni9QmGdF6B/kHk4Lg1f5k58DawaSm5zd7hlAA1+N8qf2
+	VDBL1oVW7eeQUFxsTSN2XVx4E7YtwRaih2zC6I90k=
+X-Gm-Gg: ASbGncsHJSr1q2CQ+9zZXfjCRACsxdygfZEhj4ukCfNGA/f9JVH3kAm2fGimg88NCrT
+	NkN5qZdQVWKwoxXpxxp2J7jt2V9/wVpEcfYhD/OTyxo4/gA3ute3dgrpoKppuLZrXoIMXDCdBrO
+	OXedPgymdWPvE2ISYtyVtCSgxDAmhtnUxwF/AfdPihYmHXMZ+umO0FrbZN/GgCVA6KL3AuRNp3F
+	3ALek4QaXihmktsXg==
+X-Received: by 2002:a05:600c:1c8e:b0:477:6e02:54a5 with SMTP id 5b1f17b1804b1-47787086f75mr39343785e9.18.1762983422756;
+        Wed, 12 Nov 2025 13:37:02 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHj0h0LWmUgvvEg+u9hyLIcRNCuaz2YMcpA+S1tevmdEIAm7MRyqt5sPcYjJwAvASPVz7118eNGcgVCLPDAtac=
+X-Received: by 2002:a05:600c:1c8e:b0:477:6e02:54a5 with SMTP id
+ 5b1f17b1804b1-47787086f75mr39343595e9.18.1762983422243; Wed, 12 Nov 2025
+ 13:37:02 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 00/10] HID: asus: Fix ASUS ROG Laptop's Keyboard
- backlight handling
-To: Antheas Kapenekakis <lkml@antheas.dev>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Cc: platform-driver-x86@vger.kernel.org, linux-input@vger.kernel.org,
- LKML <linux-kernel@vger.kernel.org>, Jiri Kosina <jikos@kernel.org>,
- Benjamin Tissoires <bentiss@kernel.org>,
- Corentin Chary <corentin.chary@gmail.com>, "Luke D . Jones"
- <luke@ljones.dev>, Hans de Goede <hansg@kernel.org>
-References: <20251101104712.8011-1-lkml@antheas.dev>
- <CAGwozwE+3vkm0-amRqnNJBzxTvXabgBF9h_G_vG_L7OJj91LBg@mail.gmail.com>
- <27a74ecc-bff7-f3ae-b23e-a8362ac3a6b3@linux.intel.com>
- <CAGwozwGpacR=wYXpf3vOiwWNxaV6pJ6CdE-E-G1gRRpO4VHVMg@mail.gmail.com>
-Content-Language: en-US, it-IT, en-US-large
-From: Denis Benato <benato.denis96@gmail.com>
-In-Reply-To: <CAGwozwGpacR=wYXpf3vOiwWNxaV6pJ6CdE-E-G1gRRpO4VHVMg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20251111105634.1684751-1-lzampier@redhat.com> <20251111105634.1684751-2-lzampier@redhat.com>
+ <82ec5223f83eaa89278997fe95ee9ea83236a4a1.camel@hadess.net>
+In-Reply-To: <82ec5223f83eaa89278997fe95ee9ea83236a4a1.camel@hadess.net>
+From: Lucas Zampieri <lzampier@redhat.com>
+Date: Wed, 12 Nov 2025 21:36:51 +0000
+X-Gm-Features: AWmQ_bn01Psq5ifqjk_KX3K_rkAwkdFEyTAkgg0BJTsvidHSbXouhyKQCPUdKaw
+Message-ID: <CAOOg__Ds=0EU=pS3ZxYONSqr1rncmz89pn1RpRbgTqvtTdRXgQ@mail.gmail.com>
+Subject: Re: [RFC PATCH 1/1] HID: input: Add support for multiple batteries
+ per device
+To: Bastien Nocera <hadess@hadess.net>
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, 
+	Sebastian Reichel <sre@kernel.org>, linux-pm@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+Hey Bastien,
 
-On 11/12/25 14:41, Antheas Kapenekakis wrote:
-> On Wed, 12 Nov 2025 at 14:22, Ilpo Järvinen
-> <ilpo.jarvinen@linux.intel.com> wrote:
->> On Wed, 12 Nov 2025, Antheas Kapenekakis wrote:
->>
->>> On Sat, 1 Nov 2025 at 11:47, Antheas Kapenekakis <lkml@antheas.dev> wrote:
->>>> This is a two part series which does the following:
->>>>   - Clean-up init sequence
->>>>   - Unify backlight handling to happen under asus-wmi so that all Aura
->>>>     devices have synced brightness controls and the backlight button works
->>>>     properly when it is on a USB laptop keyboard instead of one w/ WMI.
->>>>
->>>> For more context, see cover letter of V1. Since V5, I removed some patches
->>>> to make this easier to merge.
->>> Small bump for this.
->> I looked at v8 earlier but then got an impression some of Denis' comments
->> against v7 were not taken into account in v8, which implies there will be
->> delay until I've time to delve into the details (I need to understand
->> things pretty deeply in such a case, which does take lots of time).
->>
->> Alternatively, if Denis says v8 is acceptable, then I don't need to spend
->> so much time on it, but somehow I've a feeling he isn't happy with v8
->> but just hasn't voiced it again...
->>
->> Please do realize that ignoring reviewer feedback without a very very good
->> reason always risks adding delay or friction into getting things
->> upstreamed. Especially, when the review comes from a person who has been
->> around for me to learn to trust their reviews or from a maintainer of the
->> code in question.
-> Sure, sorry if it came out this way. Dennis had two comments on the V7
-> version of the series.
+On Wed, Nov 12, 2025 at 2:46=E2=80=AFPM Bastien Nocera <hadess@hadess.net> =
+wrote:
 >
-> The first one was that asusctl has a hang bug, which he hasn't had
-> time to look into yet. This should have been fixed by dropping the
-> HID_QUIRK_INPUT_PER_APP. I retested the series and that QUIRK was a
-> bit of a NOOP that does not need to be added in the future.
-So it is supposed to not regress it now, correct?
-> The second is he is concerned with dropping the 0x5d/0x5e inits. Luke
-> said (back in March) that it is fine to drop 0x5e because it is only
-> used for ANIME displays. However, for 0x5d, it is hard to verify some
-> of the older laptops because they have only been tested with 0x5d and
-> we do not have the hardware in question to test.
+> Hey Lucas,
 >
-> For this series, I re-added "initialize LED endpoint early for old
-> NKEY keyboards" that re-adds 0x5d for the keyboards that cannot be
-> tested again so this comment should be resolved too. With that in
-> mind, we do end up with an additional quirk/command that may be
-> unneeded and will remain there forever, but since it was a point of
-> contention, it is not worth arguing over.
+> (Follow-up to a chat we had about this patch privately)
 >
-> So both comments should be resolved
-The driver should also not late-initialize anything.
+> On Tue, 2025-11-11 at 10:56 +0000, Lucas Zampieri wrote:
+> > Add support for multiple batteries per HID device by introducing
+> > struct hid_battery to encapsulate individual battery state and using
+> > a list to track multiple batteries identified by report ID. The
+> > legacy
+> > dev->battery field is maintained for backwards compatibility.
+>
+> The cover letter mentions specific hardware, you probably want to
+> mention this in the commit message itself, as the cover letter will be
+> disconnected from this commit once this gets merged. Don't hesitate to
+> link to product pages directly if you want to show specific products as
+> potential users of that capability.
+>
+Got it, I'll update the commits in the v2 with that in mind.
 
-Windows doesn't do it and the official asus application
-can freely send LEDs changing commands to either WMI or USB
-so I don't see any reason to do things differently [than windows]
-and not prepare every USB endpoint to receive commands,
-this has not been addressed unless I confused v7 and v8?
-> @Denis: can give an ack if this is the case?
+> You mentioned that you tested this patchset with a custom firmware for
+> a split keyboard. It would be great if the firmware could be made
+> available to show how this was tested and mention that in the commit
+> message.
 >
-> As for Derek's comment, he has a PR for his project where he removes
-> the name match for Ally devices with ample time for it to be merged
-> until kernel 6.19 is released. In addition, that specific software for
-> full functionality relies on OOT drivers on the distros it ships with,
-> so it is minimally affected in either case.
-The part we are talking about depends on this driver (hid-asus)
-and there are people on asus-linux community using inputplumber
-for non-ally devices (the OOT driver is only for ally devices)
-therefore it is very important to us (and various other distributions)
-not to break that software in any way.
+I've pushed my custom firmware to
+https://github.com/zampierilucas/zmk/tree/feat/individual-hid-battery-repor=
+ting,
+if this series gets merged, I'll also propose that change to upstream
+zmk project.
+I'll also add links to in the v2 of the cover-letter
 
-Weighting pros and cons of changing the name I am not sure
-changing name brings any benefit? Or am I missing something here?
-It's simply used by userspace so the hardware should be loading
-regardless of the name...
+> bentiss will also likely want a hid-recorder output for the device that
+> shows the batteries being instantiated. This would also likely be used
+> to test whether upower continues working as expected.
+>
+Ack, I'll get the hid-recorder output and add to the testing section
+of my cover letter.
 
-Along with IP and your tool and asusctl there is also openrgb,
-and a newborn application for asus devices (I don't have contacts
-with that dev nor I remember the name of the tool)
-and I am not even that sure these are all asus-related
-applications.
+> Talking of upower, I think we'll need an systemd/hwdb + upower changes
+> to differentiate batteries within a single device, as I don't think we
+> can have enough metadata in the HID report to differentiate them.
+>
+> Last comment about the patch itself, do you think it would be feasible
+> to split this in 2 or 3? One to introduce the hid_battery struct,
+> another to use it to replace direct power_supply access, and finally
+> one to allow a list of hid_batteries?
+>
+> Don't hesitate to CC: on future versions.
+>
+For sure, thanks for the feedback
 
-Excercise EXTRA care touching this area as these are enough changes
-to make it difficult to understand what exactly is the problem if
-someone shows up with LEDs malfunctioning, laptop not entering sleep
-anymore or something else entirely. Plus over time
-ASUS has used various workarounds for windows problems
-and I am not eager to find out what those are since there is only
-a realistic way it's going to happen....
-> Moreover, that specific commit is needed for Xbox Ally devices anyway,
-> as the kernel kicks one of the RGB endpoints because it does not
-> register an input device (the check skipped by early return) so
-> userspace becomes unable to control RGB on a stock kernel
-> (hidraw/hiddev nodes are gone). For more context here, this specific
-> endpoint implements the RGB Lamparray protocol for Windows dynamic
-> lighting, and I think in an attempt to make it work properly in
-> Windows, Asus made it so Windows has to first disable dynamic lighting
-> for armoury crate RGB commands to work (the 0x5a ones over the 0xff31
-> hid page).
-Yes once ASUS introduces something new it sticks with that for
-future models so it's expected more and more laptops will have
-the same problem: I am not questioning if these patches are needed
-as they very clearly are; I am questioning if everything that these
-patches are doing are worth doing and aren't breaking/regressing
-either tools or the flow of actions between the EC and these USB devices.
-> Hopefully this clears things up
+> Cheers
 >
-> Antheas
+> >
+> > Signed-off-by: Lucas Zampieri <lzampier@redhat.com>
+> > ---
+> >  drivers/hid/hid-core.c  |   4 +
+> >  drivers/hid/hid-input.c | 193 +++++++++++++++++++++++++++-----------
+> > --
+> >  include/linux/hid.h     |  42 ++++++++-
+> >  3 files changed, 176 insertions(+), 63 deletions(-)
+> >
+> > diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
+> > index a5b3a8ca2fcb..76d628547e9a 100644
+> > --- a/drivers/hid/hid-core.c
+> > +++ b/drivers/hid/hid-core.c
+> > @@ -2990,6 +2990,10 @@ struct hid_device *hid_allocate_device(void)
+> >       mutex_init(&hdev->ll_open_lock);
+> >       kref_init(&hdev->ref);
+> >
+> > +#ifdef CONFIG_HID_BATTERY_STRENGTH
+> > +     INIT_LIST_HEAD(&hdev->batteries);
+> > +#endif
+> > +
+> >       ret =3D hid_bpf_device_init(hdev);
+> >       if (ret)
+> >               goto out_err;
+> > diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
+> > index e56e7de53279..071df319775b 100644
+> > --- a/drivers/hid/hid-input.c
+> > +++ b/drivers/hid/hid-input.c
+> > @@ -454,7 +454,8 @@ static int hidinput_get_battery_property(struct
+> > power_supply *psy,
+> >                                        enum power_supply_property
+> > prop,
+> >                                        union power_supply_propval
+> > *val)
+> >  {
+> > -     struct hid_device *dev =3D power_supply_get_drvdata(psy);
+> > +     struct hid_battery *bat =3D power_supply_get_drvdata(psy);
+> > +     struct hid_device *dev =3D bat->dev;
+> >       int value;
+> >       int ret =3D 0;
+> >
+> > @@ -465,13 +466,13 @@ static int hidinput_get_battery_property(struct
+> > power_supply *psy,
+> >               break;
+> >
+> >       case POWER_SUPPLY_PROP_CAPACITY:
+> > -             if (dev->battery_status !=3D HID_BATTERY_REPORTED &&
+> > -                 !dev->battery_avoid_query) {
+> > +             if (bat->status !=3D HID_BATTERY_REPORTED &&
+> > +                 !bat->avoid_query) {
+> >                       value =3D
+> > hidinput_query_battery_capacity(dev);
+> >                       if (value < 0)
+> >                               return value;
+> >               } else  {
+> > -                     value =3D dev->battery_capacity;
+> > +                     value =3D bat->capacity;
+> >               }
+> >
+> >               val->intval =3D value;
+> > @@ -482,20 +483,20 @@ static int hidinput_get_battery_property(struct
+> > power_supply *psy,
+> >               break;
+> >
+> >       case POWER_SUPPLY_PROP_STATUS:
+> > -             if (dev->battery_status !=3D HID_BATTERY_REPORTED &&
+> > -                 !dev->battery_avoid_query) {
+> > +             if (bat->status !=3D HID_BATTERY_REPORTED &&
+> > +                 !bat->avoid_query) {
+> >                       value =3D
+> > hidinput_query_battery_capacity(dev);
+> >                       if (value < 0)
+> >                               return value;
+> >
+> > -                     dev->battery_capacity =3D value;
+> > -                     dev->battery_status =3D HID_BATTERY_QUERIED;
+> > +                     bat->capacity =3D value;
+> > +                     bat->status =3D HID_BATTERY_QUERIED;
+> >               }
+> >
+> > -             if (dev->battery_status =3D=3D HID_BATTERY_UNKNOWN)
+> > +             if (bat->status =3D=3D HID_BATTERY_UNKNOWN)
+> >                       val->intval =3D POWER_SUPPLY_STATUS_UNKNOWN;
+> >               else
+> > -                     val->intval =3D dev->battery_charge_status;
+> > +                     val->intval =3D bat->charge_status;
+> >               break;
+> >
+> >       case POWER_SUPPLY_PROP_SCOPE:
+> > @@ -513,33 +514,53 @@ static int hidinput_get_battery_property(struct
+> > power_supply *psy,
+> >  static int hidinput_setup_battery(struct hid_device *dev, unsigned
+> > report_type,
+> >                                 struct hid_field *field, bool
+> > is_percentage)
+> >  {
+> > +     struct hid_battery *bat;
+> >       struct power_supply_desc *psy_desc;
+> > -     struct power_supply_config psy_cfg =3D { .drv_data =3D dev, };
+> > +     struct power_supply_config psy_cfg;
+> >       unsigned quirks;
+> >       s32 min, max;
+> >       int error;
+> > +     int battery_num =3D 0;
+> >
+> > -     if (dev->battery)
+> > -             return 0;       /* already initialized? */
+> > +     list_for_each_entry(bat, &dev->batteries, list) {
+> > +             if (bat->report_id =3D=3D field->report->id)
+> > +                     return 0;       /* already initialized */
+> > +             battery_num++;
+> > +     }
+> >
+> >       quirks =3D find_battery_quirk(dev);
+> >
+> > -     hid_dbg(dev, "device %x:%x:%x %d quirks %d\n",
+> > -             dev->bus, dev->vendor, dev->product, dev->version,
+> > quirks);
+> > +     hid_dbg(dev, "device %x:%x:%x %d quirks %d report_id %d\n",
+> > +             dev->bus, dev->vendor, dev->product, dev->version,
+> > quirks,
+> > +             field->report->id);
+> >
+> >       if (quirks & HID_BATTERY_QUIRK_IGNORE)
+> >               return 0;
+> >
+> > -     psy_desc =3D kzalloc(sizeof(*psy_desc), GFP_KERNEL);
+> > -     if (!psy_desc)
+> > +     bat =3D kzalloc(sizeof(*bat), GFP_KERNEL);
+> > +     if (!bat)
+> >               return -ENOMEM;
+> >
+> > -     psy_desc->name =3D kasprintf(GFP_KERNEL, "hid-%s-battery",
+> > -                                strlen(dev->uniq) ?
+> > -                                     dev->uniq : dev_name(&dev-
+> > >dev));
+> > +     psy_desc =3D kzalloc(sizeof(*psy_desc), GFP_KERNEL);
+> > +     if (!psy_desc) {
+> > +             error =3D -ENOMEM;
+> > +             goto err_free_bat;
+> > +     }
+> > +
+> > +     /* Create unique name for each battery based on report ID */
+> > +     if (battery_num =3D=3D 0) {
+> > +             psy_desc->name =3D kasprintf(GFP_KERNEL, "hid-%s-
+> > battery",
+> > +                                        strlen(dev->uniq) ?
+> > +                                             dev->uniq :
+> > dev_name(&dev->dev));
+> > +     } else {
+> > +             psy_desc->name =3D kasprintf(GFP_KERNEL, "hid-%s-
+> > battery-%d",
+> > +                                        strlen(dev->uniq) ?
+> > +                                             dev->uniq :
+> > dev_name(&dev->dev),
+> > +                                        battery_num);
+> > +     }
+> >       if (!psy_desc->name) {
+> >               error =3D -ENOMEM;
+> > -             goto err_free_mem;
+> > +             goto err_free_desc;
+> >       }
+> >
+> >       psy_desc->type =3D POWER_SUPPLY_TYPE_BATTERY;
+> > @@ -559,98 +580,148 @@ static int hidinput_setup_battery(struct
+> > hid_device *dev, unsigned report_type,
+> >       if (quirks & HID_BATTERY_QUIRK_FEATURE)
+> >               report_type =3D HID_FEATURE_REPORT;
+> >
+> > -     dev->battery_min =3D min;
+> > -     dev->battery_max =3D max;
+> > -     dev->battery_report_type =3D report_type;
+> > -     dev->battery_report_id =3D field->report->id;
+> > -     dev->battery_charge_status =3D
+> > POWER_SUPPLY_STATUS_DISCHARGING;
+> > +     /* Initialize battery structure */
+> > +     bat->dev =3D dev;
+> > +     bat->min =3D min;
+> > +     bat->max =3D max;
+> > +     bat->report_type =3D report_type;
+> > +     bat->report_id =3D field->report->id;
+> > +     bat->charge_status =3D POWER_SUPPLY_STATUS_DISCHARGING;
+> > +     bat->status =3D HID_BATTERY_UNKNOWN;
+> >
+> >       /*
+> >        * Stylus is normally not connected to the device and thus
+> > we
+> >        * can't query the device and get meaningful battery
+> > strength.
+> >        * We have to wait for the device to report it on its own.
+> >        */
+> > -     dev->battery_avoid_query =3D report_type =3D=3D HID_INPUT_REPORT
+> > &&
+> > -                                field->physical =3D=3D HID_DG_STYLUS;
+> > +     bat->avoid_query =3D report_type =3D=3D HID_INPUT_REPORT &&
+> > +                        field->physical =3D=3D HID_DG_STYLUS;
+> >
+> >       if (quirks & HID_BATTERY_QUIRK_AVOID_QUERY)
+> > -             dev->battery_avoid_query =3D true;
+> > +             bat->avoid_query =3D true;
+> >
+> > -     dev->battery =3D power_supply_register(&dev->dev, psy_desc,
+> > &psy_cfg);
+> > -     if (IS_ERR(dev->battery)) {
+> > -             error =3D PTR_ERR(dev->battery);
+> > +     psy_cfg.drv_data =3D bat;
+> > +     bat->ps =3D power_supply_register(&dev->dev, psy_desc,
+> > &psy_cfg);
+> > +     if (IS_ERR(bat->ps)) {
+> > +             error =3D PTR_ERR(bat->ps);
+> >               hid_warn(dev, "can't register power supply: %d\n",
+> > error);
+> >               goto err_free_name;
+> >       }
+> >
+> > -     power_supply_powers(dev->battery, &dev->dev);
+> > +     power_supply_powers(bat->ps, &dev->dev);
+> > +
+> > +     list_add_tail(&bat->list, &dev->batteries);
+> > +
+> > +     /*
+> > +      * The legacy single battery API is preserved by exposing
+> > the first
+> > +      * discovered battery. Systems relying on a single battery
+> > view maintain
+> > +      * unchanged behavior.
+> > +      */
+> > +     if (battery_num =3D=3D 0) {
+> > +             dev->battery =3D bat->ps;
+> > +             dev->battery_min =3D bat->min;
+> > +             dev->battery_max =3D bat->max;
+> > +             dev->battery_report_type =3D bat->report_type;
+> > +             dev->battery_report_id =3D bat->report_id;
+> > +             dev->battery_charge_status =3D bat->charge_status;
+> > +             dev->battery_status =3D bat->status;
+> > +             dev->battery_avoid_query =3D bat->avoid_query;
+> > +     }
+> > +
+> >       return 0;
+> >
+> >  err_free_name:
+> >       kfree(psy_desc->name);
+> > -err_free_mem:
+> > +err_free_desc:
+> >       kfree(psy_desc);
+> > -     dev->battery =3D NULL;
+> > +err_free_bat:
+> > +     kfree(bat);
+> >       return error;
+> >  }
+> >
+> >  static void hidinput_cleanup_battery(struct hid_device *dev)
+> >  {
+> > +     struct hid_battery *bat, *next;
+> >       const struct power_supply_desc *psy_desc;
+> >
+> > -     if (!dev->battery)
+> > -             return;
+> > +     list_for_each_entry_safe(bat, next, &dev->batteries, list) {
+> > +             psy_desc =3D bat->ps->desc;
+> > +             power_supply_unregister(bat->ps);
+> > +             kfree(psy_desc->name);
+> > +             kfree(psy_desc);
+> > +             list_del(&bat->list);
+> > +             kfree(bat);
+> > +     }
+> >
+> > -     psy_desc =3D dev->battery->desc;
+> > -     power_supply_unregister(dev->battery);
+> > -     kfree(psy_desc->name);
+> > -     kfree(psy_desc);
+> >       dev->battery =3D NULL;
+> >  }
+> >
+> > -static bool hidinput_update_battery_charge_status(struct hid_device
+> > *dev,
+> > +static struct hid_battery *hidinput_find_battery(struct hid_device
+> > *dev,
+> > +                                              int report_id)
+> > +{
+> > +     struct hid_battery *bat;
+> > +
+> > +     list_for_each_entry(bat, &dev->batteries, list) {
+> > +             if (bat->report_id =3D=3D report_id)
+> > +                     return bat;
+> > +     }Tested with Dactyl 5x6 split keyboard usin
+> > +     return NULL;
+> > +}
+> > +
+> > +static bool hidinput_update_battery_charge_status(struct hid_battery
+> > *bat,
+> >                                                 unsigned int
+> > usage, int value)
+> >  {
+> >       switch (usage) {
+> >       case HID_BAT_CHARGING:
+> > -             dev->battery_charge_status =3D value ?
+> > -
+> > POWER_SUPPLY_STATUS_CHARGING :
+> > -
+> > POWER_SUPPLY_STATUS_DISCHARGING;
+> > +             bat->charge_status =3D value ?
+> > +                                  POWER_SUPPLY_STATUS_CHARGING :
+> > +
+> > POWER_SUPPLY_STATUS_DISCHARGING;
+> > +             if (bat->dev->battery =3D=3D bat->ps)
+> > +                     bat->dev->battery_charge_status =3D bat-
+> > >charge_status;
+> >               return true;
+> >       }
+> >
+> >       return false;
+> >  }
+> >
+> > -static void hidinput_update_battery(struct hid_device *dev, unsigned
+> > int usage,
+> > -                                 int value)
+> > +static void hidinput_update_battery(struct hid_device *dev, int
+> > report_id,
+> > +                                 unsigned int usage, int value)
+> >  {
+> > +     struct hid_battery *bat;
+> >       int capacity;
+> >
+> > -     if (!dev->battery)
+> > +     bat =3D hidinput_find_battery(dev, report_id);
+> > +     if (!bat)
+> >               return;
+> >
+> > -     if (hidinput_update_battery_charge_status(dev, usage,
+> > value)) {
+> > -             power_supply_changed(dev->battery);
+> > +     if (hidinput_update_battery_charge_status(bat, usage,
+> > value)) {
+> > +             power_supply_changed(bat->ps);
+> >               return;
+> >       }
+> >
+> >       if ((usage & HID_USAGE_PAGE) =3D=3D HID_UP_DIGITIZER && value =3D=
+=3D
+> > 0)
+> >               return;
+> >
+> > -     if (value < dev->battery_min || value > dev->battery_max)
+> > +     if (value < bat->min || value > bat->max)
+> >               return;
+> >
+> >       capacity =3D hidinput_scale_battery_capacity(dev, value);
+> >
+> > -     if (dev->battery_status !=3D HID_BATTERY_REPORTED ||
+> > -         capacity !=3D dev->battery_capacity ||
+> > -         ktime_after(ktime_get_coarse(), dev-
+> > >battery_ratelimit_time)) {
+> > -             dev->battery_capacity =3D capacity;
+> > -             dev->battery_status =3D HID_BATTERY_REPORTED;
+> > -             dev->battery_ratelimit_time =3D
+> > +     if (bat->status !=3D HID_BATTERY_REPORTED ||
+> > +         capacity !=3D bat->capacity ||
+> > +         ktime_after(ktime_get_coarse(), bat->ratelimit_time)) {
+> > +             bat->capacity =3D capacity;
+> > +             bat->status =3D HID_BATTERY_REPORTED;
+> > +             bat->ratelimit_time =3D
+> >                       ktime_add_ms(ktime_get_coarse(), 30 * 1000);
+> > -             power_supply_changed(dev->battery);
+> > +
+> > +             if (dev->battery =3D=3D bat->ps) {
+> > +                     dev->battery_capacity =3D bat->capacity;
+> > +                     dev->battery_status =3D bat->status;
+> > +                     dev->battery_ratelimit_time =3D bat-
+> > >ratelimit_time;
+> > +             }
+> > +
+> > +             power_supply_changed(bat->ps);
+> >       }
+> >  }
+> >  #else  /* !CONFIG_HID_BATTERY_STRENGTH */
+> > @@ -664,8 +735,8 @@ static void hidinput_cleanup_battery(struct
+> > hid_device *dev)
+> >  {
+> >  }
+> >
+> > -static void hidinput_update_battery(struct hid_device *dev, unsigned
+> > int usage,
+> > -                                 int value)
+> > +static void hidinput_update_battery(struct hid_device *dev, int
+> > report_id,
+> > +                                 unsigned int usage, int value)
+> >  {
+> >  }
+> >  #endif       /* CONFIG_HID_BATTERY_STRENGTH */
+> > @@ -1533,7 +1604,7 @@ void hidinput_hid_event(struct hid_device *hid,
+> > struct hid_field *field, struct
+> >               return;
+> >
+> >       if (usage->type =3D=3D EV_PWR) {
+> > -             hidinput_update_battery(hid, usage->hid, value);
+> > +             hidinput_update_battery(hid, report->id, usage->hid,
+> > value);
+> >               return;
+> >       }
+> >
+> > diff --git a/include/linux/hid.h b/include/linux/hid.h
+> > index a4ddb94e3ee5..a6e36835fb3c 100644
+> > --- a/include/linux/hid.h
+> > +++ b/include/linux/hid.h
+> > @@ -634,6 +634,36 @@ enum hid_battery_status {
+> >       HID_BATTERY_REPORTED,           /* Device sent unsolicited
+> > battery strength report */
+> >  };
+> >
+> > +/**
+> > + * struct hid_battery - represents a single battery power supply
+> > + * @list: list node for linking into hid_device's battery list
+> > + * @dev: pointer to the parent hid_device
+> > + * @ps: the power supply device
+> > + * @capacity: current battery capacity
+> > + * @min: minimum battery value
+> > + * @max: maximum battery value
+> > + * @report_type: type of report (HID_INPUT_REPORT,
+> > HID_FEATURE_REPORT)
+> > + * @report_id: report ID for this battery
+> > + * @charge_status: current charge status
+> > + * @status: battery status (unknown, queried, reported)
+> > + * @avoid_query: if true, don't query battery (wait for device
+> > reports)
+> > + * @ratelimit_time: time for rate limiting battery updates
+> > + */
+> > +struct hid_battery {
+> > +     struct list_head list;
+> > +     struct hid_device *dev;
+> > +     struct power_supply *ps;
+> > +     __s32 capacity;
+> > +     __s32 min;
+> > +     __s32 max;
+> > +     __s32 report_type;
+> > +     __s32 report_id;
+> > +     __s32 charge_status;
+> > +     enum hid_battery_status status;
+> > +     bool avoid_query;
+> > +     ktime_t ratelimit_time;
+> > +};
+> > +
+> >  struct hid_driver;
+> >  struct hid_ll_driver;
+> >
+> > @@ -670,8 +700,16 @@ struct hid_device {
+> >  #ifdef CONFIG_HID_BATTERY_STRENGTH
+> >       /*
+> >        * Power supply information for HID devices which report
+> > -      * battery strength. power_supply was successfully
+> > registered if
+> > -      * battery is non-NULL.
+> > +      * battery strength. Each battery is tracked separately in
+> > the
+> > +      * batteries list.
+> > +      */
+> > +     struct list_head batteries;             /* List of
+> > hid_battery structures */
+> > +
+> > +     /*
+> > +      * Legacy single battery support - kept for backwards
+> > compatibility.
+> > +      * Points to the first battery in the list if any exists.
+> > +      * power_supply was successfully registered if battery is
+> > non-NULL.
+> > +      * DEPRECATED: New code should iterate through batteries
+> > list instead.
+> >        */
+> >       struct power_supply *battery;
+> >       __s32 battery_capacity;
 >
->>> Unrelated but I was b4ing this series on Ubuntu 24 and got BADSIG:
->>> DKIM/antheas.dev. Is there a reference for fixing this on my host?
->>> Perhaps it would help with spam
->> I see BADSIG very often these days from b4 (thanks to gmail expiring
->> things after 7 days or so, I recall hearing somewhere), I just ignore them
->> entirely.
->>
->> AFAIK, that has never caused any delay to any patch in pdx86 domain so if
->> that is what you thought is happening here, it's not the case.
->> If your patch does appear in the pdx86 patchwork, there's even less reason
->> to worry as I mostly pick patches to process using patchwork's list.
-> Turns out I had to update my DNS records. It should be good now.
->
->> --
->>  i.
->>
->>> Antheas
->>>
->>>> ---
->>>> V7: https://lore.kernel.org/all/20251018101759.4089-1-lkml@antheas.dev/
->>>> V6: https://lore.kernel.org/all/20251013201535.6737-1-lkml@antheas.dev/
->>>> V5: https://lore.kernel.org/all/20250325184601.10990-1-lkml@antheas.dev/
->>>> V4: https://lore.kernel.org/lkml/20250324210151.6042-1-lkml@antheas.dev/
->>>> V3: https://lore.kernel.org/lkml/20250322102804.418000-1-lkml@antheas.dev/
->>>> V2: https://lore.kernel.org/all/20250320220924.5023-1-lkml@antheas.dev/
->>>> V1: https://lore.kernel.org/all/20250319191320.10092-1-lkml@antheas.dev/
->>>>
->>>> Changes since V7:
->>>>   - Readd legacy init quirk for Dennis
->>>>   - Remove HID_QUIRK_INPUT_PER_APP as a courtesy to asusctl
->>>>   - Fix warning due to enum_backlight receiving negative values
->>>>
->>>> Changes since V6:
->>>>   - Split initialization refactor into three patches, update commit text
->>>>     to be clearer in what it does
->>>>   - Replace spinlock accesses with guard and scoped guard in all patches
->>>>   - Add missing includes mentioned by Ilpo
->>>>   - Reflow, tweak comment in prevent binding to all HID devices on ROG
->>>>   - Replace asus_ref.asus with local reference in all patches
->>>>   - Add missing kernel doc comments
->>>>   - Other minor nits from Ilpo
->>>>   - User reported warning due to scheduling work while holding a spinlock.
->>>>     Restructure patch for multiple handlers to limit when spinlock is held to
->>>>     variable access only. In parallel, setup a workqueue to handle registration
->>>>     of led device and setting brightness. This is required as registering the
->>>>     led device triggers kbd_led_get which needs to hold the spinlock to
->>>>     protect the led_wk value. The workqueue is also required for the hid
->>>>     event passthrough to avoid scheduling work while holding the spinlock.
->>>>     Apply the workqueue to wmi brightness buttons as well, as that was
->>>>     omitted before this series and WMI access was performed.
->>>>   - On "HID: asus: prevent binding to all HID devices on ROG", rename
->>>>     quirk HANDLE_GENERIC to SKIP_REPORT_FIXUP and only skip report fixup.
->>>>     This allows other quirks to apply (applies quirk that fixes keyboard
->>>>     being named as a pointer device).
->>>>
->>>> Changes since V5:
->>>>   - It's been a long time
->>>>   - Remove addition of RGB as that had some comments I need to work on
->>>>   - Remove folio patch (already merged)
->>>>   - Remove legacy fix patch 11 from V4. There is a small chance that
->>>>     without this patch, some old NKEY keyboards might not respond to
->>>>     RGB commands according to Luke, but the kernel driver does not do
->>>>     RGB currently. The 0x5d init is done by Armoury crate software in
->>>>     Windows. If an issue is found, we can re-add it or just remove patches
->>>>     1/2 before merging. However, init could use the cleanup.
->>>>
->>>> Changes since V4:
->>>>   - Fix KConfig (reported by kernel robot)
->>>>   - Fix Ilpo's nits, if I missed anything lmk
->>>>
->>>> Changes since V3:
->>>>   - Add initializer for 0x5d for old NKEY keyboards until it is verified
->>>>     that it is not needed for their media keys to function.
->>>>   - Cover init in asus-wmi with spinlock as per Hans
->>>>   - If asus-wmi registers WMI handler with brightness, init the brightness
->>>>     in USB Asus keyboards, per Hans.
->>>>   - Change hid handler name to asus-UNIQ:rgb:peripheral to match led class
->>>>   - Fix oops when unregistering asus-wmi by moving unregister outside of
->>>>     the spin lock (but after the asus reference is set to null)
->>>>
->>>> Changes since V2:
->>>>   - Check lazy init succeds in asus-wmi before setting register variable
->>>>   - make explicit check in asus_hid_register_listener for listener existing
->>>>     to avoid re-init
->>>>   - rename asus_brt to asus_hid in most places and harmonize everything
->>>>   - switch to a spinlock instead of a mutex to avoid kernel ooops
->>>>   - fixup hid device quirks to avoid multiple RGB devices while still exposing
->>>>     all input vendor devices. This includes moving rgb init to probe
->>>>     instead of the input_configured callbacks.
->>>>   - Remove fan key (during retest it appears to be 0xae that is already
->>>>     supported by hid-asus)
->>>>   - Never unregister asus::kbd_backlight while asus-wmi is active, as that
->>>>   - removes fds from userspace and breaks backlight functionality. All
->>>>   - current mainline drivers do not support backlight hotplugging, so most
->>>>     userspace software (e.g., KDE, UPower) is built with that assumption.
->>>>     For the Ally, since it disconnects its controller during sleep, this
->>>>     caused the backlight slider to not work in KDE.
->>>>
->>>> Changes since V1:
->>>>   - Add basic RGB support on hid-asus, (Z13/Ally) tested in KDE/Z13
->>>>   - Fix ifdef else having an invalid signature (reported by kernel robot)
->>>>   - Restore input arguments to init and keyboard function so they can
->>>>     be re-used for RGB controls.
->>>>   - Remove Z13 delay (it did not work to fix the touchpad) and replace it
->>>>     with a HID_GROUP_GENERIC quirk to allow hid-multitouch to load. Squash
->>>>     keyboard rename into it.
->>>>   - Unregister brightness listener before removing work queue to avoid
->>>>     a race condition causing corruption
->>>>   - Remove spurious mutex unlock in asus_brt_event
->>>>   - Place mutex lock in kbd_led_set after LED_UNREGISTERING check to avoid
->>>>     relocking the mutex and causing a deadlock when unregistering leds
->>>>   - Add extra check during unregistering to avoid calling unregister when
->>>>     no led device is registered.
->>>>   - Temporarily HID_QUIRK_INPUT_PER_APP from the ROG endpoint as it causes
->>>>     the driver to create 4 RGB handlers per device. I also suspect some
->>>>     extra events sneak through (KDE had the @@@@@@).
->>>>
->>>> Antheas Kapenekakis (10):
->>>>   HID: asus: simplify RGB init sequence
->>>>   HID: asus: use same report_id in response
->>>>   HID: asus: fortify keyboard handshake
->>>>   HID: asus: prevent binding to all HID devices on ROG
->>>>   HID: asus: initialize LED endpoint early for old NKEY keyboards
->>>>   platform/x86: asus-wmi: Add support for multiple kbd led handlers
->>>>   HID: asus: listen to the asus-wmi brightness device instead of
->>>>     creating one
->>>>   platform/x86: asus-wmi: remove unused keyboard backlight quirk
->>>>   platform/x86: asus-wmi: add keyboard brightness event handler
->>>>   HID: asus: add support for the asus-wmi brightness handler
->>>>
->>>>  drivers/hid/hid-asus.c                     | 222 +++++++++++----------
->>>>  drivers/platform/x86/asus-wmi.c            | 214 +++++++++++++++++---
->>>>  include/linux/platform_data/x86/asus-wmi.h |  70 +++----
->>>>  3 files changed, 331 insertions(+), 175 deletions(-)
->>>>
->>>>
->>>> base-commit: 211ddde0823f1442e4ad052a2f30f050145ccada
->>>> --
->>>> 2.51.2
->>>>
->>>>
+Best,
+
 
