@@ -1,288 +1,186 @@
-Return-Path: <linux-input+bounces-16055-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16056-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 921F2C54B26
-	for <lists+linux-input@lfdr.de>; Wed, 12 Nov 2025 23:13:54 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id CCB54C54B6C
+	for <lists+linux-input@lfdr.de>; Wed, 12 Nov 2025 23:29:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 935D14E2087
-	for <lists+linux-input@lfdr.de>; Wed, 12 Nov 2025 22:08:28 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 163723A5FD9
+	for <lists+linux-input@lfdr.de>; Wed, 12 Nov 2025 22:27:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 89C4A2EA481;
-	Wed, 12 Nov 2025 22:08:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4D3F42C029C;
+	Wed, 12 Nov 2025 22:27:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=antheas.dev header.i=@antheas.dev header.b="dpJ8wZjh"
+	dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b="txeB+liG"
 X-Original-To: linux-input@vger.kernel.org
-Received: from relay13.grserver.gr (relay13.grserver.gr [178.156.171.147])
+Received: from mx0b-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2671F2E8882
-	for <linux-input@vger.kernel.org>; Wed, 12 Nov 2025 22:08:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.156.171.147
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A083C35CBB2;
+	Wed, 12 Nov 2025 22:27:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.135.77
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762985304; cv=none; b=iORPjlrAQncy9zzYSiMZcj8EBD+YFTmVrpMCwst0udQ1kYMlgno75uFtHytbi6XEskcxU7bzepCmtIlO2v02bvpWHpJr3pyHDYV0cAvJ5czEP3oMKahiWLR2SdtOezJvS2r8XTZU4F+0YwHM95C0BS92hiorcvoPKd7xlreKifA=
+	t=1762986430; cv=none; b=W6i3cjxwMmURmpPmC935wQZiSrccFt95Fxt3VcW2SdeqNj5rUgiB3QQTF8jdP/Q69KfK+x3mmkkRy/mcWOzRpdQyz+XOfZ++gtzsIq9dCujoju/wVUJsUgNn9PAK2Alj+TIUvmfpsE+j0s8LN7ZZF6/9PD/172ugri5nBguS7x4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762985304; c=relaxed/simple;
-	bh=nFj3MPgKD8wiHxkzQl5+mK9jnuyJd5CVMF7U4hGoMuI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=oCQGqNJyymyYnkUB7/eu+7EehExgWk9yuE7rGhDF8cmz5SMhV6jYgGyD/oBAMERLRqlPWDFZ+bnULeCdXq2qJt+dNgeV3Yul8Nz1teHXhCY2jrSS6SLC2CQHSDvbLnhaUmzfJKlKLIPIT9UwnJQEw4f3AzT3bfofzz8wa6N+SUA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev; spf=pass smtp.mailfrom=antheas.dev; dkim=pass (2048-bit key) header.d=antheas.dev header.i=@antheas.dev header.b=dpJ8wZjh; arc=none smtp.client-ip=178.156.171.147
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=antheas.dev
-Received: from relay13 (localhost [127.0.0.1])
-	by relay13.grserver.gr (Proxmox) with ESMTP id 474E15E4AF
-	for <linux-input@vger.kernel.org>; Thu, 13 Nov 2025 00:08:15 +0200 (EET)
-Received: from linux3247.grserver.gr (linux3247.grserver.gr [213.158.90.240])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by relay13.grserver.gr (Proxmox) with ESMTPS id EE8DE5E07D
-	for <linux-input@vger.kernel.org>; Thu, 13 Nov 2025 00:08:13 +0200 (EET)
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
-	by linux3247.grserver.gr (Postfix) with ESMTPSA id DF8B5201BA1
-	for <linux-input@vger.kernel.org>; Thu, 13 Nov 2025 00:08:12 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
-	s=default; t=1762985293;
-	bh=c263bVvypwdJeCaEVKrF3CaExbc+ogtgqHDqResTArk=;
-	h=Received:From:Subject:To;
-	b=dpJ8wZjhXYGHiL2Wg/E2vdn/T3ZiTjOjiqTxYSk8pO8k89CL/le0S0xHkiksmcg7K
-	 CWm/9PNHBvxnVRYqR5RztRVM8IHwF6YjDP4bMJ+pQTnbZ+6j5/n5t+vU9B1D1AC43U
-	 okuohA5/UVBW5gqYb8e247OgOobD1IDQnuRMfFAyvkYL9nSmSVjtTB4r6f4z2MY16Z
-	 4l6+Xfyi2eH5/jFhRPkBnFPmpG7gp2x13VR4o6sfKYvvKEoJxofqrrHB6BgGNkT8cL
-	 oHcpFbMZE4RJuNHqFYzNTI5ypD6rJfO2Paihx9dBEqrEtx/Hmm+yu9kdQ2zT5chD/K
-	 rmGNhDyA3HQgw==
-Authentication-Results: linux3247.grserver.gr;
-        spf=pass (sender IP is 209.85.208.175) smtp.mailfrom=lkml@antheas.dev smtp.helo=mail-lj1-f175.google.com
-Received-SPF: pass (linux3247.grserver.gr: connection is authenticated)
-Received: by mail-lj1-f175.google.com with SMTP id
- 38308e7fff4ca-37a48fc48deso1228501fa.3
-        for <linux-input@vger.kernel.org>;
- Wed, 12 Nov 2025 14:08:12 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCXD6J4SXYTNvMAbhkXRGlPPQgbRiAzOXLk9W9SvLxwud37L3G30aAzos3WS/dQY6OSP6+hF8VQzojM0zw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy1LqVKJ5Ko2bDBq61rJJDVnFQGnFfHQWmGYXmoqNbA00UwKMuE
-	byFMdhGsj4/nFOuaOUaVqtnLjB3L/WVE2yVG2E63x1ZHwox29gHVaaNj2Kv3Wbw3fU5AlgzV2cp
-	H/bUnwsaXS+V3caMgLNxETYN5ItJNdRs=
-X-Google-Smtp-Source: 
- AGHT+IGXgf+Lg0zEIPk/X5mf+uIHdsxnZGSlMH0aQHJGRVatz9TeHp1WXTXEyQ7PZHafLS09vgos3ZnaawMfkbsTS/E=
-X-Received: by 2002:a05:651c:e18:b0:37a:2f0b:ef24 with SMTP id
- 38308e7fff4ca-37b8c2dc2d4mr12431381fa.16.1762985292419; Wed, 12 Nov 2025
- 14:08:12 -0800 (PST)
+	s=arc-20240116; t=1762986430; c=relaxed/simple;
+	bh=AabDN43ezE3GV8RzY1PXvs7ghSgatcrk8Z3ZbOkIUdQ=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:To:CC; b=MuUvxzrs0mVZgSH7PDEuUpHNcHEeadqZ5/+pmWabZgpyn8BcyylaF7qfLrhD+OIbG3FViW+xGkwgMQEOYMik81Vb791ZogTlPOXBCRcnuogCNDV7PKm5KR8rQe5d/ycDBWq5rz/DQgLJPmdG9lI9T38p4ANrkxYa7EPtsJrPxkI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com; spf=pass smtp.mailfrom=analog.com; dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b=txeB+liG; arc=none smtp.client-ip=148.163.135.77
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=analog.com
+Received: from pps.filterd (m0375855.ppops.net [127.0.0.1])
+	by mx0b-00128a01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5ACKWPGh2490438;
+	Wed, 12 Nov 2025 17:27:07 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=analog.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=DKIM; bh=ubtAnzLVB9storQ/KZhgdLsw3IP
+	IQe2Kbjl7FlWhP90=; b=txeB+liGKT7P6bp9/hsXk/fUgIWXgn+bRe0JzhmsAMp
+	QCZxI+RTuoCDLtXC/vCc19ET1wBIvO5AvrQ6D96tBpVgepmTuzqPIS1CX/mLbD3M
+	+tBz+QnUrhqCIGJosC8Mbu79nZ1vtJsFVuHJQo0rRc3pZUiDOf7++XmxSYPdleqC
+	9IJOoD3/JkDTEigw16DTDK+cpngewjde2LgPdedz1iw/9CA4WaL54ag5MNvWd0s4
+	LGyL5mASsWdTuLHdRWhY0kZaOn5vm89ViaQh2uebXeLGZGeJ/VYpj90VKu17zncV
+	kyxm3NWpFciyEK3K8j8rvpZ05UH8jCT7xcAhJZnmpgg==
+Received: from nwd2mta3.analog.com ([137.71.173.56])
+	by mx0b-00128a01.pphosted.com (PPS) with ESMTPS id 4acpdkc2xw-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 12 Nov 2025 17:27:06 -0500 (EST)
+Received: from ASHBMBX8.ad.analog.com (ASHBMBX8.ad.analog.com [10.64.17.5])
+	by nwd2mta3.analog.com (8.14.7/8.14.7) with ESMTP id 5ACMR5In031439
+	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Wed, 12 Nov 2025 17:27:05 -0500
+Received: from ASHBMBX8.ad.analog.com (10.64.17.5) by ASHBMBX8.ad.analog.com
+ (10.64.17.5) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.37; Wed, 12 Nov
+ 2025 17:27:05 -0500
+Received: from zeus.spd.analog.com (10.66.68.11) by ashbmbx8.ad.analog.com
+ (10.64.17.5) with Microsoft SMTP Server id 15.2.1748.37 via Frontend
+ Transport; Wed, 12 Nov 2025 17:27:05 -0500
+Received: from HYB-DlYm71t3hSl.ad.analog.com ([10.66.6.192])
+	by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 5ACMQuCA002617;
+	Wed, 12 Nov 2025 17:26:58 -0500
+From: Jorge Marques <jorge.marques@analog.com>
+Date: Wed, 12 Nov 2025 23:26:49 +0100
+Subject: [PATCH] Input: adxl34x: Add warning on shared compatible with
+ adxl345
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251101104712.8011-1-lkml@antheas.dev>
- <CAGwozwE+3vkm0-amRqnNJBzxTvXabgBF9h_G_vG_L7OJj91LBg@mail.gmail.com>
- <27a74ecc-bff7-f3ae-b23e-a8362ac3a6b3@linux.intel.com>
- <CAGwozwGpacR=wYXpf3vOiwWNxaV6pJ6CdE-E-G1gRRpO4VHVMg@mail.gmail.com>
- <74f91d3c-6494-4754-a10f-4d8c1d45f7ff@gmail.com>
-In-Reply-To: <74f91d3c-6494-4754-a10f-4d8c1d45f7ff@gmail.com>
-From: Antheas Kapenekakis <lkml@antheas.dev>
-Date: Wed, 12 Nov 2025 23:08:00 +0100
-X-Gmail-Original-Message-ID: 
- <CAGwozwEKqqJxxmtjJhy2MzNVhmBTMmy8xG5TZGkKJqJCgK=X5w@mail.gmail.com>
-X-Gm-Features: AWmQ_bmAQVWsWS4B-rX0eFbpNfOxE54_DKqNtQJOsmT14pR81ypehUOlMWctnCk
-Message-ID: 
- <CAGwozwEKqqJxxmtjJhy2MzNVhmBTMmy8xG5TZGkKJqJCgK=X5w@mail.gmail.com>
-Subject: Re: [PATCH v8 00/10] HID: asus: Fix ASUS ROG Laptop's Keyboard
- backlight handling
-To: Denis Benato <benato.denis96@gmail.com>
-Cc: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	platform-driver-x86@vger.kernel.org, linux-input@vger.kernel.org,
-	LKML <linux-kernel@vger.kernel.org>, Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <bentiss@kernel.org>,
- Corentin Chary <corentin.chary@gmail.com>,
-	"Luke D . Jones" <luke@ljones.dev>, Hans de Goede <hansg@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-PPP-Message-ID: 
- <176298529309.3647634.13271063280866631312@linux3247.grserver.gr>
-X-PPP-Vhost: antheas.dev
-X-Virus-Scanned: clamav-milter 1.4.3 at linux3247.grserver.gr
-X-Virus-Status: Clean
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-ID: <20251112-input-adxl34x-v1-1-b7e21b3cea59@analog.com>
+X-B4-Tracking: v=1; b=H4sIAKgJFWkC/z3MQQ6CMBCF4auQWTvGFgrCynsYFrUdsUlpsQUkI
+ dzdBozL/yXvWyFSMBShyVYINJtovEvBThmol3QdodGpgV+4YIxxNG6YRpR6sXmxIKsrXomcuCo
+ 5pM8Q6GmW3bu3Rwd6T4kdjxF6ilHubJPt6CVnP06gtNZ//njvNc4MGSpdiqqoH/Jaq5t00vrur
+ HwP7bZ9Aem6ya3BAAAA
+X-Change-ID: 20251112-input-adxl34x-1972753e2c62
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+CC: <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Jorge
+ Marques <jorge.marques@analog.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1762986416; l=2613;
+ i=jorge.marques@analog.com; s=20250303; h=from:subject:message-id;
+ bh=AabDN43ezE3GV8RzY1PXvs7ghSgatcrk8Z3ZbOkIUdQ=;
+ b=Kw3lSnw7KWRW7Tby5ue2tISHMiwHONG5qOIQ68uIhcIrYamUhr1oSZ0wWXRjDE+f0ZTlTkuvZ
+ mnMS1/j07ndCQPebxWYwfwUwN1GIw/NX7O9JuIJwZ8BOrvK5nLSMSgj
+X-Developer-Key: i=jorge.marques@analog.com; a=ed25519;
+ pk=NUR1IZZMH0Da3QbJ2tBSznSPVfRpuoWdhBzKGSpAdbg=
+X-ADIRuleOP-NewSCL: Rule Triggered
+X-Authority-Analysis: v=2.4 cv=AYu83nXG c=1 sm=1 tr=0 ts=691509ba cx=c_pps
+ a=PpDZqlmH/M8setHirZLBMw==:117 a=PpDZqlmH/M8setHirZLBMw==:17
+ a=IkcTkHD0fZMA:10 a=6UeiqGixMTsA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=VwQbUJbxAAAA:8 a=gAnH3GRIAAAA:8 a=8h9VZS2awgx57zd0YUAA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTEyMDE4MSBTYWx0ZWRfX1UAFwXO4XrYx
+ 77c+IvEj4wDeqLnnqBV2Kq152/YbG6hpRWtx8UZMCPtBzx8Mn5iEtyEPZAETloUjB2rlMhSOIqU
+ O178/KNOa+SJDp/UnDQ7IqX3i1c7wAZ8jro2jO+Ch4/euphwD2IZ4vez+XUhvvY4oIvMrrI91xB
+ W0yP+41M+EBcFJ1l+6cPBrUYu3j3ZP5UMbcMUw73e2xJEOAj9CWqQqQPOtAKW/jMTI/UKm2WSy8
+ 8h0YghpMEp1Y8MzAiXtjWB0JrYot5gRWUt+cUmlgAUWxz01OZL6BYKaxJrhoL4Yp9+bgiso6GaQ
+ xjEBebf36OsZKQfjcDTZQLFymckFY0mcnEJNeth+SaMJrEK7aqNlmFCnSRJ9zLbqSumCX8If13Y
+ VDTz4stXGRj/nsxXb1Vk0ddNFCJz4w==
+X-Proofpoint-GUID: g6R4f4Y_zYxN9ryqAn1oQ-JJmDLA_Ven
+X-Proofpoint-ORIG-GUID: g6R4f4Y_zYxN9ryqAn1oQ-JJmDLA_Ven
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-11-12_06,2025-11-12_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 malwarescore=0 spamscore=0 bulkscore=0 adultscore=0
+ clxscore=1011 suspectscore=0 priorityscore=1501 impostorscore=0 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2511120181
 
-On Wed, 12 Nov 2025 at 20:51, Denis Benato <benato.denis96@gmail.com> wrote=
-:
->
->
-> On 11/12/25 14:41, Antheas Kapenekakis wrote:
-> > On Wed, 12 Nov 2025 at 14:22, Ilpo J=C3=A4rvinen
-> > <ilpo.jarvinen@linux.intel.com> wrote:
-> >> On Wed, 12 Nov 2025, Antheas Kapenekakis wrote:
-> >>
-> >>> On Sat, 1 Nov 2025 at 11:47, Antheas Kapenekakis <lkml@antheas.dev> w=
-rote:
-> >>>> This is a two part series which does the following:
-> >>>>   - Clean-up init sequence
-> >>>>   - Unify backlight handling to happen under asus-wmi so that all Au=
-ra
-> >>>>     devices have synced brightness controls and the backlight button=
- works
-> >>>>     properly when it is on a USB laptop keyboard instead of one w/ W=
-MI.
-> >>>>
-> >>>> For more context, see cover letter of V1. Since V5, I removed some p=
-atches
-> >>>> to make this easier to merge.
-> >>> Small bump for this.
-> >> I looked at v8 earlier but then got an impression some of Denis' comme=
-nts
-> >> against v7 were not taken into account in v8, which implies there will=
- be
-> >> delay until I've time to delve into the details (I need to understand
-> >> things pretty deeply in such a case, which does take lots of time).
-> >>
-> >> Alternatively, if Denis says v8 is acceptable, then I don't need to sp=
-end
-> >> so much time on it, but somehow I've a feeling he isn't happy with v8
-> >> but just hasn't voiced it again...
-> >>
-> >> Please do realize that ignoring reviewer feedback without a very very =
-good
-> >> reason always risks adding delay or friction into getting things
-> >> upstreamed. Especially, when the review comes from a person who has be=
-en
-> >> around for me to learn to trust their reviews or from a maintainer of =
-the
-> >> code in question.
-> > Sure, sorry if it came out this way. Dennis had two comments on the V7
-> > version of the series.
-> >
-> > The first one was that asusctl has a hang bug, which he hasn't had
-> > time to look into yet. This should have been fixed by dropping the
-> > HID_QUIRK_INPUT_PER_APP. I retested the series and that QUIRK was a
-> > bit of a NOOP that does not need to be added in the future.
-> So it is supposed to not regress it now, correct?
-> > The second is he is concerned with dropping the 0x5d/0x5e inits. Luke
-> > said (back in March) that it is fine to drop 0x5e because it is only
-> > used for ANIME displays. However, for 0x5d, it is hard to verify some
-> > of the older laptops because they have only been tested with 0x5d and
-> > we do not have the hardware in question to test.
-> >
-> > For this series, I re-added "initialize LED endpoint early for old
-> > NKEY keyboards" that re-adds 0x5d for the keyboards that cannot be
-> > tested again so this comment should be resolved too. With that in
-> > mind, we do end up with an additional quirk/command that may be
-> > unneeded and will remain there forever, but since it was a point of
-> > contention, it is not worth arguing over.
-> >
-> > So both comments should be resolved
-> The driver should also not late-initialize anything.
->
-> Windows doesn't do it and the official asus application
-> can freely send LEDs changing commands to either WMI or USB
-> so I don't see any reason to do things differently [than windows]
-> and not prepare every USB endpoint to receive commands,
-> this has not been addressed unless I confused v7 and v8?
+INPUT_ADXL34X and ADXL345 share compatibles, previously it
+wasn't possible to compile ADXL345 if INPUT_ADXL34X was enabled.
+Changed to allow both as modules instead, then the user should blacklist
+to block loading one, if his config selects both.
 
-Yes, it's been added on v8. 0x5d is init for the laptops it is
-problematic for. Not because it does not work, but because it has not
-been verified to work for those laptops.
+Signed-off-by: Jorge Marques <jorge.marques@analog.com>
+---
+There are two drivers for the compatible:
 
-> > @Denis: can give an ack if this is the case?
-> >
-> > As for Derek's comment, he has a PR for his project where he removes
-> > the name match for Ally devices with ample time for it to be merged
-> > until kernel 6.19 is released. In addition, that specific software for
-> > full functionality relies on OOT drivers on the distros it ships with,
-> > so it is minimally affected in either case.
-> The part we are talking about depends on this driver (hid-asus)
-> and there are people on asus-linux community using inputplumber
-> for non-ally devices (the OOT driver is only for ally devices)
-> therefore it is very important to us (and various other distributions)
-> not to break that software in any way.
+- adi,adxl345
 
-This driver is only used for Ally devices. If you mean that people
-remap their keyboards using inputplumber I guess they could but I have
-not seen it.
+* IIO:
+  drivers/iio/accel/adxl345_core.c
+  drivers/iio/accel/adxl345_spi.c
+  drivers/iio/accel/adxl345_i2c.c
+* Inputs:
+  drivers/input/misc/adxl34x-spi.c
+  drivers/input/misc/adxl34x-i2c.c
 
-> Weighting pros and cons of changing the name I am not sure
-> changing name brings any benefit? Or am I missing something here?
-> It's simply used by userspace so the hardware should be loading
-> regardless of the name...
+To disallows both being complied, the depends INPUT_ADXL34X=n
+was added to ADXL345 symbols. However, it should be possible to compile
+both as modules, then blacklist one of them in the /etc/modprobe.d/blacklist.conf
+file.
+So patch
+https://lore.kernel.org/linux-iio/20251112-adxl345-allow-adxl34x-mod-v2-1-5b1561eae5a0@analog.com/T/#u
+changes the rule to !(INPUT_ADXL34X) to allow both as modules, but still
+disallow INPUT_ADXL34X to be built-in and ADXL345 as module.
 
-Users see the name of their devices in their settings menu. They
-should be accurate. Also, the early entry needs to be added anyway to
-prevent kicking devices.
+Add warning to the input Kconfig to inform users.
+---
+ drivers/input/misc/Kconfig | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-> Along with IP and your tool and asusctl there is also openrgb,
-> and a newborn application for asus devices (I don't have contacts
-> with that dev nor I remember the name of the tool)
-> and I am not even that sure these are all asus-related
-> applications.
+diff --git a/drivers/input/misc/Kconfig b/drivers/input/misc/Kconfig
+index cc2558630..df5c425c9 100644
+--- a/drivers/input/misc/Kconfig
++++ b/drivers/input/misc/Kconfig
+@@ -769,7 +769,9 @@ config INPUT_ADXL34X_I2C
+ 	  Say Y here if you have ADXL345/6 hooked to an I2C bus.
+ 
+ 	  To compile this driver as a module, choose M here: the
+-	  module will be called adxl34x-i2c.
++	  module will be called adxl34x-i2c. ADXL345 share compatibles
++	  with this driver, choosing Y won't allow to select ADXL345.
++	  Do not add both modules to the kernel.
+ 
+ config INPUT_ADXL34X_SPI
+ 	tristate "support SPI bus connection"
+@@ -779,7 +781,9 @@ config INPUT_ADXL34X_SPI
+ 	  Say Y here if you have ADXL345/6 hooked to a SPI bus.
+ 
+ 	  To compile this driver as a module, choose M here: the
+-	  module will be called adxl34x-spi.
++	  module will be called adxl34x-spi. ADXL345 share compatibles
++	  with this driver, choosing Y won't allow to select ADXL345.
++	  Do not add both modules to the kernel.
+ 
+ config INPUT_IBM_PANEL
+ 	tristate "IBM Operation Panel driver"
 
-My tool never checked for names, it briefly did for around a month
-after its creation for some devices until capability matches. Around
-6.1 and 6.7 the kernel changed the names of most USB devices and that
-caused issues. It currently only uses name matches for VID/PID 0/0
-devices created by the kernel. Specifically, WMI and AT Keyboards. I
-am not sure there is a workaround for those. Asusctl also does not use
-names either.
+---
+base-commit: a311c777f2987e6ddba2d2dd2f82f2135d65f8aa
+change-id: 20251112-input-adxl34x-1972753e2c62
+prerequisite-message-id: 20251031-adxl345-allow-adxl34x-mod-v1-1-cd65749ba89c@analog.com
+prerequisite-patch-id: ee005752c4daeb450e458f20d9de0ce7b24743ca
 
-> Excercise EXTRA care touching this area as these are enough changes
-> to make it difficult to understand what exactly is the problem if
-> someone shows up with LEDs malfunctioning, laptop not entering sleep
-> anymore or something else entirely. Plus over time
-> ASUS has used various workarounds for windows problems
-> and I am not eager to find out what those are since there is only
-> a realistic way it's going to happen....
-
-These changes are not doing something extraordinary. It's just a minor clea=
-nup.
-
-> > Moreover, that specific commit is needed for Xbox Ally devices anyway,
-> > as the kernel kicks one of the RGB endpoints because it does not
-> > register an input device (the check skipped by early return) so
-> > userspace becomes unable to control RGB on a stock kernel
-> > (hidraw/hiddev nodes are gone). For more context here, this specific
-> > endpoint implements the RGB Lamparray protocol for Windows dynamic
-> > lighting, and I think in an attempt to make it work properly in
-> > Windows, Asus made it so Windows has to first disable dynamic lighting
-> > for armoury crate RGB commands to work (the 0x5a ones over the 0xff31
-> > hid page).
-> Yes once ASUS introduces something new it sticks with that for
-> future models so it's expected more and more laptops will have
-> the same problem: I am not questioning if these patches are needed
-> as they very clearly are; I am questioning if everything that these
-> patches are doing are worth doing and aren't breaking/regressing
-> either tools or the flow of actions between the EC and these USB devices.
-
-Well, this series is needed to account for that. Sending the disable
-command is out of scope for now though.
-
-Antheas
-
-> > Hopefully this clears things up
-> >
-> > Antheas
-> >
-> >>> Unrelated but I was b4ing this series on Ubuntu 24 and got BADSIG:
-> >>> DKIM/antheas.dev. Is there a reference for fixing this on my host?
-> >>> Perhaps it would help with spam
-> >> I see BADSIG very often these days from b4 (thanks to gmail expiring
-> >> things after 7 days or so, I recall hearing somewhere), I just ignore =
-them
-> >> entirely.
-> >>
-> >> AFAIK, that has never caused any delay to any patch in pdx86 domain so=
- if
-> >> that is what you thought is happening here, it's not the case.
-> >> If your patch does appear in the pdx86 patchwork, there's even less re=
-ason
-> >> to worry as I mostly pick patches to process using patchwork's list.
-> > Turns out I had to update my DNS records. It should be good now.
-> >
-> >> --
-> >>  i.
-> snipp
-> >>>> 2.51.2
-> >>>>
-> >>>>
->
+Best regards,
+-- 
+Jorge Marques <jorge.marques@analog.com>
 
 
