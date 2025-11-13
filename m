@@ -1,133 +1,347 @@
-Return-Path: <linux-input+bounces-16079-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16080-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D838C5708A
-	for <lists+linux-input@lfdr.de>; Thu, 13 Nov 2025 11:57:57 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3494BC570FD
+	for <lists+linux-input@lfdr.de>; Thu, 13 Nov 2025 12:00:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 1C3144E73BF
-	for <lists+linux-input@lfdr.de>; Thu, 13 Nov 2025 10:52:50 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 06F393BB812
+	for <lists+linux-input@lfdr.de>; Thu, 13 Nov 2025 10:54:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0697B3321D0;
-	Thu, 13 Nov 2025 10:52:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0B46733375F;
+	Thu, 13 Nov 2025 10:54:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="r1Vl+jwE"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a1qD2+4I"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9BBF2D0607;
-	Thu, 13 Nov 2025 10:52:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6A4C2D0C9D;
+	Thu, 13 Nov 2025 10:54:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763031168; cv=none; b=Y8ayvpRglxepugNioOV9iuGD5q4YPEDw/QBwUfdgIaAK1NhOfnAP/RFL8OWQtzh6h6p4lAwhrU4/h8fWhE3qLIG9cQm76UjDSaxARRWpD2lJcisO3YYJzVSeYpe08kwF6VEfYeLjPsXxyW8fJ5jP2w3oq+3igwnPvLC8IEgn7qE=
+	t=1763031248; cv=none; b=Zu3fNxJlA7HROFjuE3T538br1hhW3faimgb/RP5yR5dTUCDEmW6mPRMf8bQQoBdCQY7N+S99Jy1OzutoU3WX6iRfSYzj1yCT7tkD3qTavpuY9EWDrL6T2lwaq5POoAxKDsgwVDQBRCzlNp+AA/rGdew1GJEuAQvnAkCCZxQ5UDU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763031168; c=relaxed/simple;
-	bh=l9v05bUxB1fkYe8by6F+67M0LiZ3Dy4jYGtzV7XjO3Q=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=YPR7lnriaCgptObDGLgQwerUxuwVDvXLvrzhVs8Qn2IHtn6wgmiz/cEvWII9HsxeYIuTX/OcECeGZSKuBITXoCOeXjcFCLT4cbMnUga/tj3Vz6RLmmb6Sxp9Xq7N44pYkUwGB5x9MQP0m1UoRo83oeWoy0Evxv41wELX2JhLKO8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=r1Vl+jwE; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 792A4C4CEF8;
-	Thu, 13 Nov 2025 10:52:44 +0000 (UTC)
+	s=arc-20240116; t=1763031248; c=relaxed/simple;
+	bh=PzK14SvG7N/t66+P3sz5TYl1/qlVz0bnYMNysBsqTV8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rc+WGUglMLsAB3YWMKn/d6L33lXlJTWpUu0LvPVKzvdPnHRYDtsfdXOzITI4OipzxbAgPducf/lSqShhqnvBl+oTy2JBaruzjrDt97t8NzCnkbsT7yHS1wl/f6l5D2y/EIYltGsyZG1ExGSK/xEBg3hHfoimU4pfsYe361WE/CA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a1qD2+4I; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C4D31C4CEF5;
+	Thu, 13 Nov 2025 10:54:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763031166;
-	bh=l9v05bUxB1fkYe8by6F+67M0LiZ3Dy4jYGtzV7XjO3Q=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=r1Vl+jwEND5Qi2zB0d7roJtLKGQ4y5IuydyOjN5ZE5ZsXJYdLuX3AogmnCH/F864k
-	 1gCdnM+FjQA0V2InyCxPsbL3HQ6SYdQwcwrJdBaZRby56M6jR+Q4ehN9CxVisngR+X
-	 Cx3bqQdZ645xrz+ZKH2HvZakI499V1QSs3fuI3s03TM1NKwKFoifDewhEH3v4tg8Z5
-	 84wvMgBTNM+LQ7IJRpwQdXWjvRK/XLIYS/Msk2R3KwAEYLn8ma+GKsL0MXHfR1tfN0
-	 xe2R/5vFLdIa1jKVODBH7m43Ox1Qn3uDvHzKWyPrgYbsdgCRH1qRQVv3q+CezbPNx6
-	 fSlAcmUgF0TZw==
-Message-ID: <7904826d-043d-4e63-9d38-e0763b3822ba@kernel.org>
-Date: Thu, 13 Nov 2025 11:52:42 +0100
+	s=k20201202; t=1763031248;
+	bh=PzK14SvG7N/t66+P3sz5TYl1/qlVz0bnYMNysBsqTV8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=a1qD2+4Irtx6W/aPKdFqvS8/3/SJ6qlAl1SJ0jec+w7AlC6/1CW3Yv69flnDE/zzG
+	 iJvTMwlK2F4Y2gGolPysWl/r/U5WHPKaXKZnCTeFb+bMmnWf0oPJ4xbwWYr0SR0kZH
+	 s1S3PEGxwnwec24hJpUS13rCkDriCadgqUw1d0d0AEhHbfjJlP1Scv2GiHp1BWPdPg
+	 oB+j5fhLn7w7235xqbwhVQgOwgVkoiNlFcz3DOe4JZssgmbCPcVTnZKoVbEKhlExRG
+	 uoZdxTzjHQM1G5gxnmhUiQmaJQdEAVu833Dz4kMDOHRE/SMfnhgzsFA1x5ONaagS2z
+	 h1c0gT047BYEw==
+Date: Thu, 13 Nov 2025 11:54:04 +0100
+From: Benjamin Tissoires <bentiss@kernel.org>
+To: Lucas Zampieri <lzampier@redhat.com>
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Jiri Kosina <jikos@kernel.org>, Sebastian Reichel <sre@kernel.org>, 
+	Bastien Nocera <hadess@hadess.net>, linux-pm@vger.kernel.org
+Subject: Re: [RFC PATCH v2 2/3] HID: input: Refactor battery code to use
+ struct hid_battery
+Message-ID: <jil4fvsfddgdj46yjy5rzw7zg6xlb2u2pgzlpkn2bte6du2ht6@5plrpdaf4u7w>
+References: <20251113001508.713574-1-lzampier@redhat.com>
+ <20251113001508.713574-3-lzampier@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 1/2] dt-bindings: input: i2c-hid: Introduce FocalTech
- FT8112
-To: Daniel Peng <daniel_peng@pegatron.corp-partner.google.com>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-input@vger.kernel.org,
- LKML <linux-kernel@vger.kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>,
- devicetree@vger.kernel.org
-References: <20251113140004.v4.1.I894dde5015f4acad94cb5bada61e5811c5142395@changeid>
- <20251113-belligerent-wrasse-of-current-3cd3a5@kuoka>
- <CAAq2-DFJ2HZQ=p5J7wppQWYh9tqrFxNqexYXFcVB=b1ufWgmXg@mail.gmail.com>
-Content-Language: en-US
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <CAAq2-DFJ2HZQ=p5J7wppQWYh9tqrFxNqexYXFcVB=b1ufWgmXg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251113001508.713574-3-lzampier@redhat.com>
 
-On 13/11/2025 11:44, Daniel Peng wrote:
-> Hi Krzysztof,
+On Nov 13 2025, Lucas Zampieri wrote:
+> Refactor the battery handling code to use the newly introduced
+> struct hid_battery internally, replacing direct access to individual
+> power_supply and state fields.
 > 
-> Sorry for the confusion.
-> I just refer ilitek,ili2901.yaml as example to modify correct information
-> for this device. And I create document file for FocalTech FT8112 device for
-> Skywalker platform only.
-> Moreover, modified related interrupt and reset gpio to map for Skywaler
-> platform(MT8189).
+> The legacy dev->battery and dev->battery_* fields are maintained and
+> synchronized for backward compatibility. This refactoring prepares
+> the code for supporting multiple batteries per device in a subsequent
+> patch.
 > 
-> I think it would be good to create document. If any, please let me know.
+> Signed-off-by: Lucas Zampieri <lzampier@redhat.com>
+> ---
+>  drivers/hid/hid-input.c | 125 ++++++++++++++++++++++++++--------------
+>  1 file changed, 83 insertions(+), 42 deletions(-)
+> 
+> diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
+> index e56e7de53279..0e71efea9da3 100644
+> --- a/drivers/hid/hid-input.c
+> +++ b/drivers/hid/hid-input.c
+> @@ -454,7 +454,8 @@ static int hidinput_get_battery_property(struct power_supply *psy,
+>  					 enum power_supply_property prop,
+>  					 union power_supply_propval *val)
+>  {
+> -	struct hid_device *dev = power_supply_get_drvdata(psy);
+> +	struct hid_battery *bat = power_supply_get_drvdata(psy);
+> +	struct hid_device *dev = bat->dev;
+>  	int value;
+>  	int ret = 0;
+> 
+> @@ -465,13 +466,13 @@ static int hidinput_get_battery_property(struct power_supply *psy,
+>  		break;
+> 
+>  	case POWER_SUPPLY_PROP_CAPACITY:
+> -		if (dev->battery_status != HID_BATTERY_REPORTED &&
+> -		    !dev->battery_avoid_query) {
+> +		if (bat->status != HID_BATTERY_REPORTED &&
+> +		    !bat->avoid_query) {
+>  			value = hidinput_query_battery_capacity(dev);
+>  			if (value < 0)
+>  				return value;
+>  		} else  {
+> -			value = dev->battery_capacity;
+> +			value = bat->capacity;
+>  		}
+> 
+>  		val->intval = value;
+> @@ -482,20 +483,20 @@ static int hidinput_get_battery_property(struct power_supply *psy,
+>  		break;
+> 
+>  	case POWER_SUPPLY_PROP_STATUS:
+> -		if (dev->battery_status != HID_BATTERY_REPORTED &&
+> -		    !dev->battery_avoid_query) {
+> +		if (bat->status != HID_BATTERY_REPORTED &&
+> +		    !bat->avoid_query) {
+>  			value = hidinput_query_battery_capacity(dev);
+>  			if (value < 0)
+>  				return value;
+> 
+> -			dev->battery_capacity = value;
+> -			dev->battery_status = HID_BATTERY_QUERIED;
+> +			bat->capacity = value;
+> +			bat->status = HID_BATTERY_QUERIED;
+>  		}
+> 
+> -		if (dev->battery_status == HID_BATTERY_UNKNOWN)
+> +		if (bat->status == HID_BATTERY_UNKNOWN)
+>  			val->intval = POWER_SUPPLY_STATUS_UNKNOWN;
+>  		else
+> -			val->intval = dev->battery_charge_status;
+> +			val->intval = bat->charge_status;
+>  		break;
+> 
+>  	case POWER_SUPPLY_PROP_SCOPE:
+> @@ -513,8 +514,9 @@ static int hidinput_get_battery_property(struct power_supply *psy,
+>  static int hidinput_setup_battery(struct hid_device *dev, unsigned report_type,
+>  				  struct hid_field *field, bool is_percentage)
+>  {
+> +	struct hid_battery *bat;
+>  	struct power_supply_desc *psy_desc;
+> -	struct power_supply_config psy_cfg = { .drv_data = dev, };
+> +	struct power_supply_config psy_cfg;
+>  	unsigned quirks;
+>  	s32 min, max;
+>  	int error;
+> @@ -530,16 +532,22 @@ static int hidinput_setup_battery(struct hid_device *dev, unsigned report_type,
+>  	if (quirks & HID_BATTERY_QUIRK_IGNORE)
+>  		return 0;
+> 
+> -	psy_desc = kzalloc(sizeof(*psy_desc), GFP_KERNEL);
+> -	if (!psy_desc)
+> +	bat = kzalloc(sizeof(*bat), GFP_KERNEL);
+> +	if (!bat)
+>  		return -ENOMEM;
+> 
+> +	psy_desc = kzalloc(sizeof(*psy_desc), GFP_KERNEL);
+> +	if (!psy_desc) {
+> +		error = -ENOMEM;
+> +		goto err_free_bat;
+> +	}
+> +
+>  	psy_desc->name = kasprintf(GFP_KERNEL, "hid-%s-battery",
+>  				   strlen(dev->uniq) ?
+>  					dev->uniq : dev_name(&dev->dev));
+>  	if (!psy_desc->name) {
+>  		error = -ENOMEM;
+> -		goto err_free_mem;
+> +		goto err_free_desc;
+
+I wonder if a devm conversion of the whole battery support handling
+would not be beneficial here.
+
+>  	}
+> 
+>  	psy_desc->type = POWER_SUPPLY_TYPE_BATTERY;
+> @@ -559,63 +567,85 @@ static int hidinput_setup_battery(struct hid_device *dev, unsigned report_type,
+>  	if (quirks & HID_BATTERY_QUIRK_FEATURE)
+>  		report_type = HID_FEATURE_REPORT;
+> 
+> -	dev->battery_min = min;
+> -	dev->battery_max = max;
+> -	dev->battery_report_type = report_type;
+> -	dev->battery_report_id = field->report->id;
+> -	dev->battery_charge_status = POWER_SUPPLY_STATUS_DISCHARGING;
+> +	/* Initialize battery structure */
+> +	bat->dev = dev;
+> +	bat->min = min;
+> +	bat->max = max;
+> +	bat->report_type = report_type;
+> +	bat->report_id = field->report->id;
+> +	bat->charge_status = POWER_SUPPLY_STATUS_DISCHARGING;
+> +	bat->status = HID_BATTERY_UNKNOWN;
+> 
+>  	/*
+>  	 * Stylus is normally not connected to the device and thus we
+>  	 * can't query the device and get meaningful battery strength.
+>  	 * We have to wait for the device to report it on its own.
+>  	 */
+> -	dev->battery_avoid_query = report_type == HID_INPUT_REPORT &&
+> -				   field->physical == HID_DG_STYLUS;
+> +	bat->avoid_query = report_type == HID_INPUT_REPORT &&
+> +			   field->physical == HID_DG_STYLUS;
+> 
+>  	if (quirks & HID_BATTERY_QUIRK_AVOID_QUERY)
+> -		dev->battery_avoid_query = true;
+> +		bat->avoid_query = true;
+> 
+> -	dev->battery = power_supply_register(&dev->dev, psy_desc, &psy_cfg);
+> -	if (IS_ERR(dev->battery)) {
+> -		error = PTR_ERR(dev->battery);
+> +	psy_cfg.drv_data = bat;
+> +	bat->ps = power_supply_register(&dev->dev, psy_desc, &psy_cfg);
+> +	if (IS_ERR(bat->ps)) {
+> +		error = PTR_ERR(bat->ps);
+>  		hid_warn(dev, "can't register power supply: %d\n", error);
+>  		goto err_free_name;
+>  	}
+> 
+> -	power_supply_powers(dev->battery, &dev->dev);
+> +	power_supply_powers(bat->ps, &dev->dev);
+> +
+> +	/* Maintain legacy single battery fields for backward compatibility */
+> +	dev->battery = bat->ps;
+> +	dev->battery_min = bat->min;
+> +	dev->battery_max = bat->max;
+> +	dev->battery_report_type = bat->report_type;
+> +	dev->battery_report_id = bat->report_id;
+> +	dev->battery_charge_status = bat->charge_status;
+> +	dev->battery_status = bat->status;
+> +	dev->battery_avoid_query = bat->avoid_query;
+
+Already mentioned in the cover letter, but what's the point of keeping
+those legacy fields when the exact same data is stored in bat?
+
+> +
+>  	return 0;
+> 
+>  err_free_name:
+>  	kfree(psy_desc->name);
+> -err_free_mem:
+> +err_free_desc:
+>  	kfree(psy_desc);
+> -	dev->battery = NULL;
+> +err_free_bat:
+> +	kfree(bat);
+>  	return error;
+>  }
+> 
+>  static void hidinput_cleanup_battery(struct hid_device *dev)
+>  {
+> +	struct hid_battery *bat;
+>  	const struct power_supply_desc *psy_desc;
+> 
+>  	if (!dev->battery)
+>  		return;
+> 
+> +	bat = power_supply_get_drvdata(dev->battery);
+>  	psy_desc = dev->battery->desc;
+>  	power_supply_unregister(dev->battery);
+>  	kfree(psy_desc->name);
+>  	kfree(psy_desc);
+> +	kfree(bat);
+>  	dev->battery = NULL;
+>  }
+> 
+> -static bool hidinput_update_battery_charge_status(struct hid_device *dev,
+> +static bool hidinput_update_battery_charge_status(struct hid_battery *bat,
+>  						  unsigned int usage, int value)
+>  {
+>  	switch (usage) {
+>  	case HID_BAT_CHARGING:
+> -		dev->battery_charge_status = value ?
+> -					     POWER_SUPPLY_STATUS_CHARGING :
+> -					     POWER_SUPPLY_STATUS_DISCHARGING;
+> +		bat->charge_status = value ?
+> +				     POWER_SUPPLY_STATUS_CHARGING :
+> +				     POWER_SUPPLY_STATUS_DISCHARGING;
+> +		/* Update legacy field for backward compatibility */
+> +		if (bat->dev->battery == bat->ps)
+> +			bat->dev->battery_charge_status = bat->charge_status;
+>  		return true;
+>  	}
+> 
+> @@ -625,32 +655,43 @@ static bool hidinput_update_battery_charge_status(struct hid_device *dev,
+>  static void hidinput_update_battery(struct hid_device *dev, unsigned int usage,
+>  				    int value)
+>  {
+> +	struct hid_battery *bat;
+>  	int capacity;
+> 
+>  	if (!dev->battery)
+>  		return;
+> 
+> -	if (hidinput_update_battery_charge_status(dev, usage, value)) {
+> -		power_supply_changed(dev->battery);
+> +	bat = power_supply_get_drvdata(dev->battery);
+> +
+> +	if (hidinput_update_battery_charge_status(bat, usage, value)) {
+> +		power_supply_changed(bat->ps);
+>  		return;
+>  	}
+> 
+>  	if ((usage & HID_USAGE_PAGE) == HID_UP_DIGITIZER && value == 0)
+>  		return;
+> 
+> -	if (value < dev->battery_min || value > dev->battery_max)
+> +	if (value < bat->min || value > bat->max)
+>  		return;
+> 
+>  	capacity = hidinput_scale_battery_capacity(dev, value);
+> 
+> -	if (dev->battery_status != HID_BATTERY_REPORTED ||
+> -	    capacity != dev->battery_capacity ||
+> -	    ktime_after(ktime_get_coarse(), dev->battery_ratelimit_time)) {
+> -		dev->battery_capacity = capacity;
+> -		dev->battery_status = HID_BATTERY_REPORTED;
+> -		dev->battery_ratelimit_time =
+> +	if (bat->status != HID_BATTERY_REPORTED ||
+> +	    capacity != bat->capacity ||
+> +	    ktime_after(ktime_get_coarse(), bat->ratelimit_time)) {
+> +		bat->capacity = capacity;
+> +		bat->status = HID_BATTERY_REPORTED;
+> +		bat->ratelimit_time =
+>  			ktime_add_ms(ktime_get_coarse(), 30 * 1000);
+> -		power_supply_changed(dev->battery);
+> +
+> +		/* Update legacy fields for backward compatibility */
+> +		if (dev->battery == bat->ps) {
+> +			dev->battery_capacity = bat->capacity;
+> +			dev->battery_status = bat->status;
+> +			dev->battery_ratelimit_time = bat->ratelimit_time;
+> +		}
+> +
+> +		power_supply_changed(bat->ps);
+>  	}
+>  }
+>  #else  /* !CONFIG_HID_BATTERY_STRENGTH */
+> --
+> 2.51.1
 > 
 
-
-Please don't top post.
-
-There is no need for new document, everything is identical, so just add
-new compatible to the other binding.
-
-Best regards,
-Krzysztof
+Cheers,
+Benjamin
 
