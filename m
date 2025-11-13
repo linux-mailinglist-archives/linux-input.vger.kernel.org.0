@@ -1,168 +1,161 @@
-Return-Path: <linux-input+bounces-16086-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16094-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CB1CC58A3F
-	for <lists+linux-input@lfdr.de>; Thu, 13 Nov 2025 17:15:51 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BA53C58B99
+	for <lists+linux-input@lfdr.de>; Thu, 13 Nov 2025 17:29:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 86854363588
-	for <lists+linux-input@lfdr.de>; Thu, 13 Nov 2025 15:50:00 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DFEC5428346
+	for <lists+linux-input@lfdr.de>; Thu, 13 Nov 2025 16:05:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E01C613A258;
-	Thu, 13 Nov 2025 15:45:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1C46F2FC013;
+	Thu, 13 Nov 2025 16:03:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lPnrSVa9"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZA9qpnyh"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C5A0308F36
-	for <linux-input@vger.kernel.org>; Thu, 13 Nov 2025 15:45:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C75942FABE0;
+	Thu, 13 Nov 2025 16:03:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763048737; cv=none; b=O7mjIQWujpFg/VXmvfd3gK0D0m72cIPJiEZapsfQUSqTn/IC7b1J0YgUeRoYRFqI1/ql7P+SLQVil9Bl+Q7hHCA58PKUJ6OsLQK1tOA8U3pHAie1OiVArMFOvHRtn+TUQeGtAUf9DOsi7KzhLvAyN3iXSnMQuZWN4p+v8CmA0Vg=
+	t=1763049785; cv=none; b=VhSeip2r+OSQtY6ns37V1w0TzLmkWwClJQq2E19er3eGCp1OZundaACoK5ZAhGWvH3nPbdmCSEsQBY8Lx5ddzLCAB9UdoxkqLWUIazGbJh2mVBw2su8o42cShS3D92JQpETf60qOXg1RB42D/T43ZmzG8PNvt26OHsuFFYAMTrA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763048737; c=relaxed/simple;
-	bh=GwhYoApelHVVE9jUOsAHYc5x6ZTXahYrF0D92jPjL7w=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=U5ZCcOVwcBzO9cdTnXIaI2c3z46qfsVX/ZeMXQ7sdpqaMIZrW3GxS+Rh74P6HLmhv2aeyPN0/VQiD7qu4igd0gc8xx/In/rGmtX43O/G6u/bpT57jvflKralVxg9f2K3906l8+HEnMxpbGCclc5JZSQIh964PJrKwzVun7wJb7Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lPnrSVa9; arc=none smtp.client-ip=209.85.221.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-429c8632fcbso740382f8f.1
-        for <linux-input@vger.kernel.org>; Thu, 13 Nov 2025 07:45:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763048734; x=1763653534; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UjKqZ210vJmo1ohOFjhR6RquaivlDQYg0+nEWmGJGgo=;
-        b=lPnrSVa9l6IshACe91D+8Rh+qgYYoMTdAZMn3lVRcwmUowAaSgj+ktFjgcHOPmJ6V7
-         csIGp8E+5xViwbd9LWdODJEllbGF9nkfNCg+ZzIHu+UE+/5slaO6xy+PCliYtgS4d0LI
-         n4M7i4iwu8dLw2S1znJuwkfUUsib0dLWmUn/qUhjU28OkVyW29f8EFP1BW4anxe3jYtE
-         PNcreO/j2jxxHb88r+TMb/PVy++GG4x3/emR8upIh0SeDdFMQ1C4hCzWYIvWNkoYGug8
-         XoSsoa2Huj8gv7xoBr8n/I4kwM4OtNdP7Xx2Le0EFcPVocv00/HY0nNewvy7wSuKmqoz
-         0PjA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763048734; x=1763653534;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=UjKqZ210vJmo1ohOFjhR6RquaivlDQYg0+nEWmGJGgo=;
-        b=g8fAxF0TGeIDd1MsXYbVsUdpsplZAtq74FbEBEj3OoACvCisL6zgNamiehsWi8YGl2
-         vNrjdwbd95NWpx76qSt9ou6gayCMR1Mtc+V1T3inVcwW39XzmGUOy1aPkdPk9kNaOW1b
-         J0f8xxauR6skjs/66iFle3w/dL383IV14PnfH4kPrXTU9V5DZYca/KRQQPgc0KNSKu/A
-         WXu7r3EEc32a+tR/giGszzEIDGDjaG5V0lI+UZ4MIGF0q+iQp6liigXuaVizxGIfhCgl
-         tZ2iyhDYrmMRiBt5x0fAOsKPF6TGZLwudcV+PooXjSHQx4vzvzh9D5rSaBWNOydDGd65
-         3WQw==
-X-Forwarded-Encrypted: i=1; AJvYcCWCjcswX5d6fTdvJpHVz1kwXqrGy9rwGDJugcSnIJebSdA9VWoCt9xnAf/R8938pdOhtilC2sImz6VOew==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxSgCQfDK41XB0Fb6AgSKIdgqmiQfQ9CMASTS9/aoIxHhEi4m8R
-	VpMlMYYI8y3utP5sH5t7MRsV8ek3kuh6o3fSd2lFNwTwPS/xenlwCSvwak/9paNIKO63JQ4FhT8
-	N8F1rVXMXGkHd2vwUDLiDe1l24aITXO0=
-X-Gm-Gg: ASbGncsSfBLkGn3En6uUppZCWvioLtJTu1B/zSbJz+w0JM7QfUxdgfc8TvZNHg6tdaN
-	7o1J54vRtmSyEkq2xjSKV01kAudyaNrZw82R9JntdVDNCAwvkeees+zr3JoBktr2fiL0AI181HL
-	C+9oAqOWznj9NcNJ+8LNVjSXF06VQFVZC0U7volIUXAJ/mU9ZsRpvPKlOxfDac6stjeAA6+Leig
-	ZfJwKhv1KHweOauJ7Teee6xZ2ZdXDNrf6rBoo1/eLtjJx8nlzBBgSoNcmJqti9U20qfFhDZsK45
-	5n9I6FLtanK2iwDRL8UaBqTDx8Go7gmz85y820RGra2z0SKDt+ITH5YeMJoor2H+0ywPr7SnsTM
-	=
-X-Google-Smtp-Source: AGHT+IFyI6x5RJm95yRlsUC+iSGTHktfcGN76wSiyQxdFS2fnEAIOWwjv4+oZtv8N0EO0DATlsveTOJR8O4h83YjDyY=
-X-Received: by 2002:a05:6000:40cd:b0:429:d0b8:3850 with SMTP id
- ffacd0b85a97d-42b4bdb4884mr5867291f8f.48.1763048734320; Thu, 13 Nov 2025
- 07:45:34 -0800 (PST)
+	s=arc-20240116; t=1763049785; c=relaxed/simple;
+	bh=rRvKv1BEPoPU3+9Q7iKmxRtmjJdSj7+9UCKsshojBhg=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=kZNiuX6MoFhL2f5+JAXcELqRBuv/fux/1jN4zYHBWEOQusPaUedQ7MSXmpOgPZHn/9jPQVjwmoLFyC0xAV4+T4lsPQ0M3X6rN7LHtP7ff0vvrZRfuS8zBSQH/JWvXvPJOruUS00joQ7dJ+GXSgw1U/DG+VK1ZeY3W1OaASOYFbs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZA9qpnyh; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 107DCC4CEF7;
+	Thu, 13 Nov 2025 16:03:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1763049785;
+	bh=rRvKv1BEPoPU3+9Q7iKmxRtmjJdSj7+9UCKsshojBhg=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=ZA9qpnyhKG6bYSIwToSRzBFTz7OxJc5h2Mz3DANWgwV1OV7O3Vq4JZSv1Yy2/8OFq
+	 8oGy0yF+W8h1Vcn9EAZs48YGVMbyhu60vDYMH8wLxD2Ev7kDuCWrVr4ywFD57M00WX
+	 URgz5zF8ju3Oa2pvoMU9zlGdDMxvjbhJ6AzCaxl3FZJu0A/SLnIKCc6NPCHbh/kdjj
+	 fn9OUaaL75q2Sg0g3sBXfghOScPTWrmWM3aWjbMKtMExJC0VewpEgzF+Ks5B+LH0B1
+	 /6JqBz23ygpVJNeBKPdQ92B0H8b7zWDOum/RY2w4M98pLxCuucTR6dzcGsI1CKsevp
+	 8AKK+4UfElImg==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DDC08CD6E7A;
+	Thu, 13 Nov 2025 16:03:04 +0000 (UTC)
+From: David Heidelberg via B4 Relay <devnull+david.ixit.cz@kernel.org>
+Subject: [PATCH v8 0/2] Add support for sound profile switching and
+ leverage for OnePlus slider
+Date: Thu, 13 Nov 2025 17:02:57 +0100
+Message-Id: <20251113-op6-tri-state-v8-0-54073f3874bc@ixit.cz>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251111203350.3c9a669e.michal.pecio@gmail.com>
- <20251112015356.1919586-1-lugathe2@gmail.com> <ab81f525-b4ea-4ac7-94a8-9d8eabca957a@cosmicgizmosystems.com>
- <58edd03a-a7a7-40af-8228-18004dc6e737@rowland.harvard.edu>
-In-Reply-To: <58edd03a-a7a7-40af-8228-18004dc6e737@rowland.harvard.edu>
-From: The-Luga <lugathe2@gmail.com>
-Date: Thu, 13 Nov 2025 12:45:22 -0300
-X-Gm-Features: AWmQ_blIL-znisBibURF-59XWVCNK3O7x4L-ZqBPMnE2bLlz0feBpIaVurcSNiU
-Message-ID: <CALvgqEBVQsoQ3wewP+37u5Ms398O5gC8YaELm0UJdZSDBHzPPw@mail.gmail.com>
-Subject: Re: [PATCH v2] Apply the quirk HID_QUIRK_ALWAYS_POLL to the Edifier
- QR30 (2d99:a101).
-To: Alan Stern <stern@rowland.harvard.edu>
-Cc: Terry Junge <linuxhid@cosmicgizmosystems.com>, michal.pecio@gmail.com, 
-	bentiss@kernel.org, dmitry.torokhov@gmail.com, jikos@kernel.org, 
-	linux-input@vger.kernel.org, linux-sound@vger.kernel.org, 
-	linux-usb@vger.kernel.org, linuxsound@cosmicgizmosystems.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIADEBFmkC/3XO3WoCMRAF4FeRXDdLJn+TeOV7FC9iTN2B4kqSB
+ n/Yd2/cQkXByzOc7zA3VlKmVNh6dWM5NSo0HXtwHysWx3A8JE77npkU0ggNnk8ny2smXmqoiac
+ 9BGECAEjDujnl9EXnZe9z2/NIpU75ssw3fb+yOLWUB7CIQkoNejhQHcp0SXlD+XsYf9gdNvVct
+ s4IB/5N2SzlNz82wwXXWoFEgc4AbujcV+L1z9qHRQWv1nZrrI/SxF10UT5b/LcgQL9a7NYrF6y
+ yCB53DzvP8y+mjsEDegEAAA==
+X-Change-ID: 20250419-op6-tri-state-ed1a05a11125
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Jiri Kosina <jikos@kernel.org>, 
+ Benjamin Tissoires <bentiss@kernel.org>, 
+ Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Casey Connolly <casey.connolly@linaro.org>, 
+ =?utf-8?q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>
+Cc: linux-input@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ devicetree@vger.kernel.org, phone-devel@vger.kernel.org, 
+ Gergo Koteles <soyer@irl.hu>, David Heidelberg <david@ixit.cz>, 
+ Casey Connolly <casey@connolly.tech>, 
+ Konrad Dybcio <konradybcio@kernel.org>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2102; i=david@ixit.cz;
+ h=from:subject:message-id;
+ bh=rRvKv1BEPoPU3+9Q7iKmxRtmjJdSj7+9UCKsshojBhg=;
+ b=kA0DAAgBYAI/xNNJIHIByyZiAGkWATahp+QLvY5EbJpC8VGhVDtZLOC4cLheywBEIOy+YgvZa
+ okCMwQAAQgAHRYhBNd6Cc/u3Cu9U6cEdGACP8TTSSByBQJpFgE2AAoJEGACP8TTSSByO5kP+wXy
+ EmuWaWzET8c4cNnuAyL6BN2gCaJyUuz1Uox4XB1k7a1pWrElwGw81BpG90wfQEhjFenO2ivub92
+ yMwVkGiVqw1PLLJGG1y5leEQAJrG0cDH0V1JTsCS2nyCA4F/v8R7KwRQM/KSHwg2iOOKd0kFb+N
+ iQOnW+MxHuf/WAHBjffc7w5Qz9gNUJ0R2M7IdylRGFlU88gZ5560kdds6yjnpHWwPtZpmPy520A
+ XQcN/1t3bCudUNClNnRoBwW6DeP346SZ/dxg0KHb4d5Y1TDqRR3JD9cpumzs2qxBiq5t/dHgSnF
+ RTItqsNptFi2PmkC6SoNMdJQoWis4fDbpK8zcf6MgMaqDzSbmEMjllm2ZOZ33gwnls3KM7Gp7Fa
+ HQQlMP17WK83M0iGQmCvyUCwPXpFgMommp1fLqLQBCWEj8PcXVA86hDYxSfs5JiNwhMptAj7ROg
+ BDZW96yc8HXZtzzyq7UXIaL+DuCY1Q3rqbFb8eJ7WFsRN4oG1JYKAjjTusUHSFlehUMu3pNlrzF
+ xZkpiT0iEyDgax2b2P8Q6w1gKwlTdus8/2DhG+RCfVDYoZ8wm7DQg4IC3UC5ZWZL97WiopIa3MA
+ Q0LpJP48/7mxsdRhMBbD7LoeQBlBj8gHmCT3nc69dJzqqMzAAB5rQyfodjNAIsrysDAw+pVDAW9
+ A0Q0u
+X-Developer-Key: i=david@ixit.cz; a=openpgp;
+ fpr=D77A09CFEEDC2BBD53A7047460023FC4D3492072
+X-Endpoint-Received: by B4 Relay for david@ixit.cz/default with auth_id=355
+X-Original-From: David Heidelberg <david@ixit.cz>
+Reply-To: david@ixit.cz
 
-> You might want to wait a couple of days before sending a v3 so other
-> reviewers can get a chance to make comments.
+This series add initial support for OnePlus 6 and 6T, but other OnePlus
+phones contains same mechanism to switch sound profiles.
 
-Yes, I shall wait. I was just *too eager*.
+This code was tested for two years within the downstream Snapdragon 845 tree.
+It is now perfectly integrated with feedbackd in the Phosh environment.
 
-> You should include the HID: tag in the subject--
-> ...] HID: Apply...
->
-> The patch should be sent
->
-> To:  the HID subsystem maintainers
-> bentiss@kernel.org
-> jikos@kernel.org
->
-> Cc:  at a minimum
-> linux-input@vger.kernel.org
-> linux-kernel@vger.kernel.org
->
-> plus any of the others already part of this thread.
+The series is also available (until merged) at
+  https://gitlab.com/sdm845/sdm845-next/-/commits/b4/op6-tri-state
 
-This is very helpful. Thank you!
+Changes in v8:
+- Rebased against next-20251113
+- Added R-b, T-b trailers from v7.
+- Link to v7: https://lore.kernel.org/r/20251014-op6-tri-state-v7-0-938a6367197b@ixit.cz
 
-I read the documentation, but I was really waiting for comments before
-finally sending it, as I didn=E2=80=99t want to create noise with all the
-iterations of the patch. I didn=E2=80=99t realize I should wait before maki=
-ng
-a bigger final change.
+Changes in v7:
+- Separated GPIO number fix from the original commit
+  "arm64: dts: qcom: sdm845-oneplus: Add alert-slider"
+- Rebased again next-20251008
+- Link to v6: https://lore.kernel.org/r/20250731-op6-tri-state-v6-0-569c25cbc8c2@ixit.cz
 
-> Vendor ID 0x2d99 belongs to Edifier International Limited not Jieli
-> Can you change to USB_VENDOR_ID_EDIFIER instead and move to the
-> alphabetically correct location?
+Changes in v6:
+- Rebased again next-20250731, otherwise just a resent.
+- Link to v5: https://lore.kernel.org/r/20250419-op6-tri-state-v5-0-443127078517@ixit.cz
 
-Could you kindly tell me where this info is?
-Searching the internet I only found this website with this info:
-https://the-sz.com/products/usbid/index.php?v=3D0x2D99
+Changes in v5:
+- Dropped merged
+  "Input: gpio-keys - add support for linux,input-value DTS property"
+- Link to v4: https://lore.kernel.org/all/cover.1677022414.git.soyer@irl.hu/
 
-I just checked the vendor from `lsusb`, and I was hesitant whether to
-write Jieli or Edifier.
-I also decided to write QR30 instead of Hal0. Should I add a comment
-mentioning Jieli as I did with the device?
+Changes in v4:
+- DTS: use default debounce-interval, order alphabetically
+- Link to v3: https://lore.kernel.org/lkml/cover.1676850819.git.soyer@irl.hu/
 
-> One more thing about patch style: The Signed-off-by: line should go
-> above the --- line, whereas the revision information goes below it (as
-> it is here).  The second --- line isn't needed (but it doesn't hurt).
->
-> Look at other patch submissions in the email archives to see more
-> examples of the style.
->
-> Alan Stern
+Changes in v3:
+- rename tri-state-key to alert-slider, fix DTS warnings,
 
-This is also very helpful. I should have done it in the first place. Thank =
-you!
+Changes in v2:
+- rebase to qcom/for-next
+add SND_PROFILE_* identifiers to input-event-codes.h
 
-> Thanks for the patch!
-> Regards,
-> Terry Junge
+---
+Gergo Koteles (2):
+      Input: add ABS_SND_PROFILE
+      arm64: dts: qcom: sdm845-oneplus: Add alert-slider
 
-It's me who is *super thankful*. I learned how to do packet capture,
-hexcode/table analysis, and even wrote a script to time out the RGB
-lights when idle, show a simple brightness animation (increasing and
-decreasing steps before coming back to the default) when changing
-volume, and synchronize it with my keyboard. I have more functionality
-here than with the vendor software on those supported OS's. All thanks
-to everyone who helped me debug and showed me the tools needed to do
-this.
+ Documentation/input/event-codes.rst                |  6 ++++
+ .../arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi | 35 ++++++++++++++++++++++
+ drivers/hid/hid-debug.c                            |  1 +
+ include/uapi/linux/input-event-codes.h             |  9 ++++++
+ 4 files changed, 51 insertions(+)
+---
+base-commit: 6d7e7251d03f98f26f2ee0dfd21bb0a0480a2178
+change-id: 20250419-op6-tri-state-ed1a05a11125
 
-And even invited me to write my first patch. I believe this process
-should be repetitive, with new people coming and going. I=E2=80=99m gratefu=
-l
-for the support and patience.
+Best regards,
+-- 
+David Heidelberg <david@ixit.cz>
+
+
 
