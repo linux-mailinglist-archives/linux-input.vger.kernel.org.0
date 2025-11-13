@@ -1,53 +1,53 @@
-Return-Path: <linux-input+bounces-16098-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16104-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC0ADC59037
-	for <lists+linux-input@lfdr.de>; Thu, 13 Nov 2025 18:10:45 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id E8FFAC590B1
+	for <lists+linux-input@lfdr.de>; Thu, 13 Nov 2025 18:15:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id BC1364F2D5F
-	for <lists+linux-input@lfdr.de>; Thu, 13 Nov 2025 16:39:16 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 27E05548739
+	for <lists+linux-input@lfdr.de>; Thu, 13 Nov 2025 16:39:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D2E43346FB9;
-	Thu, 13 Nov 2025 16:31:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 643B6363C69;
+	Thu, 13 Nov 2025 16:31:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jaQmXL91"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qjxCpYfr"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A381340D9D;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30D7D363C42;
 	Thu, 13 Nov 2025 16:31:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763051467; cv=none; b=aYenA+GnjsabZWvc5NploskrwGjiBKc2QVQ8viUl4Z3hkWFHHU8ab+SFXt13UkbJ5rVsyHwiQobpl2EaSG4J2wUFgjCshYpRtecUzrQcA5+FI6MsGEKvJsVRmKl+lnID+5aJgHBtiQr90b/0sb6GkdZown0T+ALdehhQ477xuEI=
+	t=1763051468; cv=none; b=bt5Fr+fwpGn7NINJMuywi4rpmZ8TGgDJTlNe877ga3GHL1+MwqSk8bPOrrAE9LvRTS//zNeKjv7V8hSOBr8CGM1roZea7fNukHTOCTEwExGxWR2aDTktfBHreyfG7PfwSbisIafw1rl1RQBVtbQvwEgJTONBpLxUa+3i2nsFQJM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763051467; c=relaxed/simple;
-	bh=2edXeF3pBE0VCrUWK6n2lu8ilUcOdB96yNFMEaBy8iA=;
+	s=arc-20240116; t=1763051468; c=relaxed/simple;
+	bh=ImsBrSsWCbftesE+Cb1PYnzgguu50ch+W6P48qu+dUI=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=gpOqAVDOax5WW60XYyTY21EdK/Z2bK6YyvYdq1LdI91dwXiIfh73yA5e8Sz5HY3CXNw3R867VOHLQdRS7HqwJS98Ni846+2Cok4qTI8FLxf6aUSw6ThUAKa2YkGPo7tQQTzUrSZ9lNaUk28XORS5giOZQWw5yELlh1OnuojMmk4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jaQmXL91; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 2E9BDC4AF10;
+	 In-Reply-To:To:Cc; b=ZjCwsc/1MNKdFe/4P5nlTD1x5MG1zFE1vJm8eoodC0O0tfyKPGcf5YI/9qoeeGFBIOpqP4mQeym8oljoH/5UP0oDNgDl4f+9LTmhih1tv81kf3a/tzXK2okEOK8ynWX9mrM7SCAWuSuPAHb4GWUpu9CX4Ey5Wv3y47C68Ocy6Do=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qjxCpYfr; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 87BA8C2BCC4;
 	Thu, 13 Nov 2025 16:31:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1763051467;
-	bh=2edXeF3pBE0VCrUWK6n2lu8ilUcOdB96yNFMEaBy8iA=;
+	bh=ImsBrSsWCbftesE+Cb1PYnzgguu50ch+W6P48qu+dUI=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=jaQmXL913Z/duPpaVmRwALL6UReweG9+PH/KlAzqoVZbmv4NKCBoSABPP8KOhoi5K
-	 x+XD8+TbN46ggq+Rv4V/XVgZkDQ2gTydx+CJoIMumaCzLh2MB7oh7kUQaC23ltVIh/
-	 oqX2amIPjRXPdPBhc9OP1v0Y8nb2EWD06kTKE0V7yiMxOv7pHS+fFm8d7sHEEzwdia
-	 2TrPBVZ/yPG/ahhyaHLmUphyXxqZ/RUXPo6eN5FuRVowxja/LbAuMd42xUgMpvNKQu
-	 DXG+9SHC1Hn10yuaHdmlpyqV/K5SL9EsJNrPiDIXsRVDTazLMFe87ELnGC8Z39BcFQ
-	 xPpZEBc03mABQ==
+	b=qjxCpYfrA+jv9Cs/yv229WgXJxRN+0rlmD69yl8QvZ+mQZUWi7J9/5KxAT//fNUpu
+	 Xqax7/rVDSDd372Dy60R8t+3UMZhlNTT7hNVug1DlxJLcsuvj7Se96Q4aE4M3eEhQn
+	 4yo4wxAUEckApMesXY7cBeilI7CCmoemizq7I6Mo9fdGq3CnLxRWVSk059BjsOmQ3Y
+	 nW3FdeyKjLcKwvSEloJVp2RxBAgvCmi4yGycATT43pX1Ee4ftH4S+focUvYR9Q+LIO
+	 ks33tthtdECLMINZTMb3FOUzsvrkIFFeXitKbySepsCDjcWbh0QVMjiwoHKVasDp21
+	 RATVEsFBFzg9Q==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0AA56CD8C9F;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 59690CD8CA7;
 	Thu, 13 Nov 2025 16:31:07 +0000 (UTC)
 From: David Heidelberg via B4 Relay <devnull+david.ixit.cz@kernel.org>
-Date: Thu, 13 Nov 2025 17:30:58 +0100
-Subject: [PATCH v6 2/7] Input: synaptics-rmi4 - handle duplicate/unknown
- PDT entries
+Date: Thu, 13 Nov 2025 17:31:03 +0100
+Subject: [PATCH v6 7/7] Input: synaptics-rmi4 - support fallback values for
+ PDT descriptor bytes
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -56,7 +56,7 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251113-synaptics-rmi4-v6-2-d9836afab801@ixit.cz>
+Message-Id: <20251113-synaptics-rmi4-v6-7-d9836afab801@ixit.cz>
 References: <20251113-synaptics-rmi4-v6-0-d9836afab801@ixit.cz>
 In-Reply-To: <20251113-synaptics-rmi4-v6-0-d9836afab801@ixit.cz>
 To: Kaustabh Chakraborty <kauschluss@disroot.org>, 
@@ -69,151 +69,189 @@ Cc: linux-input@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, Casey Connolly <casey.connolly@linaro.org>, 
  phone-devel@vger.kernel.org, David Heidelberg <david@ixit.cz>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3801; i=david@ixit.cz;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5650; i=david@ixit.cz;
  h=from:subject:message-id;
- bh=rliu2o1Qi+yRFW5F3I2c3wcFpPklta5P0+6DRK0ldac=;
- b=owEBbQKS/ZANAwAIAWACP8TTSSByAcsmYgBpFgfJeOSYhfUMq7mVpPYA/XeG6xgS96jdaH7ob
- tHPsyq0arOJAjMEAAEIAB0WIQTXegnP7twrvVOnBHRgAj/E00kgcgUCaRYHyQAKCRBgAj/E00kg
- cvezD/4zIuF6unpnrHSqNqBDOIVW6CO+asX7mkH/lY8huLjzsELND77BstAH92ucV09TDRR2wHD
- J8WfpxDv3od8m3WTd2uGSuZkqRmHUWQl5CqIHoKBk/pXbvX8ueeI14/RV8YTAvMyexjEZEEPSLJ
- VKWjrEbN5r07XL82CvWbvYqRj4pLkkujF9JuG69YUP5mLUsBHfNvS2aax0bXnhoUgTjswxw/QqQ
- dnZYgIe254VDLAkhV1JxkM3mgCDmDB7FCMYa35TT//DBh0XWtdQrn4nySRUB8nB0ozxohUXrlLm
- lHQ3oYhKbwNBOc0LjHp1E30h1NzY6jHW5kzjp89zjmqv86zl2GkpsaKZCes4ueyZ34abgSfPqs5
- lX4NCxtpOg4/H8q/Z/f0eiElo7KE4T84ddNQvOORZBBC5Cg1cRgA6xV1By/SHRFrVwWlvsuir5j
- TBU2Cvy0rdPAHj9ddcVgjr83XUAx/yiEoiGMlm/zoBFIVK9FdL+KYZvr0fiYq6brlIcGIEE8lB9
- 1stVRzP2kGqkOGRtYuEzmB2fVqVKDRkaBHS0VOiCWfMqUbTRA1IFrdDcucIT2CYUSLdFeABlWs4
- Dnvcy8PSaKTe+jenPrGawRIJ+hUGCoihD7BFLc/EmJ1U3haV/Ll1uVozfQGUDniA4G5SLMHeSzH
- rwdmJta/wB5COUA==
+ bh=WDxThFuTW5xe6P2WYsbevC4RS4y/BvA9+hBHQwKvAJE=;
+ b=owEBbQKS/ZANAwAIAWACP8TTSSByAcsmYgBpFgfJZS4oQt3CYBKaahhk76Gf+LJqmETicSXSh
+ LQs/aKqEFaJAjMEAAEIAB0WIQTXegnP7twrvVOnBHRgAj/E00kgcgUCaRYHyQAKCRBgAj/E00kg
+ cvTED/9o0xvCKweql1jKRZ1ltYvYsDJWnYgxmZAlbO0XL5K0kgJX4xvJ0w+7KZKwSJmREszyjMX
+ uw4wiFyMxn3lSEJD1NEEbfk0qF8gvUv0rKCTzRTY3yx/gO1BLEMcTvxuLdqrQNAv9WI8xEGpGel
+ HE9kS/SUf9sS+DNLRVsLn7eAfYzqBL+BCjqJrDA7Zs/CBh81ab0Wwvg33V8y0F/i6cX2lt5QpgW
+ NcvwAtFqoJzPhrqupY929bQIdfCI2yOVyuRxmbqWOQmzBXr6U5bTDtiYupfqkIPgKr908J9JapP
+ d0h+4SduEnHHrsN9yFdqU98I7skD9mNREUutvzedrAgG1V6QQsW4JpX+vHvLcKPJ5fXylXWlRs1
+ UKwVn7dd+6WuJtPydTizVEOykj2kdJ64/niTfW4OUbuJDRTaPS3gDhGt8eRLT903vtkW76JduQ6
+ 9FYtjYimVc+Lh5VX7iHe0KaDZEsRii37wveTvUkdtuyVEOUqr75hXZSEHIlS0d3t8Bji9ZON21G
+ Bo0oSBbn1lDKKoHs30i6G7j5bAVTHC/CS3N2yr06V/ltR2rIQF7raNI4EzXlfJSquXUElmbdeqT
+ lX2yA5V0lsSpSp0V3plDF6vzv7YfsZbE7PXjtXy9tmwmn2RKA12WykfEmsWVy10kSfmyMay3ya6
+ Z/3zn38+y8pZZvw==
 X-Developer-Key: i=david@ixit.cz; a=openpgp;
  fpr=D77A09CFEEDC2BBD53A7047460023FC4D3492072
 X-Endpoint-Received: by B4 Relay for david@ixit.cz/default with auth_id=355
 X-Original-From: David Heidelberg <david@ixit.cz>
 Reply-To: david@ixit.cz
 
-From: Casey Connolly <casey.connolly@linaro.org>
+From: Kaustabh Chakraborty <kauschluss@disroot.org>
 
-Some third party rmi4-compatible ICs don't expose their PDT entries
-very well. Add a few checks to skip duplicate entries as well as entries
-for unsupported functions.
+Some replacement displays include third-party touch ICs which do not
+expose the function number and the interrupt status in its PDT entries.
 
-This is required to support some phones with third party displays.
+OnePlus 6 (original touch IC)
+  rmi4_i2c 12-0020: read 6 bytes at 0x00e3: 0 (2b 22 0d 06 01 01)
 
-Validated on a stock OnePlus 6T (original parts):
-manufacturer: Synaptics, product: S3706B, fw id: 2852315
+OnePlus 6 (aftermarket touch IC)
+  rmi4_i2c 12-0020: read 6 bytes at 0x00e3: 0 (2c 23 0d 06 00 00)
 
-Co-developed-by: Kaustabh Chakraborty <kauschluss@disroot.org>
 Signed-off-by: Kaustabh Chakraborty <kauschluss@disroot.org>
+[codeflow adjustments, checkpatch fixes, wording]
 Signed-off-by: Casey Connolly <casey.connolly@linaro.org>
 Co-developed-by: David Heidelberg <david@ixit.cz>
 Signed-off-by: David Heidelberg <david@ixit.cz>
 ---
- drivers/input/rmi4/rmi_driver.c | 42 +++++++++++++++++++++++++++++++++++------
- drivers/input/rmi4/rmi_driver.h |  8 ++++++++
- 2 files changed, 44 insertions(+), 6 deletions(-)
+ drivers/input/rmi4/rmi_driver.c | 62 +++++++++++++++++++++++++++++++++++------
+ drivers/input/rmi4/rmi_driver.h |  2 ++
+ include/linux/rmi.h             |  3 ++
+ 3 files changed, 59 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/input/rmi4/rmi_driver.c b/drivers/input/rmi4/rmi_driver.c
-index ccd9338a44dbe..c7d2f68e65487 100644
+index 93a190e333c66..bb1db5bbb3abb 100644
 --- a/drivers/input/rmi4/rmi_driver.c
 +++ b/drivers/input/rmi4/rmi_driver.c
-@@ -494,12 +494,39 @@ static void rmi_driver_copy_pdt_to_fd(const struct pdt_entry *pdt,
- 	fd->function_version = pdt->function_version;
+@@ -462,9 +462,10 @@ static int rmi_driver_reset_handler(struct rmi_device *rmi_dev)
+ 	return 0;
  }
  
-+static bool rmi_pdt_entry_is_valid(struct rmi_device *rmi_dev,
-+				   struct pdt_scan_state *state, u8 fn)
-+{
-+	switch (fn) {
-+	case 0x01:
-+	case 0x03:
-+	case 0x11:
-+	case 0x12:
-+	case 0x30:
-+	case 0x34:
-+	case 0x3a:
-+	case 0x54:
-+	case 0x55:
-+		if (state->pdts[fn] == true)
-+			return false;
-+		break;
-+	default:
-+		rmi_dbg(RMI_DEBUG_CORE, &rmi_dev->dev,
-+			"PDT has unknown function number %#02x\n", fn);
-+		return false;
+-static int rmi_read_pdt_entry(struct rmi_device *rmi_dev,
+-			      struct pdt_entry *entry, u16 pdt_address)
++static int rmi_read_pdt_entry(struct rmi_device *rmi_dev, struct pdt_entry *entry,
++			      struct pdt_scan_state *state, u16 pdt_address)
+ {
++	const struct rmi_device_platform_data *pdata = rmi_get_platform_data(rmi_dev);
+ 	u8 buf[RMI_PDT_ENTRY_SIZE];
+ 	int error;
+ 
+@@ -475,6 +476,21 @@ static int rmi_read_pdt_entry(struct rmi_device *rmi_dev,
+ 		return error;
+ 	}
+ 
++	if (pdata->pdt_fallback_size > state->pdt_count * RMI_OF_PDT_DESC_CELLS + 1) {
++		/* Use the description bytes from the driver */
++		buf[5] = pdata->pdt_fallback_desc[state->pdt_count * RMI_OF_PDT_DESC_CELLS];
++		buf[4] = pdata->pdt_fallback_desc[state->pdt_count * RMI_OF_PDT_DESC_CELLS + 1];
++
++		error = rmi_read_block(rmi_dev, pdt_address, buf,
++				RMI_PDT_ENTRY_SIZE - 2);
++		if (error) {
++			dev_err(&rmi_dev->dev,
++					"Read PDT entry at %#06x failed, code: %d.\n",
++					pdt_address, error);
++			return error;
++		}
 +	}
 +
-+	state->pdts[fn] = true;
-+	state->pdt_count++;
-+	return true;
-+}
-+
- #define RMI_SCAN_CONTINUE	0
- #define RMI_SCAN_DONE		1
+ 	entry->page_start = pdt_address & RMI4_PAGE_MASK;
+ 	entry->query_base_addr = buf[0];
+ 	entry->command_base_addr = buf[1];
+@@ -547,7 +563,7 @@ static int rmi_scan_pdt_page(struct rmi_device *rmi_dev,
+ 	int retval;
  
- static int rmi_scan_pdt_page(struct rmi_device *rmi_dev,
- 			     int page,
--			     int *empty_pages,
-+			     struct pdt_scan_state *state,
- 			     void *ctx,
- 			     int (*callback)(struct rmi_device *rmi_dev,
- 					     void *ctx,
-@@ -522,6 +549,9 @@ static int rmi_scan_pdt_page(struct rmi_device *rmi_dev,
- 		if (RMI4_END_OF_PDT(pdt_entry.function_number))
- 			break;
+ 	for (addr = pdt_start; addr >= pdt_end; addr -= RMI_PDT_ENTRY_SIZE) {
+-		error = rmi_read_pdt_entry(rmi_dev, &pdt_entry, addr);
++		error = rmi_read_pdt_entry(rmi_dev, &pdt_entry, state, addr);
+ 		if (error)
+ 			return error;
  
-+		if (!rmi_pdt_entry_is_valid(rmi_dev, state, pdt_entry.function_number))
-+			continue;
-+
- 		retval = callback(rmi_dev, ctx, &pdt_entry);
- 		if (retval != RMI_SCAN_CONTINUE)
- 			return retval;
-@@ -532,11 +562,11 @@ static int rmi_scan_pdt_page(struct rmi_device *rmi_dev,
- 	 * or more is found, stop scanning.
- 	 */
- 	if (addr == pdt_start)
--		++*empty_pages;
-+		++state->empty_pages;
- 	else
--		*empty_pages = 0;
-+		state->empty_pages = 0;
- 
--	return (data->bootloader_mode || *empty_pages >= 2) ?
-+	return (data->bootloader_mode || state->empty_pages >= 2) ?
- 					RMI_SCAN_DONE : RMI_SCAN_CONTINUE;
+@@ -1024,9 +1040,13 @@ static int rmi_driver_remove(struct device *dev)
  }
  
-@@ -545,11 +575,11 @@ int rmi_scan_pdt(struct rmi_device *rmi_dev, void *ctx,
- 		 void *ctx, const struct pdt_entry *entry))
+ #ifdef CONFIG_OF
+-static int rmi_driver_of_probe(struct device *dev,
+-				struct rmi_device_platform_data *pdata)
++static const u8 rmi_s3706_fallback_pdt[] = {34, 41, 01, 01, 12, 01};
++
++static int rmi_driver_of_probe(struct rmi_device *rmi_dev,
++			       struct rmi_device_platform_data *pdata)
  {
- 	int page;
--	int empty_pages = 0;
-+	struct pdt_scan_state state = {0, 0, {0}};
- 	int retval = RMI_SCAN_DONE;
++	struct device *dev = rmi_dev->xport->dev;
++	u8 buf[RMI_PDT_ENTRY_SIZE];
+ 	int retval;
  
- 	for (page = 0; page <= RMI4_MAX_PAGE; page++) {
--		retval = rmi_scan_pdt_page(rmi_dev, page, &empty_pages,
-+		retval = rmi_scan_pdt_page(rmi_dev, page, &state,
- 					   ctx, callback);
- 		if (retval != RMI_SCAN_CONTINUE)
- 			break;
+ 	retval = rmi_of_property_read_u32(dev, &pdata->reset_delay_ms,
+@@ -1034,11 +1054,37 @@ static int rmi_driver_of_probe(struct device *dev,
+ 	if (retval)
+ 		return retval;
+ 
++	/*
++	 * In some aftermerket touch ICs, the first PDT entry is empty and
++	 * the function number register is 0. If so, the driver
++	 * may have provide backup PDT entries.
++	 */
++
++	retval = rmi_read_block(rmi_dev, PDT_START_SCAN_LOCATION,
++			buf, RMI_PDT_ENTRY_SIZE);
++	if (retval) {
++		dev_err(dev, "Read PDT entry at %#06x failed, code: %d.\n",
++			PDT_START_SCAN_LOCATION, retval);
++		return retval;
++	}
++
++	if (!RMI4_END_OF_PDT(buf[5]))
++		return 0;
++
++	/* List of known PDT entries per compatible. */
++	if (of_device_is_compatible(dev->of_node, "syna,rmi4-s3706b")) {
++		pdata->pdt_fallback_desc = rmi_s3706_fallback_pdt;
++		pdata->pdt_fallback_size = ARRAY_SIZE(rmi_s3706_fallback_pdt);
++	} else {
++		dev_err(dev, "First PDT entry is empty and no backup values provided.\n");
++		return -EINVAL;
++	}
++
+ 	return 0;
+ }
+ #else
+-static inline int rmi_driver_of_probe(struct device *dev,
+-					struct rmi_device_platform_data *pdata)
++static inline int rmi_driver_of_probe(struct rmi_device *rmi_dev,
++				      struct rmi_device_platform_data *pdata)
+ {
+ 	return -ENODEV;
+ }
+@@ -1159,7 +1205,7 @@ static int rmi_driver_probe(struct device *dev)
+ 	pdata = rmi_get_platform_data(rmi_dev);
+ 
+ 	if (rmi_dev->xport->dev->of_node) {
+-		retval = rmi_driver_of_probe(rmi_dev->xport->dev, pdata);
++		retval = rmi_driver_of_probe(rmi_dev, pdata);
+ 		if (retval)
+ 			return retval;
+ 	}
 diff --git a/drivers/input/rmi4/rmi_driver.h b/drivers/input/rmi4/rmi_driver.h
-index e84495caab151..a4ae2af93ce3a 100644
+index a4ae2af93ce3a..b931f428713bf 100644
 --- a/drivers/input/rmi4/rmi_driver.h
 +++ b/drivers/input/rmi4/rmi_driver.h
-@@ -46,6 +46,14 @@ struct pdt_entry {
- 	u8 function_number;
- };
+@@ -31,6 +31,8 @@
+ #define RMI_PDT_FUNCTION_VERSION_MASK   0x60
+ #define RMI_PDT_INT_SOURCE_COUNT_MASK   0x07
  
-+#define RMI_PDT_MAX 0x55
++#define RMI_OF_PDT_DESC_CELLS 2
 +
-+struct pdt_scan_state {
-+	u8 empty_pages;
-+	u8 pdt_count;
-+	bool pdts[RMI_PDT_MAX];
-+};
-+
- #define RMI_REG_DESC_PRESENSE_BITS	(32 * BITS_PER_BYTE)
- #define RMI_REG_DESC_SUBPACKET_BITS	(37 * BITS_PER_BYTE)
+ #define PDT_START_SCAN_LOCATION 0x00e9
+ #define PDT_END_SCAN_LOCATION	0x0005
+ #define RMI4_END_OF_PDT(id) ((id) == 0x00 || (id) == 0xff)
+diff --git a/include/linux/rmi.h b/include/linux/rmi.h
+index ab7eea01ab427..4ba2cefac8558 100644
+--- a/include/linux/rmi.h
++++ b/include/linux/rmi.h
+@@ -214,6 +214,9 @@ struct rmi_device_platform_data {
+ 	int reset_delay_ms;
+ 	int irq;
  
++	unsigned int pdt_fallback_size;
++	const u8 *pdt_fallback_desc;
++
+ 	struct rmi_device_platform_data_spi spi_data;
+ 
+ 	/* function handler pdata */
 
 -- 
 2.51.0
