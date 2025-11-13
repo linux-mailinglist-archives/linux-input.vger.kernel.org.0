@@ -1,52 +1,52 @@
-Return-Path: <linux-input+bounces-16093-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16095-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2697C58AA3
-	for <lists+linux-input@lfdr.de>; Thu, 13 Nov 2025 17:19:57 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F2A0C58BD8
+	for <lists+linux-input@lfdr.de>; Thu, 13 Nov 2025 17:32:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 5FCF8360B0F
-	for <lists+linux-input@lfdr.de>; Thu, 13 Nov 2025 16:05:45 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 869513BDFD5
+	for <lists+linux-input@lfdr.de>; Thu, 13 Nov 2025 16:06:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0DDBC2FB624;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F79A34DCFE;
 	Thu, 13 Nov 2025 16:03:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tGUev0eT"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tSeAyupX"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C74F32FA0DF;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58847347BC1;
 	Thu, 13 Nov 2025 16:03:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763049785; cv=none; b=UFhswsd/5xIwNUz8fSV4BPIEhIzHOE+xt7c4qD0qwq3FIO1Y8UuU3cjTXAyKKkABX3H5o40HO7UmXfl2NzuCw5fkH3TfYiZIDH5Xu8w8Jannvb5RiYFr1KmcWqZZodL9dYbFNEAIUWNoCNbwWkbKgQpnZRsX9BhxrYUn23PKDZU=
+	t=1763049786; cv=none; b=GI1DwQMVZlyjDVQHoUJrqvkdA+Dc1bm5OiiAmCNzjcFwkFXcpFm7ER7GwkQGpGPXB/aepmx2tbUKl/+dkJuBLJG1dRtz4JroV8GjmcgzWSo/xSghWTbdhDOv2RcyNcQd9amyIGjscMG1rXKR7IrD4b14pkUdG9qjMmXoivC5wV8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763049785; c=relaxed/simple;
-	bh=9/O5jK3XiXEvHqxBS4E7bVRiAS5ys9y+3D+j6tYNxi8=;
+	s=arc-20240116; t=1763049786; c=relaxed/simple;
+	bh=QIuVHgS8+ahZYbIi0X11y/faUOwKz1GnquRdQ0didNs=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Op1rUwpjMVIUTRzaFqgczu9p5dvw0NGsABYs5PbTIlSIXXS2QEIZEW6EJJpvIMU19sFtW7/lXw1YQ2CUOE8NxpJ2sGQ0u7H01fyYXpnnsDssvgazOd76r+TRRyIAdU6ap+jCNCatHNgqJ31SyRa9CM/OVzMJXZNG7YcyVVNsI0M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tGUev0eT; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 1DCE3C19423;
+	 In-Reply-To:To:Cc; b=BGiaXLJEnHTk/TjxlqMn4oh3QboDKN0hgkoIK5IQRkUlfKWby4enp2Hb0eQNd8MVfjxAiqa1Wpr5cwvlLi9BDwORji4l8wAMDHQepUEdXAlRUvVWp+juMbKewC80i5hufem1/mKQRhalzlsoRyO4cVLr8hYm+8rKvAmz5V65FHM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tSeAyupX; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 4A860C116D0;
 	Thu, 13 Nov 2025 16:03:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1763049785;
-	bh=9/O5jK3XiXEvHqxBS4E7bVRiAS5ys9y+3D+j6tYNxi8=;
+	bh=QIuVHgS8+ahZYbIi0X11y/faUOwKz1GnquRdQ0didNs=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=tGUev0eTCoPDWspZcsJnyKlDKEDAiU2FHnwkkT6upVNJWI6wpa9/RKis2jADhYfai
-	 lYUEKjLPvGFUNT8RGXSiMBbbXepgCzL5pynzHoHrqjhARExd7qoAeQk5fBgCtlot7h
-	 PG5EvdMFpU/ttgyouZ3afF4EUeAJ6+fuWyTGl+o1ViNH32MNHUUybIt0tc4OwFKitF
-	 JmujaSVk4xS1jPHUNcCEokk8ID27DyXqQiUDn3lh52uwLDdA2a64BY6dKVI7PFnjoi
-	 n5TiF9uytclfI8f23KM6CQGRRybdhxzzdSGCUdamaC3Jqqn0rNT7T34PKqDXIW6XoT
-	 mvBYsVs1N+wew==
+	b=tSeAyupXrXFw4C5M95fEd5soYFTksiErzcnE6hKnyqVRuoTENv1AoENe88AxpqR+v
+	 /XkteEkCRJGHuxtI4LTYYNbcH9/YpZxA3feV6zS1s0iAnANTykD2GeGIYENaKgkOhd
+	 FmmNaJb+VPn5kbf/cMRT/0pqpREvHm6+PZmRH4ZYBRMkVRra8Hp+wJN172xlQAlU3a
+	 CNhkTiLNcy+R9DRh3gTPFv34rco6Ua61Gt/8VjZCEYZAo1TZb9XUkWNZLK7nLcAAgZ
+	 F2RyzE0ryisBPcqdIheFcL6bvTNkSvJyWh6ZLFu712B7eM4cDVVKLP1ovJcmu14lmw
+	 B96Pr6CCrMdyA==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 04C1FCD8C8F;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1FC2BCD8C94;
 	Thu, 13 Nov 2025 16:03:05 +0000 (UTC)
 From: David Heidelberg via B4 Relay <devnull+david.ixit.cz@kernel.org>
-Date: Thu, 13 Nov 2025 17:02:58 +0100
-Subject: [PATCH v8 1/2] Input: add ABS_SND_PROFILE
+Date: Thu, 13 Nov 2025 17:02:59 +0100
+Subject: [PATCH v8 2/2] arm64: dts: qcom: sdm845-oneplus: Add alert-slider
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -55,7 +55,7 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20251113-op6-tri-state-v8-1-54073f3874bc@ixit.cz>
+Message-Id: <20251113-op6-tri-state-v8-2-54073f3874bc@ixit.cz>
 References: <20251113-op6-tri-state-v8-0-54073f3874bc@ixit.cz>
 In-Reply-To: <20251113-op6-tri-state-v8-0-54073f3874bc@ixit.cz>
 To: Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
@@ -70,23 +70,24 @@ To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
 Cc: linux-input@vger.kernel.org, linux-doc@vger.kernel.org, 
  linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
  devicetree@vger.kernel.org, phone-devel@vger.kernel.org, 
- Gergo Koteles <soyer@irl.hu>, David Heidelberg <david@ixit.cz>
+ Gergo Koteles <soyer@irl.hu>, Casey Connolly <casey@connolly.tech>, 
+ David Heidelberg <david@ixit.cz>, Konrad Dybcio <konradybcio@kernel.org>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2605; i=david@ixit.cz;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2077; i=david@ixit.cz;
  h=from:subject:message-id;
- bh=ynFBUiLMOY+lvOYrgSSkX4sfQ4tUkV4SJwWhaS9jV5Q=;
- b=owEBbQKS/ZANAwAIAWACP8TTSSByAcsmYgBpFgE3bK97MXzp5YL7HOjXhvDRHgW7RTRYeuGwG
- o/3UwuRaDmJAjMEAAEIAB0WIQTXegnP7twrvVOnBHRgAj/E00kgcgUCaRYBNwAKCRBgAj/E00kg
- cq0qEACegQhFSI9ob0OcxcYpXcowq9RO4oEavqEqwqVKnyXG1Kui8jsQJEkaKOCSHSnbQXMnpmd
- WZIreor04yTYWFz62HZWLM4lSf951WVz3SLNFCGvVt5rlTpnBn38af6VILT4wPIYW0bXX7SakV7
- xuBRk41RiKksEWV31b4ViCEfvQhY0P+7WW3iUnQoig9roPWr4iKkyxUD2WwbSzO1iqYtW9XsjuM
- 2GMoDQEleTil5k596mRYkYjJse1Ka0OmsMMKACKxXsmIADarvPeBCAVAUIgKSQo+KvcSGj9xhOE
- uQK7L9l6rE6M1nT12NzEmNe43P5RlqKul23TnYYKLdjuy/c9Q/L5GcgzAgyK/6rs804zZ21bWqR
- S0qH+i7ZBIiJ7uJ8sdvfEpTi0mTprgdBvUlT0ambRX1IunGPm0SuoJFONIYmuqMf6haMi+rCGlg
- g0Y+BmP5HuVJ5PEmK1ZOHSMmWbDse08OmwdZuwe65S8xLQCkw0W1NCqJZzMPr9T+O1+sXZtue/E
- hfVH+bzPo5jrUORrSXw71/itRDO7x58cuUChzHULQn0TIN4O/UIa3CmkOro36O8C4uYCsU5390m
- xHQT7kvqNPVkq1wd6A5AC/o5rSpyHwVdTodsfF2qo7xdqJwulxbnLhadKH/Uw1i4xQn9v6/e/f3
- 8ioe52z7sgrMANQ==
+ bh=dqvFSr3SuBIu+543qnkoNfG9uq0Cj2Q9+THYg6kIPK0=;
+ b=owEBbQKS/ZANAwAIAWACP8TTSSByAcsmYgBpFgE3UzVo+zDBd/5cErL4bALGyVMggtI90tyiC
+ L61dLnRCzWJAjMEAAEIAB0WIQTXegnP7twrvVOnBHRgAj/E00kgcgUCaRYBNwAKCRBgAj/E00kg
+ cptuD/4lE1F+wE1YrI3e866r6VZ3BJ1VMxehSO5M5oPDXrvQS+qHmdLrx3q+hAvRBS9JSsSiSi/
+ ug7or4TNPrF+DrjgGe3IQRp0LU0ihym5IdlvD0oW5cIy0bYRllgNOa/UChLFvoF6ksGTLoV/3Ir
+ phtDYu+BXYXixMNfTZTLj/ke+MC+93Htu2W3Vbho3lzF6nNx0Xnn5RuxIRSlj6Os7/HtIy6YCUg
+ X4coQnI15RRjaX4DH0K40kpeIBVo5/yWjyhNH4CxieCCUxHa/1pjAsPEbT16aJAB0RTzzFR/Jmb
+ h9lmn7fyVqq0krSmHmElJ0nMU06HlFVMM2IMZEI03iqSJW2HIWyTBofMNbt1JNX633eeJZ0KxBp
+ uPJS2+pRSTaJa3l71WRRJR8+aRm6OoqXkE5DH6VHV3NL8qfUqxU4kugignehUOUt1mehbCTofoj
+ zSC81jH3Cylj+ghxb0k0h8YOJ1bsGv7boCtJSuqHSa0iJW3cIEm9khd+BQBh9ew9ZnU7AZlQXPp
+ oSFHOYM+PRI1kZuja1+t0WdgRTthLBXNXRk5YAlCTgjXHOKlzrTyjoO7tGXKfUHWu37sPSTOsng
+ NvlbuYm+coDOtwPESDR7lS7kmEbYBVgrZ3NzAN3X2as/GpGp8MQ7AtVun32yk2H0jl+KiXiAmrq
+ y6zlEk0af8zcEZg==
 X-Developer-Key: i=david@ixit.cz; a=openpgp;
  fpr=D77A09CFEEDC2BBD53A7047460023FC4D3492072
 X-Endpoint-Received: by B4 Relay for david@ixit.cz/default with auth_id=355
@@ -95,78 +96,68 @@ Reply-To: david@ixit.cz
 
 From: Gergo Koteles <soyer@irl.hu>
 
-ABS_SND_PROFILE used to describe the state of a multi-value sound profile
-switch. This will be used for the alert-slider on OnePlus phones or other
-phones.
+The alert-slider is a tri-state sound profile switch found on the
+OnePlus 6, Android maps the states to "silent", "vibrate" and "ring".
+Expose them as ABS_SND_PROFILE events.
+The previous GPIO numbers were wrong. Update them to the correct ones.
 
-Profile values added as SND_PROFLE_(SILENT|VIBRATE|RING) identifiers
-to input-event-codes.h so they can be used from DTS.
-
+Co-developed-by: Casey Connolly <casey@connolly.tech>
+Signed-off-by: Casey Connolly <casey@connolly.tech>
 Signed-off-by: Gergo Koteles <soyer@irl.hu>
-Reviewed-by: Bjorn Andersson <andersson@kernel.org>
+Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 Tested-by: Guido Günther <agx@sigxcpu.org> # oneplus,fajita & oneplus,enchilada
 Reviewed-by: Guido Günther <agx@sigxcpu.org>
 Signed-off-by: David Heidelberg <david@ixit.cz>
 ---
- Documentation/input/event-codes.rst    | 6 ++++++
- drivers/hid/hid-debug.c                | 1 +
- include/uapi/linux/input-event-codes.h | 9 +++++++++
- 3 files changed, 16 insertions(+)
+ .../arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi | 35 ++++++++++++++++++++++
+ 1 file changed, 35 insertions(+)
 
-diff --git a/Documentation/input/event-codes.rst b/Documentation/input/event-codes.rst
-index 1ead9bb8d9c64..e4f065dd5a1da 100644
---- a/Documentation/input/event-codes.rst
-+++ b/Documentation/input/event-codes.rst
-@@ -241,6 +241,12 @@ A few EV_ABS codes have special meanings:
-     emitted only when the selected profile changes, indicating the newly
-     selected profile value.
+diff --git a/arch/arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi b/arch/arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi
+index db6dd04c51bb5..963dc4cc3bbb8 100644
+--- a/arch/arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi
++++ b/arch/arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi
+@@ -25,6 +25,41 @@ / {
+ 	chassis-type = "handset";
+ 	qcom,msm-id = <QCOM_ID_SDM845 0x20001>;
  
-+* ABS_SND_PROFILE:
++	alert-slider {
++		compatible = "gpio-keys";
++		label = "Alert slider";
 +
-+  - Used to describe the state of a multi-value sound profile switch.
-+    An event is emitted only when the selected profile changes,
-+    indicating the newly selected profile value.
++		pinctrl-0 = <&alert_slider_default>;
++		pinctrl-names = "default";
 +
- * ABS_MT_<name>:
- 
-   - Used to describe multitouch input events. Please see
-diff --git a/drivers/hid/hid-debug.c b/drivers/hid/hid-debug.c
-index 337d2dc81b4ca..c5865b0d2aaaf 100644
---- a/drivers/hid/hid-debug.c
-+++ b/drivers/hid/hid-debug.c
-@@ -3513,6 +3513,7 @@ static const char *absolutes[ABS_CNT] = {
- 	[ABS_DISTANCE] = "Distance",	[ABS_TILT_X] = "XTilt",
- 	[ABS_TILT_Y] = "YTilt",		[ABS_TOOL_WIDTH] = "ToolWidth",
- 	[ABS_VOLUME] = "Volume",	[ABS_PROFILE] = "Profile",
-+	[ABS_SND_PROFILE] = "SoundProfile",
- 	[ABS_MISC] = "Misc",
- 	[ABS_MT_SLOT] = "MTSlot",
- 	[ABS_MT_TOUCH_MAJOR] = "MTMajor",
-diff --git a/include/uapi/linux/input-event-codes.h b/include/uapi/linux/input-event-codes.h
-index 9cd89bcc1d9c0..430552f036616 100644
---- a/include/uapi/linux/input-event-codes.h
-+++ b/include/uapi/linux/input-event-codes.h
-@@ -891,6 +891,7 @@
- 
- #define ABS_VOLUME		0x20
- #define ABS_PROFILE		0x21
-+#define ABS_SND_PROFILE		0x22
- 
- #define ABS_MISC		0x28
- 
-@@ -1000,4 +1001,12 @@
- #define SND_MAX			0x07
- #define SND_CNT			(SND_MAX+1)
- 
-+/*
-+ * ABS_SND_PROFILE values
-+ */
++		switch-top {
++			label = "Silent";
++			linux,input-type = <EV_ABS>;
++			linux,code = <ABS_SND_PROFILE>;
++			linux,input-value = <SND_PROFILE_SILENT>;
++			gpios = <&tlmm 126 GPIO_ACTIVE_LOW>;
++			linux,can-disable;
++		};
 +
-+#define SND_PROFILE_SILENT	0x00
-+#define SND_PROFILE_VIBRATE	0x01
-+#define SND_PROFILE_RING	0x02
++		switch-middle {
++			label = "Vibrate";
++			linux,input-type = <EV_ABS>;
++			linux,code = <ABS_SND_PROFILE>;
++			linux,input-value = <SND_PROFILE_VIBRATE>;
++			gpios = <&tlmm 52 GPIO_ACTIVE_LOW>;
++			linux,can-disable;
++		};
 +
- #endif
++		switch-bottom {
++			label = "Ring";
++			linux,input-type = <EV_ABS>;
++			linux,code = <ABS_SND_PROFILE>;
++			linux,input-value = <SND_PROFILE_RING>;
++			gpios = <&tlmm 24 GPIO_ACTIVE_LOW>;
++			linux,can-disable;
++		};
++	};
++
+ 	aliases {
+ 		serial0 = &uart9;
+ 		serial1 = &uart6;
 
 -- 
 2.51.0
