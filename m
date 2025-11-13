@@ -1,52 +1,61 @@
-Return-Path: <linux-input+bounces-16095-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16096-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F2A0C58BD8
-	for <lists+linux-input@lfdr.de>; Thu, 13 Nov 2025 17:32:07 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id B7EFAC58BAA
+	for <lists+linux-input@lfdr.de>; Thu, 13 Nov 2025 17:29:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 869513BDFD5
-	for <lists+linux-input@lfdr.de>; Thu, 13 Nov 2025 16:06:03 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 83C3F35B655
+	for <lists+linux-input@lfdr.de>; Thu, 13 Nov 2025 16:11:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F79A34DCFE;
-	Thu, 13 Nov 2025 16:03:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 29E8834FF66;
+	Thu, 13 Nov 2025 16:07:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tSeAyupX"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Or5QZeP/"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58847347BC1;
-	Thu, 13 Nov 2025 16:03:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFFBE34D395;
+	Thu, 13 Nov 2025 16:07:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763049786; cv=none; b=GI1DwQMVZlyjDVQHoUJrqvkdA+Dc1bm5OiiAmCNzjcFwkFXcpFm7ER7GwkQGpGPXB/aepmx2tbUKl/+dkJuBLJG1dRtz4JroV8GjmcgzWSo/xSghWTbdhDOv2RcyNcQd9amyIGjscMG1rXKR7IrD4b14pkUdG9qjMmXoivC5wV8=
+	t=1763050027; cv=none; b=aSw5zj/qVsPRNr58xM/AcYfy9acR4idnr9Y44ElkTRR/lyYtBOMSXcRVHIo3qRgMNv6Ng2wVvGRGEcn8V+zV2X2q/FZoAeZFJTvBIKltA8wJ9XEG433oFU2KF2nYMPLd6tSVjSp/LChdeniXh8gW14iAmWTQABKqwD/csi7ujFs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763049786; c=relaxed/simple;
-	bh=QIuVHgS8+ahZYbIi0X11y/faUOwKz1GnquRdQ0didNs=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=BGiaXLJEnHTk/TjxlqMn4oh3QboDKN0hgkoIK5IQRkUlfKWby4enp2Hb0eQNd8MVfjxAiqa1Wpr5cwvlLi9BDwORji4l8wAMDHQepUEdXAlRUvVWp+juMbKewC80i5hufem1/mKQRhalzlsoRyO4cVLr8hYm+8rKvAmz5V65FHM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tSeAyupX; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 4A860C116D0;
-	Thu, 13 Nov 2025 16:03:05 +0000 (UTC)
+	s=arc-20240116; t=1763050027; c=relaxed/simple;
+	bh=g+/FYjcz3WYiDo8+OgGvPY082eJaIJCtja71aw6bHxI=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=bmVWFwLM/1IznjKBz9IygbZHX+Q/kSc7NiPFnWmcz6XJ6Ml3HbYt6WDRujGywTwy0SoMJZQl89LscqXQjqHEoK5Nh5JFJ0GXMBTB9t0eMMZGRyMZ2c+vsEvIlshbvkJH0pX2ojHkld7Sg8nz8RQ7dhOHWR+TyocTybJ/aMX5hbU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Or5QZeP/; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 99ABEC116D0;
+	Thu, 13 Nov 2025 16:07:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763049785;
-	bh=QIuVHgS8+ahZYbIi0X11y/faUOwKz1GnquRdQ0didNs=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=tSeAyupXrXFw4C5M95fEd5soYFTksiErzcnE6hKnyqVRuoTENv1AoENe88AxpqR+v
-	 /XkteEkCRJGHuxtI4LTYYNbcH9/YpZxA3feV6zS1s0iAnANTykD2GeGIYENaKgkOhd
-	 FmmNaJb+VPn5kbf/cMRT/0pqpREvHm6+PZmRH4ZYBRMkVRra8Hp+wJN172xlQAlU3a
-	 CNhkTiLNcy+R9DRh3gTPFv34rco6Ua61Gt/8VjZCEYZAo1TZb9XUkWNZLK7nLcAAgZ
-	 F2RyzE0ryisBPcqdIheFcL6bvTNkSvJyWh6ZLFu712B7eM4cDVVKLP1ovJcmu14lmw
-	 B96Pr6CCrMdyA==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1FC2BCD8C94;
-	Thu, 13 Nov 2025 16:03:05 +0000 (UTC)
-From: David Heidelberg via B4 Relay <devnull+david.ixit.cz@kernel.org>
-Date: Thu, 13 Nov 2025 17:02:59 +0100
-Subject: [PATCH v8 2/2] arm64: dts: qcom: sdm845-oneplus: Add alert-slider
+	s=k20201202; t=1763050026;
+	bh=g+/FYjcz3WYiDo8+OgGvPY082eJaIJCtja71aw6bHxI=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=Or5QZeP/i01cj5lNVBRNT2nBAVuIqbCt/FlFRJycUkRfVhsXoXGC5nbWgekehPiKd
+	 1QEuhRq8IJ3td16ectF9Ec+6SpEO5BSXEGVr2/rE7wo6YdkU+PdQ3bSzJR3uTfDvez
+	 n2FTilav6PUER2/MkDBM7hiSCgTfc1WqagnMa5wK33SQEttWx9fWI9TLbPtrNLp/pB
+	 zFbr8uqUDX/MUjzbER9vW5/H+JQyv/eGEBRY+shRnBHN600oJ+/bLRVdnu4wY9Vqy9
+	 /fPRCNC5DbJzNdVldYUqJCtooww0QXP5SaRDbCo+iyuME0CfAOkc8RXGT77gSbJ9Jw
+	 EwJJl4SSx2t5A==
+From: Lee Jones <lee@kernel.org>
+To: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Andreas Kemnade <andreas@kemnade.info>, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+ Tony Lindgren <tony@atomide.com>, Kevin Hilman <khilman@kernel.org>, 
+ akemnade@kernel.org
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-input@vger.kernel.org, linux-omap@vger.kernel.org
+In-Reply-To: <20251106-twl6030-button-v4-1-fdf1aa6e1e9a@kernel.org>
+References: <20251106-twl6030-button-v4-1-fdf1aa6e1e9a@kernel.org>
+Subject: Re: (subset) [PATCH v4 1/3] dt-bindings: mfd: twl: enable power
+ button also for twl603x
+Message-Id: <176305002333.1560960.3842601279717096522.b4-ty@kernel.org>
+Date: Thu, 13 Nov 2025 16:07:03 +0000
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -55,112 +64,24 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20251113-op6-tri-state-v8-2-54073f3874bc@ixit.cz>
-References: <20251113-op6-tri-state-v8-0-54073f3874bc@ixit.cz>
-In-Reply-To: <20251113-op6-tri-state-v8-0-54073f3874bc@ixit.cz>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
- Jonathan Corbet <corbet@lwn.net>, Jiri Kosina <jikos@kernel.org>, 
- Benjamin Tissoires <bentiss@kernel.org>, 
- Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Casey Connolly <casey.connolly@linaro.org>, 
- =?utf-8?q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>
-Cc: linux-input@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- devicetree@vger.kernel.org, phone-devel@vger.kernel.org, 
- Gergo Koteles <soyer@irl.hu>, Casey Connolly <casey@connolly.tech>, 
- David Heidelberg <david@ixit.cz>, Konrad Dybcio <konradybcio@kernel.org>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2077; i=david@ixit.cz;
- h=from:subject:message-id;
- bh=dqvFSr3SuBIu+543qnkoNfG9uq0Cj2Q9+THYg6kIPK0=;
- b=owEBbQKS/ZANAwAIAWACP8TTSSByAcsmYgBpFgE3UzVo+zDBd/5cErL4bALGyVMggtI90tyiC
- L61dLnRCzWJAjMEAAEIAB0WIQTXegnP7twrvVOnBHRgAj/E00kgcgUCaRYBNwAKCRBgAj/E00kg
- cptuD/4lE1F+wE1YrI3e866r6VZ3BJ1VMxehSO5M5oPDXrvQS+qHmdLrx3q+hAvRBS9JSsSiSi/
- ug7or4TNPrF+DrjgGe3IQRp0LU0ihym5IdlvD0oW5cIy0bYRllgNOa/UChLFvoF6ksGTLoV/3Ir
- phtDYu+BXYXixMNfTZTLj/ke+MC+93Htu2W3Vbho3lzF6nNx0Xnn5RuxIRSlj6Os7/HtIy6YCUg
- X4coQnI15RRjaX4DH0K40kpeIBVo5/yWjyhNH4CxieCCUxHa/1pjAsPEbT16aJAB0RTzzFR/Jmb
- h9lmn7fyVqq0krSmHmElJ0nMU06HlFVMM2IMZEI03iqSJW2HIWyTBofMNbt1JNX633eeJZ0KxBp
- uPJS2+pRSTaJa3l71WRRJR8+aRm6OoqXkE5DH6VHV3NL8qfUqxU4kugignehUOUt1mehbCTofoj
- zSC81jH3Cylj+ghxb0k0h8YOJ1bsGv7boCtJSuqHSa0iJW3cIEm9khd+BQBh9ew9ZnU7AZlQXPp
- oSFHOYM+PRI1kZuja1+t0WdgRTthLBXNXRk5YAlCTgjXHOKlzrTyjoO7tGXKfUHWu37sPSTOsng
- NvlbuYm+coDOtwPESDR7lS7kmEbYBVgrZ3NzAN3X2as/GpGp8MQ7AtVun32yk2H0jl+KiXiAmrq
- y6zlEk0af8zcEZg==
-X-Developer-Key: i=david@ixit.cz; a=openpgp;
- fpr=D77A09CFEEDC2BBD53A7047460023FC4D3492072
-X-Endpoint-Received: by B4 Relay for david@ixit.cz/default with auth_id=355
-X-Original-From: David Heidelberg <david@ixit.cz>
-Reply-To: david@ixit.cz
+X-Mailer: b4 0.15-dev-52d38
 
-From: Gergo Koteles <soyer@irl.hu>
+On Thu, 06 Nov 2025 10:00:25 +0100, akemnade@kernel.org wrote:
+> TWL603x has also a power button function, so add the corresponding subnode.
+> As not in all cases there is a power button connected to the corresponding
+> pad of the TWL603x, the functionality can be disabled by
+> status = "disabled" or simply not adding the subnode.
+> To keep things simple, follow the established design pattern of using const
+> interrupts as used also by the other subdevices.
+> 
+> [...]
 
-The alert-slider is a tri-state sound profile switch found on the
-OnePlus 6, Android maps the states to "silent", "vibrate" and "ring".
-Expose them as ABS_SND_PROFILE events.
-The previous GPIO numbers were wrong. Update them to the correct ones.
+Applied, thanks!
 
-Co-developed-by: Casey Connolly <casey@connolly.tech>
-Signed-off-by: Casey Connolly <casey@connolly.tech>
-Signed-off-by: Gergo Koteles <soyer@irl.hu>
-Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
-Tested-by: Guido Günther <agx@sigxcpu.org> # oneplus,fajita & oneplus,enchilada
-Reviewed-by: Guido Günther <agx@sigxcpu.org>
-Signed-off-by: David Heidelberg <david@ixit.cz>
----
- .../arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi | 35 ++++++++++++++++++++++
- 1 file changed, 35 insertions(+)
+[1/3] dt-bindings: mfd: twl: enable power button also for twl603x
+      commit: 65a4ee23e057f60d25c3436acd88f2f169f780c2
 
-diff --git a/arch/arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi b/arch/arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi
-index db6dd04c51bb5..963dc4cc3bbb8 100644
---- a/arch/arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi
-@@ -25,6 +25,41 @@ / {
- 	chassis-type = "handset";
- 	qcom,msm-id = <QCOM_ID_SDM845 0x20001>;
- 
-+	alert-slider {
-+		compatible = "gpio-keys";
-+		label = "Alert slider";
-+
-+		pinctrl-0 = <&alert_slider_default>;
-+		pinctrl-names = "default";
-+
-+		switch-top {
-+			label = "Silent";
-+			linux,input-type = <EV_ABS>;
-+			linux,code = <ABS_SND_PROFILE>;
-+			linux,input-value = <SND_PROFILE_SILENT>;
-+			gpios = <&tlmm 126 GPIO_ACTIVE_LOW>;
-+			linux,can-disable;
-+		};
-+
-+		switch-middle {
-+			label = "Vibrate";
-+			linux,input-type = <EV_ABS>;
-+			linux,code = <ABS_SND_PROFILE>;
-+			linux,input-value = <SND_PROFILE_VIBRATE>;
-+			gpios = <&tlmm 52 GPIO_ACTIVE_LOW>;
-+			linux,can-disable;
-+		};
-+
-+		switch-bottom {
-+			label = "Ring";
-+			linux,input-type = <EV_ABS>;
-+			linux,code = <ABS_SND_PROFILE>;
-+			linux,input-value = <SND_PROFILE_RING>;
-+			gpios = <&tlmm 24 GPIO_ACTIVE_LOW>;
-+			linux,can-disable;
-+		};
-+	};
-+
- 	aliases {
- 		serial0 = &uart9;
- 		serial1 = &uart6;
-
--- 
-2.51.0
-
+--
+Lee Jones [李琼斯]
 
 
