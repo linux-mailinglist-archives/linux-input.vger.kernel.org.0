@@ -1,260 +1,95 @@
-Return-Path: <linux-input+bounces-16104-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16105-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8FFAC590B1
-	for <lists+linux-input@lfdr.de>; Thu, 13 Nov 2025 18:15:21 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B2B1C5949A
+	for <lists+linux-input@lfdr.de>; Thu, 13 Nov 2025 18:56:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 27E05548739
-	for <lists+linux-input@lfdr.de>; Thu, 13 Nov 2025 16:39:43 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 4B7514F9D33
+	for <lists+linux-input@lfdr.de>; Thu, 13 Nov 2025 17:45:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 643B6363C69;
-	Thu, 13 Nov 2025 16:31:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qjxCpYfr"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C88863587A9;
+	Thu, 13 Nov 2025 17:45:19 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from cosmicgizmosystems.com (beyond-windows.com [63.249.102.155])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30D7D363C42;
-	Thu, 13 Nov 2025 16:31:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1DB6350A04;
+	Thu, 13 Nov 2025 17:45:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=63.249.102.155
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763051468; cv=none; b=bt5Fr+fwpGn7NINJMuywi4rpmZ8TGgDJTlNe877ga3GHL1+MwqSk8bPOrrAE9LvRTS//zNeKjv7V8hSOBr8CGM1roZea7fNukHTOCTEwExGxWR2aDTktfBHreyfG7PfwSbisIafw1rl1RQBVtbQvwEgJTONBpLxUa+3i2nsFQJM=
+	t=1763055919; cv=none; b=EKyWEcqukRZ1k4v6B8tWOuJYRhzxhswRAIoZIfOWid+IvUh1z6hG7vJH9MRMNxTR2Gnp51bCoWRcD+895gl3vce4Efrzqma1xqzdVIdkLy/cDEAfBrAphr8Pn0aKUWLqJCdXmH2xy0oQ1AlihPEFdMopIgbm5roaaDL3o8AfmRQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763051468; c=relaxed/simple;
-	bh=ImsBrSsWCbftesE+Cb1PYnzgguu50ch+W6P48qu+dUI=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ZjCwsc/1MNKdFe/4P5nlTD1x5MG1zFE1vJm8eoodC0O0tfyKPGcf5YI/9qoeeGFBIOpqP4mQeym8oljoH/5UP0oDNgDl4f+9LTmhih1tv81kf3a/tzXK2okEOK8ynWX9mrM7SCAWuSuPAHb4GWUpu9CX4Ey5Wv3y47C68Ocy6Do=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qjxCpYfr; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 87BA8C2BCC4;
-	Thu, 13 Nov 2025 16:31:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763051467;
-	bh=ImsBrSsWCbftesE+Cb1PYnzgguu50ch+W6P48qu+dUI=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=qjxCpYfrA+jv9Cs/yv229WgXJxRN+0rlmD69yl8QvZ+mQZUWi7J9/5KxAT//fNUpu
-	 Xqax7/rVDSDd372Dy60R8t+3UMZhlNTT7hNVug1DlxJLcsuvj7Se96Q4aE4M3eEhQn
-	 4yo4wxAUEckApMesXY7cBeilI7CCmoemizq7I6Mo9fdGq3CnLxRWVSk059BjsOmQ3Y
-	 nW3FdeyKjLcKwvSEloJVp2RxBAgvCmi4yGycATT43pX1Ee4ftH4S+focUvYR9Q+LIO
-	 ks33tthtdECLMINZTMb3FOUzsvrkIFFeXitKbySepsCDjcWbh0QVMjiwoHKVasDp21
-	 RATVEsFBFzg9Q==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 59690CD8CA7;
-	Thu, 13 Nov 2025 16:31:07 +0000 (UTC)
-From: David Heidelberg via B4 Relay <devnull+david.ixit.cz@kernel.org>
-Date: Thu, 13 Nov 2025 17:31:03 +0100
-Subject: [PATCH v6 7/7] Input: synaptics-rmi4 - support fallback values for
- PDT descriptor bytes
+	s=arc-20240116; t=1763055919; c=relaxed/simple;
+	bh=+1WwX0s7K2vuXYrIdfOrJCiJLFxASeJtUL1P7cKEVRI=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=KCpkBrwO1AGti97r911qDU59YCzTCp/yPXYZ8zqGB6JE9g+qFfKZ2hC3jJzAH5IiLofKOa923NQtLK/Evl3LvrQD1QEK4GN3CbVr8eA8WgIZXQpE3pb81cGiq21OkM8dss7C9iUobPL7ySpaAWk02MjV2i1WsWxwuKAuT/0UD1w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cosmicgizmosystems.com; spf=pass smtp.mailfrom=cosmicgizmosystems.com; arc=none smtp.client-ip=63.249.102.155
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cosmicgizmosystems.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cosmicgizmosystems.com
+Received: from [10.0.0.100] (c-71-193-224-155.hsd1.wa.comcast.net [71.193.224.155])
+	by host11.cruzio.com (Postfix) with ESMTPSA id 8967724DB66F;
+	Thu, 13 Nov 2025 09:45:09 -0800 (PST)
+Message-ID: <cfbc29ee-5da4-4ff0-840a-e6e5722eb544@cosmicgizmosystems.com>
+Date: Thu, 13 Nov 2025 09:45:08 -0800
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+From: Terry Junge <linuxhid@cosmicgizmosystems.com>
+Subject: Re: [PATCH v2] Apply the quirk HID_QUIRK_ALWAYS_POLL to the Edifier
+ QR30 (2d99:a101).
+To: The-Luga <lugathe2@gmail.com>, Alan Stern <stern@rowland.harvard.edu>
+Cc: michal.pecio@gmail.com, bentiss@kernel.org, dmitry.torokhov@gmail.com,
+ jikos@kernel.org, linux-input@vger.kernel.org, linux-sound@vger.kernel.org,
+ linux-usb@vger.kernel.org, linuxsound@cosmicgizmosystems.com
+References: <20251111203350.3c9a669e.michal.pecio@gmail.com>
+ <20251112015356.1919586-1-lugathe2@gmail.com>
+ <ab81f525-b4ea-4ac7-94a8-9d8eabca957a@cosmicgizmosystems.com>
+ <58edd03a-a7a7-40af-8228-18004dc6e737@rowland.harvard.edu>
+ <CALvgqEBVQsoQ3wewP+37u5Ms398O5gC8YaELm0UJdZSDBHzPPw@mail.gmail.com>
+Content-Language: en-US
+In-Reply-To: <CALvgqEBVQsoQ3wewP+37u5Ms398O5gC8YaELm0UJdZSDBHzPPw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251113-synaptics-rmi4-v6-7-d9836afab801@ixit.cz>
-References: <20251113-synaptics-rmi4-v6-0-d9836afab801@ixit.cz>
-In-Reply-To: <20251113-synaptics-rmi4-v6-0-d9836afab801@ixit.cz>
-To: Kaustabh Chakraborty <kauschluss@disroot.org>, 
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, "Jason A. Donenfeld" <Jason@zx2c4.com>, 
- Matthias Schiffer <matthias.schiffer@ew.tq-group.com>, 
- Vincent Huang <vincent.huang@tw.synaptics.com>
-Cc: linux-input@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Casey Connolly <casey.connolly@linaro.org>, 
- phone-devel@vger.kernel.org, David Heidelberg <david@ixit.cz>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5650; i=david@ixit.cz;
- h=from:subject:message-id;
- bh=WDxThFuTW5xe6P2WYsbevC4RS4y/BvA9+hBHQwKvAJE=;
- b=owEBbQKS/ZANAwAIAWACP8TTSSByAcsmYgBpFgfJZS4oQt3CYBKaahhk76Gf+LJqmETicSXSh
- LQs/aKqEFaJAjMEAAEIAB0WIQTXegnP7twrvVOnBHRgAj/E00kgcgUCaRYHyQAKCRBgAj/E00kg
- cvTED/9o0xvCKweql1jKRZ1ltYvYsDJWnYgxmZAlbO0XL5K0kgJX4xvJ0w+7KZKwSJmREszyjMX
- uw4wiFyMxn3lSEJD1NEEbfk0qF8gvUv0rKCTzRTY3yx/gO1BLEMcTvxuLdqrQNAv9WI8xEGpGel
- HE9kS/SUf9sS+DNLRVsLn7eAfYzqBL+BCjqJrDA7Zs/CBh81ab0Wwvg33V8y0F/i6cX2lt5QpgW
- NcvwAtFqoJzPhrqupY929bQIdfCI2yOVyuRxmbqWOQmzBXr6U5bTDtiYupfqkIPgKr908J9JapP
- d0h+4SduEnHHrsN9yFdqU98I7skD9mNREUutvzedrAgG1V6QQsW4JpX+vHvLcKPJ5fXylXWlRs1
- UKwVn7dd+6WuJtPydTizVEOykj2kdJ64/niTfW4OUbuJDRTaPS3gDhGt8eRLT903vtkW76JduQ6
- 9FYtjYimVc+Lh5VX7iHe0KaDZEsRii37wveTvUkdtuyVEOUqr75hXZSEHIlS0d3t8Bji9ZON21G
- Bo0oSBbn1lDKKoHs30i6G7j5bAVTHC/CS3N2yr06V/ltR2rIQF7raNI4EzXlfJSquXUElmbdeqT
- lX2yA5V0lsSpSp0V3plDF6vzv7YfsZbE7PXjtXy9tmwmn2RKA12WykfEmsWVy10kSfmyMay3ya6
- Z/3zn38+y8pZZvw==
-X-Developer-Key: i=david@ixit.cz; a=openpgp;
- fpr=D77A09CFEEDC2BBD53A7047460023FC4D3492072
-X-Endpoint-Received: by B4 Relay for david@ixit.cz/default with auth_id=355
-X-Original-From: David Heidelberg <david@ixit.cz>
-Reply-To: david@ixit.cz
 
-From: Kaustabh Chakraborty <kauschluss@disroot.org>
+On 11/13/2025 7:45 AM, The-Luga wrote:
 
-Some replacement displays include third-party touch ICs which do not
-expose the function number and the interrupt status in its PDT entries.
+>> Vendor ID 0x2d99 belongs to Edifier International Limited not Jieli
+>> Can you change to USB_VENDOR_ID_EDIFIER instead and move to the
+>> alphabetically correct location?
+> 
+> Could you kindly tell me where this info is?
+> Searching the internet I only found this website with this info:
+> https://the-sz.com/products/usbid/index.php?v=0x2D99
 
-OnePlus 6 (original touch IC)
-  rmi4_i2c 12-0020: read 6 bytes at 0x00e3: 0 (2b 22 0d 06 01 01)
+The official list of valid USB Vendor IDs can be found here:
 
-OnePlus 6 (aftermarket touch IC)
-  rmi4_i2c 12-0020: read 6 bytes at 0x00e3: 0 (2c 23 0d 06 00 00)
+https://www.usb.org/developers
 
-Signed-off-by: Kaustabh Chakraborty <kauschluss@disroot.org>
-[codeflow adjustments, checkpatch fixes, wording]
-Signed-off-by: Casey Connolly <casey.connolly@linaro.org>
-Co-developed-by: David Heidelberg <david@ixit.cz>
-Signed-off-by: David Heidelberg <david@ixit.cz>
----
- drivers/input/rmi4/rmi_driver.c | 62 +++++++++++++++++++++++++++++++++++------
- drivers/input/rmi4/rmi_driver.h |  2 ++
- include/linux/rmi.h             |  3 ++
- 3 files changed, 59 insertions(+), 8 deletions(-)
+currently:
 
-diff --git a/drivers/input/rmi4/rmi_driver.c b/drivers/input/rmi4/rmi_driver.c
-index 93a190e333c66..bb1db5bbb3abb 100644
---- a/drivers/input/rmi4/rmi_driver.c
-+++ b/drivers/input/rmi4/rmi_driver.c
-@@ -462,9 +462,10 @@ static int rmi_driver_reset_handler(struct rmi_device *rmi_dev)
- 	return 0;
- }
- 
--static int rmi_read_pdt_entry(struct rmi_device *rmi_dev,
--			      struct pdt_entry *entry, u16 pdt_address)
-+static int rmi_read_pdt_entry(struct rmi_device *rmi_dev, struct pdt_entry *entry,
-+			      struct pdt_scan_state *state, u16 pdt_address)
- {
-+	const struct rmi_device_platform_data *pdata = rmi_get_platform_data(rmi_dev);
- 	u8 buf[RMI_PDT_ENTRY_SIZE];
- 	int error;
- 
-@@ -475,6 +476,21 @@ static int rmi_read_pdt_entry(struct rmi_device *rmi_dev,
- 		return error;
- 	}
- 
-+	if (pdata->pdt_fallback_size > state->pdt_count * RMI_OF_PDT_DESC_CELLS + 1) {
-+		/* Use the description bytes from the driver */
-+		buf[5] = pdata->pdt_fallback_desc[state->pdt_count * RMI_OF_PDT_DESC_CELLS];
-+		buf[4] = pdata->pdt_fallback_desc[state->pdt_count * RMI_OF_PDT_DESC_CELLS + 1];
-+
-+		error = rmi_read_block(rmi_dev, pdt_address, buf,
-+				RMI_PDT_ENTRY_SIZE - 2);
-+		if (error) {
-+			dev_err(&rmi_dev->dev,
-+					"Read PDT entry at %#06x failed, code: %d.\n",
-+					pdt_address, error);
-+			return error;
-+		}
-+	}
-+
- 	entry->page_start = pdt_address & RMI4_PAGE_MASK;
- 	entry->query_base_addr = buf[0];
- 	entry->command_base_addr = buf[1];
-@@ -547,7 +563,7 @@ static int rmi_scan_pdt_page(struct rmi_device *rmi_dev,
- 	int retval;
- 
- 	for (addr = pdt_start; addr >= pdt_end; addr -= RMI_PDT_ENTRY_SIZE) {
--		error = rmi_read_pdt_entry(rmi_dev, &pdt_entry, addr);
-+		error = rmi_read_pdt_entry(rmi_dev, &pdt_entry, state, addr);
- 		if (error)
- 			return error;
- 
-@@ -1024,9 +1040,13 @@ static int rmi_driver_remove(struct device *dev)
- }
- 
- #ifdef CONFIG_OF
--static int rmi_driver_of_probe(struct device *dev,
--				struct rmi_device_platform_data *pdata)
-+static const u8 rmi_s3706_fallback_pdt[] = {34, 41, 01, 01, 12, 01};
-+
-+static int rmi_driver_of_probe(struct rmi_device *rmi_dev,
-+			       struct rmi_device_platform_data *pdata)
- {
-+	struct device *dev = rmi_dev->xport->dev;
-+	u8 buf[RMI_PDT_ENTRY_SIZE];
- 	int retval;
- 
- 	retval = rmi_of_property_read_u32(dev, &pdata->reset_delay_ms,
-@@ -1034,11 +1054,37 @@ static int rmi_driver_of_probe(struct device *dev,
- 	if (retval)
- 		return retval;
- 
-+	/*
-+	 * In some aftermerket touch ICs, the first PDT entry is empty and
-+	 * the function number register is 0. If so, the driver
-+	 * may have provide backup PDT entries.
-+	 */
-+
-+	retval = rmi_read_block(rmi_dev, PDT_START_SCAN_LOCATION,
-+			buf, RMI_PDT_ENTRY_SIZE);
-+	if (retval) {
-+		dev_err(dev, "Read PDT entry at %#06x failed, code: %d.\n",
-+			PDT_START_SCAN_LOCATION, retval);
-+		return retval;
-+	}
-+
-+	if (!RMI4_END_OF_PDT(buf[5]))
-+		return 0;
-+
-+	/* List of known PDT entries per compatible. */
-+	if (of_device_is_compatible(dev->of_node, "syna,rmi4-s3706b")) {
-+		pdata->pdt_fallback_desc = rmi_s3706_fallback_pdt;
-+		pdata->pdt_fallback_size = ARRAY_SIZE(rmi_s3706_fallback_pdt);
-+	} else {
-+		dev_err(dev, "First PDT entry is empty and no backup values provided.\n");
-+		return -EINVAL;
-+	}
-+
- 	return 0;
- }
- #else
--static inline int rmi_driver_of_probe(struct device *dev,
--					struct rmi_device_platform_data *pdata)
-+static inline int rmi_driver_of_probe(struct rmi_device *rmi_dev,
-+				      struct rmi_device_platform_data *pdata)
- {
- 	return -ENODEV;
- }
-@@ -1159,7 +1205,7 @@ static int rmi_driver_probe(struct device *dev)
- 	pdata = rmi_get_platform_data(rmi_dev);
- 
- 	if (rmi_dev->xport->dev->of_node) {
--		retval = rmi_driver_of_probe(rmi_dev->xport->dev, pdata);
-+		retval = rmi_driver_of_probe(rmi_dev, pdata);
- 		if (retval)
- 			return retval;
- 	}
-diff --git a/drivers/input/rmi4/rmi_driver.h b/drivers/input/rmi4/rmi_driver.h
-index a4ae2af93ce3a..b931f428713bf 100644
---- a/drivers/input/rmi4/rmi_driver.h
-+++ b/drivers/input/rmi4/rmi_driver.h
-@@ -31,6 +31,8 @@
- #define RMI_PDT_FUNCTION_VERSION_MASK   0x60
- #define RMI_PDT_INT_SOURCE_COUNT_MASK   0x07
- 
-+#define RMI_OF_PDT_DESC_CELLS 2
-+
- #define PDT_START_SCAN_LOCATION 0x00e9
- #define PDT_END_SCAN_LOCATION	0x0005
- #define RMI4_END_OF_PDT(id) ((id) == 0x00 || (id) == 0xff)
-diff --git a/include/linux/rmi.h b/include/linux/rmi.h
-index ab7eea01ab427..4ba2cefac8558 100644
---- a/include/linux/rmi.h
-+++ b/include/linux/rmi.h
-@@ -214,6 +214,9 @@ struct rmi_device_platform_data {
- 	int reset_delay_ms;
- 	int irq;
- 
-+	unsigned int pdt_fallback_size;
-+	const u8 *pdt_fallback_desc;
-+
- 	struct rmi_device_platform_data_spi spi_data;
- 
- 	/* function handler pdata */
+https://www.usb.org/sites/default/files/vendor_ids10282025b_1.pdf
 
--- 
-2.51.0
+> 
+> I just checked the vendor from `lsusb`, and I was hesitant whether to
+> write Jieli or Edifier.
+> I also decided to write QR30 instead of Hal0. Should I add a comment
+> mentioning Jieli as I did with the device?
 
+The product was made using the Jieli SDK which supports Jieli chips. The 
+manufacturers string "Jieli Technology" is the default value in the SDK 
+and should have been changed by Edifier.
 
+No need to mention Jieli at all. The bottom line is that the product is 
+not 100% USB compliant and does not support suspend mode reliably so 
+requires the HID_QUIRK_ALWAYS_POLL quirk.
+
+Regards,
+Terry
 
