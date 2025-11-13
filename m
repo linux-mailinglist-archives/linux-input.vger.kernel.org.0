@@ -1,351 +1,133 @@
-Return-Path: <linux-input+bounces-16063-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16064-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3768CC54E33
-	for <lists+linux-input@lfdr.de>; Thu, 13 Nov 2025 01:15:52 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A49BC552DB
+	for <lists+linux-input@lfdr.de>; Thu, 13 Nov 2025 02:04:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DCF9A3B5782
-	for <lists+linux-input@lfdr.de>; Thu, 13 Nov 2025 00:15:34 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id EAC4434FEC9
+	for <lists+linux-input@lfdr.de>; Thu, 13 Nov 2025 00:58:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D5CCC189BB6;
-	Thu, 13 Nov 2025 00:15:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 429131E3DED;
+	Thu, 13 Nov 2025 00:46:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="QyRRBzY5";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="LPrwbDPU"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kPBaYa46"
 X-Original-To: linux-input@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70DA613B7AE
-	for <linux-input@vger.kernel.org>; Thu, 13 Nov 2025 00:15:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 802541E1E1E
+	for <linux-input@vger.kernel.org>; Thu, 13 Nov 2025 00:46:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762992923; cv=none; b=UjOn6CIzdyh2O65KqjujRByOm3lGIlKoFnVo3Vg7adJT7OKcaVaSqr+25sPIwi/B8stw4x5lM8820lNaawBVUoGQLSfAhEFMrps3h50CHuOlDKdXm5Ev1LjVRHWzcSw4Q9CHvE2dTs4UoDpCN4K/U9sJPcbEXiO+RIi5d/sUnSc=
+	t=1762994762; cv=none; b=gSr+DC0PIUnOhgt5+K7YiDL0y5TUDamYhtuTlBN0V2xAmPWYnMN0lKXiQ2BaV467eIV8qeC/PQ9iIjsybkYx1UPym4Ko6uqPu0OCdc6JnnnFxzBHYiR73juonotWK6ZOanoyHaVh448Zl6tjLHd1lUgubfDiAWr4OGl9ggZVEBQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762992923; c=relaxed/simple;
-	bh=rkZwVrkOadyDRR22lYKiSlNshpLUvze0UwNBJO2yDCE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=tcqqrcjcqmAPP/la3a/435Q03qwOqDX1IByzuO4uxnai0wbXYHucs6rqqQDseOvW1fHlFYEdzhbm0ahjMKWspPQWEtRIZDSMFcSeIX/qHJaEGI78InrFRLdAuUCxDffVn2y0vDHwdWhPIGlYx9dJ6iMucfchCYyGoS4//MZZgAk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=QyRRBzY5; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=LPrwbDPU; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1762992920;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=K1WcE71YI025D4IauzKZF0rnIgAKdLJAwYCr9A+FMYc=;
-	b=QyRRBzY50+ZYtTIR8ZNS+gz3msSc0gwySrRFyXKr8xJPgcxSl13MZqPNHCif2gSSY2oZRx
-	U4TyFZtMaQP+db8JK10FKNFEj6+qQkrQ142kd7fMY7WVKldpjeYLMqrnyYyftwHjvpHqaP
-	GSvcr5Ze2kZ7VQ6R7fYLo/CPSxQ2SPY=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-593-7kdLNvCQOQi9etIe3C6x8g-1; Wed, 12 Nov 2025 19:15:19 -0500
-X-MC-Unique: 7kdLNvCQOQi9etIe3C6x8g-1
-X-Mimecast-MFC-AGG-ID: 7kdLNvCQOQi9etIe3C6x8g_1762992918
-Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-4710d174c31so1898055e9.0
-        for <linux-input@vger.kernel.org>; Wed, 12 Nov 2025 16:15:18 -0800 (PST)
+	s=arc-20240116; t=1762994762; c=relaxed/simple;
+	bh=L6MdIryciHIIdyMFc25M+QNex8Bs9rTNozsEgXpbrcE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=n5dyzGS64iXQw4FVvP3XtPtXqbN8SCa52y40uKuUQf1UkBRV85vgv2ekBRe/pTN84wQAboIKo7u/CHw5MUVDkO8xatYg6iroswYhqbcQBWZM0u2613+TXIPFZsbhUObpGE3b2pcaZWMweqjzQf2W6QC2yPnG3VOxjc7O1nggHvU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kPBaYa46; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-477632cc932so990775e9.3
+        for <linux-input@vger.kernel.org>; Wed, 12 Nov 2025 16:46:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1762992917; x=1763597717; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=K1WcE71YI025D4IauzKZF0rnIgAKdLJAwYCr9A+FMYc=;
-        b=LPrwbDPURBroc32TcXP5i9B6kur4desTXNf1VtUtz6Sd9ihm5gSopv9C3x9XMW2UBS
-         BEgY2k8Gg5xWkAmPfE2mAr6/2XYTZXyT/ZNL2+A8pJaeI4egiqXz6H+yijDycLJ+8jFF
-         BFzCjQhLYAgwPqn8WCgD4irKWAmC0Tz3tkqQv6sh58d0pS+EKbsN+PyAu89SdIydq9Gh
-         DRyxC12xE5ojceOnuZ96VBldcryNSDPS0Rz3fBlKl1n3OoVV9NUvdECpUsCWoDTiDqhg
-         liBjj15CEpt6PO39M4Vq1YnEKqzr35C3VNmwMZa7YXys5BQKSCbVDooUq/tY6Cfwu2Mo
-         tOog==
+        d=gmail.com; s=20230601; t=1762994759; x=1763599559; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=L6MdIryciHIIdyMFc25M+QNex8Bs9rTNozsEgXpbrcE=;
+        b=kPBaYa46DcTCyF8+det4oWE7acR45Xwt4J4zRE/LTBLziV0r+frd1+Tlv0q//U2OqQ
+         5E+wwDQjSFo8RR+4Llruw8bZkX+p/6cWNfNx2YxXV8X+PkZYo0/KXWXtpItYT5pmV9AF
+         ZAyxGYNNUQjhWIwB686Z65C5Y1mxnWQZ9lsYcg7RatNGBvN14Lc1KQQaSsep3BWiw08W
+         Hx0iT50t18tLLugjYABCayOOnHRi3mOVCcVd9t4k1V6oXFHdp5DMbjW7bc67AUS48RDy
+         8CKbq8Oz9fG9Y7v06I+pttZYn2vCyaTAZJz1X6t740Mztuz0uKlPl6mJuDJrs5oYaWku
+         1B1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762992917; x=1763597717;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=K1WcE71YI025D4IauzKZF0rnIgAKdLJAwYCr9A+FMYc=;
-        b=TBoQg77G57h+CJBKQfN9EMMvl0JO8dC1/Q53rXungdPRcxGSCxUiMxyqiXAIuqeylC
-         elxiQsOcSM5I5l/iu/zpPjqPJUonPkOn/nKq/wSmiwFiCmkU/dreAJSIVrgUAhub7Iik
-         sHrpO8rBup03EA09N7VhmdQd127nmbgU1W7wQrKP0sDBs8jsdoNBjXKtk6wPkRp/Vk14
-         5N2rrpBxln3bIWobDU3WRBZk1HsDEtobTqTrHIOorjgEQKyUGEN+XrvjSRkzO18kb6F1
-         d4ra7zC6p3Jqu0dQsf7Fk8aSeVPVAs7MXXaUSra+ckXHJTHW4/Z2LGKQ64wxQjxth6Es
-         WjPQ==
-X-Gm-Message-State: AOJu0Yx6VXUM+/sg2TNoen7MIVJ5ZY4ZnHMrtr3Gkdi1TVmRWlZA8lF6
-	lNNbtyC/djdnaLJbkKhm8VcEdE7ByG51KazIk0/lqG9ftBcc0oOWYWhKkoOl5BVgO3kaUjYgN/b
-	kyN9k5crj4THWHfht4RO7EHJ3kC58/rebiXvqkpJTrKPXznEDXCoffVJ56tM20qavBJszYWs8TU
-	px9Fee+oo4jPzOxWR9DdvU8prjXrWOxvQSniyYeHmGx0fTe71X
-X-Gm-Gg: ASbGnctoK6vBGcnwbSCToUe0sJYiTq8svLCSHqn+Bxt5vd9awdchfWpIW1ZjvMnLMbS
-	H/+p9DE/QhNIvLpdjRmrF32YlpDexcOMUaU4QVChsuCwzb2wfzVig62Ae+hG4V47qnUcxGNLK2H
-	vX1AjLZ1iJkqAn+Ny3Xjmws/hqyn6EyxRKYqMnJPnZmY2/8N8I96k4tMtIJ7+QVIS2kYqiAIvlS
-	kJNtxDHSL+8PS+NZaviFXoSjy8PzKDXQyvXzpuFKRWLiXUfKR5HggW2JttWMxfy/da0vAfHmqEp
-	RIukOn4ikP63YT3kFGO22p/PDROYEDPgG7YWCJmPwzMXC3ElFEiM6Kg2AU2ytaLYO+BD6Wd+G6v
-	4futW5curdXPoDw==
-X-Received: by 2002:a05:600c:3145:b0:477:76c2:49c9 with SMTP id 5b1f17b1804b1-477870718cdmr46780975e9.2.1762992917523;
-        Wed, 12 Nov 2025 16:15:17 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFPbmxVbliqZZE2ij3N4XrtnplcTCMheZR9g48joM0Qg+CQVasHu64phvjG2+WlyX9GjLZJWA==
-X-Received: by 2002:a05:600c:3145:b0:477:76c2:49c9 with SMTP id 5b1f17b1804b1-477870718cdmr46780715e9.2.1762992917037;
-        Wed, 12 Nov 2025 16:15:17 -0800 (PST)
-Received: from sissix.lzampier.com ([2a06:5900:814a:ab00:3725:2991:6cf3:b3aa])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42b53f0b589sm432983f8f.23.2025.11.12.16.15.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Nov 2025 16:15:16 -0800 (PST)
-From: Lucas Zampieri <lzampier@redhat.com>
-To: linux-input@vger.kernel.org
-Cc: Lucas Zampieri <lzampier@redhat.com>,
-	linux-kernel@vger.kernel.org,
-	Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <bentiss@kernel.org>,
-	Sebastian Reichel <sre@kernel.org>,
-	Bastien Nocera <hadess@hadess.net>,
-	linux-pm@vger.kernel.org
-Subject: [RFC PATCH v2 3/3] HID: input: Add support for multiple batteries per device
-Date: Thu, 13 Nov 2025 00:15:05 +0000
-Message-ID: <20251113001508.713574-4-lzampier@redhat.com>
-X-Mailer: git-send-email 2.51.1
-In-Reply-To: <20251113001508.713574-1-lzampier@redhat.com>
-References: <20251113001508.713574-1-lzampier@redhat.com>
+        d=1e100.net; s=20230601; t=1762994759; x=1763599559;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=L6MdIryciHIIdyMFc25M+QNex8Bs9rTNozsEgXpbrcE=;
+        b=W7AkiIDY/1Y5dLgFzOuP1bAOQIM0+LXzXOBivLBOv9yw8+63ccJHlZQ4ajgZ1nb4Yv
+         KeCA/r2VPfd9RE+Q3+5xfrFdIpaQ9HeuTd5h2zBatV7RmdqIqGX3lqqGiPMMAssk93Sn
+         xYuWqwfCRwXiVEKZhOUz32UOloDwCvEerDFxpcQE5N2g4b0Eo1u9S8AgIXgNWUT5zjkR
+         TETrb7dsDWNOC+/ipYW6qi/DAU4L9uERdFD07xGkwcl77qY1dNkrmlFIK9QsZFUGxHGr
+         Y8xFaj8mdVxdSuLE1/6HBjoDRj/KiKRSTTDRF8STU2lSWCg2MRfE1+llVKdvJzroS6zH
+         SXZg==
+X-Forwarded-Encrypted: i=1; AJvYcCUpKA2sWaEtB4Tbvaybz9zbQ4ibULeUib0j3m8h8il4stL4N2E6Kyu1q6bEIgM9gz71rsW4vbrAMbHmeQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx5kQGMW74IVaaEiKuqh3ZK3NBtn1GaTOZH6NMeZRtBVRsvwK0o
+	fHuAViktvQ/9kuQa8IDB3jWwDnWQaM76zpfa9cVUxj3kZs+Ztld7ZGRu
+X-Gm-Gg: ASbGncuY82J+zls4U7/B1tXCSiP1YJ6dLHh+qtHh/PmqbF+7C6+eotuuIuj7SS5jHrW
+	5XLTrXmHRxer/3rgDlorkFOs0WUmgEGGvGzjOuxYA0uAYx6UTNvyVjZewZU8dB8OTrx0ZZQJ6Be
+	KuFA/RW6KmJc6c+bWdMhwuWYY9G9VFx5oJ974voGed8mtQ6kXriRSWnwqWk76LVotP15m/FwuoI
+	MWrncBpR6cYiCqvFhXuzSkA3C/+JhbSYfkLrLLV5Zvtnl8RaDp2wLnu0l9r7EsMnPJ60gnCH8dS
+	5Y8TFoMCtcZGTxy/070/R+lWfXKKi1z133RvqWRcRpjv1B7mohcQEozr/gRttTU4uAdVrMVlpp7
+	wxJm/02P3HI3JN9Z4hVe3oOrr4sND5OVvuHM1p8YwJY3oSf5B32q479e3Qq9k7/+rf0R4zBFkWW
+	qQ+qxq+RB18M35
+X-Google-Smtp-Source: AGHT+IG8UNRUrUrgXbekaKPn2Po1l5mxi8W3YJa544txuMvsGRwAmb+3uXskvL2GPN1MJkZnmeqFMg==
+X-Received: by 2002:a05:600c:3550:b0:45d:f81d:eae7 with SMTP id 5b1f17b1804b1-477871c4762mr52607495e9.28.1762994758707;
+        Wed, 12 Nov 2025 16:45:58 -0800 (PST)
+Received: from [192.168.1.121] ([176.206.83.235])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42b53e85cc0sm625869f8f.17.2025.11.12.16.45.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 12 Nov 2025 16:45:58 -0800 (PST)
+Message-ID: <7566a1df-35d8-4c47-adeb-4f1087a7ce0b@gmail.com>
+Date: Thu, 13 Nov 2025 01:45:57 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 00/10] HID: asus: Fix ASUS ROG Laptop's Keyboard
+ backlight handling
+To: Antheas Kapenekakis <lkml@antheas.dev>
+Cc: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ platform-driver-x86@vger.kernel.org, linux-input@vger.kernel.org,
+ LKML <linux-kernel@vger.kernel.org>, Jiri Kosina <jikos@kernel.org>,
+ Benjamin Tissoires <bentiss@kernel.org>,
+ Corentin Chary <corentin.chary@gmail.com>, "Luke D . Jones"
+ <luke@ljones.dev>, Hans de Goede <hansg@kernel.org>
+References: <20251101104712.8011-1-lkml@antheas.dev>
+ <CAGwozwE+3vkm0-amRqnNJBzxTvXabgBF9h_G_vG_L7OJj91LBg@mail.gmail.com>
+ <27a74ecc-bff7-f3ae-b23e-a8362ac3a6b3@linux.intel.com>
+ <CAGwozwGpacR=wYXpf3vOiwWNxaV6pJ6CdE-E-G1gRRpO4VHVMg@mail.gmail.com>
+ <74f91d3c-6494-4754-a10f-4d8c1d45f7ff@gmail.com>
+ <CAGwozwEKqqJxxmtjJhy2MzNVhmBTMmy8xG5TZGkKJqJCgK=X5w@mail.gmail.com>
+ <CAGwozwH4_5LnJ4kt-sbdwzL5Ezt74ddPOpGqvTvKiiVzkorSMQ@mail.gmail.com>
+Content-Language: en-US, it-IT, en-US-large
+From: Denis Benato <benato.denis96@gmail.com>
+In-Reply-To: <CAGwozwH4_5LnJ4kt-sbdwzL5Ezt74ddPOpGqvTvKiiVzkorSMQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Enable HID devices to register and manage multiple batteries by
-maintaining a list of hid_battery structures, each identified by
-its report ID.
 
-The legacy dev->battery field and related fields are maintained for
-backward compatibility, pointing to the first battery in the list.
-This allows existing code to continue working unchanged while
-enabling new functionality for multi-battery devices.
-
-Example hardware that can benefit from this:
-- Gaming headsets with charging docks (e.g., SteelSeries Arctis Nova Pro
-  Wireless)
-- Graphics tablets with stylus batteries (Wacom)
-- Wireless earbuds with per-earbud batteries plus charging case
-- Split keyboards with independent battery per side
-
-Signed-off-by: Lucas Zampieri <lzampier@redhat.com>
----
- drivers/hid/hid-core.c  |  4 ++
- drivers/hid/hid-input.c | 99 +++++++++++++++++++++++++++--------------
- include/linux/hid.h     | 12 ++++-
- 3 files changed, 80 insertions(+), 35 deletions(-)
-
-diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
-index a5b3a8ca2fcb..76d628547e9a 100644
---- a/drivers/hid/hid-core.c
-+++ b/drivers/hid/hid-core.c
-@@ -2990,6 +2990,10 @@ struct hid_device *hid_allocate_device(void)
- 	mutex_init(&hdev->ll_open_lock);
- 	kref_init(&hdev->ref);
-
-+#ifdef CONFIG_HID_BATTERY_STRENGTH
-+	INIT_LIST_HEAD(&hdev->batteries);
-+#endif
-+
- 	ret = hid_bpf_device_init(hdev);
- 	if (ret)
- 		goto out_err;
-diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
-index 0e71efea9da3..9d0be3d4ce04 100644
---- a/drivers/hid/hid-input.c
-+++ b/drivers/hid/hid-input.c
-@@ -520,14 +520,20 @@ static int hidinput_setup_battery(struct hid_device *dev, unsigned report_type,
- 	unsigned quirks;
- 	s32 min, max;
- 	int error;
-+	int battery_num = 0;
-
--	if (dev->battery)
--		return 0;	/* already initialized? */
-+	/* Check if battery with this report_id already exists */
-+	list_for_each_entry(bat, &dev->batteries, list) {
-+		if (bat->report_id == field->report->id)
-+			return 0;	/* already initialized */
-+		battery_num++;
-+	}
-
- 	quirks = find_battery_quirk(dev);
-
--	hid_dbg(dev, "device %x:%x:%x %d quirks %d\n",
--		dev->bus, dev->vendor, dev->product, dev->version, quirks);
-+	hid_dbg(dev, "device %x:%x:%x %d quirks %d report_id %d\n",
-+		dev->bus, dev->vendor, dev->product, dev->version, quirks,
-+		field->report->id);
-
- 	if (quirks & HID_BATTERY_QUIRK_IGNORE)
- 		return 0;
-@@ -542,9 +548,17 @@ static int hidinput_setup_battery(struct hid_device *dev, unsigned report_type,
- 		goto err_free_bat;
- 	}
-
--	psy_desc->name = kasprintf(GFP_KERNEL, "hid-%s-battery",
--				   strlen(dev->uniq) ?
--					dev->uniq : dev_name(&dev->dev));
-+	/* Create unique name for each battery based on report ID */
-+	if (battery_num == 0) {
-+		psy_desc->name = kasprintf(GFP_KERNEL, "hid-%s-battery",
-+					   strlen(dev->uniq) ?
-+						dev->uniq : dev_name(&dev->dev));
-+	} else {
-+		psy_desc->name = kasprintf(GFP_KERNEL, "hid-%s-battery-%d",
-+					   strlen(dev->uniq) ?
-+						dev->uniq : dev_name(&dev->dev),
-+					   battery_num);
-+	}
- 	if (!psy_desc->name) {
- 		error = -ENOMEM;
- 		goto err_free_desc;
-@@ -597,15 +611,23 @@ static int hidinput_setup_battery(struct hid_device *dev, unsigned report_type,
-
- 	power_supply_powers(bat->ps, &dev->dev);
-
--	/* Maintain legacy single battery fields for backward compatibility */
--	dev->battery = bat->ps;
--	dev->battery_min = bat->min;
--	dev->battery_max = bat->max;
--	dev->battery_report_type = bat->report_type;
--	dev->battery_report_id = bat->report_id;
--	dev->battery_charge_status = bat->charge_status;
--	dev->battery_status = bat->status;
--	dev->battery_avoid_query = bat->avoid_query;
-+	list_add_tail(&bat->list, &dev->batteries);
-+
-+	/*
-+	 * The legacy single battery API is preserved by exposing the first
-+	 * discovered battery. Systems relying on a single battery view maintain
-+	 * unchanged behavior.
-+	 */
-+	if (battery_num == 0) {
-+		dev->battery = bat->ps;
-+		dev->battery_min = bat->min;
-+		dev->battery_max = bat->max;
-+		dev->battery_report_type = bat->report_type;
-+		dev->battery_report_id = bat->report_id;
-+		dev->battery_charge_status = bat->charge_status;
-+		dev->battery_status = bat->status;
-+		dev->battery_avoid_query = bat->avoid_query;
-+	}
-
- 	return 0;
-
-@@ -620,21 +642,33 @@ static int hidinput_setup_battery(struct hid_device *dev, unsigned report_type,
-
- static void hidinput_cleanup_battery(struct hid_device *dev)
- {
--	struct hid_battery *bat;
-+	struct hid_battery *bat, *next;
- 	const struct power_supply_desc *psy_desc;
-
--	if (!dev->battery)
--		return;
-+	list_for_each_entry_safe(bat, next, &dev->batteries, list) {
-+		psy_desc = bat->ps->desc;
-+		power_supply_unregister(bat->ps);
-+		kfree(psy_desc->name);
-+		kfree(psy_desc);
-+		list_del(&bat->list);
-+		kfree(bat);
-+	}
-
--	bat = power_supply_get_drvdata(dev->battery);
--	psy_desc = dev->battery->desc;
--	power_supply_unregister(dev->battery);
--	kfree(psy_desc->name);
--	kfree(psy_desc);
--	kfree(bat);
- 	dev->battery = NULL;
- }
-
-+static struct hid_battery *hidinput_find_battery(struct hid_device *dev,
-+						 int report_id)
-+{
-+	struct hid_battery *bat;
-+
-+	list_for_each_entry(bat, &dev->batteries, list) {
-+		if (bat->report_id == report_id)
-+			return bat;
-+	}
-+	return NULL;
-+}
-+
- static bool hidinput_update_battery_charge_status(struct hid_battery *bat,
- 						  unsigned int usage, int value)
- {
-@@ -652,17 +686,16 @@ static bool hidinput_update_battery_charge_status(struct hid_battery *bat,
- 	return false;
- }
-
--static void hidinput_update_battery(struct hid_device *dev, unsigned int usage,
--				    int value)
-+static void hidinput_update_battery(struct hid_device *dev, int report_id,
-+				    unsigned int usage, int value)
- {
- 	struct hid_battery *bat;
- 	int capacity;
-
--	if (!dev->battery)
-+	bat = hidinput_find_battery(dev, report_id);
-+	if (!bat)
- 		return;
-
--	bat = power_supply_get_drvdata(dev->battery);
--
- 	if (hidinput_update_battery_charge_status(bat, usage, value)) {
- 		power_supply_changed(bat->ps);
- 		return;
-@@ -705,8 +738,8 @@ static void hidinput_cleanup_battery(struct hid_device *dev)
- {
- }
-
--static void hidinput_update_battery(struct hid_device *dev, unsigned int usage,
--				    int value)
-+static void hidinput_update_battery(struct hid_device *dev, int report_id,
-+				    unsigned int usage, int value)
- {
- }
- #endif	/* CONFIG_HID_BATTERY_STRENGTH */
-@@ -1574,7 +1607,7 @@ void hidinput_hid_event(struct hid_device *hid, struct hid_field *field, struct
- 		return;
-
- 	if (usage->type == EV_PWR) {
--		hidinput_update_battery(hid, usage->hid, value);
-+		hidinput_update_battery(hid, report->id, usage->hid, value);
- 		return;
- 	}
-
-diff --git a/include/linux/hid.h b/include/linux/hid.h
-index 63422130de20..a6e36835fb3c 100644
---- a/include/linux/hid.h
-+++ b/include/linux/hid.h
-@@ -700,8 +700,16 @@ struct hid_device {
- #ifdef CONFIG_HID_BATTERY_STRENGTH
- 	/*
- 	 * Power supply information for HID devices which report
--	 * battery strength. power_supply was successfully registered if
--	 * battery is non-NULL.
-+	 * battery strength. Each battery is tracked separately in the
-+	 * batteries list.
-+	 */
-+	struct list_head batteries;		/* List of hid_battery structures */
-+
-+	/*
-+	 * Legacy single battery support - kept for backwards compatibility.
-+	 * Points to the first battery in the list if any exists.
-+	 * power_supply was successfully registered if battery is non-NULL.
-+	 * DEPRECATED: New code should iterate through batteries list instead.
- 	 */
- 	struct power_supply *battery;
- 	__s32 battery_capacity;
---
-2.51.1
-
+On 11/13/25 00:22, Antheas Kapenekakis wrote:
+> On Wed, 12 Nov 2025 at 23:08, Antheas Kapenekakis <lkml@antheas.dev> wrote:
+>> snip
+>>>> Sure, sorry if it came out this way. Dennis had two comments on the V7
+>>>> version of the series.
+>>>>
+>>>> The first one was that asusctl has a hang bug, which he hasn't had
+>>>> time to look into yet. This should have been fixed by dropping the
+>>>> HID_QUIRK_INPUT_PER_APP. I retested the series and that QUIRK was a
+>>>> bit of a NOOP that does not need to be added in the future.
+>>> So it is supposed to not regress it now, correct?
+> I missed this. Spaces. Yes, quirk input per app created around 3 more
+> input devices per USB device, plus the dynamic lighting one, so you
+> went from 2 to 6, and there seems to be an issue with asusctl and a
+> large number of event devices, that caused some intermittent freezing
+> when the user typed on certain keyboards. I removed it. Although, not
+> a problem with the kernel itself, per say.
+Okay, I will ask asus-linux kernel man to load this patchset then.
+> Antheas
+>
+>>>> The second is he is concerned with dropping the 0x5d/0x5e inits. Luke
+>>>> said (back in March) that it is fine to drop 0x5e because it is only
+>>>>> snip
 
