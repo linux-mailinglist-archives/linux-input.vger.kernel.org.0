@@ -1,118 +1,106 @@
-Return-Path: <linux-input+bounces-16114-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16115-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24CECC5B462
-	for <lists+linux-input@lfdr.de>; Fri, 14 Nov 2025 05:12:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBB74C5B8F4
+	for <lists+linux-input@lfdr.de>; Fri, 14 Nov 2025 07:33:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D5F733ADC85
-	for <lists+linux-input@lfdr.de>; Fri, 14 Nov 2025 04:12:25 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BF5743BF0F8
+	for <lists+linux-input@lfdr.de>; Fri, 14 Nov 2025 06:32:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5F2531FECAB;
-	Fri, 14 Nov 2025 04:12:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3F9942F28F1;
+	Fri, 14 Nov 2025 06:28:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=crc.id.au header.i=@crc.id.au header.b="khJdRPhg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fa0x8Och"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mailfilter.crc.id.au (mailfilter.crc.id.au [203.4.137.24])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBFFF27990C
-	for <linux-input@vger.kernel.org>; Fri, 14 Nov 2025 04:12:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.4.137.24
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 204742F25FA;
+	Fri, 14 Nov 2025 06:28:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763093543; cv=none; b=bJWnb/ppJfMNovAdCy+zAq1CZWxo/v7G4YDq2nMGmfR1DkYL3hWylIdPA8E78VeVrIYEAhIkbIK+4nBJgmYcsRaG9jy+9+CN2RxONxJsLEd/TNNIimDhzcZ93iP/o06vryGuqHmkcaGayiRlD5VGDksqOT4TjXW912NAcN7jMF0=
+	t=1763101726; cv=none; b=o5tEBGd73qhOpownEQdMm5aV6KSGR5L4SfRLpV6lsQ3aau4r+yk9w8G026uHBcBvUXGl2kVXxsEHdxF5ucF6+aKqJPygpz1wynvsYwd1raEpc2tC72YNonEYS5Zl9Aj3YJXqpp5lXpd6DWriofUwITtGSIQ3n7+3dCE8Xct1Im0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763093543; c=relaxed/simple;
-	bh=x0fSU5bxCEk2UACHi2tIflekFoLBKv+NGzbidTZ1mK0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=UhXLV0DsxfAw4qulLnUf3w3qFtGZq6Ka2y/0dJn2YzyC+3e+50cT/bjTkrvRwglxsO1HI4ecgsuEhbSPAcW/immkTFxPaWyS4slGlAZ/PFRykq2A+krR5EXBz3CcJT5NaP/Fvsew2j94hp9kGbM1xnrUhBZlnZXQlMpdkGF59/0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=crc.id.au; spf=pass smtp.mailfrom=crc.id.au; dkim=pass (4096-bit key) header.d=crc.id.au header.i=@crc.id.au header.b=khJdRPhg; arc=none smtp.client-ip=203.4.137.24
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=crc.id.au
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=crc.id.au
-Received: from mailfilter.crc.id.au (localhost.localdomain [127.0.0.1])
-	by mailfilter.crc.id.au (Proxmox) with ESMTP id 7B2986481D;
-	Fri, 14 Nov 2025 15:04:43 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crc.id.au; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:from:from:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=default; bh=qX85aDsPmt1L9w7kh
-	nqA+GeYMH1R5q6MUsmCoAgbeOo=; b=khJdRPhgJVy3R4o529KHSD2uiEmfwaNU5
-	0YD1uriWyfTaQZPRXKhEEq2Fme2L89n5SOJIJM5vTyuROwIKtr9Zd2cN2Drt8QYc
-	4HCGjU+tT4PIa2yYQfVihoZ1c21Bgey9qO/NN+gAnSzgRCRyVgyDnnCgJsTuWiuE
-	VIxqOm6aCkzP5EJa2TFm9H5Ynqlt3HOiA/uqPnp1cR4W9RSAnuf6eY1kTZqrM2Sy
-	087dHDsYqDaFoF3su6JjK6jUbf7XiZsAmKrxPQypaY8XuF3Dk6yLuP+0JjwjGTKw
-	uwiMgEv+mVBSl7RIZU2JsuIgCMAAohaymlm+um7pg4e7jMqej+yi5SycQa+40jq4
-	BVR6Ty1JrL0/JuCNl5pkUczfTyGS6vn2B9Q+VHxUVttqX+dR0WTWStLiPyPi5rMe
-	dxpEbquuVwEljHOoaF5A4alYG2y/XGcvsoewkA204oNfuNIbK1PkAejcCbqvu+67
-	KO5352645E4gX1lQiEYax/730pnwFBHhSsQekX6IPPe+NwY/ZoyLWnpRSW36mBFv
-	mmXg3BbYz6nPQ/0p6/kpJ/2l6OWjOApw4RkDvcVWMC90UQ+JwpokdJVImTABAjbH
-	8sW8bUmt0vJkTWUedJ4eCXwpSZLO8Ag9+qDr9XxDu3gLPQ4Q9WWakAx8w8pQaNFw
-	ntvKuS0TVs=
-Message-ID: <c12cb1c4-2d6c-47c9-835c-898ad83677bc@crc.id.au>
-Date: Fri, 14 Nov 2025 15:04:43 +1100
+	s=arc-20240116; t=1763101726; c=relaxed/simple;
+	bh=BjbkvwmsnP2Nkrba3Ya2MEDcNqTlJTK4kBRNBf5j5yQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Sd9Cq/AXU597RfhdiT6QOkg47EFbtMl3RlH5cuZFRTMx87ymCnIjAH4W6tTzbH/Fqi9rQxkZiBbGUkuWR8KftdCCpPDyBzfkL795gIwdzaNmH7D84QgzWGlui/tLgSUbTdXHX3z83mm11hkyGt/kSZh6oHzK0HMRT95jaSSLyuY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fa0x8Och; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1763101725; x=1794637725;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=BjbkvwmsnP2Nkrba3Ya2MEDcNqTlJTK4kBRNBf5j5yQ=;
+  b=fa0x8OchLB2aGl3n/+MzhihVGIHAolAGg9N0t2Pk88m918Mtlk9V++ho
+   Q25g7aDVNu+sboJ/krWOUK51LGqJCtm8aUqs8syRgXAciWd1URO2cj7iA
+   SIObze8YDZFbOXJ5Fh94tKaqsLLTdliSWMm/oiWInPpha115yE4Xa6zlp
+   Tp48Wv95biYdMbfyKHgX2uWBdMcGIOHPW4Yfs0eMeeGyn5CYwQdeMmQiy
+   0uddJ3jIehAZRvVzm+s5OgJeaFAdWMeJOYVwp86WLTDuiYiHa0IB7fZdo
+   6e9p1xRWb1oj02OctoToUBCKAOwWEqDWpY0ZzQsXyNWv8vczu0TZpBKfO
+   Q==;
+X-CSE-ConnectionGUID: Pivr+UyMS5ya3nblmg/ymw==
+X-CSE-MsgGUID: 8/bAQrQ2Qkef+MhA31TncA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11612"; a="65351632"
+X-IronPort-AV: E=Sophos;i="6.19,304,1754982000"; 
+   d="scan'208";a="65351632"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2025 22:28:44 -0800
+X-CSE-ConnectionGUID: BkEDP6YCQgCg+bxPLcMfMw==
+X-CSE-MsgGUID: JShK6muuRAGwsLKzESD1LA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,304,1754982000"; 
+   d="scan'208";a="188989276"
+Received: from junjie-nuc14rvs.bj.intel.com ([10.238.152.23])
+  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2025 22:28:42 -0800
+From: Junjie Cao <junjie.cao@intel.com>
+To: dmitry.torokhov@gmail.com
+Cc: linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	junjie.cao@intel.com
+Subject: [PATCH] Input: ti_am335x_tsc: fix off-by-one error in wire_order validation
+Date: Fri, 14 Nov 2025 14:28:17 +0800
+Message-ID: <20251114062817.852698-1-junjie.cao@intel.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: hid_multitouch - random non-responsive, multitouch, scrolling and
- zooming
-To: Benjamin Tissoires <benjamin.tissoires@gmail.com>
-Cc: =?UTF-8?Q?St=C3=A9phane_Chatty?= <chatty@enac.fr>,
- Peter Hutterer <peter.hutterer@who-t.net>, linux-input@vger.kernel.org
-References: <2a878c8a-0289-4378-9c32-6eaf57e7dbfc@crc.id.au>
- <d058871a-a2c6-4197-a77c-08edb0ce70b4@app.fastmail.com>
- <fd7e0577-a992-4761-823b-b5fe41a7ee74@crc.id.au>
- <8720ac11-2b1d-4b42-84c8-52407dbda7e7@app.fastmail.com>
- <26b03bc2-b824-4948-9803-5a0b5f08e394@crc.id.au>
- <ed69f310-8a4d-4023-b1ce-72b78e512177@app.fastmail.com>
-Content-Language: en-AU
-From: Steven Haigh <netwiz@crc.id.au>
-In-Reply-To: <ed69f310-8a4d-4023-b1ce-72b78e512177@app.fastmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On 11/10/25 00:54, Benjamin Tissoires wrote:
-> 
-> Right now the most valuable would be to test the series at
-> https://lore.kernel.org/linux-input/20251008-fix-sticky-fingers-v1-0-760f1f26fce3@kernel.org/T/#m0fba507cbd43acd36bef28151ecb90b7077606a4
-> 
-> If this work and you want a quick and dirty fix you can then return to the default kernel, and use the BPF from https://gitlab.freedesktop.org/libevdev/udev-hid-bpf/-/merge_requests/204, the latest version should be compatible with your device, just re-download and install it again.
-> 
-> But definitely a tested-by on the kernel patch would be appreciated :)
+The current validation 'wire_order[i] > ARRAY_SIZE(config_pins)' allows
+wire_order[i] to equal ARRAY_SIZE(config_pins), which causes out-of-bounds
+access when used as index in 'config_pins[wire_order[i]]'.
 
-Hi all, I know its been a while - and I almost forgot about this after 
-installing the BPF update to test.
+Since config_pins has 4 elements (indices 0-3), the valid range for
+wire_order should be 0-3. Fix the off-by-one error by using >= instead
+of > in the validation check.
 
-That is until I did a reinstall on that laptop of a fresh Fedora 43 KDE 
-install. Oh my, what I didn't realise was actually fixed :)
+Signed-off-by: Junjie Cao <junjie.cao@intel.com>
+---
+ drivers/input/touchscreen/ti_am335x_tsc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I checked here again:
-https://gitlab.freedesktop.org/libevdev/udev-hid-bpf/-/merge_requests/204/pipelines
-
-It looks like the artifacts that I downloaded prior don't seem to be on 
-the gitlab instance anymore.
-
-I grabbed a different artifact, but I'm pretty sure that was based on 
-the main branch, so it didn't apply to my touchpad.
-
-I had a look around, and noticed that the kernel side fixes seem to be 
-in the works for 6.18.0 - am I understanding that right?
-
-I can see some 6.18.0-rc5 packages for Fedora that I can probably 
-shoe-horn into Fedora 43 if that is a reasonable way forward.
-
-What's the best way at the moment to go forwards now?
-
+diff --git a/drivers/input/touchscreen/ti_am335x_tsc.c b/drivers/input/touchscreen/ti_am335x_tsc.c
+index 93d659ff90aa..73980142f492 100644
+--- a/drivers/input/touchscreen/ti_am335x_tsc.c
++++ b/drivers/input/touchscreen/ti_am335x_tsc.c
+@@ -85,7 +85,7 @@ static int titsc_config_wires(struct titsc *ts_dev)
+ 		wire_order[i] = ts_dev->config_inp[i] & 0x0F;
+ 		if (WARN_ON(analog_line[i] > 7))
+ 			return -EINVAL;
+-		if (WARN_ON(wire_order[i] > ARRAY_SIZE(config_pins)))
++		if (WARN_ON(wire_order[i] >= ARRAY_SIZE(config_pins)))
+ 			return -EINVAL;
+ 	}
+ 
 -- 
-Steven Haigh
-
-📧 netwiz@crc.id.au
-💻 https://crc.id.au
-
+2.43.0
 
 
