@@ -1,128 +1,122 @@
-Return-Path: <linux-input+bounces-16134-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16135-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id D497DC61713
-	for <lists+linux-input@lfdr.de>; Sun, 16 Nov 2025 15:54:01 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id AA300C6172F
+	for <lists+linux-input@lfdr.de>; Sun, 16 Nov 2025 16:09:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 59E3B4E16FF
-	for <lists+linux-input@lfdr.de>; Sun, 16 Nov 2025 14:54:00 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 489303B8623
+	for <lists+linux-input@lfdr.de>; Sun, 16 Nov 2025 15:09:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 67FDE2F0C6D;
-	Sun, 16 Nov 2025 14:53:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E283B226CFD;
+	Sun, 16 Nov 2025 15:09:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ke26n97K"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Oc6KKPtq"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB3F32E2F1F
-	for <linux-input@vger.kernel.org>; Sun, 16 Nov 2025 14:53:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 230EB21B91D
+	for <linux-input@vger.kernel.org>; Sun, 16 Nov 2025 15:09:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763304838; cv=none; b=ClcYAmuT9Iw7bxo4YbtCrLv6ht/jk4dMPbkEkXoZYWm0e/O25P43ATD+BvjILXI8SVUrd9jTyrYZjjh4m5Rp35eASzBkcOBPuAT+/VgdL4YbSWPHJfjuorCvsUbGuFSLnaGlKSDE/16ZSE8yFY1SHdViwbFaQf6r7tg7oIF/bNM=
+	t=1763305748; cv=none; b=fD+4ZZbO8oYwwfkTrrxGJZW6r64uVPcu0qrKxysx7xk9TQk5MYAaq/HrNassv5HsmnYsfy5ojHJVZFv0gecyGZKJYVnQArAykHabb+AXOhNJJNzoM8yFhEI0lyCssUJQ4lbEg5cgG/dXtIk6nN0ALPXI+VcARvRTAXuFJD6lHcw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763304838; c=relaxed/simple;
-	bh=6/2nRe2lmV/uGkSjhwqoe9AWnw6MaOEMgmY1XqdohXw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=SA8ixucTBBL8ES4eC/IF+6r/Mhfc7s1Ppcc5MlAeeUuG4bCn6A1iPchY/7hsA8ZnEmfNmqQOLG2OgXYzla0DWfDwiZYrurLDrXd2iWQ7exFBAcEqmNv7KtgGQ7cEotmQMj/qAg++HIQ6ViyDXsFe5GC/OuXhQ7+YXblf6iARPSg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ke26n97K; arc=none smtp.client-ip=209.85.208.45
+	s=arc-20240116; t=1763305748; c=relaxed/simple;
+	bh=xq8xTEaVyip20qvmaObDd4dfH1b/XchZRVgFrwvraHE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=JKP0e8D8+aj3KXi1ZDLXX9mEnrn3MJw+oSM+o+h5XQd3GPo/eILIqtc15hpEgMagq4GHK0+EdUilvyoqiH3NvfP0ZWlI2eF7m52xxlXGT8DKZkfk3GDR+TlrxzsMMaZqiRkaaO75DrJFvebLqvkEZFUef5uzTDlA6uKltVjG5Ik=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Oc6KKPtq; arc=none smtp.client-ip=209.85.128.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-640e970598cso646049a12.3
-        for <linux-input@vger.kernel.org>; Sun, 16 Nov 2025 06:53:56 -0800 (PST)
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-477a1c28778so3014285e9.3
+        for <linux-input@vger.kernel.org>; Sun, 16 Nov 2025 07:09:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763304835; x=1763909635; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=dthYGiyUHBx0Ys3b2Lkd88Hqf5+r4/yEiE0a9OcfggU=;
-        b=ke26n97KRvbmMvN5xb+GKUTvYpLIhkErnIvdJFkUB0/v0qecp2tqGv9NBrECzbGWpg
-         c2wamz61gygJ1XItjR+RLW5faHiPxjmTFeN00wVkD49TA7asizXgCX/xGwPul4RD7spv
-         cNcMgx+myMKxVVmkiakl4/s5BUxXgLBZXjY9aZ2MakuQkK/jvvigDr49HiNHLUzrUCQc
-         gHIIgxZsgfaSV5OvRLrIEToYOr1ZjVw2Eu8X4PPPCc5mefF8zwI3+A2U5DzTRbZg9Ag+
-         SgetzINcRihgmalPFF2X1feRWT4ctcqhJbBBxPTcgEqpanBQNToXjE1WNgfZTIn4qIpO
-         0XQg==
+        d=gmail.com; s=20230601; t=1763305745; x=1763910545; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=EvODb/e7qLsRFrmDWJkGdxSLjYJZj6/4elRLF1YEXuE=;
+        b=Oc6KKPtqtYazDKDP0bX02uTJWmEUPOW6uAMkZTKj7Vpbs4AU7lWm09tFd9fgIPys9G
+         itXJh6/j4rVJvnFALAQ2u3TuPdKSaolZeNtkjSwYj5H2xpQKMmjOnfeYC156eyxqRFJi
+         OObe9pXTH1FMSBxhKhK0qZ+DSE+rAo6hlcDPVSBAWJlEvsJI7KkkXpBCM5xSBwR6l/9s
+         MmlxI2DXX9kw0ToFDc1GEksUJDJ8pDOIl+WpaWm5vwyKMeBAqbnw2k8nRF/LuyvKmYR+
+         pRhSCtin20ITF03WWZaQuPJpWXQBTvWKp4igxWfrT3yC9RCzcRnNcp3xzqoEHxojkU6/
+         WGGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763304835; x=1763909635;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dthYGiyUHBx0Ys3b2Lkd88Hqf5+r4/yEiE0a9OcfggU=;
-        b=tkreusJIbckgU1MXR8HsJ8/jsTK5/O3y2A0Bd/+wxfXbL21Tdg780GcKtLLL7jcK9h
-         zi5TQHLU9r+JuC+PasskK4xxG6aLC8yi6v3p3Kb9gdy8xuzXQXFdp+/LYwyU6cH9ZXYA
-         r/zjpBBz5HAWQ7etH/0SfGBoXUPCxcOQk9hWdXqEk62A6FIbTT4mn6TfqAk03k9oaLP4
-         bKsGw957Fbx9L0ccucU93cPKgyrWI+c5aTqy6lSsF9nKLKUQIOccNDUJTWPqAO5g1v+h
-         XTb40st3RBKIGVOnB5WOqbeTj1gasKdGr90n+xb2iCgvCX1cb5/gGec1ZtDisTn632ic
-         PIYA==
-X-Forwarded-Encrypted: i=1; AJvYcCUEaLvK0P6TIwWF8ORsjb0947F//jpXkcfksQjB9xjak7Wgf52fPQKk8rmTdmNq5i82N5RB/lKRpMVGqw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx9q46Bo+N7c7nsnyYxNy3ikToJeYNsgaQG1a0dlYC4mE6obOQc
-	76SH0OcIMgHTsI2hmmAxd9BSNMOmVJw+iU11qcmJdqC7t+FpWJJ+Xxxm
-X-Gm-Gg: ASbGncvl4m5Lf+0w0OX9dr3RIQb5sK4rZksRXjJx3jlItPlr5py/cs5NHN47a9kUoSS
-	XnvU6B0QphjiCiKuffLEYQLKURYc9ab4VXU0gRcDjbu1prAEq/lzYXLBYtvhfNyy972jut5Xveq
-	zmO7mkscs0EHE/rhK/OAlekkuOANQJzzu3dxrqtTM+cYV2kKW038KPVzOR1cWiGMWkkNZSDrAPe
-	iKV7nMNPK8ovSN4PDzBLIGOWp4TZwNWsw2jX9KgVl1U64hs191ZJqQ+GcQoUqnH51oZEtDYyoZs
-	PDx0cRW9t1W/uN6a+seeCX4uUHTL5UHULQBDHLBGghiDXbNy5g52/DnTYxKrik4eUfxPbse0dNH
-	7sFOPQz4ZZ1phbu3yvaNzK1adtI/8w2WjFkQ8KHISZ6WTJ9G6y4WFzdTVuaIcAAleAc3hmeb0e2
-	rV9lMUbxz97GeMYSppsQ51H9roIK+i6/OrLZQCknW1ZChMdll8izNr4T0ZYqLEOCbphGdPg2e0G
-	cg=
-X-Google-Smtp-Source: AGHT+IF9rvzYdW9ESxAkA2+Y5dL52x6gffAOulWnUXB4Fy66gfU8/kFJ2HlcNwKilRxkyFbbLPLE0g==
-X-Received: by 2002:a17:906:9fc1:b0:b72:5d4a:45d4 with SMTP id a640c23a62f3a-b7367ef9137mr531604266b.3.1763304834878;
-        Sun, 16 Nov 2025 06:53:54 -0800 (PST)
-Received: from laptok.lan (87-205-5-123.static.ip.netia.com.pl. [87.205.5.123])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b734fd8084csm839312166b.34.2025.11.16.06.53.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 16 Nov 2025 06:53:54 -0800 (PST)
-From: =?UTF-8?q?Tomasz=20Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>
-To: jikos@kernel.org,
-	bentiss@kernel.org
-Cc: oleg@makarenk.ooo,
-	linux-input@vger.kernel.org
-Subject: [PATCH RESEND] HID: pidff: Fix needs_playback check
-Date: Sun, 16 Nov 2025 15:53:51 +0100
-Message-ID: <20251116145351.27584-1-tomasz.pakula.oficjalny@gmail.com>
-X-Mailer: git-send-email 2.51.2
+        d=1e100.net; s=20230601; t=1763305745; x=1763910545;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=EvODb/e7qLsRFrmDWJkGdxSLjYJZj6/4elRLF1YEXuE=;
+        b=biDTTjLLKFiD60hwS5XTPXMR2HqMzL3g8hTq4GwXc5jqQvjEpNqbWzuVinTjx5syBK
+         NKuHx5GF+r+MUYE2zw3NGU9CugklTsipS5WIm39vB3uONkW6nClOKbUx173+0hRHB30v
+         ilyQ4MP6CYgChff/b8viMyAZRIJCv71J07ZslZdUOTFe7CKi1OqPria96EKMEf17rvcG
+         pEGysAY4oKIg8syScG8cP0w4G2DIFDzgjdSfgjTcO0QD04SViAxr7JclQReaqj+69Zfh
+         TEXqQecXQkFYMT0iq7bHJeWaHHLaTaBR4z8s+UJDJXstN3J5a23sarHfeqmJJG0y2ymG
+         CWAg==
+X-Gm-Message-State: AOJu0YydIe2Gwz8KgbxA8J8ikAEkmHnYLJpEJ7i9YnLDg4pzBMnaw3ZZ
+	LQkVc2u0yut2mFXgY5PTd3zoifJsLtkXXfjFWGRp6UAlQJ3hJy0iHhQd
+X-Gm-Gg: ASbGncshz0U0TMRtbRn0iBhsLidM8mP5+sSYHSIs8QeqVzGkM4PacNwghNBmzXxS/jI
+	vZpEhm5xUPwqYfUDN6QBQan7WSJzORDOS/+QaOh5HXZimGD82cKWxmzZR+OlgXgUDzID9ji1S/R
+	ac9qzMy3rwyLW9ISqf3OyUqhQzLyEk4M2NXM13zhYh90snD/1mHrcMWym59I0NfT0P2PPAwQccF
+	FkPIsd/ghZowtIIYGn0EoN5+MMR1RVd8ZRpUrYUKPkv98VBsbQCVkp0jzVq4NPTI+RfR/x2hxvP
+	eFXhWDyuLM+wFGh8tNk5Ag0FZyyQmywUWIFIs5GTaP8Pxph0dQAYVjsXvMuOww/E69XBMP5Kn0a
+	0S1jumoKr38Wm/iwRcPNWaeqwqUTmIuBgR23OL7/Hh1SYp37kTvGYAb7UqG+KsF1geb9+W3H8B5
+	Z8fdeDAjKxFnNmMsWfT258
+X-Google-Smtp-Source: AGHT+IGMp5GTuzD+R9g6gkfd5sPc9gSs2a2eVt8uvtcAe/vzEoodhAs9XilhHcDZOUcO+nPtbyO15Q==
+X-Received: by 2002:a05:600c:1d20:b0:477:7a1a:4b79 with SMTP id 5b1f17b1804b1-4778feaaeb3mr87055775e9.37.1763305745160;
+        Sun, 16 Nov 2025 07:09:05 -0800 (PST)
+Received: from [192.168.1.12] ([197.46.78.60])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4779973ddcfsm83154645e9.15.2025.11.16.07.09.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 16 Nov 2025 07:09:04 -0800 (PST)
+Message-ID: <a3d10075-3ff3-419e-8231-0a1558195d0f@gmail.com>
+Date: Sun, 16 Nov 2025 17:09:03 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] HID: memory leak in dualshock4_get_calibration_data
+To: Max Staudt <max@enpas.org>, roderick.colenbrander@sony.com,
+ jikos@kernel.org, bentiss@kernel.org
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org, syzbot+4f5f81e1456a1f645bf8@syzkaller.appspotmail.com
+References: <20251116022723.29857-1-eslam.medhat1993@gmail.com>
+ <ddb16ea8-7588-4c0a-9e34-6bd8babd598f@enpas.org>
+Content-Language: en-US
+From: Eslam Khafagy <eslam.medhat1993@gmail.com>
+In-Reply-To: <ddb16ea8-7588-4c0a-9e34-6bd8babd598f@enpas.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Urgent for 6.18 rc period
 
-A small bug made it's way here when rewriting code to Linux quality.
-Currently, if an effect is not infinite and a program requests it's
-playback with the same number of loops, the play command won't be fired
-and if an effect is infinite, the spam will continue.
-
-We want every playback update for non-infinite effects and only some
-for infinite (detecting when a program requests stop with 0 which will
-be different than previous value which is usually 1 or 255).
-
-Signed-off-by: Tomasz Pakuła <tomasz.pakula.oficjalny@gmail.com>
----
- drivers/hid/usbhid/hid-pidff.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/hid/usbhid/hid-pidff.c b/drivers/hid/usbhid/hid-pidff.c
-index edd61ef50e16..95377c5f6335 100644
---- a/drivers/hid/usbhid/hid-pidff.c
-+++ b/drivers/hid/usbhid/hid-pidff.c
-@@ -806,8 +806,8 @@ static int pidff_request_effect_upload(struct pidff_device *pidff, int efnum)
- 
- static int pidff_needs_playback(struct pidff_device *pidff, int effect_id, int n)
- {
--	return pidff->effect[effect_id].is_infinite ||
--	       pidff->effect[effect_id].loop_count != n;
-+	return !pidff->effect[effect_id].is_infinite ||
-+		pidff->effect[effect_id].loop_count != n;
- }
- 
- /*
--- 
-2.51.2
-
+On 11/16/25 06:34, Max Staudt wrote:
+> On 11/16/25 11:27 AM, Eslam Khafagy wrote:
+>> function dualshock4_get_calibration_data allocates memory to pointer
+>> buf. however the function may exit prematurely due to transfer_failure
+>> in this case it does not handle freeing memory.
+>>
+>> this patch handles memory deallocation at exit.
+>
+> Reviewed-by: Max Staudt <max@enpas.org>
+>
+>
+> One minor thing that I forgot: I see that the commit message is all 
+> lower case. Proper capitalisation helps readability and matches the 
+> kernel style. No need to resend this time, but in case you're sending 
+> a v3 for any other reason, it'd be great if you picked this up as well :)
+>
+Oh, ok. but, no plans for v3 for now.
+> Thanks for your patch!
+>
+welcome
+> Max
+>
 
