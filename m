@@ -1,138 +1,176 @@
-Return-Path: <linux-input+bounces-16164-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16165-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54B67C65E1D
-	for <lists+linux-input@lfdr.de>; Mon, 17 Nov 2025 20:10:34 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id 71D42C65F7D
+	for <lists+linux-input@lfdr.de>; Mon, 17 Nov 2025 20:29:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sin.lore.kernel.org (Postfix) with ESMTPS id 5B5372B3F8
-	for <lists+linux-input@lfdr.de>; Mon, 17 Nov 2025 19:05:55 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 91622340567
+	for <lists+linux-input@lfdr.de>; Mon, 17 Nov 2025 19:24:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 777CA316194;
-	Mon, 17 Nov 2025 19:00:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 596AF27B4EB;
+	Mon, 17 Nov 2025 19:24:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Bb7vhjgo"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UjIiM7hI"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8629E30DD0E
-	for <linux-input@vger.kernel.org>; Mon, 17 Nov 2025 19:00:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BD1615855E;
+	Mon, 17 Nov 2025 19:24:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763406054; cv=none; b=GXM9CGP49kyHXYBW/qpr621vdmzhdxGPtqHZ9fWL7BpY7lQp+/Xq+m341B+DmSKzjRj+ZW8QL2R1/gSRhqI/y1L+5HfVAdzXXNPM0k+dcdjXUARz1dzxrIUKhK9Tw1BriXrUp1CUhgp6mZr4KjHsm6zWSJysZxd2T4KkLZT6EtU=
+	t=1763407489; cv=none; b=shpU1aBnpx5o3W/mA0HNN9a5/WbeFrpXz21L7Tlu2a4ti559WGM3JJUZKgyeFfc3SSreCScpPvu/6VKXJpFEdSElsO2hJWhuGesvKiT6hqfE5qjaTLcdWouvLz42Xkuk2xpT6t6j3g1Y4MetiumchUjhm57JrMwF8DPPejRR40U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763406054; c=relaxed/simple;
-	bh=9LwQ8cgiBx+GR9gi4Ze2NRYHzMsmpVYF+u+bBwx5cCU=;
+	s=arc-20240116; t=1763407489; c=relaxed/simple;
+	bh=xtiqSnsAY4ywiCLioxymP9tv/WYEi/Go85PcqJsXmq0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TFBSjh8mEy+YV7055T8gGxBuXku7D4cIBHZR1UHMpIRv2du3ZHSGxNg3AtiKIZacUVK2zmN/5jwzjKMaWMqtTydd1ZeK7i8CQKAmebCc5B8+P6MlAn+gbXJyMyv+0i77gx7odKT3GASFNfrTF47TdYEwbsnvtcSQ8KOlHNPILmI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Bb7vhjgo; arc=none smtp.client-ip=209.85.214.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-29808a9a96aso48216285ad.1
-        for <linux-input@vger.kernel.org>; Mon, 17 Nov 2025 11:00:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763406052; x=1764010852; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=H0lS2cED24LXASEO8Kaw1E9xKUmdy8WEPj1E8PP+Wtk=;
-        b=Bb7vhjgo8i3MdNxVG4EuzsP0kY56sHhKC0hWXy3SNDE+0Ky7g2//Vfq9gp+Z3YGBG2
-         kEV2VMszuPQ4nQazsSKgdPOTiRGD1zm95jdORpTJBag6XwmEn5c2/HvrxvuQ0/2Y921F
-         UvQBWH0YZMZjhyeFp2YU/N52BH0iW//+scsr+miVtegB+9hZP+42GsqTErMJdr37zFTf
-         YF7gzWQjdjmNsm/SlxP/4ZKN6wnkOMpf8uEmxEjzhHoPjE0GreCvD45hd39nEQskXra/
-         bg/GnRKMnZp3vn2z/u0j8s3BNDcw8sZ4BbHamAFyvnzIlSksGSxQ/4P1O7k3ELztEwXd
-         9h3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763406052; x=1764010852;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=H0lS2cED24LXASEO8Kaw1E9xKUmdy8WEPj1E8PP+Wtk=;
-        b=nDpZ3fJswqJ2zd2DuffYacI6GSKgWPhHMKS9F3LkEHDn1hnS0Uz7INlmYJVB115RZU
-         AAj1V6zkuXHalS8lpZDksXSaitRZhaHVYRGoBRuxm4n75fTCTnJvBVhgREb3m6TRKIlO
-         BC1w3juyWrc4GVBO4DbLlTTfGsBrQdRbHn1+4PILnA1OFytW1gxau6ZmEvlaoHcGl6qZ
-         LaHK6ucEq5ulZd+VDPT7uUPLCMiHlC9xJ70qIu12BSeqT6ZVdGGgYGbiI7hUufOGE2JC
-         t2bGbgrvBkmpkJZ/xA0W/Ye8fon6nPec1KoUoBmo9d/ttMy1armsljpNTADzDIty8xLt
-         MrUg==
-X-Forwarded-Encrypted: i=1; AJvYcCUCGybC9uM/LXUgn1hmWetCs1foHGcJieYJV5/BStzhNMkFFetK5W9e2LEhloKDjp5ByUt8sjGJ3Z4/nA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxRawhk9QEzZOB3IY4G75pRICJj/1dOeOdHLabIMw1KFcczzvIQ
-	zxq288GM+F8cq8VaNoqxPz8XPLreninDvTiBTrRdaeygHvk+BBbnYFFM
-X-Gm-Gg: ASbGncsXJseZMkipgOlvYV3WzFiuFpZ5FlwdTsv404EyaTcE5dhcfPlqKVVeMqyWCLy
-	9wKou1yEWQ21Oo18HoUBn0r29hvVUQVVtGMI8lGIv4RqrI1skh1/VGfqTeHsp+fGbLxOWY47LCj
-	wTwnOlEJz6wYw5mMmom9/oxndX+QLGIxNKtVE2y68J0RlvimwpqsiC7aqp6MdHVG9PYgt2vI5BY
-	vVLv2bPg1egHKQFmR62efpdR6GmL6CiivxYNrTlgEQnKl5ja93HsDYgA+xLRqiqdpGuZ/ZpzmbU
-	riVGrqadHuStfHiB021M4t5L4e2G781Vbx4d99lQaKHbZ4nq6em+ff7AC0Bh7MuoVUAROXCqgsC
-	SzyIkehx7jAfQQRFw2x/CnVGQ9hEPIsHj81fjVv1IheC/khnDgL64H0nYayF2kJfjYb5Vwn/Ix2
-	g49Rg410j9k2Wjf1Io5VHFVgrpIMsnqJfWJGbQNxluyJ2K
-X-Google-Smtp-Source: AGHT+IGDVNZOalPoeGLRx0StV1WyF6OuSXplI/tFFH2YjaxRb6M+ZouwxCgXlyJ+r8uHMpC01NlQdg==
-X-Received: by 2002:a17:903:198d:b0:298:2af7:8d26 with SMTP id d9443c01a7336-2986a76a26dmr169206325ad.54.1763406050080;
-        Mon, 17 Nov 2025 11:00:50 -0800 (PST)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2985c2376f6sm146281525ad.21.2025.11.17.11.00.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Nov 2025 11:00:49 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Mon, 17 Nov 2025 11:00:48 -0800
-From: Guenter Roeck <linux@roeck-us.net>
-To: James Calligeros <jcalligeros99@gmail.com>
-Cc: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Neal Gompa <neal@gompa.dev>, Lee Jones <lee@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Jean Delvare <jdelvare@suse.com>,
+	 Content-Type:Content-Disposition:In-Reply-To; b=rx8n5wA29MpuU6Yjyj4noL8GWuzW7sg4M+pNCF+Ht/WCLPd1YKtLcDZtFpxDD6w/6QLnQKWk0sP9AgWG6SAYWBIAcvX9d2ZnL7PY+6f4+R9fnSv3ClOmg9qBytQKaAtiCklt6sHAFDxmVz3fF/fQon1dlegtF6lEIeSzrkB805A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UjIiM7hI; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF75AC2BCB3;
+	Mon, 17 Nov 2025 19:24:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1763407488;
+	bh=xtiqSnsAY4ywiCLioxymP9tv/WYEi/Go85PcqJsXmq0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=UjIiM7hIzNMJPp4VAhTX2RWA9enHgG3jM/EMaRIKQ60RgFWc4llVEYrM6PGmalzqR
+	 W4ZGjjaFB+REtntjrJW5Qqotow5499nTdOzhCiEfNUR4wKNOc5PjZlRb2En24YMVn4
+	 7TvJNW5o7o+UD4uwBhgqzAyD6I6ufpdr99Pu/4fZ2VTF02jXuUX8nZOe6av5lkrHZ/
+	 yWo3A5QlgH6J76XnbvV7vT9rNXQLAOqpADi+mm0V9b0VkGfKzXX73fpGBvIiaoEhCJ
+	 DN7xgTchv4ioEpXASKMPh3NY3gMIiBWkcfz3EW5C6oXxcKQfbG5SS9tgXSTxcFTZgg
+	 iMJ2CFhw0DRTg==
+Date: Mon, 17 Nov 2025 19:24:40 +0000
+From: Conor Dooley <conor@kernel.org>
+To: Josua Mayer <josua@solid-run.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
 	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>, asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-rtc@vger.kernel.org,
-	linux-hwmon@vger.kernel.org, linux-input@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v5 06/11] hwmon: Add Apple Silicon SMC hwmon driver
-Message-ID: <7a445358-ce9e-4180-99dd-1a771c8ffa98@roeck-us.net>
-References: <20251112-macsmc-subdevs-v5-0-728e4b91fe81@gmail.com>
- <20251112-macsmc-subdevs-v5-6-728e4b91fe81@gmail.com>
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jon Nettleton <jon@solid-run.com>,
+	Mikhail Anikin <mikhail.anikin@solid-run.com>,
+	Yazan Shhady <yazan.shhady@solid-run.com>,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org,
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v3 02/11] dt-bindings: display: panel: ronbo,rb070d30:
+ panel-common ref
+Message-ID: <20251117-herbal-absently-c37ba6077679@spud>
+References: <20251117-imx8mp-hb-iiot-v3-0-bf1a4cf5fa8e@solid-run.com>
+ <20251117-imx8mp-hb-iiot-v3-2-bf1a4cf5fa8e@solid-run.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="jJ92fiK/uBFIDD/7"
+Content-Disposition: inline
+In-Reply-To: <20251117-imx8mp-hb-iiot-v3-2-bf1a4cf5fa8e@solid-run.com>
+
+
+--jJ92fiK/uBFIDD/7
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251112-macsmc-subdevs-v5-6-728e4b91fe81@gmail.com>
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Nov 12, 2025 at 09:16:52PM +1000, James Calligeros wrote:
-> The System Management Controller on Apple Silicon devices is responsible
-> for integrating and exposing the data reported by the vast array of
-> hardware monitoring sensors present on these devices. It is also
-> responsible for fan control, and allows users to manually set fan
-> speeds if they so desire. Add a hwmon driver to expose current,
-> power, temperature, and voltage monitoring sensors, as well as
-> fan speed monitoring and control via the SMC on Apple Silicon devices.
-> 
-> The SMC firmware has no consistency between devices, even when they
-> share an SoC. The FourCC keys used to access sensors are almost
-> random. An M1 Mac mini will have different FourCCs for its CPU core
-> temperature sensors to an M1 MacBook Pro, for example. For this
-> reason, the valid sensors for a given device are specified in a
-> child of the SMC Devicetree node. The driver uses this information
-> to determine which sensors to make available at runtime.
-> 
-> Reviewed-by: Neal Gompa <neal@gompa.dev>
-> Acked-by: Guenter Roeck <linux@roeck-us.net>
-> Co-developed-by: Janne Grunau <j@jannau.net>
-> Signed-off-by: Janne Grunau <j@jannau.net>
-> Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
+On Mon, Nov 17, 2025 at 01:28:44PM +0100, Josua Mayer wrote:
+> Add missing ref on panel-common.yaml for this dsi panel so that common
+> properties can be shared.
+>=20
+> Drop reset-gpios and backlight as they are already in panel-common.
+>=20
+> Switch from additionalProperties to unevaluatedProperties so that common
+> panel properties are available without repeating them in this binding.
+>=20
+> Notably panel-common defines the "port" property for linking panels to a
+> source - which was missing from this panel. Mark it as required.
+>=20
+> Signed-off-by: Josua Mayer <josua@solid-run.com>
 
-Applied to hwmon-next.
+Forgot my tag I think.
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
+pw-bot: not-applicable
 
-Note that I can not apply the devicetree patch (2/11), presumably since it depends
-on the first patch of the series.
+> ---
+>  .../devicetree/bindings/display/panel/ronbo,rb070d30.yaml  | 14 +++++---=
+------
+>  1 file changed, 5 insertions(+), 9 deletions(-)
+>=20
+> diff --git a/Documentation/devicetree/bindings/display/panel/ronbo,rb070d=
+30.yaml b/Documentation/devicetree/bindings/display/panel/ronbo,rb070d30.ya=
+ml
+> index 04f86e0cbac91..6940373015833 100644
+> --- a/Documentation/devicetree/bindings/display/panel/ronbo,rb070d30.yaml
+> +++ b/Documentation/devicetree/bindings/display/panel/ronbo,rb070d30.yaml
+> @@ -9,6 +9,9 @@ title: Ronbo RB070D30 DSI Display Panel
+>  maintainers:
+>    - Maxime Ripard <mripard@kernel.org>
+> =20
+> +allOf:
+> +  - $ref: panel-common.yaml#
+> +
+>  properties:
+>    compatible:
+>      const: ronbo,rb070d30
+> @@ -20,10 +23,6 @@ properties:
+>      description: GPIO used for the power pin
+>      maxItems: 1
+> =20
+> -  reset-gpios:
+> -    description: GPIO used for the reset pin
+> -    maxItems: 1
+> -
+>    shlr-gpios:
+>      description: GPIO used for the shlr pin (horizontal flip)
+>      maxItems: 1
+> @@ -35,10 +34,6 @@ properties:
+>    vcc-lcd-supply:
+>      description: Power regulator
+> =20
+> -  backlight:
+> -    description: Backlight used by the panel
+> -    $ref: /schemas/types.yaml#/definitions/phandle
+> -
+>  required:
+>    - compatible
+>    - power-gpios
+> @@ -47,5 +42,6 @@ required:
+>    - shlr-gpios
+>    - updn-gpios
+>    - vcc-lcd-supply
+> +  - port
+> =20
+> -additionalProperties: false
+> +unevaluatedProperties: false
+>=20
+> --=20
+> 2.51.0
+>=20
 
-Guenter
+--jJ92fiK/uBFIDD/7
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaRt2eAAKCRB4tDGHoIJi
+0hrHAQCBaAmVJzC1Z0STWj1jk4/PdSurZ065qolA+crJiZFTBwEA624wDBQFzZga
+EVu79ROyCjko8bQ+2VEAS6lgAsh+eQ4=
+=Qt2L
+-----END PGP SIGNATURE-----
+
+--jJ92fiK/uBFIDD/7--
 
