@@ -1,122 +1,149 @@
-Return-Path: <linux-input+bounces-16135-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16136-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA300C6172F
-	for <lists+linux-input@lfdr.de>; Sun, 16 Nov 2025 16:09:12 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id A0581C6206F
+	for <lists+linux-input@lfdr.de>; Mon, 17 Nov 2025 02:47:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 489303B8623
-	for <lists+linux-input@lfdr.de>; Sun, 16 Nov 2025 15:09:11 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTPS id B5B6B2005D
+	for <lists+linux-input@lfdr.de>; Mon, 17 Nov 2025 01:47:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E283B226CFD;
-	Sun, 16 Nov 2025 15:09:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C0404208AD;
+	Mon, 17 Nov 2025 01:47:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Oc6KKPtq"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZSgQZMVM"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 230EB21B91D
-	for <linux-input@vger.kernel.org>; Sun, 16 Nov 2025 15:09:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 430981FB1
+	for <linux-input@vger.kernel.org>; Mon, 17 Nov 2025 01:47:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763305748; cv=none; b=fD+4ZZbO8oYwwfkTrrxGJZW6r64uVPcu0qrKxysx7xk9TQk5MYAaq/HrNassv5HsmnYsfy5ojHJVZFv0gecyGZKJYVnQArAykHabb+AXOhNJJNzoM8yFhEI0lyCssUJQ4lbEg5cgG/dXtIk6nN0ALPXI+VcARvRTAXuFJD6lHcw=
+	t=1763344051; cv=none; b=IeE0Z+ebV1ZVdVstg6/m3rt+MdtBIiHSLYlD2TJZpR1u1P8JkItIwICey46GDy3rUAo1VU3eA94GYuccHOjlEY2C+8jziEKzTcmeCrytoa1uKEjq/qnKGxyHPWZkvAMXwZkf/KoZvY9BhSy39EakuazMlhAGIORli44rUOrUXvc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763305748; c=relaxed/simple;
-	bh=xq8xTEaVyip20qvmaObDd4dfH1b/XchZRVgFrwvraHE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JKP0e8D8+aj3KXi1ZDLXX9mEnrn3MJw+oSM+o+h5XQd3GPo/eILIqtc15hpEgMagq4GHK0+EdUilvyoqiH3NvfP0ZWlI2eF7m52xxlXGT8DKZkfk3GDR+TlrxzsMMaZqiRkaaO75DrJFvebLqvkEZFUef5uzTDlA6uKltVjG5Ik=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Oc6KKPtq; arc=none smtp.client-ip=209.85.128.46
+	s=arc-20240116; t=1763344051; c=relaxed/simple;
+	bh=ci1MJqonUW7+fRPgF29LNM4X1wJ2QmGrj0EhSyjLDd8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=sdQDr9K2lcY4M+/D9sehafeYWmh4domIb95juZI3C63e9GAys1Hx1K+XZCdcO89wAKlQdSO1INMFFjvOVVY6yELu2SdVx1XXnSh1KjuPOr3+t39+3awMe1zqZ/Dj7CzQswtFdCRElSe2nRmR5ki8FCUkgDvR27XDlUgLGN0A5y8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZSgQZMVM; arc=none smtp.client-ip=209.85.215.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-477a1c28778so3014285e9.3
-        for <linux-input@vger.kernel.org>; Sun, 16 Nov 2025 07:09:06 -0800 (PST)
+Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-bb7799edea8so3140052a12.3
+        for <linux-input@vger.kernel.org>; Sun, 16 Nov 2025 17:47:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763305745; x=1763910545; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=EvODb/e7qLsRFrmDWJkGdxSLjYJZj6/4elRLF1YEXuE=;
-        b=Oc6KKPtqtYazDKDP0bX02uTJWmEUPOW6uAMkZTKj7Vpbs4AU7lWm09tFd9fgIPys9G
-         itXJh6/j4rVJvnFALAQ2u3TuPdKSaolZeNtkjSwYj5H2xpQKMmjOnfeYC156eyxqRFJi
-         OObe9pXTH1FMSBxhKhK0qZ+DSE+rAo6hlcDPVSBAWJlEvsJI7KkkXpBCM5xSBwR6l/9s
-         MmlxI2DXX9kw0ToFDc1GEksUJDJ8pDOIl+WpaWm5vwyKMeBAqbnw2k8nRF/LuyvKmYR+
-         pRhSCtin20ITF03WWZaQuPJpWXQBTvWKp4igxWfrT3yC9RCzcRnNcp3xzqoEHxojkU6/
-         WGGA==
+        d=gmail.com; s=20230601; t=1763344049; x=1763948849; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=NN+0/WXQ+hiU5DStJXAkgWAwjWLdOPrrNQUogMgbThM=;
+        b=ZSgQZMVMnJPP38v1HH7sJaqxeM6skxHKst0sC2Ab0lOVYIwzgKHwbAsetGq84mp2A+
+         LGqkhDm9f6R5hjtS0B5Zw4ci5SjxxEUUQ0UrW3VAIgyJKq1Eb1x/W0x4FKLxmfX+vZBv
+         7QVJQ0p0GY1cHAecz6yXABDTr1KS6q0xxV7TmtrPjOaYm62O3ozAu24Idjh10PcWC7LL
+         2uAxMEjVzcphN3X2SZ5hX1Aq1pNZJQ+35g6Dk1FBTRNlCmBWUCT0Ga/NXXA9Mw5NhBmv
+         EJkNdOntncBxJ9bO1nEvGh30M3zv8qWSiNOvYuwYXo1EuNblBtpdhNm8yHoDgRVXzcEL
+         gnqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763305745; x=1763910545;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=EvODb/e7qLsRFrmDWJkGdxSLjYJZj6/4elRLF1YEXuE=;
-        b=biDTTjLLKFiD60hwS5XTPXMR2HqMzL3g8hTq4GwXc5jqQvjEpNqbWzuVinTjx5syBK
-         NKuHx5GF+r+MUYE2zw3NGU9CugklTsipS5WIm39vB3uONkW6nClOKbUx173+0hRHB30v
-         ilyQ4MP6CYgChff/b8viMyAZRIJCv71J07ZslZdUOTFe7CKi1OqPria96EKMEf17rvcG
-         pEGysAY4oKIg8syScG8cP0w4G2DIFDzgjdSfgjTcO0QD04SViAxr7JclQReaqj+69Zfh
-         TEXqQecXQkFYMT0iq7bHJeWaHHLaTaBR4z8s+UJDJXstN3J5a23sarHfeqmJJG0y2ymG
-         CWAg==
-X-Gm-Message-State: AOJu0YydIe2Gwz8KgbxA8J8ikAEkmHnYLJpEJ7i9YnLDg4pzBMnaw3ZZ
-	LQkVc2u0yut2mFXgY5PTd3zoifJsLtkXXfjFWGRp6UAlQJ3hJy0iHhQd
-X-Gm-Gg: ASbGncshz0U0TMRtbRn0iBhsLidM8mP5+sSYHSIs8QeqVzGkM4PacNwghNBmzXxS/jI
-	vZpEhm5xUPwqYfUDN6QBQan7WSJzORDOS/+QaOh5HXZimGD82cKWxmzZR+OlgXgUDzID9ji1S/R
-	ac9qzMy3rwyLW9ISqf3OyUqhQzLyEk4M2NXM13zhYh90snD/1mHrcMWym59I0NfT0P2PPAwQccF
-	FkPIsd/ghZowtIIYGn0EoN5+MMR1RVd8ZRpUrYUKPkv98VBsbQCVkp0jzVq4NPTI+RfR/x2hxvP
-	eFXhWDyuLM+wFGh8tNk5Ag0FZyyQmywUWIFIs5GTaP8Pxph0dQAYVjsXvMuOww/E69XBMP5Kn0a
-	0S1jumoKr38Wm/iwRcPNWaeqwqUTmIuBgR23OL7/Hh1SYp37kTvGYAb7UqG+KsF1geb9+W3H8B5
-	Z8fdeDAjKxFnNmMsWfT258
-X-Google-Smtp-Source: AGHT+IGMp5GTuzD+R9g6gkfd5sPc9gSs2a2eVt8uvtcAe/vzEoodhAs9XilhHcDZOUcO+nPtbyO15Q==
-X-Received: by 2002:a05:600c:1d20:b0:477:7a1a:4b79 with SMTP id 5b1f17b1804b1-4778feaaeb3mr87055775e9.37.1763305745160;
-        Sun, 16 Nov 2025 07:09:05 -0800 (PST)
-Received: from [192.168.1.12] ([197.46.78.60])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4779973ddcfsm83154645e9.15.2025.11.16.07.09.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 16 Nov 2025 07:09:04 -0800 (PST)
-Message-ID: <a3d10075-3ff3-419e-8231-0a1558195d0f@gmail.com>
-Date: Sun, 16 Nov 2025 17:09:03 +0200
+        d=1e100.net; s=20230601; t=1763344049; x=1763948849;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NN+0/WXQ+hiU5DStJXAkgWAwjWLdOPrrNQUogMgbThM=;
+        b=iqGWbca7wJLu8/aGF+lrM6R5CRTCwPRYDs/qiZvplXrz+llH8K+TfMX6N/hLe8H0qP
+         O5tCs/a/crLaenSh/P7oSYJ/IoJ119KRfh8uSFtriKKvsnLDSxwIe4y+izpQr4tqePll
+         vRhZBazHhCWTjyUfV3j9Q1ETzBKmTG5BLmTp5ww+RVTLnnEkCpqzEXN5eA1+kihkE4Xo
+         QVio8BBYPevWYiezNrzXvG8x9M94TwZAk4bb6krKmzw1zMwX8lRU4j6ErcBGmJA615I0
+         7B+5Zd2/xUZuHWmCkLWr1TVHtFqJJNtXyZtM5+BrPfsp3gkqT8fDK75sbCMd+J7k0CnD
+         yUqg==
+X-Gm-Message-State: AOJu0YwqHqX6ksO5nt4cna3mm9jd5F7VPxtoBiG0xSiVk+TtWGA+MSoX
+	kJ6MtvLMnl6S836rA9SJ27ZNMH1vmGZAorAgEsjk68TP4q7s/+6es4B9
+X-Gm-Gg: ASbGncuyW2kC7jH+5JgjbcKqUs3oT8OR5rYYpEDp3mcDBeOMlD80riNnq/zypxv8E22
+	iXFEJA0hay4LDuzvxwzlRS0tNPx4d1WcwD7h1H197KpzRSwzTg9aig3NozLbUic+KJNd8+AcdWB
+	bnH8p8ml18MHl7NYk3XK863WKzNEWwwz5CFz35XAFUakODxzOTTKIEICC88OjzPwk08l6hMQL0L
+	kh2j0SxAzK/nZYAJ9xzIf5PNVseZD9H7kqqzG0RQ4NDMlxc06ZTd4u+VKcRNppEccEkn/QneF/U
+	4b3OjwVsZjYxB/8u8Lr3j0THeoZi1nqYY0XNdthRhz4t+/WNcIG3VCmlg4kLRZn07fdL3tzAJlS
+	8EWKVVgUii6feSLtsr4AGC5GVCRm4sK0+52CcjEtRl3/p2tA/CY7trBGFd6EeqJ2MihqRk7bXWU
+	X2
+X-Google-Smtp-Source: AGHT+IG9DWYfri2RoAj4ysET577lbaipDwCtVOsVcnfV9nDn9tuThKae221+nKnKPpNTGD8Rd+Nq2A==
+X-Received: by 2002:a05:7300:ae1c:b0:2a4:3593:9698 with SMTP id 5a478bee46e88-2a4abb330b7mr4686136eec.21.1763344049417;
+        Sun, 16 Nov 2025 17:47:29 -0800 (PST)
+Received: from fedora ([172.59.161.218])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2a49da0662dsm42088815eec.2.2025.11.16.17.47.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 16 Nov 2025 17:47:29 -0800 (PST)
+From: Alex Tran <alex.t.tran@gmail.com>
+To: jikos@kernel.org,
+	bentiss@kernel.org,
+	shuah@kernel.org
+Cc: linux-input@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Alex Tran <alex.t.tran@gmail.com>
+Subject: [PATCH v1] selftests: hid: tests: test_wacom_generic: add base test for display devices and opaque devices
+Date: Sun, 16 Nov 2025 17:47:21 -0800
+Message-ID: <20251117014721.3142490-1-alex.t.tran@gmail.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] HID: memory leak in dualshock4_get_calibration_data
-To: Max Staudt <max@enpas.org>, roderick.colenbrander@sony.com,
- jikos@kernel.org, bentiss@kernel.org
-Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org, syzbot+4f5f81e1456a1f645bf8@syzkaller.appspotmail.com
-References: <20251116022723.29857-1-eslam.medhat1993@gmail.com>
- <ddb16ea8-7588-4c0a-9e34-6bd8babd598f@enpas.org>
-Content-Language: en-US
-From: Eslam Khafagy <eslam.medhat1993@gmail.com>
-In-Reply-To: <ddb16ea8-7588-4c0a-9e34-6bd8babd598f@enpas.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+Verify Wacom devices set INPUT_PROP_DIRECT appropriately on display devices
+and INPUT_PROP_POINTER appropriately on opaque devices. Tests are defined
+in the base class and disabled for inapplicable device types.
 
-On 11/16/25 06:34, Max Staudt wrote:
-> On 11/16/25 11:27 AM, Eslam Khafagy wrote:
->> function dualshock4_get_calibration_data allocates memory to pointer
->> buf. however the function may exit prematurely due to transfer_failure
->> in this case it does not handle freeing memory.
->>
->> this patch handles memory deallocation at exit.
->
-> Reviewed-by: Max Staudt <max@enpas.org>
->
->
-> One minor thing that I forgot: I see that the commit message is all 
-> lower case. Proper capitalisation helps readability and matches the 
-> kernel style. No need to resend this time, but in case you're sending 
-> a v3 for any other reason, it'd be great if you picked this up as well :)
->
-Oh, ok. but, no plans for v3 for now.
-> Thanks for your patch!
->
-welcome
-> Max
->
+Signed-off-by: Alex Tran <alex.t.tran@gmail.com>
+---
+ .../selftests/hid/tests/test_wacom_generic.py       | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
+
+diff --git a/tools/testing/selftests/hid/tests/test_wacom_generic.py b/tools/testing/selftests/hid/tests/test_wacom_generic.py
+index 2d6d04f0f..aa2a175f2 100644
+--- a/tools/testing/selftests/hid/tests/test_wacom_generic.py
++++ b/tools/testing/selftests/hid/tests/test_wacom_generic.py
+@@ -600,15 +600,17 @@ class BaseTest:
+ 
+         def test_prop_direct(self):
+             """
+-            Todo: Verify that INPUT_PROP_DIRECT is set on display devices.
++            Verify that INPUT_PROP_DIRECT is set on display devices.
+             """
+-            pass
++            evdev = self.uhdev.get_evdev()
++            assert libevdev.INPUT_PROP_DIRECT in evdev.properties
+ 
+         def test_prop_pointer(self):
+             """
+-            Todo: Verify that INPUT_PROP_POINTER is set on opaque devices.
++            Verify that INPUT_PROP_POINTER is set on opaque devices.
+             """
+-            pass
++            evdev = self.uhdev.get_evdev()
++            assert libevdev.INPUT_PROP_POINTER in evdev.properties
+ 
+ 
+ class PenTabletTest(BaseTest.TestTablet):
+@@ -622,6 +624,8 @@ class TouchTabletTest(BaseTest.TestTablet):
+ 
+ 
+ class TestOpaqueTablet(PenTabletTest):
++    test_prop_direct = None
++
+     def create_device(self):
+         return OpaqueTablet()
+ 
+@@ -864,6 +868,7 @@ class TestPTHX60_Pen(TestOpaqueCTLTablet):
+ 
+ class TestDTH2452Tablet(test_multitouch.BaseTest.TestMultitouch, TouchTabletTest):
+     ContactIds = namedtuple("ContactIds", "contact_id, tracking_id, slot_num")
++    test_prop_pointer = None
+ 
+     def create_device(self):
+         return test_multitouch.Digitizer(
+-- 
+2.51.0
+
 
