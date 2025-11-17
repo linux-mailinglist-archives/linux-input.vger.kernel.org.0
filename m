@@ -1,95 +1,93 @@
-Return-Path: <linux-input+bounces-16137-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16139-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 554EBC62221
-	for <lists+linux-input@lfdr.de>; Mon, 17 Nov 2025 03:42:55 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 865C2C62308
+	for <lists+linux-input@lfdr.de>; Mon, 17 Nov 2025 04:05:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 56A704E739D
-	for <lists+linux-input@lfdr.de>; Mon, 17 Nov 2025 02:42:33 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTPS id 52FB8241F5
+	for <lists+linux-input@lfdr.de>; Mon, 17 Nov 2025 03:05:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A2C5025B305;
-	Mon, 17 Nov 2025 02:40:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 33683265CCD;
+	Mon, 17 Nov 2025 03:02:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=leica-geosystems.com.cn header.i=@leica-geosystems.com.cn header.b="uu9wJNft"
+	dkim=pass (2048-bit key) header.d=pegatron-corp-partner-google-com.20230601.gappssmtp.com header.i=@pegatron-corp-partner-google-com.20230601.gappssmtp.com header.b="TPrsVtL3"
 X-Original-To: linux-input@vger.kernel.org
-Received: from PA4PR04CU001.outbound.protection.outlook.com (mail-francecentralazon11013019.outbound.protection.outlook.com [40.107.162.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E95CB248F62;
-	Mon, 17 Nov 2025 02:40:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.162.19
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763347210; cv=fail; b=DxfPii8tCZo08FN8S87tHaDVP9m1gZ8bXb5ICI22X6PipvWv8FPkxqXq0/XcHPK6OH3NsSXVMck6H7dTqOTNNO4IIt8AGkoWl2GV1p0kJxdcbDRA0641+KNgp5Ti9b9D6nIDqalOp5wXBFPB6Q7hTsn3W+4HuPiEI8JDI/V4km4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763347210; c=relaxed/simple;
-	bh=qdsvVFCqvDnCqYUbU8oh/xCQB0PG7eNRux1xuojk8KM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=NidJU+k8DNBoLb0M7DCBjkLZAMVN+/C12t0eQ62QdZNZ/rqS1tmptTZsLFWdndS3IASdXQSeBOoNy/KdDDcQc4/SvzHdZe65Mg5jqFIaUZxagWSThl/eC5ekmpzBzruJkTib3v5MnHqkbbBKObmAj45d4w3epYyP2FUu30TWSI4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=leica-geosystems.com.cn; spf=fail smtp.mailfrom=leica-geosystems.com.cn; dkim=pass (1024-bit key) header.d=leica-geosystems.com.cn header.i=@leica-geosystems.com.cn header.b=uu9wJNft; arc=fail smtp.client-ip=40.107.162.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=leica-geosystems.com.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=leica-geosystems.com.cn
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=bB+5cXZLwnrMGDi/ZL6YrgNYbrEqf0m7ZF+wK6oh4n0SHDvJ8XTC6NSOHHaBdgFrXBkgXBGQBcrje5yw7EeyA8j1NqxkONpIfLt8dBpK5HzFYETw+Qn0xma7L3wGv7PdgylG7jmGQ2bP6AisEHuhsSVuCyIwShQFrhb3PTlVXf0HqCkAXROfAzrdqeh3juclXPGb8nBqoYzmi5gQIYBSMCq0vuR/CW5nsFY7HkmGXHLmuEklGJwEARboCMufZ00UFZTCWCscOHdbHXchS7qNsi3zVtwBVjBV5QYNUbIdLetvKZQXSEVqst0U+YjvJQrLhi4hmX0ojDGwsqMrXXCWFA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=p8YU2YaWQ+Ujv4tFQrt0bJ9HA5m0uIiKeBYHhgF7YDU=;
- b=YInru1aIbSB7zGB4woWHoAZHTNAA7MERcEeS3g/frjnwGN+gZNzNCwP20cTymiReAw3kNJJVbEU1LOaO4dHg46ibFD3ZWsNkuP76HHrdWphuGHLBOof8IvNBGGNvpqZ6UoTVa9o89BCmb5RZpm5vo5EzUxhQynbCBv0mxvd4kgKScr5amKoYtCBGpCgw9eCUVkxk+wcoLd2tulCy1Ixrx4pcFXOiruGWAwjsoMPfzzsYfGZPIMiRtWRPgjypJrks+jE79spBHYy2V/JYfYMhgn7ZGyONNitiADNzUWZXQS4WWipOCMvYenQtTQAClCXGe1g04ENN6xdCUX+AzznrUA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 193.8.40.99) smtp.rcpttodomain=vger.kernel.org
- smtp.mailfrom=leica-geosystems.com.cn; dmarc=pass (p=reject sp=reject
- pct=100) action=none header.from=leica-geosystems.com.cn; dkim=none (message
- not signed); arc=none (0)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75D582641E3
+	for <linux-input@vger.kernel.org>; Mon, 17 Nov 2025 03:02:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1763348542; cv=none; b=MDtJ4ogD7gqUSmjeGO8cU18YWCoZrr4wyLcwlXo3dxfN13rtegj34U4yxGFW4VExcDwq1t+Zp27WexzLezJ9b4sqXDpPOfknL0rzqd/oDAY0I+DrEVrtigT1GO9eiyXh5u4YsPvb6kIqYKahew7mhk04ECpZy0SgHPgFhESfSbM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1763348542; c=relaxed/simple;
+	bh=E+w5CacVRy4NzRLVEY840KNx2+5vsVzY22VwXKt1zuM=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=POGPc6ve3LTm7M0J5NMtrOpkt8AYQpZBlCIMj3jUXfNWWRqjGrx0LikDVrTJVsRgF6CjCHOkzhF2fBP/bEPpHyd30GRUJFQQ/QNy4ReOlBMHrfoBzaEDvVhqphkyOULb5dHPFHE8Y1gyFCrZOso7Ai0gAjwuDooJDlPh9S7VZXo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=pegatron.corp-partner.google.com; spf=pass smtp.mailfrom=pegatron.corp-partner.google.com; dkim=pass (2048-bit key) header.d=pegatron-corp-partner-google-com.20230601.gappssmtp.com header.i=@pegatron-corp-partner-google-com.20230601.gappssmtp.com header.b=TPrsVtL3; arc=none smtp.client-ip=209.85.216.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=pegatron.corp-partner.google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pegatron.corp-partner.google.com
+Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-34381ec9197so3442975a91.1
+        for <linux-input@vger.kernel.org>; Sun, 16 Nov 2025 19:02:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=leica-geosystems.com.cn; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=p8YU2YaWQ+Ujv4tFQrt0bJ9HA5m0uIiKeBYHhgF7YDU=;
- b=uu9wJNftJrYBg6Sk2SQuLOECxPVzm5TeZK/MVoo0auzhKPAch3Y0ieV0RACyD139DL3ByqEU1UdAv/AouGOaHyeuJ4eXIsQKauk9QtqKu39waWYGAUW0FK7Hy5rimaMgI3SDSpxdy9sMIX4sSK+7EkrTkfSFSchjGuqhrBiQiQs=
-Received: from CWLP123CA0195.GBRP123.PROD.OUTLOOK.COM (2603:10a6:400:19c::23)
- by AS5PR06MB10651.eurprd06.prod.outlook.com (2603:10a6:20b:756::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9320.21; Mon, 17 Nov
- 2025 02:40:03 +0000
-Received: from AMS0EPF000001A9.eurprd05.prod.outlook.com
- (2603:10a6:400:19c:cafe::48) by CWLP123CA0195.outlook.office365.com
- (2603:10a6:400:19c::23) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9320.21 via Frontend Transport; Mon,
- 17 Nov 2025 02:39:58 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 193.8.40.99)
- smtp.mailfrom=leica-geosystems.com.cn; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=leica-geosystems.com.cn;
-Received-SPF: Pass (protection.outlook.com: domain of leica-geosystems.com.cn
- designates 193.8.40.99 as permitted sender) receiver=protection.outlook.com;
- client-ip=193.8.40.99; helo=hexagon.com; pr=C
-Received: from hexagon.com (193.8.40.99) by
- AMS0EPF000001A9.mail.protection.outlook.com (10.167.16.149) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9343.9 via Frontend Transport; Mon, 17 Nov 2025 02:40:03 +0000
-Received: from aherlnxbspsrv01.lgs-net.com ([10.61.228.61]) by hexagon.com with Microsoft SMTPSVC(10.0.17763.1697);
-	 Mon, 17 Nov 2025 03:40:01 +0100
-From: LI Qingwu <Qing-wu.Li@leica-geosystems.com.cn>
-To: jikos@kernel.org,
-	bentiss@kernel.org,
-	dianders@chromium.org,
-	treapking@chromium.org,
-	alex.vinarskis@gmail.com,
-	dan.carpenter@linaro.org,
-	superm1@kernel.org,
-	guanwentao@uniontech.com,
-	kl@kl.wtf,
-	Qing-wu.Li@leica-geosystems.com.cn,
-	linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: liqind@163.com
-Subject: [PATCH V2 1/1] HID: i2c-hid: Add API to wait for device reset completion
-Date: Mon, 17 Nov 2025 02:39:59 +0000
-Message-ID: <20251117023959.594514-2-Qing-wu.Li@leica-geosystems.com.cn>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251117023959.594514-1-Qing-wu.Li@leica-geosystems.com.cn>
-References: <20251117023959.594514-1-Qing-wu.Li@leica-geosystems.com.cn>
+        d=pegatron-corp-partner-google-com.20230601.gappssmtp.com; s=20230601; t=1763348540; x=1763953340; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=wtkO/d0SFdmVJP9bxm0KAjJpnyfYOJRTu7hpl6oM4zc=;
+        b=TPrsVtL3/7Jd6Kx6psP/f9/pm6lAe6OnXFfiWTNpnG+7XyagTi5CPiaFztSlMsa02A
+         5gDdWHH8INIpsYoVg1AXaY/AehVW+XI4uH05/1lPD+LEGfR4d21ulEuF0WhQR+cpajgi
+         Rb0bQbySDtNdzd9e71O+VL5V/ZZy28cOXWQt2tQqvL8L26MAfxPJyFXuMxF4UAlvzMVy
+         77JFSi7AjwO1kTzsPo9fqXPYcIYQPC+PiBwVtNJ68wAHKniLnI4BnxvA7qUL3syMkAjq
+         A6cz3yCDP0IUk2icGJSaEQjHjoQrz7x7XPbUC82NOnP8nVrf1UxJtgjJpZNU2MUcAc+L
+         Yx0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763348540; x=1763953340;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=wtkO/d0SFdmVJP9bxm0KAjJpnyfYOJRTu7hpl6oM4zc=;
+        b=HcD1YOdvypE7FKFI76FWBwrDNlQLeQrKHU+0IlCXZ2Y5LZf1clxXXcmFXn4R9DRu/5
+         k7QkAtiFvijAUhhkoDcYQK0mryponNHH/sxgp68awBRPvbqY5/siyVRPl14B2Cx4B1wy
+         UV2axdFGg2QkrJSi19Pe03s6jMnSeVD0ryN3M6yUk8N1RnQQrQjNWsanSf14lEYJKOyc
+         a9A5jbeJMYVxjk5fQOz5LmHqLO+03NKddOZtD0c8A2nkRrmp5xoSnPJLb74MsWNqn9TJ
+         zg6vx7PHsNK4g4huacFBXMeS8qbmZsyUx4SSGPmTWWuOw8E/UfBCbgkeUKYzJqh3hJzG
+         hHfg==
+X-Forwarded-Encrypted: i=1; AJvYcCUcno+uAk6V6fbqlGqFopirWJQvaBoVdBFbaUZhbvyzGAOUhOmAwCniflkvpUWa1q/EdsSgjeq9OJuirA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxs05oYdNWIEZPr4CxzRvHTcNPKSas6KPWSIRaQDgEq4N8Gf1aw
+	cjJZSyxbUY0cg2QENUVNa00Z0y3ladvpMzQDIwjdi9o4dFgiaa3jXXFmC6Owy11iyg==
+X-Gm-Gg: ASbGnctd20XGCGqE1pR+uepUrIxE3yo3QHt0BtkLW6WM+iGfkbNVzBJA2jI7MbEUku0
+	aa2/HlqrdpVXiH+4iyZZjN6DhkDZSJRnSq9vzvld04Y2u9UoT6swleOIL9zfr+shuj9S/jnYzz9
+	qzctzYu3N9bTvWV/HaSoFnD0EXMjF1pFwXM4/uteXFaOOKjXrYIHvDbCRRBnr5YLee+5fUMxWng
+	M24yYMsX+KdRBMZTDTusNHv5FE0figA6s04h105FdARdfdppZFganpOqJmIkRb2sZp+uWIXFoMJ
+	17PPuB/5I9DHK1w1TwWE5WpXVTJR2eGx5LNqpdxyTRW32rjbidlcyf7G8NQIWJAF6iL8a1iMTVf
+	CATwzHKF1LmFn8j4aXbtRCDkPebQlc1qWaLbr/BulxW0rDCWbEG0SFBDB3zbMib469yyzsX6KYb
+	aKodKAERR0NXDKcqoOYnj5W6lwf9Zolt9sCigsXm2qeqwlp7YwsRNFdw8kL2aMCt9fRb/wxSP2o
+	bd62rG4Ar7kt79wctYewY00SXi0HpvOJ0AUTFlFR59LQM1aR6wKZlrdmNi+imOGX9wEdhh1ygBq
+	W4tBAg==
+X-Google-Smtp-Source: AGHT+IEoPkCs8vCqIhXIUSAwPtzQOI5UWeRzCYLlSFpBEdA6K02beaMHmREUL1SrGBfmb/EP4eX+gQ==
+X-Received: by 2002:a17:90b:4b04:b0:340:d578:f2a2 with SMTP id 98e67ed59e1d1-343f9d906c9mr11929182a91.6.1763348539622;
+        Sun, 16 Nov 2025 19:02:19 -0800 (PST)
+Received: from sw-TUF-Gaming-FX505GU-FX505GU.. (2001-b400-e2ac-65d6-ccc0-37c3-bfbe-95a4.emome-ip6.hinet.net. [2001:b400:e2ac:65d6:ccc0:37c3:bfbe:95a4])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-343e07ba2a4sm16332114a91.15.2025.11.16.19.02.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 16 Nov 2025 19:02:19 -0800 (PST)
+From: daniel_peng@pegatron.corp-partner.google.com
+X-Google-Original-From: Daniel_Peng@pegatron.corp-partner.google.com
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	linux-input@vger.kernel.org
+Cc: LKML <linux-kernel@vger.kernel.org>,
+	Daniel Peng <Daniel_Peng@pegatron.corp-partner.google.com>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	devicetree@vger.kernel.org
+Subject: [PATCH v5 1/2] dt-bindings: input: i2c-hid: Introduce FocalTech FT8112
+Date: Mon, 17 Nov 2025 11:02:10 +0800
+Message-Id: <20251117110148.v5.1.I894dde5015f4acad94cb5bada61e5811c5142395@changeid>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -97,127 +95,112 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 17 Nov 2025 02:40:01.0661 (UTC) FILETIME=[78F372D0:01DC576B]
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AMS0EPF000001A9:EE_|AS5PR06MB10651:EE_
-Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: 9625d527-06c1-4cfd-2614-08de25829c92
-X-SET-LOWER-SCL-SCANNER: YES
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|36860700013|1800799024|82310400026|921020;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?+bfXdDLm6W801rWUeA+rJNn5BDCQvwQQL5D0cwQVVS19fBMa/BwSc2znnkI7?=
- =?us-ascii?Q?CFCLWzqVdWWpbuHnaHPUktt2ZmSekxq3UKXM7Ro9lZGxlc81e9eoRBJI9vNJ?=
- =?us-ascii?Q?kkh7bIjJXm9A+wQi3b+PMbgE2+wZT7Z1+OYpHGLodOvastRAb5HD25CNU4lm?=
- =?us-ascii?Q?TvemgICcDKwBspgZE/0pFyht0/atyrnBx0KwTWFthIhrEa97gxHeTxTmp60P?=
- =?us-ascii?Q?wsPLYRJjFJE9G/2THxr9jIJ8t1o7pfqwyDoPadepjMutfj994Gl8sdTJtqBk?=
- =?us-ascii?Q?1KrMY3LIAH8iSg3O2MNmRxpLX0ceHxsOah5XZRR3iPP+PSUBbg3Uz1UP9W/9?=
- =?us-ascii?Q?ydPhPW/VdREeUL4ECndJGFLRrZGsHzLeNuJMxMDmUCwXFdNTBYCzjyY/oLFe?=
- =?us-ascii?Q?2xLB3pNOStoMNu3sXO53clzsDBHGM8K1pg8B2P0OGSBpwCYxynfN1laT2wYW?=
- =?us-ascii?Q?6NL0QeJZ7eU5XQq71TNyqCZZeIDx6OLOgXDbz9xeC/CqVZfoxzW+zk610M+7?=
- =?us-ascii?Q?tDEWlB2OqNYpDKaGMU75VYrX9f99/qM3t/OzxFbxP2PkyF/MePdUDxKcKMjp?=
- =?us-ascii?Q?04FQeffMTLSvboscINIh7OYE1Ov0EL3RUN9dro36lDsHeN7Gp/lXG/+wtmsn?=
- =?us-ascii?Q?gWFQn+Xn4LpivqOBPlQLDZqu/rnVavMx8WW6+i9IPn5yO5MdCn72gw47CBrm?=
- =?us-ascii?Q?BYhaDVDOqfJrXNKWporzJU3SR8+zYgXTE5qKT6K22iSM7ajfrIh6ii805C2K?=
- =?us-ascii?Q?Nj6326NCr34csH1L+UeWKxrErzG3yBIxLCUaTCL4mfNXJ1UvJufzRtrxsnOd?=
- =?us-ascii?Q?qgVccsKBS/Kr0ei95e6PUb6S1iZlu2hzoK8bsrZOuPViDGOu0dXkG5JbAoGa?=
- =?us-ascii?Q?g7ISwqztF40oSmaHg4sB15JZMl1VV92qwcF2zZ5uYqLp/vbul935FrNzypAq?=
- =?us-ascii?Q?niAfOYKeWsT89goCbyyolX2YGk660D5JBsrt+mYhSGmzO1LRohKx1+pM6I+c?=
- =?us-ascii?Q?hhojLk5ClRCKB0KcavKHe7enFOcDJnft3pGZRFt52QyPUJjh6eKMvaSrPG3x?=
- =?us-ascii?Q?3JSG51uKzidDPptnsea9uHjbq1Di5jePZ3myJD6EcjJBFMKBCutel7L49g4c?=
- =?us-ascii?Q?u3Jkz3OGk2H/ZbT0Ran6kLcS/zmjpt0tzWUQCmuCotyEvXQusjxQA9V2XF/u?=
- =?us-ascii?Q?lO7bo8KYbtBWTLLYeeW0zgEaWJfctBb1jeMhCJUEzhVRGON0Wnkt5W8pOJx4?=
- =?us-ascii?Q?uxNgKh9xCiXSMnuOOAVMRKArkoEL7ZT7N8wwenop5s6Vn5tJVvk45UYqLU+o?=
- =?us-ascii?Q?wNoMw/Q9/PDME7Kp1x1u0wnxPaNhvGx8iMBPmVdCsmmORDniOkxfWHtwmM1w?=
- =?us-ascii?Q?XsYR7oNysmwWYjOhx7/y7xWScSUcYh+J6JngP0I5gc5lUiCIRjM3cbeRkZTR?=
- =?us-ascii?Q?DlOzYLT7ufu+nj9abrqtvyoQzKktI0a1gul/wx7DzSQ3n68V3Y/nHhlJr5Fp?=
- =?us-ascii?Q?ygDN+WCzCiVfAtEed28PxJ2C39/V3fBaqNiDYveH6hKmXR7fLyAi44uMVGYl?=
- =?us-ascii?Q?Iud+nBhp+MyuCRU02DyBuEzouH239/d1AeL6dS9m?=
-X-Forefront-Antispam-Report:
-	CIP:193.8.40.99;CTRY:CH;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:hexagon.com;PTR:ahersrvdom51.leica-geosystems.com;CAT:NONE;SFS:(13230040)(376014)(36860700013)(1800799024)(82310400026)(921020);DIR:OUT;SFP:1101;
-X-OriginatorOrg: leica-geosystems.com.cn
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Nov 2025 02:40:03.5026
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9625d527-06c1-4cfd-2614-08de25829c92
-X-MS-Exchange-CrossTenant-Id: 1b16ab3e-b8f6-4fe3-9f3e-2db7fe549f6a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=1b16ab3e-b8f6-4fe3-9f3e-2db7fe549f6a;Ip=[193.8.40.99];Helo=[hexagon.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	AMS0EPF000001A9.eurprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS5PR06MB10651
 
-Some HID over I2C devices need to signal reset completion to the host
-after firmware updates or device resets. Per the HID over I2C spec,
-devices signal completion by sending an empty input report (0x0000).
+From: Daniel Peng <Daniel_Peng@pegatron.corp-partner.google.com>
 
-Add i2c_hid_wait_reset_complete() to allow drivers to synchronize
-with device reset operations. The function sets I2C_HID_RESET_PENDING
-and waits for the device's completion signal.
+Create new binding file for the FocalTech FT8112 due to new touchscreen chip.
+Confirm its compatible, reg for the device via vendor, and set the interrupt
+and reset gpio to map for Skywalker platform.
+FocalTech FT8112 also uses vcc33/vccio power supply.
 
-Returns: 0 on success, -ETIMEDOUT on timeout.
+Signed-off-by: Daniel Peng <Daniel_Peng@pegatron.corp-partner.google.com>
+> > From: Daniel Peng <Daniel_Peng@pegatron.corp-partner.google.com>
+> >
+> > The FocalTech FT8112 touch screen chip same as Ilitek ili2901 controller
+>
+> So keep the device in that binding under enum. No need to create
+> document for every device, even if they were different but here it is
+> pretty obvious - same chip.
+>
+> Best regards,
+> Krzysztof
 
-Signed-off-by: LI Qingwu <Qing-wu.Li@leica-geosystems.com.cn>
+Re-describe the commit message to make more clear why to create new document
+for FocalTech FT8112 device.
+Sorry for the confusion.
+
 ---
- drivers/hid/i2c-hid/i2c-hid-core.c | 28 ++++++++++++++++++++++++++++
- drivers/hid/i2c-hid/i2c-hid.h      |  1 +
- 2 files changed, 29 insertions(+)
 
-diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid/i2c-hid-core.c
-index 63f46a2e5788..906249c94395 100644
---- a/drivers/hid/i2c-hid/i2c-hid-core.c
-+++ b/drivers/hid/i2c-hid/i2c-hid-core.c
-@@ -1401,6 +1401,34 @@ const struct dev_pm_ops i2c_hid_core_pm = {
- };
- EXPORT_SYMBOL_GPL(i2c_hid_core_pm);
- 
-+int i2c_hid_wait_reset_complete(struct device *dev, unsigned long timeout_ms)
-+{
-+	struct i2c_client *client;
-+	struct i2c_hid *ihid;
+Changes in v5:
+- Modified the commit description clearly.
+
+ .../bindings/input/focaltech,ft8112.yaml      | 66 +++++++++++++++++++
+ 1 file changed, 66 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/input/focaltech,ft8112.yaml
+
+diff --git a/Documentation/devicetree/bindings/input/focaltech,ft8112.yaml b/Documentation/devicetree/bindings/input/focaltech,ft8112.yaml
+new file mode 100644
+index 000000000000..197f30b14d45
+--- /dev/null
++++ b/Documentation/devicetree/bindings/input/focaltech,ft8112.yaml
+@@ -0,0 +1,66 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/input/focaltech,ft8112.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+	if (!dev)
-+		return -ENODEV;
++title: FocalTech FT8112 touchscreen controller
 +
-+	client = to_i2c_client(dev);
-+	if (client == NULL)
-+		return -ENODEV;
++maintainers:
++  - Daniel Peng <Daniel_Peng@pegatron.corp-partner.google.com>
 +
-+	ihid = i2c_get_clientdata(client);
-+	if (!ihid)
-+		return -ENODEV;
++description:
++  Supports the FocalTech FT8112 touchscreen controller.
++  This touchscreen controller uses the i2c-hid protocol with a reset GPIO.
 +
-+	set_bit(I2C_HID_RESET_PENDING, &ihid->flags);
-+	if (wait_event_timeout(ihid->wait,
-+			       !test_bit(I2C_HID_RESET_PENDING, &ihid->flags),
-+			       msecs_to_jiffies(timeout_ms)))
-+		return 0;
-+	else
-+		clear_bit(I2C_HID_RESET_PENDING, &ihid->flags);
++allOf:
++  - $ref: /schemas/input/touchscreen/touchscreen.yaml#
 +
-+	return -ETIMEDOUT;
-+}
-+EXPORT_SYMBOL_GPL(i2c_hid_wait_reset_complete);
++properties:
++  compatible:
++    enum:
++      - focaltech,ft8112
 +
- MODULE_DESCRIPTION("HID over I2C core driver");
- MODULE_AUTHOR("Benjamin Tissoires <benjamin.tissoires@gmail.com>");
- MODULE_LICENSE("GPL");
-diff --git a/drivers/hid/i2c-hid/i2c-hid.h b/drivers/hid/i2c-hid/i2c-hid.h
-index 1724a435c783..8e5482baa679 100644
---- a/drivers/hid/i2c-hid/i2c-hid.h
-+++ b/drivers/hid/i2c-hid/i2c-hid.h
-@@ -42,6 +42,7 @@ void i2c_hid_core_remove(struct i2c_client *client);
- 
- void i2c_hid_core_shutdown(struct i2c_client *client);
- 
-+int i2c_hid_wait_reset_complete(struct device *dev, unsigned long timeout_ms);
- extern const struct dev_pm_ops i2c_hid_core_pm;
- 
- #endif
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  panel: true
++
++  reset-gpios:
++    maxItems: 1
++
++  vcc33-supply: true
++
++  vccio-supply: true
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - vcc33-supply
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++    #include <dt-bindings/interrupt-controller/irq.h>
++
++    i2c {
++      #address-cells = <1>;
++      #size-cells = <0>;
++
++      touchscreen@38 {
++        compatible = "focaltech,ft8112";
++        reg = <0x38>;
++
++        interrupt-parent = <&pio>;
++        interrupts = <15 IRQ_TYPE_LEVEL_LOW>;
++
++        reset-gpios = <&pio 126 GPIO_ACTIVE_LOW>;
++        vcc33-supply = <&pp3300_tchscr_x>;
++      };
++    };
 -- 
-2.43.0
+2.34.1
 
 
