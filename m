@@ -1,112 +1,98 @@
-Return-Path: <linux-input+bounces-16141-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16142-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 944F7C623D5
-	for <lists+linux-input@lfdr.de>; Mon, 17 Nov 2025 04:24:46 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id EB942C6284D
+	for <lists+linux-input@lfdr.de>; Mon, 17 Nov 2025 07:30:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 8051C4E120D
-	for <lists+linux-input@lfdr.de>; Mon, 17 Nov 2025 03:24:45 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTPS id 14AD522EE2
+	for <lists+linux-input@lfdr.de>; Mon, 17 Nov 2025 06:30:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F3DDD2853EF;
-	Mon, 17 Nov 2025 03:24:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4FB49223DCE;
+	Mon, 17 Nov 2025 06:30:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RUVLwY4D"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Iwq55x/P"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 507361F17E8;
-	Mon, 17 Nov 2025 03:24:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 120BF1F09A5;
+	Mon, 17 Nov 2025 06:30:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763349881; cv=none; b=XSUiT48n/ocl60+/RnK3HJdqKDVEjG/3xj9xElFG7CYbLzPH01e0xAO2VnfcUaeEtfi24i99aeNOBJJEcIarLlkQTq/C2Kbc/CcZ9BTBkM9X78ysz6M4T6ZEx7roAtEBzQT86Xo8UVZslq0yW7ky+ayo4dp3URhBDnuwiXMJ/sU=
+	t=1763361026; cv=none; b=ulSZkE7RRtsdDpPNC6YwHR3zVP3fJrvy/TdPsnmmqCrC7gctmJTWReif1d44kesMClw/rQ+BJv8acYNpf2TM4PLEDklzQvRwxE4f2tn0g9ZwRiCMDv9v2XU0hDKk/E8s4J2Rgpq84jffs1fuzOp+VtZymBb3Cc1y4A+vaRWG5yA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763349881; c=relaxed/simple;
-	bh=x+XhgeVHLUrLi3NnCeNSYtVlxK0YeeFXYLEBLruRiKU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VLLXNK9z9VV8VaiwXRiqP7lTBP4JVAHwLBFQNDcHWVEWn1monY2UqPKK3R7hGhGYRRZEjSXCjHmO2ZjlOqC+z/tkgSyr/K5s47cVryQ0sHHgnmop4zGlABlE2GrN6QJSEmjnxPkt8YRA6jKsr6dho13B5e1jllQN1EYEexVNeks=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RUVLwY4D; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763349880; x=1794885880;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=x+XhgeVHLUrLi3NnCeNSYtVlxK0YeeFXYLEBLruRiKU=;
-  b=RUVLwY4DSX7WN+5Mo7HghmOsUr3d/od4PncctQ4zGeSmx8pcSTLSpWV4
-   BtWGqldNRyk9XTMtF6vasqU+WpLuO7AzaQUbWHqpY7EI4GMA1HSZP42Xy
-   t7rJ0ciftGeK3KkN5zneQo73SMMU8UVJ3oPy8AkDOIWUZUtvbBbLd1XLU
-   auHWpDZFbU7kubBtn9xwhy1VQ91viBXt8cVI1fNP64vmyajof1F5KLgPZ
-   LDyUQ0cbTHO8GpZ6t2+dvjNBbz00oBVDOIdmphq9b/P9rSx91UcCt3oLE
-   uyu2poAQADIPuUwrvwWB2M5mMh/FlHJZlgjsw7dfY5BqHO0HsfRc72coG
-   g==;
-X-CSE-ConnectionGUID: tiJBrD4GRI+zH45e1Ldx0A==
-X-CSE-MsgGUID: l5M90Rp0SKqj6jv57q1W5A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11615"; a="65055054"
-X-IronPort-AV: E=Sophos;i="6.19,310,1754982000"; 
-   d="scan'208";a="65055054"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2025 19:24:39 -0800
-X-CSE-ConnectionGUID: eh220uVhT6aUMI96lZipiw==
-X-CSE-MsgGUID: RZ/EZoXOSgilnOrsO0kJIA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,310,1754982000"; 
-   d="scan'208";a="213732610"
-Received: from junjie-nuc14rvs.bj.intel.com ([10.238.152.23])
-  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2025 19:24:37 -0800
-From: Junjie Cao <junjie.cao@intel.com>
-To: dmitry.torokhov@gmail.com
-Cc: linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	junjie.cao@intel.com
-Subject: [PATCH] Input: ti_am335x_tsc: clamp coordinate_readouts to DT maximum (6)
-Date: Mon, 17 Nov 2025 11:23:58 +0800
-Message-ID: <20251117032358.891822-1-junjie.cao@intel.com>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1763361026; c=relaxed/simple;
+	bh=R688FjROdtgALsW80H3qFz9mXCyYWls6Ki7YSSaKH5M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=D8akn4Z5Ax1KEJBFBSW0xE4bNBKVHmicVKcRIApphI2v4yLjpb2Y0Ih17HXQWhuOVmveJxf/gS4M2odWbuKYYnr2LJZG9Ur8IYVc4tdBBS5vvKtEn4f2VZEPgisRfvBOdUYnDtwkr49i+O2rVPbf875KUOjxUoyxFzO5fA7HQdE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Iwq55x/P; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41BA5C19425;
+	Mon, 17 Nov 2025 06:30:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1763361025;
+	bh=R688FjROdtgALsW80H3qFz9mXCyYWls6Ki7YSSaKH5M=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Iwq55x/PO+5Fq2+hrgVyKVr5LhBVyW8r9/a8PUpFmDTkYL3uCtA7sDi+EgKvmK4lM
+	 KbNxdZGSKk2YnEWPza93ygJpZF7mayjETh7P0AN3fxDy/wVkCKtYoj6YhyHm+aUTJw
+	 Y4IIqse4tGK8qHH5mUrtu0+3vwmiF+W8avomFMSBVVoYvBpD+mcRrH38cttP83olgD
+	 tWppiNhX5cmRMLb3SXVzdDsFo0dhfvWj5/NPtDwvSuleHrm2Z4Uu+SwgdbRnum1pUR
+	 mvS1yiLgiqr2frAJyFAlSgYS9d3GG3t9OrhhQglOymeP7OPMkZJ+MR7RruqVSVSclv
+	 SPQwpr8kQoEtg==
+Date: Mon, 17 Nov 2025 07:30:23 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: daniel_peng@pegatron.corp-partner.google.com
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+	linux-input@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org
+Subject: Re: [PATCH v5 1/2] dt-bindings: input: i2c-hid: Introduce FocalTech
+ FT8112
+Message-ID: <20251117-beautiful-pink-macaque-9fd441@kuoka>
+References: <20251117110148.v5.1.I894dde5015f4acad94cb5bada61e5811c5142395@changeid>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20251117110148.v5.1.I894dde5015f4acad94cb5bada61e5811c5142395@changeid>
 
-DT binding (ti,am3359-tsc.yaml) sets ti,coordinate-readouts to a
-maximum of 6. The MFD parent also enforces that
-(readouts * 2 + 2) + adc_channels <= 16 and fails probe if this
-is violated, so the touchscreen subdriver will not even probe
-in those cases.
+On Mon, Nov 17, 2025 at 11:02:10AM +0800, daniel_peng@pegatron.corp-partner.google.com wrote:
+> From: Daniel Peng <Daniel_Peng@pegatron.corp-partner.google.com>
+> 
+> Create new binding file for the FocalTech FT8112 due to new touchscreen chip.
+> Confirm its compatible, reg for the device via vendor, and set the interrupt
+> and reset gpio to map for Skywalker platform.
+> FocalTech FT8112 also uses vcc33/vccio power supply.
+> 
+> Signed-off-by: Daniel Peng <Daniel_Peng@pegatron.corp-partner.google.com>
+> > > From: Daniel Peng <Daniel_Peng@pegatron.corp-partner.google.com>
+> > >
+> > > The FocalTech FT8112 touch screen chip same as Ilitek ili2901 controller
+> >
+> > So keep the device in that binding under enum. No need to create
+> > document for every device, even if they were different but here it is
+> > pretty obvious - same chip.
+> >
+> > Best regards,
+> > Krzysztof
+> 
+> Re-describe the commit message to make more clear why to create new document
+> for FocalTech FT8112 device.
+> Sorry for the confusion.
 
-Clamp coordinate_readouts > 6 to 6 in the subdriver to align with the
-binding and keep behavior sane if invalid platform data bypasses schema
-checks. Keep the existing default to 5 for non-positive values.
+No clue what's this, but try yourself - apply the patch and check the
+results if it looks correct.
 
-No functional change with valid DT.
+There are extensive guides how to send patches to Linux kernel,
+including comprehensive guide on Linaro blog.
 
-Signed-off-by: Junjie Cao <junjie.cao@intel.com>
----
- drivers/input/touchscreen/ti_am335x_tsc.c | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/drivers/input/touchscreen/ti_am335x_tsc.c b/drivers/input/touchscreen/ti_am335x_tsc.c
-index 73980142f492..0534b2ba650b 100644
---- a/drivers/input/touchscreen/ti_am335x_tsc.c
-+++ b/drivers/input/touchscreen/ti_am335x_tsc.c
-@@ -389,6 +389,10 @@ static int titsc_parse_dt(struct platform_device *pdev,
- 		dev_warn(&pdev->dev,
- 			 "invalid co-ordinate readouts, resetting it to 5\n");
- 		ts_dev->coordinate_readouts = 5;
-+	} else if (ts_dev->coordinate_readouts > 6) {
-+		dev_warn(&pdev->dev,
-+			 "co-ordinate readouts too large, limiting to 6\n");
-+		ts_dev->coordinate_readouts = 6;
- 	}
- 
- 	err = of_property_read_u32(node, "ti,charge-delay",
--- 
-2.43.0
+Best regards,
+Krzysztof
 
 
