@@ -1,134 +1,138 @@
-Return-Path: <linux-input+bounces-16163-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16164-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5B0DC651EB
-	for <lists+linux-input@lfdr.de>; Mon, 17 Nov 2025 17:25:52 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 54B67C65E1D
+	for <lists+linux-input@lfdr.de>; Mon, 17 Nov 2025 20:10:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 693A1366104
-	for <lists+linux-input@lfdr.de>; Mon, 17 Nov 2025 16:18:47 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTPS id 5B5372B3F8
+	for <lists+linux-input@lfdr.de>; Mon, 17 Nov 2025 19:05:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F17F22C21E6;
-	Mon, 17 Nov 2025 16:18:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 777CA316194;
+	Mon, 17 Nov 2025 19:00:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="U/Nd/MNH"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Bb7vhjgo"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 332FA1D61BC
-	for <linux-input@vger.kernel.org>; Mon, 17 Nov 2025 16:18:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8629E30DD0E
+	for <linux-input@vger.kernel.org>; Mon, 17 Nov 2025 19:00:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763396295; cv=none; b=YRb3ZWpaRsZPaGBDmfhjS8M31oJPDumAKhHm2X7ZWsQMSzpx/vLDrzgmyHxTlb7nb2CSH2JKhO3aZvVhHJlBpzUYsMp/MnHKRhq+FhNS7jf9F3O5ALajQIh7VwyZrjueMFWERGy/k0y8C8dnvGADvtatfzTbxriGAkUc7kXGbqs=
+	t=1763406054; cv=none; b=GXM9CGP49kyHXYBW/qpr621vdmzhdxGPtqHZ9fWL7BpY7lQp+/Xq+m341B+DmSKzjRj+ZW8QL2R1/gSRhqI/y1L+5HfVAdzXXNPM0k+dcdjXUARz1dzxrIUKhK9Tw1BriXrUp1CUhgp6mZr4KjHsm6zWSJysZxd2T4KkLZT6EtU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763396295; c=relaxed/simple;
-	bh=st1sy12xVdiiww05d5en5kmbdFykF+ESG3J78+EnMss=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=YIdXgvwDTBLWDaAz3PMIwewUq78Gg2V/ovOnFvsYQ0CbaqSI+01MYgwjyssi+YbT86wmSvr4Oc7bRGp+xcOzw4ZJHkrehSBUXqGPPC+qM8D5VOnJLzwHX4sTS/toTCv3HGyIkiTZc9gi5ia40XTZtElpq79QKdcyQ9gWKQmjQWU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=U/Nd/MNH; arc=none smtp.client-ip=209.85.218.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-b736ffc531fso521189166b.1
-        for <linux-input@vger.kernel.org>; Mon, 17 Nov 2025 08:18:13 -0800 (PST)
+	s=arc-20240116; t=1763406054; c=relaxed/simple;
+	bh=9LwQ8cgiBx+GR9gi4Ze2NRYHzMsmpVYF+u+bBwx5cCU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TFBSjh8mEy+YV7055T8gGxBuXku7D4cIBHZR1UHMpIRv2du3ZHSGxNg3AtiKIZacUVK2zmN/5jwzjKMaWMqtTydd1ZeK7i8CQKAmebCc5B8+P6MlAn+gbXJyMyv+0i77gx7odKT3GASFNfrTF47TdYEwbsnvtcSQ8KOlHNPILmI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Bb7vhjgo; arc=none smtp.client-ip=209.85.214.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-29808a9a96aso48216285ad.1
+        for <linux-input@vger.kernel.org>; Mon, 17 Nov 2025 11:00:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1763396290; x=1764001090; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=W4zHWMJeoXqa/Kpjr9Kft3G6dbfwE8RyUB0gUkfverw=;
-        b=U/Nd/MNHHVQ1LlkgKz1klIBSvByvkn7eMbhEFasR1zb7P9GjWW+NW1Aat/5nyA/8Vf
-         yfJJpD9jYBjjvrNXGCqn5WKclYCQWdSGV25CaoCeEIWoLGXlwEhrAkHQP1o5H3vcimkk
-         x59JGb3pe39n22AiUTkiyf3nnkrQnZRjo4pDw=
+        d=gmail.com; s=20230601; t=1763406052; x=1764010852; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=H0lS2cED24LXASEO8Kaw1E9xKUmdy8WEPj1E8PP+Wtk=;
+        b=Bb7vhjgo8i3MdNxVG4EuzsP0kY56sHhKC0hWXy3SNDE+0Ky7g2//Vfq9gp+Z3YGBG2
+         kEV2VMszuPQ4nQazsSKgdPOTiRGD1zm95jdORpTJBag6XwmEn5c2/HvrxvuQ0/2Y921F
+         UvQBWH0YZMZjhyeFp2YU/N52BH0iW//+scsr+miVtegB+9hZP+42GsqTErMJdr37zFTf
+         YF7gzWQjdjmNsm/SlxP/4ZKN6wnkOMpf8uEmxEjzhHoPjE0GreCvD45hd39nEQskXra/
+         bg/GnRKMnZp3vn2z/u0j8s3BNDcw8sZ4BbHamAFyvnzIlSksGSxQ/4P1O7k3ELztEwXd
+         9h3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763396290; x=1764001090;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=W4zHWMJeoXqa/Kpjr9Kft3G6dbfwE8RyUB0gUkfverw=;
-        b=fhIghebVSN7UJReGbQ8uJaZ5eWz8vOgHyMaR/jer/mcm1evaamSU9au0tfsKToYc4Q
-         3lcXEynecRPWuTBIfQTmmXHa4UDqQ9H22M6BYeW8bX007YCzV1rx6XAMA55Gxfo7aj9h
-         UtGx+FqvTrVFZGdGpkx6cGVHwMcgy4iYuscTDry+co5OKiNOvRAkld6TS1dqaPwoeAFI
-         tmecPK5Hrm+4IV82invQEL/NUV7lxNqK6EVzXKh1MfQgaeM73cReTmqkKAicIvUL7J/z
-         qdS5qu4EKo/wRWMK+m69vZ+SudL3UyJxPtDohYy7bURT49u0JGZ7lQWLGp/uiqepVjHf
-         snCg==
-X-Forwarded-Encrypted: i=1; AJvYcCUvwiFFd05b4/aj654OPSkxM+3iROIyA2wE6FqG0LrDaFb7Nir80SOQRDVBjfs65oUS450s+hSXsYTosg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyTz5we4wJS7ZYlG55BNmAIcjOGVtTD0OWeZ1RVlUOYMMOzKq3f
-	CjCZar3PD6Gs5pQRUTvMiDCF97l4MFIUvnwLlv35zykKc/rhSc5p3sb1eLrAGUqs1ErcglKtHJw
-	DvNWvOg==
-X-Gm-Gg: ASbGncub36TvrWN0LMA3cR/WgryCOMyIGkTf2IPm3hybe6pQv7sg4blkvWjz7SkfobQ
-	fXWeo7gMAlgR5vK3St36rY6gbTWD0vONkq3LGPee4fkk+Bg2S6JyvXjsABP9sKj9J9wEij6SMm9
-	b2x/4u1/1QlptxeTDriv0Sy7McqH61GTuHakFQWsWPi18ix4mVLMaokVPnO28zVTlSn0mNXfiFB
-	LZBuFc/nXRXcpCgWI70jfDw+vJi8+mrkzdeQGN7XuCTu2wHCwEPVcy6xkTsbt2OwBfMk94j+COb
-	fP2TO3FURgDTBYNec2p9Cj1vlqu9wPCu1hHTvEFOe63aXu2HuWTGIAemR0IAVsFUuiFLXvu8Tes
-	B+GiizeKh+DLAAoRb2/Ydax17Cy5iKwoaQJvcngxcMDFreIpGRaqfn1Ebeues91Oa0fLmDdbTIL
-	/R0rwbb/nZ3zJtJGEnyGR+ytQu6biov0fMVvji1hnowlinGxbySA==
-X-Google-Smtp-Source: AGHT+IHuxxQM1JhIxT15OBRgjf7pl6BoF7vkMCVQuD8ca9eAYwERRjOh4kO2zvPxkQaRqWkj31UmVw==
-X-Received: by 2002:a17:906:ee89:b0:b43:b7ec:b8a1 with SMTP id a640c23a62f3a-b736780de83mr1374068366b.24.1763396290286;
-        Mon, 17 Nov 2025 08:18:10 -0800 (PST)
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com. [209.85.128.45])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b734fb12d55sm1104405966b.33.2025.11.17.08.18.07
-        for <linux-input@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 17 Nov 2025 08:18:07 -0800 (PST)
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4777771ed1aso30538345e9.2
-        for <linux-input@vger.kernel.org>; Mon, 17 Nov 2025 08:18:07 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVj6hdGjzAybhjXNbcIKcbczPXJzs0Hevrf8AYKbSxiVdOblX2gW5rV3T19kldOA2pYpTHQebK5aWDoAg==@vger.kernel.org
-X-Received: by 2002:a05:600c:c4a3:b0:46e:32dd:1b1a with SMTP id
- 5b1f17b1804b1-4778fe603ccmr118515015e9.7.1763396286684; Mon, 17 Nov 2025
- 08:18:06 -0800 (PST)
+        d=1e100.net; s=20230601; t=1763406052; x=1764010852;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=H0lS2cED24LXASEO8Kaw1E9xKUmdy8WEPj1E8PP+Wtk=;
+        b=nDpZ3fJswqJ2zd2DuffYacI6GSKgWPhHMKS9F3LkEHDn1hnS0Uz7INlmYJVB115RZU
+         AAj1V6zkuXHalS8lpZDksXSaitRZhaHVYRGoBRuxm4n75fTCTnJvBVhgREb3m6TRKIlO
+         BC1w3juyWrc4GVBO4DbLlTTfGsBrQdRbHn1+4PILnA1OFytW1gxau6ZmEvlaoHcGl6qZ
+         LaHK6ucEq5ulZd+VDPT7uUPLCMiHlC9xJ70qIu12BSeqT6ZVdGGgYGbiI7hUufOGE2JC
+         t2bGbgrvBkmpkJZ/xA0W/Ye8fon6nPec1KoUoBmo9d/ttMy1armsljpNTADzDIty8xLt
+         MrUg==
+X-Forwarded-Encrypted: i=1; AJvYcCUCGybC9uM/LXUgn1hmWetCs1foHGcJieYJV5/BStzhNMkFFetK5W9e2LEhloKDjp5ByUt8sjGJ3Z4/nA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxRawhk9QEzZOB3IY4G75pRICJj/1dOeOdHLabIMw1KFcczzvIQ
+	zxq288GM+F8cq8VaNoqxPz8XPLreninDvTiBTrRdaeygHvk+BBbnYFFM
+X-Gm-Gg: ASbGncsXJseZMkipgOlvYV3WzFiuFpZ5FlwdTsv404EyaTcE5dhcfPlqKVVeMqyWCLy
+	9wKou1yEWQ21Oo18HoUBn0r29hvVUQVVtGMI8lGIv4RqrI1skh1/VGfqTeHsp+fGbLxOWY47LCj
+	wTwnOlEJz6wYw5mMmom9/oxndX+QLGIxNKtVE2y68J0RlvimwpqsiC7aqp6MdHVG9PYgt2vI5BY
+	vVLv2bPg1egHKQFmR62efpdR6GmL6CiivxYNrTlgEQnKl5ja93HsDYgA+xLRqiqdpGuZ/ZpzmbU
+	riVGrqadHuStfHiB021M4t5L4e2G781Vbx4d99lQaKHbZ4nq6em+ff7AC0Bh7MuoVUAROXCqgsC
+	SzyIkehx7jAfQQRFw2x/CnVGQ9hEPIsHj81fjVv1IheC/khnDgL64H0nYayF2kJfjYb5Vwn/Ix2
+	g49Rg410j9k2Wjf1Io5VHFVgrpIMsnqJfWJGbQNxluyJ2K
+X-Google-Smtp-Source: AGHT+IGDVNZOalPoeGLRx0StV1WyF6OuSXplI/tFFH2YjaxRb6M+ZouwxCgXlyJ+r8uHMpC01NlQdg==
+X-Received: by 2002:a17:903:198d:b0:298:2af7:8d26 with SMTP id d9443c01a7336-2986a76a26dmr169206325ad.54.1763406050080;
+        Mon, 17 Nov 2025 11:00:50 -0800 (PST)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2985c2376f6sm146281525ad.21.2025.11.17.11.00.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 17 Nov 2025 11:00:49 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Mon, 17 Nov 2025 11:00:48 -0800
+From: Guenter Roeck <linux@roeck-us.net>
+To: James Calligeros <jcalligeros99@gmail.com>
+Cc: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Neal Gompa <neal@gompa.dev>, Lee Jones <lee@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Jean Delvare <jdelvare@suse.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>, asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-rtc@vger.kernel.org,
+	linux-hwmon@vger.kernel.org, linux-input@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v5 06/11] hwmon: Add Apple Silicon SMC hwmon driver
+Message-ID: <7a445358-ce9e-4180-99dd-1a771c8ffa98@roeck-us.net>
+References: <20251112-macsmc-subdevs-v5-0-728e4b91fe81@gmail.com>
+ <20251112-macsmc-subdevs-v5-6-728e4b91fe81@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251117094041.300083-1-Daniel_Peng@pegatron.corp-partner.google.com>
- <20251117094041.300083-2-Daniel_Peng@pegatron.corp-partner.google.com>
-In-Reply-To: <20251117094041.300083-2-Daniel_Peng@pegatron.corp-partner.google.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Mon, 17 Nov 2025 08:17:55 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=W4KUC-KAHhKeRQ18k=sqVGWRTajvrJpfqsNc5u8ev5GQ@mail.gmail.com>
-X-Gm-Features: AWmQ_bnm8LPJB5tljs6dC66JnWVeI8YA8FJ-Lmeo-JQe9C-b8vydL1l7HXDcJNc
-Message-ID: <CAD=FV=W4KUC-KAHhKeRQ18k=sqVGWRTajvrJpfqsNc5u8ev5GQ@mail.gmail.com>
-Subject: Re: [PATCH v6 2/2] HID: i2c-hid: Add FocalTech FT8112
-To: daniel_peng@pegatron.corp-partner.google.com
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-input@vger.kernel.org, 
-	LKML <linux-kernel@vger.kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, 
-	Jiri Kosina <jikos@kernel.org>, Pin-yen Lin <treapking@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251112-macsmc-subdevs-v5-6-728e4b91fe81@gmail.com>
 
-Hi,
+On Wed, Nov 12, 2025 at 09:16:52PM +1000, James Calligeros wrote:
+> The System Management Controller on Apple Silicon devices is responsible
+> for integrating and exposing the data reported by the vast array of
+> hardware monitoring sensors present on these devices. It is also
+> responsible for fan control, and allows users to manually set fan
+> speeds if they so desire. Add a hwmon driver to expose current,
+> power, temperature, and voltage monitoring sensors, as well as
+> fan speed monitoring and control via the SMC on Apple Silicon devices.
+> 
+> The SMC firmware has no consistency between devices, even when they
+> share an SoC. The FourCC keys used to access sensors are almost
+> random. An M1 Mac mini will have different FourCCs for its CPU core
+> temperature sensors to an M1 MacBook Pro, for example. For this
+> reason, the valid sensors for a given device are specified in a
+> child of the SMC Devicetree node. The driver uses this information
+> to determine which sensors to make available at runtime.
+> 
+> Reviewed-by: Neal Gompa <neal@gompa.dev>
+> Acked-by: Guenter Roeck <linux@roeck-us.net>
+> Co-developed-by: Janne Grunau <j@jannau.net>
+> Signed-off-by: Janne Grunau <j@jannau.net>
+> Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
 
-On Mon, Nov 17, 2025 at 1:40=E2=80=AFAM
-<daniel_peng@pegatron.corp-partner.google.com> wrote:
->
-> From: Daniel Peng <Daniel_Peng@pegatron.corp-partner.google.com>
->
-> Information for touchscreen model HKO/RB116AS01-2 as below:
-> - HID :FTSC1000
-> - slave address:0X38
-> - Interface:HID over I2C
-> - Touch control lC:FT8112
-> - I2C ID: PNP0C50
->
-> Signed-off-by: Daniel Peng <Daniel_Peng@pegatron.corp-partner.google.com>
-> ---
->
-> Changes in v6:
-> - No changed with the v5 due to relation chain.
->
->  drivers/hid/i2c-hid/i2c-hid-of-elan.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
+Applied to hwmon-next.
 
-There are no differences between this patch and previous versions that
-I gave my Reviewed-by on. You should be carrying my Reviewed-by: tag
-so I don't need to keep replying. In any case:
+Note that I can not apply the devicetree patch (2/11), presumably since it depends
+on the first patch of the series.
 
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
-
--Doug
+Guenter
 
