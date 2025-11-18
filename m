@@ -1,91 +1,86 @@
-Return-Path: <linux-input+bounces-16170-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16171-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8446C680D7
-	for <lists+linux-input@lfdr.de>; Tue, 18 Nov 2025 08:47:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF81CC68125
+	for <lists+linux-input@lfdr.de>; Tue, 18 Nov 2025 08:52:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 4BB7235D759
-	for <lists+linux-input@lfdr.de>; Tue, 18 Nov 2025 07:40:17 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 99F41358C91
+	for <lists+linux-input@lfdr.de>; Tue, 18 Nov 2025 07:43:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A521930597C;
-	Tue, 18 Nov 2025 07:38:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD5DE301485;
+	Tue, 18 Nov 2025 07:43:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Od+ejNtr"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JdpKiCjO"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 252EA301483
-	for <linux-input@vger.kernel.org>; Tue, 18 Nov 2025 07:38:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B962286D7B
+	for <linux-input@vger.kernel.org>; Tue, 18 Nov 2025 07:43:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763451491; cv=none; b=lZQEp3fURZK2lypm0bXzjjfI5iNJu3IP+8VPvLTfJoTx9CReRPB5cO5eqTNcPPmbfSyxBz4+SZcgTn36v1aEskn+dpRUQYHYZGRP5zHu8MUkv9rk+UJ4m0jVr5v12XsznfgwR7oli5w4gAFLbCRGTvAo2MRu9R5kLacOdgU/QKE=
+	t=1763451787; cv=none; b=k7HG41VUUtWc2LqXYGbNNRKxaUIqCVkqmN1ecoaVV42r8KARZF/0rIfWHboVgwl9oh5mUQuek8ykOHf5PSfs9fJDYiOQaNcJmhtNTJNLtys85iF2nAC8I/9P0tGwhIWoEIZA8aEIoLG468mvcpYp1vL8fAUSlHWfmgNcTkddVDI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763451491; c=relaxed/simple;
-	bh=TH7NeO7vVQ/VUG2+FEeNWkKgZ2KsQAIwDaSHjhp/tv4=;
+	s=arc-20240116; t=1763451787; c=relaxed/simple;
+	bh=lrFX+d08EUG5B3Aup3jFMbRYuzH7xfJVbFNNpqxBMxs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=d22uIs/a9KXG3TvlHZ37jXZrLvB62dFKdPPRLwJsBWAHwG+gpd1NiShM8ib37QOAl5Xt3eAsqpFeZhUSP+yvFtUJVDW5FGMDNbC+WA6v+VIe47OMHqYTm+Y/pgGzgpqN/LqZ3klHFtnmqZIbbAHjGEyzsIyD0IjRwQRELfHSXnk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Od+ejNtr; arc=none smtp.client-ip=209.85.215.179
+	 Content-Type:Content-Disposition:In-Reply-To; b=IPpm6xeKCCsOU0dOvuhbdPCFtCUXfgvBbYjqzYZGIbtuiy6IE6yEvfY56SaCXhGh/eiN0MN09p1zxJ2tc8X5C5aQPbnZXxIhO2Qxe6j3BR7xYrfLk+tGCfMon7mPriMVDaVAmsMsh7FnpAZ4nflO+2zUoUBBsMCqITwUKrIgNDo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JdpKiCjO; arc=none smtp.client-ip=209.85.210.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-bd1b0e2c1eeso1291519a12.0
-        for <linux-input@vger.kernel.org>; Mon, 17 Nov 2025 23:38:09 -0800 (PST)
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-7ba55660769so3428162b3a.1
+        for <linux-input@vger.kernel.org>; Mon, 17 Nov 2025 23:43:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763451489; x=1764056289; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1763451786; x=1764056586; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=oP6aqnAmldvD/TQWtFvRxy+Wad2q25rZrlIi47Pmepk=;
-        b=Od+ejNtr3eoNuA6emZKmQSynTYrp8pstmcCLUkrqP6sXvzfLkuUdONqXvWmBQDwHWk
-         EVsHDi812z8KKdu5+AJ822ysa8P0xkKPnPoSjLU8sECeUNyyrvz0mNjz4cN4oWwRwbQZ
-         BlPWmMtQYdGN1CGwpjq19iyZWRa1TC20OuZ6TrhLmMRfvny9fqOcrlwT09VCExBxjaEp
-         Up5Vd1Kq0T43w/g8EQ6U1w9aPDGqULWXHcPa7ECqCKEqkzL8BSGC5Bh6aZ5XVIm3VrSQ
-         KBNQZVNtXr/Ncb8ECy6iz6xssRbfUXYUvSaMcsIYqpMDLVBuO0EDg0UgtSBgK7Xs1SmO
-         R9dg==
+        bh=F/GE5NqjzKsgW3JFC6LcYEU3qsh5SqbdiOp7/No9t4c=;
+        b=JdpKiCjOMn0XO1tQ+5lzBk6NVhQToJs3fZgaMgIv1EjbSg+uDjt07G6mjDWurtaKzz
+         4Y6oi7m+hR+MGLxEWwyBKQRNBzJJbUCK2ToMvmBxECVc3icx6eX+lujn+zEEpQ+WZcG7
+         pc2jAeg/4zq+i1yAt0PGt87jxAnBu5IK/A2LS0FZncolsPhkAQbHWU4rLypYa2zq+Xq7
+         wjeHou0Z1UYzrVhddEboos8AnQodqDpxqCEGO4jVCCD1NsXtOBjoVpQrOIZMgqb1w71A
+         f2ISubYHJnmN1vT78Gx1JBJMcc5M1COqWhamUNOK4PL01ivb0b4L9aM3XeRqpQxgMeIy
+         WoIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763451489; x=1764056289;
+        d=1e100.net; s=20230601; t=1763451786; x=1764056586;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=oP6aqnAmldvD/TQWtFvRxy+Wad2q25rZrlIi47Pmepk=;
-        b=i0eYk2ondQa1ExZVT/FH0Hy48r8lh/cqgJYLA0r26vMI5KAoGsSHKgEQiqDUa76UYU
-         d+PeDuO9TCfLPMF93ftZ3slW4ibjQh1woY0FEQhBHEjzxzGrygJjMGs5seEJ5zU22CPT
-         y2LeT9fLbgXtprg4ThDGut+lQHu1aIK4EHiV/YoC4SHitAbTsomymEe0wPQV1xBDPEYq
-         MOaxCKGFfCe/6DjV61q2Fg7VyimpjOUKcg9V9Sremf7IwMiM5ebuR8kf23ZRzbjqvSwL
-         OvSGbaS4VdzPL3TyT2NUJyl7VFGrWsDfEcv2pP1qqLbHKcPwbUIdWnt8GyDcvTaIs2Eh
-         8J/g==
-X-Forwarded-Encrypted: i=1; AJvYcCWOdhH9YzJzwuWvxWtNu2Q/0U6LKDXScFDtlDuosYiY3/VIzK8DdYB1OmibV8/Aoq656XfVd2MG742qMQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz9T6vKxPrcTF1nkp9dlD/c75Ndk4spPREJtblk0MQ0lXFAnbIE
-	uHX3zdqR3SxAU0XCanB/LL8X29BGrVvLN8/5azvKzpAEk5WoawZsKj7v
-X-Gm-Gg: ASbGncui2n535TcXDugsS2Pl+91QOAIQuOVjR+x9BsrUC6f82z/y8AfFpdASP5BeMt0
-	+Lrm3QojhMIgexhZcUiPBsWoc6fqhRxHk75t69cFuNmUvWzRKJljhX8Xp7s0Shxa5Bd4f9jZFeV
-	leGlLb9jCRy5xGYN7h+Rg+/7SzYANVTCWWy2SFu2jiT5vR0wlnAvWiJh9PCsOvjShs+JyJODkCQ
-	j5YihcTBgsddZXfy6Mf2WP7mP6OFj2ttlj4Wl9m9EpQGdJLfOOHbY2D/MS5P69P9ZKAbAVR3U/u
-	9lL6f0evUktj+2qBLsXUpmJ6Zer/cGxzaZUA8HUuUxWT9iA7SanRN+MS/zcnXvbb7eJ/uTzpCLa
-	IX4dS4sOTI18XEFHSrvug4XpmFXIxEvLbONsNO0JNtzTVPNLQ6+ctLim9kBtL4PjUfhfmseIqpX
-	rAkLQT3O4orV4A3bjwmc9cLemBVuZ1wEo5WldrPWEritbyaA3s1kfn
-X-Google-Smtp-Source: AGHT+IHtH29nUNBPA/lBB5oFVu9GhAwTUs/IjNh//vDlVAFByzmjZi0X/4i0dn30KDz6KOOS0/ffmw==
-X-Received: by 2002:a05:7022:662a:b0:11a:e425:deaf with SMTP id a92af1059eb24-11b41406578mr6273847c88.26.1763451489063;
-        Mon, 17 Nov 2025 23:38:09 -0800 (PST)
+        bh=F/GE5NqjzKsgW3JFC6LcYEU3qsh5SqbdiOp7/No9t4c=;
+        b=jhDdgwv0ECSPweaykhwZky1XoxDObzLZxdDJgeYgoMp9s2TEePABrVN2lB7H97q0aE
+         BOt0DLyKj6aYmrAi1qQmtPicqBXUs/Ge1SeIuGFoIbW8S6eFxW95e7lS18It1XdaUJ0X
+         BlJVJXhoPsWROtlTcqSIhZqde3Y85kc9jA/FOKY4T9GSMKn4fhNY5sJojxmKMbLQorzG
+         YLJWQwn5pdBgIVukF0hXTkZH4qcXdFGD9WmJrRCP/7j/XlKvFsy0yO5iTN6iHxjiiojR
+         37rguqibANphnu31roUHAjdmg3Yi2BnE97SshOsAUxUHlN30Y+mz/pKwuqpWNvjT8093
+         q+CA==
+X-Forwarded-Encrypted: i=1; AJvYcCWshAz6VSjaEklXNStAkI8Vpg1MVTQWoK8Y2JYtyKYlDaKc+GYKap4WxOG60miZpuINcdh02VTVexLnlA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywx51ptCNge8GL4BmW8XRoEijvL30gbhfMBCuS90uSAc4nSulZO
+	cXUI6VhvOKzfml7nHaD77btoDy0PzTMPSL60RcWe2+0T3s3sXFOlq7SW
+X-Gm-Gg: ASbGncsXAXIpRCS28CJEWJx9hmQwSJ/tIy2nkVPSSmjhJoWVn1m3lHPg1VQ8wC34S6m
+	9vPw8HgV2/CEPlF0fmr972oX0BvTJIGSy7EjyOugFDAq6r4sOYDkrRHsIMpqstnfm36ItEFjv/p
+	zu2IF+sHGu3z4ppOWa0DgbexGSL9e3ADkjwTNomHUoPYf47rhASoNN/kGan+EYRDF5U5a68qqES
+	Ukd+/2LthfgMXDDplovUILgtXn8j83CIFfzVXqPMk5T3zP6MxU0ko4noZhPi4RgINz/iJUrogKX
+	Q8jiivNdWQJ4dYqQ0i89QSX6lR9aRWSx0/Y+1JGWlXbhaee9KS9uf2ZvvofJmyjqyYETb+hxIyZ
+	WFloWQLBs+W+RJRBLeNVsJXRabnkeb20NegxBP9yNGmrDrNFUgp0h/NjbE/dx6PEqk6XfCo8fXW
+	rVrf0/hzl6vH9f6/KqcyYVON9OUm0oBQM94nLIlRB0R2ix5ZFSkySx
+X-Google-Smtp-Source: AGHT+IHen7a0TGPK2z1j/M3oyhAbEkpHcenUK4MUve+LcCsBvI0qKQ7IUdWvUPGNhjgU/blUEQJhkw==
+X-Received: by 2002:a05:7022:6199:b0:11a:51a8:eca with SMTP id a92af1059eb24-11b40fb021amr7977812c88.18.1763451785537;
+        Mon, 17 Nov 2025 23:43:05 -0800 (PST)
 Received: from google.com ([2a00:79e0:2ebe:8:a011:6b85:c55d:d1f5])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2a49db7a753sm54607139eec.6.2025.11.17.23.38.08
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-11bf23d6967sm22399928c88.3.2025.11.17.23.43.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Nov 2025 23:38:08 -0800 (PST)
-Date: Mon, 17 Nov 2025 23:38:06 -0800
+        Mon, 17 Nov 2025 23:43:05 -0800 (PST)
+Date: Mon, 17 Nov 2025 23:43:02 -0800
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Peter Hutterer <peter.hutterer@who-t.net>
-Cc: Jonathan Denose <jdenose@google.com>, Jiri Kosina <jikos@kernel.org>, 
-	Benjamin Tissoires <bentiss@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Henrik Rydberg <rydberg@bitmath.org>, linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, Angela Czubak <aczubak@google.com>, 
-	Sean O'Brien <seobrien@google.com>, Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH v3] Input: rename INPUT_PROP_HAPTIC_TOUCHPAD to
- INPUT_PROP_PRESSUREPAD
-Message-ID: <2khyn7qnwphg6hinptwsfs3xnn64nsitebja3sqnolceopwylg@mqrq3duv3nel>
-References: <20251030011735.GA969565@quokka>
- <20251106114534.GA405512@tassie>
+To: 2724853925@qq.com
+Cc: Henrik Rydberg <rydberg@bitmath.org>, linux-input@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org
+Subject: Re: [PATCH] input: touchscreen: Add ilitek touchscreen driver support
+Message-ID: <ubrqzvmzwltmdg2wogy4ag7yjzhfvg3f5cygfbcznrt6a5zpw4@cmuhdjcwzezn>
+References: <tencent_995E6FC62EDBC1EED14E6052847F270F6406@qq.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -94,43 +89,104 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251106114534.GA405512@tassie>
+In-Reply-To: <tencent_995E6FC62EDBC1EED14E6052847F270F6406@qq.com>
 
-On Thu, Nov 06, 2025 at 09:45:34PM +1000, Peter Hutterer wrote:
-> And expand it to encompass all pressure pads.
-> 
-> Definition: "pressure pad" as used here as includes all touchpads that
-> use physical pressure to convert to click, without physical hinges. Also
-> called haptic touchpads in general parlance, Synaptics calls them
-> ForcePads.
-> 
-> Most (all?) pressure pads are currently advertised as
-> INPUT_PROP_BUTTONPAD. The suggestion to identify them as pressure pads
-> by defining the resolution on ABS_MT_PRESSURE has been in the docs since
-> commit 20ccc8dd38a3 ("Documentation: input: define
-> ABS_PRESSURE/ABS_MT_PRESSURE resolution as grams") but few devices
-> provide this information.
-> 
-> In userspace it's thus impossible to determine whether a device is a
-> true pressure pad (pressure equals pressure) or a normal clickpad with
-> (pressure equals finger size).
-> 
-> Commit 7075ae4ac9db ("Input: add INPUT_PROP_HAPTIC_TOUCHPAD") introduces
-> INPUT_PROP_HAPTIC_TOUCHPAD but restricted it to those touchpads that
-> have support for userspace-controlled effects. Let's expand and rename
-> that definition to include all pressure pad touchpads since those that
-> do support FF effects can be identified by the presence of the
-> FF_HAPTIC bit.
-> 
-> This means:
-> - clickpad: INPUT_PROP_BUTTONPAD
-> - pressurepad: INPUT_PROP_BUTTONPAD + INPUT_PROP_PRESSUREPAD
-> - pressurepad with configurable haptics:
->   INPUT_PROP_BUTTONPAD + INPUT_PROP_PRESSUREPAD + FF_HAPTIC
-> 
-> Signed-off-by: Peter Hutterer <peter.hutterer@who-t.net>
+Hi,
 
-Applied, thank you.
+On Sun, Nov 16, 2025 at 09:49:24PM +0800, 2724853925@qq.com wrote:
+> +/* i2c clock rate for rk3288 */
+> +#if ILITEK_PLAT == ILITEK_PLAT_ROCKCHIP && \
+> +	KERNEL_VERSION(4, 0, 0) > LINUX_VERSION_CODE
+> +#define SCL_RATE(rate)	.scl_rate = (rate),
+> +#else
+> +#define SCL_RATE(rate)
+> +#endif
+> +
+> +/* netlink */
+> +#if KERNEL_VERSION(3, 6, 0) <= LINUX_VERSION_CODE
+> +#define NETLINK_KERNEL_CFG_DECLARE(cfg, func)	\
+> +	struct netlink_kernel_cfg cfg = {	\
+> +		.groups = 0,			\
+> +		.input = func,			\
+> +	}
+> +#if KERNEL_VERSION(3, 7, 0) <= LINUX_VERSION_CODE
+> +#define NETLINK_KERNEL_CREATE(unit, cfg_ptr, func)	\
+> +	netlink_kernel_create(&init_net, (unit), (cfg_ptr))
+> +#else
+> +#define NETLINK_KERNEL_CREATE(unit, cfg_ptr, func)	\
+> +	netlink_kernel_create(&init_net, (unit), THIS_MODULE, (cfg_ptr))
+> +#endif
+> +#else
+> +#define NETLINK_KERNEL_CFG_DECLARE(cfg, func)
+> +#define NETLINK_KERNEL_CREATE(unit, cfg_ptr, func)	\
+> +	netlink_kernel_create(&init_net, (unit), 0, (func), NULL, THIS_MODULE)
+> +#endif
+> +
+> +/* input_dev */
+> +#if KERNEL_VERSION(3, 7, 0) <= LINUX_VERSION_CODE
+> +#define INPUT_MT_INIT_SLOTS(dev, num)	\
+> +		input_mt_init_slots((dev), (num), INPUT_MT_DIRECT)
+> +#else
+> +#define INPUT_MT_INIT_SLOTS(dev, num)	input_mt_init_slots((dev), (num))
+> +#endif
+> +
+> +/* file_operations ioctl */
+> +#if KERNEL_VERSION(2, 6, 36) <= LINUX_VERSION_CODE
+> +#define FOPS_IOCTL	unlocked_ioctl
+> +#define FOPS_IOCTL_FUNC(func, cmd, arg) \
+> +		long func(struct file *fp, cmd, arg)
+> +#else
+> +#define FOPS_IOCTL	ioctl
+> +#define FOPS_IOCTL_FUNC(func, cmd, arg) \
+> +		s32 func(struct inode *np, struct file *fp,	cmd, arg)
+> +
+> +#endif
+> +
+> +#if KERNEL_VERSION(6, 3, 0) > LINUX_VERSION_CODE
+> +#define I2C_PROBE_FUNC(func, client_arg)	\
+> +	int func(client_arg, const struct i2c_device_id *id)
+> +#else
+> +#define I2C_PROBE_FUNC(func, client_arg)	int func(client_arg)
+> +#endif
+> +
+> +#if KERNEL_VERSION(6, 1, 0) > LINUX_VERSION_CODE
+> +#define REMOVE_FUNC(func, client_arg)	int func(client_arg)
+> +#define REMOVE_RETURN(val)		({ __typeof__(val) _val = (val); return _val; })
+> +#else
+> +#define REMOVE_FUNC(func, client_arg)	void func(client_arg)
+> +#define REMOVE_RETURN(val)		(val)
+> +#endif
+> +
+> +#if KERNEL_VERSION(6, 4, 0) > LINUX_VERSION_CODE
+> +#define CLASS_CREATE(name)	class_create(THIS_MODULE, (name))
+> +#else
+> +#define CLASS_CREATE(name)	class_create((name))
+> +#endif
+> +
+> +/* procfs */
+> +#if KERNEL_VERSION(5, 6, 0) > LINUX_VERSION_CODE
+> +#define PROC_FOPS_T	file_operations
+> +#define PROC_READ	read
+> +#define PROC_WRITE	write
+> +#define PROC_IOCTL		FOPS_IOCTL
+> +#define PROC_COMPAT_IOCTL	compat_ioctl
+> +#define PROC_OPEN	open
+> +#define PROC_RELEASE	release
+> +#else
+> +#define PROC_FOPS_T	proc_ops
+> +#define PROC_READ	proc_read
+> +#define PROC_WRITE	proc_write
+> +#define PROC_IOCTL		proc_ioctl
+> +#define PROC_COMPAT_IOCTL	proc_compat_ioctl
+> +#define PROC_OPEN	proc_open
+> +#define PROC_RELEASE	proc_release
+> +#endif
+
+Please prepare the driver properly for the upstream submission. This
+means removing compatibility code for older kernel version, adopting to
+the new/latest APIs, etc.
+
+Thanks.
 
 -- 
 Dmitry
