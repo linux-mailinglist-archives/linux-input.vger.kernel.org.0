@@ -1,56 +1,57 @@
-Return-Path: <linux-input+bounces-16178-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16179-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6769AC6AD03
-	for <lists+linux-input@lfdr.de>; Tue, 18 Nov 2025 18:06:55 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 94E9CC6AD5D
+	for <lists+linux-input@lfdr.de>; Tue, 18 Nov 2025 18:10:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 10EF34F7D0B
-	for <lists+linux-input@lfdr.de>; Tue, 18 Nov 2025 16:58:11 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id C189D3650AF
+	for <lists+linux-input@lfdr.de>; Tue, 18 Nov 2025 17:03:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F22E735E555;
-	Tue, 18 Nov 2025 16:58:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 092B3393DC8;
+	Tue, 18 Nov 2025 17:03:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BI/XAXK+"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WPWlcgQt"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8952320CA7;
-	Tue, 18 Nov 2025 16:58:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4814377EB7;
+	Tue, 18 Nov 2025 17:03:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763485088; cv=none; b=LnMIDtIusJ//Ry9t2HM/mHp/60P2GjXw8HkauE0lyUDcnk0QYtIOSuXkMz55PxRWDdAfpiqkyaAJdV34rB8iqstMzZ6DsONJZgpHQGdj/zZzVF/rYOSD/k5uV3l/rinhZNcXghf1RYcA2MM83FuUTjWOvZx+feYOHaJTSrlsZXM=
+	t=1763485389; cv=none; b=X0eGzNHxnrt4+bEgHrHwVOUzi8i9iFQzw5pojMTYUwauQFMxWW63pEW/BHb47jVj3k9QD8+8+eQ5kj8+BxYIcQy4WCrEh9DE4ENXF1pRw22WAH9v0s9Q5uO7TB21tX0Wa0kXqTVtP/pHarfGZEg2QPiGtXDqGOajW5fnYFoffPg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763485088; c=relaxed/simple;
-	bh=w9rzopfLSYZr1vXSXbMKP6Uqe6NeeW5fMoZozFFxj+4=;
+	s=arc-20240116; t=1763485389; c=relaxed/simple;
+	bh=kzigPgK7gN3EMMbZob1ww9/r0jexC8gkrTib3f9oqmU=;
 	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=qVEEB0oybnNQC0rNu8nn6NO8daHP0H1pPAhDlIBav9OqHeaOU93frY7yniOVFY3vDHEoLi8HsQUxEI+0Db7EOyNOZKrmSV8+vlELPdbuGWb9Rf8lts/nAlSThzMRPVl0Nz/pIgSYvKxz/8Uml643KnNvkuzbc9e+iH5paOwyNSE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BI/XAXK+; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 87BCBC19423;
-	Tue, 18 Nov 2025 16:58:05 +0000 (UTC)
+	 MIME-Version:Content-Type; b=Uq+ejvErI10/VEg/Ja9zUmAOJjsqGTjLaRf+uay7nDmqRWIfvGs0T319HkMflEJpRhTrguvhde7e5QTViXWVY5vwRSnyD5Pun67yBzQTHKBjHofDkX/gGv4PQ9m44VSWcFvalsfnHiquRfPOmpAunlwKpjF8i63vMFyrQKd6iI8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WPWlcgQt; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B2ECC4AF0C;
+	Tue, 18 Nov 2025 17:03:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763485086;
-	bh=w9rzopfLSYZr1vXSXbMKP6Uqe6NeeW5fMoZozFFxj+4=;
+	s=k20201202; t=1763485388;
+	bh=kzigPgK7gN3EMMbZob1ww9/r0jexC8gkrTib3f9oqmU=;
 	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=BI/XAXK+zd5AFwVfqNeQgg/QfK0HnwCu3omhXKi9c47Fg3mlQj2DcJpal/HQXt1Yx
-	 uu9TnhjNhIYqaOLMBj7T5avN4xumFFU8uXKotQFKzKYpyamVsY/zjYEEd27bO3x5+F
-	 Gq9UdIBSffDT5Q2kS8UdSJaL7Pr/hxtulr6xJVjune4/IGhv8UDmKCiC99F4uyI5kt
-	 u/eqF7EauYUbJjMglQUYqGRpB/YGUc7y+7PM3yi8WvNtzJ/qdLiP+vRbp5AyPHKpoC
-	 +gFFv/IWl5aIPkb1PW3rMXvAwU29VG/waRLNAZNtICSTNm3UmZTjNz4v9X9y89RLud
-	 /2KjioGPdmcnw==
-Date: Tue, 18 Nov 2025 17:58:02 +0100 (CET)
+	b=WPWlcgQtVVF4BtsDJn9UNAnqM2fyzVDoBBdAxRCXaJNOHFkLdozr9O4fEJQBsAu6e
+	 R4m3yhSvPnTcjf/xnz4j/YshFz3+dkrhULc/rpsLZYmDEYDG2E7egwW5GEbxT/IGVp
+	 GTvTERMwUEERLnWRktzRgVEkgkHJqd1QO9Dt2mSDqEgL8qBh1z48tC2wtUNXuz3x03
+	 bmyUTS3dzkvrpzi3s69KzeWEVAtMY/WRFovzWUy/nKPkFxr15vuFfqv3npyoMMU++J
+	 Rqx7hQL9hu4fWU4/qSy0iU9fm8fkRlxHZU+Jx+IAOUYedvsf+uA3WLDj6ejCYY0ndK
+	 KxDfEj5UWuMkw==
+Date: Tue, 18 Nov 2025 18:03:04 +0100 (CET)
 From: Jiri Kosina <jikos@kernel.org>
-To: Stuart Hayhurst <stuart.a.hayhurst@gmail.com>
-cc: Benjamin Tissoires <bentiss@kernel.org>, linux-input@vger.kernel.org, 
-    linux-kernel@vger.kernel.org, kernel test robot <lkp@intel.com>, 
-    Julia Lawall <julia.lawall@inria.fr>
-Subject: Re: [PATCH] HID: corsair-void: Use %pe for printing PTR_ERR
-In-Reply-To: <20251103142120.29446-2-stuart.a.hayhurst@gmail.com>
-Message-ID: <9pp0526r-0p20-36p4-12pq-s7o9q77368o1@xreary.bet>
-References: <20251103142120.29446-2-stuart.a.hayhurst@gmail.com>
+To: Atharv Dubey <atharvd440@gmail.com>
+cc: bentiss@kernel.org, linux-input@vger.kernel.org, 
+    linux-kernel@vger.kernel.org, 
+    syzbot+1018672fe70298606e5f@syzkaller.appspotmail.com
+Subject: Re: [PATCH] HID: mcp2221: fix slab out-of-bounds in
+ mcp2221_raw_event
+In-Reply-To: <20251103182543.42451-2-atharvd440@gmail.com>
+Message-ID: <s9n4rooq-o7o8-o470-9028-q841574n0q9s@xreary.bet>
+References: <20251103182543.42451-2-atharvd440@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -59,16 +60,38 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 
-On Mon, 3 Nov 2025, Stuart Hayhurst wrote:
+On Mon, 3 Nov 2025, Atharv Dubey wrote:
 
-> Use %pe to print a PTR_ERR to silence a cocci warning
+> Fixes an out-of-bounds read triggered by malformed HID input reports.
 > 
-> Reported-by: kernel test robot <lkp@intel.com>
-> Reported-by: Julia Lawall <julia.lawall@inria.fr>
-> Closes: https://lore.kernel.org/r/202510300342.WtPn2jF3-lkp@intel.com/
-> Signed-off-by: Stuart Hayhurst <stuart.a.hayhurst@gmail.com>
+> Fixes: 3a8660878839 ("HID: mcp2221: add support for MCP2221 HID adapter")
 
-Applied, thanks.
+The commit hash and the commit name don't match.
+
+3a8660878839 is a Makefile update to reflect new kernel version, and 
+commit with shortlog "HID: mcp2221: add support for MCP2221 HID adapter" 
+doesn't seem to exist ...
+
+> Reported-by: syzbot+1018672fe70298606e5f@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=1018672fe70298606e5f
+> Signed-off-by: Atharv Dubey <atharvd440@gmail.com>
+> ---
+>  drivers/hid/hid-mcp2221.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/hid/hid-mcp2221.c b/drivers/hid/hid-mcp2221.c
+> index a9fd7648515d..c97f0acbac8b 100644
+> --- a/drivers/hid/hid-mcp2221.c
+> +++ b/drivers/hid/hid-mcp2221.c
+> @@ -945,7 +945,7 @@ static int mcp2221_raw_event(struct hid_device *hdev,
+>  		switch (data[1]) {
+>  		case MCP2221_SUCCESS:
+>  			if ((data[mcp->gp_idx] == MCP2221_ALT_F_NOT_GPIOV) ||
+> -				(mcp->gp_idx > 0 &&data[mcp->gp_idx - 1] == MCP2221_ALT_F_NOT_GPIOV)) {
+
+... nor does this code.
+
+What tree is this patch against?
 
 -- 
 Jiri Kosina
