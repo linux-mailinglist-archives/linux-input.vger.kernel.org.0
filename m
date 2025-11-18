@@ -1,50 +1,49 @@
-Return-Path: <linux-input+bounces-16188-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16189-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61A05C6AF54
-	for <lists+linux-input@lfdr.de>; Tue, 18 Nov 2025 18:28:54 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 74B61C6AF6F
+	for <lists+linux-input@lfdr.de>; Tue, 18 Nov 2025 18:30:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 469E34F946B
-	for <lists+linux-input@lfdr.de>; Tue, 18 Nov 2025 17:21:01 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id D98C7347764
+	for <lists+linux-input@lfdr.de>; Tue, 18 Nov 2025 17:21:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 75F8B369215;
-	Tue, 18 Nov 2025 17:16:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA5633730E4;
+	Tue, 18 Nov 2025 17:16:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ICXyGa/o"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AA795E2m"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BFE2369210;
-	Tue, 18 Nov 2025 17:16:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34177366DD5;
+	Tue, 18 Nov 2025 17:16:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763486210; cv=none; b=JWWJ+kgllEg6tUkEc1maFA8cNq2SYXybXh1pfS4srT2vZvxFQHMi74gnKkurBkjMp6ZeExUvo9A80ygRmCxH0jUShhyeUFDPr5lGxh47M7EmtKrQECH3vbA9SG3BMTqhPmWGI+cxjB8yxjekFDDt1xKVx5nmYaXFz7PxlmzzK9I=
+	t=1763486213; cv=none; b=pDif1OknvYGVGaD5ozL4PR+g2epg/PQ5yKvbQjf9mcsKKTvvw0GvB+PcoCL2whqRzIRoBE/RKkt6js/LbAmiIG8B/J4dMo+Q+zdmFumcud2zOSUY3EWA8yWMYq2yQ+rRyW9aOB9xl3UjLXNq6KAa32C9JM8UwhWENii9Vi53Biw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763486210; c=relaxed/simple;
-	bh=lo1Qd7kH11xyLAQbymgjV8k5Aew4Vg0gLPSH35Zi2ss=;
+	s=arc-20240116; t=1763486213; c=relaxed/simple;
+	bh=URa2e2yAUNaYsYhv8sibtLI7zatZhUaCOzybqlxmwFo=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=NJpBkiM7xkrXI5OmpqfcWCU3h7G3xkdzXHs5CIWu9iLQLdGFWgiHqgE6BkL3iFrlH0RVADEbJ+9yrgOAWlZpLUFAhgMQgx+dbEeHT0bYbMeYkig+1ld6u+tK3FEdH6olS72mrN9apbWhBnpL1GkaO5KwMmhm05dYPAalpq2juoY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ICXyGa/o; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8BFF0C2BCB8;
-	Tue, 18 Nov 2025 17:16:47 +0000 (UTC)
+	 In-Reply-To:To:Cc; b=PG8fVQzovIniIkR6k4/kp/fAsZEtxshsWPuzOae2ka132TKmY0JOwnHmDQQn02ImwbkmcNJqOWL9399yGGCCgzewelHiVtG9D60kSWXcWVGHs123ZW8fOfzQnrNLSzMdFVjrd4UGuHFPsQoTetNlpdx1c6yWSkrkg+zXM1VMHts=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AA795E2m; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84E9FC4CEF1;
+	Tue, 18 Nov 2025 17:16:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763486210;
-	bh=lo1Qd7kH11xyLAQbymgjV8k5Aew4Vg0gLPSH35Zi2ss=;
+	s=k20201202; t=1763486212;
+	bh=URa2e2yAUNaYsYhv8sibtLI7zatZhUaCOzybqlxmwFo=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=ICXyGa/oAEUQ/FA26g0qiopmGOU0yBWN2XPn4XFhw2wXQgKZPzcBy9Yfj2V7K2X/j
-	 rNe14FUDbb/q2P26XMgI8GPKIHfEniAEJpkUimvk0ZHS4YdKnxuUa3OhKLjfJtJQRU
-	 x75CAOVu7e6top++s89MKomC7REGI/VizOh7qz2OhFYcFr9hwUBfYYmcRErB+WEevv
-	 Q2ty2TI9gjIr73pLlT2NzduduG9PDzppKjkg6jzJE3vnsVfvVMxKPT+Rc66CkAyw8e
-	 bzHh10k2Tklm9vsZkBNHp98GLB2npUbe8tjxKJjXIWxHHlyT7xx04WJSq52YPLJzb5
-	 rwXY5pwAwc7YQ==
+	b=AA795E2mX79txxkhN+LDNWnjwKJn8sJnZS3/0puEahwM4YMn8OzhfrPO7elHH/UQi
+	 lcuzc0p3o+gBlvUu+6CzdtMxujWKVcDTEuImaW/HZL6Rcs8MoCX/B3hEcDXzPZmt8V
+	 +Cl/mGcentb7zrzFEHWzVKPL+FdmwH1cDOtzJ0JyvG3CNR/l9mOTYUP744sm/ZpuUm
+	 i8z7zqjtusKvHPDS8jQltnXC4T7qPOPE38XqB4Wr++nUEP+yOBHz5ABeJArK3qPOzu
+	 Y++/zm7DtxtLV1jbbopKZntQufsXbmwKHWXZ8ZLSwAUOmbSTEljUFU1GAatR8CJkwn
+	 0t6C6way6tXNQ==
 From: Benjamin Tissoires <bentiss@kernel.org>
-Date: Tue, 18 Nov 2025 18:16:26 +0100
-Subject: [PATCH 05/10] HID: bpf: Add support for the Waltop Batteryless
- Tablet
+Date: Tue, 18 Nov 2025 18:16:27 +0100
+Subject: [PATCH 06/10] HID: bpf: Add support for the XP-Pen Deco 01 V3
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -52,54 +51,40 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20251118-wip-sync-udev-hid-bpf-v1-5-0f8105c54835@kernel.org>
+Content-Transfer-Encoding: 7bit
+Message-Id: <20251118-wip-sync-udev-hid-bpf-v1-6-0f8105c54835@kernel.org>
 References: <20251118-wip-sync-udev-hid-bpf-v1-0-0f8105c54835@kernel.org>
 In-Reply-To: <20251118-wip-sync-udev-hid-bpf-v1-0-0f8105c54835@kernel.org>
 To: Jiri Kosina <jikos@kernel.org>
 Cc: linux-kernel@vger.kernel.org, linux-input@vger.kernel.org, 
  Benjamin Tissoires <bentiss@kernel.org>, 
- Peter Hutterer <peter.hutterer@who-t.net>, 
- Jan Felix Langenbach <JanFelix.Langenbach@protonmail.com>
+ Peter Hutterer <peter.hutterer@who-t.net>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1763486192; l=15751;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1763486192; l=15974;
  i=bentiss@kernel.org; s=20230215; h=from:subject:message-id;
- bh=lo1Qd7kH11xyLAQbymgjV8k5Aew4Vg0gLPSH35Zi2ss=;
- b=FyLZVMj8Ipk8feH14Bx0qslREd8P6nEnHEquXbsaha/yxUwH+guoT7bzTQ02IcewkW7DfBwtY
- d/j1Z+hWRlnD0po0gU8G0q8M2D9uqLQ9SIZx6kVnS0MgHw6j1jmLkgq
+ bh=URa2e2yAUNaYsYhv8sibtLI7zatZhUaCOzybqlxmwFo=;
+ b=xY5lYU9BkXyrphaykTGJTFQsPuY+ReZx2xHX2GALVYzIND2tnuGLwmW9yMr10FehlLr2wRDJ/
+ riyzYLywzriDHaQKRGifvTzZZVa0eJN7o6QXdkQuhReGiC0W0Yy36FG
 X-Developer-Key: i=bentiss@kernel.org; a=ed25519;
  pk=7D1DyAVh6ajCkuUTudt/chMuXWIJHlv2qCsRkIizvFw=
 
-Several bugs as outlined in udev-hid-bpf#66 and udev-hid-bpf!198:
-- pressure curve is far from linear
-- tilt range is ±60, not ±127
-- pressing the second button sets both tip down and
-  barrel switch
-
-Fix the second button by adding a Secondary Barrel Switch in the
-existing padding and check for the tip down/barrel switch down combo.
-When  both values become true at the same time, set the Secondary Barrel
-Switch instead.
-
-Implement a custom pressure curve that maps the hardware range 0-102
-linearly to the logical range 0-1224, and maps the hardware range
-103-2047 logarithmically to the logical range 1232-2047. This mapping
-isn’t perfect, but it’s way more natural than the stock configuration.
+This device needs a fix for the tilt range on the pen report descriptor
+and the usual conversion of the pad keys from the firmware's hardcoded
+keyboard shortcuts to actual pad buttons.
 
 Signed-off-by: Peter Hutterer <peter.hutterer@who-t.net>
-Signed-off-by: Jan Felix Langenbach <JanFelix.Langenbach@protonmail.com>
-Link: https://gitlab.freedesktop.org/libevdev/udev-hid-bpf/-/merge_requests/200
+Link: https://gitlab.freedesktop.org/libevdev/udev-hid-bpf/-/merge_requests/185
 Signed-off-by: Benjamin Tissoires <bentiss@kernel.org>
 ---
- .../hid/bpf/progs/WALTOP__Batteryless-Tablet.bpf.c | 321 +++++++++++++++++++++
- 1 file changed, 321 insertions(+)
+ drivers/hid/bpf/progs/XPPen__Deco01V3.bpf.c | 305 ++++++++++++++++++++++++++++
+ 1 file changed, 305 insertions(+)
 
-diff --git a/drivers/hid/bpf/progs/WALTOP__Batteryless-Tablet.bpf.c b/drivers/hid/bpf/progs/WALTOP__Batteryless-Tablet.bpf.c
+diff --git a/drivers/hid/bpf/progs/XPPen__Deco01V3.bpf.c b/drivers/hid/bpf/progs/XPPen__Deco01V3.bpf.c
 new file mode 100644
-index 0000000000000000000000000000000000000000..156d75af516d7d0d49d0f5ee1ff5d3ebb720c7d9
+index 0000000000000000000000000000000000000000..2502fcc9ede69b856e2115a15307096951953571
 --- /dev/null
-+++ b/drivers/hid/bpf/progs/WALTOP__Batteryless-Tablet.bpf.c
-@@ -0,0 +1,321 @@
++++ b/drivers/hid/bpf/progs/XPPen__Deco01V3.bpf.c
+@@ -0,0 +1,305 @@
 +// SPDX-License-Identifier: GPL-2.0-only
 +/* Copyright (c) 2025 Red Hat
 + */
@@ -107,315 +92,299 @@ index 0000000000000000000000000000000000000000..156d75af516d7d0d49d0f5ee1ff5d3eb
 +#include "vmlinux.h"
 +#include "hid_bpf.h"
 +#include "hid_bpf_helpers.h"
++#include "hid_report_helpers.h"
 +#include <bpf/bpf_tracing.h>
 +
-+#define VID_WALTOP 0x172F
-+#define PID_BATTERYLESS_TABLET 0x0505
++#define VID_UGEE 0x28BD /* VID is shared with SinoWealth and Glorious and prob others */
++#define PID_DECO_01_V3 0x0947
 +
 +HID_BPF_CONFIG(
-+	HID_DEVICE(BUS_USB, HID_GROUP_ANY, VID_WALTOP, PID_BATTERYLESS_TABLET)
++	HID_DEVICE(BUS_USB, HID_GROUP_GENERIC, VID_UGEE, PID_DECO_01_V3),
 +);
 +
-+#define EXPECTED_RDESC_SIZE 335
-+#define PEN_REPORT_ID 16
++/*
++ * Default report descriptor reports:
++ * - a report descriptor for the pad buttons, reported as key sequences
++ * - a report descriptor for the pen
++ * - a vendor-specific report descriptor
++ *
++ * The Pad report descriptor, see
++ * https://gitlab.freedesktop.org/libevdev/udev-hid-bpf/-/issues/54
++ *
++ * # Report descriptor length: 102 bytes
++ * 0x05, 0x01,                    // Usage Page (Generic Desktop)              0
++ * 0x09, 0x02,                    // Usage (Mouse)                             2
++ * 0xa1, 0x01,                    // Collection (Application)                  4
++ * 0x85, 0x09,                    //   Report ID (9)                           6
++ * 0x09, 0x01,                    //   Usage (Pointer)                         8
++ * 0xa1, 0x00,                    //   Collection (Physical)                   10
++ * 0x05, 0x09,                    //     Usage Page (Button)                   12
++ * 0x19, 0x01,                    //     UsageMinimum (1)                      14
++ * 0x29, 0x03,                    //     UsageMaximum (3)                      16
++ * 0x15, 0x00,                    //     Logical Minimum (0)                   18
++ * 0x25, 0x01,                    //     Logical Maximum (1)                   20
++ * 0x95, 0x03,                    //     Report Count (3)                      22
++ * 0x75, 0x01,                    //     Report Size (1)                       24
++ * 0x81, 0x02,                    //     Input (Data,Var,Abs)                  26
++ * 0x95, 0x05,                    //     Report Count (5)                      28
++ * 0x81, 0x01,                    //     Input (Cnst,Arr,Abs)                  30
++ * 0x05, 0x01,                    //     Usage Page (Generic Desktop)          32
++ * 0x09, 0x30,                    //     Usage (X)                             34
++ * 0x09, 0x31,                    //     Usage (Y)                             36
++ * 0x26, 0xff, 0x7f,              //     Logical Maximum (32767)               38
++ * 0x95, 0x02,                    //     Report Count (2)                      41
++ * 0x75, 0x10,                    //     Report Size (16)                      43
++ * 0x81, 0x02,                    //     Input (Data,Var,Abs)                  45
++ * 0x05, 0x0d,                    //     Usage Page (Digitizers)               47
++ * 0x09, 0x30,                    //     Usage (Tip Pressure)                  49
++ * 0x26, 0xff, 0x07,              //     Logical Maximum (2047)                51
++ * 0x95, 0x01,                    //     Report Count (1)                      54
++ * 0x75, 0x10,                    //     Report Size (16)                      56
++ * 0x81, 0x02,                    //     Input (Data,Var,Abs)                  58
++ * 0xc0,                          //   End Collection                          60
++ * 0xc0,                          // End Collection                            61
++ * 0x05, 0x01,                    // Usage Page (Generic Desktop)              62
++ * 0x09, 0x06,                    // Usage (Keyboard)                          64
++ * 0xa1, 0x01,                    // Collection (Application)                  66
++ * 0x85, 0x06,                    //   Report ID (6)                           68
++ * 0x05, 0x07,                    //   Usage Page (Keyboard/Keypad)            70
++ * 0x19, 0xe0,                    //   UsageMinimum (224)                      72
++ * 0x29, 0xe7,                    //   UsageMaximum (231)                      74
++ * 0x15, 0x00,                    //   Logical Minimum (0)                     76
++ * 0x25, 0x01,                    //   Logical Maximum (1)                     78
++ * 0x75, 0x01,                    //   Report Size (1)                         80
++ * 0x95, 0x08,                    //   Report Count (8)                        82
++ * 0x81, 0x02,                    //   Input (Data,Var,Abs)                    84
++ * 0x05, 0x07,                    //   Usage Page (Keyboard/Keypad)            86
++ * 0x19, 0x00,                    //   UsageMinimum (0)                        88
++ * 0x29, 0xff,                    //   UsageMaximum (255)                      90
++ * 0x26, 0xff, 0x00,              //   Logical Maximum (255)                   92
++ * 0x75, 0x08,                    //   Report Size (8)                         95
++ * 0x95, 0x06,                    //   Report Count (6)                        97
++ * 0x81, 0x00,                    //   Input (Data,Arr,Abs)                    99
++ * 0xc0,                          // End Collection                            101
++ *
++ * And key events for buttons top->bottom are:
++ * Buttons released: 06 00 00 00 00 00 00 00
++ * Button1:          06 00 05 00 00 00 00 00 -> b
++ * Button2:          06 00 08 00 00 00 00 00 -> e
++ * Button3:          06 04 00 00 00 00 00 00 -> LAlt
++ * Button4:          06 00 2c 00 00 00 00 00 -> Space
++ * Button5:          06 01 16 00 00 00 00 00 -> LControl + s
++ * Button6:          06 01 1d 00 00 00 00 00 -> LControl + z
++ * Button7:          06 01 57 00 00 00 00 00 -> LControl + Keypad Plus
++ * Button8:          06 01 56 00 00 00 00 00 -> LControl + Keypad Dash
++ *
++ * When multiple buttons are pressed at the same time, the values used to
++ * identify the buttons are identical, but they appear in different bytes of the
++ * record. For example, when button 2 (0x08) and button 1 (0x05) are pressed,
++ * this is the report:
++ *
++ *   Buttons 2 and 1:  06 00 08 05 00 00 00 00 -> e + b
++ *
++ * Buttons 1, 2, 4, 5 and 6 can be matched by finding their values in the
++ * report.
++ *
++ * Button 3 is pressed when the 3rd bit is 1. For example, pressing buttons 3
++ * and 5 generates this report:
++ *
++ *   Buttons 3 and 5:  06 05 16 00 00 00 00 00 -> LControl + LAlt + s
++ *                        -- --
++ *                         |  |
++ *                         |  `- Button 5 (0x16)
++ *                         `- 0x05 = 0101. Button 3 is pressed
++ *                                    ^
++ *
++ * pad_buttons contains a list of buttons that can be matched in
++ * HID_BPF_DEVICE_EVENT. Button 3 as it has a dedicated bit.
++ *
++ *
++ * The Pen report descriptor announces a wrong tilt range:
++ *
++ * Report descriptor length: 109 bytes
++ * 0x05, 0x0d,                    // Usage Page (Digitizers)                   0
++ * 0x09, 0x02,                    // Usage (Pen)                               2
++ * 0xa1, 0x01,                    // Collection (Application)                  4
++ * 0x85, 0x07,                    //   Report ID (7)                           6
++ * 0x09, 0x20,                    //   Usage (Stylus)                          8
++ * 0xa1, 0x01,                    //   Collection (Application)                10
++ * 0x09, 0x42,                    //     Usage (Tip Switch)                    12
++ * 0x09, 0x44,                    //     Usage (Barrel Switch)                 14
++ * 0x09, 0x45,                    //     Usage (Eraser)                        16
++ * 0x09, 0x3c,                    //     Usage (Invert)                        18
++ * 0x15, 0x00,                    //     Logical Minimum (0)                   20
++ * 0x25, 0x01,                    //     Logical Maximum (1)                   22
++ * 0x75, 0x01,                    //     Report Size (1)                       24
++ * 0x95, 0x04,                    //     Report Count (4)                      26
++ * 0x81, 0x02,                    //     Input (Data,Var,Abs)                  28
++ * 0x95, 0x01,                    //     Report Count (1)                      30
++ * 0x81, 0x03,                    //     Input (Cnst,Var,Abs)                  32
++ * 0x09, 0x32,                    //     Usage (In Range)                      34
++ * 0x95, 0x01,                    //     Report Count (1)                      36
++ * 0x81, 0x02,                    //     Input (Data,Var,Abs)                  38
++ * 0x95, 0x02,                    //     Report Count (2)                      40
++ * 0x81, 0x03,                    //     Input (Cnst,Var,Abs)                  42
++ * 0x75, 0x10,                    //     Report Size (16)                      44
++ * 0x95, 0x01,                    //     Report Count (1)                      46
++ * 0x35, 0x00,                    //     Physical Minimum (0)                  48
++ * 0xa4,                          //     Push                                  50
++ * 0x05, 0x01,                    //     Usage Page (Generic Desktop)          51
++ * 0x09, 0x30,                    //     Usage (X)                             53
++ * 0x65, 0x13,                    //     Unit (EnglishLinear: in)              55
++ * 0x55, 0x0d,                    //     Unit Exponent (-3)                    57
++ * 0x46, 0x10, 0x27,              //     Physical Maximum (10000)              59
++ * 0x26, 0xff, 0x7f,              //     Logical Maximum (32767)               62
++ * 0x81, 0x02,                    //     Input (Data,Var,Abs)                  65
++ * 0x09, 0x31,                    //     Usage (Y)                             67
++ * 0x46, 0x6a, 0x18,              //     Physical Maximum (6250)               69
++ * 0x26, 0xff, 0x7f,              //     Logical Maximum (32767)               72
++ * 0x81, 0x02,                    //     Input (Data,Var,Abs)                  75
++ * 0xb4,                          //     Pop                                   77
++ * 0x09, 0x30,                    //     Usage (X)                             78
++ * 0x45, 0x00,                    //     Physical Maximum (0)                  80
++ * 0x26, 0xff, 0x3f,              //     Logical Maximum (16383)               82
++ * 0x81, 0x42,                    //     Input (Data,Var,Abs,Null)             85
++ * 0x09, 0x3d,                    //     Usage (Start)                         87
++ * 0x15, 0x81,                    //     Logical Minimum (-127)                89  <- Change from -127 to -60
++ * 0x25, 0x7f,                    //     Logical Maximum (127)                 91  <- Change from 127 to 60
++ * 0x75, 0x08,                    //     Report Size (8)                       93
++ * 0x95, 0x01,                    //     Report Count (1)                      95
++ * 0x81, 0x02,                    //     Input (Data,Var,Abs)                  97
++ * 0x09, 0x3e,                    //     Usage (Select)                        99
++ * 0x15, 0x81,                    //     Logical Minimum (-127)                101  <- Change from -127 to -60
++ * 0x25, 0x7f,                    //     Logical Maximum (127)                 103  <- Change from 127 to 60
++ * 0x81, 0x02,                    //     Input (Data,Var,Abs)                  105
++ * 0xc0,                          //   End Collection                          107
++ * 0xc0,                          // End Collection                            108
++ */
 +
-+#define TIP_SWITCH BIT(0)
-+#define BARREL_SWITCH BIT(1)
-+#define SECONDARY_BARREL_SWITCH BIT(5)
++#define PEN_REPORT_DESCRIPTOR_LENGTH 109
++#define PAD_REPORT_DESCRIPTOR_LENGTH 102
++#define PAD_REPORT_LENGTH 8
++#define PAD_REPORT_ID 6
++#define PAD_NUM_BUTTONS 8
 +
-+static __u8 last_button_state;
-+
-+static const __u8 fixed_rdesc[] = {
-+	0x05, 0x01,                    // Usage Page (Generic Desktop)
-+	0x09, 0x02,                    // Usage (Mouse)
-+	0xa1, 0x01,                    // Collection (Application)
-+	0x85, 0x01,                    //   Report ID (1)
-+	0x09, 0x01,                    //   Usage (Pointer)
-+	0xa1, 0x00,                    //   Collection (Physical)
-+	0x05, 0x09,                    //     Usage Page (Button)
-+	0x19, 0x01,                    //     Usage Minimum (1)
-+	0x29, 0x05,                    //     Usage Maximum (5)
-+	0x15, 0x00,                    //     Logical Minimum (0)
-+	0x25, 0x01,                    //     Logical Maximum (1)
-+	0x75, 0x01,                    //     Report Size (1)
-+	0x95, 0x05,                    //     Report Count (5)
-+	0x81, 0x02,                    //     Input (Data,Var,Abs)
-+	0x75, 0x03,                    //     Report Size (3)
-+	0x95, 0x01,                    //     Report Count (1)
-+	0x81, 0x03,                    //     Input (Cnst,Var,Abs)
-+	0x05, 0x01,                    //     Usage Page (Generic Desktop)
-+	0x09, 0x30,                    //     Usage (X)
-+	0x09, 0x31,                    //     Usage (Y)
-+	0x09, 0x38,                    //     Usage (Wheel)
-+	0x15, 0x81,                    //     Logical Minimum (-127)
-+	0x25, 0x7f,                    //     Logical Maximum (127)
-+	0x75, 0x08,                    //     Report Size (8)
-+	0x95, 0x03,                    //     Report Count (3)
-+	0x81, 0x06,                    //     Input (Data,Var,Rel)
-+	0x05, 0x0c,                    //     Usage Page (Consumer)
-+	0x15, 0x81,                    //     Logical Minimum (-127)
-+	0x25, 0x7f,                    //     Logical Maximum (127)
-+	0x75, 0x08,                    //     Report Size (8)
-+	0x95, 0x01,                    //     Report Count (1)
-+	0x0a, 0x38, 0x02,              //     Usage (AC Pan)
-+	0x81, 0x06,                    //     Input (Data,Var,Rel)
-+	0xc0,                          //   End Collection
-+	0xc0,                          // End Collection
-+	0x05, 0x0d,                    // Usage Page (Digitizers)
-+	0x09, 0x02,                    // Usage (Pen)
-+	0xa1, 0x01,                    // Collection (Application)
-+	0x85, 0x02,                    //   Report ID (2)
-+	0x09, 0x20,                    //   Usage (Stylus)
-+	0xa1, 0x00,                    //   Collection (Physical)
-+	0x09, 0x00,                    //     Usage (0x0000)
-+	0x15, 0x00,                    //     Logical Minimum (0)
-+	0x26, 0xff, 0x00,              //     Logical Maximum (255)
-+	0x75, 0x08,                    //     Report Size (8)
-+	0x95, 0x09,                    //     Report Count (9)
-+	0x81, 0x02,                    //     Input (Data,Var,Abs)
-+	0x09, 0x3f,                    //     Usage (Azimuth)
-+	0x09, 0x40,                    //     Usage (Altitude)
-+	0x15, 0x00,                    //     Logical Minimum (0)
-+	0x26, 0xff, 0x00,              //     Logical Maximum (255)
-+	0x75, 0x08,                    //     Report Size (8)
-+	0x95, 0x02,                    //     Report Count (2)
-+	0xb1, 0x02,                    //     Feature (Data,Var,Abs)
-+	0xc0,                          //   End Collection
-+	0x85, 0x05,                    //   Report ID (5)
-+	0x05, 0x0d,                    //   Usage Page (Digitizers)
-+	0x09, 0x20,                    //   Usage (Stylus)
-+	0xa1, 0x00,                    //   Collection (Physical)
-+	0x09, 0x00,                    //     Usage (0x0000)
-+	0x15, 0x00,                    //     Logical Minimum (0)
-+	0x26, 0xff, 0x00,              //     Logical Maximum (255)
-+	0x75, 0x08,                    //     Report Size (8)
-+	0x95, 0x07,                    //     Report Count (7)
-+	0x81, 0x02,                    //     Input (Data,Var,Abs)
-+	0xc0,                          //   End Collection
-+	0x85, 0x0a,                    //   Report ID (10)
-+	0x05, 0x0d,                    //   Usage Page (Digitizers)
-+	0x09, 0x20,                    //   Usage (Stylus)
-+	0xa1, 0x00,                    //   Collection (Physical)
-+	0x09, 0x00,                    //     Usage (0x0000)
-+	0x15, 0x00,                    //     Logical Minimum (0)
-+	0x26, 0xff, 0x00,              //     Logical Maximum (255)
-+	0x75, 0x08,                    //     Report Size (8)
-+	0x95, 0x07,                    //     Report Count (7)
-+	0x81, 0x02,                    //     Input (Data,Var,Abs)
-+	0xc0,                          //   End Collection
-+	0x85, 0x10,                    //   Report ID (16)
-+	0x09, 0x20,                    //   Usage (Stylus)
-+	0xa1, 0x00,                    //   Collection (Physical)
-+	0x09, 0x42,                    //     Usage (Tip Switch)
-+	0x09, 0x44,                    //     Usage (Barrel Switch)
-+	0x09, 0x3c,                    //     Usage (Invert)
-+	0x09, 0x45,                    //     Usage (Eraser)
-+	0x09, 0x32,                    //     Usage (In Range)
-+	0x09, 0x5a,                    //     Usage (Secondary Barrel Switch)  <-- added
-+	0x15, 0x00,                    //     Logical Minimum (0)
-+	0x25, 0x01,                    //     Logical Maximum (1)
-+	0x75, 0x01,                    //     Report Size (1)
-+	0x95, 0x06,                    //     Report Count (6)                 <--- changed from 5
-+	0x81, 0x02,                    //     Input (Data,Var,Abs)
-+	0x95, 0x02,                    //     Report Count (2)                 <--- changed from 3
-+	0x81, 0x03,                    //     Input (Cnst,Var,Abs)
-+	0x05, 0x01,                    //     Usage Page (Generic Desktop)
-+	0x09, 0x30,                    //     Usage (X)
-+	0x75, 0x10,                    //     Report Size (16)
-+	0x95, 0x01,                    //     Report Count (1)
-+	0xa4,                          //     Push
-+	0x55, 0x0d,                    //       Unit Exponent (-3)
-+	0x65, 0x33,                    //       Unit (EnglishLinear: in³)
-+	0x15, 0x00,                    //       Logical Minimum (0)
-+	0x26, 0x00, 0x7d,              //       Logical Maximum (32000)
-+	0x35, 0x00,                    //       Physical Minimum (0)
-+	0x46, 0x00, 0x7d,              //       Physical Maximum (32000)
-+	0x81, 0x02,                    //       Input (Data,Var,Abs)
-+	0x09, 0x31,                    //       Usage (Y)
-+	0x15, 0x00,                    //       Logical Minimum (0)
-+	0x26, 0x20, 0x4e,              //       Logical Maximum (20000)
-+	0x35, 0x00,                    //       Physical Minimum (0)
-+	0x46, 0x20, 0x4e,              //       Physical Maximum (20000)
-+	0x81, 0x02,                    //       Input (Data,Var,Abs)
-+	0x05, 0x0d,                    //       Usage Page (Digitizers)
-+	0x09, 0x30,                    //       Usage (Tip Pressure)
-+	0x15, 0x00,                    //       Logical Minimum (0)
-+	0x26, 0xff, 0x07,              //       Logical Maximum (2047)
-+	0x35, 0x00,                    //       Physical Minimum (0)
-+	0x46, 0xff, 0x07,              //       Physical Maximum (2047)
-+	0x81, 0x02,                    //       Input (Data,Var,Abs)
-+	0x05, 0x0d,                    //       Usage Page (Digitizers)
-+	0x09, 0x3d,                    //       Usage (X Tilt)
-+	0x09, 0x3e,                    //       Usage (Y Tilt)
-+	0x15, 0xc4,                    //       Logical Minimum (-60)          <- changed from -127
-+	0x25, 0x3c,                    //       Logical Maximum (60)           <- changed from 127
-+	0x75, 0x08,                    //       Report Size (8)
-+	0x95, 0x02,                    //       Report Count (2)
-+	0x81, 0x02,                    //       Input (Data,Var,Abs)
-+	0xc0,                          //     End Collection
-+	0xc0,                          //   End Collection
-+	0x05, 0x01,                    //   Usage Page (Generic Desktop)
-+	0x09, 0x06,                    //   Usage (Keyboard)
-+	0xa1, 0x01,                    //   Collection (Application)
-+	0x85, 0x0d,                    //     Report ID (13)
-+	0x05, 0x07,                    //     Usage Page (Keyboard/Keypad)
-+	0x19, 0xe0,                    //     Usage Minimum (224)
-+	0x29, 0xe7,                    //     Usage Maximum (231)
-+	0x15, 0x00,                    //     Logical Minimum (0)
-+	0x25, 0x01,                    //     Logical Maximum (1)
-+	0x75, 0x01,                    //     Report Size (1)
-+	0x95, 0x08,                    //     Report Count (8)
-+	0x81, 0x02,                    //     Input (Data,Var,Abs)
-+	0x75, 0x08,                    //     Report Size (8)
-+	0x95, 0x01,                    //     Report Count (1)
-+	0x81, 0x01,                    //     Input (Cnst,Arr,Abs)
-+	0x05, 0x07,                    //     Usage Page (Keyboard/Keypad)
-+	0x19, 0x00,                    //     Usage Minimum (0)
-+	0x29, 0x65,                    //     Usage Maximum (101)
-+	0x15, 0x00,                    //     Logical Minimum (0)
-+	0x25, 0x65,                    //     Logical Maximum (101)
-+	0x75, 0x08,                    //     Report Size (8)
-+	0x95, 0x05,                    //     Report Count (5)
-+	0x81, 0x00,                    //     Input (Data,Arr,Abs)
-+	0xc0,                          //   End Collection
-+	0x05, 0x0c,                    //   Usage Page (Consumer)
-+	0x09, 0x01,                    //   Usage (Consumer Control)
-+	0xa1, 0x01,                    //   Collection (Application)
-+	0x85, 0x0c,                    //     Report ID (12)
-+	0x09, 0xe9,                    //     Usage (Volume Increment)
-+	0x09, 0xea,                    //     Usage (Volume Decrement)
-+	0x09, 0xe2,                    //     Usage (Mute)
-+	0x15, 0x00,                    //     Logical Minimum (0)
-+	0x25, 0x01,                    //     Logical Maximum (1)
-+	0x75, 0x01,                    //     Report Size (1)
-+	0x95, 0x03,                    //     Report Count (3)
-+	0x81, 0x06,                    //     Input (Data,Var,Rel)
-+	0x75, 0x05,                    //     Report Size (5)
-+	0x95, 0x01,                    //     Report Count (1)
-+	0x81, 0x07,                    //     Input (Cnst,Var,Rel)
-+	0xc0,                          //   End Collection
++static const __u8 fixed_rdesc_pad[] = {
++	UsagePage_GenericDesktop
++	Usage_GD_Keypad
++	CollectionApplication(
++		// Byte 0 in report is the report ID
++		ReportId(PAD_REPORT_ID)
++		ReportCount(1)
++		ReportSize(8)
++		UsagePage_Digitizers
++		Usage_Dig_TabletFunctionKeys
++		CollectionPhysical(
++			// Byte 1 is the button state
++			UsagePage_Button
++			UsageMinimum_i8(0x01)
++			UsageMaximum_i8(PAD_NUM_BUTTONS)
++			LogicalMinimum_i8(0x0)
++			LogicalMaximum_i8(0x1)
++			ReportCount(PAD_NUM_BUTTONS)
++			ReportSize(1)
++			Input(Var|Abs)
++			// Byte 2 in report - just exists so we get to be a tablet pad
++			UsagePage_Digitizers
++			Usage_Dig_BarrelSwitch // BTN_STYLUS
++			ReportCount(1)
++			ReportSize(1)
++			Input(Var|Abs)
++			ReportCount(7) // padding
++			Input(Const)
++			// Bytes 3/4 in report - just exists so we get to be a tablet pad
++			UsagePage_GenericDesktop
++			Usage_GD_X
++			Usage_GD_Y
++			ReportCount(2)
++			ReportSize(8)
++			Input(Var|Abs)
++			// Byte 5-7 are padding so we match the original report lengtth
++			ReportCount(3)
++			ReportSize(8)
++			Input(Const)
++		)
++	)
 +};
 +
-+static inline unsigned int bitwidth32(__u32 x)
-+{
-+	return 32 - __builtin_clzg(x, 32);
-+}
-+
-+static inline unsigned int floor_log2_32(__u32 x)
-+{
-+	return bitwidth32(x) - 1;
-+}
-+
-+/* Maps the interval [0, 2047] to itself using a scaled
-+ * approximation of the function log2(x+1).
-+ */
-+static unsigned int scaled_log2(__u16 v)
-+{
-+	const unsigned int XMAX = 2047;
-+	const unsigned int YMAX = 11; /* log2(2048) = 11 */
-+
-+	unsigned int x = v + 1;
-+	unsigned int n = floor_log2_32(x);
-+	unsigned int b = 1 << n;
-+
-+	/* Fixed-point fraction in [0, 1), linearly
-+	 * interpolated using delta-y = 1 and
-+	 * delta-x = (2b - b) = b.
-+	 */
-+	unsigned int frac = (x - b) << YMAX;
-+	unsigned int lerp = frac / b;
-+	unsigned int log2 = (n << YMAX) + lerp;
-+
-+	return ((log2 * XMAX) / YMAX) >> YMAX;
-+}
-+
 +SEC(HID_BPF_RDESC_FIXUP)
-+int BPF_PROG(hid_fix_rdesc, struct hid_bpf_ctx *hctx)
++int BPF_PROG(xppen_deco01v3_rdesc_fixup, struct hid_bpf_ctx *hctx)
 +{
-+	__u8 *data = hid_bpf_get_data(hctx, 0 /* offset */, 4096 /* size */);
++	__u8 *data = hid_bpf_get_data(hctx, 0 /* offset */, HID_MAX_DESCRIPTOR_SIZE /* size */);
++
++	const __u8 wrong_logical_range[] = {0x15, 0x81, 0x25, 0x7f};
++	const __u8 correct_logical_range[] = {0x15, 0xc4, 0x25, 0x3c};
 +
 +	if (!data)
 +		return 0; /* EPERM check */
 +
-+	__builtin_memcpy(data, fixed_rdesc, sizeof(fixed_rdesc));
-+
-+	return sizeof(fixed_rdesc);
-+}
-+
-+SEC(HID_BPF_DEVICE_EVENT)
-+int BPF_PROG(waltop_fix_events, struct hid_bpf_ctx *hctx)
-+{
-+	__u8 *data = hid_bpf_get_data(hctx, 0 /* offset */, 10 /* size */);
-+
-+	if (!data)
-+		return 0; /* EPERM check */
-+
-+	__u8 report_id = data[0];
-+
-+	if (report_id != PEN_REPORT_ID)
-+		return 0;
-+
-+	/* On this tablet if the secondary barrel switch is pressed,
-+	 * the tablet sends tip down and barrel down. Change this to
-+	 * just secondary barrel down when there is no ambiguity.
-+	 *
-+	 * It's possible that there is a bug in the firmware and the
-+	 * device intends to set invert + eraser instead (i.e. the
-+	 * pysical button is an eraser button) but since
-+	 * the pressure is always zero, said eraser button
-+	 * would be useless anyway.
-+	 *
-+	 * So let's just change the button to secondary barrel down.
-+	 */
-+
-+	__u8 tip_switch = data[1] & TIP_SWITCH;
-+	__u8 barrel_switch = data[1] & BARREL_SWITCH;
-+
-+	__u8 tip_held = last_button_state & TIP_SWITCH;
-+	__u8 barrel_held = last_button_state & BARREL_SWITCH;
-+
-+	if (tip_switch && barrel_switch && !tip_held && !barrel_held) {
-+		data[1] &= ~(TIP_SWITCH | BARREL_SWITCH); /* release tip and barrel */
-+		data[1] |= SECONDARY_BARREL_SWITCH; /* set secondary barrel switch */
++	switch (hctx->size) {
++	case PAD_REPORT_DESCRIPTOR_LENGTH:
++		__builtin_memcpy(data, fixed_rdesc_pad, sizeof(fixed_rdesc_pad));
++		return sizeof(fixed_rdesc_pad);
++	case PEN_REPORT_DESCRIPTOR_LENGTH:
++		if (__builtin_memcmp(&data[89], wrong_logical_range,
++				     sizeof(wrong_logical_range)) == 0)
++			__builtin_memcpy(&data[89], correct_logical_range,
++					 sizeof(correct_logical_range));
++		if (__builtin_memcmp(&data[101], wrong_logical_range,
++				     sizeof(wrong_logical_range)) == 0)
++			__builtin_memcpy(&data[101], correct_logical_range,
++					 sizeof(correct_logical_range));
++		break;
 +	}
-+
-+	last_button_state = data[1];
-+
-+	/* The pressure sensor on this tablet maps around half of the
-+	 * logical pressure range into the interval [0-100]. Further
-+	 * pressure causes the sensor value to increase exponentially
-+	 * up to a maximum value of 2047.
-+	 *
-+	 * The values 12 and 102 were chosen to have an integer slope
-+	 * with smooth transition between the two curves around the
-+	 * value 100.
-+	 */
-+
-+	__u16 pressure = (((__u16)data[6]) << 0) | (((__u16)data[7]) << 8);
-+
-+	if (pressure <= 102)
-+		pressure *= 12;
-+	else
-+		pressure = scaled_log2(pressure);
-+
-+	data[6] = pressure >> 0;
-+	data[7] = pressure >> 8;
 +
 +	return 0;
 +}
 +
-+HID_BPF_OPS(waltop_batteryless) = {
-+	.hid_device_event = (void *)waltop_fix_events,
-+	.hid_rdesc_fixup = (void *)hid_fix_rdesc,
++SEC(HID_BPF_DEVICE_EVENT)
++int BPF_PROG(xppen_deco01v3_device_event, struct hid_bpf_ctx *hctx)
++{
++	static const __u8 pad_buttons[] = { 0x05, 0x08, 0x00, 0x2c, 0x16, 0x1d, 0x57, 0x56 };
++	__u8 *data = hid_bpf_get_data(hctx, 0 /* offset */, PAD_REPORT_LENGTH /* size */);
++
++	if (!data)
++		return 0; /* EPERM check */
++
++	if (data[0] == PAD_REPORT_ID) {
++		__u8 button_mask = 0;
++		size_t d, b;
++
++		/* data[1] stores the status of BTN_2 in the 3rd bit*/
++		if (data[1] & BIT(2))
++			button_mask |= BIT(2);
++
++		/* The rest of the descriptor stores the buttons as in pad_buttons */
++		for (d = 2; d < 8; d++) {
++			for (b = 0; b < sizeof(pad_buttons); b++) {
++				if (data[d] != 0 && data[d] == pad_buttons[b])
++					button_mask |= BIT(b);
++			}
++		}
++
++		__u8 report[8] = {PAD_REPORT_ID, button_mask, 0x00};
++
++		__builtin_memcpy(data, report, sizeof(report));
++	}
++	return 0;
++}
++
++HID_BPF_OPS(xppen_deco01v3) = {
++	.hid_rdesc_fixup = (void *)xppen_deco01v3_rdesc_fixup,
++	.hid_device_event = (void *)xppen_deco01v3_device_event,
 +};
 +
 +SEC("syscall")
 +int probe(struct hid_bpf_probe_args *ctx)
 +{
-+	if (ctx->rdesc_size == EXPECTED_RDESC_SIZE)
++	switch (ctx->rdesc_size) {
++	case PAD_REPORT_DESCRIPTOR_LENGTH:
++	case PEN_REPORT_DESCRIPTOR_LENGTH:
 +		ctx->retval = 0;
-+	else
++		break;
++	default:
 +		ctx->retval = -EINVAL;
++	}
 +
 +	return 0;
 +}
