@@ -1,55 +1,56 @@
-Return-Path: <linux-input+bounces-16177-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16178-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9C7AC6ACAF
-	for <lists+linux-input@lfdr.de>; Tue, 18 Nov 2025 18:03:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6769AC6AD03
+	for <lists+linux-input@lfdr.de>; Tue, 18 Nov 2025 18:06:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 9FF084F5DE8
-	for <lists+linux-input@lfdr.de>; Tue, 18 Nov 2025 16:55:08 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 10EF34F7D0B
+	for <lists+linux-input@lfdr.de>; Tue, 18 Nov 2025 16:58:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4CC613570AB;
-	Tue, 18 Nov 2025 16:55:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F22E735E555;
+	Tue, 18 Nov 2025 16:58:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="myIPbHX6"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BI/XAXK+"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 229A028F5;
-	Tue, 18 Nov 2025 16:55:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8952320CA7;
+	Tue, 18 Nov 2025 16:58:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763484902; cv=none; b=XGtR2DSrzOoqp77i+1e9JBWq4Q0THfzLng5lsaw1lilbT8s5gndd9xU34BJ33RxX9e5lf5iwwJHCktHWw4Cm2BhqyyrBbddR9ruLUwhMxBnHZOG76Yl2TVBaWqcKWGVjiGV0fdMvNxvn1RwQzPI/wcksXB2LD5kgmmVLYsVs5AQ=
+	t=1763485088; cv=none; b=LnMIDtIusJ//Ry9t2HM/mHp/60P2GjXw8HkauE0lyUDcnk0QYtIOSuXkMz55PxRWDdAfpiqkyaAJdV34rB8iqstMzZ6DsONJZgpHQGdj/zZzVF/rYOSD/k5uV3l/rinhZNcXghf1RYcA2MM83FuUTjWOvZx+feYOHaJTSrlsZXM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763484902; c=relaxed/simple;
-	bh=UtVd2Xx3sdVgn7dsiDRVs+v7yfUxcdzflqCy/X/srFA=;
+	s=arc-20240116; t=1763485088; c=relaxed/simple;
+	bh=w9rzopfLSYZr1vXSXbMKP6Uqe6NeeW5fMoZozFFxj+4=;
 	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=fCYZirFlYxcGh/JrG5+mbRnAbuntWT5QC6h7l7xslvkfGBifzUFcYnANZLWne+jCbYKQUYRuLTgq6IgZgH7zR82kQ3lA/hgsgsW59ipJfJx9CsQG+DKpkARyeJB09NSSV1HgALG7s4hKfpRCA68VWaNyICOClubYt40M8ES9wSU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=myIPbHX6; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F7F6C2BCB3;
-	Tue, 18 Nov 2025 16:55:01 +0000 (UTC)
+	 MIME-Version:Content-Type; b=qVEEB0oybnNQC0rNu8nn6NO8daHP0H1pPAhDlIBav9OqHeaOU93frY7yniOVFY3vDHEoLi8HsQUxEI+0Db7EOyNOZKrmSV8+vlELPdbuGWb9Rf8lts/nAlSThzMRPVl0Nz/pIgSYvKxz/8Uml643KnNvkuzbc9e+iH5paOwyNSE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BI/XAXK+; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 87BCBC19423;
+	Tue, 18 Nov 2025 16:58:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763484901;
-	bh=UtVd2Xx3sdVgn7dsiDRVs+v7yfUxcdzflqCy/X/srFA=;
+	s=k20201202; t=1763485086;
+	bh=w9rzopfLSYZr1vXSXbMKP6Uqe6NeeW5fMoZozFFxj+4=;
 	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=myIPbHX6q4QRcoLTNIFxp42dJVr1E5Neb0KpgmjagDXwiswTWvN1oO0Ca5lHcPMt+
-	 Wh9sxdZZRAi11MaF7CGb4gh7pJzp7E33wYYGOdL4HLELfUWztPt3Lq6gDj8cBJjKys
-	 ZWRTnHYFMAMgtCPqKVL+RfsRYQufnjiangizdt1mo7WkEbNmwKCB6RSf2e9b5MOx/u
-	 PHB+T5hDWumn78kYp8C5Yvn2OSjmPc+QqtrAeJ8VyXRCHjlhu2sRuYc+Z+b4sZFl8l
-	 VuROxN2IhxzYoDU52GUT7BF2vLt5OYCSBA5QserNEpm2x+LyJChACVd6yV8qGnktA7
-	 ekRdg/ngkkczQ==
-Date: Tue, 18 Nov 2025 17:54:58 +0100 (CET)
+	b=BI/XAXK+zd5AFwVfqNeQgg/QfK0HnwCu3omhXKi9c47Fg3mlQj2DcJpal/HQXt1Yx
+	 uu9TnhjNhIYqaOLMBj7T5avN4xumFFU8uXKotQFKzKYpyamVsY/zjYEEd27bO3x5+F
+	 Gq9UdIBSffDT5Q2kS8UdSJaL7Pr/hxtulr6xJVjune4/IGhv8UDmKCiC99F4uyI5kt
+	 u/eqF7EauYUbJjMglQUYqGRpB/YGUc7y+7PM3yi8WvNtzJ/qdLiP+vRbp5AyPHKpoC
+	 +gFFv/IWl5aIPkb1PW3rMXvAwU29VG/waRLNAZNtICSTNm3UmZTjNz4v9X9y89RLud
+	 /2KjioGPdmcnw==
+Date: Tue, 18 Nov 2025 17:58:02 +0100 (CET)
 From: Jiri Kosina <jikos@kernel.org>
-To: Naoki Ueki <naoki25519@gmail.com>
+To: Stuart Hayhurst <stuart.a.hayhurst@gmail.com>
 cc: Benjamin Tissoires <bentiss@kernel.org>, linux-input@vger.kernel.org, 
-    linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] HID: elecom: Add support for ELECOM M-XT3URBK (018F)
-In-Reply-To: <20251103121646.202256-1-naoki25519@gmail.com>
-Message-ID: <r2qqr2ro-46q1-4ppq-p8o7-s29733n60n7p@xreary.bet>
-References: <20251103121646.202256-1-naoki25519@gmail.com>
+    linux-kernel@vger.kernel.org, kernel test robot <lkp@intel.com>, 
+    Julia Lawall <julia.lawall@inria.fr>
+Subject: Re: [PATCH] HID: corsair-void: Use %pe for printing PTR_ERR
+In-Reply-To: <20251103142120.29446-2-stuart.a.hayhurst@gmail.com>
+Message-ID: <9pp0526r-0p20-36p4-12pq-s7o9q77368o1@xreary.bet>
+References: <20251103142120.29446-2-stuart.a.hayhurst@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -58,16 +59,14 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 
-On Mon, 3 Nov 2025, Naoki Ueki wrote:
+On Mon, 3 Nov 2025, Stuart Hayhurst wrote:
 
-> The ELECOM M-XT3URBK trackball has an additional device ID (0x018F), which
-> shares the same report descriptor as the existing device (0x00FB). However,
-> the driver does not currently recognize this new ID, resulting in only five
-> buttons being functional.
+> Use %pe to print a PTR_ERR to silence a cocci warning
 > 
-> This patch adds the new device ID so that all six buttons work properly.
-> 
-> Signed-off-by: Naoki Ueki <naoki25519@gmail.com>
+> Reported-by: kernel test robot <lkp@intel.com>
+> Reported-by: Julia Lawall <julia.lawall@inria.fr>
+> Closes: https://lore.kernel.org/r/202510300342.WtPn2jF3-lkp@intel.com/
+> Signed-off-by: Stuart Hayhurst <stuart.a.hayhurst@gmail.com>
 
 Applied, thanks.
 
