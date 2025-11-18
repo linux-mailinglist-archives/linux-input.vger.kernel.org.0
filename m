@@ -1,168 +1,136 @@
-Return-Path: <linux-input+bounces-16169-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16170-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB624C67DDB
-	for <lists+linux-input@lfdr.de>; Tue, 18 Nov 2025 08:16:02 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id E8446C680D7
+	for <lists+linux-input@lfdr.de>; Tue, 18 Nov 2025 08:47:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id EAD8A4F3353
-	for <lists+linux-input@lfdr.de>; Tue, 18 Nov 2025 07:12:07 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 4BB7235D759
+	for <lists+linux-input@lfdr.de>; Tue, 18 Nov 2025 07:40:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F20BC263F28;
-	Tue, 18 Nov 2025 07:12:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A521930597C;
+	Tue, 18 Nov 2025 07:38:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="STwthzC3"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Od+ejNtr"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6741A2DCF61
-	for <linux-input@vger.kernel.org>; Tue, 18 Nov 2025 07:12:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 252EA301483
+	for <linux-input@vger.kernel.org>; Tue, 18 Nov 2025 07:38:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763449925; cv=none; b=J/EAe5CYOjwiidTA2auZOWhWsx2ElaeZJiC3sr5M/0voONcQVr/gUf1jCaR0Kxe9hb14jQIq1gErdWGHBMlC5rY1B2/tE5r+lepNRwm7+tqoMZapbfEG/Or+cG8Dkho31wYZCyP3iZhX0hrdd65U1F80xyS5m+4hzORvK7VCZYo=
+	t=1763451491; cv=none; b=lZQEp3fURZK2lypm0bXzjjfI5iNJu3IP+8VPvLTfJoTx9CReRPB5cO5eqTNcPPmbfSyxBz4+SZcgTn36v1aEskn+dpRUQYHYZGRP5zHu8MUkv9rk+UJ4m0jVr5v12XsznfgwR7oli5w4gAFLbCRGTvAo2MRu9R5kLacOdgU/QKE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763449925; c=relaxed/simple;
-	bh=kqxE2BvMtXb19N0N5j2AatSUtc6E2GvOh549bXFjZO8=;
+	s=arc-20240116; t=1763451491; c=relaxed/simple;
+	bh=TH7NeO7vVQ/VUG2+FEeNWkKgZ2KsQAIwDaSHjhp/tv4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ViPHYnr+L2At+4QRdBJcQ/Ql3c+DuYofDIDbBHOyIb8t0cHWd7te2VBnzSkQKG49tYUWMx6arsL9fxXpMntXeDpcav4OXQDnJPwPY/OP/mtdFe98MSO6adwVI31MnwQfRQ+p4W/MhLNE7TH45yJxG4BcX+xo7wnNCPWr4P7zy5M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=STwthzC3; arc=none smtp.client-ip=209.85.210.176
+	 Content-Type:Content-Disposition:In-Reply-To; b=d22uIs/a9KXG3TvlHZ37jXZrLvB62dFKdPPRLwJsBWAHwG+gpd1NiShM8ib37QOAl5Xt3eAsqpFeZhUSP+yvFtUJVDW5FGMDNbC+WA6v+VIe47OMHqYTm+Y/pgGzgpqN/LqZ3klHFtnmqZIbbAHjGEyzsIyD0IjRwQRELfHSXnk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Od+ejNtr; arc=none smtp.client-ip=209.85.215.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-7b9387df58cso1325764b3a.3
-        for <linux-input@vger.kernel.org>; Mon, 17 Nov 2025 23:12:04 -0800 (PST)
+Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-bd1b0e2c1eeso1291519a12.0
+        for <linux-input@vger.kernel.org>; Mon, 17 Nov 2025 23:38:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763449924; x=1764054724; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=P31eobwb2WX4rPDbQxiFfXegN3L1RPYkm6g63KDXmkE=;
-        b=STwthzC3h0g/sOKTwi593XhPAg00RZUTWhev4Aivj/RTOnxp90FonitGVXkqhNATdt
-         MV5CtkG4SkOH68O4jFp4adL62uX8CpdGbo9P1QJorrkiLh5gqUCf8YB7vPN07fQl7Qo1
-         uZEjHi7tooAbdosJxuEAt4cZdNyt8lTT3lHujXZ+PlWXzblcEuDxWNw2BeMqm2ekmKkf
-         KCKnn5QXJphOlnOQuk15A2xLfCqiOS2hp2mn5OffbafPjttOz8ZFIfO9POl5KeOnvCmE
-         QETSItx40GdZfsOz0G4WEvQUBUTENw4/5DUGCWrrTnJF+kn+dBhqiY8rY78nXXjBT79B
-         7O4A==
+        d=gmail.com; s=20230601; t=1763451489; x=1764056289; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=oP6aqnAmldvD/TQWtFvRxy+Wad2q25rZrlIi47Pmepk=;
+        b=Od+ejNtr3eoNuA6emZKmQSynTYrp8pstmcCLUkrqP6sXvzfLkuUdONqXvWmBQDwHWk
+         EVsHDi812z8KKdu5+AJ822ysa8P0xkKPnPoSjLU8sECeUNyyrvz0mNjz4cN4oWwRwbQZ
+         BlPWmMtQYdGN1CGwpjq19iyZWRa1TC20OuZ6TrhLmMRfvny9fqOcrlwT09VCExBxjaEp
+         Up5Vd1Kq0T43w/g8EQ6U1w9aPDGqULWXHcPa7ECqCKEqkzL8BSGC5Bh6aZ5XVIm3VrSQ
+         KBNQZVNtXr/Ncb8ECy6iz6xssRbfUXYUvSaMcsIYqpMDLVBuO0EDg0UgtSBgK7Xs1SmO
+         R9dg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763449924; x=1764054724;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=P31eobwb2WX4rPDbQxiFfXegN3L1RPYkm6g63KDXmkE=;
-        b=lPTPsuULu1p8xZySeeD2DfqWu4arK1vQZhI9e/Mrzd/9gIC6DPjAnL7cYNq8WfFlSX
-         8DPaxzLF7i1xGwirv/C4UJhvsAVjMX5gS9rnUZJ/kSaaM+S4XxTWiPYiejGWmF2EaNoR
-         Amks8nmw/VrOcgE2qCa/2tKNQ80tv3bHnlArJ7UZ+XFqFq6zTtSTcZdIuIfM6P6TvPM7
-         GOP66FJBoGvKftpGyrA8VdeV82k0amO16kpvP0W2RC3dvGUMsvRSrt1p/haQfoyPfNPf
-         a5NJWoVU20mdZfXDQlZ10D+q6zitg+/fkox4LBeO5zlvIW9u9jaJHGz7heGxDLRENhk4
-         O2xg==
-X-Forwarded-Encrypted: i=1; AJvYcCVM+CXHgV+Z4C+RQFaKGi8bv2UsDHobSkHQuzNVCN/EeU/e7SdGHQc01NLWNFr7hu1nN2pNFsDu2oE+Nw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyxynqGfwsQwgnGtuTlrmN+TPmQE5X2e4L2f9rmoE8i0NM63JVC
-	TxUvnUk09/PS1jYEfWZ34/PzWGMmp7Xteo5KK+ieJsYf3Z3xMcEtcWaP
-X-Gm-Gg: ASbGnctLkCuKw06sWAhF8x9x9qf1rmux7LnTnjOnIcDNbUg0y0Y6TeziYyTd7MLyv60
-	ZJLROn3m7q4/aNmieoxfItzEszH8WNGp7NQP2fHOtre+5uRmpTiCooEJS4vo/MGlvr3ETWi1VjH
-	h3z+b53YQnM0eyDzyZ3BHo5Iljh7iVIhQK2s89HYPWVZ3SzVLbCl1FpwqNGStKRZsoQyPBmgruA
-	OLQzzjEjEVA4/pq1ePYphKrFOwwnZOxvc+AA/oosGT2MmiZc8QnrikxsDF81uhPIPwu+qy87OWP
-	LfJWmBVWi30AvR6ONth8NLTgvyvYtriY8/u29nNGn460v54vTo58jjyb+UeYNzTr9hbbTmLp3yZ
-	uXs8okGjWCc5IDgRN582cF3wVWphQfjC2QfQ4iG1AET/HCndb7HMHExIj8ZzYZR0mpG+nDDotvJ
-	Fu/7zwtYYg7yEHF+zfjumzqzg3merMF2VMk0XYcwlbnn+Men25RCmm
-X-Google-Smtp-Source: AGHT+IFKU9joUMgDkKTU6HYQwbc8tqDI8RbaRoS2Lr7i4ZfwDoynLBGIbmA7mWAdHFzZu3XZJ5YZIA==
-X-Received: by 2002:a05:7022:7e81:b0:11b:9386:7ed3 with SMTP id a92af1059eb24-11b93868327mr4742740c88.48.1763449923520;
-        Mon, 17 Nov 2025 23:12:03 -0800 (PST)
+        d=1e100.net; s=20230601; t=1763451489; x=1764056289;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=oP6aqnAmldvD/TQWtFvRxy+Wad2q25rZrlIi47Pmepk=;
+        b=i0eYk2ondQa1ExZVT/FH0Hy48r8lh/cqgJYLA0r26vMI5KAoGsSHKgEQiqDUa76UYU
+         d+PeDuO9TCfLPMF93ftZ3slW4ibjQh1woY0FEQhBHEjzxzGrygJjMGs5seEJ5zU22CPT
+         y2LeT9fLbgXtprg4ThDGut+lQHu1aIK4EHiV/YoC4SHitAbTsomymEe0wPQV1xBDPEYq
+         MOaxCKGFfCe/6DjV61q2Fg7VyimpjOUKcg9V9Sremf7IwMiM5ebuR8kf23ZRzbjqvSwL
+         OvSGbaS4VdzPL3TyT2NUJyl7VFGrWsDfEcv2pP1qqLbHKcPwbUIdWnt8GyDcvTaIs2Eh
+         8J/g==
+X-Forwarded-Encrypted: i=1; AJvYcCWOdhH9YzJzwuWvxWtNu2Q/0U6LKDXScFDtlDuosYiY3/VIzK8DdYB1OmibV8/Aoq656XfVd2MG742qMQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz9T6vKxPrcTF1nkp9dlD/c75Ndk4spPREJtblk0MQ0lXFAnbIE
+	uHX3zdqR3SxAU0XCanB/LL8X29BGrVvLN8/5azvKzpAEk5WoawZsKj7v
+X-Gm-Gg: ASbGncui2n535TcXDugsS2Pl+91QOAIQuOVjR+x9BsrUC6f82z/y8AfFpdASP5BeMt0
+	+Lrm3QojhMIgexhZcUiPBsWoc6fqhRxHk75t69cFuNmUvWzRKJljhX8Xp7s0Shxa5Bd4f9jZFeV
+	leGlLb9jCRy5xGYN7h+Rg+/7SzYANVTCWWy2SFu2jiT5vR0wlnAvWiJh9PCsOvjShs+JyJODkCQ
+	j5YihcTBgsddZXfy6Mf2WP7mP6OFj2ttlj4Wl9m9EpQGdJLfOOHbY2D/MS5P69P9ZKAbAVR3U/u
+	9lL6f0evUktj+2qBLsXUpmJ6Zer/cGxzaZUA8HUuUxWT9iA7SanRN+MS/zcnXvbb7eJ/uTzpCLa
+	IX4dS4sOTI18XEFHSrvug4XpmFXIxEvLbONsNO0JNtzTVPNLQ6+ctLim9kBtL4PjUfhfmseIqpX
+	rAkLQT3O4orV4A3bjwmc9cLemBVuZ1wEo5WldrPWEritbyaA3s1kfn
+X-Google-Smtp-Source: AGHT+IHtH29nUNBPA/lBB5oFVu9GhAwTUs/IjNh//vDlVAFByzmjZi0X/4i0dn30KDz6KOOS0/ffmw==
+X-Received: by 2002:a05:7022:662a:b0:11a:e425:deaf with SMTP id a92af1059eb24-11b41406578mr6273847c88.26.1763451489063;
+        Mon, 17 Nov 2025 23:38:09 -0800 (PST)
 Received: from google.com ([2a00:79e0:2ebe:8:a011:6b85:c55d:d1f5])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-11b0608860fsm48179218c88.5.2025.11.17.23.12.02
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2a49db7a753sm54607139eec.6.2025.11.17.23.38.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Nov 2025 23:12:02 -0800 (PST)
-Date: Mon, 17 Nov 2025 23:12:00 -0800
+        Mon, 17 Nov 2025 23:38:08 -0800 (PST)
+Date: Mon, 17 Nov 2025 23:38:06 -0800
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Jonathan Denose <jdenose@google.com>
-Cc: Jiri Kosina <jikos@kernel.org>, 
-	Benjamin Tissoires <bentiss@kernel.org>, linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] HID: multitouch: Toggle touch surface on Elan
- touchpad on lid event
-Message-ID: <v24zlqrmvov4gdjoa2xa7qv353pilgq2d6ag6nprgeue7tai4f@a4i632p5fbme>
-References: <20251111-lid-switch-notifier-v2-0-789723d78d89@google.com>
- <20251111-lid-switch-notifier-v2-2-789723d78d89@google.com>
- <iazucnirwewmavtsxudcynuoy2afzxhzr7nre2wke4d7glypcu@jtotz5oivpsu>
- <CAMCVhVMPuoaEzTthmaOBR+YbT3AN2YPKRv3XAw_r4owUvSRCKQ@mail.gmail.com>
+To: Peter Hutterer <peter.hutterer@who-t.net>
+Cc: Jonathan Denose <jdenose@google.com>, Jiri Kosina <jikos@kernel.org>, 
+	Benjamin Tissoires <bentiss@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Henrik Rydberg <rydberg@bitmath.org>, linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, Angela Czubak <aczubak@google.com>, 
+	Sean O'Brien <seobrien@google.com>, Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH v3] Input: rename INPUT_PROP_HAPTIC_TOUCHPAD to
+ INPUT_PROP_PRESSUREPAD
+Message-ID: <2khyn7qnwphg6hinptwsfs3xnn64nsitebja3sqnolceopwylg@mqrq3duv3nel>
+References: <20251030011735.GA969565@quokka>
+ <20251106114534.GA405512@tassie>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMCVhVMPuoaEzTthmaOBR+YbT3AN2YPKRv3XAw_r4owUvSRCKQ@mail.gmail.com>
+In-Reply-To: <20251106114534.GA405512@tassie>
 
-On Wed, Nov 12, 2025 at 05:49:53PM -0600, Jonathan Denose wrote:
-> Hi Dmitry,
+On Thu, Nov 06, 2025 at 09:45:34PM +1000, Peter Hutterer wrote:
+> And expand it to encompass all pressure pads.
 > 
-> Thanks for your review.
+> Definition: "pressure pad" as used here as includes all touchpads that
+> use physical pressure to convert to click, without physical hinges. Also
+> called haptic touchpads in general parlance, Synaptics calls them
+> ForcePads.
 > 
-> On Tue, Nov 11, 2025 at 4:37 PM Dmitry Torokhov
-> <dmitry.torokhov@gmail.com> wrote:
-> >
-> > Hi Jonathan,
-> >
-> > On Tue, Nov 11, 2025 at 09:34:07PM +0000, Jonathan Denose wrote:
-> > > Many touchpad modules have a pin which is expected to be connected to the
-> > > lid angle sensor in laptops. The pin sends a signal to the touchpad module
-> > > about the lid state and each touchpad vendor handles this notification in
-> > > their firmware.
-> > >
-> > > The Elan touchpad with VID 323b does not always have this aforementioned
-> > > pin, which then causes interference between the lid and the touchpad when
-> > > the lid is closed. This interference causes a few seconds delay before the
-> > > touchpad works again, or it causes it to be come completely unresponsive.
-> > > To circumvent this hardware issue in software, implement a device quirk
-> > > which will allow the hid-multitouch driver to register a notifier_block
-> > > to listen for lid switch events. When the lid switch closes, the
-> > > touchpad surface will be turned off and when the lid switch opens, the
-> > > touchpad surgace will be turned on. This triggers recalibration which
-> > > resolves interference issues when the lid is closed.
-> > >
-> > > Signed-off-by: Jonathan Denose <jdenose@google.com>
-> > > ---
-> > >  drivers/hid/hid-multitouch.c | 32 +++++++++++++++++++++++++++++++-
-> > >  1 file changed, 31 insertions(+), 1 deletion(-)
-> > >
-> > > diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
-> > > index 2879e65cf303b1456311ac06115adda5a78a2600..9a89913c193bc110a0a821a901aebd97892c66bd 100644
-> > > --- a/drivers/hid/hid-multitouch.c
-> > > +++ b/drivers/hid/hid-multitouch.c
-> > > @@ -35,6 +35,7 @@
-> > >  #include <linux/device.h>
-> > >  #include <linux/hid.h>
-> > >  #include <linux/module.h>
-> > > +#include <linux/notifier.h>
-> > >  #include <linux/slab.h>
-> > >  #include <linux/input/mt.h>
-> > >  #include <linux/jiffies.h>
-> > > @@ -76,6 +77,7 @@ MODULE_LICENSE("GPL");
-> > >  #define MT_QUIRK_DISABLE_WAKEUP              BIT(21)
-> > >  #define MT_QUIRK_ORIENTATION_INVERT  BIT(22)
-> > >  #define MT_QUIRK_APPLE_TOUCHBAR              BIT(23)
-> > > +#define MT_QUIRK_REGISTER_LID_NOTIFIER BIT(24)
-> > >
-> > >  #define MT_INPUTMODE_TOUCHSCREEN     0x02
-> > >  #define MT_INPUTMODE_TOUCHPAD                0x03
-> > > @@ -183,6 +185,8 @@ struct mt_device {
-> > >       struct list_head reports;
-> > >  };
-> > >
-> > > +static struct hid_device *lid_notify_hdev;
-> >
-> > This should really be per-device.
+> Most (all?) pressure pads are currently advertised as
+> INPUT_PROP_BUTTONPAD. The suggestion to identify them as pressure pads
+> by defining the resolution on ABS_MT_PRESSURE has been in the docs since
+> commit 20ccc8dd38a3 ("Documentation: input: define
+> ABS_PRESSURE/ABS_MT_PRESSURE resolution as grams") but few devices
+> provide this information.
 > 
-> Just to be sure I'm following correctly, the initialization of
-> lid_notify_hdev should be per-device?
+> In userspace it's thus impossible to determine whether a device is a
+> true pressure pad (pressure equals pressure) or a normal clickpad with
+> (pressure equals finger size).
+> 
+> Commit 7075ae4ac9db ("Input: add INPUT_PROP_HAPTIC_TOUCHPAD") introduces
+> INPUT_PROP_HAPTIC_TOUCHPAD but restricted it to those touchpads that
+> have support for userspace-controlled effects. Let's expand and rename
+> that definition to include all pressure pad touchpads since those that
+> do support FF effects can be identified by the presence of the
+> FF_HAPTIC bit.
+> 
+> This means:
+> - clickpad: INPUT_PROP_BUTTONPAD
+> - pressurepad: INPUT_PROP_BUTTONPAD + INPUT_PROP_PRESSUREPAD
+> - pressurepad with configurable haptics:
+>   INPUT_PROP_BUTTONPAD + INPUT_PROP_PRESSUREPAD + FF_HAPTIC
+> 
+> Signed-off-by: Peter Hutterer <peter.hutterer@who-t.net>
 
-Yes. I believe this is the best practice.
-
-Thanks.
+Applied, thank you.
 
 -- 
 Dmitry
