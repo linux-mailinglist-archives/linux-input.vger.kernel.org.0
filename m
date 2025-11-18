@@ -1,147 +1,156 @@
-Return-Path: <linux-input+bounces-16194-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16195-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6C67C6B69B
-	for <lists+linux-input@lfdr.de>; Tue, 18 Nov 2025 20:23:49 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 83E4BC6B6CE
+	for <lists+linux-input@lfdr.de>; Tue, 18 Nov 2025 20:26:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 41BAE4E3611
-	for <lists+linux-input@lfdr.de>; Tue, 18 Nov 2025 19:22:43 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 6DA994E044E
+	for <lists+linux-input@lfdr.de>; Tue, 18 Nov 2025 19:26:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 27E612E11D7;
-	Tue, 18 Nov 2025 19:22:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 35C1529B79B;
+	Tue, 18 Nov 2025 19:26:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KqsnLQCs"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Omb56ZZQ"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DF302DD5EF
-	for <linux-input@vger.kernel.org>; Tue, 18 Nov 2025 19:22:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C10F26738D
+	for <linux-input@vger.kernel.org>; Tue, 18 Nov 2025 19:26:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763493759; cv=none; b=DjxaSML17jAm0+CW1+e/YfRdxHpqTyoDONszvYSB/xLK7DRKx2IGfLcUhyhgM7TxAOg0ukUrJ7I0j5TfKahJPNegDChlJTkDV51Te065TlCVRY+GMfWpYi/yGWXkSE0QqlsKUAtTcJZnp4O+xY3V1NsHoVMZ9fd9wQ6LHKzeuPc=
+	t=1763493969; cv=none; b=hsYbPoniUbdhZ+0d9yPINyPCWd3IOfdJa7kt9UPokH1AD/Dad24NhazDHUsfW9pz21eFWuxM3zoPaDgoqt6Aaj+VXuxst5HtacEF4QKonsn4hPI4vdhbT6xIhCBh3ET4n+rzailYGJGV7KChp7T/EADfezbJRCO+5xZa/K1zylI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763493759; c=relaxed/simple;
-	bh=675Zk50Y3LTZEsvLuNfGMou8wqdkQy66ind05TlVNkE=;
+	s=arc-20240116; t=1763493969; c=relaxed/simple;
+	bh=hpZ/VnSzLtufEmMXrSA+rCp36DJZspZ43zLADI/3nwI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qANPPrHyJGX6ZweUXIsrkogxJbLIiOgYnRVUAt3sjV1zrtliFZ3Pje2WxsXMW4QKsnjdXXTHaQ6JwcZsO4FXR4FalO/TnftPzqdRmA1yfkIRMIixHDugZ72naD6kHRhqKHJZmeC3b6davIbrDy6eNbjalZndYJRSYvYoM3pRaHY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KqsnLQCs; arc=none smtp.client-ip=209.85.210.179
+	 Content-Type:Content-Disposition:In-Reply-To; b=PBOPKQWMKX1as3gaMOIJ7lWu1ZGNcF4+ucRABFSY+yFmoi69E3LtTV0vQakzgh9r26NAIMemDGfJzUhrYEUAUpJkdAov9Uv4gsQw61b7Md+jUAXD3TZn5HqnZNHHdBExq4Z2po09cyP6+PgmSCq9q7ThY+Rj/jBzkdv3idiF/yY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Omb56ZZQ; arc=none smtp.client-ip=209.85.210.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-7b9387df58cso2362235b3a.3
-        for <linux-input@vger.kernel.org>; Tue, 18 Nov 2025 11:22:37 -0800 (PST)
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-794e300e20dso107707b3a.1
+        for <linux-input@vger.kernel.org>; Tue, 18 Nov 2025 11:26:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763493757; x=1764098557; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=gvEa0jnc5aqBUZoWbfiQtt/7FtL9NO49WZyr4JCqvhE=;
-        b=KqsnLQCsk/6+QFOLHlPzcoRCV0D139J0OfKNF8/ZTp1Cd7BptFKp/mK8C0XEuJK/IH
-         g+XOYWEBruT8cMlRyNMcQba9QU5HR+dZck/ShM+noPlQHjxsldApCwnUnBloxkcvM1ty
-         TPlVTpsf06cAYK8SIIqYwqkrFj0XyrF1SLnRSBw33Y3K3keZUmZh2IEM1Yuz19S3YeWn
-         YMmFSyp6rcSL43YTHc6LYJofukxulqqVisC4yieZAu/Ntpran2Zk1CXvXjNNMTrz6isF
-         EJUmUOuRVm5nhDK1VtfcQCINyDYn77UdZqSrCebTExWhLGp1acaW3IRz9mpoYOnUBCPP
-         lGdA==
+        d=gmail.com; s=20230601; t=1763493966; x=1764098766; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=+OluKibch7yAYA0QsHdpbcA89Z98AyRfmNLKTF5GQ8c=;
+        b=Omb56ZZQnWYZdhAGeDXkv8AcoaBwJuzcuXPiSa4C9hKeQCIbWCsG2zO99zXcUmv1Ss
+         R05Uskx+ldusGQI9AzjJVQrwCFdIRigH3eqTiQQ3Zoq1cKYn6wgvFE61gCUpK5JzYmI1
+         Sm/Xc54e8F1gYa3ir4BvfZmoE1J4JXdRZGx52kNlOd3uMPIS5ryJoRvvn1Nrfn/TcJ7Y
+         OtKrgE2GdCgEu4lqQQR+QfpNgH8EwytUSZkxX0INRRDyWz99660DZjtBK+xrJ9sIf1uR
+         vNQXZJbY6iKclBS4+vlR9OuOuPLQSNtKrjrLZvNOLtHm6nnT9mHGGiu7DJ0Kf1NkTAcX
+         esfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763493757; x=1764098557;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=gvEa0jnc5aqBUZoWbfiQtt/7FtL9NO49WZyr4JCqvhE=;
-        b=io4lgwFXSRrZuYSP1U1jJjIWqYWUMZPkw5dQ7M1ZKAXdqQwYBUvckZQ4u5rjfDHwjM
-         D9ecnE/KqYZf9pwd8edIWEgPloEvi7kllore6fmSCZWth67VBvaXDzMUYQ0AZwfZB95e
-         j6uUfzLOzLX2hWV4XE0WkTwcoDnzn01guERb2kG0x+z0O+9z6cDx6t5aL3i54MCPMLt6
-         YCM/+T+QfKCkhdz5HM4JJlUnpR7KexhgqScsGeJ1bV/c7uVhjEBYiQYhCm26DoLdU/Th
-         VA+QdN9eGoVJO710OxPzuL/1LrisNV0FBe51NEPZsO8aSW1CIL0XgF8K0+PBwAMXA8Vh
-         IF/A==
-X-Forwarded-Encrypted: i=1; AJvYcCVAUOnt2bzw1Iz8O3GXZpff7rRtXJB6LJOGp8NlNB+UaMnf+gSeiF0OVI3v4PrwXGteOCMCeyN6Zn7MTg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxZ7Ess9jDaCPM0yshb3tHOiE5JRn9jIZTy3UWW5K4xkMEJX5b+
-	KHqSjciPt4HZSnF4gcjt6klsGSDljZcUaM9OXgIvyyjX/ghdKBssrBrA
-X-Gm-Gg: ASbGncuNKBxbvEOo6RMA5KYzUUJVFnXau7vVEWGvPrk6eH+JL43bJrgtpitygkPAU1O
-	lXnI67+/Tl3j6oJL6uJ/8MaH5qKIT1M8ogrfiXW1vYDd99A5Jk0NmaJNFBUUzhh7jWABdx7f+ZV
-	JnyIW0XMdrQrBz14+AJMmxoONvrYGqLN5yU9fV61jvRfRMA8z5XiwRt2gTEGbQhlp4kMvzTdOw+
-	R5b4n6QxtYW3Ju6T7kyzvFtasVLZBI8n3vgvdo+wY0VYmLJXtNgaOeb6dnIiGisi6ajathbBF4W
-	zsSMiIqniJv1R7R/OwZ+4+MiohD/joYp+K+GNBN/GCEQ+t0947TtlI3B9WU5DAOeGYbYYsAXHcR
-	Sz9X3smLAIxDAeg7uKdQWXMaNgmG7CABdlNu/aStF9/BHP8KIKMEhdksH6U3ZBpvIKw95z3rKQF
-	vDNt3ZsUmGQxk/68JiRXB+1uiCywclUopvW7Gw4yaAuSqSUOOKXHFjIqmS6pP4lWybQQPI8FPHA
-	g==
-X-Google-Smtp-Source: AGHT+IELEZhYWlXzd98KtP04N9FRevtbbB+qIzdu2jhq6XqeRQcPW3sY3BwS8IiZhjDpaOtgcw6rPw==
-X-Received: by 2002:a05:7022:43a6:b0:11a:49bd:be28 with SMTP id a92af1059eb24-11b40e846demr7788674c88.4.1763493756655;
-        Tue, 18 Nov 2025 11:22:36 -0800 (PST)
+        d=1e100.net; s=20230601; t=1763493966; x=1764098766;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=+OluKibch7yAYA0QsHdpbcA89Z98AyRfmNLKTF5GQ8c=;
+        b=uztk6v3XrSfpLF0MoJ9YNNYRrS2K3JrxLH1W0Qut4wFyzWTvmDVPM0EspfzGB4JVED
+         gvUxAUJxSZvYW6n1Lcc4pGwoJajfgFpFfq/W7XdC+Le5ghxP8ZpH3wT4NFXywl0oIP3g
+         yu7dOarc9dWhm8iEyDklJC/d0WekDdfr3/ppu7G+HZNGIR8Ya5TA2oFNohk47qOCeQ/f
+         Fw3BskhRbWXiZlMSZ3o8SDUOhb4O4SFUELAdRim2q2M1cyzR4DtwBoDfpCo27N6TxQwp
+         H5JN/8xgBQMNq6BFdW8nhB3snt0uNXGaJNBddQeu+TJ6dK/RKwuURtfjpYaZcCZhIkgC
+         8oLg==
+X-Gm-Message-State: AOJu0YwQRTUsxapUUHsap0HG+1f6jumWSTbjIUkJNoa4mVyZlBhWMmSj
+	JQB4eC/RKJYrvS24DUk4aZtlrqM+hN42KXAmhiHwOcMTzFv+Cveo79jevrkhXg==
+X-Gm-Gg: ASbGncv5+aPFI+CaEgTC7HlXkRM08I15P6F43om3C7bYeb5qODgLYhMDEYaotFm7fHC
+	nfTWLVt/nY6xT1LdhGYjIRWU0MrJjAHfpNWE80238j8aITZ0l1+NPo/3kFY2/hFJ9yprwrD0kG2
+	RhbO/LCwaT5TExi24lDmV/Kd/MBAL3D1aArpIIi4zOR7H0cYo4Fs1zScNkr0BsW6szzb/Xz/Nxd
+	O95+k9LI+4UdXtgAUIhXPelrZsJ+vn+a6QhiP6EJPuDVxWVg1K4uTTukv1PpuVtVJlJknqBUjiF
+	XtSxQy+Hi7DX4/BIcW8dN6IggzNRzn1O9JLGHxpTKDfI+YVoe/hmSENPQ8VoIzvGLu31iXqQ0Hq
+	miCd/PknIgo13e307DftcT72CpVBKEyjyiyKu3k0jXIEFYSYeHDDbBIrmjyPmzl/N0blNkfBERQ
+	aiQ+tNzp8goVOIkkdwcRM0wsh+xmMlp45mpinPtFvG5p1wdPsFlreVMlEmYmxE26U=
+X-Google-Smtp-Source: AGHT+IEbE505OYxpFM+kx2fEqc8wMRTYJFeXB5NaRiGmKSscaH2J1xA46Zs/7i3NnuV59lflwsXVMQ==
+X-Received: by 2002:a05:7022:1b0e:b0:119:e569:f855 with SMTP id a92af1059eb24-11c8d9686bamr7116c88.12.1763493966382;
+        Tue, 18 Nov 2025 11:26:06 -0800 (PST)
 Received: from google.com ([2a00:79e0:2ebe:8:a011:6b85:c55d:d1f5])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-11b06088625sm64635016c88.8.2025.11.18.11.22.35
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-11b06088625sm64661586c88.8.2025.11.18.11.26.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Nov 2025 11:22:36 -0800 (PST)
-Date: Tue, 18 Nov 2025 11:22:32 -0800
+        Tue, 18 Nov 2025 11:26:05 -0800 (PST)
+Date: Tue, 18 Nov 2025 11:26:03 -0800
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Josua Mayer <josua@solid-run.com>
-Cc: Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Shawn Guo <shawnguo@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>, 
-	Jessica Zhang <jessica.zhang@oss.qualcomm.com>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, Thierry Reding <thierry.reding@gmail.com>, 
-	Jon Nettleton <jon@solid-run.com>, Mikhail Anikin <mikhail.anikin@solid-run.com>, 
-	Yazan Shhady <yazan.shhady@solid-run.com>, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org, imx@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v3 04/11] Input: ilitek_ts_i2c: fix warning with gpio
- controllers that sleep
-Message-ID: <rifyic7w2zyjupbmzwcewcslryqiyexxdvbgcuxtkw3trmtulw@y4otarfyvgm7>
-References: <20251117-imx8mp-hb-iiot-v3-0-bf1a4cf5fa8e@solid-run.com>
- <20251117-imx8mp-hb-iiot-v3-4-bf1a4cf5fa8e@solid-run.com>
+To: Michal =?utf-8?B?Vm9rw6HEjQ==?= <michal.vokac@ysoft.com>
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Fabio Estevam <festevam@gmail.com>
+Subject: Re: [PATCH] Input: pixcir_i2c_ts - add support for one-time total
+ calibration
+Message-ID: <5uyos6zu74jfro7zsfup4zbkrywf5odi4ytfuwuttslgrus2of@fmopwef7fkme>
+References: <20251112130019.1488005-1-michal.vokac@ysoft.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20251117-imx8mp-hb-iiot-v3-4-bf1a4cf5fa8e@solid-run.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20251112130019.1488005-1-michal.vokac@ysoft.com>
 
-Hi Josua,
+Hi Michal,
 
-On Mon, Nov 17, 2025 at 01:28:46PM +0100, Josua Mayer wrote:
-> The ilitek touchscreen driver uses the non-sleeping gpiod_set_value
-> function for reset.
+On Wed, Nov 12, 2025 at 02:00:19PM +0100, Michal Vokáč wrote:
+> The Pixcir Tango controller has support for a one-time total calibration
+> (manual calibration) procedure. Its purpose is to measure the capacitance
+> offsets of the electrode system and to store these values into EEPROM.
 > 
-> Switch to using gpiod_set_value_cansleep() when controlling reset_gpio to
-> support GPIO providers that may sleep, such as I2C GPIO expanders.
+> During normal operation this calibration data is subtracted from the values
+> measured. This calibration should be necessary only once in the product
+> lifetime. It should be performed as part of the final adjustment after
+> the panel is mounted in the product.
 > 
-> This fixes noisy complaints in kernel log for gpio providers that do
-> sleep.
+> Add support for the calibration with sysfs interface.
 > 
-> Signed-off-by: Josua Mayer <josua@solid-run.com>
+> Signed-off-by: Michal Vokáč <michal.vokac@ysoft.com>
 > ---
->  drivers/input/touchscreen/ilitek_ts_i2c.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  drivers/input/touchscreen/pixcir_i2c_ts.c | 34 +++++++++++++++++++++++
+>  1 file changed, 34 insertions(+)
 > 
-> diff --git a/drivers/input/touchscreen/ilitek_ts_i2c.c b/drivers/input/touchscreen/ilitek_ts_i2c.c
-> index 0dd632724a003..8c5a54b336816 100644
-> --- a/drivers/input/touchscreen/ilitek_ts_i2c.c
-> +++ b/drivers/input/touchscreen/ilitek_ts_i2c.c
-> @@ -396,9 +396,9 @@ static const struct ilitek_protocol_map ptl_func_map[] = {
->  static void ilitek_reset(struct ilitek_ts_data *ts, int delay)
->  {
->  	if (ts->reset_gpio) {
-> -		gpiod_set_value(ts->reset_gpio, 1);
-> +		gpiod_set_value_cansleep(ts->reset_gpio, 1);
->  		mdelay(10);
+> diff --git a/drivers/input/touchscreen/pixcir_i2c_ts.c b/drivers/input/touchscreen/pixcir_i2c_ts.c
+> index dad5786e82a4..2215e56b1458 100644
+> --- a/drivers/input/touchscreen/pixcir_i2c_ts.c
+> +++ b/drivers/input/touchscreen/pixcir_i2c_ts.c
+> @@ -24,6 +24,7 @@
+>   */
+>  #define PIXCIR_REG_POWER_MODE	51
+>  #define PIXCIR_REG_INT_MODE	52
+> +#define PIXCIR_REG_SPECOP	58
+>  
+>  /*
+>   * Power modes:
+> @@ -82,6 +83,7 @@ struct pixcir_i2c_ts_data {
+>  	const struct pixcir_i2c_chip_data *chip;
+>  	struct touchscreen_properties prop;
+>  	bool running;
+> +	struct mutex sysfs_mutex;
+>  };
+>  
+>  struct pixcir_report_data {
+> @@ -462,6 +464,35 @@ static int pixcir_i2c_ts_resume(struct device *dev)
+>  static DEFINE_SIMPLE_DEV_PM_OPS(pixcir_dev_pm_ops,
+>  				pixcir_i2c_ts_suspend, pixcir_i2c_ts_resume);
+>  
+> +static ssize_t calibrate_store(struct device *dev,
+> +			       struct device_attribute *attr,
+> +			       const char *buf, size_t count)
+> +{
+> +	struct i2c_client *client = to_i2c_client(dev);
+> +	struct pixcir_i2c_ts_data *ts = i2c_get_clientdata(client);
+> +	static const u8 cmd = 0x03;
+> +	int error;
+> +
+> +	error = mutex_lock_interruptible(&ts->sysfs_mutex);
+> +	if (error)
+> +		return error;
 
-This (and below) should be usleep_range/msleep/fsleep.
-
-> -		gpiod_set_value(ts->reset_gpio, 0);
-> +		gpiod_set_value_cansleep(ts->reset_gpio, 0);
->  		mdelay(delay);
->  	}
->  }
-> 
+Why do we need this mutex? i2c_smbus_write_byte_data() does take adapter
+lock, why do we need this additional locking?
 
 Thanks.
 
