@@ -1,159 +1,251 @@
-Return-Path: <linux-input+bounces-16195-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16196-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83E4BC6B6CE
-	for <lists+linux-input@lfdr.de>; Tue, 18 Nov 2025 20:26:13 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B58DC6BF78
+	for <lists+linux-input@lfdr.de>; Wed, 19 Nov 2025 00:18:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 6DA994E044E
-	for <lists+linux-input@lfdr.de>; Tue, 18 Nov 2025 19:26:12 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTPS id 033342C3C4
+	for <lists+linux-input@lfdr.de>; Tue, 18 Nov 2025 23:18:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 35C1529B79B;
-	Tue, 18 Nov 2025 19:26:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D3922E7186;
+	Tue, 18 Nov 2025 23:18:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Omb56ZZQ"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BSxjzR/c"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C10F26738D
-	for <linux-input@vger.kernel.org>; Tue, 18 Nov 2025 19:26:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8193B21D3F5
+	for <linux-input@vger.kernel.org>; Tue, 18 Nov 2025 23:17:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763493969; cv=none; b=hsYbPoniUbdhZ+0d9yPINyPCWd3IOfdJa7kt9UPokH1AD/Dad24NhazDHUsfW9pz21eFWuxM3zoPaDgoqt6Aaj+VXuxst5HtacEF4QKonsn4hPI4vdhbT6xIhCBh3ET4n+rzailYGJGV7KChp7T/EADfezbJRCO+5xZa/K1zylI=
+	t=1763507881; cv=none; b=MTY53j2/X0kFiYpCWYF0qOI4jiH6nECjnbWfATcZuivcJtK7w7CCsUo0jyemVBUgQB68SnjMh/rntw0sIFY6Rd3jTPrSmlI+Hc5WG23+7YxLwQzK0yX50AEyMYJ7dggPHlWL5GkQUb1sB+wO3ScdqytNgm38Y7HOA0YpX6+wrB8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763493969; c=relaxed/simple;
-	bh=hpZ/VnSzLtufEmMXrSA+rCp36DJZspZ43zLADI/3nwI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PBOPKQWMKX1as3gaMOIJ7lWu1ZGNcF4+ucRABFSY+yFmoi69E3LtTV0vQakzgh9r26NAIMemDGfJzUhrYEUAUpJkdAov9Uv4gsQw61b7Md+jUAXD3TZn5HqnZNHHdBExq4Z2po09cyP6+PgmSCq9q7ThY+Rj/jBzkdv3idiF/yY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Omb56ZZQ; arc=none smtp.client-ip=209.85.210.180
+	s=arc-20240116; t=1763507881; c=relaxed/simple;
+	bh=gknviFjPEyU1/kMRyf9Qq0BmZRBgRAyrlFc2Oa7+0hU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=rlqFxgsmcFg1a1d3olDIsJoIH5ivpP4Qdn0j6PPpuIJLEVijsmEBQH77RoiHqroIqW0+5dDUjlKAiaILW3GFelkA2TXZGed+xNBULonT/3/tiFegnc0ODAD7IIDcjSNdnNkSgiQ+GBmAxYE59ZGUhGKTVcBCR8cUyOFwd/rIVrs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BSxjzR/c; arc=none smtp.client-ip=209.85.128.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-794e300e20dso107707b3a.1
-        for <linux-input@vger.kernel.org>; Tue, 18 Nov 2025 11:26:07 -0800 (PST)
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-47775fb6cb4so43647775e9.0
+        for <linux-input@vger.kernel.org>; Tue, 18 Nov 2025 15:17:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763493966; x=1764098766; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=+OluKibch7yAYA0QsHdpbcA89Z98AyRfmNLKTF5GQ8c=;
-        b=Omb56ZZQnWYZdhAGeDXkv8AcoaBwJuzcuXPiSa4C9hKeQCIbWCsG2zO99zXcUmv1Ss
-         R05Uskx+ldusGQI9AzjJVQrwCFdIRigH3eqTiQQ3Zoq1cKYn6wgvFE61gCUpK5JzYmI1
-         Sm/Xc54e8F1gYa3ir4BvfZmoE1J4JXdRZGx52kNlOd3uMPIS5ryJoRvvn1Nrfn/TcJ7Y
-         OtKrgE2GdCgEu4lqQQR+QfpNgH8EwytUSZkxX0INRRDyWz99660DZjtBK+xrJ9sIf1uR
-         vNQXZJbY6iKclBS4+vlR9OuOuPLQSNtKrjrLZvNOLtHm6nnT9mHGGiu7DJ0Kf1NkTAcX
-         esfw==
+        d=gmail.com; s=20230601; t=1763507878; x=1764112678; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=6gDMr/aywrnnx2iF+KSNXiJDGNcZAavLoTtZUbRlB6I=;
+        b=BSxjzR/cfzuMZapWglIULqGF39q7JqRQgFmHIp97RMeKy8V6SHDMCWxVV8MsXoxLuH
+         kc7Qy69cxAh8CUQNdMY8OIyvRb4utqlAc0o5hlQNqODvqguqPhyRVQ7b7e3cBmRC3bT+
+         qNxjcT4uF4l9gW9AF0g5pVN4XfgMzKwLz04t4clEcZU3N+5er5g6YvsfJKHud8vf00IX
+         L3d/Vyx0sikt7qhpoEo8gLnTM8AQlbc58HKYyAk4J2YxNRowu0RCmzE0C7Q+3yTUeAiD
+         An3tdcMYWD8//+OnM/v0WrhQt6TFZYk9ykQ89qqBxgdvzQB/V0bdjtfVjEuVxrKa2Jjl
+         WxWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763493966; x=1764098766;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=+OluKibch7yAYA0QsHdpbcA89Z98AyRfmNLKTF5GQ8c=;
-        b=uztk6v3XrSfpLF0MoJ9YNNYRrS2K3JrxLH1W0Qut4wFyzWTvmDVPM0EspfzGB4JVED
-         gvUxAUJxSZvYW6n1Lcc4pGwoJajfgFpFfq/W7XdC+Le5ghxP8ZpH3wT4NFXywl0oIP3g
-         yu7dOarc9dWhm8iEyDklJC/d0WekDdfr3/ppu7G+HZNGIR8Ya5TA2oFNohk47qOCeQ/f
-         Fw3BskhRbWXiZlMSZ3o8SDUOhb4O4SFUELAdRim2q2M1cyzR4DtwBoDfpCo27N6TxQwp
-         H5JN/8xgBQMNq6BFdW8nhB3snt0uNXGaJNBddQeu+TJ6dK/RKwuURtfjpYaZcCZhIkgC
-         8oLg==
-X-Gm-Message-State: AOJu0YwQRTUsxapUUHsap0HG+1f6jumWSTbjIUkJNoa4mVyZlBhWMmSj
-	JQB4eC/RKJYrvS24DUk4aZtlrqM+hN42KXAmhiHwOcMTzFv+Cveo79jevrkhXg==
-X-Gm-Gg: ASbGncv5+aPFI+CaEgTC7HlXkRM08I15P6F43om3C7bYeb5qODgLYhMDEYaotFm7fHC
-	nfTWLVt/nY6xT1LdhGYjIRWU0MrJjAHfpNWE80238j8aITZ0l1+NPo/3kFY2/hFJ9yprwrD0kG2
-	RhbO/LCwaT5TExi24lDmV/Kd/MBAL3D1aArpIIi4zOR7H0cYo4Fs1zScNkr0BsW6szzb/Xz/Nxd
-	O95+k9LI+4UdXtgAUIhXPelrZsJ+vn+a6QhiP6EJPuDVxWVg1K4uTTukv1PpuVtVJlJknqBUjiF
-	XtSxQy+Hi7DX4/BIcW8dN6IggzNRzn1O9JLGHxpTKDfI+YVoe/hmSENPQ8VoIzvGLu31iXqQ0Hq
-	miCd/PknIgo13e307DftcT72CpVBKEyjyiyKu3k0jXIEFYSYeHDDbBIrmjyPmzl/N0blNkfBERQ
-	aiQ+tNzp8goVOIkkdwcRM0wsh+xmMlp45mpinPtFvG5p1wdPsFlreVMlEmYmxE26U=
-X-Google-Smtp-Source: AGHT+IEbE505OYxpFM+kx2fEqc8wMRTYJFeXB5NaRiGmKSscaH2J1xA46Zs/7i3NnuV59lflwsXVMQ==
-X-Received: by 2002:a05:7022:1b0e:b0:119:e569:f855 with SMTP id a92af1059eb24-11c8d9686bamr7116c88.12.1763493966382;
-        Tue, 18 Nov 2025 11:26:06 -0800 (PST)
-Received: from google.com ([2a00:79e0:2ebe:8:a011:6b85:c55d:d1f5])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-11b06088625sm64661586c88.8.2025.11.18.11.26.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Nov 2025 11:26:05 -0800 (PST)
-Date: Tue, 18 Nov 2025 11:26:03 -0800
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Michal =?utf-8?B?Vm9rw6HEjQ==?= <michal.vokac@ysoft.com>
-Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Fabio Estevam <festevam@gmail.com>
-Subject: Re: [PATCH] Input: pixcir_i2c_ts - add support for one-time total
- calibration
-Message-ID: <5uyos6zu74jfro7zsfup4zbkrywf5odi4ytfuwuttslgrus2of@fmopwef7fkme>
-References: <20251112130019.1488005-1-michal.vokac@ysoft.com>
+        d=1e100.net; s=20230601; t=1763507878; x=1764112678;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=6gDMr/aywrnnx2iF+KSNXiJDGNcZAavLoTtZUbRlB6I=;
+        b=qQgdlrPw/9u9NipzfAbBV8uAWnQcN8a22LIdl8NW7Njx5BpeLYGr0Oqx+MjfmlwmrG
+         pcRNgbLFgBtd8rIv4ku2kbAXIOZnktnj43nRfHqR7OeIYBfa8gIcBkqvgJoiM29dJTba
+         e7kSnKaCzuwEO0Xh6/QPEW8lIRTH2A0xWoHCYSgD1Ola+jvkjyYuI/R9FDwx0isHvKyY
+         RXeFvHDsReI239ufABSSRwx/x9EZG4uSEP0zmodVz6t2WHutTiXD6EaEN9bu8/wBQhQj
+         P1QCPB/Es9yfAf6c3A1JF3uyAztwYWNnmHCca5pDRjTIcj/BATfPHOt7Qd4yiAnU8mdV
+         31Kg==
+X-Forwarded-Encrypted: i=1; AJvYcCV78vHtLW9DxP2QqZtu8D/pDunesPE02ypMRNaIaBZIGgTA1RuYG60FaMEXvsblbJBTDlOGbHiIgFyEVQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy439jUeyBwTmw2GrTBbHNSPfgUvfJhy9lAu7T0GYzqKCmCdFLe
+	nkUg8TrobqSvNKgJNJKEZPAiWwMbm6RQB4IBqj3xvZIxpVeJUlr3QMS19nx85A==
+X-Gm-Gg: ASbGnctYRyGXt92apuK1wTwvORIJLQ26zWgwqcdTbL3JMrpgBnXzco7dFQk+R7bpeA0
+	xJ9rcAhY39uFBHMEBOeY0XuwtrHuS9EDVaGkyf35ONHDg6nafWGlLsdrXu4NkTzbq6xUkumQR9X
+	qZRXeGEKFNh8v55H/dVBnSZJ8/VOV4+MomfP7zQ4a3rIN/0atGHU2W/YlpXl4MjpZY/JqoJAIWh
+	m6AIqA+UoUSKvQk+idVJlcWGZ3rFueqTvfOhDRBfuSuKmTh/75iS2I7SFCCMv4N0uxIPX6Gg/5a
+	w+wQAGztXsn2ZszqLi+mSM9YPsZwefbnWugvTK3kCfj6AHnO4itIQxBgIPKsnWvKBCFYM8PE6PH
+	I5C0eUdZ6f/cJ7n7LTxWj4G1obD7lMMFXfQLrDkMCWBWOJAo8iMwDPfX8cXglKEByNlN9uyTSMF
+	OXGVLV/5Dzt9HqeAno4Y5ixhw=
+X-Google-Smtp-Source: AGHT+IGwYE3staR+HpljCb6DKDdaYBLtznmS3Of1dWzwIvywYLGHuQ0P487wMJfCNkKAJBa1w8hR/A==
+X-Received: by 2002:a05:600c:8b5b:b0:477:7768:8da4 with SMTP id 5b1f17b1804b1-4778fe59f99mr157009395e9.7.1763507877562;
+        Tue, 18 Nov 2025 15:17:57 -0800 (PST)
+Received: from [192.168.1.121] ([176.206.93.222])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-477a9dcd891sm26851615e9.7.2025.11.18.15.17.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 18 Nov 2025 15:17:57 -0800 (PST)
+Message-ID: <f4046f26-7d07-41b1-8332-a59fa8903f8f@gmail.com>
+Date: Wed, 19 Nov 2025 00:17:56 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 01/10] HID: asus: simplify RGB init sequence
+To: Antheas Kapenekakis <lkml@antheas.dev>,
+ =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Cc: platform-driver-x86@vger.kernel.org, linux-input@vger.kernel.org,
+ LKML <linux-kernel@vger.kernel.org>, Jiri Kosina <jikos@kernel.org>,
+ Benjamin Tissoires <bentiss@kernel.org>,
+ Corentin Chary <corentin.chary@gmail.com>, "Luke D . Jones"
+ <luke@ljones.dev>, Hans de Goede <hdegoede@redhat.com>
+References: <20251101104712.8011-1-lkml@antheas.dev>
+ <20251101104712.8011-2-lkml@antheas.dev>
+ <3018f443-e1af-7a93-f0f2-558364ecb9eb@linux.intel.com>
+ <CAGwozwEen-gfuSKhRFXD3i7RpZUVWED+EJnA8R1aYYNs2SaWcA@mail.gmail.com>
+Content-Language: en-US, it-IT, en-US-large
+From: Denis Benato <benato.denis96@gmail.com>
+In-Reply-To: <CAGwozwEen-gfuSKhRFXD3i7RpZUVWED+EJnA8R1aYYNs2SaWcA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251112130019.1488005-1-michal.vokac@ysoft.com>
 
-Hi Michal,
 
-On Wed, Nov 12, 2025 at 02:00:19PM +0100, Michal Vokáč wrote:
-> The Pixcir Tango controller has support for a one-time total calibration
-> (manual calibration) procedure. Its purpose is to measure the capacitance
-> offsets of the electrode system and to store these values into EEPROM.
-> 
-> During normal operation this calibration data is subtracted from the values
-> measured. This calibration should be necessary only once in the product
-> lifetime. It should be performed as part of the final adjustment after
-> the panel is mounted in the product.
-> 
-> Add support for the calibration with sysfs interface.
-> 
-> Signed-off-by: Michal Vokáč <michal.vokac@ysoft.com>
-> ---
->  drivers/input/touchscreen/pixcir_i2c_ts.c | 34 +++++++++++++++++++++++
->  1 file changed, 34 insertions(+)
-> 
-> diff --git a/drivers/input/touchscreen/pixcir_i2c_ts.c b/drivers/input/touchscreen/pixcir_i2c_ts.c
-> index dad5786e82a4..2215e56b1458 100644
-> --- a/drivers/input/touchscreen/pixcir_i2c_ts.c
-> +++ b/drivers/input/touchscreen/pixcir_i2c_ts.c
-> @@ -24,6 +24,7 @@
->   */
->  #define PIXCIR_REG_POWER_MODE	51
->  #define PIXCIR_REG_INT_MODE	52
-> +#define PIXCIR_REG_SPECOP	58
->  
->  /*
->   * Power modes:
-> @@ -82,6 +83,7 @@ struct pixcir_i2c_ts_data {
->  	const struct pixcir_i2c_chip_data *chip;
->  	struct touchscreen_properties prop;
->  	bool running;
-> +	struct mutex sysfs_mutex;
->  };
->  
->  struct pixcir_report_data {
-> @@ -462,6 +464,35 @@ static int pixcir_i2c_ts_resume(struct device *dev)
->  static DEFINE_SIMPLE_DEV_PM_OPS(pixcir_dev_pm_ops,
->  				pixcir_i2c_ts_suspend, pixcir_i2c_ts_resume);
->  
-> +static ssize_t calibrate_store(struct device *dev,
-> +			       struct device_attribute *attr,
-> +			       const char *buf, size_t count)
-> +{
-> +	struct i2c_client *client = to_i2c_client(dev);
-> +	struct pixcir_i2c_ts_data *ts = i2c_get_clientdata(client);
-> +	static const u8 cmd = 0x03;
-> +	int error;
-> +
-> +	error = mutex_lock_interruptible(&ts->sysfs_mutex);
-> +	if (error)
-> +		return error;
+On 11/18/25 14:07, Antheas Kapenekakis wrote:
+> On Tue, 18 Nov 2025 at 13:23, Ilpo Järvinen
+> <ilpo.jarvinen@linux.intel.com> wrote:
+>> On Sat, 1 Nov 2025, Antheas Kapenekakis wrote:
+>>
+>>> Currently, RGB initialization forks depending on whether a device is
+>>> NKEY. Then, NKEY devices are initialized using 0x5a, 0x5d, 0x5e
+>>> endpoints, and non-NKEY devices with 0x5a and then a
+>>> backlight check, which is omitted for NKEY devices.
+>>>
+>>> Remove the fork, using a common initialization sequence for both,
+>>> where they are both only initialized with 0x5a, then checked for
+>>> backlight support. This patch should not affect existing functionality.
+>>>
+>>> 0x5d and 0x5e endpoint initializations are performed by Windows
+>>> userspace programs associated with different usages that reside under
+>>> the vendor HID. Specifically, 0x5d is used by Armoury Crate, which
+>>> controls RGB and 0x5e by an animation program for certain Asus laptops.
+>>> Neither is used currently in the driver.
+This patch is, as requested, not touching 0x5d and 0x5e so why mentioning them at all?
 
-Why do we need this mutex? i2c_smbus_write_byte_data() does take adapter
-lock, why do we need this additional locking?
+This text has become out of context IMHO.
+>>> Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
+>>> ---
+>>>  drivers/hid/hid-asus.c | 56 ++++++++++++++----------------------------
+>>>  1 file changed, 19 insertions(+), 37 deletions(-)
+>>>
+>>> diff --git a/drivers/hid/hid-asus.c b/drivers/hid/hid-asus.c
+>>> index a444d41e53b6..7ea1037c3979 100644
+>>> --- a/drivers/hid/hid-asus.c
+>>> +++ b/drivers/hid/hid-asus.c
+>>> @@ -638,50 +638,32 @@ static int asus_kbd_register_leds(struct hid_device *hdev)
+>>>       unsigned char kbd_func;
+>>>       int ret;
+>>>
+>>> -     if (drvdata->quirks & QUIRK_ROG_NKEY_KEYBOARD) {
+>>> -             /* Initialize keyboard */
+>>> -             ret = asus_kbd_init(hdev, FEATURE_KBD_REPORT_ID);
+>>> -             if (ret < 0)
+>>> -                     return ret;
+>>> -
+>>> -             /* The LED endpoint is initialised in two HID */
+>>> -             ret = asus_kbd_init(hdev, FEATURE_KBD_LED_REPORT_ID1);
+>>> -             if (ret < 0)
+>>> -                     return ret;
+>>> -
+>>> -             ret = asus_kbd_init(hdev, FEATURE_KBD_LED_REPORT_ID2);
+>>> -             if (ret < 0)
+>>> -                     return ret;
+>> This removal of FEATURE_KBD_LED_REPORT_ID2 should definitely be in own
+>> patch so a focused changelog can be written to it (who said it's
+>> acceptable, etc. included) and it can be pinpointed with bisect if it
+>> causes any issues (but I'm not entirely sure what Denis' stance is on this
+>> removal so it's going to be subject to some further scrunity, but in any
+>> case it must be in own patch if to be accepted).
+> Yeah this is a fair approach.
+You unified the init interface, but I see that there was divergence
+that now is gone:  both FEATURE_KBD_LED_REPORT_ID1 and
+FEATURE_KBD_LED_REPORT_ID2 are not used in the initialization
+now: I can only see two reasons for this:
+- you don't think those are needed
+- they will cause problems with asus_kbd_init that is changed in patch 3
 
-Thanks.
+What's the given reason here?
 
--- 
-Dmitry
+You can pretty much re-introduce the if (quirk) { those_two_init }
+after the asus_kbd_get_functions as I don't see any reasons to remove that.
+
+If we can't verify with hardware using it that quirk I think we can modify
+these to not fail if the HID device doesn't answer back with expected data:
+I am cross-referencing patch 3 here.
+
+>> I'm wondering though if QUIRK_ROG_NKEY_LEGACY could also cover this? At
+>> least it would look a path of less resistance when it comes to Denis'
+>> stance and would decouple the remove or not controversy from acceptance of
+>> this series.
+Since what I see here is a (qurks excluded) mostly unified path for
+all devices I will have to review that, but I already said that if we find
+some common denominator to newer devices that could help us
+in changing the flow specifically to those I am also open to this
+possibility.
+> So a way forward would be on the simplify patch, to use an if rog
+> statement to do ID1 and ID2 and then on the next patch replace the
+> quirk in the if check with the legacy quirk. This is ok with me, as
+> those are older devices.
+After the fourth time of re-reading this I have no idea what you are
+proposing here. Sorry.
+> Antheas
+I am slowly going through patches and sending comments while also
+reviewing them with more detail.
+>> --
+>>  i.
+>>
+>>> -             if (dmi_match(DMI_PRODUCT_FAMILY, "ProArt P16")) {
+>>> -                     ret = asus_kbd_disable_oobe(hdev);
+>>> -                     if (ret < 0)
+>>> -                             return ret;
+>>> -             }
+>>> -
+>>> -             if (drvdata->quirks & QUIRK_ROG_ALLY_XPAD) {
+>>> -                     intf = to_usb_interface(hdev->dev.parent);
+>>> -                     udev = interface_to_usbdev(intf);
+>>> -                     validate_mcu_fw_version(hdev,
+>>> -                             le16_to_cpu(udev->descriptor.idProduct));
+>>> -             }
+>>> +     ret = asus_kbd_init(hdev, FEATURE_KBD_REPORT_ID);
+>>> +     if (ret < 0)
+>>> +             return ret;
+>>>
+>>> -     } else {
+>>> -             /* Initialize keyboard */
+>>> -             ret = asus_kbd_init(hdev, FEATURE_KBD_REPORT_ID);
+>>> -             if (ret < 0)
+>>> -                     return ret;
+>>> +     /* Get keyboard functions */
+>>> +     ret = asus_kbd_get_functions(hdev, &kbd_func, FEATURE_KBD_REPORT_ID);
+>>> +     if (ret < 0)
+>>> +             return ret;
+>>>
+>>> -             /* Get keyboard functions */
+>>> -             ret = asus_kbd_get_functions(hdev, &kbd_func, FEATURE_KBD_REPORT_ID);
+>>> +     if (dmi_match(DMI_PRODUCT_FAMILY, "ProArt P16")) {
+>>> +             ret = asus_kbd_disable_oobe(hdev);
+>>>               if (ret < 0)
+>>>                       return ret;
+>>> +     }
+>>>
+>>> -             /* Check for backlight support */
+>>> -             if (!(kbd_func & SUPPORT_KBD_BACKLIGHT))
+>>> -                     return -ENODEV;
+>>> +     if (drvdata->quirks & QUIRK_ROG_ALLY_XPAD) {
+>>> +             intf = to_usb_interface(hdev->dev.parent);
+>>> +             udev = interface_to_usbdev(intf);
+>>> +             validate_mcu_fw_version(
+>>> +                     hdev, le16_to_cpu(udev->descriptor.idProduct));
+>>>       }
+>>>
+>>> +     /* Check for backlight support */
+>>> +     if (!(kbd_func & SUPPORT_KBD_BACKLIGHT))
+>>> +             return -ENODEV;
+>>> +
+>>>       drvdata->kbd_backlight = devm_kzalloc(&hdev->dev,
+>>>                                             sizeof(struct asus_kbd_leds),
+>>>                                             GFP_KERNEL);
+>>>
 
