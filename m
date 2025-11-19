@@ -1,154 +1,147 @@
-Return-Path: <linux-input+bounces-16216-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16217-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55054C6DECE
-	for <lists+linux-input@lfdr.de>; Wed, 19 Nov 2025 11:15:28 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 389EBC6DFEF
+	for <lists+linux-input@lfdr.de>; Wed, 19 Nov 2025 11:32:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sin.lore.kernel.org (Postfix) with ESMTPS id 1EF602EBAB
-	for <lists+linux-input@lfdr.de>; Wed, 19 Nov 2025 10:10:41 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id EC8FF4F6317
+	for <lists+linux-input@lfdr.de>; Wed, 19 Nov 2025 10:23:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 85DB52E090B;
-	Wed, 19 Nov 2025 10:10:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F3CA34B1AD;
+	Wed, 19 Nov 2025 10:23:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ysoft.com header.i=@ysoft.com header.b="NgYlL0UU"
 X-Original-To: linux-input@vger.kernel.org
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from uho.ysoft.cz (uho.ysoft.cz [81.19.3.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57ABE349AE1
-	for <linux-input@vger.kernel.org>; Wed, 19 Nov 2025 10:10:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08B7C349B12;
+	Wed, 19 Nov 2025 10:23:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=81.19.3.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763547031; cv=none; b=Ce6mGX8VYSKrHuIII1+i9+rJNK9dxWyzLoxigjTVcWL/+CmQsZRc2BZ1PrLfrbzpf+5G6f+M3Xbdwd0vVUtsKaViH5MiS2KrxGwHO0d2InBdemZK/S54oXdacQ3Cw+t5RDClvgjvaBP81pBeoFmLbiN9c+2OEJE/uO4szjGT654=
+	t=1763547828; cv=none; b=ILRFSFjc2leyPqaawv4c06A8w3KMdPvxz52djNsi8gnFwld7hnE/xX1iAZyNoQDK8ogvq/P3dMtE0OZYAVkzHxm4smsDqHvT7H7tlZmWgb7muVDdaO9lFf2igsudr7kA0ZD6bfqP0P/rVQhOECVRPaQWgXycZZWoaUz7pLl80cA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763547031; c=relaxed/simple;
-	bh=4ptftZJA4h6pmDPMZOGQAp7im/wdQhyDp9FuYpl9TMI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gmjn8M88NcsilI/pe7oNJ74AlKczXDoKtX46LZ9PZGjGDsE2/n9XIuZdf6eLPqOtfQyOf7Kw4JxZjZnUT/EYpuGGLA4EaVuhQibpF+ETW35QSToAZWdS9ZJHka4Omx3MyyU8tW8Qz3ZsIVMoIL5z2qz3mkf87wiIVAVQOLsblqk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <mfe@pengutronix.de>)
-	id 1vLf8b-0005cZ-OG; Wed, 19 Nov 2025 11:10:09 +0100
-Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <mfe@pengutronix.de>)
-	id 1vLf8Z-001EIg-0m;
-	Wed, 19 Nov 2025 11:10:07 +0100
-Received: from mfe by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <mfe@pengutronix.de>)
-	id 1vLf8Z-00C2je-0O;
-	Wed, 19 Nov 2025 11:10:07 +0100
-Date: Wed, 19 Nov 2025 11:10:07 +0100
-From: Marco Felsch <m.felsch@pengutronix.de>
-To: Russ Weight <russ.weight@linux.dev>
-Cc: Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
-	Henrik Rydberg <rydberg@bitmath.org>,
-	Kamel Bouhara <kamel.bouhara@bootlin.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>, devicetree@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	linux-kernel@vger.kernel.org, Luis Chamberlain <mcgrof@kernel.org>,
-	Marco Felsch <kernel@pengutronix.de>, linux-input@vger.kernel.org,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>
-Subject: Re: [PATCH v3 1/4] firmware_loader: expand firmware error codes with
- up-to-date error
-Message-ID: <20251119101007.za2373biybt24qfs@pengutronix.de>
-References: <20250821-v6-10-topic-touchscreen-axiom-v3-0-940ccee6dba3@pengutronix.de>
- <20250821-v6-10-topic-touchscreen-axiom-v3-1-940ccee6dba3@pengutronix.de>
- <ifdhjgo6wchlsztqvgkaawpbnh3zahb76vmyzlomokfrqt6tjp@qjcdvcdqviag>
- <5tlhy2jl77etqxsna42ksdmvu3x3bsp5c44poshkt45agldfsj@bkzlvbfoshsl>
- <20251016145205.244gsevx5tdloiqy@pengutronix.de>
- <20251111110110.io65cbslrv75lbby@pengutronix.de>
- <juffz52dxb2txvolv7d3kb37urweg3kau67rb3zk42ovn4uze2@uqvbyz6nuecn>
+	s=arc-20240116; t=1763547828; c=relaxed/simple;
+	bh=a+wOZNfcxAMtXmnwwTLW1m/2Ial0GTpieAlShB5E14Y=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=aHtrYuUNuDGQZhw7QNBOxO4AmvrbnbVSU/ggDm5bqn3XVIg4JB2Yf8gV8XH3+VidnN9we02bh8eeajxa1/3sDB3p+7IsNVwO7u0biYKUeEGjdL1xh6ZBBt+IBXVJ41kkC37SsYVumRDXeeqfQPdG5kQafDqRfQ4TTHk5ke4kkig=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ysoft.com; spf=pass smtp.mailfrom=ysoft.com; dkim=pass (1024-bit key) header.d=ysoft.com header.i=@ysoft.com header.b=NgYlL0UU; arc=none smtp.client-ip=81.19.3.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ysoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ysoft.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ysoft.com;
+	s=20160406-ysoft-com; t=1763547815;
+	bh=DDRfipI1OhTM7VYMY1TjZweAa9TrnaTYPRqV1PZBZqk=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=NgYlL0UUJC9BwsjYqU79CAgWIJVNSOwv4LX88YVP6PhtmNYFGcxktDtIa78j9cOej
+	 vkMakB9dn1nKrzJ136puU6C9yYvI6Hi6qAyV2VI/p74uemueG5raNdDkY96M3l4jmy
+	 E3lGFsYjvg+pQro/BGOZmA49VGgb47DioMKBNECU=
+Received: from [10.0.30.14] (unknown [10.0.30.14])
+	by uho.ysoft.cz (Postfix) with ESMTP id 90651A0365;
+	Wed, 19 Nov 2025 11:23:35 +0100 (CET)
+Message-ID: <0e5eb4c0-bc63-4ca7-9ba2-985afa237d67@ysoft.com>
+Date: Wed, 19 Nov 2025 11:23:35 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <juffz52dxb2txvolv7d3kb37urweg3kau67rb3zk42ovn4uze2@uqvbyz6nuecn>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-input@vger.kernel.org
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Input: pixcir_i2c_ts - add support for one-time total
+ calibration
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Fabio Estevam <festevam@gmail.com>
+References: <20251112130019.1488005-1-michal.vokac@ysoft.com>
+ <5uyos6zu74jfro7zsfup4zbkrywf5odi4ytfuwuttslgrus2of@fmopwef7fkme>
+Content-Language: en-US
+From: =?UTF-8?B?TWljaGFsIFZva8OhxI0=?= <michal.vokac@ysoft.com>
+In-Reply-To: <5uyos6zu74jfro7zsfup4zbkrywf5odi4ytfuwuttslgrus2of@fmopwef7fkme>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 25-11-18, Russ Weight wrote:
-> On Tue, Nov 11, 2025 at 12:01:10PM +0100, Marco Felsch wrote:
-> > On 25-10-16, Marco Felsch wrote:
-> > > Hi all,
-> > > 
-> > > On 25-09-20, Dmitry Torokhov wrote:
-> > > > On Wed, Aug 27, 2025 at 03:29:33PM -0600, Russ Weight wrote:
-> > > > > 
-> > > > > On Thu, Aug 21, 2025 at 07:26:36PM +0200, Marco Felsch wrote:
-> > > > > > Add FW_UPLOAD_ERR_DUPLICATE to allow drivers to inform the firmware_loader
-> > > > > > framework that the update is not required. This can be the case if the
-> > > > > > user provided firmware matches the current running firmware.
-> > > > > > 
-> > > > > > Sync lib/test_firmware.c accordingly.
-> > > > > > 
-> > > > > > Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
-> > > > > 
-> > > > > Reviewed-by: Russ Weight <russ.weight@linux.dev>
-> > > > 
-> > > > Does this mean I should merge this through input tree?
-> > > 
-> > > may I ask how this is planned to go further?
-> > 
-> > Gentle ping.
+Hi Dmitry,
+
+On 18. 11. 25 20:26, Dmitry Torokhov wrote:
+> Hi Michal,
 > 
-> Marco - I would recommend adding the Reviewed-by tags that you
-> have received and then resubmitting the patch.
-
-I can do this albeit I thought this will be collected autom. by b4.
-
-Regards,
-  Marco
-
-> -- Russ
+> On Wed, Nov 12, 2025 at 02:00:19PM +0100, Michal Vokáč wrote:
+>> The Pixcir Tango controller has support for a one-time total calibration
+>> (manual calibration) procedure. Its purpose is to measure the capacitance
+>> offsets of the electrode system and to store these values into EEPROM.
+>>
+>> During normal operation this calibration data is subtracted from the values
+>> measured. This calibration should be necessary only once in the product
+>> lifetime. It should be performed as part of the final adjustment after
+>> the panel is mounted in the product.
+>>
+>> Add support for the calibration with sysfs interface.
+>>
+>> Signed-off-by: Michal Vokáč <michal.vokac@ysoft.com>
+>> ---
+>>   drivers/input/touchscreen/pixcir_i2c_ts.c | 34 +++++++++++++++++++++++
+>>   1 file changed, 34 insertions(+)
+>>
+>> diff --git a/drivers/input/touchscreen/pixcir_i2c_ts.c b/drivers/input/touchscreen/pixcir_i2c_ts.c
+>> index dad5786e82a4..2215e56b1458 100644
+>> --- a/drivers/input/touchscreen/pixcir_i2c_ts.c
+>> +++ b/drivers/input/touchscreen/pixcir_i2c_ts.c
+>> @@ -24,6 +24,7 @@
+>>    */
+>>   #define PIXCIR_REG_POWER_MODE	51
+>>   #define PIXCIR_REG_INT_MODE	52
+>> +#define PIXCIR_REG_SPECOP	58
+>>   
+>>   /*
+>>    * Power modes:
+>> @@ -82,6 +83,7 @@ struct pixcir_i2c_ts_data {
+>>   	const struct pixcir_i2c_chip_data *chip;
+>>   	struct touchscreen_properties prop;
+>>   	bool running;
+>> +	struct mutex sysfs_mutex;
+>>   };
+>>   
+>>   struct pixcir_report_data {
+>> @@ -462,6 +464,35 @@ static int pixcir_i2c_ts_resume(struct device *dev)
+>>   static DEFINE_SIMPLE_DEV_PM_OPS(pixcir_dev_pm_ops,
+>>   				pixcir_i2c_ts_suspend, pixcir_i2c_ts_resume);
+>>   
+>> +static ssize_t calibrate_store(struct device *dev,
+>> +			       struct device_attribute *attr,
+>> +			       const char *buf, size_t count)
+>> +{
+>> +	struct i2c_client *client = to_i2c_client(dev);
+>> +	struct pixcir_i2c_ts_data *ts = i2c_get_clientdata(client);
+>> +	static const u8 cmd = 0x03;
+>> +	int error;
+>> +
+>> +	error = mutex_lock_interruptible(&ts->sysfs_mutex);
+>> +	if (error)
+>> +		return error;
 > 
-> > 
-> > Regards,
-> >   Marco
-> > 
-> > 
-> > > 
-> > > Regards,
-> > >   Marco
-> > > 
-> > > > 
-> > > > Thanks.
-> > > > 
-> > > > -- 
-> > > > Dmitry
-> > 
-> > -- 
-> > #gernperDu 
-> > #CallMeByMyFirstName
-> > 
-> > Pengutronix e.K.                           |                             |
-> > Steuerwalder Str. 21                       | https://www.pengutronix.de/ |
-> > 31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-> > Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-9    |
-> 
-> 
+> Why do we need this mutex? i2c_smbus_write_byte_data() does take adapter
+> lock, why do we need this additional locking?
 
--- 
-#gernperDu 
-#CallMeByMyFirstName
+Honestly I was not sure about usefulness of the lock.
+I originally have not it there when the patch was in our downstream tree.
+When I was rewriting it for mainline I realized there are other touchscreen
+drivers that already have this calibration feature implemented and that
+they have the lock in place. See raydium_i2c_ts.c or elants_i2c.c.
+So I got inspired and used it as well for the case I missed something.
 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | https://www.pengutronix.de/ |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-9    |
+Now after a second look at the mentioned drivers I see that these also
+have a sysfs interface for FW update. So it make sense to use the lock
+to assure the whole fw transfer is finished before someone else can
+access the device.
+
+That is not our case. The mutex can safely be removed. I will send v2.
+
+Thank you,
+Michal
+
+
+
 
