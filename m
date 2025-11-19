@@ -1,356 +1,354 @@
-Return-Path: <linux-input+bounces-16209-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16210-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71903C6C4A7
-	for <lists+linux-input@lfdr.de>; Wed, 19 Nov 2025 02:48:57 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id C95C1C6C665
+	for <lists+linux-input@lfdr.de>; Wed, 19 Nov 2025 03:34:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 596484E6465
-	for <lists+linux-input@lfdr.de>; Wed, 19 Nov 2025 01:47:49 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id F1AE235FF4D
+	for <lists+linux-input@lfdr.de>; Wed, 19 Nov 2025 02:33:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EE9AA1E0DE8;
-	Wed, 19 Nov 2025 01:47:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E98D286422;
+	Wed, 19 Nov 2025 02:33:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zsgy0Lqe"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="P2qMt2Ka"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBF271A9FB0;
-	Wed, 19 Nov 2025 01:47:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 426D128643D
+	for <linux-input@vger.kernel.org>; Wed, 19 Nov 2025 02:33:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763516865; cv=none; b=OYbGTBP/jxrXT6AT5fmTXuQo10/d2s5iDhRq9k9XplsBEan19dyeXJ6bZWWqGnoJQ/1bxz8dytr2NLMRYTzmrSByfxupsxhw32dD7c23CJFXIzF6xBy5AoJXMky5nztZQkvho6ExR3S3bt16eetWOf39QPAGQ7V2d7O1OpwxmAc=
+	t=1763519615; cv=none; b=pxe0nr8fhwmLadSgvOlmTysBOT+W0mBZjyN1Sbrda0yXb8ZhcEQjZAZY9gxtRGILEZi1K8QHZWKxXIjkbhrOZIhyZgaW6Hrfqev7+W13M4LrZEBQHDKLqLZ4KseWassjGwCnBF/4IHfwajO16IP+hDE8fTOK3xm1inCTKaId4YQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763516865; c=relaxed/simple;
-	bh=WcaDjRtRAt/DK9JnOvyw0Lro6ZVU/ftzffYKlN1rZXM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MQDs4IURSA+DuV810+XljKp7ZOIHzSiw11gKpmPRUk/zXDu4VkqmRbSiOY82zFwyIvBTdcruDQEj0mb++tJ8/jQAvQ/exO17F/KDIrzEYczNMPw/4asPgonQVeUdIFHNIFlPS5h6EUjLskF/qJR07uEcwwlNmFl0WTkT4/9rGTA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zsgy0Lqe; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763516864; x=1795052864;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=WcaDjRtRAt/DK9JnOvyw0Lro6ZVU/ftzffYKlN1rZXM=;
-  b=Zsgy0Lqe8dn74wUeNEcNdzT+yW3g0zxPukddRPAfRGrN9AlLkCd79Zis
-   IRFRcadLsQ5Vj2Ua2WRlf22bChqIRaWK82qBJdeC3OBXnwZ92v1IgsTdM
-   wequjc9FyHyBPkUyPFGhfHxYGtgcAT0dmVxj1lbYagBer5jZyStzpqn6F
-   Ho/phYho+NKbeUhSl1pHa3aOkjO8XjFgo0dwRyU6VqXFUJMcZaN4F38W/
-   c5Kk93NetCJPuJPJ/oZrUJR9I053oK/rPz6krhsMVIXfpbwBYvLg95rxd
-   CM2YqL+5zbaVl4u2oCSYsWocDEnjIQp8/Un33IsZv179cWglRyTQb311L
-   Q==;
-X-CSE-ConnectionGUID: bma9gfepS4KoMmTdcwja9Q==
-X-CSE-MsgGUID: m6gtPvuDQcWUXyL5xPvpow==
-X-IronPort-AV: E=McAfee;i="6800,10657,11617"; a="75876608"
-X-IronPort-AV: E=Sophos;i="6.19,315,1754982000"; 
-   d="scan'208";a="75876608"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2025 17:47:44 -0800
-X-CSE-ConnectionGUID: YzR0Pp+cQ8mOtZaiblFtGw==
-X-CSE-MsgGUID: 5wonV8YxT7CnEE45U8PqDA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,315,1754982000"; 
-   d="scan'208";a="190190406"
-Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 18 Nov 2025 17:47:41 -0800
-Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vLXII-0002Kx-2Y;
-	Wed, 19 Nov 2025 01:47:38 +0000
-Date: Wed, 19 Nov 2025 09:47:11 +0800
-From: kernel test robot <lkp@intel.com>
-To: 2724853925@qq.com, Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Henrik Rydberg <rydberg@bitmath.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
-	2724853925@qq.com
-Subject: Re: [PATCH] input: touchscreen: Add ilitek touchscreen driver support
-Message-ID: <202511190932.OFk1oMBB-lkp@intel.com>
-References: <tencent_995E6FC62EDBC1EED14E6052847F270F6406@qq.com>
+	s=arc-20240116; t=1763519615; c=relaxed/simple;
+	bh=cj7FS8n0vColyVy+W47qxt0G7QShMPu5Ad8Rthb2Iic=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=sA+qcE5PPfsOffDbF8qIRpp12lV2DAmR4yV0h8+2f6I8AnlSrX1LhOOqoEi+wUMDPqfF0JqE4UWBh44F7miFtWqdx5k66sJOUmwOy0RaSJSYHdE16Yo2+e/Hf02IzqM1BF4QbfyMeOfATWUlqrA+zT9yepb/XzfUvXrcfBFGCQ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=P2qMt2Ka; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-47118259fd8so45818545e9.3
+        for <linux-input@vger.kernel.org>; Tue, 18 Nov 2025 18:33:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1763519611; x=1764124411; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=n8jsLdIIjIqBVqgB66W4xg7i//zbDwyz5yoMrl38a0M=;
+        b=P2qMt2KarGJag7t9hLcfioJBK40ZGPZQ4PNCDhyb9qT0wEIY4aeSwCZN6JY6ilfIak
+         BJ/nZl8TnUha/eBs/TfCFcbbRG+EACMQgaxMSnhw8PVGCygRCId0E8UrOhUEhc/FgBrX
+         Tcsxeowgh+pqBLcjDn3NMLYCeyrvHAQjLk/1/9w1qtkgZVaUeu+DTYCzs3bTohxJL+MR
+         7Czhv8V8okjM7zwXgTja5FPK5TukQnLT+Cpmf3e0EFM8SZazPhzaCeMVSDtpYHbfv8tf
+         axH4yd8lD8OyRgfjqSaI65+fCh43KM8kl+d9PTHVcywVCpa8+uqPTiawTV93KC7okZrf
+         X8eQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763519611; x=1764124411;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=n8jsLdIIjIqBVqgB66W4xg7i//zbDwyz5yoMrl38a0M=;
+        b=TpR0QyzisoHXCBoc+fEuSKiVLADTcxgOhagUewtBndgKgkkzqiy5zeo0GXExO1HUKB
+         e+YF6ejXnzyV1I0jDSbt8T9hk6vnJ2tibldUqPsLT2n6XsnfLp9jQeN+1vdtPbMZRrwd
+         U8TU6eQ8ctM5s32hbNXMV0EpoI1yV8xPTonSstQF8LCiFHZPvjWMdZsz1G1HQDQUjjb/
+         M1R67WnNyy27ymuc3FmN6zK85UDTTYuXgPHge2S1zBS1plXzNL90nyBYqimPyWlNpzPO
+         p+/ATP8fZje/dNQl1vobJleTRwFoat3CPZq8ENNQDW8Tasz259Hmpw5TCwfy5+rZ5msR
+         BsGA==
+X-Forwarded-Encrypted: i=1; AJvYcCWC0dqR/TZEhlPRUkqdQTHnxwUqMko7J5Qb5KN4NfVTqj03o52oMZQLBLneiG6n2QzAtgYsuU2NIx2f4A==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzi4Eph5VwVikfoQsy+2cl4PnwOL+k5E0Xqe4HlyWFNjOgYqdrR
+	W70+pF7IzbfUchYsG0azjVv8+8Ie5nv/cO0GCtnjRzer6yLEiLOs9IOF
+X-Gm-Gg: ASbGncuhThwpEM0eB3z2vd8wWtpxiKImtGIPrDQ5OBfsqlSeSduUyCukaRmYD66ZpON
+	aV17UXUA+jMsdZKCMyWF/6F44g8uiHeBrEsBj+9IuS60OsJ7x+X4MuFN9mh3LIwAshjw3t8Zfyl
+	f6EFd8Uq1wx0YVMsfJRx9vEUeONSe/kj8iIgwRAHpmgdoJej+5j0M8yD9sZo4RTQ1ugq6jrsUot
+	6brdL23GOfM66e9tamg0g0L+IksEUL98/9kHL3ikZUKIscDHuw6dEn5lIejSu8HYlzmvwMOxYhY
+	eLMWQ46YTK2V8qLZx4ahCL32ENJqS+XGJuGRYQOUB3GNGSwsrQqYh10/j2ZssqZ8/h7ms4bySqn
+	qoi/TMV/LiDZPsX57Gwkd3u80SuAicw6Udz0UyX6SpIhf+cL0TasO/JxdbZnFsb0ftSYs8+IlOZ
+	EgYx6BWtvhtLDuVFwdXym3PuabFl5Mi+Ftfw==
+X-Google-Smtp-Source: AGHT+IEZJ3D/pCi3DZzhgnvyPk7IaXvHpngSBiwAv0Oh08N0QMYfGotDsV2MxMC+qCTTfeW5HP9umw==
+X-Received: by 2002:a05:600c:5249:b0:477:af07:dd22 with SMTP id 5b1f17b1804b1-477af07dfbcmr25262555e9.28.1763519611240;
+        Tue, 18 Nov 2025 18:33:31 -0800 (PST)
+Received: from [192.168.1.121] ([176.206.93.222])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42b53f206e2sm35623122f8f.41.2025.11.18.18.33.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 18 Nov 2025 18:33:30 -0800 (PST)
+Message-ID: <a68f0dff-0a29-4dc2-ae41-12d646578749@gmail.com>
+Date: Wed, 19 Nov 2025 03:33:29 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <tencent_995E6FC62EDBC1EED14E6052847F270F6406@qq.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 04/10] HID: asus: prevent binding to all HID devices on
+ ROG
+To: Antheas Kapenekakis <lkml@antheas.dev>
+Cc: platform-driver-x86@vger.kernel.org, linux-input@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
+ Benjamin Tissoires <bentiss@kernel.org>,
+ Corentin Chary <corentin.chary@gmail.com>, "Luke D . Jones"
+ <luke@ljones.dev>, =?UTF-8?Q?Ilpo_J=C3=A4rvinen?=
+ <ilpo.jarvinen@linux.intel.com>, Hans de Goede <hansg@kernel.org>
+References: <20251101104712.8011-1-lkml@antheas.dev>
+ <20251101104712.8011-5-lkml@antheas.dev>
+ <abeecb3b-8d51-4625-8743-1cfff355c0e9@gmail.com>
+ <CAGwozwEj94txMhgXPigbJxVxw4c=9vSTHNEjpmCXs_fKeSQcXQ@mail.gmail.com>
+Content-Language: en-US, it-IT, en-US-large
+From: Denis Benato <benato.denis96@gmail.com>
+In-Reply-To: <CAGwozwEj94txMhgXPigbJxVxw4c=9vSTHNEjpmCXs_fKeSQcXQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi,
 
-kernel test robot noticed the following build warnings:
+On 11/19/25 02:45, Antheas Kapenekakis wrote:
+> On Wed, 19 Nov 2025 at 01:38, Denis Benato <benato.denis96@gmail.com> wrote:
+>>
+>> On 11/1/25 11:47, Antheas Kapenekakis wrote:
+>>> Currently, when hid-asus is not loaded, NKEY keyboards load as ~6
+>>> event devices with a pretty ASUSTEK name. When it loads, it concatenates
+>>> all applications per HID endpoint, renames them, and prints errors
+>>> when some of them do not have an input device.
+>>>
+>>> Therefore, change probe so that this is no longer the case. Stop
+>>> renaming the devices, omit the check for .input which causes errors
+>>> on e.g., the Z13 for some hiddev only devices, and move RGB checks
+>>> into probe.
+>> I have an issue with this "therefore" related to the renaming of device:
+>> you are basically doing here:
+>>
+>> state a matter of fact.
+>> Therefore, change that.
+>>
+>> Why? the check for .input is clear why, the rename not so much.
+>>
+>> I have a few more comments below about the rename.
+>>> Reviewed-by: Luke D. Jones <luke@ljones.dev>
+>>> Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
+>>> ---
+>>>  drivers/hid/hid-asus.c | 52 ++++++++++++++++++++++++++++--------------
+>>>  1 file changed, 35 insertions(+), 17 deletions(-)
+>>>
+>>> diff --git a/drivers/hid/hid-asus.c b/drivers/hid/hid-asus.c
+>>> index 03f0d86936fc..726f5d8e22d1 100644
+>>> --- a/drivers/hid/hid-asus.c
+>>> +++ b/drivers/hid/hid-asus.c
+>>> @@ -47,6 +47,7 @@ MODULE_DESCRIPTION("Asus HID Keyboard and TouchPad");
+>>>  #define T100CHI_MOUSE_REPORT_ID 0x06
+>>>  #define FEATURE_REPORT_ID 0x0d
+>>>  #define INPUT_REPORT_ID 0x5d
+>>> +#define HID_USAGE_PAGE_VENDOR 0xff310000
+>>>  #define FEATURE_KBD_REPORT_ID 0x5a
+>>>  #define FEATURE_KBD_REPORT_SIZE 64
+>>>  #define FEATURE_KBD_LED_REPORT_ID1 0x5d
+>>> @@ -89,6 +90,7 @@ MODULE_DESCRIPTION("Asus HID Keyboard and TouchPad");
+>>>  #define QUIRK_ROG_NKEY_KEYBOARD              BIT(11)
+>>>  #define QUIRK_ROG_CLAYMORE_II_KEYBOARD BIT(12)
+>>>  #define QUIRK_ROG_ALLY_XPAD          BIT(13)
+>>> +#define QUIRK_SKIP_REPORT_FIXUP              BIT(14)
+>>>
+>>>  #define I2C_KEYBOARD_QUIRKS                  (QUIRK_FIX_NOTEBOOK_REPORT | \
+>>>                                                QUIRK_NO_INIT_REPORTS | \
+>>> @@ -125,7 +127,6 @@ struct asus_drvdata {
+>>>       struct input_dev *tp_kbd_input;
+>>>       struct asus_kbd_leds *kbd_backlight;
+>>>       const struct asus_touchpad_info *tp;
+>>> -     bool enable_backlight;
+>>>       struct power_supply *battery;
+>>>       struct power_supply_desc battery_desc;
+>>>       int battery_capacity;
+>>> @@ -316,7 +317,7 @@ static int asus_e1239t_event(struct asus_drvdata *drvdat, u8 *data, int size)
+>>>  static int asus_event(struct hid_device *hdev, struct hid_field *field,
+>>>                     struct hid_usage *usage, __s32 value)
+>>>  {
+>>> -     if ((usage->hid & HID_USAGE_PAGE) == 0xff310000 &&
+>>> +     if ((usage->hid & HID_USAGE_PAGE) == HID_USAGE_PAGE_VENDOR &&
+>>>           (usage->hid & HID_USAGE) != 0x00 &&
+>>>           (usage->hid & HID_USAGE) != 0xff && !usage->type) {
+>>>               hid_warn(hdev, "Unmapped Asus vendor usagepage code 0x%02x\n",
+>>> @@ -931,11 +932,6 @@ static int asus_input_configured(struct hid_device *hdev, struct hid_input *hi)
+>>>
+>>>       drvdata->input = input;
+>>>
+>>> -     if (drvdata->enable_backlight &&
+>>> -         !asus_kbd_wmi_led_control_present(hdev) &&
+>>> -         asus_kbd_register_leds(hdev))
+>>> -             hid_warn(hdev, "Failed to initialize backlight.\n");
+>>> -
+>>>       return 0;
+>>>  }
+>>>
+>>> @@ -1008,15 +1004,6 @@ static int asus_input_mapping(struct hid_device *hdev,
+>>>                       return -1;
+>>>               }
+>>>
+>>> -             /*
+>>> -              * Check and enable backlight only on devices with UsagePage ==
+>>> -              * 0xff31 to avoid initializing the keyboard firmware multiple
+>>> -              * times on devices with multiple HID descriptors but same
+>>> -              * PID/VID.
+>>> -              */
+>>> -             if (drvdata->quirks & QUIRK_USE_KBD_BACKLIGHT)
+>>> -                     drvdata->enable_backlight = true;
+>>> -
+>>>               set_bit(EV_REP, hi->input->evbit);
+>>>               return 1;
+>>>       }
+>>> @@ -1133,8 +1120,10 @@ static int __maybe_unused asus_reset_resume(struct hid_device *hdev)
+>>>
+>>>  static int asus_probe(struct hid_device *hdev, const struct hid_device_id *id)
+>>>  {
+>>> -     int ret;
+>>> +     struct hid_report_enum *rep_enum;
+>>>       struct asus_drvdata *drvdata;
+>>> +     struct hid_report *rep;
+>>> +     int ret, is_vendor = 0;
+>>>
+>> Why is is_vendor an int? Don't we have bools?
+>>>       drvdata = devm_kzalloc(&hdev->dev, sizeof(*drvdata), GFP_KERNEL);
+>>>       if (drvdata == NULL) {
+>>> @@ -1218,12 +1207,37 @@ static int asus_probe(struct hid_device *hdev, const struct hid_device_id *id)
+>>>               return ret;
+>>>       }
+>>>
+>>> +     /* Check for vendor for RGB init and handle generic devices properly. */
+>>> +     rep_enum = &hdev->report_enum[HID_INPUT_REPORT];
+>>> +     list_for_each_entry(rep, &rep_enum->report_list, list) {
+>>> +             if ((rep->application & HID_USAGE_PAGE) == HID_USAGE_PAGE_VENDOR)
+>>> +                     is_vendor = true;
+>>> +     }
+>>> +
+>>> +     /*
+>>> +      * For ROG keyboards, disable fixups except vendor devices.
+>>> +      */
+>> multiline comment for no reason. Comma doesn't provide any value here.
+>>> +     if (drvdata->quirks & QUIRK_ROG_NKEY_KEYBOARD && !is_vendor)
+>>> +             drvdata->quirks |= QUIRK_SKIP_REPORT_FIXUP;
+>>> +
+>> Doing this will skip the report fixup entirely while before
+>> it was called in every case: are we really sure we want this?
+>> Or do we want it only for specific devices?
+>>
+>> It's my understanding that function is only useful on
+>> keyboard devices, so before keyboard devices (all)
+>> while now is_vendor keyboard devices, right?
+> ROG Keyboard devices have multiple HID endpoints. This driver only
+> hooks to the 0xff31 endpoint. So the rest of the endpoints should not
+> be modified. Except for minor fixups, see below.
+>
+>> What about keyboard devices that are not is_vendor
+>> for which function isn't called anymore?
+>>>       ret = hid_hw_start(hdev, HID_CONNECT_DEFAULT);
+>>>       if (ret) {
+>>>               hid_err(hdev, "Asus hw start failed: %d\n", ret);
+>>>               return ret;
+>>>       }
+>>>
+>>> +     if (is_vendor && (drvdata->quirks & QUIRK_USE_KBD_BACKLIGHT) &&
+>>> +         !asus_kbd_wmi_led_control_present(hdev) &&
+>>> +         asus_kbd_register_leds(hdev))
+>>> +             hid_warn(hdev, "Failed to initialize backlight.\n");
+>>> +
+>>> +     /*
+>>> +      * For ROG keyboards, skip rename for consistency and ->input check as
+>>> +      * some devices do not have inputs.
+>>> +      */
+>>> +     if (drvdata->quirks & QUIRK_ROG_NKEY_KEYBOARD)
+>>> +             return 0;
+>>> +
+>> This is a moot point: I have yet to see the real benefit of doing this,
+>> but one thing is sure... having for the same driver multiple name
+>> to basically the same interface across different lineups of
+>> hardware is not something I would call "consistency".
+> The reason the rename exists here is because the devices this driver
+> applied to originally did not have proper names (e.g. I2C). The new
+> ROG devices do have proper names, so there is no reason to deviate
+> from those. It also eliminates a point of failure in which the
+> hid-asus driver is not loaded, if your point is consistency. Ie, as we
+> add more keyboard IDs, those would then not be renamed when hid-asus
+> starts to load them.
+I understand you don't see a reason to rename them,
+but I am also not seeing any reason not to rename them.
 
-[auto build test WARNING on dtor-input/next]
-[also build test WARNING on dtor-input/for-linus linus/master v6.18-rc6 next-20251118]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Removing a theoretically possible failure in the load path
+that nobody has ever reported once IMHO is not a strong
+enough motivation to change the name of a device.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/2724853925-qq-com/input-touchscreen-Add-ilitek-touchscreen-driver-support/20251116-215220
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
-patch link:    https://lore.kernel.org/r/tencent_995E6FC62EDBC1EED14E6052847F270F6406%40qq.com
-patch subject: [PATCH] input: touchscreen: Add ilitek touchscreen driver support
-config: sh-randconfig-r112-20251119 (https://download.01.org/0day-ci/archive/20251119/202511190932.OFk1oMBB-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251119/202511190932.OFk1oMBB-lkp@intel.com/reproduce)
+Just for clarity I am telling you that I am not particularly
+happy but I won't oppose if the userspace won't suffer
+from this change.
+> As for affected software (per your other email), yes it is only
+> Inputplumber when running on its fallback mode without access to its
+> OOT modules that disable this driver. Because it had an architectural
+> decision to rely on hardcoded evdev/phys names for most devices
+> instead of more canonical vid/pid/capability matches. The phys part is
+> especially problematic as it also hardcodes the bus node of a lot of
+> devices. There is a PR open to remove the matches for the Ally units
+> though.
+I asked what's the path forward, and for you two to decide how to not
+break the "we don't break userspace" rule causing troubles to
+users/distro maintainers/valve/whoever.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511190932.OFk1oMBB-lkp@intel.com/
-
-sparse warnings: (new ones prefixed by >>)
-   drivers/input/touchscreen/ilitek/ilitek_tool.c:93:38: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got char const *buf @@
-   drivers/input/touchscreen/ilitek/ilitek_tool.c:93:38: sparse:     expected void const [noderef] __user *from
-   drivers/input/touchscreen/ilitek/ilitek_tool.c:93:38: sparse:     got char const *buf
-   drivers/input/touchscreen/ilitek/ilitek_tool.c:239:45: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got unsigned char [usertype] * @@
-   drivers/input/touchscreen/ilitek/ilitek_tool.c:239:45: sparse:     expected void const [noderef] __user *from
-   drivers/input/touchscreen/ilitek/ilitek_tool.c:239:45: sparse:     got unsigned char [usertype] *
-   drivers/input/touchscreen/ilitek/ilitek_tool.c:268:35: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __user *to @@     got unsigned char [usertype] * @@
-   drivers/input/touchscreen/ilitek/ilitek_tool.c:268:35: sparse:     expected void [noderef] __user *to
-   drivers/input/touchscreen/ilitek/ilitek_tool.c:268:35: sparse:     got unsigned char [usertype] *
-   drivers/input/touchscreen/ilitek/ilitek_tool.c:279:35: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __user *to @@     got unsigned char [usertype] * @@
-   drivers/input/touchscreen/ilitek/ilitek_tool.c:279:35: sparse:     expected void [noderef] __user *to
-   drivers/input/touchscreen/ilitek/ilitek_tool.c:279:35: sparse:     got unsigned char [usertype] *
-   drivers/input/touchscreen/ilitek/ilitek_tool.c:286:35: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __user *to @@     got unsigned char [usertype] * @@
-   drivers/input/touchscreen/ilitek/ilitek_tool.c:286:35: sparse:     expected void [noderef] __user *to
-   drivers/input/touchscreen/ilitek/ilitek_tool.c:286:35: sparse:     got unsigned char [usertype] *
->> drivers/input/touchscreen/ilitek/ilitek_tool.c:307:21: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected signed int [noderef] __user *__pu_addr @@     got signed int [usertype] * @@
-   drivers/input/touchscreen/ilitek/ilitek_tool.c:307:21: sparse:     expected signed int [noderef] __user *__pu_addr
-   drivers/input/touchscreen/ilitek/ilitek_tool.c:307:21: sparse:     got signed int [usertype] *
-   drivers/input/touchscreen/ilitek/ilitek_tool.c:312:45: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got unsigned char [usertype] * @@
-   drivers/input/touchscreen/ilitek/ilitek_tool.c:312:45: sparse:     expected void const [noderef] __user *from
-   drivers/input/touchscreen/ilitek/ilitek_tool.c:312:45: sparse:     got unsigned char [usertype] *
-   drivers/input/touchscreen/ilitek/ilitek_tool.c:324:45: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got unsigned char [usertype] * @@
-   drivers/input/touchscreen/ilitek/ilitek_tool.c:324:45: sparse:     expected void const [noderef] __user *from
-   drivers/input/touchscreen/ilitek/ilitek_tool.c:324:45: sparse:     got unsigned char [usertype] *
-   drivers/input/touchscreen/ilitek/ilitek_tool.c:340:45: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got unsigned char [usertype] * @@
-   drivers/input/touchscreen/ilitek/ilitek_tool.c:340:45: sparse:     expected void const [noderef] __user *from
-   drivers/input/touchscreen/ilitek/ilitek_tool.c:340:45: sparse:     got unsigned char [usertype] *
-   drivers/input/touchscreen/ilitek/ilitek_tool.c:365:35: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __user *to @@     got unsigned char [usertype] * @@
-   drivers/input/touchscreen/ilitek/ilitek_tool.c:365:35: sparse:     expected void [noderef] __user *to
-   drivers/input/touchscreen/ilitek/ilitek_tool.c:365:35: sparse:     got unsigned char [usertype] *
-   drivers/input/touchscreen/ilitek/ilitek_tool.c:416:26: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __user *to @@     got char *buf @@
-   drivers/input/touchscreen/ilitek/ilitek_tool.c:416:26: sparse:     expected void [noderef] __user *to
-   drivers/input/touchscreen/ilitek/ilitek_tool.c:416:26: sparse:     got char *buf
-   drivers/input/touchscreen/ilitek/ilitek_tool.c:444:17: sparse: sparse: incorrect type in initializer (incompatible argument 2 (different address spaces)) @@     expected int ( *read )( ... ) @@     got int ( * )( ... ) @@
-   drivers/input/touchscreen/ilitek/ilitek_tool.c:444:17: sparse:     expected int ( *read )( ... )
-   drivers/input/touchscreen/ilitek/ilitek_tool.c:444:17: sparse:     got int ( * )( ... )
-   drivers/input/touchscreen/ilitek/ilitek_tool.c:445:18: sparse: sparse: incorrect type in initializer (incompatible argument 2 (different address spaces)) @@     expected int ( *write )( ... ) @@     got int ( * )( ... ) @@
-   drivers/input/touchscreen/ilitek/ilitek_tool.c:445:18: sparse:     expected int ( *write )( ... )
-   drivers/input/touchscreen/ilitek/ilitek_tool.c:445:18: sparse:     got int ( * )( ... )
-   drivers/input/touchscreen/ilitek/ilitek_tool.c:457:22: sparse: sparse: incorrect type in initializer (incompatible argument 2 (different address spaces)) @@     expected int ( *proc_read )( ... ) @@     got int ( * )( ... ) @@
-   drivers/input/touchscreen/ilitek/ilitek_tool.c:457:22: sparse:     expected int ( *proc_read )( ... )
-   drivers/input/touchscreen/ilitek/ilitek_tool.c:457:22: sparse:     got int ( * )( ... )
-   drivers/input/touchscreen/ilitek/ilitek_tool.c:458:23: sparse: sparse: incorrect type in initializer (incompatible argument 2 (different address spaces)) @@     expected int ( *proc_write )( ... ) @@     got int ( * )( ... ) @@
-   drivers/input/touchscreen/ilitek/ilitek_tool.c:458:23: sparse:     expected int ( *proc_write )( ... )
-   drivers/input/touchscreen/ilitek/ilitek_tool.c:458:23: sparse:     got int ( * )( ... )
-   drivers/input/touchscreen/ilitek/ilitek_tool.c:571:37: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got char const *buf @@
-   drivers/input/touchscreen/ilitek/ilitek_tool.c:571:37: sparse:     expected void const [noderef] __user *from
-   drivers/input/touchscreen/ilitek/ilitek_tool.c:571:37: sparse:     got char const *buf
-   drivers/input/touchscreen/ilitek/ilitek_tool.c:610:23: sparse: sparse: incorrect type in initializer (incompatible argument 2 (different address spaces)) @@     expected int ( *proc_write )( ... ) @@     got int ( * )( ... ) @@
-   drivers/input/touchscreen/ilitek/ilitek_tool.c:610:23: sparse:     expected int ( *proc_write )( ... )
-   drivers/input/touchscreen/ilitek/ilitek_tool.c:610:23: sparse:     got int ( * )( ... )
-   drivers/input/touchscreen/ilitek/ilitek_tool.c:622:33: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got char const *buf @@
-   drivers/input/touchscreen/ilitek/ilitek_tool.c:622:33: sparse:     expected void const [noderef] __user *from
-   drivers/input/touchscreen/ilitek/ilitek_tool.c:622:33: sparse:     got char const *buf
-   drivers/input/touchscreen/ilitek/ilitek_tool.c:684:23: sparse: sparse: incorrect type in initializer (incompatible argument 2 (different address spaces)) @@     expected int ( *proc_write )( ... ) @@     got int ( * )( ... ) @@
-   drivers/input/touchscreen/ilitek/ilitek_tool.c:684:23: sparse:     expected int ( *proc_write )( ... )
-   drivers/input/touchscreen/ilitek/ilitek_tool.c:684:23: sparse:     got int ( * )( ... )
-   drivers/input/touchscreen/ilitek/ilitek_tool.c:693:36: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got char const *buf @@
-   drivers/input/touchscreen/ilitek/ilitek_tool.c:693:36: sparse:     expected void const [noderef] __user *from
-   drivers/input/touchscreen/ilitek/ilitek_tool.c:693:36: sparse:     got char const *buf
-   drivers/input/touchscreen/ilitek/ilitek_tool.c:731:23: sparse: sparse: incorrect type in initializer (incompatible argument 2 (different address spaces)) @@     expected int ( *proc_write )( ... ) @@     got int ( * )( ... ) @@
-   drivers/input/touchscreen/ilitek/ilitek_tool.c:731:23: sparse:     expected int ( *proc_write )( ... )
-   drivers/input/touchscreen/ilitek/ilitek_tool.c:731:23: sparse:     got int ( * )( ... )
-
-vim +307 drivers/input/touchscreen/ilitek/ilitek_tool.c
-
-   218	
-   219	static FOPS_IOCTL_FUNC(ilitek_file_ioctl, uint32_t cmd, unsigned long arg)
-   220	{
-   221		static u8 *buffer;
-   222		static unsigned long len;
-   223		s32 ret = 0;
-   224		int tmp;
-   225	
-   226		buffer = kmalloc(ILITEK_IOCTL_MAX_TRANSFER, GFP_KERNEL);
-   227		memset(buffer, 0, ILITEK_IOCTL_MAX_TRANSFER);
-   228	
-   229		switch (cmd) {
-   230		case ILITEK_IOCTL_I2C_WRITE_DATA:
-   231		case ILITEK_IOCTL_I2C_WRITE_DATA_COMPAT:
-   232			if (len > ILITEK_IOCTL_MAX_TRANSFER) {
-   233				TP_ERR(NULL, "invalid write len: %lu > %lu too large\n",
-   234					len, ILITEK_IOCTL_MAX_TRANSFER);
-   235				ret = -EINVAL;
-   236				break;
-   237			}
-   238	
-   239			if (copy_from_user(buffer, (u8 *)arg, len)) {
-   240				TP_ERR(NULL, "copy data from user space, failed\n");
-   241				ret = -EFAULT;
-   242				break;
-   243			}
-   244	
-   245			mutex_lock(&ts->ilitek_mutex);
-   246			ret = ilitek_write_and_read(buffer, len, 0, NULL, 0);
-   247			mutex_unlock(&ts->ilitek_mutex);
-   248			if (ret < 0)
-   249				TP_ERR(NULL, "i2c write failed, cmd: %x\n", buffer[0]);
-   250			break;
-   251		case ILITEK_IOCTL_I2C_READ_DATA:
-   252		case ILITEK_IOCTL_I2C_READ_DATA_COMPAT:
-   253			if (len > ILITEK_IOCTL_MAX_TRANSFER) {
-   254				TP_ERR(NULL, "invalid read len: %lu > %lu too large\n",
-   255					len, ILITEK_IOCTL_MAX_TRANSFER);
-   256				ret = -EINVAL;
-   257				break;
-   258			}
-   259	
-   260			mutex_lock(&ts->ilitek_mutex);
-   261			ret = ilitek_write_and_read(NULL, 0, 0, buffer, len);
-   262			mutex_unlock(&ts->ilitek_mutex);
-   263			if (ret < 0) {
-   264				TP_ERR(NULL, "i2c read failed, buf: %x\n", buffer[0]);
-   265				break;
-   266			}
-   267	
-   268			if (copy_to_user((u8 *)arg, buffer, len)) {
-   269				ret = -EFAULT;
-   270				TP_ERR(NULL, "copy data to user space, failed\n");
-   271			}
-   272			break;
-   273		case ILITEK_IOCTL_I2C_WRITE_LENGTH:
-   274		case ILITEK_IOCTL_I2C_READ_LENGTH:
-   275			len = arg;
-   276			break;
-   277		case ILITEK_IOCTL_DRIVER_INFORMATION:
-   278			memcpy(buffer, driver_ver, 7);
-   279			if (copy_to_user((u8 *)arg, buffer, 7))
-   280				ret = -EFAULT;
-   281			break;
-   282		case ILITEK_IOCTL_I2C_UPDATE:
-   283			break;
-   284		case ILITEK_IOCTL_I2C_INT_FLAG:
-   285			buffer[0] = !(gpio_get_value(ts->irq_gpio));
-   286			if (copy_to_user((u8 *)arg, buffer, 1)) {
-   287				TP_ERR(NULL, "copy data to user space, failed\n");
-   288				ret = -EFAULT;
-   289				break;
-   290			}
-   291			TP_DBG(NULL, "ILITEK_IOCTL_I2C_INT_FLAG = %d.\n", buffer[0]);
-   292			break;
-   293		case ILITEK_IOCTL_START_READ_DATA:
-   294			ilitek_irq_enable();
-   295			ts->unhandle_irq = false;
-   296			TP_MSG(NULL, "enable_irq and ts->unhandle_irq = false.\n");
-   297			break;
-   298		case ILITEK_IOCTL_STOP_READ_DATA:
-   299			ilitek_irq_disable();
-   300			ts->unhandle_irq = true;
-   301			TP_MSG(NULL, "disable_irq and ts->unhandle_irq = true.\n");
-   302			break;
-   303		case ILITEK_IOCTL_RESET:
-   304			ilitek_reset(ts->dev->reset_time);
-   305			break;
-   306		case ILITEK_IOCTL_INT_STATUS:
- > 307			if (put_user(gpio_get_value(ts->irq_gpio), (s32 *)arg))
-   308				ret = -EFAULT;
-   309			break;
-   310	#ifdef ILITEK_TUNING_MESSAGE
-   311		case ILITEK_IOCTL_DEBUG_SWITCH:
-   312			if (copy_from_user(buffer, (u8 *)arg, 1)) {
-   313				ret = -EFAULT;
-   314				break;
-   315			}
-   316			TP_MSG(NULL, "ilitek The debug_flag = %d.\n", buffer[0]);
-   317			if (buffer[0] == 0)
-   318				ilitek_debug_flag = false;
-   319			else if (buffer[0] == 1)
-   320				ilitek_debug_flag = true;
-   321			break;
-   322	#endif
-   323		case ILITEK_IOCTL_I2C_SWITCH_IRQ:
-   324			if (copy_from_user(buffer, (u8 *)arg, 1)) {
-   325				ret = -EFAULT;
-   326				break;
-   327			}
-   328	
-   329			if (buffer[0] == 0)
-   330				ilitek_irq_disable();
-   331			else
-   332				ilitek_irq_enable();
-   333	
-   334			break;
-   335		case ILITEK_IOCTL_UPDATE_FLAG:
-   336			ts->operation_protection = arg;
-   337			TP_MSG(NULL, "operation_protection = %d\n", ts->operation_protection);
-   338			break;
-   339		case ILITEK_IOCTL_I2C_UPDATE_FW:
-   340			if (copy_from_user(buffer, (u8 *)arg, 35)) {
-   341				TP_ERR(NULL, "copy data from user space, failed\n");
-   342				ret = -EFAULT;
-   343				break;
-   344			}
-   345	
-   346			ilitek_irq_disable();
-   347			mutex_lock(&ts->ilitek_mutex);
-   348			ret = ilitek_write_and_read(buffer, buffer[34], 0, NULL, 0);
-   349			mutex_unlock(&ts->ilitek_mutex);
-   350			ilitek_irq_enable();
-   351	
-   352			if (ret < 0)
-   353				TP_ERR(NULL, "i2c write, failed\n");
-   354	
-   355			break;
-   356		case ILITEK_IOCTL_I2C_INT_CLR:
-   357			TP_DBG(NULL, "ILITEK_IOCTL_I2C_INT_CLR, set get_INT false\n");
-   358			atomic_set(&ts->get_INT, 0);
-   359			break;
-   360		case ILITEK_IOCTL_I2C_INT_POLL:
-   361		case ILITEK_IOCTL_I2C_INT_POLL_COMPAT:
-   362			tmp = atomic_read(&ts->get_INT);
-   363			TP_DBG(NULL, "ILITEK_IOCTL_I2C_INT_POLL, get_INT: %d\n", tmp);
-   364	
-   365			if (copy_to_user((u8 *)arg, &tmp, 1)) {
-   366				TP_ERR(NULL, "copy data to user space, failed\n");
-   367				ret = -EFAULT;
-   368			}
-   369			break;
-   370		case ILITEK_IOCTL_I2C_ISR_TYPE:
-   371			TP_MSG(NULL, "ILITEK_IOCTL_I2C_ISR_TYPE, set ISR type: %lu\n", arg);
-   372			ts->irq_handle_type = (arg >> 16);
-   373			ts->irq_read_len = arg & 0xFFFF;
-   374			break;
-   375		case ILITEK_IOCTL_I2C_NETLINK:
-   376			TP_MSG(NULL, "ILITEK_IOCTL_I2C_NETLINK, set netlink: %s with ETH: %hhu\n",
-   377				(arg >> 8) ? "ON" : "OFF", (u8)(arg & 0xFF));
-   378	
-   379			if (arg >> 8)
-   380				ret = ilitek_netlink_init(arg & 0xFF);
-   381			else
-   382				ilitek_netlink_exit();
-   383	
-   384			break;
-   385		default:
-   386			TP_ERR(NULL, "unrecognized ioctl cmd: 0x%04x\n", cmd);
-   387			ret = -EINVAL;
-   388			break;
-   389		}
-   390	
-   391		kfree(buffer);
-   392		return (ret < 0) ? ret : 0;
-   393	}
-   394	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Have you two reached an agreement yet?
+> If you want to know about other software that relies on names, SDL is
+> the main one. And the reason for that is so that it matches the kernel
+> driver. E.g., when a playstation 5 controller loads using
+> hid_playstation, it has a different mapping and name than when it
+> loads through hid core. My software also relies on it for WMI
+> keyboards, as those have a vid:pid of 0:0 so it is unavoidable.
+>
+> SDL does not map keyboards so it is not affected. Moreover, as this
+> series makes it so the device has the same name as with the driver not
+> loaded, software such as SDL would have a fallback mapping for that
+> name already.
+>
+>> As I said already I want you to either drop this or to present
+>> a list of pros of doing this and to hear from Derek the plan
+>> going forward to avoid breaking anything.
+>>>       /*
+>>>        * Check that input registration succeeded. Checking that
+>>>        * HID_CLAIMED_INPUT is set prevents a UAF when all input devices
+>>> @@ -1352,6 +1366,10 @@ static const __u8 *asus_report_fixup(struct hid_device *hdev, __u8 *rdesc,
+>>>               rdesc = new_rdesc;
+>>>       }
+>>>
+>>> +     /* Vendor fixups should only apply to NKEY vendor devices. */
+>>> +     if (drvdata->quirks & QUIRK_SKIP_REPORT_FIXUP)
+>>> +             return rdesc;
+>>> +
+>> Uhm... no? Or at least it's not obvious why.
+>>
+>> If this is the case why is the check not at the top of the function?
+> Because the checks above apply to e.g., touchpad devices. This was
+> actually a bug with this series in previous versions. Only the report
+> fixups should be skipped. Specifically, with previous versions a HID
+> application mute was skipped, which caused certain keyboards to show
+> up as range finders if I recall (there is a comment for it in this
+> driver).
+I see... honestly I would insert a summary of this in a comment
+somewhere. Probably before that if.
+> The report fixups that are below this check are only applicable to the
+> 0xff31 devices that emit 0x5a events. Specifically, this driver
+> "abuses" the HID subsystem a bit to make the vendor report, which is
+> not a HID input device, appear as an input device, by mutating its
+> descriptor. But refactoring that would be too painful. At least with
+> this we make the fixup apply more precisely to only those devices.
+You can put a TL;DR of this as a comment too in the code.
+> I kindly ask you finish your comments until tomorrow evening, so I can
+> resend this series.
+I will try to do what I can, but until I hear an approval from Derek
+I can't give my approval knowing this can break a tool in use
+and we know it.
+> Thanks,
+> Antheas
+>
+>> Beside please refrain from using "should" in this context unless
+>> backed up by evidence or it's otherwise obvious as "should"
+>> can have many different interpretations.
+>>>       if (drvdata->quirks & QUIRK_ROG_NKEY_KEYBOARD &&
+>>>                       *rsize == 331 && rdesc[190] == 0x85 && rdesc[191] == 0x5a &&
+>>>                       rdesc[204] == 0x95 && rdesc[205] == 0x05) {
 
