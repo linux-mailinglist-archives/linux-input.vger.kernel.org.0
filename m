@@ -1,193 +1,182 @@
-Return-Path: <linux-input+bounces-16264-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16265-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DF08C756C1
-	for <lists+linux-input@lfdr.de>; Thu, 20 Nov 2025 17:41:28 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id EB279C75C7B
+	for <lists+linux-input@lfdr.de>; Thu, 20 Nov 2025 18:47:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sea.lore.kernel.org (Postfix) with ESMTPS id F0F902A8FF
-	for <lists+linux-input@lfdr.de>; Thu, 20 Nov 2025 16:41:26 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id B4F8A4E58F5
+	for <lists+linux-input@lfdr.de>; Thu, 20 Nov 2025 17:43:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D337533CEA5;
-	Thu, 20 Nov 2025 16:41:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0873A2EAD1C;
+	Thu, 20 Nov 2025 17:42:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PDtUlSoI"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="E0/0qUQR"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com [209.85.221.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF1D933D6E8;
-	Thu, 20 Nov 2025 16:41:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29BEC2E974D
+	for <linux-input@vger.kernel.org>; Thu, 20 Nov 2025 17:42:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763656884; cv=none; b=PMeXmCdbhDktbvY1UdwW1KhZOCnVdIQeB1hUwsTIHd0NEDgmIZ1cv3W5Bf+bzENrlHIN4nDdhPx4tBE9KsvUo/kbIKYyZW/gzfaqbJDA53429USvU9UKNSuXn518X4eAqTDzEJXi/N5AOClItOZXFDrh0XfCCQia2XvDFvxf9+w=
+	t=1763660560; cv=none; b=JGvhietVx7RaPMnXUsrk56wT3yzOYSccLlEas0ZCwFy8tvDC36xmift5V6qjbkqyr1r/LXKym8UoofmNBwdVBt/2juq4crEmTqqCrLPTPjO5AolF9A0Eic+NtBW57F+utFm6r2awcfM88d6oRJ/KKH12Xx2J0tkolqmmXiQIHno=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763656884; c=relaxed/simple;
-	bh=QdTN/sry0XEs+XUYxMEXo1t3BCrOPbZtrXT5JZbbz8Y=;
-	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=MgDNMBcdvtnnv0r/FkVGAze1qpRHgwz38UKuJaZnLE0HyUn9TWtJb/mbwiEEmi+YgoUx9SinNYThK4gDhQsaWXrro183DM+73NgvHqD4BsymQ+tTXfK6cyHGBseCCh+6OrJF6b6PXG86QhOTREwO1jVDNE4UuNpHr6/x2I9nTxE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PDtUlSoI; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763656883; x=1795192883;
-  h=from:date:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=QdTN/sry0XEs+XUYxMEXo1t3BCrOPbZtrXT5JZbbz8Y=;
-  b=PDtUlSoIs86Hm2VAvmW0NENbEiZrDYPbTSlJ2oVcCWEvPZLWIYpbMSGB
-   aU6jdCbF1EN2X2vYfZ966SjZMFk8R5nEItrftzDBZg4S2iIhB9VDz5u0y
-   ikyFT6O3HXFku1wKr7Ylixe0funSxiJ8q40SRISZ+LZmDWd1aFz7Dov6q
-   knISZbF1jqEOawf/teyWn/tWnGFsVDqgO8koqvh8f6AElSp7OX9RjRlFJ
-   BPiU+0pOI7kldkeZmJ+kJPyoAEXoEmX88xnnfK04wotAeypZbQI+OSEpw
-   JCasnK37o8qyrV96WSGS3b2h5IsdHpiM/imeT4jAX0K1p4z6oVmxb7UuU
-   Q==;
-X-CSE-ConnectionGUID: 3OxGtj2IQ/SiwvhKCfKYtQ==
-X-CSE-MsgGUID: aLtVty60RLS/vi0Pt+bCGA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11619"; a="76413789"
-X-IronPort-AV: E=Sophos;i="6.20,213,1758610800"; 
-   d="scan'208";a="76413789"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2025 08:41:22 -0800
-X-CSE-ConnectionGUID: m/TXxdt+TW6B76e9kpB+/Q==
-X-CSE-MsgGUID: 08yf9o4mTcyWdPyIw0hGlg==
-X-ExtLoop1: 1
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.161])
-  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2025 08:41:18 -0800
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Thu, 20 Nov 2025 18:41:14 +0200 (EET)
-To: Antheas Kapenekakis <lkml@antheas.dev>
-cc: Denis Benato <benato.denis96@gmail.com>, 
-    platform-driver-x86@vger.kernel.org, linux-input@vger.kernel.org, 
-    LKML <linux-kernel@vger.kernel.org>, Jiri Kosina <jikos@kernel.org>, 
-    Benjamin Tissoires <bentiss@kernel.org>, 
-    Corentin Chary <corentin.chary@gmail.com>, 
-    "Luke D . Jones" <luke@ljones.dev>, Hans de Goede <hansg@kernel.org>
-Subject: Re: [PATCH v9 04/11] HID: asus: fortify keyboard handshake
-In-Reply-To: <CAGwozwF6wegwHy=W1zaTEVksQYaw4L7V27w2aaZBMMoDjUjRYg@mail.gmail.com>
-Message-ID: <04075ef3-3fba-c308-871f-619972ffe5ff@linux.intel.com>
-References: <20251120094617.11672-1-lkml@antheas.dev> <20251120094617.11672-5-lkml@antheas.dev> <967761fb-3f55-4d51-be0b-23ad03258eff@gmail.com> <CAGwozwF6wegwHy=W1zaTEVksQYaw4L7V27w2aaZBMMoDjUjRYg@mail.gmail.com>
+	s=arc-20240116; t=1763660560; c=relaxed/simple;
+	bh=+mu4EH1hbZ7kiUj2EyeHf0i8XxDsygeKu//pdbEwJ7g=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=nLuL7lw102rMk4EDB1uo4BuCpsEAcAkSaiwamkKgyeds/OmnYYctigOCegYP7ZbFAn6Geu4BcQEgUgrm/VCQDEwg6coj/tz/t0Z8xkO5PtQeecmJ3TQM3IiYJcMbN+Dx4mFZrR5g7it4bqztS1sgnW/G0EbSYhSpdLOla6n5DxI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=E0/0qUQR; arc=none smtp.client-ip=209.85.221.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f170.google.com with SMTP id 71dfb90a1353d-55960aa131dso327557e0c.1
+        for <linux-input@vger.kernel.org>; Thu, 20 Nov 2025 09:42:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1763660558; x=1764265358; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8QdLCAH+kCAfdpyxSZwwmC18Jf4bNx9TJK2O4io7fI4=;
+        b=E0/0qUQRDNlyIopsvylGZjp9cQ0cOh/q2vgw78arzMSoREKXAaQSYEGy4ASTJRY4gl
+         bCP3hXXXOyLl2p+/KV9vtFxkypU5nfrQQf66X6SK+V7Z7G/za63rQAwntPpoK9g3eE8g
+         rRuoYi3Ue6VXMR3MMy28R/LdH0Ap12M/VOJd4I3Wt2eP11fqQTfVGihG4VdH2qXxeg3K
+         TMQrQG4fm6F0Nn7IX2DCE5Mm1xO0c2OkZptboAQvaXczCkCYX8CF5WKhtP0iZcQO+BCD
+         fuvQbEYR0xohzHwrt/02ik0B21p7XneT2qmn+yV5qFI/Kf/0AdIyzTm8VhXFL4WF444W
+         0khg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763660558; x=1764265358;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=8QdLCAH+kCAfdpyxSZwwmC18Jf4bNx9TJK2O4io7fI4=;
+        b=gK7BSWQWp4BAHsDOWbeYvoxdCuZiuK7T3sV7ZURycik6d7v/kg9if82q1MfGBtrcF/
+         OcCIw6k3rQL4cDTvTkdLhY5x3esKdntI/XruBgnJTR47PsGqEchP6gye6stZnxF1JWWn
+         4u906HGpCg+DFDZy04ZvIyMXTr/XRyP/SDDwSfWXnNTLb0BHvyWnd47RdXj0mFpHNBsK
+         Uz5Vkfxb/6PYo5gtw3a+/oz7aQqK4woZDRL0hEzpMfFLdy2wW4QGOn/clnnLEjDhFYKU
+         XsfSS2PeB96trDadW9gHF+yGFicHAde17XvCjTrpUT3+8ra3NJpU8/9vi4x5bpbJ1guf
+         Pgcg==
+X-Forwarded-Encrypted: i=1; AJvYcCXRdXKFUrjpBPd1CHk5LlqpW/wfVw1KGGn2NqsGMu/G7oEC3KDyrhuPr2CQA1E5WvYexDEbb3MhIeG3vg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwlsT1sH0lKU8ZNRYpCD5EgjbhBd6d4TyBhL4mvGfZd/EY2tXZJ
+	FdtD+OLLD72c7eaqZL52SXgNgV/H1tZKOzBdJDTx97ZbLU4NFYd6tlS2QCv3TQN8iF7sOAaOwp9
+	q8b4e7fyJ+6V+pXLBFBq4tMKkMHU4LkQ14A==
+X-Gm-Gg: ASbGncvG7CUHlF/CkLvwYN1r21EmxqYmDzOBzHDwryKqyub6rfZO9xU42qdwjRvaTlh
+	8Cruo9315fd49pQTCtjBReRsSjldLjn/f5kzJOsbplyFlKwbIyOzwiJvcUNHCZiLHA5CKZ7UOQj
+	Dlk5nHTEpQtAI+gCR5eTksz1x1aVCx5QYGBsGT9RIVQKG9R2ALFbWhczvyWFCaWGBDfOJZSg/fM
+	n7Y+f4WpAbDoLk1u2M+Dpw7mmZ2rRCp80T7AJ9n/0LmHkJlpYandEFoPBY/BNVr5H97JSCj
+X-Google-Smtp-Source: AGHT+IE5Hdgn7lpFW/BYm5FgIJ7g8krR9dNw6nTJik/5sfDEsCLktm4cUX/acXQbvJutTyM0DLHyRarLCbyrLyl873s=
+X-Received: by 2002:a05:6122:3c43:b0:556:e951:b544 with SMTP id
+ 71dfb90a1353d-55b7f0dc0a0mr1620163e0c.9.1763660557928; Thu, 20 Nov 2025
+ 09:42:37 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+References: <20251117014721.3142490-1-alex.t.tran@gmail.com> <awbmhna3hkra2eoc7lcl23d3mzfsk7qty5t4zl3m7s6hau3v4u@uzqkqudwttlp>
+In-Reply-To: <awbmhna3hkra2eoc7lcl23d3mzfsk7qty5t4zl3m7s6hau3v4u@uzqkqudwttlp>
+From: Alex Tran <alex.t.tran@gmail.com>
+Date: Thu, 20 Nov 2025 09:42:26 -0800
+X-Gm-Features: AWmQ_blDi8ctcvusjc3FMZK8SNONs1eXiZlA9dmRVRNszGSaGXn-9CKKan_IU5w
+Message-ID: <CA+hkOd6b9LhN4jRFjDiQQ3DxdBLD2xRrrGXnhO-YsTO1cEGJyQ@mail.gmail.com>
+Subject: Re: [PATCH v1] selftests: hid: tests: test_wacom_generic: add base
+ test for display devices and opaque devices
+To: Benjamin Tissoires <bentiss@kernel.org>
+Cc: jikos@kernel.org, shuah@kernel.org, linux-input@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 20 Nov 2025, Antheas Kapenekakis wrote:
-
-> On Thu, 20 Nov 2025 at 15:15, Denis Benato <benato.denis96@gmail.com> wrote:
+On Thu, Nov 20, 2025 at 2:53=E2=80=AFAM Benjamin Tissoires <bentiss@kernel.=
+org> wrote:
+>
+> Hi Alex,
+>
+> On Nov 16 2025, Alex Tran wrote:
+> > Verify Wacom devices set INPUT_PROP_DIRECT appropriately on display dev=
+ices
+> > and INPUT_PROP_POINTER appropriately on opaque devices. Tests are defin=
+ed
+> > in the base class and disabled for inapplicable device types.
+> >
+> > Signed-off-by: Alex Tran <alex.t.tran@gmail.com>
+> > ---
+> >  .../selftests/hid/tests/test_wacom_generic.py       | 13 +++++++++----
+> >  1 file changed, 9 insertions(+), 4 deletions(-)
+> >
+> > diff --git a/tools/testing/selftests/hid/tests/test_wacom_generic.py b/=
+tools/testing/selftests/hid/tests/test_wacom_generic.py
+> > index 2d6d04f0f..aa2a175f2 100644
+> > --- a/tools/testing/selftests/hid/tests/test_wacom_generic.py
+> > +++ b/tools/testing/selftests/hid/tests/test_wacom_generic.py
+> > @@ -600,15 +600,17 @@ class BaseTest:
+> >
+> >          def test_prop_direct(self):
+> >              """
+> > -            Todo: Verify that INPUT_PROP_DIRECT is set on display devi=
+ces.
+> > +            Verify that INPUT_PROP_DIRECT is set on display devices.
+> >              """
+> > -            pass
+> > +            evdev =3D self.uhdev.get_evdev()
+> > +            assert libevdev.INPUT_PROP_DIRECT in evdev.properties
+> >
+> >          def test_prop_pointer(self):
+> >              """
+> > -            Todo: Verify that INPUT_PROP_POINTER is set on opaque devi=
+ces.
+> > +            Verify that INPUT_PROP_POINTER is set on opaque devices.
+> >              """
+> > -            pass
+> > +            evdev =3D self.uhdev.get_evdev()
+> > +            assert libevdev.INPUT_PROP_POINTER in evdev.properties
 > >
 > >
-> > On 11/20/25 10:46, Antheas Kapenekakis wrote:
-> > > Handshaking with an Asus device involves sending it a feature report
-> > > with the string "ASUS Tech.Inc." and then reading it back to verify the
-> > > handshake was successful, under the feature ID the interaction will
-> > > take place.
-> > >
-> > > Currently, the driver only does the first part. Add the readback to
-> > > verify the handshake was successful. As this could cause breakages,
-> > > allow the verification to fail with a dmesg error until we verify
-> > > all devices work with it (they seem to).
-> > >
-> > > Since the response is more than 16 bytes, increase the buffer size
-> > > to 64 as well to avoid overflow errors.
-> > >
-> > > Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
-> > > ---
-> > >  drivers/hid/hid-asus.c | 32 +++++++++++++++++++++++++++++---
-> > >  1 file changed, 29 insertions(+), 3 deletions(-)
-> > >
-> > > diff --git a/drivers/hid/hid-asus.c b/drivers/hid/hid-asus.c
-> > > index 6de402d215d0..5149dc7edfc5 100644
-> > > --- a/drivers/hid/hid-asus.c
-> > > +++ b/drivers/hid/hid-asus.c
-> > > @@ -48,7 +48,7 @@ MODULE_DESCRIPTION("Asus HID Keyboard and TouchPad");
-> > >  #define FEATURE_REPORT_ID 0x0d
-> > >  #define INPUT_REPORT_ID 0x5d
-> > >  #define FEATURE_KBD_REPORT_ID 0x5a
-> > > -#define FEATURE_KBD_REPORT_SIZE 16
-> > > +#define FEATURE_KBD_REPORT_SIZE 64
-> > >  #define FEATURE_KBD_LED_REPORT_ID1 0x5d
-> > >  #define FEATURE_KBD_LED_REPORT_ID2 0x5e
-> > >
-> > > @@ -394,14 +394,40 @@ static int asus_kbd_set_report(struct hid_device *hdev, const u8 *buf, size_t bu
-> > >
-> > >  static int asus_kbd_init(struct hid_device *hdev, u8 report_id)
-> > >  {
-> > > +     /*
-> > > +      * The handshake is first sent as a set_report, then retrieved
-> > > +      * from a get_report. They should be equal.
-> > > +      */
-> > >       const u8 buf[] = { report_id, 0x41, 0x53, 0x55, 0x53, 0x20, 0x54,
-> > >                    0x65, 0x63, 0x68, 0x2e, 0x49, 0x6e, 0x63, 0x2e, 0x00 };
-> > > +     u8 *readbuf;
-> > >       int ret;
-> > >
-> > >       ret = asus_kbd_set_report(hdev, buf, sizeof(buf));
-> > > -     if (ret < 0)
-> > > -             hid_err(hdev, "Asus failed to send init command: %d\n", ret);
-> > > +     if (ret < 0) {
-> > > +             hid_err(hdev, "Asus failed to send handshake: %d\n", ret);
-> > > +             return ret;
-> > > +     }
-> > > +
-> > > +     readbuf = kzalloc(FEATURE_KBD_REPORT_SIZE, GFP_KERNEL);
-> > I see my suggestion to use __free here didn't materialize in code using
-> > it even after Ilpo kindly wrote how to correctly use it.
+> >  class PenTabletTest(BaseTest.TestTablet):
+> > @@ -622,6 +624,8 @@ class TouchTabletTest(BaseTest.TestTablet):
 > >
-> > I think you can move the readbuf assignment right below buf and
-> > take into account what Ilpo said.
 > >
-> > I don't expect new variables will be added here ever again,
-
-It's also about always doing the right thing so others will pick up the 
-pattern (for the cases when it's needed).
-
-> > but I agree with Ilpo that it's a good idea here to write code
-> > accounting for that possibility.
+> >  class TestOpaqueTablet(PenTabletTest):
+> > +    test_prop_direct =3D None
+>
+> That seems very awkward to do.
+>
+> Why not drop the 2 tests from the TestTablet class, move
+> `test_prop_direct()` in that subclass (TestOpaqueTablet), and add a new
+> TestDirectTablet class that TestDTH2452Tablet will be a subclass of?
+>
+> Basically try to make better use of subclassing instead of adding the
+> tests at the top level class and selectively remove them in the
+> subclasses.
+>
+> Cheers,
+> Benjamin
+>
+> > +
+> >      def create_device(self):
+> >          return OpaqueTablet()
 > >
-> > It is my understanding that who proposes patches is expected to
-> > resolve discussions when changes are proposed or to take into
-> > account requested changes and submit a modified version.
-> 
-> It was ambiguous. I interpreted Ilpo's email as a dismissal
-
-I tried to explain how to use it, not to suggest cleanup.h shouldn't be 
-used.
-
-> I will try to incorporate it if I do another revision. Although I do
-> not think it improves things in this case as the function does not
-> have multiple return statements.
-> 
-> > > +     if (!readbuf)
-> > > +             return -ENOMEM;
-> > > +
-> > > +     ret = hid_hw_raw_request(hdev, report_id, readbuf,
-> > > +                              FEATURE_KBD_REPORT_SIZE, HID_FEATURE_REPORT,
-> > > +                              HID_REQ_GET_REPORT);
-> > > +     if (ret < 0) {
-> > > +             hid_err(hdev, "Asus failed to receive handshake ack: %d\n", ret);
-> > > +     } else if (memcmp(readbuf, buf, sizeof(buf)) != 0) {
-> > > +             hid_warn(hdev, "Asus handshake returned invalid response: %*ph\n",
-> > > +                     FEATURE_KBD_REPORT_SIZE, readbuf);
-> > > +             /*
-> > > +              * Do not return error if handshake is wrong until this is
-> > > +              * verified to work for all devices.
-> > > +              */
-> > > +     }
-> > >
-> > > +     kfree(readbuf);
-> > >       return ret;
-> > >  }
-> > >
+> > @@ -864,6 +868,7 @@ class TestPTHX60_Pen(TestOpaqueCTLTablet):
 > >
-> 
+> >  class TestDTH2452Tablet(test_multitouch.BaseTest.TestMultitouch, Touch=
+TabletTest):
+> >      ContactIds =3D namedtuple("ContactIds", "contact_id, tracking_id, =
+slot_num")
+> > +    test_prop_pointer =3D None
+> >
+> >      def create_device(self):
+> >          return test_multitouch.Digitizer(
+> > --
+> > 2.51.0
+> >
 
--- 
- i.
+Thanks for the review. Yes, it seems like a good idea to restructure
+the class hierarchy instead of disabling the
+tests like this. I'll send in a v2 with the changes soon.
 
+Regards,
+--=20
+Alex Tran
 
