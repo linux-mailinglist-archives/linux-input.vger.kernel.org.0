@@ -1,116 +1,192 @@
-Return-Path: <linux-input+bounces-16253-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16254-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65F9BC7462E
-	for <lists+linux-input@lfdr.de>; Thu, 20 Nov 2025 14:58:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD7E0C74858
+	for <lists+linux-input@lfdr.de>; Thu, 20 Nov 2025 15:20:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 8B69E4F2DBF
-	for <lists+linux-input@lfdr.de>; Thu, 20 Nov 2025 13:47:44 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id B556C4E60C8
+	for <lists+linux-input@lfdr.de>; Thu, 20 Nov 2025 14:15:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F61A342C98;
-	Thu, 20 Nov 2025 13:47:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5E6B6346A18;
+	Thu, 20 Nov 2025 14:15:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kXUsnNhT"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J6rR0j86"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D569934164C;
-	Thu, 20 Nov 2025 13:47:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 616DCF513
+	for <linux-input@vger.kernel.org>; Thu, 20 Nov 2025 14:15:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763646458; cv=none; b=HpBL2cyp0bBO0Sk/TmCmMoBRtE9ChJPo3BI+/kf9otLxgoWab+USVQ+CTpOxQi1+/BEyO7E3KXq67SrsHpqwKgjRwvcTpIExF/1C5y5rFWsk6D7uxOJQ4nwaFJVfRXSG4jQVEZh+E3g16tX8+exzlmnXk4HgWxnNXPvItGiIBdA=
+	t=1763648141; cv=none; b=k1VyzNqaDt9QLegqoQ3RctmC15guHs782tW9pprhXQw/U6Uh8quuZ9GZnB6kDaVqeLw/7k5m8+t7miZU6Jpwe7byxw5n+7cNOQ+1YCZn8v3mCF3FMdVaqyUiQzEfcHZQNdeFR7jOfl4ZZvEkux/ni4sjAVolDAh40s8XAlfiZvk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763646458; c=relaxed/simple;
-	bh=CJvDRzJ6YFbRHvYRFotqckNLhW7HcjNVMeyVDaTUxIU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iKIZPKqUFpmlu/Ws/1rK2HmlJNJZQKZfkLkDaM2LX4esXDcMsZEl3IIZ6EjfExDylUTJcjVDybARRqOIc20XtuFuvMtoRDXLEGXDoJPD+EptviUg7PRTeD0MJ9HpeFo/MfwyUjb5bf1AiBLMAAoKdbR/Z9Kadm/+DR8whIwT96w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kXUsnNhT; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5B79C4CEF1;
-	Thu, 20 Nov 2025 13:47:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763646457;
-	bh=CJvDRzJ6YFbRHvYRFotqckNLhW7HcjNVMeyVDaTUxIU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=kXUsnNhTC9c9YaZ7AYyCFxRs7XWV+0G1RxEDkF/L+x7qwqxzTpsxsvbxaVc5NWahR
-	 huMD/s+bOqTwgoExzXL5ZQfoxJoFI2FIy+zJbH/o7FY5MZjtHWGse/BnJEK1rKC6mV
-	 LIiHMkFddRichUUmbIrQtGM/hS2SXwYOPRLF2XwFCOyM+li198/4L66MC9bg1kl1w5
-	 cx+RS+vJGmtZShei7zVzbQ0EdlmKzOHS9HZKv8rDTZiUb68cuewCMbqSgSQddRWaTC
-	 IeP/jDdzMzDe5euq4kc8PzFD9uj/IQ8u8qTIjqpM1vxVh7ppoKlgZQE+BgOWXLT8Ju
-	 tS7zCQoeEbIjA==
-Date: Thu, 20 Nov 2025 13:47:29 +0000
-From: Lee Jones <lee@kernel.org>
-To: James Calligeros <jcalligeros99@gmail.com>
-Cc: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Neal Gompa <neal@gompa.dev>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>, asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-rtc@vger.kernel.org,
-	linux-hwmon@vger.kernel.org, linux-input@vger.kernel.org,
-	linux-doc@vger.kernel.org, Mark Kettenis <kettenis@openbsd.org>,
-	Hector Martin <marcan@marcan.st>
-Subject: Re: [PATCH v5 00/11] mfd: macsmc: add rtc, hwmon and hid subdevices
-Message-ID: <20251120134729.GD661940@google.com>
-References: <20251112-macsmc-subdevs-v5-0-728e4b91fe81@gmail.com>
+	s=arc-20240116; t=1763648141; c=relaxed/simple;
+	bh=urNdyCZGES9rDj9ot6owCD8pdVfj5QPi//ZrMRJQUaI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=KhKOgOZV8alGt0bvk/eFfqcNONOXHmMsxJU510YKRSopY34Z2fkl+scZzzF12GUwVC+prOnw21btpjF+aYWEmzXKKn+add2gRl86rZG/cYxUwNLG+AZHqCPahHVyHAjiDIWbiuGGsAkWiHh7EkTttDV2nGfGjVKD1mFPWS7g9YU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=J6rR0j86; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-47775fb6c56so8380265e9.1
+        for <linux-input@vger.kernel.org>; Thu, 20 Nov 2025 06:15:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1763648138; x=1764252938; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=EdstboqPRYhjDwOMgRMYhYZ1S+MFFDi0TIYa6oOlKJg=;
+        b=J6rR0j864i2Ns2RKc6vRk/uEqhzYtEeO5YlPRa5IgE9o8AEWA0ZrwIDA3GI+C7oNx2
+         slX0Gmy4xJWTyql1rpZO4ZkNxSnj8E4J7oDkQvVhoYAfiRXI7voxLZN+PCJ6oti4EpTb
+         NgavtkvkSv+lHmHxd5IMhL5d9j0l8/nCXituFKbnr5bOWlzSuvYEnsCTZ6EQaeh4UNN6
+         7AY+t8cG+Fa3Me/UFq0j2unUOuRkbLm2UhVgZ/K1eyM60uIGN8mwqLYKzbrDp2PrWW8N
+         83xyQsIL+R1xfx620hOnVitRfbm4OQaZn9fCGgrxcaibcIrC2V+ncS3YHMrTVQ8YiuEw
+         cA0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763648138; x=1764252938;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=EdstboqPRYhjDwOMgRMYhYZ1S+MFFDi0TIYa6oOlKJg=;
+        b=DRh9fsgBk7tMoiT9H8pnjBdbUMW4zzjsqOjk47V5tW4ZCPwqB7/ZAEGA8ZYl/oaRGU
+         pYjNfMMbVJtT/lBUj71miXvswOcZvxwilFgCxRINzh1uLhm2vW3VPg2HPtg5fC7DG/+J
+         HoklO8L1i4K8mUOMxrMOVHQxley+OfopHbDfa6jT/doMwBa9zorsrjqvUztwCqekcgvI
+         JXZJAVWLKEmEj9mtxomzBXrZ8D2e/h9s2PSRcj1HxTZ3hgZr05ezmKWm4xPCZijECMUI
+         MSbZgdS5dupva4zgnNAsWy3cmbnM+Od3ymLsyjl9eZADQvmp00iXp/+aasZHdLy6NduW
+         d0rw==
+X-Forwarded-Encrypted: i=1; AJvYcCXFU3qvL70/a6tf4GPgqfUIPIK0QBYmUhT4RuRu9Gb+V0BWUthpz4/586t0Pgzz3aWT/XlB6Gf6VYO0Kg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw1BM75Q70TafODBOfo9+ykMNXhOeGfzaP7HerG9DjxU4JEDWLH
+	C5+MyxrW1RVB8FYTPQ8SBcFNm57zlAM6Fnvm33vKZfHYjKFFMSAbRCSc
+X-Gm-Gg: ASbGncuf41zLm1ETbb0RL3wxp5sT3tZqi8BIZwQONXWL+V4lGgtZLjCHc/+FCj+GS1S
+	B9x0w7z4l3Fo8T0TZzsRiq0O4P6dEVtrOkrpxnyAUyfR85QoPz27qUUqyINP6EasLpmQ5wopIBG
+	uemCqMKWDpMObi7ykQPIhgpu8xQyzfIdi7mOkEDHPr4kcibUKsYB3VIzia2ug35I+aXOF0CujGe
+	HXeDFwVmFOdS9MyGLexjh0eJAnfMXmtAxEVQu46QOUCsRne9FN4tIpIGzFUtrS3tKoL1ABX4puE
+	7OgYjbTDiDQQfq+DPmpfHs1gCglHnFWchA8oQmDcNbq5HczKbBzdKL20T//1C7bGhdNifqFS+eg
+	ZB/yPy9lngOqPJjAR3hozYIr7Yp2uC+ocaf8UBKRR/iUOK+VScnteb5nvs2fxqTjWvR1C/K0oJP
+	R0Xtbofimwdt8MLmC9j4YvGyw=
+X-Google-Smtp-Source: AGHT+IHYCLxUUzMfIqKz+6vD/bwGFHltG0yeTPVBP3wciZeAXZG6KpFdnBXT/VaaV2Nu5EPMcWPgng==
+X-Received: by 2002:a05:600c:474a:b0:471:14b1:da13 with SMTP id 5b1f17b1804b1-477b8a53aedmr32233975e9.14.1763648137303;
+        Thu, 20 Nov 2025 06:15:37 -0800 (PST)
+Received: from [192.168.1.121] ([176.206.93.222])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-477a97213b8sm65019255e9.1.2025.11.20.06.15.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 20 Nov 2025 06:15:36 -0800 (PST)
+Message-ID: <967761fb-3f55-4d51-be0b-23ad03258eff@gmail.com>
+Date: Thu, 20 Nov 2025 15:15:36 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251112-macsmc-subdevs-v5-0-728e4b91fe81@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v9 04/11] HID: asus: fortify keyboard handshake
+To: Antheas Kapenekakis <lkml@antheas.dev>,
+ platform-driver-x86@vger.kernel.org, linux-input@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
+ Benjamin Tissoires <bentiss@kernel.org>,
+ Corentin Chary <corentin.chary@gmail.com>, "Luke D . Jones"
+ <luke@ljones.dev>, Hans de Goede <hansg@kernel.org>,
+ =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+References: <20251120094617.11672-1-lkml@antheas.dev>
+ <20251120094617.11672-5-lkml@antheas.dev>
+Content-Language: en-US, it-IT, en-US-large
+From: Denis Benato <benato.denis96@gmail.com>
+In-Reply-To: <20251120094617.11672-5-lkml@antheas.dev>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, 12 Nov 2025, James Calligeros wrote:
 
-> Hi all,
-> 
-> This series adds support for the remaining SMC subdevices. These are the
-> RTC, hwmon, and HID devices. They are being submitted together as the RTC
-> and hwmon drivers both require changes to the SMC DT schema.
-> 
-> The RTC driver is responsible for getting and setting the system clock,
-> and requires an NVMEM cell. This series replaces Sven's original RTC driver
-> submission [1].
-> 
-> The hwmon function is an interesting one. While each Apple Silicon device
-> exposes pretty similar sets of sensors, these all seem to be paired to
-> different SMC keys in the firmware interface. This is true even when the
-> sensors are on the SoC. For example, an M1 MacBook Pro will use different
-> keys to access the LITTLE core temperature sensors to an M1 Mac mini. This
-> necessitates describing which keys correspond to which sensors for each
-> device individually, and populating the hwmon structs at runtime. We do
-> this with a node in the device tree. This series includes only the keys
-> for sensors which we know to be common to all devices. The SMC is also
-> responsible for monitoring and controlling fan speeds on systems with fans,
-> which we expose via the hwmon driver.
-> 
-> The SMC also handles the hardware power button and lid switch. Power
-> button presses and lid opening/closing are emitted as HID events, so we
-> add an input subdevice to handle them.
-> 
-> Since there are no real dependencies between the components of this series,
-> it should be fine for each subsystem to take the relevant patches through
-> their trees. The mfd one-liners should be taken in order to avoid trivial
-> conflicts. Per [2], the hwmon driver should be merged along with the preceding
-> mfd patch adding the __SMC_KEY macro to avoid build errors.
+On 11/20/25 10:46, Antheas Kapenekakis wrote:
+> Handshaking with an Asus device involves sending it a feature report
+> with the string "ASUS Tech.Inc." and then reading it back to verify the
+> handshake was successful, under the feature ID the interaction will
+> take place.
+>
+> Currently, the driver only does the first part. Add the readback to
+> verify the handshake was successful. As this could cause breakages,
+> allow the verification to fail with a dmesg error until we verify
+> all devices work with it (they seem to).
+>
+> Since the response is more than 16 bytes, increase the buffer size
+> to 64 as well to avoid overflow errors.
+>
+> Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
+> ---
+>  drivers/hid/hid-asus.c | 32 +++++++++++++++++++++++++++++---
+>  1 file changed, 29 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/hid/hid-asus.c b/drivers/hid/hid-asus.c
+> index 6de402d215d0..5149dc7edfc5 100644
+> --- a/drivers/hid/hid-asus.c
+> +++ b/drivers/hid/hid-asus.c
+> @@ -48,7 +48,7 @@ MODULE_DESCRIPTION("Asus HID Keyboard and TouchPad");
+>  #define FEATURE_REPORT_ID 0x0d
+>  #define INPUT_REPORT_ID 0x5d
+>  #define FEATURE_KBD_REPORT_ID 0x5a
+> -#define FEATURE_KBD_REPORT_SIZE 16
+> +#define FEATURE_KBD_REPORT_SIZE 64
+>  #define FEATURE_KBD_LED_REPORT_ID1 0x5d
+>  #define FEATURE_KBD_LED_REPORT_ID2 0x5e
+>  
+> @@ -394,14 +394,40 @@ static int asus_kbd_set_report(struct hid_device *hdev, const u8 *buf, size_t bu
+>  
+>  static int asus_kbd_init(struct hid_device *hdev, u8 report_id)
+>  {
+> +	/*
+> +	 * The handshake is first sent as a set_report, then retrieved
+> +	 * from a get_report. They should be equal.
+> +	 */
+>  	const u8 buf[] = { report_id, 0x41, 0x53, 0x55, 0x53, 0x20, 0x54,
+>  		     0x65, 0x63, 0x68, 0x2e, 0x49, 0x6e, 0x63, 0x2e, 0x00 };
+> +	u8 *readbuf;
+>  	int ret;
+>  
+>  	ret = asus_kbd_set_report(hdev, buf, sizeof(buf));
+> -	if (ret < 0)
+> -		hid_err(hdev, "Asus failed to send init command: %d\n", ret);
+> +	if (ret < 0) {
+> +		hid_err(hdev, "Asus failed to send handshake: %d\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	readbuf = kzalloc(FEATURE_KBD_REPORT_SIZE, GFP_KERNEL);
+I see my suggestion to use __free here didn't materialize in code using
+it even after Ilpo kindly wrote how to correctly use it.
 
-Apart from my (perhaps naive) question on patch 5, the other MFD patches
-look okay to me.  Once my question has been answered, I can apply the
-MFD, or at least 3 of them, orthogonally.
+I think you can move the readbuf assignment right below buf and
+take into account what Ilpo said.
 
--- 
-Lee Jones [李琼斯]
+I don't expect new variables will be added here ever again,
+but I agree with Ilpo that it's a good idea here to write code
+accounting for that possibility.
+
+It is my understanding that who proposes patches is expected to
+resolve discussions when changes are proposed or to take into
+account requested changes and submit a modified version.
+> +	if (!readbuf)
+> +		return -ENOMEM;
+> +
+> +	ret = hid_hw_raw_request(hdev, report_id, readbuf,
+> +				 FEATURE_KBD_REPORT_SIZE, HID_FEATURE_REPORT,
+> +				 HID_REQ_GET_REPORT);
+> +	if (ret < 0) {
+> +		hid_err(hdev, "Asus failed to receive handshake ack: %d\n", ret);
+> +	} else if (memcmp(readbuf, buf, sizeof(buf)) != 0) {
+> +		hid_warn(hdev, "Asus handshake returned invalid response: %*ph\n",
+> +			FEATURE_KBD_REPORT_SIZE, readbuf);
+> +		/*
+> +		 * Do not return error if handshake is wrong until this is
+> +		 * verified to work for all devices.
+> +		 */
+> +	}
+>  
+> +	kfree(readbuf);
+>  	return ret;
+>  }
+>  
 
