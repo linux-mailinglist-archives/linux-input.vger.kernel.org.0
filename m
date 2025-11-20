@@ -1,182 +1,144 @@
-Return-Path: <linux-input+bounces-16265-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16266-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB279C75C7B
-	for <lists+linux-input@lfdr.de>; Thu, 20 Nov 2025 18:47:26 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 42B4DC76153
+	for <lists+linux-input@lfdr.de>; Thu, 20 Nov 2025 20:31:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id B4F8A4E58F5
-	for <lists+linux-input@lfdr.de>; Thu, 20 Nov 2025 17:43:10 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 35F144E102A
+	for <lists+linux-input@lfdr.de>; Thu, 20 Nov 2025 19:31:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0873A2EAD1C;
-	Thu, 20 Nov 2025 17:42:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F65B2BB13;
+	Thu, 20 Nov 2025 19:31:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="E0/0qUQR"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JcrK5CR4"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com [209.85.221.170])
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29BEC2E974D
-	for <linux-input@vger.kernel.org>; Thu, 20 Nov 2025 17:42:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A480336D4F1
+	for <linux-input@vger.kernel.org>; Thu, 20 Nov 2025 19:31:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763660560; cv=none; b=JGvhietVx7RaPMnXUsrk56wT3yzOYSccLlEas0ZCwFy8tvDC36xmift5V6qjbkqyr1r/LXKym8UoofmNBwdVBt/2juq4crEmTqqCrLPTPjO5AolF9A0Eic+NtBW57F+utFm6r2awcfM88d6oRJ/KKH12Xx2J0tkolqmmXiQIHno=
+	t=1763667062; cv=none; b=Tjpk9pe4r+ozwq4HEsZwJQ3Drig7CFg/m8u75kRwFZ3OiO3DAAb6QyobVXQEIRxzTCTg1QzQFfm7gphUQ3I3cEDZ66srd9lePpBpZpp0qKrUpPPBPHS8yVNhRyBvkKnuRVtYieNYV4AfVMb7PTZ8B4OBWXsg17Ogv7FwKJL95og=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763660560; c=relaxed/simple;
-	bh=+mu4EH1hbZ7kiUj2EyeHf0i8XxDsygeKu//pdbEwJ7g=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=nLuL7lw102rMk4EDB1uo4BuCpsEAcAkSaiwamkKgyeds/OmnYYctigOCegYP7ZbFAn6Geu4BcQEgUgrm/VCQDEwg6coj/tz/t0Z8xkO5PtQeecmJ3TQM3IiYJcMbN+Dx4mFZrR5g7it4bqztS1sgnW/G0EbSYhSpdLOla6n5DxI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=E0/0qUQR; arc=none smtp.client-ip=209.85.221.170
+	s=arc-20240116; t=1763667062; c=relaxed/simple;
+	bh=eahziV9MI85JUeAGUiVjR0rszmwKr7+OYLU7ncf4BhU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jfTX3sDaDyF8/IwcBJwH1/+aBhFcd5Irjhz9dbefCMs2/Aly9XC9dnNo/gQFis3444zg0ryprClzZfKx2Mh8o65XGQG9oxhP10U9Traqve1aE30NYzvtsCfNvCkjEQVclG1XEBsXSugIr/I+hIAl35dWYqDDPILXNKguY97fzuU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JcrK5CR4; arc=none smtp.client-ip=209.85.210.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f170.google.com with SMTP id 71dfb90a1353d-55960aa131dso327557e0c.1
-        for <linux-input@vger.kernel.org>; Thu, 20 Nov 2025 09:42:39 -0800 (PST)
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-7ba55660769so1186968b3a.1
+        for <linux-input@vger.kernel.org>; Thu, 20 Nov 2025 11:31:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763660558; x=1764265358; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8QdLCAH+kCAfdpyxSZwwmC18Jf4bNx9TJK2O4io7fI4=;
-        b=E0/0qUQRDNlyIopsvylGZjp9cQ0cOh/q2vgw78arzMSoREKXAaQSYEGy4ASTJRY4gl
-         bCP3hXXXOyLl2p+/KV9vtFxkypU5nfrQQf66X6SK+V7Z7G/za63rQAwntPpoK9g3eE8g
-         rRuoYi3Ue6VXMR3MMy28R/LdH0Ap12M/VOJd4I3Wt2eP11fqQTfVGihG4VdH2qXxeg3K
-         TMQrQG4fm6F0Nn7IX2DCE5Mm1xO0c2OkZptboAQvaXczCkCYX8CF5WKhtP0iZcQO+BCD
-         fuvQbEYR0xohzHwrt/02ik0B21p7XneT2qmn+yV5qFI/Kf/0AdIyzTm8VhXFL4WF444W
-         0khg==
+        d=gmail.com; s=20230601; t=1763667060; x=1764271860; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=PRVJZy5dkqK+dIV+YwP8rCogUc4kibHesQnaNYNc96I=;
+        b=JcrK5CR4GLJ61aPuef4h+YEz299rB61WubQ07i5qtGcZ9XqLyD+vvxkd403RwXQbYj
+         nv9UKfIWzFNMx5PCMm8ekGdVt9vT8CURg0a+BT+zu0TQz4l6ju2k/KW56ldsRGi1v4Cl
+         0Oypj0mm2kx9N6mYKbT8GQ8dMF7HVLlt9Tda/jMrYs59QIVi2Czf4b4cSwuacsaCua7E
+         4bj3LHB233q3wM6+QMm0J6hk9xFxH//2f8QQKG6WqygeqlP7kuuTMAz60OSzydh1iMGQ
+         W16CxBn8gQ5S5RiNumWOIyGtEt1nqiHqjgq1bMWIw5MGT5Nasd6ftX3SNIgyjMrJbawA
+         pi2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763660558; x=1764265358;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=8QdLCAH+kCAfdpyxSZwwmC18Jf4bNx9TJK2O4io7fI4=;
-        b=gK7BSWQWp4BAHsDOWbeYvoxdCuZiuK7T3sV7ZURycik6d7v/kg9if82q1MfGBtrcF/
-         OcCIw6k3rQL4cDTvTkdLhY5x3esKdntI/XruBgnJTR47PsGqEchP6gye6stZnxF1JWWn
-         4u906HGpCg+DFDZy04ZvIyMXTr/XRyP/SDDwSfWXnNTLb0BHvyWnd47RdXj0mFpHNBsK
-         Uz5Vkfxb/6PYo5gtw3a+/oz7aQqK4woZDRL0hEzpMfFLdy2wW4QGOn/clnnLEjDhFYKU
-         XsfSS2PeB96trDadW9gHF+yGFicHAde17XvCjTrpUT3+8ra3NJpU8/9vi4x5bpbJ1guf
-         Pgcg==
-X-Forwarded-Encrypted: i=1; AJvYcCXRdXKFUrjpBPd1CHk5LlqpW/wfVw1KGGn2NqsGMu/G7oEC3KDyrhuPr2CQA1E5WvYexDEbb3MhIeG3vg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwlsT1sH0lKU8ZNRYpCD5EgjbhBd6d4TyBhL4mvGfZd/EY2tXZJ
-	FdtD+OLLD72c7eaqZL52SXgNgV/H1tZKOzBdJDTx97ZbLU4NFYd6tlS2QCv3TQN8iF7sOAaOwp9
-	q8b4e7fyJ+6V+pXLBFBq4tMKkMHU4LkQ14A==
-X-Gm-Gg: ASbGncvG7CUHlF/CkLvwYN1r21EmxqYmDzOBzHDwryKqyub6rfZO9xU42qdwjRvaTlh
-	8Cruo9315fd49pQTCtjBReRsSjldLjn/f5kzJOsbplyFlKwbIyOzwiJvcUNHCZiLHA5CKZ7UOQj
-	Dlk5nHTEpQtAI+gCR5eTksz1x1aVCx5QYGBsGT9RIVQKG9R2ALFbWhczvyWFCaWGBDfOJZSg/fM
-	n7Y+f4WpAbDoLk1u2M+Dpw7mmZ2rRCp80T7AJ9n/0LmHkJlpYandEFoPBY/BNVr5H97JSCj
-X-Google-Smtp-Source: AGHT+IE5Hdgn7lpFW/BYm5FgIJ7g8krR9dNw6nTJik/5sfDEsCLktm4cUX/acXQbvJutTyM0DLHyRarLCbyrLyl873s=
-X-Received: by 2002:a05:6122:3c43:b0:556:e951:b544 with SMTP id
- 71dfb90a1353d-55b7f0dc0a0mr1620163e0c.9.1763660557928; Thu, 20 Nov 2025
- 09:42:37 -0800 (PST)
+        d=1e100.net; s=20230601; t=1763667060; x=1764271860;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=PRVJZy5dkqK+dIV+YwP8rCogUc4kibHesQnaNYNc96I=;
+        b=Bh/cdK9TUIhjdhtW7kcsM01zz1JsGA0omQcMHQBVqF6HyWbvr2DXbeWciObUdPUPXq
+         EK0KKVLxJJuHa7bbXY5+KOaqcKOuKmNSYKS6m/pAw5DxQ9TMlS+J3Puhl1n9yqrpipxZ
+         1gr18VKmDZ2CAxPf7Hl1c+pngo0rC4h12NLTdi82Aq8rBjgjBQRpQGsL64tHXViMizmp
+         uKtwwhAJh9kJs07QVIuFB4FrOuoMBleCY5WG5lOi1vIPOEYPmvn7x4AwFr+rqLG1Xy/p
+         HzmQpRl4NEVwNKggjDgCJHd4vxqtI9vvTCxdNRFS6QymuRCXJToUfQvaYl+3iLcbthKM
+         5MfA==
+X-Gm-Message-State: AOJu0YwQ5gj1uD3jnY0xvqrMLPfG7R2bfAJ3/RaUONifgj472dYLZ0Ct
+	Te86uGKoDs7mxq38RyLsEK0CTmuL6qIg4ng9Ei6kZn7gUlAMDDMQpW0W
+X-Gm-Gg: ASbGnctOaY8P4/GA3zlfWtlGwQeXm/p/2iGGEh2dUjSKEEj4NFksnPZjQvwAHT6xY4C
+	zz/sFHJRglQ5AcO7yBKgmzH7DHP1yIfY6b7eRYineNumf3d8ihn5GF8hoDuEjgydaURx0yojmbq
+	npDcYrFTTeicwPJnw8DtGD+eyHhTCRlW5G7lWK6ijEMTfokQNTZhfSafpxSpzfnUvsrE4W3ukQD
+	covQ+MSCTub+wgXkbdXXt8+bo1Fcu4F9u8tYknMxHnrbZKMQai9a4JU2Pll4h7f+dgJY3obQqIm
+	OK2zFgEjCCTbjss5aULXB2iGQ3HI14umFO3op/WRyDOHH16lGvjM32hoOO06y9bC5mhBQGw45yn
+	y76mQx7ybmv60CY1HUPpx6+XPNy4rxX6FjBjvOwO4DKoeVG0AcHmg9yIhfJ6vV8f9B8XdIJe7q+
+	D11pon00Mh+lSu7wtfBJHs8vIFBnmDDlZ3GWysLCPoOYkUC2fjDzXi
+X-Google-Smtp-Source: AGHT+IFyekVgq0Fe4+8lyhfmB64TVSD6lEbdD1s6FF2lT5ucCTckF4Fkqg9L/hs9aeX2ceHzfg6sgA==
+X-Received: by 2002:a05:7022:1508:b0:11a:2ec8:de1c with SMTP id a92af1059eb24-11c9389b302mr1388681c88.36.1763667059698;
+        Thu, 20 Nov 2025 11:30:59 -0800 (PST)
+Received: from google.com ([2a00:79e0:2ebe:8:13c9:31ec:82bf:a8bf])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-11c93db4a23sm13507723c88.2.2025.11.20.11.30.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 20 Nov 2025 11:30:58 -0800 (PST)
+Date: Thu, 20 Nov 2025 11:30:56 -0800
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Fabio Estevam <festevam@gmail.com>
+Cc: "open list:INPUT (KEYBOARD, MOUSE, JOYSTICK, TOUCHSCREEN)..." <linux-input@vger.kernel.org>, 
+	joe_hung@ilitek.com
+Subject: Re: ili2130: touchscreen-size-x/y DT properties are ignored,
+ firmware reports 16384x16384 range
+Message-ID: <aabnty7qup23lung5md4v62d6kxmj3qvjnarrzcayllfdm6gx7@iuweu3nzzgpc>
+References: <CAOMZO5DhfCk9=uMONdwndrYgEXtYj6L6-mRbYyP-q5M4J9_DAg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251117014721.3142490-1-alex.t.tran@gmail.com> <awbmhna3hkra2eoc7lcl23d3mzfsk7qty5t4zl3m7s6hau3v4u@uzqkqudwttlp>
-In-Reply-To: <awbmhna3hkra2eoc7lcl23d3mzfsk7qty5t4zl3m7s6hau3v4u@uzqkqudwttlp>
-From: Alex Tran <alex.t.tran@gmail.com>
-Date: Thu, 20 Nov 2025 09:42:26 -0800
-X-Gm-Features: AWmQ_blDi8ctcvusjc3FMZK8SNONs1eXiZlA9dmRVRNszGSaGXn-9CKKan_IU5w
-Message-ID: <CA+hkOd6b9LhN4jRFjDiQQ3DxdBLD2xRrrGXnhO-YsTO1cEGJyQ@mail.gmail.com>
-Subject: Re: [PATCH v1] selftests: hid: tests: test_wacom_generic: add base
- test for display devices and opaque devices
-To: Benjamin Tissoires <bentiss@kernel.org>
-Cc: jikos@kernel.org, shuah@kernel.org, linux-input@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAOMZO5DhfCk9=uMONdwndrYgEXtYj6L6-mRbYyP-q5M4J9_DAg@mail.gmail.com>
 
-On Thu, Nov 20, 2025 at 2:53=E2=80=AFAM Benjamin Tissoires <bentiss@kernel.=
-org> wrote:
->
-> Hi Alex,
->
-> On Nov 16 2025, Alex Tran wrote:
-> > Verify Wacom devices set INPUT_PROP_DIRECT appropriately on display dev=
-ices
-> > and INPUT_PROP_POINTER appropriately on opaque devices. Tests are defin=
-ed
-> > in the base class and disabled for inapplicable device types.
-> >
-> > Signed-off-by: Alex Tran <alex.t.tran@gmail.com>
-> > ---
-> >  .../selftests/hid/tests/test_wacom_generic.py       | 13 +++++++++----
-> >  1 file changed, 9 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/tools/testing/selftests/hid/tests/test_wacom_generic.py b/=
-tools/testing/selftests/hid/tests/test_wacom_generic.py
-> > index 2d6d04f0f..aa2a175f2 100644
-> > --- a/tools/testing/selftests/hid/tests/test_wacom_generic.py
-> > +++ b/tools/testing/selftests/hid/tests/test_wacom_generic.py
-> > @@ -600,15 +600,17 @@ class BaseTest:
-> >
-> >          def test_prop_direct(self):
-> >              """
-> > -            Todo: Verify that INPUT_PROP_DIRECT is set on display devi=
-ces.
-> > +            Verify that INPUT_PROP_DIRECT is set on display devices.
-> >              """
-> > -            pass
-> > +            evdev =3D self.uhdev.get_evdev()
-> > +            assert libevdev.INPUT_PROP_DIRECT in evdev.properties
-> >
-> >          def test_prop_pointer(self):
-> >              """
-> > -            Todo: Verify that INPUT_PROP_POINTER is set on opaque devi=
-ces.
-> > +            Verify that INPUT_PROP_POINTER is set on opaque devices.
-> >              """
-> > -            pass
-> > +            evdev =3D self.uhdev.get_evdev()
-> > +            assert libevdev.INPUT_PROP_POINTER in evdev.properties
-> >
-> >
-> >  class PenTabletTest(BaseTest.TestTablet):
-> > @@ -622,6 +624,8 @@ class TouchTabletTest(BaseTest.TestTablet):
-> >
-> >
-> >  class TestOpaqueTablet(PenTabletTest):
-> > +    test_prop_direct =3D None
->
-> That seems very awkward to do.
->
-> Why not drop the 2 tests from the TestTablet class, move
-> `test_prop_direct()` in that subclass (TestOpaqueTablet), and add a new
-> TestDirectTablet class that TestDTH2452Tablet will be a subclass of?
->
-> Basically try to make better use of subclassing instead of adding the
-> tests at the top level class and selectively remove them in the
-> subclasses.
->
-> Cheers,
-> Benjamin
->
-> > +
-> >      def create_device(self):
-> >          return OpaqueTablet()
-> >
-> > @@ -864,6 +868,7 @@ class TestPTHX60_Pen(TestOpaqueCTLTablet):
-> >
-> >  class TestDTH2452Tablet(test_multitouch.BaseTest.TestMultitouch, Touch=
-TabletTest):
-> >      ContactIds =3D namedtuple("ContactIds", "contact_id, tracking_id, =
-slot_num")
-> > +    test_prop_pointer =3D None
-> >
-> >      def create_device(self):
-> >          return test_multitouch.Digitizer(
-> > --
-> > 2.51.0
-> >
+Hi Fabio,
 
-Thanks for the review. Yes, it seems like a good idea to restructure
-the class hierarchy instead of disabling the
-tests like this. I'll send in a v2 with the changes soon.
+On Thu, Nov 20, 2025 at 09:40:14AM -0300, Fabio Estevam wrote:
+> Hi,
+> 
+> I am working on an i.MX8MP-based system equipped with an Ilitek ILI2130
+> touch controller. The device tree contains:
+> 
+>     touchscreen@41 {
+>         compatible = "ilitek,ili2130";
+>         reg = <0x41>;
+>         interrupt-parent = <&gpio5>;
+>         interrupts = <13 IRQ_TYPE_EDGE_RISING>;
+>         reset-gpios = <&gpio5 12 GPIO_ACTIVE_LOW>;
+>         touchscreen-size-x = <800>;
+>         touchscreen-size-y = <480>;
+>         wakeup-source;
+>     };
+> 
+> The device probes correctly:
+> 
+>     $ cat /sys/bus/i2c/devices/2-0041/product_id
+>     product id: [2130], module: [ILI2130000000000]
+> 
+>     $ cat /sys/bus/i2c/devices/2-0041/firmware_version
+>     fw version: [0700.0000.0000.0000]
+> 
+> Using evtest, I see valid multitouch events. However, the reported
+> coordinate range is always 0–16383 for both X and Y, regardless of the
+> touchscreen-size-x/y values provided in the DT.
+> 
+> The ili2130 driver exposes screen_min_x/y and screen_max_x/y but these
+> are all initialized from firmware data. The DT properties appear to be
+> ignored for this model.
+> 
+> To make the touchscreen work correctly with Weston on an 800x480 panel,
+> I currently need the following hack:
+> 
+>     x = (raw_x * 25) >> 9;   /* 16384 * 25/512 = 800 */
+>     y = (raw_y * 15) >> 9;   /* 16384 * 15/512 = 480 */
 
-Regards,
---=20
-Alex Tran
+Touchscreen controller coordinates/resolution is separate from the
+display resolution, userspace is responsible for the conversion.
+
+Thanks.
+
+-- 
+Dmitry
 
