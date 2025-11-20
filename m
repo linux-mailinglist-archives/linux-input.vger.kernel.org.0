@@ -1,78 +1,77 @@
-Return-Path: <linux-input+bounces-16229-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16230-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1BB6C72C21
-	for <lists+linux-input@lfdr.de>; Thu, 20 Nov 2025 09:20:07 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id A803CC72EE6
+	for <lists+linux-input@lfdr.de>; Thu, 20 Nov 2025 09:42:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by tor.lore.kernel.org (Postfix) with ESMTPS id F31522A129
-	for <lists+linux-input@lfdr.de>; Thu, 20 Nov 2025 08:20:06 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTPS id 1AD76242EF
+	for <lists+linux-input@lfdr.de>; Thu, 20 Nov 2025 08:42:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B781C309EF7;
-	Thu, 20 Nov 2025 08:19:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D233930BF6C;
+	Thu, 20 Nov 2025 08:41:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QIscJULl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IEA/urtv"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C587A309EE0;
-	Thu, 20 Nov 2025 08:19:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CD2B3081C6;
+	Thu, 20 Nov 2025 08:41:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763626791; cv=none; b=adp3CZMpNKyyQV006xeAO3MUuTKfSXyVsvs4LvudQdg/RQZGopOeCEfI7EUHSFVhaxc03MybpdsA2al2EN9xWUHSqdCsy7lGyJeRVeLn/8+TxluwCUhXe8JR9B+Nx4uGW1p3YJJjGu8NF3rLYoJZ5svjMb+mkawRxyNR0ShM91o=
+	t=1763628112; cv=none; b=WarSw/jcTWcPUQT7P1yS6w3TORXeXc/1W2KE7IYwdh/M+oFqBRMq7Ce7nJwTvF29TZCMyCh1jI/10nD3LAQXJwwbqrvOt4DdgGu0p0VwbwbrFObG1rwyI5MRei4YybELOxNmKU9S8O1BsZw/N7xpAlx9vGiNHaDfTtZps7hTg+s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763626791; c=relaxed/simple;
-	bh=drjy7Om9+hTEtLqm8bf7E/TIxkEuaOGk9m3jpyHjmXw=;
+	s=arc-20240116; t=1763628112; c=relaxed/simple;
+	bh=cqxl+IyOWcKo/tRDHpPMwN3FlYVqmhu45UPNVMkoDmI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DZm/7Ki9C9CwDAEU17LNdxfWRNjIaVkHvRF5MxZK4Laa9DmYdzK2mzYkCb480azzNbvR9SUYF6CV5gjzzSwcsrjVW96Aq6VE/QPwUkJOs3u9pMq7OH9sHOnwVR3PhLY/oM6Ox5IOoxNcKTxtM9YvfvgTT5tizdr2bzJbxTSDQuc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QIscJULl; arc=none smtp.client-ip=192.198.163.7
+	 Content-Type:Content-Disposition:In-Reply-To; b=JygIu+5Sh25hxNNlsmSnn0CGQBdLjvtNAWAc8mcn9qGCoYmthCRSlvTAkkjW37pYrGFRcWn09gNGAO8krOGqzBqC1nDQMp6kOfBzmfoMOQq25/XhHLHVOWxjrqQN9t2zZ77le4mICmOsbM99s3Cx3yPcQEuHK01VH//9kzq4qiM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IEA/urtv; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763626790; x=1795162790;
+  t=1763628110; x=1795164110;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=drjy7Om9+hTEtLqm8bf7E/TIxkEuaOGk9m3jpyHjmXw=;
-  b=QIscJULlCLdxfiQykswZBON0l8+OS+VujBOd9p0uLqI7WAuJI6cQJtpS
-   sQXElEdkpPM4SsUtwkSBJpDBZXtD0WHaOL1oDp8wyAIpw5/VjRGF8CxZT
-   cCpMJHXBLHTnBc0h77NqJEw7iunBKKAihoCBIiRzvsx7MJYqlSgug7fqy
-   JoQpaR6g+DQvvV6cqEj7CWptL+KB1EVDLZjnsiCsZEW1RZe9MMK3EoPmg
-   AA0i+b9ix9CDWACBoKn6a6AZLHEmLipKpoax+/hMbClVloakg5znUUcqV
-   AgAHmoYWLZjRu7DIOK4TAFZUb16IM7Ded5Pb1qz1YR+LeruUIwVdsVMMf
-   w==;
-X-CSE-ConnectionGUID: lV/Xk0OTQJGTkk/8bQilfg==
-X-CSE-MsgGUID: tRsxvW1PQ4W57BVNLMTF9w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11618"; a="91167589"
+  bh=cqxl+IyOWcKo/tRDHpPMwN3FlYVqmhu45UPNVMkoDmI=;
+  b=IEA/urtv8IVpyEAJMUcc65h0JavctC/qYEUCoV7yo3Nr4Zy6Vt3I3zQg
+   YA+5U+LAdzIDQWIoSNFVFfVSNiakIf48SKXWXYIqdH+82YUTOZVVVTQBH
+   4WBk2R5bFXO97ERTQJH6zJlUgyIBajc8Kcv2q7AKU09TSKSir1Z71his6
+   OZBjhJmBLsCZtd/SuYJ5KW+Eq7rl37nVaJeaI9vno0BIvVVeWb3vZ8Vjf
+   SJI9s+iHeTQKGAT0XJZJb2Rp6UMi08h69hP8N7lbvdp+U6L2zuAE7pluf
+   GYGVNnNS1Pvz6hlOW6K79vsgbEZ/MRj7QWkFfHofqTc6JvlnDHQrapKsU
+   Q==;
+X-CSE-ConnectionGUID: 3F3h8EXlSyqDxk8pNTPk0w==
+X-CSE-MsgGUID: L7EDRr18TJWNB7x4txfIfQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11618"; a="68295794"
 X-IronPort-AV: E=Sophos;i="6.19,317,1754982000"; 
-   d="scan'208";a="91167589"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2025 00:18:46 -0800
-X-CSE-ConnectionGUID: Iuq2OIqcSFmO/p06c1h+KA==
-X-CSE-MsgGUID: PYj2H+DuRYuxPZpffe72fw==
+   d="scan'208";a="68295794"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2025 00:41:47 -0800
+X-CSE-ConnectionGUID: nyAeXKxYQR+eXBe+0BjcFg==
+X-CSE-MsgGUID: 4rYd4p4vQ3K97EKMM0T3ug==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,317,1754982000"; 
-   d="scan'208";a="190549759"
 Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 20 Nov 2025 00:18:43 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 20 Nov 2025 00:41:45 -0800
 Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vLzsG-0003lX-0J;
-	Thu, 20 Nov 2025 08:18:40 +0000
-Date: Thu, 20 Nov 2025 16:17:56 +0800
+	id 1vM0EY-0003mb-2B;
+	Thu, 20 Nov 2025 08:41:42 +0000
+Date: Thu, 20 Nov 2025 16:40:44 +0800
 From: kernel test robot <lkp@intel.com>
 To: Lucas Zampieri <lzampier@redhat.com>, linux-input@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Lucas Zampieri <lzampier@redhat.com>,
-	linux-kernel@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Lucas Zampieri <lzampier@redhat.com>, linux-kernel@vger.kernel.org,
+	Jiri Kosina <jikos@kernel.org>,
 	Benjamin Tissoires <bentiss@kernel.org>,
 	Sebastian Reichel <sre@kernel.org>,
 	Bastien Nocera <hadess@hadess.net>, linux-pm@vger.kernel.org
 Subject: Re: [PATCH v3 1/1] HID: input: Add support for multiple batteries
  per device
-Message-ID: <202511201624.yUv4VtBv-lkp@intel.com>
+Message-ID: <202511201651.tkKTEKpn-lkp@intel.com>
 References: <20251119143005.1513531-2-lzampier@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
@@ -99,25 +98,24 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Lucas-Zampieri/HID-input-
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
 patch link:    https://lore.kernel.org/r/20251119143005.1513531-2-lzampier%40redhat.com
 patch subject: [PATCH v3 1/1] HID: input: Add support for multiple batteries per device
-config: sh-defconfig (https://download.01.org/0day-ci/archive/20251120/202511201624.yUv4VtBv-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251120/202511201624.yUv4VtBv-lkp@intel.com/reproduce)
+config: um-defconfig (https://download.01.org/0day-ci/archive/20251120/202511201651.tkKTEKpn-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9e9fe08b16ea2c4d9867fb4974edf2a3776d6ece)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251120/202511201651.tkKTEKpn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511201624.yUv4VtBv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511201651.tkKTEKpn-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/hid/hid-input.c: In function 'hidinput_hid_event':
->> drivers/hid/hid-input.c:1550:25: error: implicit declaration of function 'hidinput_update_battery'; did you mean 'hidinput_find_battery'? [-Wimplicit-function-declaration]
+>> drivers/hid/hid-input.c:1550:4: error: call to undeclared function 'hidinput_update_battery'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
     1550 |                         hidinput_update_battery(bat, usage->hid, value);
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~
-         |                         hidinput_find_battery
+         |                         ^
+   1 error generated.
 
 
-vim +1550 drivers/hid/hid-input.c
+vim +/hidinput_update_battery +1550 drivers/hid/hid-input.c
 
   1536	
   1537	void hidinput_hid_event(struct hid_device *hid, struct hid_field *field, struct hid_usage *usage, __s32 value)
