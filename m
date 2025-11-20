@@ -1,82 +1,82 @@
-Return-Path: <linux-input+bounces-16258-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16259-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 553F6C7497E
-	for <lists+linux-input@lfdr.de>; Thu, 20 Nov 2025 15:35:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F102C74987
+	for <lists+linux-input@lfdr.de>; Thu, 20 Nov 2025 15:36:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sin.lore.kernel.org (Postfix) with ESMTPS id 277D931AA0
-	for <lists+linux-input@lfdr.de>; Thu, 20 Nov 2025 14:29:47 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTPS id 065BD2D1F0
+	for <lists+linux-input@lfdr.de>; Thu, 20 Nov 2025 14:31:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 34D952E413;
-	Thu, 20 Nov 2025 14:29:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5CB891DE8BB;
+	Thu, 20 Nov 2025 14:31:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W0RZZJy4"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Nm2TvaVv"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6778A286400
-	for <linux-input@vger.kernel.org>; Thu, 20 Nov 2025 14:29:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94F6118C008
+	for <linux-input@vger.kernel.org>; Thu, 20 Nov 2025 14:31:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763648976; cv=none; b=l8/QwF+lb0WDAwUptZwd2gHRYHmWQN2Vlq1nNgT3OjsoVYRzBXsraPaM69CmU49fpskKX2uTPfWY9HLDNoV7+SJBhTGnKQllqJ/F7TUeGv55xIyaBhWdYANHoRHVnCmBEK3Nc40SeLOUEqXVVjs2xidCMmVJNVxRyqdZMNm2ULA=
+	t=1763649072; cv=none; b=tmbuwLNnR8bz9FDzBRWzyBq49DnFutH8YoDLiAuR7czgi34OwcbJTcs2qykT71E9dH0iuC6NGbR9jsjUtyC53valE2lfdfau4X+zKiUTgLmSKVESEOsjWrc5bUZjgK2HHB2w/SQUBjgOIKhzPdjqCdTU/bmctFh96Wq9JBFN+wI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763648976; c=relaxed/simple;
-	bh=4sGPhk6b77JM0haaV7ma1VhS6WwzG6m+e1s3k2buRmQ=;
+	s=arc-20240116; t=1763649072; c=relaxed/simple;
+	bh=VjIpb9UGuVBbynzJsGpQLvFYKrdn58W/poFnKCcRyRE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=clFQhsV0ktngribIaupBo9qU7Ra4gFR2cvfw6p3jut2/qQSOIiHIn54GvIEXZk5Ha3yJ6dtm3ZXt37UprxiboCiaqYgRwpmyb8l9Dq/1AF+ZVh4qX++eDcDkbpEa8RWJo/uSWmgPb7wZBJhT/uKOLTiw3vkVpACfW4dPcIyyzKQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=W0RZZJy4; arc=none smtp.client-ip=209.85.128.50
+	 In-Reply-To:Content-Type; b=Dp9eX9pDlU69IqYE1vXAbs7xFe3cjBjaCy0KjY3c+XdIpxKS7+SQ8ReB5nnixUE9oFgfhQqrWNjnC+AQa4fjW2/2I5maBVAU9ZBedfa7pXR58/J0x3BwHKkV8IHAZYAcg5OtwgJiRb9ogbTx5OaPkV7pKo+FAETiDJVzm8sR8P4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Nm2TvaVv; arc=none smtp.client-ip=209.85.128.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4775895d69cso4400555e9.0
-        for <linux-input@vger.kernel.org>; Thu, 20 Nov 2025 06:29:34 -0800 (PST)
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-477770019e4so9535865e9.3
+        for <linux-input@vger.kernel.org>; Thu, 20 Nov 2025 06:31:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763648973; x=1764253773; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1763649068; x=1764253868; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=PaSB0JDzx/KeBkAD7qB+B6gdM9jZdTTt3lJ/HLrBHFY=;
-        b=W0RZZJy421jfGqUZ0vH1qUiI26r2+jccqMkwz3f4v66tlUR8QbxNd0l3Nt4pF5Hl4D
-         tTLvAI4KOLCwkLhNsMFlnNTkvkar+ScOUJa9ojqhMSj+VbTPo4ZA1T4lwhA5yE+U8PXE
-         MosgrvwqeKfMw2ZC9+QN5WYMAF71h4mPhwEJv/PFzJtM3J9ZFOTxXQeDV8JLIFeUavCo
-         LQ6kzb5vgyKZKsbJb7WCnkSC2Ue/voQsW0sm/Ztrljc4bParK7eg4GA+t8boCOFLi4ji
-         kez7PFeUDQLmP6/ek5nlQ/s/hj+ty4RIK9ZBli4P758klpaXb45jvoRxZ9USF5x0Y4v5
-         v19w==
+        bh=T73HM0puozBRi2+pOPwiTjM3PEATffqq8BLe2CmdD0Y=;
+        b=Nm2TvaVvz7XwpDY3lR2zHHszmRaUbt3NAiibp2wwOFT+Rh2VrpO0xOhjnfokmRoaYU
+         +2upkzrhOgOfLlZxouUnEcHC0p1Xhi0KxfJvTzZ4sAPOe/97R99QHYrT4g85lbKgEEu2
+         p1Btwe1ApBZRaPa2XyGSCMkwYCtO/UXG99lUlAanKAnX9UuD+X4pXNRpWE80hPtOC9/4
+         9N+cOpK0nq+tDDfYgH8h+Jaya0vKybiqKata6/Jud5wAb0TNuZGKLvoVj0sdggcHd9Vu
+         TkntRnFJ+wzOPaRmaNAgf8x2SOpBNoMYYI02cxUMO9sMdjD9yP4Zf/s4Ri+j+IPKOZ/a
+         4I6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763648973; x=1764253773;
+        d=1e100.net; s=20230601; t=1763649068; x=1764253868;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=PaSB0JDzx/KeBkAD7qB+B6gdM9jZdTTt3lJ/HLrBHFY=;
-        b=Dsvr9sTaOIi/paoXHGzWgTOjck2+CLOWucKl0s4rXTWryk5Uj3674Q9Q0kkK43/+bA
-         tLgrfZr/ETo/0rPLZo1ALDvhVgrgVQV3XfdnZgtA3syhw9n/ow+bvIH16H+ccB35GuDE
-         yMsHa0azeY83+OfhGT3wcgL3DwrurU0PLpxl6vFY3u1cpVN2fygomIZq24MKLaerJ/tH
-         3kp32+WhHvQZ9wOYO9LDRrBgsbggDDHWS9rDcgaWcqbBUIYFH6PIjAwkOpD7YEWn3ZfE
-         iJ7xr/H8x4YAV0iJuj1aITctLrS6nnePDtuQpOa1WdbOoIWCiFFAFnLf3O6wX4YfYQuu
-         VpWw==
-X-Forwarded-Encrypted: i=1; AJvYcCVxB4BJEOkQZ9SNQcg519bbCxYrcO+UROjDrnxnNWomsPljtB+NSXRvA/EKqtWdXYsEPfke1a4Oe3QSyA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy6Cys9xrJj6j36cmz0eWAbXp2bqhnl8JNTvvT+WbL/xz7xcmR0
-	2TmgiBKQjidwwDhngb5Y4oX+FlFMZGLONq6JQ87ZW6SQWEb4/b0e9Cm7
-X-Gm-Gg: ASbGncss+JR4REqZZmn26lBqZl7qv2A2zmFce2lzwloqfj9hYo55f09CjyD0RHqKVc/
-	alaXVqZfNgGO8dNkzj4IUCfUAc9jLxghwfNbcBW5wtm0exq8UIukNNmkYD6lIGffYQ5/Z5SJlO2
-	jycSer+TW5nisuocn92ZD+tqaa49A0tBEnlVmWtAJU7F+4FpcvT9cM0yJOS1FfXC2O5cm46MqK/
-	HEEUBfKoVcOR0EJDcTKcHsegjb8NSQ7P36eBm0yOO3eOdgdGq4GzZi6OE9MGUj4WpL1LruvVOIv
-	P115jh5yzG7U0Czb5ZQ5A302IQ9XnzB2YMh0jkj9PlYJgyMIXd0usYgSqIrySsQjaQpIXElStsp
-	pa9sQAHUebR4N4crCls7HkBDX61CRzwjhIJ7djkx3YRZ0tmDzppKdAb0qEDFnf8LOsGFu1Dej26
-	cTFYw6luGltdbKOBUvzInqTIV7oYKBRVY4VQ==
-X-Google-Smtp-Source: AGHT+IFRXp1PdrvCziYVlZhZPS+kvq66GveiKYFYWzSPfuPYcPK4t//nyW6R5AUbCQZ7bSE1VqWV6A==
-X-Received: by 2002:a05:600c:444c:b0:45d:e28c:875a with SMTP id 5b1f17b1804b1-477b8aa06c0mr36976405e9.31.1763648972549;
-        Thu, 20 Nov 2025 06:29:32 -0800 (PST)
+        bh=T73HM0puozBRi2+pOPwiTjM3PEATffqq8BLe2CmdD0Y=;
+        b=S78AqiGM+Xe/li2E0yrfi34UOZ7pV4UMWLF0b2rdviWZwAkpYLNgqnwlFFJC7aFcWe
+         6fmHGZj0puzQl6Oy6uutjbT6byNZ7M+TI21Ep8Q0aNqSVy8UR2nB2GLksIWHGOso78DU
+         arpQdlnb4boIqqVoayxk+JnTndNG/22HRKkbNp2CYStjtR7jE6qOo9q7UAQkcwBqzkte
+         +GfwTvqVUpLeEGZPWpr4QmvM88x4GFfCaRvoX9BS+iKpe4wXIb8O1j0u4FBj0jgO2q3/
+         P8DnCt95M/xioAVJo1fy0B8gQOTDXzb6TmZBaD86MIy1NlTwx7dk++gf1b6aHfM3X29W
+         /vcA==
+X-Forwarded-Encrypted: i=1; AJvYcCWneJ7FR3E7lJVJSaNMwHt8hXt6M0PZk8SK6DnZIwk1zMScenLN76XPhor+trNf/Y9GSnp9uXaapa8DpQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyDLYMJb6/4pFlZqMJ2mOXZa5GOLaQSOtxgmMPxa9+prLMowALp
+	NrFBf6IbW6HW8yqFTN0prBzFAp5nC26uuggprzCLeuTvShpmTRqAl3bL
+X-Gm-Gg: ASbGncs5z9za6vzyj1lHBTaFbnEprXiRUUAgt5jGqzo38w6e7vXEG+EcYFZKxzIiO2/
+	6/yBoZaPMXqc6LiSX9n9dZBONKqEhS9upQdflVfdNJUsP0z7NkkifCZY44fxdw1dqVRpagRElvm
+	N4GK9ykSeBrh1Pd8zVvQKDYzf16gzyl/fG4bY6R+i7BPG9TRB8CdF4hCvB19FbwXHwAk6fqqYRf
+	M1U+/vGtpfshNUGZTsjigESkiLA2WJeyikte8RwwI6PWwafyANZSCzVKA65SIuwHvbtEqVILCuA
+	WoIfgbCJUsZ6sFASkBoBvbh6un9sMHJ5Q+jFQu1NLUlCIK2h9qpgIyc3KB5t8fUd59JCL48uTVs
+	oLqxaz62VFA8+IM35zw+HjJe3iVJCg/M4RLL23lAwFwjX5g0fTBChUdMfv0aKq9fa5D5puwbflU
+	fwP/aoqjCVvVR5NoM3VFEj58o=
+X-Google-Smtp-Source: AGHT+IHllMaFM9RYyCxrxpU/uPalPcB+kKn6aFhED520P2mWS73tM93EHdi0KqQ9Y/EiHt6hgx2JuQ==
+X-Received: by 2002:a05:600c:1c97:b0:477:9cc3:7971 with SMTP id 5b1f17b1804b1-477b8a98ec2mr36555785e9.20.1763649067701;
+        Thu, 20 Nov 2025 06:31:07 -0800 (PST)
 Received: from [192.168.1.121] ([176.206.93.222])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-477b0ffd37bsm115336785e9.3.2025.11.20.06.29.31
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-477b82cc6b9sm51345235e9.3.2025.11.20.06.31.06
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 20 Nov 2025 06:29:32 -0800 (PST)
-Message-ID: <5e577dcf-995e-441b-9351-11d6da097fcc@gmail.com>
-Date: Thu, 20 Nov 2025 15:29:31 +0100
+        Thu, 20 Nov 2025 06:31:07 -0800 (PST)
+Message-ID: <6a34198c-aceb-46cb-b84e-c49e4f529907@gmail.com>
+Date: Thu, 20 Nov 2025 15:31:06 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -84,7 +84,7 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 06/11] HID: asus: early return for ROG devices
+Subject: Re: [PATCH v9 04/11] HID: asus: fortify keyboard handshake
 To: Antheas Kapenekakis <lkml@antheas.dev>
 Cc: platform-driver-x86@vger.kernel.org, linux-input@vger.kernel.org,
  linux-kernel@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
@@ -93,77 +93,112 @@ Cc: platform-driver-x86@vger.kernel.org, linux-input@vger.kernel.org,
  <luke@ljones.dev>, Hans de Goede <hansg@kernel.org>,
  =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
 References: <20251120094617.11672-1-lkml@antheas.dev>
- <20251120094617.11672-7-lkml@antheas.dev>
- <f13a53d9-e5b8-4380-b134-16aa81eb0a88@gmail.com>
- <CAGwozwEk0k3K8v2GOX2+9Rrcx_pp4xAmiJExzoRNADeridRTfA@mail.gmail.com>
+ <20251120094617.11672-5-lkml@antheas.dev>
+ <967761fb-3f55-4d51-be0b-23ad03258eff@gmail.com>
+ <CAGwozwF6wegwHy=W1zaTEVksQYaw4L7V27w2aaZBMMoDjUjRYg@mail.gmail.com>
 Content-Language: en-US, it-IT, en-US-large
 From: Denis Benato <benato.denis96@gmail.com>
-In-Reply-To: <CAGwozwEk0k3K8v2GOX2+9Rrcx_pp4xAmiJExzoRNADeridRTfA@mail.gmail.com>
+In-Reply-To: <CAGwozwF6wegwHy=W1zaTEVksQYaw4L7V27w2aaZBMMoDjUjRYg@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 
-On 11/20/25 15:15, Antheas Kapenekakis wrote:
-> On Thu, 20 Nov 2025 at 14:29, Denis Benato <benato.denis96@gmail.com> wrote:
+On 11/20/25 15:28, Antheas Kapenekakis wrote:
+> On Thu, 20 Nov 2025 at 15:15, Denis Benato <benato.denis96@gmail.com> wrote:
 >>
 >> On 11/20/25 10:46, Antheas Kapenekakis wrote:
->>> Some ROG devices have a new dynamic backlight interface for control by
->>> Windows. This interface does not create an ->input device, causing the
->>> kernel to print an error message and to eject it. In addition, ROG
->>> devices have proper HID names in their descriptors so renaming them is
->>> not necessary.
->> Is this patchset supposed to work without the renaming, correct?
->>
->> If so consider dropping the drop of renames, taking required time
->> to organize with Derek and resubmit when things are ready:
->> there is no point for the rename to stall the rest and quit renaming
->> is not urgent at all.
-> I feel like two months is enough of a timeframe for a simple rename
-> fix to go in.
->
-> I do not want to have to reorder the checks just so the rename can
-> stay in _for now_. Skipping the ->input check is important for both
-> Xbox Ally/Z13 as it causes errors and the device to stay partially
-> uninitialized.
->
->>> Therefore, if a device is identified as ROG, early return from probe to
->>> skip renaming and ->input checks.
+>>> Handshaking with an Asus device involves sending it a feature report
+>>> with the string "ASUS Tech.Inc." and then reading it back to verify the
+>>> handshake was successful, under the feature ID the interaction will
+>>> take place.
+>>>
+>>> Currently, the driver only does the first part. Add the readback to
+>>> verify the handshake was successful. As this could cause breakages,
+>>> allow the verification to fail with a dmesg error until we verify
+>>> all devices work with it (they seem to).
+>>>
+>>> Since the response is more than 16 bytes, increase the buffer size
+>>> to 64 as well to avoid overflow errors.
 >>>
 >>> Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
 >>> ---
->>>  drivers/hid/hid-asus.c | 7 +++++++
->>>  1 file changed, 7 insertions(+)
+>>>  drivers/hid/hid-asus.c | 32 +++++++++++++++++++++++++++++---
+>>>  1 file changed, 29 insertions(+), 3 deletions(-)
 >>>
 >>> diff --git a/drivers/hid/hid-asus.c b/drivers/hid/hid-asus.c
->>> index 3047bc54bf2e..6193c9483bec 100644
+>>> index 6de402d215d0..5149dc7edfc5 100644
 >>> --- a/drivers/hid/hid-asus.c
 >>> +++ b/drivers/hid/hid-asus.c
->>> @@ -1236,6 +1236,13 @@ static int asus_probe(struct hid_device *hdev, const struct hid_device_id *id)
->>>           asus_kbd_register_leds(hdev))
->>>               hid_warn(hdev, "Failed to initialize backlight.\n");
+>>> @@ -48,7 +48,7 @@ MODULE_DESCRIPTION("Asus HID Keyboard and TouchPad");
+>>>  #define FEATURE_REPORT_ID 0x0d
+>>>  #define INPUT_REPORT_ID 0x5d
+>>>  #define FEATURE_KBD_REPORT_ID 0x5a
+>>> -#define FEATURE_KBD_REPORT_SIZE 16
+>>> +#define FEATURE_KBD_REPORT_SIZE 64
+>>>  #define FEATURE_KBD_LED_REPORT_ID1 0x5d
+>>>  #define FEATURE_KBD_LED_REPORT_ID2 0x5e
 >>>
+>>> @@ -394,14 +394,40 @@ static int asus_kbd_set_report(struct hid_device *hdev, const u8 *buf, size_t bu
+>>>
+>>>  static int asus_kbd_init(struct hid_device *hdev, u8 report_id)
+>>>  {
 >>> +     /*
->>> +      * For ROG keyboards, skip rename for consistency and ->input check as
->>> +      * some devices do not have inputs.
+>>> +      * The handshake is first sent as a set_report, then retrieved
+>>> +      * from a get_report. They should be equal.
 >>> +      */
->>> +     if (drvdata->quirks & QUIRK_ROG_NKEY_KEYBOARD)
->>> +             return 0;
+>>>       const u8 buf[] = { report_id, 0x41, 0x53, 0x55, 0x53, 0x20, 0x54,
+>>>                    0x65, 0x63, 0x68, 0x2e, 0x49, 0x6e, 0x63, 0x2e, 0x00 };
+>>> +     u8 *readbuf;
+>>>       int ret;
+>>>
+>>>       ret = asus_kbd_set_report(hdev, buf, sizeof(buf));
+>>> -     if (ret < 0)
+>>> -             hid_err(hdev, "Asus failed to send init command: %d\n", ret);
+>>> +     if (ret < 0) {
+>>> +             hid_err(hdev, "Asus failed to send handshake: %d\n", ret);
+>>> +             return ret;
+>>> +     }
 >>> +
->>>       /*
->>>        * Check that input registration succeeded. Checking that
->>>        * HID_CLAIMED_INPUT is set prevents a UAF when all input devices
->> Just for clarity is this supposed to fix this: https://gitlab.com/asus-linux/asusctl/-/issues/700 ?
->> This model works once in windows users disable  that new feature.
+>>> +     readbuf = kzalloc(FEATURE_KBD_REPORT_SIZE, GFP_KERNEL);
+>> I see my suggestion to use __free here didn't materialize in code using
+>> it even after Ilpo kindly wrote how to correctly use it.
 >>
->> Note: that kernel the person submitting the bug is using contains your v8
->> and asus-armoury.
+>> I think you can move the readbuf assignment right below buf and
+>> take into account what Ilpo said.
 >>
-> No. This user has a laptop that has at least a WMI implementation of
-> RGB controls (this is why you can see rgb settings). Since you did not
-> ask for logs, it is not clear if it also has a HID implementation that
-> is skipped due to e.g., a missing product ID. Very likely it is a bug
-> on the WMI implementation that is out of scope for this series.
-I will ask for logs, but I recall someone with the same model sent dmesg already,
-I'll try to find it, but if this is true... Are we lending control of LEDs to a bugged WMI
-implementation for this laptop?
+>> I don't expect new variables will be added here ever again,
+>> but I agree with Ilpo that it's a good idea here to write code
+>> accounting for that possibility.
+>>
+>> It is my understanding that who proposes patches is expected to
+>> resolve discussions when changes are proposed or to take into
+>> account requested changes and submit a modified version.
+> It was ambiguous. I interpreted Ilpo's email as a dismissal
+>
+> I will try to incorporate it if I do another revision. Although I do
+> not think it improves things in this case as the function does not
+> have multiple return statements.
+I will leave this decision to Ilpo, if he thinks there is no point in using
+__free here I will add my Reviewed-by tag.
+>>> +     if (!readbuf)
+>>> +             return -ENOMEM;
+>>> +
+>>> +     ret = hid_hw_raw_request(hdev, report_id, readbuf,
+>>> +                              FEATURE_KBD_REPORT_SIZE, HID_FEATURE_REPORT,
+>>> +                              HID_REQ_GET_REPORT);
+>>> +     if (ret < 0) {
+>>> +             hid_err(hdev, "Asus failed to receive handshake ack: %d\n", ret);
+>>> +     } else if (memcmp(readbuf, buf, sizeof(buf)) != 0) {
+>>> +             hid_warn(hdev, "Asus handshake returned invalid response: %*ph\n",
+>>> +                     FEATURE_KBD_REPORT_SIZE, readbuf);
+>>> +             /*
+>>> +              * Do not return error if handshake is wrong until this is
+>>> +              * verified to work for all devices.
+>>> +              */
+>>> +     }
+>>>
+>>> +     kfree(readbuf);
+>>>       return ret;
+>>>  }
+>>>
 
