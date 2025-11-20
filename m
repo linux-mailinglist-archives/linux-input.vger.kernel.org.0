@@ -1,147 +1,108 @@
-Return-Path: <linux-input+bounces-16250-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16251-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C557C74484
-	for <lists+linux-input@lfdr.de>; Thu, 20 Nov 2025 14:37:36 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id DB054C746BE
+	for <lists+linux-input@lfdr.de>; Thu, 20 Nov 2025 15:04:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 61435353220
-	for <lists+linux-input@lfdr.de>; Thu, 20 Nov 2025 13:30:32 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 5A27B4F826F
+	for <lists+linux-input@lfdr.de>; Thu, 20 Nov 2025 13:45:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 83D1233B6CF;
-	Thu, 20 Nov 2025 13:29:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB026344055;
+	Thu, 20 Nov 2025 13:44:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jBw5OZdL"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aqHNktJU"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA3441E0DFE
-	for <linux-input@vger.kernel.org>; Thu, 20 Nov 2025 13:29:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4773234402A;
+	Thu, 20 Nov 2025 13:44:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763645371; cv=none; b=JLH75+GBIZsn0JgW9IoH33hi9coFNnFp8AG3F+wdIpwS4RoqreVa1FBauIXMF7AC3KnolPGEmP0CAEXKSeeAPCQFv+4/WPe5HpAvv1qS2hbC227JGiC57Lwo6WThw+q9t3qExOZHXw1iciqrxzO9aiS/cFcBTuK+CZj0ORWCb+w=
+	t=1763646293; cv=none; b=lwdVumou8x/G8aZT7y726Jr6s+9WEkjMg+HvsvSMxgVyu0HsdNfkZXT1t495Estoj/70zxDbSUEJsNuNl/y7FVhSrrUrD56nN0xikB0nXQGCbjDpZfZckyQGA906cr0V5pmOOzdeX1nn0o8zQLk2iZ96OInIlfRqu7Dxm8np2fs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763645371; c=relaxed/simple;
-	bh=Mv7CXuKik3QApyGseKx4DGFBVAEG1+yGjHEwnPo7OcA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=E2g0lSS3JpMNYnsVoF88WxpHysGTTSLSsD7U5nnjgBgIEP9JZCkCS2ha1R+7h/wNVZjeAcV5VhJe5yGKxKbhnifH2IW/T60SRadtvCbkIV3QDeeYqloPIptbJl30A3/YpKCj5xM2Dce3SmGM7gmqC1Gu91CD0+/Uynk589s+NFI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jBw5OZdL; arc=none smtp.client-ip=209.85.221.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-42bb288c1bfso584488f8f.2
-        for <linux-input@vger.kernel.org>; Thu, 20 Nov 2025 05:29:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763645368; x=1764250168; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=9gJHwXiCYWXaORTsE+KJBd81+C4osD9kDy/Zns4uHsY=;
-        b=jBw5OZdLSGE4Q3XPq4wvhuatQs1LtPz8tzSv545AczxhCSiTRdNGutyLWLxqI1qpgy
-         pCkZkCE4tFOKuc3J39L6ST/apH3qNmXTtomIxFaMLqyTkkFNTPMHZbtqsCVNxufBi0bf
-         y/JlTgLhkSQwxv+uI76qtcWYbksi5phbD0oryxluAwKwCERHJjaSUnYk65l2vKTTEqYz
-         KNNwqhrZVyCqgel3SCwqv0JH+FmHXQ2z36RWS7I0pSAvi4+I3yuASwB9J/hgfaHH1kv5
-         lPhQs5a/Ub6z2bbGqoJibhOFlWGhkppwadzQAck4b3zCxScC+A4QvU0fnwIbvaXYCXWm
-         rPiQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763645368; x=1764250168;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=9gJHwXiCYWXaORTsE+KJBd81+C4osD9kDy/Zns4uHsY=;
-        b=jqTpuUHd0VB2UiMgy6Ds4G0TsHIoKxOqsZPtyyhLUGiIXtEJ1+NNK+qqUoVCdEi5DU
-         MCbXlJdNBby7G4ca+UqYpkKUVhcucEu9zG/kMzmPx9gFDJo1XR50PnF4qfw9LeyRvOWc
-         a2XDjb8E8ZNlcFhBrdN+ykhZKcU3sQ12yEqyOl3t7L53tfUL8LsxJFeCLI4OlXjDkTrr
-         PRG/r/3iHv3L4x0pptbKPfAtQB7Xo+RXtp6NlDcWNb7u++2YlJ9t3CwO1cw/Z9tGnAlt
-         X+RQDKrqwJjtiJbvtbmvpsNWqTjgJEDQac94G3nqR3Ul4Hxt8rau4V/V2zPgFfxEf4j5
-         FMkQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUAw+6qstDXIJFjoIh+oMmIyN219ylG8xdkUgY9a0+OM7nObKnlBp6Hrm94q4UzV21ZItOp99aYTaZQ4g==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxmHn2vTYx2ANqdqeO1PMcbjeDDqQcUIAawuOU7S+8/XvGe6eVU
-	QR0voYJ5gDkG4c7Cip9sym1WB7F0jw22Y/dgyBC1XtNoU3plZ78G9O6h
-X-Gm-Gg: ASbGncvvE3YZvOtudyrmCSQRhI2XF1ufxHJmnMzkbisuZm1ereeYistpHdVmjvah0sS
-	v17YD98l7dszdVBuNIMHF08VJ0cCXV69C5HH/Q/BwupWlY8M2HVD5sBzMYD7/2fsbp2j255+ZQY
-	cP135674/+TY/tGe+tzV1cRrx8aWAd2+o9Vd+t8PVCRMWh/q1aC5XLONXB3eRoQ6c4KjYRZdmRU
-	rWbSIzeglvyBbGCGUQ2kJNCVu+yl9hgbxtaO0tTJOcl2x9VpJQpZCzCy1qr7GARHiYNS8iQC5FX
-	z/E/+gQGLYnkM1vkC8DyEEa9WcFLoPPI+f/xS931u26ceJvwiNOcIB/a85A62Kd2vmDy6zDqMOY
-	rK785G43cdzQDVT62incYrDEejNtXK4WgAgQ1umwwrks5sHhZPfn8MHtjadLv1w0MCakn9w+C/h
-	/fyMnkHkAcqxc6GOghPp5RrHo=
-X-Google-Smtp-Source: AGHT+IHu9iOLGgXLRqf1kRwcjqnxWD23aUXZEJvx/ai2yOiH44GOaw7cdUrrhIYsmVUQvD1inB9aZg==
-X-Received: by 2002:a05:6000:2dc9:b0:42b:3878:beb7 with SMTP id ffacd0b85a97d-42cb9a67a4cmr3115194f8f.43.1763645367651;
-        Thu, 20 Nov 2025 05:29:27 -0800 (PST)
-Received: from [192.168.1.121] ([176.206.93.222])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42cb7fa3a81sm5591570f8f.26.2025.11.20.05.29.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 20 Nov 2025 05:29:27 -0800 (PST)
-Message-ID: <f13a53d9-e5b8-4380-b134-16aa81eb0a88@gmail.com>
-Date: Thu, 20 Nov 2025 14:29:26 +0100
+	s=arc-20240116; t=1763646293; c=relaxed/simple;
+	bh=geE8CGqh+oZM/uYkoic6MrUOnhgB0yIjv8DKrEbMBp0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PaSBR7TzKx6L3GK9wNkEZQ5mNoGgIEmKm3U/7zKLhpu2ZZ/jAeGXIQEr3A+aXaPT+xZiJJaZ5VVyWn9hgy+qZcxfA+AyLKIhVTiuVZHEOcai7Lt9nYAFIkG9iFfbzs/bzrKzPoOwNqk2iVL1zfWekEmqEy/VNq+BFUqF89QpIPU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aqHNktJU; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80FCAC4CEF1;
+	Thu, 20 Nov 2025 13:44:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1763646293;
+	bh=geE8CGqh+oZM/uYkoic6MrUOnhgB0yIjv8DKrEbMBp0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=aqHNktJUoFFpvwMD5ypnB6ijVfrJSZRG0d5kxIdfF14wDssA+jJlLHn6oQqrb+7n2
+	 LfFI+vtFdHb3f3bYoizKWazZdOz8XYJW+mtFKn/F3murhyVwfdPQRMproP7wrrz0/t
+	 DAmDwyWmrb9MzCTapfML81ZvLGpTzk9Vef+qp+PMDa3iaQJLXD9dmUaitkRqwe669k
+	 SStu1IVKEMASfrsHyZ5waPYaNAr13shnRbVokCg10J8MStDSQ14lrLqyBxMWTcg1tR
+	 LAHJ04MNWggQjdV8bUBSHBEinOkXh5ZfIB859lZETdyj16rdLXSVaIvSlkRzjwIP61
+	 bqtCBn+cjVs6A==
+Date: Thu, 20 Nov 2025 13:44:45 +0000
+From: Lee Jones <lee@kernel.org>
+To: James Calligeros <jcalligeros99@gmail.com>
+Cc: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Neal Gompa <neal@gompa.dev>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>, asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-rtc@vger.kernel.org,
+	linux-hwmon@vger.kernel.org, linux-input@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v5 05/11] mfd: macsmc: Add new __SMC_KEY macro
+Message-ID: <20251120134445.GC661940@google.com>
+References: <20251112-macsmc-subdevs-v5-0-728e4b91fe81@gmail.com>
+ <20251112-macsmc-subdevs-v5-5-728e4b91fe81@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 06/11] HID: asus: early return for ROG devices
-To: Antheas Kapenekakis <lkml@antheas.dev>,
- platform-driver-x86@vger.kernel.org, linux-input@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
- Benjamin Tissoires <bentiss@kernel.org>,
- Corentin Chary <corentin.chary@gmail.com>, "Luke D . Jones"
- <luke@ljones.dev>, Hans de Goede <hansg@kernel.org>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-References: <20251120094617.11672-1-lkml@antheas.dev>
- <20251120094617.11672-7-lkml@antheas.dev>
-Content-Language: en-US, it-IT, en-US-large
-From: Denis Benato <benato.denis96@gmail.com>
-In-Reply-To: <20251120094617.11672-7-lkml@antheas.dev>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20251112-macsmc-subdevs-v5-5-728e4b91fe81@gmail.com>
 
+On Wed, 12 Nov 2025, James Calligeros wrote:
 
-On 11/20/25 10:46, Antheas Kapenekakis wrote:
-> Some ROG devices have a new dynamic backlight interface for control by
-> Windows. This interface does not create an ->input device, causing the
-> kernel to print an error message and to eject it. In addition, ROG
-> devices have proper HID names in their descriptors so renaming them is
-> not necessary.
-Is this patchset supposed to work without the renaming, correct?
-
-If so consider dropping the drop of renames, taking required time
-to organize with Derek and resubmit when things are ready:
-there is no point for the rename to stall the rest and quit renaming
-is not urgent at all.
-> Therefore, if a device is identified as ROG, early return from probe to
-> skip renaming and ->input checks.
->
-> Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
+> When using the _SMC_KEY macro in switch/case statements, GCC 15.2.1 errors
+> out with 'case label does not reduce to an integer constant'. Introduce
+> a new __SMC_KEY macro that can be used instead.
+> 
+> Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
 > ---
->  drivers/hid/hid-asus.c | 7 +++++++
->  1 file changed, 7 insertions(+)
->
-> diff --git a/drivers/hid/hid-asus.c b/drivers/hid/hid-asus.c
-> index 3047bc54bf2e..6193c9483bec 100644
-> --- a/drivers/hid/hid-asus.c
-> +++ b/drivers/hid/hid-asus.c
-> @@ -1236,6 +1236,13 @@ static int asus_probe(struct hid_device *hdev, const struct hid_device_id *id)
->  	    asus_kbd_register_leds(hdev))
->  		hid_warn(hdev, "Failed to initialize backlight.\n");
->  
-> +	/*
-> +	 * For ROG keyboards, skip rename for consistency and ->input check as
-> +	 * some devices do not have inputs.
-> +	 */
-> +	if (drvdata->quirks & QUIRK_ROG_NKEY_KEYBOARD)
-> +		return 0;
-> +
->  	/*
->  	 * Check that input registration succeeded. Checking that
->  	 * HID_CLAIMED_INPUT is set prevents a UAF when all input devices
-Just for clarity is this supposed to fix this: https://gitlab.com/asus-linux/asusctl/-/issues/700 ?
-This model works once in windows users disable  that new feature.
+>  include/linux/mfd/macsmc.h | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/include/linux/mfd/macsmc.h b/include/linux/mfd/macsmc.h
+> index 6b13f01a8592..f6f80c33b5cf 100644
+> --- a/include/linux/mfd/macsmc.h
+> +++ b/include/linux/mfd/macsmc.h
+> @@ -41,6 +41,7 @@ typedef u32 smc_key;
+>   */
+>  #define SMC_KEY(s) (smc_key)(_SMC_KEY(#s))
+>  #define _SMC_KEY(s) (((s)[0] << 24) | ((s)[1] << 16) | ((s)[2] << 8) | (s)[3])
+> +#define __SMC_KEY(a, b, c, d) (((u32)(a) << 24) | ((u32)(b) << 16) | ((u32)(c) << 8) | ((u32)(d)))
 
-Note: that kernel the person submitting the bug is using contains your v8
-and asus-armoury.
+Are we expecting users/consumers to be able to tell the difference
+between SMC_KEY and __SMC_KEY (assuming that _SMC_KEY is just an
+internal)?
+
+I have not tested this and it is just off the top of my head, but does
+this work:
+
+#define _SMC_KEY(s) __SMC_KEY((s)[0], (s)[1], (s)[2], (s)[3])
+
+-- 
+Lee Jones [李琼斯]
 
