@@ -1,341 +1,234 @@
-Return-Path: <linux-input+bounces-16230-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16231-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id A803CC72EE6
-	for <lists+linux-input@lfdr.de>; Thu, 20 Nov 2025 09:42:06 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id C6578C73468
+	for <lists+linux-input@lfdr.de>; Thu, 20 Nov 2025 10:46:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sto.lore.kernel.org (Postfix) with ESMTPS id 1AD76242EF
-	for <lists+linux-input@lfdr.de>; Thu, 20 Nov 2025 08:42:06 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTPS id 8354A2FFEE
+	for <lists+linux-input@lfdr.de>; Thu, 20 Nov 2025 09:46:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D233930BF6C;
-	Thu, 20 Nov 2025 08:41:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A4A1C2FABF0;
+	Thu, 20 Nov 2025 09:46:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IEA/urtv"
+	dkim=pass (2048-bit key) header.d=antheas.dev header.i=@antheas.dev header.b="UCEM1bjH"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from relay13.grserver.gr (relay13.grserver.gr [178.156.171.147])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CD2B3081C6;
-	Thu, 20 Nov 2025 08:41:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E3514CB5B;
+	Thu, 20 Nov 2025 09:46:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.156.171.147
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763628112; cv=none; b=WarSw/jcTWcPUQT7P1yS6w3TORXeXc/1W2KE7IYwdh/M+oFqBRMq7Ce7nJwTvF29TZCMyCh1jI/10nD3LAQXJwwbqrvOt4DdgGu0p0VwbwbrFObG1rwyI5MRei4YybELOxNmKU9S8O1BsZw/N7xpAlx9vGiNHaDfTtZps7hTg+s=
+	t=1763631995; cv=none; b=cDPB1eZ2ZLPoNraa2vzD/ZxrIlNbAuBpcVcv3P6J5jS1ZN0ZVpBqYg0XG1qDytyfkZhoOQdH5iiY6dzHY/E+4xRZRL8xcntA3C+KVC+XVqYAxIQWOoNMamF/lOnmAcXhnVBDVb4sGjBtVn0u6+usBgfntg9bpRGlTjoiS+3H0p0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763628112; c=relaxed/simple;
-	bh=cqxl+IyOWcKo/tRDHpPMwN3FlYVqmhu45UPNVMkoDmI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JygIu+5Sh25hxNNlsmSnn0CGQBdLjvtNAWAc8mcn9qGCoYmthCRSlvTAkkjW37pYrGFRcWn09gNGAO8krOGqzBqC1nDQMp6kOfBzmfoMOQq25/XhHLHVOWxjrqQN9t2zZ77le4mICmOsbM99s3Cx3yPcQEuHK01VH//9kzq4qiM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IEA/urtv; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763628110; x=1795164110;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=cqxl+IyOWcKo/tRDHpPMwN3FlYVqmhu45UPNVMkoDmI=;
-  b=IEA/urtv8IVpyEAJMUcc65h0JavctC/qYEUCoV7yo3Nr4Zy6Vt3I3zQg
-   YA+5U+LAdzIDQWIoSNFVFfVSNiakIf48SKXWXYIqdH+82YUTOZVVVTQBH
-   4WBk2R5bFXO97ERTQJH6zJlUgyIBajc8Kcv2q7AKU09TSKSir1Z71his6
-   OZBjhJmBLsCZtd/SuYJ5KW+Eq7rl37nVaJeaI9vno0BIvVVeWb3vZ8Vjf
-   SJI9s+iHeTQKGAT0XJZJb2Rp6UMi08h69hP8N7lbvdp+U6L2zuAE7pluf
-   GYGVNnNS1Pvz6hlOW6K79vsgbEZ/MRj7QWkFfHofqTc6JvlnDHQrapKsU
-   Q==;
-X-CSE-ConnectionGUID: 3F3h8EXlSyqDxk8pNTPk0w==
-X-CSE-MsgGUID: L7EDRr18TJWNB7x4txfIfQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11618"; a="68295794"
-X-IronPort-AV: E=Sophos;i="6.19,317,1754982000"; 
-   d="scan'208";a="68295794"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2025 00:41:47 -0800
-X-CSE-ConnectionGUID: nyAeXKxYQR+eXBe+0BjcFg==
-X-CSE-MsgGUID: 4rYd4p4vQ3K97EKMM0T3ug==
-X-ExtLoop1: 1
-Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 20 Nov 2025 00:41:45 -0800
-Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vM0EY-0003mb-2B;
-	Thu, 20 Nov 2025 08:41:42 +0000
-Date: Thu, 20 Nov 2025 16:40:44 +0800
-From: kernel test robot <lkp@intel.com>
-To: Lucas Zampieri <lzampier@redhat.com>, linux-input@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Lucas Zampieri <lzampier@redhat.com>, linux-kernel@vger.kernel.org,
+	s=arc-20240116; t=1763631995; c=relaxed/simple;
+	bh=Q3quZfQiUDyTQaUEdGvhapH6KbyTbj/B/L+ocQttPTo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hptv+/yHomPDuiIBZIeagDVGkG/UzsgictiiTLDF7VNTczJOrjCsWCUo8QX1bicD72r1yAPmRs3KUryPkSVb3JymLS8XQkcWnUDX07IqyT1uLsccJowVI55JHq1impwJRmIpYpwmO9yr6th1fe6+hxriUqPIW7Jv0a9HHlaNyuU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev; spf=pass smtp.mailfrom=antheas.dev; dkim=pass (2048-bit key) header.d=antheas.dev header.i=@antheas.dev header.b=UCEM1bjH; arc=none smtp.client-ip=178.156.171.147
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=antheas.dev
+Received: from relay13 (localhost [127.0.0.1])
+	by relay13.grserver.gr (Proxmox) with ESMTP id B340B5E5C9;
+	Thu, 20 Nov 2025 11:46:29 +0200 (EET)
+Received: from linux3247.grserver.gr (linux3247.grserver.gr [213.158.90.240])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by relay13.grserver.gr (Proxmox) with ESMTPS id 75EC85E567;
+	Thu, 20 Nov 2025 11:46:28 +0200 (EET)
+Received: from antheas-z13 (unknown [IPv6:2a05:f6c2:511b:0:8d8a:5967:d692:ea4e])
+	by linux3247.grserver.gr (Postfix) with ESMTPSA id 0D1271FDAE9;
+	Thu, 20 Nov 2025 11:46:27 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
+	s=default; t=1763631987;
+	bh=8vabJ9cpw1qYA8nDaDMsFosuTLgC3n61JJTUUGoQCbs=; h=From:To:Subject;
+	b=UCEM1bjHs2UMDoDx1qpQ3O1RSUmK50G41NpR1ZWl6D8dEKiYzhV9r3ibt2k73X6gA
+	 3APIjFKmKp9sai8OOwA31Hn3aIeBRcrsnojlY79B57T0mCDnXlA9EtzEpJsQW2eu29
+	 A0u7Z46N0boI35Dts/9kxFyfn1KBCMeJj8VEeXe3ODCYCUl526kew+KgjOSCRsgLfZ
+	 3OilSZpvyuPXGOqYIK8RVpmsx0gulMqvqyOI61oQc3F8r+NSflIb29zmUzov9idOmd
+	 Yhl8X0UBW9+Cx0zuS540p+wobuapOZez8TewGBc6yrrsgCyR7LZOEP/g54Va0jxOKo
+	 d6ts/hlSx0/WA==
+Authentication-Results: linux3247.grserver.gr;
+	spf=pass (sender IP is 2a05:f6c2:511b:0:8d8a:5967:d692:ea4e) smtp.mailfrom=lkml@antheas.dev smtp.helo=antheas-z13
+Received-SPF: pass (linux3247.grserver.gr: connection is authenticated)
+From: Antheas Kapenekakis <lkml@antheas.dev>
+To: platform-driver-x86@vger.kernel.org,
+	linux-input@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
 	Jiri Kosina <jikos@kernel.org>,
 	Benjamin Tissoires <bentiss@kernel.org>,
-	Sebastian Reichel <sre@kernel.org>,
-	Bastien Nocera <hadess@hadess.net>, linux-pm@vger.kernel.org
-Subject: Re: [PATCH v3 1/1] HID: input: Add support for multiple batteries
- per device
-Message-ID: <202511201651.tkKTEKpn-lkp@intel.com>
-References: <20251119143005.1513531-2-lzampier@redhat.com>
+	Corentin Chary <corentin.chary@gmail.com>,
+	"Luke D . Jones" <luke@ljones.dev>,
+	Hans de Goede <hansg@kernel.org>,
+	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Denis Benato <benato.denis96@gmail.com>,
+	Antheas Kapenekakis <lkml@antheas.dev>
+Subject: [PATCH v9 00/11] HID: asus: Fix ASUS ROG Laptop's Keyboard backlight
+ handling
+Date: Thu, 20 Nov 2025 10:46:06 +0100
+Message-ID: <20251120094617.11672-1-lkml@antheas.dev>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251119143005.1513531-2-lzampier@redhat.com>
+Content-Transfer-Encoding: 8bit
+X-PPP-Message-ID: 
+ <176363198759.1474855.6303774373205858520@linux3247.grserver.gr>
+X-PPP-Vhost: antheas.dev
+X-Virus-Scanned: clamav-milter 1.4.3 at linux3247.grserver.gr
+X-Virus-Status: Clean
 
-Hi Lucas,
+This is a two part series which does the following:
+  - Clean-up init sequence
+  - Unify backlight handling to happen under asus-wmi so that all Aura
+    devices have synced brightness controls and the backlight button works
+    properly when it is on a USB laptop keyboard instead of one w/ WMI.
 
-kernel test robot noticed the following build errors:
+For more context, see cover letter of V1. Since V5, I removed some patches
+to make this easier to merge.
 
-[auto build test ERROR on hid/for-next]
-[also build test ERROR on dtor-input/for-linus linus/master v6.18-rc6 next-20251119]
-[cannot apply to dtor-input/next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+---
+V8: https://lore.kernel.org/all/20251101104712.8011-1-lkml@antheas.dev/
+V7: https://lore.kernel.org/all/20251018101759.4089-1-lkml@antheas.dev/
+V6: https://lore.kernel.org/all/20251013201535.6737-1-lkml@antheas.dev/
+V5: https://lore.kernel.org/all/20250325184601.10990-1-lkml@antheas.dev/
+V4: https://lore.kernel.org/lkml/20250324210151.6042-1-lkml@antheas.dev/
+V3: https://lore.kernel.org/lkml/20250322102804.418000-1-lkml@antheas.dev/
+V2: https://lore.kernel.org/all/20250320220924.5023-1-lkml@antheas.dev/
+V1: https://lore.kernel.org/all/20250319191320.10092-1-lkml@antheas.dev/
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Lucas-Zampieri/HID-input-Add-support-for-multiple-batteries-per-device/20251119-223834
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
-patch link:    https://lore.kernel.org/r/20251119143005.1513531-2-lzampier%40redhat.com
-patch subject: [PATCH v3 1/1] HID: input: Add support for multiple batteries per device
-config: um-defconfig (https://download.01.org/0day-ci/archive/20251120/202511201651.tkKTEKpn-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9e9fe08b16ea2c4d9867fb4974edf2a3776d6ece)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251120/202511201651.tkKTEKpn-lkp@intel.com/reproduce)
+Changes since V8:
+  - No functional changes
+  - Move legacy init patch to second, modify first patch so that their
+    diff is minimized
+  - Split "prevent binding to all HID devices on ROG" into two patches:
+    - moving backlight initialization into probe
+    - early exit to skip ->init check and rename
+    - Remove skipping vendor fixups for non-vendor devices. It is not possible
+      to read usages before the report fixups are applied, so it did not work
+  - In that patch, reword a comment to be single line and make is_vendor a bool
+  - Dismiss Luke's tags from "Add support for multiple kbd led handlers" as it
+    has drifted too far since he reviewed/tested it.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511201651.tkKTEKpn-lkp@intel.com/
+Changes since V7:
+  - Readd legacy init quirk for Dennis
+  - Remove HID_QUIRK_INPUT_PER_APP as a courtesy to asusctl
+  - Fix warning due to enum_backlight receiving negative values
 
-All errors (new ones prefixed by >>):
+Changes since V6:
+  - Split initialization refactor into three patches, update commit text
+    to be clearer in what it does
+  - Replace spinlock accesses with guard and scoped guard in all patches
+  - Add missing includes mentioned by Ilpo
+  - Reflow, tweak comment in prevent binding to all HID devices on ROG
+  - Replace asus_ref.asus with local reference in all patches
+  - Add missing kernel doc comments
+  - Other minor nits from Ilpo
+  - User reported warning due to scheduling work while holding a spinlock.
+    Restructure patch for multiple handlers to limit when spinlock is held to
+    variable access only. In parallel, setup a workqueue to handle registration
+    of led device and setting brightness. This is required as registering the
+    led device triggers kbd_led_get which needs to hold the spinlock to
+    protect the led_wk value. The workqueue is also required for the hid
+    event passthrough to avoid scheduling work while holding the spinlock.
+    Apply the workqueue to wmi brightness buttons as well, as that was
+    omitted before this series and WMI access was performed.
+  - On "HID: asus: prevent binding to all HID devices on ROG", rename
+    quirk HANDLE_GENERIC to SKIP_REPORT_FIXUP and only skip report fixup.
+    This allows other quirks to apply (applies quirk that fixes keyboard
+    being named as a pointer device).
 
->> drivers/hid/hid-input.c:1550:4: error: call to undeclared function 'hidinput_update_battery'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    1550 |                         hidinput_update_battery(bat, usage->hid, value);
-         |                         ^
-   1 error generated.
+Changes since V5:
+  - It's been a long time
+  - Remove addition of RGB as that had some comments I need to work on
+  - Remove folio patch (already merged)
+  - Remove legacy fix patch 11 from V4. There is a small chance that
+    without this patch, some old NKEY keyboards might not respond to
+    RGB commands according to Luke, but the kernel driver does not do
+    RGB currently. The 0x5d init is done by Armoury crate software in
+    Windows. If an issue is found, we can re-add it or just remove patches
+    1/2 before merging. However, init could use the cleanup.
+
+Changes since V4:
+  - Fix KConfig (reported by kernel robot)
+  - Fix Ilpo's nits, if I missed anything lmk
+
+Changes since V3:
+  - Add initializer for 0x5d for old NKEY keyboards until it is verified
+    that it is not needed for their media keys to function.
+  - Cover init in asus-wmi with spinlock as per Hans
+  - If asus-wmi registers WMI handler with brightness, init the brightness
+    in USB Asus keyboards, per Hans.
+  - Change hid handler name to asus-UNIQ:rgb:peripheral to match led class
+  - Fix oops when unregistering asus-wmi by moving unregister outside of
+    the spin lock (but after the asus reference is set to null)
+
+Changes since V2:
+  - Check lazy init succeds in asus-wmi before setting register variable
+  - make explicit check in asus_hid_register_listener for listener existing
+    to avoid re-init
+  - rename asus_brt to asus_hid in most places and harmonize everything
+  - switch to a spinlock instead of a mutex to avoid kernel ooops
+  - fixup hid device quirks to avoid multiple RGB devices while still exposing
+    all input vendor devices. This includes moving rgb init to probe
+    instead of the input_configured callbacks.
+  - Remove fan key (during retest it appears to be 0xae that is already
+    supported by hid-asus)
+  - Never unregister asus::kbd_backlight while asus-wmi is active, as that
+  - removes fds from userspace and breaks backlight functionality. All
+  - current mainline drivers do not support backlight hotplugging, so most
+    userspace software (e.g., KDE, UPower) is built with that assumption.
+    For the Ally, since it disconnects its controller during sleep, this
+    caused the backlight slider to not work in KDE.
+
+Changes since V1:
+  - Add basic RGB support on hid-asus, (Z13/Ally) tested in KDE/Z13
+  - Fix ifdef else having an invalid signature (reported by kernel robot)
+  - Restore input arguments to init and keyboard function so they can
+    be re-used for RGB controls.
+  - Remove Z13 delay (it did not work to fix the touchpad) and replace it
+    with a HID_GROUP_GENERIC quirk to allow hid-multitouch to load. Squash
+    keyboard rename into it.
+  - Unregister brightness listener before removing work queue to avoid
+    a race condition causing corruption
+  - Remove spurious mutex unlock in asus_brt_event
+  - Place mutex lock in kbd_led_set after LED_UNREGISTERING check to avoid
+    relocking the mutex and causing a deadlock when unregistering leds
+  - Add extra check during unregistering to avoid calling unregister when
+    no led device is registered.
+  - Temporarily HID_QUIRK_INPUT_PER_APP from the ROG endpoint as it causes
+    the driver to create 4 RGB handlers per device. I also suspect some
+    extra events sneak through (KDE had the @@@@@@).
+
+Antheas Kapenekakis (11):
+  HID: asus: simplify RGB init sequence
+  HID: asus: initialize additional endpoints only for legacy devices
+  HID: asus: use same report_id in response
+  HID: asus: fortify keyboard handshake
+  HID: asus: move vendor initialization to probe
+  HID: asus: early return for ROG devices
+  platform/x86: asus-wmi: Add support for multiple kbd led handlers
+  HID: asus: listen to the asus-wmi brightness device instead of
+    creating one
+  platform/x86: asus-wmi: remove unused keyboard backlight quirk
+  platform/x86: asus-wmi: add keyboard brightness event handler
+  HID: asus: add support for the asus-wmi brightness handler
+
+ drivers/hid/hid-asus.c                     | 206 ++++++++++----------
+ drivers/platform/x86/asus-wmi.c            | 214 ++++++++++++++++++---
+ include/linux/platform_data/x86/asus-wmi.h |  70 +++----
+ 3 files changed, 318 insertions(+), 172 deletions(-)
 
 
-vim +/hidinput_update_battery +1550 drivers/hid/hid-input.c
-
-  1536	
-  1537	void hidinput_hid_event(struct hid_device *hid, struct hid_field *field, struct hid_usage *usage, __s32 value)
-  1538	{
-  1539		struct input_dev *input;
-  1540		struct hid_report *report = field->report;
-  1541		unsigned *quirks = &hid->quirks;
-  1542	
-  1543		if (!usage->type)
-  1544			return;
-  1545	
-  1546		if (usage->type == EV_PWR) {
-  1547			struct hid_battery *bat = hidinput_find_battery(hid, report->id);
-  1548	
-  1549			if (bat)
-> 1550				hidinput_update_battery(bat, usage->hid, value);
-  1551			return;
-  1552		}
-  1553	
-  1554		if (!field->hidinput)
-  1555			return;
-  1556	
-  1557		input = field->hidinput->input;
-  1558	
-  1559		if (usage->hat_min < usage->hat_max || usage->hat_dir) {
-  1560			int hat_dir = usage->hat_dir;
-  1561			if (!hat_dir)
-  1562				hat_dir = (value - usage->hat_min) * 8 / (usage->hat_max - usage->hat_min + 1) + 1;
-  1563			if (hat_dir < 0 || hat_dir > 8) hat_dir = 0;
-  1564			input_event(input, usage->type, usage->code    , hid_hat_to_axis[hat_dir].x);
-  1565			input_event(input, usage->type, usage->code + 1, hid_hat_to_axis[hat_dir].y);
-  1566			return;
-  1567		}
-  1568	
-  1569		/*
-  1570		 * Ignore out-of-range values as per HID specification,
-  1571		 * section 5.10 and 6.2.25, when NULL state bit is present.
-  1572		 * When it's not, clamp the value to match Microsoft's input
-  1573		 * driver as mentioned in "Required HID usages for digitizers":
-  1574		 * https://msdn.microsoft.com/en-us/library/windows/hardware/dn672278(v=vs.85).asp
-  1575		 *
-  1576		 * The logical_minimum < logical_maximum check is done so that we
-  1577		 * don't unintentionally discard values sent by devices which
-  1578		 * don't specify logical min and max.
-  1579		 */
-  1580		if ((field->flags & HID_MAIN_ITEM_VARIABLE) &&
-  1581		    field->logical_minimum < field->logical_maximum) {
-  1582			if (field->flags & HID_MAIN_ITEM_NULL_STATE &&
-  1583			    (value < field->logical_minimum ||
-  1584			     value > field->logical_maximum)) {
-  1585				dbg_hid("Ignoring out-of-range value %x\n", value);
-  1586				return;
-  1587			}
-  1588			value = clamp(value,
-  1589				      field->logical_minimum,
-  1590				      field->logical_maximum);
-  1591		}
-  1592	
-  1593		switch (usage->hid) {
-  1594		case HID_DG_ERASER:
-  1595			report->tool_active |= !!value;
-  1596	
-  1597			/*
-  1598			 * if eraser is set, we must enforce BTN_TOOL_RUBBER
-  1599			 * to accommodate for devices not following the spec.
-  1600			 */
-  1601			if (value)
-  1602				hid_report_set_tool(report, input, BTN_TOOL_RUBBER);
-  1603			else if (report->tool != BTN_TOOL_RUBBER)
-  1604				/* value is off, tool is not rubber, ignore */
-  1605				return;
-  1606			else if (*quirks & HID_QUIRK_NOINVERT &&
-  1607				 !test_bit(BTN_TOUCH, input->key)) {
-  1608				/*
-  1609				 * There is no invert to release the tool, let hid_input
-  1610				 * send BTN_TOUCH with scancode and release the tool after.
-  1611				 */
-  1612				hid_report_release_tool(report, input, BTN_TOOL_RUBBER);
-  1613				return;
-  1614			}
-  1615	
-  1616			/* let hid-input set BTN_TOUCH */
-  1617			break;
-  1618	
-  1619		case HID_DG_INVERT:
-  1620			report->tool_active |= !!value;
-  1621	
-  1622			/*
-  1623			 * If invert is set, we store BTN_TOOL_RUBBER.
-  1624			 */
-  1625			if (value)
-  1626				hid_report_set_tool(report, input, BTN_TOOL_RUBBER);
-  1627			else if (!report->tool_active)
-  1628				/* tool_active not set means Invert and Eraser are not set */
-  1629				hid_report_release_tool(report, input, BTN_TOOL_RUBBER);
-  1630	
-  1631			/* no further processing */
-  1632			return;
-  1633	
-  1634		case HID_DG_INRANGE:
-  1635			report->tool_active |= !!value;
-  1636	
-  1637			if (report->tool_active) {
-  1638				/*
-  1639				 * if tool is not set but is marked as active,
-  1640				 * assume ours
-  1641				 */
-  1642				if (!report->tool)
-  1643					report->tool = usage->code;
-  1644	
-  1645				/* drivers may have changed the value behind our back, resend it */
-  1646				hid_report_set_tool(report, input, report->tool);
-  1647			} else {
-  1648				hid_report_release_tool(report, input, usage->code);
-  1649			}
-  1650	
-  1651			/* reset tool_active for the next event */
-  1652			report->tool_active = false;
-  1653	
-  1654			/* no further processing */
-  1655			return;
-  1656	
-  1657		case HID_DG_TIPSWITCH:
-  1658			report->tool_active |= !!value;
-  1659	
-  1660			/* if tool is set to RUBBER we should ignore the current value */
-  1661			if (report->tool == BTN_TOOL_RUBBER)
-  1662				return;
-  1663	
-  1664			break;
-  1665	
-  1666		case HID_DG_TIPPRESSURE:
-  1667			if (*quirks & HID_QUIRK_NOTOUCH) {
-  1668				int a = field->logical_minimum;
-  1669				int b = field->logical_maximum;
-  1670	
-  1671				if (value > a + ((b - a) >> 3)) {
-  1672					input_event(input, EV_KEY, BTN_TOUCH, 1);
-  1673					report->tool_active = true;
-  1674				}
-  1675			}
-  1676			break;
-  1677	
-  1678		case HID_UP_PID | 0x83UL: /* Simultaneous Effects Max */
-  1679			dbg_hid("Maximum Effects - %d\n",value);
-  1680			return;
-  1681	
-  1682		case HID_UP_PID | 0x7fUL:
-  1683			dbg_hid("PID Pool Report\n");
-  1684			return;
-  1685		}
-  1686	
-  1687		switch (usage->type) {
-  1688		case EV_KEY:
-  1689			if (usage->code == 0) /* Key 0 is "unassigned", not KEY_UNKNOWN */
-  1690				return;
-  1691			break;
-  1692	
-  1693		case EV_REL:
-  1694			if (usage->code == REL_WHEEL_HI_RES ||
-  1695			    usage->code == REL_HWHEEL_HI_RES) {
-  1696				hidinput_handle_scroll(usage, input, value);
-  1697				return;
-  1698			}
-  1699			break;
-  1700	
-  1701		case EV_ABS:
-  1702			if ((field->flags & HID_MAIN_ITEM_RELATIVE) &&
-  1703			    usage->code == ABS_VOLUME) {
-  1704				int count = abs(value);
-  1705				int direction = value > 0 ? KEY_VOLUMEUP : KEY_VOLUMEDOWN;
-  1706				int i;
-  1707	
-  1708				for (i = 0; i < count; i++) {
-  1709					input_event(input, EV_KEY, direction, 1);
-  1710					input_sync(input);
-  1711					input_event(input, EV_KEY, direction, 0);
-  1712					input_sync(input);
-  1713				}
-  1714				return;
-  1715	
-  1716			} else if (((*quirks & HID_QUIRK_X_INVERT) && usage->code == ABS_X) ||
-  1717				   ((*quirks & HID_QUIRK_Y_INVERT) && usage->code == ABS_Y))
-  1718				value = field->logical_maximum - value;
-  1719			break;
-  1720		}
-  1721	
-  1722		/*
-  1723		 * Ignore reports for absolute data if the data didn't change. This is
-  1724		 * not only an optimization but also fixes 'dead' key reports. Some
-  1725		 * RollOver implementations for localized keys (like BACKSLASH/PIPE; HID
-  1726		 * 0x31 and 0x32) report multiple keys, even though a localized keyboard
-  1727		 * can only have one of them physically available. The 'dead' keys
-  1728		 * report constant 0. As all map to the same keycode, they'd confuse
-  1729		 * the input layer. If we filter the 'dead' keys on the HID level, we
-  1730		 * skip the keycode translation and only forward real events.
-  1731		 */
-  1732		if (!(field->flags & (HID_MAIN_ITEM_RELATIVE |
-  1733		                      HID_MAIN_ITEM_BUFFERED_BYTE)) &&
-  1734				      (field->flags & HID_MAIN_ITEM_VARIABLE) &&
-  1735		    usage->usage_index < field->maxusage &&
-  1736		    value == field->value[usage->usage_index])
-  1737			return;
-  1738	
-  1739		/* report the usage code as scancode if the key status has changed */
-  1740		if (usage->type == EV_KEY &&
-  1741		    (!test_bit(usage->code, input->key)) == value)
-  1742			input_event(input, EV_MSC, MSC_SCAN, usage->hid);
-  1743	
-  1744		input_event(input, usage->type, usage->code, value);
-  1745	
-  1746		if ((field->flags & HID_MAIN_ITEM_RELATIVE) &&
-  1747		    usage->type == EV_KEY && value) {
-  1748			input_sync(input);
-  1749			input_event(input, usage->type, usage->code, 0);
-  1750		}
-  1751	}
-  1752	
-
+base-commit: 6a23ae0a96a600d1d12557add110e0bb6e32730c
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.52.0
+
+
 
