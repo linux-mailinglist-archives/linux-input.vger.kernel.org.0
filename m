@@ -1,128 +1,177 @@
-Return-Path: <linux-input+bounces-16294-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16295-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 056FFC7CD8B
-	for <lists+linux-input@lfdr.de>; Sat, 22 Nov 2025 12:03:50 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 25187C7D14E
+	for <lists+linux-input@lfdr.de>; Sat, 22 Nov 2025 14:13:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 5CA2D4E63CA
-	for <lists+linux-input@lfdr.de>; Sat, 22 Nov 2025 11:02:38 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C963A3A86C3
+	for <lists+linux-input@lfdr.de>; Sat, 22 Nov 2025 13:13:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 568012FFFAA;
-	Sat, 22 Nov 2025 11:01:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A3FB821D3E8;
+	Sat, 22 Nov 2025 13:13:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=antheas.dev header.i=@antheas.dev header.b="mGNwAfFH"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eXlaQDL0"
 X-Original-To: linux-input@vger.kernel.org
-Received: from relay12.grserver.gr (relay12.grserver.gr [88.99.38.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E36D2FE570;
-	Sat, 22 Nov 2025 11:01:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=88.99.38.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF3C41FF7BC
+	for <linux-input@vger.kernel.org>; Sat, 22 Nov 2025 13:13:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763809281; cv=none; b=HJ1crC1DVkmP4rptL9nsehOjZ6jmdVS3Fa15VLYp/4jjrBvvXMUi77W6EhJLoLECBRlFh/WddB8QFD/PgMBtjkzRtiffu5Ut8rhiCloCzEVj9trb/BzMAHyIeW0+BJ7XMDwz6C2BvyYX5Z7cuDAF6rrBv1TQpVyuyWTB0O1ahzg=
+	t=1763817231; cv=none; b=oVjs+GnYaCGwK3QRGWkwAQ8Fok5tJBEMiM8BwYB5SFfrCwODgQsm3i1pKV8cPlT02QwDYmXrlrjs7uNi5YSxC5fzu/q6yAc+YGKwe4aDOubWa33BEJBwcvaKhDWkZswqG6O1k02p644/9rbcKDkZQliPjOHqC0Iw5qGtx6ebWck=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763809281; c=relaxed/simple;
-	bh=oWUqX/ahfIRFmatnNvOrlGTQcaTy5rpw/SZIG++y/Pg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=HhjkP9MEuNVtjSH7Qq+F1DN7p+JYfn9rBGpBuvDHec+3RousKmCZjMdIPgVNVQo4jn9UAnQ5wQzWOSfdkNZ7MxTbT/XDYtlRF+pUKdMd9XjFb4deveZ5fu2+Sp5ajWmV3v8Ayuf1dlT21yUNjFs/I1gebXfgY5sgUVYyOvmk7H0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev; spf=pass smtp.mailfrom=antheas.dev; dkim=pass (2048-bit key) header.d=antheas.dev header.i=@antheas.dev header.b=mGNwAfFH; arc=none smtp.client-ip=88.99.38.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=antheas.dev
-Received: from relay12 (localhost [127.0.0.1])
-	by relay12.grserver.gr (Proxmox) with ESMTP id 1C438BCF4D;
-	Sat, 22 Nov 2025 13:01:12 +0200 (EET)
-Received: from linux3247.grserver.gr (linux3247.grserver.gr [213.158.90.240])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by relay12.grserver.gr (Proxmox) with ESMTPS id 8C489BD9A0;
-	Sat, 22 Nov 2025 13:01:11 +0200 (EET)
-Received: from antheas-z13 (unknown [IPv6:2a05:f6c2:511b:0:8d8a:5967:d692:ea4e])
-	by linux3247.grserver.gr (Postfix) with ESMTPSA id 950871FFF8A;
-	Sat, 22 Nov 2025 13:01:10 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
-	s=default; t=1763809271;
-	bh=kYJz9nSKkWLh3K1fjD5YteEK602ZZG2PDuh7tPbowWM=; h=From:To:Subject;
-	b=mGNwAfFHkOr2OxxSBJiThFADKElDc9ZB7jIIvgr6PDNwXeafWiOoNaHG/VhA3waCH
-	 Sc50+mJSGgJYrV5uVQUpea3DbxYYS2xm/ksfVAlDRjsayyFDVG6HCKm0fVrmYnpBma
-	 owKQlYFycOXzCfeBOJsiezByukaDV8XRW80jHtMpb26h7hGJI3hMz0Upw39VCQEBpJ
-	 hAgl/eYT9+t+t+KOWpXy06M5Va8RsU3B8TkwSqwx6ZpZdp00xDr/orQQqXYEtQkxJr
-	 3WswC3U/X+d6panqAGw468QW8zMdfBu+LAjnujqDEPoH8Tz1dkDnMEp8Mh6JHyT2Dl
-	 7tx//P0NjNCzA==
-Authentication-Results: linux3247.grserver.gr;
-	spf=pass (sender IP is 2a05:f6c2:511b:0:8d8a:5967:d692:ea4e) smtp.mailfrom=lkml@antheas.dev smtp.helo=antheas-z13
-Received-SPF: pass (linux3247.grserver.gr: connection is authenticated)
-From: Antheas Kapenekakis <lkml@antheas.dev>
-To: platform-driver-x86@vger.kernel.org,
-	linux-input@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <bentiss@kernel.org>,
-	Corentin Chary <corentin.chary@gmail.com>,
-	"Luke D . Jones" <luke@ljones.dev>,
-	Hans de Goede <hansg@kernel.org>,
-	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Denis Benato <benato.denis96@gmail.com>,
-	Antheas Kapenekakis <lkml@antheas.dev>
-Subject: [PATCH v10 11/11] HID: asus: add support for the asus-wmi brightness
- handler
-Date: Sat, 22 Nov 2025 12:00:32 +0100
-Message-ID: <20251122110032.4274-12-lkml@antheas.dev>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20251122110032.4274-1-lkml@antheas.dev>
-References: <20251122110032.4274-1-lkml@antheas.dev>
+	s=arc-20240116; t=1763817231; c=relaxed/simple;
+	bh=MNBsNMgLrloJ6LyIC0PbJqz99LS+Jt/IiFeOlL3J//Q=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=L6OZ2UPFJr9lIWkhIf1/k39Tj32D7StNFm13LSlNBfK4+k1gJu+swYL8pOGLwTqcKNt3Z8boOFAQwow+WCcDifFbSncClcqqk/hpWc05jYPsLcr9K5K2xJ2LTzWzsseUOjtjNtV36T7LMP4VA5X5Xoqm3EIs4RzMcxFU72KIu80=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eXlaQDL0; arc=none smtp.client-ip=209.85.160.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-4eda26a04bfso31752151cf.2
+        for <linux-input@vger.kernel.org>; Sat, 22 Nov 2025 05:13:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1763817229; x=1764422029; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=g1sAQv700T2FQp3ZXr6IkLjFuZjrhNgxwLliA5KgRjA=;
+        b=eXlaQDL0A2CB+MefAM1vqCTDHNi8Ril+61+9lzXMMBNopwXIzUBTDT0vzjEzFBU5R3
+         v+pkFGxOwalzWi7hRWISnltBfikJYPB7Tz3RCB8ZVY5lAADWia4VIdtNSmQ83TtQ4W14
+         52qj79+1UYNJjnkzs8/UmPuVRrsPLoRD7k+mExKcowpotj6jVpdkPi+1/D2mqNobiDk3
+         l8KjWhmJpGgKXh6Ds1X1z4ONdYgZbsJwLZ1+EC/qudFPZqHV/0xDQIh2CiYzH69yR6st
+         kRG8y7qhaYbGkBWtA3IJLZoCpIKRPHq/MqALYMit4vPHgYjfApqWsX/krAKbzcfrGXIp
+         qGsA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763817229; x=1764422029;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=g1sAQv700T2FQp3ZXr6IkLjFuZjrhNgxwLliA5KgRjA=;
+        b=cqBz3OmcURnMHX0hQva20q452G58Le27B11bEGTonum2e0yXO9+aw5fcr5ciG9tSgk
+         LgDriUe0Ad0X18UvtsAA/aPTaiDmqVkMNyKELAJqcIXvDyzmB7DKQvzLVpZ5GwpfqV0z
+         vFEZzxwC/uNZhTRDdqIv5UoJ/Q+OFfH+fbch79juB7WBZb45BbgxCUYY6sFLbCKnTCKB
+         yXnjwtYJ5Iz2PWTYQKXmowLJlg5MQGiJ8Tkf67ylxV70hTiNdMIck+3qdLbRXM6GdgOt
+         eqIq1mUu6PYkJdFyKUs3l9+SOIYS0DOJXYtUd8WLjb7Lk3UfAg5NULJeIonjksuLxOto
+         RMuw==
+X-Forwarded-Encrypted: i=1; AJvYcCVQ2HYNzVO1O4KctYO5HDaMQPMrOq8zoSKoy5WlNy/HP9uxhLBOaMtGz8v8Hw0zPxxMxCg4pF3miRhXzw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzLkxKjzBj97OLSjNoi53DCy3c+by1PSmTwcDuxKYMReLyt7cP2
+	CDtwCcWyYLPVKHextviw4fotQjnRhQYQ3y29bj99V82V8tVIJfEjkPRg
+X-Gm-Gg: ASbGncs/NGFj5v5HKKBmebQG39pDiwTVR1R3DoL10CYFbATuBB8kntoz/5V4v/wCszS
+	I5gGwof1yjcudoo8g9KgciwZw1KDJYbcRiDti6Q06G6Hvo0SkbRNqrUZ8Bh174EgUnCi/Fmwmxz
+	sNOFAc/x9rl2ULwer0QlC8eI8/luGhenbFoHWLz9QuHDOkJ5xPOB602tN2N7h9QPWt5XVvJWai/
+	rEx/xEfKqRF620MMSW3oxKJy8QvIq3S3+5r807lFdi6ikQkOlPR+rXR/QBy4OykxbMUSYIsW25n
+	VCFOk6EKq8PoIe7jSdX4tGKcnWCKXYM3tZuHq12zq4yWVdRKM+e1VNDLXvBH3yEcm4K3ZHeDOvR
+	ZxxnUOn1VImUaJbcUHFSQQDUfhyH+CD2yUdgRot3Tlp211IdkrvIO5O6+UPpqGJc0P3W11Enshr
+	jHT814HHuR3VShrForBCKkolI=
+X-Google-Smtp-Source: AGHT+IETNi+CDYZDD+zkirhO2cROEDGFvSNpXVwYihq1II2dPnp2S3KN+6mF1nhOqnfkJPckzcyWWA==
+X-Received: by 2002:a05:622a:554:b0:4ed:3e3e:a287 with SMTP id d75a77b69052e-4ee5885a977mr62619791cf.24.1763817228686;
+        Sat, 22 Nov 2025 05:13:48 -0800 (PST)
+Received: from [192.168.1.121] ([176.206.93.222])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8846e5b7451sm58662846d6.56.2025.11.22.05.13.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 22 Nov 2025 05:13:48 -0800 (PST)
+Message-ID: <e3e84e44-da61-48ba-a3f2-da33b99559da@gmail.com>
+Date: Sat, 22 Nov 2025 14:13:45 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-PPP-Message-ID: 
- <176380927114.360787.10336459323247801024@linux3247.grserver.gr>
-X-PPP-Vhost: antheas.dev
-X-Virus-Scanned: clamav-milter 1.4.3 at linux3247.grserver.gr
-X-Virus-Status: Clean
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v10 04/11] HID: asus: fortify keyboard handshake
+To: Antheas Kapenekakis <lkml@antheas.dev>,
+ platform-driver-x86@vger.kernel.org, linux-input@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
+ Benjamin Tissoires <bentiss@kernel.org>,
+ Corentin Chary <corentin.chary@gmail.com>, "Luke D . Jones"
+ <luke@ljones.dev>, Hans de Goede <hansg@kernel.org>,
+ =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+References: <20251122110032.4274-1-lkml@antheas.dev>
+ <20251122110032.4274-5-lkml@antheas.dev>
+Content-Language: en-US, it-IT, en-US-large
+From: Denis Benato <benato.denis96@gmail.com>
+In-Reply-To: <20251122110032.4274-5-lkml@antheas.dev>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-If the asus-wmi brightness handler is available, send the
-keyboard brightness events to it instead of passing them
-to userspace. If it is not, fall back to sending them to it.
 
-Reviewed-by: Luke D. Jones <luke@ljones.dev>
-Tested-by: Luke D. Jones <luke@ljones.dev>
+On 11/22/25 12:00, Antheas Kapenekakis wrote:
+> Handshaking with an Asus device involves sending it a feature report
+> with the string "ASUS Tech.Inc." and then reading it back to verify the
+> handshake was successful, under the feature ID the interaction will
+> take place.
+>
+> Currently, the driver only does the first part. Add the readback to
+> verify the handshake was successful. As this could cause breakages,
+> allow the verification to fail with a dmesg error until we verify
+> all devices work with it (they seem to).
+>
+> Since the response is more than 16 bytes, increase the buffer size
+> to 64 as well to avoid overflow errors.
+>
+> Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
 Reviewed-by: Denis Benato <benato.denis96@gmail.com>
-Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
----
- drivers/hid/hid-asus.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
-
-diff --git a/drivers/hid/hid-asus.c b/drivers/hid/hid-asus.c
-index 475e34187326..8f30d1b9737e 100644
---- a/drivers/hid/hid-asus.c
-+++ b/drivers/hid/hid-asus.c
-@@ -324,6 +324,17 @@ static int asus_event(struct hid_device *hdev, struct hid_field *field,
- 			 usage->hid & HID_USAGE);
- 	}
- 
-+	if (usage->type == EV_KEY && value) {
-+		switch (usage->code) {
-+		case KEY_KBDILLUMUP:
-+			return !asus_hid_event(ASUS_EV_BRTUP);
-+		case KEY_KBDILLUMDOWN:
-+			return !asus_hid_event(ASUS_EV_BRTDOWN);
-+		case KEY_KBDILLUMTOGGLE:
-+			return !asus_hid_event(ASUS_EV_BRTTOGGLE);
-+		}
-+	}
-+
- 	return 0;
- }
- 
--- 
-2.52.0
-
-
+> ---
+>  drivers/hid/hid-asus.c | 30 +++++++++++++++++++++++++++---
+>  1 file changed, 27 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/hid/hid-asus.c b/drivers/hid/hid-asus.c
+> index c1a36a8beb35..2a412e10f916 100644
+> --- a/drivers/hid/hid-asus.c
+> +++ b/drivers/hid/hid-asus.c
+> @@ -49,7 +49,7 @@ MODULE_DESCRIPTION("Asus HID Keyboard and TouchPad");
+>  #define FEATURE_REPORT_ID 0x0d
+>  #define INPUT_REPORT_ID 0x5d
+>  #define FEATURE_KBD_REPORT_ID 0x5a
+> -#define FEATURE_KBD_REPORT_SIZE 16
+> +#define FEATURE_KBD_REPORT_SIZE 64
+>  #define FEATURE_KBD_LED_REPORT_ID1 0x5d
+>  #define FEATURE_KBD_LED_REPORT_ID2 0x5e
+>  
+> @@ -395,13 +395,37 @@ static int asus_kbd_set_report(struct hid_device *hdev, const u8 *buf, size_t bu
+>  
+>  static int asus_kbd_init(struct hid_device *hdev, u8 report_id)
+>  {
+> +	/*
+> +	 * The handshake is first sent as a set_report, then retrieved
+> +	 * from a get_report. They should be equal.
+> +	 */
+>  	const u8 buf[] = { report_id, 0x41, 0x53, 0x55, 0x53, 0x20, 0x54,
+>  		     0x65, 0x63, 0x68, 0x2e, 0x49, 0x6e, 0x63, 0x2e, 0x00 };
+>  	int ret;
+>  
+>  	ret = asus_kbd_set_report(hdev, buf, sizeof(buf));
+> -	if (ret < 0)
+> -		hid_err(hdev, "Asus failed to send init command: %d\n", ret);
+> +	if (ret < 0) {
+> +		hid_err(hdev, "Asus failed to send handshake: %d\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	u8 *readbuf __free(kfree) = kzalloc(FEATURE_KBD_REPORT_SIZE, GFP_KERNEL);
+> +	if (!readbuf)
+> +		return -ENOMEM;
+> +
+> +	ret = hid_hw_raw_request(hdev, report_id, readbuf,
+> +				 FEATURE_KBD_REPORT_SIZE, HID_FEATURE_REPORT,
+> +				 HID_REQ_GET_REPORT);
+> +	if (ret < 0) {
+> +		hid_err(hdev, "Asus failed to receive handshake ack: %d\n", ret);
+> +	} else if (memcmp(readbuf, buf, sizeof(buf)) != 0) {
+> +		hid_warn(hdev, "Asus handshake returned invalid response: %*ph\n",
+> +			 FEATURE_KBD_REPORT_SIZE, readbuf);
+> +		/*
+> +		 * Do not return error if handshake is wrong until this is
+> +		 * verified to work for all devices.
+> +		 */
+> +	}
+>  
+>  	return ret;
+>  }
 
