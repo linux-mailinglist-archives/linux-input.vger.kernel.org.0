@@ -1,188 +1,136 @@
-Return-Path: <linux-input+bounces-16304-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16305-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61EACC7F59E
-	for <lists+linux-input@lfdr.de>; Mon, 24 Nov 2025 09:08:55 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AB31C80A4C
+	for <lists+linux-input@lfdr.de>; Mon, 24 Nov 2025 14:03:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 241E23A6DA2
-	for <lists+linux-input@lfdr.de>; Mon, 24 Nov 2025 08:08:23 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 4274B4E05D5
+	for <lists+linux-input@lfdr.de>; Mon, 24 Nov 2025 13:03:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F18822EC0B4;
-	Mon, 24 Nov 2025 08:07:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C5490303CA0;
+	Mon, 24 Nov 2025 13:03:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ki+6MLtF"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="LnR1xXKS"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C57492EB847;
-	Mon, 24 Nov 2025 08:07:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E2C81E4AF;
+	Mon, 24 Nov 2025 13:03:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763971641; cv=none; b=ujmIx5m29K912cdrg0uDeoZkBLxr56327WbJaYypQpI8IZDYytr+WsCJygFL/56tzNDO9rUcR3S9pojbR7pKZXACK3CkyLh1XvyN7/ZBgdCkXDPOLvZdDYjf2LJE1Z7y0xgfN8v7j9JJSz5ysUDIDtvFg2Fj9ENcVHQp4KswSsM=
+	t=1763989434; cv=none; b=ScwY6e1S6GjjCG6i3DJ+bOITutR9JDt4W0F7h5K2B7w+4nQA1w8Juc4rt3H9Z/j9PTKga03UUX8PamqyoF7qj9kVEIqwdyU9fZBgyYnjNwdIdBizNHW5nNQ0cyp40m9BzB4/cfjeNRmLjlI47r3LLcApWlXA9QZ2MDwXiU1W09Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763971641; c=relaxed/simple;
-	bh=3xxP7o/kKlOD2Di1va/vgkNB/Im1EkQapLn1PCi4NDE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=KMg1T5axABb1w2nIpZB64wGoc326XGlFroIFnpIsy3mv1jMDgNbaBh/cyGlBBkFKyLqbsZ4+8xJXFoMGtdAOmVwbPJBJQbz3rzEv0PMmJJxzDRF8+TwHe9R27C85b0DUWHF2/UxqK4j/Tf99+NVPsm1DwGVPFnmZzA12dfc/LxY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ki+6MLtF; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB460C116D0;
-	Mon, 24 Nov 2025 08:07:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763971641;
-	bh=3xxP7o/kKlOD2Di1va/vgkNB/Im1EkQapLn1PCi4NDE=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Ki+6MLtFY7LL0/EX9QSB5gaI/HaIdat6NNteYl+rKSXrvA7HlniobQn32+3AN5Gyy
-	 Aei3gN7wy9EfveGenr8yOMxLfpJrFGtPtQUmAJH0XLW0XSHrJai5ARZfx1BhV21yM9
-	 paAs1bnmmezelXwlgxFQBYzYonq9Cm8dAS/+jwtFmgUi92wPaQm0V2pvs6n+/gEczJ
-	 LunbRC1jq22ROBtf7emNYRIBFqfYel9shQDH4JJpNG5Fyo3RQLR4Pz+mgssqTWqY+R
-	 nHNVYs8W5/nCU6ooEc1aXZV1iy8SyuucFjsTEP7JhdElhC2WD3bSAKEzEvHdx2bvn/
-	 ArGx+50ySFjiw==
-From: Sasha Levin <sashal@kernel.org>
-To: patches@lists.linux.dev,
-	stable@vger.kernel.org
-Cc: April Grimoire <april@aprilg.moe>,
-	Jiri Kosina <jkosina@suse.com>,
-	Sasha Levin <sashal@kernel.org>,
-	jikos@kernel.org,
-	bentiss@kernel.org,
-	linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.17-6.1] HID: apple: Add SONiX AK870 PRO to non_apple_keyboards quirk list
-Date: Mon, 24 Nov 2025 03:06:34 -0500
-Message-ID: <20251124080644.3871678-20-sashal@kernel.org>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20251124080644.3871678-1-sashal@kernel.org>
-References: <20251124080644.3871678-1-sashal@kernel.org>
+	s=arc-20240116; t=1763989434; c=relaxed/simple;
+	bh=u9QmXLpBiycpZDzHIopSNexoAtuQE08B6uvYL51nlzY=;
+	h=Message-ID:Date:MIME-Version:Cc:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=R0iuBjv0M++Q0KCuuzjoMAd9WHF5gYw0VAX9yv70coNJlma97+yRS0/li85lw1fe9fC7cVSNntMAAPwdmEZD6dYcFei8TW2pMIF9EAvShIe8tTb7T6aQVEM8FdA3QwfG8MWYk6cJYgg1LC54GkZSFREaOGzmwlDKscFK+9ZH7NM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=LnR1xXKS; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1763989430;
+	bh=u9QmXLpBiycpZDzHIopSNexoAtuQE08B6uvYL51nlzY=;
+	h=Date:Cc:Subject:To:References:From:In-Reply-To:From;
+	b=LnR1xXKSG2vr8muOeSaS7s3TN6ejmuJU6IYniGu+1bLi2hymCElZip9In0M+xFvZF
+	 zZ/BN4SFBUoXo0UETuRLGyqqmJIEH7xvxYyqVYNVHwS4QQGvpWRdKuC1fPuw8FBuhW
+	 J6AJJKLSLBMXKCigW4MFRbbgASGt6k3s0s0ZueHYH2X+hr9LFvm9kL+nDtuE71SnTm
+	 ONqpu6xyx6v99ewsM7IsyNKqf26Lb1GxNjLKH9fpUFSrgE+gybGNZZu/pI8/8YxelH
+	 UgXlAPOfLO4W7vRm85x6H4nsA36QrLtwu50pStwJG/Jv3YzjStItcU2t0OoNT+GwJ5
+	 QYSvOCT3F/mBQ==
+Received: from [192.168.100.50] (unknown [144.48.130.189])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: usama.anjum)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 0369917E0ECB;
+	Mon, 24 Nov 2025 14:03:46 +0100 (CET)
+Message-ID: <9c61f778-fd65-4b28-8bda-e8463dda2862@collabora.com>
+Date: Mon, 24 Nov 2025 18:03:16 +0500
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.17.8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Cc: usama.anjum@collabora.com, kernel@collabora.com,
+ Len Brown <lenb@kernel.org>, linux-pm@vger.kernel.org,
+ Danilo Krummrich <dakr@kernel.org>, Pavel Machek <pavel@kernel.org>,
+ Thomas Gleixner <tglx@linutronix.de>, Peter Zijlstra <peterz@infradead.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-input@vger.kernel.org, Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/4] PM: Hibernate: Add hibernation cancellation support
+To: "Rafael J. Wysocki" <rafael@kernel.org>, superm1@kernel.org
+References: <20251107184438.1328717-1-usama.anjum@collabora.com>
+Content-Language: en-US
+From: Muhammad Usama Anjum <usama.anjum@collabora.com>
+In-Reply-To: <20251107184438.1328717-1-usama.anjum@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-From: April Grimoire <april@aprilg.moe>
+Hi,
 
-[ Upstream commit 743c81cdc98fd4fef62a89eb70efff994112c2d9 ]
+Please review the patches when you have time. 
 
-SONiX AK870 PRO keyboard pretends to be an apple keyboard by VID:PID,
-rendering function keys not treated properly. Despite being a
-SONiX USB DEVICE, it uses a different name, so adding it to the list.
+On 11/7/25 11:44 PM, Muhammad Usama Anjum wrote:
+> On a normal laptop/PC, the hibernation takes 15-20 seconds which is
+> considerable time. Once hibernation is triggered from command line or by
+> some GUI option, the hibernation cannot be cancelled until completed.
+> Its not a blocker, but poor user experience.
+> 
+> When power button is pressed during hibernation, it generates interrupt
+> and then the event is routed to userspace. If systemd is being used, the
+> logind handles these events and performs the specific action.
+> 
+> During hibernation, the first stage is to freeze the userspace. Hence
+> even if the power button is pressed, it doesn't aborts the hibernation
+> as user space daemon is frozen.
+> 
+> My device takes ~19 seconds to hibernate. When I was testing hibernation
+> using rtcwake with timeout of 10 seconds, I found out that hibernation
+> gets canceled around 10 seconds mark when the interrupt fires.
+> 
+> In this series, the idea is to find a way to cancel the hibernation.
+> With this series applied, the hibernation gets cancelled gracefully.
+> 
+> The hibernation cancellation support isn't present in very last stage
+> just before power_down(). I've not been able to handle the error paths
+> correctly there yet as logs aren't available from that stage. I'll send
+> that patch separately when it works.
+> 
+> Cc: rafael@kernel.org
+> Cc: superm1@kernel.org
+> ---
+> Changes since RFC:
+> - Update description of patches
+> - Use pm_sleep_transition_in_progress() instead of
+>   hibernation_in_progress()
+> 
+> Muhammad Usama Anjum (4):
+>   PM: hibernate: export pm_sleep_transition_in_progress()
+>   ACPI: button: Cancel hibernation if button is pressed during
+>     hibernation
+>   Input: Ignore the KEY_POWER events if hibernation is in progress
+>   PM: sleep: clear pm_abort_suspend at suspend
+> 
+>  drivers/acpi/button.c     | 12 +++++++++---
+>  drivers/base/power/main.c |  2 ++
+>  drivers/input/input.c     |  6 ++++++
+>  kernel/cpu.c              |  1 +
+>  kernel/power/hibernate.c  |  5 ++++-
+>  kernel/power/main.c       |  1 +
+>  kernel/power/process.c    |  1 +
+>  7 files changed, 24 insertions(+), 4 deletions(-)
+> 
 
-Signed-off-by: April Grimoire <april@aprilg.moe>
-Signed-off-by: Jiri Kosina <jkosina@suse.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
 
-LLM Generated explanations, may be completely bogus:
-
-## Comprehensive Analysis
-
-### 1. Commit Message Analysis
-The commit "HID: apple: Add SONiX AK870 PRO to non_apple_keyboards quirk
-list" addresses a specific hardware compatibility issue. The SONiX AK870
-PRO keyboard incorrectly identifies itself using Apple's Vendor ID (VID)
-and Product ID (PID). This causes the `hid-apple` driver to mistakenly
-apply Apple-specific function key behavior (where F1-F12 act as
-media/special keys by default, requiring the Fn key to access standard
-F-key functions).
-
-The commit has no "Cc: stable" tag or "Fixes:" tag, but clearly
-describes a hardware quirk fix.
-
-### 2. Deep Code Research & Mechanism
-The change modifies `drivers/hid/hid-apple.c` by adding a single entry
-to the `non_apple_keyboards` array.
-
-**The Mechanism:**
-The `hid-apple` driver contains a function
-`apple_is_non_apple_keyboard()` which iterates through the
-`non_apple_keyboards` list:
-
-```c
-static const struct apple_non_apple_keyboard non_apple_keyboards[] = {
-        { "SONiX USB DEVICE" },
-        { "SONiX AK870 PRO" }, /* Added by this commit */
-    /* ... other existing entries like Keychron, GANSS ... */
-};
-
-static bool apple_is_non_apple_keyboard(struct hid_device *hdev)
-{
-        /* ... iterates array and checks strncmp(hdev->name, ...) ... */
-}
-```
-
-When a device matches an entry in this list, the driver sets the
-`APPLE_IS_NON_APPLE` quirk. This flag fundamentally alters how the
-driver processes input, specifically preventing the swapping of function
-keys and Option/Command keys that is typical for genuine Apple hardware.
-
-**Code Context:**
-This infrastructure was introduced specifically to handle the growing
-number of mechanical keyboards that use Apple's protocols/IDs for
-compatibility but have PC physical layouts. The commit adds one string
-literal to this existing, stable lookup table.
-
-### 3. Feature vs. Bug Fix Classification
-While technically "adding" a device ID string, this falls squarely under
-the **Quirks and Workarounds** exception in the stable kernel rules.
-- **The Bug:** Users of this specific keyboard currently experience
-  broken function key behavior (F1-F12 do not work as expected for a PC
-  layout).
-- **The Fix:** A hardware-specific quirk that restores correct
-  functionality.
-
-### 4. Risk and Impact Assessment
-- **Impact:** High for owners of this device (restores usability). Zero
-  for everyone else.
-- **Regression Risk:** **Negligible.** The change is a string addition
-  to a static array. The logic uses `strncmp` against the device name.
-  It is physically impossible for this change to affect any device that
-  does not report its name starting with "SONiX AK870 PRO".
-- **Mainline Status:** The commit was merged recently (late October
-  2025). The pattern is well-established and has been used for other
-  keyboards (e.g., Keychron, Hailuck) without incident.
-
-### 5. Stable Kernel Rules Compliance
-- **Fixes a real bug?** Yes, function key behavior is incorrect without
-  it.
-- **No new features?** Yes, it simply enables correct existing driver
-  behavior for this hardware.
-- **Small and contained?** Yes, one line of code.
-- **Valid Exception?** Yes, explicitly allowed under "Hardware-specific
-  quirks for broken/buggy devices."
-
-### Conclusion
-This is a textbook candidate for a stable backport. It fixes a user-
-visible hardware regression (incorrect key mapping) using a low-risk,
-established quirk mechanism. The lack of a "Cc: stable" tag is likely an
-oversight common with trivial hardware ID additions, but it fully
-qualifies under stable maintenance rules.
-
-**YES**
-
- drivers/hid/hid-apple.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/hid/hid-apple.c b/drivers/hid/hid-apple.c
-index 61404d7a43ee1..57da4f86a9fa7 100644
---- a/drivers/hid/hid-apple.c
-+++ b/drivers/hid/hid-apple.c
-@@ -355,6 +355,7 @@ static const struct apple_key_translation swapped_fn_leftctrl_keys[] = {
- 
- static const struct apple_non_apple_keyboard non_apple_keyboards[] = {
- 	{ "SONiX USB DEVICE" },
-+	{ "SONiX AK870 PRO" },
- 	{ "Keychron" },
- 	{ "AONE" },
- 	{ "GANSS" },
 -- 
-2.51.0
-
+---
+Thanks,
+Usama
 
