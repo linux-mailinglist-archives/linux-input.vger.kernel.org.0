@@ -1,114 +1,162 @@
-Return-Path: <linux-input+bounces-16319-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16320-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id B704EC81F68
-	for <lists+linux-input@lfdr.de>; Mon, 24 Nov 2025 18:46:54 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B618C82221
+	for <lists+linux-input@lfdr.de>; Mon, 24 Nov 2025 19:42:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 75EEB3AB6F1
-	for <lists+linux-input@lfdr.de>; Mon, 24 Nov 2025 17:46:53 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 710C0349DA8
+	for <lists+linux-input@lfdr.de>; Mon, 24 Nov 2025 18:42:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4296B2BFC73;
-	Mon, 24 Nov 2025 17:46:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DDA0A31987D;
+	Mon, 24 Nov 2025 18:42:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="gdb1TZre"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GTu/H58S"
 X-Original-To: linux-input@vger.kernel.org
-Received: from out-173.mta1.migadu.com (out-173.mta1.migadu.com [95.215.58.173])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 386302192F9
-	for <linux-input@vger.kernel.org>; Mon, 24 Nov 2025 17:46:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B757E31985C
+	for <linux-input@vger.kernel.org>; Mon, 24 Nov 2025 18:42:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764006411; cv=none; b=kHtkQUS9hQm/fqhu2Ugumk6RTEP/yaQQDdWXH3JJj28jHUM1iV6j4lV0FOIJGkpwfzuuDbE90QeJFRz+KxadQ47dPgjlx4BH3I2klfDiY+nA7BJu4dYnZuByQH2z/1JJpT5jgM0BMzMcgP7549UMVsRbpE6flUDXw2QbnnzvHKo=
+	t=1764009772; cv=none; b=NIjZlS40ZZdJsFZlEtbD5TQZlkNmoRuyOy91gX1Egqxb0weMCgDjFaMQtmmYObxYbbFu6mRcQp6NFrwZjmOtayKJyG4M0z/kDrmI18tiT3IeNKFNPrGfhrfLADdx8uEzdrERiqVYvmQIWddYaKdz2ekDPCXDgAb9R+NMtbcZUSk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764006411; c=relaxed/simple;
-	bh=2NlUiMVspjHy422pOguqWlTVaQsqHHsBtnMH0JtaTxs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BT/OenKA796uQC6JN+Ctv7G8BxVAa0q2/hZLpZfKXs1YcDtoUc0PdIr37aaFKAgSrrybz866U+zA31y9AiciTI4Ria2u8O6P1guWr9hA3AlEifPxl0grIeSdTHHg4ECyvs9VVf9jqCllteoRElFMxs7h+5ce4lA/zbGOgt9MHBE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=gdb1TZre; arc=none smtp.client-ip=95.215.58.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Date: Mon, 24 Nov 2025 10:45:55 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1764006395;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=A7KsEx3IMMvVvQOVv3eGb75FdpgkL0eFHL2uf+s/d7E=;
-	b=gdb1TZreCJ+2/T6O0kRPJIcGQBw/TJdnZMaOtZ0w3ujEgCL6YfqykTM2euS+ueRTugdMHO
-	mOeREDWStFdPeG8mt7dm0t6EqFcBLWpYxKoMLXzpBrFuWFsVICnTqsDHrypdBzfu6wDMNN
-	0X2wirb6SK5OOlGlxm3tVfm0fE8Pdu4=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Russ Weight <russ.weight@linux.dev>
-To: Marco Felsch <m.felsch@pengutronix.de>
-Cc: Konstantin Ryabitsev <konstantin@linuxfoundation.org>, 
-	Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Henrik Rydberg <rydberg@bitmath.org>, Kamel Bouhara <kamel.bouhara@bootlin.com>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, devicetree@vger.kernel.org, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
-	linux-kernel@vger.kernel.org, Luis Chamberlain <mcgrof@kernel.org>, 
-	Marco Felsch <kernel@pengutronix.de>, linux-input@vger.kernel.org, 
-	Andrew Morton <akpm@linux-foundation.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>
-Subject: Re: [PATCH v3 1/4] firmware_loader: expand firmware error codes with
- up-to-date error
-Message-ID: <3ige6tcoaivxrgmpieyisoskcsxa5mhbjhc7dm5zvlzuwurvyg@guccsc5kzcnk>
-References: <20250821-v6-10-topic-touchscreen-axiom-v3-0-940ccee6dba3@pengutronix.de>
- <20250821-v6-10-topic-touchscreen-axiom-v3-1-940ccee6dba3@pengutronix.de>
- <ifdhjgo6wchlsztqvgkaawpbnh3zahb76vmyzlomokfrqt6tjp@qjcdvcdqviag>
- <5tlhy2jl77etqxsna42ksdmvu3x3bsp5c44poshkt45agldfsj@bkzlvbfoshsl>
- <20251016145205.244gsevx5tdloiqy@pengutronix.de>
- <20251111110110.io65cbslrv75lbby@pengutronix.de>
- <juffz52dxb2txvolv7d3kb37urweg3kau67rb3zk42ovn4uze2@uqvbyz6nuecn>
- <20251119101007.za2373biybt24qfs@pengutronix.de>
- <20251119-elated-caribou-of-witchcraft-0508ed@lemur>
- <20251121140052.f5ry3jljvyg24smn@pengutronix.de>
+	s=arc-20240116; t=1764009772; c=relaxed/simple;
+	bh=4zv3PdwVNkz56gSyrllnr44HRqaValL/E3kwYnLlhsc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=UjUN/qmSTQIltwxyxTlnvH1UUuCHNOQ94M4Kpg2FMAsd1t+B1rZNhusLopgyezCLweYAnrPkWQPL/OQusVkBTPHyc58IaWnZHvKu9HfnwItfsiEbFqtnrGW/VF5diJqq0fdhRH+Ww9igIO0V4i3zfQS3LxbxVJTbafnjyeDTxeg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GTu/H58S; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90F28C19423
+	for <linux-input@vger.kernel.org>; Mon, 24 Nov 2025 18:42:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1764009772;
+	bh=4zv3PdwVNkz56gSyrllnr44HRqaValL/E3kwYnLlhsc=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=GTu/H58Sf+NJh68OhM1XK6L6r5knguL1+CJYWQ2J5WyszvD/M7/xt4b4SHCdwLEsp
+	 Rb9f9C7NAz29LaIy/OG2gGl5msYTc820GQiqSsfBGCY9/IR3fM0Lf8j+Uz69/AEy+l
+	 AYYjyTRkRcPL7gdfkCil0TVTVb7wXsQdOb9gHxYOG3vk4ghcRIqZzfcdDvhyOIWY5R
+	 y5Br5PJcGJI6holWJc4jlyV21HNfhTuvDr2Ix6QqV8snoSeBPAgDwO8BXbIqwMvBfc
+	 fqWvMEaSEUrOjb6r19k3AjkcU2XJQ/297N6z54gptC1b/+aPT5lYopZT2LwGMHtTMM
+	 vmGopB9Bkbkig==
+Received: by mail-oi1-f180.google.com with SMTP id 5614622812f47-450b3f60c31so1572484b6e.3
+        for <linux-input@vger.kernel.org>; Mon, 24 Nov 2025 10:42:52 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXMfbJQmirku0edZ5Q+jX43CiUV6sY2LItvoc9L+gMPAKcBBLg6al76TsjRPX/kbQ98hXDklJ6Z+KcNDg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxTIIjJ08BXoFfbWlt8VAYFhV0ctCAZpsgOZ8NHYNCJztFgFITv
+	337DCQQr6/bi0TF6wopvHo6wbKejgqcaWWhM/wkiWQ/zLDr33/U3fRsVtuqxlcrwKPQlJAsIfeq
+	0VqHyniGnoKtddNqqQhM6FyLaRUzPr8k=
+X-Google-Smtp-Source: AGHT+IEhM6N9TSqsWeJA5wThKBrxOGVdlq9voHQQxrdy06SWCCgEqKdIk4hEBWDZbNm2DTtkLyI6qo3u5V3dSm4XBII=
+X-Received: by 2002:a05:6808:1481:b0:450:af35:8b1c with SMTP id
+ 5614622812f47-4514e7efee7mr65880b6e.38.1764009771841; Mon, 24 Nov 2025
+ 10:42:51 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251121140052.f5ry3jljvyg24smn@pengutronix.de>
-X-Migadu-Flow: FLOW_OUT
+References: <20251107184438.1328717-1-usama.anjum@collabora.com> <20251107184438.1328717-3-usama.anjum@collabora.com>
+In-Reply-To: <20251107184438.1328717-3-usama.anjum@collabora.com>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Mon, 24 Nov 2025 19:42:40 +0100
+X-Gmail-Original-Message-ID: <CAJZ5v0iWCxXSw3fBbesoMEWqGrRL9xrD85pMoW8rPuBBwTayhw@mail.gmail.com>
+X-Gm-Features: AWmQ_bltk1nKCTDeILyK8F-n51UW1Kksk-2_Q40QVBwGhl6mPDVhj8oD7VCItCU
+Message-ID: <CAJZ5v0iWCxXSw3fBbesoMEWqGrRL9xrD85pMoW8rPuBBwTayhw@mail.gmail.com>
+Subject: Re: [PATCH 2/4] ACPI: button: Cancel hibernation if button is pressed
+ during hibernation
+To: Muhammad Usama Anjum <usama.anjum@collabora.com>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, Pavel Machek <pavel@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Danilo Krummrich <dakr@kernel.org>, 
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Thomas Gleixner <tglx@linutronix.de>, 
+	Peter Zijlstra <peterz@infradead.org>, linux-acpi@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, 
+	linux-input@vger.kernel.org, kernel@collabora.com, superm1@kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Nov 21, 2025 at 03:00:52PM +0100, Marco Felsch wrote:
-> Hi Russ,
-> 
-> On 25-11-19, Konstantin Ryabitsev wrote:
-> > On Wed, Nov 19, 2025 at 11:10:07AM +0100, Marco Felsch wrote:
-> > > > Marco - I would recommend adding the Reviewed-by tags that you
-> > > > have received and then resubmitting the patch.
-> > > 
-> > > I can do this albeit I thought this will be collected autom. by b4.
-> > 
-> > You have to run `b4 trailers -u` for it to be collected.
-> 
-> Is this okay to run it on your site or do I have to add and resend it?
+On Fri, Nov 7, 2025 at 7:45=E2=80=AFPM Muhammad Usama Anjum
+<usama.anjum@collabora.com> wrote:
+>
+> acpi_pm_wakeup_event() is called from acpi_button_notify() which is
+> called when power button is pressed. The system is worken up from s2idle
+> in this case by setting hard parameter to pm_wakeup_dev_event().
 
-My role is primarily code reviews - I'm not the person who would
-pull the patch in to a testing branch. I would recommend adding
-the tags and resubmitting.
+Right, so presumably you want to set it for hibernation too.
 
-> 
-> Regards,
->   Marco
-> 
-> > 
-> > -K
-> > 
-> 
-> -- 
-> #gernperDu 
-> #CallMeByMyFirstName
-> 
-> Pengutronix e.K.                           |                             |
-> Steuerwalder Str. 21                       | https://www.pengutronix.de/ |
-> 31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-> Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-9    |
+> Call acpi_pm_wakeup_event() if power button is pressed and hibernation
+> is in progress.
+
+Well, this is not what the code does after the change.
+
+> Set the hard parameter such that pm_system_wakeup()
+> gets called which increments pm_abort_suspend counter. The explicit call
+> to acpi_pm_wakeup_event() is necessary as ACPI button device has the
+> wakeup source. Hence call to input_report_key() with input device
+> doesn't call pm_system_wakeup() as it doesn't have wakeup source
+> registered.
+>
+> Hence hibernation would be cancelled as in hibernation path, this counter
+> is checked if it should be aborted.
+>
+> Signed-off-by: Muhammad Usama Anjum <usama.anjum@collabora.com>
+> ---
+> Changes since RFC:
+> - Use pm_sleep_transition_in_progress()
+> - Update descriptin why explicit call to acpi_pm_wakeup_event() is
+>   necessary
+> ---
+>  drivers/acpi/button.c | 12 +++++++++---
+>  1 file changed, 9 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/acpi/button.c b/drivers/acpi/button.c
+> index 3c6dd9b4ba0ad..e4be5c763edaf 100644
+> --- a/drivers/acpi/button.c
+> +++ b/drivers/acpi/button.c
+> @@ -20,6 +20,7 @@
+>  #include <linux/acpi.h>
+>  #include <linux/dmi.h>
+>  #include <acpi/button.h>
+> +#include <linux/suspend.h>
+>
+>  #define ACPI_BUTTON_CLASS              "button"
+>  #define ACPI_BUTTON_FILE_STATE         "state"
+> @@ -458,11 +459,16 @@ static void acpi_button_notify(acpi_handle handle, =
+u32 event, void *data)
+>         acpi_pm_wakeup_event(&device->dev);
+
+The above is what you want to change, as this already reports the
+event.  Reporting it twice is unnecessary and potentially confusing.
+
+>         button =3D acpi_driver_data(device);
+> -       if (button->suspended || event =3D=3D ACPI_BUTTON_NOTIFY_WAKE)
+> -               return;
+> -
+>         input =3D button->input;
+>         keycode =3D test_bit(KEY_SLEEP, input->keybit) ? KEY_SLEEP : KEY_=
+POWER;
+> +       if (event =3D=3D ACPI_BUTTON_NOTIFY_STATUS && keycode =3D=3D KEY_=
+POWER &&
+> +           pm_sleep_transition_in_progress()) {
+> +               pm_wakeup_dev_event(&device->dev, 0, true);
+> +               return;
+> +       }
+
+First, this will affect suspend too.
+
+Second, this reports an already reported wakeup event.
+
+Next, why KEY_POWER only?  Is KEY_SLEEP not expected to wake up?
+
+And why event =3D=3D ACPI_BUTTON_NOTIFY_STATUS?  Isn't this what
+ACPI_BUTTON_NOTIFY_WAKE is for?
+
+> +
+> +       if (button->suspended || event =3D=3D ACPI_BUTTON_NOTIFY_WAKE)
+> +               return;
+>
+>         input_report_key(input, keycode, 1);
+>         input_sync(input);
+> --
 
