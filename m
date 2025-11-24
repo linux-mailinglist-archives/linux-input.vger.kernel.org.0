@@ -1,171 +1,100 @@
-Return-Path: <linux-input+bounces-16323-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16324-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91652C8232F
-	for <lists+linux-input@lfdr.de>; Mon, 24 Nov 2025 19:58:33 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id CD431C826A9
+	for <lists+linux-input@lfdr.de>; Mon, 24 Nov 2025 21:33:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 1985034B51C
-	for <lists+linux-input@lfdr.de>; Mon, 24 Nov 2025 18:57:29 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 7B056348B55
+	for <lists+linux-input@lfdr.de>; Mon, 24 Nov 2025 20:33:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C3B743242A2;
-	Mon, 24 Nov 2025 18:54:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CDEA525A359;
+	Mon, 24 Nov 2025 20:33:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YLVBrcQz"
+	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="KJuzxKVF"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9870C3233F5
-	for <linux-input@vger.kernel.org>; Mon, 24 Nov 2025 18:54:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5F0C8634F;
+	Mon, 24 Nov 2025 20:33:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764010498; cv=none; b=IlcSiJ0pw4UNfkFrTZ0NG8P+sfRuIhljPIpa/TC7VtTs4ogkYLC9M5ijosuDNKsQX30inCnpQ8m3NJXGwm3f6xAVScrcjVFG/1WqwOOUc/d6k5+NemCLtECWC4O/2QsfibJpas02z4ujm7sHgZ6Ep3cBzD6Vn//njMx7k4cVJfE=
+	t=1764016426; cv=none; b=OJiq0iWKWpfNcK3bLppKze//ZduBdd3VSntTuTfo+2zDbEea/JoECHstiIp5sbhVnmYpA4mAMdwju+Mg74OqklaZL0xIkiuG7zaS3KwHb5rhyaNylUhAMZw9o7j/jV8t043BiYBPEH15kznWcQXz0Zb6zO0JHlRI+E5tbx/lGRU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764010498; c=relaxed/simple;
-	bh=sumFJ1oLocBysOk3GVtwaNor6IvDUUevk4blcuIpd1s=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Bwi+dqMYxeBVh05GoKpluD2PDEl/xfba/KeX8diR3fcC3wLC2sfI11W+UYE9nINZqMqqeFwNWIUYeUif8tUvyEEeys/p6DhXnJkwS+uL7aBdF9NL3p2IBMZB4utzrm1MA9yrASvm2TbeJ3VbSMRwV16ZlqlXfhKEMLEbyHWD/7w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YLVBrcQz; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 498BEC2BCB2
-	for <linux-input@vger.kernel.org>; Mon, 24 Nov 2025 18:54:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764010498;
-	bh=sumFJ1oLocBysOk3GVtwaNor6IvDUUevk4blcuIpd1s=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=YLVBrcQzVuyAoa4VoiILF8PBq4nxgnXFzUzAMZSkC9Kx2AGRHwa08y9Q/T2M3LeKb
-	 5e7fFwa9VAuh2puinSsGL9K5TvQEl4uF+TxuC9xJEryJAVthnd4JRCn0MdujTYMGRu
-	 LJM8QekWqeI72L6i6E9M8TA+zMgmORe2tSrwyqjjBOjTB9khjAgmOnxatasMo+PK7/
-	 eekinqz8Dx/SWwDFIzJoyq3KYLhM3J1r1qoF4q4TJoSxc2RnEbVVXNlpk1qs6uRYGM
-	 Gmu4tVxVMnwwgPnY/gnKGUateVHa2FH0NXeOm5FG8w8PwtVGNz/cdWqyPy2tH7UzFC
-	 XNbeX1EXh1hrg==
-Received: by mail-oi1-f181.google.com with SMTP id 5614622812f47-4510974a8cdso1569558b6e.0
-        for <linux-input@vger.kernel.org>; Mon, 24 Nov 2025 10:54:58 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCV0pmzaShVAuu58AXYCo/OdLYt1NepJiJN1kqDfxoaly+9WSMrUBcu9cveYJbFS9JESDAb2b0cvjP6dVQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyQIONH5viukFstXuYbh6gW0M5PO/ucuNDAaFb0jfqI4SBlVCMS
-	sbir7VmApCjFyUtbP+7aMNKkZ4VQh+yH7W9QTaYv47lSANaRjt622C3MFbAgacKCBWqfU9Nr6Fv
-	KH4AnYuoYveTNUyoh1RdukGf/f7lxGBg=
-X-Google-Smtp-Source: AGHT+IHGHVnUtJr2c1uMaKhAStrka7Ghs4Uk7LmljAS7InKcIC4oFzy+NbvtllycWAH/MycWz6COu4abDBToDJDYnWQ=
-X-Received: by 2002:a05:6808:2219:b0:44f:e801:d6d6 with SMTP id
- 5614622812f47-4514e5f9410mr103695b6e.6.1764010497349; Mon, 24 Nov 2025
- 10:54:57 -0800 (PST)
+	s=arc-20240116; t=1764016426; c=relaxed/simple;
+	bh=ByawdD0xfPt8bIW4ZFQvmnipPYvO8YNa8I8Q26c4QZc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YJAQerZRq06QV0Fk4A0mcLfg5qLOZH3y7rDt7Mbd+7ms4L50ZJ/2NPEN1LNbh+rltY3QTLcxtzHoAKXTF7cdQY5CqvjwxqQGSm4/aBkFCvbXOzE9BrtfuXzmvFeuLyVL/rulCYNj15VDByhozThPW8g6x8v5ZxSRawEfrxgUSm8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=KJuzxKVF; arc=none smtp.client-ip=157.90.84.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
+Received: from wse-pc.fritz.box (pd9e597c7.dip0.t-ipconnect.de [217.229.151.199])
+	(Authenticated sender: wse@tuxedocomputers.com)
+	by mail.tuxedocomputers.com (Postfix) with ESMTPA id 02D482FC004D;
+	Mon, 24 Nov 2025 21:33:39 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
+	s=default; t=1764016420;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=5F/v/WRGrdTjeSFBG18gA0uPYwiL+Q1B83HCBn75pBg=;
+	b=KJuzxKVF70beCKdYvGcW7KCMDnww+OGGZPLrsybcP5qwZIPGyVUividzt9D6lUkAxcW99o
+	XY6vT5cJcWeFO8r5CFTH6/LOYdlap4cU1W9Dur2gCxzWOmosk82FTJg/QV2Zxp091zBiD0
+	AOmpdv6g9e0d0WPATNfNwErvDqDy9hw=
+Authentication-Results: mail.tuxedocomputers.com;
+	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
+From: Werner Sembach <wse@tuxedocomputers.com>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Christoffer Sandberg <cs@tuxedo.de>,
+	Werner Sembach <wse@tuxedocomputers.com>,
+	linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] Input: i8042 - add TUXEDO InfinityBook Max Gen10 AMD to i8042 quirk table
+Date: Mon, 24 Nov 2025 21:31:34 +0100
+Message-ID: <20251124203336.64072-1-wse@tuxedocomputers.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251107184438.1328717-1-usama.anjum@collabora.com> <20251107184438.1328717-5-usama.anjum@collabora.com>
-In-Reply-To: <20251107184438.1328717-5-usama.anjum@collabora.com>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Mon, 24 Nov 2025 19:54:46 +0100
-X-Gmail-Original-Message-ID: <CAJZ5v0iucMXFkKuRxtAUyAqW11NHHGVuYnjJNbroeMgJoGY1kw@mail.gmail.com>
-X-Gm-Features: AWmQ_bkKLLhFtJAdI15Z9tDKN1qk0_d1G7grayFeH9ds__gFAk7Upw4JP1dKaXg
-Message-ID: <CAJZ5v0iucMXFkKuRxtAUyAqW11NHHGVuYnjJNbroeMgJoGY1kw@mail.gmail.com>
-Subject: Re: [PATCH 4/4] PM: sleep: clear pm_abort_suspend at suspend
-To: Muhammad Usama Anjum <usama.anjum@collabora.com>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, Pavel Machek <pavel@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Danilo Krummrich <dakr@kernel.org>, 
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Thomas Gleixner <tglx@linutronix.de>, 
-	Peter Zijlstra <peterz@infradead.org>, linux-acpi@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, 
-	linux-input@vger.kernel.org, kernel@collabora.com, superm1@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Fri, Nov 7, 2025 at 7:45=E2=80=AFPM Muhammad Usama Anjum
-<usama.anjum@collabora.com> wrote:
->
-> Clear pm_abort_suspend counter in case a wakeup is detected during
-> hibernation process. If this counter isn't reset, it'll affect the
-> next hibernation cycle and next time hibernation will not happen as
-> pm_abort_suspend is still positive.
->
-> Signed-off-by: Muhammad Usama Anjum <usama.anjum@collabora.com>
-> ---
->  drivers/base/power/main.c | 2 ++
->  kernel/cpu.c              | 1 +
->  kernel/power/hibernate.c  | 5 ++++-
->  kernel/power/process.c    | 1 +
->  4 files changed, 8 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/base/power/main.c b/drivers/base/power/main.c
-> index 5760abb25b591..84e76f8df1e02 100644
-> --- a/drivers/base/power/main.c
-> +++ b/drivers/base/power/main.c
-> @@ -1642,6 +1642,7 @@ static void device_suspend_late(struct device *dev,=
- pm_message_t state, bool asy
->                 goto Complete;
->
->         if (pm_wakeup_pending()) {
-> +               pm_wakeup_clear(0);
->                 WRITE_ONCE(async_error, -EBUSY);
->                 goto Complete;
->         }
-> @@ -1887,6 +1888,7 @@ static void device_suspend(struct device *dev, pm_m=
-essage_t state, bool async)
->
->         if (pm_wakeup_pending()) {
->                 dev->power.direct_complete =3D false;
-> +               pm_wakeup_clear(0);
->                 WRITE_ONCE(async_error, -EBUSY);
->                 goto Complete;
->         }
-> diff --git a/kernel/cpu.c b/kernel/cpu.c
-> index db9f6c539b28c..74c9f6b4947dd 100644
-> --- a/kernel/cpu.c
-> +++ b/kernel/cpu.c
-> @@ -1921,6 +1921,7 @@ int freeze_secondary_cpus(int primary)
->
->                 if (pm_wakeup_pending()) {
->                         pr_info("Wakeup pending. Abort CPU freeze\n");
-> +                       pm_wakeup_clear(0);
->                         error =3D -EBUSY;
->                         break;
->                 }
-> diff --git a/kernel/power/hibernate.c b/kernel/power/hibernate.c
-> index e15907f28c4cd..1f6b60df45d34 100644
-> --- a/kernel/power/hibernate.c
-> +++ b/kernel/power/hibernate.c
-> @@ -349,8 +349,10 @@ static int create_image(int platform_mode)
->                 goto Enable_irqs;
->         }
->
-> -       if (hibernation_test(TEST_CORE) || pm_wakeup_pending())
-> +       if (hibernation_test(TEST_CORE) || pm_wakeup_pending()) {
-> +               pm_wakeup_clear(0);
->                 goto Power_up;
-> +       }
->
->         in_suspend =3D 1;
->         save_processor_state();
-> @@ -660,6 +662,7 @@ int hibernation_platform_enter(void)
->                 goto Enable_irqs;
->
->         if (pm_wakeup_pending()) {
-> +               pm_wakeup_clear(0);
->                 error =3D -EAGAIN;
->                 goto Power_up;
->         }
-> diff --git a/kernel/power/process.c b/kernel/power/process.c
-> index dc0dfc349f22b..e935b27a04ae0 100644
-> --- a/kernel/power/process.c
-> +++ b/kernel/power/process.c
-> @@ -67,6 +67,7 @@ static int try_to_freeze_tasks(bool user_only)
->                         break;
->
->                 if (pm_wakeup_pending()) {
-> +                       pm_wakeup_clear(0);
->                         wakeup =3D true;
->                         break;
->                 }
-> --
+From: Christoffer Sandberg <cs@tuxedo.de>
 
-I don't think pm_wakeup_clear() needs to be called in so many places.
+The device occasionally wakes up from suspend with missing input on the
+internal keyboard and the following suspend attempt results in an instant
+wake-up. The quirks fix both issues for this device.
 
-Any why isn't it sufficient to call it in freeze_processes()?  For
-suspend, it is sufficient, so what's different about hibernation in
-that respect?
+Signed-off-by: Christoffer Sandberg <cs@tuxedo.de>
+Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
+Cc: stable@vger.kernel.org
+---
+ drivers/input/serio/i8042-acpipnpio.h | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/drivers/input/serio/i8042-acpipnpio.h b/drivers/input/serio/i8042-acpipnpio.h
+index 1caa6c4ca435c..654771275ce87 100644
+--- a/drivers/input/serio/i8042-acpipnpio.h
++++ b/drivers/input/serio/i8042-acpipnpio.h
+@@ -1169,6 +1169,13 @@ static const struct dmi_system_id i8042_dmi_quirk_table[] __initconst = {
+ 		.driver_data = (void *)(SERIO_QUIRK_NOMUX | SERIO_QUIRK_RESET_ALWAYS |
+ 					SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
+ 	},
++	{
++		.matches = {
++			DMI_MATCH(DMI_BOARD_NAME, "X5KK45xS_X5SP45xS"),
++		},
++		.driver_data = (void *)(SERIO_QUIRK_NOMUX | SERIO_QUIRK_RESET_ALWAYS |
++					SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
++	},
+ 	/*
+ 	 * A lot of modern Clevo barebones have touchpad and/or keyboard issues
+ 	 * after suspend fixable with the forcenorestore quirk.
+-- 
+2.43.0
+
 
