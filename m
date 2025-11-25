@@ -1,205 +1,144 @@
-Return-Path: <linux-input+bounces-16334-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16335-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id E89FCC85120
-	for <lists+linux-input@lfdr.de>; Tue, 25 Nov 2025 14:02:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1D93C85DE2
+	for <lists+linux-input@lfdr.de>; Tue, 25 Nov 2025 17:06:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id DDF874E4B13
-	for <lists+linux-input@lfdr.de>; Tue, 25 Nov 2025 13:01:42 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 985514E5592
+	for <lists+linux-input@lfdr.de>; Tue, 25 Nov 2025 16:05:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD80931DD8A;
-	Tue, 25 Nov 2025 13:01:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8261D2236F2;
+	Tue, 25 Nov 2025 16:05:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kemnade.info header.i=@kemnade.info header.b="F6p8XvBr"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="DdIhBBRP"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail.andi.de1.cc (mail.andi.de1.cc [178.238.236.174])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96B6D26FA60;
-	Tue, 25 Nov 2025 13:01:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.238.236.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D90B221D5AA;
+	Tue, 25 Nov 2025 16:05:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764075700; cv=none; b=XUkmLy+ibCKj62aXvoOJ1DbFRy8WBQpN+QWA5k77svsW/sJRlEWmydPNu89by0u1rkZ6RR4Pg7IKLkVJDeGQftq3FO1wKQRUhxr1jEWyPmsefSBqC+bwy9GM8THlmpn4xAAJo2H89lIGP31KMuvcetNFnfOM42aXRRRo7lUcYos=
+	t=1764086749; cv=none; b=gFoGjw+eQiNXDbTnsj5V842WnQHp9rGGn3lWeZqVDXpfvxzcwWVes31Fi+i5i8GtoZ/Td0daWkqQyEuBWEiTQLCIaF6EIsOn80He/PIV9s2TtX8aTdQT9Ol2ZKSbjXg5vu2OZfWBtsSWu9rh2K5SQ6VcvibQdwGNvrvliJCcbSw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764075700; c=relaxed/simple;
-	bh=G3HKP2Zge3E04Zuo/rdw+5DkrcltqprZ6AwejN+xf64=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=lIs3hNUFMaDgchFpttX6EYu3EC4pq0JA0T8hf4B89eVbPgmKDb7S42gA8eCuamrJxSchjdF5VJe6j73FJxkj5wNL8BbCrE724z7TpvzgQ+9W+B7ImU84V0jYSWgM+uLl0lpVzWNPITfCMRkKNEgmkfcYb89Y2AA6m5s/uWuOxBI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kemnade.info; spf=pass smtp.mailfrom=kemnade.info; dkim=pass (2048-bit key) header.d=kemnade.info header.i=@kemnade.info header.b=F6p8XvBr; arc=none smtp.client-ip=178.238.236.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kemnade.info
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kemnade.info
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=kemnade.info; s=20220719; h=References:In-Reply-To:Cc:From:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID;
-	bh=KUfiFQr68Z61wWlRME4ocmNHWi+DLLp14q9sof5MrSs=; b=F6p8XvBroB9fXs8P9Pz27l+roz
-	CzY7igoP4TRO/BGIjBdoufNjMoKkLhDhISTWaoo55UKoUXFFj7hjlt4Y68egUdHGXD88dCocXD4re
-	M0J0nRQ6nP2F73Qa4alj20/CwDv7o3kDIBFJiiCDoOMGE1xhNqLFE4HLO42/w0PnWXtmtV9Np5Wn/
-	ou/yFyBx4lJXtQEFB2fdktRGvuw5Z1QMFMSSsMCbjpjpqo8RG6wgX969mr5u7t4TXBb5xPcJOo4Ch
-	WAzB1V4+WDS5GFcyKCP2W1CBoxxk3ucij+uCfdMEzbDDTVj+6kauw/DRT9rdObnPSOKurVOT2FFH9
-	1EWwFYZg==;
-Date: Tue, 25 Nov 2025 14:01:26 +0100
-From: Andreas Kemnade <andreas@kemnade.info>
-To: akemnade@kernel.org
-Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Dmitry
- Torokhov <dmitry.torokhov@gmail.com>, Tony Lindgren <tony@atomide.com>,
- Kevin Hilman <khilman@kernel.org>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
- linux-omap@vger.kernel.org
-Subject: Re: [PATCH v4 2/3] Input: twl4030 - add TWL603x power button
-Message-ID: <20251125140126.3752c075@kemnade.info>
-In-Reply-To: <20251106-twl6030-button-v4-2-fdf1aa6e1e9a@kernel.org>
-References: <20251106-twl6030-button-v4-0-fdf1aa6e1e9a@kernel.org>
-	<20251106-twl6030-button-v4-2-fdf1aa6e1e9a@kernel.org>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; aarch64-unknown-linux-gnu)
+	s=arc-20240116; t=1764086749; c=relaxed/simple;
+	bh=71b5LbowHip7iInk4hN1YUYoPBwGeTOdbNP05ymzoPA=;
+	h=Message-ID:Date:MIME-Version:Cc:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=GuEBdASlkbGDYs7Y0uTiIvedVedk1NQwuFQlgAvFKaJ6mWNeE6rIVE9IPGrWGDz+MbNoXfcP3iJUu10ykeXK+SEs6XC2s5q/7T8P+P/cAu+wbYQSacpCc/r9seoynvIujk5c9AWuzk7xejRcKY+YxO7wEeAwzWXqPOG91Z/oEkI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=DdIhBBRP; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1764086744;
+	bh=71b5LbowHip7iInk4hN1YUYoPBwGeTOdbNP05ymzoPA=;
+	h=Date:Cc:Subject:To:References:From:In-Reply-To:From;
+	b=DdIhBBRPgUujTTkw+IW+85wtY77l3DY6d2UCtZwBdkM48VBo4sW2vTjr8BhAgA0op
+	 JTJX/EdGAJcvr8Y6qLFTsimnPTY3CFNO0GNmmAoniDzKVxeb0rZwrmopYmNsIGp/S2
+	 Pjv2tXjbD9jThrCU+SqtEtnIdxRFdLjQEOhg1SK8fEv3mr0rIg348eUDYsRNPkCQ6r
+	 XJIo5xrNjdJ1cbWfN1QxeGY94EQcc5qTgtpJB2fhT9kXpB7nqo77xoUH3jb2gGQDQ+
+	 fD/bbBC2Z0+CmeHdO497gNyBulB88V+uPE8x/nMkfuztUKuEQTTHZr7OSlVvF0OI1F
+	 u0PbK1CvS41CQ==
+Received: from [192.168.100.50] (unknown [144.48.130.189])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: usama.anjum)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 6D1C617E12D5;
+	Tue, 25 Nov 2025 17:05:41 +0100 (CET)
+Message-ID: <cbf3ab37-21d9-467c-8181-b5a08e28c364@collabora.com>
+Date: Tue, 25 Nov 2025 21:05:11 +0500
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla Thunderbird
+Cc: usama.anjum@collabora.com, Len Brown <lenb@kernel.org>,
+ Pavel Machek <pavel@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Danilo Krummrich <dakr@kernel.org>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Thomas Gleixner <tglx@linutronix.de>, Peter Zijlstra <peterz@infradead.org>,
+ linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-pm@vger.kernel.org, linux-input@vger.kernel.org, kernel@collabora.com,
+ superm1@kernel.org
+Subject: Re: [PATCH 3/4] Input: Ignore the KEY_POWER events if hibernation is
+ in progress
+To: "Rafael J. Wysocki" <rafael@kernel.org>
+References: <20251107184438.1328717-1-usama.anjum@collabora.com>
+ <20251107184438.1328717-4-usama.anjum@collabora.com>
+ <CAJZ5v0gtGjE-rSwM4Kom4cDEhp3eSOkLCmbLwrt_9u9a7VP6zQ@mail.gmail.com>
+ <6f1f3210-47c6-4c00-8fb9-35f48bae2581@collabora.com>
+ <CAJZ5v0iDUPB9s2fPJxqVqPGj5wbw54tR4thmDD2V-r4+Q2prwg@mail.gmail.com>
+Content-Language: en-US
+From: Muhammad Usama Anjum <usama.anjum@collabora.com>
+In-Reply-To: <CAJZ5v0iDUPB9s2fPJxqVqPGj5wbw54tR4thmDD2V-r4+Q2prwg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Thu, 06 Nov 2025 10:00:26 +0100
-akemnade@kernel.org wrote:
+On 11/25/25 5:25 PM, Rafael J. Wysocki wrote:
+> On Tue, Nov 25, 2025 at 11:23 AM Muhammad Usama Anjum
+> <usama.anjum@collabora.com> wrote:
+>>
+>> On 11/24/25 11:50 PM, Rafael J. Wysocki wrote:
+>>> On Fri, Nov 7, 2025 at 7:45 PM Muhammad Usama Anjum
+>>> <usama.anjum@collabora.com> wrote:
+>>>>
+>>>> Input (Serio) drivers call input_handle_event(). Although the serio
+>>>> drivers have duplicate events, they have separate code path and call
+>>>> input_handle_event(). Ignore the KEY_POWER such that this event isn't
+>>>> sent to the userspace if hibernation is in progress.
+>>>
+>>> Your change affects suspend too.
+>>>
+>>> Also, what's the goal you want to achieve?
+>> Two goals:
+>> * Don't send event to userspace
+>> * Set pm_wakeup for hibernation cancellation for non-acpi devices (This api
+>>   call should be tested on non-acpi devices such as arm board to see if it
+>>   helps. I don't have an arm board in hand)
+>>
+>>>
+>>>> Abort the hibernation by calling pm_wakeup_dev_event(). In case of serio,
+>>>> doesn't have wakeup source registered, this call doesn't do anything.
+>>>> But there may be other input drivers which will require this.
+>>>>
+>>>> Without this, the event is sent to the userspace and it suspends the
+>>>> device after hibernation cancellation.
+>>>
+>>> I think that's because user space handles it this way, isn't it?
+>>
+>> Yes, it depends on how userspace handles such events. There are different settings
+>> configured for systemd-logind when power event is received. The purpose is to consume
+>> this event to cancel the hibernation without letting userspace know about it.
+>>
+>> Thinking more about it, I wasn't sure if all of such events are compulsory to be
+>> delivered to userspace. But then I found an example: In acpi_button_notify(), all
+>> such events are not sent to userspace if button is suspended. So it seems okay to
+>> not send this as well and just consume in the kernel.
+> 
+> You want the given key (and it doesn't matter whether or not this is
+> KEY_POWER or something else) to play two roles.  One of them is to
+> send a specific key code to user space and let it handle the keypress
+> as it wants.  This is how it works most of the time.  The second one
+> is to wake up the system from sleep (and I'm not sure why you want to
+> limit this to hibernation) in which case the key code will not be sent
+> to user space.
+> 
+> For this to work, you need to switch between the two modes quite
+> precisely and checking things like pm_sleep_transition_in_progress()
+> (which is only used for debug and its raciness is not relevant there)
+> is not sufficient for this purpose.  That's what the "suspended" flag
+> in the ACPI button driver is for.
+I see. I'll add a suspended flag just like the acpi button and use it here.
+Thank you so much for explaining.
 
-> From: Andreas Kemnade <andreas@kemnade.info>
-> 
-> Like the TWL4030, these PMICs also have a power button feature, so extend
-> the TWL4030 power button driver. As the irqchip of the TWL6030 mfd driver
-> does not provide mask, unmask finctions, do it manually.
-> 
-> Signed-off-by: Andreas Kemnade <andreas@kemnade.info>
-> ---
-a friendly ping
-anything still to do here?
-
-Regards,
-Andreas
->  drivers/input/misc/twl4030-pwrbutton.c | 58 +++++++++++++++++++++++++++++++---
->  1 file changed, 54 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/input/misc/twl4030-pwrbutton.c b/drivers/input/misc/twl4030-pwrbutton.c
-> index f85cc289c053..8673b1b441bf 100644
-> --- a/drivers/input/misc/twl4030-pwrbutton.c
-> +++ b/drivers/input/misc/twl4030-pwrbutton.c
-> @@ -20,6 +20,7 @@
->   * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
->   */
->  
-> +#include <linux/bits.h>
->  #include <linux/module.h>
->  #include <linux/init.h>
->  #include <linux/kernel.h>
-> @@ -30,17 +31,31 @@
->  #include <linux/platform_device.h>
->  #include <linux/mfd/twl.h>
->  
-> -#define PWR_PWRON_IRQ (1 << 0)
-> +#define PWR_PWRON_IRQ BIT(0)
->  
-> -#define STS_HW_CONDITIONS 0xf
-> +struct twl_pwrbutton_chipdata {
-> +	u8 status_reg;
-> +	bool need_manual_irq;
-> +};
-> +
-> +static const struct twl_pwrbutton_chipdata twl4030_chipdata = {
-> +	.status_reg = 0xf,
-> +	.need_manual_irq = false,
-> +};
-> +
-> +static const struct twl_pwrbutton_chipdata twl6030_chipdata = {
-> +	.status_reg = 0x2,
-> +	.need_manual_irq = true,
-> +};
->  
->  static irqreturn_t powerbutton_irq(int irq, void *_pwr)
->  {
->  	struct input_dev *pwr = _pwr;
-> +	const struct twl_pwrbutton_chipdata *pdata = dev_get_drvdata(pwr->dev.parent);
->  	int err;
->  	u8 value;
->  
-> -	err = twl_i2c_read_u8(TWL_MODULE_PM_MASTER, &value, STS_HW_CONDITIONS);
-> +	err = twl_i2c_read_u8(TWL_MODULE_PM_MASTER, &value, pdata->status_reg);
->  	if (!err)  {
->  		pm_wakeup_event(pwr->dev.parent, 0);
->  		input_report_key(pwr, KEY_POWER, value & PWR_PWRON_IRQ);
-> @@ -55,10 +70,17 @@ static irqreturn_t powerbutton_irq(int irq, void *_pwr)
->  
->  static int twl4030_pwrbutton_probe(struct platform_device *pdev)
->  {
-> +	const struct twl_pwrbutton_chipdata *pdata;
->  	struct input_dev *pwr;
->  	int irq = platform_get_irq(pdev, 0);
->  	int err;
->  
-> +	pdata = device_get_match_data(&pdev->dev);
-> +	if (!pdata)
-> +		return -EINVAL;
-> +
-> +	platform_set_drvdata(pdev, (void *)pdata);
-> +
->  	pwr = devm_input_allocate_device(&pdev->dev);
->  	if (!pwr) {
->  		dev_err(&pdev->dev, "Can't allocate power button\n");
-> @@ -85,14 +107,41 @@ static int twl4030_pwrbutton_probe(struct platform_device *pdev)
->  		return err;
->  	}
->  
-> +	if (pdata->need_manual_irq) {
-> +		err = twl6030_interrupt_unmask(0x01, REG_INT_MSK_LINE_A);
-> +		if (err < 0)
-> +			return err;
-> +
-> +		err = twl6030_interrupt_unmask(0x01, REG_INT_MSK_STS_A);
-> +		if (err < 0)
-> +			return err;
-> +	}
-> +
->  	device_init_wakeup(&pdev->dev, true);
->  
->  	return 0;
->  }
->  
-> +static void twl4030_pwrbutton_remove(struct platform_device *pdev)
-> +{
-> +	const struct twl_pwrbutton_chipdata *pdata = platform_get_drvdata(pdev);
-> +
-> +	if (pdata->need_manual_irq) {
-> +		twl6030_interrupt_mask(0x01, REG_INT_MSK_LINE_A);
-> +		twl6030_interrupt_mask(0x01, REG_INT_MSK_STS_A);
-> +	}
-> +}
-> +
->  #ifdef CONFIG_OF
->  static const struct of_device_id twl4030_pwrbutton_dt_match_table[] = {
-> -       { .compatible = "ti,twl4030-pwrbutton" },
-> +	{
-> +		.compatible = "ti,twl4030-pwrbutton",
-> +		.data = &twl4030_chipdata,
-> +	},
-> +	{
-> +		.compatible = "ti,twl6030-pwrbutton",
-> +		.data = &twl6030_chipdata,
-> +	},
->         {},
->  };
->  MODULE_DEVICE_TABLE(of, twl4030_pwrbutton_dt_match_table);
-> @@ -100,6 +149,7 @@ MODULE_DEVICE_TABLE(of, twl4030_pwrbutton_dt_match_table);
->  
->  static struct platform_driver twl4030_pwrbutton_driver = {
->  	.probe		= twl4030_pwrbutton_probe,
-> +	.remove		= twl4030_pwrbutton_remove,
->  	.driver		= {
->  		.name	= "twl4030_pwrbutton",
->  		.of_match_table = of_match_ptr(twl4030_pwrbutton_dt_match_table),
-> 
-
+-- 
+---
+Thanks,
+Usama
 
