@@ -1,271 +1,196 @@
-Return-Path: <linux-input+bounces-16326-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16327-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 831A2C840E2
-	for <lists+linux-input@lfdr.de>; Tue, 25 Nov 2025 09:49:35 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id 311B2C844EE
+	for <lists+linux-input@lfdr.de>; Tue, 25 Nov 2025 10:54:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 2080D34BB38
-	for <lists+linux-input@lfdr.de>; Tue, 25 Nov 2025 08:49:32 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 9D87634CA48
+	for <lists+linux-input@lfdr.de>; Tue, 25 Nov 2025 09:54:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B5E12D541E;
-	Tue, 25 Nov 2025 08:49:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF5112ECD2A;
+	Tue, 25 Nov 2025 09:54:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="W8ePq99o"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="bb9QSvs3"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBEBD36D516;
-	Tue, 25 Nov 2025 08:49:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B72C2E9ECA;
+	Tue, 25 Nov 2025 09:54:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764060567; cv=none; b=lIavUBFKIHtkPhXR1Z1TwbLmYJdhR9M1fFwsS3YLUbvsJvwiMgaWcxoCqO+fMivHTDZ/mbvYk6RNcf4Lol4OGz2wJI+CNTULqmRKhZfd1YicXIbaD2FDHD53lMN/tH+yWN5kJhcA0eKukX2XvNyZAl6nxp1sJiQkh/32r3ZKDf4=
+	t=1764064449; cv=none; b=WFGXFqUa7okNO0YBvcRH0U2OKSQtmPK8GglDVmEhK9/+uI75kIxHNfs5Xwsp/9j2yq374bbC08hvgwDSKZ8ur2RMPl97lz9gQb0xppJm6o6undHxdW5Omyync5Ij8U/RI1bf4AXs4TaTk6Mu2jtSmBPtspRSVsuEI1QB8A2ozzQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764060567; c=relaxed/simple;
-	bh=HuMSYGIDhMghJy5e91DhSwAve9AYXs6y5j/c+i75skY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=kGQA9HnUKj2eSKTgLEOhJEFDMQURaSlDLU4+cTxPIA700wk8Cm+zowUh7/E3P/3AI5VAKfpYv8KqgnYCE5dByeuGL02Wws6sX5+JR+ntSmi3tJEQRTLnKayrLs2/HLKjFbGQX0RLxX9XEHKsmAnRbKUfR6n4O47Ai6oExSWKWok=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=W8ePq99o; arc=none smtp.client-ip=185.171.202.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id 870E5C15D48;
-	Tue, 25 Nov 2025 08:49:00 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 1AC6160706;
-	Tue, 25 Nov 2025 08:49:23 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id AC3511037149D;
-	Tue, 25 Nov 2025 09:49:04 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1764060560; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 in-reply-to:references; bh=HuMSYGIDhMghJy5e91DhSwAve9AYXs6y5j/c+i75skY=;
-	b=W8ePq99oVgQ2uOhAUVduhMvpCSXIAoY+0yVa1mbwp1VdL8dko43eVADbIkwLEo/9T4klxf
-	cOHZHbCYxkbFZKzwYcsAV0MplbMQBGfxqbi8NHWPE1hI/2RdGU1320tO0+n2I2vAPU7TRr
-	zeqkiOKvhUSBhsjnyr8bW+E1eANm32KvV6h32TNOCwJHL37JfmE0NSohpsx8aXUMgwfLqf
-	lx4OkrhMWjOOJFQ1gVMv//rYccFZ96Ub5IKcXq252JnvGotvhT4jzy3ydQOAA4+ytNAXQR
-	HX0lQg+C3HV6XUvm89BY4fLtzKcSbLhkr3v6E7n0Cs3tAhGaoobXAOaL+QCrJQ==
-From: Romain Gantois <romain.gantois@bootlin.com>
-To: "H. Nikolaus Schaller" <hns@goldelico.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Jonathan Cameron <jic23@kernel.org>,
- David Lechner <dlechner@baylibre.com>,
- Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>,
- Andy Shevchenko <andy@kernel.org>, Guenter Roeck <linux@roeck-us.net>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- linux-iio@vger.kernel.org, Conor Dooley <conor.dooley@microchip.com>,
- MyungJoo Ham <myungjoo.ham@samsung.com>,
- Chanwoo Choi <cw00.choi@samsung.com>, Peter Rosin <peda@axentia.se>,
- Mariel Tinaco <Mariel.Tinaco@analog.com>,
- Lars-Peter Clausen <lars@metafoo.de>,
- Michael Hennerich <Michael.Hennerich@analog.com>,
- Kevin Tsai <ktsai@capellamicro.com>,
- Linus Walleij <linus.walleij@linaro.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Eugen Hristev <eugen.hristev@linaro.org>, Vinod Koul <vkoul@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Sebastian Reichel <sre@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Support Opensource <support.opensource@diasemi.com>,
- Paul Cercueil <paul@crapouillou.net>, Iskren Chernev <me@iskren.info>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Matheus Castello <matheus@castello.eng.br>,
- Saravanan Sekar <sravanhome@gmail.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Casey Connolly <casey.connolly@linaro.org>,
- Pali =?UTF-8?B?Um9ow6Fy?= <pali@kernel.org>,
- Orson Zhai <orsonzhai@gmail.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Chunyan Zhang <zhang.lyra@gmail.com>, Amit Kucheria <amitk@kernel.org>,
- Thara Gopinath <thara.gopinath@gmail.com>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Daniel Lezcano <daniel.lezcano@linaro.org>, Zhang Rui <rui.zhang@intel.com>,
- Lukasz Luba <lukasz.luba@arm.com>,
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Sylwester Nawrocki <s.nawrocki@samsung.com>,
- Olivier Moysan <olivier.moysan@foss.st.com>,
- Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Dixit Parmar <dixitparmar19@gmail.com>, linux-hwmon@vger.kernel.org,
- linux-input@vger.kernel.org, linux-phy@lists.infradead.org,
- linux-pm@vger.kernel.org, linux-mips@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com,
- Andy Shevchenko <andriy.shevchenko@intel.com>
-Subject: Re: [PATCH v4 0/6] Add support for the LTM8054 voltage regulator
-Date: Tue, 25 Nov 2025 09:49:03 +0100
-Message-ID: <22915450.EfDdHjke4D@fw-rgant>
-In-Reply-To: <732D3F12-0361-4800-8981-EF629B4C491F@goldelico.com>
-References:
- <20251124-ltm8054-driver-v4-0-107a8a814abe@bootlin.com>
- <4053840.MHq7AAxBmi@fw-rgant>
- <732D3F12-0361-4800-8981-EF629B4C491F@goldelico.com>
+	s=arc-20240116; t=1764064449; c=relaxed/simple;
+	bh=rr34/a1ie3cyaKkr8XjenTC8kZoD9Dm/nJWu3Wq5z4s=;
+	h=Message-ID:Date:MIME-Version:Cc:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=r4XjYWzOSiOmsbt9K4iRj3WdreW1xSzZ+2lWMUBsqUdSCWSM2YtY4duVsJAaaa2823lYVvFPrecYZfu7DcSbDART5NleFxHWp0hHWNIH24ldRam2GhGGx4HRTyvOMIah+ZISUw86l23g3wxGi8bHqLgu0ewQXdW09QHmnqa+Lpw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=bb9QSvs3; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1764064439;
+	bh=rr34/a1ie3cyaKkr8XjenTC8kZoD9Dm/nJWu3Wq5z4s=;
+	h=Date:Cc:Subject:To:References:From:In-Reply-To:From;
+	b=bb9QSvs30CKZp/52Diiij5ClyF1qlRUc1UM+AWHK7eAQ27bgB2juwHPge5WFHpVr1
+	 CVCDDZxatZLCqvlIt8Dr4GDa4s7vJrRUtjuJYgr22G0hdZCb21EgXC8PSHUkwwnGML
+	 fRuKmxtoKKyPG4tDGtYOTFeX7etAx83m6uk8fP1ejb6VFKvl9MQEJqZ2OiVqsCmESn
+	 8JPW7NNkBIfx2t1S9QJtdIhNM9tiQ17qgo9Zd6bfGCErtsi+nJ2V3OniSQUSfoymyZ
+	 UEzrbdyboMkml7qZy0Wqwg7YT0/cUmdn/kSlXaqyaKTHZyT5dnFWrhgvVt/6ZoRTjZ
+	 sMZb0HJ8lBfkg==
+Received: from [192.168.100.50] (unknown [144.48.130.189])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: usama.anjum)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id BB1B317E0EDB;
+	Tue, 25 Nov 2025 10:53:55 +0100 (CET)
+Message-ID: <b71b3e35-fc76-4397-9d60-20778685e37c@collabora.com>
+Date: Tue, 25 Nov 2025 14:53:40 +0500
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="nextPart7880843.EvYhyI6sBW";
- micalg="pgp-sha512"; protocol="application/pgp-signature"
-X-Last-TLS-Session-Version: TLSv1.3
+User-Agent: Mozilla Thunderbird
+Cc: usama.anjum@collabora.com, Len Brown <lenb@kernel.org>,
+ Pavel Machek <pavel@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Danilo Krummrich <dakr@kernel.org>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Thomas Gleixner <tglx@linutronix.de>, Peter Zijlstra <peterz@infradead.org>,
+ linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-pm@vger.kernel.org, linux-input@vger.kernel.org, kernel@collabora.com,
+ superm1@kernel.org
+Subject: Re: [PATCH 4/4] PM: sleep: clear pm_abort_suspend at suspend
+To: "Rafael J. Wysocki" <rafael@kernel.org>
+References: <20251107184438.1328717-1-usama.anjum@collabora.com>
+ <20251107184438.1328717-5-usama.anjum@collabora.com>
+ <CAJZ5v0iucMXFkKuRxtAUyAqW11NHHGVuYnjJNbroeMgJoGY1kw@mail.gmail.com>
+Content-Language: en-US
+From: Muhammad Usama Anjum <usama.anjum@collabora.com>
+In-Reply-To: <CAJZ5v0iucMXFkKuRxtAUyAqW11NHHGVuYnjJNbroeMgJoGY1kw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
---nextPart7880843.EvYhyI6sBW
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="utf-8"; protected-headers="v1"
-From: Romain Gantois <romain.gantois@bootlin.com>
-To: "H. Nikolaus Schaller" <hns@goldelico.com>
-Date: Tue, 25 Nov 2025 09:49:03 +0100
-Message-ID: <22915450.EfDdHjke4D@fw-rgant>
-In-Reply-To: <732D3F12-0361-4800-8981-EF629B4C491F@goldelico.com>
-MIME-Version: 1.0
+Hi Rafael,
 
-Re-sending this because my mailer messed up the formatting on the first try...
-Sorry if you're receiving this twice.
+Thank you for reviewing.
 
-On Monday, 24 November 2025 17:19:45 CET H. Nikolaus Schaller wrote:
-...
-> > The LTM8054's feedback pin can be driven by a different DAC, which allows
-> > for dynamic output voltage control. This is a more complex upstreaming
-> > topic however, so I've left it out of this initial series. There are
-> > other component functions which fit in squarely into the regulator
-> > framework, such as input current limit control and soft-start. But I
-> > understand that the current driver might look a bit "bare".
->
-> So you just want to have some user-space mechanism to control voltage
-> and current limits? Can't this be done by directly controlling them through
-> the iio API?
->
-> Is this for a device that is already in kernel or planned to be supported?
-> Or is it "application support" for some SBC?
->
+On 11/24/25 11:54 PM, Rafael J. Wysocki wrote:
+> On Fri, Nov 7, 2025 at 7:45 PM Muhammad Usama Anjum
+> <usama.anjum@collabora.com> wrote:
+>>
+>> Clear pm_abort_suspend counter in case a wakeup is detected during
+>> hibernation process. If this counter isn't reset, it'll affect the
+>> next hibernation cycle and next time hibernation will not happen as
+>> pm_abort_suspend is still positive.
+>>
+>> Signed-off-by: Muhammad Usama Anjum <usama.anjum@collabora.com>
+>> ---
+>>  drivers/base/power/main.c | 2 ++
+>>  kernel/cpu.c              | 1 +
+>>  kernel/power/hibernate.c  | 5 ++++-
+>>  kernel/power/process.c    | 1 +
+>>  4 files changed, 8 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/base/power/main.c b/drivers/base/power/main.c
+>> index 5760abb25b591..84e76f8df1e02 100644
+>> --- a/drivers/base/power/main.c
+>> +++ b/drivers/base/power/main.c
+>> @@ -1642,6 +1642,7 @@ static void device_suspend_late(struct device *dev, pm_message_t state, bool asy
+>>                 goto Complete;
+>>
+>>         if (pm_wakeup_pending()) {
+>> +               pm_wakeup_clear(0);
+>>                 WRITE_ONCE(async_error, -EBUSY);
+>>                 goto Complete;
+>>         }
+>> @@ -1887,6 +1888,7 @@ static void device_suspend(struct device *dev, pm_message_t state, bool async)
+>>
+>>         if (pm_wakeup_pending()) {
+>>                 dev->power.direct_complete = false;
+>> +               pm_wakeup_clear(0);
+>>                 WRITE_ONCE(async_error, -EBUSY);
+>>                 goto Complete;
+>>         }
+>> diff --git a/kernel/cpu.c b/kernel/cpu.c
+>> index db9f6c539b28c..74c9f6b4947dd 100644
+>> --- a/kernel/cpu.c
+>> +++ b/kernel/cpu.c
+>> @@ -1921,6 +1921,7 @@ int freeze_secondary_cpus(int primary)
+>>
+>>                 if (pm_wakeup_pending()) {
+>>                         pr_info("Wakeup pending. Abort CPU freeze\n");
+>> +                       pm_wakeup_clear(0);
+>>                         error = -EBUSY;
+>>                         break;
+>>                 }
+>> diff --git a/kernel/power/hibernate.c b/kernel/power/hibernate.c
+>> index e15907f28c4cd..1f6b60df45d34 100644
+>> --- a/kernel/power/hibernate.c
+>> +++ b/kernel/power/hibernate.c
+>> @@ -349,8 +349,10 @@ static int create_image(int platform_mode)
+>>                 goto Enable_irqs;
+>>         }
+>>
+>> -       if (hibernation_test(TEST_CORE) || pm_wakeup_pending())
+>> +       if (hibernation_test(TEST_CORE) || pm_wakeup_pending()) {
+>> +               pm_wakeup_clear(0);
+>>                 goto Power_up;
+>> +       }
+>>
+>>         in_suspend = 1;
+>>         save_processor_state();
+>> @@ -660,6 +662,7 @@ int hibernation_platform_enter(void)
+>>                 goto Enable_irqs;
+>>
+>>         if (pm_wakeup_pending()) {
+>> +               pm_wakeup_clear(0);
+>>                 error = -EAGAIN;
+>>                 goto Power_up;
+>>         }
+>> diff --git a/kernel/power/process.c b/kernel/power/process.c
+>> index dc0dfc349f22b..e935b27a04ae0 100644
+>> --- a/kernel/power/process.c
+>> +++ b/kernel/power/process.c
+>> @@ -67,6 +67,7 @@ static int try_to_freeze_tasks(bool user_only)
+>>                         break;
+>>
+>>                 if (pm_wakeup_pending()) {
+>> +                       pm_wakeup_clear(0);
+>>                         wakeup = true;
+>>                         break;
+>>                 }
+>> --
+> 
+> I don't think pm_wakeup_clear() needs to be called in so many places.
+> 
+> Any why isn't it sufficient to call it in freeze_processes()?  For
+> suspend, it is sufficient, so what's different about hibernation in
+> that respect?
 
-This is planned support for a voltage regulator chip.
+It seems this patch was written by me when [1] was added which removed the
+unconditional call pm_wakeup_clear(0) from freeze_processes(). It was later
+reverted [2].
 
-> Are you looking for a virtual "glue" driver to logically combine several low
-> level functions?
->
+I've removed this patch and tested again to find out:
+- try_to_freeze_tasks() gets called from freeze_process() after
+  unconditional clearing of pm_wakeup. So pm_wakeup doesn't get cleared
+  until next hibernation or any other similar operation. So for hibernation
+  cancellation this patch isn't required. I'll drop it.
 
-I'm looking for a clean userspace abstraction for this component, the low-
-level functions in this case are those of a voltage regulator.
+But shouldn't this wakeup event be consumed without waiting for next hibernation
+(or similar operation to happen)?
 
-> > > What could be necessary is if you really want to be able to "regulate"
-> > > the current going to Vout, some bridge between regulator API and some
-> > > IIO DAC.
-> > >
-> > > And enabling/disabling the regulator by some GPIO can be described in
-> > > the DT already through a "regulator-fixed".
-> >
-> > This is a possibility, but when you bring in all of these other hardware
-> > functions that I mentionned e.g. output voltage control and stepping,
-> > you'll end up with several different devices which look unrelated from
-> > userspace, but actually control the same chip.
->
-> That is quite usual... I have often heard: user space must fix this as
-> kernel just provides basic functions in a harmonized way and integration
-> has to be tailored to the device anyways :)
->
+[1] 56a232d93cea ("PM: sleep: Make pm_wakeup_clear() call more clear") - Aug 20
+[2] 79816d4b9e9b ("Revert "PM: sleep: Make pm_wakeup_clear() call more clear"") - Oct 22
 
-
-IMHO this is not integration, it's BSP work. As far as regulator functions are
-concerned, the current status quo is that the kernel handles getting/setting
-voltage levels, applying current and voltage constraints and other basic
-regulator features.
-
-
-> > Userspace will also have to know about some hardware details to properly
-> > control the DACs, such as the values of the sense and feedback resistors.
-> > In my opinion, this bypasses the kernel's abstraction of hardware.
->
-> I came up with this argument several times in the part and got a lot of
-> contrary :)
->
-
-> What I still wonder: does your hardware warrant an upstream driver for a
-> non-programable chip if a different solution (with help of user-space)
-> already exist?
->
-
-
-A different solution does not currently exist (although a userspace-based
-solution could be designed). I just think that a kernel-based solution is more
-desirable here.
-
-
-> Another question: is your scheme generic enough so that it can be expected
-> that other devices are using it in the same way?
->
-
-
-Yes, the LTM8054 has a fairly common design as far as buck-boost chips go.
-Things like feedback dividers on the output voltage pin are standard practice.
-And since the driver doesn't rely on a particular way of integrating the
-LTM8054 with other components, it can be reused wherever the same regulator
-chip is used.
-
-
-> Or could the power controller framework (/sys/class/power_supply) fit
-> better?
->
-
-
-I don't think the power supply abstraction is relevant here. The LTM8054 is a
-voltage regulator, it doesn't have charge, capacity, temperature monitoring,
-power limitation, or other power supply class features.
-
-
-> There is an API to ask chargers etc. for battery voltage and current limits
-> or even write them.
->
-> There is also "generic-adc-battery" which allows to hook up with arbitrary
-> iio-adcs for measurements - although you need a DAC in your setup. Maybe an
-> extension here is a better strategy than a dedicated ltm8054 driver?
-
-
-
-What if the LTM8054 is not used to supply a battery?
-
+---
 Thanks,
-
-
---
-
-Romain Gantois, Bootlin
-
-Embedded Linux and Kernel engineering
-
-https://bootlin.com
---nextPart7880843.EvYhyI6sBW
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part.
-Content-Transfer-Encoding: 7Bit
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEIcCsAScRrtr7W0x0KCYAIARzeA4FAmklbX8ACgkQKCYAIARz
-eA6Qag/+O307fHl9Wqb40t4WIdZsKqQP0PcYGNlhz4T+SyyyFetdu7Un665acsjg
-MdEMkudNxDehZTnsfTlNKsGzpu2OIAsiIlD9XKJFaAA1kAzdWA9xb8mT7lwnadD3
-sa0EX7LtIT8x4BLkaCyTkCioE3FgLPhQCXC3fALmNojilfwl2Y5QXUuKUB230sPo
-8ihY8Yj2rc5QmYZV9fSsC/HSQwVkXSU3T5Q7SjwfFSIRL2ZajuPycLU9QmHnOWGi
-R02esa/1vRdYlVGcCwKSDG5JHzsRCRfsbXZAkIyMc3hQ6LgizTUyKQ+FM2w/68/w
-1pn2H5N0D8uR/+WxXWPMMZ9hpklLkDec5lOlf3ZA4DOa8m6nDKROBx/eV/aLlgHp
-imI2qqqmBqJjzO+x5ubkm/v5QP75ikGusNxuXcUACwQTNaif8z6YEekKvGd89taO
-jvhQnSOWtFfYZRgVzpjbjgm+OZy+f6bACCzGI/KZ/KhAb1vwCz6hBkmg0Zh2c/hP
-Wa3dcDp/pn5j3yP1E10jdA9G9AkxmSWN9VxNtRrGKynSiz3Z2ilWvze2SxlSN0vZ
-tdlEhNz1/r/fZWcDyFgDwaCs/R6+RHtQoYnG/A+5aatiGdnE9/tngpQXOkjpr/ft
-VMDXkLH4+MDGHExDw3PIBbSfWqmFssAmfriPh3xsAUUXcR/LvIU=
-=eMhj
------END PGP SIGNATURE-----
-
---nextPart7880843.EvYhyI6sBW--
-
-
-
+Usama
 
