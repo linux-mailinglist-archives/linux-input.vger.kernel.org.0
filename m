@@ -1,142 +1,152 @@
-Return-Path: <linux-input+bounces-16339-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16340-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4092AC868E6
-	for <lists+linux-input@lfdr.de>; Tue, 25 Nov 2025 19:19:29 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F61AC874E1
+	for <lists+linux-input@lfdr.de>; Tue, 25 Nov 2025 23:21:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id E358034FA4A
-	for <lists+linux-input@lfdr.de>; Tue, 25 Nov 2025 18:19:28 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id F20FD4E12E4
+	for <lists+linux-input@lfdr.de>; Tue, 25 Nov 2025 22:21:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A7C7430DD2E;
-	Tue, 25 Nov 2025 18:19:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 334A924CEEA;
+	Tue, 25 Nov 2025 22:21:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dJjL6Tfk"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="M+3NxuPQ"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+Received: from mail-dy1-f172.google.com (mail-dy1-f172.google.com [74.125.82.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD8162264D3
-	for <linux-input@vger.kernel.org>; Tue, 25 Nov 2025 18:19:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A670B18EFD1
+	for <linux-input@vger.kernel.org>; Tue, 25 Nov 2025 22:21:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764094765; cv=none; b=UO2tJ0KJGHRm0kOnqC2NUQqWirv/YEX3x7K/NLs/iHxgs+GuST6GH7XE1D5hdu/pmwHA1UzV3pfOJGZKLY/0yoGn56mdMq21MehhiZhu1ji4oOtAQyNK1iyiJKz9n8WR0zMFmy+PwkF/XiRjR/q/JnbiIHyvH735XXQcEx6/xbI=
+	t=1764109264; cv=none; b=GtccAibrkPDOdAOkLurajoNFYbII73lraEjHjvRr5uMxEgy6R7JhR8NR5B5fNuLnObvptjr3FfoIFQSWwrsccGTF4y1euFw0l7l8PDJRTH25VG1xvIT/h3tHUs8Sh8tfaCC9sht519K9FAtb7SQJdtenTUaNRJQijaa7mYTw4pw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764094765; c=relaxed/simple;
-	bh=3FhC+kXH3B5AzVMbeuWeYDSaWr81HEASC/43OOHPKHc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MiljUj2RljV/iEkEPfenRScpuIo6JFjqQXokKjDd7joJFZMWd4DRu2JMf10o95usorJihqg4t8i+jCj0VrSRyoOUcuJcOGQFrBTOB+u8wCr3u5aS2+xfJqHOojXUGMehGY6GbvgURDNXHxHfsf7aTsADmFiDPw+0RcJq6yXmI80=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dJjL6Tfk; arc=none smtp.client-ip=209.85.221.44
+	s=arc-20240116; t=1764109264; c=relaxed/simple;
+	bh=PcKtKl5GLPr0ZgfnEUGLcrpPSASaM8BYUIraHhn/QNM=;
+	h=From:To:CC:Subject:Message-ID:Date:MIME-Version:Content-Type; b=mlaPJWj+Zwade2+iyT7/YWOdcsdGl78oH1jTI6c7tKL6omyarXK7u6owsPxfVGfLWbvzCksd3swcjyi74aBnDo1qCzyZk8+isH9C1hfKEsBZVEQAssmAapXivzwHgk60VgBOYnhOYB9i8fcaKOUWm12/avzIA4L1JcnOLEiKrY4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=M+3NxuPQ; arc=none smtp.client-ip=74.125.82.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-42b379cd896so3258796f8f.3
-        for <linux-input@vger.kernel.org>; Tue, 25 Nov 2025 10:19:23 -0800 (PST)
+Received: by mail-dy1-f172.google.com with SMTP id 5a478bee46e88-2a45877bd5eso420847eec.0
+        for <linux-input@vger.kernel.org>; Tue, 25 Nov 2025 14:21:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764094762; x=1764699562; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=QD1CCAPcssLzpZsS6Mj5rvSwQ5nCelYbF5aDvpoGo1o=;
-        b=dJjL6TfkgDfu7E+COhTjOmcA3NmQLyspkdKwIyuxvH6JigElOF5NSq2zlxWbFLrdTk
-         sE3TeLNCgYAcJjFAGqXK5ltydlWoDM281bH81EwcYq28hXcM5TrP5qjnf/xIxqMmGZtj
-         cTjUuC+h/MuCq5JWGGb3lSlz/04TO3GCl0yJnQGtF34FBTjFJdaF2+UqRLS9IyKmh3Xu
-         AjeFBkjVJE7L7jxT1zvMabsEH+w15ij7FfZ6GcY1UnlfMWEF+bRMFmHsTCdo5A1fMPu7
-         ucdS/F6xvcmWaBl8bzSb/sgZxRdloFSv9QLPzT1q5Teee1rQCZXAXNQg9gqU5cVH6xpW
-         Hwxg==
+        d=gmail.com; s=20230601; t=1764109261; x=1764714061; darn=vger.kernel.org;
+        h=mime-version:date:user-agent:message-id:subject:cc:to:from:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=PcKtKl5GLPr0ZgfnEUGLcrpPSASaM8BYUIraHhn/QNM=;
+        b=M+3NxuPQo3/IOHpfV0N2yIKF8Ky8UTSGE+/3X6NeON+9B9AYycFcjwzO1ZTiS+aQb7
+         EnJg08Ck6r2d6bcD14T7JvaRC5rOjViG071/y3M+OATt7AkgUK+IP1j0W3Pm0gK95qUr
+         b3tmKCsQuYlqMo0DjFxx9EQCC9ux2d7pjK8EecIOVyW+0bMVNlq4NqUXuJSnKMUshJJt
+         qBA0E0mStw+/ONtsDeOSd5a8qziCX+I57wFvSMQX6TDpbSu4h5/NIpmQ6MbhFWS/Ki06
+         U1ayeqpSVRWC/w99hniGMtyazcG7yRUFxOYSWY1HQjVTie1vvzgFgCzX5YAGNXiRj0eg
+         dU9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764094762; x=1764699562;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=QD1CCAPcssLzpZsS6Mj5rvSwQ5nCelYbF5aDvpoGo1o=;
-        b=Le/XuGmrW6WLQiHOPa/u2YHhALwTNj1NOZFM2lQSx3ATVutTiaWfUNW1J4F/4oBa0o
-         +n4L2pHwkKbeKmDyZo6ZAIE9C1AEhp8rxcf25akmkahl2t79213kuwrHmQOCI+W7byu1
-         81DsCr+zNhd3r65BqFvD2l17qtyHK96iRK+xl7YxW+JP3HTspH2QQxPzcKafLNcBa6dA
-         oEjPVo9qWTHWY1cDTk76K4H0C+Xyef2W1NNpT8RcNGECHnN48OwZdsjyDdGwFq2CL784
-         smp0ZYd66vh/f98nBki+JfY++9EUdJrjAN3sjDQB3IsLqFxVzLVF8niZm76U3WSXtF3c
-         cj2Q==
-X-Gm-Message-State: AOJu0YygRe8evpEPlAHtnAe2DfrFGj9TYaC5e8H4wLgcYSsdBv1W58Ew
-	rzZqxbXfqQ4pc/P6S0jrgyOzp+bDSNRweSkTw/LIYvq0sazdHECBv565
-X-Gm-Gg: ASbGnct5XDoWbmdjWugDlNOkDy8zvclzbSCItgR97YnRK4BX3JC2IIHFQKpbeSa97zd
-	Ei5KfWSzhdwVh5r47uE/T4aSyGYAEZ6Q1s0meMLsYwg0FHZEtFy2VPx7ki6js4H7EuYUDjh24dY
-	3FkHSiHsuXMvhPoGLCtMxNozvlixmDEzlb8LDH7Deykb3UeFeQrqapA1Qp0ifmu65OxmOovkzB/
-	B1k09McYRMzVzrJic4EkQDy60BKz7rIB0g3n4mZerpmhziKSTIWjQKtDYIxB2kOR5LlmIpfg4vs
-	SgAvDBK1At4q0RO80h1J0BlkirBVGxfcCtpbZ5Kc8U0OGpC4RHzwecS7XT5K2Nifb6p79uWw/Ox
-	3Rss4jY9BswUcGMGDlkBzSSkW/FR9m6qSqWcRix4Bk06ls+0yyc/GeDARCHvgzPn4UbO5jsusec
-	N41ouKaz4=
-X-Google-Smtp-Source: AGHT+IFHbDwkp2CaWm16Z6NarVIxFHbx8YbHfm4wnApcclc+Vfg/xfl2pHmCg5MNHh57zJw7P8OF0Q==
-X-Received: by 2002:a5d:5f44:0:b0:42b:41dc:1b58 with SMTP id ffacd0b85a97d-42cc1d19957mr16662352f8f.45.1764094762096;
-        Tue, 25 Nov 2025 10:19:22 -0800 (PST)
-Received: from [192.168.1.12] ([41.34.101.194])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42cb7fd8c47sm37081312f8f.38.2025.11.25.10.19.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 25 Nov 2025 10:19:21 -0800 (PST)
-Message-ID: <f67a5702-4b44-41bb-9538-19063bc28b41@gmail.com>
-Date: Tue, 25 Nov 2025 20:19:19 +0200
+        d=1e100.net; s=20230601; t=1764109261; x=1764714061;
+        h=mime-version:date:user-agent:message-id:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=PcKtKl5GLPr0ZgfnEUGLcrpPSASaM8BYUIraHhn/QNM=;
+        b=pKC0x/jgjHewuqpLmj5nD87KtlCTpjlBh/QoGC64Mhk5Gdd8ryt3iU/3ICwKIZi6gm
+         z1B0JIsW8WrEqVaW9bQlPLSjU4Cvc99erSu3A0vg2c8OhVTcvB/f2UWFhew4I3AHSKZm
+         UJPjSEDjsDcIJ482V+WfqNTMXDoLMnkZNFiL5I3wzFaODcOspL8OxmHS0hUrCNaJzteo
+         D6O1mndVuLY9njm3IfkuZ7drvSkxbhWhsYu2tBjZNFZvCBSuNEn1FakS4fDBjyi+OBHu
+         mG8y1fwIwpu8hJ7hqOedwi5QVtTFT1dyHnj23+6O+fA4sLBJwjMl1P5bx+SanhkYXqtF
+         PDRw==
+X-Gm-Message-State: AOJu0YxEaFzsrwIukKK/JXMuCkkb1TiLvLxt0sUDTkX5XQbUhsYrEjmo
+	LZJ6ggd6uL7ByY+9opD0asGV2+Twx+74+/g9oBREdPSHZ0/0S5DRnVKcnOTlUGxj
+X-Gm-Gg: ASbGnct9i1197inoGqd09kOmgvQZ7yOxR8QEwX/al6QhCKKW/AdNzcUBMvo6JxVIExl
+	S1NrUHrqSlEzLBBQySQqks9+ApX+0At9DP546KswK3/Cqmd8fevOHbrB+QTQTbismpnN6/iPc2h
+	mouGc/8iXbBHlQ/O/z0xUxeNGjf3qiJq0Kyy7cXCmE80pAD5OXFe1b5Wxd38bGEF4CBOpMcjVkc
+	JD0NBoKBTPvRwc7rsOhJMUkl6rzbKVtxeGYR+o3AibzXF9E55Dfz/n+yXhDXISzPgVzwzQXwOI9
+	r8DyGjzTJ+OV8WoTIY6ayb0kpm8zAvTj0oShQjtDyDxd+xLEgjVhKrEv3MYSMDQZQgnDX71t8zV
+	WsCe7alRoXBSf2u4Qu6ooNbeCaueoW7CLC0UO99vkuP2yTmu8h0LVFX1sD7yfBcwczuahdMDaMA
+	==
+X-Google-Smtp-Source: AGHT+IETTz/acl5NIL12nMJOmtwk/g031xPtzWN20KFTTsPCQ27bgmqZKgKInInzB0ySo7/yFF5hIA==
+X-Received: by 2002:a05:7301:fa03:b0:2a4:3593:ccb2 with SMTP id 5a478bee46e88-2a6ff66496amr12072466eec.15.1764109261287;
+        Tue, 25 Nov 2025 14:21:01 -0800 (PST)
+Received: from localhost ([2600:6c51:4c3f:8e93::d81])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2a93c5562b2sm15890780eec.3.2025.11.25.14.21.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 25 Nov 2025 14:21:00 -0800 (PST)
+From: Christopher Snowhill <kode54@gmail.com>
+To: linux-input@vger.kernel.org
+CC: Dmitry Torokhov <dmitry.torokhov@gmail.com>, Vicki Pfau <vi@endrift.com>,
+ Pavel Rojtberg <rojtberg@gmail.com>, Antheas Kapenekakis <lkml@antheas.dev>,
+ Nilton Perim Neto <niltonperimneto@gmail.com>,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ "Pierre-Loup A. Griffais" <pgriffais@valvesoftware.com>
+Subject: Notice of code provenance, change
+Message-ID: <176410925975.88639.535107255129311194@copycat>
+User-Agent: Dodo
+Date: Tue, 25 Nov 2025 14:20:59 -0800
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] HID: memory leak in dualshock4_get_calibration_data
-To: Max Staudt <max@enpas.org>, Jiri Slaby <jirislaby@kernel.org>,
- roderick.colenbrander@sony.com, jikos@kernel.org, bentiss@kernel.org
-Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
- syzbot+4f5f81e1456a1f645bf8@syzkaller.appspotmail.com, stable@vger.kernel.org
-References: <20251122173712.76397-1-eslam.medhat1993@gmail.com>
- <6251f6df-d4ac-4681-8e8b-6df2514e655b@kernel.org>
- <44eb6401-e021-4c69-96af-0554f4f31e57@enpas.org>
-Content-Language: en-US
-From: Eslam Khafagy <eslam.medhat1993@gmail.com>
-In-Reply-To: <44eb6401-e021-4c69-96af-0554f4f31e57@enpas.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; protocol="application/pgp-signature";
+ micalg="pgp-sha512"; boundary="===============0384519616125731370=="
 
+--===============0384519616125731370==
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-On 11/24/25 16:06, Max Staudt wrote:
-> On 11/24/25 3:32 PM, Jiri Slaby wrote:
->> Isn't this fixed already by:
->> commit 8513c154f8ad7097653dd9bf43d6155e5aad4ab3
->> Author: Abdun Nihaal <nihaal@cse.iitm.ac.in>
->> Date:   Mon Nov 10 22:45:50 2025 +0530
->>
->>      HID: playstation: Fix memory leak in 
->> dualshock4_get_calibration_data()
->> ?
->
-> As far as I can see, that patch does indeed fix the same issue, and it 
-> is already upstream.
->
-> Thanks for the hint - Abdun's patch has been upstreamed quite 
-> recently, hence I guess Eslam missed it by accident. But maybe I'm 
-> wrong and Eslam can chime in himself?
-Thank's Max & Jiri,
-sorry i was sick the past couple of days i missed your replies.
-yes. that patch fixes it. I guess i missed it because it wasn't merged 
-yet when i submitted v1.
-So please ignore this patch.
->
->
->> Anyway, this is a typical use-case for __free(). Why not to use that?
->
-> Wow, there's been a lot of interesting stuff happening around 
-> cleanup.h. I've been out of the kernel for too long, this looks like 
-> fun. Thanks for pointing it out :)
->
->
-> Max 
-Lastly, One question to max,
-at the beginning of the function  dualshock4_get_calibration_data
-buf = kzalloc(DS4_FEATURE_REPORT_CALIBRATION_SIZE, GFP_KERNEL); if 
-(!buf) { ret = -ENOMEM; goto transfer_failed; }
-if the allocation fails. can't we just return here . or do we need to go 
-the the end of the function and do sanity checks at the end?
+In 2011, I authored and committed
+b514d4f7c6506b696d7de6a4426d0886753e43c9, under my preferred name at the
+time, "Chris Moeller", which is my stepdad's surname. I had been using
+it until 1999 or so for school, but in 1999, I had to get my state ID
+card, which was under my legal name, which I am sending this email from.
 
+There are a number of reasons I won't get into in this message as to why
+I never had it legally changed, or why I ended up switching to my legal
+name at some point. Maybe a matter of pride or whatever.
 
+I also accidentally typoed the email domain as "gmail.c", and then years
+later, I discovered that several list messages were misdirected at that
+incorrect address. Whoops.
 
+Anyway, even if it is too late to change the commit history, I am now
+signing off that commit again:
+
+Signed-off-by: Christopher Snowhill <kode54@gmail.com>
+Signed-off-by: Christopher Snowhill <chris@kode54.net>
+
+I'm also including my other primary email address here, in case it is
+useful to anyone on the project. I still have the hardware somewhere,
+but I'm not really equipped to perform tests or maintenance with it, and
+I haven't acquired any newer Xbox hardware in the same class since. I
+now have an Xbox Series X|S wireless controller, but that's an entirely
+different class of hardware, covered by other drivers.
+
+I already tried to draft an email once, and my client ate it, because it
+didn't save the draft, and I hadn't properly configured oama for OAuth2
+sending yet. Let's see if I get an error this time.
+
+--===============0384519616125731370==
+Content-Type: application/pgp-signature
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="signature.asc"
+MIME-Version: 1.0
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEdiLr51NrDwQ29PFjjWyYR59K3nEFAmkmK8sACgkQjWyYR59K
+3nGp6g/+LdgpanwsezZhHCQazGWyKi5onIk7QywVZz0eB7OkZNT5ejiKQcpZChgU
+i0wjFg3hMRtHWiJ7wVTSmLRdeqdG/vawYGez00p371fU1P5e33ZUPNTiupiuBN2b
+osRuM4jGtmQygoZiMXgb36nWVZYD49zlzQrp4OxJm16CeNjWRqO+UaO75fszdW7G
+zjOIWZb+4wMlRJHKegd2LHqGK4Kgi0JhGXOSuZSGNK0yKF0mvPhPERrI3YHIZNgz
+2W54IrYCYSr5xubmWkiPzT4QWYT6kteIA4VEf8w/rwopGzjCqC5ylzan5l6Zpmu1
+mOCCQyhikb4gBPJRzok9SNDkPO1fCdyFX7tM3HLLsEZBzXX+HyXTiYYtGCzbefgY
+U3N6zJj/Y9Zl45gvg0JKCj2gmE3XyvPR57JxhLKButbaC+MyEW9nsIWgbMlDwEHN
+nwjEcvL/2AguqDpSY/8UF7JiSRo0KTL/AbtWlim9MnkX1WyfqBL+r7oRSA/PYLFf
+SKQAsrJ/EcgGX3AIm/+1q8d48KS09ixPHVBPkCQZIOGSVM1x+2oiNLp6d8cAsgV+
+SqYOxZ9GnFGz/a/h0tfmnUPV0qq4htlLb9p+GD3IHyYOMOgpHD86tB8V+5DUQBoD
+R+P6dL5a0Zq5f/tEEpvAQkq2bMcyyRq/gj2IP1ctH7arovww17s=
+=1bh8
+-----END PGP SIGNATURE-----
+
+--===============0384519616125731370==--
 
