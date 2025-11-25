@@ -1,56 +1,56 @@
-Return-Path: <linux-input+bounces-16332-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16333-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C776C84F53
-	for <lists+linux-input@lfdr.de>; Tue, 25 Nov 2025 13:26:15 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D4B9C85108
+	for <lists+linux-input@lfdr.de>; Tue, 25 Nov 2025 14:00:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 4047F4E3E86
-	for <lists+linux-input@lfdr.de>; Tue, 25 Nov 2025 12:26:14 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 324834EA33F
+	for <lists+linux-input@lfdr.de>; Tue, 25 Nov 2025 12:59:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 78AB73195FF;
-	Tue, 25 Nov 2025 12:26:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4D60F322C98;
+	Tue, 25 Nov 2025 12:59:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bZAVnN1R"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O4+Fckf5"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 541C62D8DC3
-	for <linux-input@vger.kernel.org>; Tue, 25 Nov 2025 12:26:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28FD0321F5F
+	for <linux-input@vger.kernel.org>; Tue, 25 Nov 2025 12:59:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764073570; cv=none; b=NiH78rmUrESsMkr1OmX7MaiqA8hTwG9Lz8J0ZZRRV6RG33MU7oZ3z0VkpTQDcqWqcVjqhKxHF7R0aXa/tKpI5ZId13BmF9z6xv+oCQeqvnmAwcCDCsLH+I2BV+qgU9XfGDJNskg5BfSuei0THvC0i20PENxcuQwqZXDjb80kVaQ=
+	t=1764075582; cv=none; b=rlhkBIJlDNCJXlUG1BF7eoHDy5uxmuKVGZUaA0cJ9/grztfe/Hn7Lgb8xitV9XH5Pknvk4sgrxHQ6OfOiIGHL7uwvdYHxW/WHWpEoB/IrMuhPoGCirXFhlgke4VWT//0qoiC9qfpfwNsmrQrx8iUJyvBKku+J7assIOgKAoMGOI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764073570; c=relaxed/simple;
-	bh=Zvrwnbbw/3orNTGSrOMAUA5Y/Het52/a2ovrMrjm5ek=;
+	s=arc-20240116; t=1764075582; c=relaxed/simple;
+	bh=rQyKMfAOFRiwTsS20vKpOjYl+9HbSV45rLfTdrvzi1g=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=I2gmMb9gjcVFPIhNkm88rPSh6AT1LwcseadAMd1rUWG6zOyezof76qWGSSrY3Os2lsS3jeU5FjjfGrS7O1SaYgnUlaDOFgUytXbQ7wTzu7DYdRZRcMfoBP/cKwr+Xe81ml33lbDAJjC+SCbyw1yoJwJnX1iDOGLe2bC5wEGzd84=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bZAVnN1R; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F03FEC4AF09
-	for <linux-input@vger.kernel.org>; Tue, 25 Nov 2025 12:26:09 +0000 (UTC)
+	 To:Cc:Content-Type; b=Oa5B88wTEiU+6Oly3kd0XAkA4DUS2B8nXiTcFr6vbcwK70yB51tC6IUYDigLC9BNqUp9IhOjD6wjBQzQ0BJyYr3cfQ419YtW5dfrvhBHbthY+EpgsbPRn60o3efs3uteGuUgLjcwZLHHzfiXlwS5/Xqdq9CxpS3aLD/A4sBli4Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O4+Fckf5; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8D22C2BC87
+	for <linux-input@vger.kernel.org>; Tue, 25 Nov 2025 12:59:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764073570;
-	bh=Zvrwnbbw/3orNTGSrOMAUA5Y/Het52/a2ovrMrjm5ek=;
+	s=k20201202; t=1764075581;
+	bh=rQyKMfAOFRiwTsS20vKpOjYl+9HbSV45rLfTdrvzi1g=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=bZAVnN1RFmDyLMddEnpbnEE+PDfA3GV3ADbO4gBOxnHLI/ItPDPEUnYEZlmaF35Qy
-	 rE+8aDngu3M3LYGtkhwAKfy+TC+3Yn/nft1DwlCncu+rr/9xffYVTIJllgsKHDl7/i
-	 yBKTwaOMIGq5w43JrsyTPxAK7PYPXTH5rd6cUMhP3hi1dfnsuqG8EeW9ZMHaVx4UK3
-	 Awz8e2heI6UiDMSL5LBZqqKM0ayShoxMRDQPtz/aK1vzx1EJaY4gd7IfFNi+f9G63M
-	 qLkyv4bOxNV+g/Aw9haEmapzKIRB5x7I/mOkn0lpPnU/7bQbLvgNH1y0YGQUAmufM9
-	 Hia1acJ5iuFsg==
-Received: by mail-oi1-f174.google.com with SMTP id 5614622812f47-450f7f91845so868100b6e.1
-        for <linux-input@vger.kernel.org>; Tue, 25 Nov 2025 04:26:09 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWw5O93P78Sgcqm5SYGYndM27HBJdCwuGRksvcGsqgmwru1ttdq7Bxp4LlMHxEFvaAbBx29oPL0Aaa5tQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzWH/Mso+cIlWAxQ/6PtXVF3wEaD3zt8iK8j2SPLBv/mgg2RJXB
-	BExYYxSZgUw84BqAUR14bwtw9rIY/ygUKayglLGoZ/SGiySlK3Q8B76k7blIXNaZTUf5a+3nZX6
-	g3MKNNLePYQJKtSi/ncBI6NgMSuWajrE=
-X-Google-Smtp-Source: AGHT+IGYguZlNaP1Qrg6qHtt+XGD/CWfI1p4aoYHhE0zHc88503s37W5EZKx023bHPOtiCTf9Je+0Zcu3TCCmNUIDNU=
-X-Received: by 2002:a05:6808:1a1d:b0:450:4cbc:b20c with SMTP id
- 5614622812f47-45115aa5eadmr4879327b6e.37.1764073569139; Tue, 25 Nov 2025
- 04:26:09 -0800 (PST)
+	b=O4+Fckf5zE6k20574ZCuM9+EW/94tcGClTDaiRbwC5IpAkJToJ0axC9MDt3oXYUmk
+	 haQIdnxUnhES7ibLIikB/68B/UAXxCj9kEPsxwkZwpVAJwlfwS+DKxIhaSCIAdBld6
+	 XkgGeeQQN+DR0VV8QZolcQvLkPpSgM6uO0DfSqDGhufJPxy8CnF5y3itKempZw0Z/j
+	 o6cXmkE4HXGOL38Htpq6Whtk8DZA8aFPlB4X8TJLSFQGoFUygxBPXhXY0jCrGKYvuw
+	 8bn70iL+bRhe7LVv8OCwvVcq3Jk7ocpMiUK1Zyws5t4UzHOWvBz/7LDj/Z7V4dgJ13
+	 Rk9VJxGpS7ONw==
+Received: by mail-oo1-f49.google.com with SMTP id 006d021491bc7-656b612e607so2491781eaf.2
+        for <linux-input@vger.kernel.org>; Tue, 25 Nov 2025 04:59:41 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVK8CiAGP2KkpWDeZUKPrcSdGVZeHj2iwMmCEYu7O/NAn/rMAmqR59dsgwB29uuNP9jolN2dNb7onpLxw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz7wOiSTeDfF8rJ18VjXIvGufnwF3Qg5QvDtR64H15lV+cvVjBr
+	e811Lqs71znmnFB+71cJV0u69SbDuT/Qqn7aqPXXlq8abq88y2r+86iRbK5WO6BFbVO/8Fhdsm0
+	YdGqw9xqoY8lOzIdySUjUde458smBKvQ=
+X-Google-Smtp-Source: AGHT+IFuN2ejJWSBLEaumBoB4YS1kb8mtSJoF4mJaslScfPlYPrSEuXfFLC0bQQpU2rhTVIvXb7XHFRjsoNqo81nBj0=
+X-Received: by 2002:a05:6808:894c:b0:450:3ff9:f501 with SMTP id
+ 5614622812f47-4511290fd1dmr7475751b6e.7.1764075581061; Tue, 25 Nov 2025
+ 04:59:41 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -58,16 +58,15 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20251107184438.1328717-1-usama.anjum@collabora.com>
- <20251107184438.1328717-4-usama.anjum@collabora.com> <CAJZ5v0gtGjE-rSwM4Kom4cDEhp3eSOkLCmbLwrt_9u9a7VP6zQ@mail.gmail.com>
- <6f1f3210-47c6-4c00-8fb9-35f48bae2581@collabora.com>
-In-Reply-To: <6f1f3210-47c6-4c00-8fb9-35f48bae2581@collabora.com>
+ <20251107184438.1328717-5-usama.anjum@collabora.com> <CAJZ5v0iucMXFkKuRxtAUyAqW11NHHGVuYnjJNbroeMgJoGY1kw@mail.gmail.com>
+ <b71b3e35-fc76-4397-9d60-20778685e37c@collabora.com>
+In-Reply-To: <b71b3e35-fc76-4397-9d60-20778685e37c@collabora.com>
 From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Tue, 25 Nov 2025 13:25:56 +0100
-X-Gmail-Original-Message-ID: <CAJZ5v0iDUPB9s2fPJxqVqPGj5wbw54tR4thmDD2V-r4+Q2prwg@mail.gmail.com>
-X-Gm-Features: AWmQ_bmYzcRJtuYDmncfjUQOlIEg9cepukxFQx45jUU5lmAWTSjkDX0FX6bWCqk
-Message-ID: <CAJZ5v0iDUPB9s2fPJxqVqPGj5wbw54tR4thmDD2V-r4+Q2prwg@mail.gmail.com>
-Subject: Re: [PATCH 3/4] Input: Ignore the KEY_POWER events if hibernation is
- in progress
+Date: Tue, 25 Nov 2025 13:59:29 +0100
+X-Gmail-Original-Message-ID: <CAJZ5v0icvqaL1YwBGYrF9K_hKwPjwYmP50Js61Ru3pphpjmBwg@mail.gmail.com>
+X-Gm-Features: AWmQ_bn8LoiEt60nvIoyaBzSeBB1pR0advvfqMPPwry2P7-hg61XGbJUbXFjk-w
+Message-ID: <CAJZ5v0icvqaL1YwBGYrF9K_hKwPjwYmP50Js61Ru3pphpjmBwg@mail.gmail.com>
+Subject: Re: [PATCH 4/4] PM: sleep: clear pm_abort_suspend at suspend
 To: Muhammad Usama Anjum <usama.anjum@collabora.com>
 Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, Pavel Machek <pavel@kernel.org>, 
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Danilo Krummrich <dakr@kernel.org>, 
@@ -78,66 +77,134 @@ Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, Pavel 
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Nov 25, 2025 at 11:23=E2=80=AFAM Muhammad Usama Anjum
+On Tue, Nov 25, 2025 at 10:54=E2=80=AFAM Muhammad Usama Anjum
 <usama.anjum@collabora.com> wrote:
 >
-> On 11/24/25 11:50 PM, Rafael J. Wysocki wrote:
+> Hi Rafael,
+>
+> Thank you for reviewing.
+>
+> On 11/24/25 11:54 PM, Rafael J. Wysocki wrote:
 > > On Fri, Nov 7, 2025 at 7:45=E2=80=AFPM Muhammad Usama Anjum
 > > <usama.anjum@collabora.com> wrote:
 > >>
-> >> Input (Serio) drivers call input_handle_event(). Although the serio
-> >> drivers have duplicate events, they have separate code path and call
-> >> input_handle_event(). Ignore the KEY_POWER such that this event isn't
-> >> sent to the userspace if hibernation is in progress.
-> >
-> > Your change affects suspend too.
-> >
-> > Also, what's the goal you want to achieve?
-> Two goals:
-> * Don't send event to userspace
-> * Set pm_wakeup for hibernation cancellation for non-acpi devices (This a=
-pi
->   call should be tested on non-acpi devices such as arm board to see if i=
-t
->   helps. I don't have an arm board in hand)
->
-> >
-> >> Abort the hibernation by calling pm_wakeup_dev_event(). In case of ser=
-io,
-> >> doesn't have wakeup source registered, this call doesn't do anything.
-> >> But there may be other input drivers which will require this.
+> >> Clear pm_abort_suspend counter in case a wakeup is detected during
+> >> hibernation process. If this counter isn't reset, it'll affect the
+> >> next hibernation cycle and next time hibernation will not happen as
+> >> pm_abort_suspend is still positive.
 > >>
-> >> Without this, the event is sent to the userspace and it suspends the
-> >> device after hibernation cancellation.
+> >> Signed-off-by: Muhammad Usama Anjum <usama.anjum@collabora.com>
+> >> ---
+> >>  drivers/base/power/main.c | 2 ++
+> >>  kernel/cpu.c              | 1 +
+> >>  kernel/power/hibernate.c  | 5 ++++-
+> >>  kernel/power/process.c    | 1 +
+> >>  4 files changed, 8 insertions(+), 1 deletion(-)
+> >>
+> >> diff --git a/drivers/base/power/main.c b/drivers/base/power/main.c
+> >> index 5760abb25b591..84e76f8df1e02 100644
+> >> --- a/drivers/base/power/main.c
+> >> +++ b/drivers/base/power/main.c
+> >> @@ -1642,6 +1642,7 @@ static void device_suspend_late(struct device *d=
+ev, pm_message_t state, bool asy
+> >>                 goto Complete;
+> >>
+> >>         if (pm_wakeup_pending()) {
+> >> +               pm_wakeup_clear(0);
+> >>                 WRITE_ONCE(async_error, -EBUSY);
+> >>                 goto Complete;
+> >>         }
+> >> @@ -1887,6 +1888,7 @@ static void device_suspend(struct device *dev, p=
+m_message_t state, bool async)
+> >>
+> >>         if (pm_wakeup_pending()) {
+> >>                 dev->power.direct_complete =3D false;
+> >> +               pm_wakeup_clear(0);
+> >>                 WRITE_ONCE(async_error, -EBUSY);
+> >>                 goto Complete;
+> >>         }
+> >> diff --git a/kernel/cpu.c b/kernel/cpu.c
+> >> index db9f6c539b28c..74c9f6b4947dd 100644
+> >> --- a/kernel/cpu.c
+> >> +++ b/kernel/cpu.c
+> >> @@ -1921,6 +1921,7 @@ int freeze_secondary_cpus(int primary)
+> >>
+> >>                 if (pm_wakeup_pending()) {
+> >>                         pr_info("Wakeup pending. Abort CPU freeze\n");
+> >> +                       pm_wakeup_clear(0);
+> >>                         error =3D -EBUSY;
+> >>                         break;
+> >>                 }
+> >> diff --git a/kernel/power/hibernate.c b/kernel/power/hibernate.c
+> >> index e15907f28c4cd..1f6b60df45d34 100644
+> >> --- a/kernel/power/hibernate.c
+> >> +++ b/kernel/power/hibernate.c
+> >> @@ -349,8 +349,10 @@ static int create_image(int platform_mode)
+> >>                 goto Enable_irqs;
+> >>         }
+> >>
+> >> -       if (hibernation_test(TEST_CORE) || pm_wakeup_pending())
+> >> +       if (hibernation_test(TEST_CORE) || pm_wakeup_pending()) {
+> >> +               pm_wakeup_clear(0);
+> >>                 goto Power_up;
+> >> +       }
+> >>
+> >>         in_suspend =3D 1;
+> >>         save_processor_state();
+> >> @@ -660,6 +662,7 @@ int hibernation_platform_enter(void)
+> >>                 goto Enable_irqs;
+> >>
+> >>         if (pm_wakeup_pending()) {
+> >> +               pm_wakeup_clear(0);
+> >>                 error =3D -EAGAIN;
+> >>                 goto Power_up;
+> >>         }
+> >> diff --git a/kernel/power/process.c b/kernel/power/process.c
+> >> index dc0dfc349f22b..e935b27a04ae0 100644
+> >> --- a/kernel/power/process.c
+> >> +++ b/kernel/power/process.c
+> >> @@ -67,6 +67,7 @@ static int try_to_freeze_tasks(bool user_only)
+> >>                         break;
+> >>
+> >>                 if (pm_wakeup_pending()) {
+> >> +                       pm_wakeup_clear(0);
+> >>                         wakeup =3D true;
+> >>                         break;
+> >>                 }
+> >> --
 > >
-> > I think that's because user space handles it this way, isn't it?
+> > I don't think pm_wakeup_clear() needs to be called in so many places.
+> >
+> > Any why isn't it sufficient to call it in freeze_processes()?  For
+> > suspend, it is sufficient, so what's different about hibernation in
+> > that respect?
 >
-> Yes, it depends on how userspace handles such events. There are different=
- settings
-> configured for systemd-logind when power event is received. The purpose i=
-s to consume
-> this event to cancel the hibernation without letting userspace know about=
- it.
+> It seems this patch was written by me when [1] was added which removed th=
+e
+> unconditional call pm_wakeup_clear(0) from freeze_processes(). It was lat=
+er
+> reverted [2].
+
+OK, I see.
+
+> I've removed this patch and tested again to find out:
+> - try_to_freeze_tasks() gets called from freeze_process() after
+>   unconditional clearing of pm_wakeup. So pm_wakeup doesn't get cleared
+>   until next hibernation or any other similar operation. So for hibernati=
+on
+>   cancellation this patch isn't required. I'll drop it.
 >
-> Thinking more about it, I wasn't sure if all of such events are compulsor=
-y to be
-> delivered to userspace. But then I found an example: In acpi_button_notif=
-y(), all
-> such events are not sent to userspace if button is suspended. So it seems=
- okay to
-> not send this as well and just consume in the kernel.
+> But shouldn't this wakeup event be consumed without waiting for next hibe=
+rnation
+> (or similar operation to happen)?
 
-You want the given key (and it doesn't matter whether or not this is
-KEY_POWER or something else) to play two roles.  One of them is to
-send a specific key code to user space and let it handle the keypress
-as it wants.  This is how it works most of the time.  The second one
-is to wake up the system from sleep (and I'm not sure why you want to
-limit this to hibernation) in which case the key code will not be sent
-to user space.
+I'm not sure what you mean.
 
-For this to work, you need to switch between the two modes quite
-precisely and checking things like pm_sleep_transition_in_progress()
-(which is only used for debug and its raciness is not relevant there)
-is not sufficient for this purpose.  That's what the "suspended" flag
-in the ACPI button driver is for.
+Consuming an event is not related to calling pm_wakeup_clear().
+
+pm_wakeup_clear() is related to wakeup IRQ handling, see pm_system_irq_wake=
+up().
+
+This takes place after IRQs have been suspended (that's what the
+"noirq" suspend phase is about).
 
