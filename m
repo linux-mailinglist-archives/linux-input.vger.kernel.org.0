@@ -1,55 +1,58 @@
-Return-Path: <linux-input+bounces-16355-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16356-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B777C8AD2C
-	for <lists+linux-input@lfdr.de>; Wed, 26 Nov 2025 17:08:08 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 824A9C8AE69
+	for <lists+linux-input@lfdr.de>; Wed, 26 Nov 2025 17:17:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A155F3B0294
-	for <lists+linux-input@lfdr.de>; Wed, 26 Nov 2025 16:05:38 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id A554734A469
+	for <lists+linux-input@lfdr.de>; Wed, 26 Nov 2025 16:17:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 11D253101B2;
-	Wed, 26 Nov 2025 16:05:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BCF0733D6DC;
+	Wed, 26 Nov 2025 16:16:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bMdRf8JN"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q5OKVRHC"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E245D30C368
-	for <linux-input@vger.kernel.org>; Wed, 26 Nov 2025 16:05:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 937DA33D6C6;
+	Wed, 26 Nov 2025 16:16:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764173137; cv=none; b=DglAXxe6m8qq2k1imAqq2E1hJN/1oaKf7GfyQ5ngj8dkjPbK4oyDZYK/sjWJK6k3mHoBm9Ubc3v0LSbZDGGPa2oVsd3H9P6eFEIDKohqtSAq+pZQyGLiTU0X5Ge6YdHjakLfbKuwn3kCRVVDFjtmAl61IwIOrdQRtThBGVZ39C8=
+	t=1764173813; cv=none; b=IuaRkcfJWliMOcz2qgT/R2AuSljP4CADKR4YA4ACaon9bYSCoxrksJTwILzdhyatJuKkEVKHXDeL48hBXw1iBl9hk16cY6S/36oB809dkCNRVaqC6F3+VpAtjG2RQvT9GQYysHrqaM6KtT6UafefaXI2GgaDS05QdGa472tna1A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764173137; c=relaxed/simple;
-	bh=B9vY30sBZgsukOPOx2kVg58OfBvptBiJbcruhn74bic=;
+	s=arc-20240116; t=1764173813; c=relaxed/simple;
+	bh=7PEoEN9+uDK3o57FuGpQUCeefXb/4aKkAZjJ1c32gLc=;
 	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=gHeiZWQ+W8sJOvqNdYZpOm6S9QmKPvKEsWf9wFufO3mKOJApPxxLPps+ibIOu4YV8bS/f2h9Zmsw22Y5+uF6DfRn5piA3GHUPys+RT8fZ8/fYsSQj9LnPqy8D4HYD5vFpRZJBQpoTiIrwjPuGtnM/vB4yBcPPPYgTDFMSUBLcU8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bMdRf8JN; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5EB3C4CEF7;
-	Wed, 26 Nov 2025 16:05:35 +0000 (UTC)
+	 MIME-Version:Content-Type; b=pCZbhOXVs3hNkFwEuxhog5CDjnKnTzP2ykoKTl4H2f/FSrBS2DpsSdjmaPdVkh6og0/zN6Ss++Lq8pQHJbNMNwuKl8MY8MccYr8vPx0vjZHHcFeXGdiUour4Qt8ncZgMTwuoN6kg0OvvllUf9d1tGYj2OMuhNHXX5bc7sAd6eYI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q5OKVRHC; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9AA9AC113D0;
+	Wed, 26 Nov 2025 16:16:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764173136;
-	bh=B9vY30sBZgsukOPOx2kVg58OfBvptBiJbcruhn74bic=;
+	s=k20201202; t=1764173813;
+	bh=7PEoEN9+uDK3o57FuGpQUCeefXb/4aKkAZjJ1c32gLc=;
 	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=bMdRf8JNIZnp6SxKIeJukXjPeUDnuOCA06Fq8dbjzr6jAZR/SYkdKdvzKrN+gTtGK
-	 dCk15IJgTAkI1y/p2ltWXvLp623pOHEu7JQOFhYBbOCrMhIT0tNzH5l4dIALrzY+Qc
-	 4LMOkOkTI4bT40qddCarZGZTnRm0WDjPwCItdZu84Gmtz/qNx+6kqKL1gW7JHlHJxF
-	 jGK8bKczUz//mvdo51LllACbcd75CXoAR0pnalbvtPwxjbPr/Vi3FZ3AlVLkhq/rRv
-	 2N0Lf6JBRWjMKyS/kf8fY0qsBX6rvp4UAa8dy+w7Z4iXj37qDOp/bXMBMCTNAWyd9Y
-	 uKijptt86E9IQ==
-Date: Wed, 26 Nov 2025 17:05:33 +0100 (CET)
+	b=Q5OKVRHCP7n2dUAtfNY4MlXsu2rvHt9CGqvU9GdPvKTItKB9j0uiTge1AQzVoO0b7
+	 0Cif59fMYyj3mq7MmrucadzpSDKpmYEdYE/nfIrfW3sVHdUnQ/7WCikLeZ61ulx/2s
+	 79Kmj7CyCrDsJ0JFV0G6AALMjVqnSoGH2lLi1PEp7drKRa+wAJeWDqtJNN9eXpNxgH
+	 c6gb9b1FwvGs0uBGJFGsRCluM/Xp4DHqcBFZSd9qBTSSPjq8gFNf+U6HPOxZQJl5J8
+	 kCWHGEZhzU/R+evdT29ZUDdsSUlNGRXLZRu5bMPSIP8Mi3zFhTt9C7ZmGzzp6tMFZp
+	 fgoVcOtYIe7HQ==
+Date: Wed, 26 Nov 2025 17:16:50 +0100 (CET)
 From: Jiri Kosina <jikos@kernel.org>
-To: Jon Moeller <jmoeller@gmail.com>
-cc: Benjamin Tissoires <bentiss@kernel.org>, linux-input@vger.kernel.org
-Subject: Re: [PATCH] HID: multitouch: Add palm rejection quirks to HP Spectre
- Trackpad.
-In-Reply-To: <CABWf9sZuKy2=XjSo7WAB-9KanvDjhaXn-8P2J3_z2LgtcpwWDg@mail.gmail.com>
-Message-ID: <r53o4606-5spn-57r3-12nr-1q5r486n4n2r@xreary.bet>
-References: <CABWf9sZuKy2=XjSo7WAB-9KanvDjhaXn-8P2J3_z2LgtcpwWDg@mail.gmail.com>
+To: LI Qingwu <Qing-wu.Li@leica-geosystems.com.cn>
+cc: bentiss@kernel.org, dianders@chromium.org, treapking@chromium.org, 
+    alex.vinarskis@gmail.com, dan.carpenter@linaro.org, superm1@kernel.org, 
+    guanwentao@uniontech.com, kl@kl.wtf, linux-input@vger.kernel.org, 
+    linux-kernel@vger.kernel.org, liqind@163.com
+Subject: Re: [PATCH V3 1/1] HID: i2c-hid: Add API to wait for device reset
+ completion
+In-Reply-To: <20251117081046.3140656-2-Qing-wu.Li@leica-geosystems.com.cn>
+Message-ID: <1707qnp0-7s29-nssr-q868-q36o33571o5q@xreary.bet>
+References: <20251117081046.3140656-1-Qing-wu.Li@leica-geosystems.com.cn> <20251117081046.3140656-2-Qing-wu.Li@leica-geosystems.com.cn>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -58,64 +61,75 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 
-On Sun, 9 Nov 2025, Jon Moeller wrote:
+On Mon, 17 Nov 2025, LI Qingwu wrote:
 
-> This patch fixes an issue where palm rejection signals from the
-> ELAN trackpad in HP Spectre laptops are ignored, causing lots of
-> false touches.
+> Some HID over I2C devices need to signal reset completion to the host
+> after firmware updates or device resets. Per the HID over I2C spec,
+> devices signal completion by sending an empty input report (0x0000).
 > 
-> Signed-off-by: Jon Moeller <jmoeller@gmail.com>
+> Add i2c_hid_wait_reset_complete() to allow drivers to synchronize
+> with device reset operations. The function sets I2C_HID_RESET_PENDING
+> and waits for the device's completion signal.
+> 
+> Returns: 0 on success, -ETIMEDOUT on timeout.
+> 
+> Signed-off-by: LI Qingwu <Qing-wu.Li@leica-geosystems.com.cn>
 > ---
->  drivers/hid/hid-multitouch.c | 14 ++++++++++++++
->  1 file changed, 14 insertions(+)
+>  drivers/hid/i2c-hid/i2c-hid-core.c | 27 +++++++++++++++++++++++++++
+>  drivers/hid/i2c-hid/i2c-hid.h      |  1 +
+>  2 files changed, 28 insertions(+)
 > 
-> diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
-> index 179dc316b4b5..cb5d80172131 100644
-> --- a/drivers/hid/hid-multitouch.c
-> +++ b/drivers/hid/hid-multitouch.c
-> @@ -229,6 +229,7 @@ static void mt_post_parse(struct mt_device *td,
-> struct mt_application *app);
->  #define MT_CLS_RAZER_BLADE_STEALTH 0x0112
->  #define MT_CLS_SMART_TECH 0x0113
->  #define MT_CLS_APPLE_TOUCHBAR 0x0114
-> +#define MT_CLS_HP_SPECTRE_ELAN_HAPTIC 0x0115
->  #define MT_CLS_SIS 0x0457
-> 
->  #define MT_DEFAULT_MAXCONTACT 10
-> @@ -420,6 +421,13 @@ static const struct mt_class mt_classes[] = {
->   MT_QUIRK_APPLE_TOUCHBAR,
->   .maxcontacts = 11,
->   },
-> + { .name = MT_CLS_HP_SPECTRE_ELAN_HAPTIC,
-> + .quirks = MT_QUIRK_ALWAYS_VALID |
-> + MT_QUIRK_SLOT_IS_CONTACTID |
-> + MT_QUIRK_CONTACT_CNT_ACCURATE |
-> + MT_QUIRK_CONFIDENCE |
-> + MT_QUIRK_WIN8_PTP_BUTTONS,
-> + },
->   { .name = MT_CLS_SIS,
->   .quirks = MT_QUIRK_NOT_SEEN_MEANS_UP |
->   MT_QUIRK_ALWAYS_VALID |
-> @@ -2148,6 +2156,12 @@ static const struct hid_device_id mt_devices[] = {
->   HID_DEVICE(BUS_I2C, HID_GROUP_MULTITOUCH_WIN_8,
->   USB_VENDOR_ID_ELAN, 0x3148) },
-> 
-> + { .driver_data = MT_CLS_HP_SPECTRE_ELAN_HAPTIC,
-> + HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, 0x32c8) },
+> diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid/i2c-hid-core.c
+> index 63f46a2e5788..067ad0770dd9 100644
+> --- a/drivers/hid/i2c-hid/i2c-hid-core.c
+> +++ b/drivers/hid/i2c-hid/i2c-hid-core.c
+> @@ -1401,6 +1401,33 @@ const struct dev_pm_ops i2c_hid_core_pm = {
+>  };
+>  EXPORT_SYMBOL_GPL(i2c_hid_core_pm);
+>  
+> +int i2c_hid_wait_reset_complete(struct device *dev, unsigned long timeout_ms)
+> +{
+> +	struct i2c_client *client;
+> +	struct i2c_hid *ihid;
 > +
-> + { .driver_data = MT_CLS_HP_SPECTRE_ELAN_HAPTIC,
-> + HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, 0x310a) },
+> +	if (!dev)
+> +		return -ENODEV;
 > +
->   { .driver_data = MT_CLS_WIN_8_FORCE_MULTI_INPUT_NSMU,
->   HID_DEVICE(BUS_I2C, HID_GROUP_MULTITOUCH_WIN_8,
->   USB_VENDOR_ID_ELAN, 0x32ae) },
+> +	client = to_i2c_client(dev);
+> +	if (!client)
+> +		return -ENODEV;
+> +
+> +	ihid = i2c_get_clientdata(client);
+> +	if (!ihid)
+> +		return -ENODEV;
+> +
+> +	set_bit(I2C_HID_RESET_PENDING, &ihid->flags);
+> +	if (wait_event_timeout(ihid->wait,
+> +			       !test_bit(I2C_HID_RESET_PENDING, &ihid->flags),
+> +			       msecs_to_jiffies(timeout_ms)))
+> +		return 0;
+> +
+> +	clear_bit(I2C_HID_RESET_PENDING, &ihid->flags);
+> +	return -ETIMEDOUT;
+> +}
+> +EXPORT_SYMBOL_GPL(i2c_hid_wait_reset_complete);
+> +
+>  MODULE_DESCRIPTION("HID over I2C core driver");
+>  MODULE_AUTHOR("Benjamin Tissoires <benjamin.tissoires@gmail.com>");
+>  MODULE_LICENSE("GPL");
+> diff --git a/drivers/hid/i2c-hid/i2c-hid.h b/drivers/hid/i2c-hid/i2c-hid.h
+> index 1724a435c783..8e5482baa679 100644
+> --- a/drivers/hid/i2c-hid/i2c-hid.h
+> +++ b/drivers/hid/i2c-hid/i2c-hid.h
+> @@ -42,6 +42,7 @@ void i2c_hid_core_remove(struct i2c_client *client);
+>  
+>  void i2c_hid_core_shutdown(struct i2c_client *client);
+>  
+> +int i2c_hid_wait_reset_complete(struct device *dev, unsigned long timeout_ms);
+>  extern const struct dev_pm_ops i2c_hid_core_pm;
 
-Thanks a lot for the patch.
-
-Unfortunately it has been whitespace-damaged by your mail client, and so 
-it can't be applied.
-
-Could you please fix that on your side, and resubmit?
+Please resubmit this together in one go with the driver that makes use of 
+the functionality.
 
 Thanks,
 
