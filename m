@@ -1,164 +1,267 @@
-Return-Path: <linux-input+bounces-16374-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16375-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5AD0C8BDAA
-	for <lists+linux-input@lfdr.de>; Wed, 26 Nov 2025 21:27:45 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5800EC8BE32
+	for <lists+linux-input@lfdr.de>; Wed, 26 Nov 2025 21:39:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 82EE54E2660
-	for <lists+linux-input@lfdr.de>; Wed, 26 Nov 2025 20:27:44 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id C141F356B08
+	for <lists+linux-input@lfdr.de>; Wed, 26 Nov 2025 20:39:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 733D9342CB8;
-	Wed, 26 Nov 2025 20:27:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A3FD0335555;
+	Wed, 26 Nov 2025 20:39:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="feJ7B9X0"
+	dkim=pass (2048-bit key) header.d=antheas.dev header.i=@antheas.dev header.b="o42Ll+Zl"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay10.grserver.gr (relay10.grserver.gr [37.27.248.198])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAA1D340285
-	for <linux-input@vger.kernel.org>; Wed, 26 Nov 2025 20:27:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F4DC27BF7C
+	for <linux-input@vger.kernel.org>; Wed, 26 Nov 2025 20:39:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=37.27.248.198
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764188849; cv=none; b=cTZlPnotSR+zZmNbEOqH65fYGodwqa6hF+DTKBHsQhjoMYbnToZonsofFFNUn9LhRYUutKhbrP1ZZXSssxCvo+kqzdr5bQW0PACUzRnpeLVYjKAKlfcsXnG/pwWtDulv8kLHL3M/+SH+jmYb/4ZYW9zh2JQvSz0oOsOFhdD6HYc=
+	t=1764189577; cv=none; b=nFJEJa38xJX0xiyziadxDvs3n0ZWw7CjWuyrjowYtuL6G3gfVnn3Ui6dShDgkBDX0T5sdR+8KVCKw88Nk0NG+c8MDOqwifXagJkgFIffhpXgUZXrRfdeheOqIydk5bBfjN9xLsC2TgejqtwVxJh1cIJx9zfp1Lt119h0Y5Lxa4Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764188849; c=relaxed/simple;
-	bh=HKIM2XDlOtvCtdXcaqehs0suX2nO2L/FZMa8sZTYwVs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=jjYFT2V9PPtW338XY1W0XGjibAECCAH2qhTUkJwJAXtajsHfVrpTsnJ21459thTJlvO2okrGqU1tAG/swQ5ldGBa3RVf3xlNznn0PVjk1xH0uCDUXb4lW/U4is1UI2a/8pzJbOV6BpgWSNPYsuFMhiC5N2AZq74teL658qCw/F4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=feJ7B9X0; arc=none smtp.client-ip=209.85.221.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-42b566859ecso193091f8f.2
-        for <linux-input@vger.kernel.org>; Wed, 26 Nov 2025 12:27:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764188845; x=1764793645; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=IZ8dEFu4Kwk+BNf08Ffe5YWG7kcopfid5SLE5GDJ9VI=;
-        b=feJ7B9X0fUWnYAEjKy0+CLdsG2hP5AUItwIUPe2OMecOeEvgmrxIE+MUYTwsxmu98l
-         zoqau4urfa+QP7H13/A2L6ZLIFbieOPGyIw8VEdDdMHwE+bbzwPhfiDzUmjiDvc9qlMr
-         lS1i0IkGa7JWFh+d+n2BktH+4bNqIu0PEzDiRIUSBHbo0nMCUYjxeXD0RtEhf8zwj4p5
-         YcDYNBDUojxo6pp2Q8TuYzzDqGqjc/SqlaGmGdN5vVwAf9NcLOLsrPV624RZKwyzasZF
-         zzJf5E+YGs6A4rgcA8QjIBP0+vi9FrKnJ3KRRodXYyZ8qKa3mc8Wkk6XYLl+nZ8D007c
-         MrOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764188845; x=1764793645;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=IZ8dEFu4Kwk+BNf08Ffe5YWG7kcopfid5SLE5GDJ9VI=;
-        b=SFEoMZdtXXcW6ieyipRBF7HzSaTfOEgPLgIE6/USuF3ughfG6UqOYFzjCH8cXdXr/d
-         Kv1Io8Jv0OH/esLEaZaIQXQOXNAHLlRSexdEXkXXCFd97h7XwSjhwW6dqdfCjIJ0XOJh
-         Z5OOkiltR18ZqmMLai9gQGHswtqFOk6HDQfqplbBW3KrkbLyW+YRT80cHen6biNaNTjN
-         vUfSE9sZOr6ueIAaOwfrq6pJ37i0B0X5aht7FRIaJhdeaOWeW+dJE3bRGQUGmONXkHpN
-         B5lwkStq4EIl/tGTU4mD8fn3a5VQJmETl+a+/mFtIr6J+syaYPgGOj7c1AUsDVlZCMsA
-         cczg==
-X-Forwarded-Encrypted: i=1; AJvYcCWVKPUagndWB/Df/YTG3GXDW0dWLbWroJv+xrBdvswPrz9CacnZ5xpooTV/rcaDJ1X0fjDO7NEXwSj8QQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxnyX6jyPT9gGkKtkBy9b30R7SZWobt0XMh0RfYmqkoHovewNq+
-	dRJMmRy5+uk8XxuS/XrZ4F+GvyiMDH9m/T1eYYSaT84+cb9j4/o2fU9k
-X-Gm-Gg: ASbGncs85PAFl/QxKvQ0N+i58zhXgW4cQFkkTGzZt87sGifZ7lW4+c5oT2hIhDJT8cQ
-	Wr3PCBsrCZ6Tix6GbQc4jqGpz16sp0IJXYMaJdr+qfmNcypCAGSidZDvupC6Gt1zPw9dXaC+Jur
-	xz8lkq60Sq0yBZwD+3oFrTY02km4V5GeRPlKOg2QgB/+sUT8Ri6zeE9b8l97E5D3bcsuG8BR/ZK
-	dVWTpoDaj6kEyEh/tyNR+Cbh2VaQAapTcDkvuKHuORsfjJpK0z4skYJM4mIR4yODHuWwHD+6HsN
-	pbrtpgg3013OfiP2PdmlR56+/H7wezHx5ZFhcSpPYPpmaw/IOP6KENg8KhZgmS6wcGZOvtBFKfl
-	DlZScmFRBFKUSG4ubC3XMo20InNcUhF7XHSzhUfyzairJ9PyS/Hn2jf/Jo+IC17m6R1TU9l5VYU
-	MdCimL6lMBygqQejPquFuLGHx9Rb3oGokHyw==
-X-Google-Smtp-Source: AGHT+IFTYDrylDG61uHyZO6/gRHuthjRBFqmgEiPn9uOZLoUbhfE7iVNC9MC3qLEfOeTbADm3HWnrA==
-X-Received: by 2002:a05:6000:2c0c:b0:42b:2c61:86f1 with SMTP id ffacd0b85a97d-42e0f34a082mr8842552f8f.35.1764188844984;
-        Wed, 26 Nov 2025 12:27:24 -0800 (PST)
-Received: from [192.168.1.121] ([176.206.93.222])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42cc231dc6esm33031198f8f.7.2025.11.26.12.27.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 26 Nov 2025 12:27:24 -0800 (PST)
-Message-ID: <400c681d-a841-4bfd-a7a3-b8d4c6683124@gmail.com>
-Date: Wed, 26 Nov 2025 21:27:24 +0100
+	s=arc-20240116; t=1764189577; c=relaxed/simple;
+	bh=DYEACSBCkqJ31MDLJrMbhuzr2YfGhsi6tU/kQJJnndA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=TdmLj546LycjVsC5A9Pv+XxNa+SroMN5AzNuvBOUjNeTEgT7up71MTetpjBtbeCv4r7BPWWM4RsoZZFajOTGKksNZYi2j9qh0dNyscUiVh0YR6rt6xA6BZ2u9ZYfJzHOU9mvq1NHw3UXl/5T2L24k4aGvvxZm47ugXUITD9eeCg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev; spf=pass smtp.mailfrom=antheas.dev; dkim=pass (2048-bit key) header.d=antheas.dev header.i=@antheas.dev header.b=o42Ll+Zl; arc=none smtp.client-ip=37.27.248.198
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=antheas.dev
+Received: from relay10 (localhost.localdomain [127.0.0.1])
+	by relay10.grserver.gr (Proxmox) with ESMTP id 7805A42706
+	for <linux-input@vger.kernel.org>; Wed, 26 Nov 2025 22:39:32 +0200 (EET)
+Received: from linux3247.grserver.gr (linux3247.grserver.gr [213.158.90.240])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by relay10.grserver.gr (Proxmox) with ESMTPS id CC66442719
+	for <linux-input@vger.kernel.org>; Wed, 26 Nov 2025 22:39:31 +0200 (EET)
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
+	by linux3247.grserver.gr (Postfix) with ESMTPSA id 1A3F9201DC1
+	for <linux-input@vger.kernel.org>; Wed, 26 Nov 2025 22:39:31 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
+	s=default; t=1764189571;
+	bh=Sjqff3QAgbFxS5ggUuvuusp9quhJu5P4Rj++cO8DT0Q=;
+	h=Received:From:Subject:To;
+	b=o42Ll+Zlb7CfUUag/j/T/X3N9eT9ePaV62MDMjMQcYXjEXlmdYcBTTPI+/Ui34RKe
+	 jcmh0CaNB35EJG4fGw1Gr3/r9Ib/owpl+kUcwB2pZdZu4LNx0euX7HpdcPHcehTNSd
+	 cP4Yi374v2YdQ4cvyL50cZ1YdGs9t0hg/oGddinwi4MnXO20cf292soyVxcaNOfMZe
+	 SUtdJt8+Aw8lHGC1ie+6PFHGLs3Aq498lDxcy1wuiM/oX3iFmNrHyJ1QhVhBdNvSzo
+	 vD8gyYGISxqimQ4n988eRER0zM3RfXqCX1+NLYD+izfWUgo2F3Xm9W89nUhjOo38CZ
+	 zxop3ZArKBAIQ==
+Authentication-Results: linux3247.grserver.gr;
+        spf=pass (sender IP is 209.85.208.179) smtp.mailfrom=lkml@antheas.dev smtp.helo=mail-lj1-f179.google.com
+Received-SPF: pass (linux3247.grserver.gr: connection is authenticated)
+Received: by mail-lj1-f179.google.com with SMTP id
+ 38308e7fff4ca-37bb8bef4cdso2047601fa.3
+        for <linux-input@vger.kernel.org>;
+ Wed, 26 Nov 2025 12:39:31 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVlS0jjvEyn3wIyLBdBW6Xc6+g1+nkY6jZtnZfi6G1H4HjZK0RlhuPfzrA4fCEGYF2el2p9FUKn+WXCrA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzWDwQ7LyGYwsfMXIusi2SSkPH4gnomPXdeYJZlXQxyMWTN8JGt
+	aFtB5xi4g25BM1byYJtN+cFEa7414/iSUJwHARNL5q8rsBeeaIfhHFe8JWvWLCcvNjFOv1mJ4lP
+	d0CmLkEHvEAHBAs3GjUEe75dxJVnFmt4=
+X-Google-Smtp-Source: 
+ AGHT+IFIH49lcl7asUbJO1MT9adEgXvlmGXrY2PggM19M+Dhobmud1VcOUPW3cPIXGjj7Ov1zJZ0W8BYXhhNsDo0HMI=
+X-Received: by 2002:a2e:b005:0:b0:37a:2bc5:9d7d with SMTP id
+ 38308e7fff4ca-37d078e8595mr20624071fa.32.1764189570443; Wed, 26 Nov 2025
+ 12:39:30 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 02/11] HID: asus: initialize additional endpoints only
- for legacy devices
-To: Antheas Kapenekakis <lkml@antheas.dev>,
- platform-driver-x86@vger.kernel.org, linux-input@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
- Benjamin Tissoires <bentiss@kernel.org>,
- Corentin Chary <corentin.chary@gmail.com>, "Luke D . Jones"
- <luke@ljones.dev>, Hans de Goede <hansg@kernel.org>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
 References: <20251122110032.4274-1-lkml@antheas.dev>
- <20251122110032.4274-3-lkml@antheas.dev>
-Content-Language: en-US, it-IT, en-US-large
-From: Denis Benato <benato.denis96@gmail.com>
-In-Reply-To: <20251122110032.4274-3-lkml@antheas.dev>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+ <20251122110032.4274-11-lkml@antheas.dev>
+ <713cc4fd-e6a1-4db4-907a-a0575a2b7b8f@gmail.com>
+In-Reply-To: <713cc4fd-e6a1-4db4-907a-a0575a2b7b8f@gmail.com>
+From: Antheas Kapenekakis <lkml@antheas.dev>
+Date: Wed, 26 Nov 2025 21:39:18 +0100
+X-Gmail-Original-Message-ID: 
+ <CAGwozwHwi7mopXY=DM2jt82jgdetdhNR-CUicX7R9KbYj4g0Xw@mail.gmail.com>
+X-Gm-Features: AWmQ_blhUr7scMJPMzqHXbDfUxNrQnMVWmrATVYXPYIPSGK16mUoFJsGBYzHMl8
+Message-ID: 
+ <CAGwozwHwi7mopXY=DM2jt82jgdetdhNR-CUicX7R9KbYj4g0Xw@mail.gmail.com>
+Subject: Re: [PATCH v10 10/11] platform/x86: asus-wmi: add keyboard brightness
+ event handler
+To: Denis Benato <benato.denis96@gmail.com>
+Cc: platform-driver-x86@vger.kernel.org, linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+ Corentin Chary <corentin.chary@gmail.com>,
+	"Luke D . Jones" <luke@ljones.dev>, Hans de Goede <hansg@kernel.org>,
+	=?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+X-PPP-Message-ID: 
+ <176418957128.3541236.4503755317793817369@linux3247.grserver.gr>
+X-PPP-Vhost: antheas.dev
+X-Virus-Scanned: clamav-milter 1.4.3 at linux3247.grserver.gr
+X-Virus-Status: Clean
 
+On Wed, 26 Nov 2025 at 21:23, Denis Benato <benato.denis96@gmail.com> wrote:
+>
+>
+> On 11/22/25 12:00, Antheas Kapenekakis wrote:
+> > The keyboard brightness control of Asus WMI keyboards is handled in
+> > kernel, which leads to the shortcut going from brightness 0, to 1,
+> > to 2, and 3.
+> >
+> > However, for HID keyboards it is exposed as a key and handled by the
+> > user's desktop environment. For the toggle button, this means that
+> > brightness control becomes on/off. In addition, in the absence of a
+> > DE, the keyboard brightness does not work.
+> >
+> > Therefore, expose an event handler for the keyboard brightness control
+> > which can then be used by hid-asus. Since this handler is called from
+> > an interrupt context, defer the actual work to a workqueue.
+> >
+> > In the process, introduce ASUS_EV_MAX_BRIGHTNESS to hold the constant
+> > for maximum brightness since it is shared between hid-asus/asus-wmi.
+> >
+> > Reviewed-by: Luke D. Jones <luke@ljones.dev>
+> > Tested-by: Luke D. Jones <luke@ljones.dev>
+> > Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
+> > ---
+> >  drivers/platform/x86/asus-wmi.c            | 46 +++++++++++++++++++---
+> >  include/linux/platform_data/x86/asus-wmi.h | 13 ++++++
+> >  2 files changed, 54 insertions(+), 5 deletions(-)
+> >
+> > diff --git a/drivers/platform/x86/asus-wmi.c b/drivers/platform/x86/asus-wmi.c
+> > index 84cde34ab6a8..a69464e45ca4 100644
+> > --- a/drivers/platform/x86/asus-wmi.c
+> > +++ b/drivers/platform/x86/asus-wmi.c
+> > @@ -1719,6 +1719,44 @@ static void kbd_led_update_all(struct work_struct *work)
+> >       }
+> >  }
+> >
+> > +/*
+> > + * This function is called from hid-asus to inform asus-wmi of brightness
+> > + * changes initiated by the keyboard backlight keys.
+> > + */
+> > +int asus_hid_event(enum asus_hid_event event)
+> > +{
+> > +     struct asus_wmi *asus;
+> > +     int brightness;
+> > +
+> > +     guard(spinlock_irqsave)(&asus_ref.lock);
+> > +     asus = asus_ref.asus;
+> > +     if (!asus || !asus->kbd_led_registered)
+> > +             return -EBUSY;
+> > +
+> > +     brightness = asus->kbd_led_wk;
+> > +
+> > +     switch (event) {
+> > +     case ASUS_EV_BRTUP:
+> > +             brightness += 1;
+> > +             break;
+> > +     case ASUS_EV_BRTDOWN:
+> > +             brightness -= 1;
+> > +             break;
+> > +     case ASUS_EV_BRTTOGGLE:
+> > +             if (brightness >= ASUS_EV_MAX_BRIGHTNESS)
+> > +                     brightness = 0;
+> > +             else
+> > +                     brightness += 1;
+> > +             break;
+> > +     }
+> > +
+> > +     asus->kbd_led_wk = clamp_val(brightness, 0, ASUS_EV_MAX_BRIGHTNESS);
+> > +     asus->kbd_led_notify = true;
+> > +     queue_work(asus->led_workqueue, &asus->kbd_led_work);
+> > +     return 0;
+> > +}
+> > +EXPORT_SYMBOL_GPL(asus_hid_event);
+> > +
+> >  /*
+> >   * These functions actually update the LED's, and are called from a
+> LEDs as opposed to LED's?
 
-On 11/22/25 12:00, Antheas Kapenekakis wrote:
-> Currently, ID1/ID2 initializations are performed for all NKEY devices.
-> However, ID1 initializations are only required for RGB control and are
-> only supported for RGB capable devices. ID2 initializations are only
-> required for initializing the Anime display endpoint which is only
-> supported on devices with an Anime display. Both of these
-> initializations are out of scope for this driver (this is a brightness
-> control and keyboard shortcut driver) and they should not be performed
-> for devices that do not support them in any case.
+I agree with you, but the author of that line probably wouldn't -
+depends on author dialect and both are usually correct.
+
+When making acronyms plural, adding a ' is usually accepted as
+correct. But this is not added as part of this series, so you can do a
+reword commit if you wish
+
+Antheas
+
+> >   * workqueue. By doing this as separate work rather than when the LED
+> > @@ -1801,13 +1839,11 @@ static void do_kbd_led_set(struct led_classdev *led_cdev, int value)
+> >  {
+> >       struct asus_hid_listener *listener;
+> >       struct asus_wmi *asus;
+> > -     int max_level;
+> >
+> >       asus = container_of(led_cdev, struct asus_wmi, kbd_led);
+> > -     max_level = asus->kbd_led.max_brightness;
+> >
+> >       scoped_guard(spinlock_irqsave, &asus_ref.lock)
+> > -             asus->kbd_led_wk = clamp_val(value, 0, max_level);
+> > +             asus->kbd_led_wk = clamp_val(value, 0, ASUS_EV_MAX_BRIGHTNESS);
+> >
+> >       if (asus->kbd_led_avail)
+> >               kbd_led_update(asus);
+> > @@ -2011,7 +2047,7 @@ static int asus_wmi_led_init(struct asus_wmi *asus)
+> >       asus->kbd_led.flags = LED_BRIGHT_HW_CHANGED;
+> >       asus->kbd_led.brightness_set = kbd_led_set;
+> >       asus->kbd_led.brightness_get = kbd_led_get;
+> > -     asus->kbd_led.max_brightness = 3;
+> > +     asus->kbd_led.max_brightness = ASUS_EV_MAX_BRIGHTNESS;
+> >       asus->kbd_led_avail = !kbd_led_read(asus, &led_val, NULL);
+> >       INIT_WORK(&asus->kbd_led_work, kbd_led_update_all);
+> >
+> > @@ -4530,7 +4566,7 @@ static void asus_wmi_handle_event_code(int code, struct asus_wmi *asus)
+> >               return;
+> >       }
+> >       if (code == NOTIFY_KBD_BRTTOGGLE) {
+> > -             if (led_value == asus->kbd_led.max_brightness)
+> > +             if (led_value == ASUS_EV_MAX_BRIGHTNESS)
+> >                       kbd_led_set_by_kbd(asus, 0);
+> >               else
+> >                       kbd_led_set_by_kbd(asus, led_value + 1);
+> > diff --git a/include/linux/platform_data/x86/asus-wmi.h b/include/linux/platform_data/x86/asus-wmi.h
+> > index d347cffd05d5..7b872b5d0960 100644
+> > --- a/include/linux/platform_data/x86/asus-wmi.h
+> > +++ b/include/linux/platform_data/x86/asus-wmi.h
+> > @@ -178,6 +178,14 @@ struct asus_hid_listener {
+> >       void (*brightness_set)(struct asus_hid_listener *listener, int brightness);
+> >  };
+> >
+> > +enum asus_hid_event {
+> > +     ASUS_EV_BRTUP,
+> > +     ASUS_EV_BRTDOWN,
+> > +     ASUS_EV_BRTTOGGLE,
+> > +};
+> > +
+> > +#define ASUS_EV_MAX_BRIGHTNESS 3
+> > +
+> >  #if IS_REACHABLE(CONFIG_ASUS_WMI)
+> >  void set_ally_mcu_hack(enum asus_ally_mcu_hack status);
+> >  void set_ally_mcu_powersave(bool enabled);
+> > @@ -186,6 +194,7 @@ int asus_wmi_set_devstate(u32 dev_id, u32 ctrl_param, u32 *retval);
+> >  int asus_wmi_evaluate_method(u32 method_id, u32 arg0, u32 arg1, u32 *retval);
+> >  int asus_hid_register_listener(struct asus_hid_listener *cdev);
+> >  void asus_hid_unregister_listener(struct asus_hid_listener *cdev);
+> > +int asus_hid_event(enum asus_hid_event event);
+> >  #else
+> >  static inline void set_ally_mcu_hack(enum asus_ally_mcu_hack status)
+> >  {
+> > @@ -213,6 +222,10 @@ static inline int asus_hid_register_listener(struct asus_hid_listener *bdev)
+> >  static inline void asus_hid_unregister_listener(struct asus_hid_listener *bdev)
+> >  {
+> >  }
+> > +static inline int asus_hid_event(enum asus_hid_event event)
+> > +{
+> > +     return -ENODEV;
+> > +}
+> >  #endif
+> >
+> >  #endif       /* __PLATFORM_DATA_X86_ASUS_WMI_H */
 >
-> At the same time, there are older NKEY devices that have only been
-> tested with these initializations in the kernel and it is not possible
-> to recheck them. There is a possibility that especially with the ID1
-> initialization, certain laptop models might have their shortcuts stop
-> working (currently unproven).
->
-> For an abundance of caution, only initialize ID1/ID2 for those older
-> NKEY devices by introducing a quirk for them and replacing the NKEY
-> quirk in the block that performs the inits with that.
-Reviewed-by: Denis Benato <benato.denis96@gmail.com>
-> Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
-> ---
->  drivers/hid/hid-asus.c | 7 ++++---
->  1 file changed, 4 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/hid/hid-asus.c b/drivers/hid/hid-asus.c
-> index a82286a427b8..9004814fb0d3 100644
-> --- a/drivers/hid/hid-asus.c
-> +++ b/drivers/hid/hid-asus.c
-> @@ -90,6 +90,7 @@ MODULE_DESCRIPTION("Asus HID Keyboard and TouchPad");
->  #define QUIRK_ROG_NKEY_KEYBOARD		BIT(11)
->  #define QUIRK_ROG_CLAYMORE_II_KEYBOARD BIT(12)
->  #define QUIRK_ROG_ALLY_XPAD		BIT(13)
-> +#define QUIRK_ROG_NKEY_LEGACY		BIT(14)
->  
->  #define I2C_KEYBOARD_QUIRKS			(QUIRK_FIX_NOTEBOOK_REPORT | \
->  						 QUIRK_NO_INIT_REPORTS | \
-> @@ -652,7 +653,7 @@ static int asus_kbd_register_leds(struct hid_device *hdev)
->  	if (!(kbd_func & SUPPORT_KBD_BACKLIGHT))
->  		return -ENODEV;
->  
-> -	if (drvdata->quirks & QUIRK_ROG_NKEY_KEYBOARD) {
-> +	if (drvdata->quirks & QUIRK_ROG_NKEY_LEGACY) {
->  		ret = asus_kbd_init(hdev, FEATURE_KBD_LED_REPORT_ID1);
->  		if (ret < 0)
->  			return ret;
-> @@ -1376,10 +1377,10 @@ static const struct hid_device_id asus_devices[] = {
->  	  QUIRK_USE_KBD_BACKLIGHT },
->  	{ HID_USB_DEVICE(USB_VENDOR_ID_ASUSTEK,
->  	    USB_DEVICE_ID_ASUSTEK_ROG_NKEY_KEYBOARD),
-> -	  QUIRK_USE_KBD_BACKLIGHT | QUIRK_ROG_NKEY_KEYBOARD },
-> +	  QUIRK_USE_KBD_BACKLIGHT | QUIRK_ROG_NKEY_KEYBOARD | QUIRK_ROG_NKEY_LEGACY },
->  	{ HID_USB_DEVICE(USB_VENDOR_ID_ASUSTEK,
->  	    USB_DEVICE_ID_ASUSTEK_ROG_NKEY_KEYBOARD2),
-> -	  QUIRK_USE_KBD_BACKLIGHT | QUIRK_ROG_NKEY_KEYBOARD },
-> +	  QUIRK_USE_KBD_BACKLIGHT | QUIRK_ROG_NKEY_KEYBOARD | QUIRK_ROG_NKEY_LEGACY },
->  	{ HID_USB_DEVICE(USB_VENDOR_ID_ASUSTEK,
->  	    USB_DEVICE_ID_ASUSTEK_ROG_Z13_LIGHTBAR),
->  	  QUIRK_USE_KBD_BACKLIGHT | QUIRK_ROG_NKEY_KEYBOARD },
+
 
