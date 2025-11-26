@@ -1,82 +1,82 @@
-Return-Path: <linux-input+bounces-16372-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16373-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8187C8BCDB
-	for <lists+linux-input@lfdr.de>; Wed, 26 Nov 2025 21:19:46 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6ACFAC8BD29
+	for <lists+linux-input@lfdr.de>; Wed, 26 Nov 2025 21:24:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 5EE6A359BF1
-	for <lists+linux-input@lfdr.de>; Wed, 26 Nov 2025 20:19:46 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F0C903AF4B5
+	for <lists+linux-input@lfdr.de>; Wed, 26 Nov 2025 20:24:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 896FB340A5A;
-	Wed, 26 Nov 2025 20:19:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BBE153446B0;
+	Wed, 26 Nov 2025 20:23:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DB9GXMCe"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ink+lO96"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B90D833FE0D
-	for <linux-input@vger.kernel.org>; Wed, 26 Nov 2025 20:19:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45EB3344028
+	for <linux-input@vger.kernel.org>; Wed, 26 Nov 2025 20:23:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764188382; cv=none; b=kZrDE5EMLsyz7oIb5vUAOmSn2fml4158w9QlWrKF1MDIhKX8eRQqh+VIiw4LFFz5n4rkkaZTXOvAqqpDzhuDS6W6KZCOMls+YOaX8+YRn3Ho8XIOAEFMhrfdpN2lK6l9GQnyXCHa8VIBUJI3Ho2LvyeI2l8TjtPv2msQdXQjF4M=
+	t=1764188607; cv=none; b=MQprRc32G7uMXpZO3nkn7qjSSCqI6RrMI7j8DbU/LBO5e4WgeGr0WCpJmpg+RJg10FN18S+MnQ2Ls3PwmBJS/SI89oTzHdS8rUKTi3JtPficw9hg68Kz4eUXFqF3SkzCy9sHb/d5vkndPOE3MopEEyi+WlHtx2EfAgnjOfXDUDw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764188382; c=relaxed/simple;
-	bh=+L92OgRzckF8lysBDUjzwD+rby1GBhwcu5vhVpsisw4=;
+	s=arc-20240116; t=1764188607; c=relaxed/simple;
+	bh=BvKp1Pm0EPTmZAe59dPrhdR9Vh/e6nl2VFvjo1mMjJU=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bXoHezKh5+gIh3OU+5e65kSd68FqbdrMzA2Woh/5yhFisHlgjGVfBSKsSJl6kG+fZCUK0pefz1qDJOMd3Qy/RIOITHy3kTBI5rZVdk+V4HFRW6qNb/x2IJCZBukHa1HH2BqIZmkvFegYnMQ/sYaDh7jONhwWGeBbBdMlho7ei20=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DB9GXMCe; arc=none smtp.client-ip=209.85.221.52
+	 In-Reply-To:Content-Type; b=C5PBh6cv8TIch2QGecSChUVWiPOAMQZBy8tPqCAkrsA9Vzg81i8Sy+ByFfw11ICNMOqY7LCH3ulcPJniqq4eB2sWMcbefmZ41pUQmMMJ790GoNUIUvb4MeIXq+paT267mX8ShkKqRSxxPHe9IWoWm22P9PGhMhZnOMRBPbA22c4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ink+lO96; arc=none smtp.client-ip=209.85.128.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-42b3c965cc4so88365f8f.0
-        for <linux-input@vger.kernel.org>; Wed, 26 Nov 2025 12:19:40 -0800 (PST)
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4779cc419b2so873555e9.3
+        for <linux-input@vger.kernel.org>; Wed, 26 Nov 2025 12:23:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764188379; x=1764793179; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1764188603; x=1764793403; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=W1Ghjj0om1Ay0qf6/KldkuwEcS8A6uUNI7dFPbMcUe8=;
-        b=DB9GXMCeCTVUALIuNFw1Ep0JHUW3A1wMpWa/tVKMYxi6WclTKUVtFH8PJtC0Ub2pVi
-         hoXl4nHWzPbarvA5gLhWk3pj/q469Xoy7jkG7SYmzlbCi3Tqe6AtTRVUpyj39vn7w44Z
-         cQpXxY0jo8ldaQxKamoG9RKsCmr+KeTCeZKfJW/ZrMYZTgRXRVptfnCIBRolE9X4Szq3
-         znmdowffpScJSXyK29MSjaspmYaPbM27AMPED+GIKSWO7C0XkoUGomO7AEt/xVOV6q/3
-         dCwrB/hBEG6Lh2LOK1wPXhYNdr7P3hHu9PPcMuN7eIph8Ct2+vIe4o/znMyTwbHFb7DU
-         RhSA==
+        bh=23SrKYtvqEmYcd7SJn9TAzaqrE7buc6/uI1lnhjUDts=;
+        b=Ink+lO96625dOrjvRXqlbixhVOC+cJ1kP3r8XdouG5dyZJ33/Q3JucyNCf/QZSsHFp
+         UGPminIQoPG8DEJpYuiG1xJA81NkVDHc3/FRMcceWf4l1kjLGrUjoryxlI7zCLQ6auKs
+         TOJdtwxZITsO8+62wY2Rx+qwFSWqZLVcrlDUupB7phNEhPjdgvOXzoz9+ogRDkV5Cn8f
+         zTsPzqpn1zW2n2AiYA9NNe9bN6+9EPFRKn+4CKcuB4se61kPEgjncMfXYNBrbvtceQym
+         N00ldH5XP9TRdrYS2tCYFY5qxXJ/PvLjFEpC9fVPoq/x79BUIvRK7yKmA6fjzAwhnqxB
+         AZug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764188379; x=1764793179;
+        d=1e100.net; s=20230601; t=1764188603; x=1764793403;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=W1Ghjj0om1Ay0qf6/KldkuwEcS8A6uUNI7dFPbMcUe8=;
-        b=M0L26sk1jjsdw1Baf6t4r0VOK3PASl9eghGy7qpj/98moLolNbl0y7EjR2aPPBUgjS
-         rcDZ/uTNxZL5zgf4MYQPkTkxjI5JYEqLZPQlsu78/xDSnRfWt5XHQkX2avZUJz5p49kn
-         Skw2s0RHv572KVAQVZBjPbxEDoAxLp7E1KmJ5XujHlwZz3kb3GOxUGKGQoji+b5VxTD2
-         Av98zWVTijxaRNLO8L0clSMzoxRCt+6PDFxp8Gmb7mymDTZVgUCtOvGyit6zLO3B2U15
-         vDR8R5WiI/u3ST33qbVG7+0VJxaw5B3s26tYsRZN8A/WZfLsVV+XJ0OAUB3MUO+GPE0H
-         cGNA==
-X-Forwarded-Encrypted: i=1; AJvYcCW92bPh4zCfL3ITO19NE12/XZ9likLJsLkgDPAPgc9l5j+ioMKO9WzHSfzpSNigICaJ0Jvf4PIX5ihUGg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwxB5R162KuOJ/sg+IZ1TV5wNQBMoWDwmB8lQFVD+YWA0p1EpE9
-	/qc3QBVzKsYM8msOvTueSpC93ynEDHOJz1eROB8yjHkZe9rjltqiXvJo
-X-Gm-Gg: ASbGncsvaMV1qdb1JyG9bM4j6W2NVLd3Fxm/pLe8DQcAgTAkuVFf5OG6UTfxQdWJw06
-	/SKgBb+wVl8ZJVMAFrG786Bq6AuCv52rbS8nyqnqjFHsAnh86UmVuYu0oCbANgiHp2ss8UgL2Ae
-	q3+V51tX10ezENvIezXw2MHya+1AevWo+MibV6sYbF430ri9T31QY50bGVZagVSPH7puAwnuNAc
-	dRFaZVWUmWPmXUqI9XPgXv9gTCdJkveTUaQbRkSRdrUbIrDRxHhR4rnylERMAfahSQWn5ZU3IaL
-	0wneVFTHiTgfmdAWEvtta5F2A1qdESrolXPmVIRCvzx7YY+ru9QoI/tiwzMCKenQvr835PuFY49
-	LNQqJ1CO0FIb8q9fLuH8AAf0f/CXxHX2TCCAEKQ1qqsDwuFQTWnHTl2I5or/rR97+0mpdn4dppZ
-	yBhBzyzoa8YVzgPWBkbZnLm+Y=
-X-Google-Smtp-Source: AGHT+IGqfsrj/1HHB7lKhCnVz1sW5u/XkYNSFM2KNvJF161TnGDhnm7/YvioNnjmR9vUKlqVT7PBFQ==
-X-Received: by 2002:a5d:5d88:0:b0:429:bfbb:5dae with SMTP id ffacd0b85a97d-42cba7a8100mr27345858f8f.17.1764188378909;
-        Wed, 26 Nov 2025 12:19:38 -0800 (PST)
+        bh=23SrKYtvqEmYcd7SJn9TAzaqrE7buc6/uI1lnhjUDts=;
+        b=PbXoqXSwkVtuX9bqgMkbbMVaKZaPb9aQmL31Dmz9WjJQYsr3f7rQph4YbEfJsxBHt8
+         X+5bEDhk6CPR0GOt6f4Icl4+iXyfPcHSbkHi+M0aCwNFkIZTF5AQVWOnb5Iv6XWmdch0
+         4iQYghJsBfdOkpWsNXfczhWgd5hjn2KCYK5HQ/MzHyJ8AaPNtiaiEXrsOEyTAfrBpb9X
+         82SA2t0dEOzu92cYq77ypZGYK21fZnb/feZjrhWYgh0ApW+E3fbipee9rSSuNB3hCm49
+         6Lv1M1KshK+L9aSnjuh/F6kbxLDSMIJEAxtH390aNPXi0W2nyJBQfH0PwpXMmtGV+2aj
+         SP6Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUyHRXXlPkdAt45TcHIXOMdsMBKnkE2OQVjBM/LXdg3s0mHMAczJblqv2ipez7Wz3BnC9qon8DAqclanw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz2aP8UvAbNlgpQBVPXlCY3626vhSdiyP/E7idX32uYgkcQJC9V
+	eyRvzRnMluNMbFbSDkvhFn7ezmTvUsiibALYMAxO9e/l9K8X+H77z2Vd7JYkHw==
+X-Gm-Gg: ASbGncuzdux5WfACiWrkNMyv1MSenuBeleaJcMcCYgXgrwb3kc3Zma1A4ruM4uc2ywD
+	UySjexdrM9lY/ld16kVFJjhKaID7HN1ohhicFSDfOThC5qTnx8C2gTTXlesTP4Z9Prb0Rmqo/XC
+	SyjkqpNQDHJJXmLc1hZ8+EqS3bnQKiIF3N6kN/lQ0W/gJYldGVe8IHFSwv5pqCugMWvnk5nXMST
+	T1XxJGBtdkvG+y8sseECSZsHKppegrCHD0LClk3mbeKS9mC7HvrHuUmSzcuiJI/hRV9RkwJvE9q
+	PMErnFN4XljwFF9zIuw3RPe3C/cbbVahKYay4prNP8VTkuATplEQLRvsDvpFZyKXUESZtrh220k
+	Y8qVnsluGVcY/bSVYS9UBxVGNmBKVG+XT16Ntc96fYkNOtqkLaA9R/jb1fLyMfPs0VahFJhOWEy
+	W28CWRSuRzejfPGIICa+H6GeQ=
+X-Google-Smtp-Source: AGHT+IHmabu5fT7Cb9c0FYaokARBDxYgpwJwJ0z7pMVHcgZVQ4Xy48MzbuDh8GVHnCLrTz4cgrBzJg==
+X-Received: by 2002:a05:600c:1382:b0:477:9b35:3e49 with SMTP id 5b1f17b1804b1-477c1103274mr205531805e9.3.1764188603348;
+        Wed, 26 Nov 2025 12:23:23 -0800 (PST)
 Received: from [192.168.1.121] ([176.206.93.222])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42cb7fd8baesm42816445f8f.39.2025.11.26.12.19.38
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42cb7fd9b45sm43336612f8f.43.2025.11.26.12.23.22
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 26 Nov 2025 12:19:38 -0800 (PST)
-Message-ID: <f5220043-f685-4778-9fc7-9c3585c01fb3@gmail.com>
-Date: Wed, 26 Nov 2025 21:19:37 +0100
+        Wed, 26 Nov 2025 12:23:22 -0800 (PST)
+Message-ID: <713cc4fd-e6a1-4db4-907a-a0575a2b7b8f@gmail.com>
+Date: Wed, 26 Nov 2025 21:23:22 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -84,8 +84,8 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 09/11] platform/x86: asus-wmi: remove unused keyboard
- backlight quirk
+Subject: Re: [PATCH v10 10/11] platform/x86: asus-wmi: add keyboard brightness
+ event handler
 To: Antheas Kapenekakis <lkml@antheas.dev>,
  platform-driver-x86@vger.kernel.org, linux-input@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
@@ -94,78 +94,158 @@ Cc: linux-kernel@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
  <luke@ljones.dev>, Hans de Goede <hansg@kernel.org>,
  =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
 References: <20251122110032.4274-1-lkml@antheas.dev>
- <20251122110032.4274-10-lkml@antheas.dev>
+ <20251122110032.4274-11-lkml@antheas.dev>
 Content-Language: en-US, it-IT, en-US-large
 From: Denis Benato <benato.denis96@gmail.com>
-In-Reply-To: <20251122110032.4274-10-lkml@antheas.dev>
+In-Reply-To: <20251122110032.4274-11-lkml@antheas.dev>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 
 On 11/22/25 12:00, Antheas Kapenekakis wrote:
-> The quirk for selecting whether keyboard backlight should be controlled
-> by HID or WMI is not needed anymore, so remove the file containing it.
-Reviewed-by: Denis Benato <benato.denis96@gmail.com>
+> The keyboard brightness control of Asus WMI keyboards is handled in
+> kernel, which leads to the shortcut going from brightness 0, to 1,
+> to 2, and 3.
+>
+> However, for HID keyboards it is exposed as a key and handled by the
+> user's desktop environment. For the toggle button, this means that
+> brightness control becomes on/off. In addition, in the absence of a
+> DE, the keyboard brightness does not work.
+>
+> Therefore, expose an event handler for the keyboard brightness control
+> which can then be used by hid-asus. Since this handler is called from
+> an interrupt context, defer the actual work to a workqueue.
+>
+> In the process, introduce ASUS_EV_MAX_BRIGHTNESS to hold the constant
+> for maximum brightness since it is shared between hid-asus/asus-wmi.
+>
+> Reviewed-by: Luke D. Jones <luke@ljones.dev>
+> Tested-by: Luke D. Jones <luke@ljones.dev>
 > Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
 > ---
->  .../platform_data/x86/asus-wmi-leds-ids.h     | 50 -------------------
->  1 file changed, 50 deletions(-)
->  delete mode 100644 include/linux/platform_data/x86/asus-wmi-leds-ids.h
+>  drivers/platform/x86/asus-wmi.c            | 46 +++++++++++++++++++---
+>  include/linux/platform_data/x86/asus-wmi.h | 13 ++++++
+>  2 files changed, 54 insertions(+), 5 deletions(-)
 >
-> diff --git a/include/linux/platform_data/x86/asus-wmi-leds-ids.h b/include/linux/platform_data/x86/asus-wmi-leds-ids.h
-> deleted file mode 100644
-> index 034a039c4e37..000000000000
-> --- a/include/linux/platform_data/x86/asus-wmi-leds-ids.h
-> +++ /dev/null
-> @@ -1,50 +0,0 @@
-> -/* SPDX-License-Identifier: GPL-2.0 */
-> -#ifndef __PLATFORM_DATA_X86_ASUS_WMI_LEDS_IDS_H
-> -#define __PLATFORM_DATA_X86_ASUS_WMI_LEDS_IDS_H
-> -
-> -#include <linux/dmi.h>
-> -#include <linux/types.h>
-> -
-> -/* To be used by both hid-asus and asus-wmi to determine which controls kbd_brightness */
-> -#if IS_REACHABLE(CONFIG_ASUS_WMI) || IS_REACHABLE(CONFIG_HID_ASUS)
-> -static const struct dmi_system_id asus_use_hid_led_dmi_ids[] = {
-> -	{
-> -		.matches = {
-> -			DMI_MATCH(DMI_PRODUCT_FAMILY, "ROG Zephyrus"),
-> -		},
-> -	},
-> -	{
-> -		.matches = {
-> -			DMI_MATCH(DMI_PRODUCT_FAMILY, "ROG Strix"),
-> -		},
-> -	},
-> -	{
-> -		.matches = {
-> -			DMI_MATCH(DMI_PRODUCT_FAMILY, "ROG Flow"),
-> -		},
-> -	},
-> -	{
-> -		.matches = {
-> -			DMI_MATCH(DMI_PRODUCT_FAMILY, "ProArt P16"),
-> -		},
-> -	},
-> -	{
-> -		.matches = {
-> -			DMI_MATCH(DMI_BOARD_NAME, "GA403U"),
-> -		},
-> -	},
-> -	{
-> -		.matches = {
-> -			DMI_MATCH(DMI_BOARD_NAME, "GU605M"),
-> -		},
-> -	},
-> -	{
-> -		.matches = {
-> -			DMI_MATCH(DMI_BOARD_NAME, "RC71L"),
-> -		},
-> -	},
-> -	{ },
-> -};
-> -#endif
-> -
-> -#endif	/* __PLATFORM_DATA_X86_ASUS_WMI_LEDS_IDS_H */
+> diff --git a/drivers/platform/x86/asus-wmi.c b/drivers/platform/x86/asus-wmi.c
+> index 84cde34ab6a8..a69464e45ca4 100644
+> --- a/drivers/platform/x86/asus-wmi.c
+> +++ b/drivers/platform/x86/asus-wmi.c
+> @@ -1719,6 +1719,44 @@ static void kbd_led_update_all(struct work_struct *work)
+>  	}
+>  }
+>  
+> +/*
+> + * This function is called from hid-asus to inform asus-wmi of brightness
+> + * changes initiated by the keyboard backlight keys.
+> + */
+> +int asus_hid_event(enum asus_hid_event event)
+> +{
+> +	struct asus_wmi *asus;
+> +	int brightness;
+> +
+> +	guard(spinlock_irqsave)(&asus_ref.lock);
+> +	asus = asus_ref.asus;
+> +	if (!asus || !asus->kbd_led_registered)
+> +		return -EBUSY;
+> +
+> +	brightness = asus->kbd_led_wk;
+> +
+> +	switch (event) {
+> +	case ASUS_EV_BRTUP:
+> +		brightness += 1;
+> +		break;
+> +	case ASUS_EV_BRTDOWN:
+> +		brightness -= 1;
+> +		break;
+> +	case ASUS_EV_BRTTOGGLE:
+> +		if (brightness >= ASUS_EV_MAX_BRIGHTNESS)
+> +			brightness = 0;
+> +		else
+> +			brightness += 1;
+> +		break;
+> +	}
+> +
+> +	asus->kbd_led_wk = clamp_val(brightness, 0, ASUS_EV_MAX_BRIGHTNESS);
+> +	asus->kbd_led_notify = true;
+> +	queue_work(asus->led_workqueue, &asus->kbd_led_work);
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL_GPL(asus_hid_event);
+> +
+>  /*
+>   * These functions actually update the LED's, and are called from a
+LEDs as opposed to LED's?
+>   * workqueue. By doing this as separate work rather than when the LED
+> @@ -1801,13 +1839,11 @@ static void do_kbd_led_set(struct led_classdev *led_cdev, int value)
+>  {
+>  	struct asus_hid_listener *listener;
+>  	struct asus_wmi *asus;
+> -	int max_level;
+>  
+>  	asus = container_of(led_cdev, struct asus_wmi, kbd_led);
+> -	max_level = asus->kbd_led.max_brightness;
+>  
+>  	scoped_guard(spinlock_irqsave, &asus_ref.lock)
+> -		asus->kbd_led_wk = clamp_val(value, 0, max_level);
+> +		asus->kbd_led_wk = clamp_val(value, 0, ASUS_EV_MAX_BRIGHTNESS);
+>  
+>  	if (asus->kbd_led_avail)
+>  		kbd_led_update(asus);
+> @@ -2011,7 +2047,7 @@ static int asus_wmi_led_init(struct asus_wmi *asus)
+>  	asus->kbd_led.flags = LED_BRIGHT_HW_CHANGED;
+>  	asus->kbd_led.brightness_set = kbd_led_set;
+>  	asus->kbd_led.brightness_get = kbd_led_get;
+> -	asus->kbd_led.max_brightness = 3;
+> +	asus->kbd_led.max_brightness = ASUS_EV_MAX_BRIGHTNESS;
+>  	asus->kbd_led_avail = !kbd_led_read(asus, &led_val, NULL);
+>  	INIT_WORK(&asus->kbd_led_work, kbd_led_update_all);
+>  
+> @@ -4530,7 +4566,7 @@ static void asus_wmi_handle_event_code(int code, struct asus_wmi *asus)
+>  		return;
+>  	}
+>  	if (code == NOTIFY_KBD_BRTTOGGLE) {
+> -		if (led_value == asus->kbd_led.max_brightness)
+> +		if (led_value == ASUS_EV_MAX_BRIGHTNESS)
+>  			kbd_led_set_by_kbd(asus, 0);
+>  		else
+>  			kbd_led_set_by_kbd(asus, led_value + 1);
+> diff --git a/include/linux/platform_data/x86/asus-wmi.h b/include/linux/platform_data/x86/asus-wmi.h
+> index d347cffd05d5..7b872b5d0960 100644
+> --- a/include/linux/platform_data/x86/asus-wmi.h
+> +++ b/include/linux/platform_data/x86/asus-wmi.h
+> @@ -178,6 +178,14 @@ struct asus_hid_listener {
+>  	void (*brightness_set)(struct asus_hid_listener *listener, int brightness);
+>  };
+>  
+> +enum asus_hid_event {
+> +	ASUS_EV_BRTUP,
+> +	ASUS_EV_BRTDOWN,
+> +	ASUS_EV_BRTTOGGLE,
+> +};
+> +
+> +#define ASUS_EV_MAX_BRIGHTNESS 3
+> +
+>  #if IS_REACHABLE(CONFIG_ASUS_WMI)
+>  void set_ally_mcu_hack(enum asus_ally_mcu_hack status);
+>  void set_ally_mcu_powersave(bool enabled);
+> @@ -186,6 +194,7 @@ int asus_wmi_set_devstate(u32 dev_id, u32 ctrl_param, u32 *retval);
+>  int asus_wmi_evaluate_method(u32 method_id, u32 arg0, u32 arg1, u32 *retval);
+>  int asus_hid_register_listener(struct asus_hid_listener *cdev);
+>  void asus_hid_unregister_listener(struct asus_hid_listener *cdev);
+> +int asus_hid_event(enum asus_hid_event event);
+>  #else
+>  static inline void set_ally_mcu_hack(enum asus_ally_mcu_hack status)
+>  {
+> @@ -213,6 +222,10 @@ static inline int asus_hid_register_listener(struct asus_hid_listener *bdev)
+>  static inline void asus_hid_unregister_listener(struct asus_hid_listener *bdev)
+>  {
+>  }
+> +static inline int asus_hid_event(enum asus_hid_event event)
+> +{
+> +	return -ENODEV;
+> +}
+>  #endif
+>  
+>  #endif	/* __PLATFORM_DATA_X86_ASUS_WMI_H */
 
