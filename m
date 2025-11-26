@@ -1,119 +1,138 @@
-Return-Path: <linux-input+bounces-16345-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16346-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A330DC8A11C
-	for <lists+linux-input@lfdr.de>; Wed, 26 Nov 2025 14:41:50 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id E70AFC8A815
+	for <lists+linux-input@lfdr.de>; Wed, 26 Nov 2025 16:01:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 235DE3B04FB
-	for <lists+linux-input@lfdr.de>; Wed, 26 Nov 2025 13:41:49 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id F263234A6F6
+	for <lists+linux-input@lfdr.de>; Wed, 26 Nov 2025 14:58:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B024C313558;
-	Wed, 26 Nov 2025 13:41:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="ZkpGHxEN"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 53087302755;
+	Wed, 26 Nov 2025 14:56:55 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92354280024;
-	Wed, 26 Nov 2025 13:41:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2A4D305063;
+	Wed, 26 Nov 2025 14:56:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764164506; cv=none; b=ottKm8RQGuZU+FaEtllWNvhLnUKpSnOy575CTlDNqRaWU3GA3VwmUn8ps1B4ox57bYiVPgNsm00a37f6g2KqKmxcYpShdW4rOo9RTqIXWeGyZKuzN4iVi8qmd13NRu4KxrYR/DIA0mBmqLrCV7DBd3aw/SYxnyO5q0AJ+NT3d0U=
+	t=1764169015; cv=none; b=GT6pw9ZO3drmNLgViU1TPptJBHJStw35J4ZG5JCOl+FBeIA4z0rjaRFU9SJKP2A9MnnJRrs+LxwI6ZBLxQnTb3ZW5W6GFaolrfDXlFFK103NllR6z/unce94Q/SE47RJfaIceuErTp71a2kbpDiUZN/QOcha2dFUVVAeLlIGKXM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764164506; c=relaxed/simple;
-	bh=TCjsAggYrqSpEnSkYp0Cl1DlGai0+9iHnU3UKi1PI50=;
-	h=Message-ID:Date:MIME-Version:Cc:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=L/gkzdZFe6IZxuJDjdDgNtIy3zmDXIGPT+zl08iIR//B9WXy8m98KZyoR53ZDv3qygdtpXwe4x30KET9m4d6rzkpleIg/pgS29WEyTfbSUjQ0qQ26Aezc7iOQ3fFp0PfPRjFU4IeRaTg4E2wDrs+H8kBGJ7cQtBmk7eacLzuk4E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=ZkpGHxEN; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1764164502;
-	bh=TCjsAggYrqSpEnSkYp0Cl1DlGai0+9iHnU3UKi1PI50=;
-	h=Date:Cc:Subject:To:References:From:In-Reply-To:From;
-	b=ZkpGHxEN1DgEXInu5l7rmYqVQpTJeBWgOfg/6fUC9pBgpzbefPYXBplfAlT8hfZZl
-	 MoB6v82YLfEHxlLVFmIQWeDdxFSbBEExGq+DhYvPIhF76tV72nmuqo7QVHwseCW86/
-	 sWfYgj+lg6ql9QCVDa/hXIK+GGTUR1HLEr5wXf+c7YBrlF9FThgzJA1dfiQYVmnhCu
-	 /AG5sz1R0CejZ82+p85WaXtJkGk/aeTV87tORu4Bcx8fHQnXb+U833XC+W/ERM4uFs
-	 wsiQjywxX90N2r+e5zEyjBtaZrKzhRT7naOdEljy6GkW0YhnjE0ZKPUt9SEd1s5dgM
-	 SwfDxbJpvw6tQ==
-Received: from [192.168.100.50] (unknown [144.48.130.189])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: usama.anjum)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 5041D17E00B0;
-	Wed, 26 Nov 2025 14:41:39 +0100 (CET)
-Message-ID: <40627ddc-720b-42c5-948b-8d832d16e2ce@collabora.com>
-Date: Wed, 26 Nov 2025 18:41:09 +0500
+	s=arc-20240116; t=1764169015; c=relaxed/simple;
+	bh=tBQahxl3O6jxkT/hIx7/WkiZ58k1496AvxzG/aczs5c=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=O0uEzZ81e7Bl7bPWm4A66DTBS/MsyVCEvHYpt7roQBY6jtAh/cesaEj5ZQYdCeAXq0ZMYx2qFfu8BZOff2T53dpM3fljTCQJlZRk/guXfYlMUUX8ph3SNEqQYPf2qAlD8rFaRhWr3Cgp7qx1ZIYqiPcF3hjjfXhOGmKC9P8GEKM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
+Received: from DESKTOP-L0HPE2S (unknown [114.245.38.183])
+	by APP-01 (Coremail) with SMTP id qwCowABnANAuFSdpJOwhAg--.10323S2;
+	Wed, 26 Nov 2025 22:56:46 +0800 (CST)
+From: Haotian Zhang <vulab@iscas.ac.cn>
+To: sebastian.reichel@collabora.co.uk,
+	dmitry.torokhov@gmail.com
+Cc: linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Haotian Zhang <vulab@iscas.ac.cn>
+Subject: [PATCH] Input: misc: pwm-vibra: fix resource leaks on start failure
+Date: Wed, 26 Nov 2025 22:56:35 +0800
+Message-ID: <20251126145635.954-1-vulab@iscas.ac.cn>
+X-Mailer: git-send-email 2.50.1.windows.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Cc: usama.anjum@collabora.com, "Rafael J. Wysocki" <rafael@kernel.org>,
- Len Brown <lenb@kernel.org>, Pavel Machek <pavel@kernel.org>,
- Danilo Krummrich <dakr@kernel.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Thomas Gleixner <tglx@linutronix.de>, Peter Zijlstra <peterz@infradead.org>,
- linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-input@vger.kernel.org, kernel@collabora.com,
- superm1@kernel.org
-Subject: Re: [PATCH 2/4] ACPI: button: Cancel hibernation if button is pressed
- during hibernation
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-References: <20251107184438.1328717-1-usama.anjum@collabora.com>
- <20251107184438.1328717-3-usama.anjum@collabora.com>
- <2025112433-emphasize-helpful-b748@gregkh>
- <e1e97842-0ad3-4270-b0d1-3cc7150988cd@collabora.com>
- <2025112506-acting-tipoff-3a49@gregkh>
- <cef1d96b-b642-4e69-8c1b-2e0bf7528edf@collabora.com>
- <2025112612-backup-driving-e6e6@gregkh>
-Content-Language: en-US
-From: Muhammad Usama Anjum <usama.anjum@collabora.com>
-In-Reply-To: <2025112612-backup-driving-e6e6@gregkh>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:qwCowABnANAuFSdpJOwhAg--.10323S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7Aw4DJw47Gw4Uuw18ZrykAFb_yoW8ur4xpr
+	1fArZ2kr1rJFW7Xa15Zw1vv3y5J3y0q34Skr1kG34rWwn3CF1xGr18Jas7uF4kAryUGwn7
+	AF4qyayUKF17ZwUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUkl14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+	6F4UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
+	0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
+	jxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr
+	1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkF7I0En4kS14v26r12
+	6r1DMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI
+	0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y
+	0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxV
+	WUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1l
+	IxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUjuHq7UUUU
+	U==
+X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiDAcSA2kmz-rN5QAAsI
 
-On 11/26/25 12:38 PM, Greg Kroah-Hartman wrote:
-> On Tue, Nov 25, 2025 at 09:41:22PM +0500, Muhammad Usama Anjum wrote:
->>>> While I've thought about increasing the speed, I've no concrete ideas yet.
->>>> The main problem is that its sequential in nature.
->>>
->>> Then fix that?
->> That's in the plan. But who knows when we get time to attempt that. 
-> 
-> Take the time to fix this properly first, don't paper over the issue by
-> changing user/system interactions that will not be needed in the future
-> when the real problem is resolved.
-You're absolutely right, and I share the same philosophy.
+The pwm_vibrator_start() function returns immediately if
+pwm_apply_might_sleep() fails, neglecting to disable the
+regulator or reset the enable GPIO. This results in a
+potential resource leak.
 
-However, I think the hibernation cancellation feature has standalone value
-regardless of how much we optimize hibernation time. Even if we achieve
-significant improvements (5-30% or more), there will still be scenarios where
-users want to abort an in-progress hibernation.
+Introduce a local flag to track regulator enablement
+and implement an error handling path. Deassert the enable
+GPIO and disable the regulator upon failure.
 
-I'm focusing on making this series more concise for next revision.
-
-> 
->> First I need a board/machine with serial console access to view all logs in real
->> time. :)
-> 
-> usb debug cables might be your solution.
-> 
-> good luck!
-> 
-> greg k-h
-
-
--- 
+Fixes: 3e5b08518f6a ("Input: add a driver for PWM controllable vibrators")
+Signed-off-by: Haotian Zhang <vulab@iscas.ac.cn>
 ---
-Thanks,
-Usama
+ drivers/input/misc/pwm-vibra.c | 14 ++++++++++++--
+ 1 file changed, 12 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/input/misc/pwm-vibra.c b/drivers/input/misc/pwm-vibra.c
+index 3e5ed685ed8f..d323a12596c3 100644
+--- a/drivers/input/misc/pwm-vibra.c
++++ b/drivers/input/misc/pwm-vibra.c
+@@ -40,6 +40,7 @@ static int pwm_vibrator_start(struct pwm_vibrator *vibrator)
+ 	struct device *pdev = vibrator->input->dev.parent;
+ 	struct pwm_state state;
+ 	int err;
++	bool new_vcc_on = false;
+ 
+ 	if (!vibrator->vcc_on) {
+ 		err = regulator_enable(vibrator->vcc);
+@@ -48,6 +49,7 @@ static int pwm_vibrator_start(struct pwm_vibrator *vibrator)
+ 			return err;
+ 		}
+ 		vibrator->vcc_on = true;
++		new_vcc_on = true;
+ 	}
+ 
+ 	gpiod_set_value_cansleep(vibrator->enable_gpio, 1);
+@@ -59,7 +61,7 @@ static int pwm_vibrator_start(struct pwm_vibrator *vibrator)
+ 	err = pwm_apply_might_sleep(vibrator->pwm, &state);
+ 	if (err) {
+ 		dev_err(pdev, "failed to apply pwm state: %d\n", err);
+-		return err;
++		goto err_gpio;
+ 	}
+ 
+ 	if (vibrator->pwm_dir) {
+@@ -71,11 +73,19 @@ static int pwm_vibrator_start(struct pwm_vibrator *vibrator)
+ 		if (err) {
+ 			dev_err(pdev, "failed to apply dir-pwm state: %d\n", err);
+ 			pwm_disable(vibrator->pwm);
+-			return err;
++			goto err_gpio;
+ 		}
+ 	}
+ 
+ 	return 0;
++
++err_gpio:
++	gpiod_set_value_cansleep(vibrator->enable_gpio, 0);
++	if (new_vcc_on) {
++		regulator_disable(vibrator->vcc);
++		vibrator->vcc_on = false;
++	}
++	return err;
+ }
+ 
+ static void pwm_vibrator_stop(struct pwm_vibrator *vibrator)
+-- 
+2.50.1.windows.1
+
 
