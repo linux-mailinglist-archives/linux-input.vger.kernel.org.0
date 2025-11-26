@@ -1,205 +1,167 @@
-Return-Path: <linux-input+bounces-16367-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16368-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F706C8BA4C
-	for <lists+linux-input@lfdr.de>; Wed, 26 Nov 2025 20:42:29 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id F08D9C8BBCF
+	for <lists+linux-input@lfdr.de>; Wed, 26 Nov 2025 20:59:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id D0A7D35A44A
-	for <lists+linux-input@lfdr.de>; Wed, 26 Nov 2025 19:42:28 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D80333A181F
+	for <lists+linux-input@lfdr.de>; Wed, 26 Nov 2025 19:57:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B57833FE02;
-	Wed, 26 Nov 2025 19:38:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 410D533F8A4;
+	Wed, 26 Nov 2025 19:57:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=plexus.com header.i=@plexus.com header.b="KgU5fiq/"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aoeplI1a"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mx0b-0046e701.pphosted.com (mx0b-0046e701.pphosted.com [67.231.157.77])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC81B33A03D;
-	Wed, 26 Nov 2025 19:38:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.157.77
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53CC333EB0B
+	for <linux-input@vger.kernel.org>; Wed, 26 Nov 2025 19:57:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764185909; cv=none; b=D1HI85phMAil0xyqJwxZKXYDhNpDOvZUZWmXJQmVCfy+e7HWpcI30r8Qd831wGSt3DU+fQL0z6RljuTsoBAO9pFL5IRvJOxsQ4xo7VwGyxigda0+RxNsEE96kjJTFFZyoMwJ1gLElssIdk+Wh5REDZ/+Iul9kjqHLD8T6XQc7q4=
+	t=1764187034; cv=none; b=eWnL7OedSSOOtku3q49db9PxEWAZuzwq00sLuTNbFFsi+A1gxhQi3unlk5exN9EUIxSiuPsdbuK8jVdNx3aO4TKYYjGO0Rvish3GZtuzPOcDJWFyFD9wJUAlhBF9YaphGGV2QGdvVwuNkfW4t9nDMSzvTEhwDsMZfKYPtOxQWIk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764185909; c=relaxed/simple;
-	bh=IEtOKsZRpLysAHTIApvSDXdfcL1K/qKLHCMUtnTh9lU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qWEC7cWq5Yv+8tfL7juymLYn3r9Q8EU9XnNcHwWz8W66WvL5OjYexnFRALQ7YpcEqrJgfF1Ex3EU8HXJbmsiJympU7SdO2KkUA/Pdyqu9JvN73oD4SGA4MG47tqENNtDt2ryr85b1SDlL5Ze/kyMi3ssVylHufcQktijwzO7AOc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=plexus.com; spf=pass smtp.mailfrom=plexus.com; dkim=pass (2048-bit key) header.d=plexus.com header.i=@plexus.com header.b=KgU5fiq/; arc=none smtp.client-ip=67.231.157.77
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=plexus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=plexus.com
-Received: from pps.filterd (m0425992.ppops.net [127.0.0.1])
-	by mx0b-0046e701.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5AQAnZCX468762;
-	Wed, 26 Nov 2025 13:36:41 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=plexus.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=pps1; bh=YvcWFfikQG/A1L1/sDzIqKQViINFg
-	b8FOrDN3GZwCxo=; b=KgU5fiq/ojDyGMZNBmopcjjPvt4Q6gbA+bbFh8sJYxAWa
-	PrScrtQhA3MgcwZXu+psU/rfd2wuN9YqDR8hOu9W2Upf8eCJQ3t7KOXGX2vz5slU
-	MXjsOdPwN7wML7rI0bQ/ZSWdhvSSFz4XdOX2V83670HH3AHmfe07WktTP5faLyP+
-	x7zwKeAOUf4udyYd6nDqIEe7VwBbhZmELtEJriA7fC/pJJzmAZFYeAXCsGR/iIMy
-	xtEiqPamPYa9CT28KIlDuXLlGp4obiy0v6Fv/osKS/P3hy2WztqVIdHT0djN9B0o
-	etV4x7EuA40BcNOmlv01M0cz7RB7vdLc1PLG91luA==
-Received: from intranet-smtp.plexus.com ([64.215.193.254])
-	by mx0b-0046e701.pphosted.com (PPS) with ESMTPS id 4anvc6s4j5-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Wed, 26 Nov 2025 13:36:41 -0600 (CST)
-Received: from localhost (unknown [10.255.48.203])
-	by intranet-smtp.plexus.com (Postfix) with ESMTP id 8C03C3C84B;
-	Wed, 26 Nov 2025 13:36:40 -0600 (CST)
-Date: Wed, 26 Nov 2025 13:32:51 -0600
-From: Danny Kaehn <danny.kaehn@plexus.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Benjamin Tissoires <bentiss@kernel.org>,
-        Andi Shyti <andi.shyti@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
-        Jiri Kosina <jikos@kernel.org>, devicetree@vger.kernel.org,
-        linux-input@vger.kernel.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
-        Ethan Twardy <ethan.twardy@plexus.com>, linux-i2c@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Leo Huang <leohu@nvidia.com>,
-        Arun D Patil <arundp@nvidia.com>, Willie Thai <wthai@nvidia.com>,
-        Ting-Kai Chen <tingkaic@nvidia.com>
-Subject: Re: [PATCH v12 2/3] HID: cp2112: Fwnode Support
-Message-ID: <20251126193251.GA269764@LNDCL34533.neenah.na.plexus.com>
-References: <20251126-cp2112-dt-v12-0-2cdba6481db3@plexus.com>
- <20251126-cp2112-dt-v12-2-2cdba6481db3@plexus.com>
- <aSdGh3i_KYocE3L3@smile.fi.intel.com>
+	s=arc-20240116; t=1764187034; c=relaxed/simple;
+	bh=sFxdQJq77FHB9tvA6CD8aNGyL+khIcZI1+iJPTYgK0o=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=j9KVdxqZ0D0wBUF+oDpQyXEMfVRod4O0F2RtZr81XrssV0X3gEWcdwqSkg+PHZ85AuFJNHacjgC6TaAeRhavSwFCom72w/pRjOTRxsN4SmxBS+3hy1M5CeR6la57E2fthuDSPA+QSyuxn9J2S0A/+Rypbg085O21JUzvBVPKKkw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aoeplI1a; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4779ce2a624so708685e9.2
+        for <linux-input@vger.kernel.org>; Wed, 26 Nov 2025 11:57:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1764187031; x=1764791831; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=5d9lydYHfYTR/ACeyVzgTNDMdFsWzBAH+5B+oqVuOrk=;
+        b=aoeplI1aLf71KS/Lee+Zi0U+oIokFBj1dNIRENWTHxHF+XMVFjlBh7cNGTA2SvVGII
+         +TZDzRAhwOodta9nvijt1pZTTx8oNN89zRzxGz+k6STQDVfK12fpq92Ep9gZ0734pN7i
+         FkwfvfEXmM4hvKWAXsamN9LcvSEh4NkriRCON/CfM8zYCnrGSjb0o74qW1WI4hMOQUbX
+         8IhQfMNtFTAEv9fuIyh8mcIdOlObUel0fsHot7u6F97KERqTVXRwxA9kjwHtV7phwx6f
+         YnCpVrtPxQr9/vt8pQeVHBHbtoO8SxkolwuX4Rv/1HAKzsr6mcoDUKs0tzTIzceQ32D5
+         3Rng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764187031; x=1764791831;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=5d9lydYHfYTR/ACeyVzgTNDMdFsWzBAH+5B+oqVuOrk=;
+        b=e+QAAanKz3nep4FIUnN3Apeyh5XOaklLlmg6q5/o+oOBs431lPpBnC3QpIWALwBBvU
+         XJ7MkhemD/b0l0SVcZEsPomnJbnhdlhJFblN3UTTXxLv3yuoBnEAQOTu6YWVFeNK/oPx
+         RnnlCm+7mA7p5Kci9P1qmVRBU6u8ouKWQyrOsdWxk+1Xuk2GBv2oSoDOAh8cSAXBzvOo
+         eHEJ5r6DIre2A/5rBADh2C9SQ8q47JjtxinLj5WFo+en3rV5RBl6uDeqzsTaDqusGUt7
+         pfRrOFjXpoTZeYxc9PhzSGnAAm7p4vFq/3re3nIBGB+HrOkLDZggEP/B3B0P/OWJKLV3
+         v5Gw==
+X-Forwarded-Encrypted: i=1; AJvYcCVSqeYs1IBJm8OdjN6vxpsisbK/lvp0zwYIsTXyHg06NRFZRkrzWzgsqXmxZSrUPOPyJExEVPK2hZVI3Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz0r8k22rsbfvFuxlhVrLfIr8WYgT/5K9Q9x25vJDa26Kaz7/7g
+	D5iwpNNHO8e/e21AngLaFDKzcnUfSupCvQ9RY8ovaTW8fM75BybduQS875OCPA==
+X-Gm-Gg: ASbGncuSztpXzK1hp/veUX9db2VGh960D5i55J5WsltqsfVDo30IUwP6XWrM0wedl8u
+	0JrPWDTz+ZFU1b9qN7ecSM63Xj28LXqJAUCy7rejKnxIfEfSooHNUWZKY59MLdEK+RWfvM0/AwN
+	rLUtDLQkGsqo+BfHS1GOkNgR9meKq2e2NVmK06kv06b+5a1EghSvH2Ag/kkIKi0xEEEnhGGcI0f
+	P4zkGA2iH8CKydcbrx4Xled/MPm13n+F/GXI180RTFVDPrMFJHOORfDVjuSiUK/1Ukx/g9rdKOR
+	sYKsam8L799AbBrbJPAKtTuxr1bAAmdrQOk8ZheNVakGCVUtFA8iLdFFZJO8RErYdlZXES9OkZw
+	ECqYpHnOp2c4SH4NGmm2Ey4I7Dzpc3mkrwM7tG4SNQkRWqvit4IiCPmBNWZDZkEloHIyKPpgrIB
+	BJidZLzXj5pBlDqpBPYtZ2y3I=
+X-Google-Smtp-Source: AGHT+IGGyxkOHK8GZV6Ekt6wPcd/FqevLtVSgweKGQGNG+bJX6KjbUrpGirBnJ4u9ZEjKg1XNiVySQ==
+X-Received: by 2002:a05:600c:19c6:b0:477:7975:30ea with SMTP id 5b1f17b1804b1-47904b25e46mr73013525e9.29.1764187030408;
+        Wed, 26 Nov 2025 11:57:10 -0800 (PST)
+Received: from [192.168.1.121] ([176.206.93.222])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-479040cfe17sm51335465e9.5.2025.11.26.11.57.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 26 Nov 2025 11:57:09 -0800 (PST)
+Message-ID: <577d33c5-bf91-4a23-813b-43df8135aa0d@gmail.com>
+Date: Wed, 26 Nov 2025 20:57:09 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aSdGh3i_KYocE3L3@smile.fi.intel.com>
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-GUID: GgD16-Dkvl2sczeH9RAqKajCQiO0G6PM
-X-Authority-Analysis: v=2.4 cv=YMuSCBGx c=1 sm=1 tr=0 ts=692756c9 cx=c_pps
- a=356DXeqjepxy6lyVU6o3hA==:117 a=356DXeqjepxy6lyVU6o3hA==:17
- a=kj9zAlcOel0A:10 a=6UeiqGixMTsA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=VwQbUJbxAAAA:8 a=QyXUC8HyAAAA:8 a=St4Fpg3H6rCxK3A6ySgA:9 a=CjuIK1q_8ugA:10
-X-Proofpoint-ORIG-GUID: PhPvQ9bF4TVOif3EeEqThiVmQnSUIoks
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTI2MDE1OSBTYWx0ZWRfX2W28SDF/inQ2
- k/F+2zmnoGYKkow0uSm/iuRfXo3oPjIqwI/T0Zsluxi+OsQLUU3mknrQRKjCScvleBg5wAqz5xZ
- HPivKk5VfePz+s4eqAHwlkj/vBEwW2o1FPUNdn8AgJ+yAA0ZkiSkxR6vIQ+KCvSO4IZ49tmuKRO
- 3Z7PoDoP0MXD9B5uIamBwqEXcFSlcQD7US8jmWE8i1OR6Z29JfW7OR1tnigDo7W/OkhPAhWTEt5
- Mayc9LZwQuKHzqW9I5ySV/dTuH3bUq9ZuiZ5KXfykpAGu3W4rUsGs6iX9bHVSAXfneLFOx1htww
- KltkdPyD924TMmtoEfExzVvJsYSIvcGivdvlaT9uGAI1r/T8swxT+eLbhp8wm8R4ZKo6o01HmBm
- MSCK+xU34cSz78L2AomyuEXMkJxbNQ==
-X-Proofpoint-Spam-Reason: orgsafe
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v10 00/11] HID: asus: Fix ASUS ROG Laptop's Keyboard
+ backlight handling
+To: Hans de Goede <hansg@kernel.org>,
+ =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ Antheas Kapenekakis <lkml@antheas.dev>
+Cc: platform-driver-x86@vger.kernel.org, linux-input@vger.kernel.org,
+ LKML <linux-kernel@vger.kernel.org>, Jiri Kosina <jikos@kernel.org>,
+ Benjamin Tissoires <bentiss@kernel.org>,
+ Corentin Chary <corentin.chary@gmail.com>, "Luke D . Jones" <luke@ljones.dev>
+References: <20251122110032.4274-1-lkml@antheas.dev>
+ <CAGwozwGwkBH_03JvPQrevQiszwDZ5R4uDBnzWVeVXLo8xRmeug@mail.gmail.com>
+ <b91fa2c8-e342-9e46-f401-8c3d0590cd38@linux.intel.com>
+ <4bcc6708-77ff-403d-83cf-10a40934263a@kernel.org>
+Content-Language: en-US, it-IT, en-US-large
+From: Denis Benato <benato.denis96@gmail.com>
+In-Reply-To: <4bcc6708-77ff-403d-83cf-10a40934263a@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Andy,
 
-Thanks for the review!
-
-On Wed, Nov 26, 2025 at 08:27:19PM +0200, Andy Shevchenko wrote:
-> On Wed, Nov 26, 2025 at 11:05:25AM -0600, Danny Kaehn wrote:
-> > Support describing the CP2112's I2C and GPIO interfaces in firmware.
-> > 
-> > Bindings between the firmware nodes and the functions of the device
-> > are distinct between ACPI and DeviceTree.
-> > 
-> > For ACPI, the i2c_adapter will use the child with _ADR Zero and the
-> > gpio_chip will use the child with _ADR One. For DeviceTree, the
-> > i2c_adapter will use the child with name "i2c", but the gpio_chip
-> > will share a firmware node with the CP2112.
-> 
-> Hmm... Is there any explanation why DT decided to go that way?
+On 11/26/25 18:34, Hans de Goede wrote:
+> Hi,
 >
-
-I don't have an explanation, but Rob H. had directed that I make this
-change in [1].
-
-In v11, I then removed that child node for both ACPI and DT, hoping to
-maintain unity, but you had directed that wouldn't be intuitive for ACPI
-in [2].
-
-Thus, in this v12, I have just entirely split the two, as it seemed
-unlikely that any compromise to unify the schema between the two
-firmware languages would be possible for a change/driver this
-inconsquential to the overall kernel.
-
-[1]:
-https://lore.kernel.org/all/20240213152825.GA1223720-robh@kernel.org/
-
-[2]:
-https://lore.kernel.org/all/ZmISaEIGlxZVK_jf@smile.fi.intel.com/
-
-
+> On 26-Nov-25 4:23 PM, Ilpo Järvinen wrote:
+>> On Wed, 26 Nov 2025, Antheas Kapenekakis wrote:
 > ...
-> 
-> > +	if (is_acpi_device_node(hdev->dev.fwnode)) {
-> 
-> Please, do not dereference fwnode, use dev_fwnode() or other APIs for that
-> (actually the same applies to OF node, but people too much neglect that).
 >
-
-Thanks, will do.
-
-> > +		device_for_each_child_node(&hdev->dev, child) {
-> > +			ret = acpi_get_local_address(ACPI_HANDLE_FWNODE(child), &addr);
-> > +			if (ret)
-> > +				continue;
-> > +
-> > +			switch (addr) {
-> > +			case CP2112_I2C_ADR:
-> > +				device_set_node(&dev->adap.dev, child);
-> > +				break;
-> > +			case CP2112_GPIO_ADR:
-> > +				dev->gc.fwnode = child;
-> > +				break;
-> 
-> If by any chance we have malformed table and there are more devices with
-> the same address? Maybe we don't need to address this right now, just
-> asking... (I believe ACPI compiler won't allow that, but table can be
-> crafted directly in the binary format.)
+>>> As for "HID: asus: early return for ROG devices" changing the name of
+>>> the devices of this driver, I will veto backporting it if it happens,
+>>> so inputplumber will have the two full months to remove the name
+>>> match. This is not a breaking change in the sense that software cannot
+>>> be made to work on both previous and latter versions and there is no
+>>> other software to my knowledge relying on name matches for Asus
+>>> keyboards.
+>> Did Hans give some opinion about this rename earlier, at least I don't 
+>> remember nor could find from lore archives?
+> I don't remember commenting on this myself either.
 >
-
-You're sugggesting perhaps that we explicitly keep track of which
-addresses have been encountered, and refuse to do any fwnode parsing
-if we detect the same address used twice? I believe the current behavior
-would be that the "last node wins"; not sure if it should be a "first node
-wins" or a full error scenario...
-
-> > +			}
-> > +		}
-> > +	} else {
-> > +		device_set_node(&dev->adap.dev,
-> > +			device_get_named_child_node(&hdev->dev, "i2c"));
-> 
-> Here we bump the reference count, where is it going to be dropped?
-> 
-> Note, in the other branch (ACPI) the reference count is not bumped in
-> the current code.
+> So generally speaking there are plenty of cases where /dev/input/event#
+> nodes for a specific device have their name changed by some kernel patches.
 >
-
-Great point, forgot that I had dropped that handling in v9. The old
-behavior was that the CP2112 driver maintained a reference to each node
-during the lifetime of the device (and released during probe errors,
-etc..). I'm still a bit confused as to whether that is correct or not,
-or if the references should immediately be dropped once they're done
-being parsed during probe()... My understanding previously was that I
-should keep the reference count for the child fwnodes for the lifetime
-of the CP2112, since the pointers to those are stored in the child
-devices but would usually be managed by the parent bus-level code, does
-that seem correct?
-
-> > +	}
-> 
-> -- 
-> With Best Regards,
-> Andy Shevchenko
-> 
+> Typically HID input devices are matched in userspace by their
+> bus:vend-id:prod-id triplet not by the name. The name might even
+> change by a fwupdate of the device itself.
 >
-
-Thanks,
-
-Danny Kaehn
-
+> So I'm not overly worried about this and inputplumber seems nice
+> enough and already is very much not a plug-and-play tool.
+>
+> One possible concern with laptop keyboard input-device name changes
+> though is hwdb entries to fixup scancode -> ev-key-code mappings.
+>
+> See: /lib/udev/hwdb.d/60-keyboard.hwdb on any standard Linux systems
+> an then the big comment at the top.
+>
+> An input-device name change might break this match pattern:
+>
+> #  - Input driver device name and DMI data match:
+> #      evdev:name:<input device name>:dmi:bvn*:bvr*:bd*:svn<vendor>:pn*
+> #    <input device name> is the name device specified by the
+> #    driver, <vendor> is the firmware-provided string exported
+> #    by the kernel DMI modalias, see /sys/class/dmi/id/modalias
+>
+> As well as the extended version of this and for laptops with USB
+> keyboards this is the only match type which allows a DMI match
+> which is what we want for laptop kbd mappings. Looking at the Asus
+> section of the upstream 60-keyboard.hwdb I do not see any such
+> matches though.
+>
+> There not being such matches kinda make sense since for USB-HID
+> devices any special scancode -> ev-key-code mappings are typically
+> handled in a vendor specific HID driver like hid-asus.
+>
+> TL;DR: I think that the input-device name should be fine.
+Thank you very much for this write-up! Now I feel much more confident
+in giving approval!
+> Regards,
+>
+> Hans
+Thank you,
+Denis
 
