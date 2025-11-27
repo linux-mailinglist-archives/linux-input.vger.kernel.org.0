@@ -1,39 +1,58 @@
-Return-Path: <linux-input+bounces-16383-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16384-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BE49C8F8F7
-	for <lists+linux-input@lfdr.de>; Thu, 27 Nov 2025 17:56:08 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EB05C8FE34
+	for <lists+linux-input@lfdr.de>; Thu, 27 Nov 2025 19:17:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 99AFD4E1EA3
-	for <lists+linux-input@lfdr.de>; Thu, 27 Nov 2025 16:56:04 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id EE8CA34FB3F
+	for <lists+linux-input@lfdr.de>; Thu, 27 Nov 2025 18:17:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0873C3385B9;
-	Thu, 27 Nov 2025 16:55:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E4DC93002DB;
+	Thu, 27 Nov 2025 18:17:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=ariel.dalessandro@collabora.com header.b="MrrmR/Eb"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail.enpas.org (lighthouse.enpas.org [46.38.232.102])
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07C47239E6C;
-	Thu, 27 Nov 2025 16:55:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.38.232.102
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764262545; cv=none; b=RPiLuKKzmS6uEvEy5KQxrDs86U/0DT6t1Az85qusiBn0YYA6OnsTe85v2MEgaQdfUNCDzrcmzDI2ESiWsCQBczmJJrXCsEuXmeALfkzCrWD/evbUsqzwlxm2ieaTZox4jcBqfJBMAe3E7obiZUy0l2on4rOm/Kyrd2TLhjZyfUA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764262545; c=relaxed/simple;
-	bh=KKgyVLDt1LQ6xtQiKuU1VJCsRWj5UA+JmJBJq+gYYh0=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A979A2773DE;
+	Thu, 27 Nov 2025 18:17:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1764267462; cv=pass; b=mQrkinFpyYsJ05Fk51I9hKp1Ml/+WS74Q/077Rg+39i+KvNZW5rjPLPSX11EOm/MI6FiVTky0S+q8mzQEUmg52u2tocgRYOJv7MjL+fDYq3CBN15FmGbutPgHOqysxdrDF64QyN15pHRAuslk6AOzp+vt2m8kIC0AwyajSLtSC4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1764267462; c=relaxed/simple;
+	bh=Am9z6NB1hWcUKAtK2Wd4vEeA4UQDmYpPUuhYvTNI8BM=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=j5Qn3zuXjSp5Hrxeotl8xlb9v3Px/TxpUm9fIQznfZAOG0uLyaVg0I8ag8JlzDdMIIs4uRbc9UyGvc4GuI4aQVAGNuLCqqEVt7agvowrSxp90s634Nwlbr1Jibvefq3gexsnyVI/sAvgTySYWFO53gPZkxY/FZWhS1D+1kCzg8Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=enpas.org; spf=pass smtp.mailfrom=enpas.org; arc=none smtp.client-ip=46.38.232.102
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=enpas.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=enpas.org
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.enpas.org (Postfix) with ESMTPSA id 1D2BD103FD1;
-	Thu, 27 Nov 2025 16:55:31 +0000 (UTC)
-Message-ID: <e1fb509f-6a3a-411f-a756-03c389eb4335@enpas.org>
-Date: Fri, 28 Nov 2025 01:55:29 +0900
+	 In-Reply-To:Content-Type; b=QqhvkhWz17105av0MafZHeOXNp8bBso5CfWJbj+x9agrq/3QNgQ28EklmDcAbW1OQkA6QcGbs4DKbTdLLtugV0BEshl2pMAdfNwncEAJYMbzMz9eyovTxbqhCC+mJJ6pa+Ee2mui5xbQR3j51tef3kKNTo9aq62bUd3/+YH0v3w=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=ariel.dalessandro@collabora.com header.b=MrrmR/Eb; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+ARC-Seal: i=1; a=rsa-sha256; t=1764267379; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=VHNPgFqZa0o6809/T+8jHJoMCBYjd2yZiYvEH43ecdDw0RDEoZBASvS8GXIRjf443u9HWsC87weywb65C5DIBcudiiLSfw66tyl4FaLNKaejlEIJIohOY954WwUx+6cfKsQdPDjAUxOAHUCJW2JVa5BuwC53SzyModibprg79Xg=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1764267379; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=GA9FTV2ejX5xguOwyiDUL1hpvKOTwyB0xhI2crLeIWM=; 
+	b=VzgCDjp9rcRegJe18G1VoZpp248pQnSYb2nnPRvNYWxHUdyyrlHItaUgv2yGSNf+L6cT0ioGjEOUEpK+K0iTAkjcNQ9RhPc7ICm06mhWm7aOWDC7aTqGKcy/QGw9e2DvPfDfeB5pm0C9OwDjdwtPltUGw2ChGO1r7cznhhdiZRQ=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=ariel.dalessandro@collabora.com;
+	dmarc=pass header.from=<ariel.dalessandro@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1764267379;
+	s=zohomail; d=collabora.com; i=ariel.dalessandro@collabora.com;
+	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=GA9FTV2ejX5xguOwyiDUL1hpvKOTwyB0xhI2crLeIWM=;
+	b=MrrmR/EbOR0f5Gb5Xbhy3YhzRySSoWvRdfWRmCgcQVrMezcKplDmR9LS92M5F8YU
+	44hmR7lvwMtOD/5nw3ELxQb8PadU5cfnfMx7ngMJ02a3mou1wD1bDW4FltRjo9ZXijV
+	BVrAa/6yr4xsF2CvbF/50U6ILU5JghWfinyStD5c=
+Received: by mx.zohomail.com with SMTPS id 1764267377521567.410213066609;
+	Thu, 27 Nov 2025 10:16:17 -0800 (PST)
+Message-ID: <2dd059f5-96d4-44a1-84be-b14dce28cf06@collabora.com>
+Date: Thu, 27 Nov 2025 15:15:47 -0300
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -41,43 +60,89 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] HID: memory leak in dualshock4_get_calibration_data
+Subject: Re: [PATCH v2 03/12] dt-bindings: net: Convert Marvell 8897/8997
+ bindings to DT schema
+To: Rob Herring <robh@kernel.org>
+Cc: airlied@gmail.com, amergnat@baylibre.com, andrew+netdev@lunn.ch,
+ andrew-ct.chen@mediatek.com, angelogioacchino.delregno@collabora.com,
+ broonie@kernel.org, chunkuang.hu@kernel.org, conor+dt@kernel.org,
+ davem@davemloft.net, dmitry.torokhov@gmail.com, edumazet@google.com,
+ flora.fu@mediatek.com, heiko@sntech.de, houlong.wei@mediatek.com,
+ jeesw@melfas.com, kernel@collabora.com, krzk+dt@kernel.org, kuba@kernel.org,
+ lgirdwood@gmail.com, linus.walleij@linaro.org,
+ louisalexis.eyraud@collabora.com, luiz.dentz@gmail.com,
+ maarten.lankhorst@linux.intel.com, marcel@holtmann.org,
+ matthias.bgg@gmail.com, mchehab@kernel.org, minghsiu.tsai@mediatek.com,
+ mripard@kernel.org, p.zabel@pengutronix.de, pabeni@redhat.com,
+ sean.wang@kernel.org, simona@ffwll.ch, support.opensource@diasemi.com,
+ tiffany.lin@mediatek.com, tzimmermann@suse.de, yunfei.dong@mediatek.com,
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-bluetooth@vger.kernel.org,
+ linux-gpio@vger.kernel.org, linux-input@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-mediatek@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-sound@vger.kernel.org, netdev@vger.kernel.org
+References: <20250911151001.108744-1-ariel.dalessandro@collabora.com>
+ <20250911151001.108744-4-ariel.dalessandro@collabora.com>
+ <20250912140619.GA1293647-robh@kernel.org>
+ <fb20e4fe-df0a-4089-a7cf-e82bfe1f8e00@collabora.com>
+ <CAL_Jsq+eeiw9oaqQPWt2=rZSX98Pak_oB=tfQFvEehwLZ=S52g@mail.gmail.com>
 Content-Language: en-US
-To: Eslam Khafagy <eslam.medhat1993@gmail.com>,
- Jiri Slaby <jirislaby@kernel.org>, roderick.colenbrander@sony.com,
- jikos@kernel.org, bentiss@kernel.org
-Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
- syzbot+4f5f81e1456a1f645bf8@syzkaller.appspotmail.com, stable@vger.kernel.org
-References: <20251122173712.76397-1-eslam.medhat1993@gmail.com>
- <6251f6df-d4ac-4681-8e8b-6df2514e655b@kernel.org>
- <44eb6401-e021-4c69-96af-0554f4f31e57@enpas.org>
- <f67a5702-4b44-41bb-9538-19063bc28b41@gmail.com>
-From: Max Staudt <max@enpas.org>
-In-Reply-To: <f67a5702-4b44-41bb-9538-19063bc28b41@gmail.com>
+From: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+In-Reply-To: <CAL_Jsq+eeiw9oaqQPWt2=rZSX98Pak_oB=tfQFvEehwLZ=S52g@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
 
+Hi Rob,
 
-On 11/26/25 3:19 AM, Eslam Khafagy wrote:
-> Lastly, One question to max,
-> at the beginning of the function  dualshock4_get_calibration_data
-> buf = kzalloc(DS4_FEATURE_REPORT_CALIBRATION_SIZE, GFP_KERNEL); if (! 
-> buf) { ret = -ENOMEM; goto transfer_failed; }
-> if the allocation fails. can't we just return here
+On 11/24/25 3:54 PM, Rob Herring wrote:
+> On Wed, Oct 1, 2025 at 12:28 PM Ariel D'Alessandro
+> <ariel.dalessandro@collabora.com> wrote:
+>>
+>> Rob,
+>>
+>> On 9/12/25 11:06 AM, Rob Herring wrote:
+>>> On Thu, Sep 11, 2025 at 12:09:52PM -0300, Ariel D'Alessandro wrote:
+>>>> Convert the existing text-based DT bindings for Marvell 8897/8997
+>>>> (sd8897/sd8997) bluetooth devices controller to a DT schema.
+>>>>
+>>>> While here:
+>>>>
+>>>> * bindings for "usb1286,204e" (USB interface) are dropped from the DT
+>>>>     schema definition as these are currently documented in file [0].
+>>>> * DT binding users are updated to use bluetooth generic name
+>>>>     recommendation.
+>>>>
+>>>> [0] Documentation/devicetree/bindings/net/btusb.txt
+>>>>
+>>>> Signed-off-by: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+>>>> ---
+>>>>    .../net/bluetooth/marvell,sd8897-bt.yaml      | 79 ++++++++++++++++++
+>>>>    .../devicetree/bindings/net/btusb.txt         |  2 +-
+>>>>    .../bindings/net/marvell-bt-8xxx.txt          | 83 -------------------
+>>>
+>>>>    .../dts/rockchip/rk3288-veyron-fievel.dts     |  2 +-
+>>>>    .../boot/dts/rockchip/rk3288-veyron-jaq.dts   |  2 +-
+>>>>    arch/arm64/boot/dts/mediatek/mt8173-elm.dtsi  |  2 +-
+>>>
+>>> .dts files should be separate patches. Please send the bindings patches
+>>> separately per subsystem so subsystem maintainers can apply them. All
+>>> the Mediatek dts changes can be 1 series.
+>>
+>> Ack, will fix in v3.
+> 
+> Are you going to send v3 still?
 
-Never.
+Yes, will be sending out v3 asap, with the remaining changes.
+Sorry for the delay.
 
+-- 
+Ariel D'Alessandro
+Software Engineer
 
-> or do we need to go the the end of the function and do sanity checks
-> at the end?
-
-Correct.
-
-
-Without the sanitisation code, the driver will divide by zero.
-
-
-
-Max
+Collabora Ltd.
+Platinum Building, St John's Innovation Park, Cambridge CB4 0DS, UK 
+Registered in England & Wales, no. 5513718
 
 
