@@ -1,88 +1,56 @@
-Return-Path: <linux-input+bounces-16379-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16380-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF3B3C8D2E6
-	for <lists+linux-input@lfdr.de>; Thu, 27 Nov 2025 08:48:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78A4BC8D45A
+	for <lists+linux-input@lfdr.de>; Thu, 27 Nov 2025 09:04:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 38C36351896
-	for <lists+linux-input@lfdr.de>; Thu, 27 Nov 2025 07:48:02 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id B06E234A336
+	for <lists+linux-input@lfdr.de>; Thu, 27 Nov 2025 08:04:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7E8F7321F42;
-	Thu, 27 Nov 2025 07:46:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b="GV1+3zgH"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E45843C1F;
+	Thu, 27 Nov 2025 08:04:23 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 529DC23372C
-	for <linux-input@vger.kernel.org>; Thu, 27 Nov 2025 07:46:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CFAAA302171
+	for <linux-input@vger.kernel.org>; Thu, 27 Nov 2025 08:04:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764229598; cv=none; b=nK5kFmlOf8YDXsYI3OMg7ARwd5Zo9ZaybijSf2cVyEGwD4jmYAO098LKN8MM6PY7p2dMVJiKiGLjmDfMAjD3pJRDcjg1jIFmNlR3qCMuN9temkJXmSuNCIS5tp6qgsJRDFnJSqz+U6HlHs1XchNczRUCu+2K46BD2bOzKsslokY=
+	t=1764230663; cv=none; b=oSnOJvDi2wAhpJE2Eez3Lg3T0Onlmc08EVEnQ2PPsZyUMAyew/dOqGBjPYrkqEqOj6+gS14mm05A773g2MbjAGAHEQv5NNrNbCY78ux3ImuI7XpokRHKJyE7XEArFzJ4wx6DeljKy0dsRzLlDTzsvAiriGaNrfWoDRj1Yteoj+w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764229598; c=relaxed/simple;
-	bh=Wm3ZhBOgwnlfY2W5VGIWg1AKkxdXhR9gwKIvXq0Myc0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GTFMvbqLQt4uuAY8T3hPS0S9rUrQD9dn4XluuMbBBTKcOa9xAnAUyAn24C00pS3GJgQsFRdc7V77XWnhFE6bey9Vmhb3g34iQxa6cHom5Yq5BKW2fgSLuPVJFVmpcXvof4KMORGX8Igg2fbh1V29Qqq7T9zDpPGIdtCRWlyCgqY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=amarulasolutions.com; spf=pass smtp.mailfrom=amarulasolutions.com; dkim=pass (1024-bit key) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b=GV1+3zgH; arc=none smtp.client-ip=209.85.218.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=amarulasolutions.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amarulasolutions.com
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-b735487129fso84914766b.0
-        for <linux-input@vger.kernel.org>; Wed, 26 Nov 2025 23:46:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amarulasolutions.com; s=google; t=1764229594; x=1764834394; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=I57iSPGSJdvo4hExZdg2/yXzMQCRNalZqIfRbvKW8Ek=;
-        b=GV1+3zgHKZy8pzwvaIdmyUULRNouPCskMux1saxhSwg0b/pUr1AKg1YB8tGsuN9L+u
-         xzQccoC7e6XO6YW6QA0tHHZklj3oFtv8ku+zRdPeI8SQe0zf4vkr+uOew1UtZmyGvUnq
-         OAH9UHSBbuJZ0/6Qdtcacx/8g+96cvdfaCOzM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764229594; x=1764834394;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=I57iSPGSJdvo4hExZdg2/yXzMQCRNalZqIfRbvKW8Ek=;
-        b=DOdjWLGYQXdlLfEZH0e1TIq3z8qoSeKT33NehTiSGcHJjzSEci6iyQLWJ3IacpRdDf
-         ct8LPz2+bMy8T7/FIckAXJPofDWOPdIG+jq8OHjXSfPu+HDXI5B55XnoKDc0fxseRZtK
-         lrBOroVt9zOl6f5vJBfYGvgYW9W5VEF1qj9AYfw98KpOxD+sH2aUU8UAJgrvyzl9UTIT
-         lB6/wl3rBfDveDNCyM5slFOL3qDz892MaoBRpHixMzNNEJFp5tDeM2wsqJhUcfU407V9
-         khaTGQsqSDWXdfMc+DqNnzBGHdDXLblrgn+s/Gu3l3DOVFejw4QFLA/p2GuR7ApIR2zx
-         ybtg==
-X-Forwarded-Encrypted: i=1; AJvYcCWKI0FvB+/kN7PymOT8MpfrI6or2esMo94IbLWs7QXldm0FOAfOfCmuttnbugilVFwpuojAG9a8nd46eg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy0lbI54j34n90P78adCWxLoh/owcGUXFjGPGhHC3wINzwkpNzS
-	viURHIkX6FRli1GDKulsF8B99fcyrxGy8rc7vs+OWKwSGjBOPgnlf3LaSUMTv8hkZHNdWT6uYJh
-	lKlRC
-X-Gm-Gg: ASbGnctbhq5OLjyzg7p46VAEL5FzdiItk271pP/xAbirND3ALCixtEMZi+eLQmmo9bt
-	Visc5rrMXJNTiKjTeIKO+9WlaqQRllmXnavttsiCBpUTcQZ8b6hosNf54LgvGpAyzZdcuY4Mk52
-	ckIsTsB44kXDLRtlCIWUmoWIjEBBVEY/trMxkaFTE6yBNXHoOSFTU5WpdExPR3faOk4awOtykCc
-	swm2pcYFi0btA0KJjSBZ3gHBYSw5HAx7PHWE6d6N1FTl+2h/zSbj2RRMlw+ZRCDFlg5szTf8VUv
-	WP5wawupzE/y1eMv/vTPgfwtIucmxJqxgkwBDf/NPithWeBE1Pu0GlO/C8vhxqBZb/C3k32lAC1
-	G/i/uz1uR0Y6GxItRwnyq7tTpt7y3VWUBY69i4EcpYwWHrC2cZmNj3vfUageg+Jj1mc20UvJa+/
-	6g0+RyWnP/uuLQmt4nI7LvcVLVrXUJi0vJHDQ5pv1HUPEWjvZDgOhVKrBk10Vn2/L+lIeF00Ke9
-	HFNxJ8p8A+WFpOOOuOhcmkvogIUhbljgYKWQ0lqIp2xHak=
-X-Google-Smtp-Source: AGHT+IEgx3bglb1EkfZgShJUGyqy+Y6wzWQac9BwM5RQzPqtJgXdrFY9KX/BK/jMNa+Dg7A1opAdfw==
-X-Received: by 2002:a17:907:26c2:b0:b4e:f7cc:72f1 with SMTP id a640c23a62f3a-b76715aba47mr2280426566b.22.1764229594426;
-        Wed, 26 Nov 2025 23:46:34 -0800 (PST)
-Received: from dario-ThinkPad-P14s-Gen-5.amarulasolutions.com (host-87-4-36-237.retail.telecomitalia.it. [87.4.36.237])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b76f51c55e9sm91435666b.26.2025.11.26.23.46.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Nov 2025 23:46:34 -0800 (PST)
-From: Dario Binacchi <dario.binacchi@amarulasolutions.com>
-To: linux-kernel@vger.kernel.org
-Cc: linux-amarula@amarulasolutions.com,
-	Dario Binacchi <dario.binacchi@amarulasolutions.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Jens Reidel <adrian@mainlining.org>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	linux-input@vger.kernel.org
-Subject: [RESEND PATCH v2] Input: edt-ft5x06 - fix report rate handling by sysfs
-Date: Thu, 27 Nov 2025 08:46:21 +0100
-Message-ID: <20251127074626.1953741-1-dario.binacchi@amarulasolutions.com>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1764230663; c=relaxed/simple;
+	bh=KOPFJ17HkWX7E7Ta9vHN/wFasXA7kCCiIMTaL5fwtVU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=BIgb3ElLKVBOLWLPaJ9sgkIHCCV1ky68nqTbkogpT1AumW+CO/g/SxPofSGLP18I1bClU07YScdyGvVHqkV+UicbscindKDvEo0BRRdgUdZj5KPL3xw9IdJTLtJSzE0AGMCxEVxtrIy6jxIGi77qjIE/T9C6B+SKtbk8D+3AF6g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
+Received: from loongson.cn (unknown [223.64.68.219])
+	by gateway (Coremail) with SMTP id _____8AxRNABBihpsKgoAA--.21190S3;
+	Thu, 27 Nov 2025 16:04:17 +0800 (CST)
+Received: from localhost.localdomain (unknown [223.64.68.219])
+	by front1 (Coremail) with SMTP id qMiowJDxQ+T7BShpis9AAQ--.48316S2;
+	Thu, 27 Nov 2025 16:04:14 +0800 (CST)
+From: Binbin Zhou <zhoubinbin@loongson.cn>
+To: Binbin Zhou <zhoubb.aaron@gmail.com>,
+	Huacai Chen <chenhuacai@loongson.cn>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Huacai Chen <chenhuacai@kernel.org>,
+	Xuerui Wang <kernel@xen0n.name>,
+	loongarch@lists.linux.dev,
+	linux-input@vger.kernel.org,
+	Xiaotian Wu <wuxiaotian@loongson.cn>,
+	jeffbai@aosc.io,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	Binbin Zhou <zhoubinbin@loongson.cn>,
+	Jon Xie <jon_xie@pixart.com>,
+	Jay Lee <jay_lee@pixart.com>,
+	Kexy Biscuit <kexybiscuit@aosc.io>
+Subject: [RESEND v5] Input: Add driver for PixArt PS/2 touchpad
+Date: Thu, 27 Nov 2025 16:02:03 +0800
+Message-ID: <20251127080203.3218018-1-zhoubinbin@loongson.cn>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -90,238 +58,515 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:qMiowJDxQ+T7BShpis9AAQ--.48316S2
+X-CM-SenderInfo: p2kr3uplqex0o6or00hjvr0hdfq/1tbiAgETCGkn6BYCtAAAse
+X-Coremail-Antispam: 1Uk129KBj9fXoW3uFWDWw4xtw4DWrWkur1fKrX_yoW8Jw4Uuo
+	WfZrZIqw4rtw1xZ3s0k3WxK3W3XanFka93Zw4YkrZ0vry0yw1YgFyUtw1UJa13KrWYqFs3
+	JrnaqF48Xr4furn3l-sFpf9Il3svdjkaLaAFLSUrUUUU8b8apTn2vfkv8UJUUUU8wcxFpf
+	9Il3svdxBIdaVrn0xqx4xG64xvF2IEw4CE5I8CrVC2j2Jv73VFW2AGmfu7bjvjm3AaLaJ3
+	UjIYCTnIWjp_UUUYA7kC6x804xWl14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI
+	8IcIk0rVWrJVCq3wAFIxvE14AKwVWUXVWUAwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xG
+	Y2AK021l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14
+	v26r1j6r4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAF
+	wI0_Gr1j6F4UJwAaw2AFwI0_Jrv_JF1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2
+	xF0cIa020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_
+	JF0_Jw1lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x
+	0EwIxGrwCY1x0262kKe7AKxVWUAVWUtwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkE
+	bVWUJVW8JwCFI7km07C267AKxVWUXVWUAwC20s026c02F40E14v26r1j6r18MI8I3I0E74
+	80Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0
+	I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04
+	k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7Cj
+	xVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU8HKZJUUUUU==
 
-In the driver probe, the report-rate-hz value from device tree is written
-directly to the M12 controller register, while for the M06 it is divided
-by 10 since the controller expects the value in units of 10 Hz. That logic
-was missing in the sysfs handling, leading to inconsistent behavior
-depending on whether the value came from device tree or sysfs.
+This patch introduces a driver for the PixArt PS/2 touchpad, which
+supports both clickpad and touchpad types.
 
-This patch makes the report-rate handling consistent by applying the same
-logic in both cases. Two dedicated functions, report_rate_hz_{show,store},
-were added for the following reasons:
+At the same time, we extended the single data packet length to 16,
+because according to the current PixArt hardware and FW design, we need
+11 bytes/15 bytes to represent the complete three-finger/four-finger data.
 
-- Avoid modifying the more generic edt_ft5x06_setting_{show,store} and
-  thus prevent regressions.
-- Properly enforce lower and upper limits for the M06 case. The previous
-  version accepted invalid values for M06, since it relied on the M12
-  limits.
-- Return an error when the property is not supported (e.g. M09), to avoid
-  misleading users into thinking the property is handled by the
-  controller.
-
-Signed-off-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
-
+Co-developed-by: Jon Xie <jon_xie@pixart.com>
+Signed-off-by: Jon Xie <jon_xie@pixart.com>
+Co-developed-by: Jay Lee <jay_lee@pixart.com>
+Signed-off-by: Jay Lee <jay_lee@pixart.com>
+Signed-off-by: Binbin Zhou <zhoubinbin@loongson.cn>
+Tested-by: Kexy Biscuit <kexybiscuit@aosc.io>
 ---
+After rewriting the determination conditions for the PixArt touchpad type,
+we tested multiple types of touchpads and no longer get false positives for
+non-PixArt devices.
 
-Changes in v2:
-- Drop the patch:
-  1/2 Input: edt-ft5x06 - rename sysfs attribute report_rate to report_rate_hz
-  because not accepted.
+So, I am attempting to resend the patch, thanks.
 
- drivers/input/touchscreen/edt-ft5x06.c | 158 +++++++++++++++++++++----
- 1 file changed, 135 insertions(+), 23 deletions(-)
+ drivers/input/mouse/Kconfig        |  12 ++
+ drivers/input/mouse/Makefile       |   1 +
+ drivers/input/mouse/pixart_ps2.c   | 310 +++++++++++++++++++++++++++++
+ drivers/input/mouse/pixart_ps2.h   |  36 ++++
+ drivers/input/mouse/psmouse-base.c |  17 ++
+ drivers/input/mouse/psmouse.h      |   3 +-
+ 6 files changed, 378 insertions(+), 1 deletion(-)
+ create mode 100644 drivers/input/mouse/pixart_ps2.c
+ create mode 100644 drivers/input/mouse/pixart_ps2.h
 
-diff --git a/drivers/input/touchscreen/edt-ft5x06.c b/drivers/input/touchscreen/edt-ft5x06.c
-index bf498bd4dea9..d7a269a0528f 100644
---- a/drivers/input/touchscreen/edt-ft5x06.c
-+++ b/drivers/input/touchscreen/edt-ft5x06.c
-@@ -516,9 +516,136 @@ static EDT_ATTR(offset_y, S_IWUSR | S_IRUGO, NO_REGISTER, NO_REGISTER,
- /* m06: range 20 to 80, m09: range 0 to 30, m12: range 1 to 255... */
- static EDT_ATTR(threshold, S_IWUSR | S_IRUGO, WORK_REGISTER_THRESHOLD,
- 		M09_REGISTER_THRESHOLD, EV_REGISTER_THRESHOLD, 0, 255);
--/* m06: range 3 to 14, m12: range 1 to 255 */
--static EDT_ATTR(report_rate, S_IWUSR | S_IRUGO, WORK_REGISTER_REPORT_RATE,
--		M12_REGISTER_REPORT_RATE, NO_REGISTER, 0, 255);
+diff --git a/drivers/input/mouse/Kconfig b/drivers/input/mouse/Kconfig
+index 833b643f0616..8a27a20d04b0 100644
+--- a/drivers/input/mouse/Kconfig
++++ b/drivers/input/mouse/Kconfig
+@@ -69,6 +69,18 @@ config MOUSE_PS2_LOGIPS2PP
+ 
+ 	  If unsure, say Y.
+ 
++config MOUSE_PS2_PIXART
++	bool "PixArt PS/2 touchpad protocol extension" if EXPERT
++	default y
++	depends on MOUSE_PS2
++	help
++	  This driver supports the PixArt PS/2 touchpad found in some
++	  laptops.
++	  Say Y here if you have a PixArt PS/2 TouchPad connected to
++	  your system.
 +
-+static int edt_ft5x06_report_rate_get(struct edt_ft5x06_ts_data *tsdata)
++	  If unsure, say Y.
++
+ config MOUSE_PS2_SYNAPTICS
+ 	bool "Synaptics PS/2 mouse protocol extension" if EXPERT
+ 	default y
+diff --git a/drivers/input/mouse/Makefile b/drivers/input/mouse/Makefile
+index a1336d5bee6f..563029551529 100644
+--- a/drivers/input/mouse/Makefile
++++ b/drivers/input/mouse/Makefile
+@@ -32,6 +32,7 @@ psmouse-$(CONFIG_MOUSE_PS2_ELANTECH)	+= elantech.o
+ psmouse-$(CONFIG_MOUSE_PS2_OLPC)	+= hgpk.o
+ psmouse-$(CONFIG_MOUSE_PS2_LOGIPS2PP)	+= logips2pp.o
+ psmouse-$(CONFIG_MOUSE_PS2_LIFEBOOK)	+= lifebook.o
++psmouse-$(CONFIG_MOUSE_PS2_PIXART)	+= pixart_ps2.o
+ psmouse-$(CONFIG_MOUSE_PS2_SENTELIC)	+= sentelic.o
+ psmouse-$(CONFIG_MOUSE_PS2_TRACKPOINT)	+= trackpoint.o
+ psmouse-$(CONFIG_MOUSE_PS2_TOUCHKIT)	+= touchkit_ps2.o
+diff --git a/drivers/input/mouse/pixart_ps2.c b/drivers/input/mouse/pixart_ps2.c
+new file mode 100644
+index 000000000000..682aa6499e63
+--- /dev/null
++++ b/drivers/input/mouse/pixart_ps2.c
+@@ -0,0 +1,310 @@
++// SPDX-License-Identifier: GPL-2.0-or-later
++/*
++ * Pixart Touchpad Controller 1336U PS2 driver
++ *
++ * Author: Jon Xie <jon_xie@pixart.com>
++ *         Jay Lee <jay_lee@pixart.com>
++ * Further cleanup and restructuring by:
++ *         Binbin Zhou <zhoubinbin@loongson.cn>
++ *
++ * Copyright (C) 2021-2024 Pixart Imaging.
++ * Copyright (C) 2024-2025 Loongson Technology Corporation Limited.
++ *
++ */
++
++#include <linux/bitfield.h>
++#include <linux/delay.h>
++#include <linux/device.h>
++#include <linux/input.h>
++#include <linux/input/mt.h>
++#include <linux/libps2.h>
++#include <linux/serio.h>
++#include <linux/slab.h>
++
++#include "pixart_ps2.h"
++
++static int pixart_read_tp_mode(struct ps2dev *ps2dev, u8 *mode)
 +{
-+	unsigned int val;
 +	int error;
++	u8 param[1] = { 0 };
 +
-+	if (tsdata->reg_addr.reg_report_rate == NO_REGISTER)
-+		return -EOPNOTSUPP;
-+
-+	error = regmap_read(tsdata->regmap, tsdata->reg_addr.reg_report_rate,
-+			    &val);
++	error = ps2_command(ps2dev, param, PIXART_CMD_REPORT_FORMAT);
 +	if (error)
 +		return error;
 +
-+	if (tsdata->version == EDT_M06)
-+		val *= 10;
++	*mode = param[0] == 1 ? PIXART_MODE_ABS : PIXART_MODE_REL;
 +
-+	if (val != tsdata->report_rate) {
-+		dev_warn(&tsdata->client->dev,
-+			 "report-rate: read (%d) and stored value (%d) differ\n",
-+			 val, tsdata->report_rate);
-+		tsdata->report_rate = val;
++	return 0;
++}
++
++static int pixart_read_tp_type(struct ps2dev *ps2dev, u8 *type)
++{
++	int error;
++	u8 param[3] = { 0 };
++
++	param[0] = 0xa;
++	error = ps2_command(ps2dev, param, PSMOUSE_CMD_SETRATE);
++	if (error)
++		return error;
++
++	param[0] = 0x0;
++	error = ps2_command(ps2dev, param, PSMOUSE_CMD_SETRES);
++	if (error)
++		return error;
++
++	error = ps2_command(ps2dev, param, PSMOUSE_CMD_SETRES);
++	if (error)
++		return error;
++
++	error = ps2_command(ps2dev, param, PSMOUSE_CMD_SETRES);
++	if (error)
++		return error;
++
++	param[0] = 0x3;
++	error = ps2_command(ps2dev, param, PSMOUSE_CMD_SETRES);
++	if (error)
++		return error;
++
++	error = ps2_command(ps2dev, param, PSMOUSE_CMD_GETINFO);
++	if (error)
++		return error;
++
++	switch (param[0]) {
++	case 0xc:
++		*type = PIXART_TYPE_CLICKPAD;
++		break;
++	case 0xe:
++		*type = PIXART_TYPE_TOUCHPAD;
++		break;
++	default:
++		return -EIO;
 +	}
 +
 +	return 0;
 +}
 +
-+static ssize_t report_rate_show(struct device *dev,
-+				struct device_attribute *dattr, char *buf)
++static void pixart_reset(struct psmouse *psmouse)
 +{
-+	struct i2c_client *client = to_i2c_client(dev);
-+	struct edt_ft5x06_ts_data *tsdata = i2c_get_clientdata(client);
-+	size_t count;
-+	int error;
++	ps2_command(&psmouse->ps2dev, NULL, PSMOUSE_CMD_RESET_DIS);
 +
-+	mutex_lock(&tsdata->mutex);
-+
-+	if (tsdata->factory_mode) {
-+		error = -EIO;
-+		goto out;
-+	}
-+
-+	error = edt_ft5x06_report_rate_get(tsdata);
-+	if (error) {
-+		dev_err(&tsdata->client->dev,
-+			"Failed to fetch attribute %s, error %d\n",
-+			dattr->attr.name, error);
-+		goto out;
-+	}
-+
-+	count = sysfs_emit(buf, "%d\n", tsdata->report_rate);
-+out:
-+	mutex_unlock(&tsdata->mutex);
-+	return error ?: count;
++	/* according to PixArt, 100ms is required for the upcoming reset */
++	msleep(100);
++	psmouse_reset(psmouse);
 +}
 +
-+static int edt_ft5x06_report_rate_set(struct edt_ft5x06_ts_data *tsdata,
-+				      unsigned int val)
++static void pixart_process_packet(struct psmouse *psmouse)
 +{
-+	if (tsdata->reg_addr.reg_report_rate == NO_REGISTER)
-+		return -EOPNOTSUPP;
++	struct pixart_data *priv = psmouse->private;
++	struct input_dev *dev = psmouse->dev;
++	const u8 *pkt = psmouse->packet;
++	unsigned int contact_cnt = FIELD_GET(CONTACT_CNT_MASK, pkt[0]);
++	unsigned int i, id, abs_x, abs_y;
++	bool tip;
 +
-+	if (tsdata->version == EDT_M06)
-+		tsdata->report_rate = clamp_val(val, 30, 140);
-+	else
-+		tsdata->report_rate = clamp_val(val, 1, 255);
++	for (i = 0; i < contact_cnt; i++) {
++		const u8 *p = &pkt[i * 3];
 +
-+	if (val != tsdata->report_rate) {
-+		dev_warn(&tsdata->client->dev,
-+			 "report-rate %dHz is unsupported, use %dHz\n",
-+			 val, tsdata->report_rate);
-+		val = tsdata->report_rate;
++		id = FIELD_GET(SLOT_ID_MASK, p[3]);
++		abs_y = FIELD_GET(ABS_Y_MASK, p[3]) << 8 | p[1];
++		abs_x = FIELD_GET(ABS_X_MASK, p[3]) << 8 | p[2];
++
++		if (i == PIXART_MAX_FINGERS - 1)
++			tip = pkt[14] & BIT(1);
++		else
++			tip = pkt[3 * contact_cnt + 1] & BIT(2 * i + 1);
++
++		input_mt_slot(dev, id);
++		if (input_mt_report_slot_state(dev, MT_TOOL_FINGER, tip)) {
++			input_report_abs(dev, ABS_MT_POSITION_Y, abs_y);
++			input_report_abs(dev, ABS_MT_POSITION_X, abs_x);
++		}
 +	}
 +
-+	if (tsdata->version == EDT_M06)
-+		val /= 10;
++	input_mt_sync_frame(dev);
 +
-+	return regmap_write(tsdata->regmap, tsdata->reg_addr.reg_report_rate,
-+			    val);
-+}
-+
-+static ssize_t report_rate_store(struct device *dev,
-+				 struct device_attribute *dattr,
-+				 const char *buf, size_t count)
-+{
-+	struct i2c_client *client = to_i2c_client(dev);
-+	struct edt_ft5x06_ts_data *tsdata = i2c_get_clientdata(client);
-+	unsigned int val;
-+	u8 limit_low;
-+	u8 limit_high;
-+	int error;
-+
-+	mutex_lock(&tsdata->mutex);
-+
-+	if (tsdata->factory_mode) {
-+		error = -EIO;
-+		goto out;
-+	}
-+
-+	error = kstrtouint(buf, 0, &val);
-+	if (error)
-+		goto out;
-+
-+	if (tsdata->version == EDT_M06) {
-+		limit_low = 30;
-+		limit_high = 140;
++	if (priv->type == PIXART_TYPE_CLICKPAD) {
++		input_report_key(dev, BTN_LEFT, pkt[0] & 0x03);
 +	} else {
-+		limit_low = 1;
-+		limit_high = 255;
++		input_report_key(dev, BTN_LEFT, pkt[0] & BIT(0));
++		input_report_key(dev, BTN_RIGHT, pkt[0] & BIT(1));
 +	}
 +
-+	if (val < limit_low || val > limit_high) {
-+		error = -ERANGE;
-+		goto out;
-+	}
-+
-+	error = edt_ft5x06_report_rate_set(tsdata, val);
-+	if (error) {
-+		dev_err(&tsdata->client->dev,
-+			"Failed to update attribute %s, error: %d\n",
-+			dattr->attr.name, error);
-+		goto out;
-+	}
-+
-+out:
-+	mutex_unlock(&tsdata->mutex);
-+	return error ?: count;
++	input_sync(dev);
 +}
 +
-+static DEVICE_ATTR_RW(report_rate);
- 
- static ssize_t model_show(struct device *dev, struct device_attribute *attr,
- 			  char *buf)
-@@ -572,7 +699,7 @@ static struct attribute *edt_ft5x06_attrs[] = {
- 	&edt_ft5x06_attr_offset_x.dattr.attr,
- 	&edt_ft5x06_attr_offset_y.dattr.attr,
- 	&edt_ft5x06_attr_threshold.dattr.attr,
--	&edt_ft5x06_attr_report_rate.dattr.attr,
-+	&dev_attr_report_rate.attr,
- 	&dev_attr_model.attr,
- 	&dev_attr_fw_version.attr,
- 	&dev_attr_header_errors.attr,
-@@ -595,8 +722,7 @@ static void edt_ft5x06_restore_reg_parameters(struct edt_ft5x06_ts_data *tsdata)
- 	if (reg_addr->reg_offset_y != NO_REGISTER)
- 		regmap_write(regmap, reg_addr->reg_offset_y, tsdata->offset_y);
- 	if (reg_addr->reg_report_rate != NO_REGISTER)
--		regmap_write(regmap, reg_addr->reg_report_rate,
--			     tsdata->report_rate);
-+		edt_ft5x06_report_rate_set(tsdata, tsdata->report_rate);
- }
- 
- #ifdef CONFIG_DEBUG_FS
-@@ -1029,8 +1155,8 @@ static void edt_ft5x06_ts_get_parameters(struct edt_ft5x06_ts_data *tsdata)
- 	if (reg_addr->reg_offset_y != NO_REGISTER)
- 		regmap_read(regmap, reg_addr->reg_offset_y, &tsdata->offset_y);
- 	if (reg_addr->reg_report_rate != NO_REGISTER)
--		regmap_read(regmap, reg_addr->reg_report_rate,
--			    &tsdata->report_rate);
-+		edt_ft5x06_report_rate_get(tsdata);
++static psmouse_ret_t pixart_protocol_handler(struct psmouse *psmouse)
++{
++	u8 *pkt = psmouse->packet;
++	u8 contact_cnt;
 +
- 	tsdata->num_x = EDT_DEFAULT_NUM_X;
- 	if (reg_addr->reg_num_x != NO_REGISTER) {
- 		if (!regmap_read(regmap, reg_addr->reg_num_x, &val))
-@@ -1289,21 +1415,7 @@ static int edt_ft5x06_ts_probe(struct i2c_client *client)
- 	if (tsdata->reg_addr.reg_report_rate != NO_REGISTER &&
- 	    !device_property_read_u32(&client->dev,
- 				      "report-rate-hz", &report_rate)) {
--		if (tsdata->version == EDT_M06)
--			tsdata->report_rate = clamp_val(report_rate, 30, 140);
--		else
--			tsdata->report_rate = clamp_val(report_rate, 1, 255);
--
--		if (report_rate != tsdata->report_rate)
--			dev_warn(&client->dev,
--				 "report-rate %dHz is unsupported, use %dHz\n",
--				 report_rate, tsdata->report_rate);
--
--		if (tsdata->version == EDT_M06)
--			tsdata->report_rate /= 10;
--
--		regmap_write(tsdata->regmap, tsdata->reg_addr.reg_report_rate,
--			     tsdata->report_rate);
-+		edt_ft5x06_report_rate_set(tsdata, report_rate);
++	if ((pkt[0] & 0x8c) != 0x80)
++		return PSMOUSE_BAD_DATA;
++
++	contact_cnt = FIELD_GET(CONTACT_CNT_MASK, pkt[0]);
++	if (contact_cnt > PIXART_MAX_FINGERS)
++		return PSMOUSE_BAD_DATA;
++
++	if (contact_cnt == PIXART_MAX_FINGERS &&
++	    psmouse->pktcnt < psmouse->pktsize) {
++		return PSMOUSE_GOOD_DATA;
++	}
++
++	if (contact_cnt == 0 && psmouse->pktcnt < 5)
++		return PSMOUSE_GOOD_DATA;
++
++	if (psmouse->pktcnt < 3 * contact_cnt + 2)
++		return PSMOUSE_GOOD_DATA;
++
++	pixart_process_packet(psmouse);
++
++	return PSMOUSE_FULL_PACKET;
++}
++
++static void pixart_disconnect(struct psmouse *psmouse)
++{
++	pixart_reset(psmouse);
++	kfree(psmouse->private);
++	psmouse->private = NULL;
++}
++
++static int pixart_reconnect(struct psmouse *psmouse)
++{
++	struct ps2dev *ps2dev = &psmouse->ps2dev;
++	u8 mode;
++	int error;
++
++	pixart_reset(psmouse);
++
++	error = pixart_read_tp_mode(ps2dev, &mode);
++	if (error)
++		return error;
++
++	if (mode != PIXART_MODE_ABS)
++		return -EIO;
++
++	error = ps2_command(ps2dev, NULL, PIXART_CMD_SWITCH_PROTO);
++	if (error)
++		return error;
++
++	return 0;
++}
++
++static int pixart_set_input_params(struct input_dev *dev,
++				   struct pixart_data *priv)
++{
++	/* No relative support */
++	__clear_bit(EV_REL, dev->evbit);
++	__clear_bit(REL_X, dev->relbit);
++	__clear_bit(REL_Y, dev->relbit);
++	__clear_bit(BTN_MIDDLE, dev->keybit);
++
++	/* Buttons */
++	__set_bit(EV_KEY, dev->evbit);
++	__set_bit(BTN_LEFT, dev->keybit);
++	if (priv->type == PIXART_TYPE_CLICKPAD)
++		__set_bit(INPUT_PROP_BUTTONPAD, dev->propbit);
++	else
++		__set_bit(BTN_RIGHT, dev->keybit);
++
++	/* Absolute position */
++	input_set_abs_params(dev, ABS_X, 0, PIXART_PAD_WIDTH, 0, 0);
++	input_set_abs_params(dev, ABS_Y, 0, PIXART_PAD_HEIGHT, 0, 0);
++
++	input_set_abs_params(dev, ABS_MT_POSITION_X,
++			     0, PIXART_PAD_WIDTH, 0, 0);
++	input_set_abs_params(dev, ABS_MT_POSITION_Y,
++			     0, PIXART_PAD_HEIGHT, 0, 0);
++
++	return input_mt_init_slots(dev, PIXART_MAX_FINGERS,
++				   INPUT_MT_POINTER | INPUT_MT_DROP_UNUSED);
++}
++
++static int pixart_query_hardware(struct ps2dev *ps2dev, u8 *mode, u8 *type)
++{
++	int error;
++
++	error = pixart_read_tp_type(ps2dev, type);
++	if (error)
++		return error;
++
++	error = pixart_read_tp_mode(ps2dev, mode);
++	if (error)
++		return error;
++
++	return 0;
++}
++
++int pixart_detect(struct psmouse *psmouse, bool set_properties)
++{
++	u8 type;
++	int error;
++
++	pixart_reset(psmouse);
++
++	error = pixart_read_tp_type(&psmouse->ps2dev, &type);
++	if (error)
++		return error;
++
++	if (set_properties) {
++		psmouse->vendor = "PixArt";
++		psmouse->name = (type == PIXART_TYPE_TOUCHPAD) ?
++				"touchpad" : "clickpad";
++	}
++
++	return 0;
++}
++
++int pixart_init(struct psmouse *psmouse)
++{
++	int error;
++	struct pixart_data *priv;
++
++	priv = kzalloc(sizeof(*priv), GFP_KERNEL);
++	if (!priv)
++		return -ENOMEM;
++
++	psmouse->private = priv;
++	pixart_reset(psmouse);
++
++	error = pixart_query_hardware(&psmouse->ps2dev,
++				      &priv->mode, &priv->type);
++	if (error) {
++		psmouse_err(psmouse, "init: Unable to query PixArt touchpad hardware.\n");
++		goto err_exit;
++	}
++
++	/* Relative mode follows standard PS/2 mouse protocol */
++	if (priv->mode != PIXART_MODE_ABS) {
++		error = -EIO;
++		goto err_exit;
++	}
++
++	/* Set absolute mode */
++	error = ps2_command(&psmouse->ps2dev, NULL, PIXART_CMD_SWITCH_PROTO);
++	if (error) {
++		psmouse_err(psmouse, "init: Unable to initialize PixArt absolute mode.\n");
++		goto err_exit;
++	}
++
++	error = pixart_set_input_params(psmouse->dev, priv);
++	if (error) {
++		psmouse_err(psmouse, "init: Unable to set input params.\n");
++		goto err_exit;
++	}
++
++	psmouse->pktsize = 15;
++	psmouse->protocol_handler = pixart_protocol_handler;
++	psmouse->disconnect = pixart_disconnect;
++	psmouse->reconnect = pixart_reconnect;
++	psmouse->cleanup = pixart_reset;
++	/* resync is not supported yet */
++	psmouse->resync_time = 0;
++
++	return 0;
++
++err_exit:
++	pixart_reset(psmouse);
++	kfree(priv);
++	psmouse->private = NULL;
++	return error;
++}
+diff --git a/drivers/input/mouse/pixart_ps2.h b/drivers/input/mouse/pixart_ps2.h
+new file mode 100644
+index 000000000000..47a1d040f2d1
+--- /dev/null
++++ b/drivers/input/mouse/pixart_ps2.h
+@@ -0,0 +1,36 @@
++/* SPDX-License-Identifier: GPL-2.0-or-later */
++#ifndef _PIXART_PS2_H
++#define _PIXART_PS2_H
++
++#include "psmouse.h"
++
++#define PIXART_PAD_WIDTH		1023
++#define PIXART_PAD_HEIGHT		579
++#define PIXART_MAX_FINGERS		4
++
++#define PIXART_CMD_REPORT_FORMAT	0x01d8
++#define PIXART_CMD_SWITCH_PROTO		0x00de
++
++#define PIXART_MODE_REL			0
++#define PIXART_MODE_ABS			1
++
++#define PIXART_TYPE_CLICKPAD		0
++#define PIXART_TYPE_TOUCHPAD		1
++
++#define CONTACT_CNT_MASK		GENMASK(6, 4)
++
++#define SLOT_ID_MASK			GENMASK(2, 0)
++#define ABS_Y_MASK			GENMASK(5, 4)
++#define ABS_X_MASK			GENMASK(7, 6)
++
++struct pixart_data {
++	u8 mode;
++	u8 type;
++	int x_max;
++	int y_max;
++};
++
++int pixart_detect(struct psmouse *psmouse, bool set_properties);
++int pixart_init(struct psmouse *psmouse);
++
++#endif  /* _PIXART_PS2_H */
+diff --git a/drivers/input/mouse/psmouse-base.c b/drivers/input/mouse/psmouse-base.c
+index 77ea7da3b1c5..f708b75eb91b 100644
+--- a/drivers/input/mouse/psmouse-base.c
++++ b/drivers/input/mouse/psmouse-base.c
+@@ -36,6 +36,7 @@
+ #include "focaltech.h"
+ #include "vmmouse.h"
+ #include "byd.h"
++#include "pixart_ps2.h"
+ 
+ #define DRIVER_DESC	"PS/2 mouse driver"
+ 
+@@ -905,6 +906,15 @@ static const struct psmouse_protocol psmouse_protocols[] = {
+ 		.detect		= byd_detect,
+ 		.init		= byd_init,
+ 	},
++#endif
++#ifdef CONFIG_MOUSE_PS2_PIXART
++	{
++		.type		= PSMOUSE_PIXART,
++		.name		= "PixArtPS/2",
++		.alias		= "pixart",
++		.detect		= pixart_detect,
++		.init		= pixart_init,
++	},
+ #endif
+ 	{
+ 		.type		= PSMOUSE_AUTO,
+@@ -1172,6 +1182,13 @@ static int psmouse_extensions(struct psmouse *psmouse,
+ 			return ret;
  	}
  
- 	dev_dbg(&client->dev,
--- 
-2.43.0
++	/* Try PixArt touchpad */
++	if (max_proto > PSMOUSE_IMEX &&
++	    psmouse_try_protocol(psmouse, PSMOUSE_PIXART, &max_proto,
++				 set_properties, true)) {
++		return PSMOUSE_PIXART;
++	}
++
+ 	if (max_proto > PSMOUSE_IMEX) {
+ 		if (psmouse_try_protocol(psmouse, PSMOUSE_GENPS,
+ 					 &max_proto, set_properties, true))
+diff --git a/drivers/input/mouse/psmouse.h b/drivers/input/mouse/psmouse.h
+index 4d8acfe0d82a..23f7fa7243cb 100644
+--- a/drivers/input/mouse/psmouse.h
++++ b/drivers/input/mouse/psmouse.h
+@@ -69,6 +69,7 @@ enum psmouse_type {
+ 	PSMOUSE_BYD,
+ 	PSMOUSE_SYNAPTICS_SMBUS,
+ 	PSMOUSE_ELANTECH_SMBUS,
++	PSMOUSE_PIXART,
+ 	PSMOUSE_AUTO		/* This one should always be last */
+ };
+ 
+@@ -94,7 +95,7 @@ struct psmouse {
+ 	const char *vendor;
+ 	const char *name;
+ 	const struct psmouse_protocol *protocol;
+-	unsigned char packet[8];
++	unsigned char packet[16];
+ 	unsigned char badbyte;
+ 	unsigned char pktcnt;
+ 	unsigned char pktsize;
 
-base-commit: 765e56e41a5af2d456ddda6cbd617b9d3295ab4e
-branch: edt-ft5x06-fix-report-rate
+base-commit: a311c777f2987e6ddba2d2dd2f82f2135d65f8aa
+-- 
+2.47.3
+
 
