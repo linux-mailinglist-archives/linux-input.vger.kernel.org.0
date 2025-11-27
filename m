@@ -1,148 +1,147 @@
-Return-Path: <linux-input+bounces-16384-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16385-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EB05C8FE34
-	for <lists+linux-input@lfdr.de>; Thu, 27 Nov 2025 19:17:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 729B6C90437
+	for <lists+linux-input@lfdr.de>; Thu, 27 Nov 2025 23:05:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id EE8CA34FB3F
-	for <lists+linux-input@lfdr.de>; Thu, 27 Nov 2025 18:17:46 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id F1CC034F3D1
+	for <lists+linux-input@lfdr.de>; Thu, 27 Nov 2025 22:05:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E4DC93002DB;
-	Thu, 27 Nov 2025 18:17:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1044D2E173B;
+	Thu, 27 Nov 2025 22:04:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=ariel.dalessandro@collabora.com header.b="MrrmR/Eb"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="E14682QM"
 X-Original-To: linux-input@vger.kernel.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A979A2773DE;
-	Thu, 27 Nov 2025 18:17:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764267462; cv=pass; b=mQrkinFpyYsJ05Fk51I9hKp1Ml/+WS74Q/077Rg+39i+KvNZW5rjPLPSX11EOm/MI6FiVTky0S+q8mzQEUmg52u2tocgRYOJv7MjL+fDYq3CBN15FmGbutPgHOqysxdrDF64QyN15pHRAuslk6AOzp+vt2m8kIC0AwyajSLtSC4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764267462; c=relaxed/simple;
-	bh=Am9z6NB1hWcUKAtK2Wd4vEeA4UQDmYpPUuhYvTNI8BM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QqhvkhWz17105av0MafZHeOXNp8bBso5CfWJbj+x9agrq/3QNgQ28EklmDcAbW1OQkA6QcGbs4DKbTdLLtugV0BEshl2pMAdfNwncEAJYMbzMz9eyovTxbqhCC+mJJ6pa+Ee2mui5xbQR3j51tef3kKNTo9aq62bUd3/+YH0v3w=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=ariel.dalessandro@collabora.com header.b=MrrmR/Eb; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1764267379; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=VHNPgFqZa0o6809/T+8jHJoMCBYjd2yZiYvEH43ecdDw0RDEoZBASvS8GXIRjf443u9HWsC87weywb65C5DIBcudiiLSfw66tyl4FaLNKaejlEIJIohOY954WwUx+6cfKsQdPDjAUxOAHUCJW2JVa5BuwC53SzyModibprg79Xg=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1764267379; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=GA9FTV2ejX5xguOwyiDUL1hpvKOTwyB0xhI2crLeIWM=; 
-	b=VzgCDjp9rcRegJe18G1VoZpp248pQnSYb2nnPRvNYWxHUdyyrlHItaUgv2yGSNf+L6cT0ioGjEOUEpK+K0iTAkjcNQ9RhPc7ICm06mhWm7aOWDC7aTqGKcy/QGw9e2DvPfDfeB5pm0C9OwDjdwtPltUGw2ChGO1r7cznhhdiZRQ=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=ariel.dalessandro@collabora.com;
-	dmarc=pass header.from=<ariel.dalessandro@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1764267379;
-	s=zohomail; d=collabora.com; i=ariel.dalessandro@collabora.com;
-	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=GA9FTV2ejX5xguOwyiDUL1hpvKOTwyB0xhI2crLeIWM=;
-	b=MrrmR/EbOR0f5Gb5Xbhy3YhzRySSoWvRdfWRmCgcQVrMezcKplDmR9LS92M5F8YU
-	44hmR7lvwMtOD/5nw3ELxQb8PadU5cfnfMx7ngMJ02a3mou1wD1bDW4FltRjo9ZXijV
-	BVrAa/6yr4xsF2CvbF/50U6ILU5JghWfinyStD5c=
-Received: by mx.zohomail.com with SMTPS id 1764267377521567.410213066609;
-	Thu, 27 Nov 2025 10:16:17 -0800 (PST)
-Message-ID: <2dd059f5-96d4-44a1-84be-b14dce28cf06@collabora.com>
-Date: Thu, 27 Nov 2025 15:15:47 -0300
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 868B9258CE9
+	for <linux-input@vger.kernel.org>; Thu, 27 Nov 2025 22:04:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.173
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1764281098; cv=none; b=rShyXPtG7MqfsdRfECCr3KR4/WmdsZxMjo12JCjXjPvX+mt1TwGTUN4j6hLbK6Hk2QXZPeJmpgmaP+tUzhF/q+rVMOtUiNFSikXc2AtPSkb9V0zcab5fzHXhq0VqIODZMokot7siVyBYe3EufbffpZ79Fr2k9z3vEcAf5suVusc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1764281098; c=relaxed/simple;
+	bh=leQxvCDZGM0ZdtWs0cwDmQjkTiimbzrVICuk5cKWwNk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=OLHwbYjlsRmzz6yf3uJQGXsiQ659qDGM5ty164iv5/Trjsry0ICkwCZpidK8JLXFSSEamQp48rSk5GmhmUUDA+vJid85h3kV+NUrUACp4hiRbfoEsfRJ7MVO8LyeTRGYzt48fdvLU78v5ErMNbDeMiU+7+d0ik4RlhiWxmYtRBI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=E14682QM; arc=none smtp.client-ip=209.85.215.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-bc09b3d3b06so711518a12.2
+        for <linux-input@vger.kernel.org>; Thu, 27 Nov 2025 14:04:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1764281096; x=1764885896; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=eE3jWwUBeNBwotvMaOoLsxAW53Rx1wxHI/kdT4LjgPM=;
+        b=E14682QMpFyJD3l60Y47xyDStxcUpVCFwwPz/eykIMqWHyu/eEy8c4IuRk7mb5zbiu
+         BQKMqAs21Yn5Ee+LD8kmEHijp/vEG3Bha9O7avnOFHaTsBZOLTaU/fr032xgzrVPvC5Q
+         wru4jZFwN3VLklsYePrExOkQbJd26Vz0qCb4R3xolKxWV5Fl+X8hnoO1IrunI+aPrJxl
+         2Of3bsXen8EFJZ4U+OTVtBdbToeoBMTad82OOtfmear7Wk3FC4pCzZajiyOq0Mw30mF+
+         EaSED1sMOUEeIei0RX/8em/ybs5zkZ9sufq2x5yWNUm+hqhbcKOKKXQD6DlQOw9nKmxf
+         gMuQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764281096; x=1764885896;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=eE3jWwUBeNBwotvMaOoLsxAW53Rx1wxHI/kdT4LjgPM=;
+        b=bYqQjDrjZgaBun4GBZ4qk4kZzh8UM4c7JR75ZSON9zRdbSm8aOGwgS1myAYQFT6/RA
+         I7uHNwEj+RH5WbV+EmLQDaalZlmPsWRsi8Db95pG+hcCa5zXMHlluXbHBx8+s8FHM6uX
+         wKJw7yLPYomAAEAkjBllQKc5CGjSpvg+3fUDgFvOf5LpLnbhlHk7jQMWWh6R+S02Ohx5
+         mHy4ssH3OEK+l/jGNMNstFUfGQNJjZA/CvGTTVYnUOVl7U4/aR+8mNOVQgGTNqnX8MQE
+         8LlCzB7O3MLdlWoZchJ6uTSV73v85gLB7ivd61CsTNW62dV6KPI6GCjomtd2DcyYmZ+i
+         D2KQ==
+X-Gm-Message-State: AOJu0Yzk536rasEdgMt0Nw4p0X0s/KUfye5F7IYFQEQf2njQlMDTIxjg
+	RHlarGOi13vhztFz5DEzl/Rz1Z+tQBF6zE15a5/J7QPAwt/R0nS6BXLCS5gJ2qawfYw=
+X-Gm-Gg: ASbGnctxx9ISVnYLuo0+xjas4uF8gBZiHYYkPD99xGEo+HzaHkuzGxC8kfpNIKOnJEI
+	ph4CpdhexIalikq8RyLTggn+GJt6f0Js8ptVaPZIvq+/tlVWHOS0QVDFduqHQcGmNPqE0VdafnA
+	/NUQmIXBu9gz+MSQlmyd9fS756L19KwjtzFB1iq0yXOQzUXWKkCFSBVFtuADeM+UBTllZ5SpQVB
+	ELwQnH5QIrqd04u7VrUt9vbUjlsBTJcvHO+2Llxs/5l9WI6puDHCkAskk5tGh36EpCyCL6XcFsx
+	ea5TP7J86t0mSUveCJZWpvwp2Ets8thxykDUmaKi0p7Zv5XdycytV29GDMlsfGjJUXHbC2dnvn5
+	z1nSybqUz4SrLMOdfLBZMnkOS3ipTvN/PQOn887FNvCG6l017bjHz4Oz/T9z3JwwHiLDPMeT8Kv
+	Xu8qbLhMwOn0oJ565SG0qQ4GU0vpBxfNsL9IXE3u5HhGqK06Fg61KNUw==
+X-Google-Smtp-Source: AGHT+IF9sx3tyNko/VRd2ErYrohrhI+XHQmwImdHaHPGXKSiSEtP/7hWCmOgd14XsBzeXqCS9rRf3w==
+X-Received: by 2002:a05:693c:800d:b0:2a4:3593:4674 with SMTP id 5a478bee46e88-2a9415a4876mr6126355eec.16.1764281095812;
+        Thu, 27 Nov 2025 14:04:55 -0800 (PST)
+Received: from lugathe ([2804:13c:46ac:1000:f491:d00a:e2fb:e67c])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2a9653ca11esm9621462eec.0.2025.11.27.14.04.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 27 Nov 2025 14:04:55 -0800 (PST)
+From: =?UTF-8?q?Rodrigo=20Lugathe=20da=20Concei=C3=A7=C3=A3o=20Alves?= <lugathe2@gmail.com>
+To: bentiss@kernel.org,
+	jikos@kernel.org
+Cc: linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	stern@rowland.harvard.edu,
+	dmitry.torokhov@gmail.com,
+	linuxhid@cosmicgizmosystems.com,
+	linuxsound@cosmicgizmosystems.com,
+	lugathe2@gmail.com,
+	michal.pecio@gmail.com
+Subject: [PATCH v3] HID: Apply quirk HID_QUIRK_ALWAYS_POLL to Edifier QR30 (2d99:a101)
+Date: Thu, 27 Nov 2025 19:03:57 -0300
+Message-ID: <20251127220357.1218420-1-lugathe2@gmail.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 03/12] dt-bindings: net: Convert Marvell 8897/8997
- bindings to DT schema
-To: Rob Herring <robh@kernel.org>
-Cc: airlied@gmail.com, amergnat@baylibre.com, andrew+netdev@lunn.ch,
- andrew-ct.chen@mediatek.com, angelogioacchino.delregno@collabora.com,
- broonie@kernel.org, chunkuang.hu@kernel.org, conor+dt@kernel.org,
- davem@davemloft.net, dmitry.torokhov@gmail.com, edumazet@google.com,
- flora.fu@mediatek.com, heiko@sntech.de, houlong.wei@mediatek.com,
- jeesw@melfas.com, kernel@collabora.com, krzk+dt@kernel.org, kuba@kernel.org,
- lgirdwood@gmail.com, linus.walleij@linaro.org,
- louisalexis.eyraud@collabora.com, luiz.dentz@gmail.com,
- maarten.lankhorst@linux.intel.com, marcel@holtmann.org,
- matthias.bgg@gmail.com, mchehab@kernel.org, minghsiu.tsai@mediatek.com,
- mripard@kernel.org, p.zabel@pengutronix.de, pabeni@redhat.com,
- sean.wang@kernel.org, simona@ffwll.ch, support.opensource@diasemi.com,
- tiffany.lin@mediatek.com, tzimmermann@suse.de, yunfei.dong@mediatek.com,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-bluetooth@vger.kernel.org,
- linux-gpio@vger.kernel.org, linux-input@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-mediatek@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-sound@vger.kernel.org, netdev@vger.kernel.org
-References: <20250911151001.108744-1-ariel.dalessandro@collabora.com>
- <20250911151001.108744-4-ariel.dalessandro@collabora.com>
- <20250912140619.GA1293647-robh@kernel.org>
- <fb20e4fe-df0a-4089-a7cf-e82bfe1f8e00@collabora.com>
- <CAL_Jsq+eeiw9oaqQPWt2=rZSX98Pak_oB=tfQFvEehwLZ=S52g@mail.gmail.com>
-Content-Language: en-US
-From: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
-In-Reply-To: <CAL_Jsq+eeiw9oaqQPWt2=rZSX98Pak_oB=tfQFvEehwLZ=S52g@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
 
-Hi Rob,
+The USB speaker has a bug that causes it to reboot when changing the
+brightness using the physical knob.
 
-On 11/24/25 3:54 PM, Rob Herring wrote:
-> On Wed, Oct 1, 2025 at 12:28 PM Ariel D'Alessandro
-> <ariel.dalessandro@collabora.com> wrote:
->>
->> Rob,
->>
->> On 9/12/25 11:06 AM, Rob Herring wrote:
->>> On Thu, Sep 11, 2025 at 12:09:52PM -0300, Ariel D'Alessandro wrote:
->>>> Convert the existing text-based DT bindings for Marvell 8897/8997
->>>> (sd8897/sd8997) bluetooth devices controller to a DT schema.
->>>>
->>>> While here:
->>>>
->>>> * bindings for "usb1286,204e" (USB interface) are dropped from the DT
->>>>     schema definition as these are currently documented in file [0].
->>>> * DT binding users are updated to use bluetooth generic name
->>>>     recommendation.
->>>>
->>>> [0] Documentation/devicetree/bindings/net/btusb.txt
->>>>
->>>> Signed-off-by: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
->>>> ---
->>>>    .../net/bluetooth/marvell,sd8897-bt.yaml      | 79 ++++++++++++++++++
->>>>    .../devicetree/bindings/net/btusb.txt         |  2 +-
->>>>    .../bindings/net/marvell-bt-8xxx.txt          | 83 -------------------
->>>
->>>>    .../dts/rockchip/rk3288-veyron-fievel.dts     |  2 +-
->>>>    .../boot/dts/rockchip/rk3288-veyron-jaq.dts   |  2 +-
->>>>    arch/arm64/boot/dts/mediatek/mt8173-elm.dtsi  |  2 +-
->>>
->>> .dts files should be separate patches. Please send the bindings patches
->>> separately per subsystem so subsystem maintainers can apply them. All
->>> the Mediatek dts changes can be 1 series.
->>
->> Ack, will fix in v3.
-> 
-> Are you going to send v3 still?
+Add a new vendor and product ID entry in hid-ids.h, and register
+the corresponding device in hid-quirks.c with the required quirk.
 
-Yes, will be sending out v3 asap, with the remaining changes.
-Sorry for the delay.
+Signed-off-by: Rodrigo Lugathe da Conceição Alves <lugathe2@gmail.com>
+---
+v3:
+ - Defined correct vendor
+ - Moved the added lines to the correct location
+v2:
+ - Fixed title
+ - Simplified commit message
+---
+ drivers/hid/hid-ids.h    | 3 +++
+ drivers/hid/hid-quirks.c | 1 +
+ 2 files changed, 4 insertions(+)
 
+diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+index 0723b4b1c9ec..fbccac79e75a 100644
+--- a/drivers/hid/hid-ids.h
++++ b/drivers/hid/hid-ids.h
+@@ -438,6 +438,9 @@
+ #define USB_DEVICE_ID_DWAV_EGALAX_MULTITOUCH_A001	0xa001
+ #define USB_DEVICE_ID_DWAV_EGALAX_MULTITOUCH_C002	0xc002
+ 
++#define USB_VENDOR_ID_EDIFIER		0x2d99
++#define USB_DEVICE_ID_EDIFIER_QR30	0xa101	/* EDIFIER Hal0 2.0 SE */
++
+ #define USB_VENDOR_ID_ELAN		0x04f3
+ #define USB_DEVICE_ID_TOSHIBA_CLICK_L9W	0x0401
+ #define USB_DEVICE_ID_HP_X2		0x074d
+diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
+index bcd4bccf1a7c..f6b7ed467723 100644
+--- a/drivers/hid/hid-quirks.c
++++ b/drivers/hid/hid-quirks.c
+@@ -81,6 +81,7 @@ static const struct hid_device_id hid_quirks[] = {
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_DRAGONRISE, USB_DEVICE_ID_DRAGONRISE_PS3), HID_QUIRK_MULTI_INPUT },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_DRAGONRISE, USB_DEVICE_ID_DRAGONRISE_WIIU), HID_QUIRK_MULTI_INPUT },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_DWAV, USB_DEVICE_ID_EGALAX_TOUCHCONTROLLER), HID_QUIRK_MULTI_INPUT | HID_QUIRK_NOGET },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_EDIFIER, USB_DEVICE_ID_EDIFIER_QR30), HID_QUIRK_ALWAYS_POLL },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_ELAN, HID_ANY_ID), HID_QUIRK_ALWAYS_POLL },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_ELO, USB_DEVICE_ID_ELO_TS2700), HID_QUIRK_NOGET },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_EMS, USB_DEVICE_ID_EMS_TRIO_LINKER_PLUS_II), HID_QUIRK_MULTI_INPUT },
 -- 
-Ariel D'Alessandro
-Software Engineer
-
-Collabora Ltd.
-Platinum Building, St John's Innovation Park, Cambridge CB4 0DS, UK 
-Registered in England & Wales, no. 5513718
+2.52.0
 
 
