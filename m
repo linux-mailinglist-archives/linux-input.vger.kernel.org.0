@@ -1,147 +1,205 @@
-Return-Path: <linux-input+bounces-16385-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16386-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 729B6C90437
-	for <lists+linux-input@lfdr.de>; Thu, 27 Nov 2025 23:05:01 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9ABB3C90561
+	for <lists+linux-input@lfdr.de>; Fri, 28 Nov 2025 00:21:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id F1CC034F3D1
-	for <lists+linux-input@lfdr.de>; Thu, 27 Nov 2025 22:05:00 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 7BFB94E0117
+	for <lists+linux-input@lfdr.de>; Thu, 27 Nov 2025 23:21:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1044D2E173B;
-	Thu, 27 Nov 2025 22:04:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A0F22F2909;
+	Thu, 27 Nov 2025 23:21:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="E14682QM"
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b="FVs4gAUL"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 868B9258CE9
-	for <linux-input@vger.kernel.org>; Thu, 27 Nov 2025 22:04:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.173
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764281098; cv=none; b=rShyXPtG7MqfsdRfECCr3KR4/WmdsZxMjo12JCjXjPvX+mt1TwGTUN4j6hLbK6Hk2QXZPeJmpgmaP+tUzhF/q+rVMOtUiNFSikXc2AtPSkb9V0zcab5fzHXhq0VqIODZMokot7siVyBYe3EufbffpZ79Fr2k9z3vEcAf5suVusc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764281098; c=relaxed/simple;
-	bh=leQxvCDZGM0ZdtWs0cwDmQjkTiimbzrVICuk5cKWwNk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=OLHwbYjlsRmzz6yf3uJQGXsiQ659qDGM5ty164iv5/Trjsry0ICkwCZpidK8JLXFSSEamQp48rSk5GmhmUUDA+vJid85h3kV+NUrUACp4hiRbfoEsfRJ7MVO8LyeTRGYzt48fdvLU78v5ErMNbDeMiU+7+d0ik4RlhiWxmYtRBI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=E14682QM; arc=none smtp.client-ip=209.85.215.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-bc09b3d3b06so711518a12.2
-        for <linux-input@vger.kernel.org>; Thu, 27 Nov 2025 14:04:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764281096; x=1764885896; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=eE3jWwUBeNBwotvMaOoLsxAW53Rx1wxHI/kdT4LjgPM=;
-        b=E14682QMpFyJD3l60Y47xyDStxcUpVCFwwPz/eykIMqWHyu/eEy8c4IuRk7mb5zbiu
-         BQKMqAs21Yn5Ee+LD8kmEHijp/vEG3Bha9O7avnOFHaTsBZOLTaU/fr032xgzrVPvC5Q
-         wru4jZFwN3VLklsYePrExOkQbJd26Vz0qCb4R3xolKxWV5Fl+X8hnoO1IrunI+aPrJxl
-         2Of3bsXen8EFJZ4U+OTVtBdbToeoBMTad82OOtfmear7Wk3FC4pCzZajiyOq0Mw30mF+
-         EaSED1sMOUEeIei0RX/8em/ybs5zkZ9sufq2x5yWNUm+hqhbcKOKKXQD6DlQOw9nKmxf
-         gMuQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764281096; x=1764885896;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=eE3jWwUBeNBwotvMaOoLsxAW53Rx1wxHI/kdT4LjgPM=;
-        b=bYqQjDrjZgaBun4GBZ4qk4kZzh8UM4c7JR75ZSON9zRdbSm8aOGwgS1myAYQFT6/RA
-         I7uHNwEj+RH5WbV+EmLQDaalZlmPsWRsi8Db95pG+hcCa5zXMHlluXbHBx8+s8FHM6uX
-         wKJw7yLPYomAAEAkjBllQKc5CGjSpvg+3fUDgFvOf5LpLnbhlHk7jQMWWh6R+S02Ohx5
-         mHy4ssH3OEK+l/jGNMNstFUfGQNJjZA/CvGTTVYnUOVl7U4/aR+8mNOVQgGTNqnX8MQE
-         8LlCzB7O3MLdlWoZchJ6uTSV73v85gLB7ivd61CsTNW62dV6KPI6GCjomtd2DcyYmZ+i
-         D2KQ==
-X-Gm-Message-State: AOJu0Yzk536rasEdgMt0Nw4p0X0s/KUfye5F7IYFQEQf2njQlMDTIxjg
-	RHlarGOi13vhztFz5DEzl/Rz1Z+tQBF6zE15a5/J7QPAwt/R0nS6BXLCS5gJ2qawfYw=
-X-Gm-Gg: ASbGnctxx9ISVnYLuo0+xjas4uF8gBZiHYYkPD99xGEo+HzaHkuzGxC8kfpNIKOnJEI
-	ph4CpdhexIalikq8RyLTggn+GJt6f0Js8ptVaPZIvq+/tlVWHOS0QVDFduqHQcGmNPqE0VdafnA
-	/NUQmIXBu9gz+MSQlmyd9fS756L19KwjtzFB1iq0yXOQzUXWKkCFSBVFtuADeM+UBTllZ5SpQVB
-	ELwQnH5QIrqd04u7VrUt9vbUjlsBTJcvHO+2Llxs/5l9WI6puDHCkAskk5tGh36EpCyCL6XcFsx
-	ea5TP7J86t0mSUveCJZWpvwp2Ets8thxykDUmaKi0p7Zv5XdycytV29GDMlsfGjJUXHbC2dnvn5
-	z1nSybqUz4SrLMOdfLBZMnkOS3ipTvN/PQOn887FNvCG6l017bjHz4Oz/T9z3JwwHiLDPMeT8Kv
-	Xu8qbLhMwOn0oJ565SG0qQ4GU0vpBxfNsL9IXE3u5HhGqK06Fg61KNUw==
-X-Google-Smtp-Source: AGHT+IF9sx3tyNko/VRd2ErYrohrhI+XHQmwImdHaHPGXKSiSEtP/7hWCmOgd14XsBzeXqCS9rRf3w==
-X-Received: by 2002:a05:693c:800d:b0:2a4:3593:4674 with SMTP id 5a478bee46e88-2a9415a4876mr6126355eec.16.1764281095812;
-        Thu, 27 Nov 2025 14:04:55 -0800 (PST)
-Received: from lugathe ([2804:13c:46ac:1000:f491:d00a:e2fb:e67c])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2a9653ca11esm9621462eec.0.2025.11.27.14.04.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Nov 2025 14:04:55 -0800 (PST)
-From: =?UTF-8?q?Rodrigo=20Lugathe=20da=20Concei=C3=A7=C3=A3o=20Alves?= <lugathe2@gmail.com>
-To: bentiss@kernel.org,
-	jikos@kernel.org
-Cc: linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	stern@rowland.harvard.edu,
-	dmitry.torokhov@gmail.com,
-	linuxhid@cosmicgizmosystems.com,
-	linuxsound@cosmicgizmosystems.com,
-	lugathe2@gmail.com,
-	michal.pecio@gmail.com
-Subject: [PATCH v3] HID: Apply quirk HID_QUIRK_ALWAYS_POLL to Edifier QR30 (2d99:a101)
-Date: Thu, 27 Nov 2025 19:03:57 -0300
-Message-ID: <20251127220357.1218420-1-lugathe2@gmail.com>
-X-Mailer: git-send-email 2.52.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8FFF29BD87;
+	Thu, 27 Nov 2025 23:21:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1764285679; cv=pass; b=nPHbVW+xIwXcGX+1hkp8DBF3nCykXN6zBSf3CkcSDZZ3AFszCvxE/uCIsnUr8f34uJYW3BwGFkxU686qBd7onr/yRuzXQEvMAmXvQh7bIm4jGn98WH2a8x4YxJ6iG8hZgz0w941hcIwVzNC4ROti76igxZ3NDa9KxiEO/znNmzM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1764285679; c=relaxed/simple;
+	bh=gyYCwexfu8NtHO85BUf/nhLmG7/SxemmCpC+rjbNB1s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=V75SR5CUF5uV/WuMjHFiYJe+iTKUYAFDdFAS0NLI97jiMot44SDJ93fYOpAFRD2Z7kygoFq7kwtPcRW6gM3FAm8/DutELRi/ow0+2JDE8t9icWhyDNz9XNBtoDhyuyAmhEPwoseh9nGc+CJnzIxg0zkM7sGuuem2oJKDSCSR4t8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b=FVs4gAUL; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+ARC-Seal: i=1; a=rsa-sha256; t=1764285662; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=aXbImM0GK9wOkePi9S6fYQabvvyXV2sVngRq6WaNZTYvcIeD0bKJZbmD1BROe8aKghfVvyq4xnVMTi20GSVGcEOdot2SCPraYvkKHbN5gVii8aSDUm6eyQDiI/DXUy77wX/880DBgalJfdmfBsCBqqvh3mAOyQFR4/k7D4NlsHo=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1764285662; h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=JRILAQN9rCA1bAmhobsR8p0uQwedy1oDSB9Rwwcsho8=; 
+	b=AjJyPcEzoAu4v9djZeyMWgwroTBbWCt+3QjJkv/iEApBsgLra+Z7qV2G6r7oYX44hB/PTN2JXAM72hkoAgAH+dXVyT+7Zftp9g8vAXvWHu2ufIQZ33VDnU6XZLli56XDIXP+NRDMXIdxJ2Jb4GpPEypO5ftfUYPqKLtAy/YV+w8=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=sebastian.reichel@collabora.com;
+	dmarc=pass header.from=<sebastian.reichel@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1764285662;
+	s=zohomail; d=collabora.com; i=sebastian.reichel@collabora.com;
+	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
+	bh=JRILAQN9rCA1bAmhobsR8p0uQwedy1oDSB9Rwwcsho8=;
+	b=FVs4gAULr+Afg85W3iMZLpm3h1e3Nv2+k43eipRJbrelZVqXC/xGjhwRVODcotoM
+	FxB3WYFtpySMB1h3eMz2DtTkFj8AWaozAANrPtUEaZxzu9rwfv36T1zv1JGrEbZvZvl
+	tuu8TRFBIvzzsWhLJohFS0h3lTTnSWDs/CTUg7Uk=
+Received: by mx.zohomail.com with SMTPS id 1764285659034352.8263760786173;
+	Thu, 27 Nov 2025 15:20:59 -0800 (PST)
+Received: by venus (Postfix, from userid 1000)
+	id B6CA9181B3B; Fri, 28 Nov 2025 00:20:55 +0100 (CET)
+Date: Fri, 28 Nov 2025 00:20:55 +0100
+From: Sebastian Reichel <sebastian.reichel@collabora.com>
+To: Haotian Zhang <vulab@iscas.ac.cn>
+Cc: dmitry.torokhov@gmail.com, linux-input@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, kernel@collabora.com
+Subject: Re: [PATCH] Input: misc: pwm-vibra: fix resource leaks on start
+ failure
+Message-ID: <rpjrvuexjh4b7ecdewo546uts6owdqpliqarpcagqi273jjbyg@lwupexayshek>
+References: <20251126145635.954-1-vulab@iscas.ac.cn>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="3crcdto2y3erqtu7"
+Content-Disposition: inline
+In-Reply-To: <20251126145635.954-1-vulab@iscas.ac.cn>
+X-Zoho-Virus-Status: 1
+X-Zoho-Virus-Status: 1
+X-Zoho-AV-Stamp: zmail-av-1.4.3/264.254.26
+X-ZohoMailClient: External
 
-The USB speaker has a bug that causes it to reboot when changing the
-brightness using the physical knob.
 
-Add a new vendor and product ID entry in hid-ids.h, and register
-the corresponding device in hid-quirks.c with the required quirk.
+--3crcdto2y3erqtu7
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH] Input: misc: pwm-vibra: fix resource leaks on start
+ failure
+MIME-Version: 1.0
 
-Signed-off-by: Rodrigo Lugathe da Conceição Alves <lugathe2@gmail.com>
----
-v3:
- - Defined correct vendor
- - Moved the added lines to the correct location
-v2:
- - Fixed title
- - Simplified commit message
----
- drivers/hid/hid-ids.h    | 3 +++
- drivers/hid/hid-quirks.c | 1 +
- 2 files changed, 4 insertions(+)
+Hi,
 
-diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index 0723b4b1c9ec..fbccac79e75a 100644
---- a/drivers/hid/hid-ids.h
-+++ b/drivers/hid/hid-ids.h
-@@ -438,6 +438,9 @@
- #define USB_DEVICE_ID_DWAV_EGALAX_MULTITOUCH_A001	0xa001
- #define USB_DEVICE_ID_DWAV_EGALAX_MULTITOUCH_C002	0xc002
- 
-+#define USB_VENDOR_ID_EDIFIER		0x2d99
-+#define USB_DEVICE_ID_EDIFIER_QR30	0xa101	/* EDIFIER Hal0 2.0 SE */
-+
- #define USB_VENDOR_ID_ELAN		0x04f3
- #define USB_DEVICE_ID_TOSHIBA_CLICK_L9W	0x0401
- #define USB_DEVICE_ID_HP_X2		0x074d
-diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
-index bcd4bccf1a7c..f6b7ed467723 100644
---- a/drivers/hid/hid-quirks.c
-+++ b/drivers/hid/hid-quirks.c
-@@ -81,6 +81,7 @@ static const struct hid_device_id hid_quirks[] = {
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_DRAGONRISE, USB_DEVICE_ID_DRAGONRISE_PS3), HID_QUIRK_MULTI_INPUT },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_DRAGONRISE, USB_DEVICE_ID_DRAGONRISE_WIIU), HID_QUIRK_MULTI_INPUT },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_DWAV, USB_DEVICE_ID_EGALAX_TOUCHCONTROLLER), HID_QUIRK_MULTI_INPUT | HID_QUIRK_NOGET },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_EDIFIER, USB_DEVICE_ID_EDIFIER_QR30), HID_QUIRK_ALWAYS_POLL },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_ELAN, HID_ANY_ID), HID_QUIRK_ALWAYS_POLL },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_ELO, USB_DEVICE_ID_ELO_TS2700), HID_QUIRK_NOGET },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_EMS, USB_DEVICE_ID_EMS_TRIO_LINKER_PLUS_II), HID_QUIRK_MULTI_INPUT },
--- 
-2.52.0
+On Wed, Nov 26, 2025 at 10:56:35PM +0800, Haotian Zhang wrote:
+> The pwm_vibrator_start() function returns immediately if
+> pwm_apply_might_sleep() fails, neglecting to disable the
+> regulator or reset the enable GPIO. This results in a
+> potential resource leak.
+>=20
+> Introduce a local flag to track regulator enablement
+> and implement an error handling path. Deassert the enable
+> GPIO and disable the regulator upon failure.
+>=20
+> Fixes: 3e5b08518f6a ("Input: add a driver for PWM controllable vibrators")
+> Signed-off-by: Haotian Zhang <vulab@iscas.ac.cn>
+> ---
 
+As the remaining driver code right now always ignores the return
+code from pwm_vibrator_start(), it is expected running even with the
+PWM failure. There is no real resource leak, since things will
+properly be disabled in pwm_vibrator_stop() when userspace is done
+with the vibrator request.
+
+So I think this patch does not really add any value without changing
+the error handling behavior in general.
+
+I guess this has been found by some code analysis tool and not on
+real hardware...
+
+Greetings,
+
+-- Sebastian
+
+>  drivers/input/misc/pwm-vibra.c | 14 ++++++++++++--
+>  1 file changed, 12 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/drivers/input/misc/pwm-vibra.c b/drivers/input/misc/pwm-vibr=
+a.c
+> index 3e5ed685ed8f..d323a12596c3 100644
+> --- a/drivers/input/misc/pwm-vibra.c
+> +++ b/drivers/input/misc/pwm-vibra.c
+> @@ -40,6 +40,7 @@ static int pwm_vibrator_start(struct pwm_vibrator *vibr=
+ator)
+>  	struct device *pdev =3D vibrator->input->dev.parent;
+>  	struct pwm_state state;
+>  	int err;
+> +	bool new_vcc_on =3D false;
+> =20
+>  	if (!vibrator->vcc_on) {
+>  		err =3D regulator_enable(vibrator->vcc);
+> @@ -48,6 +49,7 @@ static int pwm_vibrator_start(struct pwm_vibrator *vibr=
+ator)
+>  			return err;
+>  		}
+>  		vibrator->vcc_on =3D true;
+> +		new_vcc_on =3D true;
+>  	}
+> =20
+>  	gpiod_set_value_cansleep(vibrator->enable_gpio, 1);
+> @@ -59,7 +61,7 @@ static int pwm_vibrator_start(struct pwm_vibrator *vibr=
+ator)
+>  	err =3D pwm_apply_might_sleep(vibrator->pwm, &state);
+>  	if (err) {
+>  		dev_err(pdev, "failed to apply pwm state: %d\n", err);
+> -		return err;
+> +		goto err_gpio;
+>  	}
+> =20
+>  	if (vibrator->pwm_dir) {
+> @@ -71,11 +73,19 @@ static int pwm_vibrator_start(struct pwm_vibrator *vi=
+brator)
+>  		if (err) {
+>  			dev_err(pdev, "failed to apply dir-pwm state: %d\n", err);
+>  			pwm_disable(vibrator->pwm);
+> -			return err;
+> +			goto err_gpio;
+>  		}
+>  	}
+> =20
+>  	return 0;
+> +
+> +err_gpio:
+> +	gpiod_set_value_cansleep(vibrator->enable_gpio, 0);
+> +	if (new_vcc_on) {
+> +		regulator_disable(vibrator->vcc);
+> +		vibrator->vcc_on =3D false;
+> +	}
+> +	return err;
+>  }
+> =20
+>  static void pwm_vibrator_stop(struct pwm_vibrator *vibrator)
+> --=20
+> 2.50.1.windows.1
+>=20
+>=20
+
+--3crcdto2y3erqtu7
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmko3NMACgkQ2O7X88g7
++pr2MQ/+I3PvvZ68+BEfaUxCgT8zOh/4IQHf6G6zAMHZCbYkoCOmgIaqXibobAlo
+LBoE/kERvGrpxFQGqzHDA27NwRYwI4t8Ziumi3OhLTTuV/3gaz7d6QFmS9XV5c8T
+EfFCvkyqQjMOl8H1q/9r/4fvKq/AupTR0zVvDTP74ktU3mN4JBuH1DBcuZf7wu3C
+CqZANAfte/WqfFER6WR0dXxrw1pRJeQOveswZVPO8tic94M99bbTeK3DQWwfS7XJ
+OrKukUGnhj5unt9eiC/hLOtiZ0a1+p2NLafkg66ziw6JDcJAUstXB7BYXMtDnmM/
+oJhoiSQNkebJ2RPk0IOKnt/YdTpXiyniYsgC7pzndTRu37t1eL+PuvKLRBdYo2XO
+DrFrvkAzHTj8HOsvQiHrBYdSmRtHp3V/DNOtVztjwk9ekdEOoOnliVxNc4yZEUOb
+OLoDi82YoyXDRjk5tcXTtljVn61NCwPjJfnIqg3u3dBh+MalwILGi4kqBksIzXJw
+dFMPcKAaQXZ+TRADIZ16gknzkaF/skPsaKUeKxzJfBx9RRh6/y7esUj1ZSi8KFk1
+z8C5gjGBEJgwheQoaQ21HeW4LFKEV4qSY8NClj+lAq4Dqx/gkYdWaCWeqTLMlVjy
+MAa85g7lb/lEFFNGomZeX+HTqa1J6FQ3HclQC5sawdTpgbi/mSc=
+=MCzL
+-----END PGP SIGNATURE-----
+
+--3crcdto2y3erqtu7--
 
