@@ -1,212 +1,239 @@
-Return-Path: <linux-input+bounces-16388-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16389-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3747C91164
-	for <lists+linux-input@lfdr.de>; Fri, 28 Nov 2025 09:05:55 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 13C62C911AD
+	for <lists+linux-input@lfdr.de>; Fri, 28 Nov 2025 09:10:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 232C634F260
-	for <lists+linux-input@lfdr.de>; Fri, 28 Nov 2025 08:05:55 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A51E43A6BF7
+	for <lists+linux-input@lfdr.de>; Fri, 28 Nov 2025 08:10:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A27AC2DE71B;
-	Fri, 28 Nov 2025 08:05:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 295C82DCF52;
+	Fri, 28 Nov 2025 08:10:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="S7YiAuMP";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="MkD5TXou"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="SiVskeq6"
 X-Original-To: linux-input@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4B892D5C83
-	for <linux-input@vger.kernel.org>; Fri, 28 Nov 2025 08:05:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D52192C0F68
+	for <linux-input@vger.kernel.org>; Fri, 28 Nov 2025 08:10:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764317151; cv=none; b=rFRiNV3dlsnu3T0+yRWur1zTWJW5ReUImTNOoCth8wc93kt6uGDtY7VAuZ/xCHFiBP1LJQV6f3guMYezuISOXQXjeyE4eFyHWud6qJurNBXuJDvYDJvmATY0/s8JPAy7gNawueTn7o7cCHkTi19Kr/KrwNfpqZfb0XoTxt9mvMU=
+	t=1764317449; cv=none; b=FzE9gEJIqFYCMCPDYWoQIlUuRplClaTuS++jGaNJlWjXLqAHs9IwC0TqWg26z/nVJv4VlCMcr9wiwelsqEjdrhgio9rRowW8B1PUF23YD/kpYwA5Twms89zEDle8+CUvJyHqPX+Pzn8zrCCeo9XZ0qekl17zk0AO8zb3KgO+fX0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764317151; c=relaxed/simple;
-	bh=FPIIUOyTg8pGSe3VMid6kL7fnIsGm87S00jz238lCJs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=oOTQqr5PSU6eSlwdup8IkGh/vhjbOZC9viLkF23c41OQI5txSQmoY7M74F52AbFYNlZ8e+2Zp8z4oOf8AgjPnCrvPGcyO+UkZBQBpMfxaDRSrayXDVDWaeKJi276gptj467HB6iZN2Z/rI1fxaY3xCxHNvSzXYDadSSYFg+DCjQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=S7YiAuMP; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=MkD5TXou; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1764317148;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=p3QLe2XaO0RWFOq1Znr3L5adsNAtxbfgecqm9jeMni8=;
-	b=S7YiAuMPMZ3mWeZHXHw99dh4JpsNdOp8v5mmvvCuDreR4ceaLjRcAnDh009LdgmUdxNfRY
-	AxTnba+j/1oZk4pieSNxpeloajPAJCTxQD9UQg2DCc2SUSpXFuf6UkT45SH34QUqIvJoDr
-	TP+8qkg5vfowhsdlqYMzHK4OplQNPUs=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-523-KtnkCGrxOkO3Opboyx5vrg-1; Fri, 28 Nov 2025 03:05:46 -0500
-X-MC-Unique: KtnkCGrxOkO3Opboyx5vrg-1
-X-Mimecast-MFC-AGG-ID: KtnkCGrxOkO3Opboyx5vrg_1764317146
-Received: by mail-ej1-f70.google.com with SMTP id a640c23a62f3a-b72a95dc686so127751366b.3
-        for <linux-input@vger.kernel.org>; Fri, 28 Nov 2025 00:05:46 -0800 (PST)
+	s=arc-20240116; t=1764317449; c=relaxed/simple;
+	bh=BI6d5r9H0oVhcgY7hqM0ujL/0z2q9c72cR3/Pq4ycVA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WmgLqIqnefC/ZcKjdlRouSoVNOfpw0iAikiSDXGz+HmALhMV3zORaovJgt31Jt8ZRoamGMyKPBBveDSmVFEAU0IIbUiP4AupRy6CYSCjkWfKPq13OHbZVKJh0BAaqARwiSSthMZ84z5ZvAj7PhffuUaYz5Ap3JhTecLoFOAKm5E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=SiVskeq6; arc=none smtp.client-ip=209.85.221.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-42b38de7940so738116f8f.3
+        for <linux-input@vger.kernel.org>; Fri, 28 Nov 2025 00:10:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1764317146; x=1764921946; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=p3QLe2XaO0RWFOq1Znr3L5adsNAtxbfgecqm9jeMni8=;
-        b=MkD5TXou2xqwn154AzTh64ECioMDP8zCyNwEnbPdZ/jtHegEJHA3D6rtf23jW19gHU
-         m4EJ8b+AbPSMikrQSylovwCoAFTxW0zuZSaXj8v6lamDPwrmXr7G5+dcoKezksA4saoL
-         iywQ0XtDiptb03qT9nqF99dvFJ5wZsBlfdvngaqay1gYC9CBw48YH7fdRxYfmv3KVqCe
-         utdlt2ZkTAgGzgqfOnedsgTDfYXW9lt2BmuhPdelIqgnB8ip7y/ZJjCTlvpI8vGqo+Mi
-         VXpDoHwYlaM3Vzek4uyptEW55kp7OON1PWdhO0tQkvt3g6AIDWcpJEdt/vkspnfUSmU6
-         kqJA==
+        d=linaro.org; s=google; t=1764317445; x=1764922245; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=+2bFlIh8I9NZQcRpDPD+Djsorg8bRceb3xQr+grKSRk=;
+        b=SiVskeq6fS1FHwAMamNK5PYuedSA93M5Bzg0yrtGs3Vr5Llc40P2NzcfRmz5J66o1k
+         m84N4iWTxOtr5b+x3qLpUlRBHt63gzQeDCIGj5jYZgRCLb5RSMFZmIzCasHW4NyPJ+8w
+         qy9SeOQrTLcZEfLvmgF2A7uUDuw14KblgaXULzw7pyaOMl9AApiYAmtpQaX9wFf2/IgA
+         go9jqHKAiaHvocJYzxJnrhfIdZMaGqmhfahg/7qCKuvy78e/qW2hMB+jdJh1CRvn3+up
+         7ynNV8oJz3Ruq+ZLVcJh9as3+qkkL1seDWmmo+gl2x00y7kjuANKol0ocDQVguNQM2fc
+         6ung==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764317146; x=1764921946;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=p3QLe2XaO0RWFOq1Znr3L5adsNAtxbfgecqm9jeMni8=;
-        b=pM/HVCEY0kydT0FkNkyBXOkEfvcVtwQ52hzKcvnyqoAKmqlQKLBIGCoi2Cb5XtOufs
-         AzAZG0ta1ZhHKjncMHhepbVWWegmYQVvO6WiZFF0CjoTJdsKULGCOA9niIyHcf473o8K
-         VqdKzaWvbBJfdIvZGNpleWwIQErgNHHgyUhfb+fGxfnIIc72oBD19WN3fbiYjAOkgWnA
-         vCT64tn2SnQl4uWHxh5dQB34DO/5mAP5UnqEQm2gQgBBxLBbGdoEHi2yRyVrtZMTskO8
-         jbPHKqzBxfNx6p93jsUAgocPLkLJjN5hrMfI2mYiLEtQDfiyAfi8XZOsqnjGVvnXDPDI
-         W/wQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUYwlpiU6OpH9+xAB71deZEM5isgJ2NhxJ43+Qb+kNKbXqrow9qfLZhKIkGFAXjLCVSU85J7ZqEvgcr5Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzdDQ36qEwU9eVXa+HgOyunvybKUUdYphmjnJpZ9j20sbPJ285w
-	2lAU6VBikpmIxnTcORhAyiHG/lvdL5ABGBZM9fRuyJzericMzeTIMTMcCJEjDmPlcZCNsniA7aF
-	Jq90HkRXOFmu38jepwF1sIP34mzq+/q3caQZJpgmIJf5g7VgT0F3PZWcXQIV0FB37Jn5D1iwWNI
-	oP28UYXtOs6HGBTQ/1C3FmhxiW/vwYdoV4FLAdhI0=
-X-Gm-Gg: ASbGncv13qz32VQpFCYpjpN7ox9rm9ODATvwi9WoCzeMwIS6Jb52gKGGMiAXOmeUl/B
-	0ODezzlASgZJu3qow+SD54KUUST6qGKc7WAI/QGy8oGZIuEB9/YkPigZDbRITT7K8Q6jXk6qWkw
-	b58KrOY0JVFfnZog5t1tZKaWoIipYIsLiI+IF6PZNMP3y3ucA5OR3q2HgfP9NyVRvTAMkhKBw0m
-	TIp
-X-Received: by 2002:a17:907:970d:b0:b73:8cea:62b3 with SMTP id a640c23a62f3a-b76c555d4e4mr1585063666b.41.1764317145508;
-        Fri, 28 Nov 2025 00:05:45 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHKK0ygpmbqqehPl2TIRSD7djKwvPkm+PmaYUeeZWjX873/DUZ190EeXFzXWzQKSZKNDymJ9vPo1YTZbY7aFJ0=
-X-Received: by 2002:a17:907:970d:b0:b73:8cea:62b3 with SMTP id
- a640c23a62f3a-b76c555d4e4mr1585059566b.41.1764317145083; Fri, 28 Nov 2025
- 00:05:45 -0800 (PST)
+        d=1e100.net; s=20230601; t=1764317445; x=1764922245;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=+2bFlIh8I9NZQcRpDPD+Djsorg8bRceb3xQr+grKSRk=;
+        b=nW6Ab5n/a/SBshgS5qziQvH22gWRI/b/HrxzfNqn7/W3L6dc+U1vRZnW0ewiXy2J7c
+         uEsQxnqPGA8gzfp++rG5nSC9kSyGSKxBVTDFFxAkyjpelFOFt2Zy94PwUMV/9eUu7yGe
+         8eCxUTLgfVQG+SP10eym8JgIYmAA/frrAINst+azAl4LXcPzPIOXgwXEbOOWlNCmQYxX
+         v2BYkKOis2k+Y2hiDooCBzQ7bQzVZLmEawQGQwljWv29Z2ui2keQq4tIZBFHqHa+HAsM
+         153JbNwDkVBflW0fAnC5Yl27qCse+rc32g+xxF0x0VbR2tAuBI/FM6n1gwzb+I5wQokm
+         SPXw==
+X-Forwarded-Encrypted: i=1; AJvYcCXT30llQgb5BbPdRb1Ouys/k/0v96jbBtRNj45LDOb7aSChgsKGdyTVzsRqwtTCqSAhTZDbPQ2jqFIGXg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxLzTeU8DS8MhemTiGwLtuNtIfE1LOyGaRrikc+eZFx9N0X3eRP
+	KdEAEazXdYnIa9Ze2hf7ZHooCsni4HqhzrS1OUgHbiP0ojVZ+c+nscP3XGiyQLAV8uU=
+X-Gm-Gg: ASbGncurmZqJU7VF2G0taY/BA+33n5NPd90w0+jkDdGKMANNQd/2bHKOyQ6WbUuOEXF
+	2b7BJZhvLbyumfQSn7ED1cRlg0gV2PLdzR/eAca/UjPrQFZ8PGuWac3YQFLm5fYiGw8PY0Jf8rM
+	0MNDWEuQtEZNV7nPKwpczjvHkuDSYx7orDT4ViqHP0s0ie7aGJ5/dku5BxhmSY0oKMUdaQlBJ5q
+	DVlPh9b+hv4MR5r9kKQz+5d6l5hm2N1p5E+cSNkfTSiwnWlVDMW5DsdrxzDbX5CAaw8TqvM76tl
+	Ph9kBFAbEEWLvGajNNJMzHjctfU8+ndwg/qhJsukOhDoojz7S2vSrVfmNK590ofSmFa767eXo2o
+	gb/iCRe3g7nKFmxAa2GbHAXNow0QrQ7QadwM0n2/bM1Ng4ojV3AH1Q4Xp6PwPo6Vzda5N5HSfgO
+	e8OiZMYznW5vlN/ezj
+X-Google-Smtp-Source: AGHT+IHVNGxLHdQSfNonRBBq78f347/I8I+ulkCPlaTONnGVXYiUFj038obXmFsDqBT8iAGXzvuP8A==
+X-Received: by 2002:a05:600c:1d1d:b0:477:7c7d:d9b7 with SMTP id 5b1f17b1804b1-477c01ec3f5mr247354265e9.33.1764317445111;
+        Fri, 28 Nov 2025 00:10:45 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-47911143bb6sm83247115e9.3.2025.11.28.00.10.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 28 Nov 2025 00:10:43 -0800 (PST)
+Date: Fri, 28 Nov 2025 11:10:39 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: James Calligeros <jcalligeros99@gmail.com>
+Cc: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Neal Gompa <neal@gompa.dev>, Lee Jones <lee@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>, asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-rtc@vger.kernel.org,
+	linux-hwmon@vger.kernel.org, linux-input@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v5 06/11] hwmon: Add Apple Silicon SMC hwmon driver
+Message-ID: <aSlY_w-nXA38PrBO@stanley.mountain>
+References: <20251112-macsmc-subdevs-v5-0-728e4b91fe81@gmail.com>
+ <20251112-macsmc-subdevs-v5-6-728e4b91fe81@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAMBhvbYA=onQkkcgkODaTj=+tkybwo28Cdi6P3vodGpVZi8OVA@mail.gmail.com>
-In-Reply-To: <CAMBhvbYA=onQkkcgkODaTj=+tkybwo28Cdi6P3vodGpVZi8OVA@mail.gmail.com>
-From: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date: Fri, 28 Nov 2025 09:05:33 +0100
-X-Gm-Features: AWmQ_bkLgWKix4gnWAJoUAVbND5jxAoYl0f5o50yL4aev8Kz282JnEE0s8Yv9uc
-Message-ID: <CAO-hwJJRisVpZWeSA+3_fLaa8_52f7ypUocDcD+PojuF3KjHYw@mail.gmail.com>
-Subject: Re: Regression: SYNA3602 I2C touchpad broken in Linux 6.17.7 (works
- in 6.17.6 and previous versions)
-To: Vijay <vijayg0127@gmail.com>
-Cc: regressions@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	linux-input@vger.kernel.org, linux-pm@vger.kernel.org, 
-	linux-acpi@vger.kernel.org, jikos@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251112-macsmc-subdevs-v5-6-728e4b91fe81@gmail.com>
 
-Hi,
+On Wed, Nov 12, 2025 at 09:16:52PM +1000, James Calligeros wrote:
+> +static int macsmc_hwmon_populate_sensors(struct macsmc_hwmon *hwmon,
+> +					 struct device_node *hwmon_node)
+> +{
+> +	struct device_node *key_node __maybe_unused;
 
-On Fri, Nov 28, 2025 at 7:40=E2=80=AFAM Vijay <vijayg0127@gmail.com> wrote:
->
-> Hello,
->
-> I would like to report a regression in the Linux kernel affecting I2C-HID
-> touchpads that run through the Intel ISH + DesignWare I2C controller.
->
-> Hardware:
-> - Laptop: Infinix Y4 Max
-> - CPU: Intel (13th gen core i5)
-> - Touchpad: SYNA3602:00 093A:35ED (I2C HID)
-> - Bus path: SYNA3602 =E2=86=92 i2c_designware =E2=86=92 Intel ISH =E2=86=
-=92 HID
-> - OS: Linux (Arch/CachyOS)
-> - Kernel config: Default distro config
->
-> Regression summary:
-> - Touchpad works perfectly in Linux 6.17.6 and below versions
-> - Touchpad stops working in Linux 6.17.7 and all newer versions (6.17.8, =
-6.17.9, etc.)
-> - Desktop environment does not matter (Hyprland/GNOME both fail)
-> - The failure happens before userspace loads
-> - Touchpad also works fine in Linux 6.12 LTS
->
-> This is a kernel-level regression introduced between:
->     Good: Linux 6.17.6
->     Bad:  Linux 6.17.7
->
-> **Dmesg logs from broken kernel (6.17.7 and newer):**
->
->     i2c-SYNA3602:00: can't add hid device: -110
->     hid_sensor_hub: reading report descriptor failed
->     intel-hid INTC1078:00: failed to enable HID power button
+The for_each_child_of_node_with_prefix() macros declare key_node so this
+declaration is never used so far as I can see.  I thought Sparse had a
+warning where we declared shadow variables where two variables have the
+same name but it doesn't complain here. #strange
 
-Looks like i2c-hid can't even communicate with any I2C device, so this
-is slightly worrying.
+> +	struct macsmc_hwmon_sensor *sensor;
+> +	u32 n_current = 0, n_fan = 0, n_power = 0, n_temperature = 0, n_voltage = 0;
+> +
+> +	for_each_child_of_node_with_prefix(hwmon_node, key_node, "current-") {
+                                                       ^^^^^^^^
 
->
-> And the DesignWare I2C controller logs around the failure:
->     i2c_designware 0000:00:15.0: controller timed out
->     i2c_designware 0000:00:15.0: lost arbitration
->     i2c_designware 0000:00:15.0: transfer aborted (status =3D -110)
->
-> These errors appear only on 6.17.7+ and not on 6.17.6.
->
-> On working versions (6.17.6 and 6.12 LTS), the touchpad initializes norma=
-lly:
->
->     input: SYNA3602:00 093A:35ED Touchpad as /devices/.../input/inputX
->     hid-multitouch: I2C HID v1.00 device initialized
->     i2c_designware 0000:00:15.0: controller operating normally
->
-> This narrow regression window should make it possible to identify the off=
-ending
-> change in either:
-> - HID core
-> - I2C-HID
-> - Intel ISH HID
-> - DesignWare I2C controller
-> - ACPI timing changes
->
-> I can provide:
-> - Full dmesg (working and broken)
-> - acpidump
+regards,
+dan carpenter
 
-Are you running on a full vanilla kernel?
-
-The changelog between 6.17.6 and 6.17.7 is rather small, so it should
-be easy enough to bisect and get the offending commit.
-
-I have my suspicions on:
-f1971d5ba2ef ("genirq/manage: Add buslock back in to enable_irq()")
-b990b4c6ea6b ("genirq/manage: Add buslock back in to __disable_irq_nosync()=
-")
-3c97437239df ("genirq/chip: Add buslock back in to irq_set_handler()")
-
-Because anything else is unrelated to any component involved in i2c-hid.
-(But that's also assuming you are running vanilla kernels without any
-extra patches.)
-
-OTOH, I've booted a 6.17.8 and 6.17.7 shipped by Fedora and I don't
-see any issues related to i2c-hid, so those 3 commits might not be the
-culprits.
-
-
->
-> Please let me know what additional data is needed.
-
-Can you do a bisect between v6.17.7 and v6.17.6?
-
-Cheers,
-Benjamin
-
->
-> Thank you,
-> Vijay.
+> +		n_current++;
+> +	}
+> +
+> +	if (n_current) {
+> +		hwmon->curr.sensors = devm_kcalloc(hwmon->dev, n_current,
+> +						   sizeof(struct macsmc_hwmon_sensor), GFP_KERNEL);
+> +		if (!hwmon->curr.sensors)
+> +			return -ENOMEM;
+> +
+> +		for_each_child_of_node_with_prefix(hwmon_node, key_node, "current-") {
+> +			sensor = &hwmon->curr.sensors[hwmon->curr.count];
+> +			if (!macsmc_hwmon_create_sensor(hwmon->dev, hwmon->smc, key_node, sensor)) {
+> +				sensor->attrs = HWMON_C_INPUT;
+> +
+> +				if (*sensor->label)
+> +					sensor->attrs |= HWMON_C_LABEL;
+> +
+> +				hwmon->curr.count++;
+> +			}
+> +		}
+> +	}
+> +
+> +	for_each_child_of_node_with_prefix(hwmon_node, key_node, "fan-") {
+> +		n_fan++;
+> +	}
+> +
+> +	if (n_fan) {
+> +		hwmon->fan.fans = devm_kcalloc(hwmon->dev, n_fan,
+> +					       sizeof(struct macsmc_hwmon_fan), GFP_KERNEL);
+> +		if (!hwmon->fan.fans)
+> +			return -ENOMEM;
+> +
+> +		for_each_child_of_node_with_prefix(hwmon_node, key_node, "fan-") {
+> +			if (!macsmc_hwmon_create_fan(hwmon->dev, hwmon->smc, key_node,
+> +						     &hwmon->fan.fans[hwmon->fan.count]))
+> +				hwmon->fan.count++;
+> +		}
+> +	}
+> +
+> +	for_each_child_of_node_with_prefix(hwmon_node, key_node, "power-") {
+> +		n_power++;
+> +	}
+> +
+> +	if (n_power) {
+> +		hwmon->power.sensors = devm_kcalloc(hwmon->dev, n_power,
+> +						    sizeof(struct macsmc_hwmon_sensor), GFP_KERNEL);
+> +		if (!hwmon->power.sensors)
+> +			return -ENOMEM;
+> +
+> +		for_each_child_of_node_with_prefix(hwmon_node, key_node, "power-") {
+> +			sensor = &hwmon->power.sensors[hwmon->power.count];
+> +			if (!macsmc_hwmon_create_sensor(hwmon->dev, hwmon->smc, key_node, sensor)) {
+> +				sensor->attrs = HWMON_P_INPUT;
+> +
+> +				if (*sensor->label)
+> +					sensor->attrs |= HWMON_P_LABEL;
+> +
+> +				hwmon->power.count++;
+> +			}
+> +		}
+> +	}
+> +
+> +	for_each_child_of_node_with_prefix(hwmon_node, key_node, "temperature-") {
+> +		n_temperature++;
+> +	}
+> +
+> +	if (n_temperature) {
+> +		hwmon->temp.sensors = devm_kcalloc(hwmon->dev, n_temperature,
+> +						   sizeof(struct macsmc_hwmon_sensor), GFP_KERNEL);
+> +		if (!hwmon->temp.sensors)
+> +			return -ENOMEM;
+> +
+> +		for_each_child_of_node_with_prefix(hwmon_node, key_node, "temperature-") {
+> +			sensor = &hwmon->temp.sensors[hwmon->temp.count];
+> +			if (!macsmc_hwmon_create_sensor(hwmon->dev, hwmon->smc, key_node, sensor)) {
+> +				sensor->attrs = HWMON_T_INPUT;
+> +
+> +				if (*sensor->label)
+> +					sensor->attrs |= HWMON_T_LABEL;
+> +
+> +				hwmon->temp.count++;
+> +			}
+> +		}
+> +	}
+> +
+> +	for_each_child_of_node_with_prefix(hwmon_node, key_node, "voltage-") {
+> +		n_voltage++;
+> +	}
+> +
+> +	if (n_voltage) {
+> +		hwmon->volt.sensors = devm_kcalloc(hwmon->dev, n_voltage,
+> +						   sizeof(struct macsmc_hwmon_sensor), GFP_KERNEL);
+> +		if (!hwmon->volt.sensors)
+> +			return -ENOMEM;
+> +
+> +		for_each_child_of_node_with_prefix(hwmon_node, key_node, "volt-") {
+> +			sensor = &hwmon->temp.sensors[hwmon->temp.count];
+> +			if (!macsmc_hwmon_create_sensor(hwmon->dev, hwmon->smc, key_node, sensor)) {
+> +				sensor->attrs = HWMON_I_INPUT;
+> +
+> +				if (*sensor->label)
+> +					sensor->attrs |= HWMON_I_LABEL;
+> +
+> +				hwmon->volt.count++;
+> +			}
+> +		}
+> +	}
+> +
+> +	return 0;
+> +}
 
 
