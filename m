@@ -1,55 +1,39 @@
-Return-Path: <linux-input+bounces-16393-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16394-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B33FC92C3F
-	for <lists+linux-input@lfdr.de>; Fri, 28 Nov 2025 18:09:54 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id ED9A8C934F2
+	for <lists+linux-input@lfdr.de>; Sat, 29 Nov 2025 01:16:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EDE4D3A81AD
-	for <lists+linux-input@lfdr.de>; Fri, 28 Nov 2025 17:01:39 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 7ECF0348641
+	for <lists+linux-input@lfdr.de>; Sat, 29 Nov 2025 00:16:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED2A6287242;
-	Fri, 28 Nov 2025 17:01:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="TlTZ/tFa"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A4CCE54654;
+	Sat, 29 Nov 2025 00:16:19 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from cosmicgizmosystems.com (beyond-windows.com [63.249.102.155])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5072284889;
-	Fri, 28 Nov 2025 17:01:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC5FF1A267;
+	Sat, 29 Nov 2025 00:16:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=63.249.102.155
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764349296; cv=none; b=QIzIjpvtbtM1jHCbnltXmrcc5nJD+zgbxM0Zuiaje6/5QfqH1QV7RuthuAZkjJ27YOQzUhpL90OLn69VuS1aABN9OlQrKg/cycGvr//rkzONKIs8Y/G4xbtL9d/18f/jMvmJbCk0CO/bFIJy8fU9Kkj0r8xt/3K5+NLGtOPxPus=
+	t=1764375379; cv=none; b=PWDQhW723RQ3bLTAnRKV28ZNY4DZDzrMZgcLLmEJCwETwnONuEh3bguibT/vY5IISBBaMFrdDTrr+hj8ozAqK2LQGHUUZSs4QZ8UvIIpM/XM6yYjzebI6gx+N2HLRZoSmCBVkIac57qpWsB+vEoYaqw8UeaGUC5c/3FHIFnLMH8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764349296; c=relaxed/simple;
-	bh=w+/+uB72XXqP5XOu6Dj/JQYa1DwZHV2PT5EEegSpDsI=;
-	h=Message-ID:Date:MIME-Version:Cc:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=nZjFoL2SZHs3vmQ29arFXsm/vyp9ZNDbsxFz7DCnyj+zxEwpnf+2FxqbSwzB53j/XS4yxX1f5QhPPkP3e9Ks46PepPlhzmPPvvb1Vgos+dhJLuhnuS/Cs0ETRbdZ2SQ/dTCZPVynxIDnN4qhI8LkWhHCdK+gpxnsBtsWRmEsd58=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=TlTZ/tFa; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1764349292;
-	bh=w+/+uB72XXqP5XOu6Dj/JQYa1DwZHV2PT5EEegSpDsI=;
-	h=Date:Cc:Subject:To:References:From:In-Reply-To:From;
-	b=TlTZ/tFaBjUTQjrEtaY6uiqao2rYr/Oq3aK8OjUImxux9pzdGbCtmjUWVw1BS6lAY
-	 7bEpT7OD0FCBP1P4it+EsdjjL2yXzARWVe/hIUA6Cbln2X0pwn4pq09gAx5XjN8ghg
-	 5Vj2YZOmYN9+KqQ1KZh1x6XrHn0J2fVhzr6L8WrRNEfU0huVdLBcPMXIEt98u8beaF
-	 yJhtk6oyI/rfBO/PjigeP6FTOPzcE4u9YgKHUYwvDQo6YoMmoPrs4zeYaNMCkw6Yg1
-	 Z0cl0bAfmNXReXuIVzCIuScQc+Ew9e5GOGglJI8ew6g2OKZ7S1W6wqbpcpWxPbxdW5
-	 e28w2n2SdH7cA==
-Received: from [192.168.100.50] (unknown [144.48.130.189])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: usama.anjum)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 8FD7717E06C3;
-	Fri, 28 Nov 2025 18:01:29 +0100 (CET)
-Message-ID: <a26e1b2f-50dc-4956-8bea-49d0e9ac2e4e@collabora.com>
-Date: Fri, 28 Nov 2025 22:00:54 +0500
+	s=arc-20240116; t=1764375379; c=relaxed/simple;
+	bh=HUa1CdrxF8J/hkIcsG4AVqwJBZi5W5QlQHuM8rMTPZA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=oAgOT5IKvIE36xJV0OPUfnMcqGYbNJ32Y6JAq4qNt6BL6YMIG8G7eIlDsWqZUeJvjRHavgrgzVJAPFJRybPKBcGiDjrpyE+v6zGMAz0Dhw/Km8OI9US+CYd5k1M7Ue+J0D/sb/xoYpN1lw9vyYKe+lNWOQIaPQ9UimunYKrTgJg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cosmicgizmosystems.com; spf=pass smtp.mailfrom=cosmicgizmosystems.com; arc=none smtp.client-ip=63.249.102.155
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cosmicgizmosystems.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cosmicgizmosystems.com
+Received: from [10.0.0.100] (c-71-193-224-155.hsd1.wa.comcast.net [71.193.224.155])
+	by host11.cruzio.com (Postfix) with ESMTPSA id DC82F1EA46A5;
+	Fri, 28 Nov 2025 16:08:44 -0800 (PST)
+Message-ID: <c462c4e7-ab34-4ca8-9d05-818017b7ea3f@cosmicgizmosystems.com>
+Date: Fri, 28 Nov 2025 16:08:43 -0800
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -57,99 +41,38 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Cc: usama.anjum@collabora.com, Len Brown <lenb@kernel.org>,
- Pavel Machek <pavel@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Danilo Krummrich <dakr@kernel.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Thomas Gleixner <tglx@linutronix.de>, Peter Zijlstra <peterz@infradead.org>,
- linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-input@vger.kernel.org, kernel@collabora.com,
- superm1@kernel.org
-Subject: Re: [PATCH 3/4] Input: Ignore the KEY_POWER events if hibernation is
- in progress
-To: "Rafael J. Wysocki" <rafael@kernel.org>
-References: <20251107184438.1328717-1-usama.anjum@collabora.com>
- <20251107184438.1328717-4-usama.anjum@collabora.com>
- <CAJZ5v0gtGjE-rSwM4Kom4cDEhp3eSOkLCmbLwrt_9u9a7VP6zQ@mail.gmail.com>
- <6f1f3210-47c6-4c00-8fb9-35f48bae2581@collabora.com>
- <CAJZ5v0iDUPB9s2fPJxqVqPGj5wbw54tR4thmDD2V-r4+Q2prwg@mail.gmail.com>
+Subject: Re: [PATCH v3] HID: Apply quirk HID_QUIRK_ALWAYS_POLL to Edifier QR30
+ (2d99:a101)
+To: =?UTF-8?Q?Rodrigo_Lugathe_da_Concei=C3=A7=C3=A3o_Alves?=
+ <lugathe2@gmail.com>, bentiss@kernel.org, jikos@kernel.org
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-usb@vger.kernel.org, stern@rowland.harvard.edu,
+ dmitry.torokhov@gmail.com, linuxsound@cosmicgizmosystems.com,
+ michal.pecio@gmail.com
+References: <20251127220357.1218420-1-lugathe2@gmail.com>
 Content-Language: en-US
-From: Muhammad Usama Anjum <usama.anjum@collabora.com>
-In-Reply-To: <CAJZ5v0iDUPB9s2fPJxqVqPGj5wbw54tR4thmDD2V-r4+Q2prwg@mail.gmail.com>
+From: Terry Junge <linuxhid@cosmicgizmosystems.com>
+In-Reply-To: <20251127220357.1218420-1-lugathe2@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 11/25/25 5:25 PM, Rafael J. Wysocki wrote:
-> On Tue, Nov 25, 2025 at 11:23 AM Muhammad Usama Anjum
-> <usama.anjum@collabora.com> wrote:
->>
->> On 11/24/25 11:50 PM, Rafael J. Wysocki wrote:
->>> On Fri, Nov 7, 2025 at 7:45 PM Muhammad Usama Anjum
->>> <usama.anjum@collabora.com> wrote:
->>>>
->>>> Input (Serio) drivers call input_handle_event(). Although the serio
->>>> drivers have duplicate events, they have separate code path and call
->>>> input_handle_event(). Ignore the KEY_POWER such that this event isn't
->>>> sent to the userspace if hibernation is in progress.
->>>
->>> Your change affects suspend too.
->>>
->>> Also, what's the goal you want to achieve?
->> Two goals:
->> * Don't send event to userspace
->> * Set pm_wakeup for hibernation cancellation for non-acpi devices (This api
->>   call should be tested on non-acpi devices such as arm board to see if it
->>   helps. I don't have an arm board in hand)
->>
->>>
->>>> Abort the hibernation by calling pm_wakeup_dev_event(). In case of serio,
->>>> doesn't have wakeup source registered, this call doesn't do anything.
->>>> But there may be other input drivers which will require this.
->>>>
->>>> Without this, the event is sent to the userspace and it suspends the
->>>> device after hibernation cancellation.
->>>
->>> I think that's because user space handles it this way, isn't it?
->>
->> Yes, it depends on how userspace handles such events. There are different settings
->> configured for systemd-logind when power event is received. The purpose is to consume
->> this event to cancel the hibernation without letting userspace know about it.
->>
->> Thinking more about it, I wasn't sure if all of such events are compulsory to be
->> delivered to userspace. But then I found an example: In acpi_button_notify(), all
->> such events are not sent to userspace if button is suspended. So it seems okay to
->> not send this as well and just consume in the kernel.
+Hi Rodrigo,
+
+Thanks for reporting, debugging, finding the solution, and submitting a patch!
+
+Reviewed-by: Terry Junge <linuxhid@cosmicgizmosystems.com>
+
+Original thread - https://lore.kernel.org/all/CALvgqEAq8ZWgG4Dyg_oL7_+nUDy+LUoTXi+-6aceO-AKtBS3Mg@mail.gmail.com/
+
+Regards,
+Terry
+
+On 11/27/25 2:03 PM, Rodrigo Lugathe da Conceição Alves wrote:
+> The USB speaker has a bug that causes it to reboot when changing the
+> brightness using the physical knob.
 > 
-> You want the given key (and it doesn't matter whether or not this is
-> KEY_POWER or something else) to play two roles.  One of them is to
-> send a specific key code to user space and let it handle the keypress
-> as it wants.  This is how it works most of the time.  The second one
-> is to wake up the system from sleep (and I'm not sure why you want to
-> limit this to hibernation) in which case the key code will not be sent
-> to user space.
+> Add a new vendor and product ID entry in hid-ids.h, and register
+> the corresponding device in hid-quirks.c with the required quirk.
 > 
-> For this to work, you need to switch between the two modes quite
-> precisely and checking things like pm_sleep_transition_in_progress()
-> (which is only used for debug and its raciness is not relevant there)
-> is not sufficient for this purpose.  That's what the "suspended" flag
-> in the ACPI button driver is for.
-I've been testing and trying out `suspended` flag. But this flag gets set very late.
-If we depend on it, we'll not be able to wakeup in time after cancelling hibernation.
-
-Initially we were using hibernation_in_progress() in RFC and we switched to
-pm_sleep_transition_in_progress() in order to cancel the sleep as well (which wasn't 
-the original intention).
-
-The sleep detection isn't working through pm_suspend_target_state or pm_suspend_in_progress()
-as it is set very late in suspend process. While hibernation_in_progress() gets set in
-start of hibernation.
-
-Then as you said, they are unreliable. I'm thinking what other options. But I've not
-found any. Please share ideas what other way can work instead of suspended flag better? 
-
--- 
----
-Thanks,
-Usama
+> Signed-off-by: Rodrigo Lugathe da Conceição Alves <lugathe2@gmail.com>
 
