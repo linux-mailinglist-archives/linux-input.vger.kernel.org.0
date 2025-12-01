@@ -1,169 +1,155 @@
-Return-Path: <linux-input+bounces-16432-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16433-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E3DFC98770
-	for <lists+linux-input@lfdr.de>; Mon, 01 Dec 2025 18:16:14 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6099FC98B71
+	for <lists+linux-input@lfdr.de>; Mon, 01 Dec 2025 19:30:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id E2E2A34497D
-	for <lists+linux-input@lfdr.de>; Mon,  1 Dec 2025 17:16:12 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0AFCB3A2F15
+	for <lists+linux-input@lfdr.de>; Mon,  1 Dec 2025 18:30:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 208A63358BC;
-	Mon,  1 Dec 2025 17:16:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2C30E201033;
+	Mon,  1 Dec 2025 18:30:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="Npow+MGS"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="v/Q3yK+H"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-oi1-f174.google.com (mail-oi1-f174.google.com [209.85.167.174])
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02A9E33711E
-	for <linux-input@vger.kernel.org>; Mon,  1 Dec 2025 17:15:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70AF1D27E
+	for <linux-input@vger.kernel.org>; Mon,  1 Dec 2025 18:30:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764609361; cv=none; b=j29BlVpqYM/SSNcH7k6OWOM4VOwcfgkZeSETIzYYdh+ytGrRVsyN+cAbymJaXvLtZ02v4LMASSrVTC+qicWeUce9IzepbUNMbtmHs5OApocHUz8CN96RGeCTasGx5fCShl/eMHnncmqTekKu14rPxLmMBiFiHE4fkKLQicAn7OA=
+	t=1764613852; cv=none; b=kuc3CBgDFa4v/Yu/QTU3COnFGK75I0dtHnd30BVFof59mOuB0tqMPxODIV3ZQdgBA+9Otw6s34DcYOqeotxuj/xcdGE8SpOtBtBqkkSjVO0M+ddrwnSJplnyNVh3i4w/9GvY7yHtCeNfJee2MAhmwM9RfZPAD0BF5kTswaDZYVo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764609361; c=relaxed/simple;
-	bh=HH/YjoTJvK+HycLUz2tbwGdJb1nNegFYrobhQ9Ypw8s=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fhNB/I98FCC3LyQtUbEIxio+FTBBR+pi2iyoFqkgzuEc5SNMgo4da28a2iEB9jAwcbje5uauHc63RRSg9nUiF8V1dzsnT5zjcRFCbp34JRsHOUXzk5ElYR0S8KrUIIEHocA8vB57SFAn7t5Vqg9+7wb7fKGU0KPu7yISpQCd4rE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=Npow+MGS; arc=none smtp.client-ip=209.85.167.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
-Received: by mail-oi1-f174.google.com with SMTP id 5614622812f47-45330fe6e1bso1316457b6e.2
-        for <linux-input@vger.kernel.org>; Mon, 01 Dec 2025 09:15:58 -0800 (PST)
+	s=arc-20240116; t=1764613852; c=relaxed/simple;
+	bh=wHh4ez4j0WRy5B86Gnr2VuteHKjrwZOmHY7Dv4NOEIM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Content-Type; b=nmGG08Qrn/HXeEl9AsWqUCJn668lj8KuX6AZqu4VsDQzBvMQEI1QDFpij+5Qwaa3cssE1Wv5rnajD2g+DV9f25pK/LsE+FulZG9+zen1z9bNtnpaZ8EiinJABmvBNiITSCt6vtxt2o3Mu0ibEaWvXZjNaYkESXSoR3B0ddfZXZg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=v/Q3yK+H; arc=none smtp.client-ip=209.85.167.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-595910c9178so3537521e87.1
+        for <linux-input@vger.kernel.org>; Mon, 01 Dec 2025 10:30:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1764609357; x=1765214157; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=mXBvbePBmN0aGW+rjYL5kzNiYaDe50sZg3kuC1eECMg=;
-        b=Npow+MGScSa9PmoCppCBKLkH/lvjtJcb6awX9aPoo0MtWh2u5ueZl/upHY6tPLROi5
-         EW73g+TiACBOJ+6zy3qphgzGuN5GmxU+PFQrjTy1JxwXANnbrwdp5plkDZDTUHuv0JEr
-         /OhNtkJdZQ2tjwgdau6y7JHlSn3T1eYWvaUdRrCjFeRqk2rWcjfNRY7xp9O58g1TKOs7
-         TENNcDQyxVmuY8UZ9RorIWWD6IcDvaEP5x9IAtzciD9xU7ComNVSJfHGYv2lHYq0m5Mp
-         C373JHEbOJ7pFsoWM7r6gp+mCteyyMrpi4dKE1LEy4ThHi502gBLwkQ2Pjs+1wi4HnJv
-         zC/A==
+        d=google.com; s=20230601; t=1764613848; x=1765218648; darn=vger.kernel.org;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=xiCliUJke4PTSzdk5ACPgZOtBcpY6iKILv4Rw/LzbZk=;
+        b=v/Q3yK+Hv6HVFHy7BxXoExVMUfHoh9zRf3pj7wS0Z/D9obM9hnkuhstbAArS5ku1q3
+         UVcMXFbS1Y2RHcaxJ2uob45vala2iHw3GfJCUFa7xaePvbVi/EC7I7/PpPDgIY9BxGTm
+         CgaSysn1bhAXKBpZ+Ss0QL0m08ttAk4jZCp6pfpw1alx/uE8tVVQ1wK8IhECddzQv4hy
+         Uqbv0qGb/6Gw3+jdfcB3KGAeUw57Swgk79M1YgwWh9rNzq9GB7kbEKiggUmNkyN0L1TC
+         7iHwxaX6MqPFGByoiweTuygRetA8FwEJ2/NLj0Y8MapxMmG+7hDsdbHy26/kBSphCjb/
+         hxRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764609357; x=1765214157;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=mXBvbePBmN0aGW+rjYL5kzNiYaDe50sZg3kuC1eECMg=;
-        b=EHb3SXtTQhAAbWgDaF+AT2g0mpi934hFbMXjEsZWG5+sIy11atTgJ4NWJjr0gdzLMy
-         NKAKQqxWbvQZ120Q/MiUPKVUh4leEajJlhhNv7Uztto3W6GWMMh95Mgp7cExMxeIf67H
-         LmcB15I22XKv6kunrG/9HGaBaom32TrtQCJfhhZqt22/rwnqpj6fRkS6VenFixhZZyEG
-         LplNWudBLmCaVYw+SCl3HoOw3UXqhJNxrEXIleVpnDfTgPzlSvZx0eIDZKTJSAVMWRbc
-         rjT6LMNA2JeLyiQ3gikjwJJ+DaIDY4zEpmYyJXbhKYMHFYUT16qjkKs2qWjfPW2ZvtJT
-         0UOw==
-X-Forwarded-Encrypted: i=1; AJvYcCVBS1ccHrSyj8VJ8EuoEZ494Lmcj25yfn1wtL72YDNYKpqDfcpNF3bu/KNW2+2VAa6LUOfxTqID3Hmk7Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzt4bsV+kGfnBKQESpUtg4Tc4GZVwHDQRpAiE4OX9EwewxVdAJa
-	0C4OTzTo8N8fPve2fQQKK7ndfqG+yUBF5xKUGXONWnce93Nu7DGgogVWhgq08yBnonU=
-X-Gm-Gg: ASbGncuhdK23sC+tmfZx7alqVOpeENVgrANZig8IPfVIqrepMyCyKY4gEJB9bciGbdY
-	tMiobcuv0LleqobtWGW5tYPkhb5356tBULoD3KAJBX+U2iNurDJPnMwH3KOHBAOR9jXNETBXC/X
-	+hc+YBuDveU4yqj4/e7MoaVi5miO9DThuz3XtVDJzxIqcssQZtsPj9o0dBPvKJ4j5iSaTJ+IE22
-	h5YGrK7eIGNclI+Z2E90wfT8jv6D2pdPMFgyRfFs/M7gxibm4eMgSFfG2CUiuqXIQxqA+ixStJ2
-	QCRxhrA/Ojt/ZHSOKNl3wXU7lm7IFeFEjTbtUXQZbkTYk+aIHp6YiUlitBIMttgMRAHLRf7ovsK
-	AstkKBsgldkJvwxZ7+1HG/TYvnG/cjRP3z3SL/ZD6CDQOPKUzJmCyRtgjyHSmexTb0z2Gz93ilc
-	ICB2P4nq0oxQzzJkLj3rfQGOCxDbWJ8bcQ8UrQdxHWk7lbuHx8PYM8SSooTg==
-X-Google-Smtp-Source: AGHT+IFhXzu7oIvN//K+0gQ9fSmHlhexzrACWF7hMjJsE/gYpW4bjA3882odDNc+t9DkOzPtuw0t9A==
-X-Received: by 2002:a05:6808:1790:b0:450:65dc:1fce with SMTP id 5614622812f47-4514e5f84ddmr11527679b6e.3.1764609356945;
-        Mon, 01 Dec 2025 09:15:56 -0800 (PST)
-Received: from ?IPV6:2600:8803:e7e4:500:b67b:16c:f7ae:4908? ([2600:8803:e7e4:500:b67b:16c:f7ae:4908])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-453169b2a51sm3922009b6e.4.2025.12.01.09.15.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 01 Dec 2025 09:15:56 -0800 (PST)
-Message-ID: <78240755-44dc-4835-aca5-99540cca0304@baylibre.com>
-Date: Mon, 1 Dec 2025 11:15:54 -0600
+        d=1e100.net; s=20230601; t=1764613849; x=1765218649;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=xiCliUJke4PTSzdk5ACPgZOtBcpY6iKILv4Rw/LzbZk=;
+        b=Es3TWC6Q54ARzYei4bXZ25AbFNIq6QP49SlsA/xH3mXrSQW3xIu6V+ot6wtY9mBWZf
+         pt3dgJRITHrYW5L7NyV/1+9PrGZPC5SOD1UdcBnPDu3vkiOTLoR64ERdpTOanEDUfamv
+         p7zQGaikf8D+4Rz6YHLegWREJztysHN38OHjd2lZYthpWtwMFA7QM2cXMGSdtjohQfPg
+         9IegpnXv/84E/onGQ/3WUw1prDAgCSPJTpr6Upe+eTgDkWFWsliPURQmh9Q3C45OFC5M
+         La/k5vhbqRqZ7cEjB6AsJes6iME9Xzlltm+noBUE77foJEnUkucB3qQqhCaRIzmDtntX
+         TFWA==
+X-Forwarded-Encrypted: i=1; AJvYcCVTvWixtI3pujCAlwfCkiKb52EoYehzbEr58DsrWtGbrBBN/6sQwNLzM3/2iefRL8SW0HBcDpfyaOkXOw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwhKJaguZ08MN83scgop+GoZG9rp0EOYXRZBmJ5tOMa08xjE+av
+	SgbUqE157ZGKMmFh07eBDC/UmLqc+YfkJbi6AR5rmCYoGBIHpt554/Jm5qZHMWUuJuarKtK2fpZ
+	Khopbi1Volw1PjNpSjE2bm/28f5o3c4D6R7V8E1Ha
+X-Gm-Gg: ASbGncsxqbwqgzed19ANpMplTWdu+P8cQ4nECG9vASqvBSosk2rfGLDRceS/e4pJ9vQ
+	zdAaSWnaUhUBttBe+pZciczvVBEErI/pAn+43o+J63lcJx75Rmq0xO5eVuvWuas5RNs88bazODP
+	z0FtFolZIQFJ5wuDZn8Z9rO4U1NseZcnygTnQ9jL/PkimiXK552CMG11WQmNerYNjhwgMh48G3r
+	GUqnBG770Prx8I1WI5xm5yMniZzGTA3Y8uKUtmTM/Kn8hTWRILzBjS/voUl4i7EgUK8a2mQymtU
+	i4mV5tHxAWEQP7WpaXpciIz5rFqyNKB9Ot+5
+X-Google-Smtp-Source: AGHT+IHITeazHHwTTxRWixTIJLnXV/QpAABQfCatJJqzZbqRqhuh2oTKtogzT6hkK/GqH10bEqEzsg4Wx3pcMeVqKhQ=
+X-Received: by 2002:a05:6512:15a4:b0:579:f0fc:429f with SMTP id
+ 2adb3069b0e04-596a3ee6beemr12814117e87.49.1764613848341; Mon, 01 Dec 2025
+ 10:30:48 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] iio: inkern: Use namespaced exports
-To: Romain Gantois <romain.gantois@bootlin.com>,
- MyungJoo Ham <myungjoo.ham@samsung.com>, Chanwoo Choi
- <cw00.choi@samsung.com>, Guenter Roeck <linux@roeck-us.net>,
- Peter Rosin <peda@axentia.se>, Jonathan Cameron <jic23@kernel.org>,
- =?UTF-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
- Andy Shevchenko <andy@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>,
- Michael Hennerich <Michael.Hennerich@analog.com>,
- Mariel Tinaco <Mariel.Tinaco@analog.com>, Kevin Tsai
- <ktsai@capellamicro.com>, Linus Walleij <linus.walleij@linaro.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Eugen Hristev <eugen.hristev@linaro.org>, Vinod Koul <vkoul@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Sebastian Reichel <sre@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Hans de Goede <hansg@kernel.org>,
- Support Opensource <support.opensource@diasemi.com>,
- Paul Cercueil <paul@crapouillou.net>, Iskren Chernev <me@iskren.info>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Matheus Castello <matheus@castello.eng.br>,
- Saravanan Sekar <sravanhome@gmail.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Casey Connolly <casey.connolly@linaro.org>, =?UTF-8?Q?Pali_Roh=C3=A1r?=
- <pali@kernel.org>, Orson Zhai <orsonzhai@gmail.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Chunyan Zhang <zhang.lyra@gmail.com>, Amit Kucheria <amitk@kernel.org>,
- Thara Gopinath <thara.gopinath@gmail.com>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Daniel Lezcano <daniel.lezcano@linaro.org>, Zhang Rui <rui.zhang@intel.com>,
- Lukasz Luba <lukasz.luba@arm.com>,
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Sylwester Nawrocki <s.nawrocki@samsung.com>,
- Olivier Moysan <olivier.moysan@foss.st.com>,
- Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>
-Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
- linux-iio@vger.kernel.org, linux-input@vger.kernel.org,
- linux-phy@lists.infradead.org, linux-pm@vger.kernel.org,
- linux-mips@vger.kernel.org, linux-mediatek@lists.infradead.org,
- linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com
-References: <20251201-iio-inkern-use-namespaced-exports-v1-1-da1935f70243@bootlin.com>
-Content-Language: en-US
-From: David Lechner <dlechner@baylibre.com>
-In-Reply-To: <20251201-iio-inkern-use-namespaced-exports-v1-1-da1935f70243@bootlin.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20251111234519.369652-1-svv@google.com>
+In-Reply-To: <20251111234519.369652-1-svv@google.com>
+From: Siarhei Vishniakou <svv@google.com>
+Date: Mon, 1 Dec 2025 10:30:31 -0800
+X-Gm-Features: AWmQ_blG4JIZOah_1CsCWPyCXf8WDmvapXmn32eI_g9yvEXRr-R8FA9deAh4GMY
+Message-ID: <CAKF84v2DzfOLzsZ8eMeVVTXa_uKiyj-LUjchW1StcBXVt_HXhA@mail.gmail.com>
+Subject: Re: [PATCH v2] HID: playstation: Center initial joystick axes to
+ prevent spurious events
+To: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, 
+	Roderick Colenbrander <roderick.colenbrander@sony.com>, linux-input@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 12/1/25 4:59 AM, Romain Gantois wrote:
-> Use namespaced exports for IIO consumer API functions.
-> 
-> Signed-off-by: Romain Gantois <romain.gantois@bootlin.com>
+=D0=B2=D1=82, 11 =D0=BD=D0=BE=D1=8F=D0=B1. 2025=E2=80=AF=D0=B3. =D0=B2 15:4=
+5, Siarhei Vishniakou <svv@google.com>:
+>
+> When a new PlayStation gamepad (DualShock 4 or DualSense) is initialized,
+> the input subsystem sets the default value for its absolute axes (e.g.,
+> ABS_X, ABS_Y) to 0.
+>
+> However, the hardware's actual neutral/resting state for these joysticks
+> is 128 (0x80). This creates a mismatch.
+>
+> When the first HID report arrives from the device, the driver sees the
+> resting value of 128. The kernel compares this to its initial state of 0
+> and incorrectly interprets this as a delta (0 -> 128). Consequently, it
+> generates EV_ABS events for this initial, non-existent movement.
+>
+> This behavior can fail userspace 'sanity check' tests (e.g., in
+> Android CTS) that correctly assert no motion events should be generated
+> from a device that is already at rest.
+>
+> This patch fixes the issue by explicitly setting the initial value of the
+> main joystick axes (e.g., ABS_X, ABS_Y, ABS_RX, ABS_RY) to 128 (0x80)
+> in the common ps_gamepad_create() function.
+>
+> This aligns the kernel's initial state with the hardware's expected
+> neutral state, ensuring that the first report (at 128) produces no
+> delta and thus, no spurious event.
+>
+> Signed-off-by: Siarhei Vishniakou <svv@google.com>
 > ---
+>  drivers/hid/hid-playstation.c | 5 +++++
+>  1 file changed, 5 insertions(+)
+>
+> diff --git a/drivers/hid/hid-playstation.c b/drivers/hid/hid-playstation.=
+c
+> index 1468fb11e39d..a145b5ea4405 100644
+> --- a/drivers/hid/hid-playstation.c
+> +++ b/drivers/hid/hid-playstation.c
+> @@ -718,11 +718,16 @@ static struct input_dev *ps_gamepad_create(struct h=
+id_device *hdev,
+>         if (IS_ERR(gamepad))
+>                 return ERR_CAST(gamepad);
+>
+> +       /* Set initial resting state for joysticks to 128 (center) */
+>         input_set_abs_params(gamepad, ABS_X, 0, 255, 0, 0);
+> +       gamepad->absinfo[ABS_X].value =3D 128;
+>         input_set_abs_params(gamepad, ABS_Y, 0, 255, 0, 0);
+> +       gamepad->absinfo[ABS_Y].value =3D 128;
+>         input_set_abs_params(gamepad, ABS_Z, 0, 255, 0, 0);
+>         input_set_abs_params(gamepad, ABS_RX, 0, 255, 0, 0);
+> +       gamepad->absinfo[ABS_RX].value =3D 128;
+>         input_set_abs_params(gamepad, ABS_RY, 0, 255, 0, 0);
+> +       gamepad->absinfo[ABS_RY].value =3D 128;
+>         input_set_abs_params(gamepad, ABS_RZ, 0, 255, 0, 0);
+>
+>         input_set_abs_params(gamepad, ABS_HAT0X, -1, 1, 0, 0);
+> --
+> 2.51.2.1041.gc1ab5b90ca-goog
+>
 
-...
+Hey Jiri,
 
-> diff --git a/drivers/iio/dac/ds4424.c b/drivers/iio/dac/ds4424.c
-> index a8198ba4f98a..33d6692f46fe 100644
-> --- a/drivers/iio/dac/ds4424.c
-> +++ b/drivers/iio/dac/ds4424.c
-> @@ -14,7 +14,6 @@
->  #include <linux/iio/iio.h>
->  #include <linux/iio/driver.h>
->  #include <linux/iio/machine.h>
-> -#include <linux/iio/consumer.h>
-
-Unrelated change?
-
->  
->  #define DS4422_MAX_DAC_CHANNELS		2
->  #define DS4424_MAX_DAC_CHANNELS		4
-> @@ -321,3 +320,4 @@ MODULE_AUTHOR("Ismail H. Kose <ismail.kose@maximintegrated.com>");
->  MODULE_AUTHOR("Vishal Sood <vishal.sood@maximintegrated.com>");
->  MODULE_AUTHOR("David Jung <david.jung@maximintegrated.com>");
->  MODULE_LICENSE("GPL v2");
-> +MODULE_IMPORT_NS("IIO_CONSUMER");
-Is this actually needed if we don't use anything from consumer.h?
+Do you mind taking a look at this one?
 
