@@ -1,73 +1,73 @@
-Return-Path: <linux-input+bounces-16405-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16406-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FFD1C95BF6
-	for <lists+linux-input@lfdr.de>; Mon, 01 Dec 2025 07:04:36 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id DE2A9C95E1F
+	for <lists+linux-input@lfdr.de>; Mon, 01 Dec 2025 07:36:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 93BA93A216A
-	for <lists+linux-input@lfdr.de>; Mon,  1 Dec 2025 06:04:34 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id B1ABE4E0635
+	for <lists+linux-input@lfdr.de>; Mon,  1 Dec 2025 06:36:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E0E5922D7A5;
-	Mon,  1 Dec 2025 06:04:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5DD7527AC57;
+	Mon,  1 Dec 2025 06:36:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LJ9FRSHL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aH9xmGOm"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36125229B2A;
-	Mon,  1 Dec 2025 06:04:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E39791E47C5;
+	Mon,  1 Dec 2025 06:36:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764569071; cv=none; b=nAsu5Nx6QOL09m0pGKqe0dvLo3JUeJdTF0xQVuK/Pn+X0gtRG2ahABKeyhuxsZPXSRMaCebUnH0rZwfo/Tj8/S1cgJPGzGf9OTD05TDMDey8x4DOfzsUYO/IFW6rbA4nrzLjFi9+XwIqfow+QxV57LeoE1Lm41sVXuiq1VNpvnM=
+	t=1764570975; cv=none; b=ehvJAYwZsm1eB5g5yq05y9p30wJkJb/UXHnsUfN8jvTGkmb4I3TLcGyQHXqkVoyCJaqidWsZVoqaXnNcOZOdscHPehP1BBSzOetk0DkaojaFUNI03HfTqcpIFqdAT5Fc53oLj05EnTg51RwlsMuQyP27VYaFhpo1ZUx/701DuNs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764569071; c=relaxed/simple;
-	bh=Q71NyAmrMDn1srrL3vtdkqffH+1Q5bejYuEPVZXbgek=;
+	s=arc-20240116; t=1764570975; c=relaxed/simple;
+	bh=w0/+83KKUKaxVSA7NPIXC8RXlZKWAWUWLFLHPHQ8MCU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=AtuOzExvK4zfl2R4CrrxDyP7Nm+Eyv8W3GZVw2IuQolUBZRitxKHLt0eUHH/CNsDhGbG3/tv7nUUdlQurgX6OeRWyLyw/qGQWEoeTKlkMc8A4/YKjjzcR1Bv3dpLahHGdcz+ZZgiQ5dt265AWxVuz/5bWt8ujfCi1/4FzcmdbcI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LJ9FRSHL; arc=none smtp.client-ip=192.198.163.9
+	 MIME-Version; b=Exjxak8K29NIBziVJ6RmdTPMs1KQ+W0KHcn8J++j+vMwptLbngy2rh/nHkuDbJB5ZWLBW8DkBCJE3Fe2kyzadG7UFJiA+j68zSz0WlSGlIsgN8m0MSCocwkqKxQkFGUuLcrN2Vw5vdRLXcbWIGXBjvyCYA71yUBjcMKTdhlTGCQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aH9xmGOm; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764569069; x=1796105069;
+  t=1764570974; x=1796106974;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=Q71NyAmrMDn1srrL3vtdkqffH+1Q5bejYuEPVZXbgek=;
-  b=LJ9FRSHLwsQTdqz3sSYLJtoqX9lON0qHx4gTt8uaMl4hCY81WwS/uasq
-   TiOomDQfs3jYLxyweu+0mvCAPDqChqeD+AYEgYhGfyRaSGrMpTVA8ANb6
-   BP+qWh7NLpuwSp1J7ZL2v1ovl9/8ePWj/tAzORhjo4Oor3SHtbrEibTN9
-   EbVqSngnmIKbb4HB2tKoXMx17MPSxBwUfqF9n9Yjm7NBcRHEDG1UAWwhG
-   51elTcYiBloO+3HFX8laXtkZYGHbIHAob+3jd9U36mza/+UGcgms6UekY
-   /YhR9UhqMJXL7OHubyLNB6TNL3TJonUmb25+M9XYX0hza9iBfn/4BsxNn
-   g==;
-X-CSE-ConnectionGUID: 7a5V7un3QZOoiMk4qEdwtw==
-X-CSE-MsgGUID: mYA0rZZdS/OCrBKi9AvluA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11629"; a="77185621"
+  bh=w0/+83KKUKaxVSA7NPIXC8RXlZKWAWUWLFLHPHQ8MCU=;
+  b=aH9xmGOmk5l3QrE5C4UqN+Wqa6OPrjkVuywi00/EMZ4YK+K6bDzUS7F4
+   5TELy526LLLz2dX/PtDcbeZSJcF73At2WkXoge55zctXZC02OLj3NxqCd
+   cyD8FF27YC75EUQw3V4R2rjrz7I+OZx2ZsYR8/9gDICiK+zNhIlZllJKa
+   E69up9Kp+T0WOi9poytJ0nrtWoSQZOxzEIf9Xgu3+fgQHMyeymRHW3FyB
+   XmGR6jAdI+BDJFwScl9lvqgV3oXiwHMGXWSSgk3P88OXgIbx+QdbCEV8f
+   DXxjbIP0AiMPmTT1StraZ++OQoScq0QgCox6Tjv7ppfxNpSTnfSN7ykCA
+   Q==;
+X-CSE-ConnectionGUID: /iwpLdibSiKYDotmSrOQww==
+X-CSE-MsgGUID: G0mWLKjlQHO02LZ5HiR4Vw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11629"; a="77968896"
 X-IronPort-AV: E=Sophos;i="6.20,240,1758610800"; 
-   d="scan'208";a="77185621"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2025 22:04:28 -0800
-X-CSE-ConnectionGUID: +0p6yQVeR2mmCwi34ZsvsA==
-X-CSE-MsgGUID: 5Q3iia+sQg+OcD6kwOFGpw==
+   d="scan'208";a="77968896"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2025 22:36:13 -0800
+X-CSE-ConnectionGUID: Nl6J9D8/SPChmFHZ+MhwIg==
+X-CSE-MsgGUID: 9KNAD2f1SguYZKjSk1v8Bg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,240,1758610800"; 
-   d="scan'208";a="224684984"
+   d="scan'208";a="194774350"
 Received: from junjie-nuc14rvs.bj.intel.com ([10.238.152.23])
-  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2025 22:04:28 -0800
+  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2025 22:36:12 -0800
 From: Junjie Cao <junjie.cao@intel.com>
 To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Cc: linux-input@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Input: ti_am335x_tsc: fix off-by-one error in wire_order validation
-Date: Mon,  1 Dec 2025 14:02:34 +0800
-Message-ID: <20251201060234.152502-1-junjie.cao@intel.com>
+Subject: Re: [PATCH] Input: ti_am335x_tsc: clamp coordinate_readouts to DT maximum (6)
+Date: Mon,  1 Dec 2025 14:36:23 +0800
+Message-ID: <20251201063623.153517-1-junjie.cao@intel.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251114062817.852698-1-junjie.cao@intel.com>
-References: <20251114062817.852698-1-junjie.cao@intel.com>
+In-Reply-To: <20251117032358.891822-1-junjie.cao@intel.com>
+References: <20251117032358.891822-1-junjie.cao@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -78,7 +78,7 @@ Content-Transfer-Encoding: 8bit
 
 Hi Dmitry,
 
-Just a gentle ping on this patch~
+Just a gentle ping on this patch as well.
 
 Best regards,
 Junjie
