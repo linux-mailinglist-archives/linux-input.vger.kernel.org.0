@@ -1,47 +1,47 @@
-Return-Path: <linux-input+bounces-16443-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16444-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93EDAC9B484
-	for <lists+linux-input@lfdr.de>; Tue, 02 Dec 2025 12:18:03 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id 10A60C9B4D5
+	for <lists+linux-input@lfdr.de>; Tue, 02 Dec 2025 12:23:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 91B994E02A6
-	for <lists+linux-input@lfdr.de>; Tue,  2 Dec 2025 11:18:02 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 8813834498B
+	for <lists+linux-input@lfdr.de>; Tue,  2 Dec 2025 11:23:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F0EF428BAB1;
-	Tue,  2 Dec 2025 11:17:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8C73330F54C;
+	Tue,  2 Dec 2025 11:23:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pl+2BtKe"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QJxAURcl"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0D1A201033;
-	Tue,  2 Dec 2025 11:17:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CAED201033;
+	Tue,  2 Dec 2025 11:23:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764674278; cv=none; b=b4YEn5WIWWw9jlrsneAj5YFmwgQISUUwF/s9RFfzWXQV6dlG4TXtpbn2s0LXAWF9KuWbomn6a1NBdfY183tlorMbDij6e5BjX562F/NoIlg3glxm9uHyh3NFJ366lYMIHV/ienfFLIqlPFpeoY/8ro5TCGozfEVZMUlkfD/XqRM=
+	t=1764674595; cv=none; b=gniQAHwjOqBytJrUXGLK7pvAXyYjRFDh5F4khioZZKBOx7tk3TtTEu3mnOHoAHxPnaqqYQeRS1jnt/xnbpH2yQz55EpeAUSHfCGc7vrtvvHwwmbbc2z7LCagWNyNirAEJmDegm0Vhjo9DQVlvf3LHFwslj7SF7SHbuUJ7E87S1Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764674278; c=relaxed/simple;
-	bh=Vg/kESYweMbvVR9oNn9OhODE0wOUxGhP+6cW3lG1gzo=;
+	s=arc-20240116; t=1764674595; c=relaxed/simple;
+	bh=isP8S9N9IQKaSCgXKbmOyDcXQ6x6LfUMOwEpze+Pqnc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=E73ACkptPfH54eYYV1UtT0TrL3J6GCY/xC8oGE7IsDjztHcDdipoKeWUOM/3GRAjjxu90inBypLvxc8HLovjcBekpuceQz/jregkskYALGPlGTXAQvmafTdOQB5bO7I3BAc8cyy1F8KgYxm8/mss4gWzuUBj5O948l5/Vw2hWkg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pl+2BtKe; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63676C116D0;
-	Tue,  2 Dec 2025 11:17:56 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=ussALPr1qknzZ+Pw5XSN7htZxtJq5lBescxP74ASiRKeNdeZ5181iHUonY6KCJqd0/nZFln3dgvHr3YPapbOSDXq5POec8aQz/45i0Ow1o7OQggKQBRkFvK7GmFc2+zCDzUPFj33D5//WfwW/sjii8GcCgw9yxSt4bqrzSVjyYA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QJxAURcl; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2CD8C4CEF1;
+	Tue,  2 Dec 2025 11:23:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764674278;
-	bh=Vg/kESYweMbvVR9oNn9OhODE0wOUxGhP+6cW3lG1gzo=;
+	s=k20201202; t=1764674594;
+	bh=isP8S9N9IQKaSCgXKbmOyDcXQ6x6LfUMOwEpze+Pqnc=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=pl+2BtKeg+7K0IOZsHAvu3kO67GiFrl9TSGcWplGmDBF3KNXZX5z48SUtrh70rpmP
-	 F/ePS1MNE2UDvdscaCAKGpTjkA61x0C3GtE8dqX/Ak56SZs/odMzlMuZJrS84nvLe2
-	 GwKKQGStcaFw/3ooTa3Yq7th9EFPmeQZphs7/Og+9BtSKhJwBAR+aScMoznJZgIEMw
-	 nzjnGQ7vtxIZDVQpML+3JTbpe3bisZR+YPYKUVfVvp2IaLAQUHqhz5IPpsJ5rCIfKg
-	 kQDzOemk8xTu9q4vV8Zw/o+T4Kq7XcHmRuDkWdqv6GZeF3dtMyai8nGFCoaPxGLKig
-	 yhDBX0BTQwfDA==
-Date: Tue, 2 Dec 2025 12:17:53 +0100
+	b=QJxAURcl4bcgRP5Swfwa4YxrwO7mb6FFKrsrO8tFPkdKbly+rLqK3NSxaePPMGAJq
+	 kGVh8c2/14ISPL2MZD9mwHFYL9EFeblfZgxS9C7rQ8S9eiYFic/2kS0O1zzqNifPSE
+	 O89sv7+dxIftkIhXxsdwtlHIjTvMxWLaKBuQnO7QhW25OAVb1CH5A9OEjdibULLRfU
+	 hHtpuIYy6ij0bZ0MsCMHUYZnegKqKDi3EUDXkthr1sLF/cCAZZ4AZsclrV+Iq/itn0
+	 k65RbkRMjfjn7oBad82prJvS4yD4opQyhteLoy8nIQ0Uhx40m0hDRnyuIdCUJsXTnG
+	 NdRgdzyWZfn6g==
+Date: Tue, 2 Dec 2025 12:23:10 +0100
 From: Benjamin Tissoires <bentiss@kernel.org>
 To: Antheas Kapenekakis <lkml@antheas.dev>
 Cc: platform-driver-x86@vger.kernel.org, linux-input@vger.kernel.org, 
@@ -49,10 +49,11 @@ Cc: platform-driver-x86@vger.kernel.org, linux-input@vger.kernel.org,
 	Corentin Chary <corentin.chary@gmail.com>, "Luke D . Jones" <luke@ljones.dev>, 
 	Hans de Goede <hansg@kernel.org>, Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>, 
 	Denis Benato <benato.denis96@gmail.com>
-Subject: Re: [PATCH v10 04/11] HID: asus: fortify keyboard handshake
-Message-ID: <nfshh5ts2e2x45yeact2chs2pmtuan62exsnvpjknyoaqzqpfl@llmdzmurn65e>
+Subject: Re: [PATCH v10 08/11] HID: asus: listen to the asus-wmi brightness
+ device instead of creating one
+Message-ID: <v52hgmsvw7kmhfdgph577mzqu3dsbykyezokwttlthrevyrydx@sbli376vzrzs>
 References: <20251122110032.4274-1-lkml@antheas.dev>
- <20251122110032.4274-5-lkml@antheas.dev>
+ <20251122110032.4274-9-lkml@antheas.dev>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -61,96 +62,177 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251122110032.4274-5-lkml@antheas.dev>
+In-Reply-To: <20251122110032.4274-9-lkml@antheas.dev>
 
 On Nov 22 2025, Antheas Kapenekakis wrote:
-> Handshaking with an Asus device involves sending it a feature report
-> with the string "ASUS Tech.Inc." and then reading it back to verify the
-> handshake was successful, under the feature ID the interaction will
-> take place.
+> Some ROG laptops expose multiple interfaces for controlling the
+> keyboard/RGB brightness. This creates a name conflict under
+> asus::kbd_brightness, where the second device ends up being
+> named asus::kbd_brightness_1 and they are both broken.
 > 
-> Currently, the driver only does the first part. Add the readback to
-> verify the handshake was successful. As this could cause breakages,
-> allow the verification to fail with a dmesg error until we verify
-> all devices work with it (they seem to).
+> Therefore, register a listener to the asus-wmi brightness device
+> instead of creating a new one.
 > 
-> Since the response is more than 16 bytes, increase the buffer size
-> to 64 as well to avoid overflow errors.
-> 
+> Reviewed-by: Luke D. Jones <luke@ljones.dev>
 > Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
 > ---
->  drivers/hid/hid-asus.c | 30 +++++++++++++++++++++++++++---
->  1 file changed, 27 insertions(+), 3 deletions(-)
+>  drivers/hid/hid-asus.c | 65 +++++++-----------------------------------
+>  1 file changed, 10 insertions(+), 55 deletions(-)
 > 
 > diff --git a/drivers/hid/hid-asus.c b/drivers/hid/hid-asus.c
-> index c1a36a8beb35..2a412e10f916 100644
+> index 461b0f8efdfb..475e34187326 100644
 > --- a/drivers/hid/hid-asus.c
 > +++ b/drivers/hid/hid-asus.c
-> @@ -49,7 +49,7 @@ MODULE_DESCRIPTION("Asus HID Keyboard and TouchPad");
->  #define FEATURE_REPORT_ID 0x0d
->  #define INPUT_REPORT_ID 0x5d
->  #define FEATURE_KBD_REPORT_ID 0x5a
-> -#define FEATURE_KBD_REPORT_SIZE 16
-> +#define FEATURE_KBD_REPORT_SIZE 64
->  #define FEATURE_KBD_LED_REPORT_ID1 0x5d
->  #define FEATURE_KBD_LED_REPORT_ID2 0x5e
+> @@ -27,7 +27,6 @@
+>  #include <linux/hid.h>
+>  #include <linux/module.h>
+>  #include <linux/platform_data/x86/asus-wmi.h>
+> -#include <linux/platform_data/x86/asus-wmi-leds-ids.h>
+>  #include <linux/input/mt.h>
+>  #include <linux/usb.h> /* For to_usb_interface for T100 touchpad intf check */
+>  #include <linux/power_supply.h>
+> @@ -103,7 +102,7 @@ MODULE_DESCRIPTION("Asus HID Keyboard and TouchPad");
+>  #define TRKID_SGN       ((TRKID_MAX + 1) >> 1)
 >  
-> @@ -395,13 +395,37 @@ static int asus_kbd_set_report(struct hid_device *hdev, const u8 *buf, size_t bu
+>  struct asus_kbd_leds {
+> -	struct led_classdev cdev;
+> +	struct asus_hid_listener listener;
+>  	struct hid_device *hdev;
+>  	struct work_struct work;
+>  	unsigned int brightness;
+> @@ -493,11 +492,11 @@ static void asus_schedule_work(struct asus_kbd_leds *led)
+>  	spin_unlock_irqrestore(&led->lock, flags);
+>  }
 >  
->  static int asus_kbd_init(struct hid_device *hdev, u8 report_id)
+> -static void asus_kbd_backlight_set(struct led_classdev *led_cdev,
+> -				   enum led_brightness brightness)
+> +static void asus_kbd_backlight_set(struct asus_hid_listener *listener,
+> +				   int brightness)
 >  {
-> +	/*
-> +	 * The handshake is first sent as a set_report, then retrieved
-> +	 * from a get_report. They should be equal.
-> +	 */
->  	const u8 buf[] = { report_id, 0x41, 0x53, 0x55, 0x53, 0x20, 0x54,
->  		     0x65, 0x63, 0x68, 0x2e, 0x49, 0x6e, 0x63, 0x2e, 0x00 };
->  	int ret;
+> -	struct asus_kbd_leds *led = container_of(led_cdev, struct asus_kbd_leds,
+> -						 cdev);
+> +	struct asus_kbd_leds *led = container_of(listener, struct asus_kbd_leds,
+> +						 listener);
+>  	unsigned long flags;
 >  
->  	ret = asus_kbd_set_report(hdev, buf, sizeof(buf));
-> -	if (ret < 0)
-> -		hid_err(hdev, "Asus failed to send init command: %d\n", ret);
-> +	if (ret < 0) {
-> +		hid_err(hdev, "Asus failed to send handshake: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	u8 *readbuf __free(kfree) = kzalloc(FEATURE_KBD_REPORT_SIZE, GFP_KERNEL);
-> +	if (!readbuf)
-> +		return -ENOMEM;
-> +
-> +	ret = hid_hw_raw_request(hdev, report_id, readbuf,
-> +				 FEATURE_KBD_REPORT_SIZE, HID_FEATURE_REPORT,
-> +				 HID_REQ_GET_REPORT);
-> +	if (ret < 0) {
-> +		hid_err(hdev, "Asus failed to receive handshake ack: %d\n", ret);
+>  	spin_lock_irqsave(&led->lock, flags);
+> @@ -507,20 +506,6 @@ static void asus_kbd_backlight_set(struct led_classdev *led_cdev,
+>  	asus_schedule_work(led);
+>  }
+>  
+> -static enum led_brightness asus_kbd_backlight_get(struct led_classdev *led_cdev)
+> -{
+> -	struct asus_kbd_leds *led = container_of(led_cdev, struct asus_kbd_leds,
+> -						 cdev);
+> -	enum led_brightness brightness;
+> -	unsigned long flags;
+> -
+> -	spin_lock_irqsave(&led->lock, flags);
+> -	brightness = led->brightness;
+> -	spin_unlock_irqrestore(&led->lock, flags);
+> -
+> -	return brightness;
+> -}
+> -
+>  static void asus_kbd_backlight_work(struct work_struct *work)
+>  {
+>  	struct asus_kbd_leds *led = container_of(work, struct asus_kbd_leds, work);
+> @@ -537,34 +522,6 @@ static void asus_kbd_backlight_work(struct work_struct *work)
+>  		hid_err(led->hdev, "Asus failed to set keyboard backlight: %d\n", ret);
+>  }
+>  
+> -/* WMI-based keyboard backlight LED control (via asus-wmi driver) takes
+> - * precedence. We only activate HID-based backlight control when the
+> - * WMI control is not available.
+> - */
+> -static bool asus_kbd_wmi_led_control_present(struct hid_device *hdev)
+> -{
+> -	struct asus_drvdata *drvdata = hid_get_drvdata(hdev);
+> -	u32 value;
+> -	int ret;
+> -
+> -	if (!IS_ENABLED(CONFIG_ASUS_WMI))
+> -		return false;
+> -
+> -	if (drvdata->quirks & QUIRK_ROG_NKEY_KEYBOARD &&
+> -			dmi_check_system(asus_use_hid_led_dmi_ids)) {
+> -		hid_info(hdev, "using HID for asus::kbd_backlight\n");
+> -		return false;
+> -	}
+> -
+> -	ret = asus_wmi_evaluate_method(ASUS_WMI_METHODID_DSTS,
+> -				       ASUS_WMI_DEVID_KBD_BACKLIGHT, 0, &value);
+> -	hid_dbg(hdev, "WMI backlight check: rc %d value %x", ret, value);
+> -	if (ret)
+> -		return false;
+> -
+> -	return !!(value & ASUS_WMI_DSTS_PRESENCE_BIT);
+> -}
+> -
+>  /*
+>   * We don't care about any other part of the string except the version section.
+>   * Example strings: FGA80100.RC72LA.312_T01, FGA80100.RC71LS.318_T01
+> @@ -709,14 +666,11 @@ static int asus_kbd_register_leds(struct hid_device *hdev)
+>  	drvdata->kbd_backlight->removed = false;
+>  	drvdata->kbd_backlight->brightness = 0;
+>  	drvdata->kbd_backlight->hdev = hdev;
+> -	drvdata->kbd_backlight->cdev.name = "asus::kbd_backlight";
+> -	drvdata->kbd_backlight->cdev.max_brightness = 3;
+> -	drvdata->kbd_backlight->cdev.brightness_set = asus_kbd_backlight_set;
+> -	drvdata->kbd_backlight->cdev.brightness_get = asus_kbd_backlight_get;
+> +	drvdata->kbd_backlight->listener.brightness_set = asus_kbd_backlight_set;
+>  	INIT_WORK(&drvdata->kbd_backlight->work, asus_kbd_backlight_work);
+>  	spin_lock_init(&drvdata->kbd_backlight->lock);
+>  
+> -	ret = devm_led_classdev_register(&hdev->dev, &drvdata->kbd_backlight->cdev);
+> +	ret = asus_hid_register_listener(&drvdata->kbd_backlight->listener);
+>  	if (ret < 0) {
+>  		/* No need to have this still around */
+>  		devm_kfree(&hdev->dev, drvdata->kbd_backlight);
 
-Nitpick here: previously we would not check for the answer after the
-ping, so the ret value would be positive for those devices where we fail
-to receive the handshake.
+Unrelated to your patch (strictly speaking), but still worth fixing
+(here on in a follow up patch):
+Here we free drvdata->kbd_backlight we just allocated before without
+resetting the value to 0.
 
-So basically, there is a mismatch between the commit description which
-says that we keep existing devices working when there is a slight change
-in the behaviour. OTOH, I guess that if the Windows driver reads back
-this value, there are very little chance to return a negative error
-code, so this is probably just fine.
+However, unless I'm mistaken, this function asus_kbd_register_leds() is
+called from asus_input_configured() and we simply put a warning and do
+not report the return value later on. Which means that further checks
+against drvdata->kbd_backlight (like in asus_resume()) will consider the
+value initialized and might trigger a use after free.
 
-But at least we know there is this change :)
-
-Anyway:
+With or without that:
 Reviewed-by: Benjamin Tissoires <bentiss@kernel.org>
 
-> +	} else if (memcmp(readbuf, buf, sizeof(buf)) != 0) {
-> +		hid_warn(hdev, "Asus handshake returned invalid response: %*ph\n",
-> +			 FEATURE_KBD_REPORT_SIZE, readbuf);
-> +		/*
-> +		 * Do not return error if handshake is wrong until this is
-> +		 * verified to work for all devices.
-> +		 */
-> +	}
+Cheers,
+Benjamin
+
+> @@ -1105,7 +1059,7 @@ static int __maybe_unused asus_resume(struct hid_device *hdev) {
 >  
->  	return ret;
->  }
+>  	if (drvdata->kbd_backlight) {
+>  		const u8 buf[] = { FEATURE_KBD_REPORT_ID, 0xba, 0xc5, 0xc4,
+> -				drvdata->kbd_backlight->cdev.brightness };
+> +				drvdata->kbd_backlight->brightness };
+>  		ret = asus_kbd_set_report(hdev, buf, sizeof(buf));
+>  		if (ret < 0) {
+>  			hid_err(hdev, "Asus failed to set keyboard backlight: %d\n", ret);
+> @@ -1231,7 +1185,6 @@ static int asus_probe(struct hid_device *hdev, const struct hid_device_id *id)
+>  	}
+>  
+>  	if (is_vendor && (drvdata->quirks & QUIRK_USE_KBD_BACKLIGHT) &&
+> -	    !asus_kbd_wmi_led_control_present(hdev) &&
+>  	    asus_kbd_register_leds(hdev))
+>  		hid_warn(hdev, "Failed to initialize backlight.\n");
+>  
+> @@ -1278,6 +1231,8 @@ static void asus_remove(struct hid_device *hdev)
+>  	unsigned long flags;
+>  
+>  	if (drvdata->kbd_backlight) {
+> +		asus_hid_unregister_listener(&drvdata->kbd_backlight->listener);
+> +
+>  		spin_lock_irqsave(&drvdata->kbd_backlight->lock, flags);
+>  		drvdata->kbd_backlight->removed = true;
+>  		spin_unlock_irqrestore(&drvdata->kbd_backlight->lock, flags);
 > -- 
 > 2.52.0
 > 
