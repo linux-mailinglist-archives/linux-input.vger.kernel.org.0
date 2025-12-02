@@ -1,122 +1,375 @@
-Return-Path: <linux-input+bounces-16437-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16438-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 981D0C99F77
-	for <lists+linux-input@lfdr.de>; Tue, 02 Dec 2025 04:31:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1094BC9A1D3
+	for <lists+linux-input@lfdr.de>; Tue, 02 Dec 2025 06:44:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3ADDA3A3799
-	for <lists+linux-input@lfdr.de>; Tue,  2 Dec 2025 03:31:29 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 086B53A53DA
+	for <lists+linux-input@lfdr.de>; Tue,  2 Dec 2025 05:44:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 39417242D84;
-	Tue,  2 Dec 2025 03:31:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5963D2F6597;
+	Tue,  2 Dec 2025 05:44:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CtWNhSEB"
+	dkim=pass (2048-bit key) header.d=mail.softether.network header.i=@mail.softether.network header.b="TJJLS3pb"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com [209.85.210.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.softether.network (mail.softether.network [103.41.62.250])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B888418A6DB
-	for <linux-input@vger.kernel.org>; Tue,  2 Dec 2025 03:31:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DA732951A7;
+	Tue,  2 Dec 2025 05:44:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.41.62.250
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764646285; cv=none; b=EZ1J8kjsB0Op+l/Y69M3Ks5VY7U3jFmXyrGfsgkX6PUk4mKOJUKTcIRsVeDonKV6QBv0sSnliaAVp7T3ls3/m5jwVr0EEB12V1XJrrG5rzQLscadkb2qTBbXBuaALEwLEnio0mxMxQLtxQLHGa3Rv/473HZkQDMF5NxygQS/29E=
+	t=1764654277; cv=none; b=lGID/nizrfXIqZOR4GMZJdpE3JbI3ERTl6FRIsGamxSbNJHHbxXUMoIbAnN184cf5ktGe+BrGQTILzWeQy0khsiOYmhR4jK+SQlPk3AweGxUvPFke0SHArg8VWpoz77PlQKJw1ZVpRO6DKv4JQrr1lLIzTZVXljIhzqdEdG71kc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764646285; c=relaxed/simple;
-	bh=sWid0yU4ux/46ObdM3lA67pKQtj4Epv3dh0AAxKTkQE=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=CqUzEDh/vUNABBFrwzp8oIFr4jBaPFmbSHkG1Gln446auzDh2FmL2XW04cJDDkAbULhp4412iOwK1Q11DDFtpUWfEJlPxuT1DKmcP+TgN4m7LnSHJ9FKP1oCBGPMFV+kYVnU5nKOMLCVL1RkPgkV2J2YTR4w3ABUzhzx9wgmlOg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CtWNhSEB; arc=none smtp.client-ip=209.85.210.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ot1-f45.google.com with SMTP id 46e09a7af769-7c701097a75so2338841a34.3
-        for <linux-input@vger.kernel.org>; Mon, 01 Dec 2025 19:31:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764646282; x=1765251082; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=yhVHX2JwjsGi/mN+KMBqdyAPiJzpUlbgYPqFkqH+WLw=;
-        b=CtWNhSEBWCiQ/xmsIMiZth9a2X6iffKzfKCQ87ToWTShrdK/Xuc5tmEZEwUJ1dR8jV
-         1doGuhryow5nyif8eJdqj9ZU2TppIuFw4uOjgpFChwaoQjnscPFHzJzuhclTRFvQKVtD
-         76v0+r6+RJSmPwveN9tTMSk7sAjqwff0EgfpQv69PKNFD18cddKAmBsz/Y5yDNx2f40X
-         LmaYBzRotN/zfu9ND7ELhS5G7F7Q4w9kgceiDTgQPJamQPS+eoRf4BOiQIiwQv6tvXww
-         hd2jAHz7ZGQnQCqA/tJQJusrv3D4Mt50SeBum+7eavv9sm30o5eQ71yBHcihCHz4whgM
-         tGLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764646282; x=1765251082;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yhVHX2JwjsGi/mN+KMBqdyAPiJzpUlbgYPqFkqH+WLw=;
-        b=Wa0evJoNk6xcP3iU8FB+0vv2q9XHix8Ym8B6qNtNH0kGk1+ub7APtXVAtoQW/8VQPn
-         9qGDVqkrLPrpzItm2NRpgBxqmOzo2rp9JQXEk6WBIVL0/IKBO4irRcrofyqxJvl0C/WM
-         BPZpftrNsYpOlixKP9DwTpqhB/ZaTNMKPfEZH7OayqpR1F9K96VSEuKltWtX1oxV+jtT
-         aIL+9W18L2QEJIYoQO2iqzskjW7iHvvsQPC/56AcFYmdl2huv4dXjeIgBrM50T7u0622
-         sQDafJ/cQ1nYHn8HkBuRf6KZISQrir7qz0vyY3udJ5ZSf0fhakCL8uwJUTTI82HcF0hW
-         XC0Q==
-X-Gm-Message-State: AOJu0YwwZzDQoo/duZWpQMZLPGabhawWGA16cmfudunk3ea4fxS8cMsR
-	mP26M9gvx8YAl8KmjAVgoXYHon1PYyU8emyn6eAR8DE6sr7t3r5217f1
-X-Gm-Gg: ASbGncvbKRHtwryZHlANegIeFzGSLVpuPwNyMUB93kRqKIvWwkHCryIGijmARMVaujQ
-	fUo6KdVN31PgqC/BVBIrtMuB8vmS8avBg5ld/qhSacKE7FjdKXnhNpkTHUp8coNT1Xv/KYsUxgK
-	KIQzLYK5yCXayLLfEixhL37rSdxs0RhIpW2/ubVyz+8IhcsnIc2x/g6dBSdvWF5AY9r7ZswWw9N
-	1AFrc0KYcK+Z6IvY9uxvPWeqFAFTFIVQrU/LGg+/dwKDEbowobmX5CnvDdP8wgNCepJ6RY9jerO
-	EHb3ssOwn/9UWtc3WomPi31o3OHfaP6qiWbJ3XECZJSajukn94kCxLEsGVv+B/8WnMObIDzrIuq
-	qjBJsQCrcoP17ajCNBtmtcebrsx8uDNr0LAv0z8TGG8vfCYhxOEX+mQBiRJPJuMZEq7aZVpzcaa
-	K2eIUCkYjHX491Qqm6jBeQPU6WUoQQtn7Yd/NT7+u5ObY=
-X-Google-Smtp-Source: AGHT+IGEE+pA9ert5r3QhhzdE5JNQYujZ7/bNBw1cjEDrGT/Fvc/IVxYE67qcjoOkPHSm1i4Z41rFw==
-X-Received: by 2002:a05:6830:71a4:b0:771:5ae2:fce0 with SMTP id 46e09a7af769-7c798ccd7ddmr22675428a34.20.1764646282416;
-        Mon, 01 Dec 2025 19:31:22 -0800 (PST)
-Received: from kernel-internship-machine.. ([143.110.209.46])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7c90f5fafc7sm5842998a34.7.2025.12.01.19.31.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Dec 2025 19:31:22 -0800 (PST)
-From: Vivek BalachandharTN <vivek.balachandhar@gmail.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@kernel.org>,
-	Vivek Balachandhar TN <vivek.balachandhar@gmail.com>
-Subject: [PATCH] input: byd: use %*ph for Z packet dump
-Date: Tue,  2 Dec 2025 03:31:20 +0000
-Message-Id: <20251202033120.2264474-1-vivek.balachandhar@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1764654277; c=relaxed/simple;
+	bh=ARpMSsHj86h+UX/BrZk6ruTzm/YlVXKi7ONpXBSeLog=;
+	h=MIME-Version:Date:From:To:Cc:Subject:Message-ID:Content-Type; b=VrExYVckrzJM9V17NIxwGmn2SLj9bHlj6iZxz3Tk2FUz5oYF12ZSqVGk/Iss25/K7/aCW1YIAjaTC2mkD8+wGFljRqsII9WOK4S9nlI+ZXQganhTfoq7AYECCcMB0VN/gkbqP1hwNDUyQHV5a/Mqhy9zC6MSy5bZ800C6A5N01w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=davidebeatrici.dev; spf=pass smtp.mailfrom=davidebeatrici.dev; dkim=pass (2048-bit key) header.d=mail.softether.network header.i=@mail.softether.network header.b=TJJLS3pb; arc=none smtp.client-ip=103.41.62.250
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=davidebeatrici.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=davidebeatrici.dev
+Received: from mail.softether.network (localhost [127.0.0.1])
+	(Authenticated sender: me@davidebeatrici.dev)
+	by mail.softether.network (Postfix) with ESMTPSA id 995F140CA6;
+	Tue,  2 Dec 2025 05:36:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=mail.softether.network; s=2025; t=1764653806;
+	bh=ARpMSsHj86h+UX/BrZk6ruTzm/YlVXKi7ONpXBSeLog=;
+	h=Date:From:To:Cc:Subject:From;
+	b=TJJLS3pbC36WSt96UMYAQWK7uMcSTj25+JHrOVX4mBHCsRbaSAiClChsj5oFGiLuu
+	 6z+rAtnuCUH6W1SD0lmbfTzxWdEE4S1NF+ZVTtXvgcX9tcLdGYDCmIfPi42+CVSJoP
+	 atO6TdVFMzmByYLgo979keBPvyYflOva1VbdJLab2GEXiIfCKHIJUgVZPv89ulg6FL
+	 WUB1Ci0s2clCJGw6R/TvkTcVJcDcdjMHMobZ0lNfS/bUMLz1PD0lCKHgYpvtS7mnmW
+	 6V26QjFrZmCFioKNrrKHWqf46X54Y/XGqkJL6w2SDPS5BMlS6fjRPEb75P+PfM/x+p
+	 l51NyFrvgOAUA==
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Date: Tue, 02 Dec 2025 06:36:46 +0100
+From: Davide Beatrici <me@davidebeatrici.dev>
+To: linux-kernel@vger.kernel.org
+Cc: linux-input@vger.kernel.org, jikos@kernel.org,
+ benjamin.tissoires@redhat.com
+Subject: [PATCH] HID: validate report length and constants
+Message-ID: <235531f556c5abfcae254a4e56441ba6@davidebeatrici.dev>
+X-Sender: me@davidebeatrici.dev
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
 Content-Transfer-Encoding: 8bit
 
-Replace the hand-rolled %02x formatting of the Z packet warning in the
-BYD driver with the %*ph format specifier. %*ph is the preferred helper
-for printing a buffer in hexadecimal and makes the logging clearer and
-more consistent.
+ From 4956d80ba2bcdb0f5410dfe9365331bcece781cb Mon Sep 17 00:00:00 2001
+ From: Davide Beatrici <git@davidebeatrici.dev>
+Date: Tue, 2 Dec 2025 05:00:52 +0100
+Subject: [PATCH] HID: validate report length and constants
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Vivek BalachandharTN <vivek.balachandhar@gmail.com>
+The HID specification defines Input(Constant) fields as padding or 
+reserved
+bits that must remain zero at runtime. Currently, Linux accepts non‑zero
+values in these fields, allowing malformed reports to propagate to 
+userspace.
+
+The ATK X1 SE (373b:1107) is a popular USB mouse that triggers weird 
+behavior.
+A few seconds after connecting it sends a packet that is detected as 
+malformed
+by WireShark, but the kernel happily accepts and parses it.
+
+Until the device is disconnected, modifier keys are forced into a fixed 
+state:
+
+LeftControl (0xe0): UP
+LeftShift (0xe1): UP
+LeftAlt (0xe2): DOWN
+LeftGUI (0xe3): UP
+RightControl (0xe4): UP
+RightShift (0xe5): DOWN
+RightAlt (0xe6): DOWN
+RightGUI (0xe7): UP
+
+And unknown keys are kept pressed:
+
+kernel: usb 5-1: Unknown key (scancode 0xb2) pressed.
+kernel: usb 5-1: Unknown key (scancode 0xff) pressed.
+kernel: usb 5-1: Unknown key (scancode 0xff) pressed.
+
+kernel: usb 5-1: Unknown key (scancode 0xc0) pressed.
+kernel: usb 5-1: Unknown key (scancode 0xb6) pressed.
+kernel: usb 5-1: Unknown key (scancode 0xff) pressed.
+kernel: usb 5-1: Unknown key (scancode 0xff) pressed.
+
+This patch extends hid-core to record Constant slices during descriptor
+parsing and validate them at runtime. Reports with non‑zero Constant 
+bits are
+rejected, and a ratelimited warning is logged. Legitimate Data/Relative 
+fields
+(buttons, motion axes, wheel) continue to pass through unchanged.
+
+Malformed reports are suppressed and no longer show up with 
+usbmon/WireShark.
+All other USB devices I own still work flawlessly after applying this 
+patch,
+but this is definitely something that requires extensive testing!
+
+Signed-off-by: Davide Beatrici <git@davidebeatrici.dev>
 ---
- drivers/input/mouse/byd.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+  drivers/hid/hid-core.c | 134 ++++++++++++++++++++++++++++++++++++++++-
+  include/linux/hid.h    |  15 +++++
+  2 files changed, 146 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/input/mouse/byd.c b/drivers/input/mouse/byd.c
-index 71aa23dd7d8d..a1420f03f3b3 100644
---- a/drivers/input/mouse/byd.c
-+++ b/drivers/input/mouse/byd.c
-@@ -315,9 +315,8 @@ static psmouse_ret_t byd_process_byte(struct psmouse *psmouse)
- 	}
- 	default:
- 		psmouse_warn(psmouse,
--			     "Unrecognized Z: pkt = %02x %02x %02x %02x\n",
--			     psmouse->packet[0], psmouse->packet[1],
--			     psmouse->packet[2], psmouse->packet[3]);
-+			     "Unrecognized Z: pkt = %*ph\n",
-+			     4, psmouse->packet);
- 		return PSMOUSE_BAD_DATA;
- 	}
- 
+diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
+index a5b3a8ca2fcb..bb45c5f6f4fb 100644
+--- a/drivers/hid/hid-core.c
++++ b/drivers/hid/hid-core.c
+@@ -280,6 +280,81 @@ static int hid_add_usage(struct hid_parser *parser, 
+unsigned usage, u8 size)
+  	return 0;
+  }
+
++/*
++ * Append metadata for runtime payload validation.
++ */
++
++static int hid_validate_append_bits(struct hid_report *r, const __u16 
+bit_off, const __u16 bit_len)
++{
++	struct hid_report_validate *v = &r->validate;
++	struct hid_const_slice *slices = krealloc(v->const_slices,
++		(v->const_count + 1) * sizeof(*slices), GFP_KERNEL);
++	if (!slices)
++		return -ENOMEM;
++
++	v->const_slices = slices;
++	v->const_slices[v->const_count].bit_off = bit_off;
++	v->const_slices[v->const_count].bit_len = bit_len;
++	v->const_count++;
++
++	return 0;
++}
++
++/*
++ * Validate runtime payload.
++ */
++
++static bool hid_validate_report(struct hid_device *hid, struct 
+hid_report *r,
++		const __u8 *buf, size_t len)
++{
++	const __u8 *payload;
++	size_t payload_len;
++	__u16 i;
++
++	/* Report ID handling: if present, buf[0] is ID; payload follows */
++	payload = r->id ? buf + 1 : buf;
++	payload_len = r->id ? (len ? len - 1 : 0) : len;
++
++	if (r->validate.payload_len && payload_len != r->validate.payload_len) 
+{
++		hid_warn_ratelimited(hid,
++			"Malformed report: length %zu != expected %u (ID %u)\n",
++			payload_len, r->validate.payload_len, r->id);
++		return false;
++	}
++
++	for (i = 0; i < r->validate.const_count; i++) {
++		const __u16 bit_off = r->validate.const_slices[i].bit_off;
++		const __u16 bit_len = r->validate.const_slices[i].bit_len;
++		const __u16 end_bit = bit_off + bit_len;
++
++		for (__u16 b = bit_off; b < end_bit;) {
++			size_t byte_off = b >> 3;
++			size_t bit_in_byte = b & 7;
++
++			__u16 rem_bits = end_bit - b;
++			__u8 span = (__u8)min_t(__u16, rem_bits, 8 - bit_in_byte);
++			__u8 mask = ((1u << span) - 1) << bit_in_byte;
++
++			if (byte_off >= payload_len) {
++				hid_warn_ratelimited(hid,
++					"Malformed report: const slice OOB (bit_off %u, len %u)\n",
++					bit_off, bit_len);
++				return false;
++			}
++			if (payload[byte_off] & mask) {
++				hid_warn_ratelimited(hid,
++					"Malformed report: non-zero constant at byte %zu mask 0x%02x val 
+0x%02x\n",
++					byte_off, mask, payload[byte_off]);
++				return false;
++			}
++
++			b += span;
++		}
++	}
++
++	return true;
++}
++
+  /*
+   * Register a new field for this report.
+   */
+@@ -303,6 +378,8 @@ static int hid_add_field(struct hid_parser *parser, 
+unsigned report_type, unsign
+  		return -1;
+  	}
+
++	parser->curr_report = report;
++
+  	/* Handle both signed and unsigned cases properly */
+  	if ((parser->global.logical_minimum < 0 &&
+  		parser->global.logical_maximum <
+@@ -638,11 +715,13 @@ static void hid_concatenate_last_usage_page(struct 
+hid_parser *parser)
+  static int hid_parser_main(struct hid_parser *parser, struct hid_item 
+*item)
+  {
+  	__u32 data;
++	__u8 flags;
+  	int ret;
+
+  	hid_concatenate_last_usage_page(parser);
+
+  	data = item_udata(item);
++	flags = (u8)data;
+
+  	switch (item->tag) {
+  	case HID_MAIN_ITEM_TAG_BEGIN_COLLECTION:
+@@ -651,15 +730,61 @@ static int hid_parser_main(struct hid_parser 
+*parser, struct hid_item *item)
+  	case HID_MAIN_ITEM_TAG_END_COLLECTION:
+  		ret = close_collection(parser);
+  		break;
+-	case HID_MAIN_ITEM_TAG_INPUT:
++	case HID_MAIN_ITEM_TAG_INPUT: {
++		__u16 offset_bits, size_bits;
++
++		if (flags & HID_MAIN_ITEM_RESERVED_MASK) {
++			hid_warn_ratelimited(parser->device,
++				"Malformed input descriptor: reserved bits set (0x%02x)\n",
++				flags);
++			return -EINVAL;
++		}
++
++		/* Compute field range in bits */
++		offset_bits = parser->curr_offset;
++		size_bits   = parser->global.report_size * 
+parser->global.report_count;
++
++		/* Record Input(Constant) slices for runtime validation */
++		if ((flags & HID_MAIN_ITEM_CONSTANT) && parser->curr_report) {
++			/* Record bit-granular slice: store bit offset and size */
++			ret = hid_validate_append_bits(parser->curr_report, offset_bits, 
+size_bits);
++			if (ret)
++				return ret;
++		}
++
++		/* Advance offset and add field */
++		parser->curr_offset += size_bits;
++
+  		ret = hid_add_field(parser, HID_INPUT_REPORT, data);
++		if (!ret && parser->curr_report) {
++			/* Expected payload length (bytes) excluding the optional ID */
++			parser->curr_report->validate.payload_len = 
+(parser->curr_report->size + 7) / 8;
++		}
++
+  		break;
+-	case HID_MAIN_ITEM_TAG_OUTPUT:
++	}
++	case HID_MAIN_ITEM_TAG_OUTPUT: {
++		if (flags & HID_MAIN_ITEM_RESERVED_MASK) {
++			hid_warn_ratelimited(parser->device,
++				"Malformed output descriptor: reserved bits set (0x%02x)\n",
++				flags);
++			return -EINVAL;
++		}
++
+  		ret = hid_add_field(parser, HID_OUTPUT_REPORT, data);
+  		break;
+-	case HID_MAIN_ITEM_TAG_FEATURE:
++	}
++	case HID_MAIN_ITEM_TAG_FEATURE: {
++		if (flags & HID_MAIN_ITEM_RESERVED_MASK) {
++			hid_warn_ratelimited(parser->device,
++				"Malformed feature descriptor: reserved bits set (0x%02x)\n",
++				flags);
++			return -EINVAL;
++		}
++
+  		ret = hid_add_field(parser, HID_FEATURE_REPORT, data);
+  		break;
++	}
+  	default:
+  		if (item->tag >= HID_MAIN_ITEM_TAG_RESERVED_MIN &&
+  			item->tag <= HID_MAIN_ITEM_TAG_RESERVED_MAX)
+@@ -2062,6 +2187,9 @@ int hid_report_raw_event(struct hid_device *hid, 
+enum hid_report_type type, u8 *
+  		memset(cdata + csize, 0, rsize - csize);
+  	}
+
++	if (!hid_validate_report(hid, report, data, size))
++		goto out;
++
+  	if ((hid->claimed & HID_CLAIMED_HIDDEV) && hid->hiddev_report_event)
+  		hid->hiddev_report_event(hid, report);
+  	if (hid->claimed & HID_CLAIMED_HIDRAW) {
+diff --git a/include/linux/hid.h b/include/linux/hid.h
+index a4ddb94e3ee5..3c7b3a8faa48 100644
+--- a/include/linux/hid.h
++++ b/include/linux/hid.h
+@@ -88,6 +88,7 @@ struct hid_item {
+   * HID report descriptor main item contents
+   */
+
++#define HID_MAIN_ITEM_RESERVED_MASK	0x0c8 /* HID 1.11: flags reserved 
+bits (3, 6, 7) must be zero */
+  #define HID_MAIN_ITEM_CONSTANT		0x001
+  #define HID_MAIN_ITEM_VARIABLE		0x002
+  #define HID_MAIN_ITEM_RELATIVE		0x004
+@@ -560,6 +561,17 @@ struct hid_field_entry {
+  	__s32 priority;
+  };
+
++struct hid_const_slice {
++	__u16 bit_off;
++	__u16 bit_len;
++};
++
++struct hid_report_validate {
++	struct hid_const_slice *const_slices;
++	__u16 const_count;
++	__u16 payload_len;
++};
++
+  struct hid_report {
+  	struct list_head list;
+  	struct list_head hidinput_list;
+@@ -576,6 +588,7 @@ struct hid_report {
+  	/* tool related state */
+  	bool tool_active;				/* whether the current tool is active */
+  	unsigned int tool;				/* BTN_TOOL_* */
++	struct hid_report_validate validate;
+  };
+
+  #define HID_MAX_IDS 256
+@@ -760,6 +773,8 @@ struct hid_parser {
+  	unsigned int          collection_stack_size;
+  	struct hid_device    *device;
+  	unsigned int          scan_flags;
++	__u16                 curr_offset;
++	struct hid_report    *curr_report;
+  };
+
+  struct hid_class_descriptor {
 -- 
-2.34.1
+2.51.2
 
 
