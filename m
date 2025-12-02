@@ -1,147 +1,122 @@
-Return-Path: <linux-input+bounces-16436-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16437-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1E9CC99126
-	for <lists+linux-input@lfdr.de>; Mon, 01 Dec 2025 21:44:35 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 981D0C99F77
+	for <lists+linux-input@lfdr.de>; Tue, 02 Dec 2025 04:31:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 9ADC8343CAB
-	for <lists+linux-input@lfdr.de>; Mon,  1 Dec 2025 20:44:35 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3ADDA3A3799
+	for <lists+linux-input@lfdr.de>; Tue,  2 Dec 2025 03:31:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 91A36258ED5;
-	Mon,  1 Dec 2025 20:44:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 39417242D84;
+	Tue,  2 Dec 2025 03:31:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vRG8Kb2d"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CtWNhSEB"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com [209.85.210.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6457578F4A;
-	Mon,  1 Dec 2025 20:44:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B888418A6DB
+	for <linux-input@vger.kernel.org>; Tue,  2 Dec 2025 03:31:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764621870; cv=none; b=ZLYp9apigsSFgbgbDoBoVRPV3bTxl6EbN6pZUtlrP4lvFUOvMm7pKP/qVKD0I5rAI+xc9BFoljjQeE+ZlKrWX5VA2jCZPkCHeevQ7sPns+E+4u9b7P/ZC8JPQrmr+TBSs50TrnUEgKVEBG3ycawN+ubwHLDnCOzCKspijqHkIOw=
+	t=1764646285; cv=none; b=EZ1J8kjsB0Op+l/Y69M3Ks5VY7U3jFmXyrGfsgkX6PUk4mKOJUKTcIRsVeDonKV6QBv0sSnliaAVp7T3ls3/m5jwVr0EEB12V1XJrrG5rzQLscadkb2qTBbXBuaALEwLEnio0mxMxQLtxQLHGa3Rv/473HZkQDMF5NxygQS/29E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764621870; c=relaxed/simple;
-	bh=Nwx2uUjXbrZNKGzJl6hwFkUbvVxKqPh7xMO8Z+XfqNw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Fysh/TaLgE+yTwfFyZ2fmPTlPNhu8J5kAS4cRYJFtfxo/kA5D07321GKBdue+2Eyn2ADobhjpvW7/0ZGqnkyigmg7zA8LPfI6HPQPbiT+l3jSkCQTtxNpaaLLARIHP8HMqkGCkkuyz+/7S5e+aG6E5ckZGlKqegpaNRyxViDIB0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vRG8Kb2d; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DDBD3C4CEF1;
-	Mon,  1 Dec 2025 20:44:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764621869;
-	bh=Nwx2uUjXbrZNKGzJl6hwFkUbvVxKqPh7xMO8Z+XfqNw=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=vRG8Kb2d8G3t5ppZHFR5GZcz39i2/W8TV77YyXOYw97tcVWE1sG5AwdUcnw3XY0fx
-	 kJy6lF3HfpAXkHGHpAMtlQumgvLdc//VvyHmAB8hjMbhfSRyTyLGSL9K0dyTT2MaXl
-	 0VdN9tW9jiUL6RYB5II15gzckB+8XTkkE5+PeCiDFDc/6qAsxpT89q7fOaYmNHbRW8
-	 gnr4vTplf4KSLzWiE9vURjj0+HGXFZLHW53qhiutQmskUXpdjVhg25yBNXRr24FYFJ
-	 2OIn1ATJUHQAyRnwgTeKAclASliIOkqs1+6+jbgLRyZOvnZCDMqLXwfO4O4KqZT0kk
-	 4c1ZENBasAilg==
-Message-ID: <2bf9dbd4-351e-4a79-9fcf-e41c5273d0be@kernel.org>
-Date: Mon, 1 Dec 2025 21:44:26 +0100
+	s=arc-20240116; t=1764646285; c=relaxed/simple;
+	bh=sWid0yU4ux/46ObdM3lA67pKQtj4Epv3dh0AAxKTkQE=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=CqUzEDh/vUNABBFrwzp8oIFr4jBaPFmbSHkG1Gln446auzDh2FmL2XW04cJDDkAbULhp4412iOwK1Q11DDFtpUWfEJlPxuT1DKmcP+TgN4m7LnSHJ9FKP1oCBGPMFV+kYVnU5nKOMLCVL1RkPgkV2J2YTR4w3ABUzhzx9wgmlOg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CtWNhSEB; arc=none smtp.client-ip=209.85.210.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ot1-f45.google.com with SMTP id 46e09a7af769-7c701097a75so2338841a34.3
+        for <linux-input@vger.kernel.org>; Mon, 01 Dec 2025 19:31:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1764646282; x=1765251082; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=yhVHX2JwjsGi/mN+KMBqdyAPiJzpUlbgYPqFkqH+WLw=;
+        b=CtWNhSEBWCiQ/xmsIMiZth9a2X6iffKzfKCQ87ToWTShrdK/Xuc5tmEZEwUJ1dR8jV
+         1doGuhryow5nyif8eJdqj9ZU2TppIuFw4uOjgpFChwaoQjnscPFHzJzuhclTRFvQKVtD
+         76v0+r6+RJSmPwveN9tTMSk7sAjqwff0EgfpQv69PKNFD18cddKAmBsz/Y5yDNx2f40X
+         LmaYBzRotN/zfu9ND7ELhS5G7F7Q4w9kgceiDTgQPJamQPS+eoRf4BOiQIiwQv6tvXww
+         hd2jAHz7ZGQnQCqA/tJQJusrv3D4Mt50SeBum+7eavv9sm30o5eQ71yBHcihCHz4whgM
+         tGLQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764646282; x=1765251082;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yhVHX2JwjsGi/mN+KMBqdyAPiJzpUlbgYPqFkqH+WLw=;
+        b=Wa0evJoNk6xcP3iU8FB+0vv2q9XHix8Ym8B6qNtNH0kGk1+ub7APtXVAtoQW/8VQPn
+         9qGDVqkrLPrpzItm2NRpgBxqmOzo2rp9JQXEk6WBIVL0/IKBO4irRcrofyqxJvl0C/WM
+         BPZpftrNsYpOlixKP9DwTpqhB/ZaTNMKPfEZH7OayqpR1F9K96VSEuKltWtX1oxV+jtT
+         aIL+9W18L2QEJIYoQO2iqzskjW7iHvvsQPC/56AcFYmdl2huv4dXjeIgBrM50T7u0622
+         sQDafJ/cQ1nYHn8HkBuRf6KZISQrir7qz0vyY3udJ5ZSf0fhakCL8uwJUTTI82HcF0hW
+         XC0Q==
+X-Gm-Message-State: AOJu0YwwZzDQoo/duZWpQMZLPGabhawWGA16cmfudunk3ea4fxS8cMsR
+	mP26M9gvx8YAl8KmjAVgoXYHon1PYyU8emyn6eAR8DE6sr7t3r5217f1
+X-Gm-Gg: ASbGncvbKRHtwryZHlANegIeFzGSLVpuPwNyMUB93kRqKIvWwkHCryIGijmARMVaujQ
+	fUo6KdVN31PgqC/BVBIrtMuB8vmS8avBg5ld/qhSacKE7FjdKXnhNpkTHUp8coNT1Xv/KYsUxgK
+	KIQzLYK5yCXayLLfEixhL37rSdxs0RhIpW2/ubVyz+8IhcsnIc2x/g6dBSdvWF5AY9r7ZswWw9N
+	1AFrc0KYcK+Z6IvY9uxvPWeqFAFTFIVQrU/LGg+/dwKDEbowobmX5CnvDdP8wgNCepJ6RY9jerO
+	EHb3ssOwn/9UWtc3WomPi31o3OHfaP6qiWbJ3XECZJSajukn94kCxLEsGVv+B/8WnMObIDzrIuq
+	qjBJsQCrcoP17ajCNBtmtcebrsx8uDNr0LAv0z8TGG8vfCYhxOEX+mQBiRJPJuMZEq7aZVpzcaa
+	K2eIUCkYjHX491Qqm6jBeQPU6WUoQQtn7Yd/NT7+u5ObY=
+X-Google-Smtp-Source: AGHT+IGEE+pA9ert5r3QhhzdE5JNQYujZ7/bNBw1cjEDrGT/Fvc/IVxYE67qcjoOkPHSm1i4Z41rFw==
+X-Received: by 2002:a05:6830:71a4:b0:771:5ae2:fce0 with SMTP id 46e09a7af769-7c798ccd7ddmr22675428a34.20.1764646282416;
+        Mon, 01 Dec 2025 19:31:22 -0800 (PST)
+Received: from kernel-internship-machine.. ([143.110.209.46])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7c90f5fafc7sm5842998a34.7.2025.12.01.19.31.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 01 Dec 2025 19:31:22 -0800 (PST)
+From: Vivek BalachandharTN <vivek.balachandhar@gmail.com>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@kernel.org>,
+	Vivek Balachandhar TN <vivek.balachandhar@gmail.com>
+Subject: [PATCH] input: byd: use %*ph for Z packet dump
+Date: Tue,  2 Dec 2025 03:31:20 +0000
+Message-Id: <20251202033120.2264474-1-vivek.balachandhar@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] dt-bindings: Input: Add Wacom W9000-series
- penabled touchscreens
-To: Hendrik Noack <hendrik-noack@gmx.de>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
-Cc: linux-input@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20251201135552.93540-1-hendrik-noack@gmx.de>
- <20251201135552.93540-2-hendrik-noack@gmx.de>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20251201135552.93540-2-hendrik-noack@gmx.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 01/12/2025 14:31, Hendrik Noack wrote:
-> Add bindings for two Wacom W9007 variants which can be found in tablets.
-> 
-> Signed-off-by: Hendrik Noack <hendrik-noack@gmx.de>
-> ---
->  .../input/touchscreen/wacom,w9007a-lt03.yaml  | 79 +++++++++++++++++++
->  1 file changed, 79 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/input/touchscreen/wacom,w9007a-lt03.yaml
-> 
+Replace the hand-rolled %02x formatting of the Z packet warning in the
+BYD driver with the %*ph format specifier. %*ph is the preferred helper
+for printing a buffer in hexadecimal and makes the logging clearer and
+more consistent.
 
+Signed-off-by: Vivek BalachandharTN <vivek.balachandhar@gmail.com>
+---
+ drivers/input/mouse/byd.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+diff --git a/drivers/input/mouse/byd.c b/drivers/input/mouse/byd.c
+index 71aa23dd7d8d..a1420f03f3b3 100644
+--- a/drivers/input/mouse/byd.c
++++ b/drivers/input/mouse/byd.c
+@@ -315,9 +315,8 @@ static psmouse_ret_t byd_process_byte(struct psmouse *psmouse)
+ 	}
+ 	default:
+ 		psmouse_warn(psmouse,
+-			     "Unrecognized Z: pkt = %02x %02x %02x %02x\n",
+-			     psmouse->packet[0], psmouse->packet[1],
+-			     psmouse->packet[2], psmouse->packet[3]);
++			     "Unrecognized Z: pkt = %*ph\n",
++			     4, psmouse->packet);
+ 		return PSMOUSE_BAD_DATA;
+ 	}
+ 
+-- 
+2.34.1
 
-
-<form letter>
-This is an automated instruction, just in case, because many review tags
-are being ignored. If you know the process, just skip it entirely
-(please do not feel offended by me posting it here - no bad intentions
-intended, no patronizing, I just want to avoid wasted efforts). If you
-do not know the process, here is a short explanation:
-
-Please add Acked-by/Reviewed-by/Tested-by tags when posting new versions
-of patchset, under or above your Signed-off-by tag, unless patch changed
-significantly (e.g. new properties added to the DT bindings). Tag is
-"received", when provided in a message replied to you on the mailing
-list. Tools like b4 can help here ('b4 trailers -u ...'). However,
-there's no need to repost patches *only* to add the tags. The upstream
-maintainer will do that for tags received on the version they apply.
-
-Full context and explanation:
-https://elixir.bootlin.com/linux/v6.15/source/Documentation/process/submitting-patches.rst#L591
-</form letter>
-
-
-Best regards,
-Krzysztof
 
