@@ -1,273 +1,238 @@
-Return-Path: <linux-input+bounces-16445-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16446-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F0E8C9B4F9
-	for <lists+linux-input@lfdr.de>; Tue, 02 Dec 2025 12:27:11 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B16CC9B502
+	for <lists+linux-input@lfdr.de>; Tue, 02 Dec 2025 12:28:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 0D35334757B
-	for <lists+linux-input@lfdr.de>; Tue,  2 Dec 2025 11:27:11 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 513204E17F2
+	for <lists+linux-input@lfdr.de>; Tue,  2 Dec 2025 11:28:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F6C230F93B;
-	Tue,  2 Dec 2025 11:27:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D86C230F93B;
+	Tue,  2 Dec 2025 11:28:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NpWb5MRs"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qCnr86e5"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24C1528A3FA;
-	Tue,  2 Dec 2025 11:27:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACB0828A3FA;
+	Tue,  2 Dec 2025 11:28:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764674827; cv=none; b=RL+bP6TeY7uBJGHmFMisUQwD9UMR/fWYTrI2UCVIDbT/z/u5JdcHszKBHXGc8l493Ybr63Jxu6t1UMb7m7agXca+qs7ULDix3DpXsP1JFkDO/cHpHBzxrFibDJiWotXi1d8A4rnza4CKs7soIj/ntH8wtJenbQbghgTwepFY1aw=
+	t=1764674894; cv=none; b=P9x0sofBYR8f7MtCJ9URKABmCD4+NZ0pleA0pCLQq5P2zpY4cGzqTDXJqNYKl02DeID7mOhojqpG6ilYvM/bOYlG0/Lu+iVbyvB5oeAvJtjP8l9OUSATlC6RTfwYqIeUOS+eVnmml/8r2GoDOPKyDQIa76ZhySvjfYxNIJ8vhC0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764674827; c=relaxed/simple;
-	bh=Bhd5zvXLA+YIEJ5mJ9YeaZRY6L549H8KH1TgomgKAyk=;
+	s=arc-20240116; t=1764674894; c=relaxed/simple;
+	bh=AfSwRsjTfZM5+SbqNrX5CXgA5zbgtHPlkoLNh0LHLeA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lBX9cGcnPXolIfGLJ/wpzubgQmaDKaw90fJ7ztzb2r9WFHy4akZ9ZSqUmQM9BdvXMDEcbCW5z0HN1SG316gMgDgJtdJmP5TNtCEyOgHqLF4LCQ7Tp/L3DLIi58jdOB39NGykUyo31q73CIwL1yPzR1N9q/QPZUXPQuBEzFErt+0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NpWb5MRs; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D970C4CEF1;
-	Tue,  2 Dec 2025 11:27:02 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=HJ+icWtoDVjozhIGPe9g9aKg9LvsHyReLN398ZfYMgA88OcxSloNjUx+vZodUmzhLZCW/S9NkioSJgCLVdMlTabj/QdqELFmQdXykUVEMckIxoA8G/XRiD1LZ9ZtLN2nHiYiQ6q63K6CCbqe9jz8ZFX62NGZxnbpaCkHdbrXTO8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qCnr86e5; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2ACC4C4CEF1;
+	Tue,  2 Dec 2025 11:28:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764674824;
-	bh=Bhd5zvXLA+YIEJ5mJ9YeaZRY6L549H8KH1TgomgKAyk=;
+	s=k20201202; t=1764674894;
+	bh=AfSwRsjTfZM5+SbqNrX5CXgA5zbgtHPlkoLNh0LHLeA=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NpWb5MRsW9tFazvmeyOELmB8XTTdoDjbMFQOxddgCH/XsKWDUQn+UnhzRD3rJM8H9
-	 uPA3czIQRaFwtymbjTxa2lSNI4jqg215Bc/mKA/o8u3vtRrUQ7ibtngRd5JropduBg
-	 t4lIz427u9+YnBc9769IrO64ojatFEQaeXiAZVRNzifHYRtVgfpsQnAdnXtum0dBjP
-	 +eze5iacNHRu56P9Un9rOfFRUbRncD1bIBNmd2yp/FSuXutObEe4dMQKShUJWTK5v2
-	 AGa/TkXh9VMa5ZQmqkxfrPBN10UY2ICiJZZrefVXVptB8zN7Mkee9jo3844nqt7dHE
-	 ZPzuBc5KOySEQ==
-Date: Tue, 2 Dec 2025 12:26:59 +0100
+	b=qCnr86e5GoHE69AwSAhWbhjziL260lGk5VG+5wJWqdQXYlmXRdjZb5nAVe7JrVoV8
+	 mhYJ7rlsykVK/dd/ieeKuCa+4kIQvHjVAQ0JnG8HxPrRh3mMZ/0P2ufUq+Nc2Dxzaa
+	 weduj9dnEy57fkTR7n0AfqEtQDay/etYp0taCKThVXiMX1EieVENojhJp/cuMSR8jM
+	 n+4lnseLjiIuS6Hz/xSZnPG1+3NpcEMqYsXbeDuvvQqphNDxa1bMaBQcmtnke7Ek6j
+	 UZB5W/o+m3OYMMLquOS10vWF5JS0Nmm60MDqgolC40ffne8ouS96/iAUJFWnzzTxgr
+	 JgVJ/LV4oZ4zw==
+Date: Tue, 2 Dec 2025 12:28:09 +0100
 From: Benjamin Tissoires <bentiss@kernel.org>
 To: Antheas Kapenekakis <lkml@antheas.dev>
-Cc: Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>, 
-	Denis Benato <benato.denis96@gmail.com>, platform-driver-x86@vger.kernel.org, linux-input@vger.kernel.org, 
-	LKML <linux-kernel@vger.kernel.org>, Jiri Kosina <jikos@kernel.org>, 
+Cc: platform-driver-x86@vger.kernel.org, linux-input@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Jiri Kosina <jikos@kernel.org>, 
 	Corentin Chary <corentin.chary@gmail.com>, "Luke D . Jones" <luke@ljones.dev>, 
-	Hans de Goede <hansg@kernel.org>
-Subject: Re: [PATCH v10 10/11] platform/x86: asus-wmi: add keyboard
- brightness event handler
-Message-ID: <5dmvgp4srucat7mfc5dalklsmujuldlbfe3jawi4uharmku4ab@yb44yaf5v4x4>
+	Hans de Goede <hansg@kernel.org>, Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>, 
+	Denis Benato <benato.denis96@gmail.com>
+Subject: Re: [PATCH v10 00/11] HID: asus: Fix ASUS ROG Laptop's Keyboard
+ backlight handling
+Message-ID: <3o567uhraajybt5wey3zevkqpneq56jrcoewhxn6t4poc2enxz@ooygktcsinge>
 References: <20251122110032.4274-1-lkml@antheas.dev>
- <20251122110032.4274-11-lkml@antheas.dev>
- <713cc4fd-e6a1-4db4-907a-a0575a2b7b8f@gmail.com>
- <CAGwozwHwi7mopXY=DM2jt82jgdetdhNR-CUicX7R9KbYj4g0Xw@mail.gmail.com>
- <CAGwozwGOgE2JPaR34V8ETEq66bMd1rjGNokdnbLDE1Ch7PR5ig@mail.gmail.com>
- <4c24cacf-a1e0-186d-5e44-c6772e32ffc2@linux.intel.com>
- <CAGwozwGquTikG3-7oJxQWDt6a836FU-Lk+M3JtM6efaTCc0Vng@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAGwozwGquTikG3-7oJxQWDt6a836FU-Lk+M3JtM6efaTCc0Vng@mail.gmail.com>
+In-Reply-To: <20251122110032.4274-1-lkml@antheas.dev>
 
-On Dec 01 2025, Antheas Kapenekakis wrote:
-> On Mon, 1 Dec 2025 at 10:52, Ilpo Järvinen
-> <ilpo.jarvinen@linux.intel.com> wrote:
-> >
-> > On Mon, 1 Dec 2025, Antheas Kapenekakis wrote:
-> > > On Wed, 26 Nov 2025 at 21:39, Antheas Kapenekakis <lkml@antheas.dev> wrote:
-> > > > On Wed, 26 Nov 2025 at 21:23, Denis Benato <benato.denis96@gmail.com> wrote:
-> > > > > On 11/22/25 12:00, Antheas Kapenekakis wrote:
-> > > > > > The keyboard brightness control of Asus WMI keyboards is handled in
-> > > > > > kernel, which leads to the shortcut going from brightness 0, to 1,
-> > > > > > to 2, and 3.
-> > > > > >
-> > > > > > However, for HID keyboards it is exposed as a key and handled by the
-> > > > > > user's desktop environment. For the toggle button, this means that
-> > > > > > brightness control becomes on/off. In addition, in the absence of a
-> > > > > > DE, the keyboard brightness does not work.
-> > > > > >
-> > > > > > Therefore, expose an event handler for the keyboard brightness control
-> > > > > > which can then be used by hid-asus. Since this handler is called from
-> > > > > > an interrupt context, defer the actual work to a workqueue.
-> > > > > >
-> > > > > > In the process, introduce ASUS_EV_MAX_BRIGHTNESS to hold the constant
-> > > > > > for maximum brightness since it is shared between hid-asus/asus-wmi.
-> > > > > >
-> > > > > > Reviewed-by: Luke D. Jones <luke@ljones.dev>
-> > > > > > Tested-by: Luke D. Jones <luke@ljones.dev>
-> > > > > > Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
-> > > > > > ---
-> > > > > >  drivers/platform/x86/asus-wmi.c            | 46 +++++++++++++++++++---
-> > > > > >  include/linux/platform_data/x86/asus-wmi.h | 13 ++++++
-> > > > > >  2 files changed, 54 insertions(+), 5 deletions(-)
-> > > > > >
-> > > > > > diff --git a/drivers/platform/x86/asus-wmi.c b/drivers/platform/x86/asus-wmi.c
-> > > > > > index 84cde34ab6a8..a69464e45ca4 100644
-> > > > > > --- a/drivers/platform/x86/asus-wmi.c
-> > > > > > +++ b/drivers/platform/x86/asus-wmi.c
-> > > > > > @@ -1719,6 +1719,44 @@ static void kbd_led_update_all(struct work_struct *work)
-> > > > > >       }
-> > > > > >  }
-> > > > > >
-> > > > > > +/*
-> > > > > > + * This function is called from hid-asus to inform asus-wmi of brightness
-> > > > > > + * changes initiated by the keyboard backlight keys.
-> > > > > > + */
-> > > > > > +int asus_hid_event(enum asus_hid_event event)
-> > > > > > +{
-> > > > > > +     struct asus_wmi *asus;
-> > > > > > +     int brightness;
-> > > > > > +
-> > > > > > +     guard(spinlock_irqsave)(&asus_ref.lock);
-> > > > > > +     asus = asus_ref.asus;
-> > > > > > +     if (!asus || !asus->kbd_led_registered)
-> > > > > > +             return -EBUSY;
-> > > > > > +
-> > > > > > +     brightness = asus->kbd_led_wk;
-> > > > > > +
-> > > > > > +     switch (event) {
-> > > > > > +     case ASUS_EV_BRTUP:
-> > > > > > +             brightness += 1;
-> > > > > > +             break;
-> > > > > > +     case ASUS_EV_BRTDOWN:
-> > > > > > +             brightness -= 1;
-> > > > > > +             break;
-> > > > > > +     case ASUS_EV_BRTTOGGLE:
-> > > > > > +             if (brightness >= ASUS_EV_MAX_BRIGHTNESS)
-> > > > > > +                     brightness = 0;
-> > > > > > +             else
-> > > > > > +                     brightness += 1;
-> > > > > > +             break;
-> > > > > > +     }
-> > > > > > +
-> > > > > > +     asus->kbd_led_wk = clamp_val(brightness, 0, ASUS_EV_MAX_BRIGHTNESS);
-> > > > > > +     asus->kbd_led_notify = true;
-> > > > > > +     queue_work(asus->led_workqueue, &asus->kbd_led_work);
-> > > > > > +     return 0;
-> > > > > > +}
-> > > > > > +EXPORT_SYMBOL_GPL(asus_hid_event);
-> > > > > > +
-> > > > > >  /*
-> > > > > >   * These functions actually update the LED's, and are called from a
-> > > > > LEDs as opposed to LED's?
-> > > >
-> > > > I agree with you, but the author of that line probably wouldn't -
-> > > > depends on author dialect and both are usually correct.
-> > > >
-> > > > When making acronyms plural, adding a ' is usually accepted as
-> > > > correct. But this is not added as part of this series, so you can do a
-> > > > reword commit if you wish
-> > > >
-> > > > Antheas
-> > >
-> > > Hm, perhaps this was not clear but the part you commented on was not
-> > > part of the patch/this series. Do you want to finish reviewing this
-> > > patch and add a rev-by?
-> > >
-> > > @Ilpo: with 6.18 releasing yesterday, what is the status on this? is
-> > > it for 6.20? Hans commented on patch 5
-> >
-> > It will have to wait to the 6.20 cycle as it's cross-subsystem series so
-> > there are other maintainers involved than just me.
+On Nov 22 2025, Antheas Kapenekakis wrote:
+> This is a two part series which does the following:
+>   - Clean-up init sequence
+>   - Unify backlight handling to happen under asus-wmi so that all Aura
+>     devices have synced brightness controls and the backlight button works
+>     properly when it is on a USB laptop keyboard instead of one w/ WMI.
 > 
-> Unfortunate. Jiri is cc'd on this series and we had around 2 weeks
-> where the code was frozen. Was it my responsibility to ask for acks so
-> it can go through x86?
+> For more context, see cover letter of V1. Since V5, I removed some patches
+> to make this easier to merge.
 
-Sorry for the current situation. We were following the series without
-much involvment as there were still changes requested here and there.
+For the HID part:
+Acked-by: Benjamin Tissoires <bentiss@kernel.org>
 
-Anyway, we (Jiri and I) are fine for this series to be merged entirely
-through the drivers-platform-x86 tree. The only HID changes are solely
-located into hid-asus.c, so we can punt to you the patches for this
-cycle if there is anything happening until this gets merge into Linus
-tree and we can go back to normal.
+Again, as mentioned in one of the other patch. Feel free to take this
+into the platform-x86 tree.
 
 Cheers,
 Benjamin
 
 > 
-> > --
-> >  i.
-> >
-> > > Thanks,
-> > > Antheas
-> > >
-> > > > > >   * workqueue. By doing this as separate work rather than when the LED
-> > > > > > @@ -1801,13 +1839,11 @@ static void do_kbd_led_set(struct led_classdev *led_cdev, int value)
-> > > > > >  {
-> > > > > >       struct asus_hid_listener *listener;
-> > > > > >       struct asus_wmi *asus;
-> > > > > > -     int max_level;
-> > > > > >
-> > > > > >       asus = container_of(led_cdev, struct asus_wmi, kbd_led);
-> > > > > > -     max_level = asus->kbd_led.max_brightness;
-> > > > > >
-> > > > > >       scoped_guard(spinlock_irqsave, &asus_ref.lock)
-> > > > > > -             asus->kbd_led_wk = clamp_val(value, 0, max_level);
-> > > > > > +             asus->kbd_led_wk = clamp_val(value, 0, ASUS_EV_MAX_BRIGHTNESS);
-> > > > > >
-> > > > > >       if (asus->kbd_led_avail)
-> > > > > >               kbd_led_update(asus);
-> > > > > > @@ -2011,7 +2047,7 @@ static int asus_wmi_led_init(struct asus_wmi *asus)
-> > > > > >       asus->kbd_led.flags = LED_BRIGHT_HW_CHANGED;
-> > > > > >       asus->kbd_led.brightness_set = kbd_led_set;
-> > > > > >       asus->kbd_led.brightness_get = kbd_led_get;
-> > > > > > -     asus->kbd_led.max_brightness = 3;
-> > > > > > +     asus->kbd_led.max_brightness = ASUS_EV_MAX_BRIGHTNESS;
-> > > > > >       asus->kbd_led_avail = !kbd_led_read(asus, &led_val, NULL);
-> > > > > >       INIT_WORK(&asus->kbd_led_work, kbd_led_update_all);
-> > > > > >
-> > > > > > @@ -4530,7 +4566,7 @@ static void asus_wmi_handle_event_code(int code, struct asus_wmi *asus)
-> > > > > >               return;
-> > > > > >       }
-> > > > > >       if (code == NOTIFY_KBD_BRTTOGGLE) {
-> > > > > > -             if (led_value == asus->kbd_led.max_brightness)
-> > > > > > +             if (led_value == ASUS_EV_MAX_BRIGHTNESS)
-> > > > > >                       kbd_led_set_by_kbd(asus, 0);
-> > > > > >               else
-> > > > > >                       kbd_led_set_by_kbd(asus, led_value + 1);
-> > > > > > diff --git a/include/linux/platform_data/x86/asus-wmi.h b/include/linux/platform_data/x86/asus-wmi.h
-> > > > > > index d347cffd05d5..7b872b5d0960 100644
-> > > > > > --- a/include/linux/platform_data/x86/asus-wmi.h
-> > > > > > +++ b/include/linux/platform_data/x86/asus-wmi.h
-> > > > > > @@ -178,6 +178,14 @@ struct asus_hid_listener {
-> > > > > >       void (*brightness_set)(struct asus_hid_listener *listener, int brightness);
-> > > > > >  };
-> > > > > >
-> > > > > > +enum asus_hid_event {
-> > > > > > +     ASUS_EV_BRTUP,
-> > > > > > +     ASUS_EV_BRTDOWN,
-> > > > > > +     ASUS_EV_BRTTOGGLE,
-> > > > > > +};
-> > > > > > +
-> > > > > > +#define ASUS_EV_MAX_BRIGHTNESS 3
-> > > > > > +
-> > > > > >  #if IS_REACHABLE(CONFIG_ASUS_WMI)
-> > > > > >  void set_ally_mcu_hack(enum asus_ally_mcu_hack status);
-> > > > > >  void set_ally_mcu_powersave(bool enabled);
-> > > > > > @@ -186,6 +194,7 @@ int asus_wmi_set_devstate(u32 dev_id, u32 ctrl_param, u32 *retval);
-> > > > > >  int asus_wmi_evaluate_method(u32 method_id, u32 arg0, u32 arg1, u32 *retval);
-> > > > > >  int asus_hid_register_listener(struct asus_hid_listener *cdev);
-> > > > > >  void asus_hid_unregister_listener(struct asus_hid_listener *cdev);
-> > > > > > +int asus_hid_event(enum asus_hid_event event);
-> > > > > >  #else
-> > > > > >  static inline void set_ally_mcu_hack(enum asus_ally_mcu_hack status)
-> > > > > >  {
-> > > > > > @@ -213,6 +222,10 @@ static inline int asus_hid_register_listener(struct asus_hid_listener *bdev)
-> > > > > >  static inline void asus_hid_unregister_listener(struct asus_hid_listener *bdev)
-> > > > > >  {
-> > > > > >  }
-> > > > > > +static inline int asus_hid_event(enum asus_hid_event event)
-> > > > > > +{
-> > > > > > +     return -ENODEV;
-> > > > > > +}
-> > > > > >  #endif
-> > > > > >
-> > > > > >  #endif       /* __PLATFORM_DATA_X86_ASUS_WMI_H */
-> > > > >
-> > >
-> >
+> ---
+> V9: https://lore.kernel.org/all/20251120094617.11672-1-lkml@antheas.dev/
+> V8: https://lore.kernel.org/all/20251101104712.8011-1-lkml@antheas.dev/
+> V7: https://lore.kernel.org/all/20251018101759.4089-1-lkml@antheas.dev/
+> V6: https://lore.kernel.org/all/20251013201535.6737-1-lkml@antheas.dev/
+> V5: https://lore.kernel.org/all/20250325184601.10990-1-lkml@antheas.dev/
+> V4: https://lore.kernel.org/lkml/20250324210151.6042-1-lkml@antheas.dev/
+> V3: https://lore.kernel.org/lkml/20250322102804.418000-1-lkml@antheas.dev/
+> V2: https://lore.kernel.org/all/20250320220924.5023-1-lkml@antheas.dev/
+> V1: https://lore.kernel.org/all/20250319191320.10092-1-lkml@antheas.dev/
+> 
+> Changes since V9:
+>   - No functional changes
+>   - Rebase to review-ilpo-next
+>   - Fix armoury series conflict by removing the file asus-wmi-leds-ids on
+>     "remove unused keyboard backlight quirk" + imports
+>     Dismiss Luke's review as this patch diverged
+>   - Reword paragraph in "Add support for multiple kbd led handlers" to be
+>     more verbose
+>   - Use kfree in fortify patch
+>   - Fix minor style quirks from --nonstict checkpatch run
+> 
+> Changes since V8:
+>   - No functional changes
+>   - Move legacy init patch to second, modify first patch so that their
+>     diff is minimized
+>   - Split "prevent binding to all HID devices on ROG" into two patches:
+>     - moving backlight initialization into probe
+>     - early exit to skip ->init check and rename
+>     - Remove skipping vendor fixups for non-vendor devices. It is not possible
+>       to read usages before the report fixups are applied, so it did not work
+>   - In that patch, reword a comment to be single line and make is_vendor a bool
+>   - Dismiss Luke's tags from "Add support for multiple kbd led handlers" as it
+>     has drifted too far since he reviewed/tested it.
+> 
+> Changes since V7:
+>   - Readd legacy init quirk for Dennis
+>   - Remove HID_QUIRK_INPUT_PER_APP as a courtesy to asusctl
+>   - Fix warning due to enum_backlight receiving negative values
+> 
+> Changes since V6:
+>   - Split initialization refactor into three patches, update commit text
+>     to be clearer in what it does
+>   - Replace spinlock accesses with guard and scoped guard in all patches
+>   - Add missing includes mentioned by Ilpo
+>   - Reflow, tweak comment in prevent binding to all HID devices on ROG
+>   - Replace asus_ref.asus with local reference in all patches
+>   - Add missing kernel doc comments
+>   - Other minor nits from Ilpo
+>   - User reported warning due to scheduling work while holding a spinlock.
+>     Restructure patch for multiple handlers to limit when spinlock is held to
+>     variable access only. In parallel, setup a workqueue to handle registration
+>     of led device and setting brightness. This is required as registering the
+>     led device triggers kbd_led_get which needs to hold the spinlock to
+>     protect the led_wk value. The workqueue is also required for the hid
+>     event passthrough to avoid scheduling work while holding the spinlock.
+>     Apply the workqueue to wmi brightness buttons as well, as that was
+>     omitted before this series and WMI access was performed.
+>   - On "HID: asus: prevent binding to all HID devices on ROG", rename
+>     quirk HANDLE_GENERIC to SKIP_REPORT_FIXUP and only skip report fixup.
+>     This allows other quirks to apply (applies quirk that fixes keyboard
+>     being named as a pointer device).
+> 
+> Changes since V5:
+>   - It's been a long time
+>   - Remove addition of RGB as that had some comments I need to work on
+>   - Remove folio patch (already merged)
+>   - Remove legacy fix patch 11 from V4. There is a small chance that
+>     without this patch, some old NKEY keyboards might not respond to
+>     RGB commands according to Luke, but the kernel driver does not do
+>     RGB currently. The 0x5d init is done by Armoury crate software in
+>     Windows. If an issue is found, we can re-add it or just remove patches
+>     1/2 before merging. However, init could use the cleanup.
+> 
+> Changes since V4:
+>   - Fix KConfig (reported by kernel robot)
+>   - Fix Ilpo's nits, if I missed anything lmk
+> 
+> Changes since V3:
+>   - Add initializer for 0x5d for old NKEY keyboards until it is verified
+>     that it is not needed for their media keys to function.
+>   - Cover init in asus-wmi with spinlock as per Hans
+>   - If asus-wmi registers WMI handler with brightness, init the brightness
+>     in USB Asus keyboards, per Hans.
+>   - Change hid handler name to asus-UNIQ:rgb:peripheral to match led class
+>   - Fix oops when unregistering asus-wmi by moving unregister outside of
+>     the spin lock (but after the asus reference is set to null)
+> 
+> Changes since V2:
+>   - Check lazy init succeds in asus-wmi before setting register variable
+>   - make explicit check in asus_hid_register_listener for listener existing
+>     to avoid re-init
+>   - rename asus_brt to asus_hid in most places and harmonize everything
+>   - switch to a spinlock instead of a mutex to avoid kernel ooops
+>   - fixup hid device quirks to avoid multiple RGB devices while still exposing
+>     all input vendor devices. This includes moving rgb init to probe
+>     instead of the input_configured callbacks.
+>   - Remove fan key (during retest it appears to be 0xae that is already
+>     supported by hid-asus)
+>   - Never unregister asus::kbd_backlight while asus-wmi is active, as that
+>   - removes fds from userspace and breaks backlight functionality. All
+>   - current mainline drivers do not support backlight hotplugging, so most
+>     userspace software (e.g., KDE, UPower) is built with that assumption.
+>     For the Ally, since it disconnects its controller during sleep, this
+>     caused the backlight slider to not work in KDE.
+> 
+> Changes since V1:
+>   - Add basic RGB support on hid-asus, (Z13/Ally) tested in KDE/Z13
+>   - Fix ifdef else having an invalid signature (reported by kernel robot)
+>   - Restore input arguments to init and keyboard function so they can
+>     be re-used for RGB controls.
+>   - Remove Z13 delay (it did not work to fix the touchpad) and replace it
+>     with a HID_GROUP_GENERIC quirk to allow hid-multitouch to load. Squash
+>     keyboard rename into it.
+>   - Unregister brightness listener before removing work queue to avoid
+>     a race condition causing corruption
+>   - Remove spurious mutex unlock in asus_brt_event
+>   - Place mutex lock in kbd_led_set after LED_UNREGISTERING check to avoid
+>     relocking the mutex and causing a deadlock when unregistering leds
+>   - Add extra check during unregistering to avoid calling unregister when
+>     no led device is registered.
+>   - Temporarily HID_QUIRK_INPUT_PER_APP from the ROG endpoint as it causes
+>     the driver to create 4 RGB handlers per device. I also suspect some
+>     extra events sneak through (KDE had the @@@@@@).
+> 
+> Antheas Kapenekakis (11):
+>   HID: asus: simplify RGB init sequence
+>   HID: asus: initialize additional endpoints only for legacy devices
+>   HID: asus: use same report_id in response
+>   HID: asus: fortify keyboard handshake
+>   HID: asus: move vendor initialization to probe
+>   HID: asus: early return for ROG devices
+>   platform/x86: asus-wmi: Add support for multiple kbd led handlers
+>   HID: asus: listen to the asus-wmi brightness device instead of
+>     creating one
+>   platform/x86: asus-wmi: remove unused keyboard backlight quirk
+>   platform/x86: asus-wmi: add keyboard brightness event handler
+>   HID: asus: add support for the asus-wmi brightness handler
+> 
+>  drivers/hid/hid-asus.c                        | 205 ++++++++--------
+>  drivers/platform/x86/asus-wmi.c               | 223 +++++++++++++++---
+>  .../platform_data/x86/asus-wmi-leds-ids.h     |  50 ----
+>  include/linux/platform_data/x86/asus-wmi.h    |  28 +++
+>  4 files changed, 322 insertions(+), 184 deletions(-)
+>  delete mode 100644 include/linux/platform_data/x86/asus-wmi-leds-ids.h
+> 
+> 
+> base-commit: 2643187ccb8628144246ee9d44da5e3ac428f9c3
+> -- 
+> 2.52.0
+> 
 > 
 
