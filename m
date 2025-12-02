@@ -1,240 +1,273 @@
-Return-Path: <linux-input+bounces-16444-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16445-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10A60C9B4D5
-	for <lists+linux-input@lfdr.de>; Tue, 02 Dec 2025 12:23:20 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F0E8C9B4F9
+	for <lists+linux-input@lfdr.de>; Tue, 02 Dec 2025 12:27:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 8813834498B
-	for <lists+linux-input@lfdr.de>; Tue,  2 Dec 2025 11:23:19 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 0D35334757B
+	for <lists+linux-input@lfdr.de>; Tue,  2 Dec 2025 11:27:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8C73330F54C;
-	Tue,  2 Dec 2025 11:23:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F6C230F93B;
+	Tue,  2 Dec 2025 11:27:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QJxAURcl"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NpWb5MRs"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CAED201033;
-	Tue,  2 Dec 2025 11:23:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24C1528A3FA;
+	Tue,  2 Dec 2025 11:27:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764674595; cv=none; b=gniQAHwjOqBytJrUXGLK7pvAXyYjRFDh5F4khioZZKBOx7tk3TtTEu3mnOHoAHxPnaqqYQeRS1jnt/xnbpH2yQz55EpeAUSHfCGc7vrtvvHwwmbbc2z7LCagWNyNirAEJmDegm0Vhjo9DQVlvf3LHFwslj7SF7SHbuUJ7E87S1Y=
+	t=1764674827; cv=none; b=RL+bP6TeY7uBJGHmFMisUQwD9UMR/fWYTrI2UCVIDbT/z/u5JdcHszKBHXGc8l493Ybr63Jxu6t1UMb7m7agXca+qs7ULDix3DpXsP1JFkDO/cHpHBzxrFibDJiWotXi1d8A4rnza4CKs7soIj/ntH8wtJenbQbghgTwepFY1aw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764674595; c=relaxed/simple;
-	bh=isP8S9N9IQKaSCgXKbmOyDcXQ6x6LfUMOwEpze+Pqnc=;
+	s=arc-20240116; t=1764674827; c=relaxed/simple;
+	bh=Bhd5zvXLA+YIEJ5mJ9YeaZRY6L549H8KH1TgomgKAyk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ussALPr1qknzZ+Pw5XSN7htZxtJq5lBescxP74ASiRKeNdeZ5181iHUonY6KCJqd0/nZFln3dgvHr3YPapbOSDXq5POec8aQz/45i0Ow1o7OQggKQBRkFvK7GmFc2+zCDzUPFj33D5//WfwW/sjii8GcCgw9yxSt4bqrzSVjyYA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QJxAURcl; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2CD8C4CEF1;
-	Tue,  2 Dec 2025 11:23:12 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=lBX9cGcnPXolIfGLJ/wpzubgQmaDKaw90fJ7ztzb2r9WFHy4akZ9ZSqUmQM9BdvXMDEcbCW5z0HN1SG316gMgDgJtdJmP5TNtCEyOgHqLF4LCQ7Tp/L3DLIi58jdOB39NGykUyo31q73CIwL1yPzR1N9q/QPZUXPQuBEzFErt+0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NpWb5MRs; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D970C4CEF1;
+	Tue,  2 Dec 2025 11:27:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764674594;
-	bh=isP8S9N9IQKaSCgXKbmOyDcXQ6x6LfUMOwEpze+Pqnc=;
+	s=k20201202; t=1764674824;
+	bh=Bhd5zvXLA+YIEJ5mJ9YeaZRY6L549H8KH1TgomgKAyk=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=QJxAURcl4bcgRP5Swfwa4YxrwO7mb6FFKrsrO8tFPkdKbly+rLqK3NSxaePPMGAJq
-	 kGVh8c2/14ISPL2MZD9mwHFYL9EFeblfZgxS9C7rQ8S9eiYFic/2kS0O1zzqNifPSE
-	 O89sv7+dxIftkIhXxsdwtlHIjTvMxWLaKBuQnO7QhW25OAVb1CH5A9OEjdibULLRfU
-	 hHtpuIYy6ij0bZ0MsCMHUYZnegKqKDi3EUDXkthr1sLF/cCAZZ4AZsclrV+Iq/itn0
-	 k65RbkRMjfjn7oBad82prJvS4yD4opQyhteLoy8nIQ0Uhx40m0hDRnyuIdCUJsXTnG
-	 NdRgdzyWZfn6g==
-Date: Tue, 2 Dec 2025 12:23:10 +0100
+	b=NpWb5MRsW9tFazvmeyOELmB8XTTdoDjbMFQOxddgCH/XsKWDUQn+UnhzRD3rJM8H9
+	 uPA3czIQRaFwtymbjTxa2lSNI4jqg215Bc/mKA/o8u3vtRrUQ7ibtngRd5JropduBg
+	 t4lIz427u9+YnBc9769IrO64ojatFEQaeXiAZVRNzifHYRtVgfpsQnAdnXtum0dBjP
+	 +eze5iacNHRu56P9Un9rOfFRUbRncD1bIBNmd2yp/FSuXutObEe4dMQKShUJWTK5v2
+	 AGa/TkXh9VMa5ZQmqkxfrPBN10UY2ICiJZZrefVXVptB8zN7Mkee9jo3844nqt7dHE
+	 ZPzuBc5KOySEQ==
+Date: Tue, 2 Dec 2025 12:26:59 +0100
 From: Benjamin Tissoires <bentiss@kernel.org>
 To: Antheas Kapenekakis <lkml@antheas.dev>
-Cc: platform-driver-x86@vger.kernel.org, linux-input@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Jiri Kosina <jikos@kernel.org>, 
+Cc: Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>, 
+	Denis Benato <benato.denis96@gmail.com>, platform-driver-x86@vger.kernel.org, linux-input@vger.kernel.org, 
+	LKML <linux-kernel@vger.kernel.org>, Jiri Kosina <jikos@kernel.org>, 
 	Corentin Chary <corentin.chary@gmail.com>, "Luke D . Jones" <luke@ljones.dev>, 
-	Hans de Goede <hansg@kernel.org>, Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>, 
-	Denis Benato <benato.denis96@gmail.com>
-Subject: Re: [PATCH v10 08/11] HID: asus: listen to the asus-wmi brightness
- device instead of creating one
-Message-ID: <v52hgmsvw7kmhfdgph577mzqu3dsbykyezokwttlthrevyrydx@sbli376vzrzs>
+	Hans de Goede <hansg@kernel.org>
+Subject: Re: [PATCH v10 10/11] platform/x86: asus-wmi: add keyboard
+ brightness event handler
+Message-ID: <5dmvgp4srucat7mfc5dalklsmujuldlbfe3jawi4uharmku4ab@yb44yaf5v4x4>
 References: <20251122110032.4274-1-lkml@antheas.dev>
- <20251122110032.4274-9-lkml@antheas.dev>
+ <20251122110032.4274-11-lkml@antheas.dev>
+ <713cc4fd-e6a1-4db4-907a-a0575a2b7b8f@gmail.com>
+ <CAGwozwHwi7mopXY=DM2jt82jgdetdhNR-CUicX7R9KbYj4g0Xw@mail.gmail.com>
+ <CAGwozwGOgE2JPaR34V8ETEq66bMd1rjGNokdnbLDE1Ch7PR5ig@mail.gmail.com>
+ <4c24cacf-a1e0-186d-5e44-c6772e32ffc2@linux.intel.com>
+ <CAGwozwGquTikG3-7oJxQWDt6a836FU-Lk+M3JtM6efaTCc0Vng@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20251122110032.4274-9-lkml@antheas.dev>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAGwozwGquTikG3-7oJxQWDt6a836FU-Lk+M3JtM6efaTCc0Vng@mail.gmail.com>
 
-On Nov 22 2025, Antheas Kapenekakis wrote:
-> Some ROG laptops expose multiple interfaces for controlling the
-> keyboard/RGB brightness. This creates a name conflict under
-> asus::kbd_brightness, where the second device ends up being
-> named asus::kbd_brightness_1 and they are both broken.
+On Dec 01 2025, Antheas Kapenekakis wrote:
+> On Mon, 1 Dec 2025 at 10:52, Ilpo Järvinen
+> <ilpo.jarvinen@linux.intel.com> wrote:
+> >
+> > On Mon, 1 Dec 2025, Antheas Kapenekakis wrote:
+> > > On Wed, 26 Nov 2025 at 21:39, Antheas Kapenekakis <lkml@antheas.dev> wrote:
+> > > > On Wed, 26 Nov 2025 at 21:23, Denis Benato <benato.denis96@gmail.com> wrote:
+> > > > > On 11/22/25 12:00, Antheas Kapenekakis wrote:
+> > > > > > The keyboard brightness control of Asus WMI keyboards is handled in
+> > > > > > kernel, which leads to the shortcut going from brightness 0, to 1,
+> > > > > > to 2, and 3.
+> > > > > >
+> > > > > > However, for HID keyboards it is exposed as a key and handled by the
+> > > > > > user's desktop environment. For the toggle button, this means that
+> > > > > > brightness control becomes on/off. In addition, in the absence of a
+> > > > > > DE, the keyboard brightness does not work.
+> > > > > >
+> > > > > > Therefore, expose an event handler for the keyboard brightness control
+> > > > > > which can then be used by hid-asus. Since this handler is called from
+> > > > > > an interrupt context, defer the actual work to a workqueue.
+> > > > > >
+> > > > > > In the process, introduce ASUS_EV_MAX_BRIGHTNESS to hold the constant
+> > > > > > for maximum brightness since it is shared between hid-asus/asus-wmi.
+> > > > > >
+> > > > > > Reviewed-by: Luke D. Jones <luke@ljones.dev>
+> > > > > > Tested-by: Luke D. Jones <luke@ljones.dev>
+> > > > > > Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
+> > > > > > ---
+> > > > > >  drivers/platform/x86/asus-wmi.c            | 46 +++++++++++++++++++---
+> > > > > >  include/linux/platform_data/x86/asus-wmi.h | 13 ++++++
+> > > > > >  2 files changed, 54 insertions(+), 5 deletions(-)
+> > > > > >
+> > > > > > diff --git a/drivers/platform/x86/asus-wmi.c b/drivers/platform/x86/asus-wmi.c
+> > > > > > index 84cde34ab6a8..a69464e45ca4 100644
+> > > > > > --- a/drivers/platform/x86/asus-wmi.c
+> > > > > > +++ b/drivers/platform/x86/asus-wmi.c
+> > > > > > @@ -1719,6 +1719,44 @@ static void kbd_led_update_all(struct work_struct *work)
+> > > > > >       }
+> > > > > >  }
+> > > > > >
+> > > > > > +/*
+> > > > > > + * This function is called from hid-asus to inform asus-wmi of brightness
+> > > > > > + * changes initiated by the keyboard backlight keys.
+> > > > > > + */
+> > > > > > +int asus_hid_event(enum asus_hid_event event)
+> > > > > > +{
+> > > > > > +     struct asus_wmi *asus;
+> > > > > > +     int brightness;
+> > > > > > +
+> > > > > > +     guard(spinlock_irqsave)(&asus_ref.lock);
+> > > > > > +     asus = asus_ref.asus;
+> > > > > > +     if (!asus || !asus->kbd_led_registered)
+> > > > > > +             return -EBUSY;
+> > > > > > +
+> > > > > > +     brightness = asus->kbd_led_wk;
+> > > > > > +
+> > > > > > +     switch (event) {
+> > > > > > +     case ASUS_EV_BRTUP:
+> > > > > > +             brightness += 1;
+> > > > > > +             break;
+> > > > > > +     case ASUS_EV_BRTDOWN:
+> > > > > > +             brightness -= 1;
+> > > > > > +             break;
+> > > > > > +     case ASUS_EV_BRTTOGGLE:
+> > > > > > +             if (brightness >= ASUS_EV_MAX_BRIGHTNESS)
+> > > > > > +                     brightness = 0;
+> > > > > > +             else
+> > > > > > +                     brightness += 1;
+> > > > > > +             break;
+> > > > > > +     }
+> > > > > > +
+> > > > > > +     asus->kbd_led_wk = clamp_val(brightness, 0, ASUS_EV_MAX_BRIGHTNESS);
+> > > > > > +     asus->kbd_led_notify = true;
+> > > > > > +     queue_work(asus->led_workqueue, &asus->kbd_led_work);
+> > > > > > +     return 0;
+> > > > > > +}
+> > > > > > +EXPORT_SYMBOL_GPL(asus_hid_event);
+> > > > > > +
+> > > > > >  /*
+> > > > > >   * These functions actually update the LED's, and are called from a
+> > > > > LEDs as opposed to LED's?
+> > > >
+> > > > I agree with you, but the author of that line probably wouldn't -
+> > > > depends on author dialect and both are usually correct.
+> > > >
+> > > > When making acronyms plural, adding a ' is usually accepted as
+> > > > correct. But this is not added as part of this series, so you can do a
+> > > > reword commit if you wish
+> > > >
+> > > > Antheas
+> > >
+> > > Hm, perhaps this was not clear but the part you commented on was not
+> > > part of the patch/this series. Do you want to finish reviewing this
+> > > patch and add a rev-by?
+> > >
+> > > @Ilpo: with 6.18 releasing yesterday, what is the status on this? is
+> > > it for 6.20? Hans commented on patch 5
+> >
+> > It will have to wait to the 6.20 cycle as it's cross-subsystem series so
+> > there are other maintainers involved than just me.
 > 
-> Therefore, register a listener to the asus-wmi brightness device
-> instead of creating a new one.
-> 
-> Reviewed-by: Luke D. Jones <luke@ljones.dev>
-> Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
-> ---
->  drivers/hid/hid-asus.c | 65 +++++++-----------------------------------
->  1 file changed, 10 insertions(+), 55 deletions(-)
-> 
-> diff --git a/drivers/hid/hid-asus.c b/drivers/hid/hid-asus.c
-> index 461b0f8efdfb..475e34187326 100644
-> --- a/drivers/hid/hid-asus.c
-> +++ b/drivers/hid/hid-asus.c
-> @@ -27,7 +27,6 @@
->  #include <linux/hid.h>
->  #include <linux/module.h>
->  #include <linux/platform_data/x86/asus-wmi.h>
-> -#include <linux/platform_data/x86/asus-wmi-leds-ids.h>
->  #include <linux/input/mt.h>
->  #include <linux/usb.h> /* For to_usb_interface for T100 touchpad intf check */
->  #include <linux/power_supply.h>
-> @@ -103,7 +102,7 @@ MODULE_DESCRIPTION("Asus HID Keyboard and TouchPad");
->  #define TRKID_SGN       ((TRKID_MAX + 1) >> 1)
->  
->  struct asus_kbd_leds {
-> -	struct led_classdev cdev;
-> +	struct asus_hid_listener listener;
->  	struct hid_device *hdev;
->  	struct work_struct work;
->  	unsigned int brightness;
-> @@ -493,11 +492,11 @@ static void asus_schedule_work(struct asus_kbd_leds *led)
->  	spin_unlock_irqrestore(&led->lock, flags);
->  }
->  
-> -static void asus_kbd_backlight_set(struct led_classdev *led_cdev,
-> -				   enum led_brightness brightness)
-> +static void asus_kbd_backlight_set(struct asus_hid_listener *listener,
-> +				   int brightness)
->  {
-> -	struct asus_kbd_leds *led = container_of(led_cdev, struct asus_kbd_leds,
-> -						 cdev);
-> +	struct asus_kbd_leds *led = container_of(listener, struct asus_kbd_leds,
-> +						 listener);
->  	unsigned long flags;
->  
->  	spin_lock_irqsave(&led->lock, flags);
-> @@ -507,20 +506,6 @@ static void asus_kbd_backlight_set(struct led_classdev *led_cdev,
->  	asus_schedule_work(led);
->  }
->  
-> -static enum led_brightness asus_kbd_backlight_get(struct led_classdev *led_cdev)
-> -{
-> -	struct asus_kbd_leds *led = container_of(led_cdev, struct asus_kbd_leds,
-> -						 cdev);
-> -	enum led_brightness brightness;
-> -	unsigned long flags;
-> -
-> -	spin_lock_irqsave(&led->lock, flags);
-> -	brightness = led->brightness;
-> -	spin_unlock_irqrestore(&led->lock, flags);
-> -
-> -	return brightness;
-> -}
-> -
->  static void asus_kbd_backlight_work(struct work_struct *work)
->  {
->  	struct asus_kbd_leds *led = container_of(work, struct asus_kbd_leds, work);
-> @@ -537,34 +522,6 @@ static void asus_kbd_backlight_work(struct work_struct *work)
->  		hid_err(led->hdev, "Asus failed to set keyboard backlight: %d\n", ret);
->  }
->  
-> -/* WMI-based keyboard backlight LED control (via asus-wmi driver) takes
-> - * precedence. We only activate HID-based backlight control when the
-> - * WMI control is not available.
-> - */
-> -static bool asus_kbd_wmi_led_control_present(struct hid_device *hdev)
-> -{
-> -	struct asus_drvdata *drvdata = hid_get_drvdata(hdev);
-> -	u32 value;
-> -	int ret;
-> -
-> -	if (!IS_ENABLED(CONFIG_ASUS_WMI))
-> -		return false;
-> -
-> -	if (drvdata->quirks & QUIRK_ROG_NKEY_KEYBOARD &&
-> -			dmi_check_system(asus_use_hid_led_dmi_ids)) {
-> -		hid_info(hdev, "using HID for asus::kbd_backlight\n");
-> -		return false;
-> -	}
-> -
-> -	ret = asus_wmi_evaluate_method(ASUS_WMI_METHODID_DSTS,
-> -				       ASUS_WMI_DEVID_KBD_BACKLIGHT, 0, &value);
-> -	hid_dbg(hdev, "WMI backlight check: rc %d value %x", ret, value);
-> -	if (ret)
-> -		return false;
-> -
-> -	return !!(value & ASUS_WMI_DSTS_PRESENCE_BIT);
-> -}
-> -
->  /*
->   * We don't care about any other part of the string except the version section.
->   * Example strings: FGA80100.RC72LA.312_T01, FGA80100.RC71LS.318_T01
-> @@ -709,14 +666,11 @@ static int asus_kbd_register_leds(struct hid_device *hdev)
->  	drvdata->kbd_backlight->removed = false;
->  	drvdata->kbd_backlight->brightness = 0;
->  	drvdata->kbd_backlight->hdev = hdev;
-> -	drvdata->kbd_backlight->cdev.name = "asus::kbd_backlight";
-> -	drvdata->kbd_backlight->cdev.max_brightness = 3;
-> -	drvdata->kbd_backlight->cdev.brightness_set = asus_kbd_backlight_set;
-> -	drvdata->kbd_backlight->cdev.brightness_get = asus_kbd_backlight_get;
-> +	drvdata->kbd_backlight->listener.brightness_set = asus_kbd_backlight_set;
->  	INIT_WORK(&drvdata->kbd_backlight->work, asus_kbd_backlight_work);
->  	spin_lock_init(&drvdata->kbd_backlight->lock);
->  
-> -	ret = devm_led_classdev_register(&hdev->dev, &drvdata->kbd_backlight->cdev);
-> +	ret = asus_hid_register_listener(&drvdata->kbd_backlight->listener);
->  	if (ret < 0) {
->  		/* No need to have this still around */
->  		devm_kfree(&hdev->dev, drvdata->kbd_backlight);
+> Unfortunate. Jiri is cc'd on this series and we had around 2 weeks
+> where the code was frozen. Was it my responsibility to ask for acks so
+> it can go through x86?
 
-Unrelated to your patch (strictly speaking), but still worth fixing
-(here on in a follow up patch):
-Here we free drvdata->kbd_backlight we just allocated before without
-resetting the value to 0.
+Sorry for the current situation. We were following the series without
+much involvment as there were still changes requested here and there.
 
-However, unless I'm mistaken, this function asus_kbd_register_leds() is
-called from asus_input_configured() and we simply put a warning and do
-not report the return value later on. Which means that further checks
-against drvdata->kbd_backlight (like in asus_resume()) will consider the
-value initialized and might trigger a use after free.
-
-With or without that:
-Reviewed-by: Benjamin Tissoires <bentiss@kernel.org>
+Anyway, we (Jiri and I) are fine for this series to be merged entirely
+through the drivers-platform-x86 tree. The only HID changes are solely
+located into hid-asus.c, so we can punt to you the patches for this
+cycle if there is anything happening until this gets merge into Linus
+tree and we can go back to normal.
 
 Cheers,
 Benjamin
 
-> @@ -1105,7 +1059,7 @@ static int __maybe_unused asus_resume(struct hid_device *hdev) {
->  
->  	if (drvdata->kbd_backlight) {
->  		const u8 buf[] = { FEATURE_KBD_REPORT_ID, 0xba, 0xc5, 0xc4,
-> -				drvdata->kbd_backlight->cdev.brightness };
-> +				drvdata->kbd_backlight->brightness };
->  		ret = asus_kbd_set_report(hdev, buf, sizeof(buf));
->  		if (ret < 0) {
->  			hid_err(hdev, "Asus failed to set keyboard backlight: %d\n", ret);
-> @@ -1231,7 +1185,6 @@ static int asus_probe(struct hid_device *hdev, const struct hid_device_id *id)
->  	}
->  
->  	if (is_vendor && (drvdata->quirks & QUIRK_USE_KBD_BACKLIGHT) &&
-> -	    !asus_kbd_wmi_led_control_present(hdev) &&
->  	    asus_kbd_register_leds(hdev))
->  		hid_warn(hdev, "Failed to initialize backlight.\n");
->  
-> @@ -1278,6 +1231,8 @@ static void asus_remove(struct hid_device *hdev)
->  	unsigned long flags;
->  
->  	if (drvdata->kbd_backlight) {
-> +		asus_hid_unregister_listener(&drvdata->kbd_backlight->listener);
-> +
->  		spin_lock_irqsave(&drvdata->kbd_backlight->lock, flags);
->  		drvdata->kbd_backlight->removed = true;
->  		spin_unlock_irqrestore(&drvdata->kbd_backlight->lock, flags);
-> -- 
-> 2.52.0
 > 
+> > --
+> >  i.
+> >
+> > > Thanks,
+> > > Antheas
+> > >
+> > > > > >   * workqueue. By doing this as separate work rather than when the LED
+> > > > > > @@ -1801,13 +1839,11 @@ static void do_kbd_led_set(struct led_classdev *led_cdev, int value)
+> > > > > >  {
+> > > > > >       struct asus_hid_listener *listener;
+> > > > > >       struct asus_wmi *asus;
+> > > > > > -     int max_level;
+> > > > > >
+> > > > > >       asus = container_of(led_cdev, struct asus_wmi, kbd_led);
+> > > > > > -     max_level = asus->kbd_led.max_brightness;
+> > > > > >
+> > > > > >       scoped_guard(spinlock_irqsave, &asus_ref.lock)
+> > > > > > -             asus->kbd_led_wk = clamp_val(value, 0, max_level);
+> > > > > > +             asus->kbd_led_wk = clamp_val(value, 0, ASUS_EV_MAX_BRIGHTNESS);
+> > > > > >
+> > > > > >       if (asus->kbd_led_avail)
+> > > > > >               kbd_led_update(asus);
+> > > > > > @@ -2011,7 +2047,7 @@ static int asus_wmi_led_init(struct asus_wmi *asus)
+> > > > > >       asus->kbd_led.flags = LED_BRIGHT_HW_CHANGED;
+> > > > > >       asus->kbd_led.brightness_set = kbd_led_set;
+> > > > > >       asus->kbd_led.brightness_get = kbd_led_get;
+> > > > > > -     asus->kbd_led.max_brightness = 3;
+> > > > > > +     asus->kbd_led.max_brightness = ASUS_EV_MAX_BRIGHTNESS;
+> > > > > >       asus->kbd_led_avail = !kbd_led_read(asus, &led_val, NULL);
+> > > > > >       INIT_WORK(&asus->kbd_led_work, kbd_led_update_all);
+> > > > > >
+> > > > > > @@ -4530,7 +4566,7 @@ static void asus_wmi_handle_event_code(int code, struct asus_wmi *asus)
+> > > > > >               return;
+> > > > > >       }
+> > > > > >       if (code == NOTIFY_KBD_BRTTOGGLE) {
+> > > > > > -             if (led_value == asus->kbd_led.max_brightness)
+> > > > > > +             if (led_value == ASUS_EV_MAX_BRIGHTNESS)
+> > > > > >                       kbd_led_set_by_kbd(asus, 0);
+> > > > > >               else
+> > > > > >                       kbd_led_set_by_kbd(asus, led_value + 1);
+> > > > > > diff --git a/include/linux/platform_data/x86/asus-wmi.h b/include/linux/platform_data/x86/asus-wmi.h
+> > > > > > index d347cffd05d5..7b872b5d0960 100644
+> > > > > > --- a/include/linux/platform_data/x86/asus-wmi.h
+> > > > > > +++ b/include/linux/platform_data/x86/asus-wmi.h
+> > > > > > @@ -178,6 +178,14 @@ struct asus_hid_listener {
+> > > > > >       void (*brightness_set)(struct asus_hid_listener *listener, int brightness);
+> > > > > >  };
+> > > > > >
+> > > > > > +enum asus_hid_event {
+> > > > > > +     ASUS_EV_BRTUP,
+> > > > > > +     ASUS_EV_BRTDOWN,
+> > > > > > +     ASUS_EV_BRTTOGGLE,
+> > > > > > +};
+> > > > > > +
+> > > > > > +#define ASUS_EV_MAX_BRIGHTNESS 3
+> > > > > > +
+> > > > > >  #if IS_REACHABLE(CONFIG_ASUS_WMI)
+> > > > > >  void set_ally_mcu_hack(enum asus_ally_mcu_hack status);
+> > > > > >  void set_ally_mcu_powersave(bool enabled);
+> > > > > > @@ -186,6 +194,7 @@ int asus_wmi_set_devstate(u32 dev_id, u32 ctrl_param, u32 *retval);
+> > > > > >  int asus_wmi_evaluate_method(u32 method_id, u32 arg0, u32 arg1, u32 *retval);
+> > > > > >  int asus_hid_register_listener(struct asus_hid_listener *cdev);
+> > > > > >  void asus_hid_unregister_listener(struct asus_hid_listener *cdev);
+> > > > > > +int asus_hid_event(enum asus_hid_event event);
+> > > > > >  #else
+> > > > > >  static inline void set_ally_mcu_hack(enum asus_ally_mcu_hack status)
+> > > > > >  {
+> > > > > > @@ -213,6 +222,10 @@ static inline int asus_hid_register_listener(struct asus_hid_listener *bdev)
+> > > > > >  static inline void asus_hid_unregister_listener(struct asus_hid_listener *bdev)
+> > > > > >  {
+> > > > > >  }
+> > > > > > +static inline int asus_hid_event(enum asus_hid_event event)
+> > > > > > +{
+> > > > > > +     return -ENODEV;
+> > > > > > +}
+> > > > > >  #endif
+> > > > > >
+> > > > > >  #endif       /* __PLATFORM_DATA_X86_ASUS_WMI_H */
+> > > > >
+> > >
+> >
 > 
 
