@@ -1,119 +1,127 @@
-Return-Path: <linux-input+bounces-16448-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16449-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C617C9B728
-	for <lists+linux-input@lfdr.de>; Tue, 02 Dec 2025 13:18:20 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 77A78C9CD3C
+	for <lists+linux-input@lfdr.de>; Tue, 02 Dec 2025 20:49:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1B5833A7871
-	for <lists+linux-input@lfdr.de>; Tue,  2 Dec 2025 12:18:19 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id F3D4834B476
+	for <lists+linux-input@lfdr.de>; Tue,  2 Dec 2025 19:49:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2262D311972;
-	Tue,  2 Dec 2025 12:18:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 00B892E0415;
+	Tue,  2 Dec 2025 19:41:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b="fQGgTFqv"
+	dkim=pass (2048-bit key) header.d=mail.softether.network header.i=@mail.softether.network header.b="r45NfjcX"
 X-Original-To: linux-input@vger.kernel.org
-Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
+Received: from mail.softether.network (mail.softether.network [103.41.62.250])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3F5B306D3F;
-	Tue,  2 Dec 2025 12:18:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.255.230.98
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47AAD2DFA40;
+	Tue,  2 Dec 2025 19:41:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.41.62.250
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764677895; cv=none; b=LoJI/OepDWw1NmHyZ05HmjBfNIgGjqeONyKCKX+MiPomMIoIeGNHLyVlN0zxTLxNLZzl9uw5EoVR8WV8xXZ7hRYIkLxXHVbuiO9XizNmJ902zo2+/KvxcT4q2DCDJreKgUL4rYTeBoXeu+KL7xHp1Hga9IGx0mdL8GLyfn2Strc=
+	t=1764704489; cv=none; b=qtnIMLe5SyACbbosSAIW8bKWvi1FxDJhIs9qCmBQnJFjmCwLsnqtUpYTfB+vRkpkfdv+U7efyxIcLJfEzWk9K+V/KDP5nVToMsB6ReD5ytRQ1r3kTeKSnCAYFVMgjdOzOzb8cwL4Qwqg1flsBDlRMdRPnA5z3hL3F+eZECxet20=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764677895; c=relaxed/simple;
-	bh=sXC5fYMIwckjs0MosF7CiJF3SOsSPFgB8RKJvnTjXDA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OxjfhO1i6UGuplr4QQAPAj2kM4CdjTpWmusmgs+8fdhpV3JmFwH3ICMmN7WcdGmwNA4tpYQbjtfERoFQfwhqQIvXYjqLSLQYqhvqibdd9r6bw9sALt2gSLJ7OHlDgX7AD1ebkrlYoSKGWhJ6l0z1QFgPHVaHUeAXgCdtVDBPM3A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz; spf=pass smtp.mailfrom=ucw.cz; dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b=fQGgTFqv; arc=none smtp.client-ip=46.255.230.98
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ucw.cz
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-	id 69C9D1C01C2; Tue,  2 Dec 2025 13:18:09 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
-	t=1764677889;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pMByTJW7HuYH6h+sQHpHqZNmQLPydnIXrlhP/TtlMXQ=;
-	b=fQGgTFqv6NAAFRlctGHSw27VAq2PrqQtymoAOrI7Fh4+kL41gmUrMvMFMapb/O4n4LyNwF
-	OTocinhLKFr/ZJFR/xe90wpnQxAA1XJYUUUrk0M7QDKHyAMZiw0trKHKqslx1dCgbJ9Qqy
-	czZsJGtSd5pvV8Fqw4anzDWkM9gF2hQ=
-Date: Tue, 2 Dec 2025 13:18:08 +0100
-From: Pavel Machek <pavel@ucw.cz>
-To: david@ixit.cz
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>, Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <bentiss@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Casey Connolly <casey.connolly@linaro.org>,
-	Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>,
-	linux-input@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	devicetree@vger.kernel.org, phone-devel@vger.kernel.org,
-	Gergo Koteles <soyer@irl.hu>
-Subject: Re: [PATCH v8 1/2] Input: add ABS_SND_PROFILE
-Message-ID: <aS7Y5hFslQ7e2en3@duo.ucw.cz>
-References: <20251113-op6-tri-state-v8-0-54073f3874bc@ixit.cz>
- <20251113-op6-tri-state-v8-1-54073f3874bc@ixit.cz>
+	s=arc-20240116; t=1764704489; c=relaxed/simple;
+	bh=VU6xe9yKAveOJ1OWyCpjn6aeuttRTUZKNIxd+LRdRcQ=;
+	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
+	 Message-ID:Content-Type; b=oPCnZ1lzqt4xzqz1tDP/tT5KmpIHSd4h/nTRH9px+wRgsF8IjDjf5r3WlhICjlP1Kvj4ypYekwlBgDDO8LIqn/IK/2ckgrvH8+5sas2SIsHAM++x2ne4F/TohQAuxA7no8nqOxS1ybztDSqhMr6SzN8Z7tRWdKLYd3n2pmFliT4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=davidebeatrici.dev; spf=pass smtp.mailfrom=davidebeatrici.dev; dkim=pass (2048-bit key) header.d=mail.softether.network header.i=@mail.softether.network header.b=r45NfjcX; arc=none smtp.client-ip=103.41.62.250
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=davidebeatrici.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=davidebeatrici.dev
+Received: from mail.softether.network (localhost [127.0.0.1])
+	(Authenticated sender: me@davidebeatrici.dev)
+	by mail.softether.network (Postfix) with ESMTPSA id 45EEC402F1;
+	Tue,  2 Dec 2025 19:41:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=mail.softether.network; s=2025; t=1764704484;
+	bh=VU6xe9yKAveOJ1OWyCpjn6aeuttRTUZKNIxd+LRdRcQ=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=r45NfjcX1GbhAXTi+HN9ce00HYWvE9m4W6u+Wp4QZfMUgBvtpiGnqqXWjpa9qWqpb
+	 dJLUPy7tc1ijkIFzHNqIl2tJJBFvwPwXCVN45uZLLEulWMGmlAb3STsckhdPX9gSGK
+	 KcOp9UXmckLxEZeMQ6SnqOQLshLGgrCZD1QLxjlTijfy9ZD6Lmj6ynwuVhFfXLDJrU
+	 iIkMkXL9N0iJqeMS6PK/MOaGuKCzVMczu0GGOBNqCv5hX1EpWVEvBervo+KQzq7m/i
+	 Kbp3EEfsCI550ETNJtfcnMg/3JIGp8DFG+fBnc8484PlbeF9xMkpUBml7iJ7+mdjyk
+	 GO91ycb6jkXfQ==
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="fpifvw8uNtkv5Wht"
-Content-Disposition: inline
-In-Reply-To: <20251113-op6-tri-state-v8-1-54073f3874bc@ixit.cz>
+Date: Tue, 02 Dec 2025 20:41:24 +0100
+From: Davide Beatrici <me@davidebeatrici.dev>
+To: Benjamin Tissoires <bentiss@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+ jikos@kernel.org, benjamin.tissoires@redhat.com
+Subject: Re: [PATCH] HID: validate report length and constants
+In-Reply-To: <xyh6scqrfzft3hhmqowyverzezb2xsmsexegk3sydyfbiknba4@6sy3qbtsinrr>
+References: <235531f556c5abfcae254a4e56441ba6@davidebeatrici.dev>
+ <xyh6scqrfzft3hhmqowyverzezb2xsmsexegk3sydyfbiknba4@6sy3qbtsinrr>
+Message-ID: <a7d352dd1d310bf07263106f2ce0f8ed@davidebeatrici.dev>
+X-Sender: me@davidebeatrici.dev
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
 
+Thank you very much for your feedback!
 
---fpifvw8uNtkv5Wht
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I can send you a new identical device for testing if you would like.
 
-On Thu 2025-11-13 17:02:58, David Heidelberg via B4 Relay wrote:
-> From: Gergo Koteles <soyer@irl.hu>
->=20
-> ABS_SND_PROFILE used to describe the state of a multi-value sound profile
-> switch. This will be used for the alert-slider on OnePlus phones or other
-> phones.
->=20
-> Profile values added as SND_PROFLE_(SILENT|VIBRATE|RING) identifiers
-> to input-event-codes.h so they can be used from DTS.
->=20
-> Signed-off-by: Gergo Koteles <soyer@irl.hu>
-> Reviewed-by: Bjorn Andersson <andersson@kernel.org>
-> Tested-by: Guido G=FCnther <agx@sigxcpu.org> # oneplus,fajita & oneplus,e=
-nchilada
-> Reviewed-by: Guido G=FCnther <agx@sigxcpu.org>
-> Signed-off-by: David Heidelberg <david@ixit.cz>
+> Can you show us what packets are emitted?
+> 
+> If it's a firmware bug, we better have a specific driver for it could
+> be a HID-BPF program that just filters out the unwanted reports.
+> 
+> Also, how does Windows behave with this mouse? Does it need a special
+> driver?
 
-Reviewed-by: Pavel Machek <pavel@ucw.cz>
+Sorry, I should've mentioned the malformed packet also shows up on 
+Windows,
+but is seemingly ignored because there appear to be no side effects 
+whatsoever.
 
-Best regards,
-							Pavel
---=20
-I don't work for Nazis and criminals, and neither should you.
-Boycott Putin, Trump, Netanyahu and Musk!
+No special driver needed, it's detected as a standard HID mouse.
 
---fpifvw8uNtkv5Wht
-Content-Type: application/pgp-signature; name="signature.asc"
+WireShark capture:
+https://dl.houseof.software/misc/atk_x1_se_malformed_packet.pcapng
 
------BEGIN PGP SIGNATURE-----
+Packet screenshot:
+https://dl.houseof.software/misc/atk_x1_se_malformed_packet.png
 
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCaS7ZAAAKCRAw5/Bqldv6
-8uM9AJ91FbCtzoPnkjXb6qTkzSFV0zSUmACeJ3kyR/GF79NwNQnczU0+lFNoGUI=
-=ArNh
------END PGP SIGNATURE-----
+> Looks like there is something wrong either in the report descriptor of
+> this mouse, either in the emitted reports.
 
---fpifvw8uNtkv5Wht--
+Definitely. I have already informed the manufacturer, who confirmed the 
+mouse
+has only been tested on Windows.
+
+My inquiry was forwarded to their R&D team, hopefully a firmware update 
+will
+be released soon.
+
+> Yep, this is on purpose because Miscrosoft's own driver works that way
+> and many HID devices do not bother to mark the non constant bits as
+> data. So if you enforce the spec here, you'll break a numerous of
+> devices unfortunatelly.
+
+> Ouch. If I read you correctly, you are rejecting the entire report if a
+> constant field is not 0. It is common for constant fields to be just
+> garbage (whatever is in the memory, because writing firmware is hard),
+> so even if we were to accept this patch, this would break even more
+> devices :(
+
+> I am pretty sure the HID selftests will fail with this patch applied,
+> because there are probably a couple of devices there with the "non
+> constant" behaviour.
+
+Oh, in that case let's just drop that part from the patch, since it's
+actually not altering the behavior with this specific device.
+
+The malformed packet is detected and rejected by two checks:
+
+Malformed report: raw_len=1 payload_len=1 expected=8 (ID 0)
+Malformed report: const slice OOB (bit_off 8, len 8)
 
