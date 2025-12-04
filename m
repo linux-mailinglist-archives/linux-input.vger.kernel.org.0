@@ -1,152 +1,139 @@
-Return-Path: <linux-input+bounces-16461-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16462-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37353CA39CD
-	for <lists+linux-input@lfdr.de>; Thu, 04 Dec 2025 13:31:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 736A6CA3BBF
+	for <lists+linux-input@lfdr.de>; Thu, 04 Dec 2025 14:12:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id A4F953087D4F
-	for <lists+linux-input@lfdr.de>; Thu,  4 Dec 2025 12:29:28 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 085DB30BCAF2
+	for <lists+linux-input@lfdr.de>; Thu,  4 Dec 2025 13:09:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5AFE7340290;
-	Thu,  4 Dec 2025 12:29:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2BCA43254B8;
+	Thu,  4 Dec 2025 13:09:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b="n1/ziDpP"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dlz44Z6s"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BF3033C1B6
-	for <linux-input@vger.kernel.org>; Thu,  4 Dec 2025 12:29:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9CF92E8B8A;
+	Thu,  4 Dec 2025 13:09:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764851359; cv=none; b=FYhtGgWuqib6JOiqk1m3YkVhdd/1ZzrgoMatd+3L65GFb1zyzChUjJgXxCt4zWIBVaEGDg5HwGD59gDA/DmZwEkFQF4Pr7vqY2rLusUJmy2tmBapviCctT6ZozPKj0+42RcoZjWJpueIuQU0mExzdAYllXGt1O6TIsP1yr20n/A=
+	t=1764853745; cv=none; b=T6vZLORuDSvqTBCTYcl4bCyhGaLQL9imHPZzHU1XMlM0NATdtmzOEtga0oRe8zIy8OeDCCDmBTSaePm+PKh1xXyTVYAxDDvtbsgorRHX5SFo3nuimnF0e8F4Z5L5qIta99eF5O7nKUzb0T+zfuDKEwjgAL0QlV/tefqHwRzqUVg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764851359; c=relaxed/simple;
-	bh=l/XBAG4CUGdCd8uvlOy4ZQBjC1QnfFNVrAFe5tQ3xuo=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=bvAiDm6IvIUVrJ7A0JczRg6ManRyRNe0OPRwlFA5mXDbHvtW+SMxQlSypOSwRepmnAnbAMkHTmOuMGUwyl0is3sVXunsrPC8SG0SMuT1ocz9wR1rEopQzqGiTk0JOQNIKRSlVGJzKUNTebux/3FRup1nSbBFFfKnwmym6mIowys=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fairphone.com; spf=pass smtp.mailfrom=fairphone.com; dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b=n1/ziDpP; arc=none smtp.client-ip=209.85.208.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fairphone.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fairphone.com
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-640b06fa959so1422701a12.3
-        for <linux-input@vger.kernel.org>; Thu, 04 Dec 2025 04:29:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fairphone.com; s=fair; t=1764851353; x=1765456153; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ezLwF9vcaQPh2qIuGSQT4jtvv+rSMrrNcQfR67LnXW8=;
-        b=n1/ziDpPURE6ByEKefRnDKBtnf0GmLjl9ORBvvPWQiVshsDYSoA/leCDxLCUWmnBUp
-         9l4B0Pj4FFnTX4c8pLbCy0cazgHFbL+pRIRdoFRsmmEdIrqycgvjspaM1E0IPdaHT/Vm
-         MDmxW5BMF9a1DCeti7T7Zqn9v5z3phREuMzY1pZhfPEGtkc0qUSgz5a4zU6+2aZGlohY
-         bvCp+IqEqC6qDWfxEC4hkVoSUL1DK7jd/QDJvNlc7lQyOPKvpH/c7TFQ2kdifWDAy97t
-         ToqknvPvNl9SXp5TdMFrXYXpIJbL2sC28QIUz4YPVTxpZq/Jyt6pYsWDVtxkwNfxhbKy
-         Td5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764851353; x=1765456153;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=ezLwF9vcaQPh2qIuGSQT4jtvv+rSMrrNcQfR67LnXW8=;
-        b=e/VMvb6J3j4qhYGKBHHekKZujxBH/UetjTlNxn88r+7HfzLMmdvVAFMjn1kd6yR6Ah
-         eW74LO9icSOenxySXh9IGG7bXskqpp1BUF5tjOckJwJqNEw8yK5JGbKeG3M/o/4zGDm4
-         aX+vP5UgidjxyELl5TkFsHwG14ChiTbghUANeMR1nZkHSBVlw+Ndl0YloKodfmuUj6OO
-         0PwskDu8dlQ5CerEEdwkSFozd9dGmGnzZRqdqcCYIfuD6WcbmyJvCNY9qMTMoIoi8UTm
-         K9ONFneusncz301Tf/r3t7U0BnW06yQTaFuCwi4daq6BMG/lDPB75wSovsEiP3bNEtvg
-         qIbA==
-X-Gm-Message-State: AOJu0YyFCqC8boLlaVaNcqC+HPTiGYW3NyLHpG6gvazox440BMKLIrfS
-	cnP8h8hJCShs6J2owdpsPurNpqmro5i2GM7RRkCAygQfMZWbA0C4zMP9LpVn+/xji2c=
-X-Gm-Gg: ASbGncuR7dgP88op70s1w7acrdmeoRuWMXgmsUKRW1Em8xoVJ7m2ij8UX34bGPGCNFQ
-	pYbKcC+I6X6P3382gfYEVKSFc12PZDw1sl6aizgKXhFY7mUhtvpr7Hx+50LUmndnZaygKxjZAIS
-	ZYiqEgRfnOAAEyyHrCAj04PlYeFjjrl2ldoO7b4m2x13UCO/tJe4XyA4Cvm2EuSuMvvcnpmFzPC
-	Rf4v/vpwHxHR7g+JOsevBbZdvCAuGxA1ajgoDJlswJgQdJIjtRSaK+7r7biwzWY1/eRTHVr1dqt
-	DcvpqedofjoRgztcdtdtOAxzR7sQwwxNCvU9E27ZlzoE5NnFYd9HauTrsliXBCktHaCZ5cPOrUZ
-	m6P6y0Z0IhO2GFtvD9C6HBjaBwJZ3yqO/c/uRgKylqwxUBxHVTxriYqXUvfvMLPk2kcCszKk0y8
-	Rj4HtJVh1Ybi9N+HFmj56dTXlLz4cDd43r9mfUtMWhq1eLY7JmwzvjA+/ch8GRk3SYt/dm
-X-Google-Smtp-Source: AGHT+IE3vTw9W8q4bFu/XYete6yOngVJe+jHbROTOV0J3HiQ6WjaS2FHPZPK9m9x4/GTh06qLnayww==
-X-Received: by 2002:a17:907:a08a:b0:b5c:753a:e022 with SMTP id a640c23a62f3a-b79dc51af60mr653042966b.29.1764851353085;
-        Thu, 04 Dec 2025 04:29:13 -0800 (PST)
-Received: from [172.16.220.227] (144-178-202-139.static.ef-service.nl. [144.178.202.139])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b79f4a2f19dsm121351666b.64.2025.12.04.04.29.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Dec 2025 04:29:12 -0800 (PST)
-From: Griffin Kroah-Hartman <griffin.kroah@fairphone.com>
-Date: Thu, 04 Dec 2025 13:29:02 +0100
-Subject: [PATCH 3/3] arm64: dts: qcom: milos-fairphone-fp6: Add vibrator
- support
+	s=arc-20240116; t=1764853745; c=relaxed/simple;
+	bh=r+6PbvOAlWHb/KEl+VEcP1a3KOUVK/8vH5QiDzA19wM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Fr/Y9PflzbChmyDx4XTmTJp/pJ6yaHInlxOyne9APRVRERDFRNmDxXLmNSqQ/GixEkUpnCutCLf7t01W9pGmSsNrQuqQPJSKThNXSND3HEPT4mS0qsEGvuigqq6ktQP70Qpi/iSWz+R7USqtnsPm9aQdnEkApO9AFjCp9yPJ8sQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dlz44Z6s; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30254C4CEFB;
+	Thu,  4 Dec 2025 13:09:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1764853744;
+	bh=r+6PbvOAlWHb/KEl+VEcP1a3KOUVK/8vH5QiDzA19wM=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=dlz44Z6sUzz4BJvUNkoOnq4XpqaPpGxkvqA6pIK2PQPEsTFSP5rr+FREodCqR9EIs
+	 de9Zov2Z5OwHrm0oMx17uDPdruzugz/X9mfsD4GXYlwQ8KJRKGtzla96bNl1OH70aY
+	 mfoASP6a/2JsOSIV1CgGahXQksn+BDVYVMuv0GqhqpG5xBZbtADOm9XhVrSx52nbgS
+	 /S52g6p3bHlKNliMN/pELdoh3cE8DoNRbOqYuiva9WvOL0mHBA8TxU4c5X94Itxi1V
+	 Ou8/JORU2C953xbbi9RcuRfqFyVPp7pQX5oKMk7UlJfCPgbgzk+jDGC3YjRy1uNN3m
+	 A0NvRpMmN3M+A==
+Message-ID: <04534c03-a1fd-4f2b-aed7-600a2efe2da5@kernel.org>
+Date: Thu, 4 Dec 2025 14:09:00 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251204-aw86938-driver-v1-3-ebd71868df3a@fairphone.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] dt-bindings: input: Add Awinic AW86938
+To: Griffin Kroah-Hartman <griffin.kroah@fairphone.com>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>, Luca Weiss <luca.weiss@fairphone.com>
+Cc: linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org
 References: <20251204-aw86938-driver-v1-0-ebd71868df3a@fairphone.com>
-In-Reply-To: <20251204-aw86938-driver-v1-0-ebd71868df3a@fairphone.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>, 
- Luca Weiss <luca.weiss@fairphone.com>
-Cc: linux-input@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- Griffin Kroah-Hartman <griffin.kroah@fairphone.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1764851350; l=1297;
- i=griffin.kroah@fairphone.com; s=20250804; h=from:subject:message-id;
- bh=l/XBAG4CUGdCd8uvlOy4ZQBjC1QnfFNVrAFe5tQ3xuo=;
- b=oUDOHk9OFhVELfWu4ySXOPeJM7FZNIQTDt1McgBSEATP1sZtX65Mo0qcnp/4gU21oQEh8Lwcg
- 8DFYoi9AaQyB27J41F2T06/ZnrZKcCDteu0doYUSUO1371sZs8eXuol
-X-Developer-Key: i=griffin.kroah@fairphone.com; a=ed25519;
- pk=drSBvqKFiR+xucmLWONHSq/wGrW+YvcVtBXFYnYzn8U=
+ <20251204-aw86938-driver-v1-1-ebd71868df3a@fairphone.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <20251204-aw86938-driver-v1-1-ebd71868df3a@fairphone.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Add the required node for haptic playback (Awinic AW86938)
+On 04/12/2025 13:29, Griffin Kroah-Hartman wrote:
+> Add bindings for the Awinic AW86938 haptic chip which can be found in
+> smartphones.
+> 
+> Signed-off-by: Griffin Kroah-Hartman <griffin.kroah@fairphone.com>
+> ---
+>  Documentation/devicetree/bindings/input/awinic,aw86927.yaml | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/input/awinic,aw86927.yaml b/Documentation/devicetree/bindings/input/awinic,aw86927.yaml
+> index b7252916bd727486c1a98913d4ec3ef12422e4bd..c3dee660422192720da3cf63851cea27db819742 100644
+> --- a/Documentation/devicetree/bindings/input/awinic,aw86927.yaml
+> +++ b/Documentation/devicetree/bindings/input/awinic,aw86927.yaml
+> @@ -11,7 +11,9 @@ maintainers:
+>  
+>  properties:
+>    compatible:
+> -    const: awinic,aw86927
+> +    enum:
+> +      - awinic,aw86927
+> +      - awinic,aw86938
 
-Signed-off-by: Griffin Kroah-Hartman <griffin.kroah@fairphone.com>
----
- arch/arm64/boot/dts/qcom/milos-fairphone-fp6.dts | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/qcom/milos-fairphone-fp6.dts b/arch/arm64/boot/dts/qcom/milos-fairphone-fp6.dts
-index 0a758fb7f4d413a84cdae695c38616fc6075db67..8c43bc9c1d8312f22ad0aeed84b23d52910e0ca6 100644
---- a/arch/arm64/boot/dts/qcom/milos-fairphone-fp6.dts
-+++ b/arch/arm64/boot/dts/qcom/milos-fairphone-fp6.dts
-@@ -717,6 +717,16 @@ vreg_l7p: ldo7 {
- 
- 	/* VL53L3 ToF @ 0x29 */
- 	/* AW86938FCR vibrator @ 0x5a */
-+	vibrator@5a {
-+		compatible = "awinic,aw86938";
-+		reg = <0x5a>;
-+
-+		interrupts-extended = <&tlmm 80 IRQ_TYPE_EDGE_FALLING>;
-+		reset-gpios = <&tlmm 78 GPIO_ACTIVE_LOW>;
-+
-+		pinctrl-0 = <&aw86938_int_default>;
-+		pinctrl-names = "default";
-+	};
- };
- 
- &ipa {
-@@ -907,6 +917,13 @@ sdc2_card_det_n: sdc2-card-det-state {
- 		bias-pull-up;
- 	};
- 
-+	aw86938_int_default: aw86938-int-default-state {
-+		pins = "gpio80";
-+		function = "gpio";
-+		drive-strength = <2>;
-+		bias-pull-up;
-+	};
-+
- 	pm8008_int_default: pm8008-int-default-state {
- 		pins = "gpio125";
- 		function = "gpio";
+Your driver change suggests these are compatible, so please express it
+here with compatibility and fallback (see exampe-schema or most of other
+bindings) or explain in commit msg why devices are not compatible.
 
--- 
-2.43.0
-
+Best regards,
+Krzysztof
 
