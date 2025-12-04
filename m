@@ -1,160 +1,100 @@
-Return-Path: <linux-input+bounces-16456-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16457-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B451CA3196
-	for <lists+linux-input@lfdr.de>; Thu, 04 Dec 2025 10:53:38 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id B2641CA327D
+	for <lists+linux-input@lfdr.de>; Thu, 04 Dec 2025 11:09:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id AC5C330096BE
-	for <lists+linux-input@lfdr.de>; Thu,  4 Dec 2025 09:53:37 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 530023142DB4
+	for <lists+linux-input@lfdr.de>; Thu,  4 Dec 2025 10:04:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5E0ED29ACD8;
-	Thu,  4 Dec 2025 09:53:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 22A3C3321D0;
+	Thu,  4 Dec 2025 10:04:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mswliTw4"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g4erN8qc"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33DFB283FD9;
-	Thu,  4 Dec 2025 09:53:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7D0D330D35;
+	Thu,  4 Dec 2025 10:04:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764842016; cv=none; b=YB4tKQ6FUCHQt6s/Om446jDUjcNakqZYl7Q41lSuUKtdeBxmPl8bUmJ4X0khici/L70Jnlt/6HEAIWiMmH6Up0RiNukNBntyept0e3/YC/ecR12Tp/S4emTACGXtVIJD5tOHUbJtfw3Bu+JkpjRlw/eS6upH5NaYMOWO87b5XYU=
+	t=1764842671; cv=none; b=qq5zcpYh/rXQ5fpHhfPfBmJ5eMYIq5y+4Q4se+dynMIbz6NvodEXCX7jKneSRUBmmWwm1lVrin/MTKjmECedpnANKbnzkWYfucNmUKfmP4XLpaM1GTh4wfhrjGRfpr0X6mSkLoIki+SiWXqtRQrTKWaTtd3sTb9wHg1ozh4lOuc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764842016; c=relaxed/simple;
-	bh=Qj39zVVJMSd9vCtM8vJc+wwPN9/Ct18xlv3ihPE567M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=higvx1Xyvrn7OuOTbxD+3Eq0sB3GQqwjgEn3KQ3Yt3Vp3DQuthYMoBR2Z71At9/3iL5k5fdYG0I7WhV8IICU59njdAo+WGbxu1hRyPj1701wfH1n2aMHml8Race8pzXSSOMVCfhIsHSYw4i4BVoAd2ebq4YfcwaoPIK82KhEHXI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mswliTw4; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62167C4CEFB;
-	Thu,  4 Dec 2025 09:53:34 +0000 (UTC)
+	s=arc-20240116; t=1764842671; c=relaxed/simple;
+	bh=Zm9Bxl21IYm9TpV5lRA/HbsbXCWNorMxXFOpNmlHBt0=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=jwjmkG2mHFYwy15G69mYx2IYrQkKsuZKF2RBwYqoel48eXzrKz7kwxF/gdtObOng+6ImhpoQFKnQzYhqVTqznKAjXLh5yTYOdia476211mkxYK/UmEEBnyD7dMfv/xrxMxQNwMwGVquou4eb8ROWTtBqKFRX7R2V5ysB4NkFXos=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g4erN8qc; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D7033C4CEFB;
+	Thu,  4 Dec 2025 10:04:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764842015;
-	bh=Qj39zVVJMSd9vCtM8vJc+wwPN9/Ct18xlv3ihPE567M=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=mswliTw42nCgmsmlF/611P152+Fd7nXsYwUHBv3/YcOC2Vqr8VfQ0atPogBCkUd3k
-	 C+sUrKJO8ww3+2Lb4piNjAVyL1+AiOu84n5G0QlAiUb16zwdkRo6Lx0J2vBzDPGDyC
-	 UE03OcsDNkC8iAYRVLKXQpc+1CZZwvWUQjk2n2AnGMaZX8mQuKnQgVsolCSWD9a4On
-	 frV0UCJO9UcwqllPm8WPt7VuOfTf6r00rdS9QfKyxZqPnmWLW0cP6DGdzf0IqZ1FfQ
-	 w5HeRHaAim7o+LWFjtcSWuEjvakwRjWsHcusZyKz+fDCF7jtQb3R1ZyTwTWy22afuq
-	 pAvzQHKJT4pbg==
-Date: Thu, 4 Dec 2025 10:53:31 +0100
-From: Benjamin Tissoires <bentiss@kernel.org>
-To: Davide Beatrici <me@davidebeatrici.dev>
-Cc: Terry Junge <linuxhid@cosmicgizmosystems.com>, 
-	linux-kernel@vger.kernel.org, linux-input@vger.kernel.org, jikos@kernel.org, 
-	benjamin.tissoires@redhat.com
-Subject: Re: [PATCH] HID: validate report length and constants
-Message-ID: <dob7q77qxuv3rmr4kliqp5kic36updvh6qxj4ld2be353zi7ba@5qte5m5fsuwy>
-References: <235531f556c5abfcae254a4e56441ba6@davidebeatrici.dev>
- <xyh6scqrfzft3hhmqowyverzezb2xsmsexegk3sydyfbiknba4@6sy3qbtsinrr>
- <a7d352dd1d310bf07263106f2ce0f8ed@davidebeatrici.dev>
- <91117308-7eb5-4258-ac87-1afb2d46d2b5@cosmicgizmosystems.com>
- <9e44de7bab6967a200d7404ebb068071@davidebeatrici.dev>
+	s=k20201202; t=1764842670;
+	bh=Zm9Bxl21IYm9TpV5lRA/HbsbXCWNorMxXFOpNmlHBt0=;
+	h=From:To:Cc:Subject:Date:From;
+	b=g4erN8qcqAiUbrisBxuU2kA6FYuYm0vLBUxQ3+6Hz5upVF4gD2tx6IW0ccOGJJXkt
+	 cfgU4VnGPYvKuivmwanglkuiyyG9WECNftCvx3WSQViiGv1Voy9CfmMQ7qd7FXOBwn
+	 bUjYnykY5qhAJbqxH1edl0AtlqkZvDLnbupZB9O0HYy8uuVJYjEFNrAtQTtzHzTKkN
+	 /IhbSgQJkXfpxmc4jJXBgZCM2cPz+WL5dBAghCx8ZNlppmnTXhzg55F71/BVhPN2DN
+	 o+L7tHLl1EpP3SBUAj29/4ENdS/+OZx6c0fVBYlz6OUaqJUVUn77l4ztgk3E7/oWdH
+	 Oxt0suMRYLoLA==
+From: Arnd Bergmann <arnd@kernel.org>
+To: Samuel Kayode <samkay014@gmail.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Frank Li <Frank.Li@nxp.com>,
+	Lee Jones <lee@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>,
+	imx@lists.linux.dev,
+	linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] Input: pf1550 - convert to DEFINE_SIMPLE_DEV_PM_OPS
+Date: Thu,  4 Dec 2025 11:04:20 +0100
+Message-Id: <20251204100425.1035159-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <9e44de7bab6967a200d7404ebb068071@davidebeatrici.dev>
 
-On Dec 02 2025, Davide Beatrici wrote:
-> > Can you supply the Device, Configuration, and Report Descriptors?
-> 
-> Sure.
-> 
-> Device Descriptor:
->   idVendor           0x373b Compx
->   idProduct          0x1107 ATK X1 SE Nearlink
->   bcdDevice          1.21
->   bcdUSB             2.00
->   bMaxPacketSize0    64
->   iManufacturer      1 Compx
->   iProduct           2 ATK X1 SE Nearlink
->   bNumConfigurations 1
-> 
-> Configuration Descriptor:
->   wTotalLength       0x0054
->   bNumInterfaces     3
->   bmAttributes       0xa0 (Bus Powered, Remote Wakeup)
->   MaxPower           494mA
-> 
-> Interface 0: HID Keyboard
->   HID Descriptor: wDescriptorLength 77
->   Endpoint IN 0x81, Interrupt, 64 bytes
-> 
-> Interface 1: HID (non‑boot)
->   HID Descriptor: wDescriptorLength 156
->   Endpoint IN 0x82, Interrupt, 64 bytes
-> 
-> Interface 2: HID Mouse
->   HID Descriptor: wDescriptorLength 87
->   Endpoint IN 0x83, Interrupt, 64 bytes
-> 
-> Report Descriptors:
-> 
-> Interface 2 (Mouse):
->   05 01 09 02 A1 01 09 01 A1 00 05 09 19 01 29 05
->   15 00 25 01 95 05 75 01 81 02 95 01 75 03 81 01
->   05 01 09 30 09 31 16 00 80 26 FF 7F 75 10 95 02
->   81 06 C0 A1 00 05 01 09 38 15 81 25 7F 75 08 95
->   01 81 06 C0 A1 00 05 0C 0A 38 02 95 01 75 08 15
->   81 25 7F 81 06 C0 C0
-> 
-> Interface 1 (HID composite):
->   05 0C 09 01 A1 01 85 05 15 00 26 14 05 19 00 2A
->   14 05 75 10 95 01 81 00 C0 05 01 09 80 A1 01 85
->   03 19 81 29 83 15 00 25 01 95 03 75 01 81 02 95
->   01 75 05 81 01 C0 05 01 09 06 A1 01 85 04 05 07
->   15 00 25 01 19 00 29 9F 95 A0 75 01 81 02 C0 06
->   02 FF 09 02 A1 01 85 13 15 00 26 FF 00 75 08 95
->   13 09 02 81 00 09 02 91 00 C0 06 02 FF 09 02 A1
->   01 85 08 15 00 26 FF 00 75 08 95 10 09 02 81 00
->   09 02 91 00 C0 06 04 FF 09 02 A1 01 85 06 09 02
->   15 00 26 FF 00 75 08 95 07 B1 02 C0
-> 
-> Interface 0 (Keyboard):
->   05 01 09 06 A1 01 05 08 19 01 29 03 15 00 25 01
->   75 01 95 03 91 02 95 05 91 01 05 07 19 E0 29 E7
->   15 00 25 01 75 01 95 08 81 02 75 08 95 01 81 01
->   05 07 19 00 2A FF 00 15 00 26 FF 00 75 08 95 05
->   81 00 05 FF 09 03 75 08 95 01 81 02 C0
+From: Arnd Bergmann <arnd@arndb.de>
 
-Thanks for the logs.
+SIMPLE_DEV_PM_OPS() is deprecated and used incorrectly in this new
+driver:
 
-So after analysing the wireshark capture and these, the problem is that
-the device sends a USB report of length 1 on the keyboard interface when
-we should actually get one of size 8.
+drivers/input/misc/pf1550-onkey.c:154:12: error: 'pf1550_onkey_resume' defined but not used [-Werror=unused-function]
+  154 | static int pf1550_onkey_resume(struct device *dev)
+      |            ^~~~~~~~~~~~~~~~~~~
+drivers/input/misc/pf1550-onkey.c:133:12: error: 'pf1550_onkey_suspend' defined but not used [-Werror=unused-function]
+  133 | static int pf1550_onkey_suspend(struct device *dev)
+      |            ^~~~~~~~~~~~~~~~~~~~
 
-However, the device also shows an output report of size 1, but it is not
-supposed to send it as an input report. I wonder if the firmware bug is
-not that it tries to give the host the current state of its output
-report at plug (which is wrong but Windows must be papering over it).
+Convert to the modern DEFINE_SIMPLE_DEV_PM_OPS() that avoids these warnings.
 
-Anyway couple of observations:
-- the URB is of size 1, so the fact that the constant field is not 0
-	means that we are just reading random memory at offset 1 in the
-	provided data, so you might have a chance that it eventually becomes 0
+Fixes: 9acb215cbebd ("Input: pf1550 - add onkey support")
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+ drivers/input/misc/pf1550-onkey.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-- the fix should be focusing on the length of the provided report, not
-	on the content. However, in hid_report_raw_event(), just before you
-	inserted your call to your hid_validate_report(), there is already a
-	check on the length of the report which memsets to 0 the rest of the
-	buffer. This seems a little bit optimistic if the provided buffer from
-	USB is exactly the size of the provided "size" argument.
-	But then, why would you get random data in the const fields if there
-	is a memset if the provided length is "1"?
+diff --git a/drivers/input/misc/pf1550-onkey.c b/drivers/input/misc/pf1550-onkey.c
+index 9be6377151cb..a636ceedfc04 100644
+--- a/drivers/input/misc/pf1550-onkey.c
++++ b/drivers/input/misc/pf1550-onkey.c
+@@ -173,8 +173,8 @@ static int pf1550_onkey_resume(struct device *dev)
+ 	return 0;
+ }
+ 
+-static SIMPLE_DEV_PM_OPS(pf1550_onkey_pm_ops, pf1550_onkey_suspend,
+-			 pf1550_onkey_resume);
++static DEFINE_SIMPLE_DEV_PM_OPS(pf1550_onkey_pm_ops, pf1550_onkey_suspend,
++				pf1550_onkey_resume);
+ 
+ static const struct platform_device_id pf1550_onkey_id[] = {
+ 	{ "pf1550-onkey", },
+-- 
+2.39.5
 
-So, can you add a printk before your call to hid_validate_report() to
-show the provided "size" argument (csize), or just enable the hid_dbg()
-trace output which should tell us if we enter that test and do the
-memset (which I suppose we are not).
-
-Cheers,
-Benjamin
 
