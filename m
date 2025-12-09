@@ -1,168 +1,200 @@
-Return-Path: <linux-input+bounces-16496-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16497-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id A10A4CAF36E
-	for <lists+linux-input@lfdr.de>; Tue, 09 Dec 2025 08:52:58 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id E46FACAF473
+	for <lists+linux-input@lfdr.de>; Tue, 09 Dec 2025 09:26:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 2231E30819F3
-	for <lists+linux-input@lfdr.de>; Tue,  9 Dec 2025 07:51:29 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id B0BCA3011ECC
+	for <lists+linux-input@lfdr.de>; Tue,  9 Dec 2025 08:26:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7C3E02BD582;
-	Tue,  9 Dec 2025 07:51:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B914825F994;
+	Tue,  9 Dec 2025 08:26:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aW06MWMR"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="fHyy3p3R"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA2982BFC9B;
-	Tue,  9 Dec 2025 07:51:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77CE22417DE;
+	Tue,  9 Dec 2025 08:26:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765266683; cv=none; b=jJtuwqgFcLOgG0YcGmseGDHOp09Kh9ABfmvshk4PHUJQLSoNNHyouRIUGUWosGAIwtSDWQ3uRHrn93xReM2pQ725wQXmTL7q5nXoRIfkupjqVE1q7IV2caFFw57LcZEVqMx0OuFjI0zism6UKaDNNTvXt51pKr2KfacxfeJM4T4=
+	t=1765268791; cv=none; b=FFJjBmIil68vtJY8j4aZvYs3UYQlysTwUP/Do/4he3miY0tNOcq03NyzBx9TtRrGqKFKGJOSM+q5Ffh8BAt8TjPRk/D+LN2zV799jb7dMW5mJ6rWGyZ0HCkvy/iG1HE/E4+EJjYcAfvRI94gJNhRBOwPCfoZyzYm+nd+mVHmM4A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765266683; c=relaxed/simple;
-	bh=OB+grOpXq9Mxj95V30qtt0Ngvra6qeeGMujiNZOXFG8=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Tu52p3cDMUVP4N8l0tiqrfesRI7VpvICxzocNG18t1Agdc2qAiPlUJOGTGpqPc251dULG9hFVzazUQAnG+12pYLugechdLDHAsCZx7AA8SOQ6uw5WecL9oZGOiMYcGVRtbSDfVXmELB7fZpoeyyqHLh7YJzAwFAzcPwq4ROtftw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aW06MWMR; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765266682; x=1796802682;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=OB+grOpXq9Mxj95V30qtt0Ngvra6qeeGMujiNZOXFG8=;
-  b=aW06MWMRg0jRzehklzRW/Anhy3oj7jyeFJRZIUisfZMsmWZkNiQksu/A
-   n4EbXdTN3luQpmRmVnkBpFF5cLCrtm5qTrynGdF68Wj1WykNqWTy9EwFe
-   mXpFJfvMY9gYF5wXjLuXnqa4jqj4iZ6HxTIKv9A4dLx6AGYHmf23PBrWB
-   TdOqtNNy77RHyd5+0LlNS9SHlsE4/8I1WKv0mzb0HtD2MpIELQBnMTWW7
-   xWQCc+0sbhUsdaDV6WwRw/RfXXE0sFUMKGUN/Ur/Q9WeD1I9Ww6rinqm/
-   LB/4OcNsgBQcpm6Ju0qbtsn/oLrMEQJ5oBPXpWdEh0NEgr6XrTcayZhwu
-   w==;
-X-CSE-ConnectionGUID: OuABVViAROuOcKhZ/8GbNw==
-X-CSE-MsgGUID: aAMaNu61Tr6ypQ4bOQw6Dw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11636"; a="66942726"
-X-IronPort-AV: E=Sophos;i="6.20,260,1758610800"; 
-   d="scan'208";a="66942726"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2025 23:51:22 -0800
-X-CSE-ConnectionGUID: KUl2hELkTQ2jTCKIRRVpxw==
-X-CSE-MsgGUID: HmOPS4A0SLKYD4KJ15NuOA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,260,1758610800"; 
-   d="scan'208";a="200599936"
-Received: from shsensorbuild.sh.intel.com ([10.239.132.250])
-  by fmviesa005.fm.intel.com with ESMTP; 08 Dec 2025 23:51:19 -0800
-From: Even Xu <even.xu@intel.com>
-To: jikos@kernel.org,
-	bentiss@kernel.org
-Cc: srinivas.pandruvada@linux.intel.com,
-	linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Even Xu <even.xu@intel.com>,
-	Rui Zhang <rui1.zhang@intel.com>
-Subject: [PATCH v2 4/4] HID: Intel-thc-hid: Intel-quicki2c: Add output report support
-Date: Tue,  9 Dec 2025 15:52:15 +0800
-Message-Id: <20251209075215.1535371-5-even.xu@intel.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20251209075215.1535371-1-even.xu@intel.com>
-References: <20251209075215.1535371-1-even.xu@intel.com>
+	s=arc-20240116; t=1765268791; c=relaxed/simple;
+	bh=MT/qY8MX0ozkYBW0qMvzRIWzDIZmrsZJkEszJ+YNa54=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=JTSswe2sptiOaNA8T/suUN1DV06cT3eRuvdbFxNWAHJUxM5YiluEj0XwfE3lNLF3I9zWyTZsgOY9gJiEGwJH8gaHcpEqMGmSZdVnwmvb5I1CX/7tMoec5oBtg/mpiZf0tJoiCodeAQH5kcXaKvWMZJMT3XIfOog6C1V0xD9zyvA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=fHyy3p3R; arc=none smtp.client-ip=185.246.85.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 4FE444E41B17;
+	Tue,  9 Dec 2025 08:26:26 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 0BFF760714;
+	Tue,  9 Dec 2025 08:26:26 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 0CD79102F0BF6;
+	Tue,  9 Dec 2025 09:26:03 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1765268783; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding; bh=wcg04tlEy44VWHetyJPa6vtgrSi9hQkJ8Wr3ssO16Z0=;
+	b=fHyy3p3RXDvWm/ScQ573O19lBfA7i99dTtnNMKIgZo6j5P27qUaUjbhNTv08DA8IFMfpHy
+	AgxHwoL/NW76FusS9uDh40xSgmfteD+0AIKiUzKm6X50QBH9u+CGQe/shfCBYk6cYKg2TZ
+	8gN2cTM7D1TIOGI5CBJ9VtNcRcbmeEPaK0KH5amKURGuYmw9NosAHrgGe3H35kv5rwXRKw
+	4FLoSOslR05puLB4/PTfDmvtHxQZ+eNY+xwyZu7eIBJfZyxeM1KAbSzgzSDiYTjCGWaCLA
+	VyDhDTs5Dy0D0lluZeF/pIm4ZgCjPNF9eHgaCtNllGMYqa2jowZM4WLyZc41kQ==
+From: Romain Gantois <romain.gantois@bootlin.com>
+Subject: [PATCH v2 0/2] iio: inkern: Use namespaced exports
+Date: Tue, 09 Dec 2025 09:25:54 +0100
+Message-Id: <20251209-iio-inkern-use-namespaced-exports-v2-0-9799a33c4b7f@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIABLdN2kC/42NQQ6CMBAAv0J6dk13gRA8+Q/DoZRFNkpLWiQYw
+ t+t+AGPM4eZTUUOwlFdsk0FXiSKdwnolCk7GHdnkC6xIk0lIlUg4kHcg4ODV2RwZuQ4Gcsd8Dr
+ 5MEcosLe6JsrbklXqTIF7WY/HrUk8SJx9eB/LBb/2VyeNf9QXBITOYJ2XfaWpyK+t9/NT3Nn6U
+ TX7vn8Avu6Bn9QAAAA=
+X-Change-ID: 20251127-iio-inkern-use-namespaced-exports-41fc09223b5e
+To: MyungJoo Ham <myungjoo.ham@samsung.com>, 
+ Chanwoo Choi <cw00.choi@samsung.com>, Guenter Roeck <linux@roeck-us.net>, 
+ Peter Rosin <peda@axentia.se>, Jonathan Cameron <jic23@kernel.org>, 
+ David Lechner <dlechner@baylibre.com>, 
+ =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, 
+ Andy Shevchenko <andy@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, 
+ Michael Hennerich <Michael.Hennerich@analog.com>, 
+ Mariel Tinaco <Mariel.Tinaco@analog.com>, 
+ Kevin Tsai <ktsai@capellamicro.com>, 
+ Linus Walleij <linus.walleij@linaro.org>, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+ Eugen Hristev <eugen.hristev@linaro.org>, Vinod Koul <vkoul@kernel.org>, 
+ Kishon Vijay Abraham I <kishon@kernel.org>, 
+ Sebastian Reichel <sre@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+ Hans de Goede <hansg@kernel.org>, 
+ Support Opensource <support.opensource@diasemi.com>, 
+ Paul Cercueil <paul@crapouillou.net>, Iskren Chernev <me@iskren.info>, 
+ Krzysztof Kozlowski <krzk@kernel.org>, 
+ Marek Szyprowski <m.szyprowski@samsung.com>, 
+ Matheus Castello <matheus@castello.eng.br>, 
+ Saravanan Sekar <sravanhome@gmail.com>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Casey Connolly <casey.connolly@linaro.org>, 
+ =?utf-8?q?Pali_Roh=C3=A1r?= <pali@kernel.org>, 
+ Orson Zhai <orsonzhai@gmail.com>, 
+ Baolin Wang <baolin.wang@linux.alibaba.com>, 
+ Chunyan Zhang <zhang.lyra@gmail.com>, Amit Kucheria <amitk@kernel.org>, 
+ Thara Gopinath <thara.gopinath@gmail.com>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, 
+ Daniel Lezcano <daniel.lezcano@linaro.org>, Zhang Rui <rui.zhang@intel.com>, 
+ Lukasz Luba <lukasz.luba@arm.com>, 
+ Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Sylwester Nawrocki <s.nawrocki@samsung.com>, 
+ Olivier Moysan <olivier.moysan@foss.st.com>, 
+ Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>, 
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+ Alexandre Torgue <alexandre.torgue@foss.st.com>
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org, 
+ linux-iio@vger.kernel.org, linux-input@vger.kernel.org, 
+ linux-phy@lists.infradead.org, linux-pm@vger.kernel.org, 
+ linux-mips@vger.kernel.org, linux-mediatek@lists.infradead.org, 
+ linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org, 
+ linux-stm32@st-md-mailman.stormreply.com, 
+ Romain Gantois <romain.gantois@bootlin.com>, 
+ Sebastian Reichel <sebastian.reichel@collabora.com>, 
+ Andy Shevchenko <andriy.shevchenko@intel.com>
+X-Mailer: b4 0.14.3
+X-Last-TLS-Session-Version: TLSv1.3
 
-Add support for HID output reports in the intel-quicki2c driver by
-implementing the output_report callback in the HID low-level driver
-interface.
+Hello everyone,
 
-This enables proper communication with HID devices that require
-output report functionality, such as setting device configuration or
-updating device firmware.
+This is version two of my series which introduces namespaced exports for
+the IIO consumer API.
 
-Tested-by: Rui Zhang <rui1.zhang@intel.com>
-Signed-off-by: Even Xu <even.xu@intel.com>
+Best Regards,
+
+Romain
+
+Signed-off-by: Romain Gantois <romain.gantois@bootlin.com>
 ---
- .../intel-quicki2c/quicki2c-hid.c             |  8 ++++++++
- .../intel-quicki2c/quicki2c-protocol.c        | 19 +++++++++++++++++++
- .../intel-quicki2c/quicki2c-protocol.h        |  1 +
- 3 files changed, 28 insertions(+)
+Changes in v2:
+- Separated out ds4424 changes.
+- Improved commit descriptions.
+- Link to v1: https://lore.kernel.org/r/20251201-iio-inkern-use-namespaced-exports-v1-1-da1935f70243@bootlin.com
 
-diff --git a/drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-hid.c b/drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-hid.c
-index 5c3ec95bb3fd..580a760b3ffc 100644
---- a/drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-hid.c
-+++ b/drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-hid.c
-@@ -83,6 +83,13 @@ static int quicki2c_hid_power(struct hid_device *hid, int lvl)
- 	return 0;
- }
- 
-+static int quicki2c_hid_output_report(struct hid_device *hid, u8 *buf, size_t count)
-+{
-+	struct quicki2c_device *qcdev = hid->driver_data;
-+
-+	return quicki2c_output_report(qcdev, buf, count);
-+}
-+
- static struct hid_ll_driver quicki2c_hid_ll_driver = {
- 	.parse = quicki2c_hid_parse,
- 	.start = quicki2c_hid_start,
-@@ -91,6 +98,7 @@ static struct hid_ll_driver quicki2c_hid_ll_driver = {
- 	.close = quicki2c_hid_close,
- 	.power = quicki2c_hid_power,
- 	.raw_request = quicki2c_hid_raw_request,
-+	.output_report = quicki2c_hid_output_report,
- };
- 
- /**
-diff --git a/drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-protocol.c b/drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-protocol.c
-index a287d9ee09c3..41271301215a 100644
---- a/drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-protocol.c
-+++ b/drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-protocol.c
-@@ -195,6 +195,25 @@ int quicki2c_set_report(struct quicki2c_device *qcdev, u8 report_type,
- 	return buf_len;
- }
- 
-+int quicki2c_output_report(struct quicki2c_device *qcdev, void *buf, size_t buf_len)
-+{
-+	ssize_t len;
-+	int ret;
-+
-+	len = quicki2c_init_write_buf(qcdev, 0, 0, false, buf, buf_len,
-+				      qcdev->report_buf, qcdev->report_len);
-+	if (len < 0)
-+		return -EINVAL;
-+
-+	ret = thc_dma_write(qcdev->thc_hw, qcdev->report_buf, len);
-+	if (ret) {
-+		dev_err(qcdev->dev, "Output Report failed, ret %d\n", ret);
-+		return ret;
-+	}
-+
-+	return buf_len;
-+}
-+
- #define HIDI2C_RESET_TIMEOUT		5
- 
- int quicki2c_reset(struct quicki2c_device *qcdev)
-diff --git a/drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-protocol.h b/drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-protocol.h
-index db70e08c8b1c..6642cefb8a67 100644
---- a/drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-protocol.h
-+++ b/drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-protocol.h
-@@ -13,6 +13,7 @@ int quicki2c_get_report(struct quicki2c_device *qcdev, u8 report_type,
- 			unsigned int reportnum, void *buf, size_t buf_len);
- int quicki2c_set_report(struct quicki2c_device *qcdev, u8 report_type,
- 			unsigned int reportnum, void *buf, size_t buf_len);
-+int quicki2c_output_report(struct quicki2c_device *qcdev, void *buf, size_t buf_len);
- int quicki2c_get_device_descriptor(struct quicki2c_device *qcdev);
- int quicki2c_get_report_descriptor(struct quicki2c_device *qcdev);
- int quicki2c_reset(struct quicki2c_device *qcdev);
+---
+Romain Gantois (2):
+      iio: dac: ds4424: drop unused include IIO consumer header
+      iio: inkern: Use namespaced exports
+
+ drivers/extcon/extcon-adc-jack.c                |  1 +
+ drivers/hwmon/iio_hwmon.c                       |  1 +
+ drivers/hwmon/ntc_thermistor.c                  |  1 +
+ drivers/iio/adc/envelope-detector.c             |  1 +
+ drivers/iio/afe/iio-rescale.c                   |  1 +
+ drivers/iio/buffer/industrialio-buffer-cb.c     |  1 +
+ drivers/iio/buffer/industrialio-hw-consumer.c   |  1 +
+ drivers/iio/dac/ad8460.c                        |  1 +
+ drivers/iio/dac/dpot-dac.c                      |  1 +
+ drivers/iio/dac/ds4424.c                        |  1 -
+ drivers/iio/inkern.c                            | 54 ++++++++++++-------------
+ drivers/iio/light/cm3605.c                      |  1 +
+ drivers/iio/light/gp2ap002.c                    |  1 +
+ drivers/iio/multiplexer/iio-mux.c               |  1 +
+ drivers/iio/potentiostat/lmp91000.c             |  1 +
+ drivers/input/joystick/adc-joystick.c           |  1 +
+ drivers/input/keyboard/adc-keys.c               |  1 +
+ drivers/input/touchscreen/colibri-vf50-ts.c     |  1 +
+ drivers/input/touchscreen/resistive-adc-touch.c |  1 +
+ drivers/phy/motorola/phy-cpcap-usb.c            |  1 +
+ drivers/power/supply/ab8500_btemp.c             |  1 +
+ drivers/power/supply/ab8500_charger.c           |  1 +
+ drivers/power/supply/ab8500_fg.c                |  1 +
+ drivers/power/supply/axp20x_ac_power.c          |  1 +
+ drivers/power/supply/axp20x_battery.c           |  1 +
+ drivers/power/supply/axp20x_usb_power.c         |  1 +
+ drivers/power/supply/axp288_fuel_gauge.c        |  1 +
+ drivers/power/supply/cpcap-battery.c            |  1 +
+ drivers/power/supply/cpcap-charger.c            |  1 +
+ drivers/power/supply/da9150-charger.c           |  1 +
+ drivers/power/supply/generic-adc-battery.c      |  1 +
+ drivers/power/supply/ingenic-battery.c          |  1 +
+ drivers/power/supply/intel_dc_ti_battery.c      |  1 +
+ drivers/power/supply/lego_ev3_battery.c         |  1 +
+ drivers/power/supply/lp8788-charger.c           |  1 +
+ drivers/power/supply/max17040_battery.c         |  1 +
+ drivers/power/supply/mp2629_charger.c           |  1 +
+ drivers/power/supply/mt6370-charger.c           |  1 +
+ drivers/power/supply/qcom_smbx.c                |  1 +
+ drivers/power/supply/rn5t618_power.c            |  1 +
+ drivers/power/supply/rx51_battery.c             |  1 +
+ drivers/power/supply/sc27xx_fuel_gauge.c        |  1 +
+ drivers/power/supply/twl4030_charger.c          |  1 +
+ drivers/power/supply/twl4030_madc_battery.c     |  1 +
+ drivers/power/supply/twl6030_charger.c          |  1 +
+ drivers/thermal/qcom/qcom-spmi-adc-tm5.c        |  1 +
+ drivers/thermal/qcom/qcom-spmi-temp-alarm.c     |  1 +
+ drivers/thermal/renesas/rzg3s_thermal.c         |  1 +
+ drivers/thermal/thermal-generic-adc.c           |  1 +
+ sound/soc/codecs/audio-iio-aux.c                |  1 +
+ sound/soc/samsung/aries_wm8994.c                |  1 +
+ sound/soc/samsung/midas_wm1811.c                |  1 +
+ sound/soc/stm/stm32_adfsdm.c                    |  1 +
+ 53 files changed, 78 insertions(+), 28 deletions(-)
+---
+base-commit: 99fece7ab29c9654d7945312b275b527757ac4b3
+change-id: 20251127-iio-inkern-use-namespaced-exports-41fc09223b5e
+
+Best regards,
 -- 
-2.40.1
+Romain Gantois <romain.gantois@bootlin.com>
 
 
