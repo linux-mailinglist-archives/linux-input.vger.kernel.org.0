@@ -1,196 +1,284 @@
-Return-Path: <linux-input+bounces-16511-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16512-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C07CCB074C
-	for <lists+linux-input@lfdr.de>; Tue, 09 Dec 2025 16:48:25 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id F228ACB0893
+	for <lists+linux-input@lfdr.de>; Tue, 09 Dec 2025 17:20:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 4585B3074775
-	for <lists+linux-input@lfdr.de>; Tue,  9 Dec 2025 15:47:20 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id E5DEC300E79E
+	for <lists+linux-input@lfdr.de>; Tue,  9 Dec 2025 16:19:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB15C22D4E9;
-	Tue,  9 Dec 2025 15:47:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="kWQBMqKD"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 72B252BEFE7;
+	Tue,  9 Dec 2025 16:19:25 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from mail-ot1-f79.google.com (mail-ot1-f79.google.com [209.85.210.79])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B751B2DF143
-	for <linux-input@vger.kernel.org>; Tue,  9 Dec 2025 15:47:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76AC125B311
+	for <linux-input@vger.kernel.org>; Tue,  9 Dec 2025 16:19:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.79
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765295238; cv=none; b=B/I2mWW+3KSPzShXzPZP7my6PUvpC5JuAT14koJQvrRPxDW/PdCj3Nn69iNDnFOSbybXMUUkPJSVOwsAgx9eaf+hYOTRO5Y+Q1agzLXUvOyfvC1q6q/erHGcv8wPIBEspxJtzK2PFeVXFC3QRBsyyzZynwpA+iq25MIUGa/xvXY=
+	t=1765297165; cv=none; b=mNd8KzeQBCT7+HVV6bqCHTcoRfUOctuTVTKAxwJBI20mKZC+bUE9Md6wsjUBEdbqjzTUAdN311BIvWhgErki/mFTjW8ZDAlthSJPIDWv7LWcCMs3BYlRhH7mULEFgfL5lahSyT7G7wCwkJhvOljyT/rHFYGNTRYaWtI5EqUSPzg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765295238; c=relaxed/simple;
-	bh=Mf0n1LHXScTwDCBqeKr4+XmfEBe8ouhRSTBuNlOqDjo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=l0KZf2j7kvnR3jigfLKcJqo3tuqhsfTnIjhRslIbQD/ubjKuAmxuZ8tmrXzVUUt21uAvVXgefYQ8ElY931M21lVDFNSHiDmmllqS6SESMsh7M9urRbbkf8OR0jkDw8L27nqsm0lO9wYctScmTCagEnfJxf6mH8qaKVzJFj1ouL8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=kWQBMqKD; arc=none smtp.client-ip=209.85.128.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-47118259fd8so47387035e9.3
-        for <linux-input@vger.kernel.org>; Tue, 09 Dec 2025 07:47:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1765295235; x=1765900035; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ddxV9ehu0GXJ9iiWNjTlWwirsEs0puBXrIAVzil+rQM=;
-        b=kWQBMqKD402nuq8b35mqJ5CHUQmg/0HA9OEanCp/7buLTcPRfkekqTLA5RL9cwiLBn
-         +ES3yPIgieoqiEp6eDQEtio2IR1LmXhlfHarXljfqdgxJ1UMYLMLEjSzu5tG1UR1D+wk
-         gcnCrHrxcbaAdm3sLQIWXjqGacolkvL2Uz/4o=
+	s=arc-20240116; t=1765297165; c=relaxed/simple;
+	bh=8V6XhDTMqJIJKOM6EQ26uuW5sXv+/F7h2RxcyWrBlKQ=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=oC8NCEbO/0XUKH4PNnO+QJrru1C/dm1j8waqNcAx0eP8ziAhHPqw36kc2uUYN3cb18Jn4FKgJgGONyig+Iuk485A3XthZmNt2i9o3R0ysRzLL5lSIZoYwiF7rko6SluoEX+EkVegL9mGbm3P425I61KMmGJc/0q4me2b+lwfL3E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.210.79
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-ot1-f79.google.com with SMTP id 46e09a7af769-7c7028db074so11001794a34.1
+        for <linux-input@vger.kernel.org>; Tue, 09 Dec 2025 08:19:23 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765295235; x=1765900035;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=ddxV9ehu0GXJ9iiWNjTlWwirsEs0puBXrIAVzil+rQM=;
-        b=iHWNxdKRZ+W9GzZa0TqXDzSshliO3W0BKFu7k3DXMjMlf2FiJQ+A2/KkWdwfOrythK
-         2JNy5rV1lyXHfnbqUr+8FCIhXBPfzTZW4Cam+jlYs+/bCvw35Zg5rjcrV+mBVO+5qOZJ
-         8KeEJar8RzMc01WaRlN1hPGuxidImGC0EA6QWp/ayOJHVIjR+GQi42GUba2sNgz+8JSE
-         /n9XQF2peOtorTgoqnMNi6CIS+rVbyuS7UQq6y4MCcm1yd3WGm1Njejy8/jWR2II3d98
-         3OSmOTlpO4P418glJ4i7ojRZ+BylTrueI19I6rLK2EO2U4eUUHtMx4BWqaociliIM048
-         AGbw==
-X-Forwarded-Encrypted: i=1; AJvYcCV7RCFV/iTj8YmBKSv9BN485c+9lf+/0GofndTP3IniXBsYazn0EoQEbxhwZDPTia4NnnPr/wIDcaUGJw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzOWsHhHdkdKZ9H6ksri5FD52tUZ6SOIDAaQHN9/hkqlBJUFt9s
-	PUZb65D+4XBUFPtedoqgLc0PEceP+q74cprzSqwOJ2+ioFGTdR2CCHoxc7cRXaV6mQ==
-X-Gm-Gg: AY/fxX68qXA6XM0K/4+P84Hh5dgz9yh7aO7J2x23n5u+wnC0cQ2M9E9ZCvaI8VFDIyp
-	SEyjazrVOegLYVpkkOi+QsRmQgXq1QcG8/WiUamqUreYdp2xtupsoiCxixRWIJn/DOkWT5tw0yL
-	k3KGj4F4HaeN4xFCAWtdszGJIwVICCpU7qG/pFWFjUDPIH8BOrlnK+NJgPHwqHjLrtobRUEx6XN
-	BRBiajWvxkDMQiBCJMwFOIM2fAM2cYo30R+SB/ItHA1JBEdk1kbz1wYml2DBk2hfu+rUv2IEI23
-	oCBGlPG308Lxj1gL0XYWY6kZqc4KZyseW6q4fcC5dJkpzq7l5TYKWNNrlKcIFy6zh2bWAo5jqyh
-	fpAwp9VOcZiu4Y59RzeLZkv3j1ru5sLY68VjiPqBmS6efunbupR6iaWrCz6gdaTcg0iXkV6ytBt
-	Wmc7/C5I2zylDTK5Y4KnmHt10mnw==
-X-Google-Smtp-Source: AGHT+IEKi6UxypeqPOH+18lDVXZJpB4iIoiaagxsyYSesPihG4eCl/CaHPqW6Gig0ydpspXkZ+fjYQ==
-X-Received: by 2002:a5d:5850:0:b0:429:b9bc:e826 with SMTP id ffacd0b85a97d-42f89f6e838mr12441377f8f.53.1765295235028;
-        Tue, 09 Dec 2025 07:47:15 -0800 (PST)
-Received: from balto-ws ([37.228.206.31])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42f7d353c9esm31097881f8f.40.2025.12.09.07.47.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Dec 2025 07:47:14 -0800 (PST)
-From: Fabio Baltieri <fabiobaltieri@chromium.org>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>
-Cc: Fabio Baltieri <fabiobaltieri@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Simon Glass <sjg@chromium.org>,
-	linux-input@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	chrome-platform@lists.linux.dev,
-	linux-kernel@vger.kernel.orga
-Subject: [PATCH v1 3/3] dt-bindings: google,cros-ec-keyb: add fn-key and f-keymap props
-Date: Tue,  9 Dec 2025 15:47:06 +0000
-Message-ID: <20251209154706.529784-4-fabiobaltieri@chromium.org>
-X-Mailer: git-send-email 2.52.0.223.gf5cc29aaa4-goog
-In-Reply-To: <20251209154706.529784-1-fabiobaltieri@chromium.org>
-References: <20251209154706.529784-1-fabiobaltieri@chromium.org>
+        d=1e100.net; s=20230601; t=1765297162; x=1765901962;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=C4EUorLPmo37ZI4i7iwcm03RhIF5UkQIooywjmOuWr8=;
+        b=CZXJeleG6KriqC8oYd+gKXRKs0DhSG74JrKT5Mnf8zJ0G8JfYho3W0MDhHLDQHIK5a
+         XX3awDe4UashnoQ9vwuQJBIXVo+F71tC1g0EHbj/YyAdZHOuJxrMRpf81v1f1MHV2T0K
+         bvuHHVXsob3ce2Fzj8bed4NLIM07/+k1XPKlgwx/REaUZZye3cdQrzfa/o8J5K7QtM8C
+         QPTCDfWpk14R+7cW3S1yhjzk9RMV5vaRK+88uWiSeu4bS0QpZtqxTtE9CoP+LVMUzgC3
+         AJje+1SEAHLA7kA/vTRRtcAHgw3XdgA0EP/0neuc835T5fRzFFOjteg4uMMN396g72f4
+         4RRw==
+X-Forwarded-Encrypted: i=1; AJvYcCXkfkd+9fejwpH75EcmBB6/BVG519h6xyq/AESyqzAe1ymakXakkePgZBRTr/uh8qPWlnKP67QFCKelhw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy6BQh9ldvBW4DhbY0jmW0Tc9HE/MJ6jvL/Z2uDlmgBEBGNTKQA
+	L7lN6MhfiBay7p73zDQ66JIWlhJfgmd3VeU/q5ist27AiByui6kNiI98U4mTYyGvwhxj2sCfI3L
+	ZhSMhvhjas5KG2WCP/0V+G/E5QCPfYnPIpiKsrHZqt+8dXpv/0zN6q8vmyYM=
+X-Google-Smtp-Source: AGHT+IF5BOhPb3BDEv1j+XnhBpT29dMMnWJslQB64Cy+rJkZAsRH7Dk6d25l76wZREKzMESIvP0dwWq2jwzPt3Q/jZKx91bES7hV
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Received: by 2002:a05:6820:6ae4:b0:659:9a49:8f0c with SMTP id
+ 006d021491bc7-6599a8d5bfamr5041982eaf.29.1765297162672; Tue, 09 Dec 2025
+ 08:19:22 -0800 (PST)
+Date: Tue, 09 Dec 2025 08:19:22 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <69384c0a.050a0220.1ff09b.0009.GAE@google.com>
+Subject: [syzbot] [input?] possible deadlock in tasklet_action_common
+From: syzbot <syzbot+16c5be44e508252dc97a@syzkaller.appspotmail.com>
+To: dmitry.torokhov@gmail.com, linux-input@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-Add binding documentation for the fn-key and fn-keymap properties,
-verify that the two new properties are either both preseent or none.
+Hello,
 
-Signed-off-by: Fabio Baltieri <fabiobaltieri@chromium.org>
+syzbot found the following issue on:
+
+HEAD commit:    c2f2b01b74be Merge tag 'i3c/for-6.19' of git://git.kernel...
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=14d46eb4580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=8750900a7c493a0b
+dashboard link: https://syzkaller.appspot.com/bug?extid=16c5be44e508252dc97a
+compiler:       Debian clang version 20.1.8 (++20250708063551+0c9f909b7976-1~exp1~20250708183702.136), Debian LLD 20.1.8
+
+Unfortunately, I don't have any reproducer for this issue yet.
+
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/ec5bc719b709/disk-c2f2b01b.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/e6d5ede51c70/vmlinux-c2f2b01b.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/fcdbd10e4015/bzImage-c2f2b01b.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+16c5be44e508252dc97a@syzkaller.appspotmail.com
+
+======================================================
+WARNING: possible circular locking dependency detected
+syzkaller #0 Not tainted
+------------------------------------------------------
+syz.0.3170/17035 is trying to acquire lock:
+ffff8880b8824358 (tasklet_sync_callback.cb_lock){+...}-{3:3}, at: spin_lock include/linux/spinlock_rt.h:44 [inline]
+ffff8880b8824358 (tasklet_sync_callback.cb_lock){+...}-{3:3}, at: tasklet_lock_callback kernel/softirq.c:864 [inline]
+ffff8880b8824358 (tasklet_sync_callback.cb_lock){+...}-{3:3}, at: tasklet_action_common+0x130/0x650 kernel/softirq.c:914
+
+but task is already holding lock:
+ffff88805f738270 (&dev->event_lock#2){+.+.}-{3:3}, at: spin_lock include/linux/spinlock_rt.h:44 [inline]
+ffff88805f738270 (&dev->event_lock#2){+.+.}-{3:3}, at: class_spinlock_irqsave_constructor include/linux/spinlock.h:585 [inline]
+ffff88805f738270 (&dev->event_lock#2){+.+.}-{3:3}, at: input_inject_event+0xa5/0x330 drivers/input/input.c:419
+
+which lock already depends on the new lock.
+
+
+the existing dependency chain (in reverse order) is:
+
+-> #1 (&dev->event_lock#2){+.+.}-{3:3}:
+       rt_spin_lock+0x88/0x3e0 kernel/locking/spinlock_rt.c:56
+       spin_lock include/linux/spinlock_rt.h:44 [inline]
+       class_spinlock_irqsave_constructor include/linux/spinlock.h:585 [inline]
+       input_inject_event+0xa5/0x330 drivers/input/input.c:419
+       led_trigger_event+0x13b/0x220 drivers/leds/led-triggers.c:420
+       kbd_propagate_led_state drivers/tty/vt/keyboard.c:1065 [inline]
+       kbd_bh+0x1ec/0x300 drivers/tty/vt/keyboard.c:1244
+       tasklet_action_common+0x36b/0x650 kernel/softirq.c:925
+       handle_softirqs+0x226/0x6d0 kernel/softirq.c:622
+       __do_softirq kernel/softirq.c:656 [inline]
+       run_ktimerd+0xcf/0x190 kernel/softirq.c:1138
+       smpboot_thread_fn+0x542/0xa60 kernel/smpboot.c:160
+       kthread+0x711/0x8a0 kernel/kthread.c:463
+       ret_from_fork+0x599/0xb30 arch/x86/kernel/process.c:158
+       ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:246
+
+-> #0 (tasklet_sync_callback.cb_lock){+...}-{3:3}:
+       check_prev_add kernel/locking/lockdep.c:3165 [inline]
+       check_prevs_add kernel/locking/lockdep.c:3284 [inline]
+       validate_chain kernel/locking/lockdep.c:3908 [inline]
+       __lock_acquire+0x15a6/0x2cf0 kernel/locking/lockdep.c:5237
+       lock_acquire+0x117/0x340 kernel/locking/lockdep.c:5868
+       rt_spin_lock+0x88/0x3e0 kernel/locking/spinlock_rt.c:56
+       spin_lock include/linux/spinlock_rt.h:44 [inline]
+       tasklet_lock_callback kernel/softirq.c:864 [inline]
+       tasklet_action_common+0x130/0x650 kernel/softirq.c:914
+       handle_softirqs+0x226/0x6d0 kernel/softirq.c:622
+       __do_softirq kernel/softirq.c:656 [inline]
+       __local_bh_enable_ip+0x1a0/0x2e0 kernel/softirq.c:302
+       local_bh_enable include/linux/bottom_half.h:33 [inline]
+       __alloc_skb+0x224/0x430 net/core/skbuff.c:674
+       alloc_skb include/linux/skbuff.h:1383 [inline]
+       hidp_send_message+0xb5/0x230 net/bluetooth/hidp/core.c:111
+       hidp_send_intr_message net/bluetooth/hidp/core.c:143 [inline]
+       hidp_input_event+0x290/0x370 net/bluetooth/hidp/core.c:175
+       input_event_dispose+0x80/0x6b0 drivers/input/input.c:322
+       input_inject_event+0x1d8/0x330 drivers/input/input.c:424
+       kbd_led_trigger_activate+0xbc/0x100 drivers/tty/vt/keyboard.c:1021
+       led_trigger_set+0x533/0x950 drivers/leds/led-triggers.c:220
+       led_match_default_trigger drivers/leds/led-triggers.c:277 [inline]
+       led_trigger_set_default+0x266/0x2a0 drivers/leds/led-triggers.c:300
+       led_classdev_register_ext+0x73d/0x960 drivers/leds/led-class.c:578
+       led_classdev_register include/linux/leds.h:274 [inline]
+       input_leds_connect+0x517/0x790 drivers/input/input-leds.c:145
+       input_attach_handler drivers/input/input.c:994 [inline]
+       input_register_device+0xd00/0x1170 drivers/input/input.c:2378
+       hidp_session_dev_add net/bluetooth/hidp/core.c:861 [inline]
+       hidp_session_probe+0x1a8/0x8a0 net/bluetooth/hidp/core.c:1116
+       l2cap_register_user+0xf4/0x200 net/bluetooth/l2cap_core.c:1712
+       hidp_connection_add+0x158b/0x1a20 net/bluetooth/hidp/core.c:1378
+       do_hidp_sock_ioctl net/bluetooth/hidp/sock.c:81 [inline]
+       hidp_sock_ioctl+0x3a8/0x5c0 net/bluetooth/hidp/sock.c:128
+       sock_do_ioctl+0xdc/0x300 net/socket.c:1254
+       sock_ioctl+0x579/0x790 net/socket.c:1375
+       vfs_ioctl fs/ioctl.c:51 [inline]
+       __do_sys_ioctl fs/ioctl.c:597 [inline]
+       __se_sys_ioctl+0xff/0x170 fs/ioctl.c:583
+       do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+       do_syscall_64+0xfa/0xf80 arch/x86/entry/syscall_64.c:94
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+other info that might help us debug this:
+
+ Possible unsafe locking scenario:
+
+       CPU0                    CPU1
+       ----                    ----
+  lock(&dev->event_lock#2);
+                               lock(tasklet_sync_callback.cb_lock);
+                               lock(&dev->event_lock#2);
+  lock(tasklet_sync_callback.cb_lock);
+
+ *** DEADLOCK ***
+
+10 locks held by syz.0.3170/17035:
+ #0: ffff8880582340b0 (&hdev->lock){+.+.}-{4:4}, at: l2cap_register_user+0x67/0x200 net/bluetooth/l2cap_core.c:1699
+ #1: ffffffff8ea34f80 (hidp_session_sem){++++}-{4:4}, at: hidp_session_probe+0x99/0x8a0 net/bluetooth/hidp/core.c:1106
+ #2: ffffffff8e31c658 (input_mutex){+.+.}-{4:4}, at: class_mutex_intr_constructor include/linux/mutex.h:255 [inline]
+ #2: ffffffff8e31c658 (input_mutex){+.+.}-{4:4}, at: input_register_device+0xa76/0x1170 drivers/input/input.c:2374
+ #3: ffff888059fee860 (&led_cdev->led_access){+.+.}-{4:4}, at: led_classdev_register_ext+0x43d/0x960 drivers/leds/led-class.c:536
+ #4: ffffffff8dd08160 (triggers_list_lock){++++}-{4:4}, at: led_trigger_set_default+0x77/0x2a0 drivers/leds/led-triggers.c:297
+ #5: ffff888059fee788 (&led_cdev->trigger_lock){+.+.}-{4:4}, at: led_trigger_set_default+0x87/0x2a0 drivers/leds/led-triggers.c:298
+ #6: ffff88805f738270 (&dev->event_lock#2){+.+.}-{3:3}, at: spin_lock include/linux/spinlock_rt.h:44 [inline]
+ #6: ffff88805f738270 (&dev->event_lock#2){+.+.}-{3:3}, at: class_spinlock_irqsave_constructor include/linux/spinlock.h:585 [inline]
+ #6: ffff88805f738270 (&dev->event_lock#2){+.+.}-{3:3}, at: input_inject_event+0xa5/0x330 drivers/input/input.c:419
+ #7: ffffffff8d5ae880 (rcu_read_lock){....}-{1:3}, at: rcu_lock_acquire include/linux/rcupdate.h:331 [inline]
+ #7: ffffffff8d5ae880 (rcu_read_lock){....}-{1:3}, at: rcu_read_lock include/linux/rcupdate.h:867 [inline]
+ #7: ffffffff8d5ae880 (rcu_read_lock){....}-{1:3}, at: __rt_spin_lock kernel/locking/spinlock_rt.c:50 [inline]
+ #7: ffffffff8d5ae880 (rcu_read_lock){....}-{1:3}, at: rt_spin_lock+0x1c1/0x3e0 kernel/locking/spinlock_rt.c:57
+ #8: ffffffff8d5ae880 (rcu_read_lock){....}-{1:3}, at: rcu_lock_acquire include/linux/rcupdate.h:331 [inline]
+ #8: ffffffff8d5ae880 (rcu_read_lock){....}-{1:3}, at: rcu_read_lock include/linux/rcupdate.h:867 [inline]
+ #8: ffffffff8d5ae880 (rcu_read_lock){....}-{1:3}, at: class_rcu_constructor include/linux/rcupdate.h:1195 [inline]
+ #8: ffffffff8d5ae880 (rcu_read_lock){....}-{1:3}, at: input_inject_event+0xb1/0x330 drivers/input/input.c:420
+ #9: ffffffff8d5ae880 (rcu_read_lock){....}-{1:3}, at: __local_bh_disable_ip+0xa1/0x530 kernel/softirq.c:163
+
+stack backtrace:
+CPU: 0 UID: 0 PID: 17035 Comm: syz.0.3170 Not tainted syzkaller #0 PREEMPT_{RT,(full)} 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 10/25/2025
+Call Trace:
+ <TASK>
+ dump_stack_lvl+0x189/0x250 lib/dump_stack.c:120
+ print_circular_bug+0x2e2/0x300 kernel/locking/lockdep.c:2043
+ check_noncircular+0x12e/0x150 kernel/locking/lockdep.c:2175
+ check_prev_add kernel/locking/lockdep.c:3165 [inline]
+ check_prevs_add kernel/locking/lockdep.c:3284 [inline]
+ validate_chain kernel/locking/lockdep.c:3908 [inline]
+ __lock_acquire+0x15a6/0x2cf0 kernel/locking/lockdep.c:5237
+ lock_acquire+0x117/0x340 kernel/locking/lockdep.c:5868
+ rt_spin_lock+0x88/0x3e0 kernel/locking/spinlock_rt.c:56
+ spin_lock include/linux/spinlock_rt.h:44 [inline]
+ tasklet_lock_callback kernel/softirq.c:864 [inline]
+ tasklet_action_common+0x130/0x650 kernel/softirq.c:914
+ handle_softirqs+0x226/0x6d0 kernel/softirq.c:622
+ __do_softirq kernel/softirq.c:656 [inline]
+ __local_bh_enable_ip+0x1a0/0x2e0 kernel/softirq.c:302
+ local_bh_enable include/linux/bottom_half.h:33 [inline]
+ __alloc_skb+0x224/0x430 net/core/skbuff.c:674
+ alloc_skb include/linux/skbuff.h:1383 [inline]
+ hidp_send_message+0xb5/0x230 net/bluetooth/hidp/core.c:111
+ hidp_send_intr_message net/bluetooth/hidp/core.c:143 [inline]
+ hidp_input_event+0x290/0x370 net/bluetooth/hidp/core.c:175
+ input_event_dispose+0x80/0x6b0 drivers/input/input.c:322
+ input_inject_event+0x1d8/0x330 drivers/input/input.c:424
+ kbd_led_trigger_activate+0xbc/0x100 drivers/tty/vt/keyboard.c:1021
+ led_trigger_set+0x533/0x950 drivers/leds/led-triggers.c:220
+ led_match_default_trigger drivers/leds/led-triggers.c:277 [inline]
+ led_trigger_set_default+0x266/0x2a0 drivers/leds/led-triggers.c:300
+ led_classdev_register_ext+0x73d/0x960 drivers/leds/led-class.c:578
+ led_classdev_register include/linux/leds.h:274 [inline]
+ input_leds_connect+0x517/0x790 drivers/input/input-leds.c:145
+ input_attach_handler drivers/input/input.c:994 [inline]
+ input_register_device+0xd00/0x1170 drivers/input/input.c:2378
+ hidp_session_dev_add net/bluetooth/hidp/core.c:861 [inline]
+ hidp_session_probe+0x1a8/0x8a0 net/bluetooth/hidp/core.c:1116
+ l2cap_register_user+0xf4/0x200 net/bluetooth/l2cap_core.c:1712
+ hidp_connection_add+0x158b/0x1a20 net/bluetooth/hidp/core.c:1378
+ do_hidp_sock_ioctl net/bluetooth/hidp/sock.c:81 [inline]
+ hidp_sock_ioctl+0x3a8/0x5c0 net/bluetooth/hidp/sock.c:128
+ sock_do_ioctl+0xdc/0x300 net/socket.c:1254
+ sock_ioctl+0x579/0x790 net/socket.c:1375
+ vfs_ioctl fs/ioctl.c:51 [inline]
+ __do_sys_ioctl fs/ioctl.c:597 [inline]
+ __se_sys_ioctl+0xff/0x170 fs/ioctl.c:583
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0xfa/0xf80 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f6b7032f749
+Code: ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 a8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f6b6e554038 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+RAX: ffffffffffffffda RBX: 00007f6b70586180 RCX: 00007f6b7032f749
+RDX: 0000200000000280 RSI: 00000000400448c8 RDI: 000000000000000a
+RBP: 00007f6b703b3f91 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007f6b70586218 R14: 00007f6b70586180 R15: 00007ffdc2f85848
+ </TASK>
+
+
 ---
- .../bindings/input/google,cros-ec-keyb.yaml   | 60 +++++++++++++++----
- 1 file changed, 49 insertions(+), 11 deletions(-)
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-diff --git a/Documentation/devicetree/bindings/input/google,cros-ec-keyb.yaml b/Documentation/devicetree/bindings/input/google,cros-ec-keyb.yaml
-index fefaaf46a240..56adf9026010 100644
---- a/Documentation/devicetree/bindings/input/google,cros-ec-keyb.yaml
-+++ b/Documentation/devicetree/bindings/input/google,cros-ec-keyb.yaml
-@@ -44,6 +44,20 @@ properties:
-       where the lower 16 bits are reserved. This property is specified only
-       when the keyboard has a custom design for the top row keys.
- 
-+  fn-key:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    description: |
-+      An u32 containing the coordinate of the Fn key, use the MATRIX_KEY(row,
-+      col, code) macro, code is ignored.
-+
-+  fn-keymap:
-+    $ref: /schemas/types.yaml#/definitions/uint32-array
-+    minItems: 1
-+    maxItems: 32
-+    description: |
-+      An array of u32 mapping the row, column and codes for the function keys,
-+      use the MATRIX_KEY macro to define the elements.
-+
- dependencies:
-   function-row-physmap: [ 'linux,keymap' ]
-   google,needs-ghost-filter: [ 'linux,keymap' ]
-@@ -51,17 +65,28 @@ dependencies:
- required:
-   - compatible
- 
--if:
--  properties:
--    compatible:
--      contains:
--        const: google,cros-ec-keyb
--then:
--  $ref: /schemas/input/matrix-keymap.yaml#
--  required:
--    - keypad,num-rows
--    - keypad,num-columns
--    - linux,keymap
-+allOf:
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: google,cros-ec-keyb
-+    then:
-+      $ref: /schemas/input/matrix-keymap.yaml#
-+      required:
-+        - keypad,num-rows
-+        - keypad,num-columns
-+        - linux,keymap
-+  - if:
-+      anyOf:
-+        - required:
-+          - fn-key
-+        - required:
-+          - fn-keymap
-+    then:
-+      required:
-+        - fn-key
-+        - fn-keymap
- 
- unevaluatedProperties: false
- 
-@@ -132,6 +157,19 @@ examples:
-             /* UP      LEFT    */
-             0x070b0067 0x070c0069>;
-     };
-+    fn-key = <MATRIX_KEY(0x04, 0x0a, 0)>;
-+    fn-keymap = <
-+            MATRIX_KEY(0x00, 0x02, KEY_F1)  /* T1 */
-+            MATRIX_KEY(0x03, 0x02, KEY_F2)  /* T2 */
-+            MATRIX_KEY(0x02, 0x02, KEY_F3)  /* T3 */
-+            MATRIX_KEY(0x01, 0x02, KEY_F4)  /* T4 */
-+            MATRIX_KEY(0x04, 0x04, KEY_F5)  /* T5 */
-+            MATRIX_KEY(0x02, 0x04, KEY_F6)  /* T6 */
-+            MATRIX_KEY(0x01, 0x04, KEY_F7)  /* T7 */
-+            MATRIX_KEY(0x02, 0x0b, KEY_F8)  /* T8 */
-+            MATRIX_KEY(0x01, 0x09, KEY_F9)  /* T9 */
-+            MATRIX_KEY(0x00, 0x04, KEY_F10) /* T10 */
-+    >;
-   - |
-     /* No matrix keyboard, just buttons/switches */
-     keyboard-controller {
--- 
-2.52.0.223.gf5cc29aaa4-goog
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
 
