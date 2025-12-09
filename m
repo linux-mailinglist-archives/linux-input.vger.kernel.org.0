@@ -1,134 +1,120 @@
-Return-Path: <linux-input+bounces-16507-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16508-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2F90CB053E
-	for <lists+linux-input@lfdr.de>; Tue, 09 Dec 2025 15:47:05 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 361A0CB073D
+	for <lists+linux-input@lfdr.de>; Tue, 09 Dec 2025 16:48:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 75BEE304DA15
-	for <lists+linux-input@lfdr.de>; Tue,  9 Dec 2025 14:46:11 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 51C5B300A845
+	for <lists+linux-input@lfdr.de>; Tue,  9 Dec 2025 15:47:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3EB052FF154;
-	Tue,  9 Dec 2025 14:46:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4457441C62;
+	Tue,  9 Dec 2025 15:47:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BtyMn/T4"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="MV1QY9me"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D0692FE566
-	for <linux-input@vger.kernel.org>; Tue,  9 Dec 2025 14:46:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82A0727055D
+	for <linux-input@vger.kernel.org>; Tue,  9 Dec 2025 15:47:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765291570; cv=none; b=s/J6aUR31KdI/woR1eGRCR61uMZ1bQIs0blNirMDuj1pgDzbtL2mUwsprRX0Tb2jq2cFy3a5uAPiIXMAA/oQbKFUBjUaT6xB6CkM7MEn5BZfqkPUO5xJ5CDuxpwYi7XRcuZ1tCXqg7pT53zwNcvertFPoli4T7ZmESfuYbDra00=
+	t=1765295235; cv=none; b=PJ04897PPAL7ViOJtzeqli48dXfR1EJCz5T+tM+nEQw6Ww0ShFRf5ccX/4UxnA6AdPrWGqrZyn3BzVvYtVBhd50KJWQZux5YHMhUJUy401+uha0mt3rz94tQq1ww4T+l66CvGIRH0BwsZkpkReMpZAGYZp6CYu1OsXX5DIQKOhQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765291570; c=relaxed/simple;
-	bh=4fmZfYSUNdsaSTLHpM8yeyepmqTOQi5Ko0nHpOXwYuc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=cWT9JmWsnc7HiotIBuCsD601R8TSIayX87/l/9RcyJbcXP9P/iPu8Holfk5U9V9wBnvBGG4Eb57TkCDcndaOlgA0ACU3ij1PuXd3cBHNTRU7RWO/D2q5xlUaAhFMNKkIbEzGxmbzgyv14w02HK3gcmKoyqtHF6ppSRBuYRlAYI0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BtyMn/T4; arc=none smtp.client-ip=209.85.218.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-b72bf7e703fso972682566b.2
-        for <linux-input@vger.kernel.org>; Tue, 09 Dec 2025 06:46:07 -0800 (PST)
+	s=arc-20240116; t=1765295235; c=relaxed/simple;
+	bh=m2A6ZHh38QLY0KCcRCAKW90Du25XkQzdMPrnADEF3KI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cSeT5HtGmpusIzx3pl6oi7KFCLqkDo2Bzut2n43WeTV/wLfnk+bEE5jdgYa5rU91nozu4PG8vEcwXZGC8ZbMdnSneTqUM0YtOK81/oL+9Y0dn/SpLsvndW6BeIxVsmRle4fL2UPRyn85LpmkP93vIw1hs9R0EV6DiXRUMvqp3zg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=MV1QY9me; arc=none smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4779cc419b2so65808165e9.3
+        for <linux-input@vger.kernel.org>; Tue, 09 Dec 2025 07:47:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765291566; x=1765896366; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4fmZfYSUNdsaSTLHpM8yeyepmqTOQi5Ko0nHpOXwYuc=;
-        b=BtyMn/T4Aw9KeqxSQvIu8krvp/m4mn3Plad2gMYfyrHDF3M0MobzDcRqmL+8VupfU1
-         MzZplvNo5kyaxxolg5LDo3WIdyzWneU9ulL0Gc8uYICDZ0dyZ+6/XDof3IWbnmVrirhh
-         AyI7dZ5UQZ8N+MbJhU/EKTb+bBB8vkX1H+b+X4xiJhWdh3LsCLchnMmnIYf0ZYun3c2T
-         1EDtw3Nd6QEehE0TaVSA5wZl/ZmFGvSLHGQ7WnYypyvUDVYmfMWsyPBZCMVRXKb2fuiw
-         vHPPgkpeWMqhbrkttf8mKhpAP6CL5grGLqXqxMn3sM5vfJiQu38Htj/IW9YCea7VWzf2
-         iWPw==
+        d=chromium.org; s=google; t=1765295232; x=1765900032; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=2c04LwHbF/s3zM8ygqzdu4yzOQ4Hv2zMBfxhEf+2XtE=;
+        b=MV1QY9meNAZBJpggxuyc/LAC8VkGQqZ1ZfXGunE33iKv/2z+C0dnZC3I2pQL6RtJoc
+         EHKWKg+TnEXuqvzjxo81o7sV/nftgzroKibt8NOR7bju9L6/V+MsDfWARwbYWgiVEK0U
+         C+DPsz67gKvdg/GnaAZ95q+sWuf2A7K9qbtPM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765291566; x=1765896366;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=4fmZfYSUNdsaSTLHpM8yeyepmqTOQi5Ko0nHpOXwYuc=;
-        b=lfN8CyyxqpSBpjS3XvLFjqwsCWazihNJsEUk048RPoFdMz1CU+JKVVIx/+oaRoKKBM
-         nzZAHyZn/lMZ2x/56Y/7govMBx37qRnVnKtBuIdX5+GLjF9TJ3Swh7GR4+B0a6TvSziv
-         u/ngN3xaWZe3yQ9gLQoXcKyadDMNcJA8BCQqP6+niOLLiIdnNzt4IxLggsvkH4CD3RGH
-         a8uB5URJHT7saSK0Ts3j8JuiKysU01uTD9peg70Lxx4DMUX9rnVh02CzIpV+JIODbCRp
-         tt6moDaNoKdz8tNgfa0HGPeZ8TD3WyP6l0mWPJo5IzlwRoIqPeFPJUECE6JWKHZY56Wz
-         bSvQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUHhm5XpC7+678jVDpHOjiTvz+IElLvFi9ImwyvU4CzepWDiXH6AnGmxb1XxYDDSKOG9XKFBwjy3FWSTg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx3mfsSydapMt3hq3tfojNn6RwgwtNi3mpyogFgeQLi8pN9IMhD
-	CaYrlhL3cjn9OAi/2FgrINE78ade5zmRGERV8WyaaQvWczmVBeTSokqXXS7dVRTUXETXBJ5hn6C
-	6QaAthkHiBsmnCXqm1wVqB3fwJyzCp2Y=
-X-Gm-Gg: ASbGncsRkT3FP5ceFwPQWT7qKB2ZfXAkYgS6Zk8JXERVb3x+X+Wf9eFZD545zOIyM6E
-	0RHmYPFvf8BSo7z8BFDLmr6Sh0ZjD6nNj1/TxVGNNOKr1q9tfQ2fjlzWqRYDtwR0W21RSYWz25t
-	4AyJCh6FmOZMwjDso02g88o4Vsy+qbfE+ataMaVnk/xWPEUBCMD8l55LdGUU/BxaVA5VrSil0xG
-	rEuInZMiz1ZZkoCfedltM+8FBePqpohrdUQM9QR31Jfj+gMRNaQ43ZAw/hlrjMQ1XHxyTBaOmeb
-	e+O/AewtLGf6FJR6/EYEnUPZ7rYObylIza3cTix+Sbhoe9FtgNKxdBtiUCyj1XJ9NHBURIQ=
-X-Google-Smtp-Source: AGHT+IGlXu3dCFc83X6xkCFhuuTuzxpgBAzwDgILyS6ZUDAbBGi1U97b1Qfz8jIne/sjhUc3CyUOVqmVWZN3jo3XIyM=
-X-Received: by 2002:a17:907:d9e:b0:b73:845f:4432 with SMTP id
- a640c23a62f3a-b7a2455d577mr1325347966b.32.1765291566315; Tue, 09 Dec 2025
- 06:46:06 -0800 (PST)
+        d=1e100.net; s=20230601; t=1765295232; x=1765900032;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2c04LwHbF/s3zM8ygqzdu4yzOQ4Hv2zMBfxhEf+2XtE=;
+        b=iTWDWdAD9+AQj5YMi+h+w4tjAhPbZX2fqIqRxUaVJKV0jCZBiLQPBnhO1bgC5pe4v5
+         VW+F8JZ4aXz6FEdYNOIiYNkgIODLuIxkpWlYyTt70aSmo6+3FPF3c1uG2NJXdz03JGX3
+         5iBEGhxI3UvKqMXPFcUJNjANuf+iAZ7ipETrHyY10CEHlHFe7Dgy08hVm9mSAbt0NJaa
+         iMjwxD87LZ1ev8lMI5yBmGa9Z2RMmASMK6hnhwKEtRTSjDMLWAfCOzPdXalumH2c8m02
+         QyTlNceDHjSfjibKH3LXyNSn28GLrqW+p9VSBE89puCn6VRmwYS2ZF+xjGy76lvlzrRb
+         Rebw==
+X-Forwarded-Encrypted: i=1; AJvYcCUzbQHSQDPo23YGQLV1qgMCkJiw2etVfd1rgun77OOgl26DGEhpuWlZ7w81OZPT8q7XTLln9jhUPII1Ew==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw/al9HbHSIvPjzs/HPT3fotgbjJWkcbIHxATFP/SgFgzO9WA8R
+	dFdqS2JppeaeUyVfDgqRFRjabOk4S4i3TYWQOHcXWvTheIJdHWznqR1Q3g11lQwL+w==
+X-Gm-Gg: ASbGncuwCaex55BNYlelwx4eAFbtALCNh8iPiRecwVIgWgvcSaGVc4RRPlsGiPL5w4X
+	PAS0nCBiFacJ4aLKVh0tNc+h0nh9peWzB/TXSTnFH51QOqGp2a8qxvTTZuj85+aC6m0wZ3GQAk2
+	hjBTK7gqAbIAXgV2Cy0dC1xOE5GTrJynkxxXJd21JpSSZrZR+FwPUkUG5mh0i0KxlCeP9fAuchh
+	q2crXLN0HDqGDYFW992IXHHEkHDCUdGGrUIdyoOYvSKVPYB2Htt8wwfemp7hUv+TAsBApfk9ddW
+	bhoaFua+++luj/AAtSROsEk/0QYHmZJoI4c/Wd/ZmgjmG2Luk8UdSmLkSHRCuSpAC6fN5Zis4Ti
+	bwYmPGiVNYkbjWuzYEe27MqyC8B9oFqZVSzgpdQTgx3GG31Hu0Ml9AWnzXgeas/TmA/7JnIZcP+
+	WGrEy4V3zuEU2M8yo=
+X-Google-Smtp-Source: AGHT+IETtig917c/959U67stUU8b8pUELNsuVOkLdt6GOzPmjWWtx8z0b7xMKjenAYwi61hJeTVS2g==
+X-Received: by 2002:a05:600c:19cf:b0:46e:4586:57e4 with SMTP id 5b1f17b1804b1-47939e3a6c6mr124500145e9.24.1765295231876;
+        Tue, 09 Dec 2025 07:47:11 -0800 (PST)
+Received: from balto-ws ([37.228.206.31])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42f7d353c9esm31097881f8f.40.2025.12.09.07.47.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 Dec 2025 07:47:11 -0800 (PST)
+From: Fabio Baltieri <fabiobaltieri@chromium.org>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>
+Cc: Fabio Baltieri <fabiobaltieri@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Simon Glass <sjg@chromium.org>,
+	linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	chrome-platform@lists.linux.dev,
+	linux-kernel@vger.kernel.orga
+Subject: [PATCH v1 0/3] Input: cros_ec_keyb: add function key support
+Date: Tue,  9 Dec 2025 15:47:03 +0000
+Message-ID: <20251209154706.529784-1-fabiobaltieri@chromium.org>
+X-Mailer: git-send-email 2.52.0.223.gf5cc29aaa4-goog
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251209-iio-inkern-use-namespaced-exports-v2-0-9799a33c4b7f@bootlin.com>
- <20251209-iio-inkern-use-namespaced-exports-v2-1-9799a33c4b7f@bootlin.com>
-In-Reply-To: <20251209-iio-inkern-use-namespaced-exports-v2-1-9799a33c4b7f@bootlin.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Tue, 9 Dec 2025 16:45:29 +0200
-X-Gm-Features: AQt7F2rGwi5_TocOmRGciLvaWe8Y7Fghi7KYuOXmk6PhKTOAwIFDPQlb6Jsx554
-Message-ID: <CAHp75VcX_z6q879gmWcb76SeFHtqMvpZ=y9PwNn0=eVFb06wAw@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] iio: dac: ds4424: drop unused include IIO consumer header
-To: Romain Gantois <romain.gantois@bootlin.com>
-Cc: MyungJoo Ham <myungjoo.ham@samsung.com>, Chanwoo Choi <cw00.choi@samsung.com>, 
-	Guenter Roeck <linux@roeck-us.net>, Peter Rosin <peda@axentia.se>, 
-	Jonathan Cameron <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>, 
-	=?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
-	Andy Shevchenko <andy@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, 
-	Michael Hennerich <Michael.Hennerich@analog.com>, Mariel Tinaco <Mariel.Tinaco@analog.com>, 
-	Kevin Tsai <ktsai@capellamicro.com>, Linus Walleij <linus.walleij@linaro.org>, 
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Eugen Hristev <eugen.hristev@linaro.org>, 
-	Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>, Sebastian Reichel <sre@kernel.org>, 
-	Chen-Yu Tsai <wens@csie.org>, Hans de Goede <hansg@kernel.org>, 
-	Support Opensource <support.opensource@diasemi.com>, Paul Cercueil <paul@crapouillou.net>, 
-	Iskren Chernev <me@iskren.info>, Krzysztof Kozlowski <krzk@kernel.org>, 
-	Marek Szyprowski <m.szyprowski@samsung.com>, Matheus Castello <matheus@castello.eng.br>, 
-	Saravanan Sekar <sravanhome@gmail.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Casey Connolly <casey.connolly@linaro.org>, =?UTF-8?Q?Pali_Roh=C3=A1r?= <pali@kernel.org>, 
-	Orson Zhai <orsonzhai@gmail.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	Chunyan Zhang <zhang.lyra@gmail.com>, Amit Kucheria <amitk@kernel.org>, 
-	Thara Gopinath <thara.gopinath@gmail.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Daniel Lezcano <daniel.lezcano@linaro.org>, Zhang Rui <rui.zhang@intel.com>, 
-	Lukasz Luba <lukasz.luba@arm.com>, Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Sylwester Nawrocki <s.nawrocki@samsung.com>, Olivier Moysan <olivier.moysan@foss.st.com>, 
-	Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>, linux-kernel@vger.kernel.org, 
-	linux-hwmon@vger.kernel.org, linux-iio@vger.kernel.org, 
-	linux-input@vger.kernel.org, linux-phy@lists.infradead.org, 
-	linux-pm@vger.kernel.org, linux-mips@vger.kernel.org, 
-	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org, 
-	linux-sound@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Tue, Dec 9, 2025 at 10:26=E2=80=AFAM Romain Gantois
-<romain.gantois@bootlin.com> wrote:
->
-> To prepare for the introduction of namespaced exports for the IIO consume=
-r
-> API, remove this include directive which isn't actually used by the drive=
-r.
+Hi,
 
-Reviewed-by: Andy Shevchenko <andy@kernel.org>
+this adds function key support to the cros_ec_keyb driver: the platform
+can specify a key to be used as "function key", and that changes the
+keycode emitted for other keys as long as the function key remains
+pressed.
 
---=20
-With Best Regards,
-Andy Shevchenko
+The Fn key omits its own code if pressed and released with no other
+function key pressed in the meantime. Non mapped keys do not emit any
+codes, this seems to be the behavior of other devices I have lying
+around.
+
+Fabio Baltieri (3):
+  Input: cros_ec_keyb: clarify key event error message
+  Input: cros_ec_keyb: add function key support
+  dt-bindings: google,cros-ec-keyb: add fn-key and f-keymap props
+
+ .../bindings/input/google,cros-ec-keyb.yaml   |  60 +++++-
+ drivers/input/keyboard/cros_ec_keyb.c         | 193 ++++++++++++++++--
+ 2 files changed, 227 insertions(+), 26 deletions(-)
+
+-- 
+2.52.0.223.gf5cc29aaa4-goog
+
 
