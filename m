@@ -1,126 +1,117 @@
-Return-Path: <linux-input+bounces-16532-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16533-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D20BCB3B4D
-	for <lists+linux-input@lfdr.de>; Wed, 10 Dec 2025 19:00:38 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id D6638CB4095
+	for <lists+linux-input@lfdr.de>; Wed, 10 Dec 2025 22:12:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 511D93012ECF
-	for <lists+linux-input@lfdr.de>; Wed, 10 Dec 2025 18:00:37 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 24D5A3009631
+	for <lists+linux-input@lfdr.de>; Wed, 10 Dec 2025 21:12:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A6B1B31D75E;
-	Wed, 10 Dec 2025 18:00:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A4A5F3019D8;
+	Wed, 10 Dec 2025 21:12:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="JInx26C1"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IlN/Um3C"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF5B12857C7
-	for <linux-input@vger.kernel.org>; Wed, 10 Dec 2025 18:00:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 191BD2EBB9E
+	for <linux-input@vger.kernel.org>; Wed, 10 Dec 2025 21:12:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765389635; cv=none; b=cGpvh6Ht9iQTZUT1A/BSNSypo7Y/qBBUv4AxVzsSXEJwLtnlUe3IHEUnA98e4uU63HNHMaXU+4jVKRX4QBhk+Hf18Nd/HNXcf8I3hsK6eaS5nngQBE8P7i6j08K8S7GrnOx1nF6JamdfEzTqPpVBvlJ5Iy7w3/mXChPnpJ4Taxc=
+	t=1765401123; cv=none; b=Qm3xRK8Au0CtrlQKr8xRg62AarXQ5Wr7InwstxdFM6dbkqjTMxO1zo8dFNYES0NXpjT6o/qO+bvbjxKT7DEmhe0+TLX1Z214rn2PJrqYs75RA4hBXtS5GJPg2RRpmfrqSC/edhqz5KGtRw1OMOzQt0a6FcN3RHeo4ASAn+fBgsI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765389635; c=relaxed/simple;
-	bh=a+WgLV8Me8he8vsaz9WjfiuVCZvCj6zKFhsOIiTYBLs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YmgW+bq1+JqLFBj31q8xz88a08bGkgRMWJhHbglXrjyCKyTaLy4QSWfrQa4YCD45NcPIg4agYVAqrG9j63HB15OZ8RuatJmVQGoEK5HOAHmwJAQpImEz5/UVoJj0UQ3QbrksEZzJcZtxI3RJ46Bi69GmGx+tozvZ4FbGM1sGeoY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=JInx26C1; arc=none smtp.client-ip=209.85.221.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-42fa4737049so7729f8f.3
-        for <linux-input@vger.kernel.org>; Wed, 10 Dec 2025 10:00:33 -0800 (PST)
+	s=arc-20240116; t=1765401123; c=relaxed/simple;
+	bh=rKyYWkvrYU9ysuyv8UfGnXxnuqYNPuL+rwsaQsrH4N4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VV0AtppBsUcLIQSHPQzAiTogDIhUY2FBOaia3Eq+MfQGZjx1GcNNYTzPNvNrbb/JhMOBKm3PKZRpHhCd9NN0qvDWl5LvOv5iIckGny08E97YXIXsxmHZjVvkuzE5J+eCjxzzXI5V23XQR+jS1x6Mu6j7NTegXg+aveECHcKDxEM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IlN/Um3C; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-477b5e0323bso7414425e9.0
+        for <linux-input@vger.kernel.org>; Wed, 10 Dec 2025 13:12:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1765389632; x=1765994432; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=vNo6uQ8AO0yOaAEJTUC3/zvI8C5HZVj+hKvmdCETuYM=;
-        b=JInx26C1T9J4bIK8XSvC0fuP1epZ1mBZq02rYH0f/BaN3cbM6qusuYxq4pKQ3dllxp
-         xQsWKTr4XHbPLFgWXWcTOptPq26oOiG1D69YNKH3V/I3A30ohO5ByoJaLTAuPQtqKJnW
-         X+prjUObi70W7zv4fMdlW04mPK63PaT0bgeJA=
+        d=gmail.com; s=20230601; t=1765401120; x=1766005920; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=sXkfjEDfxcmN2wsxcxmPY/zV+YfLOJPrMQ34dquGAqo=;
+        b=IlN/Um3C2CPV3R8b6Dx7DNwivAx1UwPe+ZEt/KYYbhD/A5KtsqNjMgap1Hw89Ta3wZ
+         9C3SovDKvvINCOnDzLBFsLLsyiFa86q+fmogkQsaCDymLE/YVq1CeoRsrYyyFmCMaL8d
+         S4ygs8RdberzoktZNHpbtTiE+yWRqhhtJmk/jkI5peoTyL8aYNBYwSCCpt+/ruyu8nBe
+         df0b2qMxoR9k6KBSyvdeT7j9gYkk39WzY5+agenDUJ/34ltWCMcDJ+POwD+51Hp2/PbA
+         oY1JevMA6RhqZ9x3LTem32bfmfz7o3fpgs6uMhGjxLNRjwPpNxY6aGvWZ5b5nMEeYxsI
+         nK9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765389632; x=1765994432;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=vNo6uQ8AO0yOaAEJTUC3/zvI8C5HZVj+hKvmdCETuYM=;
-        b=ncXQodE4+nCB7FS9vN+y3KIYg1MMMrBTjWkOV0JDrqW32Ry0pUR5xZvPOggvVWC1Im
-         GNSfSEr/zJsCC5O2G7t/t46qWa4bkY/33jAGzMfj8qauuIa3aZrSpZ3eRUDILR/C11xm
-         3dUQhdHoMZmBg6BQ2TRAF+b/BZ0BB1ZNmZfCyKxNz8WIOJ9Oamcy9C+TDqHmOhDcXSrZ
-         V0VnH5+F8Ln7B0owDfsAgv1mLN+ktVn0qnyyMeXX46KVSEPIkjnsIiP7Jt0fhu97Kqhc
-         XAaJYYClsTu5nrnJgj8lfOTgJUWWu/0CtOrbCNiiWdtnoGolTBHjUqF5+ynztTosRtX2
-         G08g==
-X-Forwarded-Encrypted: i=1; AJvYcCUkecYIee2npWLapkHrCBvL8nn/Zz3Z1EWWbhd3r9A4LwLfPBfyC5Cu2Op7Jm/BtS9u8q0mgtLLG8Oj3g==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxTSLEajMi4rl1ImL/G+daaqbEh1mbJ/xMjo/Alef9u4wliQpwM
-	5Hof/PrlZy5rXh43Q80yyXs2JqVNeYtfXQeuBhYNGR1M4R0VCiOzgiGEcGHessr9ug==
-X-Gm-Gg: AY/fxX6cVfcXqJbHC8oyjKqhvNS5c8k3eQ5IpKqksQd/vqZG+lUTN6iNj16aUM8NQBF
-	YJNgUs6LuChg8a74L3ixC8SaVMX3cT54t3+I20vhurDOYqueardmhEBcFFtUgrRl1MlZxIFGTUj
-	AgmvwPurBPRvF2zN+ohQesM+poBNMpXLRQ7YfEHZUgGobdhn+Cl9W361KWBU57Nex+5v/NQEa6J
-	Gljqb2zrV4PS2O6+6Xl+4WRQ0qB5XmUMASGAQz7mc8GSrST/aAWe/dMdBQL0kqGt3rZR0w9MF3b
-	9U1kqFzr7G63jeMr3Kf1G4o6H1jAPwwzKQE+XDJegA+j7UHAJ+oVelCulGEugMJKGqmABOAeJbE
-	jWrRRZDM5R3K8x5y9S+EguDk7B85AE9o9xkiKAdeEddWnlxFjWzi9Kk+UBDF5YacZk92gY8fPrN
-	POPwSh57+7qKg8tDDeCQ==
-X-Google-Smtp-Source: AGHT+IGPESWqtdwT/XRTR5/RmcuAb3YXC3b7FMypahW+beW9pJZ9LM1+rqVviz4PyBnlnycCgdJNOQ==
-X-Received: by 2002:a05:6000:608:b0:429:b9bc:e826 with SMTP id ffacd0b85a97d-42fa3b079c1mr3929886f8f.53.1765389632184;
-        Wed, 10 Dec 2025 10:00:32 -0800 (PST)
-Received: from google.com ([37.228.206.31])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42fa8b8601csm291118f8f.22.2025.12.10.10.00.30
+        d=1e100.net; s=20230601; t=1765401120; x=1766005920;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=sXkfjEDfxcmN2wsxcxmPY/zV+YfLOJPrMQ34dquGAqo=;
+        b=VSJIzmXP8psMKk6TiSc4tgx2mU3qnhM9fWXpNMf6NNnsOhcoykaDk1PYg1QGYjNYa3
+         7ABZxrXioSgwGC4t+cZFJ10mKXbXVYOKm9AYnmQOVDeBvU6UWOwDk8Tr42NAe0PPwAjH
+         CcAtHQnpRbtH9EUIQX4DRYAQqDFZejDH4aqnTMGu7cuCZNYghPId0twwUawLH0MQNKgK
+         Vq+dokmK1aWrYQdMXUJs2QwsZyxP3jSHzYBCPwPXgrERzHZoqIr71FeO8kZvB7XWv9Jk
+         GaD01lOO51r1J6GH94oBuOy8vKV+yRa6aHyNuBzUWQnYCdbnqUl4Ayqmo5GnbYNh8PJL
+         6xmQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXIhB/2c9K1JldnI/MBwkWpIWVY2DYiyIWFJaW7c1mmU/0EsWiNAbZS9YS4vPpg3nk4K8825QrB9Rn6ng==@vger.kernel.org
+X-Gm-Message-State: AOJu0YymeukN3AmzG2HrRoND+64P+F2/TbOdhdIHReXFhVAnP/MZsWBY
+	7b8xdNta2akiwzzPxE+kO3PiN2nH59KA5PiOC1T94I0YrxjPg31C2bTF
+X-Gm-Gg: AY/fxX56NAtGrAjSBUJ37CmQ+koztAZkitH7drPgaYtS0W9hmqQz4FSs9VBM5TVZhQH
+	PBBDxwvIC4l3aaabbskMWsbry3KpejRhvekgjfoSl23ksdnmUCc2ypuy2uV46xBks3M+X8kx1Cx
+	y1GUW3ITOwl5ztRVz4lF4GKlaTXHdmT394+ZLvvA5KwuJ3r2j9T8qesgxIxdEiv5GRTfQ9eof5H
+	iwVbtSGmWUYLVzSquAPtl46V+qC5anTcEBd6bJD3piNZSjAiOu473g3p55p84+OLq2YqLIj7RFy
+	t4QznrT7rKdEEo7Fau6JkOSofQo0SBUS5/o6UJknnXPyCTMp53jlbE1KoJQn2wCDFS6c2V4/5q/
+	sXCvsYWYoQaOKvIhxnBQXn7ulV1XpvSnFFQUAGBnBbRcw4QqQP+pfDtJjI4EZmrdYPiqh/vqW0J
+	oVzqSdB7YdRjClgy39K7yhgoWGVYk9/R2m4Q==
+X-Google-Smtp-Source: AGHT+IGU59M2IZuNdD+VbcGD2kdQ2sd7kW6LEthAF1ElUXBAqJvOvr9iCG6HcvR/D2vmIEyFYTJfaA==
+X-Received: by 2002:a05:6000:1a8e:b0:429:cc35:7032 with SMTP id ffacd0b85a97d-42fa89f20a7mr839467f8f.23.1765401120272;
+        Wed, 10 Dec 2025 13:12:00 -0800 (PST)
+Received: from dev-linux.homserver.local ([51.154.249.23])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42fa8b85feasm1115031f8f.27.2025.12.10.13.11.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Dec 2025 10:00:31 -0800 (PST)
-Date: Wed, 10 Dec 2025 18:00:29 +0000
-From: Fabio Baltieri <fabiobaltieri@chromium.org>
-To: Rob Herring <robh@kernel.org>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>, Simon Glass <sjg@chromium.org>,
-	linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 3/3] dt-bindings: google,cros-ec-keyb: add fn-key and
- f-keymap props
-Message-ID: <aTm1PVLrS7Ra0OTF@google.com>
-References: <20251209154706.529784-1-fabiobaltieri@chromium.org>
- <20251209154706.529784-4-fabiobaltieri@chromium.org>
- <20251209192243.GA963693-robh@kernel.org>
+        Wed, 10 Dec 2025 13:11:59 -0800 (PST)
+From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
+To: Samuel Kayode <samkay014@gmail.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Vaibhav Gupta <vaibhavgupta40@gmail.com>,
+	imx@lists.linux.dev,
+	linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v1] Input: pf1550 - Remove "defined but unused" warning
+Date: Wed, 10 Dec 2025 21:11:41 +0000
+Message-ID: <20251210211149.543928-1-vaibhavgupta40@gmail.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251209192243.GA963693-robh@kernel.org>
+Content-Transfer-Encoding: 8bit
 
-Hey Rob, thanks for the review.
+If 'CONFIG_PM_SLEEP' is not set, compiler throws warning for *suspend() and
+*resume() function for this driver. Using new 'DEFINE_SIMPLE_DEV_PM_OPS'
+fixes it.
 
-On Tue, Dec 09, 2025 at 01:22:43PM -0600, Rob Herring wrote:
-> On Tue, Dec 09, 2025 at 03:47:06PM +0000, Fabio Baltieri wrote:
-> > +  fn-key:
-> > +    $ref: /schemas/types.yaml#/definitions/uint32
-> > +    description: |
-> > +      An u32 containing the coordinate of the Fn key, use the MATRIX_KEY(row,
-> > +      col, code) macro, code is ignored.
-> > +
-> > +  fn-keymap:
-> 
-> If keymap is linux,keymap, then this should perhaps be linux,fn-keymap. 
-> Depends if we still think linux,keymap is Linux specific?
+Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
+---
+ drivers/input/misc/pf1550-onkey.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I'm open for suggestions, trying to understand the pattern, these are
-specific to this binding I think if anything they should be
-google,fn-key and google,fn-keymap, similarly to the existing
-google,needs-ghost-filter -- no idea why function-row-physmap was not
-prefixed but I guess it slipped in and now it's not worth changing it.
-
-Would it make sense?
-
-Thanks,
-Fabio
-
+diff --git a/drivers/input/misc/pf1550-onkey.c b/drivers/input/misc/pf1550-onkey.c
+index 9be6377151cb..0d1b570bbe47 100644
+--- a/drivers/input/misc/pf1550-onkey.c
++++ b/drivers/input/misc/pf1550-onkey.c
+@@ -173,7 +173,7 @@ static int pf1550_onkey_resume(struct device *dev)
+ 	return 0;
+ }
+ 
+-static SIMPLE_DEV_PM_OPS(pf1550_onkey_pm_ops, pf1550_onkey_suspend,
++static DEFINE_SIMPLE_DEV_PM_OPS(pf1550_onkey_pm_ops, pf1550_onkey_suspend,
+ 			 pf1550_onkey_resume);
+ 
+ static const struct platform_device_id pf1550_onkey_id[] = {
 -- 
-Fabio Baltieri
+2.51.0
+
 
