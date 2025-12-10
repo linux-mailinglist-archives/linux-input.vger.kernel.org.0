@@ -1,84 +1,87 @@
-Return-Path: <linux-input+bounces-16521-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16522-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0799CCB1EB1
-	for <lists+linux-input@lfdr.de>; Wed, 10 Dec 2025 05:41:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D942CB1EC6
+	for <lists+linux-input@lfdr.de>; Wed, 10 Dec 2025 05:48:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 2E49B301B2E2
-	for <lists+linux-input@lfdr.de>; Wed, 10 Dec 2025 04:41:00 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 614A930422BB
+	for <lists+linux-input@lfdr.de>; Wed, 10 Dec 2025 04:48:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C2E52302156;
-	Wed, 10 Dec 2025 04:40:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A27A223BF9F;
+	Wed, 10 Dec 2025 04:48:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="c3LtonPF"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iopcip8J"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 293AF13959D
-	for <linux-input@vger.kernel.org>; Wed, 10 Dec 2025 04:40:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D8211E0DCB
+	for <linux-input@vger.kernel.org>; Wed, 10 Dec 2025 04:48:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765341659; cv=none; b=fbNMSjNqxwBj0H7UqDrlOhvMhgjDngmBxpjEDq9WbsIC61hao4v7DifIJAmsF8Y9UvFVLEG8NsmwvpVqx5AilOd5THX6V9yxMp03KCCnYTBMMCkFYbdupRB0HZ6wYlERfQBkRlDg+IlAtlTZlohDO4eqU+mXWATHZB71fw/r2Mw=
+	t=1765342098; cv=none; b=tXyQFF3XWHhtzXgtCo/ZT/AQSsg+ZEWeT/+xwcsavqM9jHGvlCvi6vcwpfSCIcPi/bh3bp/XXrrCR3ZCAXASW/PboY3loslPv7unPSmimNSdNkzgNHox7J8sgCRSTHfvIyYBEcK/JAOgn2yIrzjrf96d+okzb7kKI5KxOv0etfc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765341659; c=relaxed/simple;
-	bh=UEb+Um//Pm0bjMP+ZKyco+iZ//oYpZeuCk3k7Wl9Llw=;
+	s=arc-20240116; t=1765342098; c=relaxed/simple;
+	bh=HiXPr3YnNFC1WcmdBP1XHJO/zHZJH28vUst3XPz7mD0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=h9OGIWNu8nVdS867mkecoqzpKwCVq39HWR4RhKpbU4zmwwCzazyrBv+MGJ45RH8xFdwJUgu202ThDh6t/Xagh4+qUWcAN7BB64wZj8JTHEfF1fp/5SLYaoaGjycQ8eHsI52vgDhATCexZlEGoYt8wTvtJG3JrkCtvNXk6MrZGos=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=c3LtonPF; arc=none smtp.client-ip=209.85.214.180
+	 Content-Type:Content-Disposition:In-Reply-To; b=B9vj5SJVxMdP7M7XbikBd15TvRnZcon2uBK1ZcGTM2JLUpKLCeUyFRK87dIOJwzQR/ar1R2vLUdJ4KnMgCgxIXoknKgPRcCTginF8+/zS+ioM9RRJ7upIkqI8cs2zIftFcldhcxXAgJlULOPsM0XQ/RF7l51Vx2GXna5W+oTpOE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iopcip8J; arc=none smtp.client-ip=209.85.215.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-299d40b0845so101766445ad.3
-        for <linux-input@vger.kernel.org>; Tue, 09 Dec 2025 20:40:58 -0800 (PST)
+Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-bc8ceb76c04so4458768a12.1
+        for <linux-input@vger.kernel.org>; Tue, 09 Dec 2025 20:48:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765341657; x=1765946457; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1765342096; x=1765946896; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=uby50kMfOF3sIrvqM4zL9wyiF7T878kqTyY1aG3DrgQ=;
-        b=c3LtonPFZn4VpfAw3TSZKfGR3LVIX9gb6u/AKW1yCPq0aeqQzRSQBJKxxUzkvrISJ/
-         eF95UmjBlXH3j+R3O06srkbDBaVsCH2bvJM46y4/3K2AhIoCyGYl2+jxTYOdCs60HNmx
-         oI+lCXbUWNSGIyCcKWEFCU00gAGWxX7+VzEQPudpDdFXCbe1V2wYdVDS8vT4Ed31kpSZ
-         coBjh86F4r20+C5s1zgD2NVI122uHIzpUQNiL3e7rT7hs3zV9BH9XePLGhV4iwtX8aiN
-         WxiVyXtqM01HT6/0GUvpqJiZW9C6Mnx2+CIpdQPPw6bNSvsPYqbkZ5/dAc11u0a67ipp
-         bKFw==
+        bh=zMIVlrIRMHzT8RfJZ0XmrU2xGjPLrLeQG/AGz65dD1I=;
+        b=iopcip8JhoSKZ66N2un3ocpbbIOgRCqX9za54JLhrAn99xFL0OFO8Zk4Eu72fK9cID
+         zvt3k3aIWYSAHF/OCDquQphdCkVjtUdJZxB39MPnx54LRL7szhigGKYjQkWIrvv2GnVN
+         PfouwBBhEv4ClbRkmhamgyy4n1zw1MACMn5ElYR5mh6pJVLAnCjX5a5UGOrDbTLBDrQu
+         7IeJjV3lJu1Fs0+H8Ai8LA/Nle/yK0YBso6oyz1wWQ5GetQOT8XmhetsZ0MFHjfckHEi
+         g5akHTzPuKhPyL612v936h4Y6+fhBcMGCWYUoOF6dahVDa7D8rHt9JHpg+fLpf+2UUwS
+         vTPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765341657; x=1765946457;
+        d=1e100.net; s=20230601; t=1765342096; x=1765946896;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=uby50kMfOF3sIrvqM4zL9wyiF7T878kqTyY1aG3DrgQ=;
-        b=buFa195Vp0XL+Er1WYgAtUwSOZwZTQg4wtkL16Ef3CYoV1hpxGqEv3/XlMm7uG3pER
-         OPhmCrIylAyvgcH2Xk8G/MtvUIyjv9DApF0A4g8Ti1zIFgaQm1Y0txY5o2qy0NGsKwUu
-         reH25CcC7N4YRUCIsDlPRy1RSnJlgH9ZItpH3x2hmTGgPK9xmmBhsEInEr5nvc3X7jaf
-         saUWQ232nsr0zklG4UYZaEJp/P5JcsIwxsxiqM851pH/oY5xmbi/QiO6P2brWZJIuVlP
-         T9KBlYvtnNWpXRcVfGgXnTS5YaMYDfVmobIxOhFcIAhYoCs0w/F/qA866qiDHG6OfB23
-         fyfQ==
-X-Gm-Message-State: AOJu0YzygMHundUEEiV7RC6qRPaKuhDwPnvP90ndb8M1/M9LIgGVM4d1
-	o8bwEZ2PzhEIfN/+KciSA1ePQvs2gAv7Mqr97U6VhVOqA4lrcebUboPX
-X-Gm-Gg: ASbGncuo7gSpUf+DpzwqPuoBuxyM1WiiDMDAM23cwlfzafrOOR3NP1S9FTNP7R4IuQ3
-	Bo8907OFegS5UflLCwwccXZwpa9XApaiirpv4mbobHnn/qb3YNoWfEep5mVypodKhZegpjuKdyv
-	OUCFNoQCbR/SsayseG0qL91wN95Cwo41GuvHpjHnZXu0niO3O8MFV57vE4D8bUvFpcpkhgtUtl+
-	RmkPt117QnPxLZPa5Zdl4Jab3kzzijeJpcGSyGHOhtZQKFXuUb1gps0RQoAJ+Frvcv0HyyiZpOJ
-	Y44Z2VpOWaH5rUYkrKQ8L7YfgYEcNacHod1foCSxK4D6EIS9VuAF0SyUPxT0ZDIZOPKsJAmzyX5
-	4LQ5Y3z/Xo8DEXEW8aWBUeOoPYCaJw3GyIoGHh4s/dmdAiybdXmnDHWg1ZPwDpdmNnYmwSDkMMt
-	oI2wvcH7Za4HoxJE1R/NVHtgNbnzfUKl/LHld26sISG6AEJn+xZESG
-X-Google-Smtp-Source: AGHT+IENwAUsJ/s7bl0LcpXSQ+18il49/uHtdiDPbHYi/5wurUfmmxGJ90zEdCrpp2ByAgRva1UfOQ==
-X-Received: by 2002:a05:7023:b0b:b0:11c:b397:2657 with SMTP id a92af1059eb24-11f2969792bmr895812c88.22.1765341657338;
-        Tue, 09 Dec 2025 20:40:57 -0800 (PST)
+        bh=zMIVlrIRMHzT8RfJZ0XmrU2xGjPLrLeQG/AGz65dD1I=;
+        b=HbvFhfdE5nQrdG+twy1hnH0Kkw6EqAfvnzQOYpUc9EiNYml2uchPKew+rxUDQIyaOK
+         QGQGZ/rIKnFsvKaTCHEp7gVSz++LN6MpwTFtYgAUJbGQry6JngKuvDacwsVA1WEnL9OM
+         prZVU3YBe/ypg/Pd25u6aAK01RFQ2CE517Vw5hM8+e9pdjTtmY83E0/hcVHjHMKxxopX
+         msAx0d7U4e/xg/NZxUHo2z3isaVWhqTUE5byl/CQ9CjypwVEvKbiatdezBQzWkX3CPQe
+         Bkuy6Fil7RqI88DAsI4w8FgiR5wlEyVHELMRMo1iXd6BavV6HaUJa7pd13/VmvdRKGnp
+         GEVw==
+X-Forwarded-Encrypted: i=1; AJvYcCXH4sqTakZyP4JhR+rVrbY6W0EWZyCGD5s3ZjG8Fevi1DGtBJGufOgrD3f2KBZJxlHXj8pVOwb0qF8Y8Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxoauc7OUdmR7+c02bhkUDzYJyDO4r1KzdI/X2DEUYdw5gjmv8v
+	N87KkkjRanUDJtyfFz7pIBnwcDYK3M42AaZxRt4n1TaE7NT+E2LLNqy8
+X-Gm-Gg: ASbGncvCdAL363OEOt3dIMSOsrsnDAGiUGEuIB8tZjOI40GFvLGuoXVCLU5T9xf6EqY
+	xBcQuxQ8x+LEg617z1be8cd8Sv1YTTdIDHLTzY0Mm4J/TnHuScPXzqwAX2lZ+WPu9UG3s9LsdEZ
+	jXWRV6FiqzscK37bV8yMFc1VeOl1e2+axT+qzLLpiFceL6GFSB2V7jiOJezACSMd5MEBQpqZCsT
+	/3CAwIsTjOOhmypgmBim7Q1u0LArmeuMrMSBuXI06AktYdo1dDO7X0kRIir2qsFqQMertvO4G12
+	Ep9ZstWaeRqyPdmHk9OqRNW/tK4lFqCX3NgH+jJA1JMk0ephx7xaYm1u1atXK5fl0+IX47+ca4Z
+	L/uZTRym8bkuzHyB1DTBIEim5Q3lIw7TDsm1faCTuLdwiArQ8znBs4VNWjhWMQT0aIQwVmvpAha
+	ZOC5m0BlfwBlPpqI66YjK+wlpuM+rGJMXuQLD9ANaYPXDrexDY3cIug0Cms590m9U=
+X-Google-Smtp-Source: AGHT+IGwhF10o8oXBvj6kF3XVHLwewCx7u/bdxSK0ksb+PGLHRX/iWeDMbigiy2qXuWF8UnfAfUzMw==
+X-Received: by 2002:a05:7022:4299:b0:119:e569:f626 with SMTP id a92af1059eb24-11f29689922mr965432c88.31.1765342096391;
+        Tue, 09 Dec 2025 20:48:16 -0800 (PST)
 Received: from google.com ([2a00:79e0:2ebe:8:205a:5a0a:c468:f44f])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-11df76e2eefsm81337463c88.6.2025.12.09.20.40.56
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-11df76e2f3csm72522829c88.5.2025.12.09.20.48.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Dec 2025 20:40:56 -0800 (PST)
-Date: Tue, 9 Dec 2025 20:40:54 -0800
+        Tue, 09 Dec 2025 20:48:16 -0800 (PST)
+Date: Tue, 9 Dec 2025 20:48:13 -0800
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Minseong Kim <ii4gsp@gmail.com>, Mike Rapoport <rppt@kernel.org>
-Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	stable@vger.kernel.org
-Subject: Re: [PATCH] input: synaptics_i2c - cancel delayed work before
- freeing device
-Message-ID: <xeski4dr32zbxvupofis5azlq2s6fwtnuya7f3kjfz5t7c2wnq@jbvlajechlrd>
-References: <20251210032027.11700-1-ii4gsp@gmail.com>
+To: Haotian Zhang <vulab@iscas.ac.cn>
+Cc: matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com, 
+	louisalexis.eyraud@collabora.com, bisson.gary@gmail.com, julien.massot@collabora.com, 
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH] input: mtk-pmic-keys: Fix potential NULL pointer
+ dereference in probe()
+Message-ID: <inmlorhcpi5g7kfs45rhtpwq7aatmzxemgnulamvjqxmmmtl2j@vfcd5kndbhep>
+References: <20251210030013.913-1-vulab@iscas.ac.cn>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -87,50 +90,23 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251210032027.11700-1-ii4gsp@gmail.com>
+In-Reply-To: <20251210030013.913-1-vulab@iscas.ac.cn>
 
-Hi Minseong,
+Hi Haotian,
 
-On Wed, Dec 10, 2025 at 12:20:27PM +0900, Minseong Kim wrote:
-> synaptics_i2c_irq() schedules touch->dwork via mod_delayed_work().
-> The delayed work performs I2C transactions and may still be running
-> (or get queued) when the device is removed.
-> 
-> synaptics_i2c_remove() currently frees 'touch' without canceling
-> touch->dwork. If removal happens while the work is pending/running,
-> the work handler may dereference freed memory, leading to a potential
-> use-after-free.
-> 
-> Cancel the delayed work synchronously before unregistering/freeing
-> the device.
-> 
-> Fixes: eef3e4cab72e Input: add driver for Synaptics I2C touchpad
-> Reported-by: Minseong Kim <ii4gsp@gmail.com>
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Minseong Kim <ii4gsp@gmail.com>
-> ---
->  drivers/input/mouse/synaptics_i2c.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/drivers/input/mouse/synaptics_i2c.c b/drivers/input/mouse/synaptics_i2c.c
-> index a0d707e47d93..fe30bf9aea3a 100644
-> --- a/drivers/input/mouse/synaptics_i2c.c
-> +++ b/drivers/input/mouse/synaptics_i2c.c
-> @@ -593,6 +593,8 @@ static void synaptics_i2c_remove(struct i2c_client *client)
->  	if (!polling_req)
->  		free_irq(client->irq, touch);
->  
-> +	cancel_delayed_work_sync(&touch->dwork);
-> +
+On Wed, Dec 10, 2025 at 11:00:13AM +0800, Haotian Zhang wrote:
+> of_match_device() may return NULL when the device node
+> does not match any entry in the driver's match table.
+> The current code dereferences of_id->data unconditionally,
+> which can lead to a NULL pointer dereference.
 
-The call to cancel_delayed_work_sync() happens in the close() handler
-for the device. I see that in resume we restart the polling without
-checking if the device is opened, so if we want to fix it we should add
-the checks there.
+How are we getting into probe() without matching compatible?
 
-However support for the PXA board using in the device with this touch
-controller (eXeda) was removed a while ago. Mike, you're one of the
-authors, any objections to simply removing the driver? 
+We already had a discussion about this in [1] and patched the MFD
+portion to not use generic driver name when instantiating the keypad
+sub-device.
+
+[1] http://lore.kernel.org/r/20250630-mtk-pmic-keys-fix-crash-v1-1-e47351fa9d1f@collabora.com
 
 Thanks.
 
