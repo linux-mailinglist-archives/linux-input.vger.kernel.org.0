@@ -1,118 +1,104 @@
-Return-Path: <linux-input+bounces-16526-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16527-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9243ECB2E23
-	for <lists+linux-input@lfdr.de>; Wed, 10 Dec 2025 13:25:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E94CDCB31EE
+	for <lists+linux-input@lfdr.de>; Wed, 10 Dec 2025 15:15:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 08AED302A941
-	for <lists+linux-input@lfdr.de>; Wed, 10 Dec 2025 12:25:45 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 75AF63165336
+	for <lists+linux-input@lfdr.de>; Wed, 10 Dec 2025 14:10:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D8EB9319601;
-	Wed, 10 Dec 2025 12:25:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A0BA5316905;
+	Wed, 10 Dec 2025 14:10:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="agunRaHl"
+	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="WROrKGBA"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F9D1285074;
-	Wed, 10 Dec 2025 12:25:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E074B2FFF84;
+	Wed, 10 Dec 2025 14:10:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765369543; cv=none; b=WzxPFOBOxKTb1AIrjZMQnYDXKDpPp1QuLsVneKs+YRStlMxHwgTNqFf64ctjkXX5QvP9INOiw4GgjhvuKsP0qDqMGRtVAs537ICZ+6kATpUc1hTy4irTqOnJA76jD6qO29dtt8c8QElMZy0BfDnMYbHE7eb079Y32pER1CejUmE=
+	t=1765375826; cv=none; b=E+OnQdRQ7BhHbIKhi+F4K3LrONPDYitbvwOMGd9k4frfZJ5oJHUZvffzyJ8bZmGAhPkGe8VgR53f8qNSFbITkPBb4zREl59TpP5+8r/K97UPDZjTjqkv+yd2YEWxnU7SNi96z7exj8A8qGeX9/OnwFbiMP0FPp11TzOSb0X9+Fo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765369543; c=relaxed/simple;
-	bh=kg7rv6+yVUAMfvaHiJYZ/8ESn241AKJrqTsZ+i1IDEI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aer+RChqg3rSLlp4DxN9Th4nH5XR7uKJfEFlApuLNo9c69vSdekCdNAg2BSIchCBjFVdC6iwJcnzo94zxwHvstd40A8k6pPJ0MBa5W3zHyhm6Q/S0l5GBtIuA5kh7N86UH2lpRp7eVVjPid7eI1Xoo7Yd3oDrAg33CRDMMrIXAQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=agunRaHl; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B98EEC4CEF1;
-	Wed, 10 Dec 2025 12:25:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765369543;
-	bh=kg7rv6+yVUAMfvaHiJYZ/8ESn241AKJrqTsZ+i1IDEI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=agunRaHlMKPh9waGbLj+f9lqH5I1Az4WV3IqK5oP/M1o51c0qPcc6Eu6zFH64Jg7T
-	 oD1QAQKuwnUOX9ji0C+6IMyuFLYXp2Ck4jLdk7LvvQQQluhgcNDgjq/wPfZ7P2bqA3
-	 Z9S1nhJ4tFE48WTUBH30kzqThmo+ZpLb3mCiZeZqyCEmFrRCtvbGxBSoQssOFxyCUA
-	 pL6WnGLwbi6MZBEW5or40ntygSAYN2uk8mdAtWBKDnGZLNogQuKm5daGUF97eafGo/
-	 wuIfn4ibTwHnwqOVg2cWmZ8xWo6yrsUp9/5rGv1uULHrOe4zo+xbp7zCtOpdVj1D59
-	 SjZIvJxX/IVrg==
-Date: Wed, 10 Dec 2025 21:25:38 +0900
-From: Mike Rapoport <rppt@kernel.org>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Minseong Kim <ii4gsp@gmail.com>, linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH] input: synaptics_i2c - cancel delayed work before
- freeing device
-Message-ID: <aTlmwhOF3zB1UkrI@kernel.org>
-References: <20251210032027.11700-1-ii4gsp@gmail.com>
- <xeski4dr32zbxvupofis5azlq2s6fwtnuya7f3kjfz5t7c2wnq@jbvlajechlrd>
+	s=arc-20240116; t=1765375826; c=relaxed/simple;
+	bh=eRSg4jk+zLVq8GfCtZV94T7XYnKHEXKp2zy8qUFXBFI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=guc0MT/rxLJf48FgYcCpNPtB2LF9V+JdZAAqyVGothz48rORQuQCmFTWLETphEUOxAs8sH8WtINn5RKcowcj4rN/zmUAmDCJYHkXm7pCHDWkJIT8ha9S7ndTC4JumNuBw1qremFzJMXZSLaO7WPMgDH96i07vnjgNsIl/F42iRU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=WROrKGBA; arc=none smtp.client-ip=157.90.84.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
+Received: from [192.168.42.116] (pd9e597c7.dip0.t-ipconnect.de [217.229.151.199])
+	(Authenticated sender: wse@tuxedocomputers.com)
+	by mail.tuxedocomputers.com (Postfix) with ESMTPSA id 2AD2F2FC005B;
+	Wed, 10 Dec 2025 15:10:13 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
+	s=default; t=1765375813;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ivuuWu4P609JXxM7NoamvVbzHi8v3Py+RLXg8GVpYEU=;
+	b=WROrKGBA/f6/mNSBxbXQEclIZccpdbLNx7+SPSQsoEQLGZVYyObUiFtXt04Rj26oSSt+3d
+	arPdkbxqckwncW1j+35D1bZ0jsMK5rjIyVgI90zMT6LQwkbv0sI+U0thhCo+bvf7vvRBFy
+	3IQ505r3a3QQsw7on+GNMqW7zGU3YyA=
+Authentication-Results: mail.tuxedocomputers.com;
+	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
+Message-ID: <b19a80a1-0611-47b4-8cfb-dccf77e9b86d@tuxedocomputers.com>
+Date: Wed, 10 Dec 2025 15:10:12 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <xeski4dr32zbxvupofis5azlq2s6fwtnuya7f3kjfz5t7c2wnq@jbvlajechlrd>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Input: i8042 - add TUXEDO InfinityBook Max Gen10 AMD to
+ i8042 quirk table
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Christoffer Sandberg <cs@tuxedo.de>, linux-input@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20251124203336.64072-1-wse@tuxedocomputers.com>
+Content-Language: en-US
+From: Werner Sembach <wse@tuxedocomputers.com>
+In-Reply-To: <20251124203336.64072-1-wse@tuxedocomputers.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
 Hi,
 
-On Tue, Dec 09, 2025 at 08:40:54PM -0800, Dmitry Torokhov wrote:
-> Hi Minseong,
-> 
-> On Wed, Dec 10, 2025 at 12:20:27PM +0900, Minseong Kim wrote:
-> > synaptics_i2c_irq() schedules touch->dwork via mod_delayed_work().
-> > The delayed work performs I2C transactions and may still be running
-> > (or get queued) when the device is removed.
-> > 
-> > synaptics_i2c_remove() currently frees 'touch' without canceling
-> > touch->dwork. If removal happens while the work is pending/running,
-> > the work handler may dereference freed memory, leading to a potential
-> > use-after-free.
-> > 
-> > Cancel the delayed work synchronously before unregistering/freeing
-> > the device.
-> > 
-> > Fixes: eef3e4cab72e Input: add driver for Synaptics I2C touchpad
-> > Reported-by: Minseong Kim <ii4gsp@gmail.com>
-> > Cc: stable@vger.kernel.org
-> > Signed-off-by: Minseong Kim <ii4gsp@gmail.com>
-> > ---
-> >  drivers/input/mouse/synaptics_i2c.c | 2 ++
-> >  1 file changed, 2 insertions(+)
-> > 
-> > diff --git a/drivers/input/mouse/synaptics_i2c.c b/drivers/input/mouse/synaptics_i2c.c
-> > index a0d707e47d93..fe30bf9aea3a 100644
-> > --- a/drivers/input/mouse/synaptics_i2c.c
-> > +++ b/drivers/input/mouse/synaptics_i2c.c
-> > @@ -593,6 +593,8 @@ static void synaptics_i2c_remove(struct i2c_client *client)
-> >  	if (!polling_req)
-> >  		free_irq(client->irq, touch);
-> >  
-> > +	cancel_delayed_work_sync(&touch->dwork);
-> > +
-> 
-> The call to cancel_delayed_work_sync() happens in the close() handler
-> for the device. I see that in resume we restart the polling without
-> checking if the device is opened, so if we want to fix it we should add
-> the checks there.
-> 
-> However support for the PXA board using in the device with this touch
-> controller (eXeda) was removed a while ago. Mike, you're one of the
-> authors, any objections to simply removing the driver? 
- 
-No objections from my side.
-
-> Thanks.
-> 
-> -- 
-> Dmitry
-
--- 
-Sincerely yours,
-Mike.
+Am 24.11.25 um 21:31 schrieb Werner Sembach:
+> From: Christoffer Sandberg <cs@tuxedo.de>
+>
+> The device occasionally wakes up from suspend with missing input on the
+> internal keyboard and the following suspend attempt results in an instant
+> wake-up. The quirks fix both issues for this device.
+Just wanna make sure that his doesn't get missed for the 6.19 cycle.
+>
+> Signed-off-by: Christoffer Sandberg <cs@tuxedo.de>
+> Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
+> Cc: stable@vger.kernel.org
+> ---
+>   drivers/input/serio/i8042-acpipnpio.h | 7 +++++++
+>   1 file changed, 7 insertions(+)
+>
+> diff --git a/drivers/input/serio/i8042-acpipnpio.h b/drivers/input/serio/i8042-acpipnpio.h
+> index 1caa6c4ca435c..654771275ce87 100644
+> --- a/drivers/input/serio/i8042-acpipnpio.h
+> +++ b/drivers/input/serio/i8042-acpipnpio.h
+> @@ -1169,6 +1169,13 @@ static const struct dmi_system_id i8042_dmi_quirk_table[] __initconst = {
+>   		.driver_data = (void *)(SERIO_QUIRK_NOMUX | SERIO_QUIRK_RESET_ALWAYS |
+>   					SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
+>   	},
+> +	{
+> +		.matches = {
+> +			DMI_MATCH(DMI_BOARD_NAME, "X5KK45xS_X5SP45xS"),
+> +		},
+> +		.driver_data = (void *)(SERIO_QUIRK_NOMUX | SERIO_QUIRK_RESET_ALWAYS |
+> +					SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
+> +	},
+>   	/*
+>   	 * A lot of modern Clevo barebones have touchpad and/or keyboard issues
+>   	 * after suspend fixable with the forcenorestore quirk.
 
