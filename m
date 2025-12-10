@@ -1,70 +1,50 @@
-Return-Path: <linux-input+bounces-16516-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16517-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 643BBCB1C10
-	for <lists+linux-input@lfdr.de>; Wed, 10 Dec 2025 03:52:22 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id DBCD9CB1C32
+	for <lists+linux-input@lfdr.de>; Wed, 10 Dec 2025 04:00:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 42E65311B0B0
-	for <lists+linux-input@lfdr.de>; Wed, 10 Dec 2025 02:50:01 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id D03EE301EA62
+	for <lists+linux-input@lfdr.de>; Wed, 10 Dec 2025 03:00:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CA57421ABBB;
-	Wed, 10 Dec 2025 02:49:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TCM4Y1KL"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9BEC08C1F;
+	Wed, 10 Dec 2025 03:00:38 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 270EB248883
-	for <linux-input@vger.kernel.org>; Wed, 10 Dec 2025 02:49:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B64671C860C;
+	Wed, 10 Dec 2025 03:00:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765334999; cv=none; b=rJrIf/9SfqUl5rnHWU4hOq3GBL+/Hdm+U/B3L15DNjG5Jjm2JfgW9HViExC5kwa7z0+L2BdiPJu/OA2rk1sR1k/U1i16uaPeVPZOZUyLvbxAb8KSi+Gzml8Ho3nFpbOpbFYE5wYfSWZsAdAyRvIEV4cZzsJoeptQdTPyZV3FkV8=
+	t=1765335638; cv=none; b=oQaakGzVEEjMD4rvtTkONvCuWzpG4Ije3jOGD53TfSp4q3IXlfUxuBJ/XTMUDl3jIEJQjShYr82iAMfE6HvEubf5RYFVENF8cV2W0EM3eM1AbPTsqMzpsegIEktrQH5t83xTeLahvOtkS5jLVGm8+WzHuWGA7CsNg6OxnhPAyno=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765334999; c=relaxed/simple;
-	bh=LQRvc60kgrTi6rG5DTCjRgrbpsA8z24xlEJCUlF+CjM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PpKbVsg2Wg4gSJ1QfA3VFlzWZ6OtHoBwC20EiaVKp5vwty7JzwfYae7kKZueThd1egnYne3uEsOdZS6gskDuYR9l6MVbZJYiEbAJ2c3qn96DxzCsTw40T4ZHjbCqaa52H0r2N4nnEsDcUcppu5dhlFcEGn9csnifIApBUGfyMEI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TCM4Y1KL; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765334998; x=1796870998;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=LQRvc60kgrTi6rG5DTCjRgrbpsA8z24xlEJCUlF+CjM=;
-  b=TCM4Y1KL5geqwqtahzJZeAv5qPZnEVkO7MwKSkBxencibgLshnNzMDeU
-   BI31sFj+4+eH8hfdcJ7GBNGHnEE2zN8wwlBgrGQ/hP5hnLVTtzXMLOHRQ
-   ywHKlH/NCkaTVbXZY0dvxqk43R60urLZZKSWiZyVBnjAoz8h7aPSTRrzd
-   RbYTqpYLM5FMJcw27bljweqr43C73ruaR7yofNwGUYEGAa5Ad2+6Uif1l
-   r3eS6q0JEl1oGqrHrZu+7X3RZU3hn9JMtGUf/EP/gWG3zrxoDwLreV4Yq
-   QBIw9n7saE6m1SNX+nX7NWba4HvHJcNCTNw/ZfcVjCJz3NQ67YWVYUskP
-   A==;
-X-CSE-ConnectionGUID: IpnRD+PnR9q0e2qddOvpMw==
-X-CSE-MsgGUID: ckC19JNmTSaHxtsvc/X+vg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11635"; a="67231263"
-X-IronPort-AV: E=Sophos;i="6.20,256,1758610800"; 
-   d="scan'208";a="67231263"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2025 18:49:57 -0800
-X-CSE-ConnectionGUID: qSGXs9ypRISASuG5pBY2VA==
-X-CSE-MsgGUID: xdWtEwIHTCeXYTkFwptg/Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,263,1758610800"; 
-   d="scan'208";a="196140594"
-Received: from iscp-l-lixuzha.sh.intel.com ([10.239.153.157])
-  by orviesa009.jf.intel.com with ESMTP; 09 Dec 2025 18:49:56 -0800
-From: Zhang Lixu <lixu.zhang@intel.com>
-To: linux-input@vger.kernel.org,
-	srinivas.pandruvada@linux.intel.com,
-	jikos@kernel.org,
-	benjamin.tissoires@redhat.com
-Cc: lixu.zhang@intel.com
-Subject: [PATCH] HID: intel-ish-hid: Update ishtp bus match to support device ID table
-Date: Wed, 10 Dec 2025 10:53:28 +0800
-Message-ID: <20251210025328.638436-1-lixu.zhang@intel.com>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1765335638; c=relaxed/simple;
+	bh=6vd8EPLKxMaqhQHIaokagG+vK55VXHfEaeZLArocAbo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=iqtqajFcHmCXeXR6+/SeH7cCQUzahzPiaMHMTO7p119VazNwfuX9JWrD6RSkcXO0/4wwfkqiuOtOUzVaSOArOkdHm1UzS3qyGLlQJpNPqGxrTYMNBZsatQhcsuEMy6BvCIzGPyubHhHbGb+P7uohTipkD2/fqrvclxrknTqyT1I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
+Received: from DESKTOP-L0HPE2S (unknown [124.16.141.245])
+	by APP-01 (Coremail) with SMTP id qwCowAC3X2tN4jhpoGMoAA--.1160S2;
+	Wed, 10 Dec 2025 11:00:31 +0800 (CST)
+From: Haotian Zhang <vulab@iscas.ac.cn>
+To: dmitry.torokhov@gmail.com,
+	matthias.bgg@gmail.com,
+	angelogioacchino.delregno@collabora.com
+Cc: louisalexis.eyraud@collabora.com,
+	bisson.gary@gmail.com,
+	julien.massot@collabora.com,
+	linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	Haotian Zhang <vulab@iscas.ac.cn>
+Subject: [PATCH] input: mtk-pmic-keys: Fix potential NULL pointer dereference in probe()
+Date: Wed, 10 Dec 2025 11:00:13 +0800
+Message-ID: <20251210030013.913-1-vulab@iscas.ac.cn>
+X-Mailer: git-send-email 2.50.1.windows.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -72,45 +52,53 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:qwCowAC3X2tN4jhpoGMoAA--.1160S2
+X-Coremail-Antispam: 1UD129KBjvdXoWrtw4DJr48Cw1DGw1Uuw1fXrb_yoWkWrX_Wr
+	yYvrn7Wr1xKryktrn3Krn3ZF9akw1vva48X34Sq3s3t3y5ZrZrWayqvryrZw4UW3yxGF1U
+	J3Wkua18Ar45WjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUb3kFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
+	Cr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26F4UJV
+	W0owAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+	I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
+	4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628v
+	n2kIc2xKxwCY1x0262kKe7AKxVWUtVW8ZwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7x
+	kEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E
+	67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCw
+	CI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1x
+	MIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIda
+	VFxhVjvjDU0xZFpf9x0JUd-B_UUUUU=
+X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiBg0MA2k4t7ewIwAAsG
 
-The ishtp_cl_bus_match() function previously only checked the first entry
-in the driver's device ID table. Update it to iterate over the entire
-table, allowing proper matching for drivers with multiple supported
-protocol GUIDs.
+of_match_device() may return NULL when the device node
+does not match any entry in the driver's match table.
+The current code dereferences of_id->data unconditionally,
+which can lead to a NULL pointer dereference.
 
-Signed-off-by: Zhang Lixu <lixu.zhang@intel.com>
-Acked-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Add a NULL check for the return value of of_match_device()
+and return -ENODEV upon failure.
+
+Fixes: 3e9f0b3e2b27 ("input: Add MediaTek PMIC keys support")
+Signed-off-by: Haotian Zhang <vulab@iscas.ac.cn>
 ---
- drivers/hid/intel-ish-hid/ishtp/bus.c | 12 ++++++++++--
- 1 file changed, 10 insertions(+), 2 deletions(-)
+ drivers/input/keyboard/mtk-pmic-keys.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/hid/intel-ish-hid/ishtp/bus.c b/drivers/hid/intel-ish-hid/ishtp/bus.c
-index c6ce37244e49..c3915f3a060e 100644
---- a/drivers/hid/intel-ish-hid/ishtp/bus.c
-+++ b/drivers/hid/intel-ish-hid/ishtp/bus.c
-@@ -240,9 +240,17 @@ static int ishtp_cl_bus_match(struct device *dev, const struct device_driver *dr
- {
- 	struct ishtp_cl_device *device = to_ishtp_cl_device(dev);
- 	struct ishtp_cl_driver *driver = to_ishtp_cl_driver(drv);
-+	struct ishtp_fw_client *client = device->fw_client;
-+	const struct ishtp_device_id *id;
+diff --git a/drivers/input/keyboard/mtk-pmic-keys.c b/drivers/input/keyboard/mtk-pmic-keys.c
+index c78d9f6d97c4..474ef36605dc 100644
+--- a/drivers/input/keyboard/mtk-pmic-keys.c
++++ b/drivers/input/keyboard/mtk-pmic-keys.c
+@@ -335,6 +335,8 @@ static int mtk_pmic_keys_probe(struct platform_device *pdev)
+ 	struct input_dev *input_dev;
+ 	const struct of_device_id *of_id =
+ 		of_match_device(of_mtk_pmic_keys_match_tbl, &pdev->dev);
++	if (!of_id)
++		return -ENODEV;
  
--	return(device->fw_client ? guid_equal(&driver->id[0].guid,
--	       &device->fw_client->props.protocol_name) : 0);
-+	if (client) {
-+		for (id = driver->id; !guid_is_null(&id->guid); id++) {
-+			if (guid_equal(&id->guid, &client->props.protocol_name))
-+				return 1;
-+		}
-+	}
-+
-+	return 0;
- }
- 
- /**
-
-base-commit: c75caf76ed86bbc15a72808f48f8df1608a0886c
+ 	keys = devm_kzalloc(&pdev->dev, sizeof(*keys), GFP_KERNEL);
+ 	if (!keys)
 -- 
-2.43.0
+2.50.1.windows.1
 
 
