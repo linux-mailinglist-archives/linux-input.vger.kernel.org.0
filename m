@@ -1,207 +1,378 @@
-Return-Path: <linux-input+bounces-16537-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16538-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C111CB4EF1
-	for <lists+linux-input@lfdr.de>; Thu, 11 Dec 2025 07:53:08 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 99C29CB6059
+	for <lists+linux-input@lfdr.de>; Thu, 11 Dec 2025 14:29:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id A77BB3046981
-	for <lists+linux-input@lfdr.de>; Thu, 11 Dec 2025 06:49:33 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 8E9B3301373F
+	for <lists+linux-input@lfdr.de>; Thu, 11 Dec 2025 13:29:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 770902BDC3F;
-	Thu, 11 Dec 2025 06:49:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 70642313294;
+	Thu, 11 Dec 2025 13:29:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ux3Boi1R"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="csHQqq6T"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 400FF29E11B
-	for <linux-input@vger.kernel.org>; Thu, 11 Dec 2025 06:49:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A13802FC881
+	for <linux-input@vger.kernel.org>; Thu, 11 Dec 2025 13:29:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765435773; cv=none; b=i2T8mpCNaZSqHlgR20yIIjN5LcZwXD4AdTS+EDhWc/ccuG+dl0XJvOq8CcF33OGWBamz1fZS2MbzZml9VbYkvOt7S1dBrz4wx6bUgq/FMP37flD3cOyj/gaY9t7hAqlV5PxjPToMLq345KDuA4LIz6eZn9en5yXtUQM4vMYQHss=
+	t=1765459759; cv=none; b=nIAvjFUXgvrjCWqI8Rgz+cYLvFjEwKsStSuF22yzZ0RWiSt87T8o6B2VB4UWqqBoOBXL9RkkBqBQtPa6ayi3JEA8yxHLbQgA3LNv3xw6/WSlrtEwOiLOsrtIXzVT5Qr/NWq0W3lI0GWyjZryD4f0Na6Nk2ckrHpE/UITTN90G9k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765435773; c=relaxed/simple;
-	bh=St5P/dKbzDpzDcZYqoy/Tl1MQ0rf5fYQKRZAJ31LVaY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=u9je6qFQ2o9W9MRMOj0d3X1vD9ZyuLOTLAK1QcIY9AY26DnGyeRNoizPLWnoeDPx7/dpt6A4TNZuHzLNhCp04XUvORg9e6yundoL6gpc2wo/lxBDDlNFJ3ti+FTKQdN5J2fu6KEBF8YVFzw2UvZSydFw4zkxFqQ6aP+ET7RX46c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ux3Boi1R; arc=none smtp.client-ip=209.85.216.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-34a4078f669so718819a91.1
-        for <linux-input@vger.kernel.org>; Wed, 10 Dec 2025 22:49:29 -0800 (PST)
+	s=arc-20240116; t=1765459759; c=relaxed/simple;
+	bh=GC52vdlrMOCjvAl4e8rzaU0FUykCrlzn0zAFAvejcPI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=sEM+sKDVAq5KF2BQYJp8ATB1ONoV+vVtuxaLMvb6p0L8nq+EV57h3H9w/kW1tavYFbpdx/e81IUaHaTd6eU86MQLJnbUIBOMcijhSPntqzo8+WrSnhQsd1gUrqlnJUTy8OPeKKa1ZskuyTilsgAIqEO7xGzd4t/sdOMIMBPBaLU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=csHQqq6T; arc=none smtp.client-ip=209.85.208.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-644f90587e5so170188a12.0
+        for <linux-input@vger.kernel.org>; Thu, 11 Dec 2025 05:29:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765435769; x=1766040569; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=TvqvRKg6Dvm4JYTqbcpJmcxvj5YVSJwC2ID5rS1kYns=;
-        b=Ux3Boi1RJtJkm4EKbwkd1TdKIUlssLr03nVEJpWhDJi/DHdIulpYzI1rLQL/kolX++
-         zWjmIPlSHeTL3sPm8RPn8la+UTd71tOooPd0mdXQ0sADyMStR83wynd9RZ0vTYmyyeBb
-         M9lYT1dRZMLzucoPWjiG2kOIDNpSsYSoI8coZq6PK+OtAsCW3jHAA9emiRs0LjXEAZMt
-         n58YEgbsx9U69XvTfQ0MvmU+wpNRujfS/tGiszkUpK8+AEpyBlEqFn4/WkNW25rZlra4
-         UwmzgU89xhfM02rHCb2zmq30AbU19IlQlr+vVoMkt/CZSfMIrx5rPdTEArXPc6pbn1Rs
-         /nIw==
+        d=chromium.org; s=google; t=1765459755; x=1766064555; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=iZd9JSxTLfqAEQ8kerPa/TuPf6DF4xFDdQfs8AMcfNc=;
+        b=csHQqq6TLEKCMZy8oRJsVZhd/VEoAC0+Aq4ioHyQTcy1qXfCZdalnvVNxMMGImm0PL
+         6p5rXaEoYAIKduj/48gBTGHyb8pccb5mjBjemCqR3cQRT84RRPt04v+saJ/aLmCCKVrm
+         DSoAad8U7fPzQ0WjfWloYtSJ0CQViQfMiPLRs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765435769; x=1766040569;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=TvqvRKg6Dvm4JYTqbcpJmcxvj5YVSJwC2ID5rS1kYns=;
-        b=d+P93Ysmp85onqOape8eimNZFvFnDnqCNB5rUYFIT2S11ez7KgBhPoQiUW6vIExLS4
-         c9jyAO96F7hNcN+U6jN13QO3qrA9nUJJJYHeRe+g9zHQa0iAq2lyAJAFh/1chsIFeZN6
-         BhHgfder90/ZPikVnxQp1MuLfVmh09VXt2CWUEP62uwjQ6NlOmDwE0S6lhS8KvWCz5k7
-         aRWPFZpa0SKMN6FKgyaO3ZDDCt0JsgHrFim+nyUDzkErJ3w7w89/Gj45QJCXuSaJMBrn
-         tGRvYHsA3fg/deCbPRIBwMaFAhpSEymgVO8zbOXx3DQE/2/edeBP/CocM9w2T/bs9EVa
-         wNSA==
-X-Forwarded-Encrypted: i=1; AJvYcCUiYzXP4UmVexfaeGkRfN5evHxIUq3AtTImiK0q43mxa8aD87ci3RHox4zXQtJ0FYmuP2HkpMt3AG3IVw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyWPL9pn8itPEHV8O0hrCB1IlifW59SjPn7ZjR8nr4KGQEAToaI
-	gBIxhG+9nFI07ITd+EH7NiDW82wvLkAvQ9J/cz61GIkilgeJWSyIEz/u
-X-Gm-Gg: AY/fxX5v3riWAuzANHszpdUgwSsAvz9jZv2aT900Z5yOecpa+kMU8wUd0FSYPb3hLr2
-	sfqma42Yq02kkbFNMmpEzlNX60G3JbAli0vBJVBc2mIiiLHhaGxr/NOfDAHAa9FrQ5+PYG5tNgr
-	xz5JaR1yks9kfEYwqD6e3AOiFA4Wcib+fdv/mW74Wf+JiyCOvcOLnWnVCb70aSaHEb2G9BoR5DF
-	Xx25OpY5jLCM6V2N1BvqWhRsUMtyoV9UmqEuFy0DXJeE/kc9hZ6OYk9SR0Dk5pzTlG0DAF/DzJ1
-	UK7qK3aDyzTxWtchfd8kWNbIkZQdU0jOlcpCNRrftgkExa42+dM3bf732pJZy9udXvEc8Mv62IA
-	/5jgUXdVcGcNgugMeTWAuaaRG2Pw6A2gZeV61mNzkSdYdf8coOcUSdxffYmMSLvT3GDDzXPcQlT
-	H9Gq2hTr9YqbhDo9/rhzMtN1/ZFcQTJYnBXsh+izdEAc7RlRwwUdk1
-X-Google-Smtp-Source: AGHT+IEyDtd0oe3IAE6MkIRcuPF1XAaex7O+UXkzSJ582FShFldjGqeQBlos3z7LrpPfpvFbd/RWdg==
-X-Received: by 2002:a05:7022:985:b0:119:e569:f25f with SMTP id a92af1059eb24-11f2966bd00mr4273471c88.8.1765435768924;
-        Wed, 10 Dec 2025 22:49:28 -0800 (PST)
-Received: from google.com ([2a00:79e0:2ebe:8:8720:58cb:6770:779f])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-11f2e2b4bb8sm4156046c88.7.2025.12.10.22.49.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Dec 2025 22:49:28 -0800 (PST)
-Date: Wed, 10 Dec 2025 22:49:25 -0800
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Vishnu Sankar <vishnuocv@gmail.com>
-Cc: corbet@lwn.net, hmh@hmh.eng.br, derekjohn.clark@gmail.com, 
-	hansg@kernel.org, ilpo.jarvinen@linux.intel.com, mpearson-lenovo@squebb.ca, 
-	linux-doc@vger.kernel.org, linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	ibm-acpi-devel@lists.sourceforge.net, platform-driver-x86@vger.kernel.org, vsankar@lenovo.com
-Subject: Re: [PATCH v4 1/3] input: trackpoint - Enable doubletap by default
- on capable devices
-Message-ID: <he73fiwxso45ykidteqz2s2gjklezsyd47xwxtwlfes27kxuq3@ucwhmacbtsn4>
-References: <20251129002533.9070-1-vishnuocv@gmail.com>
- <20251129002533.9070-2-vishnuocv@gmail.com>
+        d=1e100.net; s=20230601; t=1765459755; x=1766064555;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=iZd9JSxTLfqAEQ8kerPa/TuPf6DF4xFDdQfs8AMcfNc=;
+        b=Y7jT8TxwZdZJUz8g+ix9/kdGJME3XCiQf/8IoGX1odVU/i53AOWs4+EEuMJLqFU/Lk
+         RTZ5tjVrFIBipqcrciUbxnT+LZF5HHYa5KfOLlbgukhozdIpCRBl2aDN4lwiBMoLrnn6
+         M5XIO7sPeFKL/3wJTUK+h+9nKJ0lMVL0z8qbcnxbdheEKnVoCy3HfHvrjHvJvbH/HetA
+         wfA1zMYoe5inP6Q9tvlfq5vq9sA/nhnDHph71QZQ3R9jLjo2ySeRyK6LwsEP2wfuaYwz
+         KrHha5DMuR6CKxHkPvzBtO56I4m96oRMkLaQobeu6kb4KRnVqKurBe028m59WwrjOYYf
+         XDxg==
+X-Forwarded-Encrypted: i=1; AJvYcCWlqmcY/CelAW2cM0v3PRKJEzbPrfvLoarlpVDSwzmGuWMX2TQpXB+cnAMs2ajsl3snFeSf/HwyW7VqrQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzsPWlnxeWmxqdNRA3I3AgI9Oyle3XOz5E3yyeq8JkqT2z4yNbs
+	PKHrXL8jh6JyGbyQvzEyqVW9KTPtBO1ZcCOqYJoqhGbsXmuEI0tYyRaIbU8JFG6RMxBYZCEcahE
+	usVC517/3XgbAkMCxa/hZaVz3guSGKcL0RoUTjCKH
+X-Gm-Gg: AY/fxX6BQEOyHip8qIKvCORSVYzC7T/wUWsk+RivKB8b1tQycLXHVU/gYIOa+UTd7fn
+	W7dMcUj2mISxkuWpug/qqcN0rQdrpGBl1k15UBbPJVKsZ3pKCFwTxgD0eWdQUNWSM3l4Dq0b8sA
+	nkY1HCsgp6nP6uQtx50Aa5HGwUtqNebcdSnu2kgXQ3xRjnkHAlvm0BWUEV18lTUxYWby+fIsbqv
+	FY4xKv6QZhDzPNQAkd1KB37AbdDTZEgkj9nmHis+lsp5p/SVsJquMhrQ6SETJv/2MYm6Ax/TiDn
+	Fqev
+X-Google-Smtp-Source: AGHT+IEuv3tebhZIRlzQWAPBE+dSHTINZTdfGtZ3PA3haPFLoHb5OV390vNmFdrv9z8I1+SlzrtdMYHkubaZaYo7/sU=
+X-Received: by 2002:a05:6402:3508:b0:641:1d64:8dce with SMTP id
+ 4fb4d7f45d1cf-6496cbc4315mr5231506a12.17.1765459754896; Thu, 11 Dec 2025
+ 05:29:14 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251129002533.9070-2-vishnuocv@gmail.com>
+References: <20251209154706.529784-1-fabiobaltieri@chromium.org> <20251209154706.529784-3-fabiobaltieri@chromium.org>
+In-Reply-To: <20251209154706.529784-3-fabiobaltieri@chromium.org>
+From: Simon Glass <sjg@chromium.org>
+Date: Thu, 11 Dec 2025 06:29:01 -0700
+X-Gm-Features: AQt7F2qBWeYaN0u_VBKcb-i_m0I-6rgQQIPctWT0S1pBtt7pqVSJ69wvkHmUQvk
+Message-ID: <CAFLszThUU4hfb4vY4mmGHQadRKThG3e=9cAKRy_ampKwA_XNcA@mail.gmail.com>
+Subject: Re: [PATCH v1 2/3] Input: cros_ec_keyb: add function key support
+To: Fabio Baltieri <fabiobaltieri@chromium.org>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
+	Tzung-Bi Shih <tzungbi@kernel.org>, linux-input@vger.kernel.org, 
+	devicetree@vger.kernel.org, chrome-platform@lists.linux.dev, 
+	linux-kernel@vger.kernel.orga
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Vishnu,
+Hi Fabio!
 
-On Sat, Nov 29, 2025 at 09:25:31AM +0900, Vishnu Sankar wrote:
-> Enable doubletap functionality by default on TrackPoint devices that
-> support it. The feature is detected using firmware ID pattern matching
-> (PNP: LEN03xxx) with a deny list of incompatible devices.
-> 
-> This provides immediate doubletap functionality without requiring
-> userspace configuration. The hardware is enabled during device
-> detection, while event filtering continues to be handled by the
-> thinkpad_acpi driver as before.
-> 
-> Signed-off-by: Vishnu Sankar <vishnuocv@gmail.com>
-> Suggested-by: Mark Pearson <mpearson-lenovo@squebb.ca>
+On Tue, 9 Dec 2025 at 08:47, Fabio Baltieri <fabiobaltieri@chromium.org> wrote:
+>
+> Add support for handling an Fn button and sending separate keycodes for
+> a subset of keys in the matrix.
+>
+> Signed-off-by: Fabio Baltieri <fabiobaltieri@chromium.org>
 > ---
-> Changes in v4:
-> - Simplified approach: removed all sysfs attributes and user interface
-> - Enable doubletap by default during device detection
-> - Removed global variables and complex attribute infrastructure
-> - Uses minimal firmware ID detection with deny list
-> - Follows KISS principle as suggested by reviewers
-> 
-> Changes in v3:
-> - No changes
-> 
-> Changes in v2:
-> - Improve commit messages
-> - Sysfs attributes moved to trackpoint.c
-> - Removed unnecessary comments
-> - Removed unnecessary debug messages
-> - Using strstarts() instead of strcmp()
-> - is_trackpoint_dt_capable() modified
-> - Removed _BIT suffix and used BIT() define
-> - Reverse the trackpoint_doubletap_status() logic to return error first
-> - Removed export functions as a result of the design change
-> - Changed trackpoint_dev->psmouse to parent_psmouse
-> - The path of trackpoint.h is not changed
-> ---
->  drivers/input/mouse/trackpoint.c | 51 ++++++++++++++++++++++++++++++++
->  drivers/input/mouse/trackpoint.h |  5 ++++
->  2 files changed, 56 insertions(+)
-> 
-> diff --git a/drivers/input/mouse/trackpoint.c b/drivers/input/mouse/trackpoint.c
-> index 5f6643b69a2c..67144c27bccd 100644
-> --- a/drivers/input/mouse/trackpoint.c
-> +++ b/drivers/input/mouse/trackpoint.c
-> @@ -393,6 +393,48 @@ static int trackpoint_reconnect(struct psmouse *psmouse)
->  	return 0;
->  }
->  
-> +/* List of known incapable device PNP IDs */
-> +static const char * const dt_incompatible_devices[] = {
-> +	"LEN0304",
-> +	"LEN0306",
-> +	"LEN0317",
-> +	"LEN031A",
-> +	"LEN031B",
-> +	"LEN031C",
-> +	"LEN031D",
-> +};
+>  drivers/input/keyboard/cros_ec_keyb.c | 190 ++++++++++++++++++++++++--
+>  1 file changed, 176 insertions(+), 14 deletions(-)
+>
+> diff --git a/drivers/input/keyboard/cros_ec_keyb.c b/drivers/input/keyboard/cros_ec_keyb.c
+> index 2822c592880b..b0965e5d20de 100644
+> --- a/drivers/input/keyboard/cros_ec_keyb.c
+> +++ b/drivers/input/keyboard/cros_ec_keyb.c
+> @@ -29,6 +29,14 @@
+>
+>  #include <linux/unaligned.h>
+>
+> +/* Maximum number of Fn keys, limited by the key status mask size. */
+> +#define CROS_EC_FN_KEYMAP_MAX 32
 > +
-> +/*
-> + * Checks if it's a doubletap capable device
-
-Please finish the sentence with a period.
-
-> + * The PNP ID format is "PNP: LEN030d PNP0f13".
+> +/* Maximum size of the normal key matrix, this is limited by the host command
+> + * key_matrix field defined in ec_response_get_next_data_v3
 > + */
-> +static bool is_trackpoint_dt_capable(const char *pnp_id)
+> +#define CROS_EC_KEYBOARD_COLS_MAX 18
+> +
+>  /**
+>   * struct cros_ec_keyb - Structure representing EC keyboard device
+>   *
+> @@ -44,6 +52,13 @@
+>   * @bs_idev: The input device for non-matrix buttons and switches (or NULL).
+>   * @notifier: interrupt event notifier for transport devices
+>   * @vdata: vivaldi function row data
+> + * @fn_key: coordinate of the function key
+> + * @fn_keymap: array of coordinate and codes for the function keys
+> + * @fn_keymap_len: number of entries in the fn_keymap array
+> + * @fn_key_status: active function keys bitmap
+> + * @normal_key_status: active normal keys bitmap
+> + * @fn_key_pressed: tracks the function key status
+> + * @fn_key_triggered: tracks where any function key fired
+>   */
+>  struct cros_ec_keyb {
+>         unsigned int rows;
+> @@ -61,6 +76,14 @@ struct cros_ec_keyb {
+>         struct notifier_block notifier;
+>
+>         struct vivaldi_data vdata;
+> +
+> +       uint32_t fn_key;
 
-Let's call it trackpoint_is_dt_capable() to keep with common
-"trackpoint_" prefix in the file.
+Normally we use u32/u8 these days
 
+> +       uint32_t *fn_keymap;
+> +       int fn_keymap_len;
+> +       uint32_t fn_key_status;
+> +       uint8_t normal_key_status[CROS_EC_KEYBOARD_COLS_MAX];
+> +       bool fn_key_pressed;
+> +       bool fn_key_triggered;
+>  };
+>
+>  /**
+> @@ -166,16 +189,108 @@ static bool cros_ec_keyb_has_ghosting(struct cros_ec_keyb *ckdev, uint8_t *buf)
+>         return false;
+>  }
+>
+> +static bool cros_ec_key_is(int row, int col, uint32_t key)
 > +{
-> +	const char *id_start;
-> +	char id[8];
-> +	size_t i;
+> +       if (row == KEY_ROW(key) && col == KEY_COL(key))
+> +               return true;
 > +
-> +	if (!strstarts(pnp_id, "PNP: LEN03"))
-> +		return false;
-> +
-> +	/* Points to "LEN03xxxx" */
-> +	id_start = pnp_id + 5;
-> +	if (sscanf(id_start, "%7s", id) != 1)
-> +		return false;
-> +
-> +	/* Check if it's in the deny list */
-> +	for (i = 0; i < ARRAY_SIZE(dt_incompatible_devices); i++) {
-> +		if (strcmp(id, dt_incompatible_devices[i]) == 0)
-
-Why can't we use strncmp(pnp_id + 5, dt_incompatible_devices[i], 7) here
-(after ensuring that pnp_id is of sufficient length to begin with) and
-avoid sscanf()?
-
-> +			return false;
-> +	}
-> +	return true;
+> +       return false;
 > +}
 > +
-> +static int trackpoint_set_doubletap(struct ps2dev *ps2dev, bool enable)
+> +static void cros_ec_keyb_process_one(struct cros_ec_keyb *ckdev,
+> +                                    int row, int col, bool state)
 > +{
-> +	return trackpoint_write(ps2dev, TP_DOUBLETAP, enable ? TP_DOUBLETAP_ENABLE : TP_DOUBLETAP_DISABLE);
+> +       struct input_dev *idev = ckdev->idev;
+> +       const unsigned short *keycodes = idev->keycode;
+> +       int pos = MATRIX_SCAN_CODE(row, col, ckdev->row_shift);
+> +       unsigned int code = keycodes[pos];
+> +
+> +       dev_dbg(ckdev->dev, "changed: [r%d c%d]: byte %02x\n", row, col, state);
+> +
+> +       if (ckdev->fn_keymap) {
+> +               if (cros_ec_key_is(row, col, ckdev->fn_key)) {
+> +                       ckdev->fn_key_pressed = state;
+> +
+> +                       if (state) {
+> +                               ckdev->fn_key_triggered = false;
+> +                       } else if (!ckdev->fn_key_triggered) {
+> +                               /*
+> +                                * Send the original code if nothing else has
+> +                                * been pressed together with Fn.
+> +                                */
+> +                               input_event(idev, EV_MSC, MSC_SCAN, pos);
+> +                               input_report_key(idev, code, true);
+> +                               input_sync(ckdev->idev);
+
+What is this function? I might be missing a patch?
+
+> +
+> +                               input_event(idev, EV_MSC, MSC_SCAN, pos);
+> +                               input_report_key(idev, code, false);
+> +                       }
+> +
+> +                       return;
+> +               }
+> +
+> +               if (!state) {
+> +                       /* Key release, may need to release the Fn code */
+> +                       for (int i = 0; i < ckdev->fn_keymap_len; i++) {
+> +                               if (!cros_ec_key_is(row, col,
+> +                                                   ckdev->fn_keymap[i]))
+> +                                       continue;
+> +
+> +                               if ((ckdev->fn_key_status & BIT(i)) == 0)
+> +                                       continue;
+> +
+> +                               code = KEY_VAL(ckdev->fn_keymap[i]);
+> +                               ckdev->fn_key_status &= ~BIT(i);
+> +
+> +                               input_event(idev, EV_MSC, MSC_SCAN, pos);
+> +                               input_report_key(idev, code, state);
+> +
+> +                               return;
+> +                       }
+> +
+> +                       if ((ckdev->normal_key_status[col] & BIT(row)) == 0)
+> +                               /* Discard, key press code was not sent */
+> +                               return;
+> +               } else if (ckdev->fn_key_pressed) {
+> +                       /* Key press while holding Fn */
+> +                       ckdev->fn_key_triggered = true;
+> +
+> +                       for (int i = 0; i < ckdev->fn_keymap_len; i++) {
+> +                               if (!cros_ec_key_is(row, col,
+> +                                                   ckdev->fn_keymap[i]))
+> +                                       continue;
+> +
+> +                               code = KEY_VAL(ckdev->fn_keymap[i]);
+> +                               ckdev->fn_key_status |= BIT(i);
+> +
+> +                               input_event(idev, EV_MSC, MSC_SCAN, pos);
+> +                               input_report_key(idev, code, state);
+> +
+> +                               return;
+> +                       }
+> +
+> +                       /* Do not emit a code if the key is not mapped */
+> +                       return;
+> +               }
+> +       }
+
+I think this function could do with splitting a bit
+
+> +
+> +       if (state)
+> +               ckdev->normal_key_status[col] |= BIT(row);
+> +       else
+> +               ckdev->normal_key_status[col] &= ~BIT(row);
+> +
+> +       input_event(idev, EV_MSC, MSC_SCAN, pos);
+> +       input_report_key(idev, code, state);
 > +}
+>
+>  /*
+>   * Compares the new keyboard state to the old one and produces key
+> - * press/release events accordingly.  The keyboard state is 13 bytes (one byte
+> - * per column)
+> + * press/release events accordingly.  The keyboard state is one byte
+> + * per column.
+>   */
+>  static void cros_ec_keyb_process(struct cros_ec_keyb *ckdev,
+>                          uint8_t *kb_state, int len)
+>  {
+> -       struct input_dev *idev = ckdev->idev;
+>         int col, row;
+>         int new_state;
+>         int old_state;
+> @@ -192,20 +307,13 @@ static void cros_ec_keyb_process(struct cros_ec_keyb *ckdev,
+>
+>         for (col = 0; col < ckdev->cols; col++) {
+>                 for (row = 0; row < ckdev->rows; row++) {
+> -                       int pos = MATRIX_SCAN_CODE(row, col, ckdev->row_shift);
+> -                       const unsigned short *keycodes = idev->keycode;
+> -
+>                         new_state = kb_state[col] & (1 << row);
+>                         old_state = ckdev->old_kb_state[col] & (1 << row);
+> -                       if (new_state != old_state) {
+> -                               dev_dbg(ckdev->dev,
+> -                                       "changed: [r%d c%d]: byte %02x\n",
+> -                                       row, col, new_state);
+>
+> -                               input_event(idev, EV_MSC, MSC_SCAN, pos);
+> -                               input_report_key(idev, keycodes[pos],
+> -                                                new_state);
+> -                       }
+> +                       if (new_state == old_state)
+> +                               continue;
+> +
+> +                       cros_ec_keyb_process_one(ckdev, row, col, new_state);
+>                 }
+>                 ckdev->old_kb_state[col] = kb_state[col];
+>         }
+> @@ -604,6 +712,12 @@ static int cros_ec_keyb_register_matrix(struct cros_ec_keyb *ckdev)
+>         if (err)
+>                 return err;
+>
+> +       if (ckdev->cols > CROS_EC_KEYBOARD_COLS_MAX) {
+> +               dev_err(dev, "keypad,num-columns too large: %d (max: %d)\n",
+> +                       ckdev->cols, CROS_EC_KEYBOARD_COLS_MAX);
+> +               return -EINVAL;
+> +       }
+> +
+>         ckdev->valid_keys = devm_kzalloc(dev, ckdev->cols, GFP_KERNEL);
+>         if (!ckdev->valid_keys)
+>                 return -ENOMEM;
+> @@ -660,6 +774,47 @@ static int cros_ec_keyb_register_matrix(struct cros_ec_keyb *ckdev)
+>         return 0;
+>  }
+>
+> +static int cros_ec_keyb_register_fn_keys(struct cros_ec_keyb *ckdev)
+> +{
+> +       struct device *dev = ckdev->dev;
+> +       uint32_t fn_key;
+> +       uint32_t *keymap;
+> +       int keymap_len;
+> +       int ret;
+> +
+> +       if (!(device_property_present(dev, "fn-key") &&
+> +             device_property_present(dev, "fn-keymap")))
+> +               return 0;
+> +
+> +       device_property_read_u32(dev, "fn-key", &fn_key);
+> +
+> +       keymap_len = device_property_count_u32(ckdev->dev, "fn-keymap");
+> +       if (keymap_len > CROS_EC_FN_KEYMAP_MAX) {
+> +               dev_err(dev, "fn-keymap too large: %d limit=%d",
+> +                       keymap_len, CROS_EC_FN_KEYMAP_MAX);
+> +               return -EINVAL;
+> +       }
+> +
+> +       keymap = devm_kcalloc(dev, keymap_len, sizeof(*keymap), GFP_KERNEL);
+> +       if (!keymap)
+> +               return -ENOMEM;
+> +
+> +       ret = device_property_read_u32_array(dev, "fn-keymap", keymap, keymap_len);
+> +       if (ret) {
+> +               dev_err(dev, "failed to read fn-keymap property: %d\n", ret);
+> +               return ret;
+> +       }
+> +
+> +       for (int i = 0; i < keymap_len; i++)
+> +               __set_bit(KEY_VAL(keymap[i]), ckdev->idev->keybit);
+> +
+> +       ckdev->fn_key = fn_key;
+> +       ckdev->fn_keymap = keymap;
+> +       ckdev->fn_keymap_len = keymap_len;
+> +
+> +       return 0;
+> +}
+> +
+>  static ssize_t function_row_physmap_show(struct device *dev,
+>                                          struct device_attribute *attr,
+>                                          char *buf)
+> @@ -734,6 +889,13 @@ static int cros_ec_keyb_probe(struct platform_device *pdev)
+>                                 err);
+>                         return err;
+>                 }
+> +
+> +               err = cros_ec_keyb_register_fn_keys(ckdev);
+> +               if (err) {
+> +                       dev_err(dev, "cannot register fn-keys inputs: %d\n",
+> +                               err);
+> +                       return err;
+> +               }
+>         }
+>
+>         err = cros_ec_keyb_register_bs(ckdev, buttons_switches_only);
+> --
+> 2.52.0.223.gf5cc29aaa4-goog
+>
 
-This wrapper seems an overkill given that it is called only once and
-always to enable the doubletap.
+Can the sandbox driver support this too?
 
-Thanks.
-
--- 
-Dmitry
+Regards,
+Simon
 
