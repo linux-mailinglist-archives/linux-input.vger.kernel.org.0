@@ -1,139 +1,107 @@
-Return-Path: <linux-input+bounces-16547-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16548-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 456ABCB7F3D
-	for <lists+linux-input@lfdr.de>; Fri, 12 Dec 2025 06:29:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04E87CB807F
+	for <lists+linux-input@lfdr.de>; Fri, 12 Dec 2025 07:29:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 8C9523039748
-	for <lists+linux-input@lfdr.de>; Fri, 12 Dec 2025 05:29:49 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id BFCDB30463AD
+	for <lists+linux-input@lfdr.de>; Fri, 12 Dec 2025 06:29:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B02230DEC6;
-	Fri, 12 Dec 2025 05:29:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C3A21276046;
+	Fri, 12 Dec 2025 06:29:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Hpzvfup8"
+	dkim=pass (2048-bit key) header.d=mail.softether.network header.i=@mail.softether.network header.b="xdCj1bkH"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.softether.network (mail.softether.network [103.41.62.250])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6B1D1A285
-	for <linux-input@vger.kernel.org>; Fri, 12 Dec 2025 05:29:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA0AA14B953;
+	Fri, 12 Dec 2025 06:29:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.41.62.250
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765517388; cv=none; b=esPUSkxTSHV172j6Usy9K5P2yJ75qsdgF3EQqCfyr42ZYdgUXgprU5FpuT65kO2B2oRQhHUzpyL1GL/K6V7Lu7/M4pCDBdHSKGKoCwUkuE9R45v4URvOVB+bWwGrjP2ALqHLqn1urZ8XDRpW2AEEGG73KRPNfotruzg/P1WmzUA=
+	t=1765520987; cv=none; b=UyjqovvMM4w6gfsudq+Y1Zhr0x4fSpYNiD8glbNEQXwxWoA+gWgh5Vxn2mxLIhDhk5PPjdirEPPqO2uZztiQs6OQNefYHu3KaWiJe+z3YTBiEgARymW7X6mRV0yCv12NA2J2vfX0HfRPcWP7/N42VWljHRxU2sy7qbB1U0NRMj4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765517388; c=relaxed/simple;
-	bh=ncSfG+DQWHiHJ5P/tpjPaAOggTR0P8F+F2Kj1x+1+9I=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=dL61tLeWVy3gtqAxL5WBbi8m6ZVoFedNgsGHbQd+oLg8Jt9WPciebvw1+rch5MW5kM5TpR2C9QFIQx8KgQTC5E0y79xM/D4syjlntFEyhNugQ+8F0d9VRyCMgwSYGr4db8qAbm/6U6bTiMCUyn6a2EoMKXudPqzJcBvvqhKCUSA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Hpzvfup8; arc=none smtp.client-ip=209.85.214.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-29efd139227so9704185ad.1
-        for <linux-input@vger.kernel.org>; Thu, 11 Dec 2025 21:29:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765517386; x=1766122186; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KabGZGJyQG+etjOxlMGCNny58DR5Q6sGGHquVVHLJAc=;
-        b=Hpzvfup8CWjGds18idPq9BC9s9Bk6qVo2VlkxMZZvZ4GIMNEnnk+g5K/Z7XsJrjnZw
-         zO0XY6H0q2BYMBBYH/TS0WnbsyowoDyI3KdjG77YXpHaF6p4RGQFY0qZPkUds8sQ4ypz
-         zvfbtUac52fkeKqLqmGYgLnuN0y65FydnfNrbG2glBLtkbkGq7IwkiXN6Sow0naSr2Dw
-         bxdCdz+ZJq180QzEUkIuoTjbgVDn1FPDmfbEo+zqUkPURk9ZtuU2QT+t/OM6daC7pzg6
-         7BXof9TUEikDhd9UKts9a3XE45HjwV39zu70mMdbjzAdlKd9oFOurKh1s/QPkOVxBT3s
-         gmGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765517386; x=1766122186;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=KabGZGJyQG+etjOxlMGCNny58DR5Q6sGGHquVVHLJAc=;
-        b=hQNYoYoZjM+8AFYsgRBL0rIgSGMxf/MQzbvQfIoVFSiX7fkNc8NG46Kwit8wbOLUZS
-         RoP6ccl/dj7SB2Hoes/JmeaaBLgiJYYrd4tpo3/qn0iaONHCD+9L4HJviwxMrcpVzqzZ
-         x78LjNOAQsaB9iqH8c2zyVgHlT53IxUWOPmWDpZGohVzOSpcYUNiWJkHY0njEgQCz3Ys
-         FLzq54ctJLtDUxTMpay9ggQRhO7sOLPWZF7AI2a81KH5EJnn51anbAlBqmC3syY4JdSV
-         aE3xsnQ3xynyQYpe/16YKA2lQFKrfwPCQWvOAVdATWcuWG0qllG1c9NJfaUJTYeRAZf+
-         HwCQ==
-X-Gm-Message-State: AOJu0Yw3IAYh7SSzpBY/CzRxvvqZRk9EfENJFu9/piAkZ+kZ+QtuNfsn
-	ptSbOm31+pO5NELF/BHvjQLqG7CsxwsTL7CBVJTD1JsuZm6w3c2Bs1OP
-X-Gm-Gg: AY/fxX7iUX4rODgWEN9le/ii2+crOdYs6EjsF3v7by6XUKTNyqXrQKQfdGQtAF7va0A
-	yz/QVtZ3EMx10VHlxyAYpQN4iXBXprVl2cf2Sm79G+VWLEGU7K/U7l6kgQJSXawyeRIwPH6HE6V
-	ft2obAivfSZFKnJcQRhC5TCFvCM4aPcy+aZZgizrFai9L7exahYH6k+b9F14o53TJl1UF70xvH2
-	5AmI3ZG3Az4d0PgAl+O0vyWLOx5rXdpDrXwxsm2eU/RwSOP6naePvAryB6XXFzQ5TBTVDRELhSZ
-	fnGIC4nSey/shxkTlYoJQbo/otkhklgFvn/hLacNCQYCJXssR5GjJXwrxl6V1mNG3vaAtE7WrTV
-	epG2D9EXXqxtp9GfGkHV8qoaz8cy3J0HYTZKulGBkJGLgksXKBRNrWdrw2N75h7GvejbItnFbxL
-	tWNYaYWeUm/d9cmXTyunxGX9d1j6Ng
-X-Google-Smtp-Source: AGHT+IEOsPxs15DqmPE193WrrqWLMX9iYaahF/lhuJg5vO7TdIm8fmfokib6VBzwJtZ1UOig832vFw==
-X-Received: by 2002:a17:902:da89:b0:295:275d:21d8 with SMTP id d9443c01a7336-29f237db7damr13746115ad.0.1765517386109;
-        Thu, 11 Dec 2025 21:29:46 -0800 (PST)
-Received: from DESKTOP-6DS2CAQ.localdomain ([211.115.227.244])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29eea06b49csm41486705ad.95.2025.12.11.21.29.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Dec 2025 21:29:45 -0800 (PST)
-From: Minseong Kim <ii4gsp@gmail.com>
-To: dmitry.torokhov@gmail.com
-Cc: linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH v2] input: lkkbd: disable pending work before freeing device
-Date: Fri, 12 Dec 2025 14:23:14 +0900
-Message-Id: <20251212052314.16139-1-ii4gsp@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20251211031131.27141-1-ii4gsp@gmail.com>
-References: <20251211031131.27141-1-ii4gsp@gmail.com>
+	s=arc-20240116; t=1765520987; c=relaxed/simple;
+	bh=HOsxPSpY9rW1giucmzrAXn1gOsStWPjYz+hphi/fRj0=;
+	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
+	 Message-ID:Content-Type; b=aufjpk++aqmNqOIOwfznujBlUT0a6zZmv7djdwM5sA3auj2S2y2DLjCdO4VkZkjTEwTg0p6Uh99Y8Wwi9eQ4TuGewEMzuKgZ4aTG1qGvU318IzveNO+zf0DzzzCXWinpdRfRAAa7C5e0Zt6OF9hChM5Xgiboz6bb8kL3MB3RrCQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=davidebeatrici.dev; spf=pass smtp.mailfrom=davidebeatrici.dev; dkim=pass (2048-bit key) header.d=mail.softether.network header.i=@mail.softether.network header.b=xdCj1bkH; arc=none smtp.client-ip=103.41.62.250
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=davidebeatrici.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=davidebeatrici.dev
+Received: from mail.softether.network (localhost [127.0.0.1])
+	(Authenticated sender: me@davidebeatrici.dev)
+	by mail.softether.network (Postfix) with ESMTPSA id D660940CA6;
+	Fri, 12 Dec 2025 06:22:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=mail.softether.network; s=2025; t=1765520547;
+	bh=HOsxPSpY9rW1giucmzrAXn1gOsStWPjYz+hphi/fRj0=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=xdCj1bkHo8IaPg33AxmRIT5KBsTiSXmS0k0EVTCLPK7u4+sZcjmm6ZONKzTHtXPzc
+	 yM3x7K4/8NslguSq2ApwdtXmUTo1Of5PiSXPur0lUBmXF2hn0jOf0U2h3pyVIl3tBG
+	 8DlgzYhA8G04Ih8ytL2sM9OnOk32omQ7xYoXDEWND5BBbaKZ2KXgshO1yH2ZmNRB07
+	 d+FZnaBmZ1XHD/6px6ifS+a14f8YJ8us0eoVVMJdKruewpJC9I/AiWplzXt1/jQTEj
+	 RXjJkESFGUbsmoEDEs5uljHUqOq2YADENCo/xn6sG9daHBLfZ7MECWBc6b/fdPJYHv
+	 C0xKawd7EnK9Q==
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Date: Fri, 12 Dec 2025 07:22:27 +0100
+From: Davide Beatrici <me@davidebeatrici.dev>
+To: Benjamin Tissoires <bentiss@kernel.org>
+Cc: Terry Junge <linuxhid@cosmicgizmosystems.com>,
+ linux-kernel@vger.kernel.org, linux-input@vger.kernel.org, jikos@kernel.org,
+ benjamin.tissoires@redhat.com
+Subject: Re: [PATCH] HID: validate report length and constants
+In-Reply-To: <iq4fdv5yak7xqiitlsmglsulsdzqaklsqdcv2rxswsduwqxfpy@lknyfow3yxwg>
+References: <235531f556c5abfcae254a4e56441ba6@davidebeatrici.dev>
+ <xyh6scqrfzft3hhmqowyverzezb2xsmsexegk3sydyfbiknba4@6sy3qbtsinrr>
+ <a7d352dd1d310bf07263106f2ce0f8ed@davidebeatrici.dev>
+ <91117308-7eb5-4258-ac87-1afb2d46d2b5@cosmicgizmosystems.com>
+ <9e44de7bab6967a200d7404ebb068071@davidebeatrici.dev>
+ <dob7q77qxuv3rmr4kliqp5kic36updvh6qxj4ld2be353zi7ba@5qte5m5fsuwy>
+ <b3131f6c322ac4c62c4b00142b55fde7@davidebeatrici.dev>
+ <8aefde3322ab7676034cae9d291fc5b6@davidebeatrici.dev>
+ <iq4fdv5yak7xqiitlsmglsulsdzqaklsqdcv2rxswsduwqxfpy@lknyfow3yxwg>
+Message-ID: <e2db2ad2b8bb21916a22695191e7763c@davidebeatrici.dev>
+X-Sender: me@davidebeatrici.dev
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
 
-lkkbd_interrupt() schedules lk->tq via schedule_work(), and the work
-handler lkkbd_reinit() dereferences the lkkbd structure and its
-serio/input_dev fields.
+> IMO, the simplest is the HID-BPF route, as it's a matter of going to 
+> the
+> udev-hid-bpf project [1], add your program in the testing dir, and
+> submit a merge request. This way your device will be fixed and I'll
+> eventually take care of putting the HID-BPF program in
+> drivers/hid/bpf/progs so it gets installed in all distributions.
 
-lkkbd_disconnect() and error paths in lkkbd_connect() free the lkkbd
-structure without preventing the reinit work from being queued again
-until serio_close() returns. This can allow the work handler to run
-after the structure has been freed, leading to a potential use-after-free.
+I apologize for the delay, I had to figure out why OpenMandriva's kernel 
+was
+not exposing the hid_bpf_ops structure.
 
-Use disable_work_sync() instead of cancel_work_sync() to ensure the
-reinit work cannot be re-queued, and call it both in lkkbd_disconnect()
-and in lkkbd_connect() error paths after serio_open().
+Turns out CONFIG_HID_BPF had to be enabled and CONFIG_FUNCTION_TRACER 
+too.
 
-Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-Cc: stable@vger.kernel.org
-Signed-off-by: Minseong Kim <ii4gsp@gmail.com>
----
- drivers/input/keyboard/lkkbd.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+Here's the merge request for udev-hid-bpf:
+https://gitlab.freedesktop.org/libevdev/udev-hid-bpf/-/merge_requests/212
 
-diff --git a/drivers/input/keyboard/lkkbd.c b/drivers/input/keyboard/lkkbd.c
-index c035216dd27c..12a467ce00b5 100644
---- a/drivers/input/keyboard/lkkbd.c
-+++ b/drivers/input/keyboard/lkkbd.c
-@@ -670,7 +670,8 @@ static int lkkbd_connect(struct serio *serio, struct serio_driver *drv)
- 
- 	return 0;
- 
-- fail3:	serio_close(serio);
-+ fail3: disable_work_sync(&lk->tq);
-+	serio_close(serio);
-  fail2:	serio_set_drvdata(serio, NULL);
-  fail1:	input_free_device(input_dev);
- 	kfree(lk);
-@@ -684,6 +685,8 @@ static void lkkbd_disconnect(struct serio *serio)
- {
- 	struct lkkbd *lk = serio_get_drvdata(serio);
- 
-+	disable_work_sync(&lk->tq);
-+
- 	input_get_device(lk->dev);
- 	input_unregister_device(lk->dev);
- 	serio_close(serio);
--- 
-2.34.1
+> have a new kernel driver for this device which maps to .raw_event()
+> and rejects reports of size 1.
 
+I actually just realized my previous mouse, a Kysona M600, has a 
+specific
+driver (hid-kysona) that seemingly handles battery status reports.
+
+That may be the cause for it randomly stopping registering clicks and 
+scrolls
+until it is moved (i.e. registers a movement).
+
+But that's a story for another thread!
+
+I wonder if we can put together a single universal driver for these 
+devices...
 
