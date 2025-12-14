@@ -1,145 +1,102 @@
-Return-Path: <linux-input+bounces-16560-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16561-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id E80E5CBB96B
-	for <lists+linux-input@lfdr.de>; Sun, 14 Dec 2025 11:21:27 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 52241CBB989
+	for <lists+linux-input@lfdr.de>; Sun, 14 Dec 2025 11:38:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 1CDFC30057C1
-	for <lists+linux-input@lfdr.de>; Sun, 14 Dec 2025 10:21:26 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 3F0313003BFF
+	for <lists+linux-input@lfdr.de>; Sun, 14 Dec 2025 10:38:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8D17C279DCC;
-	Sun, 14 Dec 2025 10:21:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2290228CF50;
+	Sun, 14 Dec 2025 10:38:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QlYro2H4"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SXaMNbeB"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E84712040B6
-	for <linux-input@vger.kernel.org>; Sun, 14 Dec 2025 10:21:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA172FBF6;
+	Sun, 14 Dec 2025 10:38:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765707683; cv=none; b=LiGxDh+trtQFZotFWyXtYMap/qFA6POgQpIJVo5fj2xc0IJvysb4PsjH1OTI2dN4kjK+S29RPpgxiYiZ8FQR/zOYEjNgKbGPYOE/CqxiQiHJGxPzm0Qdw3zyd0B1UwxUcuNHMjbvt8ZIhkTUnO2Ni7lKjpjyvmrbSCadluu64Ng=
+	t=1765708703; cv=none; b=HuRaWApJCdqBIGmV2cCEb9x80TkVSwko7jQ6pe21GClTL0FPt9kMzrO4N0933KtL3Lf77/YRKiMzDLn6JIt6P7wEY93B6jC9UnagVACuMrM5KtApV7llW3lHTQNfFn+uwUmRMgnA68zhdrlIBOVWYK5uPqDAVpYUTqUr4f6Hzz8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765707683; c=relaxed/simple;
-	bh=Wcg28AG2Ifi5O/IakI/f4M72SMb6f+uOhz6wpj8ZmoA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dJSMBNBRfu93CFAENpT3tCKwnXekkh6lxt6KSYTegPWatyo1YKFFc3aR6UnMdZFuOHQ4VaFjlgh0E7c9/VuhT+/N1zfwMxOm0De0OG4yo2GrL25WqO5pT/r3CfipZXJ7d67LC+Oqrq5krUydgTE490o6ZTCQ0RHIEfgPFlRt8Wc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QlYro2H4; arc=none smtp.client-ip=209.85.210.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ot1-f54.google.com with SMTP id 46e09a7af769-7c765f41346so1350925a34.3
-        for <linux-input@vger.kernel.org>; Sun, 14 Dec 2025 02:21:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765707681; x=1766312481; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=fnoKJ/ImikXSwHOFE3yQm3AH4RGryAGqSUDUo6DcOts=;
-        b=QlYro2H4Jj7vG3ccfwteiJduzvURA5W9nAF8bsmKSgwT0N3IJIzyzzE3UNSKnoyBCt
-         5nYlmZZK/p9Q8Y+warxaX7y4bCzcxGowMaeOtK16ZN47fLCNQ0/zKFAt67poSnrTNcZC
-         a3S7kBe4D7vm6VU5DvKPk3vu3ChEdHLdoJR4KQ4F7IoaOKTuIaUq7t5jUo+0K5u4QiXu
-         v/IvtXgSWb0YzS6C1M8OnfCCHJVB0BvKeNkKawMg2qqIdKtVAsyzKlNjm/X2GtuoIK1o
-         a9LYASUTlPuPmPkPQXJyXraixSIdIkZ5iz6z9vERIGSA+Vo/4VbaLnwmGd8hkmTrsSNQ
-         W/0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765707681; x=1766312481;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=fnoKJ/ImikXSwHOFE3yQm3AH4RGryAGqSUDUo6DcOts=;
-        b=sezjQVe2BMkiLzhD4/vJPtPF/33n0QI10xx3ARKNqWnkUaKYBzrNTVEDTg9nWssasu
-         IVHeEA4R0dMPk4xwTV/zWePZu5XgRFv/68RX9lUdZx+8bJ+y6mkXug8Xu9S292OKnjyw
-         4angrQid0MnUQj6ja1ySHI+X4lyXSPJZoZ12ww1W8f0ONEnRsLVy0RoJ1iTyWZFT6TFI
-         mqfe/cJhmv4wa9QX+Sh8PAfp1DIDTPSHIzPEbyPJv8NR8Sqiqu9+lAFHKWnFDuPQGxNA
-         XSX2dLue4y2rG9v/2QbgAVTkhtR79L92yBaTrk+mvxAapxkhgkTgnGFX/kM0zMb/EKx4
-         9Nzg==
-X-Gm-Message-State: AOJu0YyVsQVQIgSwfu3Yq0nut4YWDhL5/sp3Os78GzOioqnHIjjJ+WXF
-	Ta1BSuKrXVymnWF4XlCI4kFBUjHbw/ubxLOQYa3DmtSqM3KFefPoZKJs
-X-Gm-Gg: AY/fxX4B+5J/g+x3iuuBv1rVJc+IrMI7HijWOmOGxYgR2l3yoJdr8jX26y9NyC+4wKR
-	HDrWjehkj0+m2oZrMf2a0HiWWXygdKKD5McCAn1za8/BzyAKDEF3IUpwWK5pbrenVsVgy+fOHMW
-	GZ9pD7s5fiizQ3TYJ+s2F+Rj5isoHp1RENaoxUtsvC8MsAuQXenNDVFXCIzEucayUWnPHUH+1j3
-	U6yLg/iSoO0dIZ2lkiovH+Px+ByzZvVHQ6YHXW2x6rxpJ8d9W8JGTG/4TInK+cbh4mO/YU5R1KV
-	vR2eDY08xhA9wU1qJ9phb6jCIIRmdQTZzftRZFatSRcVEHmaWuzty4hHirbwMW0r5n02aXk4hb+
-	PsFxLLSahb0ouo/24UCL42MEihd5MTRXuwyzExuAveS4gsIaK0AC5lU1cEvBclAFIEJ+WDJL4Uu
-	8cacCElhv8KqezQihhE62F/9cel13V5rd4orgbM1+XIDxsi15yTG5QZdKi1KLMrJ8X5w==
-X-Google-Smtp-Source: AGHT+IEwatOPUZxCeMqezLXjmGH8ijmApVNnqSphdvSRR47Ix3IEELjlpx8nHxVpt4hKhvhUKeNyFA==
-X-Received: by 2002:a05:6830:2e13:b0:7c7:8280:9207 with SMTP id 46e09a7af769-7cae83ab4eamr5374700a34.37.1765707680991;
-        Sun, 14 Dec 2025 02:21:20 -0800 (PST)
-Received: from localhost.localdomain (c-24-9-224-2.hsd1.co.comcast.net. [24.9.224.2])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7cadb3246a8sm7240475a34.22.2025.12.14.02.21.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 14 Dec 2025 02:21:20 -0800 (PST)
-From: harindhu007 <harikrs0905@gmail.com>
-To: dmitry.torokhov@gmail.com,
-	support.opensource@diasemi.com,
-	lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com
-Cc: linux-input@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	harikrs0905@gmail.com
-Subject: [PATCH] input: sound: Fix comment typos in apbps2 and codecs
-Date: Sun, 14 Dec 2025 03:20:08 -0700
-Message-ID: <20251214102008.10582-1-harikrs0905@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1765708703; c=relaxed/simple;
+	bh=80olQ6vOco0mlqqftd4nCKQJWTfx+IFvRdHC+Jad9jQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dNKv+N9zkesiOjyrFcaP66wzziAbEhrw86pSmFF63M037zjcUEpEmd3SNJfWk0kaStkPTeqSfb3X1ps9FclMaL5r9br2my3jNunB0FDfBTwlm3fBe1jlLbWo07UaryvjVwtwHkPD37In4Y9N1qmH8MoJql8kF+dUbgJCupBjcMI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SXaMNbeB; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 688FBC4CEF1;
+	Sun, 14 Dec 2025 10:38:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1765708702;
+	bh=80olQ6vOco0mlqqftd4nCKQJWTfx+IFvRdHC+Jad9jQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=SXaMNbeB/47ggq8hUaqv8Fbxdfu0gxoxfRsxEd4s5R39dniVaWdZIFlcyK+PXtIzy
+	 3EsPTiaZrYV6GRsUGtB5BYV32aPeMXtP1hch7tq48eaCi/eL4PV2fsidaFa8/yU+cx
+	 U9QF49e/rKXKgUPtPt7/IuE3IbigqlPA/iO0xoDBbI3PLJiMTMQD1RFTJSLJSKhXhq
+	 F0j37od6aJTVLzP0SLsP4mxQZeomfCAnC+nFSiKIPjUc6u+GUQNX4HbVNmGAkEQOJw
+	 vrdi8nvChGljgiHBHelZ67cX7lZUmlsjVcdRtHkt4toxTKjPhzaEgp8y+wB1FyeF6Q
+	 1qq4ejhclXouQ==
+Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
+	id 730141AC5687; Sun, 14 Dec 2025 19:38:19 +0900 (JST)
+Date: Sun, 14 Dec 2025 19:38:19 +0900
+From: Mark Brown <broonie@kernel.org>
+To: harindhu007 <harikrs0905@gmail.com>
+Cc: dmitry.torokhov@gmail.com, support.opensource@diasemi.com,
+	lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
+	linux-input@vger.kernel.org, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] input: sound: Fix comment typos in apbps2 and codecs
+Message-ID: <aT6Tm4r1jiYn0AkM@sirena.co.uk>
+References: <20251214102008.10582-1-harikrs0905@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="DSPvND38Xp/Pay8w"
+Content-Disposition: inline
+In-Reply-To: <20251214102008.10582-1-harikrs0905@gmail.com>
+X-Cookie: Think big.  Pollute the Mississippi.
 
-Fix spelling mistakes and minor wording in comments in apbps2, da732x, and spdif_receiver drivers.
 
-Signed-off-by: harindhu007 <harikrs0905@gmail.com>
----
- drivers/input/serio/apbps2.c      | 2 +-
- sound/soc/codecs/da732x.c         | 2 +-
- sound/soc/codecs/spdif_receiver.c | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+--DSPvND38Xp/Pay8w
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/input/serio/apbps2.c b/drivers/input/serio/apbps2.c
-index b815337be2f4..6bb65f93e052 100644
---- a/drivers/input/serio/apbps2.c
-+++ b/drivers/input/serio/apbps2.c
-@@ -112,7 +112,7 @@ static int apbps2_open(struct serio *io)
- 	while ((ioread32be(&priv->regs->status) & APBPS2_STATUS_DR) && --limit)
- 		ioread32be(&priv->regs->data);
- 
--	/* Enable reciever and it's interrupt */
-+	/* Enable receiver and it's interrupt */
- 	iowrite32be(APBPS2_CTRL_RE | APBPS2_CTRL_RI, &priv->regs->ctrl);
- 
- 	return 0;
-diff --git a/sound/soc/codecs/da732x.c b/sound/soc/codecs/da732x.c
-index 140e449d3ef4..e8b3ba878d78 100644
---- a/sound/soc/codecs/da732x.c
-+++ b/sound/soc/codecs/da732x.c
-@@ -569,7 +569,7 @@ static const struct snd_kcontrol_new da732x_snd_controls[] = {
- 		       DA732X_EQ_BAND5_SHIFT, DA732X_EQ_VOL_VAL_MAX,
- 		       DA732X_INVERT, eq_band_pga_tlv),
- 
--	/* Lineout 2 Reciever*/
-+	/* Lineout 2 Receiver*/
- 	SOC_SINGLE("Lineout 2 Switch", DA732X_REG_LIN2, DA732X_LOUT_MUTE_SHIFT,
- 		   DA732X_SWITCH_MAX, DA732X_INVERT),
- 	SOC_SINGLE_TLV("Lineout 2 Volume", DA732X_REG_LIN2,
-diff --git a/sound/soc/codecs/spdif_receiver.c b/sound/soc/codecs/spdif_receiver.c
-index c9766979b1d7..7b4748fc488e 100644
---- a/sound/soc/codecs/spdif_receiver.c
-+++ b/sound/soc/codecs/spdif_receiver.c
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0-only
- /*
-- * ALSA SoC SPDIF DIR (Digital Interface Reciever) driver
-+ * ALSA SoC SPDIF DIR (Digital Interface Receiver) driver
-  *
-  * Based on ALSA SoC SPDIF DIT driver
-  *
--- 
-2.43.0
+On Sun, Dec 14, 2025 at 03:20:08AM -0700, harindhu007 wrote:
+> Fix spelling mistakes and minor wording in comments in apbps2, da732x, an=
+d spdif_receiver drivers.
+>=20
+> Signed-off-by: harindhu007 <harikrs0905@gmail.com>
+> ---
+>  drivers/input/serio/apbps2.c      | 2 +-
+>  sound/soc/codecs/da732x.c         | 2 +-
+>  sound/soc/codecs/spdif_receiver.c | 2 +-
 
+Please don't send patches to multiple subsystems in a single patch
+unless there is a strong reason to, send one (or more) patch per
+subsystem.
+
+--DSPvND38Xp/Pay8w
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmk+k5oACgkQJNaLcl1U
+h9Bk6Af/ZVSmOOws2qhE6gt3jzTeMXq4HskJyJDhI1HTqAOhSBNBZpoH9sX26G1v
+lXFEAFMCOZnDgSRAm7Cvg6Lq6pCzsjVfKKPQRn8N3OnSwaocMgRVP6GiKnh5E4FX
+PuIfGr35JychhI8jYS9420CliB6H/iX0j9PKrVO0nSgqIQhQMEWptjai2h0rByvy
+ZIB2U2sQnhyxUPV4DNbb0pWE5cJWIoFI5GrJtfUMN1UobiULaY4jmZSy0dFJA5QO
+xWuKehEABvajpwfpWhZ+xws7gdRstEvE6Q/i1eqPuMRIbRZpTgP5O/yXkkkb/U6E
+mC6UiwZOkKB2Y0E1MTrsQJo7AaGBvQ==
+=ua/R
+-----END PGP SIGNATURE-----
+
+--DSPvND38Xp/Pay8w--
 
