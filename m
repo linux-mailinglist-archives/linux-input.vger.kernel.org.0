@@ -1,125 +1,172 @@
-Return-Path: <linux-input+bounces-16563-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16564-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3FF0CBBB30
-	for <lists+linux-input@lfdr.de>; Sun, 14 Dec 2025 14:37:46 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C8F1CBBC3D
+	for <lists+linux-input@lfdr.de>; Sun, 14 Dec 2025 16:09:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 0A6893009F8D
-	for <lists+linux-input@lfdr.de>; Sun, 14 Dec 2025 13:37:37 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 04269300A711
+	for <lists+linux-input@lfdr.de>; Sun, 14 Dec 2025 15:09:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6EAEB253944;
-	Sun, 14 Dec 2025 13:37:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7819C238C1B;
+	Sun, 14 Dec 2025 15:09:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N/IBapsS"
+	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="PxVbtPzy"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0CDF1FFC59
-	for <linux-input@vger.kernel.org>; Sun, 14 Dec 2025 13:37:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3BF03B8D7D;
+	Sun, 14 Dec 2025 15:09:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765719455; cv=none; b=WfAj+9C7gaz+w+Aht8xBt1iB6iWRZIXcak01YbfwHeEDhT6w3mBRz62kXdfRG9B1mtr5bbjHTTxtx5zKmZlhXrzOo8c1e4h3mXhkEP9PsXnX8wysXUXHixxhfwW3dhJ4TJ1+Lhc8BRzxaZe5nxH7IxViov92w7FvyTpsGUrd/O4=
+	t=1765724995; cv=none; b=HhYMxEJUlnIehbU6d9KmL8loLU5XVXt+ONNgEWeFosDRLE/Ite856a+gQt5f0u38COB8SHZg8T88nGeUVjim9y/h2utwvCn4UY2AC8zku3da9Po91OhYB+8yIdFGxV16rWoctVwNub7tR/5WMH+BMDAp0y/b9LLE9amNmnTxtIk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765719455; c=relaxed/simple;
-	bh=GgKsx6heUewGhARloPAFtts82i99IDOpKTpDSX25vTs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=heJhkJ/aAaTU1tcuPw9rYCdSLYkpXrms+4alAT/uDUJg4SkqJYK8d3vEo7ZI6sKlJqgYN8ASVM+u4Ld71GRI+Z+LNb7BdVX98yRZX5WiqgxJJtsPvG3e59j4uSFVd7W9P3nTDEQqD9z+munowB0pVeh4bouBLni/WGwlmADYlDw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=N/IBapsS; arc=none smtp.client-ip=209.85.208.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-6419aaced59so4092872a12.0
-        for <linux-input@vger.kernel.org>; Sun, 14 Dec 2025 05:37:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765719452; x=1766324252; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=N/CNC4c90ZLQXC/SqsRpyM13dqGQWN/mqJb9nm77rOk=;
-        b=N/IBapsSaaZ8qFFeTSzuCn30q+gIuLPCpzmrl/E6NqQJ6mY3EclrAS3Ynbvi8HIVqq
-         r+kOosim2nvnSlHijTR/pMG1ftvWAQuOAm+XPWMF1q4eshkZfMcWtxHHFzMmKNF5AOww
-         hS6tzNu5cZ1XxkFpIGdmbA57onED40meddVcD090KBGepk7aKoP2DSK2Ex53hU375j+z
-         IC4wcw2R2Pvr0pr0tnCp0vpbwDDXCQ+t2CYYce/wN3cVaIEFTKGpC9eWiGZGgG/Nh4Ew
-         VfQdZxDC/njTSBJcuoxPClhirRGvshkjbmc+kE8v2MKdUUOxbbvVvxdQeaBkJyl3sWIF
-         Xv+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765719452; x=1766324252;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=N/CNC4c90ZLQXC/SqsRpyM13dqGQWN/mqJb9nm77rOk=;
-        b=oDmn4GitpobtNCXYhdzufZuEI0tdk0Nyl66QDRIiBJA9kDyHrgB20VmsNoekL3upuN
-         Evo+A7+jDdaD7nKNGtYP7EgFTNi6Te0tgZiQScm+CDq4kVqUiZNK9SIr0fbaro56R+/8
-         JO3PiSVYwwQP6BLWuAMoHbEXD8+IcEpGnchvpxnpofuMRpinotD4QCdWbctjDh/USc7o
-         WcsdCXT63MGD03dw1M/F4erQQ21RgbE3Jm1vwqkaAHG5ZNs41PGCD8m3ukxjZPAfUG67
-         JMGDSQVB/pJWJSlo+/OiK6jp0fQRshe6VzfPM16AspUDv4F8tXlH3mzGy0CHlZ9MrICu
-         D2oA==
-X-Forwarded-Encrypted: i=1; AJvYcCXRgbkV0YPlMIjgtjivV/CMZKm/ZjRH3MuCpw/k8miKC9dIk7H0OzK1K73sqH7mf9yfqpBcXS2HCEncxQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzdajk6Tb+oBppKMPTfR7zAISHHXjOGQ4uR/aWY2Qnlq0HCOv0g
-	R/YDzMoN/DYJbYvqd2s6ihhbCPrOsoQps5CcDewDc01hZ1K0MWPmLymQ
-X-Gm-Gg: AY/fxX7+KAC+ehdhigf6PX9w1Iuc4qb91gKzd6v+F6aAoNWW60eELhC+akyKRjZeD0A
-	Zi4AZLgFzHHMXAjGYLW0aycKbT2TzWo1c7Q2E/D67NUbt/rwKSeDnqJnZxNX6FS0iiPzHkwZSrs
-	2UdEjUK3orhN4ubrul3u8eIes//wWwfx6+uRBduI495A2dUmsB2UMxI7KfmK+2ko8RNofzJ6UGb
-	PXUXBAnC97YCAuZzPXXlYOz+BSYNfAUWwh4qSXeGkQ38u7yNO7NipNQNS66+H1REjUJzSUrd5gO
-	Kh866DH6UW8Mdt/Z3zh/36XUNyUb4R3taFJzUcibzSk+SYfAGBs/IwRg0ko7Uf1iNytibkDZ9mO
-	PS5zjmz1zq7dlibsGSumH/d7FJFImu7BaF7Akl5IrNXR7xKpM6MNy+g2Ps2ngEecSL6D6Jurb5P
-	e/Afch1VwSp5s=
-X-Google-Smtp-Source: AGHT+IE1ebTVFVfjjcSokHzsxMsvRax5p6HNeybzloZtMpyISV5CNY3oC5tzlGTUx331s0ZE52eiPw==
-X-Received: by 2002:a17:906:9fc7:b0:b72:dc33:3d36 with SMTP id a640c23a62f3a-b7d23a1c49dmr762099266b.49.1765719451868;
-        Sun, 14 Dec 2025 05:37:31 -0800 (PST)
-Received: from daytoncl ([109.245.167.208])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b7cfa56c1b6sm1133979166b.48.2025.12.14.05.37.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 14 Dec 2025 05:37:31 -0800 (PST)
-From: DaytonCL <artem749507@gmail.com>
-To: benjamin.tissoires@redhat.com
-Cc: jikos@kernel.org,
-	linux-input@vger.kernel.org,
+	s=arc-20240116; t=1765724995; c=relaxed/simple;
+	bh=7oeA8hAZfE+OuLV++8wZ+w2h0OVtO5IPbc17sDI9JjU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SfbjSYaypVYKPAQDr12nY4QV2t4Z6jTS56SEflz84sJlNfjMv9js+O3cCbOj1kQPV47kNcIm9bYxPrAYcbLaBIibqT6eXtK9eQIYO+QEG621crFi6ODJllSaBLl+TdqSk1zfewzCtGA7/6eyEVceFwOTVqkjErQWiTWcsvgoghE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=none smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=PxVbtPzy; arc=none smtp.client-ip=82.195.75.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=debian.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
+	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=0JiRvR1x3x+Bzzb86M9yv4aMLpalBB1ekM0TQwCAoWQ=; b=PxVbtPzyIfFJlaJW5foctIXtAQ
+	F6487yj01zYIfclv+GqA9fn8oUF+CMtEcyThKd3apZ/M9DY+DGnwGFvTa13mJC7aEhmz74/nL2M+5
+	/2IlWyIOpQL3cfzKepIVVHz754hB2pHtfXCcpeQ8jnjxadaWpoQI2qCaU4tcJ6mDVnIu24Gr9HcFy
+	ime3c91/vbncUN8WIurTstJB4FWH8ARqcPPrLr3TpWoFQ1hoe6+5fyd5W8rzU6sfagjVis3Tr9nle
+	xQedFBoskWEamkkT/lFy9rxlBbzlWQigaoGbutrfqDQzAvcZA7JYHL8vs+9FkHFjgmuceGpUP/rlq
+	kvTPVXNg==;
+Received: from authenticated user
+	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.94.2)
+	(envelope-from <carnil@debian.org>)
+	id 1vUnjJ-00BGub-Jc; Sun, 14 Dec 2025 15:09:49 +0000
+Received: by eldamar.lan (Postfix, from userid 1000)
+	id C0800BE2EE7; Sun, 14 Dec 2025 16:09:48 +0100 (CET)
+Date: Sun, 14 Dec 2025 16:09:48 +0100
+From: Salvatore Bonaccorso <carnil@debian.org>
+To: Sam Halliday <sam.halliday@gmail.com>, 1122193@bugs.debian.org,
+	Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>
+Cc: linux-usb@vger.kernel.org, linux-input@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] HID: multitouch: add MT_QUIRK_STICKY_FINGERS to MT_CLS_VTL
-Date: Sun, 14 Dec 2025 14:34:36 +0100
-Message-ID: <20251214133648.307106-2-artem749507@gmail.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20251214133648.307106-1-artem749507@gmail.com>
-References: <20251214133648.307106-1-artem749507@gmail.com>
+Subject: usb hid descriptor requirements are rejecting hardware (ZWO EFWmini,
+ 03c3:1f01)
+Message-ID: <aT7TPAInuBOXctEZ@eldamar.lan>
+References: <176520622961.2658.15817888352918425136.reportbug@Samwise>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <176520622961.2658.15817888352918425136.reportbug@Samwise>
+X-Debian-User: carnil
 
-Some VTL-class touchpads (e.g. TOPS0102:00 35CC:0104) intermittently
-fail to release a finger contact. A previous slot remains logically
-active, accompanied by stale BTN_TOOL_DOUBLETAP state, causing
-gestures to stay latched and resulting in stuck two-finger
-scrolling and false right-clicks.
+Hi Sam,
 
-Apply MT_QUIRK_STICKY_FINGERS to handle the unreleased contact correctly.
+Jiri, Benjamin, this is about a report originally done in Debian as
+https://bugs.debian.org/1122193 where Sam's device, a ZWO EFWmini with
+vendor and product id's as 03c3:1f01 is not working, usbhid not
+loaded.
 
-Link: https://gitlab.freedesktop.org/libinput/libinput/-/issues/1225
-Suggested-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Tested-by: DaytonCL <artem749507@gmail.com>
-Signed-off-by: DaytonCL <artem749507@gmail.com>
----
- drivers/hid/hid-multitouch.c | 1 +
- 1 file changed, 1 insertion(+)
+On Mon, Dec 08, 2025 at 03:03:49PM +0000, Sam Halliday wrote:
+> Package: linux-image-amd64
+> Version: 6.12.57-1
+> Severity: normal
+> Tags: patch
+> X-Debbugs-Cc: debian-amd64@lists.debian.org
+> User: debian-amd64@lists.debian.org
+> Usertags: amd64
+> 
+> Dear Maintainer,
+> 
+> I propose a patch to workaround USB HID descriptor requirements that
+> are stopping users from being able to use astrophotography
+> equipment.
+> 
+> I have a usb device (an ZWO EFWmini, used for astronomy) which has
+> the following vendor information: 03c3:1f01 ZWO ZWO EFW
+> 
+> This device is known to offer a suboptimal descriptor, e.g. see the lsusb output
+> 
+>       Warning: Descriptor too short
+>         HID Device Descriptor:
+>           bLength                 9
+>           bDescriptorType        33
+>           bcdHID               1.01
+>           bCountryCode            0 Not supported
+>           bNumDescriptors         2
+>           bDescriptorType        34 (null)
+>           wDescriptorLength      68
+>           bDescriptorType         0 (null)
+>           wDescriptorLength       0
+>           Report Descriptors: 
+>             ** UNAVAILABLE **
+> 
+> My software (I write it, it is GPLv3, I'm the only user, but it isn't particularly relevant...) runs primarilly on a raspberry pi, which accepts this with kernel 6.12.25-1+rpt1, and I've also done some desktop development on archlinux (unknown kernel versions but up to at least 6 months ago). I only access the hardware for development from a debian desktop computer.
+> 
+> Since moving to Debian 13, my hardware no longer works, with dmesg showing the following error:
+> 
+> [   14.182522] usb 1-2.2: new full-speed USB device number 10 using xhci_hcd
+> [   14.276921] usb 1-2.2: New USB device found, idVendor=03c3, idProduct=1f01, bcdDevice= 0.00
+> [   14.276930] usb 1-2.2: New USB device strings: Mfr=1, Product=2, SerialNumber=0
+> [   14.276933] usb 1-2.2: Product: ZWO EFW
+> [   14.276935] usb 1-2.2: Manufacturer: ZW0
+> [   14.282951] usbhid 1-2.2:1.0: can't add hid device: -22
+> [   14.282963] usbhid 1-2.2:1.0: probe with driver usbhid failed with error -22
+> 
+> I have tried going back as far as debian's kernel from bullseye (5.10), bookworm (6.1), trixie (6.12) and backports (6.17) but it's the same error every time.
+> 
+> Communicating with the ZWO (the device manufacturer) support team, they recommended patching the kernel, which I did, and it now works.
+> 
+> I applied the following patch and built my own kernel
+> 
+> ===========================================================================
+> --- drivers/hid/usbhid/hid-core.c.orig	2025-12-08 13:15:08.657917762 +0000
+> +++ drivers/hid/usbhid/hid-core.c	2025-12-08 13:16:24.293959487 +0000
+> @@ -1015,7 +1015,7 @@
+>  			      (hdesc->bNumDescriptors - 1) * sizeof(*hcdesc)) {
+>  		dbg_hid("hid descriptor invalid, bLen=%hhu bNum=%hhu\n",
+>  			hdesc->bLength, hdesc->bNumDescriptors);
+> -		return -EINVAL;
+> +		// return -EINVAL;
+>  	}
+>  
+>  	hid->version = le16_to_cpu(hdesc->bcdHID);
+> ===========================================================================
+> 
+> The new dmesg output is
+> 
+> [  366.477628] usbhid 1-2:1.0: 1 unsupported optional hid class descriptors
+> [  366.478327] hid-generic 0003:03C3:1F01.0006: hiddev1,hidraw4: USB HID v1.01 Device [ZW0 ZWO EFW] on usb-000
+> 
+> 
+> Apologies but I don't think I'm giving you a particularly good patch
+> because the author of this code clearly intended for a -EINVAL
+> failure. A kernel dev may prefer to create a hardware quirk (which
+> ideally should be enabled for 03c3:1f01 by default) to exit if the
+> descriptor isn't valid. I'm not a kernel developer so that's beyond
+> me.
+> 
+> The device works perfectly fine despite the descriptor not meeting
+> the kernel's current requirements. And I don't believe a firmware
+> upgrade is possible... it's just a little motor that turns a wheel
+> containing photographic filters.
 
-diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
-index 179dc316b..a0c1ad5ac 100644
---- a/drivers/hid/hid-multitouch.c
-+++ b/drivers/hid/hid-multitouch.c
-@@ -393,6 +393,7 @@ static const struct mt_class mt_classes[] = {
- 	{ .name = MT_CLS_VTL,
- 		.quirks = MT_QUIRK_ALWAYS_VALID |
- 			MT_QUIRK_CONTACT_CNT_ACCURATE |
-+			MT_QUIRK_STICKY_FINGERS |
- 			MT_QUIRK_FORCE_GET_FEATURE,
- 	},
- 	{ .name = MT_CLS_GOOGLE,
--- 
-2.52.0
+I suspect your case can be a candidate for HID-BPF, cf.
+https://docs.kernel.org/hid/hid-bpf.html and you might try to fixup
+the required descriptors.
 
+But I'm not entirely sure. Jiri and Benjamin is that something we
+could have quirk for the device or the problem tackled in some other
+way?
+
+Regards,
+Salvatore
 
