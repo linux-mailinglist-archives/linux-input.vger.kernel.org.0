@@ -1,58 +1,58 @@
-Return-Path: <linux-input+bounces-16580-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16579-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46233CBDD62
-	for <lists+linux-input@lfdr.de>; Mon, 15 Dec 2025 13:37:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E182CBDD50
+	for <lists+linux-input@lfdr.de>; Mon, 15 Dec 2025 13:36:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id D83793065003
-	for <lists+linux-input@lfdr.de>; Mon, 15 Dec 2025 12:30:48 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 8DFD63037891
+	for <lists+linux-input@lfdr.de>; Mon, 15 Dec 2025 12:30:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E559C238D22;
-	Mon, 15 Dec 2025 12:30:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CE86C21B185;
+	Mon, 15 Dec 2025 12:30:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="WlgM9zOd"
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="LryNsyYC"
 X-Original-To: linux-input@vger.kernel.org
 Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFFED230BD5;
-	Mon, 15 Dec 2025 12:30:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C553621146C;
+	Mon, 15 Dec 2025 12:30:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765801841; cv=pass; b=PiYNPx6jv+y5vRlZqWlHlzMVSkDsZU8lyqfgfig/MwRxt5+ok5s1LaW5ADScySAKrqfrXMEL3aScmYv5e+xV/17mM6FcxIYTtAhAo4fBDxdAE/7RU1BM1ODlr/LlkAxFxnWchwB2zLYUJesHuwmhLSPvL+PxTIJ75JdplXuEAsk=
+	t=1765801833; cv=pass; b=RGbnrYecthoFLypD3AYeQtw3yYSmrojRdnU5Rzk4FYZy54KYBjDpL7KGt8OXC91AgPFhQxlkXhe/G6xg5nBbldCROPCy1lMfOY+PAeNb+rPam1gHOiIG0h7cQdrTTC5K9ZfMAAaLTAHC9dAHnpQUIq76UNMegmTValFc0LK/34Q=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765801841; c=relaxed/simple;
-	bh=OLHayUs7V9b/o+/hh1s8WHuPya3qVcW0Bybto2UJzF0=;
+	s=arc-20240116; t=1765801833; c=relaxed/simple;
+	bh=7C6Q3SSN+d7+kzGDmCPbKwmMa1GEa0w+hl6HzzkS/c4=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=SlFQtm88kNEnD1gRWnhfIHijOHgg73tAmJKjYjIy83Kn2zD26s03DOMgCKjol4S5l3nC+R2cftSAgHgkMvmZRqhNBkaDV2mYVAOxAOU4fa/U8CCRoCdPoEtzt4M/aoNgpbvm/BtRBrw9HNGcx1thnv+8wvkbxPc7T++Qy/5K4cc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b=WlgM9zOd; arc=pass smtp.client-ip=136.143.188.112
+	 In-Reply-To:To:Cc; b=PaittQY3oeaK+w5hd9sX6Of1+7d2lYzjpWEHYxyWESUR0WCmCYqgf1yymguDMFcUWRdQYd92pxCEEs+vepFq7/P0U1v1q53ZkjEOK9kmXKXWZ3xV/RfJTWEl2vL/0+0yv9mhTYelm1FoWO5EdCzr9TJY6NI9mL9/2BuE6Xhaibw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b=LryNsyYC; arc=pass smtp.client-ip=136.143.188.112
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1765801797; cv=none; 
+ARC-Seal: i=1; a=rsa-sha256; t=1765801801; cv=none; 
 	d=zohomail.com; s=zohoarc; 
-	b=NLE7W6B1mOuoDcXwW1XAoLLAmagS6oyKJKxl7CaU1nywuPYY3WFykZQnYFo07fQYOEEGdZvjsMnJTZwpjGw+sJ5HMZSJ/npyFcmP/rfXed9xAelll1JkW2b2RPGc+oBK9QNxwo+O5WVsNZ+B/ztKm4RAmxkLTY/ABFfNYGuwuuk=
+	b=CvR3Zn1MaPwq2vkBfl9IUi21oYWD3iMXyRi2x3ycVcs7QCkMYrBmIoAlirl8czz3rf3HLs5/Rwm4rlbkf7/JYJAGMV9er2u7buC43/Cr+wP0ZbK/nf/RdQ9cBZ1JoaqHRqG+rGGpTzEv1c5LYQu3sZ33bKUj5+3kb1mlrHlrfFU=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1765801797; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=YFvkp8sx9x7p+ety3YU1OWBYrz0nSL8Cjejt5tXhoXY=; 
-	b=GjE8xM3YZHW8+IBDQMM7+Lr9wDE8nQikU8UfVwX8Z47g7i8UTmS5hc854UZMJyjXf40Lw7c1mP3xqmrtaPmbeGU8fmzOMdzTgRdJtAHbsP37rEkYXBAPbC7PtZGl3OynEafhF+KZa6/o4QW9+v3fM8vLLosemFHWFgM/uk580Fg=
+	t=1765801801; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=39OmIwXfdmPw69o0cpAowcv7j0z798lr3Zhxe2aAZ+I=; 
+	b=ks9k7pmiZIS5i/DlJ/lSOFjhkR17AGPCUKB0dxbCKV/E5reJvusbk4Azmby1dm4QXrs3WlKG1bsMDdq1g6cCKM2JgXYYMmS4MX3/PDHatM5dFY7iZzRg2nxJ5FEn2690JJLIuGL5RWgGxjWPAse9/WpExJ27sfUi+6GJZzWs+mQ=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
 	dkim=pass  header.i=collabora.com;
 	spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
 	dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1765801797;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1765801801;
 	s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
 	h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:References:In-Reply-To:To:To:Cc:Cc:Reply-To;
-	bh=YFvkp8sx9x7p+ety3YU1OWBYrz0nSL8Cjejt5tXhoXY=;
-	b=WlgM9zOdeK7/1T9h5CDUKt9jGDi0MbmpLvxiZIH86qNNrjY/Spwu376r2z1gVMFe
-	BAqtFRIFBORKjIbyCWx/kd61UBCFCxfoEJwpq4ePIzOqWX3rx9dBYZjSPoqn4FzSSuc
-	22YsFV0ckstqo4BcsYs/f2ZinvAJJZ2QkFOjJBHU=
-Received: by mx.zohomail.com with SMTPS id 176580179655941.66611173233514;
-	Mon, 15 Dec 2025 04:29:56 -0800 (PST)
+	bh=39OmIwXfdmPw69o0cpAowcv7j0z798lr3Zhxe2aAZ+I=;
+	b=LryNsyYChnaPRg4/Za7PeYsFJFTlgFgnmCO/TGC8JG1/LUFTyh7DFRYes3IKy/d2
+	rsi44gUotpQPe3umEAp6HYHRz1YXcubcP9ckfNgngZNNs7KouEeAz8NVARw4nHqwz/4
+	wRzD5HQ4bacTDsLbEPVM7LGgZbwX/7Ii1KdRwzrA=
+Received: by mx.zohomail.com with SMTPS id 1765801799867522.9935835434184;
+	Mon, 15 Dec 2025 04:29:59 -0800 (PST)
 From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Date: Mon, 15 Dec 2025 13:29:29 +0100
-Subject: [PATCH v2 1/4] dt-bindings: input: adc-keys: allow
- linux,input-type property
+Date: Mon, 15 Dec 2025 13:29:30 +0100
+Subject: [PATCH v2 2/4] Input: adc-keys - support EV_SW as well, not just
+ EV_KEY.
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -61,7 +61,7 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251215-rock4d-audio-v2-1-82a61de39b4c@collabora.com>
+Message-Id: <20251215-rock4d-audio-v2-2-82a61de39b4c@collabora.com>
 References: <20251215-rock4d-audio-v2-0-82a61de39b4c@collabora.com>
 In-Reply-To: <20251215-rock4d-audio-v2-0-82a61de39b4c@collabora.com>
 To: Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
@@ -75,32 +75,120 @@ Cc: kernel@collabora.com, linux-input@vger.kernel.org,
  Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 X-Mailer: b4 0.14.3
 
-adc-keys, unlike gpio-keys, does not allow linux,input-type as a valid
-property. This makes it impossible to model devices that have ADC inputs
-that should generate switch events.
+Instead of doing something like what gpio-keys is doing, adc-keys
+hardcodes that all keycodes must be of type EV_KEY.
 
-Add the property to the binding with the same default as gpio-keys.
+This limits the usefulness of adc-keys, and overcomplicates the code
+with manual bit-setting logic.
 
-Reviewed-by: Heiko Stuebner <heiko@sntech.de>
+Instead, refactor the code to read the linux,input-type fwnode property,
+and get rid of the custom bit setting logic, replacing it with
+input_set_capability instead. input_report_key is replaced with
+input_event, which allows us to explicitly pass the type.
+
+Only EV_KEY and EV_SW is allowed at this stage.
+
 Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 ---
- Documentation/devicetree/bindings/input/adc-keys.yaml | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/input/keyboard/adc-keys.c | 37 +++++++++++++++++++++++++------------
+ 1 file changed, 25 insertions(+), 12 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/input/adc-keys.yaml b/Documentation/devicetree/bindings/input/adc-keys.yaml
-index 7aa078dead37..e372ebc23d16 100644
---- a/Documentation/devicetree/bindings/input/adc-keys.yaml
-+++ b/Documentation/devicetree/bindings/input/adc-keys.yaml
-@@ -42,6 +42,9 @@ patternProperties:
+diff --git a/drivers/input/keyboard/adc-keys.c b/drivers/input/keyboard/adc-keys.c
+index f1753207429d..62376f34f7d0 100644
+--- a/drivers/input/keyboard/adc-keys.c
++++ b/drivers/input/keyboard/adc-keys.c
+@@ -18,13 +18,15 @@
  
-       linux,code: true
+ struct adc_keys_button {
+ 	u32 voltage;
+-	u32 keycode;
++	u32 code;
++	u32 type;
+ };
  
-+      linux,input-type:
-+        default: 1  # EV_KEY
+ struct adc_keys_state {
+ 	struct iio_channel *channel;
+ 	u32 num_keys;
+ 	u32 last_key;
++	u32 last_type;
+ 	u32 keyup_voltage;
+ 	const struct adc_keys_button *map;
+ };
+@@ -34,7 +36,8 @@ static void adc_keys_poll(struct input_dev *input)
+ 	struct adc_keys_state *st = input_get_drvdata(input);
+ 	int i, value, ret;
+ 	u32 diff, closest = 0xffffffff;
+-	int keycode = 0;
++	u32 code = 0;
++	u32 type = EV_KEY;
+ 
+ 	ret = iio_read_channel_processed(st->channel, &value);
+ 	if (unlikely(ret < 0)) {
+@@ -45,22 +48,24 @@ static void adc_keys_poll(struct input_dev *input)
+ 			diff = abs(st->map[i].voltage - value);
+ 			if (diff < closest) {
+ 				closest = diff;
+-				keycode = st->map[i].keycode;
++				code = st->map[i].code;
++				type = st->map[i].type;
+ 			}
+ 		}
+ 	}
+ 
+ 	if (abs(st->keyup_voltage - value) < closest)
+-		keycode = 0;
++		code = 0;
+ 
+-	if (st->last_key && st->last_key != keycode)
+-		input_report_key(input, st->last_key, 0);
++	if (st->last_key && st->last_key != code)
++		input_event(input, st->last_type, st->last_key, 0);
+ 
+-	if (keycode)
+-		input_report_key(input, keycode, 1);
++	if (code)
++		input_event(input, type, code, 1);
+ 
+ 	input_sync(input);
+-	st->last_key = keycode;
++	st->last_key = code;
++	st->last_type = type;
+ }
+ 
+ static int adc_keys_load_keymap(struct device *dev, struct adc_keys_state *st)
+@@ -88,11 +93,20 @@ static int adc_keys_load_keymap(struct device *dev, struct adc_keys_state *st)
+ 		map[i].voltage /= 1000;
+ 
+ 		if (fwnode_property_read_u32(child, "linux,code",
+-					     &map[i].keycode)) {
++					     &map[i].code)) {
+ 			dev_err(dev, "Key with invalid or missing linux,code\n");
+ 			return -EINVAL;
+ 		}
+ 
++		if (fwnode_property_read_u32(child, "linux,input-type",
++					     &map[i].type))
++			map[i].type = EV_KEY;
 +
-       press-threshold-microvolt:
-         description:
-           Voltage above or equal to which this key is considered pressed. No
++		if (map[i].type != EV_KEY && map[i].type != EV_SW)
++			return dev_err_probe(dev, -EINVAL,
++					     "Invalid linux,input-type: 0x%x\n",
++					     map[i].type);
++
+ 		i++;
+ 	}
+ 
+@@ -156,9 +170,8 @@ static int adc_keys_probe(struct platform_device *pdev)
+ 	input->id.product = 0x0001;
+ 	input->id.version = 0x0100;
+ 
+-	__set_bit(EV_KEY, input->evbit);
+ 	for (i = 0; i < st->num_keys; i++)
+-		__set_bit(st->map[i].keycode, input->keybit);
++		input_set_capability(input, st->map[i].type, st->map[i].code);
+ 
+ 	if (device_property_read_bool(dev, "autorepeat"))
+ 		__set_bit(EV_REP, input->evbit);
 
 -- 
 2.52.0
