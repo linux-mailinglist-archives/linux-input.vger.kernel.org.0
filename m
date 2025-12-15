@@ -1,189 +1,129 @@
-Return-Path: <linux-input+bounces-16574-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16575-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BC59CBD526
-	for <lists+linux-input@lfdr.de>; Mon, 15 Dec 2025 11:11:58 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 195F5CBD60E
+	for <lists+linux-input@lfdr.de>; Mon, 15 Dec 2025 11:36:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 7A98D3017F06
-	for <lists+linux-input@lfdr.de>; Mon, 15 Dec 2025 10:11:57 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 17478300BA2E
+	for <lists+linux-input@lfdr.de>; Mon, 15 Dec 2025 10:36:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 37C0832C333;
-	Mon, 15 Dec 2025 10:11:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D3FF63164BD;
+	Mon, 15 Dec 2025 10:36:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lz540RxS"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ULVZ/usP"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 018CD314A80;
-	Mon, 15 Dec 2025 10:11:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94A232882C5;
+	Mon, 15 Dec 2025 10:36:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765793516; cv=none; b=tbBqLIt2vGeoDIGeXTEoJGwaoAk1PNsIquHFPNmjCBCefotWLjzwmVqTqISpi6lz1FAAzrJ35zFDsziHEE7HTHDVdCsmqW26c7hBlhOdA4YfOEHr+yWxtnkDBjjK6+8Gda/2h0SujwqD4cmtNVNvWncqD0UdFPqXuk1HhnhSkg4=
+	t=1765794989; cv=none; b=eJLXbhqoXmIRIN2+PSwJG2jdtm7BPSFgaxDWWBRslN74PLnV1UEcu1ifxgV6PnoyFgGFJV7V/VfW8+gHn8ry4m06sLzfZC4veh4O/sdAuN6YpFzlmrvx2Trwc9XkGQY4vfBciHaa8C6fBoL2wzV+gexNduEeY+0sZa5GbEr/qEE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765793516; c=relaxed/simple;
-	bh=HSu6Sf5u3pHHYKurzBwkbEf/+hWGsNFYcpTqiUbY/S4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HTaoCykyAPuUPE6NzLGRTXz9aPqkJvZdEIhEQUNk6KBou68OBdutcjwqd4KypGhJzxjvOrLJ2Tg0YMQMFZ/zV3qTspZLyr/qXMDlwfxGa8SUP7RblIgElof2Vd+CXKIimeC7e7yZMx/yc1jN3/KX+XJeJzOTpOaCnPO3ZnsSVbY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lz540RxS; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1C25AC4CEFB;
-	Mon, 15 Dec 2025 10:11:53 +0000 (UTC)
+	s=arc-20240116; t=1765794989; c=relaxed/simple;
+	bh=VnZ9AI+OcSYjRRCKYpKhQNADkzDfaUzJNzcsasS8Vos=;
+	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
+	 Message-Id:Subject; b=heMDI9xb77UFtxkdb3R6rfd/nZlnyXI243hUtGSueVFzhcYhf7eITP/F3B1pzJW3pQ5PvJpuOc/eJfqac7N9vO8DDM4M7/fOwzR/itPqK9rxkhsdXyvddirFUcXEy95yJwRxHF2eqEvYyTMLHMC2xgyW4dpM5NRTSUsvntO3e0A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ULVZ/usP; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A4F1C4CEF5;
+	Mon, 15 Dec 2025 10:36:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765793515;
-	bh=HSu6Sf5u3pHHYKurzBwkbEf/+hWGsNFYcpTqiUbY/S4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=lz540RxSBx6pFp2cmUXnuSmXHnvQbuRuhvLlPL+DvRAHKqd8zK+h+MQbQjBED+yTn
-	 Tne9G4FU1WvX0TjP6kyczX5UPrho8my60Ie7o68xblB3fwaSIbfWwKHqzHlroIviGY
-	 EOvQqtXCUE7kKcIpP8J1aWz5SQNThtwTA081CdLoSSbp2+a1JknwiW+12aN9xOXW61
-	 KTtIfZMLHAvBynSrLIRN8iaQ8ZZbf9e8Qcu9q/JZDjE1EsVZa1Lhbg3oroG65ckatn
-	 tQ7cJCfdRxSwavu5xj7AJ65JLfHyQP0ADhAY3KkBZFAzrZ05J0sSAsWaZG0cy9AluA
-	 zPq4LHPqWqNEw==
-Date: Mon, 15 Dec 2025 11:11:51 +0100
-From: Benjamin Tissoires <bentiss@kernel.org>
-To: Salvatore Bonaccorso <carnil@debian.org>
-Cc: Sam Halliday <sam.halliday@gmail.com>, 1122193@bugs.debian.org, 
-	Jiri Kosina <jikos@kernel.org>, linux-usb@vger.kernel.org, linux-input@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: usb hid descriptor requirements are rejecting hardware (ZWO
- EFWmini, 03c3:1f01)
-Message-ID: <cpgdwmdhfl7tkqe2x263o2xeeclgvbal5onlkj7qcte73jhs5i@h2tdtzmiabcn>
-References: <176520622961.2658.15817888352918425136.reportbug@Samwise>
- <aT7TPAInuBOXctEZ@eldamar.lan>
+	s=k20201202; t=1765794989;
+	bh=VnZ9AI+OcSYjRRCKYpKhQNADkzDfaUzJNzcsasS8Vos=;
+	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
+	b=ULVZ/usPznXq3DhQThXZBO4aMJjHoKA+pwX75G7MAXzBw0Wn1zC2vrBwOvcFA41xC
+	 ULin4X7tqnkgmW26HZnJ3w0CgFKGu1o842V2AKsmaCVLYtjRr8deodkKtvtpbLAB1l
+	 BEPLvuLrRahuZ8yZ4hhFQJOueLxi+TpJys7JJD1MzdspYT/rdSbN/T7Hm8dPlfWAUc
+	 7uiTH4lWg2NjaobkqgPiCeIXHfXmqCW+JXsiareBFSVyW/48VNkWqhb5YB0qL1QL/H
+	 Mq5xrxiRn9uudLeKLrKnWbi4tz7L+Tpcplc9ihm39Uuu8R93Hk4JoreYdKqSS22u5/
+	 8gzm6RHv/C0/Q==
+Date: Mon, 15 Dec 2025 04:36:26 -0600
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aT7TPAInuBOXctEZ@eldamar.lan>
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+ Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org, 
+ Conor Dooley <conor+dt@kernel.org>, Sven Peter <sven@kernel.org>, 
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev, 
+ Lee Jones <lee@kernel.org>, linux-input@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Jean Delvare <jdelvare@suse.com>, 
+ linux-arm-kernel@lists.infradead.org, 
+ Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+ Guenter Roeck <linux@roeck-us.net>, linux-rtc@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-doc@vger.kernel.org, 
+ Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>
+To: James Calligeros <jcalligeros99@gmail.com>
+In-Reply-To: <20251215-macsmc-subdevs-v6-1-0518cb5f28ae@gmail.com>
+References: <20251215-macsmc-subdevs-v6-0-0518cb5f28ae@gmail.com>
+ <20251215-macsmc-subdevs-v6-1-0518cb5f28ae@gmail.com>
+Message-Id: <176579498664.1749225.5193965875803198793.robh@kernel.org>
+Subject: Re: [PATCH v6 1/7] dt-bindings: hwmon: Add Apple System Management
+ Controller hwmon schema
 
-On Dec 14 2025, Salvatore Bonaccorso wrote:
-> Hi Sam,
+
+On Mon, 15 Dec 2025 19:37:45 +1000, James Calligeros wrote:
+> Apple Silicon devices integrate a vast array of sensors, monitoring
+> current, power, temperature, and voltage across almost every part of
+> the system. The sensors themselves are all connected to the System
+> Management Controller (SMC). The SMC firmware exposes the data
+> reported by these sensors via its standard FourCC-based key-value
+> API. The SMC is also responsible for monitoring and controlling any
+> fans connected to the system, exposing them in the same way.
 > 
-> Jiri, Benjamin, this is about a report originally done in Debian as
-> https://bugs.debian.org/1122193 where Sam's device, a ZWO EFWmini with
-> vendor and product id's as 03c3:1f01 is not working, usbhid not
-> loaded.
+> For reasons known only to Apple, each device exposes its sensors with
+> an almost totally unique set of keys. This is true even for devices
+> which share an SoC. An M1 Mac mini, for example, will report its core
+> temperatures on different keys to an M1 MacBook Pro. Worse still, the
+> SMC does not provide a way to enumerate the available keys at runtime,
+> nor do the keys follow any sort of reasonable or consistent naming
+> rules that could be used to deduce their purpose. We must therefore
+> know which keys are present on any given device, and which function
+> they serve, ahead of time.
 > 
-> On Mon, Dec 08, 2025 at 03:03:49PM +0000, Sam Halliday wrote:
-> > Package: linux-image-amd64
-> > Version: 6.12.57-1
-> > Severity: normal
-> > Tags: patch
-> > X-Debbugs-Cc: debian-amd64@lists.debian.org
-> > User: debian-amd64@lists.debian.org
-> > Usertags: amd64
-> > 
-> > Dear Maintainer,
-> > 
-> > I propose a patch to workaround USB HID descriptor requirements that
-> > are stopping users from being able to use astrophotography
-> > equipment.
-> > 
-> > I have a usb device (an ZWO EFWmini, used for astronomy) which has
-> > the following vendor information: 03c3:1f01 ZWO ZWO EFW
-> > 
-> > This device is known to offer a suboptimal descriptor, e.g. see the lsusb output
-> > 
-> >       Warning: Descriptor too short
-> >         HID Device Descriptor:
-> >           bLength                 9
-> >           bDescriptorType        33
-> >           bcdHID               1.01
-> >           bCountryCode            0 Not supported
-> >           bNumDescriptors         2
-> >           bDescriptorType        34 (null)
-> >           wDescriptorLength      68
-> >           bDescriptorType         0 (null)
-> >           wDescriptorLength       0
-> >           Report Descriptors: 
-> >             ** UNAVAILABLE **
-> > 
-> > My software (I write it, it is GPLv3, I'm the only user, but it isn't particularly relevant...) runs primarilly on a raspberry pi, which accepts this with kernel 6.12.25-1+rpt1, and I've also done some desktop development on archlinux (unknown kernel versions but up to at least 6 months ago). I only access the hardware for development from a debian desktop computer.
-> > 
-> > Since moving to Debian 13, my hardware no longer works, with dmesg showing the following error:
-> > 
-> > [   14.182522] usb 1-2.2: new full-speed USB device number 10 using xhci_hcd
-> > [   14.276921] usb 1-2.2: New USB device found, idVendor=03c3, idProduct=1f01, bcdDevice= 0.00
-> > [   14.276930] usb 1-2.2: New USB device strings: Mfr=1, Product=2, SerialNumber=0
-> > [   14.276933] usb 1-2.2: Product: ZWO EFW
-> > [   14.276935] usb 1-2.2: Manufacturer: ZW0
-> > [   14.282951] usbhid 1-2.2:1.0: can't add hid device: -22
-> > [   14.282963] usbhid 1-2.2:1.0: probe with driver usbhid failed with error -22
-> > 
-> > I have tried going back as far as debian's kernel from bullseye (5.10), bookworm (6.1), trixie (6.12) and backports (6.17) but it's the same error every time.
-> > 
-> > Communicating with the ZWO (the device manufacturer) support team, they recommended patching the kernel, which I did, and it now works.
-> > 
-> > I applied the following patch and built my own kernel
-> > 
-> > ===========================================================================
-> > --- drivers/hid/usbhid/hid-core.c.orig	2025-12-08 13:15:08.657917762 +0000
-> > +++ drivers/hid/usbhid/hid-core.c	2025-12-08 13:16:24.293959487 +0000
-> > @@ -1015,7 +1015,7 @@
-> >  			      (hdesc->bNumDescriptors - 1) * sizeof(*hcdesc)) {
-> >  		dbg_hid("hid descriptor invalid, bLen=%hhu bNum=%hhu\n",
-> >  			hdesc->bLength, hdesc->bNumDescriptors);
-> > -		return -EINVAL;
-> > +		// return -EINVAL;
-
-That looks like the wrong thing to do, especialy because the 2 previous
-commits introducing that check are to protect against out of bound
-errors:
-See fe7f7ac8e0c7 ("HID: usbhid: Eliminate recurrent out-of-bounds bug in usbhid_parse()")
-
-Can we get the debug output from the line above (or just add plain
-printks in the running kernel)? I suspect we might losen the test with a
-'<' instead of an '!='.
-
-> >  	}
-> >  
-> >  	hid->version = le16_to_cpu(hdesc->bcdHID);
-> > ===========================================================================
-> > 
-> > The new dmesg output is
-> > 
-> > [  366.477628] usbhid 1-2:1.0: 1 unsupported optional hid class descriptors
-> > [  366.478327] hid-generic 0003:03C3:1F01.0006: hiddev1,hidraw4: USB HID v1.01 Device [ZW0 ZWO EFW] on usb-000
-> > 
-> > 
-> > Apologies but I don't think I'm giving you a particularly good patch
-> > because the author of this code clearly intended for a -EINVAL
-> > failure. A kernel dev may prefer to create a hardware quirk (which
-> > ideally should be enabled for 03c3:1f01 by default) to exit if the
-> > descriptor isn't valid. I'm not a kernel developer so that's beyond
-> > me.
-> > 
-> > The device works perfectly fine despite the descriptor not meeting
-> > the kernel's current requirements. And I don't believe a firmware
-> > upgrade is possible... it's just a little motor that turns a wheel
-> > containing photographic filters.
+> Add a schema so that we can describe the available sensors for a given
+> Apple Silicon device in the Devicetree.
 > 
-> I suspect your case can be a candidate for HID-BPF, cf.
-> https://docs.kernel.org/hid/hid-bpf.html and you might try to fixup
-> the required descriptors.
-
-Unfortunatelly no. HID-BPF works for fixing HID protocol errors, but in
-this case the device is not presented by the transport layer, so we can
-not do anything there :(
-
+> Reviewed-by: Neal Gompa <neal@gompa.dev>
+> Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+> Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
+> ---
+>  .../bindings/hwmon/apple,smc-hwmon.yaml  | 86 +++++++++++++++++++++++++
+>  .../bindings/mfd/apple,smc.yaml          | 36 +++++++++++
+>  MAINTAINERS                              |  1 +
+>  3 files changed, 123 insertions(+)
 > 
-> But I'm not entirely sure. Jiri and Benjamin is that something we
-> could have quirk for the device or the problem tackled in some other
-> way?
 
-Quirking seems the wrong approach. I would be curious to know the length
-of the binary descriptor. I suspect there is some mismatch and the end
-is filled with 0. If the length is shorter, that's going to be a bigger
-problem to solve.
+My bot found errors running 'make dt_binding_check' on your patch:
 
-Cheers,
-Benjamin
+yamllint warnings/errors:
+./Documentation/devicetree/bindings/hwmon/apple,smc-hwmon.yaml:73:1: [warning] too many blank lines (2 > 1) (empty-lines)
 
-> 
-> Regards,
-> Salvatore
+dtschema/dtc warnings/errors:
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.kernel.org/project/devicetree/patch/20251215-macsmc-subdevs-v6-1-0518cb5f28ae@gmail.com
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
+
 
