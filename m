@@ -1,252 +1,115 @@
-Return-Path: <linux-input+bounces-16584-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16586-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8813CBDF6D
-	for <lists+linux-input@lfdr.de>; Mon, 15 Dec 2025 14:15:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5141CBEB6B
+	for <lists+linux-input@lfdr.de>; Mon, 15 Dec 2025 16:43:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 488CF30596BE
-	for <lists+linux-input@lfdr.de>; Mon, 15 Dec 2025 13:09:31 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 00EF0307D47F
+	for <lists+linux-input@lfdr.de>; Mon, 15 Dec 2025 15:35:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E3C4D2D63E5;
-	Mon, 15 Dec 2025 13:09:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 32011348447;
+	Mon, 15 Dec 2025 14:30:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="kUuHb2Ii"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eFnn5rK5"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBF342D7804
-	for <linux-input@vger.kernel.org>; Mon, 15 Dec 2025 13:09:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 091EE347FF4;
+	Mon, 15 Dec 2025 14:30:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765804170; cv=none; b=N8VrtBVqBCuPXIBu0UZOXv2UdbdpZBhIeCPAh6/ZVDh3DVKNlNTemuOpf8nDCG1LPJb7Pj+fbPyGW4kk94YoJq1YcyeW9K/fFzBnzJlDLO9NdH8Ss9QkK9Qa+GWwdGgKHVhlmBjoQOgnl13OBG7GaHSn41ngWF2w6d9Yu/YUP/c=
+	t=1765809006; cv=none; b=B9+8USOTTYXKqx9Oyb6eD/kEk0077CNjMTMN/6VceNQlSUdeiGG2fGxXelHWCr9h2AVM0TWY0/IyvrRyjOEjUm5fmsbhaOsB2RZc1n9yqCfs+CicyFMJjgv1sI04eA3sETAYihKLJ9tRHbrMZK0wP1jhN3/9biVynbgITkweEwM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765804170; c=relaxed/simple;
-	bh=htT2w6l3gT1BhEWxPoOuIIkxt113epopi+xlKxAqEYk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PWj9Yu8pS6r9Zn9DiOpcu0/s6TC/Pa/PiGvHTgCDrHMgSDfx+LwYGnBnKo1gQxbTrBrorNy/BAmRMTgByilsXpQTblZky665OtfjDrPaXAP8snka2zrItOSqGlCleWqWCHLLm2Zay2d0hviU8Ir24P3hNFHY0VXW5Py/bR3KDi4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=kUuHb2Ii; arc=none smtp.client-ip=209.85.221.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-42fb2314f52so1519327f8f.0
-        for <linux-input@vger.kernel.org>; Mon, 15 Dec 2025 05:09:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1765804167; x=1766408967; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=M4qyctUX7vU1W8pSxvEcJ1tR+43BtQPWPVTKPDH9E2M=;
-        b=kUuHb2Iii/+nvVsTgYfmnyUmr8L+uuctEyISmztwpQ0FOxzrWqVLobOwWGV51mdAo6
-         sXqc63B5fpkVJsG21fGHDOCDVepbkd3p25FCB6+XrMrSejdRMKD4I8ebCt8CQqi5uM9M
-         i9csx2BVWoSGdri3pK1n/FXdiMukBplAVCf10=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765804167; x=1766408967;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=M4qyctUX7vU1W8pSxvEcJ1tR+43BtQPWPVTKPDH9E2M=;
-        b=p0IbW8KID2i599TB0OGBBtRl7UTHmZVdg1m+KTTCoP7QG9Wel1bR2oAXxxxlvJYkVi
-         Tv925x+9LkrM2IqwMTgcHuMQ+WWxs9jnhFzSMUjJxzd1SeJdhKNGfJ/OF3gwW7gflw+B
-         hKwvZaDSDZ/F4CVX+k9zFb5xhhubRDclyM2GKEsUOJevjaTi2t6DxQhkdYfuKU3atc8v
-         2IB4oeyhqEKxVH28pDssfkIxytmvAv6bywvDMibXfU2FANLl3fMsc01bapXQ8Y+3Vg2P
-         BIQgnYNB06wlhwuG7Df+Y3Q3O4HkONGU4CwcILvv6pfwH18tHrCsRKJWQTKhiFuzMZNx
-         IzvA==
-X-Forwarded-Encrypted: i=1; AJvYcCU3/gAWnjj3aM4HVCgZ0N79HQ7IfE1YztV0lAqYPCfhR+g/7O0PIPNXAc2ABCVpx3HBKA99BCEANGq5nA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx2wq5yjJLOYRaa0gFX/aRrcYRanuqIuRl5ooGAEqaPO5WGn+71
-	OFRdWgltco6LhSOmdyZE1m26+nVSParnRLUCRmVif7NIkDHFUTXSbfLA7pf2S1Pv2w==
-X-Gm-Gg: AY/fxX4RFOGykqNGD+b1KGWWjO+rWhIieHjmmffz0RtQsOoLOzf0361/Yq/POyOonef
-	ckfbxB137sv7n3EqK4PxOyIMCSCCMGm247GxW0kSJyYdXg+Gl2jNurCWeiE5bkaFAusucpAI9FS
-	TAgHFhRXsg62Q8lesLqfauFVRLPt+2RATy7/eilGg2nJq6lXgoX9VP2TnWj4MpD0meXJUCiwM+Y
-	4ECwk12jJHGTC5dBsNQ8vsm7pfnnepCAMEqntv7Z2QUS5b12PKQSixdIkL49a/IOfg8Q9yooTK8
-	ADJ7OwPLnQxpWoc/YJ2pSkerFst2CqywoRX/k8oplQodUpRz9Jt+6f1INxjxu3CaOgzD33m5aHZ
-	fLspE9NdpTl07pYqIpKy1P1myqWYzNRjiIgLqoGuqXdoGNUepoctFAeA3PGwbW4/WxNesXp2Une
-	sQq8+73SF4ORp6ckcXzA==
-X-Google-Smtp-Source: AGHT+IHxUjIM6pOJsp7j/o99Vq4T5LCbQu9SoxxJURH/po4ld/NsNTEpHIlESpdoGRU4OR27kBc92g==
-X-Received: by 2002:a05:6000:4383:b0:430:f182:788f with SMTP id ffacd0b85a97d-430f1827ae9mr8904843f8f.21.1765804167048;
-        Mon, 15 Dec 2025 05:09:27 -0800 (PST)
-Received: from google.com ([37.228.206.31])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-430f6e78a7csm11582854f8f.34.2025.12.15.05.09.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Dec 2025 05:09:26 -0800 (PST)
-Date: Mon, 15 Dec 2025 13:09:24 +0000
-From: Fabio Baltieri <fabiobaltieri@chromium.org>
-To: Simon Glass <sjg@chromium.org>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>, linux-input@vger.kernel.org,
-	devicetree@vger.kernel.org, chrome-platform@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 2/3] Input: cros_ec_keyb: add function key support
-Message-ID: <aUAIhNMTPQVl3b4W@google.com>
-References: <20251209154706.529784-1-fabiobaltieri@chromium.org>
- <20251209154706.529784-3-fabiobaltieri@chromium.org>
- <CAFLszThUU4hfb4vY4mmGHQadRKThG3e=9cAKRy_ampKwA_XNcA@mail.gmail.com>
+	s=arc-20240116; t=1765809006; c=relaxed/simple;
+	bh=AwEDboNk5GmPqrs+ygIr6oF3UxdqLcCX4eLfPid2KXw=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=BGeZtj0uXVPXxHzwaa8mb4PtoTzt92uMMt355JfLfuf9e2sQ1S0xKoe8PY7vCfyMiur/hyJCC3WIZcfxQ2SQkiQjtiLIxri+NzY5eNVfLbK1PvfVxm9YZzW3+nFhcO6A1qw2OSkWlv26EBZst/qDXKAZI/Y9SFs0CWOH3jLtP44=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eFnn5rK5; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 9A222C4CEFB;
+	Mon, 15 Dec 2025 14:30:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1765809005;
+	bh=AwEDboNk5GmPqrs+ygIr6oF3UxdqLcCX4eLfPid2KXw=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=eFnn5rK5ZJjeC1GTOsEbqEYZXSPAtLC0k+0D/HS9BqcX1hlOTZbnx7sI4XYrgQSuE
+	 2Iehherh73rkKYUZt4iEMaQEJIdy3qtNBqZNfcUYov9EIFdIbl8roLERrJx9e1ao6d
+	 nu9Ktfu6077v8ejNFSHspvsctRrDO/lE/RXCNJMqf0aeU0GA27PjCrLasW63uAm7n7
+	 tKxL+4zMxEtSeY7Tcka3zwVnpCHY+CD6BRg2rwOfrkdyBI7DizBcWRMtu6G+MZAEW2
+	 t4fzp5qnp75/gclDvKK0fqhc4QZ/On67N2zCvAYSH754M2fISCnba/M7M3FyoEuq/m
+	 lTJw4kZ2pxR5g==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A5FAD5B16F;
+	Mon, 15 Dec 2025 14:30:05 +0000 (UTC)
+From: David Heidelberg via B4 Relay <devnull+david.ixit.cz@kernel.org>
+Subject: [PATCH 0/4] Input: small nitpick fixes
+Date: Mon, 15 Dec 2025 15:30:00 +0100
+Message-Id: <20251215-fts-fixes-v1-0-8c1e3a63ebf1@ixit.cz>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAFLszThUU4hfb4vY4mmGHQadRKThG3e=9cAKRy_ampKwA_XNcA@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAGgbQGkC/x2KOwqAMAxAr1IyG7ApDvUq4iA21SxVGhGheHeD4
+ /s0UK7CCqNrUPkWlaMY+M7Bui9lY5RkDNTT4MkT5ksxy8OKwVTIiSOlCPaflf9g+zS/7wfDWL/
+ wWwAAAA==
+X-Change-ID: 20251212-fts-fixes-30253fde92d9
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+ Petr Hodina <petr.hodina@protonmail.com>, 
+ Javier Martinez Canillas <javier@osg.samsung.com>, 
+ Rob Herring <robh@kernel.org>, Andi Shyti <andi@etezian.org>
+Cc: linux-input@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ David Heidelberg <david@ixit.cz>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=687; i=david@ixit.cz;
+ h=from:subject:message-id;
+ bh=AwEDboNk5GmPqrs+ygIr6oF3UxdqLcCX4eLfPid2KXw=;
+ b=owEBbQKS/ZANAwAIAWACP8TTSSByAcsmYgBpQBtraKyNehUYf6Zq6STWquVGzPauk3f3hyPmo
+ SDg/syWgFuJAjMEAAEIAB0WIQTXegnP7twrvVOnBHRgAj/E00kgcgUCaUAbawAKCRBgAj/E00kg
+ cnymD/4+NtvqTd1F7d46ZcugHEDVrc8ViX33x3uIbtImJbzqS1A+MAec4i6/CM31tn4plgGWqWy
+ 6EypuPlpKe3sXz0yXKC6JeGjQA9mQiuKldrE1AyJSOI2wN+YlY+j1mjfwSETttukIHytCTV0nbf
+ irO7tc+AFrOzqBS84eAj9ndDdQp7LCXjSBznGgnCLJKzREM00nrKhlZMxgI7sFbDD3yTjXNPce1
+ M+XR7AYGoHD5B6hNRAUDEbXY/7+BFRCkvgEozGB+A4uc7yqaPDU1ILb56vfj1IavErElxFWq4pt
+ j73h/x7YHjrM3RsZAjAMaEpAHp162W5xOCfYzVmcW0Ldch+Cd+3pxGYsFayjfqq7V1AukSQy94n
+ 1wgsvafywp/tx8HPPNQf/GWLhhOhUFzJR9s3pA0HQrDcZte6mAI+m1mw3GMg4mAyR3Y0rkZHqv0
+ prczUCdbQbTjBsGu+bhigFIMlCnwBm96sYKm8Dipxnfro++8FCv/RWfuj2CUOa0kJuwylkmT9RG
+ HOlLXX8pcQdXOpZPwa8vGZoZvZcox/6BETTxeCARd9R1txymFGXBY0dPXvcZ8q6KF/0pwKwHKWE
+ uy8fNM5yr9XrYOCMLDOznJL8huvL/ZiRudqnhXqaVPIdmDyIf5iCm14FRfejA/MSEwKg7FKEL2h
+ sVYg2BC42MPHhNw==
+X-Developer-Key: i=david@ixit.cz; a=openpgp;
+ fpr=D77A09CFEEDC2BBD53A7047460023FC4D3492072
+X-Endpoint-Received: by B4 Relay for david@ixit.cz/default with auth_id=355
+X-Original-From: David Heidelberg <david@ixit.cz>
+Reply-To: david@ixit.cz
 
-Hey Simon,
+Feel free to ignore the last patch, if you want to wait for FTS5
+support.
 
-On Thu, Dec 11, 2025 at 06:29:01AM -0700, Simon Glass wrote:
-> > @@ -44,6 +52,13 @@
-> >   * @bs_idev: The input device for non-matrix buttons and switches (or NULL).
-> >   * @notifier: interrupt event notifier for transport devices
-> >   * @vdata: vivaldi function row data
-> > + * @fn_key: coordinate of the function key
-> > + * @fn_keymap: array of coordinate and codes for the function keys
-> > + * @fn_keymap_len: number of entries in the fn_keymap array
-> > + * @fn_key_status: active function keys bitmap
-> > + * @normal_key_status: active normal keys bitmap
-> > + * @fn_key_pressed: tracks the function key status
-> > + * @fn_key_triggered: tracks where any function key fired
-> >   */
-> >  struct cros_ec_keyb {
-> >         unsigned int rows;
-> > @@ -61,6 +76,14 @@ struct cros_ec_keyb {
-> >         struct notifier_block notifier;
-> >
-> >         struct vivaldi_data vdata;
-> > +
-> > +       uint32_t fn_key;
-> 
-> Normally we use u32/u8 these days
+Signed-off-by: David Heidelberg <david@ixit.cz>
+---
+David Heidelberg (1):
+      Input: stmfts - correct wording for the warning message
 
-Okay, I did notice the file was a bit of a mix, I'll change them in v2.
+Petr Hodina (3):
+      Input: stmfts - Make comments correct
+      Input: stmfts - use sysfs_emit() instead of sprintf()
+      Input: stmfts - use client to make future code cleaner
 
-> 
-> > +       uint32_t *fn_keymap;
-> > +       int fn_keymap_len;
-> > +       uint32_t fn_key_status;
-> > +       uint8_t normal_key_status[CROS_EC_KEYBOARD_COLS_MAX];
-> > +       bool fn_key_pressed;
-> > +       bool fn_key_triggered;
-> >  };
-> >
-> >  /**
-> > @@ -166,16 +189,108 @@ static bool cros_ec_keyb_has_ghosting(struct cros_ec_keyb *ckdev, uint8_t *buf)
-> >         return false;
-> >  }
-> >
-> > +static bool cros_ec_key_is(int row, int col, uint32_t key)
-> > +{
-> > +       if (row == KEY_ROW(key) && col == KEY_COL(key))
-> > +               return true;
-> > +
-> > +       return false;
-> > +}
-> > +
-> > +static void cros_ec_keyb_process_one(struct cros_ec_keyb *ckdev,
-> > +                                    int row, int col, bool state)
-> > +{
-> > +       struct input_dev *idev = ckdev->idev;
-> > +       const unsigned short *keycodes = idev->keycode;
-> > +       int pos = MATRIX_SCAN_CODE(row, col, ckdev->row_shift);
-> > +       unsigned int code = keycodes[pos];
-> > +
-> > +       dev_dbg(ckdev->dev, "changed: [r%d c%d]: byte %02x\n", row, col, state);
-> > +
-> > +       if (ckdev->fn_keymap) {
-> > +               if (cros_ec_key_is(row, col, ckdev->fn_key)) {
-> > +                       ckdev->fn_key_pressed = state;
-> > +
-> > +                       if (state) {
-> > +                               ckdev->fn_key_triggered = false;
-> > +                       } else if (!ckdev->fn_key_triggered) {
-> > +                               /*
-> > +                                * Send the original code if nothing else has
-> > +                                * been pressed together with Fn.
-> > +                                */
-> > +                               input_event(idev, EV_MSC, MSC_SCAN, pos);
-> > +                               input_report_key(idev, code, true);
-> > +                               input_sync(ckdev->idev);
-> 
-> What is this function? I might be missing a patch?
+ drivers/input/touchscreen/stmfts.c | 24 +++++++++++-------------
+ 1 file changed, 11 insertions(+), 13 deletions(-)
+---
+base-commit: 4a5663c04bb679631985a15efab774da58c37815
+change-id: 20251212-fts-fixes-30253fde92d9
 
-input_sync? it sends an EV_SYN, been there from the start, though I
-noticed I miss one two lines below, was relying on the rest of the
-function to send it but I changed the logic at some point and broke that
-path, will fix that.
-
-> 
-> > +
-> > +                               input_event(idev, EV_MSC, MSC_SCAN, pos);
-> > +                               input_report_key(idev, code, false);
-> > +                       }
-> > +
-> > +                       return;
-> > +               }
-> > +
-> > +               if (!state) {
-> > +                       /* Key release, may need to release the Fn code */
-> > +                       for (int i = 0; i < ckdev->fn_keymap_len; i++) {
-> > +                               if (!cros_ec_key_is(row, col,
-> > +                                                   ckdev->fn_keymap[i]))
-> > +                                       continue;
-> > +
-> > +                               if ((ckdev->fn_key_status & BIT(i)) == 0)
-> > +                                       continue;
-> > +
-> > +                               code = KEY_VAL(ckdev->fn_keymap[i]);
-> > +                               ckdev->fn_key_status &= ~BIT(i);
-> > +
-> > +                               input_event(idev, EV_MSC, MSC_SCAN, pos);
-> > +                               input_report_key(idev, code, state);
-> > +
-> > +                               return;
-> > +                       }
-> > +
-> > +                       if ((ckdev->normal_key_status[col] & BIT(row)) == 0)
-> > +                               /* Discard, key press code was not sent */
-> > +                               return;
-> > +               } else if (ckdev->fn_key_pressed) {
-> > +                       /* Key press while holding Fn */
-> > +                       ckdev->fn_key_triggered = true;
-> > +
-> > +                       for (int i = 0; i < ckdev->fn_keymap_len; i++) {
-> > +                               if (!cros_ec_key_is(row, col,
-> > +                                                   ckdev->fn_keymap[i]))
-> > +                                       continue;
-> > +
-> > +                               code = KEY_VAL(ckdev->fn_keymap[i]);
-> > +                               ckdev->fn_key_status |= BIT(i);
-> > +
-> > +                               input_event(idev, EV_MSC, MSC_SCAN, pos);
-> > +                               input_report_key(idev, code, state);
-> > +
-> > +                               return;
-> > +                       }
-> > +
-> > +                       /* Do not emit a code if the key is not mapped */
-> > +                       return;
-> > +               }
-> > +       }
-> 
-> I think this function could do with splitting a bit
-
-Yeah, I don't love it either but there's a lot of logic intertwined in
-there, tried to split it myself and ended up breaking stuff, the logic
-for the fn key itsel though can go that's a good 16 lines, I'll start
-with that, send a v2 and then go from there.
-
-> Can the sandbox driver support this too?
-
-Not sure what you are referring to, can you give me a pointer?
-
-Hey thanks for the review, good to hear from you. :-)
-
-Cheers,
-Fabio
-
+Best regards,
 -- 
-Fabio Baltieri
+David Heidelberg <david@ixit.cz>
+
+
 
