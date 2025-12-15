@@ -1,123 +1,187 @@
-Return-Path: <linux-input+bounces-16589-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16590-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31F95CBE918
-	for <lists+linux-input@lfdr.de>; Mon, 15 Dec 2025 16:15:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 268C5CBF2C4
+	for <lists+linux-input@lfdr.de>; Mon, 15 Dec 2025 18:12:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 277D330B525E
-	for <lists+linux-input@lfdr.de>; Mon, 15 Dec 2025 15:01:21 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 1085D30DC7F9
+	for <lists+linux-input@lfdr.de>; Mon, 15 Dec 2025 17:03:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 656F334845E;
-	Mon, 15 Dec 2025 14:30:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FXf41P+Y"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AAFF333A6FC;
+	Mon, 15 Dec 2025 16:51:27 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D74230C37D;
-	Mon, 15 Dec 2025 14:30:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from vmicros1.altlinux.org (vmicros1.altlinux.org [194.107.17.57])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8FF6A33A6FA;
+	Mon, 15 Dec 2025 16:51:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.107.17.57
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765809006; cv=none; b=SiVWXxhWzaRPcQcdkI1K0NQmWrQvi0BuufW8kLcIMhZnSA/vylo5/aJmki7ydoLTWvJms5MoPvCuVwyqsZgx2E9RP4No7X9CpNGPwFcnn90eW4tQPUDjaUEsaUtTT9L413/V+ffukFyz+AzI9bmUhXCOtXg7iEE1CmHMxNxfaVw=
+	t=1765817487; cv=none; b=exFQRGVbXTjY8zkcniJxYeB+pMnAdhztk0EhCzhe9mPf62LnzhMbsFfjLlX5XOU29FWyPqwgq4t7kG6wRgUC8h7Y3hiYWjkDFMsOYSJVPh4HvBBDylGmVXaBQUIviqSRH5WhjTmzD8ginaRHTDo/HecBdmD9FDWFzZ561e48VKo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765809006; c=relaxed/simple;
-	bh=TVMBoDrL66oVfaYiSBbPmPDD5+tqhVvfo29udD0zzsc=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=OsZs8ooGiFu5tqKXq0TzmeyA5Ot7Encf2xh8Q+nXnLdQFGa3jek7lj15O5SZoHL8Rkt8zxG/G9gAil79MfSPCosBSYmpBPFS0PbsPOugUJ4+nO5gIPjROciyWya1UTdU0J+PtVSSZSJHr6txvG8+xnMlZYWTWp23K0j2X3Fwuwc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FXf41P+Y; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id E1E61C2BC86;
-	Mon, 15 Dec 2025 14:30:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765809005;
-	bh=TVMBoDrL66oVfaYiSBbPmPDD5+tqhVvfo29udD0zzsc=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=FXf41P+Yh1GfPML23QnV7Bglz7xoYIrMdIqY3p175Xv7szqQCdVLjQXf52BYoLitr
-	 3k1Np+HOL3rCMXcbwfETwgkudaSYmayHERn3mL2t7Z6036cHw/PyEflrWgnVe8j5CJ
-	 k0Qu+SiopJ76/4/y6I6lAQ7uwerSe43igYYt7A7WTTvsM2zcsExH43uRl4tS24sNBX
-	 gZ+aKwX+jfRPknW/VTcgA/F1bnaFkBMC9iqua7btgFJayNZDox2RFJFPD7Z5f4p9sY
-	 IfjSDr/J9ufUKTHneCHD16VLZ1X7zodk1aIwoay4yZYNwTF77X+rSStoIT90f1smIX
-	 ZL4647+5oNiVw==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D82FBD5B176;
-	Mon, 15 Dec 2025 14:30:05 +0000 (UTC)
-From: David Heidelberg via B4 Relay <devnull+david.ixit.cz@kernel.org>
-Date: Mon, 15 Dec 2025 15:30:04 +0100
-Subject: [PATCH 4/4] Input: stmfts - use client to make future code cleaner
+	s=arc-20240116; t=1765817487; c=relaxed/simple;
+	bh=zGoXv335IRjCfuXFYOFLi+dXqHBGdP8pX5L8Tlf/UUI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fNJU+QnUduiOhKo9r/2iugIqpKaBGcw5FNCfSFIvvFvF9HXgPPkmlOOKZxaE/ml4nDHjgygce1qu70VvpX3NEONKpDFV+C1bISQAdj7s9jKME43gR2sgb931tsuWVqf3TCpMXj20tA4pFLnEgn49ujKvW8YeZLORtq92bX5mf6s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=strace.io; spf=pass smtp.mailfrom=altlinux.org; arc=none smtp.client-ip=194.107.17.57
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=strace.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=altlinux.org
+Received: from mua.local.altlinux.org (mua.local.altlinux.org [192.168.1.14])
+	by vmicros1.altlinux.org (Postfix) with ESMTP id DCB7A72C8CC;
+	Mon, 15 Dec 2025 19:51:22 +0300 (MSK)
+Received: by mua.local.altlinux.org (Postfix, from userid 508)
+	id CF9637CCB3A; Mon, 15 Dec 2025 18:51:22 +0200 (IST)
+Date: Mon, 15 Dec 2025 18:51:22 +0200
+From: "Dmitry V. Levin" <ldv@strace.io>
+To: Peter Hutterer <peter.hutterer@who-t.net>
+Cc: Jonathan Denose <jdenose@google.com>, Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Henrik Rydberg <rydberg@bitmath.org>, linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	Angela Czubak <aczubak@google.com>,
+	Sean O'Brien <seobrien@google.com>,
+	Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH v3] Input: rename INPUT_PROP_HAPTIC_TOUCHPAD to
+ INPUT_PROP_PRESSUREPAD
+Message-ID: <20251215165122.GB32290@strace.io>
+References: <20251030011735.GA969565@quokka>
+ <20251106114534.GA405512@tassie>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251215-fts-fixes-v1-4-8c1e3a63ebf1@ixit.cz>
-References: <20251215-fts-fixes-v1-0-8c1e3a63ebf1@ixit.cz>
-In-Reply-To: <20251215-fts-fixes-v1-0-8c1e3a63ebf1@ixit.cz>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
- Alexandre Torgue <alexandre.torgue@foss.st.com>, 
- Petr Hodina <petr.hodina@protonmail.com>, 
- Javier Martinez Canillas <javier@osg.samsung.com>, 
- Rob Herring <robh@kernel.org>, Andi Shyti <andi@etezian.org>
-Cc: linux-input@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
- David Heidelberg <david@ixit.cz>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=999; i=david@ixit.cz;
- h=from:subject:message-id;
- bh=roHV704aaY9rcMfaAuaHi+mzFaL37M4mv+RVt1dZ7JA=;
- b=owEBbQKS/ZANAwAIAWACP8TTSSByAcsmYgBpQBtrW0Sc0TA1KAN4LrhLHI2SDk8w1khRX2x3I
- BJwsriezd6JAjMEAAEIAB0WIQTXegnP7twrvVOnBHRgAj/E00kgcgUCaUAbawAKCRBgAj/E00kg
- choAD/9+4C7jcAftRIQrmL5PLcMe0RuAWm3WOJFJAENwF817DbTZ1B+tnoDmaq4JHk6tiS+koRK
- 3UflGChw68pIVdGkPMb46OmqKMJDnMynFu0J4I924oEfXtIOBygHbGn9xYuD3QdX0YiaPJFFuw4
- O/OLlxo5UGd8ADmNvKnJZh+G9yeKrYnRj+hCW/cXex8+mJsPLILQTPWX0ct48oVfO6kAYF36jgZ
- 6BlxX0mnl+7X36LhV8nbj5mh2/3ucXyJHw90gjQXS/AwbF9Ltgmfxc0G2CHrsu/8MzoeB9ZBlhW
- PfEctdTDsaDOhZYDRM8D4DE4MrTQPsgDsZTKaDZjoZXawdooPQ33nJCWIyRxBgIaNUcJvNbZ7B1
- cbsmz+RakyxukqjY6Ori/Jkfq99jL2IAihPjPVy20FWiVAS/NgyeRKMhuSh1Q5hwJPqc8MWAQCq
- 1a2u7SexBs2sx/BeQ14OuEJOBphYTKjDaymVVPbV2/24pADHQFl73+9XdLiaqogU4Tk45ts9mzx
- NwAtPN5nIpQLX4g3F7X2diyHKHH5XrspYM30IozfcRsEN+hNH1/y8jLhkZ47f6Rze4WUUcHBo/i
- j1ajLbNS9B40ZPjanNwzbW4uaNPmTTNBvuqygoURHJV5kZi0a3BSLUWh533P7/3dKWAW1qz5gqt
- Lx2twOZKVbNUeBA==
-X-Developer-Key: i=david@ixit.cz; a=openpgp;
- fpr=D77A09CFEEDC2BBD53A7047460023FC4D3492072
-X-Endpoint-Received: by B4 Relay for david@ixit.cz/default with auth_id=355
-X-Original-From: David Heidelberg <david@ixit.cz>
-Reply-To: david@ixit.cz
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251106114534.GA405512@tassie>
 
-From: Petr Hodina <petr.hodina@protonmail.com>
+Hi,
 
-Make code cleaner, compiler will optimize it away anyway.
+On Thu, Nov 06, 2025 at 09:45:34PM +1000, Peter Hutterer wrote:
+> And expand it to encompass all pressure pads.
+> 
+> Definition: "pressure pad" as used here as includes all touchpads that
+> use physical pressure to convert to click, without physical hinges. Also
+> called haptic touchpads in general parlance, Synaptics calls them
+> ForcePads.
+> 
+> Most (all?) pressure pads are currently advertised as
+> INPUT_PROP_BUTTONPAD. The suggestion to identify them as pressure pads
+> by defining the resolution on ABS_MT_PRESSURE has been in the docs since
+> commit 20ccc8dd38a3 ("Documentation: input: define
+> ABS_PRESSURE/ABS_MT_PRESSURE resolution as grams") but few devices
+> provide this information.
+> 
+> In userspace it's thus impossible to determine whether a device is a
+> true pressure pad (pressure equals pressure) or a normal clickpad with
+> (pressure equals finger size).
+> 
+> Commit 7075ae4ac9db ("Input: add INPUT_PROP_HAPTIC_TOUCHPAD") introduces
+> INPUT_PROP_HAPTIC_TOUCHPAD but restricted it to those touchpads that
+> have support for userspace-controlled effects. Let's expand and rename
+> that definition to include all pressure pad touchpads since those that
+> do support FF effects can be identified by the presence of the
+> FF_HAPTIC bit.
+> 
+> This means:
+> - clickpad: INPUT_PROP_BUTTONPAD
+> - pressurepad: INPUT_PROP_BUTTONPAD + INPUT_PROP_PRESSUREPAD
+> - pressurepad with configurable haptics:
+>   INPUT_PROP_BUTTONPAD + INPUT_PROP_PRESSUREPAD + FF_HAPTIC
+> 
+> Signed-off-by: Peter Hutterer <peter.hutterer@who-t.net>
+> ---
+> ftr, I picked PRESSUREPAD over Dmitry's PRESSURE_TOUCHPAD suggestion
+> because it matches better with the existing BUTTONPAD.
+> 
+> Changes to v1: extra empty lines to render the lists as lists
+> Changes to v2: rename to PRESSUREPAD and rename it in the instances
+>   where it's used in the code
+> 
+> v1: https://lore.kernel.org/linux-input/20251030011735.GA969565@quokka/T/#u
+> v2: https://lore.kernel.org/linux-input/20251030011735.GA969565@quokka/T/#m9504de27b02d00a55d540fd9fec9aed3edd0133c
+> 
+>  Documentation/input/event-codes.rst    | 25 ++++++++++++++++++-------
+>  drivers/hid/hid-haptic.c               |  2 +-
+>  include/uapi/linux/input-event-codes.h |  2 +-
+>  3 files changed, 20 insertions(+), 9 deletions(-)
+> 
+> diff --git a/Documentation/input/event-codes.rst b/Documentation/input/event-codes.rst
+> index 1ead9bb8d9c6..4424cbff251f 100644
+> --- a/Documentation/input/event-codes.rst
+> +++ b/Documentation/input/event-codes.rst
+> @@ -400,19 +400,30 @@ can report through the rotational axes (absolute and/or relative rx, ry, rz).
+>  All other axes retain their meaning. A device must not mix
+>  regular directional axes and accelerometer axes on the same event node.
+>  
+> -INPUT_PROP_HAPTIC_TOUCHPAD
+> ---------------------------
+> +INPUT_PROP_PRESSUREPAD
+> +----------------------
+> +
+> +The INPUT_PROP_PRESSUREPAD property indicates that the device provides
+> +simulated haptic feedback (e.g. a vibrator motor situated below the surface)
+> +instead of physical haptic feedback (e.g. a hinge). This property is only set
+> +if the device:
+>  
+> -The INPUT_PROP_HAPTIC_TOUCHPAD property indicates that device:
+> -- supports simple haptic auto and manual triggering
+>  - can differentiate between at least 5 fingers
+>  - uses correct resolution for the X/Y (units and value)
+> -- reports correct force per touch, and correct units for them (newtons or grams)
+>  - follows the MT protocol type B
+>  
+> +If the simulated haptic feedback is controllable by userspace the device must:
+> +
+> +- support simple haptic auto and manual triggering, and
+> +- report correct force per touch, and correct units for them (newtons or grams), and
+> +- provide the EV_FF FF_HAPTIC force feedback effect.
+> +
+>  Summing up, such devices follow the MS spec for input devices in
+> -Win8 and Win8.1, and in addition support the Simple haptic controller HID table,
+> -and report correct units for the pressure.
+> +Win8 and Win8.1, and in addition may support the Simple haptic controller HID
+> +table, and report correct units for the pressure.
+> +
+> +Where applicable, this property is set in addition to INPUT_PROP_BUTTONPAD, it
+> +does not replace that property.
+>  
+>  Guidelines
+>  ==========
+> diff --git a/drivers/hid/hid-haptic.c b/drivers/hid/hid-haptic.c
+> index aa090684c1f2..fc8a9997f815 100644
+> --- a/drivers/hid/hid-haptic.c
+> +++ b/drivers/hid/hid-haptic.c
+> @@ -86,7 +86,7 @@ int hid_haptic_input_configured(struct hid_device *hdev,
+>  	if (hi->application == HID_DG_TOUCHPAD) {
+>  		if (haptic->auto_trigger_report &&
+>  		    haptic->manual_trigger_report) {
+> -			__set_bit(INPUT_PROP_HAPTIC_TOUCHPAD, hi->input->propbit);
+> +			__set_bit(INPUT_PROP_PRESSUREPAD, hi->input->propbit);
+>  			return 1;
+>  		}
+>  		return 0;
+> diff --git a/include/uapi/linux/input-event-codes.h b/include/uapi/linux/input-event-codes.h
+> index 8ba48590bd2c..d21172c6a266 100644
+> --- a/include/uapi/linux/input-event-codes.h
+> +++ b/include/uapi/linux/input-event-codes.h
+> @@ -27,7 +27,7 @@
+>  #define INPUT_PROP_TOPBUTTONPAD		0x04	/* softbuttons at top of pad */
+>  #define INPUT_PROP_POINTING_STICK	0x05	/* is a pointing stick */
+>  #define INPUT_PROP_ACCELEROMETER	0x06	/* has accelerometer */
+> -#define INPUT_PROP_HAPTIC_TOUCHPAD	0x07	/* is a haptic touchpad */
+> +#define INPUT_PROP_PRESSUREPAD		0x07	/* pressure triggers clicks */
+>  
+>  #define INPUT_PROP_MAX			0x1f
+>  #define INPUT_PROP_CNT			(INPUT_PROP_MAX + 1)
 
-Preparation for FTM5 support, where more steps are needed.
+When you rename UAPI constants, please don't forget to retain old names,
+otherwise there is a high chance you'll break userspace.
+This time you've broken the build of strace.
 
-Signed-off-by: Petr Hodina <petr.hodina@protonmail.com>
-Signed-off-by: David Heidelberg <david@ixit.cz>
----
- drivers/input/touchscreen/stmfts.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/input/touchscreen/stmfts.c b/drivers/input/touchscreen/stmfts.c
-index 4b166b0a9a5a6..06845a00348cc 100644
---- a/drivers/input/touchscreen/stmfts.c
-+++ b/drivers/input/touchscreen/stmfts.c
-@@ -747,9 +747,10 @@ static int stmfts_runtime_suspend(struct device *dev)
- static int stmfts_runtime_resume(struct device *dev)
- {
- 	struct stmfts_data *sdata = dev_get_drvdata(dev);
-+	struct i2c_client *client = sdata->client;
- 	int ret;
- 
--	ret = i2c_smbus_write_byte(sdata->client, STMFTS_SLEEP_OUT);
-+	ret = i2c_smbus_write_byte(client, STMFTS_SLEEP_OUT);
- 	if (ret)
- 		dev_err(dev, "failed to resume device: %d\n", ret);
- 
 
 -- 
-2.51.0
-
-
+ldv
 
