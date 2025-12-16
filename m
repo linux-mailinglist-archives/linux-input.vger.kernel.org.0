@@ -1,89 +1,66 @@
-Return-Path: <linux-input+bounces-16598-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16599-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71D90CC1163
-	for <lists+linux-input@lfdr.de>; Tue, 16 Dec 2025 07:24:27 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C955CC1A6B
+	for <lists+linux-input@lfdr.de>; Tue, 16 Dec 2025 09:50:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 8C351305E71B
-	for <lists+linux-input@lfdr.de>; Tue, 16 Dec 2025 06:21:18 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id DE12730C967C
+	for <lists+linux-input@lfdr.de>; Tue, 16 Dec 2025 08:45:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 268A7339B36;
-	Tue, 16 Dec 2025 06:13:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 527073396F8;
+	Tue, 16 Dec 2025 08:45:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Wcuka7/s"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="xYYUtRHs"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DFBD337BB1
-	for <linux-input@vger.kernel.org>; Tue, 16 Dec 2025 06:13:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CC81338F45
+	for <linux-input@vger.kernel.org>; Tue, 16 Dec 2025 08:45:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765865601; cv=none; b=CoU/0R26ocj4YLYtssc5QaitX0uep/dweWUQfclDLd5YeqeeZfMbaUZWy3FqnOyBNSp+1y/koosDpUR1VTRuyMaQxrzzaVIbj+iLuakDCjGNko+vn9P0y9BSoVLwJ8PG4FQWjdeSvuNQ6yAKUOxRvki9HWVu52MfIVC95cWDqJI=
+	t=1765874747; cv=none; b=MJmZY5F//MOREuKk+zHDguV88usmNIT5vSngdqQcZIX8ZhQzSVgJhCPVJdEQLFNcpvlWN8xSq25Mo34LvpnBrrRpEeqHIZldCknjwxncO4hK0jE8f80Gzrk5XIv99/TUH/ZcPNn9rqtgFz2F4ELkpCws+mqMKl+gFhe5aqlVYt4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765865601; c=relaxed/simple;
-	bh=ZNeVFGbz2XYogdEq08c1v61hZ3isj+iJr72rsluyE7M=;
+	s=arc-20240116; t=1765874747; c=relaxed/simple;
+	bh=0r+AvBKkTIWPsBeipZp/wmo8VQgBdzoywCh6Xl4+APg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KqjJJ7eoHksCI0mBoTfGsMzTgnglEoI+BJlEXGL4RKHdncqbOYjoN8UVZiuFqAZ5qfN7xnYPrPT6wH/vtWA7XKmOcBoMBMsHq6sIcR/MXXGNLbRHfGPMEfkmgAeTuaGoqiR2tQmqabKE2jNM+HUzra8FtkukoWHCXR8Ff8CIDmI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Wcuka7/s; arc=none smtp.client-ip=209.85.215.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-bf1b402fa3cso4003415a12.3
-        for <linux-input@vger.kernel.org>; Mon, 15 Dec 2025 22:13:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765865594; x=1766470394; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=u5zoZFyP/UKoHmMIxoc2u4i7dlhbVg1+Ja56v9O8ZVo=;
-        b=Wcuka7/s8kwiOYYyeN/V+rlDMXcm8l+FV/NzAvZvqSXRzlZRnrMkRUfrejJ4WZDqd1
-         aU8usQxjJnDm+6qcEoG6l5stwRKHTQDUpfvPj+tRtHKQYU1HtEhnX2YMRSt0xgMmqYxP
-         KwLNR+afdZHn6c8rDPzj66hH6KBWCqvormqnLMMg5FLSjcgHyb8eDAw5aaxUvaWKJ2yw
-         8NOIwnKavTzT6NWv70TZNmSy/K0YEi5I5n1oLhsfamfuYxVfQUFdnyH1Ql2LFORpkzv+
-         //gi7PLArggpmX34akuKmFb1q9A+0rXftq4KOQ54EFTf8vi2JzzDZN6Dj3GO0P6MHRFO
-         EkRA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765865594; x=1766470394;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=u5zoZFyP/UKoHmMIxoc2u4i7dlhbVg1+Ja56v9O8ZVo=;
-        b=IAMgrcUXpb03mYhJv6M86FR75F/yHqyywzLqhdmycGqBNevJElP4cnVjetW9xS2Mte
-         M1DTwZDZKHEx6bcgdEHlZOY58CGVJCwlsqs6/4XlrR8Ecc8lyE1pgxGMTaj+y9+rFnzo
-         cAMimpAENRR5hekJa2iS5RriKjXzRaPWxdLGHqAkm1yu7G08FzJLxTAFVeuGsuVfDKjy
-         MFWPru7kbfEux3lc1GxSXYqSdjRiQ6j7E6JIxF7eyMyDTcBzt26FRFNzkqXW7oGf8cvP
-         vTbz6NIfJByynpOeM1GBDmnT2j8f62VcdEOH2K4EThwEpLLa+WgZnO87/sTQfTVTXW7S
-         w+WQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXIMKrR0RJv8VWJdtL7J8g/9LXS4njeDDT3TewJBXrIEgBx0QLgRr06ZuflLjfUu0bW5823IfthXUcVNw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyquv3ZE8aBJu/VB0trbDY2faDtMwHbg/Q8AeA0SzDRm+szz7Zz
-	RbYHyXQbT8Resd/AqgEnSPJDD1Q6OFzmB+MKGIT1+ugG5zjSR/sS/SDE
-X-Gm-Gg: AY/fxX4WLw5kw+/ROhfA1ULqbMLiL6D4g3Qe3qSvyXbCjCuJNACZANC5cddxjE42C5O
-	yj2eZxIPeQMX7phd7AHibJ4CQ8ewD3GAz0bh1vkBYpzTbndUadSq5lnAAvM/+dSEshYotfQjRbg
-	Ik63DGtsatd8P9assnv1V9PRDVKutoEo7EO4hRazzJKTQfk13gi8ak5WDUowfqyLg3WHeLS++1r
-	ETVc6gFQjDZi6WLYy8uEL2FAOZVy4oWPdUsg1Thc4x8MSByEG+Yynxsgl6AtAtwjvN9CgD0ffh2
-	3cmnR7TkegtfK5RSEddzDtAZhSnxXFeCzm0FL/7bWrdug7FhxkSDuPDK7xtuvxJ//2N9ohFY2YY
-	rGNGk9AniE1/2vUXUxShcC86mkQP3xsQdTNEwLb+bGRQkzt6ZhsnpyFhikA6lwC4bgc8gRYQQoV
-	J2zQjyLeTsz2ZYtiLg5aKLLVkV71ZcDqWJlVx6Uk8m8LuftfcBI4Q=
-X-Google-Smtp-Source: AGHT+IEmPAJNRn3fZOAHPgVaJN4wVPNoEF0Tp25i8w7vUd23/VJa6NjYmY8OiorI1jp6xbp+SVUYoQ==
-X-Received: by 2002:a05:7301:907:b0:2ac:1e68:2331 with SMTP id 5a478bee46e88-2ac3014dd34mr7837424eec.39.1765865593824;
-        Mon, 15 Dec 2025 22:13:13 -0800 (PST)
-Received: from google.com ([2a00:79e0:2ebe:8:ac28:4c61:4797:3d5])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2ae4f0546d9sm499892eec.28.2025.12.15.22.13.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Dec 2025 22:13:13 -0800 (PST)
-Date: Mon, 15 Dec 2025 22:13:11 -0800
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: david@ixit.cz
-Cc: Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, Petr Hodina <petr.hodina@protonmail.com>, 
-	Javier Martinez Canillas <javier@osg.samsung.com>, Rob Herring <robh@kernel.org>, Andi Shyti <andi@etezian.org>, 
-	linux-input@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 4/4] Input: stmfts - use client to make future code
- cleaner
-Message-ID: <hpmm5fhs74swrhkneaif4s5dquqeclujdlua7ygmkvcmtf6n4t@rsahxu23xwfp>
-References: <20251215-fts-fixes-v1-0-8c1e3a63ebf1@ixit.cz>
- <20251215-fts-fixes-v1-4-8c1e3a63ebf1@ixit.cz>
+	 Content-Type:Content-Disposition:In-Reply-To; b=p+YX99orZ4q0r+vy4xFwM52n35VaJDOXT6tE5jhmH6ePbzmCsH2O/8cmrL30NRiODnX/dSigpm27f7zWYljwbrV5B9skXXDx4+nrAOHa8wYrWsAvHYcuAoTaKKOm/Ks1z5jjVYihbjcUOcpSb3c3D+xd4XVL43p0gC/UKZZ9fXg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=xYYUtRHs; arc=none smtp.client-ip=185.246.84.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 21B6D1A2210;
+	Tue, 16 Dec 2025 08:45:42 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id EAFA16071C;
+	Tue, 16 Dec 2025 08:45:41 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 9815D119431B1;
+	Tue, 16 Dec 2025 09:45:33 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1765874737; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 in-reply-to:references; bh=0i+PsZJan5460ifQCnMp834OOI47NDVIUR3zefRz6YY=;
+	b=xYYUtRHs7TJgRw+tsLJcv3cjv2Ty1F1reYk7QEUZlEKhayOJYyDkMqf44Jv3JCIytIRoyN
+	RvoCCnd9KqTevyLBNsn8TK/gY5cLNaCevOm0BLa2KMhoyPq8grs0kpsI/jdqCpZpa0wyz0
+	/YAEQ2ALx/5ywgDN5PBhEUTYVOHqJ+qczQGggQovANYC19RcGHTHxdHvHwT3D2ktSi48oH
+	5cbdiFXMizWwqMhDCGUib0+AkZGC+xzRrFXBSiTo3yfzvrwwmvhlHhPwejMEHY3W5CW+68
+	VUaaPQU6GYXOA5qHCm7hepYG5+Jk/BnKay3gQiIRG7AdIAuKsiG0UcrMbIbh1g==
+Date: Tue, 16 Dec 2025 09:45:33 +0100
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Heiko Stuebner <heiko@sntech.de>, kernel@collabora.com,
+	linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org
+Subject: Re: [PATCH v2 3/4] Input: adc-keys - Use dev_err_probe in probe
+ function
+Message-ID: <20251216084533c8786b5d@mail.local>
+References: <20251215-rock4d-audio-v2-0-82a61de39b4c@collabora.com>
+ <20251215-rock4d-audio-v2-3-82a61de39b4c@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -92,48 +69,141 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251215-fts-fixes-v1-4-8c1e3a63ebf1@ixit.cz>
+In-Reply-To: <20251215-rock4d-audio-v2-3-82a61de39b4c@collabora.com>
+X-Last-TLS-Session-Version: TLSv1.3
 
-Hi David,
+On 15/12/2025 13:29:31+0100, Nicolas Frattaroli wrote:
+> Rework the probe function, and functions called by the probe function,
+> to use dev_err_probe for error logging.
+> 
+> While at it, also do some minor style cleanups, like not error logging
+> on -ENOMEM and using ! instead of == 0.
+> 
+> Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 
-On Mon, Dec 15, 2025 at 03:30:04PM +0100, David Heidelberg via B4 Relay wrote:
-> From: Petr Hodina <petr.hodina@protonmail.com>
-> 
-> Make code cleaner, compiler will optimize it away anyway.
-> 
-> Preparation for FTM5 support, where more steps are needed.
-> 
-> Signed-off-by: Petr Hodina <petr.hodina@protonmail.com>
-> Signed-off-by: David Heidelberg <david@ixit.cz>
+Reviewed-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+
 > ---
->  drivers/input/touchscreen/stmfts.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+>  drivers/input/keyboard/adc-keys.c | 53 ++++++++++++++++-----------------------
+>  1 file changed, 21 insertions(+), 32 deletions(-)
 > 
-> diff --git a/drivers/input/touchscreen/stmfts.c b/drivers/input/touchscreen/stmfts.c
-> index 4b166b0a9a5a6..06845a00348cc 100644
-> --- a/drivers/input/touchscreen/stmfts.c
-> +++ b/drivers/input/touchscreen/stmfts.c
-> @@ -747,9 +747,10 @@ static int stmfts_runtime_suspend(struct device *dev)
->  static int stmfts_runtime_resume(struct device *dev)
->  {
->  	struct stmfts_data *sdata = dev_get_drvdata(dev);
-> +	struct i2c_client *client = sdata->client;
->  	int ret;
+> diff --git a/drivers/input/keyboard/adc-keys.c b/drivers/input/keyboard/adc-keys.c
+> index 62376f34f7d0..6f2ddcecea99 100644
+> --- a/drivers/input/keyboard/adc-keys.c
+> +++ b/drivers/input/keyboard/adc-keys.c
+> @@ -74,10 +74,8 @@ static int adc_keys_load_keymap(struct device *dev, struct adc_keys_state *st)
+>  	int i;
 >  
-> -	ret = i2c_smbus_write_byte(sdata->client, STMFTS_SLEEP_OUT);
-> +	ret = i2c_smbus_write_byte(client, STMFTS_SLEEP_OUT);
-
-Sorry but I do not see how using a temporary cleans things up compared
-to a simple structure member access, given that it happens only once
-here.
-
->  	if (ret)
->  		dev_err(dev, "failed to resume device: %d\n", ret);
+>  	st->num_keys = device_get_child_node_count(dev);
+> -	if (st->num_keys == 0) {
+> -		dev_err(dev, "keymap is missing\n");
+> -		return -EINVAL;
+> -	}
+> +	if (!st->num_keys)
+> +		return dev_err_probe(dev, -EINVAL, "keymap is missing\n");
 >  
+>  	map = devm_kmalloc_array(dev, st->num_keys, sizeof(*map), GFP_KERNEL);
+>  	if (!map)
+> @@ -86,17 +84,16 @@ static int adc_keys_load_keymap(struct device *dev, struct adc_keys_state *st)
+>  	i = 0;
+>  	device_for_each_child_node_scoped(dev, child) {
+>  		if (fwnode_property_read_u32(child, "press-threshold-microvolt",
+> -					     &map[i].voltage)) {
+> -			dev_err(dev, "Key with invalid or missing voltage\n");
+> -			return -EINVAL;
+> -		}
+> +					     &map[i].voltage))
+> +			return dev_err_probe(dev, -EINVAL,
+> +					     "Key with invalid or missing voltage\n");
+> +
+>  		map[i].voltage /= 1000;
+>  
+>  		if (fwnode_property_read_u32(child, "linux,code",
+> -					     &map[i].code)) {
+> -			dev_err(dev, "Key with invalid or missing linux,code\n");
+> -			return -EINVAL;
+> -		}
+> +					     &map[i].code))
+> +			return dev_err_probe(dev, -EINVAL,
+> +					     "Key with invalid or missing linux,code\n");
+>  
+>  		if (fwnode_property_read_u32(child, "linux,input-type",
+>  					     &map[i].type))
+> @@ -129,7 +126,8 @@ static int adc_keys_probe(struct platform_device *pdev)
+>  
+>  	st->channel = devm_iio_channel_get(dev, "buttons");
+>  	if (IS_ERR(st->channel))
+> -		return PTR_ERR(st->channel);
+> +		return dev_err_probe(dev, PTR_ERR(st->channel),
+> +				     "Could not get iio channel\n");
+>  
+>  	if (!st->channel->indio_dev)
+>  		return -ENXIO;
+> @@ -138,16 +136,13 @@ static int adc_keys_probe(struct platform_device *pdev)
+>  	if (error < 0)
+>  		return error;
+>  
+> -	if (type != IIO_VOLTAGE) {
+> -		dev_err(dev, "Incompatible channel type %d\n", type);
+> -		return -EINVAL;
+> -	}
+> +	if (type != IIO_VOLTAGE)
+> +		return dev_err_probe(dev, -EINVAL, "Incompatible channel type %d\n", type);
+>  
+>  	if (device_property_read_u32(dev, "keyup-threshold-microvolt",
+> -				     &st->keyup_voltage)) {
+> -		dev_err(dev, "Invalid or missing keyup voltage\n");
+> -		return -EINVAL;
+> -	}
+> +				     &st->keyup_voltage))
+> +		return dev_err_probe(dev, -EINVAL, "Invalid or missing keyup voltage\n");
+> +
+>  	st->keyup_voltage /= 1000;
+>  
+>  	error = adc_keys_load_keymap(dev, st);
+> @@ -155,10 +150,8 @@ static int adc_keys_probe(struct platform_device *pdev)
+>  		return error;
+>  
+>  	input = devm_input_allocate_device(dev);
+> -	if (!input) {
+> -		dev_err(dev, "failed to allocate input device\n");
+> +	if (!input)
+>  		return -ENOMEM;
+> -	}
+>  
+>  	input_set_drvdata(input, st);
+>  
+> @@ -178,19 +171,15 @@ static int adc_keys_probe(struct platform_device *pdev)
+>  
+>  
+>  	error = input_setup_polling(input, adc_keys_poll);
+> -	if (error) {
+> -		dev_err(dev, "Unable to set up polling: %d\n", error);
+> -		return error;
+> -	}
+> +	if (error)
+> +		return dev_err_probe(dev, error, "Unable to set up polling\n");
+>  
+>  	if (!device_property_read_u32(dev, "poll-interval", &value))
+>  		input_set_poll_interval(input, value);
+>  
+>  	error = input_register_device(input);
+> -	if (error) {
+> -		dev_err(dev, "Unable to register input device: %d\n", error);
+> -		return error;
+> -	}
+> +	if (error)
+> +		return dev_err_probe(dev, error, "Unable to register input device\n");
+>  
+>  	return 0;
+>  }
 > 
-
-Thanks.
+> -- 
+> 2.52.0
+> 
 
 -- 
-Dmitry
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
