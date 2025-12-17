@@ -1,93 +1,88 @@
-Return-Path: <linux-input+bounces-16616-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16617-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1042CC9386
-	for <lists+linux-input@lfdr.de>; Wed, 17 Dec 2025 19:11:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E918DCC93CD
+	for <lists+linux-input@lfdr.de>; Wed, 17 Dec 2025 19:14:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id D12B6314FA96
-	for <lists+linux-input@lfdr.de>; Wed, 17 Dec 2025 18:05:54 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id B7E3330A21B1
+	for <lists+linux-input@lfdr.de>; Wed, 17 Dec 2025 18:08:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 803C726299;
-	Wed, 17 Dec 2025 18:05:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D0ED82652B0;
+	Wed, 17 Dec 2025 18:08:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RegB8Qiv"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MeXm5BwG"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92537258ECC
-	for <linux-input@vger.kernel.org>; Wed, 17 Dec 2025 18:05:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1374321638D
+	for <linux-input@vger.kernel.org>; Wed, 17 Dec 2025 18:08:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765994751; cv=none; b=nFa7BooMYB7TtB1yziV7bYx2H7QvoEANt5wKLjIU9EI6WKM1FAT5GcZIexmv8J6HkdE51pnB8KyVDuNVgOXOd+53spJAarsUB4LvLDF0zjUZik7SR72/9fnbbXrAafiRCw1HzLp6QLCXTqJx+0+u8bQXW2xBCcbtof6YLnf4pew=
+	t=1765994937; cv=none; b=FHUyEqOQzmomMNo1iVVQAkAxRrRkaWOeXJjgqbWRg0ib5bi4mbHRGRUq18tGp8F9xxUHF4ULuYthL6V1fr/BHcMxkp921yjK44ULC4a2H+B8qVp6gfX5fLPm9M3hur24w19oFF7AveaYzkm+rcgojbmX4TXx0iw6Qd5jHX1Zx94=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765994751; c=relaxed/simple;
-	bh=fCWiyQYPca+nvNeYkPrsg8l58+2d9hcv3WRYXCFhOAw=;
+	s=arc-20240116; t=1765994937; c=relaxed/simple;
+	bh=RRwg03yom6dj4jnNSu2S0a/uUOdoLROZKaE2kRBn6Ms=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=omSOu1EqvxTH+giQVLF8bJEy2Iy0JqHo2T0LZ7WDmyDcCsPnlRphywucBlrKsarAvuBQ/QMGhAig7SF++ruHDdSwJTvxWUzMjKE2sv6tIvGzfxurtKAV/Yuzw70ZOUAJGa97kHZ52YruVe3dtjVN4wpQl4E1yJATnFn+DVvhoPk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RegB8Qiv; arc=none smtp.client-ip=209.85.214.171
+	 Content-Type:Content-Disposition:In-Reply-To; b=cxAlCzV/fVSMt5O5NFBQRpCD93Cug73YsNdVcD3wEOmC9ksvIAK2o9bNxcQoSOIldTYg4bOf1IF7seme3OIsqSf6dLOfDRM4ERNRmP4/WsqOzKjfPk5SnLSMU4Xr68BX4U2PHIPiYSOdDMQcVUZ4GL6Aw7qcoZiGtnju7Iic8Kw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MeXm5BwG; arc=none smtp.client-ip=209.85.214.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-29f0f875bc5so80498345ad.3
-        for <linux-input@vger.kernel.org>; Wed, 17 Dec 2025 10:05:49 -0800 (PST)
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2a0834769f0so47643245ad.2
+        for <linux-input@vger.kernel.org>; Wed, 17 Dec 2025 10:08:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765994749; x=1766599549; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1765994935; x=1766599735; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=eJ+Wh0xNBReUdUR45vUeWefJp7cP+N3hdwazYMqKhgo=;
-        b=RegB8QivtzPQD0pw9eSZqCr7UBzRIU3AOesOBkazv1ddQGzXlfWsfbSWh7S0AaVJBK
-         Xi97hl0uabO/297LBUHiNsRYCtkwQPF09znNWURf/IH9YUK0o3ckIyu8tRuf7GDVYbVP
-         UAlxC2jR3Dkyrn/D/tjauKVwpcZSGJR6n8iAWMiDn19jw15lbE95TST3GhnHpsmZbRYr
-         CCtqSu2IsOX+nMqRYbiHdOAMmKIbrsV2qEQt7IeKpmyNRcFmeT6gV54RpGdlVuQf+kEO
-         m4hr2mPwdtOuPojtqaRYoVTtz6EG0t/A2CXnJhOK8e0/mWyC7npHedMdahvF3dnm2HDg
-         9bKw==
+        bh=M1mUa8oVFGs+3M++JiFnrFuG8jrbwbFDcaIZY3QE2bo=;
+        b=MeXm5BwGtjhDbdKu2YSO7+7p4BBH0HHPJd1bhsa4raChJ5aPh5R9vlhRSrFTy2JHXq
+         rhHXWLTOqafHZwP+pC027yeoNleg2qejQ4IKisH0dVeANk2zQD5Wbx2n4tlSoe4KOLGC
+         bWa1is6TnBEOIYnO5Ef/wswMzVxAo3IvLfxBjv2ElXOsJ8HYV5UIaNDQbZE4T+E7z2J6
+         4jHk61EVuujfSLzF9JOhH/yDK5ooUKfgSNFP+u9zfZpBNno0liMOohMWZFYKdJPv839J
+         CQA2ZmhyDgBEqstSSFuFZxmTlZuWGNee3xeKelN+ionpbItd6m39SZdA3e6rJ9vL/5oV
+         9gPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765994749; x=1766599549;
+        d=1e100.net; s=20230601; t=1765994935; x=1766599735;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=eJ+Wh0xNBReUdUR45vUeWefJp7cP+N3hdwazYMqKhgo=;
-        b=o0ybpYY+PRrE+SPnKDHJez2VPh1vRb4ZQmUS3C7ij7byUVta/53LHozn/G+rmQhX8C
-         4oQh1usSX6TiFq6/2HckY2zluCua/Y5E4whG+D1Eqk5nUHeyqlYevb36/PgNgbaABYJk
-         8P1PCFZ0n+4cPmFE1ILaEUBEsUdvEF4S6ypz0YnonzQ9ts7ufMzg3YkIixVQuGpXM9PR
-         z6oT4VPXn2RuFeMJN2rnWf318l31RN9R5C98xngVld3QzZisiYkqJXmdiZB1wjmcM2wU
-         9Lx8N31ceZdJjL2ftHWckngTBO0skb/sm0zGIvP5HJ4B4ONTF3QTGhJaE7PeexV3LYfb
-         rgLg==
-X-Forwarded-Encrypted: i=1; AJvYcCX8jifW2gtF0g/u946Oo1ejm0TUpAa/LPIhRmAZBKKpB0yG5LQXy0yoMhtG+MINoejQe+PhFjR1Glby6A==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxszmCr/3L0ytqwS/6nMIhzhPkTPQlixsZXK78+1bJHRSaTNh5t
-	MhojebLihdlegRbP94xPG4g1/UjYknKFrh3NDcvrUMLmDIgCJDSdiid7
-X-Gm-Gg: AY/fxX4eZX/qfcXl17Re0JUj0fbdIOIK1NVrNx/lBL1Ei1dL1fQ+/+C2voYSktRcHNl
-	/M9UYbCRbUWX9YPFRFtG3+HTRE9xrrWkd9r1rDg9nO5sselqxM+IxbD9SkrQ+hdTM8jjhHQj82U
-	mvcoF9vszbanDOK6RtaJ1/5fpheVLmzVGEi23goAJE/K+1a8YCQgsuhKp9EQcHWSiiTN6LgeQnD
-	AwZAZFok5gt0p1XweGqk4doVpjTXteuc2L9+ge4awuWkqAAKh+3hoOsMJIx/W4KBdgDdhJdeO8O
-	trreAqLEsDPhCn6YCiOaqGiPPsaCdB+BBJ/xYTJjrwkLAGtj/ebpJ3l6ottPfS3TEyRj3JjL/xA
-	NBBYaXJuDCuvCgu7VNPN74OvTCI7LGczYznbHiBZD2QQ0gOzNVSi9IlPI2cDn0GkdTYdmF3wEL3
-	uqT60TkjpOD09XWZep27ov29SPrjv5O4xruUtvH8yX06bXngEtYQ==
-X-Google-Smtp-Source: AGHT+IEsG5kPC7PFC1E5kE+BODk9O4ruJ6wx9lSNpfYD+lFEkTLCuj5suLNYSIL43zw4PUMGaxx2jQ==
-X-Received: by 2002:a05:701a:ca0d:b0:11b:8fc9:9f5d with SMTP id a92af1059eb24-11f34c4d15emr13268343c88.30.1765994748500;
-        Wed, 17 Dec 2025 10:05:48 -0800 (PST)
+        bh=M1mUa8oVFGs+3M++JiFnrFuG8jrbwbFDcaIZY3QE2bo=;
+        b=xHTf0H1UjDrGouS60H/GN6G0dkUvUZveKsGAp9ARib2e6ViEaEEeiAN6L27Vfr5UYX
+         lrR/4qb892jciUrFMeTe927HwzoCTYwnOnv9zi+fQt/H2q7SUZ0QMoi7YDQdXkzjxkf8
+         IylcVIWYoRTL/iSO+ecEr86seNE7h0FKoXgoRWyK/qYp2g6z1BoiSVVP42i57UjtAMPN
+         gLJk+AnhuapcEXaMaAU0l1JQwtKFOM7plA1z3mD/5/XbhRT5f6wSmbobfqWubN3oV+Zr
+         F+rQpq9dnXqHCKHKmZNcdQUgjHZlsgGKHBjN8Y2G5hILIT5cYJ9jwWHmVVx5IQETXYMx
+         ow0Q==
+X-Gm-Message-State: AOJu0YyPgOy13LSbtRTdOVQrR3KLL/nW8hZHYPUfxlKUe2DARN9PaIcq
+	A9XpVY1v279yo2YX/ZEBo8YsF2G+UWuUbt7i9VeOWcPCqihkYWyFPU/I
+X-Gm-Gg: AY/fxX4VVpMCyEIGUHS9ftWUgSDAWyCtmOVWst1qy7LXB9gvpxCwHKHlnI2pH3XklEP
+	OlJB8VYvHz37i9xUZA2R9RUwAWYzlZa+oOwRroQ5P7VW7TmGaaB0FApzyPIHtvPbqljEWDUVaPN
+	3x/n8rfMoekWxpPDBckSGqIi3WRMzYeyiVDQxPT41mI+U/K+eYKAQf+iSugWr/y/aOcrX+Tl1w3
+	zbDZm9FY25dNDuGqV6jNaWaaFRT5skPsQW6YEz5CshxXaL5ZfwFytaosIM3CmkgUX40YfU6PWWA
+	jBDlYyU0gTLoW74vxz0U8E+lpNNRmG8aXma7Oh0EPyg/tCsTFDRsBODvDZOXfNRt4khGRpayFSN
+	JrSLGRiKJgWR/Ou/uNDwbTLNspfcEatMH5v1IjSkgTtKMtKWejc2z71FuAbQwe9fwNMXD+bTo4u
+	JyZqmARTUBYcDu/1nFT2rem6zmlAQNA/WaWRem9m9h+ziY5ckxAw==
+X-Google-Smtp-Source: AGHT+IG1XA1C0sVrQukgqg2zfhabPGeEfBFq4PXjICHiM/1m71M3nPoNMMcyBtDYlqmHCgFgdMh60Q==
+X-Received: by 2002:a05:7022:e80c:b0:11a:e610:ee32 with SMTP id a92af1059eb24-11f34bf7bdfmr15642369c88.25.1765994935236;
+        Wed, 17 Dec 2025 10:08:55 -0800 (PST)
 Received: from google.com ([2a00:79e0:2ebe:8:86:f92f:a027:b12a])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-12061a93616sm409533c88.14.2025.12.17.10.05.47
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-12061a888d8sm479571c88.11.2025.12.17.10.08.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Dec 2025 10:05:48 -0800 (PST)
-Date: Wed, 17 Dec 2025 10:05:45 -0800
+        Wed, 17 Dec 2025 10:08:54 -0800 (PST)
+Date: Wed, 17 Dec 2025 10:08:52 -0800
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Fabio Baltieri <fabiobaltieri@chromium.org>
-Cc: Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
-	Tzung-Bi Shih <tzungbi@kernel.org>, Simon Glass <sjg@chromium.org>, linux-input@vger.kernel.org, 
-	devicetree@vger.kernel.org, chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 3/3] dt-bindings: google,cros-ec-keyb: add fn-key and
- f-keymap props
-Message-ID: <nx4lo6qfyfoxha7poyipa2hjc2vogp6twxbcap2555aj4y56gg@ddhkfh7eifvm>
-References: <20251209154706.529784-1-fabiobaltieri@chromium.org>
- <20251209154706.529784-4-fabiobaltieri@chromium.org>
- <20251209192243.GA963693-robh@kernel.org>
- <aTm1PVLrS7Ra0OTF@google.com>
- <2gd2npolfpo5jruwraamwpn3wurm7w447jnwsbcfonmhos2owf@ejrqiz3qdxj4>
- <aUFPKni-iFkxQQGu@google.com>
+To: Duoming Zhou <duoming@zju.edu.cn>
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	pali@kernel.org, kuba@kernel.org, alexander.deucher@amd.com, 
+	akpm@linux-foundation.org, johannes.berg@intel.com, pkshih@realtek.com, 
+	hverkuil+cisco@kernel.org, andriy.shevchenko@linux.intel.com, tglx@linutronix.de, 
+	mingo@kernel.org, stable@kernel.org
+Subject: Re: [PATCH v2 RESEND 1/2] Input: alps - fix use-after-free bugs
+ caused by dev3_register_work
+Message-ID: <mu6hzf73k5updemoun7fdcgq4y6rvic3mghwpxpljm3j7ngkih@j5plzc3pjeie>
+References: <cover.1765939397.git.duoming@zju.edu.cn>
+ <b57b0a9ccca51a3f06be141bfc02b9ffe69d1845.1765939397.git.duoming@zju.edu.cn>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -96,99 +91,46 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aUFPKni-iFkxQQGu@google.com>
+In-Reply-To: <b57b0a9ccca51a3f06be141bfc02b9ffe69d1845.1765939397.git.duoming@zju.edu.cn>
 
-Hi Fabio,
-
-On Tue, Dec 16, 2025 at 12:23:06PM +0000, Fabio Baltieri wrote:
-> Hi Dmitry,
+On Wed, Dec 17, 2025 at 11:00:17AM +0800, Duoming Zhou wrote:
+> The dev3_register_work delayed work item is initialized within
+> alps_reconnect() and scheduled upon receipt of the first bare
+> PS/2 packet from an external PS/2 device connected to the ALPS
+> touchpad. During device detachment, the original implementation
+> calls flush_workqueue() in psmouse_disconnect() to ensure
+> completion of dev3_register_work. However, the flush_workqueue()
+> in psmouse_disconnect() only blocks and waits for work items that
+> were already queued to the workqueue prior to its invocation. Any
+> work items submitted after flush_workqueue() is called are not
+> included in the set of tasks that the flush operation awaits.
+> This means that after flush_workqueue() has finished executing,
+> the dev3_register_work could still be scheduled. Although the
+> psmouse state is set to PSMOUSE_CMD_MODE in psmouse_disconnect(),
+> the scheduling of dev3_register_work remains unaffected.
 > 
-> On Thu, Dec 11, 2025 at 08:44:02PM -0800, Dmitry Torokhov wrote:
-> > On Wed, Dec 10, 2025 at 06:00:29PM +0000, Fabio Baltieri wrote:
-> > > Hey Rob, thanks for the review.
-> > > 
-> > > On Tue, Dec 09, 2025 at 01:22:43PM -0600, Rob Herring wrote:
-> > > > On Tue, Dec 09, 2025 at 03:47:06PM +0000, Fabio Baltieri wrote:
-> > > > > +  fn-key:
-> > > > > +    $ref: /schemas/types.yaml#/definitions/uint32
-> > > > > +    description: |
-> > > > > +      An u32 containing the coordinate of the Fn key, use the MATRIX_KEY(row,
-> > > > > +      col, code) macro, code is ignored.
-> > > > > +
-> > > > > +  fn-keymap:
-> > > > 
-> > > > If keymap is linux,keymap, then this should perhaps be linux,fn-keymap. 
-> > > > Depends if we still think linux,keymap is Linux specific?
-> > > 
-> > > I'm open for suggestions, trying to understand the pattern, these are
-> > > specific to this binding I think if anything they should be
-> > > google,fn-key and google,fn-keymap, similarly to the existing
-> > > google,needs-ghost-filter -- no idea why function-row-physmap was not
-> > > prefixed but I guess it slipped in and now it's not worth changing it.
-> > 
-> > Just double the number of rows in the regular keymap to accommodate the
-> > FN modifier, no need for separate keymap. Also no need to have fn-key
-> > property, use whatever key that reports KEY_FN. See how it is done in
-> > drivers/input/keyboard/tegra-kbc.c
+> The race condition can occur as follows:
 > 
-> Had a look at the tegra-kbc driver as you suggested, first thing it
-> seems like the fn-key functionality there is dead code since 2013,
-> `use_fn_map` could only be enabled with platform data, not OF, and that
-> has been removed in 3a495aeada2b, as it stands kbc->use_fn_map can only
-> be false. I could send a patch to rip off that code if you want me to,
-> clearly it hasn't been used in a while (unless I'm missing something).
-
-I guess you are right, we shoudl clean that up. We have another newer
-driver that uses the same approach:
-
-drivers/input/keyboard/pinephone-keyboard.c
-
-
-> About the extended fn map, I've two problems with it:
-> - it seems very wasteful: the normal map is loaded in a linear array
->   so it can be access directly, which make sense as that's typically
->   very densely populated, but in the case of the fn keys that's going to
->   be mostly empty, I'd expect ~20 keys top from a 18x8 matrix. So that
->   would waste load of space, direct access is good but for ~20 keys I
->   think it's fine to scan it, especially since it only happens when Fn
->   is pressed.
-
-I am not concerned with this, as this is a singleton device. You
-probably "waste" as much space in the code segment by implementing the
-custom scanning logic. Additionally with the consolidated keymap
-approach you are not breaking ioctls dealing with setting and retrieving
-key codes.
-
-> - I'd end up with two values for cols kicking around the driver, the
->   real one and the one used in the map, which I feel adds confusing in
->   the code.
-
-Not sure I follow. You still have the same row and col reported, just
-when figuring out the final keycode you need to add an offset.
-
-> - more importantly, one would have to keep the offset in mind when
->   setting the keys in dt, we rely on OEM doing this and I think having a
-
-Do we now? I thought we retain greater control over this. Maybe we
-should sync internally.
-
->   separate property with a meaningful name and a map with the same
->   row,col and different code is more intuitive and would make their life
->   easier, especially since we ship with keyboard of different size
->   and the offset would be different depending on the device.
+> CPU 0 (cleanup path)     | CPU 1 (delayed work)
+> psmouse_disconnect()     |
+>   psmouse_set_state()    |
+>   flush_workqueue()      | alps_report_bare_ps2_packet()
+>   alps_disconnect()      |   psmouse_queue_work()
+>     kfree(priv); // FREE | alps_register_bare_ps2_mouse()
+>                          |   priv = container_of(work...); // USE
+>                          |   priv->dev3 // USE
 > 
-> As for the fn-key property, unfortunately based on past experience I'd
-> expect such OEM to want to change that code, I could specify the code
-> rather than the row,col but I would not plain hardcode. Even my
-> (thinkpad) laptop sends KEY_WAKEUP for Fn.
+> Add disable_delayed_work_sync() in alps_disconnect() to ensure
+> that dev3_register_work is properly canceled and prevented from
+> executing after the alps_data structure has been deallocated.
+> 
+> This bug is identified by static analysis.
+> 
+> Fixes: 04aae283ba6a ("Input: ALPS - do not mix trackstick and external PS/2 mouse data")
+> Cc: stable@kernel.org
+> Signed-off-by: Duoming Zhou <duoming@zju.edu.cn>
 
-Again, we need to make sure we control OEMs better. On Lenovo Fn sends
-wakeup only if it is not combined with another key, so it really has
-custom logic with events delivered either through the main AT keyboard
-or through custom interface in thinkpad platform driver. We do not need
-this in oiur designs.
-
-Thanks.
+Applied, thank you.
 
 -- 
 Dmitry
