@@ -1,121 +1,110 @@
-Return-Path: <linux-input+bounces-16613-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16614-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D4A2CC7C25
-	for <lists+linux-input@lfdr.de>; Wed, 17 Dec 2025 14:08:36 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id EECD3CC7C8F
+	for <lists+linux-input@lfdr.de>; Wed, 17 Dec 2025 14:17:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 3CDF0304BC42
-	for <lists+linux-input@lfdr.de>; Wed, 17 Dec 2025 13:05:41 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 0F6273009418
+	for <lists+linux-input@lfdr.de>; Wed, 17 Dec 2025 13:12:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E1F5D34FF74;
-	Wed, 17 Dec 2025 12:58:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="foeIRv8T"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 177E8361DA7;
+	Wed, 17 Dec 2025 13:12:34 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f72.google.com (mail-oo1-f72.google.com [209.85.161.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0038034C811;
-	Wed, 17 Dec 2025 12:58:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765976298; cv=pass; b=BuHTFhDwXKUCgZXcTB1KnXD/LPm5On60kgNygq90C0fJaLLbaIIe0PZLxuMFx7vkxeANph2bUgcZaIo6dhfrVhblEBr4dtJgsdwSD0lg+YXSlGMzzVaXZd7aoidySVyzTIa271Ddfk51HvyP4YtUJcVeAvm3k5mgYhE0zCW22VA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765976298; c=relaxed/simple;
-	bh=LrvfmBmzDcA3GwDRV7f9xZnGQTMmRHRy9Ho1m8R+Wok=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=jK3fjvsbL8uNg4Q1wQyEUelBsfCitirmz9RtW47z2w24/BtkZncRmCwSinyJi+GHLTVjFaaePNkM9sbs5HxSm7JhCe3OHAFFExZ5qRpeYk5h6hvxy7NO6NY2W/TzXmZF9xBYvg1c/aWg/ogWiJ1TjJZj2k56ej24HPc5eSsoAf4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b=foeIRv8T; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1765976272; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=FoqdNb4g5Gtkd8jGGwm/maHLrre5WN7i25q/udEcMHPG48TC9bLlCuMRzI/R2OL3+rZ5wyKhHhUFtGYvFGHyO7iOVxPzUsmzICdTrehXVXBXpZwAhTbhMad58FSf8ph3Bz/MCwLEsuNAGxWP8a6P7SFuBa/i9PVoaKWyF9m+u7Q=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1765976272; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=LrvfmBmzDcA3GwDRV7f9xZnGQTMmRHRy9Ho1m8R+Wok=; 
-	b=eh9MgmX/bEjXh147aGbIug8Y9zOvoJ6XmSyCwjAocNyXKnExbeCLAO4y7axvDxOwHbLzV1/iK57cBwhIJFU5mBUo1VpdlrXK1PlMiyxSi/ZnbGjMy9nwanRPOh506t0BoGAc+xxaq+GVaKVFIcpUNpk4WEX/CsfNeoxDcz3fwos=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
-	dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1765976272;
-	s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
-	bh=LrvfmBmzDcA3GwDRV7f9xZnGQTMmRHRy9Ho1m8R+Wok=;
-	b=foeIRv8TCls/G5ux4frn10VOXe7im29PLKscuAUx8H/eXtXbu12qaJwIrkzY+Bw8
-	SK5/4DflcoPyCMD0aCdHI8guUqFPK2B1uCoirliEZxH8z1JCp4A+T9DcnN3RlGPnVzt
-	iTidSd6zWY1Ti8lK+kar6VvLQCR3nLR4mS7Dc/lI=
-Received: by mx.zohomail.com with SMTPS id 1765976271997185.16439333799497;
-	Wed, 17 Dec 2025 04:57:51 -0800 (PST)
-From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Heiko Stuebner <heiko@sntech.de>, kernel@collabora.com,
- linux-input@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org
-Subject:
- Re: [PATCH v2 1/4] dt-bindings: input: adc-keys: allow linux,input-type
- property
-Date: Wed, 17 Dec 2025 13:57:46 +0100
-Message-ID: <6778765.lOV4Wx5bFT@workhorse>
-In-Reply-To: <20251217-tough-ultra-junglefowl-f1a9ae@quoll>
-References:
- <20251215-rock4d-audio-v2-0-82a61de39b4c@collabora.com>
- <20251215-rock4d-audio-v2-1-82a61de39b4c@collabora.com>
- <20251217-tough-ultra-junglefowl-f1a9ae@quoll>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E4C8361DA6
+	for <linux-input@vger.kernel.org>; Wed, 17 Dec 2025 13:12:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.72
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1765977154; cv=none; b=uj4m0HXgJg3Cb1VpYxMMEUfvpUcWkh/7hf6dE19FmQNjClBnQQ/ZOnYvPnbpvjq1VVEd853Jfy74PZ6g2uUPTKv4Ts5578s4ikc6Mz+UhXxHZUzFjko9JaqLeV0ka1qN9dU3j+YO9yPmwImG62XROnWc7VmUGIQvTs72Dv8x/bs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1765977154; c=relaxed/simple;
+	bh=ZVYry4Umrf3PyaqRnyfKdOEZMDbwt+TNVpjJqGhhh7A=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=IMik0ReTBm2ys/NWSnT2+dFYX4wEc0msk8fSAuQDnBFQvsBr/8iWbUz5vzpguhtF9s0+tYFSi4DLYHuVcoqcg217cfiKhbJ54gU6fpE/nt6mBxD0IA9LmQEL21wZ1by5djr6pZhGwQ9zXutxFuUsWYJhlFw++OcBWs32II2wvXE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oo1-f72.google.com with SMTP id 006d021491bc7-65bcccf601fso2806521eaf.3
+        for <linux-input@vger.kernel.org>; Wed, 17 Dec 2025 05:12:32 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765977151; x=1766581951;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=DSt1bia3aWUVXuvtwBRYIYeTarFh+EvdggfmlKsb08A=;
+        b=t2t0rOM/5ICXtZtNJ4CROL9xwSNpVL/s4i9+MPmGSqZCpnS1uClXB/OAlWBGQFrDy8
+         VrrZQhrYDxMfux7Kfy7e4+yHQeLiKVULOGF0rlCbP+dORAsZsfZZX3waqjqfjQHmK9QR
+         4+OtUoGP6SjTJWdsC06oV3jJFUohHEy2IptqbC/AmdRzCIyvnozdmp4p44/6D7L39/Pm
+         GOxKd2pbAUujlDGijInHS958nKV/aPY4SuAZci6p1N0OC3EPFBgIoLATWRrN0SutfzK1
+         vx9Hx4db/7xuMrjNWADQzQ8XmOLYo5/LqaXqq8VkXXmRve4q6RkTxcNZblm/ocrtWdAe
+         riNw==
+X-Gm-Message-State: AOJu0YyNJAtd+g3OY8WHcsJo247uBgQce85WG1xnRkl9w2loiiLMGlSd
+	+GBmsoPytZDMIve3Cs//7x7Cr6U9Fmu8tMWJJOe4kJddJ5vP0Wq7/MbIAzNB9O7SNIH/cbkdizN
+	RVgLIcOl6IDthnCF8isymsc8iv2BKUgD64F4Kb9g32ItmXPVdS/PiPhQbtn4=
+X-Google-Smtp-Source: AGHT+IGgGWxlJdHNgSK15JwFy+TkLncxSs3YHkZbEjZBw+X6JsIXakP8CyJtmUWEhpzRcGAkDuBbtajUqgF4DWL9USawCNom8Kl5
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+X-Received: by 2002:a05:6820:60c:b0:659:9a49:8ebe with SMTP id
+ 006d021491bc7-65b4527f9ecmr8540069eaf.66.1765977151374; Wed, 17 Dec 2025
+ 05:12:31 -0800 (PST)
+Date: Wed, 17 Dec 2025 05:12:31 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6942ac3f.a70a0220.25eec0.001b.GAE@google.com>
+Subject: [syzbot] Monthly input report (Dec 2025)
+From: syzbot <syzbot+list0d551e5d339087b02536@syzkaller.appspotmail.com>
+To: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Wednesday, 17 December 2025 09:31:15 Central European Standard Time Krzy=
-sztof Kozlowski wrote:
-> On Mon, Dec 15, 2025 at 01:29:29PM +0100, Nicolas Frattaroli wrote:
-> > adc-keys, unlike gpio-keys, does not allow linux,input-type as a valid
-> > property. This makes it impossible to model devices that have ADC inputs
-> > that should generate switch events.
->=20
-> The solution is to use unevaluatedProps instead, which also allows
-> dropping other properties.
->=20
-> Best regards,
-> Krzysztof
->=20
->=20
+Hello input maintainers/developers,
 
-Hi Krzysztof,
+This is a 31-day syzbot report for the input subsystem.
+All related reports/information can be found at:
+https://syzkaller.appspot.com/upstream/s/input
 
-to understand the motivation behind this suggestion correctly:
-are the "linux," vendor prefixed properties, especially with regards
-to key codes, generally a bit of a thorn in the side of DT bindings
-maintainers?
+During the period, 3 new issues were detected and 0 were fixed.
+In total, 22 issues are still open and 63 have already been fixed.
 
-I'd imagine so since they technically tie the DT to a specific OS
-kernel (though of course, others are free to translate those key
-codes). And the whole idea of configuring which code is emitted
-from something is basically abusing DT for configuring software
-rather than describing hardware.
+Some of the still happening issues:
 
-I'm mainly interested because this is a thought that has been in
-the back of my mind for a while now, and I'm curious if the DT
-binding maintainers happen to have arrived at the same impass=C3=A9,
-where linux,input-type et al abuse the DT model for something we
-would tell any other vendor not to abuse it for, but no better
-solution exists right now to achieve the same thing.
+Ref  Crashes Repro Title
+<1>  3202    Yes   WARNING in cm109_urb_irq_callback/usb_submit_urb
+                   https://syzkaller.appspot.com/bug?extid=2d6d691af5ab4b7e66df
+<2>  1621    No    possible deadlock in evdev_pass_values (2)
+                   https://syzkaller.appspot.com/bug?extid=13d3cb2a3dc61e6092f5
+<3>  241     Yes   KASAN: slab-out-of-bounds Read in mcp2221_raw_event (2)
+                   https://syzkaller.appspot.com/bug?extid=1018672fe70298606e5f
+<4>  107     Yes   WARNING in cm109_input_open/usb_submit_urb (3)
+                   https://syzkaller.appspot.com/bug?extid=ac0f9c4cc1e034160492
+<5>  74      Yes   possible deadlock in uinput_request_submit
+                   https://syzkaller.appspot.com/bug?extid=159077b1355b8cd72757
+<6>  47      No    KASAN: slab-use-after-free Read in report_descriptor_read
+                   https://syzkaller.appspot.com/bug?extid=bc537ca7a0efe33988eb
+<7>  46      Yes   WARNING in cm109_urb_irq_callback
+                   https://syzkaller.appspot.com/bug?extid=c708736c2ec142a386fd
+<8>  13      Yes   INFO: task hung in console_callback (6)
+                   https://syzkaller.appspot.com/bug?extid=6027421afa74a2ba440d
+<9>  3       No    WARNING in cm109_input_open
+                   https://syzkaller.appspot.com/bug?extid=fed3fab8533934671abc
+<10> 2       No    possible deadlock in tasklet_action_common
+                   https://syzkaller.appspot.com/bug?extid=16c5be44e508252dc97a
 
-Kind regards,
-Nicolas Frattaroli
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
+To disable reminders for individual bugs, reply with the following command:
+#syz set <Ref> no-reminders
 
+To change bug's subsystems, reply with:
+#syz set <Ref> subsystems: new-subsystem
 
+You may send multiple commands in a single email message.
 
