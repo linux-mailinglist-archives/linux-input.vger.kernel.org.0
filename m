@@ -1,142 +1,128 @@
-Return-Path: <linux-input+bounces-16621-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16622-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 989D5CCA8F0
-	for <lists+linux-input@lfdr.de>; Thu, 18 Dec 2025 07:58:39 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 134BDCCADCD
+	for <lists+linux-input@lfdr.de>; Thu, 18 Dec 2025 09:26:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 98E3B3015D1C
-	for <lists+linux-input@lfdr.de>; Thu, 18 Dec 2025 06:58:38 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id AC5F5306D8F1
+	for <lists+linux-input@lfdr.de>; Thu, 18 Dec 2025 08:21:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8A9282C375E;
-	Thu, 18 Dec 2025 06:58:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B775F3009FA;
+	Thu, 18 Dec 2025 08:11:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iJuuC/fZ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nj+PhAqJ"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 027902BE621
-	for <linux-input@vger.kernel.org>; Thu, 18 Dec 2025 06:58:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 890EC2F1FDA;
+	Thu, 18 Dec 2025 08:11:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766041116; cv=none; b=ZcDEvMFVk8uDt1XYhCecQPvG/WySlgs9VQ9KciBXwgNOwyBXU2Nau4lwjx/uKU995B74gQCzEsrFXU6P0MAgZKpc6d4WVd9xLM26B/Io68NVVr29KIS1UYsHRXScCfPkBnD/TrfkiJWqkfyMVSZf71eXQVeydCtCSwvvO/2vv0w=
+	t=1766045500; cv=none; b=FxOkZoyZTWeWOBkdQ1EB5G68+2DIAdtmmDxeIHiF8wwkB+Ljs+qJan9gZjGVx6wE8EngOBx6EZM7JE4rD/RC/fBBEyJuU8B1Sb5/dzDqUHDQ4g//NU0QrRtzed/F/DBXkqwkmMFPJhqYiqQ4Fe3z6IbrQqAufE7/7NmOLnTDy2s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766041116; c=relaxed/simple;
-	bh=G/WmXAHjTHKSi250ciB9gVCUtdJAGQCj0/pQ1r+ZhqI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cb+CXpf+IEINuHEi2NCSy7TTYZRQKhRI8wtc8IrgwtenqJcgm/DDjzEfHLDVnYGpaiz1MGPLrdlfxVBAlDiR/xcxN+FuRjwf0lwou81ZCR1jYc+lK+z6O3vodm+SAxAmc4lLYA9PBfMxAvdOY0EjHysEqy56ecffhX+kXvFu1BY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iJuuC/fZ; arc=none smtp.client-ip=209.85.215.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-bdb6f9561f9so321542a12.3
-        for <linux-input@vger.kernel.org>; Wed, 17 Dec 2025 22:58:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766041114; x=1766645914; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=HxZ2F54lTQtCyMILDuCZeRGUB1SywNnpVXopjXM2+Zo=;
-        b=iJuuC/fZWDOR9TGh061jU6LmqJnJLqssajl3Mq1qhzey9Ipf4Y5TlUardSC7LNvQLg
-         rTjvEAxqvaPKB0kqg9/Ki+jGxCsdfpbGCGZSNVU6Qaqh8J7qnFBMghVrfJzguSdi9vlL
-         RgQC3Vj4ztT5eLEpwlpMBc+5r1H48DBNzr+O4jR2L+YNl2RFZN9WL6O/bDFHRtomdPaK
-         81sVf09zxY2i+iZ1dJiAC88AkXWyxr9PmoS0NNuG58QOEVQ2BUFwoBHQWamxnWYcijIy
-         AHIaD4kxyXlPXoGCutgT78MwI7Sjetvdekp9aEF9sBu+9Zv05LXkHc1SDn8I0pdsTwKH
-         Ctvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766041114; x=1766645914;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=HxZ2F54lTQtCyMILDuCZeRGUB1SywNnpVXopjXM2+Zo=;
-        b=B1127hpv4j58kZX2iM5KpiBf3joROwTOufQyjm0YRWcC59yKV1UUH7Mf0n7Pr5pHky
-         DhHlVsHvXQ1Pf8aM9GIU1D2SsVHTZNbNTGL4rihp+JVp3FNd/Zt+qgY1xi8fNCW6FOTU
-         2EaNoSBJHE0twipr5Ph8RwXysU4kh1GPkd6UuWJaSMwI4SZBH3U8Kbj8uh9UG1T87O0/
-         Mf04lIaf96tJuFUqWqDfTigP0J+7mWXVVy2lHszsp5wZdSVbeV1EbRuR2/21eglFFb7K
-         Z6cim+P5eRTLdToCZphI98nkcXaNJ0hmDxT/bdqEeUK2e7hmgv5qKiv0xfntDoiftEsT
-         h2bQ==
-X-Gm-Message-State: AOJu0YyZ1kfMo1o4qgOelRuClR5MGCk3pcMfQPXN9yjiwze4ig5t+gun
-	pE8SwQ9O9jY9HqSsVHdJaDG9WE8ovb/FL220Go6vZlIYG1EWP00uvECz
-X-Gm-Gg: AY/fxX4VMh59fQpLS/VT7gRlljhGNRlflTlACFQMTF5YszEO+XxfmEMELtsKFP+NqYo
-	MaQSqjhxan5Ha0eDidvsQhgCZorna/WTXuhx2sefbLABAtTpJhAwa2Mg+9lyvGzZ06J41Per42E
-	aVjPZHOjIQHz+Jx+bw78RCOm1BzOhc/ippQfQHorEZ7NaW9FrGhHgvxKFvHHYMuHQQIB2ZsURPI
-	tvD9tQ5RmrlAe9TuyDkQs3H/85ECTRGnXxEemnCQLpZUSyhSsM0ae1akoLPtpoH5HQWOi12udP8
-	kSd3NvVYOtf96OrkA4c1HUnyEecG7sCEOWGupnZnJyIqlKjZBS8/O3ZGu/rMDsoRE+9gintcvpB
-	qPjGI/D6Nun553hXZHHEifXk/cNkxOuytXbw/TmLH5afHhp7g9r3AE4PDeZcjVD46+px4+hEwWq
-	S2PJm+TuXHdgE+AeBTQ7qgc+21W7v/4x1L59vxsR1c2CjePDyITJ0UU8cC80NjeQ==
-X-Google-Smtp-Source: AGHT+IGSXECrwT/mHS8JwjA5IyFIneL5Hc7d+SZfvy1zcbArWmv1vhtZAigJ0bZcEj9rttjhhdhx6Q==
-X-Received: by 2002:a05:7301:4618:b0:2ac:287f:fc14 with SMTP id 5a478bee46e88-2ac3225d257mr14647047eec.19.1766041113986;
-        Wed, 17 Dec 2025 22:58:33 -0800 (PST)
-Received: from google.com ([2a00:79e0:2ebe:8:c00:cda0:e722:e1ee])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2b04e58d130sm2115047eec.7.2025.12.17.22.58.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Dec 2025 22:58:33 -0800 (PST)
-Date: Wed, 17 Dec 2025 22:58:30 -0800
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: duoming@zju.edu.cn
-Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	pali@kernel.org, kuba@kernel.org, alexander.deucher@amd.com, 
-	akpm@linux-foundation.org, johannes.berg@intel.com, pkshih@realtek.com, 
-	hverkuil+cisco@kernel.org, andriy.shevchenko@linux.intel.com, tglx@linutronix.de, 
-	mingo@kernel.org
-Subject: Re: [PATCH v2 RESEND 2/2] Input: psmouse - Replace flush_workqueue()
- with disable_delayed_work_sync()
-Message-ID: <ho33u6epmzsojiw5zvqksskpzo3f6z2lykvhgektf65stqj6sr@5hq6qd76ezxg>
-References: <cover.1765939397.git.duoming@zju.edu.cn>
- <6e40a46e5d9e6e3237702958b8f641263c28d2e4.1765939397.git.duoming@zju.edu.cn>
- <joqpa647tq7mh3lyl27zjv3wr4xbixuuvq7ifti3isifz3gfxg@p3ibbvrsuxud>
- <2e74b4a1.464cb.19b30013387.Coremail.duoming@zju.edu.cn>
+	s=arc-20240116; t=1766045500; c=relaxed/simple;
+	bh=0nXB07FG1QyZZmr7nXNMOdOp6Qnxp853fB5haK5cnGI=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=kAKg0A6QNl9F/YH8QCKj2SPUYwCY4QHS/igsuPu0JvEcc291cgmNsPuYDrya/nXhguUP7wTh9AljoWmCMXmMcmscuTjdWJyAE6QFrvBPgWxcg1xObWp8ump7UVaJ6F27+SUuGIImb6j0In/q4qsGCHT6wqO2zjKoXzanSHs9N4U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nj+PhAqJ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 15582C113D0;
+	Thu, 18 Dec 2025 08:11:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1766045500;
+	bh=0nXB07FG1QyZZmr7nXNMOdOp6Qnxp853fB5haK5cnGI=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=nj+PhAqJ8yUxH4Mv6itEIrpnd952dQO/smPXexULoGuKPGa0cfM3WwJOTu3mrCzvv
+	 TU2SA8GYzEewuo8tG7O4iQiD5X6AiTSS+UGC9SsP/XjhGq1GUGkFY/ukT8x0FpRaSx
+	 EWu/KSV65vuE9owMT8pL4atMQ3Oly9SYW4jejos710L7mLWiLUSJwyT4V9h1Vm3c/+
+	 RRUInVrJ9CbP3/U9qG19zMXdYnBcqPKK9rXemwrO5l/GQtVeKBoboMSoVFTOyGIvdm
+	 e3E6oaedlId63Ka2QcEpl+pyW4XzEtbJo56z//RpQM6djXhZb/YvIc6xZ+ufg8FVwJ
+	 xNS01v3OoJSjg==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 00B56D68BD9;
+	Thu, 18 Dec 2025 08:11:40 +0000 (UTC)
+From: Sasha Finkelstein via B4 Relay <devnull+fnkl.kernel.gmail.com@kernel.org>
+Date: Thu, 18 Dec 2025 09:11:26 +0100
+Subject: [PATCH] Input: apple_z2: Fix reading incorrect reports after
+ exiting sleep
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2e74b4a1.464cb.19b30013387.Coremail.duoming@zju.edu.cn>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20251218-z2-init-fix-v1-1-48e3aa239caf@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI1NDI0Nz3Soj3cy8zBLdtMwKXeMkQ5PUNJNkMwtLAyWgjoKiVKAw2LTo2Np
+ aAMagJqddAAAA
+X-Change-ID: 20251217-z2-init-fix-3b14ef4c6890
+To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
+ Neal Gompa <neal@gompa.dev>, Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ pitust <piotr@stelmaszek.com>, Sasha Finkelstein <fnkl.kernel@gmail.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1766045498; l=1783;
+ i=fnkl.kernel@gmail.com; s=20241124; h=from:subject:message-id;
+ bh=OF8WOCZRA9+JnU6tzC4FoVlFYz2Y9tJ9S+rCxmTtWYo=;
+ b=9M/jobQWeFJaXDS54JFsLzWEHIDl+bbiBoVgcNi8y9zH0dzwiavKzcvWquVuCv2w6S35QyEFs
+ /Tty1VBEmetC5P+Ey1YYZq8Io8EkRjNjS2pn7tc70FvVJ/n48GX7n+q
+X-Developer-Key: i=fnkl.kernel@gmail.com; a=ed25519;
+ pk=aSkp1PdZ+eF4jpMO6oLvz/YfT5XkBUneWwyhQrOgmsU=
+X-Endpoint-Received: by B4 Relay for fnkl.kernel@gmail.com/20241124 with
+ auth_id=283
+X-Original-From: Sasha Finkelstein <fnkl.kernel@gmail.com>
+Reply-To: fnkl.kernel@gmail.com
 
-On Thu, Dec 18, 2025 at 01:49:03PM +0800, duoming@zju.edu.cn wrote:
-> On Wed, 17 Dec 2025 10:13:16 -0800 Dmitry Torokhov wrote:
-> > > The original code uses flush_workqueue() in psmouse_disconnect() to
-> > > ensure the completion of both resync_work and dev3_register_work.
-> > > Given that alps_disconnect() already uses disable_delayed_work_sync()
-> > > to cancel dev3_register_work, replacing flush_workqueue() with
-> > > disable_delayed_work_sync(&psmouse->resync_work) is more robust
-> > > and efficient.
-> > > 
-> > > Signed-off-by: Duoming Zhou <duoming@zju.edu.cn>
-> > > ---
-> > > Changes in v2:
-> > >   - focus on the robustness and efficiency improvements of disable_delayed_work_sync(), not on the UAF aspect.
-> > > 
-> > >  drivers/input/mouse/psmouse-base.c | 2 +-
-> > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > > 
-> > > diff --git a/drivers/input/mouse/psmouse-base.c b/drivers/input/mouse/psmouse-base.c
-> > > index 77ea7da3b1c..eb41c553e80 100644
-> > > --- a/drivers/input/mouse/psmouse-base.c
-> > > +++ b/drivers/input/mouse/psmouse-base.c
-> > > @@ -1484,7 +1484,7 @@ static void psmouse_disconnect(struct serio *serio)
-> > >  
-> > >  	/* make sure we don't have a resync in progress */
-> > >  	mutex_unlock(&psmouse_mutex);
-> > > -	flush_workqueue(kpsmoused_wq);
-> > > +	disable_delayed_work_sync(&psmouse->resync_work);
-> > 
-> > Before we replace flush_workqueue() with disable_delayed_work_sync() we
-> > need to also add disable_delayed_work_sync() to
-> > drivers/input/mouse/hgpk.c that also queues work to psmouse workqueue
-> > and relies on flushing it when disconnecting.
-> 
-> The delayed work item recalib_wq could never be scheduled due to the 
-> touchpad driver only supports mouse mode and the hgpk_init() function
-> remains disabled.
+From: Sasha Finkelstein <fnkl.kernel@gmail.com>
 
-What do you mean? If you enable OLPC support the option to enable hgpk
-protocol driver should become available, right?
+Under certain conditions (more prevalent after a suspend/resume cycle),
+the touchscreen controller can send the "boot complete" interrupt before
+it actually finished booting. In those cases, attempting to read touch
+data resuls in a stream of "not ready" messages being read and
+interpreted as a touch report. Check that the response is in fact a
+touch report and discard it otherwise.
 
-Thanks.
+Reported-by: pitust <piotr@stelmaszek.com>
+Closes: https://oftc.catirclogs.org/asahi/2025-12-17#34878715;
+Fixes: 471a92f8a21a ("Input: apple_z2 - add a driver for Apple Z2 touchscreens")
+Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
+---
+ drivers/input/touchscreen/apple_z2.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
+diff --git a/drivers/input/touchscreen/apple_z2.c b/drivers/input/touchscreen/apple_z2.c
+index 0de161eae59a..271ababf0ad5 100644
+--- a/drivers/input/touchscreen/apple_z2.c
++++ b/drivers/input/touchscreen/apple_z2.c
+@@ -21,6 +21,7 @@
+ #define APPLE_Z2_TOUCH_STARTED           3
+ #define APPLE_Z2_TOUCH_MOVED             4
+ #define APPLE_Z2_CMD_READ_INTERRUPT_DATA 0xEB
++#define APPLE_Z2_REPLY_INTERRUPT_DATA    0xE1
+ #define APPLE_Z2_HBPP_CMD_BLOB           0x3001
+ #define APPLE_Z2_FW_MAGIC                0x5746325A
+ #define LOAD_COMMAND_INIT_PAYLOAD        0
+@@ -142,6 +143,9 @@ static int apple_z2_read_packet(struct apple_z2 *z2)
+ 	if (error)
+ 		return error;
+ 
++	if (z2->rx_buf[0] != APPLE_Z2_REPLY_INTERRUPT_DATA)
++		return 0;
++
+ 	pkt_len = (get_unaligned_le16(z2->rx_buf + 1) + 8) & 0xfffffffc;
+ 
+ 	error = spi_read(z2->spidev, z2->rx_buf, pkt_len);
+
+---
+base-commit: ea1013c1539270e372fc99854bc6e4d94eaeff66
+change-id: 20251217-z2-init-fix-3b14ef4c6890
+
+Best regards,
 -- 
-Dmitry
+Sasha Finkelstein <fnkl.kernel@gmail.com>
+
+
 
