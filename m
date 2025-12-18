@@ -1,214 +1,128 @@
-Return-Path: <linux-input+bounces-16624-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16625-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E2C4CCC315
-	for <lists+linux-input@lfdr.de>; Thu, 18 Dec 2025 15:12:36 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id C0B54CCC4FF
+	for <lists+linux-input@lfdr.de>; Thu, 18 Dec 2025 15:40:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 8BC6D302BC51
-	for <lists+linux-input@lfdr.de>; Thu, 18 Dec 2025 14:12:08 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 1076630CE885
+	for <lists+linux-input@lfdr.de>; Thu, 18 Dec 2025 14:37:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 279CB348445;
-	Thu, 18 Dec 2025 14:02:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F9RozuyB"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6355428751D;
+	Thu, 18 Dec 2025 14:26:15 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9617034844F
-	for <linux-input@vger.kernel.org>; Thu, 18 Dec 2025 14:02:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+Received: from zg8tmja2lje4os43os4xodqa.icoremail.net (zg8tmja2lje4os43os4xodqa.icoremail.net [206.189.79.184])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9BD762D7392;
+	Thu, 18 Dec 2025 14:26:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=206.189.79.184
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766066552; cv=none; b=mQ60hDO8CVT0ZGoSgHqhu/qLICsWB5y6o4ObhhId4gZIDU5I7Qnq1SMa7WZZH40xQLz1UcOTiOHpydKiu0CSq23DwOBUHOOgVk9vnLR4qdWgFJVT6Qu/zplFVXcwH1iXz0Th0S3CWMs+RkJ/oZdB+udUs+SodkNDmO7SVxniGvI=
+	t=1766067975; cv=none; b=rT2yjF0mQA9ksDs168uYPgc06bYMD1V6sESksbl2w4OfyNzXiq1b/N2HbH4nVMlXaN1Nc9EIOompu1kRNxOJwBBeE3beSi6ycSyI8r1WD/nbk8dtMRWNTJAHnvOqHN49v4nFwwiewEneD2a1DUiUbpKKiRdHu0XctfhA0Cs/fvc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766066552; c=relaxed/simple;
-	bh=uXsYw4BMXblO7+NMUU9UjQ3f7LsDnLZEz6JggLZbXoQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NaUYhXxXk+zZECX9enBE8k1oJR5onWN6PzKW8m95eE/dI3DOlBIawjVdvIpazYgU7mkQuhkhWQUe8v2/ruFnEaCME/jl8C3yEdnmZ19ZiJ4C8KXkCEGgGx38kfeFaS/AtskqmfPvNAdlmVYPckGjdHNFmNUw8u7ZH3J/9p4ra1A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F9RozuyB; arc=none smtp.client-ip=209.85.214.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2a12ed4d205so6121295ad.0
-        for <linux-input@vger.kernel.org>; Thu, 18 Dec 2025 06:02:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766066550; x=1766671350; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=qy7yr6TYl7qBNDOiMigFkaOEjleqGx1BiLtsVMF5T4c=;
-        b=F9RozuyBoTTYKSlTJWfastBilDkfa2EBlzb7uLchf3DNJYpdS96ZOQfBIc8QF/mDsT
-         gT68kkmfWn6aTvqwW7FPvuftDaLrVnGRqmYptswgO0yfitZmZTlI+MDq1qqmenFb2FMq
-         ZVrvolww0+gYk9HVpaG/N7d6QkrHSM5TWmInbfiqG69KmrBMu/EO27tNlfcAnu7CvAdy
-         CdxgZm9+h245OFKqo/jLN8kKZg3lwY8l8qbcoSvqdaSgT/7OPj4xEHJtrrJqb4xYvdwt
-         oyse4C+GXN/oxqLe6G193ekcaufmOi/348NpYDlptfXXCw2iafpUMI2s8Q7PlLBdKUCU
-         sNYw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766066550; x=1766671350;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=qy7yr6TYl7qBNDOiMigFkaOEjleqGx1BiLtsVMF5T4c=;
-        b=DfL2O5L+37KmgIZ1i7ddCinaCi+F74jgsd0V034d+EwFodt7Otg2/E3rOeKkf2cL6y
-         rQ77uk3TUegi70Rj8RMcObgiP/FS7wVpabKe/KJcMOFf5AI2k3vVRI5bFwX2Ca5HBBom
-         FkJGji9wddnEFqbFKR0VCUlqUT+oqjARrKYm+6CQg8hpx0ZrtTSHP4oPgyVn9XKRex8E
-         cDJV0H6sxtsHVO9PlobbX+rltu7Q7mP6e2ytSP+i9NoVeIMnjl31PJnEnIAGlxXJE108
-         xommUrBoFRmT7fBN4I/2+hVvTdDaux9hKPBETXqQEkjoHO89IECVAZb6KHyJK6I0W5sH
-         8aUA==
-X-Gm-Message-State: AOJu0YzxUqMVKQgLA9mGB651jY15ezJNFT3ot7NCsVNo2k+Lz0+TvqM5
-	YCJ4JMh8mX0yHbTue2YqQG8I2QGoVYrrCqzKWjk+shfPh2N8+JFci/0t
-X-Gm-Gg: AY/fxX7vh/OJ/4ufDX2YD3KywMkYerrxdNmoAHIx/7+E2r2/AFy0x/Af8VxtnCI/yxS
-	4Y/b182JNQ6rxqJiHdGwcitm4SS3lzo4zN1wEMyzcGUgjbr9xLCekqIx2nn5HbzqXdFrlHDjKI5
-	PPbYM0uQhTsEiuJn1S5jQp35WTkfnWCmbxGBNcNM6SJKmFN42eLKvSi7NediyfQhnYgbrc5F8Ku
-	Gs7+oNBnWcEgjqMR2WgeYItIygR/69k2KmC4sCzTEm+1ObjSx5sDxsg61HGmrwZ1Zna8A5h+LS8
-	KmCG/cujq/W50A9JBddrYTFFhUIkcLIhfvX2p1DrdFJ+VdwDL5YOnkF2ogsOpLhmVjcJnzOHiDZ
-	cVzV5EYs+fpKNy6LTAeqwkzEt108emX7ZumvlZoOu2QmMGT40BM5u1KIRyUltiOfJEvK1IHzK8R
-	a1NmQar6s1fWpRYmA3xL3gB2mLOWsfxC8+hpJMfaZMFQadptM+B1SMXelI6xZ//QyG6VjXwQ==
-X-Google-Smtp-Source: AGHT+IHbCbd45FP2moVKES3mfTDFLYGy5S3GqM2Lr6M91pBqr9bk7gPqxYZ2xAokQQ9Mw3AkEyBsfQ==
-X-Received: by 2002:a17:903:2308:b0:295:5945:2930 with SMTP id d9443c01a7336-29f23dd7126mr240542325ad.2.1766066547769;
-        Thu, 18 Dec 2025 06:02:27 -0800 (PST)
-Received: from ubuntu-2504-ThinkPad-X9-14-Gen-1 (softbank221049092147.bbtec.net. [221.49.92.147])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a2d193cf98sm27504805ad.94.2025.12.18.06.02.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Dec 2025 06:02:26 -0800 (PST)
-From: Vishnu Sankar <vishnuocv@gmail.com>
-To: srinivas.pandruvada@linux.intel.com,
-	jikos@kernel.org,
-	bentiss@kernel.org,
-	vsankar@lenovo.com
-Cc: linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Vishnu Sankar <vishnuocv@gmail.com>,
-	Mark Pearson <mpearson-lenovo@squebb.ca>,
-	Richie Roy Jayme <rjayme.jp@gmail.com>
-Subject: [PATCH] HID: intel-ish-hid: loader: Add PRODUCT_FAMILY-based firmware matching
-Date: Thu, 18 Dec 2025 23:00:03 +0900
-Message-ID: <20251218140003.636901-1-vishnuocv@gmail.com>
-X-Mailer: git-send-email 2.51.0
+	s=arc-20240116; t=1766067975; c=relaxed/simple;
+	bh=/BCO2q0g9QvNwmWYn9dLfqm0uOs0yHgsLADfzM8GH0Q=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
+	 MIME-Version:Message-ID; b=XY4bwRS4WjRodgnPd/p36JOYaBYJyXQ+6j8jGGUty+8WPENtQ8Ft3nvo7JIh0bHDM9Hgx+SmnA1TfuBQvY2TXpP0qXh/aS/+oQ9yD7JBw2CM5S74qX40mclZKGmtIlu5SOjVEDeHBZSxrjexcXRpkIxniMeNo8q2pFDWr98Nc2c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn; spf=pass smtp.mailfrom=zju.edu.cn; arc=none smtp.client-ip=206.189.79.184
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zju.edu.cn
+Received: from zju.edu.cn (unknown [218.12.19.88])
+	by mtasvr (Coremail) with SMTP id _____wAHe1fZDkRp7WkXAQ--.643S3;
+	Thu, 18 Dec 2025 22:25:30 +0800 (CST)
+Received: from duoming$zju.edu.cn ( [218.12.19.88] ) by
+ ajax-webmail-mail-app4 (Coremail) ; Thu, 18 Dec 2025 22:25:27 +0800
+ (GMT+08:00)
+Date: Thu, 18 Dec 2025 22:25:27 +0800 (GMT+08:00)
+X-CM-HeaderCharset: UTF-8
+From: duoming@zju.edu.cn
+To: "Dmitry Torokhov" <dmitry.torokhov@gmail.com>
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+	pali@kernel.org, kuba@kernel.org, alexander.deucher@amd.com,
+	akpm@linux-foundation.org, johannes.berg@intel.com,
+	pkshih@realtek.com, hverkuil+cisco@kernel.org,
+	andriy.shevchenko@linux.intel.com, tglx@linutronix.de,
+	mingo@kernel.org
+Subject: Re: [PATCH v2 RESEND 2/2] Input: psmouse - Replace
+ flush_workqueue() with disable_delayed_work_sync()
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version 2024.3-cmXT6 build
+ 20250620(94335109) Copyright (c) 2002-2025 www.mailtech.cn zju.edu.cn
+In-Reply-To: <ho33u6epmzsojiw5zvqksskpzo3f6z2lykvhgektf65stqj6sr@5hq6qd76ezxg>
+References: <cover.1765939397.git.duoming@zju.edu.cn>
+ <6e40a46e5d9e6e3237702958b8f641263c28d2e4.1765939397.git.duoming@zju.edu.cn>
+ <joqpa647tq7mh3lyl27zjv3wr4xbixuuvq7ifti3isifz3gfxg@p3ibbvrsuxud>
+ <2e74b4a1.464cb.19b30013387.Coremail.duoming@zju.edu.cn>
+ <ho33u6epmzsojiw5zvqksskpzo3f6z2lykvhgektf65stqj6sr@5hq6qd76ezxg>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Message-ID: <67e94e29.46daa.19b31d9f861.Coremail.duoming@zju.edu.cn>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID:zi_KCgA3zYLYDkRpyCvyAw--.4035W
+X-CM-SenderInfo: qssqjiasttq6lmxovvfxof0/1tbiAwEEAWlDB4MRpwADsc
+X-CM-DELIVERINFO: =?B?c6QDgwXKKxbFmtjJiESix3B1w3uoVhYI+vyen2ZzBEkOnu5chDpkB+ZdGnv/zQ0PbP
+	CR1yAm9q9XC503Dp6di6LyzaE6kRH47hHkA6hYzBUo2vMLLdQkANoT7hfPyvMlexsjmWVh
+	nPF5uwDJ+MES1dcOIR+FWy2JBxaHlN4wygRaglpAuXy30QWtg+GzZ2gX5US4MA==
+X-Coremail-Antispam: 1Uk129KBj93XoW7KFyxWF13tFWkCFy8ury8WFX_yoW8tr1Upr
+	W3WFyjk3ykJrWUt3sIqF40vF1FkwnFqryjqr1vgryrJwn8JFn8XF48tFyF9Fn8JrWrCr12
+	va1DZ3yfuF1vy3gCm3ZEXasCq-sJn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7ZEXa
+	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+	0xBIdaVrnRJUUUQEb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2
+	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+	0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AK
+	xVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zVCFFI0UMc
+	02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAF
+	wI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JM4x0Y48IcxkI7V
+	AKI48G6xCjnVAKz4kxM4xvF2IEb7IF0Fy264kE64k0F24lFcxC0VAYjxAxZF0Ex2IqxwAC
+	I402YVCY1x02628vn2kIc2xKxwAKzVCY07xG64k0F24l42xK82IYc2Ij64vIr41l4I8I3I
+	0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWU
+	GVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI
+	0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0
+	rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r
+	4UJwCE64xvF2IEb7IF0Fy7YxBIdaVFxhVjvjDU0xZFpf9x07j8GYJUUUUU=
 
-Add support for firmware filenames that include the CRC32 checksum of the
-DMI product_family field. Several OEMs ship ISH firmware variants shared
-across a product family while product_name or product_sku may differ. This
-intermediate matching granularity reduces duplication and improves firmware
-selection for vendor-customized platforms.
-
-The newly supported filename forms are checked before existing patterns:
-
-  ish_${gen}_${vendor}_${family}_${name}_${sku}.bin
-  ish_${gen}_${vendor}_${family}_${sku}.bin
-  ish_${gen}_${vendor}_${family}_${name}.bin
-  ish_${gen}_${vendor}_${family}.bin
-
-The legacy product_name/product_sku rules remain unchanged and continue
-to provide fallback matching.
-
-ISH_FW_FILENAME_LEN_MAX is changed to 72 to accommodate the product_family.
-
-Tested with X9 series and X1 series.
-
-Reviewed-by: Mark Pearson <mpearson-lenovo@squebb.ca>
-Tested-by: Richie Roy Jayme <rjayme.jp@gmail.com>
-Signed-off-by: Vishnu Sankar <vishnuocv@gmail.com>
----
- drivers/hid/intel-ish-hid/ishtp/loader.c | 50 +++++++++++++++++++++++-
- 1 file changed, 48 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/hid/intel-ish-hid/ishtp/loader.c b/drivers/hid/intel-ish-hid/ishtp/loader.c
-index f34086b29cf0..4559d460fd83 100644
---- a/drivers/hid/intel-ish-hid/ishtp/loader.c
-+++ b/drivers/hid/intel-ish-hid/ishtp/loader.c
-@@ -194,6 +194,11 @@ static int prepare_dma_bufs(struct ishtp_device *dev,
- 
- 	return 0;
- }
-+/* Patterns with PRODUCT_FAMILY */
-+#define ISH_FW_FILE_VENDOR_FAMILY_NAME_SKU_FMT "intel/ish/ish_%s_%08x_%08x_%08x_%08x.bin"
-+#define ISH_FW_FILE_VENDOR_FAMILY_SKU_FMT "intel/ish/ish_%s_%08x_%08x_%08x.bin"
-+#define ISH_FW_FILE_VENDOR_FAMILY_NAME_FMT "intel/ish/ish_%s_%08x_%08x_%08x.bin"
-+#define ISH_FW_FILE_VENDOR_FAMILY_FMT "intel/ish/ish_%s_%08x_%08x.bin"
- 
- #define ISH_FW_FILE_VENDOR_NAME_SKU_FMT "intel/ish/ish_%s_%08x_%08x_%08x.bin"
- #define ISH_FW_FILE_VENDOR_SKU_FMT "intel/ish/ish_%s_%08x_%08x.bin"
-@@ -201,7 +206,7 @@ static int prepare_dma_bufs(struct ishtp_device *dev,
- #define ISH_FW_FILE_VENDOR_FMT "intel/ish/ish_%s_%08x.bin"
- #define ISH_FW_FILE_DEFAULT_FMT "intel/ish/ish_%s.bin"
- 
--#define ISH_FW_FILENAME_LEN_MAX 56
-+#define ISH_FW_FILENAME_LEN_MAX 72
- 
- #define ISH_CRC_INIT (~0u)
- #define ISH_CRC_XOROUT (~0u)
-@@ -256,8 +261,9 @@ static int request_ish_firmware(const struct firmware **firmware_p,
- 				struct device *dev)
- {
- 	const char *gen, *sys_vendor, *product_name, *product_sku;
-+	const char *product_family;
- 	struct ishtp_device *ishtp = dev_get_drvdata(dev);
--	u32 vendor_crc, name_crc, sku_crc;
-+	u32 vendor_crc, name_crc, sku_crc, family_crc;
- 	char filename[ISH_FW_FILENAME_LEN_MAX];
- 	int ret;
- 
-@@ -265,6 +271,7 @@ static int request_ish_firmware(const struct firmware **firmware_p,
- 	sys_vendor = dmi_get_system_info(DMI_SYS_VENDOR);
- 	product_name = dmi_get_system_info(DMI_PRODUCT_NAME);
- 	product_sku = dmi_get_system_info(DMI_PRODUCT_SKU);
-+	product_family = dmi_get_system_info(DMI_PRODUCT_FAMILY);
- 
- 	if (sys_vendor)
- 		vendor_crc = crc32(ISH_CRC_INIT, sys_vendor, strlen(sys_vendor)) ^ ISH_CRC_XOROUT;
-@@ -272,6 +279,45 @@ static int request_ish_firmware(const struct firmware **firmware_p,
- 		name_crc = crc32(ISH_CRC_INIT, product_name, strlen(product_name)) ^ ISH_CRC_XOROUT;
- 	if (product_sku)
- 		sku_crc = crc32(ISH_CRC_INIT, product_sku, strlen(product_sku)) ^ ISH_CRC_XOROUT;
-+	if (product_family)
-+		family_crc = crc32(ISH_CRC_INIT, product_family, strlen(product_family)) ^ ISH_CRC_XOROUT;
-+
-+	/* PRODUCT_FAMILY-extended matching */
-+	if (sys_vendor && product_family && product_name && product_sku) {
-+		snprintf(filename, sizeof(filename),
-+			 ISH_FW_FILE_VENDOR_FAMILY_NAME_SKU_FMT,
-+			 gen, vendor_crc, family_crc, name_crc, sku_crc);
-+		ret = _request_ish_firmware(firmware_p, filename, dev);
-+		if (!ret)
-+			return 0;
-+	}
-+
-+	if (sys_vendor && product_family && product_sku) {
-+		snprintf(filename, sizeof(filename),
-+			 ISH_FW_FILE_VENDOR_FAMILY_SKU_FMT,
-+			 gen, vendor_crc, family_crc, sku_crc);
-+		ret = _request_ish_firmware(firmware_p, filename, dev);
-+		if (!ret)
-+			return 0;
-+	}
-+
-+	if (sys_vendor && product_family && product_name) {
-+		snprintf(filename, sizeof(filename),
-+			 ISH_FW_FILE_VENDOR_FAMILY_NAME_FMT,
-+			 gen, vendor_crc, family_crc, name_crc);
-+		ret = _request_ish_firmware(firmware_p, filename, dev);
-+		if (!ret)
-+			return 0;
-+	}
-+
-+	if (sys_vendor && product_family) {
-+		snprintf(filename, sizeof(filename),
-+			 ISH_FW_FILE_VENDOR_FAMILY_FMT,
-+			 gen, vendor_crc, family_crc);
-+		ret = _request_ish_firmware(firmware_p, filename, dev);
-+		if (!ret)
-+			return 0;
-+}
- 
- 	if (sys_vendor && product_name && product_sku) {
- 		snprintf(filename, sizeof(filename), ISH_FW_FILE_VENDOR_NAME_SKU_FMT, gen,
--- 
-2.51.0
+T24gV2VkLCAxNyBEZWMgMjAyNSAyMjo1ODozMyAtMDgwMCBEbWl0cnkgVG9yb2tob3Ygd3JvdGU6
+Cj4gPiA+ID4gVGhlIG9yaWdpbmFsIGNvZGUgdXNlcyBmbHVzaF93b3JrcXVldWUoKSBpbiBwc21v
+dXNlX2Rpc2Nvbm5lY3QoKSB0bwo+ID4gPiA+IGVuc3VyZSB0aGUgY29tcGxldGlvbiBvZiBib3Ro
+IHJlc3luY193b3JrIGFuZCBkZXYzX3JlZ2lzdGVyX3dvcmsuCj4gPiA+ID4gR2l2ZW4gdGhhdCBh
+bHBzX2Rpc2Nvbm5lY3QoKSBhbHJlYWR5IHVzZXMgZGlzYWJsZV9kZWxheWVkX3dvcmtfc3luYygp
+Cj4gPiA+ID4gdG8gY2FuY2VsIGRldjNfcmVnaXN0ZXJfd29yaywgcmVwbGFjaW5nIGZsdXNoX3dv
+cmtxdWV1ZSgpIHdpdGgKPiA+ID4gPiBkaXNhYmxlX2RlbGF5ZWRfd29ya19zeW5jKCZwc21vdXNl
+LT5yZXN5bmNfd29yaykgaXMgbW9yZSByb2J1c3QKPiA+ID4gPiBhbmQgZWZmaWNpZW50Lgo+ID4g
+PiA+IAo+ID4gPiA+IFNpZ25lZC1vZmYtYnk6IER1b21pbmcgWmhvdSA8ZHVvbWluZ0B6anUuZWR1
+LmNuPgo+ID4gPiA+IC0tLQo+ID4gPiA+IENoYW5nZXMgaW4gdjI6Cj4gPiA+ID4gICAtIGZvY3Vz
+IG9uIHRoZSByb2J1c3RuZXNzIGFuZCBlZmZpY2llbmN5IGltcHJvdmVtZW50cyBvZiBkaXNhYmxl
+X2RlbGF5ZWRfd29ya19zeW5jKCksIG5vdCBvbiB0aGUgVUFGIGFzcGVjdC4KPiA+ID4gPiAKPiA+
+ID4gPiAgZHJpdmVycy9pbnB1dC9tb3VzZS9wc21vdXNlLWJhc2UuYyB8IDIgKy0KPiA+ID4gPiAg
+MSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCj4gPiA+ID4gCj4g
+PiA+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvaW5wdXQvbW91c2UvcHNtb3VzZS1iYXNlLmMgYi9k
+cml2ZXJzL2lucHV0L21vdXNlL3BzbW91c2UtYmFzZS5jCj4gPiA+ID4gaW5kZXggNzdlYTdkYTNi
+MWMuLmViNDFjNTUzZTgwIDEwMDY0NAo+ID4gPiA+IC0tLSBhL2RyaXZlcnMvaW5wdXQvbW91c2Uv
+cHNtb3VzZS1iYXNlLmMKPiA+ID4gPiArKysgYi9kcml2ZXJzL2lucHV0L21vdXNlL3BzbW91c2Ut
+YmFzZS5jCj4gPiA+ID4gQEAgLTE0ODQsNyArMTQ4NCw3IEBAIHN0YXRpYyB2b2lkIHBzbW91c2Vf
+ZGlzY29ubmVjdChzdHJ1Y3Qgc2VyaW8gKnNlcmlvKQo+ID4gPiA+ICAKPiA+ID4gPiAgCS8qIG1h
+a2Ugc3VyZSB3ZSBkb24ndCBoYXZlIGEgcmVzeW5jIGluIHByb2dyZXNzICovCj4gPiA+ID4gIAlt
+dXRleF91bmxvY2soJnBzbW91c2VfbXV0ZXgpOwo+ID4gPiA+IC0JZmx1c2hfd29ya3F1ZXVlKGtw
+c21vdXNlZF93cSk7Cj4gPiA+ID4gKwlkaXNhYmxlX2RlbGF5ZWRfd29ya19zeW5jKCZwc21vdXNl
+LT5yZXN5bmNfd29yayk7Cj4gPiA+IAo+ID4gPiBCZWZvcmUgd2UgcmVwbGFjZSBmbHVzaF93b3Jr
+cXVldWUoKSB3aXRoIGRpc2FibGVfZGVsYXllZF93b3JrX3N5bmMoKSB3ZQo+ID4gPiBuZWVkIHRv
+IGFsc28gYWRkIGRpc2FibGVfZGVsYXllZF93b3JrX3N5bmMoKSB0bwo+ID4gPiBkcml2ZXJzL2lu
+cHV0L21vdXNlL2hncGsuYyB0aGF0IGFsc28gcXVldWVzIHdvcmsgdG8gcHNtb3VzZSB3b3JrcXVl
+dWUKPiA+ID4gYW5kIHJlbGllcyBvbiBmbHVzaGluZyBpdCB3aGVuIGRpc2Nvbm5lY3RpbmcuCj4g
+PiAKPiA+IFRoZSBkZWxheWVkIHdvcmsgaXRlbSByZWNhbGliX3dxIGNvdWxkIG5ldmVyIGJlIHNj
+aGVkdWxlZCBkdWUgdG8gdGhlIAo+ID4gdG91Y2hwYWQgZHJpdmVyIG9ubHkgc3VwcG9ydHMgbW91
+c2UgbW9kZSBhbmQgdGhlIGhncGtfaW5pdCgpIGZ1bmN0aW9uCj4gPiByZW1haW5zIGRpc2FibGVk
+Lgo+IAo+IFdoYXQgZG8geW91IG1lYW4/IElmIHlvdSBlbmFibGUgT0xQQyBzdXBwb3J0IHRoZSBv
+cHRpb24gdG8gZW5hYmxlIGhncGsKPiBwcm90b2NvbCBkcml2ZXIgc2hvdWxkIGJlY29tZSBhdmFp
+bGFibGUsIHJpZ2h0PwoKVGhlwqBoZ3BrX2luaXQoKcKgZnVuY3Rpb24gaXMgbmV2ZXIgY2FsbGVk
+IGJ5IGFueSBvdGhlciBmdW5jdGlvbiBpbiB0aGUKa2VybmVsIGFuZCBpcyB0aGVyZWZvcmUgZGVh
+ZCBjb2RlLiBTaW5jZSB0aGUgZGVsYXllZCB3b3JrIGl0ZW3CoHJlY2FsaWJfd3EKaXMgaW5pdGlh
+bGl6ZWQgd2l0aGluIHRoaXMgZnVuY3Rpb24sIGl0IGlzIGNvbnNlcXVlbnRseSBuZXZlciBzY2hl
+ZHVsZWQKZHVyaW5nIHJ1bnRpbWUuCgpCZXN0IHJlZ2FyZHMsCkR1b21pbmcgWmhvdQo=
 
 
