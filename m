@@ -1,128 +1,142 @@
-Return-Path: <linux-input+bounces-16622-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16623-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 134BDCCADCD
-	for <lists+linux-input@lfdr.de>; Thu, 18 Dec 2025 09:26:28 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C57FCCB640
+	for <lists+linux-input@lfdr.de>; Thu, 18 Dec 2025 11:32:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id AC5F5306D8F1
-	for <lists+linux-input@lfdr.de>; Thu, 18 Dec 2025 08:21:55 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 9DCDA304B4DD
+	for <lists+linux-input@lfdr.de>; Thu, 18 Dec 2025 10:29:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B775F3009FA;
-	Thu, 18 Dec 2025 08:11:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BEC1A320CA8;
+	Thu, 18 Dec 2025 10:29:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nj+PhAqJ"
+	dkim=pass (1024-bit key) header.d=ysoft.com header.i=@ysoft.com header.b="VzG1LL9G"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from uho.ysoft.cz (uho.ysoft.cz [81.19.3.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 890EC2F1FDA;
-	Thu, 18 Dec 2025 08:11:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA26F33122B;
+	Thu, 18 Dec 2025 10:29:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=81.19.3.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766045500; cv=none; b=FxOkZoyZTWeWOBkdQ1EB5G68+2DIAdtmmDxeIHiF8wwkB+Ljs+qJan9gZjGVx6wE8EngOBx6EZM7JE4rD/RC/fBBEyJuU8B1Sb5/dzDqUHDQ4g//NU0QrRtzed/F/DBXkqwkmMFPJhqYiqQ4Fe3z6IbrQqAufE7/7NmOLnTDy2s=
+	t=1766053796; cv=none; b=GtPqvN8X+ydmeQU6FtrVtrnqi+oUelk9ne4vSJq9I7eCjdlh2mrjG3PpP+i3UkYGSKN0VOMWaV22rkKpI3KTP89L94BnFaWy6fHUg35OxGFtHPbfwMs0A5AmgpNA53c1Ax70Opq2d322psnQ3ICuzExR2QcVSpSAuhsRf6WtAr4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766045500; c=relaxed/simple;
-	bh=0nXB07FG1QyZZmr7nXNMOdOp6Qnxp853fB5haK5cnGI=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=kAKg0A6QNl9F/YH8QCKj2SPUYwCY4QHS/igsuPu0JvEcc291cgmNsPuYDrya/nXhguUP7wTh9AljoWmCMXmMcmscuTjdWJyAE6QFrvBPgWxcg1xObWp8ump7UVaJ6F27+SUuGIImb6j0In/q4qsGCHT6wqO2zjKoXzanSHs9N4U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nj+PhAqJ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 15582C113D0;
-	Thu, 18 Dec 2025 08:11:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1766045500;
-	bh=0nXB07FG1QyZZmr7nXNMOdOp6Qnxp853fB5haK5cnGI=;
-	h=From:Date:Subject:To:Cc:Reply-To:From;
-	b=nj+PhAqJ8yUxH4Mv6itEIrpnd952dQO/smPXexULoGuKPGa0cfM3WwJOTu3mrCzvv
-	 TU2SA8GYzEewuo8tG7O4iQiD5X6AiTSS+UGC9SsP/XjhGq1GUGkFY/ukT8x0FpRaSx
-	 EWu/KSV65vuE9owMT8pL4atMQ3Oly9SYW4jejos710L7mLWiLUSJwyT4V9h1Vm3c/+
-	 RRUInVrJ9CbP3/U9qG19zMXdYnBcqPKK9rXemwrO5l/GQtVeKBoboMSoVFTOyGIvdm
-	 e3E6oaedlId63Ka2QcEpl+pyW4XzEtbJo56z//RpQM6djXhZb/YvIc6xZ+ufg8FVwJ
-	 xNS01v3OoJSjg==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 00B56D68BD9;
-	Thu, 18 Dec 2025 08:11:40 +0000 (UTC)
-From: Sasha Finkelstein via B4 Relay <devnull+fnkl.kernel.gmail.com@kernel.org>
-Date: Thu, 18 Dec 2025 09:11:26 +0100
-Subject: [PATCH] Input: apple_z2: Fix reading incorrect reports after
- exiting sleep
+	s=arc-20240116; t=1766053796; c=relaxed/simple;
+	bh=T+YYo8Bp+ZsAnA2pMvBozKE3sdLJOX2L5DkfpdzK/f8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=lq1glPhnzri5HbpLQrsfoAlBtdszsSQaUANb3RRBmJ49KUIVpY0+ZIzW6Vn4ltserT6ilOIEoM3MArZvbYcEXtS4EJKsonujHYeJh6H+DgzkqeEeUCYKWtXMxVZmoBGPB5PY4LGaHfSsNy02kBxJcxzBhDZT0a7XxjBBK7DehKc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ysoft.com; spf=pass smtp.mailfrom=ysoft.com; dkim=pass (1024-bit key) header.d=ysoft.com header.i=@ysoft.com header.b=VzG1LL9G; arc=none smtp.client-ip=81.19.3.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ysoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ysoft.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ysoft.com;
+	s=20160406-ysoft-com; t=1766053330;
+	bh=J2Yg/CPOLhOqJhg08nbjz25q8iqcEUT7yPZpD9kmpXM=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=VzG1LL9GQtg7rAb5VAqToVlu5fWxRtjJXWtziZvQh9VBcR9BXKIeV+NRdu9n4L9Ip
+	 AyGIDd1C9wRazTNc4CQylljg3EAoZiqrzSB/wWlsvA1LAbcsrt0avT1Xxuh3MMIsgY
+	 w0PtdGd2lhV/vT6nmWTqpLzvCrP3Zw+fqNuOlcNA=
+Received: from [10.1.8.111] (unknown [10.1.8.111])
+	by uho.ysoft.cz (Postfix) with ESMTP id 75D90A0343;
+	Thu, 18 Dec 2025 11:22:10 +0100 (CET)
+Message-ID: <894b86b6-8b80-4ad1-942c-0e1120c0a4ae@ysoft.com>
+Date: Thu, 18 Dec 2025 11:22:10 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251218-z2-init-fix-v1-1-48e3aa239caf@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDI1NDI0Nz3Soj3cy8zBLdtMwKXeMkQ5PUNJNkMwtLAyWgjoKiVKAw2LTo2Np
- aAMagJqddAAAA
-X-Change-ID: 20251217-z2-init-fix-3b14ef4c6890
-To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
- Neal Gompa <neal@gompa.dev>, Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
- pitust <piotr@stelmaszek.com>, Sasha Finkelstein <fnkl.kernel@gmail.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1766045498; l=1783;
- i=fnkl.kernel@gmail.com; s=20241124; h=from:subject:message-id;
- bh=OF8WOCZRA9+JnU6tzC4FoVlFYz2Y9tJ9S+rCxmTtWYo=;
- b=9M/jobQWeFJaXDS54JFsLzWEHIDl+bbiBoVgcNi8y9zH0dzwiavKzcvWquVuCv2w6S35QyEFs
- /Tty1VBEmetC5P+Ey1YYZq8Io8EkRjNjS2pn7tc70FvVJ/n48GX7n+q
-X-Developer-Key: i=fnkl.kernel@gmail.com; a=ed25519;
- pk=aSkp1PdZ+eF4jpMO6oLvz/YfT5XkBUneWwyhQrOgmsU=
-X-Endpoint-Received: by B4 Relay for fnkl.kernel@gmail.com/20241124 with
- auth_id=283
-X-Original-From: Sasha Finkelstein <fnkl.kernel@gmail.com>
-Reply-To: fnkl.kernel@gmail.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] Input: pixcir_i2c_ts - add support for one-time total
+ calibration
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Fabio Estevam <festevam@gmail.com>
+References: <20251119175113.39216-1-michal.vokac@ysoft.com>
+Content-Language: en-US
+From: =?UTF-8?B?TWljaGFsIFZva8OhxI0=?= <michal.vokac@ysoft.com>
+In-Reply-To: <20251119175113.39216-1-michal.vokac@ysoft.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-From: Sasha Finkelstein <fnkl.kernel@gmail.com>
+Hi Dmitry,
 
-Under certain conditions (more prevalent after a suspend/resume cycle),
-the touchscreen controller can send the "boot complete" interrupt before
-it actually finished booting. In those cases, attempting to read touch
-data resuls in a stream of "not ready" messages being read and
-interpreted as a touch report. Check that the response is in fact a
-touch report and discard it otherwise.
+gentle ping on this.
 
-Reported-by: pitust <piotr@stelmaszek.com>
-Closes: https://oftc.catirclogs.org/asahi/2025-12-17#34878715;
-Fixes: 471a92f8a21a ("Input: apple_z2 - add a driver for Apple Z2 touchscreens")
-Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
----
- drivers/input/touchscreen/apple_z2.c | 4 ++++
- 1 file changed, 4 insertions(+)
+On 19. 11. 25 18:51, Michal Vokáč wrote:
+> The Pixcir Tango controller has support for a one-time total calibration
+> (manual calibration) procedure. Its purpose is to measure the capacitance
+> offsets of the electrode system and to store these values into EEPROM.
+> 
+> During normal operation this calibration data is subtracted from the values
+> measured. This calibration should be necessary only once in the product
+> lifetime. It should be performed as part of the final adjustment after
+> the panel is mounted in the product.
+> 
+> Add support for the calibration with sysfs interface.
+> 
+> Signed-off-by: Michal Vokáč <michal.vokac@ysoft.com>
+> ---
+> changes in v2:
+>   - Removed redundant lock from calibrate_store().
+> 
+>   drivers/input/touchscreen/pixcir_i2c_ts.c | 26 +++++++++++++++++++++++
+>   1 file changed, 26 insertions(+)
+> 
+> diff --git a/drivers/input/touchscreen/pixcir_i2c_ts.c b/drivers/input/touchscreen/pixcir_i2c_ts.c
+> index dad5786e82a4..e52ec8d8e392 100644
+> --- a/drivers/input/touchscreen/pixcir_i2c_ts.c
+> +++ b/drivers/input/touchscreen/pixcir_i2c_ts.c
+> @@ -24,6 +24,7 @@
+>    */
+>   #define PIXCIR_REG_POWER_MODE	51
+>   #define PIXCIR_REG_INT_MODE	52
+> +#define PIXCIR_REG_SPECOP	58
+>   
+>   /*
+>    * Power modes:
+> @@ -462,6 +463,30 @@ static int pixcir_i2c_ts_resume(struct device *dev)
+>   static DEFINE_SIMPLE_DEV_PM_OPS(pixcir_dev_pm_ops,
+>   				pixcir_i2c_ts_suspend, pixcir_i2c_ts_resume);
+>   
+> +static ssize_t calibrate_store(struct device *dev,
+> +			       struct device_attribute *attr,
+> +			       const char *buf, size_t count)
+> +{
+> +	struct i2c_client *client = to_i2c_client(dev);
+> +	struct pixcir_i2c_ts_data *ts = i2c_get_clientdata(client);
+> +	static const u8 cmd = 0x03;
+> +	int error;
+> +
+> +	error = i2c_smbus_write_byte_data(ts->client, PIXCIR_REG_SPECOP, cmd);
+> +	if (error)
+> +		dev_err(dev, "calibrate command failed: %d\n", error);
+> +
+> +	return error ?: count;
+> +}
+> +
+> +static DEVICE_ATTR_WO(calibrate);
+> +
+> +static struct attribute *pixcir_i2c_ts_attrs[] = {
+> +	&dev_attr_calibrate.attr,
+> +	NULL,
+> +};
+> +ATTRIBUTE_GROUPS(pixcir_i2c_ts);
+> +
+>   static int pixcir_i2c_ts_probe(struct i2c_client *client)
+>   {
+>   	const struct i2c_device_id *id = i2c_client_get_device_id(client);
+> @@ -600,6 +625,7 @@ MODULE_DEVICE_TABLE(of, pixcir_of_match);
+>   static struct i2c_driver pixcir_i2c_ts_driver = {
+>   	.driver = {
+>   		.name	= "pixcir_ts",
+> +		.dev_groups = pixcir_i2c_ts_groups,
+>   		.pm	= pm_sleep_ptr(&pixcir_dev_pm_ops),
+>   		.of_match_table = of_match_ptr(pixcir_of_match),
+>   	},
 
-diff --git a/drivers/input/touchscreen/apple_z2.c b/drivers/input/touchscreen/apple_z2.c
-index 0de161eae59a..271ababf0ad5 100644
---- a/drivers/input/touchscreen/apple_z2.c
-+++ b/drivers/input/touchscreen/apple_z2.c
-@@ -21,6 +21,7 @@
- #define APPLE_Z2_TOUCH_STARTED           3
- #define APPLE_Z2_TOUCH_MOVED             4
- #define APPLE_Z2_CMD_READ_INTERRUPT_DATA 0xEB
-+#define APPLE_Z2_REPLY_INTERRUPT_DATA    0xE1
- #define APPLE_Z2_HBPP_CMD_BLOB           0x3001
- #define APPLE_Z2_FW_MAGIC                0x5746325A
- #define LOAD_COMMAND_INIT_PAYLOAD        0
-@@ -142,6 +143,9 @@ static int apple_z2_read_packet(struct apple_z2 *z2)
- 	if (error)
- 		return error;
- 
-+	if (z2->rx_buf[0] != APPLE_Z2_REPLY_INTERRUPT_DATA)
-+		return 0;
-+
- 	pkt_len = (get_unaligned_le16(z2->rx_buf + 1) + 8) & 0xfffffffc;
- 
- 	error = spi_read(z2->spidev, z2->rx_buf, pkt_len);
-
----
-base-commit: ea1013c1539270e372fc99854bc6e4d94eaeff66
-change-id: 20251217-z2-init-fix-3b14ef4c6890
 
 Best regards,
--- 
-Sasha Finkelstein <fnkl.kernel@gmail.com>
-
-
+Michal
 
