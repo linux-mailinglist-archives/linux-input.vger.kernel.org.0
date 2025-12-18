@@ -1,233 +1,113 @@
-Return-Path: <linux-input+bounces-16626-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16627-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id D29D0CCCC33
-	for <lists+linux-input@lfdr.de>; Thu, 18 Dec 2025 17:29:47 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id AEE24CCDC6C
+	for <lists+linux-input@lfdr.de>; Thu, 18 Dec 2025 23:20:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 434E731005B0
-	for <lists+linux-input@lfdr.de>; Thu, 18 Dec 2025 16:23:35 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 6A1DD302104E
+	for <lists+linux-input@lfdr.de>; Thu, 18 Dec 2025 22:20:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 24522358D08;
-	Thu, 18 Dec 2025 15:57:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 942EC2C0F9A;
+	Thu, 18 Dec 2025 22:20:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="je2aV1an"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PPksnFyL"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08FBE2494F0;
-	Thu, 18 Dec 2025 15:57:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A6AB2BE630
+	for <linux-input@vger.kernel.org>; Thu, 18 Dec 2025 22:19:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766073450; cv=none; b=QcCVNEgLk0nh7gY6OW652x7EXrkoYW6Cx04qFrOIGqfClwiOV6PnHUSGWz35/dgEGRPT2L9ENhRwa6cbjTpcyamBqb1HKi3Q+Pms6jHrd5pBJtscA+lhlitU0/bE9sSFSGIRoE0MgrcvDS5LBp5xxDNcUYQJN7pjhcyPVBFGQ1c=
+	t=1766096401; cv=none; b=M9OAkf2rsvrMiQhgapPTKwBkruRsEn/2auQfcE0acgu7V289bKO7mvwnHZTgRLU0Zgyb6d6p8c7FdXbuz68YplLOfdjQJWxW6lFQvi6xqTp9bL+B1H8kiB7I96xYM6yt4meOMEWqKL5y4j/tF5nfXMdXzO0uv/9MEaHtAaDcA+8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766073450; c=relaxed/simple;
-	bh=NZuGz23tFK8P+bO7U1OtC58X87ywfSWmuMee/MV701c=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=KlEMnK601FxWHUiPKbhy9xKrIGLAoVCum4371jE+04XCtxmm8dvfXsLN/xS7JExpP+ZMMyIECnj5yDJmWEsbilCJfSbRSaHns7+j6LQURn1X3pUEiOPIPSJIrroAdcIE8u3YnZLKhAOu5+LAD00l3ybtdqcUoBPt0XAHz8K4EG0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=je2aV1an; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766073448; x=1797609448;
-  h=message-id:subject:from:to:cc:date:in-reply-to:
-   references:content-transfer-encoding:mime-version;
-  bh=NZuGz23tFK8P+bO7U1OtC58X87ywfSWmuMee/MV701c=;
-  b=je2aV1anvCHFfxH7PS60RLM4xPZJdCw0WZEnvk9+ehdg4YrzBvOTlYKD
-   /EyiJzQIPvHnGTGe2TOEljLDa3Hygb9iAN1fQWkP1aYgXmaYdE9U71uPn
-   UW0I/8f/UMU5PqijqQNGSIYnjTSvx1VpFPxnzpNixb4qsLpzgBQv4DBHo
-   yFkvUTfrpq4rqrNmjIMNnQr9CnMkMwbhNUHD9mNjhPgI0vOWuF/aKOtBf
-   XAHLkMYGDaQPkS/CVPoln5z3dFybaXbezIlvqDdA6l0TnOBsEiTS0JSSQ
-   eWc21Er/X2W1pN2mnwKst66p0hsgxm5bTW7Ns8IOvBng3DqyMGKgCGmMD
-   w==;
-X-CSE-ConnectionGUID: 5xeLW115QAaFDGtuEELpTg==
-X-CSE-MsgGUID: LQO9PGMHTouDjvLysNU42g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11646"; a="68072462"
-X-IronPort-AV: E=Sophos;i="6.21,158,1763452800"; 
-   d="scan'208";a="68072462"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2025 07:54:47 -0800
-X-CSE-ConnectionGUID: GpcG3q4ORSSZNx2pg3+uqw==
-X-CSE-MsgGUID: HcQPjryVTEOOQneGBdr0DA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,158,1763452800"; 
-   d="scan'208";a="203517309"
-Received: from spandruv-mobl5.amr.corp.intel.com (HELO [10.124.223.203]) ([10.124.223.203])
-  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2025 07:54:46 -0800
-Message-ID: <950d627dc280af94a1073da7938a6f2a09e31e34.camel@linux.intel.com>
-Subject: Re: [PATCH] HID: intel-ish-hid: loader: Add PRODUCT_FAMILY-based
- firmware matching
-From: srinivas pandruvada <srinivas.pandruvada@linux.intel.com>
-To: Vishnu Sankar <vishnuocv@gmail.com>, jikos@kernel.org,
- bentiss@kernel.org, 	vsankar@lenovo.com, "Zhang, Lixu"
- <lixu.zhang@intel.com>, Even Xu	 <even.xu@intel.com>
-Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, Mark Pearson
-	 <mpearson-lenovo@squebb.ca>, Richie Roy Jayme <rjayme.jp@gmail.com>
-Date: Thu, 18 Dec 2025 07:54:44 -0800
-In-Reply-To: <20251218140003.636901-1-vishnuocv@gmail.com>
-References: <20251218140003.636901-1-vishnuocv@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.2 (3.58.2-1.fc43) 
+	s=arc-20240116; t=1766096401; c=relaxed/simple;
+	bh=9i7cze2zXw3sphfypXDmh432a+tbDocZK89YgxAxEHA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PnPNWOdCPns3SIkMQxLo8rQ73CnfK2Sz936ygO9nYT6cHIsscvj2ZJ3kPwpBy5LQ6S+7/8yLZp0GPW64+GYHUUFhe/JUsd9nRG1sFkzjj894VxowZuwQQxT5zxHjTtjWc29MFvumMX788xYxysqbqYvjJliVpC/Sz8xKqC530MU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PPksnFyL; arc=none smtp.client-ip=209.85.210.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-7b9c17dd591so1041734b3a.3
+        for <linux-input@vger.kernel.org>; Thu, 18 Dec 2025 14:19:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1766096399; x=1766701199; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=DHi2VHdVHFCMJr3d7N3lZkt4cAkpVU0QksLG1hGqfO8=;
+        b=PPksnFyLJiG/T73wpwlgeVFlgpQGAUvujlkJFg5T+ubAsNAb1cQ7v5s5pX+ennPr9y
+         F9a1CbdCeOkWBUpLXG727eqr1pYpkyVPk6wErsLf99ErDlLp86oV5ZTwYHgvRvCohPBn
+         AyHRFTs7P9mR40+rVB0ECMCxfbtIKULDjTYAmvxuSxDCeFwUD7K5w+To3GkpWoDDZw60
+         SyZp9+VDLuRPyTwmP4rbWt8NLuprky34UUhzcYeeTdVP85/rFYJBI9QATfA/VJWhK6ei
+         7WOTtSVAvHyn1c+KnJ35eJsH0aykLSfHOR86Wndm2GXttsX6la6v8qgWdihecOaC0eMQ
+         fZ4Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1766096399; x=1766701199;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=DHi2VHdVHFCMJr3d7N3lZkt4cAkpVU0QksLG1hGqfO8=;
+        b=p1I6w4tKNtvQrjna5/v7hQtztd2r0hyWcoEb3/JXJXankQb9v8sJw2usbK/r3Go2QA
+         2AzWyB+Yi4+O93Rn7sj6tyAcq0LynPjj0XvOjoVUwhvNly2wMd0A4lzwG99zvpvxMPjG
+         lVEZb4Q5lY1t6djx1IaObgtF78DdyOYhGl40GuYQwmv+MfTj4aVMny+K0OjBEz2w1ZQu
+         Trbmo8qFac3HXJBHCGnL7b0rAZMoEswpfyBgRrJa5pqr7X5wsC0XzRE9uHV007lwvL9y
+         1xOBFYS5lGAbNEoUtWlTZB/PNPlSx8XGfpUlAjVowtjieXtZAFmOUnNnzb0MlX4UV3HQ
+         yGjQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUvO/qhsOuWZiVgvJ7U+5ikBurJDHSkOMCwJh2m4AbWI3WWOntArHASnWUQ7OpFWMajw90Zt+uTrT2pow==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxK38mepYnBT22VQoxv5FyPbLwm9RyAjIfAJNdR/oMv3csEdqKO
+	PpQXow7HaEJHsIgT9N6x23UZ0mA4Ozs84OZXdYmggF5i/apAjALb6XjG
+X-Gm-Gg: AY/fxX6ctVAQB0kIEcrHX0+7dbz/nPRkSga1w2hna6ELvF5DTrjO/+UfU4pIaDpg2fO
+	oV/dZpR8TQFtPApiFTTe01sfYaFLkq5wb67/TzOZwmqc3cVPIdLOh6ksKKBM4frEbr7XWSYCklt
+	JktQ9vIu8wjLMxfnCa3YVyY1/S6KKObcUn0EzNUySzkyhF6hTE3UAuqwriqqHE5wHcNAGnQqJkI
+	Fn7n8q/xLUwO+pEEGVbDXOIbU3j22TKsb++9OzKjajnK6fBgLEgC9gVR2oqiyLr/eE/KeWO0D5G
+	tSR1lzz2KrW+pn+aH/pH8j10zDpyoubhjTDjOrsO7Tn+gZabGWp6P/9nx/kvwSiwfri+u+iFWqH
+	Bo0mNBAts0C2qkXeY5cdrtkLv4g6uioKsVy0+gZczGmChuB7K1qARLr0bPRKlo+6/Uh4dBwkWmT
+	psmEfNXszVbtibWKiFDvU2PsbD58OnjIll4YqxilFzMLqtFGVBFAo=
+X-Google-Smtp-Source: AGHT+IEJ6Dza5e+TAlnoSNxkhL516y4Cp3K+eoLm8K4vH3URG1EJpjMsZlCqp1ChQbxfdNHgZFOu0g==
+X-Received: by 2002:a05:7022:4190:b0:119:e56b:98b8 with SMTP id a92af1059eb24-121722ebb6cmr841995c88.31.1766096399117;
+        Thu, 18 Dec 2025 14:19:59 -0800 (PST)
+Received: from google.com ([2a00:79e0:2ebe:8:c00:cda0:e722:e1ee])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1217254c734sm1678256c88.13.2025.12.18.14.19.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 18 Dec 2025 14:19:58 -0800 (PST)
+Date: Thu, 18 Dec 2025 14:19:55 -0800
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: fnkl.kernel@gmail.com
+Cc: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
+	Neal Gompa <neal@gompa.dev>, asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, pitust <piotr@stelmaszek.com>
+Subject: Re: [PATCH] Input: apple_z2: Fix reading incorrect reports after
+ exiting sleep
+Message-ID: <snwkpf4esyxxhyo2yzq5xepgoh6nkvvqldbiqpj6zm3bbc43zn@gdsxdsza564a>
+References: <20251218-z2-init-fix-v1-1-48e3aa239caf@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251218-z2-init-fix-v1-1-48e3aa239caf@gmail.com>
 
-+ Lixu
-+ Even
+On Thu, Dec 18, 2025 at 09:11:26AM +0100, Sasha Finkelstein via B4 Relay wrote:
+> From: Sasha Finkelstein <fnkl.kernel@gmail.com>
+> 
+> Under certain conditions (more prevalent after a suspend/resume cycle),
+> the touchscreen controller can send the "boot complete" interrupt before
+> it actually finished booting. In those cases, attempting to read touch
+> data resuls in a stream of "not ready" messages being read and
+> interpreted as a touch report. Check that the response is in fact a
+> touch report and discard it otherwise.
+> 
+> Reported-by: pitust <piotr@stelmaszek.com>
+> Closes: https://oftc.catirclogs.org/asahi/2025-12-17#34878715;
+> Fixes: 471a92f8a21a ("Input: apple_z2 - add a driver for Apple Z2 touchscreens")
+> Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
 
+Applied, thank you.
 
-On Thu, 2025-12-18 at 23:00 +0900, Vishnu Sankar wrote:
-> Add support for firmware filenames that include the CRC32 checksum of
-> the
-> DMI product_family field. Several OEMs ship ISH firmware variants
-> shared
-> across a product family while product_name or product_sku may differ.
-> This
-> intermediate matching granularity reduces duplication and improves
-> firmware
-> selection for vendor-customized platforms.
->=20
-> The newly supported filename forms are checked before existing
-> patterns:
->=20
-> =C2=A0 ish_${gen}_${vendor}_${family}_${name}_${sku}.bin
-> =C2=A0 ish_${gen}_${vendor}_${family}_${sku}.bin
-> =C2=A0 ish_${gen}_${vendor}_${family}_${name}.bin
-> =C2=A0 ish_${gen}_${vendor}_${family}.bin
->=20
-> The legacy product_name/product_sku rules remain unchanged and
-> continue
-> to provide fallback matching.
->=20
-> ISH_FW_FILENAME_LEN_MAX is changed to 72 to accommodate the
-> product_family.
->=20
-> Tested with X9 series and X1 series.
->=20
-> Reviewed-by: Mark Pearson <mpearson-lenovo@squebb.ca>
-> Tested-by: Richie Roy Jayme <rjayme.jp@gmail.com>
-> Signed-off-by: Vishnu Sankar <vishnuocv@gmail.com>
-> ---
-> =C2=A0drivers/hid/intel-ish-hid/ishtp/loader.c | 50
-> +++++++++++++++++++++++-
-> =C2=A01 file changed, 48 insertions(+), 2 deletions(-)
->=20
-> diff --git a/drivers/hid/intel-ish-hid/ishtp/loader.c
-> b/drivers/hid/intel-ish-hid/ishtp/loader.c
-> index f34086b29cf0..4559d460fd83 100644
-> --- a/drivers/hid/intel-ish-hid/ishtp/loader.c
-> +++ b/drivers/hid/intel-ish-hid/ishtp/loader.c
-> @@ -194,6 +194,11 @@ static int prepare_dma_bufs(struct ishtp_device
-> *dev,
-> =C2=A0
-> =C2=A0	return 0;
-> =C2=A0}
-> +/* Patterns with PRODUCT_FAMILY */
-> +#define ISH_FW_FILE_VENDOR_FAMILY_NAME_SKU_FMT
-> "intel/ish/ish_%s_%08x_%08x_%08x_%08x.bin"
-> +#define ISH_FW_FILE_VENDOR_FAMILY_SKU_FMT
-> "intel/ish/ish_%s_%08x_%08x_%08x.bin"
-> +#define ISH_FW_FILE_VENDOR_FAMILY_NAME_FMT
-> "intel/ish/ish_%s_%08x_%08x_%08x.bin"
-> +#define ISH_FW_FILE_VENDOR_FAMILY_FMT
-> "intel/ish/ish_%s_%08x_%08x.bin"
-> =C2=A0
-> =C2=A0#define ISH_FW_FILE_VENDOR_NAME_SKU_FMT
-> "intel/ish/ish_%s_%08x_%08x_%08x.bin"
-> =C2=A0#define ISH_FW_FILE_VENDOR_SKU_FMT "intel/ish/ish_%s_%08x_%08x.bin"
-> @@ -201,7 +206,7 @@ static int prepare_dma_bufs(struct ishtp_device
-> *dev,
-> =C2=A0#define ISH_FW_FILE_VENDOR_FMT "intel/ish/ish_%s_%08x.bin"
-> =C2=A0#define ISH_FW_FILE_DEFAULT_FMT "intel/ish/ish_%s.bin"
-> =C2=A0
-> -#define ISH_FW_FILENAME_LEN_MAX 56
-> +#define ISH_FW_FILENAME_LEN_MAX 72
-> =C2=A0
-> =C2=A0#define ISH_CRC_INIT (~0u)
-> =C2=A0#define ISH_CRC_XOROUT (~0u)
-> @@ -256,8 +261,9 @@ static int request_ish_firmware(const struct
-> firmware **firmware_p,
-> =C2=A0				struct device *dev)
-> =C2=A0{
-> =C2=A0	const char *gen, *sys_vendor, *product_name, *product_sku;
-> +	const char *product_family;
-> =C2=A0	struct ishtp_device *ishtp =3D dev_get_drvdata(dev);
-> -	u32 vendor_crc, name_crc, sku_crc;
-> +	u32 vendor_crc, name_crc, sku_crc, family_crc;
-> =C2=A0	char filename[ISH_FW_FILENAME_LEN_MAX];
-> =C2=A0	int ret;
-> =C2=A0
-> @@ -265,6 +271,7 @@ static int request_ish_firmware(const struct
-> firmware **firmware_p,
-> =C2=A0	sys_vendor =3D dmi_get_system_info(DMI_SYS_VENDOR);
-> =C2=A0	product_name =3D dmi_get_system_info(DMI_PRODUCT_NAME);
-> =C2=A0	product_sku =3D dmi_get_system_info(DMI_PRODUCT_SKU);
-> +	product_family =3D dmi_get_system_info(DMI_PRODUCT_FAMILY);
-> =C2=A0
-> =C2=A0	if (sys_vendor)
-> =C2=A0		vendor_crc =3D crc32(ISH_CRC_INIT, sys_vendor,
-> strlen(sys_vendor)) ^ ISH_CRC_XOROUT;
-> @@ -272,6 +279,45 @@ static int request_ish_firmware(const struct
-> firmware **firmware_p,
-> =C2=A0		name_crc =3D crc32(ISH_CRC_INIT, product_name,
-> strlen(product_name)) ^ ISH_CRC_XOROUT;
-> =C2=A0	if (product_sku)
-> =C2=A0		sku_crc =3D crc32(ISH_CRC_INIT, product_sku,
-> strlen(product_sku)) ^ ISH_CRC_XOROUT;
-> +	if (product_family)
-> +		family_crc =3D crc32(ISH_CRC_INIT, product_family,
-> strlen(product_family)) ^ ISH_CRC_XOROUT;
-> +
-> +	/* PRODUCT_FAMILY-extended matching */
-> +	if (sys_vendor && product_family && product_name &&
-> product_sku) {
-> +		snprintf(filename, sizeof(filename),
-> +			 ISH_FW_FILE_VENDOR_FAMILY_NAME_SKU_FMT,
-> +			 gen, vendor_crc, family_crc, name_crc,
-> sku_crc);
-> +		ret =3D _request_ish_firmware(firmware_p, filename,
-> dev);
-> +		if (!ret)
-> +			return 0;
-> +	}
-> +
-> +	if (sys_vendor && product_family && product_sku) {
-> +		snprintf(filename, sizeof(filename),
-> +			 ISH_FW_FILE_VENDOR_FAMILY_SKU_FMT,
-> +			 gen, vendor_crc, family_crc, sku_crc);
-> +		ret =3D _request_ish_firmware(firmware_p, filename,
-> dev);
-> +		if (!ret)
-> +			return 0;
-> +	}
-> +
-> +	if (sys_vendor && product_family && product_name) {
-> +		snprintf(filename, sizeof(filename),
-> +			 ISH_FW_FILE_VENDOR_FAMILY_NAME_FMT,
-> +			 gen, vendor_crc, family_crc, name_crc);
-> +		ret =3D _request_ish_firmware(firmware_p, filename,
-> dev);
-> +		if (!ret)
-> +			return 0;
-> +	}
-> +
-> +	if (sys_vendor && product_family) {
-> +		snprintf(filename, sizeof(filename),
-> +			 ISH_FW_FILE_VENDOR_FAMILY_FMT,
-> +			 gen, vendor_crc, family_crc);
-> +		ret =3D _request_ish_firmware(firmware_p, filename,
-> dev);
-> +		if (!ret)
-> +			return 0;
-> +}
-> =C2=A0
-> =C2=A0	if (sys_vendor && product_name && product_sku) {
-> =C2=A0		snprintf(filename, sizeof(filename),
-> ISH_FW_FILE_VENDOR_NAME_SKU_FMT, gen,
+-- 
+Dmitry
 
