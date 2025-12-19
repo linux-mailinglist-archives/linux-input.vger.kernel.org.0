@@ -1,83 +1,87 @@
-Return-Path: <linux-input+bounces-16630-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16631-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65F52CCE7D8
-	for <lists+linux-input@lfdr.de>; Fri, 19 Dec 2025 06:08:20 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 099D1CCE86A
+	for <lists+linux-input@lfdr.de>; Fri, 19 Dec 2025 06:25:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 9C4A9302AE3B
-	for <lists+linux-input@lfdr.de>; Fri, 19 Dec 2025 05:08:12 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 0F36A30413E7
+	for <lists+linux-input@lfdr.de>; Fri, 19 Dec 2025 05:24:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B91622C0263;
-	Fri, 19 Dec 2025 05:08:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 976802C17A0;
+	Fri, 19 Dec 2025 05:24:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="S91halNJ"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bQ9TNMYZ"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
+Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com [209.85.214.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20CCB23AB9D
-	for <linux-input@vger.kernel.org>; Fri, 19 Dec 2025 05:08:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E993B2C0F9E
+	for <linux-input@vger.kernel.org>; Fri, 19 Dec 2025 05:24:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766120890; cv=none; b=f3dIZrRd36UZesgQ8A0uvM8h/Zhqkr0cJoL5ZawGQ6iRPVjLoLdVUleYhiGgG9OngmmUGLUScD74bjEhmnSpihUrDTUOvAWmH1IUXBd0ITP7FXQ9ymwMnD9rkTrUL5LH3XmMlZKXe3gPVxSPvVrGrvesFNth2j9texWgR2O+ML4=
+	t=1766121844; cv=none; b=kFx3z1E8kJ2WiKtRHGoxD79kHiT2D8yHWvSsnrqQwH7NqmMQ2g1o++1HXNgbRHNVwmZPMz6SbEJDfNwBoRM1nGd0pkbO5cyOplQ7X/wIPsEXb/5DuPJsnqzjGe5sI6AorTVFduR9iI04Vzl7XGoYe4+uPG3CueTwm3QyAI06c5k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766120890; c=relaxed/simple;
-	bh=lfIsODuXNScsLi1F0tAT+F0fuOdfI3V10d/wPgyOIoM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=i6JXC7q3+3JYNB6/KnrriWJ7SvUz3Ys/Dq3xYcWSiP5+ylG6IatDw2/aqpkLhhz1VDbvgIN1YdQwIT//+6zjBRSjZncEAwPpaknZUYC+MFEil1kAMkeDl3D4caNsa2DwXm5VmnmOYAmi1d/plBE/XzBXy7XjIsljcbJxzotU1rQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=S91halNJ; arc=none smtp.client-ip=209.85.215.179
+	s=arc-20240116; t=1766121844; c=relaxed/simple;
+	bh=hpVgyNRNTF/7kcsg9lnbnogjpGsM8Obr3fagkkDIX8g=;
+	h=Date:From:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PilkeKQ3tD4nbbOseZ7kqjT0Mo9dLvv8Ja4+FtijzM8ZHFuLcEic/sCu1EpSHf2OGW0to/6vQQLrta/UO5KZODagFE3gKHjnTG/OBgeXYaSHYBo1WdRHPr81C7a9DjoP/i7qgwJIhEDFkMakmlfOr65khNlmG8yVFDn3Y3i6eS4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bQ9TNMYZ; arc=none smtp.client-ip=209.85.214.194
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-c03ec27c42eso771237a12.1
-        for <linux-input@vger.kernel.org>; Thu, 18 Dec 2025 21:08:06 -0800 (PST)
+Received: by mail-pl1-f194.google.com with SMTP id d9443c01a7336-29f2676bb21so17130535ad.0
+        for <linux-input@vger.kernel.org>; Thu, 18 Dec 2025 21:24:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766120886; x=1766725686; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1766121842; x=1766726642; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=87Vh+MXKDGCm5ZeAor6PNr85iM/G4XTScUX4GRiPl3g=;
-        b=S91halNJAbb+LR7YQFCV6gdayV0nO3Kg4vaOmart69oOJLW6d9qaoc3WKSybNXUeR2
-         OLogNbxi8g6CBHtVkHe4FbBaGJkAWDm13zoA8Fmq9WG9TfhieN5K8S8V6dfQbSOw9Dvs
-         tcww/c1Jv8lXLfcdIPH9XNLNvXcp8rbcp6WRVJs6VwIJ9micvjUntjteXjHabYv1XdOJ
-         IJ62ItNKoKgx59v4MpDhdivuuG0cVe/1RY1WxQU1IcMp9gHDrRTui7ctoh0p5UHQO2BO
-         8m+nWXGe+CLuhkA6VXb/pUwZqEorj0MPzvvvlked7GRgIoU+DLerp0wWNqlOP8PmsMeY
-         kyjg==
+         :subject:cc:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=RodLP0AzMxrSO+sVsgHgtZsW0nvryzTBS7wWjzUGiPk=;
+        b=bQ9TNMYZ+ZZxkYX7PMW3D6IMIfi40uX6/FxmZm9BNKybNi8jOsbc0NL4BfLk5vhaku
+         WuGVzGRHOx+B5wRq0NUh01svkYCAn8S+3xV+51LXq83w8wrURm0H3k2c0k4tXuXV1D6p
+         0Dodv/9QdrfyH0kGnNtI7Wb6GrYq4qqSUYWOmia1hvLVal7HvgfdHZv7bBoLulBhCgg6
+         +G7P1hRzNiuTuvNg/x+MYeG4f+sOM9ZAcJe8Xpc05sde3BS9USMNYVP1K3Rb19yLDgM1
+         7Y1I+jz81kG/0cIAmZYEUI4tLxLxj4jg1cUf2LEeilJuqPpd3D4e9rTA2jLbC6QatPhk
+         wg5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766120886; x=1766725686;
+        d=1e100.net; s=20230601; t=1766121842; x=1766726642;
         h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=87Vh+MXKDGCm5ZeAor6PNr85iM/G4XTScUX4GRiPl3g=;
-        b=LX9uCN4ynCtDdFRmfMhJy6x48BKIN10pzTGC0MsriABBdu9as8pKQuw6PX1KPbmXQY
-         jUEe1W4w909nU0LbxU+26Ji4+L2Ajm4GcIs3PdS3I9/UlI5922fmpE/rvfX8pq0D3OSX
-         axir6+koAwh4wECY0f9phgp1YGJvM9tr3NblkqgxUSy6Yn5k2rY8Px+1O7Bm/WX4V7/5
-         mMgtNnxwRkuF3U9kKhIEmnUy9GWFIS8/e4io5RRpPYGtGZ7jZRO91FOClFDG4CP/Abnn
-         v5LAEMOSz9Wyw+S3+fsLI1lvjU0gPiD+tekAaj1e3b5Z1YdgDgEfmPCUn12F2zz49VEn
-         L3AA==
-X-Gm-Message-State: AOJu0Yz88NjW3cP9ZKcu7Mmr+lIPNAeQ7h5xoaagvWEmdtbko61Qkx8h
-	fO/+ymt3l7x+bwA91RJNF1PpFQET0w3ys6iVkN3EBQ1gpd+i6noRln5M
-X-Gm-Gg: AY/fxX5RaXMxBota3VLf/AHoSOp6vUdTz0egtVeSpNfOObHtcEhj/7vgs8ilEq85fVn
-	DMerswBw9EsxuUjn6xm5LBSRsIhVsjkNePARXUsgoYdwEEICPs5BGlLXLupQGbEp7l7JEU3QyP1
-	BLpG5FaV9aZB3QcuMqm/jELufM6uJxLXkFxj/ESus5JyN9QyYovqiiNXLLUmahhPOZ0rDPbVBqj
-	mxBOSzlAInal7Pw1G5VRnqb4IZZcMiklDUtce269Sji6N7tGfd29HUA8tOWCRwXuDdujXZf0crA
-	/5/dWp7o6Yk60hQPCzSq39FqgYRl/ydXi1AXB2AGcz/5e+7Nvmhsqf2lTKjJJEc1zBjm7+Xqh+O
-	8zLF/EE8Eempa3BBCkdfWZ0A+72vc8djMcUb2f1xXUxgsXYgFGe2ZDBfiEiR1aLuSLwx7jkFHxh
-	r0H2YN1qDCUcL8yqTF1Gt1g1gTYBTgxac/+eTzsIS1pVhS3Ml5fBHS
-X-Google-Smtp-Source: AGHT+IFpCUbYtt9YcCTHssXbTdmtZ8lobf+scbpHbsF35DC67ZbmCBf8SX+qBXqq57FLQTqHJgWrVQ==
-X-Received: by 2002:a05:7300:4717:b0:2ae:5ad4:718d with SMTP id 5a478bee46e88-2b05ecbeecemr1527101eec.43.1766120886124;
-        Thu, 18 Dec 2025 21:08:06 -0800 (PST)
+         :subject:cc:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=RodLP0AzMxrSO+sVsgHgtZsW0nvryzTBS7wWjzUGiPk=;
+        b=V1mHbi7ZBiq8oPyrlDpBOjrFjUrz1XaAfDdpoTDfMl5CEKdwykaqUXoo3l3Vollz1O
+         zS4Zo2/hwi8gisy9+jL6Rzkm16SDyXalPTvrbxs9CPomzPR1j5T39usZhzW+hNzMsEry
+         TK6mlXIcZxkzPbBvvHwTr70aPKYuPsPrLdVpZFikeyi6JIKTA/ilf7DoqYpqIZxTUvhY
+         mRTAZ1w0BknQFykgU0snKLD38GhCrF5hBHYPgtxKEER3Adp5Xm7K67dTy9DaIGGQAGjV
+         sNus/0RuZrJ2+4f+IZvKaAeV5icTB7SSubnavUNvlnpjPVXLruGfNo99svGGjTIY/tK5
+         k3Jw==
+X-Forwarded-Encrypted: i=1; AJvYcCVkUOMzHoCyszToQVlTs3jzpmWfUGW5UpL9wj+B213Locieb5u3cGJjUzB39eB8GNvRhplvDeOuLbL51Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwSfNkaNkkg4LSyRNsVKeB9rgQ8YS3wRyNNT/6kQTy6EFHglZpF
+	8b+LwITLcxNwXGtyIbq9che4SXiWUsZgsmH30ykc93RBZx5MunWrXf/9
+X-Gm-Gg: AY/fxX67FDUJkcGNan0G0nujGCYLZPbzOCgCQcqRZWi+FEbufqOw1IO7CrcFlWq7gKW
+	yP2BpvWYq/4OejWoyvRdNxM6holNGBDXGrbIKTlWMXz9oTnlY7+isU+K0dH6CYv9acvwlkauOUz
+	d7DKz5BIjiJ1DVLyO7aJ5FCeRILuvLYtbYj6QQVeXUX0f/q26V9vWa5iFf0JYxtOzl2AI/u8xKd
+	nsdtTQRe+JaeOf0kFChdeviAtq683XsyFImxQgBNfaIFTwrTx+xlJvX4krdKmErdYa/bjNz9kAG
+	w/1Ho5ICtfZW5qwx3Mv8c7dTk6dw8yEYiKiU7IlqD4ILPHGBp6uBXa3xlOco5X1wF82GcSL/bON
+	iRBfnxozFeAetqThYFMbYc94o/9Rl6OYlCKoFLck/14Dy8+cvaJgrpVoGm3oHECE/sGoPr3L5n4
+	N8FbqF3z5Y7SFwuZOBACfgb3b/Adn4pDICcr35F4WHVc4Yg5hpkf2A
+X-Google-Smtp-Source: AGHT+IFDgJZwNEBeeKwBL3wo6S2qUd5lDxhYjadobhv5i0Xz6F5uVOsZEz3MvEz02kCvTGgmYV553w==
+X-Received: by 2002:a05:7022:e80c:b0:11d:f44d:34db with SMTP id a92af1059eb24-121722ec1a5mr1842609c88.35.1766121841950;
+        Thu, 18 Dec 2025 21:24:01 -0800 (PST)
 Received: from google.com ([2a00:79e0:2ebe:8:c932:b7cf:9dde:f662])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2b05ffd5f86sm2808444eec.5.2025.12.18.21.08.05
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-121724cfdd0sm5033647c88.4.2025.12.18.21.24.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Dec 2025 21:08:05 -0800 (PST)
-Date: Thu, 18 Dec 2025 21:08:03 -0800
+        Thu, 18 Dec 2025 21:24:00 -0800 (PST)
+Date: Thu, 18 Dec 2025 21:23:57 -0800
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Philippos Boon Alexaki <palexaki@xs4all.nl>
-Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Input: xpad - add support for the ZD O+ Excellence
- controller
-Message-ID: <copxfwjjvudsgq3s72wqimsdcqmrwxzjry3wweg7yrifr6s3cd@gv6w23g4open>
-References: <aQPtBpx6bQMCw1tF@htpc>
+Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Andreas Kemnade <andreas@kemnade.info>, Tony Lindgren <tony@atomide.com>, 
+	Kevin Hilman <khilman@kernel.org>, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-input@vger.kernel.org, linux-omap@vger.kernel.org
+Subject: Re: [PATCH v4 2/3] Input: twl4030 - add TWL603x power button
+Message-ID: <waxqf7fshz6nyupfky3dgap4x7m6b2mwatouxvwvguwqdvdvop@ubehn3xzl5iy>
+References: <20251106-twl6030-button-v4-0-fdf1aa6e1e9a@kernel.org>
+ <20251106-twl6030-button-v4-2-fdf1aa6e1e9a@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -86,45 +90,18 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aQPtBpx6bQMCw1tF@htpc>
+In-Reply-To: <20251106-twl6030-button-v4-2-fdf1aa6e1e9a@kernel.org>
 
-Hi Philippos,
-
-On Thu, Oct 30, 2025 at 11:56:06PM +0100, Philippos Boon Alexaki wrote:
-> Adds support for the ZD O+ Excellence controller.
-> Tested with a wired connection.
+On Thu, Nov 06, 2025 at 10:00:26AM +0100, akemnade@kernel.org wrote:
+> From: Andreas Kemnade <andreas@kemnade.info>
 > 
-> Signed-off-by: Philippos Boon Alexaki <palexaki@xs4all.nl>
-> ---
->  drivers/input/joystick/xpad.c | 2 ++
->  1 file changed, 2 insertions(+)
+> Like the TWL4030, these PMICs also have a power button feature, so extend
+> the TWL4030 power button driver. As the irqchip of the TWL6030 mfd driver
+> does not provide mask, unmask finctions, do it manually.
 > 
-> diff --git a/drivers/input/joystick/xpad.c b/drivers/input/joystick/xpad.c
-> index 4c94297e17e6..3805780d5be3 100644
-> --- a/drivers/input/joystick/xpad.c
-> +++ b/drivers/input/joystick/xpad.c
-> @@ -296,6 +296,7 @@ static const struct xpad_device {
->  	{ 0x10f5, 0x7005, "Turtle Beach Recon Controller", 0, XTYPE_XBOXONE },
->  	{ 0x10f5, 0x7008, "Turtle Beach Recon Controller", MAP_SHARE_BUTTON, XTYPE_XBOXONE },
->  	{ 0x10f5, 0x7073, "Turtle Beach Stealth Ultra Controller", MAP_SHARE_BUTTON, XTYPE_XBOXONE },
-> +	{ 0x11c0, 0x5505, "ZD O+ Excellence", 0, XTYPE_XBOX360 },
->  	{ 0x11c9, 0x55f0, "Nacon GC-100XF", 0, XTYPE_XBOX360 },
->  	{ 0x11ff, 0x0511, "PXN V900", 0, XTYPE_XBOX360 },
->  	{ 0x1209, 0x2882, "Ardwiino Controller", 0, XTYPE_XBOX360 },
-> @@ -541,6 +542,7 @@ static const struct usb_device_id xpad_table[] = {
->  	XPAD_XBOXONE_VENDOR(0x0f0d),		/* Hori controllers */
->  	XPAD_XBOX360_VENDOR(0x1038),		/* SteelSeries controllers */
->  	XPAD_XBOXONE_VENDOR(0x10f5),		/* Turtle Beach Controllers */
-> +	XPAD_XBOXONE_VENDOR(0x11c0),		/* ZD O+ Excellence */
+> Signed-off-by: Andreas Kemnade <andreas@kemnade.info>
 
-It is really weird that the matching is added for XboxOne but the type
-is set for Xbox360...
-
->  	XPAD_XBOX360_VENDOR(0x11c9),		/* Nacon GC100XF */
->  	XPAD_XBOX360_VENDOR(0x11ff),		/* PXN V900 */
->  	XPAD_XBOX360_VENDOR(0x1209),		/* Ardwiino Controllers */
-
-Thanks.
+Applied, thank you.
 
 -- 
 Dmitry
