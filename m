@@ -1,129 +1,150 @@
-Return-Path: <linux-input+bounces-16645-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16646-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9174CD12A7
-	for <lists+linux-input@lfdr.de>; Fri, 19 Dec 2025 18:34:55 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 75D45CD21C3
+	for <lists+linux-input@lfdr.de>; Fri, 19 Dec 2025 23:35:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 81FCA30E3600
-	for <lists+linux-input@lfdr.de>; Fri, 19 Dec 2025 17:31:44 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id ECFE03012BF1
+	for <lists+linux-input@lfdr.de>; Fri, 19 Dec 2025 22:35:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8214D369201;
-	Fri, 19 Dec 2025 15:56:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 16CBD2957C2;
+	Fri, 19 Dec 2025 22:35:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="ouhryBZm"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D8LamLWP"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
+Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 307DC36828A;
-	Fri, 19 Dec 2025 15:55:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79A8E22259A
+	for <linux-input@vger.kernel.org>; Fri, 19 Dec 2025 22:35:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766159762; cv=none; b=Ya8vkhg8EGN4HLL2AzT/gyBaF3P+Sz5dtdEefq4c4pApyUKQogmZt5gn8BkfoXXoDEBDMHwWHFtGsHzpCOHzaE9CgYVaXGFxmCuzBNY9liBjiwpu9OSa4lk3lN9GSuDhPESIHr/IqCOXVg44dGPSUs+r9nLDyZzMmWN1oTz7d6k=
+	t=1766183726; cv=none; b=IuCr6a30SLdGSyGWx98ZmWMjxa7id9ncce7XCfv4pjhqyhkv+5GQkP8K8z8Y2YfTc4+/i5F2liTX7AhjFHIjG2/dDegoFmV3ixEE7pBzllOpfUe/6mo91Q3hBB6G2Ppn9lN8oTLTSnuDrtXoRf2uZvGft9eiYpuSGFxVVCoEW9I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766159762; c=relaxed/simple;
-	bh=R3WTBoshacBlShMPx4XLSL4SFHVuWyEABQPWOmyFPoc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=dBsHQVAUtL8/y+LTdQaKqw80RVGJtW3FLfy3ffajBCq8TyClPfxtrku1ZJ8yoKn7uTkNdrn0fIwAdI8k33us6BeTLVBmlS+XseWb+c40oQyJXX6oRsY6kJ3MbB98iLOXJVRHy5GWJQ2N0/2D/TBoCGeShU8jm5Ncpe61nEAmeZs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=ouhryBZm; arc=none smtp.client-ip=157.90.84.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
-Received: from [192.168.42.116] (p5087823e.dip0.t-ipconnect.de [80.135.130.62])
-	(Authenticated sender: wse@tuxedocomputers.com)
-	by mail.tuxedocomputers.com (Postfix) with ESMTPSA id 935832FC004A;
-	Fri, 19 Dec 2025 16:55:50 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
-	s=default; t=1766159750;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uBWDHuF4fq3ZedE8xH7lnNqnkoaeIqnw6qIKAEiuOrM=;
-	b=ouhryBZmT/1oGaQMv+aieILO/IIEdUnqzRZMxop0RZaeq/nvSVkG7T6/paNSN7VLvOjfPC
-	oKSvYPJbXH7hIsmh/biKXEDyTugcPUEQaFEuLzzcHqEhFrwh5lZpmCDocqZ92NkYqss+FA
-	KD5v98e5Za0Dw2+5t1ux2iWmdYQojmY=
-Authentication-Results: mail.tuxedocomputers.com;
-	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
-Message-ID: <ee5388c1-c341-4563-b239-919bc4d0a334@tuxedocomputers.com>
-Date: Fri, 19 Dec 2025 16:55:50 +0100
+	s=arc-20240116; t=1766183726; c=relaxed/simple;
+	bh=ejJ9kLUFEKWreeLAOuQOWdIEdrq7l2dfNbMJvEGAtgQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=gJ+pTUkyOorTLuldP8ioeNCWu5VPa1EBQxDAIA823+HB+f6gVxyeNC3ZhiJG/Gxk2QRKLYVLmnSXVtvqoL+IqZym4qbA8b55ZQ8gphw9UGqZXsqhvCPph2J3QEUVR1JKyFooUmhRgnDV2wnune0UCpO0KoEUSgJXKyjuwyAmP4E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=D8LamLWP; arc=none smtp.client-ip=209.85.222.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-8b1bfd4b3deso189077585a.2
+        for <linux-input@vger.kernel.org>; Fri, 19 Dec 2025 14:35:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1766183723; x=1766788523; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=2boRQHxQAmCCePi+cyThNdAxL0ecv/HwbSUHlqk6OYY=;
+        b=D8LamLWP6CLgllJsnLBfwjFBCeYg7T8QQMCO/iTKzI4XPOQRMqt6cOZEdrq00Md4gZ
+         bxY6I48wSK5X4zzDdsNfwyKJW+KCi2lxq/Si5+Y9PAQy9Pe47tHzoK+4djA3B15KnByf
+         paHlNx5PZ2pByzE5+h9Q8bW4/Vp7U3yfdCC4iafIwtHJZpgEeXhQfSGQIK3TZvxNCgNO
+         bOvY68Yr/JoG4eeOQTws55udU4pMJWm7MWWSUtZQGGd89uFyOn9lUv/4gRaHMUOt5MOa
+         NS8L9mOqBgQtj7t2ZoJHSAVFj8ptpfBdgDHmnSkL+jygxV63LeJhkBAd1HiitulVnV/A
+         fFVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1766183723; x=1766788523;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2boRQHxQAmCCePi+cyThNdAxL0ecv/HwbSUHlqk6OYY=;
+        b=cM7GaAnWaEQs9EZpW8/EmFSY3hs4gfDuNgj1Vb9BT87W0SNMJCLIcLSy16LH4fTsn6
+         laBfXdfByhHCtK5mRsdOuiI2ND3AyHlin16vJgvZQsI9FCpnu+YfvVFmaEzDqsF/evP8
+         HOkdWKvubBZD/lJV9FBC3jxfLNM7Ahcl6OqDRDPEN9XA5GltG8/7y6L51YPDROvN+scG
+         dlTPYZVWUpxLWilqztgx1d8OY4dxzdEE8JFZXHjWbcaRBw8euxfOWmRmq0rN/xW2gD2V
+         NNRGLW4bMOmJpmqBvW8mhv39qKXSQ6wwM8W2pxi7bQcvhR0DoFFH+8ilGMtKgP4yVLex
+         mkFw==
+X-Forwarded-Encrypted: i=1; AJvYcCU0C252nU8OE2cbee2PCrKjFQlrDPZGX+XIS8V/e8zZYsRCn084G2VRBR/ZRcWo4QM/oQXpsuoBAK2mzg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywov55BvBsUg615icdV/DzzUnpdhyBN+ea6VWENT7CYvnJb1SCv
+	L3yYtHGqkpRfMXqdfZ11b2FoXIe0iTJZrCfO3mELjLdW4MippFSejxlL
+X-Gm-Gg: AY/fxX5x5N3XMVh730Fm9Dph3ofJVtHRUreDKEkOkgqUCG/KqXslLC8jq5b5+pIr9vY
+	8hhsg9H09d0LpfUtsR9Zlzyh3kbGK3Yeje0oHkPQy0OgB3OBCM+VBL2zsP9PgND0pZSdiOYXK3s
+	TE2BT9ksbUO+OW0iB0bs45zzRlX+qkb7z20x04VPKuExHigbjF5wZoxC0yxyEQ9yHAXH//N5afz
+	k1lpaYxFWFtNl9hUMejDowr3CsP7yfE7qSnv0xcNtf59MDky6M1/8Eyyl/NVWJk+BugzTtToe3w
+	oPz/LuevYZCeTomyOBm8fvUnoXPtp+ndwIH4zOETuHsLnXHxrtvAZxudNIJeaIUp7Woantc/HVV
+	TBDIFGfGhqfE4K0WWQI33nyAZqS8+TGb0GcNOM5eCX597hsahPWY4KsfH+zcQ0cS3TubmriTKdT
+	2IxkJam7dnzlxk1cGR/As685bPQnUlf1Ya9ecqUKMO67Tb8gRx3fVWgqBwHM6ioc+O7PWauzBK+
+	tUWpDwz+iZo/43khyMazaT/F6a5jUZF6z/DlO5fpg==
+X-Google-Smtp-Source: AGHT+IEntVcbm2AAYMffiTKbRmIuUqjzd9IzqikvFWCT/0nUm70nXPP/xM+LDZPyAOFmJOb4I/xnzA==
+X-Received: by 2002:a05:620a:f06:b0:8b2:f31f:ae18 with SMTP id af79cd13be357-8c08fd038fbmr775412985a.34.1766183723307;
+        Fri, 19 Dec 2025 14:35:23 -0800 (PST)
+Received: from seungjin-HP-ENVY-Desktop-TE02-0xxx.dartmouth.edu ([129.170.197.82])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-88d99d7a08asm28972506d6.38.2025.12.19.14.35.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 19 Dec 2025 14:35:22 -0800 (PST)
+From: pip-izony <eeodqql09@gmail.com>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Seungjin Bae <eeodqql09@gmail.com>,
+	Kyungtae Kim <Kyungtae.Kim@dartmouth.edu>,
+	Sanghoon Choi <csh0052@gmail.com>,
+	Dan Carpenter <dan.carpenter@linaro.org>,
+	linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] Input: ims-pcu - fix heap-buffer-overflow in ims_pcu_process_data()
+Date: Fri, 19 Dec 2025 17:34:18 -0500
+Message-ID: <20251219223417.369278-2-eeodqql09@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] hid/hid-multitouch: Keep latency normal on deactivate
- for reactivation gesture
-To: Benjamin Tissoires <bentiss@kernel.org>
-Cc: Jiri Kosina <jikos@kernel.org>, linux-input@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20251112144837.499782-1-wse@tuxedocomputers.com>
- <ae75b604-9bdb-430a-bd4d-8e1e669cf4d8@tuxedocomputers.com>
- <rejkk25fhay4ozlnrior3vbpo4wa6s2rpezmt3kydf7e3jr7k4@vv7423v4mssq>
-Content-Language: en-US
-From: Werner Sembach <wse@tuxedocomputers.com>
-In-Reply-To: <rejkk25fhay4ozlnrior3vbpo4wa6s2rpezmt3kydf7e3jr7k4@vv7423v4mssq>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+From: Seungjin Bae <eeodqql09@gmail.com>
 
-Am 19.12.25 um 14:10 schrieb Benjamin Tissoires:
-> On Nov 12 2025, Werner Sembach wrote:
->> Am 12.11.25 um 15:47 schrieb Werner Sembach:
->>> Uniwill devices have a built in gesture in the touchpad to de- and
->>> reactivate it by double taping the upper left corner. This gesture stops
->>> working when latency is set to high, so this patch keeps the latency on
->>> normal.
->>>
->>> Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
->>> Cc: stable@vger.kernel.org
->>> ---
->>> V1->V2: Use a quirk to narrow down the devices this is applied to.
->>> V2->V3: Fix this patch breaking touchpads on some devices.
->>>           Add another device ID.
->>>
->>> I have three Uniwill devices at hand right now that have at least two
->>> physically different touchpads, but same Vendor + Product ID combination.
->>> Maybe the vendor uses this product ID for all i2c connected touchpads, or
->>> it is used as some kind of subvendor ID to indicate Uniwill?
->>>
->>> To be able to really narrow it down to Uniwill only devices I would need to
->>> check DMI strings, but then I will probably narrow it down to much as I
->>> only know what we at TUXEDO use there.
->>>
->>>    drivers/hid/hid-multitouch.c | 26 +++++++++++++++++++++++++-
->>>    1 file changed, 25 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
->>> index 179dc316b4b51..ed9eb4e0d5038 100644
->>> --- a/drivers/hid/hid-multitouch.c
->>> +++ b/drivers/hid/hid-multitouch.c
->>> @@ -76,6 +76,7 @@ MODULE_LICENSE("GPL");
->>>    #define MT_QUIRK_DISABLE_WAKEUP		BIT(21)
->>>    #define MT_QUIRK_ORIENTATION_INVERT	BIT(22)
->>>    #define MT_QUIRK_APPLE_TOUCHBAR		BIT(23)
->>> +#define MT_QUIRK_KEEP_LATENCY_ON_CLOSE	BIT(24)
->>>    #define MT_INPUTMODE_TOUCHSCREEN	0x02
->>>    #define MT_INPUTMODE_TOUCHPAD		0x03
->>> @@ -211,6 +212,7 @@ static void mt_post_parse(struct mt_device *td, struct mt_application *app);
->>>    #define MT_CLS_WIN_8_DISABLE_WAKEUP		0x0016
->>>    #define MT_CLS_WIN_8_NO_STICKY_FINGERS		0x0017
->>>    #define MT_CLS_WIN_8_FORCE_MULTI_INPUT_NSMU	0x0018
->>> +#define MT_CLS_WIN_8_KEEP_LATENCY_ON_CLOSE	0x0019
->> A college realized that at some points in the code some, but not all, of the
->> MT_CLS_WIN_8* classes are checked for directly. Should I add my new class
->> there too?
-> It depends. If it's truely a WIN_8 touchpad then I guess those checks
-> are here for a reason, but if this particular device works without them,
-> then it's your call in the end.
+The `ims_pcu_process_data()` processes incoming URB data byte by byte.
+However, it fails to check if the `read_pos` index exceeds
+IMS_PCU_BUF_SIZE.
 
-Didn't notice a difference, but will it include anyway to be on the safe side.
+If a malicious USB device sends a packet larger than IMS_PCU_BUF_SIZE,
+`read_pos` will increment indefinitely. Moreover, since `read_pos` is
+located immediately after `read_buf`, the attacker can overwrite
+`read_pos` itself to arbitrarily control the index.
 
-v4 incoming
+This manipulated `read_pos` is subsequently used in
+`ims_pcu_handle_response()` to copy data into `cmd_buf`, leading to a
+heap buffer overflow.
 
->
-> Cheers,
-> Benjamin
+Specifically, an attacker can overwrite the `cmd_done.wait.head` located
+at offset 136 relative to `cmd_buf` in the `ims_pcu_handle_response()`.
+Consequently, when the driver calls `complete(&pcu->cmd_done)`, it
+triggers a control flow hijack by using the manipulated pointer.
+
+Fix this by adding a bounds check for `read_pos` before writing to
+`read_buf`.
+
+Fixes: 628329d524743 ("Input: add IMS Passenger Control Unit driver")
+Signed-off-by: Seungjin Bae <eeodqql09@gmail.com>
+---
+ drivers/input/misc/ims-pcu.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/input/misc/ims-pcu.c b/drivers/input/misc/ims-pcu.c
+index 4581f1c53644..402bf03ca8f6 100644
+--- a/drivers/input/misc/ims-pcu.c
++++ b/drivers/input/misc/ims-pcu.c
+@@ -451,7 +451,8 @@ static void ims_pcu_process_data(struct ims_pcu *pcu, struct urb *urb)
+ 
+ 		if (pcu->have_dle) {
+ 			pcu->have_dle = false;
+-			pcu->read_buf[pcu->read_pos++] = data;
++			if (pcu->read_pos < IMS_PCU_BUF_SIZE)
++				pcu->read_buf[pcu->read_pos++] = data;
+ 			pcu->check_sum += data;
+ 			continue;
+ 		}
+@@ -491,7 +492,8 @@ static void ims_pcu_process_data(struct ims_pcu *pcu, struct urb *urb)
+ 			break;
+ 
+ 		default:
+-			pcu->read_buf[pcu->read_pos++] = data;
++			if (pcu->read_pos < IMS_PCU_BUF_SIZE)
++				pcu->read_buf[pcu->read_pos++] = data;
+ 			pcu->check_sum += data;
+ 			break;
+ 		}
+-- 
+2.43.0
+
 
