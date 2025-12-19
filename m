@@ -1,231 +1,129 @@
-Return-Path: <linux-input+bounces-16644-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16645-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08073CD02F0
-	for <lists+linux-input@lfdr.de>; Fri, 19 Dec 2025 15:00:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9174CD12A7
+	for <lists+linux-input@lfdr.de>; Fri, 19 Dec 2025 18:34:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id BFBFA30142C0
-	for <lists+linux-input@lfdr.de>; Fri, 19 Dec 2025 14:00:38 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 81FCA30E3600
+	for <lists+linux-input@lfdr.de>; Fri, 19 Dec 2025 17:31:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 157763277AF;
-	Fri, 19 Dec 2025 14:00:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8214D369201;
+	Fri, 19 Dec 2025 15:56:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LkUAGJ1K"
+	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="ouhryBZm"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE3F532720C;
-	Fri, 19 Dec 2025 14:00:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 307DC36828A;
+	Fri, 19 Dec 2025 15:55:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766152838; cv=none; b=avLh+vrtXUHl2nFZdBZ11uYiXnhzJcljdK6YZ7mNJLXr4yLPOrjADiGZ+BVFTLvgqs87BEIsYvX1xtcx5tJnI3HKybYrUq3U2EXjQbO/qWx9caucRAw2QInXkPrLlYMF8h2d6EpWiMBXNdD34/qxmoaMwyj4mM4aWQdXfoCfPI0=
+	t=1766159762; cv=none; b=Ya8vkhg8EGN4HLL2AzT/gyBaF3P+Sz5dtdEefq4c4pApyUKQogmZt5gn8BkfoXXoDEBDMHwWHFtGsHzpCOHzaE9CgYVaXGFxmCuzBNY9liBjiwpu9OSa4lk3lN9GSuDhPESIHr/IqCOXVg44dGPSUs+r9nLDyZzMmWN1oTz7d6k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766152838; c=relaxed/simple;
-	bh=vkBEp3/NsfXCRxrW91VLgzNMxDWzEcI17duAoJFUnrs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cr0/lU1MwOMlI6RL3eZ50iL6vfQ9fDwDNEgUt4qtKkr66Sv9X9vouVlgXFnDxhtrX65IZf5iAom01JIiQZeieCFuU9AZLd8V6B4etLJ4rqiT3a/160XXsBBn9t6VDJEu+HjRM2jH3S8vTpy4512U6vc6ba3OfiRvX6WB4DcsHBM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LkUAGJ1K; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06A37C4CEF1;
-	Fri, 19 Dec 2025 14:00:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1766152837;
-	bh=vkBEp3/NsfXCRxrW91VLgzNMxDWzEcI17duAoJFUnrs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=LkUAGJ1KWFgLTGs+xblpe8vA30DN0ZwA/O9bpG7nUF+wML5r//zyZ5iLQrJYVGGQy
-	 GaPqvGECIg3C/199CLQvHLGFccGIvoSq9vQHNCgxSsGMeW+iYDInyKZwCKbpgJ0Qkz
-	 N99yexftMwe+tL9wfWUEONv8GL52tDGWv5p2xu2hzmpAz9hAMj4UfTMaP0R5u6cIWs
-	 YNv767A9RtJfZLHVOo4MOY2PHiGrZizhOZgejJSQyl8EcaKCjEAWbnVKs/NbtmN4+E
-	 3wvlnjJSIWjlTHHfPAzG18psu+fW6xJrccPXRP89Vrf7EuqgoEEC83zd3T6CeChZ93
-	 fM84qODELoOGA==
-Date: Fri, 19 Dec 2025 15:00:33 +0100
-From: Benjamin Tissoires <bentiss@kernel.org>
-To: Peter Hutterer <peter.hutterer@who-t.net>
-Cc: Jiri Kosina <jikos@kernel.org>, Shuah Khan <shuah@kernel.org>, 
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-input@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Vadim Klishko <vadim@cirque.com>
-Subject: Re: [PATCH 3/3] HID: multitouch: set INPUT_PROP_PRESSUREPAD based on
- Digitizer/Button Type
-Message-ID: <ztzmcb24hdmeyk2nk2vqwgcgy4chhvjubkz7r6hprxuefwjm5s@f4oxcb7q6zzx>
-References: <20251121-wip-hid-pressurepad-v1-0-e32e5565a527@who-t.net>
- <20251121-wip-hid-pressurepad-v1-3-e32e5565a527@who-t.net>
+	s=arc-20240116; t=1766159762; c=relaxed/simple;
+	bh=R3WTBoshacBlShMPx4XLSL4SFHVuWyEABQPWOmyFPoc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=dBsHQVAUtL8/y+LTdQaKqw80RVGJtW3FLfy3ffajBCq8TyClPfxtrku1ZJ8yoKn7uTkNdrn0fIwAdI8k33us6BeTLVBmlS+XseWb+c40oQyJXX6oRsY6kJ3MbB98iLOXJVRHy5GWJQ2N0/2D/TBoCGeShU8jm5Ncpe61nEAmeZs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=ouhryBZm; arc=none smtp.client-ip=157.90.84.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
+Received: from [192.168.42.116] (p5087823e.dip0.t-ipconnect.de [80.135.130.62])
+	(Authenticated sender: wse@tuxedocomputers.com)
+	by mail.tuxedocomputers.com (Postfix) with ESMTPSA id 935832FC004A;
+	Fri, 19 Dec 2025 16:55:50 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
+	s=default; t=1766159750;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=uBWDHuF4fq3ZedE8xH7lnNqnkoaeIqnw6qIKAEiuOrM=;
+	b=ouhryBZmT/1oGaQMv+aieILO/IIEdUnqzRZMxop0RZaeq/nvSVkG7T6/paNSN7VLvOjfPC
+	oKSvYPJbXH7hIsmh/biKXEDyTugcPUEQaFEuLzzcHqEhFrwh5lZpmCDocqZ92NkYqss+FA
+	KD5v98e5Za0Dw2+5t1ux2iWmdYQojmY=
+Authentication-Results: mail.tuxedocomputers.com;
+	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
+Message-ID: <ee5388c1-c341-4563-b239-919bc4d0a334@tuxedocomputers.com>
+Date: Fri, 19 Dec 2025 16:55:50 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251121-wip-hid-pressurepad-v1-3-e32e5565a527@who-t.net>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] hid/hid-multitouch: Keep latency normal on deactivate
+ for reactivation gesture
+To: Benjamin Tissoires <bentiss@kernel.org>
+Cc: Jiri Kosina <jikos@kernel.org>, linux-input@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20251112144837.499782-1-wse@tuxedocomputers.com>
+ <ae75b604-9bdb-430a-bd4d-8e1e669cf4d8@tuxedocomputers.com>
+ <rejkk25fhay4ozlnrior3vbpo4wa6s2rpezmt3kydf7e3jr7k4@vv7423v4mssq>
+Content-Language: en-US
+From: Werner Sembach <wse@tuxedocomputers.com>
+In-Reply-To: <rejkk25fhay4ozlnrior3vbpo4wa6s2rpezmt3kydf7e3jr7k4@vv7423v4mssq>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Nov 21 2025, Peter Hutterer wrote:
-> A Digitizer/Button Type value of 1 indicates the device is a
-> pressurepad, see
-> https://learn.microsoft.com/en-us/windows-hardware/design/component-guidelines/touchpad-windows-precision-touchpad-collection#device-capabilities-feature-report
-> 
-> For the selftests we have to resort to a bit of a hack: python-libevdev
-> gets the properties from libevdev at module init time. If libevdev
-> hasn't been rebuilt with the new property it won't be automatically
-> populated. So we hack around this by constructing the property manually.
-> 
-> Signed-off-by: Peter Hutterer <peter.hutterer@who-t.net>
-> ---
->  drivers/hid/hid-multitouch.c                       | 12 ++++++-
->  .../testing/selftests/hid/tests/test_multitouch.py | 39 +++++++++++++++++++---
->  2 files changed, 46 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
-> index 179dc316b4b518d78bdc900d9fd15756c5eba83e..382e6f50c4f7e663af7d028abb8be7cb2e6e7b8e 100644
-> --- a/drivers/hid/hid-multitouch.c
-> +++ b/drivers/hid/hid-multitouch.c
-> @@ -81,6 +81,7 @@ MODULE_LICENSE("GPL");
->  #define MT_INPUTMODE_TOUCHPAD		0x03
->  
->  #define MT_BUTTONTYPE_CLICKPAD		0
-> +#define MT_BUTTONTYPE_PRESSUREPAD	1
->  
->  enum latency_mode {
->  	HID_LATENCY_NORMAL = 0,
-> @@ -179,6 +180,7 @@ struct mt_device {
->  	__u8 inputmode_value;	/* InputMode HID feature value */
->  	__u8 maxcontacts;
->  	bool is_buttonpad;	/* is this device a button pad? */
-> +	bool is_pressurepad;	/* is this device a pressurepad? */
->  	bool is_haptic_touchpad;	/* is this device a haptic touchpad? */
->  	bool serial_maybe;	/* need to check for serial protocol */
->  
-> @@ -530,8 +532,14 @@ static void mt_feature_mapping(struct hid_device *hdev,
->  		}
->  
->  		mt_get_feature(hdev, field->report);
-> -		if (field->value[usage->usage_index] == MT_BUTTONTYPE_CLICKPAD)
-> +		switch (field->value[usage->usage_index]) {
-> +		case MT_BUTTONTYPE_CLICKPAD:
->  			td->is_buttonpad = true;
-> +			break;
-> +		case MT_BUTTONTYPE_PRESSUREPAD:
-> +			td->is_pressurepad = true;
-> +			break;
-> +		}
->  
->  		break;
->  	case 0xff0000c5:
-> @@ -1393,6 +1401,8 @@ static int mt_touch_input_configured(struct hid_device *hdev,
->  
->  	if (td->is_buttonpad)
->  		__set_bit(INPUT_PROP_BUTTONPAD, input->propbit);
-> +	if (td->is_pressurepad)
-> +		__set_bit(INPUT_PROP_PRESSUREPAD, input->propbit);
->  
->  	app->pending_palm_slots = devm_kcalloc(&hi->input->dev,
->  					       BITS_TO_LONGS(td->maxcontacts),
-> diff --git a/tools/testing/selftests/hid/tests/test_multitouch.py b/tools/testing/selftests/hid/tests/test_multitouch.py
-> index a06a087f00b6991f7514adf7f8c713bef1a43563..fa4fb2054bd4febb1d2497f2787944f538b27889 100644
-> --- a/tools/testing/selftests/hid/tests/test_multitouch.py
-> +++ b/tools/testing/selftests/hid/tests/test_multitouch.py
-> @@ -979,15 +979,36 @@ class BaseTest:
->              assert libevdev.InputEvent(libevdev.EV_ABS.ABS_MT_ORIENTATION, 90) in events
->  
->      class TestPTP(TestWin8Multitouch):
-> +        def test_buttontype(self):
-> +            """Check for the right ButtonType."""
-> +            uhdev = self.uhdev
-> +            assert uhdev is not None
-> +            evdev = uhdev.get_evdev()
-> +
-> +            # If libevdev.so is not yet compiled with INPUT_PROP_PRESSUREPAD
-> +            # python-libevdev won't have it either, let's fake it
-> +            if not getattr(libevdev, "INPUT_PROP_PRESSUREPAD", None):
-> +                prop = libevdev.InputProperty(name="INPUT_PROP_PRESSUREPAD", value=0x7)
-> +                libevdev.INPUT_PROP_PRESSUREPAD = prop
-> +                libevdev.props.append(prop)
-> +
-> +            if uhdev.buttontype == HIDButtonType.CLICKPAD:
-> +                assert libevdev.INPUT_PROP_BUTTONPAD in evdev.properties
-> +            elif uhdev.buttontype == HIDButtonType.PRESSUREPAD:
-> +                assert libevdev.INPUT_PROP_PRESSUREPAD in evdev.properties
-> +            else:
-> +                assert libevdev.INPUT_PROP_PRESSUREPAD not in evdev.properties
-> +                assert libevdev.INPUT_PROP_BUTTONPAD not in evdev.properties
-> +
->          def test_ptp_buttons(self):
->              """check for button reliability.
-> -            There are 2 types of touchpads: the click pads and the pressure pads.
-> -            Each should reliably report the BTN_LEFT events.
-> +            There are 3 types of touchpads: click pads + pressure pads and
-> +            those with discrete buttons. Each should reliably report the BTN_LEFT events.
->              """
->              uhdev = self.uhdev
->              evdev = uhdev.get_evdev()
->  
-> -            if uhdev.buttontype == HIDButtonType.CLICKPAD:
-> +            if uhdev.buttontype in [HIDButtonType.CLICKPAD, HIDButtonType.PRESSUREPAD]:
->                  r = uhdev.event(click=True)
->                  events = uhdev.next_sync_events()
->                  self.debug_reports(r, uhdev, events)
-> @@ -999,7 +1020,7 @@ class BaseTest:
->                  self.debug_reports(r, uhdev, events)
->                  assert libevdev.InputEvent(libevdev.EV_KEY.BTN_LEFT, 0) in events
->                  assert evdev.value[libevdev.EV_KEY.BTN_LEFT] == 0
-> -            else:
-> +            elif uhdev.buttontype == HIDButtonType.DISCRETE_BUTTONS:
->                  r = uhdev.event(left=True)
->                  events = uhdev.next_sync_events()
->                  self.debug_reports(r, uhdev, events)
-> @@ -2062,6 +2083,16 @@ class Testite_06cb_2968(BaseTest.TestPTP):
->          )
->  
->  
-> +class Testven_0488_108c(BaseTest.TestPTP):
-> +    def create_device(self):
-> +        return PTP(
-> +            "uhid test ven_0488_108c",
-> +            rdesc="05 01 09 02 a1 01 85 06 09 01 a1 00 05 09 19 01 29
-> 03 15 00 25 01 95 03 75 01 81 02 95 01 75 05 81 03 05 01 09 30 09 31 09
-> 38 15 81 25 7f 75 08 95 03 81 06 c0 c0 05 0d 09 05 a1 01 85 01 05 0d 09
-> 22 a1 02 15 00 25 01 09 47 09 42 95 02 75 01 81 02 95 01 75 03 25 05 09
-> 51 81 02 81 03 05 01 15 00 26 ba 0d 75 10 55 0e 65 11 09 30 35 00 46 d0
-> 05 95 01 81 02 26 d0 06 46 bb 02 09 31 81 02 05 0d 95 01 75 10 26 ff 7f
-> 46 ff 7f 09 30 81 02 c0 05 0d 09 22 a1 02 15 00 25 01 09 47 09 42 95 02
-> 75 01 81 02 95 01 75 03 25 05 09 51 81 02 81 03 05 01 15 00 26 ba 0d 75
-> 10 55 0e 65 11 09 30 35 00 46 d0 05 95 01 81 02 26 d0 06 46 bb 02 09 31
-> 81 02 05 0d 95 01 75 10 26 ff 7f 46 ff 7f 09 30 81 02 c0 05 0d 09 22 a1
-> 02 15 00 25 01 09 47 09 42 95 02 75 01 81 02 95 01 75 03 25 05 09 51 81
-> 02 81 03 05 01 15 00 26 ba 0d 75 10 55 0e 65 11 09 30 35 00 46 d0 05 95
-> 01 81 02 26 d0 06 46 bb 02 09 31 81 02 05 0d 95 01 75 10 26 ff 7f 46 ff
-> 7f 09 30 81 02 c0 55 0c 66 01 10 47 ff ff 00 00 27 ff ff 00 00 75 10 95
-> 01 05 0d 09 56 81 02 09 54 25 05 95 01 75 08 81 02 05 09 09 01 25 01 75
-> 01 95 01 81 02 95 07 81 03 05 0d 85 02 09 55 75 08 95 01 25 05 b1 02 09
-> 59 b1 02 06 00 ff 85 03 09 c5 15 00 26 ff 00 75 08 96 00 01 b1 02 05 0e
-> 09 01 a1 02 85 13 09 23 15 00 25 64 75 08 95 01 b1 02 c0 c0 05 0d 09 0e
-> a1 01 85 04 09 22 a1 02 09 52 15 00 25 0a 75 08 95 01 b1 02 c0 09 22 a1
-> 00 85 05 09 57 09 58 75 01 95 02 25 01 b1 02 95 06 b1 03 c0 c0 06 01 ff
-> 09 02 a1 01 09 00 85 07 15 00 26 ff 00 75 08 96 12 02 b1 02 c0 06 00 ff
-> 09 01 a1 01 85 0d 15 00 26 ff 00 75 08 95 11 09 01 81 02 09 01 91 02 c0
-> 05 0e 09 01 a1 01 85 11 09 35 15 00 26 ff 00 75 08 95 17 b1 02 c0 06 81
-> ff 09 01 a1 01 09 20 85 17 15 00 26 ff 00 75 08 95 3f 09 01 81 02 09 01
-> 91 02 c0",
 
-Patch is also corrupt here.
+Am 19.12.25 um 14:10 schrieb Benjamin Tissoires:
+> On Nov 12 2025, Werner Sembach wrote:
+>> Am 12.11.25 um 15:47 schrieb Werner Sembach:
+>>> Uniwill devices have a built in gesture in the touchpad to de- and
+>>> reactivate it by double taping the upper left corner. This gesture stops
+>>> working when latency is set to high, so this patch keeps the latency on
+>>> normal.
+>>>
+>>> Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
+>>> Cc: stable@vger.kernel.org
+>>> ---
+>>> V1->V2: Use a quirk to narrow down the devices this is applied to.
+>>> V2->V3: Fix this patch breaking touchpads on some devices.
+>>>           Add another device ID.
+>>>
+>>> I have three Uniwill devices at hand right now that have at least two
+>>> physically different touchpads, but same Vendor + Product ID combination.
+>>> Maybe the vendor uses this product ID for all i2c connected touchpads, or
+>>> it is used as some kind of subvendor ID to indicate Uniwill?
+>>>
+>>> To be able to really narrow it down to Uniwill only devices I would need to
+>>> check DMI strings, but then I will probably narrow it down to much as I
+>>> only know what we at TUXEDO use there.
+>>>
+>>>    drivers/hid/hid-multitouch.c | 26 +++++++++++++++++++++++++-
+>>>    1 file changed, 25 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
+>>> index 179dc316b4b51..ed9eb4e0d5038 100644
+>>> --- a/drivers/hid/hid-multitouch.c
+>>> +++ b/drivers/hid/hid-multitouch.c
+>>> @@ -76,6 +76,7 @@ MODULE_LICENSE("GPL");
+>>>    #define MT_QUIRK_DISABLE_WAKEUP		BIT(21)
+>>>    #define MT_QUIRK_ORIENTATION_INVERT	BIT(22)
+>>>    #define MT_QUIRK_APPLE_TOUCHBAR		BIT(23)
+>>> +#define MT_QUIRK_KEEP_LATENCY_ON_CLOSE	BIT(24)
+>>>    #define MT_INPUTMODE_TOUCHSCREEN	0x02
+>>>    #define MT_INPUTMODE_TOUCHPAD		0x03
+>>> @@ -211,6 +212,7 @@ static void mt_post_parse(struct mt_device *td, struct mt_application *app);
+>>>    #define MT_CLS_WIN_8_DISABLE_WAKEUP		0x0016
+>>>    #define MT_CLS_WIN_8_NO_STICKY_FINGERS		0x0017
+>>>    #define MT_CLS_WIN_8_FORCE_MULTI_INPUT_NSMU	0x0018
+>>> +#define MT_CLS_WIN_8_KEEP_LATENCY_ON_CLOSE	0x0019
+>> A college realized that at some points in the code some, but not all, of the
+>> MT_CLS_WIN_8* classes are checked for directly. Should I add my new class
+>> there too?
+> It depends. If it's truely a WIN_8 touchpad then I guess those checks
+> are here for a reason, but if this particular device works without them,
+> then it's your call in the end.
 
-Given that you need to send another revision, would you mind splitting
-the hid-multitouch.c changes from the selftests?
+Didn't notice a difference, but will it include anyway to be on the safe side.
 
-Cheers,
-Benjamin
+v4 incoming
 
-> +            input_info=(0x18, 0x0488, 0x108C),
-> +            buttontype=HIDButtonType.PRESSUREPAD,
-> +        )
-> +
-> +
->  class Testn_trig_1b96_0c01(BaseTest.TestWin8Multitouch):
->      def create_device(self):
->          return Digitizer(
-> 
-> -- 
-> 2.51.1
-> 
+>
+> Cheers,
+> Benjamin
 
