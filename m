@@ -1,54 +1,55 @@
-Return-Path: <linux-input+bounces-16642-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16643-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B07FCCFFAC
-	for <lists+linux-input@lfdr.de>; Fri, 19 Dec 2025 14:10:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6CB0CD02E1
+	for <lists+linux-input@lfdr.de>; Fri, 19 Dec 2025 14:59:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 11D833007606
-	for <lists+linux-input@lfdr.de>; Fri, 19 Dec 2025 13:10:23 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 8142A30142C0
+	for <lists+linux-input@lfdr.de>; Fri, 19 Dec 2025 13:59:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A1B91C84DC;
-	Fri, 19 Dec 2025 13:10:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BBFFC326929;
+	Fri, 19 Dec 2025 13:59:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qbG/8OTL"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="skCM9DaE"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01B8E13A3ED;
-	Fri, 19 Dec 2025 13:10:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CF04322B9E;
+	Fri, 19 Dec 2025 13:59:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766149822; cv=none; b=pWND449KJMoaT6u9oWzWYuP6BkLbUSeEKgwqg1j90zmsslxzHS1LwqHURLhK1O5dZ6mSuaMpc5P9U2v1ee9PNO8sGxLbHsky9vR+g+PMkugK8xiUX2H7GbYO9eErlOGk59e1+1IcIKqQOJSc6+A5pq8Hxc5yi9O7T+m62d/kxCA=
+	t=1766152776; cv=none; b=Dy/Ipg/CfX5KcpmNdCWScsM3tQLWhAZmeAKe70vIx7FyNWtkSfq4V8tMRCVo6qZ9Ke+X8OelJ/yLIV8/uzuBfBscm6sG0FWUmXNWtoaGP0NitucTbZhuChKvV0s/PICMeww8WJoRjn2fVZXcBA1eyWGaEjR9tl/UwZ7EVLxHPFQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766149822; c=relaxed/simple;
-	bh=2llEtiY56D/tux6hHTL/tJXCoqE5V8Ozr6HCiUNaMhs=;
+	s=arc-20240116; t=1766152776; c=relaxed/simple;
+	bh=PPPlAY9ntGDKHcMWOhZyWQGhQjEF2MUfDo6HrPtbXS0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=L4pfmSwIDESr7Btz6nrusLwjVyZfApUoxElI3NMDE/hoIS985/bT0FekM9A2M8+140fx2zQKNBC812LTgbAVL7Yebt/BtJDx/hSgiiY56wKemMZVFNxwRubqvbkxE1ZVX7nW1Y94iH/ksBkFDjqOq/J8K+OsWXZuMvB97ACdvtg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qbG/8OTL; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8967FC4CEF1;
-	Fri, 19 Dec 2025 13:10:20 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=IiiA/+YLLC4tdP1LdWN8pf/V1Ah8x4fy1l5zAm2QWokk+Kan9tRpg56yZTJz423Syd0N2f6iYLY4nuKfxej8Vz3jCvNfZvJy0+z5jKo6k5KT25ik8KxGoHlPj2amciVKjk5BUe9JgtweM7r8egRyIpqsEcTtNHA/5e50//Q+GK8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=skCM9DaE; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A107C4CEF1;
+	Fri, 19 Dec 2025 13:59:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1766149821;
-	bh=2llEtiY56D/tux6hHTL/tJXCoqE5V8Ozr6HCiUNaMhs=;
+	s=k20201202; t=1766152776;
+	bh=PPPlAY9ntGDKHcMWOhZyWQGhQjEF2MUfDo6HrPtbXS0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=qbG/8OTLehBzKy751iQNNFmPlBu0aiylAIDDxpEyhMyu7JN70XYi6akslTEqDhnHh
-	 S4zndEE2hOFEek2oxdvnxE4uR8JYNz48MLzA/yljBTrhWYvV8GfN8QHjJpNrlERywD
-	 BnPoZvIaTAGog8UT04S9Ohb52j+bgAvVUQA2tmfzqJbNGcYp3jLLx9uipfBmR3HFAN
-	 rk+R1jOUKEevd9p/quEXQ8MTmHYU85fWUN/7+vVXFM14sPREM2x1m/8GtNtIeSU2lx
-	 HW6XXxKhcO+RJHx5fyw1V0QzaiA9MHApsgomHm0ZJgwFq7/BzY08SPRrOzQSbf7gz2
-	 7/s7ZabMhrDdg==
-Date: Fri, 19 Dec 2025 14:10:17 +0100
+	b=skCM9DaE89YJSSlD9bBsvyrGIl+lkhnn/LfpUrNd8QTSlGUcGzoHdvPne9+8JlCTY
+	 H+PP00QCQfOCZ0O+CBX934i5/Wu0fJB5vZ+JVQpvqhmq412hVOfNkqVzfPFNrp1jfJ
+	 XIDSu1MI5TEKFou2HUzc7mvJNBTSo18AWu6z6YtTuWsrUzxvfcutCUi+Bjx44e6Z5e
+	 wSsTTT+5YA9Kq6uQjwTgZfOU67J/rrAz2xZaRUIav/vWJ5K7GcYSCCYZJeJz3pNmsO
+	 SHeqcfT46mFDOcBPvASH/0FL2BV7kPCMxusHRGAh1yvKUCvnG/l+r9pNidEuUFYJlJ
+	 T+gsHdeaKRrGQ==
+Date: Fri, 19 Dec 2025 14:59:31 +0100
 From: Benjamin Tissoires <bentiss@kernel.org>
-To: Werner Sembach <wse@tuxedocomputers.com>
-Cc: Jiri Kosina <jikos@kernel.org>, linux-input@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] hid/hid-multitouch: Keep latency normal on deactivate
- for reactivation gesture
-Message-ID: <rejkk25fhay4ozlnrior3vbpo4wa6s2rpezmt3kydf7e3jr7k4@vv7423v4mssq>
-References: <20251112144837.499782-1-wse@tuxedocomputers.com>
- <ae75b604-9bdb-430a-bd4d-8e1e669cf4d8@tuxedocomputers.com>
+To: Peter Hutterer <peter.hutterer@who-t.net>
+Cc: Jiri Kosina <jikos@kernel.org>, Shuah Khan <shuah@kernel.org>, 
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-input@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Vadim Klishko <vadim@cirque.com>
+Subject: Re: [PATCH 2/3] selftests/hid: use a enum class for the different
+ button types
+Message-ID: <k4cespmqlexav5i52zn23ndyqtwjk7zyhwsntg4hz3ahz57odv@x5vuzj4ap75v>
+References: <20251121-wip-hid-pressurepad-v1-0-e32e5565a527@who-t.net>
+ <20251121-wip-hid-pressurepad-v1-2-e32e5565a527@who-t.net>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -57,59 +58,166 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ae75b604-9bdb-430a-bd4d-8e1e669cf4d8@tuxedocomputers.com>
+In-Reply-To: <20251121-wip-hid-pressurepad-v1-2-e32e5565a527@who-t.net>
 
-On Nov 12 2025, Werner Sembach wrote:
+On Nov 21 2025, Peter Hutterer wrote:
+> Instead of multiple spellings of a string-provided argument, let's make
+> this a tad more type-safe and use an enum here.
 > 
-> Am 12.11.25 um 15:47 schrieb Werner Sembach:
-> > Uniwill devices have a built in gesture in the touchpad to de- and
-> > reactivate it by double taping the upper left corner. This gesture stops
-> > working when latency is set to high, so this patch keeps the latency on
-> > normal.
-> > 
-> > Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
-> > Cc: stable@vger.kernel.org
-> > ---
-> > V1->V2: Use a quirk to narrow down the devices this is applied to.
-> > V2->V3: Fix this patch breaking touchpads on some devices.
-> >          Add another device ID.
-> > 
-> > I have three Uniwill devices at hand right now that have at least two
-> > physically different touchpads, but same Vendor + Product ID combination.
-> > Maybe the vendor uses this product ID for all i2c connected touchpads, or
-> > it is used as some kind of subvendor ID to indicate Uniwill?
-> > 
-> > To be able to really narrow it down to Uniwill only devices I would need to
-> > check DMI strings, but then I will probably narrow it down to much as I
-> > only know what we at TUXEDO use there.
-> > 
-> >   drivers/hid/hid-multitouch.c | 26 +++++++++++++++++++++++++-
-> >   1 file changed, 25 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
-> > index 179dc316b4b51..ed9eb4e0d5038 100644
-> > --- a/drivers/hid/hid-multitouch.c
-> > +++ b/drivers/hid/hid-multitouch.c
-> > @@ -76,6 +76,7 @@ MODULE_LICENSE("GPL");
-> >   #define MT_QUIRK_DISABLE_WAKEUP		BIT(21)
-> >   #define MT_QUIRK_ORIENTATION_INVERT	BIT(22)
-> >   #define MT_QUIRK_APPLE_TOUCHBAR		BIT(23)
-> > +#define MT_QUIRK_KEEP_LATENCY_ON_CLOSE	BIT(24)
-> >   #define MT_INPUTMODE_TOUCHSCREEN	0x02
-> >   #define MT_INPUTMODE_TOUCHPAD		0x03
-> > @@ -211,6 +212,7 @@ static void mt_post_parse(struct mt_device *td, struct mt_application *app);
-> >   #define MT_CLS_WIN_8_DISABLE_WAKEUP		0x0016
-> >   #define MT_CLS_WIN_8_NO_STICKY_FINGERS		0x0017
-> >   #define MT_CLS_WIN_8_FORCE_MULTI_INPUT_NSMU	0x0018
-> > +#define MT_CLS_WIN_8_KEEP_LATENCY_ON_CLOSE	0x0019
-> A college realized that at some points in the code some, but not all, of the
-> MT_CLS_WIN_8* classes are checked for directly. Should I add my new class
-> there too?
+> And while we do this fix the two wrong devices:
+> - elan_04f3_313a (HP ZBook Fury 15) is discrete button pad
+> - dell_044e_1220 (Dell Precision 7740) is a discrete button pad
+> 
+> Equivalent hid-tools commit
+> https://gitlab.freedesktop.org/libevdev/hid-tools/-/commit/8300a55bf4213c6a252cab8cb5b34c9ddb191625
+> 
+> Signed-off-by: Peter Hutterer <peter.hutterer@who-t.net>
+> ---
+>  .../testing/selftests/hid/tests/test_multitouch.py | 24 +++++++++++++---------
+>  1 file changed, 14 insertions(+), 10 deletions(-)
+> 
+> diff --git a/tools/testing/selftests/hid/tests/test_multitouch.py b/tools/testing/selftests/hid/tests/test_multitouch.py
+> index ece0ba8e7d34b75d42245e5936ecf804c46b0846..a06a087f00b6991f7514adf7f8c713bef1a43563 100644
+> --- a/tools/testing/selftests/hid/tests/test_multitouch.py
+> +++ b/tools/testing/selftests/hid/tests/test_multitouch.py
+> @@ -9,6 +9,7 @@
+>  from . import base
+>  from hidtools.hut import HUT
+>  from hidtools.util import BusType
+> +import enum
+>  import libevdev
+>  import logging
+>  import pytest
+> @@ -232,11 +233,17 @@ class Digitizer(base.UHIDTestDevice):
+>          return 0
+>  
+>  
+> +class HIDButtonType(enum.IntEnum):
+> +    CLICKPAD = 0
+> +    PRESSUREPAD = 1
+> +    DISCRETE_BUTTONS = 2
+> +
+> +
+>  class PTP(Digitizer):
+>      def __init__(
+>          self,
+>          name,
+> -        type="Click Pad",
+> +        buttontype=HIDButtonType.CLICKPAD,
+>          rdesc_str=None,
+>          rdesc=None,
+>          application="Touch Pad",
+> @@ -244,11 +251,8 @@ class PTP(Digitizer):
+>          max_contacts=None,
+>          input_info=None,
+>      ):
+> -        self.type = type.lower().replace(" ", "")
+> -        if self.type == "clickpad":
+> -            self.buttontype = 0
+> -        else:  # pressurepad
+> -            self.buttontype = 1
+> +        self.buttontype = buttontype
+> +
+>          self.clickpad_state = False
+>          self.left_state = False
+>          self.right_state = False
+> @@ -983,7 +987,7 @@ class BaseTest:
+>              uhdev = self.uhdev
+>              evdev = uhdev.get_evdev()
+>  
+> -            if uhdev.type == "clickpad":
+> +            if uhdev.buttontype == HIDButtonType.CLICKPAD:
+>                  r = uhdev.event(click=True)
+>                  events = uhdev.next_sync_events()
+>                  self.debug_reports(r, uhdev, events)
+> @@ -1918,7 +1922,7 @@ class Testdell_044e_1220(BaseTest.TestPTP):
+>      def create_device(self):
+>          return PTP(
+>              "uhid test dell_044e_1220",
+> -            type="pressurepad",
+> +            buttontype=HIDButtonType.DISCRETE_BUTTONS,
+>              rdesc="05 01 09 02 a1 01 85 01 09 01 a1 00 05 09 19 01 29
+> 03 15 00 25 01 75 01 95 03 81 02 95 05 81 01 05 01 09 30 09 31 15 81 25
+> 7f 75 08 95 02 81 06 09 38 95 01 81 06 05 0c 0a 38 02 81 06 c0 c0 05 0d
+> 09 05 a1 01 85 08 09 22 a1 02 15 00 25 01 09 47 09 42 95 02 75 01 81 02
+> 95 01 75 03 25 05 09 51 81 02 75 01 95 03 81 03 05 01 15 00 26 af 04 75
+> 10 55 0e 65 11 09 30 35 00 46 e8 03 95 01 81 02 26 7b 02 46 12 02 09 31
+> 81 02 c0 55 0c 66 01 10 47 ff ff 00 00 27 ff ff 00 00 75 10 95 01 05 0d
+> 09 56 81 02 09 54 25 05 95 01 75 08 81 02 05 09 19 01 29 03 25 01 75 01
+> 95 03 81 02 95 05 81 03 05 0d 85 09 09 55 75 08 95 01 25 05 b1 02 06 00
+> ff 85 0a 09 c5 15 00 26 ff 00 75 08 96 00 01 b1 02 c0 06 01 ff 09 01 a1
+> 01 85 03 09 01 15 00 26 ff 00 95 1b 81 02 85 04 09 02 95 50 81 02 85 05
+> 09 03 95 07 b1 02 85 06 09 04 81 02 c0 06 02 ff 09 01 a1 01 85 07 09 02
+> 95 86 75 08 b1 02 c0 05 0d 09 0e a1 01 85 0b 09 22 a1 02 09 52 15 00 25
+> 0a 75 08 95 01 b1 02 c0 09 22 a1 00 85 0c 09 57 09 58 75 01 95 02 25 01
+> b1 02 95 06 b1 03 c0 c0",
 
-It depends. If it's truely a WIN_8 touchpad then I guess those checks
-are here for a reason, but if this particular device works without them,
-then it's your call in the end.
+Damn, I wanted to apply the patches, but this one is corrupt here (line
+wrapped).
 
 Cheers,
 Benjamin
+
+>          )
+>  
+> @@ -2018,7 +2022,7 @@ class Testelan_04f3_313a(BaseTest.TestPTP):
+>      def create_device(self):
+>          return PTP(
+>              "uhid test elan_04f3_313a",
+> -            type="touchpad",
+> +            buttontype=HIDButtonType.DISCRETE_BUTTONS,
+>              input_info=(BusType.I2C, 0x04F3, 0x313A),
+>              rdesc="05 01 09 02 a1 01 85 01 09 01 a1 00 05 09 19 01 29
+> 03 15 00 25 01 75 01 95 03 81 02 95 05 81 03 05 01 09 30 09 31 15 81 25
+> 7f 75 08 95 02 81 06 75 08 95 05 81 03 c0 06 00 ff 09 01 85 0e 09 c5 15
+> 00 26 ff 00 75 08 95 04 b1 02 85 0a 09 c6 15 00 26 ff 00 75 08 95 04 b1
+> 02 c0 06 00 ff 09 01 a1 01 85 5c 09 01 95 0b 75 08 81 06 85 0d 09 c5 15
+> 00 26 ff 00 75 08 95 04 b1 02 85 0c 09 c6 96 80 03 75 08 b1 02 85 0b 09
+> c7 95 82 75 08 b1 02 c0 05 0d 09 05 a1 01 85 04 09 22 a1 02 15 00 25 01
+> 09 47 09 42 95 02 75 01 81 02 05 09 09 02 09 03 15 00 25 01 75 01 95 02
+> 81 02 05 0d 95 01 75 04 25 0f 09 51 81 02 05 01 15 00 26 d7 0e 75 10 55
+> 0d 65 11 09 30 35 00 46 44 2f 95 01 81 02 46 12 16 26 eb 06 26 eb 06 09
+> 31 81 02 05 0d 15 00 25 64 95 03 c0 55 0c 66 01 10 47 ff ff 00 00 27 ff
+> ff 00 00 75 10 95 01 09 56 81 02 09 54 25 7f 95 01 75 08 81 02 25 01 75
+> 01 95 08 81 03 09 c5 75 08 95 02 81 03 05 0d 85 02 09 55 09 59 75 04 95
+> 02 25 0f b1 02 85 07 09 60 75 01 95 01 15 00 25 01 b1 02 95 0f b1 03 06
+> 00 ff 06 00 ff 85 06 09 c5 15 00 26 ff 00 75 08 96 00 01 b1 02 c0 05 0d
+> 09 0e a1 01 85 03 09 22 a1 00 09 52 15 00 25 0a 75 10 95 01 b1 02 c0 09
+> 22 a1 00 85 05 09 57 09 58 75 01 95 02 25 01 b1 02 95 0e b1 03 c0 c0 05
+> 01 09 02 a1 01 85 2a 09 01 a1 00 05 09 19 01 29 03 15 00 25 01 75 01 95
+> 03 81 02 95 05 81 03 05 01 09 30 09 31 15 81 25 7f 35 81 45 7f 55 00 65
+> 13 75 08 95 02 81 06 75 08 95 05 81 03 c0 c0",
+>          )
+> @@ -2110,7 +2114,7 @@ class Testsipodev_0603_0002(BaseTest.TestPTP):
+>      def create_device(self):
+>          return PTP(
+>              "uhid test sipodev_0603_0002",
+> -            type="clickpad",
+> +            buttontype=HIDButtonType.CLICKPAD,
+>              rdesc="05 01 09 02 a1 01 85 03 09 01 a1 00 05 09 19 01 29
+> 02 25 01 75 01 95 02 81 02 95 06 81 03 05 01 09 30 09 31 15 80 25 7f 75
+> 08 95 02 81 06 c0 c0 05 0d 09 05 a1 01 85 04 09 22 a1 02 15 00 25 01 09
+> 47 09 42 95 02 75 01 81 02 75 01 95 02 81 03 95 01 75 04 25 05 09 51 81
+> 02 05 01 15 00 26 44 0a 75 0c 55 0e 65 11 09 30 35 00 46 ac 03 95 01 81
+> 02 46 fe 01 26 34 05 75 0c 09 31 81 02 05 0d c0 55 0c 66 01 10 47 ff ff
+> 00 00 27 ff ff 00 00 75 10 95 01 09 56 81 02 09 54 25 0a 95 01 75 04 81
+> 02 75 01 95 03 81 03 05 09 09 01 25 01 75 01 95 01 81 02 05 0d 85 0a 09
+> 55 09 59 75 04 95 02 25 0f b1 02 85 0b 09 60 75 01 95 01 15 00 25 01 b1
+> 02 95 07 b1 03 85 09 06 00 ff 09 c5 15 00 26 ff 00 75 08 96 00 01 b1 02
+> c0 05 0d 09 0e a1 01 85 06 09 22 a1 02 09 52 15 00 25 0a 75 08 95 01 b1
+> 02 c0 09 22 a1 00 85 07 09 57 09 58 75 01 95 02 25 01 b1 02 95 06 b1 03
+> c0 c0 05 01 09 0c a1 01 85 08 15 00 25 01 09 c6 75 01 95 01 81 06 75 07
+> 81 03 c0 05 01 09 80 a1 01 85 01 15 00 25 01 75 01 0a 81 00 0a 82 00 0a
+> 83 00 95 03 81 06 95 05 81 01 c0 06 0c 00 09 01 a1 01 85 02 25 01 15 00
+> 75 01 0a b5 00 0a b6 00 0a b7 00 0a cd 00 0a e2 00 0a a2 00 0a e9 00 0a
+> ea 00 95 08 81 02 0a 83 01 0a 6f 00 0a 70 00 0a 88 01 0a 8a 01 0a 92 01
+> 0a a8 02 0a 24 02 95 08 81 02 0a 21 02 0a 23 02 0a 96 01 0a 25 02 0a 26
+> 02 0a 27 02 0a 23 02 0a b1 02 95 08 81 02 c0 06 00 ff 09 01 a1 01 85 05
+> 15 00 26 ff 00 19 01 29 02 75 08 95 05 b1 02 c0",
+>          )
+>  
+> 
+> -- 
+> 2.51.1
+> 
 
