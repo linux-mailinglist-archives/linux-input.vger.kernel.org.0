@@ -1,113 +1,112 @@
-Return-Path: <linux-input+bounces-16627-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16628-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEE24CCDC6C
-	for <lists+linux-input@lfdr.de>; Thu, 18 Dec 2025 23:20:16 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id AEDF0CCE1E8
+	for <lists+linux-input@lfdr.de>; Fri, 19 Dec 2025 02:13:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 6A1DD302104E
-	for <lists+linux-input@lfdr.de>; Thu, 18 Dec 2025 22:20:02 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 7B06B3012747
+	for <lists+linux-input@lfdr.de>; Fri, 19 Dec 2025 01:13:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 942EC2C0F9A;
-	Thu, 18 Dec 2025 22:20:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E33B2221DAC;
+	Fri, 19 Dec 2025 01:13:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PPksnFyL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f29G9ppp"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A6AB2BE630
-	for <linux-input@vger.kernel.org>; Thu, 18 Dec 2025 22:19:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F72C18C008;
+	Fri, 19 Dec 2025 01:13:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766096401; cv=none; b=M9OAkf2rsvrMiQhgapPTKwBkruRsEn/2auQfcE0acgu7V289bKO7mvwnHZTgRLU0Zgyb6d6p8c7FdXbuz68YplLOfdjQJWxW6lFQvi6xqTp9bL+B1H8kiB7I96xYM6yt4meOMEWqKL5y4j/tF5nfXMdXzO0uv/9MEaHtAaDcA+8=
+	t=1766106812; cv=none; b=lISLgvLXhqYQs1oWNBQochJpEOWtCqR9ZEhCn5UoSawOz0CcC/EtQCFgttqE1jxWRKq1Um87zWmjIQeKJVNqHi/seZZHk+ezwLP8JLrP72UBpJU+UyqQSIcSeV6PGDXXHFEqWDnx9mgHgC70/1NGzetPmMMkWVaORd9eiODVeuk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766096401; c=relaxed/simple;
-	bh=9i7cze2zXw3sphfypXDmh432a+tbDocZK89YgxAxEHA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PnPNWOdCPns3SIkMQxLo8rQ73CnfK2Sz936ygO9nYT6cHIsscvj2ZJ3kPwpBy5LQ6S+7/8yLZp0GPW64+GYHUUFhe/JUsd9nRG1sFkzjj894VxowZuwQQxT5zxHjTtjWc29MFvumMX788xYxysqbqYvjJliVpC/Sz8xKqC530MU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PPksnFyL; arc=none smtp.client-ip=209.85.210.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-7b9c17dd591so1041734b3a.3
-        for <linux-input@vger.kernel.org>; Thu, 18 Dec 2025 14:19:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766096399; x=1766701199; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=DHi2VHdVHFCMJr3d7N3lZkt4cAkpVU0QksLG1hGqfO8=;
-        b=PPksnFyLJiG/T73wpwlgeVFlgpQGAUvujlkJFg5T+ubAsNAb1cQ7v5s5pX+ennPr9y
-         F9a1CbdCeOkWBUpLXG727eqr1pYpkyVPk6wErsLf99ErDlLp86oV5ZTwYHgvRvCohPBn
-         AyHRFTs7P9mR40+rVB0ECMCxfbtIKULDjTYAmvxuSxDCeFwUD7K5w+To3GkpWoDDZw60
-         SyZp9+VDLuRPyTwmP4rbWt8NLuprky34UUhzcYeeTdVP85/rFYJBI9QATfA/VJWhK6ei
-         7WOTtSVAvHyn1c+KnJ35eJsH0aykLSfHOR86Wndm2GXttsX6la6v8qgWdihecOaC0eMQ
-         fZ4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766096399; x=1766701199;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=DHi2VHdVHFCMJr3d7N3lZkt4cAkpVU0QksLG1hGqfO8=;
-        b=p1I6w4tKNtvQrjna5/v7hQtztd2r0hyWcoEb3/JXJXankQb9v8sJw2usbK/r3Go2QA
-         2AzWyB+Yi4+O93Rn7sj6tyAcq0LynPjj0XvOjoVUwhvNly2wMd0A4lzwG99zvpvxMPjG
-         lVEZb4Q5lY1t6djx1IaObgtF78DdyOYhGl40GuYQwmv+MfTj4aVMny+K0OjBEz2w1ZQu
-         Trbmo8qFac3HXJBHCGnL7b0rAZMoEswpfyBgRrJa5pqr7X5wsC0XzRE9uHV007lwvL9y
-         1xOBFYS5lGAbNEoUtWlTZB/PNPlSx8XGfpUlAjVowtjieXtZAFmOUnNnzb0MlX4UV3HQ
-         yGjQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUvO/qhsOuWZiVgvJ7U+5ikBurJDHSkOMCwJh2m4AbWI3WWOntArHASnWUQ7OpFWMajw90Zt+uTrT2pow==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxK38mepYnBT22VQoxv5FyPbLwm9RyAjIfAJNdR/oMv3csEdqKO
-	PpQXow7HaEJHsIgT9N6x23UZ0mA4Ozs84OZXdYmggF5i/apAjALb6XjG
-X-Gm-Gg: AY/fxX6ctVAQB0kIEcrHX0+7dbz/nPRkSga1w2hna6ELvF5DTrjO/+UfU4pIaDpg2fO
-	oV/dZpR8TQFtPApiFTTe01sfYaFLkq5wb67/TzOZwmqc3cVPIdLOh6ksKKBM4frEbr7XWSYCklt
-	JktQ9vIu8wjLMxfnCa3YVyY1/S6KKObcUn0EzNUySzkyhF6hTE3UAuqwriqqHE5wHcNAGnQqJkI
-	Fn7n8q/xLUwO+pEEGVbDXOIbU3j22TKsb++9OzKjajnK6fBgLEgC9gVR2oqiyLr/eE/KeWO0D5G
-	tSR1lzz2KrW+pn+aH/pH8j10zDpyoubhjTDjOrsO7Tn+gZabGWp6P/9nx/kvwSiwfri+u+iFWqH
-	Bo0mNBAts0C2qkXeY5cdrtkLv4g6uioKsVy0+gZczGmChuB7K1qARLr0bPRKlo+6/Uh4dBwkWmT
-	psmEfNXszVbtibWKiFDvU2PsbD58OnjIll4YqxilFzMLqtFGVBFAo=
-X-Google-Smtp-Source: AGHT+IEJ6Dza5e+TAlnoSNxkhL516y4Cp3K+eoLm8K4vH3URG1EJpjMsZlCqp1ChQbxfdNHgZFOu0g==
-X-Received: by 2002:a05:7022:4190:b0:119:e56b:98b8 with SMTP id a92af1059eb24-121722ebb6cmr841995c88.31.1766096399117;
-        Thu, 18 Dec 2025 14:19:59 -0800 (PST)
-Received: from google.com ([2a00:79e0:2ebe:8:c00:cda0:e722:e1ee])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1217254c734sm1678256c88.13.2025.12.18.14.19.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Dec 2025 14:19:58 -0800 (PST)
-Date: Thu, 18 Dec 2025 14:19:55 -0800
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: fnkl.kernel@gmail.com
-Cc: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
-	Neal Gompa <neal@gompa.dev>, asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, pitust <piotr@stelmaszek.com>
-Subject: Re: [PATCH] Input: apple_z2: Fix reading incorrect reports after
- exiting sleep
-Message-ID: <snwkpf4esyxxhyo2yzq5xepgoh6nkvvqldbiqpj6zm3bbc43zn@gdsxdsza564a>
-References: <20251218-z2-init-fix-v1-1-48e3aa239caf@gmail.com>
+	s=arc-20240116; t=1766106812; c=relaxed/simple;
+	bh=bqzqJfBt8us3dL61OfU3GC49wJR3Dv2Sh9N7ModqmVE=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=cCpFrTJQFOxMlGtI1yMoTqE8nmwlRhKB9tP8gieJ2+uEyzbmqhhQ8i3KfgMRtBoa+YSUGmd2MTXUqoG1PX2bbDrCnvsa9LKmwSDfulILdn/CMKkJiaiBlZB/zmyOzAfozN0v0qdezbNKxRfwxt/ap7lY+RZwFVHdeHLmwPulA34=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f29G9ppp; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1766106811; x=1797642811;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=bqzqJfBt8us3dL61OfU3GC49wJR3Dv2Sh9N7ModqmVE=;
+  b=f29G9pppej6hlsIt7qYoR3kwtsR0XYjmOkzbyj3I43zhHQhFSFy20NrX
+   txVx9p8wneGRRDEyj9tEb80MD62JR/B7jMvD8eunTDOWsyRr2cpxDVcpn
+   dz92BUo6XCDsQecHrWn/UhO9cJtfmmaTbv4I4T3iwLCbIAnGkpauiqXrD
+   CL2HMp6xeywSJaLVdmzU0Q4GcR0eUY0ntSGjEEkHc4GPdJh9nGBdvXHzG
+   YIFRXHQtGN+HZtA8pmbZQ5TUN1OdaEqZkVvuD8LYCWrmCA4F0EK6HFaWk
+   abHCch8kkqdXGsqKzpUgvuqjkREId1dfqRI9yavL/ZAELBkImKyokm1Mc
+   Q==;
+X-CSE-ConnectionGUID: jIhKWr/ZSk2LmEe6OETucw==
+X-CSE-MsgGUID: yuTYADgFQxys88DtQ3brvw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11646"; a="78386877"
+X-IronPort-AV: E=Sophos;i="6.21,159,1763452800"; 
+   d="scan'208";a="78386877"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2025 17:13:30 -0800
+X-CSE-ConnectionGUID: pzzurXEYQCe2FWks5md7MQ==
+X-CSE-MsgGUID: ZolXeGMvRiWeVCCmzLPdnQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,159,1763452800"; 
+   d="scan'208";a="203130049"
+Received: from shsensorbuild.sh.intel.com ([10.239.132.250])
+  by fmviesa005.fm.intel.com with ESMTP; 18 Dec 2025 17:13:28 -0800
+From: Even Xu <even.xu@intel.com>
+To: jikos@kernel.org,
+	bentiss@kernel.org
+Cc: srinivas.pandruvada@linux.intel.com,
+	linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Even Xu <even.xu@intel.com>
+Subject: [PATCH] HID: Intel-thc-hid: Intel-thc: Fix wrong register reading
+Date: Fri, 19 Dec 2025 09:14:38 +0800
+Message-Id: <20251219011438.2104441-1-even.xu@intel.com>
+X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251218-z2-init-fix-v1-1-48e3aa239caf@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Dec 18, 2025 at 09:11:26AM +0100, Sasha Finkelstein via B4 Relay wrote:
-> From: Sasha Finkelstein <fnkl.kernel@gmail.com>
-> 
-> Under certain conditions (more prevalent after a suspend/resume cycle),
-> the touchscreen controller can send the "boot complete" interrupt before
-> it actually finished booting. In those cases, attempting to read touch
-> data resuls in a stream of "not ready" messages being read and
-> interpreted as a touch report. Check that the response is in fact a
-> touch report and discard it otherwise.
-> 
-> Reported-by: pitust <piotr@stelmaszek.com>
-> Closes: https://oftc.catirclogs.org/asahi/2025-12-17#34878715;
-> Fixes: 471a92f8a21a ("Input: apple_z2 - add a driver for Apple Z2 touchscreens")
-> Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
+Correct the read register for the setting of max input size and
+interrupt delay.
 
-Applied, thank you.
+Fixes: 22da60f0304b ("HID: Intel-thc-hid: Intel-thc: Introduce interrupt delay control")
+Fixes: 45e92a093099 ("HID: Intel-thc-hid: Intel-thc: Introduce max input size control")
+Signed-off-by: Even Xu <even.xu@intel.com>
+---
+ drivers/hid/intel-thc-hid/intel-thc/intel-thc-dev.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
+diff --git a/drivers/hid/intel-thc-hid/intel-thc/intel-thc-dev.c b/drivers/hid/intel-thc-hid/intel-thc/intel-thc-dev.c
+index 636a68306501..7e220a4c5ded 100644
+--- a/drivers/hid/intel-thc-hid/intel-thc/intel-thc-dev.c
++++ b/drivers/hid/intel-thc-hid/intel-thc/intel-thc-dev.c
+@@ -1593,7 +1593,7 @@ int thc_i2c_set_rx_max_size(struct thc_device *dev, u32 max_rx_size)
+ 	if (!max_rx_size)
+ 		return -EOPNOTSUPP;
+ 
+-	ret = regmap_read(dev->thc_regmap, THC_M_PRT_SW_SEQ_STS_OFFSET, &val);
++	ret = regmap_read(dev->thc_regmap, THC_M_PRT_SPI_ICRRD_OPCODE_OFFSET, &val);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -1662,7 +1662,7 @@ int thc_i2c_set_rx_int_delay(struct thc_device *dev, u32 delay_us)
+ 	if (!delay_us)
+ 		return -EOPNOTSUPP;
+ 
+-	ret = regmap_read(dev->thc_regmap, THC_M_PRT_SW_SEQ_STS_OFFSET, &val);
++	ret = regmap_read(dev->thc_regmap, THC_M_PRT_SPI_ICRRD_OPCODE_OFFSET, &val);
+ 	if (ret)
+ 		return ret;
+ 
 -- 
-Dmitry
+2.40.1
+
 
