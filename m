@@ -1,160 +1,533 @@
-Return-Path: <linux-input+bounces-16654-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16655-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EB33CD3D16
-	for <lists+linux-input@lfdr.de>; Sun, 21 Dec 2025 09:40:51 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id A01CACD3F2E
+	for <lists+linux-input@lfdr.de>; Sun, 21 Dec 2025 12:12:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 69FF030056F6
-	for <lists+linux-input@lfdr.de>; Sun, 21 Dec 2025 08:40:43 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 892DE3006464
+	for <lists+linux-input@lfdr.de>; Sun, 21 Dec 2025 11:12:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B1CE78F2B;
-	Sun, 21 Dec 2025 08:40:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E26731EBA19;
+	Sun, 21 Dec 2025 11:12:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ux9HwHR4"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GXKBj0mK"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-dy1-f170.google.com (mail-dy1-f170.google.com [74.125.82.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAE5D1A9FA7
-	for <linux-input@vger.kernel.org>; Sun, 21 Dec 2025 08:40:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9E1A78F2E;
+	Sun, 21 Dec 2025 11:12:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766306442; cv=none; b=OnD42Y94bs2oyN+57uy08Ce6z+IhU2Qd2krez2UiD2IppLijkJjBTCUFsaGHwfCDEzZw/xbdv070+rvYfV5y3libTt3mjje5x8VzmSYXH7CcEzpp6uWViK+C3VR1BzicnAMrqhS73achO0sxJZnB0v96UVDoeNobYU0dldQjAT4=
+	t=1766315548; cv=none; b=YCVts4k6HisETcmPq9eYWZK/dr9TvfrT1RENJONKxj9Zz5QoHVQNJEuRj6yUiw+B0pbhaJXrQTmh643/BpGvd/AzXqe5cirMJJo60lT+PhT4sH6Ob2jjM9+yKfw75qfPdIHNufOFyKc0YWNM0wGsY2iDyh1zX4lTec8UOO0efBU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766306442; c=relaxed/simple;
-	bh=Qi5iMViMuVWG9xoMYbg51z1YASLbyD0m4D8zRsZXH/4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=HPu3083sqqps4sgHnl/cD8N3mQSGaT/NziZyxjtSUVKbFhw+AhuOY8nxPLCrxEQDS+G7G31Mj2d7ZXEC9uxJrRcKL081zbcNyoTLuloRG2JepDmavw+80wpoADEqz/nIkqWCWxp1suIQ6usJ3Y73+jIbhf2A9jOa/9PDPeq5SjU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ux9HwHR4; arc=none smtp.client-ip=74.125.82.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-dy1-f170.google.com with SMTP id 5a478bee46e88-2ae24015dc0so3716474eec.1
-        for <linux-input@vger.kernel.org>; Sun, 21 Dec 2025 00:40:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766306440; x=1766911240; darn=vger.kernel.org;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=z8A/DbUA6t8LkaWbyH6yKzQubOvdRGHPj/KkasSzGFA=;
-        b=Ux9HwHR4CxPVdMk4oLBBJFpoHqnaoxnRojHd8zr+NBMisrwWQ9wy3l5prNEUWSHVxm
-         EEzVZWXgvxYCOi+Zbl4LDtBJuRkxNvL/UAdWkdHes6kGIcWXwrF3joaDUTdRmlTrCLLk
-         Boy4D0Xm0UhxXMed5SG+iFTWnURZmthp6VKjP7Ghhxdp7c/cYfgZk03RpgPiMYmXbnbZ
-         9T2QLBAHs5o9q8+F6ODEXrd9P9Fo937ggASWuNl1SwvAGso9OHxLF+7Y4S1n8k2+TwmF
-         cE2SlFnuY/L3Akvr4JflgtQUOmEWU5BeDAovvfrj3l8RZAyIqjCn6cyRE7/lnM4nR9Lv
-         3lqg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766306440; x=1766911240;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=z8A/DbUA6t8LkaWbyH6yKzQubOvdRGHPj/KkasSzGFA=;
-        b=SeRM7L1YecZJgug54mbi22Z4Fjf+X1a8G/pBzhWKnSN1I993n0Wq4yp/h6Nx/2gf/j
-         lpVJgOHK+OgzLdxmiHXM6J4+A1+sluSQCjEGbIT4hsTC0FF7vn8wZtR0WDO6jGoALjWb
-         wbKD1cMjHDhUEIvT4Q00xWGxhmGiew7l+MSq6lD5C01PZK+ZX5YHbTI/THhhXY24cthQ
-         BQnii5UU/Z588IAcdVJ5iT4and/KkULcyA4YqyWdHt1FS/X+P81UkTxOLaDOylZYwkz8
-         svhv5VOwwXlUCg+iUjQaHXE7UEs5Iue4gTj6FEikwai+OdNmj9QLoSHyfXciYSr7hxKS
-         XI2g==
-X-Forwarded-Encrypted: i=1; AJvYcCUluljgN8l3NM0YAYTNvFC8uJ8NRJpz/fTBHDyzKh4fuhF1qWrjVvlijiLTC9ckF+m53eF0aYy7f6O9aQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywgl1UGbXANB02HbjGVC5eFDY5sRYBeqKhajMEzTSs3b/9Q3Q0z
-	sqrDVrR2A0zUBNIrb9A5HeLgIzcxDH6KVuoRJrd8HgA+0siIEuxo03N+
-X-Gm-Gg: AY/fxX7kV/X0CCXQU2ohJWPGaw/GhFf45GS+ZzU8ghd/DzneYFz0eqPZgre7PLqeMYu
-	mLyWrgDQ1G0V3OKAczZ02z5TJwHk+l/5a88Qw6DBb5KOs+DGNoOMhbjrHSH00WK0hpsP6ZiVu+n
-	NOOIQ+vZzkXcwKgyQmQEUmFjDw4iLIhKis9o2V99VjC+w0Ku4uTtmMn+ZaVYe7isOItRmAnE1V7
-	H7MH8+dx1LjlnBvPr0IxDK/ltN+Kx6LkDDh14Dvcyd+s2Fx2FOVJmanG2LqITt1S8Jur7+/VRxi
-	vICdmYWrdrdY0PUa3WxyYeqroy3fHH5k66w4EKUO/Nr2fRz32l/N6aicGe1VtK3xcFt1SCtHLpT
-	6zNtZHXcaq4w3Q6/cWJ9QC8IdxjXhxEaO/S51T3HbdFYNI6nBNHjCnJcJZyLgIxssNPEMiH4yU4
-	JeyG436aVuDcvJPF95tcgis5FUyDrAzGuJE7j7QXTzpGE90aiB8Ig=
-X-Google-Smtp-Source: AGHT+IGIvBrFfhgi2EKepRZ+TUnjVfsKhv8KTU9eRc/3lC38Ph9HKotP6DtIYGI7odbbHy3UyfvGJQ==
-X-Received: by 2002:a05:7022:619d:b0:11b:9386:a38e with SMTP id a92af1059eb24-12062163989mr12683707c88.21.1766306439617;
-        Sun, 21 Dec 2025 00:40:39 -0800 (PST)
-Received: from google.com ([2a00:79e0:2ebe:8:a8e9:9a4:3711:628c])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2b05ff8634csm19391112eec.3.2025.12.21.00.40.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 21 Dec 2025 00:40:39 -0800 (PST)
-Date: Sun, 21 Dec 2025 00:40:36 -0800
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
-Subject: [git pull] Input updates for v6.19-rc1
-Message-ID: <lxy277le4ku73e5xf4yawoviapa5ii3msto7wjgzl3o5fmwnrr@3bcntrq7tk4i>
+	s=arc-20240116; t=1766315548; c=relaxed/simple;
+	bh=ec96tAEOXALc9aCBhzT5fARzm+25iWy+XvT3cRjF2+o=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=YR/2MMvQp+MTlUrGLLMlngbMFnl0yEQgP3RaU9xlXYSPazO0RuebR9pcU0rmUHbCPly+a6w19zP42nEyI9fYYOHRAPsoS6wbgKt5qz/FBBip65Z52qGw88oxcrZm4UAu07Wwm7pABCDL/RwgMftvCXrw+3vBD2Inc5so9Jzr9mI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GXKBj0mK; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 3A3F9C4CEFB;
+	Sun, 21 Dec 2025 11:12:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1766315548;
+	bh=ec96tAEOXALc9aCBhzT5fARzm+25iWy+XvT3cRjF2+o=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=GXKBj0mKxucPVYHIncHIynNQR3U6V9EtA7mBNFBFJ94tQ6u6YGqKFQ3DmLulaEiuz
+	 3Gh29KhPfrFVhoZCVaSOrP9EdD5F0aXyYQd5UBYTq3hQNWdraN/tf/jfzAsr8P04Kz
+	 JKhNFUnatSW2l142952UYV0NoLKdV4lNI1IUFpkyR4JtvsZQstvBnsHt687T0TU+pr
+	 hiUqpCJxV0V4O8h/q+G8QrocZjBUU0Ka3bYnhhVQ37F0BG4D8FECzqiQKX3xew8N4a
+	 TUJmD/Dgg7uaUdzyR5ffjW7jF23Q90/N4f+4wJYgCXmrLyKlc/bCjORLcidrrp1wbn
+	 gGzXsR8yC0+wA==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2328AE67482;
+	Sun, 21 Dec 2025 11:12:28 +0000 (UTC)
+From: Alexandru Marc Serdeliuc via B4 Relay <devnull+serdeliuk.yahoo.com@kernel.org>
+Date: Sun, 21 Dec 2025 12:12:26 +0100
+Subject: [PATCH] HID: asus: add new Asus EC hid device for keyboard
+ backlight and FN HotKeys
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20251221-add-support-for-the-asus-hid-ec-v1-1-35d7d70fbbfc@yahoo.com>
+X-B4-Tracking: v=1; b=H4sIABnWR2kC/x3NTQqDQAxA4atI1g046R/tVUoX0cRONs6QqBTEu
+ 3fo8tu8t0OomwY8ux1cNwsrc0M6dTBmnj+KJs1APV0TUUIWwVhrLb7gVByXrMixBmYT1BH51g8
+ PJrlfhjO0SnWd7Ps/vN7H8QPjXYvEcQAAAA==
+X-Change-ID: 20251221-add-support-for-the-asus-hid-ec-a60b9a2d74b3
+To: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-input@vger.kernel.org, 
+ Alexandru Marc Serdeliuc <serdeliuk@yahoo.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1766315546; l=14614;
+ i=serdeliuk@yahoo.com; s=20240326; h=from:subject:message-id;
+ bh=FVls44rC3kCWAia0b4VndnrMgzTsYDMV5S2vJbaf0i8=;
+ b=CkPiQ2YNWYdOZL+lAafTjsBgrRpEAKaFMwv6exCxUEbqB61/tiz1tM4Tm0K/JF4lJ+GrPSdXJ
+ ZekaZUoERRVDdZLqQZ3M+Ryde4XcuKgBjWlbStGJkwtwCoopoBZQLvS
+X-Developer-Key: i=serdeliuk@yahoo.com; a=ed25519;
+ pk=aWyveUE11qfDOOlRIFayXukrNn39BvZ9k9uq94dAsgY=
+X-Endpoint-Received: by B4 Relay for serdeliuk@yahoo.com/20240326 with
+ auth_id=147
+X-Original-From: Alexandru Marc Serdeliuc <serdeliuk@yahoo.com>
+Reply-To: serdeliuk@yahoo.com
 
-Hi Linus,
+From: Alexandru Marc Serdeliuc <serdeliuk@yahoo.com>
 
-Please pull from:
+Add support for Asus Embedded Controlled accessed via HID
 
-	git://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git tags/input-for-v6.19-rc1
+Currently working features:
+- Keyboard Backlight
+- FN HotKeys
 
-to receive updates for the input subsystem. You will get:
+Signed-off-by: Alexandru Marc Serdeliuc <serdeliuk@yahoo.com>
+---
+Add support for Asus Embedded Controlled accessed via HID
 
-- a quirk for i8042 to better handle another TUXEDO model
+Currently working features:
+- Keyboard Backlight
+- FN HotKeys
+---
+ drivers/hid/Kconfig       |  10 ++
+ drivers/hid/Makefile      |   1 +
+ drivers/hid/hid-asus-ec.c | 386 ++++++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 397 insertions(+)
 
-- a quirk to atkbd to handle incorcet behavior of HONOR FMB-P internal
-  keyboard
+diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
+index 920a64b66b25b39e8259105c7c9b975fb77b2725..f0fbc951735eeea39198137294a9429f5b9d34b8 100644
+--- a/drivers/hid/Kconfig
++++ b/drivers/hid/Kconfig
+@@ -202,6 +202,16 @@ config HID_ASUS
+ 	- GL553V series
+ 	- GL753V series
+ 
++config HID_ASUS_EC
++	tristate "ASUS EC HID support (Zenbook A14 UX3407QA)"
++	depends on HID && I2C_HID
++	help
++	  Say Y here if you have an ASUS Zenbook A14 (UX3407QA) and want
++	  support for its EC-controlled keyboard backlight and Fn hotkeys
++
++	  This driver is currently only tested on the ASUS Zenbook A14
++	  UX3407QA; behaviour on other models is unknown.
++
+ config HID_AUREAL
+ 	tristate "Aureal"
+ 	help
+diff --git a/drivers/hid/Makefile b/drivers/hid/Makefile
+index 361a7daedeb85454114def8afb5f58caeab58a00..bacccf00482c1b787ce59660e4366f8224aeefee 100644
+--- a/drivers/hid/Makefile
++++ b/drivers/hid/Makefile
+@@ -34,6 +34,7 @@ obj-$(CONFIG_HID_APPLETB_BL)	+= hid-appletb-bl.o
+ obj-$(CONFIG_HID_APPLETB_KBD)	+= hid-appletb-kbd.o
+ obj-$(CONFIG_HID_CREATIVE_SB0540)	+= hid-creative-sb0540.o
+ obj-$(CONFIG_HID_ASUS)		+= hid-asus.o
++obj-$(CONFIG_HID_ASUS_EC)	+= hid-asus-ec.o
+ obj-$(CONFIG_HID_AUREAL)	+= hid-aureal.o
+ obj-$(CONFIG_HID_BELKIN)	+= hid-belkin.o
+ obj-$(CONFIG_HID_BETOP_FF)	+= hid-betopff.o
+diff --git a/drivers/hid/hid-asus-ec.c b/drivers/hid/hid-asus-ec.c
+new file mode 100644
+index 0000000000000000000000000000000000000000..1cf61fb2468d079827bfdb1db49daca905e53874
+--- /dev/null
++++ b/drivers/hid/hid-asus-ec.c
+@@ -0,0 +1,386 @@
++// SPDX-License-Identifier: GPL-2.0-or-later
++/*
++ * ASUS EC HID driver for Zenbook A14 (UX3407QA)
++ *
++ * EC I2C HID driver for keyboard backlight and Fn hotkeys.
++ *
++ * Copyright (c) 2025 Alexandru Marc Serdeliuc <serdeliuk@yahoo.com>
++ */
++
++#include <linux/module.h>
++#include <linux/init.h>
++#include <linux/hid.h>
++#include <linux/input.h>
++#include <linux/leds.h>
++#include <linux/slab.h>
++#include <linux/kernel.h>
++#include <linux/list.h>
++#include <linux/string.h>
++#include <linux/delay.h>
++#include <linux/pm.h>
++
++#define ASUS_VENDOR_ID		0x0B05
++#define ASUS_PRODUCT_ID		0x0220
++
++#define A14_EC_REPORT_ID	0x5A
++#define A14_EC_REPORT_SIZE	64
++#define A14_EC_MAX_BACKLIGHT	3
++
++#define A14_EC_EVT_KEY_FN_ESC	0x4E
++#define A14_EC_EVT_KEY_FN_F4	0xC7
++#define A14_EC_EVT_KEY_FN_F5	0x10
++#define A14_EC_EVT_KEY_FN_F6	0x20
++#define A14_EC_EVT_KEY_FN_F8	0x7E
++#define A14_EC_EVT_KEY_FN_F9	0x7C
++#define A14_EC_EVT_KEY_FN_F10	0x85
++#define A14_EC_EVT_KEY_FN_F11	0x6B
++#define A14_EC_EVT_KEY_FN_F12	0x86
++#define A14_EC_EVT_KEY_FN_F	0x9d
++
++
++struct asus_hid_data {
++	struct hid_device *hdev;
++	struct led_classdev kbd_led_cdev;
++	struct input_dev *hotkey_input_dev;
++	enum led_brightness saved_brightness;
++};
++
++static struct asus_hid_data *asus_data;
++
++static int asus_send_ec_command(struct hid_device *hdev, u8 *cmd_buf)
++{
++	int ret;
++	u8 report_id = cmd_buf[0];
++
++	ret = hid_hw_raw_request(hdev, report_id, cmd_buf, A14_EC_REPORT_SIZE,
++				     HID_FEATURE_REPORT,
++				     HID_REQ_SET_REPORT);
++
++	if (ret < 0)
++		dev_err(&hdev->dev, "hid_hw_raw_request failed with status: %d\n", ret);
++
++	return ret;
++}
++
++static int asus_kbd_led_init(struct hid_device *hdev)
++{
++	u8 ec_init_cmd[A14_EC_REPORT_SIZE] = { A14_EC_REPORT_ID, 0xD0, 0x8F, 0x01 };
++	int ret;
++
++	ret = asus_send_ec_command(hdev, ec_init_cmd);
++
++	if (ret < 0)
++		return ret;
++
++	u8 brightness_cmd[A14_EC_REPORT_SIZE] = { A14_EC_REPORT_ID, 0xBA, 0xC5,
++				    0xC4, A14_EC_MAX_BACKLIGHT };
++
++	ret = asus_send_ec_command(hdev, brightness_cmd);
++	if (ret < 0)
++		dev_warn(&hdev->dev, "Brightness init failed: %d\n", ret);
++
++	return ret;
++}
++
++static void asus_kbd_set_brightness(struct led_classdev *led_cdev,
++				    enum led_brightness brightness)
++{
++	struct asus_hid_data *data = container_of(led_cdev, struct asus_hid_data, kbd_led_cdev);
++
++	u8 level = (u8)brightness;
++
++	if (level > A14_EC_MAX_BACKLIGHT)
++		level = A14_EC_MAX_BACKLIGHT;
++
++	u8 buf[A14_EC_REPORT_SIZE] = { A14_EC_REPORT_ID, 0xBA, 0xC5, 0xC4, level };
++
++	asus_send_ec_command(data->hdev, buf);
++	msleep(20);
++	data->saved_brightness = (enum led_brightness)level;
++}
++
++static int asus_raw_event(struct hid_device *hdev, struct hid_report *report,
++			  u8 *raw_data, int size)
++{
++	struct asus_hid_data *data = hid_get_drvdata(hdev);
++	struct input_dev *input_dev = data->hotkey_input_dev;
++
++	if (report->id == A14_EC_REPORT_ID && size >= 2) {
++		u8 usage_code = raw_data[1];
++
++		switch (usage_code) {
++		case A14_EC_EVT_KEY_FN_ESC:
++			input_event(input_dev, EV_KEY, KEY_FN_ESC, 1);
++			input_sync(input_dev);
++			input_event(input_dev, EV_KEY, KEY_FN_ESC, 0);
++			input_sync(input_dev);
++			return 1;
++
++		/* FN + F1, F2 and F3 are not managed by EC*/
++
++		case A14_EC_EVT_KEY_FN_F4:
++			if (size >= 3) {
++				u8 current_level = data->saved_brightness;
++				u8 max_level = A14_EC_MAX_BACKLIGHT;
++				u8 next_level = (current_level + 1) % (max_level + 1);
++
++				asus_kbd_set_brightness(&data->kbd_led_cdev,
++							(enum led_brightness)next_level);
++				if (next_level > current_level ||
++				    (current_level == max_level && next_level == 0)) {
++					if (next_level == 0) {
++						input_event(input_dev, EV_KEY,
++							    KEY_KBDILLUMDOWN, 1);
++						input_sync(input_dev);
++						input_event(input_dev, EV_KEY,
++							    KEY_KBDILLUMDOWN, 0);
++						input_sync(input_dev);
++						input_event(input_dev, EV_KEY,
++							    KEY_KBDILLUMDOWN, 1);
++						input_sync(input_dev);
++						input_event(input_dev, EV_KEY,
++							    KEY_KBDILLUMDOWN, 0);
++						input_sync(input_dev);
++						input_event(input_dev, EV_KEY,
++							    KEY_KBDILLUMDOWN, 1);
++						input_sync(input_dev);
++						input_event(input_dev, EV_KEY,
++							    KEY_KBDILLUMDOWN, 0);
++						input_sync(input_dev);
++					} else {
++						input_event(input_dev, EV_KEY,
++							    KEY_KBDILLUMUP, 1);
++						input_sync(input_dev);
++						input_event(input_dev, EV_KEY,
++							    KEY_KBDILLUMUP, 0);
++						input_sync(input_dev);
++					}
++				} else if (next_level < current_level) {
++					input_event(input_dev, EV_KEY,
++						    KEY_KBDILLUMDOWN, 1);
++					input_sync(input_dev);
++					input_event(input_dev, EV_KEY,
++						    KEY_KBDILLUMDOWN, 0);
++					input_sync(input_dev);
++					input_event(input_dev, EV_KEY,
++						    KEY_KBDILLUMDOWN, 1);
++					input_sync(input_dev);
++					input_event(input_dev, EV_KEY,
++						    KEY_KBDILLUMDOWN, 0);
++					input_sync(input_dev);
++					input_event(input_dev, EV_KEY,
++						    KEY_KBDILLUMDOWN, 1);
++					input_sync(input_dev);
++					input_event(input_dev, EV_KEY,
++						    KEY_KBDILLUMDOWN, 0);
++					input_sync(input_dev);
++				}
++			}
++			return 1;
++		case A14_EC_EVT_KEY_FN_F5:
++			input_event(input_dev, EV_KEY, KEY_BRIGHTNESSDOWN, 1);
++			input_sync(input_dev);
++			input_event(input_dev, EV_KEY, KEY_BRIGHTNESSDOWN, 0);
++			input_sync(input_dev);
++			return 1;
++		case A14_EC_EVT_KEY_FN_F6:
++			input_event(input_dev, EV_KEY, KEY_BRIGHTNESSUP, 1);
++			input_sync(input_dev);
++			input_event(input_dev, EV_KEY, KEY_BRIGHTNESSUP, 0);
++			input_sync(input_dev);
++			return 1;
++
++		/* FN + F7 is not managed by the EC*/
++
++		case A14_EC_EVT_KEY_FN_F8:
++			input_event(input_dev, EV_KEY, KEY_EMOJI_PICKER, 1);
++			input_sync(input_dev);
++			input_event(input_dev, EV_KEY, KEY_EMOJI_PICKER, 0);
++			input_sync(input_dev);
++			return 1;
++		case A14_EC_EVT_KEY_FN_F9:
++			input_event(input_dev, EV_KEY, KEY_MICMUTE, 1);
++			input_sync(input_dev);
++			input_event(input_dev, EV_KEY, KEY_MICMUTE, 0);
++			input_sync(input_dev);
++			return 1;
++		case A14_EC_EVT_KEY_FN_F10:
++			input_event(input_dev, EV_KEY, KEY_CAMERA_ACCESS_TOGGLE, 1);
++			input_sync(input_dev);
++			input_event(input_dev, EV_KEY, KEY_CAMERA_ACCESS_TOGGLE, 0);
++			input_sync(input_dev);
++			return 1;
++		case A14_EC_EVT_KEY_FN_F11:
++			input_event(input_dev, EV_KEY, KEY_TOUCHPAD_TOGGLE, 1);
++			input_sync(input_dev);
++			input_event(input_dev, EV_KEY, KEY_TOUCHPAD_TOGGLE, 0);
++			input_sync(input_dev);
++			return 1;
++		case A14_EC_EVT_KEY_FN_F12:
++			input_event(input_dev, EV_KEY, KEY_PROG1, 1);
++			input_sync(input_dev);
++			input_event(input_dev, EV_KEY, KEY_PROG1, 0);
++			input_sync(input_dev);
++			return 1;
++		case A14_EC_EVT_KEY_FN_F:
++			input_event(input_dev, EV_KEY, KEY_PERFORMANCE, 1);
++			input_sync(input_dev);
++			input_event(input_dev, EV_KEY, KEY_PERFORMANCE, 0);
++			input_sync(input_dev);
++			return 1;
++		default:
++			return 0;
++		}
++	}
++	return 0;
++}
++
++static int asus_hid_suspend(struct hid_device *hdev, pm_message_t message)
++{
++	struct asus_hid_data *data = hid_get_drvdata(hdev);
++
++	if (message.event == PM_EVENT_SUSPEND || message.event == PM_EVENT_HIBERNATE) {
++		asus_kbd_set_brightness(&data->kbd_led_cdev, LED_OFF);
++		return 0;
++	}
++
++	dev_dbg(&hdev->dev, "Runtime suspend: turning off keyboard backlight\n");
++	asus_kbd_set_brightness(&data->kbd_led_cdev, LED_OFF);
++	return 0;
++}
++
++
++static int asus_hid_resume(struct hid_device *hdev)
++{
++	struct asus_hid_data *data = hid_get_drvdata(hdev);
++	int ret;
++	int retry_count;
++
++	msleep(40);
++
++	dev_dbg(&hdev->dev, "Re-initialising EC backlight communication\n");
++	retry_count = 0;
++	do {
++		ret = asus_kbd_led_init(hdev);
++		if (ret >= 0) {
++			dev_dbg(&hdev->dev,
++				"EC init successful on attempt %d\n",
++				retry_count + 1);
++			break;
++		}
++		retry_count++;
++		dev_warn(&hdev->dev,
++			 "EC init attempt %d failed: %d, retrying...\n",
++			 retry_count, ret);
++		msleep(300 * retry_count);
++	} while (retry_count < 5);
++
++	if (ret < 0) {
++		dev_err(&hdev->dev,
++			"EC init on resume failed after %d attempts: %d\n",
++			retry_count, ret);
++		dev_err(&hdev->dev,
++			"Keyboard backlight may not work; try reloading the driver\n");
++	} else {
++		dev_dbg(&hdev->dev, "EC backlight communication restored\n");
++	}
++
++	asus_kbd_set_brightness(&data->kbd_led_cdev, data->saved_brightness);
++
++	dev_info(&hdev->dev, "Resume complete\n");
++	return 0;
++}
++
++static const struct hid_device_id asus_hid_devices[] = {
++	/* Tested on ASUS Zenbook A14 (UX3407QA) only. */
++	{ HID_DEVICE(0x18, 0x00, ASUS_VENDOR_ID, ASUS_PRODUCT_ID) },
++	{ } /* Terminating entry */
++};
++MODULE_DEVICE_TABLE(hid, asus_hid_devices);
++
++static int asus_hid_probe(struct hid_device *hdev, const struct hid_device_id *id)
++{
++	int ret;
++	struct asus_hid_data *data;
++
++	data = devm_kzalloc(&hdev->dev, sizeof(*data), GFP_KERNEL);
++	if (!data)
++		return -ENOMEM;
++	data->hdev = hdev;
++	hid_set_drvdata(hdev, data);
++	asus_data = data;
++	data->saved_brightness = A14_EC_MAX_BACKLIGHT;
++	ret = hid_parse(hdev);
++	if (ret)
++		return ret;
++	ret = hid_hw_start(hdev, HID_INPUT_REPORT | HID_OUTPUT_REPORT | HID_FEATURE_REPORT);
++	if (ret)
++		return ret;
++	data->hotkey_input_dev = input_allocate_device();
++	if (!data->hotkey_input_dev) {
++		dev_err(&hdev->dev, "Failed to allocate hotkey input device\n");
++		hid_hw_stop(hdev); return -ENOMEM;
++	}
++	data->hotkey_input_dev->name = "ASUS EC I2C HID hotkeys";
++	data->hotkey_input_dev->phys = "i2c-hid/input1/hotkeys";
++	data->hotkey_input_dev->id.bustype = hdev->bus;
++	data->hotkey_input_dev->id.vendor = hdev->vendor;
++	data->hotkey_input_dev->id.product = hdev->product;
++	data->hotkey_input_dev->dev.parent = &hdev->dev;
++	set_bit(EV_KEY, data->hotkey_input_dev->evbit);
++	set_bit(KEY_FN_ESC, data->hotkey_input_dev->keybit);
++	set_bit(KEY_KBDILLUMUP, data->hotkey_input_dev->keybit);
++	set_bit(KEY_KBDILLUMDOWN, data->hotkey_input_dev->keybit);
++	set_bit(KEY_BRIGHTNESSDOWN, data->hotkey_input_dev->keybit);
++	set_bit(KEY_BRIGHTNESSUP, data->hotkey_input_dev->keybit);
++	set_bit(KEY_SWITCHVIDEOMODE, data->hotkey_input_dev->keybit);
++	set_bit(KEY_EMOJI_PICKER, data->hotkey_input_dev->keybit);
++	set_bit(KEY_MICMUTE, data->hotkey_input_dev->keybit);
++	set_bit(KEY_CAMERA_ACCESS_TOGGLE, data->hotkey_input_dev->keybit);
++	set_bit(KEY_TOUCHPAD_TOGGLE, data->hotkey_input_dev->keybit);
++	set_bit(KEY_PROG1, data->hotkey_input_dev->keybit);
++	set_bit(KEY_PERFORMANCE, data->hotkey_input_dev->keybit);
++
++	ret = input_register_device(data->hotkey_input_dev);
++	if (ret) {
++		dev_err(&hdev->dev, "Failed to register hotkey input device\n");
++		input_free_device(data->hotkey_input_dev); hid_hw_stop(hdev);
++		return ret;
++	}
++	asus_kbd_led_init(hdev);
++	data->kbd_led_cdev.name = "asus::kbd_backlight";
++	data->kbd_led_cdev.brightness_set = asus_kbd_set_brightness;
++	data->kbd_led_cdev.max_brightness = A14_EC_MAX_BACKLIGHT;
++	ret = led_classdev_register(&hdev->dev, &data->kbd_led_cdev);
++	if (ret) {
++		input_unregister_device(data->hotkey_input_dev);
++		hid_hw_stop(hdev);
++		return ret;
++	}
++	dev_info(&hdev->dev,
++		 "ASUS EC HID driver for Zenbook A14 loaded for 0x%04x:0x%04x\n",
++		 ASUS_VENDOR_ID, ASUS_PRODUCT_ID);
++	return 0;
++}
++static void asus_hid_remove(struct hid_device *hdev)
++{
++	struct asus_hid_data *data = hid_get_drvdata(hdev);
++
++	led_classdev_unregister(&data->kbd_led_cdev);
++	input_unregister_device(data->hotkey_input_dev);
++	hid_hw_stop(hdev);
++	asus_data = NULL;
++}
++static struct hid_driver hid_asus_ec_driver = {
++	.name       = "hid-asus-ec",
++	.id_table   = asus_hid_devices,
++	.probe      = asus_hid_probe,
++	.remove     = asus_hid_remove,
++	.raw_event  = asus_raw_event,
++	.suspend    = asus_hid_suspend,
++	.resume     = asus_hid_resume,
++};
++module_hid_driver(hid_asus_ec_driver);
++MODULE_AUTHOR("Alexandru Marc Serdeliuc <serdeliuk@yahoo.com>");
++MODULE_DESCRIPTION("ASUS EC HID driver for Zenbook A14 (UX3407QA)");
++MODULE_LICENSE("GPL");
 
-- a definition for a new ABS_SND_PROFILE event
+---
+base-commit: 8f0b4cce4481fb22653697cced8d0d04027cb1e8
+change-id: 20251221-add-support-for-the-asus-hid-ec-a60b9a2d74b3
 
-- fixes to alps and lkkbd drivers to reliably shut down pending work on
-  removal
-
-- a fix to apple_z2 driver tightening input report parsing
-
-- a fix for "off-by-one" error when validating config in ti_am335x_tsc
-  driver
-
-- addition of CRKD Guitars device IDs to xpad driver.
-
-Changelog:
----------
-
-Christoffer Sandberg (1):
-      Input: i8042 - add TUXEDO InfinityBook Max Gen10 AMD to i8042 quirk table
-
-Cryolitia PukNgae (1):
-      Input: atkbd - skip deactivate for HONOR FMB-P's internal keyboard
-
-Duoming Zhou (1):
-      Input: alps - fix use-after-free bugs caused by dev3_register_work
-
-Gergo Koteles (1):
-      Input: add ABS_SND_PROFILE
-
-Junjie Cao (1):
-      Input: ti_am335x_tsc - fix off-by-one error in wire_order validation
-
-Minseong Kim (1):
-      Input: lkkbd - disable pending work before freeing device
-
-Sanjay Govind (1):
-      Input: xpad - add support for CRKD Guitars
-
-Sasha Finkelstein (1):
-      Input: apple_z2 - fix reading incorrect reports after exiting sleep
-
-Diffstat:
---------
-
- Documentation/input/event-codes.rst       | 6 ++++++
- drivers/hid/hid-debug.c                   | 1 +
- drivers/input/joystick/xpad.c             | 5 +++++
- drivers/input/keyboard/atkbd.c            | 7 +++++++
- drivers/input/keyboard/lkkbd.c            | 5 ++++-
- drivers/input/mouse/alps.c                | 1 +
- drivers/input/serio/i8042-acpipnpio.h     | 7 +++++++
- drivers/input/touchscreen/apple_z2.c      | 4 ++++
- drivers/input/touchscreen/ti_am335x_tsc.c | 2 +-
- include/uapi/linux/input-event-codes.h    | 9 +++++++++
- 10 files changed, 45 insertions(+), 2 deletions(-)
-
-Thanks.
-
+Best regards,
 -- 
-Dmitry
+Alexandru Marc Serdeliuc <serdeliuk@yahoo.com>
+
+
 
