@@ -1,156 +1,146 @@
-Return-Path: <linux-input+bounces-16672-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16673-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09300CD4EE3
-	for <lists+linux-input@lfdr.de>; Mon, 22 Dec 2025 09:06:46 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 031FDCD6234
+	for <lists+linux-input@lfdr.de>; Mon, 22 Dec 2025 14:24:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 13C363019193
-	for <lists+linux-input@lfdr.de>; Mon, 22 Dec 2025 08:06:14 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 641B23013CCC
+	for <lists+linux-input@lfdr.de>; Mon, 22 Dec 2025 13:24:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7ED1630BB91;
-	Mon, 22 Dec 2025 08:06:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 82A5D2DCBF4;
+	Mon, 22 Dec 2025 13:24:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mSrINbub"
+	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="ei3NnpuT"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pj1-f65.google.com (mail-pj1-f65.google.com [209.85.216.65])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ixit.cz (ip-94-112-25-9.bb.vodafone.cz [94.112.25.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BE7530BB94
-	for <linux-input@vger.kernel.org>; Mon, 22 Dec 2025 08:06:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A3C6227E83;
+	Mon, 22 Dec 2025 13:24:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=94.112.25.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766390773; cv=none; b=kF5OUrSlbNoeTRTBgQeqLYxhXh97fm/134WXaFb9+2QJ1Acuog1ZSsnMxm5NY4TrN8yJY/+jAaxWgLknF/2/3s804VCKr8Sv0lZLzdebSSToD4Y7k6/LzDdC8doMIMadB7Go9XCTKizxmwCqxqrm77Ke/c9jdFw2xSEbgb155L0=
+	t=1766409887; cv=none; b=IXH7bnRIFWmmZIpM5e7HLoW6ZCafoR+ORkz+x9glHOML1xt/VOLK1TUjCXm+bV/kwWfrIzAqFXsRTouk5dvy+0Qas0RUNGHVFbZyx9IzkZULeKj0gTAawtA23StY33MzEvRpLmK3GKjcr+ek+ORY40mDBmqtK0MyojoNyPzLf0g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766390773; c=relaxed/simple;
-	bh=7NnfB95d/qjSb47h2oPcevWqYAT/LhhPCnd3bmfXZg8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=lTQan0WpVGxeIKKnedNsODn8Id+F+siXEAuV4SOCQ5Dps6LnVEwjcnZOAKe/xjxTbGldVWzj8Y2LgH1giuH/X9le5bc2MUrRblLY+s1LfbGC2EeICIncp1nwgEJsrm0erPi0mugI7p0KZeyOZNPJ/kcpLbKnr8W6t426p6mdKKM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mSrINbub; arc=none smtp.client-ip=209.85.216.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f65.google.com with SMTP id 98e67ed59e1d1-34ccdcbe520so1944513a91.1
-        for <linux-input@vger.kernel.org>; Mon, 22 Dec 2025 00:06:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766390770; x=1766995570; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=g2Fdnpcojf4DLWy5W3E6d4c2QXgA2ovsHAVLQ3QTW4Y=;
-        b=mSrINbubZ4EP9+SL4tKlClUS93XULf2sXIM0WJ2zFUSIAzOGBS44oddw7CTbr2k4WP
-         k9kvA16/hnyr9U1dD0xCS2/jGfJeNI8RKwFgu1hyKirOr5iY60ebR2erE3beb7yQwDmA
-         xiek6xvilcAlNpw+9QnWeTiTUfoBsDNSvCmG1duIaz8IUh3sYA5e+gXfu7TWj5xR3qiu
-         oHdXgLwpkjBqKxOaHZEQkkoZUxrCmCqme4hWEpDxiqayQCjumKR594bAISf3vOv3GI5F
-         +xVGRlzTx+SmPfqShGEMlPNOTIOl1iD9ZZmoU9Dqgtmh7dY6rmkB4gE/HEBAfHNgbvIe
-         Cj9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766390770; x=1766995570;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=g2Fdnpcojf4DLWy5W3E6d4c2QXgA2ovsHAVLQ3QTW4Y=;
-        b=bSsFEQJjBKU5aMhvwojCzqmRcGbYlLYI73RXm8L9yTQjZstL3njMy2M/ydPLViqakI
-         T4IVPg7UT0W0Cx42PVOaikCU0w8wAJruQP+OZmJ60jHG0E6qsHVdNHVHbcaChZxlIWBC
-         ysI/cPwPxyB9TvM2CvNVHYvrx1SwByXbnlnUdSsgZDpLXSx2P28Kfve/T+tXkx65AUu8
-         4DzDryeP/6m2ZQCzYJWdwDbDU12q7+2FdH+9t/0xNWxcy8Q4ziH4oLmpc3lARf/YixR9
-         SWmKw7MKiSN8dQ/Ag4kAuCaoDzLGWWZMiqyl2MEVuW2TdS1B0uH6oB5o9vfUro+Tgdph
-         auPg==
-X-Forwarded-Encrypted: i=1; AJvYcCWouwPXqHVtCamHF8mRlz18uz4Y/fsbvY+JoIa1Rh+vKZfm+ubyBo8Ck5B8jD0xOl9i/NDNbzc+hEdWJA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxM41Vsc7fFgF4TKxIIHX3igqGES/LkDw97gwGql5bZkHAI7rBo
-	a6TZ2eMsvrYgdGsau1BeGXof3EtqUlBRiaeWAAXenYI07RIsHhO0decG
-X-Gm-Gg: AY/fxX55oqj/jgPMs8sBFEMd/2lEAVxR1cgpgTER6cNUjwbpNxwjsDUyQ8BjtffwOlb
-	5q+9CfLW/rUhJWW+lSEG9h3AF7jr4Y9byaJSY8PIf9FnHnv7cK+x+C5kHpyJH2ZnXMbxFJpPaXN
-	x5fuHY+zZYYuVkQff/gcDhrBwaPCL2h8wQwD0IghVYmNYYZz5ZhbOblZPiCGx9uAIyjY7vKtkCw
-	BByqM2wXQymqxqg+JX3kBP2xzX8GtP1n8uJjf94fdXOPXjzNL4CNmI+dRn4LSeCNepiQT65wSCJ
-	jRZ+H20uB/TMAYOBfP1y8le8lxUycbAvez8V26Pb3Psvg+yfu/y62h1UmgyX2AH3KCgD+Sj64wJ
-	GCKVSiMuASRsaOFiGe6TSZL8i8b3mqMSnuGuo0an50j0+N75cfUGj4enjoJSpCFvwY+D69foDGk
-	lWmd2WOZIPOXPJqW+GAjXHZNQicyHzTnV8rs+oQbDWYH+FPA++LL2CNTd4iZ3SN8998nJC/Z1Z+
-	BLtcG/4f8ktOQbO+DMQyWCHDk3G2qO/
-X-Google-Smtp-Source: AGHT+IHwhpn/fb7A9/k1WMZFSZ8+UUJV7UQ969ESY5Lf0jsCicVtzq+LBU7c0024woSREPqweY0jpA==
-X-Received: by 2002:a17:90a:c106:b0:34c:2f40:c662 with SMTP id 98e67ed59e1d1-34e71e2955bmr11901858a91.14.1766390770383;
-        Mon, 22 Dec 2025 00:06:10 -0800 (PST)
-Received: from ubuntu-2504-ThinkPad-X9-14-Gen-1.lenovo.com (zz20234032476F6CA7C5.userreverse.dion.ne.jp. [111.108.167.197])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-34e7729b04dsm5622557a91.6.2025.12.22.00.06.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Dec 2025 00:06:09 -0800 (PST)
-From: Vishnu Sankar <vishnuocv@gmail.com>
-To: srinivas.pandruvada@linux.intel.com,
-	jikos@kernel.org,
-	bentiss@kernel.org,
-	corbet@lwn.net,
-	vsankar@lenovo.com
-Cc: linux-doc@vger.kernel.org,
-	linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Vishnu Sankar <vishnuocv@gmail.com>
-Subject: [PATCH v3 2/2] Documentation: hid: intel-ish-hid: Document PRODUCT_FAMILY firmware matching
-Date: Mon, 22 Dec 2025 17:05:12 +0900
-Message-ID: <20251222080512.956519-2-vishnuocv@gmail.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20251222080512.956519-1-vishnuocv@gmail.com>
-References: <20251222080512.956519-1-vishnuocv@gmail.com>
+	s=arc-20240116; t=1766409887; c=relaxed/simple;
+	bh=CBzPZJiYQzOouUYmyZ3aTlJxin+UE8JGzemB7huEd4Q=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=HLWy0T7g6/hF7M6rjtbbdYJP5UCJ6WEpEDBH/W6DUyDk/6FZtx5YEYGaP2mKOfnT3KXV5LevPx7yW9vVyIJ4RJwjslWhBrkX0sy5PoLiT6Usgl1a0/voGmYyT2rCricbSiJbSM7qtDdTTD8VbOBDgOFpD0rG7SSBV/KzBPfiJ1s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=ei3NnpuT; arc=none smtp.client-ip=94.112.25.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ixit.cz
+Received: from [192.168.136.28] (78-80-96-111.customers.tmcz.cz [78.80.96.111])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ixit.cz (Postfix) with ESMTPSA id A70475340CDC;
+	Mon, 22 Dec 2025 14:24:29 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
+	t=1766409870;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=gLptg8CkM0dtSh1z2ypvw4PNv7j78rQ2+Zocv81oMU8=;
+	b=ei3NnpuT7W0EXoJJn20RHhcfJd2PBnKx+jXZj3wrmn2raKC9gevCgad5NlgZHCjWOTOW6w
+	Y6BjYZVDBfaFrlfhaQm8EcuP5VyVGnZryUe0OJ/2qMM58dc1FtSAFiaHyse9MGIVaP5+Lu
+	tPswf6XAthiCmeE7iaEpCEi3jRNisro=
+Message-ID: <56dc18db-c1e8-43b8-be9e-667544b7508d@ixit.cz>
+Date: Mon, 22 Dec 2025 14:24:26 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 2/2] arm64: dts: qcom: sdm845-oneplus: Add alert-slider
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Jonathan Corbet <corbet@lwn.net>, Jiri Kosina <jikos@kernel.org>,
+ Benjamin Tissoires <bentiss@kernel.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Casey Connolly <casey.connolly@linaro.org>,
+ =?UTF-8?Q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>
+Cc: linux-input@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ devicetree@vger.kernel.org, phone-devel@vger.kernel.org,
+ Gergo Koteles <soyer@irl.hu>, Casey Connolly <casey@connolly.tech>
+References: <20251113-op6-tri-state-v8-0-54073f3874bc@ixit.cz>
+ <20251113-op6-tri-state-v8-2-54073f3874bc@ixit.cz>
+Content-Language: en-US
+From: David Heidelberg <david@ixit.cz>
+Autocrypt: addr=david@ixit.cz; keydata=
+ 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
+In-Reply-To: <20251113-op6-tri-state-v8-2-54073f3874bc@ixit.cz>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Document the ISH firmware filename matching rules, including the
-new PRODUCT_FAMILY-based patterns and their search order.
+On 13/11/2025 17:02, David Heidelberg via B4 Relay wrote:
+> From: Gergo Koteles <soyer@irl.hu>
+> 
+> The alert-slider is a tri-state sound profile switch found on the
+> OnePlus 6, Android maps the states to "silent", "vibrate" and "ring".
+> Expose them as ABS_SND_PROFILE events.
+> The previous GPIO numbers were wrong. Update them to the correct ones.
+> 
+> Co-developed-by: Casey Connolly <casey@connolly.tech>
+> Signed-off-by: Casey Connolly <casey@connolly.tech>
+> Signed-off-by: Gergo Koteles <soyer@irl.hu>
+> Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+> Tested-by: Guido Günther <agx@sigxcpu.org> # oneplus,fajita & oneplus,enchilada
+> Reviewed-by: Guido Günther <agx@sigxcpu.org>
+> Signed-off-by: David Heidelberg <david@ixit.cz>
+[...]
 
-This aligns the documentation with the driver behavior and provides
-clear guidance for vendors supplying custom ISH firmware.
+As the first patch of the series got applied on the input tree,
 
-Signed-off-by: Vishnu Sankar <vishnuocv@gmail.com>
----
- Documentation/hid/intel-ish-hid.rst | 19 ++++++++++++++-----
- 1 file changed, 14 insertions(+), 5 deletions(-)
+https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git/log/?h=for-linus
 
-diff --git a/Documentation/hid/intel-ish-hid.rst b/Documentation/hid/intel-ish-hid.rst
-index 2adc174fb576..068a5906b177 100644
---- a/Documentation/hid/intel-ish-hid.rst
-+++ b/Documentation/hid/intel-ish-hid.rst
-@@ -413,6 +413,10 @@ Vendors who wish to upstream their custom firmware should follow these guideline
- 
- - The firmware filename should use one of the following patterns:
- 
-+  - ``ish_${intel_plat_gen}_${SYS_VENDOR_CRC32}_${PRODUCT_FAMILY_CRC32}_${PRODUCT_NAME_CRC32}_${PRODUCT_SKU_CRC32}.bin``
-+  - ``ish_${intel_plat_gen}_${SYS_VENDOR_CRC32}_${PRODUCT_FAMILY_CRC32}_${PRODUCT_SKU_CRC32}.bin``
-+  - ``ish_${intel_plat_gen}_${SYS_VENDOR_CRC32}_${PRODUCT_FAMILY_CRC32}_${PRODUCT_NAME_CRC32}.bin``
-+  - ``ish_${intel_plat_gen}_${SYS_VENDOR_CRC32}_${PRODUCT_FAMILY_CRC32}.bin``
-   - ``ish_${intel_plat_gen}_${SYS_VENDOR_CRC32}_${PRODUCT_NAME_CRC32}_${PRODUCT_SKU_CRC32}.bin``
-   - ``ish_${intel_plat_gen}_${SYS_VENDOR_CRC32}_${PRODUCT_SKU_CRC32}.bin``
-   - ``ish_${intel_plat_gen}_${SYS_VENDOR_CRC32}_${PRODUCT_NAME_CRC32}.bin``
-@@ -420,16 +424,21 @@ Vendors who wish to upstream their custom firmware should follow these guideline
- 
- - ``${intel_plat_gen}`` indicates the Intel platform generation (e.g., ``lnlm`` for Lunar Lake) and must not exceed 8 characters in length.
- - ``${SYS_VENDOR_CRC32}`` is the CRC32 checksum of the ``sys_vendor`` value from the DMI field ``DMI_SYS_VENDOR``.
-+- ``${PRODUCT_FAMILY_CRC32}`` is the CRC32 checksum of the ``product_family`` value from the DMI field ``DMI_PRODUCT_FAMILY``.
- - ``${PRODUCT_NAME_CRC32}`` is the CRC32 checksum of the ``product_name`` value from the DMI field ``DMI_PRODUCT_NAME``.
- - ``${PRODUCT_SKU_CRC32}`` is the CRC32 checksum of the ``product_sku`` value from the DMI field ``DMI_PRODUCT_SKU``.
- 
- During system boot, the ISH Linux driver will attempt to load the firmware in the following order, prioritizing custom firmware with more precise matching patterns:
- 
--1. ``intel/ish/ish_${intel_plat_gen}_${SYS_VENDOR_CRC32}_${PRODUCT_NAME_CRC32}_${PRODUCT_SKU_CRC32}.bin``
--2. ``intel/ish/ish_${intel_plat_gen}_${SYS_VENDOR_CRC32}_${PRODUCT_SKU_CRC32}.bin``
--3. ``intel/ish/ish_${intel_plat_gen}_${SYS_VENDOR_CRC32}_${PRODUCT_NAME_CRC32}.bin``
--4. ``intel/ish/ish_${intel_plat_gen}_${SYS_VENDOR_CRC32}.bin``
--5. ``intel/ish/ish_${intel_plat_gen}.bin``
-+1. ``intel/ish/ish_${intel_plat_gen}_${SYS_VENDOR_CRC32}_${PRODUCT_FAMILY_CRC32}_${PRODUCT_NAME_CRC32}_${PRODUCT_SKU_CRC32}.bin``
-+2. ``intel/ish/ish_${intel_plat_gen}_${SYS_VENDOR_CRC32}_${PRODUCT_FAMILY_CRC32}_${PRODUCT_SKU_CRC32}.bin``
-+3. ``intel/ish/ish_${intel_plat_gen}_${SYS_VENDOR_CRC32}_${PRODUCT_FAMILY_CRC32}_${PRODUCT_NAME_CRC32}.bin``
-+4. ``intel/ish/ish_${intel_plat_gen}_${SYS_VENDOR_CRC32}_${PRODUCT_FAMILY_CRC32}.bin``
-+5. ``intel/ish/ish_${intel_plat_gen}_${SYS_VENDOR_CRC32}_${PRODUCT_NAME_CRC32}_${PRODUCT_SKU_CRC32}.bin``
-+6. ``intel/ish/ish_${intel_plat_gen}_${SYS_VENDOR_CRC32}_${PRODUCT_SKU_CRC32}.bin``
-+7. ``intel/ish/ish_${intel_plat_gen}_${SYS_VENDOR_CRC32}_${PRODUCT_NAME_CRC32}.bin``
-+8. ``intel/ish/ish_${intel_plat_gen}_${SYS_VENDOR_CRC32}.bin``
-+9. ``intel/ish/ish_${intel_plat_gen}.bin``
- 
- The driver will load the first matching firmware and skip the rest. If no matching firmware is found, it will proceed to the next pattern in the specified order. If all searches fail, the default Intel firmware, listed last in the order above, will be loaded.
- 
--- 
-2.51.0
+hopefully now there is anything blocking this one? =)
 
+Thank you and enjoy the holidays!
+David
 
