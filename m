@@ -1,98 +1,127 @@
-Return-Path: <linux-input+bounces-16675-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16676-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26AC7CD6682
-	for <lists+linux-input@lfdr.de>; Mon, 22 Dec 2025 15:43:56 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id B080CCD7CCA
+	for <lists+linux-input@lfdr.de>; Tue, 23 Dec 2025 03:05:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 8CEB73046F88
-	for <lists+linux-input@lfdr.de>; Mon, 22 Dec 2025 14:43:04 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 793B43151D88
+	for <lists+linux-input@lfdr.de>; Tue, 23 Dec 2025 01:58:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF2572ECE97;
-	Mon, 22 Dec 2025 14:43:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 16CF1292B4B;
+	Tue, 23 Dec 2025 01:51:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kemnade.info header.i=@kemnade.info header.b="owDMaDNw"
+	dkim=pass (2048-bit key) header.d=who-t.net header.i=@who-t.net header.b="5xUHtJH+";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="c2Ec1KiG"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail.andi.de1.cc (mail.andi.de1.cc [178.238.236.174])
+Received: from fhigh-a7-smtp.messagingengine.com (fhigh-a7-smtp.messagingengine.com [103.168.172.158])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35F082E8DEA;
-	Mon, 22 Dec 2025 14:43:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.238.236.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6499E2877FC;
+	Tue, 23 Dec 2025 01:51:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.158
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766414583; cv=none; b=FXsjj0ug+gkFErwPiBQARawizzHbP2JKtc90Q68Q6CcKK6oLi6NQCPAaCg0NxWEqiLFQxCIsi4anA9cqVU1y9tSR7yinMp9t/R2nYXxT5WMHbsHyG45TkzMwAi0X6KX/TkGuPEuujcO0AlIwExP1MPKCoqiVOBTO6V6/0jPwUDY=
+	t=1766454714; cv=none; b=EGp1Mz6o6aUt9TosJtufCupuUxVCiy/1Xs4i1MpaxQd6jqY/ZkETloVZbbVyOiEZW4wPHHhVEf5ywjg6arcIUCVIbnfFHmXnFvDLwtHmYGjIVXsEtNOmMxe/39V03xXkqgVnTBUq2QSpdk+Fjk3gQZ3OdkfXFdQ9bg0nMy20BUo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766414583; c=relaxed/simple;
-	bh=WJveqUQMALCscvaxV1+/dVpmXOPJmTA8bm7D1ybVWXo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=IKdtN51Da/u+2u4agNijF6GOUg4R8S6tzWozEIEHv9/mdP6zDWzPun/Wwt1qjn8Lugb92XnXXTlR0xD3H8h3ZWeXflYlUpg3GmZ0a2gCg+yFBrMyZtj5BGh8aiTPjpHC6YvuYO56AtaWiQfdOddF5DUWul5iUA6poyfN1jC8gsA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kemnade.info; spf=pass smtp.mailfrom=kemnade.info; dkim=pass (2048-bit key) header.d=kemnade.info header.i=@kemnade.info header.b=owDMaDNw; arc=none smtp.client-ip=178.238.236.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kemnade.info
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kemnade.info
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=kemnade.info; s=20220719; h=Cc:From:Sender:Reply-To:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:In-Reply-To:References;
-	bh=+SxswLbi3EgwUY1Ul+Vs7GTheX7FRUUKTCyDNsPrlLw=; b=owDMaDNwBfW0HKxH9EgSS67oqX
-	7K9Lf1fRAqIflKQUoV5AfpjEjAdHymBcJrJVw8UsIjiMXZaxLb1IZrxHe/jjK0wMkPu5/tpFPdeRD
-	UcAZfTJ4rolSou/eXghDgMrIvT+RkYPcNaRsqE1Mvhf2ie82vT8wGvfrlBcDJ4Q6iojx701GIQI1r
-	0SidsV3z2o0A1tG+bz1xMDb0wil4UBr1q5P8rV74BjWvY3MWPEDuWsVz640wfPmZR3RPktSmrypNB
-	8w08SV2gxauuutZLfuIck+IkOwwwc+krf7s/oqIoUeQN0ucf9SYtl3ZiYSAxSvEzahRHv+KcoXNrD
-	+E6udmag==;
-From: Andreas Kemnade <andreas@kemnade.info>
-To: dmitry.torokhov@gmail.com,
-	andreas@kemnade.info,
-	linux-input@vger.kernel.org,
+	s=arc-20240116; t=1766454714; c=relaxed/simple;
+	bh=tUEvr0/Co0u0vse8P7ma21iKNYtFLdtzVh+AL+wJtE0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=BTPg2q5fm6CvRJX/eugASNWevhwnhmeLIEJ38Gmn2r2Nb+7jjbFoXmG0wMyjF+jS6D0Nx8FPPpvsX/xbET2vC3+rIVqrre++jFNyavpEQq6WrvUUQdgmC6EmdC+t2jJA+aDF5yd0vTj16zpZ/LKygTTjS0Eh4nkybRAdMfumXcg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=who-t.net; spf=pass smtp.mailfrom=who-t.net; dkim=pass (2048-bit key) header.d=who-t.net header.i=@who-t.net header.b=5xUHtJH+; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=c2Ec1KiG; arc=none smtp.client-ip=103.168.172.158
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=who-t.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=who-t.net
+Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 59091140003A;
+	Mon, 22 Dec 2025 20:51:51 -0500 (EST)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-02.internal (MEProxy); Mon, 22 Dec 2025 20:51:51 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=who-t.net; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:message-id:mime-version:reply-to:subject:subject:to:to; s=fm3;
+	 t=1766454711; x=1766541111; bh=jFNUbjPV5/UHQI1W+VN1TgnZttCAIh16
+	+fOoBkxzd6I=; b=5xUHtJH+1CLRKDlRcClN6FYkZ+LlZxMg2xRSp12McTV4uzQC
+	7n5MD8CpykRyJq/+TU0LZ4aKYEbFnWwzDffhmm8b+xmx3gzKFvsFi7z05qr7PY8i
+	pATy5KyQomCauuEjdR6OHHE8i/Ffl9qv7ddeyVlRD+dMcghVqRIjdZnJVyWa3CIX
+	RnpeDyNJtuV4aBxG86Tgh4uHyHV58yN55krddQk1AaSE5EYqbCyYl3AnOr9mA5UP
+	YKt75l1rHyvKkq7FJtHPALVUVhqyXuZCDIjJkz/BcCJPXH77FOWokzdbkaGeunB5
+	tOzPBE2045MxjqaroMnmk8uO9KkTH3QOHP8uJA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:message-id
+	:mime-version:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1766454711; x=
+	1766541111; bh=jFNUbjPV5/UHQI1W+VN1TgnZttCAIh16+fOoBkxzd6I=; b=c
+	2Ec1KiGfvZ4BqgiNaW3XabeeekkYRH181KYrhxbDcR1dJTLdOIlJkPBi6y7YqXJQ
+	by5SYyW4CNWA940CqNZOxXlWVV7itB7bHuq7+R/yppksYErld1HubjUe4/kr+g5+
+	2q/X0f5CcI+f7gsiBLWcPoUjw3JjygjSLG5UtxV2NZLSs9SslL9k94hNOnznivIn
+	lLDExIkiAUDI7dpIw5vf6LpFXeCzZFwvmAd8NbUWDeiQkPebUkInagJx+VUNJHPW
+	TWoCEwqaO7JpDEJfQ/deELN61Tq++aFap9X48hB63y8py/qiSuZYRt0b5rjbcbZa
+	bkkhoT+m0jJRu3CYVS5sQ==
+X-ME-Sender: <xms:t_VJaUn4AdbAolhSoR4MWiUBCqeuwUIxhFczPX_bR0v8Yslss1O5Yw>
+    <xme:t_VJaexrZKRKINKYEC5GJuCyTFTLvEz6KNOqnX_ogQGWHrsFo8QA6LGiXXwN69KUq
+    NDPFMvhg2-jnu9QahdlIbQkvod_cvkE1mLs_-FfoWcuqYoolx7zIHQ>
+X-ME-Received: <xmr:t_VJaRpyUGvNrHrcELTEboTgmRvaeQROQr4l56VCv89QSsRVY-CSCGs6LsnjeSXHaa3s1KJpnDZ_z-OVBKxl-IBGbyCFGzu1bA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdehkeehhecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpeffhffvvefukfggtggusehttdfstddttddvnecuhfhrohhmpefrvghtvghrucfjuhht
+    thgvrhgvrhcuoehpvghtvghrrdhhuhhtthgvrhgvrhesfihhohdqthdrnhgvtheqnecugg
+    ftrfgrthhtvghrnhepjedtleegueefveeiveeigfejgeetffffgfegiefhgfeiueefjedv
+    ieejkefhgefhnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
+    homhepphgvthgvrhdrhhhuthhtvghrvghrseifhhhoqdhtrdhnvghtpdhnsggprhgtphht
+    thhopeeipdhmohguvgepshhmthhpohhuthdprhgtphhtthhopegsvghnthhishhssehkvg
+    hrnhgvlhdrohhrghdprhgtphhtthhopehjihhkohhssehkvghrnhgvlhdrohhrghdprhgt
+    phhtthhopehshhhurghhsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqd
+    hinhhpuhhtsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidq
+    khhsvghlfhhtvghsthesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlih
+    hnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:t_VJaV71ibLYouqOimDSC8bIqjW0hhevjmF2B8_SN2Cm7_wYGhv7Jg>
+    <xmx:t_VJaQfJG5m9Vlk4kqzqsuA_afzXMMfJJIwqfCfh6m86Q1-9tlPfwA>
+    <xmx:t_VJaS5QlBoUG4rh6ZyCDNdYTh-8tuXr9gOO9PLDMH_heiUDsKqQNA>
+    <xmx:t_VJaftLTKdPPLUh7gcjur0Ei4WZYsWy6GPxsx94SskpyRd20WoVww>
+    <xmx:t_VJaT4JQQtlaUdf8y5dmCaw2C2qx9Wz75ed8PqXL6sdI58RHdXNebHP>
+Feedback-ID: i7ce144cd:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 22 Dec 2025 20:51:49 -0500 (EST)
+Date: Tue, 23 Dec 2025 11:51:44 +1000
+From: Peter Hutterer <peter.hutterer@who-t.net>
+To: Benjamin Tissoires <bentiss@kernel.org>, 
+	Jiri Kosina <jikos@kernel.org>, Shuah Khan <shuah@kernel.org>
+Cc: linux-input@vger.kernel.org, linux-kselftest@vger.kernel.org, 
 	linux-kernel@vger.kernel.org
-Cc: kernel test robot <lkp@intel.com>
-Subject: [PATCH] Input: twl4030 - fix warnings without CONFIG_OF
-Date: Mon, 22 Dec 2025 15:42:49 +0100
-Message-ID: <20251222144250.453508-1-andreas@kemnade.info>
-X-Mailer: git-send-email 2.47.3
+Subject: [PATCH] selftests/hid: run vmtest.sh's pytest with verbose output
+Message-ID: <quelho6omol5amea6drxjimrf266oj5f5ytksfdrzhfjap2sxt@no267al776jc>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-There are unused variables without CONFIG_OF:
-drivers/input/misc/twl4030-pwrbutton.c:41:44: error: unused variable 'twl4030_chipdata' [-Werror,-Wunused-const-variable]
-   41 | static const struct twl_pwrbutton_chipdata twl4030_chipdata = {
-      |                                            ^~~~~~~~~~~~~~~~
-drivers/input/misc/twl4030-pwrbutton.c:46:44: error: unused variable 'twl6030_chipdata' [-Werror,-Wunused-const-variable]
-   46 | static const struct twl_pwrbutton_chipdata twl6030_chipdata = {
+This way we see in the log output which tests were run and which ones
+were skipped instead of just `....sss.ss..`.
 
-Fix that by avoiding some #ifdef CONFIG_OF
-
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202512220251.jDE8tKup-lkp@intel.com/
-Signed-off-by: Andreas Kemnade <andreas@kemnade.info>
+Signed-off-by: Peter Hutterer <peter.hutterer@who-t.net>
 ---
- drivers/input/misc/twl4030-pwrbutton.c | 2 --
- 1 file changed, 2 deletions(-)
+ tools/testing/selftests/hid/vmtest.sh | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/input/misc/twl4030-pwrbutton.c b/drivers/input/misc/twl4030-pwrbutton.c
-index d82a3fb28d95..7468d0d3e97a 100644
---- a/drivers/input/misc/twl4030-pwrbutton.c
-+++ b/drivers/input/misc/twl4030-pwrbutton.c
-@@ -132,7 +132,6 @@ static void twl4030_pwrbutton_remove(struct platform_device *pdev)
- 	}
- }
+diff --git a/tools/testing/selftests/hid/vmtest.sh b/tools/testing/selftests/hid/vmtest.sh
+index ecbd57f775a0..fc21fb495a8a 100755
+--- a/tools/testing/selftests/hid/vmtest.sh
++++ b/tools/testing/selftests/hid/vmtest.sh
+@@ -349,7 +349,7 @@ test_vm_pytest() {
  
--#ifdef CONFIG_OF
- static const struct of_device_id twl4030_pwrbutton_dt_match_table[] = {
- 	{
- 		.compatible = "ti,twl4030-pwrbutton",
-@@ -145,7 +144,6 @@ static const struct of_device_id twl4030_pwrbutton_dt_match_table[] = {
- 	{ }
- };
- MODULE_DEVICE_TABLE(of, twl4030_pwrbutton_dt_match_table);
--#endif
+ 	shift
  
- static struct platform_driver twl4030_pwrbutton_driver = {
- 	.probe		= twl4030_pwrbutton_probe,
+-	vm_ssh -- pytest ${SCRIPT_DIR}/tests --color=yes "$@" \
++	vm_ssh -- pytest ${SCRIPT_DIR}/tests -v --color=yes "$@" \
+ 		2>&1 | log_guest "${testname}"
+ 
+ 	return ${PIPESTATUS[0]}
 -- 
-2.47.3
+2.51.1
 
 
