@@ -1,74 +1,74 @@
-Return-Path: <linux-input+bounces-16686-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16685-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6751DCDCABA
-	for <lists+linux-input@lfdr.de>; Wed, 24 Dec 2025 16:23:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B025ACDCAB7
+	for <lists+linux-input@lfdr.de>; Wed, 24 Dec 2025 16:23:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 1644C301F5EB
-	for <lists+linux-input@lfdr.de>; Wed, 24 Dec 2025 15:22:55 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 546393016343
+	for <lists+linux-input@lfdr.de>; Wed, 24 Dec 2025 15:22:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2044E340A57;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6A39634D4CF;
 	Wed, 24 Dec 2025 15:22:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="GEdZVv1f"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="kT0VxBN2"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F2CC34CFC6
-	for <linux-input@vger.kernel.org>; Wed, 24 Dec 2025 15:22:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C98834C140
+	for <linux-input@vger.kernel.org>; Wed, 24 Dec 2025 15:22:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766589770; cv=none; b=tOmwSAjJTdPZDqAuy98iot5oYWhCD5weQrzM7oBQTYymuNksy+A4tahY7ETu/govLy9v0zqde/8paJa8VCsusR48lkc8HrsvbIauyLqEnQH6x6Hs9CWG+tTPH4/A8f1MSj2weZLatDybgc+uK+BUUiYBfMyOqEhrM84LkAFdbqg=
+	t=1766589770; cv=none; b=RfMQhRTiaevFEwxgxmmtfq4Y4cLoL6RekQpsqTVBDPuhavCcYz1ybIV/u4ai899F+/qrVklVM+2uoUpnGLkdUIJwGfJxlDr5XYYF4uK9EJ5ASGeAz7oYyEFxhCHVT0ai8OeEbnt/IKOlGwgUkIvzCAQqn7RX80J2m9eg+xTjFJo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1766589770; c=relaxed/simple;
-	bh=WTyMTbSMQzIIk8c/zE5eemB8w2d2eo13RjTPG4hAHpg=;
+	bh=E76HtQ/wOlk/iTdKNvwcIKzGwEJiphG6wBguNie0bF0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=QogvBH6GxTQ7Oc3dM2Gsj6j1qfJsxG0XRx2MfNA1NJfGcSDo8ni31b/ev5mgN/QVHTNupfpYFMlYShv8TP7dooqErFwKCNW0DH1Oz+uwVdBK1MNuR+biz9OppYBrj31TzVAyR0dXtPeAXGRcQ/aYSkVrb9OeZVNQ8QpLGN6HZ7c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=GEdZVv1f; arc=none smtp.client-ip=209.85.128.53
+	 MIME-Version; b=CJe0cktzGZSNaBltZSb1Wo+YkmRWmw2+mJPsq0E011cGinWuyqhb4ogOQF8Z57J8CIhvpeH2bmuoWqQBIaHgWj90xyUFXHrM/qnWjavX5GJ6n5fAgRhGEmC5id66BvUKP34x6ix0Dc615tX2a3E3RveN9HvD5BZ8fp+T7oCBSno=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=kT0VxBN2; arc=none smtp.client-ip=209.85.221.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-47a95efd2ceso53030795e9.2
-        for <linux-input@vger.kernel.org>; Wed, 24 Dec 2025 07:22:44 -0800 (PST)
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-4327778df7fso119074f8f.3
+        for <linux-input@vger.kernel.org>; Wed, 24 Dec 2025 07:22:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1766589762; x=1767194562; darn=vger.kernel.org;
+        d=chromium.org; s=google; t=1766589763; x=1767194563; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=RyefeZtkA984opS3wh2QxIpFCcn7cjIx25blSwfv61M=;
-        b=GEdZVv1fdfi/2iNqG+uDZQPR9AZ4aK4I+k7vgenlWv9dS2ekqYPTjmaiTbLfqU/fTc
-         DM+CAw0y1o/OGBq+hoAxGsHo48IKINeRu2JiZ7F0ayFJ+ZIDvibPdfwX9nr3H+q6FoUa
-         Cs1jHO2AWvwTsUYfJsn6WgMBGi6iG49MCYJSE=
+        bh=broTySSYLTvfYQKOi4uFtvxxGHeRyXiGXlc1qJUuO3A=;
+        b=kT0VxBN26z8X7X52pg/GlagL459ncI1WlyfiSnSCrOFlFky2GxHeGYxHbb7C9NhoyK
+         1i5uPjfg5hFSUzClqefPPWXeUb7BAISPWIs6M8s/NEUu3bQv1Af9Gu/QI5uw/iTqB7TY
+         3gPhYp8njMjC/UQ+n52XvnLx6qPgi+OD3Kfws=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766589762; x=1767194562;
+        d=1e100.net; s=20230601; t=1766589763; x=1767194563;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=RyefeZtkA984opS3wh2QxIpFCcn7cjIx25blSwfv61M=;
-        b=fQkl8nTp82XLz0+KX7fdrVZoLGHzw3A9UI1L3PSjZWgCiLV306gHxG05NYKUh5zdAW
-         LeTlz5Gdok1RNM1cMyrRUaYYm4ZTz8nzOhG02DK0qO2kRGJuBTe0tKXwMxldGH2vs066
-         3r2D8cfsdnZsCPogaE3kQxuZGh1QdfFev/nMla4Lk+mbKxypoQb/x0gwRohaSU7aHnqq
-         eFFwK06dXAzDdnC0J1bPY0PyqKDNEvy9xAFWRij6a17HYLM0/URtfh5Dt1dRITO/minT
-         puHnIthbMYOI12mDwrf4RrI9Q1kLoDeBwmz9k22webpcnXxNvFL76CCJDpE7gmH4J9ZQ
-         wKvg==
-X-Forwarded-Encrypted: i=1; AJvYcCXDOPqA3wb0FVCTsOS9nHu2++grPhwTa/YJ7ebrNl9RhTd/TyaQJvggoB50AZdgZvaKST3/ClQqteTiXA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw1fZIwxev81pZhKeObYC7BWgjTwgSHW/fBcTdZsbqEQcNxRl62
-	fzMLK4LNCJscYeOjhix2c+NscyfdlzOwM9UjruJj9ZqY6clttKt+FrE/hdDDoiJ6Jg==
-X-Gm-Gg: AY/fxX5PNU1x6Y0NmF58UOKXBl1nfy1lRucEq6+rzhvQCEzviR4NlVcZg9xcBgYBl44
-	Ds+YaQ92mpDNx6+g86E05X8QDVeC4CQm7rUiUo/rzdM3TGBE4E++XUGCjRSv99vOoH1WIWodid3
-	LQQJ8/GHwdoUN1yDZ8IHcEjXlQSwqUbTUzbSs/D64GgUD4BDCmVYp2LcEMqpE3dBdlMx8jh9Cfe
-	De/eMYZcX+LYbaTcQm7n2J99iJA5D/AEX5J0MlmeA3ebqO3vtNiS/joy2iInvcxDDZEHTOD527e
-	DQN+/JLqWX2+AsPldIR8nkh21WOBFgKbYL+xaAXd6LgbPU2qvtU/ZaIstvwYCu6R7rHMxjzl/72
-	IaKqwK1/lo4hxsfGBkFKRNRfo7Ts3JeLj8U/vsVsi/PJxpm8V3snGuroA+bxyM/DGRsjzHH4tGH
-	ruyDevom/hpj9i7p0=
-X-Google-Smtp-Source: AGHT+IEzhtmx7B/YgjG7IPSjUb5Fjb72PWnzr64AjzD+3FsHwgw5UML4dhc5sj7PIJMUpUGd5SDRTw==
-X-Received: by 2002:a05:6000:2386:b0:431:1ae:a3ca with SMTP id ffacd0b85a97d-4324e4c1207mr21162355f8f.11.1766589762212;
-        Wed, 24 Dec 2025 07:22:42 -0800 (PST)
+        bh=broTySSYLTvfYQKOi4uFtvxxGHeRyXiGXlc1qJUuO3A=;
+        b=FXafv1mX1r+eIwytekyq34h5jFLP9PDagyY1e2bjQXGECSVlkbpsHR3JVldJjbyJxK
+         G7KTuuGbT3+e0nFfSwocTmipYztvnxNjEdJ5s4YE1uxqzD1sID0DzaSuULeSMs9hnaS/
+         e0l8fD0qwApW7+qHSGAjS1tuRimES1VxxN5HcZVjiiS4p9SO7GoTBQ/oONkNitMQnHNc
+         6x+uXbsy4qo1hKuOGXGu8IVaCRqI9UUCpje2+kV+DEplrdVGpcPUaszOEbP1sSiHwvRz
+         v6CYt/uNwo2dzvj8nF2Zt934pAAhb7MaqD0TQQ/d4nEI0Yh/BDBEWfm2uCicBC6DqkQ0
+         e6aQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWplTHn+wCIjYlkAXGlPR7eWyDZAwFA51ua1p6n2miQbjqqLXC9zLsQWTNmbcJnoUJDSFez9p/J6GaI6w==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxY5MRV1BRUnDcNulcysNxwY0HXSXLaeJef8GXFXRg9XVqX5ci4
+	wV6G2BLRJJZAZysDz94Qo1bHn0TToOmN1xrDLFHoGUY0dsFSKDojqYPUNRW6KTMHow==
+X-Gm-Gg: AY/fxX7cBm5YvWfHbqBsgUWeSxi1PNawyUNbDYTxcll5Hd0BLF7KkiRqAGbrN63Qy2V
+	uLsNraWSmvH1BCcV0i8dclged+VGLn/5bjIHMQVzGiq80pqTVSA/VpUOSnqSAoetRs5Yq4kAaHq
+	DAjntW7jGB9oHpzxojXAYeXxfqTaegVOyDlF/uqrKp1dwD90udFuGVJSKCyCpcONU7ZN33Qhh36
+	vS9Gn04ocBKZC05uQWIA2mgBubBVpaIoAWR7VLghUR6Lg5pzn2A9IeIOZ8Vi2EydqYASdvavBvF
+	QZdkYEnWjJ6yG6j0ChM33lNe44+VCq8XZ3suogTaD/+GkBinHKO6X8j3TGAgZbNjEkjwMWO5WKK
+	YZQBXsojD9XvGn02HFaLk+HuRCWX6xG8wPFI1oLaSOp66/hQDt40BdjFdOrfDKQSp6u0up4FqwL
+	Bl3bCJkFHzje8GL8w=
+X-Google-Smtp-Source: AGHT+IHB446KR9bbT+6fe4P8dhCXUz9efTM0RI8RQnUg/3RKKGMv4Zs6DxHZ83wur1VVBkRdUAUQzA==
+X-Received: by 2002:a05:6000:2586:b0:431:84:357 with SMTP id ffacd0b85a97d-4324e4fb143mr21280148f8f.29.1766589763244;
+        Wed, 24 Dec 2025 07:22:43 -0800 (PST)
 Received: from balto-ws ([37.228.206.31])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4324e9ba877sm34307363f8f.0.2025.12.24.07.22.41
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4324e9ba877sm34307363f8f.0.2025.12.24.07.22.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Dec 2025 07:22:41 -0800 (PST)
+        Wed, 24 Dec 2025 07:22:42 -0800 (PST)
 From: Fabio Baltieri <fabiobaltieri@chromium.org>
 To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
 	Rob Herring <robh@kernel.org>,
@@ -83,9 +83,9 @@ Cc: Fabio Baltieri <fabiobaltieri@chromium.org>,
 	devicetree@vger.kernel.org,
 	chrome-platform@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 1/2] Input: cros_ec_keyb - add function key support
-Date: Wed, 24 Dec 2025 15:22:37 +0000
-Message-ID: <20251224152238.485415-2-fabiobaltieri@chromium.org>
+Subject: [PATCH v2 2/2] dt-bindings: google,cros-ec-keyb: add use-fn-overlay prop
+Date: Wed, 24 Dec 2025 15:22:38 +0000
+Message-ID: <20251224152238.485415-3-fabiobaltieri@chromium.org>
 X-Mailer: git-send-email 2.52.0.351.gbe84eed79e-goog
 In-Reply-To: <20251224152238.485415-1-fabiobaltieri@chromium.org>
 References: <20251224152238.485415-1-fabiobaltieri@chromium.org>
@@ -97,202 +97,56 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add support for handling an Fn button and sending separate keycodes for
-a subset of keys in the matrix defined in the upper half of the keymap.
+Add binding documentation for the use-fn-overlay property.
 
 Signed-off-by: Fabio Baltieri <fabiobaltieri@chromium.org>
 ---
- drivers/input/keyboard/cros_ec_keyb.c | 120 ++++++++++++++++++++++----
- 1 file changed, 104 insertions(+), 16 deletions(-)
+ .../bindings/input/google,cros-ec-keyb.yaml   | 25 +++++++++++++++++++
+ 1 file changed, 25 insertions(+)
 
-diff --git a/drivers/input/keyboard/cros_ec_keyb.c b/drivers/input/keyboard/cros_ec_keyb.c
-index 1c6b0461dc35..8b95b4f8a37d 100644
---- a/drivers/input/keyboard/cros_ec_keyb.c
-+++ b/drivers/input/keyboard/cros_ec_keyb.c
-@@ -29,6 +29,11 @@
+diff --git a/Documentation/devicetree/bindings/input/google,cros-ec-keyb.yaml b/Documentation/devicetree/bindings/input/google,cros-ec-keyb.yaml
+index fefaaf46a240..437575cdf352 100644
+--- a/Documentation/devicetree/bindings/input/google,cros-ec-keyb.yaml
++++ b/Documentation/devicetree/bindings/input/google,cros-ec-keyb.yaml
+@@ -44,6 +44,14 @@ properties:
+       where the lower 16 bits are reserved. This property is specified only
+       when the keyboard has a custom design for the top row keys.
  
- #include <linux/unaligned.h>
- 
-+/* Maximum size of the normal key matrix, this is limited by the host command
-+ * key_matrix field defined in ec_response_get_next_data_v3
-+ */
-+#define CROS_EC_KEYBOARD_COLS_MAX 18
++  google,use-fn-overlay:
++    description: |
++      Use a function key overlay. This allows defining an extra set of codes
++      that are sent if a key is pressed while the KEY_FN is held pressed as
++      well. The function codes have to be defined in the linux,keymap property
++      with an offset of keypad,num-rows from the normal ones.
++    type: boolean
 +
- /**
-  * struct cros_ec_keyb - Structure representing EC keyboard device
-  *
-@@ -44,6 +49,11 @@
-  * @bs_idev: The input device for non-matrix buttons and switches (or NULL).
-  * @notifier: interrupt event notifier for transport devices
-  * @vdata: vivaldi function row data
-+ * @use_fn_overlay: whether the driver use an fn function overlay
-+ * @normal_key_status: active normal keys map
-+ * @fn_key_status: active function keys map
-+ * @fn_key_pressed: tracks the function key status
-+ * @fn_key_triggered: tracks where any function key fired
-  */
- struct cros_ec_keyb {
- 	unsigned int rows;
-@@ -61,6 +71,12 @@ struct cros_ec_keyb {
- 	struct notifier_block notifier;
- 
- 	struct vivaldi_data vdata;
+ dependencies:
+   function-row-physmap: [ 'linux,keymap' ]
+   google,needs-ghost-filter: [ 'linux,keymap' ]
+@@ -132,6 +140,23 @@ examples:
+             /* UP      LEFT    */
+             0x070b0067 0x070c0069>;
+     };
++  - |
++    /* With function keys */
++    #include <dt-bindings/input/input.h>
++    keyboard-controller {
++        compatible = "google,cros-ec-keyb";
++        keypad,num-rows = <8>;
++        keypad,num-columns = <18>;
++        google,use-fn-overlay;
++        linux,keymap = <
++            MATRIX_KEY(0x00, 0x00, KEY_FN)
++            MATRIX_KEY(0x01, 0x00, KEY_1)
++            MATRIX_KEY(0x02, 0x00, KEY_2)
 +
-+	bool use_fn_overlay;
-+	u8 normal_key_status[CROS_EC_KEYBOARD_COLS_MAX];
-+	u8 fn_key_status[CROS_EC_KEYBOARD_COLS_MAX];
-+	bool fn_key_pressed;
-+	bool fn_key_triggered;
- };
- 
- /**
-@@ -166,16 +182,83 @@ static bool cros_ec_keyb_has_ghosting(struct cros_ec_keyb *ckdev, uint8_t *buf)
- 	return false;
- }
- 
-+static void cros_ec_keyb_process_fn_key(struct cros_ec_keyb *ckdev,
-+					int row, int col, bool state)
-+{
-+	struct input_dev *idev = ckdev->idev;
-+	int pos = MATRIX_SCAN_CODE(row, col, ckdev->row_shift);
-+
-+	ckdev->fn_key_pressed = state;
-+
-+	if (state) {
-+		ckdev->fn_key_triggered = false;
-+	} else if (!ckdev->fn_key_triggered) {
-+		/*
-+		 * Send the original code if nothing else has been pressed
-+		 * together with Fn.
-+		 */
-+		input_event(idev, EV_MSC, MSC_SCAN, pos);
-+		input_report_key(idev, KEY_FN, true);
-+		input_sync(idev);
-+
-+		input_event(idev, EV_MSC, MSC_SCAN, pos);
-+		input_report_key(idev, KEY_FN, false);
-+	}
-+}
-+
-+static void cros_ec_keyb_process_one(struct cros_ec_keyb *ckdev,
-+				     int row, int col, bool state)
-+{
-+	struct input_dev *idev = ckdev->idev;
-+	const unsigned short *keycodes = idev->keycode;
-+	int pos = MATRIX_SCAN_CODE(row, col, ckdev->row_shift);
-+	unsigned int code = keycodes[pos];
-+
-+	dev_dbg(ckdev->dev, "changed: [r%d c%d]: byte %02x\n", row, col, state);
-+
-+	if (ckdev->use_fn_overlay) {
-+		if (code == KEY_FN)
-+			return cros_ec_keyb_process_fn_key(ckdev, row, col, state);
-+
-+		if (!state) {
-+			if (ckdev->fn_key_status[col] & BIT(row)) {
-+				pos = MATRIX_SCAN_CODE(row + ckdev->rows, col, ckdev->row_shift);
-+				code = keycodes[pos];
-+
-+				ckdev->fn_key_status[col] &= ~BIT(row);
-+			} else if (ckdev->normal_key_status[col] & BIT(row)) {
-+				ckdev->normal_key_status[col] &= ~BIT(row);
-+			} else {
-+				/* Discard, key press code was not sent */
-+				return;
-+			}
-+		} else if (ckdev->fn_key_pressed) {
-+			pos = MATRIX_SCAN_CODE(row + ckdev->rows, col, ckdev->row_shift);
-+			code = keycodes[pos];
-+
-+			ckdev->fn_key_triggered = true;
-+
-+			if (!code)
-+				return;
-+
-+			ckdev->fn_key_status[col] |= BIT(row);
-+		} else {
-+			ckdev->normal_key_status[col] |= BIT(row);
-+		}
-+	}
-+
-+	input_event(idev, EV_MSC, MSC_SCAN, pos);
-+	input_report_key(idev, code, state);
-+}
- 
- /*
-  * Compares the new keyboard state to the old one and produces key
-- * press/release events accordingly.  The keyboard state is 13 bytes (one byte
-- * per column)
-+ * press/release events accordingly.  The keyboard state is one byte
-+ * per column.
-  */
- static void cros_ec_keyb_process(struct cros_ec_keyb *ckdev,
- 			 uint8_t *kb_state, int len)
- {
--	struct input_dev *idev = ckdev->idev;
- 	int col, row;
- 	int new_state;
- 	int old_state;
-@@ -192,20 +275,13 @@ static void cros_ec_keyb_process(struct cros_ec_keyb *ckdev,
- 
- 	for (col = 0; col < ckdev->cols; col++) {
- 		for (row = 0; row < ckdev->rows; row++) {
--			int pos = MATRIX_SCAN_CODE(row, col, ckdev->row_shift);
--			const unsigned short *keycodes = idev->keycode;
--
- 			new_state = kb_state[col] & (1 << row);
- 			old_state = ckdev->old_kb_state[col] & (1 << row);
--			if (new_state != old_state) {
--				dev_dbg(ckdev->dev,
--					"changed: [r%d c%d]: byte %02x\n",
--					row, col, new_state);
--
--				input_event(idev, EV_MSC, MSC_SCAN, pos);
--				input_report_key(idev, keycodes[pos],
--						 new_state);
--			}
-+
-+			if (new_state == old_state)
-+				continue;
-+
-+			cros_ec_keyb_process_one(ckdev, row, col, new_state);
- 		}
- 		ckdev->old_kb_state[col] = kb_state[col];
- 	}
-@@ -597,12 +673,19 @@ static int cros_ec_keyb_register_matrix(struct cros_ec_keyb *ckdev)
- 	struct device *dev = ckdev->dev;
- 	struct input_dev *idev;
- 	const char *phys;
-+	unsigned int rows_keymap;
- 	int err;
- 
- 	err = matrix_keypad_parse_properties(dev, &ckdev->rows, &ckdev->cols);
- 	if (err)
- 		return err;
- 
-+	if (ckdev->cols > CROS_EC_KEYBOARD_COLS_MAX) {
-+		dev_err(dev, "keypad,num-columns too large: %d (max: %d)\n",
-+			ckdev->cols, CROS_EC_KEYBOARD_COLS_MAX);
-+		return -EINVAL;
-+	}
-+
- 	ckdev->valid_keys = devm_kzalloc(dev, ckdev->cols, GFP_KERNEL);
- 	if (!ckdev->valid_keys)
- 		return -ENOMEM;
-@@ -635,7 +718,12 @@ static int cros_ec_keyb_register_matrix(struct cros_ec_keyb *ckdev)
- 	ckdev->ghost_filter = device_property_read_bool(dev,
- 					"google,needs-ghost-filter");
- 
--	err = matrix_keypad_build_keymap(NULL, NULL, ckdev->rows, ckdev->cols,
-+	ckdev->use_fn_overlay = device_property_read_bool(dev,
-+					"google,use-fn-overlay");
-+
-+	rows_keymap = ckdev->use_fn_overlay ? ckdev->rows * 2 : ckdev->rows;
-+
-+	err = matrix_keypad_build_keymap(NULL, NULL, rows_keymap, ckdev->cols,
- 					 NULL, idev);
- 	if (err) {
- 		dev_err(dev, "cannot build key matrix\n");
++            MATRIX_KEY(8 + 0x01, 0x00, KEY_F1)
++            MATRIX_KEY(8 + 0x02, 0x00, KEY_F2)
++        >;
++    };
+   - |
+     /* No matrix keyboard, just buttons/switches */
+     keyboard-controller {
 -- 
 2.52.0.351.gbe84eed79e-goog
 
