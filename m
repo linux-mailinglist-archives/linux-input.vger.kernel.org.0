@@ -1,119 +1,115 @@
-Return-Path: <linux-input+bounces-16699-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16700-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8513DCDF963
-	for <lists+linux-input@lfdr.de>; Sat, 27 Dec 2025 12:59:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC8BECDFC12
+	for <lists+linux-input@lfdr.de>; Sat, 27 Dec 2025 13:49:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id CA21F300982F
-	for <lists+linux-input@lfdr.de>; Sat, 27 Dec 2025 11:59:39 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 4BA173069302
+	for <lists+linux-input@lfdr.de>; Sat, 27 Dec 2025 12:44:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 99FBC274FC1;
-	Sat, 27 Dec 2025 11:59:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9860B3195FB;
+	Sat, 27 Dec 2025 12:44:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kemnade.info header.i=@kemnade.info header.b="sFW1eEv7"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QgqQehUa"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail.andi.de1.cc (mail.andi.de1.cc [178.238.236.174])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B12D9311971;
-	Sat, 27 Dec 2025 11:59:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.238.236.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 694233195E6;
+	Sat, 27 Dec 2025 12:44:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766836778; cv=none; b=eFjBFtrDlOdf7i3lPhjGFsxBfF+l5xZriOrRr3u3yYf+cJsWNgqVARRM8uSdmFETKmSkiuUgi1pT1XfKh+vrfb9qPdiQ2pp/bGTFIww9UhFzIAqw8rbAi/K5lFOwwK0HQWSZlwbmTZKDTBUjc48ltbutuefs6bu/vZ4Zpsj2rDw=
+	t=1766839469; cv=none; b=goaYEwwfLhR5FLHoIdvn8H5FCO4iMR2aU5IpK+Xcoirxn4xhWgFZH2OVYDrwPbnjxhlii2qQCxaPqKRo4vauiYUWqch0qHIEQsyviW9kfdyXGX60JQU2V0KmV1GuDtFKrOaLLayxSUoz+iXhbRMxhvX74ufTbAEMwj9ho7EyDXM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766836778; c=relaxed/simple;
-	bh=3nPPkTu5kf9fROP9Wgfhsd6CJck9UhOeakPqJLVjAlo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mX2olHwsj3WKSAp0wh1ttSxaSNiFyj57aM2XIHQzJPpyG3LwtpzNZM5e5jQiSnrrd+SwqodK0lA7LOOseQP7zQel7agLU7l2Xs3wqwu8aDuz0M1nGQ4jpRmRUPcdQqjkATn81oeO/fEvVEzwTsh8is0RGFVzARFsM8ZEdKyTqhw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kemnade.info; spf=pass smtp.mailfrom=kemnade.info; dkim=pass (2048-bit key) header.d=kemnade.info header.i=@kemnade.info header.b=sFW1eEv7; arc=none smtp.client-ip=178.238.236.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kemnade.info
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kemnade.info
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=kemnade.info; s=20220719; h=Cc:From:Sender:Reply-To:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:In-Reply-To:References;
-	bh=qCeFaH//N8sJE9MahB8n+fuPWhDDZwtVNZ3uj7307cY=; b=sFW1eEv7ANxWUwTFMbP6/I47YT
-	wF33OChHiWfN8rdr7LP2ooYE8n/Wy9JALyR6ABEDfSnPPXH/VrMYQw5e8m8PIKAlmrO2r40k2P2oM
-	WF1jnDVXAgPcAUBxsf0TB1nEqiG5A9WN+XsG9La1ETd9I/N01kvA+hHS9jLjbTAkAa2MdqbglrrKu
-	V7KvMrvsTdALKNDWq31YHhjjD7U7VGz3lKcIBObgWTkUuzURfCd3Hwmy7WxHuRgkyzCCddZ6/hnK3
-	sB5pEzUc0PyBQnjeSTpFqlr3mqnTur/qi4ItY3M/+wMvS1Tg6M6uBq2COBbK8U9HO5pTpDgX0S+lH
-	JpfNIg2g==;
-From: Andreas Kemnade <andreas@kemnade.info>
-To: dmitry.torokhov@gmail.com,
-	andreas@kemnade.info,
-	linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: kernel test robot <lkp@intel.com>
-Subject: [PATCH v2] Input: twl4030 - fix warnings without CONFIG_OF
-Date: Sat, 27 Dec 2025 12:59:18 +0100
-Message-ID: <20251227115918.76969-1-andreas@kemnade.info>
-X-Mailer: git-send-email 2.47.3
+	s=arc-20240116; t=1766839469; c=relaxed/simple;
+	bh=vEShTIzKhF+RRKNLUEVfNVwv1QxJc8R+0hDHtBehu6U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QVpbs1t4zcNQERa2rN+sP6//NqyngmcoTIoZuXEZRfK/E4/BIrK570DvcdZoGuo8i67R2VhXGX8gk6OkGrGzXl+MHODjG3/1KbDYcOaPVPS6gZWIS/Lm2h+5sTcBjCfpnJtvDBb9PShJuSc5pO/SLJ3vJGjtq+HIS5VZsAvJRQY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QgqQehUa; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70955C4CEF1;
+	Sat, 27 Dec 2025 12:44:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1766839469;
+	bh=vEShTIzKhF+RRKNLUEVfNVwv1QxJc8R+0hDHtBehu6U=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=QgqQehUavkPJvU55Pktmj+FuJgHjevsdIjpUm0JkuxTvYrGLk4mIUOu/fsG9URuY+
+	 1xLwzvQ2s4Nd3+NneU3I2vqVbGhiinaLWcf6Zk5vghKNTKLjP0NFqc+fi0qdPX2kGF
+	 Lt+IvO8wxEHHquqI3B/z0pTJiJXnuYZN8xahwSq1l8lwP2tMiqPM8sFtH3zLQR8NT6
+	 6NQ6JbkGjVC5I8xF+I6kt88HXp7UXo0WaAsD8fpiQehwab3PIEbUxTU6Zoa9JLe3C4
+	 SdcYFNQRwMc56Q8lIj/eMHlexZXplH74VCi46vKHNCkA1MwaD5sDzSHufTyMmK507K
+	 gPYHTBs6sHw9w==
+Date: Sat, 27 Dec 2025 13:44:26 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Fabio Baltieri <fabiobaltieri@chromium.org>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Benson Leung <bleung@chromium.org>, 
+	Guenter Roeck <groeck@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
+	Simon Glass <sjg@chromium.org>, linux-input@vger.kernel.org, devicetree@vger.kernel.org, 
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] dt-bindings: google,cros-ec-keyb: add
+ use-fn-overlay prop
+Message-ID: <20251227-laughing-white-dalmatian-f9d98a@quoll>
+References: <20251224152238.485415-1-fabiobaltieri@chromium.org>
+ <20251224152238.485415-3-fabiobaltieri@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20251224152238.485415-3-fabiobaltieri@chromium.org>
 
-There are unused variables without CONFIG_OF:
-drivers/input/misc/twl4030-pwrbutton.c:41:44: error: unused variable 'twl4030_chipdata' [-Werror,-Wunused-const-variable]
-   41 | static const struct twl_pwrbutton_chipdata twl4030_chipdata = {
-      |                                            ^~~~~~~~~~~~~~~~
-drivers/input/misc/twl4030-pwrbutton.c:46:44: error: unused variable 'twl6030_chipdata' [-Werror,-Wunused-const-variable]
-   46 | static const struct twl_pwrbutton_chipdata twl6030_chipdata = {
+On Wed, Dec 24, 2025 at 03:22:38PM +0000, Fabio Baltieri wrote:
+> Add binding documentation for the use-fn-overlay property.
+> 
+> Signed-off-by: Fabio Baltieri <fabiobaltieri@chromium.org>
+> ---
+>  .../bindings/input/google,cros-ec-keyb.yaml   | 25 +++++++++++++++++++
+>  1 file changed, 25 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/input/google,cros-ec-keyb.yaml b/Documentation/devicetree/bindings/input/google,cros-ec-keyb.yaml
+> index fefaaf46a240..437575cdf352 100644
+> --- a/Documentation/devicetree/bindings/input/google,cros-ec-keyb.yaml
+> +++ b/Documentation/devicetree/bindings/input/google,cros-ec-keyb.yaml
+> @@ -44,6 +44,14 @@ properties:
+>        where the lower 16 bits are reserved. This property is specified only
+>        when the keyboard has a custom design for the top row keys.
+>  
+> +  google,use-fn-overlay:
+> +    description: |
+> +      Use a function key overlay. This allows defining an extra set of codes
 
-Fix that by avoiding some #ifdef CONFIG_OF
+What is a function key overlay? Overlays are DT term and therefore are
+not suitable for bindings.
 
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202512220251.jDE8tKup-lkp@intel.com/
-Signed-off-by: Andreas Kemnade <andreas@kemnade.info>
----
-Changes in v2:
-- replace of.h with proper includes
+> +      that are sent if a key is pressed while the KEY_FN is held pressed as
+> +      well. The function codes have to be defined in the linux,keymap property
+> +      with an offset of keypad,num-rows from the normal ones.
+> +    type: boolean
+> +
+>  dependencies:
+>    function-row-physmap: [ 'linux,keymap' ]
+>    google,needs-ghost-filter: [ 'linux,keymap' ]
+> @@ -132,6 +140,23 @@ examples:
+>              /* UP      LEFT    */
+>              0x070b0067 0x070c0069>;
+>      };
+> +  - |
+> +    /* With function keys */
+> +    #include <dt-bindings/input/input.h>
+> +    keyboard-controller {
+> +        compatible = "google,cros-ec-keyb";
+> +        keypad,num-rows = <8>;
+> +        keypad,num-columns = <18>;
+> +        google,use-fn-overlay;
 
- drivers/input/misc/twl4030-pwrbutton.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+Difference in one property does not justify new example.
 
-diff --git a/drivers/input/misc/twl4030-pwrbutton.c b/drivers/input/misc/twl4030-pwrbutton.c
-index d82a3fb28d95..b0feef19515d 100644
---- a/drivers/input/misc/twl4030-pwrbutton.c
-+++ b/drivers/input/misc/twl4030-pwrbutton.c
-@@ -27,7 +27,8 @@
- #include <linux/errno.h>
- #include <linux/input.h>
- #include <linux/interrupt.h>
--#include <linux/of.h>
-+#include <linux/mod_devicetable.h>
-+#include <linux/property.h>
- #include <linux/platform_device.h>
- #include <linux/mfd/twl.h>
- 
-@@ -132,7 +133,6 @@ static void twl4030_pwrbutton_remove(struct platform_device *pdev)
- 	}
- }
- 
--#ifdef CONFIG_OF
- static const struct of_device_id twl4030_pwrbutton_dt_match_table[] = {
- 	{
- 		.compatible = "ti,twl4030-pwrbutton",
-@@ -145,14 +145,13 @@ static const struct of_device_id twl4030_pwrbutton_dt_match_table[] = {
- 	{ }
- };
- MODULE_DEVICE_TABLE(of, twl4030_pwrbutton_dt_match_table);
--#endif
- 
- static struct platform_driver twl4030_pwrbutton_driver = {
- 	.probe		= twl4030_pwrbutton_probe,
- 	.remove		= twl4030_pwrbutton_remove,
- 	.driver		= {
- 		.name	= "twl4030_pwrbutton",
--		.of_match_table = of_match_ptr(twl4030_pwrbutton_dt_match_table),
-+		.of_match_table = twl4030_pwrbutton_dt_match_table,
- 	},
- };
- module_platform_driver(twl4030_pwrbutton_driver);
--- 
-2.47.3
+Best regards,
+Krzysztof
 
 
