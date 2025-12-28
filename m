@@ -1,86 +1,86 @@
-Return-Path: <linux-input+bounces-16708-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16709-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36A5DCE4B94
-	for <lists+linux-input@lfdr.de>; Sun, 28 Dec 2025 13:20:48 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id EF8CCCE4BA3
+	for <lists+linux-input@lfdr.de>; Sun, 28 Dec 2025 13:21:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id BEC52300769B
+	by sea.lore.kernel.org (Postfix) with ESMTP id BBA9D3021E43
 	for <lists+linux-input@lfdr.de>; Sun, 28 Dec 2025 12:20:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 35B152C326F;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 35C1B2C3272;
 	Sun, 28 Dec 2025 12:20:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PrR1fPHC"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Qlf+jLLL"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
+Received: from mail-qv1-f67.google.com (mail-qv1-f67.google.com [209.85.219.67])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73587265CA4
-	for <linux-input@vger.kernel.org>; Sun, 28 Dec 2025 12:20:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BA812C08D5
+	for <linux-input@vger.kernel.org>; Sun, 28 Dec 2025 12:20:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.67
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766924441; cv=none; b=EcmlXRd9qzLDJt+9Zlyg8hU/tukMF62HkzSWvYkp08SH9L57dMBay7p8X98w8H3GhIsRl+Ze5ezTg5N4lQklKYn5Aju3hBgeYya8f5FcLH9csjnhSF0AAnej80XCJjyxy+PayPWCjFqWYzSNV/jLTA14NVDgAZ9ZDitm0EA/JFQ=
+	t=1766924441; cv=none; b=ndG31JC/EjqsxR2pVA1XY+dCqI918UC/HTMQVRe1i9P+S877Him+3Y65BjDJYcK/55aGDgfGv3asYXvklwQxJZVmmQol1k0eH+SWrUh5FEqDqs3pdzwEt4yOvoXNlcTlgiOdfX/1kK3/HakR4YqZBOtCsYYgPSKxY0Hgr6rLvMo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1766924441; c=relaxed/simple;
-	bh=G4hkui2frOo0G/r9Uz0v4AWWhohtaM7V20BKdV6se6A=;
+	bh=ZaRre9KeRHlWpTrdmOFo1E3VLeEptXG4YplvxcGUxVw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=fjkNut3RMHeTq0tgEPayGMyEJmgIVvp33E9EHOOxgf9n92USG5/8hbF0lbon2EO0CgVrLg4wC+kfsMF5+gTqyGzSZA7FcdO16QAdXiIRxx4WNpFN9uZaNNkhAkUB+suniyFEZ1PnAgKcYwVLW5lgGmlZ7gB/sBpOe3/PswcHBD0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PrR1fPHC; arc=none smtp.client-ip=209.85.160.178
+	 MIME-Version; b=NGPbHVCGlIrjhuj1u0r3EBLCnThLRis/dvuyZCkOiQcqKT/qB0aBpMlenUbRPGlJjKYru8maC8S+dSrNum6DbifljKDtusgbCcSHd5t11nYRN/Ry6ZLUqLa0OwLpgEoCJrGmzWql+3ytHbGOygf+wDsMB9u9Mn00mWVGmVpabJ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Qlf+jLLL; arc=none smtp.client-ip=209.85.219.67
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-4ee0ce50b95so88374401cf.0
-        for <linux-input@vger.kernel.org>; Sun, 28 Dec 2025 04:20:38 -0800 (PST)
+Received: by mail-qv1-f67.google.com with SMTP id 6a1803df08f44-88a3bba9fd4so95629786d6.2
+        for <linux-input@vger.kernel.org>; Sun, 28 Dec 2025 04:20:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766924437; x=1767529237; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1766924438; x=1767529238; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=dJByTbifGyBY6Vqv1f83yZO8v3AvpdnFvxtb7bJ0Bn4=;
-        b=PrR1fPHCyN9uzEa0tFAeYl4JnFHR+lNvgpqF9fRyhPKgpctHfSikVM//bOHev3i01v
-         pqc13DV8AiyExUV1tqY1JhFY1Rsrq2Kf9/c+tn2iriRtNuaD8P+z9BEnAQdQZTJ8d35I
-         Ta3SybSc02cjjwYNevvRycqDupJcvqqX+jXDN+OV8gprkvYwiZmimQcrVgwRgzjwxY6j
-         FLD76+yZQ96iYAQ2wcYeg3t8DhJ5NqalpF/GSepFXZv8TRPddaeVjOTCVDa71gPpnLpQ
-         WAjPTxTOPztgb+QAMMx7FMpC0dUNPPEH8jI44JZHD9/rTpJska0zX74puvozrnN6vzoa
-         RxlQ==
+        bh=WiT7vd66H/0g7zS/sfr9KNa7Y0rTVJ0HEgehE7M8NCc=;
+        b=Qlf+jLLLjUI0tC3v1m1wDP2YsJdMwbZ6fdG9zVgQfdm0VBu0nQBFQU72RN0cbou3/M
+         lgNnNLSa6zuryFuaAAl2GpHl9pgdOEIuSSVUi+eRWSjl50jxqnxRB2pT4oGYJ7A27Q9T
+         bXo13+bsvr6Wgxnlowoi/Lar98+YOXRyu5iM2nSs/pQY/98Gvz5o5dK5tO1T+075JDW5
+         W7w69Z9LchAzmEnQ4jLVPRcI/rzRpBltDQJr4O9FliD7fFRFc0EdgT7Sg+M7lJvYusyG
+         7Ru3SaBrd+LrfpJxIv+kheQuAypMHy98u/GDxIwdDB4nZPdoRqc0//Zoz8X3/1cSqJdo
+         ulSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766924437; x=1767529237;
+        d=1e100.net; s=20230601; t=1766924438; x=1767529238;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=dJByTbifGyBY6Vqv1f83yZO8v3AvpdnFvxtb7bJ0Bn4=;
-        b=WFlqVtkx0oOQqdyWFPXdRExtm4ExWJGdobxyqRm87Wjkt41OiP8Ild4Bwe+VmpEsV7
-         gRVszVQxB++AB0lqlG7+pYNDhR6rWGSk+EZwTlDfeLfxp5fePVD2exDWfuuDr8et9qRT
-         CDh4k1Vm872vDC5LSFiPYd51hC+42d310XJ5mM2KMMgkCB2AsVj6p2aXh/GlDJMWPCCd
-         V1BTvRYiLGWEVKEMImh9wQbPNNi1fQJNW5iCBjWY5Y7uVwR0DFbWNcTYRtJEXXGNBnNE
-         EMXs2dxi6D5VF6Kwd/5o9fQzXNcGg9tnZ9kBPOGdC8TW39ZpVI4veLd8rNkMj7p0Us2u
-         Pybw==
-X-Forwarded-Encrypted: i=1; AJvYcCWGzL5znO+GNQbRGXyKKS1qGoia0SGTDRWx9USyEq/IVO5LsPNlKvkZw22ww0M7yn3jG0soIxNb9nFgow==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxD3RYnvYsFn4O4T9ZBW/t9ieXv5w7MR9p/mlf33W2gmHu7Zver
-	g3D7Q42zuStrDkaffmQtCC/eT+AAZwvBIOgI6GDq6WCgZh35599JKdDc
-X-Gm-Gg: AY/fxX7Cl6sH6+tppkEV/dJUzcMDWCgR2+1T7LhRUAtkGerjw09Ubps+bfxeo/M2ZGl
-	+iUjjb5zwtw07EDAYGxBBJ3Kgp/AQutwhoNGGl/ZcFktovf01gSLSvOS//VO+XCaSFyyGDn6921
-	Lpvzhz0owmYpY6eU834GctVnwWtXtN81eL11kE4AeD5XyfDteHw/HjQixb4G0pTNW7Fiw5njiUx
-	3tGgrPBz+WuIsXuba0g043p8bNxmI+ZlqFKEs9QaFHEUfigD3qlEpKiKt1kJwhJ5/cOGhGT/MdX
-	ZG9bsjPPw8immJ6/XCnQ18Y9Dro8FzX/93KaRN9SizGMzVo2xyrhNjMnsu8/Jr0YBFtyqatvg3V
-	VeD+UJUu7hgZ+PvPo0E1eTRgLUMpdOSylIPT31s50RsALw9s1snOTCdki8oyZg9xi7Wig++YC7H
-	U2tnO/xfllq58+mU4PlJtwf6wWBbIUmMPakDZ/zFb18Mktt3k=
-X-Google-Smtp-Source: AGHT+IGd6qxwVDuKNPoUR0BWPH1AUlPOtzZdMTxp6aaupwDczFckXXdG2WOtE79bGWdPRNcMURC/1g==
-X-Received: by 2002:a05:622a:181a:b0:4ee:17d8:b583 with SMTP id d75a77b69052e-4f35f43b6c9mr464005311cf.27.1766924437283;
-        Sun, 28 Dec 2025 04:20:37 -0800 (PST)
+        bh=WiT7vd66H/0g7zS/sfr9KNa7Y0rTVJ0HEgehE7M8NCc=;
+        b=Em1M9hJxYW2AMWYoAHorvWcfJqAUaM1QU6Jwvx+vI1dOcPjLtdQanTdRzUXvpAEgSG
+         QFQbfGOcBA5thZrJwLqJ6YwW8epDA/CB65BnqdywfUO/MoSWjx0UdpYR3N+KP/qnjP37
+         jMutTpEgwhlBZ8s1viAuqmdFK+zFrkLM/tBXrxxI/BuZ99hebW203Buzo5hEdtARW9cY
+         II2x5MQTxnP4Yaeb7ol4oeOxfdWVEHSU8q2SsRF2pX6cJvmU+4qQs9p498viXe9H98/b
+         eEpDBi/8S7pqJ4ZLby/fkB7N6nCZV10nDhGe4qQUlMzCgkHeQeX7/Hf+6YGzyBJqVPDu
+         oOHw==
+X-Forwarded-Encrypted: i=1; AJvYcCV69BIbEDGmytK063vMKu0F+l7jxlTQg3+LPQXmwFBj94NHW14fcsTtG7KlPYIH29UmlVqLmb1Av66egw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwvzSn2FQYxdrn6TOb8g1yfn7I1oK8PqMFEV9rasxeMv2sZD3Kt
+	bpGaIqjahS88gLNbOrHkBZ5ZNOM3pa2GDAjJ9npzPTcDPm4Yjx73SBeBFClk2C3C
+X-Gm-Gg: AY/fxX49qWphO0KaaJH6zGeNWQIGYuyZti48S4umfZolEcx5fmljPiCE5TZm+C2KbVp
+	GEURLbnN6YaWMGUh1sx88fJVDTwjk0BGbPIxEgreTUuHbTT5QJ4HoN3gq2yYmQd6l9WINfBQoj5
+	EDGOtqFky6hkNkXn8CENDAzNtm4GwU6mLEI2Z/SUhW0fR6q8RqFPCsMOEUt+gqOEhrbyFf0HSAv
+	IfAC5nfcdU6Yc0LYW1lGvGgUGU8MRvWojQRdEFNiOQ2PthhMDXkeAtYth8mvxP3gDJJntCPpbox
+	FQ7FCn85w5cn9jHCPMVj3w5WneGfgo2svf4PGX/zfueCQDuwBTL3wYh987K7vi/JY1o3jffNgsv
+	+kDyzFo+IGhwJDKH5peo8T/4yiDdWIK7E2TLQNpo1lQuP3TIFp4CgytEd62I6P5hZj1x4Pk69eB
+	Kb5saxufYIp/KL5LyOxlwlTShFyq1UgSmoHXvDbN7PaCEXxME5YbG2LBOBrw==
+X-Google-Smtp-Source: AGHT+IHVT80eOLqzT36cdjP443bt7VWsCGjcpEsIo0xp8ya1wDSesm0f0xL8IbXzpm+3e3OHhWSFaw==
+X-Received: by 2002:a05:6214:3110:b0:88a:568b:f4af with SMTP id 6a1803df08f44-88d828162edmr447081896d6.23.1766924438126;
+        Sun, 28 Dec 2025 04:20:38 -0800 (PST)
 Received: from achantapc.mynetworksettings.com ([2600:4040:1233:de00:c673:8e0d:7a28:6166])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-88d99d7dbdcsm208744456d6.43.2025.12.28.04.20.36
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-88d99d7dbdcsm208744456d6.43.2025.12.28.04.20.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 28 Dec 2025 04:20:36 -0800 (PST)
+        Sun, 28 Dec 2025 04:20:37 -0800 (PST)
 From: Sriman Achanta <srimanachanta@gmail.com>
 To: Jiri Kosina <jikos@kernel.org>,
 	Benjamin Tissoires <bentiss@kernel.org>,
 	linux-input@vger.kernel.org,
 	linux-kernel@vger.kernel.org
 Cc: Sriman Achanta <srimanachanta@gmail.com>
-Subject: [PATCH 2/4] HID: quirks: Add INPUT_CONFIGURED quirk for SteelSeries Arctis headsets
-Date: Sun, 28 Dec 2025 07:20:23 -0500
-Message-ID: <20251228122025.154682-3-srimanachanta@gmail.com>
+Subject: [PATCH 3/4] Documentation: ABI: Document SteelSeries headset sysfs attributes
+Date: Sun, 28 Dec 2025 07:20:24 -0500
+Message-ID: <20251228122025.154682-4-srimanachanta@gmail.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20251228122025.154682-1-srimanachanta@gmail.com>
 References: <20251228122025.154682-1-srimanachanta@gmail.com>
@@ -92,58 +92,187 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add HID_QUIRK_INPUT_CONFIGURED for all SteelSeries Arctis headsets that
-require the hid-steelseries driver. This quirk ensures proper device
-initialization and prevents conflicts with generic HID drivers.
+Replace the SRW-S1 specific documentation with comprehensive
+documentation for the hid-steelseries driver covering both the legacy
+SRW-S1 wheel and the modern Arctis headset lineup.
 
-The quirk is necessary because these devices expose multiple HID
-interfaces, and the hid-steelseries driver needs to bind to specific
-interfaces based on the device capabilities. Without this quirk, the
-generic HID driver may interfere with device-specific functionality like
-battery monitoring and feature controls.
+New sysfs attributes documented:
+- sidetone_level: Control microphone monitoring volume
+- inactive_time: Auto-sleep timeout configuration
+- chatmix_level: Game/Chat audio balance (read-only)
+- mic_mute_led_brightness: Microphone mute LED brightness control
+- mic_volume: Internal microphone gain control
+- volume_limiter: EU hearing protection volume limiter
+- bluetooth_on_power: Bluetooth auto-enable on power-on
+- bluetooth_call_vol: Bluetooth call audio attenuation settings
+
+The SRW-S1 LED documentation is preserved and moved into the new unified
+documentation file.
 
 Signed-off-by: Sriman Achanta <srimanachanta@gmail.com>
 ---
- drivers/hid/hid-quirks.c | 25 +++++++++++++++++++++++++
- 1 file changed, 25 insertions(+)
+ .../ABI/testing/sysfs-driver-hid-srws1        |  21 ---
+ .../ABI/testing/sysfs-driver-hid-steelseries  | 123 ++++++++++++++++++
+ 2 files changed, 123 insertions(+), 21 deletions(-)
+ delete mode 100644 Documentation/ABI/testing/sysfs-driver-hid-srws1
+ create mode 100644 Documentation/ABI/testing/sysfs-driver-hid-steelseries
 
-diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
-index c89a015686c0..8a7c3f433040 100644
---- a/drivers/hid/hid-quirks.c
-+++ b/drivers/hid/hid-quirks.c
-@@ -699,7 +699,32 @@ static const struct hid_device_id hid_have_special_driver[] = {
- #if IS_ENABLED(CONFIG_HID_STEELSERIES)
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_STEELSERIES, USB_DEVICE_ID_STEELSERIES_SRWS1) },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_STEELSERIES, USB_DEVICE_ID_STEELSERIES_ARCTIS_1) },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_STEELSERIES, USB_DEVICE_ID_STEELSERIES_ARCTIS_1_X) },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_STEELSERIES, USB_DEVICE_ID_STEELSERIES_ARCTIS_7) },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_STEELSERIES, USB_DEVICE_ID_STEELSERIES_ARCTIS_7_P) },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_STEELSERIES, USB_DEVICE_ID_STEELSERIES_ARCTIS_7_X) },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_STEELSERIES, USB_DEVICE_ID_STEELSERIES_ARCTIS_7_GEN2) },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_STEELSERIES, USB_DEVICE_ID_STEELSERIES_ARCTIS_9) },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_STEELSERIES, USB_DEVICE_ID_STEELSERIES_ARCTIS_PRO) },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_STEELSERIES, USB_DEVICE_ID_STEELSERIES_ARCTIS_7_PLUS) },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_STEELSERIES, USB_DEVICE_ID_STEELSERIES_ARCTIS_7_PLUS_P) },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_STEELSERIES, USB_DEVICE_ID_STEELSERIES_ARCTIS_7_PLUS_X) },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_STEELSERIES, USB_DEVICE_ID_STEELSERIES_ARCTIS_7_PLUS_DESTINY) },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_STEELSERIES, USB_DEVICE_ID_STEELSERIES_ARCTIS_NOVA_3) },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_STEELSERIES, USB_DEVICE_ID_STEELSERIES_ARCTIS_NOVA_3_P) },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_STEELSERIES, USB_DEVICE_ID_STEELSERIES_ARCTIS_NOVA_3_X) },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_STEELSERIES, USB_DEVICE_ID_STEELSERIES_ARCTIS_NOVA_5) },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_STEELSERIES, USB_DEVICE_ID_STEELSERIES_ARCTIS_NOVA_5_X) },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_STEELSERIES, USB_DEVICE_ID_STEELSERIES_ARCTIS_NOVA_7) },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_STEELSERIES, USB_DEVICE_ID_STEELSERIES_ARCTIS_NOVA_7_X) },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_STEELSERIES, USB_DEVICE_ID_STEELSERIES_ARCTIS_NOVA_7_P) },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_STEELSERIES, USB_DEVICE_ID_STEELSERIES_ARCTIS_NOVA_7_X_REV2) },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_STEELSERIES, USB_DEVICE_ID_STEELSERIES_ARCTIS_NOVA_7_DIABLO) },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_STEELSERIES, USB_DEVICE_ID_STEELSERIES_ARCTIS_NOVA_7_WOW) },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_STEELSERIES, USB_DEVICE_ID_STEELSERIES_ARCTIS_NOVA_7_GEN2) },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_STEELSERIES, USB_DEVICE_ID_STEELSERIES_ARCTIS_NOVA_7_X_GEN2) },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_STEELSERIES, USB_DEVICE_ID_STEELSERIES_ARCTIS_NOVA_PRO) },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_STEELSERIES, USB_DEVICE_ID_STEELSERIES_ARCTIS_NOVA_PRO_X) },
- #endif
- #if IS_ENABLED(CONFIG_HID_SUNPLUS)
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_SUNPLUS, USB_DEVICE_ID_SUNPLUS_WDESKTOP) },
+diff --git a/Documentation/ABI/testing/sysfs-driver-hid-srws1 b/Documentation/ABI/testing/sysfs-driver-hid-srws1
+deleted file mode 100644
+index d0eba70c7d40..000000000000
+--- a/Documentation/ABI/testing/sysfs-driver-hid-srws1
++++ /dev/null
+@@ -1,21 +0,0 @@
+-What:		/sys/class/leds/SRWS1::<serial>::RPM1
+-What:		/sys/class/leds/SRWS1::<serial>::RPM2
+-What:		/sys/class/leds/SRWS1::<serial>::RPM3
+-What:		/sys/class/leds/SRWS1::<serial>::RPM4
+-What:		/sys/class/leds/SRWS1::<serial>::RPM5
+-What:		/sys/class/leds/SRWS1::<serial>::RPM6
+-What:		/sys/class/leds/SRWS1::<serial>::RPM7
+-What:		/sys/class/leds/SRWS1::<serial>::RPM8
+-What:		/sys/class/leds/SRWS1::<serial>::RPM9
+-What:		/sys/class/leds/SRWS1::<serial>::RPM10
+-What:		/sys/class/leds/SRWS1::<serial>::RPM11
+-What:		/sys/class/leds/SRWS1::<serial>::RPM12
+-What:		/sys/class/leds/SRWS1::<serial>::RPM13
+-What:		/sys/class/leds/SRWS1::<serial>::RPM14
+-What:		/sys/class/leds/SRWS1::<serial>::RPM15
+-What:		/sys/class/leds/SRWS1::<serial>::RPMALL
+-Date:		Jan 2013
+-KernelVersion:	3.9
+-Contact:	Simon Wood <simon@mungewell.org>
+-Description:	Provides a control for turning on/off the LEDs which form
+-		an RPM meter on the front of the controller
+diff --git a/Documentation/ABI/testing/sysfs-driver-hid-steelseries b/Documentation/ABI/testing/sysfs-driver-hid-steelseries
+new file mode 100644
+index 000000000000..3066dbb486d3
+--- /dev/null
++++ b/Documentation/ABI/testing/sysfs-driver-hid-steelseries
+@@ -0,0 +1,123 @@
++What:		/sys/class/leds/SRWS1::<serial>::RPM1
++What:		/sys/class/leds/SRWS1::<serial>::RPM2
++What:		/sys/class/leds/SRWS1::<serial>::RPM3
++What:		/sys/class/leds/SRWS1::<serial>::RPM4
++What:		/sys/class/leds/SRWS1::<serial>::RPM5
++What:		/sys/class/leds/SRWS1::<serial>::RPM6
++What:		/sys/class/leds/SRWS1::<serial>::RPM7
++What:		/sys/class/leds/SRWS1::<serial>::RPM8
++What:		/sys/class/leds/SRWS1::<serial>::RPM9
++What:		/sys/class/leds/SRWS1::<serial>::RPM10
++What:		/sys/class/leds/SRWS1::<serial>::RPM11
++What:		/sys/class/leds/SRWS1::<serial>::RPM12
++What:		/sys/class/leds/SRWS1::<serial>::RPM13
++What:		/sys/class/leds/SRWS1::<serial>::RPM14
++What:		/sys/class/leds/SRWS1::<serial>::RPM15
++What:		/sys/class/leds/SRWS1::<serial>::RPMALL
++Date:		Jan 2013
++KernelVersion:	3.9
++Contact:	Simon Wood <simon@mungewell.org>
++Description:	Provides a control for turning on/off the LEDs which form
++		an RPM meter on the front of the controller
++
++What:		/sys/class/hid/drivers/steelseries/<dev>/sidetone_level
++Date:		January 2025
++KernelVersion:	6.19
++Contact:	Sriman Achanta <srimanachanta@gmail.com>
++Description:
++		Controls the sidetone (microphone monitoring) volume level.
++		This determines how much of the microphone input is fed back into
++		the headset speakers.
++
++		Range: 0-128 (mapped internally to device-specific values).
++		Access: Write
++
++What:		/sys/class/hid/drivers/steelseries/<dev>/inactive_time
++Date:		January 2025
++KernelVersion:	6.19
++Contact:	Sriman Achanta <srimanachanta@gmail.com>
++Description:
++		Sets the time in minutes before the headset automatically enters
++		standby/sleep mode when no audio is playing.
++
++		Range: 0-90 (minutes).
++		       Some devices (e.g., Arctis 1/7X) map this to specific presets.
++		Access: Write
++
++What:		/sys/class/hid/drivers/steelseries/<dev>/chatmix_level
++Date:		January 2025
++KernelVersion:	6.19
++Contact:	Sriman Achanta <srimanachanta@gmail.com>
++Description:
++		Reports the current balance between Game and Chat audio channels
++		(ChatMix). This value changes when the physical ChatMix dial
++		on the headset is adjusted.
++
++		Range: 0-128
++		       0   = 100% Chat / 0% Game
++		       64  = 50% Chat / 50% Game (Balanced)
++		       128 = 0% Chat / 100% Game
++		Access: Read
++
++What:		/sys/class/hid/drivers/steelseries/<dev>/mic_mute_led_brightness
++Date:		January 2025
++KernelVersion:	6.19
++Contact:	Sriman Achanta <srimanachanta@gmail.com>
++Description:
++		Controls the brightness of the LED on the microphone boom that
++		indicates when the microphone is muted.
++
++		Range: 0-3 (off, low, medium, high) for most devices.
++		       0-10 for newer Nova series devices.
++		Access: Write
++
++What:		/sys/class/hid/drivers/steelseries/<dev>/mic_volume
++Date:		January 2025
++KernelVersion:	6.19
++Contact:	Sriman Achanta <srimanachanta@gmail.com>
++Description:
++		Controls the internal microphone gain/volume of the headset.
++		This is distinct from the OS input volume.
++
++		Range: 0-128 (mapped internally to device-specific values).
++		Access: Write
++
++What:		/sys/class/hid/drivers/steelseries/<dev>/volume_limiter
++Date:		January 2025
++KernelVersion:	6.19
++Contact:	Sriman Achanta <srimanachanta@gmail.com>
++Description:
++		Enables or disables the EU volume limiter (hearing protection).
++		When enabled, the maximum output volume is capped.
++
++		Values:
++		0 = Disabled
++		1 = Enabled
++		Access: Write
++
++What:		/sys/class/hid/drivers/steelseries/<dev>/bluetooth_on_power
++Date:		January 2025
++KernelVersion:	6.19
++Contact:	Sriman Achanta <srimanachanta@gmail.com>
++Description:
++		Configures whether the Bluetooth radio automatically turns on
++		when the headset is powered on.
++
++		Values:
++		0 = Bluetooth must be turned on manually
++		1 = Bluetooth turns on automatically with headset
++		Access: Write
++
++What:		/sys/class/hid/drivers/steelseries/<dev>/bluetooth_call_vol
++Date:		January 2025
++KernelVersion:	6.19
++Contact:	Sriman Achanta <srimanachanta@gmail.com>
++Description:
++		Configures how the 2.4GHz Game/Chat audio is attenuated when
++		a Bluetooth call is active.
++
++		Values:
++		0 = No attenuation (mix both equally)
++		1 = Attenuate Game audio by -12dB
++		2 = Mute Game audio completely
++		Access: Write
 -- 
 2.52.0
 
