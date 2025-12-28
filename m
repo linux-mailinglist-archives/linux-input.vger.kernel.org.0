@@ -1,75 +1,75 @@
-Return-Path: <linux-input+bounces-16707-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16708-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8372CE4B98
-	for <lists+linux-input@lfdr.de>; Sun, 28 Dec 2025 13:20:51 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 36A5DCE4B94
+	for <lists+linux-input@lfdr.de>; Sun, 28 Dec 2025 13:20:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 40BB0300EE4A
-	for <lists+linux-input@lfdr.de>; Sun, 28 Dec 2025 12:20:41 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id BEC52300769B
+	for <lists+linux-input@lfdr.de>; Sun, 28 Dec 2025 12:20:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B54A2C21CC;
-	Sun, 28 Dec 2025 12:20:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 35B152C326F;
+	Sun, 28 Dec 2025 12:20:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aibebcRX"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PrR1fPHC"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
+Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3F1C233722
-	for <linux-input@vger.kernel.org>; Sun, 28 Dec 2025 12:20:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73587265CA4
+	for <linux-input@vger.kernel.org>; Sun, 28 Dec 2025 12:20:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766924439; cv=none; b=jgJGRuhZulTxsoyaN//ACvO6275lsabR6qb1tw2E7RYnw4EuIKdOCNZjAuhMAQbs87nrXZkQmJRHfnty4FNKZYt80rG4DHcP/4iB6LLrAFFnJaT8x3YetLZVdMe0FI3/fKmUf0qyBvpTEtLyLp2v8/3jR9vW8z7m2WMHuiIVMTY=
+	t=1766924441; cv=none; b=EcmlXRd9qzLDJt+9Zlyg8hU/tukMF62HkzSWvYkp08SH9L57dMBay7p8X98w8H3GhIsRl+Ze5ezTg5N4lQklKYn5Aju3hBgeYya8f5FcLH9csjnhSF0AAnej80XCJjyxy+PayPWCjFqWYzSNV/jLTA14NVDgAZ9ZDitm0EA/JFQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766924439; c=relaxed/simple;
-	bh=9z1wDtyXAKdNssFFC3WXPfXTJTLvOapbY7cyoZAzros=;
+	s=arc-20240116; t=1766924441; c=relaxed/simple;
+	bh=G4hkui2frOo0G/r9Uz0v4AWWhohtaM7V20BKdV6se6A=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=jN6QE/AUh2kbyL4UTTQtA2GmVFncVaK7t1yglgADyKCdxl2n5aCQRs+vhG6K8cFYq1B8KjdrYptQ5OHChBKZbzO2VSvQ7JxaRA2aR2Mf0vttXinfGN/FLTIsLVdkEO+d3NndDOpADiifWA//QHm+hvsNRwIf5GeguQUoD22yFtw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aibebcRX; arc=none smtp.client-ip=209.85.222.181
+	 MIME-Version; b=fjkNut3RMHeTq0tgEPayGMyEJmgIVvp33E9EHOOxgf9n92USG5/8hbF0lbon2EO0CgVrLg4wC+kfsMF5+gTqyGzSZA7FcdO16QAdXiIRxx4WNpFN9uZaNNkhAkUB+suniyFEZ1PnAgKcYwVLW5lgGmlZ7gB/sBpOe3/PswcHBD0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PrR1fPHC; arc=none smtp.client-ip=209.85.160.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qk1-f181.google.com with SMTP id af79cd13be357-8ba0d6c68a8so940017585a.1
-        for <linux-input@vger.kernel.org>; Sun, 28 Dec 2025 04:20:37 -0800 (PST)
+Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-4ee0ce50b95so88374401cf.0
+        for <linux-input@vger.kernel.org>; Sun, 28 Dec 2025 04:20:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20230601; t=1766924437; x=1767529237; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=aP23ZQnFxI3fXmimCDZNTyoOhWpeH9X/COG8zO0+xzo=;
-        b=aibebcRXfnw1hqj8dOdrlTXP24I/983D9y7mHXiD8mqL2fZcThKG5TF+SFI/FFPxAf
-         5Znd2feXRPYyjRKFd6tncSIiHWyo3nNqOE4H7DnSL9taLEKr7Ek+s/DzEASkUadW/6N6
-         8NDby8U1svX60vN+j3v88v+5BnqHtJkCPgP5KeX6mHgIwvXFsdg0N/FTgUdmvALcSR0c
-         KcvZw1kZJ/3ebj71st632ihGQ70sqDilYNvSW2ieBFVpk8b99sVuMx9WaTAT9ky6mKAl
-         JF76D4dG5P9z3pQDOetlR1MAlYLBJVHXb+TKBy74eGfFeuY6Dl6urbO550kPQMOIUJr2
-         Oyxw==
+        bh=dJByTbifGyBY6Vqv1f83yZO8v3AvpdnFvxtb7bJ0Bn4=;
+        b=PrR1fPHCyN9uzEa0tFAeYl4JnFHR+lNvgpqF9fRyhPKgpctHfSikVM//bOHev3i01v
+         pqc13DV8AiyExUV1tqY1JhFY1Rsrq2Kf9/c+tn2iriRtNuaD8P+z9BEnAQdQZTJ8d35I
+         Ta3SybSc02cjjwYNevvRycqDupJcvqqX+jXDN+OV8gprkvYwiZmimQcrVgwRgzjwxY6j
+         FLD76+yZQ96iYAQ2wcYeg3t8DhJ5NqalpF/GSepFXZv8TRPddaeVjOTCVDa71gPpnLpQ
+         WAjPTxTOPztgb+QAMMx7FMpC0dUNPPEH8jI44JZHD9/rTpJska0zX74puvozrnN6vzoa
+         RxlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1766924437; x=1767529237;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=aP23ZQnFxI3fXmimCDZNTyoOhWpeH9X/COG8zO0+xzo=;
-        b=OGxWJ3cAOWfmjtrumhhpP0oI/6Jr8PkZEpCssOrll8CuwaMm47BfmvWNEpcLHIQkO8
-         l5+7uj9QdjE1tr22C7GzOmlcJFHs0VeDAlMxOVS8+/vCYM9H7hDIMI956D5FnZ2X2DSt
-         QtCV41UWsk/ZG4lSID/s9SqCpcrybt75ZkNE9gvfpmrRTveEyKhBWZVZdKQJfA91Eb/y
-         1AufT3pq1Xy+paIDq0tRXCcSpC3AMOwc4qH41a7vCX5/D7je44gIJwSFiOrQ1hKQlvRp
-         6CFHUhfI7Qmiu/sn8HczdhxtRk6zZKwy/eMuFSlmJ5DZH91Kc63LypKfZXZzWPzt3wUx
-         bIEw==
-X-Forwarded-Encrypted: i=1; AJvYcCUCRGMc++ISiOP/36gF9VlyxrkTznauqb3yP70LrooL7p4iJrKY0i5l//7JyLNzH/GGqElh+kMRKivbvQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywqz97ImeIg1BSU0nEMhLW1QtK7DJfznJyn9ucWdY9LjcQicf62
-	D29U8kplY5AsZt2Y/egZ6G/XND6oP1wpzFN2eCLtK2b4gg2ZAsEvHnsh
-X-Gm-Gg: AY/fxX4l0CNYwDvlO8gKh0Azh+ezKI7pBhT4WrKn6aGnqWaS6qYYFXwMgL8g3Mp7vn5
-	UJoFKXMLMa6FOrkCYscqC/3RP8K+KNqznMzK2XdfO+YpAdie2124zKqvx2ZaaUB6qd6OEPC3dEl
-	hrQMk9RDN4PEYt4FuNmCKHqnIMgQQ77lOsMXioQflI5vvwS74gqLHuv7gPhRj4PBakuLklr0Rw8
-	+HPXKCgRuY68Q8MYKis1JqGT8awbRW1hFYQVuasJYe0zOFn9eCCzhFU/JqPBdzXfwMTINVRHlRv
-	dS+1tFyzaoXGBOX2cbyXPJ7okmL9mqsYOE9LjsOssFBk19FAmEkbl8Tzl9bh4bm5xQNER6XNOI8
-	yAJtH/3kKxG1vlwVwl7VNRFby2CnkHmjInw2X5juOC6H/Tz3Cd13akDj5YgEPihHlyBwiB7uJVy
-	E0SEM5xYtfgLe77Nd/Fl5g6kqIWJicYiSybf/S4EY3DwMpGAs=
-X-Google-Smtp-Source: AGHT+IGKUm4qnxjKkhPlQb42QA9R0SWF/N4glxGsf2Sm+I4oeaJUdgpdp5qWE7nMKBxPxMaUiHG+PQ==
-X-Received: by 2002:a05:6214:2306:b0:88a:309d:d780 with SMTP id 6a1803df08f44-88d82234e21mr538433766d6.29.1766924436608;
-        Sun, 28 Dec 2025 04:20:36 -0800 (PST)
+        bh=dJByTbifGyBY6Vqv1f83yZO8v3AvpdnFvxtb7bJ0Bn4=;
+        b=WFlqVtkx0oOQqdyWFPXdRExtm4ExWJGdobxyqRm87Wjkt41OiP8Ild4Bwe+VmpEsV7
+         gRVszVQxB++AB0lqlG7+pYNDhR6rWGSk+EZwTlDfeLfxp5fePVD2exDWfuuDr8et9qRT
+         CDh4k1Vm872vDC5LSFiPYd51hC+42d310XJ5mM2KMMgkCB2AsVj6p2aXh/GlDJMWPCCd
+         V1BTvRYiLGWEVKEMImh9wQbPNNi1fQJNW5iCBjWY5Y7uVwR0DFbWNcTYRtJEXXGNBnNE
+         EMXs2dxi6D5VF6Kwd/5o9fQzXNcGg9tnZ9kBPOGdC8TW39ZpVI4veLd8rNkMj7p0Us2u
+         Pybw==
+X-Forwarded-Encrypted: i=1; AJvYcCWGzL5znO+GNQbRGXyKKS1qGoia0SGTDRWx9USyEq/IVO5LsPNlKvkZw22ww0M7yn3jG0soIxNb9nFgow==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxD3RYnvYsFn4O4T9ZBW/t9ieXv5w7MR9p/mlf33W2gmHu7Zver
+	g3D7Q42zuStrDkaffmQtCC/eT+AAZwvBIOgI6GDq6WCgZh35599JKdDc
+X-Gm-Gg: AY/fxX7Cl6sH6+tppkEV/dJUzcMDWCgR2+1T7LhRUAtkGerjw09Ubps+bfxeo/M2ZGl
+	+iUjjb5zwtw07EDAYGxBBJ3Kgp/AQutwhoNGGl/ZcFktovf01gSLSvOS//VO+XCaSFyyGDn6921
+	Lpvzhz0owmYpY6eU834GctVnwWtXtN81eL11kE4AeD5XyfDteHw/HjQixb4G0pTNW7Fiw5njiUx
+	3tGgrPBz+WuIsXuba0g043p8bNxmI+ZlqFKEs9QaFHEUfigD3qlEpKiKt1kJwhJ5/cOGhGT/MdX
+	ZG9bsjPPw8immJ6/XCnQ18Y9Dro8FzX/93KaRN9SizGMzVo2xyrhNjMnsu8/Jr0YBFtyqatvg3V
+	VeD+UJUu7hgZ+PvPo0E1eTRgLUMpdOSylIPT31s50RsALw9s1snOTCdki8oyZg9xi7Wig++YC7H
+	U2tnO/xfllq58+mU4PlJtwf6wWBbIUmMPakDZ/zFb18Mktt3k=
+X-Google-Smtp-Source: AGHT+IGd6qxwVDuKNPoUR0BWPH1AUlPOtzZdMTxp6aaupwDczFckXXdG2WOtE79bGWdPRNcMURC/1g==
+X-Received: by 2002:a05:622a:181a:b0:4ee:17d8:b583 with SMTP id d75a77b69052e-4f35f43b6c9mr464005311cf.27.1766924437283;
+        Sun, 28 Dec 2025 04:20:37 -0800 (PST)
 Received: from achantapc.mynetworksettings.com ([2600:4040:1233:de00:c673:8e0d:7a28:6166])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-88d99d7dbdcsm208744456d6.43.2025.12.28.04.20.35
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-88d99d7dbdcsm208744456d6.43.2025.12.28.04.20.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Sun, 28 Dec 2025 04:20:36 -0800 (PST)
 From: Sriman Achanta <srimanachanta@gmail.com>
@@ -78,9 +78,9 @@ To: Jiri Kosina <jikos@kernel.org>,
 	linux-input@vger.kernel.org,
 	linux-kernel@vger.kernel.org
 Cc: Sriman Achanta <srimanachanta@gmail.com>
-Subject: [PATCH 1/4] HID: hid-ids: Add SteelSeries Arctis headset device IDs
-Date: Sun, 28 Dec 2025 07:20:22 -0500
-Message-ID: <20251228122025.154682-2-srimanachanta@gmail.com>
+Subject: [PATCH 2/4] HID: quirks: Add INPUT_CONFIGURED quirk for SteelSeries Arctis headsets
+Date: Sun, 28 Dec 2025 07:20:23 -0500
+Message-ID: <20251228122025.154682-3-srimanachanta@gmail.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20251228122025.154682-1-srimanachanta@gmail.com>
 References: <20251228122025.154682-1-srimanachanta@gmail.com>
@@ -92,73 +92,58 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add USB device IDs for the complete SteelSeries Arctis headset lineup,
-including:
-- Arctis 1, 1 Wireless, 7, 7P, 7X variants
-- Arctis 7+ series (PS5, Xbox, Destiny editions)
-- Arctis 9 Wireless
-- Arctis Pro Wireless
-- Arctis Nova 3, 3P, 3X
-- Arctis Nova 5, 5X
-- Arctis Nova 7 series (multiple variants and special editions)
-- Arctis Nova Pro Wireless and Pro X
+Add HID_QUIRK_INPUT_CONFIGURED for all SteelSeries Arctis headsets that
+require the hid-steelseries driver. This quirk ensures proper device
+initialization and prevents conflicts with generic HID drivers.
 
-This also fixes the existing ARCTIS_1 ID to use the correct product ID
-(0x12b3 instead of 0x12b6, which is actually the Arctis 1 Xbox variant).
-
-These IDs will be used by the updated hid-steelseries driver to provide
-battery monitoring, sidetone control, and other device-specific features
-for these wireless gaming headsets.
+The quirk is necessary because these devices expose multiple HID
+interfaces, and the hid-steelseries driver needs to bind to specific
+interfaces based on the device capabilities. Without this quirk, the
+generic HID driver may interfere with device-specific functionality like
+battery monitoring and feature controls.
 
 Signed-off-by: Sriman Achanta <srimanachanta@gmail.com>
 ---
- drivers/hid/hid-ids.h | 33 +++++++++++++++++++++++++++++----
- 1 file changed, 29 insertions(+), 4 deletions(-)
+ drivers/hid/hid-quirks.c | 25 +++++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
 
-diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index d31711f1aaec..f4f91fb4c2b9 100644
---- a/drivers/hid/hid-ids.h
-+++ b/drivers/hid/hid-ids.h
-@@ -1303,10 +1303,35 @@
- #define USB_DEVICE_ID_STEAM_CONTROLLER_WIRELESS	0x1142
- #define USB_DEVICE_ID_STEAM_DECK	0x1205
- 
--#define USB_VENDOR_ID_STEELSERIES	0x1038
--#define USB_DEVICE_ID_STEELSERIES_SRWS1	0x1410
--#define USB_DEVICE_ID_STEELSERIES_ARCTIS_1  0x12b6
--#define USB_DEVICE_ID_STEELSERIES_ARCTIS_9  0x12c2
-+#define USB_VENDOR_ID_STEELSERIES			0x1038
-+#define USB_DEVICE_ID_STEELSERIES_SRWS1			0x1410
-+#define USB_DEVICE_ID_STEELSERIES_ARCTIS_1		0x12b3
-+#define USB_DEVICE_ID_STEELSERIES_ARCTIS_1_X		0x12b6
-+#define USB_DEVICE_ID_STEELSERIES_ARCTIS_7		0x1260
-+#define USB_DEVICE_ID_STEELSERIES_ARCTIS_7_P		0x12d5
-+#define USB_DEVICE_ID_STEELSERIES_ARCTIS_7_X		0x12d7
-+#define USB_DEVICE_ID_STEELSERIES_ARCTIS_7_GEN2		0x12ad
-+#define USB_DEVICE_ID_STEELSERIES_ARCTIS_7_PLUS		0x220e
-+#define USB_DEVICE_ID_STEELSERIES_ARCTIS_7_PLUS_P	0x2212
-+#define USB_DEVICE_ID_STEELSERIES_ARCTIS_7_PLUS_X	0x2216
-+#define USB_DEVICE_ID_STEELSERIES_ARCTIS_7_PLUS_DESTINY	0x2236
-+#define USB_DEVICE_ID_STEELSERIES_ARCTIS_9		0x12c2
-+#define USB_DEVICE_ID_STEELSERIES_ARCTIS_PRO		0x1290
-+#define USB_DEVICE_ID_STEELSERIES_ARCTIS_NOVA_3		0x12ec
-+#define USB_DEVICE_ID_STEELSERIES_ARCTIS_NOVA_3_P	0x2269
-+#define USB_DEVICE_ID_STEELSERIES_ARCTIS_NOVA_3_X	0x226d
-+#define USB_DEVICE_ID_STEELSERIES_ARCTIS_NOVA_5		0x2232
-+#define USB_DEVICE_ID_STEELSERIES_ARCTIS_NOVA_5_X	0x2253
-+#define USB_DEVICE_ID_STEELSERIES_ARCTIS_NOVA_7		0x2202
-+#define USB_DEVICE_ID_STEELSERIES_ARCTIS_NOVA_7_X	0x2206
-+#define USB_DEVICE_ID_STEELSERIES_ARCTIS_NOVA_7_P	0x220a
-+#define USB_DEVICE_ID_STEELSERIES_ARCTIS_NOVA_7_X_REV2	0x2258
-+#define USB_DEVICE_ID_STEELSERIES_ARCTIS_NOVA_7_DIABLO	0x223a
-+#define USB_DEVICE_ID_STEELSERIES_ARCTIS_NOVA_7_WOW	0x227a
-+#define USB_DEVICE_ID_STEELSERIES_ARCTIS_NOVA_7_GEN2	0x227e
-+#define USB_DEVICE_ID_STEELSERIES_ARCTIS_NOVA_7_X_GEN2	0x229e
-+#define USB_DEVICE_ID_STEELSERIES_ARCTIS_NOVA_PRO	0x12e0
-+#define USB_DEVICE_ID_STEELSERIES_ARCTIS_NOVA_PRO_X	0x12e5
- 
- #define USB_VENDOR_ID_SUN		0x0430
- #define USB_DEVICE_ID_RARITAN_KVM_DONGLE	0xcdab
+diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
+index c89a015686c0..8a7c3f433040 100644
+--- a/drivers/hid/hid-quirks.c
++++ b/drivers/hid/hid-quirks.c
+@@ -699,7 +699,32 @@ static const struct hid_device_id hid_have_special_driver[] = {
+ #if IS_ENABLED(CONFIG_HID_STEELSERIES)
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_STEELSERIES, USB_DEVICE_ID_STEELSERIES_SRWS1) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_STEELSERIES, USB_DEVICE_ID_STEELSERIES_ARCTIS_1) },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_STEELSERIES, USB_DEVICE_ID_STEELSERIES_ARCTIS_1_X) },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_STEELSERIES, USB_DEVICE_ID_STEELSERIES_ARCTIS_7) },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_STEELSERIES, USB_DEVICE_ID_STEELSERIES_ARCTIS_7_P) },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_STEELSERIES, USB_DEVICE_ID_STEELSERIES_ARCTIS_7_X) },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_STEELSERIES, USB_DEVICE_ID_STEELSERIES_ARCTIS_7_GEN2) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_STEELSERIES, USB_DEVICE_ID_STEELSERIES_ARCTIS_9) },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_STEELSERIES, USB_DEVICE_ID_STEELSERIES_ARCTIS_PRO) },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_STEELSERIES, USB_DEVICE_ID_STEELSERIES_ARCTIS_7_PLUS) },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_STEELSERIES, USB_DEVICE_ID_STEELSERIES_ARCTIS_7_PLUS_P) },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_STEELSERIES, USB_DEVICE_ID_STEELSERIES_ARCTIS_7_PLUS_X) },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_STEELSERIES, USB_DEVICE_ID_STEELSERIES_ARCTIS_7_PLUS_DESTINY) },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_STEELSERIES, USB_DEVICE_ID_STEELSERIES_ARCTIS_NOVA_3) },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_STEELSERIES, USB_DEVICE_ID_STEELSERIES_ARCTIS_NOVA_3_P) },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_STEELSERIES, USB_DEVICE_ID_STEELSERIES_ARCTIS_NOVA_3_X) },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_STEELSERIES, USB_DEVICE_ID_STEELSERIES_ARCTIS_NOVA_5) },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_STEELSERIES, USB_DEVICE_ID_STEELSERIES_ARCTIS_NOVA_5_X) },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_STEELSERIES, USB_DEVICE_ID_STEELSERIES_ARCTIS_NOVA_7) },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_STEELSERIES, USB_DEVICE_ID_STEELSERIES_ARCTIS_NOVA_7_X) },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_STEELSERIES, USB_DEVICE_ID_STEELSERIES_ARCTIS_NOVA_7_P) },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_STEELSERIES, USB_DEVICE_ID_STEELSERIES_ARCTIS_NOVA_7_X_REV2) },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_STEELSERIES, USB_DEVICE_ID_STEELSERIES_ARCTIS_NOVA_7_DIABLO) },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_STEELSERIES, USB_DEVICE_ID_STEELSERIES_ARCTIS_NOVA_7_WOW) },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_STEELSERIES, USB_DEVICE_ID_STEELSERIES_ARCTIS_NOVA_7_GEN2) },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_STEELSERIES, USB_DEVICE_ID_STEELSERIES_ARCTIS_NOVA_7_X_GEN2) },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_STEELSERIES, USB_DEVICE_ID_STEELSERIES_ARCTIS_NOVA_PRO) },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_STEELSERIES, USB_DEVICE_ID_STEELSERIES_ARCTIS_NOVA_PRO_X) },
+ #endif
+ #if IS_ENABLED(CONFIG_HID_SUNPLUS)
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_SUNPLUS, USB_DEVICE_ID_SUNPLUS_WDESKTOP) },
 -- 
 2.52.0
 
