@@ -1,161 +1,150 @@
-Return-Path: <linux-input+bounces-16732-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16733-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 479A8CE6E44
-	for <lists+linux-input@lfdr.de>; Mon, 29 Dec 2025 14:33:34 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id D513FCE725E
+	for <lists+linux-input@lfdr.de>; Mon, 29 Dec 2025 15:59:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id B710E3012DD3
-	for <lists+linux-input@lfdr.de>; Mon, 29 Dec 2025 13:33:33 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 8493830053EF
+	for <lists+linux-input@lfdr.de>; Mon, 29 Dec 2025 14:59:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A7E572D592D;
-	Mon, 29 Dec 2025 13:33:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8C14B3191D2;
+	Mon, 29 Dec 2025 14:59:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="afkKoYkJ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OPht0P23"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBC1011713
-	for <linux-input@vger.kernel.org>; Mon, 29 Dec 2025 13:33:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58360632;
+	Mon, 29 Dec 2025 14:59:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767015212; cv=none; b=fBug3Ughm0o3aFa+nX3odzcpT5McrQ9pX2K2nl5QDXXAXGrjD/kUGSq/Ces2y/1F1IzpL0nV2GsiHRiTG42XFWn3aBpMLnl5p3UqrnvYHbxPN6HkDxhQpDGknH153yG+F0Ko90Mc2C0EJMCvj6+3Sb8GqHHmM7OK3ZkITV9N/OA=
+	t=1767020391; cv=none; b=KQ1eFJTeK+bn48ubwrCxixu/lQBlhLxz35as3hlhYwXcF87XQUVbHQSqxkpSimZQPhhIaq6AS8HduZYZIH+C6/JINxob3puuZHXu8Kkxn4gm6bWROPVL5a/LJtIDvRcFGhPmYs9N/fPH0INthushfsqDJf0jiZ/0D1X6e6dhW9s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767015212; c=relaxed/simple;
-	bh=gpqz5nElaphZZvs4CCE1UfaZsgG+uPqb45FcVwe74RY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=H+DVyZJaG4szGNIdePk8aWxLc2HNoNuwGb0cyEVo2Ps8NQ20alHJJoSGcyCXlYUSTSCi+dPk1TlSZ+emVCxIMTy7gXzFogV+gPcQWKSHW93Yzpx8CLLvmjXIpVQrQ+qAbs40YJDFyQcTyfdZ68lotIiz8AC4C/L/OKS+ewlVNjs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=afkKoYkJ; arc=none smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-47bdbc90dcaso56828565e9.1
-        for <linux-input@vger.kernel.org>; Mon, 29 Dec 2025 05:33:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1767015209; x=1767620009; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ce+SSTAL9sTdn9J8kGBQul5VYS4g6m6imR78LaTLra0=;
-        b=afkKoYkJz8LgTMthFuJ0WGvjZF2Ik2TBU9Ig6x7BhZ061kNHtSE2tDSKaEUEOgUO28
-         YQ4EvqIupuy/HJ3A7+Hw/qnfD2TgIUMe5njD6J9mu81sRLbgptx5LpmzQ5H8HJDJEWog
-         E9BRp+cbY/m1bk5amdCi+dyh7pxMLE1474FlA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767015209; x=1767620009;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ce+SSTAL9sTdn9J8kGBQul5VYS4g6m6imR78LaTLra0=;
-        b=dWq23YsmedUOnz6WGbMDmT8zaNSsEo8QsV0JRqp72L3IlMSBJrzZjnzR9taRUbqvJr
-         btSJTC9PD9Qn107u6aV7ClWCatMi9H5vvi328j47oHJPVbRM0XvC7vGRbUIrxam7+Jvg
-         PW8DYlKKpNSDFtmTMxQ2n9CLmpgsGxeGkj5M2XpoJyUxlr6vEv9NkjN2g7LQXwhVVZVJ
-         GcjvaThs5i9Oe6U0aH53MCqFepQzvM0+KKZj9qgv4gizib6kaTzysazxN8EOETYlXMSV
-         3uOVYBM3EMNhL/v2n/W7gR5LlwTRj8XytDJnxt3hJHIu2m2dfkBoasUe8/KwrTW3UpMC
-         zhCg==
-X-Forwarded-Encrypted: i=1; AJvYcCV1Xs6xbmgB02s0ova9Pck3U66qCxjm11ab2X0Vk8g9p5Agv11zACDW11C7F+UNC4xqDg1RgOAgJwCemg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxNv4SYQBLHiQbJ2KR95OBNhLEo4ERYaZPV5pqxbmEHWzoeeLxN
-	zghedEEbIsN8wVeXnRMBtGn9cbESNy7MCaYdImr9mSJga5JjaXG9fMSyBCTV5Mcixw==
-X-Gm-Gg: AY/fxX6QboV4YsyJaRDd+ktr/ry7Gxf5DTkYuG1ivgzC+t3WwMZCbbLupGdsOxq65EA
-	jcxV5SOfjV1E14zjq/TObiBkkD5TjBONAACMWxQRzEjQtH7YC+Y56bhEYUPJ8YPk8zHph73qZfv
-	GygBIqVjLaq0o8KqXW3F4/KDP/EM8COoFD7Qu/Au39WxHmKanBWIJ5SJ9ifdVH97fjZjE72tqta
-	KK2jFMivz+B81SzLMaaYNgFdVlxp+rAdEkoo6IMPLLB4t601KH79g9SAvkgrYR+E+RdxOhqLb10
-	1UUGpHDDX2s4lggX4E+yGku+7jgMANOsfnNOTg5pZhmD0EBI51vqpWAAb0gEpqsT8AMxYmFbNQr
-	FGA0+MJiTIuBdB7mHyUr8805pW8XQ5GBPk20W2yiWyM2/OPfUrJX1hc0jeOy1Z+wlUw+J2Cz5Kz
-	AMuLQaqgCdQLDCCpxDzvE9nIOer2Hd
-X-Google-Smtp-Source: AGHT+IEUBZibrNmtAx6mvVHkXWievEathjOoZ/y0M7H5kW76AmTFaxiWkAnyB/oLKVKeKbF8HcRCLQ==
-X-Received: by 2002:a05:600c:c494:b0:479:35e7:a0e3 with SMTP id 5b1f17b1804b1-47d19582aacmr352970715e9.30.1767015209342;
-        Mon, 29 Dec 2025 05:33:29 -0800 (PST)
-Received: from google.com ([37.228.206.31])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47be2723b2bsm591030295e9.3.2025.12.29.05.33.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Dec 2025 05:33:28 -0800 (PST)
-Date: Mon, 29 Dec 2025 13:33:26 +0000
-From: Fabio Baltieri <fabiobaltieri@chromium.org>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>, Simon Glass <sjg@chromium.org>,
-	linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] dt-bindings: google,cros-ec-keyb: add
- use-fn-overlay prop
-Message-ID: <aVKDJhVuOz-V9tb2@google.com>
-References: <20251224152238.485415-1-fabiobaltieri@chromium.org>
- <20251224152238.485415-3-fabiobaltieri@chromium.org>
- <20251227-laughing-white-dalmatian-f9d98a@quoll>
- <aU__uxDmeUq20Mg3@google.com>
- <0c01fa63-670f-4c82-aa74-dc855cb12a78@kernel.org>
+	s=arc-20240116; t=1767020391; c=relaxed/simple;
+	bh=iLWtLWlrziMWhr0IW/KQbQEleNQpuX30kaYC1A+MDF8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=KN0fXFBPOf11q0rJDZBzXmz9ASUWEJ7ViWsb8sqLRJeTKdVKW/4i1c0tpuKW8O+Lbtv/4t3f5LB/8urCpc31VT7RbafoZrkAblwy7ofkyIq6Fc91UWmx6iOIw1jMqk+2gJzuk0G5RS0LrOjs6V04thFuikPrhV8Ad49rX9dNgEU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OPht0P23; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ABDFCC4CEF7;
+	Mon, 29 Dec 2025 14:59:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1767020391;
+	bh=iLWtLWlrziMWhr0IW/KQbQEleNQpuX30kaYC1A+MDF8=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=OPht0P23BDIDv70l8dTTvs8s2qsl6pn1LBGSpYGGN+rDIslTNDAlSiSLS2YoiLg2C
+	 jqHF+Oay0dyV4P+4mUNPg/AaypW1CF8LYpbzB23u6TghwNP6VJ7997QLU2Tv0548fB
+	 2WZZvxn0aL4x/YWputIErX47VDOobD7v4BjU15eISuZvCcZucLShTRXDvgqsHpDAIM
+	 BFso29hWovyQ75njK/0M2U9a64xFQtrGbZkw8pQoXW6pJ9G8/ckYxjgtmTeMpreYvr
+	 h884K+PYV6HL1lDONwSfLiIOrbSAt0fWDliQi3McBhhvsXptzr7WhXpADKzqdgUZfb
+	 OoDL1p8MLU5lg==
+Message-ID: <c539aa2a-e9be-40e7-9b75-1723bdaf0a39@kernel.org>
+Date: Mon, 29 Dec 2025 15:59:44 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0c01fa63-670f-4c82-aa74-dc855cb12a78@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/2] dt-bindings: google,cros-ec-keyb: add
+ use-fn-overlay prop
+To: Fabio Baltieri <fabiobaltieri@chromium.org>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Benson Leung <bleung@chromium.org>,
+ Guenter Roeck <groeck@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>,
+ Simon Glass <sjg@chromium.org>, linux-input@vger.kernel.org,
+ devicetree@vger.kernel.org, chrome-platform@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20251224152238.485415-1-fabiobaltieri@chromium.org>
+ <20251224152238.485415-3-fabiobaltieri@chromium.org>
+ <20251227-laughing-white-dalmatian-f9d98a@quoll>
+ <aU__uxDmeUq20Mg3@google.com>
+ <0c01fa63-670f-4c82-aa74-dc855cb12a78@kernel.org>
+ <aVKDJhVuOz-V9tb2@google.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <aVKDJhVuOz-V9tb2@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, Dec 29, 2025 at 01:49:05PM +0100, Krzysztof Kozlowski wrote:
-> On 27/12/2025 16:48, Fabio Baltieri wrote:
-> > On Sat, Dec 27, 2025 at 01:44:26PM +0100, Krzysztof Kozlowski wrote:
-> >>> diff --git a/Documentation/devicetree/bindings/input/google,cros-ec-keyb.yaml b/Documentation/devicetree/bindings/input/google,cros-ec-keyb.yaml
-> >>> index fefaaf46a240..437575cdf352 100644
-> >>> --- a/Documentation/devicetree/bindings/input/google,cros-ec-keyb.yaml
-> >>> +++ b/Documentation/devicetree/bindings/input/google,cros-ec-keyb.yaml
-> >>> @@ -44,6 +44,14 @@ properties:
-> >>>        where the lower 16 bits are reserved. This property is specified only
-> >>>        when the keyboard has a custom design for the top row keys.
-> >>>  
-> >>> +  google,use-fn-overlay:
-> >>> +    description: |
-> >>> +      Use a function key overlay. This allows defining an extra set of codes
-> >>
-> >> What is a function key overlay? Overlays are DT term and therefore are
-> >> not suitable for bindings.
-> > 
-> > Ok, guess I can rename it to `use-fn-key` or `use-fn-layer`, open to
-> > suggestions really.
+On 29/12/2025 14:33, Fabio Baltieri wrote:
+> On Mon, Dec 29, 2025 at 01:49:05PM +0100, Krzysztof Kozlowski wrote:
+>> On 27/12/2025 16:48, Fabio Baltieri wrote:
+>>> On Sat, Dec 27, 2025 at 01:44:26PM +0100, Krzysztof Kozlowski wrote:
+>>>>> diff --git a/Documentation/devicetree/bindings/input/google,cros-ec-keyb.yaml b/Documentation/devicetree/bindings/input/google,cros-ec-keyb.yaml
+>>>>> index fefaaf46a240..437575cdf352 100644
+>>>>> --- a/Documentation/devicetree/bindings/input/google,cros-ec-keyb.yaml
+>>>>> +++ b/Documentation/devicetree/bindings/input/google,cros-ec-keyb.yaml
+>>>>> @@ -44,6 +44,14 @@ properties:
+>>>>>        where the lower 16 bits are reserved. This property is specified only
+>>>>>        when the keyboard has a custom design for the top row keys.
+>>>>>  
+>>>>> +  google,use-fn-overlay:
+>>>>> +    description: |
+>>>>> +      Use a function key overlay. This allows defining an extra set of codes
+>>>>
+>>>> What is a function key overlay? Overlays are DT term and therefore are
+>>>> not suitable for bindings.
+>>>
+>>> Ok, guess I can rename it to `use-fn-key` or `use-fn-layer`, open to
+>>> suggestions really.
+>>
+>> Use as Linux should use? Then it's software, so not suitable for DT.
 > 
-> Use as Linux should use? Then it's software, so not suitable for DT.
+> Sorry I'm not sure how I understand the comment, this describes how the
+> driver handles a keyboard with Fn keys, the codes are defined in the DT
 
-Sorry I'm not sure how I understand the comment, this describes how the
-driver handles a keyboard with Fn keys, the codes are defined in the DT
-linux,keymap property and the driver needs to know that there's an extra
-layer to interpret the codes correctly.
+Exactly. The purpose of DT is not to describe how driver should handle
+anything.
 
-> >>> +      that are sent if a key is pressed while the KEY_FN is held pressed as
-> >>> +      well. The function codes have to be defined in the linux,keymap property
-> >>> +      with an offset of keypad,num-rows from the normal ones.
-> >>> +    type: boolean
-> >>> +
-> >>>  dependencies:
-> >>>    function-row-physmap: [ 'linux,keymap' ]
-> >>>    google,needs-ghost-filter: [ 'linux,keymap' ]
-> >>> @@ -132,6 +140,23 @@ examples:
-> >>>              /* UP      LEFT    */
-> >>>              0x070b0067 0x070c0069>;
-> >>>      };
-> >>> +  - |
-> >>> +    /* With function keys */
-> >>> +    #include <dt-bindings/input/input.h>
-> >>> +    keyboard-controller {
-> >>> +        compatible = "google,cros-ec-keyb";
-> >>> +        keypad,num-rows = <8>;
-> >>> +        keypad,num-columns = <18>;
-> >>> +        google,use-fn-overlay;
-> >>
-> >> Difference in one property does not justify new example.
-> > 
-> > Sure but when the property is set then one has to specify the extra
-> > codes in the linux,keymap property and this examples shows how. I'll
-> > drop it if you want me to but I think there's value in it.
-> 
-> Examples are for verifying schema and you do not have schema enforcing
-> this, thus still pointless. Add schema for that, assuming property will
-> stay.
+See also DTS101 from this year's ELCE.
 
-Ok got it, I'll just drop it in v3.
+Best regards,
+Krzysztof
 
