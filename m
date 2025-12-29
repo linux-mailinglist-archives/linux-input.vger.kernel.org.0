@@ -1,130 +1,141 @@
-Return-Path: <linux-input+bounces-16711-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16712-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 372E6CE58AE
-	for <lists+linux-input@lfdr.de>; Mon, 29 Dec 2025 00:15:29 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id AB9CACE5B27
+	for <lists+linux-input@lfdr.de>; Mon, 29 Dec 2025 02:43:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 6CB1830046FE
-	for <lists+linux-input@lfdr.de>; Sun, 28 Dec 2025 23:15:27 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 337973006A7C
+	for <lists+linux-input@lfdr.de>; Mon, 29 Dec 2025 01:43:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 821461FE45A;
-	Sun, 28 Dec 2025 23:15:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8A1043A1E7E;
+	Mon, 29 Dec 2025 01:43:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TYuXAKNp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RKg3EVJM"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F6717E792
-	for <linux-input@vger.kernel.org>; Sun, 28 Dec 2025 23:15:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D0311862A;
+	Mon, 29 Dec 2025 01:43:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766963726; cv=none; b=BCDtxQEWoRnuOtxdBB38FTkA013tF7G7UXotrfX9/89RsM1julcS4DM96x2rh2dX6VgKn3ifgwsy0cKZcKohod50j/fE2dFcK8mTsngou+q1vrh/fx5doD0ETQmSESSVE3BW+fACmM69GdaBDzKXqpBsc0y3WOs3iZ+5cUBTkNg=
+	t=1766972584; cv=none; b=neIRDK9yVGPp+7Lznz6QFkmw+exqtkbdAukujbSD9MM08AXGfOaGt8mLfHgFPvWFlrDjw/o4Q8yb3mZ/Kag9s9clu5/gCig0gzCXvI1L9kEfMpjgHlsipPibS5BTq+h3r+cpxtK11dQltNYfrpZKHefn6TfC6EeEYYZPj/Vzxww=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766963726; c=relaxed/simple;
-	bh=M70yYPl5d+67pcGlHoD95zgmF0l8oKNZ/CT6G5RmGm0=;
+	s=arc-20240116; t=1766972584; c=relaxed/simple;
+	bh=g6jBJo7CxXBUIVz7H0SxdbGhys+ZolE2nHgaE02tAl8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=T8SgMeNUseFHZVRmjYZ84a5t690gIQHARu93cyVcXMuVkSGqYNOei1ifW3pZf05k+FD7FiqTmkTZKnXABHkyajLaU3t9PX5ge+4NhK2y3XCUXQaouSsxcezwtMDDr1JX2H6tj2G1LOcdi5zX718J92PlQZN2MZDIQXw6/s1ahks=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TYuXAKNp; arc=none smtp.client-ip=209.85.215.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-bd1b0e2c1eeso6436089a12.0
-        for <linux-input@vger.kernel.org>; Sun, 28 Dec 2025 15:15:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766963724; x=1767568524; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=a5E29uaXtWrn0fmlEGq1fz9WsTSgO3zpdKABAcJ6Dwo=;
-        b=TYuXAKNpMp1kGLP+ck4Y7agnm0qp5iXk1MfI7DOXBLXtFT1ZUgqS89HKwEKiw0/Yt0
-         bKBxF/ZgNINUyhMDupan6NxyDHdA4JVbDmFT6VOVbYUURBgQw33JlLnTCh1BF+SOZB0I
-         l2y15Hzp7rG4CWVvb4DRTEybmongqVkBSU74tm8P2/oqtpwxAzFsks+vjdzBKrxwqFD0
-         Q9beNGRgLODNQXx0yoV95dmFzFkXJg1P8Qrppnu+677WDbDJZTAyT/lRaOZvXTOdxoeM
-         yeNZ5XbISdQmwhX869CQ86uYMPp8BKFOIupvKiGBBiX3Hs/kUKUio5ZV44UkhDwENltt
-         Urvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766963724; x=1767568524;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=a5E29uaXtWrn0fmlEGq1fz9WsTSgO3zpdKABAcJ6Dwo=;
-        b=LAILSAIYNLQxV1qE2UepgXRFFzgeb3NfEwLdjw5jQzazksCseFWzlFWNYmmyeSIjQ5
-         QNQBFR3R7gW81rpBGS/NnKOxSAUZi2u118gl2HPLyAVFIr33mxC1U+DrteWOxL5KoKWx
-         Hc9fI39gnb3lyXPs3idjCHWALzFpLP2kYAeeoTc8QUdajmxYgWYJtpYE5ahXZBjvsnVH
-         e+huYmeMeZCaGqHyktlNv/FM2CJMYFcIJ6N7GIni0oil9/WH93x8bY950rge9Cw1VwGr
-         cUvPY+WR/xhU2IQefWI0evUZqtjDG1CY4DZ01kFyGWgG6GS49PYn3vt6VB9uDSzvjfRE
-         hm6A==
-X-Forwarded-Encrypted: i=1; AJvYcCXJU/DiCi2FUO/SLYne+Gyn6I3VpCdFqwHj3tBQsAkkTgIp+TS/gPo1gf7Ug6IXmfzVzwNX4reDh0lRpA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YySnfhgvHOlgsBNv2fRkq4qCBtAunOqfgmE9NIoUx7EQvWsS7pF
-	XnOofluENAgqTqjQVbOK0Dq8nYSndVcqHtTBaTc4F1vxvLsI+eDduR93
-X-Gm-Gg: AY/fxX6L96Norl+wiZur189Cg2C91xRw8XoABeAnQDQcziVH5w9Pn6CPEFijEop0gmA
-	K7giNOkGWsE4Ge132cvRaxcf+/3e4/+ufY5Gt7XEi4oRYE5Youqm+RNjfhZ6dozJimnlqe5Iy3/
-	5KINVTkjFdojcY5dlIfZ9pdSM44HgT0YTmJ3Rd2dah8bwRe24ZbTRk7CGemIXta1AGfQEOUkg1/
-	0KC5J2P6bnDgS4dIQwcVij8BgcnM90/msP6D9i7/W7KWrNbvQoD2AsyCVxyx/D8zXrCfeSj4tag
-	daJOK2Q87tvaPiLOw9r9ukpiO91YZKRWxSyL8+kcO/gBBg9wUW9ndNXti9lKi4pnxDVNgQwJ4Da
-	b0DwnbxPeFaZ60XghE1BWoc3XAVVl8qL8QL+b51NhXcevsJp+jA1kaHLInNKSJAxGGrqfmzL94j
-	hKtucrXgz/ma5iJIvwdxsX92VfZGozMvP3AU0JeaZXclVChs5ojiwCywfFZfLuAVo=
-X-Google-Smtp-Source: AGHT+IFfcMpg/w2eYdIWAwyxMCou4MoQJEaSMXzMdNmWlNwCvjH5c51/WGUyh7V+iHFqXFCYjZVK3w==
-X-Received: by 2002:a05:693c:800e:b0:2ae:533d:19bd with SMTP id 5a478bee46e88-2b05eb7d3f7mr22076021eec.8.1766963724162;
-        Sun, 28 Dec 2025 15:15:24 -0800 (PST)
-Received: from google.com ([2a00:79e0:2ebe:8:54a0:1c2f:1202:954f])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2b05fe5653esm64307954eec.1.2025.12.28.15.15.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 28 Dec 2025 15:15:23 -0800 (PST)
-Date: Sun, 28 Dec 2025 15:15:20 -0800
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: duoming@zju.edu.cn, linux-input@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, pali@kernel.org, kuba@kernel.org, alexander.deucher@amd.com, 
-	akpm@linux-foundation.org, johannes.berg@intel.com, pkshih@realtek.com, 
-	hverkuil+cisco@kernel.org, tglx@linutronix.de, mingo@kernel.org
-Subject: Re: [PATCH v2 RESEND 2/2] Input: psmouse - Replace flush_workqueue()
- with disable_delayed_work_sync()
-Message-ID: <nx3huvqw5b3kvoklqyy6ryv7g7uh66vwp5abyw44ppm7vtts7j@rmq6oswnunu6>
-References: <cover.1765939397.git.duoming@zju.edu.cn>
- <6e40a46e5d9e6e3237702958b8f641263c28d2e4.1765939397.git.duoming@zju.edu.cn>
- <joqpa647tq7mh3lyl27zjv3wr4xbixuuvq7ifti3isifz3gfxg@p3ibbvrsuxud>
- <2e74b4a1.464cb.19b30013387.Coremail.duoming@zju.edu.cn>
- <ho33u6epmzsojiw5zvqksskpzo3f6z2lykvhgektf65stqj6sr@5hq6qd76ezxg>
- <67e94e29.46daa.19b31d9f861.Coremail.duoming@zju.edu.cn>
- <aVACDawiYQDdQkhu@smile.fi.intel.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=IZdLiHrM5l4ImDEY8VH36spxzEajuHwf+DMGZGhpzV7GaGrT1S7XEiFSPXkCwLigVY3TlpVCQPQo0Wb7kN3LT/rpXJ+euEDhAzwXvqc0yux5ILOBDUYVVu0wxvXXytEa/ZCHhiU5lyWE6aTjUgL5ASm/ZHf5vhgFOEm+mZGq57g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RKg3EVJM; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1766972582; x=1798508582;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=g6jBJo7CxXBUIVz7H0SxdbGhys+ZolE2nHgaE02tAl8=;
+  b=RKg3EVJMeA9TDyBfzrrjD1aQWktMr9G52kcbXu0I2bPz9tBAkY6I4sdz
+   FnJqPX5lFt4NDVkWrXVcwA264f4PCGVwEb7PvkfYx2CtKd9UCyFwkKSsH
+   dWR/rjlpNftng7stx56N53qkK6EPfumZYVxHkHkAeAR5SgiDXsqwxa5L1
+   bbgrvr+9ggZpbDbKJRDNxgPQwx1YNYGfnxZ5C3gIg02ptlZA/aLDN1HSW
+   uz2VsUYe7YSpF6vYIAsmS0HmuslG3bTjEZDx8hBAs2UQ+t87x1xOsmXVB
+   GF6kBNo32C0DwG4KW0BQpCFysLVnrloJJmpzdXR2HHBiJa2aLPy3AJqGQ
+   w==;
+X-CSE-ConnectionGUID: Artx6qhUTR6TC6QCQ2IIAQ==
+X-CSE-MsgGUID: NDcGadimQYO2actd0taqzg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11655"; a="79319595"
+X-IronPort-AV: E=Sophos;i="6.21,184,1763452800"; 
+   d="scan'208";a="79319595"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Dec 2025 17:43:01 -0800
+X-CSE-ConnectionGUID: ogcKJU6IRGSpUjDzHWXGDQ==
+X-CSE-MsgGUID: A1f2BonGSzihMp+0mTGPUw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,184,1763452800"; 
+   d="scan'208";a="238222157"
+Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
+  by orviesa001.jf.intel.com with ESMTP; 28 Dec 2025 17:42:59 -0800
+Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1va2Hh-000000007e4-26H2;
+	Mon, 29 Dec 2025 01:42:57 +0000
+Date: Mon, 29 Dec 2025 02:42:11 +0100
+From: kernel test robot <lkp@intel.com>
+To: Sriman Achanta <srimanachanta@gmail.com>,
+	Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Sriman Achanta <srimanachanta@gmail.com>
+Subject: Re: [PATCH 3/4] Documentation: ABI: Document SteelSeries headset
+ sysfs attributes
+Message-ID: <202512290229.oFaoatlF-lkp@intel.com>
+References: <20251228122025.154682-4-srimanachanta@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <aVACDawiYQDdQkhu@smile.fi.intel.com>
+In-Reply-To: <20251228122025.154682-4-srimanachanta@gmail.com>
 
-On Sat, Dec 27, 2025 at 05:58:05PM +0200, Andy Shevchenko wrote:
-> On Thu, Dec 18, 2025 at 10:25:27PM +0800, duoming@zju.edu.cn wrote:
-> > On Wed, 17 Dec 2025 22:58:33 -0800 Dmitry Torokhov wrote:
-> 
-> ...
-> 
-> > > What do you mean? If you enable OLPC support the option to enable hgpk
-> > > protocol driver should become available, right?
-> > 
-> > The hgpk_init() function is never called by any other function in the
-> > kernel and is therefore dead code. Since the delayed work item recalib_wq
-> > is initialized within this function, it is consequently never scheduled
-> > during runtime.
-> 
-> Actually I confirm this as of v6.19-rc2. Perhaps some patch removed some
-> functionality in the past and we may remove more now?
+Hi Sriman,
 
-Yeah, it looks like I broke it with c378b5119eb0 ("Input: psmouse -
-factor out common protocol probing code") in 2015. While it should be
-easy to fix (by adding hgkp_init() to the protocol definition) I think
-we should drop hgkp extended support since nobody complained in 10
-years.
+kernel test robot noticed the following build warnings:
 
-Thanks.
+[auto build test WARNING on hid/for-next]
+[also build test WARNING on linus/master v6.19-rc3 next-20251219]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Sriman-Achanta/HID-hid-ids-Add-SteelSeries-Arctis-headset-device-IDs/20251228-202426
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
+patch link:    https://lore.kernel.org/r/20251228122025.154682-4-srimanachanta%40gmail.com
+patch subject: [PATCH 3/4] Documentation: ABI: Document SteelSeries headset sysfs attributes
+reproduce: (https://download.01.org/0day-ci/archive/20251229/202512290229.oFaoatlF-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512290229.oFaoatlF-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   Using alabaster theme
+   ERROR: Cannot find file ./include/linux/pci.h
+   WARNING: No kernel-doc for file ./include/linux/pci.h
+   ERROR: Cannot find file ./include/linux/mod_devicetable.h
+   WARNING: No kernel-doc for file ./include/linux/mod_devicetable.h
+>> Documentation/ABI/testing/sysfs-driver-hid-steelseries:47: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils]
+   Documentation/ABI/testing/sysfs-driver-hid-steelseries:35: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils]
+   Documentation/ABI/testing/sysfs-driver-hid-steelseries:62: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils]
+   ERROR: Cannot find file ./include/linux/bootconfig.h
+   WARNING: No kernel-doc for file ./include/linux/bootconfig.h
+   ERROR: Cannot find file ./include/linux/pstore_zone.h
+
+
+vim +47 Documentation/ABI/testing/sysfs-driver-hid-steelseries
+
+  > 47	What:		/sys/class/hid/drivers/steelseries/<dev>/chatmix_level
+    48	Date:		January 2025
+    49	KernelVersion:	6.19
+    50	Contact:	Sriman Achanta <srimanachanta@gmail.com>
+    51	Description:
+    52			Reports the current balance between Game and Chat audio channels
+    53			(ChatMix). This value changes when the physical ChatMix dial
+    54			on the headset is adjusted.
+    55	
+    56			Range: 0-128
+    57			       0   = 100% Chat / 0% Game
+    58			       64  = 50% Chat / 50% Game (Balanced)
+    59			       128 = 0% Chat / 100% Game
+    60			Access: Read
+    61	
 
 -- 
-Dmitry
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
