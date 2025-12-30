@@ -1,132 +1,164 @@
-Return-Path: <linux-input+bounces-16735-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16736-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9DA5CE7930
-	for <lists+linux-input@lfdr.de>; Mon, 29 Dec 2025 17:36:57 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id C9E4FCE8E41
+	for <lists+linux-input@lfdr.de>; Tue, 30 Dec 2025 08:27:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id F191830049D7
-	for <lists+linux-input@lfdr.de>; Mon, 29 Dec 2025 16:36:46 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 0B42E300EE40
+	for <lists+linux-input@lfdr.de>; Tue, 30 Dec 2025 07:27:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A91D330D43;
-	Mon, 29 Dec 2025 16:29:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5756B2F656E;
+	Tue, 30 Dec 2025 07:27:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="AkVa7Vwb"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XlaiQjMW"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B632B330B29
-	for <linux-input@vger.kernel.org>; Mon, 29 Dec 2025 16:28:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E50C23A994;
+	Tue, 30 Dec 2025 07:27:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767025740; cv=none; b=oDCwpScTnqf6ao+eRjClSRsVtPOGxu+L435/Z3zqW9TQGC+bL9Ve6rOr0abG5u4Nm4/bj3fKAlb5+E9ouY2pQiipVLFsiL255cvxiZ4EHLYEWYZ8foJB7B/dT3YrlpzRjOC2nFsDaTeloBsxR9lsY4f5P+tFelsfrPRZxEg29nY=
+	t=1767079621; cv=none; b=Ec/50LKKcp+2sA15I01btGKO+oo2yD61XeRoW/oGXiovQEcrRq/d80Db2YZx4RksvUacEuHloz7/AsKS99Dxs0X5aan6A2MKe4/P2aDzGHidPkOZznjDmhvHkUpuF7RFjzC5Ve+Y7+EgBshUikMNPvZeQRwk2ebc3O1sn3EMbLE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767025740; c=relaxed/simple;
-	bh=b6RQ1NU9EN8+aXaewi+ayTN9noNZWpegcHiTxkGkE0M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GNUQPXklz22i4J0ctsPvg/dw8FF2YaNh6HYmoRHrw94VrgQnCSxJkpKgZLV6mNl0y7EBn3pxV+BWK0n9MLYfBAjb0E9QOwJhqHw4NF3eYUeZj3ykq0Ry50yvLWTHWmf6P2brMKWqaKBkkXpDY4oqLE4s90PwcVW79YAG/hw8WXg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=AkVa7Vwb; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-47d182a8c6cso41036125e9.1
-        for <linux-input@vger.kernel.org>; Mon, 29 Dec 2025 08:28:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1767025736; x=1767630536; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=/igAIS0exjkZCSnq4MvZu4y+vS5w9AmRp2TM3hljglc=;
-        b=AkVa7Vwb0H41574gfBMQD0c1TGUpryUE2cGicvRPTYbN19eJTpH+XlKfyIqytXkLR4
-         jAYPkBksjmtxu59QfMkR904LixpEUr+GtWbTAsWuqkI2ylHgUu2OIy8gzzsmO+hMXgQA
-         W12+0n4XPZ04h+P07GOjvHPBqM0nIkIsUD0h4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767025736; x=1767630536;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/igAIS0exjkZCSnq4MvZu4y+vS5w9AmRp2TM3hljglc=;
-        b=JrOcIk9R8gqVht3Lig54bntuIBmtcBU5BFeKS0eILG9CmlGi/AHLmlacXs6y69fspl
-         fgiLJvh7Z2n9Fk7FD+OaVZhVocxQeG+4rmQtDxvPQ0scHOfyLLuSQ/ihUUpfOLXsUZAC
-         Xi+T51A/qoGS5oASKO9kjYS3O8/XJinhpa2lRRIbI2BEXt4Y1FTXpS/f3epRk9t30lgk
-         a9wVx1DdxsKcnzDXEKya9WBuk+szfgSluwF83lCPNGvc1kRJIhy69ZFuVoIEmzwq5Tip
-         5Kvj8Lags6kUYVz+86qBVLGddKHOLAsunEXltomk51ppQp0rQM2Z6StFSn0Mhsbevj83
-         NBkw==
-X-Forwarded-Encrypted: i=1; AJvYcCW2gBAClctfMj1rnHNreO7XTaSDnujzfG1PfrImA1LTpPta/MOwTFu5sV/Y55yUvyFaY0TYBjX3mrMGOQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzFmzJlpIagOIsvtY8FWQdwf+sv+E7T4W6MpUIDaE/I8HQ68onN
-	Q/qzw3YaoATSv4ZJ4zw8FBtxrPSCBm7O8Ax2XvY9R3id3RrtlNtCQvFW90Qp6NnWyg==
-X-Gm-Gg: AY/fxX4e5XiAYVfNLHvvaDhW6Yhxt8kwmpdeWWfLcTJPEOvCIpSOg5WV0EX+j7lX6OX
-	UufSxSNUnkIrtZEOB6Lomxl0H6TlL4RrJ7TBr1lteJyl57WU5apiRUr8YyWe1mXc12bZv42Jl+O
-	Bg+BC8Q8QsHqmlm0vkCZUxd5CDo5j/kwia/Q0jno4TiNC0f0VKQpB9xitZTyjEwu8AWkVupbthN
-	Xg74qpm36LfbsTNarjJvg/eoDVsTWKEHg3X+YTg2CXLfZKvu2bxNfefBSw0LY1KxlRO6QEjB3++
-	rm2hYdVxCNe0fzaoAHou1mgyxtkvDPFccqCAd9s78rBlDnrchi6Z+6L1U+VkSvC0/Nyl/nqvgxh
-	2I8H3ch+Jm4JfJfeSYn01pP5OkcKlwrw9IyqJqrAh+7/NXfmLqtO+464edovHraYotMMmp6/ffI
-	oUtHJURSvFM2/QYhxQ5q8ukAQUHxeu
-X-Google-Smtp-Source: AGHT+IE5z77kWrdvT7wPaMpp9A6RiyApVG0i4Gj+RnPn+57arRtLwhAvau2xJ42Pp4CWwsHrv5arXw==
-X-Received: by 2002:a05:600c:b99:b0:479:3a86:dc1c with SMTP id 5b1f17b1804b1-47d195a6369mr342294615e9.36.1767025736112;
-        Mon, 29 Dec 2025 08:28:56 -0800 (PST)
-Received: from google.com ([37.228.206.31])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47be3a6c6ebsm248468505e9.4.2025.12.29.08.28.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Dec 2025 08:28:55 -0800 (PST)
-Date: Mon, 29 Dec 2025 16:28:53 +0000
-From: Fabio Baltieri <fabiobaltieri@chromium.org>
-To: Simon Glass <sjg@chromium.org>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>, linux-input@vger.kernel.org,
-	devicetree@vger.kernel.org, chrome-platform@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] Input: cros_ec_keyb - add function key support
-Message-ID: <aVKsRbHP9WqCfWAN@google.com>
-References: <20251224152238.485415-1-fabiobaltieri@chromium.org>
- <20251224152238.485415-2-fabiobaltieri@chromium.org>
- <CAFLszThHmN-eGMwwgUhSFbWcbuOYYs-eFh6d6ZVTXekRGv6Hdg@mail.gmail.com>
+	s=arc-20240116; t=1767079621; c=relaxed/simple;
+	bh=4KVbpgDJs88kdwJPzcfZ0LWDwJa1QxkmzRR9OuYExQM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ryBDMiGAt5GTC2QPwp+3hpwJirLqze3H0GXSt7FAIog0HPP3z/qjUBhNZeksMPgNOPGGwdD8/pykgM9SVtv1ziD0jS7m3V9Xcn21t8HDMYxoQRjSU4QO53eDh5ig9lKyulCy+hvmFOMQYGjOXz5UEjJqD1kPORc77vxacw87p3M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XlaiQjMW; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EB031C4CEFB;
+	Tue, 30 Dec 2025 07:26:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1767079620;
+	bh=4KVbpgDJs88kdwJPzcfZ0LWDwJa1QxkmzRR9OuYExQM=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=XlaiQjMWJfQJOwyCazpRozsuRA4ODlCf+I9W8j4Sa/ZJd6qh8+Yvly4Vw8RA6lJa8
+	 N0+Oj2kZASmUYkBPJwa2KHIB5jM4b3xd+OAzpVjQDJ0Rd2dSW1mD45a7lRbgS1hl6h
+	 tKThP76QMAmmGex3Oviorr6luWZT/X8b1DPGk04yYa2K4GlKv4K5Zgy54Cj4S1JZNq
+	 Wp076P16V5GrDAFj9UukwicCr+wCpDwu4W/xZ4YjippOXAsdx08vQwhjLmPFqAv8Md
+	 21DX1c6sshfhphcS2iTtKytYuGE2pdadJtpM/z7cNjXMfuFsjkPUQAdiPJViOfeQBx
+	 LVxrXBnvkH8Tw==
+Message-ID: <e0f7c2f1-c876-4e19-a836-2b1629cdabf7@kernel.org>
+Date: Tue, 30 Dec 2025 08:26:56 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAFLszThHmN-eGMwwgUhSFbWcbuOYYs-eFh6d6ZVTXekRGv6Hdg@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/2] dt-bindings: google,cros-ec-keyb: add
+ use-fn-overlay prop
+To: Fabio Baltieri <fabiobaltieri@chromium.org>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Benson Leung <bleung@chromium.org>,
+ Guenter Roeck <groeck@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>,
+ Simon Glass <sjg@chromium.org>, linux-input@vger.kernel.org,
+ devicetree@vger.kernel.org, chrome-platform@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20251224152238.485415-1-fabiobaltieri@chromium.org>
+ <20251224152238.485415-3-fabiobaltieri@chromium.org>
+ <20251227-laughing-white-dalmatian-f9d98a@quoll>
+ <aU__uxDmeUq20Mg3@google.com>
+ <0c01fa63-670f-4c82-aa74-dc855cb12a78@kernel.org>
+ <aVKDJhVuOz-V9tb2@google.com>
+ <c539aa2a-e9be-40e7-9b75-1723bdaf0a39@kernel.org>
+ <aVKgsGwb9Rqteekj@google.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <aVKgsGwb9Rqteekj@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Sat, Dec 27, 2025 at 07:24:33AM -0700, Simon Glass wrote:
-> Hi Fabio,
+On 29/12/2025 16:39, Fabio Baltieri wrote:
+> On Mon, Dec 29, 2025 at 03:59:44PM +0100, Krzysztof Kozlowski wrote:
+>> On 29/12/2025 14:33, Fabio Baltieri wrote:
+>>> On Mon, Dec 29, 2025 at 01:49:05PM +0100, Krzysztof Kozlowski wrote:
+>>>> On 27/12/2025 16:48, Fabio Baltieri wrote:
+>>>>> On Sat, Dec 27, 2025 at 01:44:26PM +0100, Krzysztof Kozlowski wrote:
+>>>>>>> diff --git a/Documentation/devicetree/bindings/input/google,cros-ec-keyb.yaml b/Documentation/devicetree/bindings/input/google,cros-ec-keyb.yaml
+>>>>>>> index fefaaf46a240..437575cdf352 100644
+>>>>>>> --- a/Documentation/devicetree/bindings/input/google,cros-ec-keyb.yaml
+>>>>>>> +++ b/Documentation/devicetree/bindings/input/google,cros-ec-keyb.yaml
+>>>>>>> @@ -44,6 +44,14 @@ properties:
+>>>>>>>        where the lower 16 bits are reserved. This property is specified only
+>>>>>>>        when the keyboard has a custom design for the top row keys.
+>>>>>>>  
+>>>>>>> +  google,use-fn-overlay:
+>>>>>>> +    description: |
+>>>>>>> +      Use a function key overlay. This allows defining an extra set of codes
+>>>>>>
+>>>>>> What is a function key overlay? Overlays are DT term and therefore are
+>>>>>> not suitable for bindings.
+>>>>>
+>>>>> Ok, guess I can rename it to `use-fn-key` or `use-fn-layer`, open to
+>>>>> suggestions really.
+>>>>
+>>>> Use as Linux should use? Then it's software, so not suitable for DT.
+>>>
+>>> Sorry I'm not sure how I understand the comment, this describes how the
+>>> driver handles a keyboard with Fn keys, the codes are defined in the DT
+>>
+>> Exactly. The purpose of DT is not to describe how driver should handle
+>> anything.
+>>
+>> See also DTS101 from this year's ELCE.
 > 
-> On Wed, 24 Dec 2025 at 08:22, Fabio Baltieri <fabiobaltieri@chromium.org> wrote:
-> >
-> > Add support for handling an Fn button and sending separate keycodes for
-> > a subset of keys in the matrix defined in the upper half of the keymap.
-> >
-> > Signed-off-by: Fabio Baltieri <fabiobaltieri@chromium.org>
-> > ---
-> >  drivers/input/keyboard/cros_ec_keyb.c | 120 ++++++++++++++++++++++----
-> >  1 file changed, 104 insertions(+), 16 deletions(-)
-> >
-> 
-> Reviewed-by: Simon Glass <sjg@chromium.org>
-> 
-> I suggest a function comment for the two new functions you add.
+> Sure so I guess this falls into the "describe the hardware feature"
+> category, so is the suggestion to rename it to something like
+> "has-fn-key"? That would be the hardware feature.
 
-Sure, will do.
 
-> > +               if (code == KEY_FN)
-> > +                       return cros_ec_keyb_process_fn_key(ckdev, row, col, state);
-> > +
-> > +               if (!state) {
-> > +                       if (ckdev->fn_key_status[col] & BIT(row)) {
-> > +                               pos = MATRIX_SCAN_CODE(row + ckdev->rows, col, ckdev->row_shift);
-> > +                               code = keycodes[pos];
-> 
-> You might want a helper to do this as it is repeated below
+Maybe, but then I would follow up with - what about "alt", "ctrl",
+"shift" and "fn" keys? And what about combinations alt+ctrl, alt+shift?
+And also caps-lock? And why exactly this has to be even specified if
+matrix map already has the FN key?
 
-Sounds good, adding one for v3
-
-Thanks for the review,
-Fabio
+Best regards,
+Krzysztof
 
