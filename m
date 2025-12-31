@@ -1,95 +1,142 @@
-Return-Path: <linux-input+bounces-16749-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16752-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id E947DCEC173
-	for <lists+linux-input@lfdr.de>; Wed, 31 Dec 2025 15:35:55 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F77FCEC67B
+	for <lists+linux-input@lfdr.de>; Wed, 31 Dec 2025 18:37:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id DDF2E3005AA1
-	for <lists+linux-input@lfdr.de>; Wed, 31 Dec 2025 14:35:51 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 0C295300F319
+	for <lists+linux-input@lfdr.de>; Wed, 31 Dec 2025 17:37:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 651A52701DA;
-	Wed, 31 Dec 2025 14:35:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BABE32BEC31;
+	Wed, 31 Dec 2025 17:37:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="RdJMcsfr"
+	dkim=pass (2048-bit key) header.d=purestorage.com header.i=@purestorage.com header.b="BeIsK024"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-wm1-f99.google.com (mail-wm1-f99.google.com [209.85.128.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BD22274B3A
-	for <linux-input@vger.kernel.org>; Wed, 31 Dec 2025 14:35:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 884602BDC27
+	for <linux-input@vger.kernel.org>; Wed, 31 Dec 2025 17:37:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.99
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767191749; cv=none; b=hLqwvVWWTqxGBOX2gJ3o2mCbSZ9cEQ8GOPFxoElOpK1XYI6lq7IPeFaT04JpkDqbNxPufUe2nG2Z6+u1QvGGiZaCgUPUIwNjlj0e3lEl0aBYh2XWfKC4/itOgaOlcJqlQKA/BsKx6/tvveEir+kyoMzqsqigsvcGSH9rdw4ZraE=
+	t=1767202648; cv=none; b=a7iov3lItRYcZWj0sSg/Tc7NbBUyLM4sgGTeCaSBwKfMgpvbNtvjehHsDg4mfZDn9Wn64aJ6zb/OjvJHpBneVu+Zj4LXrAKBjo12cdeSWUl5QJZGd6uhG7ITGt3xacQo4reU64KxZ470jRB2Q2aLjlVGrRdq163F0+CZpKVoMKk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767191749; c=relaxed/simple;
-	bh=O9+tUzr9uyN79tAtBKwl7ESmge84gPW0hNkQZxKq8CY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=uwFOyEADiZo97HRxPhjXYOuezp7zVTy5c6L8CVMiwKPCnegruAKwra6jbOdDHD3ORmxRk0M8RSlFWXDhhfC0A3OMgcbcnYYYHlHpCJnl6tjNW4PZpFc9GzuSjarypBzt5geiRcwLGY0g4zz/4nDuRMqeAKlbytWgMA08jrD4Zpw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=RdJMcsfr; arc=none smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-47d63594f7eso2569055e9.0
-        for <linux-input@vger.kernel.org>; Wed, 31 Dec 2025 06:35:47 -0800 (PST)
+	s=arc-20240116; t=1767202648; c=relaxed/simple;
+	bh=LZYOpaJobrgCoHjgtRl+RztH/j8GuhkRE/eHMkq8QYg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XCJ+rJMfo9vGDVRh+WZvDxfJHeI99LyfmxGluoLN0gkdDlMfd4EYfnbOuLCqLEbF7ydH0bHGQUghOdvvFqlxU9YiNb+ivSMuL7yWfXzQZcCGG9HkhrDKmCH4FekPxNHqjGeQ47U2UYpINWjJ1dTn882B/QV/1m71xMebbZqs+Qs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=purestorage.com; spf=fail smtp.mailfrom=purestorage.com; dkim=pass (2048-bit key) header.d=purestorage.com header.i=@purestorage.com header.b=BeIsK024; arc=none smtp.client-ip=209.85.128.99
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=purestorage.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=purestorage.com
+Received: by mail-wm1-f99.google.com with SMTP id 5b1f17b1804b1-47797676c62so10280585e9.1
+        for <linux-input@vger.kernel.org>; Wed, 31 Dec 2025 09:37:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1767191746; x=1767796546; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=XvGLfgzU/Nu7QjgFI0e6yZbyhUHf+uCJkmxPNiQDL2c=;
-        b=RdJMcsfrPkCtFkjXUElS0uWFM/Q8fmK+P2retxoWo9SFsk6DIEaz/JUXbYB2I42rxY
-         vFYKz3nTE7J5+bS78BJRKiBg68eeTBaO7Dq9zZXvxBJCe+uaA+kl2p8qFLP4MJvp3cZN
-         4WwFnodCNNmceqqNsWdRD/QAjODdKJQIskoeA=
+        d=purestorage.com; s=google2022; t=1767202644; x=1767807444; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=xVlyjcKAentrmX30QVvO0mBVKIkrp0xM35G2rMEV4pU=;
+        b=BeIsK024gQBeYxE45plp9XLT5WDl1u1NqYaXbFnaqK9wBWqATAF8hiTETePy4qtKbb
+         sfUHEDoT69toDnHGUt3cmffIxAUjxm+EkU0/lFD+U/Pm9cus8P9rMWzSZGCwmS+a5wxl
+         HbHrJVgqkmuDNXd+HATOqT7eLKvBq3nKYEd9suCGoiQGc3At7pnqzumk/U0rTtI1kshC
+         H3Yk7Ek3tO5M5UoBa1l0Qig1jjaRjA7k6IJO19J/+eRavG+rulnsX/X4AGBNzRZJX/LU
+         1Zc1UjbfDuLwiUaWJqmxw+KuGAtMSdJMyXndH03j2Z9NG4oe4NmZidNaqaC6AgI3l/p2
+         uSFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767191746; x=1767796546;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=XvGLfgzU/Nu7QjgFI0e6yZbyhUHf+uCJkmxPNiQDL2c=;
-        b=XtNz72vhm2fS0oRb18ipqYpxTcZ0HtpSSOorFQho/Em0nrm/YQUcWBPvJNeOGsrf+I
-         qebYlbq1fwxda6qhzQTx0IhW9S+br0ldd0gR5IL/qVIi2S1vRhPHGa1/HOomEtcLx3FI
-         SHXso3g/JbhOQbtJDgsxSN6IJvpmpazCYU3Oo1dPemo40Hk4L9e25bxZfX1MXHNuwTJ6
-         u93b272fcC8dOH9+p4vO+sOUeM7D6Q9c5HwQmGff8C5sVoR/JX/A4kZbZlyRrgoZvvSG
-         dssd0akyufMKeq7FzLL+TUqqqqrSswAewTqLOoSF083kfVKtDjmAbFV5F3yHnaTq8CFI
-         wfbw==
-X-Forwarded-Encrypted: i=1; AJvYcCXHrU0ZB2shGQo78onzotYv+aNc4gLFwBp083sDKu2CQbi1o5GcWAgvC/IXi1UZVvWWye0JjgYq/q6RzA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxDxY+TjtuC5Kzrs1edYIL3M1JuiOsvl1p5EYX+nSoop+JPvYMr
-	4Yb867qvfyI/TVkjQu7odQUV0qRAeAPvNApOXE62U/9KRBRSga6mziCf/FcGevDfTswEPrBIMsc
-	+/zk=
-X-Gm-Gg: AY/fxX5NA+P+kygCUCMa0YFnMchdP+aLirwebq4iturd/fWVevzEzKfXLf7StSyJTtZ
-	pCs0Cs6xpkBV1Q4qN4jTQBkosAcFa6z0vu62MBVm0F1bMyEvjx3+7xsTQw6+Atyx/CvF3Ry94YV
-	HyZDkTTgcAn6dYrLTnfGpYvEOXdpXgFAwBr7J3Mzd2sa3W3DaNQt4Lb4g+ZCz6eACS7ibgeLbGW
-	rD88wOuLRFkWYqVQWV91lMeMQa4DG4gPd0k6k0wkdUgUqTyQ7xJHh+cZc38G5BBIwbue5E1b1qb
-	xrUNfrOtk3DAOSISZ7VuQWTFp5/U6NBHm22GtW6alk93DIGuIp3F50paonGYuo35iEiPiCizTrx
-	hbnnzsZfpig2RcoKsmIiT8fHy1Y42bZdtHOPj7P9B7korCqqA5qqYN/X5GOXQkVd0+Raq276owg
-	2h5ekAbD+qYJKjgFY=
-X-Google-Smtp-Source: AGHT+IHvR+cy7a7pyZUdGh+DjWUEBxNKW4LqjmW8R2bBcuhZXgZlkJueqcwfNCjJuqSQO+WmZPKOQg==
-X-Received: by 2002:a05:600c:4fc6:b0:477:333a:f71f with SMTP id 5b1f17b1804b1-47d19576cc6mr425787465e9.17.1767191745659;
-        Wed, 31 Dec 2025 06:35:45 -0800 (PST)
-Received: from balto-ws ([37.228.206.31])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47d193d4e91sm630300935e9.13.2025.12.31.06.35.44
+        d=1e100.net; s=20230601; t=1767202644; x=1767807444;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=xVlyjcKAentrmX30QVvO0mBVKIkrp0xM35G2rMEV4pU=;
+        b=trT/j/SAZ2JSgsztfOa00H0amxY0KuXc2ZZrM9WbEcR6W2q8i2WX1HiuANP+IP31Ks
+         x7TnGgOQJ4S0wqC0EYPLFq1kNzOjWOyTOa3laDMjMVhDsWdUs/I3saKg7rzyp+RxEkh+
+         zaSToRMVryUS9IbqbCer3TZ7AT/9T6GTVoxhZMANtMjteHeUhBbZnQCNryl9YMZ+xz04
+         QT1zjJ8GxHP5VLagDLwbUpoYpuQHiUdd3T1BF2tliKHDi7pDsWfHnAarZi9iUgSUmxMo
+         EPSGTYhQT/qFwYv105K6nihF8t7SazfRbQHbas0SJL/4TBQLtA/9Y8RBZL1i1EgfdD9+
+         Gf4A==
+X-Gm-Message-State: AOJu0Yx3y2e1MsRP/8pvEH9SVxn2sZyZwZmcltK6LoNzBfjLWVfEvrIT
+	XzVqSZDM9Q1ZUyknCWAWem9oqr+w1ef9WgrYaieTOnIF9R6nskFSeDVORX76jHLIbu+absCIvW5
+	HCHxybsYwimr0L51me+ZduKTAafO8ZreBqanG
+X-Gm-Gg: AY/fxX6yxwMsr8GK2og8S0O/ySgBEHDsXMcF/N8XYP7QHC7BQLG4Yy03mUbLaiDEmhf
+	FBAX06dypcQ5jdPClKfrSfaVrGnsaYwd9Su/sAg4YLlInCI+6/62OKUCWRCu4I4Rf2EY6jKMxZn
+	rx9mh9jKCLBVihm0l3zu0hNrm3K5gHJ1ufH69eZToJaJvpFmii18Gxnh79EF9fI5uONfN7mlCtx
+	UIwP80WrjJ1Yep0zUIhX46WynDxQ1Kgz+qFMe8DXHmJYgD1sm8p7BRuAtnGvHMx0mOqkM51O8cA
+	vF2qgeeQ2cVEcAUS3saH1XHziNfP27dAuhoSTEwgAUkDFNo1OIn2dQTRIxlR9sfmqLBhpR9Mq/S
+	32/we8thB2qG2yz8EE8vsKuicPLoTZTkIkfnADdxpKA==
+X-Google-Smtp-Source: AGHT+IHGNcufNXfcgEiaG3fE++EJIUmFXSODBiTSSOMmOJWuTmPgyA5t+pQycATcDgetKa4a7ZLxQVnzL4oj
+X-Received: by 2002:a05:600c:4ed2:b0:477:9c9e:ec7e with SMTP id 5b1f17b1804b1-47d19597517mr267166145e9.6.1767202643565;
+        Wed, 31 Dec 2025 09:37:23 -0800 (PST)
+Received: from c7-smtp-2023.dev.purestorage.com ([208.88.159.128])
+        by smtp-relay.gmail.com with ESMTPS id ffacd0b85a97d-4324ea81ee9sm4354365f8f.19.2025.12.31.09.37.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 31 Dec 2025 06:35:45 -0800 (PST)
-From: Fabio Baltieri <fabiobaltieri@chromium.org>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>
-Cc: Fabio Baltieri <fabiobaltieri@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Simon Glass <sjg@chromium.org>,
-	linux-input@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	chrome-platform@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v3 2/2] Input: cros_ec_keyb - add function key support
-Date: Wed, 31 Dec 2025 14:35:38 +0000
-Message-ID: <20251231143538.37483-3-fabiobaltieri@chromium.org>
-X-Mailer: git-send-email 2.52.0.351.gbe84eed79e-goog
-In-Reply-To: <20251231143538.37483-1-fabiobaltieri@chromium.org>
-References: <20251231143538.37483-1-fabiobaltieri@chromium.org>
+        Wed, 31 Dec 2025 09:37:23 -0800 (PST)
+X-Relaying-Domain: purestorage.com
+Received: from dev-csander.dev.purestorage.com (dev-csander.dev.purestorage.com [10.49.34.222])
+	by c7-smtp-2023.dev.purestorage.com (Postfix) with ESMTP id 304C53403AF;
+	Wed, 31 Dec 2025 10:37:21 -0700 (MST)
+Received: by dev-csander.dev.purestorage.com (Postfix, from userid 1557716354)
+	id 1CE0EE4234A; Wed, 31 Dec 2025 10:37:21 -0700 (MST)
+From: Caleb Sander Mateos <csander@purestorage.com>
+To: Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	John Fastabend <john.fastabend@gmail.com>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Eduard Zingerman <eddyz87@gmail.com>,
+	Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	KP Singh <kpsingh@kernel.org>,
+	Stanislav Fomichev <sdf@fomichev.me>,
+	Hao Luo <haoluo@google.com>,
+	Jiri Olsa <jolsa@kernel.org>,
+	Tejun Heo <tj@kernel.org>,
+	David Vernet <void@manifault.com>,
+	Andrea Righi <arighi@nvidia.com>,
+	Changwoo Min <changwoo@igalia.com>,
+	Ingo Molnar <mingo@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Ben Segall <bsegall@google.com>,
+	Mel Gorman <mgorman@suse.de>,
+	Valentin Schneider <vschneid@redhat.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	David Ahern <dsahern@kernel.org>,
+	Jamal Hadi Salim <jhs@mojatatu.com>,
+	Cong Wang <xiyou.wangcong@gmail.com>,
+	Jiri Pirko <jiri@resnulli.us>,
+	"D. Wythe" <alibuda@linux.alibaba.com>,
+	Dust Li <dust.li@linux.alibaba.com>,
+	Sidraya Jayagond <sidraya@linux.ibm.com>,
+	Wenjia Zhang <wenjia@linux.ibm.com>,
+	Mahanta Jambigi <mjambigi@linux.ibm.com>,
+	Tony Lu <tonylu@linux.alibaba.com>,
+	Wen Gu <guwen@linux.alibaba.com>,
+	Shuah Khan <shuah@kernel.org>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>
+Cc: linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	bpf@vger.kernel.org,
+	netdev@vger.kernel.org,
+	sched-ext@lists.linux.dev,
+	linux-rdma@vger.kernel.org,
+	linux-s390@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org,
+	Caleb Sander Mateos <csander@purestorage.com>
+Subject: [PATCH 0/5] bpf: use const pointer for struct_ops cfi_stubs
+Date: Wed, 31 Dec 2025 10:36:28 -0700
+Message-ID: <20251231173633.3981832-1-csander@purestorage.com>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -98,220 +145,31 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add support for handling an Fn button and sending separate keycodes for
-a subset of keys in the matrix defined in the upper half of the keymap.
+struct bpf_struct_ops's cfi_stubs field is used as a readonly pointer
+but has type void *. Change its type to void const * to allow it to
+point to readonly global memory. Update the struct_ops implementations
+to declare their cfi_stubs global variables as const.
 
-Signed-off-by: Fabio Baltieri <fabiobaltieri@chromium.org>
-Reviewed-by: Simon Glass <sjg@chromium.org>
----
- drivers/input/keyboard/cros_ec_keyb.c | 136 +++++++++++++++++++++++---
- 1 file changed, 120 insertions(+), 16 deletions(-)
+Caleb Sander Mateos (5):
+  bpf: use const pointer for struct_ops cfi_stubs
+  HID: bpf: make __bpf_hid_bpf_ops const
+  sched_ext: make __bpf_ops_sched_ext_ops const
+  net: make cfi_stubs globals const
+  selftests/bpf: make cfi_stubs globals const
 
-diff --git a/drivers/input/keyboard/cros_ec_keyb.c b/drivers/input/keyboard/cros_ec_keyb.c
-index 1c6b0461dc35..bc76f61583c3 100644
---- a/drivers/input/keyboard/cros_ec_keyb.c
-+++ b/drivers/input/keyboard/cros_ec_keyb.c
-@@ -29,6 +29,11 @@
- 
- #include <linux/unaligned.h>
- 
-+/* Maximum size of the normal key matrix, this is limited by the host command
-+ * key_matrix field defined in ec_response_get_next_data_v3
-+ */
-+#define CROS_EC_KEYBOARD_COLS_MAX 18
-+
- /**
-  * struct cros_ec_keyb - Structure representing EC keyboard device
-  *
-@@ -44,6 +49,11 @@
-  * @bs_idev: The input device for non-matrix buttons and switches (or NULL).
-  * @notifier: interrupt event notifier for transport devices
-  * @vdata: vivaldi function row data
-+ * @has_fn_map: whether the driver use an fn function map layer
-+ * @normal_key_status: active normal keys map
-+ * @fn_key_status: active function keys map
-+ * @fn_key_pressed: tracks the function key status
-+ * @fn_key_triggered: tracks where any function key fired
-  */
- struct cros_ec_keyb {
- 	unsigned int rows;
-@@ -61,6 +71,12 @@ struct cros_ec_keyb {
- 	struct notifier_block notifier;
- 
- 	struct vivaldi_data vdata;
-+
-+	bool has_fn_map;
-+	u8 normal_key_status[CROS_EC_KEYBOARD_COLS_MAX];
-+	u8 fn_key_status[CROS_EC_KEYBOARD_COLS_MAX];
-+	bool fn_key_pressed;
-+	bool fn_key_triggered;
- };
- 
- /**
-@@ -166,16 +182,100 @@ static bool cros_ec_keyb_has_ghosting(struct cros_ec_keyb *ckdev, uint8_t *buf)
- 	return false;
- }
- 
-+/*
-+ * Process a function key state change, send an event report if appropriate.
-+ */
-+static void cros_ec_keyb_process_fn_key(struct cros_ec_keyb *ckdev,
-+					int row, int col, bool state)
-+{
-+	struct input_dev *idev = ckdev->idev;
-+	int pos = MATRIX_SCAN_CODE(row, col, ckdev->row_shift);
-+
-+	ckdev->fn_key_pressed = state;
-+
-+	if (state) {
-+		ckdev->fn_key_triggered = false;
-+	} else if (!ckdev->fn_key_triggered) {
-+		/*
-+		 * Send the original code if nothing else has been pressed
-+		 * together with Fn.
-+		 */
-+		input_event(idev, EV_MSC, MSC_SCAN, pos);
-+		input_report_key(idev, KEY_FN, true);
-+		input_sync(idev);
-+
-+		input_event(idev, EV_MSC, MSC_SCAN, pos);
-+		input_report_key(idev, KEY_FN, false);
-+	}
-+}
-+
-+/*
-+ * Return the Fn code for a normal key row, col combination.
-+ */
-+static unsigned int cros_ec_keyb_fn_code(struct cros_ec_keyb *ckdev,
-+					 int row, int col)
-+{
-+	struct input_dev *idev = ckdev->idev;
-+	const unsigned short *keycodes = idev->keycode;
-+	int pos = MATRIX_SCAN_CODE(row + ckdev->rows, col, ckdev->row_shift);
-+
-+	return keycodes[pos];
-+}
-+
-+/*
-+ * Process the new state for a single key.
-+ */
-+static void cros_ec_keyb_process_one(struct cros_ec_keyb *ckdev,
-+				     int row, int col, bool state)
-+{
-+	struct input_dev *idev = ckdev->idev;
-+	const unsigned short *keycodes = idev->keycode;
-+	int pos = MATRIX_SCAN_CODE(row, col, ckdev->row_shift);
-+	unsigned int code = keycodes[pos];
-+
-+	dev_dbg(ckdev->dev, "changed: [r%d c%d]: byte %02x\n", row, col, state);
-+
-+	if (ckdev->has_fn_map) {
-+		if (code == KEY_FN)
-+			return cros_ec_keyb_process_fn_key(ckdev, row, col, state);
-+
-+		if (!state) {
-+			if (ckdev->fn_key_status[col] & BIT(row)) {
-+				code = cros_ec_keyb_fn_code(ckdev, row, col);
-+
-+				ckdev->fn_key_status[col] &= ~BIT(row);
-+			} else if (ckdev->normal_key_status[col] & BIT(row)) {
-+				ckdev->normal_key_status[col] &= ~BIT(row);
-+			} else {
-+				/* Discard, key press code was not sent */
-+				return;
-+			}
-+		} else if (ckdev->fn_key_pressed) {
-+			code = cros_ec_keyb_fn_code(ckdev, row, col);
-+
-+			ckdev->fn_key_triggered = true;
-+
-+			if (!code)
-+				return;
-+
-+			ckdev->fn_key_status[col] |= BIT(row);
-+		} else {
-+			ckdev->normal_key_status[col] |= BIT(row);
-+		}
-+	}
-+
-+	input_event(idev, EV_MSC, MSC_SCAN, pos);
-+	input_report_key(idev, code, state);
-+}
- 
- /*
-  * Compares the new keyboard state to the old one and produces key
-- * press/release events accordingly.  The keyboard state is 13 bytes (one byte
-- * per column)
-+ * press/release events accordingly.  The keyboard state is one byte
-+ * per column.
-  */
- static void cros_ec_keyb_process(struct cros_ec_keyb *ckdev,
- 			 uint8_t *kb_state, int len)
- {
--	struct input_dev *idev = ckdev->idev;
- 	int col, row;
- 	int new_state;
- 	int old_state;
-@@ -192,20 +292,13 @@ static void cros_ec_keyb_process(struct cros_ec_keyb *ckdev,
- 
- 	for (col = 0; col < ckdev->cols; col++) {
- 		for (row = 0; row < ckdev->rows; row++) {
--			int pos = MATRIX_SCAN_CODE(row, col, ckdev->row_shift);
--			const unsigned short *keycodes = idev->keycode;
--
- 			new_state = kb_state[col] & (1 << row);
- 			old_state = ckdev->old_kb_state[col] & (1 << row);
--			if (new_state != old_state) {
--				dev_dbg(ckdev->dev,
--					"changed: [r%d c%d]: byte %02x\n",
--					row, col, new_state);
--
--				input_event(idev, EV_MSC, MSC_SCAN, pos);
--				input_report_key(idev, keycodes[pos],
--						 new_state);
--			}
-+
-+			if (new_state == old_state)
-+				continue;
-+
-+			cros_ec_keyb_process_one(ckdev, row, col, new_state);
- 		}
- 		ckdev->old_kb_state[col] = kb_state[col];
- 	}
-@@ -597,12 +690,19 @@ static int cros_ec_keyb_register_matrix(struct cros_ec_keyb *ckdev)
- 	struct device *dev = ckdev->dev;
- 	struct input_dev *idev;
- 	const char *phys;
-+	unsigned int rows_keymap;
- 	int err;
- 
- 	err = matrix_keypad_parse_properties(dev, &ckdev->rows, &ckdev->cols);
- 	if (err)
- 		return err;
- 
-+	if (ckdev->cols > CROS_EC_KEYBOARD_COLS_MAX) {
-+		dev_err(dev, "keypad,num-columns too large: %d (max: %d)\n",
-+			ckdev->cols, CROS_EC_KEYBOARD_COLS_MAX);
-+		return -EINVAL;
-+	}
-+
- 	ckdev->valid_keys = devm_kzalloc(dev, ckdev->cols, GFP_KERNEL);
- 	if (!ckdev->valid_keys)
- 		return -ENOMEM;
-@@ -635,7 +735,11 @@ static int cros_ec_keyb_register_matrix(struct cros_ec_keyb *ckdev)
- 	ckdev->ghost_filter = device_property_read_bool(dev,
- 					"google,needs-ghost-filter");
- 
--	err = matrix_keypad_build_keymap(NULL, NULL, ckdev->rows, ckdev->cols,
-+	ckdev->has_fn_map = device_property_read_bool(dev, "google,has-fn-map");
-+
-+	rows_keymap = ckdev->has_fn_map ? ckdev->rows * 2 : ckdev->rows;
-+
-+	err = matrix_keypad_build_keymap(NULL, NULL, rows_keymap, ckdev->cols,
- 					 NULL, idev);
- 	if (err) {
- 		dev_err(dev, "cannot build key matrix\n");
+ drivers/hid/bpf/hid_bpf_struct_ops.c                   |  2 +-
+ include/linux/bpf.h                                    |  2 +-
+ kernel/bpf/bpf_struct_ops.c                            |  6 +++---
+ kernel/sched/ext.c                                     |  2 +-
+ net/bpf/bpf_dummy_struct_ops.c                         |  2 +-
+ net/ipv4/bpf_tcp_ca.c                                  |  2 +-
+ net/sched/bpf_qdisc.c                                  |  2 +-
+ net/smc/smc_hs_bpf.c                                   |  2 +-
+ .../testing/selftests/bpf/test_kmods/bpf_test_no_cfi.c |  2 +-
+ tools/testing/selftests/bpf/test_kmods/bpf_testmod.c   | 10 +++++-----
+ 10 files changed, 16 insertions(+), 16 deletions(-)
+
 -- 
-2.52.0.351.gbe84eed79e-goog
+2.45.2
 
 
