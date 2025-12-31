@@ -1,72 +1,74 @@
-Return-Path: <linux-input+bounces-16747-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16748-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3ABE7CEC16D
-	for <lists+linux-input@lfdr.de>; Wed, 31 Dec 2025 15:35:52 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C150CEC179
+	for <lists+linux-input@lfdr.de>; Wed, 31 Dec 2025 15:36:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 4832A301395D
-	for <lists+linux-input@lfdr.de>; Wed, 31 Dec 2025 14:35:47 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 304513028D81
+	for <lists+linux-input@lfdr.de>; Wed, 31 Dec 2025 14:35:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4276D26E6F8;
-	Wed, 31 Dec 2025 14:35:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 23D9F26C39F;
+	Wed, 31 Dec 2025 14:35:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="V4u3+2af"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="BEgwypps"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C284F19CD05
-	for <linux-input@vger.kernel.org>; Wed, 31 Dec 2025 14:35:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B1982737F2
+	for <linux-input@vger.kernel.org>; Wed, 31 Dec 2025 14:35:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767191745; cv=none; b=Pmi12NXb4HxkbvZDg60REUSJT/BJ+I3QeTyjAX/FGSs9B2tgI85GvrGspdQNfTv/Tm1XKqq3tZovgfoLVBO4F+ia0nONXJfJCjQoM11CBCo/TTlgdL8qMOytMHa+IUI6bvLlygIadnjE8Eqrvil7/j5jCfIKz2eXkuBbPzPTToM=
+	t=1767191748; cv=none; b=oaUq+s+K8P+TPtvw20nGmDlhlLu4WF6EvlpKc9/X4Mi/BPEE5UBMamLrFssh65ZSVXbw4fcviS97rlR5NbyIv0nuvGfwpzzxgvMntFa5Tw+5O4PWrIxFsJXfNuWi1jk5p0SmLE0rGIWG/cyfAvlRSHnNY1pyPsh0G5pUH0ExIos=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767191745; c=relaxed/simple;
-	bh=AhVg3Ya4t8+09xhLV2MFKHi58VKUWxRFzPDeqNG4M/g=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=iw5rsaM6+68h2KOCGQ0BBchDIHvJ7dX5MA6rgNgj5TEmor4mwDH1cHAY2J1MHsYTT0BcV8aW6QllfPWdqcPHYnjcv5jNEdLqoNyMJ+G0BcbV8aRGslwBb2N9hPIJnJssvOAHyMOQVvV/41YJVKB7QK9UD+EF7lT/uRVYCusA6Oo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=V4u3+2af; arc=none smtp.client-ip=209.85.128.48
+	s=arc-20240116; t=1767191748; c=relaxed/simple;
+	bh=1vH4KrFv8xvMv8rpRWUougXl8BcRT5RLGVtAo9ej2xw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=DxWCfakAFmQ2GPpqXefD1+0d6OUltGWZV0uxVStWfFvJmVIfsYXll+U8KmuxKMZOT4JsdiaCVjN+hrlEAeKRL7T9Ismx076dZ6/4DzpQgg+TMcmlxsCSnyPB5nrUEGu9lUrIR7P8c1s/k2PILJTv9YVaodiR751savpTS7PWN64=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=BEgwypps; arc=none smtp.client-ip=209.85.128.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-47a8195e515so66232375e9.0
-        for <linux-input@vger.kernel.org>; Wed, 31 Dec 2025 06:35:42 -0800 (PST)
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-47bdbc90dcaso67807055e9.1
+        for <linux-input@vger.kernel.org>; Wed, 31 Dec 2025 06:35:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1767191741; x=1767796541; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=zJt+Vk5CZtSda+Qv6TxKnOwmdavVEtubrUrFCi+hJhQ=;
-        b=V4u3+2af6X/1nRiVIEId6GMTTjDLPf9tthl+IdfsuuDMJNBRKFoVwne7yLRf2x9/n5
-         EOriUGXADj/AObdPJNybqK1XtXiH/CvwDix92EKWuop77pWTb1CufReE2KPcl7fCPQvY
-         7XpMlGdv4rn1qMuaxPxxJYhWKC2ubJcMZLXnM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767191741; x=1767796541;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=chromium.org; s=google; t=1767191744; x=1767796544; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=zJt+Vk5CZtSda+Qv6TxKnOwmdavVEtubrUrFCi+hJhQ=;
-        b=LLeWomWHbyf+Ks+h9I2WKlF682pUUGUowa7ZHZ5ZMatVmTisSbD19SZC2D8laZsf2S
-         guC4FRfbf78w4BWTZ+cCPizxMg1LH6BRoJS2xSFgaJgmeHORyIyEf+J0h7xaRgAam7D8
-         doH3/6xSuYehnJQSkoYk61ZcsLNFSQFkgGPRCaNNE0em7c4W2AmLFW6l2MGxhIWtu39X
-         Xe7suwbnKs1uwxFhQZso2B2s2ZUCNgaPjilSeakv85pkLP+asBurtmg6DhO/O8f9Nm7l
-         BIHPNVLKJv/UUnOCd4iIhpG/kkfyDoamNvzMGCRsfdTq7tcxwqWWYdjcIL8zQSvPiUFv
-         PqAg==
-X-Forwarded-Encrypted: i=1; AJvYcCX7Sj3FyFvA+kOFvF1QsCED3MLs8GvQtNjks5HNOWebu7GNchG13dIIA9QIixMd+Qfn7ROxIZfxHFs2lQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwI6ey9QUCZpOxrRZOGtBJ/LfeQFMN316cPLRf1eOUOCTcGnF3q
-	vvWeKftXAWVNEYCDqnrZAt9TfrDIMl2F8jyXVcEdD/Rqf83eS7wG3fLFZNc1ceLwlg==
-X-Gm-Gg: AY/fxX7RtrcTFCv7qynf8Tt7hezbNFSwCrUNrwcwyTqbmOLxMX7kmPpFTRGr4yPcRex
-	zu+fI/KF16GVQ5tdjyX57D2q28i2SSyQ/5kBjdFoZ4HG68AqiGyGMpposdPuKQbX2EpCi9kcSLd
-	DHItfZyKrBgxcI/PaftTFCzyM2FORvTs9vp3imzv06HJeFYBbEhqjMOq+9+7+PLsDUIZZC5xep7
-	xXIyyjJGF4c419aaf3L9S5aKOSN/+mKiZDeSVgBqNxZXihNhEJuNw7OBtBz9fr4LBHXs0k2fS6h
-	Ap4xvkySZAI8AGwkmwFXIh40ldG5MNZJ1qTtsgOkQqMDMGW+3kb6IrWpx8DjkvRZpvnm/aORFK2
-	GnqanAe5ZG6ViaHv/qdsU5AIV7mXfC+Gp6cZmR9FGvXponKZCnPB+8S1xc7A3anqqCo8DMMq2yq
-	V9GJVUcuxA1pkxdm51qlV5H9ra7A==
-X-Google-Smtp-Source: AGHT+IEAuByjLQ/pUsJ9uqNDD9bJhs+aoCV8W8RpPLTDvlnGTrKTtFFsW+clPesgyA5XNjr0o/YF6A==
-X-Received: by 2002:a05:600c:444b:b0:477:561f:6fc8 with SMTP id 5b1f17b1804b1-47d19549625mr389224705e9.5.1767191741123;
-        Wed, 31 Dec 2025 06:35:41 -0800 (PST)
+        bh=34pYk6l1cH16LeyZVvdM/XV6wo+Nk0j+m4GLCKEWRwU=;
+        b=BEgwyppsTO/ChZlahFILnUfRCD3bUMzIHos/mixzW184xMmpqdJ0JITUQb6QX+owhW
+         nbuaLfFmuzPJ+An09DnY41cPAGMPtBvIrfQpzrVvz0q1I8RBAbtPXD55JR7IRqvjtUCP
+         csZWWjfj65RpaLurWldrumjwUW/nC3Rx1GUM8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767191744; x=1767796544;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=34pYk6l1cH16LeyZVvdM/XV6wo+Nk0j+m4GLCKEWRwU=;
+        b=U2UECayMlNK1cjGicENfQJAgfOoOddrhgINp5sBxU+7ttv/su+IQoyuoxiNgQmTtXN
+         UAK16tjBmYeVe6ICtz+UjtxRwvhCrsBDadw/P5NqFWV42AUfvUfmdsp6a/qvdAYYm2EC
+         HCDUjdLtSprqhONpJox71+PIsRyRVjU+zta6qyeNfbG+ku7ty+vZGHX1v68QYJbC1sCq
+         NNIwLBwKd6s/hhEFfZ8/mW5YvuxpEGS93oHRfpJkmu+mF9uMMK9eyE/Vdx7Cxmjlm59V
+         +f6C9YMQRNU76M1Ntjg8QUky9Eti+hqAokocKFwPyTXWXvTtVJW7IdleNoPTfjXGJDh8
+         TTHg==
+X-Forwarded-Encrypted: i=1; AJvYcCWdWfsPJsJ5ORZX92khq1tGOxIMxzeeprXAEP+Ln/rWk0p+O69Qf+yIU/BTrxSNE0TI3Azu/c/yPGzuFQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwDIpJuzR2nt2hZPffI5GpM9fLZo9ySwQ/AM7dUhmnxz2ADvYMs
+	AAK55d7+RF4x6JsQZel6AZCNSrWlydh1aVq62ibaOuIa30vz8MYWp8HnvQ3ObTHakA==
+X-Gm-Gg: AY/fxX6bF8OkhOGi8XKSq6mzeHkAXlaLNytHdnvMVRHmpN3XE9PiitPQOlH7NL4cwmX
+	JTJEQIKxxv7DTTauxUzjEF7a4Ej7uVs4G2GgWPyFcu0NTH/xhzvKi++8QkOEPMBg06ZjtygghCg
+	H6kspvWqvJJc0Hy/cbbvp3cQgw41oP1/IcAaxOHsEqT5+QTSJGdV2vvKC+0lV6lZNCBXHOh4Mvi
+	cJ3/nGbBjKo6Qjfh1U1b/BJEI1QzpK4WrZTx51Hb9O9vz0wq7C2Xn1aeWRxvyYsOUanpx7/HJIj
+	Kl6ykL6zmRsTY/hfgs9HLacJ5mrzcV7fAfvM4pnI4oWMQsOd+BMSI0HiEVCNZnqCtvN80U+72pz
+	qCCqyBRnrkVzuJFIFc2zYDkhV9rT0M9k0Tb+1t2muOXMkcogr9tsJacv34uun+Uumc7X2c1+hmP
+	7Atsj7yY6iM7Q+gzgRtK8z19hUQA==
+X-Google-Smtp-Source: AGHT+IEiRq6V4CAH/S2a6MvgduONiJuKUV1PONniN7Ix1f5FJkAX+d5WlgDqPZJkgHzRkh3uELoZxg==
+X-Received: by 2002:a05:600c:470a:b0:479:3a86:dc1f with SMTP id 5b1f17b1804b1-47d1958e43emr342849195e9.37.1767191744550;
+        Wed, 31 Dec 2025 06:35:44 -0800 (PST)
 Received: from balto-ws ([37.228.206.31])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47d193d4e91sm630300935e9.13.2025.12.31.06.35.40
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47d193d4e91sm630300935e9.13.2025.12.31.06.35.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 31 Dec 2025 06:35:40 -0800 (PST)
+        Wed, 31 Dec 2025 06:35:44 -0800 (PST)
 From: Fabio Baltieri <fabiobaltieri@chromium.org>
 To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
 	Rob Herring <robh@kernel.org>,
@@ -81,10 +83,12 @@ Cc: Fabio Baltieri <fabiobaltieri@chromium.org>,
 	devicetree@vger.kernel.org,
 	chrome-platform@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v3 0/2] Input: cros_ec_keyb: add function key support
-Date: Wed, 31 Dec 2025 14:35:36 +0000
-Message-ID: <20251231143538.37483-1-fabiobaltieri@chromium.org>
+Subject: [PATCH v3 1/2] dt-bindings: google,cros-ec-keyb: add has-fn-map prop
+Date: Wed, 31 Dec 2025 14:35:37 +0000
+Message-ID: <20251231143538.37483-2-fabiobaltieri@chromium.org>
 X-Mailer: git-send-email 2.52.0.351.gbe84eed79e-goog
+In-Reply-To: <20251231143538.37483-1-fabiobaltieri@chromium.org>
+References: <20251231143538.37483-1-fabiobaltieri@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -93,30 +97,32 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Hi, v3 of the cros-ec-keyb fn key support, just few tweaks from the
-reviews.
+Add binding documentation for the has-fn-map property.
 
-Changes from v2:
-  - renamed the dt property to use-fn-map, dropped the example
-  - added few function comments
-  - added a helper for obtaining the fn code
-  - reordered, dt patch first
+Signed-off-by: Fabio Baltieri <fabiobaltieri@chromium.org>
+---
+ .../devicetree/bindings/input/google,cros-ec-keyb.yaml    | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-Changes from v1:
-  - change struct to short types
-  - refactored the fn key handling in its own function
-  - changed props to use the google, prefix
-  - reworked the properties to use an overlay map rather than a
-    dedicated one
-
-Fabio Baltieri (2):
-  dt-bindings: google,cros-ec-keyb: add has-fn-map prop
-  Input: cros_ec_keyb - add function key support
-
- .../bindings/input/google,cros-ec-keyb.yaml   |   8 ++
- drivers/input/keyboard/cros_ec_keyb.c         | 136 +++++++++++++++---
- 2 files changed, 128 insertions(+), 16 deletions(-)
-
+diff --git a/Documentation/devicetree/bindings/input/google,cros-ec-keyb.yaml b/Documentation/devicetree/bindings/input/google,cros-ec-keyb.yaml
+index fefaaf46a240..fa24b1cbc788 100644
+--- a/Documentation/devicetree/bindings/input/google,cros-ec-keyb.yaml
++++ b/Documentation/devicetree/bindings/input/google,cros-ec-keyb.yaml
+@@ -44,6 +44,14 @@ properties:
+       where the lower 16 bits are reserved. This property is specified only
+       when the keyboard has a custom design for the top row keys.
+ 
++  google,has-fn-map:
++    description: |
++      The keymap has function key layer. This allows defining an extra set of
++      codes that are sent if a key is pressed while the KEY_FN is held pressed
++      as well. The function codes have to be defined in the linux,keymap
++      property with an offset of keypad,num-rows from the normal ones.
++    type: boolean
++
+ dependencies:
+   function-row-physmap: [ 'linux,keymap' ]
+   google,needs-ghost-filter: [ 'linux,keymap' ]
 -- 
 2.52.0.351.gbe84eed79e-goog
 
