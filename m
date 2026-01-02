@@ -1,142 +1,128 @@
-Return-Path: <linux-input+bounces-16764-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16765-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54D9BCEDC2B
-	for <lists+linux-input@lfdr.de>; Fri, 02 Jan 2026 08:03:57 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F613CEE7CA
+	for <lists+linux-input@lfdr.de>; Fri, 02 Jan 2026 13:18:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id B878B3004409
-	for <lists+linux-input@lfdr.de>; Fri,  2 Jan 2026 07:03:55 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id CDD493000B62
+	for <lists+linux-input@lfdr.de>; Fri,  2 Jan 2026 12:18:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CDBAD2E7180;
-	Fri,  2 Jan 2026 07:03:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8ACA430EF90;
+	Fri,  2 Jan 2026 12:18:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=canonical.com header.i=@canonical.com header.b="T+XZ7688"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ktg/X2UE"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp-relay-internal-0.canonical.com (smtp-relay-internal-0.canonical.com [185.125.188.122])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F07042E5D17
-	for <linux-input@vger.kernel.org>; Fri,  2 Jan 2026 07:03:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.125.188.122
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 533D230EF7A;
+	Fri,  2 Jan 2026 12:18:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767337433; cv=none; b=uaD6APsypuTzwrdsou23ezf0jw5SFSnZr/Mhbp+Vp43o5zBg93iudvwrqoruBz6fePjxvO/g8BVrHFLAMoXXvrz/zsYhm6Jf/swGPz81R3W2z6ImpzqVHZi+1vY0Pn1XdvZa5IKjA2xPSyWit/mfIrumzpwOtPFs7jWjxVToNAc=
+	t=1767356321; cv=none; b=K2xP1ZwmfOVs7bPr5xEXOHnnd0q6LOj0UxfdYP0jmPrDvUElVp6KlHEKkAz5ZQXwm5agcBjkmBIE+kTSwnQb2iWzfrB9VYQLKMULQ+5MPml8MTFEyVNPY3kVJEKsBRROybQ3f2hO1XQnDNB83lV9q8+Ddps7trvlczbNecQPHhM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767337433; c=relaxed/simple;
-	bh=I6qF/evOtf2u4iP3ou5raDOQR94004IlH8P4CrCJqdY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ShSYFdrZSM/7P3Ms1VB7bM9LHlTSqsl9WuR3DZMdkMEv5JxCGwqjBahtTmB942vvG+/E2KORV22Gcl19auYH0KLiWNFT2mRRwaKCWVZlGy1CoUF2oQyWPznH67IgaBnOf+6QT2tmTm5EsMzrtoxpE1aHCdPIwQdFZyQ1dtj2bA4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=canonical.com; spf=pass smtp.mailfrom=canonical.com; dkim=pass (4096-bit key) header.d=canonical.com header.i=@canonical.com header.b=T+XZ7688; arc=none smtp.client-ip=185.125.188.122
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=canonical.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=canonical.com
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com [209.85.221.71])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id AF6B63F2A3
-	for <linux-input@vger.kernel.org>; Fri,  2 Jan 2026 06:57:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-	s=20251003; t=1767337024;
-	bh=B3pf/RdBWKqNLxIwqxjISgnhd2BJZTuCJG4yZS6xiZs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version;
-	b=T+XZ7688nH9FCFEVm2EgH1Dyp9jNyjg9rGui1X+RHEUjpHdg/FQe94xdEslMmtoyc
-	 dRRNCVQEROu0Vi9v2O1uS/KxNcK9nNn8raq8JPQeIvEA5fWH8kZVhi4hYLRyxeUwju
-	 12yeYwfrCblE/TSJciZDJYjwekj7T9CVrsZ33ttlPEcSUztUjP4Iogs4zL/bKCW30T
-	 RtV5/dgSPapdCsM8NKy0Ftw+uFcD7PizerhVGoQRGd3XaaOMQ32D7e3P0r2U29KuUZ
-	 OMQlfMz/BmolcL61NQaKhUSORF2F9hGdG6y35aowvuMKJObTMZQU88SS0obuhjgA2P
-	 4WNmDxEJ+tewhJ7JkwMWFbFNKGlzJKqfLneO9/3Vs3BSJ+yei7+unwllQRQbTVNMsr
-	 hBcZt4FpychD43Fk/awsg5scHtBzi/c/iPZev9m0/CxvcjQ0Kc/OkOl9GPzP3ki6pJ
-	 5ow6ro6DuAbohCT7qTDQUpss0gGWQ5U3L3rD+pWoHxUrgZrWe05EMc8i3X4+wh3nZD
-	 f01yG3jY1NdvuA6MiDu1HTJaAxoaO9i/v/XFhTbMruKs8xzJP5Ul8qkoaEs7LgRgyr
-	 sIsDQVrBMI0oc1Qmmlkyq7g2HS5HohttfR3ucmpfKtEPKkyYgxV5RNJsDBNAxLnSGE
-	 4gA4w0YpvZO+0fxOPMQ4mWRc=
-Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-430fc83f58dso6555005f8f.2
-        for <linux-input@vger.kernel.org>; Thu, 01 Jan 2026 22:57:04 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767337024; x=1767941824;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=B3pf/RdBWKqNLxIwqxjISgnhd2BJZTuCJG4yZS6xiZs=;
-        b=TbOUCVsWJAKVs0Q0nWjcghDLa+t6WelGHVjVBWNpY4iValRo+YiLuPqVm1vZOiBrye
-         J/3Wv6W140OewsxE5UTYdGW68Jm2fliIeFC0fNCg3qwKq88e5DhohKEakqJAtfihVTvw
-         Y+uZJJyD3BRMqFaCnDmortn9nA8Lem7gm1yEf8O+sRqj+aDti+6dd+ZvGXLntaL0+Gi2
-         /kkz9YNCeDmYA+QmVkjLN5jO8rZixSCRXI0eWs54bJkG+MclVxahmWPkFcGfy/5wgeil
-         eUDGuUgY+pcpchNCdNpqudTq+NBvFm00ZeTVHmGP9mJfr5KoAKKO5rB2s06OW1Fas/Xj
-         Mrcw==
-X-Gm-Message-State: AOJu0YyXZhiIYk3DYRqvr8X93g2ZI8pWpWsurgSnXvKS8MIXUtc8qEJR
-	o+C08j2mHmVkaCFWou7kyZCRwmZAWEgtro9S5lyjJAWG2kpTQe58eWSUPi4ICCv/yyrVNg+SKDj
-	6k8k430D3eX8qCl6sF/sfdTgrenJ+oRk43d8PU2uWojXPxqZYKiB9ggE05lQFOv9ohPofyIZmAn
-	WE7g4r
-X-Gm-Gg: AY/fxX7hjGGDV2KAH3CXTnOEZCtx8gSSnkIhffsH3DgN/GW2R2i7Fasobi4XAa949fg
-	SOpO1J62E/WCCeBkV+eAFUyk4kKlcNA3tlPhX4kFlbtb5gJMtCNjwLYUTMdMh2iKrIHbuuQM8+H
-	tjQ0uFuVgJWqxZxmY+mBHSPiMbJWvEiTcjG+FdVIgbiYFCf3D6BzRipm2dJThIBbvZ3sk0syRA1
-	PhgKJFcTtyVAXlnAn52rNSCIdEMWaYVnuUxDnT7NYyTK7e5GGjnMlmizf1rRr30w05yGeOpOQG9
-	T73eCgql01XkImyi0JanDBgDzKfPe5yI3FMCNO7Eqsb7ubiEMIgz65qvGoc9t91JrPvrhk0UdAT
-	rtLh1p5tpq1K34+75SYUA8LTt+TGu1oSriME5VeHmv+F7Z9hgv1bxUJ/AWwPzu4EJ
-X-Received: by 2002:a05:6000:200d:b0:430:fd84:3179 with SMTP id ffacd0b85a97d-4324e4f92bemr53561019f8f.33.1767337024237;
-        Thu, 01 Jan 2026 22:57:04 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEFv5Pm1KrVEDfvWwiWGEaibpTcWeUuu4ZKmEAe3P/T2CNjLbcbLg2Iox1OBM8A0AMUmZpi/g==
-X-Received: by 2002:a05:6000:200d:b0:430:fd84:3179 with SMTP id ffacd0b85a97d-4324e4f92bemr53561001f8f.33.1767337023766;
-        Thu, 01 Jan 2026 22:57:03 -0800 (PST)
-Received: from localhost.localdomain (211-75-139-218.hinet-ip.hinet.net. [211.75.139.218])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4324ea1b1b1sm82454071f8f.3.2026.01.01.22.57.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Jan 2026 22:57:03 -0800 (PST)
-From: Chris Chiu <chris.chiu@canonical.com>
-To: jikos@kernel.org,
-	bentiss@kernel.org
-Cc: linux-input@vger.kernel.org,
-	Chris Chiu <chris.chiu@canonical.com>
-Subject: [PATCH] HID: quirks: Add another Chicony HP 5MP Cameras to hid_ignore_list
-Date: Fri,  2 Jan 2026 06:56:43 +0000
-Message-ID: <20260102065643.1832426-1-chris.chiu@canonical.com>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1767356321; c=relaxed/simple;
+	bh=Tb2YDXRKcVQK2vPJv/quYKFzQ2ip2fRl0IeUjAystjo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JrQhTCeh1hQoAKoCpjM9rvGJFb2QJzpPchGM+h4uueYwhCNX69Gq71KUQkRaKpZQu6LCY6Qbuq1ahm3V9gifsKgPcfFuA1iV4DxINPaHAPN+3t9/g2fPahCX6un3vH2Rudjy2ZkAEeZkDH/I/1tfi6xcu3L6nfaxWuob4KhP4IQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ktg/X2UE; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6CE6DC116C6;
+	Fri,  2 Jan 2026 12:18:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1767356321;
+	bh=Tb2YDXRKcVQK2vPJv/quYKFzQ2ip2fRl0IeUjAystjo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ktg/X2UE+tCc8C8dX9A/3G0im4i6nDacLtA+mHqt3ttjLNMYDbABukyS16ZGsMFgt
+	 EuR2gYg1o7QSvHpBp7ajMaxvbTtAATU+nV+SMezRvnrSdks5vOCcFUk3hnqVu9vk/e
+	 GBLiGir02y3Rb/XTwIieYlqT/vsejJp57UPdi9m9ciDMuKBmDk9b859YhqV3AQ9z4s
+	 PuMjZYatbP7KY1n7qiYEYdpx1jyCs6i4ZEriZyvVTbc1yCdHkjgTuGMRaJlh60SJz6
+	 HyK3YKr9wVs5gkOcflnDJ9QZMCFqtuABxwL5R9Ue0HjjSAQfP9dCFaZWj0vaCkkdxl
+	 NEJ+XawINS6RA==
+Date: Fri, 2 Jan 2026 13:18:38 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Kuan-Wei Chiu <visitorckw@gmail.com>
+Cc: airlied@gmail.com, simona@ffwll.ch, maarten.lankhorst@linux.intel.com, 
+	mripard@kernel.org, tzimmermann@suse.de, robh@kernel.org, krzk+dt@kernel.org, 
+	conor+dt@kernel.org, dmitry.torokhov@gmail.com, sre@kernel.org, 
+	gregkh@linuxfoundation.org, jirislaby@kernel.org, lgirdwood@gmail.com, broonie@kernel.org, 
+	jserv@ccns.ncku.edu.tw, eleanor15x@gmail.com, dri-devel@lists.freedesktop.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-input@vger.kernel.org, 
+	linux-pm@vger.kernel.org, linux-serial@vger.kernel.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH 1/6] dt-bindings: serial: google,goldfish-tty: Convert to
+ DT schema
+Message-ID: <20260102-fast-clay-jackrabbit-6d6637@quoll>
+References: <20251230181031.3191565-1-visitorckw@gmail.com>
+ <20251230181031.3191565-2-visitorckw@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20251230181031.3191565-2-visitorckw@gmail.com>
 
-Another Chicony Electronics HP 5MP Camera with USB ID 04F2:B882
-reports a HID sensor interface that is not actually implemented.
+On Tue, Dec 30, 2025 at 06:10:26PM +0000, Kuan-Wei Chiu wrote:
+> Convert the Google Goldfish TTY binding to DT schema format.
+> Move the file to the serial directory to match the subsystem.
+> Update the example node name to 'serial' to comply with generic node
+> naming standards.
+> 
+> Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
+> ---
+>  .../devicetree/bindings/goldfish/tty.txt      | 17 ---------
+>  .../bindings/serial/google,goldfish-tty.yaml  | 38 +++++++++++++++++++
+>  2 files changed, 38 insertions(+), 17 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/goldfish/tty.txt
+>  create mode 100644 Documentation/devicetree/bindings/serial/google,goldfish-tty.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/goldfish/tty.txt b/Documentation/devicetree/bindings/goldfish/tty.txt
+> deleted file mode 100644
+> index 82648278da77..000000000000
+> --- a/Documentation/devicetree/bindings/goldfish/tty.txt
+> +++ /dev/null
+> @@ -1,17 +0,0 @@
+> -Android Goldfish TTY
+> -
+> -Android goldfish tty device generated by android emulator.
+> -
+> -Required properties:
+> -
+> -- compatible : should contain "google,goldfish-tty" to match emulator
+> -- reg        : <registers mapping>
+> -- interrupts : <interrupt mapping>
+> -
+> -Example:
+> -
+> -	goldfish_tty@1f004000 {
+> -		compatible = "google,goldfish-tty";
+> -		reg = <0x1f004000 0x1000>;
+> -		interrupts = <0xc>;
+> -	};
+> diff --git a/Documentation/devicetree/bindings/serial/google,goldfish-tty.yaml b/Documentation/devicetree/bindings/serial/google,goldfish-tty.yaml
+> new file mode 100644
+> index 000000000000..08fa12449a01
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/serial/google,goldfish-tty.yaml
+> @@ -0,0 +1,38 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/serial/google,goldfish-tty.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Google Goldfish TTY
+> +
+> +maintainers:
+> +  - Kuan-Wei Chiu <visitorckw@gmail.com>
+> +
 
-Add the device to the HID ignore list so the bogus sensor is never
-exposed to userspace. Then the system won't hang when runtime PM
-tries to wake the unresponsive device.
+Missing allOf to /schemas/serial/serial, unless this is not a serial, but then your
+commit msg should explain that.
 
-Signed-off-by: Chris Chiu <chris.chiu@canonical.com>
----
- drivers/hid/hid-ids.h    | 1 +
- drivers/hid/hid-quirks.c | 1 +
- 2 files changed, 2 insertions(+)
-
-diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index d31711f1aaec..e8a1a86313b7 100644
---- a/drivers/hid/hid-ids.h
-+++ b/drivers/hid/hid-ids.h
-@@ -317,6 +317,7 @@
- #define USB_DEVICE_ID_CHICONY_ACER_SWITCH12	0x1421
- #define USB_DEVICE_ID_CHICONY_HP_5MP_CAMERA	0xb824
- #define USB_DEVICE_ID_CHICONY_HP_5MP_CAMERA2	0xb82c
-+#define USB_DEVICE_ID_CHICONY_HP_5MP_CAMERA3	0xb882
- 
- #define USB_VENDOR_ID_CHUNGHWAT		0x2247
- #define USB_DEVICE_ID_CHUNGHWAT_MULTITOUCH	0x0001
-diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
-index c89a015686c0..3cf7971d4974 100644
---- a/drivers/hid/hid-quirks.c
-+++ b/drivers/hid/hid-quirks.c
-@@ -769,6 +769,7 @@ static const struct hid_device_id hid_ignore_list[] = {
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_BERKSHIRE, USB_DEVICE_ID_BERKSHIRE_PCWD) },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_CHICONY, USB_DEVICE_ID_CHICONY_HP_5MP_CAMERA) },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_CHICONY, USB_DEVICE_ID_CHICONY_HP_5MP_CAMERA2) },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_CHICONY, USB_DEVICE_ID_CHICONY_HP_5MP_CAMERA3) },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_CIDC, 0x0103) },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_CYGNAL, USB_DEVICE_ID_CYGNAL_RADIO_SI470X) },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_CYGNAL, USB_DEVICE_ID_CYGNAL_RADIO_SI4713) },
--- 
-2.43.0
+Best regards,
+Krzysztof
 
 
