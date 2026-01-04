@@ -1,100 +1,88 @@
-Return-Path: <linux-input+bounces-16775-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16776-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0683BCF075D
-	for <lists+linux-input@lfdr.de>; Sun, 04 Jan 2026 01:55:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64937CF0F57
+	for <lists+linux-input@lfdr.de>; Sun, 04 Jan 2026 14:01:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id B8823300462D
-	for <lists+linux-input@lfdr.de>; Sun,  4 Jan 2026 00:54:56 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 485AC3003B3F
+	for <lists+linux-input@lfdr.de>; Sun,  4 Jan 2026 13:01:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6AB44E555;
-	Sun,  4 Jan 2026 00:54:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF0FB2F9D82;
+	Sun,  4 Jan 2026 13:01:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=altimeter.info header.i=@altimeter.info header.b="aM0BCZzy"
+	dkim=pass (2048-bit key) header.d=welho.tech header.i=@welho.tech header.b="lvw5lMJw"
 X-Original-To: linux-input@vger.kernel.org
-Received: from hognose1.porkbun.com (hognose1.porkbun.com [35.82.102.206])
+Received: from mail-10627.protonmail.ch (mail-10627.protonmail.ch [79.135.106.27])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 803D93A1E9D;
-	Sun,  4 Jan 2026 00:54:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.82.102.206
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B391280327;
+	Sun,  4 Jan 2026 13:01:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=79.135.106.27
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767488095; cv=none; b=qomGsr8QoP3paFZk5KeDppnfzJZWkHrp69tEZojAf5SeRgc+REhVKR/g236c+5AbaeR6/gk4uvwIkT7YR8IwQzcuXVDbZEMehl+ZFcb79fN7pLmSfWVfoFeZk+U7Jow+dih3EXxQl7XzH/5hJv8OwUigy6l3hEPq2Nn056FbRkA=
+	t=1767531668; cv=none; b=R3kQRN/UgWkzZaV3TgB1TqEF9sRNmTrv9+V5YaYxkZnMvxvjsmwgTeyxlOLQ8gQzqdvc4t6kO83bBmmLgElh/CxitDWAIEWYFwCIZ4MyU7CwgCQsIpjYKwlA/zOZ0CX9gIaDfe2krmpdzGhJ1Q03DF6vkP2/HmrPsO0Z3DMCeO0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767488095; c=relaxed/simple;
-	bh=KP6swcSc8FHjf/nRzg5iYRqz/1hL6F0kt/QnoJQw9iM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Z3kpgYI4kefmNn08VEoXSlMvgNWWM/c8LG9WkRv9KRSYlumEys9FxCI4RVnndxs1rvYIk94A4CkKzfMoL1VU4D41GlSxNDk1aZ5WIqmUb5eHIfbmy+a+dseaMkgbTwJHG876wj1iUUaSniVkBTsYWusS0dP0B8Rd8Q/vmiYr/0I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=altimeter.info; spf=pass smtp.mailfrom=altimeter.info; dkim=pass (1024-bit key) header.d=altimeter.info header.i=@altimeter.info header.b=aM0BCZzy; arc=none smtp.client-ip=35.82.102.206
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=altimeter.info
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=altimeter.info
-Received: from altimeter-info (unknown [45.55.225.183])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(Client did not present a certificate)
-	(Authenticated sender: linux-kernel@altimeter.info)
-	by hognose1.porkbun.com (Postfix) with ESMTPSA id ABC9A47E398;
-	Sun,  4 Jan 2026 00:48:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=altimeter.info;
-	s=default; t=1767487713;
-	bh=ot0vBXc3pK7be2FGkC76DIp2fFrG0+Db4Kxu1U6Brbg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=aM0BCZzyBJTOwBGYoPHi3XELb0BVdR8jCHVH15eYXRr3lYTNyF7Q0EHAFup2+iNRQ
-	 7qO7o/AoRXaRgyhcWqY28C+aYSC4YOu/9uL5cbxzFxrNEv8q8sm6tGpXbPU7w7PRRH
-	 dakwK0RnYtHVBy/EBg5geSUD/s0qm/IQL4iLC8U0=
-Date: Sun, 4 Jan 2026 00:48:31 +0000
-From: Ivan Gorinov <linux-kernel@altimeter.info>
-To: tomasz.pakula.oficjalny@gmail.com
-Cc: Jiri Kosina <jikos@kernel.org>, linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] HID: input: Increase maximum number of joystick buttons
-Message-ID: <20260104004831.GA5238@altimeter-info>
-References: <20251220194100.GA12646@altimeter-info>
- <aa40f6010c721863c09673fc8801e0a382619d89.camel@gmail.com>
+	s=arc-20240116; t=1767531668; c=relaxed/simple;
+	bh=xn2hte4RpJqlo+pzeH284vjjpiR9oGnaNyTa+tpZqa0=;
+	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=H2Yn7TMs4Bbz02zCpT/dWdui61pUYqBpkrNW+Vni89+ARByXth00neBeoD4TDxfJ5nRCJrt3l491xGu0F7l9LagbMJ5qxcPV/h6kc5X3t+k0HwkTXTElq8TIoAXqIubaGKQvMwJ4MU1FxaDRdupW7sWezwDEt/MHItB5mMH83Ew=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=welho.tech; spf=pass smtp.mailfrom=welho.tech; dkim=pass (2048-bit key) header.d=welho.tech header.i=@welho.tech header.b=lvw5lMJw; arc=none smtp.client-ip=79.135.106.27
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=welho.tech
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=welho.tech
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=welho.tech;
+	s=protonmail; t=1767531656; x=1767790856;
+	bh=XUBvOuJu9BxRiCJegZZ5PvjTdB+y+Qg6XO3sC5Vse74=;
+	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=lvw5lMJwIHVXNijRTZtz6ObmEvOlANwLsuWlhpcvUhr3AxrrJzFXMY3KkzOhW/b+k
+	 qipIAkdWYYTlPyvYw5MJAdIlnbWapS0x6b1DhX6ufJqhIsnG/pKNk7aZ27MJRU7Rg+
+	 LyVbWgR4W9LVVTOK7xwpLO9HeGvMKucjcxnO1pEnFMY63zz15axSrB6Dvg76rvHlWj
+	 M29wEWwP6icFIO2DgVBhlRnplJMtf/YWyn/CMxYv7A9ru0ObXj4e4H8i87vgQNRxyi
+	 mL2n8+GR3P59Bdf/hNCMzOwD2wayPFfNUv8FCWnHroyMJ+kH1cmoREi0C0lWr6JYYr
+	 SBfsnTtkRFE9g==
+Date: Sun, 04 Jan 2026 13:00:51 +0000
+To: Filipe Lains <lains@riseup.net>, Bastien Nocera <hadess@hadess.net>, Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+From: Dennis Marttinen <twelho@welho.tech>
+Cc: Dennis Marttinen <twelho@welho.tech>
+Subject: [PATCH] drivers/hid: add HID++ support for Logitech MX Anywhere 3S
+Message-ID: <20260104125846.61191-1-twelho@welho.tech>
+Feedback-ID: 63214926:user:proton
+X-Pm-Message-ID: 5db7484c79216d5f354bf3c769ea9bbef2ca5be2
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <aa40f6010c721863c09673fc8801e0a382619d89.camel@gmail.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Sat, Jan 03, 2026 at 08:26:55PM +0100, tomasz.pakula.oficjalny@gmail.com wrote:
-> On Sat, 2025-12-20 at 19:41 +0000, Ivan Gorinov wrote:
-> > This patch increases the limit from 80 to 112 key codes.
-> > 
-> > If a joystick has 80 or fewer buttons, mapping stays the same.
-> > 
-> > If a joystick has more than 80 buttons:
-> > 
-> >   Map buttons [  0 ..  15 ] to key codes starting with BTN_JOYSTICK;
-> >   Map buttons [ 16 ..  47 ] to key codes starting with KEY_MACRO1;
-> >   Map buttons [ 48 .. 111 ] to key codes starting with BTN_TRIGGER_HAPPY.
-> > 
-> 
-> As stated previously by Dmitry when I tried to increase the KEY_MAX for
-> the same reason, the defined usages have their place and shouldn't be
-> misused. I finally understood that and I have to say that this is just
-> more confusing and a dirty hack, certainly used by some drivers because
-> it still works with SDL and Wine (they only care about the usage index).
-> 
-> I'm working on a proper solution with a new event type that will only
-> send button number (starting from 1 as does plain HID) and it's value.
-> 
-> This will support up to 65535 (u16) buttons and should be enough for
-> years to come :D I'll make sure to CC you when I'll send RFC.
+I've acquired a Logitech MX Anywhere 3S mouse, which supports HID++ over
+Bluetooth. Adding its PID 0xb037 to the allowlist enables the additional
+features, such as high-resolution scrolling. Tested working across multiple
+machines, with a mix of Intel and Mediatek Bluetooth chips.
 
-Thank you! I learned how to map more than 80 buttons by overriding function
-hid_driver.input_mapping from your contribution to JacKeTUs/universal-pdiff
-and used the same idea in my recent changes in the hid-winwing module.
+Signed-off-by: Dennis Marttinen <twelho@welho.tech>
+---
+ drivers/hid/hid-logitech-hidpp.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Good luck in your work on new event type!
-I will test your changes with my Orion2/TGRIP-18 combo.
+diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hi=
+dpp.c
+index d5011a5d08902..e871f1729d4b3 100644
+--- a/drivers/hid/hid-logitech-hidpp.c
++++ b/drivers/hid/hid-logitech-hidpp.c
+@@ -4662,6 +4662,8 @@ static const struct hid_device_id hidpp_devices[] =3D=
+ {
+ =09  HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb025) },
+ =09{ /* MX Master 3S mouse over Bluetooth */
+ =09  HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb034) },
++=09{ /* MX Anywhere 3S mouse over Bluetooth */
++=09  HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb037) },
+ =09{ /* MX Anywhere 3SB mouse over Bluetooth */
+ =09  HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb038) },
+ =09{}
+--=20
+2.52.0
 
-Meanwhile, this patch could allow existing software (for example, X-Plane 12)
-to work with more input devices without any changes in userspace.
+
 
