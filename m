@@ -1,77 +1,76 @@
-Return-Path: <linux-input+bounces-16780-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16781-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92962CF156B
-	for <lists+linux-input@lfdr.de>; Sun, 04 Jan 2026 22:32:44 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id F28D9CF1553
+	for <lists+linux-input@lfdr.de>; Sun, 04 Jan 2026 22:31:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id DB334300E14C
-	for <lists+linux-input@lfdr.de>; Sun,  4 Jan 2026 21:31:47 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 80FBC30072A4
+	for <lists+linux-input@lfdr.de>; Sun,  4 Jan 2026 21:31:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E64992EB87F;
-	Sun,  4 Jan 2026 21:31:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1ED522F12AF;
+	Sun,  4 Jan 2026 21:31:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XG5+I6QQ"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PDH+1W0b"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+Received: from mail-ej1-f65.google.com (mail-ej1-f65.google.com [209.85.218.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 893ED2F0C74
-	for <linux-input@vger.kernel.org>; Sun,  4 Jan 2026 21:31:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A3952F12D6
+	for <linux-input@vger.kernel.org>; Sun,  4 Jan 2026 21:31:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.65
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767562301; cv=none; b=dR2fuZr5GLNuO5bk45+IwfY2BkIp4fZ54CHzhe6pbubkgHFS3VrKqGUOZgmZZdmGAred7ZYfoaKkxssOHtGv0J00kraxehXrlgrHf+I4sxAvVYKbwtsXXi08ela3hlwS+Kvibqf+x2tqDrVuWEILAHDkD1eoBb/15nK5XAIMb1M=
+	t=1767562301; cv=none; b=Q6kHwKytUYp0KEuWgPp15Ub9l8loD1WW04T71U5/xHPuGbeDMpUm7fNCd2p8riP7Bv1NFliXiMFAmKZKrRo3lL8ghw34q3EQS23sAIbaNRkB5pgzSv+pMvKs7D9wpNEjAj0/SWB8d6t51XkL0IiTJ9CqrsV9Ptim8k/VKotskmQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1767562301; c=relaxed/simple;
-	bh=K1Gr+aLk2G42C9RgkcZD+nIQ5P+OEJfi74ouHBrvAYI=;
+	bh=/7YH+Zqpi8jckS9SwFkBwQ/lSUU/TC5vR/IH2liykg8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=PSihBQyHLe2hC2n5ehp8Xh6+rPJD81jh8bONQhooU+tz+DlViGIhcNox1SA+SgaqwzOxTC6zad/fwMHFNTdj9Iw4MPiKlr3X8aXrlHFv75RcFInCoAijGiN+OVNrIjvcFNswaOqdCVeD096KjrTLrrTc/XtxQIQg2RiphG5BdFw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XG5+I6QQ; arc=none smtp.client-ip=209.85.208.44
+	 MIME-Version:Content-Type; b=XOuB0hXRQk3zLKd0xzjQtkbRwvTKcMShiDbW6WJoxPEg2M1wTpzQCu0P95FO2bACfYLow3C8UU7nIpQ9v12lJ0g7ZWzsMQpy9IT9Oz2WMvtQu1OFWEmG+qlP9hcaf7xDPVq0pLquPN9WK0rylHqPdFIF+gzUkwgAeOd0/lesKuY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PDH+1W0b; arc=none smtp.client-ip=209.85.218.65
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-64b5b68a9bdso3179138a12.3
-        for <linux-input@vger.kernel.org>; Sun, 04 Jan 2026 13:31:38 -0800 (PST)
+Received: by mail-ej1-f65.google.com with SMTP id a640c23a62f3a-b769a872550so201154866b.3
+        for <linux-input@vger.kernel.org>; Sun, 04 Jan 2026 13:31:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767562297; x=1768167097; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1767562298; x=1768167098; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=gFooUSrVXm9pvAYpHh/HKF6iHEd9ba7nkhN8dd9UQqs=;
-        b=XG5+I6QQbfGlSRsAV56UgWhVvqpmEwq0feduOm3pWXjrfjZAZ5uluqIZf9nq/KuukR
-         r9qvfww9LVScMqkVY0wcSin1dfc1Ffo52am95rqsUrbTDd/dNDHJ2FYSUevgglePXOX4
-         PVR+07DmiPh5R4uyclXzlvWtYP8MwNqBdmiUHbUPvUNsipVLWp2O+IQYMh4pW1nXmpj8
-         XKr4rMx3tgff00aU4DiMBflsNcqB5MNKJZDSTaYss4q9uCdmR6TJUqHql27+W1DX7Hdt
-         0c/MJ2e8nixc6a5zV91U6Lpb05lrbUOGV+mEnzQFpYH5vZ8PMWLuv8tKKkx6Ce1B3ZZt
-         SBTA==
+        bh=PUUroYHtAt2Ce/xZZlgPaiIZoDgmPFJ5E5jP2+Tt7RI=;
+        b=PDH+1W0bfnEngycIXKuGMWDCkfU9LUJIzAeuniNEg2H0dGcy6t+Y+dgclYAhzknDkq
+         DMUYeagy2McjSc/dMnZCuLMkaLGTfDNKPMNblue7iZBzvLZqUtjKvwKEWaIuQeHBpTO8
+         jA2pHnN1JO/slsjG1JehdVHL3uuzgVIHNhx09suH1ozdQw59HPhl6cTWouJV0YZZWziR
+         L0S+IHib71q5IIvuvmd9AsrsMYPis2ZyF7WRxhopUmu+TcJ7IA2wsZA9UINl1Z+K4ayQ
+         9HbllrB5AmzEI7Jh+LLDsOggahqYjXwMtAqY8Eb05rhrFrpKat9WNJoHxkUn8k4fd//s
+         fLFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767562297; x=1768167097;
+        d=1e100.net; s=20230601; t=1767562298; x=1768167098;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=gFooUSrVXm9pvAYpHh/HKF6iHEd9ba7nkhN8dd9UQqs=;
-        b=s/10rJHk+XRVcSqVftU+fJEv7/2EQHX1O/W46xnf4ewOfZaVFzu5PMhEV4XnNNwhqp
-         DVebmZLb1v9bxTx/5qk4sAUGJdfufaJwB8JOhZDKG8tdJDB5L0iCMvyq41qQGAscMNBV
-         Vw4QL/CduA2PciLle2bYtdSjtc+T2rRLCGQmwSuy/liRjcEHUIo9J8/CWtStrZTZYjjJ
-         Q7LF4QrwiOJHP2IQ67NbcbuZiC6F8NXJoXPNe7uSmQk4qHHsc3ym52NyGsdBtxBZnJXT
-         eFs74uo5wz5FEqKsVmo5wbR3Wrp2AL/QHi9vpMuwPz/OpVhGguMA4dZ52gpl0rlAuNE8
-         JBxg==
-X-Gm-Message-State: AOJu0YzU5tNRCd+0lkFAyxbQnM6i4DD08sezs9WTj2ck5CkqEWy/QSQh
-	X/dMyHeMagYZvbmCZ61ypjb97JeirtLntfH6GscC9Twn4EqkEefBL8fP
-X-Gm-Gg: AY/fxX5Wr5QuE7O8A2iHOGUJ84Uzti+SS9+jgO7M7czfw44vIoi+rgc8XTLlAxPN+yK
-	tEYT2wfmcBG7gPGNZtOJ6ReBSFov53frSjYw24T8Js+GoqcTtvzS7B/fTl32WOh3YeTbKokJy01
-	6jMOfp6xLLl4DDgxsQHoQLTtZd9nrSOI5sw6z3gu2TC8d2KVtLdiigOTkOZAMMuLEuvDTLGi2wD
-	GfI74L5tobMXrH1OZMTRniFT6FLkKrQAi7G3IJWk3XAwlKzXiM4vu4xWInhdxVzKeCoenw9dNm7
-	IuedBtvtaGlkLM3zUPJN0BZHAt6enKHKsW05b1ltteH3IrD3h4I0DiFRtjB7/K1gFJ+oISx0poG
-	AGEBbl3/AyEXrQxW0pqBKAM1aMv3UgQPwxElfsuhdptTN8RKAAXu4mr5wAXWoa6S+fdIC7zdH5l
-	GF48bY+sol8TNOkf3d3WG86nKlvC/Y5cSUlLHRwePyRF2kZkZXR82IZRozrfSIAbfTAqHGjMmUW
-	x4=
-X-Google-Smtp-Source: AGHT+IGjUkLkKEMTWYzAwCdwlq8lHOYywpLwMuXneu5ARm5/T3CMRRTVuA7vHtt8tpniBq9fgW1EtA==
-X-Received: by 2002:a05:6402:5244:b0:64d:23ac:6ca6 with SMTP id 4fb4d7f45d1cf-64d23ac72fdmr25639337a12.4.1767562296850;
-        Sun, 04 Jan 2026 13:31:36 -0800 (PST)
+        bh=PUUroYHtAt2Ce/xZZlgPaiIZoDgmPFJ5E5jP2+Tt7RI=;
+        b=B6EdxRuIy4+iDveFaZEmLESDtlLce7E4dZPO+0g6s7t82JBW6Vr2zJADYMSf9NxGLd
+         FlZ3smE/NwgnYbCWefv9t/nVas0fntYrll6PjJOObs5u2zKLScPSaPf7MjtiR7nCYZwY
+         6h4NNhabxCUheSgf7usJDXQ+jYBMmD+K4k0sCo7HC5L+qnRQCBisKEPQdrPwlfwVosmJ
+         RtCPyHf24bJygKzZkdWHVwysg+0k/vhYRIEdiTQB89F//hSMEKWDZf+/JdS+YAaeINBK
+         +ZSV+it+q0maIdz9jDA4iunX1ea1uvbcfSEx7EacrgpOjDRs92gZi5Kr/BVlf72+G21z
+         nscg==
+X-Gm-Message-State: AOJu0YwMrMM6sbZmN9kHaYqnmOxszaTiAtHg6yZGt+V5hjcQ/VodzbAI
+	NZPlO6aNLJtvPy+4ZQ8DslOTDYKoP6JfUuP2XIn2EAZiSvVyPd8LmAZg
+X-Gm-Gg: AY/fxX7umqQMUG68aa34tjOMi8ITs2kuIiCN4QT5NUbpXU51VxJq9J42dHnvFgDNbGi
+	qXeOUXwIZ49K0d3D8k/jq6OaHLfshdU1kXcUeW/iVZO6LhUCp4eghIqnIpOxe1XZvq07rhE4scl
+	Mzr/HSpK7jMl45K7bUt1HGGwy7I6dKLUCyVG65UsydaJQlasnkZDEYaDpg3/VoHRsUvBYsYzA5/
+	CAS+Oc27zZSYnV0viV2/A97iktAYlyjqcM9W8sg4IqWFmdvA1EXFZIJMfanY6eNRPjDw2hW7JRI
+	Jtjco8BRES9/dPWryRzTeidErFnj7Nc9CSM3QOBb6z5DKk5190EvMyvZEmy5Ta403C3YAkY0Dx7
+	DwH49ga6+5MNeRCdvioPGKyt5irT1eO1bPsfmp2FdBG0QN/fL2t0nm1lHCqnofdYdYYKc2FsFpf
+	/SyAVAz3/pH33yM8Vxe0Jf+2X0OAWRkls0uaoIuktU/IiTv+ZuCmhArHDhVk43jHU1
+X-Google-Smtp-Source: AGHT+IG+AEIpwPtWYJYhI5A6ldFiprrP803Cg1B0GSU9VpFVObKxSmMNbMgLd9tAEXXNopAk8qcitQ==
+X-Received: by 2002:a05:6402:4311:b0:649:b47b:2ef7 with SMTP id 4fb4d7f45d1cf-64b8e93de10mr21587011a12.3.1767562297834;
+        Sun, 04 Jan 2026 13:31:37 -0800 (PST)
 Received: from laptok.lan (87-205-5-123.static.ip.netia.com.pl. [87.205.5.123])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-64b9105a9c4sm51947772a12.12.2026.01.04.13.31.36
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-64b9105a9c4sm51947772a12.12.2026.01.04.13.31.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 04 Jan 2026 13:31:36 -0800 (PST)
+        Sun, 04 Jan 2026 13:31:37 -0800 (PST)
 From: =?UTF-8?q?Tomasz=20Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>
 To: dmitry.torokhov@gmail.com,
 	corbet@lwn.net,
@@ -83,9 +82,9 @@ Cc: linux-input@vger.kernel.org,
 	vi@endrift.com,
 	linux-kernel@altimeter.info,
 	peter.hutterer@who-t.net
-Subject: [RFC PATCH 3/6] Input: Fire EV_BTN if found in ev_bit
-Date: Sun,  4 Jan 2026 22:31:29 +0100
-Message-ID: <20260104213132.163904-4-tomasz.pakula.oficjalny@gmail.com>
+Subject: [RFC PATCH 4/6] Input: Assign EV_BTN event to HID Joysticks
+Date: Sun,  4 Jan 2026 22:31:30 +0100
+Message-ID: <20260104213132.163904-5-tomasz.pakula.oficjalny@gmail.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260104213132.163904-1-tomasz.pakula.oficjalny@gmail.com>
 References: <20260104213132.163904-1-tomasz.pakula.oficjalny@gmail.com>
@@ -98,52 +97,95 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Passes EV_BTN through to handlers and allows reacting to this event by
-clients.
+Joysticks will now fire EV_BTN for every of their buttons, even buttons
+that were previously ignored because they were cut off by KEY_MAX. This
+in turns enables joysticks to finally report buttons above 80 which was
+the previous limitation.
 
 Signed-off-by: Tomasz Pakuła <tomasz.pakula.oficjalny@gmail.com>
 ---
- drivers/hid/hid-input.c | 20 +++++++++++++++-----
- 1 file changed, 15 insertions(+), 5 deletions(-)
+ drivers/hid/hid-input.c | 27 +++++++++++++++++++++------
+ include/linux/input.h   |  2 ++
+ 2 files changed, 23 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
-index 2bbb645c2ff4..900a6fc9813e 100644
+index 900a6fc9813e..1c11077b1577 100644
 --- a/drivers/hid/hid-input.c
 +++ b/drivers/hid/hid-input.c
-@@ -1673,7 +1673,8 @@ void hidinput_hid_event(struct hid_device *hid, struct hid_field *field, struct
- 
- 	switch (usage->type) {
- 	case EV_KEY:
--		if (usage->code == 0) /* Key 0 is "unassigned", not KEY_UNKNOWN */
-+		/* Key 0 is "unassigned", not KEY_UNKNOWN */
-+		if (usage->code == 0 && !test_bit(EV_BTN, input->evbit))
- 			return;
- 		break;
- 
-@@ -1723,10 +1724,19 @@ void hidinput_hid_event(struct hid_device *hid, struct hid_field *field, struct
- 	    value == field->value[usage->usage_index])
- 		return;
- 
--	/* report the usage code as scancode if the key status has changed */
--	if (usage->type == EV_KEY &&
--	    (!test_bit(usage->code, input->key)) == value)
--		input_event(input, EV_MSC, MSC_SCAN, usage->hid);
+@@ -760,11 +760,15 @@ static void hidinput_configure_usage(struct hid_input *hidinput, struct hid_fiel
+ 		case HID_GD_MOUSE:
+ 		case HID_GD_POINTER:  code += BTN_MOUSE; break;
+ 		case HID_GD_JOYSTICK:
+-				if (code <= 0xf)
+-					code += BTN_JOYSTICK;
+-				else
+-					code += BTN_TRIGGER_HAPPY - 0x10;
+-				break;
++			if (input->button_count >= INPUT_MAX_BUTTONS)
++				goto ignore;
 +
-+	if (usage->type == EV_KEY) {
-+		/* Send out EV_BTN with button number (starts at 1) */
-+		if (test_bit(EV_BTN, input->evbit))
-+			input_event(input, EV_BTN, usage->hid & HID_USAGE, value);
-+
-+		if (usage->code == 0)
-+			return;
-+
-+		/* report usage code as scancode if the status has changed */
-+		if ((!test_bit(usage->code, input->key)) == value)
-+			input_event(input, EV_MSC, MSC_SCAN, usage->hid);
-+	}
++			code += BTN_JOYSTICK;
++			if (code > BTN_DEAD)
++				code += BTN_TRIGGER_HAPPY - BTN_DEAD - 1;
++			if (code > KEY_MAX)
++				code = KEY_RESERVED;
++			break;
+ 		case HID_GD_GAMEPAD:
+ 				if (code <= 0xf)
+ 					code += BTN_GAMEPAD;
+@@ -1379,7 +1383,6 @@ static void hidinput_configure_usage(struct hid_input *hidinput, struct hid_fiel
+ 	}
  
- 	input_event(input, usage->type, usage->code, value);
+ 	set_bit(usage->type, input->evbit);
+-
+ 	/*
+ 	 * This part is *really* controversial:
+ 	 * - HID aims at being generic so we should do our best to export
+@@ -1390,12 +1393,18 @@ static void hidinput_configure_usage(struct hid_input *hidinput, struct hid_fiel
+ 	 *   *_MISC+N to overwrite a legitimate even, which confuses userspace
+ 	 *   (for instance ABS_MISC + 7 is ABS_MT_SLOT, which has a different
+ 	 *   processing)
++	 * - Joysticks can have arbitrary number of buttons without defined
++	 *   usages. Buttons that extend beyond KEY_MAX are assigned to
++	 *   KEY_RESERVED thus deduplication must be disabled for them.
+ 	 *
+ 	 * If devices still want to use this (at their own risk), they will
+ 	 * have to use the quirk HID_QUIRK_INCREMENT_USAGE_ON_DUPLICATE, but
+ 	 * the default should be a reliable mapping.
+ 	 */
+ 	while (usage->code <= max && test_and_set_bit(usage->code, bit)) {
++		if (field->application == HID_GD_JOYSTICK && usage->code == KEY_RESERVED)
++			break;
++
+ 		if (device->quirks & HID_QUIRK_INCREMENT_USAGE_ON_DUPLICATE) {
+ 			usage->code = find_next_zero_bit(bit,
+ 							 max + 1,
+@@ -1455,6 +1464,12 @@ static void hidinput_configure_usage(struct hid_input *hidinput, struct hid_fiel
+ 	if (usage->type == EV_KEY) {
+ 		set_bit(EV_MSC, input->evbit);
+ 		set_bit(MSC_SCAN, input->mscbit);
++
++		if (field->application == HID_GD_JOYSTICK &&
++		    (usage->hid & HID_USAGE_PAGE) == HID_UP_BUTTON) {
++			set_bit(EV_BTN, input->evbit);
++			++input->button_count;
++		}
+ 	}
  
+ 	return;
+diff --git a/include/linux/input.h b/include/linux/input.h
+index f6389de4a4d1..7f39c663fa85 100644
+--- a/include/linux/input.h
++++ b/include/linux/input.h
+@@ -214,6 +214,8 @@ struct input_dev {
+ };
+ #define to_input_dev(d) container_of(d, struct input_dev, dev)
+ 
++#define INPUT_MAX_BUTTONS 2048 /* A sane limit of supported device buttons */
++
+ /*
+  * Verify that we are in sync with input_device_id mod_devicetable.h #defines
+  */
 -- 
 2.52.0
 
