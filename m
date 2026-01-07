@@ -1,88 +1,80 @@
-Return-Path: <linux-input+bounces-16808-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16809-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DB85CFB40A
-	for <lists+linux-input@lfdr.de>; Tue, 06 Jan 2026 23:22:01 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id CEF3ACFC1BB
+	for <lists+linux-input@lfdr.de>; Wed, 07 Jan 2026 06:46:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id B4DFA301926A
-	for <lists+linux-input@lfdr.de>; Tue,  6 Jan 2026 22:20:06 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 3BB7B30590C9
+	for <lists+linux-input@lfdr.de>; Wed,  7 Jan 2026 05:44:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 034A92DC78D;
-	Tue,  6 Jan 2026 22:20:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5F951255F3F;
+	Wed,  7 Jan 2026 05:44:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="B1nL42bw"
+	dkim=pass (1024-bit key) header.d=altimeter.info header.i=@altimeter.info header.b="RO6OQFcT"
 X-Original-To: linux-input@vger.kernel.org
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from hognose1.porkbun.com (hognose1.porkbun.com [35.82.102.206])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AF5C18DB35;
-	Tue,  6 Jan 2026 22:20:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97CD5224F3;
+	Wed,  7 Jan 2026 05:44:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.82.102.206
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767738005; cv=none; b=VeLb5yc04maA+r3/I+NlYpsW85tAKSUNqXm2W+o0XLiKhQTZkIz4bpoX/Sh6iE7+kZChgUjAWelSMey02C4pUpDatu4B2d5WENuF+uiN5vpDHQP07fVvTTdfqXR2lgJSJX/2ZeVLVFbRPoTTs+HHHrj0A32YB3rnpejID54/YzI=
+	t=1767764687; cv=none; b=d5HFo6X5uJa2Wu9QBlgafCJQZW2XfWieH36yV9lPYZQZsZUE27yPJCldtIq5cMlLlS4IbS5GLyGBz5HVK0GLc3hV5+n1EzY43zeNU/zo/O8M7aWcJlbsVKWjnRneRx5NLSufmlNcYLgazG/6awVWtP08vsebjn3G4w9cLaWGTq8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767738005; c=relaxed/simple;
-	bh=kH4wZWzWsdqigHjtE42n66oZ9Jf3cM/78grSvpqE8qw=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=ZqX3ZhOAmekIr7ZzdfnyPAb3kWVO8hHFkYB3G6oUbDsEV7o51nQC6J8AbjV8AC9Qz/PQEnoLkoLnJUkHzZv0eH/lSmipW0EdtB2MZvz6Y7IoEATOduBGSSB/gNI/C/JC2A9QEElllhu9oc3vIFEnz0H0C4PeC1q7u1k8dg0bRnM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=B1nL42bw; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net BD99D40C7D
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1767738003; bh=FVwC2MMPmRThvcFd1SPXhNOi5Ew/zUgGmd8itNypsK8=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=B1nL42bwEhVj2Y5exnXoJrRoGGmEpkzFEShc8Byu/GmF8kc5gO1futUQYfrkrKFxp
-	 cgEBqBDXDDlM08P9hpY80W4A7MlcURfVyqDZhxowbb7QGJuXbXT9hzjyZQoi4hKSiu
-	 uoG1veZt9N/nOyXncsB06kBowz+htvH+4XjLFb5K3cFcPcHxGKtu15Y8LhwMNH0XUX
-	 WnsXD00reX+kAuPdE3NJS/HRgm8FUyVYJIfJW1y1QX4BiWGXZ4P5phjlNGldGX+K+I
-	 i9evE8QrbKUoDhvfTZgoxBHuoI2PrQk2UDm8rwmwwdJLoQnHqdlCfxWue8+kKTv6oy
-	 652aKDRO9vx9A==
-Received: from localhost (c-71-229-227-126.hsd1.co.comcast.net [71.229.227.126])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id BD99D40C7D;
-	Tue,  6 Jan 2026 22:20:03 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Wu Canhong <canhong12@163.com>, dmitry.torokhov@gmail.com
-Cc: linux-input@vger.kernel.org, linux-doc@vger.kernel.org, canhong12@163.com
-Subject: Re: [PATCH] doc: input: fix typos in input.rst
-In-Reply-To: <20251226160219.64818-1-canhong12@163.com>
-References: <20251226160219.64818-1-canhong12@163.com>
-Date: Tue, 06 Jan 2026 15:20:03 -0700
-Message-ID: <87pl7mbcz0.fsf@trenco.lwn.net>
+	s=arc-20240116; t=1767764687; c=relaxed/simple;
+	bh=haNhdRLJ8rg+s+oRKwf7pxoUXwkwgt+TyoeMykHfYTc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jdxSD0J09m22QMD6HQbibQ6rIZNGOoF38Jo7590jzgnnabnWsTQpKHKdSqagcF8kfS0lCXEWgKFH7IZlcgMA5R9RlDm2/vO5FOz7vLZmv1Scv6TXqyERRRa+1TWJjBhP9xVjj1uEa3YXh4x/SPgkl5pfGoeiW0AfwaFiFK5YhMo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=altimeter.info; spf=pass smtp.mailfrom=altimeter.info; dkim=pass (1024-bit key) header.d=altimeter.info header.i=@altimeter.info header.b=RO6OQFcT; arc=none smtp.client-ip=35.82.102.206
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=altimeter.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=altimeter.info
+Received: from altimeter-info (unknown [45.55.225.183])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(Client did not present a certificate)
+	(Authenticated sender: linux-kernel@altimeter.info)
+	by hognose1.porkbun.com (Postfix) with ESMTPSA id DF748475C76;
+	Wed,  7 Jan 2026 05:44:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=altimeter.info;
+	s=default; t=1767764679;
+	bh=haNhdRLJ8rg+s+oRKwf7pxoUXwkwgt+TyoeMykHfYTc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=RO6OQFcTokqWzAhI2qrbmbt4RLDzhVG6lBEAw0dvEn2pJDoln03LZyUCn7HsguwBJ
+	 +G3QxJp7qVQEOXZBuhGWF6XLwcPZR9EVdrQg9Ya+ZKjFWixHj/za1YoFwnOGxKkduL
+	 Q2rYJ5qvDN8l1ptTb0LBKcwUvnD0CcPttIQ57YTI=
+Date: Wed, 7 Jan 2026 05:44:36 +0000
+From: Ivan Gorinov <linux-kernel@altimeter.info>
+To: Tomasz =?utf-8?Q?Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>
+Cc: dmitry.torokhov@gmail.com, corbet@lwn.net, jikos@kernel.org,
+	bentiss@kernel.org, linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	vi@endrift.com, peter.hutterer@who-t.net
+Subject: Re: [RFC PATCH 0/6] Input: New EV_BTN event for generic buttons
+Message-ID: <20260107054436.GA30968@altimeter-info>
+References: <20260104213132.163904-1-tomasz.pakula.oficjalny@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260104213132.163904-1-tomasz.pakula.oficjalny@gmail.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 
-Wu Canhong <canhong12@163.com> writes:
+On Sun, Jan 04, 2026 at 10:31:26PM +0100, Tomasz Pakuła wrote:
 
-> 'even codes' should be 'event codes' at the end of input.rst
->
-> Signed-off-by: Wu Canhong <canhong12@163.com>
-> ---
->  Documentation/input/input.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/Documentation/input/input.rst b/Documentation/input/input.rst
-> index d9a6de87d02d..7bbda39d8ac2 100644
-> --- a/Documentation/input/input.rst
-> +++ b/Documentation/input/input.rst
-> @@ -278,4 +278,4 @@ list is in include/uapi/linux/input-event-codes.h.
->  EV_REL, absolute new value for EV_ABS (joysticks ...), or 0 for EV_KEY for
->  release, 1 for keypress and 2 for autorepeat.
->  
-> -See :ref:`input-event-codes` for more information about various even codes.
-> +See :ref:`input-event-codes` for more information about various event codes.
-> -- 
+> I'm eagerly waiting for comments, recommendations and critique. Currently, there
+> isn't a way to poll states of all buttons like with EVIOCGKEY but I'm not sure
+> if it's needed? I added INPUT_MAX_KEYS just for some sane limits BUT I don't see
+> a real use for it. Instead of this define, we could just use U16_MAX. 65k of
+> buttons ought to be enough for ANYBODY :D
 
-Applied, thanks.
+If I understand correctly, EVIOCGKEY is the only way to read initial state of buttons
+and switches when the input device is opened with /dev/input/event# interface.
 
-jon
+Legacy /dev/input/js# interface sends those initial states immediately after openeing
+as JS_EVENT_BUTTON | JS_EVENT_INIT event type.
 
