@@ -1,138 +1,164 @@
-Return-Path: <linux-input+bounces-16810-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16811-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60B10CFD36A
-	for <lists+linux-input@lfdr.de>; Wed, 07 Jan 2026 11:38:19 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F388CFD3C1
+	for <lists+linux-input@lfdr.de>; Wed, 07 Jan 2026 11:42:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id AFA983119CFC
-	for <lists+linux-input@lfdr.de>; Wed,  7 Jan 2026 10:31:14 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 5BF2A300E456
+	for <lists+linux-input@lfdr.de>; Wed,  7 Jan 2026 10:42:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 967061E515;
-	Wed,  7 Jan 2026 10:24:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A519330655;
+	Wed,  7 Jan 2026 10:42:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="YaphE1YY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b1ByYqGH"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF2B02E7657
-	for <linux-input@vger.kernel.org>; Wed,  7 Jan 2026 10:24:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8742533032C;
+	Wed,  7 Jan 2026 10:42:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767781483; cv=none; b=XDlBNh/p33vPmOE6udVYdNMG9ITh/ZateMH5x/QQsz0p5HTYHwIuhnGOHuuWWZMXiCZrApVDlRX2N5v0HAdPWjuOWy6Nuh+d7F3xRx7bqIwZhT7QJJGd4l7tqPBWBxo6hrhbfTUpL7vMWteuA0iKlzVTPQyL0uRLaCzAOMja8XI=
+	t=1767782574; cv=none; b=o/eaYoPNPEqgZ+JwiT/IdQgcshlxs/q5utcG61Xc9r+ffJtzOmaNUNwNBgKSD6euQ/AqGQB8uW6cxAoxLNX6cWHPc7TByZEfin32qH0uYSZLv6HrQ0aPgeD2CVTebjqo8abBNUnDttmVK7GXbrdOpuae856d0nsW+HAxgWgSHus=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767781483; c=relaxed/simple;
-	bh=RU676P3TvU0swoFzAWorS8H0cptCGiCBmBQZLWScomk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZwTxijvalopHcERP6Kqz4urQIEypzB+g6aVyF/yT13bu/Za8qTWdvscRWpfENTw+H1yjI6v+cgngbjg6NoxGyCh4ZpFNIQ8/MxsggPZZymWY9Y3t7u30PpSvQa6itAqy1ttTGaUFu4hyMcj6csM0vILqU9gKaZGfBsIRtl8/xMI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=YaphE1YY; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-47aa03d3326so15854035e9.3
-        for <linux-input@vger.kernel.org>; Wed, 07 Jan 2026 02:24:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1767781480; x=1768386280; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=AK2Gg8unTsWO3CwKx4f9Ov3gr2i0DpoldAAWtOWz2w0=;
-        b=YaphE1YY0YNYnR30Ev6vb+Db7WqxbNcgWezK6VBjVTnh7+5F+MkC4sr+khDNbwdxQ5
-         +gioT+7P3ShwsUG2Takob/CqnzwIK0SS9jwWFZ/zhneBHmc79q2B7DAeL5RklvoxrXbf
-         +yWFgminR1DvzSnr7mI1p86lWHKaYUFndgUbw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767781480; x=1768386280;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=AK2Gg8unTsWO3CwKx4f9Ov3gr2i0DpoldAAWtOWz2w0=;
-        b=t0awMzE1kEcGa0H9nSQuGAj5rVrGSFk7sQsLG33mMbyhNIZyfuSiI+U8V8T9FkBDG5
-         HHokUl1C4KzDBqdbSJcIc+1WsMdJEna9jJNoY6alcbyA90GPcwqJyUjbveAT1Utg8ctP
-         FgDK4/vaLxj89Xw5XRfHod2QZuEWAkLEQxT3MfSm1o5sjMd0Lhj49hLfhl9y8wkTGMMw
-         zWKdatjFDISY+lUFxoqM+E2eQ2LcuTOTBxQmMg9nCFTXNFfmcgnORmuyW2OgTJZWmJPT
-         pYYcTq4EsE9G+Y7OuAtck8CEyVwYS3Frz0E6r3uvddh1tplpX9gko7efA5nrG8QOYbR2
-         HHVg==
-X-Forwarded-Encrypted: i=1; AJvYcCXKKFRJqiC7fWn1LJE25MGF9UljrKszDH+21c2AbVOhDnR7PYW5syx1q9QYMqRJyxCZ2wGr2GLMBw9heQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzyCYcCL8KSNRQlvgiRoHycq3Pe+xCJvKcW/hUUkmwi8I/c16tF
-	8WJwR55dYiMQz6YoF7o8WZBcV2uBzW/b517r6nBxqfzD6UMnGic/vQHgM9hl0aWoDA==
-X-Gm-Gg: AY/fxX54RJ/o6zT2V042QGmGbakV75xpZj17uVUQqC2nGw/pmuXi0E3h7KVvadk0qmM
-	nV9VBkod557nr13u2gH13WzEWq0R+/P1Q5RVuejA90YFA5LhewZ6GIGx8H818I1EQx7KCYcUH2e
-	ENL14yFoyKTqmTMqgex3jxiC1mQkWeqqRV8xUSIEhlC3LLZRx21kE0eBBS11nUk48GbBXNs0ZhU
-	cXqJM7FyssjizuOB+NbG8BDSA3FL/FzddzWbaNq8lbf36X7GFOaZPOZsPS/3L6FHM1T6N2hIB2F
-	ptCv4Q6yoR4M6HKLWQeWPJUJpaSjsu5zszVD2EKqmIUyfl4Qu6e+CB3zAzKMCbAULGyGuRcIXP7
-	VnHoCB3Xs3NsW9CCecEoKkz5C3amkPZq0jabPk/FYNJP4wsGVAyPWWRFLMrgDHpfHFpSanF5Lbi
-	o6r4/B4mW7IFdzdf8ImZHg1GboFnXz
-X-Google-Smtp-Source: AGHT+IELXErZD8ru3w6x43TKd1f8wm86x+ymI62qEzqJdcBMa1KawoY4byUO5aTYAhFJUs8vu9rlqQ==
-X-Received: by 2002:a05:600c:19cc:b0:47a:7fd0:9f01 with SMTP id 5b1f17b1804b1-47d84b21227mr24311245e9.16.1767781480359;
-        Wed, 07 Jan 2026 02:24:40 -0800 (PST)
-Received: from google.com ([37.228.206.31])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47d7f653c78sm93239545e9.11.2026.01.07.02.24.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Jan 2026 02:24:39 -0800 (PST)
-Date: Wed, 7 Jan 2026 10:24:37 +0000
-From: Fabio Baltieri <fabiobaltieri@chromium.org>
-To: Simon Glass <sjg@chromium.org>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>, linux-input@vger.kernel.org,
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 1/1] Input: cros_ec_keyb - add function key support
-Message-ID: <aV40ZQRNh11zAtFz@google.com>
-References: <20260106112953.692304-1-fabiobaltieri@chromium.org>
- <20260106112953.692304-2-fabiobaltieri@chromium.org>
- <CAFLszTgMeRRi_=Bs6wzdZZGDn9DbmnZEdkbqPOhi0rqDs7DnPQ@mail.gmail.com>
+	s=arc-20240116; t=1767782574; c=relaxed/simple;
+	bh=G+WEhemUuhro8Yq/RD1cv/X+PTtpGZrecmSFETALep0=;
+	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=fnOptTKN95JhHmLVJ/CxDsup38zkN0YqkeGHZYnLQ6BQi2QtWuboRomefBAEHMPE44p241wUDweu3oDZtfci+hynUDuZbrDlJlyM1M7GJXZCV/oO/jwDR+pO6ACVp8iIh6vhiMcWLxnVSCVoSfXUHZdpClBKFiNZbtQJBx7EyNQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b1ByYqGH; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1767782572; x=1799318572;
+  h=from:date:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=G+WEhemUuhro8Yq/RD1cv/X+PTtpGZrecmSFETALep0=;
+  b=b1ByYqGHLuzoilWGxMuD0D7wylno1bGjq3L4R90iwBLITsqTRKP4D7f+
+   YOZ+oiCEVtW+Fu4qXNI1Jg2ocPSxQ4ND6kR1p+5YS4uBiCfPApeDZV7Hf
+   bisvgSex5a3+6gDWdXN/xsQ0aKEmgOiZw/3MnnzSIvx2u34IoAlvZQGpZ
+   ewLS9daLzMoLAxcWIXKb7MijQKH0UWxrMyZLg1fYmw1lJ1C3IHHcGi0Xj
+   1GR3MxjiwFA7t/ZjSTewU3N+ALCct0VplROLAEZl4NomKEK22vGhH6+zt
+   7fJBjMm158siuoGa7jd+Ce7GfPPr6+C63RPElssUOieR4Fj7n1mfVCcnp
+   w==;
+X-CSE-ConnectionGUID: 15gFK/44SOuosQ5KaCdxbg==
+X-CSE-MsgGUID: NnGupNIyQqmHa/YLebMAIg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11663"; a="91807915"
+X-IronPort-AV: E=Sophos;i="6.21,207,1763452800"; 
+   d="scan'208";a="91807915"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2026 02:42:51 -0800
+X-CSE-ConnectionGUID: 2P0x2dTmTFO3nF/YKDUUfw==
+X-CSE-MsgGUID: SzZxd8HLRZy5RS1povJXYw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,207,1763452800"; 
+   d="scan'208";a="233599488"
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.88])
+  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2026 02:42:46 -0800
+From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Date: Wed, 7 Jan 2026 12:42:43 +0200 (EET)
+To: Antheas Kapenekakis <lkml@antheas.dev>, Kelsios <K3lsios@proton.me>
+cc: platform-driver-x86@vger.kernel.org, linux-input@vger.kernel.org, 
+    LKML <linux-kernel@vger.kernel.org>, Jiri Kosina <jikos@kernel.org>, 
+    Benjamin Tissoires <bentiss@kernel.org>, 
+    Corentin Chary <corentin.chary@gmail.com>, 
+    "Luke D . Jones" <luke@ljones.dev>, Hans de Goede <hansg@kernel.org>, 
+    Denis Benato <benato.denis96@gmail.com>
+Subject: Re: [PATCH v10 00/11] HID: asus: Fix ASUS ROG Laptop's Keyboard
+ backlight handling
+In-Reply-To: <CAGwozwFJfZ2ATVR+N4pwb0unsXOpJbThtefigrtax9iYcPto7A@mail.gmail.com>
+Message-ID: <d169655b-4e15-fab6-0ce8-7a6bfd6a47a5@linux.intel.com>
+References: <3ec43b6f-a284-4af7-bcae-8aee11929abb@proton.me> <CAGwozwEeZ5KKZWvhC1i-jS5Yike5gVeFK0yyu56L2-e5JvmsPQ@mail.gmail.com> <CAGwozwEud1-6GT=JHoG64f3NUXJ1-wFmWpotNK4s6b=m+1styw@mail.gmail.com> <1adcffd1-2381-654d-b9b5-966306758509@linux.intel.com>
+ <CAGwozwFJfZ2ATVR+N4pwb0unsXOpJbThtefigrtax9iYcPto7A@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAFLszTgMeRRi_=Bs6wzdZZGDn9DbmnZEdkbqPOhi0rqDs7DnPQ@mail.gmail.com>
+Content-Type: multipart/mixed; boundary="8323328-2098392125-1767782563=:977"
 
-On Tue, Jan 06, 2026 at 09:22:06AM -0700, Simon Glass wrote:
-> Hi Fabio,
-> 
-> On Tue, 6 Jan 2026 at 04:29, Fabio Baltieri <fabiobaltieri@chromium.org> wrote:
-> >
-> > Add support for handling an Fn button and sending separate keycodes for
-> > a subset of keys in the matrix defined in the upper half of the keymap.
-> >
-> > Signed-off-by: Fabio Baltieri <fabiobaltieri@chromium.org>
-> > ---
-> >  drivers/input/keyboard/cros_ec_keyb.c | 174 +++++++++++++++++++++++---
-> >  1 file changed, 158 insertions(+), 16 deletions(-)
-> >
-> 
-> Reviewed-by: Simon Glass <sjg@chromium.org>
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-Thanks again!
+--8323328-2098392125-1767782563=:977
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 
-> 
-> > diff --git a/drivers/input/keyboard/cros_ec_keyb.c b/drivers/input/keyboard/cros_ec_keyb.c
-> > index 1c6b0461dc35..74ac1700b104 100644
-> > --- a/drivers/input/keyboard/cros_ec_keyb.c
-> > +++ b/drivers/input/keyboard/cros_ec_keyb.c
-> > @@ -29,6 +29,11 @@
+On Tue, 9 Dec 2025, Antheas Kapenekakis wrote:
+> On Tue, 9 Dec 2025 at 10:17, Ilpo J=C3=A4rvinen
+> <ilpo.jarvinen@linux.intel.com> wrote:
+> > On Sat, 6 Dec 2025, Antheas Kapenekakis wrote:
+> > > On Sat, 6 Dec 2025 at 00:03, Antheas Kapenekakis <lkml@antheas.dev> w=
+rote:
+> > > > On Fri, 5 Dec 2025 at 23:13, Kelsios <K3lsios@proton.me> wrote:
+> > > > >
+> > > > > I would like to report a regression affecting keyboard backlight =
+brightness control on my ASUS ROG Zephyrus G16 (model GU605CW).
+> > > > >
+> > > > > Using kernel 6.17.9-arch1-1.1-g14 with the latest HID ASUS patchs=
+et v10, keyboard *color* control works correctly, but *brightness* control =
+no longer responds at all. The issue is reproducible on every boot. This pr=
+oblem is not present when using patchset v8, where both color and brightnes=
+s work as expected.
+> > > > >
+> > > > > Important detail: the issue occurs even **without** asusctl insta=
+lled, so it must be within the kernel HID/WMI handling and is unrelated to =
+userspace tools.
+> > > > >
+> > > > > Output of dmesg is available here [1], please let me know if any =
+additional information is required.
+> > > > >
+> > > > > Thank you for your time and work on supporting these ASUS laptops=
+=2E
+> > > > >
+> > > > > Best regards,
+> > > > > Kelsios
+> > > > >
+> > > > > [1] https://pastebin.com/ZFC13Scf
+> > > >
+> > > > [ 1.035986] asus 0003:0B05:19B6.0001: Asus failed to receive handsh=
+ake ack: -32
+> > > >
+> > > > Oh yeah, asus_kbd_init no longer works with spurious inits so it br=
+oke
+> > > > devices marked with QUIRK_ROG_NKEY_LEGACY
+> > > >
+> > > > There are three ways to approach this. One is to ignore the error..=
+=2E
+> > > > second is to drop the quirk... third is to check for the usages for=
+ ID1, ID2...
+> > > >
+> > > > I would tend towards dropping the ID2 init and ignoring the error f=
+or
+> > > > ID1... Unless an EPIPE would cause the device to close
+> > >
+> > > Benjamin correctly caught the deviation
 > >
-> >  #include <linux/unaligned.h>
-> >
-> > +/* Maximum size of the normal key matrix, this is limited by the host command
-> > + * key_matrix field defined in ec_response_get_next_data_v3
-> > + */
-> > +#define CROS_EC_KEYBOARD_COLS_MAX 18
-> > +
-> >  /**
-> >   * struct cros_ec_keyb - Structure representing EC keyboard device
-> >   *
-> > @@ -44,6 +49,11 @@
-> >   * @bs_idev: The input device for non-matrix buttons and switches (or NULL).
-> >   * @notifier: interrupt event notifier for transport devices
-> >   * @vdata: vivaldi function row data
-> > + * @has_fn_map: whether the driver use an fn function map layer
-> 
-> How about: driver uses an fn function-map layer
+> > BTW, we want to record this knowledge also into the changelog so that t=
+he
+> > next person who'd want to make the check stricter does not need to gues=
+s
+> > whether it was based on a real observed problem or mere guessing there
+> > could be a problem.
+>=20
+> If we keep the spurious inits, the stricter check will catch them and
+> throw errors. This is problematic.
+>=20
+> Kelsios, you have a device that allegedly would not work without those
+> inits. Perhaps you could try removing the legacy quirk from your
+> device and see if everything is ok?
+>=20
+> If it is, then we have a tested device and a case for removing the
+> legacy quirk altogether
 
-Yeah sounds good, will send a v5 with that comment tweaked.
+Hi all,
+
+Is there any progress on this?
+
+--=20
+ i.
+
+--8323328-2098392125-1767782563=:977--
 
