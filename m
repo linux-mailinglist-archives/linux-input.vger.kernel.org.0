@@ -1,77 +1,77 @@
-Return-Path: <linux-input+bounces-16842-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16843-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EF84CFEA67
-	for <lists+linux-input@lfdr.de>; Wed, 07 Jan 2026 16:43:28 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id E537ECFEAD6
+	for <lists+linux-input@lfdr.de>; Wed, 07 Jan 2026 16:49:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 51BF7301BCFE
-	for <lists+linux-input@lfdr.de>; Wed,  7 Jan 2026 15:42:44 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 03A8C3081113
+	for <lists+linux-input@lfdr.de>; Wed,  7 Jan 2026 15:42:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E9DF738B99C;
-	Wed,  7 Jan 2026 15:42:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5F12A38B99B;
+	Wed,  7 Jan 2026 15:42:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mhaW/JjJ"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TR6BiNHZ"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A4DC38B999
-	for <linux-input@vger.kernel.org>; Wed,  7 Jan 2026 15:42:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A402938B99A
+	for <linux-input@vger.kernel.org>; Wed,  7 Jan 2026 15:42:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767800562; cv=none; b=u6+GY7WABgyJlsf4Rpyi+ZbG+BwJVsSoojHqobvhvuaPL5uYpNZmUQy37F9zoZuNQ7X11VYJczcF8TvOMlzchethybnRbjdBiXSyqGGnlmx4m2tB9fzyp6YI5vpz/EsalZ40eH4vw0r1vpLJ+EBw2s4iMN51xq+f6ykkHTAIJ3w=
+	t=1767800571; cv=none; b=FYwHpa4BlHVAnGc4qLw5xmnl4J/amG6zYj9t0qwysVgl3eDQpHFYKMbr0l+Ti/sYhBqQJkDiA8WH4GlidIZdML7wmCmBqKXUYoolxeui/7F55mec9KnKUw4B3do/RqtsYxuIVJTIYvH8r8DCU1N1iIxv3iom3f18Dv747BfoMPw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767800562; c=relaxed/simple;
-	bh=nS6pktisk1hD3TU7J6j1xKmwIjoYqBmyrao11F/mGbc=;
+	s=arc-20240116; t=1767800571; c=relaxed/simple;
+	bh=QA1UL/S5jJ1ZUknddi/FOJm1WzobzTiZU88KEGULpt8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=GkP0fEvtGCX78asGMC7UUqhACRu90ZwR0b1d+FRpKRUcHQqvC/fG1+a2sWNueKU2xQdaomIxjgzjQFtdEU1JDkstYmcDkXP9gHlmmwF08HH+qAg3RsRqOHNSls0zzpQYXTIyp8ESSGO4ZjL6giNMM8ooXP9395ycMF+YSZ8GUnY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mhaW/JjJ; arc=none smtp.client-ip=209.85.128.48
+	 MIME-Version; b=qd5Y/qiq3EkFB3U6ZjWrBw3LGvhqhlFAlGPoCGeaGAz0flH79rsaCnbQuhYfEfavRukwVPsIQyOS06nQK7zv0V22rG+rS1aNO5kOVqC79BXDUSs0dEKms01wk3vhr7n0vsePv7vPhVHiIx4jVhyIDj9H2EiP0OpB1esvarj33zI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TR6BiNHZ; arc=none smtp.client-ip=209.85.221.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-47d3ffb0f44so14771125e9.3
-        for <linux-input@vger.kernel.org>; Wed, 07 Jan 2026 07:42:41 -0800 (PST)
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-4327778df7fso1304250f8f.3
+        for <linux-input@vger.kernel.org>; Wed, 07 Jan 2026 07:42:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767800560; x=1768405360; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1767800568; x=1768405368; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Q1iAxTFSQoTWeJxaL1NW0AepzE1fhDVEkVj9Fn+hGno=;
-        b=mhaW/JjJEgncpb2EtHM6aUrI1FsbJDSFMB6o2JpLx8PRr1PdmgSMMEwY4K4K7tpnmE
-         RZ+4YGdZjXP1PfnZSGRXfGIICRLF8gXsKcNACWAxwa6tO6vOL5ya32QYvbte3CJVGd4l
-         IBdJoUQ9HJyo8WqPiGXZax58XleGnfE2/o80CVaWK2rbZud+s52QjY2miM6r+s8q3wIP
-         AZres6aL+i81e9mu929JmZVl7X097EGc78kreDY4UhcUksaxYxF78ZDw93UXoQ5GNNn2
-         uL/hAmWKEsqXL2WkdL3BgT1/ZsIT4mgUlWn6wSahqgIXvxCk1LM9nblOF1MO+0MN5Lqk
-         hqGg==
+        bh=aUF3d7YHbibnTwOkio7fbPwxM6xch+CyKh0nAQoNa8g=;
+        b=TR6BiNHZwW+dmfSFk0wXjWwawH/qTHxl6LoHOKFjo3jDrlx4VW9eXBDgAIxjfrrQRj
+         TDQZUdn5CnVIpixFt0rC7mc2WbK3tjryfXRFsoHRWZXJHcPf1DihiVkuGhwyqGnIYzr0
+         A80JjwRgguvWpWaqEmzpVgdgLMxlNTkR+4ghR00IhniNxvs8tRJRPdsPtvsPnHiKaOK4
+         V7UFBtYPrtpXXG212NhEA6Vl6v7ikSKj71TsG7OJjfpa3h89lY0XwfuGFTGi8PEN/hbe
+         j9zIYtBt2GSFeSE+7YIMhnhrpZ8HP2DTg/1oDRUKldaIJIQzWKOo8UQw6+pPYpJBo0dX
+         ck3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767800560; x=1768405360;
+        d=1e100.net; s=20230601; t=1767800568; x=1768405368;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=Q1iAxTFSQoTWeJxaL1NW0AepzE1fhDVEkVj9Fn+hGno=;
-        b=p4CrK0EkDUZ7hBDlse/loSDGijZtLFmd58DHYtH2a4G7i3PFD+wXkMoIdzx6mILPbc
-         tubXkAKjvWXlJbDljWA1uZRfdkPbnZIjU34t6xV1EcItS+y1EGHTz0gerT6YUOmh7G8j
-         ZSw1ZNsuArQpC+boUSo4EMGpgoE9HIKKggQz6WzauSTyPdtsUNDnT7bCNOxWcnN6KOvg
-         7fLRXUQXYCtlqZhGmCg5DLknhmq6P+vK5rVaXFb2MLz1bVIO8RBIY+GAyqGLbi9TM4fx
-         Lgl5owasLikajz0882ijzNG9MVFXwCSYPWcQvNVyIHFpSzlzQ+b/wQ2BJRkhieihgdXZ
-         rYYw==
-X-Forwarded-Encrypted: i=1; AJvYcCWSTbRXFDIVT+k52fyKxt0RX1Hblnt5aNsnonuKDoBY+6F4Z9NrFGSIY8THbrbgPZIaR9KzL4EWrZ7Ykg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyx8kc/GrER2itnOiqyCFdY2U9IgfmJXzSJvUp04OW69B5mSbN6
-	XIBoOIdTc8botcCbP1JzTsAGsjisbSeayYYp3y+aE4fTmePaOVd0C+k7
-X-Gm-Gg: AY/fxX7+XUWpAj6QzaVJmEJYHqcheVZ5Bm9Td0X1tuurueEyArhKARd8Pqyrd7St3hN
-	z7Ku+KUv/s//hK+ceyZ1naBTGQpCPuMHjKrl37dzGTt8grCRNIoCb7g1fwiO3dvW2pAWC2S52MF
-	QAGHSYbqyiLTeeCR9lSh2BAzaZ4/OCe6hay3FDs1STxEIJ3Jl5SzHn6YKJYzpPqRBEiS1ma1XSA
-	IpcsdvL4MfNemk5Er5fXTvk0u74bQ75m3e53apuFHeXupyKmsv8Q+lxdtP106Kt13xAk+AhEwpK
-	/0cstE3sOZVduQDCoUYzQ6IU9ZgiSunfOWUvFjTVR3Cq8dZgJDY/Mv1XpuAZ2sbC0Q32Cy1J9o0
-	8xMzX7cjexUkOnqYjvy0w1sPnYPBfy9eelFtcSb+0AAU0DsZmZCfl4grIkHChWleiZP3dGegxT4
-	r/bwdnHfNrVS9ovn2Xr8ZjQ0JhNQo1BViOs/SQmLw=
-X-Google-Smtp-Source: AGHT+IHh42IGnipWJP03g++e9iDVeFqh1L0/fP1w53Z7LZVenjO5qsb70T0wsEsiWCzhWLqMbCV5Qw==
-X-Received: by 2002:a05:600c:3556:b0:477:6374:6347 with SMTP id 5b1f17b1804b1-47d84b3bb18mr35807725e9.22.1767800559530;
-        Wed, 07 Jan 2026 07:42:39 -0800 (PST)
+        bh=aUF3d7YHbibnTwOkio7fbPwxM6xch+CyKh0nAQoNa8g=;
+        b=mpRG+LruQj+hO5ylwQgQ2DPxod1FGaqqUQeQpJSVU7VWoyH7wsQBijc9B7OHufyhSW
+         aSPgp2tU5+CZisnYH2wV2GGVYyvokG0yiqRJIAy5yBG10x6xCwjCBs186/DWoau2teIn
+         xzu4Z0GaChryMJAwJlqDNJ3H7m4MfejIuK8Lgay9nAf/YE1vlgdsVHEIr5v6bN3QZgWQ
+         t4guQ6Jgm3dR8i8oy+si3ZosuTQJBSF9LqL+GeNqYWH0e15gJivTOjM1csXCVjN05zQw
+         9JRtE9dbuvLtqKRZcFISapUlrWSxL++bPGRKI3TJQWwhM57p3dscO7mgfD4RZClAzm8G
+         iBrQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXq7kUvS0eM1SaMf/1J35r5xCqP4PhAYPv0ZfSDvUHC1QRf2TNK2lauIIBdEvUuY/X2zGtND/U/4QhlAA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyYBUZ1y9LXEwhvEPHcUZ5jwRg1AzQGDNIeeVhh0W24Y36QqxFy
+	FQ7ncx5oW5NMVdLGvVL23dN2K10G6n3QHqFNug1UBzPfxcmCkHbO3rvxbTJcTQ==
+X-Gm-Gg: AY/fxX5FDx0l0P6NKS9RLhcRce2Ww/+Yo6Zqg2YNrYiNsPdOTqQW2/MO6oaeTnBcYMk
+	XD6SNa3occskcMxXcwIFkmHrCW88ag32fcCE6k+ehirIPh6BQfO3hsk+mjBAnfmz4Ljwhpr8ZLA
+	ShAF+PnhtQwrAgbej1GYsxLP92H/DwGIO3tFIBuuWyivSgPerxd1qypCjOH39Xp6qEXzXGQihkd
+	Ybmat05mTqJpTSxnigHM9YRXrsNQa9uGVaRSNQiHwqviQ3vqzNLG8CP70lfzKLjvtAqUODnXwdl
+	qrb5BES3yMe0NPXdq7q2mi22WWbAhp3M9DQQBakJpQynBhcYBG1Oxpm0y+/BUwb8v63cWcWybCO
+	VXK6IaosPIt7wD0Qk1V5KnQSYdIpxZClTAcFHKStx+Sec8/CWZ26srevBuJBsJHcVa0loIKbiGM
+	Vzv5A/+qFf56ZAGkRN5tiIOeB7IHFY72+nlFgX7js=
+X-Google-Smtp-Source: AGHT+IFgjsof+vom+8Br6bX47ERmFdf62CBu0rmdTxo0GwiSnw/e03sCNN3LYXHNwfIDpxQZkCLs7g==
+X-Received: by 2002:a5d:64c7:0:b0:431:5ca:c1b0 with SMTP id ffacd0b85a97d-432c3628fd3mr3666484f8f.4.1767800567817;
+        Wed, 07 Jan 2026 07:42:47 -0800 (PST)
 Received: from ionutnechita-arz2022.local ([2a02:2f0e:ca09:7000:33fc:5cce:3767:6b22])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-432bd5ee243sm10897704f8f.31.2026.01.07.07.42.37
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-432bd5ee243sm10897704f8f.31.2026.01.07.07.42.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Jan 2026 07:42:38 -0800 (PST)
+        Wed, 07 Jan 2026 07:42:46 -0800 (PST)
 From: "Ionut Nechita (Sunlight Linux)" <sunlightlinux@gmail.com>
 To: benato.denis96@gmail.com,
 	jikos@kernel.org,
@@ -81,9 +81,9 @@ Cc: ionut_n2001@yahoo.com,
 	linux-kernel@vger.kernel.org,
 	sunlightlinux@gmail.com,
 	superm1@kernel.org
-Subject: [PATCH v5 1/4] HID: asus: Replace magic number with HID_UP_ASUSVENDOR constant
-Date: Wed,  7 Jan 2026 17:42:18 +0200
-Message-ID: <20260107154219.164514-4-sunlightlinux@gmail.com>
+Subject: [PATCH v5 2/4] HID: asus: Filter spurious HID vendor codes on ROG laptops
+Date: Wed,  7 Jan 2026 17:42:20 +0200
+Message-ID: <20260107154219.164514-6-sunlightlinux@gmail.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260107154219.164514-2-sunlightlinux@gmail.com>
 References: <20260107154219.164514-2-sunlightlinux@gmail.com>
@@ -97,29 +97,63 @@ Content-Transfer-Encoding: 8bit
 
 From: Ionut Nechita <ionut_n2001@yahoo.com>
 
-Use the existing HID_UP_ASUSVENDOR constant instead of the magic number
-0xff310000 for better code clarity and maintainability.
+On Asus ROG laptops, several HID vendor usage codes (0xea, 0xec, 0x02,
+0x8a, 0x9e) are sent during normal operation without a clear purpose,
+generating unwanted "Unmapped Asus vendor usagepage code" warnings in
+dmesg.
+
+Add definitions for these codes and filter them out in asus_raw_event()
+to prevent kernel log spam.
+
+Tested on Asus ROG series laptops.
 
 Reviewed-by: Denis Benato <benato.denis96@gmail.com>
 Reviewed-by: Mario Limonciello (AMD) <superm1@kernel.org>
 Signed-off-by: Ionut Nechita <ionut_n2001@yahoo.com>
 ---
- drivers/hid/hid-asus.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/hid/hid-asus.c | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
 
 diff --git a/drivers/hid/hid-asus.c b/drivers/hid/hid-asus.c
-index 472bca54642b9..eb14b9d13823b 100644
+index eb14b9d13823b..15c24d5812763 100644
 --- a/drivers/hid/hid-asus.c
 +++ b/drivers/hid/hid-asus.c
-@@ -317,7 +317,7 @@ static int asus_e1239t_event(struct asus_drvdata *drvdat, u8 *data, int size)
- static int asus_event(struct hid_device *hdev, struct hid_field *field,
- 		      struct hid_usage *usage, __s32 value)
- {
--	if ((usage->hid & HID_USAGE_PAGE) == 0xff310000 &&
-+	if ((usage->hid & HID_USAGE_PAGE) == HID_UP_ASUSVENDOR &&
- 	    (usage->hid & HID_USAGE) != 0x00 &&
- 	    (usage->hid & HID_USAGE) != 0xff && !usage->type) {
- 		hid_warn(hdev, "Unmapped Asus vendor usagepage code 0x%02x\n",
+@@ -57,6 +57,13 @@ MODULE_DESCRIPTION("Asus HID Keyboard and TouchPad");
+ #define ROG_ALLY_X_MIN_MCU 313
+ #define ROG_ALLY_MIN_MCU 319
+ 
++/* Spurious HID codes sent by QUIRK_ROG_NKEY_KEYBOARD devices */
++#define ASUS_SPURIOUS_CODE_0XEA 0xea
++#define ASUS_SPURIOUS_CODE_0XEC 0xec
++#define ASUS_SPURIOUS_CODE_0X02 0x02
++#define ASUS_SPURIOUS_CODE_0X8A 0x8a
++#define ASUS_SPURIOUS_CODE_0X9E 0x9e
++
+ #define SUPPORT_KBD_BACKLIGHT BIT(0)
+ 
+ #define MAX_TOUCH_MAJOR 8
+@@ -348,6 +355,21 @@ static int asus_raw_event(struct hid_device *hdev,
+ 	if (report->id == FEATURE_KBD_LED_REPORT_ID1 || report->id == FEATURE_KBD_LED_REPORT_ID2)
+ 		return -1;
+ 	if (drvdata->quirks & QUIRK_ROG_NKEY_KEYBOARD) {
++		/*
++		 * ASUS ROG laptops send these codes during normal operation
++		 * with no discernable reason. Filter them out to avoid
++		 * unmapped warning messages.
++		 */
++		if (report->id == FEATURE_KBD_REPORT_ID) {
++			if (data[1] == ASUS_SPURIOUS_CODE_0XEA ||
++			    data[1] == ASUS_SPURIOUS_CODE_0XEC ||
++			    data[1] == ASUS_SPURIOUS_CODE_0X02 ||
++			    data[1] == ASUS_SPURIOUS_CODE_0X8A ||
++			    data[1] == ASUS_SPURIOUS_CODE_0X9E) {
++				return -1;
++			}
++		}
++
+ 		/*
+ 		 * G713 and G733 send these codes on some keypresses, depending on
+ 		 * the key pressed it can trigger a shutdown event if not caught.
 -- 
 2.52.0
 
