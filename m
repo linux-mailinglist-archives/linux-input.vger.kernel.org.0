@@ -1,78 +1,78 @@
-Return-Path: <linux-input+bounces-16870-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16867-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78430D03E71
-	for <lists+linux-input@lfdr.de>; Thu, 08 Jan 2026 16:36:36 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id D7904D04382
+	for <lists+linux-input@lfdr.de>; Thu, 08 Jan 2026 17:12:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 34E8A3103A44
-	for <lists+linux-input@lfdr.de>; Thu,  8 Jan 2026 15:06:34 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id C804C31C21CC
+	for <lists+linux-input@lfdr.de>; Thu,  8 Jan 2026 15:56:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4305C3382C2;
-	Thu,  8 Jan 2026 10:07:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EC2923A7DF9;
+	Thu,  8 Jan 2026 09:56:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="auOAVVT6"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KDlZVLG6"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-vs1-f53.google.com (mail-vs1-f53.google.com [209.85.217.53])
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3466E3358B8
-	for <linux-input@vger.kernel.org>; Thu,  8 Jan 2026 10:07:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE052349B17
+	for <linux-input@vger.kernel.org>; Thu,  8 Jan 2026 09:56:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767866848; cv=none; b=KA7tPfpwkXe1yz2CWrbV3Dbv7SqtSuK6krkzWWyY9XwVCWdTP04vQkqN87sLG+paLD8R7WxzRFahz4viWhgIYElgPyy/ztGK2le3b5y5lz1FayYq/CGRzDFnVZIO0S/pMRBu/tHmfJkTz+U68xwDlEO21OZXAx20qyaJvy9zOMY=
+	t=1767866218; cv=none; b=bFTDtfZq2YHz3p3ctb/y4bhQWGw3kSfXUkU8sJKgq9RBBlwEvi0w52IpKpRFI2Tfg5Dbua2R2vvneE433s/WpebjyCjfIgEbmVGKyicI26xvwkr9PM1xpqa1gOSwEvci6J94owgdosgQMp13sN16G7hzp1JSTjMe6UcB83uguS4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767866848; c=relaxed/simple;
-	bh=v6KD22Dyx3+5ck20H0pl2sYgGNxEEsrVPo7bCwCkiBY=;
+	s=arc-20240116; t=1767866218; c=relaxed/simple;
+	bh=3n90BbXpZmo7/97SyvwdOM2dgbMwLekUvvzKLPzma1k=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=sc/NbmPXgrE8dTRwsXrhr43p+AVddKn1cYCCNBb/FxYV7ev1Tx+T3uSa7LV+3bOkda/J4xhrR+yn+I7/LPeZ+fVO9I3ucZOI25ZLV2j6iIep9zJryUFg8V/qqElzi1lYtaaoSUNBaNTWzCkEtmrdQNfOhUxShwkZFsAtqFjvuOY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=auOAVVT6; arc=none smtp.client-ip=209.85.217.53
+	 MIME-Version; b=rRDJDcQKPTCP6VZ9d09cVBcLemzqbmueCHxjcRpDmIekxSBuPzfUHv171l6Lc/wdH4KWlTlslFOADhKR/R5JgFfFpqmjVmhS95MyZfRFLlaUW9KUHQwA0qplFbwTlZ4ZoG88pFYV1gMM7hKuHalGxL+kZwM5Lu2ZV36nK9BONT8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KDlZVLG6; arc=none smtp.client-ip=209.85.160.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vs1-f53.google.com with SMTP id ada2fe7eead31-5dfa9e34adbso2108506137.0
-        for <linux-input@vger.kernel.org>; Thu, 08 Jan 2026 02:07:24 -0800 (PST)
+Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-4ffc0ddefc4so9139201cf.3
+        for <linux-input@vger.kernel.org>; Thu, 08 Jan 2026 01:56:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767866843; x=1768471643; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1767866206; x=1768471006; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=kHhAP8tHFGp6R15hZZObJ523oYtuLJJxIs+qZwxX3g0=;
-        b=auOAVVT6hF8f4LxsCS7B/A2NEgx+8HpMgkcdfnTJmO2q0uCL6Qxyly7abUMPzX3Qd4
-         HIBoh7aiUxtKiRm/FlqJG0FcUQEF8okZhgp1quQVhspGwIHHm4f2CVD9QT9rqJQj5R1w
-         sSKxlhJDkf0SaF9jG2ZZCfUu+wkZB31S8EJ8uVIE2ZagwUmjahTyBAacXmk+iuwvxpFq
-         lgRAS5wr3RcEHgXDy283SufTW7A0dmJxmNwfrrxZ+l98rCaPH8fh3Mgqmv8mvyVWSzx3
-         /jVXp+OIqgi89oBUigiiFvjP1S/feEbWrNXUGNNM1k641FrYXtduJ+mCuKAHXb2pa3Fo
-         YbgA==
+        bh=3jVrer7foxeDXiFbFRi4WTYBqb7mxG96n3TZ489PhHs=;
+        b=KDlZVLG6HsYr9O5+/FDJwQ/Wz5bQfBoKXnEF1wi4RBjrqxMVklK+b33QZz1wPPLUUV
+         u/O2lijKZ1fHWsDl/MicqWjIDAYCz3+9VHEz/IEZQOzpvCaqokWuVVww4YSkj48+T5Ig
+         FgzX6niTQxDSvhb5sCk/FQHBpq1uCN2FZOa5eim9GWwgqbpL6QnXRFpZbmVDwH/xqGy+
+         2MJTacuUobfpST4/YsAp1/7xROTuDnloils1//eAXtWW4bcnENH3t8AI8t3Pbsx4Hey1
+         9ShoDlmcsyKy1Bm+mA/81cy58AfnXc2KKxHHG7eQc6bq3eWc+cA01JUJ80Zbd5+zmlLU
+         uQSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767866843; x=1768471643;
+        d=1e100.net; s=20230601; t=1767866206; x=1768471006;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=kHhAP8tHFGp6R15hZZObJ523oYtuLJJxIs+qZwxX3g0=;
-        b=OSzEgoTBUKYuRL1EcOhoUrHGu5HHE4c9ofK2cFqo6Ab9zvydz8zdSQ07p46rh3/vDi
-         UlPTFKxp3Pcl8JOqbXE/AZqmjsKD/cW2oakSQQ6EcM0ZpPqW9aNy4eOFs6/gzefSfs6v
-         pe3xRqZdpJa/JcQjffMzqG9ck9ixY2OyPkdAVLiT9XqFhCL6uti9Xr4MBpSDmBozB+5v
-         mSu2CvYum2sZNtupuVThDkGj2f4TR9ILCufzMmqdpT/rndb/B6lCQkx1SgFzEoIhnvCU
-         mcH4spR1Xil5pOzbyicSa07/O0uPvvIrgiYkDFpyec2pemCcYkxlzMEUvz6ijTHyJJWz
-         AyDg==
-X-Forwarded-Encrypted: i=1; AJvYcCUmexenEXYabHQlbpv5NWoWlTzirqlT782eQFY8l2HPVaLVbQ3BVsMLSm+3S3zJryZEvqPzW0dchRm4Zg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyRrqsqITwGLgeuTZU65z9q3Fge417gaFNObQ5f3kmapeSbOET/
-	yFezuwdiSJkxp6+81719T8wD89dicm8jkg8rKQF0uQZfwTIUeWIGn8RK
-X-Gm-Gg: AY/fxX7cpQe7eHai/GQEVHp1LfS2GKIxNAKookcg1tfrhQdvf2HEIqKQO2Qx4o8wNvN
-	sw0e7CknHBxa589ZsDPjJYPC8/L4Vj8A9Dt9eOSXt3Dp4hU24/xTqYx6E8RXmoBlcloy9aBD6MR
-	D46nppTS7y2tXRk6ROWzGMmLp3K5jc3SVCfA8A9HX/2G3wx096N8o/4MIeQLZ1gJRTwlP5kFObG
-	aONiE+Cahc1tXMHLo1scqmLfRELKn+ZPLfMOPIVbaoCp2GYk5YingZwls8KxZ8zntBlcEzl0+5Q
-	yi7zc/nUMJwweYaQIZbxSaJ3u1KgenLo2q+cbbT0DaUUY+G8e+hgdrPZ4NU8eClHwXyCDmyANUG
-	av1TA6O2aj0O5dJcqSVw4RlW1wC3XB3lLSX3pcCTytxjTAJv3ish4b2u54rGQ+VT0ZFu93YKZ2p
-	41hUkixrk8G8Q+iK/qFWPi0GrI6omOEpbz49uz5qYqgtVZitV2v1Yr5k3yZAjQngGGAD+zkC4M4
-	4XVfwduJnBsuLsFX1qQ+Ic/lJiXDY7V
-X-Google-Smtp-Source: AGHT+IExPvCC8KraIjBsVHGHYTjET3yJHc/BTBjFTEdV/VDXcghpuxPJ+uczZtlqCGmQQNa17ulZcQ==
-X-Received: by 2002:a05:6a00:288f:b0:81c:9f57:3090 with SMTP id d2e1a72fcca58-81c9f5766a8mr2451909b3a.24.1767859757241;
-        Thu, 08 Jan 2026 00:09:17 -0800 (PST)
+        bh=3jVrer7foxeDXiFbFRi4WTYBqb7mxG96n3TZ489PhHs=;
+        b=hPdX3jRpTTN/5cndJKK48wa2xuGRIVUj7ocILZzXWhdVA6oLko+9RpE4djQeGtWQr9
+         LphPNUA3ADgQrDGfc6B29FjM5PZon+PweMo4+3TyWsTvpDVG4KzOpoxrUJGpgy5kxffo
+         MJKcaGRjo/TWyMHssRw0uGB6QZrEhsMUqBmPj6U4qq1Y4UDL/ZdbDtikWGtUNu/26ukU
+         +SnzFY+GkulK6e/knoDv54L66k1Ymub0p9CKEEafDVKBQkGegTraqNeYwzm+ZEO1S8Sw
+         km2KmVILzizyL+mLII5Qr7jZSLYLNuQ1roftV6q6gMsMOVi53aslWiRiJG1hd7Hy+PE1
+         nhMA==
+X-Forwarded-Encrypted: i=1; AJvYcCX/oOYGg8iOHKWGy9HBADZUzrOZfRn6rycMwC5IsOHxsLFz2ib/57hBzEW7jLUZZ3cFbUbmO5TCaS8kYA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyLb6QNjCASVpjLiLciXtuo9lD90Zhw5DIt17v2qpnfiCjRUfRL
+	O4SXQWX1TBalXVOMDnYQCLFwC83gS1D8hDsK3wkuuYdQo7+4yOWu79MxEJ818g==
+X-Gm-Gg: AY/fxX6Ok0EpBBqYCI+ebxKjHa9i5vodyAitdGeQWf57jsTQwCMkcTel+z8UKsFd0/d
+	gOsYMiNhfMzsnD/LWE6Ex0XEWyGAATWgM1hA/Ks7useCZHuCg7V6J51MkqP6434T665jrDzLtE7
+	iPRz2rxbkj6ElLBkJ6N2c8Ec9H5VhZ70SVG64VBnNvsYxGe4BHMM30N7BtyU6gCF3G9Gp72e7YH
+	clH0/I+WLNwq44UFrNV/wHvRofFu9Mn+ChrDTgC1P5rdta7q7u5I9XnX1tAMXA8hvJOhdveGycj
+	nlAL1Xbj+bC/g2xKMuHo4yJ8HSLw4BDeLKZdhwL9YJbs6hVkKX/NRtuwbJvke2hPSlfEqNqugxo
+	lYhSuMnvNFjMpXzYqEm5SIszOTC2e/3wX/s/2v/VTu8SGAH9jRVTFTMO8aLIZe2ssvgDJiR1eho
+	5lupHe7qFXfULxPd90yMug9ZdzF0bFz8bAaP3/0ZVFyddTxt4hMlbexbmSJeh9Hjl69rNT9H2ao
+	sJnHAQO1eADMO1GscoLyjHXJTksQJ34
+X-Google-Smtp-Source: AGHT+IHrWmrWZovQhYEcCj3OW2qe/OMr35yE9xC18wSEU8hxPlfPFqonbAeAYlH/zyT0y2ccrqO9lw==
+X-Received: by 2002:a05:6a00:9085:b0:7e8:4471:8de with SMTP id d2e1a72fcca58-81b7fbc91b7mr5136728b3a.63.1767859762235;
+        Thu, 08 Jan 2026 00:09:22 -0800 (PST)
 Received: from visitorckw-work01.c.googlers.com.com (25.118.81.34.bc.googleusercontent.com. [34.81.118.25])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-819bafe991dsm6900582b3a.16.2026.01.08.00.09.13
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-819bafe991dsm6900582b3a.16.2026.01.08.00.09.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Jan 2026 00:09:16 -0800 (PST)
+        Thu, 08 Jan 2026 00:09:21 -0800 (PST)
 From: Kuan-Wei Chiu <visitorckw@gmail.com>
 To: airlied@gmail.com,
 	simona@ffwll.ch,
@@ -99,9 +99,9 @@ Cc: jserv@ccns.ncku.edu.tw,
 	linux-sound@vger.kernel.org,
 	krzysztof.kozlowski@oss.qualcomm.com,
 	Kuan-Wei Chiu <visitorckw@gmail.com>
-Subject: [PATCH v2 2/6] dt-bindings: misc: google,android-pipe: Convert to DT schema
-Date: Thu,  8 Jan 2026 08:08:32 +0000
-Message-ID: <20260108080836.3777829-3-visitorckw@gmail.com>
+Subject: [PATCH v2 3/6] dt-bindings: input: google,goldfish-events-keypad: Convert to DT schema
+Date: Thu,  8 Jan 2026 08:08:33 +0000
+Message-ID: <20260108080836.3777829-4-visitorckw@gmail.com>
 X-Mailer: git-send-email 2.52.0.457.g6b5491de43-goog
 In-Reply-To: <20260108080836.3777829-1-visitorckw@gmail.com>
 References: <20260108080836.3777829-1-visitorckw@gmail.com>
@@ -113,71 +113,72 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Convert the Android Goldfish QEMU Pipe binding to DT schema format.
-Move the file to the misc directory as it represents a miscellaneous
-communication device.
-Update the example node name to 'pipe' to comply with generic node
-naming standards and fix the mismatch between unit address and reg
-property in the original example.
+Convert the Android Goldfish Events Keypad binding to DT schema format.
+Move the file to the input directory to match the subsystem.
+Update the example node name to 'keypad' to comply with generic node
+naming standards.
 
 Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 ---
 Changes in v2:
-- None.
+- Add reference to input.yaml schema.
+- Change additionalProperties to unevaluatedProperties: false.
 
- .../devicetree/bindings/goldfish/pipe.txt     | 17 ---------
- .../bindings/misc/google,android-pipe.yaml    | 38 +++++++++++++++++++
- 2 files changed, 38 insertions(+), 17 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/goldfish/pipe.txt
- create mode 100644 Documentation/devicetree/bindings/misc/google,android-pipe.yaml
+ .../devicetree/bindings/goldfish/events.txt   | 17 --------
+ .../input/google,goldfish-events-keypad.yaml  | 41 +++++++++++++++++++
+ 2 files changed, 41 insertions(+), 17 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/goldfish/events.txt
+ create mode 100644 Documentation/devicetree/bindings/input/google,goldfish-events-keypad.yaml
 
-diff --git a/Documentation/devicetree/bindings/goldfish/pipe.txt b/Documentation/devicetree/bindings/goldfish/pipe.txt
+diff --git a/Documentation/devicetree/bindings/goldfish/events.txt b/Documentation/devicetree/bindings/goldfish/events.txt
 deleted file mode 100644
-index 5637ce701788..000000000000
---- a/Documentation/devicetree/bindings/goldfish/pipe.txt
+index 5babf46317a4..000000000000
+--- a/Documentation/devicetree/bindings/goldfish/events.txt
 +++ /dev/null
 @@ -1,17 +0,0 @@
--Android Goldfish QEMU Pipe
+-Android Goldfish Events Keypad
 -
--Android pipe virtual device generated by android emulator.
+-Android goldfish events keypad device generated by android emulator.
 -
 -Required properties:
 -
--- compatible : should contain "google,android-pipe" to match emulator
+-- compatible : should contain "google,goldfish-events-keypad" to match emulator
 -- reg        : <registers mapping>
 -- interrupts : <interrupt mapping>
 -
 -Example:
 -
--	android_pipe@a010000 {
--		compatible = "google,android-pipe";
--		reg = <ff018000 0x2000>;
--		interrupts = <0x12>;
+-	goldfish-events@9040000 {
+-		compatible = "google,goldfish-events-keypad";
+-		reg = <0x9040000 0x1000>;
+-		interrupts = <0x5>;
 -	};
-diff --git a/Documentation/devicetree/bindings/misc/google,android-pipe.yaml b/Documentation/devicetree/bindings/misc/google,android-pipe.yaml
+diff --git a/Documentation/devicetree/bindings/input/google,goldfish-events-keypad.yaml b/Documentation/devicetree/bindings/input/google,goldfish-events-keypad.yaml
 new file mode 100644
-index 000000000000..12b0cfc815e4
+index 000000000000..4d359c9be600
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/misc/google,android-pipe.yaml
-@@ -0,0 +1,38 @@
++++ b/Documentation/devicetree/bindings/input/google,goldfish-events-keypad.yaml
+@@ -0,0 +1,41 @@
 +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
 +%YAML 1.2
 +---
-+$id: http://devicetree.org/schemas/misc/google,android-pipe.yaml#
++$id: http://devicetree.org/schemas/input/google,goldfish-events-keypad.yaml#
 +$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+title: Android Goldfish QEMU Pipe
++title: Android Goldfish Events Keypad
 +
 +maintainers:
 +  - Kuan-Wei Chiu <visitorckw@gmail.com>
 +
++allOf:
++  - $ref: input.yaml#
++
 +description:
-+  Android QEMU pipe virtual device generated by Android emulator.
++  Android goldfish events keypad device generated by android emulator.
 +
 +properties:
 +  compatible:
-+    const: google,android-pipe
++    const: google,goldfish-events-keypad
 +
 +  reg:
 +    maxItems: 1
@@ -190,14 +191,14 @@ index 000000000000..12b0cfc815e4
 +  - reg
 +  - interrupts
 +
-+additionalProperties: false
++unevaluatedProperties: false
 +
 +examples:
 +  - |
-+    pipe@ff018000 {
-+        compatible = "google,android-pipe";
-+        reg = <0xff018000 0x2000>;
-+        interrupts = <0x12>;
++    keypad@9040000 {
++        compatible = "google,goldfish-events-keypad";
++        reg = <0x9040000 0x1000>;
++        interrupts = <0x5>;
 +    };
 -- 
 2.52.0.457.g6b5491de43-goog
