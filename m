@@ -1,46 +1,46 @@
-Return-Path: <linux-input+bounces-16879-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16880-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5724D0468A
-	for <lists+linux-input@lfdr.de>; Thu, 08 Jan 2026 17:33:26 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id BE3CFD04DDD
+	for <lists+linux-input@lfdr.de>; Thu, 08 Jan 2026 18:18:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 8C6B330E9630
-	for <lists+linux-input@lfdr.de>; Thu,  8 Jan 2026 16:11:49 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 7F2D43029D1D
+	for <lists+linux-input@lfdr.de>; Thu,  8 Jan 2026 16:17:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E3D431A256E;
-	Thu,  8 Jan 2026 16:11:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 04D36238D54;
+	Thu,  8 Jan 2026 16:17:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="TNkP2Ia6"
+	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="usdEGIyF"
 X-Original-To: linux-input@vger.kernel.org
 Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA4951D47B4;
-	Thu,  8 Jan 2026 16:11:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7D90221F20;
+	Thu,  8 Jan 2026 16:17:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767888706; cv=none; b=j/J4TIGPXQdWsl34v45s3/X1wAaxkyBzXufGid7FLWllzHWn4wXHxHt8d3pfVCB8agOACFL7K6iTlQW9Ew3DIRniIBM0K8JqnXoX3rWKwyTJPp0ZSu3pdKT9aYZrQYW4CrNof7joVzw+wxa1T84LQF4Oj3HrzcqaxbJjZvy74ds=
+	t=1767889048; cv=none; b=BEScDtAYQ5umuxWwd+W+4wW2fV+JD9VgA6b0u3PMxXUPGphKJCzZEAi/xTReEG4wfCCJw3d3knFqkkkhp00RK4cTxbGxLoqS4xzP1h6wceho4hA/j4ykMEBuvnIreK0nMIePPK5BPOwD+C4Oci5140S4CeUO+jo1ApDb2bZugZI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767888706; c=relaxed/simple;
-	bh=FIBOeoR3rht6Br+mUq6sa0ZYbLCHBbA0x3an6XFvSIw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=RLlabVpA5ogt5kVLOm54FvTeth855ITULtZF0qED++Y9EWz9m3YsD6ZeWwxUa2ZR1DnbKUSywkIZpud0ApoHdz4SKPVJPWI/MGlnh5hT2UD6CN0qfgpSVB/nPSDugJV/2O/dIz4PyPjhLStuxoTAMFznpsvYApjUNCuNX7n2C/E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=TNkP2Ia6; arc=none smtp.client-ip=157.90.84.7
+	s=arc-20240116; t=1767889048; c=relaxed/simple;
+	bh=1pIldXzZGuGQG0wQESuBdyKbwZdw0zr8GyXHuYaACbc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=L8/XCjrsIiMW+AVBU51n4rpHs3MqD+1hK1z9IiT2ChUOSBnZJFzgMFlxZx/ARajipxttHkmHG1KpFhvZopvIO6mT45jcJCYH0S07vuME8LkZIj9H6Wh1nNiC8m7DH0sbVn1zTqOKOK5BWqI0U6qx03dOQpjy2gdbmYygkxClzSk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=usdEGIyF; arc=none smtp.client-ip=157.90.84.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
 Received: from wse-pc.fritz.box (p5087823e.dip0.t-ipconnect.de [80.135.130.62])
 	(Authenticated sender: wse@tuxedocomputers.com)
-	by mail.tuxedocomputers.com (Postfix) with ESMTPA id 5D4322FC004D;
-	Thu,  8 Jan 2026 17:11:41 +0100 (CET)
+	by mail.tuxedocomputers.com (Postfix) with ESMTPA id D91E02FC0048;
+	Thu,  8 Jan 2026 17:08:00 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
-	s=default; t=1767888701;
+	s=default; t=1767888481;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding;
-	bh=dCcMYUGB8ydsfEX83JJQ0eW1z/na2h4ZUEtWKN4mDpI=;
-	b=TNkP2Ia6l+QjHvg9f2vAvjclRBhD6JY0EIRcR5ZRnPT2yXRySft6Cp08eIdj0uwe1YCP4f
-	e9vnxqUAcEipR0JjNk/x/h03r5Hrfj2+16HJ/OEfvEHoHJd+rcUkLM5wazjGxHWQQbTkb1
-	km5K1VPQbxIHNBLrgTQa26x/PilOGhw=
+	bh=wAVyRG/NF5xbgYkmGjxrENl/HutQGGuf7U2KdpgQGv4=;
+	b=usdEGIyFrq3Q4LmraGX8KsXNBpM1fQjS5v4AaRPcPu9SyqAq5/cSPnzh7coZN4CHlnuXcG
+	N8CoG8UtfCZj77TIrKfte90nlZCSgfPhMl6ugheMohQBHwP/4Vqgber3g+3DrCsIgUNXNT
+	7jZ4rr0erl/1BT0gklaooVFw/NKnJro=
 Authentication-Results: mail.tuxedocomputers.com;
 	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
 From: Werner Sembach <wse@tuxedocomputers.com>
@@ -49,9 +49,9 @@ To: Jiri Kosina <jikos@kernel.org>,
 Cc: Werner Sembach <wse@tuxedocomputers.com>,
 	linux-input@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v5] hid/hid-multitouch: Keep latency normal on deactivate for reactivation gesture
-Date: Thu,  8 Jan 2026 17:09:54 +0100
-Message-ID: <20260108161139.32681-1-wse@tuxedocomputers.com>
+Subject: [PATCH v4] hid/hid-multitouch: Keep latency normal on deactivate for reactivation gesture
+Date: Thu,  8 Jan 2026 17:05:34 +0100
+Message-ID: <20260108160742.31577-1-wse@tuxedocomputers.com>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
@@ -73,13 +73,12 @@ V1->V2: Use a quirk to narrow down the devices this is applied to.
 V2->V3: Fix this patch breaking touchpads on some devices.
         Add another device ID.
 V3->V4: Readd quirks formerly applied to the devices via the default class.
-V4->V5: Fix whitespace error.
 
  drivers/hid/hid-multitouch.c | 32 +++++++++++++++++++++++++++++---
  1 file changed, 29 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
-index 179dc316b4b51..62e7036806549 100644
+index 179dc316b4b51..9e4d89e56a351 100644
 --- a/drivers/hid/hid-multitouch.c
 +++ b/drivers/hid/hid-multitouch.c
 @@ -76,6 +76,7 @@ MODULE_LICENSE("GPL");
@@ -129,8 +128,8 @@ index 179dc316b4b51..62e7036806549 100644
  
  	if (td->is_haptic_touchpad && (td->mtclass.name == MT_CLS_WIN_8 ||
 -	    td->mtclass.name == MT_CLS_WIN_8_FORCE_MULTI_INPUT)) {
-+	    td->mtclass.name == MT_CLS_WIN_8_FORCE_MULTI_INPUT ||
-+	    td->mtclass.name == MT_CLS_WIN_8_KEEP_LATENCY_ON_CLOSE)) {
++		td->mtclass.name == MT_CLS_WIN_8_FORCE_MULTI_INPUT ||
++		td->mtclass.name == MT_CLS_WIN_8_KEEP_LATENCY_ON_CLOSE)) {
  		if (hid_haptic_input_configured(hdev, td->haptic, hi) == 0)
  			td->is_haptic_touchpad = false;
  	} else {
