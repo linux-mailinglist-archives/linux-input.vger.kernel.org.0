@@ -1,168 +1,136 @@
-Return-Path: <linux-input+bounces-16914-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16915-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55D04D0C556
-	for <lists+linux-input@lfdr.de>; Fri, 09 Jan 2026 22:36:58 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id B7A76D0C592
+	for <lists+linux-input@lfdr.de>; Fri, 09 Jan 2026 22:40:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 4893E3004BA9
-	for <lists+linux-input@lfdr.de>; Fri,  9 Jan 2026 21:34:19 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 13535304718C
+	for <lists+linux-input@lfdr.de>; Fri,  9 Jan 2026 21:39:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 97FA433C519;
-	Fri,  9 Jan 2026 21:34:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 383B833D6EC;
+	Fri,  9 Jan 2026 21:39:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GnQES+yn"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="SYXUhEP6"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-183.mta0.migadu.com (out-183.mta0.migadu.com [91.218.175.183])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7496C31B133;
-	Fri,  9 Jan 2026 21:34:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52EEA33DECB
+	for <linux-input@vger.kernel.org>; Fri,  9 Jan 2026 21:39:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767994458; cv=none; b=GeqSWS3P5+EmwQjHF7T3uzb9wCzCUob1Dr80HehnSEuLxDxVxuN6YS1oLNpW/lcK6XbneqZM+WS+BDmz5YqvRI8ESfKV75AAV42uaV8SmR2XcHw36zLx+0MNFjsAfgsCEF0XArsFK2/xonkL7W/4Bo+iZBQj/wrUxY1Lo+WBZSw=
+	t=1767994794; cv=none; b=kK2p2DU1dgBp4Qxkjp7B+dLIo9b3R5gEHsRWa/XIHl10DwEfYBVzwVR+ZPUw1IEUzQ/WpvexESnEZyK4Vg3I3EhyA/TH8DZq2i9/tRdJjKsY4Gxjn2XoH5u459dlhKCQ8i+GZK5FzWzvtkdFsRcWvn5q8xNm43filedvw+GV3Oo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767994458; c=relaxed/simple;
-	bh=O1z7mjpOke5bocjNdQ/DFQ2hI1k1t1Kx9JNBeNNHJ7o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=H/30fgmjwiDjGhq4dVjSHwexWAAmqVq9Wwml8Rmc8PuqKHjbAYxWBYdinonGQztoG5se/Zs8tJpaHCwGIkS/pwyAsPOL58MG8akuvknJlsGhPm2fCQbJPwjLJF5H70u66eK2d+17aEGODyXmmSHsjKzX68jafZMxHBPknHPXyxs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GnQES+yn; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63242C4CEF1;
-	Fri,  9 Jan 2026 21:34:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767994458;
-	bh=O1z7mjpOke5bocjNdQ/DFQ2hI1k1t1Kx9JNBeNNHJ7o=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=GnQES+ynIcoNO+2c0ex19j3XxEa7jMX3EeNFpMGM+9wPA8rHoBYZkT6+aA2A9nppW
-	 JVZp08hnesLU8y4d7iJZmWtrlgRnj+P7yOn7yWHhsyYQSCEDJ9gvFurxM49g/x52qk
-	 IRxJpvrQ9HRwbVIeg7l537i+inLmSM28NrI1/Rk8YFaApkJhgpH11VfxRZDaoGB8GP
-	 n0yN1sczxEIDiUsr8kKQccBrTLrFN9F7nB6yBKoKrlrMQA9pwGP8NRJXMnrXkBz7Vy
-	 VLLG4GBoIlLwf2pA9TENTe+Jr6SZKNMTDTwxNwMVHQ8vD5D5NJ+RkQyGzaUiWemspC
-	 e7GeuNK50snkg==
-Date: Fri, 9 Jan 2026 22:34:12 +0100
-From: Benjamin Tissoires <bentiss@kernel.org>
-To: Ihor Solodrai <ihor.solodrai@linux.dev>
-Cc: Alexei Starovoitov <ast@kernel.org>, 
-	Andrii Nakryiko <andrii@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman <eddyz87@gmail.com>, 
-	Mykyta Yatsenko <yatsenko@meta.com>, Tejun Heo <tj@kernel.org>, 
-	Alan Maguire <alan.maguire@oracle.com>, Jiri Kosina <jikos@kernel.org>, bpf@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-input@vger.kernel.org, sched-ext@lists.linux.dev
-Subject: Re: [PATCH bpf-next v1 07/10] HID: Use bpf_wq_set_callback kernel
- function
-Message-ID: <orvnpqolvwpbalpwcqp2izn5r2otkyikzk7jqbu6mynbizsm2b@iodguv7xvd3x>
-References: <20260109184852.1089786-1-ihor.solodrai@linux.dev>
- <20260109184852.1089786-8-ihor.solodrai@linux.dev>
+	s=arc-20240116; t=1767994794; c=relaxed/simple;
+	bh=2TONpOtiAdOpe+8CZmPigeyTFItzuphg78IHpEPQQHs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ZE0aj4WQU8semnjXAvsEHbTaIE/U2N/IMlekG7a9KGsEo6djkFzR1O2gEZkpOEIA0bHu/gScW+0xrYv/6Xqj6fXYumyIaCKjrKEGH5DQ4HIrOh5TqQsDGILos7lCDP/0OeejuTWxynb356Bjk1roOUjkKE8gT1Ca3XnA2B4GO0k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=SYXUhEP6; arc=none smtp.client-ip=91.218.175.183
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+Message-ID: <0c4d84ab-1725-45bc-9c1c-8bdc1f5fc032@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1767994787;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=c8tMXOnuAtuUkCGUZeluaJcBlvfdJrx3OeoezqVhGzw=;
+	b=SYXUhEP6bgYIYohlnrcLcTeFyL0VUkmM0y7cNjZ++hgvEHwXrEkf0CSCd9HSpCWa6edufR
+	HsQbysZJ5Wjg8UKxZmpxuBnY3j7x1QWctU2oBEIrLSCNaPoKkQXrQKaXZb7kMZcLQGbjLc
+	RmMAWKT9Jxcw+4/aIfQCJ4oaUmHaOvk=
+Date: Fri, 9 Jan 2026 13:39:40 -0800
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260109184852.1089786-8-ihor.solodrai@linux.dev>
+Subject: Re: [PATCH bpf-next v1 08/10] bpf: Add bpf_task_work_schedule_*
+ kfuncs with KF_IMPLICIT_ARGS
+To: Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Cc: Alexei Starovoitov <ast@kernel.org>, Andrii Nakryiko <andrii@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>,
+ Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
+ <eddyz87@gmail.com>, Mykyta Yatsenko <yatsenko@meta.com>,
+ Tejun Heo <tj@kernel.org>, Alan Maguire <alan.maguire@oracle.com>,
+ Benjamin Tissoires <bentiss@kernel.org>, Jiri Kosina <jikos@kernel.org>,
+ bpf <bpf@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
+ "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+ sched-ext@lists.linux.dev
+References: <20260109184852.1089786-1-ihor.solodrai@linux.dev>
+ <20260109184852.1089786-9-ihor.solodrai@linux.dev>
+ <CAADnVQJDv80_T+1jz=7_8y+8hRTjMqqkm38in2er8iRU-p9W+g@mail.gmail.com>
+ <b099a95e-5e69-4eeb-a2c9-9a52b8042a85@linux.dev>
+ <CAADnVQ+_AmiwuupkVJTGyKY3KOp68GLuivs2LMEr0M_yaHPUUg@mail.gmail.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Ihor Solodrai <ihor.solodrai@linux.dev>
+In-Reply-To: <CAADnVQ+_AmiwuupkVJTGyKY3KOp68GLuivs2LMEr0M_yaHPUUg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-On Jan 09 2026, Ihor Solodrai wrote:
-> Remove extern declaration of bpf_wq_set_callback_impl() from
-> hid_bpf_helpers.h and replace bpf_wq_set_callback macro with a
-> corresponding new declaration.
+On 1/9/26 12:47 PM, Alexei Starovoitov wrote:
+> On Fri, Jan 9, 2026 at 12:02 PM Ihor Solodrai <ihor.solodrai@linux.dev> wrote:
+>>
+>> On 1/9/26 11:58 AM, Alexei Starovoitov wrote:
+>>> On Fri, Jan 9, 2026 at 10:50 AM Ihor Solodrai <ihor.solodrai@linux.dev> wrote:
+>>>>
+>>>> +__bpf_kfunc int bpf_task_work_schedule_signal(struct task_struct *task, struct bpf_task_work *tw,
+>>>> +                                             void *map__map, bpf_task_work_callback_t callback,
+>>>> +                                             struct bpf_prog_aux *aux)
+>>>> +{
+>>>> +       return bpf_task_work_schedule(task, tw, map__map, callback, aux, TWA_SIGNAL);
+>>>> +}
+>>>> +
+>>>>  __bpf_kfunc int bpf_task_work_schedule_signal_impl(struct task_struct *task,
+>>>>                                                    struct bpf_task_work *tw, void *map__map,
+>>>>                                                    bpf_task_work_callback_t callback,
+>>>>                                                    void *aux__prog)
+>>>>  {
+>>>> -       return bpf_task_work_schedule(task, tw, map__map, callback, aux__prog, TWA_SIGNAL);
+>>>> +       return bpf_task_work_schedule_signal(task, tw, map__map, callback, aux__prog);
+>>>>  }
+>>>
+>>> I thought we decided that _impl() will not be marked as __bpf_kfunc
+>>> and will not be in BTF_ID(func, _impl).
+>>> We can mark it as __weak noinline and it will be in kallsyms.
+>>> That's all we need for the verifier and resolve_btfid, no?
+>>>
+>>> Sorry, it's been a long time. I must have forgotten something.
+>>
+>> For the *generated* _impl kfuncs there is no decl tags and the ids are
+>> absent from BTF_ID sets, yes.
+>>
+>> However for the "legacy" cases it must be there for backwards
+>> compatibility, as well as relevant verifier checks.
 > 
-> Fix selftests/hid build failure caused by missing BPF_CFLAGS.
-
-Already fixed in e03fb369b083 ("selftests/hid: fix bpf compilations due to -fms-extensions")
-
+> I see.
+> I feel bpf_task_work_schedule_resume() is ok to break, since it's so new.
+> We can remove bpf_task_work_schedule_[resume|singal]_impl()
+> to avoid carrying forward forever.
 > 
-> Tested with:
->   # append tools/testing/selftests/hid/config and build the kernel
->   $ make -C tools/testing/selftests/hid
->   # in built kernel
->   $ ./tools/testing/selftests/hid/hid_bpf -t test_multiply_events_wq
-> 
->   TAP version 13
->   1..1
->   # Starting 1 tests from 1 test cases.
->   #  RUN           hid_bpf.test_multiply_events_wq ...
->   [    2.575520] hid-generic 0003:0001:0A36.0001: hidraw0: USB HID v0.00 Device [test-uhid-device-138] on 138
->   #            OK  hid_bpf.test_multiply_events_wq
->   ok 1 hid_bpf.test_multiply_events_wq
->   # PASSED: 1 / 1 tests passed.
->   # Totals: pass:1 fail:0 xfail:0 xpass:0 skip:0 error:0
->   PASS
-> 
-> Signed-off-by: Ihor Solodrai <ihor.solodrai@linux.dev>
-> ---
->  drivers/hid/bpf/progs/hid_bpf_helpers.h             | 8 +++-----
->  tools/testing/selftests/hid/Makefile                | 4 +++-
->  tools/testing/selftests/hid/progs/hid_bpf_helpers.h | 8 +++-----
->  3 files changed, 9 insertions(+), 11 deletions(-)
-> 
-> diff --git a/drivers/hid/bpf/progs/hid_bpf_helpers.h b/drivers/hid/bpf/progs/hid_bpf_helpers.h
-> index bf19785a6b06..228f8d787567 100644
-> --- a/drivers/hid/bpf/progs/hid_bpf_helpers.h
-> +++ b/drivers/hid/bpf/progs/hid_bpf_helpers.h
-> @@ -33,11 +33,9 @@ extern int hid_bpf_try_input_report(struct hid_bpf_ctx *ctx,
->  /* bpf_wq implementation */
->  extern int bpf_wq_init(struct bpf_wq *wq, void *p__map, unsigned int flags) __weak __ksym;
->  extern int bpf_wq_start(struct bpf_wq *wq, unsigned int flags) __weak __ksym;
-> -extern int bpf_wq_set_callback_impl(struct bpf_wq *wq,
-> -		int (callback_fn)(void *map, int *key, void *value),
-> -		unsigned int flags__k, void *aux__ign) __ksym;
-> -#define bpf_wq_set_callback(wq, cb, flags) \
-> -	bpf_wq_set_callback_impl(wq, cb, flags, NULL)
-> +extern int bpf_wq_set_callback(struct bpf_wq *wq,
-> +		int (*callback_fn)(void *, int *, void *),
-> +		unsigned int flags) __weak __ksym;
+> bpf_stream_vprintk_impl() is not that clear. I would remove it too.
 
-FWIW, if I'm the only one using bpf_wq_set_callback_impl() that you are
-aware of, I'm fine removing the _impl kfunc from the kernel, I can deal
-with this when loading the programs.
+That leaves only bpf_wq_set_callback_impl(). Can we break that too?
 
->  
->  #define HID_MAX_DESCRIPTOR_SIZE	4096
->  #define HID_IGNORE_EVENT	-1
-> diff --git a/tools/testing/selftests/hid/Makefile b/tools/testing/selftests/hid/Makefile
-> index 2839d2612ce3..4c01bb649913 100644
-> --- a/tools/testing/selftests/hid/Makefile
-> +++ b/tools/testing/selftests/hid/Makefile
-> @@ -184,7 +184,9 @@ MENDIAN=$(if $(IS_LITTLE_ENDIAN),-mlittle-endian,-mbig-endian)
->  
->  CLANG_SYS_INCLUDES = $(call get_sys_includes,$(CLANG))
->  BPF_CFLAGS = -g -Werror -D__TARGET_ARCH_$(SRCARCH) $(MENDIAN) 		\
-> -	     -I$(INCLUDE_DIR)
-> +	     -I$(INCLUDE_DIR)						\
-> +	     -Wno-microsoft-anon-tag					\
-> +	     -fms-extensions
+Then there won't be legacy cases at all. It was introduced in v6.16
+along the with __prog suffix [1][2].
 
-Already in Linus' tree.
+If we go this route, we could clean up __prog support/docs too.
 
->  
->  CLANG_CFLAGS = $(CLANG_SYS_INCLUDES) \
->  	       -Wno-compare-distinct-pointer-types
-> diff --git a/tools/testing/selftests/hid/progs/hid_bpf_helpers.h b/tools/testing/selftests/hid/progs/hid_bpf_helpers.h
-> index 531228b849da..80ab60905865 100644
-> --- a/tools/testing/selftests/hid/progs/hid_bpf_helpers.h
-> +++ b/tools/testing/selftests/hid/progs/hid_bpf_helpers.h
-> @@ -116,10 +116,8 @@ extern int hid_bpf_try_input_report(struct hid_bpf_ctx *ctx,
->  /* bpf_wq implementation */
->  extern int bpf_wq_init(struct bpf_wq *wq, void *p__map, unsigned int flags) __weak __ksym;
->  extern int bpf_wq_start(struct bpf_wq *wq, unsigned int flags) __weak __ksym;
-> -extern int bpf_wq_set_callback_impl(struct bpf_wq *wq,
-> -		int (callback_fn)(void *map, int *key, void *wq),
-> -		unsigned int flags__k, void *aux__ign) __weak __ksym;
-> -#define bpf_wq_set_callback(timer, cb, flags) \
-> -	bpf_wq_set_callback_impl(timer, cb, flags, NULL)
-> +extern int bpf_wq_set_callback(struct bpf_wq *wq,
-> +		int (*callback_fn)(void *, int *, void *),
-> +		unsigned int flags) __weak __ksym;
->  
->  #endif /* __HID_BPF_HELPERS_H */
-> -- 
-> 2.52.0
-> 
+I think it's worth it to make an "all or nothing" decision here:
+either break all 4 existing kfuncs, or backwards-support all of them.
 
-Acked-by: Benjamin Tissoires <bentiss@kernel.org>
+git tag --contains bc049387b41f | grep -v rc
+v6.16
+v6.17
+v6.18
 
-Cheers,
-Benjamin
+[1] https://lore.kernel.org/all/20250513142812.1021591-1-memxor@gmail.com/
+[2] https://lore.kernel.org/all/20240420-bpf_wq-v2-13-6c986a5a741f@kernel.org/
+
+
 
