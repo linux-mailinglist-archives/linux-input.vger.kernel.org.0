@@ -1,147 +1,118 @@
-Return-Path: <linux-input+bounces-16895-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16896-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF58AD09F64
-	for <lists+linux-input@lfdr.de>; Fri, 09 Jan 2026 13:48:25 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8674AD0A5A3
+	for <lists+linux-input@lfdr.de>; Fri, 09 Jan 2026 14:18:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 24C8E302DC99
-	for <lists+linux-input@lfdr.de>; Fri,  9 Jan 2026 12:42:02 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 13D8B31BF5F8
+	for <lists+linux-input@lfdr.de>; Fri,  9 Jan 2026 13:02:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 29F3235C1A3;
-	Fri,  9 Jan 2026 12:41:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AAB2135BDAB;
+	Fri,  9 Jan 2026 13:01:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="qceN1F1h"
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="i/ATWbT4"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20A0B35BDA8
-	for <linux-input@vger.kernel.org>; Fri,  9 Jan 2026 12:41:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A2E335971E;
+	Fri,  9 Jan 2026 13:01:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767962484; cv=none; b=GoBDAd7u3VJIDIfnqQzwqbCiZ483KKmvDF1TXxN9iecyIVwLvahcnN7SMDo3C79QI3x6qPQskxKPpiL4zklapJ8AookOj5tk5+FlqzOLNcEi1MDpgbuMGtLMK+FWbxA8AlvoN7H+L7kcVz6Tw0wpDTLuhormZXqC9BeJ6L+JvFQ=
+	t=1767963699; cv=none; b=IW/eDHzKRTfY/6ev4LwoLinTbZEyykcvLIifTWasecZAtU/ibbF7NRcXJYKlj9GmvelEAOCC3+wee+qpFY4x3ZEg5kbX9b+9vJcCAJ9ivL9bolOlz1EYy4RvNfTGfNfxhWrV4gIXoA8xF8InwqOcVP9azHtQK6vkRFWojj5AdMU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767962484; c=relaxed/simple;
-	bh=eVOmJOpJ2g+nWNAxnyfdx6FM/mb3Dw1vCRyIVPH1Rag=;
+	s=arc-20240116; t=1767963699; c=relaxed/simple;
+	bh=k5A3WMP1tURQUV8YTaLgX8u93ATym8rJbdZ7P43xNSw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QN2d0t90Uuo7SABnpCKgUmNDM6nIFqrHKMno+r6dfhQk05T/ot2BONYs66JW9YUi1NsvKowR/vbThrczRVW/iS3Nn/bW1uajj1Qm504a+6Xpffiwj5jCaWsfDSOyeXCMr2owtF4chzWk7yk4uudNAyP4kUN8m4bzzNHTCfFSYJ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=qceN1F1h; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-47d5e021a53so31734995e9.3
-        for <linux-input@vger.kernel.org>; Fri, 09 Jan 2026 04:41:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1767962479; x=1768567279; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=OS8jAYKJTxd436S6Hg/z7BMXyNGFTQawvHyOajW7Mkc=;
-        b=qceN1F1hDJPqJY5F4gHMRVmzOfN1y/WpGRpK6mEmPASh3hwTbM0Rc/HDpEHpuXV8Ce
-         Sk4JjfTw9uAavOrlTNDhYr/OI7NG1QjaAUK6o5oC4P1dsAZYidhFXpFEOS8dxTOdxFph
-         LSV7m/jXVZLHKSk8Rd9TQXGw1bWcZZ494gBpWIL1CT5Jp9NcDjIQUNKCc9MSD9TzK5ue
-         BE+yGaT4mMa/B+kEEyhgmVRWi/weAoghJWqDqIsJaVTCFK8pgBbF0rx+eX0CBgG5Rbyq
-         ZPhehTfc7tYvK70bXzP6K0WjVOuqP/8yLrviqIotqX9pKoZ5i+U51i6gwgSgqm75oF/Z
-         /S8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767962479; x=1768567279;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=OS8jAYKJTxd436S6Hg/z7BMXyNGFTQawvHyOajW7Mkc=;
-        b=ATLr6FhyYYlTDFbAJi8a7yD+f3KgY7QeRho2xsNkxhqLDA958iv/Xy5n/LhbSqU1sL
-         QWiXKrqflTTysq9KVA7B5GJVCfb+dPrLJ0RHWsodYc7lHkTM0Qa7Gq6X0SmkBIKsFNxO
-         hUXYRelNqd+w6T7N2EcYp9xfqxtrjwZXFPWYE5ed3UmswS23R3eK17u0Pra1Xyxs7zCt
-         VsYaDH7DYDmWr6f7BBVWmdDXwEzwwEfDU0SRrbLf8712EqdTbvfL7MliKrtn/0yhPqGy
-         4fLHjMM+niLTIEls/lP7jybHGt1mwaNkjo16vXmBToKkKG7Ni1yqwfbPCiKhMhKP3Kq2
-         n9UA==
-X-Forwarded-Encrypted: i=1; AJvYcCWeaCISZkPwJ1od8A0PeF0XD3LYSNly1dGiZQmPbBIXcwbrYTBFbJcUy0JlPmJQs2L25LuhR4S5oBRvDg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx1Z4Q8OhG6KTg8d0zJCJlqqLW8lDiuoZ27XG1otyYFrm+kU+Nd
-	ti83b4E6r9gJpIXeDYwepkdHfKS92yDXYXRGC4+FOv7DtDEicvwBnm+j3nJ/2TMZ0g==
-X-Gm-Gg: AY/fxX5gQfL2bAscCKL3e8Cy2qUsrdWziqzNjYqPtghIav6NuSR6KAeNPKOwexvCo9i
-	zgkFp2yrR9kDfQW+ekVyssIQ+ng7tpguOfi446D94BfE7k1nupPHKOmSvfIu6DlfmBMBo8pLe8n
-	Ckxpr4chsVZrv20248tQjRpkuYIaWsmji5HSBNH2fFqUGM9AucVJg0GriCnU6h6+11NEMxsIX6f
-	nVLditjX9Q5Sjix8Y9ZOjLZC/m7EJmfLVZAxgmW7/fOGtm09ZvQBaLhNzjhmC0BEdB1iD6eLSEj
-	VFVE/ZBA8tDJM7fvgy31Xhpsz+r5OqZXzqU7zvCzjwQ6Efxfv4mbReo3JKQcphNCTW0WTFIqAoE
-	eBsx7v6XatytxsgbaKqb1gPQJe+hLk2XFX6i71748UZ4KyTApn93NYsl7wvzdex4QxImwY49ibY
-	UCvplDj6spM4QCp8jT4iXy9ttq2mQyy8GKIDu4nH86yA==
-X-Google-Smtp-Source: AGHT+IEs1pOpkW+f39F/DRqpNCXzF0cymX5J81DrZywu+onED4ZE4gRGm1Y2kkOMoDNFz55txwy6qg==
-X-Received: by 2002:a05:600c:b86:b0:479:3a86:dc1e with SMTP id 5b1f17b1804b1-47d84b41007mr111442295e9.36.1767962479268;
-        Fri, 09 Jan 2026 04:41:19 -0800 (PST)
-Received: from google.com ([2a00:79e0:288a:8:b844:1270:724f:f3aa])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47d7f418538sm205252975e9.5.2026.01.09.04.41.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Jan 2026 04:41:18 -0800 (PST)
-Date: Fri, 9 Jan 2026 13:41:13 +0100
-From: =?utf-8?Q?G=C3=BCnther?= Noack <gnoack@google.com>
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Filipe =?utf-8?B?TGHDrW5z?= <lains@riseup.net>,
+	 Content-Type:Content-Disposition:In-Reply-To; b=k7mLhttfnEc0kqRSfyuUBqYF+iAvR6xEPNZzD3Rxem3U1Ylq3v2e/pduU3ofZOF5RWtSvWoMEqkIMpCgRTKTO+Kx2ppT/o0bkibpfOQHa9w4n/GL9ZW9hWakszCL3JNyyrMko5z9chbJpWR0kSIgbrOm6PWh73TXhonW8gSFP9E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=i/ATWbT4; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04D74C4CEF1;
+	Fri,  9 Jan 2026 13:01:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1767963699;
+	bh=k5A3WMP1tURQUV8YTaLgX8u93ATym8rJbdZ7P43xNSw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=i/ATWbT4prdWjG98CYbmVw4tjZj8UEN6+C/3ltLVWXA65MLd6pxISSDlNezIHUwr2
+	 jQTXs0dwgYMk4IIekeuci2aI818BWvkL8ipzg1B4vrRPDXJk56gu8sQ+AV36JdIe98
+	 ukG4QEVdWJHW/g9u5+ndhqfp569jMmcj9GuNtWzM=
+Date: Fri, 9 Jan 2026 14:00:28 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: =?iso-8859-1?Q?G=FCnther?= Noack <gnoack@google.com>
+Cc: Filipe =?iso-8859-1?Q?La=EDns?= <lains@riseup.net>,
 	Bastien Nocera <hadess@hadess.net>, Jiri Kosina <jikos@kernel.org>,
 	Benjamin Tissoires <bentiss@kernel.org>, stable@vger.kernel.org,
 	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] HID: logitech-hidpp: Check maxfield in
+Subject: Re: [PATCH v2] HID: logitech-hidpp: Check maxfield in
  hidpp_get_report_length()
-Message-ID: <aWD3aXy9OzH_u73S@google.com>
-References: <20260109105912.3141960-2-gnoack@google.com>
- <2026010956-anteater-pungent-d5b6@gregkh>
+Message-ID: <2026010909-trapped-kindly-1cdf@gregkh>
+References: <20260109122557.3166556-3-gnoack@google.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <2026010956-anteater-pungent-d5b6@gregkh>
+In-Reply-To: <20260109122557.3166556-3-gnoack@google.com>
 
-On Fri, Jan 09, 2026 at 12:14:43PM +0100, Greg KH wrote:
-> On Fri, Jan 09, 2026 at 11:59:12AM +0100, GÃ¼nther Noack wrote:
-> > Do not crash when a report has no fields.
-> > 
-> > Fake USB gadgets can send their own HID report descriptors and can define report
-> > structures without valid fields.  This can be used to crash the kernel over USB.
-> > 
-> > Cc: stable@vger.kernel.org
-> > Signed-off-by: GÃ¼nther Noack <gnoack@google.com>
-> > ---
-> >  drivers/hid/hid-logitech-hidpp.c | 3 +++
-> >  1 file changed, 3 insertions(+)
-> > 
-> > diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hidpp.c
-> > index 9ced0e4d46ae..919ba9f50292 100644
-> > --- a/drivers/hid/hid-logitech-hidpp.c
-> > +++ b/drivers/hid/hid-logitech-hidpp.c
-> > @@ -4316,6 +4316,9 @@ static int hidpp_get_report_length(struct hid_device *hdev, int id)
-> >  	if (!report)
-> >  		return 0;
-> >  
-> > +	if (!report->maxfield)
-> > +		return 0;
+On Fri, Jan 09, 2026 at 01:25:58PM +0100, Günther Noack wrote:
+> Do not crash when a report has no fields.
 > 
-> Combine this with the if() above this?
-
-OK, done. I sent a V2:
-https://lore.kernel.org/all/20260109122557.3166556-3-gnoack@google.com/
-
-
-> And if we are going to be handling "malicious" USB devices, be careful,
-> you are just moving the target lower down, you also need to audit ALL
-> data coming from the device, not just the descriptors.  I'm all for
-> this, just realize that this is a change in how Linux treats devices
-> (and all other operating systems as well.)
-
-Thanks.  Yes, I realize that the later communication with the device is also a
-potential way to trigger bugs.
-
-
-> For now, we strongly recommend not allowing "untrusted" devices to bind
-> to your system if this is a threat model you care about.
+> Fake USB gadgets can send their own HID report descriptors and can define report
+> structures without valid fields.  This can be used to crash the kernel over USB.
 > 
-> Not to reject this, or your other patch like this, just letting you
-> know.
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Günther Noack <gnoack@google.com>
+> ---
+>  drivers/hid/hid-logitech-hidpp.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hidpp.c
+> index 9ced0e4d46ae..c5e132a6c085 100644
+> --- a/drivers/hid/hid-logitech-hidpp.c
+> +++ b/drivers/hid/hid-logitech-hidpp.c
+> @@ -4313,7 +4313,7 @@ static int hidpp_get_report_length(struct hid_device *hdev, int id)
+>  
+>  	re = &(hdev->report_enum[HID_OUTPUT_REPORT]);
+>  	report = re->report_id_hash[id];
+> -	if (!report)
+> +	if (!report || !report->maxfield)
+>  		return 0;
+>  
+>  	return report->field[0]->report_count + 1;
+> -- 
+> 2.52.0.457.g6b5491de43-goog
+> 
 
-Acknowledged, thanks.
 
--GÃ¼nther
+Hi,
+
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
+
+You are receiving this message because of the following common error(s)
+as indicated below:
+
+- This looks like a new version of a previously submitted patch, but you
+  did not list below the --- line any changes from the previous version.
+  Please read the section entitled "The canonical patch format" in the
+  kernel file, Documentation/process/submitting-patches.rst for what
+  needs to be done here to properly describe this.
+
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
+
+thanks,
+
+greg k-h's patch email bot
 
