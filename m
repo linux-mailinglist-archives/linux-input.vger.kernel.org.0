@@ -1,97 +1,90 @@
-Return-Path: <linux-input+bounces-16881-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16882-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36E85D058DE
-	for <lists+linux-input@lfdr.de>; Thu, 08 Jan 2026 19:32:07 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 02CDFD0706C
+	for <lists+linux-input@lfdr.de>; Fri, 09 Jan 2026 04:47:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 250213153763
-	for <lists+linux-input@lfdr.de>; Thu,  8 Jan 2026 17:33:59 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 645243024251
+	for <lists+linux-input@lfdr.de>; Fri,  9 Jan 2026 03:46:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 42A032C15AA;
-	Thu,  8 Jan 2026 17:33:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F25678F3E;
+	Fri,  9 Jan 2026 03:46:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OcO32ZHR"
+	dkim=pass (2048-bit key) header.d=endrift.com header.i=@endrift.com header.b="bTeJPkVg"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from endrift.com (endrift.com [173.255.198.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E4601C3BFC;
-	Thu,  8 Jan 2026 17:33:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6F222690D1
+	for <linux-input@vger.kernel.org>; Fri,  9 Jan 2026 03:46:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=173.255.198.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767893638; cv=none; b=P+PHQtuNlaTECtLYXBwLMCZ6Qlsuz2TAVQUAS5zj18BwdecmxTOIMeLUwgcAU6lhxB7C7kwrul/5magR1Qmav6EhDgXn2dt823jbt7nRkJi8CyCxVMDcXf/QrhQfWGNxFSRKirZSS2wl0zYPKOSTH63JTTDgtkuuZE3HJvuTjFg=
+	t=1767930408; cv=none; b=odp88baVhNa2BRZRZHK7XdFrDA61MjUrk23xXlVDKJrAJbbIoIG4jsKYnnAhNI6XqvtNPN3sbpwqiHBHxwGMZrR2FP9dwNHBB+wCEVKJkFiMy1Ml7gHQToUOwk3vXnG+44JBGb1sO/855IqyKMDhEQ/6S3F+KfJ3Dy41k7lkvCU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767893638; c=relaxed/simple;
-	bh=YfdOM3X+dex2GwYPDQAVwZhy1TpxzRQTxxNf8pg3MnA=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=UFFbElTRk0ti3nF0EWohIiRj0YWserMiDto4Myig1Sx1oJQLvGuK5UfZvYOBbkIh6DH6dM82NdIpP3zyNlWYTxuq/JA5LwKfd1H3fh+w7FgCQLhG93p600YmMGLEI42t3QYTQEAxk/AVip5I9QN2Di+oKvNUdQmlzKUa55M4O3g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OcO32ZHR; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4428C116D0;
-	Thu,  8 Jan 2026 17:33:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767893638;
-	bh=YfdOM3X+dex2GwYPDQAVwZhy1TpxzRQTxxNf8pg3MnA=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=OcO32ZHR/2IhxRSLh73aJSqfw4ev5w92PgmyVkS9acY6s1BNqiCddFZlIMKHwLVm7
-	 E5wvykFVKq4LNCipDJ5PzpOWxIFuFb9aH9TwYNK6Gehhdc7ofszL9H0HeGafNdcwuh
-	 2YpjVUdWrXMjZ9RBm7bS2mme7ftRAH6e1Tj5+fN/D5vTv89OaW5hd1FIel6lEbSshK
-	 BR/XETisXLw4KzHJaiDgufVQ74MgEUmYN/dfsSJ2kRrJE5hhy9r7fvCLrkK9W6VBge
-	 VhLjMdVDgJEA2IdvJDRdZUB8ipVF7E4HGiS/8a+pWpEOg6oQEOAfVpLT6y6mCczPG9
-	 xFk5Dw5fKnRvQ==
-From: Lee Jones <lee@kernel.org>
-To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, Neal Gompa <neal@gompa.dev>, 
- Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Alexandre Belloni <alexandre.belloni@bootlin.com>, 
- Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>, 
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
- Jonathan Corbet <corbet@lwn.net>, 
- James Calligeros <jcalligeros99@gmail.com>
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-rtc@vger.kernel.org, linux-hwmon@vger.kernel.org, 
- linux-input@vger.kernel.org, linux-doc@vger.kernel.org, 
- Hector Martin <marcan@marcan.st>
-In-Reply-To: <20251215-macsmc-subdevs-v6-0-0518cb5f28ae@gmail.com>
-References: <20251215-macsmc-subdevs-v6-0-0518cb5f28ae@gmail.com>
-Subject: Re: (subset) [PATCH v6 0/7] mfd: macsmc: add rtc, hwmon and hid
- subdevices
-Message-Id: <176789363340.1116194.12135010190762961915.b4-ty@kernel.org>
-Date: Thu, 08 Jan 2026 17:33:53 +0000
+	s=arc-20240116; t=1767930408; c=relaxed/simple;
+	bh=8LGoV6cq/rjhDgzcDzwRbjcg+eAoZ2ZyziifLQhOO38=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Yu2QoMR2wOIo9FWK4Lp9CMoWxKWHOKHHh/r5+BdTyj2clMYMwEMnMJw5t6uzqxUusoyyX9On1UUbGjBikpjeJ9w1Cs1oM56r18VPWJeaMijDvoIYVM9N6pkFoMCZJYaRviGImIGzJXDo2y1SuoZRicO9jf8YxUijs8OE2s+NxaQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=endrift.com; spf=pass smtp.mailfrom=endrift.com; dkim=pass (2048-bit key) header.d=endrift.com header.i=@endrift.com header.b=bTeJPkVg; arc=none smtp.client-ip=173.255.198.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=endrift.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=endrift.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=endrift.com; s=2020;
+	t=1767930045; bh=8LGoV6cq/rjhDgzcDzwRbjcg+eAoZ2ZyziifLQhOO38=;
+	h=From:To:Cc:Subject:Date:From;
+	b=bTeJPkVgIZI0AGJe4D6cAFyyZUDPxkakcYil9+UCa66EtGjE+Edz/F6QmR6MOVcUD
+	 uyU4/3SbqnNFVMZSoeQcRz+DlA9wmEps8z1F6s78fmju7mzULSKRKCtEOYsKhC8z5V
+	 6MXKdd8MWuXvH/0Med8nss3rBa+fLF9SqxmUkzpkDPCXtxgwE0SPjSmvGB+Cf0uKgc
+	 +a2Rb5FViSmaNUxo4nkUMzDwRLNVxLB8jgMoSWjIRnkRVYEBv6vXgSBZeOl7e5t7E0
+	 pJcr+Qxcqr3F/Xk+dXMpaI6bfm1cLygGSR5kGGps4rIOqFGLJvd0eDfp8ISPfgTc27
+	 2pPW4BAtua/gw==
+Received: from nebulosa.vulpes.eutheria.net (71-212-14-89.tukw.qwest.net [71.212.14.89])
+	by endrift.com (Postfix) with ESMTPSA id 83E93A05D;
+	Thu,  8 Jan 2026 19:40:45 -0800 (PST)
+From: Vicki Pfau <vi@endrift.com>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	linux-input@vger.kernel.org
+Cc: Vicki Pfau <vi@endrift.com>,
+	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+	Bastien Nocera <hadess@hadess.net>
+Subject: [PATCH v2 0/1] HID: switch2: Add preliminary Switch 2 controller driver
+Date: Thu,  8 Jan 2026 19:40:31 -0800
+Message-ID: <20260109034034.565630-1-vi@endrift.com>
+X-Mailer: git-send-email 2.51.2
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.15-dev-52d38
 
-On Mon, 15 Dec 2025 19:37:44 +1000, James Calligeros wrote:
-> This series adds support for the remaining SMC subdevices. These are the
-> RTC, hwmon, and HID devices. They are being submitted together as the RTC
-> and hwmon drivers both require changes to the SMC DT schema.
-> 
-> The RTC driver is responsible for getting and setting the system clock,
-> and requires an NVMEM cell. This series replaces Sven's original RTC driver
-> submission [1].
-> 
-> [...]
+This is effectively a resubmission of the previous patch with minor fixes
+for issues that came up during the first review. Bluetooth support is still
+not included, but this will hopefully provide a solid foundation for
+bringing up Bluetooth support once BlueZ is capable of bringing up the
+controller. This will probably require a new plugin, but investigation is
+still ongoing.
 
-Applied, thanks!
+Vicki Pfau (1):
+  HID: switch2: Add preliminary Switch 2 controller driver
 
-[2/7] mfd: macsmc: Wire up Apple SMC RTC subdevice
-      commit: a13cc4981449b9108921981a5e7c8824eaaa7604
-[3/7] mfd: macsmc: Wire up Apple SMC hwmon subdevice
-      commit: fb90c90aec3a9b7212a243f383f73a01bc653672
-[5/7] mfd: macsmc: Wire up Apple SMC input subdevice
-      commit: 3e9271dcb2dfdc4a98e9f6dc35c9be13276c3cfd
+ MAINTAINERS                          |   7 +
+ drivers/hid/Kconfig                  |  18 +
+ drivers/hid/Makefile                 |   1 +
+ drivers/hid/hid-ids.h                |   4 +
+ drivers/hid/hid-switch2.c            | 975 +++++++++++++++++++++++++++
+ drivers/hid/hid-switch2.h            | 242 +++++++
+ drivers/input/joystick/Kconfig       |   8 +
+ drivers/input/joystick/Makefile      |   1 +
+ drivers/input/joystick/switch2-usb.c | 353 ++++++++++
+ 9 files changed, 1609 insertions(+)
+ create mode 100644 drivers/hid/hid-switch2.c
+ create mode 100644 drivers/hid/hid-switch2.h
+ create mode 100644 drivers/input/joystick/switch2-usb.c
 
---
-Lee Jones [李琼斯]
+-- 
+2.51.2
 
 
