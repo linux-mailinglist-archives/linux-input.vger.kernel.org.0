@@ -1,54 +1,54 @@
-Return-Path: <linux-input+bounces-16926-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16927-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC1BCD0D3B2
-	for <lists+linux-input@lfdr.de>; Sat, 10 Jan 2026 10:01:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD21DD0D3B8
+	for <lists+linux-input@lfdr.de>; Sat, 10 Jan 2026 10:04:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id DD4513019BD1
-	for <lists+linux-input@lfdr.de>; Sat, 10 Jan 2026 09:01:27 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id DA685300C5DE
+	for <lists+linux-input@lfdr.de>; Sat, 10 Jan 2026 09:04:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 327552AEE1;
-	Sat, 10 Jan 2026 09:01:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 57AAB1EDA0F;
+	Sat, 10 Jan 2026 09:04:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NZFlBRTx"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T8WGRR8w"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DBBE500969;
-	Sat, 10 Jan 2026 09:01:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34FD0500969;
+	Sat, 10 Jan 2026 09:04:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768035687; cv=none; b=UiIK32C4DqZRzsN0V8Q2G4ceMNmuJ4q+9ExfQEAVX/rWwdgLR6QepBHsTNuyIg/3npF95hNKEe7xQvd3mZ2RYqBtp/yVmEsNRBQ6MPhAb7RbUust+tXkksojcDNF190Mqmh3ozBnTMcNleZ71Ei5huakRljnhsbQ6pbMPxBZNGI=
+	t=1768035842; cv=none; b=N1ezzf9gjmhwXGWJJ1ObnmNF7er3hCQXy/smVfKquijO/fK8enFQ5t2qVJLHE3eFnhtWdUG1+kf2kM3dFkazpsynRqwV5eEIhagUH+z30e9QaYigK7yze3v456woRl+rtt6mN4Yn4Pt63U4O2K2op0NCvTtLj8cGuEGMiOxZKhk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768035687; c=relaxed/simple;
-	bh=t3xqgP0YJtHtc8MGdL/f4ErhNKsMy+sMYsCt+V5zSiY=;
+	s=arc-20240116; t=1768035842; c=relaxed/simple;
+	bh=lu+fQziwxrpmcG1Lyogj+KQh7wOe5H2uCRvkTvJp1bs=;
 	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=YoP6ozVNh9tQWWtIhfuWINqdTWjvUnVoyIVVIxNw0ysuBd6DhzSzogRU3SVWhzsE5TP8BCcH0kjup3DOLh+3WNHPZuugE/NmqIQSbxTTxnDJ3CHCg7ytrkgw8+f7UoNq1F3gMP6+wg2w+TSqy5o3epgIbk4UrLSnR2bBSkkxZ+g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NZFlBRTx; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61F41C4CEF1;
-	Sat, 10 Jan 2026 09:01:26 +0000 (UTC)
+	 MIME-Version:Content-Type; b=dsaNgx3oXXmywPEDFAVr4wXi8un3giaoUl8U3cOPq7sigHVhwvTyjoczCq7gGx4QYmpoEHthtHKJ8CvL0E/SiMq39ls/91BeVLdaGN92+DyCYpEAqLztofqVrtvWI90M+s548gplz+0ZuYE1Mc3VvvuBLjEUVRcNlHZKr8IfLmc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T8WGRR8w; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D336C4CEF1;
+	Sat, 10 Jan 2026 09:04:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768035686;
-	bh=t3xqgP0YJtHtc8MGdL/f4ErhNKsMy+sMYsCt+V5zSiY=;
+	s=k20201202; t=1768035841;
+	bh=lu+fQziwxrpmcG1Lyogj+KQh7wOe5H2uCRvkTvJp1bs=;
 	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=NZFlBRTxcCno13+vT6O8sw9afRFkmmHhcS8Ec4s5nHO2bv2Qm0QCFplu3ES0YqEMP
-	 mNOl/hQPd2xNDqrlGk5i0YyhmVk1VV708sDtt3tk9xBSKBxupHEXo+T6AySShHowLu
-	 0CICxu8j1qnOABhF4cACJhluD1+nFp7oRH+skn1oK2yQ5oajAAsARvoN7GRP3/JjQU
-	 g+U4qwaRcKuJ6kR9hOcJ3uFhKwNaGnWYHjz5EcIRpKtGMkTeRMD6yf+pTwfdWUtdQ6
-	 VlwbNavb+Q1rh7QYs9faBrIGVRNihg6hS2iPgwt589ULOpxxW74s5EaFfS4OD/n6Ye
-	 f/Dx1NQ4EQfXA==
-Date: Sat, 10 Jan 2026 10:01:24 +0100 (CET)
+	b=T8WGRR8wH0yzbmtZbB6OKQw1NIeGIXrWTDstoqGB88scGudUc89lxlK11oITvqYIN
+	 WDFhvN04rd8KUNZLWkm+Szh6NJ1L4fUHtkPtCBgr/SdjLpadEoM5ASPe8w11bKwzb4
+	 eZTEFwZR35M02NyLpBGDbZc8be+h1gq6Ofz+3zeq7XEJX1omsYVu4RbUZ5v7mT+U9X
+	 fHa5JFprjpctDIpK8/tcBMeNIdG+m91cDSfv7RNYr5TDa4lLtpr3LgU96+tLEUZWxB
+	 SEzqPjw7y5vMll0wNtEKGWwqJycBQczPUGVwy597PB96LjEkPsxSL7GiRrY4nWKJPl
+	 6rVhcTfZy1Rrg==
+Date: Sat, 10 Jan 2026 10:03:58 +0100 (CET)
 From: Jiri Kosina <jikos@kernel.org>
-To: Haotian Zhang <vulab@iscas.ac.cn>
-cc: roderick.colenbrander@sony.com, bentiss@kernel.org, 
-    linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] HID: playstation: Add missing check for
- input_ff_create_memless
-In-Reply-To: <2nn8276r-50nq-5655-o1r2-o610sp1s69q6@xreary.bet>
-Message-ID: <r3965n0n-p102-322s-52qs-85n890685rn0@xreary.bet>
-References: <20251117082808.1492-1-vulab@iscas.ac.cn> <2nn8276r-50nq-5655-o1r2-o610sp1s69q6@xreary.bet>
+To: Brian Howard <blhoward2@gmail.com>
+cc: Andrei Shumailov <gentoo1993@gmail.com>, 
+    Benjamin Tissoires <bentiss@kernel.org>, linux-input@vger.kernel.org, 
+    linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] HID: multitouch: add quirks for Lenovo Yoga Book 9i
+In-Reply-To: <20251118020723.6600-1-blhoward2@gmail.com>
+Message-ID: <468q5375-r032-so88-p263-r663p7646q01@xreary.bet>
+References: <20251118020723.6600-1-blhoward2@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -57,13 +57,28 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 
-On Sat, 10 Jan 2026, Jiri Kosina wrote:
+On Mon, 17 Nov 2025, Brian Howard wrote:
 
-> While reviewing it though, I came across the fact that just one line 
-> below, if input_register_device() fails, I believe we're leaking the 
-> already allocated struct input_dev.
+> Add required quirks for Lenovo Yoga Book 9i Gen 8 to Gen 10 models, 
+> including a new quirk providing for custom input device naming and 
+> dropping erroneous InRange reports.
+> 
+> The Lenovo Yoga Book 9i is a dual-screen laptop, with a single composite
+> USB device providing both touch and tablet interfaces for both screens.
+> All inputs report through a single device, differentiated solely by report
+> numbers. As there is no way for udev to differentiate the inputs based on
+> USB vendor/product ID or interface numbers, custom naming is required to
+> match against for downstream configuration. A firmware bug also results
+> in an erroneous InRange message report (with everything other than X/Y 
+> as 0) being received after the stylus leaves proximity, blocking later 
+> touch events. 
+> 
+> Signed-off-by: Brian Howard <blhoward2@gmail.com>
+> Tested-by: Brian Howard <blhoward2@gmail.com>
+> Reported-by: Andrei Shumailov <gentoo1993@gmail.com>
+> Closes: https://bugzilla.kernel.org/show_bug.cgi?id=220386
 
-Actually we're not, it's managed device. Sorry for the noise.
+Applied, thanks.
 
 -- 
 Jiri Kosina
