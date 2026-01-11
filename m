@@ -1,135 +1,175 @@
-Return-Path: <linux-input+bounces-16947-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16945-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CDC0D0F8ED
-	for <lists+linux-input@lfdr.de>; Sun, 11 Jan 2026 19:21:42 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FB5ED0F82C
+	for <lists+linux-input@lfdr.de>; Sun, 11 Jan 2026 18:28:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 56DFA305339F
-	for <lists+linux-input@lfdr.de>; Sun, 11 Jan 2026 18:21:11 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 8E6083001BE8
+	for <lists+linux-input@lfdr.de>; Sun, 11 Jan 2026 17:28:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E48CC346AF5;
-	Sun, 11 Jan 2026 18:21:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 780ED33E36D;
+	Sun, 11 Jan 2026 17:28:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QwfFkAzx"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ke7mFqLT"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
+Received: from mail-dl1-f50.google.com (mail-dl1-f50.google.com [74.125.82.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9836B1F03D2
-	for <linux-input@vger.kernel.org>; Sun, 11 Jan 2026 18:21:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 196183346A6
+	for <linux-input@vger.kernel.org>; Sun, 11 Jan 2026 17:28:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768155670; cv=none; b=VkZMsaduYakv0/UAIUkTIZaiosVsym+lwXU+heVxlY+AK+n+vpQWc/QpSJ48BqfpSiXLJGGta7gzYJmEgILn53wkG10esIKjw8UmNAmriklOAxTu2TC3wqGRxEfSMZFn0P9hmDUa9ZrvYM7iV/dLwDkSPc2Tl3UNupJ71HKfU7U=
+	t=1768152502; cv=none; b=sThWCs/8gaP6YkXYd+qU5Uhfge5TKtjsIHuPvPb5zL7eYX4663IXQbTEQQoVFF1oERsszw5+CYIevLFen1vwCXfIIYf1R0SyPB33pDdmgb6BTE2AExWuscwmL+VXP7tw7DScVFx/iPQDOwh2FgylQbkzvo5C2yGCckUz64HsSU8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768155670; c=relaxed/simple;
-	bh=26XSF8abaacHWOSeK0Gpp40CHuhyJtv5EuYNp6TvHIw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=txcR96z7WYzcmpKK3NhmJCsjGGa0SLE2WrFCt5edVqQSa8Y++9noS4v7ohjtQckkUh7RQaFt+6aXC1DYYPW5EmA3Vyx6CxKZdph/zO7g6SOncDs7jGUEIIMv/w0gNTa6BBJP+inBh0BmYrG9TAc6MJCOAOeOvXb5DwaYsw3jPm4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QwfFkAzx; arc=none smtp.client-ip=209.85.222.169
+	s=arc-20240116; t=1768152502; c=relaxed/simple;
+	bh=o4BaGXBErZ5pZfcN/UdRIyB07V/thHCNrI85tsZwE5Q=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=qEI0YU8A0g/K3879PNk/tA1G62lz0vMvygRM8KASN5ngjwiZ4dSpkxzD/x3PcsR/Ua/7dOMCbrwxRTJOgCVBcMVeWObR5aVUHuy6OojUolq1E0KX34MJc22rZy8tPcSbLr9NoCgJimUM3eqJ7PFajGgyQcnbAr+j9U1QR4+c1/Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ke7mFqLT; arc=none smtp.client-ip=74.125.82.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qk1-f169.google.com with SMTP id af79cd13be357-8b2d32b9777so858119685a.2
-        for <linux-input@vger.kernel.org>; Sun, 11 Jan 2026 10:21:09 -0800 (PST)
+Received: by mail-dl1-f50.google.com with SMTP id a92af1059eb24-121b14d0089so6087510c88.0
+        for <linux-input@vger.kernel.org>; Sun, 11 Jan 2026 09:28:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768155668; x=1768760468; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=LxHKoSi46iPA5F9rX5ZhPp9IruXA7MeRTiDagdmtDXE=;
-        b=QwfFkAzxZW9dzaFI8xq/KBMAu76sookzUEkVXk628ft7TY+MjtYgwDejlHevl8f/ao
-         Ic70YiCARrIvAtef1dBnkDRBrGylHX+8jTtVqaZlrfDbiOFR8GfqBoJB9UwHR3yN787s
-         Q7ZwEv4bP3LT6FYGOhrtvtpRbzmYoAz5ehRrYzykC3gvMgvB0pglKeA9uYNQyWNsqZO5
-         D/CZUkwmu7yKLrMcgJYQ+Nuxh9TAP1FyrNmIIC6ZJ+0eGliHJzi+ueUGVjD043mZKki+
-         8Kl/lSSbLpX3xzQobIPz979+1urBk8hAjYZKvJDenEo8V42imXRNPkIeOeMsL46sVuUV
-         4ypA==
+        d=gmail.com; s=20230601; t=1768152500; x=1768757300; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=ZobrGZwsfEC3p386gzggt35WBC6dl+3K3yYEgYayqrc=;
+        b=ke7mFqLThTbXi4IjFoqLuFdL3eG4tUSMAHwLfvb+MNZA6hI+jg/MxfaPD0CjWhGsQ9
+         72GYumNH15aVu0yr84Fo+qJkvJXGzddxuI8Sl3QWRsL+2IFFGAnqRqty0JcnTjviThVd
+         BAn2B5vebRCgfjZHFEHblm5C6glxL29+fhOBU+P7/1CD33/GyxAujkZoui1xSa8ekZ5j
+         yLtypbTv8YC5bcQG8RyhXD2AJAeLTbSjcdNkioNlLAB7bhHzs4exQxViFmK+Dxlog+2Q
+         XxXMzKLk9cbnH7OtYl6lyIfHh7sBTshPUxMpfxreVXQLwuREAmX6Sj6A2Cy1YxQ/rxHW
+         kFcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768155668; x=1768760468;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=LxHKoSi46iPA5F9rX5ZhPp9IruXA7MeRTiDagdmtDXE=;
-        b=XIhDRCT5bZYJwwj+g03nYAiua6S9VE3TcRNHYCGa2tdAp0M7DxVOaL3zSQTF4S+jk2
-         q7s6zzLt35GkUCmidOh9MVRzHygARCmunl88CMPiN56bxK30eciR0e9IqmdGQZdo78kX
-         mj17ElYUDbaz/aIBoS2DyReP7cMa+mJvJhhIo0KFv09ZfPT+wWD1GYHuxjvfds1MnRrJ
-         EMchR1WH78NSeK4reLNW9v1Bzlj+qzQkuPe1nSthK45tnxWXBdGxWwpadA6kJTiyZceS
-         aPh+1tgO6HuDFaJ/jiYootG/G3Df2Ttea5uQvTZ6z1u6bcu2TDcD7WOQnTmQ9urITHiV
-         jEPg==
-X-Forwarded-Encrypted: i=1; AJvYcCVfjHvLuxzw879cB9N9H79nfCelL9eb6QxzkjW7xJnUbMzSjm8/T4TPH6aKNC3nir9fNqD+m+4GGkmyKg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy902jVuYQUuJdNY560Y0YImf/S+GpoWnkMgJBLrz8GQbYlk1LI
-	afIXuU2Xq6VXd5ptlvbCtmYcoB+5uhlPKyz1R9TtPe7cKy+dQe0gB/kMPujpIg==
-X-Gm-Gg: AY/fxX72TaE9xzojaXbKCwmn1lONuensYyPsPYOlL531bBVujzXA5efPj8yov2pNRVj
-	0LIru0odi0DPlP9kK9y/+due4SmDqXB63rJD9hxUonb8oGNOxQIlZsecPsZuoeZmv+GyM7Atra5
-	s0Df9q24t0QMlozxMmou5wVp21pMYyyyaTxzWRf+riGhgET3jqRbsYysLC/waBI9XIXHmUrmbJ4
-	JB4LJJsu4eAOMQYlATLKa/iuuS3FRiFbOmoZI0fPzm+mxJITUZTrTuknSQS7pwWZq1Keg5z3gTq
-	laWodWlwqJUOWbjZSovyzsv1CPdiEOcHAT1dAlmP5PAAUTZcsyarHl6xQDkdsqPIJEYW1jKqNd7
-	kFNSGOyl6nhSqojsPuVrJQabZfEMqw3RpwrTkDl5tn5EtwfhMmCCe2g00jSOXveDO6hcQsCFn0W
-	Bt/4wrqDocTcqCJ45Oh/iN+GjVwZxUpVd+UILJzEFL8FmkbcENm3rg+YWIjJO8710Wivhs
-X-Google-Smtp-Source: AGHT+IFr0AfQqdzuLfF2we3Zx/EJP2hZFx2oG+SaK1KaO8OqQ9sYp0F8cg/P9dtkorxfQtRFUlfUMw==
-X-Received: by 2002:a17:90b:28cc:b0:33b:8ac4:1ac4 with SMTP id 98e67ed59e1d1-34f68d3b273mr14688746a91.35.1768150214300;
-        Sun, 11 Jan 2026 08:50:14 -0800 (PST)
-Received: from google.com (61-230-24-179.dynamic-ip.hinet.net. [61.230.24.179])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-34f5f7b19ebsm15175971a91.3.2026.01.11.08.50.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 11 Jan 2026 08:50:13 -0800 (PST)
-Date: Mon, 12 Jan 2026 00:50:08 +0800
-From: Kuan-Wei Chiu <visitorckw@gmail.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Cc: airlied@gmail.com, simona@ffwll.ch, maarten.lankhorst@linux.intel.com,
-	mripard@kernel.org, tzimmermann@suse.de, robh@kernel.org,
-	krzk+dt@kernel.org, conor+dt@kernel.org, dmitry.torokhov@gmail.com,
-	sre@kernel.org, gregkh@linuxfoundation.org, jirislaby@kernel.org,
-	lgirdwood@gmail.com, broonie@kernel.org, jserv@ccns.ncku.edu.tw,
-	eleanor15x@gmail.com, dri-devel@lists.freedesktop.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-input@vger.kernel.org, linux-pm@vger.kernel.org,
-	linux-serial@vger.kernel.org, linux-sound@vger.kernel.org
-Subject: Re: [PATCH v2 3/6] dt-bindings: input:
- google,goldfish-events-keypad: Convert to DT schema
-Message-ID: <aWPUwCbFoIItG7n3@google.com>
-References: <20260108080836.3777829-1-visitorckw@gmail.com>
- <20260108080836.3777829-4-visitorckw@gmail.com>
- <20260109-remarkable-crane-of-exercise-6bc17f@quoll>
+        d=1e100.net; s=20230601; t=1768152500; x=1768757300;
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZobrGZwsfEC3p386gzggt35WBC6dl+3K3yYEgYayqrc=;
+        b=T0rReu7OFPnolcKbrDFX/gMmDQisDReYxzSJmiGB3dZNxs0cgWtQvVOG3PVqgyGD9M
+         jTbXCGTh5NxotkmBgJ2Xs+HLrbdAcS2Uq1ZX5vgt5LRjwMLIYIsoqv/s0JJ7eUoZAock
+         Jrm1duF/VdIX/+wRl20d7+fqtE6psdATG7I0++8JPiZyM9kZuNYFeUZhvliV+FoSer/T
+         zIONoL6JDFhv4cJ/TDrzKyGQmNS9g9P7xvdQuy9zdhDHd2K0IDTpXENHKQQIkElRPvvl
+         58b9QlVXhIjNIWKSa96FIzhuAjVszm81HD8oQdDWNwKUZ5++pdXTafIFn+zVj3FZK0NS
+         DMFg==
+X-Gm-Message-State: AOJu0Yzb5J2m3IOs0HH1MUEaeQaEXL3IUSjVZPwZctjikBE+g9HqT/Xu
+	Sa2FVbTHjHKwryLn6cpgf0Rs22LuU3Wxi1Tujc3ttGYLO93JgfzIDsTtjsETmWYoH1TYxHmZmKQ
+	wT9pcako6oRvJqMAhRgnlk1gjDq022SYwFnoO
+X-Gm-Gg: AY/fxX58G9ZUxc3skcvQmUWw3sSwFz3OQdWfLZ4SfJtcYhs4WhuztVxGwjpUabeiRgg
+	fT63pcWezLFzt5ujy1Nt2HvcQA8yLJZF9MFQFdLnjBvgMDncaB/8GHdIEsJwqPptAiOmesI7Bc5
+	M/Wz4BNM5EPj+6utSa+GmluJZb0uuslLAS2xcanWYgvIlBziu+rZbssV7SgtnvmlPUikD9TJBxC
+	TuA6YaMtXTFb6ulrgxN53U8M97RP6pG5T+IEkHsW0NjFPRsv+vlApiS8prxnh+H29NGyabjN522
+	p50gqj04zbFEw2bWW1HFDIzGSpWDcqxIDbZUHRs=
+X-Google-Smtp-Source: AGHT+IFFJPxB8oIuyHWykOFVRZXqqQajR1hUYAxZ2pLtx7+XLQgK7ls8NT9ilU38vs1bDMDYhD2tN+7AwcyKQW5HRlU=
+X-Received: by 2002:a05:7022:799:b0:11b:7dcd:ca9a with SMTP id
+ a92af1059eb24-121f8b8b46emr14380859c88.34.1768152500105; Sun, 11 Jan 2026
+ 09:28:20 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260109-remarkable-crane-of-exercise-6bc17f@quoll>
+From: Liam Mitchell <mitchell.liam@gmail.com>
+Date: Sun, 11 Jan 2026 18:28:09 +0100
+X-Gm-Features: AZwV_QgKD_sYvUU8L2dIdsxVIJ1KEBHmVuWktm4JnLN66woCEXUj2PG75iAGzZQ
+Message-ID: <CAOQ1CL4+DP1TuLAGNsz5GdFBTHvnTg=5q=Dr2Z1OQc6RXydSYA@mail.gmail.com>
+Subject: bcm5974 trackpad broken after USB reset
+To: Henrik Rydberg <rydberg@bitmath.org>
+Cc: linux-input@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Krzysztof,
+Hi,
 
-On Fri, Jan 09, 2026 at 09:23:33AM +0100, Krzysztof Kozlowski wrote:
-> On Thu, Jan 08, 2026 at 08:08:33AM +0000, Kuan-Wei Chiu wrote:
-> > +
-> > +examples:
-> > +  - |
-> > +    keypad@9040000 {
-> > +        compatible = "google,goldfish-events-keypad";
-> > +        reg = <0x9040000 0x1000>;
-> > +        interrupts = <0x5>;
-> 
-> Same comment as before. It applies everywhere, btw.
+The trackpad on my 2013 MacBook Pro (10,2) stops working after the USB
+device is reset, logging "bad trackpad package, length: 8" when
+touching the trackpad.
 
-Oops, I actually had a local fixup for this but forgot to apply it
-before sending. Sorry about that.
+The reset occurs often on my machine, caused by USB EPROTO (MMF)
+errors handled by drivers/hid/usbhid/hid-core.c:hid_io_error() (HID is
+handling the keyboard interface of this device). On encountering two
+keyboard EPROTO errors within 1.5 seconds, the driver will reset the
+USB device, also resetting bcm5974 and trackpad.
 
-On a side note, none of your replies regarding v2 appeared in my inbox
-or spam folder. I had to retrieve this message content from the lore
-web interface to reply. However, your replies to v1 arrived without any
-issues.
+I can also reproduce this with the command:
+$ sudo usbreset 05ac:0259
 
-The only difference I noticed is the sender address:
-v1 came from <krzk@kernel.org>,
-while v2 came from <krzysztof.kozlowski@oss.qualcomm.com>.
-I suspect gmail might be silently dropping the latter due to some check?
+I can get the trackpad back into a working state by reloading the
+bcm5974 driver:
+$ sudo modprobe -r bcm5974; sudo modprobe bcm5974
 
-I'm not familiar with the email protocols, but perhaps it really is time
-for me to start looking for a gmail alternative... even though I see many
-entries in MAINTAINERS still using gmail.com addresses.
+I experimented with the driver and found that adding msleep(50) to
+drivers/input/mouse/bcm5974.c:bcm5974_probe() was enough to allow the
+trackpad to restart reliably after EPROTO errors and the usbreset
+command.
 
-Regards,
-Kuan-Wei
+Not sure if adding a sleep is the right way to fix this, or if I
+should be looking more into the EPROTO error handling in HID or even
+the source of the EPROTO errors in EHCI, power management or firmware.
+
+Version/hardware info below, any input appreciated, thanks!
+Liam
+
+$ cat /proc/version
+Linux version 6.18.4-arch1-1 (linux@archlinux) (gcc (GCC) 15.2.1
+20260103, GNU ld (GNU Binutils) 2.45.1) #1 SMP PREEMPT_DYNAMIC Fri, 09
+Jan 2026 19:43:48 +0000
+https://gitlab.archlinux.org/archlinux/packaging/packages/linux/-/blob/ac8e7e814bb68e6291b4efd862ee9a72d7dc1165/config
+
+$ lsusb -tvvv # only showing root containing kb/trackpad
+/:  Bus 004.Port 001: Dev 001, Class=root_hub, Driver=ehci-pci/2p, 480M
+    ID 1d6b:0002 Linux Foundation 2.0 root hub
+    /sys/bus/usb/devices/usb4  /dev/bus/usb/004/001
+    |__ Port 001: Dev 002, If 0, Class=Hub, Driver=hub/8p, 480M
+        ID 8087:0024 Intel Corp. Integrated Rate Matching Hub
+        /sys/bus/usb/devices/4-1  /dev/bus/usb/004/002
+        |__ Port 008: Dev 003, If 0, Class=Hub, Driver=hub/2p, 480M
+            ID 0424:2512 Microchip Technology, Inc. (formerly SMSC) USB 2.0 Hub
+            /sys/bus/usb/devices/4-1.8  /dev/bus/usb/004/003
+            |__ Port 001: Dev 004, If 0, Class=Hub, Driver=hub/3p, 12M
+                ID 0a5c:4500 Broadcom Corp. BCM2046B1 USB 2.0 Hub
+(part of BCM2046 Bluetooth)
+                /sys/bus/usb/devices/4-1.8.1  /dev/bus/usb/004/004
+                Manufacturer=Apple Inc. Product=BRCM20702 Hub
+                |__ Port 003: Dev 008, If 0, Class=Vendor Specific
+Class, Driver=btusb, 12M
+                    ID 05ac:828c Apple, Inc. Bluetooth Host Controller
+                    /sys/bus/usb/devices/4-1.8.1.3  /dev/bus/usb/004/008
+                    Manufacturer=Apple Inc. Product=Bluetooth USB Host
+Controller
+                |__ Port 003: Dev 008, If 1, Class=Wireless, Driver=btusb, 12M
+                    ID 05ac:828c Apple, Inc. Bluetooth Host Controller
+                    /sys/bus/usb/devices/4-1.8.1.3  /dev/bus/usb/004/008
+                    Manufacturer=Apple Inc. Product=Bluetooth USB Host
+Controller
+                |__ Port 003: Dev 008, If 2, Class=Vendor Specific
+Class, Driver=btusb, 12M
+                    ID 05ac:828c Apple, Inc. Bluetooth Host Controller
+                    /sys/bus/usb/devices/4-1.8.1.3  /dev/bus/usb/004/008
+                    Manufacturer=Apple Inc. Product=Bluetooth USB Host
+Controller
+                |__ Port 003: Dev 008, If 3, Class=Application
+Specific Interface, Driver=[none], 12M
+                    ID 05ac:828c Apple, Inc. Bluetooth Host Controller
+                    /sys/bus/usb/devices/4-1.8.1.3  /dev/bus/usb/004/008
+                    Manufacturer=Apple Inc. Product=Bluetooth USB Host
+Controller
+            |__ Port 002: Dev 005, If 0, Class=Human Interface Device,
+Driver=usbhid, 12M
+                ID 05ac:0259 Apple, Inc. Internal Keyboard/Trackpad
+                /sys/bus/usb/devices/4-1.8.2  /dev/bus/usb/004/005
+                Manufacturer=Apple Inc. Product=Apple Internal
+Keyboard / Trackpad
+            |__ Port 002: Dev 005, If 1, Class=Human Interface Device,
+Driver=usbhid, 12M
+                ID 05ac:0259 Apple, Inc. Internal Keyboard/Trackpad
+                /sys/bus/usb/devices/4-1.8.2  /dev/bus/usb/004/005
+                Manufacturer=Apple Inc. Product=Apple Internal
+Keyboard / Trackpad
+            |__ Port 002: Dev 005, If 2, Class=Human Interface Device,
+Driver=bcm5974, 12M
+                ID 05ac:0259 Apple, Inc. Internal Keyboard/Trackpad
+                /sys/bus/usb/devices/4-1.8.2  /dev/bus/usb/004/005
+                Manufacturer=Apple Inc. Product=Apple Internal
+Keyboard / Trackpad
 
