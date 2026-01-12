@@ -1,108 +1,162 @@
-Return-Path: <linux-input+bounces-16994-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16995-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47352D14451
-	for <lists+linux-input@lfdr.de>; Mon, 12 Jan 2026 18:12:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18289D14656
+	for <lists+linux-input@lfdr.de>; Mon, 12 Jan 2026 18:36:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 9FD68323153D
-	for <lists+linux-input@lfdr.de>; Mon, 12 Jan 2026 17:07:02 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id BEED9302CB99
+	for <lists+linux-input@lfdr.de>; Mon, 12 Jan 2026 17:32:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9EB6937BE9B;
-	Mon, 12 Jan 2026 17:03:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B00E637E2FA;
+	Mon, 12 Jan 2026 17:32:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NesNtqxg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bbZeEmV9"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10356378D68;
-	Mon, 12 Jan 2026 17:03:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93222379986;
+	Mon, 12 Jan 2026 17:32:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768237433; cv=none; b=YWie6zdPMdt5GI15H1KOde9Si0gV7BQy+ONk3SK5RGL0lt7fQPPKEgLOA68TC9ET1L+lvGLMJ9COSpfSDHIoPMAbbxpj+rZ5Hl/Dq3q3+csTE/kACZ/MKoM8dsaHLXWKstAUv2FBl5GT1QEc5B87jb250QA8TZwBnmQpCkcVqFs=
+	t=1768239167; cv=none; b=McTSGJXRKkOuHxulRF2zZltyBBd9DfCcqRlLei3GnbKL9kT31iUGPQE30igQoQkExd3by6gxfQh/YQdb2OkUYaDrkMUy4wBvndu3H3NFAdtYarrl33zHX7qqCkJTdsJJTllq7BThbvTPbV0UgmcJx9x2Up2AmpwA+pYQnZ/oTnI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768237433; c=relaxed/simple;
-	bh=xJXf+LhdLGTKuLTjM/umuKB32euuD/ODMjoH9BrdBYg=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=UI/fGTF5xkyzyICyGpYf3kayLK354oIMT30c58abWjnrPRRq3spGOLy4FKk0BLK7E5KT0UXtq2to0aPWKG3zV/UDAw243IOi5NzYVrOYKFD7qR8aVIqUTYDU3jPnlFkqKgg4qiqecGfS8+yLSkZfsEOZw7bqF+pj6/m73y8C8jI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NesNtqxg; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 203D6C2BC87;
-	Mon, 12 Jan 2026 17:03:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768237432;
-	bh=xJXf+LhdLGTKuLTjM/umuKB32euuD/ODMjoH9BrdBYg=;
-	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=NesNtqxgke3t1M+KWFU1S6qiltLApr0a9WuDQqXncNyBNsszd5DHVv0fk2CiQfjca
-	 sqt8xDiGmWb9HFBluDfo3pUzhpPP4LfsH0BkmWcMo11bVQt4iNOCDzCV6n3YN7oboY
-	 fbxdA/auT90epymNP2DyU7mZ/ncX5WEogCWqGItv2RF5w5UskcA6GA5HYtUcHBTsVS
-	 fF9Ervn+9As/2dzKqNI8FkltkXKf1sEBkLpcIO2xoT/XaUJC4SkK+LDMusnfQGFXVs
-	 zq6Oa7/NkfexHvAFQXipXZuDI6VSmdO3lfZe81wOVHavNnS9mi/xRntsZcdwsI+ULZ
-	 rP9BnPwBM/O6Q==
-Date: Mon, 12 Jan 2026 18:03:49 +0100 (CET)
-From: Jiri Kosina <jikos@kernel.org>
-To: Benjamin Tissoires <bentiss@kernel.org>
-cc: Bastien Nocera <hadess@hadess.net>, linux-input@vger.kernel.org, 
-    linux-kernel@vger.kernel.org, 
-    Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Subject: Re: [PATCH 00/12] HID: Use pm_*ptr instead of #ifdef CONFIG_PM*
-In-Reply-To: <raxul2tp5zvlzktqnspl5pdu6u4433zlyzduonxy2plyoehzov@7qb7ldg3gy6m>
-Message-ID: <o2o023r4-5q1n-9s9p-r8q7-7n6418755927@xreary.bet>
-References: <20260112105500.3664834-1-hadess@hadess.net> <p75339q9-1r03-n389-92q7-7q9snq091p79@xreary.bet> <raxul2tp5zvlzktqnspl5pdu6u4433zlyzduonxy2plyoehzov@7qb7ldg3gy6m>
+	s=arc-20240116; t=1768239167; c=relaxed/simple;
+	bh=/F0DHPES9V4UKhWUy41xbv8wKwwgas3zZAi12ZfuGjU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GlY8/tUndL2rubEcqjOI26jFpItd/hjbSEjNXDgC3iZrfF50eVe6+I70LFGaX3hwF+07xFtahhIY1e6YL9NpNV+byodYBSaGmG6rWo8c8TionvBGR3ND8di6GX/76B1zl5mANomNLAnXOAuIxEzxIlCK0bU6bQ9mgPtVqtPcrjs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bbZeEmV9; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1768239165; x=1799775165;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=/F0DHPES9V4UKhWUy41xbv8wKwwgas3zZAi12ZfuGjU=;
+  b=bbZeEmV9UKmDUsRmdl4jgqIXGqU2voKmlG+YG9ezi725erXy3rUF0YjB
+   +JRgQCqwmkS32tZxIn41Yb35mV2SKmObuVjkxEbWu73hCwLRBq4EFKAh1
+   6L8VfdFeDfqbqVT7QxC+QlWpx1XEIQqRsSdfyWlLHiv4toL85UBkadzJq
+   j046lrD3UNEHJhp4hs5KCGxFXxTKSfFYFBrrhPOtDvaITWU4YtYwPd8sn
+   VQCxQ0NkebG2CJxrxOEOWgoEgO/DU6iy72rIWA7JxB7/k+GTqbzYjkwMC
+   OJPqr7+QRa2NsHYUzslLfYKE5BzYt3OXS6NfN9NLDFGIxik6YPyAp13Ew
+   w==;
+X-CSE-ConnectionGUID: hfluwQVOS8+Ebe7siciIYg==
+X-CSE-MsgGUID: odTTQ9jfRbuEyEJvcjlq4Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11669"; a="79812953"
+X-IronPort-AV: E=Sophos;i="6.21,221,1763452800"; 
+   d="scan'208";a="79812953"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 09:32:45 -0800
+X-CSE-ConnectionGUID: iAiCqQUSSjiRtSTQ9Cz4SQ==
+X-CSE-MsgGUID: QvBqkciATtaz7EMufw/x0w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,221,1763452800"; 
+   d="scan'208";a="208983881"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 12 Jan 2026 09:32:42 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vfLmR-00000000Dg0-2gaC;
+	Mon, 12 Jan 2026 17:32:39 +0000
+Date: Tue, 13 Jan 2026 01:31:52 +0800
+From: kernel test robot <lkp@intel.com>
+To: Bastien Nocera <hadess@hadess.net>, linux-input@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+	Bastien Nocera <hadess@hadess.net>
+Subject: Re: [PATCH 09/12] HID: sony: Use pm_ptr instead of #ifdef CONFIG_PM
+Message-ID: <202601130046.THZRFNIA-lkp@intel.com>
+References: <20260112105500.3664834-10-hadess@hadess.net>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260112105500.3664834-10-hadess@hadess.net>
 
-On Mon, 12 Jan 2026, Benjamin Tissoires wrote:
+Hi Bastien,
 
-> > > All those changes should be safe, as similar ones were done in other
-> > > subsystems, but I'm uncertain about the surface changes.
-> > > 
-> > > Bastien Nocera (12):
-> > >   HID: hid-alps: Use pm_ptr instead of #ifdef CONFIG_PM
-> > >   HID: appletb-kbd: Use pm_ptr instead of #ifdef CONFIG_PM
-> > >   HID: asus: Use pm_ptr instead of #ifdef CONFIG_PM
-> > >   HID: lenovo: Use pm_ptr instead of #ifdef CONFIG_PM
-> > >   HID: logitech-dj: Use pm_ptr instead of #ifdef CONFIG_PM
-> > >   HID: nintendo: Use pm_ptr instead of #ifdef CONFIG_PM
-> > >   HID: picolcd_core: Use pm_ptr instead of #ifdef CONFIG_PM
-> > >   HID: hid-sensor-hub: Use pm_ptr instead of #ifdef CONFIG_PM
-> > >   HID: sony: Use pm_ptr instead of #ifdef CONFIG_PM
-> > >   HID: uclogic: Use pm_ptr instead of #ifdef CONFIG_PM
-> > >   HID: wacom: Use pm_ptr instead of #ifdef CONFIG_PM
-> > >   HID: surface: Use pm_ptr_sleep instead of #ifdef CONFIG_PM_SLEEP
-> > > 
-> > >  drivers/hid/hid-alps.c                     | 6 ++----
-> > >  drivers/hid/hid-appletb-kbd.c              | 6 ++----
-> > >  drivers/hid/hid-asus.c                     | 6 ++----
-> > >  drivers/hid/hid-lenovo.c                   | 4 +---
-> > >  drivers/hid/hid-logitech-dj.c              | 4 +---
-> > >  drivers/hid/hid-nintendo.c                 | 7 ++-----
-> > >  drivers/hid/hid-picolcd_core.c             | 8 +++-----
-> > >  drivers/hid/hid-sensor-hub.c               | 8 +++-----
-> > >  drivers/hid/hid-sony.c                     | 9 +++------
-> > >  drivers/hid/hid-uclogic-core.c             | 6 ++----
-> > >  drivers/hid/surface-hid/surface_hid.c      | 2 +-
-> > >  drivers/hid/surface-hid/surface_hid_core.c | 5 -----
-> > >  drivers/hid/surface-hid/surface_kbd.c      | 2 +-
-> > >  drivers/hid/wacom_sys.c                    | 6 ++----
-> > >  14 files changed, 25 insertions(+), 54 deletions(-)
-> > 
-> > Thanks Bastien, this is now in hid.git#for-6.20/pm_ptr.
-> > 
-> 
-> There is something wrong with the series:
-> https://gitlab.freedesktop.org/bentiss/hid/-/jobs/90949365
+kernel test robot noticed the following build errors:
 
-Yeah, and 0day bot found another issue. Dropping for now, this needs more 
-polishing apparently :)
+[auto build test ERROR on hid/for-next]
+[also build test ERROR on linus/master v6.19-rc5 next-20260109]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Bastien-Nocera/HID-hid-alps-Use-pm_ptr-instead-of-ifdef-CONFIG_PM/20260112-190559
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
+patch link:    https://lore.kernel.org/r/20260112105500.3664834-10-hadess%40hadess.net
+patch subject: [PATCH 09/12] HID: sony: Use pm_ptr instead of #ifdef CONFIG_PM
+config: parisc-defconfig (https://download.01.org/0day-ci/archive/20260113/202601130046.THZRFNIA-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260113/202601130046.THZRFNIA-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601130046.THZRFNIA-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from include/linux/kernel.h:36,
+                    from include/linux/random.h:7,
+                    from include/linux/nodemask.h:94,
+                    from include/linux/numa.h:6,
+                    from include/linux/cpumask.h:15,
+                    from include/linux/smp.h:13,
+                    from include/linux/lockdep.h:14,
+                    from include/linux/spinlock.h:63,
+                    from include/linux/sched.h:37,
+                    from include/linux/ratelimit.h:6,
+                    from include/linux/dev_printk.h:16,
+                    from include/linux/device.h:15,
+                    from drivers/hid/hid-sony.c:31:
+>> drivers/hid/hid-sony.c:2402:36: error: 'sony_suspend' undeclared here (not in a function)
+    2402 |         .suspend          = pm_ptr(sony_suspend),
+         |                                    ^~~~~~~~~~~~
+   include/linux/util_macros.h:136:44: note: in definition of macro 'PTR_IF'
+     136 | #define PTR_IF(cond, ptr)       ((cond) ? (ptr) : NULL)
+         |                                            ^~~
+   drivers/hid/hid-sony.c:2402:29: note: in expansion of macro 'pm_ptr'
+    2402 |         .suspend          = pm_ptr(sony_suspend),
+         |                             ^~~~~~
+>> drivers/hid/hid-sony.c:2403:36: error: 'sony_resume' undeclared here (not in a function); did you mean 'sony_remove'?
+    2403 |         .resume           = pm_ptr(sony_resume),
+         |                                    ^~~~~~~~~~~
+   include/linux/util_macros.h:136:44: note: in definition of macro 'PTR_IF'
+     136 | #define PTR_IF(cond, ptr)       ((cond) ? (ptr) : NULL)
+         |                                            ^~~
+   drivers/hid/hid-sony.c:2403:29: note: in expansion of macro 'pm_ptr'
+    2403 |         .resume           = pm_ptr(sony_resume),
+         |                             ^~~~~~
+
+
+vim +/sony_suspend +2402 drivers/hid/hid-sony.c
+
+  2392	
+  2393	static struct hid_driver sony_driver = {
+  2394		.name             = "sony",
+  2395		.id_table         = sony_devices,
+  2396		.input_mapping    = sony_mapping,
+  2397		.input_configured = sony_input_configured,
+  2398		.probe            = sony_probe,
+  2399		.remove           = sony_remove,
+  2400		.report_fixup     = sony_report_fixup,
+  2401		.raw_event        = sony_raw_event,
+> 2402		.suspend          = pm_ptr(sony_suspend),
+> 2403		.resume	          = pm_ptr(sony_resume),
+  2404		.reset_resume     = pm_ptr(sony_resume),
+  2405	};
+  2406	
 
 -- 
-Jiri Kosina
-SUSE Labs
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
