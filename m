@@ -1,56 +1,56 @@
-Return-Path: <linux-input+bounces-16980-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16984-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2465D1360B
-	for <lists+linux-input@lfdr.de>; Mon, 12 Jan 2026 15:59:55 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 430EED13681
+	for <lists+linux-input@lfdr.de>; Mon, 12 Jan 2026 16:02:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id B8F1030119AE
-	for <lists+linux-input@lfdr.de>; Mon, 12 Jan 2026 14:59:12 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 97F263023B65
+	for <lists+linux-input@lfdr.de>; Mon, 12 Jan 2026 15:00:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 310B22DC344;
-	Mon, 12 Jan 2026 14:58:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 087D62E92BA;
+	Mon, 12 Jan 2026 14:59:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lckl+44M"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TCEjKfVj"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D71D2DB7B0;
-	Mon, 12 Jan 2026 14:58:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B76632DF6F4;
+	Mon, 12 Jan 2026 14:59:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768229932; cv=none; b=t1zWarNgqtIoYQZ9Gm4Nn7t0wTtRvyYiZBK8fPbG3RyrOQ22FxPeQ46kMIGj7sw8+PrmZ86mjcKqzFfUPVAnlo4ZNWWsy6YXSWzqO5Myxw28W3bym7SzSAEdsKmK96SJLmtl8GXsA4ixNfsoVA3awVrabJttc+10YNwI8hHaTG4=
+	t=1768229961; cv=none; b=Mb0bucN/WdrX+SypFW2WBGI4yl9SwpzbKS104r8AbVmfniAKts6+h9vteNGdhBcxv7RfWkfG31d4MrLopNiyVoVPanKon2AOuBwg2m33Kw2Im9d9XG3CZZP+p4RvUPlQoGP88/Xc7MiNdyCw5vRlPnwCTSNq4jyL0M2WRveFx3k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768229932; c=relaxed/simple;
-	bh=tmveYG3MYrcIOx8fgo5jQ0uyIL+4rJEKzFawxuWWjgY=;
+	s=arc-20240116; t=1768229961; c=relaxed/simple;
+	bh=BuWmwzZBgVbZzKtXVjoa4UF2cg+4GqjkbsAmVSu1kGs=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=iXaARuNwsRMGS00IUrVC615xtp9WrsRN0w/lGDZ7CmHIIs+y06jG+SKbGd2KltHBH4W7vy3T1EFVl1Fj495P4dOFb40YH9ZO/DJEmw4o0M5IYUH/ceiS6dshbdyFdvYMHXPEaRAZp4JFK6XiM1te4Qg024dxkZXaW6Gez+kwd6Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lckl+44M; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 231CFC19422;
-	Mon, 12 Jan 2026 14:58:51 +0000 (UTC)
+	 MIME-Version:Content-Type; b=fcDqrf0aicvkgwul4KML/XP8+WAeZvGgDRnNDYQge3WWy/rLjB4a3V+udnZFWahHYfil+tow6B2FyKh+kOtDJKERygJZoOpECoe/G7FL9csW2oVUuvOcG08ih3jIpd9Y2ExZrPFgiwJiurR14PyzLe8U6rcqEK5s4cX5MwMWJDg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TCEjKfVj; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A9B9C19425;
+	Mon, 12 Jan 2026 14:59:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768229931;
-	bh=tmveYG3MYrcIOx8fgo5jQ0uyIL+4rJEKzFawxuWWjgY=;
+	s=k20201202; t=1768229961;
+	bh=BuWmwzZBgVbZzKtXVjoa4UF2cg+4GqjkbsAmVSu1kGs=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=lckl+44Mbe8FW04Gi084rW/NR2OCxWbFu3Iw4YjwFx/0XA+Cnc+HMPDGrn2XZZ/jB
-	 b3jp6VFVcGGTtJ8590pm8xoAHf8fH/j+1RuXYrn8S4H21dBxFbW9qPYyE8UmvihOVT
-	 e5ER4SPUC42d4RBMyNht1B9CE+PLy1rIwEJtQUwupP7dQXe+z0/6WEoRkic6s0jYU6
-	 4/vKhXxWzrF+oXMqTQtktHGYJH/nVDrIyMws5d0UQ1e8RCLl383rS5YaGR/jzvgtju
-	 zG1z2ZpS/TXpzx0YjsAUFt47z0rYtfPUQkj+fzTjggYJWA3lkKcux/Tr5bsBwh581B
-	 xmOivLHrlF+eA==
+	b=TCEjKfVjfS/AB03JW3h1z370cHkSLJWSgo+a3iV7Cg7ph3FQy2f4iA8fR/N62afX4
+	 p3ixa9AtAi5LYtCoPyfYYB6YNQaSrw3NP3Iz283s1QzV7iLPUJ6QpIxlVwrawjroLu
+	 BPJHEXcWxoYYwOKp1Vmni1rLQXFg+F+UCz3KEqTzVTDsExHNDP7TDYXpGJcIHM+UBF
+	 OYCNopDWZvOfIRn6t0Vd8AUDRWnFHYfSjdKC6lSVLKjQn+aCZD1DjX6KBQbLHi0v2X
+	 znZgm3ThkeK18n0E9HBXGRwY6D6GX6kWudZqbIBkm52qXvJ4vkxuabnskrUhN0Ijs/
+	 Hkpmm3sS6WH3g==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: DaytonCL <artem749507@gmail.com>,
-	Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-	Benjamin Tissoires <bentiss@kernel.org>,
+Cc: Dennis Marttinen <twelho@welho.tech>,
+	Jiri Kosina <jkosina@suse.com>,
 	Sasha Levin <sashal@kernel.org>,
 	jikos@kernel.org,
+	bentiss@kernel.org,
 	linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.18-5.10] HID: multitouch: add MT_QUIRK_STICKY_FINGERS to MT_CLS_VTL
-Date: Mon, 12 Jan 2026 09:58:09 -0500
-Message-ID: <20260112145840.724774-8-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.18-6.12] HID: logitech: add HID++ support for Logitech MX Anywhere 3S
+Date: Mon, 12 Jan 2026 09:58:24 -0500
+Message-ID: <20260112145840.724774-23-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260112145840.724774-1-sashal@kernel.org>
 References: <20260112145840.724774-1-sashal@kernel.org>
@@ -66,158 +66,167 @@ X-stable-base: Linux 6.18.5
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: DaytonCL <artem749507@gmail.com>
+From: Dennis Marttinen <twelho@welho.tech>
 
-[ Upstream commit ff3f234ff1dcd6d626a989151db067a1b7f0f215 ]
+[ Upstream commit d7f6629bffdcb962d383ef8c9a30afef81e997fe ]
 
-Some VTL-class touchpads (e.g. TOPS0102:00 35CC:0104) intermittently
-fail to release a finger contact. A previous slot remains logically
-active, accompanied by stale BTN_TOOL_DOUBLETAP state, causing
-gestures to stay latched and resulting in stuck two-finger
-scrolling and false right-clicks.
+I've acquired a Logitech MX Anywhere 3S mouse, which supports HID++ over
+Bluetooth. Adding its PID 0xb037 to the allowlist enables the additional
+features, such as high-resolution scrolling. Tested working across multiple
+machines, with a mix of Intel and Mediatek Bluetooth chips.
 
-Apply MT_QUIRK_STICKY_FINGERS to handle the unreleased contact correctly.
-
-Link: https://gitlab.freedesktop.org/libinput/libinput/-/issues/1225
-Suggested-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Tested-by: DaytonCL <artem749507@gmail.com>
-Signed-off-by: DaytonCL <artem749507@gmail.com>
-Signed-off-by: Benjamin Tissoires <bentiss@kernel.org>
+[jkosina@suse.com: standardize shortlog]
+Signed-off-by: Dennis Marttinen <twelho@welho.tech>
+Signed-off-by: Jiri Kosina <jkosina@suse.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-## Analysis of HID Multitouch Quirk Addition
+## Analysis of HID: logitech: add HID++ support for Logitech MX Anywhere
+3S
 
 ### 1. COMMIT MESSAGE ANALYSIS
 
-The commit clearly describes a **real user-visible bug**:
-- VTL-class touchpads (specifically TOPS0102:00 35CC:0104)
-  intermittently fail to release finger contacts
-- This causes gestures to stay latched - stuck two-finger scrolling and
-  false right-clicks
-- Links to a libinput bug report:
-  https://gitlab.freedesktop.org/libinput/libinput/-/issues/1225
-- Has `Tested-by:` from the reporter and `Suggested-by:` from Benjamin
-  Tissoires (HID maintainer)
-- Signed off by the maintainer (Benjamin Tissoires)
+**Subject:** "HID: logitech: add HID++ support for Logitech MX Anywhere
+3S"
+
+The commit message explains:
+- Author acquired an MX Anywhere 3S mouse that supports HID++ over
+  Bluetooth
+- Adding PID 0xb037 to the allowlist enables additional features (high-
+  resolution scrolling)
+- Tested on multiple machines with Intel and Mediatek Bluetooth chips
+- Has proper sign-offs from author and maintainer (Jiri Kosina)
+
+No `Cc: stable` or `Fixes:` tags are present, but as noted, that's
+expected for commits undergoing manual review.
 
 ### 2. CODE CHANGE ANALYSIS
 
-The change is **extremely minimal** - adding one line:
+The actual change is minimal:
+
 ```c
-MT_QUIRK_STICKY_FINGERS |
++       { /* MX Anywhere 3S mouse over Bluetooth */
++         HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb037) },
 ```
 
-to the existing `MT_CLS_VTL` class definition. This enables an already-
-existing quirk flag (`MT_QUIRK_STICKY_FINGERS`) for VTL-class devices.
+This adds exactly **2 lines** - one comment and one device ID entry to
+the `hidpp_devices[]` table. Looking at the context, this table already
+contains many similar Logitech Bluetooth device entries:
+- MX Master (0xb012), MX Master 2S (0xb019), MX Master 3 (0xb023), MX
+  Master 3S (0xb034)
+- MX Anywhere 3 (0xb025), MX Anywhere 3SB (0xb038)
+- M720 Triathlon (0xb015), MX Ergo (0xb01d), MX Vertical (0xb020), etc.
 
-The quirk mechanism handles cases where a touchpad firmware fails to
-properly report when a finger has been lifted. Without it, the system
-thinks the finger is still touching, causing "sticky" gestures. The
-quirk infrastructure already exists and is well-tested - this commit
-just enables it for another device class.
+The new entry follows the exact same pattern as all existing entries.
 
 ### 3. CLASSIFICATION
 
-This falls squarely into the **QUIRKS and WORKAROUNDS exception
-category**:
-- Hardware-specific quirk for buggy/non-compliant devices
-- The quirk code already exists in mainline - only enabling it for VTL
-  class
-- Fixes real-world hardware behavior issues
+This is a **NEW DEVICE ID** addition - one of the explicitly allowed
+exception categories for stable kernels:
 
-This is NOT:
-- A new feature or API
-- A new driver
-- Code refactoring
+> "Adding PCI IDs, USB IDs, ACPI IDs, etc. to existing drivers - These
+are trivial one-line additions that enable hardware support"
+
+Key points:
+- The hid-logitech-hidpp driver already exists in stable kernels
+- The HID++ protocol support is fully implemented
+- Only the Bluetooth device ID 0xb037 is being added
+- This is not a new driver or new functionality - it's enabling an
+  existing driver for new hardware
 
 ### 4. SCOPE AND RISK ASSESSMENT
 
+**Risk: EXTREMELY LOW**
+
 | Factor | Assessment |
 |--------|------------|
-| Lines changed | 1 |
+| Lines changed | 2 |
 | Files touched | 1 |
-| Complexity | Trivially low |
-| Subsystem | HID multitouch (mature, stable) |
-| Risk | Very low |
+| Code logic changed | None |
+| Complexity | Zero - pure data table entry |
+| Subsystem maturity | Very mature (HID drivers) |
 
-The worst case scenario: if the quirk somehow caused issues on a
-specific VTL device, it would only affect that device class. But the
-current behavior is already broken for affected users, so this is a
-clear improvement.
+This cannot introduce regressions because:
+- No code paths are modified
+- No functions are changed
+- Only users with this specific mouse over Bluetooth are affected
+- If there were somehow an issue, it would only affect that specific
+  hardware
 
 ### 5. USER IMPACT
 
-- **Affected users**: Anyone with VTL-class touchpads
-- **Symptoms**: Stuck two-finger scrolling, false right-clicks - these
-  are highly disruptive daily-use issues
-- **Severity**: Medium-high for affected users (makes touchpad
-  unreliable)
-- **Evidence of real impact**: Linked bug report from libinput tracker
+**Who benefits:** Users with Logitech MX Anywhere 3S mice using
+Bluetooth connection
+
+**Without this fix:** The mouse works via basic HID, but lacks:
+- High-resolution scrolling
+- Battery status reporting
+- Other HID++ features that premium Logitech mice support
+
+**Impact level:** The MX Anywhere 3S is a current-generation retail
+product that users are actively purchasing. Stable kernel users expect
+their hardware to work properly.
 
 ### 6. STABILITY INDICATORS
 
-- `Tested-by:` tag from the reporter who experienced the issue
-- Suggested and signed off by HID subsystem maintainer
-- The `MT_QUIRK_STICKY_FINGERS` quirk has existed since ~Linux 3.15
-- The `MT_CLS_VTL` class has existed since ~Linux 4.13
-- Well-established quirk pattern used by many other device classes
-  (FLATFROG, LG, ASUS, etc.)
+- ✅ Tested by author on multiple machines with different Bluetooth chips
+- ✅ Reviewed and signed off by HID maintainer Jiri Kosina
+- ✅ Pattern is identical to many existing, working entries
 
 ### 7. DEPENDENCY CHECK
 
-- **No dependencies** on other commits
-- Both the quirk flag and VTL class exist in all recent stable trees
-- Should apply cleanly without modification
+**Dependencies:** None
 
-### STABLE KERNEL RULES ASSESSMENT
+This is a pure data addition. The driver framework already exists in all
+stable kernels that have the hid-logitech-hidpp driver. No other commits
+are required.
 
-| Criterion | Met? |
-|-----------|------|
-| Obviously correct and tested | ✅ Yes - trivial change, has Tested-by |
-| Fixes a real bug | ✅ Yes - documented hardware issue with bug report |
-| Important issue | ✅ Yes - stuck gestures/false clicks affect daily use
-|
-| Small and contained | ✅ Yes - 1 line in 1 file |
-| No new features | ✅ Yes - uses existing quirk mechanism |
-| Applies cleanly | ✅ Yes - no dependencies |
+---
 
-### CONCLUSION
+## Summary
 
-This is an **ideal stable backport candidate**:
+This commit is a **textbook example of a stable-appropriate device ID
+addition**:
 
-1. **Minimal risk**: Single-line addition of an existing, well-tested
-   quirk flag
-2. **Real user benefit**: Fixes stuck gestures and false clicks on VTL
-   touchpads
-3. **Proper testing**: Has Tested-by tag and maintainer approval
-4. **Falls under hardware quirk exception**: Hardware quirks/workarounds
-   are explicitly allowed in stable even though they add code
-5. **Self-contained**: No dependencies, applies cleanly to stable trees
+1. ✅ **Trivial 2-line change** - Just a device ID added to an existing
+   table
+2. ✅ **No code modifications** - Pure data entry
+3. ✅ **Driver already exists** - hid-logitech-hidpp is well-established
+   in stable
+4. ✅ **Follows existing pattern** - Identical format to dozens of other
+   entries
+5. ✅ **Tested** - Verified on multiple hardware configurations
+6. ✅ **Zero regression risk** - Only affects users with this specific
+   hardware
+7. ✅ **Real user benefit** - Enables proper hardware support for
+   current-generation product
+8. ✅ **No dependencies** - Can be cleanly cherry-picked to any stable
+   kernel
 
-The fix is small, surgical, obviously correct, and addresses a real
-user-visible hardware issue. This is exactly the type of hardware quirk
-addition that stable trees should accept.
+The stable kernel rules explicitly allow device ID additions because
+they enable hardware support with virtually zero risk. This is precisely
+what the "device ID exception" exists for.
 
 **YES**
 
- drivers/hid/hid-multitouch.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/hid/hid-logitech-hidpp.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
-index 179dc316b4b51..a0c1ad5acb670 100644
---- a/drivers/hid/hid-multitouch.c
-+++ b/drivers/hid/hid-multitouch.c
-@@ -393,6 +393,7 @@ static const struct mt_class mt_classes[] = {
- 	{ .name = MT_CLS_VTL,
- 		.quirks = MT_QUIRK_ALWAYS_VALID |
- 			MT_QUIRK_CONTACT_CNT_ACCURATE |
-+			MT_QUIRK_STICKY_FINGERS |
- 			MT_QUIRK_FORCE_GET_FEATURE,
- 	},
- 	{ .name = MT_CLS_GOOGLE,
+diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hidpp.c
+index a88f2e5f791c6..9b612f62d0fba 100644
+--- a/drivers/hid/hid-logitech-hidpp.c
++++ b/drivers/hid/hid-logitech-hidpp.c
+@@ -4661,6 +4661,8 @@ static const struct hid_device_id hidpp_devices[] = {
+ 	  HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb025) },
+ 	{ /* MX Master 3S mouse over Bluetooth */
+ 	  HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb034) },
++	{ /* MX Anywhere 3S mouse over Bluetooth */
++	  HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb037) },
+ 	{ /* MX Anywhere 3SB mouse over Bluetooth */
+ 	  HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb038) },
+ 	{}
 -- 
 2.51.0
 
