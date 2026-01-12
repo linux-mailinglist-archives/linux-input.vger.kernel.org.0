@@ -1,56 +1,57 @@
-Return-Path: <linux-input+bounces-16982-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16983-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58533D13879
-	for <lists+linux-input@lfdr.de>; Mon, 12 Jan 2026 16:15:05 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BB1DD13816
+	for <lists+linux-input@lfdr.de>; Mon, 12 Jan 2026 16:11:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 0449130C479B
-	for <lists+linux-input@lfdr.de>; Mon, 12 Jan 2026 14:59:56 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id A97AE3170D2E
+	for <lists+linux-input@lfdr.de>; Mon, 12 Jan 2026 15:00:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6A43E2E7BDC;
-	Mon, 12 Jan 2026 14:59:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 556EF2DE6FB;
+	Mon, 12 Jan 2026 14:59:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AV/6DrBZ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BJA4UV8b"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 267A62D0C8B;
-	Mon, 12 Jan 2026 14:59:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FD0C2E7F21;
+	Mon, 12 Jan 2026 14:59:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768229952; cv=none; b=E699Ifse1ix9Su3XztGQzYCokikV3rSoeZieupKvA5Po/q/BCT47ViBXLoddFIsh+bDBSpa/yLP0ocmwQGmrJIahPZzuY5JpJ9pLur4FG+xcInuA+uG1UoUMH4lTkdCPdOhj0YDfmaZiU0s9bfUYylvEH+49mOdNXc4LXWIEjX8=
+	t=1768229956; cv=none; b=mXNRk5Qc59ir4sVz/eI1EqXYD2Cp00MOsIpyRZs5hspoLXr2OBXlRzjN4Qu2gfThN7MSKifF4xcmFqqpN2F2klidhsL99Vd/GaI7ZKZyT1VWgKldyEUS0W+w00CDWfpaX2FjuTnCP9dXHdlc1v+3grDl3GkAIF8A/ZQ2SmztiGs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768229952; c=relaxed/simple;
-	bh=QI4Dk/fAy1RPcU+wvgbT60kZ6bcDr+mN9AtUmOQcTFo=;
+	s=arc-20240116; t=1768229956; c=relaxed/simple;
+	bh=5ufUitVWNFfrfch+BR7/BeFVooBFCM2j9ey14uZ+3cw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=g/KyyBA5mB5k/KZfA0PHkB30anwM1QLAvtEwPB/6SsCP4Hc88nYK309SHlOVuqoPA+jZGvICP4BhRhqfqL50yoII+MtjPGGkiulvUvIAFooCqerUCyK1vK/FS8tFsvPPF/dqrPjl7d+SjuSKDpYIMGYdfLU0yuqcBmMx3EzBLsE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AV/6DrBZ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3BB9BC4AF0B;
-	Mon, 12 Jan 2026 14:59:11 +0000 (UTC)
+	 MIME-Version:Content-Type; b=rSQE0RiZ2myDMuAdUfMsLtcGv9NBzTZ0nsiPiqNRr6pMEF9kQRVVhn+KTMLSEVzl1Rn1fxkIUwGgcz/XQ1XlleyvCxlxXbpYbAhIB0qmSx7FeCQmcmEIrQTPKFSNu3h05/W4NemgkE/zMatPhVivCVqNL7nwiZoMeWDOwis3oBE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BJA4UV8b; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B52BC2BC9E;
+	Mon, 12 Jan 2026 14:59:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768229952;
-	bh=QI4Dk/fAy1RPcU+wvgbT60kZ6bcDr+mN9AtUmOQcTFo=;
+	s=k20201202; t=1768229955;
+	bh=5ufUitVWNFfrfch+BR7/BeFVooBFCM2j9ey14uZ+3cw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=AV/6DrBZHFHl84B1h/T5jd6ger/rZ9u/MHs6xfuB8yv+0Fdrulps0S/TTbLVNIPqT
-	 zi9e2qrixP1czprMPiB8ak/jfwFlGixBU3+CMC8PJ+PVg7cr6/jOCCHwLAr8ZhvEs9
-	 FKz6+ZtVY6Pw2ev75gHP7a5Pxg5EwxLc6HtRx6wD58PdremcUflk9xsOp8+KUIZwsw
-	 74dmJG4fuNBfNHY+aqNiNiX2R9Vuuw1Lf4FT1cTdjxqo/vcte6DYFxux+D6XfV45BW
-	 Y7w+crunKKN2ebnAKRkduGqfJMMRoGP3GHM16WPhFe9ACmo0glH5zgMka3igFVelBd
-	 EA8nqAbTBAtyg==
+	b=BJA4UV8bcYbzijqb/RX3DMB7sIgqbu+An6OSBDqd5qKSWnTYIMBszGEOZY/loyvQP
+	 XC0T45d37VYsjkrk7ximvLFjiWKOI8roDNNqIJrDSpIvvlnHrfBV3ownDMLNLl6vkT
+	 sfSrvBB5HKZyAFPWwH4k+3M0gm/BMXaFBKVNluZj2aB43QMyQw3JTZMhQVJTGv0sem
+	 5Pd3DWK9ApUT3IvEdjEDlV79JaF1+X46LNUb8BhKb02HETtBL2gOsADzoNHgI/0rM4
+	 yQyPOTf7NdDXEDNzF9+WL9j0+2BuEXCDm94Op2Fas/LHMct5PMti+MGKWaryszUghh
+	 YK52IxNSFueyA==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Zhang Lixu <lixu.zhang@intel.com>,
-	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-	Benjamin Tissoires <bentiss@kernel.org>,
+Cc: =?UTF-8?q?Rodrigo=20Lugathe=20da=20Concei=C3=A7=C3=A3o=20Alves?= <lugathe2@gmail.com>,
+	Terry Junge <linuxhid@cosmicgizmosystems.com>,
+	Jiri Kosina <jkosina@suse.com>,
 	Sasha Levin <sashal@kernel.org>,
 	jikos@kernel.org,
+	bentiss@kernel.org,
 	linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.18-5.10] HID: intel-ish-hid: Reset enum_devices_done before enumeration
-Date: Mon, 12 Jan 2026 09:58:19 -0500
-Message-ID: <20260112145840.724774-18-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.18-5.10] HID: Apply quirk HID_QUIRK_ALWAYS_POLL to Edifier QR30 (2d99:a101)
+Date: Mon, 12 Jan 2026 09:58:21 -0500
+Message-ID: <20260112145840.724774-20-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260112145840.724774-1-sashal@kernel.org>
 References: <20260112145840.724774-1-sashal@kernel.org>
@@ -60,184 +61,146 @@ List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.18.5
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Zhang Lixu <lixu.zhang@intel.com>
+From: Rodrigo Lugathe da Conceição Alves <lugathe2@gmail.com>
 
-[ Upstream commit 56e230723e3a818373bd62331bccb1c6d2b3881b ]
+[ Upstream commit 85a866809333cd2bf8ddac93d9a3e3ba8e4f807d ]
 
-Some systems have enabled ISH without any sensors. In this case sending
-HOSTIF_DM_ENUM_DEVICES results in 0 sensors. This triggers ISH hardware
-reset on subsequent enumeration after S3/S4 resume.
+The USB speaker has a bug that causes it to reboot when changing the
+brightness using the physical knob.
 
-The enum_devices_done flag was not reset before sending the
-HOSTIF_DM_ENUM_DEVICES command. On subsequent enumeration calls (such as
-after S3/S4 resume), this flag retains its previous true value, causing the
-wait loop to be skipped and returning prematurely to hid_ishtp_cl_init().
-If 0 HID devices are found, hid_ishtp_cl_init() skips getting HID device
-descriptors and sets init_done to true. When the delayed enumeration
-response arrives with init_done already true, the driver treats it as a bad
-packet and triggers an ISH hardware reset.
+Add a new vendor and product ID entry in hid-ids.h, and register
+the corresponding device in hid-quirks.c with the required quirk.
 
-Set enum_devices_done to false before sending the enumeration command,
-consistent with similar functions like ishtp_get_hid_descriptor() and
-ishtp_get_report_descriptor() which reset their respective flags.
-
-Signed-off-by: Zhang Lixu <lixu.zhang@intel.com>
-Acked-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-Signed-off-by: Benjamin Tissoires <bentiss@kernel.org>
+Signed-off-by: Rodrigo Lugathe da Conceição Alves <lugathe2@gmail.com>
+Reviewed-by: Terry Junge <linuxhid@cosmicgizmosystems.com>
+Signed-off-by: Jiri Kosina <jkosina@suse.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-## Analysis of Commit: HID: intel-ish-hid: Reset enum_devices_done
-before enumeration
+## Analysis of Commit: HID: Apply quirk HID_QUIRK_ALWAYS_POLL to Edifier
+QR30
 
 ### 1. COMMIT MESSAGE ANALYSIS
 
-The commit message clearly describes a **bug in suspend/resume (S3/S4)
-handling**:
-- Systems with ISH enabled but no sensors return 0 devices from
-  HOSTIF_DM_ENUM_DEVICES
-- The `enum_devices_done` flag wasn't reset before sending enumeration
-  commands
-- On subsequent enumerations (after resume), the stale `true` value
-  causes the wait loop to be skipped
-- This leads to a race where delayed responses are treated as bad
-  packets
-- Result: **ISH hardware reset** during resume
-
-Key indicators:
-- "S3/S4 resume" - power management bug affecting real user workflows
-- Clear explanation of the timing/race condition
-- Acked-by Srinivas Pandruvada (Intel ISH maintainer)
+The commit message clearly states:
+- **Problem:** USB speaker has a bug causing it to reboot when changing
+  brightness using the physical knob
+- **Solution:** Apply `HID_QUIRK_ALWAYS_POLL` quirk to this device
+- Has "Reviewed-by:" and "Signed-off-by:" from the HID maintainer (Jiri
+  Kosina)
 
 ### 2. CODE CHANGE ANALYSIS
 
-The diff shows a **single line addition**:
+The changes are minimal and straightforward:
+
+**hid-ids.h:** Adds 2 new defines
 ```c
-+       client_data->enum_devices_done = false;
+#define USB_VENDOR_ID_EDIFIER      0x2d99
+#define USB_DEVICE_ID_EDIFIER_QR30 0xa101
 ```
 
-Added immediately before the `HOSTIF_DM_ENUM_DEVICES` command is sent.
-The logic:
-- The function sends an enumeration request and waits for
-  `enum_devices_done` to become true
-- Without resetting it first, a stale `true` value from a previous call
-  causes immediate exit from the wait loop
-- This creates a race: the response arrives after `init_done` is already
-  set, triggering a hardware reset
+**hid-quirks.c:** Adds 1 entry to the quirks table
+```c
+{ HID_USB_DEVICE(USB_VENDOR_ID_EDIFIER, USB_DEVICE_ID_EDIFIER_QR30),
+HID_QUIRK_ALWAYS_POLL },
+```
 
-The fix follows the **established pattern** in the same driver - the
-commit message notes that `ishtp_get_hid_descriptor()` and
-`ishtp_get_report_descriptor()` already reset their respective flags
-similarly.
+The `HID_QUIRK_ALWAYS_POLL` quirk is well-established and used by dozens
+of other devices in this same file (Corsair, Dell, Elan, HP, etc.). It
+forces continuous polling which prevents certain hardware misbehaviors.
 
 ### 3. CLASSIFICATION
 
-- **Bug fix**: Yes - fixes incorrect state handling causing hardware
-  reset
-- **Feature addition**: No
-- **API change**: No
-- **Hardware quirk**: No - this is a driver logic bug, not a hardware
-  workaround
+This falls into the **"QUIRKS and WORKAROUNDS" exception category** that
+is explicitly allowed in stable:
+- Hardware-specific quirk for a buggy/non-compliant device
+- Uses existing, well-tested quirk infrastructure
+- Pattern matches many other similar entries already in stable trees
 
 ### 4. SCOPE AND RISK ASSESSMENT
 
-| Metric | Value |
-|--------|-------|
-| Lines changed | 1 |
-| Files touched | 1 |
-| Complexity | Very low |
-| Risk | Minimal |
-
-The change:
-- Sets a boolean flag to false before an operation that expects it to
-  transition to true
-- Follows identical patterns elsewhere in the same file
-- Cannot break any existing functionality that works correctly
-- Isolated to Intel ISH subsystem
+- **Lines changed:** 3 lines added (2 defines + 1 quirk entry)
+- **Files touched:** 2 (hid-ids.h, hid-quirks.c)
+- **Risk level:** Extremely low
+- **Blast radius:** Only affects users with this specific Edifier QR30
+  device
+- **Regression potential:** Zero for other devices - the quirk entry is
+  device-specific by USB vendor/product ID
 
 ### 5. USER IMPACT
 
-**Affected users:** Laptop users with Intel Sensor Hub hardware (common
-in modern Intel laptops)
-
-**Symptom:** ISH hardware reset during S3/S4 resume, which can cause:
-- Delays in resume
-- Sensor hub functionality issues after resume
-- System instability during power transitions
-
-**Severity:** Moderate-High - affects common laptop power management
-workflows
+- **Severity:** Device rebooting is a significant user-visible bug
+- **Affected users:** Anyone with an Edifier QR30 USB speaker
+- **Fix quality:** Complete fix for the reported issue
 
 ### 6. STABILITY INDICATORS
 
-- **Acked-by:** Srinivas Pandruvada (Intel ISH maintainer) - domain
-  expert approval
-- **Signed-off-by:** Benjamin Tissoires (HID maintainer)
-- Pattern-following fix consistent with other similar functions in the
-  driver
+- Reviewed by Terry Junge (HID reviewer)
+- Signed off by Jiri Kosina (HID subsystem maintainer)
+- The `HID_QUIRK_ALWAYS_POLL` mechanism is mature and stable
 
 ### 7. DEPENDENCY CHECK
 
-This commit:
-- Is self-contained with no dependencies
-- Modifies code that has existed in stable trees for years
-- The `enum_devices_done` flag, `client_data` structure, and
-  `ishtp_enum_enum_devices()` function are all well-established
+- No dependencies on other commits
+- The quirk infrastructure exists in all stable trees
+- The change is self-contained
 
----
+### Summary
 
-## Summary
+This is a textbook example of a stable-worthy commit:
+1. **Fixes a real bug:** Device rebooting when using physical controls
+2. **Small and surgical:** Only 3 lines, no logic changes
+3. **Uses existing infrastructure:** `HID_QUIRK_ALWAYS_POLL` is well-
+   established
+4. **Device-specific:** Only affects this one USB speaker model
+5. **Zero regression risk:** Cannot affect other devices
+6. **Falls into explicit exception:** Device ID + quirk additions are
+   explicitly allowed in stable
 
-**What it fixes:** Race condition during S3/S4 resume where stale
-boolean flag causes ISH hardware reset
-
-**Why it matters:** Users with Intel Sensor Hub hardware experience
-hardware reset/instability on resume from suspend/hibernate - a common
-laptop workflow
-
-**Stable criteria met:**
-- ✅ Obviously correct (follows existing pattern in same driver)
-- ✅ Fixes real bug (hardware reset during resume)
-- ✅ Small and contained (1 line, 1 file)
-- ✅ No new features
-- ✅ No API changes
-- ✅ Has maintainer acknowledgment
-
-**Risk assessment:** Very low - single boolean assignment following
-established pattern
-
-**Benefit:** Fixes real user-facing bug affecting laptop power
-management
-
-This is an ideal stable candidate: a minimal, surgical fix for a real
-bug affecting common hardware in a common usage scenario, with
-maintainer review and following established driver patterns.
+This matches the pattern of hundreds of similar HID quirk entries that
+have been backported to stable kernels. The fix is trivial, low-risk,
+and solves a real user-facing problem.
 
 **YES**
 
- drivers/hid/intel-ish-hid/ishtp-hid-client.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/hid/hid-ids.h    | 3 +++
+ drivers/hid/hid-quirks.c | 1 +
+ 2 files changed, 4 insertions(+)
 
-diff --git a/drivers/hid/intel-ish-hid/ishtp-hid-client.c b/drivers/hid/intel-ish-hid/ishtp-hid-client.c
-index d8c3c54a8c0f2..537145ec50586 100644
---- a/drivers/hid/intel-ish-hid/ishtp-hid-client.c
-+++ b/drivers/hid/intel-ish-hid/ishtp-hid-client.c
-@@ -495,6 +495,7 @@ static int ishtp_enum_enum_devices(struct ishtp_cl *hid_ishtp_cl)
- 	int rv;
+diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+index 3a22129fb7075..bec913a005a5d 100644
+--- a/drivers/hid/hid-ids.h
++++ b/drivers/hid/hid-ids.h
+@@ -439,6 +439,9 @@
+ #define USB_DEVICE_ID_DWAV_EGALAX_MULTITOUCH_A001	0xa001
+ #define USB_DEVICE_ID_DWAV_EGALAX_MULTITOUCH_C002	0xc002
  
- 	/* Send HOSTIF_DM_ENUM_DEVICES */
-+	client_data->enum_devices_done = false;
- 	memset(&msg, 0, sizeof(struct hostif_msg));
- 	msg.hdr.command = HOSTIF_DM_ENUM_DEVICES;
- 	rv = ishtp_cl_send(hid_ishtp_cl, (unsigned char *)&msg,
++#define USB_VENDOR_ID_EDIFIER		0x2d99
++#define USB_DEVICE_ID_EDIFIER_QR30	0xa101	/* EDIFIER Hal0 2.0 SE */
++
+ #define USB_VENDOR_ID_ELAN		0x04f3
+ #define USB_DEVICE_ID_TOSHIBA_CLICK_L9W	0x0401
+ #define USB_DEVICE_ID_HP_X2		0x074d
+diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
+index 3cf7971d49743..d6e42125d9189 100644
+--- a/drivers/hid/hid-quirks.c
++++ b/drivers/hid/hid-quirks.c
+@@ -81,6 +81,7 @@ static const struct hid_device_id hid_quirks[] = {
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_DRAGONRISE, USB_DEVICE_ID_DRAGONRISE_PS3), HID_QUIRK_MULTI_INPUT },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_DRAGONRISE, USB_DEVICE_ID_DRAGONRISE_WIIU), HID_QUIRK_MULTI_INPUT },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_DWAV, USB_DEVICE_ID_EGALAX_TOUCHCONTROLLER), HID_QUIRK_MULTI_INPUT | HID_QUIRK_NOGET },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_EDIFIER, USB_DEVICE_ID_EDIFIER_QR30), HID_QUIRK_ALWAYS_POLL },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_ELAN, HID_ANY_ID), HID_QUIRK_ALWAYS_POLL },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_ELO, USB_DEVICE_ID_ELO_TS2700), HID_QUIRK_NOGET },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_EMS, USB_DEVICE_ID_EMS_TRIO_LINKER_PLUS_II), HID_QUIRK_MULTI_INPUT },
 -- 
 2.51.0
 
