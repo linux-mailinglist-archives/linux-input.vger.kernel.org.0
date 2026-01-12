@@ -1,59 +1,56 @@
-Return-Path: <linux-input+bounces-16984-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16978-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 430EED13681
-	for <lists+linux-input@lfdr.de>; Mon, 12 Jan 2026 16:02:38 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 68D8FD138A0
+	for <lists+linux-input@lfdr.de>; Mon, 12 Jan 2026 16:16:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 97F263023B65
-	for <lists+linux-input@lfdr.de>; Mon, 12 Jan 2026 15:00:19 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id A389930787B8
+	for <lists+linux-input@lfdr.de>; Mon, 12 Jan 2026 14:58:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 087D62E92BA;
-	Mon, 12 Jan 2026 14:59:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E904326B0A9;
+	Mon, 12 Jan 2026 14:58:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TCEjKfVj"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JyBRhuIK"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B76632DF6F4;
-	Mon, 12 Jan 2026 14:59:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C587D6F2F2;
+	Mon, 12 Jan 2026 14:58:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768229961; cv=none; b=Mb0bucN/WdrX+SypFW2WBGI4yl9SwpzbKS104r8AbVmfniAKts6+h9vteNGdhBcxv7RfWkfG31d4MrLopNiyVoVPanKon2AOuBwg2m33Kw2Im9d9XG3CZZP+p4RvUPlQoGP88/Xc7MiNdyCw5vRlPnwCTSNq4jyL0M2WRveFx3k=
+	t=1768229922; cv=none; b=UJrbHQF01cYzElGNbrFkQVeFuQc0OGTF53XT/qdx4vQPGNEJDabUT2lGYWd6pkKp930JME8v/r+J+gF0+HFzy5WXa/4JQaOP5TD6RYCT6RkGF53veqvTxCwjKDoDFlZdBwsFJkcpr4FS/UQ1bkn94Qwa6UpegKRM/B1Lj0/xmVw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768229961; c=relaxed/simple;
-	bh=BuWmwzZBgVbZzKtXVjoa4UF2cg+4GqjkbsAmVSu1kGs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=fcDqrf0aicvkgwul4KML/XP8+WAeZvGgDRnNDYQge3WWy/rLjB4a3V+udnZFWahHYfil+tow6B2FyKh+kOtDJKERygJZoOpECoe/G7FL9csW2oVUuvOcG08ih3jIpd9Y2ExZrPFgiwJiurR14PyzLe8U6rcqEK5s4cX5MwMWJDg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TCEjKfVj; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A9B9C19425;
-	Mon, 12 Jan 2026 14:59:20 +0000 (UTC)
+	s=arc-20240116; t=1768229922; c=relaxed/simple;
+	bh=pSeTVI/h7m3SYpWOadekmI1HoTQT0Tg8wxS5Psnc4rc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=WAg/BognY9SqziZ3rjJM76MmOn8edSu1XcsI5+MFHK+eer6tNTbCwivTPXiBPb9E6ZmoHIFb6x5HQMwyalzte92Hsw/O8/Fra8BmUNf1ZPljOmTz5IueP5eTN3qf0OOkaKYprXw8FNzpMadkdmVuSzvJpEGZL2N8BEW5i5d3plw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JyBRhuIK; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD4C4C19423;
+	Mon, 12 Jan 2026 14:58:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768229961;
-	bh=BuWmwzZBgVbZzKtXVjoa4UF2cg+4GqjkbsAmVSu1kGs=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=TCEjKfVjfS/AB03JW3h1z370cHkSLJWSgo+a3iV7Cg7ph3FQy2f4iA8fR/N62afX4
-	 p3ixa9AtAi5LYtCoPyfYYB6YNQaSrw3NP3Iz283s1QzV7iLPUJ6QpIxlVwrawjroLu
-	 BPJHEXcWxoYYwOKp1Vmni1rLQXFg+F+UCz3KEqTzVTDsExHNDP7TDYXpGJcIHM+UBF
-	 OYCNopDWZvOfIRn6t0Vd8AUDRWnFHYfSjdKC6lSVLKjQn+aCZD1DjX6KBQbLHi0v2X
-	 znZgm3ThkeK18n0E9HBXGRwY6D6GX6kWudZqbIBkm52qXvJ4vkxuabnskrUhN0Ijs/
-	 Hkpmm3sS6WH3g==
+	s=k20201202; t=1768229922;
+	bh=pSeTVI/h7m3SYpWOadekmI1HoTQT0Tg8wxS5Psnc4rc=;
+	h=From:To:Cc:Subject:Date:From;
+	b=JyBRhuIK3M4FiG0WmMMMFEBPBf54O22tw/s2SagfoyHq2Xv4f+Yt0KzLt+oh1y5UE
+	 zYaobFvQnd1HaXVsgju9hPj57Qb1RCl7AFHg+2RDWiMtTRHzr7XyY9GA9w7G8GOxZr
+	 cHAGx6WAS9+Tb3nqkQvndMG8mD98s5xM727FYJuz6pIsJvpusSc65aucK20BrLM0yc
+	 h254007B5DJaM34c1iq7BpAIYsF5D5E221HkJRFVuk3BHXeQkEh63e67dYkDDXl3dH
+	 PBQ+5iQZ/wgNdbHjsQi5GgSCsH7Z/SSNSBKw+k3bomZnHKZVJiTnCdweuqduzT1qoV
+	 DoGlyhdol18yA==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Dennis Marttinen <twelho@welho.tech>,
+Cc: Arnoud Willemsen <mail@lynthium.com>,
 	Jiri Kosina <jkosina@suse.com>,
 	Sasha Levin <sashal@kernel.org>,
 	jikos@kernel.org,
 	bentiss@kernel.org,
 	linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.18-6.12] HID: logitech: add HID++ support for Logitech MX Anywhere 3S
-Date: Mon, 12 Jan 2026 09:58:24 -0500
-Message-ID: <20260112145840.724774-23-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.18] HID: Elecom: Add support for ELECOM M-XT3DRBK (018C)
+Date: Mon, 12 Jan 2026 09:58:02 -0500
+Message-ID: <20260112145840.724774-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260112145840.724774-1-sashal@kernel.org>
-References: <20260112145840.724774-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -66,167 +63,207 @@ X-stable-base: Linux 6.18.5
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Dennis Marttinen <twelho@welho.tech>
+From: Arnoud Willemsen <mail@lynthium.com>
 
-[ Upstream commit d7f6629bffdcb962d383ef8c9a30afef81e997fe ]
+[ Upstream commit 12adb969658ec39265eb8c7ea9e1856867fb9ceb ]
 
-I've acquired a Logitech MX Anywhere 3S mouse, which supports HID++ over
-Bluetooth. Adding its PID 0xb037 to the allowlist enables the additional
-features, such as high-resolution scrolling. Tested working across multiple
-machines, with a mix of Intel and Mediatek Bluetooth chips.
+Wireless/new version of the Elecom trackball mouse M-XT3DRBK has a
+product id that differs from the existing M-XT3DRBK.
+The report descriptor format also seems to have changed and matches
+other (newer?) models instead (except for six buttons instead of eight).
+This patch follows the same format as the patch for the M-XT3URBK (018F)
+by Naoki Ueki (Nov 3rd 2025) to enable the sixth mouse button.
 
-[jkosina@suse.com: standardize shortlog]
-Signed-off-by: Dennis Marttinen <twelho@welho.tech>
+dmesg output:
+[  292.074664] usb 1-2: new full-speed USB device number 7 using xhci_hcd
+[  292.218667] usb 1-2: New USB device found, idVendor=056e, idProduct=018c, bcdDevice= 1.00
+[  292.218676] usb 1-2: New USB device strings: Mfr=1, Product=2, SerialNumber=0
+[  292.218679] usb 1-2: Product: ELECOM TrackBall Mouse
+[  292.218681] usb 1-2: Manufacturer: ELECOM
+
+usbhid-dump output:
+001:006:000:DESCRIPTOR         1765072638.050578
+ 05 01 09 02 A1 01 09 01 A1 00 85 01 05 09 19 01
+ 29 05 15 00 25 01 95 08 75 01 81 02 95 01 75 00
+ 81 01 05 01 09 30 09 31 16 00 80 26 FF 7F 75 10
+ 95 02 81 06 C0 A1 00 05 01 09 38 15 81 25 7F 75
+ 08 95 01 81 06 C0 A1 00 05 0C 0A 38 02 95 01 75
+ 08 15 81 25 7F 81 06 C0 C0 06 01 FF 09 00 A1 01
+ 85 02 09 00 15 00 26 FF 00 75 08 95 07 81 02 C0
+ 05 0C 09 01 A1 01 85 05 15 00 26 3C 02 19 00 2A
+ 3C 02 75 10 95 01 81 00 C0 05 01 09 80 A1 01 85
+ 03 19 81 29 83 15 00 25 01 95 03 75 01 81 02 95
+ 01 75 05 81 01 C0 06 BC FF 09 88 A1 01 85 04 95
+ 01 75 08 15 00 26 FF 00 19 00 2A FF 00 81 00 C0
+ 06 02 FF 09 02 A1 01 85 06 09 02 15 00 26 FF 00
+ 75 08 95 07 B1 02 C0
+
+Signed-off-by: Arnoud Willemsen <mail@lynthium.com>
 Signed-off-by: Jiri Kosina <jkosina@suse.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-## Analysis of HID: logitech: add HID++ support for Logitech MX Anywhere
-3S
+## Analysis of HID: Elecom: Add support for ELECOM M-XT3DRBK (018C)
 
 ### 1. COMMIT MESSAGE ANALYSIS
 
-**Subject:** "HID: logitech: add HID++ support for Logitech MX Anywhere
-3S"
-
-The commit message explains:
-- Author acquired an MX Anywhere 3S mouse that supports HID++ over
-  Bluetooth
-- Adding PID 0xb037 to the allowlist enables additional features (high-
-  resolution scrolling)
-- Tested on multiple machines with Intel and Mediatek Bluetooth chips
-- Has proper sign-offs from author and maintainer (Jiri Kosina)
-
-No `Cc: stable` or `Fixes:` tags are present, but as noted, that's
-expected for commits undergoing manual review.
+The commit adds support for a new USB product ID (0x018c) for a wireless
+variant of the ELECOM M-XT3DRBK trackball mouse. The message indicates:
+- It's a wireless/new version of an existing supported device
+- The report descriptor format differs from the older variant
+- The patch enables the sixth mouse button
+- dmesg output confirms the device identification
 
 ### 2. CODE CHANGE ANALYSIS
 
-The actual change is minimal:
+**hid-ids.h:**
+- Renames `USB_DEVICE_ID_ELECOM_M_XT3DRBK` →
+  `USB_DEVICE_ID_ELECOM_M_XT3DRBK_00FC` (clarifying the existing ID)
+- Adds new `USB_DEVICE_ID_ELECOM_M_XT3DRBK_018C` = 0x018c
 
-```c
-+       { /* MX Anywhere 3S mouse over Bluetooth */
-+         HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb037) },
-```
+**hid-elecom.c:**
+- Updates references to use the renamed constant `_00FC`
+- Adds a new case in the switch statement for `_018C` calling
+  `mouse_button_fixup()` with parameters specific to this device's HID
+  report descriptor: `(22, 30, 24, 16, 6)`
+- Adds the new device ID to `elecom_devices[]` table
 
-This adds exactly **2 lines** - one comment and one device ID entry to
-the `hidpp_devices[]` table. Looking at the context, this table already
-contains many similar Logitech Bluetooth device entries:
-- MX Master (0xb012), MX Master 2S (0xb019), MX Master 3 (0xb023), MX
-  Master 3S (0xb034)
-- MX Anywhere 3 (0xb025), MX Anywhere 3SB (0xb038)
-- M720 Triathlon (0xb015), MX Ergo (0xb01d), MX Vertical (0xb020), etc.
-
-The new entry follows the exact same pattern as all existing entries.
+**hid-quirks.c:**
+- Updates reference to use renamed constant
+- Adds new device ID to `hid_have_special_driver[]`
 
 ### 3. CLASSIFICATION
 
-This is a **NEW DEVICE ID** addition - one of the explicitly allowed
-exception categories for stable kernels:
-
-> "Adding PCI IDs, USB IDs, ACPI IDs, etc. to existing drivers - These
-are trivial one-line additions that enable hardware support"
-
-Key points:
-- The hid-logitech-hidpp driver already exists in stable kernels
-- The HID++ protocol support is fully implemented
-- Only the Bluetooth device ID 0xb037 is being added
-- This is not a new driver or new functionality - it's enabling an
-  existing driver for new hardware
+This is a **NEW DEVICE ID** addition to an existing driver - one of the
+explicitly allowed categories for stable backports:
+- The driver (hid-elecom) already exists in stable trees
+- Only adding a USB product ID to enable new hardware
+- Uses existing `mouse_button_fixup()` infrastructure
 
 ### 4. SCOPE AND RISK ASSESSMENT
 
-**Risk: EXTREMELY LOW**
-
-| Factor | Assessment |
-|--------|------------|
-| Lines changed | 2 |
-| Files touched | 1 |
-| Code logic changed | None |
-| Complexity | Zero - pure data table entry |
-| Subsystem maturity | Very mature (HID drivers) |
-
-This cannot introduce regressions because:
-- No code paths are modified
-- No functions are changed
-- Only users with this specific mouse over Bluetooth are affected
-- If there were somehow an issue, it would only affect that specific
-  hardware
+- **Size:** ~15 lines added across 3 files
+- **Complexity:** Very low - follows identical patterns to existing
+  devices
+- **Risk:** Minimal - change is isolated to this specific USB device ID
+- **Subsystem:** HID drivers are mature and this pattern is well-
+  established
 
 ### 5. USER IMPACT
 
-**Who benefits:** Users with Logitech MX Anywhere 3S mice using
-Bluetooth connection
-
-**Without this fix:** The mouse works via basic HID, but lacks:
-- High-resolution scrolling
-- Battery status reporting
-- Other HID++ features that premium Logitech mice support
-
-**Impact level:** The MX Anywhere 3S is a current-generation retail
-product that users are actively purchasing. Stable kernel users expect
-their hardware to work properly.
+- **Affected users:** Owners of wireless ELECOM M-XT3DRBK (018C)
+  trackball mouse
+- **Without fix:** The sixth mouse button doesn't work
+- **With fix:** Full hardware functionality enabled
+- **Severity:** Functional hardware issue - extra button is non-
+  functional without this fix
 
 ### 6. STABILITY INDICATORS
 
-- ✅ Tested by author on multiple machines with different Bluetooth chips
-- ✅ Reviewed and signed off by HID maintainer Jiri Kosina
-- ✅ Pattern is identical to many existing, working entries
+- Signed off by Jiri Kosina (HID subsystem maintainer)
+- Follows exact same pattern as other Elecom devices
+- Includes device testing evidence (dmesg/usbhid-dump output)
 
 ### 7. DEPENDENCY CHECK
 
-**Dependencies:** None
+- No dependencies on other patches
+- All required infrastructure (`mouse_button_fixup()`,
+  `elecom_report_fixup()`) exists in stable trees
+- Self-contained change
 
-This is a pure data addition. The driver framework already exists in all
-stable kernels that have the hid-logitech-hidpp driver. No other commits
-are required.
+### VERDICT
 
----
+This commit is a textbook example of what **IS** appropriate for stable
+backporting. It adds a new USB device ID to an existing driver to enable
+hardware support - explicitly allowed under stable rules. The change is:
+- Small and surgical
+- Low risk (isolated to specific hardware)
+- Uses existing patterns and infrastructure
+- Enables real hardware to work correctly
+- Has no behavioral changes to existing code paths
 
-## Summary
-
-This commit is a **textbook example of a stable-appropriate device ID
-addition**:
-
-1. ✅ **Trivial 2-line change** - Just a device ID added to an existing
-   table
-2. ✅ **No code modifications** - Pure data entry
-3. ✅ **Driver already exists** - hid-logitech-hidpp is well-established
-   in stable
-4. ✅ **Follows existing pattern** - Identical format to dozens of other
-   entries
-5. ✅ **Tested** - Verified on multiple hardware configurations
-6. ✅ **Zero regression risk** - Only affects users with this specific
-   hardware
-7. ✅ **Real user benefit** - Enables proper hardware support for
-   current-generation product
-8. ✅ **No dependencies** - Can be cleanly cherry-picked to any stable
-   kernel
-
-The stable kernel rules explicitly allow device ID additions because
-they enable hardware support with virtually zero risk. This is precisely
-what the "device ID exception" exists for.
+The only modification beyond adding the new ID is renaming the existing
+`USB_DEVICE_ID_ELECOM_M_XT3DRBK` to
+`USB_DEVICE_ID_ELECOM_M_XT3DRBK_00FC` for clarity, which is a harmless
+naming change that doesn't affect functionality.
 
 **YES**
 
- drivers/hid/hid-logitech-hidpp.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/hid/hid-elecom.c | 15 +++++++++++++--
+ drivers/hid/hid-ids.h    |  3 ++-
+ drivers/hid/hid-quirks.c |  3 ++-
+ 3 files changed, 17 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hidpp.c
-index a88f2e5f791c6..9b612f62d0fba 100644
---- a/drivers/hid/hid-logitech-hidpp.c
-+++ b/drivers/hid/hid-logitech-hidpp.c
-@@ -4661,6 +4661,8 @@ static const struct hid_device_id hidpp_devices[] = {
- 	  HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb025) },
- 	{ /* MX Master 3S mouse over Bluetooth */
- 	  HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb034) },
-+	{ /* MX Anywhere 3S mouse over Bluetooth */
-+	  HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb037) },
- 	{ /* MX Anywhere 3SB mouse over Bluetooth */
- 	  HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb038) },
- 	{}
+diff --git a/drivers/hid/hid-elecom.c b/drivers/hid/hid-elecom.c
+index 981d1b6e96589..2003d2dcda7cc 100644
+--- a/drivers/hid/hid-elecom.c
++++ b/drivers/hid/hid-elecom.c
+@@ -77,7 +77,7 @@ static const __u8 *elecom_report_fixup(struct hid_device *hdev, __u8 *rdesc,
+ 		break;
+ 	case USB_DEVICE_ID_ELECOM_M_XT3URBK_00FB:
+ 	case USB_DEVICE_ID_ELECOM_M_XT3URBK_018F:
+-	case USB_DEVICE_ID_ELECOM_M_XT3DRBK:
++	case USB_DEVICE_ID_ELECOM_M_XT3DRBK_00FC:
+ 	case USB_DEVICE_ID_ELECOM_M_XT4DRBK:
+ 		/*
+ 		 * Report descriptor format:
+@@ -102,6 +102,16 @@ static const __u8 *elecom_report_fixup(struct hid_device *hdev, __u8 *rdesc,
+ 		 */
+ 		mouse_button_fixup(hdev, rdesc, *rsize, 12, 30, 14, 20, 8);
+ 		break;
++	case USB_DEVICE_ID_ELECOM_M_XT3DRBK_018C:
++		/*
++		 * Report descriptor format:
++		 * 22: button bit count
++		 * 30: padding bit count
++		 * 24: button report size
++		 * 16: button usage maximum
++		 */
++		mouse_button_fixup(hdev, rdesc, *rsize, 22, 30, 24, 16, 6);
++		break;
+ 	case USB_DEVICE_ID_ELECOM_M_DT2DRBK:
+ 	case USB_DEVICE_ID_ELECOM_M_HT1DRBK_011C:
+ 		/*
+@@ -122,7 +132,8 @@ static const struct hid_device_id elecom_devices[] = {
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_XGL20DLBK) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_XT3URBK_00FB) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_XT3URBK_018F) },
+-	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_XT3DRBK) },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_XT3DRBK_00FC) },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_XT3DRBK_018C) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_XT4DRBK) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_DT1URBK) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_DT1DRBK) },
+diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+index bec913a005a5d..b75d9d2f4dc73 100644
+--- a/drivers/hid/hid-ids.h
++++ b/drivers/hid/hid-ids.h
+@@ -455,7 +455,8 @@
+ #define USB_DEVICE_ID_ELECOM_M_XGL20DLBK	0x00e6
+ #define USB_DEVICE_ID_ELECOM_M_XT3URBK_00FB	0x00fb
+ #define USB_DEVICE_ID_ELECOM_M_XT3URBK_018F	0x018f
+-#define USB_DEVICE_ID_ELECOM_M_XT3DRBK	0x00fc
++#define USB_DEVICE_ID_ELECOM_M_XT3DRBK_00FC	0x00fc
++#define USB_DEVICE_ID_ELECOM_M_XT3DRBK_018C	0x018c
+ #define USB_DEVICE_ID_ELECOM_M_XT4DRBK	0x00fd
+ #define USB_DEVICE_ID_ELECOM_M_DT1URBK	0x00fe
+ #define USB_DEVICE_ID_ELECOM_M_DT1DRBK	0x00ff
+diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
+index d6e42125d9189..e823661389016 100644
+--- a/drivers/hid/hid-quirks.c
++++ b/drivers/hid/hid-quirks.c
+@@ -413,7 +413,8 @@ static const struct hid_device_id hid_have_special_driver[] = {
+ 	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_XGL20DLBK) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_XT3URBK_00FB) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_XT3URBK_018F) },
+-	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_XT3DRBK) },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_XT3DRBK_00FC) },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_XT3DRBK_018C) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_XT4DRBK) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_DT1URBK) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_DT1DRBK) },
 -- 
 2.51.0
 
