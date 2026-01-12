@@ -1,198 +1,147 @@
-Return-Path: <linux-input+bounces-16997-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16998-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7659D14B9F
-	for <lists+linux-input@lfdr.de>; Mon, 12 Jan 2026 19:20:55 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 42CDBD14CFA
+	for <lists+linux-input@lfdr.de>; Mon, 12 Jan 2026 19:54:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 31333300A6CE
-	for <lists+linux-input@lfdr.de>; Mon, 12 Jan 2026 18:20:54 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id B43D830060D3
+	for <lists+linux-input@lfdr.de>; Mon, 12 Jan 2026 18:54:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8631B387561;
-	Mon, 12 Jan 2026 18:20:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A7DF2322B60;
+	Mon, 12 Jan 2026 18:54:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=squebb.ca header.i=@squebb.ca header.b="kpxyIHNm";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="ew9pTgVh"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Bw3Ys4yY"
 X-Original-To: linux-input@vger.kernel.org
-Received: from fout-b7-smtp.messagingengine.com (fout-b7-smtp.messagingengine.com [202.12.124.150])
+Received: from out-179.mta0.migadu.com (out-179.mta0.migadu.com [91.218.175.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 030F12D9496;
-	Mon, 12 Jan 2026 18:20:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.150
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD69E2EC0A2
+	for <linux-input@vger.kernel.org>; Mon, 12 Jan 2026 18:54:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768242053; cv=none; b=iZV69wuOIIxO4JiAAhOzrbpe1jjmhKzqqlAsxJX2gu+JWBYV5Te8IPuq3CN78m1xMRBbYivWERyr/XqujqZO/2lhqqhs3eEmRAzBJe4dssLBCiLc4RT6PRyl4/wVm0EuM6SALsxteI6mfqKRvo2KPnVUHeTQwhsXydFGkajINPg=
+	t=1768244053; cv=none; b=rUzY8C0Xdj/5jkrpv839jfX4+zbslXO6XY6I9YUH2A12kMy0e8QlIltj0AQfVPqYDM9S5Tw/uAwA+4v+Y3um8zQsPtmNpDa9r74RbrOHLZ7ERCaTfBCgGJM+Pep2m7OQVq8902pp509vatE1TZH1iBAXwvon1m+OwBYG87Q7RAE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768242053; c=relaxed/simple;
-	bh=0MIsQPEMKnW1e4juI0TNrUwQskLGzb2wCSPvKVdOWds=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=aoCbhiq2Y/Oe1KfKUTb3aW+V9+S8+5NP31rzz4Ia3GJr6wL4E5cd4kM1UoZT/Pc8BipQ/5dogixTEbVPzJxMn466Igs4JcxkLVntmUqd87dXeQA3okw9w5h5zp0Quv0SSTrTf50sn/w3exvaRNE06vNzVS04hQfOu1ceWzy6TQA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=squebb.ca; spf=pass smtp.mailfrom=squebb.ca; dkim=pass (2048-bit key) header.d=squebb.ca header.i=@squebb.ca header.b=kpxyIHNm; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=ew9pTgVh; arc=none smtp.client-ip=202.12.124.150
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=squebb.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=squebb.ca
-Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
-	by mailfout.stl.internal (Postfix) with ESMTP id 12D4C1D000E9;
-	Mon, 12 Jan 2026 13:20:50 -0500 (EST)
-Received: from phl-imap-08 ([10.202.2.84])
-  by phl-compute-02.internal (MEProxy); Mon, 12 Jan 2026 13:20:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=squebb.ca; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1768242049;
-	 x=1768328449; bh=O4EudzFjIiugLvsbHDKdmXPJwZkcSMwAsTeW+doPJx4=; b=
-	kpxyIHNmkFMWTjMBPtbDkfo35ayO/4cyxXv9b006NHlzn5J65YShQZuR++rS1mje
-	lzsLUe0duV1LTCNgo4TD1Qq9m6zXd9L/sPXSx60GPxwM2ROkGYGxl0FBEAUAgR9X
-	YCVCls4ffQ0xgaxN6kmJVsNXp0cow2CpWSWEIxoiHmeKn084HeDlupQ1GbUwz54M
-	p7GVec8gkRrNbohgPN0pP341VqUZRqx9xiEk9nBVxWi+bHmV6Tf8qGs1aX1XTFx5
-	0fQ/bmrnGgc2aZ5LtuOufRh+PWqVFEqsKmOD3Nn6Y6oL16O/rglI5mdZjjWckDh5
-	EiVkR8F1tvCEhgFZh64afg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1768242049; x=
-	1768328449; bh=O4EudzFjIiugLvsbHDKdmXPJwZkcSMwAsTeW+doPJx4=; b=e
-	w9pTgVhoDdsutmTfttKM+/Tv1J8cEleoUDgzLKTrojD/C5+vkt6TH6Palbz+tW+J
-	2gHdEMNwifs0TBRXM73SD9PSt+/3bxEbZTCUtmQB9JmRXF5yw3mXuQ2QT8+pErQX
-	cKCMKFiL+HhUT65VqrC1va6XKspm+Am5o7iLfzIhzUMS2Wq1h2ZuR0lMGnBCO7MO
-	uTEqJ5PosvAX5wkPOjvLzKAfGMvJjJrE82sff2R8Tt2O9PeOraUsUHstIU4oKVTY
-	dKrbGYs5/2W+CNvg8E+nqCahj42Di+PG5RJhwm/fQHiQCp9qv0qoAPTv6CdqL3/8
-	7zvaQ6Nr4YCbdBDvEZUTw==
-X-ME-Sender: <xms:gTtlaSb0D1IgUQS5-oXLuJ3aKH7m1EuTKPbZv4TjNbt8G6s0RB6m6Q>
-    <xme:gTtlaQPsuygVPQ5jt0gwbcuubazaEpaxjr7HIMhUqPLqr5zvOTvLKGjU0NB_4sN-A
-    R5O6BHtKFg-VVoMBjk_cpJdPEm4GcsTl1AV_KvDKV-_1XvFW-DuvXo>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdduudekudeiucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddtnecuhfhrohhmpedfofgrrhhk
-    ucfrvggrrhhsohhnfdcuoehmphgvrghrshhonhdqlhgvnhhovhhosehsqhhuvggssgdrtg
-    grqeenucggtffrrghtthgvrhhnpefhuedvheetgeehtdehtdevheduvdejjefggfeijedv
-    geekhfefleehkeehvdffheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmh
-    grihhlfhhrohhmpehmphgvrghrshhonhdqlhgvnhhovhhosehsqhhuvggssgdrtggrpdhn
-    sggprhgtphhtthhopedutddpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepmhgrrh
-    hiohdrlhhimhhonhgtihgvlhhlohesrghmugdrtghomhdprhgtphhtthhopeguvghrvghk
-    jhhohhhnrdgtlhgrrhhksehgmhgrihhlrdgtohhmpdhrtghpthhtohepsggvnhhtihhssh
-    eskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepjhhikhhosheskhgvrhhnvghlrdhorhhg
-    pdhrtghpthhtohepshhhrghohhiiudeslhgvnhhovhhordgtohhmpdhrtghpthhtohepii
-    hhrghnghiigiefieeslhgvnhhovhhordgtohhmpdhrtghpthhtohepphhgrhhifhhfrghi
-    shesvhgrlhhvvghsohhfthifrghrvgdrtghomhdprhgtphhtthhopehlihhnuhigqdguoh
-    gtsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqihhnphhu
-    thesvhhgvghrrdhkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:gTtlaf6JVa5xTzTUlVqtF68XmLmqda2T1uAKaY190o1Q-fgWk05bfw>
-    <xmx:gTtlaUm3CBgdoAFRugojI1BZEoiXHypioKWw4RxutaGKepUArOuPLQ>
-    <xmx:gTtlaSEmJrhIQCWr46Dme0huYAy6ijLgeeIb_JQh9SnUj20ApnzgQw>
-    <xmx:gTtlab8lOmof8GO16JKaTsTnYvv8HT4VjzxEQf9W-TracZ1vycfFVg>
-    <xmx:gTtlaYmvTeSnr3LmG2KOw2pvC0pAaFgXirYbxLuLcfBjW0y_Q2x5BLNN>
-Feedback-ID: ibe194615:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id B22B62CE0072; Mon, 12 Jan 2026 13:20:49 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
+	s=arc-20240116; t=1768244053; c=relaxed/simple;
+	bh=QqykXITTByyTT+FGlcEOND0SlMloNxcQl9qxBKW1MJ0=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=KfSvt+VyryUCNwwtJkaxTGj93soTk6uIWdjBrOcodlAX/6/hdEGteo9UOVjTgc6pR6q/WHoG5THOcnOApiRFINmTVtDvvCBIKKj1zgkq4uwkZampccFzkrfUYWVvakRR5n2OhJC5SeiNHn7Sl66ja0n7P5VjqevNlTJzG4gQ8Ws=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Bw3Ys4yY; arc=none smtp.client-ip=91.218.175.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+Message-ID: <3a697699-ffcb-4e2f-a7a4-9e3f571aa402@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1768244039;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/9vtTJ8E+WsBFblmJc5UE1EN6AZB8Sa5imYu+eocYP4=;
+	b=Bw3Ys4yYFJsGcrFo94H7o4SnkRA4tr8AFowTqSo0kSbLHRH2fm7D/evq7AdA/S2U9Y/TG4
+	T62PnUk+mExAbwv2FPR7pjVaQJCHzjjl8B+lHaA2tGuvkeRlpe6l9qLum4aAB576+c6rnd
+	mWcYkqF0IzDnkAW7JNrPExrWO7RglpU=
+Date: Mon, 12 Jan 2026 10:53:53 -0800
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ThreadId: AC9rIZzNZkww
-Date: Mon, 12 Jan 2026 13:20:26 -0500
-From: "Mark Pearson" <mpearson-lenovo@squebb.ca>
-To: "Derek J . Clark" <derekjohn.clark@gmail.com>,
- "Jiri Kosina" <jikos@kernel.org>
-Cc: "Benjamin Tissoires" <bentiss@kernel.org>,
- "Limonciello, Mario" <mario.limonciello@amd.com>,
- "Zhixin Zhang" <zhangzx36@lenovo.com>, "Mia Shao" <shaohz1@lenovo.com>,
- "Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>,
- linux-input@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Message-Id: <2910bb2e-6b31-42f3-a3de-463327b16ff1@app.fastmail.com>
-In-Reply-To: <6BB4F74A-F440-4F21-B094-62CFD18C599A@gmail.com>
-References: <20251229031753.581664-1-derekjohn.clark@gmail.com>
- <20251229031753.581664-3-derekjohn.clark@gmail.com>
- <0on4p9s6-7512-9408-49no-3292o86113r3@xreary.bet>
- <6BB4F74A-F440-4F21-B094-62CFD18C599A@gmail.com>
-Subject: Re: [PATCH v2 02/16] HID: hid-lenovo-go: Add Lenovo Legion Go Series HID
- Driver
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH bpf-next v1 08/10] bpf: Add bpf_task_work_schedule_*
+ kfuncs with KF_IMPLICIT_ARGS
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Ihor Solodrai <ihor.solodrai@linux.dev>
+To: Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Cc: Alexei Starovoitov <ast@kernel.org>, Andrii Nakryiko <andrii@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>,
+ Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
+ <eddyz87@gmail.com>, Mykyta Yatsenko <yatsenko@meta.com>,
+ Tejun Heo <tj@kernel.org>, Alan Maguire <alan.maguire@oracle.com>,
+ Benjamin Tissoires <bentiss@kernel.org>, Jiri Kosina <jikos@kernel.org>,
+ bpf <bpf@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
+ "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+ sched-ext@lists.linux.dev
+References: <20260109184852.1089786-1-ihor.solodrai@linux.dev>
+ <20260109184852.1089786-9-ihor.solodrai@linux.dev>
+ <CAADnVQJDv80_T+1jz=7_8y+8hRTjMqqkm38in2er8iRU-p9W+g@mail.gmail.com>
+ <b099a95e-5e69-4eeb-a2c9-9a52b8042a85@linux.dev>
+ <CAADnVQ+_AmiwuupkVJTGyKY3KOp68GLuivs2LMEr0M_yaHPUUg@mail.gmail.com>
+ <0c4d84ab-1725-45bc-9c1c-8bdc1f5fc032@linux.dev>
+ <CAADnVQ+k-nbq-2PGRSPJDRZ3G9sp9zu3Owqsj7zqO_G+3OQEww@mail.gmail.com>
+ <f0e63b55-65c3-4367-b3da-275df18147a1@linux.dev>
+Content-Language: en-US
+In-Reply-To: <f0e63b55-65c3-4367-b3da-275df18147a1@linux.dev>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-On Mon, Jan 12, 2026, at 12:40 PM, Derek J. Clark wrote:
-> On January 12, 2026 4:12:43 AM PST, Jiri Kosina <jikos@kernel.org> wrote:
->>On Mon, 29 Dec 2025, Derek J. Clark wrote:
+On 1/9/26 1:56 PM, Ihor Solodrai wrote:
+> On 1/9/26 1:49 PM, Alexei Starovoitov wrote:
+>> On Fri, Jan 9, 2026 at 1:39 PM Ihor Solodrai <ihor.solodrai@linux.dev> wrote:
+>>>
+>>> [...]
+>>>
+>>>> I feel bpf_task_work_schedule_resume() is ok to break, since it's so new.
+>>>> We can remove bpf_task_work_schedule_[resume|singal]_impl()
+>>>> to avoid carrying forward forever.
+>>>>
+>>>> bpf_stream_vprintk_impl() is not that clear. I would remove it too.
+>>>
+>>> That leaves only bpf_wq_set_callback_impl(). Can we break that too?
 >>
->>> Adds initial framework for a new HID driver, hid-lenovo-go, along with
->>> attributes that report the firmware and hardware version for each
->>> component of the HID device, of which there are 4 parts: The MCU, the
->>> transmission dongle, the left "handle" controller half, and the right
->>> "handle" controller half. Each of these devices are provided an attribute
->>> group to contain its device specific attributes. Additionally, the touchpad
->>> device attributes are logically separated from the other components in
->>> another attribute group.
->>> 
->>> This driver primarily provides access to the configurable settings of the
->>> Lenovo Legion Go and Lenovo Legion Go 2 controllers running the latest
->>> firmware. As previously noted, the Legion Go controllers recently had a
->>> firmware update[1] which switched from the original "SepentiaUSB" protocol
->>> to a brand new protocol for the Go 2, primarily to ensure backwards and
->>> forwards compatibility between the Go and Go 2 devices. As part of that
->>> update the PIDs for the controllers were changed, so there is no risk of
->>> this driver attaching to controller firmware that it doesn't support.
->>> 
->>> Signed-off-by: Derek J. Clark <derekjohn.clark@gmail.com>
->>> ---
->>>  MAINTAINERS                 |   6 +
->>>  drivers/hid/Kconfig         |  12 +
->>>  drivers/hid/Makefile        |   1 +
->>>  drivers/hid/hid-ids.h       |   3 +
->>>  drivers/hid/hid-lenovo-go.c | 734 ++++++++++++++++++++++++++++++++++++
->>>  5 files changed, 756 insertions(+)
->>>  create mode 100644 drivers/hid/hid-lenovo-go.c
->>> 
->>> diff --git a/MAINTAINERS b/MAINTAINERS
->>> index 9ed6d11a7746..b5ad29d24e3e 100644
->>> --- a/MAINTAINERS
->>> +++ b/MAINTAINERS
->>> @@ -14135,6 +14135,12 @@ L:	platform-driver-x86@vger.kernel.org
->>>  S:	Maintained
->>>  F:	drivers/platform/x86/lenovo/wmi-hotkey-utilities.c
->>>  
->>> +LENOVO HID drivers
->>> +M:	Derek J. Clark <derekjohn.clark@gmail.com>
->>> +L:	linux-input@vger.kernel.org
->>> +S:	Maintained
->>> +F:	drivers/hid/hid-lenovo-go.c
+>> Sounds like Benjamin is ok removing it.
+>> So I think we can indeed remove them all.
 >>
->>Hi Derek,
+>>> Then there won't be legacy cases at all. It was introduced in v6.16
+>>> along the with __prog suffix [1][2].
+>>>
+>>> If we go this route, we could clean up __prog support/docs too.
+>>>
+>>> I think it's worth it to make an "all or nothing" decision here:
+>>> either break all 4 existing kfuncs, or backwards-support all of them.
 >>
->>thanks for working on this.
->>
->>I am now almost finished with reviewing this pile and am planning to queue 
->>it in hid.git shortly, but I have a question regarding the MAINTAINERS 
->>entry above.
->>
->>The title claims support for all of Lenovo HID, but there is much more to 
->>it than drivers/hid/hid-lenovo-go.c, specifically in hid-lenovo.c.
->>
->>So either please make the title more specific (or claim the ownership of 
->>the whole Lenovo HID landscape indeed, fine by me, but the please reflect 
->>that in F: :) ).
->>
->>Thanks,
->>
->
-> Hi Jiri
->
-> Sure, I've debated using LENOVO LEGION GO HID drivers and LENOVO GO HID 
-> drivers. Do you have a preference? The other drivers are pretty old and 
-> I don't have any hardware that would use them so I'd prefer to keep 
-> them separate (though I'll acknowledge that they don't seem to have a 
-> MAINTAINERS entry)
->
-I should probably take a better look at the lenovo-hid driver.
+>> I don't see why "all or nothing" is a good thing.
+>> It won't be "all" anyway.
+>> We have bpf_rbtree_add_impl(), bpf_list_push_front_impl(), etc.
+>> And those we cannot remove. sched-ext is using them.
+>> Another few categories are bpf_obj_new_impl(), bpf_obj_drop_impl().
+>> There are not __prog type, but conceptually the same thing and
+>> KF_IMPLICIT_ARGS should support them too eventually.
+> 
+> I was thinking we could remove/simplify code relevant to backwards
+> compat of existing _impl kfuncs. But you're right, if we start using
+> implicit args for other types/kfuncs, the "legacy" case still has to
+> work.
+> 
+> Ok, in the next revision I'll remove all the __prog users, but leave
+> the "legacy" case support in place for future use.
 
-The platforms that it's supporting weren't in the Linux program, so it never crossed my path before - but looking ahead I think we may need to contribute some changes there (guessing a little, but I'll know in a few months time).
+I just had an off-list chat with Andrii, and we agreed that leaving
+the existing _impl kfuncs supported may be a good idea.
 
-Jiri - as that driver is targeted for Thinkpads, I'm OK to take some responsibility for it if that is useful/helpful.
+It doesn't cost us much: we keep the mechanism for legacy functions
+anyways, so supporting bpf_wq_set_callback_impl() and co only requires
+keeping definitions in the kernel.
 
-Mark
+The only benefit of *removing* these _impl functions is that we could
+clean up __prog support.
+
+But having backwards compat seems like a better deal.
+What do you think?
+
+
+> 
+>>
+>>
+>>> git tag --contains bc049387b41f | grep -v rc
+>>> v6.16
+>>> v6.17
+>>> v6.18
+>>>
+>>> [1] https://lore.kernel.org/all/20250513142812.1021591-1-memxor@gmail.com/
+>>> [2] https://lore.kernel.org/all/20240420-bpf_wq-v2-13-6c986a5a741f@kernel.org/
+>>>
+>>>
+> 
+
 
