@@ -1,200 +1,196 @@
-Return-Path: <linux-input+bounces-17000-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-17006-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3D09D1544D
-	for <lists+linux-input@lfdr.de>; Mon, 12 Jan 2026 21:37:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C951D159A1
+	for <lists+linux-input@lfdr.de>; Mon, 12 Jan 2026 23:43:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 3D81B301B669
-	for <lists+linux-input@lfdr.de>; Mon, 12 Jan 2026 20:36:36 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 29FA0301E21F
+	for <lists+linux-input@lfdr.de>; Mon, 12 Jan 2026 22:43:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6256F2C3768;
-	Mon, 12 Jan 2026 20:36:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 90D462D8DD0;
+	Mon, 12 Jan 2026 22:43:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hoL/UU6x"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Gi+Y7Zko"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
+Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E11CF326931
-	for <linux-input@vger.kernel.org>; Mon, 12 Jan 2026 20:36:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 094A92BEC52
+	for <linux-input@vger.kernel.org>; Mon, 12 Jan 2026 22:43:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768250194; cv=none; b=Y+kGTOiFN9+lLQfdDFXPA6S1waiqzZOk6af5JF0IPvZ1fb4jiACZdF1zEc+FVdtA1PQbkWW6FwGlSDQw7UDBuryXU+nLhoraTfF0aCLciDiRhTczCeFsFxgVpyXapi3CMS5pDZRBe39YF0F58NJ8XxxS8gib24+2m1awxflpEMg=
+	t=1768257810; cv=none; b=nX8lqYFBUcApnoc90O76Q6L6+CIjMwL6TeE0In2xywSo6Gd6bFksOsb8FZynMQakiE16hgATf3hWn9vl/l92ypa6jQMqn8ilLsRog6hfzD1pVRGnTzTjRu/TrsUJL10vC/fhYcbPz8dbzKei/yn/KlEBKesk2odLYROLoRMXVzo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768250194; c=relaxed/simple;
-	bh=x1koErt0KZrKg7lQQJMxHMUYCfWzQV0KokubZfs0FJs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=KYuOengF32HO7sxdF++IRb+HmXSL/AjyVjkcJWWHoMyJMMbz4KJYbucRE3kCySy3t5b94fcuWQJq9bwSsvt6Z48W79vW4k/7N40EzLoAkdD8fFi85TFDn0UbsnCK88n2j/pP1cYZOAPrc8QzNDOsPDWobrhjuo2R9g/6AdZjBkE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hoL/UU6x; arc=none smtp.client-ip=209.85.219.41
+	s=arc-20240116; t=1768257810; c=relaxed/simple;
+	bh=0Ga4046PoD1QjORJ8x9YGyeaqSw2W7pHCfFHrwB+sqs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=OgvTs3FVDPrDNEu6DPNsDkxEW+ZWkNSOelpd+Vq4r/FuDO7ufqvHPt386NChTkOaPIqdDlc4zmoeG/0VmklmS7ciXNt5zn+F40sHnabZu5ycu5bcW8EI0atqiX3lSZPFZaZPMqHVshDvAkIxV+YrM0yedZOyXbz92BeZ6Z7nr9k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Gi+Y7Zko; arc=none smtp.client-ip=209.85.215.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-8888a16d243so64326086d6.1
-        for <linux-input@vger.kernel.org>; Mon, 12 Jan 2026 12:36:32 -0800 (PST)
+Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-c46d68f2b4eso4200343a12.2
+        for <linux-input@vger.kernel.org>; Mon, 12 Jan 2026 14:43:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768250191; x=1768854991; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1768257808; x=1768862608; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=MnJl4mjA928H7c6+CxPcUynMWnjGzO8z//ft5AvFLSQ=;
-        b=hoL/UU6xQWnrxIY2jJ26FKeJoap5pl7vA38+QHmlP/08qg4ta8qyTQ4BUigz64wfTB
-         2jJosMt1bim+NWbpClNS6cSFED5hGypzuQ1QE6JBhcLRPpmP11oFwMPLmgQ7nLM1LCml
-         xxIoQcD0gvn1JWujv7uH1WMrI7HHmFeklnmEA81hsHpRbebH6RbnyTqS8J4ZeFn/bJxm
-         wjViaITpDNRdSwOfOtIlJpmBgZqewQumXHp8B1OLLQV57s/AVfwGhlTJ432Q7rqpZpTb
-         pXDiPb85BN2ODUPJFD/yasIkcpxFXGdkfr5fhcDa57nkublh4siIhXvuXy0v7uEDKzHp
-         RffA==
+        bh=PGobhM5gknftRAivxeGEAO6mhAVtTPpcYFMxFViT17s=;
+        b=Gi+Y7ZkoLMFZwlIuQkxMyQRF04ybogZFv7FwHPlBYisGUUvTfUpM+m83raSAvGjcww
+         52w3cCIELafvovm6XM12wNy5NQe/S413+xcFXVTSRzdFfTUCXJVeqEPxMhKPyZcTYNJm
+         qRzWNrY9EmNnCmViJMFlrSwvrLgqWLWi0Fha1w2e9LeJWX424i/cIHF+53moyyVfGaj+
+         X186nZGzECvblvm1terPEq8e2ROp57YYFH4PY1okaSVpl7VRORT7ATeJ56x5n6w9WD1B
+         OSIq+xD5BOXF5GS+mWjx9eEkTF3FMQzFlurtMOQhrlscXPvDZjyzmAEDTMkDOxkiT+jA
+         +zRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768250191; x=1768854991;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+        d=1e100.net; s=20230601; t=1768257808; x=1768862608;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=MnJl4mjA928H7c6+CxPcUynMWnjGzO8z//ft5AvFLSQ=;
-        b=BAu2Tz2XtJzLD1xsMiZDGO+Rb2rwifD1tHms6ROpLMkEa2dwbnkxCHFM/29EltCSUA
-         XECUCfs7v8k0gA7mXcfXDgNloMbBligAP+9m2r9O3gU0a/ryk3a7PghtwPz9hFHFkl2C
-         XdecXjCY4EKZkN7i8SBBqxp2k8lwIUPeTs43PlMtVMrZqFMB6gbsklXUfKIu90a+IJJ+
-         2sLkhVOFYh1C2/NdeNGtYGx3v41pV2mGEAMQ9yoxNEzO/42Ki8pLgzF3ozxwpyNFlkMt
-         xy+IMxLdHtB/cVClixvEoQfGCjxl5fvo0TanF/FrA5a9TUCuPxhWbssFd4hKQGrBOyCs
-         3UvA==
-X-Forwarded-Encrypted: i=1; AJvYcCVvbT6VM6CnRwOreMzlpHk9Sd57LCV1Y4Mk9g+N4YdtfbADn3XkDnPKXVkjA3T1vtECQgoRij4PCrfaZQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwTVupKQ4G839Vmy7GRr2pN19L4ODwZzx9laYLsQSbB1nbG5yo3
-	wMSRC8ADrnJIqlw5aLhJl0uJJ9BRkAa2xZ73EwdEBbWHYnq9YFEmqdkJyO+X4w==
-X-Gm-Gg: AY/fxX764ZfQMNSGD/FIhEZDPv7uAEYVuZiuu/v21SmHF5GUeCwCD5FEGfbtC0f21+W
-	tHMvtdQHaL9pK68jrZVRkFYpoOd3DNqujsUfMXBj1ZiFeuRyq2Rgk0WJD/FzwaJ0nyV1Buihew3
-	Xw9i06mDXmiB7usad55e+pG0eZVJ0b+tjg4erKGGnc7oP1lgUZ+l7le4x9PiMod5WfV3+DFTYon
-	Ns2l6ph6obcr6pdQxsHzB0VJvDgXmaie2h1NjFDx/VWvkfoDMVTN9C13kkHKOZJRP7jAHd1IPHa
-	Rh44+HZCxjq1Zn2HlMa52Cs4z4RegcMiFudiwWFFkVjX8mTD7QIKOS5nLd67QVn2Du0kkNar6tm
-	FQO72IKCd8xtS19gfou5qmfdvOw3+Xur0xJxSHqqVNrm67Q2Vmuapa2i0/q6h5aM2n4joJHLgZU
-	QJ3tqZKePXRROMqcuZQw5yAEmGW9JdJqHX47GkMP/YeXhQjIA10fa97PzLapfJbQsR9w8MKBHcu
-	TiH+owhXDJsU2THW9oDzg==
-X-Google-Smtp-Source: AGHT+IFEOJtKiZOekw3QKky7cg+SUdsdDlCfIy6gQ1Y92OIF6fv5PXYBPdHBg9wlGXMZd4H/lsyNmg==
-X-Received: by 2002:a05:6a20:3952:b0:366:584c:62fa with SMTP id adf61e73a8af0-3898f9053f9mr18835078637.21.1768243935601;
-        Mon, 12 Jan 2026 10:52:15 -0800 (PST)
-Received: from visitorckw-work01.c.googlers.com.com (25.118.81.34.bc.googleusercontent.com. [34.81.118.25])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c4cca06b16fsm18874197a12.31.2026.01.12.10.52.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Jan 2026 10:52:15 -0800 (PST)
-From: Kuan-Wei Chiu <visitorckw@gmail.com>
-To: airlied@gmail.com,
-	simona@ffwll.ch,
-	maarten.lankhorst@linux.intel.com,
-	mripard@kernel.org,
-	tzimmermann@suse.de,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	dmitry.torokhov@gmail.com,
-	sre@kernel.org,
-	gregkh@linuxfoundation.org,
-	jirislaby@kernel.org,
-	lgirdwood@gmail.com,
-	broonie@kernel.org
-Cc: jserv@ccns.ncku.edu.tw,
-	eleanor15x@gmail.com,
-	dri-devel@lists.freedesktop.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-input@vger.kernel.org,
-	linux-pm@vger.kernel.org,
-	linux-serial@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	Kuan-Wei Chiu <visitorckw@gmail.com>
-Subject: [PATCH v3 6/6] dt-bindings: display: google,goldfish-fb: Convert to DT schema
-Date: Mon, 12 Jan 2026 18:50:44 +0000
-Message-ID: <20260112185044.1865605-7-visitorckw@gmail.com>
-X-Mailer: git-send-email 2.52.0.457.g6b5491de43-goog
-In-Reply-To: <20260112185044.1865605-1-visitorckw@gmail.com>
-References: <20260112185044.1865605-1-visitorckw@gmail.com>
+        bh=PGobhM5gknftRAivxeGEAO6mhAVtTPpcYFMxFViT17s=;
+        b=KKg93qzMArVhjTlfpVT8WidoMUhzx1rxaix4BK4Z0qTZ4xd3pyKnC0M8rVFG4kJcoH
+         9PO2MfXoY8FaN54BvTdNwiibXJERSqPaYFxHpDDYqNFaMSCEq6EL5/rfltJInD/yxix+
+         f5pOj77Jn+eRjsngJZSw93pIcGHhN33zPyYdwGLrqs2xERrW/eyWELgNWXbsP8vorceI
+         jtE6wAmjK+yWB2HFNbE3QqClMMOnvnTmoEqX9QZqajQZPbZ/NCP0jdaYXhanNDfGJ1+L
+         ec1CmOly/mYGInn2Xh1krL1rSg/VF2zQszYjLd4nyLw64ocICWuC2PflyEy0lm/+xkRy
+         Fl8A==
+X-Forwarded-Encrypted: i=1; AJvYcCV30wve4yvlnakB15yxT6ppBBClrvyDHATWutCTWi6V8vv6h04EFzdkzfihUUIvAPpTz2xE/H4vm48fCQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxIFm727XZZwqkEKoniJYicnZWG4FgJfOvFflPVielE8/5uRKvI
+	PgHLv5NceS2bxQeGvDR2nSyZB+Q1GCGPW8KMvN+WE3VjcpKJ6cFs7rorhXH7auFTOd8F3sqUOf+
+	nbQd4bgFo5A3N33eaSwSL4k4adtwY1xE=
+X-Gm-Gg: AY/fxX4+feLDXXMQ1C57k1sL9IHhfwTDwV0mOC/8oSXr2JoYqnIDNpKPiCJ2h2ZkfIP
+	KmF1O9Qy0IgWV5nWY3QcLaQDr8+eRKdN5Umy1Zg7SL9r4Bgg7KjEve5oA7Q3XYd/FEszOb/Wfvs
+	p9BkXQBNRk8S9kZ7+u0T7cMfVLBVh+TmhUo5otuiCQX/UMFSQ0Yt6twzTCtqDMfWqV4huPRoOou
+	sT12yg77aRkrzEpN9g7L23B97okHbjMMQh8VMEeuXV9rKQBA/B0O6RzQ5SgyRj70KenuENGpLWE
+	YgACd0z5fUw=
+X-Google-Smtp-Source: AGHT+IHUazrPlEet43khWdyf1XxNCYUu5w5+tqtqvaSnOm9KMVvJkpgW6G3rA/Hm6dlK5sFlWJd5odNJwJX0gdLy7xE=
+X-Received: by 2002:a17:90b:38cd:b0:340:ad5e:cb with SMTP id
+ 98e67ed59e1d1-34f68b8325amr16854677a91.8.1768257808289; Mon, 12 Jan 2026
+ 14:43:28 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260109184852.1089786-1-ihor.solodrai@linux.dev>
+ <20260109184852.1089786-9-ihor.solodrai@linux.dev> <CAADnVQJDv80_T+1jz=7_8y+8hRTjMqqkm38in2er8iRU-p9W+g@mail.gmail.com>
+ <b099a95e-5e69-4eeb-a2c9-9a52b8042a85@linux.dev> <CAADnVQ+_AmiwuupkVJTGyKY3KOp68GLuivs2LMEr0M_yaHPUUg@mail.gmail.com>
+ <0c4d84ab-1725-45bc-9c1c-8bdc1f5fc032@linux.dev> <CAADnVQ+k-nbq-2PGRSPJDRZ3G9sp9zu3Owqsj7zqO_G+3OQEww@mail.gmail.com>
+ <f0e63b55-65c3-4367-b3da-275df18147a1@linux.dev> <3a697699-ffcb-4e2f-a7a4-9e3f571aa402@linux.dev>
+In-Reply-To: <3a697699-ffcb-4e2f-a7a4-9e3f571aa402@linux.dev>
+From: Andrii Nakryiko <andrii.nakryiko@gmail.com>
+Date: Mon, 12 Jan 2026 14:43:15 -0800
+X-Gm-Features: AZwV_QjU-ODZg1GeGIyYt8QDqUW_SFHA2LTq3XVJjopePVE88KAjYA43jKP0aL4
+Message-ID: <CAEf4BzbgPfRm9BX=TsZm-TsHFAHcwhPY4vTt=9OT-uhWqf8tqw@mail.gmail.com>
+Subject: Re: [PATCH bpf-next v1 08/10] bpf: Add bpf_task_work_schedule_*
+ kfuncs with KF_IMPLICIT_ARGS
+To: Ihor Solodrai <ihor.solodrai@linux.dev>
+Cc: Alexei Starovoitov <alexei.starovoitov@gmail.com>, Alexei Starovoitov <ast@kernel.org>, 
+	Andrii Nakryiko <andrii@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman <eddyz87@gmail.com>, 
+	Mykyta Yatsenko <yatsenko@meta.com>, Tejun Heo <tj@kernel.org>, 
+	Alan Maguire <alan.maguire@oracle.com>, Benjamin Tissoires <bentiss@kernel.org>, 
+	Jiri Kosina <jikos@kernel.org>, bpf <bpf@vger.kernel.org>, 
+	LKML <linux-kernel@vger.kernel.org>, 
+	"open list:HID CORE LAYER" <linux-input@vger.kernel.org>, sched-ext@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Convert the Android Goldfish Framebuffer binding to DT schema format.
-Update the example node name to 'display' to comply with generic node
-naming standards.
+On Mon, Jan 12, 2026 at 10:54=E2=80=AFAM Ihor Solodrai <ihor.solodrai@linux=
+.dev> wrote:
+>
+> On 1/9/26 1:56 PM, Ihor Solodrai wrote:
+> > On 1/9/26 1:49 PM, Alexei Starovoitov wrote:
+> >> On Fri, Jan 9, 2026 at 1:39=E2=80=AFPM Ihor Solodrai <ihor.solodrai@li=
+nux.dev> wrote:
+> >>>
+> >>> [...]
+> >>>
+> >>>> I feel bpf_task_work_schedule_resume() is ok to break, since it's so=
+ new.
+> >>>> We can remove bpf_task_work_schedule_[resume|singal]_impl()
+> >>>> to avoid carrying forward forever.
+> >>>>
+> >>>> bpf_stream_vprintk_impl() is not that clear. I would remove it too.
+> >>>
+> >>> That leaves only bpf_wq_set_callback_impl(). Can we break that too?
+> >>
+> >> Sounds like Benjamin is ok removing it.
+> >> So I think we can indeed remove them all.
+> >>
+> >>> Then there won't be legacy cases at all. It was introduced in v6.16
+> >>> along the with __prog suffix [1][2].
+> >>>
+> >>> If we go this route, we could clean up __prog support/docs too.
+> >>>
+> >>> I think it's worth it to make an "all or nothing" decision here:
+> >>> either break all 4 existing kfuncs, or backwards-support all of them.
+> >>
+> >> I don't see why "all or nothing" is a good thing.
+> >> It won't be "all" anyway.
+> >> We have bpf_rbtree_add_impl(), bpf_list_push_front_impl(), etc.
+> >> And those we cannot remove. sched-ext is using them.
+> >> Another few categories are bpf_obj_new_impl(), bpf_obj_drop_impl().
+> >> There are not __prog type, but conceptually the same thing and
+> >> KF_IMPLICIT_ARGS should support them too eventually.
+> >
+> > I was thinking we could remove/simplify code relevant to backwards
+> > compat of existing _impl kfuncs. But you're right, if we start using
+> > implicit args for other types/kfuncs, the "legacy" case still has to
+> > work.
+> >
+> > Ok, in the next revision I'll remove all the __prog users, but leave
+> > the "legacy" case support in place for future use.
+>
+> I just had an off-list chat with Andrii, and we agreed that leaving
+> the existing _impl kfuncs supported may be a good idea.
+>
+> It doesn't cost us much: we keep the mechanism for legacy functions
+> anyways, so supporting bpf_wq_set_callback_impl() and co only requires
+> keeping definitions in the kernel.
+>
+> The only benefit of *removing* these _impl functions is that we could
+> clean up __prog support.
+>
+> But having backwards compat seems like a better deal.
+> What do you think?
+>
 
-Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
----
-Changes in v3:
-- Use decimal format for interrupts in the example.
+I think that bit of __prog clean up might be worth doing after all.
+The biggest difference for users if we remove _impl stuff from new
+kernels would be an extra explicit xxx_impl kfunc declaration (it
+won't come from vmlinux.h anymore) and then the following call pattern
+(which probably will be hidden in the macro anyways):
 
- .../bindings/display/google,goldfish-fb.txt   | 17 ---------
- .../bindings/display/google,goldfish-fb.yaml  | 38 +++++++++++++++++++
- 2 files changed, 38 insertions(+), 17 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/display/google,goldfish-fb.txt
- create mode 100644 Documentation/devicetree/bindings/display/google,goldfish-fb.yaml
+if (xxx_impl)
+    xxx_impl(..., NULL);
+else
+    xxx(...);
 
-diff --git a/Documentation/devicetree/bindings/display/google,goldfish-fb.txt b/Documentation/devicetree/bindings/display/google,goldfish-fb.txt
-deleted file mode 100644
-index 751fa9f51e5d..000000000000
---- a/Documentation/devicetree/bindings/display/google,goldfish-fb.txt
-+++ /dev/null
-@@ -1,17 +0,0 @@
--Android Goldfish framebuffer
--
--Android Goldfish framebuffer device used by Android emulator.
--
--Required properties:
--
--- compatible : should contain "google,goldfish-fb"
--- reg        : <registers mapping>
--- interrupts : <interrupt mapping>
--
--Example:
--
--	display-controller@1f008000 {
--		compatible = "google,goldfish-fb";
--		interrupts = <0x10>;
--		reg = <0x1f008000 0x100>;
--	};
-diff --git a/Documentation/devicetree/bindings/display/google,goldfish-fb.yaml b/Documentation/devicetree/bindings/display/google,goldfish-fb.yaml
-new file mode 100644
-index 000000000000..36ed77cbbcd7
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/google,goldfish-fb.yaml
-@@ -0,0 +1,38 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/google,goldfish-fb.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Android Goldfish Framebuffer
-+
-+maintainers:
-+  - Kuan-Wei Chiu <visitorckw@gmail.com>
-+
-+description:
-+  Android Goldfish framebuffer device used by Android emulator.
-+
-+properties:
-+  compatible:
-+    const: google,goldfish-fb
-+
-+  reg:
-+    maxItems: 1
-+
-+  interrupts:
-+    maxItems: 1
-+
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    display@1f008000 {
-+        compatible = "google,goldfish-fb";
-+        reg = <0x1f008000 0x100>;
-+        interrupts = <16>;
-+    };
--- 
-2.52.0.457.g6b5491de43-goog
 
+This will work on old and new kernels alike, so ok, let's just drop
+all the _impl stuff. Can't do that for bpf_obj_new_impl() because
+that's already used more widely, but for task_work, wq, stream -- they
+are all fresh and not yet properly used in production.
+
+
+>
+> >
+> >>
+> >>
+> >>> git tag --contains bc049387b41f | grep -v rc
+> >>> v6.16
+> >>> v6.17
+> >>> v6.18
+> >>>
+> >>> [1] https://lore.kernel.org/all/20250513142812.1021591-1-memxor@gmail=
+.com/
+> >>> [2] https://lore.kernel.org/all/20240420-bpf_wq-v2-13-6c986a5a741f@ke=
+rnel.org/
+> >>>
+> >>>
+> >
+>
 
