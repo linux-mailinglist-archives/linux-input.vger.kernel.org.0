@@ -1,47 +1,50 @@
-Return-Path: <linux-input+bounces-16974-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16976-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7C52D12AF5
-	for <lists+linux-input@lfdr.de>; Mon, 12 Jan 2026 14:08:59 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F896D12B28
+	for <lists+linux-input@lfdr.de>; Mon, 12 Jan 2026 14:11:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 00D08300A9A4
-	for <lists+linux-input@lfdr.de>; Mon, 12 Jan 2026 13:08:58 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id B91A9300287D
+	for <lists+linux-input@lfdr.de>; Mon, 12 Jan 2026 13:11:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A89C2358D01;
-	Mon, 12 Jan 2026 13:08:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A75AA32572F;
+	Mon, 12 Jan 2026 13:11:11 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
+Received: from mslow3.mail.gandi.net (mslow3.mail.gandi.net [217.70.178.249])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22096358D00;
-	Mon, 12 Jan 2026 13:08:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FF4E358D09;
+	Mon, 12 Jan 2026 13:11:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.178.249
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768223337; cv=none; b=UEzAXl+ecvkMJuZ+TJcvGKtWT0U+QdPBcmwRTD27Fd/5EIQT0aISbrc7j5XtrdNuY6tCS8AvtPyVtk8HtmD79/ceJT0027at9+z5MeBnaKS4vOyY9QtihoyIcHkRlM8cwhe825jbhrdDh/SD/yF8/n3p0dDAt0q2BeRwV9dubJ8=
+	t=1768223471; cv=none; b=LT6LmRc9rAVvjRkcRzlxG+b0NgyBfViN8w/VU+S7+5D0UpilVzM9PjmJ98uOciEFqSQ886rijyEbqQkX5dX4bhA2zCo9OhAcfLLFRb0PmoFEbcImRNqJUhwwwsNmAzmcZWbC/tJRl7czCfFuH89mm8YuC36EpeE7q7YkFkdO67s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768223337; c=relaxed/simple;
-	bh=uKN+KSSkTEVecTqo2cwDDM/6rrzPAMP58LmH6hOA7yA=;
+	s=arc-20240116; t=1768223471; c=relaxed/simple;
+	bh=mtPQbxIB/qbocuZfItcefFz15BL+JPIGkdBNq34WLS0=;
 	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=nsAjnuh6UnmyTiceXxUMf3cF1c3Wp0TuYCSslZCMswOdCCV/+AaHuuPTAKVLNI4Xh66VuPey+3kWamSWfswR9nEpKazyfGvGLakVSv8t4Q+V+uFIY9IBq1PDEdOkWYHrMHgW37XF9XlqE2mLfkJqxc/8ux5BPb4GEtkpxXF7hyM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hadess.net; spf=pass smtp.mailfrom=hadess.net; arc=none smtp.client-ip=217.70.183.195
+	 Content-Type:MIME-Version; b=t8z/tKvLCIzivNeo04FHUIFQ8EXRSevWGeywbVlDLlBfkVcfi4IyggUO0AX0kM1GU9gRlcJzpZ8/ic/PEJbf4cSgz8gKruxFOuKqeuOiCahkqobrU4cMJFhx4vaAWC9wbjvzMtDF/838pW2zyfyu7/R78ICwQ5RGhc90PGj3arc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hadess.net; spf=pass smtp.mailfrom=hadess.net; arc=none smtp.client-ip=217.70.178.249
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hadess.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hadess.net
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 5A0471FD47;
-	Mon, 12 Jan 2026 13:08:45 +0000 (UTC)
-Message-ID: <cc997c35b10ca1073397cb0c3b66ab2c0a2bdcb0.camel@hadess.net>
-Subject: Re: [PATCH v2 3/4] Documentation: ABI: Document SteelSeries headset
- sysfs attributes
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::229])
+	by mslow3.mail.gandi.net (Postfix) with ESMTP id 77709580CE7;
+	Mon, 12 Jan 2026 13:09:55 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 42B5C442AF;
+	Mon, 12 Jan 2026 13:09:47 +0000 (UTC)
+Message-ID: <32e14a5d6ee839edc3253587f2f99ec6cd0ddfa0.camel@hadess.net>
+Subject: Re: [PATCH v2 4/4] HID: steelseries: Add support for Arctis headset
+ lineup
 From: Bastien Nocera <hadess@hadess.net>
 To: Sriman Achanta <srimanachanta@gmail.com>, Jiri Kosina
  <jikos@kernel.org>,  Benjamin Tissoires	 <bentiss@kernel.org>,
  linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Date: Mon, 12 Jan 2026 14:08:44 +0100
-In-Reply-To: <20260112041941.40531-4-srimanachanta@gmail.com>
+Date: Mon, 12 Jan 2026 14:09:46 +0100
+In-Reply-To: <20260112041941.40531-5-srimanachanta@gmail.com>
 References: <20260112041941.40531-1-srimanachanta@gmail.com>
-	 <20260112041941.40531-4-srimanachanta@gmail.com>
+	 <20260112041941.40531-5-srimanachanta@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: base64
 User-Agent: Evolution 3.58.2 (3.58.2-1.fc43) 
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
@@ -50,256 +53,242 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-GND-Sasl: hadess@hadess.net
-X-GND-State: clean
 X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdduudejheefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkuffhvfffjghftgfgfgggsehtqhertddtreejnecuhfhrohhmpeeurghsthhivghnucfpohgtvghrrgcuoehhrgguvghssheshhgruggvshhsrdhnvghtqeenucggtffrrghtthgvrhhnpeeuveeivdetkeekgfefffeftefhjeeikeetffdvteejheefieeltedtvdeuleduleenucfkphepvdgrtddumegvfeegmegvtgejfeemtghfvddtmegsrgegfeemrgeijeeimegtvdgufeemjegrheefnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddumegvfeegmegvtgejfeemtghfvddtmegsrgegfeemrgeijeeimegtvdgufeemjegrheefpdhhvghloheplgfkrfhvieemvdgrtddumegvfeegmegvtgejfeemtghfvddtmegsrgegfeemrgeijeeimegtvdgufeemjegrheefngdpmhgrihhlfhhrohhmpehhrgguvghssheshhgruggvshhsrdhnvghtpdhqihgupeehtedtgeejudfhffegjedpmhhouggvpehsmhhtphhouhhtpdhnsggprhgtphhtthhopeehpdhrtghpthhtohepshhrihhmrghnrggthhgrnhhtrgesghhmrghilhdrtghomhdprhgtphhtthhopehjihhkohhssehkvghrnhgvlhdro
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdduudejheegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkuffhvfffjghftgfgfgggsehtsgertddtreejnecuhfhrohhmpeeurghsthhivghnucfpohgtvghrrgcuoehhrgguvghssheshhgruggvshhsrdhnvghtqeenucggtffrrghtthgvrhhnpeevuedtleduteehfefhleeuhfffgfelvdejtdeifedvgffhtdetffelfedvhefhhfenucfkphepvdgrtddumegvfeegmegvtgejfeemtghfvddtmegsrgegfeemrgeijeeimegtvdgufeemjegrheefnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddumegvfeegmegvtgejfeemtghfvddtmegsrgegfeemrgeijeeimegtvdgufeemjegrheefpdhhvghloheplgfkrfhvieemvdgrtddumegvfeegmegvtgejfeemtghfvddtmegsrgegfeemrgeijeeimegtvdgufeemjegrheefngdpmhgrihhlfhhrohhmpehhrgguvghssheshhgruggvshhsrdhnvghtpdhqihgupeegvdeuheevgeegvdethfdpmhhouggvpehsmhhtphhouhhtpdhnsggprhgtphhtthhopeehpdhrtghpthhtohepshhrihhmrghnrggthhgrnhhtrgesghhmrghilhdrtghomhdprhgtphhtthhopehjihhkohhssehkvghrnhgvlhdro
  hhrghdprhgtphhtthhopegsvghnthhishhssehkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhinhhpuhhtsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhg
+X-GND-State: clean
 
-On Sun, 2026-01-11 at 23:19 -0500, Sriman Achanta wrote:
-> Replace the SRW-S1 specific documentation with comprehensive
-> documentation for the hid-steelseries driver covering both the legacy
-> SRW-S1 wheel and the modern Arctis headset lineup.
+T24gU3VuLCAyMDI2LTAxLTExIGF0IDIzOjE5IC0wNTAwLCBTcmltYW4gQWNoYW50YSB3cm90ZToK
+PiBBZGQgZnVsbCBzdXBwb3J0IGZvciB0aGUgU3RlZWxTZXJpZXMgQXJjdGlzIHdpcmVsZXNzIGdh
+bWluZyBoZWFkc2V0Cj4gbGluZXVwLCBleHRlbmRpbmcgdGhlIGRyaXZlciBmcm9tIGJhc2ljIHN1
+cHBvcnQgZm9yIDIgbW9kZWxzIChBcmN0aXMKPiAxCj4gYW5kIDkpIHRvIGNvbXByZWhlbnNpdmUg
+c3VwcG9ydCBmb3IgMjUrIG1vZGVscyBhY3Jvc3MgYWxsIEFyY3Rpcwo+IGdlbmVyYXRpb25zLgo+
+IAo+IFRoaXMgaXMgYSBtYWpvciByZXN0cnVjdHVyZSBvZiB0aGUgaGlkLXN0ZWVsc2VyaWVzIGRy
+aXZlciB0aGF0Cj4gcmVwbGFjZXMKPiB0aGUgcHJldmlvdXMgbWluaW1hbCBpbXBsZW1lbnRhdGlv
+biB3aXRoIGEgdW5pZmllZCwgY2FwYWJpbGl0eS1iYXNlZAo+IGFyY2hpdGVjdHVyZS4KClRoaXMg
+cGF0Y2ggbmVlZHMgdG8gYmUgc3BsaXQgdXAsIGF0IHRoZSB2ZXJ5IGxlYXN0IGl0IG5lZWRzIG5l
+dwpmZWF0dXJlcyB0byBiZSBzcGxpdCB1cCBmcm9tIGFueSBvdGhlciByZWZhY3RvcmluZyB0aGF0
+IG1pZ2h0IGJlIG5lZWRlZAp0byBzdXBwb3J0IGZlYXR1cmVzIHdpdGggZWFjaCBuZXcgZmVhdHVy
+ZSBnZXR0aW5nIGl0cyBvd24gY29tbWl0LgoKQXMgbWVudGlvbmVkIGluIHRoZSBlYXJsaWVyIHBh
+dGNoLCBzaWRldG9uZSBjb250cm9sLCBjaGF0bWl4IGxldmVsLCBtaWMKbGV2ZWwsIHZvbHVtZSBs
+aW1pdGVyIGFuZCBibHVldG9vdGggY2FsbCB2b2x1bWUgYWxsIHNob3VsZCBiZQppbXBsZW1lbnRl
+ZCBhcyBBTFNBIG1peGVycy9zd2l0Y2hlcyBzbyB0aGV5IGNhbiBiZSB0b2dnbGVkIHdpdGggc3Rv
+Y2sKdG9vbHMgYW5kIHByZXNlbnRlZCBpbiBhIHVuaWZvcm0gd2F5IHVwIHRoZSBzdGFjayAoUGlw
+ZXdpcmUvUHVsc2VhdWRpbwphbmQgZGVza3RvcCBlbnZpcm9ubWVudHMpLgoKQW4gYWRkaXRpb25h
+bCBjb21tZW50cyBpbmxpbmUuCgo+IDxzbmlwPgo+IC0vKiBGaXhlZCByZXBvcnQgZGVzY3JpcHRv
+ciBmb3IgU3RlZWxzZXJpZXMgU1JXLVMxIHdoZWVsIGNvbnRyb2xsZXIKPiAtICoKPiAtICogVGhl
+IG9yaWdpbmFsIGRlc2NyaXB0b3IgaGlkZXMgdGhlIHNlbnNpdGl2aXR5IGFuZCBhc3Npc3RzIGRp
+YWxzCj4gLSAqIGEgY3VzdG9tIHZlbmRvciB1c2FnZSBwYWdlLiBUaGlzIGluc2VydHMgYSBwYXRj
+aCB0byBtYWtlIHRoZW0KPiAtICogYXBwZWFyIGluIHRoZSAnR2VuZXJpYyBEZXNrdG9wJyB1c2Fn
+ZS4KPiAtICovCj4gLQo+ICsvKiBGaXhlZCByZXBvcnQgZGVzY3JpcHRvciBmb3IgU3RlZWxzZXJp
+ZXMgU1JXLVMxIHdoZWVsIGNvbnRyb2xsZXIKPiAqLwoKVGhlcmUncyByZWFsbHkgbm8gbmVlZCB0
+byByZWluZGVudCB0aGlzIGFycmF5LgoKPiDCoHN0YXRpYyBjb25zdCBfX3U4IHN0ZWVsc2VyaWVz
+X3Nyd3MxX3JkZXNjX2ZpeGVkW10gPSB7Cj4gLTB4MDUsIDB4MDEswqDCoMKgwqDCoMKgwqDCoCAv
+KsKgIFVzYWdlIFBhZ2UgKERlc2t0b3ApwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICov
+Cj4gLTB4MDksIDB4MDgswqDCoMKgwqDCoMKgwqDCoCAvKsKgIFVzYWdlIChNdWx0aUF4aXMpLCBD
+aGFuZ2VkwqDCoMKgwqDCoMKgwqDCoMKgICovCj4gLTB4QTEsIDB4MDEswqDCoMKgwqDCoMKgwqDC
+oCAvKsKgIENvbGxlY3Rpb24gKEFwcGxpY2F0aW9uKSzCoMKgwqDCoMKgwqDCoMKgwqDCoCAqLwo+
+IC0weEExLCAweDAyLMKgwqDCoMKgwqDCoMKgwqAgLyrCoMKgwqDCoMKgIENvbGxlY3Rpb24gKExv
+Z2ljYWwpLMKgwqDCoMKgwqDCoMKgwqDCoMKgICovCj4gLTB4OTUsIDB4MDEswqDCoMKgwqDCoMKg
+wqDCoCAvKsKgwqDCoMKgwqDCoMKgwqDCoCBSZXBvcnQgQ291bnQgKDEpLMKgwqDCoMKgwqDCoMKg
+wqDCoMKgICovCj4gLTB4MDUsIDB4MDEswqDCoMKgwqDCoMKgwqDCoCAvKiBDaGFuZ2VkwqAgVXNh
+Z2UgUGFnZSAoRGVza3RvcCkswqDCoMKgwqDCoMKgICovCj4gLTB4MDksIDB4MzAswqDCoMKgwqDC
+oMKgwqDCoCAvKiBDaGFuZ2VkwqAgVXNhZ2UgKFgpLMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqAgKi8KPiAtMHgxNiwgMHhGOCwgMHhGOCzCoMKgIC8qwqDCoMKgwqDCoMKgwqDCoMKg
+IExvZ2ljYWwgTWluaW11bSAoLTE4MDApLMKgwqDCoCAqLwo+IC0weDI2LCAweDA4LCAweDA3LMKg
+wqAgLyrCoMKgwqDCoMKgwqDCoMKgwqAgTG9naWNhbCBNYXhpbXVtICgxODAwKSzCoMKgwqDCoCAq
+Lwo+IC0weDY1LCAweDE0LMKgwqDCoMKgwqDCoMKgwqAgLyrCoMKgwqDCoMKgwqDCoMKgwqAgVW5p
+dCAoRGVncmVlcykswqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICovCj4gLTB4NTUsIDB4MEYswqDC
+oMKgwqDCoMKgwqDCoCAvKsKgwqDCoMKgwqDCoMKgwqDCoCBVbml0IEV4cG9uZW50ICgxNSkswqDC
+oMKgwqDCoMKgwqDCoCAqLwo+IC0weDc1LCAweDEwLMKgwqDCoMKgwqDCoMKgwqAgLyrCoMKgwqDC
+oMKgwqDCoMKgwqAgUmVwb3J0IFNpemUgKDE2KSzCoMKgwqDCoMKgwqDCoMKgwqDCoCAqLwo+IC0w
+eDgxLCAweDAyLMKgwqDCoMKgwqDCoMKgwqAgLyrCoMKgwqDCoMKgwqDCoMKgwqAgSW5wdXQgKFZh
+cmlhYmxlKSzCoMKgwqDCoMKgwqDCoMKgwqDCoCAqLwo+IC0weDA5LCAweDMxLMKgwqDCoMKgwqDC
+oMKgwqAgLyogQ2hhbmdlZMKgIFVzYWdlIChZKSzCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgICovCj4gLTB4MTUsIDB4MDAswqDCoMKgwqDCoMKgwqDCoCAvKsKgwqDCoMKgwqDCoMKg
+wqDCoCBMb2dpY2FsIE1pbmltdW0gKDApLMKgwqDCoMKgwqDCoMKgICovCj4gLTB4MjYsIDB4RkYs
+IDB4MDMswqDCoCAvKsKgwqDCoMKgwqDCoMKgwqDCoCBMb2dpY2FsIE1heGltdW0gKDEwMjMpLMKg
+wqDCoMKgICovCj4gLTB4NzUsIDB4MEMswqDCoMKgwqDCoMKgwqDCoCAvKsKgwqDCoMKgwqDCoMKg
+wqDCoCBSZXBvcnQgU2l6ZSAoMTIpLMKgwqDCoMKgwqDCoMKgwqDCoMKgICovCj4gLTB4ODEsIDB4
+MDIswqDCoMKgwqDCoMKgwqDCoCAvKsKgwqDCoMKgwqDCoMKgwqDCoCBJbnB1dCAoVmFyaWFibGUp
+LMKgwqDCoMKgwqDCoMKgwqDCoMKgICovCj4gLTB4MDksIDB4MzIswqDCoMKgwqDCoMKgwqDCoCAv
+KiBDaGFuZ2VkwqAgVXNhZ2UgKFopLMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
+Ki8KPiAtMHgxNSwgMHgwMCzCoMKgwqDCoMKgwqDCoMKgIC8qwqDCoMKgwqDCoMKgwqDCoMKgIExv
+Z2ljYWwgTWluaW11bSAoMCkswqDCoMKgwqDCoMKgwqAgKi8KPiAtMHgyNiwgMHhGRiwgMHgwMyzC
+oMKgIC8qwqDCoMKgwqDCoMKgwqDCoMKgIExvZ2ljYWwgTWF4aW11bSAoMTAyMykswqDCoMKgwqAg
+Ki8KPiAtMHg3NSwgMHgwQyzCoMKgwqDCoMKgwqDCoMKgIC8qwqDCoMKgwqDCoMKgwqDCoMKgIFJl
+cG9ydCBTaXplICgxMikswqDCoMKgwqDCoMKgwqDCoMKgwqAgKi8KPiAtMHg4MSwgMHgwMizCoMKg
+wqDCoMKgwqDCoMKgIC8qwqDCoMKgwqDCoMKgwqDCoMKgIElucHV0IChWYXJpYWJsZSkswqDCoMKg
+wqDCoMKgwqDCoMKgwqAgKi8KPiAtMHgwNSwgMHgwMSzCoMKgwqDCoMKgwqDCoMKgIC8qwqDCoMKg
+wqDCoMKgwqDCoMKgIFVzYWdlIFBhZ2UgKERlc2t0b3ApLMKgwqDCoMKgwqDCoCAqLwo+IC0weDA5
+LCAweDM5LMKgwqDCoMKgwqDCoMKgwqAgLyrCoMKgwqDCoMKgwqDCoMKgwqAgVXNhZ2UgKEhhdCBT
+d2l0Y2gpLMKgwqDCoMKgwqDCoMKgwqAgKi8KPiAtMHgyNSwgMHgwNyzCoMKgwqDCoMKgwqDCoMKg
+IC8qwqDCoMKgwqDCoMKgwqDCoMKgIExvZ2ljYWwgTWF4aW11bSAoNykswqDCoMKgwqDCoMKgwqAg
+Ki8KPiAtMHgzNSwgMHgwMCzCoMKgwqDCoMKgwqDCoMKgIC8qwqDCoMKgwqDCoMKgwqDCoMKgIFBo
+eXNpY2FsIE1pbmltdW0gKDApLMKgwqDCoMKgwqDCoCAqLwo+IC0weDQ2LCAweDNCLCAweDAxLMKg
+wqAgLyrCoMKgwqDCoMKgwqDCoMKgwqAgUGh5c2ljYWwgTWF4aW11bSAoMzE1KSzCoMKgwqDCoCAq
+Lwo+IC0weDY1LCAweDE0LMKgwqDCoMKgwqDCoMKgwqAgLyrCoMKgwqDCoMKgwqDCoMKgwqAgVW5p
+dCAoRGVncmVlcykswqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICovCj4gLTB4NzUsIDB4MDQswqDC
+oMKgwqDCoMKgwqDCoCAvKsKgwqDCoMKgwqDCoMKgwqDCoCBSZXBvcnQgU2l6ZSAoNCkswqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoCAqLwo+IC0weDk1LCAweDAxLMKgwqDCoMKgwqDCoMKgwqAgLyrCoMKg
+wqDCoMKgwqDCoMKgwqAgUmVwb3J0IENvdW50ICgxKSzCoMKgwqDCoMKgwqDCoMKgwqDCoCAqLwo+
+IC0weDgxLCAweDAyLMKgwqDCoMKgwqDCoMKgwqAgLyrCoMKgwqDCoMKgwqDCoMKgwqAgSW5wdXQg
+KFZhcmlhYmxlKSzCoMKgwqDCoMKgwqDCoMKgwqDCoCAqLwo+IC0weDI1LCAweDAxLMKgwqDCoMKg
+wqDCoMKgwqAgLyrCoMKgwqDCoMKgwqDCoMKgwqAgTG9naWNhbCBNYXhpbXVtICgxKSzCoMKgwqDC
+oMKgwqDCoCAqLwo+IC0weDQ1LCAweDAxLMKgwqDCoMKgwqDCoMKgwqAgLyrCoMKgwqDCoMKgwqDC
+oMKgwqAgUGh5c2ljYWwgTWF4aW11bSAoMSkswqDCoMKgwqDCoMKgICovCj4gLTB4NjUsIDB4MDAs
+wqDCoMKgwqDCoMKgwqDCoCAvKsKgwqDCoMKgwqDCoMKgwqDCoCBVbml0LMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICovCj4gLTB4NzUsIDB4MDEswqDCoMKgwqDC
+oMKgwqDCoCAvKsKgwqDCoMKgwqDCoMKgwqDCoCBSZXBvcnQgU2l6ZSAoMSkswqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoCAqLwo+IC0weDk1LCAweDAzLMKgwqDCoMKgwqDCoMKgwqAgLyrCoMKgwqDCoMKg
+wqDCoMKgwqAgUmVwb3J0IENvdW50ICgzKSzCoMKgwqDCoMKgwqDCoMKgwqDCoCAqLwo+IC0weDgx
+LCAweDAxLMKgwqDCoMKgwqDCoMKgwqAgLyrCoMKgwqDCoMKgwqDCoMKgwqAgSW5wdXQgKENvbnN0
+YW50KSzCoMKgwqDCoMKgwqDCoMKgwqDCoCAqLwo+IC0weDA1LCAweDA5LMKgwqDCoMKgwqDCoMKg
+wqAgLyrCoMKgwqDCoMKgwqDCoMKgwqAgVXNhZ2UgUGFnZSAoQnV0dG9uKSzCoMKgwqDCoMKgwqDC
+oCAqLwo+IC0weDE5LCAweDAxLMKgwqDCoMKgwqDCoMKgwqAgLyrCoMKgwqDCoMKgwqDCoMKgwqAg
+VXNhZ2UgTWluaW11bSAoMDFoKSzCoMKgwqDCoMKgwqDCoCAqLwo+IC0weDI5LCAweDExLMKgwqDC
+oMKgwqDCoMKgwqAgLyrCoMKgwqDCoMKgwqDCoMKgwqAgVXNhZ2UgTWF4aW11bSAoMTFoKSzCoMKg
+wqDCoMKgwqDCoCAqLwo+IC0weDk1LCAweDExLMKgwqDCoMKgwqDCoMKgwqAgLyrCoMKgwqDCoMKg
+wqDCoMKgwqAgUmVwb3J0IENvdW50ICgxNykswqDCoMKgwqDCoMKgwqDCoMKgICovCj4gLTB4ODEs
+IDB4MDIswqDCoMKgwqDCoMKgwqDCoCAvKsKgwqDCoMKgwqDCoMKgwqDCoCBJbnB1dCAoVmFyaWFi
+bGUpLMKgwqDCoMKgwqDCoMKgwqDCoMKgICovCj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgIC8qwqDCoCAtLS0tIERpYWwgcGF0Y2ggc3RhcnRzIGhlcmUgLS0tLcKgwqAg
+Ki8KPiAtMHgwNSwgMHgwMSzCoMKgwqDCoMKgwqDCoMKgIC8qwqDCoMKgwqDCoMKgwqDCoMKgIFVz
+YWdlIFBhZ2UgKERlc2t0b3ApLMKgwqDCoMKgwqDCoCAqLwo+IC0weDA5LCAweDMzLMKgwqDCoMKg
+wqDCoMKgwqAgLyrCoMKgwqDCoMKgwqDCoMKgwqAgVXNhZ2UgKFJYKSzCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoCAqLwo+IC0weDc1LCAweDA0LMKgwqDCoMKgwqDCoMKgwqAgLyrCoMKg
+wqDCoMKgwqDCoMKgwqAgUmVwb3J0IFNpemUgKDQpLMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgKi8K
+PiAtMHg5NSwgMHgwMizCoMKgwqDCoMKgwqDCoMKgIC8qwqDCoMKgwqDCoMKgwqDCoMKgIFJlcG9y
+dCBDb3VudCAoMikswqDCoMKgwqDCoMKgwqDCoMKgwqAgKi8KPiAtMHgxNSwgMHgwMCzCoMKgwqDC
+oMKgwqDCoMKgIC8qwqDCoMKgwqDCoMKgwqDCoMKgIExvZ2ljYWwgTWluaW11bSAoMCkswqDCoMKg
+wqDCoMKgwqAgKi8KPiAtMHgyNSwgMHgwYizCoMKgwqDCoMKgwqDCoMKgIC8qwqDCoMKgwqDCoMKg
+wqDCoMKgIExvZ2ljYWwgTWF4aW11bSAoYikswqDCoMKgwqDCoMKgwqAgKi8KPiAtMHg4MSwgMHgw
+MizCoMKgwqDCoMKgwqDCoMKgIC8qwqDCoMKgwqDCoMKgwqDCoMKgIElucHV0IChWYXJpYWJsZSks
+wqDCoMKgwqDCoMKgwqDCoMKgwqAgKi8KPiAtMHgwOSwgMHgzNSzCoMKgwqDCoMKgwqDCoMKgIC8q
+wqDCoMKgwqDCoMKgwqDCoMKgIFVzYWdlIChSWikswqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqAgKi8KPiAtMHg3NSwgMHgwNCzCoMKgwqDCoMKgwqDCoMKgIC8qwqDCoMKgwqDCoMKgwqDC
+oMKgIFJlcG9ydCBTaXplICg0KSzCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICovCj4gLTB4OTUsIDB4
+MDEswqDCoMKgwqDCoMKgwqDCoCAvKsKgwqDCoMKgwqDCoMKgwqDCoCBSZXBvcnQgQ291bnQgKDEp
+LMKgwqDCoMKgwqDCoMKgwqDCoMKgICovCj4gLTB4MjUsIDB4MDMswqDCoMKgwqDCoMKgwqDCoCAv
+KsKgwqDCoMKgwqDCoMKgwqDCoCBMb2dpY2FsIE1heGltdW0gKDMpLMKgwqDCoMKgwqDCoMKgICov
+Cj4gLTB4ODEsIDB4MDIswqDCoMKgwqDCoMKgwqDCoCAvKsKgwqDCoMKgwqDCoMKgwqDCoCBJbnB1
+dCAoVmFyaWFibGUpLMKgwqDCoMKgwqDCoMKgwqDCoMKgICovCj4gLcKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgIC8qwqDCoMKgIC0tLS0gRGlhbCBwYXRjaCBlbmRzIGhlcmUg
+LS0tLcKgwqDCoCAqLwo+IC0weDA2LCAweDAwLCAweEZGLMKgwqAgLyrCoMKgwqDCoMKgwqDCoMKg
+wqAgVXNhZ2UgUGFnZSAoRkYwMGgpLMKgwqDCoMKgwqDCoMKgwqAgKi8KPiAtMHgwOSwgMHgwMSzC
+oMKgwqDCoMKgwqDCoMKgIC8qwqDCoMKgwqDCoMKgwqDCoMKgIFVzYWdlICgwMWgpLMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAqLwo+IC0weDc1LCAweDA0LMKgwqDCoMKgwqDCoMKgwqAg
+LyogQ2hhbmdlZMKgIFJlcG9ydCBTaXplICg0KSzCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICovCj4g
+LTB4OTUsIDB4MEQswqDCoMKgwqDCoMKgwqDCoCAvKiBDaGFuZ2VkwqAgUmVwb3J0IENvdW50ICgx
+MykswqDCoMKgwqDCoMKgwqDCoMKgICovCj4gLTB4ODEsIDB4MDIswqDCoMKgwqDCoMKgwqDCoCAv
+KsKgwqDCoMKgwqDCoMKgwqDCoCBJbnB1dCAoVmFyaWFibGUpLMKgwqDCoMKgwqDCoMKgwqDCoMKg
+ICovCj4gLTB4QzAswqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAvKsKgwqDCoMKgwqAgRW5k
+IENvbGxlY3Rpb24swqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgKi8KPiAtMHhBMSwg
+MHgwMizCoMKgwqDCoMKgwqDCoMKgIC8qwqDCoMKgwqDCoCBDb2xsZWN0aW9uIChMb2dpY2FsKSzC
+oMKgwqDCoMKgwqDCoMKgwqDCoCAqLwo+IC0weDA5LCAweDAyLMKgwqDCoMKgwqDCoMKgwqAgLyrC
+oMKgwqDCoMKgwqDCoMKgwqAgVXNhZ2UgKDAyaCkswqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgICovCj4gLTB4NzUsIDB4MDgswqDCoMKgwqDCoMKgwqDCoCAvKsKgwqDCoMKgwqDCoMKgwqDC
+oCBSZXBvcnQgU2l6ZSAoOCkswqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAqLwo+IC0weDk1LCAweDEw
+LMKgwqDCoMKgwqDCoMKgwqAgLyrCoMKgwqDCoMKgwqDCoMKgwqAgUmVwb3J0IENvdW50ICgxNiks
+wqDCoMKgwqDCoMKgwqDCoMKgICovCj4gLTB4OTEsIDB4MDIswqDCoMKgwqDCoMKgwqDCoCAvKsKg
+wqDCoMKgwqDCoMKgwqDCoCBPdXRwdXQgKFZhcmlhYmxlKSzCoMKgwqDCoMKgwqDCoMKgwqAgKi8K
+PiAtMHhDMCzCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIC8qwqDCoMKgwqDCoCBFbmQgQ29s
+bGVjdGlvbizCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAqLwo+IC0weEMwwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIC8qwqAgRW5kIENvbGxlY3Rpb27CoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgKi8KPiArCTB4MDUsIDB4MDEsIC8qwqAgVXNh
+Z2UgUGFnZSAoRGVza3RvcCnCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgKi8KPiArCTB4
+MDksIDB4MDgsIC8qwqAgVXNhZ2UgKE11bHRpQXhpcyksIENoYW5nZWTCoMKgwqDCoMKgwqDCoMKg
+wqAgKi8KPiArCTB4QTEsIDB4MDEsIC8qwqAgQ29sbGVjdGlvbiAoQXBwbGljYXRpb24pLMKgwqDC
+oMKgwqDCoMKgwqDCoMKgICovCj4gKwkweEExLCAweDAyLCAvKsKgwqDCoMKgwqAgQ29sbGVjdGlv
+biAoTG9naWNhbCkswqDCoMKgwqDCoMKgwqDCoMKgwqAgKi8KPiArCTB4OTUsIDB4MDEsIC8qwqDC
+oMKgwqDCoMKgwqDCoMKgIFJlcG9ydCBDb3VudCAoMSkswqDCoMKgwqDCoMKgwqDCoMKgwqAgKi8K
+PiArCTB4MDUsIDB4MDEsIC8qIENoYW5nZWTCoCBVc2FnZSBQYWdlIChEZXNrdG9wKSzCoMKgwqDC
+oMKgwqAgKi8KPiArCTB4MDksIDB4MzAsIC8qIENoYW5nZWTCoCBVc2FnZSAoWCkswqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAqLwo+ICsJMHgxNiwgMHhGOCwgMHhGOCwgLyrCoMKg
+wqDCoMKgwqDCoMKgwqAgTG9naWNhbCBNaW5pbXVtICgtMTgwMCkswqDCoMKgICovCj4gKwkweDI2
+LCAweDA4LCAweDA3LCAvKsKgwqDCoMKgwqDCoMKgwqDCoCBMb2dpY2FsIE1heGltdW0gKDE4MDAp
+LMKgwqDCoMKgICovCj4gKwkweDY1LCAweDE0LCAvKsKgwqDCoMKgwqDCoMKgwqDCoCBVbml0IChE
+ZWdyZWVzKSzCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgKi8KPiArCTB4NTUsIDB4MEYsIC8qwqDC
+oMKgwqDCoMKgwqDCoMKgIFVuaXQgRXhwb25lbnQgKDE1KSzCoMKgwqDCoMKgwqDCoMKgICovCj4g
+KwkweDc1LCAweDEwLCAvKsKgwqDCoMKgwqDCoMKgwqDCoCBSZXBvcnQgU2l6ZSAoMTYpLMKgwqDC
+oMKgwqDCoMKgwqDCoMKgICovCj4gKwkweDgxLCAweDAyLCAvKsKgwqDCoMKgwqDCoMKgwqDCoCBJ
+bnB1dCAoVmFyaWFibGUpLMKgwqDCoMKgwqDCoMKgwqDCoMKgICovCj4gKwkweDA5LCAweDMxLCAv
+KiBDaGFuZ2VkwqAgVXNhZ2UgKFkpLMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
+Ki8KPiArCTB4MTUsIDB4MDAsIC8qwqDCoMKgwqDCoMKgwqDCoMKgIExvZ2ljYWwgTWluaW11bSAo
+MCkswqDCoMKgwqDCoMKgwqAgKi8KPiArCTB4MjYsIDB4RkYsIDB4MDMsIC8qwqDCoMKgwqDCoMKg
+wqDCoMKgIExvZ2ljYWwgTWF4aW11bSAoMTAyMykswqDCoMKgwqAgKi8KPiArCTB4NzUsIDB4MEMs
+IC8qwqDCoMKgwqDCoMKgwqDCoMKgIFJlcG9ydCBTaXplICgxMikswqDCoMKgwqDCoMKgwqDCoMKg
+wqAgKi8KPiArCTB4ODEsIDB4MDIsIC8qwqDCoMKgwqDCoMKgwqDCoMKgIElucHV0IChWYXJpYWJs
+ZSkswqDCoMKgwqDCoMKgwqDCoMKgwqAgKi8KPiArCTB4MDksIDB4MzIsIC8qIENoYW5nZWTCoCBV
+c2FnZSAoWikswqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAqLwo+ICsJMHgxNSwg
+MHgwMCwgLyrCoMKgwqDCoMKgwqDCoMKgwqAgTG9naWNhbCBNaW5pbXVtICgwKSzCoMKgwqDCoMKg
+wqDCoCAqLwo+ICsJMHgyNiwgMHhGRiwgMHgwMywgLyrCoMKgwqDCoMKgwqDCoMKgwqAgTG9naWNh
+bCBNYXhpbXVtICgxMDIzKSzCoMKgwqDCoCAqLwo+ICsJMHg3NSwgMHgwQywgLyrCoMKgwqDCoMKg
+wqDCoMKgwqAgUmVwb3J0IFNpemUgKDEyKSzCoMKgwqDCoMKgwqDCoMKgwqDCoCAqLwo+ICsJMHg4
+MSwgMHgwMiwgLyrCoMKgwqDCoMKgwqDCoMKgwqAgSW5wdXQgKFZhcmlhYmxlKSzCoMKgwqDCoMKg
+wqDCoMKgwqDCoCAqLwo+ICsJMHgwNSwgMHgwMSwgLyrCoMKgwqDCoMKgwqDCoMKgwqAgVXNhZ2Ug
+UGFnZSAoRGVza3RvcCkswqDCoMKgwqDCoMKgICovCj4gKwkweDA5LCAweDM5LCAvKsKgwqDCoMKg
+wqDCoMKgwqDCoCBVc2FnZSAoSGF0IFN3aXRjaCkswqDCoMKgwqDCoMKgwqDCoCAqLwo+ICsJMHgy
+NSwgMHgwNywgLyrCoMKgwqDCoMKgwqDCoMKgwqAgTG9naWNhbCBNYXhpbXVtICg3KSzCoMKgwqDC
+oMKgwqDCoCAqLwo+ICsJMHgzNSwgMHgwMCwgLyrCoMKgwqDCoMKgwqDCoMKgwqAgUGh5c2ljYWwg
+TWluaW11bSAoMCkswqDCoMKgwqDCoMKgICovCj4gKwkweDQ2LCAweDNCLCAweDAxLCAvKsKgwqDC
+oMKgwqDCoMKgwqDCoCBQaHlzaWNhbCBNYXhpbXVtICgzMTUpLMKgwqDCoMKgICovCj4gKwkweDY1
+LCAweDE0LCAvKsKgwqDCoMKgwqDCoMKgwqDCoCBVbml0IChEZWdyZWVzKSzCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqAgKi8KPiArCTB4NzUsIDB4MDQsIC8qwqDCoMKgwqDCoMKgwqDCoMKgIFJlcG9y
+dCBTaXplICg0KSzCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICovCj4gKwkweDk1LCAweDAxLCAvKsKg
+wqDCoMKgwqDCoMKgwqDCoCBSZXBvcnQgQ291bnQgKDEpLMKgwqDCoMKgwqDCoMKgwqDCoMKgICov
+Cj4gKwkweDgxLCAweDAyLCAvKsKgwqDCoMKgwqDCoMKgwqDCoCBJbnB1dCAoVmFyaWFibGUpLMKg
+wqDCoMKgwqDCoMKgwqDCoMKgICovCj4gKwkweDI1LCAweDAxLCAvKsKgwqDCoMKgwqDCoMKgwqDC
+oCBMb2dpY2FsIE1heGltdW0gKDEpLMKgwqDCoMKgwqDCoMKgICovCj4gKwkweDQ1LCAweDAxLCAv
+KsKgwqDCoMKgwqDCoMKgwqDCoCBQaHlzaWNhbCBNYXhpbXVtICgxKSzCoMKgwqDCoMKgwqAgKi8K
+PiArCTB4NjUsIDB4MDAsIC8qwqDCoMKgwqDCoMKgwqDCoMKgIFVuaXQswqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgKi8KPiArCTB4NzUsIDB4MDEsIC8qwqDCoMKg
+wqDCoMKgwqDCoMKgIFJlcG9ydCBTaXplICgxKSzCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICovCj4g
+KwkweDk1LCAweDAzLCAvKsKgwqDCoMKgwqDCoMKgwqDCoCBSZXBvcnQgQ291bnQgKDMpLMKgwqDC
+oMKgwqDCoMKgwqDCoMKgICovCj4gKwkweDgxLCAweDAxLCAvKsKgwqDCoMKgwqDCoMKgwqDCoCBJ
+bnB1dCAoQ29uc3RhbnQpLMKgwqDCoMKgwqDCoMKgwqDCoMKgICovCj4gKwkweDA1LCAweDA5LCAv
+KsKgwqDCoMKgwqDCoMKgwqDCoCBVc2FnZSBQYWdlIChCdXR0b24pLMKgwqDCoMKgwqDCoMKgICov
+Cj4gKwkweDE5LCAweDAxLCAvKsKgwqDCoMKgwqDCoMKgwqDCoCBVc2FnZSBNaW5pbXVtICgwMWgp
+LMKgwqDCoMKgwqDCoMKgICovCj4gKwkweDI5LCAweDExLCAvKsKgwqDCoMKgwqDCoMKgwqDCoCBV
+c2FnZSBNYXhpbXVtICgxMWgpLMKgwqDCoMKgwqDCoMKgICovCj4gKwkweDk1LCAweDExLCAvKsKg
+wqDCoMKgwqDCoMKgwqDCoCBSZXBvcnQgQ291bnQgKDE3KSzCoMKgwqDCoMKgwqDCoMKgwqAgKi8K
+PiArCTB4ODEsIDB4MDIsIC8qwqDCoMKgwqDCoMKgwqDCoMKgIElucHV0IChWYXJpYWJsZSkswqDC
+oMKgwqDCoMKgwqDCoMKgwqAgKi8KPiArCS8qwqDCoCAtLS0tIERpYWwgcGF0Y2ggc3RhcnRzIGhl
+cmUgLS0tLcKgwqAgKi8KPiArCTB4MDUsIDB4MDEsIC8qwqDCoMKgwqDCoMKgwqDCoMKgIFVzYWdl
+IFBhZ2UgKERlc2t0b3ApLMKgwqDCoMKgwqDCoCAqLwo+ICsJMHgwOSwgMHgzMywgLyrCoMKgwqDC
+oMKgwqDCoMKgwqAgVXNhZ2UgKFJYKSzCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAq
+Lwo+ICsJMHg3NSwgMHgwNCwgLyrCoMKgwqDCoMKgwqDCoMKgwqAgUmVwb3J0IFNpemUgKDQpLMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqAgKi8KPiArCTB4OTUsIDB4MDIsIC8qwqDCoMKgwqDCoMKgwqDC
+oMKgIFJlcG9ydCBDb3VudCAoMikswqDCoMKgwqDCoMKgwqDCoMKgwqAgKi8KPiArCTB4MTUsIDB4
+MDAsIC8qwqDCoMKgwqDCoMKgwqDCoMKgIExvZ2ljYWwgTWluaW11bSAoMCkswqDCoMKgwqDCoMKg
+wqAgKi8KPiArCTB4MjUsIDB4MGIsIC8qwqDCoMKgwqDCoMKgwqDCoMKgIExvZ2ljYWwgTWF4aW11
+bSAoYikswqDCoMKgwqDCoMKgwqAgKi8KPiArCTB4ODEsIDB4MDIsIC8qwqDCoMKgwqDCoMKgwqDC
+oMKgIElucHV0IChWYXJpYWJsZSkswqDCoMKgwqDCoMKgwqDCoMKgwqAgKi8KPiArCTB4MDksIDB4
+MzUsIC8qwqDCoMKgwqDCoMKgwqDCoMKgIFVzYWdlIChSWikswqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqAgKi8KPiArCTB4NzUsIDB4MDQsIC8qwqDCoMKgwqDCoMKgwqDCoMKgIFJlcG9y
+dCBTaXplICg0KSzCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICovCj4gKwkweDk1LCAweDAxLCAvKsKg
+wqDCoMKgwqDCoMKgwqDCoCBSZXBvcnQgQ291bnQgKDEpLMKgwqDCoMKgwqDCoMKgwqDCoMKgICov
+Cj4gKwkweDI1LCAweDAzLCAvKsKgwqDCoMKgwqDCoMKgwqDCoCBMb2dpY2FsIE1heGltdW0gKDMp
+LMKgwqDCoMKgwqDCoMKgICovCj4gKwkweDgxLCAweDAyLCAvKsKgwqDCoMKgwqDCoMKgwqDCoCBJ
+bnB1dCAoVmFyaWFibGUpLMKgwqDCoMKgwqDCoMKgwqDCoMKgICovCj4gKwkvKsKgwqDCoCAtLS0t
+IERpYWwgcGF0Y2ggZW5kcyBoZXJlIC0tLS3CoMKgwqAgKi8KPiArCTB4MDYsIDB4MDAsIDB4RkYs
+IC8qwqDCoMKgwqDCoMKgwqDCoMKgIFVzYWdlIFBhZ2UgKEZGMDBoKSzCoMKgwqDCoMKgwqDCoMKg
+ICovCj4gKwkweDA5LCAweDAxLCAvKsKgwqDCoMKgwqDCoMKgwqDCoCBVc2FnZSAoMDFoKSzCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgKi8KPiArCTB4NzUsIDB4MDQsIC8qIENoYW5nZWTC
+oCBSZXBvcnQgU2l6ZSAoNCkswqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAqLwo+ICsJMHg5NSwgMHgw
+RCwgLyogQ2hhbmdlZMKgIFJlcG9ydCBDb3VudCAoMTMpLMKgwqDCoMKgwqDCoMKgwqDCoCAqLwo+
+ICsJMHg4MSwgMHgwMiwgLyrCoMKgwqDCoMKgwqDCoMKgwqAgSW5wdXQgKFZhcmlhYmxlKSzCoMKg
+wqDCoMKgwqDCoMKgwqDCoCAqLwo+ICsJMHhDMCwgLyrCoMKgwqDCoMKgIEVuZCBDb2xsZWN0aW9u
+LMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICovCj4gKwkweEExLCAweDAyLCAvKsKg
+wqDCoMKgwqAgQ29sbGVjdGlvbiAoTG9naWNhbCkswqDCoMKgwqDCoMKgwqDCoMKgwqAgKi8KPiAr
+CTB4MDksIDB4MDIsIC8qwqDCoMKgwqDCoMKgwqDCoMKgIFVzYWdlICgwMmgpLMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoCAqLwo+ICsJMHg3NSwgMHgwOCwgLyrCoMKgwqDCoMKgwqDCoMKg
+wqAgUmVwb3J0IFNpemUgKDgpLMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgKi8KPiArCTB4OTUsIDB4
+MTAsIC8qwqDCoMKgwqDCoMKgwqDCoMKgIFJlcG9ydCBDb3VudCAoMTYpLMKgwqDCoMKgwqDCoMKg
+wqDCoCAqLwo+ICsJMHg5MSwgMHgwMiwgLyrCoMKgwqDCoMKgwqDCoMKgwqAgT3V0cHV0IChWYXJp
+YWJsZSkswqDCoMKgwqDCoMKgwqDCoMKgICovCj4gKwkweEMwLCAvKsKgwqDCoMKgwqAgRW5kIENv
+bGxlY3Rpb24swqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgKi8KPiArCTB4QzAgLyrC
+oCBFbmQgQ29sbGVjdGlvbsKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oCAqLwo+IMKgfTsK
 
-Renaming the sysfs-driver-hid-srws1 should be done separately from
-adding new contents.
-
-This patch should also come after the feature gets added.
-
->=20
-> New sysfs attributes documented:
-> - sidetone_level: Control microphone monitoring volume
-
-This should be an ALSA mixer, not a sysfs file.
-
-> - inactive_time: Auto-sleep timeout configuration
-> - chatmix_level: Game/Chat audio balance (read-only)
-
-Ditto for an ALSA mixer.
-
-> - mic_mute_led_brightness: Microphone mute LED brightness control
-
-This probably needs to be a standard LED device.
-
-> - mic_volume: Internal microphone gain control
-
-Ditto for an ALSA mixer.
-
-> - volume_limiter: EU hearing protection volume limiter
-
-Ditto for an ALSA switch.
-
-> - bluetooth_on_power: Bluetooth auto-enable on power-on
-> - bluetooth_call_vol: Bluetooth call audio attenuation settings
-
-Ditto for an ALSA mixer.
-
->=20
-> The SRW-S1 LED documentation is preserved and moved into the new
-> unified
-> documentation file.
->=20
-> Signed-off-by: Sriman Achanta <srimanachanta@gmail.com>
-> ---
-> =C2=A0.../ABI/testing/sysfs-driver-hid-srws1=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 |=C2=A0 21 ---
-> =C2=A0.../ABI/testing/sysfs-driver-hid-steelseries=C2=A0 | 131
-> ++++++++++++++++++
-> =C2=A02 files changed, 131 insertions(+), 21 deletions(-)
-> =C2=A0delete mode 100644 Documentation/ABI/testing/sysfs-driver-hid-srws1
-> =C2=A0create mode 100644 Documentation/ABI/testing/sysfs-driver-hid-
-> steelseries
->=20
-> diff --git a/Documentation/ABI/testing/sysfs-driver-hid-srws1
-> b/Documentation/ABI/testing/sysfs-driver-hid-srws1
-> deleted file mode 100644
-> index d0eba70c7d40..000000000000
-> --- a/Documentation/ABI/testing/sysfs-driver-hid-srws1
-> +++ /dev/null
-> @@ -1,21 +0,0 @@
-> -What:		/sys/class/leds/SRWS1::<serial>::RPM1
-> -What:		/sys/class/leds/SRWS1::<serial>::RPM2
-> -What:		/sys/class/leds/SRWS1::<serial>::RPM3
-> -What:		/sys/class/leds/SRWS1::<serial>::RPM4
-> -What:		/sys/class/leds/SRWS1::<serial>::RPM5
-> -What:		/sys/class/leds/SRWS1::<serial>::RPM6
-> -What:		/sys/class/leds/SRWS1::<serial>::RPM7
-> -What:		/sys/class/leds/SRWS1::<serial>::RPM8
-> -What:		/sys/class/leds/SRWS1::<serial>::RPM9
-> -What:		/sys/class/leds/SRWS1::<serial>::RPM10
-> -What:		/sys/class/leds/SRWS1::<serial>::RPM11
-> -What:		/sys/class/leds/SRWS1::<serial>::RPM12
-> -What:		/sys/class/leds/SRWS1::<serial>::RPM13
-> -What:		/sys/class/leds/SRWS1::<serial>::RPM14
-> -What:		/sys/class/leds/SRWS1::<serial>::RPM15
-> -What:		/sys/class/leds/SRWS1::<serial>::RPMALL
-> -Date:		Jan 2013
-> -KernelVersion:	3.9
-> -Contact:	Simon Wood <simon@mungewell.org>
-> -Description:	Provides a control for turning on/off the LEDs which
-> form
-> -		an RPM meter on the front of the controller
-> diff --git a/Documentation/ABI/testing/sysfs-driver-hid-steelseries
-> b/Documentation/ABI/testing/sysfs-driver-hid-steelseries
-> new file mode 100644
-> index 000000000000..751cf01ceda3
-> --- /dev/null
-> +++ b/Documentation/ABI/testing/sysfs-driver-hid-steelseries
-> @@ -0,0 +1,131 @@
-> +What:		/sys/class/leds/SRWS1::<serial>::RPM1
-> +What:		/sys/class/leds/SRWS1::<serial>::RPM2
-> +What:		/sys/class/leds/SRWS1::<serial>::RPM3
-> +What:		/sys/class/leds/SRWS1::<serial>::RPM4
-> +What:		/sys/class/leds/SRWS1::<serial>::RPM5
-> +What:		/sys/class/leds/SRWS1::<serial>::RPM6
-> +What:		/sys/class/leds/SRWS1::<serial>::RPM7
-> +What:		/sys/class/leds/SRWS1::<serial>::RPM8
-> +What:		/sys/class/leds/SRWS1::<serial>::RPM9
-> +What:		/sys/class/leds/SRWS1::<serial>::RPM10
-> +What:		/sys/class/leds/SRWS1::<serial>::RPM11
-> +What:		/sys/class/leds/SRWS1::<serial>::RPM12
-> +What:		/sys/class/leds/SRWS1::<serial>::RPM13
-> +What:		/sys/class/leds/SRWS1::<serial>::RPM14
-> +What:		/sys/class/leds/SRWS1::<serial>::RPM15
-> +What:		/sys/class/leds/SRWS1::<serial>::RPMALL
-> +Date:		Jan 2013
-> +KernelVersion:	3.9
-> +Contact:	Simon Wood <simon@mungewell.org>
-> +Description:	Provides a control for turning on/off the LEDs which
-> form
-> +		an RPM meter on the front of the controller
-> +
-> +What:		/sys/class/hid/drivers/steelseries/<dev>/sidetone_le
-> vel
-> +Date:		January 2025
-> +KernelVersion:	6.19
-> +Contact:	Sriman Achanta <srimanachanta@gmail.com>
-> +Description:
-> +		Controls the sidetone (microphone monitoring) volume
-> level.
-> +		This determines how much of the microphone input is
-> fed back into
-> +		the headset speakers.
-> +
-> +		Range: 0-128 (mapped internally to device-specific
-> values).
-> +
-> +		Access: Write
-> +
-> +What:		/sys/class/hid/drivers/steelseries/<dev>/inactive_ti
-> me
-> +Date:		January 2025
-> +KernelVersion:	6.19
-> +Contact:	Sriman Achanta <srimanachanta@gmail.com>
-> +Description:
-> +		Sets the time in minutes before the headset
-> automatically enters
-> +		standby/sleep mode when no audio is playing.
-> +
-> +		Range: 0-90 (minutes).
-> +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Some devices (e.g., Arctis 1/7X) =
-map this to
-> specific presets.
-> +
-> +		Access: Write
-> +
-> +What:		/sys/class/hid/drivers/steelseries/<dev>/chatmix_lev
-> el
-> +Date:		January 2025
-> +KernelVersion:	6.19
-> +Contact:	Sriman Achanta <srimanachanta@gmail.com>
-> +Description:
-> +		Reports the current balance between Game and Chat
-> audio channels
-> +		(ChatMix). This value changes when the physical
-> ChatMix dial
-> +		on the headset is adjusted.
-> +
-> +		Range: 0-128
-> +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0=C2=A0=C2=A0 =3D 100% Chat / 0% =
-Game
-> +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 64=C2=A0 =3D 50% Chat / 50% Game =
-(Balanced)
-> +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 128 =3D 0% Chat / 100% Game
-> +
-> +		Access: Read
-> +
-> +What:		/sys/class/hid/drivers/steelseries/<dev>/mic_mute_le
-> d_brightness
-> +Date:		January 2025
-> +KernelVersion:	6.19
-> +Contact:	Sriman Achanta <srimanachanta@gmail.com>
-> +Description:
-> +		Controls the brightness of the LED on the microphone
-> boom that
-> +		indicates when the microphone is muted.
-> +
-> +		Range: 0-3 (off, low, medium, high) for most
-> devices.
-> +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0-10 for newer Nova series device=
-s.
-> +
-> +		Access: Write
-> +
-> +What:		/sys/class/hid/drivers/steelseries/<dev>/mic_volume
-> +Date:		January 2025
-> +KernelVersion:	6.19
-> +Contact:	Sriman Achanta <srimanachanta@gmail.com>
-> +Description:
-> +		Controls the internal microphone gain/volume of the
-> headset.
-> +		This is distinct from the OS input volume.
-> +
-> +		Range: 0-128 (mapped internally to device-specific
-> values).
-> +
-> +		Access: Write
-> +
-> +What:		/sys/class/hid/drivers/steelseries/<dev>/volume_limi
-> ter
-> +Date:		January 2025
-> +KernelVersion:	6.19
-> +Contact:	Sriman Achanta <srimanachanta@gmail.com>
-> +Description:
-> +		Enables or disables the EU volume limiter (hearing
-> protection).
-> +		When enabled, the maximum output volume is capped.
-> +
-> +		Values:
-> +		0 =3D Disabled
-> +		1 =3D Enabled
-> +
-> +		Access: Write
-> +
-> +What:		/sys/class/hid/drivers/steelseries/<dev>/bluetooth_o
-> n_power
-> +Date:		January 2025
-> +KernelVersion:	6.19
-> +Contact:	Sriman Achanta <srimanachanta@gmail.com>
-> +Description:
-> +		Configures whether the Bluetooth radio automatically
-> turns on
-> +		when the headset is powered on.
-> +
-> +		Values:
-> +		0 =3D Bluetooth must be turned on manually
-> +		1 =3D Bluetooth turns on automatically with headset
-> +
-> +		Access: Write
-> +
-> +What:		/sys/class/hid/drivers/steelseries/<dev>/bluetooth_c
-> all_vol
-> +Date:		January 2025
-> +KernelVersion:	6.19
-> +Contact:	Sriman Achanta <srimanachanta@gmail.com>
-> +Description:
-> +		Configures how the 2.4GHz Game/Chat audio is
-> attenuated when
-> +		a Bluetooth call is active.
-> +
-> +		Values:
-> +		0 =3D No attenuation (mix both equally)
-> +		1 =3D Attenuate Game audio by -12dB
-> +		2 =3D Mute Game audio completely
-> +
-> +		Access: Write
 
