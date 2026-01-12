@@ -1,90 +1,224 @@
-Return-Path: <linux-input+bounces-16977-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16980-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB4AAD13581
-	for <lists+linux-input@lfdr.de>; Mon, 12 Jan 2026 15:56:25 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id E2465D1360B
+	for <lists+linux-input@lfdr.de>; Mon, 12 Jan 2026 15:59:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 5BD0030E75E4
-	for <lists+linux-input@lfdr.de>; Mon, 12 Jan 2026 14:33:56 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id B8F1030119AE
+	for <lists+linux-input@lfdr.de>; Mon, 12 Jan 2026 14:59:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 652322EBBAA;
-	Mon, 12 Jan 2026 14:29:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 310B22DC344;
+	Mon, 12 Jan 2026 14:58:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=aol.com header.i=@aol.com header.b="dx8JhFS+"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lckl+44M"
 X-Original-To: linux-input@vger.kernel.org
-Received: from sonic317-26.consmr.mail.bf2.yahoo.com (sonic317-26.consmr.mail.bf2.yahoo.com [74.6.129.81])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE8EF29A312
-	for <linux-input@vger.kernel.org>; Mon, 12 Jan 2026 14:29:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.6.129.81
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D71D2DB7B0;
+	Mon, 12 Jan 2026 14:58:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768228189; cv=none; b=ILPMKT+mca/KvYw/QZXXRXlPq068Q3+y99T5ybwnsFQ0PXnQdyQRk11azmq2nWJZICwRJObt6IYqWLXrXtUX3PSU5MAqxjAqJz9QXFPQagfIgZX9ofr+/r09549BV4EMjWFqhPaRO7Mq9e2LBtTJaNnHh7JMUx5s9jN5oKccJMo=
+	t=1768229932; cv=none; b=t1zWarNgqtIoYQZ9Gm4Nn7t0wTtRvyYiZBK8fPbG3RyrOQ22FxPeQ46kMIGj7sw8+PrmZ86mjcKqzFfUPVAnlo4ZNWWsy6YXSWzqO5Myxw28W3bym7SzSAEdsKmK96SJLmtl8GXsA4ixNfsoVA3awVrabJttc+10YNwI8hHaTG4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768228189; c=relaxed/simple;
-	bh=Xmxm42/LwMeruibasB+M0tP6H/CUdxk1Cdg+Grn9nX4=;
-	h=Content-Type:From:Mime-Version:Date:Subject:Message-Id:To:
-	 References; b=OGNC8dCyc/82zw74+jor+IRO93T1nobGDkkxQtzkDP4KRuYNxJXHxJtHi3mc5o6Bm4MpVGWpeo6OcGDjzmu68WCpJLY0Mfe16NRAlBxDqLDbv9k19JtoDD+j01xmyzwJVGXvAgHq8V0crDwjnHH8wOBP8a0+ybD7lxRRVeJT87g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=aol.com; spf=pass smtp.mailfrom=aol.com; dkim=pass (2048-bit key) header.d=aol.com header.i=@aol.com header.b=dx8JhFS+; arc=none smtp.client-ip=74.6.129.81
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=aol.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aol.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aol.com; s=a2048; t=1768228186; bh=Xmxm42/LwMeruibasB+M0tP6H/CUdxk1Cdg+Grn9nX4=; h=From:Date:Subject:To:References:From:Subject:Reply-To; b=dx8JhFS+reRylHWxtsxRUlvFvCaWTwqyrBFo8EhUGaa6RaTALjSVgR+/5E9wQwl4Om26g9e9kSH/iwjW77RZBBUGW9jExejVsxBnTxPD7zFMVxmwyBb1dXVsjCcvjSgRO6NEZPZtaLowcwE65FBR98fXg+MeUJqctv397P73nmwbOTfvpKtFKtETBNQdtzxHcLJK8f06d3nka+61l+cqCAfzLcfAtM7FbR0nXrnvNfoOt+KP0sVPZjfbLBtkWDzSwbLd/pkfYJSK0bhaNiImWqRnmnY7ksdAjeBYoWACg388ujDJpcwhNwP6jBaJCIGQ0NUSWYrgKmV6tCyEJMMIDQ==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1768228186; bh=ESbWHqOq9qdpFDYT4LupntInrr1mX3kQl8ohQ8+s3w3=; h=X-Sonic-MF:From:Date:Subject:To:From:Subject; b=KmS8s/GYpOL9awMEQ+FtRwO05SIQ0R+7cbpsoGUZWO/b7J1JVgc4Zf91LBRD6R/y8kqlAmUkbVcPvMCZD38nFDiEAuvUdurVf6NpHovSxOft1rpJ+GPbJnln7/d8v6IhhCbj6atH3m8oklf61cCv466DWa3SOTZVLAV1xvp5vti0y95U6ndSkguQAfvSwe/yQZCKJnR4IlEQ8ZIA0WCiF3/cJq1YTzRUz9eqwftqtdgxay8CLR8KP7SnxHWp5rbtD2JKhkJ80TWpA0Lxpug4rjj6KKwj4Lg/YsyO0hX2extSOC8GtAOtZxelndzB4MxfTB9G4uaxWpMTGAsVTI1f0g==
-X-YMail-OSG: Gcwp5IQVM1lUz2ryOPh9acc1HS9FimpiFxh.4EBRp9OkCWfenYIyqepULEi8WM_
- RDukG23M7vtqfkfpYDYx18u0GCr1d71MI0vTQSTW7tBrEVanYpg0b9063PDCTdy9mGxmN.KZgBN_
- g4fYXVOgP.q4ozrXXPr21BlDd_.zwJYIMPI9Vt4yMhCenR9Ay9iqEVD7RxrA5wRFSY3AjpCyxghk
- 5KRYQ9lInY9NTqIadkhz4L_wGZQo42qDzOhWMt3jV.qUpU1WifIC2TXpZU3zLor3toPoVNNHAJbz
- 5PWLCh.BNbJGRON.c2rB5Gcx5uACoW0OSOVpbTsrIEjiIcDQ_5pk3HPxqz_au4SA7fd81bi08W3U
- TSsgK770RvivJ5dAtvayFhOHwB4M3_977ww_cqVScwDa_cLow1WPl99.6t4v6C5oXFLvsrYvEN25
- ck5JkIRckJ0mU.7ZP5pTWZZYUdYNyovLioQTaa4t2LWO1IhjEyeb5C5afGuPTIZR3M90HnByM.b8
- aA41O6_UUU4iz0YL0IMKZnRFWTevclywycR859L3RFSadLwT7pGO.vKLIAmuM8_nRpcmQ2t6VMhf
- 0wd0UDILGqAY70EnqY1SNAJQuODFXALsZCIfcf1bX9v7iBcS5pxHS8.B9nTZ_g2ECOMmKN_GifAD
- rh3Bbj3peZrI5mjSC0iT5aPtNusYe83LoZuruDzLQRYOrCUel9I._DUlBO.okpFbr1qXg5Zi9gPo
- .ENLaewujSAmrEWiS0jTLUO1mI7PZUXyZxtDn2eNnADncsZWC.z7fQhOZCrmDNTevvphcLixEjFn
- V174fRcIakyHjfOEbxyK7YpYiAYce_c.QGiZbdhkGzcHvQQtLH.RIza8wY0N18SqQX8X1xNM7Sm9
- oZhUXd.QjQzoUzey8cb6o4xLKwMfay2.mP34Nrw39Ld7zYpYufCc8wpNL7uAmUBmiU1_tlUJVUGQ
- yTdbL0Uf8xBwuYfWK4App0UBd65nIJnqB.CcAJv28z2F6VxpucxLyqTB1AEm89IqZvFQt9iCSFr3
- Ah3NjJkwwMgumXmwoKopfNEeN7RgVIVAvkO7oWuvEmV_VQBuoT1tsGJa4Yrrj4Pk.Wb46I7Eoy_d
- 9.l25MU6qyGB8RaocV_m2QsbJ0aMOxTo8MfRdQobJDTJOH5c2BtGoEWeckEgcvDMDJX1oT4duPLe
- 66hZEOXAyGcYUsEUublEnsonA3xAoCohO3euqLNSuag.1qOlhgnkENbAuz7TNcnzz5De8Di99rV.
- rJGD0Y8zm7kMl_0G5LbD0MGzqZ98LOiZzU3ViGEcX324yPcjAsb7BtiD0Cyz2RiF3AuBwPQpuPjP
- gzPq6QbwkDCHxH4b78LZ7ACfrIvh4bZxkC8biXcsKClL7wBz927AiF5J.NzGcABGFD8XChoJgm4Q
- NhEgRpDZF7_0sGK0smu23ydaUF9XErFSH6vgc5f08JPx9CVbh1eJrI0oAgIhNkR0dw1X.JvfhiTj
- 468fj36W570QatHeMc0bXiST4efgGa.5xnMP_UThBFlzbuh2K64ZCScPMil17cjVBS7ZK8EQVqNQ
- b5w75xqr0GvoNqltW6kcaKugMSbVWi7O6FbnV_K2oHNtVSXOgiu.LPeI26mAYTzpeXRwJA0EQqHp
- C2SpYia0r8EGqI18we1Nhv1Lf76_v0DVFcX1BJOeeCTVi1fUcFL93fuN8UMkNZs30gvNfmHv5_CR
- yxAZwaqlKGDfsnJDg3eiyM1oit9aXp4pqRIkcPCSrwAQH5T0jL4x1MAVWeeYmuzheXp1bArazgHE
- hci3OuCwlSw.lB35HPxo4up_XSKyV8Zv3KhJH4n5FLrHyFEDzduLckl1xpzLGyAgajHPow6qUPcj
- HTTLGCeIjDmc4kMUgiAyfu0nCJ0ThbtjHNIO4uraK27De6AoMVTAvuJEH9c6ZTYlNgn6RVFFx_6b
- iUvXvznS.qbLV.5E9kAD3.3LUO7shy8ceolbNbd5od8ujspYjjOrF1l639BSewru2acrLJ3lzhRx
- bLT9xU77M9cXFzzixDVVKG0jC0nzy2ggPF9CxAaW_4KOhFo9xX0NzjROt8KLp81DGMwAexBEqKH9
- mxFtHG8Tcm4XP4331HKC29SSk6A4KDCw7XRaaa4IBrpzyutf3h55SfVTYxIuXKV27GTZqmgcLKtF
- VwnHBMNumqaeuznoOjmXW8O5_sSrvZzBtkxgRWUzCatypo4vfkFQ4.Lz1roxgJpV97iKuzFLTCKt
- 3hGysSaBXLILh_47OxnKuzEXamgHbIXV4mbC_6wGMqo5HT390ZeGx1q9NP4O_CQ--
-X-Sonic-MF: <pgarym@aol.com>
-X-Sonic-ID: 19847259-7f57-4aad-84b1-a65e1dceb7ff
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic317.consmr.mail.bf2.yahoo.com with HTTP; Mon, 12 Jan 2026 14:29:46 +0000
-Received: by hermes--production-ir2-6fcf857f6f-wrvmf (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID a0a986b30c22f15559d0dcc974dfddd4;
-          Mon, 12 Jan 2026 13:49:16 +0000 (UTC)
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-From: Paul MORRIS <pgarym@aol.com>
+	s=arc-20240116; t=1768229932; c=relaxed/simple;
+	bh=tmveYG3MYrcIOx8fgo5jQ0uyIL+4rJEKzFawxuWWjgY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=iXaARuNwsRMGS00IUrVC615xtp9WrsRN0w/lGDZ7CmHIIs+y06jG+SKbGd2KltHBH4W7vy3T1EFVl1Fj495P4dOFb40YH9ZO/DJEmw4o0M5IYUH/ceiS6dshbdyFdvYMHXPEaRAZp4JFK6XiM1te4Qg024dxkZXaW6Gez+kwd6Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lckl+44M; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 231CFC19422;
+	Mon, 12 Jan 2026 14:58:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1768229931;
+	bh=tmveYG3MYrcIOx8fgo5jQ0uyIL+4rJEKzFawxuWWjgY=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=lckl+44Mbe8FW04Gi084rW/NR2OCxWbFu3Iw4YjwFx/0XA+Cnc+HMPDGrn2XZZ/jB
+	 b3jp6VFVcGGTtJ8590pm8xoAHf8fH/j+1RuXYrn8S4H21dBxFbW9qPYyE8UmvihOVT
+	 e5ER4SPUC42d4RBMyNht1B9CE+PLy1rIwEJtQUwupP7dQXe+z0/6WEoRkic6s0jYU6
+	 4/vKhXxWzrF+oXMqTQtktHGYJH/nVDrIyMws5d0UQ1e8RCLl383rS5YaGR/jzvgtju
+	 zG1z2ZpS/TXpzx0YjsAUFt47z0rYtfPUQkj+fzTjggYJWA3lkKcux/Tr5bsBwh581B
+	 xmOivLHrlF+eA==
+From: Sasha Levin <sashal@kernel.org>
+To: patches@lists.linux.dev,
+	stable@vger.kernel.org
+Cc: DaytonCL <artem749507@gmail.com>,
+	Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	Sasha Levin <sashal@kernel.org>,
+	jikos@kernel.org,
+	linux-input@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.18-5.10] HID: multitouch: add MT_QUIRK_STICKY_FINGERS to MT_CLS_VTL
+Date: Mon, 12 Jan 2026 09:58:09 -0500
+Message-ID: <20260112145840.724774-8-sashal@kernel.org>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20260112145840.724774-1-sashal@kernel.org>
+References: <20260112145840.724774-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (1.0)
-Date: Mon, 12 Jan 2026 13:49:04 +0000
-Subject: Subscribe Linux-input
-Message-Id: <5EB0F81A-202E-4FBC-9018-326E896D286C@aol.com>
-To: linux-input@vger.kernel.org, majordomo@vger.kernel.org
-X-Mailer: iPhone Mail (22H217)
-References: <5EB0F81A-202E-4FBC-9018-326E896D286C.ref@aol.com>
+MIME-Version: 1.0
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.18.5
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Subscribe Linux-input
+From: DaytonCL <artem749507@gmail.com>
 
-Regards
+[ Upstream commit ff3f234ff1dcd6d626a989151db067a1b7f0f215 ]
+
+Some VTL-class touchpads (e.g. TOPS0102:00 35CC:0104) intermittently
+fail to release a finger contact. A previous slot remains logically
+active, accompanied by stale BTN_TOOL_DOUBLETAP state, causing
+gestures to stay latched and resulting in stuck two-finger
+scrolling and false right-clicks.
+
+Apply MT_QUIRK_STICKY_FINGERS to handle the unreleased contact correctly.
+
+Link: https://gitlab.freedesktop.org/libinput/libinput/-/issues/1225
+Suggested-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Tested-by: DaytonCL <artem749507@gmail.com>
+Signed-off-by: DaytonCL <artem749507@gmail.com>
+Signed-off-by: Benjamin Tissoires <bentiss@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+
+LLM Generated explanations, may be completely bogus:
+
+## Analysis of HID Multitouch Quirk Addition
+
+### 1. COMMIT MESSAGE ANALYSIS
+
+The commit clearly describes a **real user-visible bug**:
+- VTL-class touchpads (specifically TOPS0102:00 35CC:0104)
+  intermittently fail to release finger contacts
+- This causes gestures to stay latched - stuck two-finger scrolling and
+  false right-clicks
+- Links to a libinput bug report:
+  https://gitlab.freedesktop.org/libinput/libinput/-/issues/1225
+- Has `Tested-by:` from the reporter and `Suggested-by:` from Benjamin
+  Tissoires (HID maintainer)
+- Signed off by the maintainer (Benjamin Tissoires)
+
+### 2. CODE CHANGE ANALYSIS
+
+The change is **extremely minimal** - adding one line:
+```c
+MT_QUIRK_STICKY_FINGERS |
+```
+
+to the existing `MT_CLS_VTL` class definition. This enables an already-
+existing quirk flag (`MT_QUIRK_STICKY_FINGERS`) for VTL-class devices.
+
+The quirk mechanism handles cases where a touchpad firmware fails to
+properly report when a finger has been lifted. Without it, the system
+thinks the finger is still touching, causing "sticky" gestures. The
+quirk infrastructure already exists and is well-tested - this commit
+just enables it for another device class.
+
+### 3. CLASSIFICATION
+
+This falls squarely into the **QUIRKS and WORKAROUNDS exception
+category**:
+- Hardware-specific quirk for buggy/non-compliant devices
+- The quirk code already exists in mainline - only enabling it for VTL
+  class
+- Fixes real-world hardware behavior issues
+
+This is NOT:
+- A new feature or API
+- A new driver
+- Code refactoring
+
+### 4. SCOPE AND RISK ASSESSMENT
+
+| Factor | Assessment |
+|--------|------------|
+| Lines changed | 1 |
+| Files touched | 1 |
+| Complexity | Trivially low |
+| Subsystem | HID multitouch (mature, stable) |
+| Risk | Very low |
+
+The worst case scenario: if the quirk somehow caused issues on a
+specific VTL device, it would only affect that device class. But the
+current behavior is already broken for affected users, so this is a
+clear improvement.
+
+### 5. USER IMPACT
+
+- **Affected users**: Anyone with VTL-class touchpads
+- **Symptoms**: Stuck two-finger scrolling, false right-clicks - these
+  are highly disruptive daily-use issues
+- **Severity**: Medium-high for affected users (makes touchpad
+  unreliable)
+- **Evidence of real impact**: Linked bug report from libinput tracker
+
+### 6. STABILITY INDICATORS
+
+- `Tested-by:` tag from the reporter who experienced the issue
+- Suggested and signed off by HID subsystem maintainer
+- The `MT_QUIRK_STICKY_FINGERS` quirk has existed since ~Linux 3.15
+- The `MT_CLS_VTL` class has existed since ~Linux 4.13
+- Well-established quirk pattern used by many other device classes
+  (FLATFROG, LG, ASUS, etc.)
+
+### 7. DEPENDENCY CHECK
+
+- **No dependencies** on other commits
+- Both the quirk flag and VTL class exist in all recent stable trees
+- Should apply cleanly without modification
+
+### STABLE KERNEL RULES ASSESSMENT
+
+| Criterion | Met? |
+|-----------|------|
+| Obviously correct and tested | ✅ Yes - trivial change, has Tested-by |
+| Fixes a real bug | ✅ Yes - documented hardware issue with bug report |
+| Important issue | ✅ Yes - stuck gestures/false clicks affect daily use
+|
+| Small and contained | ✅ Yes - 1 line in 1 file |
+| No new features | ✅ Yes - uses existing quirk mechanism |
+| Applies cleanly | ✅ Yes - no dependencies |
+
+### CONCLUSION
+
+This is an **ideal stable backport candidate**:
+
+1. **Minimal risk**: Single-line addition of an existing, well-tested
+   quirk flag
+2. **Real user benefit**: Fixes stuck gestures and false clicks on VTL
+   touchpads
+3. **Proper testing**: Has Tested-by tag and maintainer approval
+4. **Falls under hardware quirk exception**: Hardware quirks/workarounds
+   are explicitly allowed in stable even though they add code
+5. **Self-contained**: No dependencies, applies cleanly to stable trees
+
+The fix is small, surgical, obviously correct, and addresses a real
+user-visible hardware issue. This is exactly the type of hardware quirk
+addition that stable trees should accept.
+
+**YES**
+
+ drivers/hid/hid-multitouch.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
+index 179dc316b4b51..a0c1ad5acb670 100644
+--- a/drivers/hid/hid-multitouch.c
++++ b/drivers/hid/hid-multitouch.c
+@@ -393,6 +393,7 @@ static const struct mt_class mt_classes[] = {
+ 	{ .name = MT_CLS_VTL,
+ 		.quirks = MT_QUIRK_ALWAYS_VALID |
+ 			MT_QUIRK_CONTACT_CNT_ACCURATE |
++			MT_QUIRK_STICKY_FINGERS |
+ 			MT_QUIRK_FORCE_GET_FEATURE,
+ 	},
+ 	{ .name = MT_CLS_GOOGLE,
+-- 
+2.51.0
 
 
