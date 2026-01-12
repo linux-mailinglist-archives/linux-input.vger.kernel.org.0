@@ -1,56 +1,56 @@
-Return-Path: <linux-input+bounces-16981-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16982-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDD6CD13876
-	for <lists+linux-input@lfdr.de>; Mon, 12 Jan 2026 16:15:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58533D13879
+	for <lists+linux-input@lfdr.de>; Mon, 12 Jan 2026 16:15:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 94F72316119F
-	for <lists+linux-input@lfdr.de>; Mon, 12 Jan 2026 14:59:51 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 0449130C479B
+	for <lists+linux-input@lfdr.de>; Mon, 12 Jan 2026 14:59:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7FD5B2E7185;
-	Mon, 12 Jan 2026 14:59:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6A43E2E7BDC;
+	Mon, 12 Jan 2026 14:59:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y1P+nz6s"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AV/6DrBZ"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A6782E6CDE;
-	Mon, 12 Jan 2026 14:59:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 267A62D0C8B;
+	Mon, 12 Jan 2026 14:59:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768229951; cv=none; b=lLcvpRcKP1fIeQen+b+INuW1L9RdNEYSaM30M3xNLaZs9uNcnofZ1IQjByTd6QsKBaJNfKTELhN27z2DRxbWCAYd5jXShYwTPlCH1HAlYpUpEcEnepsPePpzc0ZftSaeY9+77me3uk1tHaT4PyaGUWKQXTtD2LwJkB0U47vHx6E=
+	t=1768229952; cv=none; b=E699Ifse1ix9Su3XztGQzYCokikV3rSoeZieupKvA5Po/q/BCT47ViBXLoddFIsh+bDBSpa/yLP0ocmwQGmrJIahPZzuY5JpJ9pLur4FG+xcInuA+uG1UoUMH4lTkdCPdOhj0YDfmaZiU0s9bfUYylvEH+49mOdNXc4LXWIEjX8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768229951; c=relaxed/simple;
-	bh=5QtlWCR9AbeCte7rpd1mqjCMSw93C1M4t0Mz2hsyKfo=;
+	s=arc-20240116; t=1768229952; c=relaxed/simple;
+	bh=QI4Dk/fAy1RPcU+wvgbT60kZ6bcDr+mN9AtUmOQcTFo=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=FOqkNxTumm3WsSm+tZ47aGeFahdq1X+IQozYsFR0cUHLWDVA2/+krv0BciPPY0PVL0UdEOQ008J1kkYsDr6sIQZE3DYbgRdP2Y1PklUWDP9jhECJ/BuGY7x1M1G6Jlwem/ZtS5Pjq2mu/+m8cU+ebxTR1owhHeo2zNILRDjgxkU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y1P+nz6s; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 066C4C19422;
-	Mon, 12 Jan 2026 14:59:09 +0000 (UTC)
+	 MIME-Version:Content-Type; b=g/KyyBA5mB5k/KZfA0PHkB30anwM1QLAvtEwPB/6SsCP4Hc88nYK309SHlOVuqoPA+jZGvICP4BhRhqfqL50yoII+MtjPGGkiulvUvIAFooCqerUCyK1vK/FS8tFsvPPF/dqrPjl7d+SjuSKDpYIMGYdfLU0yuqcBmMx3EzBLsE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AV/6DrBZ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3BB9BC4AF0B;
+	Mon, 12 Jan 2026 14:59:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768229950;
-	bh=5QtlWCR9AbeCte7rpd1mqjCMSw93C1M4t0Mz2hsyKfo=;
+	s=k20201202; t=1768229952;
+	bh=QI4Dk/fAy1RPcU+wvgbT60kZ6bcDr+mN9AtUmOQcTFo=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Y1P+nz6sU7CnjzDJuL0NdWmMpC/MVzO0S/YLYl+zruF6j/esRCLCI3qYllzC9oWF/
-	 +V8oHSOixryefNmm7taycc6dml6vdPER8Cgfk9+jHbW1OIIsIwuGlrrWqqSA6Gtfbi
-	 S7OuWxW2GCiNUWPefT0mt8pt6dpNSE53MKWQRAGrI8NDIhOxNJtA+CtS0NtL0Klss5
-	 A8zrzf5S0Is43hcfLhBgRbgggYOnIf3zgfGcJLl2yocgdHOt6IehxxgXu9CR0GD55X
-	 4OyFxrsFwqXLxcFrInFNGNMi19QkjehsM49KNm5RM2bLj5cG6G8qLmUaNRG2kwc6R5
-	 ULPmZ09KyJDMQ==
+	b=AV/6DrBZHFHl84B1h/T5jd6ger/rZ9u/MHs6xfuB8yv+0Fdrulps0S/TTbLVNIPqT
+	 zi9e2qrixP1czprMPiB8ak/jfwFlGixBU3+CMC8PJ+PVg7cr6/jOCCHwLAr8ZhvEs9
+	 FKz6+ZtVY6Pw2ev75gHP7a5Pxg5EwxLc6HtRx6wD58PdremcUflk9xsOp8+KUIZwsw
+	 74dmJG4fuNBfNHY+aqNiNiX2R9Vuuw1Lf4FT1cTdjxqo/vcte6DYFxux+D6XfV45BW
+	 Y7w+crunKKN2ebnAKRkduGqfJMMRoGP3GHM16WPhFe9ACmo0glH5zgMka3igFVelBd
+	 EA8nqAbTBAtyg==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Siarhei Vishniakou <svv@google.com>,
+Cc: Zhang Lixu <lixu.zhang@intel.com>,
+	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
 	Benjamin Tissoires <bentiss@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
-	roderick.colenbrander@sony.com,
 	jikos@kernel.org,
 	linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.18-5.15] HID: playstation: Center initial joystick axes to prevent spurious events
-Date: Mon, 12 Jan 2026 09:58:18 -0500
-Message-ID: <20260112145840.724774-17-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.18-5.10] HID: intel-ish-hid: Reset enum_devices_done before enumeration
+Date: Mon, 12 Jan 2026 09:58:19 -0500
+Message-ID: <20260112145840.724774-18-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260112145840.724774-1-sashal@kernel.org>
 References: <20260112145840.724774-1-sashal@kernel.org>
@@ -66,199 +66,178 @@ X-stable-base: Linux 6.18.5
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Siarhei Vishniakou <svv@google.com>
+From: Zhang Lixu <lixu.zhang@intel.com>
 
-[ Upstream commit e9143268d259d98e111a649affa061acb8e13c5b ]
+[ Upstream commit 56e230723e3a818373bd62331bccb1c6d2b3881b ]
 
-When a new PlayStation gamepad (DualShock 4 or DualSense) is initialized,
-the input subsystem sets the default value for its absolute axes (e.g.,
-ABS_X, ABS_Y) to 0.
+Some systems have enabled ISH without any sensors. In this case sending
+HOSTIF_DM_ENUM_DEVICES results in 0 sensors. This triggers ISH hardware
+reset on subsequent enumeration after S3/S4 resume.
 
-However, the hardware's actual neutral/resting state for these joysticks
-is 128 (0x80). This creates a mismatch.
+The enum_devices_done flag was not reset before sending the
+HOSTIF_DM_ENUM_DEVICES command. On subsequent enumeration calls (such as
+after S3/S4 resume), this flag retains its previous true value, causing the
+wait loop to be skipped and returning prematurely to hid_ishtp_cl_init().
+If 0 HID devices are found, hid_ishtp_cl_init() skips getting HID device
+descriptors and sets init_done to true. When the delayed enumeration
+response arrives with init_done already true, the driver treats it as a bad
+packet and triggers an ISH hardware reset.
 
-When the first HID report arrives from the device, the driver sees the
-resting value of 128. The kernel compares this to its initial state of 0
-and incorrectly interprets this as a delta (0 -> 128). Consequently, it
-generates EV_ABS events for this initial, non-existent movement.
+Set enum_devices_done to false before sending the enumeration command,
+consistent with similar functions like ishtp_get_hid_descriptor() and
+ishtp_get_report_descriptor() which reset their respective flags.
 
-This behavior can fail userspace 'sanity check' tests (e.g., in
-Android CTS) that correctly assert no motion events should be generated
-from a device that is already at rest.
-
-This patch fixes the issue by explicitly setting the initial value of the
-main joystick axes (e.g., ABS_X, ABS_Y, ABS_RX, ABS_RY) to 128 (0x80)
-in the common ps_gamepad_create() function.
-
-This aligns the kernel's initial state with the hardware's expected
-neutral state, ensuring that the first report (at 128) produces no
-delta and thus, no spurious event.
-
-Signed-off-by: Siarhei Vishniakou <svv@google.com>
-Reviewed-by: Benjamin Tissoires <bentiss@kernel.org>
+Signed-off-by: Zhang Lixu <lixu.zhang@intel.com>
+Acked-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
 Signed-off-by: Benjamin Tissoires <bentiss@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-## Analysis of Commit: "HID: playstation: Center initial joystick axes
-to prevent spurious events"
+## Analysis of Commit: HID: intel-ish-hid: Reset enum_devices_done
+before enumeration
 
 ### 1. COMMIT MESSAGE ANALYSIS
 
-The commit describes a clear, specific bug:
-- PlayStation gamepads (DualShock 4, DualSense) have joysticks that rest
-  at value 128 (0x80)
-- The kernel initializes the axis value to 0 by default
-- When the first HID report arrives with the resting value of 128, the
-  kernel interprets this as actual movement
-- This generates spurious EV_ABS events for non-existent movement
-- The problem causes Android CTS test failures and potentially confuses
-  userspace applications
+The commit message clearly describes a **bug in suspend/resume (S3/S4)
+handling**:
+- Systems with ISH enabled but no sensors return 0 devices from
+  HOSTIF_DM_ENUM_DEVICES
+- The `enum_devices_done` flag wasn't reset before sending enumeration
+  commands
+- On subsequent enumerations (after resume), the stale `true` value
+  causes the wait loop to be skipped
+- This leads to a race where delayed responses are treated as bad
+  packets
+- Result: **ISH hardware reset** during resume
 
-The bug has user-visible impact ("Reported-by" pattern implied through
-CTS test context).
+Key indicators:
+- "S3/S4 resume" - power management bug affecting real user workflows
+- Clear explanation of the timing/race condition
+- Acked-by Srinivas Pandruvada (Intel ISH maintainer)
 
 ### 2. CODE CHANGE ANALYSIS
 
-**The fix is minimal and surgical:**
+The diff shows a **single line addition**:
 ```c
-gamepad->absinfo[ABS_X].value = 128;
-gamepad->absinfo[ABS_Y].value = 128;
-gamepad->absinfo[ABS_RX].value = 128;
-gamepad->absinfo[ABS_RY].value = 128;
++       client_data->enum_devices_done = false;
 ```
 
-- 5 lines added (1 comment + 4 value assignments)
-- Single file: `drivers/hid/hid-playstation.c`
-- Single function: `ps_gamepad_create()`
-- Only affects joystick axes (ABS_X, ABS_Y, ABS_RX, ABS_RY), correctly
-  leaves triggers (ABS_Z, ABS_RZ) at 0
+Added immediately before the `HOSTIF_DM_ENUM_DEVICES` command is sent.
+The logic:
+- The function sends an enumeration request and waits for
+  `enum_devices_done` to become true
+- Without resetting it first, a stale `true` value from a previous call
+  causes immediate exit from the wait loop
+- This creates a race: the response arrives after `init_done` is already
+  set, triggering a hardware reset
 
-**Technical correctness:** The fix is obviously correct. After
-`input_set_abs_params()` sets up the axis with range 0-255, manually
-setting `.value = 128` aligns the kernel's initial state with the
-hardware's physical resting position at center (128).
+The fix follows the **established pattern** in the same driver - the
+commit message notes that `ishtp_get_hid_descriptor()` and
+`ishtp_get_report_descriptor()` already reset their respective flags
+similarly.
 
 ### 3. CLASSIFICATION
 
-- **Type:** Bug fix (not a feature)
-- **Category:** Input device initialization fix
-- **No new API or behavior change:** Just corrects initial state values
-- **No new features:** Purely corrects existing incorrect behavior
+- **Bug fix**: Yes - fixes incorrect state handling causing hardware
+  reset
+- **Feature addition**: No
+- **API change**: No
+- **Hardware quirk**: No - this is a driver logic bug, not a hardware
+  workaround
 
 ### 4. SCOPE AND RISK ASSESSMENT
 
-| Factor | Assessment |
-|--------|------------|
-| Lines changed | 5 (very small) |
-| Files changed | 1 |
-| Complexity | Trivial |
-| Subsystem | HID - PlayStation driver (mature) |
-| Risk of regression | Very low |
+| Metric | Value |
+|--------|-------|
+| Lines changed | 1 |
+| Files touched | 1 |
+| Complexity | Very low |
+| Risk | Minimal |
 
-The change is confined to initialization code and cannot affect any
-existing logic paths. Setting an initial value cannot break anything
-because:
-1. The value 128 is within the valid range (0-255)
-2. The hardware reports 128 at rest anyway
-3. This aligns kernel state with reality
+The change:
+- Sets a boolean flag to false before an operation that expects it to
+  transition to true
+- Follows identical patterns elsewhere in the same file
+- Cannot break any existing functionality that works correctly
+- Isolated to Intel ISH subsystem
 
 ### 5. USER IMPACT
 
-**Who is affected:**
-- All users of DualShock 4 and DualSense controllers
-- Android users (CTS compliance)
-- Applications that validate initial input state
+**Affected users:** Laptop users with Intel Sensor Hub hardware (common
+in modern Intel laptops)
 
-**Severity:** Medium - Not a crash or data corruption, but:
-- Causes spurious input events at device connect
-- Breaks CTS conformance tests
-- May confuse input-sensitive applications
+**Symptom:** ISH hardware reset during S3/S4 resume, which can cause:
+- Delays in resume
+- Sensor hub functionality issues after resume
+- System instability during power transitions
+
+**Severity:** Moderate-High - affects common laptop power management
+workflows
 
 ### 6. STABILITY INDICATORS
 
-- **Reviewed-by:** Benjamin Tissoires (HID maintainer) ✓
-- **Signed-off-by:** Maintainer sign-off ✓
-- The fix is simple enough to verify correctness by inspection
+- **Acked-by:** Srinivas Pandruvada (Intel ISH maintainer) - domain
+  expert approval
+- **Signed-off-by:** Benjamin Tissoires (HID maintainer)
+- Pattern-following fix consistent with other similar functions in the
+  driver
 
 ### 7. DEPENDENCY CHECK
 
-- No dependencies on other commits
-- `ps_gamepad_create()` has existed since the driver was introduced
-- Uses standard input subsystem patterns (`absinfo[].value`)
-- Should apply cleanly to any stable tree containing this driver
+This commit:
+- Is self-contained with no dependencies
+- Modifies code that has existed in stable trees for years
+- The `enum_devices_done` flag, `client_data` structure, and
+  `ishtp_enum_enum_devices()` function are all well-established
 
-### STABLE KERNEL CRITERIA EVALUATION
+---
 
-| Criterion | Status |
-|-----------|--------|
-| Obviously correct and tested | ✓ Reviewed by maintainer |
-| Fixes a real bug | ✓ Spurious input events |
-| Important issue | ✓ Breaks CTS, affects popular hardware |
-| Small and contained | ✓ 5 lines, 1 file |
-| No new features | ✓ Pure correctness fix |
-| No new APIs | ✓ |
+## Summary
 
-### RISK VS BENEFIT
+**What it fixes:** Race condition during S3/S4 resume where stale
+boolean flag causes ISH hardware reset
 
-**Benefits:**
-- Fixes spurious input events on popular consumer hardware
-- Fixes Android CTS test failures
-- Aligns kernel state with hardware reality
-- Affects millions of PlayStation controller users
+**Why it matters:** Users with Intel Sensor Hub hardware experience
+hardware reset/instability on resume from suspend/hibernate - a common
+laptop workflow
 
-**Risks:**
-- Essentially zero - the change is trivially correct
-- No logic changes, just initialization values
+**Stable criteria met:**
+- ✅ Obviously correct (follows existing pattern in same driver)
+- ✅ Fixes real bug (hardware reset during resume)
+- ✅ Small and contained (1 line, 1 file)
+- ✅ No new features
+- ✅ No API changes
+- ✅ Has maintainer acknowledgment
 
-### CONCLUSION
+**Risk assessment:** Very low - single boolean assignment following
+established pattern
 
-This commit is an excellent candidate for stable backporting:
+**Benefit:** Fixes real user-facing bug affecting laptop power
+management
 
-1. **Fixes a real bug** that causes spurious input events and test
-   failures
-2. **Small and surgical** - only 5 lines in one function
-3. **Obviously correct** - aligns initial value with hardware's physical
-   state
-4. **Low risk** - cannot introduce regressions
-5. **Well-reviewed** - HID maintainer reviewed and signed off
-6. **Widely applicable** - affects popular consumer hardware
-   (PlayStation controllers)
-7. **No dependencies** - self-contained fix
-
-The fix meets all stable kernel criteria: it's obviously correct, fixes
-a real bug, is small in scope, and introduces no new features. The fact
-that it fixes CTS compliance issues makes it particularly valuable for
-Android device manufacturers using stable kernels.
+This is an ideal stable candidate: a minimal, surgical fix for a real
+bug affecting common hardware in a common usage scenario, with
+maintainer review and following established driver patterns.
 
 **YES**
 
- drivers/hid/hid-playstation.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/hid/intel-ish-hid/ishtp-hid-client.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/hid/hid-playstation.c b/drivers/hid/hid-playstation.c
-index 128aa6abd10be..e4dfcf26b04e7 100644
---- a/drivers/hid/hid-playstation.c
-+++ b/drivers/hid/hid-playstation.c
-@@ -753,11 +753,16 @@ ps_gamepad_create(struct hid_device *hdev,
- 	if (IS_ERR(gamepad))
- 		return ERR_CAST(gamepad);
+diff --git a/drivers/hid/intel-ish-hid/ishtp-hid-client.c b/drivers/hid/intel-ish-hid/ishtp-hid-client.c
+index d8c3c54a8c0f2..537145ec50586 100644
+--- a/drivers/hid/intel-ish-hid/ishtp-hid-client.c
++++ b/drivers/hid/intel-ish-hid/ishtp-hid-client.c
+@@ -495,6 +495,7 @@ static int ishtp_enum_enum_devices(struct ishtp_cl *hid_ishtp_cl)
+ 	int rv;
  
-+	/* Set initial resting state for joysticks to 128 (center) */
- 	input_set_abs_params(gamepad, ABS_X, 0, 255, 0, 0);
-+	gamepad->absinfo[ABS_X].value = 128;
- 	input_set_abs_params(gamepad, ABS_Y, 0, 255, 0, 0);
-+	gamepad->absinfo[ABS_Y].value = 128;
- 	input_set_abs_params(gamepad, ABS_Z, 0, 255, 0, 0);
- 	input_set_abs_params(gamepad, ABS_RX, 0, 255, 0, 0);
-+	gamepad->absinfo[ABS_RX].value = 128;
- 	input_set_abs_params(gamepad, ABS_RY, 0, 255, 0, 0);
-+	gamepad->absinfo[ABS_RY].value = 128;
- 	input_set_abs_params(gamepad, ABS_RZ, 0, 255, 0, 0);
- 
- 	input_set_abs_params(gamepad, ABS_HAT0X, -1, 1, 0, 0);
+ 	/* Send HOSTIF_DM_ENUM_DEVICES */
++	client_data->enum_devices_done = false;
+ 	memset(&msg, 0, sizeof(struct hostif_msg));
+ 	msg.hdr.command = HOSTIF_DM_ENUM_DEVICES;
+ 	rv = ishtp_cl_send(hid_ishtp_cl, (unsigned char *)&msg,
 -- 
 2.51.0
 
