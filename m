@@ -1,162 +1,192 @@
-Return-Path: <linux-input+bounces-16995-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-16996-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18289D14656
-	for <lists+linux-input@lfdr.de>; Mon, 12 Jan 2026 18:36:21 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 77D2FD146CB
+	for <lists+linux-input@lfdr.de>; Mon, 12 Jan 2026 18:40:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id BEED9302CB99
-	for <lists+linux-input@lfdr.de>; Mon, 12 Jan 2026 17:32:48 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 5521D3012A8C
+	for <lists+linux-input@lfdr.de>; Mon, 12 Jan 2026 17:40:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B00E637E2FA;
-	Mon, 12 Jan 2026 17:32:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 63F2B37E301;
+	Mon, 12 Jan 2026 17:40:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bbZeEmV9"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GDkYj3+G"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f171.google.com (mail-dy1-f171.google.com [74.125.82.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93222379986;
-	Mon, 12 Jan 2026 17:32:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66A03376BDD
+	for <linux-input@vger.kernel.org>; Mon, 12 Jan 2026 17:40:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768239167; cv=none; b=McTSGJXRKkOuHxulRF2zZltyBBd9DfCcqRlLei3GnbKL9kT31iUGPQE30igQoQkExd3by6gxfQh/YQdb2OkUYaDrkMUy4wBvndu3H3NFAdtYarrl33zHX7qqCkJTdsJJTllq7BThbvTPbV0UgmcJx9x2Up2AmpwA+pYQnZ/oTnI=
+	t=1768239614; cv=none; b=GhVEMMvlm4cjwLtGe2Comis0ndQLBkWPDNfPq/oVamXpa8IVgsMp20mrgwHibGtFxzUyAmaotkavnbNoGtRRpWjpdzdU3KXMuuenhW1TK6fg7CLCvNIFhutDx8GZvcfMcKfFxfjqtphG0xx/ztQsPXLmP34wVXMp6sRTjIW6KqQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768239167; c=relaxed/simple;
-	bh=/F0DHPES9V4UKhWUy41xbv8wKwwgas3zZAi12ZfuGjU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GlY8/tUndL2rubEcqjOI26jFpItd/hjbSEjNXDgC3iZrfF50eVe6+I70LFGaX3hwF+07xFtahhIY1e6YL9NpNV+byodYBSaGmG6rWo8c8TionvBGR3ND8di6GX/76B1zl5mANomNLAnXOAuIxEzxIlCK0bU6bQ9mgPtVqtPcrjs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bbZeEmV9; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768239165; x=1799775165;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=/F0DHPES9V4UKhWUy41xbv8wKwwgas3zZAi12ZfuGjU=;
-  b=bbZeEmV9UKmDUsRmdl4jgqIXGqU2voKmlG+YG9ezi725erXy3rUF0YjB
-   +JRgQCqwmkS32tZxIn41Yb35mV2SKmObuVjkxEbWu73hCwLRBq4EFKAh1
-   6L8VfdFeDfqbqVT7QxC+QlWpx1XEIQqRsSdfyWlLHiv4toL85UBkadzJq
-   j046lrD3UNEHJhp4hs5KCGxFXxTKSfFYFBrrhPOtDvaITWU4YtYwPd8sn
-   VQCxQ0NkebG2CJxrxOEOWgoEgO/DU6iy72rIWA7JxB7/k+GTqbzYjkwMC
-   OJPqr7+QRa2NsHYUzslLfYKE5BzYt3OXS6NfN9NLDFGIxik6YPyAp13Ew
-   w==;
-X-CSE-ConnectionGUID: hfluwQVOS8+Ebe7siciIYg==
-X-CSE-MsgGUID: odTTQ9jfRbuEyEJvcjlq4Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11669"; a="79812953"
-X-IronPort-AV: E=Sophos;i="6.21,221,1763452800"; 
-   d="scan'208";a="79812953"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 09:32:45 -0800
-X-CSE-ConnectionGUID: iAiCqQUSSjiRtSTQ9Cz4SQ==
-X-CSE-MsgGUID: QvBqkciATtaz7EMufw/x0w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,221,1763452800"; 
-   d="scan'208";a="208983881"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 12 Jan 2026 09:32:42 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vfLmR-00000000Dg0-2gaC;
-	Mon, 12 Jan 2026 17:32:39 +0000
-Date: Tue, 13 Jan 2026 01:31:52 +0800
-From: kernel test robot <lkp@intel.com>
-To: Bastien Nocera <hadess@hadess.net>, linux-input@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-	Bastien Nocera <hadess@hadess.net>
-Subject: Re: [PATCH 09/12] HID: sony: Use pm_ptr instead of #ifdef CONFIG_PM
-Message-ID: <202601130046.THZRFNIA-lkp@intel.com>
-References: <20260112105500.3664834-10-hadess@hadess.net>
+	s=arc-20240116; t=1768239614; c=relaxed/simple;
+	bh=bWNt8XX+a1EExBXkcnhLkWphW1cwAsUON30o0t1HtEo=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
+	 MIME-Version:Content-Type; b=j6Skhb32Ard805MX4Ie5o+0ANcZmwIGdHFAC317XrCWOTd1+CqcSeD5lCaGS+hsEAvrzKbbDh8EdVA4VuXADE6yL5AW1b3UjOkz/qtmPT2jjJdvuTa7k+h6vb+kVHI8rWVyxYK+kkbuz+nw/H1ydFrVuVjHISRgDgVOEzMXRemo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GDkYj3+G; arc=none smtp.client-ip=74.125.82.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-dy1-f171.google.com with SMTP id 5a478bee46e88-2af41f558f5so6981945eec.1
+        for <linux-input@vger.kernel.org>; Mon, 12 Jan 2026 09:40:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1768239610; x=1768844410; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:references
+         :in-reply-to:user-agent:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=xEfzR2IMaUJ79aVMeAHSeF5WLoBzAAzr7Ul2pdFLEjU=;
+        b=GDkYj3+GMSorx/eaULUQBhQYY35+EdAlXkW4K7NdIBEWd8uxXS9+lHRXoDGzBIW3E/
+         RsYfFj11lydtT+zGsTXKejdd7/3uLTsnY6xvRn6jwm+QrsJsIUBXivOHBBNK84rnE2jy
+         fra2RhJU8iveo8zKEkVq3cOKH/dLapI3W76KTQbnRSzguXcyrYOXg0wJwcRmeICvCB/7
+         vA+CHzSGreeb5PwQKiRkbpDZVKkLs9l8I05v7VXW9CU3ZbRVKCFPNT7jzkcWJPWYmJpl
+         F0xPf13PlURowuXVKZYgCYBJv48dlxnzy/ugqUQRgbBHK0/MWRfRNsb5JW2DRYHRIgyp
+         EiQg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768239610; x=1768844410;
+        h=content-transfer-encoding:mime-version:message-id:references
+         :in-reply-to:user-agent:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=xEfzR2IMaUJ79aVMeAHSeF5WLoBzAAzr7Ul2pdFLEjU=;
+        b=mGpKeod5348eCnOqMLHM/ytck5iLE2/oTDnx5hx+2S+o9CRqod9/M0Vkc1UqkS6CUw
+         4bnV6VJ100aEig3g4+2LhLa7b+eRi3DAsLbM95calryFdP3kIEn6NsaM8U9fYzKHRQTh
+         j1j1L4vv8+yezdeqRbi8j7KBArRcnfNb50fJSt3n95mT88b421A6xMJ8fFTZngd7zGwy
+         f/q7uW9VR5lqAvPCf33TH+jkFIkqWewIe+p3aZTN5BG/ynzUufULb32yRsABEQKWf+7G
+         6ayGSpR6JHJhZWuNgVRNAoc8qWOvljVjMrNvOqyBBhlTtzBEEqyeeiS0XVYEj+DD1Gm6
+         KOmA==
+X-Forwarded-Encrypted: i=1; AJvYcCWjjzUb8N64tfgZrWVcODkwnVN2ZMOQ7v8QYBRjhixvU1jjxDwDQdcReD6OaJ76W9vqtyG+EPwQXgVz6A==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzAH0+LePvopK1MkJxkoh2VqLkQnwNgCy93LVtYiqOVhHCEaz2H
+	LEo9GNdBFe/JIxWlNgVfuWbIRTtcjqGipgfJFdkS1qFzZN+3tvt29lri
+X-Gm-Gg: AY/fxX4CaNCVr6b18ROzKqBk/v1yo9fwAm6WYhVWBcfC8w1AF9KcVZNGHAOkwfGf3bv
+	aU5muhlJNJOAeoqJKYd16HHybEjBGPAryla5F39bSFtGLtMGRflLsK4AIX8239/FkOOiRDI7Y4K
+	oYt+VcMD7JDINbB0Ho/AsZwohLZY/ynWeZ75IcOle8tEJ6Qo9Va+NxdGApYCcznFzM/rj8VU6H1
+	nP4gfgxosgWFomx44WGDj5ttZPamiQ1mGBfo8cKPaScGc+wgh8yNpoOr4J/WAm9obstZnYKWs8U
+	QuTBA6X1j0JCkbS1hVbyBhifbnBYKgGy+VbjhdFhaqrM8c77VfPGDljlkh9d0DcmhCxbktFhTXe
+	fY+CtGy/fZNi9In7s5tqZhpa8zZcxX0X+joXiXwCA1ckt52KCdvqyTqnj8pP3ycQSqTr9TajYJD
+	qFBcWJkLU+TSh728T97B6F1HZRQ2AI4WTPXYG7W8NhyRQixpJHLl1Wx4e6V8JwVbl6uukrLIi79
+	pK4kqDDjg==
+X-Google-Smtp-Source: AGHT+IHCTZtjyWlWk0cwrNDVQ+H3iM6fgz0CcfURU1LVPBZ+hluW6yquQuzFvxEgwtxB4odmjN+y5w==
+X-Received: by 2002:a05:7301:8613:b0:2b0:4b5b:6820 with SMTP id 5a478bee46e88-2b17d2e3663mr11342670eec.26.1768239610022;
+        Mon, 12 Jan 2026 09:40:10 -0800 (PST)
+Received: from ehlo.thunderbird.net (108-228-232-20.lightspeed.sndgca.sbcglobal.net. [108.228.232.20])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2b170675076sm16683675eec.2.2026.01.12.09.40.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 12 Jan 2026 09:40:09 -0800 (PST)
+Date: Mon, 12 Jan 2026 09:40:09 -0800
+From: "Derek J. Clark" <derekjohn.clark@gmail.com>
+To: Jiri Kosina <jikos@kernel.org>
+CC: Benjamin Tissoires <bentiss@kernel.org>,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ Zhixin Zhang <zhangzx36@lenovo.com>, Mia Shao <shaohz1@lenovo.com>,
+ Mark Pearson <mpearson-lenovo@squebb.ca>,
+ "Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>,
+ linux-input@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v2_02/16=5D_HID=3A_hid-lenovo-go?=
+ =?US-ASCII?Q?=3A_Add_Lenovo_Legion_Go_Series_HID_Driver?=
+User-Agent: Thunderbird for Android
+In-Reply-To: <0on4p9s6-7512-9408-49no-3292o86113r3@xreary.bet>
+References: <20251229031753.581664-1-derekjohn.clark@gmail.com> <20251229031753.581664-3-derekjohn.clark@gmail.com> <0on4p9s6-7512-9408-49no-3292o86113r3@xreary.bet>
+Message-ID: <6BB4F74A-F440-4F21-B094-62CFD18C599A@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260112105500.3664834-10-hadess@hadess.net>
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Hi Bastien,
+On January 12, 2026 4:12:43 AM PST, Jiri Kosina <jikos@kernel=2Eorg> wrote:
+>On Mon, 29 Dec 2025, Derek J=2E Clark wrote:
+>
+>> Adds initial framework for a new HID driver, hid-lenovo-go, along with
+>> attributes that report the firmware and hardware version for each
+>> component of the HID device, of which there are 4 parts: The MCU, the
+>> transmission dongle, the left "handle" controller half, and the right
+>> "handle" controller half=2E Each of these devices are provided an attri=
+bute
+>> group to contain its device specific attributes=2E Additionally, the to=
+uchpad
+>> device attributes are logically separated from the other components in
+>> another attribute group=2E
+>>=20
+>> This driver primarily provides access to the configurable settings of t=
+he
+>> Lenovo Legion Go and Lenovo Legion Go 2 controllers running the latest
+>> firmware=2E As previously noted, the Legion Go controllers recently had=
+ a
+>> firmware update[1] which switched from the original "SepentiaUSB" proto=
+col
+>> to a brand new protocol for the Go 2, primarily to ensure backwards and
+>> forwards compatibility between the Go and Go 2 devices=2E As part of th=
+at
+>> update the PIDs for the controllers were changed, so there is no risk o=
+f
+>> this driver attaching to controller firmware that it doesn't support=2E
+>>=20
+>> Signed-off-by: Derek J=2E Clark <derekjohn=2Eclark@gmail=2Ecom>
+>> ---
+>>  MAINTAINERS                 |   6 +
+>>  drivers/hid/Kconfig         |  12 +
+>>  drivers/hid/Makefile        |   1 +
+>>  drivers/hid/hid-ids=2Eh       |   3 +
+>>  drivers/hid/hid-lenovo-go=2Ec | 734 ++++++++++++++++++++++++++++++++++=
+++
+>>  5 files changed, 756 insertions(+)
+>>  create mode 100644 drivers/hid/hid-lenovo-go=2Ec
+>>=20
+>> diff --git a/MAINTAINERS b/MAINTAINERS
+>> index 9ed6d11a7746=2E=2Eb5ad29d24e3e 100644
+>> --- a/MAINTAINERS
+>> +++ b/MAINTAINERS
+>> @@ -14135,6 +14135,12 @@ L:	platform-driver-x86@vger=2Ekernel=2Eorg
+>>  S:	Maintained
+>>  F:	drivers/platform/x86/lenovo/wmi-hotkey-utilities=2Ec
+>> =20
+>> +LENOVO HID drivers
+>> +M:	Derek J=2E Clark <derekjohn=2Eclark@gmail=2Ecom>
+>> +L:	linux-input@vger=2Ekernel=2Eorg
+>> +S:	Maintained
+>> +F:	drivers/hid/hid-lenovo-go=2Ec
+>
+>Hi Derek,
+>
+>thanks for working on this=2E
+>
+>I am now almost finished with reviewing this pile and am planning to queu=
+e=20
+>it in hid=2Egit shortly, but I have a question regarding the MAINTAINERS=
+=20
+>entry above=2E
+>
+>The title claims support for all of Lenovo HID, but there is much more to=
+=20
+>it than drivers/hid/hid-lenovo-go=2Ec, specifically in hid-lenovo=2Ec=2E
+>
+>So either please make the title more specific (or claim the ownership of=
+=20
+>the whole Lenovo HID landscape indeed, fine by me, but the please reflect=
+=20
+>that in F: :) )=2E
+>
+>Thanks,
+>
 
-kernel test robot noticed the following build errors:
+Hi Jiri
 
-[auto build test ERROR on hid/for-next]
-[also build test ERROR on linus/master v6.19-rc5 next-20260109]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Sure, I've debated using LENOVO LEGION GO HID drivers and LENOVO GO HID dr=
+ivers=2E Do you have a preference? The other drivers are pretty old and I d=
+on't have any hardware that would use them so I'd prefer to keep them separ=
+ate (though I'll acknowledge that they don't seem to have a MAINTAINERS ent=
+ry)
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Bastien-Nocera/HID-hid-alps-Use-pm_ptr-instead-of-ifdef-CONFIG_PM/20260112-190559
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
-patch link:    https://lore.kernel.org/r/20260112105500.3664834-10-hadess%40hadess.net
-patch subject: [PATCH 09/12] HID: sony: Use pm_ptr instead of #ifdef CONFIG_PM
-config: parisc-defconfig (https://download.01.org/0day-ci/archive/20260113/202601130046.THZRFNIA-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260113/202601130046.THZRFNIA-lkp@intel.com/reproduce)
+I also need to fix the ABI docs, I accidentally added an extra + character=
+ to every line in the patch for both=2E I'll update that too when I fix thi=
+s=2E
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601130046.THZRFNIA-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from include/linux/kernel.h:36,
-                    from include/linux/random.h:7,
-                    from include/linux/nodemask.h:94,
-                    from include/linux/numa.h:6,
-                    from include/linux/cpumask.h:15,
-                    from include/linux/smp.h:13,
-                    from include/linux/lockdep.h:14,
-                    from include/linux/spinlock.h:63,
-                    from include/linux/sched.h:37,
-                    from include/linux/ratelimit.h:6,
-                    from include/linux/dev_printk.h:16,
-                    from include/linux/device.h:15,
-                    from drivers/hid/hid-sony.c:31:
->> drivers/hid/hid-sony.c:2402:36: error: 'sony_suspend' undeclared here (not in a function)
-    2402 |         .suspend          = pm_ptr(sony_suspend),
-         |                                    ^~~~~~~~~~~~
-   include/linux/util_macros.h:136:44: note: in definition of macro 'PTR_IF'
-     136 | #define PTR_IF(cond, ptr)       ((cond) ? (ptr) : NULL)
-         |                                            ^~~
-   drivers/hid/hid-sony.c:2402:29: note: in expansion of macro 'pm_ptr'
-    2402 |         .suspend          = pm_ptr(sony_suspend),
-         |                             ^~~~~~
->> drivers/hid/hid-sony.c:2403:36: error: 'sony_resume' undeclared here (not in a function); did you mean 'sony_remove'?
-    2403 |         .resume           = pm_ptr(sony_resume),
-         |                                    ^~~~~~~~~~~
-   include/linux/util_macros.h:136:44: note: in definition of macro 'PTR_IF'
-     136 | #define PTR_IF(cond, ptr)       ((cond) ? (ptr) : NULL)
-         |                                            ^~~
-   drivers/hid/hid-sony.c:2403:29: note: in expansion of macro 'pm_ptr'
-    2403 |         .resume           = pm_ptr(sony_resume),
-         |                             ^~~~~~
-
-
-vim +/sony_suspend +2402 drivers/hid/hid-sony.c
-
-  2392	
-  2393	static struct hid_driver sony_driver = {
-  2394		.name             = "sony",
-  2395		.id_table         = sony_devices,
-  2396		.input_mapping    = sony_mapping,
-  2397		.input_configured = sony_input_configured,
-  2398		.probe            = sony_probe,
-  2399		.remove           = sony_remove,
-  2400		.report_fixup     = sony_report_fixup,
-  2401		.raw_event        = sony_raw_event,
-> 2402		.suspend          = pm_ptr(sony_suspend),
-> 2403		.resume	          = pm_ptr(sony_resume),
-  2404		.reset_resume     = pm_ptr(sony_resume),
-  2405	};
-  2406	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks,
+Derek
 
