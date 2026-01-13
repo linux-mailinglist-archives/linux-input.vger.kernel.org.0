@@ -1,89 +1,92 @@
-Return-Path: <linux-input+bounces-17031-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-17032-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BB90D176AA
-	for <lists+linux-input@lfdr.de>; Tue, 13 Jan 2026 09:56:42 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id C8428D17A84
+	for <lists+linux-input@lfdr.de>; Tue, 13 Jan 2026 10:35:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 1A91A3003874
-	for <lists+linux-input@lfdr.de>; Tue, 13 Jan 2026 08:56:40 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id CDB65312407F
+	for <lists+linux-input@lfdr.de>; Tue, 13 Jan 2026 09:28:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E69EB3128AE;
-	Tue, 13 Jan 2026 08:56:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FvrBe+VI"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A8203387379;
+	Tue, 13 Jan 2026 09:26:13 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mslow3.mail.gandi.net (mslow3.mail.gandi.net [217.70.178.249])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 165A837FF64;
-	Tue, 13 Jan 2026 08:56:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 991013624B9;
+	Tue, 13 Jan 2026 09:26:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.178.249
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768294597; cv=none; b=LTjPNFNHdA2+n7CQjnl7X5KwHWdSHgCs6y+m5O1VSsJeFQV9i2ErOm3q8T6OgA37v2UeydDuUP6JwfWvnpsn0JuhiRW4hQ0b5+PKH0KAxu7N2zgmOWf4U2yLjPppmD+TeNIjashF1B+93wUsSqRHUNFRKGQIZjx6WEcN5enIOBU=
+	t=1768296371; cv=none; b=QStQuLq0MLX3XDth8zSBjfrhUt18r1wmwiVth1oKePLPesMZMCi9rvr7petT+M4YS0A7+zeqVBYwYWaKm8D+dD285lZwyj2zeOVnjZcI4SR7mqNoV9Kq9fLpfxgSI9XF+PHG/ZWYr8TEfWQRVr1h6I04ZauLRWjouMo4g7Ov64k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768294597; c=relaxed/simple;
-	bh=6WJv5wOmbnGAdxnILkjXuLeOO9AOEkzFRA0Fj9fB3uM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=K0VAI3gUj2AO5ObuPOaJSbRQNhiH59JXpznK3B0nnDkJl7g9IZQ8NjAPcqYAIttsGcmlg9LnHTnLrJSruFwGL5HXKlDbWDwC07XsiQLSfQMnwEXqP59YbmP6mthldAy/CcKhmt6WBk9FNGLf+qYvoj30zvUDnrL3HLAYkQi9Sp0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FvrBe+VI; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768294597; x=1799830597;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=6WJv5wOmbnGAdxnILkjXuLeOO9AOEkzFRA0Fj9fB3uM=;
-  b=FvrBe+VIoKdpUi/giBWIuDizvBurneTbaW9ab9JRg4NvQZTRfs9Imn3y
-   HFFDhTqeR/tIwsh5hWOw/KGa5Qkx1KDONE2a4oVjn5coOZW+S4TO52lQY
-   h2LFUQaW1pVXG6d6aDgnEKLEjiUUMEXZd53Zgu6AGW5mZL1IS730lkkq7
-   T+fX7K3RVKN7CbnS2FUfUHf9wi4ToMOpFZ6c9j6p3xYupCw27DXP1zzZk
-   RErcRx/Bvgg0d3+MAhA5KOq8uz6w3U3xSzW1iu8EEA/691UxEt74U7Gz7
-   sgULR0eCLCApr1sQvIG1G/KV15L1FbUzqaEEVMr6VudvLQ4WnPp5rRw5G
-   Q==;
-X-CSE-ConnectionGUID: wquteVXJSmaAfkRpPvCg2Q==
-X-CSE-MsgGUID: WcyTjVttSQGTbIei1J2F4A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11669"; a="69496655"
-X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; 
-   d="scan'208";a="69496655"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2026 00:56:35 -0800
-X-CSE-ConnectionGUID: 9dRzuddcT9y8SNg/LO+vpg==
-X-CSE-MsgGUID: F1arcZGoSxWx7EddxO4SPg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; 
-   d="scan'208";a="203967782"
-Received: from dhhellew-desk2.ger.corp.intel.com (HELO localhost) ([10.245.245.177])
-  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2026 00:56:33 -0800
-Date: Tue, 13 Jan 2026 10:56:31 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Subject: Re: [PATCH v2 0/5] Input: gpio_decoder - update driver to use modern
- APIs
-Message-ID: <aWYIvwWcGLImkYUv@smile.fi.intel.com>
-References: <20251113154616.3107676-1-andriy.shevchenko@linux.intel.com>
+	s=arc-20240116; t=1768296371; c=relaxed/simple;
+	bh=ivCyF7mZvnBU9CvEMY4sUaGB0sLQyuwJPMiWcknREsM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WQ9ZrUOSnGc6fz2pvx4KN2QALt2C5sdo9VhWmv2F5Bt1oP44TjdKoGHpvvklnbdYRmrt2Vr9UrNNm+rKIj+dLu3mGq4QGSEqbFYmTolIw0bQhHv7K3LZZaFglV4iE/1HDbvbW2nI8sceTgC1onkBKJbQ/jpcPL3X9THwpd8cnzc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hadess.net; spf=pass smtp.mailfrom=hadess.net; arc=none smtp.client-ip=217.70.178.249
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hadess.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hadess.net
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
+	by mslow3.mail.gandi.net (Postfix) with ESMTP id 9105A580EDB;
+	Tue, 13 Jan 2026 09:26:03 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 72C3E4336F;
+	Tue, 13 Jan 2026 09:25:55 +0000 (UTC)
+From: Bastien Nocera <hadess@hadess.net>
+To: linux-input@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+	Bastien Nocera <hadess@hadess.net>
+Subject: [PATCH v2 00/11] HID: Use pm_*ptr instead of #ifdef CONFIG_PM*
+Date: Tue, 13 Jan 2026 10:24:48 +0100
+Message-ID: <20260113092546.265734-1-hadess@hadess.net>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251113154616.3107676-1-andriy.shevchenko@linux.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Transfer-Encoding: 8bit
+X-GND-Sasl: hadess@hadess.net
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdduudelleehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvfevufffkffoggfgsedtkeertdertddtnecuhfhrohhmpeeurghsthhivghnucfpohgtvghrrgcuoehhrgguvghssheshhgruggvshhsrdhnvghtqeenucggtffrrghtthgvrhhnpeffteektdejuddvhfdtfedtvdetgeeileethfetgfdtheekvefgueeifffhvefhfeenucfkphepvdgrtddumegvfeegmegvtgejfeemtghfvddtmegsrgegfeemrgeijeeimegtvdgufeemjegrheefnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddumegvfeegmegvtgejfeemtghfvddtmegsrgegfeemrgeijeeimegtvdgufeemjegrheefpdhhvghlohepohhlihhmphhitgdpmhgrihhlfhhrohhmpehhrgguvghssheshhgruggvshhsrdhnvghtpdhqihgupeejvdevfefggeeffeeihfdpmhhouggvpehsmhhtphhouhhtpdhnsggprhgtphhtthhopeehpdhrtghpthhtoheplhhinhhugidqihhnphhuthesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehjihhkohhssehkvghrnhgvlhdro
+ hhrghdprhgtphhtthhopegsvghnjhgrmhhinhdrthhishhsohhirhgvshesrhgvughhrghtrdgtohhmpdhrtghpthhtohephhgruggvshhssehhrgguvghsshdrnhgvth
+X-GND-State: clean
+X-GND-Score: -100
 
-On Thu, Nov 13, 2025 at 04:44:41PM +0100, Andy Shevchenko wrote:
-> Update gpio_decoder driver to use modern in-kernel APIs.
+Changes since v1:
+- Fixed most patches to build
+- Removed surface patch
 
-Any news here? It was sent 2 month ago!
+All changes were compiled successfully with CONFIG_PM disabled.
+
+Bastien Nocera (11):
+  HID: hid-alps: Use pm_ptr instead of #ifdef CONFIG_PM
+  HID: appletb-kbd: Use pm_ptr instead of #ifdef CONFIG_PM
+  HID: asus: Use pm_ptr instead of #ifdef CONFIG_PM
+  HID: lenovo: Use pm_ptr instead of #ifdef CONFIG_PM
+  HID: logitech-dj: Use pm_ptr instead of #ifdef CONFIG_PM
+  HID: nintendo: Use pm_ptr instead of #ifdef CONFIG_PM
+  HID: picolcd_core: Use pm_ptr instead of #ifdef CONFIG_PM
+  HID: hid-sensor-hub: Use pm_ptr instead of #ifdef CONFIG_PM
+  HID: uclogic: Use pm_ptr instead of #ifdef CONFIG_PM
+  HID: wacom: Use pm_ptr instead of #ifdef CONFIG_PM
+  HID: sony: Use pm_ptr instead of #ifdef CONFIG_PM
+
+ drivers/hid/hid-alps.c         |  6 ++----
+ drivers/hid/hid-appletb-kbd.c  |  8 ++------
+ drivers/hid/hid-asus.c         |  6 ++----
+ drivers/hid/hid-lenovo.c       |  6 +-----
+ drivers/hid/hid-logitech-dj.c  |  6 +-----
+ drivers/hid/hid-nintendo.c     | 11 ++---------
+ drivers/hid/hid-picolcd_core.c | 10 +++-------
+ drivers/hid/hid-sensor-hub.c   | 10 +++-------
+ drivers/hid/hid-sony.c         | 12 +++---------
+ drivers/hid/hid-uclogic-core.c |  8 ++------
+ drivers/hid/wacom_sys.c        |  8 ++------
+ 11 files changed, 23 insertions(+), 68 deletions(-)
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.52.0
 
 
