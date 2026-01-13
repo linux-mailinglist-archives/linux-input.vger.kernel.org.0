@@ -1,79 +1,79 @@
-Return-Path: <linux-input+bounces-17066-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-17067-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 996FCD1B42D
-	for <lists+linux-input@lfdr.de>; Tue, 13 Jan 2026 21:42:23 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 38FB9D1B75E
+	for <lists+linux-input@lfdr.de>; Tue, 13 Jan 2026 22:43:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id AE391300A875
-	for <lists+linux-input@lfdr.de>; Tue, 13 Jan 2026 20:39:41 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 356D43035A87
+	for <lists+linux-input@lfdr.de>; Tue, 13 Jan 2026 21:43:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E16293033FC;
-	Tue, 13 Jan 2026 20:39:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6AFB030EF87;
+	Tue, 13 Jan 2026 21:43:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VuiKHgIr"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XX5fxWYo"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FCCE276051
-	for <linux-input@vger.kernel.org>; Tue, 13 Jan 2026 20:39:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 202B734AAFB
+	for <linux-input@vger.kernel.org>; Tue, 13 Jan 2026 21:43:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768336780; cv=none; b=lQITNWy8Ve+vNbQtZ2gYy3H78vJcwb8BsBVpYaPeNLBgbbm40w3F1YYauTjxgHqfyHPpnnxHpblSmu5S4i6M09ctqNGzCsse4UAE9yoYJ5TMs5KK47y86jXASh3z9/gwKSp51hiMKSu6C7mXT3zqj4NwjUQu7w3JvYzQc6yh2dw=
+	t=1768340637; cv=none; b=GjfR4zN5tNlzzYiSDDWJlS8MoQoG6FSlB425mHNhjieoWJ4aZapiuVS8g1BeYXHxRqbmDNGc7JD/uQ/XXAKHRxI27y4o85199rGrNZdN1y5jMDbFgni7WxM4vAsyg7rG5BX/X568UQTxMcoOGUb3iTnygzfOadaKBIgXJ3T6Qso=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768336780; c=relaxed/simple;
-	bh=5G/+O4AfoFl7Mun62PXu7YMTfSDOOK90wf7hCG0XoWM=;
+	s=arc-20240116; t=1768340637; c=relaxed/simple;
+	bh=7bsUtiUgKGUde2s0C0zgl5rK6a734yalkgEEbvzprU8=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Na9ekpbLFK1TY5wMjOQJv1qQGeJq1XUCVN4ofLmTnFE0uB4azgibkegPMA5MN+gkbyO2aVUPHJJ3YLy8NsOftLJ/335AQ95Vfni7KOBQAGSfPpSJ1T6F9vNXBBThmBCxIRgXjOz6oIerPPnV3AvMhtxDVZ8UfcNETjNPErmN3lc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VuiKHgIr; arc=none smtp.client-ip=209.85.214.173
+	 Content-Type:MIME-Version; b=dM7LKexbZnFo+kRvlPi4DRQxcqlathMbhXpIYm8ZHyF32VxjbuvtufcWsNVN5EqTRxu/M7C3JYM4NHw45OrT9ZMQ6GtTRqjWKX2+//Xxc3DQSXXKrpFSHFa0XJhfFJTSj85AMQud+e4jPdQPigDNfWQAr5g/nLOzlsFyt8AuB3I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XX5fxWYo; arc=none smtp.client-ip=209.85.216.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2a0d6f647e2so79488875ad.1
-        for <linux-input@vger.kernel.org>; Tue, 13 Jan 2026 12:39:39 -0800 (PST)
+Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-34c5f0222b0so4378679a91.3
+        for <linux-input@vger.kernel.org>; Tue, 13 Jan 2026 13:43:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768336779; x=1768941579; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1768340635; x=1768945435; darn=vger.kernel.org;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=vuKJVwdXdLFoBFmdbdguCpeTwBYgUktjFchgdX5Irfo=;
-        b=VuiKHgIrGqdniq6cfe8yQe1Ae2YdksGWyylrbInAtjq3QwVSaARsjPohyPcG97stx9
-         iSEZY3mG3EYygxV7m9g3+Bnse0KOW8UeBiJApkXXPuEqe8HkOuyzvJ+qOQ6M/C+cJtcR
-         kwfAQsKSEUX5N8rNvHNNslbDBgs3X8V9lNFKMiYIe/yiJL75eOH+M6kwe0WimgSjVRNY
-         IZ5DLoEi8E+/efVAeJ/KRQEX9USeRQJ7hNW6rlLsHlPR8xFx6BqA2v+9rTnuzgEeNcTx
-         pNnX5kO5VUMNWPh+dWFWsOX30cTbX6GVKs1AD/zf/Ooa93CH2WFIk91PHxQoB0jtIsaR
-         6djA==
+        bh=PYn6o6R3QSwAggtOWvfLgCyBT+NI/AbWRIt35aBXUGU=;
+        b=XX5fxWYoh2zuqsT9qzsPCHUujkkeQZyAzxHK+I2nP09zSGwNtSLXyx712YM1O+R0GS
+         nq53ErMS8IL9xqWq4SQWyECVwrJvBcJHP4tDYi86PsuSbLwalkjuEcmFZIbD6F93iI+M
+         RPPvZlFNl5lQZjmV1j7EugBLknfHTh3mi1MRzesiXdO6sRKkT/cV4Yypr6wRfenOqIw/
+         SD0oWFN0rN1L77mHgc+ZUvRSecUN9GD/szZ8ZlKfwBvZuIvbXVHbk77VnllE5k2EiCSa
+         /TrLMO08tV1mdktmTlI0Ak4ZN4MlhVQCMtdVUH2O+QtWhGYc8A2rl/N3ZZzMzxdMgD9P
+         bX1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768336779; x=1768941579;
+        d=1e100.net; s=20230601; t=1768340635; x=1768945435;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=vuKJVwdXdLFoBFmdbdguCpeTwBYgUktjFchgdX5Irfo=;
-        b=IjoE3kfuOlOSXRhP3iUzVlpL29JLW0bgBvGZHjSHHC7yE21okknwrqS2NjQvwy7Za4
-         Tv2XCwMIrQsJEiKhtwnSFkoYEaPzQgKNr5txKnGkLtlrN1nx2Kn+yapqYjQRp1XmaTUN
-         oHij9QFFxffvBA9K56JkvEQOWP6MdFczSM5Qb5OQfGcuYfvO77N5i6JhZGESSK6y6JUc
-         CW2F+bIKBqSp41Hb+Kxi2GshZ4JE4OsovsrQ42ER+kXFtuxaeCnJ5+hDA/2etUVi4He4
-         yfCJWe41pj0xE87SKAgAhDUZe3HLcfzpcz1cHS7AH/CPMjd3Mdg36k88Mp/37cH9K4F/
-         DKnw==
-X-Forwarded-Encrypted: i=1; AJvYcCWruSnh4BP5xVYtX0eXM4etxesE05gpr9UTIwGAgOYicH4jHZhSxU3OTC1vnvbzZBXT6pEa6iM+w8WfQg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyw7F5Q4ygLavFFObd4BKtPh/+5j+zEkT2JGu6CmIexanKXC+Un
-	TmBc+44Kk92YAc9zadxfgxeh+L2EBco2j7SRu0DquMYIikynp8MmwB7g
-X-Gm-Gg: AY/fxX5XIadGq8nphw61+e/Cp1hnh3RstSEYMbAhLwW4xSEnEVgh06kppE6+VEdTwMI
-	uo6aKArIFcCw2IU/FQBCzRibTVGMmemZw2g4gdK3rIdL4k41AHDY3cSFBntdTGVEsTnAcjhklgL
-	35Tac4Ahq5jGi9RGIwYoaJ1La/Nlgw9XiTQ5ji/9Rtcs4oIK5oNgBe5OqHKfjxYyFpKu/sW5Isp
-	9Fk3kcK4tYXPUwHXLWyLkGHQ/pfhivymb8zE1YTm2eqIUQkPx8Uo69nyij1aXkaSISB9aBUzE7O
-	dPtpFbmYKK6uda/5vho/6QYy6XwGhZ/es1Mo76JX3pA+Z7tweyJ0kBXNeA1b+v2HsbNFs0jVGOX
-	8O54fRCdsLHCJDMDS/5FWBHKUelG9Si0bAK+PtHkmeDUCddOLTtoKcEdSpvX6Z9cjsNwlEWQBsj
-	7at+D0dhtthBC6h7aJQL2eK2FTjknjqXCA1BfvpA2a
-X-Received: by 2002:a17:902:f651:b0:2a3:bf5f:926c with SMTP id d9443c01a7336-2a599e3434fmr3125395ad.39.1768336778822;
-        Tue, 13 Jan 2026 12:39:38 -0800 (PST)
+        bh=PYn6o6R3QSwAggtOWvfLgCyBT+NI/AbWRIt35aBXUGU=;
+        b=m7qVhqlZOUMUQ7tzMr6zneLZvuCocIlUzu+WbCBIxyGC2W3gY6HxhR4jvronnP78OY
+         QerAaRm2OFiGE0TtcDYkLgpVZjSjrDBTRcXuYEadN1igd22p5POTAj4ZqBfb6tmnUP25
+         3qff5bua77zaQ44iO7J0cuYsPYMoN1ERjW21krEDbG/eBonmbq2fZct1UpU8Xuwj+dQF
+         2dhegBiDr/f/iyJrW7tMN3zYKgltcefxQpYMQUhxwCsGh3SVv1pxSJeultBAKXKRJetg
+         lxfRvix5g7Jf4P0Ci2m8uY4m0QmXRPiM9kfSkCRonaDWAJ6kCXdck5siFrkm4I21gwtM
+         JZlQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVxqfbQVfH/Rk4EFA5FV4ZQtj1pmh7FwKPlwkSkUdpPTGfQs+0hFVisE4L6KSRbzSbEPQ+uvohsoM+eGQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzmS196F2PCXZwXmYzM1mT9Cv0BRHSb86RWxNf8plKtl6ey7l52
+	KjByLo5za8Yhhap9oGlmtcReYLKNJjtdNTINAZLvpUoGZDiZotS1cR0L
+X-Gm-Gg: AY/fxX7NqeQqJ4hJnPRo5q9DB2+Cxe/BtdJzWvbPFmfjBDlh+LwEp/Dkny1RBBR1aQE
+	Vj7TNBjqXXHAlEirIyPp1LY3ufg+QOyeMo4t3Ao7+UovcODaHzdRp7+nCSUf4z5561YwUIbtGjb
+	1FzsGKD1f6tRbB8XEG4d01SlXQUvVflWDRAptM9sDEdtiPiCbpZaYIIR6tDkusRLqhc9mI1Ym0V
+	xlUOsPsNT4IqWv7bEj2ndvwUeUYDdNTTzBH/qELze/MtmChRlXL4swgAIbGB1qEvSEVuUzIc0yj
+	sD96jlT/dl4GxWv6Qnf2WJsr9oLy+/V3tLivy8QIfrtAWPvFlca/dTiKWirkBBKuMS/yt9Zu91/
+	44Xz4Bzo4YIg/gI+oR8eZEH0CjIaeiM3o1NP63RRFAmOpylBmSWHZgKSDJnlLnDVMhUFHiN/MKR
+	VncbUWaLqAZ71+IfA9sGSyekDS5vn0t84KJDzAoN3H
+X-Received: by 2002:a17:90b:2e8b:b0:343:7714:4caa with SMTP id 98e67ed59e1d1-35109086381mr473677a91.3.1768340635072;
+        Tue, 13 Jan 2026 13:43:55 -0800 (PST)
 Received: from [192.168.0.226] ([38.34.87.7])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c4cbf28f6cdsm20541766a12.6.2026.01.13.12.39.37
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-351068fe22esm364539a91.2.2026.01.13.13.43.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Jan 2026 12:39:38 -0800 (PST)
-Message-ID: <952853dd064d5303a7e7ec8e58028e9ee88f2fad.camel@gmail.com>
-Subject: Re: [PATCH bpf-next v1 03/10] bpf: Verifier support for
- KF_IMPLICIT_ARGS
+        Tue, 13 Jan 2026 13:43:54 -0800 (PST)
+Message-ID: <6a9a60f292e3ce862accd782bd43f8dc2491bca4.camel@gmail.com>
+Subject: Re: [PATCH bpf-next v1 01/10] bpf: Refactor
+ btf_kfunc_id_set_contains
 From: Eduard Zingerman <eddyz87@gmail.com>
 To: Ihor Solodrai <ihor.solodrai@linux.dev>, Alexei Starovoitov
  <ast@kernel.org>,  Andrii Nakryiko <andrii@kernel.org>, Daniel Borkmann
@@ -83,10 +83,10 @@ Cc: Mykyta Yatsenko <yatsenko@meta.com>, Tejun Heo <tj@kernel.org>, Alan
  Jiri Kosina	 <jikos@kernel.org>, bpf@vger.kernel.org,
  linux-kernel@vger.kernel.org, 	linux-input@vger.kernel.org,
  sched-ext@lists.linux.dev
-Date: Tue, 13 Jan 2026 12:39:35 -0800
-In-Reply-To: <20260109184852.1089786-4-ihor.solodrai@linux.dev>
+Date: Tue, 13 Jan 2026 13:43:51 -0800
+In-Reply-To: <20260109184852.1089786-2-ihor.solodrai@linux.dev>
 References: <20260109184852.1089786-1-ihor.solodrai@linux.dev>
-	 <20260109184852.1089786-4-ihor.solodrai@linux.dev>
+	 <20260109184852.1089786-2-ihor.solodrai@linux.dev>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.58.2 (3.58.2-1.fc43) 
@@ -98,91 +98,98 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 
 On Fri, 2026-01-09 at 10:48 -0800, Ihor Solodrai wrote:
-> A kernel function bpf_foo marked with KF_IMPLICIT_ARGS flag is
-> expected to have two associated types in BTF:
->   * `bpf_foo` with a function prototype that omits implicit arguments
->   * `bpf_foo_impl` with a function prototype that matches the kernel
->      declaration of `bpf_foo`, but doesn't have a ksym associated with
->      its name
+> btf_kfunc_id_set_contains() is called by fetch_kfunc_meta() in the BPF
+> verifier to get the kfunc flags stored in the .BTF_ids ELF section.
+> If it returns NULL instead of a valid pointer, it's interpreted as an
+> illegal kfunc usage failing the verification.
 >=20
-> In order to support kfuncs with implicit arguments, the verifier has
-> to know how to resolve a call of `bpf_foo` to the correct BTF function
-> prototype and address.
+> There are two potential reasons for btf_kfunc_id_set_contains() to
+> return NULL:
 >=20
-> To implement this, in add_kfunc_call() kfunc flags are checked for
-> KF_IMPLICIT_ARGS. For such kfuncs a BTF func prototype is adjusted to
-> the one found for `bpf_foo_impl` (func_name + "_impl" suffix, by
-> convention) function in BTF.
+>   1. Provided kfunc BTF id is not present in relevant kfunc id sets.
+>   2. The kfunc is not allowed, as determined by the program type
+>      specific filter [1].
 >=20
-> This effectively changes the signature of the `bpf_foo` kfunc in the
-> context of verification: from one without implicit args to the one
-> with full argument list.
+> The filter functions accept a pointer to `struct bpf_prog`, so they
+> might implicitly depend on earlier stages of verification, when
+> bpf_prog members are set.
 >=20
-> Whether a kfunc argument is implicit or not is determined by
-> is_kfunc_arg_implicit(). The values of implicit arguments by design
-> are provided by the verifier, and so they can only be of particular
-> types. In this patch the only allowed implicit arg type is a pointer
-> to struct bpf_prog_aux. The __prog args (usually void *) are also
-> considered implicit for backwards compatibility.
+> For example, bpf_qdisc_kfunc_filter() in linux/net/sched/bpf_qdisc.c
+> inspects prog->aux->st_ops [2], which is initialized in:
 >=20
-> In order to enable the verifier to correctly set an implicit
-> bpf_prog_aux arg value at runtime, is_kfunc_arg_prog() is extended to
-> check for the arg type. At a point when prog arg is determined in
-> check_kfunc_args() the kfunc with implicit args already has a
-> prototype with full argument list, so the existing value patch
-> mechanism just works.
+>     check_attach_btf_id() -> check_struct_ops_btf_id()
 >=20
-> If a new kfunc with KF_IMPLICIT_ARG is declared for an existing kfunc
-> that uses a __prog argument (a legacy case), the prototype
-> substitution works in exactly the same way, assuming the kfunc follows
-> the _impl naming convention. The difference is only in how _impl
-> prototype is added to the BTF, which is not the verifier's
-> concern. See a subsequent resolve_btfids patch for details.
+> So far this hasn't been an issue, because fetch_kfunc_meta() is the
+> only caller of btf_kfunc_id_set_contains().
 >=20
-> In check_kfunc_call() reset the subreg_def of registers holding
-> implicit arguments to correctly track zero extensions.
+> However in subsequent patches of this series it is necessary to
+> inspect kfunc flags earlier in BPF verifier, in the add_kfunc_call().
+>=20
+> To resolve this, refactor btf_kfunc_id_set_contains() into two
+> interface functions:
+>   * btf_kfunc_flags() that simply returns pointer to kfunc_flags
+>     without applying the filters
+>   * btf_kfunc_is_allowed() that both checks for kfunc_flags existence
+>     (which is a requirement for a kfunc to be allowed) and applies the
+>     prog filters
+>=20
+> See [3] for the previous version of this patch.
+>=20
+> [1] https://lore.kernel.org/all/20230519225157.760788-7-aditi.ghag@isoval=
+ent.com/
+> [2] https://lore.kernel.org/all/20250409214606.2000194-4-ameryhung@gmail.=
+com/
+> [3] https://lore.kernel.org/bpf/20251029190113.3323406-3-ihor.solodrai@li=
+nux.dev/
 >=20
 > Signed-off-by: Ihor Solodrai <ihor.solodrai@linux.dev>
 > ---
 
-Overall lgtm.
+Reviewed-by: Eduard Zingerman <eddyz87@gmail.com>
 
-[...]
-
-> diff --git a/kernel/bpf/verifier.c b/kernel/bpf/verifier.c
-
-[...]
-
-> @@ -14303,6 +14358,17 @@ static int check_kfunc_call(struct bpf_verifier_=
-env *env, struct bpf_insn *insn,
->  	for (i =3D 0; i < nargs; i++) {
->  		u32 regno =3D i + 1;
+> @@ -8715,6 +8730,26 @@ static int bpf_prog_type_to_kfunc_hook(enum bpf_pr=
+og_type prog_type)
+>  	}
+>  }
 > =20
-> +		/*
-> +		 * Implicit kfunc arguments are set after main verification pass.
-> +		 * For correct tracking of zero-extensions we have to reset subreg_def=
- for such
-> +		 * args. Otherwise mark_btf_func_reg_size() will be inspecting subreg_=
-def of regs
-> +		 * from an earlier (irrelevant) point in the program, which may lead t=
-o an error
-> +		 * in opt_subreg_zext_lo32_rnd_hi32().
-> +		 */
-> +		if (unlikely(KF_IMPLICIT_ARGS & meta.kfunc_flags
-> +				&& is_kfunc_arg_implicit(desc_btf, &args[i])))
-> +			regs[regno].subreg_def =3D DEF_NOT_SUBREG;
+> +bool btf_kfunc_is_allowed(const struct btf *btf,
+> +			  u32 kfunc_btf_id,
+> +			  const struct bpf_prog *prog)
+> +{
+
+Nit: I'd just add hook parameter to btf_kfunc_flags():
+
+     u32 *btf_kfunc_flags(const struct btf *btf, u32 kfunc_btf_id, const st=
+ruct bpf_prog *prog,
+                          enum btf_kfunc_hook *hook)
+
+     and allow passing NULL there, thus avoiding duplicating logic for comm=
+on hook.
+
+> +	enum bpf_prog_type prog_type =3D resolve_prog_type(prog);
+> +	enum btf_kfunc_hook hook;
+> +	u32 *kfunc_flags;
 > +
+> +	kfunc_flags =3D btf_kfunc_id_set_contains(btf, BTF_KFUNC_HOOK_COMMON, k=
+func_btf_id);
+> +	if (kfunc_flags && __btf_kfunc_is_allowed(btf, BTF_KFUNC_HOOK_COMMON, k=
+func_btf_id, prog))
+> +		return true;
+> +
+> +	hook =3D bpf_prog_type_to_kfunc_hook(prog_type);
+> +	kfunc_flags =3D btf_kfunc_id_set_contains(btf, hook, kfunc_btf_id);
+> +	if (kfunc_flags && __btf_kfunc_is_allowed(btf, hook, kfunc_btf_id, prog=
+))
+> +		return true;
+> +
+> +	return false;
+> +}
+> +
+>  /* Caution:
+>   * Reference to the module (obtained using btf_try_get_module) correspon=
+ding to
+>   * the struct btf *MUST* be held when calling this function from verifie=
+r
 
-Did you try doing this in `mark_reg_not_init()`?
-This function is called for R1-R5 some time prior this hunk.
-What I don't like from structural point of view is:
-- `is_kfunc_arg_implicit()` depends on KF_IMPLICIT_ARGS, but that
-  check is done externally. Hence, the naming is misleading or 'meta'
-  should be passed to `is_kfunc_arg_implicit()`.
-- doing DEF_NOT_SUBREG logically has not much to do with implicit args,
-  so it is a bit confusing that is pre-conditioned like that.
-
->  		t =3D btf_type_skip_modifiers(desc_btf, args[i].type, NULL);
->  		if (btf_type_is_ptr(t))
->  			mark_btf_func_reg_size(env, regno, sizeof(void *));
+[...]
 
