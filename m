@@ -1,74 +1,71 @@
-Return-Path: <linux-input+bounces-17017-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-17018-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DEFCD1746D
-	for <lists+linux-input@lfdr.de>; Tue, 13 Jan 2026 09:26:11 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CC1DD17497
+	for <lists+linux-input@lfdr.de>; Tue, 13 Jan 2026 09:29:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 9B6D3300D43D
-	for <lists+linux-input@lfdr.de>; Tue, 13 Jan 2026 08:24:54 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 48862301A238
+	for <lists+linux-input@lfdr.de>; Tue, 13 Jan 2026 08:29:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF03137FF76;
-	Tue, 13 Jan 2026 08:24:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4FD9C3803C1;
+	Tue, 13 Jan 2026 08:28:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RuwPhcU3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b8ukBL3A"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF9DC3644C6;
-	Tue, 13 Jan 2026 08:24:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B965037FF54;
+	Tue, 13 Jan 2026 08:28:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768292693; cv=none; b=P28ZTSUCuF1yJBc6BpDgWvjt/xAHzo74PHli5QVA8pybDAYZkmOcjRPEIKqz5UUW98wsEIIJYJuBt59yFU3dXj02NpA3e1OnvV44f1uxMNnvj/0OupT2wU4hw8lCOryFnCZr+m9UYSw9w72wNiHwhslHUTYQDtwP/z1kHXfEntA=
+	t=1768292935; cv=none; b=pd1uSYINNFFtNkK+88AQNu6pLatjqbWZVlNHYHvg6Mcnxk9FRGJ8/0t3f0npHY4d+6sZxfJR3Xuv9v6ofR8gp2WG9CB9hnDk2Co4ieudLH7msbBL+0LjKhEdIOnMXQao60Yo7nUajHViXufpQGekE+GhnxPbota4zV1S6cQ3pbM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768292693; c=relaxed/simple;
-	bh=7VYHBNdfJRI/4r3wGlZlrY7u9q+KbI+duuDtsnpaLz4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=H3l5hQ7K+V407jFaqXM0/F24rZ1V8wlH2ZUINGUSRhcxm7S+Q18rdIz7WWRcVhMrBB6vI74S3DUMkI7LTCElDPsUCTUHeEPL61YzT24SYXG7TurAtNlTSkQmNlJqnYGvPosBgoiyhEhqOE622vNgb9m1HIvDRGm7/qrHKYs+tws=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RuwPhcU3; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1768292935; c=relaxed/simple;
+	bh=F64ihPYES4zDFtyI89XSKE5LW4iYMmb30yngozrBK1I=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=E/OK0GpVnkw0218BcNvAEK+ATcUossTTYNsvqLUFUMosJnhp6oqr3RcWMIiqpM4hlMvM5nUb/CSNlkZl26TzTZ1JNj7q6ZXGF4UzlgRyPsuG79KjoKkJh+PmwPecWYbkhdCkRfiqvJhhFLB5k6dxVdmkIXlOrsMKA9OW+LJsG88=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b8ukBL3A; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768292691; x=1799828691;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=7VYHBNdfJRI/4r3wGlZlrY7u9q+KbI+duuDtsnpaLz4=;
-  b=RuwPhcU3NTRVJwqDy1UVx/tCXjyX2x+00iqQqV5SNS/D+aktl6+vr7td
-   RXgYurRh/2pFX3NAzt6hgAE330DeMkb8lVypBK4KTULgzQ6+/7PWGYCM8
-   oOYiDUu1YBBUUTD/+GW0vXz+7a0ecnjJIzxLxZQfp+d34ZuSrOn5ZFM+S
-   pqFVLAGycO5S1ppMMF2fzrpXPe3VZ1l/RsZDplcrNzjJlOlYgu1i5oJ57
-   +PfhqTfxAnmaTYfc04Vfmz/0FaF56c6/KdBMjw1tNzwLtYexdPPPBFadL
-   8MbHnGdSzMao7rTzT44UwfBfLTwaaje2GoE+eMxznPyeJZ+OAYI5+rgw9
+  t=1768292934; x=1799828934;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=F64ihPYES4zDFtyI89XSKE5LW4iYMmb30yngozrBK1I=;
+  b=b8ukBL3AY0p0789jlRSDRtQJ+BwNOkh0kg/9hoGWsGNgUxY5tVl9ekIH
+   IRVWE/k9if9+aW1XXrG9JN6y5FK1SjYXRAwYBuhOv8ewxkkOS8wT+PdT0
+   n0wpzch97WcbT0/IrvDCsHlGxiYvV2EcBzgHGJYR6Hkqo89J9epS94UL7
+   ucUF/xtrG6Cn4lYbm72gE+w3lIcR5lFYv5Jbdt+A1qroVGq9hcJNDe6Ok
+   x3psDJWUbgYhqVaU8mIMh3z5gI8nrSvM4iAVVTkOkFRyRAOIAXgWf4svW
+   vum2CIip+uKpLCJdILPQn5WcUjw4klCjmw+DakB6kohJcAU0hSGpg4QOn
    g==;
-X-CSE-ConnectionGUID: n420hJJVRU6eUmKSsUTIcg==
-X-CSE-MsgGUID: k/9lJEL5SYWXJsv4L4QE6g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11669"; a="86988109"
+X-CSE-ConnectionGUID: E+dkINiJSIWc9HjM0QdN8Q==
+X-CSE-MsgGUID: rzwgjolfQSKgxJbP+e1JmA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11669"; a="69732334"
 X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; 
-   d="scan'208";a="86988109"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2026 00:24:51 -0800
-X-CSE-ConnectionGUID: fybJbI9zTTahWXeZQni/9w==
-X-CSE-MsgGUID: YCZBGhswRlq+4vC1QMWNIA==
+   d="scan'208";a="69732334"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2026 00:28:52 -0800
+X-CSE-ConnectionGUID: YObtA8XBRjO2GVJhu7p3xg==
+X-CSE-MsgGUID: yUiXqvQpQBq5/RbMJBzwIg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; 
-   d="scan'208";a="203479204"
+   d="scan'208";a="204218972"
 Received: from black.igk.intel.com ([10.91.253.5])
-  by orviesa006.jf.intel.com with ESMTP; 13 Jan 2026 00:24:49 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 13 Jan 2026 00:28:50 -0800
 Received: by black.igk.intel.com (Postfix, from userid 1003)
-	id 71F1199; Tue, 13 Jan 2026 09:24:48 +0100 (CET)
+	id 832F394; Tue, 13 Jan 2026 09:28:49 +0100 (CET)
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
 	linux-input@vger.kernel.org,
 	linux-kernel@vger.kernel.org
 Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Subject: [PATCH v2 2/2] Input: wdt87xx_i2c - switch to use dev_err_probe()
-Date: Tue, 13 Jan 2026 09:22:58 +0100
-Message-ID: <20260113082445.44186-3-andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v1 1/1] Input: dynapro - switch to use scnprintf() to suppress truncation warning
+Date: Tue, 13 Jan 2026 09:28:45 +0100
+Message-ID: <20260113082845.83550-1-andriy.shevchenko@linux.intel.com>
 X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20260113082445.44186-1-andriy.shevchenko@linux.intel.com>
-References: <20260113082445.44186-1-andriy.shevchenko@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -77,72 +74,27 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Switch to use dev_err_probe() to simplify the error path and
-unify a message template. With that being done, drop the now no-op
-message for -ENOMEM as allocator will print a big warning anyway
-and remove duplicate message for devm_request_threaded_irq().
+Switch the driver to use scnprintf() to avoid warnings about potential
+truncation of "phys" field which we can tolerate.
 
 Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 ---
- drivers/input/touchscreen/wdt87xx_i2c.c | 24 +++++++-----------------
- 1 file changed, 7 insertions(+), 17 deletions(-)
+ drivers/input/touchscreen/dynapro.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/input/touchscreen/wdt87xx_i2c.c b/drivers/input/touchscreen/wdt87xx_i2c.c
-index 99636d6eb0f3..3bf899fe615c 100644
---- a/drivers/input/touchscreen/wdt87xx_i2c.c
-+++ b/drivers/input/touchscreen/wdt87xx_i2c.c
-@@ -1033,10 +1033,8 @@ static int wdt87xx_ts_create_input_device(struct wdt87xx_data *wdt)
- 	int error;
+diff --git a/drivers/input/touchscreen/dynapro.c b/drivers/input/touchscreen/dynapro.c
+index fe626a226b85..00d18823a059 100644
+--- a/drivers/input/touchscreen/dynapro.c
++++ b/drivers/input/touchscreen/dynapro.c
+@@ -119,7 +119,7 @@ static int dynapro_connect(struct serio *serio, struct serio_driver *drv)
  
- 	input = devm_input_allocate_device(dev);
--	if (!input) {
--		dev_err(dev, "failed to allocate input device\n");
-+	if (!input)
- 		return -ENOMEM;
--	}
- 	wdt->input = input;
+ 	pdynapro->serio = serio;
+ 	pdynapro->dev = input_dev;
+-	snprintf(pdynapro->phys, sizeof(pdynapro->phys),
++	scnprintf(pdynapro->phys, sizeof(pdynapro->phys),
+ 		 "%s/input0", serio->phys);
  
- 	input->name = "WDT87xx Touchscreen";
-@@ -1060,16 +1058,15 @@ static int wdt87xx_ts_create_input_device(struct wdt87xx_data *wdt)
- 			    INPUT_MT_DIRECT | INPUT_MT_DROP_UNUSED);
- 
- 	error = input_register_device(input);
--	if (error) {
--		dev_err(dev, "failed to register input device: %d\n", error);
--		return error;
--	}
-+	if (error)
-+		return dev_err_probe(dev, error, "failed to register input device\n");
- 
- 	return 0;
- }
- 
- static int wdt87xx_ts_probe(struct i2c_client *client)
- {
-+	struct device *dev = &client->dev;
- 	struct wdt87xx_data *wdt;
- 	int error;
- 
-@@ -1099,16 +1096,9 @@ static int wdt87xx_ts_probe(struct i2c_client *client)
- 	if (error)
- 		return error;
- 
--	error = devm_request_threaded_irq(&client->dev, client->irq,
--					  NULL, wdt87xx_ts_interrupt,
--					  IRQF_ONESHOT,
--					  client->name, wdt);
--	if (error) {
--		dev_err(&client->dev, "request irq failed: %d\n", error);
--		return error;
--	}
--
--	return 0;
-+	return devm_request_threaded_irq(dev, client->irq,
-+					 NULL, wdt87xx_ts_interrupt,
-+					 IRQF_ONESHOT, client->name, wdt);
- }
- 
- static int wdt87xx_suspend(struct device *dev)
+ 	input_dev->name = "Dynapro Serial TouchScreen";
 -- 
 2.50.1
 
