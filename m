@@ -1,70 +1,70 @@
-Return-Path: <linux-input+bounces-17023-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-17024-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EE35D174CB
-	for <lists+linux-input@lfdr.de>; Tue, 13 Jan 2026 09:32:30 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id C1979D17501
+	for <lists+linux-input@lfdr.de>; Tue, 13 Jan 2026 09:34:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 834F8302975A
-	for <lists+linux-input@lfdr.de>; Tue, 13 Jan 2026 08:29:47 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id B101B306DBF6
+	for <lists+linux-input@lfdr.de>; Tue, 13 Jan 2026 08:29:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AAD573806B5;
-	Tue, 13 Jan 2026 08:29:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 16A5A3806C9;
+	Tue, 13 Jan 2026 08:29:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dxB2Gumt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aHp1Dp9r"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EF723803CD;
-	Tue, 13 Jan 2026 08:29:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1E423806DA;
+	Tue, 13 Jan 2026 08:29:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768292959; cv=none; b=nm/fpVkMXEbEaDXXtogT+C1pRvGH5YkxnSkPNhtLavnxcHYxf2TaX4U1opmpCJZblwRnXmN3YiaV0+Tc2tCkqX2JZtxn20eabrTZCZ1f2lUkPNSDF29gkxhTfDEgPfjzdRlvmJEojgN2uIiO93quU0S02YHZnEjgpDiAbItMQPs=
+	t=1768292966; cv=none; b=TVm0h3XStl28utHRKWvHzAcmg2dZfFqSnjnJtt2tSZ4pJ89E00VE4Dajrq1+K5KomeuuuIsahXGGTplXpM26QgHBgy/+M0a6CCvk58B7BelN9C+8rbB+6s7dB1dFlzBPENuH+RvbHV9s5NuJJOSjIvYBikY42e4JTqNhV3K0Q10=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768292959; c=relaxed/simple;
-	bh=wc6zhk7dGMy0kcgdQ/2Y5VNXD1F3c9ohYfYeQcPamnU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=iboQ24oB3UBKu2dXRLJcH/808SG95VtTtcI0+R1pvEuGvokpOMasUfRj6tj5ffL0IPFylRktJCCwNlmNnQ1atnHx7ww+QzirnSMKN3I9+Jxt4IzGwCYMQasg+b0nrbdSz2YadyfIZqmOEGlzRSKRr5hTNtja1wA1+GoRZ+njnJQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dxB2Gumt; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1768292966; c=relaxed/simple;
+	bh=hip6hCUmdoGJNvAnvD7pW9hLnM55MEQoxYy97G2ABpQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UY5P3/pNzEwDQGzp3jX462TpPGO6GDVdMauY/hz+DK3GbMK4rhRllvkUza40GAe+ffCD/Iqm5FqMGFoeVBn6DwHth8CtbWt2EXRrWxozHqzETzFTlrKkpZbyq/zDXTXQDOpZwVwHuAJ+/1VxNz1I2P22jhPdTcGw/wfGydmrAeg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aHp1Dp9r; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768292959; x=1799828959;
+  t=1768292965; x=1799828965;
   h=from:to:cc:subject:date:message-id:mime-version:
    content-transfer-encoding;
-  bh=wc6zhk7dGMy0kcgdQ/2Y5VNXD1F3c9ohYfYeQcPamnU=;
-  b=dxB2GumtyPitZsxf86dwAgm+kdktSYj97MsHqp42n++BXbdlynrtcANl
-   BIeLJKXW2c3s74UQaIHHmLGSoT2Yfv3Dbw6Rfp/TV5J2Wd4Wxd/7Uu65Q
-   MLFBLTSRkyFuuzzR0YpreHN6mczRt27dQN6aWU8vzhRBjfBDH+Wtu7Ubb
-   WBKgyWEuA0aj6fjahT+z6p9erVqD/04aETj6ZvnVZdYQA1TGxy5nHX1cp
-   iDLDXcfmZp+BN4MMf8d5JQ88GQ3Hkx6qTcGCub14uzck1UQ6ljumSyr37
-   qgDQYoA063ZIWAPy2ZnF2DRHwqxG1/yN8zi3xt4fs+coJoyyWevhMGe9a
-   g==;
-X-CSE-ConnectionGUID: 7xvakiN3Se6Mobr+MjqETg==
-X-CSE-MsgGUID: y8b4Xy42Qbug3sdRp7/BoA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11669"; a="69732384"
+  bh=hip6hCUmdoGJNvAnvD7pW9hLnM55MEQoxYy97G2ABpQ=;
+  b=aHp1Dp9rq/g+KhThj6Omc9S9VoTlvgPfolQQExH+2RFADE4ND11R5up6
+   EmG9FWf6vY+8g48AYdgu6Df22BFhVRyMxxXZ0dKmbpJYy4Od3MKkPpBL4
+   oQj2tUEovW7IgcDpTEZAbch5GWL5s8Tig+pmxWbLg6+FCUV8tv/RPAhEt
+   dDy25fzve+k12pE8tjO+WgH9vkanIKaR3HP7E7KpnQQ+LGcO5Z3dfl6TM
+   K3u3dLNlGSDPYws0rO/xdPDT/wGIsPbrBvZnLlvCG8v228toKg+6MPYDl
+   g2kLkQpBvjmXuD+5s4MDuemUyN/+vhSz64cgi2GM3YoS36tHaaHarmpW9
+   A==;
+X-CSE-ConnectionGUID: UMTC54HWS7WoLP5yDicdkA==
+X-CSE-MsgGUID: kaNcu6eMQD2gvWVmUhQTDQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11669"; a="86988371"
 X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; 
-   d="scan'208";a="69732384"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2026 00:29:17 -0800
-X-CSE-ConnectionGUID: Y1hhhZNARIm1+mHc7KiXDQ==
-X-CSE-MsgGUID: akvKtgleR6CmNm3CxBN2DA==
+   d="scan'208";a="86988371"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2026 00:29:22 -0800
+X-CSE-ConnectionGUID: F2WG+gLbR+W7TC4lq5QYPg==
+X-CSE-MsgGUID: JtK2TMaQSSqiSHcY2QyY3Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; 
-   d="scan'208";a="204219272"
+   d="scan'208";a="235035193"
 Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa006.fm.intel.com with ESMTP; 13 Jan 2026 00:29:15 -0800
+  by orviesa002.jf.intel.com with ESMTP; 13 Jan 2026 00:29:21 -0800
 Received: by black.igk.intel.com (Postfix, from userid 1003)
-	id 1837494; Tue, 13 Jan 2026 09:29:15 +0100 (CET)
+	id BC9E894; Tue, 13 Jan 2026 09:29:19 +0100 (CET)
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
 	linux-input@vger.kernel.org,
 	linux-kernel@vger.kernel.org
 Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Subject: [PATCH v1 1/1] Input: fujitsu_ts - switch to use scnprintf() to suppress truncation warning
-Date: Tue, 13 Jan 2026 09:29:12 +0100
-Message-ID: <20260113082912.84123-1-andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v1 1/1] Input: inexio - switch to use scnprintf() to suppress truncation warning
+Date: Tue, 13 Jan 2026 09:29:17 +0100
+Message-ID: <20260113082917.85109-1-andriy.shevchenko@linux.intel.com>
 X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
@@ -79,23 +79,22 @@ truncation of "phys" field which we can tolerate.
 
 Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 ---
- drivers/input/touchscreen/fujitsu_ts.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/input/touchscreen/inexio.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/input/touchscreen/fujitsu_ts.c b/drivers/input/touchscreen/fujitsu_ts.c
-index 1a3e14ea2e08..cef2e93c17bc 100644
---- a/drivers/input/touchscreen/fujitsu_ts.c
-+++ b/drivers/input/touchscreen/fujitsu_ts.c
-@@ -108,8 +108,7 @@ static int fujitsu_connect(struct serio *serio, struct serio_driver *drv)
+diff --git a/drivers/input/touchscreen/inexio.c b/drivers/input/touchscreen/inexio.c
+index 82f7ac62a4f2..a7604f2c4e3a 100644
+--- a/drivers/input/touchscreen/inexio.c
++++ b/drivers/input/touchscreen/inexio.c
+@@ -123,7 +123,7 @@ static int inexio_connect(struct serio *serio, struct serio_driver *drv)
  
- 	fujitsu->serio = serio;
- 	fujitsu->dev = input_dev;
--	snprintf(fujitsu->phys, sizeof(fujitsu->phys),
--		 "%s/input0", serio->phys);
-+	scnprintf(fujitsu->phys, sizeof(fujitsu->phys), "%s/input0", serio->phys);
+ 	pinexio->serio = serio;
+ 	pinexio->dev = input_dev;
+-	snprintf(pinexio->phys, sizeof(pinexio->phys), "%s/input0", serio->phys);
++	scnprintf(pinexio->phys, sizeof(pinexio->phys), "%s/input0", serio->phys);
  
- 	input_dev->name = "Fujitsu Serial Touchscreen";
- 	input_dev->phys = fujitsu->phys;
+ 	input_dev->name = "iNexio Serial TouchScreen";
+ 	input_dev->phys = pinexio->phys;
 -- 
 2.50.1
 
