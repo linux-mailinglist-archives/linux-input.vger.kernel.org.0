@@ -1,384 +1,308 @@
-Return-Path: <linux-input+bounces-17058-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-17059-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78170D1A6EC
-	for <lists+linux-input@lfdr.de>; Tue, 13 Jan 2026 17:56:07 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id DFC1AD1A70A
+	for <lists+linux-input@lfdr.de>; Tue, 13 Jan 2026 17:56:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 78DFD302BF45
-	for <lists+linux-input@lfdr.de>; Tue, 13 Jan 2026 16:56:06 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 624B73010BC4
+	for <lists+linux-input@lfdr.de>; Tue, 13 Jan 2026 16:56:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EBBBF34EEED;
-	Tue, 13 Jan 2026 16:56:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3972E34DCFD;
+	Tue, 13 Jan 2026 16:56:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D1lLNe1x"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cyEuYv4Z"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D7F531A04E
-	for <linux-input@vger.kernel.org>; Tue, 13 Jan 2026 16:56:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D1EA1B3925
+	for <linux-input@vger.kernel.org>; Tue, 13 Jan 2026 16:56:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768323364; cv=none; b=Ym9MhX4fljUPasQ74+YvfC5mZtzI7n35IsEVGbXi5dzktE3zXBf199ayst081zFV5vfkr29jea1e2oaoNzlK1jqa2sEeE1EffL8TAK7WZzKEthgz1+KTebhXISYZOUBhv6FBpdjzR+Zlwx7exUdaGI/0rFLd7zFX+vrGqWz3xE4=
+	t=1768323409; cv=none; b=b3qKs0vRGtxCpVv5KcvfnyTgdrvg02MZEB98xock+JG1wbIgcOlB9jT9uzDaUjw9JyIcCHSefvk/huaQjr6uWnFjTu1pCcqxIDqxuWOoQc4KNfRGJkewcSidl6TM38WfRn3cMqjkorkJvpDFIw3UNUns9AuyyrzpR1Rpjp6KzJs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768323364; c=relaxed/simple;
-	bh=AYJEviHMdEId3t6NVCqtgofmR91OvzaBv4PrGb355Tc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=gs4qEc0z9gLspVgIn3QA1zvhHWyzynYAG7ST0KCA37dyjOqlH4LXsHLUcXEpx8Dy+yv9VUeehHDA19UNXh3E9bFu/GjHqUWiS00n+uIatKgwPc2jnr3TyrYDV9NO0idR5t99dA3tl9jnSzOlcfPgOEBymdA/BRXAi3cxx65/KFQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=D1lLNe1x; arc=none smtp.client-ip=209.85.216.44
+	s=arc-20240116; t=1768323409; c=relaxed/simple;
+	bh=7Hrw2+r2W07R3kZT/TTLyPrhYlOlSv2ggZ5P/EUUXmI=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=We3wH9GKDhVAUHr6WMwluCu6LVDuBM3smbhRzry2J5oO8P0zPyBNLuwo74CAuqCguWcWU4rLrTqVzL20YUHIieFVuDC+vSVBlzbzC45OPSjW2q+rf+pULGSxWa7bWL8jSbO6+XdTxHw3bc4kXnu3X6NLdDU91v2OJVwUac46Wjo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cyEuYv4Z; arc=none smtp.client-ip=209.85.128.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-34f2a0c4574so5956660a91.1
-        for <linux-input@vger.kernel.org>; Tue, 13 Jan 2026 08:56:03 -0800 (PST)
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-47d3ffa5f33so35428055e9.2
+        for <linux-input@vger.kernel.org>; Tue, 13 Jan 2026 08:56:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768323363; x=1768928163; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=c72nseukprRkDnD6LRooG/wsQ7/nXs6s0pp5X/yGXVE=;
-        b=D1lLNe1xGes0sEt0DpQ90Cxz4s6XvYhWKWTjPDbCl7RpoTNBPLfB2a4W/13eB3hq+L
-         oK+mMg3PlBCC16HAPsRJfAqzg4aUbgK/Pc0vetvOLVYlZMpXA4Ct0jlFRsvRydon3cEj
-         58ZzIgHb/JXB7HvZ6mAjs2ZUi4LiXorD7VPr7fbRlHopI7kitx6obY5CrGulQFOSyaN5
-         BxxXxKOXxvKSR2dIeBPXtKM+fd0kP8RshpANaH+wSjhM3pGcjZ7PDzvrF2HeRxMU4VMp
-         pwWMb+FWq1XEZ9G+Hayv4OvrsbDJIVoMtEpXeHnBkTWgLqZzUz+h/KT2cqrAI/5S/UxY
-         22ww==
+        d=gmail.com; s=20230601; t=1768323406; x=1768928206; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=psrFyzGWuguAJOxv+jmQrUYZB9YxdcHUz47oeFRioBY=;
+        b=cyEuYv4ZAL/GuIcnmBWatzaEEUdeBo+1xq4JxgOIsVbpO/2uOGiz6ob4JWX6Nw/Cqd
+         2wg1vaZDzSjbHkqzNRqAjVyE/7L/2MAQ065uLHmVISvyxLvwuxJGzUiCCJ01ZsVapOOh
+         WGnpmvIQWa5RSG7SUUPNFuHMo8gX6OILWIDSHSSqM06mI5MikpezrfKVL+kotCNvviVr
+         uncHqI3jNzgUN2Bdsa0qhoz/zVwjwqNq/1kLPSWhI71zncdwaEfcsBrKu6Ujqnq95+gl
+         tf5oCyjoHcCh7A404RJK7piYqtceGHAITzDxOXttrIQcxNyfmkLWl7Dy0GShNMxWaBIe
+         wt0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768323363; x=1768928163;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=c72nseukprRkDnD6LRooG/wsQ7/nXs6s0pp5X/yGXVE=;
-        b=X1+nReKvnKmB6e35WwqtLDPrxl5uRo71zziqxGxl5IRb1Q3HYeazUjkgCCRscVxpma
-         YVeHteVmEjmSXxpCU3svJ6bW89CL5+7i/OWYk8lvpbZaC1NoVW51P/iNvKoC6BO42VAy
-         CIWO9z/ksn227rY189B62VrpeDKRLv82jek4MoX2mSUpw3Izdg+m3lDdJFX6Mx4fo3Gr
-         3nm+iqZ0QaxV6RssYoqNlYhAx6b19F8cwgvNJVQ35My0mvAGIGmGbVptZ9z/1hTA2fI6
-         Q85IxYYBvRX4Bq7oQgs8hm7BFvPpnXendW6aRxKbkoW/kpIjOBqkCFi+VAa+7qqgWymY
-         tbQg==
-X-Forwarded-Encrypted: i=1; AJvYcCWv4eNg0CM6ccair7WNdX642kwR1ZC4BO/CP3UY6t2SRFCbvIQknCP7muO0iF/S0nwx7Jk4rM5eiJQr9g==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzfUn8gW+QwEdjSxPZc8J7PLcnvW2IEKHrJjW3t9uMoQgAq4Rgv
-	8wPQD3IIRfaoZd7cZftfhxhwt4aS3O7k4Y+N5EK8IbcZxB1bSzXlOYZoMW2ZAs3gt0WKigpcKp9
-	KxOFUBt5Jp77Ok4Ob6SyeCtvDDiT5aU8=
-X-Gm-Gg: AY/fxX7Lx1/1gzdyqtpMiIy+f2s0S6uMxGkazWkS304rKacRUq43RNcg5twSes4r07a
-	5m9fWEuIKs0c7mfaHCrvNKYmKxOBqNz8OuLYDjXD8NDGIqdfMlEQn6wXExJAKaSopRMxmMdh7AJ
-	NhjV+2XBc5XuyiBFm+BdlR8dhh/9X/HZNaP60CugsvDWKXINnlCDg0vZlzm5C6/3ZWPFEKXiXIp
-	cDVGK4s76AFikc/f3ZxeMV409wIpwGxwSy6/lqFCff50OlEY8bObTjl12cyKWB7TIZ4wVe0oVqe
-	CGl25YR3ApI=
-X-Google-Smtp-Source: AGHT+IFIxoxup+hrHccZ24WU/oG6KH1/tlBu9GncLXzEEHkAImvk2s72E3X925uVOOnlVXa8GmYeNCaescJi731vjMo=
-X-Received: by 2002:a17:90b:164d:b0:340:c64d:38d3 with SMTP id
- 98e67ed59e1d1-34f68b9a10amr24614223a91.12.1768323362464; Tue, 13 Jan 2026
- 08:56:02 -0800 (PST)
+        d=1e100.net; s=20230601; t=1768323406; x=1768928206;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=psrFyzGWuguAJOxv+jmQrUYZB9YxdcHUz47oeFRioBY=;
+        b=a481EQn0mikNKhI1VDIB4QKibJAieptCXSqgEDq6DULhQoZHzKUPN/4SSPcVtT5pVB
+         xRNi7i0pjirM71IInq1vKJTc9rdH1WIgyg4eCKAdCgwIyyYfpRy2uOrfdZxdZz7bXDP+
+         z8SAFHOE2KRXCDY+YxdE69A+oKetq3xBFWIBdLHw/NSDqgBKEmMpq4GF9yf8b9D+JR3b
+         zNcKDL2wkT8Q98+GULqr0Cmf9BKInoIKzyf2C+/+4z4+ZSO3pwNnQ8bwqa+EBsL3QnGP
+         eosiKZQ5AMtS0yX/5MIlEZsAqUHpO4TunPXn7NhQmwoaMDFK76YWbtxofozu9IREyeqE
+         9k2g==
+X-Forwarded-Encrypted: i=1; AJvYcCXcfTYPkj7Njp8F1M/2wyg5TlmCthifRB1GgfwLG1918ueD7JNuUfjiVmAMoiwatIAh9mTEqcuBD9H8cw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwWdUCfJ3/N2+oEuanylE2vzuR6BkxQ/3RBYrZwn9j+j7MIBs+C
+	dkqUwj7PQINgIJWJ+v4R3/aASCdSf1eztEfL2tBPpdQTPFwYwctmnrKF
+X-Gm-Gg: AY/fxX6JNpqxOYzCiZ4bGIJMPV39aegOAsN+C+VBpjEFwX2Xbj9Fg0OFbvlY1j4kn9E
+	VcVpPpAC5+UNoJU38t/M/cmL01BeTIi904ZFWAt/syDNJe6gZBJuucXNgGVLj4t/El07bv8kpIR
+	TQWzo7Ba8df1g25Qg9b6cmxnCzWS77vdIDMrsUc7niJx8kSdd0/BYke4ASBEYQitGO/EAM6yrOl
+	Qe1Frp0Xk/kxdtzMwLmJ0JVQQNZymniE0jdorxUXM+ZXopVschGTw+etJBn3YfJl0kHfLJr4Ivc
+	OXwmRMqRkmD7iZeJq7oFPDzOgpapy4MiSGn+GEav+uoRYOMBSymVGFt9hxHbJhUyIQsNvlS+535
+	r4FGTkCn69Qa1MYIUhObv1AQyvCgq/Vtizu2AHubaFEjzVsPVJG1vkyHGGpN8Rj923GXA9f3usq
+	y4kmm/lv6+G5EX2eOYRnI=
+X-Google-Smtp-Source: AGHT+IGD1M0UTWS8UrJ/c4O2hvE+wkNYVLNoozJBRbK64xfMz/HYjqrKzncFlS/SbFNpX/ApUzudJg==
+X-Received: by 2002:a05:600c:8712:b0:47e:d70d:cbf7 with SMTP id 5b1f17b1804b1-47ed70dcc36mr54439275e9.8.1768323405661;
+        Tue, 13 Jan 2026 08:56:45 -0800 (PST)
+Received: from [192.168.1.187] ([161.230.67.253])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47ec5d95edbsm201567425e9.3.2026.01.13.08.56.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 13 Jan 2026 08:56:45 -0800 (PST)
+Message-ID: <fdc6ca83e326e2438c420f7c1571c0e49fd3741b.camel@gmail.com>
+Subject: Re: [PATCH] Input: adp5589: remove a leftover header file
+From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
+To: Vladimir Zapolskiy <vz@mleia.com>, Dmitry Torokhov
+	 <dmitry.torokhov@gmail.com>
+Cc: Nuno =?ISO-8859-1?Q?S=E1?= <nuno.sa@analog.com>, Laurent Pinchart
+	 <laurent.pinchart@ideasonboard.com>, "Signed-off-by : Lee Jones"
+	 <lee@kernel.org>, linux-input@vger.kernel.org
+Date: Tue, 13 Jan 2026 16:57:28 +0000
+In-Reply-To: <20260113151140.3843753-1-vz@mleia.com>
+References: <20260113151140.3843753-1-vz@mleia.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.2 
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260109184852.1089786-1-ihor.solodrai@linux.dev>
- <20260109184852.1089786-5-ihor.solodrai@linux.dev> <CAEf4BzYcZ5pLCvfn8uWiKCjpBXBw9dxR_WZnKxVz1Bhf96xOGg@mail.gmail.com>
- <2ea17ba8-3248-4a01-8fed-183ce66aa39c@linux.dev> <CAEf4BzYuchyyw9M6eQo0Gou=09PcM-o_Ay7D8DM1gDitiG6Tbg@mail.gmail.com>
- <5bcd3bb1-6ed0-4ad8-9de8-46385de908cb@linux.dev>
-In-Reply-To: <5bcd3bb1-6ed0-4ad8-9de8-46385de908cb@linux.dev>
-From: Andrii Nakryiko <andrii.nakryiko@gmail.com>
-Date: Tue, 13 Jan 2026 08:55:47 -0800
-X-Gm-Features: AZwV_QiWPztxopPzkBqdMF_fg2QqJyPvVgk72TVzCvEI2gyDpEwwqi72d41vchE
-Message-ID: <CAEf4BzYfdrteD95CPs_P9gqaxCvOKmk99J=m18uS1CpqeFuyew@mail.gmail.com>
-Subject: Re: [PATCH bpf-next v1 04/10] resolve_btfids: Support for KF_IMPLICIT_ARGS
-To: Ihor Solodrai <ihor.solodrai@linux.dev>
-Cc: Alexei Starovoitov <ast@kernel.org>, Andrii Nakryiko <andrii@kernel.org>, 
-	Daniel Borkmann <daniel@iogearbox.net>, Martin KaFai Lau <martin.lau@linux.dev>, 
-	Eduard Zingerman <eddyz87@gmail.com>, Mykyta Yatsenko <yatsenko@meta.com>, Tejun Heo <tj@kernel.org>, 
-	Alan Maguire <alan.maguire@oracle.com>, Benjamin Tissoires <bentiss@kernel.org>, 
-	Jiri Kosina <jikos@kernel.org>, bpf@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-input@vger.kernel.org, sched-ext@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jan 12, 2026 at 5:49=E2=80=AFPM Ihor Solodrai <ihor.solodrai@linux.=
-dev> wrote:
->
-> On 1/12/26 8:51 AM, Andrii Nakryiko wrote:
-> > On Fri, Jan 9, 2026 at 5:15=E2=80=AFPM Ihor Solodrai <ihor.solodrai@lin=
-ux.dev> wrote:
-> >>
-> >> [...]
-> >>>>
-> >>>> diff --git a/tools/bpf/resolve_btfids/main.c b/tools/bpf/resolve_btf=
-ids/main.c
-> >>>> index df39982f51df..b361e726fa36 100644
-> >>>> --- a/tools/bpf/resolve_btfids/main.c
-> >>>> +++ b/tools/bpf/resolve_btfids/main.c
-> >>>> @@ -152,6 +152,18 @@ struct object {
-> >>>>         int nr_typedefs;
-> >>>>  };
-> >>>>
-> >>>> +#define KF_IMPLICIT_ARGS (1 << 16)
-> >>>> +#define KF_IMPL_SUFFIX "_impl"
-> >>>> +#define MAX_BPF_FUNC_REG_ARGS 5
-> >>>> +#define MAX_KFUNCS 256
-> >>>> +#define MAX_DECL_TAGS (MAX_KFUNCS * 4)
-> >>>
-> >>> can't we get that from include/linux/bpf.h? seems like
-> >>> resolve_btfids's main.c include internal headers just fine, so why
-> >>> duplicate definitions?
-> >>
-> >> Hi Andrii, thank you for a quick review.
-> >>
-> >> Including internal include/linux/btf.h directly doesn't work, which is
-> >> probably expected.
-> >>
-> >> resolve_btfids is currently built with:
-> >>
-> >> HOSTCFLAGS_resolve_btfids +=3D -g \
-> >>           -I$(srctree)/tools/include \
-> >>           -I$(srctree)/tools/include/uapi \
-> >
-> > so I don't know if that will solve the issue, but I don't think it
-> > makes sense to build resolve_btfids using tools' version of includes.
-> > tools/include is mostly for perf's benefit (maybe so that they don't
-> > accidentally take some kernel-internal dependency, not sure). But
-> > resolve_btfids is built for the kernel during the kernel build, we
-> > should have access to full kernel headers. Try changing this and see
-> > if build errors go away?
-> >
-> >>           -I$(LIBBPF_INCLUDE) \
-> >>           -I$(SUBCMD_INCLUDE) \
-> >>           $(LIBELF_FLAGS) \
-> >>           -Wall -Werror
-> >>
-> >> If I add -I$(srctree)/include option and then
-> >>
-> >>     #include <linux/btf.h>
-> >>
-> >> A bunch of build errors happen.
-> >>
-> >> AFAIU we'd have to create a stripped copy of relevant headers in
-> >> tools/include first.  Is that what you're suggesting?
-> >
-> > see above, the opposite -- just use -I$(srctree)/include directly
->
-> Andrii,
->
-> I made a low-effort attempt to switch away from tools/include and it
-> looks like too much trouble. See a sample splat below.
->
-> I think the issue is that resolve_btfids uses a couple of inherently
-> user-space things (stdlib, libelf), which themselves may include
-> system headers. And there is actually a difference between the kernel
-> and tools/include headers. For example, check
->
->   ./include/linux/rbtree.h
-> vs
->   ./tools/include/linux/rbtree.h
->
-> Maybe we can make it work (with our own local tools/include?), but it
-> doesn't look worth it for just a couple of constant #define-s.
->
-> Let me know if I am missing something.
+On Tue, 2026-01-13 at 17:11 +0200, Vladimir Zapolskiy wrote:
+> In commit 3bdbd0858df6 ("Input: adp5589: remove the driver") the last use=
+r
+> of include/linux/input/adp5589.h was removed along with the whole driver,
+> thus the header file can be also removed.
+>=20
+> Signed-off-by: Vladimir Zapolskiy <vz@mleia.com>
+> ---
 
-No, it's fine, no big deal, at least we know that it's not as simple.
-Thanks for trying!
+Thanks!
 
->
->
-> $ make
->   INSTALL libsubcmd_headers
->   HOSTCC  /home/isolodrai/workspace/prog-aux/linux/tools/bpf/resolve_btfi=
-ds/main.o
-> In file included from /home/isolodrai/workspace/prog-aux/linux/include/ua=
-pi/linux/stat.h:5,
->                  from /home/isolodrai/workspace/prog-aux/linux/include/li=
-nux/stat.h:7,
->                  from main.c:70:
-> /home/isolodrai/workspace/prog-aux/linux/include/linux/types.h:20:33: err=
-or: conflicting types for =E2=80=98fd_set=E2=80=99; have =E2=80=98__kernel_=
-fd_set=E2=80=99
->    20 | typedef __kernel_fd_set         fd_set;
->       |                                 ^~~~~~
-> In file included from /usr/include/sys/types.h:179,
->                  from /usr/include/stdlib.h:394,
->                  from main.c:67:
-> /usr/include/sys/select.h:70:5: note: previous declaration of =E2=80=98fd=
-_set=E2=80=99 with type =E2=80=98fd_set=E2=80=99
->    70 |   } fd_set;
->       |     ^~~~~~
-> In file included from /home/isolodrai/workspace/prog-aux/linux/include/ua=
-pi/linux/stat.h:5,
->                  from /home/isolodrai/workspace/prog-aux/linux/include/li=
-nux/stat.h:7,
->                  from main.c:70:
-> /home/isolodrai/workspace/prog-aux/linux/include/linux/types.h:21:33: err=
-or: conflicting types for =E2=80=98dev_t=E2=80=99; have =E2=80=98__kernel_d=
-ev_t=E2=80=99 {aka =E2=80=98unsigned int=E2=80=99}
->    21 | typedef __kernel_dev_t          dev_t;
->       |                                 ^~~~~
-> In file included from /usr/include/stdlib.h:394,
->                  from main.c:67:
-> /usr/include/sys/types.h:59:17: note: previous declaration of =E2=80=98de=
-v_t=E2=80=99 with type =E2=80=98dev_t=E2=80=99 {aka =E2=80=98long unsigned =
-int=E2=80=99}
->    59 | typedef __dev_t dev_t;
->       |                 ^~~~~
-> In file included from /home/isolodrai/workspace/prog-aux/linux/include/ua=
-pi/linux/stat.h:5,
->                  from /home/isolodrai/workspace/prog-aux/linux/include/li=
-nux/stat.h:7,
->                  from main.c:70:
-> /home/isolodrai/workspace/prog-aux/linux/include/linux/types.h:25:33: err=
-or: conflicting types for =E2=80=98nlink_t=E2=80=99; have =E2=80=98u32=E2=
-=80=99 {aka =E2=80=98unsigned int=E2=80=99}
->    25 | typedef u32                     nlink_t;
->       |                                 ^~~~~~~
-> In file included from /usr/include/stdlib.h:394,
->                  from main.c:67:
-> /usr/include/sys/types.h:74:19: note: previous declaration of =E2=80=98nl=
-ink_t=E2=80=99 with type =E2=80=98nlink_t=E2=80=99 {aka =E2=80=98long unsig=
-ned int=E2=80=99}
->    74 | typedef __nlink_t nlink_t;
->       |                   ^~~~~~~
-> In file included from /home/isolodrai/workspace/prog-aux/linux/include/ua=
-pi/linux/stat.h:5,
->                  from /home/isolodrai/workspace/prog-aux/linux/include/li=
-nux/stat.h:7,
->                  from main.c:70:
-> /home/isolodrai/workspace/prog-aux/linux/include/linux/types.h:31:33: err=
-or: conflicting types for =E2=80=98timer_t=E2=80=99; have =E2=80=98__kernel=
-_timer_t=E2=80=99 {aka =E2=80=98int=E2=80=99}
->    31 | typedef __kernel_timer_t        timer_t;
->       |                                 ^~~~~~~
-> In file included from /usr/include/sys/types.h:130,
->                  from /usr/include/stdlib.h:394,
->                  from main.c:67:
-> /usr/include/bits/types/timer_t.h:7:19: note: previous declaration of =E2=
-=80=98timer_t=E2=80=99 with type =E2=80=98timer_t=E2=80=99 {aka =E2=80=98vo=
-id *=E2=80=99}
->     7 | typedef __timer_t timer_t;
->       |                   ^~~~~~~
-> In file included from /home/isolodrai/workspace/prog-aux/linux/include/ua=
-pi/linux/stat.h:5,
->                  from /home/isolodrai/workspace/prog-aux/linux/include/li=
-nux/stat.h:7,
->                  from main.c:70:
-> /home/isolodrai/workspace/prog-aux/linux/include/linux/types.h:52:33: err=
-or: conflicting types for =E2=80=98loff_t=E2=80=99; have =E2=80=98__kernel_=
-loff_t=E2=80=99 {aka =E2=80=98long long int=E2=80=99}
->    52 | typedef __kernel_loff_t         loff_t;
->       |                                 ^~~~~~
-> In file included from /usr/include/stdlib.h:394,
->                  from main.c:67:
-> /usr/include/sys/types.h:42:18: note: previous declaration of =E2=80=98lo=
-ff_t=E2=80=99 with type =E2=80=98loff_t=E2=80=99 {aka =E2=80=98long int=E2=
-=80=99}
->    42 | typedef __loff_t loff_t;
->       |                  ^~~~~~
-> In file included from /home/isolodrai/workspace/prog-aux/linux/include/ua=
-pi/linux/stat.h:5,
->                  from /home/isolodrai/workspace/prog-aux/linux/include/li=
-nux/stat.h:7,
->                  from main.c:70:
-> /home/isolodrai/workspace/prog-aux/linux/include/linux/types.h:53:9: erro=
-r: unknown type name =E2=80=98__kernel_uoff_t=E2=80=99
->    53 | typedef __kernel_uoff_t         uoff_t;
->       |         ^~~~~~~~~~~~~~~
-> /home/isolodrai/workspace/prog-aux/linux/include/linux/types.h:115:33: er=
-ror: conflicting types for =E2=80=98uint64_t=E2=80=99; have =E2=80=98u64=E2=
-=80=99 {aka =E2=80=98long long unsigned int=E2=80=99}
->   115 | typedef u64                     uint64_t;
->       |                                 ^~~~~~~~
-> In file included from /usr/include/stdint.h:37,
->                  from /usr/lib/gcc/x86_64-redhat-linux/11/include/stdint.=
-h:9,
->                  from /usr/include/libelf.h:32,
->                  from main.c:68:
-> /usr/include/bits/stdint-uintn.h:27:20: note: previous declaration of =E2=
-=80=98uint64_t=E2=80=99 with type =E2=80=98uint64_t=E2=80=99 {aka =E2=80=98=
-long unsigned int=E2=80=99}
->    27 | typedef __uint64_t uint64_t;
->       |                    ^~~~~~~~
-> In file included from /home/isolodrai/workspace/prog-aux/linux/include/ua=
-pi/linux/stat.h:5,
->                  from /home/isolodrai/workspace/prog-aux/linux/include/li=
-nux/stat.h:7,
->                  from main.c:70:
-> /home/isolodrai/workspace/prog-aux/linux/include/linux/types.h:116:33: er=
-ror: conflicting types for =E2=80=98u_int64_t=E2=80=99; have =E2=80=98u64=
-=E2=80=99 {aka =E2=80=98long long unsigned int=E2=80=99}
->   116 | typedef u64                     u_int64_t;
->       |                                 ^~~~~~~~~
-> In file included from /usr/include/stdlib.h:394,
->                  from main.c:67:
-> /usr/include/sys/types.h:161:20: note: previous declaration of =E2=80=98u=
-_int64_t=E2=80=99 with type =E2=80=98u_int64_t=E2=80=99 {aka =E2=80=98long =
-unsigned int=E2=80=99}
->   161 | typedef __uint64_t u_int64_t;
->       |                    ^~~~~~~~~
-> In file included from /home/isolodrai/workspace/prog-aux/linux/include/ua=
-pi/linux/stat.h:5,
->                  from /home/isolodrai/workspace/prog-aux/linux/include/li=
-nux/stat.h:7,
->                  from main.c:70:
-> /home/isolodrai/workspace/prog-aux/linux/include/linux/types.h:117:33: er=
-ror: conflicting types for =E2=80=98int64_t=E2=80=99; have =E2=80=98s64=E2=
-=80=99 {aka =E2=80=98long long int=E2=80=99}
->   117 | typedef s64                     int64_t;
->       |                                 ^~~~~~~
-> In file included from /usr/include/sys/types.h:155,
->                  from /usr/include/stdlib.h:394,
->                  from main.c:67:
-> /usr/include/bits/stdint-intn.h:27:19: note: previous declaration of =E2=
-=80=98int64_t=E2=80=99 with type =E2=80=98int64_t=E2=80=99 {aka =E2=80=98lo=
-ng int=E2=80=99}
->    27 | typedef __int64_t int64_t;
->       |                   ^~~~~~~
-> In file included from /home/isolodrai/workspace/prog-aux/linux/include/ua=
-pi/linux/stat.h:5,
->                  from /home/isolodrai/workspace/prog-aux/linux/include/li=
-nux/stat.h:7,
->                  from main.c:70:
-> /home/isolodrai/workspace/prog-aux/linux/include/linux/types.h:138:13: er=
-ror: conflicting types for =E2=80=98blkcnt_t=E2=80=99; have =E2=80=98u64=E2=
-=80=99 {aka =E2=80=98long long unsigned int=E2=80=99}
->   138 | typedef u64 blkcnt_t;
->       |             ^~~~~~~~
-> In file included from /usr/include/stdlib.h:394,
->                  from main.c:67:
-> /usr/include/sys/types.h:192:20: note: previous declaration of =E2=80=98b=
-lkcnt_t=E2=80=99 with type =E2=80=98blkcnt_t=E2=80=99 {aka =E2=80=98long in=
-t=E2=80=99}
->   192 | typedef __blkcnt_t blkcnt_t;     /* Type to count number of disk =
-blocks.  */
->       |                    ^~~~~~~~
-> In file included from /home/isolodrai/workspace/prog-aux/linux/include/ua=
-pi/linux/stat.h:5,
->                  from /home/isolodrai/workspace/prog-aux/linux/include/li=
-nux/stat.h:7,
->                  from main.c:70:
-> /home/isolodrai/workspace/prog-aux/linux/include/linux/types.h:266:34: er=
-ror: expected =E2=80=98:=E2=80=99, =E2=80=98,=E2=80=99, =E2=80=98;=E2=80=99=
-, =E2=80=98}=E2=80=99 or =E2=80=98__attribute__=E2=80=99 before =E2=80=98*=
-=E2=80=99 token
->   266 |         struct task_struct __rcu *task;
->       |                                  ^
-> In file included from /home/isolodrai/workspace/prog-aux/linux/include/li=
-nux/cache.h:6,
->                  from /home/isolodrai/workspace/prog-aux/linux/include/li=
-nux/time.h:5,
->                  from /home/isolodrai/workspace/prog-aux/linux/include/li=
-nux/stat.h:19,
->                  from main.c:70:
-> /home/isolodrai/workspace/prog-aux/linux/include/vdso/cache.h:5:10: fatal=
- error: asm/cache.h: No such file or directory
->     5 | #include <asm/cache.h>
->       |          ^~~~~~~~~~~~~
-> compilation terminated.
-> make[1]: *** [/home/isolodrai/workspace/prog-aux/linux/tools/build/Makefi=
-le.build:86: /home/isolodrai/workspace/prog-aux/linux/tools/bpf/resolve_btf=
-ids/main.o] Error 1
-> make: *** [Makefile:81: /home/isolodrai/workspace/prog-aux/linux/tools/bp=
-f/resolve_btfids//resolve_btfids-in.o] Error 2
->
->
-> >
-> > [...]
-> >
+Reviewed-by: Nuno S=C3=A1 <nuno.sa@analog.com>
+
+> =C2=A0include/linux/input/adp5589.h | 180 -------------------------------=
+---
+> =C2=A01 file changed, 180 deletions(-)
+> =C2=A0delete mode 100644 include/linux/input/adp5589.h
+>=20
+> diff --git a/include/linux/input/adp5589.h b/include/linux/input/adp5589.=
+h
+> deleted file mode 100644
+> index 0e4742c8c81e..000000000000
+> --- a/include/linux/input/adp5589.h
+> +++ /dev/null
+> @@ -1,180 +0,0 @@
+> -/* SPDX-License-Identifier: GPL-2.0-only */
+> -/*
+> - * Analog Devices ADP5589/ADP5585 I/O Expander and QWERTY Keypad Control=
+ler
+> - *
+> - * Copyright 2010-2011 Analog Devices Inc.
+> - */
+> -
+> -#ifndef _ADP5589_H
+> -#define _ADP5589_H
+> -
+> -/*
+> - * ADP5589 specific GPI and Keymap defines
+> - */
+> -
+> -#define ADP5589_KEYMAPSIZE	88
+> -
+> -#define ADP5589_GPI_PIN_ROW0 97
+> -#define ADP5589_GPI_PIN_ROW1 98
+> -#define ADP5589_GPI_PIN_ROW2 99
+> -#define ADP5589_GPI_PIN_ROW3 100
+> -#define ADP5589_GPI_PIN_ROW4 101
+> -#define ADP5589_GPI_PIN_ROW5 102
+> -#define ADP5589_GPI_PIN_ROW6 103
+> -#define ADP5589_GPI_PIN_ROW7 104
+> -#define ADP5589_GPI_PIN_COL0 105
+> -#define ADP5589_GPI_PIN_COL1 106
+> -#define ADP5589_GPI_PIN_COL2 107
+> -#define ADP5589_GPI_PIN_COL3 108
+> -#define ADP5589_GPI_PIN_COL4 109
+> -#define ADP5589_GPI_PIN_COL5 110
+> -#define ADP5589_GPI_PIN_COL6 111
+> -#define ADP5589_GPI_PIN_COL7 112
+> -#define ADP5589_GPI_PIN_COL8 113
+> -#define ADP5589_GPI_PIN_COL9 114
+> -#define ADP5589_GPI_PIN_COL10 115
+> -#define GPI_LOGIC1 116
+> -#define GPI_LOGIC2 117
+> -
+> -#define ADP5589_GPI_PIN_ROW_BASE ADP5589_GPI_PIN_ROW0
+> -#define ADP5589_GPI_PIN_ROW_END ADP5589_GPI_PIN_ROW7
+> -#define ADP5589_GPI_PIN_COL_BASE ADP5589_GPI_PIN_COL0
+> -#define ADP5589_GPI_PIN_COL_END ADP5589_GPI_PIN_COL10
+> -
+> -#define ADP5589_GPI_PIN_BASE ADP5589_GPI_PIN_ROW_BASE
+> -#define ADP5589_GPI_PIN_END ADP5589_GPI_PIN_COL_END
+> -
+> -#define ADP5589_GPIMAPSIZE_MAX (ADP5589_GPI_PIN_END - ADP5589_GPI_PIN_BA=
+SE + 1)
+> -
+> -/*
+> - * ADP5585 specific GPI and Keymap defines
+> - */
+> -
+> -#define ADP5585_KEYMAPSIZE	30
+> -
+> -#define ADP5585_GPI_PIN_ROW0 37
+> -#define ADP5585_GPI_PIN_ROW1 38
+> -#define ADP5585_GPI_PIN_ROW2 39
+> -#define ADP5585_GPI_PIN_ROW3 40
+> -#define ADP5585_GPI_PIN_ROW4 41
+> -#define ADP5585_GPI_PIN_ROW5 42
+> -#define ADP5585_GPI_PIN_COL0 43
+> -#define ADP5585_GPI_PIN_COL1 44
+> -#define ADP5585_GPI_PIN_COL2 45
+> -#define ADP5585_GPI_PIN_COL3 46
+> -#define ADP5585_GPI_PIN_COL4 47
+> -#define GPI_LOGIC 48
+> -
+> -#define ADP5585_GPI_PIN_ROW_BASE ADP5585_GPI_PIN_ROW0
+> -#define ADP5585_GPI_PIN_ROW_END ADP5585_GPI_PIN_ROW5
+> -#define ADP5585_GPI_PIN_COL_BASE ADP5585_GPI_PIN_COL0
+> -#define ADP5585_GPI_PIN_COL_END ADP5585_GPI_PIN_COL4
+> -
+> -#define ADP5585_GPI_PIN_BASE ADP5585_GPI_PIN_ROW_BASE
+> -#define ADP5585_GPI_PIN_END ADP5585_GPI_PIN_COL_END
+> -
+> -#define ADP5585_GPIMAPSIZE_MAX (ADP5585_GPI_PIN_END - ADP5585_GPI_PIN_BA=
+SE + 1)
+> -
+> -struct adp5589_gpi_map {
+> -	unsigned short pin;
+> -	unsigned short sw_evt;
+> -};
+> -
+> -/* scan_cycle_time */
+> -#define ADP5589_SCAN_CYCLE_10ms		0
+> -#define ADP5589_SCAN_CYCLE_20ms		1
+> -#define ADP5589_SCAN_CYCLE_30ms		2
+> -#define ADP5589_SCAN_CYCLE_40ms		3
+> -
+> -/* RESET_CFG */
+> -#define RESET_PULSE_WIDTH_500us		0
+> -#define RESET_PULSE_WIDTH_1ms		1
+> -#define RESET_PULSE_WIDTH_2ms		2
+> -#define RESET_PULSE_WIDTH_10ms		3
+> -
+> -#define RESET_TRIG_TIME_0ms		(0 << 2)
+> -#define RESET_TRIG_TIME_1000ms		(1 << 2)
+> -#define RESET_TRIG_TIME_1500ms		(2 << 2)
+> -#define RESET_TRIG_TIME_2000ms		(3 << 2)
+> -#define RESET_TRIG_TIME_2500ms		(4 << 2)
+> -#define RESET_TRIG_TIME_3000ms		(5 << 2)
+> -#define RESET_TRIG_TIME_3500ms		(6 << 2)
+> -#define RESET_TRIG_TIME_4000ms		(7 << 2)
+> -
+> -#define RESET_PASSTHRU_EN		(1 << 5)
+> -#define RESET1_POL_HIGH			(1 << 6)
+> -#define RESET1_POL_LOW			(0 << 6)
+> -#define RESET2_POL_HIGH			(1 << 7)
+> -#define RESET2_POL_LOW			(0 << 7)
+> -
+> -/* ADP5589 Mask Bits:
+> - * C C C C C C C C C C C | R R R R R R R R
+> - * 1 9 8 7 6 5 4 3 2 1 0 | 7 6 5 4 3 2 1 0
+> - * 0
+> - * ---------------- BIT ------------------
+> - * 1 1 1 1 1 1 1 1 1 0 0 | 0 0 0 0 0 0 0 0
+> - * 8 7 6 5 4 3 2 1 0 9 8 | 7 6 5 4 3 2 1 0
+> - */
+> -
+> -#define ADP_ROW(x)	(1 << (x))
+> -#define ADP_COL(x)	(1 << (x + 8))
+> -#define ADP5589_ROW_MASK		0xFF
+> -#define ADP5589_COL_MASK		0xFF
+> -#define ADP5589_COL_SHIFT		8
+> -#define ADP5589_MAX_ROW_NUM		7
+> -#define ADP5589_MAX_COL_NUM		10
+> -
+> -/* ADP5585 Mask Bits:
+> - * C C C C C | R R R R R R
+> - * 4 3 2 1 0 | 5 4 3 2 1 0
+> - *
+> - * ---- BIT -- -----------
+> - * 1 0 0 0 0 | 0 0 0 0 0 0
+> - * 0 9 8 7 6 | 5 4 3 2 1 0
+> - */
+> -
+> -#define ADP5585_ROW_MASK		0x3F
+> -#define ADP5585_COL_MASK		0x1F
+> -#define ADP5585_ROW_SHIFT		0
+> -#define ADP5585_COL_SHIFT		6
+> -#define ADP5585_MAX_ROW_NUM		5
+> -#define ADP5585_MAX_COL_NUM		4
+> -
+> -#define ADP5585_ROW(x)	(1 << ((x) & ADP5585_ROW_MASK))
+> -#define ADP5585_COL(x)	(1 << (((x) & ADP5585_COL_MASK) + ADP5585_COL_SHI=
+FT))
+> -
+> -/* Put one of these structures in i2c_board_info platform_data */
+> -
+> -struct adp5589_kpad_platform_data {
+> -	unsigned keypad_en_mask;	/* Keypad (Rows/Columns) enable mask */
+> -	const unsigned short *keymap;	/* Pointer to keymap */
+> -	unsigned short keymapsize;	/* Keymap size */
+> -	bool repeat;			/* Enable key repeat */
+> -	bool en_keylock;		/* Enable key lock feature (ADP5589 only)*/
+> -	unsigned char unlock_key1;	/* Unlock Key 1 (ADP5589 only) */
+> -	unsigned char unlock_key2;	/* Unlock Key 2 (ADP5589 only) */
+> -	unsigned char unlock_timer;	/* Time in seconds [0..7] between the two u=
+nlock keys
+> 0=3Ddisable (ADP5589 only) */
+> -	unsigned char scan_cycle_time;	/* Time between consecutive scan cycles =
+*/
+> -	unsigned char reset_cfg;	/* Reset config */
+> -	unsigned short reset1_key_1;	/* Reset Key 1 */
+> -	unsigned short reset1_key_2;	/* Reset Key 2 */
+> -	unsigned short reset1_key_3;	/* Reset Key 3 */
+> -	unsigned short reset2_key_1;	/* Reset Key 1 */
+> -	unsigned short reset2_key_2;	/* Reset Key 2 */
+> -	unsigned debounce_dis_mask;	/* Disable debounce mask */
+> -	unsigned pull_dis_mask;		/* Disable all pull resistors mask */
+> -	unsigned pullup_en_100k;	/* Pull-Up 100k Enable Mask */
+> -	unsigned pullup_en_300k;	/* Pull-Up 300k Enable Mask */
+> -	unsigned pulldown_en_300k;	/* Pull-Down 300k Enable Mask */
+> -	const struct adp5589_gpi_map *gpimap;
+> -	unsigned short gpimapsize;
+> -	const struct adp5589_gpio_platform_data *gpio_data;
+> -};
+> -
+> -struct i2c_client; /* forward declaration */
+> -
+> -struct adp5589_gpio_platform_data {
+> -	int	gpio_start;	/* GPIO Chip base # */
+> -};
+> -
+> -#endif
 
