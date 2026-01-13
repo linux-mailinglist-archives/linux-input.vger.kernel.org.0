@@ -1,164 +1,188 @@
-Return-Path: <linux-input+bounces-17065-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-17066-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17B20D1B0BE
-	for <lists+linux-input@lfdr.de>; Tue, 13 Jan 2026 20:28:44 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 996FCD1B42D
+	for <lists+linux-input@lfdr.de>; Tue, 13 Jan 2026 21:42:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 618CF3029EA5
-	for <lists+linux-input@lfdr.de>; Tue, 13 Jan 2026 19:28:35 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id AE391300A875
+	for <lists+linux-input@lfdr.de>; Tue, 13 Jan 2026 20:39:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD7A336C0D9;
-	Tue, 13 Jan 2026 19:28:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E16293033FC;
+	Tue, 13 Jan 2026 20:39:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="GXCh/ax4";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="H6pYtIhu"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VuiKHgIr"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DF8335EDD1
-	for <linux-input@vger.kernel.org>; Tue, 13 Jan 2026 19:28:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FCCE276051
+	for <linux-input@vger.kernel.org>; Tue, 13 Jan 2026 20:39:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768332514; cv=none; b=sz7DQV8z3bAIlTHvbGhg07ozY2zIcLx+NK64vwG6eh/3/4DEOT4g25YSqUUs9MBzUKAneybISOoVF1GcL4r11H9ogOYkGm1kmglkoGKrtVDQ+TMRnTiD3FSisYdu6UzW4LoC/UWSZLjfn7o/0hbLZvVHurdUxlx09pevhj8rjG0=
+	t=1768336780; cv=none; b=lQITNWy8Ve+vNbQtZ2gYy3H78vJcwb8BsBVpYaPeNLBgbbm40w3F1YYauTjxgHqfyHPpnnxHpblSmu5S4i6M09ctqNGzCsse4UAE9yoYJ5TMs5KK47y86jXASh3z9/gwKSp51hiMKSu6C7mXT3zqj4NwjUQu7w3JvYzQc6yh2dw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768332514; c=relaxed/simple;
-	bh=LY8dT/L1Ej3Dno7DAOoADrqel59JBPCp2Ms2bZM7la8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=At9c9a99j5uyxehZKt9KNAZLjaeXl+IeQNvnXSG+PzcyHTCIXzl6MRb5Qh85YdzxBEMJjPmJ6dZNQ6Cgd9BATJ5A4WODSK5D/99ikzrxU9kcjHOLhVsOuPTBOFnm0J1ITJUOqGJ8tyi+R2J6hpVXVZJmqAOvCZuSHipc310/LFA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=GXCh/ax4; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=H6pYtIhu; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60DH7WDC1120627
-	for <linux-input@vger.kernel.org>; Tue, 13 Jan 2026 19:28:32 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=OfKjFtHX6I3K9cKNlKcgeUA6
-	KnuB1sEGdEAkmGkuR+g=; b=GXCh/ax47mNvezWB/+J3WQUnUQo/MjNqM1i3UwI9
-	dtr0QX0UKie3aRN0OuloHoTch0+HQPcTCBvGlbOsw3QW6ky/BervRxScNzyI6liI
-	Cxg5pAB6wkZDIoKa+lGlZ89SxwxjQkmJCY5U7JN/6GRsfa8siMSk3rk/kZSy0GA7
-	ebzFvlKcNlfBrk3RxE+BI4nY+AQkMYjg0Rvew1Jlzbn7lvxJbIfneMpT/z5j7lMS
-	LohOGsFktdciYYbjfdyA1nR49eY4aOmQDOBVU7uxwKsH4i/kGFv1JwdRAoBukVHc
-	P9aRKFJuAUcIhbLLnK3wBlsTLtkmLFkj1gIt8CKaCjcuFw==
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com [209.85.222.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bnt63rg5x-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-input@vger.kernel.org>; Tue, 13 Jan 2026 19:28:32 +0000 (GMT)
-Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-8bb9f029f31so2180165485a.2
-        for <linux-input@vger.kernel.org>; Tue, 13 Jan 2026 11:28:32 -0800 (PST)
+	s=arc-20240116; t=1768336780; c=relaxed/simple;
+	bh=5G/+O4AfoFl7Mun62PXu7YMTfSDOOK90wf7hCG0XoWM=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=Na9ekpbLFK1TY5wMjOQJv1qQGeJq1XUCVN4ofLmTnFE0uB4azgibkegPMA5MN+gkbyO2aVUPHJJ3YLy8NsOftLJ/335AQ95Vfni7KOBQAGSfPpSJ1T6F9vNXBBThmBCxIRgXjOz6oIerPPnV3AvMhtxDVZ8UfcNETjNPErmN3lc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VuiKHgIr; arc=none smtp.client-ip=209.85.214.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2a0d6f647e2so79488875ad.1
+        for <linux-input@vger.kernel.org>; Tue, 13 Jan 2026 12:39:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1768332512; x=1768937312; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=OfKjFtHX6I3K9cKNlKcgeUA6KnuB1sEGdEAkmGkuR+g=;
-        b=H6pYtIhugN7sJ4tc7ut6NKe71S/yaIaO7pr1spezrD2SAdcL/C8KoJIO3i1BjW4yQV
-         VAZgtIruIkpEPwuEM8kaIFPlYX8EPBMCffwBhbLE+cJCNWMitlbXYkyut6Gju26efYyV
-         Omy1iYwtmJYEekhwIAFzlkfZJpnfRx9EOw5RubKxT1flhdQY6LeaRCZqQpGrKuZMxSa8
-         OIqCCNM4d4AXfVJrL2l6nyb/tUF0znapZU5MvCXjNJW+fCaa/A5hdwb48wi01ItxT46c
-         Mi27FNJdNxID0vMYv6zQqS4E4gNKPjnfkvlWmw2GwXtF0hQVoEZqw9PT/4wU2UG3Srd4
-         z/5A==
+        d=gmail.com; s=20230601; t=1768336779; x=1768941579; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=vuKJVwdXdLFoBFmdbdguCpeTwBYgUktjFchgdX5Irfo=;
+        b=VuiKHgIrGqdniq6cfe8yQe1Ae2YdksGWyylrbInAtjq3QwVSaARsjPohyPcG97stx9
+         iSEZY3mG3EYygxV7m9g3+Bnse0KOW8UeBiJApkXXPuEqe8HkOuyzvJ+qOQ6M/C+cJtcR
+         kwfAQsKSEUX5N8rNvHNNslbDBgs3X8V9lNFKMiYIe/yiJL75eOH+M6kwe0WimgSjVRNY
+         IZ5DLoEi8E+/efVAeJ/KRQEX9USeRQJ7hNW6rlLsHlPR8xFx6BqA2v+9rTnuzgEeNcTx
+         pNnX5kO5VUMNWPh+dWFWsOX30cTbX6GVKs1AD/zf/Ooa93CH2WFIk91PHxQoB0jtIsaR
+         6djA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768332512; x=1768937312;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=OfKjFtHX6I3K9cKNlKcgeUA6KnuB1sEGdEAkmGkuR+g=;
-        b=t0bZpxP7EbH0jMHdgsSZrWUyr1e42xCjYSlvm7r2+Xg+QDKwjg11ApTdIjD6q/UUk+
-         NKuBbOKivC+0KTVCCGkcKcZ6eZD6V6nMTcTubNIU/UsEkwmBMDLQ45yGEz4y3W0Yyxxp
-         hSYeaCB3528TMQv8rnaZOHJ0i2PM6vXXcMbUoaNS8Eyl2dzVKx26a4ylBRvm8sPdJFDA
-         8huO+Wyzih6E0XH9ZuLFHtHeSoibq816+/OXvMpZVVMpURJy/mb3SH5jg2lgM26kRU9o
-         NAT1XqEdBJltiMbzzLo2E4K1tCGMzQlhgJ1df+yfQhT9KVP2XvM68mfRMmcDkyS5yVdx
-         KzoA==
-X-Forwarded-Encrypted: i=1; AJvYcCUhD2zaFRGuEC8RHsMLgxvIqnsLA3m3Adfar+/vukeNyYjXFOkFPheqz+tCI+k7BMy/L0HYnNLCCAihlw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyj57s8Sp3qF2EqP4GzldDCXiZX7+X2YOVOAZCTVaccHkaYa/ll
-	LogzUGKfioUOAwWfU52vbfAFutsJbD9lUdSk0zToDa5mQjO9kUw/HTPcFxeNOv2qbYtoDy7XIu6
-	u4X7KZOqxZ24DjE8/4aH4X8KB4sIgEt3lWPhmQ56X90nLUbXh5APhsjsES7qMmJgUfw==
-X-Gm-Gg: AY/fxX62hrTMxeNOOLWKmNQ6KPAB++LWgYotZ9GJf6RFF4GJPWQDaiSceznGC/nMLU+
-	bpnOvhVSgkqPZOK+LIl4QHQ3urEDOy8EH7ZSUcyBDHD3h1bVo72TNrBvMxUV4W3Txg2NEFD62vu
-	zzLVFR9CiwFMSGQYAbWcfgpMuoGjcxLKXnROiV0qdPJfYBshswVIGX/v5j4+EGhOvM8PeXmVkax
-	2LrO4LdVEZhgmAYfh3lQsi+f6Chv6K3FzqUHAztDfGi4ApwiUyT+ZXJXgZeSDkoFtU2HIhaJq2L
-	2sMJ40Y5gxMCBt5lO67pMLvm6kc/AB2A8J30u9uEFm9qUomab9x/ey0KpB1wpv2D7KrRaqpRSKT
-	IUXxlDAZttPe63P6uJmDGk1irD9pDvgqETVmOJDiP4z8UhBoaouO4SyqAKO+NnyQxUSkeHDfMAn
-	wfr7qvv4WUx11Ml1eYedvyugg=
-X-Received: by 2002:a05:620a:489b:b0:8b2:ea2b:923c with SMTP id af79cd13be357-8c52fb236e8mr46320385a.14.1768332510379;
-        Tue, 13 Jan 2026 11:28:30 -0800 (PST)
-X-Received: by 2002:a05:620a:489b:b0:8b2:ea2b:923c with SMTP id af79cd13be357-8c52fb236e8mr46316885a.14.1768332509815;
-        Tue, 13 Jan 2026 11:28:29 -0800 (PST)
-Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-59b669418b6sm5769427e87.20.2026.01.13.11.28.28
+        d=1e100.net; s=20230601; t=1768336779; x=1768941579;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=vuKJVwdXdLFoBFmdbdguCpeTwBYgUktjFchgdX5Irfo=;
+        b=IjoE3kfuOlOSXRhP3iUzVlpL29JLW0bgBvGZHjSHHC7yE21okknwrqS2NjQvwy7Za4
+         Tv2XCwMIrQsJEiKhtwnSFkoYEaPzQgKNr5txKnGkLtlrN1nx2Kn+yapqYjQRp1XmaTUN
+         oHij9QFFxffvBA9K56JkvEQOWP6MdFczSM5Qb5OQfGcuYfvO77N5i6JhZGESSK6y6JUc
+         CW2F+bIKBqSp41Hb+Kxi2GshZ4JE4OsovsrQ42ER+kXFtuxaeCnJ5+hDA/2etUVi4He4
+         yfCJWe41pj0xE87SKAgAhDUZe3HLcfzpcz1cHS7AH/CPMjd3Mdg36k88Mp/37cH9K4F/
+         DKnw==
+X-Forwarded-Encrypted: i=1; AJvYcCWruSnh4BP5xVYtX0eXM4etxesE05gpr9UTIwGAgOYicH4jHZhSxU3OTC1vnvbzZBXT6pEa6iM+w8WfQg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyw7F5Q4ygLavFFObd4BKtPh/+5j+zEkT2JGu6CmIexanKXC+Un
+	TmBc+44Kk92YAc9zadxfgxeh+L2EBco2j7SRu0DquMYIikynp8MmwB7g
+X-Gm-Gg: AY/fxX5XIadGq8nphw61+e/Cp1hnh3RstSEYMbAhLwW4xSEnEVgh06kppE6+VEdTwMI
+	uo6aKArIFcCw2IU/FQBCzRibTVGMmemZw2g4gdK3rIdL4k41AHDY3cSFBntdTGVEsTnAcjhklgL
+	35Tac4Ahq5jGi9RGIwYoaJ1La/Nlgw9XiTQ5ji/9Rtcs4oIK5oNgBe5OqHKfjxYyFpKu/sW5Isp
+	9Fk3kcK4tYXPUwHXLWyLkGHQ/pfhivymb8zE1YTm2eqIUQkPx8Uo69nyij1aXkaSISB9aBUzE7O
+	dPtpFbmYKK6uda/5vho/6QYy6XwGhZ/es1Mo76JX3pA+Z7tweyJ0kBXNeA1b+v2HsbNFs0jVGOX
+	8O54fRCdsLHCJDMDS/5FWBHKUelG9Si0bAK+PtHkmeDUCddOLTtoKcEdSpvX6Z9cjsNwlEWQBsj
+	7at+D0dhtthBC6h7aJQL2eK2FTjknjqXCA1BfvpA2a
+X-Received: by 2002:a17:902:f651:b0:2a3:bf5f:926c with SMTP id d9443c01a7336-2a599e3434fmr3125395ad.39.1768336778822;
+        Tue, 13 Jan 2026 12:39:38 -0800 (PST)
+Received: from [192.168.0.226] ([38.34.87.7])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c4cbf28f6cdsm20541766a12.6.2026.01.13.12.39.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Jan 2026 11:28:29 -0800 (PST)
-Date: Tue, 13 Jan 2026 21:28:27 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: yedaya.ka@gmail.com
-Cc: SzczurekYT <szczurek@szczurek.yt>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>, linux-input@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH 2/3] drivers: input: touchscreen: edt-ft5x06: Add
- FocalTech FT3518
-Message-ID: <o4eu2db3y3wrxaxtxcbxupdc2tzemqvb4fupwfkjfjqmy5qudd@v4umeav2oib2>
-References: <20260113-touchscreen-patches-v1-0-a10957f32dd8@gmail.com>
- <20260113-touchscreen-patches-v1-2-a10957f32dd8@gmail.com>
+        Tue, 13 Jan 2026 12:39:38 -0800 (PST)
+Message-ID: <952853dd064d5303a7e7ec8e58028e9ee88f2fad.camel@gmail.com>
+Subject: Re: [PATCH bpf-next v1 03/10] bpf: Verifier support for
+ KF_IMPLICIT_ARGS
+From: Eduard Zingerman <eddyz87@gmail.com>
+To: Ihor Solodrai <ihor.solodrai@linux.dev>, Alexei Starovoitov
+ <ast@kernel.org>,  Andrii Nakryiko <andrii@kernel.org>, Daniel Borkmann
+ <daniel@iogearbox.net>, Martin KaFai Lau <martin.lau@linux.dev>
+Cc: Mykyta Yatsenko <yatsenko@meta.com>, Tejun Heo <tj@kernel.org>, Alan
+ Maguire <alan.maguire@oracle.com>, Benjamin Tissoires <bentiss@kernel.org>,
+ Jiri Kosina	 <jikos@kernel.org>, bpf@vger.kernel.org,
+ linux-kernel@vger.kernel.org, 	linux-input@vger.kernel.org,
+ sched-ext@lists.linux.dev
+Date: Tue, 13 Jan 2026 12:39:35 -0800
+In-Reply-To: <20260109184852.1089786-4-ihor.solodrai@linux.dev>
+References: <20260109184852.1089786-1-ihor.solodrai@linux.dev>
+	 <20260109184852.1089786-4-ihor.solodrai@linux.dev>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.2 (3.58.2-1.fc43) 
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260113-touchscreen-patches-v1-2-a10957f32dd8@gmail.com>
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTEzMDE2MiBTYWx0ZWRfX7IGFiPkqfSig
- hQullRtkEGuAscdif3YFuwBTxXc5AqJpYEtsMXFbElHKS1J7ARgcFu/xy8P92h3pEhc0io+UMqp
- u6loGD3bHM0zrdXQ+MD/LSLTo1a43t4mrP392tP8zG6F0or5dJsLhDpmCXOU3/36HDEHlsR9Gx1
- IBmtacumDndwbm3h2S3BnEE7XUN26HtX1mgfmQaOGjHFU1QaeAVXtpk0T2U4maqFPrTj4GpMeEz
- sShSVPIz8HHWfKETphxauw7I1a+QH/YVJYPGGChGGy4YEaBLUty770ucL+sHSBGFHfpkWpPC68x
- sa89DaGqrQOKBFAyuFNhXjMVc8EKI2AwPm55F8EJTRiWKSrEuT2WBDeuYLSMmbhDuOL68IR1gQO
- aC3Jr0MEQDgAgUYWyAzx++OadGBSaiSuNr7YfwzFjaTX5RwPODeDMUcKEt/A7XdIo8kyTviSH10
- iSeeNbfLZ9rwKErNw3A==
-X-Proofpoint-ORIG-GUID: zwfsLxk5xKP883a_0fNY5gQxlSau_sUS
-X-Proofpoint-GUID: zwfsLxk5xKP883a_0fNY5gQxlSau_sUS
-X-Authority-Analysis: v=2.4 cv=EujfbCcA c=1 sm=1 tr=0 ts=69669ce0 cx=c_pps
- a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=vUbySO9Y5rIA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=pGLkceISAAAA:8 a=ECEyCYeL1hbWFqLZ0VkA:9 a=CjuIK1q_8ugA:10
- a=PEH46H7Ffwr30OY-TuGO:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2026-01-13_04,2026-01-09_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 adultscore=0 bulkscore=0 impostorscore=0 phishscore=0
- spamscore=0 clxscore=1011 lowpriorityscore=0 priorityscore=1501
- malwarescore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2512120000
- definitions=main-2601130162
 
-On Tue, Jan 13, 2026 at 09:12:36PM +0200, Yedaya Katsman via B4 Relay wrote:
-> From: Yedaya Katsman <yedaya.ka@gmail.com>
-> 
-> The driver also works with FT3518, which supports up to 10 touch points.
->  Add compatible data for it.
-> 
-> Co-developed-by: SzczurekYT <szczurek@szczurek.yt>
-> Signed-off-by: SzczurekYT <szczurek@szczurek.yt>
-
-This doesn't look like a name.
-
-> Signed-off-by: Yedaya Katsman <yedaya.ka@gmail.com>
+On Fri, 2026-01-09 at 10:48 -0800, Ihor Solodrai wrote:
+> A kernel function bpf_foo marked with KF_IMPLICIT_ARGS flag is
+> expected to have two associated types in BTF:
+>   * `bpf_foo` with a function prototype that omits implicit arguments
+>   * `bpf_foo_impl` with a function prototype that matches the kernel
+>      declaration of `bpf_foo`, but doesn't have a ksym associated with
+>      its name
+>=20
+> In order to support kfuncs with implicit arguments, the verifier has
+> to know how to resolve a call of `bpf_foo` to the correct BTF function
+> prototype and address.
+>=20
+> To implement this, in add_kfunc_call() kfunc flags are checked for
+> KF_IMPLICIT_ARGS. For such kfuncs a BTF func prototype is adjusted to
+> the one found for `bpf_foo_impl` (func_name + "_impl" suffix, by
+> convention) function in BTF.
+>=20
+> This effectively changes the signature of the `bpf_foo` kfunc in the
+> context of verification: from one without implicit args to the one
+> with full argument list.
+>=20
+> Whether a kfunc argument is implicit or not is determined by
+> is_kfunc_arg_implicit(). The values of implicit arguments by design
+> are provided by the verifier, and so they can only be of particular
+> types. In this patch the only allowed implicit arg type is a pointer
+> to struct bpf_prog_aux. The __prog args (usually void *) are also
+> considered implicit for backwards compatibility.
+>=20
+> In order to enable the verifier to correctly set an implicit
+> bpf_prog_aux arg value at runtime, is_kfunc_arg_prog() is extended to
+> check for the arg type. At a point when prog arg is determined in
+> check_kfunc_args() the kfunc with implicit args already has a
+> prototype with full argument list, so the existing value patch
+> mechanism just works.
+>=20
+> If a new kfunc with KF_IMPLICIT_ARG is declared for an existing kfunc
+> that uses a __prog argument (a legacy case), the prototype
+> substitution works in exactly the same way, assuming the kfunc follows
+> the _impl naming convention. The difference is only in how _impl
+> prototype is added to the BTF, which is not the verifier's
+> concern. See a subsequent resolve_btfids patch for details.
+>=20
+> In check_kfunc_call() reset the subreg_def of registers holding
+> implicit arguments to correctly track zero extensions.
+>=20
+> Signed-off-by: Ihor Solodrai <ihor.solodrai@linux.dev>
 > ---
->  drivers/input/touchscreen/edt-ft5x06.c | 6 ++++++
->  1 file changed, 6 insertions(+)
-> 
 
--- 
-With best wishes
-Dmitry
+Overall lgtm.
+
+[...]
+
+> diff --git a/kernel/bpf/verifier.c b/kernel/bpf/verifier.c
+
+[...]
+
+> @@ -14303,6 +14358,17 @@ static int check_kfunc_call(struct bpf_verifier_=
+env *env, struct bpf_insn *insn,
+>  	for (i =3D 0; i < nargs; i++) {
+>  		u32 regno =3D i + 1;
+> =20
+> +		/*
+> +		 * Implicit kfunc arguments are set after main verification pass.
+> +		 * For correct tracking of zero-extensions we have to reset subreg_def=
+ for such
+> +		 * args. Otherwise mark_btf_func_reg_size() will be inspecting subreg_=
+def of regs
+> +		 * from an earlier (irrelevant) point in the program, which may lead t=
+o an error
+> +		 * in opt_subreg_zext_lo32_rnd_hi32().
+> +		 */
+> +		if (unlikely(KF_IMPLICIT_ARGS & meta.kfunc_flags
+> +				&& is_kfunc_arg_implicit(desc_btf, &args[i])))
+> +			regs[regno].subreg_def =3D DEF_NOT_SUBREG;
+> +
+
+Did you try doing this in `mark_reg_not_init()`?
+This function is called for R1-R5 some time prior this hunk.
+What I don't like from structural point of view is:
+- `is_kfunc_arg_implicit()` depends on KF_IMPLICIT_ARGS, but that
+  check is done externally. Hence, the naming is misleading or 'meta'
+  should be passed to `is_kfunc_arg_implicit()`.
+- doing DEF_NOT_SUBREG logically has not much to do with implicit args,
+  so it is a bit confusing that is pre-conditioned like that.
+
+>  		t =3D btf_type_skip_modifiers(desc_btf, args[i].type, NULL);
+>  		if (btf_type_is_ptr(t))
+>  			mark_btf_func_reg_size(env, regno, sizeof(void *));
 
