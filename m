@@ -1,139 +1,169 @@
-Return-Path: <linux-input+bounces-17093-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-17094-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52586D1E61E
-	for <lists+linux-input@lfdr.de>; Wed, 14 Jan 2026 12:26:57 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FB1DD1EF3A
+	for <lists+linux-input@lfdr.de>; Wed, 14 Jan 2026 14:04:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 9EC173028FF0
-	for <lists+linux-input@lfdr.de>; Wed, 14 Jan 2026 11:25:38 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id AEE033004502
+	for <lists+linux-input@lfdr.de>; Wed, 14 Jan 2026 13:02:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DAACB38A9AA;
-	Wed, 14 Jan 2026 11:25:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 09EFE37C0FA;
+	Wed, 14 Jan 2026 13:02:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="GucrZAKY";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Ahgv7t0u"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-dl1-f50.google.com (mail-dl1-f50.google.com [74.125.82.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 937092F12A5
-	for <linux-input@vger.kernel.org>; Wed, 14 Jan 2026 11:25:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA4F4233721
+	for <linux-input@vger.kernel.org>; Wed, 14 Jan 2026 13:02:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768389937; cv=none; b=Tvtk31SPrlFyhk6hdCSDCOl1hWF9+pniieCAwnY2uI92wosGJbJaHYjzKLck1I+Xo7/b0pYBZUFGLMw9w095ZV4W/mw5FehNkqpBJtyW55KdscLvihNcRgX+/75b2fObUgUlgm0DJk1ScS/8s0LqFADdP6iNM8YItSMo7j+nVbI=
+	t=1768395731; cv=none; b=ZmrbMDF9mh6EQraLsckmBRevyE0Davk5EDMTPoRMYzg4oDQG08MXqTyhbwYFbYjdOZTHuPgYnzEYh1h4AJI+iP09INlU2TqcvOAEJLDY70hx094Y0vtMrEg2w2YH96/+3iDPo6tKVzz7y1KB2f4eaNnh/xpwT2SL2U1SsET1fEg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768389937; c=relaxed/simple;
-	bh=CiDHpss1hVeyB4RZ3H82ibrygcnDTVOy55OV2SWKALE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=uC6EIckCvNqQoCP2Kv1N+ZhrzDP3eu/L8+NEieH3nqI0yDetZUyUU7F7TIigpU/nnL1D+7aU1XvvtxIw9hpQam4JZaqjLAhi8mVrCT3kbDLAg9RuAZ4mKfh6QM3tRQLb4VCPxi9oEkrzlLYjd1u27GPyYT9g9YtaPCz9+oT2RgU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=74.125.82.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-dl1-f50.google.com with SMTP id a92af1059eb24-121a0bcd376so7336472c88.0
-        for <linux-input@vger.kernel.org>; Wed, 14 Jan 2026 03:25:36 -0800 (PST)
+	s=arc-20240116; t=1768395731; c=relaxed/simple;
+	bh=sD9lD5wb4oL54obmEZfcsV72oWhEv7t1KvFAr0Lh+I8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Qq1dL314SrvqrwZ84kboAwmGqNKXWjU38ukhly2BE1AygCNN/BT21p4fOABDU/qinvUHt4FO/pilApePswRQmn+ejuVxnAPgdXxFOAUOMF3B3pj5dy3f3sfTuTnHdfJdGNPhntzZQqqMe+6dkUJ9CCtvvSjqhlDkb7XlIwdI6nA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=GucrZAKY; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Ahgv7t0u; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60ECrqEq2736174
+	for <linux-input@vger.kernel.org>; Wed, 14 Jan 2026 13:02:09 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	7AVkdAwzTz15AVGc6zGzqmSVEPx7IpTdFQTllaA8Exc=; b=GucrZAKY+oSiaDfn
+	f/ihbNSu476xRKUei314nWlb7mJlzMi9jMnRryjguOFOyTN+ZC4GUjU3lfwaZlSP
+	xLh2JnVrJI1rPGA6xmJXP5GF5Gyw3N0mXQMH+hDmM4o7CZh6AyqrwoiezpQPZLCl
+	MV7DIj70gKgrzzjO7nKwhRJ38GlpxZJa8SnOp0m3oQai1C2y0K1NoXMyMlexDt7B
+	O44ud8ZbWeUYHpt5kLoKfobjkSN59cg37qzZtsLPDJYL9PQa/7lwphvmnFmWuqaQ
+	OCl4bwzwLbXjXy7Vq36lY72JiMkbXI5uGHopUhaPCT6THxHJrHYV1F/Y/+/PVRnL
+	AJ5/Kg==
+Received: from mail-vk1-f197.google.com (mail-vk1-f197.google.com [209.85.221.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bpbj5g0rj-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-input@vger.kernel.org>; Wed, 14 Jan 2026 13:02:09 +0000 (GMT)
+Received: by mail-vk1-f197.google.com with SMTP id 71dfb90a1353d-56345323f29so1017640e0c.0
+        for <linux-input@vger.kernel.org>; Wed, 14 Jan 2026 05:02:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1768395729; x=1769000529; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=7AVkdAwzTz15AVGc6zGzqmSVEPx7IpTdFQTllaA8Exc=;
+        b=Ahgv7t0utTCGqX3//hijZohVVLyMDZCN/nSKzilXHSQuUPXV73E3lXzCztGc5VQLIZ
+         bnuFWHnpeNFSQqMmlVoE0yv8bYIOdiBdKmV0lj+jdumCr7pdiyxJH3Dd1mnyqSuEVFgG
+         2fygiau7WtKuI+aexJPLbNwjNATgbt9DSLTIg4XBtlUNP75pHAIlEBWfigF5cntZxYV9
+         KyrRcYpDn9/7rvJqkBeZhXVD5E350xYytfe7Jmkho5w+Z1MKx9PrIpFayj63DDUK5DkO
+         97arMcqKeaq1a9g72unszDS9owmpAjqDnDxvmnMtiGJ+Gjx2cGyadeO2sQGeVsE0OMId
+         td8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768389936; x=1768994736;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RlUeVi88PIKWMzTWAKceP+tOAwQMJqEvuH7YKzydUAQ=;
-        b=DulvbVboVqKcegk4+X2dr22wFbZ8LUh6u7Ct90804JiQtkvfu0hTfc/Kvm/35Uf3rY
-         lAiVgT445Pf+t4ENpLwmCs1pvbIF4LzVUhM73pPNCu1qmqQo6M4k9DPwMzYue55X4bCp
-         8dhtL8xb2u3fmQhvUkkrxFpdMpBfB3FTyJ3Bp/Z7o7ZLvvnsgVwxDNIVSjz3vInAgzcC
-         knFlAn8WF5TuSqMr4tXWygbBHuiS4zoD97QqEKGsMNVjeWlUlNTmqWP4tv8s1I3HMVQu
-         RLWFowSSgtYmr8EyFOTPB9ngGp3UKZ6uALNcsAa4v3ZoaoPY4T8Cd9Vch4sG+Bo63jUv
-         Sz2Q==
-X-Forwarded-Encrypted: i=1; AJvYcCW2UpK3IYc8MaYxShAIUWM64PgbZJi6AeyJ3uznCzAgoUbUkmT0xvXRlopPWU5IRcAoHtxZYBHtq967VQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyi2R7Su4iKgIM+89dvsDCEb/Uc9e28W7T8dzuST8q86/Z8Aa5B
-	QCIKN61kO/3BTDg6AEzP27eSCvygclfPLptLuM4RWVY7i7wotAe3RdgorLpmUDiN
-X-Gm-Gg: AY/fxX6/3sPT0SN2iwdOkUlOimEG5cS8zfiXiEqbkxd4RTJt/jdHa1mSvMfgcbYf2sM
-	b/EyoFPE4QbbaA2Vj9nNx2z03e0ZN3QheAtwai3zXsoVSi0ibrO0+QWHeZz6NhQ4oYtjAuSdX9W
-	fsVRbQARwlDdbflDZbc3/5hvxbvFMbZvEysimxGQB7qE7B3HYCybebhLFU4RQlJb77pr88DXPCE
-	s5+oDSzxY6KRPfro1i1+mdvPyrsd8TYsjI4LMmY6JODgdFUiysCLnvSO/m6WR5CCx/mmophEIX0
-	akziTGsffXLrD9h7Lay9V5hcPdoAm7odGHG6n1WKH9P4JSX8fi1DverE3Ho3FfonIeQWRIsfGIX
-	UWgJSSfXtZ5hrRUPHiT+xoUbTQ+5Rg+dQ5W95C5FQaGctaNQKhERpxFNZYaB4luGYTN48Us2A0/
-	YijeSIe0STC2hrF6t326DTOtHZiCBTzfsr201uyhRsVhK/u3P2
-X-Received: by 2002:a05:6102:80a0:b0:5ef:a390:58fb with SMTP id ada2fe7eead31-5f17f6302d7mr712740137.31.1768383446989;
-        Wed, 14 Jan 2026 01:37:26 -0800 (PST)
-Received: from mail-ua1-f44.google.com (mail-ua1-f44.google.com. [209.85.222.44])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-5ec772afecasm22702990137.11.2026.01.14.01.37.26
-        for <linux-input@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 14 Jan 2026 01:37:26 -0800 (PST)
-Received: by mail-ua1-f44.google.com with SMTP id a1e0cc1a2514c-943d0cafe77so2768999241.3
-        for <linux-input@vger.kernel.org>; Wed, 14 Jan 2026 01:37:26 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCXOTBeuN4Y8OIQjhcG5Icf7Xr6X8g0IGksnmSdzVAvJ/3ghiwioTIZYg5Rm+ianF233kHH8GeqldC9WvA==@vger.kernel.org
-X-Received: by 2002:a05:6102:41a7:b0:5ed:bc1:823a with SMTP id
- ada2fe7eead31-5f17f6592aemr793700137.33.1768383446392; Wed, 14 Jan 2026
- 01:37:26 -0800 (PST)
+        d=1e100.net; s=20230601; t=1768395729; x=1769000529;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=7AVkdAwzTz15AVGc6zGzqmSVEPx7IpTdFQTllaA8Exc=;
+        b=XzjFORQ2VjhqKDX0cblZeDDgnfxBSN4bSFd0US2wA1TkZK8ahfnCzwoxOlq2T3Lvfd
+         2A1eO1jnigWHr6L56ZzUZ3lFaOpuEnh8eZy9pTojE01rmFe1pisCK2i6gmTOdaSmfML5
+         6ElbEt6dgXtCq2wpnFfOgC0UI8wi1zcAtcAj9g4QYs7HfRfBUtnradN+IoMnoo1DlKJE
+         e9/kBm3unLcnaiZd+HorJqvq6h+RDqDGNh4dAo9vAywyAd14HyAlgQgh7hPesZwYwkKc
+         agzsmI7z41rki+NbOIbrBloOFCM8f/eQGbzUd4vO3IrofUYFfS3T8Or3AgYq6ghrXvzw
+         ncWA==
+X-Forwarded-Encrypted: i=1; AJvYcCVFRTF/mOoihukSHG9tExw6589QFzB3q329PWAMgps1MODiv7qR68fOonaq8ybxD7itHkaT4hTf4mHHFg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YybSs29tZhDeLMQBU/RvTDfwORbRbBdEb86fsrjalKya54HMKJI
+	W9uDF7DIPIS3xCPWZ8U/onhD6LDre6HCUQ/Z7a2x+q4lv81bQNTNSBWQ9LoVBa0HI+NP8DjWZnX
+	lB3DcZ9OpRemBC2WHMjbewe0tKYB3pnFZrnfx1IgLPl7kKV51FjvpeEfJ2pkmYUZnjQ==
+X-Gm-Gg: AY/fxX4eIdbOdlY/iAevHMUOzIQmxA350PuZAkUGzxAHt+V4STiqmk15rFm+Uf901AC
+	2vTCtW8xnOUgBFEd1APjGohgDr8QW2ebIcqmd+mgIIDm95zVFapvAVBOxfVv7Wjlu+lnPF8LZ4w
+	M5HNGKP5a4uUpSzh5tS5FVzU2URGSPl0DZPViy1ege2+DzKc3M38T8zmg/D+czWdXySDrLSqqSu
+	/jDRm5GG9ns5Xfi+YKz4/UPmAjiKgq6fFjVAaEOHW8a3qdtabtBzItXjd5QmIl8+m5h+8MuqHs8
+	wonXGZpbqKt6Kj5bZkcCDmtgKjL/lvU2DhU5tKGZ4Y5+hmIWIbXqMlRF4+Urz0saqg+V5maYILW
+	yyhQV06BkkXCXtwiocAUP9ExyURmhpQYQjqPq/VWk3cJ6Y4yFzYt24hhKYzSPi3frBI5nRr5l1J
+	hr4PKT85rvkCyS7kbUa9VabXU=
+X-Received: by 2002:a05:6122:3c84:b0:563:5b70:3707 with SMTP id 71dfb90a1353d-56395c89911mr2454753e0c.9.1768395727486;
+        Wed, 14 Jan 2026 05:02:07 -0800 (PST)
+X-Received: by 2002:a05:6122:3c84:b0:563:5b70:3707 with SMTP id 71dfb90a1353d-56395c89911mr2454683e0c.9.1768395726881;
+        Wed, 14 Jan 2026 05:02:06 -0800 (PST)
+Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-59ba101bcb3sm676215e87.21.2026.01.14.05.02.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 14 Jan 2026 05:02:05 -0800 (PST)
+Date: Wed, 14 Jan 2026 15:02:03 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: yedaya.ka@gmail.com
+Cc: SzczurekYT <szczurek@szczurek.yt>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>, linux-input@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org,
+        Kamil =?utf-8?B?R2/FgmRh?= <kamil.golda@protonmail.com>
+Subject: Re: [PATCH v2 2/3] drivers: input: touchscreen: edt-ft5x06: Add
+ FocalTech FT3518
+Message-ID: <bqlwe7fx4kzj3eie6hmffxbr3zqezxsdbnswg3i5bpnz22pf4e@n6ogchhf7cdv>
+References: <20260114-touchscreen-patches-v2-0-4215f94c8aba@gmail.com>
+ <20260114-touchscreen-patches-v2-2-4215f94c8aba@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260112234534.225954-1-marek.vasut+renesas@mailbox.org>
- <20260112234534.225954-2-marek.vasut+renesas@mailbox.org> <aWZ1pG5RRWlDSCwC@lizhi-Precision-Tower-5810>
-In-Reply-To: <aWZ1pG5RRWlDSCwC@lizhi-Precision-Tower-5810>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 14 Jan 2026 10:37:15 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXb3-EFy8WA9FTAqvyYHaF4nGch60bUQ6bbKu6Dzbh6YQ@mail.gmail.com>
-X-Gm-Features: AZwV_QixtfIM8YCIiXj7v0fzbdqd9QL-Kw8ynN88vc69gt7t-8CBMGxLdXH8t2o
-Message-ID: <CAMuHMdXb3-EFy8WA9FTAqvyYHaF4nGch60bUQ6bbKu6Dzbh6YQ@mail.gmail.com>
-Subject: Re: [PATCH 2/2] Input: ili210x - add support for polling mode
-To: Frank Li <Frank.li@nxp.com>
-Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>, linux-input@vger.kernel.org, 
-	Conor Dooley <conor+dt@kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
-	Job Noorman <job@noorman.info>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260114-touchscreen-patches-v2-2-4215f94c8aba@gmail.com>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTE0MDEwNyBTYWx0ZWRfXxXBj/Ex2yQSV
+ XMIKho4D4NBv1vRg4OtYAa1LjAH+EK53qIN0Utody/2hqX/P7fdFCsNj5KvBO6zqc5/fNVzMous
+ T2BOmmEHNPRd+vBTHsEcSPvEv9f1pkX5+8Axf0FkZiZoPgqMRK+7MBIpxrSZZ5kF66fOyJRnmip
+ 2/FPDqKkJCUrErn/iz36WbMe3drlb3+P36f2vcC1ps+mA8KDqJ7O9RMHqLU3kIWmBoGIwP4yXSf
+ AM4utnRBIAkdi1RbDVIMF8k4lMQhrBo6RVPeopfgUZPe2GF+8pqkblBAxJByNXxuJ248M0Rc7rK
+ Lefcmt/yBVgFa9fA3dlPiHH1wi8Ggd8SxixJDFFJskzWZOvnFdRz13WxmoEzEWTyzHmE2UeJWCh
+ lIfz5ViuK7ihz+GsuZB4ljG+cCDVU3XdLCIcNHwvbgbmu6OzXTBFa5Y8NnOa8qt8IwFLiIn/SbT
+ V80oirxW+Bi2qKz6Hkw==
+X-Proofpoint-ORIG-GUID: x7l4j1vQWbVccqoJ7FqNHG7dJJxqF9Fw
+X-Proofpoint-GUID: x7l4j1vQWbVccqoJ7FqNHG7dJJxqF9Fw
+X-Authority-Analysis: v=2.4 cv=aapsXBot c=1 sm=1 tr=0 ts=696793d1 cx=c_pps
+ a=JIY1xp/sjQ9K5JH4t62bdg==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=vUbySO9Y5rIA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=pGLkceISAAAA:8 a=sfOm8-O8AAAA:8 a=EUspDBNiAAAA:8 a=ECEyCYeL1hbWFqLZ0VkA:9
+ a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=tNoRWFLymzeba-QzToBc:22
+ a=TvTJqdcANYtsRzA46cdi:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2026-01-14_04,2026-01-09_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 malwarescore=0 clxscore=1015 priorityscore=1501
+ lowpriorityscore=0 impostorscore=0 bulkscore=0 phishscore=0 adultscore=0
+ suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2512120000
+ definitions=main-2601140107
 
-Hi Frank,
+On Wed, Jan 14, 2026 at 11:31:07AM +0200, Yedaya Katsman via B4 Relay wrote:
+> From: Yedaya Katsman <yedaya.ka@gmail.com>
+> 
+> The driver also works with FT3518, which supports up to 10 touch points.
+>  Add compatible data for it.
+> 
+> Co-developed-by: Kamil Gołda <kamil.golda@protonmail.com>
+> Signed-off-by: Kamil Gołda <kamil.golda@protonmail.com>
+> Signed-off-by: Yedaya Katsman <yedaya.ka@gmail.com>
+> ---
+>  drivers/input/touchscreen/edt-ft5x06.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
+> 
 
-On Tue, 13 Jan 2026 at 17:41, Frank Li <Frank.li@nxp.com> wrote:
-> On Tue, Jan 13, 2026 at 12:44:57AM +0100, Marek Vasut wrote:
-> > There are designs incorporating Ilitek ILI2xxx touch controller that
-> > do not connect interrupt pin, for example Waveshare 13.3" DSI display.
-> > To support such systems use polling mode for the input device when I2C
-> > client does not have interrupt assigned to it.
-> >
-> > Factor out ili210x_firmware_update_noirq() to allow conditional scoped
-> > guard around this code. The scoped guard has to be applied only in case
-> > the IRQ line is connected, and not applied otherwise.
-> >
-> > Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
-> > --- a/drivers/input/touchscreen/ili210x.c
-> > +++ b/drivers/input/touchscreen/ili210x.c
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 
-> > @@ -1003,12 +1027,24 @@ static int ili210x_i2c_probe(struct i2c_client *client)
-> >               return error;
-> >       }
-> >
-> > -     error = devm_request_threaded_irq(dev, client->irq, NULL, ili210x_irq,
-> > -                                       IRQF_ONESHOT, client->name, priv);
-> > -     if (error) {
-> > -             dev_err(dev, "Unable to request touchscreen IRQ, err: %d\n",
-> > -                     error);
-> > -             return error;
-> > +     input_set_drvdata(input, priv);
-> > +
-> > +     if (client->irq) {
->
-> 0 is validated irq number
->
-> https://elixir.bootlin.com/linux/v6.19-rc4/source/drivers/base/platform.c#L284
-
-Not anymore ;-)
-
-https://elixir.bootlin.com/linux/v6.19-rc4/source/drivers/base/platform.c#L299
-
-Gr{oetje,eeting}s,
-
-                        Geert
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+With best wishes
+Dmitry
 
