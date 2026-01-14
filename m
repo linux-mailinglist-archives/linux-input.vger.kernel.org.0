@@ -1,81 +1,114 @@
-Return-Path: <linux-input+bounces-17087-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-17090-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFEC2D1D812
-	for <lists+linux-input@lfdr.de>; Wed, 14 Jan 2026 10:27:43 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DB0AD1D8B7
+	for <lists+linux-input@lfdr.de>; Wed, 14 Jan 2026 10:31:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 79FEB30213E9
-	for <lists+linux-input@lfdr.de>; Wed, 14 Jan 2026 09:22:59 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 18EA5300FEC1
+	for <lists+linux-input@lfdr.de>; Wed, 14 Jan 2026 09:31:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 84A2037E31A;
-	Wed, 14 Jan 2026 09:22:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 94DB93876DF;
+	Wed, 14 Jan 2026 09:31:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OgL+fOXV"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m5MW2VGN"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60A762D8377;
-	Wed, 14 Jan 2026 09:22:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6525537F72B;
+	Wed, 14 Jan 2026 09:31:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768382578; cv=none; b=gq9w3DPNxSN7/NJZxYhdCqFYa8i4rzHOCetZnlNCg6wDFLz9bBZHqqO9Yxpa4XL4bBG+ard4MlgJMsADIA0GpBokAOXp2UYNAWKvD3w5HdGAGj1N0BQNF/NFo/aD6/kidUd2LNwhpZo6CLHudizknMwp/zZ9d7J+K0s+awO+scY=
+	t=1768383071; cv=none; b=Ba8zx1RyhW8BiBVTiiT8FtQi39XdqJeo4P2CM0Et3RHJxoIyoSRTJVrM62X2O6iRFTFw66yewxpCByIqNnwCWAKRdiV9+nKFAydKWWHbRwJCxqU4AHn4qVCl4Bw8iPrtWzEfMkKuzyZtT+b2qGe6xR7rW8i35ITdQL2jhd736YQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768382578; c=relaxed/simple;
-	bh=Yo8uRrjOQtUu3sP57XmGHMPngzKoh4iDTFvKQ8mfj9M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LHZ8uaEi9St8dUZO0q2htVCf+6Uyb4xupdkDRWgk8nfUjhiZ4qPNXuF/vfJP1lASPO36f+I7cLXJQHRpYme0u75JDfRcsfFKSTzzXzRfGgOSxCAkb+DhmZew/++qvVjv3La7UhUEBYx6i4e4VvVLNPjkneJ2AjU1ej/9VBjC+uw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OgL+fOXV; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E2CBC4CEF7;
-	Wed, 14 Jan 2026 09:22:57 +0000 (UTC)
+	s=arc-20240116; t=1768383071; c=relaxed/simple;
+	bh=TG1VRK73rsFwkrCWwreBjkTZ7tI5mr/BPnHTVBIyQOc=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=Wr8YVECk+yxdttsDyX4cxxgCrghCqp4o+6vqpyY5w7rDZ6O9Pq5uSgDuZAFTFJFTIjOEF2EucMHEsas6XTWuy05VMZOpiFjhWRYt1aQr/dbWPYuBrylxYG8/u47AdHLiCfK6QsvU5mGnDxgpvL/vxKVZYCJMT3Fl6mKCJzilxlc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=m5MW2VGN; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 06D7BC4CEF7;
+	Wed, 14 Jan 2026 09:31:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768382578;
-	bh=Yo8uRrjOQtUu3sP57XmGHMPngzKoh4iDTFvKQ8mfj9M=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=OgL+fOXVH7H0C3YZjiZ0hk6pA018WwsQtcvpcguzIR+dWsUUo5h2zrtM4nuSC+k7K
-	 VvlLMjjBjiiRrv0IoVPUoUc7VUoGIpLPC/h2/tL+7N/IuWUfECXkMHTjJQMxorFplG
-	 8ethPnZZw7zCA2OUy0KL6w8kf17gIO8+sobc8E2arntkDDHSFhUPosEIA/L+KJq5dh
-	 YKxc+fchokpesZ5S2vAA5say6EV5EBTc/RKDN8ExddImtl2NyTdgHCK/rbs1j9sGe9
-	 xHj+wybsJfyPR/fP2BD+9tBUrrT7qXPhvQdEufsF9xioev+w5k7xuxbBwBE0r2dSbw
-	 hbKGObrNxkuNQ==
-Date: Wed, 14 Jan 2026 10:22:55 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Yedaya Katsman <yedaya.ka@gmail.com>
-Cc: SzczurekYT <szczurek@szczurek.yt>, 
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, 
-	linux-input@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH 1/3] dt-bindings: input: touchscreen: edt-ft5x06: Add
- FocalTech FT3518
-Message-ID: <20260114-cherubic-malachite-gecko-ecbfa3@quoll>
-References: <20260113-touchscreen-patches-v1-0-a10957f32dd8@gmail.com>
- <20260113-touchscreen-patches-v1-1-a10957f32dd8@gmail.com>
+	s=k20201202; t=1768383071;
+	bh=TG1VRK73rsFwkrCWwreBjkTZ7tI5mr/BPnHTVBIyQOc=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=m5MW2VGNjYQlRdYD3jEUu3GotlLJiDaKbAzveF6vUae+hYWB7uvFkAAPRdRS9tqZg
+	 E9xy8TECbqD+IeLw51ZotKaNrUvREFYJaPoos1OU3aT6GsAaA+hhFtIpyVxyoEIACi
+	 O7DEFK2M4Sc1mD0xZyVgpEZINKzNKLeA57R/VyPI1K9ibEM1I2uiYYZnt3g+fEGB9I
+	 W178czGaoe98tk6j3MxeBAVCokwwkZ/8EVuhX6KhwNuL3frYMxiSl1zRYdC50CsgN5
+	 p0wdi9tmQq/rFXVp48xFAUPjhki3YjJsP4zrwA5JORmzQK2FEy1ety7Y9AxMsKE7iL
+	 VsZ7v869UGAHQ==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2E73D31A04;
+	Wed, 14 Jan 2026 09:31:10 +0000 (UTC)
+From: Yedaya Katsman via B4 Relay <devnull+yedaya.ka.gmail.com@kernel.org>
+Subject: [PATCH v2 0/3] Support FT3518 touchscreen in xiaomi-laurel
+Date: Wed, 14 Jan 2026 11:31:05 +0200
+Message-Id: <20260114-touchscreen-patches-v2-0-4215f94c8aba@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260113-touchscreen-patches-v1-1-a10957f32dd8@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/32NSw6DIBRFt2LeuDSAwX5G7qNxwOchL6ligJo2x
+ r2XuoAOz0nuuRtkTIQZ7s0GCVfKFOcK8tSADXoekZGrDJLLjgvRshJfNmSbEGe26GIDZmbQSCU
+ 745Q3UJdLQk/vo/oYKgfKJabPcbKKn/3fWwXjTAt+UxffSueu/Thpep5tnGDY9/0LbwYJOrYAA
+ AA=
+X-Change-ID: 20260113-touchscreen-patches-beb2526bd5fb
+To: SzczurekYT <szczurek@szczurek.yt>, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>
+Cc: linux-input@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ Yedaya Katsman <yedaya.ka@gmail.com>, 
+ =?utf-8?q?Kamil_Go=C5=82da?= <kamil.golda@protonmail.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1768383069; l=1085;
+ i=yedaya.ka@gmail.com; s=20260113; h=from:subject:message-id;
+ bh=TG1VRK73rsFwkrCWwreBjkTZ7tI5mr/BPnHTVBIyQOc=;
+ b=F/5PBPJdxPQpBNNxG38MLAbRTBNoWnxPPrSXa4s05zXS0dYj/Rr2EsIW2vsj+0efBdDb9Hlm9
+ lkJahEN6cS0DPlYAHRwsyNsJA4BgojCuRCD68MU7bEF/Zee5NBVltJu
+X-Developer-Key: i=yedaya.ka@gmail.com; a=ed25519;
+ pk=CgNmxD3tYSws5dZfpmJfc6re/bV/f47veVijddHLytk=
+X-Endpoint-Received: by B4 Relay for yedaya.ka@gmail.com/20260113 with
+ auth_id=601
+X-Original-From: Yedaya Katsman <yedaya.ka@gmail.com>
+Reply-To: yedaya.ka@gmail.com
 
-On Tue, Jan 13, 2026 at 09:12:35PM +0200, Yedaya Katsman wrote:
-> Document FocalTech FT3518 support by adding the compatible.
-> 
-> Co-developed-by: SzczurekYT <szczurek@szczurek.yt>
-> Signed-off-by: SzczurekYT <szczurek@szczurek.yt>
+Adds support for the touchscreen in the Xiaomi Mi A3 (xiaomi-laurel)
+ smartphone, FocalTech FT3518
 
-You need to use real names or real known identity.
+Original tree was here:
+ Link: https://gitlab.postmarketos.org/SzczurekYT/linux/-/commits/laurel
 
-See submitting patches.
+Signed-off-by: Yedaya Katsman <yedaya.ka@gmail.com>
+---
+Changes in v2:
+- Fixed name and email in signoffs
+- Link to v1: https://lore.kernel.org/r/20260113-touchscreen-patches-v1-0-a10957f32dd8@gmail.com
 
-> Signed-off-by: Yedaya Katsman <yedaya.ka@gmail.com>
+---
+Yedaya Katsman (3):
+      dt-bindings: input: touchscreen: edt-ft5x06: Add FocalTech FT3518
+      drivers: input: touchscreen: edt-ft5x06: Add FocalTech FT3518
+      arm64: dts: qcom: sm6125-xiaomi-laurel-sprout: Add Focaltech FT3518 touchscreen
+
+ .../bindings/input/touchscreen/edt-ft5x06.yaml     |  1 +
+ .../boot/dts/qcom/sm6125-xiaomi-laurel-sprout.dts  | 34 ++++++++++++++++++++++
+ drivers/input/touchscreen/edt-ft5x06.c             |  6 ++++
+ 3 files changed, 41 insertions(+)
+---
+base-commit: b71e635feefc852405b14620a7fc58c4c80c0f73
+change-id: 20260113-touchscreen-patches-beb2526bd5fb
 
 Best regards,
-Krzysztof
+-- 
+Yedaya Katsman <yedaya.ka@gmail.com>
+
 
 
