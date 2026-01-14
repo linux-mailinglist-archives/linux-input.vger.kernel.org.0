@@ -1,86 +1,106 @@
-Return-Path: <linux-input+bounces-17083-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-17084-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEA7CD1CE01
-	for <lists+linux-input@lfdr.de>; Wed, 14 Jan 2026 08:38:20 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id DE30CD1CE50
+	for <lists+linux-input@lfdr.de>; Wed, 14 Jan 2026 08:42:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id CA0A730142D8
-	for <lists+linux-input@lfdr.de>; Wed, 14 Jan 2026 07:32:05 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 9A3CB30213DF
+	for <lists+linux-input@lfdr.de>; Wed, 14 Jan 2026 07:37:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BA045363C5F;
-	Wed, 14 Jan 2026 07:32:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 493C837B3FE;
+	Wed, 14 Jan 2026 07:37:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pBZAJV31"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RA+CUDD1"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5563B3624A0;
-	Wed, 14 Jan 2026 07:32:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE12E2877D4;
+	Wed, 14 Jan 2026 07:37:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768375922; cv=none; b=DPhtdsbF9TNkdsUcbguGenbah6I8h4SExsarE+IXBwQPu9tAck3TKAODciEYlsHVMG5UCyzRlHdXVqoDe1ctzNoqpctI5VgU8YF2XXuGGJA1rY9xkegfITjX/SWLt8w/L/gDd5U6DOBTnk32qhIQv+KR2e5gWaonJ6AV8fneMfc=
+	t=1768376250; cv=none; b=tLuN8cyla+usQW0XqYckXmUoEqVD6Rw1/wI1SDZiunlHl3++0hbpZ0AjUozR/z4MxLwSNE9j02kmfBPt4V6s0KtgPpYDCCiLoJNV4plEzVjjoyCB0s2gd6pxyhkPCDoAtUfJk5bFwFuF7pp7puDgLC9PqtJxvVZqd6KuN0BMbdg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768375922; c=relaxed/simple;
-	bh=orcwKbiN7UgOJj304kfxPoo8ZOOnHKD4pLKX5LgxnVM=;
+	s=arc-20240116; t=1768376250; c=relaxed/simple;
+	bh=T1qGwg1e15H4J6pk8+5ahBXAF+J+4bn3Uo3je5pF8vk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Xou8BiF7VUJ/xSpdXH8Lhw2/Pvl+uGskDQG/mCBFFCQk0bpBwXuS4txKFRCdB1i+ANymAbir40Kg588FtLc0QEkMFxzTWx3XraDoVxwhDowic0IYsJi+7jE98OvWWPBsauk54Km/CActykrcoriWRXcGRh5sgFbNgbzXqpj6nOQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pBZAJV31; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2517FC4CEF7;
-	Wed, 14 Jan 2026 07:32:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768375921;
-	bh=orcwKbiN7UgOJj304kfxPoo8ZOOnHKD4pLKX5LgxnVM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=pBZAJV31mQg2RRApzC2Efuxi+GRtdWpVi13qsQteRGqABdi0Gvl+qAUQ5j5/qexNx
-	 FgZZJOvq7kaTP8ZFwklFn7chW2MuDKaWSHy+suy2R/CAxv79sH1+E6HVlk72yd9YHA
-	 2BCMkmZCNhSX3AXHyWUxtWR82wpI9WLNJV7/d/lNeXuFYIArWCTtxB8gsRXdZ+Ox0n
-	 tPIG2mL6IvNkDJCq66CwVQJsjlj/sVh05AwFdW9QyXp5rF+kP36Z4P0bwh2wRA8cGY
-	 hGvnsO5oYQjehioerAnKzktCGy4Byjumiy8v+cSNBRYOm4t3wFPpmsbhWQRPyDDNBo
-	 7D/iuflB4Bbzw==
-Date: Wed, 14 Jan 2026 08:31:59 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Kuan-Wei Chiu <visitorckw@gmail.com>
-Cc: airlied@gmail.com, simona@ffwll.ch, maarten.lankhorst@linux.intel.com, 
-	mripard@kernel.org, tzimmermann@suse.de, robh@kernel.org, krzk+dt@kernel.org, 
-	conor+dt@kernel.org, dmitry.torokhov@gmail.com, sre@kernel.org, 
-	gregkh@linuxfoundation.org, jirislaby@kernel.org, lgirdwood@gmail.com, broonie@kernel.org, 
-	jserv@ccns.ncku.edu.tw, eleanor15x@gmail.com, dri-devel@lists.freedesktop.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-input@vger.kernel.org, 
-	linux-pm@vger.kernel.org, linux-serial@vger.kernel.org, linux-sound@vger.kernel.org
-Subject: Re: [PATCH v4 5/6] dt-bindings: sound: google,goldfish-audio:
- Convert to DT schema
-Message-ID: <20260114-gainful-mutant-lemur-92ede9@quoll>
-References: <20260113092602.3197681-1-visitorckw@gmail.com>
- <20260113092602.3197681-6-visitorckw@gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=thUw+Ee6Zz4J1rKEIS7sohnCmZqIOWmqjk2xkiATNEzM+gGHKN+a9IoVQC3vgkyXm9BaqN0HcPX374BSlYuGdLTeUa1ZTN09Q7Kxnd/JG2pgga097ZshK1eMd/6NXOob55rQcYTOQ5VzQJ5+7u+++AVxykZ8B5vQlzTwJ9gcUGo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RA+CUDD1; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1768376247; x=1799912247;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=T1qGwg1e15H4J6pk8+5ahBXAF+J+4bn3Uo3je5pF8vk=;
+  b=RA+CUDD1fqn0cDF3bcl9UpQjLKqmKYDRpoHwCd+w2Xsv3+sTmkkQNSgz
+   o3JGzZq7OxQtp4qIoGD3Gv4xuGMjMM++plXVjHfGE43N/VPor4q46taQI
+   yF/AwHUen1ALFRN3tONnoXvPmh5SewmG4I6MV+0NQeJ4pg4IkBhR1YgG+
+   FFA1kaUEh12Nd3NMt50ja8HGFg99nDDFV/KE5BwRWFg9PioHvS7+af/YR
+   7ddf2f7kTS6NXcrJrcNg6NjYbpwgi2mINpdRuq4X1Jqtpj0AnkDBM04p3
+   xoxyUcxrLeZUGKTWUJgbgACTMP/n8sxlsHMjbryYdr6oIE4mNdDibQMBK
+   w==;
+X-CSE-ConnectionGUID: gNbCkjNUQBSGL2EAZlB4Iw==
+X-CSE-MsgGUID: lNeJ2jOxTE2y8hrsv7ieGg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11670"; a="68877195"
+X-IronPort-AV: E=Sophos;i="6.21,225,1763452800"; 
+   d="scan'208";a="68877195"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2026 23:37:24 -0800
+X-CSE-ConnectionGUID: WLcomsBXQYGZR3V1Q0rfHQ==
+X-CSE-MsgGUID: KZjA/qrDT0a3CQ37n4EWmQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,225,1763452800"; 
+   d="scan'208";a="242141008"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by orviesa001.jf.intel.com with ESMTP; 13 Jan 2026 23:37:23 -0800
+Received: by black.igk.intel.com (Postfix, from userid 1003)
+	id 332F798; Wed, 14 Jan 2026 08:37:21 +0100 (CET)
+Date: Wed, 14 Jan 2026 08:37:21 +0100
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Vivek BalachandharTN <vivek.balachandhar@gmail.com>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@kernel.org>
+Subject: Re: [PATCH] input: byd: use %*ph for Z packet dump
+Message-ID: <aWdHsalXcjFKmDDK@black.igk.intel.com>
+References: <20251202033120.2264474-1-vivek.balachandhar@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260113092602.3197681-6-visitorckw@gmail.com>
+In-Reply-To: <20251202033120.2264474-1-vivek.balachandhar@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Tue, Jan 13, 2026 at 09:26:01AM +0000, Kuan-Wei Chiu wrote:
-> Convert the Android Goldfish Audio binding to DT schema format.
-> Move the file to the sound directory to match the subsystem.
-> Update the example node name to 'sound' to comply with generic node
-> naming standards.
-> 
-> Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
-> ---
->  .../devicetree/bindings/goldfish/audio.txt    | 17 ---------
->  .../bindings/sound/google,goldfish-audio.yaml | 38 +++++++++++++++++++
->  2 files changed, 38 insertions(+), 17 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/goldfish/audio.txt
->  create mode 100644 Documentation/devicetree/bindings/sound/google,goldfish-audio.yaml
+On Tue, Dec 02, 2025 at 03:31:20AM +0000, Vivek BalachandharTN wrote:
+> Replace the hand-rolled %02x formatting of the Z packet warning in the
+> BYD driver with the %*ph format specifier. %*ph is the preferred helper
+> for printing a buffer in hexadecimal and makes the logging clearer and
+> more consistent.
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+You probably took one of the oldest examples of such a conversion done in
+the input subsystem.
 
-Best regards,
-Krzysztof
+> +			     "Unrecognized Z: pkt = %*ph\n",
+> +			     4, psmouse->packet);
+
+The (not-so-critical) problem here is the stack consumption and additional work
+for the printf() to parse '*'. To optimise that, static field widths may be
+embedded in the format strings
+
+			     "Unrecognized Z: pkt = %4ph\n",
+			     psmouse->packet);
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
 
 
