@@ -1,77 +1,77 @@
-Return-Path: <linux-input+bounces-17076-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-17077-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF378D1BE25
-	for <lists+linux-input@lfdr.de>; Wed, 14 Jan 2026 02:06:20 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id BD9A3D1BF25
+	for <lists+linux-input@lfdr.de>; Wed, 14 Jan 2026 02:35:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 7F12E3021068
-	for <lists+linux-input@lfdr.de>; Wed, 14 Jan 2026 01:06:08 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 60DD33011A49
+	for <lists+linux-input@lfdr.de>; Wed, 14 Jan 2026 01:35:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A6CFE207A38;
-	Wed, 14 Jan 2026 01:06:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CBCAC2E1F02;
+	Wed, 14 Jan 2026 01:35:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N81vBgDO"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Fplx9l7m"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B27F1DF970
-	for <linux-input@vger.kernel.org>; Wed, 14 Jan 2026 01:06:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 660E62E0402
+	for <linux-input@vger.kernel.org>; Wed, 14 Jan 2026 01:35:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768352767; cv=none; b=fipSDY95SgpkdevC65RCBeJhSs0faYYrT41rrml1I1PSccq90M2iO3rhleur+/7+B2Zit/buNKi8eJzZTrX0cG37wOkrU7T2gtvs05DOWf6vrQ5RRyEOpIuYydxu6ZHroOKNaGQkRnGUAbV/WhMk9nSTqcJhKcCfBazlu1YTltA=
+	t=1768354514; cv=none; b=g7CY9UtJtdRKX5NOhbHqjfVVtx1eU0ktfC9dC5jA5kj4t3/uwJKSmErUywLIvVsFfAX1ozu4n1H5t2fsQ/22nsCf483NcNcsiWrmi2JGLqy+86J4Q5wewEgSkkbNxlD4Beex5QldDYXfMa+c9aw/BHWn3PDLvIbNo3L0gsfr6+4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768352767; c=relaxed/simple;
-	bh=F0MA++L1zSE6cZA/Gd+u1+s2DraR/NZOJLoDeRsNESw=;
+	s=arc-20240116; t=1768354514; c=relaxed/simple;
+	bh=0PILchQj3J76ZAr261KJtaEQ2QxT7WEQn+1Ge6Oxu6A=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=uQw4HPzYD99Cup9DMD2nHdJmuO4aHOKdaVlzgEcuQzINHq5YNqZyjiwRvyVhJNRctzSyx6iA1lfHyTwj2I0NnUGHX0PDJ3dc7noJF8bQIoynXrfD7WHR+XkH7fgPy+zYfiP4nKv3FFv+/wV8MbicGSkuTyjNH4gSuHw4eAUd7wk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=N81vBgDO; arc=none smtp.client-ip=209.85.216.45
+	 Content-Type:MIME-Version; b=ZVzY3OVgVpe5mMpTbZPCZuiDqsXTOAvuQKH6kjuofFO/2FPbACe6uEP4a8YQO6pf/6VObW1Walat2L1AvNNVmejTKo0iOSj5l0q+dGA8qWCmGnbYKxn+iRXeTNm2ZSYJl+444bkwEjzj/qG4I6yL1lZxNobeJxtRscUtV7UrGgU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Fplx9l7m; arc=none smtp.client-ip=209.85.214.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-34c3cb504efso6274916a91.2
-        for <linux-input@vger.kernel.org>; Tue, 13 Jan 2026 17:06:05 -0800 (PST)
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-29f1bc40b35so88884915ad.2
+        for <linux-input@vger.kernel.org>; Tue, 13 Jan 2026 17:35:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768352765; x=1768957565; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1768354512; x=1768959312; darn=vger.kernel.org;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=c3zz/uR4XC6DTt4ifQZ0dcMHOsCy5LDTuF26jxx7ZX8=;
-        b=N81vBgDOidwbWegdOLTzxZRlkJsuRzkf2m1Ac3RyTnuoid5sGLxIr8Kp/N6U+lX+9L
-         gpYjaJIsFOHcjh3hXfIjkcVoZRaHkz3EHcr60ybtpC6kHCBG+FQeT+nmIagQOF75ZjrV
-         S/0GIxlRNzM0qtuMy76aY9Mw8WgqwvB2gS23FGcuVBtrHxZljQ2tQ+bbW06VrK6u/0yW
-         VoeY5pCZ1w7AKNKK2HHc3LmZVARxb3PGrwpml3BbTxtdTC6TusHyd5H7QvhLzuoDnqyQ
-         Zy8s3+/RqlVjnIKkyKKXb+jOpb2g4gprhwM9yjO9ki96PEamrCw7C9X6Ma+QBShSPf+i
-         D9cw==
+        bh=ieZaHREaNUdn6zv47XqVz3diRO7gdSg8y8kBpzF75Sk=;
+        b=Fplx9l7mxDdNLK29OA1kIVFJuNMtbZxtldMkWzcWsDk4IvMbeAgRaymG+x3XoBDSRG
+         2xyuDZ4fkhFOyrbvgLh7eq9xfUtoy6jR0D/YB/AClyB4tPYpP3m7yCgdSmlFfThYv4IG
+         Z8gRB3Tj/qNcWYyMahGSuMgRaQ5RMqUtw9RcJHEaMBtH08wDNCrNKYzC4AutoD/RqJxI
+         uG6/G7xxtlAVvw7Qyx14vMbwQxs193/965CtNjdFYnVGoFZJFIXiFw6JgOmswiIZu4nS
+         EtZMjyPx+PyH1/7ezlXeiJnE6eg26aODGCnH6g7mFXK8anTz2VndAdJrk/3FDosavZRN
+         AvTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768352765; x=1768957565;
+        d=1e100.net; s=20230601; t=1768354512; x=1768959312;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=c3zz/uR4XC6DTt4ifQZ0dcMHOsCy5LDTuF26jxx7ZX8=;
-        b=V4YzA4smQbPULRWctcBlxOUucvIGA40hRs+bgXBQ1SOEfTNq6QppbQ9eF2EcDY04vO
-         8q0hXWjFNFWcnYxTvi3PUvqMAHeXvZmuxZoTkftf/ntKsBXga/t+KDRfQwlljdBMMdWc
-         6LUAftDQXpuEUs08XnxCUGs5ujLStl+dooe2REP1uRNR8heQfGs/AaJ+eSBjpglTrYRn
-         lulCr/wfiwqG43gF5v85uth1uQib3WC7gbtAPUuD1cCzduaa1AoZVoJdov5Xs4ogbCHe
-         2IfAbWFhAMaHql+sHpFj33IyAhR21tG6bNRMDAx+Abq3WINOR1RTpS2t6aGTj1V43AbH
-         pKig==
-X-Forwarded-Encrypted: i=1; AJvYcCVZre+VduRF4mWrm7JTeJVOPUSCgw0kwF7BO8oPgiYrjAZb4ww7y28GU44rgoicUS2XE6UiEmbg+pgHgQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzKGP+rdOwtPsn4HLiMshbXG+GaJUnOHxfMYXYAm6jRDKpjX2+3
-	VIJzgeGceGrIjHoKHKoLdRCaY8/TT5m1FZ/tPPw8M92Yea2hOMLpKFWT
-X-Gm-Gg: AY/fxX77ZVQU4ntMBmT1ShXCwdLdIYB3kxUDJgBRUriVWIm+5DRPNvdvNv4g/P4tZ5K
-	RdxHmj/pzXBj6ZsPqfhg4JEG01S7iAFwTLoxZziLpEQYpkpCFRKSXjmlwr26gpaL4zAGvRD6Qad
-	N0rF53y47AyRiz3Su6hZg1mQA+aPMvLhL6HskUgshOVuzrJWgok2INyh1kYDq4TfQD+xYVmIK/5
-	3/g2Amja4sU3GHD49fJyhhfMi6A6rLvxr+JLhUgkyhT6j8/3fA4aPL1RqaZvM6wlLP2naqX92O8
-	UToiwgsuPeCHfqqN73kmezW7Ug+Wnbxka12e5sbjVEslk/Ihp8zsq9xmBpxvRJYxb5Zw9Kgz9lP
-	pRh7YU/AXQoQDXGv9g/WPvbyWnpQzH0hKS+ZpN0Yj6IhLUs5ft5nXQ8FS55CiMIWONj1cfFvIlM
-	Ku8pOMdfJjC9VT1BzEqzE7Xyz4ZSWzpsRc2UDZREF/
-X-Received: by 2002:a17:90b:3890:b0:330:a454:c31a with SMTP id 98e67ed59e1d1-3510913e139mr874413a91.32.1768352765322;
-        Tue, 13 Jan 2026 17:06:05 -0800 (PST)
+        bh=ieZaHREaNUdn6zv47XqVz3diRO7gdSg8y8kBpzF75Sk=;
+        b=ez5GGdrIfNaVcD2aaXLfZDvP88LAb+cxHKw0N1x0fVD65yIwu86PS53etuvQ/aUVEw
+         CmMQkW57c4Le5uiWaZNZtL3WCdMakgTkFZ5CxC6OI5Wd5WR5NOhYD8NpevbArbbsY9lB
+         aCy7HL7Y0CEAQdunzc7TBezgT6jZK0fyNqJXJCMsYKMtESyaqTdEI2a6AXFziDGkt5li
+         1Mfw/N6uU1lfCaEevilBMf4Lwy1mXipAK6++dvjIF2Dz4MTMEnA/k1cgCu5tPY4lDOyt
+         Ay2wReRWvA2EDHDExs43uPFo/yFCL2xijSTR8IbfoVyUZSrUaH1+984mVGPXFfyXDSnf
+         y//g==
+X-Forwarded-Encrypted: i=1; AJvYcCXcRLSW+ValzmMrGj5Z5z20srIjnEup22GBlqRR+k+bpdnfqFX6HJHUnJYxuf8bwD4VtPaebs+xsDk8ew==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy92PrUnOVsi0ZrYB/NNKcfZq8HvPnKrwi39gbmRdjnXZRQ4/dF
+	Y1Ro+x94e4hNwxYTKviwDv1mbDBoSRC0HvyuEpnCk5dFs4lJu1krxS8Z
+X-Gm-Gg: AY/fxX4aaMAtcdAIO1eL0KJqET9U90GOYvXIQRXyL62U+9sQc47kfNCkl00e1Ghzfbv
+	JKqpyGIws/rmxH7pOVojqfOI+uBCYyGaf1ImEhjie/r9IyO0czY2F9ktiirwL+8tBMFtsMiMRpq
+	qykJArgqVvXma+ht7Z/tMisUmKz2yBmPYBWUOOekhR/NJim2z+u7A2GQtmVIYNhN7mQ8CHApXjV
+	tvnsHAzFK8MQ1TvzmY6fUPZmTi6atDjtT/9l6c/atYTlFL2JJMkfYgPQx+57BDflymRoutp+Sh9
+	axISjk9csS1I//84YQ5z7glTTAGL8zHjfqogRatXJRQJQAXjVHLK1pg/0dJy7L4IwfHeHoL/W8F
+	7jlsUsIhWWGoaK9d9zfCjELH4jRTr9xMparZV5D5X8k8J0ByF27ZtuKg4SUguWACStZ88YLyqcV
+	gXacBd1xTvPqLHiapTAP68apFm/iUKwG3ATJ64WEAL
+X-Received: by 2002:a17:902:d58a:b0:2a1:5d2:2e45 with SMTP id d9443c01a7336-2a599e7cc41mr11109465ad.59.1768354512488;
+        Tue, 13 Jan 2026 17:35:12 -0800 (PST)
 Received: from [192.168.0.226] ([38.34.87.7])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-351099d0913sm322048a91.0.2026.01.13.17.06.04
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a3e3cd492fsm89974945ad.98.2026.01.13.17.35.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Jan 2026 17:06:04 -0800 (PST)
-Message-ID: <5027595d4eff50d423af8ebc5fecd6a0f7229d60.camel@gmail.com>
+        Tue, 13 Jan 2026 17:35:12 -0800 (PST)
+Message-ID: <b4a760ef828d40dac7ea6074d39452bb0dc82caa.camel@gmail.com>
 Subject: Re: [PATCH bpf-next v1 03/10] bpf: Verifier support for
  KF_IMPLICIT_ARGS
 From: Eduard Zingerman <eddyz87@gmail.com>
@@ -83,12 +83,13 @@ Cc: Mykyta Yatsenko <yatsenko@meta.com>, Tejun Heo <tj@kernel.org>, Alan
  Jiri Kosina	 <jikos@kernel.org>, bpf@vger.kernel.org,
  linux-kernel@vger.kernel.org, 	linux-input@vger.kernel.org,
  sched-ext@lists.linux.dev
-Date: Tue, 13 Jan 2026 17:06:02 -0800
-In-Reply-To: <aff8eeed-414c-49b3-b7f0-c8c328ed5199@linux.dev>
+Date: Tue, 13 Jan 2026 17:35:09 -0800
+In-Reply-To: <c7e2a776-52f9-46ad-8422-3a9202bbd9f1@linux.dev>
 References: <20260109184852.1089786-1-ihor.solodrai@linux.dev>
 	 <20260109184852.1089786-4-ihor.solodrai@linux.dev>
-	 <18d9b15319bf8d71a3cd5b08239529505714dc96.camel@gmail.com>
-	 <aff8eeed-414c-49b3-b7f0-c8c328ed5199@linux.dev>
+	 <952853dd064d5303a7e7ec8e58028e9ee88f2fad.camel@gmail.com>
+	 <93ecdc25-aa5e-485b-8ff4-a9db3b585861@linux.dev>
+	 <c7e2a776-52f9-46ad-8422-3a9202bbd9f1@linux.dev>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.58.2 (3.58.2-1.fc43) 
@@ -99,64 +100,53 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 
-On Tue, 2026-01-13 at 16:03 -0800, Ihor Solodrai wrote:
-> On 1/13/26 1:59 PM, Eduard Zingerman wrote:
-> > On Fri, 2026-01-09 at 10:48 -0800, Ihor Solodrai wrote:
-> >=20
-> > [...]
-> >=20
-> > > --- a/kernel/bpf/verifier.c
-> > > +++ b/kernel/bpf/verifier.c
-> > > @@ -3271,6 +3271,38 @@ static struct btf *find_kfunc_desc_btf(struct =
-bpf_verifier_env *env, s16 offset)
-> > >  	return btf_vmlinux ?: ERR_PTR(-ENOENT);
-> > >  }
-> > > =20
-> > > +#define KF_IMPL_SUFFIX "_impl"
-> > > +
-> > > +static const struct btf_type *find_kfunc_impl_proto(struct bpf_verif=
-ier_env *env,
-> > > +						    struct btf *btf,
-> > > +						    const char *func_name)
-> > > +{
-> > > +	char impl_name[KSYM_SYMBOL_LEN];
-> >=20
-> > Oh, as we discussed already, this should use env->tmp_str_buf.
->=20
-> The env->tmp_str_buf size is smaller:
->=20
-> 	#define TMP_STR_BUF_LEN 320
->=20
-> *And* there is already a local char buffer of size KSYM_SYMBOL_LEN
-> already in use in verifier.c:
->=20
-> 	int bpf_check_attach_target(...) {
-> 		bool prog_extension =3D prog->type =3D=3D BPF_PROG_TYPE_EXT;
-> 		bool prog_tracing =3D prog->type =3D=3D BPF_PROG_TYPE_TRACING;
-> 		char trace_symbol[KSYM_SYMBOL_LEN];
-> 	[...]
->=20
-> Since these are function names, the real limit is KSYM_SYMBOL_LEN,
-> right?
->=20
-> Sure >320 chars long kfunc name is unlikely, but technically possible.
+On Tue, 2026-01-13 at 15:48 -0800, Ihor Solodrai wrote:
 
-320 is good enough, you'll be able to cover this:
+[...]
 
-kfunc_trace_long_descriptive_kernel_symbol_for_tracing_scheduler_memory_io_=
-and_interrupt_paths_during_runtime_analysis_of_latency_throughput_and_resou=
-rce_contention_on_large_scale_multiprocessor_linux_systems_using_bpf_and_kp=
-robes_without_requiring_kernel_recompilation_or_system_restart_for_producti=
-on_use_cases_v2x
+> A follow up after a chat with Eduard.
+>=20
+> This change in check_kfunc_call() appears to be working:
+>=20
+> diff --git a/kernel/bpf/verifier.c b/kernel/bpf/verifier.c
+> index 092003cc7841..ff743335111c 100644
+> --- a/kernel/bpf/verifier.c
+> +++ b/kernel/bpf/verifier.c
+> @@ -13958,8 +13958,11 @@ static int check_kfunc_call(struct bpf_verifier_=
+env *env, struct bpf_insn *insn,
+>                 regs =3D branch->frame[branch->curframe]->regs;
+> =20
+>                 /* Clear r0-r5 registers in forked state */
+> -               for (i =3D 0; i < CALLER_SAVED_REGS; i++)
+> -                       mark_reg_not_init(env, regs, caller_saved[i]);
+> +               for (i =3D 0; i < CALLER_SAVED_REGS; i++) {
+> +                       u32 regno =3D caller_saved[i];
+> +                       mark_reg_not_init(env, regs, regno);
+> +                       regs[regno].subreg_def =3D DEF_NOT_SUBREG;
+> +               }
+> =20
+>                 mark_reg_unknown(env, regs, BPF_REG_0);
+>                 err =3D __mark_reg_s32_range(env, regs, BPF_REG_0, -MAX_E=
+RRNO, -1);
+>=20
+> https://github.com/kernel-patches/bpf/actions/runs/20975419422
+>=20
+> Apparently, doing .subreg_def =3D DEF_NOT_SUBREG in mark_reg_not_init()
+> breaks zero-extension tracking somewhere else.  But this is not
+> directly relevant to the series.
+>=20
+> Eduard, Alexei, any concerns with this diff? Should I send a separate
+> patch?
 
-But not this:
+Imo this is acceptable to land this series but follow up investigation
+is definitely needed. Either there is a bug and mark_reg_not_init() is
+called in a context where upper 32-bits are still significant, or zero
+extension related code can be improved to avoid patching in some cases.
 
-kfunc_trace_kernel_scheduler_and_memory_management_path_for_observing_task_=
-lifecycle_events_context_switches_page_fault_handling_and_io_wait_states_wh=
-ile_debugging_performance_regressions_on_large_multiprocessor_systems_runni=
-ng_preemptible_linux_kernels_with_bpf_tracing_and_dynamic_instrumentation_e=
-nabled_for_deep_visibility_into_runtime_behavior_and_latency_sensitive_code=
-_paths_without_recompilation.
+Additional context for other reviewers, Ihor did two experiments:
+- added '.subreg_def =3D DEF_NOT_SUBREG' to mark_reg_not_init(),
+  which resulted in selftests failure;
+- added '.subreg_def =3D DEF_NOT_SUBREG' as above, which worked fine.
 
-Should suffice, I think.
+Meaning that code in check_kfunc_call() is not a culprit.
 
