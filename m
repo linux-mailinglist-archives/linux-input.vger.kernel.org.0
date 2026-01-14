@@ -1,73 +1,58 @@
-Return-Path: <linux-input+bounces-17086-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-17087-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAC9AD1D47F
-	for <lists+linux-input@lfdr.de>; Wed, 14 Jan 2026 09:55:51 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id AFEC2D1D812
+	for <lists+linux-input@lfdr.de>; Wed, 14 Jan 2026 10:27:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 52C2E3024387
-	for <lists+linux-input@lfdr.de>; Wed, 14 Jan 2026 08:54:58 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 79FEB30213E9
+	for <lists+linux-input@lfdr.de>; Wed, 14 Jan 2026 09:22:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2C0CF389E16;
-	Wed, 14 Jan 2026 08:53:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 84A2037E31A;
+	Wed, 14 Jan 2026 09:22:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hXCy4DnL"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OgL+fOXV"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9F7E389E13;
-	Wed, 14 Jan 2026 08:53:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60A762D8377;
+	Wed, 14 Jan 2026 09:22:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768380796; cv=none; b=THL7T1AQmwCag7siwypVY9Z9l3gnOVP9bB9qSxFPdr5WzbXa2BKhPRsHEnKXOl9ZO/KXOSHAWKAKvYSU9GtBzPBJVoAyXY8CbmX84O0vWGwcBv2o2nhMOjSGSzsZtYxT6kjnA/lFFzUzfvAfG5uEjM9ac5Jq/+A6+WgZFPmhLl8=
+	t=1768382578; cv=none; b=gq9w3DPNxSN7/NJZxYhdCqFYa8i4rzHOCetZnlNCg6wDFLz9bBZHqqO9Yxpa4XL4bBG+ard4MlgJMsADIA0GpBokAOXp2UYNAWKvD3w5HdGAGj1N0BQNF/NFo/aD6/kidUd2LNwhpZo6CLHudizknMwp/zZ9d7J+K0s+awO+scY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768380796; c=relaxed/simple;
-	bh=7ZnBknn2TQjfaT+ftwpz/BrJWjgtDpy1OIG5dPmGBv8=;
+	s=arc-20240116; t=1768382578; c=relaxed/simple;
+	bh=Yo8uRrjOQtUu3sP57XmGHMPngzKoh4iDTFvKQ8mfj9M=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dSJrSSaSyPJl+xX/lWIqZBm+FwzeEVSdwygBTdmnuZBCPwtM5vEv/ZmngOfPeWMNUY8PBkMHlJg+bhpsTA/f/Wf3EHzlW10uN0CL4Jv2oQYQSEsc0uUJ8iLwwKLNYfwDOXKELqlh4UmPIJ6CYrVrbWqM7vvigXUFXWEptlNoS/4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hXCy4DnL; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768380793; x=1799916793;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=7ZnBknn2TQjfaT+ftwpz/BrJWjgtDpy1OIG5dPmGBv8=;
-  b=hXCy4DnLpR+tsgvfauATKQWUGtL8XKZrwQSkw42m8k2MAJyZ1ZWfND88
-   2otINySD1+xIDRvUugdbNMFWRh8gB7/N8KSIGuCdb/6WzGtii8cJMFE7v
-   ZCnsFd1SeBHjWPS7NXBwmBBMm4Dw0JSCsR66S3cu0vxsgsp2ZzExNqu2i
-   67oYtrAdhXmk1ZrMazjSYryrSrXlI//a6ZWo43AZWIlliIAi32DA3qoZR
-   aelJahkxBtx+uVTHHOaOjMA9kJhZsqgMI9sLGuUcaOHl2P4Susvh1wIOr
-   SocBpGvxtekG111s9FxR95FxnVr9MH9q7bZzAyu8yofCGyXc1QJxjFjMs
-   A==;
-X-CSE-ConnectionGUID: yX8nLRxCQLClAHEYfht3HQ==
-X-CSE-MsgGUID: 5BjRtwlSSUOgqsCo2G3zjw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11670"; a="81039740"
-X-IronPort-AV: E=Sophos;i="6.21,225,1763452800"; 
-   d="scan'208";a="81039740"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2026 00:53:10 -0800
-X-CSE-ConnectionGUID: o22Nl+IsTJuVGrz+z4tRlQ==
-X-CSE-MsgGUID: IunLqo01SRqr9/9PJ6b2BA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,225,1763452800"; 
-   d="scan'208";a="208775033"
-Received: from pgcooper-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.244.83])
-  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2026 00:53:08 -0800
-Date: Wed, 14 Jan 2026 10:53:05 +0200
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Vivek BalachandharTN <vivek.balachandhar@gmail.com>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@kernel.org>
-Subject: Re: [PATCH] input: byd: use %*ph for Z packet dump
-Message-ID: <aWdZcba5pK99Pfvu@smile.fi.intel.com>
-References: <20251202033120.2264474-1-vivek.balachandhar@gmail.com>
- <aWdHsalXcjFKmDDK@black.igk.intel.com>
- <f846343a-49ac-443f-bef3-04e3e08ee20c@gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=LHZ8uaEi9St8dUZO0q2htVCf+6Uyb4xupdkDRWgk8nfUjhiZ4qPNXuF/vfJP1lASPO36f+I7cLXJQHRpYme0u75JDfRcsfFKSTzzXzRfGgOSxCAkb+DhmZew/++qvVjv3La7UhUEBYx6i4e4VvVLNPjkneJ2AjU1ej/9VBjC+uw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OgL+fOXV; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E2CBC4CEF7;
+	Wed, 14 Jan 2026 09:22:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1768382578;
+	bh=Yo8uRrjOQtUu3sP57XmGHMPngzKoh4iDTFvKQ8mfj9M=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=OgL+fOXVH7H0C3YZjiZ0hk6pA018WwsQtcvpcguzIR+dWsUUo5h2zrtM4nuSC+k7K
+	 VvlLMjjBjiiRrv0IoVPUoUc7VUoGIpLPC/h2/tL+7N/IuWUfECXkMHTjJQMxorFplG
+	 8ethPnZZw7zCA2OUy0KL6w8kf17gIO8+sobc8E2arntkDDHSFhUPosEIA/L+KJq5dh
+	 YKxc+fchokpesZ5S2vAA5say6EV5EBTc/RKDN8ExddImtl2NyTdgHCK/rbs1j9sGe9
+	 xHj+wybsJfyPR/fP2BD+9tBUrrT7qXPhvQdEufsF9xioev+w5k7xuxbBwBE0r2dSbw
+	 hbKGObrNxkuNQ==
+Date: Wed, 14 Jan 2026 10:22:55 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Yedaya Katsman <yedaya.ka@gmail.com>
+Cc: SzczurekYT <szczurek@szczurek.yt>, 
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, 
+	linux-input@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org
+Subject: Re: [PATCH 1/3] dt-bindings: input: touchscreen: edt-ft5x06: Add
+ FocalTech FT3518
+Message-ID: <20260114-cherubic-malachite-gecko-ecbfa3@quoll>
+References: <20260113-touchscreen-patches-v1-0-a10957f32dd8@gmail.com>
+ <20260113-touchscreen-patches-v1-1-a10957f32dd8@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -76,24 +61,21 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <f846343a-49ac-443f-bef3-04e3e08ee20c@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+In-Reply-To: <20260113-touchscreen-patches-v1-1-a10957f32dd8@gmail.com>
 
-On Wed, Jan 14, 2026 at 04:49:32AM -0400, Vivek BalachandharTN wrote:
-> Thanks Andy — good point. Packet length is fixed here, so |%4ph| is better.
-> I’ll follow this pattern in future patches (and can send a small follow-up
-> to adjust this one if desired).
+On Tue, Jan 13, 2026 at 09:12:35PM +0200, Yedaya Katsman wrote:
+> Document FocalTech FT3518 support by adding the compatible.
+> 
+> Co-developed-by: SzczurekYT <szczurek@szczurek.yt>
+> Signed-off-by: SzczurekYT <szczurek@szczurek.yt>
 
-You can find all such places in input subsystem and convert them all
-(1 patch per subfolder probably, 1 for keyboard/*, 1 for mouse/*, ...).
+You need to use real names or real known identity.
 
-P.S. And do not top-post!
+See submitting patches.
 
--- 
-With Best Regards,
-Andy Shevchenko
+> Signed-off-by: Yedaya Katsman <yedaya.ka@gmail.com>
 
+Best regards,
+Krzysztof
 
 
