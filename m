@@ -1,108 +1,197 @@
-Return-Path: <linux-input+bounces-17103-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-17104-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51032D215E9
-	for <lists+linux-input@lfdr.de>; Wed, 14 Jan 2026 22:37:52 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A61BD22220
+	for <lists+linux-input@lfdr.de>; Thu, 15 Jan 2026 03:35:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 325E6307CA5C
-	for <lists+linux-input@lfdr.de>; Wed, 14 Jan 2026 21:36:49 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id D536830158C3
+	for <lists+linux-input@lfdr.de>; Thu, 15 Jan 2026 02:35:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EDC44376BEF;
-	Wed, 14 Jan 2026 21:36:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0DB9925333F;
+	Thu, 15 Jan 2026 02:35:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="e8HsnKDp"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="MNC3zM8u";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="tH6Ndhcs"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9EDB36CDE8;
-	Wed, 14 Jan 2026 21:36:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51BA146BF;
+	Thu, 15 Jan 2026 02:35:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768426608; cv=none; b=P7qor6mGNhrf3cXGyppSFcHqbKle3g8fWWTNLasWKBeeeIj5U0Ilr359U2931bsy/gkZdGKzkW6tR1bFwM0DjiIZlY0pK5WTG0VXhRtIHyVNpuzxlcpL8E5iZ4ApKHxW/Erd9d02At7hQAZpy7duppvqZXKCHg0nVhZun1fLK0A=
+	t=1768444541; cv=none; b=pVHjSvWoOY8Atc1JuuTHTq+SosUaAKJpRdM/t5PObn+MjE/rWOBil7duOjztRGQdi7LiXfVb+UzEEtJqC+jNn+TdMKmvwCK3DzFr86Gx6u/STaH69kLjAWj6tvN2Dc9sexf4YKG2XNIgbc87AC2fFXbK0HSU8MV/gmXAHfHvhjk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768426608; c=relaxed/simple;
-	bh=WVO6osBIohiBYtrg3CeMVJao578MY2yze+0eFa3vztY=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=OMwXZ/iUNLyL/6iLvyCJ8aFCsVif32R4EV8U+Rx3GPuFBuXQwqHSfUjAyjRfi5sQnngjRzIK+lD87sRDoT04buJXji+ZknvPM+HbVF9OSNuP6Wp4e7GWWMYM9RnVzWG3XoMZPsZm3ahwqf7rP2nF2SYH2CuRgMSILmzGRWLEQmg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=e8HsnKDp; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5819AC19424;
-	Wed, 14 Jan 2026 21:36:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768426607;
-	bh=WVO6osBIohiBYtrg3CeMVJao578MY2yze+0eFa3vztY=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=e8HsnKDpwFN6/zQvtnWiC1TLCk1/a/d23fOLW+6w1LqjLlSkWQEgmfn1JLJLlDE7v
-	 cqRykWw1V57S492AZY6rJ+0yck1CplYYN3r1j+a6RwPHNUdemEEsY3N8TzTnLR/Gm6
-	 C9BmcagtEs7ODmgDAcv+M/20fiPhlm+7KH55Glpp/ukxJR8s23gJJZBA1VAZYlEO8q
-	 F8X68mDaW3JT+aMLmPGFJTV1N6zQx1CgOsQfQOa3FW6Rgl1WPvpxyqDN5NCxKEvhsW
-	 4/L/uNl4K3lGyvY9eN2tqMnd+YBc/reDpPBgD0lq6yqt/vlmTCHypFyRkY2MBfqy5F
-	 oBBlu1fKJ7uew==
-From: Mark Brown <broonie@kernel.org>
-To: airlied@gmail.com, simona@ffwll.ch, maarten.lankhorst@linux.intel.com, 
- mripard@kernel.org, tzimmermann@suse.de, robh@kernel.org, 
- krzk+dt@kernel.org, conor+dt@kernel.org, dmitry.torokhov@gmail.com, 
- sre@kernel.org, gregkh@linuxfoundation.org, jirislaby@kernel.org, 
- lgirdwood@gmail.com, Kuan-Wei Chiu <visitorckw@gmail.com>
-Cc: jserv@ccns.ncku.edu.tw, dri-devel@lists.freedesktop.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-input@vger.kernel.org, linux-pm@vger.kernel.org, 
- linux-serial@vger.kernel.org, linux-sound@vger.kernel.org, 
- Yu-Chun Lin <eleanor.lin@realtek.com>
-In-Reply-To: <20260113092602.3197681-1-visitorckw@gmail.com>
-References: <20260113092602.3197681-1-visitorckw@gmail.com>
-Subject: Re: (subset) [PATCH v4 0/6] dt-bindings: goldfish: Convert to DT
- schema
-Message-Id: <176842660309.229619.6412457616367822654.b4-ty@kernel.org>
-Date: Wed, 14 Jan 2026 21:36:43 +0000
+	s=arc-20240116; t=1768444541; c=relaxed/simple;
+	bh=EepzTtwSOLxFYUvRhOByAf4NX8UUW2eXLxlZ52P6DM8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=MqYUvMICqqOR6u6bo3llVtf92BN2426aWQFj9xmsShN+1mRIMDXOr6aNd/dsLvndnIy2UodlWa6vxcu5ir4aM5aqtS3k4MS7ps2WymLm/BT5eKnBDC+zZddohlgJrmfy/zsUdyIBljKsAyyg4qyDp7UAbKTb3bi5UwdY47S2eTs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=MNC3zM8u; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=tH6Ndhcs; arc=none smtp.client-ip=80.241.56.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4ds6Xp0hrJz9t32;
+	Thu, 15 Jan 2026 03:35:38 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1768444538;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=/IFVEHud5UojcTZcWh0XzlQzDkXoFLoKiXehoDpPkCA=;
+	b=MNC3zM8u2r5vnl1RHTK0MFBjXMH+bXTsznt9HnsjUmx3b33lNrUrIaCee0jw+oHd6lbiLo
+	8ti4Ys2fNBZm9qRLdUg/ZHMZjffvpgDPvFqZGxp2MyOKVFqh4nELplpVVXp5klf1WfG2kd
+	f2CsN85yslFv0OLyssYqxy2F5Bl/+NQdiwqlORFM2UrSmqB9nqvRLKz0qfQ37HtwVy6/jT
+	Zns1ULJ2g4nG5yw6qtbUoAHvjytipVyN86BZuPqDq+adfJaDA4eudJVr37Bkh6eEbeirQJ
+	U5gCbY2MIJE5GPFUVzPm6EBm7otAAlksexkBMOFX+Cm2AAfm4NnTDXiPFmQyWw==
+Authentication-Results: outgoing_mbo_mout;
+	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=tH6Ndhcs;
+	spf=pass (outgoing_mbo_mout: domain of marek.vasut+renesas@mailbox.org designates 2001:67c:2050:b231:465::102 as permitted sender) smtp.mailfrom=marek.vasut+renesas@mailbox.org
+From: Marek Vasut <marek.vasut+renesas@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1768444535;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=/IFVEHud5UojcTZcWh0XzlQzDkXoFLoKiXehoDpPkCA=;
+	b=tH6NdhcsKB+nELk0Y7E+NK6s65xCF0Zxfok0kANBsvZ0wdEEpx0Njs4eELa1PN5e5lQpep
+	+wY/384jBwG0FPqacVd+DkBoLKlLemeeEuxUXv9wyKv7tMa9od0icmLZT5APnCPWGOZOo/
+	LBF6ZLIOSGwByledK0PgtK/XpdjwU1JOhgTKuHdA+5RyicZuVkvPyWDuVbzYuZZRK1F160
+	+ud5y6/htCcZdzP21r+i2Xm6ZBaCad50tzJ4w1G2EZU158O1W5d9vtsvDicaJiz1EVAlQs
+	+gltHr1sKtnBplr4QCpcwxsBzb6BY4ewiieFtQamrHDdrMmXBTj+L41Pr7DQgQ==
+To: linux-input@vger.kernel.org
+Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Frank Li <Frank.Li@nxp.com>,
+	Job Noorman <job@noorman.info>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v2 1/2] dt-bindings: touchscreen: trivial-touch: Drop 'interrupts' requirement for old Ilitek
+Date: Thu, 15 Jan 2026 03:34:58 +0100
+Message-ID: <20260115023530.656645-1-marek.vasut+renesas@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-47773
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-ID: 189e044311892561c91
+X-MBO-RS-META: 4jbezsu546g5sa3mmwmnruqyrdjs77gz
+X-Rspamd-Queue-Id: 4ds6Xp0hrJz9t32
 
-On Tue, 13 Jan 2026 09:25:56 +0000, Kuan-Wei Chiu wrote:
-> Convert the Android Goldfish emulator platform bindings from text
-> format to DT schema.
-> 
-> Most of these bindings are currently located in
-> Documentation/devicetree/bindings/goldfish/. Move them to the
-> appropriate subsystem directories (serial, input, power, sound, misc)
-> to align with the kernel directory structure.
-> 
-> [...]
+The old Ilitek touch controllers V3 and V6 can operate without
+interrupt line, in polling mode. Drop the 'interrupts' property
+requirement for those four controllers. To avoid overloading the
+trivial-touch, fork the old Ilitek V3/V6 touch controller binding
+into separate document.
 
-Applied to
+Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+---
+Cc: Conor Dooley <conor+dt@kernel.org>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Frank Li <Frank.Li@nxp.com>
+Cc: Job Noorman <job@noorman.info>
+Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
+Cc: Rob Herring <robh@kernel.org>
+Cc: devicetree@vger.kernel.org
+Cc: linux-input@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-renesas-soc@vger.kernel.org
+---
+V2: Fork the Ilitek V3/V6 bindings into separate document
+---
+ .../input/touchscreen/ilitek,ili210x.yaml     | 51 +++++++++++++++++++
+ .../input/touchscreen/trivial-touch.yaml      |  4 --
+ 2 files changed, 51 insertions(+), 4 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/input/touchscreen/ilitek,ili210x.yaml
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-
-Thanks!
-
-[5/6] dt-bindings: sound: google,goldfish-audio: Convert to DT schema
-      commit: 10303b32519f52a5afd40593a507543143c8ec6a
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+diff --git a/Documentation/devicetree/bindings/input/touchscreen/ilitek,ili210x.yaml b/Documentation/devicetree/bindings/input/touchscreen/ilitek,ili210x.yaml
+new file mode 100644
+index 0000000000000..1d02aaba64f97
+--- /dev/null
++++ b/Documentation/devicetree/bindings/input/touchscreen/ilitek,ili210x.yaml
+@@ -0,0 +1,51 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/input/touchscreen/ilitek,ili210x.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Ilitek ILI21xx/ILI251x V3/V6 touch screen controller with i2c interface
++
++maintainers:
++  - Frank Li <Frank.Li@nxp.com>
++  - Marek Vasut <marek.vasut+renesas@mailbox.org>
++
++properties:
++  compatible:
++    enum:
++      - ilitek,ili210x
++      - ilitek,ili2117
++      - ilitek,ili2120
++      - ilitek,ili251x
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  reset-gpios:
++    maxItems: 1
++
++  wakeup-source: true
++
++allOf:
++  - $ref: touchscreen.yaml
++
++required:
++  - compatible
++  - reg
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        touchscreen@41 {
++            compatible = "ilitek,ili2120";
++            reg = <0x41>;
++        };
++    };
+diff --git a/Documentation/devicetree/bindings/input/touchscreen/trivial-touch.yaml b/Documentation/devicetree/bindings/input/touchscreen/trivial-touch.yaml
+index fa27c6754ca4e..6441d21223caf 100644
+--- a/Documentation/devicetree/bindings/input/touchscreen/trivial-touch.yaml
++++ b/Documentation/devicetree/bindings/input/touchscreen/trivial-touch.yaml
+@@ -23,9 +23,6 @@ properties:
+       # Hynitron cstxxx series touchscreen controller
+       - hynitron,cst340
+       # Ilitek I2C Touchscreen Controller
+-      - ilitek,ili210x
+-      - ilitek,ili2117
+-      - ilitek,ili2120
+       - ilitek,ili2130
+       - ilitek,ili2131
+       - ilitek,ili2132
+@@ -33,7 +30,6 @@ properties:
+       - ilitek,ili2322
+       - ilitek,ili2323
+       - ilitek,ili2326
+-      - ilitek,ili251x
+       - ilitek,ili2520
+       - ilitek,ili2521
+       # MAXI MAX11801 Resistive touch screen controller with i2c interface
+-- 
+2.51.0
 
 
