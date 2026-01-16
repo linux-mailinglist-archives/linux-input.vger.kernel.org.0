@@ -1,78 +1,62 @@
-Return-Path: <linux-input+bounces-17132-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-17139-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD1D3D31E59
-	for <lists+linux-input@lfdr.de>; Fri, 16 Jan 2026 14:34:31 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C0A1D3872C
+	for <lists+linux-input@lfdr.de>; Fri, 16 Jan 2026 21:20:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 297633091577
-	for <lists+linux-input@lfdr.de>; Fri, 16 Jan 2026 13:32:37 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id AC86B3036E49
+	for <lists+linux-input@lfdr.de>; Fri, 16 Jan 2026 20:17:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D9F87287263;
-	Fri, 16 Jan 2026 13:32:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 232E23A4F22;
+	Fri, 16 Jan 2026 20:17:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=antheas.dev header.i=@antheas.dev header.b="BN7B85MO"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="aPYk3HE/"
 X-Original-To: linux-input@vger.kernel.org
-Received: from relay11.grserver.gr (relay11.grserver.gr [78.46.171.57])
+Received: from out-183.mta1.migadu.com (out-183.mta1.migadu.com [95.215.58.183])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D1B528468E;
-	Fri, 16 Jan 2026 13:32:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.46.171.57
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18BA53A4ABF
+	for <linux-input@vger.kernel.org>; Fri, 16 Jan 2026 20:17:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768570343; cv=none; b=HfBega60wQh9ZKiZAeOa+siK71hPKAj2x0R7iRC1+Bn7e5kpodnF0vKr5NVntHs/wR2ytBkYYcavI8heNuA5OdKxLc1y37w1DNxFDVM9BUlYpGhP+T0OcfOBtyVSdQA7joShv9fcEPGSsUhY3M+4jIK4w+Cqm2UNdqQKCwZlmgk=
+	t=1768594653; cv=none; b=jyvfa2hIjYuBR9E/OgijeRPE24gwjPXS0N8VYm1gWgoqJEaUjsh9hcdKb0S906zqchxAhrwTuwI2FxAJCIjRT8InBzvFcbxummr3c9EJOUGZVnn3I7/pTNmKgAWvcIodVQ29+EDAP3QX8MR1JoHs72HdxUuv1ETPRN3roFVVV3g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768570343; c=relaxed/simple;
-	bh=5uG41aLShCcfj/uFUz7az+7E5DwHNwZzvz9y5mbxRtE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=U6jXG4a8bRAqPT7ScC3YTKn2t4B+s6Ys6RFmFTn8xXfhJ+zhnLIUVQnbuOF9K7bIq4UE8ZND4a3gbsC5k1bv1XvQH9uHZGaHDK2s+Bk/9/LZBfy8tlCQzcZVU1Q8Hi9ccKSdkmStx7jwapzuVb9gUBLfjLx+nwNViZWhRJDIqCE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev; spf=pass smtp.mailfrom=antheas.dev; dkim=pass (2048-bit key) header.d=antheas.dev header.i=@antheas.dev header.b=BN7B85MO; arc=none smtp.client-ip=78.46.171.57
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=antheas.dev
-Received: from relay11 (localhost.localdomain [127.0.0.1])
-	by relay11.grserver.gr (Proxmox) with ESMTP id D6F00C25E9;
-	Fri, 16 Jan 2026 15:32:14 +0200 (EET)
-Received: from linux3247.grserver.gr (linux3247.grserver.gr [213.158.90.240])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by relay11.grserver.gr (Proxmox) with ESMTPS id 70CC5C3F6A;
-	Fri, 16 Jan 2026 15:32:14 +0200 (EET)
-Received: from antheas-z13 (unknown [IPv6:2a05:f6c3:fefd:0:42c:a43d:2848:c282])
-	by linux3247.grserver.gr (Postfix) with ESMTPSA id D68E520258D;
-	Fri, 16 Jan 2026 15:32:12 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
-	s=default; t=1768570334;
-	bh=IKZt/JbnpFu3QnnIaWTLBLJBzSG1TZ3OBW978bHJPSY=; h=From:To:Subject;
-	b=BN7B85MOer3++fGkgisqTr1/vopQholrBrk38cMsfHezeLVBBUhXVjMS3BgAlZmfY
-	 VYBYd6CE8/XfhOzXVOif6/4TawKMmFWLnNdQoGUxsKs3IPJ0nV6tvgdkHoZqRQSQ6Z
-	 CVm7pazzDnuk31Z476r2EQMXMRYeJaOpN9sL5+/jB+OofOEACrI8BieVbeC0ru0YkD
-	 ya1MGpzRVZWvP/mSTLyXyBMAijgEcDpxsJTleBX/e74xYN/fCYXLowlWZAe6F1dB7N
-	 KFUAypbffrh2RRtgWenphMOnkWzNFgKfZY7chVSrRZhGf5DpENQT12Xr56E7D9hJiZ
-	 zN7KiexvjhcNQ==
-Authentication-Results: linux3247.grserver.gr;
-	spf=pass (sender IP is 2a05:f6c3:fefd:0:42c:a43d:2848:c282) smtp.mailfrom=lkml@antheas.dev smtp.helo=antheas-z13
-Received-SPF: pass (linux3247.grserver.gr: connection is authenticated)
-From: Antheas Kapenekakis <lkml@antheas.dev>
-To: platform-driver-x86@vger.kernel.org,
-	linux-input@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	Jiri Kosina <jikos@kernel.org>,
+	s=arc-20240116; t=1768594653; c=relaxed/simple;
+	bh=7Zb0ywyqdkGqJlCEzwwZJipVLnwF8Nf0+xdJC05Cwlg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TM6kOjlmxI7U4Y+Zamph/MlvUh6fATxdbkPD4uwubjhtxuMNf2bDsntggykNJ91Vm74mrEpUdEZgB112EKE7Lp8DvVCYy8y9jtSFvu6qrskDlLztYk8zrbXUvpWTwIoPDaZxTnedVoeGaF2DApuZbxqy/gUVJtU8jZxKFIq+wd0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=aPYk3HE/; arc=none smtp.client-ip=95.215.58.183
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1768594638;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=qh3soA85ykLGQnjp7pmcKzzjNJku8ckJD/dsruePygY=;
+	b=aPYk3HE/PeR3v1SedZSNbv9CGYR06w1kV0qD4BJAC8SIjYdaHnBbC71EAlq7MlR+7QcIsD
+	nPgL03M4QhYpU6IUJTdRVup/7uQSc6sQIBnWzvJtlB12kzUd3sGh+GEMCyxcioXq7wcobw
+	0+aFptkbHvM+L9FT0pzaLeXaudoIvHs=
+From: Ihor Solodrai <ihor.solodrai@linux.dev>
+To: Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Eduard Zingerman <eddyz87@gmail.com>
+Cc: Mykyta Yatsenko <yatsenko@meta.com>,
+	Tejun Heo <tj@kernel.org>,
+	Alan Maguire <alan.maguire@oracle.com>,
 	Benjamin Tissoires <bentiss@kernel.org>,
-	Corentin Chary <corentin.chary@gmail.com>,
-	"Luke D . Jones" <luke@ljones.dev>,
-	Hans de Goede <hansg@kernel.org>,
-	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Denis Benato <denis.benato@linux.dev>,
-	Antheas Kapenekakis <lkml@antheas.dev>,
-	Denis Benato <benato.denis96@gmail.com>
-Subject: [PATCH v11 11/11] HID: asus: add support for the asus-wmi brightness
- handler
-Date: Fri, 16 Jan 2026 14:31:50 +0100
-Message-ID: <20260116133150.5606-12-lkml@antheas.dev>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260116133150.5606-1-lkml@antheas.dev>
-References: <20260116133150.5606-1-lkml@antheas.dev>
+	Jiri Kosina <jikos@kernel.org>,
+	Amery Hung <ameryhung@gmail.com>,
+	bpf@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-input@vger.kernel.org,
+	sched-ext@lists.linux.dev
+Subject: [PATCH bpf-next v2 00/13] bpf: Kernel functions with KF_IMPLICIT_ARGS
+Date: Fri, 16 Jan 2026 12:16:47 -0800
+Message-ID: <20260116201700.864797-1-ihor.solodrai@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -80,49 +64,121 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-PPP-Message-ID: 
- <176857033397.3553103.9242304130852948831@linux3247.grserver.gr>
-X-PPP-Vhost: antheas.dev
-X-Virus-Scanned: clamav-milter 1.4.3 at linux3247.grserver.gr
-X-Virus-Status: Clean
+X-Migadu-Flow: FLOW_OUT
 
-If the asus-wmi brightness handler is available, send the
-keyboard brightness events to it instead of passing them
-to userspace. If it is not, fall back to sending them to it.
+This series implements a generic "implicit arguments" feature for BPF
+kernel functions. For context see prior work [1][2].
 
-Reviewed-by: Luke D. Jones <luke@ljones.dev>
-Tested-by: Luke D. Jones <luke@ljones.dev>
-Reviewed-by: Denis Benato <benato.denis96@gmail.com>
-Acked-by: Benjamin Tissoires <bentiss@kernel.org>
-Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
+A mechanism is created for kfuncs to have arguments that are not
+visible to the BPF programs, and are provided to the kernel function
+implementation by the verifier.
+
+This mechanism is then used in the kfuncs that have a parameter with
+__prog annotation [3], which is the current way of passing struct
+bpf_prog_aux pointer to kfuncs.
+
+The function with implicit arguments is defined by KF_IMPLICIT_ARGS
+flag in BTF_IDS_FLAGS set. In this series, only a pointer to struct
+bpf_prog_aux can be implicit, although it is simple to extend this to
+more types.
+
+The verifier handles a kfunc with KF_IMPLICIT_ARGS by resolving it to
+a different (actual) BTF prototype early in verification (patch #3).
+
+A <kfunc>_impl function generated in BTF for a kfunc with implicit
+args does not have a "bpf_kfunc" decl tag, and a kernel address. The
+verifier will reject a program trying to call such an _impl kfunc.
+
+The usage of <kfunc>_impl functions in BPF is only allowed for kfuncs
+with an explicit kernel (or kmodule) declaration, that is in "legacy"
+cases. As of this series, there are no legacy kernel functions, as all
+__prog users are migrated to KF_IMPLICIT_ARGS. However the
+implementation allows for legacy cases support in principle.
+
+The series consists of the following patches:
+  - patches #1 and #2 are non-functional refactoring in kernel/bpf
+  - patch #3 defines KF_IMPLICIT_ARGS flag and teaches the verifier
+    about it
+  - patches #4-#5 implement btf2btf transformation in resolve_btfids
+  - patch #6 adds selftests specific to KF_IMPLICIT_ARGS feature
+  - patches #7-#11 migrate the current users of __prog argument to
+    KF_IMPLICIT_ARGS
+  - patch #12 removes __prog arg suffix support from the kernel
+  - patch #13 updates the docs
+
+[1] https://lore.kernel.org/bpf/20251029190113.3323406-1-ihor.solodrai@linux.dev/
+[2] https://lore.kernel.org/bpf/20250924211716.1287715-1-ihor.solodrai@linux.dev/
+[3] https://docs.kernel.org/bpf/kfuncs.html#prog-annotation
+
 ---
- drivers/hid/hid-asus.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
 
-diff --git a/drivers/hid/hid-asus.c b/drivers/hid/hid-asus.c
-index 19fc43f27ff3..50410b1c81ab 100644
---- a/drivers/hid/hid-asus.c
-+++ b/drivers/hid/hid-asus.c
-@@ -324,6 +324,17 @@ static int asus_event(struct hid_device *hdev, struct hid_field *field,
- 			 usage->hid & HID_USAGE);
- 	}
- 
-+	if (usage->type == EV_KEY && value) {
-+		switch (usage->code) {
-+		case KEY_KBDILLUMUP:
-+			return !asus_hid_event(ASUS_EV_BRTUP);
-+		case KEY_KBDILLUMDOWN:
-+			return !asus_hid_event(ASUS_EV_BRTDOWN);
-+		case KEY_KBDILLUMTOGGLE:
-+			return !asus_hid_event(ASUS_EV_BRTTOGGLE);
-+		}
-+	}
-+
- 	return 0;
- }
- 
+v1->v2:
+  - Replace the following kernel functions with KF_IMPLICIT_ARGS version:
+    - bpf_stream_vprintk_impl -> bpf_stream_vprintk
+    - bpf_task_work_schedule_resume_impl -> bpf_task_work_schedule_resume
+    - bpf_task_work_schedule_signal_impl -> bpf_task_work_schedule_signal
+    - bpf_wq_set_callback_impl -> bpf_wq_set_callback_impl
+  - Remove __prog arg suffix support from the verifier
+  - Rework btf2btf implementation in resolve_btfids
+    - Do distill base and sort before BTF_ids patching
+    - Collect kfuncs based on BTF decl tags, before BTF_ids are patched
+  - resolve_btfids: use dynamic memory for intermediate data (Andrii)
+  - verifier: reset .subreg_def for caller saved registers on kfunc
+    call (Eduard)
+  - selftests/hid: remove Makefile changes (Benjamin)
+  - selftests/bpf: Add a patch (#11) migrating struct_ops_assoc test
+    to KF_IMPLICIT_ARGS
+  - Various nits across the series (Alexei, Andrii, Eduard)
+
+v1: https://lore.kernel.org/bpf/20260109184852.1089786-1-ihor.solodrai@linux.dev/
+
+---
+
+Ihor Solodrai (13):
+  bpf: Refactor btf_kfunc_id_set_contains
+  bpf: Introduce struct bpf_kfunc_meta
+  bpf: Verifier support for KF_IMPLICIT_ARGS
+  resolve_btfids: Introduce finalize_btf() step
+  resolve_btfids: Support for KF_IMPLICIT_ARGS
+  selftests/bpf: Add tests for KF_IMPLICIT_ARGS
+  bpf: Migrate bpf_wq_set_callback_impl() to KF_IMPLICIT_ARGS
+  HID: Use bpf_wq_set_callback kernel function
+  bpf: Migrate bpf_task_work_schedule_* kfuncs to KF_IMPLICIT_ARGS
+  bpf: Migrate bpf_stream_vprintk() to KF_IMPLICIT_ARGS
+  selftests/bpf: Migrate struct_ops_assoc test to KF_IMPLICIT_ARGS
+  bpf: Remove __prog kfunc arg annotation
+  bpf,docs: Document KF_IMPLICIT_ARGS flag
+
+ Documentation/bpf/kfuncs.rst                  |  49 +-
+ drivers/hid/bpf/progs/hid_bpf_helpers.h       |   8 +-
+ include/linux/btf.h                           |   5 +-
+ kernel/bpf/btf.c                              |  70 ++-
+ kernel/bpf/helpers.c                          |  43 +-
+ kernel/bpf/stream.c                           |   5 +-
+ kernel/bpf/verifier.c                         | 245 ++++++----
+ tools/bpf/resolve_btfids/main.c               | 452 +++++++++++++++++-
+ tools/lib/bpf/bpf_helpers.h                   |   6 +-
+ .../testing/selftests/bpf/bpf_experimental.h  |   5 -
+ .../bpf/prog_tests/kfunc_implicit_args.c      |  10 +
+ .../testing/selftests/bpf/progs/file_reader.c |   4 +-
+ .../selftests/bpf/progs/kfunc_implicit_args.c |  41 ++
+ .../testing/selftests/bpf/progs/stream_fail.c |   6 +-
+ .../selftests/bpf/progs/struct_ops_assoc.c    |   8 +-
+ .../bpf/progs/struct_ops_assoc_in_timer.c     |   4 +-
+ .../bpf/progs/struct_ops_assoc_reuse.c        |   6 +-
+ tools/testing/selftests/bpf/progs/task_work.c |  11 +-
+ .../selftests/bpf/progs/task_work_fail.c      |  16 +-
+ .../selftests/bpf/progs/task_work_stress.c    |   5 +-
+ .../bpf/progs/verifier_async_cb_context.c     |  10 +-
+ .../testing/selftests/bpf/progs/wq_failures.c |   4 +-
+ .../selftests/bpf/test_kmods/bpf_testmod.c    |  35 +-
+ .../bpf/test_kmods/bpf_testmod_kfunc.h        |   6 +-
+ .../selftests/hid/progs/hid_bpf_helpers.h     |   8 +-
+ 25 files changed, 838 insertions(+), 224 deletions(-)
+ create mode 100644 tools/testing/selftests/bpf/prog_tests/kfunc_implicit_args.c
+ create mode 100644 tools/testing/selftests/bpf/progs/kfunc_implicit_args.c
+
 -- 
 2.52.0
-
 
 
