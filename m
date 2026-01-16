@@ -1,104 +1,136 @@
-Return-Path: <linux-input+bounces-17123-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-17124-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC74CD28B2F
-	for <lists+linux-input@lfdr.de>; Thu, 15 Jan 2026 22:21:45 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C154D2A912
+	for <lists+linux-input@lfdr.de>; Fri, 16 Jan 2026 04:11:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id BC2AE3016F93
-	for <lists+linux-input@lfdr.de>; Thu, 15 Jan 2026 21:21:44 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id F1B9D300898D
+	for <lists+linux-input@lfdr.de>; Fri, 16 Jan 2026 03:11:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BD7CE3218CC;
-	Thu, 15 Jan 2026 21:21:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7FEF23385BE;
+	Fri, 16 Jan 2026 03:11:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="GqvJN12f"
+	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="PkiimrGp"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+Received: from smtpbguseast3.qq.com (smtpbguseast3.qq.com [54.243.244.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 555CB27815D;
-	Thu, 15 Jan 2026 21:21:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD7C8271450;
+	Fri, 16 Jan 2026 03:11:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.243.244.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768512103; cv=none; b=g0pZV6d1BKo5FDgv/APa/2IyUFNDyh3vqhfFNmAl+LZKOO82neBHtmx9tq3suzWP3uT08pwsssY/YkhHFqtMoqNypOBf6tMExKjJzMza8mIz0h1c6LS0ck47DIgLjLp4sZ4REs6biW/x4ahxYPmnNdlqbW7rvrXl3Nh9QXVwaho=
+	t=1768533099; cv=none; b=b+1eIjwUNi/462EVEkk28oCBmfLwBK12PdWnPgu7d63+VTyNYYodRiUuI0sNMCigGMVWZTIkkBZNCHyyd1m1pwc1RIvxta6u0yknVWEw01T6l8FzKaJ5GwH6w3L+EYn0LTskOlq/DKMTXh8q/wpIsK2ThYbN0u7qJXHD92M4WLc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768512103; c=relaxed/simple;
-	bh=Bbw+q476o4/OnnTU6+QY9IXXCNh1H5mwzldo7BImDYQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=jK4N+VfdIMaUY4KMKhYm+Pfk9zE+hNEiP+xXtHiA0xUJxkarVKxnTgkDDXCH6Z4eyRwQQ8d7XFZXMkfHLW1RvMKBrajlVJY086S4v73pt+HRtIn+2nWsh/gAmdZ0GUGRd2wh9jlX2FNgk1NQ2cXyChez1wp6J55ehuv8wiXVs7E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=GqvJN12f; arc=none smtp.client-ip=80.241.56.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4dsbWv40xsz9v7t;
-	Thu, 15 Jan 2026 22:21:31 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1768512091;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=k/MO/rccwFZ1sY9kKioDxoQ75J8jMjTWo/N2+TA1EwQ=;
-	b=GqvJN12ff32MX69PJP2SD5lJ4sr8SUb+s335EGd2rvenUH6CiPlucR/5XwsBRump1XFRCi
-	skSlec/PHSfdmUNThH0Mr7tStSK9v/TtC8zXCrGBziVRqIhsnY0x9OnCWYKMcarD70acCX
-	qgySzYJVM9CqJG1y0wgv707/UIayFoZGovKWpV9NUalIKKt29MqvbmTcgV0XyOiq/bytPE
-	UjO0CWtZdGPTvuKLzwF2jz80VrQXsvdwj7eBj9Qpx/yV33g9NkqlR4Pz92kbnHyOLXrLVX
-	uO5UrihQqp7p26pUiOt3mL9Uv+QEvCjD237daCH7T6dsrc93jjVNYXFpkuAytQ==
-Message-ID: <7e7ea0ed-15e9-41cf-87bf-204b803b49c1@mailbox.org>
-Date: Thu, 15 Jan 2026 18:49:57 +0100
+	s=arc-20240116; t=1768533099; c=relaxed/simple;
+	bh=Ut4kdUa22LgvOQlq+r2XMcEKz4YZLqy2szVsOlLpdFE=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=CUcC7E7URkcNL8dmHMpa5Pdtc0fDAKiXJzB1R2Dbs2CBTStAR8kB8kNpcCcmeAkoRwAO6dc+0D01yHEBYFTtB6XS/gdZtvPkfNy4psxocXvkxUh+1oDHxvZK5cyWZXxWJy//ebHXzlrpSz1FSMqwyLjbvZme5wJRFf4rMYGc14E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=PkiimrGp; arc=none smtp.client-ip=54.243.244.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
+	s=onoh2408; t=1768533090;
+	bh=GdVWcuzgyjAUBe6lY9i078vXX48KKLTenr/wPAgIphw=;
+	h=From:To:Subject:Date:Message-Id:MIME-Version;
+	b=PkiimrGpFwwJk763TZJAoSvWhL4/MMApAAH5c4HDasJFFaeN6fjpPHiTRN54ltFVP
+	 u5ZbAJQgQUU9FhB9jIPJCPW6RGAeJV6XZ/B8AoOPo3UpK2qsEbCVKe1TqDoc6nbq5J
+	 hPKgzVCDubf0D8w3cZe/KTmpy3J5jOQRRRzpvvm0=
+X-QQ-mid: zesmtpip3t1768533077t5b4916e3
+X-QQ-Originating-IP: 4ar+DEJWdKD9B01CzjAdOJ3Lznx09DjyxnYYujPPxDc=
+Received: from localhost.localdomain ( [localhost])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Fri, 16 Jan 2026 11:11:16 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 1
+X-BIZMAIL-ID: 12559895563723960500
+EX-QQ-RecipientCnt: 4
+From: Haowen Tu <tuhaowen@uniontech.com>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	tuhaowen@uniontech.com
+Subject: [PATCH] Input: appletouch - fix use-after-free in work handler during disconnect
+Date: Fri, 16 Jan 2026 11:11:13 +0800
+Message-Id: <20260116031113.1003940-1-tuhaowen@uniontech.com>
+X-Mailer: git-send-email 2.20.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v3 2/3] Input: ili210x - convert to dev_err_probe()
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: linux-input@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, Frank Li <Frank.Li@nxp.com>,
- Job Noorman <job@noorman.info>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-References: <20260115161858.20226-1-marek.vasut+renesas@mailbox.org>
- <20260115161858.20226-2-marek.vasut+renesas@mailbox.org>
- <CAMuHMdUd9TNWixxEYjEdOVLoR982tn4jgZXEnWKhnUTObYXuZQ@mail.gmail.com>
-Content-Language: en-US
-From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <CAMuHMdUd9TNWixxEYjEdOVLoR982tn4jgZXEnWKhnUTObYXuZQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-MBO-RS-ID: ffdf92c70d839d5677b
-X-MBO-RS-META: ahqzwt5azrfr9wsm7d1qmzmt6njko3zc
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: zesmtpip:uniontech.com:qybglogicsvrsz:qybglogicsvrsz3b-0
+X-QQ-XMAILINFO: OGRTx1KypL8CtYbBKnkYP1RGpwhPl/Yhg7BcoTqgSVN04CKisbg0INvc
+	9ar4LRoydEpAJQJIjj7vPvnfMQDVDMpWFNOzQUqKQVOsfAiKwiRVwfyfEnVlSRBQ5NwSkrG
+	XbGiLy1J4gUGlapn9IaEz5NGjqooIhaR7W+SYqIY4izzj8iHqb96Q7wkK+5CnczqaNm0Von
+	pIoQUE7vUZLltPo2rRhrwYSNKdC+txIYeGRXf3kgBbAADMClBvHcmJzSvoHFSJi/89KkD16
+	jt090WjWUyhQVksueNfx6es2uJWyg8PEaq1hia3I5KOKMG16tSydGZCxhGdjh/ojSXa4wo+
+	aOaKrlpjbPYIlVPlfaI/ZGdK8JCuzbyjoufIHkfjy0SBdQrJsDRn9m+ZlH/U627tUc9YPVW
+	MklnbPlYzbYtVrd313dWHirGg5FvN0IViAzFWP+M3KNWpdJsLEBi/8NXKXmt+jHNNPwROc/
+	l8RiBL8S8CUBO8x7dWLVZOSY+9Vk+ZO4aYAXvCfgU91CsGarjtBq9Kl8ZXkHgexEw1lxPfS
+	bnCG0o94oSDHogGWCaNyLmKNKwzerVpO4PkPz8HGoBof3BsxwNl54IiXcxcnPEjWG1N1nne
+	ljhjMl+JwEvgvlNh1EQuQmKuW4SyDNnB3m0loTrI0yLxYBoJXnrUP0GiCNSefF7stitTnCq
+	hK3ruTAl+u44nTeu439ceUNq0EcKf/6Vvc3N93Cef6b86E29OoeWShDiGeOe2WMnip1jbGO
+	mvakRKNzfEsz5X91cVGzi3HHP+UAAWO0Wc3uDj91NeFwioLBvygPMmG6s/LgsKfAUgoo7pz
+	wy0iGgwg1je3Yr5Yj+urQ2zwW+yyiyabkXryDxKDil8m2rpnRHU3VqzbWxf1CIjfpk/HPtg
+	AlRmhpmeaeB6LGB+RtrOnjs2SnJaw1jyZZEOdQ5nLxK6Ey0rZi9meSV/awOoXtrq40+ASCq
+	dUktW9ZBhdpRJSpiHBIHCXoNu2oihoUbYXQWMeYcxLGfN+erbi3zxK+b1gr4gR2PbexCHl9
+	jHK0yIWEOXRmyo3mkQQzjnHktF848=
+X-QQ-XMRINFO: MSVp+SPm3vtSI1QTLgDHQqIV1w2oNKDqfg==
+X-QQ-RECHKSPAM: 0
 
-On 1/15/26 5:21 PM, Geert Uytterhoeven wrote:
+The atp_reinit work item is initialized in atp_probe() and scheduled
+from atp_complete() URB callback when the device becomes idle. During
+device disconnection, the current implementation calls usb_kill_urb()
+in atp_disconnect() but fails to prevent the work from being executed
+after the atp structure has been freed.
 
-Hello Geert,
+Although usb_kill_urb() terminates the URB and its callbacks, there is
+a critical race window: if schedule_work() is called in atp_complete()
+just before usb_kill_urb() takes effect, the work item can still be
+queued. Since atp_disconnect() immediately proceeds to free the atp
+structure without canceling pending work, this leads to a use-after-free
+vulnerability when the work handler executes.
 
->> --- a/drivers/input/touchscreen/ili210x.c
->> +++ b/drivers/input/touchscreen/ili210x.c
->> @@ -942,15 +942,11 @@ static int ili210x_i2c_probe(struct i2c_client *client)
->>          chip = device_get_match_data(dev);
->>          if (!chip && id)
->>                  chip = (const struct ili2xxx_chip *)id->driver_data;
->> -       if (!chip) {
->> -               dev_err(&client->dev, "unknown device model\n");
->> -               return -ENODEV;
->> -       }
->> +       if (!chip)
->> +               return dev_err_probe(&client->dev, -ENODEV, "unknown device model\n");
->>
->> -       if (client->irq <= 0) {
->> -               dev_err(dev, "No IRQ!\n");
->> -               return -EINVAL;
->> -       }
->> +       if (client->irq <= 0)
->> +               dev_err_probe(dev, -EINVAL, "No IRQ!\n");
-> 
-> Missing return.
-Fixed in v4, which I will send once I get some more feedback, thanks.
+The race condition:
 
-Note that this return-less code is removed in 3/3 .
+CPU 0 (disconnect path)      | CPU 1 (URB completion)
+atp_disconnect()             |
+  usb_kill_urb(dev->urb)     | atp_complete()
+                             |   schedule_work(&dev->work)
+  input_unregister_device()  |
+  usb_free_coherent()        |
+  usb_free_urb()             |
+  kfree(dev);      // FREE   | atp_reinit()
+                             |   dev = container_of(...) // USE
+                             |   atp_geyser_init(dev) // USE
+                             |   dev->urb // USE
+                             |   dev->intf // USE
+
+Fix this by adding disable_work_sync() in atp_disconnect() after
+usb_kill_urb() to ensure the work is properly canceled and cannot
+be rescheduled before the atp structure is freed.
+
+Signed-off-by: Haowen Tu <tuhaowen@uniontech.com>
+---
+ drivers/input/mouse/appletouch.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/input/mouse/appletouch.c b/drivers/input/mouse/appletouch.c
+index e669f86f1882..aa2870a87eee 100644
+--- a/drivers/input/mouse/appletouch.c
++++ b/drivers/input/mouse/appletouch.c
+@@ -946,6 +946,7 @@ static void atp_disconnect(struct usb_interface *iface)
+ 	usb_set_intfdata(iface, NULL);
+ 	if (dev) {
+ 		usb_kill_urb(dev->urb);
++		disable_work_sync(&dev->work);
+ 		input_unregister_device(dev->input);
+ 		usb_free_coherent(dev->udev, dev->info->datalen,
+ 				  dev->data, dev->urb->transfer_dma);
+-- 
+2.20.1
+
 
