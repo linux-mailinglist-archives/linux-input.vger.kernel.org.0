@@ -1,55 +1,55 @@
-Return-Path: <linux-input+bounces-17135-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-17136-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAE5BD31F3C
-	for <lists+linux-input@lfdr.de>; Fri, 16 Jan 2026 14:38:36 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2603AD32138
+	for <lists+linux-input@lfdr.de>; Fri, 16 Jan 2026 14:48:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 785E0307B30E
-	for <lists+linux-input@lfdr.de>; Fri, 16 Jan 2026 13:37:43 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id D33B83108776
+	for <lists+linux-input@lfdr.de>; Fri, 16 Jan 2026 13:42:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A80FA285C88;
-	Fri, 16 Jan 2026 13:37:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 49BFD26CE0A;
+	Fri, 16 Jan 2026 13:42:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=antheas.dev header.i=@antheas.dev header.b="XYCZktrW"
+	dkim=pass (2048-bit key) header.d=antheas.dev header.i=@antheas.dev header.b="Y3ux5rJt"
 X-Original-To: linux-input@vger.kernel.org
 Received: from relay14.grserver.gr (relay14.grserver.gr [157.180.73.62])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1290277CA5;
-	Fri, 16 Jan 2026 13:37:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F3A713C9C4;
+	Fri, 16 Jan 2026 13:42:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.180.73.62
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768570660; cv=none; b=oNGsRkxbQjGgaXUeUMLsPC6K+JHOugSGCIdZVFlBdMSly+Zgpl31U7Ow2VHfLqb5dnDRPhNkB9a9pN6zn35tpDbIil9C76JCaQF8uuRgWN7OosuU8s5EmI+kiwrXdcyOhojBPah4B5mIq1x1LpnKf9/Pok8eQe/BnzpaFmLu6SQ=
+	t=1768570959; cv=none; b=hvMJfKC25nfQwqlJ1gtr4SwYdFPKYQriRFmeKCy8LWyx+0wzQcv3Xl7Bbj3DtYWIHCPdySCcedQigEFTzmH7kwWRTh0AyzCGMDaXBf+B86x3TU4DYw/QSATGE2+txBYq+g/yjL+JNSnmXCH+YQI+jPGSEs2BiBPW8r4Mvp6qgKo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768570660; c=relaxed/simple;
-	bh=qC/J0+4+tdmZ37XLBWyV/NfGCb0il0AY9ubrh5qmRhs=;
+	s=arc-20240116; t=1768570959; c=relaxed/simple;
+	bh=hG1EkQ+OvNsfJoq0DWyfjxDRwFK1Zz2d3pmz1qT8MXA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=YcFVoN8/iLV/DWtuIx1jOe7a2TN/WWcXKxiPn4xVdEJY0Nhq0mCiBvlJ/uYenCIQEzxuI4xrqKwa9k8evEQlPSf0OH2iSfbPI8o4w9ws3CxUKA7idsuKNSYBoGwLHasMfrZh2ZzRjqLZIog+929VFmvLYd1Mh2gOKehJwQHyYCA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev; spf=pass smtp.mailfrom=antheas.dev; dkim=pass (2048-bit key) header.d=antheas.dev header.i=@antheas.dev header.b=XYCZktrW; arc=none smtp.client-ip=157.180.73.62
+	 MIME-Version; b=eGrGiy+d9Ga7FTVfXxpzoDY55SW+oXd6+MlmNces0eIOA6EAOkMHo/6NaDMKvZFUGyJ4cPL6gzKqlzLEFvlagFWeJb4mZMP1Lb5KltNqfDSTfnstUR4zYUF1haLp4iK3NHOI67ekxUOJ/vQWMJ+KFAsw/5Q+ojfTinIbC2FaIRo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev; spf=pass smtp.mailfrom=antheas.dev; dkim=pass (2048-bit key) header.d=antheas.dev header.i=@antheas.dev header.b=Y3ux5rJt; arc=none smtp.client-ip=157.180.73.62
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=antheas.dev
 Received: from relay14 (localhost [127.0.0.1])
-	by relay14.grserver.gr (Proxmox) with ESMTP id 9938C408E8;
-	Fri, 16 Jan 2026 13:32:11 +0000 (UTC)
+	by relay14.grserver.gr (Proxmox) with ESMTP id 99D1C4083C;
+	Fri, 16 Jan 2026 13:32:13 +0000 (UTC)
 Received: from linux3247.grserver.gr (linux3247.grserver.gr [213.158.90.240])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by relay14.grserver.gr (Proxmox) with ESMTPS id 186984088C;
-	Fri, 16 Jan 2026 13:32:11 +0000 (UTC)
+	by relay14.grserver.gr (Proxmox) with ESMTPS id E446940868;
+	Fri, 16 Jan 2026 13:32:12 +0000 (UTC)
 Received: from antheas-z13 (unknown [IPv6:2a05:f6c3:fefd:0:42c:a43d:2848:c282])
-	by linux3247.grserver.gr (Postfix) with ESMTPSA id 41065202536;
-	Fri, 16 Jan 2026 15:32:09 +0200 (EET)
+	by linux3247.grserver.gr (Postfix) with ESMTPSA id 2CA101FD3F3;
+	Fri, 16 Jan 2026 15:32:11 +0200 (EET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
-	s=default; t=1768570330;
-	bh=EZI62rLY8T5iCqJeT156w6aRaLQTMZvHv5YNdeVWJHQ=; h=From:To:Subject;
-	b=XYCZktrW3q3PhEUkbcdI3lLhZowCGhZh8Rw6RRtsTfDKwWRK9y3uda6PQY8vTV9pK
-	 D8IITk2VZ8ZtO78sgLQYc4FLECY4kd38l7UHPHFAV8ufCvJJsVic2Od9Du6chkNsI4
-	 s3ih7zeaKlXEPTtvMe6rVcxKa1TlIwmbE5jOMmK+qrjwxS4xCENyqHSSbrmzGjLWfY
-	 gVzrgXxQC/ixxtktl8e3MIVSuC5vaQ3X/VT8XxddWMgWauhqVtT/p/QimEA9sqNb1Z
-	 ok3sgzsgJr9mnaNnbzxn1bpxuPfEqWj69y4o7CzMu3mQQnOX9XMNPrgQt+rlDhTGqC
-	 qK1njUQMoDV4Q==
+	s=default; t=1768570332;
+	bh=8hSaoQfEIyYZ4F+L0MrHWED5H3ltWjnoArChTNuPCUc=; h=From:To:Subject;
+	b=Y3ux5rJtuGInU5KzTEAEe95Zej7hgpD7/PJ/DIaC5rcVywYgmtOIRXUt6bVZ/kfJB
+	 upKn+OwAmbjrmxB1Q4N3b2c8G17bvC3LaXyLghWaTqyjiDrKFXS0N8zn5EhFiQoiWX
+	 iHwFjzodsVjfLWxW7ACaBRBzjy61djK8/cFzWZO80kStF1yyryVubIoLficJs35TQl
+	 3u+kM0QScXrJ8/T0abaKHEHKOQzvmQSzU+x10e8PK8I6oG2WyUokkjEq/P8zwMPhUo
+	 dbocFsLGsf20y2fUMcbBwQYvjXtdFM3dsHnH3l9VP2M5jIcUjuwK50pcXZQCN9znLz
+	 Il24WY+4uHS/g==
 Authentication-Results: linux3247.grserver.gr;
 	spf=pass (sender IP is 2a05:f6c3:fefd:0:42c:a43d:2848:c282) smtp.mailfrom=lkml@antheas.dev smtp.helo=antheas-z13
 Received-SPF: pass (linux3247.grserver.gr: connection is authenticated)
@@ -64,12 +64,11 @@ Cc: linux-kernel@vger.kernel.org,
 	Hans de Goede <hansg@kernel.org>,
 	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
 	Denis Benato <denis.benato@linux.dev>,
-	Antheas Kapenekakis <lkml@antheas.dev>,
-	Denis Benato <benato.denis96@gmail.com>
-Subject: [PATCH v11 09/11] platform/x86: asus-wmi: remove unused keyboard
- backlight quirk
-Date: Fri, 16 Jan 2026 14:31:48 +0100
-Message-ID: <20260116133150.5606-10-lkml@antheas.dev>
+	Antheas Kapenekakis <lkml@antheas.dev>
+Subject: [PATCH v11 10/11] platform/x86: asus-wmi: add keyboard brightness
+ event handler
+Date: Fri, 16 Jan 2026 14:31:49 +0100
+Message-ID: <20260116133150.5606-11-lkml@antheas.dev>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260116133150.5606-1-lkml@antheas.dev>
 References: <20260116133150.5606-1-lkml@antheas.dev>
@@ -81,78 +80,156 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-PPP-Message-ID: 
- <176857033060.3552944.3515433525594511802@linux3247.grserver.gr>
+ <176857033243.3553042.4180730708922187340@linux3247.grserver.gr>
 X-PPP-Vhost: antheas.dev
 X-Virus-Scanned: clamav-milter 1.4.3 at linux3247.grserver.gr
 X-Virus-Status: Clean
 
-The quirk for selecting whether keyboard backlight should be controlled
-by HID or WMI is not needed anymore, so remove the file containing it.
+The keyboard brightness control of Asus WMI keyboards is handled in
+kernel, which leads to the shortcut going from brightness 0, to 1,
+to 2, and 3.
 
-Reviewed-by: Denis Benato <benato.denis96@gmail.com>
+However, for HID keyboards it is exposed as a key and handled by the
+user's desktop environment. For the toggle button, this means that
+brightness control becomes on/off. In addition, in the absence of a
+DE, the keyboard brightness does not work.
+
+Therefore, expose an event handler for the keyboard brightness control
+which can then be used by hid-asus. Since this handler is called from
+an interrupt context, defer the actual work to a workqueue.
+
+In the process, introduce ASUS_EV_MAX_BRIGHTNESS to hold the constant
+for maximum brightness since it is shared between hid-asus/asus-wmi.
+
+Reviewed-by: Luke D. Jones <luke@ljones.dev>
+Tested-by: Luke D. Jones <luke@ljones.dev>
 Acked-by: Benjamin Tissoires <bentiss@kernel.org>
 Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
 ---
- .../platform_data/x86/asus-wmi-leds-ids.h     | 50 -------------------
- 1 file changed, 50 deletions(-)
- delete mode 100644 include/linux/platform_data/x86/asus-wmi-leds-ids.h
+ drivers/platform/x86/asus-wmi.c            | 46 +++++++++++++++++++---
+ include/linux/platform_data/x86/asus-wmi.h | 13 ++++++
+ 2 files changed, 54 insertions(+), 5 deletions(-)
 
-diff --git a/include/linux/platform_data/x86/asus-wmi-leds-ids.h b/include/linux/platform_data/x86/asus-wmi-leds-ids.h
-deleted file mode 100644
-index 034a039c4e37..000000000000
---- a/include/linux/platform_data/x86/asus-wmi-leds-ids.h
-+++ /dev/null
-@@ -1,50 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0 */
--#ifndef __PLATFORM_DATA_X86_ASUS_WMI_LEDS_IDS_H
--#define __PLATFORM_DATA_X86_ASUS_WMI_LEDS_IDS_H
--
--#include <linux/dmi.h>
--#include <linux/types.h>
--
--/* To be used by both hid-asus and asus-wmi to determine which controls kbd_brightness */
--#if IS_REACHABLE(CONFIG_ASUS_WMI) || IS_REACHABLE(CONFIG_HID_ASUS)
--static const struct dmi_system_id asus_use_hid_led_dmi_ids[] = {
--	{
--		.matches = {
--			DMI_MATCH(DMI_PRODUCT_FAMILY, "ROG Zephyrus"),
--		},
--	},
--	{
--		.matches = {
--			DMI_MATCH(DMI_PRODUCT_FAMILY, "ROG Strix"),
--		},
--	},
--	{
--		.matches = {
--			DMI_MATCH(DMI_PRODUCT_FAMILY, "ROG Flow"),
--		},
--	},
--	{
--		.matches = {
--			DMI_MATCH(DMI_PRODUCT_FAMILY, "ProArt P16"),
--		},
--	},
--	{
--		.matches = {
--			DMI_MATCH(DMI_BOARD_NAME, "GA403U"),
--		},
--	},
--	{
--		.matches = {
--			DMI_MATCH(DMI_BOARD_NAME, "GU605M"),
--		},
--	},
--	{
--		.matches = {
--			DMI_MATCH(DMI_BOARD_NAME, "RC71L"),
--		},
--	},
--	{ },
--};
--#endif
--
--#endif	/* __PLATFORM_DATA_X86_ASUS_WMI_LEDS_IDS_H */
+diff --git a/drivers/platform/x86/asus-wmi.c b/drivers/platform/x86/asus-wmi.c
+index df2365efb2b8..e65d91a11000 100644
+--- a/drivers/platform/x86/asus-wmi.c
++++ b/drivers/platform/x86/asus-wmi.c
+@@ -1719,6 +1719,44 @@ static void kbd_led_update_all(struct work_struct *work)
+ 	}
+ }
+ 
++/*
++ * This function is called from hid-asus to inform asus-wmi of brightness
++ * changes initiated by the keyboard backlight keys.
++ */
++int asus_hid_event(enum asus_hid_event event)
++{
++	struct asus_wmi *asus;
++	int brightness;
++
++	guard(spinlock_irqsave)(&asus_ref.lock);
++	asus = asus_ref.asus;
++	if (!asus || !asus->kbd_led_registered)
++		return -EBUSY;
++
++	brightness = asus->kbd_led_wk;
++
++	switch (event) {
++	case ASUS_EV_BRTUP:
++		brightness += 1;
++		break;
++	case ASUS_EV_BRTDOWN:
++		brightness -= 1;
++		break;
++	case ASUS_EV_BRTTOGGLE:
++		if (brightness >= ASUS_EV_MAX_BRIGHTNESS)
++			brightness = 0;
++		else
++			brightness += 1;
++		break;
++	}
++
++	asus->kbd_led_wk = clamp_val(brightness, 0, ASUS_EV_MAX_BRIGHTNESS);
++	asus->kbd_led_notify = true;
++	queue_work(asus->led_workqueue, &asus->kbd_led_work);
++	return 0;
++}
++EXPORT_SYMBOL_GPL(asus_hid_event);
++
+ /*
+  * These functions actually update the LED's, and are called from a
+  * workqueue. By doing this as separate work rather than when the LED
+@@ -1801,13 +1839,11 @@ static void do_kbd_led_set(struct led_classdev *led_cdev, int value)
+ {
+ 	struct asus_hid_listener *listener;
+ 	struct asus_wmi *asus;
+-	int max_level;
+ 
+ 	asus = container_of(led_cdev, struct asus_wmi, kbd_led);
+-	max_level = asus->kbd_led.max_brightness;
+ 
+ 	scoped_guard(spinlock_irqsave, &asus_ref.lock)
+-		asus->kbd_led_wk = clamp_val(value, 0, max_level);
++		asus->kbd_led_wk = clamp_val(value, 0, ASUS_EV_MAX_BRIGHTNESS);
+ 
+ 	if (asus->kbd_led_avail)
+ 		kbd_led_update(asus);
+@@ -2011,7 +2047,7 @@ static int asus_wmi_led_init(struct asus_wmi *asus)
+ 	asus->kbd_led.flags = LED_BRIGHT_HW_CHANGED;
+ 	asus->kbd_led.brightness_set_blocking = kbd_led_set;
+ 	asus->kbd_led.brightness_get = kbd_led_get;
+-	asus->kbd_led.max_brightness = 3;
++	asus->kbd_led.max_brightness = ASUS_EV_MAX_BRIGHTNESS;
+ 	asus->kbd_led_avail = !kbd_led_read(asus, &led_val, NULL);
+ 	INIT_WORK(&asus->kbd_led_work, kbd_led_update_all);
+ 
+@@ -4530,7 +4566,7 @@ static void asus_wmi_handle_event_code(int code, struct asus_wmi *asus)
+ 		return;
+ 	}
+ 	if (code == NOTIFY_KBD_BRTTOGGLE) {
+-		if (led_value == asus->kbd_led.max_brightness)
++		if (led_value == ASUS_EV_MAX_BRIGHTNESS)
+ 			kbd_led_set_by_kbd(asus, 0);
+ 		else
+ 			kbd_led_set_by_kbd(asus, led_value + 1);
+diff --git a/include/linux/platform_data/x86/asus-wmi.h b/include/linux/platform_data/x86/asus-wmi.h
+index d347cffd05d5..7b872b5d0960 100644
+--- a/include/linux/platform_data/x86/asus-wmi.h
++++ b/include/linux/platform_data/x86/asus-wmi.h
+@@ -178,6 +178,14 @@ struct asus_hid_listener {
+ 	void (*brightness_set)(struct asus_hid_listener *listener, int brightness);
+ };
+ 
++enum asus_hid_event {
++	ASUS_EV_BRTUP,
++	ASUS_EV_BRTDOWN,
++	ASUS_EV_BRTTOGGLE,
++};
++
++#define ASUS_EV_MAX_BRIGHTNESS 3
++
+ #if IS_REACHABLE(CONFIG_ASUS_WMI)
+ void set_ally_mcu_hack(enum asus_ally_mcu_hack status);
+ void set_ally_mcu_powersave(bool enabled);
+@@ -186,6 +194,7 @@ int asus_wmi_set_devstate(u32 dev_id, u32 ctrl_param, u32 *retval);
+ int asus_wmi_evaluate_method(u32 method_id, u32 arg0, u32 arg1, u32 *retval);
+ int asus_hid_register_listener(struct asus_hid_listener *cdev);
+ void asus_hid_unregister_listener(struct asus_hid_listener *cdev);
++int asus_hid_event(enum asus_hid_event event);
+ #else
+ static inline void set_ally_mcu_hack(enum asus_ally_mcu_hack status)
+ {
+@@ -213,6 +222,10 @@ static inline int asus_hid_register_listener(struct asus_hid_listener *bdev)
+ static inline void asus_hid_unregister_listener(struct asus_hid_listener *bdev)
+ {
+ }
++static inline int asus_hid_event(enum asus_hid_event event)
++{
++	return -ENODEV;
++}
+ #endif
+ 
+ #endif	/* __PLATFORM_DATA_X86_ASUS_WMI_H */
 -- 
 2.52.0
 
