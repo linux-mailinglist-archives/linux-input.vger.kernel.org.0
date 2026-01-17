@@ -1,216 +1,135 @@
-Return-Path: <linux-input+bounces-17180-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-17181-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1501D39019
-	for <lists+linux-input@lfdr.de>; Sat, 17 Jan 2026 18:34:28 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 77442D39062
+	for <lists+linux-input@lfdr.de>; Sat, 17 Jan 2026 19:34:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 0974A3004F59
-	for <lists+linux-input@lfdr.de>; Sat, 17 Jan 2026 17:34:27 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 5E4D33017EED
+	for <lists+linux-input@lfdr.de>; Sat, 17 Jan 2026 18:34:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8552F295DB8;
-	Sat, 17 Jan 2026 17:34:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD6842D9484;
+	Sat, 17 Jan 2026 18:34:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d+PCBowm"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-oo1-f80.google.com (mail-oo1-f80.google.com [209.85.161.80])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA10E279DB1
-	for <linux-input@vger.kernel.org>; Sat, 17 Jan 2026 17:34:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.80
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC0C1286413;
+	Sat, 17 Jan 2026 18:34:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768671266; cv=none; b=h+w2jHh9LizhoRmgV5nwbzfHK3T2t4k8m/UJ+JejIOzkTgy+sw1/8gCjPY4KDsmI+NIksx9hC9a+NfyNOTyHL88W2jwX4ak9yjYzs80hxHPnB1PXDEs2YokiLakNemITW4oidiTk8ryUvMORhrxnidhcWcPOFL3GuKa2hJSQfIE=
+	t=1768674847; cv=none; b=Yg4aevJCuRyiMeNkF2JQ6G5w8/MPI74q/rM+GfB3NuHXOjnamJHJ35RsHt7tafy1mteL3ZPDc7r1W7+5uX3UelawrE5WFLCO2xw1ONyjpiQK+ua44yN+A9VXerI6xgOJ13K4loYkdP7n14Czdtb3Gm/Q2JNwW5SXOcVC5Fpn9WA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768671266; c=relaxed/simple;
-	bh=ymw1mnAwhQwble7fxZJZqB7dd0yr217XocbrDc/GORw=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=m/ScXKoWOQzfzO2I9mnW9397FKq08Sw7FP6ptfSOopepNOiMH+VeQvEgd62AabGDmbqGuWpOBaLMYXRr3g1TvYt5g155Tf8Ksa8AkQwFaLZBaBCQlioLNDky5bu0q8gaU6z9JME4WMLzPaPAhL1BuzUHXU0GgafZj/NwvW6Puq8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.80
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oo1-f80.google.com with SMTP id 006d021491bc7-6610d90a391so8209969eaf.2
-        for <linux-input@vger.kernel.org>; Sat, 17 Jan 2026 09:34:24 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768671263; x=1769276063;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=NGFV9lljasK2FVEHNn9sJ16rF8IguJgi+uaOD4/G+go=;
-        b=rSY48veg3bGHwXQzQ/5ZMl6G6EnOm94l2pEmdnI5KCv86Yky8rJoUE6MLBjxtMQ9hU
-         7uwVwMgLteVwFOU63d+XV6TazqausIDkRSJTV3KY6mhqFDsVspckOOLkFfSH4AAL3OqK
-         SL0I0MbsSSGf/U8ymdH+8sk5yRiFq0WbDTV0p4yg30Xq8CYW2EL+4k2sDFjZZ2tvtSCR
-         OQSsuc8QsyBWylU3ntieHEP1YOaVgiCKX+sf3c/FGcqBj91/3l0hyTSTWuhf5wYf/Ib0
-         ijJ7wFC5s1xWihmOSI8XVWLD7nFxfJuDuXP0P0ISf9ww+3rBFCrG7P9hyBm97gBLOC7Y
-         YWjQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVObcNZuTWiY+yIJ1nekgZfZIg4C74ZIup8PE1biusrRjw8gVcqlMIxVHEjKCODCT5p4gMJA5ShK8pnPg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyLZovV1RREE8VbPF8lVSbxJiAURGxRag9o8NVwuh9kD77fS54Z
-	P3DPcHDlYLc5CYWcg8AFRgM0jH/deYGRMIPLdG+ResI4ZRDtjIza+ANefCABHdVGpTUdpZKK+iI
-	GZQsKTX1rq0ao9GgC6m+fkkGoiuwwKdLyskNPNeJ2E7L13YDbdDD9MwhhbTw=
+	s=arc-20240116; t=1768674847; c=relaxed/simple;
+	bh=NZQXJixVRA6ullkBbOjDyZZhg7Yv6nK5LSznuxvcHr0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=XDkYzNNWMmH0riNJ2zJS+I2qAMkQE3J9MXY2SteTO6ihv2kn1AqHjoqk9rZNGhfM0+09W860dgVrbIM3U0ki53aUzP2u6htkrAemDwTDqVQB5jBZSzWlB7oHNhPFxRK4lRGGIabJKGJyVQKEd2+YsKdqtoBK4RcDPMzzGlQcfRU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d+PCBowm; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC66FC4CEF7;
+	Sat, 17 Jan 2026 18:34:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1768674847;
+	bh=NZQXJixVRA6ullkBbOjDyZZhg7Yv6nK5LSznuxvcHr0=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=d+PCBowmyj0SYldpBn2Is+2wKYHfcuaf/bWLU/L91kdP5TBJHoLf2RLtyfyoOMy3a
+	 Er8PVZpILwU+zJ1eJjdy2Dli1RD06dhvI2QpruJyH+ZidZyB0f308/lbUDtENjvljN
+	 MCk9gF2oEUHhUHqzPozUxaRu1jsyT0XQE4OeVKwUO404/NE1BZuQojfpA19n22pEoR
+	 a2kJcxIUGDhyWuxnUzU/hCEP+JPc50QtKvQtv37+SGvZY4biLGp1QSIDmdCdP+jCnK
+	 FPYf90wB5lyTX7hNinZ4bbOxPWJzLwmmdeEESCKRL7yd2h4vxZDju1M0pkAINa2zdU
+	 gTkiy899STEgQ==
+Message-ID: <578745f0-0865-4195-9237-6d41c7fd55f2@kernel.org>
+Date: Sat, 17 Jan 2026 19:34:02 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6820:6aea:b0:65d:1e7:9527 with SMTP id
- 006d021491bc7-661179b6a70mr2788423eaf.51.1768671263783; Sat, 17 Jan 2026
- 09:34:23 -0800 (PST)
-Date: Sat, 17 Jan 2026 09:34:23 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <696bc81f.050a0220.3390f1.000f.GAE@google.com>
-Subject: [syzbot] [net?] [input?] [usb?] memory leak in ldisc_receive
-From: syzbot <syzbot+f9d847b2b84164fa69f3@syzkaller.appspotmail.com>
-To: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com, 
-	kuba@kernel.org, linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-usb@vger.kernel.org, netdev@vger.kernel.org, pabeni@redhat.com, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 1/3] dt-bindings: touchscreen: trivial-touch: Drop
+ 'interrupts' requirement for old Ilitek
+To: Marek Vasut <marek.vasut@mailbox.org>
+Cc: linux-input@vger.kernel.org, Frank Li <Frank.Li@nxp.com>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, Job Noorman <job@noorman.info>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org
+References: <20260117001215.59272-1-marek.vasut+renesas@mailbox.org>
+ <20260117-grinning-heavy-crab-11f245@quoll>
+ <38a146cf-8eee-4fbb-8783-231108a01b54@mailbox.org>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <38a146cf-8eee-4fbb-8783-231108a01b54@mailbox.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hello,
+On 17/01/2026 16:33, Marek Vasut wrote:
+> On 1/17/26 12:22 PM, Krzysztof Kozlowski wrote:
+>> On Sat, Jan 17, 2026 at 01:12:02AM +0100, Marek Vasut wrote:
+>>> The old Ilitek touch controllers V3 and V6 can operate without
+>>> interrupt line, in polling mode. Drop the 'interrupts' property
+>>> requirement for those four controllers. To avoid overloading the
+>>> trivial-touch, fork the old Ilitek V3/V6 touch controller binding
+>>> into separate document.
+>>
+>> One if: block is fine, so IMO, this should stay in original binding
+>> especially that more devices like some azoteq or semtech might have same
+>> rule of not requiring interrupt line. Anyway, no big deal.
+> I am not sure about the other non-ilitek devices, but the fruitboards do 
+> use at least goodix and etm/edt touch controllers without interrupt line 
+> too, those I have on my desk (those two have separate, more extensive, 
+> binding document). I also suspect we will see more of those touch 
+> controllers with optional interrupt line, so if we do, I think we can 
+> re-combine the binding documents again ?
 
-syzbot found the following issue on:
+Yes.
 
-HEAD commit:    b71e635feefc Merge tag 'cgroup-for-6.19-rc5-fixes' of git:..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=1638a59a580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=87bc41cae23d2144
-dashboard link: https://syzkaller.appspot.com/bug?extid=f9d847b2b84164fa69f3
-compiler:       gcc (Debian 12.2.0-14+deb12u1) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=162985fc580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1035f922580000
-
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/821cfcb36509/disk-b71e635f.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/80f2b6f81538/vmlinux-b71e635f.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/c5a9299bca98/bzImage-b71e635f.xz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+f9d847b2b84164fa69f3@syzkaller.appspotmail.com
-
-BUG: memory leak
-unreferenced object 0xffff888109d88b00 (size 240):
-  comm "syz.0.17", pid 6088, jiffies 4294942822
-  hex dump (first 32 bytes):
-    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-    00 20 8e 13 81 88 ff ff 00 00 00 00 00 00 00 00  . ..............
-  backtrace (crc cd2b8445):
-    kmemleak_alloc_recursive include/linux/kmemleak.h:44 [inline]
-    slab_post_alloc_hook mm/slub.c:4958 [inline]
-    slab_alloc_node mm/slub.c:5263 [inline]
-    kmem_cache_alloc_node_noprof+0x384/0x5a0 mm/slub.c:5315
-    __alloc_skb+0xe8/0x2b0 net/core/skbuff.c:679
-    __netdev_alloc_skb+0x72/0x230 net/core/skbuff.c:754
-    netdev_alloc_skb include/linux/skbuff.h:3484 [inline]
-    ldisc_receive+0x7d/0x210 drivers/net/caif/caif_serial.c:176
-    tiocsti drivers/tty/tty_io.c:2290 [inline]
-    tty_ioctl+0x329/0xd40 drivers/tty/tty_io.c:2706
-    vfs_ioctl fs/ioctl.c:51 [inline]
-    __do_sys_ioctl fs/ioctl.c:597 [inline]
-    __se_sys_ioctl fs/ioctl.c:583 [inline]
-    __x64_sys_ioctl+0xf4/0x140 fs/ioctl.c:583
-    do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
-    do_syscall_64+0xa4/0xf80 arch/x86/entry/syscall_64.c:94
-    entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
-BUG: memory leak
-unreferenced object 0xffff88810a368500 (size 240):
-  comm "syz.0.18", pid 6193, jiffies 4294942941
-  hex dump (first 32 bytes):
-    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-    00 20 94 13 81 88 ff ff 00 00 00 00 00 00 00 00  . ..............
-  backtrace (crc 5d1300cb):
-    kmemleak_alloc_recursive include/linux/kmemleak.h:44 [inline]
-    slab_post_alloc_hook mm/slub.c:4958 [inline]
-    slab_alloc_node mm/slub.c:5263 [inline]
-    kmem_cache_alloc_node_noprof+0x384/0x5a0 mm/slub.c:5315
-    __alloc_skb+0xe8/0x2b0 net/core/skbuff.c:679
-    __netdev_alloc_skb+0x72/0x230 net/core/skbuff.c:754
-    netdev_alloc_skb include/linux/skbuff.h:3484 [inline]
-    ldisc_receive+0x7d/0x210 drivers/net/caif/caif_serial.c:176
-    tiocsti drivers/tty/tty_io.c:2290 [inline]
-    tty_ioctl+0x329/0xd40 drivers/tty/tty_io.c:2706
-    vfs_ioctl fs/ioctl.c:51 [inline]
-    __do_sys_ioctl fs/ioctl.c:597 [inline]
-    __se_sys_ioctl fs/ioctl.c:583 [inline]
-    __x64_sys_ioctl+0xf4/0x140 fs/ioctl.c:583
-    do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
-    do_syscall_64+0xa4/0xf80 arch/x86/entry/syscall_64.c:94
-    entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
-BUG: memory leak
-unreferenced object 0xffff88810a9e2c00 (size 704):
-  comm "syz.0.18", pid 6193, jiffies 4294942941
-  hex dump (first 32 bytes):
-    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-  backtrace (crc b6200c):
-    kmemleak_alloc_recursive include/linux/kmemleak.h:44 [inline]
-    slab_post_alloc_hook mm/slub.c:4958 [inline]
-    slab_alloc_node mm/slub.c:5263 [inline]
-    kmem_cache_alloc_node_noprof+0x384/0x5a0 mm/slub.c:5315
-    kmalloc_reserve+0xe6/0x180 net/core/skbuff.c:586
-    __alloc_skb+0x111/0x2b0 net/core/skbuff.c:690
-    __netdev_alloc_skb+0x72/0x230 net/core/skbuff.c:754
-    netdev_alloc_skb include/linux/skbuff.h:3484 [inline]
-    ldisc_receive+0x7d/0x210 drivers/net/caif/caif_serial.c:176
-    tiocsti drivers/tty/tty_io.c:2290 [inline]
-    tty_ioctl+0x329/0xd40 drivers/tty/tty_io.c:2706
-    vfs_ioctl fs/ioctl.c:51 [inline]
-    __do_sys_ioctl fs/ioctl.c:597 [inline]
-    __se_sys_ioctl fs/ioctl.c:583 [inline]
-    __x64_sys_ioctl+0xf4/0x140 fs/ioctl.c:583
-    do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
-    do_syscall_64+0xa4/0xf80 arch/x86/entry/syscall_64.c:94
-    entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
-BUG: memory leak
-unreferenced object 0xffff888109ddda00 (size 240):
-  comm "syz.0.19", pid 6262, jiffies 4294943059
-  hex dump (first 32 bytes):
-    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-    00 50 8e 13 81 88 ff ff 00 00 00 00 00 00 00 00  .P..............
-  backtrace (crc 3f6ba7c1):
-    kmemleak_alloc_recursive include/linux/kmemleak.h:44 [inline]
-    slab_post_alloc_hook mm/slub.c:4958 [inline]
-    slab_alloc_node mm/slub.c:5263 [inline]
-    kmem_cache_alloc_node_noprof+0x384/0x5a0 mm/slub.c:5315
-    __alloc_skb+0xe8/0x2b0 net/core/skbuff.c:679
-    __netdev_alloc_skb+0x72/0x230 net/core/skbuff.c:754
-    netdev_alloc_skb include/linux/skbuff.h:3484 [inline]
-    ldisc_receive+0x7d/0x210 drivers/net/caif/caif_serial.c:176
-    tiocsti drivers/tty/tty_io.c:2290 [inline]
-    tty_ioctl+0x329/0xd40 drivers/tty/tty_io.c:2706
-    vfs_ioctl fs/ioctl.c:51 [inline]
-    __do_sys_ioctl fs/ioctl.c:597 [inline]
-    __se_sys_ioctl fs/ioctl.c:583 [inline]
-    __x64_sys_ioctl+0xf4/0x140 fs/ioctl.c:583
-    do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
-    do_syscall_64+0xa4/0xf80 arch/x86/entry/syscall_64.c:94
-    entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
-connection error: failed to recv *flatrpc.ExecutorMessageRawT: EOF
-
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
+Best regards,
+Krzysztof
 
