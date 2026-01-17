@@ -1,134 +1,216 @@
-Return-Path: <linux-input+bounces-17165-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-17166-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1E6FD38EC8
-	for <lists+linux-input@lfdr.de>; Sat, 17 Jan 2026 14:44:47 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 01C35D38ECA
+	for <lists+linux-input@lfdr.de>; Sat, 17 Jan 2026 14:46:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 1EDD530051AC
-	for <lists+linux-input@lfdr.de>; Sat, 17 Jan 2026 13:44:28 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 56B5F300DA5E
+	for <lists+linux-input@lfdr.de>; Sat, 17 Jan 2026 13:45:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A03371DE3AD;
-	Sat, 17 Jan 2026 13:44:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D1672AD32;
+	Sat, 17 Jan 2026 13:45:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k/A0yYou"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="TF9es2MO"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-dl1-f47.google.com (mail-dl1-f47.google.com [74.125.82.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-170.mta0.migadu.com (out-170.mta0.migadu.com [91.218.175.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FE8F302146
-	for <linux-input@vger.kernel.org>; Sat, 17 Jan 2026 13:44:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70096500957
+	for <linux-input@vger.kernel.org>; Sat, 17 Jan 2026 13:45:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768657467; cv=none; b=f+lIB9QgzmvivGfCuiU19/kyS21dIXVMNIx6xwzDK5UpqnTf+wryKXLjLH0V0miaT0sHJjLyzO8hNrs8UtX0S0T1OgtrWhRl4o6UQ9VVRXC7cgUY7ji0dxmv0QHxbkssjCm3Cc95JhihlTFQs9KP9iv5aL8E6AOW+YffqbIIs/0=
+	t=1768657538; cv=none; b=jhw6dJ3H9cRlknduU5r/A4y/Ph3XnePysOUglkxdgAfjBuLDoSYRce2uNF2oOIUOUqQSmlKcQaUOejbjNGzvwAxBzAZr3cLhG30B8sVnoVs8ka/CkMRTmdR8IKQ1KGcZn633CyXx4yiKg42AY+phI+o/NXdd76NCeMR5eE6noTM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768657467; c=relaxed/simple;
-	bh=16xkLEEwwQYgxLExtGmskLce9R86bYPg/oyEY9iu638=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=PRg1yIaMuWNTHg6lJ/A6FRCqyGl7ngENShf3ko6gMD26cGisAiiVqnjF03UUI8L9mFJtZFs0RpUa9ZcLTqkTC31IEpUiIuwxgfo0cOmKgIy4fK4FA6II+iDnXXT4ag4RQRRYp97TG/gBk12hvbhtMR8l58Z8sALL6tzxb1EYZL8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k/A0yYou; arc=none smtp.client-ip=74.125.82.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-dl1-f47.google.com with SMTP id a92af1059eb24-12332910300so2333432c88.0
-        for <linux-input@vger.kernel.org>; Sat, 17 Jan 2026 05:44:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768657457; x=1769262257; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=16xkLEEwwQYgxLExtGmskLce9R86bYPg/oyEY9iu638=;
-        b=k/A0yYoulFQniv9NhfmVvTYX7D7JHLnDGR62C35g8ASfGT6XQFDlWffyp41cqayJFB
-         bDEPwRKRX+cdggTt3Zs68+SpEgTW+3gAWfYQPb26vqpKoigw7MQwcboOz5J+W4HUvuA2
-         SQIf4giNj7NsxP5k3vLTQGQmUn3dN5Bgy++tQJvm52BhRlaXGIfei/ohGnRWNV4A2rBi
-         Vjpx5VHva/VzL5yDJa0kaWds/DRvBMhyIa+5u3LoxlDikDy2iscizAWEP+U3Ab756H8W
-         fxdLc8amxjMHHX0qmA/tS1jKOq1afkqZIUEvr0GI5gKbn6LWqKGkw6DP0aCHrYLaCIP/
-         qsow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768657457; x=1769262257;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=16xkLEEwwQYgxLExtGmskLce9R86bYPg/oyEY9iu638=;
-        b=u2Ppp2BILNOV1QrjxaDAOHD39b+xwOzNROAAsV6AhYqdbIrI8LQ9fBfSVOsO1+S3dY
-         qx3eUC69RZjfTZ1MpQMG5ga0BCxf4Nphb9vGWOv0u5mC+FwsdpfHDle77Wv1Kdb0+SFB
-         EO4xTOqR0EG28wQkh+1alvf6PJC+dxQB+K+4PQ4lYF/5A4/+3c+Irl4bwE27LfmKd/z2
-         zJC5R5KtIlTwf7xcWeQ746yovQaPI/w+arqm1I8S0KtL67FmfA4xlU04n5uvBfVPHc5Q
-         b8WVWLC0hFcG/CqZRa8T2nKE/0Mc94Ap3Zsr+JCpsuKZSnoKxszxviiAUWdIEitfXtJl
-         b4rQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXBD1N6VqKzwyzY/oc4W1Y4TLWUE1h9nHcs7UiucKZ2bTIgI1m6gLp+V0ipDlgh7ffGO4crjEbdu296Ng==@vger.kernel.org
-X-Gm-Message-State: AOJu0YznO0YmHZEc9EC23HToqCIXlzmEjQRt2ddfICNxstdAlxb5tBzb
-	pTkYqbQew08H42JtBsh7FKlhg0kIZnyZo1RpeBx37HrQZr60MXHXs2iAWK4+gs9B+XQMxR3Z+VG
-	8aDtn25HX9a+/duuW2LNu8Er6eCNrR9tMrbVkW8Y=
-X-Gm-Gg: AY/fxX6oy7oWIATaWOSCLqbf+SsUmoUYMW4WWN5K9LwJH0YmYrlY0ICsx2wkuCixEjy
-	tFa+4fy7J3E/vGbXqERwckyWg+KdHH42Ld3vpiTd3OO8cG2wIJZ5ibXIZFZ8HR9i/ByOgbK1ftC
-	mpt8YQwDTrLb4dzEzHIQrdhsFJhTuvdholMd1zKiUMcSH24MxTpEOflHujpjNYAwFp6YqEyigGi
-	Ja+pA1HEA5ydieVocOwAWhIFcJ5VyPUR8agjAi48/leMW3zKT30E+yddgPct83+iqFjySxd1G12
-	8o2haiewbk1Wr1q+fbLtx/sV5LY3Dl1eV1ZnaHI=
-X-Received: by 2002:a05:7022:1601:b0:119:e569:fb96 with SMTP id
- a92af1059eb24-1244a6fa368mr5353876c88.5.1768657456915; Sat, 17 Jan 2026
- 05:44:16 -0800 (PST)
+	s=arc-20240116; t=1768657538; c=relaxed/simple;
+	bh=p7GN1nGTTa+ADxZlFG4i7SWx1xGvvynfhHXwJ3g5r08=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=s2bVrntVY0fK4moLCU9H3QnHLWjd25Sb0Cpnd+d/2eNay25GCdYmSvyggHJfkW3Fz+6BoXD7LBPcQegjsnWCmtgG9iQ/y/WXVEuxXBgufkHXKMnedISvhT9RFd687HQew7bCQANUU5eXG3pLkZe7KctQycMk5v/2kQjY2nwaCHk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=TF9es2MO; arc=none smtp.client-ip=91.218.175.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+Message-ID: <cc566ef3-83a3-4bd6-af99-edd7022bd0bb@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1768657524;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=uN/8Ty4aj3x0+4Bcis3hDCb49BJ7Bs+gLLCe0D3NrgY=;
+	b=TF9es2MOTd9AUL1OpoAxZXnAKjgoDKjc6vUxwDU6J4LlsfuNhnC/6q53ou4yC95kVndIpj
+	/s8dLGMHaOOfkAuxs4P2G+MQcrFlNzeXEQoB0XAVrLfDIBOxzhP7P0Pzch1wHCFYg8DIZJ
+	u11EjqrvrOeGLSzrD987X1CRDIDGcao=
+Date: Sat, 17 Jan 2026 14:45:21 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAOQ1CL4+DP1TuLAGNsz5GdFBTHvnTg=5q=Dr2Z1OQc6RXydSYA@mail.gmail.com>
- <38ea07c1-50ce-4342-aba9-fe2f4bc6c503@bitmath.se>
-In-Reply-To: <38ea07c1-50ce-4342-aba9-fe2f4bc6c503@bitmath.se>
-From: Liam Mitchell <mitchell.liam@gmail.com>
-Date: Sat, 17 Jan 2026 14:44:05 +0100
-X-Gm-Features: AZwV_Qh3PjsEE5tAFiSjFvbW0ULAn2kCZAhONDDysUBWe032bY5dMUpdUxWWEBI
-Message-ID: <CAOQ1CL6G6eDcX+Qth3D531h72wW3RmvecCWjr5nAT-UdDWg40w@mail.gmail.com>
-Subject: Re: bcm5974 trackpad broken after USB reset
-To: Henrik Rydberg <rydberg@bitmath.se>
-Cc: Henrik Rydberg <rydberg@bitmath.org>, linux-input@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH v11 10/11] platform/x86: asus-wmi: add keyboard brightness
+ event handler
+To: Antheas Kapenekakis <lkml@antheas.dev>,
+ platform-driver-x86@vger.kernel.org, linux-input@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
+ Benjamin Tissoires <bentiss@kernel.org>,
+ Corentin Chary <corentin.chary@gmail.com>, "Luke D . Jones"
+ <luke@ljones.dev>, Hans de Goede <hansg@kernel.org>,
+ =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+References: <20260116133150.5606-1-lkml@antheas.dev>
+ <20260116133150.5606-11-lkml@antheas.dev>
+Content-Language: en-US, it-IT, en-US-large
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Denis Benato <denis.benato@linux.dev>
+In-Reply-To: <20260116133150.5606-11-lkml@antheas.dev>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-On Sun, 11 Jan 2026 at 20:59, Henrik Rydberg <rydberg@bitmath.se> wrote:
-> I would look into the code around the wellspring mode switch function,
-> and see if it gets called after the usb reset. If not, adding the
-> reset_resume handler might resolve things.
 
-Thanks for the pointer. The wellspring mode switch is definitely
-attempted. The bcm5974 driver does the mode switching in input_dev
-open/close hooks. These are called multiple times after reset. See the
-following logs produced after `sudo usbreset 05ac:0259`.
-
-[ 2650.749585] usbcore: bcm5974 2-1.8.2:1.2: forced unbind
-[ 2650.751511] bcm5974 2-1.8.2:1.2: trackpad urb shutting down: -2
-[ 2650.752285] bcm5974: switched to normal mode.
-[ 2650.776877] usbcore: usb 2-1.8-port2: not reset yet, waiting 10ms
-[ 2650.838722] usb 2-1.8.2: reset full-speed USB device number 5 using ehci-pci
-[ 2650.850861] usbcore: usb 2-1.8-port2: not reset yet, waiting 10ms
-[ 2650.933792] usbcore: usbhid 2-1.8.2:1.2: usb_probe_interface
-[ 2650.933808] usbcore: usbhid 2-1.8.2:1.2: usb_probe_interface - got id
-[ 2650.933816] usbhid: drivers/hid/usbhid/hid-core.c: HID probe called
-for ifnum 2
-[ 2650.933856] hid: drivers/hid/hid-quirks.c: Found squirk 0x84000 for
-HID device 0x05ac:0x0259
-[ 2650.934811] usbcore: bcm5974 2-1.8.2:1.2: usb_probe_interface
-[ 2650.934836] usbcore: bcm5974 2-1.8.2:1.2: usb_probe_interface - got id
-[ 2650.935368] input: bcm5974 as
-/devices/pci0000:00/0000:00:1d.0/usb2/2-1/2-1.8/2-1.8.2/2-1.8.2:1.2/input/input28
-[ 2650.959530] bcm5974: switched to wellspring mode.
-[ 2650.967511] bcm5974 2-1.8.2:1.2: trackpad urb shutting down: -2
-[ 2650.968274] bcm5974: switched to normal mode.
-[ 2650.974204] bcm5974: switched to wellspring mode.
-[ 2650.981548] bcm5974 2-1.8.2:1.2: trackpad urb shutting down: -2
-[ 2650.982406] bcm5974: switched to normal mode.
-[ 2651.001294] bcm5974: switched to wellspring mode.
-[ 2651.005533] bcm5974 2-1.8.2:1.2: trackpad urb shutting down: -2
-[ 2651.006286] bcm5974: switched to normal mode.
-[ 2651.016678] bcm5974: switched to wellspring mode.
-[ 2651.023558] bcm5974 2-1.8.2:1.2: trackpad urb shutting down: -2
-[ 2651.024432] bcm5974: switched to normal mode.
-[ 2651.033633] bcm5974: switched to wellspring mode.
-[ 2651.325355] bcm5974: bad trackpad package, length: 8
-[ 2651.333339] bcm5974: bad trackpad package, length: 8
-[ 2651.341311] bcm5974: bad trackpad package, length: 8
-
-Adding a delay in bcm5974_probe() didn't seem to affect the multiple
-open/close/modeswitch logs but it did end up in the correct state.
-
-Liam
+On 1/16/26 14:31, Antheas Kapenekakis wrote:
+> The keyboard brightness control of Asus WMI keyboards is handled in
+> kernel, which leads to the shortcut going from brightness 0, to 1,
+> to 2, and 3.
+>
+> However, for HID keyboards it is exposed as a key and handled by the
+> user's desktop environment. For the toggle button, this means that
+> brightness control becomes on/off. In addition, in the absence of a
+> DE, the keyboard brightness does not work.
+>
+> Therefore, expose an event handler for the keyboard brightness control
+> which can then be used by hid-asus. Since this handler is called from
+> an interrupt context, defer the actual work to a workqueue.
+>
+> In the process, introduce ASUS_EV_MAX_BRIGHTNESS to hold the constant
+> for maximum brightness since it is shared between hid-asus/asus-wmi.
+Reviewed-by: Denis Benato <benato.denis96@gmail.com>
+> Reviewed-by: Luke D. Jones <luke@ljones.dev>
+> Tested-by: Luke D. Jones <luke@ljones.dev>
+> Acked-by: Benjamin Tissoires <bentiss@kernel.org>
+> Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
+> ---
+>  drivers/platform/x86/asus-wmi.c            | 46 +++++++++++++++++++---
+>  include/linux/platform_data/x86/asus-wmi.h | 13 ++++++
+>  2 files changed, 54 insertions(+), 5 deletions(-)
+>
+> diff --git a/drivers/platform/x86/asus-wmi.c b/drivers/platform/x86/asus-wmi.c
+> index df2365efb2b8..e65d91a11000 100644
+> --- a/drivers/platform/x86/asus-wmi.c
+> +++ b/drivers/platform/x86/asus-wmi.c
+> @@ -1719,6 +1719,44 @@ static void kbd_led_update_all(struct work_struct *work)
+>  	}
+>  }
+>  
+> +/*
+> + * This function is called from hid-asus to inform asus-wmi of brightness
+> + * changes initiated by the keyboard backlight keys.
+> + */
+> +int asus_hid_event(enum asus_hid_event event)
+> +{
+> +	struct asus_wmi *asus;
+> +	int brightness;
+> +
+> +	guard(spinlock_irqsave)(&asus_ref.lock);
+> +	asus = asus_ref.asus;
+> +	if (!asus || !asus->kbd_led_registered)
+> +		return -EBUSY;
+> +
+> +	brightness = asus->kbd_led_wk;
+> +
+> +	switch (event) {
+> +	case ASUS_EV_BRTUP:
+> +		brightness += 1;
+> +		break;
+> +	case ASUS_EV_BRTDOWN:
+> +		brightness -= 1;
+> +		break;
+> +	case ASUS_EV_BRTTOGGLE:
+> +		if (brightness >= ASUS_EV_MAX_BRIGHTNESS)
+> +			brightness = 0;
+> +		else
+> +			brightness += 1;
+> +		break;
+> +	}
+> +
+> +	asus->kbd_led_wk = clamp_val(brightness, 0, ASUS_EV_MAX_BRIGHTNESS);
+> +	asus->kbd_led_notify = true;
+> +	queue_work(asus->led_workqueue, &asus->kbd_led_work);
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL_GPL(asus_hid_event);
+> +
+>  /*
+>   * These functions actually update the LED's, and are called from a
+>   * workqueue. By doing this as separate work rather than when the LED
+> @@ -1801,13 +1839,11 @@ static void do_kbd_led_set(struct led_classdev *led_cdev, int value)
+>  {
+>  	struct asus_hid_listener *listener;
+>  	struct asus_wmi *asus;
+> -	int max_level;
+>  
+>  	asus = container_of(led_cdev, struct asus_wmi, kbd_led);
+> -	max_level = asus->kbd_led.max_brightness;
+>  
+>  	scoped_guard(spinlock_irqsave, &asus_ref.lock)
+> -		asus->kbd_led_wk = clamp_val(value, 0, max_level);
+> +		asus->kbd_led_wk = clamp_val(value, 0, ASUS_EV_MAX_BRIGHTNESS);
+>  
+>  	if (asus->kbd_led_avail)
+>  		kbd_led_update(asus);
+> @@ -2011,7 +2047,7 @@ static int asus_wmi_led_init(struct asus_wmi *asus)
+>  	asus->kbd_led.flags = LED_BRIGHT_HW_CHANGED;
+>  	asus->kbd_led.brightness_set_blocking = kbd_led_set;
+>  	asus->kbd_led.brightness_get = kbd_led_get;
+> -	asus->kbd_led.max_brightness = 3;
+> +	asus->kbd_led.max_brightness = ASUS_EV_MAX_BRIGHTNESS;
+>  	asus->kbd_led_avail = !kbd_led_read(asus, &led_val, NULL);
+>  	INIT_WORK(&asus->kbd_led_work, kbd_led_update_all);
+>  
+> @@ -4530,7 +4566,7 @@ static void asus_wmi_handle_event_code(int code, struct asus_wmi *asus)
+>  		return;
+>  	}
+>  	if (code == NOTIFY_KBD_BRTTOGGLE) {
+> -		if (led_value == asus->kbd_led.max_brightness)
+> +		if (led_value == ASUS_EV_MAX_BRIGHTNESS)
+>  			kbd_led_set_by_kbd(asus, 0);
+>  		else
+>  			kbd_led_set_by_kbd(asus, led_value + 1);
+> diff --git a/include/linux/platform_data/x86/asus-wmi.h b/include/linux/platform_data/x86/asus-wmi.h
+> index d347cffd05d5..7b872b5d0960 100644
+> --- a/include/linux/platform_data/x86/asus-wmi.h
+> +++ b/include/linux/platform_data/x86/asus-wmi.h
+> @@ -178,6 +178,14 @@ struct asus_hid_listener {
+>  	void (*brightness_set)(struct asus_hid_listener *listener, int brightness);
+>  };
+>  
+> +enum asus_hid_event {
+> +	ASUS_EV_BRTUP,
+> +	ASUS_EV_BRTDOWN,
+> +	ASUS_EV_BRTTOGGLE,
+> +};
+> +
+> +#define ASUS_EV_MAX_BRIGHTNESS 3
+> +
+>  #if IS_REACHABLE(CONFIG_ASUS_WMI)
+>  void set_ally_mcu_hack(enum asus_ally_mcu_hack status);
+>  void set_ally_mcu_powersave(bool enabled);
+> @@ -186,6 +194,7 @@ int asus_wmi_set_devstate(u32 dev_id, u32 ctrl_param, u32 *retval);
+>  int asus_wmi_evaluate_method(u32 method_id, u32 arg0, u32 arg1, u32 *retval);
+>  int asus_hid_register_listener(struct asus_hid_listener *cdev);
+>  void asus_hid_unregister_listener(struct asus_hid_listener *cdev);
+> +int asus_hid_event(enum asus_hid_event event);
+>  #else
+>  static inline void set_ally_mcu_hack(enum asus_ally_mcu_hack status)
+>  {
+> @@ -213,6 +222,10 @@ static inline int asus_hid_register_listener(struct asus_hid_listener *bdev)
+>  static inline void asus_hid_unregister_listener(struct asus_hid_listener *bdev)
+>  {
+>  }
+> +static inline int asus_hid_event(enum asus_hid_event event)
+> +{
+> +	return -ENODEV;
+> +}
+>  #endif
+>  
+>  #endif	/* __PLATFORM_DATA_X86_ASUS_WMI_H */
 
