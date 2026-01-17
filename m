@@ -1,322 +1,148 @@
-Return-Path: <linux-input+bounces-17161-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-17162-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2FEDD38CF7
-	for <lists+linux-input@lfdr.de>; Sat, 17 Jan 2026 07:38:47 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 371AAD38E2A
+	for <lists+linux-input@lfdr.de>; Sat, 17 Jan 2026 12:22:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id CDE543040668
-	for <lists+linux-input@lfdr.de>; Sat, 17 Jan 2026 06:37:09 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id A9B9F3007F3F
+	for <lists+linux-input@lfdr.de>; Sat, 17 Jan 2026 11:22:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B07C32E6BC;
-	Sat, 17 Jan 2026 06:37:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 14C3130E0FD;
+	Sat, 17 Jan 2026 11:22:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="ahAmEyaJ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fieo88oY"
 X-Original-To: linux-input@vger.kernel.org
-Received: from out-183.mta0.migadu.com (out-183.mta0.migadu.com [91.218.175.183])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C135E32D0EA
-	for <linux-input@vger.kernel.org>; Sat, 17 Jan 2026 06:37:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.183
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E38412D1F64;
+	Sat, 17 Jan 2026 11:22:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768631828; cv=none; b=GiPBGLmRzCU0pkDULob/F7UfiFfqX+Kmu6GyH3VsoQCVZ7pB5gZMS8LGYwR4EBV4wbT0xzn4QrtxATAJ+/6EjIvYlWIl+HJd9tP2XSMvdDz40sVb4OJIseDorYiYz35GHIiR9Ejn37K8NHpRakWih61SI08v8yWbT6Q2N9MeuIE=
+	t=1768648927; cv=none; b=Rj03mWKkjOZ95XqCFGtxJb0DryoqsAeRp2i00U9P26VIkQz0gzCPB67nkNTnAYH6Ge4WIrpCdA9hahCbStdsAVuSkbUQdp3Z58oktWdvoeBEb95IIxGnNGoJl/NxLYHTiQH2lYhH8jcTJbdbYeehTj52pnM0Sa8dl2ujmycVwHs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768631828; c=relaxed/simple;
-	bh=iqWB92MSc5umvicJ2v8WHKy1Jpu4uhUM/7FH0tZx32Y=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pLycxkth56nHGttkYgod/soh8S9ySo4F+x14cbk6sLeC/BPqK7ZxSBvULuBuPbmSdD1SGLtgFTTonq9UMiIcA3IgdvJK7wKw4CN/KNkeA9RzL8Y/TnTQ5doEdUsKEvpdezeA5Lecmanw8X8eWcvK5z0OnK0UHloxh+VDt+ypE7w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=ahAmEyaJ; arc=none smtp.client-ip=91.218.175.183
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Message-ID: <aff3f58f-aa81-44a3-ae5f-078befeceb39@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1768631812;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=wNFWgFXwIkUuZEfcmkFcjXMNpWUdKsl5LRIGc+0kRuA=;
-	b=ahAmEyaJNUZIbHTIMMPDmI4jfzO2b4APDjDycjCvPP8TEVfQ9fa86nXk0MGeX3DrcNB6Gu
-	JUGIykzBLs+xxr6G0BBhXmeBj+R1y5lmSwYs2BHEXX3e/ANU+PVNfnJWMiVwdK8tYn23+z
-	0Rl0MEd7bOYsbtS9A0auRG8K3Xkt2K0=
-Date: Fri, 16 Jan 2026 22:36:45 -0800
+	s=arc-20240116; t=1768648927; c=relaxed/simple;
+	bh=hYwB2vvwHRKxZQJkwK+Y1EVWEYEd4ISgWAGzdtYEy+k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=stscbttnVvGQY76JYQqQKWHh37VJkFJ1bOm+cUIuLD90tA0JVtSHD1dMy+9/0iJyMJa4dabf4DMNKLCihfGs/NmlNL1+D6qqkTQkjgzqdnTxLtki9GDuk3GJ2F/42mlg/oJB/KWTVcD8BvpkMOFK/i5p43n1on8bTsdQeWQmb+Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fieo88oY; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EEB7CC4CEF7;
+	Sat, 17 Jan 2026 11:22:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1768648926;
+	bh=hYwB2vvwHRKxZQJkwK+Y1EVWEYEd4ISgWAGzdtYEy+k=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=fieo88oYAoHm7NqfjZqxl/SyL5ZrtdeOJupqHKaQKK+gB5U0bvqNy9IF3BvJLFc/u
+	 cvpAIUGplEr4zxzzQ3dE24vGsOTAlsQQcaoW9IkrdB8Z/NIHhOHlnQiZMW3jmFaV9q
+	 8Lfo/Z29IRPpMcTdF3xwtT1tV50osUpTTv7mz1Sudy2Q2AKRNpJ0bW1O6onV5B4HiW
+	 Mn8ddhuQoD78q+Z1ajOuXX825fYTx0F7ap6Lto95c7qSQ18Acqkg3YI2JWnwPmty1c
+	 s49OqfjIFUNRXZf0/xGKM1bAIC1uh3jvWnjaXVJuni+cmtjJHHd2VsezcpieZZSwIf
+	 YpX/6xGIBmNhQ==
+Date: Sat, 17 Jan 2026 12:22:03 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Marek Vasut <marek.vasut+renesas@mailbox.org>
+Cc: linux-input@vger.kernel.org, Frank Li <Frank.Li@nxp.com>, 
+	Conor Dooley <conor+dt@kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+	Job Noorman <job@noorman.info>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v4 1/3] dt-bindings: touchscreen: trivial-touch: Drop
+ 'interrupts' requirement for old Ilitek
+Message-ID: <20260117-grinning-heavy-crab-11f245@quoll>
+References: <20260117001215.59272-1-marek.vasut+renesas@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH bpf-next v2 05/13] resolve_btfids: Support for
- KF_IMPLICIT_ARGS
-To: Andrii Nakryiko <andrii.nakryiko@gmail.com>
-Cc: Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
- Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
- <eddyz87@gmail.com>, Mykyta Yatsenko <yatsenko@meta.com>,
- Tejun Heo <tj@kernel.org>, Alan Maguire <alan.maguire@oracle.com>,
- Benjamin Tissoires <bentiss@kernel.org>, Jiri Kosina <jikos@kernel.org>,
- Amery Hung <ameryhung@gmail.com>, bpf@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
- sched-ext@lists.linux.dev
-References: <20260116201700.864797-1-ihor.solodrai@linux.dev>
- <20260116201700.864797-6-ihor.solodrai@linux.dev>
- <CAEf4BzbG=GMh0-1tT_2gdMtc-ZuV3X7hgoJZpt1RLCYgPMM3oQ@mail.gmail.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Ihor Solodrai <ihor.solodrai@linux.dev>
-In-Reply-To: <CAEf4BzbG=GMh0-1tT_2gdMtc-ZuV3X7hgoJZpt1RLCYgPMM3oQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260117001215.59272-1-marek.vasut+renesas@mailbox.org>
 
+On Sat, Jan 17, 2026 at 01:12:02AM +0100, Marek Vasut wrote:
+> The old Ilitek touch controllers V3 and V6 can operate without
+> interrupt line, in polling mode. Drop the 'interrupts' property
+> requirement for those four controllers. To avoid overloading the
+> trivial-touch, fork the old Ilitek V3/V6 touch controller binding
+> into separate document.
 
-
-On 1/16/26 4:06 PM, Andrii Nakryiko wrote:
-> On Fri, Jan 16, 2026 at 12:17 PM Ihor Solodrai <ihor.solodrai@linux.dev> wrote:
->>
->> Implement BTF modifications in resolve_btfids to support BPF kernel
->> functions with implicit arguments.
->>
->> For a kfunc marked with KF_IMPLICIT_ARGS flag, a new function
->> prototype is added to BTF that does not have implicit arguments. The
->> kfunc's prototype is then updated to a new one in BTF. This prototype
->> is the intended interface for the BPF programs.
->>
->> A <func_name>_impl function is added to BTF to make the original kfunc
->> prototype searchable for the BPF verifier. If a <func_name>_impl
->> function already exists in BTF, its interpreted as a legacy case, and
->> this step is skipped.
->>
->> Whether an argument is implicit is determined by its type:
->> currently only `struct bpf_prog_aux *` is supported.
->>
->> As a result, the BTF associated with kfunc is changed from
->>
->>     __bpf_kfunc bpf_foo(int arg1, struct bpf_prog_aux *aux);
->>
->> into
->>
->>     bpf_foo_impl(int arg1, struct bpf_prog_aux *aux);
->>     __bpf_kfunc bpf_foo(int arg1);
->>
->> For more context see previous discussions and patches [1][2].
->>
->> [1] https://lore.kernel.org/dwarves/ba1650aa-fafd-49a8-bea4-bdddee7c38c9@linux.dev/
->> [2] https://lore.kernel.org/bpf/20251029190113.3323406-1-ihor.solodrai@linux.dev/
->>
->> Signed-off-by: Ihor Solodrai <ihor.solodrai@linux.dev>
->> ---
->>  tools/bpf/resolve_btfids/main.c | 383 ++++++++++++++++++++++++++++++++
->>  1 file changed, 383 insertions(+)
->>
-> 
-> [...]
-> 
->> +static int collect_decl_tags(struct btf2btf_context *ctx)
->> +{
->> +       const u32 type_cnt = btf__type_cnt(ctx->btf);
->> +       struct btf *btf = ctx->btf;
->> +       const struct btf_type *t;
->> +       u32 *tags, *tmp;
->> +       u32 nr_tags = 0;
->> +
->> +       tags = malloc(type_cnt * sizeof(u32));
-> 
-> waste of memory, really, see below
-> 
->> +       if (!tags)
->> +               return -ENOMEM;
->> +
->> +       for (u32 id = 1; id < type_cnt; id++) {
->> +               t = btf__type_by_id(btf, id);
->> +               if (!btf_is_decl_tag(t))
->> +                       continue;
->> +               tags[nr_tags++] = id;
->> +       }
->> +
->> +       if (nr_tags == 0) {
->> +               ctx->decl_tags = NULL;
->> +               free(tags);
->> +               return 0;
->> +       }
->> +
->> +       tmp = realloc(tags, nr_tags * sizeof(u32));
->> +       if (!tmp) {
->> +               free(tags);
->> +               return -ENOMEM;
->> +       }
-> 
-> This is an interesting realloc() usage pattern, it's quite
-> unconventional to preallocate too much memory, and then shrink (in C
-> world)
-> 
-> check libbpf's libbpf_add_mem(), that's a generic "primitive" inside
-> the libbpf. Do not reuse it as is, but it should give you an idea of a
-> common pattern: you start with NULL (empty data), when you need to add
-> a new element, you calculate a new array size which normally would be
-> some minimal value (to avoid going through 1 -> 2 -> 4 -> 8, many
-> small and wasteful steps; normally we just jump straight to 16 or so)
-> or some factor of previous size (doesn't have to be 2x,
-> libbpf_add_mem() expands by 25%, for instance).
-> 
-> This is a super common approach in C. Please utilize it here as well.
-
-Hi Andrii, thanks for taking a quick look.
-
-I am aware of the typical size doubling (or whatever the multiplier
-is) pattern for growing arrays. Amortized cost and all that.
-
-I don't know if this pre-alloc + shrink is common, but I did use it in
-pahole before [1], for example.
-
-The chain of thought that makes me like it is:
-  * if we knew the array size beforehand, we'd simply pre-allocate it
-  * here we don't, but we do know an upper limit (and it's not crazy)
-  * if we pre-allocate to upper limit, we can use the array without
-    worrying about the bounds checks and growing on every use
-  * if we care (we might not), we can shrink to the actual size
-
-The dynamic array approach is certainly more generic, and helpers can
-be written to make it easy. But in cases like this - collect something
-once and then use - over-pre-allocating makes more sense to me.
-
-Re waste we are talking <1Mb (~100k types * 4), so it's whatever.
-
-In any case it's not super important, so I don't mind changing this if
-you insist. Being conventional has it's benefits too.
-
-[1] https://git.kernel.org/pub/scm/devel/pahole/pahole.git/tree/btf_encoder.c?h=v1.31#n2182
+One if: block is fine, so IMO, this should stay in original binding
+especially that more devices like some azoteq or semtech might have same
+rule of not requiring interrupt line. Anyway, no big deal.
 
 > 
->> +
->> +       ctx->decl_tags = tmp;
->> +       ctx->nr_decl_tags = nr_tags;
->> +
->> +       return 0;
->> +}
->> +
->> +/*
->> + * To find the kfunc flags having its struct btf_id (with ELF addresses)
->> + * we need to find the address that is in range of a set8.
->> + * If a set8 is found, then the flags are located at addr + 4 bytes.
->> + * Return 0 (no flags!) if not found.
->> + */
->> +static u32 find_kfunc_flags(struct object *obj, struct btf_id *kfunc_id)
->> +{
->> +       const u32 *elf_data_ptr = obj->efile.idlist->d_buf;
->> +       u64 set_lower_addr, set_upper_addr, addr;
->> +       struct btf_id *set_id;
->> +       struct rb_node *next;
->> +       u32 flags;
->> +       u64 idx;
->> +
->> +       next = rb_first(&obj->sets);
->> +       while (next) {
+> Reviewed-by: Frank Li <Frank.Li@nxp.com>
+> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+> ---
+> Cc: Conor Dooley <conor+dt@kernel.org>
+> Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> Cc: Frank Li <Frank.Li@nxp.com>
+> Cc: Job Noorman <job@noorman.info>
+> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
+> Cc: Rob Herring <robh@kernel.org>
+> Cc: devicetree@vger.kernel.org
+> Cc: linux-input@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> Cc: linux-renesas-soc@vger.kernel.org
+> ---
+> V2: Fork the Ilitek V3/V6 bindings into separate document
+> V3: Add RB from Frank
+> V4: No change
+> ---
+>  .../input/touchscreen/ilitek,ili210x.yaml     | 51 +++++++++++++++++++
+>  .../input/touchscreen/trivial-touch.yaml      |  4 --
+>  2 files changed, 51 insertions(+), 4 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/input/touchscreen/ilitek,ili210x.yaml
 > 
-> for(next = rb_first(...); next; next = rb_next(next)) seems like a
-> good fit here, no?
+> diff --git a/Documentation/devicetree/bindings/input/touchscreen/ilitek,ili210x.yaml b/Documentation/devicetree/bindings/input/touchscreen/ilitek,ili210x.yaml
+> new file mode 100644
+> index 0000000000000..1d02aaba64f97
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/input/touchscreen/ilitek,ili210x.yaml
+> @@ -0,0 +1,51 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/input/touchscreen/ilitek,ili210x.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Ilitek ILI21xx/ILI251x V3/V6 touch screen controller with i2c interface
+> +
+> +maintainers:
+> +  - Frank Li <Frank.Li@nxp.com>
+> +  - Marek Vasut <marek.vasut+renesas@mailbox.org>
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - ilitek,ili210x
+> +      - ilitek,ili2117
+> +      - ilitek,ili2120
+> +      - ilitek,ili251x
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  reset-gpios:
+> +    maxItems: 1
+> +
+> +  wakeup-source: true
+> +
+> +allOf:
+> +  - $ref: touchscreen.yaml
 
-Looks like it. We could do 'continue' then.
+allOf: should be placed after required: block.
 
-> 
->> +               set_id = rb_entry(next, struct btf_id, rb_node);
->> +               if (set_id->kind != BTF_ID_KIND_SET8 || set_id->addr_cnt != 1)
->> +                       goto skip;
->> +
->> +               set_lower_addr = set_id->addr[0];
->> +               set_upper_addr = set_lower_addr + set_id->cnt * sizeof(u64);
->> +
->> +               for (u32 i = 0; i < kfunc_id->addr_cnt; i++) {
->> +                       addr = kfunc_id->addr[i];
->> +                       /*
->> +                        * Lower bound is exclusive to skip the 8-byte header of the set.
->> +                        * Upper bound is inclusive to capture the last entry at offset 8*cnt.
->> +                        */
->> +                       if (set_lower_addr < addr && addr <= set_upper_addr) {
->> +                               pr_debug("found kfunc %s in BTF_ID_FLAGS %s\n",
->> +                                        kfunc_id->name, set_id->name);
->> +                               goto found;
-> 
-> why goto, just do what needs to be done and return?
+With this one fixed:
 
-Indeed.
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
-> 
->> +                       }
->> +               }
->> +skip:
->> +               next = rb_next(next);
->> +       }
->> +
->> +       return 0;
->> +
->> +found:
->> +       idx = addr - obj->efile.idlist_addr;
->> +       idx = idx / sizeof(u32) + 1;
->> +       flags = elf_data_ptr[idx];
->> +
->> +       return flags;
->> +}
->> +
->> +static s64 collect_kfuncs(struct object *obj, struct btf2btf_context *ctx)
->> +{
->> +       struct kfunc *kfunc, *kfuncs, *tmp;
->> +       const char *tag_name, *func_name;
->> +       struct btf *btf = ctx->btf;
->> +       const struct btf_type *t;
->> +       u32 flags, func_id;
->> +       struct btf_id *id;
->> +       s64 nr_kfuncs = 0;
->> +
->> +       if (ctx->nr_decl_tags == 0)
->> +               return 0;
->> +
->> +       kfuncs = malloc(ctx->nr_decl_tags * sizeof(*kfuncs));
-> 
-> ditto about realloc() usage pattern
-> 
->> +       if (!kfuncs)
->> +               return -ENOMEM;
->> +
-> 
-> [...]
-> 
->> +/*
->> + * For a kfunc with KF_IMPLICIT_ARGS we do the following:
->> + *   1. Add a new function with _impl suffix in the name, with the prototype
->> + *      of the original kfunc.
->> + *   2. Add all decl tags except "bpf_kfunc" for the _impl func.
->> + *   3. Add a new function prototype with modified list of arguments:
->> + *      omitting implicit args.
->> + *   4. Change the prototype of the original kfunc to the new one.
->> + *
->> + * This way we transform the BTF associated with the kfunc from
->> + *     __bpf_kfunc bpf_foo(int arg1, void *implicit_arg);
->> + * into
->> + *     bpf_foo_impl(int arg1, void *implicit_arg);
->> + *     __bpf_kfunc bpf_foo(int arg1);
->> + *
->> + * If a kfunc with KF_IMPLICIT_ARGS already has an _impl counterpart
->> + * in BTF, then it's a legacy case: an _impl function is declared in the
->> + * source code. In this case, we can skip adding an _impl function, but we
->> + * still have to add a func prototype that omits implicit args.
->> + */
->> +static int process_kfunc_with_implicit_args(struct btf2btf_context *ctx, struct kfunc *kfunc)
->> +{
-> 
-> this logic looks good
-> 
->> +       s32 idx, new_proto_id, new_func_id, proto_id;
->> +       const char *param_name, *tag_name;
->> +       const struct btf_param *params;
->> +       enum btf_func_linkage linkage;
->> +       char tmp_name[KSYM_NAME_LEN];
->> +       struct btf *btf = ctx->btf;
->> +       int err, len, nr_params;
->> +       struct btf_type *t;
->> +
-> 
-> [...]
+Best regards,
+Krzysztof
 
 
