@@ -1,319 +1,200 @@
-Return-Path: <linux-input+bounces-17157-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-17158-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E159D38A74
-	for <lists+linux-input@lfdr.de>; Sat, 17 Jan 2026 01:06:24 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id AF2A1D38A7D
+	for <lists+linux-input@lfdr.de>; Sat, 17 Jan 2026 01:12:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id EEC24303F7D5
-	for <lists+linux-input@lfdr.de>; Sat, 17 Jan 2026 00:06:22 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 2E9F83046428
+	for <lists+linux-input@lfdr.de>; Sat, 17 Jan 2026 00:12:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9359A500961;
-	Sat, 17 Jan 2026 00:06:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D55E1FC7;
+	Sat, 17 Jan 2026 00:12:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cnUR8yzI"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="GjCFWwPs";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="NZuy0iac"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EEFF17D2
-	for <linux-input@vger.kernel.org>; Sat, 17 Jan 2026 00:06:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D44E7500944;
+	Sat, 17 Jan 2026 00:12:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768608381; cv=none; b=gVQ3NPsnAHNBeDZ2T91/YFCNzV7lqXvKZrcI2J9j1u+VkyaxPfrbVrV1keWp8AisEB0FakGmcJ6FrygsMby+Fx2NWgm7wxFBNB3i4qjbOrd+t+LWvoYVaBeucsb0Mt0VEt0sSoFniFj30YAY4ogfD0Rw4RY+YBHp0iQeHN1QOaI=
+	t=1768608748; cv=none; b=hON6TMzgqfDtyjA/5VZpBD78XVWOLxPINWnUjNDpQQTDakf8hFdgbWw+kguSD6DvCXDtDOWndvIFNSeaRVVYOi+NV86SYqW+qInUfiEMemY65yTuoZpQazpAgKEqQF7pndR124fdI+lL0UiZVZfwK/aqVqOEdAHwXONAM3yUFoI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768608381; c=relaxed/simple;
-	bh=h2ln/wKX7SBUgPJweJrQtu4Q/2NKfeR1ErWvuLCA+Y8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KuUcPfG1+FvhY5maewUPx0oSkB0wHwkv1wxYxq9/EbCzs6MCUvL9f5xf3V/H88bqz97Td2ZOMcn40Pi/Mxsufrk/zrFZGBgaG+pgl0eIPpoB0hAasj6jv5ImMhCF9PZHZvsbYl6wTONsjnOI4L+FcO7vnKsMabpovzWgTMBWzpk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cnUR8yzI; arc=none smtp.client-ip=209.85.214.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2a0bae9aca3so18071975ad.3
-        for <linux-input@vger.kernel.org>; Fri, 16 Jan 2026 16:06:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768608379; x=1769213179; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4R7MwkvY28w//a/lIqAt5KYCh6sv7mHBxNLr/F0AMTg=;
-        b=cnUR8yzIhgstS/h+Off0A7KqT4k9eoLGX3DqZ3n5G/+4U7ZGGslspJHzPYHTfAmrQg
-         aKuK6o7hELRJv/Fp2XQeQWDkGj4eQVhsYz/fcCC/KzzpqZXD0ToVpOaABw/L9Lb7lsEJ
-         c5uMsC6iXJBLh4sVy9XgGEsfizt0E9ggYRu/pXfrk+oxWaemLgAy80jAh43V4u/5ag92
-         zCmmRyBqYqYxszQGhZY6Q0B/itAMt4pQZWKoSMMuRQyUxSnE63chfbQcuHuVXCmDu2VD
-         URxHZDI4G+TvVHYakWTuP7GUL2CtcK86965v7uCE7mICtIhg6gWdlMg0etjJCl8cwml1
-         xHWQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768608379; x=1769213179;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=4R7MwkvY28w//a/lIqAt5KYCh6sv7mHBxNLr/F0AMTg=;
-        b=qP2eYEpQWqwwWBitKfHGujI7R27m5WURlVhNkJ2raO/78Ft0sZn+bnFVdexc7fo6yv
-         FM2R1xpzyFKFl2qtdYZBwG8U7k9q/Z18ChZFJhh9IqWaZoo7Bpn+3pLR5H5ujXD43pA3
-         ZWiQlSflPC4IUskpeXgIFIg6dJ4/zI2UASuqGJzguGs/jFzwbrTV1yulrxaLSEogD00Q
-         ICjR/yrD/yy2r3vIEvo/iGyDoqU3wdujGDq+pCqFjQHRUxR1UzQnc5qikupSudFVtDox
-         zLbA/S9B300bwA+W/8aSkRMXsgMH33i2172wWNXjOylOKQxEfa0fBrCsekiJ8AoRyKSK
-         QORA==
-X-Forwarded-Encrypted: i=1; AJvYcCWaLDx7uuXTliKuH2UXHE61UAN6Y0qY49jWolPnhPifgaKOtU9C5xGelNlvo3VDKTsBS9cpmVrsi9wbbw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz6G6G5Ngawx701fXdqfa/cTLL77aToK+HoxnNwGM1iaDh+9srv
-	ckDMNNke2LBppC7c3xlDKcIjfreq0l4OgfdUjzW44Qw996LeerTCXKFLhQcxndPnS/f2KxXuN6N
-	tjFA80ZOGhue2/BmmOr3zp2FrytBgGH0=
-X-Gm-Gg: AY/fxX4fQX84u/rKZNyE2eSN0ZwdDBj3d6SV9Rn5dtHH2WjT3S9aUxnUq6cSja7CI/f
-	9ADj2XKLiHDfbrNv0VYlUZwppX3yv0+y/qyhw70CPEIgq8S0753/o4koIhkrsvlPOzfcLsbcA3Z
-	GiZSdIn+sC8R/vLWT40NPifY3SxGgjxZm6Q/JXhnuMKchFZ9dOTDQFs9PZVBD+eBzQYnl4jl2yJ
-	RgyhZ9WG8nvvF7ngALTkDujWG0TmfZ6iwx05m6HWo/Q/8zxh9Us2ffsXYJYWgWM9L1y42zqzxzZ
-	7DsMrb+aG3g=
-X-Received: by 2002:a17:903:1c2:b0:29e:940c:2cdf with SMTP id
- d9443c01a7336-2a7175be339mr44924465ad.36.1768608378836; Fri, 16 Jan 2026
- 16:06:18 -0800 (PST)
+	s=arc-20240116; t=1768608748; c=relaxed/simple;
+	bh=uXRI71RDanbYJSatk6W/INpAOCFvmQYHNTYqFFll/LI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZLl1fBue4nesTw//EH9iTLQezzbRsf4ogXS0yLWS4aoPV2yJ8DHZ+6Am4Epdn7m9K7GYk3TVQ7K+r02zrE7yRaKdo0JEw7RpZ8PC2nw4nQD2zm5qfRgRLza4I4Z9TbYrWuHKPZTnNuaFNwPRDp+A4zEsOg0I0T3GWV5vRNTB59s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=GjCFWwPs; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=NZuy0iac; arc=none smtp.client-ip=80.241.56.161
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4dtHGb1NKMz9snh;
+	Sat, 17 Jan 2026 01:12:23 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1768608743;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=P6sIYtfJFsawH6LVKMi+yRWY8Zphn3FYUqIVFe+huq4=;
+	b=GjCFWwPs9id4b9uTOFCfM6lbam7dWoQY3ToL+auHihnOD0HaFtP8Q2LYdh/SHV8umGRy4r
+	ByPlFR8twGaR0+Jq7G8BQlFJr5ouZYsq3pFKDfYFsswtakA3Lrpge08x1v0LxjpyWU3Y/4
+	zULgi+skBA2Wu3UoOFySwAaQ9fL3MXa8PKdgR45MkYk9clgDG109wiXv65Ns8osd/DVyi8
+	cwUIbxkpTBx2GmQi4IV2gGV4+9DnqnXT0nH5fdNqpIrgiPfqYr/BPknIK16TX6diiswU8s
+	fYU2FDK+cM4BlIPTO6GzCgD0yb/umgOOjNpV085GoQcCDuNegFp/ikDyEIKy1w==
+Authentication-Results: outgoing_mbo_mout;
+	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=NZuy0iac;
+	spf=pass (outgoing_mbo_mout: domain of marek.vasut+renesas@mailbox.org designates 2001:67c:2050:b231:465::102 as permitted sender) smtp.mailfrom=marek.vasut+renesas@mailbox.org
+From: Marek Vasut <marek.vasut+renesas@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1768608741;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=P6sIYtfJFsawH6LVKMi+yRWY8Zphn3FYUqIVFe+huq4=;
+	b=NZuy0iac7Nq8VAs4aLKpnBRezdXfeyHvyKPNJRxihzz/7zc3POMcmN2BY6Py+WEbOqlULo
+	8ZoGe70roEsyH6yY2A89krbFWZhcaSacfFG1agme+Vn5ATxY2iQ6hBHc7QGdMtCKZHJjp1
+	BT0w88sQZTpDa3jdXqMsSfF9YjD8Up/SPlKCYftiCUGHTZUnNDc8QNsdHB4aPlYuhVYcIh
+	34qNP2Del4mte8zRYmAovHqMT5nWdqAko5SAV8K+rTY6LlXPKzIxUXWIYoVVfCF5xGUTxS
+	Yt7eElmD5hDHG7ie6CGuXw0XYFsIWmWCFR7wguJ6Uv5PsgBDOQjwG6LIIIsZjw==
+To: linux-input@vger.kernel.org
+Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
+	Frank Li <Frank.Li@nxp.com>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Job Noorman <job@noorman.info>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v4 1/3] dt-bindings: touchscreen: trivial-touch: Drop 'interrupts' requirement for old Ilitek
+Date: Sat, 17 Jan 2026 01:12:02 +0100
+Message-ID: <20260117001215.59272-1-marek.vasut+renesas@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260116201700.864797-1-ihor.solodrai@linux.dev> <20260116201700.864797-6-ihor.solodrai@linux.dev>
-In-Reply-To: <20260116201700.864797-6-ihor.solodrai@linux.dev>
-From: Andrii Nakryiko <andrii.nakryiko@gmail.com>
-Date: Fri, 16 Jan 2026 16:06:06 -0800
-X-Gm-Features: AZwV_Qh51iktnNtGl5KEk_vgmlX67wbmJDnAVYb4S7SbBH-xy1X8CWy4GQT_EEo
-Message-ID: <CAEf4BzbG=GMh0-1tT_2gdMtc-ZuV3X7hgoJZpt1RLCYgPMM3oQ@mail.gmail.com>
-Subject: Re: [PATCH bpf-next v2 05/13] resolve_btfids: Support for KF_IMPLICIT_ARGS
-To: Ihor Solodrai <ihor.solodrai@linux.dev>
-Cc: Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
-	Eduard Zingerman <eddyz87@gmail.com>, Mykyta Yatsenko <yatsenko@meta.com>, Tejun Heo <tj@kernel.org>, 
-	Alan Maguire <alan.maguire@oracle.com>, Benjamin Tissoires <bentiss@kernel.org>, 
-	Jiri Kosina <jikos@kernel.org>, Amery Hung <ameryhung@gmail.com>, bpf@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-input@vger.kernel.org, 
-	sched-ext@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-META: 7fp8kkh8okyjszzob9yftttgugbpqcro
+X-MBO-RS-ID: b3af310f0ffdf0ee2e9
+X-Rspamd-Queue-Id: 4dtHGb1NKMz9snh
 
-On Fri, Jan 16, 2026 at 12:17=E2=80=AFPM Ihor Solodrai <ihor.solodrai@linux=
-.dev> wrote:
->
-> Implement BTF modifications in resolve_btfids to support BPF kernel
-> functions with implicit arguments.
->
-> For a kfunc marked with KF_IMPLICIT_ARGS flag, a new function
-> prototype is added to BTF that does not have implicit arguments. The
-> kfunc's prototype is then updated to a new one in BTF. This prototype
-> is the intended interface for the BPF programs.
->
-> A <func_name>_impl function is added to BTF to make the original kfunc
-> prototype searchable for the BPF verifier. If a <func_name>_impl
-> function already exists in BTF, its interpreted as a legacy case, and
-> this step is skipped.
->
-> Whether an argument is implicit is determined by its type:
-> currently only `struct bpf_prog_aux *` is supported.
->
-> As a result, the BTF associated with kfunc is changed from
->
->     __bpf_kfunc bpf_foo(int arg1, struct bpf_prog_aux *aux);
->
-> into
->
->     bpf_foo_impl(int arg1, struct bpf_prog_aux *aux);
->     __bpf_kfunc bpf_foo(int arg1);
->
-> For more context see previous discussions and patches [1][2].
->
-> [1] https://lore.kernel.org/dwarves/ba1650aa-fafd-49a8-bea4-bdddee7c38c9@=
-linux.dev/
-> [2] https://lore.kernel.org/bpf/20251029190113.3323406-1-ihor.solodrai@li=
-nux.dev/
->
-> Signed-off-by: Ihor Solodrai <ihor.solodrai@linux.dev>
-> ---
->  tools/bpf/resolve_btfids/main.c | 383 ++++++++++++++++++++++++++++++++
->  1 file changed, 383 insertions(+)
->
+The old Ilitek touch controllers V3 and V6 can operate without
+interrupt line, in polling mode. Drop the 'interrupts' property
+requirement for those four controllers. To avoid overloading the
+trivial-touch, fork the old Ilitek V3/V6 touch controller binding
+into separate document.
 
-[...]
+Reviewed-by: Frank Li <Frank.Li@nxp.com>
+Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+---
+Cc: Conor Dooley <conor+dt@kernel.org>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Frank Li <Frank.Li@nxp.com>
+Cc: Job Noorman <job@noorman.info>
+Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
+Cc: Rob Herring <robh@kernel.org>
+Cc: devicetree@vger.kernel.org
+Cc: linux-input@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-renesas-soc@vger.kernel.org
+---
+V2: Fork the Ilitek V3/V6 bindings into separate document
+V3: Add RB from Frank
+V4: No change
+---
+ .../input/touchscreen/ilitek,ili210x.yaml     | 51 +++++++++++++++++++
+ .../input/touchscreen/trivial-touch.yaml      |  4 --
+ 2 files changed, 51 insertions(+), 4 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/input/touchscreen/ilitek,ili210x.yaml
 
-> +static int collect_decl_tags(struct btf2btf_context *ctx)
-> +{
-> +       const u32 type_cnt =3D btf__type_cnt(ctx->btf);
-> +       struct btf *btf =3D ctx->btf;
-> +       const struct btf_type *t;
-> +       u32 *tags, *tmp;
-> +       u32 nr_tags =3D 0;
-> +
-> +       tags =3D malloc(type_cnt * sizeof(u32));
+diff --git a/Documentation/devicetree/bindings/input/touchscreen/ilitek,ili210x.yaml b/Documentation/devicetree/bindings/input/touchscreen/ilitek,ili210x.yaml
+new file mode 100644
+index 0000000000000..1d02aaba64f97
+--- /dev/null
++++ b/Documentation/devicetree/bindings/input/touchscreen/ilitek,ili210x.yaml
+@@ -0,0 +1,51 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/input/touchscreen/ilitek,ili210x.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Ilitek ILI21xx/ILI251x V3/V6 touch screen controller with i2c interface
++
++maintainers:
++  - Frank Li <Frank.Li@nxp.com>
++  - Marek Vasut <marek.vasut+renesas@mailbox.org>
++
++properties:
++  compatible:
++    enum:
++      - ilitek,ili210x
++      - ilitek,ili2117
++      - ilitek,ili2120
++      - ilitek,ili251x
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  reset-gpios:
++    maxItems: 1
++
++  wakeup-source: true
++
++allOf:
++  - $ref: touchscreen.yaml
++
++required:
++  - compatible
++  - reg
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        touchscreen@41 {
++            compatible = "ilitek,ili2120";
++            reg = <0x41>;
++        };
++    };
+diff --git a/Documentation/devicetree/bindings/input/touchscreen/trivial-touch.yaml b/Documentation/devicetree/bindings/input/touchscreen/trivial-touch.yaml
+index fa27c6754ca4e..6441d21223caf 100644
+--- a/Documentation/devicetree/bindings/input/touchscreen/trivial-touch.yaml
++++ b/Documentation/devicetree/bindings/input/touchscreen/trivial-touch.yaml
+@@ -23,9 +23,6 @@ properties:
+       # Hynitron cstxxx series touchscreen controller
+       - hynitron,cst340
+       # Ilitek I2C Touchscreen Controller
+-      - ilitek,ili210x
+-      - ilitek,ili2117
+-      - ilitek,ili2120
+       - ilitek,ili2130
+       - ilitek,ili2131
+       - ilitek,ili2132
+@@ -33,7 +30,6 @@ properties:
+       - ilitek,ili2322
+       - ilitek,ili2323
+       - ilitek,ili2326
+-      - ilitek,ili251x
+       - ilitek,ili2520
+       - ilitek,ili2521
+       # MAXI MAX11801 Resistive touch screen controller with i2c interface
+-- 
+2.51.0
 
-waste of memory, really, see below
-
-> +       if (!tags)
-> +               return -ENOMEM;
-> +
-> +       for (u32 id =3D 1; id < type_cnt; id++) {
-> +               t =3D btf__type_by_id(btf, id);
-> +               if (!btf_is_decl_tag(t))
-> +                       continue;
-> +               tags[nr_tags++] =3D id;
-> +       }
-> +
-> +       if (nr_tags =3D=3D 0) {
-> +               ctx->decl_tags =3D NULL;
-> +               free(tags);
-> +               return 0;
-> +       }
-> +
-> +       tmp =3D realloc(tags, nr_tags * sizeof(u32));
-> +       if (!tmp) {
-> +               free(tags);
-> +               return -ENOMEM;
-> +       }
-
-This is an interesting realloc() usage pattern, it's quite
-unconventional to preallocate too much memory, and then shrink (in C
-world)
-
-check libbpf's libbpf_add_mem(), that's a generic "primitive" inside
-the libbpf. Do not reuse it as is, but it should give you an idea of a
-common pattern: you start with NULL (empty data), when you need to add
-a new element, you calculate a new array size which normally would be
-some minimal value (to avoid going through 1 -> 2 -> 4 -> 8, many
-small and wasteful steps; normally we just jump straight to 16 or so)
-or some factor of previous size (doesn't have to be 2x,
-libbpf_add_mem() expands by 25%, for instance).
-
-This is a super common approach in C. Please utilize it here as well.
-
-> +
-> +       ctx->decl_tags =3D tmp;
-> +       ctx->nr_decl_tags =3D nr_tags;
-> +
-> +       return 0;
-> +}
-> +
-> +/*
-> + * To find the kfunc flags having its struct btf_id (with ELF addresses)
-> + * we need to find the address that is in range of a set8.
-> + * If a set8 is found, then the flags are located at addr + 4 bytes.
-> + * Return 0 (no flags!) if not found.
-> + */
-> +static u32 find_kfunc_flags(struct object *obj, struct btf_id *kfunc_id)
-> +{
-> +       const u32 *elf_data_ptr =3D obj->efile.idlist->d_buf;
-> +       u64 set_lower_addr, set_upper_addr, addr;
-> +       struct btf_id *set_id;
-> +       struct rb_node *next;
-> +       u32 flags;
-> +       u64 idx;
-> +
-> +       next =3D rb_first(&obj->sets);
-> +       while (next) {
-
-for(next =3D rb_first(...); next; next =3D rb_next(next)) seems like a
-good fit here, no?
-
-> +               set_id =3D rb_entry(next, struct btf_id, rb_node);
-> +               if (set_id->kind !=3D BTF_ID_KIND_SET8 || set_id->addr_cn=
-t !=3D 1)
-> +                       goto skip;
-> +
-> +               set_lower_addr =3D set_id->addr[0];
-> +               set_upper_addr =3D set_lower_addr + set_id->cnt * sizeof(=
-u64);
-> +
-> +               for (u32 i =3D 0; i < kfunc_id->addr_cnt; i++) {
-> +                       addr =3D kfunc_id->addr[i];
-> +                       /*
-> +                        * Lower bound is exclusive to skip the 8-byte he=
-ader of the set.
-> +                        * Upper bound is inclusive to capture the last e=
-ntry at offset 8*cnt.
-> +                        */
-> +                       if (set_lower_addr < addr && addr <=3D set_upper_=
-addr) {
-> +                               pr_debug("found kfunc %s in BTF_ID_FLAGS =
-%s\n",
-> +                                        kfunc_id->name, set_id->name);
-> +                               goto found;
-
-why goto, just do what needs to be done and return?
-
-> +                       }
-> +               }
-> +skip:
-> +               next =3D rb_next(next);
-> +       }
-> +
-> +       return 0;
-> +
-> +found:
-> +       idx =3D addr - obj->efile.idlist_addr;
-> +       idx =3D idx / sizeof(u32) + 1;
-> +       flags =3D elf_data_ptr[idx];
-> +
-> +       return flags;
-> +}
-> +
-> +static s64 collect_kfuncs(struct object *obj, struct btf2btf_context *ct=
-x)
-> +{
-> +       struct kfunc *kfunc, *kfuncs, *tmp;
-> +       const char *tag_name, *func_name;
-> +       struct btf *btf =3D ctx->btf;
-> +       const struct btf_type *t;
-> +       u32 flags, func_id;
-> +       struct btf_id *id;
-> +       s64 nr_kfuncs =3D 0;
-> +
-> +       if (ctx->nr_decl_tags =3D=3D 0)
-> +               return 0;
-> +
-> +       kfuncs =3D malloc(ctx->nr_decl_tags * sizeof(*kfuncs));
-
-ditto about realloc() usage pattern
-
-> +       if (!kfuncs)
-> +               return -ENOMEM;
-> +
-
-[...]
-
-> +/*
-> + * For a kfunc with KF_IMPLICIT_ARGS we do the following:
-> + *   1. Add a new function with _impl suffix in the name, with the proto=
-type
-> + *      of the original kfunc.
-> + *   2. Add all decl tags except "bpf_kfunc" for the _impl func.
-> + *   3. Add a new function prototype with modified list of arguments:
-> + *      omitting implicit args.
-> + *   4. Change the prototype of the original kfunc to the new one.
-> + *
-> + * This way we transform the BTF associated with the kfunc from
-> + *     __bpf_kfunc bpf_foo(int arg1, void *implicit_arg);
-> + * into
-> + *     bpf_foo_impl(int arg1, void *implicit_arg);
-> + *     __bpf_kfunc bpf_foo(int arg1);
-> + *
-> + * If a kfunc with KF_IMPLICIT_ARGS already has an _impl counterpart
-> + * in BTF, then it's a legacy case: an _impl function is declared in the
-> + * source code. In this case, we can skip adding an _impl function, but =
-we
-> + * still have to add a func prototype that omits implicit args.
-> + */
-> +static int process_kfunc_with_implicit_args(struct btf2btf_context *ctx,=
- struct kfunc *kfunc)
-> +{
-
-this logic looks good
-
-> +       s32 idx, new_proto_id, new_func_id, proto_id;
-> +       const char *param_name, *tag_name;
-> +       const struct btf_param *params;
-> +       enum btf_func_linkage linkage;
-> +       char tmp_name[KSYM_NAME_LEN];
-> +       struct btf *btf =3D ctx->btf;
-> +       int err, len, nr_params;
-> +       struct btf_type *t;
-> +
-
-[...]
 
