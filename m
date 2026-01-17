@@ -1,288 +1,319 @@
-Return-Path: <linux-input+bounces-17156-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-17157-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 728BED3899A
-	for <lists+linux-input@lfdr.de>; Sat, 17 Jan 2026 00:10:45 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E159D38A74
+	for <lists+linux-input@lfdr.de>; Sat, 17 Jan 2026 01:06:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 29B5E3067F52
-	for <lists+linux-input@lfdr.de>; Fri, 16 Jan 2026 23:10:44 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id EEC24303F7D5
+	for <lists+linux-input@lfdr.de>; Sat, 17 Jan 2026 00:06:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 72CE02EA158;
-	Fri, 16 Jan 2026 23:10:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9359A500961;
+	Sat, 17 Jan 2026 00:06:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=antheas.dev header.i=@antheas.dev header.b="XkA/RYYF"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cnUR8yzI"
 X-Original-To: linux-input@vger.kernel.org
-Received: from relay12.grserver.gr (relay12.grserver.gr [88.99.38.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A94130FC05
-	for <linux-input@vger.kernel.org>; Fri, 16 Jan 2026 23:10:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=88.99.38.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EEFF17D2
+	for <linux-input@vger.kernel.org>; Sat, 17 Jan 2026 00:06:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768605043; cv=none; b=AL7qAzyJVO8TO94Jlm4v8ECCEKWIklql6Dtu09D091QU91SFWpZLNRjfVUVzjqOooTf0d4Px5uCNjg0YAlIW4Bj7BTlhPzLhqweuH0QflKvMOCDgCrJyRc3XF2CUF0xxcmrTdgDtc38DMYnl8VvV/N7XMOYkVhIj+UQYtHI2Etw=
+	t=1768608381; cv=none; b=gVQ3NPsnAHNBeDZ2T91/YFCNzV7lqXvKZrcI2J9j1u+VkyaxPfrbVrV1keWp8AisEB0FakGmcJ6FrygsMby+Fx2NWgm7wxFBNB3i4qjbOrd+t+LWvoYVaBeucsb0Mt0VEt0sSoFniFj30YAY4ogfD0Rw4RY+YBHp0iQeHN1QOaI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768605043; c=relaxed/simple;
-	bh=TJosHKRGzCY6t3vXfvC5MKeXYQzLJShSr+kT7jDk0IA=;
+	s=arc-20240116; t=1768608381; c=relaxed/simple;
+	bh=h2ln/wKX7SBUgPJweJrQtu4Q/2NKfeR1ErWvuLCA+Y8=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=JOIIC02aVp0+0uTbibGpoR6wBgOEfkAzjhP+AysAZOkWxBwQXk3hPTtMHjpr6lD7NcXFfQofTf6MkVzMQgHIPbifMIjXAGgp0GnnOezYIImfhlasjNJ2Cbd5gEUwI7a7+kKQIjTao/bBTHfigvKwoghyqAUKZXXbtT1g6/+UIb4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev; spf=pass smtp.mailfrom=antheas.dev; dkim=pass (2048-bit key) header.d=antheas.dev header.i=@antheas.dev header.b=XkA/RYYF; arc=none smtp.client-ip=88.99.38.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=antheas.dev
-Received: from relay12 (localhost [127.0.0.1])
-	by relay12.grserver.gr (Proxmox) with ESMTP id 37C2EBC162
-	for <linux-input@vger.kernel.org>; Sat, 17 Jan 2026 01:10:38 +0200 (EET)
-Received: from linux3247.grserver.gr (linux3247.grserver.gr [213.158.90.240])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by relay12.grserver.gr (Proxmox) with ESMTPS id 1D434BC140
-	for <linux-input@vger.kernel.org>; Sat, 17 Jan 2026 01:10:37 +0200 (EET)
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
-	by linux3247.grserver.gr (Postfix) with ESMTPSA id 895FF202648
-	for <linux-input@vger.kernel.org>; Sat, 17 Jan 2026 01:10:36 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
-	s=default; t=1768605036;
-	bh=q56jDIRlmSfjLHG7VwrMJyLogHl3eKHzYr+H7yCD34Q=;
-	h=Received:From:Subject:To;
-	b=XkA/RYYFnzjmikqgtp0sSSk6zKNUbNHsquT65cAGjz6UZVKmKWVB4cT9GWh4yY//X
-	 1AHFYNEpNOp3aVm52QMlXPMBN5IuuodCOjOSIThujOBrTLqVAUy4S7fT/pN96eEM13
-	 6PlGufZM7ZhYhCXl5ZNz5TP/kc6ednsS34H4WFIrfsZW/Y4j0TOvHl0cRjL4t4dWKI
-	 tJj591QgAiXuAYSo9OdorlP0BFeLeo2kS0Q6I3Hy2YNRAZmByLx11N1alU1dSXoM3i
-	 OqbWE61N7xJGx3AS1JinJL8X6x+MoNpMkqejubpK2vHDhQVAMXzj8bAFMueOXfJUTS
-	 4ZpYgLc44kSEA==
-Authentication-Results: linux3247.grserver.gr;
-        spf=pass (sender IP is 209.85.208.176) smtp.mailfrom=lkml@antheas.dev smtp.helo=mail-lj1-f176.google.com
-Received-SPF: pass (linux3247.grserver.gr: connection is authenticated)
-Received: by mail-lj1-f176.google.com with SMTP id
- 38308e7fff4ca-382f087e6c9so14496211fa.0
-        for <linux-input@vger.kernel.org>;
- Fri, 16 Jan 2026 15:10:36 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCV+tykbVALSYmHbX776b92yPZ/janw/CIEZQvbgOINoERijKh2DtnzRqbAL4cq6FSHuo4o4xdBj8rVdZA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yygvyq8xOlZrxaHCQjYJ04LuNK3tToLQGZYhf4rNs9QJmMTwR93
-	0+7ySIXVeUHejC04n6TYptlA6stBYEGA03uaFQd/tHhe2dt1j1mewGlx5YPhf9kGalIRHRBY+YN
-	0MKPcCDA4XFZjkmNGlMPq9duXnyYS9sE=
-X-Received: by 2002:a2e:b8ce:0:b0:383:1b54:2f34 with SMTP id
- 38308e7fff4ca-383841aa222mr11373641fa.18.1768605036036; Fri, 16 Jan 2026
- 15:10:36 -0800 (PST)
+	 To:Cc:Content-Type; b=KuUcPfG1+FvhY5maewUPx0oSkB0wHwkv1wxYxq9/EbCzs6MCUvL9f5xf3V/H88bqz97Td2ZOMcn40Pi/Mxsufrk/zrFZGBgaG+pgl0eIPpoB0hAasj6jv5ImMhCF9PZHZvsbYl6wTONsjnOI4L+FcO7vnKsMabpovzWgTMBWzpk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cnUR8yzI; arc=none smtp.client-ip=209.85.214.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2a0bae9aca3so18071975ad.3
+        for <linux-input@vger.kernel.org>; Fri, 16 Jan 2026 16:06:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1768608379; x=1769213179; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4R7MwkvY28w//a/lIqAt5KYCh6sv7mHBxNLr/F0AMTg=;
+        b=cnUR8yzIhgstS/h+Off0A7KqT4k9eoLGX3DqZ3n5G/+4U7ZGGslspJHzPYHTfAmrQg
+         aKuK6o7hELRJv/Fp2XQeQWDkGj4eQVhsYz/fcCC/KzzpqZXD0ToVpOaABw/L9Lb7lsEJ
+         c5uMsC6iXJBLh4sVy9XgGEsfizt0E9ggYRu/pXfrk+oxWaemLgAy80jAh43V4u/5ag92
+         zCmmRyBqYqYxszQGhZY6Q0B/itAMt4pQZWKoSMMuRQyUxSnE63chfbQcuHuVXCmDu2VD
+         URxHZDI4G+TvVHYakWTuP7GUL2CtcK86965v7uCE7mICtIhg6gWdlMg0etjJCl8cwml1
+         xHWQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768608379; x=1769213179;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=4R7MwkvY28w//a/lIqAt5KYCh6sv7mHBxNLr/F0AMTg=;
+        b=qP2eYEpQWqwwWBitKfHGujI7R27m5WURlVhNkJ2raO/78Ft0sZn+bnFVdexc7fo6yv
+         FM2R1xpzyFKFl2qtdYZBwG8U7k9q/Z18ChZFJhh9IqWaZoo7Bpn+3pLR5H5ujXD43pA3
+         ZWiQlSflPC4IUskpeXgIFIg6dJ4/zI2UASuqGJzguGs/jFzwbrTV1yulrxaLSEogD00Q
+         ICjR/yrD/yy2r3vIEvo/iGyDoqU3wdujGDq+pCqFjQHRUxR1UzQnc5qikupSudFVtDox
+         zLbA/S9B300bwA+W/8aSkRMXsgMH33i2172wWNXjOylOKQxEfa0fBrCsekiJ8AoRyKSK
+         QORA==
+X-Forwarded-Encrypted: i=1; AJvYcCWaLDx7uuXTliKuH2UXHE61UAN6Y0qY49jWolPnhPifgaKOtU9C5xGelNlvo3VDKTsBS9cpmVrsi9wbbw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz6G6G5Ngawx701fXdqfa/cTLL77aToK+HoxnNwGM1iaDh+9srv
+	ckDMNNke2LBppC7c3xlDKcIjfreq0l4OgfdUjzW44Qw996LeerTCXKFLhQcxndPnS/f2KxXuN6N
+	tjFA80ZOGhue2/BmmOr3zp2FrytBgGH0=
+X-Gm-Gg: AY/fxX4fQX84u/rKZNyE2eSN0ZwdDBj3d6SV9Rn5dtHH2WjT3S9aUxnUq6cSja7CI/f
+	9ADj2XKLiHDfbrNv0VYlUZwppX3yv0+y/qyhw70CPEIgq8S0753/o4koIhkrsvlPOzfcLsbcA3Z
+	GiZSdIn+sC8R/vLWT40NPifY3SxGgjxZm6Q/JXhnuMKchFZ9dOTDQFs9PZVBD+eBzQYnl4jl2yJ
+	RgyhZ9WG8nvvF7ngALTkDujWG0TmfZ6iwx05m6HWo/Q/8zxh9Us2ffsXYJYWgWM9L1y42zqzxzZ
+	7DsMrb+aG3g=
+X-Received: by 2002:a17:903:1c2:b0:29e:940c:2cdf with SMTP id
+ d9443c01a7336-2a7175be339mr44924465ad.36.1768608378836; Fri, 16 Jan 2026
+ 16:06:18 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260116133150.5606-1-lkml@antheas.dev>
- <20260116133150.5606-3-lkml@antheas.dev>
- <14407ba9-34f1-4114-bfb3-043b53ea7769@linux.dev>
-In-Reply-To: <14407ba9-34f1-4114-bfb3-043b53ea7769@linux.dev>
-From: Antheas Kapenekakis <lkml@antheas.dev>
-Date: Sat, 17 Jan 2026 00:10:24 +0100
-X-Gmail-Original-Message-ID: 
- <CAGwozwGyUpBq4GGvyDHj089a9-vxNOnqgSBys3-CC_+tKDywaA@mail.gmail.com>
-X-Gm-Features: AZwV_QhtkpYwWk41tccphCew9AREU1JxoREoh-BtI1M_DPEZu1LK6pZc2FvSnPQ
-Message-ID: 
- <CAGwozwGyUpBq4GGvyDHj089a9-vxNOnqgSBys3-CC_+tKDywaA@mail.gmail.com>
-Subject: Re: [PATCH v11 02/11] HID: asus: initialize additional endpoints only
- for legacy devices
-To: Denis Benato <denis.benato@linux.dev>
-Cc: platform-driver-x86@vger.kernel.org, linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <bentiss@kernel.org>,
- Corentin Chary <corentin.chary@gmail.com>,
-	"Luke D . Jones" <luke@ljones.dev>, Hans de Goede <hansg@kernel.org>,
-	=?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+References: <20260116201700.864797-1-ihor.solodrai@linux.dev> <20260116201700.864797-6-ihor.solodrai@linux.dev>
+In-Reply-To: <20260116201700.864797-6-ihor.solodrai@linux.dev>
+From: Andrii Nakryiko <andrii.nakryiko@gmail.com>
+Date: Fri, 16 Jan 2026 16:06:06 -0800
+X-Gm-Features: AZwV_Qh51iktnNtGl5KEk_vgmlX67wbmJDnAVYb4S7SbBH-xy1X8CWy4GQT_EEo
+Message-ID: <CAEf4BzbG=GMh0-1tT_2gdMtc-ZuV3X7hgoJZpt1RLCYgPMM3oQ@mail.gmail.com>
+Subject: Re: [PATCH bpf-next v2 05/13] resolve_btfids: Support for KF_IMPLICIT_ARGS
+To: Ihor Solodrai <ihor.solodrai@linux.dev>
+Cc: Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
+	Eduard Zingerman <eddyz87@gmail.com>, Mykyta Yatsenko <yatsenko@meta.com>, Tejun Heo <tj@kernel.org>, 
+	Alan Maguire <alan.maguire@oracle.com>, Benjamin Tissoires <bentiss@kernel.org>, 
+	Jiri Kosina <jikos@kernel.org>, Amery Hung <ameryhung@gmail.com>, bpf@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-input@vger.kernel.org, 
+	sched-ext@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
-X-PPP-Message-ID: 
- <176860503673.1710050.16856141457718373692@linux3247.grserver.gr>
-X-PPP-Vhost: antheas.dev
-X-Virus-Scanned: clamav-milter 1.4.3 at linux3247.grserver.gr
-X-Virus-Status: Clean
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 16 Jan 2026 at 21:44, Denis Benato <denis.benato@linux.dev> wrote:
+On Fri, Jan 16, 2026 at 12:17=E2=80=AFPM Ihor Solodrai <ihor.solodrai@linux=
+.dev> wrote:
 >
-> On 1/16/26 14:31, Antheas Kapenekakis wrote:
+> Implement BTF modifications in resolve_btfids to support BPF kernel
+> functions with implicit arguments.
 >
-> > Currently, ID1/ID2 initializations are performed for all NKEY devices.
-> > However, ID1 initializations are only required for RGB control and are
-> > only supported for RGB capable devices. ID2 initializations are only
-> > required for initializing the Anime display endpoint which is only
-> > supported on devices with an Anime display. Both of these
-> > initializations are out of scope for this driver (this is a brightness
-> > control and keyboard shortcut driver) and they should not be performed
-> > for devices that do not support them in any case.
-> >
-> > At the same time, there are older NKEY devices that have only been
-> > tested with these initializations in the kernel and it is not possible
-> > to recheck them. There is a possibility that especially with the ID1
-> > initialization, certain laptop models might have their shortcuts stop
-> > working (currently unproven).
-> >
-> > For an abundance of caution, only initialize ID1/ID2 for those older
-> > NKEY devices by introducing a quirk for them and replacing the NKEY
-> > quirk in the block that performs the inits with that.
-> >
-> > In addition, as these initializations might not be supported by the
-> > affected devices, change the function to not bail if they fail.
-> >
-> > Acked-by: Benjamin Tissoires <bentiss@kernel.org>
-> > Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
-> > ---
-> >  drivers/hid/hid-asus.c | 16 ++++++----------
-> >  1 file changed, 6 insertions(+), 10 deletions(-)
-> >
-> > diff --git a/drivers/hid/hid-asus.c b/drivers/hid/hid-asus.c
-> > index 323e6302bac5..dc7af12cf31a 100644
-> > --- a/drivers/hid/hid-asus.c
-> > +++ b/drivers/hid/hid-asus.c
-> > @@ -90,6 +90,7 @@ MODULE_DESCRIPTION("Asus HID Keyboard and TouchPad");
-> >  #define QUIRK_ROG_NKEY_KEYBOARD              BIT(11)
-> >  #define QUIRK_ROG_CLAYMORE_II_KEYBOARD BIT(12)
-> >  #define QUIRK_ROG_ALLY_XPAD          BIT(13)
-> > +#define QUIRK_ROG_NKEY_LEGACY                BIT(14)
-> These past days I have taken a look at new 2025 models and they do make use of ID2,
-> and won't do harm sending ID1 either. I think you can safely remove the if and send regardless.
-
-Hi Denis,
-it is not the responsibility of this driver. ID2 is used by Anime
-models. It is a concession to make sure that we do not cause a
-regression that will cause warnings for a lot of users.
-
-> At least 2023 models like mine that don't support ID2 will simply reply with 0xFF 0xFF and the rest 0x00.
-> No consequences.
-
-In your laptop. In the other user's laptop, the get feature report fails
-
-> Regardless the name is wrong: mine is a 2023 rog strix with
-> ID 0b05:19b6ASUSTek Computer, Inc. N-KEY Device
-> and surely isn't legacy.
-
-Sure, can you try removing the if block?
-
-If it works in your laptop, that is one less reason to keep it for 19b6
-
-Antheas
-
-> >
-> >  #define I2C_KEYBOARD_QUIRKS                  (QUIRK_FIX_NOTEBOOK_REPORT | \
-> >                                                QUIRK_NO_INIT_REPORTS | \
-> > @@ -652,14 +653,9 @@ static int asus_kbd_register_leds(struct hid_device *hdev)
-> >       if (!(kbd_func & SUPPORT_KBD_BACKLIGHT))
-> >               return -ENODEV;
-> >
-> > -     if (drvdata->quirks & QUIRK_ROG_NKEY_KEYBOARD) {
-> > -             ret = asus_kbd_init(hdev, FEATURE_KBD_LED_REPORT_ID1);
-> > -             if (ret < 0)
-> > -                     return ret;
-> > -
-> > -             ret = asus_kbd_init(hdev, FEATURE_KBD_LED_REPORT_ID2);
-> > -             if (ret < 0)
-> > -                     return ret;
-> > +     if (drvdata->quirks & QUIRK_ROG_NKEY_LEGACY) {
-> > +             asus_kbd_init(hdev, FEATURE_KBD_LED_REPORT_ID1);
-> > +             asus_kbd_init(hdev, FEATURE_KBD_LED_REPORT_ID2);
-> >       }
-> >
-> >       if (dmi_match(DMI_PRODUCT_FAMILY, "ProArt P16")) {
-> > @@ -1376,10 +1372,10 @@ static const struct hid_device_id asus_devices[] = {
-> >         QUIRK_USE_KBD_BACKLIGHT },
-> >       { HID_USB_DEVICE(USB_VENDOR_ID_ASUSTEK,
-> >           USB_DEVICE_ID_ASUSTEK_ROG_NKEY_KEYBOARD),
-> > -       QUIRK_USE_KBD_BACKLIGHT | QUIRK_ROG_NKEY_KEYBOARD },
-> > +       QUIRK_USE_KBD_BACKLIGHT | QUIRK_ROG_NKEY_KEYBOARD | QUIRK_ROG_NKEY_LEGACY },
-> >       { HID_USB_DEVICE(USB_VENDOR_ID_ASUSTEK,
-> >           USB_DEVICE_ID_ASUSTEK_ROG_NKEY_KEYBOARD2),
-> > -       QUIRK_USE_KBD_BACKLIGHT | QUIRK_ROG_NKEY_KEYBOARD },
-> > +       QUIRK_USE_KBD_BACKLIGHT | QUIRK_ROG_NKEY_KEYBOARD | QUIRK_ROG_NKEY_LEGACY },
-> >       { HID_USB_DEVICE(USB_VENDOR_ID_ASUSTEK,
-> >           USB_DEVICE_ID_ASUSTEK_ROG_Z13_LIGHTBAR),
-> >         QUIRK_USE_KBD_BACKLIGHT | QUIRK_ROG_NKEY_KEYBOARD },
+> For a kfunc marked with KF_IMPLICIT_ARGS flag, a new function
+> prototype is added to BTF that does not have implicit arguments. The
+> kfunc's prototype is then updated to a new one in BTF. This prototype
+> is the intended interface for the BPF programs.
+>
+> A <func_name>_impl function is added to BTF to make the original kfunc
+> prototype searchable for the BPF verifier. If a <func_name>_impl
+> function already exists in BTF, its interpreted as a legacy case, and
+> this step is skipped.
+>
+> Whether an argument is implicit is determined by its type:
+> currently only `struct bpf_prog_aux *` is supported.
+>
+> As a result, the BTF associated with kfunc is changed from
+>
+>     __bpf_kfunc bpf_foo(int arg1, struct bpf_prog_aux *aux);
+>
+> into
+>
+>     bpf_foo_impl(int arg1, struct bpf_prog_aux *aux);
+>     __bpf_kfunc bpf_foo(int arg1);
+>
+> For more context see previous discussions and patches [1][2].
+>
+> [1] https://lore.kernel.org/dwarves/ba1650aa-fafd-49a8-bea4-bdddee7c38c9@=
+linux.dev/
+> [2] https://lore.kernel.org/bpf/20251029190113.3323406-1-ihor.solodrai@li=
+nux.dev/
+>
+> Signed-off-by: Ihor Solodrai <ihor.solodrai@linux.dev>
+> ---
+>  tools/bpf/resolve_btfids/main.c | 383 ++++++++++++++++++++++++++++++++
+>  1 file changed, 383 insertions(+)
 >
 
-On Fri, 16 Jan 2026 at 21:44, Denis Benato <denis.benato@linux.dev> wrote:
->
-> On 1/16/26 14:31, Antheas Kapenekakis wrote:
->
-> > Currently, ID1/ID2 initializations are performed for all NKEY devices.
-> > However, ID1 initializations are only required for RGB control and are
-> > only supported for RGB capable devices. ID2 initializations are only
-> > required for initializing the Anime display endpoint which is only
-> > supported on devices with an Anime display. Both of these
-> > initializations are out of scope for this driver (this is a brightness
-> > control and keyboard shortcut driver) and they should not be performed
-> > for devices that do not support them in any case.
-> >
-> > At the same time, there are older NKEY devices that have only been
-> > tested with these initializations in the kernel and it is not possible
-> > to recheck them. There is a possibility that especially with the ID1
-> > initialization, certain laptop models might have their shortcuts stop
-> > working (currently unproven).
-> >
-> > For an abundance of caution, only initialize ID1/ID2 for those older
-> > NKEY devices by introducing a quirk for them and replacing the NKEY
-> > quirk in the block that performs the inits with that.
-> >
-> > In addition, as these initializations might not be supported by the
-> > affected devices, change the function to not bail if they fail.
-> >
-> > Acked-by: Benjamin Tissoires <bentiss@kernel.org>
-> > Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
-> > ---
-> >  drivers/hid/hid-asus.c | 16 ++++++----------
-> >  1 file changed, 6 insertions(+), 10 deletions(-)
-> >
-> > diff --git a/drivers/hid/hid-asus.c b/drivers/hid/hid-asus.c
-> > index 323e6302bac5..dc7af12cf31a 100644
-> > --- a/drivers/hid/hid-asus.c
-> > +++ b/drivers/hid/hid-asus.c
-> > @@ -90,6 +90,7 @@ MODULE_DESCRIPTION("Asus HID Keyboard and TouchPad");
-> >  #define QUIRK_ROG_NKEY_KEYBOARD              BIT(11)
-> >  #define QUIRK_ROG_CLAYMORE_II_KEYBOARD BIT(12)
-> >  #define QUIRK_ROG_ALLY_XPAD          BIT(13)
-> > +#define QUIRK_ROG_NKEY_LEGACY                BIT(14)
-> These past days I have taken a look at new 2025 models and they do make use of ID2,
-> and won't do harm sending ID1 either. I think you can safely remove the if and send regardless.
->
-> At least 2023 models like mine that don't support ID2 will simply reply with 0xFF 0xFF and the rest 0x00.
-> No consequences.
->
-> Regardless the name is wrong: mine is a 2023 rog strix with
-> ID 0b05:19b6ASUSTek Computer, Inc. N-KEY Device
-> and surely isn't legacy.
-> >
-> >  #define I2C_KEYBOARD_QUIRKS                  (QUIRK_FIX_NOTEBOOK_REPORT | \
-> >                                                QUIRK_NO_INIT_REPORTS | \
-> > @@ -652,14 +653,9 @@ static int asus_kbd_register_leds(struct hid_device *hdev)
-> >       if (!(kbd_func & SUPPORT_KBD_BACKLIGHT))
-> >               return -ENODEV;
-> >
-> > -     if (drvdata->quirks & QUIRK_ROG_NKEY_KEYBOARD) {
-> > -             ret = asus_kbd_init(hdev, FEATURE_KBD_LED_REPORT_ID1);
-> > -             if (ret < 0)
-> > -                     return ret;
-> > -
-> > -             ret = asus_kbd_init(hdev, FEATURE_KBD_LED_REPORT_ID2);
-> > -             if (ret < 0)
-> > -                     return ret;
-> > +     if (drvdata->quirks & QUIRK_ROG_NKEY_LEGACY) {
-> > +             asus_kbd_init(hdev, FEATURE_KBD_LED_REPORT_ID1);
-> > +             asus_kbd_init(hdev, FEATURE_KBD_LED_REPORT_ID2);
-> >       }
-> >
-> >       if (dmi_match(DMI_PRODUCT_FAMILY, "ProArt P16")) {
-> > @@ -1376,10 +1372,10 @@ static const struct hid_device_id asus_devices[] = {
-> >         QUIRK_USE_KBD_BACKLIGHT },
-> >       { HID_USB_DEVICE(USB_VENDOR_ID_ASUSTEK,
-> >           USB_DEVICE_ID_ASUSTEK_ROG_NKEY_KEYBOARD),
-> > -       QUIRK_USE_KBD_BACKLIGHT | QUIRK_ROG_NKEY_KEYBOARD },
-> > +       QUIRK_USE_KBD_BACKLIGHT | QUIRK_ROG_NKEY_KEYBOARD | QUIRK_ROG_NKEY_LEGACY },
-> >       { HID_USB_DEVICE(USB_VENDOR_ID_ASUSTEK,
-> >           USB_DEVICE_ID_ASUSTEK_ROG_NKEY_KEYBOARD2),
-> > -       QUIRK_USE_KBD_BACKLIGHT | QUIRK_ROG_NKEY_KEYBOARD },
-> > +       QUIRK_USE_KBD_BACKLIGHT | QUIRK_ROG_NKEY_KEYBOARD | QUIRK_ROG_NKEY_LEGACY },
-> >       { HID_USB_DEVICE(USB_VENDOR_ID_ASUSTEK,
-> >           USB_DEVICE_ID_ASUSTEK_ROG_Z13_LIGHTBAR),
-> >         QUIRK_USE_KBD_BACKLIGHT | QUIRK_ROG_NKEY_KEYBOARD },
->
+[...]
 
+> +static int collect_decl_tags(struct btf2btf_context *ctx)
+> +{
+> +       const u32 type_cnt =3D btf__type_cnt(ctx->btf);
+> +       struct btf *btf =3D ctx->btf;
+> +       const struct btf_type *t;
+> +       u32 *tags, *tmp;
+> +       u32 nr_tags =3D 0;
+> +
+> +       tags =3D malloc(type_cnt * sizeof(u32));
+
+waste of memory, really, see below
+
+> +       if (!tags)
+> +               return -ENOMEM;
+> +
+> +       for (u32 id =3D 1; id < type_cnt; id++) {
+> +               t =3D btf__type_by_id(btf, id);
+> +               if (!btf_is_decl_tag(t))
+> +                       continue;
+> +               tags[nr_tags++] =3D id;
+> +       }
+> +
+> +       if (nr_tags =3D=3D 0) {
+> +               ctx->decl_tags =3D NULL;
+> +               free(tags);
+> +               return 0;
+> +       }
+> +
+> +       tmp =3D realloc(tags, nr_tags * sizeof(u32));
+> +       if (!tmp) {
+> +               free(tags);
+> +               return -ENOMEM;
+> +       }
+
+This is an interesting realloc() usage pattern, it's quite
+unconventional to preallocate too much memory, and then shrink (in C
+world)
+
+check libbpf's libbpf_add_mem(), that's a generic "primitive" inside
+the libbpf. Do not reuse it as is, but it should give you an idea of a
+common pattern: you start with NULL (empty data), when you need to add
+a new element, you calculate a new array size which normally would be
+some minimal value (to avoid going through 1 -> 2 -> 4 -> 8, many
+small and wasteful steps; normally we just jump straight to 16 or so)
+or some factor of previous size (doesn't have to be 2x,
+libbpf_add_mem() expands by 25%, for instance).
+
+This is a super common approach in C. Please utilize it here as well.
+
+> +
+> +       ctx->decl_tags =3D tmp;
+> +       ctx->nr_decl_tags =3D nr_tags;
+> +
+> +       return 0;
+> +}
+> +
+> +/*
+> + * To find the kfunc flags having its struct btf_id (with ELF addresses)
+> + * we need to find the address that is in range of a set8.
+> + * If a set8 is found, then the flags are located at addr + 4 bytes.
+> + * Return 0 (no flags!) if not found.
+> + */
+> +static u32 find_kfunc_flags(struct object *obj, struct btf_id *kfunc_id)
+> +{
+> +       const u32 *elf_data_ptr =3D obj->efile.idlist->d_buf;
+> +       u64 set_lower_addr, set_upper_addr, addr;
+> +       struct btf_id *set_id;
+> +       struct rb_node *next;
+> +       u32 flags;
+> +       u64 idx;
+> +
+> +       next =3D rb_first(&obj->sets);
+> +       while (next) {
+
+for(next =3D rb_first(...); next; next =3D rb_next(next)) seems like a
+good fit here, no?
+
+> +               set_id =3D rb_entry(next, struct btf_id, rb_node);
+> +               if (set_id->kind !=3D BTF_ID_KIND_SET8 || set_id->addr_cn=
+t !=3D 1)
+> +                       goto skip;
+> +
+> +               set_lower_addr =3D set_id->addr[0];
+> +               set_upper_addr =3D set_lower_addr + set_id->cnt * sizeof(=
+u64);
+> +
+> +               for (u32 i =3D 0; i < kfunc_id->addr_cnt; i++) {
+> +                       addr =3D kfunc_id->addr[i];
+> +                       /*
+> +                        * Lower bound is exclusive to skip the 8-byte he=
+ader of the set.
+> +                        * Upper bound is inclusive to capture the last e=
+ntry at offset 8*cnt.
+> +                        */
+> +                       if (set_lower_addr < addr && addr <=3D set_upper_=
+addr) {
+> +                               pr_debug("found kfunc %s in BTF_ID_FLAGS =
+%s\n",
+> +                                        kfunc_id->name, set_id->name);
+> +                               goto found;
+
+why goto, just do what needs to be done and return?
+
+> +                       }
+> +               }
+> +skip:
+> +               next =3D rb_next(next);
+> +       }
+> +
+> +       return 0;
+> +
+> +found:
+> +       idx =3D addr - obj->efile.idlist_addr;
+> +       idx =3D idx / sizeof(u32) + 1;
+> +       flags =3D elf_data_ptr[idx];
+> +
+> +       return flags;
+> +}
+> +
+> +static s64 collect_kfuncs(struct object *obj, struct btf2btf_context *ct=
+x)
+> +{
+> +       struct kfunc *kfunc, *kfuncs, *tmp;
+> +       const char *tag_name, *func_name;
+> +       struct btf *btf =3D ctx->btf;
+> +       const struct btf_type *t;
+> +       u32 flags, func_id;
+> +       struct btf_id *id;
+> +       s64 nr_kfuncs =3D 0;
+> +
+> +       if (ctx->nr_decl_tags =3D=3D 0)
+> +               return 0;
+> +
+> +       kfuncs =3D malloc(ctx->nr_decl_tags * sizeof(*kfuncs));
+
+ditto about realloc() usage pattern
+
+> +       if (!kfuncs)
+> +               return -ENOMEM;
+> +
+
+[...]
+
+> +/*
+> + * For a kfunc with KF_IMPLICIT_ARGS we do the following:
+> + *   1. Add a new function with _impl suffix in the name, with the proto=
+type
+> + *      of the original kfunc.
+> + *   2. Add all decl tags except "bpf_kfunc" for the _impl func.
+> + *   3. Add a new function prototype with modified list of arguments:
+> + *      omitting implicit args.
+> + *   4. Change the prototype of the original kfunc to the new one.
+> + *
+> + * This way we transform the BTF associated with the kfunc from
+> + *     __bpf_kfunc bpf_foo(int arg1, void *implicit_arg);
+> + * into
+> + *     bpf_foo_impl(int arg1, void *implicit_arg);
+> + *     __bpf_kfunc bpf_foo(int arg1);
+> + *
+> + * If a kfunc with KF_IMPLICIT_ARGS already has an _impl counterpart
+> + * in BTF, then it's a legacy case: an _impl function is declared in the
+> + * source code. In this case, we can skip adding an _impl function, but =
+we
+> + * still have to add a func prototype that omits implicit args.
+> + */
+> +static int process_kfunc_with_implicit_args(struct btf2btf_context *ctx,=
+ struct kfunc *kfunc)
+> +{
+
+this logic looks good
+
+> +       s32 idx, new_proto_id, new_func_id, proto_id;
+> +       const char *param_name, *tag_name;
+> +       const struct btf_param *params;
+> +       enum btf_func_linkage linkage;
+> +       char tmp_name[KSYM_NAME_LEN];
+> +       struct btf *btf =3D ctx->btf;
+> +       int err, len, nr_params;
+> +       struct btf_type *t;
+> +
+
+[...]
 
