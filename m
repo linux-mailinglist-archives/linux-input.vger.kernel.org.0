@@ -1,116 +1,122 @@
-Return-Path: <linux-input+bounces-17186-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-17187-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C923D39946
-	for <lists+linux-input@lfdr.de>; Sun, 18 Jan 2026 19:58:26 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 493F4D399B8
+	for <lists+linux-input@lfdr.de>; Sun, 18 Jan 2026 21:30:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id EDD6F3007E56
-	for <lists+linux-input@lfdr.de>; Sun, 18 Jan 2026 18:58:24 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 14BA330080CD
+	for <lists+linux-input@lfdr.de>; Sun, 18 Jan 2026 20:30:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1AF4F2253EF;
-	Sun, 18 Jan 2026 18:58:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D4E1C2882D3;
+	Sun, 18 Jan 2026 20:30:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LHUBSdX6"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Syip5o5i"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B029F1A316E
-	for <linux-input@vger.kernel.org>; Sun, 18 Jan 2026 18:58:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC10D3019D6;
+	Sun, 18 Jan 2026 20:30:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768762702; cv=none; b=b4VfA6MFhWGSEXSLKbIQnxrnahHdNdyhBz0tGHY0FxcTm2kqXczu650JGtxWtGMaLpIXg2Wc/8UdXgq7w4rGzFOMETuI4xvHpFOKBXdGfxI9EnP4EvU4WXlnlWza+5CTXpyC3sYhVDR/fYyhHCDnp1zMtwYEIEyqgeCDax/+55E=
+	t=1768768203; cv=none; b=aUztw9QSAvgDn7bQQeR65365atrhi8OUw89kar+zmQxagmnI0+G300HJCh9uZz/yXlHb24rMTGmCipBGgJ8HlOuMTTDLZ0QjRgkvd/2xIl/7CHSMrzEa3NeY+QIB0Pw9FvZUy7+El1gHF+QIw96FyyFIKHWRK6+aDlC8HgJw8VQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768762702; c=relaxed/simple;
-	bh=K3g4zXNYPfFa38PaoUP02463HVNNvfnQe92AJlycLi0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VwFx76OaDPmuXsbAPCLhBUsQg9PBzL0FqJ2LLnfshuUstvNumlj6n6bzFg7340Kl+V3a0pERs5BDtQFHtXbFN6ZgeXDjfce+6k5v5d4dNAx3bgdlTA+xbJgu5YlxcyXknpGydvdWmuhKDlYzRYyV+VQWW4FD6Xk9W6bxI2IfJFM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LHUBSdX6; arc=none smtp.client-ip=209.85.222.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qk1-f180.google.com with SMTP id af79cd13be357-8c531473fdcso506273885a.3
-        for <linux-input@vger.kernel.org>; Sun, 18 Jan 2026 10:58:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768762700; x=1769367500; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=01hnEUnZiWfJBYTIMM2/v6sMYUFejHU1r/IOduN3of0=;
-        b=LHUBSdX6CiJwf2ZWxHa7fPKSUptlqxT91ZGFRwtmu3LMX8u86+/94uR82mp5fbZs/2
-         Db7D0MmVZsBKRGKK0bY/SijsGPTIZXPgrzcZTyM05tbskkU8DF3qN6lSqhJkT0iIr6XQ
-         LnLxIt5t0V5uPQhK1NkglR0bsPxoONHPh1L+lHesfDQLVOmHveR8Byv4+sxxjPyHKt3Q
-         De3SIUhrEQpnnGE48v9+I+H9PlhffOtPNeDSZGvHZMtoxnR5FdwPBpVg96KtkIBGbl4e
-         tVWGa5GEHCWfK4/crcBJrEpZmt0llaBK/TaLgGOxhFHbZWSGOLI+zmVRy+hnHAN9CuY4
-         78Kw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768762700; x=1769367500;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=01hnEUnZiWfJBYTIMM2/v6sMYUFejHU1r/IOduN3of0=;
-        b=wkelflvCDcqpJeNzOUCKXEzpq3bQh6cZ9p7RFOmes8QUkVvohE65K0z3TeiqPLgX71
-         0kAnGbeWmRr/Iev/ZUtDT5cfxQ7ohh68tVtUPHn4QTOeOlpPuY1l0dywOGesppFAn4kA
-         vIdn1sgDdzixYEdp6l7OaSNRgY7jCarPFxma8wk1ah//vqlSLrLr/63oEPR09qauA/l5
-         uI5wv6FJOn93NrGVQoUYbDhM+nqglzr2PaV2bVnL/8KDf5nm8YziOtn9jLaOK2tCjPcc
-         bFbv5G+pKXoJSGcg8QTlHkFP0rb0KX42qhJ16kQDz8Xu5cfN1Pjo3L6SsHGl2MAT4VFl
-         KjHQ==
-X-Gm-Message-State: AOJu0YyUOBebUBac8VZn/Y65LpZudtDBbZm6kOhBgk8mHKH92JlnZaZY
-	2eFIY/9tY21nNKFtRa0c4DAi8IT8cqygxYWG9AMJIeDNYm0WVAz8Rjo=
-X-Gm-Gg: AY/fxX6G6L+AfiG86GuA0n77cOOrdSf/myQe2EPfx81VmgSbas5yE5LOlZnnf39aYqF
-	y7iqSgg6NQs6PdZzP3/EtRzMllK6wvINlfFH2CeuySB2nKMD8lzUuj4ITNqkY0nZ14tK3nO0eix
-	ZBgHxDCbVw81+1pnV6x1tazJp5NG27XzedCIHqqEQWKqNVSx2vOCy9jHAC+DbQO8LdHDSqCz4MC
-	TeyFh3mpLTvAS1C2YdOSVN3nqT79u7tPwIyyBc7j1EmJp3EG03NT+DYjom7PC0qw1uwgWQhUk4c
-	VFHGk2NKsi4vQ0acgvg4c7Syk6hz6YHrWs5sK66OEgg4P9zeLFniWAWub41uXKNDH1CIuQniFeq
-	IanObEAt50ObNk3ZhoV96suilh/SZ0JCGaSamcMuBTR0ctvxbPMgQ+vkSpdA4OXfJafTE11Z74Q
-	2KNKY=
-X-Received: by 2002:a05:620a:2944:b0:8bb:26db:e22f with SMTP id af79cd13be357-8c6a6909543mr1206597085a.30.1768762699666;
-        Sun, 18 Jan 2026 10:58:19 -0800 (PST)
-Received: from huis ([47.189.94.147])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8c6a72602fesm651238885a.41.2026.01.18.10.58.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 Jan 2026 10:58:19 -0800 (PST)
-From: Owen Giles <owen.a.giles@gmail.com>
-To: Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <bentiss@kernel.org>
-Cc: linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Owen Giles <owen.a.giles@gmail.com>
-Subject: [PATCH] HID: corsair: fix typos in comment
-Date: Sun, 18 Jan 2026 12:58:15 -0600
-Message-ID: <20260118185815.14237-1-owen.a.giles@gmail.com>
-X-Mailer: git-send-email 2.52.0
+	s=arc-20240116; t=1768768203; c=relaxed/simple;
+	bh=G/9amyEzzmiJq2m54aS8SBqpO+PBlemTSa23Ha0ZoEM=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=fzjO0FdwhymqaXd6uSchJCT9VBJfZIZxv98eJhu10KIEc1laBpITJvRBlQqOQ9/l5ud2TGZixicJ1pcpU5E3w+R155uBnnyvy23tsVQFIopC4zqh1Vp5pE9OPBYhzS91sHJrfRf5iJIBeuVOkAx/3Miv/6iST7iYvzxNkCNbpa4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Syip5o5i; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 3958CC116D0;
+	Sun, 18 Jan 2026 20:30:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1768768203;
+	bh=G/9amyEzzmiJq2m54aS8SBqpO+PBlemTSa23Ha0ZoEM=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=Syip5o5iHTfAIlQvh+0vxdR6fL/+sr6ZBUMu59k23V1WQ9vYiW/IE9EumfA8k9xLF
+	 JfhSbSZNlgAnT6mVWtQ7gBI6dmzH1PwLbk3GuHVFsvrMJTJEbAaehf87NJ/wHavX5p
+	 CoFYtMd5DTXv+0WD6gmm/qwel+gSWyKjHUBGz7AQ4DPCiEaleP6Y2xqFQWV/j7My8s
+	 YOuSab34QouRwkQgKtahHjx0CG10WomsQ5b0bPhNpAYp26VzSMV2WIPkNIoWuir6xW
+	 vS/X7DkiTp0A1qo+0mUMo31Ut6WrntP8uXRXSMqeWxZm2VTU+kyOwz906zH6lzo9LD
+	 rocl5bDLVsySw==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2251AC9832F;
+	Sun, 18 Jan 2026 20:30:03 +0000 (UTC)
+From: Yedaya Katsman via B4 Relay <devnull+yedaya.ka.gmail.com@kernel.org>
+Subject: [PATCH v3 0/3] Support FT3518 touchscreen in xiaomi-laurel
+Date: Sun, 18 Jan 2026 22:29:39 +0200
+Message-Id: <20260118-touchscreen-patches-v3-0-1c6a729c5eb4@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/33Nyw6CMBCF4VchXVvTDhfBle9hXPQypU2EkhYbD
+ eHdLaxYGJf/SeabhUQMDiO5FgsJmFx0fsxRngqirBh7pE7nJsCgYZyXdPYvZaMKiCOdxKwsRip
+ RQg2N1LWRJF9OAY177+r9kdu6OPvw2Z8kvq3/vcQpo4Kzrr6YErRub/0g3POs/EA2L8HRqH4bk
+ I0KeG26SrVCiqOxrusXfdJoOfoAAAA=
+X-Change-ID: 20260113-touchscreen-patches-beb2526bd5fb
+To: =?utf-8?q?Kamil_Go=C5=82da?= <kamil.golda@protonmail.com>, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>
+Cc: linux-input@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ Yedaya Katsman <yedaya.ka@gmail.com>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1768768201; l=1451;
+ i=yedaya.ka@gmail.com; s=20260113; h=from:subject:message-id;
+ bh=G/9amyEzzmiJq2m54aS8SBqpO+PBlemTSa23Ha0ZoEM=;
+ b=CzqIUrFiXPJaAbwT5V0zOORFeJKtZ3GOsStPT1L0P/MKQb/u7Qi4P6BtGbGDTCAMz2WkZa10T
+ pCG6T0xZZGoBpD7MFTU/IYygZMVfZhnsRR+sBJA4I/PVB2UKnuZ4IrY
+X-Developer-Key: i=yedaya.ka@gmail.com; a=ed25519;
+ pk=CgNmxD3tYSws5dZfpmJfc6re/bV/f47veVijddHLytk=
+X-Endpoint-Received: by B4 Relay for yedaya.ka@gmail.com/20260113 with
+ auth_id=601
+X-Original-From: Yedaya Katsman <yedaya.ka@gmail.com>
+Reply-To: yedaya.ka@gmail.com
 
-Fix typos in report descriptor comment: "obviousy" -> "obviously",
-"Magimum" -> "Maximum", "poper" -> "proper", "due Logical" -> "due to
-Logical".
+Adds support for the touchscreen in the Xiaomi Mi A3 (xiaomi-laurel)
+ smartphone, FocalTech FT3518
 
-Signed-off-by: Owen Giles <owen.a.giles@gmail.com>
+Original tree was here:
+ Link: https://gitlab.postmarketos.org/SzczurekYT/linux/-/commits/laurel
+
+Signed-off-by: Yedaya Katsman <yedaya.ka@gmail.com>
 ---
- drivers/hid/hid-corsair.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Changes in v3:
+- Rename regulator node and reorder nodes
+- Add gpio pin configuration for pmx_ts_* in sm6125, and reference in the
+  touchscreen configuration as pinctrl-*. Doesn't have configuration for
+  the gpio 83 pin since it isn't documented downstream.
+- Link to v2: https://lore.kernel.org/r/20260114-touchscreen-patches-v2-0-4215f94c8aba@gmail.com
 
-diff --git a/drivers/hid/hid-corsair.c b/drivers/hid/hid-corsair.c
-index 62b99f5c3cf8..e11184cec551 100644
---- a/drivers/hid/hid-corsair.c
-+++ b/drivers/hid/hid-corsair.c
-@@ -681,8 +681,8 @@ static int corsair_input_mapping(struct hid_device *dev,
-  * The report descriptor of some of the Corsair gaming mice is
-  * non parseable as they define two consecutive Logical Minimum for
-  * the Usage Page (Consumer) in rdescs bytes 75 and 77 being 77 0x16
-- * that should be obviousy 0x26 for Logical Magimum of 16 bits. This
-- * prevents poper parsing of the report descriptor due Logical
-+ * that should be obviously 0x26 for Logical Maximum of 16 bits. This
-+ * prevents proper parsing of the report descriptor due to Logical
-  * Minimum being larger than Logical Maximum.
-  *
-  * This driver fixes the report descriptor for:
+Changes in v2:
+- Fixed name and email in signoffs
+- Link to v1: https://lore.kernel.org/r/20260113-touchscreen-patches-v1-0-a10957f32dd8@gmail.com
+
+---
+Yedaya Katsman (3):
+      dt-bindings: input: touchscreen: edt-ft5x06: Add FocalTech FT3518
+      drivers: input: touchscreen: edt-ft5x06: Add FocalTech FT3518
+      arm64: dts: qcom: sm6125-xiaomi-laurel-sprout: Add Focaltech FT3518 touchscreen
+
+ .../bindings/input/touchscreen/edt-ft5x06.yaml     |   1 +
+ .../boot/dts/qcom/sm6125-xiaomi-laurel-sprout.dts  | 113 +++++++++++++++++++++
+ drivers/input/touchscreen/edt-ft5x06.c             |   6 ++
+ 3 files changed, 120 insertions(+)
+---
+base-commit: b71e635feefc852405b14620a7fc58c4c80c0f73
+change-id: 20260113-touchscreen-patches-beb2526bd5fb
+
+Best regards,
 -- 
-2.52.0
+Yedaya Katsman <yedaya.ka@gmail.com>
+
 
 
