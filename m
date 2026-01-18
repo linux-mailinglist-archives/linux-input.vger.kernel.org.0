@@ -1,171 +1,330 @@
-Return-Path: <linux-input+bounces-17184-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-17185-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB2D0D393B6
-	for <lists+linux-input@lfdr.de>; Sun, 18 Jan 2026 10:59:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0874AD3985F
+	for <lists+linux-input@lfdr.de>; Sun, 18 Jan 2026 18:19:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id BC63E300BEEB
-	for <lists+linux-input@lfdr.de>; Sun, 18 Jan 2026 09:59:24 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 9A0333008D7A
+	for <lists+linux-input@lfdr.de>; Sun, 18 Jan 2026 17:19:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 163E8285CA8;
-	Sun, 18 Jan 2026 09:59:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CDF3423F417;
+	Sun, 18 Jan 2026 17:19:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Aswe04TH"
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="CW7GuYAH"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-dl1-f44.google.com (mail-dl1-f44.google.com [74.125.82.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from GVXPR05CU001.outbound.protection.outlook.com (mail-swedencentralazon11013043.outbound.protection.outlook.com [52.101.83.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99E63191F98
-	for <linux-input@vger.kernel.org>; Sun, 18 Jan 2026 09:59:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9E37222590;
+	Sun, 18 Jan 2026 17:19:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.83.43
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768730363; cv=pass; b=tZ+TXhsCdTHXXO2QGpABM6n7xM4Dz3gmUpMptkRYOEncbPVhkdudSND+BLO/Sv9G/A2uY5AXpYiy7CcpeUCxtdKwI0YYjh5ze7QKlw82+qMkfAEkHUynV9Yo0hisxTMbkXPG0PT+V6jBTUvHnW3p28DwEKlIBbMfxmzzz4lGmds=
+	t=1768756761; cv=fail; b=eYOKpberm7nxl1Q+a7PlHCn3bXnQhSEygJkl1yCxVO8IHu8D4MDsSunYTRc0adANrbmkG3IYSUtwzshF2BA5Jg5dx0zlc3167ttImvgH7BXH7rykQ5kHEh4t0dJCR+KaEidgdKIh2XqHcqHpjcjGWlupfQVQnvaYC4o3fJnkvRM=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768730363; c=relaxed/simple;
-	bh=iSoaxKucymioKOatdJMHI8aTiRmhOpIJ+OtJLJv/RY4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=IIMnJf5gnwwKvnEzgMOK0ZSVw8oc7VKkDw75wrmSxqmzB4eOcSC0VrRsp1h81meUwA+4ETTlnyH49nIn4+qfjVzQ681MOTK1qEmo+mmyA3FRSXmmDYTUGrzeAPL0DHLFQIzKsFKLAwNNB3obh+zQWGhWfdeBIJtSen2zzhR4Jjo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Aswe04TH; arc=pass smtp.client-ip=74.125.82.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-dl1-f44.google.com with SMTP id a92af1059eb24-121bf277922so4585539c88.0
-        for <linux-input@vger.kernel.org>; Sun, 18 Jan 2026 01:59:22 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1768730362; cv=none;
-        d=google.com; s=arc-20240605;
-        b=WQs71/j3At29jn9ns6D+4/XyLsQ6nGd76uwkZ0pDxm7cgoiCP+G52spg6PdELGHMY5
-         kI3ACIEJwX/HYQxQQ9SohsZ5C6XpXe4124rwvpLPmnZ/pGBDRfhUythDdrE0622XBiTg
-         f8gUaLlV0iBCOzukRNh9q0WHhRGSJcMKKvi4AShDlClS11eYSRtcDt50gY8a95e+gcpS
-         dYJhT+LYxWQDYQkQVvtR6e+cXKcAUWWnfzk1XWRpcY9lNS5wNbN2667bGU7WbG50PuRE
-         Yu0oG6iypHWCFoZBMao6+OgC3GUmDP7khaOPl7GPRPpDxvS5SnjqxSOVPhIt83UCORX0
-         qWiQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=vC9WWdMeXz4PlYV4yOfR0q8AydRuBZYQWx+WuodNMqs=;
-        fh=ZQMtgBY5Bqg5HD9WPnSOO39eDwrgnfmPtyDmvjqeZco=;
-        b=fpPUxV0fVO1KGp2/yOuPua8M2MueLEIOdPlcfr3unh8W97xpgKXFeSpmIVW9hYxnJC
-         n6jslY2M/kGm4NzS16L0WMjeF0DS+yZ4upf8X0WfaPFbxvMIbOnOUjcfI8VbkWtQhwjo
-         cFB/oNzy6gXxDjeZy5wMnkVK1vHNK0TqLC1Nmc6UP2yi7yScsY4F5xjRHoilV6jFmm0D
-         hvPLkqmuiDvpfuSwS3X1zONzVb90s6N3LLJ0tEKgdjQg9lM4XWlBMM3F3X/vDsE4yolU
-         SpAru4RcnvKR+BSGvnnuKpkHcTBuIfpK/TdcPzgwNjclvIqxnqtmLHVBFCpjNiZzfe7R
-         zh4w==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768730362; x=1769335162; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=vC9WWdMeXz4PlYV4yOfR0q8AydRuBZYQWx+WuodNMqs=;
-        b=Aswe04THxstqG+SBIG194si1AdHnPb415V+qJliS7pf5I+zLMGIS8dWZzFmFD5pSEE
-         eTmH20YO+VC+tV91ej73gNAva1cwoQazBajKucZ1j6/k7PSNLMLE7mkC5DkUoV9DmEnf
-         RJlMcU49cvddCfgDvIYLtYlRwYfD9dZYHV5LZpG/2XlAWUsFq0lGf2uHosCK6WJDkh7P
-         YsWfjkDhjpd3nfOZfywsZbOyt3upPRdSK4vs0haiJtGVDVbSn5L0mPdStc1sshyYgYcy
-         8RJp7SA/et0p35+vVwQRbsXcEuI8y0PyFD5jVleqt0KRSt8t96gmCnR23sFkq62zwsVc
-         42ng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768730362; x=1769335162;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vC9WWdMeXz4PlYV4yOfR0q8AydRuBZYQWx+WuodNMqs=;
-        b=BAlq/xdb7p+Q+y2/Ax7aBayJpV64IzegksSyq1pCw0UHnfRzKPdD6oioGX4Wjhqurh
-         EevBf1+V0F+L0zKiemnR6XRag5+z9EOHWS3YO30cP0ixYgDl+W4ujM5+wKYpx/OcxBAz
-         lFO3HA+1qSEwnZYWr7zgWXsSteNxdRw2kk2ip3zoEpCwLwVGHoBLa1grmGD4LP2fDbJo
-         fxmVr91tqzBIn1rDB91naQxKNTWy+GGWnSrnTXHuKd/y9PFNWB+dmDW2LIEFJ6upxFrV
-         3ltrKrbqVay2vbBAqYVavv6t6QsctQ7cum4PWN/nnqBpn4gJ+GvnGKiTpBJ9eYipJ2dy
-         jTiA==
-X-Forwarded-Encrypted: i=1; AJvYcCXiI/yUfh/hnfFhl1RxZzN0ec1vPb1euwYMxC2VFlGbLwGHAhpBEKm/qJsJ8iPg0yB9BX8VKmBH3QyiSQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz/C1ms5WHdKQWTv9BKn0mYIhHeUWH6LJiTH2JRqmZcDABZKbN8
-	5Q5IWl2j7eLH8CXMu0ZEui2Vzn56PNcjatojRAyBReFZgfh7FAT8Elw50TkQIwLa3kPmlz2RIuh
-	j1qnTHnve2T4AplSNyyhuSf2m0IuwDtE=
-X-Gm-Gg: AY/fxX5kygcM9GIjZHf429n9ZyXs3oQEVXQsFALAj9SUrLyGVaGA4vpOQhW3vgi+HPX
-	RgP7MzZewO5iWbhRr2ODJFaib3WkPKi0SC+Cs3f8K9Pb1WmXaXzbWvubDyfLwnUwVQAb0AmU7+U
-	B1+WxDGORJ1qpMCtGRNWdw08QF+hu7s5+XrDR+Zpk1cAxTl7Ze2BeWs1OW3QUk+WPA6+w/Wjo/h
-	7pPLgv+5dvprUNQ/3My67nOjsyrqnA3/Z+eJo+SPpYNo4jUHMDCDxFiXO0JFwNzvE1hL7djpjwC
-	roPHxb9lprL5o+cD4KmdFnPuI1Cm
-X-Received: by 2002:a05:7022:608d:b0:119:e569:f620 with SMTP id
- a92af1059eb24-1244b35acf4mr6110965c88.25.1768730361433; Sun, 18 Jan 2026
- 01:59:21 -0800 (PST)
+	s=arc-20240116; t=1768756761; c=relaxed/simple;
+	bh=AMuj9nnZn6empO06nnKGumJwDZV+nINZ+YSuZ/iSMLw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=JNVXDZzlfWrfvNMVJiZorg9vuQU3WgmUPFAWtM/V3IggmQK8a2DfgmQS5ZC5gnMezxPZoB5LyojyuJAyQ17rp2/bJ5ErSHStHVCsmrNfZ0Pcv/lO1+IeotiFx25UAH6lKiJxpzmAfRa3bApYzEqyEDaGAskDpuavNDVLGMp1Ggo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=CW7GuYAH; arc=fail smtp.client-ip=52.101.83.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=TlylaQaz6Rh68oj0VAjUSmlt8yAh7+P7O5HOJ9xf9yzmNI3jHDSDo+p+QVWU6Fl1LunlpaGIgv21eiojbY9ni13zXC6OcXTrQvbT1IQfIka/6xt8ldZ1RK/++lbPX2FQsKNQ7ICoBDIy8CsSuabjQAv13nzfESNSqSmQjUSQORhSPs56Up9aSFVvD6lC4dhdzlDbyG+cYf0jaJ2ul6FaNItwy1qrWn0fYugeVcTZO4gbNSSe2f4oOsZf+FT16l9z4d51Ggbz1Umip3HWg4EGuiZnamjIHElwkzNXGbMz/Br4ogwjC8mDbKf8NjllTzPm0TSfDFOhBdLvOoiokxSR0w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Up3G3COTaALHjc3CeXuH2qmhOXeCf5ciagn9zYv/2u8=;
+ b=bNgeLxJCtjgWuNoGOqPsioSve0g3n7wY4TBx8Pi906kbslAosI5Tm+x3hIJAK8rjQYa5fr1W+w5C3b3DQ3cOxJBaHIG1PwJVy5JuXeUes6+otSoe89IVBWzZg2/FD9ePY2Ioo/IQ9Ln/vj/N81YsMGaqLdKXaqq54vL/CgALGlsQurVa7Nq6oMPeraFFKoOleu23UZkpy4h7T7Py04xkAagIz7aBCAqFQ162RD+7vba4Wm6wTPeZ6Jw5adgqDcYy/MyWC+ugeCRFWI90x8lMFfuCx9brpQ/VFVTI+ZeIC/daQuCu1lJINacGa3rxasQ1lWvn5YIu2gjbtMHm8wSn4w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Up3G3COTaALHjc3CeXuH2qmhOXeCf5ciagn9zYv/2u8=;
+ b=CW7GuYAH8ACZ5QmjM3dUjnvl0BzQlT+lGMQ8wXZNCquNmeaZnyyPOka+txpkrTX0CseH5O+1E656Y+r7db9Sl8Q9LCSX3D3ndtwTOgmuY8X6PJg+CsG/FMXbmLhedzhomB6sV6KJHIvTEYPm5WlYGVflpayBRQfeTBjQWvvxM4YlavZ/oa8lMm1EFMJ4hFKnUXNPCSKdkQXLvQWiX9cii0g+L0efXnq1xoPS1BY0RJvDs6ebcKs+U7lbzZxnvpozAtTEdXQ0lP8GT3W/b/u3Flo5Sc92b33uzqBSBDKTEQpTYTHTFKZwQAe/KtfX2EfjKPqGgRYFrzIT8JjtLiv6DQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from DU2PR04MB8951.eurprd04.prod.outlook.com (2603:10a6:10:2e2::22)
+ by VI0PR04MB11644.eurprd04.prod.outlook.com (2603:10a6:800:302::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.5; Sun, 18 Jan
+ 2026 17:19:16 +0000
+Received: from DU2PR04MB8951.eurprd04.prod.outlook.com
+ ([fe80::753c:468d:266:196]) by DU2PR04MB8951.eurprd04.prod.outlook.com
+ ([fe80::753c:468d:266:196%4]) with mapi id 15.20.9520.006; Sun, 18 Jan 2026
+ 17:19:16 +0000
+Date: Sun, 18 Jan 2026 12:19:10 -0500
+From: Frank Li <Frank.li@nxp.com>
+To: Marek Vasut <marek.vasut+renesas@mailbox.org>
+Cc: linux-input@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Job Noorman <job@noorman.info>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v4 3/3] Input: ili210x - add support for polling mode
+Message-ID: <aW0WDhDRSh34TzW6@lizhi-Precision-Tower-5810>
+References: <20260117001215.59272-1-marek.vasut+renesas@mailbox.org>
+ <20260117001215.59272-3-marek.vasut+renesas@mailbox.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260117001215.59272-3-marek.vasut+renesas@mailbox.org>
+X-ClientProxiedBy: SN7PR04CA0051.namprd04.prod.outlook.com
+ (2603:10b6:806:120::26) To DU2PR04MB8951.eurprd04.prod.outlook.com
+ (2603:10a6:10:2e2::22)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAOQ1CL4+DP1TuLAGNsz5GdFBTHvnTg=5q=Dr2Z1OQc6RXydSYA@mail.gmail.com>
- <38ea07c1-50ce-4342-aba9-fe2f4bc6c503@bitmath.se> <CAOQ1CL6G6eDcX+Qth3D531h72wW3RmvecCWjr5nAT-UdDWg40w@mail.gmail.com>
- <6880b5ba-ee76-4a9e-a116-16843a737b34@bitmath.se>
-In-Reply-To: <6880b5ba-ee76-4a9e-a116-16843a737b34@bitmath.se>
-From: Liam Mitchell <mitchell.liam@gmail.com>
-Date: Sun, 18 Jan 2026 10:59:10 +0100
-X-Gm-Features: AZwV_Qhz6WjM3n0dzXkZYBf3M0Tj_Ic8MICRY7e3qY7D4sOaFvXhzmas5O8G-1Q
-Message-ID: <CAOQ1CL66c6fua8u4O3yU1XTjg5aVQ2yPvArAbmBjohb0TA=JLA@mail.gmail.com>
-Subject: Re: bcm5974 trackpad broken after USB reset
-To: Henrik Rydberg <rydberg@bitmath.se>
-Cc: Henrik Rydberg <rydberg@bitmath.org>, linux-input@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DU2PR04MB8951:EE_|VI0PR04MB11644:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5919bc83-4112-493d-7309-08de56b5b539
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|1800799024|376014|7416014|52116014|19092799006|38350700014|18082099003|7053199007;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?l+GAqqkxaomgvI9aeeb9krKDXBIb2LMIiEA//tOhF8AxIARS+hpio1xNbVEK?=
+ =?us-ascii?Q?X95WAZz8EAPYVPKotwChBYeThsT+UJim8e/BMbh/vsM6mjolXCchatiiInkw?=
+ =?us-ascii?Q?YHtYYLabGmBNKSfI+eC2w4KSo4uumRYIJleT9W89Uu1klUYdjuNRUx/nK6jo?=
+ =?us-ascii?Q?WWzJl0aeQTKaThsyZsNBbmtJWszvTRFi8FmMidUKNKrzD1zDp7EKTXUGZf79?=
+ =?us-ascii?Q?9BOZbFc6+8++ywTclU/PsEhAX+ZGsQtmWZc7fHCM8L+SOxXs4QAm/A+IaVGC?=
+ =?us-ascii?Q?roNGTOuoPZgjnx5I0KIiQY+4l5S3mdKJz+NJwengymnTFMJ0tfo/0NEM/WF2?=
+ =?us-ascii?Q?fjg9tHVojlYqhAJcci3ltI3Tr0dtNAJNa+Ft7aW9FFMPh+w7pFzRJctz36iy?=
+ =?us-ascii?Q?q3XCDbyEOJBQolFgXwGxe61C2S8J7svhbMNRsrCOT6RWlhfF82kMXyNTHPXm?=
+ =?us-ascii?Q?KwzEn+Qc4EsUXvN0UrkHBh48NHXb79LyyiE6i3qRBBwOmO9Xk3mU4/eUUOU3?=
+ =?us-ascii?Q?9uCDTKFHq0MwT1R/ab9wEjklnGZz7jejrQYTpLbQbMCTEQ2C82UxYDL1zsIr?=
+ =?us-ascii?Q?UTQASE/s1U+mEoaGhdueQKpL3erkbz15Vn+L3wTT+Nj4kz1PHq8X1o/OOhgp?=
+ =?us-ascii?Q?UQNiRgvt7ju84cBCN+e6xm85IXjhyGUJWma4bHFoUt+CyxwnsO6v7HMNEWb8?=
+ =?us-ascii?Q?KTo3O9XcRXpoEp2uZ1hN4rJFGmpPNwF5R4SCpeWTiFsM+kN+V5wmISpgv2nQ?=
+ =?us-ascii?Q?OrUlyKCfFxQ9lKccxW6nQ5kivSoHcEicRgEQ5ELzSc/+bJk9Z8/Ti20ZCAyD?=
+ =?us-ascii?Q?EfC2eCvGHwyj7dekX/6SWxLPIJzh8ZZYlRlkp/r26s/aDUhaoezcMs/gzzsL?=
+ =?us-ascii?Q?24VCAPr6S2tmOKdYJAjFXUMUq3EdipVwazbyeGpl9AvglK/UOmoGSxJ30SlG?=
+ =?us-ascii?Q?TZbld9glfcxCvkdaMpdhImdEWjO2oxs4idWHURFohp8yDsVlErGo2bp6JKex?=
+ =?us-ascii?Q?e91n1h/4Nr4cYBkgy9UgtxAwCvGA8WSK/T1K0beH3oLYfNtYBvWM5GQa3/gd?=
+ =?us-ascii?Q?JPzO/HzCH8G/8ZnwtvRRJM6+gd+fG9t03JRsMAm4kmYGZzRw3tx+C27pLdvB?=
+ =?us-ascii?Q?Kpb34v9o1cZic+ZVdUM5M2eNdXpsfYuo5nie73aYQIdUKluALaf1Xra/u8Y8?=
+ =?us-ascii?Q?6RpAUxVYBxvB/iXvvxWLNfUip1pFfsB0GZy3Vl7BRQtDqXNH4OWZmBHJL/ZS?=
+ =?us-ascii?Q?Gq8U+9+OyTygLDyZM6Gn1xM3W0YH9E91u79px1oaV7w0+D7CSFbGnaVzxjqt?=
+ =?us-ascii?Q?HNSnbhF7d8I+oXQHvfP0ZsAThlTSg4d6C2lB0eU2QsaTsr/Uq8XFa4oDsgXb?=
+ =?us-ascii?Q?hTVBMI4/A6+IxDmq8jRoYaEKT9zqmXW/nP5PBm4tooNKhvGTeolOVyja5nm5?=
+ =?us-ascii?Q?7PzWzuc2mnihmI5CQsz1+9gcBw08K386VmuN55Tzn+Qj/xsLwKjF0uHfIe2F?=
+ =?us-ascii?Q?Hp9wvHnKPhAgH35AtVyB8rzsWrHIcXIdWFMfd7/aZoY9BChqI5xZTr1egYTB?=
+ =?us-ascii?Q?jxMFfPsytWP9637eyZY8ovhqKfufBLjryjoaR1EckvwoaF+wIGL+gD0wRczG?=
+ =?us-ascii?Q?gUDGIi9y7pVN8BlOCxj1GUs=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU2PR04MB8951.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014)(52116014)(19092799006)(38350700014)(18082099003)(7053199007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?igVBLpz9mT90ebfGMm7MITseY9fzQhHJgncmycRoBgIZyBpiWg8W+45hfa0f?=
+ =?us-ascii?Q?ppKHMEXkw37iheI/JrfcjWAZfdZzJbHxAutJK83yMjR3WXctMXGoDtNaImIC?=
+ =?us-ascii?Q?kXF7Sm36U1Nd9fUahTci/Wk9VSFRG2AjTCvcSE98/LaIhL66tnLlIIH3BN7N?=
+ =?us-ascii?Q?typWLn9/uMGtFLzh5+zkRv39tjEsHsQkenCIDsj34mCE4+KW+6op97InvZ/0?=
+ =?us-ascii?Q?6hG3pFBWpSg++0wSSMGZsmB0bt7iPlZVm7+cj5QW9xjW9hQTkZSgC1x+ioro?=
+ =?us-ascii?Q?ixjjQm2/6hIUrubtT0Ch/hcBCtaexB84inkA0seiLmsdw7OiKD1gUCTDao+S?=
+ =?us-ascii?Q?0aHFm4aiPVhhfzgLCkST75EsHJQQ0Ctt9bReAyIWO+B1MGDi8F9hhZwRsxKt?=
+ =?us-ascii?Q?nUhu6kAPLDkikAKmc9SlQ8ccpMVMiS7S9sBpbA/m+638nZHCRquZpaOyKBzX?=
+ =?us-ascii?Q?aFx96JLn984ezRz9/NpXC83Am/c0KYJCIP1fBr/hdKY0R7xChLqakxjgjq1u?=
+ =?us-ascii?Q?LCSbzhcDvEyk252hUM4hae/j2czEueXi+2p1utDVLlQDQrrMHzUaJmyPexYF?=
+ =?us-ascii?Q?cWNZ2LK+LvvUcYyki7nfJmb0dwWgcDzknVNi0PFX1T+KdP6PoNJshauwVZQf?=
+ =?us-ascii?Q?8Iyve43/MYKk+QkdCi2rk1jvGrvMW+uSr/0sK2UXFCL0PO2wVumJKdLuerbA?=
+ =?us-ascii?Q?/5gNC87dNVCxQDDeDzlX/7qzil//sUkn2y/5WEAEXSH7LNla1OMZlXEKqokQ?=
+ =?us-ascii?Q?SIBNYPcZfILvA23Kw+X8hjlvpNPmIG1EooeIAc/5ZtNxqiOzoqrcb258DBUr?=
+ =?us-ascii?Q?ni/1dedJ7JkZipmc3tTesYdRKA90uEwm6rvnOx5F91dI3AjQSbshswnKe6wk?=
+ =?us-ascii?Q?xRzKwl4sRcRykSt64XoOfCVyrfHLxWY/SDwMcD3oH72+i8uIzFzAs5TRAFGG?=
+ =?us-ascii?Q?e2S50GB8Z/DuYKwmAz/IMbkojEeWPoBEpQj0GhWg8QJ6SJKlnCMKwlA+rzqC?=
+ =?us-ascii?Q?Aks/sE98YdZsyS14kjq2g4wKsT/K/oWgvIcVZmR/qGsjCD6mnA+F8jRR1DZu?=
+ =?us-ascii?Q?KwlPrNCR86rSSHtJQ8xoWsikINZbatK0yVN9wF2sqS8EqdfwTqi4pFCIvri8?=
+ =?us-ascii?Q?6gXa698I0F/36DL3z/umBfmrtBF3AMMbKBglb/GBTH/JXzeMnz1E6cc+NaRx?=
+ =?us-ascii?Q?x3QFammX4b2K0dasM2CtJbR9HzvpNALYr37msj83DhV1vL9L+0bIiOD87Mfr?=
+ =?us-ascii?Q?Xhae9V0Pt3Ydv6PBx8gjGRYWms0S4DHx4kVRjyMgE4svG6bn4R3D6e36hJlB?=
+ =?us-ascii?Q?h9ALuQx4io+c36baZv2COZJaYNQB17GvnGHvvrS7C8E9DtQ53PZ73Lv5nbD2?=
+ =?us-ascii?Q?7K2qJLs7blQwyR2EduXTVXoFcbKYreo332q3xqrseFV2pMdkurK936PTBScp?=
+ =?us-ascii?Q?lN36a5AbngLyptOcxq+THKJJX+rAscVS8CLpNIUVE7AQxSVMoHOCAaSBp2TB?=
+ =?us-ascii?Q?WAD+px0t3l8pb/m2jgTQH+yDQ3WGzxtcF0cGM6HuG6aauu0ZdB6k2uQteBEK?=
+ =?us-ascii?Q?oOpoxD9DszVHqBDjtbYqwPaRuNADT3wzvbGpgUiVXTBliceqmSSZcJdpxrPb?=
+ =?us-ascii?Q?/Ma1ItwWjBMRL/WXfncHgmEF448YbNnmxf9HuvTnWt+Mm6PXsuFJ8J+Q8XCK?=
+ =?us-ascii?Q?c9hCRNygHrh+GvPJgjj/E7X1mPszhkzy81HCLuXCX+Xk37Hv?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5919bc83-4112-493d-7309-08de56b5b539
+X-MS-Exchange-CrossTenant-AuthSource: DU2PR04MB8951.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jan 2026 17:19:16.3994
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: S71jxcg/gl4AAIrfkYXMwspHi9Zm4oWXIF1HvfgPW0ZBzWJlQINQjupJbVqYupicN9pYRKPce2SoANLsOUdd5w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0PR04MB11644
 
-On Sun, 18 Jan 2026 at 04:32, Henrik Rydberg <rydberg@bitmath.se> wrote:
-> Here is a completely untested patch which tries to verify that the mode
-> is properly set, and dumps the control data in the process. With a bit
-> of luck, this will just work because of the added delay, but if not, we
-> might be able to figure out the status change.
+On Sat, Jan 17, 2026 at 01:12:04AM +0100, Marek Vasut wrote:
+> There are designs incorporating Ilitek ILI2xxx touch controller that
+> do not connect interrupt pin, for example Waveshare 13.3" DSI display.
+> To support such systems use polling mode for the input device when I2C
+> client does not have interrupt assigned to it.
+>
+> Factor out ili210x_firmware_update_noirq() to allow conditional scoped
+> guard around this code. The scoped guard has to be applied only in case
+> the IRQ line is connected, and not applied otherwise.
+>
+> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
 
-No luck there. The control data is always exactly as written. I've
-also tried logging the control data after longer delays but didn't see
-anything different.
+Reviewed-by: Frank Li <Frank.Li@nxp.com>
 
-[  391.262674] usbcore: bcm5974 4-1.8.2:1.2: forced unbind
-[  391.264601] bcm5974 4-1.8.2:1.2: trackpad urb shutting down: -2
-[  391.265182] bcm5974: control data: 01 05 00 00 00 00 00 00
-                ........
-[  391.265992] bcm5974: switched to normal mode.
-[  391.290770] usbcore: usb 4-1.8-port2: not reset yet, waiting 10ms
-[  391.352802] usb 4-1.8.2: reset full-speed USB device number 5 using ehci-pci
-[  391.364919] usbcore: usb 4-1.8-port2: not reset yet, waiting 10ms
-[  391.447757] usbcore: usbhid 4-1.8.2:1.2: usb_probe_interface
-[  391.447771] usbcore: usbhid 4-1.8.2:1.2: usb_probe_interface - got id
-[  391.447779] usbhid: drivers/hid/usbhid/hid-core.c: HID probe called
-for ifnum 2
-[  391.447820] hid: drivers/hid/hid-quirks.c: Found squirk 0x84000 for
-HID device 0x05ac:0x0259
-[  391.449301] usbcore: bcm5974 4-1.8.2:1.2: usb_probe_interface
-[  391.449329] usbcore: bcm5974 4-1.8.2:1.2: usb_probe_interface - got id
-[  391.449692] input: bcm5974 as
-/devices/pci0000:00/0000:00:1d.0/usb4/4-1/4-1.8/4-1.8.2/4-1.8.2:1.2/input/input16
-[  391.482694] bcm5974: control data: 08 05 00 00 00 00 00 00
-                ........
-[  391.483487] bcm5974: switched to wellspring mode.
-[  391.493648] bcm5974 4-1.8.2:1.2: trackpad urb shutting down: -2
-[  391.494169] bcm5974: control data: 01 05 00 00 00 00 00 00
-                ........
-[  391.495142] bcm5974: switched to normal mode.
-[  391.508166] bcm5974: control data: 08 05 00 00 00 00 00 00
-                ........
-[  391.509157] bcm5974: switched to wellspring mode.
-[  391.514674] bcm5974 4-1.8.2:1.2: trackpad urb shutting down: -2
-[  391.515205] bcm5974: control data: 01 05 00 00 00 00 00 00
-                ........
-[  391.516241] bcm5974: switched to normal mode.
-[  391.536717] bcm5974: control data: 08 05 00 00 00 00 00 00
-                ........
-[  391.537626] bcm5974: switched to wellspring mode.
-[  391.545669] bcm5974 4-1.8.2:1.2: trackpad urb shutting down: -2
-[  391.546175] bcm5974: control data: 01 05 00 00 00 00 00 00
-                ........
-[  391.547089] bcm5974: switched to normal mode.
-[  391.557783] bcm5974: control data: 08 05 00 00 00 00 00 00
-                ........
-[  391.558488] bcm5974: switched to wellspring mode.
-[  391.568627] bcm5974 4-1.8.2:1.2: trackpad urb shutting down: -2
-[  391.569033] bcm5974: control data: 01 05 00 00 00 00 00 00
-                ........
-[  391.569722] bcm5974: switched to normal mode.
-[  391.584744] bcm5974: control data: 08 05 00 00 00 00 00 00
-                ........
-[  391.585475] bcm5974: switched to wellspring mode.
-[  392.181559] bcm5974: bad trackpad package, length: 8
-
-Liam
+> ---
+> Cc: Conor Dooley <conor+dt@kernel.org>
+> Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> Cc: Frank Li <Frank.Li@nxp.com>
+> Cc: Job Noorman <job@noorman.info>
+> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
+> Cc: Rob Herring <robh@kernel.org>
+> Cc: devicetree@vger.kernel.org
+> Cc: linux-input@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> Cc: linux-renesas-soc@vger.kernel.org
+> ---
+> V2: Test client->irq > 0 for IRQ presence
+> V3: - Rebase on dev_err_probe() conversion
+>     - Fix if (client->irq > 0) in ili210x_firmware_update_store()
+> V4: No change
+> ---
+>  drivers/input/touchscreen/ili210x.c | 76 +++++++++++++++++++++--------
+>  1 file changed, 56 insertions(+), 20 deletions(-)
+>
+> diff --git a/drivers/input/touchscreen/ili210x.c b/drivers/input/touchscreen/ili210x.c
+> index 264eee3e61d0a..22917a5825778 100644
+> --- a/drivers/input/touchscreen/ili210x.c
+> +++ b/drivers/input/touchscreen/ili210x.c
+> @@ -327,9 +327,8 @@ static bool ili210x_report_events(struct ili210x *priv, u8 *touchdata)
+>  	return contact;
+>  }
+>
+> -static irqreturn_t ili210x_irq(int irq, void *irq_data)
+> +static void ili210x_process_events(struct ili210x *priv)
+>  {
+> -	struct ili210x *priv = irq_data;
+>  	struct i2c_client *client = priv->client;
+>  	const struct ili2xxx_chip *chip = priv->chip;
+>  	u8 touchdata[ILI210X_DATA_SIZE] = { 0 };
+> @@ -356,8 +355,22 @@ static irqreturn_t ili210x_irq(int irq, void *irq_data)
+>  				usleep_range(time_delta, time_delta + 1000);
+>  		}
+>  	} while (!priv->stop && keep_polling);
+> +}
+> +
+> +static irqreturn_t ili210x_irq(int irq, void *irq_data)
+> +{
+> +	struct ili210x *priv = irq_data;
+> +
+> +	ili210x_process_events(priv);
+>
+>  	return IRQ_HANDLED;
+> +};
+> +
+> +static void ili210x_work_i2c_poll(struct input_dev *input)
+> +{
+> +	struct ili210x *priv = input_get_drvdata(input);
+> +
+> +	ili210x_process_events(priv);
+>  }
+>
+>  static int ili251x_firmware_update_resolution(struct device *dev)
+> @@ -829,12 +842,32 @@ static int ili210x_do_firmware_update(struct ili210x *priv,
+>  	return 0;
+>  }
+>
+> +static ssize_t ili210x_firmware_update_noirq(struct device *dev,
+> +					     const u8 *fwbuf, u16 ac_end, u16 df_end)
+> +{
+> +	struct i2c_client *client = to_i2c_client(dev);
+> +	struct ili210x *priv = i2c_get_clientdata(client);
+> +	const char *fwname = ILI251X_FW_FILENAME;
+> +	int error;
+> +
+> +	dev_dbg(dev, "Firmware update started, firmware=%s\n", fwname);
+> +
+> +	ili210x_hardware_reset(priv->reset_gpio);
+> +
+> +	error = ili210x_do_firmware_update(priv, fwbuf, ac_end, df_end);
+> +
+> +	ili210x_hardware_reset(priv->reset_gpio);
+> +
+> +	dev_dbg(dev, "Firmware update ended, error=%i\n", error);
+> +
+> +	return error;
+> +}
+> +
+>  static ssize_t ili210x_firmware_update_store(struct device *dev,
+>  					     struct device_attribute *attr,
+>  					     const char *buf, size_t count)
+>  {
+>  	struct i2c_client *client = to_i2c_client(dev);
+> -	struct ili210x *priv = i2c_get_clientdata(client);
+>  	const char *fwname = ILI251X_FW_FILENAME;
+>  	u16 ac_end, df_end;
+>  	int error;
+> @@ -860,16 +893,12 @@ static ssize_t ili210x_firmware_update_store(struct device *dev,
+>  	 * the touch controller to disable the IRQs during update, so we have
+>  	 * to do it this way here.
+>  	 */
+> -	scoped_guard(disable_irq, &client->irq) {
+> -		dev_dbg(dev, "Firmware update started, firmware=%s\n", fwname);
+> -
+> -		ili210x_hardware_reset(priv->reset_gpio);
+> -
+> -		error = ili210x_do_firmware_update(priv, fwbuf, ac_end, df_end);
+> -
+> -		ili210x_hardware_reset(priv->reset_gpio);
+> -
+> -		dev_dbg(dev, "Firmware update ended, error=%i\n", error);
+> +	if (client->irq > 0) {
+> +		scoped_guard(disable_irq, &client->irq) {
+> +			error = ili210x_firmware_update_noirq(dev, fwbuf, ac_end, df_end);
+> +		}
+> +	} else {
+> +		error = ili210x_firmware_update_noirq(dev, fwbuf, ac_end, df_end);
+>  	}
+>
+>  	return error ?: count;
+> @@ -945,9 +974,6 @@ static int ili210x_i2c_probe(struct i2c_client *client)
+>  	if (!chip)
+>  		return dev_err_probe(&client->dev, -ENODEV, "unknown device model\n");
+>
+> -	if (client->irq <= 0)
+> -		return dev_err_probe(dev, -EINVAL, "No IRQ!\n");
+> -
+>  	reset_gpio = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_HIGH);
+>  	if (IS_ERR(reset_gpio))
+>  		return PTR_ERR(reset_gpio);
+> @@ -997,10 +1023,20 @@ static int ili210x_i2c_probe(struct i2c_client *client)
+>  	if (error)
+>  		return dev_err_probe(dev, error, "Unable to set up slots\n");
+>
+> -	error = devm_request_threaded_irq(dev, client->irq, NULL, ili210x_irq,
+> -					  IRQF_ONESHOT, client->name, priv);
+> -	if (error)
+> -		return dev_err_probe(dev, error, "Unable to request touchscreen IRQ\n");
+> +	input_set_drvdata(input, priv);
+> +
+> +	if (client->irq > 0) {
+> +		error = devm_request_threaded_irq(dev, client->irq, NULL, ili210x_irq,
+> +						  IRQF_ONESHOT, client->name, priv);
+> +		if (error)
+> +			return dev_err_probe(dev, error, "Unable to request touchscreen IRQ\n");
+> +	} else {
+> +		error = input_setup_polling(input, ili210x_work_i2c_poll);
+> +		if (error)
+> +			return dev_err_probe(dev, error, "Could not set up polling mode\n");
+> +
+> +		input_set_poll_interval(input, ILI2XXX_POLL_PERIOD);
+> +	}
+>
+>  	error = devm_add_action_or_reset(dev, ili210x_stop, priv);
+>  	if (error)
+> --
+> 2.51.0
+>
 
