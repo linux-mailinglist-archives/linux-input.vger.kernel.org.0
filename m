@@ -1,193 +1,109 @@
-Return-Path: <linux-input+bounces-17191-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-17192-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F150D39B75
-	for <lists+linux-input@lfdr.de>; Mon, 19 Jan 2026 00:42:05 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 82477D3A191
+	for <lists+linux-input@lfdr.de>; Mon, 19 Jan 2026 09:27:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 4B27130062F7
-	for <lists+linux-input@lfdr.de>; Sun, 18 Jan 2026 23:42:03 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 724E43076764
+	for <lists+linux-input@lfdr.de>; Mon, 19 Jan 2026 08:22:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D53AA31ED63;
-	Sun, 18 Jan 2026 23:42:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KD0+JqWB"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F13A533CEA9;
+	Mon, 19 Jan 2026 08:22:27 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+Received: from mail-ot1-f71.google.com (mail-ot1-f71.google.com [209.85.210.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 532A33191C0
-	for <linux-input@vger.kernel.org>; Sun, 18 Jan 2026 23:42:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8937833B96B
+	for <linux-input@vger.kernel.org>; Mon, 19 Jan 2026 08:22:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.71
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768779721; cv=none; b=CIyYNuzgyoUJ4WrHn3xVGNC0z9H/tsvYO7H9HgDmsYTbiHqDr848rK9AnQ2/5LQVpdVPHFiy7llLvr4OnwICzwfcnrN52DQUNy7U0fP5Onav1nnZWvaXTQB+aSMji/jGBDfxMJwKPscum6Q76UhwlorWshLKbd0QBM+VgFYo4e0=
+	t=1768810947; cv=none; b=OyTpEozecjN7A8NEAqPs6NnQo2FzlNJB8E+F2sqLGp0YAMPpNpaQhbYooIzybK4ZEQAJUJmOPiHygJYUACvggBhob/QHqLkp0anw7oldwCl6GzkeBNTBbeA5hd729pOjcDqdm/iK4oMiHzwpE88U0E5QMRYmkMgCiK3CpXDIDIw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768779721; c=relaxed/simple;
-	bh=CnzGCcxXaqOPF1LDVdQs4mDLbknYV4USV3TM1rqHYQI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=TnMGI8sfwETOuXu5BkQmBYPka49ALjlMAkjPYoe+/7TrAOIAv9Purpc2tEw4aewK85DjE1cyGrO4HjCvtqrkN1jYFIhgJS+4e99ozEm1LKP8NFQymmqXfHDYbPVZE30MxBgkFfV4xpXntXfbx6U+a+vrn0ZbJOhe5RXJWVve8L0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KD0+JqWB; arc=none smtp.client-ip=209.85.167.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-59b6c89d302so3225876e87.1
-        for <linux-input@vger.kernel.org>; Sun, 18 Jan 2026 15:42:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768779718; x=1769384518; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Lp5cjlNe11W4IZEoA0zzgHiF956wEJnz1qzo6AZNGE8=;
-        b=KD0+JqWBhgclIUoQaVtmkfVHpu3IJ6preSxgIu3IuA5tv9Pc3cpGW7wcqFWdfM7O+8
-         1CJxHkeGXgi1d9UQeQ6VDEjia3+WHYiTEc6Y6hZPurs2pkxchxN0VSlDDG1tDwZ4bSjT
-         914SELuObEeWSQ3gA/igFQIZ6TQOqc6m4iGhwQxnAgvGlAJNF0alnKM6e8I5kz2AWbh0
-         FqSW9lH17px4VubrhVxOPpzKHQIkL3E6l/8Cf27MjswmaUfJyVdDXb4rc6MtURVjr7yY
-         lgrx1wh4pQbEjRRYFaig94NAkGz9Um33YVvalwUeHlLNeukBsydqfv+/CkWdujsJp4SX
-         Whag==
+	s=arc-20240116; t=1768810947; c=relaxed/simple;
+	bh=RnvzJ3DFSSCgcFsWSZd3ikqTefYoR6jCU1TjSFjp4cs=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=saHH6upZwFidm/eSwyqyrFjT11RVySgsU6yPPAe568hZRlw4RAw9B8cIrNZ1DAlxjMhpSOSNF0cX7XUso54KbIF7xyU6TypRo10N3BrGV2Sq21y4+nNJRKWXVH3elgz24n35+V6OKyCiHrtr7G3vE2NmuboFS08T6ZMhfObO4sw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.210.71
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-ot1-f71.google.com with SMTP id 46e09a7af769-7cfd0f67288so7965100a34.3
+        for <linux-input@vger.kernel.org>; Mon, 19 Jan 2026 00:22:26 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768779718; x=1769384518;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Lp5cjlNe11W4IZEoA0zzgHiF956wEJnz1qzo6AZNGE8=;
-        b=uAopJIZknhyCFC3OxDnksWIDqyyZ3CN/b2ekK1eDCSJiEeOeT9O0sVo6xeKamt9GNC
-         prCOgNxL2qfehI+MHA3VIGVybhntr60esytbvMl8qI9EIGLc7L6KSmo/AAvKYhlA1f8B
-         uCdl0P2sbIhuJE6GsCZ4XOabZdTsQdpEfJtx5+HBCerwoINFMYVsAchS+MDBOdLNHKfy
-         DSu5sRZAkrckS0nWDrruri4IQolr9WrC6EOt6cl4w+78Eb5BuH2F8iLbKvHlMFKRtzG4
-         ZU+iTCPE/KURJWDucod8o1smmvo25wUEglgAWpvk5gsfie8vZJIIc9zPjBjQ9ZuPsTKV
-         YZoQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVc9zLUTgDkXPIZPrL4HaQlBTic1CU5lT+DXtc3yb6pl0XiT3k8Bet9Il/dxXA+GulR0VGhDnRn52QCdw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwAIqS1atNkhVqrMuXJCrGsIQVqfiANGVDi2EUMpMaFDZO1q0fi
-	UqQpQvykJyez34K1udw0CCwhoszTnw1L6jGPrplmmPa1UQaRjqutUTPrtRMOAwvTdZ7nVHmX5I9
-	YtNPKtjCzhsPuHsvsuTXa0WcSeUcWY2Eq8w==
-X-Gm-Gg: AY/fxX4dSt81J9thpUFN9l5JXgMTH4xGIB7ZzGdxRtFlAeDYuiLRtBy043nMuGvCzGL
-	R7o26KxN2py/FH/Sxx2hp+7qt4prCUNKMxXho5+uRtfSg9+qKVfmUPIiwQnrtRANSK0Am1OuJd6
-	8CVmr3F2vZyEZC74o/5SkYeRkYYgv9Yg9tG9SKgZL2c6vzs9E20vrXirm9pYHLMl2SRBDBDqgkn
-	fb2o1wVqkL/clA/vxwV7Rg0mY4u5SvY/NkzkhLSLqjKwujC4SrY0dMNiPSHtjXOivQCIuH9
-X-Received: by 2002:a05:6512:150c:10b0:59b:9af4:4b9e with SMTP id
- 2adb3069b0e04-59baee93ecfmr2280074e87.4.1768779718324; Sun, 18 Jan 2026
- 15:41:58 -0800 (PST)
+        d=1e100.net; s=20230601; t=1768810945; x=1769415745;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=6xtL7UlgrRGdxw/w+6b6KPtzatE6Xdn9sP/nPwle0dE=;
+        b=xMnMlUqe5yaY14NcYqyYjg0rRXQAnoqSVRFxOZ0vNjtLmCdzCxFiO6HDI/9dJb2wZr
+         CyoJLiEpiBhhmABKQZmaNUiuD8OFw88cpsGVSET0d33VR2jrP/k155xSFkHGxiq5UtUe
+         VxOz12istULLNGSGaNmM2+YDZitJZRkfHWh/IRFAbekzRUaS/XIekvEvYgxlK1oxrK/f
+         awHFzjhPwQq6ydEij8SCTRlFUIPF2HyWC9pFNn+0FkX8sWZDg+AdCUajHgK3ocAwNql9
+         GIssadb4DC2YWMzb2lrS20emJLIsRkLkQF1MoBE8DuQwwQutZXNpHIorEXqMy/ygQluO
+         cchg==
+X-Gm-Message-State: AOJu0Yy5kYjlVvRlttZTwDm/1CV4Kt87Ccprl8xkOmDfcA4e3bG1j5H5
+	yYH0t5ApqR+GPiS/jmlLPNRHfiNj0p20kswxD6WzcKnDQdris53O/cTR8Ye+yw6thfOMFCvJD5R
+	RRG6RLSEop/VpDXFWpxce31bYBv9S5Z63SKMsBi7pWXQwEJj033alktXA7Xk=
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251230221639.582406-1-yajatapps3@gmail.com> <fa17c5bb-9ab9-46f7-86fb-c06e09617279@kernel.org>
-In-Reply-To: <fa17c5bb-9ab9-46f7-86fb-c06e09617279@kernel.org>
-From: YAJAT APPS <yajatapps3@gmail.com>
-Date: Sun, 18 Jan 2026 18:41:44 -0500
-X-Gm-Features: AZwV_QjIKRuU7-MKGBDORBoMSCQY-3JLxZaPaqELJRzMH8hurOZhh3vQQwucNcM
-Message-ID: <CAPrYeK6P1kmeocg9Bt6pzoxzc+GumK4P=_asfHxVzqw5uhVkBw@mail.gmail.com>
-Subject: Re: [PATCH] Input: goodix - fix inverted Y coordinate on SUPI S10
-To: Hans de Goede <hansg@kernel.org>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
-	"open list:GOODIX TOUCHSCREEN" <linux-input@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>
+X-Received: by 2002:a05:6820:2019:b0:65f:7470:38bd with SMTP id
+ 006d021491bc7-6611896c5ddmr4269439eaf.58.1768810945556; Mon, 19 Jan 2026
+ 00:22:25 -0800 (PST)
+Date: Mon, 19 Jan 2026 00:22:25 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <696de9c1.050a0220.3390f1.0041.GAE@google.com>
+Subject: [syzbot] Monthly input report (Jan 2026)
+From: syzbot <syzbot+list64baa1bb3e01fb231b6e@syzkaller.appspotmail.com>
+To: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Subject: Re: [PATCH] touchscreen-dmi quirk for SUPI S10
+Hello input maintainers/developers,
 
-Hi Hans,
+This is a 31-day syzbot report for the input subsystem.
+All related reports/information can be found at:
+https://syzkaller.appspot.com/upstream/s/input
 
-I=E2=80=99ve tested the attached patch on the SUPI S10.
+During the period, 0 new issues were detected and 0 were fixed.
+In total, 21 issues are still open and 63 have already been fixed.
 
-The touchscreen uses ACPI HID GDIX1001, so no change is needed there.
-With the patch applied, the Y axis is no longer inverted and touch
-input now matches the display orientation correctly.
-You can add:
+Some of the still happening issues:
 
-Tested-by: Yajat Kumar <yajatapps3@gmail.com>
+Ref  Crashes Repro Title
+<1>  3381    Yes   WARNING in cm109_urb_irq_callback/usb_submit_urb
+                   https://syzkaller.appspot.com/bug?extid=2d6d691af5ab4b7e66df
+<2>  1659    No    possible deadlock in evdev_pass_values (2)
+                   https://syzkaller.appspot.com/bug?extid=13d3cb2a3dc61e6092f5
+<3>  330     Yes   KASAN: slab-out-of-bounds Read in mcp2221_raw_event (2)
+                   https://syzkaller.appspot.com/bug?extid=1018672fe70298606e5f
+<4>  166     Yes   KASAN: stack-out-of-bounds Read in sched_show_task
+                   https://syzkaller.appspot.com/bug?extid=8d2757d62d403b2d9275
+<5>  112     Yes   WARNING in cm109_input_open/usb_submit_urb (3)
+                   https://syzkaller.appspot.com/bug?extid=ac0f9c4cc1e034160492
+<6>  84      Yes   possible deadlock in uinput_request_submit
+                   https://syzkaller.appspot.com/bug?extid=159077b1355b8cd72757
+<7>  55      No    KASAN: slab-use-after-free Read in report_descriptor_read
+                   https://syzkaller.appspot.com/bug?extid=bc537ca7a0efe33988eb
+<8>  19      Yes   INFO: task hung in __input_unregister_device (5)
+                   https://syzkaller.appspot.com/bug?extid=78e2288f58b881ed3c45
+<9>  13      Yes   INFO: task hung in console_callback (6)
+                   https://syzkaller.appspot.com/bug?extid=6027421afa74a2ba440d
+<10> 5       Yes   possible deadlock in input_ff_flush
+                   https://syzkaller.appspot.com/bug?extid=ed7c6209f62eba1565aa
 
-Thanks for the quick fix and explanation.
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-Regards,
-Yajat Kumar
+To disable reminders for individual bugs, reply with the following command:
+#syz set <Ref> no-reminders
 
+To change bug's subsystems, reply with:
+#syz set <Ref> subsystems: new-subsystem
 
-On Sun, Jan 11, 2026 at 4:30=E2=80=AFPM Hans de Goede <hansg@kernel.org> wr=
-ote:
->
-> Hi Yajat,
->
-> On 30-Dec-25 23:16, Yajat Kumar wrote:
-> > The touchscreen on the SUPI S10 reports inverted Y coordinates, causing
-> > touch input to be mirrored vertically relative to the display.
-> >
-> > Add a DMI-based quirk to invert the Y coordinate on this device so that
-> > touch input matches the display orientation.
-> >
-> > Tested on SUPI S10 tablet with Goodix touchscreen controller.
-> >
-> > Signed-off-by: Yajat Kumar <yajatapps3@gmail.com>
->
-> Thank you for your patch. This kind of quirks really belong
-> in drivers/platform/x86/touchscreen_dmi.c instead of in individual
-> touchscreen drivers.
->
-> The inverted_x_screen[] DMI quirk is a left-over from before we
-> moved these quirks to touchscreen_dmi.c and unfortunately we cannot
-> move this because we've not been able to find someone to test this.
->
-> I've attached a patch which should fix the issue using
-> touchscreen_dmi.c . Note you may need to change the GDIX1001 in
-> the patch to GDIX1002, see "ls /sys/bus/i2c/devices" to see which
-> ACPI HID your touchscreen is using.
->
-> Can you please test the attached patch ?
->
-> Regards,
->
-> Hans
->
->
->
-> > ---
-> >  drivers/input/touchscreen/goodix.c | 22 ++++++++++++++++++++++
-> >  1 file changed, 22 insertions(+)
-> >
-> > diff --git a/drivers/input/touchscreen/goodix.c b/drivers/input/touchsc=
-reen/goodix.c
-> > index f8798d11ec03..d675a85a9312 100644
-> > --- a/drivers/input/touchscreen/goodix.c
-> > +++ b/drivers/input/touchscreen/goodix.c
-> > @@ -160,6 +160,22 @@ static const struct dmi_system_id inverted_x_scree=
-n[] =3D {
-> >       {}
-> >  };
-> >
-> > +/*
-> > + * Those tablets have their y coordinate inverted
-> > + */
-> > +static const struct dmi_system_id inverted_y_screen[] =3D {
-> > +#if defined(CONFIG_DMI) && defined(CONFIG_X86)
-> > +     {
-> > +             .ident =3D "SUPI S10",
-> > +             .matches =3D {
-> > +                     DMI_MATCH(DMI_SYS_VENDOR, "SUPI"),
-> > +                     DMI_MATCH(DMI_PRODUCT_NAME, "S10")
-> > +             },
-> > +     },
-> > +#endif
-> > +     {}
-> > +};
-> > +
-> >  /**
-> >   * goodix_i2c_read - read data from a register of the i2c slave device=
-.
-> >   *
-> > @@ -1212,6 +1228,12 @@ static int goodix_configure_dev(struct goodix_ts=
-_data *ts)
-> >                       "Applying 'inverted x screen' quirk\n");
-> >       }
-> >
-> > +     if (dmi_check_system(inverted_y_screen)) {
-> > +             ts->prop.invert_y =3D true;
-> > +             dev_dbg(&ts->client->dev,
-> > +                     "Applying 'inverted y screen' quirk\n");
-> > +     }
-> > +
-> >       error =3D input_mt_init_slots(ts->input_dev, ts->max_touch_num,
-> >                                   INPUT_MT_DIRECT | INPUT_MT_DROP_UNUSE=
-D);
-> >       if (error) {
+You may send multiple commands in a single email message.
 
