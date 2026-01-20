@@ -1,79 +1,82 @@
-Return-Path: <linux-input+bounces-17201-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-17211-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E2B6D3BD11
-	for <lists+linux-input@lfdr.de>; Tue, 20 Jan 2026 02:48:34 +0100 (CET)
-Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id BCD793023D5A
-	for <lists+linux-input@lfdr.de>; Tue, 20 Jan 2026 01:48:32 +0000 (UTC)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A07CD3BDB7
+	for <lists+linux-input@lfdr.de>; Tue, 20 Jan 2026 03:54:40 +0100 (CET)
+Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id B7C1E342D9A
+	for <lists+linux-input@lfdr.de>; Tue, 20 Jan 2026 02:54:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 49BFD4CB5B;
-	Tue, 20 Jan 2026 01:48:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 51D9E2C9D;
+	Tue, 20 Jan 2026 02:54:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kWUlbWpJ"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YqtadPKJ"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
+Received: from mail-dl1-f49.google.com (mail-dl1-f49.google.com [74.125.82.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D840C1E487
-	for <linux-input@vger.kernel.org>; Tue, 20 Jan 2026 01:48:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 077552D8370
+	for <linux-input@vger.kernel.org>; Tue, 20 Jan 2026 02:54:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768873712; cv=none; b=O1QeBRTOZ78XJWvXFJnZIZnNdMQfiH8HkacOrfqUnDeBXYKBv9kDb6HVUCJywjwWg1PxT4S2ZmC1xerTlM5VR0H1EvG7Zb6sM0t+3gBTqh2RFbIBufdWiKaXuH8kp3PNoKGkUhmXGtg+EomxKYK0hVRlR7bDasYGowNj00p1wT4=
+	t=1768877675; cv=none; b=g4I4klTJdPN+tTVamO3KD9cShKoc/+aftI9TM0oEKQUUsF3LKxKqEHIlOwrdLd2bQYO9OtKi3IJPz4kp15FmSQix1WmLdpnYksTS9L5tOT8TrT/CNca02Z7YCuNSfLt2orxobAsRx4P6jgZlJJ7GRFFFkyE6gunVxfiZe04u3y8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768873712; c=relaxed/simple;
-	bh=h1bzrV3t+W8hh2TRR/gZqlbk4hfM8u7QilZdJ5qMIjs=;
+	s=arc-20240116; t=1768877675; c=relaxed/simple;
+	bh=If41zOkOP0scm5TZMIBjYL64Hb+I+qeK3M1HiwITHfA=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Ih/n7f7Il/Wz6StVRPXhUN+xabrnrcUydrfY/gz5DmMDHh3COq5lFKvgIK/kMtqvVXiTfoYnVYiP8ND+4ZQni76UnRVFc7I7uxKIe30zg6KODmLSsH8uPomHqrqHACs3SYM+7Y87iRDi0BvO+GO0V3HhxFvMtKEjquIpWB5yx2Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kWUlbWpJ; arc=none smtp.client-ip=209.85.160.169
+	 Content-Type:MIME-Version; b=DqUj+esh3ax2unzumcTzZ/e7pBbh83FfQvf7IhBezskrJDVlTdT/FsL5z4i8H9cbpDtbI/1pAsjRasMYHgwMeAFPhZpajxyjvzsDc5iDBl+k3LjAqMqFaevaVYa/UbYjsJ9cVzwlUcmhmlqLTThvqelrcXerYs4WOPCWc9Fzmdk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YqtadPKJ; arc=none smtp.client-ip=74.125.82.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-5014e8b1615so50273161cf.3
-        for <linux-input@vger.kernel.org>; Mon, 19 Jan 2026 17:48:30 -0800 (PST)
+Received: by mail-dl1-f49.google.com with SMTP id a92af1059eb24-11f1fb91996so11245681c88.1
+        for <linux-input@vger.kernel.org>; Mon, 19 Jan 2026 18:54:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768873710; x=1769478510; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1768877673; x=1769482473; darn=vger.kernel.org;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=C5BHzdBy9bZIqFc6VCkjIoouQALwj1cU2ODrGGe4Wds=;
-        b=kWUlbWpJFBxDrayQadmbHfVkiSOa0oQtaQ3AjvSNuc0RtAkbsO5NvWF3mZ/xpsXHtn
-         gLAuEqFwbhsfiiJiVtBQDXjF3JIlBJ6IBxgYBbBPx0o+Zy65/LjwO070pFYD+W1KnU0J
-         PDrHLBKkQMez3TdgSWLpdzcAxZ7Hc6YrHuNnogOuODk5ImiH6jqJINYMi+vhk5T8p1rH
-         f9Q41jmr2uCNFjOrA17Cj+q8LKTZxO0XfGf/1xCbRIB6ppWOO9YaZR8RuDzOFGemr4YD
-         rnILFf9qdGTiJ6Pgw9AyAv3bZB/J9EeGMkankA1xXP0u6kVxnd9eY/QrCZgcUl51JVmI
-         f+/g==
+        bh=3odNBdrf6aEyMBCFvJIVDjybvUoKRUaMAkhxu2qWeKU=;
+        b=YqtadPKJwjqMfgMxevDf7dXUbHGWn6W7uAoox0cE/jT0UsDpFmnQnnOH0uXCYPyVHz
+         nPlodgvjkVSLwZeU/3CQjy9ulonkhEYvDvLOzeffG2i6h3L+JkY+KNBaXHGXv0cUolYE
+         iAnUiL96usXSNkQK28ogZQeS3+PnQIPUrl+1yaivSEw14nza2+n8w+TNdxwBovq/JTau
+         gmeClhzbB+A6dM6XyvbDx9KZ+S9D7IadRbOopkz3zgR9I3BdjXS8BA4m/oKcFwpOIGMy
+         jwes11S2m7l7WAkGxeLbeZxF4Ci+d/h6FZN0WRGKNx7kvxhN9Hx5uhO5W2HmxFQw84gX
+         XDiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768873710; x=1769478510;
+        d=1e100.net; s=20230601; t=1768877673; x=1769482473;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=C5BHzdBy9bZIqFc6VCkjIoouQALwj1cU2ODrGGe4Wds=;
-        b=u5kh+/JQ+uq9QGCLNp9TkXjyg5bMNxOp2sKYn2ektgtdUrTCiW5QbjMfmJgkKBcQoT
-         QnrRUNO8Kz+1UxT55HtT1gCeWU2qqIKSquGGNUdicln261vAkXmHMsI0bP9LZCw9eb2j
-         JOYCcO8W+aWgwiIo34bmpPGUjwW1VhekOuHM/X+THZ45UKvtnoYQCx5izYLyxIFvu0D8
-         R90peoKEo11Ac6bNJxAOLDvnpmAe9WQ5Dh5B1jAnXUXyv0akMyQ//yBTyZ/K7cCEAv4k
-         U8ANpMiRPofri1Owtk3LkQv26qV4HjKi2721sw2N8yGHDSsxv/JZ79N6kzM+NZZVs7gm
-         lS2A==
-X-Forwarded-Encrypted: i=1; AJvYcCWdB0vAfIp9WtXNvb+ptw9Be6ssQrS9zzhBCJu9iyjnJahGN+ozHkFuenTxpFayr2ICh1dQSXKxYQdjYA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzFyBJtB2Pf1MYmWl3yBWLHMm5KpGevdKcWjAw3Vt5CFrz4i3V7
-	9YCSbFchmvB8Fgo9U0fNLA5aa9ZIo1k+aUlCaar5Z7vDsioEgLgod2w/5RKhVYDI
-X-Gm-Gg: AY/fxX7qjRz4xKivDwhNicz6fP+MpB0kXIOWh90ztNX9in+Yx695JMo/+Qtts0T4ujR
-	XWNxoQNU930ruqkus49Ws4XzxtOUpuk38AssCG2FKrdNBwON51ruXhsS9sHkonTuFCABG5MJ0f4
-	xrUpjsCM43YDD1buwmoOmyktXAreDw4qgZlC/m8xYHle8Qxl24oK7R5yIrxcTt/G9+l3zK9lHqU
-	6UfJA7VI9hPO9d68xro1VkOtpKSBYpsrDHbbDdFVxLXNy2ipLebHEUA+kq6jkvNJwuDNAcd2Z2a
-	UtWOQ/hr3jxVxkbKuAOv9KkEFTK1D8mkJa+Qhi2oOBeq56rrtQL0oA3B9rm50THVGghKfPe6EsQ
-	MaEZTdozo1kc+0gjWKuImwzv88pmlY9p183ONO1eyvZXBx+jMc8f11SD2Es6vlyqs62IK7mCtGz
-	HhliuIPDqyaocWvPRt0iEkANlfCZs5EAzS/IBvm9CEdScwtCgF+Zxfo8Sxj/ov/fmrSg==
-X-Received: by 2002:a05:7300:6c89:b0:2ae:4f61:892e with SMTP id 5a478bee46e88-2b6b4eaddf6mr9036820eec.36.1768868006151;
-        Mon, 19 Jan 2026 16:13:26 -0800 (PST)
+        bh=3odNBdrf6aEyMBCFvJIVDjybvUoKRUaMAkhxu2qWeKU=;
+        b=d1DLkcgAa2uSKK7sLt0ICYpqomg98sSE4qnorHAa2MGZnPc3NNzFIJdM+2kR9HLAk0
+         OBCydutQVFcSO1ZSHf0sJ+aWWkjZVkdASW6TwL5350Z5Q/0jqfoFt9YjxIN4x6/iGdce
+         rRsyHwTyZbJq3QiJiwS5XBwayAE8ucIuHMSPYMQB4VE+/CCvXc/RWp7MKOCfNAkxLWNl
+         qsB9CGRMCI17Mjxk+2RTBt48HuA+q9Rf8DOCQCc9PjNvY56F92nqJr5n5IIrIrF0jNsS
+         ypzcpViRyh1cOufLlt3UiSilXMH8vplzMKx4KibIBSVSmujyCxneH2hvwh0qkqVLFqg4
+         acPg==
+X-Forwarded-Encrypted: i=1; AJvYcCWlKZUBIRtZQgsvhzkFnQhHbYqFMv7e6TDo0FH+d53LSd2Ct/22boUDHDn9N9ZhpXYlz/q0S/4SpT8KEQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy9TWBeEtSf1P6JPHdWU33GsoJu+QS2Ekp8QElYARW1SMLT+e83
+	KbOj4p19SP/Fp1t7YZH7EqEFd45UzYNe1HX6Apum9fZRf2DGv+NtWUT2
+X-Gm-Gg: AY/fxX56N+bj9CC1hlYHg+A+RvfrUssuqPz6txK4+UuiRUNH0O0QcyPNXVCA63LIwBR
+	QVJKPPhF7unIFyjQEJsUSBCCWA+45KPAM2sy1Nb5FNZdsg+iFLYcs+vDcFpPhwVvA6j4bqFDKXz
+	8YTQLapd+foqDPAQvF/ypfvBFApA+h6SKkNJApHutS9nBNMzWdaxyyFEg38S8JZ7r76O4g1yeDT
+	W4oMf3QvUHcLBdosM6ffntJr2UAK/7E3JhZwP3doqm8ToP6RJFYVmrQsP+8cpQ/lhX/cRkG9cwm
+	kIsLwN70rcoIivwcGcTyvHBL3l1VovnJZCNMio7Rhc3CUUH+34hvxuawDZFuuhvZSTBTOxfiusX
+	pFtbkAt7TFoWb9IX+IOS0j6A/kyVBW8wC2pzdMCYfE6tMcRc030hIDkkkP10w6GQ9NY1qV5a6CW
+	2bKVuUd++SFXt2we6fP03OBvrI3oS/awyP1Qbpw1hkuRnd3k/4veDFSeZ6baAxeXtm+Oi2j0iOn
+	b41
+X-Received: by 2002:a05:7022:6084:b0:11b:9386:a3bf with SMTP id a92af1059eb24-1244b394b96mr9022978c88.42.1768870562325;
+        Mon, 19 Jan 2026 16:56:02 -0800 (PST)
 Received: from ?IPv6:2a03:83e0:115c:1:4cd6:17bf:3333:255f? ([2620:10d:c090:500::aa81])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2b6b3502c91sm14832564eec.9.2026.01.19.16.13.24
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1244ad740c5sm19462181c88.8.2026.01.19.16.56.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Jan 2026 16:13:25 -0800 (PST)
-Message-ID: <c404446ab6d344338592dfa44f5a7e1b95492564.camel@gmail.com>
-Subject: Re: [PATCH bpf-next v2 04/13] resolve_btfids: Introduce
- finalize_btf() step
+        Mon, 19 Jan 2026 16:56:01 -0800 (PST)
+Message-ID: <c370026bdcb3c2684a5c5c5a9e173f8c3e2189e5.camel@gmail.com>
+Subject: Re: [PATCH bpf-next v2 05/13] resolve_btfids: Support for
+ KF_IMPLICIT_ARGS
 From: Eduard Zingerman <eddyz87@gmail.com>
 To: Ihor Solodrai <ihor.solodrai@linux.dev>, Alexei Starovoitov
  <ast@kernel.org>,  Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko
@@ -83,10 +86,10 @@ Cc: Mykyta Yatsenko <yatsenko@meta.com>, Tejun Heo <tj@kernel.org>, Alan
  Jiri Kosina	 <jikos@kernel.org>, Amery Hung <ameryhung@gmail.com>,
  bpf@vger.kernel.org, 	linux-kernel@vger.kernel.org,
  linux-input@vger.kernel.org, 	sched-ext@lists.linux.dev
-Date: Mon, 19 Jan 2026 16:13:23 -0800
-In-Reply-To: <20260116201700.864797-5-ihor.solodrai@linux.dev>
+Date: Mon, 19 Jan 2026 16:55:59 -0800
+In-Reply-To: <20260116201700.864797-6-ihor.solodrai@linux.dev>
 References: <20260116201700.864797-1-ihor.solodrai@linux.dev>
-	 <20260116201700.864797-5-ihor.solodrai@linux.dev>
+	 <20260116201700.864797-6-ihor.solodrai@linux.dev>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.58.2 (3.58.2-1.fc43) 
@@ -98,74 +101,70 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 
 On Fri, 2026-01-16 at 12:16 -0800, Ihor Solodrai wrote:
-> Since recently [1][2] resolve_btfids executes final adjustments to the
-> kernel/module BTF before it's embedded into the target binary.
+> Implement BTF modifications in resolve_btfids to support BPF kernel
+> functions with implicit arguments.
 >=20
-> To keep the implementation simple, a clear and stable "pipeline" of
-> how BTF data flows through resolve_btfids would be helpful. Some BTF
-> modifications may change the ids of the types, so it is important to
-> maintain correct order of operations with respect to .BTF_ids
-> resolution too.
+> For a kfunc marked with KF_IMPLICIT_ARGS flag, a new function
+> prototype is added to BTF that does not have implicit arguments. The
+> kfunc's prototype is then updated to a new one in BTF. This prototype
+> is the intended interface for the BPF programs.
 >=20
-> This patch refactors the BTF handling to establish the following
-> sequence:
->   - load target ELF sections
->   - load .BTF_ids symbols
->     - this will be a dependency of btf2btf transformations in
->       subsequent patches
->   - load BTF and its base as is
->   - (*) btf2btf transformations will happen here
->   - finalize_btf(), introduced in this patch
->     - does distill base and sort BTF
->   - resolve and patch .BTF_ids
+> A <func_name>_impl function is added to BTF to make the original kfunc
+> prototype searchable for the BPF verifier. If a <func_name>_impl
+> function already exists in BTF, its interpreted as a legacy case, and
+> this step is skipped.
 >=20
-> This approach helps to avoid fixups in .BTF_ids data in case the ids
-> change at any point of BTF processing, because symbol resolution
-> happens on the finalized, ready to dump, BTF data.
+> Whether an argument is implicit is determined by its type:
+> currently only `struct bpf_prog_aux *` is supported.
 >=20
-> This also gives flexibility in BTF transformations, because they will
-> happen on BTF that is not distilled and/or sorted yet, allowing to
-> freely add, remove and modify BTF types.
+> As a result, the BTF associated with kfunc is changed from
 >=20
-> [1] https://lore.kernel.org/bpf/20251219181321.1283664-1-ihor.solodrai@li=
+>     __bpf_kfunc bpf_foo(int arg1, struct bpf_prog_aux *aux);
+>=20
+> into
+>=20
+>     bpf_foo_impl(int arg1, struct bpf_prog_aux *aux);
+>     __bpf_kfunc bpf_foo(int arg1);
+>=20
+> For more context see previous discussions and patches [1][2].
+>=20
+> [1] https://lore.kernel.org/dwarves/ba1650aa-fafd-49a8-bea4-bdddee7c38c9@=
+linux.dev/
+> [2] https://lore.kernel.org/bpf/20251029190113.3323406-1-ihor.solodrai@li=
 nux.dev/
-> [2] https://lore.kernel.org/bpf/20260109130003.3313716-1-dolinux.peng@gma=
-il.com/
 >=20
 > Signed-off-by: Ihor Solodrai <ihor.solodrai@linux.dev>
 > ---
 
+Patch logic looks good to me, modulo LLM's memory management concern
+and nit from Andrii.
+
 Acked-by: Eduard Zingerman <eddyz87@gmail.com>
 
-> @@ -1099,12 +1116,22 @@ int main(int argc, const char **argv)
->  	if (obj.efile.idlist_shndx =3D=3D -1 ||
->  	    obj.efile.symbols_shndx =3D=3D -1) {
->  		pr_debug("Cannot find .BTF_ids or symbols sections, skip symbols resol=
-ution\n");
-> -		goto dump_btf;
-> +		resolve_btfids =3D false;
->  	}
+> @@ -837,6 +854,369 @@ static int dump_raw_btf(struct btf *btf, const char=
+ *out_path)
+>  	return 0;
+>  }
 > =20
-> -	if (symbols_collect(&obj))
-> +	if (resolve_btfids)
-> +		if (symbols_collect(&obj))
-> +			goto out;
+> +static const struct btf_type *btf_type_skip_qualifiers(const struct btf =
+*btf, s32 type_id)
+> +{
+> +	const struct btf_type *t =3D btf__type_by_id(btf, type_id);
+> +
+> +	while (btf_is_mod(t))
+> +		t =3D btf__type_by_id(btf, t->type);
+> +
+> +	return t;
+> +}
+> +
+> +static const struct btf_decl_tag *btf_type_decl_tag(const struct btf_typ=
+e *t)
+> +{
+> +	return (const struct btf_decl_tag *)(t + 1);
+> +}
 
-Nit: check obj.efile.idlist_shndx and obj.efile.symbols_shndx inside symbol=
-s_collect()?
-     To avoid resolve_btfids flag and the `goto dump_btf;` below.
+Nit: there is a utility function btf_decl_tag() in bpf/btf.h
+     which does exactly the same.
 
-> +
-> +	if (load_btf(&obj))
->  		goto out;
-> =20
-> +	if (finalize_btf(&obj))
-> +		goto out;
-> +
-> +	if (!resolve_btfids)
-> +		goto dump_btf;
-> +
->  	if (symbols_resolve(&obj))
->  		goto out;
-> =20
+[...]
 
