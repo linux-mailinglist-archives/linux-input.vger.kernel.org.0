@@ -1,79 +1,79 @@
-Return-Path: <linux-input+bounces-17202-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-17203-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87323D3BD3D
-	for <lists+linux-input@lfdr.de>; Tue, 20 Jan 2026 02:54:12 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id EA67FD3BD2E
+	for <lists+linux-input@lfdr.de>; Tue, 20 Jan 2026 02:52:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id BB1AB304277A
-	for <lists+linux-input@lfdr.de>; Tue, 20 Jan 2026 01:49:36 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 8EB72301066C
+	for <lists+linux-input@lfdr.de>; Tue, 20 Jan 2026 01:50:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF9A024DCEB;
-	Tue, 20 Jan 2026 01:49:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 64AD9258EDB;
+	Tue, 20 Jan 2026 01:50:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VZc0aiur"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mnCqPcg3"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-dy1-f177.google.com (mail-dy1-f177.google.com [74.125.82.177])
+Received: from mail-dy1-f178.google.com (mail-dy1-f178.google.com [74.125.82.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F25652D0292
-	for <linux-input@vger.kernel.org>; Tue, 20 Jan 2026 01:49:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66F992571D7
+	for <linux-input@vger.kernel.org>; Tue, 20 Jan 2026 01:50:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768873755; cv=none; b=C7LqCGxUK57zWqKw41PxKicAMOradhndp7dii1KXjDfsA+rw901bV549dbBgCXn12OJHq7uBAB2B78TUDCS6wxw9BKb4nrSnLL1E9ypAPfVBQ1C9A8rompQsqZHh2HlzokSIx7bACe6s8CdDBe2TsDk3X4tPhHcP2h5OSKQq1Mo=
+	t=1768873846; cv=none; b=SESXMhBSoI6wt4rHuDNAtKdHKmzM/mqrmlzetC+EHPkKJR9xcEJDLpaJ9Uudw2/VHvuZY5zeI08N1C8MUahAWkPt0HRiwnwEJe1FTtW3/T4bfKKWEBRrhTyGrtogBCgpJs3EWLRQ8YSYmNi4BBKFkYl1Aj/gcSwd4GtxZLESVJk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768873755; c=relaxed/simple;
-	bh=P4vH0k+7XsEwT791gaUby6dSyltbIn6BS1tA5QY+bp0=;
+	s=arc-20240116; t=1768873846; c=relaxed/simple;
+	bh=DAGvg3PHyxIqwyF//wG5u+HRfFiT9MhEqYWNnoz3UMg=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=h88daupQdYhx4wg+zrGXacB5I0heswHj3cfeuiWUennwkDUc8JqlSKcRCRGIOf4CjbFs3hd5dsBxPtEbKms8CehUJGxGHwTYNsrri9IUhVJJVn7PpgFRVmBXSyRt5L06D4gqgrXu/6zQIddVvfMf0kfmwfHIpqQox2dmmad/mp0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VZc0aiur; arc=none smtp.client-ip=74.125.82.177
+	 Content-Type:MIME-Version; b=Np7ChuY8zVqnWeKPtmYk5IAGYD3j+UwmS5tB8WK+X22doJaqQihBv7XPykTIyCJSfqHJarQDqHgqWPKjuNu9i7QPipSYC5IQ1sbAO9Ry0vy9tEmTPF9aS9kc5XdFL8aPiXws8oWK56v+WbP4nxWMLqcjrIPLuvIwOvNBvXAGsmI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mnCqPcg3; arc=none smtp.client-ip=74.125.82.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-dy1-f177.google.com with SMTP id 5a478bee46e88-2b6f5a9cecaso824505eec.0
-        for <linux-input@vger.kernel.org>; Mon, 19 Jan 2026 17:49:08 -0800 (PST)
+Received: by mail-dy1-f178.google.com with SMTP id 5a478bee46e88-2b6f85470b6so723765eec.1
+        for <linux-input@vger.kernel.org>; Mon, 19 Jan 2026 17:50:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768873748; x=1769478548; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1768873843; x=1769478643; darn=vger.kernel.org;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=xjg5AkPxw0MOdaWLN3zWHsbO0Z52mOb9jRmich2qKiA=;
-        b=VZc0aiurXJglCX5Bvo4EyS6XjGi4RyyKqHFXtaSUI8XkqZfQB2ZqB9OZBcd4lE9lS3
-         g28yi5HCMbs60z6dv/kaCrfUgF/FBP7wnAHdLMxte+OAQw0NofmHrdo6Tg0vmVW+PMcz
-         z/Gz0XjHPAjIYSuXvDvGdZCCqv9+NHMzlD8pVn+BDQ/HZGblTGOY/MdzSWWDmsLlplBS
-         bYrDfFOVRB1SDol0/BtVEUFzDxwvXDaFTT+72yYGxHbL77ncYL196Mv5sXhE7v1IR/ki
-         OQrhrBQGIKRZssh9TqKRvLDRS52ufFjXHqInH9RC+bFV+8h1S3MVuj5KWtShvYXD53xb
-         xWMA==
+        bh=DAGvg3PHyxIqwyF//wG5u+HRfFiT9MhEqYWNnoz3UMg=;
+        b=mnCqPcg3KC91NKLeFG5vkR5iHIU/5aRTKjqf/cKF2gxsFfVPGKkYQUr4qCcT8W31Xr
+         OlndUT9pb7mnoxAYeoCRWq020W24uVjFQ/igIWhRL3owED0VxKLq2/MhnoPo1keR8yzh
+         VP6fE7ViIfkO3Kyvs7g1eM9cmVlzI1WRhgnVED1OFr8Cktu6ik9WT4wHMz3DS47BMHJ3
+         p6rEhMvwIxWaMMsRb+xYyno709QmER438CQeU7Dv7OXUzJoxl4F0+hm4R316mXppDUEa
+         Kumwnwy66lSb88DvuK7xjWlOOCaBua9pEiL0kd/hEVnOd9rzo1dsL/yeF0OWnNusyaqB
+         MrQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768873748; x=1769478548;
+        d=1e100.net; s=20230601; t=1768873843; x=1769478643;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=xjg5AkPxw0MOdaWLN3zWHsbO0Z52mOb9jRmich2qKiA=;
-        b=RDKmYjfgQ7mkZBhnrLk+bH/QaawfsWJqe8i9SiFb4LAEvMS28bOYBdE2Tt+7eNLYpn
-         CjBAqHuWAMl2ylMkuwtJjIvsO1i3J2h0vBPW7ZE9SEmzvLRHJKQa+6cAQxh5p2TEBEPc
-         p6CDTo/w1jqD7Nkepa7iYUvKgcDkOCQSSFmuaeBeK7AXubiabetB9Cbcmn2mI3/KISOZ
-         8j0ImW7/YEOdaBmuV+2NYi+/Pm1AMK2NYN0v4HdRNklIRcr5fYckWuz1E3o4EFbdqAzq
-         96uCAUszx4BGHMAWBxrxlR32nwnWH1Wx5QrBBy1YaH5Ec6/NQy2Dz366msoufzX3sTpc
-         IemQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV4j56r3NqY5rKoUrhmzUTyMIT/Tg/QhihjVORihALXjFwSibWiV8SXU4Z7kAM47sOtVW+571xv2l26qw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yykvwpd8bSWwVHXZuu7JxVBPS0j/N3zzisKP+Z+PQ4rRwT1xSo6
-	0tqt739Jhd0STMrpkqZOoyAHjBxSKeQkKweyak0S46UKSdHGAq9mOpjS
-X-Gm-Gg: AZuq6aLRQIifviNv8Ksw2gCJeZoAV5CYq19E5jUxgdhWyYW97breKjg2WnrFbmu2Xo3
-	ZWhemUMEImupGK0xSGgdBX8ozklxV+sbV73yfwioBj9Q9Tb8b39PDjg7J31JHp+Ig5+UYforsLS
-	2bdC9HlnvxFJH3/wLQ0ZwaqSZNoyN0DwOJZF7B8K5jbLodwYPg0DExGjbuZTO26kpfQ7UJZrO28
-	h09cpHtwpNi8c2t9vLtNVqa9zOJxGdHrstjYCn8tDK6Vot8BAmHtrMWN7r9mYTjpG601VzNC42x
-	MgAjxz+KFGVVNw1gSggvDpHsdqiSY4OqZHGUQBGU+oiRJFCC8mUnWU31oBFgfLewPUzmhQmHTQH
-	EO5WeJ5mfTX3QKEBqbaNCuP0oTQDhxjQt2y4bMnNbMekXJ3nnyF+55FMd5dLqJqs0iV0xOeEoWs
-	4VQ2/3A90yv1Y1VWmA3NBdAuECk8GdIzonqBc9lhccgb2BnqtHC6K/ZwwEajioN6eX6Q==
-X-Received: by 2002:a05:7300:c608:b0:2ab:c279:9dce with SMTP id 5a478bee46e88-2b6fd623ef7mr293270eec.7.1768873747978;
-        Mon, 19 Jan 2026 17:49:07 -0800 (PST)
+        bh=DAGvg3PHyxIqwyF//wG5u+HRfFiT9MhEqYWNnoz3UMg=;
+        b=ZOX58hDUxelY+pD7Gf9AUXRFqo7A0yMCsewxoGLUgWA4I14Ofpr3Me6i14xS4Q60+N
+         2wJu34WFTyXtdtxOxZmvjkXJZkJBgTWH49yoor528yRhj7UXvyOzn7ogqMgr6mXn6znE
+         Ep6Tb4BW2fsFxR6V03cL697BcaGWq2aydpSTBGCUjZS3pHKlgSU39+U/4k/DBp8sK1qd
+         aLAA3lkIyv2M0RB4x6sCJkSXnCyP2ED9y9swPvhSoCA9g6bN2a5j06Ye5fuqNH8tk6cU
+         E9JdKXkfe3iY67I/viw+BDg72tguh1qvtusg260rOx6fftX24gYkuP70X9tIfRdCNAE0
+         9QzA==
+X-Forwarded-Encrypted: i=1; AJvYcCVBUc/QdjtoFwQ7SxGtj6j/Enm5uggD846N9x0XJkIfmZjYGErTrpGxROyILqmT+ImcTCaX3YvBlDL6Xw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzkOA4mjA0l/zPgCHz9u3e2NL9IXqn1bw8Vf5Ayds7pwYs91pju
+	vfXnAByf4M8irl0WxC8AlTX/9Zt4uELUUmEY4qLLp2qnxvs1QiNXIcI3
+X-Gm-Gg: AZuq6aLW0+BveNxODXnRbpIgGBLC/jHRZQLN3DdOdk4a+F6lZ0MbE4sH3rmLTijDW8s
+	lbAAjVOUgPN4dFD5Ou5zyhKeuszwb63M4Qy+w6+FRcNVm3sCvE3D7Py9Irdz6HnGmm/H+zK2vTf
+	lTOnjHaPnzk9I7Wu80ej5YcoEaEAB+oANoJ3lKQ9thpzW/B+/f/+++Udy8ipIbti+FGSk9U0rQa
+	wVCnULEQVRQ/kO4v4/tvo38MxTjBmfBmby/F9EBnAcfwFK81IRKxEL0iTVP52/XvJkyG5FI2dep
+	eaaZzBtab0fbJb3c2KCvLgPHil7OSgXL7xqdZX4xFSqpw2c5iSbmeivE7iHd3EKPycU0zib+Urh
+	nWN3HJBxPQDe4spAwrxtRERssu/6U4Pb9NAjGEwpBLwGjvJ7sMBy+lC6M3c/K2mpZUlksfPiMBA
+	iEQzfpKZybztZkg2/gXWBBEqs1/W/hP2qSsbTJvQN9BlqvZI1hKystcaWo6Xjrs8kYqw==
+X-Received: by 2002:a05:7300:b593:b0:2af:cd0a:ef75 with SMTP id 5a478bee46e88-2b6fdc9d3f9mr188077eec.34.1768873843209;
+        Mon, 19 Jan 2026 17:50:43 -0800 (PST)
 Received: from ?IPv6:2a03:83e0:115c:1:4cd6:17bf:3333:255f? ([2620:10d:c090:500::aa81])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2b6b3502d22sm15327177eec.10.2026.01.19.17.49.06
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2b6b3502c65sm14944257eec.8.2026.01.19.17.50.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Jan 2026 17:49:07 -0800 (PST)
-Message-ID: <088b071d1a43b403123d772f56ce033e91cb4252.camel@gmail.com>
-Subject: Re: [PATCH bpf-next v2 00/13] bpf: Kernel functions with
- KF_IMPLICIT_ARGS
+        Mon, 19 Jan 2026 17:50:42 -0800 (PST)
+Message-ID: <fef0169e1c694b8b7945fe6cfca984750ac9d2e2.camel@gmail.com>
+Subject: Re: [PATCH bpf-next v2 07/13] bpf: Migrate
+ bpf_wq_set_callback_impl() to KF_IMPLICIT_ARGS
 From: Eduard Zingerman <eddyz87@gmail.com>
 To: Ihor Solodrai <ihor.solodrai@linux.dev>, Alexei Starovoitov
  <ast@kernel.org>,  Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko
@@ -83,9 +83,10 @@ Cc: Mykyta Yatsenko <yatsenko@meta.com>, Tejun Heo <tj@kernel.org>, Alan
  Jiri Kosina	 <jikos@kernel.org>, Amery Hung <ameryhung@gmail.com>,
  bpf@vger.kernel.org, 	linux-kernel@vger.kernel.org,
  linux-input@vger.kernel.org, 	sched-ext@lists.linux.dev
-Date: Mon, 19 Jan 2026 17:49:05 -0800
-In-Reply-To: <20260116201700.864797-1-ihor.solodrai@linux.dev>
+Date: Mon, 19 Jan 2026 17:50:40 -0800
+In-Reply-To: <20260116201700.864797-8-ihor.solodrai@linux.dev>
 References: <20260116201700.864797-1-ihor.solodrai@linux.dev>
+	 <20260116201700.864797-8-ihor.solodrai@linux.dev>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.58.2 (3.58.2-1.fc43) 
@@ -97,21 +98,13 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 
 On Fri, 2026-01-16 at 12:16 -0800, Ihor Solodrai wrote:
+> Implement bpf_wq_set_callback() with an implicit bpf_prog_aux
+> argument, and remove bpf_wq_set_callback_impl().
+>=20
+> Update special kfunc checks in the verifier accordingly.
+>=20
+> Signed-off-by: Ihor Solodrai <ihor.solodrai@linux.dev>
+> ---
 
-[...]
-
-> v1->v2:
->   - Replace the following kernel functions with KF_IMPLICIT_ARGS version:
->     - bpf_stream_vprintk_impl -> bpf_stream_vprintk
->     - bpf_task_work_schedule_resume_impl -> bpf_task_work_schedule_resume
->     - bpf_task_work_schedule_signal_impl -> bpf_task_work_schedule_signal
->     - bpf_wq_set_callback_impl -> bpf_wq_set_callback_impl
-
-Just to clarify my understanding, this is a breaking change, right?
-E.g. bpf_stream_vprintk_impl is no longer in vmlinux.h and on a load
-attempt an error is reported:
-
-  kfunc 'bpf_stream_vprintk_impl' is referenced but wasn't resolved
-
-Maybe call it out explicitly in the cover letter?
+Reviewed-by: Eduard Zingerman <eddyz87@gmail.com>
 
